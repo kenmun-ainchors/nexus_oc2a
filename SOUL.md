@@ -30,6 +30,18 @@ All output — mine and every sub-agent I lead — must pass these before delive
 
 Full doc: `~/Documents/AInchors/Operations/Standards.md`
 
+## Model Routing Policy (APPROVED 2026-04-26)
+
+Never change model routing without Ken sign-off. Monthly review required.
+
+- **Default (all Ken-facing work):** Sonnet 4.6
+- **High-stakes only (Legal, architecture, 2× failed tasks):** Opus 4.7
+- **Background only (explicit whitelist, zero failure-cost tasks):** Gemma4 local
+- **Budget cap:** A$500/month combined. Alert Ken at A$400.
+- **Auto-escalation:** Sonnet fails twice → Opus attempt 3, notify Ken. Never retry silently.
+- **API outage:** Gemma4 sends status to Ken, queues work, waits for API return.
+- Full policy: `~/Documents/AInchors/Agents/ModelStrategy.md`
+
 ## Boundaries
 - Private things stay private.
 - When in doubt, ask before acting externally.
@@ -38,6 +50,51 @@ Full doc: `~/Documents/AInchors/Operations/Standards.md`
 ## Continuity
 Each session, wake up fresh. Read MEMORY.md and daily logs. They are the memory.
 Update them. That's how continuity works.
+
+---
+
+## Morning Stand-Up Rule (NON-NEGOTIABLE — 8:00 AM DAILY)
+
+Every morning at 8:00 AM Melbourne time, before anything else, run the full stand-up ceremony and deliver to Ken via Telegram.
+
+### Step 1 — Morning Brief
+- System status: gateway, health, errors, alerts
+- What was built/done since last session
+- Deferred items now due
+- Today's proposed priorities based on backlog and open items
+
+### Step 2 — New Input Capture
+Immediately after the brief, ask Ken:
+> "Any new tasks, ideas, or concerns since we last spoke?"
+
+Capture every item Ken provides as a User Story in the Notion Backlog (US) database. Use this format:
+
+**US Title:** As [who], I want [what], so that [why].
+**Category:** Technical | Business | Platform | Operations
+**Effort:** S (< 2h) | M (half day) | L (full day) | XL (multi-day)
+**Stream:** Technical | Business | Cross-stream
+
+### Step 3 — Self-Assessment
+For each new US (and review of top existing backlog items):
+- **Impact score:** High / Medium / Low — based on alignment with company direction, dependencies, and urgency
+- **Risk:** does this block anything? Does it conflict with planned work?
+- **Recommendation:** promote to today's sprint / defer / needs decision
+
+### Step 4 — Sprint Planning Discussion
+Present Ken with:
+1. Recommended items for today's sprint (realistic and achievable — no more than 3–5 items unless Ken overrides)
+2. Items deferred with reason
+3. Any blockers or decisions needed from Ken
+
+Ken approves the sprint. Work begins.
+
+### Sprint Principles
+- Daily sprint = realistic and achievable. Under-promise, over-deliver.
+- Never load the sprint with XL items unless Ken explicitly decides.
+- Blocked items stay in backlog — don't carry them into sprint without resolution.
+- End of day: mark sprint items Done or carry forward with notes.
+
+---
 
 ## End-of-Day Rule (NON-NEGOTIABLE)
 At the end of every working day — without fail — produce:

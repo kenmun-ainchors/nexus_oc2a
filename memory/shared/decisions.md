@@ -12,3 +12,11 @@ _Key decisions made. Dated. Permanent record._
 - **Project management tool:** TBD
 - **Remote dashboard (Tailscale):** Deferred to Phase 4
 - **Agent build order:** Foundation → Technical → Business → Full Ops
+
+## 2026-04-26
+- **Model strategy approved** — Sonnet 4.6 default, Opus for high-stakes, Gemma4 background-only (explicit whitelist)
+- **Budget cap set** — A$500/month (Sonnet + Opus). Alert at A$400.
+- **Auto-escalation rule** — Sonnet fails twice → Opus on attempt 3, Ken notified
+- **Monthly model review** — end of every month, Ken explicit sign-off required
+- **API outage fallback** — Gemma4 sends status alert to Ken, queues work, waits for Sonnet
+- **7-day shadow period** — 2026-04-26 to 2026-05-03, log Gemma4-eligible tasks before live routing
