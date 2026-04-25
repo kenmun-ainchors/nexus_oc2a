@@ -67,6 +67,20 @@ Both are created together. Neither is optional.
   - Any proactive flags, findings, or decisions made without Ken?
   - System health and operational status summary
 
+### Blog Post — PII & Sensitive Data Scrub (MANDATORY before publishing)
+Before writing any blog post or public-facing output, scrub ALL of the following:
+- Auth tokens, pairing codes, API keys (even partial)
+- Telegram user/chat IDs, phone numbers
+- IP addresses, MAC addresses
+- Passwords, secrets, bearer tokens
+- Personal email addresses (unless deliberately public)
+- Any credential, key, or code that could be replayed or misused
+
+Replacement format: `<PAIRING-CODE>`, `<API-KEY>`, `<USER-ID>`, `[REDACTED]`
+Journal (private): keep verbatim prompts but redact third-party IDs and credentials.
+Blog (public): replace all sensitive values with placeholders. No exceptions.
+This applies even when the governance agents are not yet deployed.
+
 ### Blog Post — Autonomous Activity Section
 When there is autonomous agent activity (quiet day OR any day with background agent work), include a dedicated section in the blog post:
 - Title: "While You Were Away" or "The Platform at Work"

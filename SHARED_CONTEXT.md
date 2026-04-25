@@ -53,6 +53,11 @@ All work must pass ALL 3 before delivery. No exceptions.
 - No secrets or tokens in files or code
 - No destructive actions without confirmation
 - Fail safe: when uncertain, stop and flag
+- **Public content (blog, social, docs): scrub ALL PII and sensitive data before publishing**
+  - Redact: auth tokens, pairing codes, API keys, user/chat IDs, phone numbers, IP addresses, passwords
+  - Replace with: `<PAIRING-CODE>`, `<API-KEY>`, `<USER-ID>`, `[REDACTED]`
+  - Private journal: keep verbatim prompts but redact third-party IDs and credentials
+  - This rule applies even without governance agents deployed
 
 ### 2. VERACITY — Is it true?
 - Minimum 2 independent sources for every factual claim
