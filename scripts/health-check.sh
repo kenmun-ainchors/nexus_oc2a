@@ -25,11 +25,10 @@ fi
 
 # Check gateway
 HTTP_STATUS=$(curl -s -o /dev/null -w "%{http_code}" \
-  -H "Authorization: Bearer $TOKEN" \
   --connect-timeout 5 \
-  "$GATEWAY_URL/api/status" 2>/dev/null)
+  "$GATEWAY_URL" 2>/dev/null)
 
-if [[ "$HTTP_STATUS" == "200" ]] || [[ "$HTTP_STATUS" == "401" ]]; then
+if [[ "$HTTP_STATUS" == "200" ]] || [[ "$HTTP_STATUS" == "301" ]] || [[ "$HTTP_STATUS" == "302" ]]; then
   # Gateway is up (401 = reachable but auth needed, still means up)
   log "OK — gateway reachable (HTTP $HTTP_STATUS)"
 
