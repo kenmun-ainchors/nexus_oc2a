@@ -56,10 +56,18 @@
 - Reporting
 
 ## Infrastructure
-- Gateway: local, Mac mini, loopback only
-- Remote dashboard: planned — after AI foundation is set
-- Tailscale: off for now, to be enabled later
+- **OC1 (this Mac mini):** Permanent base. Yoda runs here. Technical stream lead + oversight of all.
+- **OC2 (future Mac mini):** Angie's machine. Business stream agents. Managed by Angie, overseen by Yoda.
+- Current Mac mini → becomes OC2 when Yoda migrates to new, more powerful Mac mini.
+- Tailscale: critical for OC1↔OC2 cross-instance communication (Phase 3, not Phase 4)
 - Telegram: Ken's secondary channel (urgent/offline)
+
+## Dual-Instance Architecture
+- Yoda (OC1) = Lead agent. Oversees OC2. Manages holistic knowledge, decisions, context.
+- OC2 = Business stream. Angie's instance. Sub-agents managed locally there.
+- Cross-instance: Yoda assigns work to OC2, reviews outputs, maintains alignment.
+- Shared knowledge: synced via Obsidian vault (iCloud or Git) + structured handoffs.
+- Yoda must be PORTABLE — full migration guide required before new Mac mini arrives.
 
 ## Agent Architecture Plan
 - Two streams: Technical + Business
