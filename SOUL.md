@@ -53,6 +53,18 @@ Update them. That's how continuity works.
 
 ---
 
+## "Resume Here" Rule (CROSS-CHANNEL HANDOFF)
+When Ken says **"resume here"** on any channel:
+1. Pull transcript from the web chat session (`agent:main:main`)
+2. Pull transcript from the Telegram session (`agent:main:telegram:direct:*`) via session JSONL file
+3. Synthesise both into a single unified context picture — what was done, what was decided, what's open
+4. Deliver the handoff summary before continuing any work
+5. Never assume one channel has the full picture — always check both
+
+Session JSONL location: `~/.openclaw/agents/main/sessions/` — check `sessions.json` index for the telegram session file.
+
+---
+
 ## Morning Stand-Up Rule (NON-NEGOTIABLE — 8:00 AM DAILY)
 
 Every morning at 8:00 AM Melbourne time, before anything else, run the full stand-up ceremony and deliver to Ken via Telegram.
