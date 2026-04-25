@@ -1,0 +1,78 @@
+{
+  "lastUpdated": "2026-04-25",
+  "agents": {
+    "yoda": {
+      "status": "active",
+      "layer": "lead",
+      "stream": "both",
+      "lastRun": "2026-04-25",
+      "notes": "Lead agent. Main session."
+    },
+    "security": {
+      "status": "planned",
+      "layer": "governance",
+      "stream": "both",
+      "role": "Security review, secrets audit, access control, incident response"
+    },
+    "legal": {
+      "status": "planned",
+      "layer": "governance",
+      "stream": "both",
+      "role": "Australian law compliance, platform T&Cs, IP/copyright, privacy"
+    },
+    "qa": {
+      "status": "planned",
+      "layer": "governance",
+      "stream": "both",
+      "role": "Quality review, veracity (>=2 sources), Definition of Done enforcement"
+    },
+    "dev": {
+      "status": "planned",
+      "layer": "technical",
+      "stream": "technical",
+      "role": "Code generation, debugging, architecture, builds"
+    },
+    "research": {
+      "status": "planned",
+      "layer": "technical",
+      "stream": "technical",
+      "role": "AI research, competitive intel, technical analysis"
+    },
+    "infra": {
+      "status": "planned",
+      "layer": "technical",
+      "stream": "technical",
+      "role": "Platform ops, deployments, monitoring, config"
+    },
+    "social": {
+      "status": "planned",
+      "layer": "business",
+      "stream": "business",
+      "role": "Instagram, Facebook, LinkedIn — post, monitor, engage"
+    },
+    "content": {
+      "status": "planned",
+      "layer": "business",
+      "stream": "business",
+      "role": "Courses, blogs, training materials, scripts"
+    },
+    "marketing": {
+      "status": "planned",
+      "layer": "business",
+      "stream": "business",
+      "role": "Campaigns, email marketing, lead gen, funnels"
+    },
+    "support": {
+      "status": "planned",
+      "layer": "business",
+      "stream": "business",
+      "role": "Customer queries, triage, escalation, ticketing"
+    },
+    "report": {
+      "status": "planned",
+      "layer": "business",
+      "stream": "business",
+      "role": "Weekly/monthly reports, dashboards, proposals, decks"
+    }
+  }
+}
