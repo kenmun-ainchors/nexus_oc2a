@@ -19,6 +19,7 @@ _Connected: 2026-04-25 | Integration: AInchors Yoda_
 | Clients | c46b7b78d7c049a3a4d0f8f6d553531a | CRM — client profiles |
 | Agent Status | b84600c443b34ad8a0e3736bc373222c | All 12 agents status |
 | Content Calendar | 07b6afaf-da51-4f0e-bb0c-6d37f3b78149 | Social + content pipeline |
+| Cost Tracker | 34dc182953ff81b1a587ec39b239e465 | Daily token costs by model |
 | Meeting Notes | e8073a50c2fa4e3aa3a42119ea4c7eb0 | All meeting records |
 
 ## API Notes

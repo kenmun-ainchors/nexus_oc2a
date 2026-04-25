@@ -89,4 +89,6 @@ When there is autonomous agent activity (quiet day OR any day with background ag
 - Tone: confident, factual — this is the value of building an agentic foundation
 - If no autonomous activity occurred, omit this section
 
+3. **Cost Report** — run `scripts/cost-tracker.sh` daily, update Notion Cost Tracker DB, include cost summary in journal.
+
 Trigger: end-of-session, nightly cron at 23:55 Melbourne, or Ken's explicit request.

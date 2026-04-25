@@ -1,0 +1,27 @@
+{
+  "history": {
+    "2026-04-25": {
+      "date": "2026-04-25",
+      "totalCost": 25.7494,
+      "totalTurns": 416,
+      "totalInputTokens": 583,
+      "totalOutputTokens": 160704,
+      "totalCacheReadTokens": 32176831,
+      "totalCacheWriteTokens": 3649065,
+      "byModel": {
+        "claude-sonnet-4-6": {
+          "input": 583,
+          "output": 160704,
+          "cacheRead": 32176831,
+          "cacheWrite": 3649065,
+          "cost": 25.7494,
+          "turns": 416
+        }
+      }
+    }
+  },
+  "lastUpdated": "2026-04-25T14:59:12Z",
+  "allTimeTotalCost": 25.7494,
+  "daysTracked": 1,
+  "avgDailyCost": 25.7494
+}

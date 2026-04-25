@@ -1,0 +1,154 @@
+#!/bin/zsh
+# AInchors Cost Tracker
+# Calculates daily token costs from OpenClaw session logs.
+# Run daily via cron or on demand.
+
+SESSIONS_DIR="$HOME/.openclaw/agents/main/sessions"
+STATE_FILE="$HOME/.openclaw/workspace/state/cost-state.json"
+COST_LOG="$HOME/.openclaw/workspace/memory/shared/cost-history.md"
+DATE="${1:-$(date +%Y-%m-%d)}"
+
+mkdir -p "$(dirname $STATE_FILE)" "$(dirname $COST_LOG)"
+
+echo "Calculating costs for $DATE..."
+
+# Extract and sum costs from session logs
+python3 << PYEOF
+import json, os, glob, sys
+from datetime import datetime
+
+sessions_dir = os.path.expanduser("~/.openclaw/agents/main/sessions")
+date = "$DATE"
+state_file = os.path.expanduser("$STATE_FILE")
+cost_log = os.path.expanduser("$COST_LOG")
+
+by_model = {}
+total_cost = 0.0
+total_input = 0
+total_output = 0
+total_cache_read = 0
+total_cache_write = 0
+total_turns = 0
+
+# Parse all session files
+for jsonl_file in glob.glob(f"{sessions_dir}/*.jsonl"):
+    if ".trajectory." in jsonl_file:
+        continue
+    try:
+        with open(jsonl_file, 'r') as f:
+            for line in f:
+                line = line.strip()
+                if not line:
+                    continue
+                try:
+                    record = json.loads(line)
+                except:
+                    continue
+
+                ts = record.get("timestamp", "")
+                if not ts.startswith(date):
+                    continue
+                msg = record.get("message", {})
+                if record.get("type") != "message" or msg.get("role") != "assistant":
+                    continue
+                usage = msg.get("usage")
+                if not usage:
+                    continue
+
+                model = msg.get("model", "unknown")
+                cost = (usage.get("cost") or {}).get("total") or 0
+                inp = usage.get("input", 0) or 0
+                out = usage.get("output", 0) or 0
+                cr = usage.get("cacheRead", 0) or 0
+                cw = usage.get("cacheWrite", 0) or 0
+
+                if model not in by_model:
+                    by_model[model] = {"input":0,"output":0,"cacheRead":0,"cacheWrite":0,"cost":0.0,"turns":0}
+
+                by_model[model]["input"] += inp
+                by_model[model]["output"] += out
+                by_model[model]["cacheRead"] += cr
+                by_model[model]["cacheWrite"] += cw
+                by_model[model]["cost"] += cost
+                by_model[model]["turns"] += 1
+                total_cost += cost
+                total_input += inp
+                total_output += out
+                total_cache_read += cr
+                total_cache_write += cw
+                total_turns += 1
+    except Exception as e:
+        pass
+
+# Build day summary
+day_summary = {
+    "date": date,
+    "totalCost": round(total_cost, 4),
+    "totalTurns": total_turns,
+    "totalInputTokens": total_input,
+    "totalOutputTokens": total_output,
+    "totalCacheReadTokens": total_cache_read,
+    "totalCacheWriteTokens": total_cache_write,
+    "byModel": {m: {k: round(v, 4) if isinstance(v, float) else v for k,v in d.items()} for m, d in by_model.items()}
+}
+
+# Update state file
+state = {}
+if os.path.exists(state_file):
+    try:
+        with open(state_file) as f:
+            state = json.load(f)
+    except:
+        pass
+
+if "history" not in state:
+    state["history"] = {}
+state["history"][date] = day_summary
+state["lastUpdated"] = datetime.utcnow().strftime("%Y-%m-%dT%H:%M:%SZ")
+
+# Running totals
+all_costs = [d["totalCost"] for d in state["history"].values()]
+state["allTimeTotalCost"] = round(sum(all_costs), 4)
+state["daysTracked"] = len(all_costs)
+state["avgDailyCost"] = round(sum(all_costs) / len(all_costs), 4) if all_costs else 0
+
+with open(state_file, "w") as f:
+    json.dump(state, f, indent=2)
+
+# Append to cost-history.md if date not already there
+existing = ""
+if os.path.exists(cost_log):
+    with open(cost_log) as f:
+        existing = f.read()
+
+if f"## {date}" not in existing:
+    lines = [f"\n## {date}\n"]
+    lines.append(f"| Metric | Value |")
+    lines.append(f"|--------|-------|")
+    lines.append(f"| Total Cost | \${total_cost:.4f} |")
+    lines.append(f"| Turns | {total_turns} |")
+    lines.append(f"| Input Tokens | {total_input:,} |")
+    lines.append(f"| Output Tokens | {total_output:,} |")
+    lines.append(f"| Cache Read | {total_cache_read:,} |")
+    lines.append("")
+    lines.append("### By Model")
+    for model, d in sorted(by_model.items(), key=lambda x: -x[1]["cost"]):
+        lines.append(f"- **{model}**: {d['turns']} turns | {d['input']:,} in / {d['output']:,} out | \${d['cost']:.4f}")
+    lines.append("")
+
+    if not existing:
+        header = "# AInchors Cost History\n_Token costs by day. Source: OpenClaw session logs._\n\nGemma4 (Ollama) = \$0.00 always (local). Cloud costs = Anthropic API.\n"
+        with open(cost_log, "w") as f:
+            f.write(header + "\n".join(lines))
+    else:
+        with open(cost_log, "a") as f:
+            f.write("\n".join(lines))
+
+# Print summary
+print(f"Date: {date}")
+print(f"Total cost: \${total_cost:.4f}")
+print(f"Total turns: {total_turns}")
+print(f"All-time total: \${state['allTimeTotalCost']:.4f} over {state['daysTracked']} day(s)")
+for model, d in sorted(by_model.items(), key=lambda x: -x[1]["cost"]):
+    print(f"  {model}: {d['turns']} turns | \${d['cost']:.4f}")
+PYEOF
