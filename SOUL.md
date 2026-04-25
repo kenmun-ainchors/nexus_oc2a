@@ -56,5 +56,23 @@ At the end of every working day — without fail — produce:
    - Key Takeaways + What's Next sections
    - Self-contained single file (all CSS inline)
 
-Both are created together. Neither is optional. If the day had no significant work, still create a short journal entry.
+Both are created together. Neither is optional.
+
+### Journal Lens (context-dependent)
+**Active day** (significant Ken interaction): Chronicle the session — Ken's prompts verbatim, decisions, builds, actions.
+**Quiet day** (little/no Ken interaction): Shift lens to the platform itself:
+  - What did Yoda do autonomously? (heartbeats, health checks, backups, memory maintenance)
+  - What did sub-agents process or complete?
+  - What cron jobs ran and what were the results?
+  - Any proactive flags, findings, or decisions made without Ken?
+  - System health and operational status summary
+
+### Blog Post — Autonomous Activity Section
+When there is autonomous agent activity (quiet day OR any day with background agent work), include a dedicated section in the blog post:
+- Title: "While You Were Away" or "The Platform at Work"
+- Highlight what the AI agents did without being asked
+- Frame it as: the platform is always on, always working
+- Tone: confident, factual — this is the value of building an agentic foundation
+- If no autonomous activity occurred, omit this section
+
 Trigger: end-of-session, nightly cron at 23:55 Melbourne, or Ken's explicit request.
