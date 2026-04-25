@@ -1,0 +1,46 @@
+{
+  "task": "model-config-research-overnight",
+  "status": "completed",
+  "report_path": "/Users/ainchorsangiefpl/.openclaw/workspace/reports/model-config-proposal-2026-04-26.md",
+  "completion_time_iso": "2026-04-26T01:48:00+10:00",
+  "completion_time_utc": "2026-04-25T15:48:00Z",
+  "summary": "Comprehensive model-config research report delivered. Recommendation: KEEP Sonnet 4.6 as Yoda's default; do NOT switch the lead-agent path to local Gemma. Use Gemma only as a narrow, well-defined fallback for background/privacy-critical/network-down work. Keep Opus 4.7 for high-stakes complex tasks with sharpened escalation rules. Modelled monthly Sonnet cost at typical workload: A$85-305. Quality, latency, and instruction-following gaps between Sonnet 4.6 and Gemma 3 27B (local 17GB model on M4/24GB Mac mini) are too large to justify swap on the lead-agent path; cost savings of switching are dwarfed by failure-cost and Ken's-time-cost.",
+  "report_sections": [
+    "1. Executive Summary",
+    "2. Current Setup & Problem Statement",
+    "3. Model Capability Comparison (with benchmarks)",
+    "4. Cost Analysis (with break-even)",
+    "5. Quality & Success Rate Assessment (with measured local tests)",
+    "6. Recommended Configuration & Routing Rules",
+    "7. Expected Outcomes",
+    "8. Conclusion & Next Steps",
+    "References (9 sources)"
+  ],
+  "key_data_points": {
+    "sonnet_4_6_pricing_usd_per_million": {"input": 3, "output": 15},
+    "sonnet_4_6_context_tokens": 1000000,
+    "gemma_3_27b_context_tokens": 128000,
+    "gemma_local_eval_rate_tok_per_s_measured": 28.49,
+    "gemma_local_load_time_s_measured": 8.15,
+    "gemma_local_trivial_reply_wall_s": 14.2,
+    "gemma_local_routing_task_wall_s": 19.3,
+    "mac_mini_ram_gb": 24,
+    "gemma_model_size_gb": 17,
+    "modelled_daily_sonnet_cost_aud": "2.85",
+    "modelled_monthly_sonnet_cost_aud_range": "85-305",
+    "gemma_3_27b_mmlu_5shot": 78.6,
+    "gemma_3_27b_humaneval": 48.8,
+    "gemma_3_27b_gpqa_diamond": 24.3,
+    "gemma_3_27b_math_4shot": 50.0,
+    "sonnet_4_5_swe_bench_verified_pct": 77.2,
+    "sonnet_4_5_osworld_pct": 61.4
+  },
+  "decisions_required_from_ken": [
+    "Approve routing policy in section 6",
+    "Set monthly Sonnet budget cap (suggested A$500)",
+    "Confirm Opus-escalation triggers match risk tolerance",
+    "Decide API-outage fallback behaviour"
+  ],
+  "caveat_flagged": "Local model tag 'gemma4:26b' is a community/repository name; treated as functionally equivalent to official Google Gemma 3 27B based on 17GB size and behaviour. Ken should verify provenance if intended to be a different family.",
+  "subagent_session": "agent:main:subagent:4fc45c55-95cb-4f01-9c75-52da3f3273a0"
+}
