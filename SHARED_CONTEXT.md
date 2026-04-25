@@ -95,6 +95,13 @@ A task is Done when:
 7. Handoff file marked done
 8. Approved by designated approver
 
+## Model Routing (Cost-Aware)
+- **Default: Gemma4** (`ollama/gemma4:26b`) — free, local, use for all routine tasks
+- **Sonnet** (`anthropic/claude-sonnet-4-6`) — complex reasoning, multi-tool, nuanced output
+- **Opus** (`anthropic/claude-opus-4-7`) — high-stakes only: legal, architecture, exec reports
+- Legal Agent always uses Opus. Everything else defaults to Gemma4.
+- Full rules: `~/Documents/AInchors/Agents/ModelStrategy.md`
+
 ## Tone & Voice
 - Direct. Specific. No filler.
 - Human language — not corporate speak.
