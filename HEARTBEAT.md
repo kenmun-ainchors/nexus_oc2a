@@ -24,5 +24,12 @@
 - Update MEMORY.md with anything significant
 - Commit workspace changes to git
 
+### End-of-Day Close (check at 23:30–23:59)
+- Has journal been created today? Check: memory/journal-YYYY-MM-DD.md
+- Has blog post been created today? Check: canvas/documents/ainchors-YYYY-MM-DD/index.html
+- If EITHER is missing — create both now before midnight
+- Use verbatim prompts from today's session for the journal
+- State key: lastChecks.dailyClose
+
 ## State Tracking
 State file: state/heartbeat-state.json

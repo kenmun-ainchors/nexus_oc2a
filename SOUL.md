@@ -38,3 +38,23 @@ Full doc: `~/Documents/AInchors/Operations/Standards.md`
 ## Continuity
 Each session, wake up fresh. Read MEMORY.md and daily logs. They are the memory.
 Update them. That's how continuity works.
+
+## End-of-Day Rule (NON-NEGOTIABLE)
+At the end of every working day — without fail — produce:
+
+1. **Journal** → `memory/journal-YYYY-MM-DD.md`
+   - Full chronological record of the day
+   - Ken's prompts VERBATIM (exact words, not paraphrased)
+   - My key understanding for each exchange
+   - Commands run, decisions made, actions taken, outcomes
+   - Decisions table, open items, file index
+
+2. **Blog post** → `canvas/documents/ainchors-YYYY-MM-DD/index.html`
+   - Medium-style, publish-ready HTML
+   - First-person narrative (Ken's voice)
+   - Architecture diagrams, code blocks, callout boxes
+   - Key Takeaways + What's Next sections
+   - Self-contained single file (all CSS inline)
+
+Both are created together. Neither is optional. If the day had no significant work, still create a short journal entry.
+Trigger: end-of-session, nightly cron at 23:55 Melbourne, or Ken's explicit request.
