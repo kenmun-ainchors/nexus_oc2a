@@ -104,8 +104,34 @@ _Last updated: 2026-04-26 | Status: active_
 
 ---
 
+## Asset Registry Monitoring
+
+### Responsibility: Asset Registry — Weekly Evergreen Review
+- **Trigger:** Sunday 17:00 Melbourne time (OpenClaw cron ID: e8b17c79-89e0-443b-996b-ee48de874b2b)
+- **Script:** `~/.openclaw/workspace/scripts/asset-review.sh`
+- **Registry:** `~/.openclaw/workspace/state/asset-registry.json`
+- **Notion DB:** Asset Registry — ID `34ec182953ff810f8af9c8f9d5468400` (under Agent Operations)
+- **Log:** `~/Backups/ainchors/logs/asset-review.log`
+
+### What the cron does:
+1. Runs `asset-review.sh` to check all 53 registered assets
+2. Compares file mtime vs `last_updated` in registry
+3. Flags assets with newer mtime as `Needs Review` in registry + Notion
+4. Reviews flagged assets against `memory/shared/decisions.md`
+5. Updates assets to reflect current state
+6. Updates Notion with new `Last Updated` and `Status`
+7. Logs summary to asset-review.log
+
+### Escalation Rule:
+- If any asset has `Status=Stale` for >2 weeks → alert Ken immediately
+- Stale threshold: `last_updated` >14 days old AND `status=Stale`
+- Alert method: note in next heartbeat report + flag in Notion
+
+---
+
 ## Current Queue
 - None
 
 ## Last Run
 - 2026-04-26 (initial design + scripts deployed)
+- 2026-04-26 (asset registry built — 53 assets catalogued, Notion DB seeded, weekly cron activated)
