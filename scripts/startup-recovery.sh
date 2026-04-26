@@ -255,3 +255,28 @@ MSG
 
 log "Startup alert written to $STARTUP_ALERT"
 log "=== Startup Recovery Complete ==="
+
+# ── STEP 6: Run PVT (Post Verification Test) ─────────────────────────────────
+log "Running Post Verification Test (PVT)..."
+PVT_SCRIPT="$WORKSPACE/scripts/pvt.sh"
+PVT_LOG="$HOME/Backups/ainchors/logs/pvt.log"
+
+if [[ -f "$PVT_SCRIPT" ]]; then
+  PVT_OUTPUT=$(bash "$PVT_SCRIPT" --quiet 2>&1)
+  PVT_EXIT=$?
+  log "PVT exit code: $PVT_EXIT"
+  if [[ $PVT_EXIT -eq 0 ]]; then
+    log "PVT: PASSED — platform verified after startup recovery"
+    # Append PVT PASS to startup alert
+    echo "" >> "$STARTUP_ALERT"
+    echo "✅ PVT: All checks passed — platform is healthy." >> "$STARTUP_ALERT"
+  else
+    log "PVT: FAILED — see $PVT_LOG and state/pvt-last-result.json for details"
+    # Append PVT FAIL to startup alert
+    echo "" >> "$STARTUP_ALERT"
+    echo "❌ PVT: One or more checks failed. Review state/pvt-last-result.json." >> "$STARTUP_ALERT"
+    # /tmp/pvt-alert.txt is already written by pvt.sh — main session will dispatch
+  fi
+else
+  log "PVT: SKIP — pvt.sh not found at $PVT_SCRIPT"
+fi

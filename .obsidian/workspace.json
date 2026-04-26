@@ -185,6 +185,8 @@
   },
   "active": "c616c22763a60529",
   "lastOpenFiles": [
+    "scripts/pre-restart-cleanup.sh",
+    "scripts/pvt.sh",
     "state/task-stall-alert.json",
     "scripts/incident-log.sh",
     "state/incident-log.json",
@@ -200,8 +202,6 @@
     "state/health-state.json.lock",
     "scripts/startup-recovery.sh",
     "handoff/TASK-20260426-002.md",
-    "$STATE_FILE",
-    "$STATE_FILE.lock",
     "handoff/archive/TASK-20260426-001-completed.md",
     "handoff/TASK-20260426-001.md",
     "handoff/archive/TASK-20260426-000-completed.md",
