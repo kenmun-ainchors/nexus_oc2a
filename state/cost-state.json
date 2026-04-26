@@ -27,13 +27,25 @@
   "apiBalance": {
     "currency": "USD",
     "balance": 50.03,
-    "lastUpdated": "2026-04-26",
-    "note": "Ken topped up $50. Balance as of 2026-04-26 morning."
+    "topUpDate": "2026-04-26",
+    "spentSinceTopUp": 0.00,
+    "remainingEstimate": 50.03,
+    "note": "Ken topped up $50. Balance as of 2026-04-26 morning. Spend since top-up tracked from today."
   },
-  "spendAlert": {
-    "alertThresholdAUD": 400,
-    "hardCapAUD": 500,
-    "status": "fine-tuning",
-    "note": "Ken still fine-tuning alert thresholds. Current balance $50.03 USD."
+  "spendAlerts": {
+    "alert75pct": {
+      "threshold": 12.51,
+      "description": "75% consumed — 25% ($12.51) remaining",
+      "action": "Notify Ken via Telegram. Include daily burn rate and estimated days remaining.",
+      "triggered": false
+    },
+    "alert10pct": {
+      "threshold": 5.00,
+      "description": "10% remaining — critical low balance",
+      "action": "Alert Ken via Telegram every heartbeat until topped up. Recommend immediate top-up.",
+      "triggered": false
+    },
+    "status": "monitoring",
+    "note": "Thresholds based on $50.03 top-up. Reset on each new top-up."
   }
 }

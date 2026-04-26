@@ -14,6 +14,13 @@
 - Alert Ken if event starts in < 30 minutes with no prior notice
 - State key: lastChecks.calendar
 
+### API Balance (check every 30 min)
+- Read state/cost-state.json → apiBalance.remainingEstimate
+- If remaining <= $5.00 (10%): alert Ken via Telegram EVERY heartbeat — "🚨 API balance critically low: $X.XX remaining. Please top up."
+- If remaining <= $12.51 (25%) and alert not yet sent: alert Ken once via Telegram — "⚠️ API balance at 75% consumed: $X.XX remaining (~N days at current burn rate)."
+- Include daily burn rate and days remaining estimate in alert
+- State key: spendAlerts in cost-state.json
+
 ### Agent Health (check every 30 min)
 - Read state/health-state.json — is gateway OK?
 - Read state/agent-status.json — any agents in failed state?

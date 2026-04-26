@@ -144,11 +144,36 @@ if f"## {date}" not in existing:
         with open(cost_log, "a") as f:
             f.write("\n".join(lines))
 
+# Balance alert check
+api = state.get('apiBalance', {})
+alerts = state.get('spendAlerts', {})
+spent_since_topup = api.get('spentSinceTopUp', 0) + total_cost
+starting_balance = api.get('balance', 0)
+remaining = round(starting_balance - spent_since_topup, 4)
+api['spentSinceTopUp'] = round(spent_since_topup, 4)
+api['remainingEstimate'] = max(0, remaining)
+state['apiBalance'] = api
+
+alert_75 = alerts.get('alert75pct', {})
+alert_10 = alerts.get('alert10pct', {})
+
+if remaining <= alert_10.get('threshold', 5.0) and not alert_10.get('triggered'):
+    alerts['alert10pct']['triggered'] = True
+    print(f"ALERT_CRITICAL: Balance at 10% or below. Remaining: ${remaining:.2f}")
+elif remaining <= alert_75.get('threshold', 12.51) and not alert_75.get('triggered'):
+    alerts['alert75pct']['triggered'] = True
+    print(f"ALERT_75PCT: 75% of balance consumed. Remaining: ${remaining:.2f}")
+
+state['spendAlerts'] = alerts
+with open(state_file, 'w') as f:
+    json.dump(state, f, indent=2)
+
 # Print summary
 print(f"Date: {date}")
-print(f"Total cost: \${total_cost:.4f}")
+print(f"Total cost today: ${total_cost:.4f}")
 print(f"Total turns: {total_turns}")
-print(f"All-time total: \${state['allTimeTotalCost']:.4f} over {state['daysTracked']} day(s)")
+print(f"Balance remaining: ${remaining:.2f} USD")
+print(f"All-time total: ${state['allTimeTotalCost']:.4f} over {state['daysTracked']} day(s)")
 for model, d in sorted(by_model.items(), key=lambda x: -x[1]["cost"]):
-    print(f"  {model}: {d['turns']} turns | \${d['cost']:.4f}")
+    print(f"  {model}: {d['turns']} turns | ${d['cost']:.4f}")
 PYEOF
