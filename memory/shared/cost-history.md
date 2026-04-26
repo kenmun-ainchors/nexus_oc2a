@@ -20,11 +20,27 @@ Gemma4 (Ollama) = $0.00 always (local). Cloud costs = Anthropic API.
 
 | Metric | Value |
 |--------|-------|
-| Total Cost | $5.5773 |
-| Turns | 138 |
-| Input Tokens | 190 |
-| Output Tokens | 82,289 |
-| Cache Read | 5,878,273 |
+| Total Cost | $37.1455 |
+| Turns | 499 |
+| Input Tokens | 663 |
+| Output Tokens | 208,682 |
+| Cache Read | 33,156,717 |
+| Cache Write | 6,417,667 |
 
 ### By Model
-- **claude-sonnet-4-6**: 138 turns | 190 in / 82,289 out | $5.5773
+- **claude-sonnet-4-6**: 499 turns | 663 in / 208,682 out | $37.1455
+
+> **Source:** `state/cost-state.json` (direct — cost-tracker.sh was returning stale partial output today; US22 raised to fix parsing)
+
+### Cost Tracker Note
+⚠️ `cost-tracker.sh` script produced stale output for Day 2 ($5.58 / 138 turns mid-day snapshot). Actual Day 2 figures sourced directly from `state/cost-state.json`. New backlog item: **US22 — Fix cost tracker script (session log parsing broken)**.
+
+### API Balance Alert
+⚠️ Remaining balance: **$7.31 USD** (as of 2026-04-26 EOD). Below 75% threshold. At current burn rate (~$37/day), approximately 5 hours runway. **Top-up required.**
+
+### All-Time Summary
+| Date | Cost | Turns | Cost/Turn |
+|------|------|-------|-----------|
+| 2026-04-25 | $25.75 | 416 | $0.062 |
+| 2026-04-26 | $37.15 | 499 | $0.074 |
+| **Total** | **$62.89** | **915** | **$0.069 avg** |

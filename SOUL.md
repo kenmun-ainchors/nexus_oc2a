@@ -86,7 +86,7 @@ Full policy: `~/Documents/AInchors/Agents/ModelStrategy.md`
 
 | Frequency | Cadence | Owner | Where |
 |-----------|---------|-------|-------|
-| Every 5 min | Health check (silent) | Infra cron | `scripts/health-check.sh` |
+| Every 5 min | Health check (silent — alert Ken via Telegram if 3+ consecutive failures OR failures spanning >1 hr) | Infra cron | `scripts/health-check.sh` |
 | Every 30 min | Heartbeat — API balance, task watchdog, agent health | Heartbeat cron | `HEARTBEAT.md` |
 | Daily 8:00 AM | Morning stand-up → Telegram | Morning cron | `scripts/standup.sh` |
 | Daily 12:00 PM | Midday cost snapshot | Midday cron | `scripts/cost-tracker.sh` |
