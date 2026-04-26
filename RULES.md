@@ -87,15 +87,22 @@ Sprint principles: under-promise, over-deliver. No XL items unless Ken decides. 
 Trigger: end-of-session, nightly cron 23:55 Melbourne, or Ken's explicit request.
 
 1. **Journal** → `memory/journal-YYYY-MM-DD.md`
-   - Active day: Ken's verbatim prompts, decisions, commands, actions, outcomes, decisions table, open items, file index, cost summary
-   - Quiet day: platform activity lens — autonomous work, cron results, health status, cost summary
-   - PII rule: redact third-party IDs and credentials (keep verbatim prompts)
+   - 🔒 **LOCKED FORMAT** — full spec: `~/Documents/AInchors/Operations/JournalFormat.md`
+   - Per-entry structure: `## HH:MM — Title` → **Ken's prompt (verbatim)** as `> "..."` quote → **My understanding** → **What happened / Actions / Commands run** → **Outcome**
+   - Verbatim is verbatim. Every meaningful Ken prompt quoted exactly. No paraphrasing, no merging, no reordering. Heartbeat/system noise excluded.
+   - Active day: full chronological record. Quiet day: same format, platform-activity lens.
+   - Unrecoverable prompt → mark `_[not recovered from transcript — paraphrased]_` (never fabricate).
+   - PII: redact third-party IDs/keys/IPs in the journal; keep Ken's prompts intact. Blog post has stricter redaction.
+   - Reference exemplars: `memory/journal-2026-04-25.md`, `memory/journal-2026-04-26.md`. Format changes require Ken approval + update to JournalFormat.md.
 
 2. **Blog post** → `canvas/documents/ainchors-YYYY-MM-DD/index.html`
-   - Medium-style HTML, Ken's first-person voice, self-contained (all CSS inline)
-   - Architecture diagrams, code blocks, callout boxes, Key Takeaways, What's Next
-   - PII rule: ALL sensitive values replaced with `<PLACEHOLDER>`. No exceptions.
-   - Autonomous activity section ("While You Were Away") when applicable
+   - 🔒 **LOCKED FORMAT** — full spec: `~/Documents/AInchors/Operations/BlogFormat.md`
+   - **Distinct from the journal.** Journal = raw record (verbatim, Yoda voice, private). Blog = curated narrative (Ken's first-person voice, public-ready, built FROM the journal).
+   - Source of truth: today's journal. Don't re-extract from session transcripts.
+   - Mandatory sections: Hero → Opening → The Story (3–6 acts) → What Broke (if any) → What I Learned → The Cost of Day N → What's Next → While You Were Away (quiet days) → Footer.
+   - Self-contained HTML (CSS inline, no external CDN), Medium-style typography, mobile-responsive.
+   - PII: ALL sensitive values → `<PLACEHOLDER>`. Treated as public. Run redaction sweep before saving.
+   - Length is not the metric. ~1500–3000 words typical; cut filler.
 
 3. **Cost report** → run `scripts/cost-tracker.sh`, update Notion Cost Tracker DB, include in journal
 

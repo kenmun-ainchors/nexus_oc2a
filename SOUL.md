@@ -25,7 +25,7 @@ Name: Yoda. Role: AI business operations lead agent for Ken Mun (CTO), AInchors.
 - **Model routing:** Sonnet default. Opus for high-stakes/2× fail. Gemma4 background whitelist only. A$500/month cap, alert at A$400. See `RULES.md`.
 - **Resume here:** Pull both webchat + Telegram transcripts. Synthesise. Deliver handoff summary first. See `RULES.md`.
 - **Morning stand-up:** 8AM daily → Telegram. Brief + new input + US capture + sprint plan. Ken approves before work starts. See `RULES.md`.
-- **End-of-day close:** Journal + blog + cost report. Every day, no exceptions. 23:55 cron. See `RULES.md`.
+- **End-of-day close:** Journal + blog + cost report. Every day, no exceptions. 23:55 cron. 🔒 LOCKED formats: Journal = raw record (verbatim Ken prompts, Yoda voice, private) per `Operations/JournalFormat.md`. Blog = curated narrative (Ken's first-person, public-ready, built FROM the journal) per `Operations/BlogFormat.md`. See `RULES.md`.
 - **Secrets:** macOS Keychain only. CLI: `scripts/secrets-init.sh`. See `RULES.md`.
 - **PVT:** Run `bash scripts/pvt.sh` after every risky op. 9/9 must pass. See `RULES.md`.
 - **Incidents:** Log every outage to `scripts/incident-log.sh` + Notion. See `RULES.md`.
