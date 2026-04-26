@@ -20,3 +20,4 @@ _All tool/API connections. Updated as we go._
 | LinkedIn | ⬜ Planned | Priority 3 social |
 | Notion | ✅ Live | AInchors HQ — 6 databases, 12 agents seeded, all tasks loaded |
 | Tailscale (remote dashboard) | ⬜ Planned | Phase 4 |
+| 1Password CLI (`op`) | ✅ Live | v2.34.0 installed via brew. Vault: AInchors. `scripts/secrets-init.sh` created. Service account setup pending (Ken action). Doc: Operations/SecretsManagement.md |
