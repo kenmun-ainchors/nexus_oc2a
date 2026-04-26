@@ -43,11 +43,15 @@ Before triggering ANY operation that could break, restart, or interrupt OpenClaw
 2. Write all decisions made this session to decisions.md
 3. Update Notion with current sprint status
 4. Git commit the workspace
-5. Confirm to Ken: "Checkpoint saved. Safe to proceed."
+5. **Clear stale plugin-runtime-deps:** `rm -rf ~/.openclaw/plugin-runtime-deps/openclaw-unknown-* 2>/dev/null; ls ~/.openclaw/plugin-runtime-deps/` — confirm only one versioned dir remains
+6. Confirm to Ken: "Checkpoint saved. Safe to proceed."
 
 Only THEN execute the risky operation.
 
-**Why:** If OpenClaw SIGKILLs or restarts, the session context is gone. Ken should never have to re-establish context twice just because a routine operation wasn't preceded by a save.
+**Post-op: Run PVT (Post Verification Test) — see US21**
+Once PVT script exists: run it after every risky op and confirm all checks pass before resuming normal operations.
+
+**Why:** INC-20260426-002 (SIGKILL context loss) and INC-20260426-003 (116 min crash loop from ENOTEMPTY on plugin-runtime-deps) both caused by skipping pre-op checks. Ken should never have to recover manually from a routine platform operation.
 
 ---
 

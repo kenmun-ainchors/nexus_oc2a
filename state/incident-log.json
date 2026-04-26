@@ -44,12 +44,27 @@
       "prevention": "Pre-risky-op checkpoint rule (NON-NEGOTIABLE) \u2014 flush all context before any OpenClaw update/restart",
       "notion_page_id": null,
       "status": "resolved"
+    },
+    {
+      "id": "INC-20260426-003",
+      "timestamp_start": "2026-04-26T09:14:00Z",
+      "timestamp_end": "2026-04-26T11:10:00Z",
+      "type": "outage",
+      "trigger": "Gateway restart (for memory fix) hit ENOTEMPTY on plugin-runtime-deps \u2014 crash loop for ~116 min",
+      "duration_minutes": 116,
+      "mttr_minutes": 116,
+      "rca": "Earlier openclaw update SIGKILL left partial plugin-sdk directory in plugin-runtime-deps. Gateway restart triggered re-extraction which failed with ENOTEMPTY (cannot overwrite non-empty dir). LaunchAgent kept retrying \u2014 gateway crashed on every startup attempt. Eventually resolved on a later LaunchAgent retry.",
+      "resolution": "Gateway self-recovered via LaunchAgent retry at ~21:10. Telegram confirmed working 21:21. No manual intervention possible remotely due to FileVault restriction.",
+      "recurrence": true,
+      "prevention": "Pre-risky-op checkpoint updated: clear stale plugin-runtime-deps before any gateway restart. Add to PVT checklist (US21).",
+      "notion_page_id": null,
+      "status": "resolved"
     }
   ],
   "summary": {
-    "total_incidents": 2,
+    "total_incidents": 3,
     "total_downtime_minutes": 30,
     "avg_mttr_minutes": 30,
-    "last_updated": "2026-04-26T11:09:00Z"
+    "last_updated": "2026-04-26T11:21:00Z"
   }
 }
