@@ -1,75 +1,126 @@
-#!/usr/bin/env bash
-# secrets-init.sh — Load AInchors secrets from 1Password and export as env vars
-# Usage: source scripts/secrets-init.sh [vault]
-#        OR: eval "$(bash scripts/secrets-init.sh --export)"
+#!/bin/bash
+# AInchors Secrets Manager — macOS Keychain
+# Uses macOS built-in `security` CLI. No third-party tools required.
 #
-# Prerequisites:
-#   1. 1Password CLI installed: brew install 1password-cli
-#   2. Signed in: op signin
-#   3. Items stored in the "AInchors" vault (see SecretsManagement.md)
+# Usage:
+#   secrets-init.sh store <service> <value>   — Store a secret
+#   secrets-init.sh get <service>             — Read a secret
+#   secrets-init.sh list                      — List all AInchors secrets
+#   secrets-init.sh export                    — Export all secrets as env vars (source this)
+#   secrets-init.sh verify                    — Check all expected secrets are present
+#   secrets-init.sh delete <service>          — Remove a secret
 #
-# Exit codes: 0=success, 1=op not found, 2=not signed in, 3=item not found (non-fatal)
+# Keychain account: ainchors
+# All secrets stored under account "ainchors" for easy namespacing.
 
-set -euo pipefail
+ACCOUNT="ainchors"
 
-VAULT="${1:-AInchors}"
-EXPORT_MODE="${1:-}"
+# Canonical list of expected secrets
+EXPECTED_SECRETS=(
+  "anthropic-api-key"
+  "notion-api-key"
+  "telegram-bot-token"
+)
 
-# ── Helpers ──────────────────────────────────────────────────────────────────
+case "$1" in
 
-log()  { echo "[secrets-init] $*" >&2; }
-warn() { echo "[secrets-init] WARN: $*" >&2; }
+  store)
+    SERVICE="$2"
+    VALUE="$3"
+    if [[ -z "$SERVICE" || -z "$VALUE" ]]; then
+      echo "Usage: $0 store <service> <value>"
+      exit 1
+    fi
+    # Delete existing entry first (avoid duplicate)
+    security delete-generic-password -a "$ACCOUNT" -s "$SERVICE" 2>/dev/null
+    security add-generic-password -a "$ACCOUNT" -s "$SERVICE" -w "$VALUE"
+    echo "✅ Stored: $SERVICE"
+    ;;
 
-# ── Preflight ─────────────────────────────────────────────────────────────────
+  get)
+    SERVICE="$2"
+    if [[ -z "$SERVICE" ]]; then
+      echo "Usage: $0 get <service>"
+      exit 1
+    fi
+    VALUE=$(security find-generic-password -a "$ACCOUNT" -s "$SERVICE" -w 2>/dev/null)
+    if [[ -z "$VALUE" ]]; then
+      echo "❌ Not found: $SERVICE" >&2
+      exit 1
+    fi
+    echo "$VALUE"
+    ;;
 
-if ! command -v op &>/dev/null; then
-  echo "[secrets-init] ERROR: 1Password CLI (op) not found. Run: brew install 1password-cli" >&2
-  exit 1
-fi
+  list)
+    echo "AInchors secrets in macOS Keychain (account: $ACCOUNT):"
+    echo ""
+    for SERVICE in "${EXPECTED_SECRETS[@]}"; do
+      VALUE=$(security find-generic-password -a "$ACCOUNT" -s "$SERVICE" -w 2>/dev/null)
+      if [[ -n "$VALUE" ]]; then
+        echo "  ✅ $SERVICE"
+      else
+        echo "  ❌ $SERVICE (missing)"
+      fi
+    done
+    ;;
 
-# Check signed-in status (op whoami exits non-zero if not signed in)
-if ! op whoami &>/dev/null 2>&1; then
-  echo "[secrets-init] ERROR: Not signed in to 1Password. Run: op signin" >&2
-  exit 2
-fi
+  export)
+    # Source this to load secrets as env vars:
+    # eval $(scripts/secrets-init.sh export)
+    for SERVICE in "${EXPECTED_SECRETS[@]}"; do
+      VALUE=$(security find-generic-password -a "$ACCOUNT" -s "$SERVICE" -w 2>/dev/null)
+      if [[ -n "$VALUE" ]]; then
+        # Convert service name to env var: notion-api-key -> NOTION_API_KEY
+        ENV_VAR=$(echo "$SERVICE" | tr '[:lower:]-' '[:upper:]_')
+        echo "export ${ENV_VAR}='${VALUE}'"
+      fi
+    done
+    ;;
 
-# ── Secret loader helper ───────────────────────────────────────────────────────
-# Usage: load_secret ENV_VAR_NAME "Item Title" field [vault]
-load_secret() {
-  local var_name="$1"
-  local item="$2"
-  local field="${3:-password}"
-  local vault="${4:-$VAULT}"
+  verify)
+    echo "Verifying AInchors secrets..."
+    MISSING=0
+    for SERVICE in "${EXPECTED_SECRETS[@]}"; do
+      VALUE=$(security find-generic-password -a "$ACCOUNT" -s "$SERVICE" -w 2>/dev/null)
+      if [[ -z "$VALUE" ]]; then
+        echo "  ❌ MISSING: $SERVICE"
+        MISSING=$((MISSING + 1))
+      else
+        echo "  ✅ $SERVICE"
+      fi
+    done
+    echo ""
+    if [[ $MISSING -eq 0 ]]; then
+      echo "All secrets present."
+      exit 0
+    else
+      echo "$MISSING secret(s) missing. Run: scripts/secrets-init.sh store <service> <value>"
+      exit 1
+    fi
+    ;;
 
-  local value
-  value="$(op item get "$item" --vault "$vault" --fields "$field" 2>/dev/null)" || {
-    warn "Could not load '$item' ($field) from vault '$vault' — skipping $var_name"
-    return 0
-  }
+  delete)
+    SERVICE="$2"
+    if [[ -z "$SERVICE" ]]; then
+      echo "Usage: $0 delete <service>"
+      exit 1
+    fi
+    security delete-generic-password -a "$ACCOUNT" -s "$SERVICE" 2>/dev/null
+    echo "🗑️  Deleted: $SERVICE"
+    ;;
 
-  if [[ "$EXPORT_MODE" == "--export" ]]; then
-    printf 'export %s=%q\n' "$var_name" "$value"
-  else
-    export "$var_name"="$value"
-    log "Loaded $var_name"
-  fi
-}
+  *)
+    echo "AInchors Secrets Manager"
+    echo ""
+    echo "Usage:"
+    echo "  $0 store <service> <value>   Store a secret"
+    echo "  $0 get <service>             Read a secret"
+    echo "  $0 list                      List all expected secrets + status"
+    echo "  $0 export                    Print export statements (source this)"
+    echo "  $0 verify                    Check all secrets are present"
+    echo "  $0 delete <service>          Remove a secret"
+    echo ""
+    echo "Expected secrets: ${EXPECTED_SECRETS[*]}"
+    ;;
 
-# ── AInchors Secrets ──────────────────────────────────────────────────────────
-# Add entries here as new secrets are onboarded to 1Password.
-# Format: load_secret ENV_VAR_NAME "1Password Item Title" field_name [vault_override]
-#
-# ── Notion ────────────────────────────────────────────────────────────────────
-load_secret "NOTION_API_KEY"         "AInchors Notion"          "api_key"
-
-# ── Telegram ─────────────────────────────────────────────────────────────────
-load_secret "TELEGRAM_BOT_TOKEN"     "AInchors Telegram Bot"    "token"
-load_secret "TELEGRAM_CHAT_ID"       "AInchors Telegram Bot"    "chat_id"
-
-# ── OpenAI / LLM APIs ─────────────────────────────────────────────────────────
-load_secret "OPENAI_API_KEY"         "AInchors OpenAI"          "api_key"
-load_secret "ANTHROPIC_API_KEY"      "AInchors Anthropic"       "api_key"
-
-# ── Add new secrets above this line ───────────────────────────────────────────
-
-log "Done. Secrets loaded from vault: $VAULT"
+esac
