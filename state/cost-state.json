@@ -45,26 +45,26 @@
   "avgDailyCost": 31.4474,
   "apiBalance": {
     "currency": "USD",
-    "balance": 50.03,
+    "balance": 47.59,
     "topUpDate": "2026-04-26",
-    "spentSinceTopUp": 42.7228,
-    "remainingEstimate": 7.3072,
-    "note": "Ken topped up $50. Balance as of 2026-04-26 morning. Spend since top-up tracked from today."
+    "spentSinceTopUp": 0,
+    "remainingEstimate": 47.59,
+    "note": "Ken topped up overnight 2026-04-26 to 2026-04-27. Balance confirmed by Ken at 06:28 AEST 2026-04-27 = $47.59 USD. Spend tracking reset for new top-up cycle."
   },
   "spendAlerts": {
     "alert75pct": {
-      "threshold": 12.51,
-      "description": "75% consumed \u2014 25% ($12.51) remaining",
+      "threshold": 11.90,
+      "description": "75% consumed \u2014 25% ($11.90) remaining",
       "action": "Notify Ken via Telegram. Include daily burn rate and estimated days remaining.",
-      "triggered": true
+      "triggered": false
     },
     "alert10pct": {
-      "threshold": 5.0,
+      "threshold": 4.76,
       "description": "10% remaining \u2014 critical low balance",
       "action": "Alert Ken via Telegram every heartbeat until topped up. Recommend immediate top-up.",
       "triggered": false
     },
     "status": "monitoring",
-    "note": "Thresholds based on $50.03 top-up. Reset on each new top-up."
+    "note": "Thresholds based on $47.59 top-up (2026-04-27). Reset on each new top-up."
   }
 }

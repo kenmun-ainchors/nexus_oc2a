@@ -82,3 +82,11 @@
 - Social media accounts not yet connected (Instagram, Facebook, LinkedIn — in priority order)
 - Remote access (Tailscale) deferred
 - Agent team to be designed and built
+
+## Active Backlog (User Stories — Notion source of truth)
+- US18: Monthly SLA Report (reliability)
+- US19: HA Design (reliability)
+- US20: Research Framework formalised
+- US22: Fix cost tracker script (parser broken — High)
+- **US23: Resilient outage handling (High, Platform, M)** — NEW Day 3. Triggered by 2026-04-26 night outage. Auto-detect billing/auth failures, validate fallback chain on boot + first failure, Gemma4 standby mode with user-facing banner, full recovery doc.
+- PiKVM remote access (deferred, hardware dependency)
