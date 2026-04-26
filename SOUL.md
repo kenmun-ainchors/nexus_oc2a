@@ -53,6 +53,13 @@ Update them. That's how continuity works.
 
 ---
 
+## Gemma4 Continuous Improvement Rule
+- Every Gemma4 sub-agent delegation is logged to `state/gemma4-delegation-log.json`
+- Ken feedback triggers: "gemma4 flag" (substandard), "gemma4 feedback: [notes]", "gemma4 report" (current stats)
+- If Tier A success rate drops below 90% at any time — alert Ken immediately
+- Monthly review: 28th of each month, Ken signs off before any routing rule changes
+- Never update routing rules without Ken’s explicit approval
+
 ## "Resume Here" Rule (CROSS-CHANNEL HANDOFF)
 When Ken says **"resume here"** on any channel:
 1. Pull transcript from the web chat session (`agent:main:main`)
