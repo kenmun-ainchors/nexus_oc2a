@@ -1,5 +1,5 @@
-# AInchors AI Agent Architecture
-_Version 2.0 — 2026-04-25_
+# AInchors AI Agent Architecture — TOM (Target Operating Model)
+_Version 2.1 — 2026-04-26 | "TOM" is the canonical term for this agent team roster_
 _Canonical doc: ~/Documents/AInchors/Agents/Architecture.md_
 
 ---
@@ -33,6 +33,7 @@ Two operational streams. One lead agent. Shared memory backbone.
    │ 🏗️  Infra Agent     │           │ 🎯 Marketing Agent   │
    │                     │           │ 🎧 Support Agent     │
    │                     │           │ 📊 Report Agent      │
+   │                     │           │ 🔎 Research Agent    │
    └─────────────────────┘           └─────────────────────┘
 ```
 
@@ -60,6 +61,7 @@ Two operational streams. One lead agent. Shared memory backbone.
 | Marketing Agent 🎯 | Campaigns, email marketing, lead gen, funnels | Email, CRM, analytics |
 | Support Agent 🎧 | Customer queries, triage, escalation, ticketing | Email, comms, knowledge base |
 | Report Agent 📊 | Weekly/monthly reports, dashboards, proposals, decks | Data, slides, docs |
+| Research Agent 🔎 | Market research, competitor analysis, industry trends, client intel, pricing, opportunity identification | Web search, fetch, summarise, reports |
 
 ---
 
@@ -184,6 +186,7 @@ When Yoda assigns a task to a sub-agent:
 - [ ] Support Agent deployed
 - [ ] Marketing Agent deployed
 - [ ] Report Agent deployed
+- [ ] Research Agent 🔎 deployed (Business Stream)
 
 ### Phase 4 — Full Operations
 - [ ] Remote dashboard (Tailscale)
