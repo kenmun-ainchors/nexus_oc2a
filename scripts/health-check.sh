@@ -17,7 +17,7 @@ COST_STATE="$HOME/.openclaw/workspace/state/cost-state.json"
 LOCK_DIR="$HOME/.openclaw/workspace/state"
 LOG="$HOME/Backups/ainchors/logs/health.log"
 FAILURE_THRESHOLD=2      # Alert after this many consecutive failures
-STALE_THRESHOLD_MIN=480  # Flag state files if older than this (minutes) — 8hrs (cost-state updates daily)
+STALE_THRESHOLD_MIN=1440 # Flag state files if older than this (minutes) — 24hrs (cost-state updates daily via end-of-day close + midday cron)
 LOCK_STALE_MIN=5         # Clear lock files older than this (minutes)
 DISK_ALERT_PCT=85        # Alert if disk usage exceeds this percentage
 
