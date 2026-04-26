@@ -22,6 +22,7 @@ _Connected: 2026-04-25 | Integration: AInchors Yoda_
 | Cost Tracker | 34dc182953ff81b1a587ec39b239e465 | Daily token costs by model |
 | Meeting Notes | e8073a50c2fa4e3aa3a42119ea4c7eb0 | All meeting records |
 | Backlog — User Stories | 34dc182953ff814b8257d3a3bf351d44 | All US — backlog, sprint, done |
+| Asset Registry | 34ec182953ff810f8af9c8f9d5468400 | 53 assets — evergreen review, weekly cron |
 
 ## API Notes
 - Use Notion-Version: 2022-06-28 for all operations (2025-09-03 has schema issues)
