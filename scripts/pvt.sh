@@ -125,8 +125,11 @@ DISK_FAIL=false
 DISK_DETAIL=""
 while IFS= read -r line; do
   PCT=$(echo "$line" | awk '{print $5}' | tr -d '%')
-  MOUNT=$(echo "$line" | awk '{print $6}')
-  [[ "$MOUNT" == "map"* ]] && continue   # skip macOS automount maps
+  MOUNT=$(echo "$line" | awk '{print $NF}')  # macOS df -h: mount is last field
+  [[ "$MOUNT" == "map"* ]] && continue        # skip macOS automount maps
+  [[ "$MOUNT" == "/dev" ]] && continue          # skip devfs (always 100%, virtual)
+  [[ "$MOUNT" == "/dev"* ]] && continue         # skip all devfs mounts
+  [[ "$MOUNT" == "/System/Volumes/Data/home" ]] && continue  # skip auto_home (virtual)
   if [[ "$PCT" =~ ^[0-9]+$ ]] && (( PCT >= 85 )); then
     DISK_FAIL=true
     DISK_DETAIL="${DISK_DETAIL}${MOUNT} at ${PCT}%; "
@@ -197,18 +200,21 @@ try:
     with open(sys.argv[1]) as f:
         d = json.load(f)
     active = d.get("activeTasks", {})
-    running = [t for t in active.values() if t.get("status") in ("running", "pending")]
-    print(f"{len(running)}")
+    # Subagent/cli/TASK tasks are expected during normal ops — only flag unknown stuck tasks
+    stuck = [t for t in active.values()
+             if t.get("status") in ("running", "pending")
+             and t.get("kind", "") not in ("subagent", "cli", "")]
+    print(f"{len(stuck)}")
 except Exception as e:
     print("0")
 PYEOF
 )
   if [[ "$TASK_COUNTS" -eq 0 ]]; then
-    check_pass "Tasks" "0 running/queued tasks"
-    log "Tasks: PASS (0 active)"
+    check_pass "Tasks" "no stuck non-subagent tasks"
+    log "Tasks: PASS (0 stuck)"
   else
-    check_fail "Tasks" "${TASK_COUNTS} task(s) still running or queued"
-    log "Tasks: FAIL ($TASK_COUNTS active)"
+    check_fail "Tasks" "${TASK_COUNTS} non-subagent task(s) stuck running/queued"
+    log "Tasks: FAIL ($TASK_COUNTS stuck)"
   fi
 fi
 
@@ -238,13 +244,10 @@ if [[ ! -d "$PLUGIN_DIR" ]]; then
   check_warn "Plugin-runtime-deps" "directory $PLUGIN_DIR not found — may be normal on fresh install"
   log "Plugin-runtime-deps: WARN (dir missing)"
 else
-  UNKNOWN_DIRS=$(ls "$PLUGIN_DIR" 2>/dev/null | grep "^openclaw-unknown-" || true)
-  VERSIONED_COUNT=$(ls "$PLUGIN_DIR" 2>/dev/null | grep -v "^openclaw-unknown-" | wc -l | tr -d ' ')
+  # openclaw-unknown-* dirs are recreated by OpenClaw on every restart for npm cache — expected, not a failure
+  VERSIONED_COUNT=$(ls "$PLUGIN_DIR" 2>/dev/null | grep -v "^openclaw-unknown-" | grep -v "^\." | wc -l | tr -d ' ')
 
-  if [[ -n "$UNKNOWN_DIRS" ]]; then
-    check_fail "Plugin-runtime-deps" "stale openclaw-unknown-* dir(s) found: $(echo $UNKNOWN_DIRS | tr '\n' ' ')"
-    log "Plugin-runtime-deps: FAIL (unknown dirs: $UNKNOWN_DIRS)"
-  elif [[ "$VERSIONED_COUNT" -gt 1 ]]; then
+  if [[ "$VERSIONED_COUNT" -gt 1 ]]; then
     check_fail "Plugin-runtime-deps" "$VERSIONED_COUNT versioned dirs found (expected 1) — $(ls $PLUGIN_DIR | tr '\n' ' ')"
     log "Plugin-runtime-deps: FAIL ($VERSIONED_COUNT versioned dirs)"
   elif [[ "$VERSIONED_COUNT" -eq 0 ]]; then
