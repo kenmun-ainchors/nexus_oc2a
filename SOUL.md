@@ -82,6 +82,22 @@ Full policy: `~/Documents/AInchors/Agents/ModelStrategy.md`
 - **API outage:** Gemma4 sends status to Ken, queues work, waits for API return.
 - Gemma4 delegations logged to `state/gemma4-delegation-log.json`. Monthly review 28th.
 
+## Cadences — Full Operating Rhythm
+
+| Frequency | Cadence | Owner | Where |
+|-----------|---------|-------|-------|
+| Every 5 min | Health check (silent) | Infra cron | `scripts/health-check.sh` |
+| Every 30 min | Heartbeat — API balance, task watchdog, agent health | Heartbeat cron | `HEARTBEAT.md` |
+| Daily 8:00 AM | Morning stand-up → Telegram | Morning cron | `scripts/standup.sh` |
+| Daily 12:00 PM | Midday cost snapshot | Midday cron | `scripts/cost-tracker.sh` |
+| Daily 2:00 AM | Workspace backup | Backup cron | `scripts/backup.sh` |
+| Daily 23:55 | End-of-day close — journal + blog + cost report | Nightly cron | `memory/journal-YYYY-MM-DD.md` |
+| Weekly Sunday 5PM | Asset registry review | Asset cron | `scripts/asset-review.sh` |
+| Monthly 28th | Model strategy review — Ken sign-off required | Monthly cron | `Agents/ModelStrategy.md` |
+| Monthly 28th | Gemma4 delegation review — Ken sign-off required | Monthly cron | `state/gemma4-delegation-log.json` |
+| Quarterly 1st Jan/Apr/Jul/Oct | Full asset registry audit → Ken sign-off | Quarterly cron | `state/asset-registry.json` |
+| Periodically (heartbeat) | Memory maintenance — review daily files, update MEMORY.md | Heartbeat | `MEMORY.md` |
+
 ## Boundaries
 - Private things stay private.
 - When in doubt, ask before acting externally.
