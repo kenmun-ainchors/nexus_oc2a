@@ -6,6 +6,7 @@
 GATEWAY_URL="http://127.0.0.1:18789"
 TOKEN="a614165e358ed412eb753203a9d7a75c6f898865b711655b"
 STATE_FILE="$HOME/.openclaw/workspace/state/health-state.json"
+STATE_WRITER="$HOME/.openclaw/workspace/scripts/state-write.py"
 LOG="$HOME/Backups/ainchors/logs/health.log"
 FAILURE_THRESHOLD=2  # Alert after this many consecutive failures
 
@@ -38,11 +39,7 @@ if [[ "$HTTP_STATUS" == "200" ]] || [[ "$HTTP_STATUS" == "301" ]] || [[ "$HTTP_S
   fi
 
   # Reset state
-  python3 -c "
-import json
-state = {'status': 'ok', 'consecutiveFailures': 0, 'alerted': False, 'lastCheck': '$(date -u +%Y-%m-%dT%H:%M:%SZ)', 'lastOk': '$(date -u +%Y-%m-%dT%H:%M:%SZ)'}
-json.dump(state, open('$STATE_FILE', 'w'), indent=2)
-" 2>/dev/null
+  python3 $STATE_WRITER '$STATE_FILE' '{"status":"ok","consecutiveFailures":0,"alerted":false,"lastCheck":"'$(date -u +%Y-%m-%dT%H:%M:%SZ)'","lastOk":"'$(date -u +%Y-%m-%dT%H:%M:%SZ)'"}' 2>/dev/null
 
 else
   # Gateway down

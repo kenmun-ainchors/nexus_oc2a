@@ -6,6 +6,7 @@
 SESSIONS_DIR="$HOME/.openclaw/agents/main/sessions"
 STATE_FILE="$HOME/.openclaw/workspace/state/cost-state.json"
 COST_LOG="$HOME/.openclaw/workspace/memory/shared/cost-history.md"
+STATE_WRITER="$HOME/.openclaw/workspace/scripts/state-write.py"
 DATE="${1:-$(date +%Y-%m-%d)}"
 
 mkdir -p "$(dirname $STATE_FILE)" "$(dirname $COST_LOG)"
@@ -165,8 +166,20 @@ elif remaining <= alert_75.get('threshold', 12.51) and not alert_75.get('trigger
     print(f"ALERT_75PCT: 75% of balance consumed. Remaining: ${remaining:.2f}")
 
 state['spendAlerts'] = alerts
-with open(state_file, 'w') as f:
-    json.dump(state, f, indent=2)
+# Safe atomic write
+import sys as _sys
+_sys.path.insert(0, os.path.dirname(os.path.abspath('$STATE_WRITER')))
+try:
+    from state_write import safe_write
+    safe_write(state_file, state)
+except Exception as _e:
+    # Fallback to direct write if locking unavailable
+    dir_path = os.path.dirname(os.path.abspath(state_file))
+    import tempfile
+    with tempfile.NamedTemporaryFile(mode='w', dir=dir_path, suffix='.tmp', delete=False) as tmp:
+        json.dump(state, tmp, indent=2)
+        tmp_path = tmp.name
+    os.rename(tmp_path, state_file)
 
 # Print summary
 print(f"Date: {date}")
