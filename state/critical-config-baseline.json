@@ -10,10 +10,10 @@
       "name": "Agent main model is Sonnet (per US11 model strategy)",
       "severity": "critical",
       "file": "/Users/ainchorsangiefpl/.openclaw/openclaw.json",
-      "jq_query": ".agents.entries[] | select(.id==\"main\") | .model",
+      "jq_query": ".agents.list[] | select(.id==\"main\") | .model",
       "expected_value": "anthropic/claude-sonnet-4-6",
       "rationale": "US11 model strategy: Sonnet is default for all standard tasks. Opus is reserved for high-stakes/2x-failed/Legal Agent only. Drift to Opus = ~3x cost burn. Detected 2026-04-27 07:32 AEST after silent drift caused Day 3 to run on Opus.",
-      "fix_command": "edit ~/.openclaw/openclaw.json: agents.entries[id=main].model = anthropic/claude-sonnet-4-6"
+      "fix_command": "edit ~/.openclaw/openclaw.json: agents.list[id=main].model = anthropic/claude-sonnet-4-6"
     },
     {
       "id": "config-002",
