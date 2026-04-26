@@ -127,6 +127,25 @@ _Last updated: 2026-04-26 | Status: active_
 - Stale threshold: `last_updated` >14 days old AND `status=Stale`
 - Alert method: note in next heartbeat report + flag in Notion
 
+### Responsibility: Asset Registry — Quarterly Summary & Review Request
+- **Trigger:** 1st day of each quarter (Jan 1, Apr 1, Jul 1, Oct 1) at 09:00 Melbourne time
+- **OpenClaw cron ID:** (see cron scheduler)
+- **What it does:**
+  1. Read `state/asset-registry.json` — all 53+ assets, statuses, last updated dates
+  2. Run `asset-review.sh` for a fresh check
+  3. Produce a structured quarterly summary:
+     - Total assets tracked
+     - Assets reviewed and updated this quarter
+     - Assets that remained stale (>2 weeks) — list with reason
+     - Assets that were retired or added
+     - Any patterns in what goes stale (e.g. agent docs lag behind decisions)
+     - Recommendation: any assets that should be promoted, retired, or split
+  4. Deliver summary to Ken via Telegram
+  5. Ask Ken explicitly: _"Do you want to do a full review session this quarter?"_
+  6. If Ken says yes → schedule a review session and create a sprint US for it
+  7. If Ken says no → log decision and continue
+- **Escalation:** If Ken does not respond within 72 hours → send a single follow-up reminder, then close
+
 ---
 
 ## Current Queue
