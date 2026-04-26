@@ -21,6 +21,13 @@
 - Include daily burn rate and days remaining estimate in alert
 - State key: spendAlerts in cost-state.json
 
+### Async Task Watchdog (check every 30 min)
+- Run `scripts/task-watchdog.sh`
+- If `state/task-stall-alert.json` exists and is new → alert Ken immediately with task ID, goal, last step, stall duration
+- Options to present Ken: resume task | cancel task | wait longer
+- Delete alert file after notifying Ken
+- State key: lastChecks.taskWatchdog
+
 ### Agent Health (check every 30 min)
 - Read state/health-state.json — is gateway OK?
 - Read state/agent-status.json — any agents in failed state?

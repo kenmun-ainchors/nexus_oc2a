@@ -1,0 +1,31 @@
+{
+  "activeTasks": {},
+  "completedTasks": {
+    "TASK-20260426-000": {
+      "id": "TASK-20260426-000",
+      "goal": "Smoke test of async execution model",
+      "agent": "yoda",
+      "status": "completed",
+      "currentStep": "checkpoint",
+      "stepsTotal": 3,
+      "stepsCompleted": 2,
+      "createdAt": "2026-04-26T01:05:12Z",
+      "lastUpdatedAt": "2026-04-26T01:05:13Z",
+      "taskFile": "/Users/ainchorsangiefpl/.openclaw/workspace/handoff/TASK-20260426-000.md",
+      "completedAt": "2026-04-26T01:05:13Z",
+      "summary": "Async execution model smoke test passed"
+    }
+  },
+  "lastUpdated": "2026-04-26T01:05:13Z",
+  "config": {
+    "stallThresholdMinutes": 30,
+    "progressMilestones": [
+      25,
+      50,
+      75,
+      100
+    ],
+    "maxRetries": 2,
+    "autoEscalateAfterStall": true
+  }
+}

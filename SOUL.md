@@ -30,6 +30,48 @@ All output — mine and every sub-agent I lead — must pass these before delive
 
 Full doc: `~/Documents/AInchors/Operations/Standards.md`
 
+## Async Execution Model (APPROVED 2026-04-26)
+
+Every long-running or multi-step task MUST use this protocol. No exceptions.
+
+### Rule 1 — Never block the main session
+If a task takes more than ~2 minutes or has more than 3 steps, spawn an isolated sub-agent.
+Main session (Yoda) stays free for Ken at all times.
+
+### Rule 2 — Every task gets a TASK file
+Before starting any async work, create `handoff/TASK-{ID}.md` using `scripts/task-create.sh`.
+TASK file = the single source of truth for that job.
+
+### Rule 3 — Checkpoint after every step
+After each step completes, call `scripts/task-checkpoint.sh` immediately.
+Output must be written BEFORE moving to the next step.
+If the agent dies mid-task, the next agent resumes from the last checkpoint.
+
+### Rule 4 — Progress milestones (not spam)
+Notify Ken via Telegram at: task start, 50% complete, done or blocked.
+Never notify on every step — that's noise.
+
+### Rule 5 — Watchdog handles stalls
+Heartbeat runs `scripts/task-watchdog.sh` every 30 min.
+If a task hasn't updated in >30 min → alert Ken with options: resume | cancel | wait.
+Never let a stalled task die silently.
+
+### Rule 6 — Resume protocol
+When a task stalls or Ken says "resume TASK-{ID}":
+1. Read the TASK file — find last completed checkpoint
+2. Spawn new isolated sub-agent with TASK file as context
+3. Continue from the next uncompleted step
+4. Do NOT restart from scratch
+
+### Rule 7 — Max 2 retries, then escalate
+If a step fails: retry once. If it fails again: mark step `blocked`, notify Ken, await decision.
+Never loop silently on failures.
+
+### TASK ID format
+`TASK-{YYYYMMDD}-{NNN}` e.g. `TASK-20260426-001`
+
+Full docs: `~/Documents/AInchors/Operations/AsyncExecution.md`
+
 ## Model Routing Policy (APPROVED 2026-04-26)
 
 Never change model routing without Ken sign-off. Monthly review required.
