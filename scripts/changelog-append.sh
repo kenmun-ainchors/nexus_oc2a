@@ -47,12 +47,12 @@ case "$SOURCE" in
   *) echo "ERROR: --source must be one of: ken-prompt|auto-heal|incident-recovery|scheduled|manual" >&2; exit 4 ;;
 esac
 
-# Find next CHG ID
-LAST_ID=$(grep -oE 'CHG-[0-9]{4}' "$CHANGELOG" | head -1 | sed 's/CHG-//')
-if [[ -z "$LAST_ID" ]]; then
+# Find next CHG ID — use MAX of all IDs (not just first) to avoid duplicates from out-of-order edits
+MAX_ID=$(grep -oE 'CHG-[0-9]{4}' "$CHANGELOG" | grep -v 'CHG-NNNN' | sed 's/CHG-//' | sort -n | tail -1)
+if [[ -z "$MAX_ID" ]]; then
   NEXT=1
 else
-  NEXT=$((10#$LAST_ID + 1))
+  NEXT=$((10#$MAX_ID + 1))
 fi
 CHG_ID=$(printf "CHG-%04d" "$NEXT")
 

@@ -1,0 +1,79 @@
+{
+  "schema_version": "1.0",
+  "description": "Critical configurations that MUST NOT drift. Auto-heal check #12 validates each one nightly. Drift = needs-Ken US filed immediately. Update this baseline ONLY through explicit Ken-approved decision logged in decisions.md.",
+  "lastUpdated": "2026-04-27T07:36:00+10:00",
+  "lastApprovedBy": "Ken",
+  "lastApprovalContext": "US11 model strategy + post-drift incident 2026-04-27 07:32 AEST",
+  "checks": [
+    {
+      "id": "config-001",
+      "name": "Agent main model is Sonnet (per US11 model strategy)",
+      "severity": "critical",
+      "file": "/Users/ainchorsangiefpl/.openclaw/openclaw.json",
+      "jq_query": ".agents.entries[] | select(.id==\"main\") | .model",
+      "expected_value": "anthropic/claude-sonnet-4-6",
+      "rationale": "US11 model strategy: Sonnet is default for all standard tasks. Opus is reserved for high-stakes/2x-failed/Legal Agent only. Drift to Opus = ~3x cost burn. Detected 2026-04-27 07:32 AEST after silent drift caused Day 3 to run on Opus.",
+      "fix_command": "edit ~/.openclaw/openclaw.json: agents.entries[id=main].model = anthropic/claude-sonnet-4-6"
+    },
+    {
+      "id": "config-002",
+      "name": "Default primary model is Sonnet",
+      "severity": "critical",
+      "file": "/Users/ainchorsangiefpl/.openclaw/openclaw.json",
+      "jq_query": ".agents.defaults.model.primary",
+      "expected_value": "anthropic/claude-sonnet-4-6",
+      "rationale": "US11 model strategy default. Used when no agent-specific override exists.",
+      "fix_command": "edit ~/.openclaw/openclaw.json: agents.defaults.model.primary"
+    },
+    {
+      "id": "config-003",
+      "name": "Fallback chain includes Opus then Gemma4 in correct order",
+      "severity": "critical",
+      "file": "/Users/ainchorsangiefpl/.openclaw/openclaw.json",
+      "jq_query": ".agents.defaults.model.fallbacks | tostring",
+      "expected_value": "[\"anthropic/claude-opus-4-7\",\"ollama/gemma4:26b\"]",
+      "rationale": "US11 fallback chain. Sonnet → Opus (high-stakes retry) → Gemma4 (cost-zero local). Drift here breaks resilient outage handling.",
+      "fix_command": "edit ~/.openclaw/openclaw.json: agents.defaults.model.fallbacks"
+    },
+    {
+      "id": "config-004",
+      "name": "Ollama apiKey resolved (not placeholder)",
+      "severity": "critical",
+      "file": "/Users/ainchorsangiefpl/.openclaw/openclaw.json",
+      "jq_query": ".models.providers.ollama.apiKey",
+      "expected_value": "ollama-local",
+      "rationale": "Hardened on 2026-04-27 (CHG-0003) after night-2 outage. Placeholder string OLLAMA_API_KEY caused fallback failure when Anthropic billing failed.",
+      "fix_command": "edit ~/.openclaw/openclaw.json: models.providers.ollama.apiKey = ollama-local"
+    },
+    {
+      "id": "config-005",
+      "name": "Ollama auth-profiles entry present",
+      "severity": "critical",
+      "file": "/Users/ainchorsangiefpl/.openclaw/agents/main/agent/auth-profiles.json",
+      "jq_query": ".profiles.\"ollama:default\".key",
+      "expected_value": "ollama-local",
+      "rationale": "Belt-and-braces with config-004. Both auth layers must declare ollama-local for fallback chain to survive.",
+      "fix_command": "edit ~/.openclaw/agents/main/agent/auth-profiles.json: add profiles.ollama:default with provider=ollama and key=ollama-local"
+    },
+    {
+      "id": "config-006",
+      "name": "Anthropic auth-profiles entry present",
+      "severity": "critical",
+      "file": "/Users/ainchorsangiefpl/.openclaw/agents/main/agent/auth-profiles.json",
+      "jq_query": ".profiles.\"anthropic:default\".key | length > 30",
+      "expected_value": "true",
+      "rationale": "Without this, primary + Opus fallback both fail. Whole platform stops.",
+      "fix_command": "openclaw agents auth (Ken-only)"
+    },
+    {
+      "id": "config-007",
+      "name": "Workspace path consistent",
+      "severity": "warning",
+      "file": "/Users/ainchorsangiefpl/.openclaw/openclaw.json",
+      "jq_query": ".agents.defaults.workspace",
+      "expected_value": "/Users/ainchorsangiefpl/.openclaw/workspace",
+      "rationale": "Drift here breaks all relative-path scripts and memory recall.",
+      "fix_command": "edit ~/.openclaw/openclaw.json: agents.defaults.workspace"
+    }
+  ]
+}

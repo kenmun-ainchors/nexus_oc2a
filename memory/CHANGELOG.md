@@ -35,6 +35,30 @@ This log captures **every change** Yoda makes to AInchors infrastructure, config
 **Linked:** decisions.md 2026-04-27 entries
 ---
 
+## 2026-04-27 07:29 AEST — [CHG-0011] Created evergreen Operations/ResiliencyFramework.md (Obsidian)
+**Type:** doc
+**Source:** ken-prompt
+**Trigger:** Ken request: dedicated evergreen Obsidian page covering all resiliency framework work, source material for future blog post
+**What changed:** Created ~/Documents/AInchors/Operations/ResiliencyFramework.md (~21KB, comprehensive). Updated Operations/README.md index with full doc list including ResiliencyFramework, AutoHeal, RunDiagnostics, IncidentLog, OfflinePlaybook, AsyncExecution, SecretsManagement, JournalFormat, BlogFormat, ROIModel.
+**Why:** Single canonical reference for 3-tier framework + change log + supporting systems + lessons learned + roadmap. Designed as evergreen — updated as framework evolves. Dual-purpose: internal reference now, source material for future public blog post.
+**Verification:** File written 20,682 bytes. Operations/README.md index updated with all current operations docs. Wikilinks valid.
+**Rollback:** Delete ResiliencyFramework.md, revert README.md edit.
+**Linked:** US25, US26, US27, CHG-0008, CHG-0009
+---
+
+
+## 2026-04-27 07:20 AEST — [CHG-0010] Fixed CHG-NNNN auto-increment to use MAX (was first-match)
+**Type:** script
+**Source:** ken-prompt
+**Trigger:** Detected duplicate CHG-0008 issued from two consecutive helper invocations
+**What changed:** scripts/changelog-append.sh: replaced 'grep | head -1' with 'grep | sort -n | tail -1' to find max ID. Renumbered duplicate CHG-0008 (07:15) to CHG-0009.
+**Why:** First-match-from-top approach failed when entries got reordered. MAX-based approach is robust to reorder.
+**Verification:** this changelog entry should be CHG-0010
+**Rollback:** Revert helper script change
+**Linked:** CHG-0008, CHG-0009
+---
+
+
 ## 2026-04-27 07:19 AEST — [CHG-0008] Resiliency framework: auto-heal cron + run-diagnostics + standup integration + 3 specs
 **Type:** cron
 **Source:** ken-prompt
@@ -47,7 +71,7 @@ This log captures **every change** Yoda makes to AInchors infrastructure, config
 ---
 
 
-## 2026-04-27 07:15 AEST — [CHG-0008] Created auto-heal + run-diagnostics + CHANGELOG framework
+## 2026-04-27 07:15 AEST — [CHG-0009] Created auto-heal + run-diagnostics + CHANGELOG framework
 **Type:** doc
 **Source:** ken-prompt
 **Trigger:** Ken's resiliency framework directive
