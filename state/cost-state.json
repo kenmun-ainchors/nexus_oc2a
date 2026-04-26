@@ -1,5 +1,5 @@
 {
-  "lastUpdated": "2026-04-26T08:19:57Z",
+  "lastUpdated": "2026-04-26T11:57:07Z",
   "history": {
     "2026-04-25": {
       "date": "2026-04-25",
@@ -22,33 +22,33 @@
     },
     "2026-04-26": {
       "date": "2026-04-26",
-      "totalCost": 5.5773,
-      "totalTurns": 138,
-      "totalInputTokens": 190,
-      "totalOutputTokens": 82289,
-      "totalCacheReadTokens": 5878273,
-      "totalCacheWriteTokens": 687706,
+      "totalCost": 37.1455,
+      "totalTurns": 499,
+      "totalInputTokens": 663,
+      "totalOutputTokens": 208682,
+      "totalCacheReadTokens": 33156717,
+      "totalCacheWriteTokens": 6417667,
       "byModel": {
         "claude-sonnet-4-6": {
-          "input": 190,
-          "output": 82289,
-          "cacheRead": 5878273,
-          "cacheWrite": 687706,
-          "cost": 5.5773,
-          "turns": 138
+          "input": 663,
+          "output": 208682,
+          "cacheRead": 33156717,
+          "cacheWrite": 6417667,
+          "cost": 37.1455,
+          "turns": 499
         }
       }
     }
   },
-  "allTimeTotalCost": 31.3267,
+  "allTimeTotalCost": 62.8949,
   "daysTracked": 2,
-  "avgDailyCost": 15.6634,
+  "avgDailyCost": 31.4474,
   "apiBalance": {
     "currency": "USD",
     "balance": 50.03,
     "topUpDate": "2026-04-26",
-    "spentSinceTopUp": 5.5773,
-    "remainingEstimate": 44.4527,
+    "spentSinceTopUp": 42.7228,
+    "remainingEstimate": 7.3072,
     "note": "Ken topped up $50. Balance as of 2026-04-26 morning. Spend since top-up tracked from today."
   },
   "spendAlerts": {
@@ -56,7 +56,7 @@
       "threshold": 12.51,
       "description": "75% consumed \u2014 25% ($12.51) remaining",
       "action": "Notify Ken via Telegram. Include daily burn rate and estimated days remaining.",
-      "triggered": false
+      "triggered": true
     },
     "alert10pct": {
       "threshold": 5.0,
