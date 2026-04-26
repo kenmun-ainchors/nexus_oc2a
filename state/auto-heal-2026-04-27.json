@@ -1,0 +1,26 @@
+{
+  "runAt": "2026-04-26T21:15:41Z",
+  "runAtLocal": "2026-04-27 07:15 AEST",
+  "duration_ms": 0,
+  "checks_run": [
+  "auth_profiles",
+  "cron_health",
+  "backup_freshness",
+  "disk_space",
+  "plugin_runtime_deps",
+  "stale_locks",
+  "git_health",
+  "health_state",
+  "api_balance",
+  "incident_patterns",
+  "config_drift"
+],
+  "checks_count": 11,
+  "issues_found": [],
+  "issues_count": 0,
+  "auto_fixed": [],
+  "auto_fixed_count": 0,
+  "needs_ken": [],
+  "needs_ken_count": 0,
+  "exit_status": "complete"
+}

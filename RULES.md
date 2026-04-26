@@ -114,6 +114,22 @@ Full doc: `~/Documents/AInchors/Operations/Standards.md`
 
 **SECURITY** — No external sends without Ken approval. No secrets in files (use macOS Keychain via `scripts/secrets-init.sh`). No destructive actions without confirmation. Fail safe: stop and flag when uncertain.
 
+---
+
+## RESILIENCY FRAMEWORK (3-tier + change log)
+
+| Tier | Cadence | Trigger | What it does |
+|---|---|---|---|
+| **Health Check** | every 15 min | cron, silent | Operational ping (gateway/ollama/disk). Alert at 3+ failures or >1hr. State: `state/health-state.json` |
+| **Auto-Heal** | nightly 23:30 AEST | cron, automated | 11 proactive checks. Auto-fixes safe items, files US for needs-Ken. Spec: `Operations/AutoHeal.md` |
+| **Run Diagnostics** | explicit `/diagnostics` only | Ken trigger | Deep 6-phase inspection. Becomes OC2 runbook. Spec: `Operations/RunDiagnostics.md` |
+
+**Change Log (single audit trail):** `memory/CHANGELOG.md` — every change Yoda makes (Ken-prompt, auto-heal, incident-recovery, scheduled) MUST be logged via `scripts/changelog-append.sh` which auto-increments CHG-NNNN.
+
+**Chat trigger:** typing `/diagnostics` (case-insensitive) runs `scripts/run-diagnostics.sh` and reports verdict + summary.
+
+---
+
 **VERACITY** — Minimum 2 independent sources per factual claim. All facts sourced and cited. If uncertain, say so. Never fabricate. Never mark done unless actually done. Document errors.
 
 **QUALITY** — Meet the brief exactly. Self-review before delivery. Use templates. Test code. No half-done work.

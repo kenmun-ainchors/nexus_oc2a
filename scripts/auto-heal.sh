@@ -55,7 +55,7 @@ log "CHECK 2: cron job health"
 CHECKS_RUN+=("cron_health")
 CRON_FILE="$HOME/.openclaw/cron/jobs.json"
 if [[ -f "$CRON_FILE" ]]; then
-  ERRORED_JOBS=$(jq -r '.[] | select(.state.consecutiveErrors > 0) | "\(.name) [\(.id)] consecutiveErrors=\(.state.consecutiveErrors) lastError=\(.state.lastError // "?")"' "$CRON_FILE" 2>/dev/null)
+  ERRORED_JOBS=$(jq -r '.jobs[]? | select(.state.consecutiveErrors > 0) | "\(.name) [\(.id)] consecutiveErrors=\(.state.consecutiveErrors) lastError=\(.state.lastError // "?")"' "$CRON_FILE" 2>/dev/null)
   if [[ -n "$ERRORED_JOBS" ]]; then
     while IFS= read -r line; do
       [[ -z "$line" ]] && continue

@@ -35,6 +35,18 @@ This log captures **every change** Yoda makes to AInchors infrastructure, config
 **Linked:** decisions.md 2026-04-27 entries
 ---
 
+## 2026-04-27 07:19 AEST — [CHG-0008] Resiliency framework: auto-heal cron + run-diagnostics + standup integration + 3 specs
+**Type:** cron
+**Source:** ken-prompt
+**Trigger:** Ken's resiliency directive (07:06 AEST). 4-item plan approved at 07:11 AEST: full auto-heal from tonight + /diagnostics trigger.
+**What changed:** Created Operations/AutoHeal.md, Operations/RunDiagnostics.md. Added cron e269d620 (nightly auto-heal 23:30 AEST, systemEvent payload). Updated standup cron 3c279099 to include Auto-Heal Report section 1. Updated RULES.md with 3-tier resiliency framework table + /diagnostics chat trigger. Filed US25/US26/US27 in Notion.
+**Why:** Move from reactive (Ken-prompted fixes) to proactive (scheduled auto-heal) + on-demand assurance (run-diagnostics) + auditable change trail (CHANGELOG). Together with health-check (operational), forms 3-tier resiliency model. Run-diagnostics phases also become OC2 commissioning runbook.
+**Verification:** auto-heal smoke test 07:15 AEST: 11/11 checks ran clean, 9 workspace + 2 vault dirty files auto-committed. run-diagnostics smoke test 07:16 AEST: 17 pass, 4 warn, 1 fail (cron count bug fixed in same session). All Notion US created with valid URLs. RULES.md/SOUL.md edits applied. Cron registered, next run 23:30 tonight.
+**Rollback:** Disable cron e269d620, remove three scripts (auto-heal.sh, run-diagnostics.sh, changelog-append.sh), revert RULES.md edit, archive Notion US25/26/27, revert standup cron payload.
+**Linked:** US25, US26, US27
+---
+
+
 ## 2026-04-27 07:15 AEST — [CHG-0008] Created auto-heal + run-diagnostics + CHANGELOG framework
 **Type:** doc
 **Source:** ken-prompt

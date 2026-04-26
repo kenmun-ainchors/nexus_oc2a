@@ -66,7 +66,7 @@ else
 fi
 
 # Cron count
-CRON_COUNT=$(jq '. | length' "$HOME/.openclaw/cron/jobs.json" 2>/dev/null || echo 0)
+CRON_COUNT=$(jq '.jobs | length' "$HOME/.openclaw/cron/jobs.json" 2>/dev/null || echo 0)
 log "  Cron jobs: $CRON_COUNT"
 (( CRON_COUNT >= 5 )) && pass "cron jobs registered ($CRON_COUNT)" || fail "low cron count ($CRON_COUNT)"
 
@@ -286,7 +286,7 @@ EOF
 # Markdown report
 {
   echo "# AInchors Diagnostics Report"
-  echo "_Run: $NOW_LOCAL | Stamp: $STAMP_"
+  echo "_Run: $NOW_LOCAL | Stamp: ${STAMP}_"
   echo ""
   echo "## Verdict"
   if (( ${#FAIL[@]} == 0 )); then
