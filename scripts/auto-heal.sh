@@ -215,6 +215,46 @@ if [[ -f "$CFG" && -f "$LAST_GOOD" ]]; then
   fi
 fi
 
+# ---------- CHECK 12: Critical config baseline (anti-drift guard) ----------
+log "CHECK 12: critical config baseline"
+CHECKS_RUN+=("critical_config_baseline")
+BASELINE="$WORKSPACE/state/critical-config-baseline.json"
+if [[ -f "$BASELINE" ]]; then
+  CHECK_COUNT=$(jq '.checks | length' "$BASELINE")
+  log "  Validating $CHECK_COUNT critical config items"
+  for i in $(seq 0 $((CHECK_COUNT - 1))); do
+    CHECK_ID=$(jq -r ".checks[$i].id" "$BASELINE")
+    CHECK_NAME=$(jq -r ".checks[$i].name" "$BASELINE")
+    CHECK_FILE=$(jq -r ".checks[$i].file" "$BASELINE")
+    CHECK_QUERY=$(jq -r ".checks[$i].jq_query" "$BASELINE")
+    CHECK_EXPECTED=$(jq -r ".checks[$i].expected_value" "$BASELINE")
+    CHECK_SEVERITY=$(jq -r ".checks[$i].severity" "$BASELINE")
+    CHECK_FIX=$(jq -r ".checks[$i].fix_command" "$BASELINE")
+    if [[ ! -f "$CHECK_FILE" ]]; then
+      ISSUES_FOUND+=("config-baseline:${CHECK_ID}:file-missing")
+      NEEDS_KEN+=("CRITICAL: ${CHECK_NAME} - file missing: ${CHECK_FILE}. Fix: ${CHECK_FIX}")
+      log "  X ${CHECK_ID}: file missing - ${CHECK_FILE}"
+      continue
+    fi
+    ACTUAL=$(jq -r "$CHECK_QUERY" "$CHECK_FILE" 2>/dev/null)
+    if [[ "$ACTUAL" == "$CHECK_EXPECTED" ]]; then
+      log "  OK ${CHECK_ID}: ${ACTUAL}"
+    else
+      ISSUES_FOUND+=("config-baseline:${CHECK_ID}:drift")
+      if [[ "$CHECK_SEVERITY" == "critical" ]]; then
+        NEEDS_KEN+=("CRITICAL DRIFT: ${CHECK_NAME} | expected '${CHECK_EXPECTED}' | actual '${ACTUAL}' | fix: ${CHECK_FIX}")
+      else
+        NEEDS_KEN+=("WARN DRIFT: ${CHECK_NAME} | expected '${CHECK_EXPECTED}' | actual '${ACTUAL}' | fix: ${CHECK_FIX}")
+      fi
+      log "  X ${CHECK_ID} DRIFT: expected '${CHECK_EXPECTED}' got '${ACTUAL}'"
+    fi
+  done
+else
+  log "  WARN: critical-config-baseline.json missing - anti-drift guard disabled"
+  ISSUES_FOUND+=("config-baseline:file-missing")
+  NEEDS_KEN+=("critical-config-baseline.json missing at $BASELINE - anti-drift guard disabled")
+fi
+
 # ---------- WRITE REPORT ----------
 log "=== WRITING REPORT ==="
 
