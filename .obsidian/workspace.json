@@ -185,6 +185,7 @@
   },
   "active": "c616c22763a60529",
   "lastOpenFiles": [
+    "state/task-stall-alert.json",
     "scripts/incident-log.sh",
     "state/incident-log.json",
     "scripts/secrets-init.sh",
@@ -202,7 +203,6 @@
     "$STATE_FILE",
     "$STATE_FILE.lock",
     "handoff/archive/TASK-20260426-001-completed.md",
-    "scripts/roi-update.sh",
     "handoff/TASK-20260426-001.md",
     "handoff/archive/TASK-20260426-000-completed.md",
     "handoff/TASK-20260426-000.md",
