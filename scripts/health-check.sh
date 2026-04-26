@@ -17,7 +17,7 @@ COST_STATE="$HOME/.openclaw/workspace/state/cost-state.json"
 LOCK_DIR="$HOME/.openclaw/workspace/state"
 LOG="$HOME/Backups/ainchors/logs/health.log"
 FAILURE_THRESHOLD=2      # Alert after this many consecutive failures
-STALE_THRESHOLD_MIN=15   # Flag state files if older than this (minutes)
+STALE_THRESHOLD_MIN=480  # Flag state files if older than this (minutes) — 8hrs (cost-state updates daily)
 LOCK_STALE_MIN=5         # Clear lock files older than this (minutes)
 DISK_ALERT_PCT=85        # Alert if disk usage exceeds this percentage
 
@@ -73,9 +73,12 @@ fi
 DISK_STATUS="ok"
 DISK_DETAILS=""
 while IFS= read -r line; do
-  # Parse df output: Use% and Mounted on
+  # Skip virtual/special filesystems (devfs, tmpfs, map auto)
+  FS=$(echo "$line" | awk '{print $1}')
+  [[ "$FS" == devfs || "$FS" == tmpfs || "$FS" =~ ^map ]] && continue
+  # macOS df -h: col5=Capacity%, col9=Mounted on
   PCT=$(echo "$line" | awk '{print $5}' | tr -d '%')
-  MOUNT=$(echo "$line" | awk '{print $6}')
+  MOUNT=$(echo "$line" | awk '{print $NF}')
   if [[ "$PCT" =~ ^[0-9]+$ ]]; then
     if (( PCT >= DISK_ALERT_PCT )); then
       DISK_STATUS="degraded"
