@@ -1,0 +1,40 @@
+{
+  "schema_version": "1.0",
+  "description": "AInchors OC1 — Service Incident Log",
+  "fields": {
+    "id": "INC-YYYYMMDD-NNN",
+    "timestamp_start": "ISO8601 UTC — when incident began",
+    "timestamp_end": "ISO8601 UTC — when service restored (null if ongoing)",
+    "type": "outage | degraded | security | data | planned",
+    "trigger": "free text — what caused it",
+    "duration_minutes": "integer — total downtime",
+    "rca": "free text — root cause analysis",
+    "resolution": "free text — how it was fixed",
+    "mttr_minutes": "integer — mean time to recover (same as duration for single incidents)",
+    "recurrence": "boolean — has this type occurred before?",
+    "notion_page_id": "string — linked Notion page ID (null if not synced)",
+    "status": "resolved | ongoing | investigating"
+  },
+  "incidents": [
+    {
+      "id": "INC-20260426-001",
+      "timestamp_start": "2026-04-26T08:30:00Z",
+      "timestamp_end": "2026-04-26T09:00:00Z",
+      "type": "outage",
+      "trigger": "Planned circuit shutdown — power trip on OC1 host circuit",
+      "duration_minutes": 30,
+      "rca": "Deliberate power circuit shutdown (planned maintenance). OC1 (Mac mini) shut down ungracefully. On restart, FileVault full-disk encryption required manual login before OpenClaw gateway and agents could resume. No data loss. No config corruption detected.",
+      "resolution": "Manual physical login at OC1 console to unlock FileVault. Gateway and all agents resumed automatically post-login.",
+      "mttr_minutes": 30,
+      "recurrence": false,
+      "notion_page_id": "34ec182953ff81d59453fd277e92e85e",
+      "status": "resolved"
+    }
+  ],
+  "summary": {
+    "total_incidents": 1,
+    "total_downtime_minutes": 30,
+    "avg_mttr_minutes": 30,
+    "last_updated": "2026-04-26T09:53:00Z"
+  }
+}
