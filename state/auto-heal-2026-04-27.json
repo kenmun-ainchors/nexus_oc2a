@@ -1,5 +1,5 @@
 {
-  "runAt": "2026-04-26T21:37:25Z",
+  "runAt": "2026-04-26T21:37:43Z",
   "runAtLocal": "2026-04-27 07:37 AEST",
   "duration_ms": 0,
   "checks_run": [
@@ -17,17 +17,13 @@
   "critical_config_baseline"
 ],
   "checks_count": 12,
-  "issues_found": [
-  "config-baseline:config-001:drift"
-],
-  "issues_count": 1,
+  "issues_found": [],
+  "issues_count": 0,
   "auto_fixed": [
-  "git-commit:workspace:3-files"
+  "git-commit:workspace:2-files"
 ],
   "auto_fixed_count": 1,
-  "needs_ken": [
-  "CRITICAL DRIFT: Agent main model is Sonnet (per US11 model strategy) | expected 'anthropic/claude-sonnet-4-6' | actual '' | fix: edit ~/.openclaw/openclaw.json: agents.entries[id=main].model = anthropic/claude-sonnet-4-6"
-],
-  "needs_ken_count": 1,
+  "needs_ken": [],
+  "needs_ken_count": 0,
   "exit_status": "complete"
 }

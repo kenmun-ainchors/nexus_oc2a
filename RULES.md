@@ -128,6 +128,24 @@ Full doc: `~/Documents/AInchors/Operations/Standards.md`
 
 **Chat trigger:** typing `/diagnostics` (case-insensitive) runs `scripts/run-diagnostics.sh` and reports verdict + summary.
 
+### 🚨 Critical Config Anti-Drift Rule (non-negotiable)
+
+Critical configurations MUST NOT change, break, or drift. Trigger: 2026-04-27 silent drift of agent main model from Sonnet to Opus (~3x cost burn caught by Ken's manual session_status check).
+
+**Single source of truth:** `state/critical-config-baseline.json` — declarative spec of every critical config item with file path, jq query, expected value, severity, rationale, fix command.
+
+**Auto-heal Check #12** validates every baseline item nightly. ANY drift on a `severity: critical` item → immediate needs-Ken US filed for next standup.
+
+**Update process (the ONLY way to change a critical config):**
+1. Ken makes explicit decision in chat (verbatim required)
+2. Update `state/critical-config-baseline.json` with new expected_value + lastApprovalContext
+3. Apply the actual config change
+4. Log CHG via `scripts/changelog-append.sh --source ken-prompt`
+5. Log decision in `memory/shared/decisions.md`
+6. Verify auto-heal Check #12 passes the new baseline
+
+**Currently guarded (7 items):** agent main model, default primary model, fallback chain, Ollama apiKey (config + auth-profiles), Anthropic auth-profile, workspace path. Add new items by appending to the baseline file with same schema.
+
 ---
 
 **VERACITY** — Minimum 2 independent sources per factual claim. All facts sourced and cited. If uncertain, say so. Never fabricate. Never mark done unless actually done. Document errors.

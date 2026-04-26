@@ -35,6 +35,18 @@ This log captures **every change** Yoda makes to AInchors infrastructure, config
 **Linked:** decisions.md 2026-04-27 entries
 ---
 
+## 2026-04-27 07:38 AEST — [CHG-0012] Fixed agent main model drift Opus->Sonnet + added critical-config anti-drift baseline (auto-heal Check #12)
+**Type:** config
+**Source:** ken-prompt
+**Trigger:** Ken caught silent drift at 07:32 AEST via session_status: agent main was running Opus instead of Sonnet (~3x cost burn). Day 3 had run on Opus all morning. Root cause unknown (drift happened sometime after Day 1).
+**What changed:** openclaw.json: agents.list[id=main].model anthropic/claude-opus-4-7 -> anthropic/claude-sonnet-4-6. Created state/critical-config-baseline.json (7 guarded items). Added Check #12 to scripts/auto-heal.sh (validates baseline nightly, files needs-Ken US on critical drift). Added Anti-Drift Rule to RULES.md with locked update process. Updated Operations/AutoHeal.md with Check #12 spec.
+**Why:** Silent config drift bypassed all existing guards. session_status was the only signal Ken's manual check. Anti-drift baseline now declarative, jq-validated, nightly-checked, and any critical drift surfaces in next standup. Update process locked to require Ken decision + baseline update + decision log + CHG + verify before any change.
+**Verification:** Auto-heal Check #12 ran 2026-04-27 07:37 AEST: 7/7 OK after Sonnet revert. Pre-revert: config-001 caught the drift correctly. Total checks now 12/12 clean, 0 issues, 0 needs-ken.
+**Rollback:** Edit openclaw.json model back to Opus + remove Check #12 block from auto-heal.sh + delete critical-config-baseline.json + revert RULES.md edit.
+**Linked:** US11, US26, US28-new
+---
+
+
 ## 2026-04-27 07:29 AEST — [CHG-0011] Created evergreen Operations/ResiliencyFramework.md (Obsidian)
 **Type:** doc
 **Source:** ken-prompt
