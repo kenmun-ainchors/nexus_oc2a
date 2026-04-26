@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "updatedAt": "2026-04-26T08:13:15.566Z",
+  "updatedAt": "2026-04-26T09:32:16.613Z",
   "entries": {
     "memory:memory/2026-04-26.md:94:122": {
       "key": "memory:memory/2026-04-26.md:94:122",
@@ -9,15 +9,16 @@
       "endLine": 122,
       "source": "memory",
       "snippet": "- Scripts: workspace/scripts/backup.sh, health-check.sh - Shared memory: workspace/memory/shared/ (company, projects, decisions, integrations, notion) - Agent state: workspace/state/agent-status.json - Health state: workspace/state/health-state.json - Heartbeat state: workspace/state/heartbeat-state.json ## Post-Midnight Additions (00:00–01:03 AEST) ### End-of-Day Close Rule Established - SOUL.md: non-negotiable daily close rule — journal + blog + cost report every night - Nightly cron set: 23:55 Melbourne, main session - Two journal lenses: active day (verbatim prompts) vs quiet day (platform/autonomous activity) - Blog: \"While You Were Away\" section added for autonomous activity days - D",
-      "recallCount": 1,
+      "recallCount": 2,
       "dailyCount": 0,
       "groundedCount": 0,
-      "totalScore": 0.4006192535161972,
+      "totalScore": 0.7839185386896133,
       "maxScore": 0.4006192535161972,
       "firstRecalledAt": "2026-04-26T08:13:15.566Z",
-      "lastRecalledAt": "2026-04-26T08:13:15.566Z",
+      "lastRecalledAt": "2026-04-26T09:32:16.613Z",
       "queryHashes": [
-        "d52ec18a5848"
+        "d52ec18a5848",
+        "127138c7890d"
       ],
       "recallDays": [
         "2026-04-26"
@@ -31,6 +32,37 @@
         "end-of-day",
         "soul.md",
         "non-negotiable"
+      ]
+    },
+    "memory:memory/2026-04-26.md:119:135": {
+      "key": "memory:memory/2026-04-26.md:119:135",
+      "path": "memory/2026-04-26.md",
+      "startLine": 119,
+      "endLine": 135,
+      "source": "memory",
+      "snippet": "- scripts/cost-tracker.sh: parses session JSONL logs, sums by model, writes to state + history - state/cost-state.json: running totals, all-time average, daily history - memory/shared/cost-history.md: human-readable daily cost log - Notion: Cost Tracker DB created in CTO Command Centre (ID: 34dc182953ff81b1a587ec39b239e465) - Day 1 seeded: $25.75 USD, 416 turns, all Sonnet (Gemma4 not yet active at session start) - Future: daily cost drop expected as Gemma4 takes over routine delegation - Blog angle: cost vs value delivered over time — valuable for consulting practice ### Day 1 Final Numbers - Session duration: ~4 hours (21:09 to ~01:03 AEST) - Total cost: $25.75 USD (all Sonnet — Gemma4 co",
+      "recallCount": 1,
+      "dailyCount": 0,
+      "groundedCount": 0,
+      "totalScore": 0.38767847418785095,
+      "maxScore": 0.38767847418785095,
+      "firstRecalledAt": "2026-04-26T09:32:16.613Z",
+      "lastRecalledAt": "2026-04-26T09:32:16.613Z",
+      "queryHashes": [
+        "127138c7890d"
+      ],
+      "recallDays": [
+        "2026-04-26"
+      ],
+      "conceptTags": [
+        "scripts/cost-tracker.sh",
+        "state/cost-state.json",
+        "all-time",
+        "memory/shared/cost-history.md",
+        "human-readable",
+        "25.75",
+        "scripts",
+        "cost"
       ]
     }
   }

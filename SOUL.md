@@ -30,6 +30,27 @@ All output — mine and every sub-agent I lead — must pass these before delive
 
 Full doc: `~/Documents/AInchors/Operations/Standards.md`
 
+## Pre-Risky-Op Checkpoint Rule (NON-NEGOTIABLE — APPROVED 2026-04-26)
+
+Before triggering ANY operation that could break, restart, or interrupt OpenClaw — including but not limited to:
+- `openclaw update`
+- `openclaw gateway restart`
+- Major config changes
+- npm/brew upgrades that touch OpenClaw dependencies
+
+**STOP. Do this first:**
+1. Flush all in-progress work to persistent files (MEMORY.md, memory/YYYY-MM-DD.md)
+2. Write all decisions made this session to decisions.md
+3. Update Notion with current sprint status
+4. Git commit the workspace
+5. Confirm to Ken: "Checkpoint saved. Safe to proceed."
+
+Only THEN execute the risky operation.
+
+**Why:** If OpenClaw SIGKILLs or restarts, the session context is gone. Ken should never have to re-establish context twice just because a routine operation wasn't preceded by a save.
+
+---
+
 ## Async Execution Model (APPROVED 2026-04-26)
 
 Every long-running or multi-step task MUST use this protocol. No exceptions.

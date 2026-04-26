@@ -21,3 +21,4 @@ _Key decisions made. Dated. Permanent record._
 - **API outage fallback** — Gemma4 sends status alert to Ken, queues work, waits for Sonnet
 - **7-day shadow period** — 2026-04-26 to 2026-05-03, log Gemma4-eligible tasks before live routing
 - **FileVault + auto-login conflict** — FileVault stays enabled (security non-negotiable). Auto-login not possible. Known limitation: power trip requires physical login to unlock. Mitigation: remote KVM (PiKVM) recommended long-term. Solar battery covers >99% of outages. Outlier: 2026-04-26 planned circuit shutdown.
+- **Pre-risky-op checkpoint rule** — Before any operation that risks breaking or restarting OpenClaw (updates, gateway restarts, major config changes), Yoda MUST first flush all session context, decisions, and in-progress work to persistent storage (MEMORY.md, daily memory, decisions log, Notion). No exceptions. Approved 2026-04-26.
