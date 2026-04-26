@@ -1,18 +1,5 @@
 {
-  "activeTasks": {
-    "TASK-20260426-001": {
-      "id": "TASK-20260426-001",
-      "goal": "Build ROI and value tracking model beyond token spend \u2014 agent vs human cost, work delivered, benefits realised",
-      "agent": "yoda",
-      "status": "done",
-      "currentStep": "write-doc",
-      "stepsTotal": 5,
-      "stepsCompleted": 4,
-      "createdAt": "2026-04-26T07:39:36Z",
-      "lastUpdatedAt": "2026-04-26T07:43:47Z",
-      "taskFile": "/Users/ainchorsangiefpl/.openclaw/workspace/handoff/TASK-20260426-001.md"
-    }
-  },
+  "activeTasks": {},
   "completedTasks": {
     "TASK-20260426-000": {
       "id": "TASK-20260426-000",
@@ -27,9 +14,23 @@
       "taskFile": "/Users/ainchorsangiefpl/.openclaw/workspace/handoff/TASK-20260426-000.md",
       "completedAt": "2026-04-26T01:05:13Z",
       "summary": "Async execution model smoke test passed"
+    },
+    "TASK-20260426-001": {
+      "id": "TASK-20260426-001",
+      "goal": "Build ROI and value tracking model beyond token spend \u2014 agent vs human cost, work delivered, benefits realised",
+      "agent": "yoda",
+      "status": "completed",
+      "currentStep": "git-commit",
+      "stepsTotal": 5,
+      "stepsCompleted": 5,
+      "createdAt": "2026-04-26T07:39:36Z",
+      "lastUpdatedAt": "2026-04-26T07:43:58Z",
+      "taskFile": "/Users/ainchorsangiefpl/.openclaw/workspace/handoff/TASK-20260426-001.md",
+      "completedAt": "2026-04-26T07:44:02Z",
+      "summary": "ROI & Value Tracking Model fully built: 5-dimension framework (cost/output/time/revenue/risk), roi-tracker.json (seeded with Day 1+2 data showing 9842% ROI), roi-update.sh CLI tool, Notion 'ROI & Value Tracker' DB created and seeded, Operations/ROIModel.md written to Obsidian, all committed to git."
     }
   },
-  "lastUpdated": "2026-04-26T07:43:47Z",
+  "lastUpdated": "2026-04-26T07:44:02Z",
   "config": {
     "stallThresholdMinutes": 30,
     "progressMilestones": [
