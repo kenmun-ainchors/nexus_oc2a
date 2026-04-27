@@ -35,6 +35,18 @@ This log captures **every change** Yoda makes to AInchors infrastructure, config
 **Linked:** decisions.md 2026-04-27 entries
 ---
 
+## 2026-04-27 23:31 AEST — [CHG-0043] Nightly auto-heal 2026-04-27: git commit + Notion US filing
+**Type:** script
+**Source:** auto-heal
+**Trigger:** Scheduled cron 23:30 AEST 2026-04-27
+**What changed:** Auto-committed 5 untracked workspace files + 3 Aria business workspace files. Filed 2 Notion USes for needs-ken items.
+**Why:** Nightly auto-heal sweep (13 checks): dirty git repos auto-fixed; 2 issues filed: [HIGH] health-check cron stale 924min, [MEDIUM] Aria modelFallbacks config drift.
+**Verification:** Notion pages created successfully. Git commits applied.
+**Rollback:** N/A
+**Linked:** none
+---
+
+
 ## 2026-04-27 23:02 AEST — [CHG-0042] AInchors Mission Control dashboard — generator script + HTML canvas + 5-min cron
 **Type:** script
 **Source:** ken-prompt
