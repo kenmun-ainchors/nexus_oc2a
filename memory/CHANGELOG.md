@@ -35,6 +35,18 @@ This log captures **every change** Yoda makes to AInchors infrastructure, config
 **Linked:** decisions.md 2026-04-27 entries
 ---
 
+## 2026-04-27 22:29 AEST — [CHG-0040] Gateway Recovery SOP: config snapshot, restore script, SOP doc, RULES.md update
+**Type:** doc
+**Source:** ken-prompt
+**Trigger:** Ken requested Gateway Recovery SOP creation
+**What changed:** Created backups/gateway-config/2026-04-27 snapshot (8 files + manifest.json); scripts/gateway-restore.sh (restore + snapshot mode); Documents/AInchors/Operations/GatewayRecoverySOP.md (6-level recovery ladder, symptom table, incident log, prevention controls); RULES.md gateway recovery section added
+**Why:** No formal recovery runbook existed. Three incidents in 2 days (CHG-0036, CHG-0037, CHG-0038) exposed gap in recovery process. SOP + script + config snapshot provide structured recovery path.
+**Verification:** All files written and verified. gateway-restore.sh chmod+x. manifest.json sha256 hashes confirmed. RULES.md updated.
+**Rollback:** Remove gateway-restore.sh; delete GatewayRecoverySOP.md; revert RULES.md gateway section; delete backups/gateway-config/2026-04-27
+**Linked:** CHG-0036, CHG-0037, CHG-0038
+---
+
+
 ## 2026-04-27 22:03 AEST — [CHG-0039] GitHub CLI authenticated — kenmun-ainchors
 **Type:** infra
 **Source:** ken-prompt

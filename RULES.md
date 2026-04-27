@@ -329,3 +329,32 @@ Notion DB: Incident Log (34ec182953ff812a85e4f00f207ec8e5)
 Fields: id, timestamp, type, trigger, duration, rca, resolution, mttr_minutes, recurrence, prevention
 ID format: `INC-YYYYMMDD-NNN`
 Doc: `~/Documents/AInchors/Operations/IncidentLog.md`
+
+---
+
+## GATEWAY RECOVERY
+
+On any gateway issue: follow `~/Documents/AInchors/Operations/GatewayRecoverySOP.md`.
+
+**Recovery levels — try in order:**
+- **Level 1 (30 sec):** `openclaw gateway restart`
+- **Level 2 (2 min):** Stop + kill stale processes + start
+- **Level 3 (5 min):** Identify crashing plugin from err.log → disable it in openclaw.json
+- **Level 4 (5 min):** `openclaw doctor` → fix invalid config → compare with snapshot
+- **Level 5 (10 min):** `bash scripts/gateway-restore.sh` — restore from last known-good snapshot
+- **Level 6 (30+ min):** `openclaw reset` — nuclear, full rebuild
+
+⚠ **Do NOT skip to Level 6 without exhausting Levels 1–5.**
+
+**After any recovery:** Run the full post-recovery checklist (Section 4 of SOP):
+```bash
+bash scripts/pvt.sh  # must pass 9/9
+openclaw channels status --probe
+openclaw agents list
+```
+
+**Snapshot config after every major config change:**
+```bash
+bash scripts/gateway-restore.sh --snapshot
+```
+This captures all gateway config files into a dated snapshot with sha256 manifest. Use it before and after any risky gateway change.
