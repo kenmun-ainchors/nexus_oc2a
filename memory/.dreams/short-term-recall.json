@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "updatedAt": "2026-04-27T11:30:17.284Z",
+  "updatedAt": "2026-04-27T13:57:07.598Z",
   "entries": {
     "memory:memory/2026-04-26.md:94:122": {
       "key": "memory:memory/2026-04-26.md:94:122",
@@ -166,15 +166,16 @@
       "endLine": 283,
       "source": "memory",
       "snippet": "- Obsidian vault: ~/Documents/AInchors/ - Backups: ~/Backups/ainchors/ - Scripts: workspace/scripts/backup.sh, health-check.sh - Shared memory: workspace/memory/shared/ (company, projects, decisions, integrations, notion) - Agent state: workspace/state/agent-status.json - Health state: workspace/state/health-state.json - Heartbeat state: workspace/state/heartbeat-state.json ## Post-Midnight Additions (00:00–01:03 AEST) ### End-of-Day Close Rule Established - SOUL.md: non-negotiable daily close rule — journal + blog + cost report every night - Nightly cron set: 23:55 Melbourne, main session - Two journal lenses: active day (verbatim prompts) vs quiet day (platform/autonomous activity) - Blo",
-      "recallCount": 1,
+      "recallCount": 2,
       "dailyCount": 0,
       "groundedCount": 0,
-      "totalScore": 0.42051108479499816,
+      "totalScore": 0.8286367267370224,
       "maxScore": 0.42051108479499816,
       "firstRecalledAt": "2026-04-27T11:30:17.284Z",
-      "lastRecalledAt": "2026-04-27T11:30:17.284Z",
+      "lastRecalledAt": "2026-04-27T13:57:07.598Z",
       "queryHashes": [
-        "dd184e1b6189"
+        "dd184e1b6189",
+        "2b7b37c03dad"
       ],
       "recallDays": [
         "2026-04-27"
@@ -188,6 +189,37 @@
         "health-check.sh",
         "workspace/memory/shared",
         "post-midnight"
+      ]
+    },
+    "memory:memory/2026-04-27.md:280:302": {
+      "key": "memory:memory/2026-04-27.md:280:302",
+      "path": "memory/2026-04-27.md",
+      "startLine": 280,
+      "endLine": 302,
+      "source": "memory",
+      "snippet": "3. **CR gate** — all technical changes (config, scripts, integrations) require a CHG entry before execution. - `openclaw.json` updated: Aria agent model explicitly set to `gemma4`. - `state/critical-config-baseline.json` updated: `config-008` added to guard Aria's model assignment. ### CHG-0029 — Aria TOM Authority + Gemma4 Extended - Aria granted **Target Operating Model (TOM) authority** for the business stream — can define and evolve business processes within her domain. - Gemma4 extended as default model to **all business stream agents** (Shield, Lex, Sage) with same escalation-ask rule. ### CHG-0030 — Angie Onboarding Journey Created - Two new Operations docs: - `Operations/AngieO",
+      "recallCount": 1,
+      "dailyCount": 0,
+      "groundedCount": 0,
+      "totalScore": 0.4089118957519531,
+      "maxScore": 0.4089118957519531,
+      "firstRecalledAt": "2026-04-27T13:57:07.598Z",
+      "lastRecalledAt": "2026-04-27T13:57:07.598Z",
+      "queryHashes": [
+        "2b7b37c03dad"
+      ],
+      "recallDays": [
+        "2026-04-27"
+      ],
+      "conceptTags": [
+        "openclaw.json",
+        "config-008",
+        "chg-0029",
+        "escalation-ask",
+        "chg-0030",
+        "operations/angieo",
+        "gate",
+        "all"
       ]
     }
   }

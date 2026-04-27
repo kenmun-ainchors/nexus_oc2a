@@ -7,12 +7,14 @@
 
 ## The People
 - **Ken Mun** — Co-founder, CTO. Technical lead. My direct operator.
-  - Email: kenmun@ainchors.com | Mobile: +61403650578
+  - Email: kenmun@ainchors.com | Mobile: +61403650578 | Telegram chatId: 8574109706
+  - Telegram bot: **@AInchorsOC1Bot** → routes to Yoda (Ken only)
+  - Emergency keyword: **"YODA THIS IS KEN"** — triggers immediate Yoda control regardless of routing state
 - **Angie Foong** — Co-founder, CEO. Business lead. Has trainers, marketing/sales, support staff.
-  - Email: angie.foong@ainchors.com | Mobile: +61430928371
+  - Email: angie.foong@ainchors.com | Mobile: +61430928371 | Telegram chatId: 8141152780
   - **Authority: CEO = highest authority. Full access to all AInchors information via Aria.**
   - Aria 🔵 acts on Angie's behalf with full read access to all data (Yoda workspace, Obsidian, Notion, state files)
-  - Telegram: paired to @AInchorsOC1Bot → routes to Aria (ID: 8141152780)
+  - Telegram bot: **@AInchorsAriaBot** → routes to Aria (Angie only, strict allowlist)
 
 ## The Company
 - **Name:** AI Anchor Solutions Pty Ltd
@@ -76,9 +78,39 @@
 
 ## Agent Architecture Plan
 - Two streams: Technical + Business
-- Yoda = lead agent (technical stream primary, oversees all)
-- Sub-agents to be built for: content, social, support, marketing, reporting, coding
+- Yoda 🟢 = lead agent (technical stream primary, oversees all)
+- **Aria 🔵** = Business Lead Agent (Angie's agent, lives on OC1 temporarily, migrates to OC2)
+  - Governance layer (on OC1, planned): Shield 🛡️ (security), Lex ⚖️ (legal), Sage 🔬 (QA)
+  - Aria primary model: Sonnet (confirmed Day 3 — Gemma4 removed from interactive path)
+- **Gemma4 policy: background/non-interactive crons ONLY** — cold-load causes system-wide slowdown. Never for interactive sessions.
+- Sub-agents to be built: content, social, support, marketing, reporting, coding
 - Angie's team to eventually have their own AI agent layer
+
+## Key Scripts & Infrastructure (Day 3)
+- `scripts/auto-heal.sh` — nightly 23:30 AEST, 12 checks, auto-fixes stale state, files Notion US for needs-Ken items
+- `scripts/run-diagnostics.sh` — on-demand `/diagnostics`, 6 phases, last result: 16 PASS / 6 WARN / 0 FAIL (Day 3 22:10)
+- `scripts/ticket.sh` — ITSM ticketing (TKT-NNNN), ticket-first rule enforced before any ad-hoc work
+- `scripts/changelog-append.sh` — auto-increments CHG-NNNN in `memory/CHANGELOG.md`
+- `scripts/gateway-config-snapshot.sh` + `scripts/gateway-restore.sh` — config snapshot/restore SOP
+- `state/critical-config-baseline.json` — anti-drift guard (7 configs), validated by auto-heal Check #12
+
+## Operations Docs (locked)
+- `~/Documents/AInchors/Operations/JournalFormat.md` — locked journal spec (verbatim Ken prompts, Yoda voice, private)
+- `~/Documents/AInchors/Operations/BlogFormat.md` — locked blog spec (Ken first-person, public-ready, built FROM journal)
+- `~/Documents/AInchors/Operations/ResiliencyFramework.md` — 5-level resiliency stack doc
+- `~/Documents/AInchors/Operations/GatewayRecovery.md` — troubleshoot → restore from snapshot → openclaw reset
+
+## Daily Output Locations
+- **Journal:** `memory/journal-YYYY-MM-DD.md`
+- **Blog:** `canvas/documents/ainchors-YYYY-MM-DD/index.html`
+
+## GitHub
+- GitHub CLI (`gh`) authenticated: account **kenmun-ainchors**, scopes: repo, read:org, gist (token in keyring)
+
+## Known Incidents & Fixes (Day 3)
+- **Bonjour/ciao plugin** disabled (CHG-0036) — was crash-looping every ~9s, caused gateway crash at 19:30 AEST
+- **Model drift** x2 — Opus snuck in after reset. Anti-drift baseline + auto-heal Check #12 now guards this.
+- **Dual Telegram bot** (CHG-0038) — eliminates routing ambiguity permanently. One bot per agent.
 
 ## Open Items
 - Company name not yet captured — ask Ken
