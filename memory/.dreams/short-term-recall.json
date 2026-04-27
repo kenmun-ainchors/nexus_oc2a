@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "updatedAt": "2026-04-26T22:00:43.034Z",
+  "updatedAt": "2026-04-27T11:30:17.284Z",
   "entries": {
     "memory:memory/2026-04-26.md:94:122": {
       "key": "memory:memory/2026-04-26.md:94:122",
@@ -157,6 +157,37 @@
         "target",
         "operating",
         "model"
+      ]
+    },
+    "memory:memory/2026-04-26.md:254:283": {
+      "key": "memory:memory/2026-04-26.md:254:283",
+      "path": "memory/2026-04-26.md",
+      "startLine": 254,
+      "endLine": 283,
+      "source": "memory",
+      "snippet": "- Obsidian vault: ~/Documents/AInchors/ - Backups: ~/Backups/ainchors/ - Scripts: workspace/scripts/backup.sh, health-check.sh - Shared memory: workspace/memory/shared/ (company, projects, decisions, integrations, notion) - Agent state: workspace/state/agent-status.json - Health state: workspace/state/health-state.json - Heartbeat state: workspace/state/heartbeat-state.json ## Post-Midnight Additions (00:00–01:03 AEST) ### End-of-Day Close Rule Established - SOUL.md: non-negotiable daily close rule — journal + blog + cost report every night - Nightly cron set: 23:55 Melbourne, main session - Two journal lenses: active day (verbatim prompts) vs quiet day (platform/autonomous activity) - Blo",
+      "recallCount": 1,
+      "dailyCount": 0,
+      "groundedCount": 0,
+      "totalScore": 0.42051108479499816,
+      "maxScore": 0.42051108479499816,
+      "firstRecalledAt": "2026-04-27T11:30:17.284Z",
+      "lastRecalledAt": "2026-04-27T11:30:17.284Z",
+      "queryHashes": [
+        "dd184e1b6189"
+      ],
+      "recallDays": [
+        "2026-04-27"
+      ],
+      "conceptTags": [
+        "backup",
+        "backups",
+        "documents/ainchors",
+        "backups/ainchors",
+        "workspace/scripts/backup.sh",
+        "health-check.sh",
+        "workspace/memory/shared",
+        "post-midnight"
       ]
     }
   }

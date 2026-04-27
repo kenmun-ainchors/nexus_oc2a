@@ -35,6 +35,42 @@ This log captures **every change** Yoda makes to AInchors infrastructure, config
 **Linked:** decisions.md 2026-04-27 entries
 ---
 
+## 2026-04-27 22:03 AEST — [CHG-0039] GitHub CLI authenticated — kenmun-ainchors
+**Type:** infra
+**Source:** ken-prompt
+**Trigger:** Scheduled reminder (28 Apr). GitHub CLI deferred from Day 1.
+**What changed:** gh auth login completed. Account: kenmun-ainchors. Token stored in keyring. Scopes: repo, read:org, gist.
+**Why:** GitHub CLI needed for repo management, PR workflow, CI logs, and gh-issues skill.
+**Verification:** gh auth status: logged in. gh api user: kenmun-ainchors confirmed.
+**Rollback:** gh auth logout
+**Linked:** none
+---
+
+
+## 2026-04-27 21:55 AEST — [CHG-0038] Telegram split into two dedicated bots — Yoda + Aria
+**Type:** config
+**Source:** ken-prompt
+**Trigger:** Ken's Telegram kept routing to Aria despite bindings. Root cause: shared bot with stale session. Decision: separate bots per agent.
+**What changed:** channels.telegram restructured to accounts format. yoda account (existing token @AInchorsOC1Bot, allowFrom Ken 8574109706). aria account (new token @AInchorsAriaBot, allowFrom Angie 8141152780). Bindings updated: telegram:yoda→main, telegram:aria→business.
+**Why:** One bot shared between two agents caused persistent routing ambiguity and stale session collisions. Two bots = deterministic routing, no shared session history, scales cleanly to OC2.
+**Verification:** channels status --probe: both bots connected. Ken messaged @AInchorsOC1Bot, fresh session confirmed routing to Yoda (main).
+**Rollback:** Revert channels.telegram to single-bot format with original token. Remove aria account and bindings.
+**Linked:** CHG-0035, CHG-0037, US32
+---
+
+
+## 2026-04-27 20:55 AEST — [CHG-0037] Ken Telegram binding restored to main agent (post-reset)
+**Type:** config
+**Source:** ken-prompt
+**Trigger:** openclaw reset during gateway troubleshooting wiped Ken (8574109706) → main binding. Messages were routing to business (Aria) instead — Gemma4 timeout, no reply.
+**What changed:** openclaw.json bindings: added {type:route, agentId:main, match:{channel:telegram, accountId:8574109706}}. Gateway restarted.
+**Why:** Without explicit binding, Ken's chatId was being handled by business agent session. Explicit binding ensures deterministic routing regardless of session history.
+**Verification:** openclaw agents list confirms: main routing rules:1, Routing: Telegram 8574109706. Gateway connectivity: ok.
+**Rollback:** Remove 8574109706 binding from openclaw.json bindings array. Gateway restart.
+**Linked:** CHG-0035
+---
+
+
 ## 2026-04-27 19:50 AEST — [CHG-0036] Bonjour plugin disabled — gateway crash loop fix
 **Type:** infra
 **Source:** ken-prompt
