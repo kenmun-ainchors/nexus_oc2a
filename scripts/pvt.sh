@@ -152,7 +152,7 @@ if echo "$MEM_OUTPUT" | grep -q "ERROR\|failed\|not found"; then
   log "Memory Index: FAIL (command error)"
 else
   INDEXED=$(echo "$MEM_OUTPUT" | grep -oE 'Indexed: ([0-9]+)/' | grep -oE '[0-9]+' | head -1)
-  VECTOR=$(echo "$MEM_OUTPUT" | grep "Vector:" | grep -o "ready" || echo "")
+  VECTOR=$(echo "$MEM_OUTPUT" | grep "Vector:" | grep -o "ready" | head -1 || echo "")
   DIRTY=$(echo "$MEM_OUTPUT" | grep "Dirty:" | grep -o "yes" || echo "no")
 
   if [[ -z "$INDEXED" ]]; then
