@@ -1,0 +1,683 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>From Reactive to Proactive: Building an AI Ops Resiliency Stack</title>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --navy: #1a1a2e;
+      --navy-mid: #16213e;
+      --accent: #4a90d9;
+      --accent-light: #e8f2fc;
+      --accent-mid: #b8d8f5;
+      --text: #292929;
+      --text-light: #6b6b6b;
+      --text-muted: #9e9e9e;
+      --border: #e8e8e8;
+      --code-bg: #f4f8fd;
+      --success: #27ae60;
+      --warning: #f39c12;
+      --danger: #e74c3c;
+      --white: #ffffff;
+      --font-sans: 'Georgia', 'Times New Roman', serif;
+      --font-ui: -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif;
+      --font-mono: 'SFMono-Regular', Consolas, 'Liberation Mono', Menlo, monospace;
+    }
+
+    html { font-size: 18px; scroll-behavior: smooth; }
+
+    body {
+      font-family: var(--font-sans);
+      color: var(--text);
+      background: var(--white);
+      line-height: 1.8;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    /* ── HERO ── */
+    .hero {
+      background: linear-gradient(135deg, var(--navy) 0%, var(--navy-mid) 60%, #0f3460 100%);
+      color: white;
+      padding: 80px 24px 72px;
+      text-align: center;
+    }
+
+    .hero-tag {
+      display: inline-block;
+      font-family: var(--font-ui);
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 2.5px;
+      text-transform: uppercase;
+      color: var(--accent);
+      background: rgba(74, 144, 217, 0.15);
+      border: 1px solid rgba(74, 144, 217, 0.3);
+      border-radius: 20px;
+      padding: 6px 16px;
+      margin-bottom: 28px;
+    }
+
+    .hero h1 {
+      font-family: var(--font-sans);
+      font-size: clamp(1.8rem, 4vw, 2.6rem);
+      font-weight: 700;
+      line-height: 1.25;
+      max-width: 780px;
+      margin: 0 auto 20px;
+      color: white;
+      letter-spacing: -0.3px;
+    }
+
+    .hero .subtitle {
+      font-family: var(--font-ui);
+      font-size: 1.05rem;
+      color: rgba(255,255,255,0.72);
+      max-width: 640px;
+      margin: 0 auto 36px;
+      line-height: 1.65;
+    }
+
+    .hero-meta {
+      font-family: var(--font-ui);
+      font-size: 0.82rem;
+      color: rgba(255,255,255,0.45);
+      letter-spacing: 0.5px;
+    }
+
+    .hero-meta span { margin: 0 10px; }
+
+    /* ── LAYOUT ── */
+    .container {
+      max-width: 760px;
+      margin: 0 auto;
+      padding: 0 24px;
+    }
+
+    article {
+      padding: 60px 0 80px;
+    }
+
+    /* ── TYPOGRAPHY ── */
+    h2 {
+      font-family: var(--font-sans);
+      font-size: 1.55rem;
+      font-weight: 700;
+      color: var(--navy);
+      margin: 56px 0 18px;
+      line-height: 1.3;
+      letter-spacing: -0.2px;
+    }
+
+    h3 {
+      font-family: var(--font-ui);
+      font-size: 1.05rem;
+      font-weight: 700;
+      color: var(--text);
+      margin: 32px 0 12px;
+      letter-spacing: 0.2px;
+      text-transform: uppercase;
+      font-size: 0.85rem;
+      color: var(--accent);
+    }
+
+    p {
+      margin-bottom: 22px;
+      font-size: 1.02rem;
+    }
+
+    ul, ol {
+      margin: 0 0 22px 1.5rem;
+    }
+
+    li {
+      margin-bottom: 8px;
+      font-size: 1.02rem;
+    }
+
+    strong { color: var(--navy); }
+
+    a { color: var(--accent); text-decoration: none; }
+    a:hover { text-decoration: underline; }
+
+    /* ── CODE ── */
+    pre {
+      background: var(--code-bg);
+      border: 1px solid var(--border);
+      border-left: 3px solid var(--accent);
+      border-radius: 6px;
+      padding: 20px 22px;
+      overflow-x: auto;
+      margin: 24px 0;
+      font-size: 0.82rem;
+      line-height: 1.7;
+    }
+
+    code {
+      font-family: var(--font-mono);
+      font-size: 0.88em;
+      background: var(--code-bg);
+      border: 1px solid var(--border);
+      border-radius: 3px;
+      padding: 2px 6px;
+      color: #2c5282;
+    }
+
+    pre code {
+      background: none;
+      border: none;
+      padding: 0;
+      color: var(--text);
+      font-size: inherit;
+    }
+
+    /* ── CALLOUTS ── */
+    .callout {
+      border-radius: 8px;
+      padding: 20px 24px;
+      margin: 28px 0;
+      font-family: var(--font-ui);
+      font-size: 0.95rem;
+      line-height: 1.65;
+    }
+
+    .callout.info {
+      background: var(--accent-light);
+      border-left: 4px solid var(--accent);
+      color: #1a365d;
+    }
+
+    .callout.success {
+      background: #f0fdf4;
+      border-left: 4px solid var(--success);
+      color: #14532d;
+    }
+
+    .callout.warning {
+      background: #fffbeb;
+      border-left: 4px solid var(--warning);
+      color: #78350f;
+    }
+
+    .callout.danger {
+      background: #fff5f5;
+      border-left: 4px solid var(--danger);
+      color: #7f1d1d;
+    }
+
+    .callout-title {
+      font-weight: 700;
+      margin-bottom: 6px;
+      display: block;
+      font-size: 0.82rem;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+    }
+
+    /* ── PULL QUOTE ── */
+    blockquote {
+      border-left: 3px solid var(--accent-mid);
+      padding: 12px 24px;
+      margin: 28px 0;
+      color: var(--text-light);
+      font-style: italic;
+      font-size: 1.08rem;
+    }
+
+    /* ── TABLE ── */
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 28px 0;
+      font-family: var(--font-ui);
+      font-size: 0.88rem;
+    }
+
+    th {
+      background: var(--navy);
+      color: white;
+      padding: 10px 14px;
+      text-align: left;
+      font-weight: 600;
+      letter-spacing: 0.3px;
+    }
+
+    td {
+      padding: 9px 14px;
+      border-bottom: 1px solid var(--border);
+      vertical-align: top;
+    }
+
+    tr:nth-child(even) td { background: #fafafa; }
+
+    /* ── STACK DIAGRAM ── */
+    .stack {
+      margin: 32px 0;
+      font-family: var(--font-ui);
+    }
+
+    .stack-level {
+      display: flex;
+      align-items: center;
+      padding: 14px 20px;
+      margin-bottom: 6px;
+      border-radius: 8px;
+      border: 1px solid var(--border);
+      gap: 16px;
+    }
+
+    .stack-level.new {
+      background: linear-gradient(90deg, #e8f2fc 0%, #f8fbff 100%);
+      border-color: var(--accent-mid);
+    }
+
+    .stack-badge {
+      font-size: 0.72rem;
+      font-weight: 700;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      padding: 3px 9px;
+      border-radius: 12px;
+      white-space: nowrap;
+    }
+
+    .badge-new { background: var(--accent); color: white; }
+    .badge-existing { background: #e2e8f0; color: #475569; }
+
+    .stack-title { font-weight: 600; font-size: 0.95rem; color: var(--navy); }
+    .stack-desc { font-size: 0.85rem; color: var(--text-light); margin-top: 2px; }
+
+    /* ── COST BOX ── */
+    .cost-box {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+      gap: 16px;
+      margin: 28px 0;
+    }
+
+    .cost-card {
+      background: var(--code-bg);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 18px 20px;
+      text-align: center;
+      font-family: var(--font-ui);
+    }
+
+    .cost-card .number {
+      font-size: 1.6rem;
+      font-weight: 700;
+      color: var(--navy);
+      display: block;
+      margin-bottom: 4px;
+    }
+
+    .cost-card .label {
+      font-size: 0.78rem;
+      color: var(--text-muted);
+      letter-spacing: 0.5px;
+      text-transform: uppercase;
+    }
+
+    /* ── INCIDENT ── */
+    .incident {
+      background: #fff5f5;
+      border: 1px solid #fed7d7;
+      border-radius: 8px;
+      padding: 20px 24px;
+      margin: 24px 0;
+      font-family: var(--font-ui);
+      font-size: 0.92rem;
+    }
+
+    .incident-header {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 10px;
+    }
+
+    .incident-badge {
+      background: var(--danger);
+      color: white;
+      font-size: 0.7rem;
+      font-weight: 700;
+      padding: 3px 9px;
+      border-radius: 10px;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+
+    .incident-title {
+      font-weight: 700;
+      color: #7f1d1d;
+      font-size: 0.95rem;
+    }
+
+    /* ── FOOTER ── */
+    footer {
+      background: var(--navy);
+      color: rgba(255,255,255,0.55);
+      padding: 48px 24px;
+      text-align: center;
+      font-family: var(--font-ui);
+      font-size: 0.85rem;
+      line-height: 1.7;
+    }
+
+    footer strong { color: white; }
+
+    /* ── DIVIDER ── */
+    hr {
+      border: none;
+      border-top: 1px solid var(--border);
+      margin: 48px 0;
+    }
+
+    .section-tag {
+      display: inline-block;
+      font-family: var(--font-ui);
+      font-size: 0.72rem;
+      font-weight: 700;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: 8px;
+    }
+  </style>
+</head>
+<body>
+
+<!-- ── HERO ── -->
+<header class="hero">
+  <div class="hero-tag">AInchors — Day 3 Build Log</div>
+  <h1>From Reactive to Proactive: Building an AI Ops Resiliency Stack</h1>
+  <p class="subtitle">One day. Two outage incidents. Thirty-nine changes. A full resiliency stack, a second AI agent, a governance layer, and a system that now heals itself every night at 23:30.</p>
+  <div class="hero-meta">
+    <span>Ken Mun — CTO, AInchors</span>
+    <span>·</span>
+    <span>27 April 2026</span>
+    <span>·</span>
+    <span>Day 3</span>
+  </div>
+</header>
+
+<!-- ── ARTICLE ── -->
+<div class="container">
+<article>
+
+  <!-- Opening -->
+  <span class="section-tag">Opening</span>
+  <h2>I came online to find the system dead.</h2>
+
+  <p>Sunday morning, 6:15 AM. I opened the laptop and the AI platform was offline. The credits had run out overnight — Anthropic billing exhausted, fallback chain failed, Ollama authentication not configured. The system had silently stopped working sometime during the night.</p>
+
+  <p>This was Day 3 of building AInchors, and it started with two fires at once: an overnight outage that revealed gaps in the resiliency design, and a Day 2 journal that had been written in the wrong format — summary style instead of the verbatim-prompt record I'd established on Day 1.</p>
+
+  <p>By the end of the day, I'd rebuilt both. More importantly, I'd built the infrastructure to make sure neither type of failure could repeat itself. This is how Day 3 went.</p>
+
+  <hr />
+
+  <!-- Act 1: Outage -->
+  <span class="section-tag">Act I — 06:15 AEST</span>
+  <h2>The Overnight Outage: A Chain of Compounding Failures</h2>
+
+  <div class="incident">
+    <div class="incident-header">
+      <span class="incident-badge">Incident</span>
+      <span class="incident-title">Night-2 Billing + Auth Cascade Failure</span>
+    </div>
+    <p>Anthropic credits exhausted → fallback attempted Opus (same billing block, also failed) → fallback attempted Gemma4/Ollama → <code>"No API key found for provider ollama"</code> → system hard stop.</p>
+    <p style="margin-bottom:0; margin-top:10px;"><strong>Root cause:</strong> Two gaps: (1) <code>openclaw.json</code> had a literal placeholder string <code>"OLLAMA_API_KEY"</code> — not a real key. (2) <code>auth-profiles.json</code> had no <code>ollama:default</code> entry at time of outage.</p>
+  </div>
+
+  <p>The fix was straightforward once I understood it. Both auth files patched, Ollama key set to <code>ollama-local</code>, and the backup cron refactored to be LLM-independent — dual-path with a systemEvent fallback so it fires even if the main session is down. Three Telegram cron routes that had been pointing to the wrong chat ID were also corrected.</p>
+
+  <p>But the more important fix was architectural: I filed US23 (resilient outage handling with automated fallback chain) and built the foundation for what would become the platform's resiliency stack. This incident was the catalyst for everything else that happened on Day 3.</p>
+
+  <hr />
+
+  <!-- Act 2: Journal rebuild + format lock -->
+  <span class="section-tag">Act II — 06:15–06:46 AEST</span>
+  <h2>Setting the Record Straight: Locking the Journal and Blog Formats</h2>
+
+  <p>The Day 2 journal had been written in high-level summary style. I rejected it. The standard I'd set on Day 1 was verbatim prompts — my actual words, timestamp by timestamp, nothing paraphrased away. Summary-style journals lose all the primary source context that makes them useful for auditing decisions, training future agents, and reconstructing intent weeks later.</p>
+
+  <p>A sub-agent rebuilt the Day 2 journal from source transcripts: 1,011 lines, 56 timestamped sections, 70 verbatim prompts. I reviewed and approved it at 06:44.</p>
+
+  <p>Then I locked the formats permanently.</p>
+
+  <div class="callout info">
+    <span class="callout-title">🔒 Two distinct end-of-day artefacts</span>
+    <strong>Journal</strong> (<code>memory/journal-YYYY-MM-DD.md</code>) — Private. Yoda's voice recording my exact words. Chronological. Verbatim prompts → interpretation → actions → outcomes. This is the primary source of truth.<br /><br />
+    <strong>Blog</strong> (<code>canvas/documents/ainchors-YYYY-MM-DD/index.html</code>) — Public-ready. My first-person narrative. Reads from the journal, not the raw transcripts. Curated, coherent, stripped of sensitive values.
+  </div>
+
+  <p>The rule: the blog is cooked from the journal. The journal is raw. You can't write the blog without the journal existing first.</p>
+
+  <hr />
+
+  <!-- Act 3: Resiliency -->
+  <span class="section-tag">Act III — 07:32–09:25 AEST</span>
+  <h2>Building the Resiliency Stack: Three New Levels</h2>
+
+  <p>At 07:32, I noticed something in the chat stats: the main agent had been running on <code>claude-opus-4-7</code> — not Sonnet. An agent-specific config override had been set during early setup and never corrected. The entire morning had been running at ~3× the intended cost. That was the model drift incident.</p>
+
+  <p>One line change to revert it. But it revealed a pattern: the system had no mechanism to detect when critical configuration silently drifted from what had been approved. I needed to fix the pattern, not just the instance.</p>
+
+  <p>The result was three new levels of the resiliency stack, built over the next two hours:</p>
+
+  <div class="stack">
+    <div class="stack-level">
+      <div>
+        <span class="stack-badge badge-existing">Existing</span>
+        <div class="stack-title">Level 1: Foundation</div>
+        <div class="stack-desc">Health check every 15 min · Daily backup 02:00+02:05 (dual-path, LLM-independent) · LaunchAgent auto-restart · OfflinePlaybook.md</div>
+      </div>
+    </div>
+    <div class="stack-level">
+      <div>
+        <span class="stack-badge badge-existing">Existing</span>
+        <div class="stack-title">Level 2: Preventive</div>
+        <div class="stack-desc">PVT 9/9 · Pre-risky-op checkpoint rule · pre-restart-cleanup.sh</div>
+      </div>
+    </div>
+    <div class="stack-level new">
+      <div>
+        <span class="stack-badge badge-new">New Day 3</span>
+        <div class="stack-title">Level 3: Auto-Heal — nightly 23:30 AEST</div>
+        <div class="stack-desc">12 checks · Auto-fix: stale deps, stale locks, dirty git · Needs-Ken: auth missing, config drift, low balance → Notion US · LLM-independent systemEvent</div>
+      </div>
+    </div>
+    <div class="stack-level new">
+      <div>
+        <span class="stack-badge badge-new">New Day 3</span>
+        <div class="stack-title">Level 4: Run Diagnostics — on-demand /diagnostics</div>
+        <div class="stack-desc">6 phases: inventory, provider chain, integration tests, auto-heal snapshot, security audit, HA readiness · Produces state JSON + markdown report</div>
+      </div>
+    </div>
+    <div class="stack-level new">
+      <div>
+        <span class="stack-badge badge-new">New Day 3</span>
+        <div class="stack-title">Level 5: CHANGELOG — single audit trail</div>
+        <div class="stack-desc">Every change calls scripts/changelog-append.sh · Auto-increments CHG-NNNN · Schema: type, source, trigger, what, why, verification, rollback, linked</div>
+      </div>
+    </div>
+  </div>
+
+  <p>The critical config baseline was the key anti-drift mechanism: a JSON file defining seven guarded configuration values, validated nightly by auto-heal Check #12. Any drift from baseline files a Notion user story for Ken's review. The Opus incident made that check permanent.</p>
+
+  <blockquote>The pattern I'm building: every incident becomes a new auto-heal check. The system gets harder to break with every failure.</blockquote>
+
+  <p>I also documented this in an evergreen <code>ResiliencyFramework.md</code> — a living reference covering design principles, all five levels, the incident-to-check feedback loop, and the roadmap toward OC2. That document will keep growing as the platform does.</p>
+
+  <hr />
+
+  <!-- Act 4: ITSM + commands -->
+  <span class="section-tag">Act IV — 09:27–09:49 AEST</span>
+  <h2>ITSM Discipline: Ticket-First and Formalised Slash Commands</h2>
+
+  <p>Good operations requires a ticket for everything. No ad-hoc work without a tracking reference. I stood up a proper ticketing system — <code>scripts/ticket.sh</code> with new/list/show/update/link/close commands, backed by <code>state/tickets.json</code> and mirrored to a Notion Service Tickets database.</p>
+
+  <p>The rule is non-negotiable: any task or request without an existing INC, US, or CHG reference gets a TKT raised before work starts. The first ticket raised — TKT-0001 — was the ITIL gap analysis itself. The system bootstrapped its own discipline.</p>
+
+  <p>I also formalised three slash commands as proper triggers with defined procedures:</p>
+
+  <table>
+    <thead>
+      <tr><th>Command</th><th>Behaviour</th></tr>
+    </thead>
+    <tbody>
+      <tr><td><code>/resume</code></td><td>Pull webchat + Telegram transcripts, synthesise, deliver handoff summary first</td></tr>
+      <tr><td><code>/research</code></td><td>Spawn sub-agent, web access, structured findings with sources</td></tr>
+      <tr><td><code>/diagnostics</code></td><td>Run 6-phase deep inspection (scripts/run-diagnostics.sh)</td></tr>
+    </tbody>
+  </table>
+
+  <hr />
+
+  <!-- Act 5: Aria + Governance -->
+  <span class="section-tag">Act V — 10:34–12:16 AEST</span>
+  <h2>Aria: A Second Agent for the Business Stream</h2>
+
+  <p>Up to Day 3, the platform had been entirely ops-focused. But AInchors has a business dimension too — and that needs its own AI agent, with its own rules, its own workspace, and direct access for the business lead.</p>
+
+  <p>I stood up <strong>Aria 🔵</strong> as the Business Lead Agent. Isolated workspace (<code>workspace-business/</code>). CEO-level read access to all AInchors data. Write access scoped to business stream and the shared knowledge bridge. This is the OC2 precursor — Aria lives on OC1 temporarily and migrates when the dedicated hardware arrives.</p>
+
+  <p>The nightly context sync at 23:00 AEST keeps Aria informed of operational developments without creating a dependency loop. My morning standup now includes an Aria Oversight section — I surface her prior-day activity and flag anything needing attention.</p>
+
+  <p>But business stream output can't go external without review. That's what the governance layer is for:</p>
+
+  <div class="callout success">
+    <span class="callout-title">🏛️ Governance Layer — Three Agents</span>
+    <strong>Shield 🔐</strong> (Security, Sonnet) — data exposure, auth risks, policy violations<br />
+    <strong>Lex ⚖️</strong> (Legal, Opus) — contractual, regulatory, liability<br />
+    <strong>Sage 🧪</strong> (QA, Sonnet) — accuracy, completeness, quality<br /><br />
+    Any Aria output that goes external flows through <code>scripts/governance-review.sh</code> first. Veto on any tier triggers escalation.
+  </div>
+
+  <p>I also built out the onboarding journey for the business lead — six structured stages covering orientation, platform access, project management (12 dedicated items: WBS, risk register, brief templates, stakeholder comms), business intelligence, external execution, and autonomy. A checklist JSON tracks progress.</p>
+
+  <hr />
+
+  <!-- Act 6: Crashes + Architecture -->
+  <span class="section-tag">Act VI — 19:30–21:55 AEST</span>
+  <h2>What Broke (And What I Built to Stop It Happening Again)</h2>
+
+  <div class="incident">
+    <div class="incident-header">
+      <span class="incident-badge">Incident</span>
+      <span class="incident-title">Gateway Crash — Bonjour/ciao Plugin Crash Loop</span>
+    </div>
+    <p>~19:30 AEST: Gateway crashed. Hard reset required. New session, no transcript continuity.</p>
+    <p style="margin-top:10px;"><strong>Root cause:</strong> Bonjour/ciao plugin crash loop — unhandled promise rejection firing every ~9 seconds, likely destabilising the gateway for some time before the fatal crash.</p>
+    <p style="margin-bottom:0; margin-top:10px;"><strong>Fix:</strong> Bonjour plugin disabled. Gateway restarted cleanly. Context fully recovered from files in ~10 minutes.</p>
+  </div>
+
+  <p>The crash was actually a validation of something I'd built: the entire operational context was in files. MEMORY.md, the daily log, the CHANGELOG, state files. Recovering from a crash wasn't about session state — it was about having a complete written record. That's the principle I keep coming back to: files are the recovery mechanism.</p>
+
+  <p>The second problem was Gemma4. I'd set it as Aria's default model and extended it to all business stream agents. The idea was cost savings — Gemma4 runs locally at zero API cost. The reality: a 26B model cold-loading from disk on every Aria Telegram message caused 30–60 second delays and degraded my own webchat in the process.</p>
+
+  <div class="callout warning">
+    <span class="callout-title">⚠️ Lesson: Gemma4 = background only, forever</span>
+    Interactive traffic + large local models = bad UX. Gemma4 is now reserved exclusively for: backup crons, cost tracker, and non-interactive batch work. Never in the user-facing path.
+  </div>
+
+  <p>The Telegram routing architecture was the third problem. With a single bot serving two agents, stale session state for one agent's user would persist through restarts and cause misrouting. I tried configuration fixes. They kept failing.</p>
+
+  <p>The clean solution: two bots, one per agent. <strong>@AInchorsOC1Bot</strong> → Yoda (my channel). <strong>@AInchorsAriaBot</strong> → Aria (business channel). Strict allowlists. No shared state. Problem solved architecturally, not with workarounds.</p>
+
+  <hr />
+
+  <!-- What I Learned -->
+  <span class="section-tag">Lessons</span>
+  <h2>What I Learned on Day 3</h2>
+
+  <ol>
+    <li><strong>Files are the recovery mechanism.</strong> Gateway crashed. Context restored in 10 minutes from files. Invest in files, not in trusting session state.</li>
+    <li><strong>Config drift is the stealth enemy.</strong> Two Opus drift incidents in one day — both from config overrides that survived restarts. Critical config baseline + nightly validation is mandatory, not optional.</li>
+    <li><strong>The architectural fix beats the config fix.</strong> Multiple attempts to fix Telegram routing through config all failed. Splitting into two bots solved it immediately. When a workaround keeps breaking, that's the system telling you the architecture needs to change.</li>
+    <li><strong>Ticket-first catches scope creep early.</strong> Raising TKT-0001 against the ITIL work itself forced me to scope and estimate before diving in. The discipline pays off immediately.</li>
+    <li><strong>Every incident should make the next one harder.</strong> That's the feedback loop I'm building into auto-heal: failure → check → automated prevention. The platform compounds on its own reliability.</li>
+  </ol>
+
+  <hr />
+
+  <!-- Cost -->
+  <span class="section-tag">Cost</span>
+  <h2>The Cost of Day 3</h2>
+
+  <div class="cost-box">
+    <div class="cost-card">
+      <span class="number">$35.09</span>
+      <span class="label">Day 3 Total (USD)</span>
+    </div>
+    <div class="cost-card">
+      <span class="number">404</span>
+      <span class="label">Turns</span>
+    </div>
+    <div class="cost-card">
+      <span class="number">$0.087</span>
+      <span class="label">Cost per Turn</span>
+    </div>
+    <div class="cost-card">
+      <span class="number">$98.00</span>
+      <span class="label">3-Day Cumulative</span>
+    </div>
+  </div>
+
+  <table>
+    <thead>
+      <tr><th>Day</th><th>Cost (USD)</th><th>Turns</th><th>Notes</th></tr>
+    </thead>
+    <tbody>
+      <tr><td>Day 1 — 25 Apr</td><td>$25.75</td><td>416</td><td>Foundation build</td></tr>
+      <tr><td>Day 2 — 26 Apr</td><td>$37.15</td><td>499</td><td>Three incidents, full sprint</td></tr>
+      <tr><td><strong>Day 3 — 27 Apr</strong></td><td><strong>$35.09</strong></td><td><strong>404</strong></td><td>Resiliency + Aria + 1 crash</td></tr>
+      <tr><td><strong>3-Day Total</strong></td><td><strong>$97.99</strong></td><td><strong>1,319</strong></td><td></td></tr>
+    </tbody>
+  </table>
+
+  <p>Day 3 included a model drift incident where the morning ran on Opus (~3× Sonnet cost) before I caught and corrected it. The nightly auto-heal Check #12 now guards against this recurring. The 3-tier credit alert system is live: $50 (yellow), $25 (orange), $10 (red/pause).</p>
+
+  <blockquote>Three days in, $98 spent, and I have a platform that heals itself, a second AI agent running the business stream, a governance layer reviewing external output, and a GitHub-authenticated dev toolchain. That's real leverage per dollar.</blockquote>
+
+  <hr />
+
+  <!-- What's Next -->
+  <span class="section-tag">What's Next</span>
+  <h2>What's Next</h2>
+
+  <ul>
+    <li><strong>Auto-heal first run tonight at 23:30.</strong> See what it catches. This is the first fully autonomous overnight sweep.</li>
+    <li><strong>US27 completion</strong> — Diagnostics phases 7–9: recovery drills, performance baseline, cost projection. The first smoke test passed; now I need to stress it.</li>
+    <li><strong>US23</strong> — Resilient outage handling: automated fallback chain, Gemma4 standby mode. The overnight outage revealed the gaps; this closes them properly.</li>
+    <li><strong>Gateway Recovery SOP</strong> — The config snapshot script and recovery runbook started tonight. Finish and test tomorrow.</li>
+    <li><strong>Backup cron verification</strong> — Confirm the dual-path backup succeeded at 02:00+02:05 this morning. First real test of the LLM-independent path.</li>
+    <li><strong>ITSM Quick Wins</strong> — TKT-0003 through TKT-0012: SLOs, incident severity tags, uptime logging, CI register. The ITIL framework is scaffolded; now fill it in.</li>
+  </ul>
+
+  <hr />
+
+  <!-- CHANGELOG summary -->
+  <span class="section-tag">Audit Trail</span>
+  <h2>Day 3 in Numbers</h2>
+
+  <p>39 changes logged to the CHANGELOG (CHG-0001 through CHG-0039). 6 new user stories. 12 tickets seeded. 5 new Operations specs created. 3 new scripts. 2 new agents. 1 governance layer. 1 overnight outage resolved. 1 gateway crash recovered. 16 diagnostics checks passing.</p>
+
+  <p>Day 4 starts with a working system, a nightly heal sweep running for the first time, and — if I'm honest — a lot more confidence that the platform I'm building is genuinely resilient, not just functional.</p>
+
+</article>
+</div>
+
+<!-- ── FOOTER ── -->
+<footer>
+  <p><strong>AInchors</strong> — AI-native operations from day one.</p>
+  <p style="margin-top:10px;">Day 3 of the build log series. Published 27 April 2026.</p>
+  <p style="margin-top:8px; font-size: 0.78rem; color: rgba(255,255,255,0.3);">Written by Ken Mun (CTO) · Sensitive values redacted · Internal references normalised</p>
+</footer>
+
+</body>
+</html>
