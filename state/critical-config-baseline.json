@@ -1,9 +1,9 @@
 {
   "schema_version": "1.0",
   "description": "Critical configurations that MUST NOT drift. Auto-heal check #12 validates each one nightly. Drift = needs-Ken US filed immediately. Update this baseline ONLY through explicit Ken-approved decision logged in decisions.md.",
-  "lastUpdated": "2026-04-28T07:55:00+10:00",
+  "lastUpdated": "2026-04-28T07:57:00+10:00",
   "lastApprovedBy": "Ken",
-  "lastApprovalContext": "TKT-0013: Warden agent build. All agents now covered in baseline. Lex Opus exception documented.",
+  "lastApprovalContext": "Lex Opus exception removed. Sonnet is now standard across all governance agents.",
   "checks": [
     {
       "id": "config-001",
@@ -108,15 +108,13 @@
     },
     {
       "id": "config-011",
-      "name": "Lex (legal agent) model is Opus \u2014 documented exception",
+      "name": "Lex (legal agent) model is Sonnet",
       "severity": "critical",
       "file": "/Users/ainchorsangiefpl/.openclaw/openclaw.json",
       "jq_query": ".agents.list[] | select(.id==\"legal\") | .model",
-      "expected_value": "anthropic/claude-opus-4-7",
-      "rationale": "Intentional documented exception. Legal accuracy justifies Opus. Approved by Ken 2026-04-28. See model-policy.json.",
-      "fix_command": "edit openclaw.json: agents.list[id=legal].model = anthropic/claude-opus-4-7",
-      "exception": true,
-      "exception_reason": "Only agent authorised to run Opus as primary. Legal review accuracy is non-negotiable."
+      "expected_value": "anthropic/claude-sonnet-4-6",
+      "rationale": "Ken confirmed Sonnet sufficient 2026-04-28. Opus exception removed.",
+      "fix_command": "edit openclaw.json: agents.list[id=legal].model = anthropic/claude-sonnet-4-6"
     },
     {
       "id": "config-012",

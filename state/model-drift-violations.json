@@ -16,8 +16,19 @@
       "id": "DRIFT-20260427215306-default_fallbacks",
       "status": "unresolved",
       "escalatedToYoda": false
+    },
+    {
+      "agentId": "legal",
+      "expected": "anthropic/claude-opus-4-7",
+      "actual": "anthropic/claude-sonnet-4-6",
+      "severity": "EXCEPTION_DRIFT",
+      "note": "Note: agent has documented exceptions \u2014 check model-policy.json for allowed values.",
+      "detectedAt": "2026-04-28T07:57:25+10:00",
+      "id": "DRIFT-20260427215725-legal",
+      "status": "unresolved",
+      "escalatedToYoda": false
     }
   ],
-  "totalUnresolved": 1,
-  "lastUpdated": "2026-04-28T07:53:06+10:00"
+  "totalUnresolved": 2,
+  "lastUpdated": "2026-04-28T07:57:25+10:00"
 }

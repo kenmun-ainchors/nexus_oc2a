@@ -35,6 +35,18 @@ This log captures **every change** Yoda makes to AInchors infrastructure, config
 **Linked:** decisions.md 2026-04-27 entries
 ---
 
+## 2026-04-28 07:58 AEST — [CHG-0046] Lex (legal agent) model Opus → Sonnet
+**Type:** config
+**Source:** ken-prompt
+**Trigger:** Ken confirmed Sonnet sufficient for legal reviews. Opus exception removed.
+**What changed:** openclaw.json agents.list[id=legal].model = anthropic/claude-sonnet-4-6. model-policy.json Lex exception removed. critical-config-baseline config-011 updated. model-drift-check.sh Lex expected value updated.
+**Why:** Cost reduction. Sonnet uniform across all 6 agents. No justified need for Opus in legal reviews.
+**Verification:** Warden model-drift-check.sh → 9/9 PASS
+**Rollback:** Set agents.list[id=legal].model back to anthropic/claude-opus-4-7. Restore exception in model-policy.json and baseline.
+**Linked:** TKT-0013 CHG-0045
+---
+
+
 ## 2026-04-28 07:54 AEST — [CHG-0045] Warden 🔍 — model compliance and drift monitoring agent
 **Type:** agent
 **Source:** ken-prompt

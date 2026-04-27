@@ -161,7 +161,7 @@ echo "[ Agent Models ]"
 check_agent "main"       "anthropic/claude-sonnet-4-6"
 check_agent "business"   "anthropic/claude-sonnet-4-6"
 check_agent "security"   "anthropic/claude-sonnet-4-6"
-check_agent "legal"      "anthropic/claude-opus-4-7"   "true"   # documented exception
+check_agent "legal"      "anthropic/claude-sonnet-4-6"            # Sonnet confirmed by Ken 2026-04-28
 check_agent "qa"         "anthropic/claude-sonnet-4-6"
 check_agent "governance" "anthropic/claude-sonnet-4-6"
 
