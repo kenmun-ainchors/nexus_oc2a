@@ -260,8 +260,24 @@ Any work or task that is **ad-hoc** (not already tracked under an INC, US, or CH
 - `/diagnostics` — runs `scripts/run-diagnostics.sh`, reports 6-phase verdict + summary
 - `/research` — deep research mode. Spawn a dedicated research sub-agent with full web access. Ken must supply topic/question. Output: structured findings report with sources, recommendations, and confidence ratings. Minimum 2 independent sources per factual claim per VERACITY standard.
 - `/resume` — cross-channel handoff (see /resume section above)
+- `/close` — end-of-session close procedure (see /close section below)
 
 All slash triggers are case-insensitive. Never fire on partial matches (e.g. "run diagnostics" text does not trigger `/diagnostics`).
+
+## /close — END-OF-SESSION CLOSE
+
+Trigger: Ken types **`/close`** (case-insensitive) on any channel.
+
+When `/close` is received:
+1. **Git commit** — `git add -A && git commit` in workspace + Obsidian vault. Message: `close: [brief summary of session work]`
+2. **Memory flush** — append any outstanding events to `memory/YYYY-MM-DD.md`
+3. **CHANGELOG** — log a CHG entry for the close if significant config changes were made this session
+4. **Notion** — update any US/ticket statuses changed this session (Done, Closed, In Progress)
+5. **PVT** — run `bash scripts/pvt.sh`. Must pass 9/9. Report result.
+6. **Gateway snapshot** — run `bash scripts/gateway-restore.sh --snapshot` to capture current config
+7. **Summary** — deliver a brief session close summary: what was done, what's open, next actions
+
+Do NOT trigger the daily close (journal+blog) — that runs at 23:55 automatically.
 
 ### 🚨 Critical Config Anti-Drift Rule (non-negotiable)
 

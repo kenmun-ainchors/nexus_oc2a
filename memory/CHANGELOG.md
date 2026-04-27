@@ -35,6 +35,18 @@ This log captures **every change** Yoda makes to AInchors infrastructure, config
 **Linked:** decisions.md 2026-04-27 entries
 ---
 
+## 2026-04-27 23:48 AEST — [CHG-0044] /close command defined + Day 3 sprint closed
+**Type:** rule
+**Source:** ken-prompt
+**Trigger:** Ken: finalise, update, save and close everything. /close keyword for future sessions. Sprint completion.
+**What changed:** RULES.md + SOUL.md: /close slash command added (git commit, memory flush, CHG, Notion update, PVT 9/9, gateway snapshot, summary). US24 closed. US29 closed. Governance agents US closed. 1Password US closed (superseded by macOS Keychain). Gateway snapshot taken.
+**Why:** Standardise session close procedure. /close replaces ad-hoc end-of-day cleanup. Ensures consistent state before handoff to nightly crons.
+**Verification:** PVT 9/9 passed. Gateway snapshot written. Git committed. All target Notion US marked Done.
+**Rollback:** Remove /close section from RULES.md + SOUL.md.
+**Linked:** US24, US29, CHG-0039
+---
+
+
 ## 2026-04-27 23:31 AEST — [CHG-0043] Nightly auto-heal 2026-04-27: git commit + Notion US filing
 **Type:** script
 **Source:** auto-heal

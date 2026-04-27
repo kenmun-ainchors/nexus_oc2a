@@ -221,5 +221,11 @@
       },
       "comment": "Yoda bot \u2192 main agent (Ken)"
     }
-  ]
+  ],
+  "canvasHost": {
+    "enabled": true,
+    "root": "/Users/ainchorsangiefpl/.openclaw/canvas",
+    "port": 18790,
+    "liveReload": false
+  }
 }
