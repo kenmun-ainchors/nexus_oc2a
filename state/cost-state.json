@@ -1,5 +1,5 @@
 {
-  "lastUpdated": "2026-04-27T12:33:14Z",
+  "lastUpdated": "2026-04-27T13:55:12Z",
   "history": {
     "2026-04-25": {
       "date": "2026-04-25",
@@ -41,27 +41,27 @@
     },
     "2026-04-27": {
       "date": "2026-04-27",
-      "totalCost": 35.0895,
-      "totalTurns": 404,
-      "totalInputTokens": 648,
-      "totalOutputTokens": 137399,
-      "totalCacheReadTokens": 30896449,
-      "totalCacheWriteTokens": 6335372,
+      "totalCost": 90.0654,
+      "totalTurns": 793,
+      "totalInputTokens": 1185,
+      "totalOutputTokens": 309295,
+      "totalCacheReadTokens": 84305160,
+      "totalCacheWriteTokens": 16034896,
       "byModel": {
         "claude-sonnet-4-6": {
-          "input": 648,
-          "output": 137399,
-          "cacheRead": 30896449,
-          "cacheWrite": 6335372,
-          "cost": 35.0895,
-          "turns": 404
+          "input": 1185,
+          "output": 309295,
+          "cacheRead": 84305160,
+          "cacheWrite": 16034896,
+          "cost": 90.0654,
+          "turns": 793
         }
       }
     }
   },
-  "allTimeTotalCost": 97.9844,
+  "allTimeTotalCost": 152.9603,
   "daysTracked": 3,
-  "avgDailyCost": 32.6615,
+  "avgDailyCost": 50.9868,
   "apiBalance": {
     "currency": "USD",
     "balance": 107.06,
