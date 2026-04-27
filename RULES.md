@@ -260,22 +260,26 @@ Any work or task that is **ad-hoc** (not already tracked under an INC, US, or CH
 - `/diagnostics` — runs `scripts/run-diagnostics.sh`, reports 6-phase verdict + summary
 - `/research` — deep research mode. Spawn a dedicated research sub-agent with full web access. Ken must supply topic/question. Output: structured findings report with sources, recommendations, and confidence ratings. Minimum 2 independent sources per factual claim per VERACITY standard.
 - `/resume` — cross-channel handoff (see /resume section above)
-- `/close` — end-of-session close procedure (see /close section below)
+- `/commit` — persist all session memory + decisions to Obsidian + git. Not a close — can be run anytime mid-session (see /commit section below)
 
 All slash triggers are case-insensitive. Never fire on partial matches (e.g. "run diagnostics" text does not trigger `/diagnostics`).
 
-## /close — END-OF-SESSION CLOSE
+## /commit — PERSISTENT MEMORY COMMIT
 
-Trigger: Ken types **`/close`** (case-insensitive) on any channel.
+**Intent:** Write everything held in session memory — decisions, changes, context, state — into Obsidian as the persistent long-term store. Safe to run mid-session or at any natural breakpoint. Does NOT close the session.
 
-When `/close` is received:
-1. **Git commit** — `git add -A && git commit` in workspace + Obsidian vault. Message: `close: [brief summary of session work]`
-2. **Memory flush** — append any outstanding events to `memory/YYYY-MM-DD.md`
-3. **CHANGELOG** — log a CHG entry for the close if significant config changes were made this session
-4. **Notion** — update any US/ticket statuses changed this session (Done, Closed, In Progress)
-5. **PVT** — run `bash scripts/pvt.sh`. Must pass 9/9. Report result.
-6. **Gateway snapshot** — run `bash scripts/gateway-restore.sh --snapshot` to capture current config
-7. **Summary** — deliver a brief session close summary: what was done, what's open, next actions
+Trigger: Ken types **`/commit`** (case-insensitive) on any channel.
+
+When `/commit` is received:
+1. **Memory flush** — append all outstanding session events, decisions, and learnings to `memory/YYYY-MM-DD.md`
+2. **Obsidian sync** — write/update relevant Obsidian pages: decisions.md, ResiliencyFramework.md, any spec that changed this session
+3. **MEMORY.md** — update long-term memory with anything that should survive beyond today
+4. **CHANGELOG** — log a CHG entry for any config/infra changes not yet logged
+5. **Notion** — update any US/ticket statuses changed this session
+6. **Git commit** — `git add -A && git commit` in workspace + Obsidian vault. Message: `commit: [brief summary]`
+7. **Gateway snapshot** — run `bash scripts/gateway-restore.sh --snapshot` if config changed this session
+8. **PVT** — run `bash scripts/pvt.sh`. Report result.
+9. **Summary** — confirm what was persisted, what’s still in session-only memory, what’s open
 
 Do NOT trigger the daily close (journal+blog) — that runs at 23:55 automatically.
 
