@@ -1,6 +1,6 @@
 {
-  "runAt": "2026-04-26T21:39:36Z",
-  "runAtLocal": "2026-04-27 07:39 AEST",
+  "runAt": "2026-04-27T02:50:15Z",
+  "runAtLocal": "2026-04-27 12:50 AEST",
   "duration_ms": 0,
   "checks_run": [
   "auth_profiles",
@@ -14,17 +14,23 @@
   "api_balance",
   "incident_patterns",
   "config_drift",
-  "critical_config_baseline"
+  "critical_config_baseline",
+  "aria_health"
 ],
-  "checks_count": 12,
-  "issues_found": [],
-  "issues_count": 0,
+  "checks_count": 13,
+  "issues_found": [
+  "health-state:stale:284min"
+],
+  "issues_count": 1,
   "auto_fixed": [
-  "git-commit:workspace:4-files",
-  "git-commit:AInchors:2-files"
+  "git-commit:workspace:37-files",
+  "git-commit:AInchors:7-files",
+  "aria-git-commit:8-files"
 ],
-  "auto_fixed_count": 2,
-  "needs_ken": [],
-  "needs_ken_count": 0,
+  "auto_fixed_count": 3,
+  "needs_ken": [
+  "Health-state.json is 284min old — health-check cron may be broken"
+],
+  "needs_ken_count": 1,
   "exit_status": "complete"
 }

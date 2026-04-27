@@ -74,9 +74,11 @@
     "currency": "USD",
     "balance": 107.06,
     "topUpDate": "2026-04-27",
-    "spentSinceTopUp": 38.3121,
-    "remainingEstimate": 68.7479,
-    "note": "Ken topped up 2026-04-27 ~11:24 AEST. Balance confirmed $107.06 USD. Previous cycle exhausted from heavy Day 3 morning session (Opus drift + governance build)."
+    "spentSinceTopUp": 18.86,
+    "remainingEstimate": 88.2,
+    "note": "Top-up $107.06 at 11:24 AEST 2026-04-27. Ken confirmed balance $88.20 at 13:15 AEST. Spent since top-up = $18.86. Pre-top-up Day 3 spend ($19.45, 06:15-11:24) exhausted previous balance.",
+    "confirmedAt": "2026-04-27T13:15:00+10:00",
+    "confirmedBy": "Ken"
   },
   "spendAlerts": {
     "tier1": {

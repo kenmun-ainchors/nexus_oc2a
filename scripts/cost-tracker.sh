@@ -148,12 +148,28 @@ if f"## {date}" not in existing:
             f.write("\n".join(lines))
 
 # Balance alert check
+# IMPORTANT: only count spend AFTER the top-up timestamp to avoid double-counting
+# pre-top-up spend that already exhausted the previous balance.
 api = state.get('apiBalance', {})
 alerts = state.get('spendAlerts', {})
-spent_since_topup = api.get('spentSinceTopUp', 0) + total_cost
-starting_balance = api.get('balance', 0)
-remaining = round(starting_balance - spent_since_topup, 4)
-api['spentSinceTopUp'] = round(spent_since_topup, 4)
+
+# Use confirmedAt balance if available (set by Ken) — most accurate source of truth
+# Otherwise fall back to calculated estimate
+confirmed_balance = api.get('confirmedBalance')
+if confirmed_balance is not None:
+    remaining = round(confirmed_balance - total_cost, 4)
+    api['spentSinceTopUp'] = round(api.get('balance', 0) - confirmed_balance + total_cost, 4)
+else:
+    # Only add today's cost to spentSinceTopUp if today >= topUpDate
+    topup_date = api.get('topUpDate', '1970-01-01')
+    if date >= topup_date:
+        spent_since_topup = api.get('spentSinceTopUp', 0) + total_cost
+    else:
+        spent_since_topup = api.get('spentSinceTopUp', 0)
+    starting_balance = api.get('balance', 0)
+    remaining = round(starting_balance - spent_since_topup, 4)
+    api['spentSinceTopUp'] = round(spent_since_topup, 4)
+
 api['remainingEstimate'] = max(0, remaining)
 state['apiBalance'] = api
 

@@ -35,6 +35,30 @@ This log captures **every change** Yoda makes to AInchors infrastructure, config
 **Linked:** decisions.md 2026-04-27 entries
 ---
 
+## 2026-04-27 13:30 AEST — [CHG-0035] Explicit Telegram routing: Ken→Yoda binding + YODA THIS IS KEN handover keyword
+**Type:** config
+**Source:** ken-prompt
+**Trigger:** Ken: re-paired Telegram and Aria was connected instead of Yoda. Fix routing and create special keyword for handover.
+**What changed:** Explicitly bound Ken Telegram (8574109706) to main agent (was previously relying on default — caused mis-routing when new pairing happened). Added Aria Rule 4 in SOUL.md and RULES.md: keyword 'YODA THIS IS KEN' triggers Ken identification + handover protocol.
+**Why:** Relying on default routing is fragile — any new pairing event can disrupt it. Explicit binding is deterministic. Keyword provides fallback when routing fails.
+**Verification:** openclaw agents bind confirmed: telegram accountId=8574109706 added to main agent. Bindings now: 8574109706→main, 8141152780→business.
+**Rollback:** openclaw agents unbind --agent main --bind telegram:8574109706. Remove Aria Rule 4 from SOUL.md + RULES.md.
+**Linked:** TKT-0001
+---
+
+
+## 2026-04-27 13:17 AEST — [CHG-0034] Cost tracker balance reconciliation — corrected $68.75 → $88.20
+**Type:** script
+**Source:** ken-prompt
+**Trigger:** Ken confirmed actual balance $88.20 at 13:15 AEST. Tracker showed $68.75 (over-counted by $19.45).
+**What changed:** state/cost-state.json: remainingEstimate corrected to $88.20, spentSinceTopUp corrected to $18.86, confirmedAt + confirmedBy fields added. cost-alert-state.json: balance updated to $88.20. scripts/cost-tracker.sh: balance calculation patched to use confirmedBalance when available, and to only add post-top-up spend to spentSinceTopUp.
+**Why:** Root cause: cost-tracker.sh summed ALL Day 3 sessions from midnight including pre-top-up spend ($19.45, 06:15-11:24 AEST). That spend already exhausted the previous balance — should not be counted against the new $107.06 top-up. Fix: use Ken-confirmed balance as source of truth. Future: tracker uses top-up timestamp to filter session logs.
+**Verification:** Balance corrected to $88.20. Spent since top-up = $18.86 (matches $107.06 - $88.20). No active alert tier.
+**Rollback:** Revert cost-state.json and cost-tracker.sh from git.
+**Linked:** US22, TKT-0002
+---
+
+
 ## 2026-04-27 12:16 AEST — [CHG-0033] US22 resolved — cost tracker working, Day 3 data parsed
 **Type:** script
 **Source:** ken-prompt
