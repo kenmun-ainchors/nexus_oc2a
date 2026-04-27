@@ -1,5 +1,5 @@
 {
-  "lastUpdated": "2026-04-27T14:49:42Z",
+  "lastUpdated": "2026-04-27T20:19:40Z",
   "history": {
     "2026-04-25": {
       "date": "2026-04-25",
@@ -64,14 +64,14 @@
   "avgDailyCost": 50.9868,
   "apiBalance": {
     "currency": "USD",
-    "balance": 107.06,
-    "topUpDate": "2026-04-27",
-    "spentSinceTopUp": 80.47,
-    "remainingEstimate": 26.59,
-    "note": "Top-up $107.06 at 11:24 AEST 2026-04-27. Ken confirmed balance $88.20 at 13:15 AEST. Spent since top-up = $18.86. Pre-top-up Day 3 spend ($19.45, 06:15-11:24) exhausted previous balance.",
-    "confirmedAt": "2026-04-27T23:29:00+10:00",
+    "balance": 107.23,
+    "topUpDate": "2026-04-28",
+    "spentSinceTopUp": 0,
+    "remainingEstimate": 107.23,
+    "note": "Top-up confirmed by Ken at 07:35 AEST 2026-04-28. Balance USD 107.23.",
+    "confirmedAt": "2026-04-28T07:35:00+10:00",
     "confirmedBy": "Ken",
-    "confirmedBalance": 26.59
+    "confirmedBalance": 107.23
   },
   "spendAlerts": {
     "tier1": {
@@ -79,8 +79,8 @@
       "label": "Tier 1 \u2014 $50 remaining",
       "action": "Send ONE alert to Ken (Telegram 8574109706) AND Angie via Aria (Telegram 8141152780). Include balance, daily burn rate, days remaining estimate.",
       "frequency": "once",
-      "triggered": true,
-      "triggeredAt": "2026-04-27T22:34:00+10:00"
+      "triggered": false,
+      "triggeredAt": null
     },
     "tier2": {
       "threshold": 25.0,
