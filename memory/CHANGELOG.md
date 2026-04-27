@@ -35,6 +35,18 @@ This log captures **every change** Yoda makes to AInchors infrastructure, config
 **Linked:** decisions.md 2026-04-27 entries
 ---
 
+## 2026-04-27 19:50 AEST — [CHG-0036] Bonjour plugin disabled — gateway crash loop fix
+**Type:** infra
+**Source:** ken-prompt
+**Trigger:** Gateway crashing every ~9s: bonjour/ciao plugin stuck in probing/announcing loop, unhandled promise rejections → LaunchAgent restart cycle. Dashboard unreachable.
+**What changed:** openclaw.json: plugins.entries.bonjour.enabled=false. Stopped stale process, restarted gateway.
+**Why:** ciao mDNS probing unstable on this network. Bonjour is local node discovery — not needed for single-node OC1.
+**Verification:** Gateway status: Connectivity probe ok, admin-capable. No new CIAO errors post-restart.
+**Rollback:** Set plugins.entries.bonjour.enabled=true in openclaw.json + gateway restart.
+**Linked:** none
+---
+
+
 ## 2026-04-27 13:30 AEST — [CHG-0035] Explicit Telegram routing: Ken→Yoda binding + YODA THIS IS KEN handover keyword
 **Type:** config
 **Source:** ken-prompt
