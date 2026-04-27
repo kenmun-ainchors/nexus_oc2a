@@ -1,5 +1,5 @@
 {
-  "lastUpdated": "2026-04-27T02:16:06Z",
+  "lastUpdated": "2026-04-27T12:33:14Z",
   "history": {
     "2026-04-25": {
       "date": "2026-04-25",
@@ -41,44 +41,37 @@
     },
     "2026-04-27": {
       "date": "2026-04-27",
-      "totalCost": 38.3121,
-      "totalTurns": 273,
-      "totalInputTokens": 384,
-      "totalOutputTokens": 144639,
-      "totalCacheReadTokens": 35866196,
-      "totalCacheWriteTokens": 6768401,
+      "totalCost": 35.0895,
+      "totalTurns": 404,
+      "totalInputTokens": 648,
+      "totalOutputTokens": 137399,
+      "totalCacheReadTokens": 30896449,
+      "totalCacheWriteTokens": 6335372,
       "byModel": {
         "claude-sonnet-4-6": {
-          "input": 384,
-          "output": 144639,
-          "cacheRead": 35866196,
-          "cacheWrite": 6768401,
-          "cost": 38.3121,
-          "turns": 272
-        },
-        "gemma4:26b": {
-          "input": 0,
-          "output": 0,
-          "cacheRead": 0,
-          "cacheWrite": 0,
-          "cost": 0.0,
-          "turns": 1
+          "input": 648,
+          "output": 137399,
+          "cacheRead": 30896449,
+          "cacheWrite": 6335372,
+          "cost": 35.0895,
+          "turns": 404
         }
       }
     }
   },
-  "allTimeTotalCost": 101.207,
+  "allTimeTotalCost": 97.9844,
   "daysTracked": 3,
-  "avgDailyCost": 33.7357,
+  "avgDailyCost": 32.6615,
   "apiBalance": {
     "currency": "USD",
     "balance": 107.06,
     "topUpDate": "2026-04-27",
-    "spentSinceTopUp": 18.86,
-    "remainingEstimate": 88.2,
+    "spentSinceTopUp": 61.04,
+    "remainingEstimate": 46.02,
     "note": "Top-up $107.06 at 11:24 AEST 2026-04-27. Ken confirmed balance $88.20 at 13:15 AEST. Spent since top-up = $18.86. Pre-top-up Day 3 spend ($19.45, 06:15-11:24) exhausted previous balance.",
-    "confirmedAt": "2026-04-27T13:15:00+10:00",
-    "confirmedBy": "Ken"
+    "confirmedAt": "2026-04-27T22:34:00+10:00",
+    "confirmedBy": "Ken",
+    "confirmedBalance": 46.02
   },
   "spendAlerts": {
     "tier1": {
@@ -86,8 +79,8 @@
       "label": "Tier 1 \u2014 $50 remaining",
       "action": "Send ONE alert to Ken (Telegram 8574109706) AND Angie via Aria (Telegram 8141152780). Include balance, daily burn rate, days remaining estimate.",
       "frequency": "once",
-      "triggered": false,
-      "triggeredAt": null
+      "triggered": true,
+      "triggeredAt": "2026-04-27T22:34:00+10:00"
     },
     "tier2": {
       "threshold": 25.0,

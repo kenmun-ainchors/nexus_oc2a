@@ -35,6 +35,18 @@ This log captures **every change** Yoda makes to AInchors infrastructure, config
 **Linked:** decisions.md 2026-04-27 entries
 ---
 
+## 2026-04-27 22:48 AEST — [CHG-0041] Governance agents operational setup — Shield, Lex, Sage
+**Type:** agent
+**Source:** ken-prompt
+**Trigger:** Ken directive: create minimum operational processes and controls for three governance agents
+**What changed:** Created SOUL.md + KNOWLEDGE.md for Shield, Lex, Sage. Created review log state files (schema 1.0). Updated morning standup cron (3c279099) with Section 3 Governance Review. Updated GovernanceFramework.md with agent processes, escalation matrix, standup cadence.
+**Why:** Governance layer needs operational configuration before Aria goes live in business stream. Agents need identity, knowledge base, and logging before first review.
+**Verification:** Files created: 3x SOUL.md, 3x KNOWLEDGE.md, 3x review-log.json. Cron payload verified (8 sections, governance section confirmed). GovernanceFramework.md updated with 3 edit blocks.
+**Rollback:** Restore cron payload from git. Remove agent SOUL/KNOWLEDGE files. Remove review logs.
+**Linked:** GovernanceFramework.md, CHANGELOG.md
+---
+
+
 ## 2026-04-27 22:29 AEST — [CHG-0040] Gateway Recovery SOP: config snapshot, restore script, SOP doc, RULES.md update
 **Type:** doc
 **Source:** ken-prompt
