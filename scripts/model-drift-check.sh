@@ -129,7 +129,7 @@ issues = []
 for j in jobs:
     model = j.get('payload', {}).get('model', '')
     name = j.get('name', '')
-    if 'gemma4' in model.lower() or 'gemma4:26b' in model:
+    if 'gemma4' in model.lower() or 'gemma4:e2b' in model:
         if name not in allowed_names:
             issues.append(f'cron:{name}|model:{model}')
 for i in issues:
@@ -189,7 +189,7 @@ if [ "$FALLBACK_STATUS" = "PASS" ]; then
   echo "  PASS  fallback chain → $FALLBACK_ACTUAL"
 else
   FAIL=$((FAIL + 1))
-  FALLBACK_EXPECTED='["anthropic/claude-opus-4-7","ollama/gemma4:26b"]'
+  FALLBACK_EXPECTED='["anthropic/claude-opus-4-7","ollama/gemma4:e2b"]'
   echo "  FAIL  fallback chain → actual=$FALLBACK_ACTUAL expected=$FALLBACK_EXPECTED [VIOLATION]"
   FINDINGS+=("{\"agentId\":\"default.fallbacks\",\"expected\":$FALLBACK_EXPECTED,\"actual\":$FALLBACK_ACTUAL,\"severity\":\"VIOLATION\",\"note\":\"Fallback chain drift breaks resilient outage handling.\",\"detectedAt\":\"$AEST_TIMESTAMP\"}")
 fi

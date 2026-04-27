@@ -101,7 +101,7 @@ A task is Done when:
 8. Approved by designated approver
 
 ## Model Routing (Cost-Aware)
-- **Default: Gemma4** (`ollama/gemma4:26b`) — free, local, use for all routine tasks
+- **Default: Gemma4** (`ollama/gemma4:e2b) — free, local, use for all routine/delegation tasks (5.1B active params, ~8GB RAM)
 - **Sonnet** (`anthropic/claude-sonnet-4-6`) — complex reasoning, multi-tool, nuanced output
 - **Opus** (`anthropic/claude-opus-4-7`) — high-stakes only: legal, architecture, exec reports
 - Legal Agent always uses Opus. Everything else defaults to Gemma4.

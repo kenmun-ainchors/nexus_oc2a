@@ -1,9 +1,9 @@
 {
   "schema_version": "1.0",
   "description": "Critical configurations that MUST NOT drift. Auto-heal check #12 validates each one nightly. Drift = needs-Ken US filed immediately. Update this baseline ONLY through explicit Ken-approved decision logged in decisions.md.",
-  "lastUpdated": "2026-04-28T07:57:00+10:00",
+  "lastUpdated": "2026-04-28T08:36:00+10:00",
   "lastApprovedBy": "Ken",
-  "lastApprovalContext": "Lex Opus exception removed. Sonnet is now standard across all governance agents.",
+  "lastApprovalContext": "Benchmark 2026-04-28: e2b = 67% pass, 6s avg, ~8GB RAM. e2b replaces 26b as standard Gemma4.",
   "checks": [
     {
       "id": "config-001",
@@ -32,7 +32,7 @@
       "file": "/Users/ainchorsangiefpl/.openclaw/openclaw.json",
       "jq_query": ".agents.defaults.model.fallbacks | tostring",
       "expected_value": "[\"anthropic/claude-opus-4-7\",\"ollama/gemma4:26b\"]",
-      "rationale": "US11 fallback chain. Sonnet \u2192 Opus (high-stakes retry) \u2192 Gemma4 (cost-zero local). Drift here breaks resilient outage handling.",
+      "rationale": "Emergency fallback chain. 26b stays as last-resort offline model \u2014 most capable local option for outage scenarios. Delegation tasks use e2b separately. These are distinct use cases.",
       "fix_command": "edit ~/.openclaw/openclaw.json: agents.defaults.model.fallbacks"
     },
     {

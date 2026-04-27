@@ -35,6 +35,18 @@ This log captures **every change** Yoda makes to AInchors infrastructure, config
 **Linked:** decisions.md 2026-04-27 entries
 ---
 
+## 2026-04-28 08:37 AEST — [CHG-0047] Gemma4 delegation model: gemma4:26b → gemma4:e2b
+**Type:** config
+**Source:** ken-prompt
+**Trigger:** Benchmark 2026-04-28: e2b 67% pass / 6s avg / ~8GB RAM. Ken approved e2b as standard delegation model.
+**What changed:** model-policy.json: e2b = standard delegation model, 26b deprecated for cron use. Cron jobs updated: Midday Cost Tracker + Weekly Asset Review → gemma4:e2b. Both cron prompts prefixed with no-reasoning instruction. gemma4:e4b deleted from Ollama (no benefit over e2b). openclaw.json: e2b registered, e4b removed. SHARED_CONTEXT.md updated. Fallback chain KEEPS 26b (emergency offline path — capability > speed in outage). Warden drift check: 9/9 PASS.
+**Why:** e2b = 34% faster, ~2GB less RAM, same quality on delegation tasks. e4b offered no advantage. 26b retained in fallback chain only — most capable local model for outage resilience.
+**Verification:** Warden model-drift-check.sh → 9/9 PASS. ollama list confirms e4b deleted, e2b present.
+**Rollback:** Restore 26b in cron payloads. ollama pull gemma4:e4b if needed. Update model-policy.json.
+**Linked:** TKT-0013 CHG-0045 CHG-0046
+---
+
+
 ## 2026-04-28 07:58 AEST — [CHG-0046] Lex (legal agent) model Opus → Sonnet
 **Type:** config
 **Source:** ken-prompt
