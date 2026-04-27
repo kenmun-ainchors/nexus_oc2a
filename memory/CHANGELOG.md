@@ -35,6 +35,18 @@ This log captures **every change** Yoda makes to AInchors infrastructure, config
 **Linked:** decisions.md 2026-04-27 entries
 ---
 
+## 2026-04-27 23:02 AEST — [CHG-0042] AInchors Mission Control dashboard — generator script + HTML canvas + 5-min cron
+**Type:** script
+**Source:** ken-prompt
+**Trigger:** Ken request via main agent
+**What changed:** Created generate-mission-control.sh (800 lines), index.html canvas (451 lines), data.json schema. Cron d32f2b9a every 5 min.
+**Why:** Centralised ops visibility — agent status, task pipeline, governance reviews, balance, activity feed
+**Verification:** Script executed OK, HTML+data.json generated and parsed, cron registered (every 5m)
+**Rollback:** Delete canvas/documents/mission-control/, remove cron d32f2b9a
+**Linked:** none
+---
+
+
 ## 2026-04-27 22:48 AEST — [CHG-0041] Governance agents operational setup — Shield, Lex, Sage
 **Type:** agent
 **Source:** ken-prompt
