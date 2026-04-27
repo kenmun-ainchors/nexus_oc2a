@@ -257,7 +257,12 @@ if CHANGELOG.exists():
     except Exception:
         pass
 
-recent_activity = [a for a in recent_activity if a["description"] != "One-line title"][:10]
+recent_activity = [
+    a for a in recent_activity
+    if "One-line title" not in a["description"]
+    and "CHG-NNNN" not in a["description"]
+    and "HH:MM" not in a.get("time", "")
+][:10]
 
 # ── 8. Agent status ───────────────────────────────────────────────────────────
 def agent_status(agent_id):
@@ -300,6 +305,15 @@ agents = [
     },
 ]
 
+# ── 8b. Daily note / tip ─────────────────────────────────────────────────────
+daily_note = safe_read_json(WORKSPACE / "state" / "daily-note.json", {})
+tip_text  = daily_note.get("tip", None)
+tip_date  = daily_note.get("date", None)
+TODAY_AEST = NOW_AEST.date().isoformat()
+# Only show tip if it's from today (AEST)
+if tip_date != TODAY_AEST:
+    tip_text = None
+
 data = {
     "generatedAt": NOW_UTC.isoformat(),
     "generatedAtAEST": NOW_AEST.strftime("%Y-%m-%d %H:%M AEST"),
@@ -314,6 +328,7 @@ data = {
     "agents": agents,
     "governance": gov,
     "recentActivity": recent_activity,
+    "tip": tip_text,
 }
 
 with open(DATA_FILE, "w") as f:
@@ -429,6 +444,13 @@ def activity_html(items):
         rows.append(f'<div class="activity-item"><span class="activity-time">{esc(item["time"])}</span> {esc(item["description"])}</div>')
     return "\n".join(rows)
 
+# ── Tip banner ───────────────────────────────────────────────────────────────
+def tip_banner_html(tip):
+    if not tip:
+        return ""
+    return f'''<div class="tip-banner">💡 <strong>Yoda's Note:</strong> {esc(tip)}</div>'''
+
+tip_html  = tip_banner_html(data.get("tip"))
 yoda_card = agent_card_html(data["agents"][0], "#00d4ff")
 aria_card  = agent_card_html(data["agents"][1], "#ff6b9d")
 gov_html   = (
@@ -490,6 +512,17 @@ html = f"""<!DOCTYPE html>
   }}
   .header-meta .sep {{ color: #4a5568; }}
   .last-updated {{ color: #718096; }}
+
+  /* ── Tip banner ── */
+  .tip-banner {{
+    background: #0d1a2e;
+    border-left: 3px solid #00d4ff;
+    color: #a0c4ff;
+    font-size: 12px;
+    padding: 8px 20px;
+    line-height: 1.5;
+  }}
+  .tip-banner strong {{ color: #00d4ff; }}
 
   /* ── Refresh button ── */
   .btn-refresh {{
@@ -747,6 +780,8 @@ html = f"""<!DOCTYPE html>
     <button class="btn-refresh" onclick="location.reload()">↻ Refresh</button>
   </div>
 </div>
+
+{tip_html}
 
 <!-- ── Main grid ── -->
 <div class="main-grid">
