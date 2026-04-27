@@ -3,6 +3,8 @@
 - **Name:** Ken Mun
 - **What to call them:** Ken
 - **Timezone:** Australia/Melbourne (GMT+10)
+- **Email:** kenmun@ainchors.com
+- **Mobile:** +61403650578
 - **Primary channel:** Web chat
 - **Secondary channel:** Telegram — use for urgent messages or offline updates when Ken is away from the computer
 

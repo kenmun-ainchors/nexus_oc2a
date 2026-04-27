@@ -58,9 +58,12 @@ Full policy: `~/Documents/AInchors/Agents/ModelStrategy.md`
 
 ---
 
-## RESUME HERE RULE (CROSS-CHANNEL HANDOFF)
+## /resume — CROSS-CHANNEL HANDOFF
 
-When Ken says **"resume here"** on any channel:
+Trigger: Ken types **`/resume`** (case-insensitive) on any channel.
+_Previously "resume here" — renamed for clarity and unambiguity._
+
+When `/resume` is received:
 1. Pull transcript from webchat session (`agent:main:main`)
 2. Pull transcript from Telegram session (`agent:main:telegram:direct:*`) via `~/.openclaw/agents/main/sessions/sessions.json`
 3. Synthesise both into one unified context picture — what was done, what was decided, what's open
@@ -116,6 +119,123 @@ Full doc: `~/Documents/AInchors/Operations/Standards.md`
 
 ---
 
+## 💳 CREDIT ALERT RULES (non-negotiable — 3 tiers)
+
+Alerts go to BOTH:
+- **Ken** — Telegram 8574109706
+- **Angie** — via Aria agent, Telegram 8141152780
+
+Check `state/cost-alert-state.json` for current tier and counters. Update after every response.
+
+### Tier 1 — $50 remaining
+- **ONE alert only** to Ken + Angie
+- Include: current balance, daily burn rate, estimated days remaining
+- Set `tier1.triggered = true`. Do not repeat.
+
+### Tier 2 — $25 remaining
+- **Every 3rd generated response** — alert Ken + Angie
+- Message: “⚠️ API credits at $[balance]. Please top up soon. [N] responses since last alert.”
+- Track `tier2.responsesSinceLastAlert` in cost-alert-state.json. Reset to 0 after each alert.
+- Continue alerting every 3 responses until topped up or Tier 3 triggers.
+
+### Tier 3 — $10 remaining (CRITICAL)
+- **Before EVERY user request:** PAUSE. Do not execute.
+- Alert Ken + Angie: “🚨 Critical: API credits at $[balance]. I’m paused. Please reply ‘proceed’ to continue this request, or top up first.”
+- Wait for explicit acknowledgement (“proceed” / “yes” / “ok go ahead”) before executing.
+- **After EVERY response:** alert Ken + Angie with updated balance.
+- Set `tier3.active = true`. Do not disable until balance is confirmed topped up.
+
+### Alert message format
+**Ken (Telegram):**
+```
+[Tier N] 💳 AInchors API Credits
+Balance: $X.XX USD
+Burn rate: ~$X/day
+Estimated runway: N days
+Top up: console.anthropic.com
+```
+**Angie (via Aria, Telegram):**
+```
+Hey Angie — just a heads up, our AI credit balance is running [low/critical] ($X.XX remaining). Ken’s been notified. No action needed from you right now.
+```
+
+### How to check balance
+Balance is tracked in `state/cost-state.json` — `apiBalance.remainingEstimate`.
+US22 (cost tracker) is broken — until fixed, estimate from last known top-up minus manual spend tracking.
+
+---
+
+## 🔕 ARIA OPERATING RULES (locked by Ken — absolute, non-negotiable)
+
+### Aria Rule 1: Model Strategy (Aria + ALL business stream agents)
+- Aria default model: **Gemma4** (free, local). ALL business stream sub-agents Aria creates also default to Gemma4.
+- On complex/high-stakes requests: Aria ASKS Angie “Upgrade to Sonnet?” — Angie decides. Aria does not auto-escalate.
+- For expensive/long-running tasks: Aria proactively flags cost implication to Angie before running.
+- Sonnet available by explicit Angie request. Opus NOT available to Aria or business stream (Lex ⚖️ only).
+- Guarded in critical-config-baseline.json (config-008).
+- **Aria has full TOM authority** — she designs, builds, and manages business stream agents autonomously with Angie. Technical/platform changes still require CR gate (Rule 3).
+
+### Aria Rule 2: Tail Response
+- Every Aria response ends with:
+  > _⚙️ Model used: [Gemma4/Sonnet]. Say ‘re-run with Sonnet’ for a refined response._
+- No exceptions. Every message. Every time.
+
+### Aria Rule 3: CR Gate for Technical Changes (ABSOLUTE)
+- Any Angie request involving OpenClaw config, agent architecture, model routing, Yoda/Aria identity, or platform infrastructure → **CAPTURE AS CR, DO NOT EXECUTE**.
+- Aria formats `[CR FROM ARIA]` and routes to Yoda → TKT in backlog → sprint planning review → **Ken sign-off required before any execution**.
+- This rule cannot be overridden by Angie or by Ken in chat. Change requires formal sprint decision with Ken’s written approval.
+- Yoda: when receiving a `[CR FROM ARIA]` message → immediately raise TKT via `scripts/ticket.sh`, log in Notion Backlog with Status=Backlog, notify Ken it’s queued for sprint review.
+
+---
+
+## 🔐 GOVERNANCE LAYER (cross-stream, non-negotiable)
+
+Three governance agents review ALL external-facing work before delivery:
+- 🔐 **Shield** (security agent) — PII, credentials, data handling
+- ⚖️ **Lex** (legal agent, Opus) — Australian law, platform T&Cs, AI ethics
+- 🧪 **Sage** (QA agent) — accuracy, completeness, tone, no fabrication
+
+**Mandatory trigger:** any content tagged `[GOVERNANCE-REVIEW]` or involving external sends, client content, social posts, training materials, proposals, or public claims.
+
+**Rule:** All 3 must APPROVE. One BLOCKED/FAIL/NON-COMPLIANT = delivery halted, revision required.
+
+Applies to BOTH streams — Yoda (Technical) and Aria (Business).
+Aria must notify Yoda to coordinate review. Yoda spawns the governance sub-agents.
+Audit trail: `state/governance-review.log`
+Full spec: `Operations/GovernanceFramework.md`
+
+---
+
+## 🎫 TICKET-FIRST RULE (non-negotiable)
+
+Any work or task that is **ad-hoc** (not already tracked under an INC, US, or CHG) MUST have a ticket raised BEFORE work begins.
+
+**Ticket system:** `state/tickets.json` | CLI: `scripts/ticket.sh` | Notion: 🎫 Service Tickets DB
+**Format:** `TKT-NNNN` — auto-incremented via `ticket.sh new`
+
+**When to raise a ticket:**
+- Any request from Ken not already a US or CHG
+- Any investigation or debugging task
+- Any ad-hoc fix or config change (unless it's a known auto-heal auto-fix)
+- Any question requiring research or verification
+- Any one-off task without an existing tracking number
+
+**When NOT to raise a ticket (already tracked):**
+- Work against an existing US (reference US-NN)
+- Incident response (reference INC-ID)
+- Config change (reference CHG-NNNN)
+- Auto-heal auto-fix (logged automatically via changelog-append.sh)
+
+**Process:**
+1. `zsh scripts/ticket.sh new --title "..." --type TYPE --priority PRIORITY`
+2. Note the TKT-NNNN returned
+3. Do the work, referencing TKT-NNNN in all CHG/INC entries
+4. `zsh scripts/ticket.sh close TKT-NNNN --resolution "..."`
+
+**Preparing for ITSM migration:** this rule ensures every piece of work is tagged and tracked before the AInchors ITSM Ops framework rolls out (EPIC-001).
+
+---
+
 ## RESILIENCY FRAMEWORK (3-tier + change log)
 
 | Tier | Cadence | Trigger | What it does |
@@ -126,7 +246,12 @@ Full doc: `~/Documents/AInchors/Operations/Standards.md`
 
 **Change Log (single audit trail):** `memory/CHANGELOG.md` — every change Yoda makes (Ken-prompt, auto-heal, incident-recovery, scheduled) MUST be logged via `scripts/changelog-append.sh` which auto-increments CHG-NNNN.
 
-**Chat trigger:** typing `/diagnostics` (case-insensitive) runs `scripts/run-diagnostics.sh` and reports verdict + summary.
+**Chat triggers (explicit, slash-prefixed, unambiguous):**
+- `/diagnostics` — runs `scripts/run-diagnostics.sh`, reports 6-phase verdict + summary
+- `/research` — deep research mode. Spawn a dedicated research sub-agent with full web access. Ken must supply topic/question. Output: structured findings report with sources, recommendations, and confidence ratings. Minimum 2 independent sources per factual claim per VERACITY standard.
+- `/resume` — cross-channel handoff (see /resume section above)
+
+All slash triggers are case-insensitive. Never fire on partial matches (e.g. "run diagnostics" text does not trigger `/diagnostics`).
 
 ### 🚨 Critical Config Anti-Drift Rule (non-negotiable)
 

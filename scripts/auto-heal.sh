@@ -255,6 +255,38 @@ else
   NEEDS_KEN+=("critical-config-baseline.json missing at $BASELINE - anti-drift guard disabled")
 fi
 
+# ---------- CHECK 13: Aria (business agent) health ----------
+log "CHECK 13: Aria business agent health"
+CHECKS_RUN+=("aria_health")
+BUSINESS_WS="$HOME/.openclaw/workspace-business"
+BUSINESS_AUTH="$HOME/.openclaw/agents/business/agent/auth-profiles.json"
+if [[ ! -d "$BUSINESS_WS" ]]; then
+  ISSUES_FOUND+=("aria:workspace-missing")
+  NEEDS_KEN+=("Aria business workspace missing at $BUSINESS_WS")
+else
+  log "  OK aria workspace exists"
+  # Check auth profiles present
+  if [[ ! -f "$BUSINESS_AUTH" ]]; then
+    ISSUES_FOUND+=("aria:auth-missing")
+    # AUTO-FIX: copy auth from main agent
+    cp "$HOME/.openclaw/agents/main/agent/auth-profiles.json" "$BUSINESS_AUTH" 2>/dev/null && {
+      AUTO_FIXED+=("aria-auth-copied-from-main")
+      log "  AUTO-FIX: copied auth-profiles to business agent"
+    } || NEEDS_KEN+=("Aria auth-profiles.json missing and copy failed")
+  else
+    log "  OK aria auth-profiles present"
+  fi
+  # Check git dirty in business workspace
+  if [[ -d "$BUSINESS_WS/.git" ]]; then
+    DIRTY=$(cd "$BUSINESS_WS" && git status --porcelain 2>/dev/null | wc -l | tr -d ' ')
+    if (( DIRTY > 0 )); then
+      cd "$BUSINESS_WS" && git add -A && git commit -m "chore: auto-heal commit ${TODAY}" > /dev/null 2>&1
+      AUTO_FIXED+=("aria-git-commit:${DIRTY}-files")
+      log "  AUTO-FIX: committed $DIRTY files in business workspace"
+    fi
+  fi
+fi
+
 # ---------- WRITE REPORT ----------
 log "=== WRITING REPORT ==="
 

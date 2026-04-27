@@ -28,3 +28,4 @@ _Connected: 2026-04-25 | Integration: AInchors Yoda_
 ## API Notes
 - Use Notion-Version: 2022-06-28 for all operations (2025-09-03 has schema issues)
 - Config: ~/.config/notion/api_key
+| Service Tickets | 34ec182953ff81f3b936f1422f750315 | Ad-hoc tickets (TKT-NNNN) — requests, tasks, questions without INC/US/CHG |

@@ -1,0 +1,235 @@
+{
+  "schema_version": "1.0",
+  "description": "AInchors Service Ticket Log. Every ad-hoc request, task, or action without an existing INC/US/CHG reference MUST have a TKT number before work begins.",
+  "sequence": 13,
+  "tickets": [
+    {
+      "id": "TKT-0001",
+      "title": "ITIL gap analysis + ITSM Ops framework epic planning",
+      "type": "task",
+      "priority": "high",
+      "status": "in-progress",
+      "requester": "Ken",
+      "assignee": "Yoda",
+      "created": "2026-04-27T09:42:00+10:00",
+      "updated": "2026-04-27T09:42:00+10:00",
+      "description": "Review all resiliency/reliability/ops work against ITIL framework. Identify gaps, best practices, recommendations. Plan EPIC-001 AInchors ITSM Ops framework with US breakdown. Create ticketing system. Implement ticket-first rule.",
+      "resolution": null,
+      "linked": {
+        "us": [],
+        "inc": [],
+        "chg": []
+      },
+      "notes": "Ken's request 09:42 AEST 2026-04-27. 5-part directive. Sub-agent running ITIL analysis. Ticket system being built in parallel."
+    },
+    {
+      "id": "TKT-0002",
+      "title": "Fix cost tracker script (US22)",
+      "type": "task",
+      "priority": "high",
+      "status": "closed",
+      "requester": "Ken",
+      "assignee": "Yoda",
+      "created": "2026-04-27T09:44:36+10:00",
+      "updated": "2026-04-27T12:16:48+10:00",
+      "description": "cost-tracker.sh session log parsing broken since Day 2. No accurate daily cost breakdown available.",
+      "resolution": "Cost tracker script was working — issue was stale state from broken session. Script successfully parsed Day 3 data: $38.31 / 273 turns (272 Sonnet + 1 Gemma4). All 3 days now in cost-state.json history.",
+      "linked": {
+        "us": [],
+        "inc": [],
+        "chg": []
+      },
+      "notes": ""
+    },
+    {
+      "id": "TKT-0003",
+      "title": "QW-1: Define SLOs — write Operations/SLOs.md (P1-P4 + 99.5% availability)",
+      "type": "task",
+      "priority": "critical",
+      "status": "open",
+      "requester": "Ken",
+      "assignee": "Yoda",
+      "created": "2026-04-27T09:55:22+10:00",
+      "updated": "2026-04-27T09:55:22+10:00",
+      "description": "ITSM Phase 1 Quick Win. No migration required. <1 day effort. EPIC-001.",
+      "resolution": null,
+      "linked": {
+        "us": [],
+        "inc": [],
+        "chg": []
+      },
+      "notes": ""
+    },
+    {
+      "id": "TKT-0004",
+      "title": "QW-2: Add --severity P1-P4 to incident-log.sh",
+      "type": "task",
+      "priority": "high",
+      "status": "open",
+      "requester": "Ken",
+      "assignee": "Yoda",
+      "created": "2026-04-27T09:55:22+10:00",
+      "updated": "2026-04-27T09:55:22+10:00",
+      "description": "ITSM Phase 1 Quick Win. No migration required. <1 day effort. EPIC-001.",
+      "resolution": null,
+      "linked": {
+        "us": [],
+        "inc": [],
+        "chg": []
+      },
+      "notes": ""
+    },
+    {
+      "id": "TKT-0005",
+      "title": "QW-3: Declare Yoda = Service Desk lead in Standards.md",
+      "type": "task",
+      "priority": "high",
+      "status": "open",
+      "requester": "Ken",
+      "assignee": "Yoda",
+      "created": "2026-04-27T09:55:22+10:00",
+      "updated": "2026-04-27T09:55:22+10:00",
+      "description": "ITSM Phase 1 Quick Win. No migration required. <1 day effort. EPIC-001.",
+      "resolution": null,
+      "linked": {
+        "us": [],
+        "inc": [],
+        "chg": []
+      },
+      "notes": ""
+    },
+    {
+      "id": "TKT-0006",
+      "title": "QW-4: Add uptime logging to health-check.sh (state/uptime-log.json)",
+      "type": "task",
+      "priority": "medium",
+      "status": "open",
+      "requester": "Ken",
+      "assignee": "Yoda",
+      "created": "2026-04-27T09:55:22+10:00",
+      "updated": "2026-04-27T09:55:22+10:00",
+      "description": "ITSM Phase 1 Quick Win. No migration required. <1 day effort. EPIC-001.",
+      "resolution": null,
+      "linked": {
+        "us": [],
+        "inc": [],
+        "chg": []
+      },
+      "notes": ""
+    },
+    {
+      "id": "TKT-0007",
+      "title": "QW-5: Create CI Register Notion DB",
+      "type": "task",
+      "priority": "medium",
+      "status": "open",
+      "requester": "Ken",
+      "assignee": "Yoda",
+      "created": "2026-04-27T09:55:22+10:00",
+      "updated": "2026-04-27T09:55:22+10:00",
+      "description": "ITSM Phase 1 Quick Win. No migration required. <1 day effort. EPIC-001.",
+      "resolution": null,
+      "linked": {
+        "us": [],
+        "inc": [],
+        "chg": []
+      },
+      "notes": ""
+    },
+    {
+      "id": "TKT-0008",
+      "title": "QW-6: Add change type (Std/Normal/Emergency) to pre-risky-op rule + CHG template",
+      "type": "task",
+      "priority": "medium",
+      "status": "open",
+      "requester": "Ken",
+      "assignee": "Yoda",
+      "created": "2026-04-27T09:55:22+10:00",
+      "updated": "2026-04-27T09:55:22+10:00",
+      "description": "ITSM Phase 1 Quick Win. No migration required. <1 day effort. EPIC-001.",
+      "resolution": null,
+      "linked": {
+        "us": [],
+        "inc": [],
+        "chg": []
+      },
+      "notes": ""
+    },
+    {
+      "id": "TKT-0009",
+      "title": "QW-7: Tag all 13 Operations docs with ITIL practice header",
+      "type": "task",
+      "priority": "low",
+      "status": "open",
+      "requester": "Ken",
+      "assignee": "Yoda",
+      "created": "2026-04-27T09:55:22+10:00",
+      "updated": "2026-04-27T09:55:22+10:00",
+      "description": "ITSM Phase 1 Quick Win. No migration required. <1 day effort. EPIC-001.",
+      "resolution": null,
+      "linked": {
+        "us": [],
+        "inc": [],
+        "chg": []
+      },
+      "notes": ""
+    },
+    {
+      "id": "TKT-0010",
+      "title": "QW-8: File PRB-001 — first Problem record from incident history",
+      "type": "task",
+      "priority": "medium",
+      "status": "open",
+      "requester": "Ken",
+      "assignee": "Yoda",
+      "created": "2026-04-27T09:55:22+10:00",
+      "updated": "2026-04-27T09:55:22+10:00",
+      "description": "ITSM Phase 1 Quick Win. No migration required. <1 day effort. EPIC-001.",
+      "resolution": null,
+      "linked": {
+        "us": [],
+        "inc": [],
+        "chg": []
+      },
+      "notes": ""
+    },
+    {
+      "id": "TKT-0011",
+      "title": "Business Stream Lead Agent setup — OC2 precursor (Angie direct access)",
+      "type": "task",
+      "priority": "critical",
+      "status": "open",
+      "requester": "Ken",
+      "assignee": "Yoda",
+      "created": "2026-04-27T10:02:37+10:00",
+      "updated": "2026-04-27T10:02:37+10:00",
+      "description": "Create Business Lead Agent as OC2 precursor. Angie accesses directly and remotely. Works with her on business stream development independently.",
+      "resolution": null,
+      "linked": {
+        "us": [],
+        "inc": [],
+        "chg": []
+      },
+      "notes": ""
+    },
+    {
+      "id": "TKT-0012",
+      "title": "Governance layer: Security + Legal + QA agents — operational for Aria/Angie work",
+      "type": "task",
+      "priority": "critical",
+      "status": "open",
+      "requester": "Ken",
+      "assignee": "Yoda",
+      "created": "2026-04-27T11:20:51+10:00",
+      "updated": "2026-04-27T11:20:51+10:00",
+      "description": "Stand up 3 cross-stream governance agents (Security 🔐, Legal ⚖️, QA 🧪). All Aria external-facing work routes through governance before execution. Immediate priority — Angie is active on Aria now.",
+      "resolution": null,
+      "linked": {
+        "us": [],
+        "inc": [],
+        "chg": []
+      },
+      "notes": ""
+    }
+  ]
+}

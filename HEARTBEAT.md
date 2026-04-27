@@ -14,12 +14,14 @@
 - Alert Ken if event starts in < 30 minutes with no prior notice
 - State key: lastChecks.calendar
 
-### API Balance (check every 30 min)
+### API Balance — 3-Tier Alert System (check every 30 min)
 - Read state/cost-state.json → apiBalance.remainingEstimate
-- If remaining <= $5.00 (10%): alert Ken via Telegram EVERY heartbeat — "🚨 API balance critically low: $X.XX remaining. Please top up."
-- If remaining <= $12.51 (25%) and alert not yet sent: alert Ken once via Telegram — "⚠️ API balance at 75% consumed: $X.XX remaining (~N days at current burn rate)."
-- Include daily burn rate and days remaining estimate in alert
-- State key: spendAlerts in cost-state.json
+- Read state/cost-alert-state.json → activeTier, tier states
+- **Tier 1 ($50):** If balance <= $50 AND tier1.triggered=false → alert Ken (8574109706) + Angie via Aria (8141152780) ONCE. Set triggered=true.
+- **Tier 2 ($25):** If balance <= $25 → set activeTier=2. Alert Ken + Angie every 3rd response (tracked in cost-alert-state.json).
+- **Tier 3 ($10):** If balance <= $10 → set activeTier=3, tier3.active=true. PAUSE before every request. Alert Ken + Angie. Require explicit acknowledgement before proceeding.
+- Alert format and message templates in RULES.md Credit Alert Rules section.
+- State key: cost-alert-state.json
 
 ### Async Task Watchdog (check every 30 min)
 - Run `scripts/task-watchdog.sh`

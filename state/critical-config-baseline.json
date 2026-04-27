@@ -1,9 +1,9 @@
 {
   "schema_version": "1.0",
   "description": "Critical configurations that MUST NOT drift. Auto-heal check #12 validates each one nightly. Drift = needs-Ken US filed immediately. Update this baseline ONLY through explicit Ken-approved decision logged in decisions.md.",
-  "lastUpdated": "2026-04-27T07:36:00+10:00",
+  "lastUpdated": "2026-04-27T11:33:00+10:00",
   "lastApprovedBy": "Ken",
-  "lastApprovalContext": "US11 model strategy + post-drift incident 2026-04-27 07:32 AEST",
+  "lastApprovalContext": "Ken locked Aria model rules 2026-04-27 11:33 AEST",
   "checks": [
     {
       "id": "config-001",
@@ -32,7 +32,7 @@
       "file": "/Users/ainchorsangiefpl/.openclaw/openclaw.json",
       "jq_query": ".agents.defaults.model.fallbacks | tostring",
       "expected_value": "[\"anthropic/claude-opus-4-7\",\"ollama/gemma4:26b\"]",
-      "rationale": "US11 fallback chain. Sonnet → Opus (high-stakes retry) → Gemma4 (cost-zero local). Drift here breaks resilient outage handling.",
+      "rationale": "US11 fallback chain. Sonnet \u2192 Opus (high-stakes retry) \u2192 Gemma4 (cost-zero local). Drift here breaks resilient outage handling.",
       "fix_command": "edit ~/.openclaw/openclaw.json: agents.defaults.model.fallbacks"
     },
     {
@@ -74,6 +74,16 @@
       "expected_value": "/Users/ainchorsangiefpl/.openclaw/workspace",
       "rationale": "Drift here breaks all relative-path scripts and memory recall.",
       "fix_command": "edit ~/.openclaw/openclaw.json: agents.defaults.workspace"
+    },
+    {
+      "id": "config-008",
+      "name": "Aria (business agent) default model is Gemma4",
+      "severity": "critical",
+      "file": "/Users/ainchorsangiefpl/.openclaw/openclaw.json",
+      "jq_query": ".agents.list[] | select(.id==\"business\") | .model",
+      "expected_value": "ollama/gemma4:26b",
+      "rationale": "Aria Rule 1 (locked by Ken 2026-04-27): Gemma4 is Aria default. Cost-free for Angie business stream. Drift to Sonnet/Opus = unnecessary cost. Angie must explicitly approve upgrades.",
+      "fix_command": "edit openclaw.json: agents.list[id=business].model = ollama/gemma4:26b"
     }
   ]
 }

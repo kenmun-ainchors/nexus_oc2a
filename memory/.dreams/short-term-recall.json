@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "updatedAt": "2026-04-26T09:32:16.613Z",
+  "updatedAt": "2026-04-26T22:00:43.034Z",
   "entries": {
     "memory:memory/2026-04-26.md:94:122": {
       "key": "memory:memory/2026-04-26.md:94:122",
@@ -63,6 +63,100 @@
         "25.75",
         "scripts",
         "cost"
+      ]
+    },
+    "memory:memory/2026-04-26.md:397:409": {
+      "key": "memory:memory/2026-04-26.md:397:409",
+      "path": "memory/2026-04-26.md",
+      "startLine": 397,
+      "endLine": 409,
+      "source": "memory",
+      "snippet": "- \"you've lost all the context of the work we've done today? we did a lot before we started on the Claude upgrade in sprint 2\" - \"yes, that's the one. new rule. next time before we trigger any changes that risks breaking openclaw, I want you to first lock everything we've done up to that point into persistent storage.\" - \"amazing progress and work done for today\" - \"I'm very worried now with the stability of your system. am losing time, don't have a clue what I can do but wait - and worry if you'd come back online or fully broken this time.\" - \"ok, thanks for the confidence.\" - \"as we're only in day 2 and SOUL.md is already at almost 7k chars with a limit of 12k, is there risk of this exceed",
+      "recallCount": 2,
+      "dailyCount": 0,
+      "groundedCount": 0,
+      "totalScore": 0.8147176831960679,
+      "maxScore": 0.41760026216506957,
+      "firstRecalledAt": "2026-04-26T21:40:39.525Z",
+      "lastRecalledAt": "2026-04-26T22:00:43.034Z",
+      "queryHashes": [
+        "f2b77b60492e",
+        "40c172efdae9"
+      ],
+      "recallDays": [
+        "2026-04-27"
+      ],
+      "conceptTags": [
+        "soul.md",
+        "you've",
+        "lost",
+        "all",
+        "context",
+        "we've",
+        "done",
+        "did"
+      ]
+    },
+    "memory:memory/2026-04-26.md:371:399": {
+      "key": "memory:memory/2026-04-26.md:371:399",
+      "path": "memory/2026-04-26.md",
+      "startLine": 371,
+      "endLine": 399,
+      "source": "memory",
+      "snippet": "- Detailed procedures → Operations/*.md docs (already there) - Future: create RULES.md for operational rules that don't need every-turn loading - Target: keep SOUL.md under 6k permanently - Ken approved approach: create RULES.md + refactor SOUL.md to pure one-liners (deferred to next session) ## Cost — Day 2 - Day 2 cost: $37.15 USD (499 turns, Sonnet primary) - Day 1 cost: $25.75 USD (416 turns) - All-time: $62.90 USD - ⚠️ API balance at $7.31 USD at end of day — Ken needs to top up before Day 3 - Cost tracker script broken (not parsing sessions correctly) → US22 ## Key New Files Created Today - scripts/pvt.sh (PVT — 9/9 checks) - scripts/pre-restart-cleanup.sh (pre-restart safety) - scri",
+      "recallCount": 1,
+      "dailyCount": 0,
+      "groundedCount": 0,
+      "totalScore": 0.39240315258502956,
+      "maxScore": 0.39240315258502956,
+      "firstRecalledAt": "2026-04-26T22:00:43.034Z",
+      "lastRecalledAt": "2026-04-26T22:00:43.034Z",
+      "queryHashes": [
+        "40c172efdae9"
+      ],
+      "recallDays": [
+        "2026-04-27"
+      ],
+      "conceptTags": [
+        "rules.md",
+        "every-turn",
+        "soul.md",
+        "one-liners",
+        "37.15",
+        "25.75",
+        "all-time",
+        "62.90"
+      ]
+    },
+    "memory:memory/2026-04-26.md:89:123": {
+      "key": "memory:memory/2026-04-26.md:89:123",
+      "path": "memory/2026-04-26.md",
+      "startLine": 89,
+      "endLine": 123,
+      "source": "memory",
+      "snippet": "- TOM = Target Operating Model (Ken's term for agent team roster, approved 2026-04-26) ## Deferred Items (with reminders) - GitHub CLI auth: reminder 28 Apr - Gmail/gog OAuth: reminder 2 May - Google Cloud OAuth setup walkthrough: reminder 2 May ## Open Risks - Backup on same disk as live data (no offsite yet — Phase 4) - Secrets in plaintext config files (fix before Phase 2 — 1Password CLI) - Social media API approvals not started (Meta + LinkedIn — can take 2-6 weeks) - Angie has no system access (resolve before Phase 3) - Data residency / privacy policy not documented (before first client) - Tailscale not set up (Phase 3 now) ## Key File Locations - Workspace: ~/.openclaw/workspace/ -",
+      "recallCount": 1,
+      "dailyCount": 0,
+      "groundedCount": 0,
+      "totalScore": 0.39124138951301574,
+      "maxScore": 0.39124138951301574,
+      "firstRecalledAt": "2026-04-26T22:00:43.034Z",
+      "lastRecalledAt": "2026-04-26T22:00:43.034Z",
+      "queryHashes": [
+        "40c172efdae9"
+      ],
+      "recallDays": [
+        "2026-04-27"
+      ],
+      "conceptTags": [
+        "backup",
+        "gmail/gog",
+        "2-6",
+        "openclaw/workspace",
+        "tom",
+        "target",
+        "operating",
+        "model"
       ]
     }
   }

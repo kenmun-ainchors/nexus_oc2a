@@ -1,5 +1,5 @@
 {
-  "lastUpdated": "2026-04-26T11:57:07Z",
+  "lastUpdated": "2026-04-27T02:16:06Z",
   "history": {
     "2026-04-25": {
       "date": "2026-04-25",
@@ -38,33 +38,86 @@
           "turns": 499
         }
       }
+    },
+    "2026-04-27": {
+      "date": "2026-04-27",
+      "totalCost": 38.3121,
+      "totalTurns": 273,
+      "totalInputTokens": 384,
+      "totalOutputTokens": 144639,
+      "totalCacheReadTokens": 35866196,
+      "totalCacheWriteTokens": 6768401,
+      "byModel": {
+        "claude-sonnet-4-6": {
+          "input": 384,
+          "output": 144639,
+          "cacheRead": 35866196,
+          "cacheWrite": 6768401,
+          "cost": 38.3121,
+          "turns": 272
+        },
+        "gemma4:26b": {
+          "input": 0,
+          "output": 0,
+          "cacheRead": 0,
+          "cacheWrite": 0,
+          "cost": 0.0,
+          "turns": 1
+        }
+      }
     }
   },
-  "allTimeTotalCost": 62.8949,
-  "daysTracked": 2,
-  "avgDailyCost": 31.4474,
+  "allTimeTotalCost": 101.207,
+  "daysTracked": 3,
+  "avgDailyCost": 33.7357,
   "apiBalance": {
     "currency": "USD",
-    "balance": 47.59,
-    "topUpDate": "2026-04-26",
-    "spentSinceTopUp": 0,
-    "remainingEstimate": 47.59,
-    "note": "Ken topped up overnight 2026-04-26 to 2026-04-27. Balance confirmed by Ken at 06:28 AEST 2026-04-27 = $47.59 USD. Spend tracking reset for new top-up cycle."
+    "balance": 107.06,
+    "topUpDate": "2026-04-27",
+    "spentSinceTopUp": 38.3121,
+    "remainingEstimate": 68.7479,
+    "note": "Ken topped up 2026-04-27 ~11:24 AEST. Balance confirmed $107.06 USD. Previous cycle exhausted from heavy Day 3 morning session (Opus drift + governance build)."
   },
   "spendAlerts": {
-    "alert75pct": {
-      "threshold": 11.90,
-      "description": "75% consumed \u2014 25% ($11.90) remaining",
-      "action": "Notify Ken via Telegram. Include daily burn rate and estimated days remaining.",
-      "triggered": false
+    "tier1": {
+      "threshold": 50.0,
+      "label": "Tier 1 \u2014 $50 remaining",
+      "action": "Send ONE alert to Ken (Telegram 8574109706) AND Angie via Aria (Telegram 8141152780). Include balance, daily burn rate, days remaining estimate.",
+      "frequency": "once",
+      "triggered": false,
+      "triggeredAt": null
     },
-    "alert10pct": {
-      "threshold": 4.76,
-      "description": "10% remaining \u2014 critical low balance",
-      "action": "Alert Ken via Telegram every heartbeat until topped up. Recommend immediate top-up.",
-      "triggered": false
+    "tier2": {
+      "threshold": 25.0,
+      "label": "Tier 2 \u2014 $25 remaining",
+      "action": "Alert Ken AND Angie via Aria on every 3rd generated response. Include current balance and a reminder to top up. Track response count in cost-alert-state.json.",
+      "frequency": "every-3rd-response",
+      "responseCounter": 0,
+      "triggered": false,
+      "triggeredAt": null
+    },
+    "tier3": {
+      "threshold": 10.0,
+      "label": "Tier 3 \u2014 $10 remaining \u2014 CRITICAL",
+      "action": "Before executing ANY user request: PAUSE. Alert Ken AND Angie via Aria. State current balance. Request explicit acknowledgement ('yes proceed' or 'ok') before continuing. After every response: alert both with updated balance.",
+      "frequency": "every-request-and-response",
+      "triggered": false,
+      "triggeredAt": null
+    },
+    "recipients": {
+      "ken": {
+        "channel": "telegram",
+        "id": "8574109706",
+        "name": "Ken"
+      },
+      "angie": {
+        "channel": "telegram",
+        "id": "8141152780",
+        "name": "Angie",
+        "via": "Aria"
+      }
     },
     "status": "monitoring",
-    "note": "Thresholds based on $47.59 top-up (2026-04-27). Reset on each new top-up."
+    "note": "3-tier alert system. Thresholds based on $107.06 balance. Both Ken and Angie alerted. Angie alert routed via Aria agent. Set by Ken 2026-04-27 12:14 AEST."
   }
 }

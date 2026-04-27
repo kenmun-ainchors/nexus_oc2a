@@ -14,8 +14,8 @@ _Shared by all agents. Keep this current._
 3. Building AI solutions (custom products)
 
 ## People
-- **Ken Mun** — Co-founder, CTO | kenmun@ainchors.com
-- **Angie Foong** — Co-founder, CEO
+- **Ken Mun** — Co-founder, CTO | kenmun@ainchors.com | +61403650578
+- **Angie Foong** — Co-founder, CEO | angie.foong@ainchors.com | +61430928371
 - General inbox: info@ainchors.com
 - Accounts: accounts@ainchors.com
 

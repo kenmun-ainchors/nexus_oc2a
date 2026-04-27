@@ -122,6 +122,80 @@ check_state_age() {
 check_state_age "$STATE_FILE" "health-state"
 check_state_age "$COST_STATE" "cost-state"
 
+# ── CHECK 13: Anthropic API reachability ────────────────────────────────────
+ANTHROPIC_KEY=$(security find-generic-password -s "anthropic-api-key" -w 2>/dev/null || echo "")
+if [[ -n "$ANTHROPIC_KEY" && ${#ANTHROPIC_KEY} -gt 20 ]]; then
+  ANTHROPIC_HTTP=$(curl -s -o /dev/null -w "%{http_code}" \
+    --connect-timeout 8 \
+    -H "x-api-key: $ANTHROPIC_KEY" \
+    -H "anthropic-version: 2023-06-01" \
+    "https://api.anthropic.com/v1/models" 2>/dev/null)
+  if [[ "$ANTHROPIC_HTTP" == "200" ]]; then
+    CHECK_RESULTS[anthropic]="ok"
+    ANTHROPIC_REACHABLE=true
+    log "CHECK anthropic: OK (HTTP $ANTHROPIC_HTTP)"
+  else
+    CHECK_RESULTS[anthropic]="failure"
+    ANTHROPIC_REACHABLE=false
+    [[ "$OVERALL_STATUS" == "ok" ]] && OVERALL_STATUS="degraded"
+    ISSUES+=("Anthropic API unreachable (HTTP $ANTHROPIC_HTTP) — billing or auth failure")
+    log "CHECK anthropic: FAIL (HTTP $ANTHROPIC_HTTP) — billing or auth failure"
+  fi
+else
+  CHECK_RESULTS[anthropic]="no-key"
+  ANTHROPIC_REACHABLE=false
+  [[ "$OVERALL_STATUS" == "ok" ]] && OVERALL_STATUS="degraded"
+  ISSUES+=("Anthropic API key missing from keychain")
+  log "CHECK anthropic: FAIL (key not in keychain)"
+fi
+
+# ── CHECK 14: Ollama API reachability ────────────────────────────────────────
+OLLAMA_HTTP=$(curl -s -o /dev/null -w "%{http_code}" \
+  --connect-timeout 5 \
+  "http://localhost:11434/api/tags" 2>/dev/null)
+if [[ "$OLLAMA_HTTP" == "200" ]]; then
+  CHECK_RESULTS[ollamaApi]="ok"
+  OLLAMA_API_REACHABLE=true
+  log "CHECK ollamaApi: OK (HTTP $OLLAMA_HTTP)"
+else
+  CHECK_RESULTS[ollamaApi]="failure"
+  OLLAMA_API_REACHABLE=false
+  [[ "$OVERALL_STATUS" == "ok" ]] && OVERALL_STATUS="degraded"
+  ISSUES+=("Ollama API unreachable (HTTP $OLLAMA_HTTP)")
+  log "CHECK ollamaApi: FAIL (HTTP $OLLAMA_HTTP)"
+fi
+
+# ── CHECK 15: Gemma4 standby mode management ─────────────────────────────────
+STANDBY_FILE="$HOME/.openclaw/workspace/state/standby-mode.json"
+if [[ "$ANTHROPIC_REACHABLE" == "false" ]]; then
+  # Anthropic down — activate standby if not already active
+  SINCE_TS=$(date -u +%Y-%m-%dT%H:%M:%SZ)
+  if [[ -f "$STANDBY_FILE" ]]; then
+    # Already in standby — preserve original 'since' timestamp
+    SINCE_TS=$(python3 -c "import json; d=json.load(open('$STANDBY_FILE')); print(d.get('since','$SINCE_TS'))" 2>/dev/null || echo "$SINCE_TS")
+  fi
+  python3 - << PYEOF2
+import json
+state = {
+  "active": True,
+  "reason": "Anthropic API unreachable",
+  "since": "$SINCE_TS",
+  "fallback": "gemma4"
+}
+json.dump(state, open("$STANDBY_FILE", "w"), indent=2)
+print("Standby mode ACTIVATED — fallback: gemma4")
+PYEOF2
+  log "CHECK standby: ACTIVATED — Anthropic down, fallback=gemma4"
+else
+  # Anthropic OK — clear standby if it was set
+  if [[ -f "$STANDBY_FILE" ]]; then
+    rm -f "$STANDBY_FILE"
+    log "CHECK standby: CLEARED — Anthropic recovered, standby mode removed"
+  else
+    log "CHECK standby: OK (not in standby)"
+  fi
+fi
+
 # ── CHECK 5: Stale lock files — clear if >LOCK_STALE_MIN old ─────────────────
 LOCK_CLEARED=0
 LOCK_FOUND=0
@@ -174,10 +248,14 @@ state = {
   "alerted": $([[ "$ALERTED" == "true" ]] && echo 'True' || echo 'False'),
   "lastCheck": "$(date -u +%Y-%m-%dT%H:%M:%SZ)",
   "issues": $(python3 -c "import json; print(json.dumps(${ISSUES[@]}))" 2>/dev/null || echo '[]'),
+  "anthropicReachable": False,
+  "ollamaReachable": False,
   "checks": {
     "gateway": "critical",
     "ollama": "${CHECK_RESULTS[ollama]:-unknown}",
-    "disk": "${CHECK_RESULTS[disk]:-unknown}"
+    "disk": "${CHECK_RESULTS[disk]:-unknown}",
+    "anthropicApi": "unknown",
+    "ollamaApi": "unknown"
   }
 }
 json.dump(state, open("$STATE_FILE", "w"), indent=2)
@@ -221,13 +299,17 @@ state = {
   "lastOk": "$(date -u +%Y-%m-%dT%H:%M:%SZ)",
   "exitCode": $EXIT_CODE,
   "issues": $ISSUES_JSON,
+  "anthropicReachable": ${ANTHROPIC_REACHABLE:-false},
+  "ollamaReachable": ${OLLAMA_API_REACHABLE:-false},
   "checks": {
     "gateway": "${CHECK_RESULTS[gateway]:-unknown}",
     "ollama": "${CHECK_RESULTS[ollama]:-unknown}",
     "disk": "${CHECK_RESULTS[disk]:-unknown}",
     "healthStateAge": "${CHECK_RESULTS[health-state]:-ok}",
     "costStateAge": "${CHECK_RESULTS[cost-state]:-ok}",
-    "staleLockFilesCleared": $LOCK_CLEARED
+    "staleLockFilesCleared": $LOCK_CLEARED,
+    "anthropicApi": "${CHECK_RESULTS[anthropic]:-unknown}",
+    "ollamaApi": "${CHECK_RESULTS[ollamaApi]:-unknown}"
   }
 }
 json.dump(state, open("$STATE_FILE", "w"), indent=2)

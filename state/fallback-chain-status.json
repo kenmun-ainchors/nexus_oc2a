@@ -1,0 +1,19 @@
+{
+  "checkedAt": "2026-04-27T02:30:40Z",
+  "overall": "ok",
+  "chain": [
+    "anthropic/claude-sonnet-4-6",
+    "anthropic/claude-opus-4-7",
+    "ollama/gemma4:26b"
+  ],
+  "checks": [
+    "anthropicKey:ok",
+    "anthropicApi:ok",
+    "ollamaRunning:ok",
+    "gemma4Loaded:ok",
+    "gemma4Warm:ok",
+    "fallbackChainConfig:ok"
+  ],
+  "broken": [],
+  "brokenCount": 0
+}

@@ -44,3 +44,15 @@ Gemma4 (Ollama) = $0.00 always (local). Cloud costs = Anthropic API.
 | 2026-04-25 | $25.75 | 416 | $0.062 |
 | 2026-04-26 | $37.15 | 499 | $0.074 |
 | **Total** | **$62.89** | **915** | **$0.069 avg** |
+
+## 2026-04-27
+
+| Metric | Value |
+|--------|-------|
+| Total Cost | $0.0000 |
+| Turns | 0 |
+| Input Tokens | 0 |
+| Output Tokens | 0 |
+| Cache Read | 0 |
+
+### By Model

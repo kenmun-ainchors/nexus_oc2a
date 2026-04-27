@@ -104,7 +104,9 @@ if os.path.exists(state_file):
 
 if "history" not in state:
     state["history"] = {}
-state["history"][date] = day_summary
+# Only write day summary if there were actual turns (avoid polluting averages with empty days)
+if total_turns > 0:
+    state["history"][date] = day_summary
 state["lastUpdated"] = datetime.utcnow().strftime("%Y-%m-%dT%H:%M:%SZ")
 
 # Running totals
@@ -160,10 +162,10 @@ alert_10 = alerts.get('alert10pct', {})
 
 if remaining <= alert_10.get('threshold', 5.0) and not alert_10.get('triggered'):
     alerts['alert10pct']['triggered'] = True
-    print(f"ALERT_CRITICAL: Balance at 10% or below. Remaining: ${remaining:.2f}")
+    print(f"ALERT_CRITICAL: Balance at 10% or below. Remaining: \${remaining:.2f}")
 elif remaining <= alert_75.get('threshold', 12.51) and not alert_75.get('triggered'):
     alerts['alert75pct']['triggered'] = True
-    print(f"ALERT_75PCT: 75% of balance consumed. Remaining: ${remaining:.2f}")
+    print(f"ALERT_75PCT: 75% of balance consumed. Remaining: \${remaining:.2f}")
 
 state['spendAlerts'] = alerts
 # Safe atomic write
@@ -183,10 +185,10 @@ except Exception as _e:
 
 # Print summary
 print(f"Date: {date}")
-print(f"Total cost today: ${total_cost:.4f}")
+print(f"Total cost today: \${total_cost:.4f}")
 print(f"Total turns: {total_turns}")
-print(f"Balance remaining: ${remaining:.2f} USD")
-print(f"All-time total: ${state['allTimeTotalCost']:.4f} over {state['daysTracked']} day(s)")
+print(f"Balance remaining: \${remaining:.2f} USD")
+print(f"All-time total: \${state['allTimeTotalCost']:.4f} over {state['daysTracked']} day(s)")
 for model, d in sorted(by_model.items(), key=lambda x: -x[1]["cost"]):
-    print(f"  {model}: {d['turns']} turns | ${d['cost']:.4f}")
+    print(f"  {model}: {d['turns']} turns | \${d['cost']:.4f}")
 PYEOF

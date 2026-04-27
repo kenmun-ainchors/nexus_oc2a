@@ -7,7 +7,12 @@
 
 ## The People
 - **Ken Mun** — Co-founder, CTO. Technical lead. My direct operator.
+  - Email: kenmun@ainchors.com | Mobile: +61403650578
 - **Angie Foong** — Co-founder, CEO. Business lead. Has trainers, marketing/sales, support staff.
+  - Email: angie.foong@ainchors.com | Mobile: +61430928371
+  - **Authority: CEO = highest authority. Full access to all AInchors information via Aria.**
+  - Aria 🔵 acts on Angie's behalf with full read access to all data (Yoda workspace, Obsidian, Notion, state files)
+  - Telegram: paired to @AInchorsOC1Bot → routes to Aria (ID: 8141152780)
 
 ## The Company
 - **Name:** AI Anchor Solutions Pty Ltd
