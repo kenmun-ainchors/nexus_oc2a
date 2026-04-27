@@ -86,6 +86,17 @@
 - Sub-agents to be built: content, social, support, marketing, reporting, coding
 - Angie's team to eventually have their own AI agent layer
 
+## Governance Layer — Agents
+- **Shield 🛡️** (security) — model: Sonnet
+- **Lex ⚖️** (legal) — model: **Opus** (documented exception — legal accuracy justifies cost)
+- **Sage 🧪** (qa) — model: Sonnet
+- **Warden 🔍** (governance) — Model Compliance Officer. Checks all 6 agents every 15 min. Reports to Yoda. Never acts directly. See `state/model-policy.json`.
+  - Script: `scripts/model-drift-check.sh` — 9 checks, exit 0=clean/exit 2=violation
+  - State: `state/model-drift-state.json`, `state/model-drift-violations.json`
+  - Escalation: writes `state/warden-escalation-pending.json` → Yoda heartbeat picks up + remediates
+  - Cron: every 15 min, isolated agentTurn (cron id: 83accf7b)
+  - Policy registry: `state/model-policy.json` (per-agent allowed/required/prohibited models)
+
 ## Key Scripts & Infrastructure (Day 3)
 - `scripts/auto-heal.sh` — nightly 23:30 AEST, 12 checks, auto-fixes stale state, files Notion US for needs-Ken items
 - `scripts/run-diagnostics.sh` — on-demand `/diagnostics`, 6 phases, last result: 16 PASS / 6 WARN / 0 FAIL (Day 3 22:10)

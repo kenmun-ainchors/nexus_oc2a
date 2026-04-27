@@ -35,6 +35,16 @@
 - Read state/agent-status.json — any agents in failed state?
 - Alert if anything is degraded
 
+### Warden Escalations (check every 30 min)
+- Check if state/warden-escalation-pending.json exists
+- If it exists AND status = 'pending-yoda-action':
+  - Read it immediately
+  - Apply the recommended fix for each violation (edit openclaw.json, correct model)
+  - Log a CHG entry for each remediation
+  - Update warden-escalation-pending.json status to 'resolved-by-yoda'
+  - Alert Ken via Telegram with: what drifted, what was fixed, CHG reference
+  - State key: wardenEscalation
+
 ### Memory Maintenance (once per day, during low-traffic hours)
 - Review recent memory/YYYY-MM-DD.md files
 - Update MEMORY.md with anything significant

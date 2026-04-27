@@ -1,7 +1,7 @@
 {
   "schema_version": "1.0",
   "description": "AInchors Service Ticket Log. Every ad-hoc request, task, or action without an existing INC/US/CHG reference MUST have a TKT number before work begins.",
-  "sequence": 13,
+  "sequence": 14,
   "tickets": [
     {
       "id": "TKT-0001",
@@ -230,6 +230,25 @@
         "chg": []
       },
       "notes": ""
+    },
+    {
+      "id": "TKT-0013",
+      "title": "Warden agent — model governance and compliance",
+      "type": "task",
+      "priority": "high",
+      "status": "resolved",
+      "requester": "Ken",
+      "assignee": "Yoda",
+      "created": "2026-04-28T07:51:13+10:00",
+      "updated": "2026-04-28T07:55:00+10:00",
+      "description": "Build Warden 🔍 as dedicated model compliance agent in governance layer. Monitors all agents (technical + business streams) for model drift, validates against critical-config-baseline, maintains audit log, escalates violations to Yoda for remediation.",
+      "resolution": null,
+      "linked": {
+        "us": [],
+        "inc": [],
+        "chg": []
+      },
+      "notes": "CHG-0045"
     }
   ]
 }

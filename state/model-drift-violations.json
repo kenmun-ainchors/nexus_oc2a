@@ -1,0 +1,23 @@
+{
+  "violations": [
+    {
+      "agentId": "default.fallbacks",
+      "expected": [
+        "anthropic/claude-opus-4-7",
+        "ollama/gemma4:26b"
+      ],
+      "actual": [
+        "anthropic/claude-opus-4-7",
+        "ollama/gemma4:26b"
+      ],
+      "severity": "VIOLATION",
+      "note": "Fallback chain drift breaks resilient outage handling.",
+      "detectedAt": "2026-04-28T07:53:06+10:00",
+      "id": "DRIFT-20260427215306-default_fallbacks",
+      "status": "unresolved",
+      "escalatedToYoda": false
+    }
+  ],
+  "totalUnresolved": 1,
+  "lastUpdated": "2026-04-28T07:53:06+10:00"
+}

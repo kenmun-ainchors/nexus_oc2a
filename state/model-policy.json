@@ -1,0 +1,118 @@
+{
+  "schema_version": "1.0",
+  "description": "Authoritative model policy for all AInchors agents. Warden enforces this. Changes require Ken approval + CHG entry + baseline update.",
+  "lastUpdated": "2026-04-28T07:50:00+10:00",
+  "lastApprovedBy": "Ken",
+  "approvalContext": "Initial policy capture. TKT-0013. All known exceptions documented.",
+
+  "globalAllowedModels": [
+    "anthropic/claude-sonnet-4-6",
+    "anthropic/claude-opus-4-7",
+    "ollama/gemma4:26b"
+  ],
+
+  "globalProhibitedInInteractive": [
+    "ollama/gemma4:26b"
+  ],
+
+  "agents": {
+    "main": {
+      "description": "Yoda — Technical Lead Agent",
+      "requiredModel": "anthropic/claude-sonnet-4-6",
+      "allowedModels": ["anthropic/claude-sonnet-4-6"],
+      "escalationModel": "anthropic/claude-opus-4-7",
+      "escalationRule": "High-stakes tasks or 2x failure only. Ken must approve or task must qualify per RULES.md.",
+      "prohibitedModels": ["ollama/gemma4:26b"],
+      "prohibitedInCrons": [],
+      "allowedInCrons": ["anthropic/claude-sonnet-4-6", "ollama/gemma4:26b"],
+      "rationale": "US11 model strategy. Sonnet is default. Opus only for escalation. Gemma4 for background crons only.",
+      "configPath": "/Users/ainchorsangiefpl/.openclaw/openclaw.json",
+      "configJqQuery": ".agents.list[] | select(.id==\"main\") | .model"
+    },
+    "business": {
+      "description": "Aria — Business Lead Agent",
+      "requiredModel": "anthropic/claude-sonnet-4-6",
+      "allowedModels": ["anthropic/claude-sonnet-4-6"],
+      "escalationModel": null,
+      "escalationRule": "No Opus. Aria never escalates to Opus — cost control for business stream.",
+      "prohibitedModels": ["anthropic/claude-opus-4-7", "ollama/gemma4:26b"],
+      "prohibitedInCrons": ["ollama/gemma4:26b"],
+      "allowedInCrons": ["anthropic/claude-sonnet-4-6"],
+      "rationale": "CHG-0037 + Option C decision 2026-04-27 21:18 AEST. Gemma4 cold-load caused 30-60s freezes on Telegram. Sonnet only. Opus prohibited — business stream cost control.",
+      "configPath": "/Users/ainchorsangiefpl/.openclaw/openclaw.json",
+      "configJqQuery": ".agents.list[] | select(.id==\"business\") | .model"
+    },
+    "security": {
+      "description": "Shield 🛡️ — Security Governance Agent",
+      "requiredModel": "anthropic/claude-sonnet-4-6",
+      "allowedModels": ["anthropic/claude-sonnet-4-6"],
+      "escalationModel": null,
+      "escalationRule": "No escalation. Security reviews must be consistent and cost-controlled.",
+      "prohibitedModels": ["anthropic/claude-opus-4-7", "ollama/gemma4:26b"],
+      "prohibitedInCrons": [],
+      "allowedInCrons": ["anthropic/claude-sonnet-4-6"],
+      "rationale": "Governance agents run Sonnet for consistency. No Opus (cost), no Gemma4 (quality risk for security reviews).",
+      "configPath": "/Users/ainchorsangiefpl/.openclaw/openclaw.json",
+      "configJqQuery": ".agents.list[] | select(.id==\"security\") | .model"
+    },
+    "legal": {
+      "description": "Lex ⚖️ — Legal Governance Agent",
+      "requiredModel": "anthropic/claude-opus-4-7",
+      "allowedModels": ["anthropic/claude-opus-4-7", "anthropic/claude-sonnet-4-6"],
+      "escalationModel": null,
+      "escalationRule": "Opus is the primary model for Lex. Legal accuracy justifies the cost premium.",
+      "prohibitedModels": ["ollama/gemma4:26b"],
+      "prohibitedInCrons": ["ollama/gemma4:26b"],
+      "allowedInCrons": ["anthropic/claude-opus-4-7", "anthropic/claude-sonnet-4-6"],
+      "exception": true,
+      "exceptionReason": "Lex is the only agent authorised to run Opus as its PRIMARY model. Legal review accuracy is non-negotiable. Documented exception — not drift.",
+      "exceptionApprovedBy": "Ken",
+      "exceptionDate": "2026-04-28",
+      "rationale": "Legal agent requires highest accuracy. Opus primary is an intentional, documented exception to the Sonnet-default rule.",
+      "configPath": "/Users/ainchorsangiefpl/.openclaw/openclaw.json",
+      "configJqQuery": ".agents.list[] | select(.id==\"legal\") | .model"
+    },
+    "qa": {
+      "description": "Sage 🧪 — QA Governance Agent",
+      "requiredModel": "anthropic/claude-sonnet-4-6",
+      "allowedModels": ["anthropic/claude-sonnet-4-6"],
+      "escalationModel": null,
+      "escalationRule": "No escalation. QA reviews must be consistent and cost-controlled.",
+      "prohibitedModels": ["anthropic/claude-opus-4-7", "ollama/gemma4:26b"],
+      "prohibitedInCrons": [],
+      "allowedInCrons": ["anthropic/claude-sonnet-4-6"],
+      "rationale": "Governance agents run Sonnet for consistency.",
+      "configPath": "/Users/ainchorsangiefpl/.openclaw/openclaw.json",
+      "configJqQuery": ".agents.list[] | select(.id==\"qa\") | .model"
+    },
+    "governance": {
+      "description": "Warden 🔍 — Model Compliance Officer",
+      "requiredModel": "anthropic/claude-sonnet-4-6",
+      "allowedModels": ["anthropic/claude-sonnet-4-6"],
+      "escalationModel": null,
+      "escalationRule": "Warden never escalates. Lightweight compliance checks only.",
+      "prohibitedModels": ["anthropic/claude-opus-4-7", "ollama/gemma4:26b"],
+      "prohibitedInCrons": [],
+      "allowedInCrons": ["anthropic/claude-sonnet-4-6"],
+      "rationale": "Warden is a lightweight monitor. Sonnet only. No exceptions.",
+      "configPath": "/Users/ainchorsangiefpl/.openclaw/openclaw.json",
+      "configJqQuery": ".agents.list[] | select(.id==\"governance\") | .model"
+    }
+  },
+
+  "cronModelPolicy": {
+    "description": "Allowed models for cron job payloads. Gemma4 is only permitted for specific background tasks.",
+    "gemma4AllowedCronNames": [
+      "AInchors Midday Cost Tracker",
+      "AInchors Workspace Backup"
+    ],
+    "gemma4ProhibitedPatterns": [
+      "standup", "standup", "close", "journal", "blog", "alert", "telegram"
+    ]
+  },
+
+  "changeControl": {
+    "process": "1. Ken approval in webchat/Telegram. 2. Update this file. 3. Update critical-config-baseline.json. 4. Log CHG entry. 5. Update MEMORY.md.",
+    "approvalKeyword": "POLICY CHANGE APPROVED"
+  }
+}

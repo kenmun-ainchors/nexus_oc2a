@@ -35,6 +35,18 @@ This log captures **every change** Yoda makes to AInchors infrastructure, config
 **Linked:** decisions.md 2026-04-27 entries
 ---
 
+## 2026-04-28 07:54 AEST — [CHG-0045] Warden 🔍 — model compliance and drift monitoring agent
+**Type:** agent
+**Source:** ken-prompt
+**Trigger:** TKT-0013: Ken requested dedicated model governance after 2x drift incidents Day 3
+**What changed:** New agent governance (Warden) in openclaw.json. workspace-governance/ + SOUL.md + IDENTITY.md. scripts/model-drift-check.sh (9-check compliance). state/model-policy.json (per-agent model registry, Lex Opus exception documented). state/model-drift-state.json + model-drift-violations.json. Warden cron every 15min isolated. critical-config-baseline config-010 to 013. HEARTBEAT.md Warden escalation check.
+**Why:** Two Opus drift incidents Day 3 (Yoda + Aria). No systematic check. Warden provides continuous monitoring, audit, escalation to Yoda.
+**Verification:** bash scripts/model-drift-check.sh → 9/9 PASS. Lex Opus documented as intentional exception.
+**Rollback:** Remove governance agent from openclaw.json. Delete workspace-governance/, model-drift-check.sh, model-policy.json. Remove cron 83accf7b.
+**Linked:** TKT-0013
+---
+
+
 ## 2026-04-27 23:48 AEST — [CHG-0044] /close command defined + Day 3 sprint closed
 **Type:** rule
 **Source:** ken-prompt
