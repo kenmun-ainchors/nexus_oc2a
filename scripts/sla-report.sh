@@ -62,7 +62,7 @@ workspace = Path(os.environ["WORKSPACE"])
 
 incident_log_path = workspace / "state" / "incident-log.json"
 cost_state_path   = workspace / "state" / "cost-state.json"
-output_dir        = workspace / "canvas" / "documents" / f"sla-{month_str}"
+output_dir        = Path(os.path.expanduser("~/.openclaw/canvas")) / "documents" / f"sla-{month_str}"
 output_html       = output_dir / "index.html"
 sla_history_path  = workspace / "memory" / "shared" / "sla-history.md"
 

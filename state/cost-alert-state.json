@@ -1,8 +1,8 @@
 {
   "schema_version": "1.0",
   "description": "Tracks response counters and alert state for tiered credit alerts. Updated by Yoda at runtime.",
-  "currentBalance": 88.2,
-  "lastBalanceCheck": "2026-04-27T13:15:00+10:00",
+  "currentBalance": 46.02,
+  "lastBalanceCheck": "2026-04-27T23:17:00+10:00",
   "activeTier": 1,
   "tier2": {
     "responsesSinceLastAlert": 0,
@@ -15,8 +15,8 @@
     "awaitingAcknowledgement": false
   },
   "alertsSent": [],
-  "balance": 46.02,
-  "confirmedAt": "2026-04-27T22:34:00+10:00",
+  "balance": 26.59,
+  "confirmedAt": "2026-04-27T23:29:00+10:00",
   "tier1": {
     "triggered": true,
     "triggeredAt": "2026-04-27T22:34:00+10:00"
