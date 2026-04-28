@@ -32,14 +32,24 @@
       "ts": "2026-04-28T11:22:20.195659+00:00",
       "status": "ok",
       "issues": []
+    },
+    {
+      "ts": "2026-04-28T11:37:16.003045+00:00",
+      "status": "ok",
+      "issues": []
+    },
+    {
+      "ts": "2026-04-28T11:53:17.981540+00:00",
+      "status": "ok",
+      "issues": []
     }
   ],
   "summary": {
-    "totalChecks": 6,
-    "upChecks": 6,
+    "totalChecks": 8,
+    "upChecks": 8,
     "downtimeMinutes": 0,
     "uptimePct": 100.0,
-    "lastCheck": "2026-04-28T11:22:20.195659+00:00",
+    "lastCheck": "2026-04-28T11:53:17.981540+00:00",
     "lastStatus": "ok"
   }
 }
