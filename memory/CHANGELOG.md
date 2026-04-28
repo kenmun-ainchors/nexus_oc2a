@@ -35,6 +35,18 @@ This log captures **every change** Yoda makes to AInchors infrastructure, config
 **Linked:** decisions.md 2026-04-27 entries
 ---
 
+## 2026-04-28 16:44 AEST — [CHG-0064] Governance gate skip rule approved — Yoda/Ken internal work exempt
+**Type:** rule
+**Source:** ken-prompt
+**Trigger:** Ken reviewed and approved the governance gate control clarification for Yoda-Ken tech stream
+**What changed:** RULES.md: governance gate skip rule formalised and approved. Internal trigger = recipient, not producer. Yoda/Ken internal work (scripts, state files, changelogs, commits, private notes) = skip. Any asset leaving Ken+Yoda loop = gate runs. Yoda runs directly, no ask. Aria asks Angie first.
+**Why:** Rule was ambiguous — Shield/Lex/Sage Rule 1 said ALL shared assets, but no explicit guidance on when tech stream skips. Ken reviewed and approved the distinction.
+**Verification:** Ken explicit approval 2026-04-28 16:44 AEST.
+**Rollback:** Cannot roll back an approved rule without Ken re-approval.
+**Linked:** CHG-0053 CHG-0054 CHG-0055
+---
+
+
 ## 2026-04-28 16:30 AEST — [CHG-0063] Business ROI expansion: campaign tracking, marketing funnel, sales conversion
 **Type:** script
 **Source:** ken-prompt
