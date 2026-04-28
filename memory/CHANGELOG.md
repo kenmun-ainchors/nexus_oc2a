@@ -35,6 +35,18 @@ This log captures **every change** Yoda makes to AInchors infrastructure, config
 **Linked:** decisions.md 2026-04-27 entries
 ---
 
+## 2026-04-28 11:13 AEST — [CHG-0051] Sage Rule 1: QA gate on all shared/communicated assets
+**Type:** rule
+**Source:** ken-prompt
+**Trigger:** TKT-0016: Ken mandated non-negotiable QA assurance across all agents and both streams after broken PDF formatting
+**What changed:** workspace-qa/SAGE_RULE_1.md — full rule spec (5 checks, verdict format, remediation loop). scripts/sage-qa.sh — executable QA gate (checks 4+5 automated, 1-3 LLM-deferred). state/sage-qa-log.json — QA audit trail. RULES.md — Sage Rule 1 added as non-negotiable. budget-proposal HTML — print CSS added for browser-to-PDF. Sage daily review cron enabled.
+**Why:** PDF formatting was broken when sent to Ken. This exposed a gap: assets were being generated and delivered without QA. Sage Rule 1 closes this gap permanently. All assets for sharing must pass before delivery.
+**Verification:** sage-qa.sh ran against broken PDF: passed checks 4+5. Print CSS added to HTML for clean browser-PDF. Rule locked in RULES.md and SAGE_RULE_1.md.
+**Rollback:** Cannot roll back a non-negotiable rule.
+**Linked:** TKT-0016
+---
+
+
 ## 2026-04-28 10:53 AEST — [CHG-0050] Day 4 sprint: delegation logging, config-009, burn alert, gemma4 shadow fix
 **Type:** script
 **Source:** ken-prompt

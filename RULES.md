@@ -420,3 +420,37 @@ Exception: if a governance agent needs to draft a complex external document → 
 When OC2 arrives (32GB RAM): re-evaluate T3 model. `gemma4:26b` keep-alive becomes viable,
 potentially replacing `gemma4:e2b` as T3 and becoming T2 for governance reviews at zero cost.
 See US34 + US35.
+
+---
+
+## Sage Rule 1 — QA Gate on All Shared Assets (NON-NEGOTIABLE)
+_Locked: 2026-04-28. Ken approved. TKT-0016. Applies to ALL agents, BOTH streams._
+
+**Every generated asset intended for sharing, communication, or external delivery must pass Sage QA before it leaves the platform.**
+
+### What counts as a "shared asset"
+PDFs · HTML documents · blog posts · proposals · reports · emails · Telegram messages to anyone outside Yoda/Aria internal loop · social media posts · slide decks · invoices · any file sent to a client, partner, or Angie
+
+### The 5 checks (full spec: workspace-qa/SAGE_RULE_1.md)
+1. **Requirements Met** — Does it fulfil the original brief?
+2. **Outcome Achieved** — Would the recipient understand and be able to act?
+3. **Content Accuracy** — All facts, figures, dates verified against source?
+4. **Formatting** — Renders correctly, no broken layout, no placeholders?
+5. **Compliance/Safety** — No secrets, no internal paths, appropriate tone?
+
+### How to invoke
+```bash
+bash scripts/sage-qa.sh \
+  --asset-path "/path/to/file" \
+  --asset-type "pdf|html|email|post" \
+  --brief "Original instruction" \
+  --intended-for "Recipient" \
+  --produced-by "agent-id"
+```
+
+### Remediation loop
+Produce → Sage QA → PASS → Deliver
+                  → FAIL → Fix → Re-run Sage QA → PASS → Deliver
+                                               → FAIL × 2 → Escalate to Yoda
+
+**No exceptions. No overrides. Sage QA is mandatory.**

@@ -1,7 +1,7 @@
 {
   "schema_version": "1.0",
   "description": "AInchors Service Ticket Log. Every ad-hoc request, task, or action without an existing INC/US/CHG reference MUST have a TKT number before work begins.",
-  "sequence": 16,
+  "sequence": 17,
   "tickets": [
     {
       "id": "TKT-0001",
@@ -280,6 +280,25 @@
       "created": "2026-04-28T10:51:21+10:00",
       "updated": "2026-04-28T10:51:21+10:00",
       "description": "4 items from 9AM model review report: (1) fix gemma4 shadow logging, (2) US22 cost tracker, (3) config-009 Aria modelFallbacks, (4) daily burn alert at $40 USD",
+      "resolution": null,
+      "linked": {
+        "us": [],
+        "inc": [],
+        "chg": []
+      },
+      "notes": ""
+    },
+    {
+      "id": "TKT-0016",
+      "title": "Sage Rule 1: QA gate on all shared/communicated assets",
+      "type": "task",
+      "priority": "high",
+      "status": "open",
+      "requester": "Ken",
+      "assignee": "Yoda",
+      "created": "2026-04-28T11:10:59+10:00",
+      "updated": "2026-04-28T11:10:59+10:00",
+      "description": "Non-negotiable. All generated assets for sharing or external comms must pass Sage QA before delivery. All agents, both streams. No exceptions.",
       "resolution": null,
       "linked": {
         "us": [],

@@ -13,12 +13,12 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "memory/journal-2026-04-27.md",
+                "file": "AGENTS.md",
                 "mode": "source",
                 "source": false
               },
               "icon": "lucide-file",
-              "title": "journal-2026-04-27"
+              "title": "AGENTS"
             }
           }
         ]
@@ -183,8 +183,14 @@
       "bases:Create new base": false
     }
   },
-  "active": "c616c22763a60529",
+  "active": "77bd0598df197eaf",
   "lastOpenFiles": [
+    "state/sage-qa-log.json",
+    "scripts/sage-qa.sh",
+    "AGENT_ARCHITECTURE.md",
+    "AGENTS.md",
+    "memory/journal-2026-04-27.md",
+    "AInchors-Budget-Proposal-Apr2026.pdf",
     "state/delegation-log.json",
     "scripts/log-delegation.sh",
     "state/cost-state.json.lock",
@@ -194,11 +200,7 @@
     "memory/2026-04-28.md",
     "state/benchmark/gemma4-comparison.json",
     "state/benchmark",
-    "scripts/gemma4-benchmark.sh",
-    "state/daily-note.json",
-    "state/model-drift-violations.json",
     "memory/journal-2026-04-26.summary.md",
-    "memory/journal-2026-04-27.md",
     "reports/diagnostics-2026-04-27-2206.md",
     "handoff/TASK-20260427-CR-ARIA-001.md",
     "memory/journal-2026-04-26.md",
@@ -218,8 +220,6 @@
     "handoff/TASK-20260426-004.md",
     "handoff/TASK-20260426-005.md",
     "memory/shared/research-framework.md",
-    "handoff/TASK-20260426-003.md",
-    "handoff/archive/TASK-20260426-002-completed.md",
-    "handoff/TASK-20260426-002.md"
+    "handoff/TASK-20260426-003.md"
   ]
 }
