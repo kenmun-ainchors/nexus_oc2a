@@ -10,6 +10,9 @@
 #   4. Auto-heal dry-run snapshot (read what's there)
 #   5. Security audit
 #   6. HA readiness checklist (placeholders for OC2)
+#   7. Coverage analysis (scripts, crons, state files, agents)
+#   8. Performance benchmarks (gateway, Ollama, script timings, canvas)
+#   9. Predictive health (disk, balance runway, warden streak, backup age)
 #
 # Recovery drills (phase 4 in plan) deferred — too risky to simulate without isolation.
 

@@ -219,11 +219,51 @@
       "pass": 5,
       "fail": 0,
       "issues": []
+    },
+    {
+      "ts": "2026-04-28T14:27:23+10:00",
+      "asset": "/Users/ainchorsangiefpl/.openclaw/canvas/documents/model-strategy-blog/index.html",
+      "producedBy": "yoda",
+      "intendedFor": "Public / AInchors audience",
+      "verdict": "FAIL",
+      "pass": 4,
+      "fail": 1,
+      "issues": []
+    },
+    {
+      "ts": "2026-04-28T14:27:23+10:00",
+      "asset": "/Users/ainchorsangiefpl/.openclaw/canvas/documents/model-strategy-blog/index.html",
+      "producedBy": "yoda",
+      "intendedFor": "Public / AInchors audience",
+      "verdict": "FAIL",
+      "pass": 4,
+      "fail": 1,
+      "issues": []
+    },
+    {
+      "ts": "2026-04-28T14:27:50+10:00",
+      "asset": "/Users/ainchorsangiefpl/.openclaw/canvas/documents/model-strategy-blog/index.html",
+      "producedBy": "yoda",
+      "intendedFor": "Public / AInchors audience",
+      "verdict": "PASS",
+      "pass": 5,
+      "fail": 0,
+      "issues": []
+    },
+    {
+      "ts": "2026-04-28T14:27:50+10:00",
+      "asset": "/Users/ainchorsangiefpl/.openclaw/canvas/documents/model-strategy-blog/index.html",
+      "producedBy": "yoda",
+      "intendedFor": "Public / AInchors audience",
+      "verdict": "PASS",
+      "pass": 5,
+      "fail": 0,
+      "issues": []
     }
   ],
   "summary": {
-    "total": 22,
-    "pass": 18,
-    "fail": 4
+    "total": 26,
+    "pass": 20,
+    "fail": 6
   }
 }

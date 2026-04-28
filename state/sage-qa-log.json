@@ -139,11 +139,25 @@
       "issues": [
         "[]"
       ]
+    },
+    {
+      "ts": "2026-04-28T14:27:50+10:00",
+      "assetPath": "/Users/ainchorsangiefpl/.openclaw/canvas/documents/model-strategy-blog/index.html",
+      "assetType": "html",
+      "producedBy": "yoda",
+      "intendedFor": "Public / AInchors audience",
+      "brief": "Blog post about building 3-tier AI model strategy with benchmarks",
+      "verdict": "PASS",
+      "passCount": 7,
+      "failCount": 0,
+      "issues": [
+        "[]"
+      ]
     }
   ],
   "summary": {
-    "total": 10,
-    "pass": 10,
+    "total": 11,
+    "pass": 11,
     "fail": 0
   }
 }
