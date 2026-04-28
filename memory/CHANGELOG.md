@@ -35,6 +35,18 @@ This log captures **every change** Yoda makes to AInchors infrastructure, config
 **Linked:** decisions.md 2026-04-27 entries
 ---
 
+## 2026-04-28 14:53 AEST — [CHG-0061] /frameworks command — operational framework maturity assessment
+**Type:** rule
+**Source:** ken-prompt
+**Trigger:** Ken: keep framework maturity assessment as a living document, trigger with /frameworks
+**What changed:** RULES.md: /frameworks command added (L1-L5 maturity scale, 7 frameworks, gaps + opportunities + priority focus). state/frameworks-maturity.json: authoritative maturity registry (all 7 frameworks, gaps, opportunities, priority focus order). scripts/frameworks-report.sh: generates the structured report on demand.
+**Why:** Framework maturity is a strategic compass. Ken needs a repeatable command to assess gaps and focus without rebuilding context each time.
+**Verification:** bash scripts/frameworks-report.sh → full structured report generated correctly.
+**Rollback:** Remove RULES.md /frameworks entry. Delete frameworks-maturity.json and frameworks-report.sh.
+**Linked:** TKT-0019
+---
+
+
 ## 2026-04-28 14:32 AEST — [CHG-0060] US27: Run Diagnostics phases 7-9 (coverage, performance, predictive)
 **Type:** script
 **Source:** ken-prompt

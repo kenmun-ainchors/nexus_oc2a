@@ -557,3 +557,37 @@ _Reserved keyword. Available to Ken and Angie. Locked 2026-04-28._
 - Burn rate vs $40/day threshold
 - Days of runway at current pace
 - Alert if balance < $50 (approaching Tier 1 threshold)
+
+---
+
+## /frameworks — Operational Framework Maturity Assessment
+_Reserved keyword. Available to Ken. Locked 2026-04-28._
+
+**Trigger:** `/frameworks` typed in any session.
+
+**Output:** Current maturity assessment across all 7 operational frameworks:
+1. AGILE — PM & delivery
+2. ITIL / ITSM — technology operations
+3. GOVERNANCE — content gate
+4. TOM — agentic operations
+5. MODEL STRATEGY — AI model governance
+6. KNOWLEDGE MANAGEMENT — AKB
+7. COST MANAGEMENT / FinOps
+
+**Format per framework:**
+- Current maturity level (L1–L5 with rationale)
+- What's live and working
+- Gaps — what's missing or incomplete
+- Opportunities — where to focus next
+- Priority (High / Medium / Low)
+
+**Maturity scale:**
+- L1 Initial — ad-hoc, undefined
+- L2 Developing — some processes defined, inconsistently applied
+- L3 Defined — documented, consistently applied
+- L4 Managed — measured, monitored with data
+- L5 Optimising — continuous improvement, self-adjusting
+
+**State file:** `state/frameworks-maturity.json` — updated after each `/frameworks` run and whenever a framework materially changes.
+
+**How Yoda responds:** Read `state/frameworks-maturity.json`, check current state of each framework against live scripts/state/crons, produce a structured assessment with gaps → opportunities → priority focus.

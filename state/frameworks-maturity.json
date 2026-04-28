@@ -1,0 +1,255 @@
+{
+  "schema_version": "1.0",
+  "description": "AInchors operational framework maturity registry. Updated by /frameworks command and on material changes to any framework.",
+  "lastAssessed": "2026-04-28T14:51:00+10:00",
+  "assessedBy": "Yoda + Ken",
+  "overallMaturity": "L2-L3",
+
+  "frameworks": {
+    "agile": {
+      "name": "AGILE",
+      "purpose": "PM and delivery",
+      "maturity": "L2",
+      "maturityLabel": "Developing",
+      "live": [
+        "Notion backlog — User Stories with priority, effort, stream, category",
+        "Ticket-first rule (TKT-NNNN) enforced before all ad-hoc work",
+        "Sprint planning with Ken each session",
+        "Sprint review at sprint close",
+        "Morning standup 8AM AEST via Telegram (automated)",
+        "Ken approves sprint before work starts"
+      ],
+      "gaps": [
+        "No fixed sprint length or cadence",
+        "No velocity tracking or historical throughput data",
+        "No burndown or cumulative flow charts",
+        "No formal retrospectives",
+        "Sprint planning is reactive, not rhythmic",
+        "No definition of done enforcement (relies on Sage QA gate)"
+      ],
+      "opportunities": [
+        "Set a fixed sprint length (1 week suggested)",
+        "Add velocity tracking to Mission Control",
+        "Formalise retrospective as a monthly ceremony",
+        "Wire Notion 'Done' date for cycle time measurement"
+      ],
+      "priorityFocus": "Medium",
+      "nextStep": "Define sprint cadence and add velocity tracking to Mission Control dashboard"
+    },
+
+    "itsm": {
+      "name": "ITIL / ITSM",
+      "purpose": "Technology operations and resiliency",
+      "maturity": "L3",
+      "maturityLabel": "Defined",
+      "live": [
+        "Incident management — incident-log.sh, P1-P4 severity (CHG-0059)",
+        "PIR trigger for P1/P2 — auto-schedules review within 48hrs (CHG-0059)",
+        "Change management — CHG-NNNN, CHANGELOG.md, pre-risky-op checkpoint",
+        "Service desk — Yoda as lead, Aria for business stream (QW-3)",
+        "Auto-heal — 12 checks nightly at 23:30 AEST, files INC for self-heals (ITSM-US-007)",
+        "Health monitoring — 15-min health checks, outage handler (CHG-0058)",
+        "Fallback chain validation — hourly cron (CHG-0058)",
+        "Asset registry — Notion",
+        "Backup — 2AM daily",
+        "Diagnostics — /diagnostics, 9 phases, 50 PASS / 8 WARN / 0 FAIL (US27)"
+      ],
+      "gaps": [
+        "No SLA definitions or SLA breach measurement",
+        "Problem management (PRB tickets + KEDB) not yet built",
+        "CMDB linkage not implemented (ITSM-US-011 backlog)",
+        "PIR process has creation but no closure loop",
+        "Capacity planning absent",
+        "Release management not formalised",
+        "Monthly SLA report not yet automated (US18 backlog)"
+      ],
+      "opportunities": [
+        "Define SLAs for each service tier (P1=5min, P2=1hr, P3=next sprint)",
+        "Build problem management — link recurring incidents to root problems",
+        "Close the PIR loop — completion tracking, action item closure",
+        "CMDB linkage to asset registry for blast radius analysis"
+      ],
+      "priorityFocus": "High",
+      "nextStep": "Define SLAs and build PIR closure loop — highest leverage for maturing from L3 to L4"
+    },
+
+    "governance": {
+      "name": "GOVERNANCE",
+      "purpose": "Content quality, security, legal gate",
+      "maturity": "L2-L3",
+      "maturityLabel": "Defined — not yet battle-tested",
+      "live": [
+        "Shield 🛡️ — 5 security checks (S1-S5), script + daily cron",
+        "Lex ⚖️ — 5 legal checks (L1-L5), script + daily cron",
+        "Sage 🧪 — 5 QA checks (C1-C5), script + daily cron",
+        "Warden 🔍 — model compliance every 15 min, 9 checks",
+        "governance-report.sh — full 3-gate runner + executive summary",
+        "/governance ad-hoc command",
+        "Aria ask-first rule — Aria asks Angie before running gate",
+        "Governance tail on all Aria responses",
+        "Rule specs locked — SHIELD_RULE_1.md, LEX_RULE_1.md, SAGE_RULE_1.md",
+        "Daily sweep crons 22:00-22:10 AEST (Haiku)"
+      ],
+      "gaps": [
+        "Checks L1-L3 (Lex) and C1-C3 (Sage) are provisional — LLM deferred to daily cron, not real-time",
+        "Real content volume through gate is near zero — Angie not yet fully onboarded",
+        "Governance metrics not tracked (pass rate, fail rate, avg review time)",
+        "No escalation SLA if gate fails twice",
+        "Shield/Lex/Sage not yet reviewing Aria's live business stream output at scale"
+      ],
+      "opportunities": [
+        "Track governance pass/fail rates in sage-qa-log.json — surface in Mission Control",
+        "Onboard Angie to trigger real governance gate volume",
+        "Add governance health to morning standup report",
+        "Build escalation loop when gate fails twice — auto-notify Ken"
+      ],
+      "priorityFocus": "Medium",
+      "nextStep": "Complete Angie onboarding to generate real governance volume and start measuring pass rates"
+    },
+
+    "tom": {
+      "name": "TOM",
+      "purpose": "Agentic operations — agent team and streams",
+      "maturity": "L2",
+      "maturityLabel": "Developing",
+      "live": [
+        "6 live agents — Yoda, Aria, Shield, Lex, Sage, Warden",
+        "Technical stream — Ken + Yoda, fully operational",
+        "Business stream — Angie + Aria, nascent",
+        "Yoda→Aria daily context bridge (23:00 AEST)",
+        "Aria→Yoda daily brief (23:45 AEST)",
+        "Dual Telegram bots — Yoda (Ken) and Aria (Angie)",
+        "Governance layer covering both streams",
+        "6-stage Angie onboarding plan designed"
+      ],
+      "gaps": [
+        "Business sub-agents not yet built (Social, Content, Marketing, Support, Report — all Planned)",
+        "Angie onboarding not yet started (Stage 1 pending)",
+        "OC2 hardware not arrived — Aria lives on OC1 temporarily",
+        "Cross-instance communication (Tailscale) deferred to OC2",
+        "No agent performance metrics or SLA tracking per agent",
+        "No agent health dashboard (Mission Control shows status but not health over time)"
+      ],
+      "opportunities": [
+        "Start Angie onboarding Stage 1 — highest impact for business stream",
+        "Define and build first business sub-agent (Social or Content)",
+        "Add agent uptime and performance tracking to Mission Control",
+        "OC2 planning — migration guide before hardware arrives"
+      ],
+      "priorityFocus": "High",
+      "nextStep": "Start Angie onboarding Stage 1 — unblocks business stream and real governance volume"
+    },
+
+    "modelStrategy": {
+      "name": "MODEL STRATEGY",
+      "purpose": "AI model selection, routing, compliance, optimisation",
+      "maturity": "L3-L4",
+      "maturityLabel": "Defined / Managed",
+      "live": [
+        "3-tier policy — Sonnet T1, Haiku T2, gemma4:e2b T3, gemma4:26b emergency",
+        "model-policy.json — authoritative per-agent registry",
+        "route-model.sh — routing decision engine",
+        "Warden 🔍 — 9-check compliance audit every 15 min",
+        "Benchmark suite — gemma4-benchmark.sh",
+        "Delegation logging — log-delegation.sh (savings estimate per turn)",
+        "Monthly review cron — 28th, 09:00 AEST, Ken sign-off required",
+        "Model strategy hub — canvas document with benchmark data + decisions",
+        "Budget cap proposal to Angie (A$1,500/month)"
+      ],
+      "gaps": [
+        "Tier A/B/C routing within sub-agent spawning not yet implemented",
+        "Delegation log has only 3 seed entries — no real volume yet",
+        "qwen3 re-test pending (with /no_think suppression)",
+        "Budget cap not yet formally approved by Angie",
+        "Haiku savings actuals vs projected not yet measured",
+        "OC2 / gemma4:26b delegation evaluation deferred (US34)"
+      ],
+      "opportunities": [
+        "Wire route-model.sh into all sub-agent spawning (sessions_spawn model param)",
+        "Accumulate real delegation data over next 30 days for May 28 review",
+        "Approve A$1,500 budget cap with Angie",
+        "Re-benchmark qwen3 with /no_think — potential zero-cost T2 option"
+      ],
+      "priorityFocus": "Low",
+      "nextStep": "Let delegation data accumulate until May 28 review. Wire route-model.sh into sub-agent spawning."
+    },
+
+    "knowledgeManagement": {
+      "name": "KNOWLEDGE MANAGEMENT",
+      "purpose": "AKB — Obsidian vault, Notion, context bridge",
+      "maturity": "L2",
+      "maturityLabel": "Developing",
+      "live": [
+        "Obsidian vault — 50+ files across 12 sections",
+        "14 Notion databases (backlog, incidents, assets, decisions, etc.)",
+        "AKB daily update cron — 3AM AEST reads both stream journals (CHG-0056)",
+        "Yoda→Aria shared bridge — yoda-daily-brief.md, context-for-aria.md",
+        "Training pipeline tracking — training-pipeline.md",
+        "Full update pass completed 2026-04-28 (7 files, 677 insertions)"
+      ],
+      "gaps": [
+        "Content density low — 4 days of data",
+        "Client profiles, meeting notes, course materials empty",
+        "No search API integration (Obsidian search not exposed to agents)",
+        "Content lifecycle management — no staleness detection beyond daily cron",
+        "Notion decision log not systematically updated",
+        "Training content pipeline has ideas but no drafted content yet"
+      ],
+      "opportunities": [
+        "Start populating client profiles when first clients onboard",
+        "Aria to draft first training content from Yoda's Day 1-4 work",
+        "Add AKB health check to /diagnostics (stale file detection)",
+        "Expose Obsidian search to Aria for CEO-level business queries"
+      ],
+      "priorityFocus": "Medium",
+      "nextStep": "Aria to extract training content angles from Days 1-4 work — first concrete training asset"
+    },
+
+    "costManagement": {
+      "name": "COST MANAGEMENT / FinOps",
+      "purpose": "Spend tracking, model optimisation, ROI measurement",
+      "maturity": "L2-L3",
+      "maturityLabel": "Developing/Defined",
+      "live": [
+        "Cost tracker — daily per-model breakdown",
+        "3-tier credit alert system ($50/$25/$10 — Ken + Angie notified)",
+        "/credit command — balance, today's spend, model breakdown, runway",
+        "Daily burn alert — 20:00 AEST, fires if day ≥ $40 USD",
+        "Delegation logging with savings estimate per turn",
+        "Cost & ROI report — canvas document",
+        "Monthly model strategy review includes cost audit (28th)",
+        "Budget proposal to Angie — A$1,500/month build phase"
+      ],
+      "gaps": [
+        "Budget cap not yet approved by Angie",
+        "ROI model uses manual estimates (not automated attribution)",
+        "No per-feature or per-project cost attribution",
+        "Cost trend analysis thin — only 4 days of data",
+        "Haiku savings actuals vs projected not yet measured",
+        "Cost tracker mid-day confirmed balance calc bug (workaround: Ken confirms manually)"
+      ],
+      "opportunities": [
+        "Get Angie to approve A$1,500 budget cap",
+        "Fix cost tracker balance calculation for intraday top-ups (US22 follow-up)",
+        "Add 7-day rolling average to /credit output",
+        "Per-stream cost attribution — technical vs business spend"
+      ],
+      "priorityFocus": "Medium",
+      "nextStep": "Angie budget approval + fix cost tracker intraday calc bug"
+    }
+  },
+
+  "priorityFocusOrder": [
+    {"framework": "tom", "action": "Start Angie onboarding Stage 1 — unblocks business stream"},
+    {"framework": "itsm", "action": "Define SLAs + PIR closure loop — matures L3 → L4"},
+    {"framework": "agile", "action": "Set sprint cadence + velocity tracking"},
+    {"framework": "governance", "action": "Generate real volume through gate via Angie onboarding"},
+    {"framework": "knowledgeManagement", "action": "Aria extracts first training content from Days 1-4"},
+    {"framework": "costManagement", "action": "Budget approval + intraday calc fix"},
+    {"framework": "modelStrategy", "action": "Accumulate delegation data until May 28 review"}
+  ],
+
+  "changeLog": [
+    {"date": "2026-04-28", "event": "Initial assessment. 7 frameworks identified. Ken approved."}
+  ]
+}
