@@ -35,6 +35,30 @@ This log captures **every change** Yoda makes to AInchors infrastructure, config
 **Linked:** decisions.md 2026-04-27 entries
 ---
 
+## 2026-04-29 01:01 AEST — [CHG-0074] Auto-committed 1 untracked file in AInchors repo
+**Type:** data
+**Source:** auto-heal
+**Trigger:** Nightly auto-heal sweep 2026-04-29 01:00 AEST — git health check
+**What changed:** Git committed 1 untracked file in ~/Documents/AInchors
+**Why:** Keep AInchors docs repo clean
+**Verification:** auto-heal exit_status=complete
+**Rollback:** N/A
+**Linked:** none
+---
+
+
+## 2026-04-29 01:01 AEST — [CHG-0073] Auto-committed 7 untracked files in workspace repo
+**Type:** data
+**Source:** auto-heal
+**Trigger:** Nightly auto-heal sweep 2026-04-29 01:00 AEST — git health check found dirty working tree
+**What changed:** Git committed 7 untracked files in /Users/ainchorsangiefpl/.openclaw/workspace
+**Why:** Keep workspace git repo clean; prevent state files drifting untracked
+**Verification:** auto-heal exit_status=complete; git status clean post-fix
+**Rollback:** N/A
+**Linked:** none
+---
+
+
 ## 2026-04-28 21:57 AEST — [CHG-0072] Auto-Heal sweep 2026-04-28: 3 auto-fixes, 1 needs-ken
 **Type:** infra
 **Source:** auto-heal

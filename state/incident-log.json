@@ -142,12 +142,44 @@
       "recurrence": false,
       "status": "open",
       "notion_page_id": null
+    },
+    {
+      "id": "INC-20260429-001",
+      "timestamp_start": "2026-04-28T15:00:12Z",
+      "timestamp_end": "2026-04-28T15:00:12Z",
+      "type": "planned",
+      "trigger": "AUTO-HEAL: git-commit:workspace:7-files",
+      "severity": "P4",
+      "description": "Auto-healed by auto-heal.sh at 2026-04-29 01:00 AEST. Item: git-commit:workspace:7-files. No Ken action required.",
+      "duration_minutes": 5,
+      "rca": "auto-detected",
+      "resolution": "in-progress",
+      "mttr_minutes": 5,
+      "recurrence": false,
+      "status": "open",
+      "notion_page_id": null
+    },
+    {
+      "id": "INC-20260429-002",
+      "timestamp_start": "2026-04-28T15:00:12Z",
+      "timestamp_end": "2026-04-28T15:00:12Z",
+      "type": "planned",
+      "trigger": "AUTO-HEAL: git-commit:AInchors:1-files",
+      "severity": "P4",
+      "description": "Auto-healed by auto-heal.sh at 2026-04-29 01:00 AEST. Item: git-commit:AInchors:1-files. No Ken action required.",
+      "duration_minutes": 5,
+      "rca": "auto-detected",
+      "resolution": "in-progress",
+      "mttr_minutes": 5,
+      "recurrence": false,
+      "status": "open",
+      "notion_page_id": null
     }
   ],
   "summary": {
-    "total_incidents": 8,
-    "total_downtime_minutes": 278,
-    "avg_mttr_minutes": 35,
-    "last_updated": "2026-04-28T11:56:13Z"
+    "total_incidents": 10,
+    "total_downtime_minutes": 288,
+    "avg_mttr_minutes": 29,
+    "last_updated": "2026-04-28T15:00:12Z"
   }
 }
