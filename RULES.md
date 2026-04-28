@@ -640,3 +640,34 @@ Every change declares its type in the pre-risky-op checkpoint and CHG entry:
 | Emergency | `EMG` | Urgent fix to restore service. High risk. | Required within 1hr after |
 
 Pre-risky-op: declare `CHANGE TYPE: STD/NRM/EMG — [reason]` before proceeding.
+
+---
+
+## Wrap Summary — End of Day Format
+_Locked 2026-04-28. Ken: "continue to provide this trigger and what I need to know whenever I wrap up for the day."_
+
+**Trigger:** Ken says "wrap", "that's a wrap", "wrapping up", "done for today" or similar.
+
+**Format — always include:**
+1. What's running overnight (crons firing tonight, in time order)
+2. Any active watches or flags (credit alerts, AC watches, cron errors)
+3. First item next session
+4. Balance + runway
+
+**Keep it tight** — 6-10 lines max. No sprint recap. Forward-looking only.
+
+**Example:**
+> Got it. Running overnight:
+> - 20:00 — Burn alert check
+> - 22:00 — Shield/Lex/Sage governance sweeps
+> - 23:00 — Yoda→Aria context sync
+> - 23:45 — Aria daily summary
+> - 23:55 — Journal close
+> - 00:05 — Blog
+> - 01:00 — Auto-heal
+> - 02:00 — Backup
+> - 03:00 — AKB update
+>
+> ⚠️ [any flags]
+> First up tomorrow: [top priority]
+> Balance: USD $X.XX — top up recommended / runway ~N days

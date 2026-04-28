@@ -3,10 +3,10 @@
   "description": "Tracks response counters and alert state for tiered credit alerts. Updated by Yoda at runtime.",
   "currentBalance": 58.72,
   "lastBalanceCheck": "2026-04-28T07:35:00+10:00",
-  "activeTier": 0,
+  "activeTier": 1,
   "tier1": {
-    "triggered": false,
-    "triggeredAt": null,
+    "triggered": true,
+    "triggeredAt": "2026-04-28T18:46:00+10:00",
     "threshold": 80.0
   },
   "tier2": {
