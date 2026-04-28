@@ -37,7 +37,14 @@ if [[ -f "$STATE_FILE" ]]; then
 fi
 
 # ── Collect all check results ─────────────────────────────────────────────────
-declare -A CHECK_RESULTS
+# Plain variables (bash 3.2 compat — no declare -A)
+CHECK_gateway="unknown"
+CHECK_ollama="unknown"
+CHECK_disk="ok"
+CHECK_health_state="ok"
+CHECK_cost_state="ok"
+CHECK_anthropic="unknown"
+CHECK_ollamaApi="unknown"
 OVERALL_STATUS="ok"
 ISSUES=()
 
@@ -47,11 +54,11 @@ HTTP_STATUS=$(curl -s -o /dev/null -w "%{http_code}" \
   "$GATEWAY_URL" 2>/dev/null)
 
 if [[ "$HTTP_STATUS" == "200" ]] || [[ "$HTTP_STATUS" == "301" ]] || [[ "$HTTP_STATUS" == "302" ]] || [[ "$HTTP_STATUS" == "401" ]]; then
-  CHECK_RESULTS[gateway]="ok"
+  CHECK_gateway="ok"
   log "CHECK gateway: OK (HTTP $HTTP_STATUS)"
   GATEWAY_OK=true
 else
-  CHECK_RESULTS[gateway]="critical"
+  CHECK_gateway="critical"
   OVERALL_STATUS="critical"
   ISSUES+=("Gateway unreachable (HTTP $HTTP_STATUS)")
   log "CHECK gateway: FAIL (HTTP $HTTP_STATUS)"
@@ -60,10 +67,10 @@ fi
 
 # ── CHECK 2: Ollama process ───────────────────────────────────────────────────
 if pgrep -x ollama > /dev/null 2>&1; then
-  CHECK_RESULTS[ollama]="ok"
+  CHECK_ollama="ok"
   log "CHECK ollama: OK (process running)"
 else
-  CHECK_RESULTS[ollama]="degraded"
+  CHECK_ollama="degraded"
   [[ "$OVERALL_STATUS" == "ok" ]] && OVERALL_STATUS="degraded"
   ISSUES+=("Ollama process not running")
   log "CHECK ollama: WARN (process not found)"
@@ -90,10 +97,10 @@ while IFS= read -r line; do
 done < <(df -h | tail -n +2)
 
 if [[ "$DISK_STATUS" == "ok" ]]; then
-  CHECK_RESULTS[disk]="ok"
+  CHECK_disk="ok"
   log "CHECK disk: OK (all volumes <${DISK_ALERT_PCT}%)"
 else
-  CHECK_RESULTS[disk]="$DISK_STATUS"
+  CHECK_disk="$DISK_STATUS"
   [[ "$OVERALL_STATUS" == "ok" ]] && OVERALL_STATUS="degraded"
 fi
 
@@ -109,12 +116,12 @@ check_state_age() {
   local file_epoch=$(stat -f %m "$file" 2>/dev/null || echo 0)
   local age_min=$(( (now_epoch - file_epoch) / 60 ))
   if (( age_min > STALE_THRESHOLD_MIN )); then
-    CHECK_RESULTS[$label]="stale"
+    if [[ "$label" == "health-state" ]]; then CHECK_health_state="stale"; else CHECK_cost_state="stale"; fi
     [[ "$OVERALL_STATUS" == "ok" ]] && OVERALL_STATUS="degraded"
     ISSUES+=("$label is stale (${age_min} min since last update)")
     log "CHECK $label age: STALE (${age_min} min old — threshold: ${STALE_THRESHOLD_MIN} min)"
   else
-    CHECK_RESULTS[$label]="ok"
+    if [[ "$label" == "health-state" ]]; then CHECK_health_state="ok"; else CHECK_cost_state="ok"; fi
     log "CHECK $label age: OK (${age_min} min old)"
   fi
 }
@@ -131,19 +138,19 @@ if [[ -n "$ANTHROPIC_KEY" && ${#ANTHROPIC_KEY} -gt 20 ]]; then
     -H "anthropic-version: 2023-06-01" \
     "https://api.anthropic.com/v1/models" 2>/dev/null)
   if [[ "$ANTHROPIC_HTTP" == "200" ]]; then
-    CHECK_RESULTS[anthropic]="ok"
-    ANTHROPIC_REACHABLE=true
+    CHECK_anthropic="ok"
+    ANTHROPIC_REACHABLE=1
     log "CHECK anthropic: OK (HTTP $ANTHROPIC_HTTP)"
   else
-    CHECK_RESULTS[anthropic]="failure"
-    ANTHROPIC_REACHABLE=false
+    CHECK_anthropic="failure"
+    ANTHROPIC_REACHABLE=0
     [[ "$OVERALL_STATUS" == "ok" ]] && OVERALL_STATUS="degraded"
     ISSUES+=("Anthropic API unreachable (HTTP $ANTHROPIC_HTTP) — billing or auth failure")
     log "CHECK anthropic: FAIL (HTTP $ANTHROPIC_HTTP) — billing or auth failure"
   fi
 else
-  CHECK_RESULTS[anthropic]="no-key"
-  ANTHROPIC_REACHABLE=false
+  CHECK_anthropic="no-key"
+  ANTHROPIC_REACHABLE=0
   [[ "$OVERALL_STATUS" == "ok" ]] && OVERALL_STATUS="degraded"
   ISSUES+=("Anthropic API key missing from keychain")
   log "CHECK anthropic: FAIL (key not in keychain)"
@@ -154,12 +161,12 @@ OLLAMA_HTTP=$(curl -s -o /dev/null -w "%{http_code}" \
   --connect-timeout 5 \
   "http://localhost:11434/api/tags" 2>/dev/null)
 if [[ "$OLLAMA_HTTP" == "200" ]]; then
-  CHECK_RESULTS[ollamaApi]="ok"
-  OLLAMA_API_REACHABLE=true
+  CHECK_ollamaApi="ok"
+  OLLAMA_API_REACHABLE=1
   log "CHECK ollamaApi: OK (HTTP $OLLAMA_HTTP)"
 else
-  CHECK_RESULTS[ollamaApi]="failure"
-  OLLAMA_API_REACHABLE=false
+  CHECK_ollamaApi="failure"
+  OLLAMA_API_REACHABLE=0
   [[ "$OVERALL_STATUS" == "ok" ]] && OVERALL_STATUS="degraded"
   ISSUES+=("Ollama API unreachable (HTTP $OLLAMA_HTTP)")
   log "CHECK ollamaApi: FAIL (HTTP $OLLAMA_HTTP)"
@@ -167,7 +174,7 @@ fi
 
 # ── CHECK 15: Gemma4 standby mode management ─────────────────────────────────
 STANDBY_FILE="$HOME/.openclaw/workspace/state/standby-mode.json"
-if [[ "$ANTHROPIC_REACHABLE" == "false" ]]; then
+if [[ "$ANTHROPIC_REACHABLE" == "0" ]]; then
   # Anthropic down — activate standby if not already active
   SINCE_TS=$(date -u +%Y-%m-%dT%H:%M:%SZ)
   if [[ -f "$STANDBY_FILE" ]]; then
@@ -199,7 +206,7 @@ fi
 # ── CHECK 5: Stale lock files — clear if >LOCK_STALE_MIN old ─────────────────
 LOCK_CLEARED=0
 LOCK_FOUND=0
-for lock_file in "$LOCK_DIR"/*.lock; do
+for lock_file in "$LOCK_DIR"/*.lock(N); do
   [[ -f "$lock_file" ]] || continue
   LOCK_FOUND=$((LOCK_FOUND + 1))
   lock_epoch=$(stat -f %m "$lock_file" 2>/dev/null || echo 0)
@@ -252,8 +259,8 @@ state = {
   "ollamaReachable": False,
   "checks": {
     "gateway": "critical",
-    "ollama": "${CHECK_RESULTS[ollama]:-unknown}",
-    "disk": "${CHECK_RESULTS[disk]:-unknown}",
+    "ollama": "$CHECK_ollama",
+    "disk": "$CHECK_disk",
     "anthropicApi": "unknown",
     "ollamaApi": "unknown"
   }
@@ -299,17 +306,17 @@ state = {
   "lastOk": "$(date -u +%Y-%m-%dT%H:%M:%SZ)",
   "exitCode": $EXIT_CODE,
   "issues": $ISSUES_JSON,
-  "anthropicReachable": ${ANTHROPIC_REACHABLE:-false},
-  "ollamaReachable": ${OLLAMA_API_REACHABLE:-false},
+  "anthropicReachable": $([ "$ANTHROPIC_REACHABLE" = "1" ] && echo True || echo False),
+  "ollamaReachable": $([ "$OLLAMA_API_REACHABLE" = "1" ] && echo True || echo False),
   "checks": {
-    "gateway": "${CHECK_RESULTS[gateway]:-unknown}",
-    "ollama": "${CHECK_RESULTS[ollama]:-unknown}",
-    "disk": "${CHECK_RESULTS[disk]:-unknown}",
-    "healthStateAge": "${CHECK_RESULTS[health-state]:-ok}",
-    "costStateAge": "${CHECK_RESULTS[cost-state]:-ok}",
+    "gateway": "$CHECK_gateway",
+    "ollama": "$CHECK_ollama",
+    "disk": "$CHECK_disk",
+    "healthStateAge": "$CHECK_health_state",
+    "costStateAge": "$CHECK_cost_state",
     "staleLockFilesCleared": $LOCK_CLEARED,
-    "anthropicApi": "${CHECK_RESULTS[anthropic]:-unknown}",
-    "ollamaApi": "${CHECK_RESULTS[ollamaApi]:-unknown}"
+    "anthropicApi": "$CHECK_anthropic",
+    "ollamaApi": "$CHECK_ollamaApi"
   }
 }
 json.dump(state, open("$STATE_FILE", "w"), indent=2)

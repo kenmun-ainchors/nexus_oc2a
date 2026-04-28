@@ -3,16 +3,20 @@
   "overallStatus": "ok",
   "consecutiveFailures": 0,
   "alerted": false,
-  "lastCheck": "2026-04-26T22:05:43Z",
-  "lastOk": "2026-04-26T22:05:43Z",
+  "lastCheck": "2026-04-28T01:22:27Z",
+  "lastOk": "2026-04-28T01:22:27Z",
   "exitCode": 0,
   "issues": [],
+  "anthropicReachable": true,
+  "ollamaReachable": true,
   "checks": {
     "gateway": "ok",
     "ollama": "ok",
     "disk": "ok",
     "healthStateAge": "ok",
     "costStateAge": "ok",
-    "staleLockFilesCleared": 0
+    "staleLockFilesCleared": 0,
+    "anthropicApi": "ok",
+    "ollamaApi": "ok"
   }
 }

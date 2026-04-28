@@ -35,6 +35,18 @@ This log captures **every change** Yoda makes to AInchors infrastructure, config
 **Linked:** decisions.md 2026-04-27 entries
 ---
 
+## 2026-04-28 11:22 AEST — [CHG-0052] Fix health-check.sh: declare -A, Python bool, lock glob bugs
+**Type:** script
+**Source:** ken-prompt
+**Trigger:** Ken: health alert failed and stale. Script was crashing silently since Day 2.
+**What changed:** scripts/health-check.sh: (1) declare -A removed — replaced with plain vars for bash 3.2 compat (cron calls bash not zsh, ignoring shebang). (2) ANTHROPIC_REACHABLE/OLLAMA_API_REACHABLE changed true/false → 1/0 to avoid Python NameError on bool substitution. (3) Python heredoc bool fixed to True. (4) Lock file glob fixed to *.lock(N) to suppress zsh no-match error. Result: state file now writes correctly on every run.
+**Why:** health-state.json was last updated 2026-04-26T22:05:43Z — over 27hrs stale. Three compounding bugs caused the Python state writer to fail silently on every run. Haiku cron was correctly silent (consecutiveFailures=0) but status was perpetually degraded.
+**Verification:** zsh scripts/health-check.sh → State written: ok. All 9 checks PASS. health-state.json lastCheck updated to current time.
+**Rollback:** Revert health-check.sh from git.
+**Linked:** TKT-0015
+---
+
+
 ## 2026-04-28 11:13 AEST — [CHG-0051] Sage Rule 1: QA gate on all shared/communicated assets
 **Type:** rule
 **Source:** ken-prompt

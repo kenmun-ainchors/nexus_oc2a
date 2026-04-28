@@ -62,10 +62,20 @@
       "status": "pass",
       "latencyMs": 0,
       "notes": "9 checks run"
+    },
+    {
+      "ts": "2026-04-28T11:20:34+10:00",
+      "date": "2026-04-28",
+      "tier": "T2",
+      "taskType": "health-check",
+      "model": "anthropic/claude-haiku-4-5",
+      "status": "fail",
+      "latencyMs": 1200,
+      "notes": ""
     }
   ],
   "summary": {
-    "total": 6,
+    "total": 7,
     "byTier": {
       "T1": {
         "pass": 0,
@@ -74,7 +84,7 @@
       },
       "T2": {
         "pass": 4,
-        "fail": 1,
+        "fail": 2,
         "timeout": 0
       },
       "T3": {
@@ -86,7 +96,7 @@
     "byTaskType": {
       "health-check": {
         "pass": 1,
-        "fail": 1,
+        "fail": 2,
         "timeout": 0,
         "tier": "T2"
       },
