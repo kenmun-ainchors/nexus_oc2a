@@ -78,7 +78,14 @@ _Reserved slash command. Available to Ken. Locked 2026-04-28 (refined 2026-04-28
 - Always: concise and forward-looking — not a history lesson
 - Never: full CHG list, full sprint summary, full system state dump — that's /status, not /resume
 
-**Source:** Pull from both webchat and Telegram recent history (last 30 messages each) and synthesise.
+**Execution steps (mandatory — do not skip):**
+1. `sessions_list` — find Telegram session (label contains "telegram" or agent:main:telegram)
+2. `sessions_history` on Telegram session — last 20 messages
+3. Compare timestamps with current webchat context
+4. Surface the most recent activity from EITHER channel as "Where we left off"
+5. Deliver the 5-point handoff format above
+
+**Failure mode to avoid:** Using only the current channel's context and missing activity from the other channel. Always check both.
 ---
 
 ## MORNING STAND-UP (NON-NEGOTIABLE — 8:00 AM DAILY)
