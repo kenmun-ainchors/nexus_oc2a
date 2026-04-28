@@ -3,115 +3,79 @@
   "history": {
     "2026-04-25": {
       "date": "2026-04-25",
-      "totalCost": 25.7494,
-      "totalTurns": 416,
-      "totalInputTokens": 583,
-      "totalOutputTokens": 160704,
-      "totalCacheReadTokens": 32176831,
-      "totalCacheWriteTokens": 3649065,
+      "totalCost": 49.94,
+      "source": "anthropic_csv_ground_truth",
       "byModel": {
+        "claude-opus-4-7": {
+          "cost": 1.25,
+          "turns": 0
+        },
         "claude-sonnet-4-6": {
-          "input": 583,
-          "output": 160704,
-          "cacheRead": 32176831,
-          "cacheWrite": 3649065,
-          "cost": 25.7494,
-          "turns": 416
+          "cost": 48.69,
+          "turns": 0
         }
       }
     },
     "2026-04-26": {
       "date": "2026-04-26",
-      "totalCost": 37.1455,
-      "totalTurns": 499,
-      "totalInputTokens": 663,
-      "totalOutputTokens": 208682,
-      "totalCacheReadTokens": 33156717,
-      "totalCacheWriteTokens": 6417667,
+      "totalCost": 82.84,
+      "source": "anthropic_csv_ground_truth",
       "byModel": {
+        "claude-opus-4-7": {
+          "cost": 17.0,
+          "turns": 0
+        },
         "claude-sonnet-4-6": {
-          "input": 663,
-          "output": 208682,
-          "cacheRead": 33156717,
-          "cacheWrite": 6417667,
-          "cost": 37.1455,
-          "turns": 499
+          "cost": 65.84,
+          "turns": 0
         }
       }
     },
     "2026-04-27": {
       "date": "2026-04-27",
-      "totalCost": 90.0654,
-      "totalTurns": 793,
-      "totalInputTokens": 1185,
-      "totalOutputTokens": 309295,
-      "totalCacheReadTokens": 84305160,
-      "totalCacheWriteTokens": 16034896,
+      "totalCost": 121.26,
+      "source": "anthropic_csv_ground_truth",
       "byModel": {
+        "claude-opus-4-7": {
+          "cost": 4.74,
+          "turns": 0
+        },
         "claude-sonnet-4-6": {
-          "input": 1185,
-          "output": 309295,
-          "cacheRead": 84305160,
-          "cacheWrite": 16034896,
-          "cost": 90.0654,
-          "turns": 793
+          "cost": 116.52,
+          "turns": 0
         }
       }
     },
     "2026-04-28": {
       "date": "2026-04-28",
-      "totalCost": 270.7277,
-      "totalTurns": 1667,
-      "totalInputTokens": 5073,
-      "totalOutputTokens": 830763,
-      "totalCacheReadTokens": 275311451,
-      "totalCacheWriteTokens": 47566437,
+      "totalCost": 150.86,
+      "source": "anthropic_csv_ground_truth",
       "byModel": {
-        "claude-sonnet-4-6": {
-          "input": 2015,
-          "output": 784691,
-          "cacheRead": 271525255,
-          "cacheWrite": 46922639,
-          "cost": 269.1939,
-          "turns": 1389
-        },
-        "gateway-injected": {
-          "input": 0,
-          "output": 0,
-          "cacheRead": 0,
-          "cacheWrite": 0,
-          "cost": 0.0,
-          "turns": 2
-        },
         "claude-haiku-4-5": {
-          "input": 3051,
-          "output": 45951,
-          "cacheRead": 3765274,
-          "cacheWrite": 622563,
-          "cost": 1.3875,
-          "turns": 274
+          "cost": 1.39,
+          "turns": 0
         },
         "claude-opus-4-7": {
-          "input": 7,
-          "output": 121,
-          "cacheRead": 20922,
-          "cacheWrite": 21235,
-          "cost": 0.1462,
-          "turns": 2
+          "cost": 0.14,
+          "turns": 0
+        },
+        "claude-sonnet-4-6": {
+          "cost": 149.33,
+          "turns": 0
         }
       }
     }
   },
-  "allTimeTotalCost": 423.688,
+  "allTimeTotalCost": 404.9,
   "daysTracked": 4,
-  "avgDailyCost": 105.922,
+  "avgDailyCost": 101.225,
   "apiBalance": {
     "currency": "USD",
     "balance": 145.6,
     "topUpDate": "2026-04-28",
     "spentSinceTopUp": 0,
     "remainingEstimate": 58.72,
-    "note": "Ken confirmed USD 58.72 at 18:34 AEST 2026-04-28. Down from 145.6 at 13:06 \u2014 ~A$133 burned in 5.5hrs afternoon session.",
+    "note": "Balance $58.72 confirmed by Ken 18:34 AEST. Total billed per Anthropic CSV: $404.90 USD over 4 days.",
     "confirmedAt": "2026-04-28T18:34:00+10:00",
     "confirmedBy": "Ken",
     "confirmedBalance": 58.72
@@ -165,5 +129,7 @@
       "threshold": 30.0,
       "triggered": false
     }
-  }
+  },
+  "costDataSource": "anthropic_csv_2026-04-28",
+  "costDataNote": "Rebuilt from Anthropic billing CSV. Includes cache write charges missed by session-log tracker."
 }

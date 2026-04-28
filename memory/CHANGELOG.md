@@ -35,6 +35,18 @@ This log captures **every change** Yoda makes to AInchors infrastructure, config
 **Linked:** decisions.md 2026-04-27 entries
 ---
 
+## 2026-04-28 18:40 AEST — [CHG-0070] Cost tracker rebuilt from Anthropic CSV — cache write charges now included
+**Type:** data
+**Source:** ken-prompt
+**Trigger:** Ken provided claude_api_cost_2026_04_01_to_2026_04_28.csv. Session-log tracker was missing cache write charges.
+**What changed:** state/api-cost-actuals.json (NEW): ground truth from Anthropic billing CSV. state/cost-state.json: history rebuilt from CSV — all 4 days corrected. cost-alert-state.json: balance updated to $58.72. Root cause: cost-tracker.sh reads session logs which only capture output token costs — does NOT include input_cache_write_5m charges billed separately by Anthropic.
+**Why:** Session-log tracker showed $244. Anthropic CSV shows $404.90. Delta of $160 = cache write charges. Day 2 Opus drift cost $17.00 in real billing vs $0.15 session-log estimate.
+**Verification:** Corrected history matches Anthropic CSV exactly. Balance $58.72 confirmed by Ken.
+**Rollback:** Restore previous cost-state.json from git.
+**Linked:** TKT-0015 CHG-0050 CHG-0068
+---
+
+
 ## 2026-04-28 18:32 AEST — [CHG-0069] Day 4 sprint CLOSED
 **Type:** rule
 **Source:** ken-prompt
