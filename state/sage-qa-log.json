@@ -125,11 +125,25 @@
       "issues": [
         "[]"
       ]
+    },
+    {
+      "ts": "2026-04-28T12:21:20+10:00",
+      "assetPath": "/Users/ainchorsangiefpl/.openclaw/canvas/documents/governance-gate-angie/index.html",
+      "assetType": "html",
+      "producedBy": "yoda",
+      "intendedFor": "Angie Foong, CEO",
+      "brief": "Plain-language explainer for Angie on the Aria governance gate feature",
+      "verdict": "PASS",
+      "passCount": 7,
+      "failCount": 0,
+      "issues": [
+        "[]"
+      ]
     }
   ],
   "summary": {
-    "total": 9,
-    "pass": 9,
+    "total": 10,
+    "pass": 10,
     "fail": 0
   }
 }
