@@ -35,6 +35,18 @@ This log captures **every change** Yoda makes to AInchors infrastructure, config
 **Linked:** decisions.md 2026-04-27 entries
 ---
 
+## 2026-04-28 10:47 AEST — [CHG-0049] 3-tier routing live: route-model.sh, governance cron scaffolding, Haiku extended
+**Type:** config
+**Source:** ken-prompt
+**Trigger:** TKT-0014 actions A+B+C: governance Haiku crons, qwen3 /no_think benchmark, routing framework
+**What changed:** scripts/route-model.sh — routing decision engine (T1=Sonnet/T2=Haiku/T3=gemma4:e2b/EM=gemma4:26b). RULES.md — model routing rules section added. Backup cron → Haiku. Shield/Lex/Sage daily review crons created (disabled, Haiku, ready to enable). qwen3:4b /no_think benchmark: consistent timeouts — not viable for Tier 2. Verdict: Haiku 4.5 is sole Tier 2 model.
+**Why:** Complete 3-tier routing implementation. Governance agents ready to activate on Haiku. qwen3 ruled out — latency too high even without thinking output.
+**Verification:** route-model.sh self-test: 10 routing decisions all correct. Governance crons created disabled. Haiku benchmark remains 8/8 PASS 893ms.
+**Rollback:** Remove route-model.sh. Revert backup cron to Sonnet. Delete governance crons.
+**Linked:** TKT-0014 CHG-0048 US35
+---
+
+
 ## 2026-04-28 10:39 AEST — [CHG-0048] 3-tier model strategy: Haiku 4.5 as Tier 2, qwen3 benchmarked
 **Type:** agent
 **Source:** ken-prompt

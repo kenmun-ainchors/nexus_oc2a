@@ -378,3 +378,45 @@ openclaw agents list
 bash scripts/gateway-restore.sh --snapshot
 ```
 This captures all gateway config files into a dated snapshot with sha256 manifest. Use it before and after any risky gateway change.
+
+---
+
+## Model Routing Rules (3-Tier Strategy)
+_Added 2026-04-28. Ken approved. TKT-0014, CHG-0049._
+
+### The Three Tiers
+
+| Tier | Model | When to use |
+|------|-------|-------------|
+| **T1 — Orchestration** | `claude-sonnet-4-6` | Ken-facing, complex reasoning, multi-step planning, external consequences, blog/journal, standup, strategy, incident response |
+| **T2 — Sub-tasks** | `claude-haiku-4-5` | Bounded structured output, governance reviews, health checks, status formatting, routing decisions, compliance checks, ticket updates, simple classification |
+| **T3 — Background** | `gemma4:e2b` | Offline crons, cost tracking, asset review, batch ops — where zero API cost and offline availability matter |
+| **Emergency** | `gemma4:26b` | Anthropic API unreachable only — never for active delegation |
+
+### Routing Script
+`bash scripts/route-model.sh <task-type>` → returns the correct model ID.
+
+### When Spawning Sub-agents
+Before spawning any sub-agent or isolated session, use the routing script:
+
+```bash
+MODEL=$(bash /path/to/scripts/route-model.sh <task-type>)
+# then pass MODEL to sessions_spawn or cron payload
+```
+
+**Decision rule:** Default to T1 (Sonnet) when uncertain. Downgrade to T2 only when:
+1. Output is bounded and well-defined (single value, list, structured JSON)
+2. No Ken-facing delivery
+3. No external consequences if output is imperfect
+4. Part of a larger orchestration pipeline (not the top-level turn)
+
+**Never downgrade** when: output goes to Ken directly, task involves external sends, financial data, or incident response.
+
+### Governance Agent Routing
+Shield 🛡️ / Lex ⚖️ / Sage 🧪 / Warden 🔍 review tasks → always **T2 (Haiku)**.
+Exception: if a governance agent needs to draft a complex external document → T1 (Sonnet).
+
+### OC2 Future State
+When OC2 arrives (32GB RAM): re-evaluate T3 model. `gemma4:26b` keep-alive becomes viable,
+potentially replacing `gemma4:e2b` as T3 and becoming T2 for governance reviews at zero cost.
+See US34 + US35.
