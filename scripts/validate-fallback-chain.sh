@@ -1,7 +1,7 @@
 #!/bin/zsh
 # AInchors Fallback Chain Validator
 # Run on gateway start — validates the full fallback chain is healthy.
-# Fallback chain: Sonnet (primary) → Opus (fallback 1) → Gemma4 (fallback 2)
+# Fallback chain: Sonnet T1 → Haiku T2 → gemma4:e2b T3 → gemma4:e2b (emergency)
 #
 # Output: state/fallback-chain-status.json
 # Alert:  /tmp/pvt-alert.txt (appended if any link broken)

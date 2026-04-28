@@ -154,6 +154,8 @@ else
   [[ "$OVERALL_STATUS" == "ok" ]] && OVERALL_STATUS="degraded"
   ISSUES+=("Anthropic API key missing from keychain")
   log "CHECK anthropic: FAIL (key not in keychain)"
+  # Trigger outage handler (non-blocking)
+  zsh "$HOME/.openclaw/workspace/scripts/outage-handler.sh" >> "$HOME/Backups/ainchors/logs/health.log" 2>&1 &
 fi
 
 # ── CHECK 14: Ollama API reachability ────────────────────────────────────────
@@ -194,10 +196,12 @@ print("Standby mode ACTIVATED — fallback: gemma4")
 PYEOF2
   log "CHECK standby: ACTIVATED — Anthropic down, fallback=gemma4"
 else
-  # Anthropic OK — clear standby if it was set
+  # Anthropic OK — clear standby and outage state if they were set
   if [[ -f "$STANDBY_FILE" ]]; then
     rm -f "$STANDBY_FILE"
-    log "CHECK standby: CLEARED — Anthropic recovered, standby mode removed"
+    rm -f "$HOME/.openclaw/workspace/state/outage-alert-state.json"
+    rm -f "$HOME/.openclaw/workspace/state/system-banner.json"
+    log "CHECK standby: CLEARED — Anthropic recovered, standby mode removed, banner cleared"
   else
     log "CHECK standby: OK (not in standby)"
   fi

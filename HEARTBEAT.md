@@ -35,6 +35,14 @@
 - Read state/agent-status.json — any agents in failed state?
 - Alert if anything is degraded
 
+### Standby Mode & Outage Banner (check every heartbeat)
+- Check if state/standby-mode.json exists
+- If it does: **IMMEDIATELY** include this banner at the top of the next response to Ken:
+  > ⚠️ **STANDBY MODE ACTIVE** — Anthropic API unavailable since [since]. Fallback: [model]. Check billing at console.anthropic.com or run `zsh scripts/validate-fallback-chain.sh`
+- Check state/system-banner.json — if active=true, display it
+- When Anthropic recovers, files are auto-cleared by health-check.sh
+- State key: standbyMode
+
 ### Warden Escalations (check every 30 min)
 - Check if state/warden-escalation-pending.json exists
 - If it exists AND status = 'pending-yoda-action':

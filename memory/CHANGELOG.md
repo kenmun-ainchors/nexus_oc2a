@@ -35,6 +35,18 @@ This log captures **every change** Yoda makes to AInchors infrastructure, config
 **Linked:** decisions.md 2026-04-27 entries
 ---
 
+## 2026-04-28 14:18 AEST — [CHG-0058] US23 execution: outage handler, updated fallback chain, standby banner
+**Type:** script
+**Source:** ken-prompt
+**Trigger:** TKT-0018 / US23: resilient outage handling sprint
+**What changed:** scripts/outage-handler.sh (NEW): validates chain, activates standby-mode.json, writes system-banner.json, logs INC, alerts Ken — fires once on first Anthropic failure, deduplicates. validate-fallback-chain.sh: added Haiku T2 check (LINK 2b) + gemma4:e2b check (LINK 3b), reverted expected chain to 26b (correct — emergency fallback). health-check.sh: wired to call outage-handler.sh on Anthropic fail (non-blocking background). standby recovery: health-check clears standby-mode.json + outage-alert-state.json + system-banner.json when Anthropic recovers. Fallback chain validation cron: hourly (35c8cd08). HEARTBEAT.md: standby banner check added. Validation run: 5/5 PASS.
+**Why:** Prevent repeat of Day 2/3 overnight outage. Auto-detect, auto-fallback, auto-alert.
+**Verification:** TBD
+**Rollback:** Remove outage-handler.sh. Revert validate-fallback-chain.sh.
+**Linked:** TKT-0018 US23
+---
+
+
 ## 2026-04-28 12:44 AEST — [CHG-0056] AKB daily update cron — 3AM AEST, reads both stream journals
 **Type:** cron
 **Source:** ken-prompt
@@ -702,3 +714,9 @@ This log captures **every change** Yoda makes to AInchors infrastructure, config
 ---
 
 _Pre-existing changes (Day 1, Day 2) are captured in `memory/shared/decisions.md` and `memory/journal-2026-04-25.md` / `journal-2026-04-26.md`. Future changes start at CHG-0008._
+
+## 2026-04-28 13:47 AEST — [CHG-0057] Aria relay path fix
+**What:** Added Rule 5 to `workspace-business/SOUL.md` — correct Aria→Ken urgent message relay mechanism.
+**Why:** Aria's credit balance alert at 02:34 AEST never reached Ken. Root cause: `cron wake` is unreliable for sleeping sessions. Alert told Angie "Ken will get this shortly" — but the event was never processed.
+**Fix:** Rule 5 mandates using `cron add` with `sessionTarget: "main"` and `payload.kind: "systemEvent"` — fires into Yoda's main session, which is bound to Ken's Telegram. `deleteAfterRun: true`. Wake events prohibited for relays.
+**Approved by:** Ken (Telegram, 13:46 AEST)

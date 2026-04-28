@@ -1,7 +1,7 @@
 {
   "schema_version": "1.0",
   "description": "AInchors Service Ticket Log. Every ad-hoc request, task, or action without an existing INC/US/CHG reference MUST have a TKT number before work begins.",
-  "sequence": 18,
+  "sequence": 19,
   "tickets": [
     {
       "id": "TKT-0001",
@@ -325,6 +325,25 @@
         "chg": []
       },
       "notes": ""
+    },
+    {
+      "id": "TKT-0018",
+      "title": "US23: Resilient outage handling — execution sprint",
+      "type": "task",
+      "priority": "high",
+      "status": "resolved",
+      "requester": "Ken",
+      "assignee": "Yoda",
+      "created": "2026-04-28T14:18:12+10:00",
+      "updated": "2026-04-28T14:21:28+10:00",
+      "description": "Execute US23: auto-detect billing/auth failures, validate fallback chain on boot + first failure, standby mode with banner, recovery automation.",
+      "resolution": null,
+      "linked": {
+        "us": [],
+        "inc": [],
+        "chg": []
+      },
+      "notes": "US23 delivered: outage-handler.sh, validate-fallback-chain.sh updated (Haiku+e2b checks), health-check wired, hourly cron, standby banner, HEARTBEAT. CHG-0058."
     }
   ]
 }
