@@ -542,3 +542,18 @@ bash scripts/governance-report.sh --report-only
 ```
 ⚙️ Model: Sonnet | 🏛️ Governance: ✅ PASS (Shield 🛡️ · Lex ⚖️ · Sage 🧪) | /governance
 ```
+
+---
+
+## /credit — Balance & Burn Rate Check
+_Reserved keyword. Available to Ken and Angie. Locked 2026-04-28._
+
+**Trigger:** `/credit` typed in any session.
+
+**Response format:**
+- Confirmed API balance (USD)
+- Today's spend so far + turns
+- Per-model breakdown
+- Burn rate vs $40/day threshold
+- Days of runway at current pace
+- Alert if balance < $50 (approaching Tier 1 threshold)
