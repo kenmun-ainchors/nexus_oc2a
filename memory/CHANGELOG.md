@@ -35,6 +35,18 @@ This log captures **every change** Yoda makes to AInchors infrastructure, config
 **Linked:** decisions.md 2026-04-27 entries
 ---
 
+## 2026-04-28 14:32 AEST — [CHG-0060] US27: Run Diagnostics phases 7-9 (coverage, performance, predictive)
+**Type:** script
+**Source:** ken-prompt
+**Trigger:** TKT-0019 US27
+**What changed:** Added phase 7 (coverage analysis: 35 scripts, 11 crons, 7 state files, 6 agents), phase 8 (performance benchmarks: gateway 0.021s, ollama 0.003s, health-check 0s, model-drift 13s, 11 canvas docs), phase 9 (predictive health: disk 4% GREEN, balance 2.4d AMBER, warden 27 clean, backup 12h GREEN, logs 7 GREEN, cron errors 0 GREEN) to run-diagnostics.sh
+**Why:** Complete assurance layer — US27 diagnostics coverage, performance, and predictive health phases
+**Verification:** 9 phases ran: 50 PASS, 8 WARN, 0 FAIL. All phases completed without errors.
+**Rollback:** Remove phases 7-9 from run-diagnostics.sh
+**Linked:** US27
+---
+
+
 ## 2026-04-28 14:26 AEST — [CHG-0059] ITSM batch: QW-2 severity flag, QW-3 Standards.md, ITSM-US-007 auto-heal INC, ITSM-US-006 PIR trigger
 **Type:** script
 **Source:** ken-prompt

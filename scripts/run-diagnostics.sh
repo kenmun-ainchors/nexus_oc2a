@@ -272,40 +272,26 @@ fi
 
 # Cron coverage — check expected cron names exist
 CRON_NAMES=$(cat "$HOME/.openclaw/cron/jobs.json" 2>/dev/null | jq -r '.jobs[].name' 2>/dev/null || echo "")
-typeset -A CRON_PATTERNS=(
-  [health]="Gateway Health Check"
-  [warden]="Warden"
-  [backup]="Daily Backup"
-  [standup]="Stand-Up"
-  [auto-heal]="Auto-Heal"
-  [daily-close-1]="Daily Close.*Journal"
-  [daily-close-2]="Daily Close.*Blog"
-  [akb]="AKB"
-  [fallback]="Fallback Chain"
-  [burn-alert]="Burn Alert"
-  [midday-cost]="Midday Cost"
-)
-for key pattern in ${(kv)CRON_PATTERNS}; do
-  if echo "$CRON_NAMES" | grep -qE "$pattern"; then
-    pass "cron coverage: $key present"
+# Use parallel arrays for bash/zsh compat
+CRON_KEYS=(health warden backup standup auto-heal daily-close-1 daily-close-2 akb fallback burn-alert midday-cost)
+CRON_PATS=("Gateway Health Check" "Warden" "Daily Backup" "Stand-Up" "Auto-Heal" "Daily Close.*Journal" "Daily Close.*Blog" "AKB" "Fallback Chain" "Burn Alert" "Midday Cost")
+for idx in $(seq 1 ${#CRON_KEYS[@]}); do
+  ck="${CRON_KEYS[$idx]}"
+  cp="${CRON_PATS[$idx]}"
+  [[ -z "$ck" ]] && continue
+  if echo "$CRON_NAMES" | grep -qE "$cp"; then
+    pass "cron coverage: $ck present"
   else
-    warn "cron coverage: $key MISSING (pattern: $pattern)"
+    warn "cron coverage: $ck MISSING (pattern: $cp)"
   fi
 done
 
 # State file coverage — expected files < 48hrs
 SF_NOW=$(date +%s)
-typeset -A EXPECTED_STATE=(
-  [health-state.json]="$STATE_DIR/health-state.json"
-  [cost-state.json]="$STATE_DIR/cost-state.json"
-  [model-drift-state.json]="$STATE_DIR/model-drift-state.json"
-  [agent-status.json]="$STATE_DIR/agent-status.json"
-  [fallback-chain-status.json]="$STATE_DIR/fallback-chain-status.json"
-  [daily-note.json]="$STATE_DIR/daily-note.json"
-  [model-policy.json]="$STATE_DIR/model-policy.json"
-)
+EXPECTED_STATE_FILES=(health-state.json cost-state.json model-drift-state.json agent-status.json fallback-chain-status.json daily-note.json model-policy.json)
 STATE_GAPS=0
-for sfkey sfpath in ${(kv)EXPECTED_STATE}; do
+for sfkey in "${EXPECTED_STATE_FILES[@]}"; do
+  sfpath="$STATE_DIR/$sfkey"
   if [[ ! -f "$sfpath" ]]; then
     warn "state: $sfkey MISSING"
     (( STATE_GAPS++ ))
@@ -338,60 +324,68 @@ log "  Coverage summary: ${#SCRIPT_GAPS[@]} script gaps, $STATE_GAPS state gaps"
 # ────────────────────────── PHASE 8: PERFORMANCE BENCHMARKS ──────────────────────────
 phase "8. Performance Benchmarks"
 
+# Helper: sample endpoint 3x and return avg time (seconds, 3dp)
+perf_avg() {
+  local url="$1" sum=0 count=0 t
+  for _i in 1 2 3; do
+    t=$(curl -o /dev/null -s -m 5 -w "%{time_total}" "$url" 2>/dev/null)
+    # validate numeric
+    if echo "$t" | grep -qE '^[0-9]+\.?[0-9]*$'; then
+      sum=$(awk "BEGIN{printf \"%.6f\", $sum + $t}")
+      (( count++ ))
+    fi
+  done
+  if (( count > 0 )); then
+    awk "BEGIN{printf \"%.3f\", $sum / $count}"
+  else
+    echo "0.000"
+  fi
+}
+
 # Gateway response time — 3 samples
-GW_TIMES=()
-for i in 1 2 3; do
-  T=$(curl -o /dev/null -s -w "%{time_total}" -m 5 http://127.0.0.1:18789 2>/dev/null || echo "0")
-  GW_TIMES+=("$T")
-done
-GW_AVG=$(echo "${GW_TIMES[@]}" | awk '{s=0; for(i=1;i<=NF;i++) s+=$i; printf "%.3f", s/NF}')
-log "  Gateway response time: ${GW_TIMES[@]} → avg ${GW_AVG}s"
-if (( $(echo "$GW_AVG < 0.001" | bc -l 2>/dev/null || echo 0) )); then
+GW_AVG=$(perf_avg "http://127.0.0.1:18789")
+log "  Gateway avg response time: ${GW_AVG}s (3 samples)"
+if awk "BEGIN{exit ($GW_AVG < 0.001 ? 0 : 1)}" 2>/dev/null; then
   warn "gateway perf: avg ${GW_AVG}s (no response — may be offline)"
-elif (( $(echo "$GW_AVG < 1.0" | bc -l 2>/dev/null || echo 1) )); then
+elif awk "BEGIN{exit ($GW_AVG < 1.0 ? 0 : 1)}" 2>/dev/null; then
   pass "gateway perf: avg ${GW_AVG}s (OK)"
 else
   warn "gateway perf: avg ${GW_AVG}s (SLOW >1s)"
 fi
 
 # Ollama API response time — 3 samples
-OL_TIMES=()
-for i in 1 2 3; do
-  T=$(curl -o /dev/null -s -w "%{time_total}" -m 5 http://localhost:11434/api/tags 2>/dev/null || echo "0")
-  OL_TIMES+=("$T")
-done
-OL_AVG=$(echo "${OL_TIMES[@]}" | awk '{s=0; for(i=1;i<=NF;i++) s+=$i; printf "%.3f", s/NF}')
-log "  Ollama response time: ${OL_TIMES[@]} → avg ${OL_AVG}s"
-if (( $(echo "$OL_AVG < 0.001" | bc -l 2>/dev/null || echo 0) )); then
+OL_AVG=$(perf_avg "http://localhost:11434/api/tags")
+log "  Ollama avg response time: ${OL_AVG}s (3 samples)"
+if awk "BEGIN{exit ($OL_AVG < 0.001 ? 0 : 1)}" 2>/dev/null; then
   warn "ollama perf: avg ${OL_AVG}s (no response — offline?)"
-elif (( $(echo "$OL_AVG < 1.0" | bc -l 2>/dev/null || echo 1) )); then
+elif awk "BEGIN{exit ($OL_AVG < 1.0 ? 0 : 1)}" 2>/dev/null; then
   pass "ollama perf: avg ${OL_AVG}s (OK)"
 else
   warn "ollama perf: avg ${OL_AVG}s (SLOW >1s)"
 fi
 
-# health-check.sh wall time
-HC_START=$(date +%s%3N)
+# health-check.sh wall time (seconds resolution)
+HC_START=$(date +%s)
 zsh "$WORKSPACE/scripts/health-check.sh" > /dev/null 2>&1 || true
-HC_END=$(date +%s%3N)
-HC_MS=$(( HC_END - HC_START ))
-log "  health-check.sh wall time: ${HC_MS}ms"
-if (( HC_MS < 30000 )); then
-  pass "health-check.sh perf: ${HC_MS}ms"
+HC_END=$(date +%s)
+HC_SECS=$(( HC_END - HC_START ))
+log "  health-check.sh wall time: ${HC_SECS}s"
+if (( HC_SECS < 30 )); then
+  pass "health-check.sh perf: ${HC_SECS}s"
 else
-  warn "health-check.sh perf: ${HC_MS}ms (>30s)"
+  warn "health-check.sh perf: ${HC_SECS}s (>30s)"
 fi
 
-# model-drift-check.sh wall time
-MD_START=$(date +%s%3N)
+# model-drift-check.sh wall time (seconds resolution)
+MD_START=$(date +%s)
 zsh "$WORKSPACE/scripts/model-drift-check.sh" > /dev/null 2>&1 || true
-MD_END=$(date +%s%3N)
-MD_MS=$(( MD_END - MD_START ))
-log "  model-drift-check.sh wall time: ${MD_MS}ms"
-if (( MD_MS < 30000 )); then
-  pass "model-drift-check.sh perf: ${MD_MS}ms"
+MD_END=$(date +%s)
+MD_SECS=$(( MD_END - MD_START ))
+log "  model-drift-check.sh wall time: ${MD_SECS}s"
+if (( MD_SECS < 30 )); then
+  pass "model-drift-check.sh perf: ${MD_SECS}s"
 else
-  warn "model-drift-check.sh perf: ${MD_MS}ms (>30s)"
+  warn "model-drift-check.sh perf: ${MD_SECS}s (>30s)"
 fi
 
 # Canvas file sizes
@@ -423,13 +417,14 @@ fi
 # Balance runway
 BALANCE=$(cat "$STATE_DIR/cost-state.json" 2>/dev/null | jq -r '.apiBalance.confirmedBalance // .apiBalance.balance // 0' 2>/dev/null || echo 0)
 AVG_COST=$(cat "$STATE_DIR/cost-state.json" 2>/dev/null | jq -r '.avgDailyCost // 0' 2>/dev/null || echo 0)
-if (( $(echo "$AVG_COST > 0" | bc -l 2>/dev/null || echo 0) )); then
-  RUNWAY=$(echo "$BALANCE / $AVG_COST" | bc -l 2>/dev/null | awk '{printf "%.1f", $1}')
+RUNWAY_INT=99
+if awk "BEGIN{exit ($AVG_COST > 0 ? 0 : 1)}" 2>/dev/null; then
+  RUNWAY=$(awk "BEGIN{printf \"%.1f\", $BALANCE / $AVG_COST}")
+  RUNWAY_INT=$(awk "BEGIN{printf \"%d\", int($BALANCE / $AVG_COST)}")
 else
   RUNWAY="∞"
 fi
 log "  Balance: \$$BALANCE | AvgDailyCost: \$$AVG_COST | Runway: ${RUNWAY} days"
-RUNWAY_INT=$(echo "$RUNWAY" | awk '{printf "%d", $1}' 2>/dev/null || echo 99)
 if [[ "$RUNWAY" == "∞" ]] || (( RUNWAY_INT >= 5 )); then
   pass "balance runway: ${RUNWAY} days — GREEN (balance \$$BALANCE)"
 elif (( RUNWAY_INT >= 2 )); then
@@ -451,6 +446,7 @@ fi
 
 # Last backup age
 LAST_BACKUP=$(find "$HOME/Backups/ainchors/" -type f -name "*.tar.gz" 2>/dev/null | sort -r | head -1)
+BK_HRS=999
 if [[ -n "$LAST_BACKUP" ]]; then
   BK_MOD=$(stat -f '%m' "$LAST_BACKUP" 2>/dev/null || echo 0)
   BK_NOW=$(date +%s)
@@ -491,14 +487,26 @@ else
 fi
 
 # Risk summary table
+RISK_DISK="GREEN"
+(( DISK_PCT >= 85 )) && RISK_DISK="RED" || (( DISK_PCT >= 70 )) && RISK_DISK="AMBER" || true
+RISK_RUNWAY="GREEN"
+(( RUNWAY_INT < 2 )) && RISK_RUNWAY="RED" || (( RUNWAY_INT < 5 )) && RISK_RUNWAY="AMBER" || true
+RISK_WARDEN="GREEN"
+(( CLEAN < 3 )) && RISK_WARDEN="AMBER" || true
+RISK_BACKUP="GREEN"
+(( BK_HRS > 48 )) && RISK_BACKUP="RED" || (( BK_HRS > 25 )) && RISK_BACKUP="AMBER" || true
+RISK_LOGS="GREEN"
+(( DIAG_LOG_COUNT > 30 )) && RISK_LOGS="AMBER" || true
+RISK_CRON="GREEN"
+(( CRON_ERRORS > 0 )) && RISK_CRON="AMBER" || true
 log ""
 log "  PREDICTIVE HEALTH RISK TABLE:"
-log "  Disk:          $([ $DISK_PCT -ge 85 ] && echo RED || [ $DISK_PCT -ge 70 ] && echo AMBER || echo GREEN) (${DISK_PCT}% used, ${DISK_AVAIL} free)"
-log "  Balance Runway:$(echo $RUNWAY | awk '{r=$1+0; if(r>=5) print \" GREEN\"; else if(r>=2) print \" AMBER\"; else print \" RED\"}') (${RUNWAY} days @ \$$AVG_COST/day)"
-log "  Warden Streak: $([ $CLEAN -ge 10 ] && echo GREEN || echo AMBER) ($CLEAN consecutive clean)"
-log "  Last Backup:   $([ $BK_HRS -le 25 ] && echo GREEN || [ $BK_HRS -le 48 ] && echo AMBER || echo RED) (${BK_HRS}h ago)"
-log "  Log Rotation:  $([ $DIAG_LOG_COUNT -gt 30 ] && echo AMBER || echo GREEN) ($DIAG_LOG_COUNT log files)"
-log "  Cron Errors:   $([ $CRON_ERRORS -gt 0 ] && echo AMBER || echo GREEN) ($CRON_ERRORS crons with errors)"
+log "  Disk:           $RISK_DISK (${DISK_PCT}% used, ${DISK_AVAIL} free)"
+log "  Balance Runway: $RISK_RUNWAY (${RUNWAY} days @ \$$AVG_COST/day)"
+log "  Warden Streak:  $RISK_WARDEN ($CLEAN consecutive clean)"
+log "  Last Backup:    $RISK_BACKUP (${BK_HRS}h ago)"
+log "  Log Rotation:   $RISK_LOGS ($DIAG_LOG_COUNT log files)"
+log "  Cron Errors:    $RISK_CRON ($CRON_ERRORS crons with errors)"
 
 # ────────────────────────── REPORT GENERATION ──────────────────────────
 log ""
