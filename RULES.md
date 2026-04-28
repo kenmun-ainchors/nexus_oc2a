@@ -521,6 +521,24 @@ _Reserved slash command. Available to Ken (Yoda) and Angie (Aria). Locked 2026-0
 - Yoda handles governance decisions with Ken directly (no ask-first required).
 - `/governance` ad-hoc command bypasses the ask and runs immediately (user explicitly requested it).
 
+### Governance Gate — When to Skip (Tech Stream)
+
+The Shield → Lex → Sage gate applies to **external-facing assets**. The trigger is the **intended recipient**, not which agent produced it.
+
+| Asset / Activity | Governance required? | Who decides |
+|---|---|---|
+| Yoda internal work — scripts, state files, CHANGELOGs, git commits | ❌ Skip | N/A — internal |
+| Yoda/Ken private session notes, memory, journals | ❌ Skip | N/A — internal |
+| Ken reviews a doc before deciding to share it | ❌ Skip | Ken decides at share time |
+| Any asset Ken will share with Angie, clients, or publicly | ✅ Run | Yoda runs directly (no ask) |
+| Any asset Aria produces for Angie to share or send | ✅ Ask Angie first | Aria asks, Angie decides |
+
+**Rule:** If it leaves the Ken+Yoda private loop → governance runs.
+**Yoda:** Never ask Ken. Just run it and report the result.
+**Aria:** Always ask Angie. Let her decide.
+
+
+
 **Yoda invocation:**
 ```bash
 bash scripts/governance-report.sh \
