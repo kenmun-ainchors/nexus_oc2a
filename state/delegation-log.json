@@ -32,10 +32,20 @@
       "status": "pass",
       "latencyMs": 6081,
       "notes": "Seed entry \u2014 cost tracker on gemma4:e2b 2026-04-28"
+    },
+    {
+      "ts": "2026-04-28T10:54:29+10:00",
+      "date": "2026-04-28",
+      "tier": "T2",
+      "taskType": "warden-check",
+      "model": "anthropic/claude-haiku-4-5",
+      "status": "pass",
+      "latencyMs": 0,
+      "notes": "9 checks run"
     }
   ],
   "summary": {
-    "total": 3,
+    "total": 4,
     "byTier": {
       "T1": {
         "pass": 0,
@@ -43,7 +53,7 @@
         "timeout": 0
       },
       "T2": {
-        "pass": 2,
+        "pass": 3,
         "fail": 0,
         "timeout": 0
       },
@@ -61,7 +71,7 @@
         "tier": "T2"
       },
       "warden-check": {
-        "pass": 1,
+        "pass": 2,
         "fail": 0,
         "timeout": 0,
         "tier": "T2"
@@ -73,6 +83,6 @@
         "tier": "T3"
       }
     },
-    "estimatedSavingsUSD": 0.0175
+    "estimatedSavingsUSD": 0.0225
   }
 }
