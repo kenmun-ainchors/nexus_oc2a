@@ -210,7 +210,8 @@ fi
 # ── CHECK 5: Stale lock files — clear if >LOCK_STALE_MIN old ─────────────────
 LOCK_CLEARED=0
 LOCK_FOUND=0
-for lock_file in "$LOCK_DIR"/*.lock(N); do
+for lock_file in "$LOCK_DIR"/*.lock; do
+  [[ -e "$lock_file" ]] || continue
   [[ -f "$lock_file" ]] || continue
   LOCK_FOUND=$((LOCK_FOUND + 1))
   lock_epoch=$(stat -f %m "$lock_file" 2>/dev/null || echo 0)

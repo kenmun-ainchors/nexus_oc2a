@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "updatedAt": "2026-04-28T04:32:39.445Z",
+  "updatedAt": "2026-04-28T07:04:45.287Z",
   "entries": {
     "memory:memory/2026-04-26.md:94:122": {
       "key": "memory:memory/2026-04-26.md:94:122",
@@ -222,6 +222,37 @@
         "operations/angieo",
         "gate",
         "all"
+      ]
+    },
+    "memory:memory/2026-04-27.md:569:601": {
+      "key": "memory:memory/2026-04-27.md:569:601",
+      "path": "memory/2026-04-27.md",
+      "startLine": 569,
+      "endLine": 601,
+      "source": "memory",
+      "snippet": "### CHG-0022: Slash Commands Formalised - `/resume` — pull both webchat + Telegram transcripts, synthesise, deliver handoff summary - `/research` — deep research mode, spawn sub-agent, web access, structured findings with sources - `/diagnostics` — 6-phase deep inspection - RULES.md + SOUL.md updated. No more plain-phrase triggers. --- ## 10:34–11:23 AEST — Aria Created + Governance Layer ### CHG-0023: Business Lead Agent Aria 🔵 Created - `workspace-business/` directory created - Identity: Aria 🔵, AI Business Operations Lead - Angie Foong (Telegram 8141152780) bound to business agent - Any Angie Telegram message routes to Aria - OC2 precursor — lives on OC1 temporarily, migrates when ha",
+      "recallCount": 1,
+      "dailyCount": 0,
+      "groundedCount": 0,
+      "totalScore": 0.39078802466392515,
+      "maxScore": 0.39078802466392515,
+      "firstRecalledAt": "2026-04-28T07:04:45.287Z",
+      "lastRecalledAt": "2026-04-28T07:04:45.287Z",
+      "queryHashes": [
+        "7a37f92f1b87"
+      ],
+      "recallDays": [
+        "2026-04-28"
+      ],
+      "conceptTags": [
+        "chg-0022",
+        "sub-agent",
+        "6-phase",
+        "rules.md",
+        "soul.md",
+        "plain-phrase",
+        "chg-0023",
+        "workspace-business"
       ]
     }
   }

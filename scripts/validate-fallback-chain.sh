@@ -167,10 +167,13 @@ fi
 # ── Write state/fallback-chain-status.json ────────────────────────────────────
 OVERALL=$([[ ${#BROKEN[@]} -eq 0 ]] && echo "ok" || echo "broken")
 
+RESULTS_CSV=$(IFS=,; echo "${RESULTS[*]:-}")
+BROKEN_NL=$(IFS=$'\n'; echo "${BROKEN[*]:-}")
+
 python3 - << PYEOF
 import json
-results_raw = "${(j:,:)RESULTS}"
-broken_raw = """${(j:\n:)BROKEN}"""
+results_raw = """$RESULTS_CSV"""
+broken_raw = """$BROKEN_NL"""
 
 results_list = [r.strip() for r in results_raw.split(',') if r.strip()]
 broken_list = [b.strip() for b in broken_raw.split('\n') if b.strip()]

@@ -58,18 +58,27 @@ Full policy: `~/Documents/AInchors/Agents/ModelStrategy.md`
 
 ---
 
-## /resume — CROSS-CHANNEL HANDOFF
+## /resume — Channel Handoff & Context Switch
+_Reserved slash command. Available to Ken. Locked 2026-04-28 (refined 2026-04-28)._
 
-Trigger: Ken types **`/resume`** (case-insensitive) on any channel.
-_Previously "resume here" — renamed for clarity and unambiguity._
+**Purpose:** Full context switch and handoff between channels (webchat ↔ Telegram). Enables seamless pickup when switching devices or channels mid-session.
 
-When `/resume` is received:
-1. Pull transcript from webchat session (`agent:main:main`)
-2. Pull transcript from Telegram session (`agent:main:telegram:direct:*`) via `~/.openclaw/agents/main/sessions/sessions.json`
-3. Synthesise both into one unified context picture — what was done, what was decided, what's open
-4. Deliver handoff summary before continuing any work
-5. Never assume one channel has the full picture — always check both
+**Trigger:** `/resume` in any channel — webchat or Telegram.
 
+**What it produces (in order):**
+1. **Where we left off** — last 1-3 actions/decisions from the previous channel (not a full recap)
+2. **What's in flight** — anything pending, waiting for input, or running in background
+3. **What's next** — top 1-3 priorities for this session
+4. **System pulse** — one line: balance, health, any active alerts
+5. **Open question** — if anything needs Ken's decision before proceeding, surface it here
+
+**Format rules:**
+- Webchat: up to 20 lines, structured with headers
+- Telegram: 8 lines max, plain text, no markdown tables
+- Always: concise and forward-looking — not a history lesson
+- Never: full CHG list, full sprint summary, full system state dump — that's /status, not /resume
+
+**Source:** Pull from both webchat and Telegram recent history (last 30 messages each) and synthesise.
 ---
 
 ## MORNING STAND-UP (NON-NEGOTIABLE — 8:00 AM DAILY)

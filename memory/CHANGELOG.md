@@ -813,3 +813,13 @@ _Pre-existing changes (Day 1, Day 2) are captured in `memory/shared/decisions.md
 - Created Yoda-side poller cron (id: de5de5f4) — every 5 min, sessionTarget=main, checks queue, delivers unsent items to Ken's Telegram
 - Updated Aria Rule 5: correct mechanism = write to relay queue, not cron
 **Approved by:** Ken (Telegram, 15:10 AEST)
+
+## 2026-04-28 18:13 AEST — [CHG-0066] US35: Relay poller → Haiku + fix health-check + fallback-chain bugs
+**Type:** config + bugfix
+**Source:** ken-prompt (sprint grooming US35)
+**What changed:**
+- Relay Queue Poller cron (7a28cc83): added model=anthropic/claude-haiku-4-5. Was defaulting to Sonnet.
+- health-check.sh line 213: zsh glob (N) qualifier → bash-safe glob with -e guard (CHG-0052 class repeat, missed instance)
+- validate-fallback-chain.sh: zsh array join ${(j:,:)RESULTS} + ${(j:\n:)BROKEN} → bash IFS join. State file now writes correctly. Fixed unbound variable on empty BROKEN array.
+**Verification:** health-check.sh → all 9 checks OK. validate-fallback-chain.sh → ok (0 broken). State file updated.
+**Linked:** US35, CHG-0052
