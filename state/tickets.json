@@ -1,7 +1,7 @@
 {
   "schema_version": "1.0",
   "description": "AInchors Service Ticket Log. Every ad-hoc request, task, or action without an existing INC/US/CHG reference MUST have a TKT number before work begins.",
-  "sequence": 19,
+  "sequence": 20,
   "tickets": [
     {
       "id": "TKT-0001",
@@ -344,6 +344,25 @@
         "chg": []
       },
       "notes": "US23 delivered: outage-handler.sh, validate-fallback-chain.sh updated (Haiku+e2b checks), health-check wired, hourly cron, standby banner, HEARTBEAT. CHG-0058."
+    },
+    {
+      "id": "TKT-0019",
+      "title": "Priority 2-4 sprint: ITSM batch, model strategy blog, US27 diagnostics",
+      "type": "task",
+      "priority": "high",
+      "status": "open",
+      "requester": "Ken",
+      "assignee": "Yoda",
+      "created": "2026-04-28T14:24:15+10:00",
+      "updated": "2026-04-28T14:24:15+10:00",
+      "description": "Execute: QW-2 (severity flag), QW-3 (Standards.md), ITSM-US-007 (auto-heal INC), ITSM-US-006 (PIR trigger), Model Strategy Blog Post, US27 phases 7-9.",
+      "resolution": null,
+      "linked": {
+        "us": [],
+        "inc": [],
+        "chg": []
+      },
+      "notes": ""
     }
   ]
 }

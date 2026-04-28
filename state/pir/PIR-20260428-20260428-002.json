@@ -1,0 +1,26 @@
+{
+  "id": "PIR-20260428-20260428-002",
+  "incidentId": "INC-20260428-002",
+  "severity": "P1",
+  "title": "PIR: Test: PIR auto-trigger for P1",
+  "scheduledFor": "Within 48hrs of incident close",
+  "createdAt": "2026-04-28T14:26:13+10:00",
+  "status": "scheduled",
+  "requiredAttendees": [
+    "Ken Mun (CTO)"
+  ],
+  "agenda": [
+    "1. Timeline: what happened, when, in what order",
+    "2. Root cause: why did it happen (5 Whys)",
+    "3. Impact: what was affected, for how long",
+    "4. Detection: how was it detected, was alerting adequate",
+    "5. Response: what worked, what didnt, response time",
+    "6. Prevention: what changes prevent recurrence",
+    "7. Action items: owner, due date, verification method"
+  ],
+  "outputRequired": [
+    "PIR document filed to Notion Incident Log",
+    "Action items as US in Backlog",
+    "CHANGELOG entry for any changes made"
+  ]
+}

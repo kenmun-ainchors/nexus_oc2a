@@ -35,6 +35,18 @@ This log captures **every change** Yoda makes to AInchors infrastructure, config
 **Linked:** decisions.md 2026-04-27 entries
 ---
 
+## 2026-04-28 14:26 AEST — [CHG-0059] ITSM batch: QW-2 severity flag, QW-3 Standards.md, ITSM-US-007 auto-heal INC, ITSM-US-006 PIR trigger
+**Type:** script
+**Source:** ken-prompt
+**Trigger:** TKT-0019: sprint priority 2 — ITSM quick wins batch
+**What changed:** incident-log.sh: --severity P1-P4 flag (non-interactive mode) + severity field in interactive mode. auto-heal.sh: files P4 INC record for every auto-fixed item. pir-trigger.sh (NEW): auto-schedules PIR for P1/P2 incidents, creates state/pir/PIR-*.json, sets system banner. incident-log.sh wired to pir-trigger on P1/P2. Operations/Standards.md: Service Desk roles section added — Yoda = Service Desk Lead, Aria = Business IL, severity tiers P1-P4, first-response script.
+**Why:** ITSM discipline — every incident needs severity, every auto-fix needs a record, every P1/P2 needs a PIR, Service Desk ownership must be explicit.
+**Verification:** QW-2: incident-log.sh --severity P1 creates INC with severity field. PIR: P1 test auto-created PIR-*.json. Standards.md: Service Desk section added.
+**Rollback:** Revert incident-log.sh. Remove pir-trigger.sh. Revert auto-heal.sh INC block. Remove Standards.md Service Desk section.
+**Linked:** TKT-0019 QW-2 QW-3
+---
+
+
 ## 2026-04-28 14:18 AEST — [CHG-0058] US23 execution: outage handler, updated fallback chain, standby banner
 **Type:** script
 **Source:** ken-prompt

@@ -250,6 +250,253 @@ else
   pass "tailscale: active"
 fi
 
+# ────────────────────────── PHASE 7: COVERAGE ANALYSIS ──────────────────────────
+phase "7. Coverage Analysis"
+
+# Script coverage — executable check
+SCRIPT_GAPS=()
+for f in "$WORKSPACE/scripts/"*.sh; do
+  bname=$(basename "$f")
+  if [[ ! -x "$f" ]]; then
+    SCRIPT_GAPS+=("$bname not executable")
+  fi
+done
+if (( ${#SCRIPT_GAPS[@]} == 0 )); then
+  pass "scripts: all $(ls "$WORKSPACE/scripts/"*.sh | wc -l | tr -d ' ') scripts are executable"
+else
+  for g in "${SCRIPT_GAPS[@]}"; do warn "scripts: $g"; done
+fi
+
+# Cron coverage — check expected cron names exist
+CRON_NAMES=$(cat "$HOME/.openclaw/cron/jobs.json" 2>/dev/null | jq -r '.jobs[].name' 2>/dev/null || echo "")
+typeset -A CRON_PATTERNS=(
+  [health]="Gateway Health Check"
+  [warden]="Warden"
+  [backup]="Daily Backup"
+  [standup]="Stand-Up"
+  [auto-heal]="Auto-Heal"
+  [daily-close-1]="Daily Close.*Journal"
+  [daily-close-2]="Daily Close.*Blog"
+  [akb]="AKB"
+  [fallback]="Fallback Chain"
+  [burn-alert]="Burn Alert"
+  [midday-cost]="Midday Cost"
+)
+for key pattern in ${(kv)CRON_PATTERNS}; do
+  if echo "$CRON_NAMES" | grep -qE "$pattern"; then
+    pass "cron coverage: $key present"
+  else
+    warn "cron coverage: $key MISSING (pattern: $pattern)"
+  fi
+done
+
+# State file coverage — expected files < 48hrs
+SF_NOW=$(date +%s)
+typeset -A EXPECTED_STATE=(
+  [health-state.json]="$STATE_DIR/health-state.json"
+  [cost-state.json]="$STATE_DIR/cost-state.json"
+  [model-drift-state.json]="$STATE_DIR/model-drift-state.json"
+  [agent-status.json]="$STATE_DIR/agent-status.json"
+  [fallback-chain-status.json]="$STATE_DIR/fallback-chain-status.json"
+  [daily-note.json]="$STATE_DIR/daily-note.json"
+  [model-policy.json]="$STATE_DIR/model-policy.json"
+)
+STATE_GAPS=0
+for sfkey sfpath in ${(kv)EXPECTED_STATE}; do
+  if [[ ! -f "$sfpath" ]]; then
+    warn "state: $sfkey MISSING"
+    (( STATE_GAPS++ ))
+  else
+    SF_MOD=$(stat -f '%m' "$sfpath" 2>/dev/null || echo 0)
+    SF_AGE=$(( SF_NOW - SF_MOD ))
+    SF_AGE_HRS=$(( SF_AGE / 3600 ))
+    if (( SF_AGE > 172800 )); then  # 48h
+      warn "state: $sfkey stale (${SF_AGE_HRS}h old)"
+      (( STATE_GAPS++ ))
+    else
+      pass "state: $sfkey present (${SF_AGE_HRS}h old)"
+    fi
+  fi
+done
+(( STATE_GAPS == 0 )) && pass "state files: all expected files fresh" || true
+
+# Agent coverage
+AGENT_LIST=$(cat "$HOME/.openclaw/openclaw.json" 2>/dev/null | jq -r '.agents.list[].id' 2>/dev/null || echo "")
+for expected_agent in main business security legal qa governance; do
+  if echo "$AGENT_LIST" | grep -q "^${expected_agent}$"; then
+    pass "agent: $expected_agent configured"
+  else
+    warn "agent: $expected_agent MISSING from openclaw.json"
+  fi
+done
+
+log "  Coverage summary: ${#SCRIPT_GAPS[@]} script gaps, $STATE_GAPS state gaps"
+
+# ────────────────────────── PHASE 8: PERFORMANCE BENCHMARKS ──────────────────────────
+phase "8. Performance Benchmarks"
+
+# Gateway response time — 3 samples
+GW_TIMES=()
+for i in 1 2 3; do
+  T=$(curl -o /dev/null -s -w "%{time_total}" -m 5 http://127.0.0.1:18789 2>/dev/null || echo "0")
+  GW_TIMES+=("$T")
+done
+GW_AVG=$(echo "${GW_TIMES[@]}" | awk '{s=0; for(i=1;i<=NF;i++) s+=$i; printf "%.3f", s/NF}')
+log "  Gateway response time: ${GW_TIMES[@]} → avg ${GW_AVG}s"
+if (( $(echo "$GW_AVG < 0.001" | bc -l 2>/dev/null || echo 0) )); then
+  warn "gateway perf: avg ${GW_AVG}s (no response — may be offline)"
+elif (( $(echo "$GW_AVG < 1.0" | bc -l 2>/dev/null || echo 1) )); then
+  pass "gateway perf: avg ${GW_AVG}s (OK)"
+else
+  warn "gateway perf: avg ${GW_AVG}s (SLOW >1s)"
+fi
+
+# Ollama API response time — 3 samples
+OL_TIMES=()
+for i in 1 2 3; do
+  T=$(curl -o /dev/null -s -w "%{time_total}" -m 5 http://localhost:11434/api/tags 2>/dev/null || echo "0")
+  OL_TIMES+=("$T")
+done
+OL_AVG=$(echo "${OL_TIMES[@]}" | awk '{s=0; for(i=1;i<=NF;i++) s+=$i; printf "%.3f", s/NF}')
+log "  Ollama response time: ${OL_TIMES[@]} → avg ${OL_AVG}s"
+if (( $(echo "$OL_AVG < 0.001" | bc -l 2>/dev/null || echo 0) )); then
+  warn "ollama perf: avg ${OL_AVG}s (no response — offline?)"
+elif (( $(echo "$OL_AVG < 1.0" | bc -l 2>/dev/null || echo 1) )); then
+  pass "ollama perf: avg ${OL_AVG}s (OK)"
+else
+  warn "ollama perf: avg ${OL_AVG}s (SLOW >1s)"
+fi
+
+# health-check.sh wall time
+HC_START=$(date +%s%3N)
+zsh "$WORKSPACE/scripts/health-check.sh" > /dev/null 2>&1 || true
+HC_END=$(date +%s%3N)
+HC_MS=$(( HC_END - HC_START ))
+log "  health-check.sh wall time: ${HC_MS}ms"
+if (( HC_MS < 30000 )); then
+  pass "health-check.sh perf: ${HC_MS}ms"
+else
+  warn "health-check.sh perf: ${HC_MS}ms (>30s)"
+fi
+
+# model-drift-check.sh wall time
+MD_START=$(date +%s%3N)
+zsh "$WORKSPACE/scripts/model-drift-check.sh" > /dev/null 2>&1 || true
+MD_END=$(date +%s%3N)
+MD_MS=$(( MD_END - MD_START ))
+log "  model-drift-check.sh wall time: ${MD_MS}ms"
+if (( MD_MS < 30000 )); then
+  pass "model-drift-check.sh perf: ${MD_MS}ms"
+else
+  warn "model-drift-check.sh perf: ${MD_MS}ms (>30s)"
+fi
+
+# Canvas file sizes
+log "  Canvas document sizes:"
+CANVAS_COUNT=0
+while IFS= read -r cf; do
+  SZ=$(du -sh "$cf" 2>/dev/null | awk '{print $1}')
+  DOC=$(basename "$(dirname "$cf")")
+  log "    $DOC: $SZ"
+  (( CANVAS_COUNT++ ))
+done < <(ls "$HOME/.openclaw/canvas/documents/"*/index.html 2>/dev/null)
+pass "canvas: $CANVAS_COUNT documents indexed"
+
+# ────────────────────────── PHASE 9: PREDICTIVE HEALTH ──────────────────────────
+phase "9. Predictive Health"
+
+# Disk trend
+DISK_PCT=$(df -h / | tail -1 | awk '{gsub(/%/,"",$5); print $5}')
+DISK_AVAIL=$(df -h / | tail -1 | awk '{print $4}')
+log "  Disk: ${DISK_PCT}% used, ${DISK_AVAIL} available (threshold 85%)"
+if (( DISK_PCT >= 85 )); then
+  fail "disk: ${DISK_PCT}% used — OVER 85% THRESHOLD (avail: $DISK_AVAIL)"
+elif (( DISK_PCT >= 70 )); then
+  warn "disk: ${DISK_PCT}% used — AMBER (avail: $DISK_AVAIL)"
+else
+  pass "disk: ${DISK_PCT}% used — GREEN (avail: $DISK_AVAIL)"
+fi
+
+# Balance runway
+BALANCE=$(cat "$STATE_DIR/cost-state.json" 2>/dev/null | jq -r '.apiBalance.confirmedBalance // .apiBalance.balance // 0' 2>/dev/null || echo 0)
+AVG_COST=$(cat "$STATE_DIR/cost-state.json" 2>/dev/null | jq -r '.avgDailyCost // 0' 2>/dev/null || echo 0)
+if (( $(echo "$AVG_COST > 0" | bc -l 2>/dev/null || echo 0) )); then
+  RUNWAY=$(echo "$BALANCE / $AVG_COST" | bc -l 2>/dev/null | awk '{printf "%.1f", $1}')
+else
+  RUNWAY="∞"
+fi
+log "  Balance: \$$BALANCE | AvgDailyCost: \$$AVG_COST | Runway: ${RUNWAY} days"
+RUNWAY_INT=$(echo "$RUNWAY" | awk '{printf "%d", $1}' 2>/dev/null || echo 99)
+if [[ "$RUNWAY" == "∞" ]] || (( RUNWAY_INT >= 5 )); then
+  pass "balance runway: ${RUNWAY} days — GREEN (balance \$$BALANCE)"
+elif (( RUNWAY_INT >= 2 )); then
+  warn "balance runway: ${RUNWAY} days — AMBER (top-up recommended)"
+else
+  fail "balance runway: ${RUNWAY} days — RED (urgent top-up needed)"
+fi
+
+# Consecutive clean Warden checks
+CLEAN=$(cat "$STATE_DIR/model-drift-state.json" 2>/dev/null | jq -r '.consecutiveClean // 0' 2>/dev/null || echo 0)
+log "  Warden consecutiveClean: $CLEAN"
+if (( CLEAN >= 10 )); then
+  pass "warden clean streak: $CLEAN checks — GREEN"
+elif (( CLEAN >= 3 )); then
+  warn "warden clean streak: $CLEAN checks — AMBER"
+else
+  warn "warden clean streak: $CLEAN checks — recent violation?"
+fi
+
+# Last backup age
+LAST_BACKUP=$(find "$HOME/Backups/ainchors/" -type f -name "*.tar.gz" 2>/dev/null | sort -r | head -1)
+if [[ -n "$LAST_BACKUP" ]]; then
+  BK_MOD=$(stat -f '%m' "$LAST_BACKUP" 2>/dev/null || echo 0)
+  BK_NOW=$(date +%s)
+  BK_AGE=$(( BK_NOW - BK_MOD ))
+  BK_HRS=$(( BK_AGE / 3600 ))
+  log "  Last backup: $(basename "$LAST_BACKUP") — ${BK_HRS}h ago"
+  if (( BK_HRS <= 25 )); then
+    pass "last backup: ${BK_HRS}h ago — GREEN"
+  elif (( BK_HRS <= 48 )); then
+    warn "last backup: ${BK_HRS}h ago — AMBER"
+  else
+    fail "last backup: ${BK_HRS}h ago — RED (>48h, check backup cron)"
+  fi
+else
+  fail "last backup: no backup files found in ~/Backups/ainchors/"
+fi
+
+# Log file sizes (diagnostics logs in state/)
+LOG_TOTAL=$(find "$STATE_DIR" -name "diagnostics-*.log" -o -name "*.log" 2>/dev/null | xargs du -sh 2>/dev/null | tail -1 | awk '{print $1}' || echo "0")
+DIAG_LOG_COUNT=$(find "$STATE_DIR" -name "diagnostics-*.log" 2>/dev/null | wc -l | tr -d ' ')
+log "  Diagnostic logs: $DIAG_LOG_COUNT files in state/"
+if (( DIAG_LOG_COUNT > 30 )); then
+  warn "log accumulation: $DIAG_LOG_COUNT diagnostic log files — consider rotation"
+else
+  pass "log accumulation: $DIAG_LOG_COUNT diagnostic logs — GREEN"
+fi
+
+# Cron error rate — check jobs.json for consecutiveErrors
+CRON_ERRORS=$(cat "$HOME/.openclaw/cron/jobs.json" 2>/dev/null | jq '[.jobs[] | select(.consecutiveErrors != null and .consecutiveErrors > 0)] | length' 2>/dev/null || echo 0)
+CRON_ERROR_NAMES=$(cat "$HOME/.openclaw/cron/jobs.json" 2>/dev/null | jq -r '.jobs[] | select(.consecutiveErrors != null and .consecutiveErrors > 0) | "\(.name): \(.consecutiveErrors) errors"' 2>/dev/null || echo "")
+if (( CRON_ERRORS == 0 )); then
+  pass "cron error rate: 0 crons with consecutiveErrors — GREEN"
+else
+  warn "cron error rate: $CRON_ERRORS crons with errors"
+  if [[ -n "$CRON_ERROR_NAMES" ]]; then
+    while IFS= read -r line; do warn "  cron error: $line"; done <<< "$CRON_ERROR_NAMES"
+  fi
+fi
+
+# Risk summary table
+log ""
+log "  PREDICTIVE HEALTH RISK TABLE:"
+log "  Disk:          $([ $DISK_PCT -ge 85 ] && echo RED || [ $DISK_PCT -ge 70 ] && echo AMBER || echo GREEN) (${DISK_PCT}% used, ${DISK_AVAIL} free)"
+log "  Balance Runway:$(echo $RUNWAY | awk '{r=$1+0; if(r>=5) print \" GREEN\"; else if(r>=2) print \" AMBER\"; else print \" RED\"}') (${RUNWAY} days @ \$$AVG_COST/day)"
+log "  Warden Streak: $([ $CLEAN -ge 10 ] && echo GREEN || echo AMBER) ($CLEAN consecutive clean)"
+log "  Last Backup:   $([ $BK_HRS -le 25 ] && echo GREEN || [ $BK_HRS -le 48 ] && echo AMBER || echo RED) (${BK_HRS}h ago)"
+log "  Log Rotation:  $([ $DIAG_LOG_COUNT -gt 30 ] && echo AMBER || echo GREEN) ($DIAG_LOG_COUNT log files)"
+log "  Cron Errors:   $([ $CRON_ERRORS -gt 0 ] && echo AMBER || echo GREEN) ($CRON_ERRORS crons with errors)"
+
 # ────────────────────────── REPORT GENERATION ──────────────────────────
 log ""
 log "═══ DIAGNOSTICS COMPLETE ═══"

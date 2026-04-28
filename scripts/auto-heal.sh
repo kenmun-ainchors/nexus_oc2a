@@ -313,6 +313,21 @@ cat > "$REPORT" <<EOF
 }
 EOF
 
+
+# ---------- FILE INC FOR EACH AUTO-FIX (ITSM-US-007) ----------
+if (( ${#AUTO_FIXED[@]} > 0 )); then
+  log "Filing INC records for ${#AUTO_FIXED[@]} auto-fixed item(s)..."
+  for fix in "${AUTO_FIXED[@]}"; do
+    bash "$WORKSPACE/scripts/incident-log.sh" \
+      --title "AUTO-HEAL: $fix" \
+      --severity P4 \
+      --type "planned" \
+      --description "Auto-healed by auto-heal.sh at $NOW_LOCAL. Item: $fix. No Ken action required." \
+      >> "$HOME/Backups/ainchors/logs/auto-heal.log" 2>&1 || true
+  done
+  log "INC records filed for all auto-fixed items."
+fi
+
 log "Report written: $REPORT"
 log "  checks: ${#CHECKS_RUN[@]} | issues: ${#ISSUES_FOUND[@]} | auto-fixed: ${#AUTO_FIXED[@]} | needs-ken: ${#NEEDS_KEN[@]}"
 log "=== AUTO-HEAL COMPLETE ==="
