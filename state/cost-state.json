@@ -1,5 +1,5 @@
 {
-  "lastUpdated": "2026-04-28T03:03:51Z",
+  "lastUpdated": "2026-04-28T08:31:14Z",
   "history": {
     "2026-04-25": {
       "date": "2026-04-25",
@@ -60,20 +60,20 @@
     },
     "2026-04-28": {
       "date": "2026-04-28",
-      "totalCost": 91.7351,
-      "totalTurns": 613,
-      "totalInputTokens": 1578,
-      "totalOutputTokens": 380564,
-      "totalCacheReadTokens": 118644274,
-      "totalCacheWriteTokens": 13651538,
+      "totalCost": 259.3086,
+      "totalTurns": 1643,
+      "totalInputTokens": 5037,
+      "totalOutputTokens": 820331,
+      "totalCacheReadTokens": 266006151,
+      "totalCacheWriteTokens": 45307524,
       "byModel": {
         "claude-sonnet-4-6": {
-          "input": 712,
-          "output": 365852,
-          "cacheRead": 117573543,
-          "cacheWrite": 13444100,
-          "cost": 91.1774,
-          "turns": 532
+          "input": 1979,
+          "output": 774259,
+          "cacheRead": 262219955,
+          "cacheWrite": 44663726,
+          "cost": 257.7748,
+          "turns": 1365
         },
         "gateway-injected": {
           "input": 0,
@@ -81,15 +81,15 @@
           "cacheRead": 0,
           "cacheWrite": 0,
           "cost": 0.0,
-          "turns": 1
+          "turns": 2
         },
         "claude-haiku-4-5": {
-          "input": 859,
-          "output": 14591,
-          "cacheRead": 1049809,
-          "cacheWrite": 186203,
-          "cost": 0.4115,
-          "turns": 77
+          "input": 3051,
+          "output": 45951,
+          "cacheRead": 3765274,
+          "cacheWrite": 622563,
+          "cost": 1.3875,
+          "turns": 274
         },
         "claude-opus-4-7": {
           "input": 7,
@@ -98,21 +98,13 @@
           "cacheWrite": 21235,
           "cost": 0.1462,
           "turns": 2
-        },
-        "delivery-mirror": {
-          "input": 0,
-          "output": 0,
-          "cacheRead": 0,
-          "cacheWrite": 0,
-          "cost": 0.0,
-          "turns": 1
         }
       }
     }
   },
-  "allTimeTotalCost": 244.6954,
+  "allTimeTotalCost": 412.2689,
   "daysTracked": 4,
-  "avgDailyCost": 61.1739,
+  "avgDailyCost": 103.0672,
   "apiBalance": {
     "currency": "USD",
     "balance": 145.6,

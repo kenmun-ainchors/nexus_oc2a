@@ -157,8 +157,9 @@ alerts = state.get('spendAlerts', {})
 # Otherwise fall back to calculated estimate
 confirmed_balance = api.get('confirmedBalance')
 if confirmed_balance is not None:
-    remaining = round(confirmed_balance - total_cost, 4)
-    api['spentSinceTopUp'] = round(api.get('balance', 0) - confirmed_balance + total_cost, 4)
+    # Confirmed balance is mid-day ground truth — don't subtract all-day spend
+    remaining = confirmed_balance  # use confirmed balance as current floor
+    api['spentSinceTopUp'] = 0  # reset anchor to confirmed balance point
 else:
     # Only add today's cost to spentSinceTopUp if today >= topUpDate
     topup_date = api.get('topUpDate', '1970-01-01')

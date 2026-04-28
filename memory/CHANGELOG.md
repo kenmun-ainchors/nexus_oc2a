@@ -35,6 +35,18 @@ This log captures **every change** Yoda makes to AInchors infrastructure, config
 **Linked:** decisions.md 2026-04-27 entries
 ---
 
+## 2026-04-28 18:31 AEST — [CHG-0068] Sprint cleanup: stale Notion items, duplicate MIGs, Opus investigation, cost tracker fix, INC severity back-populate
+**Type:** data
+**Source:** ken-prompt
+**Trigger:** Ken: agreed with recommendation — proceed on all 4 items
+**What changed:** Notion: ITSM-US-001/002/003 + QW-1 → Done (were already implemented). Duplicates ITSM-MIG-001/004/005 → Done. Opus turns: traced to 9AM monthly review cron running old payload — payload already updated, no recurring risk. cost-tracker.sh: confirmed balance is now the anchor (not subtracted from all-day cost). state/incident-log.json: 3 INC records back-populated with P1/P2/P4 severity.
+**Why:** Sprint hygiene — stale items, duplicates, and minor bugs cleaned before sprint close.
+**Verification:** Notion items closed. Cost tracker shows $145.60 correct balance. 3 INC records updated.
+**Rollback:** Revert cost-tracker.sh confirmed balance logic.
+**Linked:** US35 CHG-0059 CHG-0065
+---
+
+
 ## 2026-04-28 18:27 AEST — [CHG-0067] US35 acceptance criteria locked — AC1+AC2 PASS, AC3 watch, AC4+AC5 deferred
 **Type:** rule
 **Source:** ken-prompt
