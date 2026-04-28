@@ -1,7 +1,7 @@
 {
   "schema_version": "1.0",
   "description": "AInchors Service Ticket Log. Every ad-hoc request, task, or action without an existing INC/US/CHG reference MUST have a TKT number before work begins.",
-  "sequence": 20,
+  "sequence": 21,
   "tickets": [
     {
       "id": "TKT-0001",
@@ -356,6 +356,25 @@
       "created": "2026-04-28T14:24:15+10:00",
       "updated": "2026-04-28T14:24:15+10:00",
       "description": "Execute: QW-2 (severity flag), QW-3 (Standards.md), ITSM-US-007 (auto-heal INC), ITSM-US-006 (PIR trigger), Model Strategy Blog Post, US27 phases 7-9.",
+      "resolution": null,
+      "linked": {
+        "us": [],
+        "inc": [],
+        "chg": []
+      },
+      "notes": ""
+    },
+    {
+      "id": "TKT-0020",
+      "title": "Business ROI framework — value definition, tracking, Aria implementation",
+      "type": "task",
+      "priority": "high",
+      "status": "open",
+      "requester": "Ken",
+      "assignee": "Yoda",
+      "created": "2026-04-28T16:18:19+10:00",
+      "updated": "2026-04-28T16:18:19+10:00",
+      "description": "Build business stream equivalent of tech cost/ROI framework. Value categories: revenue pipeline, content/brand, time efficiency, risk/compliance, client value. Aria maintains and reports. Canvas dashboard. Feeds into future business value and ROI reporting.",
       "resolution": null,
       "linked": {
         "us": [],

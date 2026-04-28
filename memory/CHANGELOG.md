@@ -35,6 +35,18 @@ This log captures **every change** Yoda makes to AInchors infrastructure, config
 **Linked:** decisions.md 2026-04-27 entries
 ---
 
+## 2026-04-28 16:21 AEST — [CHG-0062] Business ROI framework — value rubric, tracker, Aria integration, weekly cron
+**Type:** script
+**Source:** ken-prompt
+**Trigger:** TKT-0020: Ken: build business stream ROI framework equivalent to tech cost tracking. Aria implements and maintains.
+**What changed:** workspace-business/state/business-value-rubric.json (NEW): 5 value categories, 14 subcategories, AUD value per unit, assumptions documented. workspace-business/state/business-roi.json (NEW): running ROI log, summary by category, weekly snapshots, monthly reports. scripts/log-business-value.sh (NEW): Aria calls this after every value-generating activity. scripts/business-roi-report.sh (NEW): full ROI report — business value vs tech cost, ROI ratio, by category, recent activities. workspace-business/SOUL.md: Business ROI tracking rule added (mandatory, non-negotiable). Weekly ROI cron (7a4d8381): Sunday 18:00 AEST, sends Angie plain-language summary, requests confirmation. Seed entries: 6 governance gate passes + 3 blogs + 1 proposal = A$4,000 estimated / 10.7x ROI.
+**Why:** Technology cost is binary and tracked precisely. Business value must be tracked with equal discipline using a value rubric. This data foundation enables future investor/client ROI conversations.
+**Verification:** business-roi-report.sh: 8 entries, A$4,000 estimated, 10.7x ROI ratio. log-business-value.sh working. Aria SOUL.md updated. Weekly cron live.
+**Rollback:** Delete business-value-rubric.json, business-roi.json, log-business-value.sh, business-roi-report.sh. Revert SOUL.md. Delete cron 7a4d8381.
+**Linked:** TKT-0020
+---
+
+
 ## 2026-04-28 14:53 AEST — [CHG-0061] /frameworks command — operational framework maturity assessment
 **Type:** rule
 **Source:** ken-prompt
@@ -756,3 +768,12 @@ _Pre-existing changes (Day 1, Day 2) are captured in `memory/shared/decisions.md
 **Why:** Aria's credit balance alert at 02:34 AEST never reached Ken. Root cause: `cron wake` is unreliable for sleeping sessions. Alert told Angie "Ken will get this shortly" — but the event was never processed.
 **Fix:** Rule 5 mandates using `cron add` with `sessionTarget: "main"` and `payload.kind: "systemEvent"` — fires into Yoda's main session, which is bound to Ken's Telegram. `deleteAfterRun: true`. Wake events prohibited for relays.
 **Approved by:** Ken (Telegram, 13:46 AEST)
+
+## 2026-04-28 15:13 AEST — [CHG-0058] Fix Aria→Ken relay path (take 2)
+**What:** Replaced broken Rule 5 (cron sessionTarget=main blocked for business agent) with relay queue architecture.
+**Why:** CHG-0057 fix was wrong — cron sessionTarget="main" throws error for non-default agents. Aria silently fell back to aria-daily-brief.md and falsely told Angie "Message sent to Ken! ✅"
+**Fix:**
+- Created relay queue: ~/Documents/AInchors/Shared/relay-to-ken.json
+- Created Yoda-side poller cron (id: de5de5f4) — every 5 min, sessionTarget=main, checks queue, delivers unsent items to Ken's Telegram
+- Updated Aria Rule 5: correct mechanism = write to relay queue, not cron
+**Approved by:** Ken (Telegram, 15:10 AEST)

@@ -542,10 +542,100 @@
       "status": "pass",
       "latencyMs": 0,
       "notes": "Governance gate: PASS | Asset: index.html"
+    },
+    {
+      "ts": "2026-04-28T15:20:52+10:00",
+      "date": "2026-04-28",
+      "tier": "T2",
+      "taskType": "health-check",
+      "model": "anthropic/claude-haiku-4-5",
+      "status": "pass",
+      "latencyMs": 342,
+      "notes": ""
+    },
+    {
+      "ts": "2026-04-28T15:24:33+10:00",
+      "date": "2026-04-28",
+      "tier": "T2",
+      "taskType": "warden-check",
+      "model": "anthropic/claude-haiku-4-5",
+      "status": "pass",
+      "latencyMs": 0,
+      "notes": "9 checks run, 0 violations detected"
+    },
+    {
+      "ts": "2026-04-28T15:35:50+10:00",
+      "date": "2026-04-28",
+      "tier": "T2",
+      "taskType": "health-check",
+      "model": "anthropic/claude-haiku-4-5",
+      "status": "pass",
+      "latencyMs": 1000,
+      "notes": ""
+    },
+    {
+      "ts": "2026-04-28T15:39:33+10:00",
+      "date": "2026-04-28",
+      "tier": "T2",
+      "taskType": "warden-check",
+      "model": "anthropic/claude-haiku-4-5",
+      "status": "pass",
+      "latencyMs": 0,
+      "notes": "9 checks run"
+    },
+    {
+      "ts": "2026-04-28T15:50:53+10:00",
+      "date": "2026-04-28",
+      "tier": "T2",
+      "taskType": "health-check",
+      "model": "anthropic/claude-haiku-4-5",
+      "status": "pass",
+      "latencyMs": 450,
+      "notes": ""
+    },
+    {
+      "ts": "2026-04-28T15:54:30+10:00",
+      "date": "2026-04-28",
+      "tier": "T2",
+      "taskType": "warden-check",
+      "model": "anthropic/claude-haiku-4-5",
+      "status": "pass",
+      "latencyMs": 0,
+      "notes": "9 checks run"
+    },
+    {
+      "ts": "2026-04-28T16:05:51+10:00",
+      "date": "2026-04-28",
+      "tier": "T2",
+      "taskType": "health-check",
+      "model": "anthropic/claude-haiku-4-5",
+      "status": "pass",
+      "latencyMs": 0,
+      "notes": ""
+    },
+    {
+      "ts": "2026-04-28T16:09:29+10:00",
+      "date": "2026-04-28",
+      "tier": "T2",
+      "taskType": "warden-check",
+      "model": "anthropic/claude-haiku-4-5",
+      "status": "pass",
+      "latencyMs": 0,
+      "notes": "9 checks run, 0 violations"
+    },
+    {
+      "ts": "2026-04-28T16:20:55+10:00",
+      "date": "2026-04-28",
+      "tier": "T2",
+      "taskType": "health-check",
+      "model": "anthropic/claude-haiku-4-5",
+      "status": "pass",
+      "latencyMs": 1000,
+      "notes": ""
     }
   ],
   "summary": {
-    "total": 54,
+    "total": 63,
     "byTier": {
       "T1": {
         "pass": 0,
@@ -553,7 +643,7 @@
         "timeout": 0
       },
       "T2": {
-        "pass": 47,
+        "pass": 56,
         "fail": 6,
         "timeout": 0
       },
@@ -565,13 +655,13 @@
     },
     "byTaskType": {
       "health-check": {
-        "pass": 15,
+        "pass": 20,
         "fail": 3,
         "timeout": 0,
         "tier": "T2"
       },
       "warden-check": {
-        "pass": 19,
+        "pass": 23,
         "fail": 0,
         "timeout": 0,
         "tier": "T2"
@@ -589,6 +679,6 @@
         "tier": "T2"
       }
     },
-    "estimatedSavingsUSD": 0.2425
+    "estimatedSavingsUSD": 0.2875
   }
 }
