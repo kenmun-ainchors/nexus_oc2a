@@ -1,7 +1,7 @@
 {
   "schema_version": "1.0",
   "description": "Tracks response counters and alert state for tiered credit alerts. Updated by Yoda at runtime.",
-  "currentBalance": 60.44,
+  "currentBalance": 145.6,
   "lastBalanceCheck": "2026-04-28T07:35:00+10:00",
   "activeTier": 0,
   "tier1": {
@@ -19,8 +19,8 @@
     "awaitingAcknowledgement": false
   },
   "alertsSent": [],
-  "balance": 60.44,
-  "confirmedAt": "2026-04-28T12:31:00+10:00",
+  "balance": 145.6,
+  "confirmedAt": "2026-04-28T13:06:00+10:00",
   "confirmedBy": "Ken",
-  "topUpNote": "Top-up confirmed by Ken at 07:35 AEST 2026-04-28. Balance USD 107.23. All alert tiers reset."
+  "topUpNote": "Top-up confirmed by Ken at 13:06 AEST 2026-04-28. Balance USD 145.60. All alert tiers reset."
 }

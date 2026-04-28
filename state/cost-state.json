@@ -115,14 +115,14 @@
   "avgDailyCost": 61.1739,
   "apiBalance": {
     "currency": "USD",
-    "balance": 60.44,
+    "balance": 145.6,
     "topUpDate": "2026-04-28",
     "spentSinceTopUp": 0,
-    "remainingEstimate": 60.44,
-    "note": "Confirmed USD 60.44 by Ken at 12:31 AEST 2026-04-28. Use as ground truth. Tracker spend-since-topup reset to avoid double-counting mid-day confirmation.",
-    "confirmedAt": "2026-04-28T12:31:00+10:00",
+    "remainingEstimate": 145.6,
+    "note": "Top-up confirmed by Ken at 13:06 AEST 2026-04-28. Balance USD 145.60.",
+    "confirmedAt": "2026-04-28T13:06:00+10:00",
     "confirmedBy": "Ken",
-    "confirmedBalance": 60.44
+    "confirmedBalance": 145.6
   },
   "spendAlerts": {
     "tier1": {
