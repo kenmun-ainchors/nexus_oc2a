@@ -35,6 +35,18 @@ This log captures **every change** Yoda makes to AInchors infrastructure, config
 **Linked:** decisions.md 2026-04-27 entries
 ---
 
+## 2026-04-28 12:44 AEST — [CHG-0056] AKB daily update cron — 3AM AEST, reads both stream journals
+**Type:** cron
+**Source:** ken-prompt
+**Trigger:** Ken: AKB not updated, not evergreen. Run full pass + create daily cron.
+**What changed:** Cron dce1ada4: AKB Daily Update, 3AM AEST, isolated, Sonnet, 10min timeout. Reads technical journal + aria-daily-brief + CHANGELOG. Updates Architecture.md, ModelStrategy.md, GovernanceFramework.md, Company/Overview.md, Decisions.md, context-for-aria.md, yoda-daily-brief.md, HOME.md. Updates Notion Agent Status + Decisions DBs. Git commits both Obsidian and workspace. Logs to state/akb-update-log.json.
+**Why:** AKB was last updated 2026-04-25 (3 days stale). ModelStrategy.md, Architecture.md, GovernanceFramework.md all out of date. Daily cron ensures evergreen going forward.
+**Verification:** Cron created. Sub-agent running full pass on current stale files.
+**Rollback:** Delete cron dce1ada4.
+**Linked:** TKT-0015
+---
+
+
 ## 2026-04-28 12:01 AEST — [CHG-0055] Governance gate refinement: ask-first, Aria/Angie only
 **Type:** rule
 **Source:** ken-prompt
