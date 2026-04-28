@@ -972,10 +972,30 @@
       "status": "pass",
       "latencyMs": 0,
       "notes": "Governance gate: PASS | Asset: index.html"
+    },
+    {
+      "ts": "2026-04-28T21:22:25+10:00",
+      "date": "2026-04-28",
+      "tier": "T2",
+      "taskType": "health-check",
+      "model": "anthropic/claude-haiku-4-5",
+      "status": "pass",
+      "latencyMs": 1000,
+      "notes": ""
+    },
+    {
+      "ts": "2026-04-28T21:22:43+10:00",
+      "date": "2026-04-28",
+      "tier": "T2",
+      "taskType": "governance-check",
+      "model": "anthropic/claude-haiku-4-5",
+      "status": "pass",
+      "latencyMs": 0,
+      "notes": "Governance gate: PASS | Asset: index.html"
     }
   ],
   "summary": {
-    "total": 97,
+    "total": 99,
     "byTier": {
       "T1": {
         "pass": 0,
@@ -983,7 +1003,7 @@
         "timeout": 0
       },
       "T2": {
-        "pass": 90,
+        "pass": 92,
         "fail": 6,
         "timeout": 0
       },
@@ -995,7 +1015,7 @@
     },
     "byTaskType": {
       "health-check": {
-        "pass": 30,
+        "pass": 31,
         "fail": 3,
         "timeout": 0,
         "tier": "T2"
@@ -1013,7 +1033,7 @@
         "tier": "T3"
       },
       "governance-check": {
-        "pass": 16,
+        "pass": 17,
         "fail": 3,
         "timeout": 0,
         "tier": "T2"
@@ -1025,6 +1045,6 @@
         "tier": "T2"
       }
     },
-    "estimatedSavingsUSD": 0.4575
+    "estimatedSavingsUSD": 0.4675
   }
 }
