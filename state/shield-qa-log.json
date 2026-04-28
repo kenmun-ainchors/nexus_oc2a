@@ -259,11 +259,61 @@
       "pass": 5,
       "fail": 0,
       "issues": []
+    },
+    {
+      "ts": "2026-04-28T14:46:01+10:00",
+      "asset": "/Users/ainchorsangiefpl/.openclaw/canvas/documents/ainchors-frameworks-blog/index.html",
+      "producedBy": "yoda",
+      "intendedFor": "Public / AInchors audience",
+      "verdict": "FAIL",
+      "pass": 4,
+      "fail": 1,
+      "issues": []
+    },
+    {
+      "ts": "2026-04-28T14:46:01+10:00",
+      "asset": "/Users/ainchorsangiefpl/.openclaw/canvas/documents/ainchors-frameworks-blog/index.html",
+      "producedBy": "yoda",
+      "intendedFor": "Public / AInchors audience",
+      "verdict": "FAIL",
+      "pass": 4,
+      "fail": 1,
+      "issues": []
+    },
+    {
+      "ts": "2026-04-28T14:46:07+10:00",
+      "asset": "/Users/ainchorsangiefpl/.openclaw/canvas/documents/ainchors-frameworks-blog/index.html",
+      "producedBy": "yoda",
+      "intendedFor": "Public",
+      "verdict": "FAIL",
+      "pass": 4,
+      "fail": 1,
+      "issues": []
+    },
+    {
+      "ts": "2026-04-28T14:46:17+10:00",
+      "asset": "/Users/ainchorsangiefpl/.openclaw/canvas/documents/ainchors-frameworks-blog/index.html",
+      "producedBy": "yoda",
+      "intendedFor": "Public / AInchors audience",
+      "verdict": "PASS",
+      "pass": 5,
+      "fail": 0,
+      "issues": []
+    },
+    {
+      "ts": "2026-04-28T14:46:17+10:00",
+      "asset": "/Users/ainchorsangiefpl/.openclaw/canvas/documents/ainchors-frameworks-blog/index.html",
+      "producedBy": "yoda",
+      "intendedFor": "Public / AInchors audience",
+      "verdict": "PASS",
+      "pass": 5,
+      "fail": 0,
+      "issues": []
     }
   ],
   "summary": {
-    "total": 26,
-    "pass": 20,
-    "fail": 6
+    "total": 31,
+    "pass": 22,
+    "fail": 9
   }
 }

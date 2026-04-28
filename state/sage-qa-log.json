@@ -153,11 +153,25 @@
       "issues": [
         "[]"
       ]
+    },
+    {
+      "ts": "2026-04-28T14:46:17+10:00",
+      "assetPath": "/Users/ainchorsangiefpl/.openclaw/canvas/documents/ainchors-frameworks-blog/index.html",
+      "assetType": "html",
+      "producedBy": "yoda",
+      "intendedFor": "Public / AInchors audience",
+      "brief": "Blog post on 7 operational frameworks running AInchors after 4 days",
+      "verdict": "PASS",
+      "passCount": 7,
+      "failCount": 0,
+      "issues": [
+        "[]"
+      ]
     }
   ],
   "summary": {
-    "total": 11,
-    "pass": 11,
+    "total": 12,
+    "pass": 12,
     "fail": 0
   }
 }
