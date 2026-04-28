@@ -1,7 +1,7 @@
 {
   "schema_version": "1.0",
   "description": "AInchors operational framework maturity registry. Updated by /frameworks command and on material changes to any framework.",
-  "lastAssessed": "2026-04-28T16:32:00+10:00",
+  "lastAssessed": "2026-04-28T16:35:00+10:00",
   "assessedBy": "Yoda + Ken",
   "overallMaturity": "L2-L3",
   "frameworks": {
@@ -199,36 +199,37 @@
       "nextStep": "Aria to extract training content angles from Days 1-4 work \u2014 first concrete training asset"
     },
     "costManagement": {
-      "name": "COST MANAGEMENT / FinOps",
-      "purpose": "Spend tracking, model optimisation, ROI measurement",
+      "name": "COST MANAGEMENT",
+      "purpose": "Full company cost visibility \u2014 technology spend, business operating costs, overhead, and cost controls across both streams",
       "maturity": "L2-L3",
-      "maturityLabel": "Developing/Defined",
+      "maturityLabel": "Developing/Defined \u2014 tech cost solid, business cost thin",
       "live": [
-        "Cost tracker \u2014 daily per-model breakdown",
+        "Technology cost tracker \u2014 daily per-model API breakdown (Sonnet/Haiku/Gemma)",
         "3-tier credit alert system ($50/$25/$10 \u2014 Ken + Angie notified)",
         "/credit command \u2014 balance, today's spend, model breakdown, runway",
-        "Daily burn alert \u2014 20:00 AEST, fires if day \u2265 $40 USD",
-        "Delegation logging with savings estimate per turn",
-        "Cost & ROI report \u2014 canvas document",
-        "Monthly model strategy review includes cost audit (28th)",
-        "Budget proposal to Angie \u2014 A$1,500/month build phase"
+        "Daily burn alert \u2014 20:00 AEST, fires if daily spend \u2265 $40 USD",
+        "Delegation logging \u2014 cost per routed sub-task, Haiku vs Sonnet savings",
+        "Cost & ROI report \u2014 tech cost canvas document",
+        "Monthly model review \u2014 28th, cost audit included, Ken sign-off required",
+        "Budget proposal \u2014 A$1,500/month build-phase cap (pending Angie approval)"
       ],
       "gaps": [
-        "Budget cap not yet approved by Angie",
-        "ROI model uses manual estimates (not automated attribution)",
-        "No per-feature or per-project cost attribution",
-        "Cost trend analysis thin \u2014 only 4 days of data",
-        "Haiku savings actuals vs projected not yet measured",
-        "Cost tracker mid-day confirmed balance calc bug (workaround: Ken confirms manually)"
+        "Business operating costs not yet tracked (Angie time, tools, subscriptions, paid ads)",
+        "No unified company P&L view combining tech + business costs",
+        "Budget cap not yet formally approved by Angie",
+        "Cost tracker intraday balance calculation bug (confirmed balance workaround)",
+        "No per-feature or per-project cost attribution on the tech side",
+        "Paid advertising costs not yet captured (when social ads run)",
+        "Tool subscription costs (Notion, Google Workspace, etc.) not logged"
       ],
       "opportunities": [
-        "Get Angie to approve A$1,500 budget cap",
-        "Fix cost tracker balance calculation for intraday top-ups (US22 follow-up)",
-        "Add 7-day rolling average to /credit output",
-        "Per-stream cost attribution \u2014 technical vs business spend"
+        "Add business cost tracking \u2014 Angie time (hours \u00d7 rate), tools, subscriptions, paid ads",
+        "Build unified company P&L: total costs (F7) vs total value generated (F8) = company ROI",
+        "Angie approves A$1,500 budget cap",
+        "Fix cost tracker intraday calc \u2014 anchor to confirmed balance timestamp"
       ],
       "priorityFocus": "Medium",
-      "nextStep": "Angie budget approval + fix cost tracker intraday calc bug"
+      "nextStep": "Add business operating cost tracking to complete the cost side of the P&L"
     },
     "businessROI": {
       "name": "BUSINESS ROI",
@@ -264,7 +265,14 @@
         "Monthly ROI report combining tech cost (F7) + business value (F8) = company-wide P&L lens"
       ],
       "priorityFocus": "High",
-      "nextStep": "Angie onboarding Stage 1 \u2014 activates business stream and starts generating real value entries"
+      "nextStep": "Angie onboarding Stage 1 \u2014 activates business stream and starts generating real value entries",
+      "description_anchor": "Anchors to Framework 8 \u2014 Business ROI. Covers the RETURN side. Framework 7 covers the COST side. Together: company P&L.",
+      "relatedWork": [
+        "CHG-0062 (value rubric, tracker)",
+        "TKT-0020 (business ROI foundation)",
+        "CHG-0063 (campaign tracking, marketing funnel, sales conversion)",
+        "TKT-0021 (funnel & conversion framework)"
+      ]
     }
   },
   "priorityFocusOrder": [
@@ -309,6 +317,19 @@
     {
       "date": "2026-04-28",
       "event": "Framework 8 added: BUSINESS ROI (CHG-0062, CHG-0063). Value rubric, campaign registry, marketing funnel, sales conversion. Ken confirmed 8-framework structure."
+    },
+    {
+      "date": "2026-04-28",
+      "event": "Framework 7 expanded: Cost Management now covers ALL company costs (tech + business + overhead), not just tech API spend. CHG-0062/TKT-0020 confirmed as anchoring to Framework 8 (Business ROI). F7+F8 documented as economic engine pair."
     }
-  ]
+  ],
+  "frameworkPairs": {
+    "economicEngine": {
+      "description": "F7 + F8 together form the company economic engine",
+      "costSide": "costManagement (F7) \u2014 what goes OUT: tech API spend + business operating costs",
+      "returnSide": "businessROI (F8) \u2014 what comes BACK: value generated, revenue, campaign ROI",
+      "formula": "Company ROI = Business Value Generated (F8) \u00f7 Total Costs (F7)",
+      "currentRatio": "10.7x (A$4,000 estimated value \u00f7 A$374 tech cost \u2014 business costs not yet captured)"
+    }
+  }
 }
