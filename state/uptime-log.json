@@ -87,14 +87,24 @@
       "ts": "2026-04-28T15:38:55.856229+00:00",
       "status": "ok",
       "issues": []
+    },
+    {
+      "ts": "2026-04-28T16:39:12.576066+00:00",
+      "status": "ok",
+      "issues": []
+    },
+    {
+      "ts": "2026-04-28T16:54:13.255512+00:00",
+      "status": "ok",
+      "issues": []
     }
   ],
   "summary": {
-    "totalChecks": 17,
-    "upChecks": 17,
+    "totalChecks": 19,
+    "upChecks": 19,
     "downtimeMinutes": 0,
     "uptimePct": 100.0,
-    "lastCheck": "2026-04-28T15:38:55.856229+00:00",
+    "lastCheck": "2026-04-28T16:54:13.255512+00:00",
     "lastStatus": "ok"
   }
 }
