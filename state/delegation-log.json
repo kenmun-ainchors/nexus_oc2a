@@ -662,10 +662,20 @@
       "status": "pass",
       "latencyMs": 0,
       "notes": "9 checks run"
+    },
+    {
+      "ts": "2026-04-28T16:42:36+10:00",
+      "date": "2026-04-28",
+      "tier": "T2",
+      "taskType": "governance-check",
+      "model": "anthropic/claude-haiku-4-5",
+      "status": "pass",
+      "latencyMs": 0,
+      "notes": "Governance gate: PASS | Asset: index.html"
     }
   ],
   "summary": {
-    "total": 66,
+    "total": 67,
     "byTier": {
       "T1": {
         "pass": 0,
@@ -673,7 +683,7 @@
         "timeout": 0
       },
       "T2": {
-        "pass": 59,
+        "pass": 60,
         "fail": 6,
         "timeout": 0
       },
@@ -703,12 +713,12 @@
         "tier": "T3"
       },
       "governance-check": {
-        "pass": 13,
+        "pass": 14,
         "fail": 3,
         "timeout": 0,
         "tier": "T2"
       }
     },
-    "estimatedSavingsUSD": 0.3025
+    "estimatedSavingsUSD": 0.3075
   }
 }
