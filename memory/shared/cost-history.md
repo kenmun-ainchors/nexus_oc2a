@@ -61,10 +61,30 @@ Gemma4 (Ollama) = $0.00 always (local). Cloud costs = Anthropic API.
 
 | Metric | Value |
 |--------|-------|
-| Total Cost | $0.0000 |
-| Turns | 0 |
-| Input Tokens | 0 |
-| Output Tokens | 0 |
-| Cache Read | 0 |
+| Total Cost (Tracker) | $338.7606 USD |
+| Partial CSV Actual (until 18:39) | $150.86 USD |
+| Turns | 2,191 |
+| Input Tokens | 7,637 |
+| Output Tokens | 1,050,948 |
+| Cache Read | 313,716,128 |
+| Cache Write | 62,229,979 |
+| Balance Remaining | $58.72 USD |
 
 ### By Model
+- **claude-sonnet-4-6**: 1,732 turns | $335.60
+- **claude-haiku-4-5**: 452 turns | $2.40 (Tier 2 — first live day)
+- **claude-opus-4-7**: 4 turns | $0.76
+
+### Cost Tracker Note
+⚠️ Tracker overcounts due to `input_cache_write_5m` tokens. US38 filed to switch to Anthropic billing API as ground truth. Partial Anthropic CSV actual for Day 4 (until 18:39 AEST) = $150.86 USD. Haiku Tier 2 live — $2.40 for 452 governance/health cron runs.
+
+### 4-Day Summary (Anthropic CSV ground truth)
+| Date | Cost | Notes |
+|------|------|-------|
+| 2026-04-25 | $49.94 | Foundation |
+| 2026-04-26 | $82.84 | Opus drift = $17 |
+| 2026-04-27 | $121.26 | Resiliency day |
+| 2026-04-28 | $150.86+ | Governance + frameworks |
+| **Total** | **$404.90+** | **4-day cumulative** |
+
+Avg: ~$101/day. Balance at 2026-04-28 EOD: $58.72 USD.
