@@ -1,5 +1,5 @@
 {
-  "lastUpdated": "2026-04-28T02:29:23Z",
+  "lastUpdated": "2026-04-28T03:03:51Z",
   "history": {
     "2026-04-25": {
       "date": "2026-04-25",
@@ -60,20 +60,20 @@
     },
     "2026-04-28": {
       "date": "2026-04-28",
-      "totalCost": 69.0447,
-      "totalTurns": 505,
-      "totalInputTokens": 1269,
-      "totalOutputTokens": 318746,
-      "totalCacheReadTokens": 95758522,
-      "totalCacheWriteTokens": 9635978,
+      "totalCost": 91.7351,
+      "totalTurns": 613,
+      "totalInputTokens": 1578,
+      "totalOutputTokens": 380564,
+      "totalCacheReadTokens": 118644274,
+      "totalCacheWriteTokens": 13651538,
       "byModel": {
         "claude-sonnet-4-6": {
-          "input": 582,
-          "output": 306577,
-          "cacheRead": 94907388,
-          "cacheWrite": 9465384,
-          "cost": 68.5678,
-          "turns": 440
+          "input": 712,
+          "output": 365852,
+          "cacheRead": 117573543,
+          "cacheWrite": 13444100,
+          "cost": 91.1774,
+          "turns": 532
         },
         "gateway-injected": {
           "input": 0,
@@ -84,12 +84,12 @@
           "turns": 1
         },
         "claude-haiku-4-5": {
-          "input": 680,
-          "output": 12048,
-          "cacheRead": 830212,
-          "cacheWrite": 149359,
-          "cost": 0.3306,
-          "turns": 61
+          "input": 859,
+          "output": 14591,
+          "cacheRead": 1049809,
+          "cacheWrite": 186203,
+          "cost": 0.4115,
+          "turns": 77
         },
         "claude-opus-4-7": {
           "input": 7,
@@ -110,16 +110,16 @@
       }
     }
   },
-  "allTimeTotalCost": 222.005,
+  "allTimeTotalCost": 244.6954,
   "daysTracked": 4,
-  "avgDailyCost": 55.5012,
+  "avgDailyCost": 61.1739,
   "apiBalance": {
     "currency": "USD",
-    "balance": 107.23,
+    "balance": 60.44,
     "topUpDate": "2026-04-28",
-    "spentSinceTopUp": 69.0447,
+    "spentSinceTopUp": 0,
     "remainingEstimate": 60.44,
-    "note": "Ken confirmed USD 60.44 at 12:31 AEST 2026-04-28. Tracker overcounted \u2014 cost-tracker.sh delta calc off after intraday top-up.",
+    "note": "Confirmed USD 60.44 by Ken at 12:31 AEST 2026-04-28. Use as ground truth. Tracker spend-since-topup reset to avoid double-counting mid-day confirmation.",
     "confirmedAt": "2026-04-28T12:31:00+10:00",
     "confirmedBy": "Ken",
     "confirmedBalance": 60.44
@@ -164,6 +164,14 @@
       }
     },
     "status": "monitoring",
-    "note": "3-tier alert system. Thresholds based on $107.06 balance. Both Ken and Angie alerted. Angie alert routed via Aria agent. Set by Ken 2026-04-27 12:14 AEST."
+    "note": "3-tier alert system. Thresholds based on $107.06 balance. Both Ken and Angie alerted. Angie alert routed via Aria agent. Set by Ken 2026-04-27 12:14 AEST.",
+    "alert10pct": {
+      "threshold": 10.0,
+      "triggered": true
+    },
+    "alert75pct": {
+      "threshold": 30.0,
+      "triggered": false
+    }
   }
 }
