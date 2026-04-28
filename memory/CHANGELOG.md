@@ -35,6 +35,18 @@ This log captures **every change** Yoda makes to AInchors infrastructure, config
 **Linked:** decisions.md 2026-04-27 entries
 ---
 
+## 2026-04-28 21:57 AEST — [CHG-0072] Auto-Heal sweep 2026-04-28: 3 auto-fixes, 1 needs-ken
+**Type:** infra
+**Source:** auto-heal
+**Trigger:** Nightly cron 21:56 AEST
+**What changed:** Git committed dirty files in workspace/AInchors/business workspace (3 commits). Notion US filed for config-009 Aria fallback drift.
+**Why:** Nightly auto-heal sweep — 13 checks run. 3 safe auto-fixes applied. 1 issue escalated to Ken via Notion.
+**Verification:** state/auto-heal-2026-04-28.json written. Notion US 350c1829 created.
+**Rollback:** N/A
+**Linked:** none
+---
+
+
 ## 2026-04-28 18:44 AEST — [CHG-0071] Credit alerts recalibrated: T1=$80, T2=$40, T3=$15. Angie routing fixed.
 **Type:** config
 **Source:** ken-prompt
