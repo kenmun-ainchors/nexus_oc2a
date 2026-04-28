@@ -1,9 +1,9 @@
 {
   "schema_version": "1.0",
   "description": "Critical configurations that MUST NOT drift. Auto-heal check #12 validates each one nightly. Drift = needs-Ken US filed immediately. Update this baseline ONLY through explicit Ken-approved decision logged in decisions.md.",
-  "lastUpdated": "2026-04-28T08:36:00+10:00",
+  "lastUpdated": "2026-04-28T10:27:00+10:00",
   "lastApprovedBy": "Ken",
-  "lastApprovalContext": "Benchmark 2026-04-28: e2b = 67% pass, 6s avg, ~8GB RAM. e2b replaces 26b as standard Gemma4.",
+  "lastApprovalContext": "TKT-0014: 3-tier strategy. Haiku 4.5 = Tier 2. Baseline check added.",
   "checks": [
     {
       "id": "config-001",
@@ -135,6 +135,16 @@
       "expected_value": "anthropic/claude-sonnet-4-6",
       "rationale": "Warden is a lightweight monitor. Sonnet only. TKT-0013.",
       "fix_command": "edit openclaw.json: agents.list[id=governance].model = anthropic/claude-sonnet-4-6"
+    },
+    {
+      "id": "config-014",
+      "name": "Haiku 4.5 registered in openclaw.json models (Tier 2)",
+      "severity": "warning",
+      "file": "/Users/ainchorsangiefpl/.openclaw/openclaw.json",
+      "jq_query": ".agents.defaults.models | has(\"anthropic/claude-haiku-4-5\")",
+      "expected_value": "true",
+      "rationale": "Haiku 4.5 is Tier 2 model (3x cheaper than Sonnet). Must be registered for cron routing. TKT-0014.",
+      "fix_command": "Add anthropic/claude-haiku-4-5 to openclaw.json agents.defaults.models"
     }
   ]
 }

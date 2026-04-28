@@ -35,6 +35,18 @@ This log captures **every change** Yoda makes to AInchors infrastructure, config
 **Linked:** decisions.md 2026-04-27 entries
 ---
 
+## 2026-04-28 10:39 AEST — [CHG-0048] 3-tier model strategy: Haiku 4.5 as Tier 2, qwen3 benchmarked
+**Type:** agent
+**Source:** ken-prompt
+**Trigger:** TKT-0014: Ken approved Haiku 4.5 as Tier 2 after benchmark showed 8/8 PASS at 893ms vs gemma4:e2b 3/8 at 7,224ms
+**What changed:** model-policy.json: 3-tier strategy written (Sonnet/Haiku/gemma4:e2b). Haiku added to openclaw.json. Warden cron model Sonnet→Haiku. Health check cron Sonnet→Haiku. qwen3:4b (2.5GB) and qwen3:8b (5.2GB) pulled and benchmarked — inconclusive (thinking mode, needs /no_think re-test). Model strategy hub updated with Benchmark 2, April review, new roadmap. US35 created in Notion. Baseline check-014 added.
+**Why:** Haiku 4.5 is 3x cheaper than Sonnet with perfect structured output. Estimated $450-600/month saving on governance/health sub-tasks. Step-up transition before OC2 (3 months away).
+**Verification:** Haiku benchmark 8/8 PASS 893ms. Warden cron updated. Health cron updated. Model strategy hub live.
+**Rollback:** Revert Warden + Health crons to Sonnet. Remove Haiku from model-policy.json and openclaw.json.
+**Linked:** TKT-0014 US35
+---
+
+
 ## 2026-04-28 08:37 AEST — [CHG-0047] Gemma4 delegation model: gemma4:26b → gemma4:e2b
 **Type:** config
 **Source:** ken-prompt

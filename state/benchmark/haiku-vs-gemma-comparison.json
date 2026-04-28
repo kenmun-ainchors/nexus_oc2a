@@ -1,0 +1,112 @@
+{
+  "anthropic/claude-haiku-4-5": {
+    "pass": 8,
+    "total": 8,
+    "avgLatencyMs": 893,
+    "tasks": [
+      {
+        "id": "T01",
+        "status": "PASS",
+        "latencyMs": 833,
+        "output": "On April 28, 2026, 143 turns cost $12.45 total."
+      },
+      {
+        "id": "T02",
+        "status": "PASS",
+        "latencyMs": 798,
+        "output": "OK"
+      },
+      {
+        "id": "T03",
+        "status": "PASS",
+        "latencyMs": 733,
+        "output": "idle"
+      },
+      {
+        "id": "T04",
+        "status": "PASS",
+        "latencyMs": 924,
+        "output": "SIMPLE"
+      },
+      {
+        "id": "T05",
+        "status": "PASS",
+        "latencyMs": 1176,
+        "output": "Fix cost tracker (US22)\nResilient outage (US23)"
+      },
+      {
+        "id": "T06",
+        "status": "PASS",
+        "latencyMs": 916,
+        "output": "## 2026-04-28 10:30 AEST \u2014 [CHG-0048] Haiku 4.5 added as Tier 2 model"
+      },
+      {
+        "id": "T07",
+        "status": "PASS",
+        "latencyMs": 838,
+        "output": "TIER2"
+      },
+      {
+        "id": "T08",
+        "status": "PASS",
+        "latencyMs": 926,
+        "output": "Total cost: $19.88 across 201 turns."
+      }
+    ]
+  },
+  "gemma4:e2b": {
+    "pass": 3,
+    "total": 8,
+    "avgLatencyMs": 7224,
+    "tasks": [
+      {
+        "id": "T01",
+        "status": "FAIL",
+        "latencyMs": 11513,
+        "output": "Thinking...\nThinking Process:\n\n1.  **Analyze the Request:**\n    *   Task: Summarize the provided cost data.\n    *   Constraint 1: Answer in one line.\n"
+      },
+      {
+        "id": "T02",
+        "status": "FAIL",
+        "latencyMs": 8336,
+        "output": "Thinking...\nThinking Process:\n\n1.  **Analyze the Request:** The user provides a JSON object and asks for a single-word output: \"OK\", \"WARN\", or \"CRITI"
+      },
+      {
+        "id": "T03",
+        "status": "PASS",
+        "latencyMs": 462,
+        "output": "idle"
+      },
+      {
+        "id": "T04",
+        "status": "FAIL",
+        "latencyMs": 10090,
+        "output": "Thinking...\nThinking Process:\n\n1.  **Analyze the Request:** The user is asking me to perform a task: \"Read cost-state.json and return totalCost for 20"
+      },
+      {
+        "id": "T05",
+        "status": "PASS",
+        "latencyMs": 5375,
+        "output": "Thinking...\nThinking Process:\n\n1.  **Analyze the Request:** The user wants a list containing *only* the \"High priority items,\" with \"one per line,\" an"
+      },
+      {
+        "id": "T06",
+        "status": "PASS",
+        "latencyMs": 7782,
+        "output": "Thinking...\nThinking Process:\n\n1.  **Analyze the Request:** The user wants me to output a specific format: `## YYYY-MM-DD HH:MM AEST \u2014 [CHG-NNNN] Titl"
+      },
+      {
+        "id": "T07",
+        "status": "FAIL",
+        "latencyMs": 8492,
+        "output": "Thinking...\nThinking Process:\n\n1.  **Analyze the Request:** The user wants me to classify the task \"Run health check script and interpret exit code\" i"
+      },
+      {
+        "id": "T08",
+        "status": "FAIL",
+        "latencyMs": 5742,
+        "output": "Thinking...\n1.  **Analyze the input data:** `{\"totalCost\":19.88,\"totalTurns\":201}`\n2.  **Goal:** Summarize the data in one line, under 15 words, with "
+      }
+    ]
+  }
+}
