@@ -6,17 +6,20 @@
   "activeTier": 0,
   "tier1": {
     "triggered": false,
-    "triggeredAt": null
+    "triggeredAt": null,
+    "threshold": 80.0
   },
   "tier2": {
     "responsesSinceLastAlert": 0,
     "alertEvery": 3,
-    "lastAlertAt": null
+    "lastAlertAt": null,
+    "threshold": 40.0
   },
   "tier3": {
     "active": false,
     "lastAlertAt": null,
-    "awaitingAcknowledgement": false
+    "awaitingAcknowledgement": false,
+    "threshold": 15.0
   },
   "alertsSent": [],
   "balance": 58.72,

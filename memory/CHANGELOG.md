@@ -35,6 +35,18 @@ This log captures **every change** Yoda makes to AInchors infrastructure, config
 **Linked:** decisions.md 2026-04-27 entries
 ---
 
+## 2026-04-28 18:44 AEST — [CHG-0071] Credit alerts recalibrated: T1=$80, T2=$40, T3=$15. Angie routing fixed.
+**Type:** config
+**Source:** ken-prompt
+**Trigger:** Ken: check and confirm credit alerts working for both Ken and Angie
+**What changed:** cost-state.json + cost-alert-state.json: thresholds T1 $50→$80, T2 $25→$40, T3 $10→$15. Calibrated to $101/day actual burn from CSV. Angie alert routing documented: must go via @AInchorsAriaBot (sessions_send to Aria), NOT direct from Yoda's bot. HEARTBEAT.md: all three tiers updated with new thresholds and Angie routing instruction.
+**Why:** Thresholds were set for $4/day estimate. Actual burn is $101/day from Anthropic CSV. Old T1=$50 = only 12hrs warning. New T1=$80 = ~19hrs. Angie alert path via @AInchorsOC1Bot was incorrect — she's on @AInchorsAriaBot.
+**Verification:** Thresholds updated. $58.72 balance — Tier 1 ($80) will fire shortly. Correct alert path documented.
+**Rollback:** Revert cost-state.json thresholds to T1=$50, T2=$25, T3=$10.
+**Linked:** CHG-0032 CHG-0050 CHG-0070
+---
+
+
 ## 2026-04-28 18:40 AEST — [CHG-0070] Cost tracker rebuilt from Anthropic CSV — cache write charges now included
 **Type:** data
 **Source:** ken-prompt

@@ -82,26 +82,27 @@
   },
   "spendAlerts": {
     "tier1": {
-      "threshold": 50.0,
-      "label": "Tier 1 \u2014 $50 remaining",
-      "action": "Send ONE alert to Ken (Telegram 8574109706) AND Angie via Aria (Telegram 8141152780). Include balance, daily burn rate, days remaining estimate.",
+      "threshold": 80.0,
+      "label": "Tier 1 \u2014 $80 remaining",
+      "action": "Alert Ken + Angie ONCE. ~19hrs runway at current burn. Top up soon.",
       "frequency": "once",
       "triggered": false,
-      "triggeredAt": null
+      "triggeredAt": null,
+      "note": "Updated 2026-04-28 from $50 to $80 \u2014 actual burn $101/day from CSV"
     },
     "tier2": {
-      "threshold": 25.0,
-      "label": "Tier 2 \u2014 $25 remaining",
-      "action": "Alert Ken AND Angie via Aria on every 3rd generated response. Include current balance and a reminder to top up. Track response count in cost-alert-state.json.",
+      "threshold": 40.0,
+      "label": "Tier 2 \u2014 $40 remaining",
+      "action": "Alert Ken + Angie every 3rd response. ~9hrs runway. Top up urgently.",
       "frequency": "every-3rd-response",
       "responseCounter": 0,
       "triggered": false,
       "triggeredAt": null
     },
     "tier3": {
-      "threshold": 10.0,
-      "label": "Tier 3 \u2014 $10 remaining \u2014 CRITICAL",
-      "action": "Before executing ANY user request: PAUSE. Alert Ken AND Angie via Aria. State current balance. Request explicit acknowledgement ('yes proceed' or 'ok') before continuing. After every response: alert both with updated balance.",
+      "threshold": 15.0,
+      "label": "Tier 3 \u2014 $15 remaining \u2014 CRITICAL",
+      "action": "PAUSE before every request. Alert Ken + Angie. Require acknowledgement.",
       "frequency": "every-request-and-response",
       "triggered": false,
       "triggeredAt": null
@@ -110,25 +111,21 @@
       "ken": {
         "channel": "telegram",
         "id": "8574109706",
-        "name": "Ken"
+        "name": "Ken",
+        "bot": "@AInchorsOC1Bot",
+        "note": "Send directly via Yoda's bot"
       },
       "angie": {
         "channel": "telegram",
         "id": "8141152780",
         "name": "Angie",
-        "via": "Aria"
+        "via": "Aria",
+        "bot": "@AInchorsAriaBot",
+        "note": "Must route via Aria's bot \u2014 NOT Yoda's bot. Use sessions_send to Aria session."
       }
     },
     "status": "monitoring",
-    "note": "3-tier alert system. Thresholds based on $107.06 balance. Both Ken and Angie alerted. Angie alert routed via Aria agent. Set by Ken 2026-04-27 12:14 AEST.",
-    "alert10pct": {
-      "threshold": 10.0,
-      "triggered": true
-    },
-    "alert75pct": {
-      "threshold": 30.0,
-      "triggered": false
-    }
+    "note": "Thresholds recalibrated 2026-04-28. Actual burn $101/day from Anthropic CSV. T1=$80, T2=$40, T3=$15."
   },
   "costDataSource": "anthropic_csv_2026-04-28",
   "costDataNote": "Rebuilt from Anthropic billing CSV. Includes cache write charges missed by session-log tracker."

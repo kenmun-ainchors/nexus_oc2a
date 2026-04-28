@@ -17,8 +17,8 @@
 ### API Balance — 3-Tier Alert System (check every 30 min)
 - Read state/cost-state.json → apiBalance.remainingEstimate
 - Read state/cost-alert-state.json → activeTier, tier states
-- **Tier 1 ($50):** If balance <= $50 AND tier1.triggered=false → alert Ken (8574109706) + Angie via Aria (8141152780) ONCE. Set triggered=true.
-- **Tier 2 ($25):** If balance <= $25 → set activeTier=2. Alert Ken + Angie every 3rd response (tracked in cost-alert-state.json).
+- **Tier 1 ($80):** If balance <= $80 AND tier1.triggered=false → alert Ken (8574109706) directly + send to Angie via sessions_send to Aria session (NOT direct Telegram — Angie must receive via @AInchorsAriaBot). ONCE. Set triggered=true.
+- **Tier 2 ($40):** If balance <= $40 → set activeTier=2. Alert Ken directly + Angie via Aria session every 3rd response.
 - **Tier 3 ($10):** If balance <= $10 → set activeTier=3, tier3.active=true. PAUSE before every request. Alert Ken + Angie. Require explicit acknowledgement before proceeding.
 - Alert format and message templates in RULES.md Credit Alert Rules section.
 - State key: cost-alert-state.json
