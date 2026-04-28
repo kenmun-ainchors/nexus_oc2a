@@ -35,6 +35,18 @@ This log captures **every change** Yoda makes to AInchors infrastructure, config
 **Linked:** decisions.md 2026-04-27 entries
 ---
 
+## 2026-04-28 16:56 AEST — [CHG-0065] QW batch: SLOs, uptime logging, CI Register, change types, ITIL tags, PRB-001
+**Type:** script
+**Source:** ken-prompt
+**Trigger:** TKT-0003/0006/0007/0008/0009/0010: 6 ITSM quick wins implemented
+**What changed:** Operations/SLOs.md (NEW): P1-P4 response times, 99.5% availability target, change management SLOs. state/uptime-log.json (NEW): uptime tracking, SLO compliance. health-check.sh: uptime entry logged on every run. state/ci-register.json (NEW): CI Register / CMDB foundation. RULES.md: change types STD/NRM/EMG documented. 13 Operations docs tagged with ITIL practice headers. state/problems/PRB-001.json (NEW): first Problem record — billing exhaustion root cause, permanent fix implemented.
+**Why:** ITSM maturity QW batch — moves ITIL/ITSM framework from L3 toward L4 (measured/managed). SLOs define what we're held to. Uptime logging tracks whether we meet it. CI Register starts CMDB. PRB-001 closes the first problem loop.
+**Verification:** health-check.sh: uptime 100% after 1 check. SLOs.md created. PRB-001 filed. 13 docs tagged. All 6 tickets resolved.
+**Rollback:** Delete SLOs.md, uptime-log.json, ci-register.json, PRB-001.json. Revert health-check.sh uptime block. Remove RULES.md change types.
+**Linked:** TKT-0003 TKT-0006 TKT-0007 TKT-0008 TKT-0009 TKT-0010
+---
+
+
 ## 2026-04-28 16:44 AEST — [CHG-0064] Governance gate skip rule approved — Yoda/Ken internal work exempt
 **Type:** rule
 **Source:** ken-prompt

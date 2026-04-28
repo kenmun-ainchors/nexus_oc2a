@@ -46,11 +46,11 @@
       "title": "QW-1: Define SLOs — write Operations/SLOs.md (P1-P4 + 99.5% availability)",
       "type": "task",
       "priority": "critical",
-      "status": "open",
+      "status": "resolved",
       "requester": "Ken",
       "assignee": "Yoda",
       "created": "2026-04-27T09:55:22+10:00",
-      "updated": "2026-04-27T09:55:22+10:00",
+      "updated": "2026-04-28T16:56:46+10:00",
       "description": "ITSM Phase 1 Quick Win. No migration required. <1 day effort. EPIC-001.",
       "resolution": null,
       "linked": {
@@ -58,18 +58,18 @@
         "inc": [],
         "chg": []
       },
-      "notes": ""
+      "notes": "Implemented 2026-04-28"
     },
     {
       "id": "TKT-0004",
       "title": "QW-2: Add --severity P1-P4 to incident-log.sh",
       "type": "task",
       "priority": "high",
-      "status": "open",
+      "status": "resolved",
       "requester": "Ken",
       "assignee": "Yoda",
       "created": "2026-04-27T09:55:22+10:00",
-      "updated": "2026-04-27T09:55:22+10:00",
+      "updated": "2026-04-28T16:52:01+10:00",
       "description": "ITSM Phase 1 Quick Win. No migration required. <1 day effort. EPIC-001.",
       "resolution": null,
       "linked": {
@@ -77,18 +77,18 @@
         "inc": [],
         "chg": []
       },
-      "notes": ""
+      "notes": "QW-2 --severity flag done CHG-0059"
     },
     {
       "id": "TKT-0005",
       "title": "QW-3: Declare Yoda = Service Desk lead in Standards.md",
       "type": "task",
       "priority": "high",
-      "status": "open",
+      "status": "resolved",
       "requester": "Ken",
       "assignee": "Yoda",
       "created": "2026-04-27T09:55:22+10:00",
-      "updated": "2026-04-27T09:55:22+10:00",
+      "updated": "2026-04-28T16:52:01+10:00",
       "description": "ITSM Phase 1 Quick Win. No migration required. <1 day effort. EPIC-001.",
       "resolution": null,
       "linked": {
@@ -96,18 +96,18 @@
         "inc": [],
         "chg": []
       },
-      "notes": ""
+      "notes": "QW-3 Service Desk lead done CHG-0059"
     },
     {
       "id": "TKT-0006",
       "title": "QW-4: Add uptime logging to health-check.sh (state/uptime-log.json)",
       "type": "task",
       "priority": "medium",
-      "status": "open",
+      "status": "resolved",
       "requester": "Ken",
       "assignee": "Yoda",
       "created": "2026-04-27T09:55:22+10:00",
-      "updated": "2026-04-27T09:55:22+10:00",
+      "updated": "2026-04-28T16:56:46+10:00",
       "description": "ITSM Phase 1 Quick Win. No migration required. <1 day effort. EPIC-001.",
       "resolution": null,
       "linked": {
@@ -115,18 +115,18 @@
         "inc": [],
         "chg": []
       },
-      "notes": ""
+      "notes": "Implemented 2026-04-28"
     },
     {
       "id": "TKT-0007",
       "title": "QW-5: Create CI Register Notion DB",
       "type": "task",
       "priority": "medium",
-      "status": "open",
+      "status": "resolved",
       "requester": "Ken",
       "assignee": "Yoda",
       "created": "2026-04-27T09:55:22+10:00",
-      "updated": "2026-04-27T09:55:22+10:00",
+      "updated": "2026-04-28T16:56:46+10:00",
       "description": "ITSM Phase 1 Quick Win. No migration required. <1 day effort. EPIC-001.",
       "resolution": null,
       "linked": {
@@ -134,18 +134,18 @@
         "inc": [],
         "chg": []
       },
-      "notes": ""
+      "notes": "Implemented 2026-04-28"
     },
     {
       "id": "TKT-0008",
       "title": "QW-6: Add change type (Std/Normal/Emergency) to pre-risky-op rule + CHG template",
       "type": "task",
       "priority": "medium",
-      "status": "open",
+      "status": "resolved",
       "requester": "Ken",
       "assignee": "Yoda",
       "created": "2026-04-27T09:55:22+10:00",
-      "updated": "2026-04-27T09:55:22+10:00",
+      "updated": "2026-04-28T16:56:46+10:00",
       "description": "ITSM Phase 1 Quick Win. No migration required. <1 day effort. EPIC-001.",
       "resolution": null,
       "linked": {
@@ -153,18 +153,18 @@
         "inc": [],
         "chg": []
       },
-      "notes": ""
+      "notes": "Implemented 2026-04-28"
     },
     {
       "id": "TKT-0009",
       "title": "QW-7: Tag all 13 Operations docs with ITIL practice header",
       "type": "task",
       "priority": "low",
-      "status": "open",
+      "status": "resolved",
       "requester": "Ken",
       "assignee": "Yoda",
       "created": "2026-04-27T09:55:22+10:00",
-      "updated": "2026-04-27T09:55:22+10:00",
+      "updated": "2026-04-28T16:56:46+10:00",
       "description": "ITSM Phase 1 Quick Win. No migration required. <1 day effort. EPIC-001.",
       "resolution": null,
       "linked": {
@@ -172,18 +172,18 @@
         "inc": [],
         "chg": []
       },
-      "notes": ""
+      "notes": "Implemented 2026-04-28"
     },
     {
       "id": "TKT-0010",
       "title": "QW-8: File PRB-001 — first Problem record from incident history",
       "type": "task",
       "priority": "medium",
-      "status": "open",
+      "status": "resolved",
       "requester": "Ken",
       "assignee": "Yoda",
       "created": "2026-04-27T09:55:22+10:00",
-      "updated": "2026-04-27T09:55:22+10:00",
+      "updated": "2026-04-28T16:56:46+10:00",
       "description": "ITSM Phase 1 Quick Win. No migration required. <1 day effort. EPIC-001.",
       "resolution": null,
       "linked": {
@@ -191,18 +191,18 @@
         "inc": [],
         "chg": []
       },
-      "notes": ""
+      "notes": "Implemented 2026-04-28"
     },
     {
       "id": "TKT-0011",
       "title": "Business Stream Lead Agent setup — OC2 precursor (Angie direct access)",
       "type": "task",
       "priority": "critical",
-      "status": "open",
+      "status": "resolved",
       "requester": "Ken",
       "assignee": "Yoda",
       "created": "2026-04-27T10:02:37+10:00",
-      "updated": "2026-04-27T10:02:37+10:00",
+      "updated": "2026-04-28T16:52:01+10:00",
       "description": "Create Business Lead Agent as OC2 precursor. Angie accesses directly and remotely. Works with her on business stream development independently.",
       "resolution": null,
       "linked": {
@@ -210,18 +210,18 @@
         "inc": [],
         "chg": []
       },
-      "notes": ""
+      "notes": "Aria live as Business Stream Lead"
     },
     {
       "id": "TKT-0012",
       "title": "Governance layer: Security + Legal + QA agents — operational for Aria/Angie work",
       "type": "task",
       "priority": "critical",
-      "status": "open",
+      "status": "resolved",
       "requester": "Ken",
       "assignee": "Yoda",
       "created": "2026-04-27T11:20:51+10:00",
-      "updated": "2026-04-27T11:20:51+10:00",
+      "updated": "2026-04-28T16:52:01+10:00",
       "description": "Stand up 3 cross-stream governance agents (Security 🔐, Legal ⚖️, QA 🧪). All Aria external-facing work routes through governance before execution. Immediate priority — Angie is active on Aria now.",
       "resolution": null,
       "linked": {
@@ -229,7 +229,7 @@
         "inc": [],
         "chg": []
       },
-      "notes": ""
+      "notes": "Shield/Lex/Sage/Warden all live CHG-0053"
     },
     {
       "id": "TKT-0013",
@@ -255,11 +255,11 @@
       "title": "US35: Haiku 4.5 as Tier 2 — sub-task routing implementation",
       "type": "task",
       "priority": "high",
-      "status": "open",
+      "status": "resolved",
       "requester": "Ken",
       "assignee": "Yoda",
       "created": "2026-04-28T10:28:01+10:00",
-      "updated": "2026-04-28T10:28:01+10:00",
+      "updated": "2026-04-28T16:52:01+10:00",
       "description": "Implement Claude Haiku 4.5 as Tier 2 model in the 3-tier strategy. Route governance reviews, health checks, Warden checks, and bounded sub-tasks to Haiku (3x cheaper than Sonnet). Ken approved 2026-04-28.",
       "resolution": null,
       "linked": {
@@ -267,18 +267,18 @@
         "inc": [],
         "chg": []
       },
-      "notes": ""
+      "notes": "Haiku Tier 2 live CHG-0048"
     },
     {
       "id": "TKT-0015",
       "title": "Day 4 Sprint — shadow logging, US22, config-009, burn alert",
       "type": "task",
       "priority": "high",
-      "status": "open",
+      "status": "resolved",
       "requester": "Ken",
       "assignee": "Yoda",
       "created": "2026-04-28T10:51:21+10:00",
-      "updated": "2026-04-28T10:51:21+10:00",
+      "updated": "2026-04-28T16:52:01+10:00",
       "description": "4 items from 9AM model review report: (1) fix gemma4 shadow logging, (2) US22 cost tracker, (3) config-009 Aria modelFallbacks, (4) daily burn alert at $40 USD",
       "resolution": null,
       "linked": {
@@ -286,18 +286,18 @@
         "inc": [],
         "chg": []
       },
-      "notes": ""
+      "notes": "Day 4 sprint items done CHG-0050"
     },
     {
       "id": "TKT-0016",
       "title": "Sage Rule 1: QA gate on all shared/communicated assets",
       "type": "task",
       "priority": "high",
-      "status": "open",
+      "status": "resolved",
       "requester": "Ken",
       "assignee": "Yoda",
       "created": "2026-04-28T11:10:59+10:00",
-      "updated": "2026-04-28T11:10:59+10:00",
+      "updated": "2026-04-28T16:52:01+10:00",
       "description": "Non-negotiable. All generated assets for sharing or external comms must pass Sage QA before delivery. All agents, both streams. No exceptions.",
       "resolution": null,
       "linked": {
@@ -305,18 +305,18 @@
         "inc": [],
         "chg": []
       },
-      "notes": ""
+      "notes": "Sage Rule 1 done CHG-0051"
     },
     {
       "id": "TKT-0017",
       "title": "Shield Rule 1 + Lex Rule 1: security and legal assurance gates on all shared assets",
       "type": "task",
       "priority": "high",
-      "status": "open",
+      "status": "resolved",
       "requester": "Ken",
       "assignee": "Yoda",
       "created": "2026-04-28T11:27:20+10:00",
-      "updated": "2026-04-28T11:27:20+10:00",
+      "updated": "2026-04-28T16:52:01+10:00",
       "description": "Non-negotiable. Mirror Sage Rule 1 for Shield (security) and Lex (legal). All generated assets for sharing must pass all three governance checks before delivery. Applies to all agents, both streams.",
       "resolution": null,
       "linked": {
@@ -324,7 +324,7 @@
         "inc": [],
         "chg": []
       },
-      "notes": ""
+      "notes": "Shield+Lex Rule 1 done CHG-0053"
     },
     {
       "id": "TKT-0018",
@@ -350,11 +350,11 @@
       "title": "Priority 2-4 sprint: ITSM batch, model strategy blog, US27 diagnostics",
       "type": "task",
       "priority": "high",
-      "status": "open",
+      "status": "resolved",
       "requester": "Ken",
       "assignee": "Yoda",
       "created": "2026-04-28T14:24:15+10:00",
-      "updated": "2026-04-28T14:24:15+10:00",
+      "updated": "2026-04-28T16:52:01+10:00",
       "description": "Execute: QW-2 (severity flag), QW-3 (Standards.md), ITSM-US-007 (auto-heal INC), ITSM-US-006 (PIR trigger), Model Strategy Blog Post, US27 phases 7-9.",
       "resolution": null,
       "linked": {
@@ -362,18 +362,18 @@
         "inc": [],
         "chg": []
       },
-      "notes": ""
+      "notes": "Priority 2-4 sprint done CHG-0059/0060"
     },
     {
       "id": "TKT-0020",
       "title": "Business ROI framework — value definition, tracking, Aria implementation",
       "type": "task",
       "priority": "high",
-      "status": "open",
+      "status": "resolved",
       "requester": "Ken",
       "assignee": "Yoda",
       "created": "2026-04-28T16:18:19+10:00",
-      "updated": "2026-04-28T16:18:19+10:00",
+      "updated": "2026-04-28T16:52:01+10:00",
       "description": "Build business stream equivalent of tech cost/ROI framework. Value categories: revenue pipeline, content/brand, time efficiency, risk/compliance, client value. Aria maintains and reports. Canvas dashboard. Feeds into future business value and ROI reporting.",
       "resolution": null,
       "linked": {
@@ -381,7 +381,7 @@
         "inc": [],
         "chg": []
       },
-      "notes": ""
+      "notes": "Business ROI framework done CHG-0062"
     },
     {
       "id": "TKT-0021",

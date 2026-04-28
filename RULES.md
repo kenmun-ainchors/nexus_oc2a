@@ -609,3 +609,18 @@ _Reserved keyword. Available to Ken. Locked 2026-04-28._
 **State file:** `state/frameworks-maturity.json` — updated after each `/frameworks` run and whenever a framework materially changes.
 
 **How Yoda responds:** Read `state/frameworks-maturity.json`, check current state of each framework against live scripts/state/crons, produce a structured assessment with gaps → opportunities → priority focus.
+
+---
+
+## Change Types (pre-risky-op + CHG template) — QW-6
+_Locked 2026-04-28_
+
+Every change declares its type in the pre-risky-op checkpoint and CHG entry:
+
+| Type | Code | Definition | Ken approval? |
+|------|------|-----------|--------------|
+| Standard | `STD` | Routine, pre-approved pattern. Low risk, fully reversible. | Not required |
+| Normal | `NRM` | Planned change. Reviewed before execution. Medium risk. | Required before |
+| Emergency | `EMG` | Urgent fix to restore service. High risk. | Required within 1hr after |
+
+Pre-risky-op: declare `CHANGE TYPE: STD/NRM/EMG — [reason]` before proceeding.

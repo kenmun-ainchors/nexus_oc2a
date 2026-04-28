@@ -1,0 +1,34 @@
+{
+  "id": "PRB-001",
+  "title": "Anthropic API outage \u2014 recurring billing exhaustion pattern",
+  "status": "known-error",
+  "createdAt": "2026-04-28",
+  "raisedBy": "Yoda",
+  "relatedIncidents": [
+    "Day 2 overnight outage",
+    "Day 3 billing exhaustion"
+  ],
+  "problemStatement": "AInchors has experienced two separate overnight outages caused by Anthropic API credit exhaustion within the first 3 days of operation. Each time, the platform went silent with no fallback completing successfully.",
+  "rootCause": "1. No automated spend monitoring with early warning. 2. Fallback chain was not validated on startup \u2014 Ollama auth was missing. 3. No standby mode banner to inform Ken on reconnect.",
+  "workaround": "Manual top-up by Ken. Validated by running zsh scripts/validate-fallback-chain.sh post-recovery.",
+  "permanentFix": {
+    "status": "implemented",
+    "actions": [
+      "3-tier credit alert system ($50/$25/$10) \u2014 Ken + Angie notified (CHG-0032)",
+      "Daily burn alert at $40 USD threshold (CHG-0050)",
+      "outage-handler.sh \u2014 auto-detects API failure, activates standby mode, alerts Ken (CHG-0058)",
+      "Fallback chain validation \u2014 hourly cron (CHG-0058)",
+      "validate-fallback-chain.sh \u2014 tests all chain links including Haiku T2 and gemma4:e2b (CHG-0058)"
+    ],
+    "implementedAt": "2026-04-28",
+    "verifiedBy": "validate-fallback-chain.sh \u2192 5/5 PASS"
+  },
+  "kedb": "Billing exhaustion \u2192 API 429/401 \u2192 check console.anthropic.com \u2192 top up \u2192 re-run validate-fallback-chain.sh",
+  "preventionMeasures": "Burn alert + credit alerts prevent recurrence. If balance <$50 Ken+Angie alerted. Standby mode auto-activates if API goes down.",
+  "closureCondition": "No further billing outages for 30 days. Monitor via burn alert compliance.",
+  "lessons": [
+    "Set credit alerts before go-live, not after first outage",
+    "Validate fallback chain on every gateway start, not just on incident",
+    "Overnight outages are silent without a standby banner"
+  ]
+}

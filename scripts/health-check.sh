@@ -334,5 +334,38 @@ PYEOF
   fi
 fi
 
+
+# ── Uptime logging (QW-4) ─────────────────────────────────────────────────────
+UPTIME_LOG="$WORKSPACE/state/uptime-log.json"
+python3 - << UEOF
+import json, os
+from datetime import datetime, timezone
+
+ufile = os.path.expanduser("~/.openclaw/workspace/state/uptime-log.json")
+now = "$TIMESTAMP" if "$TIMESTAMP" else datetime.now(timezone.utc).isoformat()
+status = "$OVERALL_STATUS"
+
+data = json.load(open(ufile)) if os.path.exists(ufile) else {
+    "schema_version": "1.0", "trackingStarted": now[:10],
+    "sloTarget": 0.995, "entries": [],
+    "summary": {"totalChecks": 0, "upChecks": 0, "downtimeMinutes": 0, "uptimePct": 100.0}
+}
+
+entry = {"ts": now, "status": status, "issues": $ISSUES_JSON if '$ISSUES_JSON' else []}
+data["entries"] = data["entries"][-2880:]  # keep 30 days at 15-min intervals
+data["entries"].append(entry)
+
+s = data["summary"]
+s["totalChecks"] += 1
+if status == "ok": s["upChecks"] += 1
+else: s["downtimeMinutes"] = s.get("downtimeMinutes", 0) + 15
+s["uptimePct"] = round(s["upChecks"] / s["totalChecks"] * 100, 3) if s["totalChecks"] > 0 else 100.0
+s["lastCheck"] = now
+s["lastStatus"] = status
+
+open(ufile, "w").write(json.dumps(data, indent=2))
+UEOF
+
+
 log "Health check complete. Exit code: ${EXIT_CODE:-2}"
 exit ${EXIT_CODE:-2}
