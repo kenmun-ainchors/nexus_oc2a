@@ -172,10 +172,30 @@
       "status": "pass",
       "latencyMs": 0,
       "notes": "9 checks run: all PASS. No model drift detected."
+    },
+    {
+      "ts": "2026-04-28T12:04:32+10:00",
+      "date": "2026-04-28",
+      "tier": "T2",
+      "taskType": "governance-check",
+      "model": "anthropic/claude-haiku-4-5",
+      "status": "pass",
+      "latencyMs": 0,
+      "notes": "Governance gate: PASS | Asset: index.html"
+    },
+    {
+      "ts": "2026-04-28T12:04:37+10:00",
+      "date": "2026-04-28",
+      "tier": "T2",
+      "taskType": "governance-check",
+      "model": "anthropic/claude-haiku-4-5",
+      "status": "pass",
+      "latencyMs": 0,
+      "notes": "Governance gate: PASS | Asset: index.html"
     }
   ],
   "summary": {
-    "total": 17,
+    "total": 19,
     "byTier": {
       "T1": {
         "pass": 0,
@@ -183,7 +203,7 @@
         "timeout": 0
       },
       "T2": {
-        "pass": 14,
+        "pass": 16,
         "fail": 2,
         "timeout": 0
       },
@@ -213,12 +233,12 @@
         "tier": "T3"
       },
       "governance-check": {
-        "pass": 5,
+        "pass": 7,
         "fail": 0,
         "timeout": 0,
         "tier": "T2"
       }
     },
-    "estimatedSavingsUSD": 0.0775
+    "estimatedSavingsUSD": 0.0875
   }
 }
