@@ -1,5 +1,5 @@
 {
-  "lastUpdated": "2026-04-28T08:31:14Z",
+  "lastUpdated": "2026-04-28T08:33:17Z",
   "history": {
     "2026-04-25": {
       "date": "2026-04-25",
@@ -60,20 +60,20 @@
     },
     "2026-04-28": {
       "date": "2026-04-28",
-      "totalCost": 259.3086,
-      "totalTurns": 1643,
-      "totalInputTokens": 5037,
-      "totalOutputTokens": 820331,
-      "totalCacheReadTokens": 266006151,
-      "totalCacheWriteTokens": 45307524,
+      "totalCost": 270.7277,
+      "totalTurns": 1667,
+      "totalInputTokens": 5073,
+      "totalOutputTokens": 830763,
+      "totalCacheReadTokens": 275311451,
+      "totalCacheWriteTokens": 47566437,
       "byModel": {
         "claude-sonnet-4-6": {
-          "input": 1979,
-          "output": 774259,
-          "cacheRead": 262219955,
-          "cacheWrite": 44663726,
-          "cost": 257.7748,
-          "turns": 1365
+          "input": 2015,
+          "output": 784691,
+          "cacheRead": 271525255,
+          "cacheWrite": 46922639,
+          "cost": 269.1939,
+          "turns": 1389
         },
         "gateway-injected": {
           "input": 0,
@@ -102,19 +102,19 @@
       }
     }
   },
-  "allTimeTotalCost": 412.2689,
+  "allTimeTotalCost": 423.688,
   "daysTracked": 4,
-  "avgDailyCost": 103.0672,
+  "avgDailyCost": 105.922,
   "apiBalance": {
     "currency": "USD",
     "balance": 145.6,
     "topUpDate": "2026-04-28",
     "spentSinceTopUp": 0,
-    "remainingEstimate": 145.6,
-    "note": "Top-up confirmed by Ken at 13:06 AEST 2026-04-28. Balance USD 145.60.",
-    "confirmedAt": "2026-04-28T13:06:00+10:00",
+    "remainingEstimate": 58.72,
+    "note": "Ken confirmed USD 58.72 at 18:34 AEST 2026-04-28. Down from 145.6 at 13:06 \u2014 ~A$133 burned in 5.5hrs afternoon session.",
+    "confirmedAt": "2026-04-28T18:34:00+10:00",
     "confirmedBy": "Ken",
-    "confirmedBalance": 145.6
+    "confirmedBalance": 58.72
   },
   "spendAlerts": {
     "tier1": {
