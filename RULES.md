@@ -515,6 +515,12 @@ _Reserved slash command. Available to Ken (Yoda) and Angie (Aria). Locked 2026-0
 1. If typed after generating a shared asset → run all three gates on that asset, return executive summary
 2. If typed with no context → report on last governance run from `state/governance-results.json`
 
+**Refinement (locked 2026-04-28):**
+- Aria does NOT auto-run the governance gate. She asks Angie first if governance is recommended.
+- This ask-first behaviour applies only to **Aria ↔ Angie** sessions.
+- Yoda handles governance decisions with Ken directly (no ask-first required).
+- `/governance` ad-hoc command bypasses the ask and runs immediately (user explicitly requested it).
+
 **Yoda invocation:**
 ```bash
 bash scripts/governance-report.sh \

@@ -35,6 +35,18 @@ This log captures **every change** Yoda makes to AInchors infrastructure, config
 **Linked:** decisions.md 2026-04-27 entries
 ---
 
+## 2026-04-28 12:01 AEST — [CHG-0055] Governance gate refinement: ask-first, Aria/Angie only
+**Type:** rule
+**Source:** ken-prompt
+**Trigger:** Ken: don't auto-run gate, ask user first. Apply only to Aria and Angie, not Yoda/Ken.
+**What changed:** workspace-business/SOUL.md: governance gate changed from auto-run to ask-first. Aria stops and asks Angie to confirm before running gate. Tail options updated (PASS/FAIL/skipped/not-applicable). RULES.md: /governance section updated with refinement note.
+**Why:** Auto-running governance on every response is disruptive. User should be in control of when the gate fires. Also scoped correctly to Aria/Angie only.
+**Verification:** SOUL.md updated. Behaviour: generate content, assess if governance needed, stop and ask, proceed based on Angie response.
+**Rollback:** Revert SOUL.md governance section to auto-run behaviour.
+**Linked:** TKT-0017 CHG-0053 CHG-0054
+---
+
+
 ## 2026-04-28 11:52 AEST — [CHG-0054] Governance gate wired into Aria + /governance ad-hoc command
 **Type:** agent
 **Source:** ken-prompt

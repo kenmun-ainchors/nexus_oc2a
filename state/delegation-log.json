@@ -162,10 +162,20 @@
       "status": "pass",
       "latencyMs": 0,
       "notes": "Governance gate: PASS | Asset: index.html"
+    },
+    {
+      "ts": "2026-04-28T11:54:29+10:00",
+      "date": "2026-04-28",
+      "tier": "T2",
+      "taskType": "warden-check",
+      "model": "anthropic/claude-haiku-4-5",
+      "status": "pass",
+      "latencyMs": 0,
+      "notes": "9 checks run: all PASS. No model drift detected."
     }
   ],
   "summary": {
-    "total": 16,
+    "total": 17,
     "byTier": {
       "T1": {
         "pass": 0,
@@ -173,7 +183,7 @@
         "timeout": 0
       },
       "T2": {
-        "pass": 13,
+        "pass": 14,
         "fail": 2,
         "timeout": 0
       },
@@ -191,7 +201,7 @@
         "tier": "T2"
       },
       "warden-check": {
-        "pass": 5,
+        "pass": 6,
         "fail": 0,
         "timeout": 0,
         "tier": "T2"
@@ -209,6 +219,6 @@
         "tier": "T2"
       }
     },
-    "estimatedSavingsUSD": 0.0725
+    "estimatedSavingsUSD": 0.0775
   }
 }

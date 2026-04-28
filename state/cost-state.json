@@ -1,5 +1,5 @@
 {
-  "lastUpdated": "2026-04-28T00:58:10Z",
+  "lastUpdated": "2026-04-28T02:00:11Z",
   "history": {
     "2026-04-25": {
       "date": "2026-04-25",
@@ -60,41 +60,65 @@
     },
     "2026-04-28": {
       "date": "2026-04-28",
-      "totalCost": 20.2143,
-      "totalTurns": 201,
-      "totalInputTokens": 385,
-      "totalOutputTokens": 119199,
-      "totalCacheReadTokens": 31143581,
-      "totalCacheWriteTokens": 2463223,
+      "totalCost": 50.689,
+      "totalTurns": 421,
+      "totalInputTokens": 985,
+      "totalOutputTokens": 267529,
+      "totalCacheReadTokens": 78239326,
+      "totalCacheWriteTokens": 6304265,
       "byModel": {
         "claude-sonnet-4-6": {
-          "input": 242,
-          "output": 116172,
-          "cacheRead": 30972610,
-          "cacheWrite": 2427116,
-          "cost": 20.1368,
-          "turns": 188
+          "input": 477,
+          "output": 258353,
+          "cacheRead": 77628369,
+          "cacheWrite": 6171737,
+          "cost": 50.3093,
+          "turns": 373
+        },
+        "gateway-injected": {
+          "input": 0,
+          "output": 0,
+          "cacheRead": 0,
+          "cacheWrite": 0,
+          "cost": 0.0,
+          "turns": 1
         },
         "claude-haiku-4-5": {
-          "input": 143,
-          "output": 3027,
-          "cacheRead": 170971,
-          "cacheWrite": 36107,
-          "cost": 0.0775,
-          "turns": 13
+          "input": 502,
+          "output": 9075,
+          "cacheRead": 610957,
+          "cacheWrite": 111606,
+          "cost": 0.2465,
+          "turns": 45
+        },
+        "claude-opus-4-7": {
+          "input": 6,
+          "output": 101,
+          "cacheRead": 0,
+          "cacheWrite": 20922,
+          "cost": 0.1333,
+          "turns": 1
+        },
+        "delivery-mirror": {
+          "input": 0,
+          "output": 0,
+          "cacheRead": 0,
+          "cacheWrite": 0,
+          "cost": 0.0,
+          "turns": 1
         }
       }
     }
   },
-  "allTimeTotalCost": 173.1746,
+  "allTimeTotalCost": 203.6493,
   "daysTracked": 4,
-  "avgDailyCost": 43.2936,
+  "avgDailyCost": 50.9123,
   "apiBalance": {
     "currency": "USD",
     "balance": 107.23,
     "topUpDate": "2026-04-28",
-    "spentSinceTopUp": 20.2143,
-    "remainingEstimate": 87.0157,
+    "spentSinceTopUp": 50.689,
+    "remainingEstimate": 56.541,
     "note": "Top-up confirmed by Ken at 07:35 AEST 2026-04-28. Balance USD 107.23.",
     "confirmedAt": "2026-04-28T07:35:00+10:00",
     "confirmedBy": "Ken",
