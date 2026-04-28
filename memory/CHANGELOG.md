@@ -35,6 +35,18 @@ This log captures **every change** Yoda makes to AInchors infrastructure, config
 **Linked:** decisions.md 2026-04-27 entries
 ---
 
+## 2026-04-28 18:27 AEST — [CHG-0067] US35 acceptance criteria locked — AC1+AC2 PASS, AC3 watch, AC4+AC5 deferred
+**Type:** rule
+**Source:** ken-prompt
+**Trigger:** Ken accepted AC as proposed 2026-04-28 18:26 AEST
+**What changed:** state/us35-acceptance.json: AC1 PASS, AC2 PASS, AC3 24hr watch, AC4+AC5 deferred to May 28 review. US35 → Done in Notion.
+**Why:** Formal acceptance criteria closure for US35 3-tier model strategy implementation.
+**Verification:** Ken explicit approval.
+**Rollback:** N/A — acceptance decision.
+**Linked:** US35 CHG-0048 CHG-0065 CHG-0066
+---
+
+
 ## 2026-04-28 16:56 AEST — [CHG-0065] QW batch: SLOs, uptime logging, CI Register, change types, ITIL tags, PRB-001
 **Type:** script
 **Source:** ken-prompt
