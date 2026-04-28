@@ -142,6 +142,33 @@ fi
 
 [ "$COMPLIANCE_PASS" = true ] && { PASS=$((PASS+1)); echo "  RESULT: PASS"; } || { FAIL=$((FAIL+1)); echo "  RESULT: FAIL"; }
 
+
+# ── Shield security check ─────────────────────────────────────────────────────
+echo ""
+echo "[ Invoking Shield 🛡️ Security Gate ]"
+bash /Users/ainchorsangiefpl/.openclaw/workspace/scripts/shield-check.sh \
+  --asset-path "$ASSET_PATH" --asset-type "$ASSET_TYPE" \
+  --brief "$BRIEF" --intended-for "$INTENDED_FOR" --produced-by "$PRODUCED_BY" 2>/dev/null
+SHIELD_EXIT=$?
+if [ $SHIELD_EXIT -ne 0 ]; then
+  FAIL=$((FAIL+1)); ISSUES+=("Shield security check FAILED — see shield output above")
+else
+  PASS=$((PASS+1))
+fi
+
+# ── Lex legal check ───────────────────────────────────────────────────────────
+echo ""
+echo "[ Invoking Lex ⚖️ Legal Gate ]"
+bash /Users/ainchorsangiefpl/.openclaw/workspace/scripts/lex-check.sh \
+  --asset-path "$ASSET_PATH" --asset-type "$ASSET_TYPE" \
+  --brief "$BRIEF" --intended-for "$INTENDED_FOR" --produced-by "$PRODUCED_BY" 2>/dev/null
+LEX_EXIT=$?
+if [ $LEX_EXIT -ne 0 ]; then
+  FAIL=$((FAIL+1)); ISSUES+=("Lex legal check FAILED — see lex output above")
+else
+  PASS=$((PASS+1))
+fi
+
 # ── Checks 1, 2, 3 require LLM — log as manual for now ─────────────────────
 echo ""
 echo "[ Checks 1, 2, 3 — Requirements / Outcome / Accuracy ]"

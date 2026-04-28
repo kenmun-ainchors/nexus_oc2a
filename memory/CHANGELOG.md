@@ -35,6 +35,18 @@ This log captures **every change** Yoda makes to AInchors infrastructure, config
 **Linked:** decisions.md 2026-04-27 entries
 ---
 
+## 2026-04-28 11:31 AEST — [CHG-0053] Shield Rule 1 + Lex Rule 1: security and legal assurance gates on all shared assets
+**Type:** rule
+**Source:** ken-prompt
+**Trigger:** TKT-0017: Ken mandated Shield and Lex rules to match Sage Rule 1. Non-negotiable, all agents, both streams.
+**What changed:** workspace-security/SHIELD_RULE_1.md locked (5 security checks: credentials, internal exposure, PII, classification, send risk). workspace-legal/LEX_RULE_1.md locked (5 legal checks: contractual, regulatory, liability, IP, disclosures). scripts/shield-check.sh + lex-check.sh (automated pattern scans, LLM-deferred for nuanced checks). sage-qa.sh updated to invoke Shield + Lex as sub-gates. Shield + Lex daily crons ENABLED at 22:00/22:05 AEST. RULES.md updated with both rules. All 3 governance rules documented: Shield->Lex->Sage->Deliver.
+**Why:** Sage Rule 1 established QA gate but security and legal checks were missing. Ken mandated all three as non-negotiable. Full governance gate now: Shield->Lex->Sage->Deliver.
+**Verification:** shield-check.sh + lex-check.sh tested on budget proposal: both PASS. Crons enabled. Logs initialised.
+**Rollback:** Remove shield-check.sh, lex-check.sh. Revert sage-qa.sh. Disable Shield+Lex crons. Remove RULES.md entries.
+**Linked:** TKT-0017 CHG-0051
+---
+
+
 ## 2026-04-28 11:22 AEST — [CHG-0052] Fix health-check.sh: declare -A, Python bool, lock glob bugs
 **Type:** script
 **Source:** ken-prompt

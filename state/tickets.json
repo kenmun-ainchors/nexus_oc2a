@@ -1,7 +1,7 @@
 {
   "schema_version": "1.0",
   "description": "AInchors Service Ticket Log. Every ad-hoc request, task, or action without an existing INC/US/CHG reference MUST have a TKT number before work begins.",
-  "sequence": 17,
+  "sequence": 18,
   "tickets": [
     {
       "id": "TKT-0001",
@@ -299,6 +299,25 @@
       "created": "2026-04-28T11:10:59+10:00",
       "updated": "2026-04-28T11:10:59+10:00",
       "description": "Non-negotiable. All generated assets for sharing or external comms must pass Sage QA before delivery. All agents, both streams. No exceptions.",
+      "resolution": null,
+      "linked": {
+        "us": [],
+        "inc": [],
+        "chg": []
+      },
+      "notes": ""
+    },
+    {
+      "id": "TKT-0017",
+      "title": "Shield Rule 1 + Lex Rule 1: security and legal assurance gates on all shared assets",
+      "type": "task",
+      "priority": "high",
+      "status": "open",
+      "requester": "Ken",
+      "assignee": "Yoda",
+      "created": "2026-04-28T11:27:20+10:00",
+      "updated": "2026-04-28T11:27:20+10:00",
+      "description": "Non-negotiable. Mirror Sage Rule 1 for Shield (security) and Lex (legal). All generated assets for sharing must pass all three governance checks before delivery. Applies to all agents, both streams.",
       "resolution": null,
       "linked": {
         "us": [],

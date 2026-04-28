@@ -454,3 +454,52 @@ Produce → Sage QA → PASS → Deliver
                                                → FAIL × 2 → Escalate to Yoda
 
 **No exceptions. No overrides. Sage QA is mandatory.**
+
+---
+
+## Shield Rule 1 — Security Gate on All Shared Assets (NON-NEGOTIABLE)
+_Locked: 2026-04-28. Ken approved. TKT-0017. All agents, both streams._
+
+Every shared asset must pass Shield security check before delivery.
+
+**5 checks (full spec: workspace-security/SHIELD_RULE_1.md):**
+1. **Secrets/Credentials** — No API keys, tokens, pairing codes
+2. **Internal System Exposure** — No paths, IPs, session IDs, internal config names
+3. **PII & Personal Data** — No unauthorised personal data for recipient
+4. **Data Classification** — Content appropriate for stated audience
+5. **External Send Risk** — No architecture details, weakness disclosures, incident histories
+
+```bash
+bash scripts/shield-check.sh --asset-path PATH --asset-type TYPE --brief "..." --intended-for "..." --produced-by AGENT
+```
+
+---
+
+## Lex Rule 1 — Legal Gate on All Shared Assets (NON-NEGOTIABLE)
+_Locked: 2026-04-28. Ken approved. TKT-0017. All agents, both streams._
+
+Every shared asset must pass Lex legal check before delivery.
+
+**5 checks (full spec: workspace-legal/LEX_RULE_1.md):**
+1. **Contractual Language** — No unauthorised commitments or implied warranties
+2. **Regulatory Compliance** — ACL, Privacy Act, Spam Act, ASIC guidelines
+3. **Liability Exposure** — No defamation, unsubstantiated claims
+4. **Intellectual Property** — Attributed content, no IP infringement
+5. **Caveats & Disclosures** — Required disclaimers present
+
+```bash
+bash scripts/lex-check.sh --asset-path PATH --asset-type TYPE --brief "..." --intended-for "..." --produced-by AGENT
+```
+
+**Note:** Lex flags risk — does not substitute for qualified legal advice on contracts >A$10,000.
+
+---
+
+## Full Governance Gate (all 3 — non-negotiable order)
+```
+Shield → Lex → Sage → PASS all 3 → Deliver
+```
+`sage-qa.sh` automatically invokes Shield and Lex as part of its run.
+```bash
+bash scripts/sage-qa.sh --asset-path PATH --asset-type TYPE --brief "..." --intended-for "..." --produced-by AGENT
+```
