@@ -1,0 +1,78 @@
+{
+  "schema_version": "2.0",
+  "description": "3-tier model routing delegation outcomes. Updated by log-delegation.sh.",
+  "trackingStarted": "2026-04-28",
+  "entries": [
+    {
+      "ts": "2026-04-28T10:52:43+10:00",
+      "date": "2026-04-28",
+      "tier": "T2",
+      "taskType": "health-check",
+      "model": "anthropic/claude-haiku-4-5",
+      "status": "pass",
+      "latencyMs": 893,
+      "notes": "Seed entry \u2014 Haiku health check benchmark result 2026-04-28"
+    },
+    {
+      "ts": "2026-04-28T10:52:43+10:00",
+      "date": "2026-04-28",
+      "tier": "T2",
+      "taskType": "warden-check",
+      "model": "anthropic/claude-haiku-4-5",
+      "status": "pass",
+      "latencyMs": 920,
+      "notes": "Seed entry \u2014 Warden compliance check migrated to Haiku 2026-04-28"
+    },
+    {
+      "ts": "2026-04-28T10:52:43+10:00",
+      "date": "2026-04-28",
+      "tier": "T3",
+      "taskType": "cost-tracker",
+      "model": "ollama/gemma4:e2b",
+      "status": "pass",
+      "latencyMs": 6081,
+      "notes": "Seed entry \u2014 cost tracker on gemma4:e2b 2026-04-28"
+    }
+  ],
+  "summary": {
+    "total": 3,
+    "byTier": {
+      "T1": {
+        "pass": 0,
+        "fail": 0,
+        "timeout": 0
+      },
+      "T2": {
+        "pass": 2,
+        "fail": 0,
+        "timeout": 0
+      },
+      "T3": {
+        "pass": 1,
+        "fail": 0,
+        "timeout": 0
+      }
+    },
+    "byTaskType": {
+      "health-check": {
+        "pass": 1,
+        "fail": 0,
+        "timeout": 0,
+        "tier": "T2"
+      },
+      "warden-check": {
+        "pass": 1,
+        "fail": 0,
+        "timeout": 0,
+        "tier": "T2"
+      },
+      "cost-tracker": {
+        "pass": 1,
+        "fail": 0,
+        "timeout": 0,
+        "tier": "T3"
+      }
+    },
+    "estimatedSavingsUSD": 0.0175
+  }
+}

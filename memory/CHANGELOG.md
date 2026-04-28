@@ -35,6 +35,18 @@ This log captures **every change** Yoda makes to AInchors infrastructure, config
 **Linked:** decisions.md 2026-04-27 entries
 ---
 
+## 2026-04-28 10:53 AEST — [CHG-0050] Day 4 sprint: delegation logging, config-009, burn alert, gemma4 shadow fix
+**Type:** script
+**Source:** ken-prompt
+**Trigger:** TKT-0015: 9AM model review report flagged shadow logging broken, config-009, burn rate critical
+**What changed:** scripts/log-delegation.sh — 3-tier delegation outcome logger (T1/T2/T3, pass/fail/timeout, savings estimate). state/delegation-log.json — initialised with 3 seed entries. config-009 re-enabled: Aria modelFallbacks=[Haiku, gemma4:e2b] — prevents Opus escalation. Burn alert cron daily 20:00 AEST on Haiku — fires if today > $40 USD. Health check cron wires in delegation logging. Warden cron wires in delegation logging. US22 confirmed already Done.
+**Why:** Shadow logging had 0 entries since Day 1 — hook was never wired in. Config-009 drift real: Aria inherited global fallback including Opus. Burn rate $50.99/day vs $500/month cap — need early warning.
+**Verification:** Warden 9/9 PASS. delegation-log.json 3 entries. Burn alert cron live 20:00 AEST.
+**Rollback:** Remove delegation-log.json, log-delegation.sh. Revert Aria modelFallbacks to None. Delete burn alert cron ca5d5e50.
+**Linked:** TKT-0015 US22 US23
+---
+
+
 ## 2026-04-28 10:47 AEST — [CHG-0049] 3-tier routing live: route-model.sh, governance cron scaffolding, Haiku extended
 **Type:** config
 **Source:** ken-prompt

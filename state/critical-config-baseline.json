@@ -1,7 +1,7 @@
 {
   "schema_version": "1.0",
   "description": "Critical configurations that MUST NOT drift. Auto-heal check #12 validates each one nightly. Drift = needs-Ken US filed immediately. Update this baseline ONLY through explicit Ken-approved decision logged in decisions.md.",
-  "lastUpdated": "2026-04-28T10:27:00+10:00",
+  "lastUpdated": "2026-04-28T10:49:00+10:00",
   "lastApprovedBy": "Ken",
   "lastApprovalContext": "TKT-0014: 3-tier strategy. Haiku 4.5 = Tier 2. Baseline check added.",
   "checks": [
@@ -87,14 +87,13 @@
     },
     {
       "id": "config-009",
-      "name": "[DISABLED] Aria fallback chain excludes Opus \u2014 superseded by config-008 Sonnet primary",
+      "name": "Aria fallback chain = Haiku then gemma4:e2b (no Opus)",
       "severity": "critical",
       "file": "/Users/ainchorsangiefpl/.openclaw/openclaw.json",
       "jq_query": ".agents.list[] | select(.id==\"business\") | .modelFallbacks | tostring",
-      "expected_value": "[\"anthropic/claude-sonnet-4-6\"]",
-      "rationale": "Aria Rule 1: Gemma4 default, ask before using expensive models. Default fallback chain includes Opus (~3x cost). Business agent must have explicit fallback to Sonnet only \u2014 never inherit Opus from defaults.",
-      "fix_command": "edit openclaw.json: agents.list[id=business].modelFallbacks = [anthropic/claude-sonnet-4-6]",
-      "enabled": false
+      "expected_value": "[\"anthropic/claude-haiku-4-5\",\"ollama/gemma4:e2b\"]",
+      "rationale": "Aria must never escalate to Opus. Explicit fallback set to Haiku then gemma4:e2b. Activated 2026-04-28, TKT-0015.",
+      "fix_command": "edit openclaw.json: agents.list[id=business].modelFallbacks = [anthropic/claude-haiku-4-5, ollama/gemma4:e2b]"
     },
     {
       "id": "config-010",

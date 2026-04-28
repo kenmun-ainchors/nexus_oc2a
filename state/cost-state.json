@@ -1,5 +1,5 @@
 {
-  "lastUpdated": "2026-04-27T20:19:40Z",
+  "lastUpdated": "2026-04-28T00:51:25Z",
   "history": {
     "2026-04-25": {
       "date": "2026-04-25",
@@ -57,17 +57,44 @@
           "turns": 793
         }
       }
+    },
+    "2026-04-28": {
+      "date": "2026-04-28",
+      "totalCost": 16.0588,
+      "totalTurns": 166,
+      "totalInputTokens": 302,
+      "totalOutputTokens": 97968,
+      "totalCacheReadTokens": 24658617,
+      "totalCacheWriteTokens": 1952335,
+      "byModel": {
+        "claude-sonnet-4-6": {
+          "input": 203,
+          "output": 95720,
+          "cacheRead": 24549605,
+          "cacheWrite": 1917948,
+          "cost": 15.9936,
+          "turns": 157
+        },
+        "claude-haiku-4-5": {
+          "input": 99,
+          "output": 2248,
+          "cacheRead": 109012,
+          "cacheWrite": 34387,
+          "cost": 0.0652,
+          "turns": 9
+        }
+      }
     }
   },
-  "allTimeTotalCost": 152.9603,
-  "daysTracked": 3,
-  "avgDailyCost": 50.9868,
+  "allTimeTotalCost": 169.0191,
+  "daysTracked": 4,
+  "avgDailyCost": 42.2548,
   "apiBalance": {
     "currency": "USD",
     "balance": 107.23,
     "topUpDate": "2026-04-28",
-    "spentSinceTopUp": 0,
-    "remainingEstimate": 107.23,
+    "spentSinceTopUp": 16.0588,
+    "remainingEstimate": 91.1712,
     "note": "Top-up confirmed by Ken at 07:35 AEST 2026-04-28. Balance USD 107.23.",
     "confirmedAt": "2026-04-28T07:35:00+10:00",
     "confirmedBy": "Ken",
