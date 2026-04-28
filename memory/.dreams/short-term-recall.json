@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "updatedAt": "2026-04-27T13:57:07.598Z",
+  "updatedAt": "2026-04-28T04:32:39.445Z",
   "entries": {
     "memory:memory/2026-04-26.md:94:122": {
       "key": "memory:memory/2026-04-26.md:94:122",
@@ -135,18 +135,20 @@
       "endLine": 123,
       "source": "memory",
       "snippet": "- TOM = Target Operating Model (Ken's term for agent team roster, approved 2026-04-26) ## Deferred Items (with reminders) - GitHub CLI auth: reminder 28 Apr - Gmail/gog OAuth: reminder 2 May - Google Cloud OAuth setup walkthrough: reminder 2 May ## Open Risks - Backup on same disk as live data (no offsite yet — Phase 4) - Secrets in plaintext config files (fix before Phase 2 — 1Password CLI) - Social media API approvals not started (Meta + LinkedIn — can take 2-6 weeks) - Angie has no system access (resolve before Phase 3) - Data residency / privacy policy not documented (before first client) - Tailscale not set up (Phase 3 now) ## Key File Locations - Workspace: ~/.openclaw/workspace/ -",
-      "recallCount": 1,
+      "recallCount": 2,
       "dailyCount": 0,
       "groundedCount": 0,
-      "totalScore": 0.39124138951301574,
-      "maxScore": 0.39124138951301574,
+      "totalScore": 0.8023518711328506,
+      "maxScore": 0.4111104816198349,
       "firstRecalledAt": "2026-04-26T22:00:43.034Z",
-      "lastRecalledAt": "2026-04-26T22:00:43.034Z",
+      "lastRecalledAt": "2026-04-28T04:32:39.445Z",
       "queryHashes": [
-        "40c172efdae9"
+        "40c172efdae9",
+        "d7adbee3a31e"
       ],
       "recallDays": [
-        "2026-04-27"
+        "2026-04-27",
+        "2026-04-28"
       ],
       "conceptTags": [
         "backup",
