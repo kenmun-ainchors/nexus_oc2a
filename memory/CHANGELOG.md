@@ -35,6 +35,18 @@ This log captures **every change** Yoda makes to AInchors infrastructure, config
 **Linked:** decisions.md 2026-04-27 entries
 ---
 
+## 2026-04-28 16:30 AEST — [CHG-0063] Business ROI expansion: campaign tracking, marketing funnel, sales conversion
+**Type:** script
+**Source:** ken-prompt
+**Trigger:** TKT-0021: Ken: track by campaign/initiative lens, post-execution metrics, marketing funnel, sales conversion
+**What changed:** state/campaigns.json (NEW): campaign registry with funnel metrics per campaign. state/funnel-metrics.json (NEW): 6-stage funnel definition, sales conversion framework with benchmarks, aggregate metrics. scripts/log-campaign.sh (NEW): create/update/close/list/roi commands. scripts/campaign-debrief.sh (NEW): interactive post-execution debrief — prompts Angie for all funnel metrics, computes ROI. Aria SOUL.md: campaign tracking rules added (mandatory debrief, funnel metric logging). Seed: CAMP-0001 KL Class 30 Apr.
+**Why:** Business value rubric tracks activities in isolation. Campaign lens tracks the full journey from cost through funnel to revenue. Required for marketing ROI conversations with investors and clients.
+**Verification:** log-campaign.sh new + list working. CAMP-0001 created. funnel-metrics.json with 6-stage definition. campaign-debrief.sh interactive flow tested.
+**Rollback:** Delete campaigns.json, funnel-metrics.json, log-campaign.sh, campaign-debrief.sh. Revert Aria SOUL.md.
+**Linked:** TKT-0021 TKT-0020
+---
+
+
 ## 2026-04-28 16:21 AEST — [CHG-0062] Business ROI framework — value rubric, tracker, Aria integration, weekly cron
 **Type:** script
 **Source:** ken-prompt

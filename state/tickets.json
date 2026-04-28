@@ -1,7 +1,7 @@
 {
   "schema_version": "1.0",
   "description": "AInchors Service Ticket Log. Every ad-hoc request, task, or action without an existing INC/US/CHG reference MUST have a TKT number before work begins.",
-  "sequence": 21,
+  "sequence": 22,
   "tickets": [
     {
       "id": "TKT-0001",
@@ -382,6 +382,25 @@
         "chg": []
       },
       "notes": ""
+    },
+    {
+      "id": "TKT-0021",
+      "title": "Business ROI expansion: campaign tracking, marketing funnel, sales conversion",
+      "type": "task",
+      "priority": "high",
+      "status": "resolved",
+      "requester": "Ken",
+      "assignee": "Yoda",
+      "created": "2026-04-28T16:28:03+10:00",
+      "updated": "2026-04-28T16:30:50+10:00",
+      "description": "Expand business ROI framework with: campaign/program/initiative cost+work tracking, post-execution metrics (reach/impressions/revenue/conversion), marketing funnel metrics, sales conversion framework. Aria implements and prompts for metrics post-execution.",
+      "resolution": null,
+      "linked": {
+        "us": [],
+        "inc": [],
+        "chg": []
+      },
+      "notes": "CHG-0063"
     }
   ]
 }
