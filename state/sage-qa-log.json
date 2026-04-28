@@ -111,11 +111,25 @@
       "issues": [
         "[]"
       ]
+    },
+    {
+      "ts": "2026-04-28T12:12:19+10:00",
+      "assetPath": "/Users/ainchorsangiefpl/.openclaw/canvas/documents/model-strategy-overview/index.html",
+      "assetType": "html",
+      "producedBy": "yoda",
+      "intendedFor": "Angie Foong, CEO",
+      "brief": "Model strategy overview for CEO \u2014 Claude vs Ollama provider tiles",
+      "verdict": "PASS",
+      "passCount": 7,
+      "failCount": 0,
+      "issues": [
+        "[]"
+      ]
     }
   ],
   "summary": {
-    "total": 8,
-    "pass": 8,
+    "total": 9,
+    "pass": 9,
     "fail": 0
   }
 }
