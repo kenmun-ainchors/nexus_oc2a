@@ -1,0 +1,32 @@
+{
+  "timestamp": "2026-04-28 11:52 AEST",
+  "asset": "/Users/ainchorsangiefpl/.openclaw/canvas/documents/budget-proposal/index.html",
+  "assetType": "html",
+  "brief": "CEO budget proposal cap increase",
+  "intendedFor": "Angie Foong, CEO",
+  "producedBy": "yoda",
+  "overall": "PASS",
+  "tail": "Governance: PASS (Shield OK | Lex OK | Sage OK)",
+  "shield": {
+    "verdict": "PASS",
+    "issues": [],
+    "recommendation": ""
+  },
+  "lex": {
+    "verdict": "PASS",
+    "issues": [],
+    "llmDeferred": [
+      "L2-L4 require LLM review"
+    ],
+    "recommendation": ""
+  },
+  "sage": {
+    "verdict": "PASS",
+    "issues": [],
+    "llmDeferred": [
+      "C1-C3 require LLM review"
+    ],
+    "recommendation": ""
+  },
+  "recommendations": []
+}

@@ -35,6 +35,18 @@ This log captures **every change** Yoda makes to AInchors infrastructure, config
 **Linked:** decisions.md 2026-04-27 entries
 ---
 
+## 2026-04-28 11:52 AEST — [CHG-0054] Governance gate wired into Aria + /governance ad-hoc command
+**Type:** agent
+**Source:** ken-prompt
+**Trigger:** TKT-0017: Ken requested Aria governance tail on responses and /governance keyword for Ken + Angie
+**What changed:** scripts/governance-report.sh — full gate runner (Shield+Lex+Sage) + executive summary + tail string. workspace-business/SOUL.md — governance gate decision matrix, how to invoke, tail format replacing vague governance section. RULES.md — /governance slash command documented for Ken + Angie.
+**Why:** Aria needed executable governance process not vague tagging instructions. Ken and Angie need ad-hoc governance visibility on demand.
+**Verification:** governance-report.sh tested on budget proposal: PASS (all 3 gates). report-only mode outputs executive summary. Tail line generated correctly.
+**Rollback:** Revert workspace-business/SOUL.md governance section. Delete governance-report.sh.
+**Linked:** TKT-0017 CHG-0053
+---
+
+
 ## 2026-04-28 11:31 AEST — [CHG-0053] Shield Rule 1 + Lex Rule 1: security and legal assurance gates on all shared assets
 **Type:** rule
 **Source:** ken-prompt

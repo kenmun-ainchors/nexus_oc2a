@@ -503,3 +503,36 @@ Shield → Lex → Sage → PASS all 3 → Deliver
 ```bash
 bash scripts/sage-qa.sh --asset-path PATH --asset-type TYPE --brief "..." --intended-for "..." --produced-by AGENT
 ```
+
+---
+
+## /governance — Ad-hoc Governance Gate Command
+_Reserved slash command. Available to Ken (Yoda) and Angie (Aria). Locked 2026-04-28._
+
+**Trigger:** `/governance` typed by Ken or Angie in any session.
+
+**Behaviour:**
+1. If typed after generating a shared asset → run all three gates on that asset, return executive summary
+2. If typed with no context → report on last governance run from `state/governance-results.json`
+
+**Yoda invocation:**
+```bash
+bash scripts/governance-report.sh \
+  --asset-path PATH --asset-type TYPE \
+  --brief "..." --intended-for "..." --produced-by AGENT
+# or for last run:
+bash scripts/governance-report.sh --report-only
+```
+
+**Aria invocation:** automatically calls governance-report.sh and appends tail to response.
+
+**Output format:** Executive summary grouped by agent:
+- Shield 🛡️ — S1-S5 results, findings, recommendations
+- Lex ⚖️ — L1-L5 results, findings, recommendations
+- Sage 🧪 — C1-C5 results, findings, recommendations
+- Overall verdict + action items
+
+**Governance tail appended to Aria responses when gate runs:**
+```
+⚙️ Model: Sonnet | 🏛️ Governance: ✅ PASS (Shield 🛡️ · Lex ⚖️ · Sage 🧪) | /governance
+```
