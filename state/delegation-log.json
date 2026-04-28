@@ -852,10 +852,130 @@
       "status": "pass",
       "latencyMs": 0,
       "notes": "9 checks run"
+    },
+    {
+      "ts": "2026-04-28T19:21:40+10:00",
+      "date": "2026-04-28",
+      "tier": "T2",
+      "taskType": "health-check",
+      "model": "anthropic/claude-haiku-4-5",
+      "status": "pass",
+      "latencyMs": 1000,
+      "notes": ""
+    },
+    {
+      "ts": "2026-04-28T19:24:33+10:00",
+      "date": "2026-04-28",
+      "tier": "T2",
+      "taskType": "warden-check",
+      "model": "anthropic/claude-haiku-4-5",
+      "status": "pass",
+      "latencyMs": 0,
+      "notes": "9 checks run \u2014 all PASS, no model drift"
+    },
+    {
+      "ts": "2026-04-28T19:39:31+10:00",
+      "date": "2026-04-28",
+      "tier": "T2",
+      "taskType": "warden-check",
+      "model": "anthropic/claude-haiku-4-5",
+      "status": "pass",
+      "latencyMs": 0,
+      "notes": "9 checks run"
+    },
+    {
+      "ts": "2026-04-28T19:54:34+10:00",
+      "date": "2026-04-28",
+      "tier": "T2",
+      "taskType": "warden-check",
+      "model": "anthropic/claude-haiku-4-5",
+      "status": "pass",
+      "latencyMs": 0,
+      "notes": "9 checks run \u2014 all PASS, no model drift"
+    },
+    {
+      "ts": "2026-04-28T20:00:18+10:00",
+      "date": "2026-04-28",
+      "tier": "T2",
+      "taskType": "burn-check",
+      "model": "anthropic/claude-haiku-4-5",
+      "status": "pass",
+      "latencyMs": 0,
+      "notes": "Burn check: .86 today \u2014 THRESHOLD EXCEEDED. Alert sent to Ken."
+    },
+    {
+      "ts": "2026-04-28T20:09:32+10:00",
+      "date": "2026-04-28",
+      "tier": "T2",
+      "taskType": "warden-check",
+      "model": "anthropic/claude-haiku-4-5",
+      "status": "pass",
+      "latencyMs": 0,
+      "notes": "9 checks run: all PASS, 0 FAIL. No model drift detected."
+    },
+    {
+      "ts": "2026-04-28T20:22:00+10:00",
+      "date": "2026-04-28",
+      "tier": "T2",
+      "taskType": "health-check",
+      "model": "anthropic/claude-haiku-4-5",
+      "status": "pass",
+      "latencyMs": 2600,
+      "notes": ""
+    },
+    {
+      "ts": "2026-04-28T20:24:36+10:00",
+      "date": "2026-04-28",
+      "tier": "T2",
+      "taskType": "warden-check",
+      "model": "anthropic/claude-haiku-4-5",
+      "status": "pass",
+      "latencyMs": 0,
+      "notes": "9 checks run"
+    },
+    {
+      "ts": "2026-04-28T20:39:32+10:00",
+      "date": "2026-04-28",
+      "tier": "T2",
+      "taskType": "warden-check",
+      "model": "anthropic/claude-haiku-4-5",
+      "status": "pass",
+      "latencyMs": 0,
+      "notes": "9 checks run"
+    },
+    {
+      "ts": "2026-04-28T20:54:31+10:00",
+      "date": "2026-04-28",
+      "tier": "T2",
+      "taskType": "warden-check",
+      "model": "anthropic/claude-haiku-4-5",
+      "status": "pass",
+      "latencyMs": 0,
+      "notes": "9 checks run"
+    },
+    {
+      "ts": "2026-04-28T21:09:31+10:00",
+      "date": "2026-04-28",
+      "tier": "T2",
+      "taskType": "warden-check",
+      "model": "anthropic/claude-haiku-4-5",
+      "status": "pass",
+      "latencyMs": 0,
+      "notes": "9 checks run, 0 violations"
+    },
+    {
+      "ts": "2026-04-28T21:10:36+10:00",
+      "date": "2026-04-28",
+      "tier": "T2",
+      "taskType": "governance-check",
+      "model": "anthropic/claude-haiku-4-5",
+      "status": "pass",
+      "latencyMs": 0,
+      "notes": "Governance gate: PASS | Asset: index.html"
     }
   ],
   "summary": {
-    "total": 85,
+    "total": 97,
     "byTier": {
       "T1": {
         "pass": 0,
@@ -863,7 +983,7 @@
         "timeout": 0
       },
       "T2": {
-        "pass": 78,
+        "pass": 90,
         "fail": 6,
         "timeout": 0
       },
@@ -875,13 +995,13 @@
     },
     "byTaskType": {
       "health-check": {
-        "pass": 28,
+        "pass": 30,
         "fail": 3,
         "timeout": 0,
         "tier": "T2"
       },
       "warden-check": {
-        "pass": 35,
+        "pass": 43,
         "fail": 0,
         "timeout": 0,
         "tier": "T2"
@@ -893,12 +1013,18 @@
         "tier": "T3"
       },
       "governance-check": {
-        "pass": 15,
+        "pass": 16,
         "fail": 3,
+        "timeout": 0,
+        "tier": "T2"
+      },
+      "burn-check": {
+        "pass": 1,
+        "fail": 0,
         "timeout": 0,
         "tier": "T2"
       }
     },
-    "estimatedSavingsUSD": 0.3975
+    "estimatedSavingsUSD": 0.4575
   }
 }

@@ -1,5 +1,5 @@
 {
-  "lastUpdated": "2026-04-28T08:33:17Z",
+  "lastUpdated": "2026-04-28T10:51:31Z",
   "history": {
     "2026-04-25": {
       "date": "2026-04-25",
@@ -48,27 +48,59 @@
     },
     "2026-04-28": {
       "date": "2026-04-28",
-      "totalCost": 150.86,
-      "source": "anthropic_csv_ground_truth",
+      "totalCost": 318.5667,
+      "totalTurns": 1873,
+      "totalInputTokens": 5999,
+      "totalOutputTokens": 894511,
+      "totalCacheReadTokens": 299092156,
+      "totalCacheWriteTokens": 58378096,
       "byModel": {
+        "claude-sonnet-4-6": {
+          "input": 2259,
+          "output": 839318,
+          "cacheRead": 294554136,
+          "cacheWrite": 57512329,
+          "cost": 316.634,
+          "turns": 1533
+        },
+        "gateway-injected": {
+          "input": 0,
+          "output": 0,
+          "cacheRead": 0,
+          "cacheWrite": 0,
+          "cost": 0.0,
+          "turns": 2
+        },
         "claude-haiku-4-5": {
-          "cost": 1.39,
-          "turns": 0
+          "input": 3733,
+          "output": 55072,
+          "cacheRead": 4517098,
+          "cacheWrite": 844532,
+          "cost": 1.7865,
+          "turns": 335
+        },
+        "delivery-mirror": {
+          "input": 0,
+          "output": 0,
+          "cacheRead": 0,
+          "cacheWrite": 0,
+          "cost": 0.0,
+          "turns": 1
         },
         "claude-opus-4-7": {
-          "cost": 0.14,
-          "turns": 0
-        },
-        "claude-sonnet-4-6": {
-          "cost": 149.33,
-          "turns": 0
+          "input": 7,
+          "output": 121,
+          "cacheRead": 20922,
+          "cacheWrite": 21235,
+          "cost": 0.1462,
+          "turns": 2
         }
       }
     }
   },
-  "allTimeTotalCost": 404.9,
+  "allTimeTotalCost": 572.6067,
   "daysTracked": 4,
-  "avgDailyCost": 101.225,
+  "avgDailyCost": 143.1517,
   "apiBalance": {
     "currency": "USD",
     "balance": 145.6,
