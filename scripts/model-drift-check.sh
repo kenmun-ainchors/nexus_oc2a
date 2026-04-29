@@ -176,9 +176,12 @@ import json
 with open('$OC_CONFIG') as f:
     d = json.load(f)
 fb = d.get('agents', {}).get('defaults', {}).get('model', {}).get('fallbacks', [])
-expected = ['anthropic/claude-opus-4-7', 'ollama/gemma4:26b']
+# CHG-0075: Haiku-only. Opus removed from auto-fallback (deliberate escalation only, Aria-prohibited).
+expected = ['anthropic/claude-haiku-4-5']
 if fb == expected:
     print('PASS:' + json.dumps(fb))
+elif 'anthropic/claude-opus-4-7' in fb:
+    print('POLICY_VIOLATION:' + json.dumps(fb))
 else:
     print('FAIL:' + json.dumps(fb))
 " 2>/dev/null || echo "FAIL:ERROR")
@@ -186,10 +189,10 @@ FALLBACK_STATUS=$(echo "$FALLBACK_CHECK" | cut -d: -f1)
 FALLBACK_ACTUAL=$(echo "$FALLBACK_CHECK" | cut -d: -f2-)
 if [ "$FALLBACK_STATUS" = "PASS" ]; then
   PASS=$((PASS + 1))
-  echo "  PASS  fallback chain → $FALLBACK_ACTUAL"
+  echo "  PASS  fallback chain → $FALLBACK_ACTUAL (Aria-safe CHG-0075)"
 else
   FAIL=$((FAIL + 1))
-  FALLBACK_EXPECTED='["anthropic/claude-opus-4-7","ollama/gemma4:e2b"]'
+  FALLBACK_EXPECTED='["anthropic/claude-haiku-4-5"]'
   echo "  FAIL  fallback chain → actual=$FALLBACK_ACTUAL expected=$FALLBACK_EXPECTED [VIOLATION]"
   FINDINGS+=("{\"agentId\":\"default.fallbacks\",\"expected\":$FALLBACK_EXPECTED,\"actual\":$FALLBACK_ACTUAL,\"severity\":\"VIOLATION\",\"note\":\"Fallback chain drift breaks resilient outage handling.\",\"detectedAt\":\"$AEST_TIMESTAMP\"}")
 fi

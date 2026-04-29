@@ -35,6 +35,78 @@ This log captures **every change** Yoda makes to AInchors infrastructure, config
 **Linked:** decisions.md 2026-04-27 entries
 ---
 
+## 2026-04-29 20:31 AEST — [CHG-0080] US18: Monthly SLA Report — incident persistence + sla-report.sh + cron + Notion
+**Type:** config
+**Source:** ken-prompt
+**Trigger:** Ken approved Option A 2026-04-29 20:25 AEST. TKT-0024.
+**What changed:** state/incidents/ created, 3 Apr INC files backfilled, incident-log.sh created, sla-report.sh updated, monthly cron added, Notion SLA Report page created
+**Why:** US18: Automated monthly SLA reporting with incident-backed data.
+**Verification:** sla-report.sh runs clean, report generated, Notion page created
+**Rollback:** N/A
+**Linked:** US18 TKT-0024
+---
+
+
+## 2026-04-29 18:08 AEST — [CHG-0079] US20: Research Framework — Tiers 2-4 defined, /research routing, registry, Notion AKB
+**Type:** config
+**Source:** ken-prompt
+**Trigger:** Ken approved 2026-04-29 18:05 AEST. TKT-0023.
+**What changed:** research-framework.md: T2/T3/T4 fully defined. RULES.md /research: 4-tier routing. state/research-registry.json created. Notion Research Log created under Agent Operations.
+**Why:** US20: Formalise Research Framework as a service catalogue with tier-based routing.
+**Verification:** All files written. Notion page created. RULES.md updated.
+**Rollback:** N/A
+**Linked:** US20 TKT-0023
+---
+
+
+## 2026-04-29 11:31 AEST — [CHG-0078] US23: Resilient outage handling — outage-detect + recovery doc
+**Type:** config
+**Source:** ken-prompt
+**Trigger:** Ken instruction 2026-04-29, triggered by 2026-04-26 night outage
+**What changed:** outage-detect.sh created, health-check.sh updated with outage detection, GatewayRecovery.md written
+**Why:** US23: Auto-detect billing/auth failures, standby mode, recovery doc
+**Verification:** outage-detect.sh tested, doc written
+**Rollback:** N/A
+**Linked:** US23
+---
+
+
+## 2026-04-29 11:31 AEST — [CHG-0077] US22: Fix cost-tracker.sh alert logic
+**Type:** config
+**Source:** ken-prompt
+**Trigger:** Ken instruction 2026-04-29
+**What changed:** Removed dead alert75pct/alert10pct, replaced with tier1/2/3 check against cost-alert-state.json, fixed state_write
+**Why:** US22: alert logic broken, no useful alerts produced
+**Verification:** Script runs cleanly for 2026-04-29
+**Rollback:** N/A
+**Linked:** US22
+---
+
+
+## 2026-04-29 11:30 AEST — [CHG-0076] PIR-20260428-002 completed
+**Type:** doc
+**Source:** ken-prompt
+**Trigger:** Ken instruction 2026-04-29
+**What changed:** PIR document written, status closed, system banner dismissed
+**Why:** 48hr PIR deadline. P1 incident closure.
+**Verification:** PIR-COMPLETE.md written, banner cleared
+**Rollback:** N/A
+**Linked:** INC-20260428-002
+---
+
+
+## 2026-04-29 10:47 AEST — [CHG-0075] Fix Aria fallback chain — Haiku only, no Opus/Gemma4
+**Type:** config
+**Source:** ken-prompt
+**Trigger:** Ken request 2026-04-29 10:45 AEST. TKT-0022.
+**What changed:** defaults.model.fallbacks changed from [claude-opus-4-7, gemma4:26b] to [claude-haiku-4-5]. Aria-safe. Opus is deliberate escalation only.
+**Why:** Aria policy prohibits Opus and Gemma4 in interactive. Inherited defaults were policy violations.
+**Verification:** validate-fallback-chain.sh updated to match new chain. Gateway restart required.
+**Rollback:** N/A
+**Linked:** TKT-0022
+---
+
+
 ## 2026-04-29 01:01 AEST — [CHG-0074] Auto-committed 1 untracked file in AInchors repo
 **Type:** data
 **Source:** auto-heal

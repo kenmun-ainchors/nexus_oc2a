@@ -39,6 +39,7 @@ Full doc: `~/Documents/AInchors/Operations/AsyncExecution.md`
 - **Rule 5:** Watchdog runs `scripts/task-watchdog.sh` every 30 min. Stalled >30 min → alert Ken with options: resume | cancel | wait.
 - **Rule 6:** Resume: read TASK file → find last checkpoint → spawn sub-agent → continue. Never restart from scratch.
 - **Rule 7:** Max 2 retries per step. If fails again → mark `blocked`, notify Ken, await decision.
+- **Rule 8:** On every sub-agent spawn, write `state/active-work.json` BEFORE spawning. Include: title, ticket, subAgentKey (after spawn), spawnedFrom channel, expectedDeliverables, brief, awaitingResult: true. On completion, set awaitingResult: false and add completedAt. This file is the cross-channel handoff contract — /resume reads it first.
 - TASK ID format: `TASK-{YYYYMMDD}-{NNN}` e.g. `TASK-20260426-001`
 
 ---
@@ -78,14 +79,50 @@ _Reserved slash command. Available to Ken. Locked 2026-04-28 (refined 2026-04-28
 - Always: concise and forward-looking — not a history lesson
 - Never: full CHG list, full sprint summary, full system state dump — that's /status, not /resume
 
-**Execution steps (mandatory — do not skip):**
-1. `sessions_list` — find Telegram session (label contains "telegram" or agent:main:telegram)
-2. `sessions_history` on Telegram session — last 20 messages
-3. Compare timestamps with current webchat context
-4. Surface the most recent activity from EITHER channel as "Where we left off"
-5. Deliver the 5-point handoff format above
+**Execution steps (mandatory — do not skip ANY step):**
+0. ⚡ **FIRST** — read `state/active-work.json` (if exists). This is the authoritative in-flight state file, written at every sub-agent spawn and channel switch. If `awaitingResult: true`, immediately surface it in "What's in flight". Never skip this step.
+1. `sessions_list` — try to find both Telegram and webchat sessions
+2. If webchat session NOT returned by sessions_list (common — webchat sessions are often not listed):
+   - Search session files directly: `python3 -c "import json,os,glob; ..."` scanning `~/.openclaw/agents/main/sessions/*.jsonl` for lines containing `openclaw-control-ui` (webchat sender id)
+   - Sort by mtime descending, take the most recent webchat session file
+   - Read last 30 lines of that file to extract recent user messages and assistant replies
+3. **MANDATORY** — `sessions_history` on Telegram session (sessionKey: agent:main:telegram:direct:8574109706) — last 20 messages. Do this even if sessions_list returned the Telegram session. The transcript has context that state files don't.
+4. Compare timestamps from both channels — find the most recent activity across either
+5. Surface the most recent activity from EITHER channel as "Where we left off"
+6. Deliver the 5-point handoff format above
 
-**Failure mode to avoid:** Using only the current channel's context and missing activity from the other channel. Always check both.
+**Session file search snippet (use when sessions_list misses webchat):**
+```python
+import json, os, glob, datetime, re
+sd = os.path.expanduser('~/.openclaw/agents/main/sessions')
+webchat = []; telegram = []
+for f in glob.glob(f'{sd}/*.jsonl'):
+    if '.trajectory.' in f: continue
+    is_tg = False; is_wc = False
+    try:
+        with open(f) as fh:
+            for line in fh:
+                if not line.strip(): continue
+                try:
+                    r = json.loads(line)
+                    if r.get('message',{}).get('role') != 'user': continue
+                    content = str(r.get('message',{}).get('content',''))
+                    if 'telegram:8574109706' in content or '"chat_id": "telegram:' in content:
+                        is_tg = True; break
+                    if '"label": "openclaw-control-ui"' in content:
+                        is_wc = True; break
+                except: pass
+    except: pass
+    m = os.path.getmtime(f)
+    if is_tg: telegram.append((m, f))
+    elif is_wc: webchat.append((m, f))
+webchat.sort(reverse=True)
+for mtime, f in webchat[:3]:
+    print(datetime.datetime.fromtimestamp(mtime).strftime('%Y-%m-%d %H:%M'), f)
+```
+Then read the most recent webchat file: extract user messages (strip sender metadata blocks), last assistant reply.
+
+**Failure mode to avoid:** Using only the current channel's context and missing activity from the other channel. Always check both. sessions_list alone is NOT sufficient — always fall back to session file search for webchat.
 ---
 
 ## MORNING STAND-UP (NON-NEGOTIABLE — 8:00 AM DAILY)
@@ -274,7 +311,14 @@ Any work or task that is **ad-hoc** (not already tracked under an INC, US, or CH
 
 **Chat triggers (explicit, slash-prefixed, unambiguous):**
 - `/diagnostics` — runs `scripts/run-diagnostics.sh`, reports 6-phase verdict + summary
-- `/research` — deep research mode. Spawn a dedicated research sub-agent with full web access. Ken must supply topic/question. Output: structured findings report with sources, recommendations, and confidence ratings. Minimum 2 independent sources per factual claim per VERACITY standard.
+- `/research` — tiered research command. Full spec: `memory/shared/research-framework.md`.
+  - `/research t1 [topic]` — Deep Research: Sonnet isolated sub-agent, 3–6hr, 10-section report, empirical testing, 6+ sources
+  - `/research t2 [topic]` — Standard Research: Sonnet isolated sub-agent, 1–2hr, web synthesis, comparison table, 3+ sources
+  - `/research t3 [topic]` — Quick Scan: Sonnet isolated sub-agent, 15–30min, TL;DR + bullets + 2 sources, inline delivery
+  - `/research t4 [topic]` — Fact Check: Haiku inline (no sub-agent), 5min, one answer + one verified source
+  - `/research [topic]` (no tier) → Yoda asks Ken to select tier before proceeding
+  - T1+T2: auto-filed to Notion AKB Research Log + `state/research-registry.json`. T3: filed on request. T4: inline only.
+  - Output files: `reports/[topic]-[YYYY-MM-DD].md` (T1–T3). Minimum 2 independent sources per factual claim (VERACITY standard).
 - `/resume` — cross-channel handoff (see /resume section above)
 - `/commit` — persist all session memory + decisions to Obsidian + git. Not a close — can be run anytime mid-session (see /commit section below)
 

@@ -5,7 +5,8 @@
   "title": "PIR: Test: PIR auto-trigger for P1",
   "scheduledFor": "Within 48hrs of incident close",
   "createdAt": "2026-04-28T14:26:13+10:00",
-  "status": "scheduled",
+  "completedAt": "2026-04-29T11:29:00+10:00",
+  "status": "complete",
   "requiredAttendees": [
     "Ken Mun (CTO)"
   ],
@@ -22,5 +23,6 @@
     "PIR document filed to Notion Incident Log",
     "Action items as US in Backlog",
     "CHANGELOG entry for any changes made"
-  ]
+  ],
+  "pirDocument": "state/pir/PIR-20260428-COMPLETE.md"
 }

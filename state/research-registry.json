@@ -1,0 +1,19 @@
+{
+  "schema_version": "1.0",
+  "description": "Registry of all research runs. T1-T3 logged here. T4 inline only.",
+  "created": "2026-04-29",
+  "createdBy": "US20",
+  "entries": [
+    {
+      "id": "RES-001",
+      "date": "2026-04-26",
+      "tier": "T1",
+      "topic": "Model Validation — Sonnet vs Gemma4 as lead agent",
+      "reportPath": "reports/model-config-proposal-2026-04-26.md",
+      "notionFiled": false,
+      "keyFinding": "Keep Sonnet as default. Gemma4 background only.",
+      "decisionMade": true,
+      "decisionRef": "US11, CHG-0037"
+    }
+  ]
+}

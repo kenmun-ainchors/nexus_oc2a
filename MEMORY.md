@@ -20,6 +20,7 @@
 - **Name:** AI Anchor Solutions Pty Ltd
 - **Short name:** AInchors
 - **Domain:** ainchors.com
+- **Registration:** Sydney, NSW. Bases: Sydney + Melbourne.
 - **Stage:** Brand new. Day 1 of technical department = 2026-04-25.
 - **Focus:** 
   1. AI courses & training for businesses

@@ -24,6 +24,18 @@ DISK_ALERT_PCT=85        # Alert if disk usage exceeds this percentage
 mkdir -p "$(dirname $LOG)"
 mkdir -p "$(dirname $STATE_FILE)"
 
+# ── US23: Outage detection (runs first — sets standby/banner state) ───────────
+OUTAGE_DETECT="$HOME/.openclaw/workspace/scripts/outage-detect.sh"
+if [[ -x "$OUTAGE_DETECT" ]]; then
+  zsh "$OUTAGE_DETECT" >> "$LOG" 2>&1
+  OUTAGE_EXIT=$?
+  if (( OUTAGE_EXIT != 0 )); then
+    log "OUTAGE DETECTED — standby mode active (see outage-detect.log)"
+  fi
+else
+  log "WARN — outage-detect.sh missing or not executable: $OUTAGE_DETECT"
+fi
+
 log() {
   echo "[$(date '+%Y-%m-%d %H:%M:%S')] $1" | tee -a "$LOG"
 }

@@ -39,13 +39,48 @@
         "ollama/gemma4:26b"
       ],
       "severity": "VIOLATION",
-      "note": "Fallback chain drift breaks resilient outage handling.",
+      "note": "Fallback chain drift breaks resilient outage handling. SUPERSEDED: CHG-0075 intentional policy change to Haiku-only.",
       "detectedAt": "2026-04-28T08:36:06+10:00",
       "id": "DRIFT-20260427223606-default_fallbacks",
-      "status": "unresolved",
-      "escalatedToYoda": false
+      "status": "superseded",
+      "escalatedToYoda": false,
+      "supersededBy": "CHG-0075"
+    },
+    {
+      "agentId": "default.fallbacks",
+      "expected": [
+        "anthropic/claude-opus-4-7",
+        "ollama/gemma4:e2b"
+      ],
+      "actual": [
+        "anthropic/claude-haiku-4-5"
+      ],
+      "severity": "VIOLATION",
+      "note": "Fallback chain drift breaks resilient outage handling. SUPERSEDED: CHG-0075 intentional policy change to Haiku-only.",
+      "detectedAt": "2026-04-29T10:55:46+10:00",
+      "id": "DRIFT-20260429005546-default_fallbacks",
+      "status": "superseded",
+      "escalatedToYoda": true,
+      "supersededBy": "CHG-0075"
+    },
+    {
+      "agentId": "default.fallbacks",
+      "expected": [
+        "anthropic/claude-opus-4-7",
+        "ollama/gemma4:e2b"
+      ],
+      "actual": [
+        "anthropic/claude-haiku-4-5"
+      ],
+      "severity": "VIOLATION",
+      "note": "Fallback chain drift breaks resilient outage handling. SUPERSEDED: CHG-0075 intentional policy change to Haiku-only.",
+      "detectedAt": "2026-04-29T11:10:46+10:00",
+      "id": "DRIFT-20260429011046-default_fallbacks",
+      "status": "superseded",
+      "escalatedToYoda": true,
+      "supersededBy": "CHG-0075"
     }
   ],
-  "totalUnresolved": 1,
-  "lastUpdated": "2026-04-28T08:36:06+10:00"
+  "totalUnresolved": 3,
+  "lastUpdated": "2026-04-29T11:10:46+10:00"
 }

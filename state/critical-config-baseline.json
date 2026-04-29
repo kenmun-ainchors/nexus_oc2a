@@ -1,9 +1,9 @@
 {
   "schema_version": "1.0",
   "description": "Critical configurations that MUST NOT drift. Auto-heal check #12 validates each one nightly. Drift = needs-Ken US filed immediately. Update this baseline ONLY through explicit Ken-approved decision logged in decisions.md.",
-  "lastUpdated": "2026-04-28T10:49:00+10:00",
+  "lastUpdated": "2026-04-29T00:45:00+10:00",
   "lastApprovedBy": "Ken",
-  "lastApprovalContext": "TKT-0014: 3-tier strategy. Haiku 4.5 = Tier 2. Baseline check added.",
+  "lastApprovalContext": "CHG-0075 TKT-0022: Fix Aria fallback chain. config-003 updated to Haiku-only. config-009 updated to check Opus absence.",
   "checks": [
     {
       "id": "config-001",
@@ -27,13 +27,13 @@
     },
     {
       "id": "config-003",
-      "name": "Fallback chain includes Opus then Gemma4 in correct order",
+      "name": "Fallback chain is Haiku-only (no Opus, no Gemma4 in auto-fallback)",
       "severity": "critical",
       "file": "/Users/ainchorsangiefpl/.openclaw/openclaw.json",
       "jq_query": ".agents.defaults.model.fallbacks | tostring",
-      "expected_value": "[\"anthropic/claude-opus-4-7\",\"ollama/gemma4:26b\"]",
-      "rationale": "Emergency fallback chain. 26b stays as last-resort offline model \u2014 most capable local option for outage scenarios. Delegation tasks use e2b separately. These are distinct use cases.",
-      "fix_command": "edit ~/.openclaw/openclaw.json: agents.defaults.model.fallbacks"
+      "expected_value": "[\"anthropic/claude-haiku-4-5\"]",
+      "rationale": "CHG-0075 TKT-0022: Opus removed from auto-fallback \u2014 deliberate escalation only. Aria (business agent) prohibits Opus and Gemma4 in interactive. Global defaults must be Aria-safe. Approved Ken 2026-04-29.",
+      "fix_command": "edit ~/.openclaw/openclaw.json: agents.defaults.model.fallbacks = [\"anthropic/claude-haiku-4-5\"]"
     },
     {
       "id": "config-004",
@@ -87,13 +87,13 @@
     },
     {
       "id": "config-009",
-      "name": "Aria fallback chain = Haiku then gemma4:e2b (no Opus)",
+      "name": "Aria (business agent) has no prohibited models in inherited fallback chain",
       "severity": "critical",
       "file": "/Users/ainchorsangiefpl/.openclaw/openclaw.json",
-      "jq_query": ".agents.list[] | select(.id==\"business\") | .modelFallbacks | tostring",
-      "expected_value": "[\"anthropic/claude-haiku-4-5\",\"ollama/gemma4:e2b\"]",
-      "rationale": "Aria must never escalate to Opus. Explicit fallback set to Haiku then gemma4:e2b. Activated 2026-04-28, TKT-0015.",
-      "fix_command": "edit openclaw.json: agents.list[id=business].modelFallbacks = [anthropic/claude-haiku-4-5, ollama/gemma4:e2b]"
+      "jq_query": ".agents.defaults.model.fallbacks | map(select(. == \"anthropic/claude-opus-4-7\")) | length",
+      "expected_value": "0",
+      "rationale": "CHG-0075: Aria prohibits Opus. Since fallbacks are global defaults (per-agent not supported by OpenClaw), defaults must not include Opus. Check ensures Opus is absent from fallbacks array.",
+      "fix_command": "edit ~/.openclaw/openclaw.json: remove anthropic/claude-opus-4-7 from agents.defaults.model.fallbacks"
     },
     {
       "id": "config-010",

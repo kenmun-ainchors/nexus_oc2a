@@ -15,7 +15,7 @@ echo "Calculating costs for $DATE..."
 
 # Extract and sum costs from session logs
 python3 << PYEOF
-import json, os, glob, sys
+import json, os, glob, sys, tempfile
 from datetime import datetime
 
 sessions_dir = os.path.expanduser("~/.openclaw/agents/main/sessions")
@@ -147,7 +147,7 @@ if f"## {date}" not in existing:
         with open(cost_log, "a") as f:
             f.write("\n".join(lines))
 
-# Balance alert check
+# Balance alert check — tier-based using cost-alert-state.json + spendAlerts in cost-state.json
 # IMPORTANT: only count spend AFTER the top-up timestamp to avoid double-counting
 # pre-top-up spend that already exhausted the previous balance.
 api = state.get('apiBalance', {})
@@ -174,31 +174,44 @@ else:
 api['remainingEstimate'] = max(0, remaining)
 state['apiBalance'] = api
 
-alert_75 = alerts.get('alert75pct', {})
-alert_10 = alerts.get('alert10pct', {})
+# Load cost-alert-state.json for confirmed balance + tier thresholds
+alert_state_file = os.path.expanduser('~/.openclaw/workspace/state/cost-alert-state.json')
+alert_state = {}
+if os.path.exists(alert_state_file):
+    try:
+        with open(alert_state_file) as f:
+            alert_state = json.load(f)
+    except:
+        pass
 
-if remaining <= alert_10.get('threshold', 5.0) and not alert_10.get('triggered'):
-    alerts['alert10pct']['triggered'] = True
-    print(f"ALERT_CRITICAL: Balance at 10% or below. Remaining: \${remaining:.2f}")
-elif remaining <= alert_75.get('threshold', 12.51) and not alert_75.get('triggered'):
-    alerts['alert75pct']['triggered'] = True
-    print(f"ALERT_75PCT: 75% of balance consumed. Remaining: \${remaining:.2f}")
+# Prefer confirmed balance from cost-alert-state.json; fall back to computed remaining
+current_balance = alert_state.get('currentBalance') or remaining
+
+# Tier thresholds — cost-alert-state.json is authoritative, spendAlerts as fallback
+t1_thresh = alert_state.get('tier1', {}).get('threshold', alerts.get('tier1', {}).get('threshold', 80.0))
+t2_thresh = alert_state.get('tier2', {}).get('threshold', alerts.get('tier2', {}).get('threshold', 40.0))
+t3_thresh = alert_state.get('tier3', {}).get('threshold', alerts.get('tier3', {}).get('threshold', 15.0))
+
+if current_balance <= t3_thresh and not alerts.get('tier3', {}).get('triggered'):
+    alerts.setdefault('tier3', {})['triggered'] = True
+    print(f"WARNING_TIER3_CRITICAL: Balance \${current_balance:.2f} <= \${t3_thresh:.2f}. CRITICAL — pause before every request.")
+elif current_balance <= t2_thresh and not alerts.get('tier2', {}).get('triggered'):
+    alerts.setdefault('tier2', {})['triggered'] = True
+    print(f"WARNING_TIER2: Balance \${current_balance:.2f} <= \${t2_thresh:.2f}. Alert every 3rd response. Top up urgently.")
+elif current_balance <= t1_thresh and not alerts.get('tier1', {}).get('triggered'):
+    alerts.setdefault('tier1', {})['triggered'] = True
+    print(f"WARNING_TIER1: Balance \${current_balance:.2f} <= \${t1_thresh:.2f}. Top up soon. ~19hrs runway.")
+else:
+    print(f"Balance OK: \${current_balance:.2f} USD (T1=\${t1_thresh:.0f} / T2=\${t2_thresh:.0f} / T3=\${t3_thresh:.0f})")
 
 state['spendAlerts'] = alerts
-# Safe atomic write
-import sys as _sys
-_sys.path.insert(0, os.path.dirname(os.path.abspath('$STATE_WRITER')))
-try:
-    from state_write import safe_write
-    safe_write(state_file, state)
-except Exception as _e:
-    # Fallback to direct write if locking unavailable
-    dir_path = os.path.dirname(os.path.abspath(state_file))
-    import tempfile
-    with tempfile.NamedTemporaryFile(mode='w', dir=dir_path, suffix='.tmp', delete=False) as tmp:
-        json.dump(state, tmp, indent=2)
-        tmp_path = tmp.name
-    os.rename(tmp_path, state_file)
+
+# Safe atomic write (inline — state-write.py has a dash, not importable as a module)
+dir_path = os.path.dirname(os.path.abspath(state_file))
+with tempfile.NamedTemporaryFile(mode='w', dir=dir_path, suffix='.tmp', delete=False) as tmp:
+    json.dump(state, tmp, indent=2)
+    tmp_path = tmp.name
+os.rename(tmp_path, state_file)
 
 # Print summary
 print(f"Date: {date}")

@@ -1,9 +1,9 @@
 {
   "schema_version": "1.0",
   "description": "Authoritative model policy for all AInchors agents. Warden enforces this. Changes require Ken approval + CHG entry + baseline update.",
-  "lastUpdated": "2026-04-28T10:27:00+10:00",
+  "lastUpdated": "2026-04-29T00:45:00+10:00",
   "lastApprovedBy": "Ken",
-  "approvalContext": "Initial policy capture. TKT-0013. All known exceptions documented.",
+  "approvalContext": "CHG-0075 TKT-0022: Fix Aria fallback chain. Defaults fallback [Opus, Gemma4] violated Aria model policy. Changed to [Haiku].",
   "globalAllowedModels": [
     "anthropic/claude-sonnet-4-6",
     "anthropic/claude-haiku-4-5",
@@ -58,7 +58,11 @@
       ],
       "rationale": "CHG-0037 + Option C decision 2026-04-27 21:18 AEST. Gemma4 cold-load caused 30-60s freezes on Telegram. Sonnet only. Opus prohibited \u2014 business stream cost control.",
       "configPath": "/Users/ainchorsangiefpl/.openclaw/openclaw.json",
-      "configJqQuery": ".agents.list[] | select(.id==\"business\") | .model"
+      "configJqQuery": ".agents.list[] | select(.id==\"business\") | .model",
+      "fallbackChain": [
+        "anthropic/claude-haiku-4-5"
+      ],
+      "fallbackNote": "CHG-0075: Haiku-only fallback. Opus prohibited. Gemma4 prohibited in interactive. If Anthropic down \u2192 standby mode."
     },
     "security": {
       "description": "Shield \ud83d\udee1\ufe0f \u2014 Security Governance Agent",
@@ -229,7 +233,8 @@
         "alias": "gemma4",
         "cost": "Free (local)",
         "useCases": [
-          "Offline fallback when Anthropic API unavailable",
+          "Offline fallback when Anthropic API unavailable (main/Yoda crons only)",
+          "NEVER used for Aria interactive sessions \u2014 Aria enters standby if Anthropic down",
           "Never used for active delegation"
         ]
       }

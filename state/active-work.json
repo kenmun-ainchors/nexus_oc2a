@@ -1,0 +1,42 @@
+{
+  "schema": "1.0",
+  "description": "Single source of truth for in-flight work across channels. Written on every sub-agent spawn, major task start, or channel switch. Read as STEP 0 of every /resume.",
+  "lastUpdated": "2026-04-29T10:41:00Z",
+  "lastUpdatedChannel": "webchat",
+  "lastUpdatedBy": "Yoda",
+  "currentWork": {
+    "title": "US18 \u2014 Monthly SLA Report",
+    "ticket": "TKT-0024",
+    "status": "completed",
+    "subAgentKey": "agent:main:subagent:cde177ca-f5d7-4c08-9f84-0be9e522e55d",
+    "subAgentRunId": "08c781d8-456d-448f-a718-9ab8e8b026c0",
+    "spawnedAt": "2026-04-29T10:26:44Z",
+    "spawnedFrom": "telegram",
+    "approvedOption": "Option A",
+    "brief": "Build automated Monthly SLA Report: sla-report.sh update, incident-backed data, monthly cron (1st 8AM AEST), Notion SLA Report page, canvas HTML report",
+    "expectedDeliverables": [
+      "state/incidents/ \u2014 3 backfilled Apr INC files (in progress)",
+      "scripts/sla-report.sh \u2014 updated to pull from incidents + health-state",
+      "Monthly cron \u2014 1st of month, 8AM AEST",
+      "Notion SLA Report page under Reports",
+      "canvas/documents/ainchors-sla-apr-2026/index.html"
+    ],
+    "progress": {
+      "incidentFiles": "3 files created (20:28-20:29 AEST)",
+      "scriptUpdate": "pending",
+      "cron": "pending",
+      "notion": "pending",
+      "htmlReport": "pending"
+    },
+    "awaitingResult": false,
+    "notes": "Ken approved Option A on Telegram at 20:25 AEST. Sub-agent spawned 20:26. Waiting for completion announce.",
+    "completedAt": "2026-04-29T10:41:00Z",
+    "completedChannel": "telegram"
+  },
+  "recentContext": {
+    "channel": "telegram",
+    "lastUserMessage": "Reviewed and approved. Go with Option A",
+    "lastAssistantMessage": "Sub-agent running. It's building: state/incidents/ + 3 backfilled Apr INC files, scripts/incident-log.sh, Updated sla-report.sh (incident-backed data), Monthly cron (1st, 8AM AEST), Notion SLA Report page under Reports. I'll report back when done. \ud83d\udfe1",
+    "priorContext": "Discussed US18 brief: sla-report.sh exists, April data already in sla-history.md (95.42% avail, 66min MTTR, 3 incidents \u2014 both targets missed). Ken confirmed balance $74.07 USD."
+  }
+}

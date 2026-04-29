@@ -38,3 +38,13 @@ Skills are shared. Your setup is yours. Keeping them apart means you can update 
 ---
 
 Add whatever helps you do your job. This is your cheat sheet.
+
+## Google (gog)
+
+- Account: `kenmun@ainchors.com`
+- Set env: `export GOG_ACCOUNT=kenmun@ainchors.com`
+- Services: gmail, calendar, drive, contacts, sheets, docs
+- Credentials: `~/Library/Application Support/gogcli/credentials.json`
+- OAuth client: `966422666914` (project: AInchors OC1)
+- Token stored: macOS Keychain (default client)
+- Connected: 2026-04-29

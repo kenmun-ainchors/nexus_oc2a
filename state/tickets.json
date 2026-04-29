@@ -1,7 +1,7 @@
 {
   "schema_version": "1.0",
   "description": "AInchors Service Ticket Log. Every ad-hoc request, task, or action without an existing INC/US/CHG reference MUST have a TKT number before work begins.",
-  "sequence": 22,
+  "sequence": 25,
   "tickets": [
     {
       "id": "TKT-0001",
@@ -401,6 +401,63 @@
         "chg": []
       },
       "notes": "CHG-0063"
+    },
+    {
+      "id": "TKT-0022",
+      "title": "Fix Aria fallback chain - prohibited models in defaults",
+      "type": "change",
+      "priority": "high",
+      "status": "closed",
+      "requester": "Ken",
+      "assignee": "Yoda",
+      "created": "2026-04-29T10:47:14+10:00",
+      "updated": "2026-04-29T11:25:24+10:00",
+      "description": "Aria (business agent) inherits defaults fallback [Opus, Gemma4:26b] — both prohibited per model-policy.json. Change defaults.model.fallbacks to [Haiku] only. Opus is deliberate escalation only, not automatic fallback. Update validate-fallback-chain.sh, model-policy.json, cost state to USD91.17.",
+      "resolution": "CHG-0075 complete. defaults.model.fallbacks changed to [haiku-4-5]. Warden updated. 9/9 PASS. Gateway restarted.",
+      "linked": {
+        "us": [],
+        "inc": [],
+        "chg": []
+      },
+      "notes": ""
+    },
+    {
+      "id": "TKT-0023",
+      "title": "US20: Research Framework — define Tiers 2-4, /research routing, registry, Notion AKB",
+      "type": "task",
+      "priority": "high",
+      "status": "closed",
+      "requester": "Ken",
+      "assignee": "Yoda",
+      "created": "2026-04-29T18:05:51+10:00",
+      "updated": "2026-04-29T18:08:55+10:00",
+      "description": "Ken approved 2026-04-29 18:05 AEST. T2=Sonnet 1-2hr, T3=Sonnet 15-30min, T4=Haiku 5min. /research routes by tier. Output registry. Notion AKB new Research section.",
+      "resolution": "US20 complete. T2/T3/T4 defined. /research routing live. Registry + Notion Research Log created. CHG-0079.",
+      "linked": {
+        "us": [],
+        "inc": [],
+        "chg": []
+      },
+      "notes": "All 4 items delivered. CHG-0079."
+    },
+    {
+      "id": "TKT-0024",
+      "title": "US18: Monthly SLA Report — incident persistence, report gen, cron, Notion",
+      "type": "task",
+      "priority": "high",
+      "status": "open",
+      "requester": "Ken",
+      "assignee": "Yoda",
+      "created": "2026-04-29T20:26:04+10:00",
+      "updated": "2026-04-29T20:26:04+10:00",
+      "description": "Option A approved by Ken 20:25 AEST 2026-04-29. Build incident persistence (state/incidents/), backfill 3 Apr incidents, update sla-report.sh, monthly cron 1st 8AM AEST, Notion Reports filing, Telegram summary.",
+      "resolution": null,
+      "linked": {
+        "us": [],
+        "inc": [],
+        "chg": []
+      },
+      "notes": ""
     }
   ]
 }

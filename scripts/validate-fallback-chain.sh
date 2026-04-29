@@ -1,7 +1,8 @@
 #!/bin/zsh
 # AInchors Fallback Chain Validator
 # Run on gateway start — validates the full fallback chain is healthy.
-# Fallback chain: Sonnet T1 → Haiku T2 → gemma4:e2b T3 → gemma4:e2b (emergency)
+# Fallback chain: Sonnet T1 → Haiku T2 (Aria-safe, CHG-0075)
+# Note: Opus removed from auto-fallback — deliberate escalation only, not automatic.
 #
 # Output: state/fallback-chain-status.json
 # Alert:  /tmp/pvt-alert.txt (appended if any link broken)
@@ -112,8 +113,9 @@ fi
 
 # ── LINK 5: openclaw.json fallback chain matches expected ────────────────────
 EXPECTED_PRIMARY="anthropic/claude-sonnet-4-6"
-EXPECTED_FALLBACK_1="anthropic/claude-opus-4-7"
-EXPECTED_FALLBACK_2="ollama/gemma4:26b"
+EXPECTED_FALLBACK_1="anthropic/claude-haiku-4-5"
+# Opus removed CHG-0075: deliberate escalation only, never automatic fallback
+# Gemma4 prohibited for Aria (business agent) in interactive sessions
 
 if [[ -f "$OPENCLAW_CFG" ]]; then
   PRIMARY=$(python3 -c "
@@ -130,13 +132,7 @@ fb = d.get('agents', {}).get('defaults', {}).get('model', {}).get('fallbacks', [
 print(fb[0] if len(fb) > 0 else '')
 " 2>/dev/null || echo "")
 
-  FALLBACK_1=$(python3 -c "
-import json
-d = json.load(open('$OPENCLAW_CFG'))
-fb = d.get('agents', {}).get('defaults', {}).get('model', {}).get('fallbacks', [])
-print(fb[1] if len(fb) > 1 else '')
-" 2>/dev/null || echo "")
-
+  # Only one fallback now (Haiku) — CHG-0075
   CHAIN_OK=true
   if [[ "$PRIMARY" != "$EXPECTED_PRIMARY" ]]; then
     log "LINK 5 (fallback chain): BROKEN — primary is '$PRIMARY', expected '$EXPECTED_PRIMARY'"
@@ -145,17 +141,24 @@ print(fb[1] if len(fb) > 1 else '')
   fi
   if [[ "$FALLBACK_0" != "$EXPECTED_FALLBACK_1" ]]; then
     log "LINK 5 (fallback chain): BROKEN — fallback[0] is '$FALLBACK_0', expected '$EXPECTED_FALLBACK_1'"
-    BROKEN+=("Fallback chain: fallback[0] wrong (got '$FALLBACK_0')")
+    BROKEN+=("Fallback chain: fallback[0] wrong (got '$FALLBACK_0') — should be haiku-4-5")
     CHAIN_OK=false
   fi
-  if [[ "$FALLBACK_1" != "$EXPECTED_FALLBACK_2" ]]; then
-    log "LINK 5 (fallback chain): BROKEN — fallback[1] is '$FALLBACK_1', expected '$EXPECTED_FALLBACK_2'"
-    BROKEN+=("Fallback chain: fallback[1] wrong (got '$FALLBACK_1')")
+  # Check that Opus is NOT in fallbacks (policy violation for Aria)
+  OPUS_IN_CHAIN=$(python3 -c "
+import json
+d = json.load(open('$OPENCLAW_CFG'))
+fb = d.get('agents', {}).get('defaults', {}).get('model', {}).get('fallbacks', [])
+print('yes' if 'anthropic/claude-opus-4-7' in fb else 'no')
+" 2>/dev/null || echo "no")
+  if [[ "$OPUS_IN_CHAIN" == "yes" ]]; then
+    log "LINK 5 (fallback chain): POLICY VIOLATION — Opus found in fallbacks (prohibited for Aria)"
+    BROKEN+=("Policy violation: Opus in defaults fallbacks — prohibited for business agent (Aria)")
     CHAIN_OK=false
   fi
 
   if [[ "$CHAIN_OK" == "true" ]]; then
-    log "LINK 5 (fallback chain config): OK — $EXPECTED_PRIMARY → $EXPECTED_FALLBACK_1 → $EXPECTED_FALLBACK_2"
+    log "LINK 5 (fallback chain config): OK — $EXPECTED_PRIMARY → $EXPECTED_FALLBACK_1 (Aria-safe, CHG-0075)"
     RESULTS+=("fallbackChainConfig:ok")
   fi
 else
@@ -183,8 +186,7 @@ state = {
   "overall": "$OVERALL",
   "chain": [
     "$EXPECTED_PRIMARY",
-    "$EXPECTED_FALLBACK_1",
-    "$EXPECTED_FALLBACK_2"
+    "$EXPECTED_FALLBACK_1"
   ],
   "checks": results_list,
   "broken": broken_list,

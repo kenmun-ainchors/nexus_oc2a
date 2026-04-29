@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "updatedAt": "2026-04-28T07:04:45.287Z",
+  "updatedAt": "2026-04-29T10:24:18.131Z",
   "entries": {
     "memory:memory/2026-04-26.md:94:122": {
       "key": "memory:memory/2026-04-26.md:94:122",
@@ -231,18 +231,20 @@
       "endLine": 601,
       "source": "memory",
       "snippet": "### CHG-0022: Slash Commands Formalised - `/resume` — pull both webchat + Telegram transcripts, synthesise, deliver handoff summary - `/research` — deep research mode, spawn sub-agent, web access, structured findings with sources - `/diagnostics` — 6-phase deep inspection - RULES.md + SOUL.md updated. No more plain-phrase triggers. --- ## 10:34–11:23 AEST — Aria Created + Governance Layer ### CHG-0023: Business Lead Agent Aria 🔵 Created - `workspace-business/` directory created - Identity: Aria 🔵, AI Business Operations Lead - Angie Foong (Telegram 8141152780) bound to business agent - Any Angie Telegram message routes to Aria - OC2 precursor — lives on OC1 temporarily, migrates when ha",
-      "recallCount": 1,
+      "recallCount": 2,
       "dailyCount": 0,
       "groundedCount": 0,
-      "totalScore": 0.39078802466392515,
-      "maxScore": 0.39078802466392515,
+      "totalScore": 0.8315320283174514,
+      "maxScore": 0.4407440036535263,
       "firstRecalledAt": "2026-04-28T07:04:45.287Z",
-      "lastRecalledAt": "2026-04-28T07:04:45.287Z",
+      "lastRecalledAt": "2026-04-29T05:13:49.704Z",
       "queryHashes": [
-        "7a37f92f1b87"
+        "7a37f92f1b87",
+        "ebff508a49a4"
       ],
       "recallDays": [
-        "2026-04-28"
+        "2026-04-28",
+        "2026-04-29"
       ],
       "conceptTags": [
         "chg-0022",
@@ -253,6 +255,99 @@
         "plain-phrase",
         "chg-0023",
         "workspace-business"
+      ]
+    },
+    "memory:memory/2026-04-27.md:718:757": {
+      "key": "memory:memory/2026-04-27.md:718:757",
+      "path": "memory/2026-04-27.md",
+      "startLine": 718,
+      "endLine": 757,
+      "source": "memory",
+      "snippet": "- `openclaw.json` restructured: `channels.telegram.accounts` with `yoda` + `aria` named accounts - Each account has its own bot token + strict allowlist - Stale business-agent session for Ken's chatId cleared - Gateway restarted clean - Both bots confirmed connected: Ken @AInchorsOC1Bot ✅, Angie @AInchorsAriaBot ✅ ### Aria Telegram Voice Message Issue - Angie sent a voice note (.ogg) to Aria - Aria tried to transcribe via image tool → failed (`Unsupported media type: audio`) - Logged for US: Telegram voice message support for Aria --- ## 22:00–22:02 AEST — GitHub CLI Auth ### CHG-0039: GitHub CLI Authenticated - `gh auth login` completed via device flow - Account: **kenmun-ainchors** - T",
+      "recallCount": 1,
+      "dailyCount": 0,
+      "groundedCount": 0,
+      "totalScore": 0.4455668359994888,
+      "maxScore": 0.4455668359994888,
+      "firstRecalledAt": "2026-04-29T05:13:49.704Z",
+      "lastRecalledAt": "2026-04-29T05:13:49.704Z",
+      "queryHashes": [
+        "ebff508a49a4"
+      ],
+      "recallDays": [
+        "2026-04-29"
+      ],
+      "conceptTags": [
+        "gateway",
+        "openclaw.json",
+        "channels.telegram.accounts",
+        "business-agent",
+        "chg-0039",
+        "kenmun-ainchors",
+        "restructured",
+        "yoda"
+      ]
+    },
+    "memory:memory/2026-04-27.md:693:725": {
+      "key": "memory:memory/2026-04-27.md:693:725",
+      "path": "memory/2026-04-27.md",
+      "startLine": 693,
+      "endLine": 725,
+      "source": "memory",
+      "snippet": "- Ken's webchat to Yoda also affected - **Decision: Option C — Aria moved to Sonnet permanently. Gemma4 for background crons only.** ### CHG-0037: Aria Model → Sonnet (Permanent) - Aria primary model: Gemma4 → `anthropic/claude-sonnet-4-6` - Gemma4 retained for: backup crons, cost tracker, non-interactive batch work only - Tail message updated: `⚙️ Model: Sonnet` (escalation prompt removed) - `critical-config-baseline.json` updated (config-008) --- ## 21:00–21:55 AEST — Telegram Architecture Overhaul (B1: Dual Bot) ### Problem - Ken's Telegram messages kept routing to Aria despite binding fixes - Root cause: stale session in business agent for Ken's chatId (8574109706) — persisted throug",
+      "recallCount": 1,
+      "dailyCount": 0,
+      "groundedCount": 0,
+      "totalScore": 0.4308772057294845,
+      "maxScore": 0.4308772057294845,
+      "firstRecalledAt": "2026-04-29T05:13:49.704Z",
+      "lastRecalledAt": "2026-04-29T05:13:49.704Z",
+      "queryHashes": [
+        "ebff508a49a4"
+      ],
+      "recallDays": [
+        "2026-04-29"
+      ],
+      "conceptTags": [
+        "backup",
+        "chg-0037",
+        "anthropic/claude-sonnet-4-6",
+        "non-interactive",
+        "critical-config-baseline.json",
+        "config-008",
+        "ken's",
+        "webchat"
+      ]
+    },
+    "memory:memory/2026-04-27.md:53:87": {
+      "key": "memory:memory/2026-04-27.md:53:87",
+      "path": "memory/2026-04-27.md",
+      "startLine": 53,
+      "endLine": 87,
+      "source": "memory",
+      "snippet": "- Format: Hero → Opening → Story (3–6 acts) → What Broke → What I Learned → Cost → What's Next → Footer - PII: Strict — all sensitive values `<PLACEHOLDER>` - Spec: `~/Documents/AInchors/Operations/BlogFormat.md` Key rule: Blog reads journal, not transcripts. Single source of truth. Day 2 rebuilt because summary style ≠ journal. The standard exists to prevent recurrence. --- ## Resiliency Framework — Major Work Day 3 ### Resiliency stack (full picture as of Day 3) #### Level 1: Foundation (pre-existing) - Health check every 15 min (cron, silent, alert at 3+ failures or >1hr) - Daily backup 02:00+02:05 (dual-path, LLM-independent) - LaunchAgent: gateway + Ollama auto-restart - OfflinePla",
+      "recallCount": 1,
+      "dailyCount": 0,
+      "groundedCount": 0,
+      "totalScore": 0.39280269443988797,
+      "maxScore": 0.39280269443988797,
+      "firstRecalledAt": "2026-04-29T10:24:18.131Z",
+      "lastRecalledAt": "2026-04-29T10:24:18.131Z",
+      "queryHashes": [
+        "ea76f33376ee"
+      ],
+      "recallDays": [
+        "2026-04-29"
+      ],
+      "conceptTags": [
+        "backup",
+        "gateway",
+        "pre-existing",
+        "dual-path",
+        "llm-independent",
+        "auto-restart",
+        "format",
+        "hero"
       ]
     }
   }

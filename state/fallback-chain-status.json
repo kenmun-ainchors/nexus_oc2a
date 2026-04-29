@@ -1,10 +1,9 @@
 {
-  "checkedAt": "2026-04-28T16:20:21Z",
+  "checkedAt": "2026-04-29T13:20:49Z",
   "overall": "ok",
   "chain": [
     "anthropic/claude-sonnet-4-6",
-    "anthropic/claude-opus-4-7",
-    "ollama/gemma4:26b"
+    "anthropic/claude-haiku-4-5"
   ],
   "checks": [
     "anthropicKey:ok",

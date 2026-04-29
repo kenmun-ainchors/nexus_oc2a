@@ -1,7 +1,9 @@
 {
-  "active": true,
+  "active": false,
   "type": "info",
-  "message": "\ud83d\udccb PIR Required: PIR-20260428-20260428-002 for INC-20260428-002 [P1] \u2014 schedule within 48hrs. File: state/pir/PIR-20260428-20260428-002.json",
+  "message": "📋 PIR Required: PIR-20260428-20260428-002 for INC-20260428-002 [P1] — schedule within 48hrs. File: state/pir/PIR-20260428-20260428-002.json",
   "since": "2026-04-28T14:26:13+10:00",
-  "dismissable": true
+  "dismissable": true,
+  "dismissedAt": "2026-04-29T11:29:00+10:00",
+  "dismissedReason": "PIR completed — PIR-20260428-COMPLETE.md filed"
 }
