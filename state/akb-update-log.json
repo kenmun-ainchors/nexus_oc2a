@@ -1,6 +1,81 @@
 {
   "runs": [
     {
+      "run_id": "akb-20260430-0300",
+      "date": "2026-04-30",
+      "coverage_date": "2026-04-29",
+      "started_at": "2026-04-29T17:00:00Z",
+      "status": "complete",
+      "inputs_read": [
+        "memory/journal-2026-04-29.md",
+        "Documents/AInchors/Shared/aria-daily-brief.md (2026-04-28 entry — 2026-04-29 written by 23:45 cron)",
+        "memory/CHANGELOG.md (CHG-0075 to CHG-0080)",
+        "MEMORY.md"
+      ],
+      "obsidian_files_updated": [
+        {
+          "file": "HOME.md",
+          "changes": "last-updated 2026-04-29→2026-04-30, stage Day 5→Day 6"
+        },
+        {
+          "file": "Company/Overview.md",
+          "changes": "kenmun@ainchors.com marked connected via gog CLI. Added Google Workspace section, office docs capability, company name note (AInchor Solutions Pty Ltd)."
+        },
+        {
+          "file": "Company/Decisions.md",
+          "changes": "Added 2026-04-29 decisions block (11 decisions): Aria fallback fix, PIR-002 close, US22/US23 closed, US20 Option 4, US18 Option A, /resume fix, gog connected, office docs confirmed, company name confirmed, Day 5 cost."
+        },
+        {
+          "file": "Agents/Architecture.md",
+          "changes": "v3.1→v3.2: added sla-report.sh, incident-log.sh, outage-detect.sh, research-runner.sh to scripts table. Added Day 5 history entry."
+        },
+        {
+          "file": "Agents/ModelStrategy.md",
+          "changes": "v2.1→v2.2: Added Day 5 cost ($43.78 USD, balance USD74.07). Aria fallback chain note. 5-day cumulative $636.58."
+        },
+        {
+          "file": "Shared/context-for-aria.md",
+          "changes": "Updated last-updated to 2026-04-30. Added Day 5 LIVE systems table (gog, office docs, US18, US20, /resume fix, Aria fallback fix, outage-detect). Updated Day 6 priorities (CAMP-0001 debrief today)."
+        }
+      ],
+      "notion_updates": {
+        "agent_status_db": {
+          "updated": ["Yoda (last run 2026-04-29)", "Aria (last run 2026-04-29)", "Warden (last run 2026-04-29)", "Shield (last run 2026-04-29)", "Lex (last run 2026-04-29)", "Sage (last run 2026-04-29)"]
+        },
+        "decisions_db": {
+          "added": [
+            "Aria fallback chain corrected: Haiku-only, no Opus or Gemma4",
+            "US20 Research Framework: Option 4 — Extend existing AKB",
+            "US18 Monthly SLA Report: Option A — script-driven sla-report.sh",
+            "Google Workspace connected: kenmun@ainchors.com via gog CLI",
+            "Company name confirmed: AInchor Solutions Pty Ltd"
+          ]
+        },
+        "backlog_db": {
+          "confirmed_done": ["US18", "US20"]
+        }
+      },
+      "git_commits": {
+        "ainchors_repo": "79d535c — 6 files changed, 52 insertions",
+        "workspace_repo": "f85298c — 6 files changed, 90 insertions"
+      },
+      "skipped_files": [
+        {
+          "file": "Operations/GovernanceFramework.md",
+          "reason": "No governance rule changes on Day 5 — already current from Day 4"
+        },
+        {
+          "file": "Operations/IncidentLog.md",
+          "reason": "PIR-002 closed (INC-20260428-002) but incident was already logged — PIR closure is internal CHG, not new incident"
+        },
+        {
+          "file": "Shared/yoda-daily-brief.md",
+          "reason": "23:00 AEST nightly context sync cron already wrote full Day 5 entry — no duplication needed"
+        }
+      ],
+      "notes": "Day 5 was a maturity/delivery day: 3 US closed (US18, US20, US22/US23), Google Workspace connected, Aria fallback chain hardened, /resume cross-channel fixed, company profile PDF produced. Balance USD74.07 at Day 5 close. CAMP-0001 (KL class) runs today (30 Apr) — Aria to run campaign-debrief.sh post-class."
+    },
+    {
       "run_id": "akb-20260429-0300",
       "date": "2026-04-29",
       "coverage_date": "2026-04-28",
