@@ -88,3 +88,17 @@ Gemma4 (Ollama) = $0.00 always (local). Cloud costs = Anthropic API.
 | **Total** | **$404.90+** | **4-day cumulative** |
 
 Avg: ~$101/day. Balance at 2026-04-28 EOD: $58.72 USD.
+
+## 2026-04-29
+
+| Metric | Value |
+|--------|-------|
+| Total Cost | $3.3841 |
+| Turns | 164 |
+| Input Tokens | 810 |
+| Output Tokens | 44,401 |
+| Cache Read | 4,021,745 |
+
+### By Model
+- **claude-sonnet-4-6**: 106 turns | 156 in / 33,576 out | $3.0960
+- **claude-haiku-4-5**: 58 turns | 654 in / 10,825 out | $0.2881

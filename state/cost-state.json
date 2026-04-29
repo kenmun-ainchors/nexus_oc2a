@@ -1,5 +1,5 @@
 {
-  "lastUpdated": "2026-04-28T13:55:13Z",
+  "lastUpdated": "2026-04-29T13:55:13Z",
   "history": {
     "2026-04-25": {
       "date": "2026-04-25",
@@ -96,21 +96,48 @@
           "turns": 4
         }
       }
+    },
+    "2026-04-29": {
+      "date": "2026-04-29",
+      "totalCost": 43.7825,
+      "totalTurns": 1294,
+      "totalInputTokens": 6098,
+      "totalOutputTokens": 456195,
+      "totalCacheReadTokens": 45425111,
+      "totalCacheWriteTokens": 7594381,
+      "byModel": {
+        "claude-sonnet-4-6": {
+          "input": 1377,
+          "output": 384913,
+          "cacheRead": 40007531,
+          "cacheWrite": 6242602,
+          "cost": 41.1898,
+          "turns": 873
+        },
+        "claude-haiku-4-5": {
+          "input": 4721,
+          "output": 71282,
+          "cacheRead": 5417580,
+          "cacheWrite": 1351779,
+          "cost": 2.5926,
+          "turns": 421
+        }
+      }
     }
   },
-  "allTimeTotalCost": 592.8006,
-  "daysTracked": 4,
-  "avgDailyCost": 148.2002,
+  "allTimeTotalCost": 636.5831,
+  "daysTracked": 5,
+  "avgDailyCost": 127.3166,
   "apiBalance": {
     "currency": "USD",
-    "balance": 145.6,
+    "balance": 91.17,
     "topUpDate": "2026-04-28",
     "spentSinceTopUp": 0,
-    "remainingEstimate": 58.72,
-    "note": "Balance $58.72 confirmed by Ken 18:34 AEST. Total billed per Anthropic CSV: $404.90 USD over 4 days.",
-    "confirmedAt": "2026-04-28T18:34:00+10:00",
+    "remainingEstimate": 86.93,
+    "note": "Balance USD 86.93 confirmed by Ken 11:34 AEST 2026-04-29. Approaching T1 ($80).",
+    "confirmedAt": "2026-04-29T01:34:00+10:00",
     "confirmedBy": "Ken",
-    "confirmedBalance": 58.72
+    "confirmedBalance": 86.93
   },
   "spendAlerts": {
     "tier1": {
@@ -118,7 +145,7 @@
       "label": "Tier 1 \u2014 $80 remaining",
       "action": "Alert Ken + Angie ONCE. ~19hrs runway at current burn. Top up soon.",
       "frequency": "once",
-      "triggered": false,
+      "triggered": true,
       "triggeredAt": null,
       "note": "Updated 2026-04-28 from $50 to $80 \u2014 actual burn $101/day from CSV"
     },
