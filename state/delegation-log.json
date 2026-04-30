@@ -4132,10 +4132,50 @@
       "status": "pass",
       "latencyMs": 0,
       "notes": "9 checks run"
+    },
+    {
+      "ts": "2026-05-01T00:09:10+10:00",
+      "date": "2026-05-01",
+      "tier": "T2",
+      "taskType": "warden-check",
+      "model": "anthropic/claude-haiku-4-5",
+      "status": "pass",
+      "latencyMs": 0,
+      "notes": "9 checks run"
+    },
+    {
+      "ts": "2026-05-01T00:24:12+10:00",
+      "date": "2026-05-01",
+      "tier": "T2",
+      "taskType": "warden-check",
+      "model": "anthropic/claude-haiku-4-5",
+      "status": "pass",
+      "latencyMs": 0,
+      "notes": "9 checks run"
+    },
+    {
+      "ts": "2026-05-01T00:39:14+10:00",
+      "date": "2026-05-01",
+      "tier": "T2",
+      "taskType": "warden-check",
+      "model": "anthropic/claude-haiku-4-5",
+      "status": "pass",
+      "latencyMs": 0,
+      "notes": "9 checks run"
+    },
+    {
+      "ts": "2026-05-01T00:54:09+10:00",
+      "date": "2026-05-01",
+      "tier": "T2",
+      "taskType": "warden-check",
+      "model": "anthropic/claude-haiku-4-5",
+      "status": "pass",
+      "latencyMs": 0,
+      "notes": "9 checks run"
     }
   ],
   "summary": {
-    "total": 413,
+    "total": 417,
     "byTier": {
       "T1": {
         "pass": 0,
@@ -4143,7 +4183,7 @@
         "timeout": 0
       },
       "T2": {
-        "pass": 404,
+        "pass": 408,
         "fail": 8,
         "timeout": 0
       },
@@ -4161,7 +4201,7 @@
         "tier": "T2"
       },
       "warden-check": {
-        "pass": 243,
+        "pass": 247,
         "fail": 2,
         "timeout": 0,
         "tier": "T2"
@@ -4185,6 +4225,6 @@
         "tier": "T2"
       }
     },
-    "estimatedSavingsUSD": 2.0275
+    "estimatedSavingsUSD": 2.0475
   }
 }
