@@ -1,0 +1,107 @@
+{
+  "schema": "framework-registry-v1",
+  "description": "Maps decision/change categories to authoritative framework documents that MUST be updated when a change in that category is made. Checked by framework-audit.sh and /commit procedure.",
+  "lastUpdated": "2026-04-30",
+  "updatedBy": "Yoda",
+  "registry": {
+    "model-routing": {
+      "description": "Any change to model selection, tier assignment, cron model, or LLM decision rules",
+      "frameworks": [
+        "~/Documents/AInchors/Agents/ModelStrategy.md",
+        "~/.openclaw/workspace/state/model-policy.json"
+      ],
+      "examples": ["model tier change", "new cron classification", "Ollama routing", "fallback chain"]
+    },
+    "cron-policy": {
+      "description": "Any new cron job or change to cron schedule, payload, or session target",
+      "frameworks": [
+        "~/Documents/AInchors/Agents/ModelStrategy.md"
+      ],
+      "examples": ["new cron job", "cron converted from agentTurn to systemEvent", "cron interval change"]
+    },
+    "agent-architecture": {
+      "description": "Any change to agent roles, capabilities, session routing, or agent team structure",
+      "frameworks": [
+        "~/.openclaw/workspace/MEMORY.md",
+        "~/Documents/AInchors/Agents/ModelStrategy.md"
+      ],
+      "examples": ["new agent created", "agent model changed", "agent session target changed", "agent disabled"]
+    },
+    "security": {
+      "description": "Any change to secrets, auth, access control, Shield rules, or security posture",
+      "frameworks": [
+        "~/Documents/AInchors/Operations/Standards.md",
+        "~/.openclaw/workspace/RULES.md"
+      ],
+      "examples": ["new secret stored", "Shield rule updated", "auth token rotated", "access policy changed"]
+    },
+    "incident-process": {
+      "description": "Any change to incident response, recovery procedures, or resiliency architecture",
+      "frameworks": [
+        "~/Documents/AInchors/Operations/ResiliencyFramework.md",
+        "~/Documents/AInchors/Operations/GatewayRecovery.md"
+      ],
+      "examples": ["new incident runbook", "recovery procedure updated", "failover logic changed"]
+    },
+    "async-execution": {
+      "description": "Any change to how sub-agents are spawned, tasked, or tracked",
+      "frameworks": [
+        "~/Documents/AInchors/Operations/AsyncExecution.md",
+        "~/.openclaw/workspace/RULES.md"
+      ],
+      "examples": ["task registration process", "sub-agent pattern", "completion verification rule"]
+    },
+    "cost-budget": {
+      "description": "Any change to credit alert thresholds, budget targets, or cost tracking",
+      "frameworks": [
+        "~/Documents/AInchors/Agents/ModelStrategy.md"
+      ],
+      "examples": ["credit alert threshold changed", "budget cap updated", "burn rate policy"]
+    },
+    "sla-reporting": {
+      "description": "Any change to SLA targets, reporting cadence, or incident classification",
+      "frameworks": [
+        "~/Documents/AInchors/Operations/Standards.md"
+      ],
+      "examples": ["SLA target changed", "availability formula updated", "MTTR target changed"]
+    },
+    "governance": {
+      "description": "Any change to Warden rules, compliance checks, or model policy enforcement",
+      "frameworks": [
+        "~/Documents/AInchors/Agents/ModelStrategy.md",
+        "~/.openclaw/workspace/state/model-policy.json"
+      ],
+      "examples": ["Warden check updated", "compliance rule added", "model drift baseline changed"]
+    },
+    "itsm-process": {
+      "description": "Any change to ticketing, change management, or ITSM workflow rules",
+      "frameworks": [
+        "~/.openclaw/workspace/RULES.md"
+      ],
+      "examples": ["ticket format changed", "CHG schema updated", "US definition of done updated"]
+    },
+    "backup-recovery": {
+      "description": "Any change to backup scripts, schedule, or recovery procedures",
+      "frameworks": [
+        "~/Documents/AInchors/Operations/GatewayRecovery.md",
+        "~/Documents/AInchors/Operations/ResiliencyFramework.md"
+      ],
+      "examples": ["backup schedule changed", "restore procedure updated", "snapshot policy changed"]
+    },
+    "observability": {
+      "description": "Any change to logging, monitoring, alerting, or dashboard infrastructure",
+      "frameworks": [
+        "~/.openclaw/workspace/RULES.md"
+      ],
+      "examples": ["new obs-log source added", "alert threshold changed", "dashboard updated"]
+    },
+    "operating-process": {
+      "description": "Any new operating cadence, ritual, or process (standup, RTB, close, etc.)",
+      "frameworks": [
+        "~/.openclaw/workspace/SOUL.md",
+        "~/.openclaw/workspace/RULES.md"
+      ],
+      "examples": ["new standup format", "RTB process", "new daily cadence", "heartbeat checklist updated"]
+    }
+  }
+}

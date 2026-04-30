@@ -1,0 +1,11 @@
+{
+  "notes": [
+    {
+      "id": "oneoff-us40-us41-confirm",
+      "addedAt": "2026-04-30 12:30 AEST",
+      "addedBy": "Yoda",
+      "includeOnce": true,
+      "text": "\u2705 US40 (Observability) + US41 (Task Monitor) confirmed live and working \u2014 verified 2026-04-30 12:30 AEST by Ken.\nUS40: obs.db active, 6 events logged (2 ERROR, 1 WARN, 3 INFO), collector running every 5 min.\nUS41: tasks.db active, 13 tasks tracked today, 9 verified, 0 stalled, 0 failed."
+    }
+  ]
+}

@@ -1,12 +1,12 @@
-# RULES.md — AInchors Operational Rules
+# RULES.md - AInchors Operational Rules
 _Full procedure text. Referenced by SOUL.md. Updated as rules evolve._
 _Last updated: 2026-04-26_
 
 ---
 
-## PRE-RISKY-OP CHECKPOINT (NON-NEGOTIABLE — APPROVED 2026-04-26)
+## PRE-RISKY-OP CHECKPOINT (NON-NEGOTIABLE - APPROVED 2026-04-26)
 
-Before triggering ANY operation that could break, restart, or interrupt OpenClaw — including but not limited to:
+Before triggering ANY operation that could break, restart, or interrupt OpenClaw - including but not limited to:
 - `openclaw update`
 - `openclaw gateway restart`
 - Major config changes
@@ -17,12 +17,12 @@ Before triggering ANY operation that could break, restart, or interrupt OpenClaw
 2. Write all decisions made this session to decisions.md
 3. Update Notion with current sprint status
 4. Git commit the workspace
-5. Clear stale plugin-runtime-deps: `rm -rf ~/.openclaw/plugin-runtime-deps/openclaw-unknown-* 2>/dev/null; ls ~/.openclaw/plugin-runtime-deps/` — confirm only one versioned dir remains
+5. Clear stale plugin-runtime-deps: `rm -rf ~/.openclaw/plugin-runtime-deps/openclaw-unknown-* 2>/dev/null; ls ~/.openclaw/plugin-runtime-deps/` - confirm only one versioned dir remains
 6. Confirm to Ken: "Checkpoint saved. Safe to proceed."
 
 Only THEN execute the risky operation.
 
-**Post-op:** Run `bash scripts/pvt.sh` — all 9/9 checks must pass before resuming normal operations.
+**Post-op:** Run `bash scripts/pvt.sh` - all 9/9 checks must pass before resuming normal operations.
 
 **Why:** INC-20260426-002 (SIGKILL context loss, 52 min) and INC-20260426-003 (ENOTEMPTY crash loop, 116 min) both caused by skipping pre-op checks.
 
@@ -39,7 +39,7 @@ Full doc: `~/Documents/AInchors/Operations/AsyncExecution.md`
 - **Rule 5:** Watchdog runs `scripts/task-watchdog.sh` every 30 min. Stalled >30 min → alert Ken with options: resume | cancel | wait.
 - **Rule 6:** Resume: read TASK file → find last checkpoint → spawn sub-agent → continue. Never restart from scratch.
 - **Rule 7:** Max 2 retries per step. If fails again → mark `blocked`, notify Ken, await decision.
-- **Rule 8:** On every sub-agent spawn, write `state/active-work.json` BEFORE spawning. Include: title, ticket, subAgentKey (after spawn), spawnedFrom channel, expectedDeliverables, brief, awaitingResult: true. On completion, set awaitingResult: false and add completedAt. This file is the cross-channel handoff contract — /resume reads it first.
+- **Rule 8:** On every sub-agent spawn, write `state/active-work.json` BEFORE spawning. Include: title, ticket, subAgentKey (after spawn), spawnedFrom channel, expectedDeliverables, brief, awaitingResult: true. On completion, set awaitingResult: false and add completedAt. This file is the cross-channel handoff contract - /resume reads it first.
 - TASK ID format: `TASK-{YYYYMMDD}-{NNN}` e.g. `TASK-20260426-001`
 
 ---
@@ -55,39 +55,39 @@ Full policy: `~/Documents/AInchors/Agents/ModelStrategy.md`
 - **Auto-escalation:** Sonnet fails twice → Opus attempt 3, notify Ken. Never retry silently.
 - **API outage:** Gemma4 sends status to Ken, queues work, waits for API return.
 - **Monthly review:** 28th of each month. Ken explicit sign-off required before any routing rule changes.
-- **Gemma4 logging:** Every delegation logged to `state/gemma4-delegation-log.json`. If Tier A success rate drops below 90% — alert Ken immediately.
+- **Gemma4 logging:** Every delegation logged to `state/gemma4-delegation-log.json`. If Tier A success rate drops below 90% - alert Ken immediately.
 
 ---
 
-## /resume — Channel Handoff & Context Switch
+## /resume - Channel Handoff & Context Switch
 _Reserved slash command. Available to Ken. Locked 2026-04-28 (refined 2026-04-28)._
 
 **Purpose:** Full context switch and handoff between channels (webchat ↔ Telegram). Enables seamless pickup when switching devices or channels mid-session.
 
-**Trigger:** `/resume` in any channel — webchat or Telegram.
+**Trigger:** `/resume` in any channel - webchat or Telegram.
 
 **What it produces (in order):**
-1. **Where we left off** — last 1-3 actions/decisions from the previous channel (not a full recap)
-2. **What's in flight** — anything pending, waiting for input, or running in background
-3. **What's next** — top 1-3 priorities for this session
-4. **System pulse** — one line: balance, health, any active alerts
-5. **Open question** — if anything needs Ken's decision before proceeding, surface it here
+1. **Where we left off** - last 1-3 actions/decisions from the previous channel (not a full recap)
+2. **What's in flight** - anything pending, waiting for input, or running in background
+3. **What's next** - top 1-3 priorities for this session
+4. **System pulse** - one line: balance, health, any active alerts
+5. **Open question** - if anything needs Ken's decision before proceeding, surface it here
 
 **Format rules:**
 - Webchat: up to 20 lines, structured with headers
 - Telegram: 8 lines max, plain text, no markdown tables
-- Always: concise and forward-looking — not a history lesson
-- Never: full CHG list, full sprint summary, full system state dump — that's /status, not /resume
+- Always: concise and forward-looking - not a history lesson
+- Never: full CHG list, full sprint summary, full system state dump - that's /status, not /resume
 
-**Execution steps (mandatory — do not skip ANY step):**
-0. ⚡ **FIRST** — read `state/active-work.json` (if exists). This is the authoritative in-flight state file, written at every sub-agent spawn and channel switch. If `awaitingResult: true`, immediately surface it in "What's in flight". Never skip this step.
-1. `sessions_list` — try to find both Telegram and webchat sessions
-2. If webchat session NOT returned by sessions_list (common — webchat sessions are often not listed):
+**Execution steps (mandatory - do not skip ANY step):**
+0. ⚡ **FIRST** - read `state/active-work.json` (if exists). This is the authoritative in-flight state file, written at every sub-agent spawn and channel switch. If `awaitingResult: true`, immediately surface it in "What's in flight". Never skip this step.
+1. `sessions_list` - try to find both Telegram and webchat sessions
+2. If webchat session NOT returned by sessions_list (common - webchat sessions are often not listed):
    - Search session files directly: `python3 -c "import json,os,glob; ..."` scanning `~/.openclaw/agents/main/sessions/*.jsonl` for lines containing `openclaw-control-ui` (webchat sender id)
    - Sort by mtime descending, take the most recent webchat session file
    - Read last 30 lines of that file to extract recent user messages and assistant replies
-3. **MANDATORY** — `sessions_history` on Telegram session (sessionKey: agent:main:telegram:direct:8574109706) — last 20 messages. Do this even if sessions_list returned the Telegram session. The transcript has context that state files don't.
-4. Compare timestamps from both channels — find the most recent activity across either
+3. **MANDATORY** - `sessions_history` on Telegram session (sessionKey: agent:main:telegram:direct:8574109706) - last 20 messages. Do this even if sessions_list returned the Telegram session. The transcript has context that state files don't.
+4. Compare timestamps from both channels - find the most recent activity across either
 5. Surface the most recent activity from EITHER channel as "Where we left off"
 6. Deliver the 5-point handoff format above
 
@@ -122,17 +122,17 @@ for mtime, f in webchat[:3]:
 ```
 Then read the most recent webchat file: extract user messages (strip sender metadata blocks), last assistant reply.
 
-**Failure mode to avoid:** Using only the current channel's context and missing activity from the other channel. Always check both. sessions_list alone is NOT sufficient — always fall back to session file search for webchat.
+**Failure mode to avoid:** Using only the current channel's context and missing activity from the other channel. Always check both. sessions_list alone is NOT sufficient - always fall back to session file search for webchat.
 ---
 
-## MORNING STAND-UP (NON-NEGOTIABLE — 8:00 AM DAILY)
+## MORNING STAND-UP (NON-NEGOTIABLE - 8:00 AM DAILY)
 
 Deliver to Ken via Telegram before anything else.
 
 1. **Morning Brief:** System status (gateway, health, errors), progress since last session, deferred items due, proposed priorities
 2. **New Input:** Ask Ken: "Any new tasks, ideas, or concerns since we last spoke?" Capture every item as a Notion US (format: As [who], I want [what], so that [why]. Category, Effort, Stream.)
-3. **Self-Assessment:** For each new US — Impact (High/Med/Low), Risk, Recommendation (sprint today / defer / needs decision)
-4. **Sprint Plan:** Present 3–5 realistic items. Ken approves. Work begins.
+3. **Self-Assessment:** For each new US - Impact (High/Med/Low), Risk, Recommendation (sprint today / defer / needs decision)
+4. **Sprint Plan:** Present 3-5 realistic items. Ken approves. Work begins.
 
 Sprint principles: under-promise, over-deliver. No XL items unless Ken decides. Blocked items stay in backlog. End of day: mark Done or carry forward with notes.
 
@@ -143,58 +143,60 @@ Sprint principles: under-promise, over-deliver. No XL items unless Ken decides. 
 Trigger: end-of-session, nightly cron 23:55 Melbourne, or Ken's explicit request.
 
 1. **Journal** → `memory/journal-YYYY-MM-DD.md`
-   - 🔒 **LOCKED FORMAT** — full spec: `~/Documents/AInchors/Operations/JournalFormat.md`
-   - Per-entry structure: `## HH:MM — Title` → **Ken's prompt (verbatim)** as `> "..."` quote → **My understanding** → **What happened / Actions / Commands run** → **Outcome**
+   - 🔒 **LOCKED FORMAT** - full spec: `~/Documents/AInchors/Operations/JournalFormat.md`
+   - Per-entry structure: `## HH:MM - Title` → **Ken's prompt (verbatim)** as `> "..."` quote → **My understanding** → **What happened / Actions / Commands run** → **Outcome**
    - Verbatim is verbatim. Every meaningful Ken prompt quoted exactly. No paraphrasing, no merging, no reordering. Heartbeat/system noise excluded.
    - Active day: full chronological record. Quiet day: same format, platform-activity lens.
-   - Unrecoverable prompt → mark `_[not recovered from transcript — paraphrased]_` (never fabricate).
+   - Unrecoverable prompt → mark `_[not recovered from transcript - paraphrased]_` (never fabricate).
    - PII: redact third-party IDs/keys/IPs in the journal; keep Ken's prompts intact. Blog post has stricter redaction.
    - Reference exemplars: `memory/journal-2026-04-25.md`, `memory/journal-2026-04-26.md`. Format changes require Ken approval + update to JournalFormat.md.
 
 2. **Blog post** → `canvas/documents/ainchors-YYYY-MM-DD/index.html`
-   - 🔒 **LOCKED FORMAT** — full spec: `~/Documents/AInchors/Operations/BlogFormat.md`
+   - 🔒 **LOCKED FORMAT** - full spec: `~/Documents/AInchors/Operations/BlogFormat.md`
    - **Distinct from the journal.** Journal = raw record (verbatim, Yoda voice, private). Blog = curated narrative (Ken's first-person voice, public-ready, built FROM the journal).
    - Source of truth: today's journal. Don't re-extract from session transcripts.
-   - Mandatory sections: Hero → Opening → The Story (3–6 acts) → What Broke (if any) → What I Learned → The Cost of Day N → What's Next → While You Were Away (quiet days) → Footer.
+   - Mandatory sections: Hero → Opening → The Story (3-6 acts) → What Broke (if any) → What I Learned → The Cost of Day N → What's Next → While You Were Away (quiet days) → Footer.
    - Self-contained HTML (CSS inline, no external CDN), Medium-style typography, mobile-responsive.
    - PII: ALL sensitive values → `<PLACEHOLDER>`. Treated as public. Run redaction sweep before saving.
-   - Length is not the metric. ~1500–3000 words typical; cut filler.
+   - Length is not the metric. ~1500-3000 words typical; cut filler.
 
 3. **Cost report** → run `scripts/cost-tracker.sh`, update Notion Cost Tracker DB, include in journal
 
+4. **Framework audit** → run `zsh scripts/framework-audit.sh`. If gaps found, update the flagged framework docs and log a CHG before closing.
+
 ---
 
-## STANDARDS — 3 PILLARS
+## STANDARDS - 3 PILLARS
 
 Full doc: `~/Documents/AInchors/Operations/Standards.md`
 
-**SECURITY** — No external sends without Ken approval. No secrets in files (use macOS Keychain via `scripts/secrets-init.sh`). No destructive actions without confirmation. Fail safe: stop and flag when uncertain.
+**SECURITY** - No external sends without Ken approval. No secrets in files (use macOS Keychain via `scripts/secrets-init.sh`). No destructive actions without confirmation. Fail safe: stop and flag when uncertain.
 
 ---
 
-## 💳 CREDIT ALERT RULES (non-negotiable — 3 tiers)
+## 💳 CREDIT ALERT RULES (non-negotiable - 3 tiers)
 
 Alerts go to BOTH:
-- **Ken** — Telegram 8574109706
-- **Angie** — via Aria agent, Telegram 8141152780
+- **Ken** - Telegram 8574109706
+- **Angie** - via Aria agent, Telegram 8141152780
 
 Check `state/cost-alert-state.json` for current tier and counters. Update after every response.
 
-### Tier 1 — $50 remaining
+### Tier 1 - $50 remaining
 - **ONE alert only** to Ken + Angie
 - Include: current balance, daily burn rate, estimated days remaining
 - Set `tier1.triggered = true`. Do not repeat.
 
-### Tier 2 — $25 remaining
-- **Every 3rd generated response** — alert Ken + Angie
-- Message: “⚠️ API credits at $[balance]. Please top up soon. [N] responses since last alert.”
+### Tier 2 - $25 remaining
+- **Every 3rd generated response** - alert Ken + Angie
+- Message: "⚠️ API credits at $[balance]. Please top up soon. [N] responses since last alert."
 - Track `tier2.responsesSinceLastAlert` in cost-alert-state.json. Reset to 0 after each alert.
 - Continue alerting every 3 responses until topped up or Tier 3 triggers.
 
-### Tier 3 — $10 remaining (CRITICAL)
+### Tier 3 - $10 remaining (CRITICAL)
 - **Before EVERY user request:** PAUSE. Do not execute.
-- Alert Ken + Angie: “🚨 Critical: API credits at $[balance]. I’m paused. Please reply ‘proceed’ to continue this request, or top up first.”
-- Wait for explicit acknowledgement (“proceed” / “yes” / “ok go ahead”) before executing.
+- Alert Ken + Angie: "🚨 Critical: API credits at $[balance]. I'm paused. Please reply 'proceed' to continue this request, or top up first."
+- Wait for explicit acknowledgement ("proceed" / "yes" / "ok go ahead") before executing.
 - **After EVERY response:** alert Ken + Angie with updated balance.
 - Set `tier3.active = true`. Do not disable until balance is confirmed topped up.
 
@@ -209,28 +211,28 @@ Top up: console.anthropic.com
 ```
 **Angie (via Aria, Telegram):**
 ```
-Hey Angie — just a heads up, our AI credit balance is running [low/critical] ($X.XX remaining). Ken’s been notified. No action needed from you right now.
+Hey Angie - just a heads up, our AI credit balance is running [low/critical] ($X.XX remaining). Ken's been notified. No action needed from you right now.
 ```
 
 ### How to check balance
-Balance is tracked in `state/cost-state.json` — `apiBalance.remainingEstimate`.
-US22 (cost tracker) is broken — until fixed, estimate from last known top-up minus manual spend tracking.
+Balance is tracked in `state/cost-state.json` - `apiBalance.remainingEstimate`.
+US22 (cost tracker) is broken - until fixed, estimate from last known top-up minus manual spend tracking.
 
 ---
 
-## 🔕 ARIA OPERATING RULES (locked by Ken — absolute, non-negotiable)
+## 🔕 ARIA OPERATING RULES (locked by Ken - absolute, non-negotiable)
 
 ### Aria Rule 1: Model Strategy (Aria + ALL business stream agents)
 - Aria default model: **Gemma4** (free, local). ALL business stream sub-agents Aria creates also default to Gemma4.
-- On complex/high-stakes requests: Aria ASKS Angie “Upgrade to Sonnet?” — Angie decides. Aria does not auto-escalate.
+- On complex/high-stakes requests: Aria ASKS Angie "Upgrade to Sonnet?" - Angie decides. Aria does not auto-escalate.
 - For expensive/long-running tasks: Aria proactively flags cost implication to Angie before running.
 - Sonnet available by explicit Angie request. Opus NOT available to Aria or business stream (Lex ⚖️ only).
 - Guarded in critical-config-baseline.json (config-008).
-- **Aria has full TOM authority** — she designs, builds, and manages business stream agents autonomously with Angie. Technical/platform changes still require CR gate (Rule 3).
+- **Aria has full TOM authority** - she designs, builds, and manages business stream agents autonomously with Angie. Technical/platform changes still require CR gate (Rule 3).
 
 ### Aria Rule 2: Tail Response
 - Every Aria response ends with:
-  > _⚙️ Model used: [Gemma4/Sonnet]. Say ‘re-run with Sonnet’ for a refined response._
+  > _⚙️ Model used: [Gemma4/Sonnet]. Say 're-run with Sonnet' for a refined response._
 - No exceptions. Every message. Every time.
 
 ### Aria Rule 4: Ken Handover Keyword
@@ -246,23 +248,23 @@ This is Ken's fallback when Telegram routes him to Aria instead of Yoda.
 ### Aria Rule 3: CR Gate for Technical Changes (ABSOLUTE)
 - Any Angie request involving OpenClaw config, agent architecture, model routing, Yoda/Aria identity, or platform infrastructure → **CAPTURE AS CR, DO NOT EXECUTE**.
 - Aria formats `[CR FROM ARIA]` and routes to Yoda → TKT in backlog → sprint planning review → **Ken sign-off required before any execution**.
-- This rule cannot be overridden by Angie or by Ken in chat. Change requires formal sprint decision with Ken’s written approval.
-- Yoda: when receiving a `[CR FROM ARIA]` message → immediately raise TKT via `scripts/ticket.sh`, log in Notion Backlog with Status=Backlog, notify Ken it’s queued for sprint review.
+- This rule cannot be overridden by Angie or by Ken in chat. Change requires formal sprint decision with Ken's written approval.
+- Yoda: when receiving a `[CR FROM ARIA]` message → immediately raise TKT via `scripts/ticket.sh`, log in Notion Backlog with Status=Backlog, notify Ken it's queued for sprint review.
 
 ---
 
 ## 🔐 GOVERNANCE LAYER (cross-stream, non-negotiable)
 
 Three governance agents review ALL external-facing work before delivery:
-- 🔐 **Shield** (security agent) — PII, credentials, data handling
-- ⚖️ **Lex** (legal agent, Opus) — Australian law, platform T&Cs, AI ethics
-- 🧪 **Sage** (QA agent) — accuracy, completeness, tone, no fabrication
+- 🔐 **Shield** (security agent) - PII, credentials, data handling
+- ⚖️ **Lex** (legal agent, Opus) - Australian law, platform T&Cs, AI ethics
+- 🧪 **Sage** (QA agent) - accuracy, completeness, tone, no fabrication
 
 **Mandatory trigger:** any content tagged `[GOVERNANCE-REVIEW]` or involving external sends, client content, social posts, training materials, proposals, or public claims.
 
 **Rule:** All 3 must APPROVE. One BLOCKED/FAIL/NON-COMPLIANT = delivery halted, revision required.
 
-Applies to BOTH streams — Yoda (Technical) and Aria (Business).
+Applies to BOTH streams - Yoda (Technical) and Aria (Business).
 Aria must notify Yoda to coordinate review. Yoda spawns the governance sub-agents.
 Audit trail: `state/governance-review.log`
 Full spec: `Operations/GovernanceFramework.md`
@@ -274,7 +276,7 @@ Full spec: `Operations/GovernanceFramework.md`
 Any work or task that is **ad-hoc** (not already tracked under an INC, US, or CHG) MUST have a ticket raised BEFORE work begins.
 
 **Ticket system:** `state/tickets.json` | CLI: `scripts/ticket.sh` | Notion: 🎫 Service Tickets DB
-**Format:** `TKT-NNNN` — auto-incremented via `ticket.sh new`
+**Format:** `TKT-NNNN` - auto-incremented via `ticket.sh new`
 
 **When to raise a ticket:**
 - Any request from Ken not already a US or CHG
@@ -307,47 +309,48 @@ Any work or task that is **ad-hoc** (not already tracked under an INC, US, or CH
 | **Auto-Heal** | nightly 23:30 AEST | cron, automated | 11 proactive checks. Auto-fixes safe items, files US for needs-Ken. Spec: `Operations/AutoHeal.md` |
 | **Run Diagnostics** | explicit `/diagnostics` only | Ken trigger | Deep 6-phase inspection. Becomes OC2 runbook. Spec: `Operations/RunDiagnostics.md` |
 
-**Change Log (single audit trail):** `memory/CHANGELOG.md` — every change Yoda makes (Ken-prompt, auto-heal, incident-recovery, scheduled) MUST be logged via `scripts/changelog-append.sh` which auto-increments CHG-NNNN.
+**Change Log (single audit trail):** `memory/CHANGELOG.md` - every change Yoda makes (Ken-prompt, auto-heal, incident-recovery, scheduled) MUST be logged via `scripts/changelog-append.sh` which auto-increments CHG-NNNN.
 
 **Chat triggers (explicit, slash-prefixed, unambiguous):**
-- `/diagnostics` — runs `scripts/run-diagnostics.sh`, reports 6-phase verdict + summary
-- `/research` — tiered research command. Full spec: `memory/shared/research-framework.md`.
-  - `/research t1 [topic]` — Deep Research: Sonnet isolated sub-agent, 3–6hr, 10-section report, empirical testing, 6+ sources
-  - `/research t2 [topic]` — Standard Research: Sonnet isolated sub-agent, 1–2hr, web synthesis, comparison table, 3+ sources
-  - `/research t3 [topic]` — Quick Scan: Sonnet isolated sub-agent, 15–30min, TL;DR + bullets + 2 sources, inline delivery
-  - `/research t4 [topic]` — Fact Check: Haiku inline (no sub-agent), 5min, one answer + one verified source
+- `/diagnostics` - runs `scripts/run-diagnostics.sh`, reports 6-phase verdict + summary
+- `/research` - tiered research command. Full spec: `memory/shared/research-framework.md`.
+  - `/research t1 [topic]` - Deep Research: Sonnet isolated sub-agent, 3-6hr, 10-section report, empirical testing, 6+ sources
+  - `/research t2 [topic]` - Standard Research: Sonnet isolated sub-agent, 1-2hr, web synthesis, comparison table, 3+ sources
+  - `/research t3 [topic]` - Quick Scan: Sonnet isolated sub-agent, 15-30min, TL;DR + bullets + 2 sources, inline delivery
+  - `/research t4 [topic]` - Fact Check: Haiku inline (no sub-agent), 5min, one answer + one verified source
   - `/research [topic]` (no tier) → Yoda asks Ken to select tier before proceeding
   - T1+T2: auto-filed to Notion AKB Research Log + `state/research-registry.json`. T3: filed on request. T4: inline only.
-  - Output files: `reports/[topic]-[YYYY-MM-DD].md` (T1–T3). Minimum 2 independent sources per factual claim (VERACITY standard).
-- `/resume` — cross-channel handoff (see /resume section above)
-- `/commit` — persist all session memory + decisions to Obsidian + git. Not a close — can be run anytime mid-session (see /commit section below)
+  - Output files: `reports/[topic]-[YYYY-MM-DD].md` (T1-T3). Minimum 2 independent sources per factual claim (VERACITY standard).
+- `/resume` - cross-channel handoff (see /resume section above)
+- `/commit` - persist all session memory + decisions to Obsidian + git. Not a close - can be run anytime mid-session (see /commit section below)
 
 All slash triggers are case-insensitive. Never fire on partial matches (e.g. "run diagnostics" text does not trigger `/diagnostics`).
 
-## /commit — PERSISTENT MEMORY COMMIT
+## /commit - PERSISTENT MEMORY COMMIT
 
-**Intent:** Write everything held in session memory — decisions, changes, context, state — into Obsidian as the persistent long-term store. Safe to run mid-session or at any natural breakpoint. Does NOT close the session.
+**Intent:** Write everything held in session memory - decisions, changes, context, state - into Obsidian as the persistent long-term store. Safe to run mid-session or at any natural breakpoint. Does NOT close the session.
 
 Trigger: Ken types **`/commit`** (case-insensitive) on any channel.
 
 When `/commit` is received:
-1. **Memory flush** — append all outstanding session events, decisions, and learnings to `memory/YYYY-MM-DD.md`
-2. **Obsidian sync** — write/update relevant Obsidian pages: decisions.md, ResiliencyFramework.md, any spec that changed this session
-3. **MEMORY.md** — update long-term memory with anything that should survive beyond today
-4. **CHANGELOG** — log a CHG entry for any config/infra changes not yet logged
-5. **Notion** — update any US/ticket statuses changed this session
-6. **Git commit** — `git add -A && git commit` in workspace + Obsidian vault. Message: `commit: [brief summary]`
-7. **Gateway snapshot** — run `bash scripts/gateway-restore.sh --snapshot` if config changed this session
-8. **PVT** — run `bash scripts/pvt.sh`. Report result.
-9. **Summary** — confirm what was persisted, what’s still in session-only memory, what’s open
+1. **Memory flush** - append all outstanding session events, decisions, and learnings to `memory/YYYY-MM-DD.md`
+2. **Framework audit** - run `zsh scripts/framework-audit.sh`. For any gaps (framework docs not updated): update them now before proceeding.
+3. **Obsidian sync** - write/update relevant Obsidian pages: decisions.md, ResiliencyFramework.md, any spec that changed this session
+4. **MEMORY.md** - update long-term memory with anything that should survive beyond today
+5. **CHANGELOG** - log a CHG entry for any config/infra changes not yet logged (include `--category` and `--framework-docs`)
+6. **Notion** - update any US/ticket statuses changed this session
+7. **Git commit** - `git add -A && git commit` in workspace + Obsidian vault. Message: `commit: [brief summary]`
+8. **Gateway snapshot** - run `bash scripts/gateway-restore.sh --snapshot` if config changed this session
+9. **PVT** - run `bash scripts/pvt.sh`. Report result.
+10. **Summary** - confirm what was persisted, what's still in session-only memory, what's open
 
-Do NOT trigger the daily close (journal+blog) — that runs at 23:55 automatically.
+Do NOT trigger the daily close (journal+blog) - that runs at 23:55 automatically.
 
 ### 🚨 Critical Config Anti-Drift Rule (non-negotiable)
 
 Critical configurations MUST NOT change, break, or drift. Trigger: 2026-04-27 silent drift of agent main model from Sonnet to Opus (~3x cost burn caught by Ken's manual session_status check).
 
-**Single source of truth:** `state/critical-config-baseline.json` — declarative spec of every critical config item with file path, jq query, expected value, severity, rationale, fix command.
+**Single source of truth:** `state/critical-config-baseline.json` - declarative spec of every critical config item with file path, jq query, expected value, severity, rationale, fix command.
 
 **Auto-heal Check #12** validates every baseline item nightly. ANY drift on a `severity: critical` item → immediate needs-Ken US filed for next standup.
 
@@ -363,18 +366,86 @@ Critical configurations MUST NOT change, break, or drift. Trigger: 2026-04-27 si
 
 ---
 
-**VERACITY** — Minimum 2 independent sources per factual claim. All facts sourced and cited. If uncertain, say so. Never fabricate. Never mark done unless actually done. Document errors.
+**VERACITY** - Minimum 2 independent sources per factual claim. All facts sourced and cited. If uncertain, say so. Never fabricate. Never mark done unless actually done. Document errors.
 
-**QUALITY** — Meet the brief exactly. Self-review before delivery. Use templates. Test code. No half-done work.
+**QUALITY** - Meet the brief exactly. Self-review before delivery. Use templates. Test code. No half-done work.
+
+## AGENT SOUL.md COMPACT STANDARD (NON-NEGOTIABLE)
+_Locked 2026-04-30 by Ken. Applies to ALL agents — existing and new, forever._
+
+**Rule:** Every agent's `SOUL.md` MUST be kept under **5,000 characters**. Hard limit: **10,000 characters** (OpenClaw bootstrap truncation threshold).
+
+**Pattern (mandatory for all agents):**
+- `SOUL.md` — identity, traits, communication style, who they work with, non-negotiable rules (brief, bullet form), cadences table, continuity note. Under 5,000 chars.
+- `[AGENT]_RULES.md` — all detailed procedures, step-by-step flows, scripts, governance gates, tracking logic, templates. No character limit.
+- Reference from SOUL.md: `→ Full procedures: [AGENT]_RULES.md`
+
+**Why:** OpenClaw truncates bootstrap files at 10,000 chars in isolated cron sessions. A truncated SOUL.md means the agent operates with incomplete identity and rules. This causes: wrong Telegram targets, governance gate bypasses, missed relay rules, incomplete turns, stuck sessions, and eventually gateway OOM crashes (confirmed incident 2026-04-30).
+
+**Enforcement:**
+- Yoda checks SOUL.md size on every agent spawn/create
+- obs-collector.sh Check E monitors `soul_truncated` warnings from gateway.err.log
+- If any SOUL.md exceeds 5,000 chars → Yoda compacts it before the next session
+- New agents: SOUL.md written compact from Day 1, [AGENT]_RULES.md created alongside
+
+**Current status (all agents — 2026-04-30):**
+| Agent | Workspace | SOUL.md Size | Status |
+|---|---|---|---|
+| Yoda 🟢 | workspace/ | ~4,334 chars | ✅ OK |
+| Aria 🔵 | workspace-business/ | ~3,765 chars | ✅ OK (compacted today) |
+| Shield 🛡️ | workspace-security/ | ~3,857 chars | ✅ OK |
+| Warden/Governance 🔍 | workspace-governance/ | ~1,334 chars | ✅ OK |
+| Sage 🧪 | workspace-qa/ | ~5,463 chars | ⚠️ Monitor (approaching limit) |
+| Lex ⚖️ | workspace-legal/ | ~5,974 chars | ⚠️ Monitor (approaching limit) |
+
+**Action trigger:** If any agent SOUL.md exceeds 6,000 chars → Yoda compacts autonomously. No Ken approval required. This is a platform hygiene action, not a policy change.
+
+---
+
+## RTB — ROSE THORN BUD (INTERIM DELIVERY MODEL)
+
+**Active:** 2026-04-30 until Ken announces OC2 arrival.
+**Replaces:** Section 8 (Sprint Plan) of the daily 8AM standup. All other standup sections (0–7) are unchanged.
+**Reference:** US43, `state/frameworks-maturity.json`
+
+**What RTB is:** A data-driven daily delivery model. Each morning, Yoda sweeps yesterday's data from both streams and recommends 1 item per category per stream:
+- 🌹 **ROSE** — What new thing can we do? (new capability, experiment, process)
+- 🌵 **THORN** — What should we stop? (waste, tech debt, drag, recurring issue)
+- 🌱 **BUD** — What can we do better? (improvement on existing)
+
+**Data sources:** obs.db (24h), task tracker (24h), CHG log (yesterday), auto-heal report, aria-daily-brief.md, Aria session history.
+
+**Framework maturity gate (non-negotiable):**
+Read `state/frameworks-maturity.json` every morning. If any framework is >1 maturity level behind others → at least one BUD item MUST target the lagging framework. No framework may outpace others by more than 1 level. Even maturity pace > speed.
+
+**Backlog fallback:** No data-driven item for a category → pull next priority from Notion backlog for that stream.
+
+**Approval:** Ken approves RTB recommendations before any work starts. Same rule as sprint plan.
+
+**On OC2 arrival:** Ken announces OC2 → revert Section 8 to standard sprint plan, resume technology foundation build + framework uplift.
+
+---
+
+**FRAMEWORK ALIGNMENT — DEFINITION OF DONE (non-negotiable)**
+Any US, CHG, or decision that introduces a new rule, policy, process, or architectural pattern is NOT done until the relevant framework doc is updated.
+
+Step 1 - Identify: which category does this change fall under? (model-routing | cron-policy | agent-architecture | security | incident-process | async-execution | cost-budget | sla-reporting | governance | itsm-process | backup-recovery | observability | operating-process)
+Step 2 - Look up: read `state/framework-registry.json` for that category → get the list of framework docs to update.
+Step 3 - Update: edit each listed framework doc before marking the task done.
+Step 4 - Log: include `--category CATEGORY --framework-docs "doc1, doc2"` in the CHG entry via `changelog-append.sh`.
+
+**Audit:** `scripts/framework-audit.sh` runs as part of `/commit` and end-of-day close. Gaps are flagged and must be resolved before the session is considered clean.
+
+**Registry:** `state/framework-registry.json` - add new categories as the platform grows. Never skip this step.
 
 ---
 
 ## HEALTH CHECK ESCALATION
 
 - Every 5 min: silent health check via `scripts/health-check.sh`
-- Failures 1–2: silent, self-monitoring
+- Failures 1-2: silent, self-monitoring
 - Failure 3+ OR failures spanning >1 hour: 🚨 Telegram alert to Ken
-- Format: "🚨 Health Alert — [N] consecutive failures ([duration] hrs). Issues: [list]. Last ok: [timestamp]. Action needed."
+- Format: "🚨 Health Alert - [N] consecutive failures ([duration] hrs). Issues: [list]. Last ok: [timestamp]. Action needed."
 
 ---
 
@@ -389,7 +460,7 @@ Critical configurations MUST NOT change, break, or drift. Trigger: 2026-04-27 si
 
 ---
 
-## PVT — POST VERIFICATION TEST
+## PVT - POST VERIFICATION TEST
 
 Run after every risky op and on-demand shakedown.
 Script: `bash scripts/pvt.sh`
@@ -416,15 +487,15 @@ Doc: `~/Documents/AInchors/Operations/IncidentLog.md`
 
 On any gateway issue: follow `~/Documents/AInchors/Operations/GatewayRecoverySOP.md`.
 
-**Recovery levels — try in order:**
+**Recovery levels - try in order:**
 - **Level 1 (30 sec):** `openclaw gateway restart`
 - **Level 2 (2 min):** Stop + kill stale processes + start
 - **Level 3 (5 min):** Identify crashing plugin from err.log → disable it in openclaw.json
 - **Level 4 (5 min):** `openclaw doctor` → fix invalid config → compare with snapshot
-- **Level 5 (10 min):** `bash scripts/gateway-restore.sh` — restore from last known-good snapshot
-- **Level 6 (30+ min):** `openclaw reset` — nuclear, full rebuild
+- **Level 5 (10 min):** `bash scripts/gateway-restore.sh` - restore from last known-good snapshot
+- **Level 6 (30+ min):** `openclaw reset` - nuclear, full rebuild
 
-⚠ **Do NOT skip to Level 6 without exhausting Levels 1–5.**
+⚠ **Do NOT skip to Level 6 without exhausting Levels 1-5.**
 
 **After any recovery:** Run the full post-recovery checklist (Section 4 of SOP):
 ```bash
@@ -448,10 +519,10 @@ _Added 2026-04-28. Ken approved. TKT-0014, CHG-0049._
 
 | Tier | Model | When to use |
 |------|-------|-------------|
-| **T1 — Orchestration** | `claude-sonnet-4-6` | Ken-facing, complex reasoning, multi-step planning, external consequences, blog/journal, standup, strategy, incident response |
-| **T2 — Sub-tasks** | `claude-haiku-4-5` | Bounded structured output, governance reviews, health checks, status formatting, routing decisions, compliance checks, ticket updates, simple classification |
-| **T3 — Background** | `gemma4:e2b` | Offline crons, cost tracking, asset review, batch ops — where zero API cost and offline availability matter |
-| **Emergency** | `gemma4:26b` | Anthropic API unreachable only — never for active delegation |
+| **T1 - Orchestration** | `claude-sonnet-4-6` | Ken-facing, complex reasoning, multi-step planning, external consequences, blog/journal, standup, strategy, incident response |
+| **T2 - Sub-tasks** | `claude-haiku-4-5` | Bounded structured output, governance reviews, health checks, status formatting, routing decisions, compliance checks, ticket updates, simple classification |
+| **T3 - Background** | `gemma4:e2b` | Offline crons, cost tracking, asset review, batch ops - where zero API cost and offline availability matter |
+| **Emergency** | `gemma4:26b` | Anthropic API unreachable only - never for active delegation |
 
 ### Routing Script
 `bash scripts/route-model.sh <task-type>` → returns the correct model ID.
@@ -483,7 +554,7 @@ See US34 + US35.
 
 ---
 
-## Sage Rule 1 — QA Gate on All Shared Assets (NON-NEGOTIABLE)
+## Sage Rule 1 - QA Gate on All Shared Assets (NON-NEGOTIABLE)
 _Locked: 2026-04-28. Ken approved. TKT-0016. Applies to ALL agents, BOTH streams._
 
 **Every generated asset intended for sharing, communication, or external delivery must pass Sage QA before it leaves the platform.**
@@ -492,11 +563,11 @@ _Locked: 2026-04-28. Ken approved. TKT-0016. Applies to ALL agents, BOTH streams
 PDFs · HTML documents · blog posts · proposals · reports · emails · Telegram messages to anyone outside Yoda/Aria internal loop · social media posts · slide decks · invoices · any file sent to a client, partner, or Angie
 
 ### The 5 checks (full spec: workspace-qa/SAGE_RULE_1.md)
-1. **Requirements Met** — Does it fulfil the original brief?
-2. **Outcome Achieved** — Would the recipient understand and be able to act?
-3. **Content Accuracy** — All facts, figures, dates verified against source?
-4. **Formatting** — Renders correctly, no broken layout, no placeholders?
-5. **Compliance/Safety** — No secrets, no internal paths, appropriate tone?
+1. **Requirements Met** - Does it fulfil the original brief?
+2. **Outcome Achieved** - Would the recipient understand and be able to act?
+3. **Content Accuracy** - All facts, figures, dates verified against source?
+4. **Formatting** - Renders correctly, no broken layout, no placeholders?
+5. **Compliance/Safety** - No secrets, no internal paths, appropriate tone?
 
 ### How to invoke
 ```bash
@@ -517,17 +588,17 @@ Produce → Sage QA → PASS → Deliver
 
 ---
 
-## Shield Rule 1 — Security Gate on All Shared Assets (NON-NEGOTIABLE)
+## Shield Rule 1 - Security Gate on All Shared Assets (NON-NEGOTIABLE)
 _Locked: 2026-04-28. Ken approved. TKT-0017. All agents, both streams._
 
 Every shared asset must pass Shield security check before delivery.
 
 **5 checks (full spec: workspace-security/SHIELD_RULE_1.md):**
-1. **Secrets/Credentials** — No API keys, tokens, pairing codes
-2. **Internal System Exposure** — No paths, IPs, session IDs, internal config names
-3. **PII & Personal Data** — No unauthorised personal data for recipient
-4. **Data Classification** — Content appropriate for stated audience
-5. **External Send Risk** — No architecture details, weakness disclosures, incident histories
+1. **Secrets/Credentials** - No API keys, tokens, pairing codes
+2. **Internal System Exposure** - No paths, IPs, session IDs, internal config names
+3. **PII & Personal Data** - No unauthorised personal data for recipient
+4. **Data Classification** - Content appropriate for stated audience
+5. **External Send Risk** - No architecture details, weakness disclosures, incident histories
 
 ```bash
 bash scripts/shield-check.sh --asset-path PATH --asset-type TYPE --brief "..." --intended-for "..." --produced-by AGENT
@@ -535,27 +606,27 @@ bash scripts/shield-check.sh --asset-path PATH --asset-type TYPE --brief "..." -
 
 ---
 
-## Lex Rule 1 — Legal Gate on All Shared Assets (NON-NEGOTIABLE)
+## Lex Rule 1 - Legal Gate on All Shared Assets (NON-NEGOTIABLE)
 _Locked: 2026-04-28. Ken approved. TKT-0017. All agents, both streams._
 
 Every shared asset must pass Lex legal check before delivery.
 
 **5 checks (full spec: workspace-legal/LEX_RULE_1.md):**
-1. **Contractual Language** — No unauthorised commitments or implied warranties
-2. **Regulatory Compliance** — ACL, Privacy Act, Spam Act, ASIC guidelines
-3. **Liability Exposure** — No defamation, unsubstantiated claims
-4. **Intellectual Property** — Attributed content, no IP infringement
-5. **Caveats & Disclosures** — Required disclaimers present
+1. **Contractual Language** - No unauthorised commitments or implied warranties
+2. **Regulatory Compliance** - ACL, Privacy Act, Spam Act, ASIC guidelines
+3. **Liability Exposure** - No defamation, unsubstantiated claims
+4. **Intellectual Property** - Attributed content, no IP infringement
+5. **Caveats & Disclosures** - Required disclaimers present
 
 ```bash
 bash scripts/lex-check.sh --asset-path PATH --asset-type TYPE --brief "..." --intended-for "..." --produced-by AGENT
 ```
 
-**Note:** Lex flags risk — does not substitute for qualified legal advice on contracts >A$10,000.
+**Note:** Lex flags risk - does not substitute for qualified legal advice on contracts >A$10,000.
 
 ---
 
-## Full Governance Gate (all 3 — non-negotiable order)
+## Full Governance Gate (all 3 - non-negotiable order)
 ```
 Shield → Lex → Sage → PASS all 3 → Deliver
 ```
@@ -566,7 +637,7 @@ bash scripts/sage-qa.sh --asset-path PATH --asset-type TYPE --brief "..." --inte
 
 ---
 
-## /governance — Ad-hoc Governance Gate Command
+## /governance - Ad-hoc Governance Gate Command
 _Reserved slash command. Available to Ken (Yoda) and Angie (Aria). Locked 2026-04-28._
 
 **Trigger:** `/governance` typed by Ken or Angie in any session.
@@ -581,14 +652,14 @@ _Reserved slash command. Available to Ken (Yoda) and Angie (Aria). Locked 2026-0
 - Yoda handles governance decisions with Ken directly (no ask-first required).
 - `/governance` ad-hoc command bypasses the ask and runs immediately (user explicitly requested it).
 
-### Governance Gate — When to Skip (Tech Stream)
+### Governance Gate - When to Skip (Tech Stream)
 
 The Shield → Lex → Sage gate applies to **external-facing assets**. The trigger is the **intended recipient**, not which agent produced it.
 
 | Asset / Activity | Governance required? | Who decides |
 |---|---|---|
-| Yoda internal work — scripts, state files, CHANGELOGs, git commits | ❌ Skip | N/A — internal |
-| Yoda/Ken private session notes, memory, journals | ❌ Skip | N/A — internal |
+| Yoda internal work - scripts, state files, CHANGELOGs, git commits | ❌ Skip | N/A - internal |
+| Yoda/Ken private session notes, memory, journals | ❌ Skip | N/A - internal |
 | Ken reviews a doc before deciding to share it | ❌ Skip | Ken decides at share time |
 | Any asset Ken will share with Angie, clients, or publicly | ✅ Run | Yoda runs directly (no ask) |
 | Any asset Aria produces for Angie to share or send | ✅ Ask Angie first | Aria asks, Angie decides |
@@ -611,9 +682,9 @@ bash scripts/governance-report.sh --report-only
 **Aria invocation:** automatically calls governance-report.sh and appends tail to response.
 
 **Output format:** Executive summary grouped by agent:
-- Shield 🛡️ — S1-S5 results, findings, recommendations
-- Lex ⚖️ — L1-L5 results, findings, recommendations
-- Sage 🧪 — C1-C5 results, findings, recommendations
+- Shield 🛡️ - S1-S5 results, findings, recommendations
+- Lex ⚖️ - L1-L5 results, findings, recommendations
+- Sage 🧪 - C1-C5 results, findings, recommendations
 - Overall verdict + action items
 
 **Governance tail appended to Aria responses when gate runs:**
@@ -623,7 +694,7 @@ bash scripts/governance-report.sh --report-only
 
 ---
 
-## /credit — Balance & Burn Rate Check
+## /credit - Balance & Burn Rate Check
 _Reserved keyword. Available to Ken and Angie. Locked 2026-04-28._
 
 **Trigger:** `/credit` typed in any session.
@@ -638,41 +709,87 @@ _Reserved keyword. Available to Ken and Angie. Locked 2026-04-28._
 
 ---
 
-## /frameworks — Operational Framework Maturity Assessment
+## /achievements — Agentic AI Achievement Summary
+_Reserved keyword. Available to Ken. Locked 2026-04-30._
+
+**Trigger:** Ken types `/achievements` in any session.
+
+**Purpose:** Produce a current, data-driven professional achievement summary of the AInchors Agentic AI Platform. Used for portfolio, investor briefing, and professional credentials.
+
+**When triggered, Yoda must:**
+
+1. **Pull live data from all sources:**
+   - `state/cost-state.json` — latest API spend and daily averages
+   - `state/frameworks-maturity.json` — current maturity levels for all 8 frameworks
+   - `memory/CHANGELOG.md` — CHG count (most recent CHG-NNNN)
+   - `state/tickets.json` — ticket count and resolution stats
+   - `state/obs.db` — observability event counts
+   - `state/tasks.db` — task tracking stats
+   - `reports/sla-*.md` — latest SLA report figures
+   - Active cron count from cron list
+   - Script count: `ls scripts/*.sh | wc -l`
+
+2. **Regenerate the DOCX** with current data — same 2-section format:
+   - **Section 1 — Ken Mun:** Agentic AI Architecture & Implementation (skills, decisions, rationale)
+   - **Section 2 — AInchors Platform:** Capabilities, Value & Business Impact
+   - Output: `workspace/AInchors-AgenticAI-Achievement-Summary.docx`
+
+3. **Email the DOCX** to `kenmun@gmail.com` via gog:
+   - From: `kenmun@ainchors.com`
+   - Subject: `AInchors — Agentic AI Platform Achievement Summary ([YYYY-MM-DD])`
+   - Body: brief cover note listing what data was refreshed
+
+4. **Confirm** in chat: file path, email sent, key stats that changed since last run.
+
+**Document structure (locked — do not change without Ken approval):**
+- No timeline references (no "N days", "Day N", build timeline)
+- Data-driven: every claim backed by a state file, script, or metric
+- FinOps: model cost comparison, Tier 0 quantified savings, monthly/annual projections vs all-Sonnet
+- TOM: all 8 planned agents with role, model tier, stream, activation trigger
+- SLA: availability, MTTR, incidents — with context note on founding period
+- Skills: architecture decisions, prompt engineering, agent design, framework design, ITSM, FinOps
+
+**Reference implementation:** `workspace/AInchors-AgenticAI-Achievement-Summary.docx` (last generated 2026-04-30)
+
+**Category:** `itsm-process` | **Framework doc:** `RULES.md`
+
+---
+
+## /frameworks - Operational Framework Maturity Assessment
 _Reserved keyword. Available to Ken. Locked 2026-04-28._
 
 **Trigger:** `/frameworks` typed in any session.
 
 **Output:** Current maturity assessment across all 7 operational frameworks:
-1. AGILE — PM & delivery
-2. ITIL / ITSM — technology operations
-3. GOVERNANCE — content gate
-4. TOM — agentic operations
-5. MODEL STRATEGY — AI model governance
-6. KNOWLEDGE MANAGEMENT — AKB
+1. AGILE - PM & delivery
+2. ITIL / ITSM - technology operations
+3. GOVERNANCE - content gate
+4. TOM - agentic operations
+5. MODEL STRATEGY - AI model governance
+6. KNOWLEDGE MANAGEMENT - AKB
 7. COST MANAGEMENT / FinOps
 
 **Format per framework:**
-- Current maturity level (L1–L5 with rationale)
+- Current maturity level (L1-L5 with rationale)
 - What's live and working
-- Gaps — what's missing or incomplete
-- Opportunities — where to focus next
+- Gaps - what's missing or incomplete
+- Opportunities - where to focus next
 - Priority (High / Medium / Low)
 
 **Maturity scale:**
-- L1 Initial — ad-hoc, undefined
-- L2 Developing — some processes defined, inconsistently applied
-- L3 Defined — documented, consistently applied
-- L4 Managed — measured, monitored with data
-- L5 Optimising — continuous improvement, self-adjusting
+- L1 Initial - ad-hoc, undefined
+- L2 Developing - some processes defined, inconsistently applied
+- L3 Defined - documented, consistently applied
+- L4 Managed - measured, monitored with data
+- L5 Optimising - continuous improvement, self-adjusting
 
-**State file:** `state/frameworks-maturity.json` — updated after each `/frameworks` run and whenever a framework materially changes.
+**State file:** `state/frameworks-maturity.json` - updated after each `/frameworks` run and whenever a framework materially changes.
 
 **How Yoda responds:** Read `state/frameworks-maturity.json`, check current state of each framework against live scripts/state/crons, produce a structured assessment with gaps → opportunities → priority focus.
 
 ---
 
-## Change Types (pre-risky-op + CHG template) — QW-6
+## Change Types (pre-risky-op + CHG template) - QW-6
 _Locked 2026-04-28_
 
 Every change declares its type in the pre-risky-op checkpoint and CHG entry:
@@ -683,35 +800,35 @@ Every change declares its type in the pre-risky-op checkpoint and CHG entry:
 | Normal | `NRM` | Planned change. Reviewed before execution. Medium risk. | Required before |
 | Emergency | `EMG` | Urgent fix to restore service. High risk. | Required within 1hr after |
 
-Pre-risky-op: declare `CHANGE TYPE: STD/NRM/EMG — [reason]` before proceeding.
+Pre-risky-op: declare `CHANGE TYPE: STD/NRM/EMG - [reason]` before proceeding.
 
 ---
 
-## Wrap Summary — End of Day Format
+## Wrap Summary - End of Day Format
 _Locked 2026-04-28. Ken: "continue to provide this trigger and what I need to know whenever I wrap up for the day."_
 
 **Trigger:** Ken says "wrap", "that's a wrap", "wrapping up", "done for today" or similar.
 
-**Format — always include:**
+**Format - always include:**
 1. What's running overnight (crons firing tonight, in time order)
 2. Any active watches or flags (credit alerts, AC watches, cron errors)
 3. First item next session
 4. Balance + runway
 
-**Keep it tight** — 6-10 lines max. No sprint recap. Forward-looking only.
+**Keep it tight** - 6-10 lines max. No sprint recap. Forward-looking only.
 
 **Example:**
 > Got it. Running overnight:
-> - 20:00 — Burn alert check
-> - 22:00 — Shield/Lex/Sage governance sweeps
-> - 23:00 — Yoda→Aria context sync
-> - 23:45 — Aria daily summary
-> - 23:55 — Journal close
-> - 00:05 — Blog
-> - 01:00 — Auto-heal
-> - 02:00 — Backup
-> - 03:00 — AKB update
+> - 20:00 - Burn alert check
+> - 22:00 - Shield/Lex/Sage governance sweeps
+> - 23:00 - Yoda→Aria context sync
+> - 23:45 - Aria daily summary
+> - 23:55 - Journal close
+> - 00:05 - Blog
+> - 01:00 - Auto-heal
+> - 02:00 - Backup
+> - 03:00 - AKB update
 >
 > ⚠️ [any flags]
 > First up tomorrow: [top priority]
-> Balance: USD $X.XX — top up recommended / runway ~N days
+> Balance: USD $X.XX - top up recommended / runway ~N days

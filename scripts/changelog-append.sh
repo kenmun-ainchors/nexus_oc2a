@@ -12,7 +12,7 @@ set -e
 CHANGELOG="/Users/ainchorsangiefpl/.openclaw/workspace/memory/CHANGELOG.md"
 
 # Defaults
-TYPE=""; SOURCE=""; TITLE=""; TRIGGER=""; CHANGED=""; WHY=""; VERIFIED=""; ROLLBACK="N/A"; LINKED=""
+TYPE=""; SOURCE=""; TITLE=""; TRIGGER=""; CHANGED=""; WHY=""; VERIFIED=""; ROLLBACK="N/A"; LINKED=""; FRAMEWORK_DOCS=""; CATEGORY=""
 
 while (( $# > 0 )); do
   case "$1" in
@@ -24,7 +24,9 @@ while (( $# > 0 )); do
     --why)      WHY="$2"; shift 2 ;;
     --verified) VERIFIED="$2"; shift 2 ;;
     --rollback) ROLLBACK="$2"; shift 2 ;;
-    --linked)   LINKED="$2"; shift 2 ;;
+    --linked)          LINKED="$2"; shift 2 ;;
+    --framework-docs)  FRAMEWORK_DOCS="$2"; shift 2 ;;
+    --category)        CATEGORY="$2"; shift 2 ;;
     *) echo "Unknown arg: $1" >&2; exit 1 ;;
   esac
 done
@@ -36,6 +38,18 @@ for var in TYPE SOURCE TITLE TRIGGER CHANGED WHY VERIFIED; do
     exit 2
   fi
 done
+
+# If category provided but no framework-docs, auto-resolve from registry
+REGISTRY="$HOME/.openclaw/workspace/state/framework-registry.json"
+if [[ -n "$CATEGORY" && -z "$FRAMEWORK_DOCS" && -f "$REGISTRY" ]]; then
+  FRAMEWORK_DOCS=$(python3 -c "
+import json, sys
+cat = '$CATEGORY'.lower().replace(' ','-')
+d = json.load(open('$REGISTRY'))
+frames = d.get('registry',{}).get(cat,{}).get('frameworks',[])
+print(', '.join(frames))
+" 2>/dev/null || echo "")
+fi
 
 # Allowed values
 case "$TYPE" in
@@ -59,6 +73,10 @@ CHG_ID=$(printf "CHG-%04d" "$NEXT")
 TS=$(date '+%Y-%m-%d %H:%M AEST')
 
 # Build entry
+FRAMEWORK_LINE=""
+[[ -n "$FRAMEWORK_DOCS" ]] && FRAMEWORK_LINE="**Framework docs:** ${FRAMEWORK_DOCS}"
+[[ -n "$CATEGORY" ]] && CATEGORY_LINE="**Category:** ${CATEGORY}" || CATEGORY_LINE=""
+
 ENTRY="## ${TS} — [${CHG_ID}] ${TITLE}
 **Type:** ${TYPE}
 **Source:** ${SOURCE}
@@ -68,7 +86,7 @@ ENTRY="## ${TS} — [${CHG_ID}] ${TITLE}
 **Verification:** ${VERIFIED}
 **Rollback:** ${ROLLBACK}
 **Linked:** ${LINKED:-none}
----
+${CATEGORY_LINE:+${CATEGORY_LINE}\n}${FRAMEWORK_LINE:+${FRAMEWORK_LINE}\n}---
 "
 
 # Insert AFTER the header block (after the second --- line) and before existing entries

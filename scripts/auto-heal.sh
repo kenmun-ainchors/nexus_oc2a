@@ -330,6 +330,31 @@ fi
 
 log "Report written: $REPORT"
 log "  checks: ${#CHECKS_RUN[@]} | issues: ${#ISSUES_FOUND[@]} | auto-fixed: ${#AUTO_FIXED[@]} | needs-ken: ${#NEEDS_KEN[@]}"
+
+# US40: Log each auto-fix and needs-ken item to obs.db
+OBS_LOG_CMD="$WORKSPACE/scripts/obs-log.sh"
+if [[ -x "$OBS_LOG_CMD" ]]; then
+  for _fix in "${AUTO_FIXED[@]}"; do
+    [[ -z "$_fix" ]] && continue
+    bash "$OBS_LOG_CMD" \
+      --source auto-heal --level INFO --type auto_heal_fix \
+      --message "Auto-heal fixed: ${_fix:0:120}" \
+      --detail "{\"item\":\"${_fix:0:200}\",\"runAt\":\"$NOW\"}" \
+      >> "$LOG" 2>&1 || true
+  done
+  for _item in "${NEEDS_KEN[@]}"; do
+    [[ -z "$_item" ]] && continue
+    # Escape double quotes in item for JSON safety
+    _item_safe=${_item//"/\\"}
+    bash "$OBS_LOG_CMD" \
+      --source auto-heal --level WARN --type auto_heal_needs_ken \
+      --message "Needs Ken: ${_item:0:120}" \
+      --detail "{\"item\":\"${_item_safe:0:200}\",\"runAt\":\"$NOW\"}" \
+      >> "$LOG" 2>&1 || true
+  done
+  log "US40: obs-log events written for ${#AUTO_FIXED[@]} auto-fix + ${#NEEDS_KEN[@]} needs-ken items"
+fi
+
 log "=== AUTO-HEAL COMPLETE ==="
 
 # Exit code reflects needs-ken status (informational, not failure)

@@ -1,5 +1,5 @@
 {
-  "lastUpdated": "2026-04-29T13:55:13Z",
+  "lastUpdated": "2026-04-30T13:55:13Z",
   "history": {
     "2026-04-25": {
       "date": "2026-04-25",
@@ -123,21 +123,58 @@
           "turns": 421
         }
       }
+    },
+    "2026-04-30": {
+      "date": "2026-04-30",
+      "totalCost": 166.1,
+      "totalTurns": 3106,
+      "totalInputTokens": 11474,
+      "totalOutputTokens": 795517,
+      "totalCacheReadTokens": 166665793,
+      "totalCacheWriteTokens": 28934304,
+      "source": "session-log-estimate",
+      "note": "Session log estimate \u2014 excludes input_cache_write_5m charges billed separately by Anthropic. Actual cost is higher. See US38 for Anthropic Billing API integration.",
+      "byModel": {
+        "claude-sonnet-4-6": {
+          "input": 4020,
+          "output": 691820,
+          "cacheRead": 156313934,
+          "cacheWrite": 28434996,
+          "cost": 163.9148,
+          "turns": 2422
+        },
+        "delivery-mirror": {
+          "input": 0,
+          "output": 0,
+          "cacheRead": 0,
+          "cacheWrite": 0,
+          "cost": 0.0,
+          "turns": 4
+        },
+        "claude-haiku-4-5": {
+          "input": 7454,
+          "output": 103697,
+          "cacheRead": 10351859,
+          "cacheWrite": 499308,
+          "cost": 2.1853,
+          "turns": 680
+        }
+      }
     }
   },
-  "allTimeTotalCost": 636.5831,
-  "daysTracked": 5,
-  "avgDailyCost": 127.3166,
+  "allTimeTotalCost": 802.6831,
+  "daysTracked": 6,
+  "avgDailyCost": 133.7805,
   "apiBalance": {
     "currency": "USD",
-    "balance": 91.17,
-    "topUpDate": "2026-04-28",
+    "balance": 110.64,
+    "topUpDate": "2026-04-30",
     "spentSinceTopUp": 0,
-    "remainingEstimate": 86.93,
-    "note": "Balance USD 86.93 confirmed by Ken 11:34 AEST 2026-04-29. Approaching T1 ($80).",
-    "confirmedAt": "2026-04-29T01:34:00+10:00",
+    "remainingEstimate": 110.64,
+    "note": "Balance USD 110.64 confirmed by Ken 2026-04-30 13:37 AEST (top-up).",
+    "confirmedAt": "2026-04-30T03:37:55+00:00",
     "confirmedBy": "Ken",
-    "confirmedBalance": 86.93
+    "confirmedBalance": 110.64
   },
   "spendAlerts": {
     "tier1": {
@@ -155,7 +192,7 @@
       "action": "Alert Ken + Angie every 3rd response. ~9hrs runway. Top up urgently.",
       "frequency": "every-3rd-response",
       "responseCounter": 0,
-      "triggered": false,
+      "triggered": true,
       "triggeredAt": null
     },
     "tier3": {
@@ -163,8 +200,8 @@
       "label": "Tier 3 \u2014 $15 remaining \u2014 CRITICAL",
       "action": "PAUSE before every request. Alert Ken + Angie. Require acknowledgement.",
       "frequency": "every-request-and-response",
-      "triggered": false,
-      "triggeredAt": null
+      "triggered": true,
+      "triggeredAt": "2026-04-30T02:10:00Z"
     },
     "recipients": {
       "ken": {

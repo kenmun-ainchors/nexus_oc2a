@@ -102,3 +102,15 @@ Avg: ~$101/day. Balance at 2026-04-28 EOD: $58.72 USD.
 ### By Model
 - **claude-sonnet-4-6**: 106 turns | 156 in / 33,576 out | $3.0960
 - **claude-haiku-4-5**: 58 turns | 654 in / 10,825 out | $0.2881
+
+## 2026-04-30
+
+| Metric | Value |
+|--------|-------|
+| Total Cost | $0.0000 |
+| Turns | 0 |
+| Input Tokens | 0 |
+| Output Tokens | 0 |
+| Cache Read | 0 |
+
+### By Model

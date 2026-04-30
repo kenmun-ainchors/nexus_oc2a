@@ -87,6 +87,14 @@
 - Sub-agents to be built: content, social, support, marketing, reporting, coding
 - Angie's team to eventually have their own AI agent layer
 
+## Agent SOUL.md Compact Standard (NON-NEGOTIABLE — locked 2026-04-30)
+- **Rule:** Every agent SOUL.md must be under 5,000 chars. Hard limit: 10,000 chars (OpenClaw truncation threshold).
+- **Pattern:** SOUL.md = identity + traits + brief rules + cadences (compact). [AGENT]_RULES.md = all detailed procedures.
+- **Why it matters:** Aria's SOUL.md at 17,393 chars was being silently truncated → wrong Telegram targets → stuck session → gateway OOM crash → WebSocket 1006 (incident 2026-04-30 18:11)
+- **Enforcement:** obs-collector.sh monitors soul_truncated events. Action trigger at 6,000 chars.
+- **Current sizes:** Yoda 4,334 ✅ | Aria 3,765 ✅ | Shield 3,857 ✅ | Governance 1,334 ✅ | Sage 5,463 ⚠️ | Lex 5,974 ⚠️
+- **New agents:** SOUL.md written compact from Day 1 alongside [AGENT]_RULES.md. No exceptions.
+
 ## Governance Layer — Agents
 - **Shield 🛡️** (security) — model: Sonnet
 - **Lex ⚖️** (legal) — model: **Opus** (documented exception — legal accuracy justifies cost)

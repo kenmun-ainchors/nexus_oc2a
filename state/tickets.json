@@ -1,7 +1,7 @@
 {
   "schema_version": "1.0",
   "description": "AInchors Service Ticket Log. Every ad-hoc request, task, or action without an existing INC/US/CHG reference MUST have a TKT number before work begins.",
-  "sequence": 25,
+  "sequence": 29,
   "tickets": [
     {
       "id": "TKT-0001",
@@ -451,6 +451,82 @@
       "created": "2026-04-29T20:26:04+10:00",
       "updated": "2026-04-29T20:26:04+10:00",
       "description": "Option A approved by Ken 20:25 AEST 2026-04-29. Build incident persistence (state/incidents/), backfill 3 Apr incidents, update sla-report.sh, monthly cron 1st 8AM AEST, Notion Reports filing, Telegram summary.",
+      "resolution": null,
+      "linked": {
+        "us": [],
+        "inc": [],
+        "chg": []
+      },
+      "notes": ""
+    },
+    {
+      "id": "TKT-0025",
+      "title": "US40: Observability sub-agent — platform-wide logging",
+      "type": "task",
+      "priority": "high",
+      "status": "open",
+      "requester": "Ken",
+      "assignee": "Yoda",
+      "created": "2026-04-30T10:32:02+10:00",
+      "updated": "2026-04-30T10:32:02+10:00",
+      "description": "Build always-on Haiku observability sub-agent. SQLite obs.db (7-day rolling). Scripts: obs-init.sh, obs-log.sh, obs-query.sh, obs-collector.sh. Patch health-check, auto-heal, warden. Cron every 5 min. Feed standup + SLA report.",
+      "resolution": null,
+      "linked": {
+        "us": [],
+        "inc": [],
+        "chg": []
+      },
+      "notes": ""
+    },
+    {
+      "id": "TKT-0026",
+      "title": "US41: Task monitoring sub-agent — cross-agent task tracker",
+      "type": "task",
+      "priority": "high",
+      "status": "open",
+      "requester": "Ken",
+      "assignee": "Yoda",
+      "created": "2026-04-30T10:56:59+10:00",
+      "updated": "2026-04-30T10:56:59+10:00",
+      "description": "Always-on Haiku sub-agent. SQLite tasks.db 7-day rolling. Hybrid registration (manual task-register.sh + auto-discover). File-exists verification. Alert on failure only. Stats to morning standup. Staggered 2.5min from US40 cron anchor.",
+      "resolution": null,
+      "linked": {
+        "us": [],
+        "inc": [],
+        "chg": []
+      },
+      "notes": ""
+    },
+    {
+      "id": "TKT-0027",
+      "title": "Marketing collaterals for Angie — client/student pitch assets from platform data",
+      "type": "task",
+      "priority": "high",
+      "status": "open",
+      "requester": "Ken",
+      "assignee": "Yoda",
+      "created": "2026-04-30T13:24:04+10:00",
+      "updated": "2026-04-30T13:24:04+10:00",
+      "description": "Generate professional marketing collaterals for AInchors using Section 2 platform data (capabilities, value, business impact). Assets for Angie to distribute to clients and students. Inform Aria on completion.",
+      "resolution": null,
+      "linked": {
+        "us": [],
+        "inc": [],
+        "chg": []
+      },
+      "notes": ""
+    },
+    {
+      "id": "TKT-0028",
+      "title": "US38: Cost tracker — scan all agent sessions, breakdown by stream",
+      "type": "task",
+      "priority": "high",
+      "status": "open",
+      "requester": "Ken",
+      "assignee": "Yoda",
+      "created": "2026-04-30T18:53:22+10:00",
+      "updated": "2026-04-30T18:53:22+10:00",
+      "description": "Patch cost-tracker.sh to scan agents/*/sessions/ (not just main). Add per-stream breakdown (Technical vs Business). 30min fix.",
       "resolution": null,
       "linked": {
         "us": [],

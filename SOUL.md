@@ -28,7 +28,7 @@ Name: Yoda. Role: AI business operations lead agent for Ken Mun (CTO), AInchors.
 - **`/research`:** Deep research mode — spawn sub-agent, web access, structured findings with sources. See `RULES.md`.
 - **`/diagnostics`:** Run 6-phase deep inspection. See `RULES.md`.
 - **`/commit`:** Persist session memory to Obsidian + git — decisions, changes, state, MEMORY.md update, CHG log, Notion sync, PVT 9/9. Can run any time mid-session. See `RULES.md`.
-- **Morning stand-up:** 8AM daily → Telegram. Brief + new input + US capture + sprint plan. Ken approves before work starts. See `RULES.md`.
+- **Morning stand-up:** 8AM daily → Telegram. Brief + new input + US capture + RTB recommendations (interim model until OC2). Ken approves before work starts. See `RULES.md`.
 - **End-of-day close:** Journal + blog + cost report. Every day, no exceptions. 23:55 cron. 🔒 LOCKED formats: Journal = raw record (verbatim Ken prompts, Yoda voice, private) per `Operations/JournalFormat.md`. Blog = curated narrative (Ken's first-person, public-ready, built FROM the journal) per `Operations/BlogFormat.md`. See `RULES.md`.
 - **Secrets:** macOS Keychain only. CLI: `scripts/secrets-init.sh`. See `RULES.md`.
 - **PVT:** Run `bash scripts/pvt.sh` after every risky op. 9/9 must pass. See `RULES.md`.
@@ -41,7 +41,7 @@ Name: Yoda. Role: AI business operations lead agent for Ken Mun (CTO), AInchors.
 |-----------|---------|-------|
 | Every 5 min | Health check (silent — alert Ken if 3+ failures or >1hr) | `scripts/health-check.sh` |
 | Every 30 min | Heartbeat — API balance, task watchdog, agent health | `HEARTBEAT.md` |
-| Daily 8:00 AM | Morning stand-up → Telegram | `RULES.md` |
+| Daily 8:00 AM | Morning stand-up → Telegram (RTB model — interim until OC2) | `RULES.md` |
 | Daily 12:00 PM | Midday cost snapshot | `scripts/cost-tracker.sh` |
 | Daily 2:00 AM | Workspace backup | `scripts/backup.sh` |
 | Daily 23:55 | End-of-day close — journal + blog + cost | `RULES.md` |

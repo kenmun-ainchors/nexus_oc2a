@@ -1,0 +1,470 @@
+#!/bin/zsh
+# obs-collector.sh — AInchors Observability Collector
+# Runs every 5 minutes via Haiku cron sub-agent.
+# Checks state files, logs events to obs.db, outputs exactly one summary line.
+# Usage: bash scripts/obs-collector.sh
+set -euo pipefail
+
+WORKSPACE="${WORKSPACE:-$HOME/.openclaw/workspace}"
+SCRIPTS="$WORKSPACE/scripts"
+STATE="$WORKSPACE/state"
+OBS_DB="$STATE/obs.db"
+COLLECTOR_STATE="$STATE/obs-collector-state.json"
+OBS_LOG_CMD="$SCRIPTS/obs-log.sh"
+TODAY=$(date '+%Y-%m-%d')
+NOW_UTC=$(date -u '+%Y-%m-%dT%H:%M:%SZ')
+NOW_EPOCH=$(date +%s)
+
+# ── Ensure DB exists ──────────────────────────────────────────────────────────
+if [[ ! -f "$OBS_DB" ]]; then
+  bash "$SCRIPTS/obs-init.sh" >/dev/null 2>&1
+fi
+
+NEW_EVENTS=0
+
+_obs_log() {
+  # Wrapper: increments NEW_EVENTS on success
+  if bash "$OBS_LOG_CMD" "$@" >/dev/null 2>&1; then
+    NEW_EVENTS=$((NEW_EVENTS + 1))
+  fi
+}
+
+# ── Read lastRun epoch from state ─────────────────────────────────────────────
+LAST_RUN=$(python3 -c "
+import json, sys
+try:
+    d = json.load(open('$COLLECTOR_STATE'))
+    print(int(d.get('lastRunEpoch', 0)))
+except Exception:
+    print(0)
+" 2>/dev/null || echo 0)
+
+# ── CHECK A: health-state.json ────────────────────────────────────────────────
+HEALTH_FILE="$STATE/health-state.json"
+if [[ -f "$HEALTH_FILE" ]]; then
+  _HC_RESULT=$(python3 -c "
+import json, sys
+try:
+    d = json.load(open('$HEALTH_FILE'))
+    status   = d.get('status', 'unknown')
+    failures = int(d.get('consecutiveFailures', 0))
+    issues   = d.get('issues', [])
+    if status != 'ok' or failures > 0:
+        detail = json.dumps({'status': status, 'consecutiveFailures': failures, 'issues': issues[:5]})
+        print('FAIL|' + status + '|' + detail)
+    else:
+        print('OK')
+except Exception as e:
+    print('OK')
+" 2>/dev/null || echo "OK")
+
+  if [[ "$_HC_RESULT" == FAIL* ]]; then
+    _STATUS=$(echo "$_HC_RESULT" | cut -d'|' -f2)
+    _DETAIL=$(echo "$_HC_RESULT" | cut -d'|' -f3-)
+    _obs_log --source health-check --level ERROR --type health_failure \
+      --message "Health check failure: status=${_STATUS}" --detail "$_DETAIL"
+  fi
+fi
+
+# ── CHECK B: warden-escalation-pending.json ───────────────────────────────────
+WARDEN_FILE="$STATE/warden-escalation-pending.json"
+if [[ -f "$WARDEN_FILE" ]]; then
+  _WD_RESULT=$(python3 -c "
+import json
+try:
+    d = json.load(open('$WARDEN_FILE'))
+    status = d.get('status', '')
+    if status == 'pending-yoda-action':
+        detail = json.dumps({'status': status, 'violation': str(d.get('violation',''))[:200], 'agent': d.get('agent','')})
+        print('PENDING|' + detail)
+    else:
+        print('OK')
+except Exception:
+    print('OK')
+" 2>/dev/null || echo "OK")
+
+  if [[ "$_WD_RESULT" == PENDING* ]]; then
+    _DETAIL=$(echo "$_WD_RESULT" | cut -d'|' -f2-)
+    _obs_log --source warden --level ERROR --type warden_violation \
+      --message "Warden escalation pending Yoda action" --detail "$_DETAIL"
+  fi
+fi
+
+# ── CHECK C: auto-heal-YYYY-MM-DD.json (today) ────────────────────────────────
+HEAL_FILE="$STATE/auto-heal-${TODAY}.json"
+if [[ -f "$HEAL_FILE" ]]; then
+  # Get auto_fixed and needs_ken items from today's run if newer than last collector run
+  _HEAL_DATA=$(python3 -c "
+import json, sys
+from datetime import datetime, timezone
+try:
+    d = json.load(open('$HEAL_FILE'))
+    run_at = d.get('runAt', '')
+    try:
+        dt = datetime.fromisoformat(run_at.replace('Z','+00:00'))
+        run_epoch = int(dt.timestamp())
+    except Exception:
+        run_epoch = 0
+
+    if run_epoch <= $LAST_RUN:
+        print('SKIP')
+        sys.exit(0)
+
+    auto_fixed = d.get('auto_fixed', [])
+    needs_ken  = d.get('needs_ken', [])
+
+    # Output: one line per event, format TYPE|MESSAGE|DETAIL
+    for fix in auto_fixed:
+        detail = json.dumps({'item': fix, 'runAt': run_at})
+        msg = ('Auto-heal fixed: ' + fix)[:120]
+        print('FIX|' + msg + '|' + detail)
+    for item in needs_ken:
+        detail = json.dumps({'item': item[:200], 'runAt': run_at})
+        msg = ('Needs Ken: ' + item)[:120]
+        print('KEN|' + msg + '|' + detail)
+except Exception as e:
+    print('SKIP')
+" 2>/dev/null || echo "SKIP")
+
+  if [[ "$_HEAL_DATA" != "SKIP" && -n "$_HEAL_DATA" ]]; then
+    while IFS= read -r _line; do
+      [[ -z "$_line" || "$_line" == "SKIP" ]] && continue
+      _KIND=$(echo "$_line" | cut -d'|' -f1)
+      _MSG=$(echo  "$_line" | cut -d'|' -f2)
+      _DET=$(echo  "$_line" | cut -d'|' -f3-)
+      case "$_KIND" in
+        FIX) _obs_log --source auto-heal --level INFO --type auto_heal_fix    --message "$_MSG" --detail "$_DET" ;;
+        KEN) _obs_log --source auto-heal --level WARN --type auto_heal_needs_ken --message "$_MSG" --detail "$_DET" ;;
+      esac
+    done <<< "$_HEAL_DATA"
+  fi
+fi
+
+# ── CHECK D: task-stall-alert.json ────────────────────────────────────────────
+STALL_FILE="$STATE/task-stall-alert.json"
+if [[ -f "$STALL_FILE" ]]; then
+  _STALL_DETAIL=$(python3 -c "
+import json
+try:
+    d = json.load(open('$STALL_FILE'))
+    print(json.dumps({'task': d.get('task',''), 'stalledAt': d.get('stalledAt',''), 'raw': str(d)[:300]}))
+except Exception:
+    print('{}')
+" 2>/dev/null || echo "{}")
+  _obs_log --source task-monitor --level WARN --type task_stall \
+    --message "Task stall alert detected" --detail "$_STALL_DETAIL"
+fi
+
+# ── CHECK E: stability/ — unhandled Node.js rejections ──────────────────
+STABILITY_DIR="$HOME/.openclaw/logs/stability"
+if [[ -d "$STABILITY_DIR" ]]; then
+  _STAB_NEW=$(find "$STABILITY_DIR" -name '*.json' -newer "$COLLECTOR_STATE" 2>/dev/null | wc -l | tr -d ' ')
+  if [[ "$_STAB_NEW" -gt 0 ]]; then
+    _STAB_SAMPLE=$(find "$STABILITY_DIR" -name '*.json' -newer "$COLLECTOR_STATE" 2>/dev/null | head -1)
+    _STAB_REASON=$(python3 -c "import json; d=json.load(open('$_STAB_SAMPLE')); print(d.get('reason','unknown'))" 2>/dev/null || echo "unknown")
+    _obs_log --source gateway --level WARN --type unhandled_rejection \
+      --message "Node.js unhandled rejection(s): ${_STAB_NEW} new stability file(s) — reason: ${_STAB_REASON}" \
+      --detail "{\"count\":${_STAB_NEW},\"reason\":\"${_STAB_REASON}\"}"
+  fi
+fi
+
+# ── CHECK F: pending-alert.json — undelivered platform alerts ───────────────
+PENDING_ALERT="$STATE/pending-alert.json"
+if [[ -f "$PENDING_ALERT" ]]; then
+  _PA=$(python3 -c "
+import json
+d=json.load(open('$PENDING_ALERT'))
+if not d.get('delivered', True):
+    import json as j
+    det=j.dumps({'type':d.get('type','?'),'balance':d.get('balance','?'),'triggeredAt':d.get('triggeredAt','?')})
+    print('UNDELIVERED|' + d.get('message','Undelivered alert')[:150] + '|' + det)
+else:
+    print('OK')
+" 2>/dev/null || echo 'OK')
+  if [[ "$_PA" == UNDELIVERED* ]]; then
+    _MSG=$(echo "$_PA" | cut -d'|' -f2)
+    _DET=$(echo "$_PA" | cut -d'|' -f3-)
+    _obs_log --source platform --level ERROR --type undelivered_alert \
+      --message "Undelivered platform alert: $_MSG" --detail "$_DET"
+  fi
+fi
+
+# ── CHECK G: standby-mode.json — platform in degraded/outage state ───────────
+STANDBY="$STATE/standby-mode.json"
+if [[ -f "$STANDBY" ]]; then
+  _SB=$(python3 -c "
+import json
+d=json.load(open('$STANDBY'))
+if d.get('active'):
+    import json as j
+    print('ACTIVE|Standby mode active: ' + d.get('reason','?') + ' since ' + d.get('since','?') + '|' + j.dumps({'since':d.get('since'),'fallback':d.get('fallback'),'reason':d.get('reason')}))
+else:
+    print('OK')
+" 2>/dev/null || echo 'OK')
+  if [[ "$_SB" == ACTIVE* ]]; then
+    _MSG=$(echo "$_SB" | cut -d'|' -f2)
+    _DET=$(echo "$_SB" | cut -d'|' -f3-)
+    _obs_log --source platform --level ERROR --type standby_active \
+      --message "$_MSG" --detail "$_DET"
+  fi
+fi
+
+# ── CHECK H: system-banner.json — active platform banner ──────────────────
+BANNER="$STATE/system-banner.json"
+if [[ -f "$BANNER" ]]; then
+  _BN=$(python3 -c "
+import json
+d=json.load(open('$BANNER'))
+if d.get('active'):
+    print('ACTIVE|System banner active: ' + d.get('message','?')[:100] + '|{}')
+else:
+    print('OK')
+" 2>/dev/null || echo 'OK')
+  if [[ "$_BN" == ACTIVE* ]]; then
+    _MSG=$(echo "$_BN" | cut -d'|' -f2)
+    _obs_log --source platform --level WARN --type system_banner_active \
+      --message "$_MSG" --detail '{}'
+  fi
+fi
+
+# ── CHECK I: shield-escalation-pending.json — security escalation ──────────
+SHIELD_ESC="$STATE/shield-escalation-pending.json"
+if [[ -f "$SHIELD_ESC" ]]; then
+  _SE=$(python3 -c "
+import json
+d=json.load(open('$SHIELD_ESC'))
+if d.get('status') in ('pending','pending-review'):
+    import json as j
+    det=j.dumps({'asset':d.get('asset','?'),'verdict':d.get('verdict','?'),'rule':d.get('rule','?')})
+    print('PENDING|Shield escalation pending: ' + d.get('asset','unknown asset')[:80] + '|' + det)
+else:
+    print('OK')
+" 2>/dev/null || echo 'OK')
+  if [[ "$_SE" == PENDING* ]]; then
+    _MSG=$(echo "$_SE" | cut -d'|' -f2)
+    _DET=$(echo "$_SE" | cut -d'|' -f3-)
+    _obs_log --source shield --level ERROR --type shield_escalation \
+      --message "$_MSG" --detail "$_DET"
+  fi
+fi
+
+# ── CHECK J: task-verification-alert.json — task completion failures ────────
+TASK_VERIFY_ALERT="$STATE/task-verification-alert.json"
+if [[ -f "$TASK_VERIFY_ALERT" ]]; then
+  _TVA=$(python3 -c "
+import json
+d=json.load(open('$TASK_VERIFY_ALERT'))
+alerts=[a for a in d.get('alerts',[]) if not a.get('resolved')]
+if alerts:
+    import json as j
+    det=j.dumps({'count':len(alerts),'ids':[a.get('task_id','?') for a in alerts[:3]]})
+    titles=', '.join(a.get('title','?') for a in alerts[:2])
+    print(f'FAIL|Task verification failed ({len(alerts)} tasks): {titles[:100]}|'+det)
+else:
+    print('OK')
+" 2>/dev/null || echo 'OK')
+  if [[ "$_TVA" == FAIL* ]]; then
+    _MSG=$(echo "$_TVA" | cut -d'|' -f2)
+    _DET=$(echo "$_TVA" | cut -d'|' -f3-)
+    _obs_log --source task-monitor --level ERROR --type task_verification_failed \
+      --message "$_MSG" --detail "$_DET"
+  fi
+fi
+
+# ── CHECK K: fallback-chain-status.json — chain broken ────────────────────
+FB_STATUS="$STATE/fallback-chain-status.json"
+if [[ -f "$FB_STATUS" ]]; then
+  _FBS=$(python3 -c "
+import json
+d=json.load(open('$FB_STATUS'))
+if d.get('overall') != 'ok':
+    broken=d.get('brokenLinks',[])
+    import json as j
+    print('BROKEN|Fallback chain broken: ' + str(broken)[:80] + '|' + j.dumps({'overall':d.get('overall'),'broken':broken}))
+else:
+    print('OK')
+" 2>/dev/null || echo 'OK')
+  if [[ "$_FBS" == BROKEN* ]]; then
+    _MSG=$(echo "$_FBS" | cut -d'|' -f2)
+    _DET=$(echo "$_FBS" | cut -d'|' -f3-)
+    _obs_log --source platform --level ERROR --type fallback_chain_broken \
+      --message "$_MSG" --detail "$_DET"
+  fi
+fi
+
+# ── CHECK L: cost-alert-state.json — Tier 3 emergency ──────────────────────
+COST_ALERT="$STATE/cost-alert-state.json"
+if [[ -f "$COST_ALERT" ]]; then
+  _CA=$(python3 -c "
+import json
+d=json.load(open('$COST_ALERT'))
+tier=int(d.get('activeTier',0))
+bal=d.get('currentBalance',999)
+if tier >= 3 or d.get('tier3',{}).get('active'):
+    det=json.dumps({'tier':tier,'balance':bal})
+    print('T3|API credit CRITICAL (Tier 3 active) - balance: USD '+str(bal)+'|'+det)
+elif tier == 2:
+    det=json.dumps({'tier':tier,'balance':bal})
+    print('T2|API credit LOW (Tier 2 active) - balance: USD '+str(bal)+'|'+det)
+else:
+    print('OK')
+" 2>/dev/null || echo 'OK')
+  if [[ "$_CA" == T3* ]]; then
+    _MSG=$(echo "$_CA" | cut -d'|' -f2)
+    _DET=$(echo "$_CA" | cut -d'|' -f3-)
+    _obs_log --source platform --level ERROR --type credit_critical \
+      --message "$_MSG" --detail "$_DET"
+  elif [[ "$_CA" == T2* ]]; then
+    _MSG=$(echo "$_CA" | cut -d'|' -f2)
+    _DET=$(echo "$_CA" | cut -d'|' -f3-)
+    _obs_log --source platform --level WARN --type credit_low \
+      --message "$_MSG" --detail "$_DET"
+  fi
+fi
+
+# ── CHECK M: backup.log — backup failures ───────────────────────────────────
+BACKUP_LOG="$HOME/Backups/ainchors/logs/backup.log"
+if [[ -f "$BACKUP_LOG" ]]; then
+  _BK_RESULT=$(python3 -c "
+import re, sys
+from datetime import datetime, timezone
+last_run = $LAST_RUN
+TS = re.compile(r'\\[(\\d{4}-\\d{2}-\\d{2} \\d{2}:\\d{2}:\\d{2})\\]')
+current_epoch = 0
+for line in open('$BACKUP_LOG'):
+    m = TS.search(line)
+    if m:
+        try: current_epoch = int(datetime.strptime(m.group(1),'%Y-%m-%d %H:%M:%S').replace(tzinfo=timezone.utc).timestamp())
+        except: pass
+    if current_epoch > last_run and re.search(r'error|fail', line, re.IGNORECASE):
+        print('FAIL|' + line.strip()[:120])
+        sys.exit(0)
+print('OK')
+" 2>/dev/null || echo 'OK')
+  if [[ "$_BK_RESULT" == FAIL* ]]; then
+    _BK_MSG=$(echo "$_BK_RESULT" | cut -d'|' -f2)
+    _obs_log --source backup --level ERROR --type backup_failure \
+      --message "Backup failure detected: $_BK_MSG" --detail '{}'
+  fi
+fi
+
+# ── CHECK N: config-health.json — suspicious config signature ──────────────
+CFG_HEALTH="$HOME/.openclaw/logs/config-health.json"
+if [[ -f "$CFG_HEALTH" ]]; then
+  _CFG=$(python3 -c "
+import json
+d=json.load(open('$CFG_HEALTH'))
+for path,info in d.get('entries',{}).items():
+    sig=info.get('lastObservedSuspiciousSignature')
+    if sig:
+        print('SUSPICIOUS|Config suspicious signature detected in: ' + path[:80] + '|{\"path\":\"'+path[:80]+'\",\"signature\":\"'+str(sig)[:80]+'\"}') 
+        break
+print('OK')
+" 2>/dev/null || echo 'OK')
+  # Only process first non-OK line
+  _CFG_LINE=$(echo "$_CFG" | grep -v '^OK$' | head -1 || true)
+  if [[ -n "$_CFG_LINE" ]]; then
+    _MSG=$(echo "$_CFG_LINE" | cut -d'|' -f2)
+    _DET=$(echo "$_CFG_LINE" | cut -d'|' -f3-)
+    _obs_log --source gateway --level ERROR --type config_suspicious \
+      --message "$_MSG" --detail "$_DET"
+  fi
+fi
+
+# ── CHECK O: gateway.err.log — scan for new errors since last run ───────────
+GATEWAY_ERR="$HOME/.openclaw/logs/gateway.err.log"
+if [[ -f "$GATEWAY_ERR" ]]; then
+  _GW_NEW=$(python3 - "$GATEWAY_ERR" "$OBS_LOG_CMD" "$LAST_RUN" << 'PYEOF'
+import re, json, subprocess, sys
+from datetime import datetime, timezone
+
+err_log_path, obs_log, last_run_str = sys.argv[1], sys.argv[2], sys.argv[3]
+last_run = int(last_run_str)
+new = 0
+
+PATTERNS = [
+    ('gateway_oom',       'ERROR', r'FATAL ERROR.*(heap|Allocation failed)',
+     'Gateway OOM crash — Node.js heap limit hit'),
+    ('gateway_restart',   'WARN',  r'main-session-restart-recovery.*interrupted',
+     'Gateway restart — main session interrupted'),
+    ('session_stuck',     'WARN',  r'\[diagnostic\] stuck session',
+     'Stuck agent session detected'),
+    ('telegram_fail',     'ERROR', r'\[tools\] message failed.*Unknown target',
+     'Telegram send failed — unknown target (wrong chatId format)'),
+    ('soul_truncated',    'WARN',  r'bootstrap file SOUL\.md is \d+ chars.*truncating',
+     'SOUL.md exceeds bootstrap limit and is being truncated'),
+    ('incomplete_turn',   'WARN',  r'incomplete turn detected',
+     'Agent incomplete turn — no output generated (silent-output bug)'),
+    ('context_too_small', 'ERROR', r'Model context window too small',
+     'Model context window too small — Gemma4 incompatible with agentTurn'),
+    ('cron_fail',         'ERROR', r'\[tools\] cron failed',
+     'Cron job creation failed — check schedule or payload'),
+    ('lane_error',        'WARN',  r'\[diagnostic\] lane task error',
+     'Lane task error detected'),
+    ('notion_api_fail',   'ERROR', r'notion.*error|notion.*failed|notion.*4\d\d|notion.*5\d\d',
+     'Notion API failure detected'),
+    ('google_api_fail',   'ERROR', r'google.*error|gog.*failed|gmail.*error|calendar.*error|drive.*error|oauth.*error',
+     'Google Workspace API failure detected'),
+    ('anthropic_api_fail','ERROR', r'anthropic.*529|anthropic.*overload|anthropic.*5\d\d|API.*unavailable',
+     'Anthropic API failure or overload detected'),
+    ('tool_fail',         'WARN',  r'\[tools\].*failed|\[tools\].*error',
+     'Tool execution failure detected'),
+]
+
+TS_RE = re.compile(r'^(\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2})')
+
+def line_epoch(line):
+    m = TS_RE.match(line)
+    if not m: return 0
+    try:
+        dt = datetime.fromisoformat(m.group(1))
+        return int(dt.replace(tzinfo=timezone.utc).timestamp())
+    except Exception:
+        return 0
+
+try:
+    lines = open(err_log_path).readlines()
+except Exception:
+    print(0); sys.exit(0)
+
+for event_type, level, pattern, template in PATTERNS:
+    seen = False
+    for line in lines:
+        epoch = line_epoch(line)
+        if epoch <= last_run: continue
+        if not re.search(pattern, line, re.IGNORECASE): continue
+        if seen: continue  # dedupe: 1 event per type per run
+        seen = True
+        detail = json.dumps({'line': line.strip()[:300], 'epoch': epoch})
+        rc = subprocess.run(
+            ['bash', obs_log, '--source', 'gateway', '--level', level,
+             '--type', event_type, '--message', template, '--detail', detail],
+            capture_output=True
+        ).returncode
+        if rc == 0: new += 1
+
+print(new)
+PYEOF
+  )
+  NEW_EVENTS=$((NEW_EVENTS + ${_GW_NEW:-0}))
+fi
+
+# ── CHECK E: Purge obs.db entries older than 7 days ──────────────────────────
+python3 -c "
+import sqlite3, time
+cutoff  = int(time.time()) - (7 * 86400)
+con     = sqlite3.connect('$OBS_DB')
+deleted = con.execute('DELETE FROM obs_log WHERE ts_epoch < ?', (cutoff,)).rowcount
+con.commit()
+con.close()
+" 2>/dev/null || true
+
+# ── Update collector state ────────────────────────────────────────────────────
+python3 -c "
+import json
+state = {'lastRun': '$NOW_UTC', 'lastRunEpoch': $NOW_EPOCH}
+json.dump(state, open('$COLLECTOR_STATE', 'w'), indent=2)
+" 2>/dev/null || true
+
+# ── Final output (exactly one line) ──────────────────────────────────────────
+echo "OBS: $NEW_EVENTS new events logged"

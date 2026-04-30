@@ -18,12 +18,15 @@ python3 << PYEOF
 import json, os, glob, sys, tempfile
 from datetime import datetime
 
-sessions_dir = os.path.expanduser("~/.openclaw/agents/main/sessions")
+agents_dir = os.path.expanduser("~/.openclaw/agents")
 date = "$DATE"
 state_file = os.path.expanduser("$STATE_FILE")
 cost_log = os.path.expanduser("$COST_LOG")
 
-by_model = {}
+STREAM_MAP = {"main":"technical","business":"business","security":"governance","governance":"governance","legal":"governance","qa":"governance"}
+
+by_model  = {}
+by_stream = {"technical":{"cost":0.0,"turns":0},"business":{"cost":0.0,"turns":0},"governance":{"cost":0.0,"turns":0}}
 total_cost = 0.0
 total_input = 0
 total_output = 0
@@ -31,55 +34,59 @@ total_cache_read = 0
 total_cache_write = 0
 total_turns = 0
 
-# Parse all session files
-for jsonl_file in glob.glob(f"{sessions_dir}/*.jsonl"):
-    if ".trajectory." in jsonl_file:
-        continue
-    try:
-        with open(jsonl_file, 'r') as f:
-            for line in f:
-                line = line.strip()
-                if not line:
-                    continue
-                try:
-                    record = json.loads(line)
-                except:
-                    continue
+# Parse ALL agent session directories (technical + business + governance)
+for agent_sessions in glob.glob(f"{agents_dir}/*/sessions"):
+    agent_name = os.path.basename(os.path.dirname(agent_sessions))
+    stream = STREAM_MAP.get(agent_name, "technical")
+    for jsonl_file in glob.glob(f"{agent_sessions}/*.jsonl"):
+        if ".trajectory." in jsonl_file:
+            continue
+        try:
+            with open(jsonl_file, 'r') as f:
+                for line in f:
+                    line = line.strip()
+                    if not line:
+                        continue
+                    try:
+                        record = json.loads(line)
+                    except:
+                        continue
 
-                ts = record.get("timestamp", "")
-                if not ts.startswith(date):
-                    continue
-                msg = record.get("message", {})
-                if record.get("type") != "message" or msg.get("role") != "assistant":
-                    continue
-                usage = msg.get("usage")
-                if not usage:
-                    continue
+                    ts = record.get("timestamp", "")
+                    if not ts.startswith(date):
+                        continue
+                    msg = record.get("message", {})
+                    if record.get("type") != "message" or msg.get("role") != "assistant":
+                        continue
+                    usage = msg.get("usage")
+                    if not usage:
+                        continue
 
-                model = msg.get("model", "unknown")
-                cost = (usage.get("cost") or {}).get("total") or 0
-                inp = usage.get("input", 0) or 0
-                out = usage.get("output", 0) or 0
-                cr = usage.get("cacheRead", 0) or 0
-                cw = usage.get("cacheWrite", 0) or 0
+                    model = msg.get("model", "unknown")
+                    cost = (usage.get("cost") or {}).get("total") or 0
+                    inp = usage.get("input", 0) or 0
+                    out = usage.get("output", 0) or 0
+                    cr  = usage.get("cacheRead", 0) or 0
+                    cw  = usage.get("cacheWrite", 0) or 0
 
-                if model not in by_model:
-                    by_model[model] = {"input":0,"output":0,"cacheRead":0,"cacheWrite":0,"cost":0.0,"turns":0}
-
-                by_model[model]["input"] += inp
-                by_model[model]["output"] += out
-                by_model[model]["cacheRead"] += cr
-                by_model[model]["cacheWrite"] += cw
-                by_model[model]["cost"] += cost
-                by_model[model]["turns"] += 1
-                total_cost += cost
-                total_input += inp
-                total_output += out
-                total_cache_read += cr
-                total_cache_write += cw
-                total_turns += 1
-    except Exception as e:
-        pass
+                    if model not in by_model:
+                        by_model[model] = {"input":0,"output":0,"cacheRead":0,"cacheWrite":0,"cost":0.0,"turns":0}
+                    by_model[model]["input"]      += inp
+                    by_model[model]["output"]     += out
+                    by_model[model]["cacheRead"]  += cr
+                    by_model[model]["cacheWrite"] += cw
+                    by_model[model]["cost"]       += cost
+                    by_model[model]["turns"]      += 1
+                    by_stream[stream]["cost"]     += cost
+                    by_stream[stream]["turns"]    += 1
+                    total_cost      += cost
+                    total_input     += inp
+                    total_output    += out
+                    total_cache_read += cr
+                    total_cache_write += cw
+                    total_turns     += 1
+        except Exception:
+            pass
 
 # Build day summary
 day_summary = {
@@ -90,6 +97,8 @@ day_summary = {
     "totalOutputTokens": total_output,
     "totalCacheReadTokens": total_cache_read,
     "totalCacheWriteTokens": total_cache_write,
+    "source": "session-log-estimate",
+    "note": "Session log estimate — excludes input_cache_write_5m charges billed separately by Anthropic. Actual cost is higher. See US38 for Anthropic Billing API integration.",
     "byModel": {m: {k: round(v, 4) if isinstance(v, float) else v for k,v in d.items()} for m, d in by_model.items()}
 }
 
@@ -133,6 +142,11 @@ if f"## {date}" not in existing:
     lines.append(f"| Input Tokens | {total_input:,} |")
     lines.append(f"| Output Tokens | {total_output:,} |")
     lines.append(f"| Cache Read | {total_cache_read:,} |")
+    lines.append("")
+    lines.append("### By Stream")
+    for stream, d in sorted(by_stream.items(), key=lambda x: -x[1]["cost"]):
+        if d["turns"] > 0:
+            lines.append(f"- **{stream}**: {d['turns']} turns | \${d['cost']:.4f}")
     lines.append("")
     lines.append("### By Model")
     for model, d in sorted(by_model.items(), key=lambda x: -x[1]["cost"]):
@@ -219,6 +233,10 @@ print(f"Total cost today: \${total_cost:.4f}")
 print(f"Total turns: {total_turns}")
 print(f"Balance remaining: \${remaining:.2f} USD")
 print(f"All-time total: \${state['allTimeTotalCost']:.4f} over {state['daysTracked']} day(s)")
+print("By stream:")
+for stream, d in sorted(by_stream.items(), key=lambda x: -x[1]["cost"]):
+    if d["turns"] > 0:
+        print(f"  {stream}: {d['turns']} turns | \${d['cost']:.4f}")
 for model, d in sorted(by_model.items(), key=lambda x: -x[1]["cost"]):
     print(f"  {model}: {d['turns']} turns | \${d['cost']:.4f}")
 PYEOF

@@ -43,6 +43,16 @@
 - When Anthropic recovers, files are auto-cleared by health-check.sh
 - State key: standbyMode
 
+### Task Verification Alerts (check every 30 min)
+- Check if state/task-verification-alert.json exists
+- If it exists AND alerts array is non-empty:
+  - Read each alert: task_id, title, agent, failed_deliverables, detected_at
+  - Alert Ken immediately: "⚠️ Task verification failed: [title] ([task_id]) — [agent] reported done but deliverable missing: [failed_deliverables]"
+  - Investigate and remediate (re-run task or manually create missing deliverable)
+  - Clear the alert after Ken is notified and issue is resolved
+  - Log CHG entry for each remediation
+- State key: taskVerificationAlerts
+
 ### Warden Escalations (check every 30 min)
 - Check if state/warden-escalation-pending.json exists
 - If it exists AND status = 'pending-yoda-action':

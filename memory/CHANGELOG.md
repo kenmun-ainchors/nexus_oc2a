@@ -35,6 +35,198 @@ This log captures **every change** Yoda makes to AInchors infrastructure, config
 **Linked:** decisions.md 2026-04-27 entries
 ---
 
+## 2026-04-30 19:24 AEST — [CHG-0094] SAGE_RULES.md + LEX_RULES.md created — all 6 agents now compact SOUL.md + RULES.md pattern
+**Type:** doc
+**Source:** ken-prompt
+**Trigger:** Ken: do them now (SAGE_RULES.md and LEX_RULES.md)
+**What changed:** Created workspace-qa/SAGE_RULES.md (4,660 bytes): full review scope (7 dimensions), quality scoring 1-5, review process, log format, brand voice reference, escalation. Created workspace-legal/LEX_RULES.md (6,140 bytes): full legal scope (7 laws/areas), review process, log format, model policy (Haiku default, Opus conditions), non-negotiable detail, escalation.
+**Why:** Completing the SOUL.md compact pattern for all agents. All 6 agents now have lean SOUL.md (<5000 chars) + detailed [AGENT]_RULES.md for procedures. Pattern locked in RULES.md as non-negotiable standard.
+**Verification:** All 6 agents verified: SOUL.md sizes — Yoda 4334, Aria 3765, Shield 3857, Governance 1334, Sage 1830, Lex 2322. All under 5000 chars. RULES.md files created for: Yoda, Aria, Sage, Lex.
+**Rollback:** N/A
+**Linked:** none
+**Category:** agent-architecture
+**Framework docs:** ~/Documents/AInchors/Agents/ModelStrategy.md, RULES.md
+---
+
+
+## 2026-04-30 18:56 AEST — [CHG-0093] US38: cost-tracker.sh now scans all agent session dirs with stream breakdown
+**Type:** script
+**Source:** ken-prompt
+**Trigger:** Ken: groom US38, yes and go
+**What changed:** cost-tracker.sh: changed from agents/main/sessions only to agents/*/sessions/ (all streams). Added STREAM_MAP (main=technical, business=business, security/governance/legal/qa=governance). Added by_stream breakdown in output and cost-state.json. Source field: session-log-all-agents. Today total: $129.44 (technical $123.72, business $5.71). US38 closed.
+**Why:** Business+governance agent sessions were not counted. Today business stream contributed $5.71 (135 turns) that was previously invisible. Root issue was not cache write (logs DO include it) but missing directories.
+**Verification:** cost-tracker.sh runs clean. by_stream breakdown confirmed: technical 2035 turns $123.72 | business 135 turns $5.71 | governance 0 turns. US38 closed in Notion.
+**Rollback:** N/A
+**Linked:** none
+**Category:** cost-budget
+**Framework docs:** ~/Documents/AInchors/Agents/ModelStrategy.md
+---
+
+
+## 2026-04-30 18:43 AEST — [CHG-0092] Agent SOUL.md compact: Sage+Lex compacted; obs-collector +4 patterns; US22 closed; US19 elevated; cost-tracker source field fixed
+**Type:** rule
+**Source:** ken-prompt
+**Trigger:** Ken: compact all agent SOUL.md, add Notion/Google patterns to obs, check US22, US19 priority
+**What changed:** 1) Sage SOUL.md: 5463 → 1830 chars. 2) Lex SOUL.md: 5974 → 2322 chars. SAGE_RULES.md + LEX_RULES.md to be created (detailed procedures). 3) obs-collector.sh: 4 new gateway.err.log patterns added — notion_api_fail, google_api_fail, anthropic_api_fail, tool_fail (total 13 patterns). 4) cost-tracker.sh: source field now set to session-log-estimate with cache-write undercount note. 5) US22 closed (parser working, source field fixed). 6) US19 priority elevated to High + RTB BUD note added.
+**Why:** Comprehensive platform stability pass: all agent SOUL.md now compact (all under 2400 chars), obs-collector covers all major API failure paths, US22 resolved, US19 queued for RTB.
+**Verification:** All SOUL.md sizes verified. obs-collector clean run: OBS: 9 new events. US22 Done in Notion. US19 High in Notion.
+**Rollback:** N/A
+**Linked:** none
+**Category:** agent-architecture
+**Framework docs:** ~/Documents/AInchors/Agents/ModelStrategy.md, RULES.md
+---
+
+
+## 2026-04-30 18:34 AEST — [CHG-0091] Agent SOUL.md compact standard — non-negotiable rule for all agents
+**Type:** rule
+**Source:** ken-prompt
+**Trigger:** Ken: burn into memory and rule for every agent existing and new. Standard design, non-negotiable.
+**What changed:** RULES.md: Agent SOUL.md Compact Standard section added — under 5000 chars (hard limit 10000), SOUL.md+[AGENT]_RULES.md pattern mandatory, enforcement via obs-collector soul_truncated check, current agent size table, action trigger at 6000 chars. MEMORY.md: rule + incident context added as lasting memory.
+**Why:** Aria SOUL.md at 17393 chars caused gateway truncation -> stuck session -> OOM crash -> 1006. This is a platform stability rule, not a preference. All future agents built compact from Day 1.
+**Verification:** RULES.md updated. MEMORY.md updated. All 6 agents checked: 4 OK, 2 approaching limit (Sage 5463, Lex 5974) — monitored.
+**Rollback:** N/A
+**Linked:** none
+**Category:** agent-architecture
+**Framework docs:** ~/Documents/AInchors/Agents/ModelStrategy.md, RULES.md
+---
+
+
+## 2026-04-30 18:26 AEST — [CHG-0090] obs-collector.sh: comprehensive monitoring — 10 new checks (E-N) added
+**Type:** script
+**Source:** ken-prompt
+**Trigger:** Ken: log agent should be fully comprehensive including any OpenClaw errors
+**What changed:** Added checks E-N to obs-collector.sh: E=stability/ unhandled rejections, F=pending-alert.json undelivered alerts, G=standby-mode.json, H=system-banner.json, I=shield-escalation-pending.json, J=task-verification-alert.json, K=fallback-chain-status.json, L=cost-alert-state.json (T2/T3), M=backup.log failures, N=config-health.json suspicious signature. Fixed stale pending-alert from 2026-04-28 (delivered=false, balance now .31). Fixed: set -e + grep -v exit code, cost f-string quoting.
+**Why:** obs-collector was blind to: gateway stability, undelivered alerts, standby state, security escalations, task failures, fallback chain, credit emergencies, backup failures, config tampering. Now comprehensive.
+**Verification:** obs-collector.sh runs clean: OBS: 8 new events logged. All 14 checks (A-N) executing without error.
+**Rollback:** N/A
+**Linked:** none
+**Category:** observability
+**Framework docs:** RULES.md
+---
+
+
+## 2026-04-30 18:21 AEST — [CHG-0089] obs-collector.sh: gateway.err.log monitoring added (9 error patterns)
+**Type:** script
+**Source:** ken-prompt
+**Trigger:** Ken: check if obs log captured the 1006 error — it didn't. Gap identified: gateway.err.log not monitored.
+**What changed:** obs-collector.sh: CHECK E added — scans gateway.err.log for new errors since last run. 9 patterns: gateway_oom, gateway_restart, session_stuck, telegram_fail, soul_truncated, incomplete_turn, context_too_small, cron_fail, lane_error. Deduped per run (1 event per type). Backfill confirmed — 8 gateway events captured for today.
+**Why:** obs.db was blind to gateway-level failures. 1006 at 18:11 caused by Aria SOUL.md truncation + stuck session was not captured. Gateway errors now feed obs.db same as health/warden/auto-heal.
+**Verification:** Collector run: OBS: 10 new events. All 8 today error patterns confirmed in obs.db table.
+**Rollback:** N/A
+**Linked:** none
+**Category:** observability
+**Framework docs:** RULES.md
+---
+
+
+## 2026-04-30 18:17 AEST — [CHG-0088] Aria SOUL.md compacted (17KB → 3.7KB) + 3 failed gog crons removed + fallback chain cron fixed
+**Type:** agent
+**Source:** ken-prompt
+**Trigger:** Ken: 1006 at 18:12 — root cause: Aria SOUL.md 17393 chars exceeded 10000 limit causing truncated context, stuck session, gateway restart
+**What changed:** 1) workspace-business/SOUL.md: 17393 chars → 3765 chars (same compact pattern as Yoda). 2) workspace-business/ARIA_RULES.md: created with all detailed procedures (relay rule, CR rule, governance gate, ROI tracking, campaign tracking, daily summary, model rule). 3) Removed 3 disabled failed gog crons: aria-gog-brief-angie, aria-gog-brief-angie-v2, aria-gog-confirmed. 4) Fallback chain cron: prompt fixed to always output one line (same silent-output fix applied to health check and relay poller).
+**Why:** Aria SOUL.md 17393 chars was truncated to 10000 in every isolated cron session, causing incomplete context → stuck sessions → gateway OOM restart → WebSocket 1006. Compact pattern keeps SOUL.md under 5000 chars, detailed procedures in ARIA_RULES.md.
+**Verification:** Aria SOUL.md now 3765 chars (limit 10000). ARIA_RULES.md 6029 chars. 3 dead crons removed. Fallback chain cron prompt fixed.
+**Rollback:** N/A
+**Linked:** none
+**Category:** agent-architecture
+**Framework docs:** ~/Documents/AInchors/Agents/ModelStrategy.md, RULES.md
+---
+
+
+## 2026-04-30 13:30 AEST — [CHG-0087] Marketing collaterals generated for Angie — 3 HTML assets
+**Type:** doc
+**Source:** ken-prompt
+**Trigger:** Ken: generate marketing collaterals from platform data for Angie to use with clients and students
+**What changed:** 3 HTML assets created: company-overview.html, training-brochure.html, client-pitch.html in canvas/documents/ainchors-marketing/
+**Why:** Angie needs professional marketing assets to pitch to clients and students. Platform data used as credibility proof points.
+**Verification:** All 3 files >5KB, task verified, Aria notified via relay queue.
+**Rollback:** N/A
+**Linked:** none
+**Category:** operating-process
+**Framework docs:** SOUL.md
+---
+
+
+## 2026-04-30 13:19 AEST — [CHG-0086] /achievements keyword — locked and formatted in RULES.md
+**Type:** rule
+**Source:** ken-prompt
+**Trigger:** Ken: 'lock this task and format in. I will trigger in the future with /achievements'
+**What changed:** RULES.md: /achievements command added as locked reserved keyword. Full spec: pull live data from 8 sources, regenerate DOCX (2-section format), email to kenmun@gmail.com. Document structure locked — no timeline refs, data-driven, FinOps projections, TOM agent plans, SLA with context, skills section.
+**Why:** Ken wants repeatable, on-demand achievement summary generation with always-current data. Single keyword trigger replaces manual process.
+**Verification:** RULES.md updated. /achievements spec locked. Reference implementation at workspace/AInchors-AgenticAI-Achievement-Summary.docx (2026-04-30).
+**Rollback:** N/A
+**Linked:** none
+**Category:** itsm-process
+**Framework docs:** RULES.md
+---
+
+
+## 2026-04-30 12:39 AEST — [CHG-0085] Gemma4:e2b removed from all cron payloads — context window 2048 incompatible with OpenClaw min 16000
+**Type:** config
+**Source:** incident-recovery
+**Trigger:** Ken reported 1006 WebSocket errors x2. Root cause: Gemma4:e2b context window (2048 tokens) below OpenClaw minimum (16000), caused FailoverError loop → Node.js OOM → gateway crash.
+**What changed:** 1) Obs-collector cron: already converted to systemEvent (no model). 2) Midday cost tracker cron: model changed from ollama/gemma4:e2b to anthropic/claude-haiku-4-5. 3) Gemma4:e2b declared INCOMPATIBLE for OpenClaw agentTurn crons.
+**Why:** Gemma4:e2b Ollama model has 2048 token context window. OpenClaw minimum is 16000. Every agentTurn attempt caused FailoverError loops -> memory thrash -> OOM crash -> gateway down -> WebSocket 1006. Crashed gateway twice (10:47 AEST and 12:21 AEST).
+**Verification:** Midday cost tracker updated to Haiku. No more Gemma4:e2b in any agentTurn cron. Gateway stable.
+**Rollback:** N/A — Haiku is the safe fallback
+**Linked:** none
+**Category:** model-routing
+**Framework docs:** ~/Documents/AInchors/Agents/ModelStrategy.md
+---
+
+
+## 2026-04-30 12:10 AEST — [CHG-0084] RTB interim delivery model — Rose Thorn Bud replaces standup Section 8
+**Type:** rule
+**Source:** ken-prompt
+**Trigger:** Ken: introduced RTB as interim sprint delivery model until OC2 arrives. Strategic focus shifts to business. Frameworks at L2-L3 minimum — sufficient to operate.
+**What changed:** 1) Standup cron Section 8 replaced: Sprint Plan -> RTB (data sweep both streams, 1 item per category per stream, framework maturity gate). 2) RULES.md: RTB section added with full logic. 3) SOUL.md: cadences updated to note RTB model. 4) US43 Notion: fully groomed with RTB spec, rules, output format.
+**Why:** Strategic pivot: frameworks mature enough to operate. Business focus until OC2. RTB uses yesterday data to drive today's work. Framework maturity gate ensures balanced pace across all 8 frameworks.
+**Verification:** Standup cron updated. RULES.md and SOUL.md patched. US43 Notion fully documented. First RTB standup fires tomorrow 8AM AEST.
+**Rollback:** N/A
+**Linked:** none
+**Category:** operating-process
+**Framework docs:** RULES.md, SOUL.md, ~/Documents/AInchors/Agents/ModelStrategy.md
+---
+
+
+## 2026-04-30 11:30 AEST — [CHG-0083] Framework alignment DoD + registry + audit — Option A+B+C
+**Type:** rule
+**Source:** ken-prompt
+**Trigger:** Ken: 'build in awareness that ad-hoc/new items get aligned back to frameworks automatically'
+**What changed:** 1) RULES.md: Framework Alignment DoD rule added (classify category, lookup registry, update docs, log CHG with --category/--framework-docs). 2) RULES.md: /commit step 2 = framework-audit.sh. 3) RULES.md: end-of-day close step 4 = framework-audit.sh. 4) state/framework-registry.json created: 13 categories mapped to framework docs. 5) scripts/framework-audit.sh created: checks CHGs for framework doc updates, flags gaps. 6) scripts/changelog-append.sh: --category and --framework-docs flags added, auto-resolves docs from registry.
+**Why:** Framework docs were being missed when new rules/policies were introduced — ModelStrategy.md LLM classification framework only updated when Ken explicitly asked. This closes the loop systematically.
+**Verification:** framework-audit.sh runs clean. changelog-append.sh accepts new flags. RULES.md DoD rule in place.
+**Rollback:** N/A
+**Linked:** none
+**Category:** itsm-process
+**Framework docs:** RULES.md, state/framework-registry.json
+---
+
+
+## 2026-04-30 11:01 AEST — [CHG-0082] US41: Cross-agent task monitoring sub-agent (TKT-0026)
+**Type:** script
+**Source:** ken-prompt
+**Trigger:** Ken requested US41 build
+**What changed:** task-register.sh, task-update.sh, task-verify.sh, task-query.sh, task-collector.sh; tasks.db; cron 637ecb12
+**Why:** Cross-agent task tracking with stall/failure alerting
+**Verification:** All 5 scripts tested and passing
+**Rollback:** Delete scripts/task-*.sh, state/tasks.db, remove cron 637ecb12
+**Linked:** TKT-0026 US41
+---
+
+
+## 2026-04-30 10:38 AEST — [CHG-0081] US40: Platform-wide observability logging layer
+**Type:** script
+**Source:** ken-prompt
+**Trigger:** TKT-0025 / US40 — unified observability for all platform errors, crons, scripts
+**What changed:** Created obs-init.sh obs-log.sh obs-query.sh obs-collector.sh. Patched health-check.sh and auto-heal.sh with obs events. Updated sla-report.sh with obs_log section. Created state/obs.db SQLite 7-day rolling DB. Added Haiku cron every 5 min ID d3b1e203-741b-444a-9852-7bb8839d2c99.
+**Why:** US40: unified observability layer capturing all platform errors across agents crons scripts. Feeds standup and SLA report.
+**Verification:** All 5 tests passed: obs-init exit 0 obs-log insert verified obs-query summary shows events obs-collector outputs OBS-N-new-events-logged obs-query table shows events.
+**Rollback:** Remove obs-*.sh scripts, revert health-check.sh and auto-heal.sh patches, remove obs_log from sla-report.sh, delete state/obs.db, remove cron job d3b1e203
+**Linked:** TKT-0025 US40
+---
+
+
 ## 2026-04-29 20:31 AEST — [CHG-0080] US18: Monthly SLA Report — incident persistence + sla-report.sh + cron + Notion
 **Type:** config
 **Source:** ken-prompt

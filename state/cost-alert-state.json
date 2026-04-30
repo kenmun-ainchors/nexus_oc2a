@@ -1,29 +1,50 @@
 {
   "schema_version": "1.0",
   "description": "Tracks response counters and alert state for tiered credit alerts. Updated by Yoda at runtime.",
-  "currentBalance": 74.07,
-  "lastBalanceCheck": "2026-04-29T10:24:00+10:00",
-  "activeTier": 1,
+  "currentBalance": 39.0,
+  "lastBalanceCheck": "2026-04-30T12:50:09.735774Z",
+  "activeTier": 2,
   "tier1": {
     "triggered": true,
-    "triggeredAt": "2026-04-29T13:49:00+10:00",
-    "threshold": 80.0
+    "triggeredAt": "2026-04-30T09:26:10.376277+00:00",
+    "threshold": 80
   },
   "tier2": {
     "responsesSinceLastAlert": 0,
     "alertEvery": 3,
-    "lastAlertAt": null,
-    "threshold": 40.0
+    "lastAlertAt": "2026-04-30T12:50:09.735774Z",
+    "threshold": 40,
+    "triggered": true,
+    "triggeredAt": "2026-04-30T12:50:09.735774Z"
   },
   "tier3": {
     "active": false,
-    "lastAlertAt": null,
+    "lastAlertAt": "2026-04-30T02:10:00Z",
     "awaitingAcknowledgement": false,
-    "threshold": 15.0
+    "threshold": 15
   },
-  "alertsSent": [],
-  "balance": 74.07,
-  "confirmedAt": "2026-04-28T18:34:00+10:00",
+  "alertsSent": [
+    {
+      "tier": 2,
+      "sentAt": "2026-04-30T20:19:00Z",
+      "balanceEstimate": 18,
+      "note": "T2 triggered at 6:19AM Melbourne. T3 projected ~7:45AM."
+    },
+    {
+      "tier": 3,
+      "sentAt": "2026-04-30T02:10:00Z",
+      "balanceEstimate": 10.34,
+      "note": "T3 triggered at 12:10PM Melbourne. Estimated from confirmed .93 minus Apr29 .78 minus Apr30-to-noon .81."
+    },
+    {
+      "tier": 2,
+      "sentAt": "2026-04-30T12:50:09.735774Z",
+      "balanceEstimate": 39,
+      "note": "Tier 2 re-triggered at 10:49PM Melbourne. Est ~$39 remaining at ~$7.8/hr burn."
+    }
+  ],
+  "balance": 64.0,
+  "confirmedAt": "2026-04-30T09:37:42.804515+00:00",
   "confirmedBy": "Ken",
-  "topUpNote": "Balance USD 91.17 confirmed by Ken 10:45 AEST 2026-04-29."
+  "topUpNote": "Balance USD 64.00 confirmed by Ken 2026-04-30 19:37 AEST."
 }

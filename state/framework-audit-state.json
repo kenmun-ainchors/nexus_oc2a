@@ -1,0 +1,29 @@
+{
+  "schema": "framework-audit-v1",
+  "lastRun": "2026-04-30T01:30:20.501087+00:00",
+  "checkDate": "2026-04-30",
+  "docsChecked": 3,
+  "gapsFound": 0,
+  "gaps": [],
+  "checked": [
+    {
+      "path": "/Users/ainchorsangiefpl/.openclaw/workspace/RULES.md",
+      "exists": true,
+      "updatedToday": true,
+      "lastModified": "2026-04-30 11:30 AEST"
+    },
+    {
+      "path": "RULES.md",
+      "exists": true,
+      "updatedToday": true,
+      "lastModified": "2026-04-30 11:30 AEST"
+    },
+    {
+      "path": "state/framework-registry.json",
+      "exists": true,
+      "updatedToday": true,
+      "lastModified": "2026-04-30 11:28 AEST"
+    }
+  ],
+  "status": "clean"
+}

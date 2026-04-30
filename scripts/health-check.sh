@@ -262,6 +262,13 @@ if [[ "$GATEWAY_OK" == "false" ]]; then
     echo "🚨 AInchors Gateway DOWN\n\nConsecutive failures: $NEW_FAILURES\nTime: $(date)\nHTTP status: $HTTP_STATUS\n\nAuto-restart attempted on first failure. Manual check needed." > /tmp/startup-alert.txt
   fi
 
+  # US40: Log health failure to obs.db
+  bash "$HOME/.openclaw/workspace/scripts/obs-log.sh" \
+    --source health-check --level ERROR --type health_failure \
+    --message "Gateway health failure: consecutiveFailures=$NEW_FAILURES HTTP=$HTTP_STATUS" \
+    --detail "{\"consecutiveFailures\":$NEW_FAILURES,\"httpStatus\":\"$HTTP_STATUS\"}" \
+    >> "$LOG" 2>&1 || true
+
   # Write state
   python3 - << PYEOF
 import json
@@ -291,6 +298,12 @@ else
   NEW_FAILURES=0
   if (( FAILURES >= FAILURE_THRESHOLD )); then
     log "RECOVERY: Gateway back online after $FAILURES failures"
+    # US40: Log recovery event to obs.db
+    bash "$HOME/.openclaw/workspace/scripts/obs-log.sh" \
+      --source health-check --level INFO --type health_recovery \
+      --message "Gateway recovered after $FAILURES consecutive failures" \
+      --detail "{\"previousFailures\":$FAILURES}" \
+      >> "$LOG" 2>&1 || true
   fi
 
   # Map overall status to exit code

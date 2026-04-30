@@ -173,6 +173,54 @@ days_tracked = len(cost_by_day)
 avg_daily    = (total_cost / days_tracked) if days_tracked > 0 else 0.0
 
 # ============================================================
+# 3b. OBS LOG (US40 — observability DB)
+# ============================================================
+obs_db_path = workspace / "state" / "obs.db"
+obs_error_count  = 0
+obs_warn_count   = 0
+obs_info_count   = 0
+obs_by_type      = {}
+obs_available    = False
+obs_note         = ""
+
+if obs_db_path.exists():
+    try:
+        import sqlite3 as _sqlite3
+        obs_con = _sqlite3.connect(str(obs_db_path))
+        obs_con.row_factory = _sqlite3.Row
+        # Build epoch range for the report month
+        from datetime import datetime as _dt, timezone as _tz
+        _period_start_epoch = int(period_start.timestamp())
+        _period_end_epoch   = int(period_end.timestamp())
+        rows = obs_con.execute(
+            "SELECT level, event_type, COUNT(*) as cnt FROM obs_log "
+            "WHERE ts_epoch >= ? AND ts_epoch <= ? GROUP BY level, event_type",
+            (_period_start_epoch, _period_end_epoch)
+        ).fetchall()
+        obs_con.close()
+        for r in rows:
+            lvl = r["level"]; et = r["event_type"]; cnt = r["cnt"]
+            if lvl == "ERROR": obs_error_count += cnt
+            elif lvl == "WARN": obs_warn_count += cnt
+            elif lvl == "INFO": obs_info_count += cnt
+            obs_by_type[f"{lvl}:{et}"] = cnt
+        obs_available = True
+        obs_note = f"Source: {obs_db_path}"
+    except Exception as _e:
+        obs_note = f"obs.db query failed: {_e}"
+else:
+    obs_note = "obs.db not found — observability data unavailable"
+
+# Build obs table rows
+obs_type_rows_md = ""
+if obs_available and obs_by_type:
+    for k in sorted(obs_by_type.keys()):
+        lvl_et, cnt = k, obs_by_type[k]
+        obs_type_rows_md += f"| {lvl_et} | {cnt} |\n"
+else:
+    obs_type_rows_md = "| — | No observability data for period |\n"
+
+# ============================================================
 # 4. HEALTH STATE
 # ============================================================
 health_status = "unknown"
@@ -299,6 +347,8 @@ _Generated: {generated_at} by Yoda (AI Ops)_
 | Incidents | {inc_count} | — | — |
 | Preventable Downtime | {preventable_pct:.0f}% ({preventable_min} min) | — | — |
 | API Cost (tracked) | ${total_cost:.2f} | — | — |
+| Obs Errors (logged) | {obs_error_count} | — | — |
+| Obs Warnings (logged) | {obs_warn_count} | — | — |
 | Monitoring Period | {delta_minutes:,} min ({delta_minutes // 1440} day(s)) | — | — |
 
 ---
@@ -347,6 +397,17 @@ Calculation: ({delta_minutes:,} - {total_downtime_min}) / {delta_minutes:,} * 10
 
 - Daily average: ${avg_daily:.2f}
 - Source: {cost_note}
+
+---
+
+## Observability Log (US40)
+
+{obs_note}
+
+| Level:EventType | Count |
+|-----------------|-------|
+{obs_type_rows_md}
+**Totals:** {obs_error_count} ERROR(s) | {obs_warn_count} WARN(s) | {obs_info_count} INFO(s)
 
 ---
 
