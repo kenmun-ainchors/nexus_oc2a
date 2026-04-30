@@ -92,7 +92,8 @@
 - **Pattern:** SOUL.md = identity + traits + brief rules + cadences (compact). [AGENT]_RULES.md = all detailed procedures.
 - **Why it matters:** Aria's SOUL.md at 17,393 chars was being silently truncated → wrong Telegram targets → stuck session → gateway OOM crash → WebSocket 1006 (incident 2026-04-30 18:11)
 - **Enforcement:** obs-collector.sh monitors soul_truncated events. Action trigger at 6,000 chars.
-- **Current sizes:** Yoda 4,334 ✅ | Aria 3,765 ✅ | Shield 3,857 ✅ | Governance 1,334 ✅ | Sage 5,463 ⚠️ | Lex 5,974 ⚠️
+- **Current sizes:** Yoda 4,334 ✅ | Aria 3,765 ✅ | Shield 3,857 ✅ | Governance 1,334 ✅ | Sage 1,830 ✅ | Lex 2,322 ✅
+- **RULES.md files:** YODA_RULES.md, ARIA_RULES.md, SAGE_RULES.md, LEX_RULES.md all live. Shield uses SHIELD_RULE_1.md. All 6 agents compliant as of 2026-04-30.
 - **New agents:** SOUL.md written compact from Day 1 alongside [AGENT]_RULES.md. No exceptions.
 
 ## Governance Layer — Agents
@@ -141,9 +142,18 @@
 - Agent team to be designed and built
 
 ## Active Backlog (User Stories — Notion source of truth)
-- US18: Monthly SLA Report (reliability)
-- US19: HA Design (reliability)
-- US20: Research Framework formalised
-- US22: Fix cost tracker script (parser broken — High)
-- **US23: Resilient outage handling (High, Platform, M)** — NEW Day 3. Triggered by 2026-04-26 night outage. Auto-detect billing/auth failures, validate fallback chain on boot + first failure, Gemma4 standby mode with user-facing banner, full recovery doc.
+- US19: HA Design (reliability, High priority)
+- US39: Preventable Downtime Enforcement (future sprint)
+- US42: Gemma4/cron tier optimisation (partial — Option A done, Ollama routing fix TBD)
 - PiKVM remote access (deferred, hardware dependency)
+- gog for Angie: re-auth needed (angie.foong@ainchors.com OAuth — wrong token used Day 6)
+- April 30 class (Mont Kiara): CAMP-0001 ran, no debrief from Angie yet
+
+## Day 6 Context (2026-04-30 close)
+- 4 US delivered: US40 (observability), US41 (task monitoring), US42 Option A (cron tier), US43 (RTB model)
+- US22 + US38 closed
+- 2 x WebSocket 1006 incidents: root cause = Aria SOUL.md 17,393 chars → truncated → stuck session → OOM
+- All 6 agents now compact SOUL.md + [AGENT]_RULES.md
+- RTB operating model active from 2026-05-01 8AM standup
+- Balance at close: $64.00 USD. 6-day all-time: $802.68 USD
+- Mac mini restarted cleanly at 19:33 AEST. All systems online.
