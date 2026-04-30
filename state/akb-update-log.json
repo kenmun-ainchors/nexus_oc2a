@@ -1,6 +1,94 @@
 {
   "runs": [
     {
+      "run_id": "akb-20260501-0300",
+      "date": "2026-05-01",
+      "coverage_date": "2026-04-30",
+      "started_at": "2026-04-30T17:00:00Z",
+      "status": "complete",
+      "inputs_read": [
+        "memory/journal-2026-04-30.md",
+        "Documents/AInchors/Shared/aria-daily-brief.md (2026-04-30 entry)",
+        "memory/CHANGELOG.md (CHG-0081 to CHG-0094)",
+        "MEMORY.md"
+      ],
+      "obsidian_files_updated": [
+        {
+          "file": "HOME.md",
+          "changes": "last-updated 2026-04-30\u21922026-05-01, stage Day 6\u2192Day 7, last AKB update note updated"
+        },
+        {
+          "file": "Company/Decisions.md",
+          "changes": "Added 2026-04-30 Day 6 decisions block (18 decisions): SOUL.md compact standard, 3-tier cron classification, gemma4:e2b removal, RTB model, US40/41/42/43/22/38/39, /achievements, marketing collaterals, framework alignment DoD, gog for Angie status, Day 6 cost."
+        },
+        {
+          "file": "Agents/Architecture.md",
+          "changes": "v3.2\u2192v3.3: SOUL.md compact standard section added with size table (all 6 agents \u2705). New scripts: obs-init/log/query/collector, task-collector, generate-standup-brief, framework-audit, framework-registry. Workspace table: added RULES.md columns for all agents. Day 6 history entry added (CHG-0081\u20130094)."
+        },
+        {
+          "file": "Agents/ModelStrategy.md",
+          "changes": "v2.3\u2192v2.4: Day 6 cost row added ($166.10 USD, 6-day all-time $802.68). Updated 4-day total\u21926-day total. History entry v2.4 added with full Day 6 cost breakdown by model and stream."
+        },
+        {
+          "file": "Operations/IncidentLog.md",
+          "changes": "Added INC-20260430-001 and INC-20260430-002 (WebSocket 1006 crashes x2 \u2014 root cause: Aria SOUL.md 17,393 chars \u2192 truncation \u2192 stuck session \u2192 OOM). MTTR summary updated: 3 total incidents, avg MTTR 13.3 min."
+        },
+        {
+          "file": "Shared/context-for-aria.md",
+          "changes": "last-updated to 2026-05-01. Platform state updated to Day 6. Added new LIVE systems: obs.db (14 checks), tasks.db, RTB model, generate-standup-brief.sh. gog for Angie noted as pending re-auth. Day 6\u2192Day 7 business stream priorities updated. Lessons 8/9/10 added. Training content pipeline updated to 15 items (Days 1\u20136). SOUL.md compact standard documented."
+        },
+        {
+          "file": "MEMORY.md (workspace)",
+          "changes": "SOUL.md sizes updated: Sage 5,463\u26a0\ufe0f\u21921,830\u2705, Lex 5,974\u26a0\ufe0f\u21922,322\u2705. RULES.md files all noted. Active backlog updated (US22/US38 removed, US42 partial, US39/US19 noted). Day 6 context section added."
+        }
+      ],
+      "notion_updates": {
+        "agent_status_db": {
+          "updated": [
+            "Yoda (Last Run \u2192 2026-04-30)",
+            "Aria (Last Run \u2192 2026-04-30)",
+            "Shield (Last Run \u2192 2026-04-30)",
+            "Lex (Last Run \u2192 2026-04-30)",
+            "Sage (Last Run \u2192 2026-04-30)",
+            "Warden (Last Run \u2192 2026-04-30)"
+          ]
+        },
+        "backlog_db": {
+          "confirmed_done": [
+            "US40",
+            "US41",
+            "US43"
+          ],
+          "in_progress": [
+            "US42 (Option A complete, Ollama routing TBD)"
+          ]
+        },
+        "decisions_db": {
+          "status": "SKIPPED \u2014 database not shared with integration (AInchors Yoda). Day 6 decisions recorded in Decisions.md only.",
+          "action_required": "Share Decisions DB with Yoda integration in Notion settings."
+        }
+      },
+      "git_commits": {
+        "ainchors_repo": "cdc7445 \u2014 6 files changed, 150 insertions, 23 deletions",
+        "workspace_repo": "6a5954c \u2014 9 files changed, 127 insertions, 22 deletions"
+      },
+      "skipped_files": [
+        {
+          "file": "Operations/GovernanceFramework.md",
+          "reason": "No governance rule changes on Day 6 \u2014 SOUL.md compact standard is an architecture rule, already documented in Architecture.md and RULES.md."
+        },
+        {
+          "file": "Shared/yoda-daily-brief.md",
+          "reason": "23:00 AEST nightly context sync cron already wrote complete Day 6 entry \u2014 no duplication needed. Confirmed current."
+        },
+        {
+          "file": "Company/Overview.md",
+          "reason": "No new company info, contact, or structural changes on Day 6."
+        }
+      ],
+      "notes": "Day 6 was the most intensive day yet: 14 CHG entries (CHG-0081 to CHG-0094), 4 US delivered (US40/41/42 Option A/43), 2 US closed (US22/US38), 2 x WebSocket 1006 incidents (root cause identified and fixed \u2014 Aria SOUL.md truncation). SOUL.md compact standard locked NON-NEGOTIABLE for all agents. RTB operating model active from 2026-05-01 8AM standup. All 6 agents compact. Balance at Day 6 close: $64 USD. 6-day all-time: $802.68 USD. Note: Decisions DB not accessible to integration \u2014 needs sharing configuration fix."
+    },
+    {
       "run_id": "akb-20260430-0300",
       "date": "2026-04-30",
       "coverage_date": "2026-04-29",
@@ -8,14 +96,14 @@
       "status": "complete",
       "inputs_read": [
         "memory/journal-2026-04-29.md",
-        "Documents/AInchors/Shared/aria-daily-brief.md (2026-04-28 entry — 2026-04-29 written by 23:45 cron)",
+        "Documents/AInchors/Shared/aria-daily-brief.md (2026-04-28 entry \u2014 2026-04-29 written by 23:45 cron)",
         "memory/CHANGELOG.md (CHG-0075 to CHG-0080)",
         "MEMORY.md"
       ],
       "obsidian_files_updated": [
         {
           "file": "HOME.md",
-          "changes": "last-updated 2026-04-29→2026-04-30, stage Day 5→Day 6"
+          "changes": "last-updated 2026-04-29\u21922026-04-30, stage Day 5\u2192Day 6"
         },
         {
           "file": "Company/Overview.md",
@@ -27,11 +115,11 @@
         },
         {
           "file": "Agents/Architecture.md",
-          "changes": "v3.1→v3.2: added sla-report.sh, incident-log.sh, outage-detect.sh, research-runner.sh to scripts table. Added Day 5 history entry."
+          "changes": "v3.1\u2192v3.2: added sla-report.sh, incident-log.sh, outage-detect.sh, research-runner.sh to scripts table. Added Day 5 history entry."
         },
         {
           "file": "Agents/ModelStrategy.md",
-          "changes": "v2.1→v2.2: Added Day 5 cost ($43.78 USD, balance USD74.07). Aria fallback chain note. 5-day cumulative $636.58."
+          "changes": "v2.1\u2192v2.2: Added Day 5 cost ($43.78 USD, balance USD74.07). Aria fallback chain note. 5-day cumulative $636.58."
         },
         {
           "file": "Shared/context-for-aria.md",
@@ -40,40 +128,50 @@
       ],
       "notion_updates": {
         "agent_status_db": {
-          "updated": ["Yoda (last run 2026-04-29)", "Aria (last run 2026-04-29)", "Warden (last run 2026-04-29)", "Shield (last run 2026-04-29)", "Lex (last run 2026-04-29)", "Sage (last run 2026-04-29)"]
+          "updated": [
+            "Yoda (last run 2026-04-29)",
+            "Aria (last run 2026-04-29)",
+            "Warden (last run 2026-04-29)",
+            "Shield (last run 2026-04-29)",
+            "Lex (last run 2026-04-29)",
+            "Sage (last run 2026-04-29)"
+          ]
         },
         "decisions_db": {
           "added": [
             "Aria fallback chain corrected: Haiku-only, no Opus or Gemma4",
-            "US20 Research Framework: Option 4 — Extend existing AKB",
-            "US18 Monthly SLA Report: Option A — script-driven sla-report.sh",
+            "US20 Research Framework: Option 4 \u2014 Extend existing AKB",
+            "US18 Monthly SLA Report: Option A \u2014 script-driven sla-report.sh",
             "Google Workspace connected: kenmun@ainchors.com via gog CLI",
             "Company name confirmed: AInchor Solutions Pty Ltd"
           ]
         },
         "backlog_db": {
-          "confirmed_done": ["US18", "US20"]
+          "confirmed_done": [
+            "US18",
+            "US20"
+          ]
         }
       },
       "git_commits": {
-        "ainchors_repo": "79d535c — 6 files changed, 52 insertions",
-        "workspace_repo": "f85298c — 6 files changed, 90 insertions"
+        "ainchors_repo": "79d535c \u2014 6 files changed, 52 insertions",
+        "workspace_repo": "f85298c \u2014 6 files changed, 90 insertions"
       },
       "skipped_files": [
         {
           "file": "Operations/GovernanceFramework.md",
-          "reason": "No governance rule changes on Day 5 — already current from Day 4"
+          "reason": "No governance rule changes on Day 5 \u2014 already current from Day 4"
         },
         {
           "file": "Operations/IncidentLog.md",
-          "reason": "PIR-002 closed (INC-20260428-002) but incident was already logged — PIR closure is internal CHG, not new incident"
+          "reason": "PIR-002 closed (INC-20260428-002) but incident was already logged \u2014 PIR closure is internal CHG, not new incident"
         },
         {
           "file": "Shared/yoda-daily-brief.md",
-          "reason": "23:00 AEST nightly context sync cron already wrote full Day 5 entry — no duplication needed"
+          "reason": "23:00 AEST nightly context sync cron already wrote full Day 5 entry \u2014 no duplication needed"
         }
       ],
-      "notes": "Day 5 was a maturity/delivery day: 3 US closed (US18, US20, US22/US23), Google Workspace connected, Aria fallback chain hardened, /resume cross-channel fixed, company profile PDF produced. Balance USD74.07 at Day 5 close. CAMP-0001 (KL class) runs today (30 Apr) — Aria to run campaign-debrief.sh post-class."
+      "notes": "Day 5 was a maturity/delivery day: 3 US closed (US18, US20, US22/US23), Google Workspace connected, Aria fallback chain hardened, /resume cross-channel fixed, company profile PDF produced. Balance USD74.07 at Day 5 close. CAMP-0001 (KL class) runs today (30 Apr) \u2014 Aria to run campaign-debrief.sh post-class."
     },
     {
       "run_id": "akb-20260429-0300",
@@ -90,11 +188,11 @@
       "obsidian_files_updated": [
         {
           "file": "HOME.md",
-          "changes": "Stage Day 4→Day 5, last-updated 2026-04-28→2026-04-29"
+          "changes": "Stage Day 4\u2192Day 5, last-updated 2026-04-28\u21922026-04-29"
         },
         {
           "file": "Company/Overview.md",
-          "changes": "Stage Day 4→Day 5"
+          "changes": "Stage Day 4\u2192Day 5"
         },
         {
           "file": "Company/Decisions.md",
@@ -102,11 +200,11 @@
         },
         {
           "file": "Agents/Architecture.md",
-          "changes": "v3.0→v3.1: Business ROI Framework (F8), /frameworks command, ITSM QW batch (SLOs/uptime/CI Register/PRB-001), outage handler + fallback chain scripts, campaign tracking scripts"
+          "changes": "v3.0\u2192v3.1: Business ROI Framework (F8), /frameworks command, ITSM QW batch (SLOs/uptime/CI Register/PRB-001), outage handler + fallback chain scripts, campaign tracking scripts"
         },
         {
           "file": "Agents/ModelStrategy.md",
-          "changes": "v2.0→v2.1: Added Actual Cost History (Anthropic CSV $404.90 4-day actual), credit alert recalibration T1=$80/T2=$40/T3=$15"
+          "changes": "v2.0\u2192v2.1: Added Actual Cost History (Anthropic CSV $404.90 4-day actual), credit alert recalibration T1=$80/T2=$40/T3=$15"
         },
         {
           "file": "Operations/GovernanceFramework.md",
@@ -123,21 +221,29 @@
       ],
       "notion_updates": {
         "agent_status_db": {
-          "updated": ["Shield (Security Agent → Active)", "Lex (Legal Agent → Active)", "Sage (QA Agent → Active)", "Yoda (last run 2026-04-28)"],
-          "added": ["Aria", "Warden"]
+          "updated": [
+            "Shield (Security Agent \u2192 Active)",
+            "Lex (Legal Agent \u2192 Active)",
+            "Sage (QA Agent \u2192 Active)",
+            "Yoda (last run 2026-04-28)"
+          ],
+          "added": [
+            "Aria",
+            "Warden"
+          ]
         },
         "decisions_db": {
           "added": [
             "3-tier model strategy: Sonnet/Haiku/Gemma4",
-            "Governance gates non-negotiable: Shield→Lex→Sage→Deliver",
-            "Business ROI Framework (F8) — Aria mandatory tracking",
+            "Governance gates non-negotiable: Shield\u2192Lex\u2192Sage\u2192Deliver",
+            "Business ROI Framework (F8) \u2014 Aria mandatory tracking",
             "Cost history corrected: $404.90 actual 4-day (not $244)"
           ]
         }
       },
       "git_commits": {
-        "ainchors_repo": "c108395 — 8 files changed, 272 insertions",
-        "workspace_repo": "f6dbbd5 — 6 files changed, 87 insertions"
+        "ainchors_repo": "c108395 \u2014 8 files changed, 272 insertions",
+        "workspace_repo": "f6dbbd5 \u2014 6 files changed, 87 insertions"
       },
       "skipped_files": [
         {
