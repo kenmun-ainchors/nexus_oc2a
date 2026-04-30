@@ -1,12 +1,12 @@
 {
   "schema_version": "1.0",
   "description": "Tracks response counters and alert state for tiered credit alerts. Updated by Yoda at runtime.",
-  "currentBalance": 39.0,
-  "lastBalanceCheck": "2026-04-30T12:50:09.735774Z",
-  "activeTier": 2,
+  "currentBalance": 110.64,
+  "lastBalanceCheck": "2026-04-30T14:19:00Z",
+  "activeTier": 0,
   "tier1": {
-    "triggered": true,
-    "triggeredAt": "2026-04-30T09:26:10.376277+00:00",
+    "triggered": false,
+    "triggeredAt": null,
     "threshold": 80
   },
   "tier2": {
@@ -14,8 +14,8 @@
     "alertEvery": 3,
     "lastAlertAt": "2026-04-30T12:50:09.735774Z",
     "threshold": 40,
-    "triggered": true,
-    "triggeredAt": "2026-04-30T12:50:09.735774Z"
+    "triggered": false,
+    "triggeredAt": null
   },
   "tier3": {
     "active": false,
@@ -41,6 +41,12 @@
       "sentAt": "2026-04-30T12:50:09.735774Z",
       "balanceEstimate": 39,
       "note": "Tier 2 re-triggered at 10:49PM Melbourne. Est ~$39 remaining at ~$7.8/hr burn."
+    },
+    {
+      "tier": 0,
+      "sentAt": "2026-04-30T14:19:00Z",
+      "balanceEstimate": 110.64,
+      "note": "Tiers reset at 12:19AM May 1. Balance $110.64 per cost-state.json 23:55 AEST update \u2014 above $80 T1 threshold. No alerts active."
     }
   ],
   "balance": 64.0,
