@@ -4,6 +4,34 @@
       "agentId": "default.fallbacks",
       "expected": [
         "anthropic/claude-opus-4-7",
+        "ollama/gemma4:26b"
+      ],
+      "actual": [
+        "anthropic/claude-opus-4-7",
+        "ollama/gemma4:26b"
+      ],
+      "severity": "VIOLATION",
+      "note": "Superseded by policy change 2026-04-28: Lex now Sonnet. Warden test false positive cleared.",
+      "detectedAt": "2026-04-28T07:53:06+10:00",
+      "id": "DRIFT-20260427215306-default_fallbacks",
+      "status": "superseded",
+      "escalatedToYoda": false
+    },
+    {
+      "agentId": "legal",
+      "expected": "anthropic/claude-opus-4-7",
+      "actual": "anthropic/claude-sonnet-4-6",
+      "severity": "EXCEPTION_DRIFT",
+      "note": "Superseded by policy change 2026-04-28: Lex now Sonnet. Warden test false positive cleared.",
+      "detectedAt": "2026-04-28T07:57:25+10:00",
+      "id": "DRIFT-20260427215725-legal",
+      "status": "superseded",
+      "escalatedToYoda": false
+    },
+    {
+      "agentId": "default.fallbacks",
+      "expected": [
+        "anthropic/claude-opus-7",
         "ollama/gemma4:e2b"
       ],
       "actual": [
@@ -11,14 +39,13 @@
       ],
       "severity": "VIOLATION",
       "note": "Fallback chain drift breaks resilient outage handling. SUPERSEDED: CHG-0075 intentional policy change to Haiku-only.",
-      "detectedAt": "2026-04-29T11:10:46+10:00",
-      "id": "DRIFT-20260429011046-default_fallbacks",
+      "detectedAt": "2026-04-29T10:55:46+10:00",
+      "id": "DRIFT-20260429005546-default_fallbacks",
       "status": "superseded",
       "escalatedToYoda": true,
       "supersededBy": "CHG-0075"
     }
   ],
-  "totalUnresolved": 0,
-  "lastUpdated": "2026-04-29T11:10:46+10:00",
-  "note": "All violations superseded by CHG-0075. Cleaned up at heartbeat 2026-05-02T00:49 AEST."
+  "totalUnresolved": 1,
+  "lastUpdated": "2026-04-29T11:10:46+10:00"
 }
