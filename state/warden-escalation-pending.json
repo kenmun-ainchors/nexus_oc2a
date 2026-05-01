@@ -1,36 +1,51 @@
 {
-  "escalationType": "MODEL_DRIFT_VIOLATION",
-  "severity": "HIGH",
-  "escalatedAt": "2026-04-29T11:10:46+10:00",
-  "escalatedBy": "Warden",
-  "status": "resolved-by-yoda",
   "violations": [
     {
-      "id": "DRIFT-20260429011046-default_fallbacks",
       "agentId": "default.fallbacks",
       "expected": [
         "anthropic/claude-opus-4-7",
-        "ollama/gemma4:e2b"
+        "ollama/gemma4:26b"
+      ],
+      "actual": [
+        "anthropic/claude-opus-4-7",
+        "ollama/gemma4:26b"
+      ],
+      "severity": "VIOLATION",
+      "note": "Superseded by policy change 2026-04-28: Lex now Sonnet. Warden test false positive cleared.",
+      "detectedAt": "2026-04-28T07:53:06+10:00",
+      "id": "DRIFT-20260427215306-default_fallbacks",
+      "status": "superseded",
+      "escalatedToYoda": false
+    },
+    {
+      "agentId": "legal",
+      "expected": "anthropic/claude-opus-4-7",
+      "actual": "anthropic/claude-sonnet-4-6",
+      "severity": "EXCEPTION_DRIFT",
+      "note": "Superseded by policy change 2026-04-28: Lex now Sonnet. Warden test false positive cleared.",
+      "detectedAt": "2026-04-28T07:57:25+10:00",
+      "id": "DRIFT-20260427215725-legal",
+      "status": "superseded",
+      "escalatedToYoda": false
+    },
+    {
+      "agentId": "default.fallbacks",
+      "expected": [
+        "anthropic/claude-opus-7",
+        "ollama/gemma4:26b"
       ],
       "actual": [
         "anthropic/claude-haiku-4-5"
       ],
       "severity": "VIOLATION",
-      "note": "Fallback chain drift breaks resilient outage handling.",
-      "detectedAt": "2026-04-29T11:10:46+10:00"
+      "note": "Fallback chain drift breaks resilient outage handling. SUPERSEDED: CHG-0075 intentional policy change to Haiku-only.",
+      "detectedAt": "2026-04-29T10:55:46+10:00",
+      "id": "DRIFT-20260429011046-default_fallbacks",
+      "status": "superseded",
+      "escalatedToYoda": true,
+      "supersededBy": "CHG-0075"
     }
   ],
-  "totalUnresolved": 3,
-  "remediation": [
-    "1. Review openclaw.json fallback chain configuration",
-    "2. Confirm intended fallback models: Opus \u2192 Gemma4:e2b",
-    "3. Update config and test chain resilience",
-    "4. Verify all agents route correctly under degraded conditions"
-  ],
-  "requiresKenApproval": true,
-  "assignedTo": "Yoda",
-  "resolvedAt": "2026-04-29T11:23:00+10:00",
-  "resolvedBy": "Yoda",
-  "resolution": "CHG-0075 TKT-0022: Intentional policy change. Defaults fallback changed to Haiku-only. Aria policy prohibits Opus/Gemma4. Warden baseline (model-drift-check.sh) updated to match. Not a drift \u2014 a Ken-approved change.",
-  "chgReference": "CHG-0075"
+  "totalUnresolved": 1,
+  "lastUpdated": "2026-04-29T11:10:46+10:00"
 }

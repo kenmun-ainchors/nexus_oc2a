@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "updatedAt": "2026-04-29T10:24:18.131Z",
+  "updatedAt": "2026-05-01T01:56:17.685Z",
   "entries": {
     "memory:memory/2026-04-26.md:94:122": {
       "key": "memory:memory/2026-04-26.md:94:122",
@@ -295,18 +295,20 @@
       "endLine": 725,
       "source": "memory",
       "snippet": "- Ken's webchat to Yoda also affected - **Decision: Option C — Aria moved to Sonnet permanently. Gemma4 for background crons only.** ### CHG-0037: Aria Model → Sonnet (Permanent) - Aria primary model: Gemma4 → `anthropic/claude-sonnet-4-6` - Gemma4 retained for: backup crons, cost tracker, non-interactive batch work only - Tail message updated: `⚙️ Model: Sonnet` (escalation prompt removed) - `critical-config-baseline.json` updated (config-008) --- ## 21:00–21:55 AEST — Telegram Architecture Overhaul (B1: Dual Bot) ### Problem - Ken's Telegram messages kept routing to Aria despite binding fixes - Root cause: stale session in business agent for Ken's chatId (8574109706) — persisted throug",
-      "recallCount": 1,
+      "recallCount": 2,
       "dailyCount": 0,
       "groundedCount": 0,
-      "totalScore": 0.4308772057294845,
-      "maxScore": 0.4308772057294845,
+      "totalScore": 0.8712260901927947,
+      "maxScore": 0.4403488844633102,
       "firstRecalledAt": "2026-04-29T05:13:49.704Z",
-      "lastRecalledAt": "2026-04-29T05:13:49.704Z",
+      "lastRecalledAt": "2026-04-30T22:06:08.100Z",
       "queryHashes": [
-        "ebff508a49a4"
+        "ebff508a49a4",
+        "f19d93029481"
       ],
       "recallDays": [
-        "2026-04-29"
+        "2026-04-29",
+        "2026-05-01"
       ],
       "conceptTags": [
         "backup",
@@ -348,6 +350,130 @@
         "auto-restart",
         "format",
         "hero"
+      ]
+    },
+    "memory:memory/2026-04-25.md:1:12": {
+      "key": "memory:memory/2026-04-25.md:1:12",
+      "path": "memory/2026-04-25.md",
+      "startLine": 1,
+      "endLine": 12,
+      "source": "memory",
+      "snippet": "# 2026-04-25 ## Bootstrap - Identity set: Yoda 🟢 — AI business operations lead agent - User: Ken Mun (call him Ken), Melbourne GMT+10 - Primary channel: web chat - Secondary channel: Telegram (urgent/offline only) - Telegram paired and tested — working ## Config notes - Security flag: Telegram group commands have no sender allowlist — low risk (personal use only), revisit later",
+      "recallCount": 1,
+      "dailyCount": 0,
+      "groundedCount": 0,
+      "totalScore": 0.423972487449646,
+      "maxScore": 0.423972487449646,
+      "firstRecalledAt": "2026-04-30T22:06:08.100Z",
+      "lastRecalledAt": "2026-04-30T22:06:08.100Z",
+      "queryHashes": [
+        "f19d93029481"
+      ],
+      "recallDays": [
+        "2026-05-01"
+      ],
+      "conceptTags": [
+        "urgent/offline",
+        "bootstrap",
+        "identity",
+        "set",
+        "yoda",
+        "business",
+        "operations",
+        "lead"
+      ]
+    },
+    "memory:memory/2026-04-26.md:1:32": {
+      "key": "memory:memory/2026-04-26.md:1:32",
+      "path": "memory/2026-04-26.md",
+      "startLine": 1,
+      "endLine": 32,
+      "source": "memory",
+      "snippet": "# 2026-04-26 — Day 1 Wrap (session started 2026-04-25 evening) ## What Was Built Today ### Identity & Bootstrap - Yoda 🟢 born. AI business operations lead agent for Ken Mun (CTO), AI Anchor Solutions Pty Ltd. - Web chat primary. Telegram secondary (urgent/offline only). Paired and tested. ### The Company - AI Anchor Solutions Pty Ltd (AInchors). ainchors.com. Melbourne. Founded 2026-04-25. - Three focus areas: AI training/courses, AI consulting, AI solution building. - Ken = CTO (technical stream). Angie Foong = CEO (business stream). - Email: kenmun@ainchors.com (being set up), info@, accounts@ — Google Workspace/Gmail. - Social priority: Instagram → Facebook → LinkedIn. ### Agent Arch",
+      "recallCount": 1,
+      "dailyCount": 0,
+      "groundedCount": 0,
+      "totalScore": 0.35616615414619446,
+      "maxScore": 0.35616615414619446,
+      "firstRecalledAt": "2026-04-30T23:40:44.366Z",
+      "lastRecalledAt": "2026-04-30T23:40:44.366Z",
+      "queryHashes": [
+        "930af1c53ea1"
+      ],
+      "recallDays": [
+        "2026-05-01"
+      ],
+      "conceptTags": [
+        "urgent/offline",
+        "ainchors.com",
+        "training/courses",
+        "workspace/gmail",
+        "day",
+        "wrap",
+        "started",
+        "evening"
+      ]
+    },
+    "memory:memory/2026-04-30.md:141:166": {
+      "key": "memory:memory/2026-04-30.md:141:166",
+      "path": "memory/2026-04-30.md",
+      "startLine": 141,
+      "endLine": 166,
+      "source": "memory",
+      "snippet": "**Priority:** Medium — save for a week where we have strong tech content to write about **Status:** Idea only — do not write yet --- ## End of Day — 19:40 AEST ### Session closed by Ken Ken wrapped the day at 19:40 AEST. Full day of intensive platform work. ### Final balance USD $64.00 — T1 active. Ken confirmed safe until tomorrow. ### Platform state at close - Gateway: running, clean restart after Mac mini reboot at ~19:33 - All crons: resumed automatically - All 4 sprint goals (US40/41/42/43) delivered - Obs-collector: 14 checks (A-N) + 13 gateway patterns - All 6 agent SOUL.md: compact, all under 5,000 chars - US22 + US38 closed - US19 elevated to High - CHG-0081 through CHG-0094 lo",
+      "recallCount": 1,
+      "dailyCount": 0,
+      "groundedCount": 0,
+      "totalScore": 0.37721444964408873,
+      "maxScore": 0.37721444964408873,
+      "firstRecalledAt": "2026-04-30T23:40:56.717Z",
+      "lastRecalledAt": "2026-04-30T23:40:56.717Z",
+      "queryHashes": [
+        "521db24d8819"
+      ],
+      "recallDays": [
+        "2026-05-01"
+      ],
+      "conceptTags": [
+        "gateway",
+        "64.00",
+        "us40/41/42/43",
+        "obs-collector",
+        "a-n",
+        "soul.md",
+        "chg-0081",
+        "chg-0094"
+      ]
+    },
+    "memory:memory/2026-04-27.md:515:552": {
+      "key": "memory:memory/2026-04-27.md:515:552",
+      "path": "memory/2026-04-27.md",
+      "startLine": 515,
+      "endLine": 552,
+      "source": "memory",
+      "snippet": "#### Level 5 (NEW Day 3): CHANGELOG — single audit trail - File: `memory/CHANGELOG.md` - Helper: `scripts/changelog-append.sh` (auto-increments CHG-NNNN) - Every change (ken-prompt, auto-heal, incident-recovery, scheduled) MUST call helper - Schema: type, source, trigger, what changed, why, verification, rollback, linked - Seeded CHG-0001 → CHG-0039 from Day 3 work ### Critical Config Baseline — NEW - File: `state/critical-config-baseline.json` - 7 guarded configs, 6 critical + 1 warning - Guarded: agent main model, default primary, fallback chain, Ollama apiKey, Ollama auth, Anthropic auth, workspace path - Auto-heal Check #12 validates all nightly → drift files needs-Ken US ### Anti-Drif",
+      "recallCount": 1,
+      "dailyCount": 0,
+      "groundedCount": 0,
+      "totalScore": 0.4146426677703857,
+      "maxScore": 0.4146426677703857,
+      "firstRecalledAt": "2026-05-01T01:56:17.685Z",
+      "lastRecalledAt": "2026-05-01T01:56:17.685Z",
+      "queryHashes": [
+        "6b8b068eed98"
+      ],
+      "recallDays": [
+        "2026-05-01"
+      ],
+      "conceptTags": [
+        "memory/changelog.md",
+        "scripts/changelog-append.sh",
+        "auto-increments",
+        "chg-nnnn",
+        "ken-prompt",
+        "auto-heal",
+        "incident-recovery",
+        "chg-0001"
       ]
     }
   }

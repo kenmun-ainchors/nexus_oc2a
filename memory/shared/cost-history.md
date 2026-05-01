@@ -114,3 +114,23 @@ Avg: ~$101/day. Balance at 2026-04-28 EOD: $58.72 USD.
 | Cache Read | 0 |
 
 ### By Model
+
+## 2026-05-01
+
+| Metric | Value |
+|--------|-------|
+| Total Cost | $7.4330 |
+| Turns | 394 |
+| Input Tokens | 439,892 |
+| Output Tokens | 49,166 |
+| Cache Read | 9,725,652 |
+
+### By Stream
+- **technical**: 393 turns | $7.4330
+- **business**: 1 turns | $0.0000
+
+### By Model
+- **claude-sonnet-4-6**: 302 turns | 516 in / 36,580 out | $7.1786
+- **claude-haiku-4-5**: 59 turns | 649 in / 10,217 out | $0.2544
+- **delivery-mirror**: 1 turns | 0 in / 0 out | $0.0000
+- **gemma4:e2b**: 32 turns | 438,727 in / 2,369 out | $0.0000

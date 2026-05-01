@@ -35,6 +35,30 @@ This log captures **every change** Yoda makes to AInchors infrastructure, config
 **Linked:** decisions.md 2026-04-27 entries
 ---
 
+## 2026-05-01 09:52 AEST — [CHG-0096] US42 done: Ollama routing confirmed + Warden migrated to gemma4:e2b
+**Type:** config
+**Source:** ken-prompt
+**Trigger:** TKT-0029
+**What changed:** Confirmed ollama/gemma4:e2b routing in isolated agentTurn (OLLAMA_ROUTING_OK, 21s). Warden cron (83accf7b) model updated to ollama/gemma4:e2b.
+**Why:** ROSE item from May 1 RTB. Warden 96x/day migrated to local free model.
+**Verification:** Sub-agent test: OLLAMA_ROUTING_OK. Warden cron model set confirmed.
+**Rollback:** N/A
+**Linked:** none
+---
+
+
+## 2026-05-01 09:52 AEST — [CHG-0095] THORN fix: obs-collector session_stuck dedup + standup message length
+**Type:** script
+**Source:** ken-prompt
+**Trigger:** TKT-0030
+**What changed:** obs-collector.sh: cross-run session_stuck dedup (stuckSessions dict, 10-min cooldown per sessionId). State writer preserves stuckSessions. Standup cron 3c279099: prepended 3500-char Telegram limit rule.
+**Why:** session_stuck was firing on every 5-min obs run for long-running sessions (183 events/24h). Standup hit Telegram 4096-char limit this morning.
+**Verification:** obs-collector consecutive run: session_stuck dropped from 3→0. stuckSessions persists.
+**Rollback:** N/A
+**Linked:** none
+---
+
+
 ## 2026-04-30 19:24 AEST — [CHG-0094] SAGE_RULES.md + LEX_RULES.md created — all 6 agents now compact SOUL.md + RULES.md pattern
 **Type:** doc
 **Source:** ken-prompt

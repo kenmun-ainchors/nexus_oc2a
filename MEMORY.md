@@ -149,6 +149,14 @@
 - gog for Angie: re-auth needed (angie.foong@ainchors.com OAuth — wrong token used Day 6)
 - April 30 class (Mont Kiara): CAMP-0001 ran, no debrief from Angie yet
 
+## Blog Post Ideas (Ken-originated, do not write until Ken signals ready)
+- **"Building observability for an Agentic AI platform"** (noted Apr 30, priority: medium)
+  - Hook: "Our AI platform crashed twice today. Our own logging system didn't see it coming."
+  - Core insight: "We built observability for our agents. We forgot to build observability for the platform running the agents."
+  - Story: 1006 crash chain → obs.db gap → gateway.err.log integration → 14-check collector
+  - Tag: Platform engineering, Agentic AI, observability, OpenClaw, production systems
+  - Status: **Idea only** — do not write yet
+
 ## Day 6 Context (2026-04-30 close)
 - 4 US delivered: US40 (observability), US41 (task monitoring), US42 Option A (cron tier), US43 (RTB model)
 - US22 + US38 closed

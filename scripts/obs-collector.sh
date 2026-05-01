@@ -374,13 +374,23 @@ fi
 # ── CHECK O: gateway.err.log — scan for new errors since last run ───────────
 GATEWAY_ERR="$HOME/.openclaw/logs/gateway.err.log"
 if [[ -f "$GATEWAY_ERR" ]]; then
-  _GW_NEW=$(python3 - "$GATEWAY_ERR" "$OBS_LOG_CMD" "$LAST_RUN" << 'PYEOF'
-import re, json, subprocess, sys
+  _GW_NEW=$(python3 - "$GATEWAY_ERR" "$OBS_LOG_CMD" "$LAST_RUN" "$COLLECTOR_STATE" << 'PYEOF'
+import re, json, subprocess, sys, os, time
 from datetime import datetime, timezone
 
-err_log_path, obs_log, last_run_str = sys.argv[1], sys.argv[2], sys.argv[3]
+err_log_path, obs_log, last_run_str, state_path = sys.argv[1], sys.argv[2], sys.argv[3], sys.argv[4]
 last_run = int(last_run_str)
 new = 0
+
+# Load cross-run stuck-session dedup state
+STUCK_COOLDOWN = 600  # 10 min — only re-alert for same session after this
+try:
+    _state = json.load(open(state_path))
+    stuck_sessions = _state.get('stuckSessions', {})  # {sessionId: lastLoggedEpoch}
+except Exception:
+    stuck_sessions = {}
+
+SID_RE = re.compile(r'sessionId=(\S+)')
 
 PATTERNS = [
     ('gateway_oom',       'ERROR', r'FATAL ERROR.*(heap|Allocation failed)',
@@ -433,6 +443,16 @@ for event_type, level, pattern, template in PATTERNS:
         epoch = line_epoch(line)
         if epoch <= last_run: continue
         if not re.search(pattern, line, re.IGNORECASE): continue
+
+        # Cross-run dedup for session_stuck: only alert once per session per 10 min
+        if event_type == 'session_stuck':
+            sid_m = SID_RE.search(line)
+            sid = sid_m.group(1) if sid_m else '__unknown__'
+            last_alert = stuck_sessions.get(sid, 0)
+            if epoch - last_alert < STUCK_COOLDOWN:
+                continue  # suppress: same session alerted recently
+            stuck_sessions[sid] = epoch
+
         if seen: continue  # dedupe: 1 event per type per run
         seen = True
         detail = json.dumps({'line': line.strip()[:300], 'epoch': epoch})
@@ -442,6 +462,16 @@ for event_type, level, pattern, template in PATTERNS:
             capture_output=True
         ).returncode
         if rc == 0: new += 1
+
+# Persist updated stuck-sessions state (prune entries older than 1h)
+now_epoch = int(time.time())
+stuck_sessions = {k: v for k, v in stuck_sessions.items() if now_epoch - v < 3600}
+try:
+    _state_out = json.load(open(state_path)) if os.path.exists(state_path) else {}
+    _state_out['stuckSessions'] = stuck_sessions
+    json.dump(_state_out, open(state_path, 'w'), indent=2)
+except Exception:
+    pass
 
 print(new)
 PYEOF
@@ -459,11 +489,17 @@ con.commit()
 con.close()
 " 2>/dev/null || true
 
-# ── Update collector state ────────────────────────────────────────────────────
+# ── Update collector state (preserve stuckSessions across writes) ────────────
 python3 -c "
-import json
-state = {'lastRun': '$NOW_UTC', 'lastRunEpoch': $NOW_EPOCH}
-json.dump(state, open('$COLLECTOR_STATE', 'w'), indent=2)
+import json, os
+existing = {}
+try:
+    existing = json.load(open('$COLLECTOR_STATE'))
+except Exception:
+    pass
+existing['lastRun'] = '$NOW_UTC'
+existing['lastRunEpoch'] = $NOW_EPOCH
+json.dump(existing, open('$COLLECTOR_STATE', 'w'), indent=2)
 " 2>/dev/null || true
 
 # ── Final output (exactly one line) ──────────────────────────────────────────

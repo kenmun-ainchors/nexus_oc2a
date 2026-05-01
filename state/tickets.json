@@ -1,7 +1,7 @@
 {
   "schema_version": "1.0",
   "description": "AInchors Service Ticket Log. Every ad-hoc request, task, or action without an existing INC/US/CHG reference MUST have a TKT number before work begins.",
-  "sequence": 29,
+  "sequence": 31,
   "tickets": [
     {
       "id": "TKT-0001",
@@ -534,6 +534,44 @@
         "chg": []
       },
       "notes": ""
+    },
+    {
+      "id": "TKT-0029",
+      "title": "US42 Ollama routing fix — resolve model routing for background/cron tier",
+      "type": "task",
+      "priority": "high",
+      "status": "resolved",
+      "requester": "Ken",
+      "assignee": "Yoda",
+      "created": "2026-05-01T09:41:54+10:00",
+      "updated": "2026-05-01T09:53:30+10:00",
+      "description": "",
+      "resolution": null,
+      "linked": {
+        "us": [],
+        "inc": [],
+        "chg": []
+      },
+      "notes": "Ollama routing confirmed working in isolated sessions. Warden migrated to gemma4:e2b. CHG-0096. US42 closed in Notion."
+    },
+    {
+      "id": "TKT-0030",
+      "title": "Investigate obs spike — 120 gateway_restart events in 24h",
+      "type": "incident",
+      "priority": "high",
+      "status": "resolved",
+      "requester": "Ken",
+      "assignee": "Yoda",
+      "created": "2026-05-01T09:41:54+10:00",
+      "updated": "2026-05-01T09:53:30+10:00",
+      "description": "Obs collector recorded 1082 events in 24h including 120 gateway_restart events (one every ~12min). Determine if collector bug or real gateway restarts.",
+      "resolution": null,
+      "linked": {
+        "us": [],
+        "inc": [],
+        "chg": []
+      },
+      "notes": "obs-collector session_stuck dedup fixed (stuckSessions cross-run state). Standup cron 3500-char limit added. CHG-0095."
     }
   ]
 }
