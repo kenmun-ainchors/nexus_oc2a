@@ -35,6 +35,18 @@ This log captures **every change** Yoda makes to AInchors infrastructure, config
 **Linked:** decisions.md 2026-04-27 entries
 ---
 
+## 2026-05-02 00:11 AEST — [CHG-0113] Day 7 blog rewrite + BlogFormat.md style locked (Ken-approved)
+**Type:** doc
+**Source:** ken-prompt
+**Trigger:** Ken preferred sub-agent blog style — adopt and lock in
+**What changed:** Rewrote ainchors-2026-05-01/index.html (22,993→26,964 bytes, ~3,144 words). 6 acts, named titles, opening hook, callout boxes. BlogFormat.md: style reference section added at top, locked 2026-05-02. Git: 19955c8.
+**Why:** Sub-agent version had stronger narrative structure, named acts, authentic Ken voice, better callout boxes. Canonical style now locked for all future blogs.
+**Verification:** File 26,964 bytes. All 6 CHG clusters covered. BlogFormat.md updated. Git committed.
+**Rollback:** git revert 19955c8
+**Linked:** none
+---
+
+
 ## 2026-05-02 00:02 AEST — [CHG-0112] Fix duplicate blog path: remove workspace/canvas stray copies
 **Type:** doc
 **Source:** ken-prompt
