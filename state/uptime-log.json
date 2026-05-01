@@ -2792,14 +2792,29 @@
       "ts": "2026-05-01T14:24:30.618302+00:00",
       "status": "ok",
       "issues": []
+    },
+    {
+      "ts": "2026-05-01T14:34:27.473911+00:00",
+      "status": "ok",
+      "issues": []
+    },
+    {
+      "ts": "2026-05-01T14:39:30.557921+00:00",
+      "status": "ok",
+      "issues": []
+    },
+    {
+      "ts": "2026-05-01T14:40:36.887302+00:00",
+      "status": "ok",
+      "issues": []
     }
   ],
   "summary": {
-    "totalChecks": 558,
-    "upChecks": 558,
+    "totalChecks": 561,
+    "upChecks": 561,
     "downtimeMinutes": 0,
     "uptimePct": 100.0,
-    "lastCheck": "2026-05-01T14:24:30.618302+00:00",
+    "lastCheck": "2026-05-01T14:40:36.887302+00:00",
     "lastStatus": "ok"
   }
 }

@@ -1,18 +1,18 @@
 {
   "schema_version": "1.0",
-  "description": "AInchors OC1 — Service Incident Log",
+  "description": "AInchors OC1 \u2014 Service Incident Log",
   "fields": {
     "id": "INC-YYYYMMDD-NNN",
-    "timestamp_start": "ISO8601 UTC — when incident began",
-    "timestamp_end": "ISO8601 UTC — when service restored (null if ongoing)",
+    "timestamp_start": "ISO8601 UTC \u2014 when incident began",
+    "timestamp_end": "ISO8601 UTC \u2014 when service restored (null if ongoing)",
     "type": "outage | degraded | security | data | planned",
-    "trigger": "free text — what caused it",
-    "duration_minutes": "integer — total downtime",
-    "rca": "free text — root cause analysis",
-    "resolution": "free text — how it was fixed",
-    "mttr_minutes": "integer — mean time to recover (same as duration for single incidents)",
-    "recurrence": "boolean — has this type occurred before?",
-    "notion_page_id": "string — linked Notion page ID (null if not synced)",
+    "trigger": "free text \u2014 what caused it",
+    "duration_minutes": "integer \u2014 total downtime",
+    "rca": "free text \u2014 root cause analysis",
+    "resolution": "free text \u2014 how it was fixed",
+    "mttr_minutes": "integer \u2014 mean time to recover (same as duration for single incidents)",
+    "recurrence": "boolean \u2014 has this type occurred before?",
+    "notion_page_id": "string \u2014 linked Notion page ID (null if not synced)",
     "status": "resolved | ongoing | investigating"
   },
   "incidents": [
@@ -21,7 +21,7 @@
       "timestamp_start": "2026-04-26T08:30:00Z",
       "timestamp_end": "2026-04-26T09:00:00Z",
       "type": "outage",
-      "trigger": "Planned circuit shutdown — power trip on OC1 host circuit",
+      "trigger": "Planned circuit shutdown \u2014 power trip on OC1 host circuit",
       "duration_minutes": 30,
       "rca": "Deliberate power circuit shutdown (planned maintenance). OC1 (Mac mini) shut down ungracefully. On restart, FileVault full-disk encryption required manual login before OpenClaw gateway and agents could resume. No data loss. No config corruption detected.",
       "resolution": "Manual physical login at OC1 console to unlock FileVault. Gateway and all agents resumed automatically post-login.",
@@ -36,13 +36,13 @@
       "timestamp_start": "2026-04-26T09:13:00Z",
       "timestamp_end": "2026-04-26T10:05:00Z",
       "type": "degraded",
-      "trigger": "openclaw update command triggered SIGKILL — gateway self-restarted, session context lost",
+      "trigger": "openclaw update command triggered SIGKILL \u2014 gateway self-restarted, session context lost",
       "duration_minutes": 52,
       "mttr_minutes": 52,
       "rca": "Platform update (openclaw update 2026.4.24) triggered self-restart via SIGKILL. Session context not flushed beforehand. Ken required double memory recall to restore Sprint 2 context. Root cause: no pre-risky-op checkpoint protocol existed.",
       "resolution": "Session restored via session file forensics. Pre-risky-op checkpoint rule created. Memory search doctor error fixed (OLLAMA_HOST + remote config). Gateway restarted clean.",
       "recurrence": false,
-      "prevention": "Pre-risky-op checkpoint rule (NON-NEGOTIABLE) — flush all context before any OpenClaw update/restart",
+      "prevention": "Pre-risky-op checkpoint rule (NON-NEGOTIABLE) \u2014 flush all context before any OpenClaw update/restart",
       "notion_page_id": null,
       "status": "resolved",
       "severity": "P2"
@@ -52,10 +52,10 @@
       "timestamp_start": "2026-04-26T09:14:00Z",
       "timestamp_end": "2026-04-26T11:10:00Z",
       "type": "outage",
-      "trigger": "Gateway restart (for memory fix) hit ENOTEMPTY on plugin-runtime-deps — crash loop for ~116 min",
+      "trigger": "Gateway restart (for memory fix) hit ENOTEMPTY on plugin-runtime-deps \u2014 crash loop for ~116 min",
       "duration_minutes": 116,
       "mttr_minutes": 116,
-      "rca": "Earlier openclaw update SIGKILL left partial plugin-sdk directory in plugin-runtime-deps. Gateway restart triggered re-extraction which failed with ENOTEMPTY (cannot overwrite non-empty dir). LaunchAgent kept retrying — gateway crashed on every startup attempt. Eventually resolved on a later LaunchAgent retry.",
+      "rca": "Earlier openclaw update SIGKILL left partial plugin-sdk directory in plugin-runtime-deps. Gateway restart triggered re-extraction which failed with ENOTEMPTY (cannot overwrite non-empty dir). LaunchAgent kept retrying \u2014 gateway crashed on every startup attempt. Eventually resolved on a later LaunchAgent retry.",
       "resolution": "Gateway self-recovered via LaunchAgent retry at ~21:10. Telegram confirmed working 21:21. No manual intervention possible remotely due to FileVault restriction.",
       "recurrence": true,
       "prevention": "Pre-risky-op checkpoint updated: clear stale plugin-runtime-deps before any gateway restart. Add to PVT checklist (US21).",
@@ -174,12 +174,26 @@
       "recurrence": false,
       "status": "open",
       "notion_page_id": null
+    },
+    {
+      "id": "INC-20260502-001",
+      "title": "WebSocket 1006/1000 + Node.js V8 worker crash + qqbot ENOTEMPTY",
+      "severity": "P3",
+      "detectedAt": "2026-05-02T00:40:00+10:00",
+      "resolvedAt": "2026-05-02T00:41:00+10:00",
+      "duration_minutes": 1,
+      "cause": "Node.js worker thread crashed (V8 ValueDeserializer structured-clone error). Heavy sub-agent load in rapid succession: blog rewrite + Lex review + governance policy enforcement. qqbot ENOTEMPTY on stale plugin-runtime-deps/openclaw-unknown-48e1596a6b24 compounded recovery cycle.",
+      "resolution": "Gateway auto-recovered (HTTP 200 confirmed). Stale plugin-runtime-deps cleared. No data loss. No restart required.",
+      "impact": "WebSocket 1006 (abnormal drop) + 1000 (clean reconnect). ~1 min disruption to webchat. All sub-agents completed successfully.",
+      "prevention": "Avoid spawning multiple large sub-agents simultaneously in final session hour. Pre-risky-op step 5 (clear stale plugin-runtime-deps) needs to run more proactively.",
+      "loggedBy": "Yoda",
+      "loggedAt": "2026-05-01T14:42:21Z"
     }
   ],
   "summary": {
-    "total_incidents": 10,
+    "total_incidents": 11,
     "total_downtime_minutes": 288,
     "avg_mttr_minutes": 29,
-    "last_updated": "2026-04-28T15:00:12Z"
+    "last_updated": "2026-05-01T14:42:21Z"
   }
 }

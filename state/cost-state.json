@@ -212,14 +212,14 @@
   "avgDailyCost": 123.4492,
   "apiBalance": {
     "currency": "USD",
-    "balance": 115,
+    "balance": 79.0,
     "topUpDate": "2026-05-01",
     "spentSinceTopUp": 0,
-    "remainingEstimate": 115,
-    "note": "Balance USD 115.00 confirmed by Ken 2026-05-01 18:56 AEST (top-up). Pre-top-up actual was  \u2014 tracker was ~ over due to cache_write charges not captured in session-log estimates.",
-    "confirmedAt": "2026-05-01T08:56:47.854Z",
+    "remainingEstimate": 79.0,
+    "note": "Balance $79.00 USD confirmed by Ken 2026-05-02 00:44 AEST. Tomorrow tracker decrements from this.",
+    "confirmedAt": "2026-05-01T14:44:43Z",
     "confirmedBy": "Ken",
-    "confirmedBalance": 115,
+    "confirmedBalance": 79.0,
     "preTopUpActual": 18,
     "trackerDiscrepancy": {
       "trackerEstimate": 103,
@@ -227,7 +227,7 @@
       "gap": 85,
       "cause": "input_cache_write_5m charges excluded from session-log estimates"
     },
-    "remainingNote": "confirmedBalance=115 at 2026-05-01; spentAfter=0"
+    "remainingNote": "confirmedBalance=79 at 2026-05-02; spentAfter=0"
   },
   "spendAlerts": {
     "tier1": {

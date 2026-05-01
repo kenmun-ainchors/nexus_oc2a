@@ -35,6 +35,30 @@ This log captures **every change** Yoda makes to AInchors infrastructure, config
 **Linked:** decisions.md 2026-04-27 entries
 ---
 
+## 2026-05-02 00:42 AEST — [CHG-0117] INC-20260502-001: WS 1006/1000 V8 crash — stale plugin-runtime-deps cleared
+**Type:** infra
+**Source:** incident-recovery
+**Trigger:** Ken reported 1006 + 1000 errors at 00:41 AEST
+**What changed:** Cleared stale ~/.openclaw/plugin-runtime-deps/openclaw-unknown-48e1596a6b24. Incident logged as INC-20260502-001 P3.
+**Why:** Node.js worker V8 crash from heavy sub-agent deserialization load. qqbot ENOTEMPTY on stale dir compounded recovery. Gateway auto-recovered — no restart needed.
+**Verification:** Gateway HTTP 200. health-state: ok. Stale dir gone — only openclaw-2026.4.24 remains.
+**Rollback:** N/A
+**Linked:** none
+---
+
+
+## 2026-05-02 00:31 AEST — [CHG-0116] P1 POLICY: Governance + ITIL non-negotiable enforcement (TKT-0032)
+**Type:** rule
+**Source:** ken-prompt
+**Trigger:** Ken directive 2026-05-02: governance/ITIL violations risk fines, imprisonment, company closure
+**What changed:** RULES.md: governance gate section rewritten — full procedure, sub-agent enforcement, Warden monitoring. ITIL section added (ITIL-1 through ITIL-6): incident mgmt, change mgmt, health/availability, observability, transparency/audit, sub-agent compliance. model-drift-check.sh: 9→14 checks (Check 10: governance gate, Check 11: health freshness, Check 12: obs freshness, Check 13: incident log, Check 14: cost freshness). Test: 14/14 PASS.
+**Why:** Blog published without Lex gate. Ken email appeared in public content. Structural gap: no enforcement mechanism for governance or ITIL across sub-agents.
+**Verification:** model-drift-check.sh: 14/14 PASS. RULES.md updated. Git committed.
+**Rollback:** git revert HEAD~1
+**Linked:** none
+---
+
+
 ## 2026-05-02 00:23 AEST — [CHG-0115] Lex review fixes applied to Day 7 blog — cleared to publish
 **Type:** doc
 **Source:** manual
