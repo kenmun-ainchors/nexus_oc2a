@@ -1,7 +1,7 @@
 {
   "schema_version": "1.0",
   "description": "AInchors Service Ticket Log. Every ad-hoc request, task, or action without an existing INC/US/CHG reference MUST have a TKT number before work begins.",
-  "sequence": 32,
+  "sequence": 33,
   "tickets": [
     {
       "id": "TKT-0001",
@@ -584,6 +584,25 @@
       "created": "2026-05-01T21:47:51+10:00",
       "updated": "2026-05-01T21:47:51+10:00",
       "description": "Track TTFT and end-to-end duration per model per task type. Store in obs.db. Used for model switching decisions (Ollama Cloud PoC Phase 6, future model strategy).",
+      "resolution": null,
+      "linked": {
+        "us": [],
+        "inc": [],
+        "chg": []
+      },
+      "notes": ""
+    },
+    {
+      "id": "TKT-0032",
+      "title": "P1 POLICY: Governance + ITIL enforcement across all agents and sub-agents",
+      "type": "change",
+      "priority": "critical",
+      "status": "open",
+      "requester": "Ken",
+      "assignee": "Yoda",
+      "created": "2026-05-02T00:29:23+10:00",
+      "updated": "2026-05-02T00:29:23+10:00",
+      "description": "Ken directive 2026-05-02: Governance framework and ITIL are NON-NEGOTIABLE. Violations risk fines, imprisonment, company closure. Must enforce governance gate on ALL external assets and full ITIL compliance. Expand Warden scope.",
       "resolution": null,
       "linked": {
         "us": [],

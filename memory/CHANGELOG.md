@@ -35,6 +35,18 @@ This log captures **every change** Yoda makes to AInchors infrastructure, config
 **Linked:** decisions.md 2026-04-27 entries
 ---
 
+## 2026-05-02 00:23 AEST — [CHG-0115] Lex review fixes applied to Day 7 blog — cleared to publish
+**Type:** doc
+**Source:** manual
+**Trigger:** Lex returned 3 FAIL / 3 WARN on ainchors-2026-05-01/index.html
+**What changed:** FAIL-1/5: Angie bullet replaced (privacy/APP6/GDPR). FAIL-7: Latency 58s→~49s (math error). WARN-2a: cron ID removed. WARN-2b: doc filename anonymised. WARN-3a: Anthropic billing claim hedged. WARN-3c: benchmark footnote added.
+**Why:** Blog is public-ready. Must clear Lex before publish per RULES.md governance gate.
+**Verification:** 5/5 fix checks pass. Git committed 8156d65. Blog cleared.
+**Rollback:** git revert 8156d65
+**Linked:** none
+---
+
+
 ## 2026-05-02 00:19 AEST — [CHG-0114] Governance gate added to blog cron — Lex review mandatory before publish
 **Type:** rule
 **Source:** ken-prompt

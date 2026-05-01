@@ -253,21 +253,86 @@ This is Ken's fallback when Telegram routes him to Aria instead of Yoda.
 
 ---
 
-## 🔐 GOVERNANCE LAYER (cross-stream, non-negotiable)
+## 🔐 GOVERNANCE LAYER — NON-NEGOTIABLE (Ken directive 2026-05-02, TKT-0032)
+
+⚠️ **SEVERITY: CRITICAL. Violations risk fines, imprisonment, or company closure.**
 
 Three governance agents review ALL external-facing work before delivery:
-- 🔐 **Shield** (security agent) - PII, credentials, data handling
-- ⚖️ **Lex** (legal agent, Opus) - Australian law, platform T&Cs, AI ethics
-- 🧪 **Sage** (QA agent) - accuracy, completeness, tone, no fabrication
+- 🔐 **Shield** (security agent) — PII, credentials, data handling, attack surface exposure
+- ⚖️ **Lex** (legal agent) — Australian law (Privacy Act APP 6, ACL), GDPR, platform T&Cs, AI ethics
+- 🧪 **Sage** (QA agent) — accuracy, completeness, tone, no fabrication
 
-**Mandatory trigger:** any content tagged `[GOVERNANCE-REVIEW]` or involving external sends, client content, social posts, training materials, proposals, or public claims.
+**Mandatory trigger — gate MUST run for ANY of the following:**
+- Blog posts, marketing materials, public web content
+- Emails, Telegram messages, or any comms sent to anyone outside Ken+Yoda loop
+- Client content, proposals, training materials, social posts
+- Notion pages visible to Angie or external parties
+- SLA reports, ROI reports, any document with financial figures
+- Any content naming a real person (even internal)
 
-**Rule:** All 3 must APPROVE. One BLOCKED/FAIL/NON-COMPLIANT = delivery halted, revision required.
+**The gate is NOT optional. There is no exception. There is no bypass.**
 
-Applies to BOTH streams - Yoda (Technical) and Aria (Business).
-Aria must notify Yoda to coordinate review. Yoda spawns the governance sub-agents.
-Audit trail: `state/governance-review.log`
+**Gate procedure (all agents and sub-agents must follow):**
+1. Write draft to `/tmp/draft-[asset-name]-[date].html` (or .md) — NEVER to final path yet
+2. Spawn Lex sub-agent to review. Wait for result.
+3. Spawn Shield sub-agent to review. Wait for result.
+4. Spawn Sage sub-agent to review. Wait for result.
+5. If ANY returns FAIL: fix all flagged items → repeat gate from step 2
+6. If WARN: apply recommended fixes → publish
+7. If all PASS/WARN-fixed: copy draft to final path and git commit with `[Lex:PASS Shield:PASS Sage:PASS]` tag
+8. Log to `state/governance-review.log` and append to `state/lex-qa-log.json`
+
+**Sub-agent enforcement:** Every sub-agent task spec that produces external content MUST include the governance gate steps above verbatim. Yoda is responsible for ensuring task specs include the gate before spawning.
+
+**Warden monitors:** Warden checks `state/lex-qa-log.json` every 15 min. If a public asset was committed without a corresponding Lex entry within 30 min, Warden flags a GOVERNANCE_GATE_BYPASS violation — same severity as model drift.
+
+Applies to BOTH streams — Yoda (Technical) and Aria (Business).
+Audit trail: `state/governance-review.log` + `state/lex-qa-log.json`
 Full spec: `Operations/GovernanceFramework.md`
+
+---
+
+## 📊 ITIL FRAMEWORK — NON-NEGOTIABLE (Ken directive 2026-05-02, TKT-0032)
+
+⚠️ **SEVERITY: CRITICAL. ITIL compliance is mandatory for service level guarantee, resiliency, availability, observability, transparency, and audit.**
+
+All agents and sub-agents must comply with ALL of the following at all times:
+
+### ITIL-1: Incident Management
+- Every outage, degradation, error, or unexpected failure → log immediately via `bash scripts/incident-log.sh`
+- No incident goes unlogged. Ever. Even P4 auto-heals.
+- State file: `state/incident-log.json` | Notion: Incident DB
+- Warden checks: `incident-log.json` updated within 24h of any detected anomaly
+
+### ITIL-2: Change Management
+- Every change to config, scripts, crons, agent files, or platform → log via `zsh scripts/changelog-append.sh`
+- CHG log is the audit trail. No CHG = change never happened.
+- State file: `memory/CHANGELOG.md` | Format: CHG-NNNN
+- Warden checks: any git commit without a corresponding CHG entry flags a violation
+
+### ITIL-3: Health & Availability
+- `health-check.sh` runs every 5 min (cron). 9/9 checks must pass.
+- If 3+ consecutive failures OR >1hr degraded: alert Ken via Telegram immediately
+- Uptime target: ≥99.0%. Every incident contributes to SLA tracking.
+- Warden checks: `health-state.json` must be <10 min old. Stale = violation.
+
+### ITIL-4: Observability
+- `obs-collector.sh` runs every 5 min. `obs.db` is the operational record.
+- `tasks.db` tracks all async tasks. `task-collector.sh` runs every 5 min.
+- No silent failures. If a script errors, it logs. If a cron fails, Warden catches it.
+- Warden checks: `obs-collector-state.json` lastRun <10 min old.
+
+### ITIL-5: Transparency & Audit
+- Every decision of consequence → logged (MEMORY.md, decisions.md, or Notion)
+- Every risky operation → PVT run after (`bash scripts/pvt.sh`, 9/9 must pass)
+- Cost tracker runs daily. Balance checked every heartbeat.
+- Warden checks: `cost-state.json` <26h old. `auto-heal` ran within 25h.
+
+### ITIL-6: Sub-agent Compliance
+- Sub-agents are NOT exempt from ITIL. They must log incidents, CHGs, and governance reviews.
+- Every sub-agent task spec must include: what to log, where, and what constitutes failure.
+- If a sub-agent cannot comply (e.g. no access to scripts), Yoda logs on its behalf after completion.
+- Warden checks: active-work.json completedAt entries cross-referenced with CHG log.
 
 ---
 

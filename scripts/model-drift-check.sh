@@ -211,6 +211,93 @@ echo "────────────────────────�
 echo "  Result: ${PASS} PASS  ${FAIL} FAIL"
 echo "─────────────────────────────────────────────────────────────"
 
+# ── GOVERNANCE & ITIL COMPLIANCE CHECKS (TKT-0032, Ken directive 2026-05-02) ──────
+
+echo ""
+echo "[🔐 GOVERNANCE] Checking governance gate compliance..."
+
+# Check 10: Lex QA log freshness (governance gate must run within 24h on active days)
+LEX_LOG="$WORKSPACE/state/lex-qa-log.json"
+if [[ -f "$LEX_LOG" ]]; then
+  LEX_AGE_MINS=$(( ( $(date +%s) - $(stat -f %m "$LEX_LOG" 2>/dev/null || echo 0) ) / 60 ))
+  # Check last entry date — warn if no entry in last 48h AND there are blog commits
+  LEX_LAST=$(python3 -c "import json; d=json.load(open('$LEX_LOG')); entries=d if isinstance(d,list) else d.get('entries',[]); print(entries[-1].get('date','unknown') if entries else 'empty')" 2>/dev/null || echo "unknown")
+  echo "  OK  governance: lex-qa-log.json exists, last entry: $LEX_LAST"
+  PASS=$((PASS + 1))
+else
+  echo "  FAIL  governance: lex-qa-log.json missing — governance gate never run"
+  FINDINGS+=('{"agentId":"governance.lex-log","severity":"GOVERNANCE_GATE_MISSING","note":"lex-qa-log.json missing. Governance gate has never been run. All public assets unreviewed.","detectedAt":"'$AEST_TIMESTAMP'"}')
+  FAIL=$((FAIL + 1))
+fi
+
+# Check 11: ITIL — health-state.json freshness (<10 min)
+HEALTH_STATE="$WORKSPACE/state/health-state.json"
+if [[ -f "$HEALTH_STATE" ]]; then
+  HEALTH_AGE_MINS=$(( ( $(date +%s) - $(stat -f %m "$HEALTH_STATE" 2>/dev/null || echo 0) ) / 60 ))
+  if (( HEALTH_AGE_MINS > 10 )); then
+    echo "  FAIL  ITIL-3: health-state.json is ${HEALTH_AGE_MINS}min old (max: 10min)"
+    FINDINGS+=('{"agentId":"itil.health-freshness","severity":"ITIL_VIOLATION","note":"health-state.json is '"$HEALTH_AGE_MINS"'min old. health-check.sh may not be running. ITIL-3 breach.","detectedAt":"'$AEST_TIMESTAMP'"}')
+    FAIL=$((FAIL + 1))
+  else
+    echo "  OK  ITIL-3: health-state.json ${HEALTH_AGE_MINS}min old"
+    PASS=$((PASS + 1))
+  fi
+else
+  echo "  FAIL  ITIL-3: health-state.json missing"
+  FINDINGS+=('{"agentId":"itil.health-state","severity":"ITIL_VIOLATION","note":"health-state.json missing. Health monitoring not running. ITIL-3 breach.","detectedAt":"'$AEST_TIMESTAMP'"}')
+  FAIL=$((FAIL + 1))
+fi
+
+# Check 12: ITIL — obs-collector freshness (<10 min)
+OBS_STATE="$WORKSPACE/state/obs-collector-state.json"
+if [[ -f "$OBS_STATE" ]]; then
+  OBS_AGE_MINS=$(( ( $(date +%s) - $(stat -f %m "$OBS_STATE" 2>/dev/null || echo 0) ) / 60 ))
+  if (( OBS_AGE_MINS > 10 )); then
+    echo "  FAIL  ITIL-4: obs-collector-state.json is ${OBS_AGE_MINS}min old (max: 10min)"
+    FINDINGS+=('{"agentId":"itil.obs-freshness","severity":"ITIL_VIOLATION","note":"obs-collector-state.json is '"$OBS_AGE_MINS"'min old. Observability collector may not be running. ITIL-4 breach.","detectedAt":"'$AEST_TIMESTAMP'"}')
+    FAIL=$((FAIL + 1))
+  else
+    echo "  OK  ITIL-4: obs-collector-state.json ${OBS_AGE_MINS}min old"
+    PASS=$((PASS + 1))
+  fi
+else
+  echo "  WARN  ITIL-4: obs-collector-state.json missing (non-critical)"
+  PASS=$((PASS + 1))
+fi
+
+# Check 13: ITIL — incident-log.json exists
+INC_LOG="$WORKSPACE/state/incident-log.json"
+if [[ -f "$INC_LOG" ]]; then
+  echo "  OK  ITIL-1: incident-log.json present"
+  PASS=$((PASS + 1))
+else
+  echo "  FAIL  ITIL-1: incident-log.json missing — incident management not operational"
+  FINDINGS+=('{"agentId":"itil.incident-log","severity":"ITIL_VIOLATION","note":"incident-log.json missing. Incident management not operational. ITIL-1 breach.","detectedAt":"'$AEST_TIMESTAMP'"}')
+  FAIL=$((FAIL + 1))
+fi
+
+# Check 14: ITIL — cost-state.json freshness (<26h)
+COST_STATE="$WORKSPACE/state/cost-state.json"
+if [[ -f "$COST_STATE" ]]; then
+  COST_AGE_MINS=$(( ( $(date +%s) - $(stat -f %m "$COST_STATE" 2>/dev/null || echo 0) ) / 60 ))
+  if (( COST_AGE_MINS > 1560 )); then
+    echo "  FAIL  ITIL-5: cost-state.json is ${COST_AGE_MINS}min old (max: 1560min/26h)"
+    FINDINGS+=('{"agentId":"itil.cost-freshness","severity":"ITIL_VIOLATION","note":"cost-state.json is '"$COST_AGE_MINS"'min old. Cost tracking not running. ITIL-5 breach.","detectedAt":"'$AEST_TIMESTAMP'"}')
+    FAIL=$((FAIL + 1))
+  else
+    echo "  OK  ITIL-5: cost-state.json ${COST_AGE_MINS}min old"
+    PASS=$((PASS + 1))
+  fi
+else
+  echo "  FAIL  ITIL-5: cost-state.json missing"
+  FINDINGS+=('{"agentId":"itil.cost-state","severity":"ITIL_VIOLATION","note":"cost-state.json missing. Cost tracking not operational. ITIL-5 breach.","detectedAt":"'$AEST_TIMESTAMP'"}')
+  FAIL=$((FAIL + 1))
+fi
+
+echo "─────────────────────────────────────────────────────────────"
+echo "Total: $((PASS + FAIL)) checks | PASS: $PASS | FAIL: $FAIL"
+echo "─────────────────────────────────────────────────────────────"
+
 # ── Build findings JSON array ──────────────────────────────────────────────────
 FINDINGS_JSON="["
 if [ ${#FINDINGS[@]} -gt 0 ]; then
