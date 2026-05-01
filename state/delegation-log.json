@@ -4602,10 +4602,90 @@
       "status": "pass",
       "latencyMs": 0,
       "notes": "[N] checks run"
+    },
+    {
+      "ts": "2026-05-01T15:42:06+10:00",
+      "date": "2026-05-01",
+      "tier": "T2",
+      "taskType": "warden-check",
+      "model": "anthropic/claude-haiku-4-5",
+      "status": "pass",
+      "latencyMs": 0,
+      "notes": ""
+    },
+    {
+      "ts": "2026-05-01T15:57:10+10:00",
+      "date": "2026-05-01",
+      "tier": "T2",
+      "taskType": "warden-check",
+      "model": "anthropic/claude-haiku-4-5",
+      "status": "pass",
+      "latencyMs": 0,
+      "notes": "[N] checks run"
+    },
+    {
+      "ts": "2026-05-01T16:42:11+10:00",
+      "date": "2026-05-01",
+      "tier": "T2",
+      "taskType": "warden-check",
+      "model": "anthropic/claude-haiku-4-5",
+      "status": "pass",
+      "latencyMs": 0,
+      "notes": "[N] checks run"
+    },
+    {
+      "ts": "2026-05-01T16:57:11+10:00",
+      "date": "2026-05-01",
+      "tier": "T2",
+      "taskType": "warden-check",
+      "model": "anthropic/claude-haiku-4-5",
+      "status": "pass",
+      "latencyMs": 0,
+      "notes": "[N] checks run"
+    },
+    {
+      "ts": "2026-05-01T17:12:12+10:00",
+      "date": "2026-05-01",
+      "tier": "T2",
+      "taskType": "warden-check",
+      "model": "anthropic/claude-haiku-4-5",
+      "status": "pass",
+      "latencyMs": 0,
+      "notes": "[N] checks run"
+    },
+    {
+      "ts": "2026-05-01T18:57:11+10:00",
+      "date": "2026-05-01",
+      "tier": "T2",
+      "taskType": "warden-check",
+      "model": "anthropic/claude-haiku-4-5",
+      "status": "pass",
+      "latencyMs": 0,
+      "notes": "[N] checks run"
+    },
+    {
+      "ts": "2026-05-01T19:42:20+10:00",
+      "date": "2026-05-01",
+      "tier": "T2",
+      "taskType": "warden-check",
+      "model": "anthropic/claude-haiku-4-5",
+      "status": "pass",
+      "latencyMs": 0,
+      "notes": "[N] checks run"
+    },
+    {
+      "ts": "2026-05-01T20:00:16+10:00",
+      "date": "2026-05-01",
+      "tier": "T2",
+      "taskType": "burn-check",
+      "model": "anthropic/claude-haiku-4-5",
+      "status": "pass",
+      "latencyMs": 0,
+      "notes": "Burn check: $25.58 today (threshold: $40) \u2014 silent"
     }
   ],
   "summary": {
-    "total": 460,
+    "total": 468,
     "byTier": {
       "T1": {
         "pass": 0,
@@ -4613,7 +4693,7 @@
         "timeout": 0
       },
       "T2": {
-        "pass": 451,
+        "pass": 459,
         "fail": 8,
         "timeout": 0
       },
@@ -4631,7 +4711,7 @@
         "tier": "T2"
       },
       "warden-check": {
-        "pass": 290,
+        "pass": 297,
         "fail": 2,
         "timeout": 0,
         "tier": "T2"
@@ -4649,12 +4729,12 @@
         "tier": "T2"
       },
       "burn-check": {
-        "pass": 3,
+        "pass": 4,
         "fail": 0,
         "timeout": 0,
         "tier": "T2"
       }
     },
-    "estimatedSavingsUSD": 2.2625
+    "estimatedSavingsUSD": 2.3025
   }
 }

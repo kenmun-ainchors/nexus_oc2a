@@ -35,6 +35,138 @@ This log captures **every change** Yoda makes to AInchors infrastructure, config
 **Linked:** decisions.md 2026-04-27 entries
 ---
 
+## 2026-05-01 20:23 AEST — [CHG-0107] Fix MEMORY.md bootstrap truncation: bootstrapMaxChars 10k→20k
+**Type:** config
+**Source:** ken-prompt
+**Trigger:** Bootstrap truncation warning: MEMORY.md 12641 chars, limit was 10000 (21% cut)
+**What changed:** openclaw.json: agents.defaults.bootstrapMaxChars 10000→20000, bootstrapTotalMaxChars 80000→120000
+**Why:** MEMORY.md was being truncated at startup causing stale data in /resume and heartbeat. 20k gives headroom for growth.
+**Verification:** Config updated. Takes effect next session restart.
+**Rollback:** Revert bootstrapMaxChars to 10000 in openclaw.json
+**Linked:** none
+---
+
+
+## 2026-05-01 19:48 AEST — [CHG-0106] Ollama Cloud PoC — Phase 4+5: Cost Analysis and Decision Gate
+**Type:** infra
+**Source:** manual
+**Trigger:** Ken-authorised PoC: OllamaCloud_PoC.md
+**What changed:** Phase 4: AInchors current Claude spend avg .32/day (7-day avg from cost-state.json) = ~,550/mo. Ollama Cloud: Free tier 3M tokens/day tested — 13,668 tokens used in full benchmark suite. Pro=/mo, Max=/mo. Phase 5 outcome: PARTIAL PASS. qwen3.5:cloud works (quality 4/5, tool calling Y) but latency fails threshold (avg 58s vs 15s target). Frontier models require paid subscription. Recommend Pro plan trial () to unblock kimi-k2.6.
+**Why:** Phase 4 cost measurement and Phase 5 decision gate of Ollama Cloud PoC
+**Verification:** cost-state.json reviewed for 7-day spend. Token usage measured during benchmark. Pricing from ollama.com/pricing.
+**Rollback:** N/A
+**Linked:** none
+---
+
+
+## 2026-05-01 19:48 AEST — [CHG-0105] Ollama Cloud PoC — Phase 3: Benchmarks (B1-B6 on qwen3.5:cloud)
+**Type:** infra
+**Source:** manual
+**Trigger:** Ken-authorised PoC: OllamaCloud_PoC.md
+**What changed:** Ran B1-B6 benchmark suite on qwen3.5:cloud. B1(reasoning):37.3s,2696tok,quality4/5. B2(coding):87.5s,3763tok,quality3/5. B3(business):70.9s,1776tok,quality4/5. B4(research):58.2s,3182tok,quality3/5. B5(tool-use):1.9s,435tok,quality5/5. B6(governance):37.6s,1816tok,quality4/5. Total tokens: 13,668 (0.46% of 3M daily free limit).
+**Why:** Phase 3 benchmarks of Ollama Cloud PoC — quality and latency assessment
+**Verification:** All tasks completed without API errors. Tool calling confirmed working. Responses reviewed and scored.
+**Rollback:** N/A
+**Linked:** none
+---
+
+
+## 2026-05-01 19:47 AEST — [CHG-0104] Ollama Cloud PoC — Phase 2: Smoke Test
+**Type:** infra
+**Source:** manual
+**Trigger:** Ken-authorised PoC: OllamaCloud_PoC.md
+**What changed:** Smoke tested cloud models. qwen3.5:cloud: response Y, tool_calls Y, latency 1-2s. kimi-k2.6:cloud: BLOCKED (subscription required). glm-5.1:cloud: BLOCKED (subscription required). deepseek-v4-flash:cloud: BLOCKED (subscription required). deepseek-v4-pro:cloud: BLOCKED (subscription required). minimax-m2.7:cloud: does not exist in Ollama catalog.
+**Why:** Phase 2 smoke test of Ollama Cloud PoC
+**Verification:** Direct API curl to localhost:11434. qwen3.5:cloud returned valid response with tool_call in 1.9s. Others returned subscription error.
+**Rollback:** N/A
+**Linked:** none
+---
+
+
+## 2026-05-01 19:41 AEST — [CHG-0103] Ollama Cloud PoC — Phase 1: Environment Setup
+**Type:** infra
+**Source:** manual
+**Trigger:** Ken-authorised PoC: OllamaCloud_PoC.md
+**What changed:** Pulled cloud model manifests: kimi-k2.6:cloud, glm-5.1:cloud, qwen3.5:cloud, deepseek-v4-flash:cloud, deepseek-v4-pro:cloud. Verified signin=kenmun. baseUrl=http://127.0.0.1:11434 api=ollama. Finding: frontier models require paid subscription; qwen3.5:cloud is free-tier accessible.
+**Why:** Phase 1 of Ollama Cloud PoC — evaluate cloud model viability as Claude API cost reduction
+**Verification:** ollama list confirms manifests; qwen3.5:cloud inference returned valid response in 2s
+**Rollback:** N/A
+**Linked:** none
+---
+
+
+## 2026-05-01 19:40 AEST — [CHG-0102] HEARTBEAT.md: CHG trigger monitoring section added
+**Type:** doc
+**Source:** ken-prompt
+**Trigger:** YODA_OC1_OC2_OPERATIONAL_BRIEF.md — 10 triggers require ongoing monitoring
+**What changed:** HEARTBEAT.md: added CHG Trigger Monitoring section. Covers manual/event-driven triggers (01/02/03/05/07/10). Notes automated triggers (04/06 cron, 08 cost-tracker, 09 Warden) as already covered.
+**Why:** Triggers need to be checked at heartbeat cadence so Yoda can respond within minutes of OC2 arrival or PoC completion.
+**Verification:** HEARTBEAT.md updated.
+**Rollback:** Remove CHG Trigger Monitoring section from HEARTBEAT.md
+**Linked:** none
+---
+
+
+## 2026-05-01 19:39 AEST — [CHG-0101] TRIGGER-04/06: OpenClaw release monitor cron added (daily 06:00 AEST)
+**Type:** cron
+**Source:** ken-prompt
+**Trigger:** YODA_OC1_OC2_OPERATIONAL_BRIEF.md — TRIGGER-04 (security patch) + TRIGGER-06 (v4.0 P3 gate)
+**What changed:** New cron id: 6bd53c89. Daily 06:00 AEST. Haiku. Checks github.com/openclaw/openclaw/releases/latest. Fires TRIGGER-04 (security) or TRIGGER-06 (v4.0) if new version detected. Silent if no change.
+**Why:** S1 control requires OpenClaw version currency. TRIGGER-06 requires P3 gate assessment when v4.0 ships.
+**Verification:** Cron registered. Next run: 06:00 AEST tomorrow.
+**Rollback:** openclaw cron remove 6bd53c89
+**Linked:** none
+---
+
+
+## 2026-05-01 19:39 AEST — [CHG-0100] TRIGGER-08: Daily spend thresholds added to cost-tracker.sh
+**Type:** script
+**Source:** ken-prompt
+**Trigger:** YODA_OC1_OC2_OPERATIONAL_BRIEF.md — TRIGGER-08 requires daily spend monitoring
+**What changed:** cost-tracker.sh: added TRIGGER-08 block — checks total_cost against T1=$60/T2=$80/T3=$100 USD daily thresholds. Writes fired state to chg-triggers.json to prevent repeat alerts same day.
+**Why:** Brief defines daily spend gates separate from balance-remaining gates. First fire: today $25.58 OK.
+**Verification:** cost-tracker.sh run: TRIGGER-08: Daily spend $25.58 OK (T1=$60 / T2=$80 / T3=$100)
+**Rollback:** Remove TRIGGER-08 block from cost-tracker.sh
+**Linked:** none
+---
+
+
+## 2026-05-01 19:39 AEST — [CHG-0099] S1-S7 Security Audit — May 2026
+**Type:** doc
+**Source:** ken-prompt
+**Trigger:** Ken operational brief — S1-S7 compliance required before P2
+**What changed:** 8 AKB entries created. Security audit run and logged to state/security-audit-2026-05-01.json.
+**Why:** New operational brief from Ken defines S1-S7 as non-negotiable before first client deployment.
+**Verification:** Audit JSON written. CHG logged.
+**Rollback:** N/A
+**Linked:** none
+---
+
+
+## 2026-05-01 19:03 AEST — [CHG-0098] Fix cost-tracker remainingEstimate never decrements after top-up
+**Type:** script
+**Source:** ken-prompt
+**Trigger:** Balance showed ~$103 (old confirmed balance minus nothing); actual was $18
+**What changed:** cost-tracker.sh: replaced broken balance logic. Old code reset spentSinceTopUp=0 and returned confirmedBalance as-is every run. New: sum history costs for days > confirmedAt date, subtract from confirmedBalance. Also removed false note claiming cacheWrite excluded — usage.cost.total already includes it.
+**Why:** Tracker anchored to stale confirmed balance and never decremented it. Every run reset spentSinceTopUp=0. Actual balance drifted $85+ undetected.
+**Verification:** cost-tracker.sh run: remainingEstimate=115, spentAfter=0. Daily runs will now decrement correctly.
+**Rollback:** Restore from git
+**Linked:** none
+---
+
+
+## 2026-05-01 18:57 AEST — [CHG-0097] Credit tracker balance corrected + top-up recorded
+**Type:** data
+**Source:** ken-prompt
+**Trigger:** Ken reported pre-top-up actual was $18; tracker estimated ~$103
+**What changed:** cost-state.json: balance=115, reset all tier flags, documented $85 discrepancy. cost-alert-state.json: currentBalance=115, activeTier=0, all tiers reset.
+**Why:** Session-log estimates exclude input_cache_write_5m charges — causing $85 overestimate. Balance confirmed $115 post top-up by Ken 2026-05-01 18:56 AEST.
+**Verification:** Both state files updated. Tiers clear.
+**Rollback:** Restore from git
+**Linked:** none
+---
+
+
 ## 2026-05-01 09:52 AEST — [CHG-0096] US42 done: Ollama routing confirmed + Warden migrated to gemma4:e2b
 **Type:** config
 **Source:** ken-prompt

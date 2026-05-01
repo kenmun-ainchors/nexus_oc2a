@@ -1,0 +1,95 @@
+{
+  "schema": "1.0",
+  "description": "CHG Trigger Rules from YODA_OC1_OC2_OPERATIONAL_BRIEF.md v1.0. Yoda monitors these and raises CHG+Telegram alert when triggered.",
+  "lastUpdated": "2026-05-01",
+  "triggers": {
+    "TRIGGER-01": {
+      "name": "OC2 arrival",
+      "condition": "OC2-A or OC2-B physically arrives",
+      "detection": "manual \u2014 Ken notifies Yoda",
+      "action": "10-step setup sequence: Ollama config, Gemma4 install, Tailscale mesh, OpenClaw config update, HA validation",
+      "eta": "July 2026",
+      "status": "pending",
+      "firedAt": null
+    },
+    "TRIGGER-02": {
+      "name": "Both OC2 nodes live",
+      "condition": "OC2-A and OC2-B both online and validated",
+      "detection": "manual \u2014 validated after TRIGGER-01 complete for both nodes",
+      "action": "Activate HA architecture. Configure NAS shared state.",
+      "status": "pending",
+      "firedAt": null
+    },
+    "TRIGGER-03": {
+      "name": "Gemma4 validated on OC2",
+      "condition": "Gemma4:26b confirmed running on OC2 at acceptable performance",
+      "detection": "auto \u2014 check after TRIGGER-01 completes",
+      "action": "Switch Shield/Lex/Sage/Warden from Haiku to Gemma4:26b local (Tier 1)",
+      "status": "pending",
+      "firedAt": null
+    },
+    "TRIGGER-04": {
+      "name": "OpenClaw security patch",
+      "condition": "New OpenClaw version released with security fix",
+      "detection": "automated \u2014 daily cron checks github.com/openclaw/openclaw/releases",
+      "action": "Critical CVE: update within 48h. High: within 7 days. Raise CHG. Freeze client onboarding if P1.",
+      "cronId": null,
+      "currentVersion": null,
+      "lastChecked": null,
+      "status": "monitoring"
+    },
+    "TRIGGER-05": {
+      "name": "Ollama Cloud PoC PASS",
+      "condition": "PoC Phase 5 returns PASS or PARTIAL PASS",
+      "detection": "sub-agent PoC currently running",
+      "action": "Implement 4-tier model strategy. Ken decision gate required before Phase 6.",
+      "status": "in-progress",
+      "pocSubAgent": "agent:main:subagent:c8512703-fd93-4705-8bbc-4b3e7c516fd8",
+      "firedAt": null
+    },
+    "TRIGGER-06": {
+      "name": "OpenClaw v4.0 ships",
+      "condition": "OpenClaw v4.x release detected",
+      "detection": "automated \u2014 same daily release check cron as TRIGGER-04",
+      "action": "P3 gate assessment. Present Ken with native multi-agent vs CrewAI evaluation within 24h.",
+      "status": "monitoring",
+      "firedAt": null
+    },
+    "TRIGGER-07": {
+      "name": "First P2 client",
+      "condition": "First paying client onboarded to P2 platform",
+      "detection": "manual \u2014 Angie/Ken notifies Yoda",
+      "action": "Execute onboarding checklist. Run S1-S7 compliance audit. Ensure Tier 0/1 only for client data.",
+      "status": "pending",
+      "firedAt": null
+    },
+    "TRIGGER-08": {
+      "name": "Daily API cost threshold",
+      "condition": "Daily API spend exceeds $60 / $80 / $100 USD",
+      "detection": "automated \u2014 cost-tracker.sh daily run",
+      "action": "T1 ($60): alert Ken. T2 ($80): escalate. T3 ($100): pause and alert.",
+      "thresholds": {
+        "t1": 60,
+        "t2": 80,
+        "t3": 100
+      },
+      "status": "monitoring"
+    },
+    "TRIGGER-09": {
+      "name": "Warden model drift",
+      "condition": "Model drift detected by Warden",
+      "detection": "automated \u2014 Warden cron every 15min, escalation via warden-escalation-pending.json",
+      "action": "Yoda remediates within 1 heartbeat. Log CHG. Alert Ken.",
+      "status": "active",
+      "notes": "Already implemented. Warden cron id: 83accf7b"
+    },
+    "TRIGGER-10": {
+      "name": "Business stream migration OC1 to OC2",
+      "condition": "OC2 live, Aria + business agents ready to migrate",
+      "detection": "manual \u2014 conditional on TRIGGER-02 complete",
+      "action": "Migrate Aria + specialist agents from OC1 to OC2. Update routing. Validate.",
+      "status": "pending",
+      "firedAt": null
+    }
+  }
+}

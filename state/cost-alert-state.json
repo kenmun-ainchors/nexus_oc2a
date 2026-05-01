@@ -1,8 +1,8 @@
 {
   "schema_version": "1.0",
   "description": "Tracks response counters and alert state for tiered credit alerts. Updated by Yoda at runtime.",
-  "currentBalance": 110.64,
-  "lastBalanceCheck": "2026-04-30T14:19:00Z",
+  "currentBalance": 115,
+  "lastBalanceCheck": "2026-05-01T08:56:47.860Z",
   "activeTier": 0,
   "tier1": {
     "triggered": false,
@@ -46,11 +46,17 @@
       "tier": 0,
       "sentAt": "2026-04-30T14:19:00Z",
       "balanceEstimate": 110.64,
-      "note": "Tiers reset at 12:19AM May 1. Balance $110.64 per cost-state.json 23:55 AEST update \u2014 above $80 T1 threshold. No alerts active."
+      "note": "Tiers reset at 12:19AM May 1. Balance $110.64 per cost-state.json 23:55 AEST update — above $80 T1 threshold. No alerts active."
+    },
+    {
+      "tier": 0,
+      "sentAt": "2026-05-01T08:56:47.860Z",
+      "balanceEstimate": 115,
+      "note": "Tiers reset. Top-up confirmed . Pre-top-up actual was  (tracker showed ~ —  gap from untracked cache_write charges)."
     }
   ],
-  "balance": 64.0,
-  "confirmedAt": "2026-04-30T09:37:42.804515+00:00",
+  "balance": 115,
+  "confirmedAt": "2026-05-01T08:56:47.860Z",
   "confirmedBy": "Ken",
-  "topUpNote": "Balance USD 64.00 confirmed by Ken 2026-04-30 19:37 AEST."
+  "topUpNote": "Balance USD 115.00 confirmed by Ken 2026-05-01 18:56 AEST. Pre-top-up actual: ."
 }

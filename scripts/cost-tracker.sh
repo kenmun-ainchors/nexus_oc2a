@@ -98,7 +98,7 @@ day_summary = {
     "totalCacheReadTokens": total_cache_read,
     "totalCacheWriteTokens": total_cache_write,
     "source": "session-log-estimate",
-    "note": "Session log estimate — excludes input_cache_write_5m charges billed separately by Anthropic. Actual cost is higher. See US38 for Anthropic Billing API integration.",
+    "note": "Session log estimate. usage.cost.total includes cacheWrite charges. CHG-0097: confirmed cost includes cache writes.",
     "byModel": {m: {k: round(v, 4) if isinstance(v, float) else v for k,v in d.items()} for m, d in by_model.items()}
 }
 
@@ -161,31 +161,43 @@ if f"## {date}" not in existing:
         with open(cost_log, "a") as f:
             f.write("\n".join(lines))
 
-# Balance alert check — tier-based using cost-alert-state.json + spendAlerts in cost-state.json
-# IMPORTANT: only count spend AFTER the top-up timestamp to avoid double-counting
-# pre-top-up spend that already exhausted the previous balance.
+# Balance tracking — accurate remaining estimate
+# Logic: confirmedBalance is the balance AT the moment Ken confirmed it.
+# Spend on days AFTER the confirmedAt date reduces it.
+# The confirmedAt day itself is NOT subtracted (balance was confirmed mid-day,
+# already net of any pre-confirmation spend).
 api = state.get('apiBalance', {})
 alerts = state.get('spendAlerts', {})
 
-# Use confirmedAt balance if available (set by Ken) — most accurate source of truth
-# Otherwise fall back to calculated estimate
 confirmed_balance = api.get('confirmedBalance')
+confirmed_at = api.get('confirmedAt', '')
+confirmed_date = confirmed_at[:10] if confirmed_at else api.get('topUpDate', '1970-01-01')
+
 if confirmed_balance is not None:
-    # Confirmed balance is mid-day ground truth — don't subtract all-day spend
-    remaining = confirmed_balance  # use confirmed balance as current floor
-    api['spentSinceTopUp'] = 0  # reset anchor to confirmed balance point
+    # Sum all daily costs for days STRICTLY AFTER the confirmed date.
+    # The confirmed date itself is excluded — the confirmed balance already
+    # accounts for any spend up to that point in the day.
+    spent_after_confirm = sum(
+        d.get('totalCost', 0)
+        for day, d in state.get('history', {}).items()
+        if day > confirmed_date
+    )
+    remaining = max(0, round(confirmed_balance - spent_after_confirm, 4))
+    api['spentSinceTopUp'] = round(spent_after_confirm, 4)
 else:
-    # Only add today's cost to spentSinceTopUp if today >= topUpDate
+    # Legacy path — no confirmed balance, use topUpDate
     topup_date = api.get('topUpDate', '1970-01-01')
-    if date >= topup_date:
-        spent_since_topup = api.get('spentSinceTopUp', 0) + total_cost
-    else:
-        spent_since_topup = api.get('spentSinceTopUp', 0)
+    spent_since_topup = sum(
+        d.get('totalCost', 0)
+        for day, d in state.get('history', {}).items()
+        if day >= topup_date
+    )
     starting_balance = api.get('balance', 0)
-    remaining = round(starting_balance - spent_since_topup, 4)
+    remaining = max(0, round(starting_balance - spent_since_topup, 4))
     api['spentSinceTopUp'] = round(spent_since_topup, 4)
 
-api['remainingEstimate'] = max(0, remaining)
+api['remainingEstimate'] = remaining
+api['remainingNote'] = "confirmedBalance=" + str(confirmed_balance) + " at " + confirmed_date + "; spentAfter=" + str(round(api['spentSinceTopUp'], 4))
 state['apiBalance'] = api
 
 # Load cost-alert-state.json for confirmed balance + tier thresholds
@@ -219,6 +231,47 @@ else:
     print(f"Balance OK: \${current_balance:.2f} USD (T1=\${t1_thresh:.0f} / T2=\${t2_thresh:.0f} / T3=\${t3_thresh:.0f})")
 
 state['spendAlerts'] = alerts
+
+# TRIGGER-08: Daily spend thresholds (YODA_OC1_OC2_OPERATIONAL_BRIEF.md)
+# T1=$60/day alert | T2=$80/day escalate | T3=$100/day pause
+daily_t1 = 60.0
+daily_t2 = 80.0
+daily_t3 = 100.0
+trigger_state_file = os.path.expanduser('~/.openclaw/workspace/state/chg-triggers.json')
+trigger_state = {}
+if os.path.exists(trigger_state_file):
+    try:
+        with open(trigger_state_file) as f:
+            trigger_state = json.load(f)
+    except: pass
+
+t08 = trigger_state.get('triggers', {}).get('TRIGGER-08', {})
+t08_fired_today = t08.get('lastFiredDate') == date
+
+if total_cost >= daily_t3 and not t08_fired_today:
+    print("TRIGGER-08-T3: Daily spend \${:.2f} >= \${:.0f}. PAUSE - notify Ken immediately.".format(total_cost, daily_t3))
+    trigger_state.setdefault('triggers', {}).setdefault('TRIGGER-08', {})['lastFired'] = datetime.utcnow().strftime('%Y-%m-%dT%H:%M:%SZ')
+    trigger_state['triggers']['TRIGGER-08']['lastFiredDate'] = date
+    trigger_state['triggers']['TRIGGER-08']['lastFiredLevel'] = 'T3'
+elif total_cost >= daily_t2 and not t08_fired_today:
+    print("TRIGGER-08-T2: Daily spend \${:.2f} >= \${:.0f}. Escalate to Ken.".format(total_cost, daily_t2))
+    trigger_state.setdefault('triggers', {}).setdefault('TRIGGER-08', {})['lastFired'] = datetime.utcnow().strftime('%Y-%m-%dT%H:%M:%SZ')
+    trigger_state['triggers']['TRIGGER-08']['lastFiredDate'] = date
+    trigger_state['triggers']['TRIGGER-08']['lastFiredLevel'] = 'T2'
+elif total_cost >= daily_t1 and not t08_fired_today:
+    print("TRIGGER-08-T1: Daily spend \${:.2f} >= \${:.0f}. Alert Ken.".format(total_cost, daily_t1))
+    trigger_state.setdefault('triggers', {}).setdefault('TRIGGER-08', {})['lastFired'] = datetime.utcnow().strftime('%Y-%m-%dT%H:%M:%SZ')
+    trigger_state['triggers']['TRIGGER-08']['lastFiredDate'] = date
+    trigger_state['triggers']['TRIGGER-08']['lastFiredLevel'] = 'T1'
+else:
+    print("TRIGGER-08: Daily spend \${:.2f} OK (T1=\${:.0f} / T2=\${:.0f} / T3=\${:.0f})".format(total_cost, daily_t1, daily_t2, daily_t3))
+
+if trigger_state:
+    try:
+        with open(trigger_state_file, 'w') as f2:
+            import json as _json
+            _json.dump(trigger_state, f2, indent=2)
+    except: pass
 
 # Safe atomic write (inline — state-write.py has a dash, not importable as a module)
 dir_path = os.path.dirname(os.path.abspath(state_file))

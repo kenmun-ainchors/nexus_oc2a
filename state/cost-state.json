@@ -1,5 +1,5 @@
 {
-  "lastUpdated": "2026-05-01T02:00:12Z",
+  "lastUpdated": "2026-05-01T09:39:25Z",
   "history": {
     "2026-04-25": {
       "date": "2026-04-25",
@@ -22,7 +22,7 @@
       "source": "anthropic_csv_ground_truth",
       "byModel": {
         "claude-opus-4-7": {
-          "cost": 17.0,
+          "cost": 17,
           "turns": 0
         },
         "claude-sonnet-4-6": {
@@ -68,7 +68,7 @@
           "output": 0,
           "cacheRead": 0,
           "cacheWrite": 0,
-          "cost": 0.0,
+          "cost": 0,
           "turns": 2
         },
         "claude-haiku-4-5": {
@@ -84,7 +84,7 @@
           "output": 0,
           "cacheRead": 0,
           "cacheWrite": 0,
-          "cost": 0.0,
+          "cost": 0,
           "turns": 1
         },
         "claude-opus-4-7": {
@@ -148,7 +148,7 @@
           "output": 0,
           "cacheRead": 0,
           "cacheWrite": 0,
-          "cost": 0.0,
+          "cost": 0,
           "turns": 4
         },
         "claude-haiku-4-5": {
@@ -163,14 +163,14 @@
     },
     "2026-05-01": {
       "date": "2026-05-01",
-      "totalCost": 7.433,
-      "totalTurns": 394,
-      "totalInputTokens": 439892,
-      "totalOutputTokens": 49166,
-      "totalCacheReadTokens": 9725652,
-      "totalCacheWriteTokens": 1151643,
+      "totalCost": 25.583,
+      "totalTurns": 1859,
+      "totalInputTokens": 2039478,
+      "totalOutputTokens": 271636,
+      "totalCacheReadTokens": 41449631,
+      "totalCacheWriteTokens": 2951493,
       "source": "session-log-estimate",
-      "note": "Session log estimate \u2014 excludes input_cache_write_5m charges billed separately by Anthropic. Actual cost is higher. See US38 for Anthropic Billing API integration.",
+      "note": "Session log estimate. usage.cost.total includes cacheWrite charges. CHG-0097: confirmed cost includes cache writes.",
       "byModel": {
         "delivery-mirror": {
           "input": 0,
@@ -180,73 +180,81 @@
           "cost": 0.0,
           "turns": 1
         },
-        "claude-haiku-4-5": {
-          "input": 649,
-          "output": 10217,
-          "cacheRead": 893549,
-          "cacheWrite": 90658,
-          "cost": 0.2544,
-          "turns": 59
-        },
         "claude-sonnet-4-6": {
-          "input": 516,
-          "output": 36580,
-          "cacheRead": 8832103,
-          "cacheWrite": 1060985,
-          "cost": 7.1786,
-          "turns": 302
+          "input": 2430,
+          "output": 218830,
+          "cacheRead": 37432907,
+          "cacheWrite": 2702934,
+          "cost": 24.6556,
+          "turns": 1442
         },
         "gemma4:e2b": {
-          "input": 438727,
-          "output": 2369,
+          "input": 2034133,
+          "output": 10391,
           "cacheRead": 0,
           "cacheWrite": 0,
           "cost": 0.0,
-          "turns": 32
+          "turns": 149
+        },
+        "claude-haiku-4-5": {
+          "input": 2915,
+          "output": 42415,
+          "cacheRead": 4016724,
+          "cacheWrite": 248559,
+          "cost": 0.9274,
+          "turns": 267
         }
       }
     }
   },
-  "allTimeTotalCost": 810.1161,
+  "allTimeTotalCost": 828.2661,
   "daysTracked": 7,
-  "avgDailyCost": 115.7309,
+  "avgDailyCost": 118.3237,
   "apiBalance": {
     "currency": "USD",
-    "balance": 110.64,
-    "topUpDate": "2026-04-30",
+    "balance": 115,
+    "topUpDate": "2026-05-01",
     "spentSinceTopUp": 0,
-    "remainingEstimate": 110.64,
-    "note": "Balance USD 110.64 confirmed by Ken 2026-04-30 13:37 AEST (top-up).",
-    "confirmedAt": "2026-04-30T03:37:55+00:00",
+    "remainingEstimate": 115,
+    "note": "Balance USD 115.00 confirmed by Ken 2026-05-01 18:56 AEST (top-up). Pre-top-up actual was  \u2014 tracker was ~ over due to cache_write charges not captured in session-log estimates.",
+    "confirmedAt": "2026-05-01T08:56:47.854Z",
     "confirmedBy": "Ken",
-    "confirmedBalance": 110.64
+    "confirmedBalance": 115,
+    "preTopUpActual": 18,
+    "trackerDiscrepancy": {
+      "trackerEstimate": 103,
+      "actual": 18,
+      "gap": 85,
+      "cause": "input_cache_write_5m charges excluded from session-log estimates"
+    },
+    "remainingNote": "confirmedBalance=115 at 2026-05-01; spentAfter=0"
   },
   "spendAlerts": {
     "tier1": {
-      "threshold": 80.0,
+      "threshold": 80,
       "label": "Tier 1 \u2014 $80 remaining",
       "action": "Alert Ken + Angie ONCE. ~19hrs runway at current burn. Top up soon.",
       "frequency": "once",
-      "triggered": true,
+      "triggered": false,
       "triggeredAt": null,
       "note": "Updated 2026-04-28 from $50 to $80 \u2014 actual burn $101/day from CSV"
     },
     "tier2": {
-      "threshold": 40.0,
+      "threshold": 40,
       "label": "Tier 2 \u2014 $40 remaining",
       "action": "Alert Ken + Angie every 3rd response. ~9hrs runway. Top up urgently.",
       "frequency": "every-3rd-response",
       "responseCounter": 0,
-      "triggered": true,
+      "triggered": false,
       "triggeredAt": null
     },
     "tier3": {
-      "threshold": 15.0,
+      "threshold": 15,
       "label": "Tier 3 \u2014 $15 remaining \u2014 CRITICAL",
       "action": "PAUSE before every request. Alert Ken + Angie. Require acknowledgement.",
       "frequency": "every-request-and-response",
-      "triggered": true,
-      "triggeredAt": "2026-04-30T02:10:00Z"
+      "triggered": false,
+      "triggeredAt": null
     },
     "recipients": {
       "ken": {

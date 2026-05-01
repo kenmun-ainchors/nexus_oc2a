@@ -2,8 +2,7 @@
 
 ## Identity
 - Name: Yoda 🟢
-- Role: AI business operations lead agent
-- Lead agent for Ken Mun (CTO)
+- Role: AI business operations lead agent for Ken Mun (CTO), AInchors
 
 ## The People
 - **Ken Mun** — Co-founder, CTO. Technical lead. My direct operator.
@@ -17,75 +16,30 @@
   - Telegram bot: **@AInchorsAriaBot** → routes to Aria (Angie only, strict allowlist)
 
 ## The Company
-- **Name:** AI Anchor Solutions Pty Ltd
-- **Short name:** AInchors
-- **Domain:** ainchors.com
-- **Registration:** Sydney, NSW. Bases: Sydney + Melbourne.
-- **Stage:** Brand new. Day 1 of technical department = 2026-04-25.
-- **Focus:** 
-  1. AI courses & training for businesses
-  2. AI consulting services
-  3. Building AI solutions (products/custom builds)
-- **Technical team size:** 1 (Ken) + me as lead agent. Growing.
+- **Name:** AI Anchor Solutions Pty Ltd | **Short:** AInchors | **Domain:** ainchors.com
+- Sydney NSW + Melbourne. Day 1 of tech dept = 2026-04-25.
+- Focus: (1) AI courses & training (2) AI consulting (3) AI solutions/products
+- Emails: kenmun@ainchors.com ✅ gog working | info@ainchors.com | accounts@ainchors.com | Provider: Gmail (Google Workspace)
+- Technical stream (Ken + Yoda): AI foundation, agent team, platform dev
+- Business stream (Angie + Aria): training delivery, marketing, sales, support
 
-## Email Accounts
-- ken@ainchors.com → kenmun@ainchors.com (being set up)
-- info@ainchors.com
-- accounts@ainchors.com
-- Provider: Gmail (Google Workspace)
-
-## Two Streams of Work
-### Technical Stream (Ken / CTO)
-- Build AI agentic foundation
-- Build and manage AI agent team
-- Platform development
-- I (Yoda) am the lead agent for this stream
-
-### Business Stream (Angie / CEO)
-- Training delivery
-- Marketing & sales
-- Support operations
-- AI agents to handle and expand these functions
-
-## Tools to Integrate (full scope)
-- Email
-- Calendar
-- Project management
-- Comms (team messaging)
-- Coding / dev tools
-- Video creation & editing
-- Slides & presentations
-- Documents & Excel
-- Image creation & editing
-- Web content management (CMS)
-- Social media — posting, listening, responding, management
-  - Priority order: Instagram → Facebook → LinkedIn
-- Proposal creation
-- Reporting
-
-## Infrastructure
-- **OC1 (this Mac mini):** Permanent base. Yoda runs here. Technical stream lead + oversight of all.
-- **OC2 (future Mac mini):** Angie's machine. Business stream agents. Managed by Angie, overseen by Yoda.
-- Current Mac mini → becomes OC2 when Yoda migrates to new, more powerful Mac mini.
-- Tailscale: critical for OC1↔OC2 cross-instance communication (Phase 3, not Phase 4)
+## Infrastructure — HIVE Architecture (confirmed May 2026 — Ken brief)
+- **OC1** — Mac Mini M4 24GB — LIVE Production. Orchestration, Tier 0/1 agents, Telegram gateway. PERMANENT — never decommissioned.
+  - HARD LIMIT: Cannot run local LLM inference. 24GB = hardware ceiling. No models above ~8B at Q4. Not a config issue.
+  - Post-OC2 role: lightweight relay node, ITSM/obs/cost-tracking, Tier 0/1 only.
+- **OC2-A** — Mac Mini M4 Pro 48GB — INCOMING (ETA: July 2026). HA Primary. Local inference primary.
+- **OC2-B** — Mac Mini M4 Pro 48GB — INCOMING (ETA: July 2026). HA Secondary, hot standby.
+- Supporting: Tailscale mesh, NAS (shared model weights + state), Obsidian vault (shared KB across all nodes)
+- Platform: OpenClaw confirmed for P1 and P2. Final decision. No replatforming.
 - Telegram: Ken's secondary channel (urgent/offline)
 
-## Dual-Instance Architecture
-- Yoda (OC1) = Lead agent. Oversees OC2. Manages holistic knowledge, decisions, context.
-- OC2 = Business stream. Angie's instance. Sub-agents managed locally there.
-- Cross-instance: Yoda assigns work to OC2, reviews outputs, maintains alignment.
-- Shared knowledge: synced via Obsidian vault (iCloud or Git) + structured handoffs.
-- Yoda must be PORTABLE — full migration guide required before new Mac mini arrives.
-
-## Agent Architecture Plan
-- Two streams: Technical + Business
+## Agent Architecture
 - Yoda 🟢 = lead agent (technical stream primary, oversees all)
-- **Aria 🔵** = Business Lead Agent (Angie's agent, lives on OC1 temporarily, migrates to OC2)
-  - Governance layer (on OC1, planned): Shield 🛡️ (security), Lex ⚖️ (legal), Sage 🔬 (QA)
-  - Aria primary model: Sonnet (confirmed Day 3 — Gemma4 removed from interactive path)
-- **Gemma4 policy: background/non-interactive crons ONLY** — cold-load causes system-wide slowdown. Never for interactive sessions.
-- Sub-agents to be built: content, social, support, marketing, reporting, coding
-- Angie's team to eventually have their own AI agent layer
+- **Aria 🔵** = Business Lead Agent (on OC1, migrates to OC2 at TRIGGER-10)
+  - Governance layer: Shield 🛡️ (security), Lex ⚖️ (legal), Sage 🧪 (QA) — all Sonnet
+  - Aria primary model: Sonnet
+- **Gemma4 policy: background/non-interactive crons ONLY** — cold-load causes system-wide slowdown.
+- Sub-agents to build: content, social, support, marketing, reporting, coding
 
 ## Agent SOUL.md Compact Standard (NON-NEGOTIABLE — locked 2026-04-30)
 - **Rule:** Every agent SOUL.md must be under 5,000 chars. Hard limit: 10,000 chars (OpenClaw truncation threshold).
@@ -93,75 +47,94 @@
 - **Why it matters:** Aria's SOUL.md at 17,393 chars was being silently truncated → wrong Telegram targets → stuck session → gateway OOM crash → WebSocket 1006 (incident 2026-04-30 18:11)
 - **Enforcement:** obs-collector.sh monitors soul_truncated events. Action trigger at 6,000 chars.
 - **Current sizes:** Yoda 4,334 ✅ | Aria 3,765 ✅ | Shield 3,857 ✅ | Governance 1,334 ✅ | Sage 1,830 ✅ | Lex 2,322 ✅
-- **RULES.md files:** YODA_RULES.md, ARIA_RULES.md, SAGE_RULES.md, LEX_RULES.md all live. Shield uses SHIELD_RULE_1.md. All 6 agents compliant as of 2026-04-30.
+- **RULES.md files:** YODA_RULES.md, ARIA_RULES.md, SAGE_RULES.md, LEX_RULES.md all live. Shield uses SHIELD_RULE_1.md.
 - **New agents:** SOUL.md written compact from Day 1 alongside [AGENT]_RULES.md. No exceptions.
 
 ## Governance Layer — Agents
 - **Shield 🛡️** (security) — model: Sonnet
-- **Lex ⚖️** (legal) — model: **Opus** (documented exception — legal accuracy justifies cost)
+- **Lex ⚖️** (legal) — model: **Sonnet** (Opus exception removed 2026-04-28, Ken confirmed Sonnet sufficient — cost saving)
 - **Sage 🧪** (qa) — model: Sonnet
 - **Warden 🔍** (governance) — Model Compliance Officer. Checks all 6 agents every 15 min. Reports to Yoda. Never acts directly. See `state/model-policy.json`.
   - Script: `scripts/model-drift-check.sh` — 9 checks, exit 0=clean/exit 2=violation
   - State: `state/model-drift-state.json`, `state/model-drift-violations.json`
   - Escalation: writes `state/warden-escalation-pending.json` → Yoda heartbeat picks up + remediates
-  - Cron: every 15 min, isolated agentTurn (cron id: 83accf7b)
+  - Cron: every 15 min, isolated agentTurn (cron id: 83accf7b), model: gemma4:e2b (CHG-0096)
   - Policy registry: `state/model-policy.json` (per-agent allowed/required/prohibited models)
 
-## Key Scripts & Infrastructure (Day 3)
+## Key Scripts & Infrastructure
 - `scripts/auto-heal.sh` — nightly 23:30 AEST, 12 checks, auto-fixes stale state, files Notion US for needs-Ken items
-- `scripts/run-diagnostics.sh` — on-demand `/diagnostics`, 6 phases, last result: 16 PASS / 6 WARN / 0 FAIL (Day 3 22:10)
+- `scripts/run-diagnostics.sh` — on-demand `/diagnostics`, 6 phases
 - `scripts/ticket.sh` — ITSM ticketing (TKT-NNNN), ticket-first rule enforced before any ad-hoc work
 - `scripts/changelog-append.sh` — auto-increments CHG-NNNN in `memory/CHANGELOG.md`
 - `scripts/gateway-config-snapshot.sh` + `scripts/gateway-restore.sh` — config snapshot/restore SOP
+- `scripts/cost-tracker.sh` — daily spend tracking. Balance: confirmedBalance − spentAfterDate (CHG-0098)
 - `state/critical-config-baseline.json` — anti-drift guard (7 configs), validated by auto-heal Check #12
+- `state/chg-triggers.json` — 10 CHG triggers, status, detection method
 
 ## Operations Docs (locked)
 - `~/Documents/AInchors/Operations/JournalFormat.md` — locked journal spec (verbatim Ken prompts, Yoda voice, private)
 - `~/Documents/AInchors/Operations/BlogFormat.md` — locked blog spec (Ken first-person, public-ready, built FROM journal)
-- `~/Documents/AInchors/Operations/ResiliencyFramework.md` — 5-level resiliency stack doc
 - `~/Documents/AInchors/Operations/GatewayRecovery.md` — troubleshoot → restore from snapshot → openclaw reset
-
-## Daily Output Locations
-- **Journal:** `memory/journal-YYYY-MM-DD.md`
-- **Blog:** `canvas/documents/ainchors-YYYY-MM-DD/index.html`
+- **Journal:** `memory/journal-YYYY-MM-DD.md` | **Blog:** `canvas/documents/ainchors-YYYY-MM-DD/index.html`
 
 ## GitHub
 - GitHub CLI (`gh`) authenticated: account **kenmun-ainchors**, scopes: repo, read:org, gist (token in keyring)
 
-## Known Incidents & Fixes (Day 3)
-- **Bonjour/ciao plugin** disabled (CHG-0036) — was crash-looping every ~9s, caused gateway crash at 19:30 AEST
-- **Model drift** x2 — Opus snuck in after reset. Anti-drift baseline + auto-heal Check #12 now guards this.
-- **Dual Telegram bot** (CHG-0038) — eliminates routing ambiguity permanently. One bot per agent.
-
 ## Open Items
-- Company name not yet captured — ask Ken
-- Email: kenmun@ainchors.com being set up — integrate once live
-- Project management tool: not yet decided
-- Social media accounts not yet connected (Instagram, Facebook, LinkedIn — in priority order)
-- Remote access (Tailscale) deferred
+- ken@ainchors.com alias → kenmun@ainchors.com (gog working ✅ — alias setup status unknown)
+- Project management tool: not yet decided (Notion used for US/backlog)
+- Social media accounts not yet connected (Instagram → Facebook → LinkedIn)
+- Tailscale remote access: deferred
+- S4 (agent tool scopes): all agents have tools=null — define explicit scopes before TRIGGER-07 (first P2 client)
 - Agent team to be designed and built
 
-## Active Backlog (User Stories — Notion source of truth)
+## Active Backlog (Notion source of truth)
 - US19: HA Design (reliability, High priority)
 - US39: Preventable Downtime Enforcement (future sprint)
-- US42: Gemma4/cron tier optimisation (partial — Option A done, Ollama routing fix TBD)
-- PiKVM remote access (deferred, hardware dependency)
-- gog for Angie: re-auth needed (angie.foong@ainchors.com OAuth — wrong token used Day 6)
-- April 30 class (Mont Kiara): CAMP-0001 ran, no debrief from Angie yet
+- gog for Angie: ✅ RESOLVED — angie.foong@ainchors.com OAuth working (verified 2026-05-01)
+- CAMP-0001 (Mont Kiara Apr 30 class): no debrief from Angie yet
+- OC2 arrival (ETA July 2026) → fires TRIGGER-01 setup sequence
+- Ollama Cloud PoC: Phase 1–4 running (sub-agent c8512703). Phase 6 pending Ken approval.
 
 ## Blog Post Ideas (Ken-originated, do not write until Ken signals ready)
-- **"Building observability for an Agentic AI platform"** (noted Apr 30, priority: medium)
-  - Hook: "Our AI platform crashed twice today. Our own logging system didn't see it coming."
-  - Core insight: "We built observability for our agents. We forgot to build observability for the platform running the agents."
-  - Story: 1006 crash chain → obs.db gap → gateway.err.log integration → 14-check collector
-  - Tag: Platform engineering, Agentic AI, observability, OpenClaw, production systems
-  - Status: **Idea only** — do not write yet
+- **"Building observability for an Agentic AI platform"** (Apr 30, medium priority) — Status: idea only
 
-## Day 6 Context (2026-04-30 close)
-- 4 US delivered: US40 (observability), US41 (task monitoring), US42 Option A (cron tier), US43 (RTB model)
-- US22 + US38 closed
-- 2 x WebSocket 1006 incidents: root cause = Aria SOUL.md 17,393 chars → truncated → stuck session → OOM
-- All 6 agents now compact SOUL.md + [AGENT]_RULES.md
-- RTB operating model active from 2026-05-01 8AM standup
-- Balance at close: $64.00 USD. 6-day all-time: $802.68 USD
-- Mac mini restarted cleanly at 19:33 AEST. All systems online.
+## 4-Tier Model Strategy (Target — post OC2, pending PoC)
+- Tier 0: No LLM (systemEvent crons) — $0 — health, obs, task monitoring
+- Tier 1: Gemma4:26b local on OC2 — $0 — governance agents, client workloads, data-sovereign tasks
+- Tier 2: Ollama Cloud (kimi-k2.6 / qwen3.5 / glm-5.1) — $100/mo flat — AInchors own ops only (NEVER client data)
+- Tier 3: Claude Sonnet 4.6 — pay-per-token — FALLBACK ONLY
+- Data sovereignty: DS-1 to DS-5 enforced by Warden. Client data = Tier 0/1 local ONLY.
+- CURRENT state (pre-OC2, pre-PoC): all agents on Sonnet. Existing routing unchanged until PoC results.
+- PoC: Ollama Cloud free-tier PoC to run after AKB + S1-S7 audit. Ken decision gate before any model changes.
+
+## Security Controls (S1–S7) — from Ken brief May 2026
+- S1: OpenClaw version ≥ v2026.1.29 (CVE-2026-25253 patched). Daily Warden check.
+- S2: Gateway bind = loopback only. Port 18789 never public. Remote via Tailscale only.
+- S3: No ClawHub skills on production. All skills custom-built. Weekly audit.
+- S4: Least privilege per agent. Governance agents read-only filesystem.
+- S5: No hardcoded credentials. Keychain + env vars only.
+- S6: All CHG entries logged. Warden model compliance. Incident log current.
+- S7: Obsidian vault encrypted. NAS encrypted (post-OC2).
+
+## CHG Trigger Rules (TRIGGER-01 to TRIGGER-10)
+- TRIGGER-01: OC2 arrival → 10-step setup (Ollama config, Gemma4 install, Tailscale, OpenClaw config update, HA validation)
+- TRIGGER-02: Both OC2 nodes live → HA architecture active, NAS shared state
+- TRIGGER-03: Gemma4 validated on OC2 → switch governance agents from Haiku to Gemma4:26b local
+- TRIGGER-04: OpenClaw security patch → update within 48h (critical) or 7 days (high). Raise CHG.
+- TRIGGER-05: Ollama Cloud PoC PASS → implement 4-tier model strategy. Ken decision gate.
+- TRIGGER-06: OpenClaw v4.0 ships → P3 gate assessment. Present Ken with CrewAI vs native multi-agent eval.
+- TRIGGER-07: First P2 client → onboarding checklist execution
+- TRIGGER-08: Daily API cost exceeds $60 USD → T1 alert; $80 → T2; $100 → T3 pause
+- TRIGGER-09: Warden model drift detected → Yoda remediates within 1 heartbeat
+- TRIGGER-10: Business stream ready → migrate Aria + agents from OC1 to OC2
+
+## Day 7 Context (2026-05-01)
+- CHG-0095: obs-collector session_stuck dedup fixed (183→0 events/24h); standup Telegram 3,500-char guard
+- CHG-0096: US42 complete — Ollama routing confirmed, Warden on gemma4:e2b
+- CHG-0097: Balance corrected to $115 (pre-top-up actual was $18; tracker showed ~$103)
+- CHG-0098: cost-tracker.sh bug fixed — remainingEstimate now auto-decrements daily from confirmedBalance
+- CHG-0099: 8 AKB entries created (AKB-PLATFORM-001–008). S1-S7 audit: 6 PASS / 1 WARN (S4) / 0 FAIL
+- CHG-0100/101/102: TRIGGER-08 in cost-tracker, TRIGGER-04/06 release cron, HEARTBEAT trigger monitoring
+- CHG-0107: bootstrapMaxChars 10k→20k (fix MEMORY.md truncation)
+- Balance: $115.00 USD (top-up 19:04 AEST). All-time: $828.27 USD over 7 days.

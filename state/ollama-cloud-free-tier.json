@@ -1,0 +1,14 @@
+{
+  "source": "kenmun@ainchors.com email 2026-05-01",
+  "plan": "free",
+  "limits": {
+    "tokensPerHour": 250000,
+    "tokensPerDay": 3000000,
+    "tokensPerWeek": 6000000,
+    "concurrentModels": 1,
+    "usageResetEvery": "5 hours",
+    "weeklyResetEvery": "7 days"
+  },
+  "pocFeasibility": "feasible — benchmark token volume well within limits",
+  "note": "Ken confirmed: use free tier for PoC. Report if limits hit."
+}

@@ -287,6 +287,43 @@ else
   fi
 fi
 
+# ---------- CHECK 14: MEMORY.md + SOUL.md size guard ----------
+log "CHECK 14: bootstrap file size guard"
+CHECKS_RUN+=("bootstrap_size")
+BOOTSTRAP_MAX=15000
+MEMORY_FILE="$WORKSPACE/MEMORY.md"
+if [[ -f "$MEMORY_FILE" ]]; then
+  MEMORY_SIZE=$(wc -c < "$MEMORY_FILE" | tr -d ' ')
+  if (( MEMORY_SIZE > BOOTSTRAP_MAX )); then
+    ISSUES_FOUND+=("memory_md_oversized")
+    NEEDS_KEN+=("MEMORY.md is ${MEMORY_SIZE} chars (limit 15000 warning / 20000 hard). Trim before next session or increase bootstrapMaxChars.")
+    log "  WARN: MEMORY.md ${MEMORY_SIZE} chars > ${BOOTSTRAP_MAX} warning threshold"
+  else
+    log "  OK: MEMORY.md ${MEMORY_SIZE} chars (threshold ${BOOTSTRAP_MAX})"
+  fi
+else
+  log "  SKIP: MEMORY.md not found"
+fi
+# Check SOUL.md sizes for all agents
+for SOUL in "$WORKSPACE/SOUL.md" \
+            "$HOME/.openclaw/workspace-business/SOUL.md" \
+            "$HOME/.openclaw/workspace-security/SOUL.md" \
+            "$HOME/.openclaw/workspace-governance/SOUL.md" \
+            "$HOME/.openclaw/workspace-legal/SOUL.md" \
+            "$HOME/.openclaw/workspace-qa/SOUL.md"; do
+  if [[ -f "$SOUL" ]]; then
+    SOUL_SIZE=$(wc -c < "$SOUL" | tr -d ' ')
+    AGENT_NAME=$(basename $(dirname "$SOUL"))
+    if (( SOUL_SIZE > 6000 )); then
+      ISSUES_FOUND+=("soul_oversized:${AGENT_NAME}")
+      NEEDS_KEN+=("SOUL.md oversized: ${AGENT_NAME} is ${SOUL_SIZE} chars (warn: 6000 / hard: 10000). Compact immediately.")
+      log "  WARN: ${AGENT_NAME}/SOUL.md ${SOUL_SIZE} chars > 6000 threshold"
+    else
+      log "  OK: ${AGENT_NAME}/SOUL.md ${SOUL_SIZE} chars"
+    fi
+  fi
+done
+
 # ---------- WRITE REPORT ----------
 log "=== WRITING REPORT ==="
 

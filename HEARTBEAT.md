@@ -53,6 +53,14 @@
   - Log CHG entry for each remediation
 - State key: taskVerificationAlerts
 
+### CHG Trigger Monitoring (check every heartbeat)
+- Read state/chg-triggers.json
+- **TRIGGER-01/02/03** (OC2 arrival, HA live, Gemma4 validated): If Ken mentions hardware arrived or OC2 online → raise CHG immediately, execute setup sequence
+- **TRIGGER-05** (PoC PASS): Check if poc sub-agent has completed. If chg-triggers.json TRIGGER-05 status = 'passed' → surface to Ken for Phase 6 approval
+- **TRIGGER-07** (First P2 client): If Aria reports first client onboarded → run S1-S7 audit, execute onboarding checklist
+- **TRIGGER-10** (Business migration): If OC2 live + Angie signals business ready → initiate migration plan
+- Note: TRIGGER-04/06 = automated cron (6bd53c89). TRIGGER-08 = cost-tracker.sh. TRIGGER-09 = Warden. These do NOT need heartbeat checks.
+
 ### Warden Escalations (check every 30 min)
 - Check if state/warden-escalation-pending.json exists
 - If it exists AND status = 'pending-yoda-action':
