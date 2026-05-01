@@ -35,6 +35,18 @@ This log captures **every change** Yoda makes to AInchors infrastructure, config
 **Linked:** decisions.md 2026-04-27 entries
 ---
 
+## 2026-05-02 00:19 AEST — [CHG-0114] Governance gate added to blog cron — Lex review mandatory before publish
+**Type:** rule
+**Source:** ken-prompt
+**Trigger:** Ken: blog didn't go through Lex. PII (name in footer) found post-publish.
+**What changed:** Blog cron (a027fd60): added mandatory Lex governance gate. Draft written to /tmp first. Lex reviews draft. FAIL=fix+re-review. WARN=fix+publish. PASS=publish. Final file written to absolute canvas path only after gate. PII rule hardened: footer = AInchors only, no personal names.
+**Why:** Public-ready blog is an asset leaving Ken+Yoda loop. Per RULES.md, governance gate is non-negotiable for such assets. Previous cron had no gate — Ken's name appeared in published footer.
+**Verification:** Blog cron updated + re-enabled. Lex sub-agent running on today's blog now (retroactive).
+**Rollback:** Remove Lex gate from blog cron prompt
+**Linked:** none
+---
+
+
 ## 2026-05-02 00:11 AEST — [CHG-0113] Day 7 blog rewrite + BlogFormat.md style locked (Ken-approved)
 **Type:** doc
 **Source:** ken-prompt

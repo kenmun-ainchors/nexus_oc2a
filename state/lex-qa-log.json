@@ -332,11 +332,119 @@
       "verdict": "PASS",
       "pass": 5,
       "fail": 0
+    },
+    {
+      "ts": "2026-05-02T00:19:00+10:00",
+      "reviewer": "Lex \u2696\ufe0f \u2014 AInchors Legal Governance Agent",
+      "asset": "/Users/ainchorsangiefpl/.openclaw/canvas/documents/ainchors-2026-05-01/index.html",
+      "producedBy": "yoda",
+      "intendedFor": "Public / AInchors audience \u2014 Building in Public blog",
+      "scores": {
+        "1_privacy_pii": {
+          "verdict": "FAIL",
+          "findings": [
+            "Named individual 'Angie' identified with private onboarding status. Exact text: 'Angie onboarding nudge \u2014 Day 3 of no contact. Aria to warm check-in on Saturday. Onboarding is still blocked at Stage 1 and the JotForm API key has been outstanding since 28 April.' (Section: What's Next). Combined with existing public context (Angie Foong, CEO), this individual is identifiable. Discloses: (a) name, (b) business relationship status, (c) contact frequency, (d) a specific technical failure (JotForm API key), (e) planned AI contact action \u2014 all without evident consent."
+          ],
+          "line_refs": [
+            "Section: What's Next \u2014 final bullet"
+          ],
+          "recommended_fixes": [
+            "Remove 'Angie onboarding nudge' bullet entirely from public blog, OR anonymise: replace 'Angie' with 'a prospective client' and remove the JotForm API key detail and the specific date (28 April)."
+          ]
+        },
+        "2_confidential_information": {
+          "verdict": "WARN",
+          "findings": [
+            "Specific financial figures disclosed publicly: today's spend $59.60, confirmed balance $115.00, 7-day cumulative total $862.28, Day 3 spend $338.76, Day 6 spend $166.10, $85 discrepancy. These figures, in combination, reveal AInchors' daily operational burn rate, cash-in-hand balance at a specific date, and spending pattern over 7 days. This is a 'Building in Public' blog so some disclosure is intentional, but the account balance figure ($115.00 remaining after top-up) combined with burn rate is sensitive competitive intelligence.",
+            "Internal cron job ID disclosed: 'dce1ada4' (AKB daily update cron). Exact text: 'route the AKB daily update cron (dce1ada4, runs at 03:00 AEST)'. Cron IDs can assist an attacker in targeting specific scheduled processes.",
+            "Internal script names disclosed: obs-collector.sh, auto-heal.sh, cost-tracker.sh, cost-state.json, openclaw.json. These reveal attack surface detail.",
+            "Internal document name disclosed: YODA_OC1_OC2_OPERATIONAL_BRIEF.md \u2014 reveals internal naming conventions and system architecture.",
+            "State variable names disclosed: stuckSessions, spentSinceTopUp, bootstrapMaxChars, bootstrapTotalMaxChars \u2014 reveals internal configuration structure."
+          ],
+          "recommended_fixes": [
+            "Remove the specific cron ID 'dce1ada4' \u2014 replace with 'the AKB daily update cron'.",
+            "Consider whether the $115 balance figure adds value vs risk. If keeping, note it's a one-time snapshot, not standing balance.",
+            "Internal script names are borderline \u2014 acceptable for a technical transparency blog but consider if they reveal more than intended.",
+            "Remove or genericise 'YODA_OC1_OC2_OPERATIONAL_BRIEF.md' file reference."
+          ]
+        },
+        "3_third_party_claims": {
+          "verdict": "WARN",
+          "findings": [
+            "Anthropic billing claim: 'Anthropic's input_cache_write_5m fees don't appear in per-session token totals.' This is stated as a definitive fact. If Anthropic provides these in some dashboard views or API responses, this claim may be misleading or inaccurate. Could attract pushback from Anthropic.",
+            "OpenClaw CVE reference: Security audit table states 'OpenClaw >= v2026.1.29 (CVE patched)' without naming the CVE. Referring to an unnamed CVE in a public blog could cause unnecessary concern among OpenClaw users who can't verify what was patched.",
+            "Benchmark claims for named third-party models (qwen3.5:cloud latency figures, kimi-k2.6 / glm-5.1 / deepseek-v4 being subscription-gated) are dated point-in-time measurements. No caveat that these may change. Could be disputed by model providers."
+          ],
+          "recommended_fixes": [
+            "Add qualifier to Anthropic billing claim: 'In our experience, ...' or 'At the time of writing, ...'",
+            "Either name the CVE or soften to 'security patch applied per vendor release notes'.",
+            "Add a disclaimer footnote on benchmark data: 'Results reflect testing on [date]; model performance and pricing subject to change.'"
+          ]
+        },
+        "4_ip_attribution": {
+          "verdict": "PASS",
+          "findings": [
+            "All content appears to be original work by AInchors/Ken Mun. No third-party quotes, excerpts, or code snippets requiring attribution detected. Code references are to internal scripts."
+          ],
+          "recommended_fixes": []
+        },
+        "5_regulatory": {
+          "verdict": "FAIL",
+          "findings": [
+            "Australian Privacy Act (Privacy Act 1988) \u2014 APP 6 (Use or disclosure of personal information): Publishing 'Angie's' onboarding status, contact history, and a specific technical failure (JotForm API key outstanding since 28 April) in a public blog post constitutes disclosure of personal information for a purpose beyond the primary purpose of collection (onboarding), without evident consent. Even first-name-only usage, combined with the company's public profile, makes this individual likely identifiable.",
+            "GDPR consideration (if EU readers access the public blog): Same individual identification risk applies under GDPR Article 6 (lawful basis) and Article 5(1)(b) (purpose limitation). Publishing client onboarding data without consent lacks a clear lawful basis."
+          ],
+          "recommended_fixes": [
+            "Remove or fully anonymise the 'Angie' bullet in 'What's Next'. This is the primary regulatory risk and the fix is simple: remove or anonymise."
+          ]
+        },
+        "6_brand_reputation": {
+          "verdict": "WARN",
+          "findings": [
+            "Memory truncation revelation: 'The platform was starting each session with a truncated world model, producing wrong answers, and emitting no warning that anything was missing. No error. No alert. No indication. Just quietly wrong context, session after session.' \u2014 Transparent and honest, but prospective clients reading this may question the reliability of AInchors' AI systems. Framing mitigates this somewhat (it's fixed) but it's a reputational risk.",
+            "$85 accounting ghost: Revealing that the internal cost tracker was structurally broken and had been hiding $85 in charges over 6 days is candid but could raise questions about operational rigour from potential investors or clients.",
+            "The 'What's Next' bullet disclosing Angie's non-responsiveness ('Day 3 of no contact') could embarrass AInchors professionally if she sees it \u2014 implies she's being tracked and is unresponsive."
+          ],
+          "recommended_fixes": [
+            "The memory truncation and accounting ghost stories are part of the 'building in public' ethos \u2014 acceptable. Consider adding a sentence on detection/remediation cadence to reinforce operational discipline.",
+            "Remove the Angie bullet (also addresses Privacy FAIL)."
+          ]
+        },
+        "7_accuracy": {
+          "verdict": "FAIL",
+          "findings": [
+            "Average latency calculation error. Blog states: 'Average latency across all six benchmarks: 58 seconds'. Actual average from the published table: (37.3 + 87.5 + 70.9 + 58.2 + 1.9 + 37.6) / 6 = 48.9 seconds. The stated figure of 58 seconds is wrong by ~9 seconds (~18% error). This is verifiable by any reader who checks the table. Publishing incorrect benchmark data in a technical blog undermines credibility."
+          ],
+          "line_refs": [
+            "Section: The PoC That Revealed Its Own Limits > Benchmark Results"
+          ],
+          "recommended_fixes": [
+            "Correct '58 seconds' to '48.9 seconds' (or '~49 seconds' for readability)."
+          ]
+        }
+      },
+      "overall_verdict": "FAIL",
+      "fail_count": 3,
+      "warn_count": 3,
+      "pass_count": 1,
+      "must_fix_before_publish": [
+        "FAIL-1: Remove or anonymise the 'Angie' onboarding bullet in 'What's Next' (Privacy/PII + Regulatory)",
+        "FAIL-7: Correct average latency from '58 seconds' to '48.9 seconds' (Accuracy)",
+        "FAIL-5: Angie disclosure also triggers regulatory concern (APP 6 / GDPR) \u2014 same fix as FAIL-1"
+      ],
+      "should_fix": [
+        "WARN-2a: Remove cron ID 'dce1ada4' from public post",
+        "WARN-2b: Consider removing or genericising internal document name YODA_OC1_OC2_OPERATIONAL_BRIEF.md",
+        "WARN-3a: Add qualifier to Anthropic billing claim",
+        "WARN-3b: Soften CVE reference or name the CVE",
+        "WARN-3c: Add benchmark data disclaimer (date, subject to change)",
+        "WARN-6: Angie bullet also a reputational risk (same fix as FAIL-1)"
+      ]
     }
   ],
   "summary": {
-    "total": 37,
+    "total": 38,
     "pass": 37,
-    "fail": 0
+    "fail": 1
   }
 }
