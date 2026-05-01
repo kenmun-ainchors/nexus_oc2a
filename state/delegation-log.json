@@ -4682,10 +4682,30 @@
       "status": "pass",
       "latencyMs": 0,
       "notes": "Burn check: $25.58 today (threshold: $40) \u2014 silent"
+    },
+    {
+      "ts": "2026-05-01T22:42:45+10:00",
+      "date": "2026-05-01",
+      "tier": "T2",
+      "taskType": "warden-check",
+      "model": "anthropic/claude-haiku-4-5",
+      "status": "pass",
+      "latencyMs": 0,
+      "notes": "[N] checks run"
+    },
+    {
+      "ts": "2026-05-01T23:42:39+10:00",
+      "date": "2026-05-01",
+      "tier": "T2",
+      "taskType": "warden-check",
+      "model": "anthropic/claude-haiku-4-5",
+      "status": "pass",
+      "latencyMs": 0,
+      "notes": "[N] checks run"
     }
   ],
   "summary": {
-    "total": 468,
+    "total": 470,
     "byTier": {
       "T1": {
         "pass": 0,
@@ -4693,7 +4713,7 @@
         "timeout": 0
       },
       "T2": {
-        "pass": 459,
+        "pass": 461,
         "fail": 8,
         "timeout": 0
       },
@@ -4711,7 +4731,7 @@
         "tier": "T2"
       },
       "warden-check": {
-        "pass": 297,
+        "pass": 299,
         "fail": 2,
         "timeout": 0,
         "tier": "T2"
@@ -4735,6 +4755,6 @@
         "tier": "T2"
       }
     },
-    "estimatedSavingsUSD": 2.3025
+    "estimatedSavingsUSD": 2.3125
   }
 }

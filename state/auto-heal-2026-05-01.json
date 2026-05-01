@@ -1,6 +1,6 @@
 {
-  "runAt": "2026-04-30T15:00:06Z",
-  "runAtLocal": "2026-05-01 01:00 AEST",
+  "runAt": "2026-05-01T10:30:50Z",
+  "runAtLocal": "2026-05-01 20:30 AEST",
   "duration_ms": 0,
   "checks_run": [
   "auth_profiles",
@@ -15,17 +15,17 @@
   "incident_patterns",
   "config_drift",
   "critical_config_baseline",
-  "aria_health"
+  "aria_health",
+  "bootstrap_size"
 ],
-  "checks_count": 13,
+  "checks_count": 14,
   "issues_found": [],
   "issues_count": 0,
   "auto_fixed": [
-  "git-commit:workspace:9-files",
-  "git-commit:AInchors:1-files",
-  "aria-git-commit:4-files"
+  "git-commit:workspace:24-files",
+  "git-commit:AInchors:2-files"
 ],
-  "auto_fixed_count": 3,
+  "auto_fixed_count": 2,
   "needs_ken": [],
   "needs_ken_count": 0,
   "exit_status": "complete"

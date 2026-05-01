@@ -43,9 +43,11 @@
       "condition": "PoC Phase 5 returns PASS or PARTIAL PASS",
       "detection": "sub-agent PoC currently running",
       "action": "Implement 4-tier model strategy. Ken decision gate required before Phase 6.",
-      "status": "in-progress",
+      "status": "partial-pass-pending-pro-upgrade",
       "pocSubAgent": "agent:main:subagent:c8512703-fd93-4705-8bbc-4b3e7c516fd8",
-      "firedAt": null
+      "firedAt": null,
+      "note": "Free-tier PoC: PARTIAL PASS. Frontier models (kimi-k2.6, glm-5.1, deepseek) gated behind paid plan. Ken approved Option A \u2014 upgrade to Pro ($20/mo). Full PoC to re-run tomorrow after Pro confirmed. Phase 6 still requires Ken approval after full pass.",
+      "qwen35Findings": "Quality 3.8/5 OK. Latency 55.5s FAIL (thinking mode). Mitigation (think:false) to be tested in full PoC run."
     },
     "TRIGGER-06": {
       "name": "OpenClaw v4.0 ships",
@@ -73,7 +75,10 @@
         "t2": 80,
         "t3": 100
       },
-      "status": "monitoring"
+      "status": "monitoring",
+      "lastFired": "2026-05-01T14:01:30Z",
+      "lastFiredDate": "2026-05-01",
+      "lastFiredLevel": "T1"
     },
     "TRIGGER-09": {
       "name": "Warden model drift",

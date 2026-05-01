@@ -35,6 +35,66 @@ This log captures **every change** Yoda makes to AInchors infrastructure, config
 **Linked:** decisions.md 2026-04-27 entries
 ---
 
+## 2026-05-02 00:02 AEST — [CHG-0112] Fix duplicate blog path: remove workspace/canvas stray copies
+**Type:** doc
+**Source:** ken-prompt
+**Trigger:** Ken noticed two blog files at different paths
+**What changed:** Deleted ~/.openclaw/workspace/canvas/documents/ (5 stray blog copies: Apr 27-30, SLA). Canonical path is ~/.openclaw/canvas/documents/ only — this is the OpenClaw canvas root served at /__openclaw__/canvas/. Workspace path was written by EOD sub-agent using relative path from workspace directory.
+**Why:** EOD sub-agent spawned at 23:48 wrote canvas/documents/ relative to workspace instead of absolute ~/.openclaw/canvas/. Canonical copies already exist correctly in canvas root — duplicates were wasted disk.
+**Verification:** workspace/canvas/documents/ removed. ~/.openclaw/canvas/documents/ intact with all 7 daily blogs + assets.
+**Rollback:** N/A — stray duplicates removed, originals intact
+**Linked:** none
+---
+
+
+## 2026-05-01 23:53 AEST — [CHG-0111] qwen3.5:cloud latency mitigation: think=False added to AKB cron
+**Type:** config
+**Source:** ken-prompt
+**Trigger:** Ken: test mitigation, implement if positive result
+**What changed:** AKB cron (dce1ada4): think=False instruction added to prompt. B3 latency 70.9s→4.0s (-94%) confirmed. B1 unchanged (generation-bound, not thinking-bound). AKB tasks are structured (B3-type) so mitigation expected to help.
+**Why:** think=False eliminates reasoning token generation on structured tasks. AKB update = systematic file writes, not long-form reasoning. Estimated latency improvement 50-90% on most steps.
+**Verification:** B3: 70.9s→4.0s ✅. B1: 37.3s→40.3s (unchanged — generation-bound). Avg 22.15s, threshold 15s — full PASS pending frontier models on Pro tomorrow.
+**Rollback:** Remove think=False instruction from AKB cron prompt
+**Linked:** none
+---
+
+
+## 2026-05-01 23:50 AEST — [CHG-0110] Option B: AKB Daily Update switched to qwen3.5:cloud (Ollama Cloud free tier)
+**Type:** config
+**Source:** ken-prompt
+**Trigger:** Ken approved Option B — async background tasks to qwen3.5:cloud, interactive stays Sonnet
+**What changed:** Cron dce1ada4 (AKB Daily Update, 03:00 AEST): model anthropic/claude-sonnet-4-6 → ollama/qwen3.5:cloud. First run: tonight 03:00 AEST. Standup, blog, Aria summaries remain on Sonnet (Ken/Angie-facing, quality-critical).
+**Why:** qwen3.5:cloud is free-tier available. AKB update is structured/async — latency irrelevant, quality adequate (3.8/5 PoC). AInchors own data only (DS-2 compliant). Estimated saving: ~$8-15/night at 527s Sonnet runtime.
+**Verification:** Cron updated. Next run 03:00 AEST.
+**Rollback:** Update cron dce1ada4 model back to anthropic/claude-sonnet-4-6
+**Linked:** none
+---
+
+
+## 2026-05-01 21:50 AEST — [CHG-0109] Add model latency tracking — obs.db latency_log + latency-summary.json
+**Type:** script
+**Source:** ken-prompt
+**Trigger:** TKT-0031
+**What changed:** scripts/latency-tracker.sh: reads ~/.openclaw/cron/runs/*.jsonl, writes durationMs+tokens per model to obs.db latency_log table. Generates state/latency-summary.json (avg/p50/p95/peak by model). Hooked into obs-collector.sh as CHECK P (every 5 min).
+**Why:** Ken: add latency tracking to benchmark model performance and inform model switching decisions (Ollama Cloud PoC Phase 6).
+**Verification:** 3,786 historical samples loaded. Sonnet: avg 13s p50 10s p95 23s. Haiku: avg 21s p50 17s p95 36s. gemma4:e2b: avg 56s p50 54s p95 65s.
+**Rollback:** N/A
+**Linked:** none
+---
+
+
+## 2026-05-01 20:30 AEST — [CHG-0108] auto-heal CHECK 14: MEMORY.md + all SOUL.md size guard
+**Type:** script
+**Source:** ken-prompt
+**Trigger:** Ken: ensure no agents hit bootstrap truncation again
+**What changed:** auto-heal.sh: added CHECK 14. Checks MEMORY.md >15k chars (warns, flags needs-Ken). Checks all 6 agent SOUL.md files >6k chars (warns, flags needs-Ken). Runs nightly 23:30 AEST.
+**Why:** No dedicated cron needed — auto-heal nightly cadence sufficient. Gives 4,775 char buffer before MEMORY.md hits 20k hard limit. Catches SOUL.md drift before obs-collector sees truncation events.
+**Verification:** Test run: MEMORY.md 10225 OK. All 6 SOUL.md OK.
+**Rollback:** Remove CHECK 14 block from auto-heal.sh
+**Linked:** none
+---
+
+
 ## 2026-05-01 20:23 AEST — [CHG-0107] Fix MEMORY.md bootstrap truncation: bootstrapMaxChars 10k→20k
 **Type:** config
 **Source:** ken-prompt

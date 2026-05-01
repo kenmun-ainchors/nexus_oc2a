@@ -479,6 +479,14 @@ PYEOF
   NEW_EVENTS=$((NEW_EVENTS + ${_GW_NEW:-0}))
 fi
 
+# ── CHECK P: Latency tracker — collect cron run durations per model ───────────
+_LATENCY_OUT=$(python3 "$SCRIPTS/latency-tracker.sh" 2>/dev/null || echo "LATENCY: skipped")
+# Latency tracker runs silently; only log if it errors
+if echo "$_LATENCY_OUT" | grep -qi "error"; then
+  _obs_log --source platform --level WARN --type tool_fail \
+    --message "Latency tracker error" --detail "$(echo $_LATENCY_OUT | head -c200)"
+fi
+
 # ── CHECK E: Purge obs.db entries older than 7 days ──────────────────────────
 python3 -c "
 import sqlite3, time

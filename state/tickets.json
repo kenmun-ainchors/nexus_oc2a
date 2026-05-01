@@ -1,7 +1,7 @@
 {
   "schema_version": "1.0",
   "description": "AInchors Service Ticket Log. Every ad-hoc request, task, or action without an existing INC/US/CHG reference MUST have a TKT number before work begins.",
-  "sequence": 31,
+  "sequence": 32,
   "tickets": [
     {
       "id": "TKT-0001",
@@ -572,6 +572,25 @@
         "chg": []
       },
       "notes": "obs-collector session_stuck dedup fixed (stuckSessions cross-run state). Standup cron 3500-char limit added. CHG-0095."
+    },
+    {
+      "id": "TKT-0031",
+      "title": "Add per-request latency tracking to obs-collector — model performance benchmarking",
+      "type": "task",
+      "priority": "high",
+      "status": "open",
+      "requester": "Ken",
+      "assignee": "Yoda",
+      "created": "2026-05-01T21:47:51+10:00",
+      "updated": "2026-05-01T21:47:51+10:00",
+      "description": "Track TTFT and end-to-end duration per model per task type. Store in obs.db. Used for model switching decisions (Ollama Cloud PoC Phase 6, future model strategy).",
+      "resolution": null,
+      "linked": {
+        "us": [],
+        "inc": [],
+        "chg": []
+      },
+      "notes": ""
     }
   ]
 }
