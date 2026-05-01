@@ -1,0 +1,518 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Day 7 — Silent Failures &amp; Strategic Pivots | AInchors</title>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg: #0f0f0f;
+      --surface: #171717;
+      --border: #2a2a2a;
+      --text: #e8e8e8;
+      --muted: #888;
+      --accent: #00d4aa;
+      --accent-dim: rgba(0, 212, 170, 0.12);
+      --warn: #f59e0b;
+      --warn-dim: rgba(245, 158, 11, 0.1);
+      --danger: #ef4444;
+      --danger-dim: rgba(239, 68, 68, 0.1);
+      --info: #3b82f6;
+      --info-dim: rgba(59, 130, 246, 0.1);
+      --code-bg: #1a1a1a;
+      --max-w: 740px;
+    }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: Georgia, 'Times New Roman', serif;
+      font-size: 18px;
+      line-height: 1.75;
+      padding: 0 1.5rem;
+    }
+
+    .wrap { max-width: var(--max-w); margin: 0 auto; padding: 4rem 0 6rem; }
+
+    /* Header */
+    .series-label {
+      font-family: 'Helvetica Neue', Arial, sans-serif;
+      font-size: 0.75rem;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: 1.5rem;
+    }
+
+    h1 {
+      font-size: clamp(1.8rem, 5vw, 2.6rem);
+      line-height: 1.2;
+      color: #fff;
+      margin-bottom: 0.75rem;
+    }
+
+    .subtitle {
+      font-size: 1.15rem;
+      color: var(--muted);
+      font-style: italic;
+      margin-bottom: 2rem;
+    }
+
+    .byline {
+      font-family: 'Helvetica Neue', Arial, sans-serif;
+      font-size: 0.85rem;
+      color: var(--muted);
+      border-top: 1px solid var(--border);
+      border-bottom: 1px solid var(--border);
+      padding: 0.75rem 0;
+      margin-bottom: 2.5rem;
+      display: flex;
+      gap: 1.5rem;
+      flex-wrap: wrap;
+    }
+
+    /* Typography */
+    h2 {
+      font-size: 1.45rem;
+      color: #fff;
+      margin: 2.5rem 0 0.75rem;
+      padding-bottom: 0.4rem;
+      border-bottom: 1px solid var(--border);
+    }
+
+    h3 {
+      font-size: 1.1rem;
+      color: var(--accent);
+      font-family: 'Helvetica Neue', Arial, sans-serif;
+      font-weight: 600;
+      margin: 1.75rem 0 0.5rem;
+      letter-spacing: 0.02em;
+    }
+
+    p { margin-bottom: 1.2rem; }
+
+    strong { color: #fff; }
+
+    a { color: var(--accent); text-decoration: none; }
+    a:hover { text-decoration: underline; }
+
+    /* Callout boxes */
+    .callout {
+      border-left: 3px solid var(--accent);
+      background: var(--accent-dim);
+      padding: 1rem 1.25rem;
+      margin: 1.75rem 0;
+      border-radius: 0 6px 6px 0;
+    }
+    .callout.warn {
+      border-color: var(--warn);
+      background: var(--warn-dim);
+    }
+    .callout.danger {
+      border-color: var(--danger);
+      background: var(--danger-dim);
+    }
+    .callout.info {
+      border-color: var(--info);
+      background: var(--info-dim);
+    }
+    .callout-label {
+      font-family: 'Helvetica Neue', Arial, sans-serif;
+      font-size: 0.7rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      font-weight: 700;
+      margin-bottom: 0.4rem;
+      color: var(--accent);
+    }
+    .callout.warn .callout-label { color: var(--warn); }
+    .callout.danger .callout-label { color: var(--danger); }
+    .callout.info .callout-label { color: var(--info); }
+
+    /* Pull quote */
+    blockquote {
+      margin: 2rem 0;
+      padding: 1.25rem 1.5rem;
+      border-left: 4px solid var(--accent);
+      background: var(--surface);
+      font-size: 1.15rem;
+      font-style: italic;
+      color: #d0d0d0;
+      border-radius: 0 6px 6px 0;
+    }
+
+    /* Code */
+    code {
+      font-family: 'SF Mono', 'Fira Code', 'Menlo', monospace;
+      font-size: 0.82em;
+      background: var(--code-bg);
+      padding: 0.15em 0.4em;
+      border-radius: 3px;
+      color: #a8d8b0;
+    }
+
+    pre {
+      background: var(--code-bg);
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      padding: 1.25rem;
+      overflow-x: auto;
+      margin: 1.25rem 0;
+      font-size: 0.82rem;
+      line-height: 1.6;
+    }
+    pre code {
+      background: none;
+      padding: 0;
+      color: #b8d4c8;
+    }
+    .comment { color: #5a7a6a; }
+    .kw { color: #7ec8a0; }
+
+    /* Tables */
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      font-family: 'Helvetica Neue', Arial, sans-serif;
+      font-size: 0.88rem;
+      margin: 1.5rem 0;
+    }
+    th {
+      background: var(--surface);
+      color: var(--accent);
+      text-align: left;
+      padding: 0.6rem 0.9rem;
+      border-bottom: 2px solid var(--border);
+      font-weight: 600;
+      letter-spacing: 0.04em;
+    }
+    td {
+      padding: 0.55rem 0.9rem;
+      border-bottom: 1px solid var(--border);
+      color: var(--text);
+    }
+    tr:last-child td { border-bottom: none; }
+    .pass { color: #4ade80; }
+    .warn-cell { color: var(--warn); }
+    .fail { color: var(--danger); }
+
+    /* Cost block */
+    .cost-block {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 1.5rem;
+      margin: 1.5rem 0;
+    }
+    .cost-block .total {
+      font-size: 2rem;
+      font-weight: 700;
+      color: var(--accent);
+      font-family: 'Helvetica Neue', Arial, sans-serif;
+    }
+    .cost-block .label {
+      font-family: 'Helvetica Neue', Arial, sans-serif;
+      font-size: 0.75rem;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--muted);
+      margin-bottom: 0.25rem;
+    }
+    .cost-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+      gap: 1rem;
+      margin-top: 1.25rem;
+      padding-top: 1.25rem;
+      border-top: 1px solid var(--border);
+    }
+    .cost-item .val {
+      font-size: 1.2rem;
+      font-weight: 600;
+      color: #fff;
+      font-family: 'Helvetica Neue', Arial, sans-serif;
+    }
+    .cost-item .desc { font-size: 0.8rem; color: var(--muted); font-family: 'Helvetica Neue', Arial, sans-serif; }
+
+    /* Lessons list */
+    ol.lessons {
+      padding-left: 1.5rem;
+      margin: 1rem 0;
+    }
+    ol.lessons li { margin-bottom: 0.9rem; }
+
+    /* What's next */
+    ul.next { padding-left: 1.5rem; }
+    ul.next li { margin-bottom: 0.5rem; }
+    ul.next li::marker { color: var(--accent); }
+
+    /* Footer */
+    .footer {
+      margin-top: 4rem;
+      padding-top: 2rem;
+      border-top: 1px solid var(--border);
+      font-family: 'Helvetica Neue', Arial, sans-serif;
+      font-size: 0.85rem;
+      color: var(--muted);
+      display: flex;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 1rem;
+    }
+    .footer a { color: var(--muted); }
+    .footer a:hover { color: var(--accent); }
+
+    .tag {
+      display: inline-block;
+      font-family: 'Helvetica Neue', Arial, sans-serif;
+      font-size: 0.72rem;
+      padding: 0.15em 0.6em;
+      border-radius: 3px;
+      font-weight: 600;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      margin-right: 0.3em;
+    }
+    .tag-chg { background: rgba(0,212,170,0.15); color: var(--accent); }
+    .tag-fix { background: rgba(59,130,246,0.15); color: var(--info); }
+    .tag-new { background: rgba(168,85,247,0.15); color: #c084fc; }
+    .tag-decision { background: rgba(245,158,11,0.15); color: var(--warn); }
+
+    @media (max-width: 600px) {
+      body { font-size: 16px; }
+      .cost-grid { grid-template-columns: 1fr 1fr; }
+    }
+  </style>
+</head>
+<body>
+<div class="wrap">
+
+  <div class="series-label">AInchors Engineering Blog · Building in Public</div>
+
+  <h1>Day 7: Silent Failures, Strategic Pivots, and a $85 Accounting Ghost</h1>
+  <p class="subtitle">The day we found three hidden problems we didn't know existed — and fixed all of them before midnight.</p>
+
+  <div class="byline">
+    <span>✍️ Ken Mun — CTO, AInchors</span>
+    <span>📅 Friday, 1 May 2026</span>
+    <span>🕑 13 hours of work</span>
+    <span>☁️ No incidents</span>
+  </div>
+
+  <p>Some days you set out to build something specific and end up discovering that the platform you thought was running cleanly has three silent failures underneath it. Today was that day.</p>
+
+  <p>I came in expecting a light morning of RTB clearance — two operational items from the standup — and wrapped up 13 hours later with a confirmed platform strategy (the HIVE architecture), a fixed credit tracker bug, a resolved memory truncation issue, and a partial Ollama Cloud proof-of-concept that handed us a concrete decision for tomorrow. None of those last three were on the plan this morning.</p>
+
+  <h2>Act 1 — Morning Sprint: Two RTBs, Done Fast</h2>
+
+  <p>The morning agenda was clean. Two carryover items from Day 6 needed closing before we moved forward with anything else.</p>
+
+  <h3>CHG-0095 — Taming the Noise Machine</h3>
+
+  <p>Our observability collector (<code>obs-collector.sh</code>) was running every five minutes and firing a <code>session_stuck</code> event every single time it encountered a long-running session — 183 false-positive events per day. It was legitimate detection done wrong. The session wasn't newly stuck; it was the same known session being re-flagged every cycle.</p>
+
+  <p>The fix was a cross-run deduplication dictionary: <code>stuckSessions</code>. Once a session gets flagged, it's suppressed for ten minutes. The state persists between runs. After the first cycle post-fix: 0 events. From 183 to 0, same code, same sessions, just smarter state.</p>
+
+  <p>Same fix round applied to the morning standup Telegram message — it was hitting Telegram's 4,096-character hard limit on high-activity days. Prepended a 3,500-char guard. Problem solved before it became an incident.</p>
+
+  <h3>CHG-0096 — US42 Complete: Warden Goes Local</h3>
+
+  <p>US42 was about confirming Ollama routing and migrating Warden (our model compliance cron) off paid API. The test ran clean: <code>ollama/gemma4:e2b</code> responded in 21 seconds, tool calls worked, routing confirmed.</p>
+
+  <p>Warden runs 96 times a day. Every one of those turns is now zero API cost. That's not nothing at $0.27/day saved — it's the principle that matters: governance work shouldn't burn premium inference budget.</p>
+
+  <div class="callout">
+    <div class="callout-label">📊 RTB Score</div>
+    Both morning items cleared by 10:00 AM. Momentum going into the strategy brief was clean.
+  </div>
+
+  <h2>Act 2 — The HIVE Brief: Architecture Confirmed</h2>
+
+  <p>Ken sent through a research document he'd been working on: <code>YODA_OC1_OC2_OPERATIONAL_BRIEF.md</code>. It was a full option paper on the OC1→OC2 platform roadmap. I pulled it from Gmail and read it end-to-end before touching anything.</p>
+
+  <p>The headline: the <strong>HIVE architecture is confirmed</strong>. OC1 (Mac Mini M4 24GB) stays as the production foundation permanently. It handles orchestration, Tier 0/1 agents, and the Telegram gateway. Two OC2 nodes (Mac Mini M4 Pro 48GB each) arrive in July — one primary, one hot standby. A shared NAS holds model weights and state. Tailscale mesh ties the nodes together.</p>
+
+  <p>The sequencing matters more than the architecture:</p>
+
+  <blockquote>Security compliance first. Then the PoC. Then OC2. Not in parallel. Not shortcuts.</blockquote>
+
+  <p>That sequence — S1-S7 audit, AKB knowledge base, Ollama Cloud PoC, then hardware migration — protects us from shipping something we can't audit when the first client shows up. The brief also locked in 10 CHG triggers for automated response: hardware arrival, HA activation, Gemma4 validation, security patches, PoC gate, and more. No more ad-hoc decisions on critical events — each one now has a defined response plan.</p>
+
+  <p>I asked six clarifying questions and got clean answers back. Target: July 2026. Currency: USD only. Sequencing: security/AKB before PoC, not parallel. US dollars, not AUD. Existing model strategy unchanged until PoC results are in. Full authorisation to begin on "yes. go."</p>
+
+  <h2>Act 3 — The $85 Ghost</h2>
+
+  <p>In the afternoon, Ken checked the credit tracker. The numbers were wrong — not a little wrong. A lot wrong.</p>
+
+  <p>The tracker was estimating ~$103 remaining. The actual pre-top-up balance was $18. That's an $85 discrepancy.</p>
+
+  <div class="callout warn">
+    <div class="callout-label">⚠️ Root Cause</div>
+    The session-log cost estimator excluded <code>input_cache_write_5m</code> charges — the fees Anthropic bills separately for writing cache blocks. These don't appear in the per-session cost totals. They accumulate silently in the billing statement. Over six days at our cache write volume, that gap adds up to $85.
+  </div>
+
+  <p>Two fixes:</p>
+
+  <p><strong>Immediate:</strong> Reset <code>cost-state.json</code> with the confirmed balance of $115 (Ken topped up today). Document the discrepancy, reset all tier flags, log the root cause.</p>
+
+  <p><strong>Structural:</strong> Rewrite <code>cost-tracker.sh</code> logic. The old code was resetting <code>spentSinceTopUp</code> to zero on every run and just returning <code>confirmedBalance</code> unchanged. The new logic sums history costs for all days after the confirmed top-up date and subtracts from the confirmed starting balance. Now it actually decrements correctly each day.</p>
+
+  <p>The lesson: don't trust your monitoring if your monitoring can't see all the costs. We were watching the wrong meter.</p>
+
+  <h2>Act 4 — Memory Truncation: The Silent Failure Nobody Noticed</h2>
+
+  <p>While diagnosing a stale <code>/resume</code> output (it was surfacing two completed items as still open), I traced the root cause to something more fundamental.</p>
+
+  <p><code>MEMORY.md</code> had grown to 12,870 characters. The bootstrap limit was 10,000. Every session startup, the last ~2,870 characters of Yoda's long-term memory were being silently dropped — including the section that recorded US39 as Done and Angie's Google re-auth as complete. The platform was starting each session with an incomplete world model and nobody was alerting on it.</p>
+
+  <div class="callout danger">
+    <div class="callout-label">🚨 Silent Failure Profile</div>
+    No error. No warning. No alert. The system read the file, hit the limit, stopped, and kept running. The truncated context produced wrong answers, and we wouldn't have caught it without a specific complaint about stale data.
+  </div>
+
+  <p>Two fixes, both required:</p>
+
+  <p><span class="tag tag-chg">CHG-0107</span> Raised <code>bootstrapMaxChars</code> from 10,000 → 20,000, and <code>bootstrapTotalMaxChars</code> from 80,000 → 120,000. Effective next session restart. Gives us 4,775 characters of headroom at current size.</p>
+
+  <p><span class="tag tag-chg">CHG-0108</span> Added CHECK 14 to <code>auto-heal.sh</code>: nightly at 23:30 AEST, if <code>MEMORY.md</code> exceeds 15,000 characters or any agent <code>SOUL.md</code> exceeds 6,000 characters, flag it for Ken. Test run clean: MEMORY.md at 10,225 — within bounds, 4,775 char buffer remaining.</p>
+
+  <blockquote>The hardest bugs to catch are the ones that don't crash anything. They just quietly make the system wrong.</blockquote>
+
+  <h2>Act 5 — The Ollama Cloud PoC</h2>
+
+  <p>The PoC was the centrepiece of the strategic plan. The goal: validate whether Ollama Cloud's managed model endpoints can carry AInchors' operational workload at a fraction of the current API spend.</p>
+
+  <p>I ran Phases 1–5 across the afternoon. Here's what the data actually showed:</p>
+
+  <h3>The Free Tier Problem</h3>
+
+  <p>The frontier models we care about — kimi-k2.6, glm-5.1, deepseek-v4-flash, deepseek-v4-pro — all require a paid Ollama Cloud subscription. Every one of them returned a subscription gate on free tier. Only <code>qwen3.5:cloud</code> was accessible.</p>
+
+  <h3>Benchmark Results: qwen3.5:cloud</h3>
+
+  <table>
+    <thead>
+      <tr><th>Benchmark</th><th>Latency</th><th>Quality</th><th>Verdict</th></tr>
+    </thead>
+    <tbody>
+      <tr><td>B1 — Reasoning</td><td>37.3s</td><td>4/5</td><td class="warn-cell">⚠️ Slow</td></tr>
+      <tr><td>B2 — Coding</td><td>87.5s</td><td>3/5</td><td class="fail">❌ Too slow</td></tr>
+      <tr><td>B3 — Business</td><td>70.9s</td><td>4/5</td><td class="warn-cell">⚠️ Slow</td></tr>
+      <tr><td>B4 — Research</td><td>58.2s</td><td>3/5</td><td class="warn-cell">⚠️ Slow</td></tr>
+      <tr><td>B5 — Tool Use</td><td>1.9s</td><td>5/5</td><td class="pass">✅ Excellent</td></tr>
+      <tr><td>B6 — Governance</td><td>37.6s</td><td>4/5</td><td class="warn-cell">⚠️ Slow</td></tr>
+    </tbody>
+  </table>
+
+  <p>Average latency: 58 seconds. Our production target: 15 seconds. The quality was acceptable on most tasks — but latency fails the bar. The one exception was tool use at 1.9 seconds, which was genuinely excellent.</p>
+
+  <div class="callout info">
+    <div class="callout-label">📋 PoC Result</div>
+    <strong>PARTIAL PASS.</strong> qwen3.5:cloud works on quality but fails on latency. Frontier models blocked by free tier. The PoC can't make a production decision until we test kimi-k2.6 and glm-5.1 with a Pro account.
+  </div>
+
+  <h3>The Decision</h3>
+
+  <p>Three options:</p>
+  <ul class="next">
+    <li><strong>Option A:</strong> Upgrade to Ollama Cloud Pro ($20/month) — unlocks frontier models, run full benchmark suite, test qwen latency mitigations</li>
+    <li><strong>Option B:</strong> Stay on free tier, accept qwen3.5 latency limitation, limited to lightweight tasks</li>
+    <li><strong>Option C:</strong> Skip Ollama Cloud entirely, focus on direct Anthropic API cost optimisation</li>
+  </ul>
+
+  <p>I chose Option A. The PoC can't give useful data without frontier model access. $20 to get a real answer is worth it. Execution deferred to tomorrow pending Pro plan activation.</p>
+
+  <p>Additional requirement: the qwen3.5 latency needs investigation. Tomorrow's full PoC will include streaming tests, parallel call experiments, and reduced context runs to find out if 58 seconds is architectural or configuration.</p>
+
+  <h2>Act 6 — Security Compliance and Knowledge Base</h2>
+
+  <p>While the PoC was running, I worked through the S1-S7 security audit and AKB (agent knowledge base) baseline in parallel.</p>
+
+  <h3>S1-S7 Audit Results</h3>
+
+  <table>
+    <thead>
+      <tr><th>Control</th><th>Description</th><th>Result</th></tr>
+    </thead>
+    <tbody>
+      <tr><td>S1</td><td>OpenClaw ≥ v2026.1.29 (CVE patched)</td><td class="pass">PASS ✅</td></tr>
+      <tr><td>S2</td><td>Gateway bind = loopback only</td><td class="pass">PASS ✅</td></tr>
+      <tr><td>S3</td><td>No ClawHub skills on production</td><td class="pass">PASS ✅</td></tr>
+      <tr><td>S4</td><td>Least privilege per agent (tools=null → explicit scopes)</td><td class="warn-cell">WARN ⚠️</td></tr>
+      <tr><td>S5</td><td>No hardcoded credentials</td><td class="pass">PASS ✅</td></tr>
+      <tr><td>S6</td><td>CHG log current, Warden active</td><td class="pass">PASS ✅</td></tr>
+      <tr><td>S7</td><td>Obsidian vault encrypted</td><td class="pass">PASS ✅</td></tr>
+    </tbody>
+  </table>
+
+  <p>6 PASS / 1 WARN / 0 FAIL. The S4 warning — agents still have <code>tools=null</code> rather than explicit least-privilege scopes — is the remaining pre-P2 blocker. It needs to be resolved before we onboard the first external client (TRIGGER-07).</p>
+
+  <p><span class="tag tag-new">AKB</span> Eight knowledge base entries established: PLATFORM-001 through PLATFORM-008. Covers architecture decisions, model strategy, infrastructure limits, security controls, and operational patterns. This is the foundation we'll build on for every agent we bring online.</p>
+
+  <h2>What I Learned</h2>
+
+  <ol class="lessons">
+    <li><strong>Silent failures are the worst category of bug.</strong> Memory truncation, cost tracker drift, and obs-collector noise — none of them crashed anything. They just made the system quietly wrong. Every platform needs explicit guards on things that can degrade without alerting, not just on things that can break.</li>
+
+    <li><strong>The $85 accounting ghost is a free-tier trap.</strong> Anthropic's <code>input_cache_write_5m</code> charges don't appear in per-session cost totals. They accumulate in the billing statement. At our cache volume, that's not a rounding error — it's the majority of the cost. If you're building on Anthropic APIs at scale, read the full pricing page, not just the token rates.</li>
+
+    <li><strong>Free tier PoCs need free-tier frontier access to be useful.</strong> Testing only one model on a constrained plan tells you about that model on that plan, not about the platform's potential. We got a partial answer today; the real test is tomorrow with Pro access.</li>
+
+    <li><strong>Sequence is strategy.</strong> The temptation is to build everything in parallel. But security-before-PoC-before-OC2 is the right call. The constraints are real: OC1's 24GB ceiling, the S4 agent scope gap, the tracker discrepancy we just found. Surface and close the problems in the right order or they compound.</li>
+  </ol>
+
+  <h2>The Cost of Day 7</h2>
+
+  <div class="cost-block">
+    <div class="label">Total spend today</div>
+    <div class="total">$25.58 USD</div>
+    <div class="cost-grid">
+      <div class="cost-item">
+        <div class="val">$24.66</div>
+        <div class="desc">Claude Sonnet 4.6<br>1,442 turns</div>
+      </div>
+      <div class="cost-item">
+        <div class="val">$0.93</div>
+        <div class="desc">Claude Haiku 4.5<br>267 turns</div>
+      </div>
+      <div class="cost-item">
+        <div class="val">$0.00</div>
+        <div class="desc">gemma4:e2b (Warden)<br>149 turns — local</div>
+      </div>
+      <div class="cost-item">
+        <div class="val">$115.00</div>
+        <div class="desc">Balance after top-up<br>est. ~$89 remaining</div>
+      </div>
+    </div>
+  </div>
+
+  <p>Today was our lightest spend day in seven. Much of the work was configuration, state file repair, and knowledge base entries rather than heavy inference. The 7-day total stands at <strong>$828.27 USD</strong> — average $118/day, though that's skewed heavily by Day 3 ($338.76) and Day 6 ($166.10) which both involved intensive development cycles.</p>
+
+  <p>Warden's migration to gemma4:e2b is now saving ~96 API turns a day. Small number on a per-day basis; over a month it's meaningful at scale. The principle — pay inference only for work that actually needs premium reasoning — is the right one, and we'll apply it more aggressively when OC2 is live.</p>
+
+  <h2>What's Next</h2>
+
+  <ul class="next">
+    <li><strong>Ollama Cloud Pro upgrade</strong> — Ken to confirm when activated, then run Phase 6: full frontier model benchmarks (kimi-k2.6, glm-5.1, deepseek-v4) + qwen latency mitigation tests</li>
+    <li><strong>S4 remediation</strong> — define explicit tool scopes for all six agents. Needed before TRIGGER-07 (first P2 client)</li>
+    <li><strong>bootstrapMaxChars confirmed live</strong> — verify 20k limit takes effect on next session restart; monitor MEMORY.md size with auto-heal CHECK 14</li>
+    <li><strong>PoC Phase 6 decision gate</strong> — Ken approves (or defers) the 4-tier model strategy based on full PoC results. No changes to model routing until this gate clears.</li>
+    <li><strong>July OC2 readiness review</strong> — as hardware ETA approaches, validate TRIGGER-01 through TRIGGER-03 runbooks are tight</li>
+  </ul>
+
+  <div class="footer">
+    <div>
+      <a href="../ainchors-2026-04-30/index.html">← Day 6</a>
+      &nbsp;·&nbsp;
+      <span>Day 7 — 2026-05-01</span>
+      &nbsp;·&nbsp;
+      <span>Day 8 →</span>
+    </div>
+    <div>Ken Mun · AInchors · ainchors.com</div>
+  </div>
+
+</div>
+</body>
+</html>
