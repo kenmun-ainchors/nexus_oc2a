@@ -1,5 +1,5 @@
 {
-  "lastUpdated": "2026-05-01T09:39:25Z",
+  "lastUpdated": "2026-05-01T14:01:30Z",
   "history": {
     "2026-04-25": {
       "date": "2026-04-25",
@@ -163,15 +163,23 @@
     },
     "2026-05-01": {
       "date": "2026-05-01",
-      "totalCost": 25.583,
-      "totalTurns": 1859,
-      "totalInputTokens": 2039478,
-      "totalOutputTokens": 271636,
-      "totalCacheReadTokens": 41449631,
-      "totalCacheWriteTokens": 2951493,
+      "totalCost": 61.4615,
+      "totalTurns": 3234,
+      "totalInputTokens": 2942180,
+      "totalOutputTokens": 547062,
+      "totalCacheReadTokens": 84786276,
+      "totalCacheWriteTokens": 8222531,
       "source": "session-log-estimate",
       "note": "Session log estimate. usage.cost.total includes cacheWrite charges. CHG-0097: confirmed cost includes cache writes.",
       "byModel": {
+        "claude-sonnet-4-6": {
+          "input": 4402,
+          "output": 468848,
+          "cacheRead": 78939304,
+          "cacheWrite": 7821718,
+          "cost": 60.0592,
+          "turns": 2624
+        },
         "delivery-mirror": {
           "input": 0,
           "output": 0,
@@ -180,36 +188,28 @@
           "cost": 0.0,
           "turns": 1
         },
-        "claude-sonnet-4-6": {
-          "input": 2430,
-          "output": 218830,
-          "cacheRead": 37432907,
-          "cacheWrite": 2702934,
-          "cost": 24.6556,
-          "turns": 1442
-        },
         "gemma4:e2b": {
-          "input": 2034133,
-          "output": 10391,
+          "input": 2933501,
+          "output": 15747,
           "cacheRead": 0,
           "cacheWrite": 0,
           "cost": 0.0,
-          "turns": 149
+          "turns": 215
         },
         "claude-haiku-4-5": {
-          "input": 2915,
-          "output": 42415,
-          "cacheRead": 4016724,
-          "cacheWrite": 248559,
-          "cost": 0.9274,
-          "turns": 267
+          "input": 4277,
+          "output": 62467,
+          "cacheRead": 5846972,
+          "cacheWrite": 400813,
+          "cost": 1.4023,
+          "turns": 394
         }
       }
     }
   },
-  "allTimeTotalCost": 828.2661,
+  "allTimeTotalCost": 864.1446,
   "daysTracked": 7,
-  "avgDailyCost": 118.3237,
+  "avgDailyCost": 123.4492,
   "apiBalance": {
     "currency": "USD",
     "balance": 115,
