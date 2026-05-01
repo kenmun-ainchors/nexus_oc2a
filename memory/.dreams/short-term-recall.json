@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "updatedAt": "2026-05-01T01:56:17.685Z",
+  "updatedAt": "2026-05-01T16:07:29.412Z",
   "entries": {
     "memory:memory/2026-04-26.md:94:122": {
       "key": "memory:memory/2026-04-26.md:94:122",
@@ -474,6 +474,37 @@
         "auto-heal",
         "incident-recovery",
         "chg-0001"
+      ]
+    },
+    "memory:memory/2026-04-28.md:28:51": {
+      "key": "memory:memory/2026-04-28.md:28:51",
+      "path": "memory/2026-04-28.md",
+      "startLine": 28,
+      "endLine": 51,
+      "source": "memory",
+      "snippet": "### Warden 🔍 — Model Governance Agent (TKT-0013) - New agent `governance` created in `openclaw.json` - Workspace: `workspace-governance/` with `SOUL.md`, `IDENTITY.md` - **`state/model-policy.json`** — authoritative per-agent model policy registry - Defines requiredModel, allowedModels, prohibitedModels, escalation rules per agent - All agents: Sonnet required. Lex exception (Opus) initially filed, then removed — see below. - **`scripts/model-drift-check.sh`** — 9-check compliance script - Checks: all 6 agent models, default config, fallback chain, Ollama key, cron models - Outputs: `state/model-drift-state.json`, `state/model-drift-violations.json` - Exit 0 = clean, Exit 2 = viol",
+      "recallCount": 1,
+      "dailyCount": 0,
+      "groundedCount": 0,
+      "totalScore": 0.7526637926893293,
+      "maxScore": 0.7526637926893293,
+      "firstRecalledAt": "2026-05-01T16:07:29.412Z",
+      "lastRecalledAt": "2026-05-01T16:07:29.412Z",
+      "queryHashes": [
+        "14bdbaf74e4f"
+      ],
+      "recallDays": [
+        "2026-05-02"
+      ],
+      "conceptTags": [
+        "tkt-0013",
+        "openclaw.json",
+        "workspace-governance",
+        "soul.md",
+        "identity.md",
+        "state/model-policy.json",
+        "per-agent",
+        "scripts/model-drift-check.sh"
       ]
     }
   }
