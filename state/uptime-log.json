@@ -2807,14 +2807,29 @@
       "ts": "2026-05-01T14:40:36.887302+00:00",
       "status": "ok",
       "issues": []
+    },
+    {
+      "ts": "2026-05-01T14:49:45.459203+00:00",
+      "status": "ok",
+      "issues": []
+    },
+    {
+      "ts": "2026-05-01T14:54:20.340993+00:00",
+      "status": "ok",
+      "issues": []
+    },
+    {
+      "ts": "2026-05-01T14:59:20.253313+00:00",
+      "status": "ok",
+      "issues": []
     }
   ],
   "summary": {
-    "totalChecks": 561,
-    "upChecks": 561,
+    "totalChecks": 564,
+    "upChecks": 564,
     "downtimeMinutes": 0,
     "uptimePct": 100.0,
-    "lastCheck": "2026-05-01T14:40:36.887302+00:00",
+    "lastCheck": "2026-05-01T14:59:20.253313+00:00",
     "lastStatus": "ok"
   }
 }
