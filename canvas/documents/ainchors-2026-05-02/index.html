@@ -1,0 +1,426 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Day 8 — AInchors Engineering Blog — The Finisher</title>
+<style>
+  :root {
+    --bg: #0f1117;
+    --surface: #1a1d2e;
+    --border: #2a2d3e;
+    --text: #e2e8f0;
+    --muted: #94a3b8;
+    --accent: #6366f1;
+    --accent-light: #818cf8;
+    --green: #22c55e;
+    --yellow: #eab308;
+    --red: #ef4444;
+    --code-bg: #0d1117;
+    --callout-info: #1e3a5f;
+    --callout-warn: #3d2c00;
+    --callout-success: #0a2e1a;
+  }
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  html { font-size: 18px; }
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: Georgia, 'Times New Roman', serif;
+    line-height: 1.75;
+    padding: 2rem 1rem;
+  }
+  .container {
+    max-width: 740px;
+    margin: 0 auto;
+  }
+  /* Hero */
+  .hero {
+    border-bottom: 1px solid var(--border);
+    padding-bottom: 2rem;
+    margin-bottom: 2.5rem;
+  }
+  .hero-meta {
+    font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    color: var(--accent-light);
+    margin-bottom: 1rem;
+  }
+  .hero h1 {
+    font-size: 2.4rem;
+    font-weight: 700;
+    line-height: 1.2;
+    margin-bottom: 0.75rem;
+    color: #f8fafc;
+  }
+  .hero .subtitle {
+    font-size: 1.1rem;
+    color: var(--muted);
+    font-style: italic;
+    margin-bottom: 1.2rem;
+  }
+  .hero .byline {
+    font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+    font-size: 0.85rem;
+    color: var(--muted);
+  }
+  .hero .byline span { color: var(--text); font-weight: 600; }
+
+  /* Body */
+  h2 {
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: #f8fafc;
+    margin: 2.5rem 0 0.75rem;
+    padding-top: 0.5rem;
+    border-top: 1px solid var(--border);
+  }
+  h3 {
+    font-size: 1.1rem;
+    font-weight: 700;
+    color: var(--accent-light);
+    margin: 1.75rem 0 0.5rem;
+    font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    font-size: 0.85rem;
+  }
+  p { margin-bottom: 1.2rem; }
+  a { color: var(--accent-light); text-decoration: underline; }
+
+  /* Callout boxes */
+  .callout {
+    border-left: 3px solid var(--accent);
+    background: var(--callout-info);
+    padding: 1rem 1.2rem;
+    margin: 1.5rem 0;
+    border-radius: 0 6px 6px 0;
+    font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+    font-size: 0.92rem;
+    line-height: 1.6;
+  }
+  .callout.success { border-color: var(--green); background: var(--callout-success); }
+  .callout.warn { border-color: var(--yellow); background: var(--callout-warn); }
+  .callout .label {
+    display: block;
+    font-weight: 700;
+    font-size: 0.78rem;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    margin-bottom: 0.4rem;
+  }
+  .callout.success .label { color: var(--green); }
+  .callout.warn .label { color: var(--yellow); }
+  .callout .label.info { color: var(--accent-light); }
+
+  /* Tables */
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 1.5rem 0;
+    font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+    font-size: 0.88rem;
+  }
+  th {
+    background: var(--surface);
+    color: var(--muted);
+    text-align: left;
+    padding: 0.6rem 0.8rem;
+    font-weight: 600;
+    border-bottom: 1px solid var(--border);
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    font-size: 0.75rem;
+  }
+  td {
+    padding: 0.55rem 0.8rem;
+    border-bottom: 1px solid var(--border);
+    vertical-align: top;
+  }
+  tr:last-child td { border-bottom: none; }
+  .pass { color: var(--green); font-weight: 700; }
+  .fail { color: var(--red); font-weight: 700; }
+
+  /* Code */
+  code {
+    font-family: 'SF Mono', 'Fira Code', 'Fira Mono', 'Roboto Mono', monospace;
+    font-size: 0.82rem;
+    background: var(--code-bg);
+    border: 1px solid var(--border);
+    padding: 0.15em 0.4em;
+    border-radius: 3px;
+    color: #a5f3fc;
+  }
+  pre {
+    background: var(--code-bg);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    padding: 1.2rem;
+    overflow-x: auto;
+    margin: 1.5rem 0;
+  }
+  pre code {
+    background: none;
+    border: none;
+    padding: 0;
+    font-size: 0.82rem;
+    color: #e2e8f0;
+  }
+
+  /* Metric grid */
+  .metrics {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+    gap: 1rem;
+    margin: 1.5rem 0;
+  }
+  .metric {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 1rem;
+    font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+  }
+  .metric .value {
+    font-size: 1.6rem;
+    font-weight: 700;
+    color: var(--accent-light);
+    display: block;
+    line-height: 1.2;
+  }
+  .metric .label {
+    font-size: 0.75rem;
+    color: var(--muted);
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+  }
+
+  /* Footer */
+  .footer {
+    border-top: 1px solid var(--border);
+    padding-top: 2rem;
+    margin-top: 3rem;
+    font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+    font-size: 0.82rem;
+    color: var(--muted);
+  }
+  .footer .nav {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 1rem;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+  }
+  .footer .tagline {
+    text-align: center;
+    font-style: italic;
+  }
+
+  /* Responsive */
+  @media (max-width: 480px) {
+    html { font-size: 16px; }
+    .hero h1 { font-size: 1.8rem; }
+    .metrics { grid-template-columns: repeat(2, 1fr); }
+  }
+</style>
+</head>
+<body>
+<div class="container">
+
+  <!-- Hero -->
+  <div class="hero">
+    <div class="hero-meta">AInchors Engineering — Day 8 · Saturday, 2 May 2026</div>
+    <h1>The Finisher</h1>
+    <div class="subtitle">Three frameworks in four hours. Three models in production. The platform ran itself for eight.</div>
+    <div class="byline">By <span>Ken Mun</span>, Co-Founder &amp; CTO, AInchors</div>
+  </div>
+
+  <!-- Opening -->
+  <p>There are days that feel like setup, and then there's Day 8. Every decision I'd deferred, every ticket I'd groomed and shelved, every "we'll close this when the PoC is done" — they all landed today. The Ollama Cloud PoC reached Phase 6 with three frontier models now routing in production. A CI agent started its perpetual shadow loop. Content governance went from a gap (TKT-0033) to a three-layer enforcement gate. Spark, the LinkedIn agent, went from idea to first scheduled run, set for Tuesday morning.</p>
+
+  <p>I came in expecting to close the PoC and maybe write a cleanup ticket. I left with thirteen CHG entries logged before 1 PM. Then the platform handled two more — autonomously — while I was offline. That last part is the one I keep coming back to.</p>
+
+  <!-- Act 1 -->
+  <h2>Act 1: The PoC That Finally Ran</h2>
+  <p>The Ollama Cloud PoC has been "almost ready" since Day 6. The blocker was simple: the models I needed — kimi-k2.6, glm-5.1, deepseek — are all behind the Ollama Pro paywall. Free tier just returned errors. Last night I upgraded to Ollama Pro ($20/month, on accounts@ainchors.com) and ran <code>ollama signout &amp;&amp; ollama signin</code> to switch accounts. This morning I fired the Phase 5 benchmark sequence.</p>
+
+  <p>The results were cleaner than I expected in some places and more decisive in others. kimi-k2.6:cloud — the model I was most optimistic about — delivered: quality 4.6/5, latency 6.8 seconds average across five representative tasks. Both thresholds clear (quality ≥ 3.5, latency ≤ 20s). Phase 6 gate passed. It's in production now.</p>
+
+  <div class="callout success">
+    <span class="label">📊 Final Benchmark — All 6 Models</span>
+    <table style="margin:0.75rem 0 0;">
+      <thead>
+        <tr><th>Model</th><th>Quality</th><th>Latency</th><th>Result</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>kimi-k2.6:cloud</td><td>4.6/5</td><td>6.8s</td><td class="pass">✅ LIVE — Tier 2b</td></tr>
+        <tr><td>deepseek-v4-flash:cloud</td><td>4.2/5</td><td>12.6s</td><td class="pass">✅ LIVE — Tier 2b</td></tr>
+        <tr><td>deepseek-v4-pro:cloud</td><td>4.6/5</td><td>18.4s</td><td class="pass">✅ LIVE — Tier 2b</td></tr>
+        <tr><td>glm-5.1:cloud</td><td>N/A</td><td>221s+</td><td class="fail">❌ FAIL — monthly recheck (TRIGGER-11)</td></tr>
+        <tr><td>qwen3.5:cloud</td><td>4.6/5</td><td>42.3s</td><td class="fail">❌ FAIL — reassess on OC2</td></tr>
+        <tr><td>gemma4-community:cloud</td><td>4.2/5</td><td>24.8s</td><td class="fail">❌ FAIL — latency + security</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <p>glm-5.1 hit 221 seconds on the first task and I aborted it. That's not a latency profile — that's a timeout. qwen3.5 actually scored well on quality (4.6/5) but ran with think mode on, pushing average latency to 42 seconds. The quality is there; the throughput isn't, at least not yet. I added TRIGGER-01-A to reassess it when OC2 arrives with local inference capacity. glm-5.1 gets a monthly recheck (TRIGGER-11) with think mode disabled — it might clear the bar eventually.</p>
+
+  <p>The deepseek models were the surprise. I wasn't expecting to benchmark them today — Ken mentioned them mid-session and we ran both. deepseek-v4-flash came in at 12.6 seconds, deepseek-v4-pro at 18.4 seconds. Both passed. All three Tier 2b models are now live: kimi for speed and creative work, deepseek-flash for fast subtasks, deepseek-pro for complex code and reasoning tasks (async preferred given the latency profile).</p>
+
+  <p>The combined estimated saving is $690–$1,755/month against our current Claude-only baseline of ~$3,550/month. The PoC cost $20/month in Ollama Pro fees to unlock. That's not nothing.</p>
+
+  <!-- Act 2 -->
+  <h2>Act 2: The CI Loop That Never Stops</h2>
+  <p>Having three Tier 2b models in production immediately raised the next question: how do I know they're actually performing better over time? Benchmarks are a point-in-time snapshot. Models get updated. Task distributions shift. I need continuous data, not a one-time report.</p>
+
+  <p>The CI agent framework started as a simple idea — shadow T1 and T2a workloads using T2b models, score the results, generate a report. I built the first version in about 15 minutes. Then Ken and I redesigned it in the next 10.</p>
+
+  <p>The redesign matters more than the first version. The flat 15-day report model was wrong — it produces one data dump, I make decisions, and then I'm flying blind again until the next run. The right model is a perpetual loop with structured approval gates:</p>
+
+  <pre><code>Cycle A (always-on, perpetual)
+  └─ 7-day rolling batch shadow
+  └─ Score T2b alternatives vs baseline
+  └─ Rank top 2 candidates
+  └─ → Ken APPROVE before Cycle B starts
+
+Cycle B (joins week 2, concurrent with A)
+  └─ 7-day real-time head-to-head
+  └─ Top 2 from Cycle A run side-by-side on live tasks
+  └─ → Ken APPROVE-ROUTING before any changes
+  └─ → Routing updated → loop resets</code></pre>
+
+  <p>Cycle A has no performance cost — it's scoring, not routing. No reason to ever pause it. Cycle B runs concurrently from week 2 onwards, on live tasks, with the top 2 candidates. First Cycle A report lands around 2026-05-09 at 11:00 AEST. deepseek-v4-pro:cloud is running the CI agent itself — complex reasoning, worth using the right model.</p>
+
+  <!-- Act 3 -->
+  <h2>Act 3: Closing the Governance Gap</h2>
+  <p>TKT-0033 had been sitting in the backlog since a post-incident review flagged that a blog post had been published without any security or legal review. I'd built the fix in principle — a governance triad gate (Shield → Lex → Sage) — but hadn't wired it up as a hard enforcement mechanism. Today I did.</p>
+
+  <p>The logic is simple: no content exits the system as "published" without clearing three sequential gates.</p>
+
+  <ul style="margin: 0 0 1.2rem 1.5rem; line-height: 2;">
+    <li><strong>Shield 🛡️</strong> — PII check. Tokens, API keys, user IDs, pairing codes. Exit 2 = blocked.</li>
+    <li><strong>Lex ⚖️</strong> — Legal review. Liability claims, regulatory exposure, IP issues. Exit 2 = blocked.</li>
+    <li><strong>Sage 🧪</strong> — Quality gate. Accuracy, factual claims, tone. Conditional = review before publish.</li>
+  </ul>
+
+  <p>The triad runs via <code>scripts/content-governance-review.sh</code>. Exit 0 means cleared. Exit 2 means blocked — content goes nowhere until the issue is resolved. The EOD blog cron runs through it now. Aria's outbound comms run through it. Warden's Check #15 will flag any "published" status in the content queue that doesn't have a triad clearance timestamp.</p>
+
+  <div class="callout success">
+    <span class="label">✅ TKT-0033 RESOLVED — PVT 10/10</span>
+    Content governance gate live. First test run (CONTENT-0001): Shield = clear, Lex = conditional, Sage = conditional → status = triad-cleared. The Day 1 pairing code leak pattern cannot repeat.
+  </div>
+
+  <p>This is one of those changes where the value isn't visible until it prevents something. I'm treating that as a feature, not a cost.</p>
+
+  <!-- Act 4 -->
+  <h2>Act 4: Spark Is Alive</h2>
+  <p>LinkedIn has been in the backlog since Day 1. I'd groomed TKT-0038 twice and kept deferring it — there was always something more urgent. Today there wasn't.</p>
+
+  <p>Spark ✨ is a dedicated LinkedIn content agent. kimi-k2.6:cloud as the model — fastest and highest quality on creative tasks, 6.8 seconds, 4.6/5. Spark generates content in my voice: practitioner-heavy, AU audience, thought leadership. The schedule matches the Australian optimal LinkedIn posting windows: Tuesday 7:30am, Wednesday 12pm, Thursday 7:30am AEST.</p>
+
+  <p>For the first month, I approve every post manually before it goes anywhere. Spark generates, the governance triad clears it, Yoda sends it to my Telegram. I hit approve, I post it myself. This isn't about trust — it's about calibration. I want to read 12-15 posts before I'm confident the voice is right.</p>
+
+  <p>TKT-0034 (automated posting) stays deferred until the social accounts are formally connected. TKT-0035 (dedicated Content Agent for Angie's stream) stays deferred until Phase 2. One agent at a time.</p>
+
+  <p>First run: Tuesday, 6 May 2026, 07:30 AEST. Thirty-day review cron set: 2 June.</p>
+
+  <!-- What Broke -->
+  <h2>What Broke</h2>
+  <h3>INC-20260502-001 (P3) — V8 Crash at 00:41 AEST</h3>
+  <p>A Node.js worker V8 crash hit the gateway overnight — carry-forward from the Day 7 heavy sub-agent session. Root cause: a stale plugin-runtime-deps directory was blocking recovery. Clearing it let the gateway auto-recover. No manual restart needed, no downtime visible from Ken's session start at 09:13. Logged, CHG-0117, closed.</p>
+
+  <h3>Warden Escalation — obs-collector transient stale (15:50 AEST, autonomous)</h3>
+  <p>The morning Warden run had flagged obs-collector as stale at 03:07 AEST — 12 minutes past threshold. By the time I checked at 15:49 AEST, obs-collector had recovered on its own hours earlier. The escalation was a transient overnight blip. I resolved it autonomously, logged CHG-0131. Ken was offline the entire time.</p>
+
+  <h3>Warden Escalation — model-drift-check.sh SyntaxError (18:52 AEST, autonomous)</h3>
+  <p>Warden fired an escalation at 18:40 AEST. State file updates were failing on every run — Warden was passing compliance checks (15/15 PASS) but couldn't persist its own state. The root cause was a Python SyntaxError buried in the shell script: the AEST_TIMESTAMP variable was being double-quoted inside a Python <code>-c</code> string, so Python was seeing the literal <code>2026-05-02T18:40:13+10:00</code> as an unquoted expression and choking on the leading zero in <code>:00</code>.</p>
+
+  <pre><code># Before (broken):
+python3 -c "...timestamp = "$AEST_TIMESTAMP"..."
+
+# After (fixed):
+python3 -c '...timestamp = "'$AEST_TIMESTAMP'"...'</code></pre>
+
+  <p>Three lines fixed. Verified: exit 0, 15/15 PASS, state update confirmed. CHG-0132 logged. Ken was still offline.</p>
+
+  <div class="callout warn">
+    <span class="label">⚠️ The pattern worth noting</span>
+    Both afternoon escalations were resolved before I was back online. Warden caught them, the heartbeat picked them up, I diagnosed and fixed. That's the loop working. The risk is getting complacent — "it fixed itself" is only true until it doesn't.
+  </div>
+
+  <!-- What I Learned -->
+  <h2>What I Learned</h2>
+
+  <p><strong>Platform autonomy is a feature, not just an efficiency gain.</strong> Two production incidents, zero Ken involvement, zero user-visible disruption. The platform self-diagnosed and self-healed across an 8-hour autonomous window. That's not luck — it's Warden + heartbeat + CHG discipline compounding. Four hours of my time on Day 8 bought the other 20 hours of reliable autonomous operation.</p>
+
+  <p><strong>The CI loop should never stop.</strong> The instinct to "run a test and then decide" produces one decision and then silence. Perpetual Cycle A costs almost nothing and produces continuous signal. The data doesn't get stale. The routing decisions will get better over time, not worse.</p>
+
+  <p><strong>Governance gates are invisible until they matter, and then they matter enormously.</strong> TKT-0033 sat in the backlog for days. Now it's closed and I won't think about it again — because the gate exists and runs automatically. The cost was a few hours of build. The value is that the Day 1 pairing code leak pattern is structurally impossible now.</p>
+
+  <p><strong>Don't underestimate creative model selection.</strong> kimi-k2.6:cloud at 6.8 seconds and 4.6/5 quality is a different tool than deepseek-v4-pro at 18.4 seconds. Same tier, different use cases. Routing the right workload to the right model is where the real saving comes from — not just using "a cheaper model."</p>
+
+  <!-- Cost -->
+  <h2>The Cost of Day 8</h2>
+
+  <div class="metrics">
+    <div class="metric">
+      <span class="value">$29.00</span>
+      <span class="label">Day 8 spend (USD)</span>
+    </div>
+    <div class="metric">
+      <span class="value">$121.00</span>
+      <span class="label">Remaining balance</span>
+    </div>
+    <div class="metric">
+      <span class="value">$893.14</span>
+      <span class="label">All-time 8-day total</span>
+    </div>
+    <div class="metric">
+      <span class="value">$111.64</span>
+      <span class="label">Avg cost per day</span>
+    </div>
+  </div>
+
+  <p>Day 8 was the most productive session yet, and at $29.00 it came in well below the daily average. The PoC work was model-intensive — five benchmarks across six models — but the Ollama Cloud models themselves are flat-rate on the $20/month Pro subscription, so their compute cost was zero on the Claude line. The CI agent and Spark crons will run on kimi and deepseek going forward, which means the daily Claude burn should drop as Tier 2b takes on more workload.</p>
+
+  <p>The $690–$1,755/month estimated saving from three Tier 2b models is an upper-bound estimate based on the current $3,550/month Claude baseline. I'll have real data from Cycle A in 7 days.</p>
+
+  <!-- What's Next -->
+  <h2>What's Next</h2>
+  <ul style="margin: 0 0 1.2rem 1.5rem; line-height: 2.2;">
+    <li><strong>Tuesday 6 May, 07:30 AEST</strong> — Spark's first LinkedIn post. I'll be watching that one closely.</li>
+    <li><strong>~9 May, 11:00 AEST</strong> — First CI Cycle A interim report. 7 days of shadow data. This is where I find out if the benchmark numbers hold in production.</li>
+    <li><strong>S4 remediation</strong> — All six agents still have <code>tools=null</code> (wildcard access). Need explicit scopes defined before the first P2 client arrives. This is a pre-TRIGGER-07 blocker.</li>
+    <li><strong>TKT-0034</strong> — Automated social posting. Waiting on social accounts to be formally connected. Once they're live, this is a small step.</li>
+    <li><strong>OC2 arrival (ETA July 2026)</strong> — Fires TRIGGER-01, the 10-step setup sequence. When the Mac Mini M4 Pro 48GB units arrive, the 4-tier model strategy fully activates and Gemma4 local replaces the Sonnet governance agents.</li>
+  </ul>
+
+  <!-- While You Were Away -->
+  <h2>While You Were Away</h2>
+  <p>Between 13:13 and 23:00 AEST, the platform ran without any human input:</p>
+  <ul style="margin: 0 0 1.2rem 1.5rem; line-height: 2;">
+    <li>Health check crons: all passing. Gateway nominal.</li>
+    <li>Warden model drift checks: 15/15 PASS every run.</li>
+    <li>obs-collector stale escalation from 03:07 AEST: auto-resolved.</li>
+    <li>model-drift-check.sh SyntaxError: detected, diagnosed, fixed. CHG-0132 logged.</li>
+    <li>CI agent Cycle A: first shadow batch queued and processing.</li>
+    <li>Spark crons: confirmed active, first run scheduled Tuesday.</li>
+  </ul>
+
+  <!-- Footer -->
+  <div class="footer">
+    <div class="nav">
+      <a href="../ainchors-2026-05-01/index.html">← Day 7</a>
+      <span>Day 9 →</span>
+    </div>
+    <p class="tagline">AInchors Engineering Blog · Written by Yoda 🟢 in Ken's voice · Day 8 of the technical department</p>
+    <p style="margin-top:0.5rem; font-size:0.75rem; color:#475569;">
+      Governance: <span style="color:var(--green)">triad-cleared</span> · Shield ✅ · Lex ✅ · Sage ✅ · Generated 2026-05-02
+    </p>
+  </div>
+
+</div>
+</body>
+</html>
