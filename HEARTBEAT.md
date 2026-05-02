@@ -71,6 +71,17 @@
   - Alert Ken via Telegram with: what drifted, what was fixed, CHG reference
   - State key: wardenEscalation
 
+### Cron Dead-Letter Alerts (check every 30 min)
+- Check if `state/cron-dead-letter-alert.json` exists
+- If it exists and has any entry with `acknowledged = false`:
+  - For each unacknowledged entry, alert Ken:
+    > ⚠️ **Cron dead-lettered:** `[name]` ([cronId]) — **[failCount] failures** in 1h
+    > Last error: [lastError]
+    > **Recommendation:** Disable or fix cron before next run to stop API burn. Check cron jobs.json for this ID.
+  - After notifying Ken, mark all entries as acknowledged: set `acknowledged: true` in the JSON
+  - Do NOT delete the file (auto-heal.sh manages cleanup)
+- State key: lastChecks.cronDeadLetter
+
 ### Memory Maintenance (once per day, during low-traffic hours)
 - Review recent memory/YYYY-MM-DD.md files
 - Update MEMORY.md with anything significant

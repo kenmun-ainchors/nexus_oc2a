@@ -1,0 +1,149 @@
+[?2026h[?25l[1G⠙ [K[?25h[?2026l[?2026h[?25l[1G⠙ [K[?25h[?2026l[?2026h[?25l[1G⠸ [K[?25h[?2026l[?2026h[?25l[1G⠸ [K[?25h[?2026l[?2026h[?25l[1G⠼ [K[?25h[?2026l[?2026h[?25l[1G⠴ [K[?25h[?2026l[?2026h[?25l[1G⠦ [K[?25h[?2026l[?2026h[?25l[1G⠇ [K[?25h[?2026l[?2026h[?25l[1G⠏ [K[?25h[?2026l[?25l[?2026h[?25l[1G[K[?25h[?2026l[2K[1G[?25hThinking...
+The[?25l[?25h user wants[?25l[?25h a Python[?25l[?25h function[?25l[?25h,[?25l[?25h approximately[?25l[?25h 20[?25l[?25h lines[?25l[?25h, that[?25l[?25h routes[?25l[?25h a[?25l[?25h tas[3D[K
+task to[?25l[?25h either a[?25l[?25h local model[?25l[?25h or a[?25l[?25h cloud model[?25l[?25h based on[?25l[?25h two criteria[?25l[?25h:[?25l[?25h
+ 1.[?25l[?25h `data[?25l[?25h_sensitivity[?25l[?25h`: if[?25l[?25h high[?25l[?25h ->[?25l[?25h local,[?25l[?25h if[?25l[?25h low ->[?25l[?25h cloud[?25l[?25h
+ 2[?25l[?25h. `[?25l[?25htask_complex[?25l[?25hity`:[?25l[?25h if high[?25l[?25h -> cloud[?25l[?25h, if[?25l[?25h low ->[?25l[?25h local[?25l[?25h
+ 
+ So[?25l[?25h there's[?25l[?25h a potential[?25l[?25h conflict.[?25l[?25h For[?25l[?25h example,[?25l[?25h if data[?25l[?25h_sensitivity[?25l[?25h is high[?25l[?25h [K
+([?25l[?25hlocal)[?25l[?25h but task[?25l[?25h_complex[?25l[?25hity is[?25l[?25h high ([?25l[?25hcloud),[?25l[?25h where[?25l[?25h should[?25l[?25h it[?25l[?25h go?[?25l[?25h
+ The user[?25l[?25h didn't specify[?25l[?25h tie[?25l[?25h-breaking[?25l[?25h rules.[?25l[?25h I should[?25l[?25h include[?25l[?25h a simple[?25l[?25h reso[4D[K
+resolution[?25l[?25h strategy[?25l[?25h.[?25l[?25h
+ Common[?25l[?25h sense[?25l[?25h: data[?25l[?25h sensitivity usually[?25l[?25h tr[?25l[?25humps[?25l[?25h complexity[?25l[?25h (privacy[?25l[?25h first[?25l[?25h),[?25l[?25h [K
+OR[?25l[?25h we[?25l[?25h need[?25l[?25h a[?25l[?25h rule[?25l[?25h.[?25l[?25h
+ Let's[?25l[?25h define:[?25l[?25h
+ -[?25l[?25h High sensitivity[?25l[?25h ->[?25l[?25h always[?25l[?25h local ([?25l[?25hprivacy priority[?25l[?25h)
+ -[?25l[?25h Low sensitivity[?25l[?25h + high[?25l[?25h complexity ->[?25l[?25h cloud[?25l[?25h
+ - Low[?25l[?25h sensitivity +[?25l[?25h low complexity[?25l[?25h -> local[?25l[?25h ([?25l[?25hor cloud[?25l[?25h, but[?25l[?25h local might[?25l[?25h be [K
+cheaper[?25l[?25h/f[?25l[?25haster[?25l[?25h for[?25l[?25h simple[?25l[?25h tasks)[?25l[?25h
+ 
+ Actually[?25l[?25h, looking[?25l[?25h at the[?25l[?25h prompt[?25l[?25h:[?25l[?25h "based[?25l[?25h on data[?25l[?25h_sensitivity[?25l[?25h (high[?25l[?25h=local[?25l[?25h, l[1D[K
+low[?25l[?25h=cloud[?25l[?25h) and[?25l[?25h task_complex[?25l[?25hity ([?25l[?25hhigh=[?25l[?25hcloud,[?25l[?25h low=[?25l[?25hlocal)"[?25l[?25h.
+ This[?25l[?25h implies a[?25l[?25h decision[?25l[?25h matrix[?25l[?25h:[?25l[?25h
+ - High[?25l[?25h sensitivity,[?25l[?25h low complexity[?25l[?25h ->[?25l[?25h local ([?25l[?25hboth[?25l[?25h agree[?25l[?25h)
+ -[?25l[?25h High[?25l[?25h sensitivity,[?25l[?25h high complexity[?25l[?25h -> conflict[?25l[?25h.[?25l[?25h Sensitivity[?25l[?25h says local[?25l[?25h, c[1D[K
+complexity[?25l[?25h says cloud[?25l[?25h.
+ -[?25l[?25h Low sensitivity[?25l[?25h, low[?25l[?25h complexity ->[?25l[?25h conflict.[?25l[?25h Sensitivity[?25l[?25h says cloud[?25l[?25h, com[3D[K
+complexity[?25l[?25h says local[?25l[?25h.
+ -[?25l[?25h Low sensitivity[?25l[?25h, high[?25l[?25h complexity ->[?25l[?25h cloud ([?25l[?25hboth agree[?25l[?25h)[?25l[?25h
+ 
+ I need[?25l[?25h to define[?25l[?25h how[?25l[?25h to resolve[?25l[?25h conflicts[?25l[?25h. A[?25l[?25h reasonable approach[?25l[?25h is to[?25l[?25h pri[3D[K
+prioritize data[?25l[?25h_s[?25l[?25hensitivity since[?25l[?25h that's[?25l[?25h usually[?25l[?25h a hard[?25l[?25h constraint.[?25l[?25h So[?25l[?25h:
+ -[?25l[?25h If data[?25l[?25h_sensitivity[?25l[?25h == "[?25l[?25hhigh":[?25l[?25h route[?25l[?25h local[?25l[?25h ([?25l[?25hreg[?25l[?25hardless of[?25l[?25h complexity)[?25l[?25h
+ - Else[?25l[?25h ([?25l[?25hlow[?25l[?25h sensitivity):[?25l[?25h route[?25l[?25h based on[?25l[?25h complexity ->[?25l[?25h high=[?25l[?25hcloud,[?25l[?25h low=[?25l[?25hloc[7D[K
+low=local[?25l[?25h
+ 
+ Alternative[?25l[?25h:[?25l[?25h treat[?25l[?25h it[?25l[?25h as a[?25l[?25h scoring[?25l[?25h system[?25l[?25h or use[?25l[?25h explicit[?25l[?25h rules.[?25l[?25h
+ Let's provide[?25l[?25h a clean[?25l[?25h function[?25l[?25h with doc[?25l[?25hstring[?25l[?25h and a[?25l[?25h clear tie[?25l[?25h-break[?25l[?25her[?25l[?25h ([?25l[?25hdat[4D[K
+(data[?25l[?25h_s[?25l[?25hensitivity wins[?25l[?25h).[?25l[?25h
+ 
+ Let's draft[?25l[?25h:[?25l[?25h
+ 
+ ```[?25l[?25hpython[?25l[?25h
+ def route[?25l[?25h_task[?25l[?25h(data_s[?25l[?25hensitivity:[?25l[?25h str,[?25l[?25h task_complex[?25l[?25hity:[?25l[?25h str)[?25l[?25h -> str[?25l[?25h:[?25l[?25h
+     """[?25l[?25hRoute[?25l[?25h a[?25l[?25h task to[?25l[?25h local or[?25l[?25h cloud based[?25l[?25h on sensitivity[?25l[?25h and complexity[?25l[?25h.[?25l[?25h[11D[K
+complexity.
+     
+     Priority[?25l[?25h: data[?25l[?25h_s[?25l[?25hensitivity overrides[?25l[?25h complexity.[?25l[?25h
+     """[?25l[?25h
+     data[?25l[?25h_sensitivity[?25l[?25h = data[?25l[?25h_sensitivity[?25l[?25h.lower().[?25l[?25hstrip()[?25l[?25h
+     task[?25l[?25h_complexity[?25l[?25h = task[?25l[?25h_complexity[?25l[?25h.lower().[?25l[?25hstrip()[?25l[?25h
+     
+     if data[?25l[?25h_sensitivity[?25l[?25h == "[?25l[?25hhigh":[?25l[?25h
+         return "[?25l[?25hlocal"[?25l[?25h
+     if[?25l[?25h data_s[?25l[?25hensitivity ==[?25l[?25h "low[?25l[?25h":[?25l[?25h
+         return "[?25l[?25hcloud"[?25l[?25h if task[?25l[?25h_complex[?25l[?25hity ==[?25l[?25h "high[?25l[?25h" else[?25l[?25h "local[?25l[?25h"[?25l[?25h
+     raise[?25l[?25h ValueError[?25l[?25h("data[?25l[?25h_sensitivity[?25l[?25h must be[?25l[?25h 'high[?25l[?25h' or[?25l[?25h 'low[?25l[?25h'")[?25l[?25h
+ ```[?25l[?25h
+ 
+ That's only[?25l[?25h about[?25l[?25h 10[?25l[?25h lines.[?25l[?25h The[?25l[?25h user asked[?25l[?25h for ~[?25l[?25h20 lines[?25l[?25h. I[?25l[?25h can expand[?25l[?25h wit[3D[K
+with[?25l[?25h comments[?25l[?25h, validation[?25l[?25h, explicit[?25l[?25h handling[?25l[?25h, or[?25l[?25h a more[?25l[?25h robust[?25l[?25h structure[?25l[?25h.[?25l[?25h
+ 
+ Let's make[?25l[?25h it around[?25l[?25h 20[?25l[?25h lines,[?25l[?25h clean[?25l[?25h and[?25l[?25h readable:[?25l[?25h
+ 
+ ```[?25l[?25hpython[?25l[?25h
+ def route[?25l[?25h_inference[?25l[?25h(data_s[?25l[?25hensitivity:[?25l[?25h str,[?25l[?25h task_complex[?25l[?25hity:[?25l[?25h str)[?25l[?25h -> str[?25l[?25h:[?25l[?25h
+     """Route[?25l[?25h to local[?25l[?25h or cloud[?25l[?25h model.[?25l[?25h
+ 
+     Rules[?25l[?25h:[?25l[?25h
+     -[?25l[?25h High data[?25l[?25h sensitivity[?25l[?25h -> local[?25l[?25h ([?25l[?25hprivacy first[?25l[?25h)[?25l[?25h
+     -[?25l[?25h Low sensitivity[?25l[?25h + high[?25l[?25h complexity ->[?25l[?25h cloud[?25l[?25h
+     -[?25l[?25h Low sensitivity[?25l[?25h + low[?25l[?25h complexity ->[?25l[?25h local[?25l[?25h
+     """[?25l[?25h
+     sens[?25l[?25h = data[?25l[?25h_sensitivity[?25l[?25h.lower().[?25l[?25hstrip()[?25l[?25h
+     comp[?25l[?25h = task[?25l[?25h_complexity[?25l[?25h.lower().[?25l[?25hstrip()[?25l[?25h
+ 
+     if[?25l[?25h sens not[?25l[?25h in ("[?25l[?25hhigh",[?25l[?25h "low[?25l[?25h") or[?25l[?25h comp not[?25l[?25h in ("[?25l[?25hhigh",[?25l[?25h "low[?25l[?25h"):[?25l[?25h
+         raise Value[?25l[?25hError("[?25l[?25hInputs[?25l[?25h must[?25l[?25h be '[?25l[?25hhigh'[?25l[?25h or '[?25l[?25hlow'[?25l[?25h")[?25l[?25h
+ 
+     if[?25l[?25h sens ==[?25l[?25h "high[?25l[?25h":[?25l[?25h
+         # Privacy[?25l[?25h requirement[?25l[?25h overrides[?25l[?25h compute[?25l[?25h preference[?25l[?25h
+         return "[?25l[?25hlocal"[?25l[?25h
+ 
+     #[?25l[?25h For[?25l[?25h low-s[?25l[?25hensitivity data[?25l[?25h, let[?25l[?25h complexity decide[?25l[?25h
+     return[?25l[?25h "cloud[?25l[?25h" if[?25l[?25h comp ==[?25l[?25h "high[?25l[?25h" else[?25l[?25h "local[?25l[?25h"
+ ```[?25l[?25h
+ 
+ Let's[?25l[?25h count lines[?25l[?25h:[?25l[?25h
+ 1.[?25l[?25h def...[?25l[?25h
+ 2[?25l[?25h. """[?25l[?25hRoute...[?25l[?25h
+ 3[?25l[?25h. ([?25l[?25hempty doc[?25l[?25hstring[?25l[?25h line[?25l[?25h)[?25l[?25h
+ 4[?25l[?25h. Rules[?25l[?25h...[?25l[?25h
+ 5.[?25l[?25h -[?25l[?25h High[?25l[?25h...[?25l[?25h
+ 6.[?25l[?25h - Low[?25l[?25h...[?25l[?25h
+ 7.[?25l[?25h - Low[?25l[?25h...[?25l[?25h
+ 8.[?25l[?25h """[?25l[?25h
+ 9.[?25l[?25h sens =[?25l[?25h ...[?25l[?25h
+ 10[?25l[?25h. comp[?25l[?25h = ...[?25l[?25h
+ 11[?25l[?25h. ([?25l[?25hempty)[?25l[?25h
+ 12[?25l[?25h. if[?25l[?25h sens not[?25l[?25h in[?25l[?25h...[?25l[?25h
+ 13.[?25l[?25h raise...[?25l[?25h
+ 14[?25l[?25h. ([?25l[?25hempty)[?25l[?25h
+ 15[?25l[?25h. if[?25l[?25h sens ==[?25l[?25h "high[?25l[?25h":[?25l[?25h
+ 16.[?25l[?25h # Privacy[?25l[?25h...[?25l[?25h
+ 17.[?25l[?25h return "[?25l[?25hlocal"[?25l[?25h
+ 18[?25l[?25h. ([?25l[?25hempty)[?25l[?25h
+ 19[?25l[?25h. #[?25l[?25h For low[?25l[?25h...[?25l[?25h
+ 20.[?25l[?25h return "[?25l[?25hcloud"[?25l[?25h if comp[?25l[?25h == "[?25l[?25hhigh"[?25l[?25h else "[?25l[?25hlocal"[?25l[?25h
+ 
+ That's[?25l[?25h about[?25l[?25h 20[?25l[?25h lines.[?25l[?25h Perfect.[?25l[?25h It's[?25l[?25h clear,[?25l[?25h handles[?25l[?25h conflicts[?25l[?25h by[?25l[?25h prioritiz[9D[K
+prioritizing[?25l[?25h sensitivity[?25l[?25h ([?25l[?25hwhich is[?25l[?25h the most[?25l[?25h logical business[?25l[?25h rule[?25l[?25h), validat[7D[K
+validates[?25l[?25h inputs[?25l[?25h, and[?25l[?25h meets[?25l[?25h the line[?25l[?25h count requirement[?25l[?25h naturally[?25l[?25h without[?25l[?25h un[2D[K
+unnecessary[?25l[?25h padding.[?25l[?25h
+ 
+ Let[?25l[?25h me double[?25l[?25h check[?25l[?25h the logic[?25l[?25h matches[?25l[?25h prompt[?25l[?25h:
+ -[?25l[?25h data_s[?25l[?25hensitivity high[?25l[?25h=local[?25l[?25h ->[?25l[?25h Yes[?25l[?25h, line[?25l[?25h 17.[?25l[?25h
+ - data[?25l[?25h_sensitivity[?25l[?25h low=[?25l[?25hcloud ->[?25l[?25h Only[?25l[?25h if complexity[?25l[?25h is high[?25l[?25h. If[?25l[?25h complexity[?25l[?25h [K
+is low[?25l[?25h,[?25l[?25h it[?25l[?25h goes local[?25l[?25h. The[?25l[?25h prompt says[?25l[?25h low[?25l[?25h complexity[?25l[?25h =[?25l[?25h local.[?25l[?25h So for[?25l[?25h low s[1D[K
+sensitivity[?25l[?25h +[?25l[?25h low complexity[?25l[?25h ->[?25l[?25h local.[?25l[?25h That[?25l[?25h matches.[?25l[?25h For[?25l[?25h low sensitivity[?25l[?25h + [K
+high[?25l[?25h complexity ->[?25l[?25h cloud.[?25l[?25h That matches[?25l[?25h.[?25l[?25h For[?25l[?25h high sensitivity[?25l[?25h +[?25l[?25h anything[?25l[?25h -> [K
+local[?25l[?25h. The[?25l[?25h prompt implies[?25l[?25h both[?25l[?25h factors[?25l[?25h matter[?25l[?25h, but[?25l[?25h conflict resolution[?25l[?25h isn'[4D[K
+isn't[?25l[?25h specified[?25l[?25h. Prior[?25l[?25hit[?25l[?25hizing sensitivity[?25l[?25h is the[?25l[?25h safest[?25l[?25h default[?25l[?25h.[?25l[?25h I should[?25l[?25h m[1D[K
+make[?25l[?25h sure the[?25l[?25h doc[?25l[?25hstring or[?25l[?25h comments[?25l[?25h explain[?25l[?25h this override[?25l[?25h clearly[?25l[?25h.[?25l[?25h
+ 
+ Looks[?25l[?25h good.[?25l[?25h
+...done thinking.
+
+```python[?25l[?25h
+def[?25l[?25h route_inference[?25l[?25h(data_s[?25l[?25hensitivity:[?25l[?25h str,[?25l[?25h task_complex[?25l[?25hity:[?25l[?25h str)[?25l[?25h -> str[?25l[?25h:[?25l[?25h
+    """Route[?25l[?25h a[?25l[?25h task to[?25l[?25h a[?25l[?25h local or[?25l[?25h cloud model[?25l[?25h.[?25l[?25h
+
+    Rules:[?25l[?25h
+    - High[?25l[?25h data sensitivity[?25l[?25h -> local[?25l[?25h (privacy[?25l[?25h priority)[?25l[?25h
+    -[?25l[?25h Low sensitivity[?25l[?25h + high[?25l[?25h complexity ->[?25l[?25h cloud[?25l[?25h
+    -[?25l[?25h Low sensitivity[?25l[?25h + low[?25l[?25h complexity ->[?25l[?25h local[?25l[?25h
+    """[?25l[?25h
+    sens[?25l[?25h = data[?25l[?25h_sensitivity[?25l[?25h.lower().[?25l[?25hstrip()[?25l[?25h
+    comp[?25l[?25h = task[?25l[?25h_complexity[?25l[?25h.lower().[?25l[?25hstrip()[?25l[?25h
+
+    if[?25l[?25h sens not[?25l[?25h in ("[?25l[?25hhigh",[?25l[?25h "low[?25l[?25h") or[?25l[?25h comp not[?25l[?25h in ("[?25l[?25hhigh",[?25l[?25h "low[?25l[?25h"):[?25l[?25h
+        raise Value[?25l[?25hError("[?25l[?25hInputs must[?25l[?25h be '[?25l[?25hhigh'[?25l[?25h or '[?25l[?25hlow'[?25l[?25h")[?25l[?25h
+
+    if sens[?25l[?25h == "[?25l[?25hhigh":[?25l[?25h
+        #[?25l[?25h Sensitive[?25l[?25h data[?25l[?25h never[?25l[?25h leaves[?25l[?25h the[?25l[?25h local environment[?25l[?25h
+        return "[?25l[?25hlocal"[?25l[?25h
+
+    #[?25l[?25h For non[?25l[?25h-sensitive[?25l[?25h data,[?25l[?25h route[?25l[?25h by[?25l[?25h complexity[?25l[?25h
+    return[?25l[?25h "cloud[?25l[?25h" if[?25l[?25h comp ==[?25l[?25h "high[?25l[?25h" else[?25l[?25h "local[?25l[?25h"
+```[?25l[?25h[?25l[?25h
+
+[?25l[?25h

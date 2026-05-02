@@ -1,0 +1,105 @@
+[?2026h[?25l[1G⠙ [K[?25h[?2026l[?2026h[?25l[1G⠹ [K[?25h[?2026l[?2026h[?25l[1G⠸ [K[?25h[?2026l[?25l[?2026h[?25l[1G[K[?25h[?2026l[2K[1G[?25hThinking...
+Thinking[?25l[?25h Process:
+
+1[?25l[?25h.  **An[?25l[?25halyze the Request:**[?25l[?25h
+    *  [?25l[?25h Role: AI ops[?25l[?25h agent.
+   [?25l[?25h *   Task[?25l[?25h: List the top[?25l[?25h 3 risks of[?25l[?25h running frontier LLM[?25l[?25hs on shared cloud[?25l[?25h[5D[K
+cloud infrastructure for a small[?25l[?25h business.
+   [?25l[?25h *   Constraint:[?25l[?25h Be concise.
+[?25l[?25h    *   Special[?25l[?25h Instruction: `/[?25l[?25hno_think`[?25l[?25h (This means I[?25l[?25h should not output my[?25l[?25h[2D[K
+my thought[?25l[?25h process, just the[?25l[?25h final answer).
+
+[?25l[?25h2.  **[?25l[?25hIdentify Key Concepts[?25l[?25h:**
+    *[?25l[?25h   Frontier LLM[?25l[?25hs ([?25l[?25hLarge Language Models):[?25l[?25h High compute[?25l[?25h requirements[?25l[?25h, s[1D[K
+sensitive data,[?25l[?25h potential[?25l[?25h for misuse,[?25l[?25h high cost.
+[?25l[?25h    *   Shared[?25l[?25h Cloud Infrastructure: Multi[?25l[?25h-tenancy,[?25l[?25h resource contention, se[2D[K
+security[?25l[?25h boundaries[?25l[?25h, compliance[?25l[?25h.[?25l[?25h
+    *  [?25l[?25h Small Business: Limited[?25l[?25h budget, limited[?25l[?25h security expertise, high[?25l[?25h im[2D[K
+impact[?25l[?25h of disruptions[?25l[?25h/data[?25l[?25h breaches.
+
+3[?25l[?25h.  **Brain[?25l[?25hstorm Risks:**[?25l[?25h
+    *  [?25l[?25h Data Privacy[?25l[?25h/Leakage[?25l[?25h: Multi[?25l[?25h-tenancy risks[?25l[?25h, data residue[?25l[?25h, provider[?25l[?25h a[1D[K
+access[?25l[?25h.
+    *[?25l[?25h   Cost[?25l[?25h Vol[?25l[?25hatility: Token[?25l[?25h usage spikes[?25l[?25h, compute[?25l[?25h costs, unexpected[?25l[?25h bill[4D[K
+bills.
+   [?25l[?25h *   Security Vulner[?25l[?25habilities: Prompt[?25l[?25h injection, model[?25l[?25h inversion[?25l[?25h, shared[?25l[?25h[6D[K
+shared hardware[?25l[?25h side[?25l[?25h-channel[?25l[?25h attacks.
+   [?25l[?25h *   Compliance[?25l[?25h/L[?25l[?25hegal: Data[?25l[?25h residency, GDPR/[?25l[?25hCCPA violations[?25l[?25h if[?25l[?25h data leav[4D[K
+leaves control[?25l[?25h.
+    *[?25l[?25h   Reliability/[?25l[?25hPerformance: No[?25l[?25hisy neighbors, rate[?25l[?25h limiting, downtime[?25l[?25h a[1D[K
+affecting[?25l[?25h operations[?25l[?25h.
+
+4.[?25l[?25h  **Select Top[?25l[?25h 3 for[?25l[?25h Small Business Context[?25l[?25h:**
+    *[?25l[?25h   *Data Privacy[?25l[?25h/Security:*[?25l[?25h Small businesses often[?25l[?25h handle[?25l[?25h sensitive[?25l[?25h cu[2D[K
+customer data.[?25l[?25h A breach is[?25l[?25h catastrophic[?25l[?25h. Shared[?25l[?25h infra[?25l[?25h increases surface[?25l[?25h are[3D[K
+area.[?25l[?25h
+    *  [?25l[?25h *Cost Control:*[?25l[?25h Small[?25l[?25h businesses have tight[?25l[?25h budgets. Frontier L[?25l[?25hLMs [K
+are expensive[?25l[?25h. Unoptimized[?25l[?25h usage or[?25l[?25h spikes[?25l[?25h can bankrupt a[?25l[?25h project.
+   [?25l[?25h *   *Com[?25l[?25hpliance/L[?25l[?25hiability:* Small businesses[?25l[?25h may not[?25l[?25h have legal[?25l[?25h teams.[?25l[?25h [K
+Using[?25l[?25h shared cloud for[?25l[?25h sensitive[?25l[?25h data might violate regulations[?25l[?25h without[?25l[?25h the[3D[K
+them[?25l[?25h knowing[?25l[?25h.
+
+   [?25l[?25h *Refinement[?25l[?25h:* Let's focus[?25l[?25h on the most critical[?25l[?25h operational risks.
+[?25l[?25h    1.[?25l[?25h  Data[?25l[?25h Privacy[?25l[?25h & Sovere[?25l[?25hignty (Sensitive[?25l[?25h data leaving[?25l[?25h premises[?25l[?25h/shared[?25l[?25h [K
+ten[?25l[?25hancy).
+   [?25l[?25h 2. [?25l[?25h Un[?25l[?25hpredictable Costs ([?25l[?25hPay-per[?25l[?25h-token/com[?25l[?25hpute can spiral[?25l[?25h).
+    [?25l[?25h3.  Security[?25l[?25h Vulnerabilities (Prompt[?25l[?25h injection/model[?25l[?25h misuse[?25l[?25h affecting[?25l[?25h s[1D[K
+shared resources[?25l[?25h or[?25l[?25h vice[?25l[?25h versa).
+
+   [?25l[?25h *Alternative Ref[?25l[?25hinement for[?25l[?25h "Shared Cloud Infrastructure[?25l[?25h" specifically[?25l[?25h:[13D[K
+specifically:*
+    [?25l[?25h1.  **[?25l[?25hData Leakage &[?25l[?25h Privacy:** Multi-[?25l[?25htenancy risks where[?25l[?25h sensitive[?25l[?25h bus[3D[K
+business[?25l[?25h/customer[?25l[?25h data could be exposed[?25l[?25h or used[?25l[?25h for model[?25l[?25h training by the[?25l[?25h p[1D[K
+provider.
+   [?25l[?25h 2. [?25l[?25h **Cost Volatility[?25l[?25h:** Frontier models are[?25l[?25h expensive; shared[?25l[?25h infrastr[8D[K
+infrastructure pricing[?25l[?25h models ([?25l[?25hpay-as[?25l[?25h-you-go) can[?25l[?25h lead to unexpected[?25l[?25h budget[?25l[?25h[6D[K
+budget over[?25l[?25hruns due to ineff[?25l[?25hiciencies or attacks[?25l[?25h.
+    [?25l[?25h3.  **[?25l[?25hCompliance & Liability[?25l[?25h:** Lack[?25l[?25h of control[?25l[?25h over data residency and[?25l[?25h[3D[K
+and security standards may[?25l[?25h violate industry[?25l[?25h regulations (GD[?25l[?25hPR, HIPAA[?25l[?25h), expo[4D[K
+exposing[?25l[?25h the business to legal[?25l[?25h risk[?25l[?25h.
+
+5.[?25l[?25h  **Draft the[?25l[?25h Response (Con[?25l[?25hcise):**
+[?25l[?25h    1.[?25l[?25h  **Data Privacy[?25l[?25h & Leakage[?25l[?25h:** Multi[?25l[?25h-tenancy environments[?25l[?25h increase the[3D[K
+the risk of[?25l[?25h sensitive proprietary[?25l[?25h or[?25l[?25h customer data being exposed[?25l[?25h, intercept[9D[K
+intercepted[?25l[?25h, or inadvertently used[?25l[?25h by[?25l[?25h the cloud[?25l[?25h provider for[?25l[?25h model training[8D[K
+training.
+[?25l[?25h    2.[?25l[?25h  **Unpredict[?25l[?25hable Cost[?25l[?25h Spikes:** Frontier[?25l[?25h models consume[?25l[?25h significant [K
+compute; shared[?25l[?25h infrastructure pricing can[?25l[?25h lead to massive[?25l[?25h budget overruns [K
+from[?25l[?25h inefficient[?25l[?25h queries[?25l[?25h, loops[?25l[?25h, or malicious[?25l[?25h usage[?25l[?25h.[?25l[?25h
+    3[?25l[?25h.  **Reg[?25l[?25hulatory Non[?25l[?25h-Compliance:**[?25l[?25h Lack of direct[?25l[?25h control over data res[3D[K
+residency[?25l[?25h and security protocols on[?25l[?25h shared platforms[?25l[?25h may violate industry[?25l[?25h s[1D[K
+standards (e.g[?25l[?25h., GDPR, HIP[?25l[?25hAA), resulting[?25l[?25h in legal liability.[?25l[?25h
+
+6. [?25l[?25h **Review against Constraints[?25l[?25h:**
+    *[?25l[?25h   Top[?25l[?25h 3 risks?[?25l[?25h Yes.
+   [?25l[?25h *   Frontier L[?25l[?25hLMs on shared[?25l[?25h cloud? Yes.[?25l[?25h
+    *  [?25l[?25h Small business context?[?25l[?25h Yes (budget,[?25l[?25h liability[?25l[?25h,[?25l[?25h data[?25l[?25h).[?25l[?25h
+    *  [?25l[?25h Concise? Yes[?25l[?25h.
+    *[?25l[?25h   `/[?25l[?25hno_think`[?25l[?25h? Yes ([?25l[?25hdo not output thoughts[?25l[?25h).
+
+7.[?25l[?25h  **Final Polish[?25l[?25h:** Make[?25l[?25h it punchy.[?25l[?25h
+
+    [?25l[?25h1.  **[?25l[?25hData Privacy & Leakage[?25l[?25h:** Multi[?25l[?25h-tenancy increases[?25l[?25h the risk of sen[3D[K
+sensitive[?25l[?25h customer or[?25l[?25h proprietary data being exposed[?25l[?25h or[?25l[?25h inadvertently used [K
+by the[?25l[?25h provider for model training[?25l[?25h.
+    [?25l[?25h2.  **[?25l[?25hCost[?25l[?25h Volatility:** High[?25l[?25h compute demands[?25l[?25h and pay[?25l[?25h-per-use[?25l[?25h pricing c[1D[K
+can[?25l[?25h lead to unexpected budget[?25l[?25h overruns from[?25l[?25h inefficient prompts[?25l[?25h or usage[?25l[?25h sp[2D[K
+spikes.
+   [?25l[?25h 3. [?25l[?25h **Compliance Liability[?25l[?25h:** Limited[?25l[?25h control over data residency[?25l[?25h and s[1D[K
+security standards[?25l[?25h on shared platforms[?25l[?25h may violate regulations[?25l[?25h like[?25l[?25h GDPR or[2D[K
+or HIPAA[?25l[?25h, exposing the business[?25l[?25h to legal risk.[?25l[?25h
+
+8[?25l[?25h.  **Final[?25l[?25h Output Generation** ([?25l[?25hadhering to[?25l[?25h `/no_think[?25l[?25h`).
+[?25l[?25h...done thinking.
+
+1. **Data[?25l[?25h Privacy & Leakage:**[?25l[?25h Multi-tenancy[?25l[?25h increases[?25l[?25h the risk of sensitiv[8D[K
+sensitive[?25l[?25h customer or proprietary data[?25l[?25h being exposed,[?25l[?25h intercepted, or inadv[5D[K
+inadvertently[?25l[?25h used by the provider[?25l[?25h for model training.[?25l[?25h
+2. **[?25l[?25hCost Volatility:**[?25l[?25h High compute demands and[?25l[?25h pay-per-use pricing[?25l[?25h can le[2D[K
+lead to unexpected[?25l[?25h budget overruns from[?25l[?25h inefficient prompts[?25l[?25h, loops, or[?25l[?25h usag[4D[K
+usage spikes.[?25l[?25h
+3. **Com[?25l[?25hpliance Liability:** Limited[?25l[?25h control over data residency[?25l[?25h and securi[6D[K
+security standards on[?25l[?25h shared platforms may violate[?25l[?25h regulations like GDPR or[?25l[?25h[2D[K
+or HIPAA, exposing[?25l[?25h the business to legal[?25l[?25h risk.[?25l[?25h[?25l[?25h
+
+[?25l[?25h

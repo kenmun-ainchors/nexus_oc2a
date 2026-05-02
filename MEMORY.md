@@ -94,7 +94,7 @@
 - gog for Angie: ✅ RESOLVED — angie.foong@ainchors.com OAuth working (verified 2026-05-01)
 - CAMP-0001 (Mont Kiara Apr 30 class): no debrief from Angie yet
 - OC2 arrival (ETA July 2026) → fires TRIGGER-01 setup sequence
-- Ollama Cloud PoC: Phase 1–4 running (sub-agent c8512703). Phase 6 pending Ken approval.
+- Ollama Cloud PoC: **COMPLETE + EXTENDED** ✅ (2026-05-02). kimi-k2.6:cloud PASSED (Q=4.6/5, L=6.8s). deepseek-v4-flash:cloud PASSED (Q=4.2/5, L=12.6s). deepseek-v4-pro:cloud PASSED (Q=4.6/5, L=18.4s). All 3 added as Tier 2 models (CHG-0120, CHG-0123). Estimated monthly saving: $690–1,755/mo. glm-5.1:cloud FAILED. qwen3.5:cloud FAILED. Only non-sensitive (low data_sensitivity) tasks eligible. Routing guidance: kimi=fastest/creative, deepseek-flash=fast subtasks, deepseek-pro=complex code/reasoning.
 
 ## Blog Post Ideas (Ken-originated, do not write until Ken signals ready)
 - **"Building observability for an Agentic AI platform"** (Apr 30, medium priority) — Status: idea only
@@ -122,7 +122,7 @@
 - TRIGGER-02: Both OC2 nodes live → HA architecture active, NAS shared state
 - TRIGGER-03: Gemma4 validated on OC2 → switch governance agents from Haiku to Gemma4:26b local
 - TRIGGER-04: OpenClaw security patch → update within 48h (critical) or 7 days (high). Raise CHG.
-- TRIGGER-05: Ollama Cloud PoC PASS → implement 4-tier model strategy. Ken decision gate.
+- TRIGGER-05: Ollama Cloud PoC PASS → implement 4-tier model strategy. Ken decision gate. **FIRED 2026-05-02** — kimi-k2.6:cloud Tier 2 active. Full 4-tier pending OC2 arrival (July 2026).
 - TRIGGER-06: OpenClaw v4.0 ships → P3 gate assessment. Present Ken with CrewAI vs native multi-agent eval.
 - TRIGGER-07: First P2 client → onboarding checklist execution
 - TRIGGER-08: Daily API cost exceeds $60 USD → T1 alert; $80 → T2; $100 → T3 pause
@@ -138,3 +138,34 @@
 - CHG-0100/101/102: TRIGGER-08 in cost-tracker, TRIGGER-04/06 release cron, HEARTBEAT trigger monitoring
 - CHG-0107: bootstrapMaxChars 10k→20k (fix MEMORY.md truncation)
 - Balance: $115.00 USD (top-up 19:04 AEST). All-time: $828.27 USD over 7 days.
+
+## Ollama Cloud PoC — COMPLETE (2026-05-02)
+
+**Status: ✅ COMPLETE — Phase 6 Implemented**
+**Authorised by:** Ken (Ollama Pro signup accounts@ainchors.com)
+**CHG:** CHG-0120
+**Full report:** /Users/ainchorsangiefpl/.openclaw/workspace/state/ollama-cloud-poc-report.md
+
+### Benchmark Results — All Models
+
+| Model | Avg Quality | Avg Latency | Result |
+|-------|-------------|-------------|--------|
+| kimi-k2.6:cloud | 4.6/5 | 6.8s | **✅ PASS** |
+| deepseek-v4-flash:cloud | 4.2/5 | 12.6s | **✅ PASS** |
+| deepseek-v4-pro:cloud | 4.6/5 | 18.4s | **✅ PASS** |
+| glm-5.1:cloud | N/A | 221s+ | **❌ FAIL** |
+| qwen3.5:cloud (/no_think) | 4.6/5 | 42.3s | **❌ FAIL (latency)** |
+
+### Tier 2 Implementation (Phase 6 + Phase 5D)
+- **kimi-k2.6:cloud** — fastest (6.8s), best for creative/content tasks. CHG-0120.
+- **deepseek-v4-flash:cloud** — fast subtasks (12.6s avg). CHG-0123.
+- **deepseek-v4-pro:cloud** — complex code/reasoning (18.4s avg, async preferred). CHG-0123.
+- Constraint: ALL three = non-sensitive tasks ONLY (`data_sensitivity == "low"`)
+- Warden must enforce: no PII, no medical, no legal data via any Ollama Cloud model
+- Estimated saving: **$690–1,755/mo** vs current Claude spend of ~$3,550/mo
+- glm-5.1 and qwen3.5: NOT added. Revisit qwen3.5 for async batch jobs in OC2.
+
+### Key caveats
+- kimi-k2.6 quality excellent but output includes thinking tokens (visible in stream) — acceptable for background tasks
+- Full 4-tier model strategy still pending OC2 arrival (July 2026)
+- Routing implementation (Warden enforcement, agent-level gating) is next step

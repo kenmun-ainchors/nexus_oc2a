@@ -1,0 +1,101 @@
+[?2026h[?25l[1G⠙ [K[?25h[?2026l[?2026h[?25l[1G⠹ [K[?25h[?2026l[?2026h[?25l[1G⠹ [K[?25h[?2026l[?2026h[?25l[1G⠼ [K[?25h[?2026l[?2026h[?25l[1G⠴ [K[?25h[?2026l[?2026h[?25l[1G⠦ [K[?25h[?2026l[?2026h[?25l[1G⠧ [K[?25h[?2026l[?2026h[?25l[1G⠧ [K[?25h[?2026l[?2026h[?25l[1G⠏ [K[?25h[?2026l[?25l[?2026h[?25l[1G[K[?25h[?2026l[2K[1G[?25hThinking...
+The[?25l[?25h user wants[?25l[?25h me to[?25l[?25h act as[?25l[?25h an AI[?25l[?25h ops agent[?25l[?25h and list[?25l[?25h the top[?25l[?25h 3[?25l[?25h risks of[?25l[?25h run[3D[K
+running frontier[?25l[?25h LLMs[?25l[?25h on shared[?25l[?25h cloud infrastructure[?25l[?25h for a[?25l[?25h small business[?25l[?25h. [K
+They[?25l[?25h want[?25l[?25h it concise[?25l[?25h.
+
+ Frontier[?25l[?25h LLMs[?25l[?25h = large[?25l[?25h language[?25l[?25h models like[?25l[?25h GPT[?25l[?25h-4[?25l[?25h, Claude[?25l[?25h, etc[?25l[?25h.[?25l[?25h
+ Shared[?25l[?25h cloud infrastructure[?25l[?25h = multi[?25l[?25h-[?25l[?25htenant cloud[?25l[?25h environments[?25l[?25h (as[?25l[?25h opposed [K
+to[?25l[?25h dedicated/private[?25l[?25h).[?25l[?25h
+ Small[?25l[?25h business context[?25l[?25h = limited[?25l[?25h resources,[?25l[?25h less[?25l[?25h robust[?25l[?25h security/com[?25l[?25hplianc[18D[K
+security/compliance teams[?25l[?25h.
+
+ Top[?25l[?25h risks[?25l[?25h to consider[?25l[?25h:[?25l[?25h
+ 1.[?25l[?25h Data privacy[?25l[?25h /[?25l[?25h leakage -[?25l[?25h prompts[?25l[?25h and[?25l[?25h data sent[?25l[?25h to shared[?25l[?25h infrastructure[?25l[?25h[14D[K
+infrastructure could[?25l[?25h be retained[?25l[?25h,[?25l[?25h logged[?25l[?25h,[?25l[?25h or exposed[?25l[?25h to other[?25l[?25h tenants[?25l[?25h via[?25l[?25h s[1D[K
+side[?25l[?25h-ch[?25l[?25hannels or[?25l[?25h provider[?25l[?25h data[?25l[?25h use[?25l[?25h. Small[?25l[?25h businesses[?25l[?25h may lack[?25l[?25h enterprise[?25l[?25h ag[2D[K
+agreements[?25l[?25h with[?25l[?25h strong[?25l[?25h data[?25l[?25h protection.[?25l[?25h
+ 2[?25l[?25h. Compliance[?25l[?25h / regulatory[?25l[?25h - shared[?25l[?25h infra[?25l[?25h makes[?25l[?25h data[?25l[?25h residency[?25l[?25h,[?25l[?25h sovereignt[10D[K
+sovereignty[?25l[?25h, and[?25l[?25h audit[?25l[?25h trails[?25l[?25h harder[?25l[?25h. Provider[?25l[?25h might[?25l[?25h process[?25l[?25h data in[?25l[?25h jurisd[6D[K
+jurisdictions[?25l[?25h or[?25l[?25h ways[?25l[?25h that violate[?25l[?25h GDPR[?25l[?25h/H[?25l[?25hIP[?25l[?25hAA[?25l[?25h/etc[?25l[?25h. Small[?25l[?25h business may[?25l[?25h not[?25l[?25h h[1D[K
+have legal[?25l[?25h bandwidth[?25l[?25h to[?25l[?25h navigate[?25l[?25h.[?25l[?25h
+ 3.[?25l[?25h Security /[?25l[?25h multi[?25l[?25h-ten[?25l[?25hancy[?25l[?25h vulnerabilities -[?25l[?25h side-channel[?25l[?25h attacks ([?25l[?25he[?25l[?25h.g.,[?25l[?25h [K
+via[?25l[?25h timing[?25l[?25h, cache[?25l[?25h, or[?25l[?25h speculative[?25l[?25h execution[?25l[?25h), prompt[?25l[?25h injection leading[?25l[?25h to b[1D[K
+broader[?25l[?25h tenant[?25l[?25h issues[?25l[?25h, or[?25l[?25h API key[?25l[?25h compromise[?25l[?25h. Also[?25l[?25h provider[?25l[?25h insider[?25l[?25h threats[?25l[?25h[7D[K
+threats.[?25l[?25h Shared[?25l[?25h infra[?25l[?25h increases[?25l[?25h attack[?25l[?25h surface[?25l[?25h.[?25l[?25h
+ 4.[?25l[?25h Vendor[?25l[?25h lock[?25l[?25h-in[?25l[?25h / availability[?25l[?25h - but[?25l[?25h that's[?25l[?25h more operational[?25l[?25h than securi[6D[K
+security[?25l[?25h.[?25l[?25h
+ 5.[?25l[?25h Cost unpredict[?25l[?25hability -[?25l[?25h but the[?25l[?25h user asked[?25l[?25h for risks[?25l[?25h, likely[?25l[?25h security[?25l[?25h/o[10D[K
+security/oper[?25l[?25hational[?25l[?25h.
+
+ Need[?25l[?25h top[?25l[?25h 3[?25l[?25h.[?25l[?25h Let's[?25l[?25h pick[?25l[?25h the[?25l[?25h most sal[?25l[?25hient[?25l[?25h for small[?25l[?25h business on[?25l[?25h shared cloud[?25l[?25h[5D[K
+cloud:[?25l[?25h
+ 1.[?25l[?25h Data Exposure[?25l[?25h & Privacy[?25l[?25h Loss[?25l[?25h (data[?25l[?25h leakage[?25l[?25h, training[?25l[?25h data[?25l[?25h retention,[?25l[?25h la[2D[K
+lack[?25l[?25h of enterprise[?25l[?25h privacy[?25l[?25h guarantees[?25l[?25h)[?25l[?25h
+ 2[?25l[?25h. Compliance[?25l[?25h Viol[?25l[?25hations[?25l[?25h (shared[?25l[?25h tenancy[?25l[?25h com[?25l[?25hplicates[?25l[?25h audits[?25l[?25h, data[?25l[?25h residenc[8D[K
+residency,[?25l[?25h regulatory[?25l[?25h adherence[?25l[?25h)[?25l[?25h
+ 3.[?25l[?25h Multi-T[?25l[?25henant[?25l[?25h Security[?25l[?25h G[?25l[?25haps ([?25l[?25hside-channel[?25l[?25h attacks,[?25l[?25h noisy[?25l[?25h neighbor[?25l[?25h, share[5D[K
+shared[?25l[?25h dependency[?25l[?25h vulnerabilities)[?25l[?25h
+
+ Keep[?25l[?25h it concise[?25l[?25h. Bullet[?25l[?25h points,[?25l[?25h maybe[?25l[?25h 1[?25l[?25h-2[?25l[?25h sentences each[?25l[?25h.
+
+ Let[?25l[?25h me refine[?25l[?25h:[?25l[?25h
+ 1.[?25l[?25h **Data[?25l[?25h leakage[?25l[?25h &[?25l[?25h retention[?25l[?25h**[?25l[?25h – Inputs[?25l[?25h/[?25l[?25houtputs on[?25l[?25h shared clouds[?25l[?25h may be[?25l[?25h l[1D[K
+logged[?25l[?25h, retained[?25l[?25h, or[?25l[?25h inadvertently[?25l[?25h exposed[?25l[?25h to other[?25l[?25h tenants;[?25l[?25h small business[8D[K
+businesses[?25l[?25h rarely[?25l[?25h have enterprise[?25l[?25h privacy[?25l[?25h guarantees[?25l[?25h or[?25l[?25h BY[?25l[?25hOK[?25l[?25h encryption[?25l[?25h.[?25l[?25h
+ 2.[?25l[?25h **Compliance[?25l[?25h failures[?25l[?25h** –[?25l[?25h Shared infrastructure[?25l[?25h com[?25l[?25hplicates data[?25l[?25h reside[6D[K
+residency,[?25l[?25h sovereignty[?25l[?25h, and[?25l[?25h audit requirements[?25l[?25h ([?25l[?25hGDPR[?25l[?25h, HIPAA[?25l[?25h), exposing[?25l[?25h the[?25l[?25h [K
+business[?25l[?25h to regulatory[?25l[?25h penalties[?25l[?25h.[?25l[?25h
+ 3.[?25l[?25h **Cross[?25l[?25h-tenant[?25l[?25h attacks[?25l[?25h** –[?25l[?25h Side-channel[?25l[?25h exploits[?25l[?25h, compromised[?25l[?25h provider[?25l[?25h [K
+endpoints[?25l[?25h, or[?25l[?25h shared[?25l[?25h dependency vulnerabilities[?25l[?25h can expose[?25l[?25h your[?25l[?25h prompts[?25l[?25h/mod[11D[K
+prompts/model[?25l[?25h weights[?25l[?25h to other[?25l[?25h customers[?25l[?25h.
+
+ That's[?25l[?25h good.[?25l[?25h Very[?25l[?25h concise.[?25l[?25h
+
+ Wait[?25l[?25h, is[?25l[?25h there[?25l[?25h a nu[?25l[?25hance?[?25l[?25h "Shared[?25l[?25h cloud infrastructure[?25l[?25h" could[?25l[?25h mean:[?25l[?25h
+ a[?25l[?25h) Using[?25l[?25h a public[?25l[?25h API[?25l[?25h (like[?25l[?25h OpenAI[?25l[?25h API)[?25l[?25h which is[?25l[?25h inherently[?25l[?25h shared.[?25l[?25h
+ b)[?25l[?25h Running LL[?25l[?25hMs on[?25l[?25h shared[?25l[?25h cloud VMs[?25l[?25h (like[?25l[?25h AWS EC[?25l[?25h2[?25l[?25h multi[?25l[?25h-tenant[?25l[?25h instances[?25l[?25h).[11D[K
+instances).
+ c[?25l[?25h) Using[?25l[?25h a shared[?25l[?25h Saa[?25l[?25hS LL[?25l[?25hM service[?25l[?25h.
+
+ The[?25l[?25h prompt[?25l[?25h says "[?25l[?25hrunning frontier[?25l[?25h LLMs[?25l[?25h on shared[?25l[?25h cloud infrastructure[?25l[?25h". Th[2D[K
+This[?25l[?25h implies deploying[?25l[?25h/host[?25l[?25hing on[?25l[?25h shared cloud[?25l[?25h (I[?25l[?25haa[?25l[?25hS),[?25l[?25h but[?25l[?25h could[?25l[?25h also mean[?25l[?25h [K
+using shared[?25l[?25h cloud AI[?25l[?25h services.[?25l[?25h The[?25l[?25h risks[?25l[?25h are similar[?25l[?25h:[?25l[?25h data privacy[?25l[?25h, compli[6D[K
+compliance[?25l[?25h, multi[?25l[?25h-ten[?25l[?25hancy attacks[?25l[?25h. For[?25l[?25h small business[?25l[?25h, running[?25l[?25h frontier LL[?25l[?25hM[3D[K
+LLMs usually[?25l[?25h means using[?25l[?25h APIs[?25l[?25h,[?25l[?25h but[?25l[?25h "[?25l[?25hshared cloud[?25l[?25h infrastructure"[?25l[?25h emphasizes[?25l[?25h[10D[K
+emphasizes the infra[?25l[?25h layer[?25l[?25h.
+
+ Let's[?25l[?25h make sure[?25l[?25h the[?25l[?25h answer[?25l[?25h addresses[?25l[?25h both[?25l[?25h angles[?25l[?25h implicitly[?25l[?25h.[?25l[?25h
+
+ Actually[?25l[?25h, the[?25l[?25h most standard[?25l[?25h interpretation[?25l[?25h:[?25l[?25h A[?25l[?25h small business[?25l[?25h is using[?25l[?25h a cl[2D[K
+cloud[?25l[?25h provider[?25l[?25h's[?25l[?25h shared compute[?25l[?25h ([?25l[?25he[?25l[?25h.g.,[?25l[?25h AWS/Azure[?25l[?25h shared[?25l[?25h VMs[?25l[?25h or[?25l[?25h AI[?25l[?25h endpoints[?25l[?25h[9D[K
+endpoints) to[?25l[?25h host[?25l[?25h or access[?25l[?25h frontier[?25l[?25h LLMs[?25l[?25h.[?25l[?25h
+
+ Ris[?25l[?25hks[?25l[?25h:[?25l[?25h
+ 1.[?25l[?25h Data privacy[?25l[?25h /[?25l[?25h confidentiality[?25l[?25h breaches[?25l[?25h.[?25l[?25h
+ 2[?25l[?25h. Compliance[?25l[?25h /[?25l[?25h legal[?25l[?25h exposure[?25l[?25h.[?25l[?25h
+ 3.[?25l[?25h Resource[?25l[?25h contention[?25l[?25h / security[?25l[?25h isolation[?25l[?25h failures[?25l[?25h.
+
+ Let's[?25l[?25h stick[?25l[?25h to the[?25l[?25h three I[?25l[?25h have[?25l[?25h but[?25l[?25h make them[?25l[?25h crisp[?25l[?25h.
+
+ Final[?25l[?25h check:[?25l[?25h
+ -[?25l[?25h Concise[?25l[?25h? Yes[?25l[?25h,[?25l[?25h 3 bullets[?25l[?25h.
+ -[?25l[?25h Re[?25l[?25hlevant to[?25l[?25h small business[?25l[?25h? Yes[?25l[?25h ([?25l[?25hmentions[?25l[?25h lack[?25l[?25h of[?25l[?25h enterprise guarantees[?25l[?25h,[?25l[?25h[11D[K
+guarantees, regulatory[?25l[?25h penalties).[?25l[?25h
+ - Acc[?25l[?25hurate[?25l[?25h? Yes[?25l[?25h.
+
+ I[?25l[?25h will output[?25l[?25h just the[?25l[?25h list[?25l[?25h.[?25l[?25h
+...done thinking.
+
+1.[?25l[?25h **Data[?25l[?25h leakage &[?25l[?25h loss[?25l[?25h of[?25l[?25h confidentiality[?25l[?25h** –[?25l[?25h Prompts[?25l[?25h and proprietary[?25l[?25h dat[3D[K
+data processed[?25l[?25h on shared[?25l[?25h infrastructure may[?25l[?25h be logged[?25l[?25h, retained[?25l[?25h, or[?25l[?25h inadver[7D[K
+inadvertently[?25l[?25h exposed to[?25l[?25h other tenants[?25l[?25h; small[?25l[?25h businesses often[?25l[?25h lack enterpr[7D[K
+enterprise[?25l[?25h-grade[?25l[?25h privacy guarantees[?25l[?25h or BY[?25l[?25hOK encryption[?25l[?25h.[?25l[?25h  
+2[?25l[?25h. **[?25l[?25hCompliance &[?25l[?25h sovereignty[?25l[?25h violations[?25l[?25h** –[?25l[?25h Shared tenancy[?25l[?25h com[?25l[?25hplicates dat[3D[K
+data[?25l[?25h residency,[?25l[?25h audit trails[?25l[?25h, and[?25l[?25h regulatory adherence[?25l[?25h (e[?25l[?25h.g.,[?25l[?25h GDPR,[?25l[?25h HIPAA),[?25l[?25h[7D[K
+HIPAA), exposing the[?25l[?25h business to[?25l[?25h fines and[?25l[?25h legal[?25l[?25h liability[?25l[?25h.[?25l[?25h  
+3.[?25l[?25h **Cross[?25l[?25h-tenant[?25l[?25h security[?25l[?25h gaps[?25l[?25h** –[?25l[?25h Side-channel[?25l[?25h exploits[?25l[?25h, shared[?25l[?25h-[?25l[?25hdependenc[16D[K
+shared-dependency vulnerabilities[?25l[?25h, or[?25l[?25h compromised provider[?25l[?25h endpoints[?25l[?25h can br[2D[K
+breach[?25l[?25h isolation[?25l[?25h, allowing[?25l[?25h attackers[?25l[?25h to access[?25l[?25h your model[?25l[?25h inputs[?25l[?25h,[?25l[?25h outputs,[?25l[?25h [K
+or weights[?25l[?25h.[?25l[?25h[?25l[?25h
+
+[?25l[?25h

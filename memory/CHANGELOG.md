@@ -35,6 +35,126 @@ This log captures **every change** Yoda makes to AInchors infrastructure, config
 **Linked:** decisions.md 2026-04-27 entries
 ---
 
+## 2026-05-02 12:20 AEST — [CHG-0129] TKT-0033: Content governance triad gate live — Lex+Shield+Sage on all public content
+**Type:** rule
+**Source:** ken-prompt
+**Trigger:** TKT-0033 Ken approved
+**What changed:** AC1: CONTENT GOVERNANCE GATE section added to RULES.md (scope, triad sequence, verdicts, footer stamp rule). AC2: state/content-queue.json created with schema 1.0. AC3: scripts/content-governance-review.sh created (Shield→Lex→Sage triad, exit 0=cleared/exit 2=blocked, queue registration, footer stamp call). AC4: /eod and /blog sections in RULES.md updated with mandatory governance gate step. AC5: ARIA_RULES.md updated with full triad enforcement for Aria external comms. AC6: EOD blog cron (a027fd60) payload updated — single Lex gate replaced with full triad call. AC7: model-drift-check.sh extended with content-queue check (published-without-clearance violation). AC8: pvt.sh updated with test #10 (content-governance-review.sh exists and executable). AC9: Test run verified — CONTENT-0001 cleared, all 3 verdicts in queue, exit 0. AC10: scripts/content-footer-stamp.sh created (HTML+DOCX, triad-cleared/internal/blocked stamps).
+**Why:** Structural gap: blog published without gate, PII in footer (CHG-0114). Full triad enforcement now mandatory.
+**Verification:** PVT pass (10/10), test content run cleared (CONTENT-0001, shield=clear, lex=conditional, sage=conditional, status=triad-cleared)
+**Rollback:** N/A
+**Linked:** none
+---
+
+
+## 2026-05-02 11:47 AEST — [CHG-0128] /eod and /blog keywords locked — standalone blog type introduced
+**Type:** config
+**Source:** ken-prompt
+**Trigger:** Ken directive 2026-05-02
+**What changed:** RULES.md: /eod and /blog <topic> slash commands defined. BlogFormat.md: Blog Types table added distinguishing EOD vs standalone. Standalone path: canvas/documents/ainchors-blog-<slug>/index.html.
+**Why:** Ken: distinct keyword for standalone topic blog vs daily EOD post. /blog ollama-cloud-poc spinning up now.
+**Verification:** RULES.md and BlogFormat.md updated
+**Rollback:** N/A
+**Linked:** none
+---
+
+
+## 2026-05-02 11:26 AEST — [CHG-0127] CI Framework loop updated: Cycle A always-on, A+B concurrent from week 2
+**Type:** config
+**Source:** ken-prompt
+**Trigger:** Ken directive 2026-05-02
+**What changed:** CI loop redesigned: Cycle A never stops (perpetual, zero cost). Cycle B joins week 2 and runs concurrently. Both operate on rolling 7-day windows. Cycle A resets window immediately after report. RULES.md and Cycle A cron payload updated.
+**Why:** Ken: Cycle A has no cost/performance impact so should always run. A+B concurrent from week 2 onwards continuously.
+**Verification:** RULES.md updated, Cycle A cron updated (3ec512f3)
+**Rollback:** N/A
+**Linked:** none
+---
+
+
+## 2026-05-02 11:24 AEST — [CHG-0126] CI Framework: 7-day cycles, Cycle A->B->A loop, head-to-head approval gate
+**Type:** config
+**Source:** ken-prompt
+**Trigger:** Ken directive 2026-05-02
+**What changed:** CI framework redesigned: 7-day Cycle A (batch shadow, top 2 candidates) -> Ken APPROVE -> 7-day Cycle B (real-time parallel, head-to-head) -> Ken APPROVE-ROUTING -> routing changes -> repeat. Cycle B template created. RULES.md CI section added. ci-agent-state.json updated to cycle-a structure. 15-day report cron removed.
+**Why:** Ken: continuous improvement framework, 7-day cycles, A->B loop, data-driven routing decisions. Survives OC2/HIVE/Ollama Max.
+**Verification:** Cycle A cron updated (3ec512f3), ci-cycle-b-template.json created, RULES.md updated, state restructured
+**Rollback:** N/A
+**Linked:** none
+---
+
+
+## 2026-05-02 11:13 AEST — [CHG-0125] CI Agent live: continuous model comparison, deepseek-v4-pro:cloud, 15-day test
+**Type:** config
+**Source:** ken-prompt
+**Trigger:** Ken directive 2026-05-02
+**What changed:** CI Agent cron (3ec512f3) active: every 6h, deepseek-v4-pro:cloud, shadows T1/T2a workloads through T2b, stores metrics in ci-agent-metrics.json. 15-day report cron (a6ec7539) scheduled 2026-05-17 08:00 AEST. State: ci-agent-state.json, ci-agent-metrics.json created.
+**Why:** Ken directed: persistent CI agent to shadow T1/T2a, compare T2b, build data for model routing optimisation. 15-day test period, no Claude cost increase.
+**Verification:** Both crons confirmed active in scheduler, state files created, cronIds saved
+**Rollback:** N/A
+**Linked:** none
+---
+
+
+## 2026-05-02 10:42 AEST — [CHG-0124] /standup and /update slash commands added to RULES.md
+**Type:** config
+**Source:** ken-prompt
+**Trigger:** Ken directive 2026-05-02
+**What changed:** Added /standup: ad-hoc full standup, dynamic window since lastStandupAt, updates standup-state.json. Added /update: flash update, critical/action/attention only, same window, does NOT reset standup clock. 8AM cron updated to write standup-state.json. state/standup-state.json created.
+**Why:** Ken directed: /standup for ad-hoc standup, /update for quick flash awareness update since last standup.
+**Verification:** RULES.md updated, standup-state.json created, 8AM cron payload updated
+**Rollback:** N/A
+**Linked:** none
+---
+
+
+## 2026-05-02 10:32 AEST — [CHG-0123] Ollama PoC: deepseek-v4-flash + deepseek-v4-pro benchmark results
+**Type:** config
+**Source:** ken-prompt
+**Trigger:** Ken directive 2026-05-02
+**What changed:** deepseek-v4-flash:cloud and deepseek-v4-pro:cloud added to globalAllowedModels and tier2_subtasks.ollamaCloudModels in model-policy.json. Both scored PASS: flash Q=4.2/5 L=12.6s, pro Q=4.6/5 L=18.4s.
+**Why:** Extend Ollama Cloud PoC to deepseek models per Ken. Increases non-sensitive Tier 2 routing surface area, enabling –1,755/mo net saving vs ,550/mo Claude baseline.
+**Verification:** 5-task benchmark run (B1–B5) for each model via ollama run. Avg quality and latency scored against threshold (Q>=3.5/5, L<=20s). Both models passed. model-policy.json updated and verified by Yoda.
+**Rollback:** N/A
+**Linked:** none
+---
+
+
+## 2026-05-02 10:31 AEST — [CHG-0122] Ollama PoC Phase 5C: gemma4 community cloud benchmark
+**Type:** config
+**Source:** ken-prompt
+**Trigger:** Ken directive 2026-05-02
+**What changed:** Benchmarked blissful_ishizaka_626/gemma4-cloud: avg quality 4.2/5 (PASS), avg latency 24.8s (FAIL vs 20s threshold). VERDICT: FAIL. Not added to model-policy.json.
+**Why:** Ken directed try community gemma4-cloud model
+**Verification:** Results appended to poc-report.md under Phase 5C
+**Rollback:** N/A
+**Linked:** none
+---
+
+
+## 2026-05-02 10:21 AEST — [CHG-0121] Model trigger updates post-PoC: TRIGGER-01-A, TRIGGER-11, TRIGGER-05 closed
+**Type:** config
+**Source:** ken-prompt
+**Trigger:** CHG-0120 (PoC Phase 6 complete)
+**What changed:** Added TRIGGER-01-A: qwen3.5:cloud reassessment on OC2 arrival. Added TRIGGER-11: glm-5.1 monthly no-think check (cron bb47c6de, 2nd of month 9AM AEST). TRIGGER-05 marked passed-phase6-implemented.
+**Why:** Ken directed: qwen3.5 reassess on OC2, monthly glm-5.1 no-think check, TRIGGER-05 closure after Phase 6 implemented.
+**Verification:** chg-triggers.json updated, cron confirmed active (bb47c6de), cronId saved to TRIGGER-11
+**Rollback:** N/A
+**Linked:** none
+---
+
+
+## 2026-05-02 10:12 AEST — [CHG-0120] Ollama Cloud PoC Phase 5+6: kimi-k2.6:cloud added as Tier 2 (Pro subscription)
+**Type:** config
+**Source:** ken-prompt
+**Trigger:** Ken approved Ollama Pro signup (accounts@ainchors.com). Phase 5 full frontier benchmark completed. kimi-k2.6:cloud passed Q=4.6/5, L=6.8s avg. Phase 6 gate triggered.
+**What changed:** model-policy.json: kimi-k2.6:cloud added to globalAllowedModels and tier2_subtasks.ollamaCloudModels. Constraint: non-sensitive tasks only. glm-5.1:cloud and qwen3.5:cloud NOT added due to latency fail. ollama-cloud-poc-report.md: Phase 5+6 results appended.
+**Why:** Ollama Pro removes free-tier frontier model blocker. kimi-k2.6:cloud is fastest frontier model tested (6.8s avg, 4.6/5 quality). At 20/mo Pro plan, saves estimated 690-1400/mo vs current Claude Tier 2 spend.
+**Verification:** All 5 benchmark tasks passed latency under 20s and quality 4 or above on kimi-k2.6:cloud. model-policy.json updated and validated. MEMORY.md updated.
+**Rollback:** Remove kimi-k2.6:cloud from globalAllowedModels and tier2_subtasks in model-policy.json. Cancel Ollama Pro if not needed.
+**Linked:** CHG-0103 CHG-0104 CHG-0105 CHG-0106
+---
+
+
 ## 2026-05-02 00:42 AEST — [CHG-0117] INC-20260502-001: WS 1006/1000 V8 crash — stale plugin-runtime-deps cleared
 **Type:** infra
 **Source:** incident-recovery
@@ -1459,3 +1579,67 @@ _Pre-existing changes (Day 1, Day 2) are captured in `memory/shared/decisions.md
 - validate-fallback-chain.sh: zsh array join ${(j:,:)RESULTS} + ${(j:\n:)BROKEN} → bash IFS join. State file now writes correctly. Fixed unbound variable on empty BROKEN array.
 **Verification:** health-check.sh → all 9 checks OK. validate-fallback-chain.sh → ok (0 broken). State file updated.
 **Linked:** US35, CHG-0052
+
+## CHG-0112 — 2026-05-02 07:15 AEST
+**Change:** Warden cron (83accf7b) model: gemma4:e2b → anthropic/claude-haiku-4-5
+**Reason:** gemma4:e2b agentTurn instability — 17 consecutive failures 03:07–06:39 AEST. Model responds to simple prompts but fails complex multi-step agent sessions.
+**Result:** Haiku — clean run confirmed. 14/14 checks passed. Compliance monitoring restored.
+**Authorised by:** Ken Mun
+**Logged by:** Yoda
+
+## 2026-05-02 08:55 AEST — [CHG-0118] US-A: Cron Model Right-Sizing Audit
+- Audited all 28 active crons for model right-sizing opportunities
+- Output: state/cron-rightsizing-audit.json
+- Findings: 10 Tier 0 (systemEvent, $0), 10 Tier 1 (agentTurn already on Haiku/Gemma), 4 Tier 2 (2 right-sized, 2 Sonnet→pending-poc), 4 Tier 3 (Sonnet justified)
+- Pending-poc: Aria Daily Summary + Weekly Business ROI (~$2-3/month savings potential)
+- Source: subagent audit, Ken-approved task US-A
+- No crons modified — audit only
+
+## 2026-05-02 08:31 AEST — [CHG-0113] Obs Error Trend Dashboard — Mission Control Widget
+**Type:** feature
+**Source:** ken-approved tech task (Telegram, 2026-05-02)
+**What changed:**
+- Created `scripts/obs-trend.sh` — reads obs.db, outputs `state/obs-trend.json`
+  - Top 5 error types + top 5 warning types (last 24h)
+  - Total ERROR / WARN / INFO counts
+  - Trend vs previous 24h (% change)
+  - Worst hour (most errors in a single clock-hour)
+- Patched `scripts/generate-mission-control.sh`:
+  - Calls obs-trend.sh before Python section
+  - Reads state/obs-trend.json into `obsTrend` key in data.json
+  - Renders full-width "📡 Obs Error Trend" widget in index.html (bar charts, trend arrows, worst-hour callout)
+  - Added responsive CSS for widget + mobile breakpoint
+**Verification:**
+  - obs-trend.sh standalone: ✅ wrote obs-trend.json (234 err / 683 warn / 8 info)
+  - generate-mission-control.sh: ✅ clean run, data.json + index.html updated
+  - obsTrend in data.json: ✅ top_errors=[anthropic_api_fail, cron_fail], trend=-16.1% errors
+  - obs widget in HTML: ✅ 13 matching elements
+**Authorised by:** Ken Mun
+**Logged by:** Yoda
+
+## 2026-05-02 09:00 AEST — [CHG-0119] US-B: Cron Fail-Fast + Dead-Letter Pattern
+**Type:** feature / infra
+**Source:** Ken-approved task US-B (subagent, Telegram, 2026-05-02)
+**Problem:** 117 anthropic_api_fail + 117 cron_fail in 24h (1:1 ratio = silent retry cascade burning API credits)
+**What changed:**
+- Created `scripts/cron-dead-letter.sh`:
+  - Accepts (cron_id, cron_name, error_message) from any failing cron
+  - Tracks failCount per cron in `state/cron-dead-letter.json` with 1-hour sliding window
+  - Dead-letters at >= 3 failures within window (exit code 1 = cron should abort)
+  - Writes `state/cron-dead-letter-alert.json` for heartbeat to pick up
+  - Emits obs event (WARN → ERROR) to obs.db via obs-log.sh
+- Updated `HEARTBEAT.md`:
+  - Added "Cron Dead-Letter Alerts" check (every 30 min)
+  - Reads alert file → alerts Ken with cron name, failCount, lastError, recommendation
+  - Marks entries acknowledged after alerting
+- Updated `scripts/auto-heal.sh` (Check #15 — cron_dead_letter):
+  - Any cron failCount >= 5 and status != recovered → needs-ken flag
+  - Any status = recovered → auto-cleaned from state file
+**Test results:**
+  - 3x runs of test-cron-001 → failCount incremented correctly → dead-lettered on run 3
+  - Alert file written with acknowledged=false
+  - obs.db: 3 events inserted (WARN×2, ERROR×1), verified via sqlite3
+  - Exit code 0 (runs 1-2) → 1 (run 3) confirmed
+  - Test data cleaned post-verification
+**Authorised by:** Ken Mun
+**Logged by:** Yoda (subagent)

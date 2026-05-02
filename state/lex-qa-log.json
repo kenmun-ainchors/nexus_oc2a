@@ -229,7 +229,7 @@
       "ts": "2026-04-28T15:01:28+10:00",
       "asset": "/Users/ainchorsangiefpl/.openclaw/canvas/documents/ainchors-roi-blog/index.html",
       "producedBy": "yoda",
-      "intendedFor": "Public — executives and companies building with AI",
+      "intendedFor": "Public \u2014 executives and companies building with AI",
       "verdict": "PASS",
       "pass": 5,
       "fail": 0
@@ -238,7 +238,7 @@
       "ts": "2026-04-28T15:01:28+10:00",
       "asset": "/Users/ainchorsangiefpl/.openclaw/canvas/documents/ainchors-roi-blog/index.html",
       "producedBy": "yoda",
-      "intendedFor": "Public — executives and companies building with AI",
+      "intendedFor": "Public \u2014 executives and companies building with AI",
       "verdict": "PASS",
       "pass": 5,
       "fail": 0
@@ -247,7 +247,7 @@
       "ts": "2026-04-28T15:10:20+10:00",
       "asset": "/Users/ainchorsangiefpl/.openclaw/canvas/documents/ainchors-roi-blog/index.html",
       "producedBy": "yoda",
-      "intendedFor": "Public — executives and companies building with AI",
+      "intendedFor": "Public \u2014 executives and companies building with AI",
       "verdict": "PASS",
       "pass": 5,
       "fail": 0
@@ -256,7 +256,7 @@
       "ts": "2026-04-28T15:10:20+10:00",
       "asset": "/Users/ainchorsangiefpl/.openclaw/canvas/documents/ainchors-roi-blog/index.html",
       "producedBy": "yoda",
-      "intendedFor": "Public — executives and companies building with AI",
+      "intendedFor": "Public \u2014 executives and companies building with AI",
       "verdict": "PASS",
       "pass": 5,
       "fail": 0
@@ -335,18 +335,18 @@
     },
     {
       "ts": "2026-05-02T00:19:00+10:00",
-      "reviewer": "Lex ⚖️ — AInchors Legal Governance Agent",
+      "reviewer": "Lex \u2696\ufe0f \u2014 AInchors Legal Governance Agent",
       "asset": "/Users/ainchorsangiefpl/.openclaw/canvas/documents/ainchors-2026-05-01/index.html",
       "producedBy": "yoda",
-      "intendedFor": "Public / AInchors audience — Building in Public blog",
+      "intendedFor": "Public / AInchors audience \u2014 Building in Public blog",
       "scores": {
         "1_privacy_pii": {
           "verdict": "FAIL",
           "findings": [
-            "Named individual 'Angie' identified with private onboarding status. Exact text: 'Angie onboarding nudge — Day 3 of no contact. Aria to warm check-in on Saturday. Onboarding is still blocked at Stage 1 and the JotForm API key has been outstanding since 28 April.' (Section: What's Next). Combined with existing public context (Angie Foong, CEO), this individual is identifiable. Discloses: (a) name, (b) business relationship status, (c) contact frequency, (d) a specific technical failure (JotForm API key), (e) planned AI contact action — all without evident consent."
+            "Named individual 'Angie' identified with private onboarding status. Exact text: 'Angie onboarding nudge \u2014 Day 3 of no contact. Aria to warm check-in on Saturday. Onboarding is still blocked at Stage 1 and the JotForm API key has been outstanding since 28 April.' (Section: What's Next). Combined with existing public context (Angie Foong, CEO), this individual is identifiable. Discloses: (a) name, (b) business relationship status, (c) contact frequency, (d) a specific technical failure (JotForm API key), (e) planned AI contact action \u2014 all without evident consent."
           ],
           "line_refs": [
-            "Section: What's Next — final bullet"
+            "Section: What's Next \u2014 final bullet"
           ],
           "recommended_fixes": [
             "Remove 'Angie onboarding nudge' bullet entirely from public blog, OR anonymise: replace 'Angie' with 'a prospective client' and remove the JotForm API key detail and the specific date (28 April)."
@@ -358,13 +358,13 @@
             "Specific financial figures disclosed publicly: today's spend $59.60, confirmed balance $115.00, 7-day cumulative total $862.28, Day 3 spend $338.76, Day 6 spend $166.10, $85 discrepancy. These figures, in combination, reveal AInchors' daily operational burn rate, cash-in-hand balance at a specific date, and spending pattern over 7 days. This is a 'Building in Public' blog so some disclosure is intentional, but the account balance figure ($115.00 remaining after top-up) combined with burn rate is sensitive competitive intelligence.",
             "Internal cron job ID disclosed: 'dce1ada4' (AKB daily update cron). Exact text: 'route the AKB daily update cron (dce1ada4, runs at 03:00 AEST)'. Cron IDs can assist an attacker in targeting specific scheduled processes.",
             "Internal script names disclosed: obs-collector.sh, auto-heal.sh, cost-tracker.sh, cost-state.json, openclaw.json. These reveal attack surface detail.",
-            "Internal document name disclosed: YODA_OC1_OC2_OPERATIONAL_BRIEF.md — reveals internal naming conventions and system architecture.",
-            "State variable names disclosed: stuckSessions, spentSinceTopUp, bootstrapMaxChars, bootstrapTotalMaxChars — reveals internal configuration structure."
+            "Internal document name disclosed: YODA_OC1_OC2_OPERATIONAL_BRIEF.md \u2014 reveals internal naming conventions and system architecture.",
+            "State variable names disclosed: stuckSessions, spentSinceTopUp, bootstrapMaxChars, bootstrapTotalMaxChars \u2014 reveals internal configuration structure."
           ],
           "recommended_fixes": [
-            "Remove the specific cron ID 'dce1ada4' — replace with 'the AKB daily update cron'.",
+            "Remove the specific cron ID 'dce1ada4' \u2014 replace with 'the AKB daily update cron'.",
             "Consider whether the $115 balance figure adds value vs risk. If keeping, note it's a one-time snapshot, not standing balance.",
-            "Internal script names are borderline — acceptable for a technical transparency blog but consider if they reveal more than intended.",
+            "Internal script names are borderline \u2014 acceptable for a technical transparency blog but consider if they reveal more than intended.",
             "Remove or genericise 'YODA_OC1_OC2_OPERATIONAL_BRIEF.md' file reference."
           ]
         },
@@ -391,7 +391,7 @@
         "5_regulatory": {
           "verdict": "FAIL",
           "findings": [
-            "Australian Privacy Act (Privacy Act 1988) — APP 6 (Use or disclosure of personal information): Publishing 'Angie's' onboarding status, contact history, and a specific technical failure (JotForm API key outstanding since 28 April) in a public blog post constitutes disclosure of personal information for a purpose beyond the primary purpose of collection (onboarding), without evident consent. Even first-name-only usage, combined with the company's public profile, makes this individual likely identifiable.",
+            "Australian Privacy Act (Privacy Act 1988) \u2014 APP 6 (Use or disclosure of personal information): Publishing 'Angie's' onboarding status, contact history, and a specific technical failure (JotForm API key outstanding since 28 April) in a public blog post constitutes disclosure of personal information for a purpose beyond the primary purpose of collection (onboarding), without evident consent. Even first-name-only usage, combined with the company's public profile, makes this individual likely identifiable.",
             "GDPR consideration (if EU readers access the public blog): Same individual identification risk applies under GDPR Article 6 (lawful basis) and Article 5(1)(b) (purpose limitation). Publishing client onboarding data without consent lacks a clear lawful basis."
           ],
           "recommended_fixes": [
@@ -401,12 +401,12 @@
         "6_brand_reputation": {
           "verdict": "WARN",
           "findings": [
-            "Memory truncation revelation: 'The platform was starting each session with a truncated world model, producing wrong answers, and emitting no warning that anything was missing. No error. No alert. No indication. Just quietly wrong context, session after session.' — Transparent and honest, but prospective clients reading this may question the reliability of AInchors' AI systems. Framing mitigates this somewhat (it's fixed) but it's a reputational risk.",
+            "Memory truncation revelation: 'The platform was starting each session with a truncated world model, producing wrong answers, and emitting no warning that anything was missing. No error. No alert. No indication. Just quietly wrong context, session after session.' \u2014 Transparent and honest, but prospective clients reading this may question the reliability of AInchors' AI systems. Framing mitigates this somewhat (it's fixed) but it's a reputational risk.",
             "$85 accounting ghost: Revealing that the internal cost tracker was structurally broken and had been hiding $85 in charges over 6 days is candid but could raise questions about operational rigour from potential investors or clients.",
-            "The 'What's Next' bullet disclosing Angie's non-responsiveness ('Day 3 of no contact') could embarrass AInchors professionally if she sees it — implies she's being tracked and is unresponsive."
+            "The 'What's Next' bullet disclosing Angie's non-responsiveness ('Day 3 of no contact') could embarrass AInchors professionally if she sees it \u2014 implies she's being tracked and is unresponsive."
           ],
           "recommended_fixes": [
-            "The memory truncation and accounting ghost stories are part of the 'building in public' ethos — acceptable. Consider adding a sentence on detection/remediation cadence to reinforce operational discipline.",
+            "The memory truncation and accounting ghost stories are part of the 'building in public' ethos \u2014 acceptable. Consider adding a sentence on detection/remediation cadence to reinforce operational discipline.",
             "Remove the Angie bullet (also addresses Privacy FAIL)."
           ]
         },
@@ -430,7 +430,7 @@
       "must_fix_before_publish": [
         "FAIL-1: Remove or anonymise the 'Angie' onboarding bullet in 'What's Next' (Privacy/PII + Regulatory)",
         "FAIL-7: Correct average latency from '58 seconds' to '48.9 seconds' (Accuracy)",
-        "FAIL-5: Angie disclosure also triggers regulatory concern (APP 6 / GDPR) — same fix as FAIL-1"
+        "FAIL-5: Angie disclosure also triggers regulatory concern (APP 6 / GDPR) \u2014 same fix as FAIL-1"
       ],
       "should_fix": [
         "WARN-2a: Remove cron ID 'dce1ada4' from public post",
@@ -443,11 +443,11 @@
     },
     {
       "ts": "2026-05-02T00:45:00+10:00",
-      "reviewer": "Lex ⚖️ — AInchors Legal Governance Agent",
+      "reviewer": "Lex \u2696\ufe0f \u2014 AInchors Legal Governance Agent",
       "asset": "/tmp/blog-draft-2026-05-01.html",
       "blog": "Day 7: The Brief, the Ghost, and the 94% Fix",
       "producedBy": "yoda",
-      "intendedFor": "Public / AInchors audience — Building in Public blog",
+      "intendedFor": "Public / AInchors audience \u2014 Building in Public blog",
       "categories": {
         "1_pii_personal_data": {
           "verdict": "PASS",
@@ -506,7 +506,7 @@
           "verdict": "FAIL",
           "findings": [
             "qwen3.5 benchmark average latency error: Blog states 58 seconds; calculated average from visible benchmark table = (37.3+87.5+70.9+58.2+1.9+37.6)/6 = 48.9 seconds. Error: ~18% (off by 9+ seconds).",
-            "LLM turn count minor discrepancy: Table sums to 3,233 (2,624 + 394 + 215); header states 3,234. Off by one — likely rounding in display.",
+            "LLM turn count minor discrepancy: Table sums to 3,233 (2,624 + 394 + 215); header states 3,234. Off by one \u2014 likely rounding in display.",
             "Day comparison error: Text states 'lightest day since Day 4 ($43.78)' but Day 4 was actually $338.76. Should reference Day 5 ($43.78).",
             "Impact: The latency error is material and verifiable by any reader checking the table. This undermines accuracy credibility in a technical blog."
           ]
@@ -528,11 +528,11 @@
     },
     {
       "ts": "2026-05-01T14:48:58.449Z",
-      "reviewer": "Yoda 🟢 — post-Lex remediation",
+      "reviewer": "Yoda \ud83d\udfe2 \u2014 post-Lex remediation",
       "asset": "/Users/ainchorsangiefpl/.openclaw/canvas/documents/ainchors-2026-05-01/index.html",
       "blog": "ainchors-2026-05-01",
       "producedBy": "yoda",
-      "intendedFor": "Public / AInchors audience — Building in Public blog",
+      "intendedFor": "Public / AInchors audience \u2014 Building in Public blog",
       "categories": {
         "pii": "PASS",
         "confidential_financials": "WARN",
@@ -544,20 +544,38 @@
       },
       "verdict": "WARN",
       "findings": [
-        "FIXED: Angie onboarding bullet anonymised — removed name and specific onboarding details",
+        "FIXED: Angie onboarding bullet anonymised \u2014 removed name and specific onboarding details",
         "FIXED: Average latency corrected from 58s to ~49s (verifiable from benchmark table)",
         "FIXED: Anthropic billing claim qualified with \"In our experience\"",
         "FIXED: Angie name removed from What's Next section",
-        "WARN retained: Financial figures (daily cost, balance) disclosed — intentional for Building in Public series",
+        "WARN retained: Financial figures (daily cost, balance) disclosed \u2014 intentional for Building in Public series",
         "Applied: Benchmark disclaimer added noting point-in-time data"
       ],
       "lex_original_verdict": "FAIL",
       "remediation_status": "All FAILs resolved; WARNs accepted as intentional (Building in Public series)"
+    },
+    {
+      "ts": "2026-05-02T12:16:53+10:00",
+      "asset": "/tmp/test-governance-content.html",
+      "producedBy": "yoda",
+      "intendedFor": "public distribution",
+      "verdict": "PASS",
+      "pass": 5,
+      "fail": 0
+    },
+    {
+      "ts": "2026-05-02T12:16:54+10:00",
+      "asset": "/tmp/test-governance-content.html",
+      "producedBy": "yoda",
+      "intendedFor": "public distribution",
+      "verdict": "PASS",
+      "pass": 5,
+      "fail": 0
     }
   ],
   "summary": {
-    "total": 40,
-    "pass": 38,
+    "total": 42,
+    "pass": 40,
     "fail": 1
   }
 }

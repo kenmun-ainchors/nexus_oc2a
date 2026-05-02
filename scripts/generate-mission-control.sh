@@ -17,6 +17,11 @@ BACKLOG_DB="34dc182953ff814b8257d3a3bf351d44"
 
 mkdir -p "$CANVAS_DIR"
 
+# ── Run obs-trend widget (produces state/obs-trend.json) ─────────────────────
+if [[ -f "$WORKSPACE/scripts/obs-trend.sh" ]]; then
+  bash "$WORKSPACE/scripts/obs-trend.sh" || echo "[warn] obs-trend.sh failed — continuing" >&2
+fi
+
 # ── Read NOTION_KEY ──────────────────────────────────────────────────────────
 if [[ -f "$NOTION_KEY_FILE" ]]; then
   NOTION_KEY=$(cat "$NOTION_KEY_FILE")
@@ -314,6 +319,9 @@ TODAY_AEST = NOW_AEST.date().isoformat()
 if tip_date != TODAY_AEST:
     tip_text = None
 
+# ── 8c. Obs Error Trend widget ───────────────────────────────────────────────
+obs_trend = safe_read_json(WORKSPACE / "state" / "obs-trend.json", None)
+
 data = {
     "generatedAt": NOW_UTC.isoformat(),
     "generatedAtAEST": NOW_AEST.strftime("%Y-%m-%d %H:%M AEST"),
@@ -329,6 +337,7 @@ data = {
     "governance": gov,
     "recentActivity": recent_activity,
     "tip": tip_text,
+    "obsTrend": obs_trend,
 }
 
 with open(DATA_FILE, "w") as f:
@@ -444,13 +453,94 @@ def activity_html(items):
         rows.append(f'<div class="activity-item"><span class="activity-time">{esc(item["time"])}</span> {esc(item["description"])}</div>')
     return "\n".join(rows)
 
+# ── Obs Error Trend widget HTML ─────────────────────────────────────────────
+def obs_trend_section_html(obs_trend):
+    if not obs_trend or obs_trend.get("error"):
+        return ""
+    totals    = obs_trend.get("totals", {})
+    errors    = totals.get("ERROR", 0)
+    warns     = totals.get("WARN",  0)
+    info      = totals.get("INFO",  0)
+    trend     = obs_trend.get("trend", {})
+    worst     = obs_trend.get("worst_hour")
+    top_errs  = obs_trend.get("top_errors",   [])
+    top_wrns  = obs_trend.get("top_warnings", [])
+    gen_at    = obs_trend.get("generated_at_aest", "")
+
+    def trend_arrow(pct):
+        if pct is None:
+            return ""
+        if pct > 10:
+            return f'<span style="color:#fc8181">&#8593;{abs(pct):.0f}%</span>'
+        elif pct < -10:
+            return f'<span style="color:#48bb78">&#8595;{abs(pct):.0f}%</span>'
+        else:
+            return f'<span style="color:#718096">&#8594;{abs(pct):.0f}%</span>'
+
+    err_arrow  = trend_arrow(trend.get("errors_pct_change"))
+    warn_arrow = trend_arrow(trend.get("warns_pct_change"))
+    err_colour  = "#fc8181" if errors > 0 else "#48bb78"
+    warn_colour = "#ecc94b" if warns  > 0 else "#718096"
+
+    def type_bars(items, colour):
+        if not items:
+            return '<div class="task-empty">\u2014</div>'
+        max_cnt = items[0]["count"] if items else 1
+        rows = []
+        for item in items:
+            bar_pct = int(item["count"] / max(max_cnt, 1) * 100)
+            rows.append(
+                f'<div class="obs-bar-row">'
+                f'<span class="obs-bar-label">{esc(item["type"])}</span>'
+                f'<div class="obs-bar-track"><div class="obs-bar-fill" style="width:{bar_pct}%;background:{colour}"></div></div>'
+                f'<span class="obs-bar-count">{item["count"]}</span>'
+                f'</div>'
+            )
+        return "\n".join(rows)
+
+    worst_html = ""
+    if worst:
+        worst_html = f'<div class="obs-worst">&#128336; Worst hour: <strong>{esc(worst["hour"])}</strong> &mdash; {worst["cnt"]} errors</div>'
+
+    has_prev = trend.get("has_prev_data", False)
+    trend_note = ""
+    if has_prev:
+        trend_note = f'<span class="obs-trend-note">vs prev 24h: errors&nbsp;{err_arrow}&nbsp;&nbsp;warns&nbsp;{warn_arrow}</span>'
+
+    return f"""
+    <div class="obs-trend-section">
+      <div class="obs-header">
+        <span class="obs-title">&#128225; Obs Error Trend</span>
+        <span class="obs-period">Last 24h</span>
+        <span class="obs-totals">
+          <span style="color:{err_colour}">&#10060; {errors} errors</span>
+          <span style="color:{warn_colour}">&#9888;&#65039; {warns} warns</span>
+          <span style="color:#718096">&#8505;&#65039; {info} info</span>
+        </span>
+        {trend_note}
+        <span class="obs-gentime">{esc(gen_at)}</span>
+      </div>
+      {worst_html}
+      <div class="obs-cols">
+        <div class="obs-col">
+          <div class="obs-col-title" style="color:#fc8181">Top Errors</div>
+          {type_bars(top_errs, "#fc8181")}
+        </div>
+        <div class="obs-col">
+          <div class="obs-col-title" style="color:#ecc94b">Top Warnings</div>
+          {type_bars(top_wrns, "#ecc94b")}
+        </div>
+      </div>
+    </div>"""
+
 # ── Tip banner ───────────────────────────────────────────────────────────────
 def tip_banner_html(tip):
     if not tip:
         return ""
     return f'''<div class="tip-banner">💡 <strong>Yoda's Note:</strong> {esc(tip)}</div>'''
 
-tip_html  = tip_banner_html(data.get("tip"))
+tip_html     = tip_banner_html(data.get("tip"))
+obs_html     = obs_trend_section_html(data.get("obsTrend"))
 yoda_card = agent_card_html(data["agents"][0], "#00d4ff")
 aria_card  = agent_card_html(data["agents"][1], "#ff6b9d")
 gov_html   = (
@@ -757,11 +847,109 @@ html = f"""<!DOCTYPE html>
     min-width: 55px;
   }}
 
+  /* ── Obs Error Trend widget ── */
+  .obs-trend-section {{
+    grid-column: 1 / -1;
+    padding: 14px 16px;
+    border-top: 1px solid #1e2a4a;
+    background: #0a0e1a;
+  }}
+  .obs-header {{
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 10px;
+    flex-wrap: wrap;
+  }}
+  .obs-title {{
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 1.2px;
+    text-transform: uppercase;
+    color: #718096;
+  }}
+  .obs-period {{
+    font-size: 10px;
+    color: #4a5568;
+    background: #1a2240;
+    padding: 2px 6px;
+    border-radius: 4px;
+  }}
+  .obs-totals {{
+    display: flex;
+    gap: 14px;
+    font-size: 12px;
+    font-weight: 600;
+  }}
+  .obs-trend-note {{
+    font-size: 11px;
+    color: #718096;
+  }}
+  .obs-gentime {{
+    margin-left: auto;
+    font-size: 10px;
+    color: #4a5568;
+  }}
+  .obs-worst {{
+    font-size: 11px;
+    color: #a0aec0;
+    background: #12193a;
+    border: 1px solid #1e2a4a;
+    padding: 5px 10px;
+    border-radius: 5px;
+    margin-bottom: 10px;
+  }}
+  .obs-cols {{
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+  }}
+  .obs-col-title {{
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 0.8px;
+    text-transform: uppercase;
+    margin-bottom: 6px;
+  }}
+  .obs-bar-row {{
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    margin-bottom: 5px;
+    font-size: 11px;
+  }}
+  .obs-bar-label {{
+    color: #a0aec0;
+    min-width: 140px;
+    flex-shrink: 0;
+  }}
+  .obs-bar-track {{
+    flex: 1;
+    height: 7px;
+    background: #1a2240;
+    border-radius: 4px;
+    overflow: hidden;
+  }}
+  .obs-bar-fill {{
+    height: 100%;
+    border-radius: 4px;
+    opacity: 0.75;
+  }}
+  .obs-bar-count {{
+    color: #718096;
+    min-width: 32px;
+    text-align: right;
+    font-variant-numeric: tabular-nums;
+    font-size: 11px;
+  }}
+
   /* ── Mobile responsive ── */
   @media (max-width: 700px) {{
     .main-grid {{ grid-template-columns: 1fr; }}
     .stream-col {{ border-right: none; border-bottom: 1px solid #1e2a4a; }}
     .activity-section {{ grid-column: 1; }}
+    .obs-trend-section {{ grid-column: 1; }}
+    .obs-cols {{ grid-template-columns: 1fr; }}
     .header-meta {{ font-size: 11px; gap: 8px; }}
   }}
 </style>
@@ -805,6 +993,9 @@ html = f"""<!DOCTYPE html>
     <div class="stream-header business">💼 Business Stream</div>
     {aria_card}
   </div>
+
+  <!-- ── Obs Error Trend (full-width) ── -->
+  {obs_html}
 
   <!-- ── Recent Activity (full-width) ── -->
   <div class="activity-section">

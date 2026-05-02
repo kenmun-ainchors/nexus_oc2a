@@ -1,0 +1,528 @@
+[?2026h[?25l[1G⠙ [K[?25h[?2026l[?2026h[?25l[1G⠹ [K[?25h[?2026l[?2026h[?25l[1G⠸ [K[?25h[?2026l[?2026h[?25l[1G⠼ [K[?25h[?2026l[?2026h[?25l[1G⠴ [K[?25h[?2026l[?2026h[?25l[1G⠦ [K[?25h[?2026l[?2026h[?25l[1G⠧ [K[?25h[?2026l[?25l[?2026h[?25l[1G[K[?25h[?2026l[2K[1G[?25hThinking...
+Thinking[?25l[?25h Process:
+
+1[?25l[?25h.  **An[?25l[?25halyze the Request:**[?25l[?25h
+    *  [?25l[?25h Task: Write a[?25l[?25h Python function.
+[?25l[?25h    *   Function[?25l[?25hality: Route[?25l[?25h a task to either[?25l[?25h a local or[?25l[?25h cloud model.[?25l[?25h
+    *  [?25l[?25h Logic[?25l[?25h:
+        *[?25l[?25h   `data_s[?25l[?25hensitivity`:[?25l[?25h '[?25l[?25hhigh' -> local[?25l[?25h, 'low'[?25l[?25h -> cloud.
+[?25l[?25h        *   `[?25l[?25htask_complexity`:[?25l[?25h 'high' ->[?25l[?25h cloud, 'low[?25l[?25h' -> local.[?25l[?25h
+       [?25l[?25h *   Need[?25l[?25h to combine these factors[?25l[?25h (the[?25l[?25h prompt implies a decision[?25l[?25h ba[2D[K
+based on both,[?25l[?25h but doesn[?25l[?25h't explicitly specify[?25l[?25h conflict[?25l[?25h resolution.[?25l[?25h I need[?25l[?25h t[1D[K
+to infer a reasonable[?25l[?25h logic[?25l[?25h or prioritize one[?25l[?25h. Usually, data[?25l[?25h sensitivity is[2D[K
+is a hard[?25l[?25h constraint for security[?25l[?25h,[?25l[?25h while[?25l[?25h complexity is a performance[?25l[?25h constr[6D[K
+constraint. However[?25l[?25h, the prompt says[?25l[?25h "based[?25l[?25h on data_sensitivity[?25l[?25h... and task[4D[K
+task_complex[?25l[?25hity". A[?25l[?25h simple[?25l[?25h interpretation is: if[?25l[?25h sensitivity[?25l[?25h is high, use[?25l[?25h l[1D[K
+local. If complexity[?25l[?25h is high[?25l[?25h, use cloud.[?25l[?25h What if both are[?25l[?25h high? What[?25l[?25h if bot[3D[K
+both[?25l[?25h are low?
+[?25l[?25h        *   Let[?25l[?25h's look at the[?25l[?25h constraints:[?25l[?25h "high[?25l[?25h=local, low[?25l[?25h=cloud" for[?25l[?25h sens[4D[K
+sensitivity.[?25l[?25h "high=cloud[?25l[?25h, low=local[?25l[?25h" for complexity.[?25l[?25h
+        *  [?25l[?25h Conflict scenario: High[?25l[?25h Sensitivity ([?25l[?25hLocal) +[?25l[?25h High Complexity ([1D[K
+(Cloud[?25l[?25h).
+        *[?25l[?25h   Conflict scenario:[?25l[?25h Low Sensitivity ([?25l[?25hCloud) + Low[?25l[?25h Complexity (Lo[3D[K
+(Local).[?25l[?25h
+        *  [?25l[?25h Standard security[?25l[?25h practice: Data[?25l[?25h sensitivity usually overrides[?25l[?25h [K
+complexity for[?25l[?25h security reasons ([?25l[?25hdon't send sensitive[?25l[?25h data to cloud).[?25l[?25h
+[?25l[?25h        *   Alternative[?25l[?25h interpretation: Maybe[?25l[?25h it's a weighted[?25l[?25h decision[?25l[?25h or s[1D[K
+specific[?25l[?25h combinations[?25l[?25h.
+        *[?25l[?25h   Simple[?25l[?25hst interpretation for[?25l[?25h a [?25l[?25h20-line function[?25l[?25h: Prior[?25l[?25hitize sens[4D[K
+sensitivity for[?25l[?25h security, or define[?25l[?25h specific[?25l[?25h rules. Let[?25l[?25h's try[?25l[?25h to balance[?25l[?25h th[2D[K
+them. If sensitivity[?25l[?25h is high, force[?25l[?25h local. Else[?25l[?25h if complexity is high[?25l[?25h, use [K
+cloud.[?25l[?25h Else local[?25l[?25h.
+        *[?25l[?25h   Wait, the[?25l[?25h prompt says "based[?25l[?25h on...[?25l[?25h". Let[?25l[?25h's create a logic[?25l[?25h that [K
+respects[?25l[?25h both.
+       [?25l[?25h *   Rule[?25l[?25h 1: If[?25l[?25h data[?25l[?25h_sensitivity == '[?25l[?25hhigh', route[?25l[?25h to '[?25l[?25hlocal' (Securi[7D[K
+(Security[?25l[?25h first).
+       [?25l[?25h *   Rule [?25l[?25h2: If data[?25l[?25h_sensitivity == '[?25l[?25hlow' and task[?25l[?25h_complexity == '[?25l[?25hhi[3D[K
+'high', route to[?25l[?25h 'cloud'.
+[?25l[?25h        *   Rule[?25l[?25h 3: Otherwise[?25l[?25h (low[?25l[?25h sensitivity, low complexity[?25l[?25h), route to '[?25l[?25h[1D[K
+'local' (save[?25l[?25h cloud[?25l[?25h costs/[?25l[?25hlatency).
+[?25l[?25h        *   Actually[?25l[?25h, a[?25l[?25h simpler mapping[?25l[?25h might be expected.[?25l[?25h Let's look[?25l[?25h at th[2D[K
+the line[?25l[?25h constraint[?25l[?25h: "20[?25l[?25h-line Python function".[?25l[?25h This includes the[?25l[?25h function [K
+definition,[?25l[?25h logic[?25l[?25h, and return[?25l[?25h. It[?25l[?25h's a[?25l[?25h tight[?25l[?25h constraint. I need[?25l[?25h to be[?25l[?25h concis[6D[K
+concise.
+
+[?25l[?25h2.  **[?25l[?25hDrafting the Code[?25l[?25h:**
+    *[?25l[?25h   Need a[?25l[?25h function definition.
+[?25l[?25h    *   Need[?25l[?25h input[?25l[?25h parameters:[?25l[?25h `data[?25l[?25h_sensitivity`, `[?25l[?25htask_complexity`.[?25l[?25h
+    *  [?25l[?25h Need logic.
+[?25l[?25h    *   Need[?25l[?25h return statement.
+[?25l[?25h    *   Count[?25l[?25h lines.
+
+   [?25l[?25h *Draft[?25l[?25h 1:*
+[?25l[?25h    ```python
+[?25l[?25h    def route_task[?25l[?25h(data_sensitivity,[?25l[?25h task_complexity):[?25l[?25h
+        """[?25l[?25hRoutes[?25l[?25h task to local or[?25l[?25h cloud based on sensitivity[?25l[?25h and complexit[9D[K
+complexity."""
+[?25l[?25h        if data[?25l[?25h_sensitivity == '[?25l[?25hhigh':
+           [?25l[?25h # High[?25l[?25h sensitivity requires local processing[?25l[?25h for security
+           [?25l[?25h return 'local'[?25l[?25h
+        elif task[?25l[?25h_complexity == '[?25l[?25hhigh':
+           [?25l[?25h # Low sensitivity but[?25l[?25h high complexity benefits[?25l[?25h from cloud power[?25l[?25h[5D[K
+power
+            return '[?25l[?25hcloud'
+       [?25l[?25h else:
+           [?25l[?25h # Low sensitivity and[?25l[?25h low complexity runs[?25l[?25h locally[?25l[?25h
+            return '[?25l[?25hlocal'
+   [?25l[?25h ```
+    *[?25l[?25hLine count:* [?25l[?25h1 ([?25l[?25hdef), 2[?25l[?25h (docstring),[?25l[?25h 3 (if[?25l[?25h), 4 ([?25l[?25hcomment), 5[?25l[?25h (return), [?25l[?25h[K
+6 (elif),[?25l[?25h 7 (comment[?25l[?25h), 8[?25l[?25h (return), [?25l[?25h9 (else),[?25l[?25h 10 ([?25l[?25hcomment), 1[?25l[?25h1 (return).[?25l[?25h Tot[3D[K
+Total 11[?25l[?25h lines. Well[?25l[?25h under 20[?25l[?25h lines[?25l[?25h. I can add[?25l[?25h more robust[?25l[?25hness or typing[?25l[?25h to[2D[K
+to get[?25l[?25h closer to 2[?25l[?25h0 if needed,[?25l[?25h but "[?25l[?25h20-line"[?25l[?25h usually means "maximum[?25l[?25h 20 line[4D[K
+lines[?25l[?25h" or "approximately[?25l[?25h 20 lines[?25l[?25h". Usually[?25l[?25h, it's[?25l[?25h a constraint to keep[?25l[?25h it s[1D[K
+short[?25l[?25h. I will aim[?25l[?25h for concise[?25l[?25h but clear[?25l[?25h,[?25l[?25h staying[?25l[?25h under 20[?25l[?25h lines.
+
+   [?25l[?25h *Refining Logic[?25l[?25h:* The[?25l[?25h prompt says "based[?25l[?25h on data_sensitivity[?25l[?25h (high=loca[10D[K
+(high=local[?25l[?25h, low=cloud[?25l[?25h) and task_complex[?25l[?25hity (high=[?25l[?25hcloud, low=[?25l[?25hlocal)".
+   [?25l[?25h This[?25l[?25h implies a potential[?25l[?25h conflict.
+   [?25l[?25h If I[?25l[?25h strictly[?25l[?25h follow "[?25l[?25hhigh=local"[?25l[?25h for sensitivity and[?25l[?25h "high=cloud[?25l[?25h" for [K
+complexity:[?25l[?25h
+    Case[?25l[?25h 1: Sens[?25l[?25h=[?25l[?25hHigh, Comp[?25l[?25h=High[?25l[?25h -> Local ([?25l[?25hSecurity wins) or[?25l[?25h Cloud (Perform[8D[K
+(Performance[?25l[?25h wins)? Security[?25l[?25h usually[?25l[?25h wins.
+   [?25l[?25h Case 2:[?25l[?25h Sens=Low,[?25l[?25h Comp=Low ->[?25l[?25h Cloud (S[?25l[?25hensitivity[?25l[?25h says)[?25l[?25h or Local[?25l[?25h (Comple[7D[K
+(Complex[?25l[?25hity says)? Cost[?25l[?25h/L[?25l[?25hatency usually wins[?25l[?25h ->[?25l[?25h Local.
+   [?25l[?25h Let's stick to[?25l[?25h the Security First[?25l[?25h approach as[?25l[?25h it's best[?25l[?25h practice.
+
+   [?25l[?25h *Let[?25l[?25h's try to make[?25l[?25h it exactly[?25l[?25h around[?25l[?25h 1[?25l[?25h5-20[?25l[?25h lines to show[?25l[?25h effort without[?25l[?25h[7D[K
+without blo[?25l[?25hating.*
+   [?25l[?25h I can add type[?25l[?25h hints and[?25l[?25h a main[?25l[?25h block[?25l[?25h example.
+
+   [?25l[?25h *Draft 2[?25l[?25h:*
+    ```[?25l[?25hpython
+    def[?25l[?25h route_task(data_s[?25l[?25hensitivity: str,[?25l[?25h task_complexity:[?25l[?25h str) -> str[?25l[?25h:
+        """[?25l[?25h
+        Determine[?25l[?25h execution[?25l[?25h environment[?25l[?25h based on sensitivity and[?25l[?25h complexity[10D[K
+complexity.
+       [?25l[?25h Priority: Data[?25l[?25h Security > Computational[?25l[?25h Power.
+       [?25l[?25h """
+        if[?25l[?25h data_sensitivity ==[?25l[?25h 'high':
+[?25l[?25h            #[?25l[?25h Sensitive data must[?25l[?25h stay on[?25l[?25h-premise[?25l[?25h
+            destination[?25l[?25h = 'local'[?25l[?25h
+        elif task[?25l[?25h_complexity == '[?25l[?25hhigh':
+           [?25l[?25h # Non[?25l[?25h-sensitive heavy[?25l[?25h tasks go[?25l[?25h to cloud
+           [?25l[?25h destination = 'cloud[?25l[?25h'
+        else[?25l[?25h:
+            #[?25l[?25h Simple,[?25l[?25h non-sensitive tasks run[?25l[?25h locally
+            destination[?25l[?25h = 'local'[?25l[?25h
+        
+        return[?25l[?25h destination
+
+[?25l[?25h    # Example usage[?25l[?25h
+    if __[?25l[?25hname__ == "__[?25l[?25hmain__":
+[?25l[?25h        print(route_task[?25l[?25h('high', '[?25l[?25hhigh')) [?25l[?25h # Output: local[?25l[?25h
+       [?25l[?25h print(route_task('[?25l[?25hlow', 'high[?25l[?25h'))  [?25l[?25h # Output: cloud[?25l[?25h
+    ```
+[?25l[?25h    *Line Count[?25l[?25h:*
+    [?25l[?25h1: def
+[?25l[?25h    2:[?25l[?25h """
+    [?25l[?25h3: Determine...[?25l[?25h
+    4[?25l[?25h: Priority...
+[?25l[?25h    5:[?25l[?25h """
+    [?25l[?25h6: if
+[?25l[?25h    7:[?25l[?25h #
+[?25l[?25h    8:[?25l[?25h dest
+[?25l[?25h    9:[?25l[?25h elif
+    [?25l[?25h10: #[?25l[?25h
+    1[?25l[?25h1: dest
+[?25l[?25h    12[?25l[?25h: else
+   [?25l[?25h 13:[?25l[?25h #
+    [?25l[?25h14: dest[?25l[?25h
+    1[?25l[?25h5: ([?25l[?25hempty[?25l[?25h)
+    [?25l[?25h16: return[?25l[?25h
+    1[?25l[?25h7: (empty[?25l[?25h)
+    [?25l[?25h18: #[?25l[?25h Example[?25l[?25h
+    1[?25l[?25h9: if
+[?25l[?25h    20[?25l[?25h: print
+   [?25l[?25h 21:[?25l[?25h print
+
+    That[?25l[?25h's 21[?25l[?25h lines. I need[?25l[?25h to trim to[?25l[?25h exactly[?25l[?25h or under 2[?25l[?25h0.[?25l[?25h The prompt says[4D[K
+says "[?25l[?25hWrite a 2[?25l[?25h0-line Python function[?25l[?25h". Usually, this[?25l[?25h means "[?25l[?25haround[?25l[?25h 20 line[4D[K
+lines[?25l[?25h" or "max[?25l[?25h 20 lines[?25l[?25h". I will aim[?25l[?25h for max[?25l[?25h 20 including[?25l[?25h the function[?25l[?25h body[?25l[?25h[4D[K
+body. I'll[?25l[?25h remove[?25l[?25h the `[?25l[?25hif[?25l[?25h __name__`[?25l[?25h block to focus[?25l[?25h on the function itself[?25l[?25h, [K
+or compress[?25l[?25h comments[?25l[?25h.
+
+    *[?25l[?25hDraft 3 ([?25l[?25hFocusing on function[?25l[?25h only):*
+[?25l[?25h    ```python
+[?25l[?25h    def route_task[?25l[?25h(data_sensitivity:[?25l[?25h str, task_complex[?25l[?25hity: str)[?25l[?25h -> str:
+[?25l[?25h        """Routes[?25l[?25h task to '[?25l[?25hlocal' or '[?25l[?25hcloud' based on[?25l[?25h constraints."""
+       [?25l[?25h # Security[?25l[?25h priority: High[?25l[?25h sensitivity forces[?25l[?25h local execution[?25l[?25h
+        if data[?25l[?25h_sensitivity == '[?25l[?25hhigh':
+           [?25l[?25h return 'local'[?25l[?25h
+        
+[?25l[?25h        # Performance[?25l[?25h priority: High complexity[?25l[?25h utilizes[?25l[?25h cloud resources[?25l[?25h
+        if[?25l[?25h task_complexity ==[?25l[?25h 'high':
+[?25l[?25h            return 'cloud[?25l[?25h'
+        
+       [?25l[?25h # Default[?25l[?25h fallback[?25l[?25h for low sensitivity and[?25l[?25h low complexity
+       [?25l[?25h return 'local'[?25l[?25h
+
+    # Testing[?25l[?25h the routing[?25l[?25h logic
+    print[?25l[?25h(route_task('high[?25l[?25h', 'high'))[?25l[?25h  # Expected[?25l[?25h: local
+   [?25l[?25h print(route_task('[?25l[?25hlow', 'high[?25l[?25h'))  [?25l[?25h # Expected: cloud[?25l[?25h
+    print(route[?25l[?25h_task('low',[?25l[?25h 'low'))   [?25l[?25h # Expected: local[?25l[?25h
+    ```
+[?25l[?25h    Count[?25l[?25h:
+    [?25l[?25h1: def
+[?25l[?25h    2:[?25l[?25h docstring[?25l[?25h
+    3[?25l[?25h: comment
+   [?25l[?25h 4: if[?25l[?25h
+    5[?25l[?25h: return
+   [?25l[?25h 6: empty[?25l[?25h
+    7[?25l[?25h: comment
+   [?25l[?25h 8: if[?25l[?25h
+    9[?25l[?25h: return
+   [?25l[?25h 10:[?25l[?25h empty
+    [?25l[?25h11: comment[?25l[?25h
+    1[?25l[?25h2: return
+[?25l[?25h    13[?25l[?25h: empty
+   [?25l[?25h 14:[?25l[?25h # Testing[?25l[?25h
+    1[?25l[?25h5: print
+[?25l[?25h    16[?25l[?25h: print
+   [?25l[?25h 17:[?25l[?25h print
+[?25l[?25h    Total 1[?25l[?25h7 lines. This[?25l[?25h is good[?25l[?25h. It[?25l[?25h satisfies[?25l[?25h the logic[?25l[?25h and the[?25l[?25h line const[5D[K
+constraint.
+
+[?25l[?25h    Wait[?25l[?25h, I should check[?25l[?25h the instruction[?25l[?25h "/[?25l[?25hno_think".[?25l[?25h This means[?25l[?25h I should n[1D[K
+not output[?25l[?25h the thought process,[?25l[?25h just the code[?25l[?25h.
+    Also[?25l[?25h, I need to[?25l[?25h ensure the[?25l[?25h line count is close[?25l[?25h to 20[?25l[?25h if interpreted[?25l[?25h str[3D[K
+strictly, but usually[?25l[?25h "20-line[?25l[?25h function" means "[?25l[?25hkeep[?25l[?25h it short,[?25l[?25h around 20[?25l[?25h li[2D[K
+lines". I will[?25l[?25h provide the[?25l[?25h function plus[?25l[?25h some context[?25l[?25h to make it useful[?25l[?25h,[?25l[?25h st[2D[K
+staying[?25l[?25h near[?25l[?25h the limit.
+
+[?25l[?25h    Let's refine[?25l[?25h to hit[?25l[?25h exactly[?25l[?25h [?25l[?25h20 lines if[?25l[?25h possible, or just[?25l[?25h ensure[?25l[?25h it's c[1D[K
+concise[?25l[?25h.
+    Actually[?25l[?25h, counting[?25l[?25h lines in[?25l[?25h code blocks[?25l[?25h can[?25l[?25h be tricky due[?25l[?25h to wrapping[?25l[?25h. [K
+I will write[?25l[?25h compact[?25l[?25h code.
+
+   [?25l[?25h Revised Plan:
+[?25l[?25h    1.[?25l[?25h Define function with[?25l[?25h type hints.
+[?25l[?25h    2.[?25l[?25h Add[?25l[?25h docstring.
+[?25l[?25h    3.[?25l[?25h Implement logic ([?25l[?25hSensitivity >[?25l[?25h Complexity[?25l[?25h).
+    [?25l[?25h4. Add[?25l[?25h example usage at[?25l[?25h the bottom.
+[?25l[?25h    5.[?25l[?25h Count carefully[?25l[?25h.
+
+    Line[?25l[?25h 1: def[?25l[?25h route_task(s[?25l[?25hensitivity: str,[?25l[?25h complexity: str)[?25l[?25h -> str:
+[?25l[?25h    Line 2[?25l[?25h:    [?25l[?25h """Route task to[?25l[?25h 'local' or[?25l[?25h 'cloud' based[?25l[?25h on policies[?25l[?25h."""
+    Line[?25l[?25h 3:    [?25l[?25h if sensitivity == '[?25l[?25hhigh':
+   [?25l[?25h Line 4:[?25l[?25h         #[?25l[?25h Security constraint[?25l[?25h:[?25l[?25h sensitive[?25l[?25h data stays local
+[?25l[?25h    Line 5[?25l[?25h:         return '[?25l[?25hlocal'
+   [?25l[?25h Line 6:[?25l[?25h     elif complexity[?25l[?25h == 'high':[?25l[?25h
+    Line [?25l[?25h7:         #[?25l[?25h Performance constraint: heavy[?25l[?25h tasks use cloud
+[?25l[?25h    Line 8[?25l[?25h:         return '[?25l[?25hcloud'
+   [?25l[?25h Line 9:[?25l[?25h     else:
+[?25l[?25h    Line 1[?25l[?25h0:       [?25l[?25h # Default[?25l[?25h: low sensitivity,[?25l[?25h low complexity stays[?25l[?25h local
+    Line[?25l[?25h 11:[?25l[?25h        return 'local[?25l[?25h'
+    Line[?25l[?25h 12:[?25l[?25h
+    Line [?25l[?25h13: if[?25l[?25h __name__ ==[?25l[?25h "__main__":[?25l[?25h
+    Line [?25l[?25h14:    [?25l[?25h # Test Case[?25l[?25h 1: High[?25l[?25h Sensitivity, High[?25l[?25h Complexity -> Local
+[?25l[?25h    Line 1[?25l[?25h5:     assert[?25l[?25h route_task('high[?25l[?25h', 'high')[?25l[?25h == 'local'[?25l[?25h
+    Line [?25l[?25h16:    [?25l[?25h # Test Case [?25l[?25h2: Low Sens[?25l[?25hitivity, High[?25l[?25h Complexity -> Cloud
+[?25l[?25h    Line 1[?25l[?25h7:     assert[?25l[?25h route_task('low[?25l[?25h', 'high')[?25l[?25h == 'cloud'[?25l[?25h
+    Line [?25l[?25h18:    [?25l[?25h # Test Case [?25l[?25h3: Low Sens[?25l[?25hitivity, Low Complexity[?25l[?25h -> Local
+   [?25l[?25h Line 19[?25l[?25h:     assert route[?25l[?25h_task('low',[?25l[?25h 'low') ==[?25l[?25h 'local'
+[?25l[?25h    Line 2[?25l[?25h0:     print[?25l[?25h("All routing[?25l[?25h tests passed.")[?25l[?25h
+
+    This looks[?25l[?25h exactly like[?25l[?25h 20 lines[?25l[?25h. Perfect[?25l[?25h.
+
+   [?25l[?25h Wait, I need[?25l[?25h to check the[?25l[?25h `/no_think[?25l[?25h` directive. It[?25l[?25h means I should not[?25l[?25h [K
+emit[?25l[?25h the thought[?25l[?25h block.[?25l[?25h I will just[?25l[?25h emit[?25l[?25h the code.
+
+[?25l[?25h    One[?25l[?25h more check on[?25l[?25h the logic:
+[?25l[?25h    Prompt: "[?25l[?25hdata_sensitivity ([?25l[?25hhigh=local,[?25l[?25h low=cloud)[?25l[?25h and task_complexity[?25l[?25h ([1D[K
+(high=cloud[?25l[?25h, low=local[?25l[?25h)"[?25l[?25h
+    My[?25l[?25h logic:
+   [?25l[?25h Sens=High ->[?25l[?25h Local ([?25l[?25hMatches)[?25l[?25h
+    Sens=[?25l[?25hLow -> Check[?25l[?25h Complexity
+[?25l[?25h     [?25l[?25h Comp=High ->[?25l[?25h Cloud (Matches)[?25l[?25h
+      Comp=[?25l[?25hLow -> Local ([?25l[?25hMatches complexity low=[?25l[?25hlocal)
+   [?25l[?25h This handles[?25l[?25h the conflict ([?25l[?25hHigh[?25l[?25h Sens +[?25l[?25h High Comp) by[?25l[?25h prioritizing Sens[?25l[?25hi[5D[K
+Sensitivity[?25l[?25h,[?25l[?25h which is standard security[?25l[?25h practice.
+
+[?25l[?25h    Let's finalize[?25l[?25h the code[?25l[?25h block.
+
+   [?25l[?25h Line 1:[?25l[?25h def route_task(s[?25l[?25hensitivity: str,[?25l[?25h complexity: str)[?25l[?25h -> str:
+[?25l[?25h    Line 2[?25l[?25h:     """Routes[?25l[?25h task to 'local[?25l[?25h' or 'cloud[?25l[?25h' based on policies[?25l[?25h."""
+    Line[?25l[?25h 3:    [?25l[?25h if sensitivity == '[?25l[?25hhigh':
+   [?25l[?25h Line 4:[?25l[?25h         # Security priority[?25l[?25h: sensitive[?25l[?25h data must[?25l[?25h remain[?25l[?25h local
+    Line[?25l[?25h 5:        [?25l[?25h return 'local'[?25l[?25h
+    Line [?25l[?25h6:     elif[?25l[?25h complexity == 'high[?25l[?25h':
+    Line[?25l[?25h 7:        [?25l[?25h # Performance priority:[?25l[?25h complex tasks utilize[?25l[?25h cloud
+    Line[?25l[?25h 8:        [?25l[?25h return 'cloud'[?25l[?25h
+    Line [?25l[?25h9:     else[?25l[?25h:
+    Line[?25l[?25h 10:[?25l[?25h        # Default[?25l[?25h: low sensitivity and[?25l[?25h low complexity run[?25l[?25h local[?25l[?25h[5D[K
+local
+    Line [?25l[?25h11:       [?25l[?25h return 'local'[?25l[?25h
+    Line [?25l[?25h12:
+[?25l[?25h    Line 1[?25l[?25h3: if __[?25l[?25hname__ == "__[?25l[?25hmain__":
+[?25l[?25h    Line 1[?25l[?25h4:     #[?25l[?25h Scenario[?25l[?25h [?25l[?25h1: High Sens[?25l[?25hitivity overrides[?25l[?25h High[?25l[?25h Complexity
+    Line[?25l[?25h 15:[?25l[?25h     assert route_task[?25l[?25h('high', '[?25l[?25hhigh') == '[?25l[?25hlocal'
+   [?25l[?25h Line 16[?25l[?25h:     # Scenario[?25l[?25h 2: Low[?25l[?25h Sensitivity allows[?25l[?25h High Complexity to[?25l[?25h cl[2D[K
+cloud
+    Line[?25l[?25h 17:[?25l[?25h     assert route_task[?25l[?25h('low', '[?25l[?25hhigh') == '[?25l[?25hcloud'
+   [?25l[?25h Line 18[?25l[?25h:     # Scenario[?25l[?25h 3: Low[?25l[?25h Sensitivity and Low[?25l[?25h Complexity stay[?25l[?25h loca[4D[K
+local
+    Line[?25l[?25h 19:[?25l[?25h     assert route_task[?25l[?25h('low', '[?25l[?25hlow') == '[?25l[?25hlocal'
+   [?25l[?25h Line 20[?25l[?25h:     print("[?25l[?25hRouting[?25l[?25h logic verified successfully[?25l[?25h.")
+
+    This[?25l[?25h is exactly 2[?25l[?25h0 lines. I[?25l[?25h will remove the empty[?25l[?25h line if[?25l[?25h needed[?25l[?25h to fit[?25l[?25h[3D[K
+fit strictly[?25l[?25h, but empty[?25l[?25h lines count[?25l[?25h as lines. I[?25l[?25h will[?25l[?25h keep it exactly[?25l[?25h as cou[3D[K
+counted[?25l[?25h.
+[?25l[?25h    Wait, line[?25l[?25h 12 is[?25l[?25h empty. Line[?25l[?25h 2[?25l[?25h0 is print[?25l[?25h.
+    [?25l[?25h1,[?25l[?25h2,3,[?25l[?25h4,5,[?25l[?25h6,7,[?25l[?25h8,9,[?25l[?25h10,1[?25l[?25h1,12[?25l[?25h,13,[?25l[?25h14,1[?25l[?25h5,16[?25l[?25h,17,[?25l[?25h18,1[?25l[?25h9,20[?25l[?25h.
+    Yes[?25l[?25h.
+
+    Wait[?25l[?25h, I should check[?25l[?25h if `/[?25l[?25hno_think`[?25l[?25h means[?25l[?25h I should not even[?25l[?25h output[?25l[?25h the [K
+code[?25l[?25h block markers[?25l[?25h? No, it[?25l[?25h usually means "don[?25l[?25h't show[?25l[?25h your thinking process"[8D[K
+process".[?25l[?25h I[?25l[?25h will output the code[?25l[?25h block[?25l[?25h.
+
+    One[?25l[?25h minor[?25l[?25h adjustment: Ensure[?25l[?25h indentation is spaces[?25l[?25h (standard[?25l[?25h [?25l[?25h4 spaces[?25l[?25h).[8D[K
+spaces).
+    Line[?25l[?25h 10[?25l[?25h has[?25l[?25h 8[?25l[?25h spaces indentation[?25l[?25h.
+    Line[?25l[?25h 15[?25l[?25h has 4[?25l[?25h spaces indentation.
+[?25l[?25h    This[?25l[?25h should be fine.[?25l[?25h
+
+    Wait[?25l[?25h, I need to[?25l[?25h make sure I don[?25l[?25h't accidentally[?25l[?25h go[?25l[?25h over 20[?25l[?25h lines.[?25l[?25h
+    [?25l[?25h1: def route[?25l[?25h_task(sensitivity:[?25l[?25h str, complexity:[?25l[?25h str) -> str[?25l[?25h:
+    [?25l[?25h2:    [?25l[?25h """Routes task to[?25l[?25h 'local' or[?25l[?25h 'cloud' based[?25l[?25h on policies."""
+[?25l[?25h    3:[?25l[?25h     if sensitivity ==[?25l[?25h 'high':
+[?25l[?25h    4:[?25l[?25h         # Security priority[?25l[?25h: sensitive data must[?25l[?25h remain local
+   [?25l[?25h 5:        [?25l[?25h return 'local'[?25l[?25h
+    6[?25l[?25h:     elif complexity[?25l[?25h == 'high':[?25l[?25h
+    7[?25l[?25h:         # Performance[?25l[?25h priority: complex tasks[?25l[?25h utilize cloud
+   [?25l[?25h 8:        [?25l[?25h return 'cloud'[?25l[?25h
+    9[?25l[?25h:     else:[?25l[?25h
+    1[?25l[?25h0:       [?25l[?25h # Default: low[?25l[?25h sensitivity and low complexity[?25l[?25h run local
+   [?25l[?25h 11:[?25l[?25h        return 'local[?25l[?25h'
+    [?25l[?25h12: 
+[?25l[?25h    13[?25l[?25h: if __name[?25l[?25h__ == "__main[?25l[?25h__":
+   [?25l[?25h 14:[?25l[?25h     # Scenario [?25l[?25h1: High Sens[?25l[?25hitivity overrides High Complexity[?25l[?25h
+    1[?25l[?25h5:     assert[?25l[?25h route_task('high[?25l[?25h', 'high')[?25l[?25h == 'local'[?25l[?25h
+    1[?25l[?25h6:     #[?25l[?25h Scenario 2:[?25l[?25h Low Sensitivity allows[?25l[?25h High Complexity to cloud[?25l[?25h
+    [?25l[?25h17:    [?25l[?25h assert route_task('[?25l[?25hlow', 'high[?25l[?25h') == 'cloud[?25l[?25h'
+    [?25l[?25h18:    [?25l[?25h # Scenario 3[?25l[?25h: Low Sensitivity[?25l[?25h and Low Complexity stay[?25l[?25h local
+    [?25l[?25h19:    [?25l[?25h assert route_task('[?25l[?25hlow', 'low[?25l[?25h') == 'local[?25l[?25h'
+    [?25l[?25h20:    [?25l[?25h print("Routing[?25l[?25h logic verified successfully.")[?25l[?25h
+
+    Looks solid[?25l[?25h.
+
+[?25l[?25h    Wait, I[?25l[?25h need to check if[?25l[?25h the user[?25l[?25h wants *[?25l[?25honly* the function[?25l[?25h or a[?25l[?25h script[6D[K
+script. "Write[?25l[?25h a 20[?25l[?25h-line Python function".[?25l[?25h Usually implies[?25l[?25h the function[?25l[?25h its[3D[K
+itself[?25l[?25h, but to[?25l[?25h make[?25l[?25h it 20[?25l[?25h lines,[?25l[?25h I might need the[?25l[?25h test harness[?25l[?25h. If[?25l[?25h I only[?25l[?25h w[1D[K
+write the function,[?25l[?25h it's 1[?25l[?25h1 lines. To[?25l[?25h meet[?25l[?25h the "20[?25l[?25h-line" constraint specifi[7D[K
+specifically[?25l[?25h (often[?25l[?25h a[?25l[?25h challenge constraint[?25l[?25h), I should include[?25l[?25h the tests[?25l[?25h to [K
+fill[?25l[?25h the[?25l[?25h space meaning[?25l[?25hfully. I will[?25l[?25h include the test harness[?25l[?25h.
+
+    Wait[?25l[?25h, re[?25l[?25h-reading: "[?25l[?25hWrite a 2[?25l[?25h0-line Python function[?25l[?25h". This[?25l[?25h could mean "T[2D[K
+"The[?25l[?25h function itself[?25l[?25h should be 2[?25l[?25h0 lines". But[?25l[?25h a simple[?25l[?25h routing function doe[3D[K
+doesn[?25l[?25h't need 2[?25l[?25h0 lines. It[?25l[?25h's likely a constraint[?25l[?25h to keep it concise[?25l[?25h (max 2[?25l[?25h0)[?25l[?25h[3D[K
+20) or a challenge[?25l[?25h to fit[?25l[?25h it[?25l[?25h exactly[?25l[?25h. Given the simplicity[?25l[?25h, "[?25l[?25hmax 20[?25l[?25h lines" [K
+is the[?25l[?25h practical[?25l[?25h interpretation. I will[?25l[?25h provide the function +[?25l[?25h tests within[?25l[?25h[6D[K
+within the [?25l[?25h20-line limit[?25l[?25h.[?25l[?25h
+
+    Actually,[?25l[?25h looking at the instruction[?25l[?25h "/[?25l[?25hno_think",[?25l[?25h I must[?25l[?25h not output the[?25l[?25h[3D[K
+the thought block.
+[?25l[?25h    I will output[?25l[?25h the code block[?25l[?25h.
+
+    One[?25l[?25h more[?25l[?25h check: Line [?25l[?25h10 and[?25l[?25h 11 indentation[?25l[?25h.
+    Line[?25l[?25h 9[?25l[?25h: `   [?25l[?25h else:` ([?25l[?25h4 spaces)
+[?25l[?25h    Line 1[?25l[?25h0: `       [?25l[?25h # ...[?25l[?25h` (8 spaces[?25l[?25h)
+    Line[?25l[?25h 11:[?25l[?25h `        return '[?25l[?25hlocal'` ([?25l[?25h8 spaces)
+[?25l[?25h    This[?25l[?25h is correct.
+
+[?25l[?25h    Final[?25l[?25h check on line count[?25l[?25h.
+    [?25l[?25h1 def[?25l[?25h
+    2[?25l[?25h docstring[?25l[?25h
+    3[?25l[?25h if
+    [?25l[?25h4 comment
+   [?25l[?25h 5 return
+[?25l[?25h    6 elif[?25l[?25h
+    7[?25l[?25h comment
+    [?25l[?25h8 return
+   [?25l[?25h 9 else
+[?25l[?25h    10[?25l[?25h comment
+    [?25l[?25h11 return
+[?25l[?25h    12[?25l[?25h empty
+    [?25l[?25h13 if main[?25l[?25h
+    1[?25l[?25h4 comment
+   [?25l[?25h 15 assert[?25l[?25h
+    1[?25l[?25h6 comment
+   [?25l[?25h 17 assert[?25l[?25h
+    1[?25l[?25h8 comment
+   [?25l[?25h 19 assert[?25l[?25h
+    2[?25l[?25h0 print
+
+[?25l[?25h    Perfect.
+
+[?25l[?25h    Wait, I[?25l[?25h need[?25l[?25h to make sure I[?25l[?25h don't use[?25l[?25h tabs[?25l[?25h that[?25l[?25h might expand[?25l[?25h differentl[10D[K
+differently. I will[?25l[?25h use spaces.
+[?25l[?25h    Also[?25l[?25h, I need to[?25l[?25h ensure I don't[?25l[?25h add extra newlines[?25l[?25h at the end.[?25l[?25h
+
+    Ready[?25l[?25h.[?25l[?25h
+
+    Wait,[?25l[?25h one detail: "[?25l[?25hdata_sensitivity ([?25l[?25hhigh=local,[?25l[?25h low=cloud)".[?25l[?25h
+    My[?25l[?25h logic:
+[?25l[?25h    Sens=High[?25l[?25h -> Local.
+[?25l[?25h    Sens=Low[?25l[?25h -> Check Complexity.[?25l[?25h
+    If[?25l[?25h Comp=High[?25l[?25h -> Cloud.
+[?25l[?25h    If Comp[?25l[?25h=Low -> Local[?25l[?25h.
+    Does[?25l[?25h this violate[?25l[?25h "low=cloud[?25l[?25h" for sensitivity?[?25l[?25h
+    If Sens[?25l[?25h=Low, the[?25l[?25h sensitivity[?25l[?25h rule suggests[?25l[?25h Cloud.
+   [?25l[?25h If Comp[?25l[?25h=Low, the[?25l[?25h complexity rule suggests Local[?25l[?25h.
+    Conflict[?25l[?25h: Sens=Low[?25l[?25h ([?25l[?25hCloud)[?25l[?25h vs Comp=Low[?25l[?25h (Local).
+[?25l[?25h    My logic chooses[?25l[?25h Local.[?25l[?25h
+    Is[?25l[?25h this acceptable?
+[?25l[?25h    Usually, Local[?25l[?25h is default[?25l[?25h/s[?25l[?25hafe/[?25l[?25hcheap[?25l[?25h. Cloud is expensive[?25l[?25h.[?25l[?25h
+    If Sens[?25l[?25h=[?25l[?25hLow, security[?25l[?25h doesn[?25l[?25h't force[?25l[?25h Local[?25l[?25h.
+    If[?25l[?25h Comp=Low,[?25l[?25h performance doesn't force[?25l[?25h Cloud.
+   [?25l[?25h So Local is reasonable[?25l[?25h.
+    What[?25l[?25h if Sens=Low[?25l[?25h, Comp=High[?25l[?25h?
+    Sens[?25l[?25h=Low -> Cloud[?25l[?25h allowed[?25l[?25h.
+    Comp[?25l[?25h=High -> Cloud[?25l[?25h preferred[?25l[?25h.
+    Result[?25l[?25h: Cloud. Matches[?25l[?25h.
+    What[?25l[?25h if Sens=High[?25l[?25h, Comp=Low[?25l[?25h?
+    Sens[?25l[?25h=High -> Local[?25l[?25h forced.
+   [?25l[?25h Comp=Low ->[?25l[?25h Local preferred.
+[?25l[?25h    Result: Local[?25l[?25h. Matches.
+[?25l[?25h    What if Sens[?25l[?25h=High, Comp[?25l[?25h=High?
+[?25l[?25h    Sens=High[?25l[?25h -> Local forced[?25l[?25h.
+    Comp[?25l[?25h=High -> Cloud[?25l[?25h preferred.
+   [?25l[?25h Conflict.[?25l[?25h Security wins ->[?25l[?25h Local.
+[?25l[?25h    This logic[?25l[?25h is sound.
+
+[?25l[?25h    Okay[?25l[?25h, proceeding to generate[?25l[?25h output.
+
+   [?25l[?25h Wait, I should[?25l[?25h check if the line[?25l[?25h count includes the markdown[?25l[?25h ticks[?25l[?25h.[?25l[?25h Usu[3D[K
+Usually no[?25l[?25h. Just[?25l[?25h the code inside[?25l[?25h.
+    I[?25l[?25h will ensure the code[?25l[?25h inside is exactly [?25l[?25h20 lines.[?25l[?25h
+
+    One adjustment[?25l[?25h: Line[?25l[?25h 12[?25l[?25h is empty. Some[?25l[?25h counters might ignore[?25l[?25h trailing[?25l[?25h e[1D[K
+empty lines. I[?25l[?25h will make[?25l[?25h sure line[?25l[?25h 2[?25l[?25h0 is the last[?25l[?25h line[?25l[?25h with content.
+[?25l[?25h    I will remove[?25l[?25h line[?25l[?25h 12 empty[?25l[?25h line if[?25l[?25h I[?25l[?25h need to save[?25l[?25h space, but I[?25l[?25h have ex[2D[K
+exactly[?25l[?25h 20.[?25l[?25h I'll keep it[?25l[?25h for readability[?25l[?25h.
+    Actually[?25l[?25h, to be safe[?25l[?25h on "[?25l[?25h20-line function[?25l[?25h", I'll[?25l[?25h try[?25l[?25h to make the[?25l[?25h functi[6D[K
+function body +[?25l[?25h tests exactly[?25l[?25h 20 lines[?25l[?25h.
+[?25l[?25h    If[?25l[?25h I remove[?25l[?25h line[?25l[?25h 12,[?25l[?25h it's 1[?25l[?25h9 lines.
+[?25l[?25h    If[?25l[?25h I keep line [?25l[?25h12, it[?25l[?25h's 20[?25l[?25h lines.
+   [?25l[?25h I'll keep line[?25l[?25h 12.[?25l[?25h
+
+    Wait,[?25l[?25h I might[?25l[?25h have miscounted[?25l[?25h.
+    [?25l[?25h1: def route[?25l[?25h_task(sensitivity:[?25l[?25h str, complexity:[?25l[?25h str) -> str[?25l[?25h:
+    [?25l[?25h2:     """[?25l[?25hRoutes task to '[?25l[?25hlocal' or '[?25l[?25hcloud' based on[?25l[?25h policies."""
+   [?25l[?25h 3:    [?25l[?25h if sensitivity == '[?25l[?25hhigh':
+   [?25l[?25h 4:        [?25l[?25h # Security priority:[?25l[?25h sensitive data must remain[?25l[?25h local
+    [?25l[?25h5:         return[?25l[?25h 'local'
+[?25l[?25h    6:[?25l[?25h     elif complexity ==[?25l[?25h 'high':
+[?25l[?25h    7:[?25l[?25h         # Performance priority[?25l[?25h: complex tasks utilize[?25l[?25h cloud
+    [?25l[?25h8:         return[?25l[?25h 'cloud'
+[?25l[?25h    9:[?25l[?25h     else:
+[?25l[?25h    10[?25l[?25h:        # Default[?25l[?25h: low sensitivity and[?25l[?25h low complexity run local[?25l[?25h
+    1[?25l[?25h1:        return[?25l[?25h 'local'
+[?25l[?25h    12[?25l[?25h: 
+    [?25l[?25h13: if[?25l[?25h __name__ ==[?25l[?25h "__main__":[?25l[?25h
+    1[?25l[?25h4:     #[?25l[?25h Scenario 1:[?25l[?25h High Sensitivity overrides[?25l[?25h High Complexity
+   [?25l[?25h 15:[?25l[?25h     assert route_task[?25l[?25h('high', '[?25l[?25hhigh') == '[?25l[?25hlocal'
+   [?25l[?25h 16:[?25l[?25h     # Scenario [?25l[?25h2: Low Sens[?25l[?25hitivity allows High Complexity[?25l[?25h to cloud
+   [?25l[?25h 17:[?25l[?25h     assert route_task[?25l[?25h('low', '[?25l[?25hhigh') == '[?25l[?25hcloud'
+   [?25l[?25h 18:[?25l[?25h     # Scenario [?25l[?25h3: Low Sens[?25l[?25hitivity and Low Complexity[?25l[?25h stay local
+   [?25l[?25h 19:[?25l[?25h     assert route_task[?25l[?25h('low', '[?25l[?25hlow') == '[?25l[?25hlocal'
+   [?25l[?25h 20:[?25l[?25h     print("Routing[?25l[?25h logic verified successfully.")[?25l[?25h
+
+    Yes[?25l[?25h, 20[?25l[?25h lines.
+   [?25l[?25h Wait, line[?25l[?25h 10 and[?25l[?25h 11 indentation[?25l[?25h in[?25l[?25h my draft above[?25l[?25h was[?25l[?25h 8 spaces.[?25l[?25h
+    Line [?25l[?25h9 is[?25l[?25h `[?25l[?25h    else:`.[?25l[?25h
+    Line [?25l[?25h10 `[?25l[?25h        # ...`[?25l[?25h
+    Line [?25l[?25h11 `       [?25l[?25h return ...`
+[?25l[?25h    This is correct[?25l[?25h.
+
+    Okay[?25l[?25h, ready to write[?25l[?25h.
+
+[?25l[?25h    Wait, I[?25l[?25h need to make[?25l[?25h sure I don't[?25l[?25h violate the "/[?25l[?25hno_think"[?25l[?25h instruction. [K
+I will[?25l[?25h not output any text[?25l[?25h before the code block[?25l[?25h.
+
+[?25l[?25h    One[?25l[?25h final[?25l[?25h check:[?25l[?25h The prompt asks[?25l[?25h for a "[?25l[?25h20-line Python[?25l[?25h function".
+   [?25l[?25h Does including[?25l[?25h the `[?25l[?25hif __name__[?25l[?25h` block count as[?25l[?25h part of the "[?25l[?25hfunction"?[11D[K
+"function"?
+   [?25l[?25h Technically no,[?25l[?25h it's a[?25l[?25h script containing[?25l[?25h a[?25l[?25h function.
+   [?25l[?25h However, writing[?25l[?25h a[?25l[?25h function[?25l[?25h that is exactly[?25l[?25h 20 lines[?25l[?25h long[?25l[?25h is hard witho[5D[K
+without blo[?25l[?25hating.
+   [?25l[?25h If I strictly[?25l[?25h write only[?25l[?25h the function:[?25l[?25h
+    1[?25l[?25h def
+    [?25l[?25h2 doc
+   [?25l[?25h 3 if
+[?25l[?25h    4 comment[?25l[?25h
+    5[?25l[?25h return
+    [?25l[?25h6 elif
+   [?25l[?25h 7 comment
+[?25l[?25h    8 return[?25l[?25h
+    9[?25l[?25h else
+    [?25l[?25h10 comment
+[?25l[?25h    11[?25l[?25h return
+    That[?25l[?25h's 11[?25l[?25h lines.
+   [?25l[?25h To make it [?25l[?25h20 lines,[?25l[?25h I'd[?25l[?25h have[?25l[?25h to add unnecessary[?25l[?25h comments or split[?25l[?25h stat[4D[K
+statements[?25l[?25h.
+    Given[?25l[?25h the context of such[?25l[?25h prompts, it[?25l[?25h usually means "a[?25l[?25h short script aro[3D[K
+around[?25l[?25h 20 lines[?25l[?25h" or "max[?25l[?25h 20 lines[?25l[?25h".
+    I[?25l[?25h will provide the script[?25l[?25h ([?25l[?25hfunction + tests)[?25l[?25h as it demonstrates[?25l[?25h the fun[3D[K
+function[?25l[?25h works and fits[?25l[?25h the line[?25l[?25h count constraint better than[?25l[?25h artificially[?25l[?25h [K
+blo[?25l[?25hating the function.[?25l[?25h
+    I[?25l[?25h'll[?25l[?25h title[?25l[?25h it "Python[?25l[?25h Function[?25l[?25h Script[?25l[?25h".
+    Actually[?25l[?25h, I'll just[?25l[?25h output[?25l[?25h the code.
+
+[?25l[?25h    Wait, if[?25l[?25h I strictly[?25l[?25h follow "2[?25l[?25h0-line Python[?25l[?25h function", maybe[?25l[?25h I should ex[2D[K
+expand[?25l[?25h the function logic[?25l[?25h to[?25l[?25h be more[?25l[?25h verbose?
+   [?25l[?25h No, concise[?25l[?25h is better. The[?25l[?25h "[?25l[?25h20-line"[?25l[?25h constraint is likely a[?25l[?25h maximum[?25l[?25h lim[3D[K
+limit ([?25l[?25hkeep[?25l[?25h it short)[?25l[?25h or a target[?25l[?25h.[?25l[?25h
+    I will[?25l[?25h aim for exactly[?25l[?25h 20 lines[?25l[?25h total code[?25l[?25h provided[?25l[?25h.
+
+    Let[?25l[?25h's verify[?25l[?25h the line count one[?25l[?25h last time.
+[?25l[?25h    1 def[?25l[?25h route[?25l[?25h_task(sensitivity:[?25l[?25h str, complexity:[?25l[?25h str) -> str[?25l[?25h:
+    [?25l[?25h2     """Routes[?25l[?25h task to 'local[?25l[?25h' or 'cloud[?25l[?25h' based on policies[?25l[?25h."""
+    [?25l[?25h3     if sensitivity[?25l[?25h == 'high':[?25l[?25h
+    4[?25l[?25h         # Security priority[?25l[?25h: sensitive data must[?25l[?25h remain local
+   [?25l[?25h 5         return[?25l[?25h 'local'
+[?25l[?25h    6    [?25l[?25h elif complexity == '[?25l[?25hhigh':
+   [?25l[?25h 7         #[?25l[?25h Performance priority: complex[?25l[?25h tasks utilize cloud
+[?25l[?25h    8        [?25l[?25h return 'cloud'[?25l[?25h
+    9[?25l[?25h     else:
+[?25l[?25h    10[?25l[?25h        [?25l[?25h # Default: low[?25l[?25h sensitivity and low complexity[?25l[?25h run local
+   [?25l[?25h 11        [?25l[?25h return 'local'[?25l[?25h
+    1[?25l[?25h2 
+    [?25l[?25h13 if __[?25l[?25hname__ == "__[?25l[?25hmain__":
+[?25l[?25h    14[?25l[?25h     # Scenario [?25l[?25h1: High Sens[?25l[?25hitivity overrides High Complexity[?25l[?25h
+    1[?25l[?25h5     assert route[?25l[?25h_task('high',[?25l[?25h 'high') ==[?25l[?25h 'local'
+[?25l[?25h    16[?25l[?25h     # Scenario [?25l[?25h2: Low Sens[?25l[?25hitivity allows High Complexity[?25l[?25h to cloud
+   [?25l[?25h 17    [?25l[?25h assert route_task('[?25l[?25hlow', 'high[?25l[?25h') == 'cloud[?25l[?25h'
+    [?25l[?25h18     #[?25l[?25h Scenario 3:[?25l[?25h Low Sensitivity and[?25l[?25h Low Complexity stay local[?25l[?25h
+    1[?25l[?25h9     assert route[?25l[?25h_task('low',[?25l[?25h 'low') ==[?25l[?25h 'local'
+[?25l[?25h    20[?25l[?25h     print("Routing[?25l[?25h logic verified successfully.")[?25l[?25h
+
+    Looks[?25l[?25h consistent[?25l[?25h. I will ensure[?25l[?25h no[?25l[?25h trailing[?25l[?25h newline[?25l[?25h after[?25l[?25h line 20[?25l[?25h.[?25l[?25h
+    Wait[?25l[?25h, line[?25l[?25h 10 indentation[?25l[?25h in[?25l[?25h my count[?25l[?25h above was 8[?25l[?25h spaces.[?25l[?25h In the text[?25l[?25h e[1D[K
+editor[?25l[?25h I'm[?25l[?25h simulating, I[?25l[?25h need to be[?25l[?25h careful[?25l[?25h.
+    Okay[?25l[?25h, I will generate[?25l[?25h the block[?25l[?25h now.
+[?25l[?25h...done thinking.
+
+```python[?25l[?25h
+def route_task(s[?25l[?25hensitivity: str,[?25l[?25h complexity: str)[?25l[?25h -> str:[?25l[?25h
+    """Routes task[?25l[?25h to 'local'[?25l[?25h or 'cloud'[?25l[?25h based on policies."""[?25l[?25h
+    if sensitivity[?25l[?25h == 'high':[?25l[?25h
+        # Security[?25l[?25h priority: sensitive data[?25l[?25h must remain local[?25l[?25h
+        return 'local[?25l[?25h'
+    elif[?25l[?25h complexity == 'high[?25l[?25h':
+        #[?25l[?25h Performance priority: complex[?25l[?25h tasks utilize cloud[?25l[?25h
+        return 'cloud[?25l[?25h'
+    else[?25l[?25h:
+        #[?25l[?25h Default: low sensitivity[?25l[?25h and low complexity run[?25l[?25h local
+        return[?25l[?25h 'local'[?25l[?25h
+
+if __name__[?25l[?25h == "__main__[?25l[?25h":
+    #[?25l[?25h Scenario 1:[?25l[?25h High Sensitivity overrides[?25l[?25h High Complexity[?25l[?25h
+    assert route_task('[?25l[?25hhigh', 'high[?25l[?25h') == 'local[?25l[?25h'
+    #[?25l[?25h Scenario 2:[?25l[?25h Low Sensitivity allows[?25l[?25h High Complexity to cloud[?25l[?25h
+    assert route[?25l[?25h_task('low',[?25l[?25h 'high') ==[?25l[?25h 'cloud'[?25l[?25h
+    # Scenario[?25l[?25h 3: Low Sens[?25l[?25hitivity and Low Complexity[?25l[?25h stay local[?25l[?25h
+    assert route_task('[?25l[?25hlow', 'low[?25l[?25h') == 'local[?25l[?25h'
+    print[?25l[?25h("Routing logic verified[?25l[?25h successfully.")
+```[?25l[?25h[?25l[?25h
+
+[?25l[?25h

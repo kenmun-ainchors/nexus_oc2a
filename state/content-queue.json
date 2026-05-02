@@ -1,0 +1,19 @@
+{
+  "schema": "1.0",
+  "queue": [
+    {
+      "id": "CONTENT-0001",
+      "title": "test-governance-content.html",
+      "type": "blog",
+      "createdBy": "yoda",
+      "requestedBy": "ken",
+      "status": "triad-cleared",
+      "shield": "clear",
+      "lex": "conditional",
+      "sage": "conditional",
+      "clearedAt": "2026-05-02T12:16:53+10:00",
+      "publishedAt": null,
+      "notes": "Triad cleared at 2026-05-02T12:16:53+10:00. Cleared for distribution."
+    }
+  ]
+}

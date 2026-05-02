@@ -17,6 +17,7 @@
 #   7. Secrets       — all expected secrets present (secrets-init.sh verify)
 #   8. Plugin deps   — only ONE versioned dir, no openclaw-unknown-*
 #   9. Telegram      — telegram channel configured in openclaw
+#  10. Content Gov   — content-governance-review.sh exists and is executable
 #
 # Output: colour-coded per check, final PASS/FAIL banner
 # State:  state/pvt-last-result.json
@@ -260,8 +261,9 @@ else
   fi
 fi
 
-# ── CHECK 9: Telegram channel ─────────────────────────────────────────────────
-[[ "$QUIET" != "--quiet" ]] && echo -e "${BOLD}[9/9] Telegram${RESET}"
+# ── CHECK 9: Telegram channel
+# (note: check 10 added below after check 9) ─────────────────────────────────────────────────
+[[ "$QUIET" != "--quiet" ]] && echo -e "${BOLD}[9/10] Telegram${RESET}"
 OC_STATUS=$(openclaw status 2>/dev/null || echo "")
 if echo "$OC_STATUS" | grep -qi "telegram"; then
   check_pass "Telegram" "telegram channel present in openclaw status"
@@ -290,6 +292,21 @@ else
       log "Telegram: FAIL (not configured)"
     fi
   fi
+fi
+
+
+# ── CHECK 10: Content governance gate ─────────────────────────────────────────
+[[ "$QUIET" != "--quiet" ]] && echo -e "${BOLD}[10/10] Content Governance Gate${RESET}"
+CGR_SCRIPT="$WORKSPACE/scripts/content-governance-review.sh"
+if [[ ! -f "$CGR_SCRIPT" ]]; then
+  check_fail "Content Governance Gate" "scripts/content-governance-review.sh not found"
+  log "Content Governance Gate: FAIL (script missing)"
+elif [[ ! -x "$CGR_SCRIPT" ]]; then
+  check_fail "Content Governance Gate" "scripts/content-governance-review.sh exists but is not executable"
+  log "Content Governance Gate: FAIL (not executable)"
+else
+  check_pass "Content Governance Gate" "scripts/content-governance-review.sh exists and is executable"
+  log "Content Governance Gate: PASS"
 fi
 
 # ── Results banner ────────────────────────────────────────────────────────────

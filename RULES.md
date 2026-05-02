@@ -292,6 +292,61 @@ Full spec: `Operations/GovernanceFramework.md`
 
 ---
 
+## CONTENT GOVERNANCE GATE (TKT-0033 — Ken directive 2026-05-02)
+
+### Scope
+**IN SCOPE — triad review mandatory before delivery:**
+- Blog posts (EOD and standalone `/blog`)
+- Proposals, reports, DOCX documents
+- Social copy (LinkedIn, Instagram, Facebook, Twitter)
+- External emails (any email leaving Ken+Yoda+Angie loop)
+- Training materials and onboarding content
+- Public-facing documentation
+
+**NOT IN SCOPE:**
+- Internal Telegram messages (Ken ↔ Yoda/Aria loop)
+- Journal files (`memory/journal-*.md`)
+- Internal state files (`state/*.json`)
+- Memory/CHANGELOG/RULES/SOUL files
+
+### Triad Sequence (non-negotiable order)
+1. **🛡️ Shield** — PII, credentials, internal paths, data handling, attack surface
+2. **⚖️ Lex** — Australian law (Privacy Act, ACL), GDPR, platform T&Cs, financial disclaimers
+3. **🧪 Sage** — Quality, accuracy, completeness, no fabrication, formatting
+
+### Verdicts & Actions
+- **CLEAR**: No issues — proceed to publish
+- **CONDITIONAL**: Warnings found — fixes applied inline, agent re-checked — then proceed
+- **BLOCK**: Failures found — halt delivery, escalate to Ken immediately — do NOT publish
+
+All three must return CLEAR or CONDITIONAL (with fixes applied) before any content is delivered.
+
+### How to Run
+```bash
+bash scripts/content-governance-review.sh \
+  --content-id CONTENT-NNNN \
+  --file <path-to-draft> \
+  --type <blog|proposal|social|email|training|doc>
+```
+- Exit 0 = triad-cleared → safe to publish
+- Exit 2 = blocked → do NOT publish, escalate to Ken
+
+### Footer Stamp
+After triad verdict, a stamp is automatically appended to the file:
+- **triad-cleared**: `✅ Cleared for distribution — Governance triad reviewed [date]`
+- **internal**: `⚠️ For internal use only — not reviewed for distribution. Check before sharing.`
+- **blocked**: `🚫 BLOCKED — Do not distribute. Governance issues pending resolution.`
+
+For manual stamp: `bash scripts/content-footer-stamp.sh --file <path> --status <triad-cleared|internal|blocked>`
+
+### Queue
+All content items are registered in `state/content-queue.json` with full audit trail: id, title, type, status, per-agent verdict, clearedAt, publishedAt.
+
+### Warden Monitoring
+Warden checks `state/content-queue.json` every cycle. Any item with `status=published` but missing CLEAR/CONDITIONAL on any agent is flagged as `content-published-without-clearance` violation.
+
+---
+
 ## 📊 ITIL FRAMEWORK — NON-NEGOTIABLE (Ken directive 2026-05-02, TKT-0032)
 
 ⚠️ **SEVERITY: CRITICAL. ITIL compliance is mandatory for service level guarantee, resiliency, availability, observability, transparency, and audit.**
@@ -390,6 +445,204 @@ Any work or task that is **ad-hoc** (not already tracked under an INC, US, or CH
 - `/commit` - persist all session memory + decisions to Obsidian + git. Not a close - can be run anytime mid-session (see /commit section below)
 
 All slash triggers are case-insensitive. Never fire on partial matches (e.g. "run diagnostics" text does not trigger `/diagnostics`).
+
+## CI FRAMEWORK — Continuous Model Improvement
+
+_Established 2026-05-02. Managed by Yoda. Runs indefinitely in background. Survives OC2, HIVE, Ollama Max upgrades._
+
+**Purpose:** Continuously identify which T1 (Sonnet) and T2a (Haiku) tasks can be safely moved to T2b (Ollama Cloud) based on real data, and confirm with head-to-head evidence before any routing change.
+
+**Loop structure:**
+
+```
+Week 1:  [ Cycle A only ]
+Week 2+: [ Cycle A (always-on) ] + [ Cycle B (concurrent) ]
+         [ Cycle A (always-on) ] + [ Cycle B (updated tasks) ]
+         ... forever
+```
+
+Cycle A never stops. Zero cost, zero performance impact. It runs every 6h indefinitely.
+Cycle B joins from week 2. Both run concurrently from that point on.
+
+---
+
+### Cycle A — Always-On Batch Shadow (perpetual, 7-day reporting windows)
+- Runs every 6h. Never pauses between cycles.
+- Re-runs representative T1/T2a prompts through matched T2b models (no Claude cost)
+- Scores quality + latency. Builds candidateScore per task category.
+- At every 7-day boundary: generates report, selects top 2 candidates, resets window counter
+- Delivers top 2 to Ken via Telegram
+- Immediately starts next 7-day window (no gap, no pause)
+- **Awaits Ken APPROVE to activate/update Cycle B with new top 2**
+
+### Ken Approval Gate (weekly)
+- Ken reviews Cycle A report on Telegram
+- Replies APPROVE → Yoda activates or updates Cycle B with new top 2 tasks
+- Week 1: creates Cycle B cron fresh
+- Week 2+: updates existing Cycle B cron with new approved tasks
+
+### Cycle B — Real-Time Parallel (concurrent with Cycle A, rolling 7-day windows)
+- Runs every 6h alongside Cycle A from week 2
+- Executes approved top 2 tasks on BOTH original (Sonnet/Haiku) AND T2b simultaneously
+- Side-by-side quality + latency delta per run
+- Verdict per run: replace | borderline | keep
+- At every 7-day boundary: final recommendation, delivers report to Ken
+- Immediately starts next window with new approved tasks (updated from latest Cycle A report)
+- **Ken replies APPROVE-ROUTING to commit routing changes for MOVE tasks**
+
+### Routing Change Gate (weekly)
+- Yoda updates model-policy.json only after APPROVE-ROUTING from Ken
+- Each approved routing change = 1 CHG entry + Warden enforces immediately
+- Tasks confirmed as MOVE graduate out of future Cycle B windows (no need to retest)
+
+### State files
+- `state/ci-agent-state.json` — current cycle, phase, active candidates, history
+- `state/ci-agent-metrics.json` — all comparison records across all cycles
+- `state/ci-cycle-[N]A-report.md` — weekly Cycle A reports
+- `state/ci-cycle-[N]B-report.md` — weekly Cycle B reports
+- `state/ci-cycle-b-template.json` — Cycle B cron template
+
+### CI Agent cron IDs
+- Cycle A: 3ec512f3 (every 6h, perpetual, deepseek-v4-pro:cloud)
+- Cycle B: instantiated week 2 (ID saved to ci-agent-state.json.cycleBCronId), updated each week
+
+### Cost rule
+- Cycle A: zero additional Claude cost always (T2b only)
+- Cycle B: small Claude/Haiku cost for 2 approved tasks only (Ken-accepted)
+- Never expand Cycle B beyond 2 concurrent tasks without Ken approval
+
+---
+
+## /eod - End-of-Day Blog Post
+
+**Intent:** Trigger the daily end-of-day blog post. Journal-based. Ken's narrative of what happened today.
+
+**Trigger:** Ken types **`/eod`** (case-insensitive) in any channel. Also fires automatically via the 23:55 nightly cron.
+
+**Output:** `canvas/documents/ainchors-YYYY-MM-DD/index.html`
+
+**Voice/format:** Ken's first-person. Built from today's journal. Full spec: `Operations/BlogFormat.md`.
+
+**Distinct from `/blog`:** EOD = today's day narrative. One per day. Chronological. Private-to-public arc.
+
+**⚠️ MANDATORY GOVERNANCE STEP:** Before saving to final canvas path, run:
+```bash
+bash scripts/content-governance-review.sh --content-id CONTENT-NNNN --file /tmp/blog-draft-YYYY-MM-DD.html --type blog
+```
+Exit 2 = do not publish. Fix all issues and re-run until exit 0.
+
+---
+
+## /blog - Standalone Topic Blog Post
+
+**Intent:** Create a focused, standalone blog post on a specific topic. Independent of the daily EOD post. Publishable any time.
+
+**Trigger:** Ken types **`/blog <topic>`** (case-insensitive) in any channel.
+
+**Examples:**
+- `/blog ollama cloud poc` → deep-dive on the PoC test, results, findings
+- `/blog model strategy` → AInchors 4-tier model architecture explainer
+- `/blog ci framework` → the continuous improvement CI agent design
+
+**Output:** `canvas/documents/ainchors-blog-<slug>/index.html`
+- Slug = kebab-case of topic (e.g. `ollama-cloud-poc`, `model-strategy`)
+- Self-contained HTML, same styling standards as EOD blog
+- PII redaction sweep mandatory before saving
+
+**Voice/format:** Ken's first-person. Same style as EOD blog (ref: BlogFormat.md gold standard). But:
+- NOT constrained to one day's events
+- Has its own narrative arc (problem → research → decision → outcome → lessons)
+- Can reference multiple days, external context, and forward-looking implications
+- No cost section unless relevant
+- No "While You Were Away" section
+
+**Distinct from `/eod`:** Standalone = topic deep-dive, timeless, shareable. Many per day if needed.
+
+**⚠️ MANDATORY GOVERNANCE STEP:** Before saving to final canvas path, run:
+```bash
+bash scripts/content-governance-review.sh --content-id CONTENT-NNNN --file /tmp/blog-draft-<slug>.html --type blog
+```
+Exit 2 = do not publish. Fix all issues and re-run until exit 0.
+
+**On completion:** Confirm path, offer to add AKB entry and update series nav.
+
+---
+
+## /standup - Ad-Hoc Morning Stand-Up
+
+**Intent:** Trigger the full morning stand-up on demand, outside of the scheduled 8AM cron. Reporting window is dynamic — data is pulled from the last standup timestamp rather than a fixed 24h window.
+
+**Trigger:** Ken types **`/standup`** (case-insensitive) in any channel.
+
+**When `/standup` is received:**
+
+1. **Read window** — read `state/standup-state.json`. Get `lastStandupAt`. If null, default to 24h ago.
+2. **Set window** — `windowStart = lastStandupAt`, `windowEnd = now`. All data queries use this window.
+3. **Execute standup** — spawn an isolated sub-agent with the full standup payload below, but with the dynamic window substituted for the hardcoded 24h references.
+4. **Update state** — after standup completes, update `state/standup-state.json`:
+   - `lastStandupAt` = now (ISO UTC)
+   - `lastStandupType` = "ad-hoc"
+   - `lastStandupWindowStart` = the windowStart used
+   - append to `history` array: `{ type: "ad-hoc", at: now, windowStart, channel }`
+5. **Deliver** — same delivery as the 8AM cron (Telegram to Ken 8574109706), PLUS reply in the current channel confirming it's been sent.
+
+**Note on 8AM scheduled standup:** The 8AM cron (id: 3c279099) must also update `state/standup-state.json` after each run — `lastStandupAt` = run time, `lastStandupType` = "scheduled". This ensures the ad-hoc window is always accurate.
+
+**Payload:** Same as the 8AM cron (cron id: 3c279099), with these substitutions:
+- Replace all `--hours 24` with `--since [windowStart ISO]`
+- Replace "last standup" references to use the actual windowStart timestamp
+- Include a header at the top of the Telegram message: `⚡ Ad-hoc stand-up | Window: [windowStart AEST] → now`
+
+---
+
+## /update - Ad-Hoc Flash Update
+
+**Intent:** Quick situational awareness snapshot since the last standup. Not a full standup — no sprint plan, no RTB, no new input capture. Critical items, actions needed, things requiring attention. In and out.
+
+**Trigger:** Ken types **`/update`** (case-insensitive) in any channel.
+
+**Window:** Same as `/standup` — read `state/standup-state.json`, use `lastStandupAt` as windowStart. If null, default to 24h ago.
+
+**Important:** `/update` does NOT update `standup-state.json`. It does not reset the standup clock. Only `/standup` and the 8AM cron do that.
+
+**When `/update` is received:**
+
+1. **Read window** — `state/standup-state.json` → `lastStandupAt`. Window = lastStandupAt → now.
+2. **Spawn isolated sub-agent** with the flash update payload below.
+3. **Deliver** — Telegram to Ken (8574109706) + confirm in current channel.
+
+**Flash update payload (cover in order, keep it tight):**
+
+`⚡ Flash Update | Since: [lastStandupAt AEST] → now`
+
+**🚨 Critical** — anything that needs immediate action:
+- Warden violations unresolved
+- Health check failures (3+ consecutive)
+- Tier 3 credit alert active
+- Any BLOCK verdict from Shield/Lex/Sage
+- Active incidents (check state/incident-log or scripts/incident-log.sh)
+- Warden escalation pending (state/warden-escalation-pending.json)
+- Task stall alerts (state/task-stall-alert.json)
+
+**⚠️ Needs Action** — items requiring Ken’s input or decision:
+- New US raised since last standup (check Notion or state/tickets.json for items created in window)
+- Any sub-agent that completed and is awaiting Ken approval
+- Triggers that fired (state/chg-triggers.json — any status change in window)
+- Cost alerts (Tier 1 or Tier 2 active)
+
+**👀 Attention** — FYI, no immediate action needed:
+- CHG entries logged since last standup (count + titles)
+- Background tasks still running
+- Anything from Aria that surfaced but isn’t critical
+- API balance trend (on track or burning fast?)
+
+**Format rules:**
+- Telegram: plain text, no markdown tables, max 3500 chars
+- If nothing critical: say so clearly — “🟢 All clear. [N] CHGs logged, balance healthy.”
+- If something critical: lead with it, don’t bury it
+- Max 20 lines total. Cut ruthlessly.
+
+---
 
 ## /commit - PERSISTENT MEMORY COMMIT
 

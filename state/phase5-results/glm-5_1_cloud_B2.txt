@@ -1,0 +1,698 @@
+[?2026h[?25l[1G⠙ [K[?25h[?2026l[?2026h[?25l[1G⠙ [K[?25h[?2026l[?2026h[?25l[1G⠹ [K[?25h[?2026l[?2026h[?25l[1G⠼ [K[?25h[?2026l[?2026h[?25l[1G⠼ [K[?25h[?2026l[?2026h[?25l[1G⠦ [K[?25h[?2026l[?2026h[?25l[1G⠧ [K[?25h[?2026l[?2026h[?25l[1G⠧ [K[?25h[?2026l[?2026h[?25l[1G⠏ [K[?25h[?2026l[?2026h[?25l[1G⠏ [K[?25h[?2026l[?2026h[?25l[1G⠋ [K[?25h[?2026l[?2026h[?25l[1G⠙ [K[?25h[?2026l[?2026h[?25l[1G⠹ [K[?25h[?2026l[?2026h[?25l[1G⠸ [K[?25h[?2026l[?2026h[?25l[1G⠴ [K[?25h[?2026l[?25l[?2026h[?25l[1G[K[?25h[?2026l[2K[1G[?25hThinking...
+1[?25l[?25h.  **An[?25l[?25halyze the Request:[?25l[?25h**
+    *[?25l[?25h   **Goal[?25l[?25h:** Write a Python[?25l[?25h function that[?25l[?25h routes a task to[?25l[?25h either "[?25l[?25hloc[4D[K
+"local" or "[?25l[?25hcloud".[?25l[?25h
+    *   **[?25l[?25hRouting Logic[?25l[?25h:**
+        *[?25l[?25h   `[?25l[?25hdata_sensitivity`:[?25l[?25h "high" ->[?25l[?25h local[?25l[?25h, "low"[?25l[?25h -> cloud[?25l[?25h
+        *   `task[?25l[?25h_complexity`: "[?25l[?25hhigh" -> cloud[?25l[?25h, "low"[?25l[?25h -> local[?25l[?25h
+    *   **Constraint[?25l[?25h:** Exactly 20[?25l[?25h lines of[?25l[?25h Python code.[?25l[?25h
+    *   **[?25l[?25hConflict Resolution[?25l[?25h:** What[?25l[?25h happens if `[?25l[?25hdata_sensitivity`[?25l[?25h is "hig[4D[K
+"high"[?25l[?25h (w[?25l[?25hants local) and[?25l[?25h `task_complexity[?25l[?25h` is "high[?25l[?25h" (wants[?25l[?25h cloud)? I[?25l[?25h need [K
+to define a[?25l[?25h priority or a[?25l[?25h resolution[?25l[?25h logic[?25l[?25h. Usually[?25l[?25h, data[?25l[?25h sensitivity tr[?25l[?25hump[5D[K
+trumps complexity[?25l[?25h ([?25l[?25hsecurity first[?25l[?25h), or[?25l[?25h I can use[?25l[?25h a scoring system.[?25l[?25h Let's us[2D[K
+use[?25l[?25h a simple[?25l[?25h scoring/p[?25l[?25hriority system: Sens[?25l[?25hitivity overrides[?25l[?25h Complexity ([?25l[?25hif[?25l[?25h [K
+sensitivity[?25l[?25h is high, stay[?25l[?25h local regardless[?25l[?25h of complexity[?25l[?25h). Wait[?25l[?25h, let's look[?25l[?25h[4D[K
+look at the wording[?25l[?25h: "based[?25l[?25h on data[?25l[?25h_sensitivity...[?25l[?25h and task_complexity[?25l[?25h". A[?25l[?25h [K
+scoring system makes[?25l[?25h it[?25l[?25h a[?25l[?25h balanced decision. Let[?25l[?25h's assign[?25l[?25h weights[?25l[?25h:[?25l[?25h
+        *   Sens[?25l[?25hitivity high[?25l[?25h -> +[?25l[?25h1 for[?25l[?25h local
+        *[?25l[?25h   Sensitivity low[?25l[?25h -> +1 for[?25l[?25h cloud
+        *[?25l[?25h   Complexity high ->[?25l[?25h +1 for cloud[?25l[?25h
+        *[?25l[?25h   Complexity low -> +[?25l[?25h1 for local[?25l[?25h
+        *   Wait[?25l[?25h, if[?25l[?25h High[?25l[?25h Sens[?25l[?25hitivity ([?25l[?25hLocal[?25l[?25h +[?25l[?25h1) and High[?25l[?25h Complexity (Cloud[?25l[?25h[6D[K
+(Cloud +1)[?25l[?25h -> Tie[?25l[?25h. Let[?25l[?25h's break ties[?25l[?25h.[?25l[?25h Maybe[?25l[?25h Security wins[?25l[?25h ([?25l[?25hLocal[?25l[?25h).[?25l[?25h
+        *   Alternatively[?25l[?25h, an[?25l[?25h explicit logic[?25l[?25h:[?25l[?25h If[?25l[?25h sensitivity is high,[?25l[?25h go[?25l[?25h lo[2D[K
+local. If sensitivity[?25l[?25h is low, check[?25l[?25h complexity. If complexity[?25l[?25h is high[?25l[?25h, go c[1D[K
+cloud[?25l[?25h. If low,[?25l[?25h go local.[?25l[?25h
+        *   Let[?25l[?25h's refine[?25l[?25h:[?25l[?25h "based on data[?25l[?25h_sensitivity (high[?25l[?25h=local, low[?25l[?25h=cloud[9D[K
+low=cloud) and[?25l[?25h task_complexity ([?25l[?25hhigh=cloud[?25l[?25h, low=local[?25l[?25h)"[?25l[?25h.
+        *[?25l[?25h   Let[?25l[?25h's just[?25l[?25h use a voting[?25l[?25h/[?25l[?25hpoints[?25l[?25h system to[?25l[?25h make it elegant[?25l[?25h.[?25l[?25h
+            *   local_score[?25l[?25h = 0[?25l[?25h
+            *   cloud[?25l[?25h_score = 0[?25l[?25h
+            *[?25l[?25h   if sensitivity == '[?25l[?25hhigh': local_score[?25l[?25h += 2[?25l[?25h ([?25l[?25hgive[?25l[?25h sensitivit[10D[K
+sensitivity[?25l[?25h priority[?25l[?25h)
+            *[?25l[?25h   if sensitivity == '[?25l[?25hlow': cloud[?25l[?25h_score += 1[?25l[?25h
+            *[?25l[?25h   if complexity == '[?25l[?25hhigh': cloud_score[?25l[?25h += 2[?25l[?25h
+            *   if[?25l[?25h complexity == 'low[?25l[?25h': local[?25l[?25h_score += 1[?25l[?25h
+            *[?25l[?25h   This[?25l[?25h is getting[?25l[?25h complicated[?25l[?25h. Let's keep[?25l[?25h it simple.[?25l[?25h
+            *   Priority[?25l[?25h 1: If[?25l[?25h data[?25l[?25h is[?25l[?25h highly[?25l[?25h sensitive, never[?25l[?25h send to clou[4D[K
+cloud.[?25l[?25h So[?25l[?25h ->[?25l[?25h Local[?25l[?25h.
+            *[?25l[?25h   Priority 2:[?25l[?25h If data is low[?25l[?25h sensitivity but[?25l[?25h high complexity [K
+->[?25l[?25h Cloud.
+            *[?25l[?25h   Priority 3[?25l[?25h: If data is[?25l[?25h low sensitivity and low[?25l[?25h complexity -[1D[K
+-> Local.[?25l[?25h
+            *   This[?25l[?25h perfectly maps[?25l[?25h to:[?25l[?25h
+                *[?25l[?25h   High[?25l[?25h sensitivity[?25l[?25h, low[?25l[?25h complexity -> Local[?25l[?25h
+                *   High[?25l[?25h sensitivity, high[?25l[?25h complexity -> Local[?25l[?25h (override[?25l[?25h fo[2D[K
+for[?25l[?25h security)
+                *[?25l[?25h   Low sensitivity,[?25l[?25h high complexity -> Cloud[?25l[?25h
+                *[?25l[?25h   Low sensitivity, low[?25l[?25h complexity -> Local[?25l[?25h
+            *   Let[?25l[?25h's use[?25l[?25h a dictionary[?25l[?25h or simple[?25l[?25h if/[?25l[?25helse.[?25l[?25h
+            *   Wait[?25l[?25h, is[?25l[?25h there[?25l[?25h a way to make[?25l[?25h it exactly[?25l[?25h 20 lines?[?25l[?25h Yes[?25l[?25h, by[?25l[?25h a[1D[K
+adding docstrings,[?25l[?25h input[?25l[?25h validation, logging,[?25l[?25h or[?25l[?25h expanding[?25l[?25h the scoring[?25l[?25h syst[4D[K
+system[?25l[?25h.
+
+2.[?25l[?25h  **Drafting the[?25l[?25h 20-line function[?25l[?25h:**
+    Let[?25l[?25h's write[?25l[?25h it[?25l[?25h out and count lines[?25l[?25h.
+
+    ```python[?25l[?25h
+    def route[?25l[?25h_task(data[?25l[?25h_sensitivity,[?25l[?25h task_complexity):[?25l[?25h
+        """Routes[?25l[?25h a task to[?25l[?25h local or cloud based[?25l[?25h on sensitivity and complex[7D[K
+complexity[?25l[?25h."""
+        sensitivity[?25l[?25h = data_sensitivity[?25l[?25h.lower()
+        complexity[?25l[?25h = task[?25l[?25h_complexity.lower()[?25l[?25h
+        valid_inputs[?25l[?25h = {"[?25l[?25hhigh",[?25l[?25h "low"}[?25l[?25h
+        if sensitivity not in[?25l[?25h valid_inputs or complexity[?25l[?25h not in valid_input[11D[K
+valid_inputs[?25l[?25h:
+            raise ValueError[?25l[?25h("Inputs[?25l[?25h must be '[?25l[?25hhigh' or '[?25l[?25hlow'")[?25l[?25h
+        #[?25l[?25h Sc[?25l[?25horing:[?25l[?25h sensitivity[?25l[?25h gets[?25l[?25h priority ([?25l[?25hweight 2[?25l[?25h),[?25l[?25h complexity gets we[2D[K
+weight[?25l[?25h 1
+        local[?25l[?25h_score = 0[?25l[?25h
+        cloud_score[?25l[?25h = 0[?25l[?25h
+        if sensitivity ==[?25l[?25h "high":[?25l[?25h
+            local_score +=[?25l[?25h 2
+        else[?25l[?25h:
+            cloud_score[?25l[?25h += 2[?25l[?25h
+        if complexity[?25l[?25h == "high":[?25l[?25h
+            cloud_score +=[?25l[?25h 1[?25l[?25h
+        else:
+            local[?25l[?25h_score += 1[?25l[?25h
+        #[?25l[?25h Determine[?25l[?25h routing[?25l[?25h based[?25l[?25h on scores[?25l[?25h
+        if local[?25l[?25h_score >= cloud_score[?25l[?25h:
+            destination[?25l[?25h = "local"[?25l[?25h
+        else:[?25l[?25h
+            destination = "cloud[?25l[?25h"
+        return[?25l[?25h destination[?25l[?25h
+    ```[?25l[?25h
+
+    Let's count[?25l[?25h the lines:[?25l[?25h
+    1.[?25l[?25h `def route_task[?25l[?25h(data_sensitivity,[?25l[?25h task_complexity):[?25l[?25h`
+    2[?25l[?25h. `    """[?25l[?25hRoutes a task to[?25l[?25h local or cloud based[?25l[?25h on sensitivity and com[3D[K
+complexity[?25l[?25h."""`[?25l[?25h
+    3. `[?25l[?25h    sensitivity = data_s[?25l[?25hensitivity.lower()`[?25l[?25h
+    4.[?25l[?25h `    complexity =[?25l[?25h task_complexity.lower[?25l[?25h()`[?25l[?25h
+    5. `[?25l[?25h    valid_inputs = {"[?25l[?25hhigh", "low[?25l[?25h"}`[?25l[?25h
+    6. `[?25l[?25h    if sensitivity not in[?25l[?25h valid_inputs or complexity[?25l[?25h not in valid_i[7D[K
+valid_inputs[?25l[?25h:`[?25l[?25h
+    7. `[?25l[?25h        raise ValueError("Inputs[?25l[?25h must be 'high[?25l[?25h' or 'low[?25l[?25h'")`[?25l[?25h
+    8. `[?25l[?25h    # Scoring[?25l[?25h: sensitivity gets priority[?25l[?25h (weight 2[?25l[?25h), complexity get[3D[K
+gets weight[?25l[?25h 1`[?25l[?25h
+    9. `[?25l[?25h    local_score =[?25l[?25h 0`[?25l[?25h
+    10. `[?25l[?25h    cloud[?25l[?25h_score = 0[?25l[?25h`
+    11[?25l[?25h. `    if[?25l[?25h sensitivity == "high[?25l[?25h":`[?25l[?25h
+    12. `[?25l[?25h        local_score +=[?25l[?25h 2`[?25l[?25h
+    13. `[?25l[?25h    else:`[?25l[?25h
+    14. `[?25l[?25h        cloud_score +=[?25l[?25h 2`[?25l[?25h
+    15. `[?25l[?25h    if complexity ==[?25l[?25h "high":`[?25l[?25h
+    16.[?25l[?25h `        cloud_score[?25l[?25h += 1`[?25l[?25h
+    17.[?25l[?25h `    else:[?25l[?25h`
+    18[?25l[?25h. `        local[?25l[?25h_score += 1[?25l[?25h`
+    19[?25l[?25h. `    return[?25l[?25h "local" if[?25l[?25h local_score >= cloud[?25l[?25h_score else "cloud[?25l[?25h"`
+    Wait[?25l[?25h, that's[?25l[?25h 19 lines. Let[?25l[?25h's add one more[?25l[?25h line to make it[?25l[?25h exactly 20 li[2D[K
+lines[?25l[?25h.[?25l[?25h I[?25l[?25h can add a print[?25l[?25h statement or an[?25l[?25h empty[?25l[?25h line,[?25l[?25h or change[?25l[?25h the return[?25l[?25h l[1D[K
+line[?25l[?25h.[?25l[?25h Let's expand[?25l[?25h the return[?25l[?25h.[?25l[?25h
+
+    ```[?25l[?25hpython
+    def[?25l[?25h route_task(data_s[?25l[?25hensitivity, task_complex[?25l[?25hity):
+        """[?25l[?25hRoutes a task to[?25l[?25h local or cloud models[?25l[?25h based on parameters[?25l[?25h."""
+        sensitivity =[?25l[?25h data_sensitivity.lower[?25l[?25h()
+        complexity =[?25l[?25h task_complexity.lower[?25l[?25h()
+        valid_inputs[?25l[?25h = {"high",[?25l[?25h "low"}[?25l[?25h
+        if sensitivity not in[?25l[?25h valid_inputs or complexity[?25l[?25h not in valid_input[11D[K
+valid_inputs[?25l[?25h:
+            raise ValueError[?25l[?25h("S[?25l[?25hensitivity and complexity must[?25l[?25h be 'high'[?25l[?25h or [K
+'low'")[?25l[?25h
+        #[?25l[?25h Scoring: sensitivity[?25l[?25h is[?25l[?25h prioritized (weight[?25l[?25h=[?25l[?25h2),[?25l[?25h complexity is wei[3D[K
+weight=[?25l[?25h1
+        local[?25l[?25h_score = 0[?25l[?25h
+        cloud_score[?25l[?25h = 0[?25l[?25h
+        if sensitivity ==[?25l[?25h "high":[?25l[?25h
+            local_score +=[?25l[?25h 2
+        else[?25l[?25h:
+            cloud_score[?25l[?25h += 2[?25l[?25h
+        if complexity ==[?25l[?25h "high":[?25l[?25h
+            cloud_score +=[?25l[?25h 1
+        else[?25l[?25h:
+            local_score[?25l[?25h += 1[?25l[?25h
+        #[?25l[?25h Determine final[?25l[?25h destination based[?25l[?25h on calculated[?25l[?25h scores
+        destination[?25l[?25h = "local"[?25l[?25h if local_score >=[?25l[?25h cloud_score else "[?25l[?25hcloud"
+        return[?25l[?25h destination
+    ``[?25l[?25h`
+
+    Let's[?25l[?25h recount:[?25l[?25h
+    1.[?25l[?25h `def route_task[?25l[?25h(data_sensitivity,[?25l[?25h task_complexity):[?25l[?25h`
+    2[?25l[?25h. `    """[?25l[?25hRoutes a task to[?25l[?25h local or cloud models[?25l[?25h based on parameters."[12D[K
+parameters."""[?25l[?25h`
+    3[?25l[?25h. `    sensitivity[?25l[?25h = data_sensitivity[?25l[?25h.lower()`[?25l[?25h
+    4. `[?25l[?25h    complexity = task[?25l[?25h_complexity.lower()[?25l[?25h`
+    5[?25l[?25h. `    valid[?25l[?25h_inputs = {"high[?25l[?25h", "low"}[?25l[?25h`
+    6[?25l[?25h. `    if[?25l[?25h sensitivity not in valid[?25l[?25h_inputs or complexity[?25l[?25h not in valid_i[7D[K
+valid_inputs[?25l[?25h:`[?25l[?25h
+    7. `[?25l[?25h        raise ValueError("S[?25l[?25hensitivity and complexity must[?25l[?25h be 'high'[?25l[?25h[6D[K
+'high' or 'low'[?25l[?25h")`[?25l[?25h
+    8. `[?25l[?25h    # Scoring:[?25l[?25h sensitivity is[?25l[?25h prioritized (weight[?25l[?25h=2), complexity[?25l[?25h is[2D[K
+is weight=1[?25l[?25h`
+    9[?25l[?25h. `    local[?25l[?25h_score = 0[?25l[?25h`
+    10[?25l[?25h. `    cloud[?25l[?25h_score = 0[?25l[?25h`
+    11[?25l[?25h. `    if[?25l[?25h sensitivity == "high[?25l[?25h":`[?25l[?25h
+    12. `[?25l[?25h        local_score +=[?25l[?25h 2`[?25l[?25h
+    13. `[?25l[?25h    else:`[?25l[?25h
+    14. `[?25l[?25h        cloud_score +=[?25l[?25h 2`[?25l[?25h
+    15. `[?25l[?25h    if complexity ==[?25l[?25h "high":`[?25l[?25h
+    16.[?25l[?25h `        cloud_score[?25l[?25h += 1`[?25l[?25h
+    17.[?25l[?25h `    else:[?25l[?25h`
+    18[?25l[?25h. `[?25l[?25h        local_score +=[?25l[?25h 1`[?25l[?25h
+    19. `[?25l[?25h    # Determine final destination[?25l[?25h based on calculated scores[?25l[?25h`
+    20[?25l[?25h. `    return[?25l[?25h "local" if[?25l[?25h local_score >= cloud[?25l[?25h_score else "cloud[?25l[?25h"`
+
+    Is[?25l[?25h this robust[?25l[?25h?[?25l[?25h
+    -[?25l[?25h High Sensitivity,[?25l[?25h High Complexity[?25l[?25h:[?25l[?25h local=2,[?25l[?25h cloud=1 ->[?25l[?25h local. ([?25l[?25hSecuri[7D[K
+(Security overrides[?25l[?25h compute[?25l[?25h need[?25l[?25h)
+    - High[?25l[?25h Sensitivity, Low[?25l[?25h Complexity: local=[?25l[?25h3[?25l[?25h, cloud=0[?25l[?25h -> local[?25l[?25h.
+    - Low[?25l[?25h Sensitivity, High[?25l[?25h Complexity: local=[?25l[?25h0, cloud=[?25l[?25h3 -> cloud[?25l[?25h.
+    - Low[?25l[?25h Sensitivity, Low[?25l[?25h Complexity: local=[?25l[?25h1, cloud=[?25l[?25h2 -> cloud.[?25l[?25h Wait.[?25l[?25h
+      -[?25l[?25h If[?25l[?25h sensitivity is low,[?25l[?25h cloud gets[?25l[?25h +2.[?25l[?25h
+      - If complexity[?25l[?25h is low, local[?25l[?25h gets +1.[?25l[?25h
+      - Result[?25l[?25h: cloud[?25l[?25h=[?25l[?25h2, local[?25l[?25h=1 ->[?25l[?25h cloud.[?25l[?25h
+      -[?25l[?25h But the prompt says[?25l[?25h: "data[?25l[?25h_sensitivity (low[?25l[?25h=cloud[?25l[?25h...[?25l[?25h and[?25l[?25h task_compl[10D[K
+task_complexity ([?25l[?25hlow=local)"[?25l[?25h.
+      - So[?25l[?25h low[?25l[?25h sensitivity ->[?25l[?25h cloud, low complexity[?25l[?25h -> local.[?25l[?25h This[?25l[?25h is a con[3D[K
+conflict.[?25l[?25h
+      - If low[?25l[?25h sensitivity and[?25l[?25h low complexity, which[?25l[?25h one[?25l[?25h wins?[?25l[?25h The prompt s[1D[K
+says "[?25l[?25hbased on [[?25l[?25hboth[?25l[?25h]".[?25l[?25h By[?25l[?25h making[?25l[?25h sensitivity[?25l[?25h weight=[?25l[?25h2 and[?25l[?25h complexity weigh[5D[K
+weight=1[?25l[?25h, sensitivity[?25l[?25h breaks[?25l[?25h the[?25l[?25h tie. Is[?25l[?25h this[?25l[?25h the right choice[?25l[?25h?[?25l[?25h
+      - Maybe complexity[?25l[?25h should break[?25l[?25h the tie? Or[?25l[?25h maybe it[?25l[?25h should just[?25l[?25h defa[4D[K
+default[?25l[?25h to local[?25l[?25h for low/[?25l[?25hlow to[?25l[?25h save cloud[?25l[?25h costs?[?25l[?25h "[?25l[?25htask[?25l[?25h_complexity ([?25l[?25hlow=loc[8D[K
+(low=local)".[?25l[?25h A[?25l[?25h low complexity[?25l[?25h task doesn[?25l[?25h't need the[?25l[?25h cloud.[?25l[?25h Low[?25l[?25h sensitivity[11D[K
+sensitivity means[?25l[?25h it *can*[?25l[?25h go to the cloud[?25l[?25h,[?25l[?25h but doesn't *[?25l[?25hhave* to.[?25l[?25h Usually[?25l[?25h,[8D[K
+Usually, you[?25l[?25h keep simple[?25l[?25h tasks local[?25l[?25h to save cloud resources[?25l[?25h. So Low[?25l[?25h Sens /[?25l[?25h[1D[K
+/ Low Comp[?25l[?25h -> Local[?25l[?25h.[?25l[?25h
+      - Let's[?25l[?25h adjust the scoring.[?25l[?25h
+        - Low[?25l[?25h Sens /[?25l[?25h Low Comp:[?25l[?25h wants[?25l[?25h Cloud[?25l[?25h ([?25l[?25hfrom sens[?25l[?25h),[?25l[?25h wants Local[?25l[?25h (from c[1D[K
+comp[?25l[?25h).[?25l[?25h
+        - If[?25l[?25h we want[?25l[?25h Local to[?25l[?25h win here[?25l[?25h, Complexity[?25l[?25h should have[?25l[?25h higher weigh[5D[K
+weight.[?25l[?25h
+        - Let[?25l[?25h's use[?25l[?25h weight[?25l[?25h 2[?25l[?25h for complexity[?25l[?25h, weight[?25l[?25h 1 for sensitivity[?25l[?25h.[?25l[?25h
+        - Wait[?25l[?25h, High[?25l[?25h Sens /[?25l[?25h High Comp:[?25l[?25h wants Local[?25l[?25h (s[?25l[?25hens), wants Cloud[?25l[?25h (com[4D[K
+(comp). If[?25l[?25h complexity[?25l[?25h is[?25l[?25h weight 2,[?25l[?25h Cloud[?25l[?25h wins. That[?25l[?25h's a security breach[?25l[?25h.[?25l[?25h Yo[2D[K
+You[?25l[?25h shouldn[?25l[?25h't send highly[?25l[?25h sensitive data to the[?25l[?25h cloud just because it[?25l[?25h's com[3D[K
+complex.[?25l[?25h You[?25l[?25h need[?25l[?25h to[?25l[?25h handle[?25l[?25h complexity[?25l[?25h locally or refuse[?25l[?25h.[?25l[?25h
+        - Therefore[?25l[?25h, Sens[?25l[?25hitivity MUST have higher[?25l[?25h weight ([?25l[?25hSecurity[?25l[?25h > Comput[6D[K
+Compute[?25l[?25h).
+        - If[?25l[?25h Sensitivity >[?25l[?25h Complexity[?25l[?25h ([?25l[?25hweight 2 vs[?25l[?25h 1),[?25l[?25h then[?25l[?25h Low Sens /[?25l[?25h Low [K
+Comp -> Cloud[?25l[?25h (because[?25l[?25h Low[?25l[?25h Sens ->[?25l[?25h Cloud +[?25l[?25h2, Low[?25l[?25h Comp -> Local +[?25l[?25h1.[?25l[?25h Cloud wi[2D[K
+wins).[?25l[?25h
+        - If[?25l[?25h we want Low Sens[?25l[?25h / Low Comp ->[?25l[?25h Local ([?25l[?25hwhich[?25l[?25h makes practical[?25l[?25h se[2D[K
+sense),[?25l[?25h we can[?25l[?25h adjust[?25l[?25h the logic[?25l[?25h:[?25l[?25h
+          Instead[?25l[?25h of pure[?25l[?25h weights, use[?25l[?25h a decision matrix[?25l[?25h.[?25l[?25h
+          -[?25l[?25h High Sens,[?25l[?25h High Comp[?25l[?25h -> Local[?25l[?25h
+          - High Sens,[?25l[?25h Low Comp -> Local[?25l[?25h
+          - Low[?25l[?25h Sens, High Comp[?25l[?25h -> Cloud[?25l[?25h
+          - Low Sens,[?25l[?25h Low Comp -> Local[?25l[?25h (because[?25l[?25h it's simple[?25l[?25h, do[?25l[?25h it locally[7D[K
+locally to[?25l[?25h save bandwidth[?25l[?25h/costs[?25l[?25h)
+
+    Let's[?25l[?25h implement this[?25l[?25h decision[?25l[?25h matrix explicitly to[?25l[?25h ensure[?25l[?25h it align[?25l[?25hs wit[3D[K
+with[?25l[?25h practical logic[?25l[?25h.[?25l[?25h
+
+    ```python[?25l[?25h
+    def route_task[?25l[?25h(data_sensitivity,[?25l[?25h task_complexity):[?25l[?25h
+        """Routes task[?25l[?25h to local or cloud[?25l[?25h model[?25l[?25h based on sensitivity[?25l[?25h and com[3D[K
+complexity."""[?25l[?25h
+        sensitivity = str[?25l[?25h(data_sensitivity).[?25l[?25hlower()
+        complexity[?25l[?25h = str(task[?25l[?25h_complexity).lower[?25l[?25h()
+        valid =[?25l[?25h {"high", "[?25l[?25hlow"}
+        if[?25l[?25h sensitivity not in valid[?25l[?25h or complexity not in[?25l[?25h valid:
+            raise[?25l[?25h ValueError("Parameters[?25l[?25h must be 'high[?25l[?25h' or 'low[?25l[?25h'")
+        #[?25l[?25h Priority[?25l[?25h 1: High[?25l[?25h sensitivity always routes[?25l[?25h locally for[?25l[?25h data[?25l[?25h priva[5D[K
+privacy[?25l[?25h
+        if[?25l[?25h sensitivity == "high[?25l[?25h":
+            destination[?25l[?25h = "local"[?25l[?25h
+        #[?25l[?25h Priority 2:[?25l[?25h High complexity routes[?25l[?25h to cloud[?25l[?25h for more[?25l[?25h compute powe[4D[K
+power[?25l[?25h
+        elif complexity[?25l[?25h == "high":[?25l[?25h
+            destination = "[?25l[?25hcloud"
+        #[?25l[?25h Priority 3:[?25l[?25h Low sensitivity and low[?25l[?25h complexity defaults[?25l[?25h to local[?25l[?25h
+        else:
+            destination[?25l[?25h = "local"[?25l[?25h
+        return destination[?25l[?25h
+    ```
+    Let[?25l[?25h's count lines:[?25l[?25h
+    1.[?25l[?25h `def route_task[?25l[?25h(data_sensitivity,[?25l[?25h task_complexity):[?25l[?25h`
+    2[?25l[?25h. `    """[?25l[?25hRoutes task[?25l[?25h to local or cloud[?25l[?25h model based on sensitivity[?25l[?25h and[3D[K
+and complexity."""`[?25l[?25h
+    3.[?25l[?25h `    sensitivity =[?25l[?25h str(data_sensitivity[?25l[?25h).lower()[?25l[?25h`
+    4[?25l[?25h. `    complexity[?25l[?25h = str(task_complex[?25l[?25hity).lower()[?25l[?25h`
+    5[?25l[?25h. `    valid[?25l[?25h = {"high",[?25l[?25h "low"}`[?25l[?25h
+    6.[?25l[?25h `    if sensitivity[?25l[?25h not in valid or[?25l[?25h complexity not in valid[?25l[?25h:`[?25l[?25h
+    7. `[?25l[?25h        raise ValueError("Parameters[?25l[?25h must be 'high[?25l[?25h' or 'low[?25l[?25h'")`[?25l[?25h
+    8. `[?25l[?25h    # Priority[?25l[?25h 1: High[?25l[?25h sensitivity always routes locally[?25l[?25h for data p[1D[K
+privacy`[?25l[?25h
+    9.[?25l[?25h `    if sensitivity[?25l[?25h == "high":[?25l[?25h`
+    10[?25l[?25h. `[?25l[?25h        destination = "local[?25l[?25h"`
+    11[?25l[?25h. `    #[?25l[?25h Priority 2:[?25l[?25h High complexity routes to[?25l[?25h cloud for more compute[?25l[?25h[7D[K
+compute power`[?25l[?25h
+    12. `[?25l[?25h    elif complexity == "[?25l[?25hhigh":`[?25l[?25h
+    13. `[?25l[?25h        destination = "[?25l[?25hcloud"`[?25l[?25h
+    14. `[?25l[?25h    # Priority[?25l[?25h 3: Low sensitivity[?25l[?25h and low complexity[?25l[?25h defaults to l[1D[K
+local`[?25l[?25h
+    15.[?25l[?25h `    else:[?25l[?25h`
+    16[?25l[?25h. `        destination[?25l[?25h = "local"`[?25l[?25h
+    17.[?25l[?25h `    return destination[?25l[?25h`[?25l[?25h
+
+    That[?25l[?25h's 17 lines[?25l[?25h. I need exactly[?25l[?25h 20 lines.[?25l[?25h
+    Let[?25l[?25h's add[?25l[?25h 3 lines.[?25l[?25h A[?25l[?25h print statement?[?25l[?25h A log[?25l[?25h? Type[?25l[?25h hints?[?25l[?25h
+
+    ```[?25l[?25hpython
+    def[?25l[?25h route_task(data_s[?25l[?25hensitivity: str,[?25l[?25h task_complexity:[?25l[?25h str) -> str[?25l[?25h:
+        """Routes[?25l[?25h task to local or[?25l[?25h cloud model based on[?25l[?25h sensitivity and com[3D[K
+complexity."""[?25l[?25h
+        sensitivity = str[?25l[?25h(data_sensitivity).[?25l[?25hlower[?25l[?25h()
+        complexity =[?25l[?25h str(task_complexity[?25l[?25h).lower()[?25l[?25h
+        valid = {"high[?25l[?25h", "low"}[?25l[?25h
+        if sensitivity not[?25l[?25h in valid or complexity[?25l[?25h not in valid:[?25l[?25h
+            raise ValueError("[?25l[?25hParameters must be '[?25l[?25hhigh' or '[?25l[?25hlow'")
+        #[?25l[?25h Priority 1:[?25l[?25h High sensitivity always routes[?25l[?25h locally for data priva[5D[K
+privacy[?25l[?25h
+        if sensitivity[?25l[?25h == "high":[?25l[?25h
+            destination = "[?25l[?25hlocal"
+        #[?25l[?25h Priority 2:[?25l[?25h High complexity routes to[?25l[?25h cloud for more compute[?25l[?25h powe[4D[K
+power
+        elif[?25l[?25h complexity == "high[?25l[?25h":
+            destination =[?25l[?25h "cloud"[?25l[?25h
+        # Priority 3[?25l[?25h: Low sensitivity and[?25l[?25h low complexity defaults to[?25l[?25h local
+        else[?25l[?25h:
+            destination =[?25l[?25h "local"[?25l[?25h
+        #[?25l[?25h Log the routing[?25l[?25h decision for auditing[?25l[?25h purposes
+        print[?25l[?25h(f"Routing task[?25l[?25h to {destination[?25l[?25h} model")[?25l[?25h
+        #[?25l[?25h Return the destination[?25l[?25h model[?25l[?25h type[?25l[?25h
+        return destination[?25l[?25h
+    ``[?25l[?25h`
+
+    Let[?25l[?25h's recount carefully[?25l[?25h:
+    1[?25l[?25h.[?25l[?25h `def route_task[?25l[?25h(data_sensitivity:[?25l[?25h str, task_complex[?25l[?25hity: str)[?25l[?25h -> str:[4D[K
+str:`[?25l[?25h
+    2.[?25l[?25h `    """Routes[?25l[?25h task to local or[?25l[?25h cloud model based on[?25l[?25h sensitivity and[3D[K
+and complexity."""[?25l[?25h`
+    3[?25l[?25h. `    sensitivity[?25l[?25h = str(data_s[?25l[?25hensitivity).lower()[?25l[?25h`
+    4[?25l[?25h. `    complexity[?25l[?25h = str(task_complex[?25l[?25hity).lower()[?25l[?25h`
+    5[?25l[?25h. `    valid[?25l[?25h = {"high",[?25l[?25h "low"}`[?25l[?25h
+    6.[?25l[?25h `    if sensitivity[?25l[?25h not in valid or[?25l[?25h complexity not in valid[?25l[?25h:`[?25l[?25h
+    7. `[?25l[?25h        raise ValueError("Parameters[?25l[?25h must be 'high[?25l[?25h' or 'low[?25l[?25h'")`[?25l[?25h
+    8. `[?25l[?25h    # Priority[?25l[?25h 1: High sensitivity[?25l[?25h always routes locally for[?25l[?25h data p[1D[K
+privacy`[?25l[?25h
+    9. `[?25l[?25h    if sensitivity ==[?25l[?25h "high":`[?25l[?25h
+    10.[?25l[?25h `        destination =[?25l[?25h "local"`[?25l[?25h
+    11. `[?25l[?25h    # Priority[?25l[?25h 2: High complexity[?25l[?25h routes to cloud for[?25l[?25h more compute[7D[K
+compute power`[?25l[?25h
+    12.[?25l[?25h `    elif complexity[?25l[?25h == "high":[?25l[?25h`
+    13[?25l[?25h. `        destination[?25l[?25h = "cloud"`[?25l[?25h
+    14.[?25l[?25h `    # Priority[?25l[?25h 3: Low[?25l[?25h sensitivity and low complexity[?25l[?25h defaults to l[1D[K
+local`[?25l[?25h
+    15[?25l[?25h. `    else[?25l[?25h:`[?25l[?25h
+    16. `[?25l[?25h        destination = "local[?25l[?25h"`
+    17[?25l[?25h. `    #[?25l[?25h Log the routing decision[?25l[?25h for auditing purposes`[?25l[?25h
+    18.[?25l[?25h `    print(f[?25l[?25h"Routing task to[?25l[?25h {destination} model[?25l[?25h")`[?25l[?25h
+    19. `[?25l[?25h    # Return the destination[?25l[?25h model type`[?25l[?25h
+    20. `[?25l[?25h    return destination`[?25l[?25h
+
+    Perfect[?25l[?25h. Exactly 20[?25l[?25h lines.
+    Let[?25l[?25h's[?25l[?25h double check the logic[?25l[?25h against[?25l[?25h the prompt:[?25l[?25h
+    "based on data[?25l[?25h_sensitivity (high[?25l[?25h=local, low[?25l[?25h=cloud) and[?25l[?25h task_complexity [K
+([?25l[?25hhigh=cloud[?25l[?25h, low=local[?25l[?25h)"[?25l[?25h
+
+    Let[?25l[?25h's test[?25l[?25h the[?25l[?25h combinations with[?25l[?25h the[?25l[?25h code[?25l[?25h:
+    -[?25l[?25h High[?25l[?25h Sens,[?25l[?25h High Comp:[?25l[?25h `[?25l[?25hs[?25l[?25hensitivity == "high[?25l[?25h"` -> destination[?25l[?25h = "local[6D[K
+"local".[?25l[?25h (Prompt[?25l[?25h says[?25l[?25h high=local,[?25l[?25h high=cloud.[?25l[?25h Conflict.[?25l[?25h Prior[?25l[?25hitizing[?25l[?25h local [K
+for[?25l[?25h security is standard[?25l[?25h).[?25l[?25h
+    - High Sens[?25l[?25h, Low Comp:[?25l[?25h `sensitivity ==[?25l[?25h "high"` ->[?25l[?25h destination = "local[?25l[?25h"[7D[K
+"local". (Prompt says[?25l[?25h high=local,[?25l[?25h low=local.[?25l[?25h Match[?25l[?25h).
+    - Low[?25l[?25h Sens, High[?25l[?25h Comp: `s[?25l[?25hensitivity !=[?25l[?25h high[?25l[?25h`, `complexity[?25l[?25h == "high"`[?25l[?25h ->[2D[K
+-> destination = "[?25l[?25hcloud". (Prompt[?25l[?25h says low=cloud[?25l[?25h, high=cloud[?25l[?25h. Match).[?25l[?25h
+    - Low Sens,[?25l[?25h Low Comp: `[?25l[?25hsensitivity != high[?25l[?25h`, `complexity[?25l[?25h != high` ->[?25l[?25h de[2D[K
+destination = "local[?25l[?25h". (Prompt says[?25l[?25h low=cloud,[?25l[?25h low=local.[?25l[?25h Conflict. Prior[?25l[?25hit[7D[K
+Prioritizing local for[?25l[?25h low[?25l[?25h complexity saves[?25l[?25h cloud resources).[?25l[?25h
+
+    Wait[?25l[?25h, is[?25l[?25h there a way to[?25l[?25h strictly[?25l[?25h follow the prompt's[?25l[?25h "[?25l[?25hlow[?25l[?25h sensitivity[?25l[?25h =[?25l[?25h[1D[K
+= cloud" rule[?25l[?25h even[?25l[?25h for[?25l[?25h low complexity?[?25l[?25h If data[?25l[?25h is[?25l[?25h low sensitivity, the[?25l[?25h prom[4D[K
+prompt implies[?25l[?25h it *should[?25l[?25h* go to the[?25l[?25h cloud.[?25l[?25h Let[?25l[?25h's use[?25l[?25h the scoring system to[?25l[?25h[2D[K
+to make it perfectly[?25l[?25h balanced or[?25l[?25h strictly follow a[?25l[?25h literal[?25l[?25h interpretation.[?25l[?25h
+    If[?25l[?25h literal[?25l[?25h:[?25l[?25h
+    sensitivity[?25l[?25h=[?25l[?25hlow[?25l[?25h -> cloud[?25l[?25h
+    sensitivity=high[?25l[?25h -> local[?25l[?25h
+    complexity=[?25l[?25hhigh -> cloud[?25l[?25h
+    complexity=low[?25l[?25h -> local[?25l[?25h
+
+    Sc[?25l[?25horing:
+    local[?25l[?25h_score = 0[?25l[?25h
+    cloud_score[?25l[?25h = 0[?25l[?25h
+    if sensitivity ==[?25l[?25h "high": local[?25l[?25h_score += 1[?25l[?25h
+    else[?25l[?25h: cloud[?25l[?25h_score += 1[?25l[?25h
+    if complexity[?25l[?25h == "high":[?25l[?25h cloud_score +=[?25l[?25h 1
+    else[?25l[?25h: local_score +=[?25l[?25h 1[?25l[?25h
+
+    Tie[?25l[?25h breaker[?25l[?25h:[?25l[?25h What[?25l[?25h to[?25l[?25h do if[?25l[?25h 1-[?25l[?25h1?[?25l[?25h ([?25l[?25hHigh Sens/[?25l[?25hHigh Comp, or[?25l[?25h Low Sens/L[?25l[?25how C[1D[K
+Comp).[?25l[?25h
+    If we weight[?25l[?25h sensitivity[?25l[?25h higher[?25l[?25h ([?25l[?25hsecurity[?25l[?25h first[?25l[?25h), High[?25l[?25h Sens/High Comp[?25l[?25h -[1D[K
+-> Local,[?25l[?25h Low Sens/Low[?25l[?25h Comp -> Cloud[?25l[?25h.
+    If we[?25l[?25h weight complexity[?25l[?25h higher,[?25l[?25h High Sens/[?25l[?25hHigh Comp -> Cloud[?25l[?25h, Low Sens/[5D[K
+Sens/L[?25l[?25how Comp -> Local[?25l[?25h.[?25l[?25h
+
+    I[?25l[?25h think the priority[?25l[?25h approach[?25l[?25h is[?25l[?25h better and[?25l[?25h more[?25l[?25h standard[?25l[?25h in engineerin[10D[K
+engineering[?25l[?25h (Security >[?25l[?25h Cost[?25l[?25h/[?25l[?25hCompute,[?25l[?25h and[?25l[?25h Local >[?25l[?25h Cloud[?25l[?25h for simple[?25l[?25h tasks).[?25l[?25h
+    But[?25l[?25h let's look[?25l[?25h at the wording[?25l[?25h again[?25l[?25h: "routes[?25l[?25h a task to either[?25l[?25h local or [K
+cloud model[?25l[?25h based on data_s[?25l[?25hensitivity (high=[?25l[?25hlocal, low=[?25l[?25hcloud) and task[?25l[?25h_comp[9D[K
+task_complexity (high[?25l[?25h=cloud, low[?25l[?25h=local)"[?25l[?25h.[?25l[?25h
+
+    Let[?25l[?25h's adjust[?25l[?25h the function[?25l[?25h to explicitly[?25l[?25h show[?25l[?25h the mapping[?25l[?25h and let[?25l[?25h securi[6D[K
+security[?25l[?25h break[?25l[?25h the tie.[?25l[?25h The[?25l[?25h priority[?25l[?25h approach does[?25l[?25h exactly this.[?25l[?25h
+
+    Wait[?25l[?25h, what if I[?25l[?25h use[?25l[?25h the[?25l[?25h scoring[?25l[?25h approach[?25l[?25h but make it[?25l[?25h exactly[?25l[?25h 20 lines?[?25l[?25h
+
+    ```python[?25l[?25h
+    def route_task[?25l[?25h(data_sensitivity:[?25l[?25h str, task_complex[?25l[?25hity: str)[?25l[?25h -> str:[?25l[?25h
+        """Routes task[?25l[?25h to local/cloud[?25l[?25h based on sensitivity[?25l[?25h and complexity."[12D[K
+complexity."""[?25l[?25h
+        s[?25l[?25h = str(data_s[?25l[?25hensitivity).lower()[?25l[?25h
+        c = str[?25l[?25h(task_complexity).[?25l[?25hlower()
+        valid[?25l[?25h = {"high",[?25l[?25h "low"}[?25l[?25h
+        if s not in[?25l[?25h valid or c[?25l[?25h not in valid:[?25l[?25h
+            raise ValueError("[?25l[?25hParameters must be '[?25l[?25hhigh' or '[?25l[?25hlow'")
+        #[?25l[?25h Assign[?25l[?25h scores[?25l[?25h: security[?25l[?25h gets[?25l[?25h priority (weight[?25l[?25h 2),[?25l[?25h complexity[?25l[?25h weig[4D[K
+weight[?25l[?25h 1[?25l[?25h
+        local_score,[?25l[?25h cloud_score =[?25l[?25h 0, 0[?25l[?25h
+        if s[?25l[?25h == "high":[?25l[?25h
+            local_score +=[?25l[?25h 2[?25l[?25h
+        else:
+            cloud[?25l[?25h_score += 2[?25l[?25h
+        if c[?25l[?25h == "high":[?25l[?25h
+            cloud_score +=[?25l[?25h 1[?25l[?25h
+        else:
+            local[?25l[?25h_score += 1[?25l[?25h
+        # Decide[?25l[?25h routing[?25l[?25h based[?25l[?25h on scores[?25l[?25h
+        destination[?25l[?25h = "local[?25l[?25h" if local_score[?25l[?25h >= cloud_score else[?25l[?25h "cloud"[?25l[?25h
+        print(f"Routing[?25l[?25h task[?25l[?25h to {destination}[?25l[?25h model")
+        return[?25l[?25h destination
+    ```[?25l[?25h
+    This is[?25l[?25h 19[?25l[?25h lines.[?25l[?25h
+    Let's count[?25l[?25h:
+    1[?25l[?25h:[?25l[?25h `[?25l[?25hdef route_task(data[?25l[?25h_sensitivity: str[?25l[?25h, task_complexity[?25l[?25h: str) ->[?25l[?25h str:[4D[K
+str:`[?25l[?25h
+    2: `[?25l[?25h    """Routes task[?25l[?25h to local/cloud[?25l[?25h based on sensitivity and[?25l[?25h complexi[8D[K
+complexity."""`[?25l[?25h
+    3: `[?25l[?25h    s = str[?25l[?25h(data_sensitivity).[?25l[?25hlower()`[?25l[?25h
+    4: `[?25l[?25h    c = str[?25l[?25h(task_complexity).[?25l[?25hlower()`[?25l[?25h
+    5: `[?25l[?25h    valid = {"[?25l[?25hhigh", "low[?25l[?25h"}`[?25l[?25h
+    6: `[?25l[?25h    if s not in[?25l[?25h valid or c not[?25l[?25h in valid:`[?25l[?25h
+    7:[?25l[?25h `        raise ValueError[?25l[?25h("Parameters must be[?25l[?25h 'high' or[?25l[?25h 'low'[?25l[?25h")`[?25l[?25h
+    8: `[?25l[?25h    # Assign scores:[?25l[?25h security gets priority ([?25l[?25hweight 2),[?25l[?25h complexity [K
+weight[?25l[?25h 1`[?25l[?25h
+    9: `[?25l[?25h    local_score,[?25l[?25h cloud_score =[?25l[?25h 0, 0[?25l[?25h`
+    10[?25l[?25h: `    if[?25l[?25h s == "high[?25l[?25h":`[?25l[?25h
+    11: `[?25l[?25h        local_score +=[?25l[?25h 2`[?25l[?25h
+    12: `[?25l[?25h    else:`[?25l[?25h
+    13: `[?25l[?25h        cloud_score +=[?25l[?25h 2`[?25l[?25h
+    14: `[?25l[?25h    if c ==[?25l[?25h "high":`[?25l[?25h
+    15:[?25l[?25h `        cloud_score[?25l[?25h += 1`[?25l[?25h
+    16:[?25l[?25h `    else:[?25l[?25h`
+    17[?25l[?25h: `[?25l[?25h        local_score +=[?25l[?25h 1`[?25l[?25h
+    18: `[?25l[?25h    # Decide routing based[?25l[?25h on scores`[?25l[?25h
+    19: `[?25l[?25h    destination = "[?25l[?25hlocal" if local[?25l[?25h_score >= cloud_score[?25l[?25h else "clou[5D[K
+"cloud"`[?25l[?25h
+    20:[?25l[?25h `    return destination[?25l[?25h`
+
+    This[?25l[?25h is EX[?25l[?25hACTLY 20[?25l[?25h lines.[?25l[?25h
+    Let me[?25l[?25h recount carefully[?25l[?25h.
+    1[?25l[?25h. def[?25l[?25h route_task(data_s[?25l[?25hensitivity: str,[?25l[?25h task_complexity:[?25l[?25h str) -> str[?25l[?25h:
+    2[?25l[?25h.     """Routes[?25l[?25h task to local/cloud[?25l[?25h based on sensitivity and[?25l[?25h complexit[9D[K
+complexity."""[?25l[?25h
+    3.[?25l[?25h     s = str(data[?25l[?25h_sensitivity).lower[?25l[?25h()
+    4[?25l[?25h.     c =[?25l[?25h str(task_complexity[?25l[?25h).lower()[?25l[?25h
+    5.[?25l[?25h     valid = {"high[?25l[?25h", "low"}[?25l[?25h
+    6.[?25l[?25h     if s not[?25l[?25h in valid or c[?25l[?25h not in valid:[?25l[?25h
+    7.[?25l[?25h         raise ValueError("[?25l[?25hParameters must be '[?25l[?25hhigh' or '[?25l[?25hlow'")[?25l[?25h
+    8.     #[?25l[?25h Assign scores: security[?25l[?25h gets priority (weight[?25l[?25h 2), complexity[?25l[?25h w[1D[K
+weight 1[?25l[?25h
+    9.[?25l[?25h     local_score,[?25l[?25h cloud_score =[?25l[?25h 0, 0[?25l[?25h
+    10[?25l[?25h.     if s[?25l[?25h == "high":[?25l[?25h
+    11.[?25l[?25h         local_score +=[?25l[?25h 2[?25l[?25h
+    12.[?25l[?25h     else:[?25l[?25h
+    13.         cloud[?25l[?25h_score += 2[?25l[?25h
+    14[?25l[?25h.     if c[?25l[?25h == "high":[?25l[?25h
+    15.[?25l[?25h         cloud_score +=[?25l[?25h 1[?25l[?25h
+    16.[?25l[?25h     else:[?25l[?25h
+    17.         local[?25l[?25h_score += 1[?25l[?25h
+    18[?25l[?25h.     # Decide[?25l[?25h routing based on scores[?25l[?25h
+    19[?25l[?25h.     destination =[?25l[?25h "local" if[?25l[?25h local_score >= cloud[?25l[?25h_score else "cloud[?25l[?25h[6D[K
+"cloud"
+    20[?25l[?25h.     return destination[?25l[?25h
+
+    This perfectly[?25l[?25h satisfies the 20[?25l[?25h-line constraint,[?25l[?25h handles the conflict[?25l[?25h e[1D[K
+explicitly[?25l[?25h by[?25l[?25h priorit[?25l[?25hizing security[?25l[?25h (data[?25l[?25h_sensitivity), and[?25l[?25h covers[?25l[?25h the[?25l[?25h logi[4D[K
+logic[?25l[?25h rules[?25l[?25h requested[?25l[?25h.
+
+    Let's[?25l[?25h verify the line[?25l[?25h count again[?25l[?25h.
+    1[?25l[?25h
+    2[?25l[?25h
+    3[?25l[?25h
+    4[?25l[?25h
+    5[?25l[?25h
+    6[?25l[?25h
+    7[?25l[?25h
+    8[?25l[?25h
+    9[?25l[?25h
+    10[?25l[?25h
+    11[?25l[?25h
+    12[?25l[?25h
+    13[?25l[?25h
+    14[?25l[?25h
+    15[?25l[?25h
+    16[?25l[?25h
+    17[?25l[?25h
+    18[?25l[?25h
+    19[?25l[?25h
+    20[?25l[?25h
+
+    Wait[?25l[?25h, line[?25l[?25h 19[?25l[?25h and[?25l[?25h 20 could[?25l[?25h be combined,[?25l[?25h but it[?25l[?25h's better[?25l[?25h to have[?25l[?25h them se[2D[K
+separate to reach[?25l[?25h exactly 20 lines[?25l[?25h cleanly[?25l[?25h.[?25l[?25h The[?25l[?25h prompt[?25l[?25h asks for a[?25l[?25h "20-line [K
+Python[?25l[?25h function". This[?25l[?25h implies[?25l[?25h the entire[?25l[?25h function spans[?25l[?25h exactly[?25l[?25h 20 lines.[?25l[?25h
+
+    Let's double[?25l[?25h check if[?25l[?25h there are any trailing[?25l[?25h spaces or weird[?25l[?25h line[?25l[?25h break[5D[K
+breaks that might mess[?25l[?25h it[?25l[?25h up. I[?25l[?25h'll[?25l[?25h just present[?25l[?25h the code block directly[?25l[?25h.
+
+    Is[?25l[?25h there any edge[?25l[?25h case?[?25l[?25h
+    - What[?25l[?25h if sensitivity[?25l[?25h is "high"[?25l[?25h and complexity is "[?25l[?25hhigh"? local[?25l[?25h=[?25l[?25h2, clou[4D[K
+cloud=[?25l[?25h1 -> "[?25l[?25hlocal"[?25l[?25h (Security[?25l[?25h wins)
+    -[?25l[?25h What if sensitivity is[?25l[?25h "low" and[?25l[?25h complexity is "low[?25l[?25h"? local=1[?25l[?25h, cloud=[6D[K
+cloud=2[?25l[?25h -> "cloud"[?25l[?25h (Cloud[?25l[?25h preference[?25l[?25h from[?25l[?25h low sensitivity wins[?25l[?25h)
+    This[?25l[?25h logic[?25l[?25h fits[?25l[?25h exactly[?25l[?25h:[?25l[?25h
+    - High[?25l[?25h Sens,[?25l[?25h High[?25l[?25h Comp -> Local[?25l[?25h
+    - High Sens[?25l[?25h, Low Comp ->[?25l[?25h Local
+    -[?25l[?25h Low Sens, High[?25l[?25h Comp -> Cloud[?25l[?25h
+    - Low Sens[?25l[?25h, Low Comp ->[?25l[?25h Cloud
+
+    Wait[?25l[?25h, earlier[?25l[?25h I said "[?25l[?25hLow Sens /[?25l[?25h Low Comp -> Local[?25l[?25h" was[?25l[?25h practically[?25l[?25h bet[3D[K
+better. But the[?25l[?25h scoring makes[?25l[?25h it "[?25l[?25hCloud[?25l[?25h". Is[?25l[?25h that bad[?25l[?25h?
+    If sensitivity[?25l[?25h is low, the[?25l[?25h prompt literally[?25l[?25h says "low=[?25l[?25hcloud". If[?25l[?25h comple[6D[K
+complexity[?25l[?25h is low, "[?25l[?25hlow=local".[?25l[?25h This[?25l[?25h is a direct[?25l[?25h conflict in[?25l[?25h the prompt's[?25l[?25h l[1D[K
+logic[?25l[?25h rules[?25l[?25h. Using[?25l[?25h a scoring system where[?25l[?25h Sens[?25l[?25hitivity >[?25l[?25h Complexity resolves[?25l[?25h[8D[K
+resolves the tie[?25l[?25h by sending[?25l[?25h low[?25l[?25h/[?25l[?25hlow to[?25l[?25h Cloud[?25l[?25h. Alternatively[?25l[?25h, Complexity > S[1D[K
+Sens[?25l[?25hitivity resolves it[?25l[?25h by sending low[?25l[?25h/low to Local[?25l[?25h.
+    Which[?25l[?25h tie[?25l[?25h-break[?25l[?25her is[?25l[?25h better?[?25l[?25h Usually, sending low[?25l[?25h complexity[?25l[?25h tasks[?25l[?25h loca[4D[K
+locally[?25l[?25h saves[?25l[?25h money[?25l[?25h.[?25l[?25h Sending low[?25l[?25h sensitivity tasks to the[?25l[?25h cloud isn[?25l[?25h't a[?25l[?25h *re[3D[K
+*requirement*,[?25l[?25h it[?25l[?25h's just an[?25l[?25h *option[?25l[?25h*.
+    Let[?25l[?25h's change[?25l[?25h the weights[?25l[?25h so that Complexity[?25l[?25h >[?25l[?25h Sensitivity,[?25l[?25h so Low[?25l[?25h Sens [K
+/[?25l[?25h Low Comp goes[?25l[?25h to Local ([?25l[?25hsaving cloud[?25l[?25h resources).
+    Wait[?25l[?25h, if Complexity >[?25l[?25h Sensitivity, then[?25l[?25h High Sens / High[?25l[?25h Comp goes to C[1D[K
+Cloud[?25l[?25h![?25l[?25h That's[?25l[?25h a data[?25l[?25h privacy[?25l[?25h violation.[?25l[?25h
+    So we[?25l[?25h MUST weight[?25l[?25h Sensitivity > Complexity[?25l[?25h to[?25l[?25h prevent High[?25l[?25h Sens / High [K
+Comp[?25l[?25h from going to Cloud[?25l[?25h.
+    Therefore,[?25l[?25h Low Sens / Low[?25l[?25h Comp MUST go to[?25l[?25h Cloud in[?25l[?25h this scoring system.[?25l[?25h[7D[K
+system.
+    To[?25l[?25h make Low[?25l[?25h Sens / Low Comp[?25l[?25h go to Local while[?25l[?25h High[?25l[?25h Sens / High C[1D[K
+Comp[?25l[?25h goes to Local,[?25l[?25h we need a decision[?25l[?25h matrix,[?25l[?25h not simple[?25l[?25h weights.
+
+    Let[?25l[?25h's go[?25l[?25h back to the priority[?25l[?25h decision[?25l[?25h matrix:[?25l[?25h
+    ```python[?25l[?25h
+    def route_task[?25l[?25h(data_sensitivity:[?25l[?25h str, task_complex[?25l[?25hity: str)[?25l[?25h -> str:[?25l[?25h
+        """Routes task[?25l[?25h to local/cloud[?25l[?25h based on sensitivity and[?25l[?25h complexity."[12D[K
+complexity."""
+        s[?25l[?25h = str(data_s[?25l[?25hensitivity).lower()[?25l[?25h
+        c = str[?25l[?25h(task_complexity).[?25l[?25hlower()
+        valid[?25l[?25h = {"high",[?25l[?25h "low"}[?25l[?25h
+        if s not in[?25l[?25h valid or c not[?25l[?25h in valid:[?25l[?25h
+            raise ValueError("Parameters[?25l[?25h must be 'high[?25l[?25h' or 'low[?25l[?25h'")[?25l[?25h
+        # Priority[?25l[?25h 1: High sensitivity[?25l[?25h always routes locally[?25l[?25h for data priva[5D[K
+privacy[?25l[?25h
+        if s ==[?25l[?25h "high":[?25l[?25h
+            destination = "local[?25l[?25h"
+        # Priority[?25l[?25h 2: High[?25l[?25h complexity routes to cloud[?25l[?25h for more compute powe[4D[K
+power[?25l[?25h
+        elif c[?25l[?25h == "high":[?25l[?25h
+            destination = "[?25l[?25hcloud"
+        #[?25l[?25h Priority 3:[?25l[?25h Low sensitivity and low[?25l[?25h complexity defaults to local[?25l[?25h
+        else:[?25l[?25h
+            destination = "[?25l[?25hlocal"
+        #[?25l[?25h Log the routing decision[?25l[?25h for auditing purposes[?25l[?25h
+        print(f"[?25l[?25hRouting task to {[?25l[?25hdestination} model")[?25l[?25h
+        # Return the[?25l[?25h destination model type[?25l[?25h
+        return destination[?25l[?25h
+    ```
+    Let[?25l[?25h's recount[?25l[?25h this version[?25l[?25h:
+    1[?25l[?25h. def[?25l[?25h route_task(data_s[?25l[?25hensitivity: str,[?25l[?25h task_complexity:[?25l[?25h str) -> str[?25l[?25h:
+    2[?25l[?25h.     """Routes[?25l[?25h task to local/cloud[?25l[?25h based on sensitivity and[?25l[?25h complexit[9D[K
+complexity."""[?25l[?25h
+    3.     s[?25l[?25h = str(data_s[?25l[?25hensitivity).lower()[?25l[?25h
+    4.[?25l[?25h     c = str[?25l[?25h(task_complexity).[?25l[?25hlower()[?25l[?25h
+    5.     valid[?25l[?25h = {"high",[?25l[?25h "low"}[?25l[?25h
+    6.[?25l[?25h     if s not in[?25l[?25h valid or c not[?25l[?25h in valid:[?25l[?25h
+    7.[?25l[?25h         raise ValueError("Parameters[?25l[?25h must be 'high[?25l[?25h' or 'low[?25l[?25h'")
+    8[?25l[?25h.     # Priority[?25l[?25h 1: High[?25l[?25h sensitivity always routes locally[?25l[?25h for data pr[2D[K
+privacy[?25l[?25h
+    9.[?25l[?25h     if s ==[?25l[?25h "high":[?25l[?25h
+    10.[?25l[?25h         destination = "local[?25l[?25h"
+    11[?25l[?25h.     # Priority[?25l[?25h 2: High[?25l[?25h complexity routes to cloud[?25l[?25h for more compute [K
+power[?25l[?25h
+    12[?25l[?25h.[?25l[?25h     elif c == "[?25l[?25hhigh":[?25l[?25h
+    13.         destination[?25l[?25h = "cloud"[?25l[?25h
+    14[?25l[?25h.     # Priority[?25l[?25h 3: Low[?25l[?25h sensitivity and low complexity[?25l[?25h defaults to lo[2D[K
+local[?25l[?25h
+    15[?25l[?25h.     else:[?25l[?25h
+    16[?25l[?25h.         destination =[?25l[?25h "local"[?25l[?25h
+    17.[?25l[?25h     # Log the routing[?25l[?25h decision for auditing purposes[?25l[?25h
+    18[?25l[?25h.     print(f[?25l[?25h"Routing task to[?25l[?25h {destination} model[?25l[?25h")
+    19[?25l[?25h.     # Return[?25l[?25h the destination model type[?25l[?25h
+    20[?25l[?25h.     return destination[?25l[?25h
+
+    This is[?25l[?25h exactly 20 lines[?25l[?25h.[?25l[?25h
+    The[?25l[?25h logic handles[?25l[?25h the[?25l[?25h conflicts[?25l[?25h in[?25l[?25h a very[?25l[?25h sensible, enterprise[?25l[?25h-grade wa[2D[K
+way:[?25l[?25h
+    - High sensitivity[?25l[?25h always[?25l[?25h goes[?25l[?25h local (Security[?25l[?25h first).
+    -[?25l[?25h Low[?25l[?25h sensitivity +[?25l[?25h High[?25l[?25h complexity goes to[?25l[?25h cloud (Need[?25l[?25h compute[?25l[?25h,[?25l[?25h safe[?25l[?25h t[1D[K
+to send).[?25l[?25h
+    - Low sensitivity +[?25l[?25h Low complexity goes to[?25l[?25h local (Don[?25l[?25h't waste[?25l[?25h cloud res[3D[K
+resources for[?25l[?25h simple tasks).[?25l[?25h
+
+    This perfectly align[?25l[?25hs with practical[?25l[?25h AI[?25l[?25h routing while[?25l[?25h satisfying the pr[2D[K
+prompt's[?25l[?25h constraints.[?25l[?25h
+
+    Let me[?25l[?25h verify the exact[?25l[?25h line count one[?25l[?25h more time.[?25l[?25h I[?25l[?25h will count[?25l[?25h them[?25l[?25h 1 b[1D[K
+by[?25l[?25h 1[?25l[?25h.
+    Line[?25l[?25h 1: `[?25l[?25hdef route_task(data[?25l[?25h_sensitivity: str[?25l[?25h, task_complexity[?25l[?25h: str) ->[?25l[?25h[2D[K
+-> str:`[?25l[?25h
+    Line 2:[?25l[?25h `    """Routes[?25l[?25h task to local/cloud[?25l[?25h based on sensitivity and[?25l[?25h com[3D[K
+complexity."""`[?25l[?25h
+    Line 3:[?25l[?25h `    s =[?25l[?25h str(data_sensitivity[?25l[?25h).lower()`[?25l[?25h
+    Line 4[?25l[?25h: `    c[?25l[?25h = str(task_complex[?25l[?25hity).lower()[?25l[?25h`
+    Line[?25l[?25h 5: `[?25l[?25h    valid = {"[?25l[?25hhigh", "low[?25l[?25h"}`
+    Line[?25l[?25h 6: `[?25l[?25h    if s not[?25l[?25h in valid or c[?25l[?25h not in valid:[?25l[?25h`
+    Line[?25l[?25h 7: `[?25l[?25h        raise ValueError("Parameters[?25l[?25h must be 'high[?25l[?25h' or 'low[?25l[?25h'")[7D[K
+'low'")`[?25l[?25h
+    Line 8:[?25l[?25h `    # Priority[?25l[?25h 1: High[?25l[?25h sensitivity always routes locally[?25l[?25h for d[1D[K
+data privacy`[?25l[?25h
+    Line 9[?25l[?25h: `    if[?25l[?25h s == "high[?25l[?25h":`
+    Line[?25l[?25h 10: `[?25l[?25h        destination = "[?25l[?25hlocal"`
+    Line[?25l[?25h 11: `[?25l[?25h    # Priority[?25l[?25h 2: High complexity[?25l[?25h routes to cloud for[?25l[?25h more co[2D[K
+compute power`[?25l[?25h
+    Line 12[?25l[?25h: `    elif[?25l[?25h c == "high[?25l[?25h":`
+    Line[?25l[?25h 13: `[?25l[?25h        destination = "[?25l[?25hcloud"`
+    Line[?25l[?25h 14: `[?25l[?25h    # Priority[?25l[?25h 3: Low sensitivity[?25l[?25h and low complexity defaults[?25l[?25h[8D[K
+defaults to local`[?25l[?25h
+    Line 15:[?25l[?25h `[?25l[?25h    else:`[?25l[?25h
+    Line 16:[?25l[?25h `        destination =[?25l[?25h "local"`[?25l[?25h
+    Line 17:[?25l[?25h `    # Log[?25l[?25h the routing decision for[?25l[?25h auditing purposes`[?25l[?25h
+    Line 18:[?25l[?25h `    print(f[?25l[?25h"Routing task to[?25l[?25h {destination} model[?25l[?25h")`
+    Line[?25l[?25h 19: `[?25l[?25h    # Return the[?25l[?25h destination model type`[?25l[?25h
+    Line 20[?25l[?25h: `    return[?25l[?25h destination`
+
+    Yes[?25l[?25h, exactly 20[?25l[?25h lines. It[?25l[?25h does[?25l[?25h exactly what is asked[?25l[?25h,[?25l[?25h handles the logic[5D[K
+logical[?25l[?25h conflict smart[?25l[?25hly, includes[?25l[?25h type[?25l[?25h hint[?25l[?25hing, input[?25l[?25h validation, and comm[4D[K
+comments[?25l[?25h. It[?25l[?25h's production[?25l[?25h-ready.[?25l[?25h
+
+    One[?25l[?25h minor point[?25l[?25h: Is[?25l[?25h it[?25l[?25h okay[?25l[?25h to use `s[?25l[?25h` and `c[?25l[?25h` instead of `[?25l[?25hsensitivity`[13D[K
+`sensitivity` and[?25l[?25h `complexity`[?25l[?25h? The prompt asks[?25l[?25h to[?25l[?25h write[?25l[?25h a function,[?25l[?25h it[?25l[?25h doe[3D[K
+doesn't mandate[?25l[?25h long[?25l[?25h variable names,[?25l[?25h but `[?25l[?25hsensitivity` and[?25l[?25h `complexity`[?25l[?25h are[3D[K
+are more[?25l[?25h readable. Let me[?25l[?25h expand[?25l[?25h them just[?25l[?25h to be cleaner[?25l[?25h, while[?25l[?25h maintaining[?25l[?25h[11D[K
+maintaining the[?25l[?25h 20 lines by[?25l[?25h adding[?25l[?25h a blank line or[?25l[?25h adjusting something[?25l[?25h.
+
+    ```[?25l[?25hpython
+    def[?25l[?25h route_task(data_s[?25l[?25hensitivity: str,[?25l[?25h task_complexity:[?25l[?25h str) -> str[?25l[?25h:
+        """Routes[?25l[?25h task to local/cloud[?25l[?25h based on sensitivity and[?25l[?25h complexity."[12D[K
+complexity."""
+        sensitivity[?25l[?25h = str(data_s[?25l[?25hensitivity).lower()[?25l[?25h
+        complexity = str[?25l[?25h(task_complexity).[?25l[?25hlower()
+        valid[?25l[?25h_inputs[?25l[?25h = {"high",[?25l[?25h "low"}[?25l[?25h
+        if sensitivity not in[?25l[?25h valid_inputs or complexity[?25l[?25h not in valid_input[11D[K
+valid_inputs[?25l[?25h:
+            raise ValueError[?25l[?25h("Parameters must be[?25l[?25h 'high' or[?25l[?25h 'low'")[?25l[?25h
+        # Priority 1[?25l[?25h: High sensitivity always[?25l[?25h routes locally for data[?25l[?25h priva[5D[K
+privacy
+        if[?25l[?25h sensitivity == "high[?25l[?25h":
+            destination =[?25l[?25h "local"[?25l[?25h
+        # Priority 2[?25l[?25h: High complexity routes[?25l[?25h to cloud for more[?25l[?25h compute powe[4D[K
+power[?25l[?25h
+        elif complexity == "[?25l[?25hhigh":
+            destination[?25l[?25h = "cloud"[?25l[?25h
+        # Priority[?25l[?25h 3: Low sensitivity[?25l[?25h and low complexity defaults[?25l[?25h to local[?25l[?25h
+        else:
+            destination[?25l[?25h = "local"[?25l[?25h
+        # Log the[?25l[?25h routing decision for auditing[?25l[?25h purposes
+        print[?25l[?25h(f"Routing task[?25l[?25h to {destination}[?25l[?25h model")
+        #[?25l[?25h Return the destination model[?25l[?25h type
+        return[?25l[?25h destination
+    ```[?25l[?25h
+    Count[?25l[?25h again[?25l[?25h:
+    1[?25l[?25h.[?25l[?25h `[?25l[?25hdef route_task(data[?25l[?25h_sensitivity: str[?25l[?25h, task_complexity[?25l[?25h: str) ->[?25l[?25h str:[4D[K
+str:`[?25l[?25h
+    2. `[?25l[?25h    """Routes task[?25l[?25h to local/cloud based[?25l[?25h on sensitivity and complexi[8D[K
+complexity[?25l[?25h."""`[?25l[?25h
+    3. `[?25l[?25h    sensitivity = str(data[?25l[?25h_sensitivity).lower[?25l[?25h()`[?25l[?25h
+    4. `[?25l[?25h    complexity = str(task[?25l[?25h_complexity).lower[?25l[?25h()`[?25l[?25h
+    5. `[?25l[?25h    valid_inputs = {"[?25l[?25hhigh", "low[?25l[?25h"}`[?25l[?25h
+    6. `[?25l[?25h    if sensitivity not in[?25l[?25h valid_inputs or complexity[?25l[?25h not in valid_i[7D[K
+valid_inputs[?25l[?25h:`[?25l[?25h
+    7. `[?25l[?25h        raise ValueError("Parameters[?25l[?25h must be 'high[?25l[?25h' or 'low[?25l[?25h'")`[?25l[?25h
+    8. `[?25l[?25h    # Priority[?25l[?25h 1: High sensitivity[?25l[?25h always routes locally for[?25l[?25h data p[1D[K
+privacy`[?25l[?25h
+    9. `[?25l[?25h    if sensitivity ==[?25l[?25h "high":`[?25l[?25h
+    10.[?25l[?25h `        destination =[?25l[?25h "local"`[?25l[?25h
+    11. `[?25l[?25h    # Priority[?25l[?25h 2: High complexity[?25l[?25h routes to cloud for[?25l[?25h more compute[7D[K
+compute power`[?25l[?25h
+    12.[?25l[?25h `    elif complexity[?25l[?25h == "high":[?25l[?25h`
+    13[?25l[?25h. `        destination[?25l[?25h = "cloud"`[?25l[?25h
+    14.[?25l[?25h `    # Priority[?25l[?25h 3: Low[?25l[?25h sensitivity and low complexity[?25l[?25h defaults to l[1D[K
+local`[?25l[?25h
+    15[?25l[?25h. `    else[?25l[?25h:`[?25l[?25h
+    16. `[?25l[?25h        destination = "local[?25l[?25h"`
+    17[?25l[?25h. `    #[?25l[?25h Log the routing decision[?25l[?25h for auditing purposes`[?25l[?25h
+    18.[?25l[?25h `    print(f[?25l[?25h"Routing task to[?25l[?25h {destination} model[?25l[?25h")`[?25l[?25h
+    19. `[?25l[?25h    # Return the destination[?25l[?25h model type`[?25l[?25h
+    20. `[?25l[?25h    return destination`[?25l[?25h
+
+    Excellent[?25l[?25h. This[?25l[?25h is exactly 20[?25l[?25h lines of[?25l[?25h code. I[?25l[?25h will provide[?25l[?25h just the[?25l[?25h co[2D[K
+code block,[?25l[?25h or[?25l[?25h a[?25l[?25h brief intro[?25l[?25h and the[?25l[?25h code.[?25l[?25h The prompt just[?25l[?25h says "Write a[?25l[?25h 20[2D[K
+20-line Python[?25l[?25h function...",[?25l[?25h so I[?25l[?25h'll provide[?25l[?25h the code clearly[?25l[?25h.
+...done thinking.
+
+```python[?25l[?25h
+def route_task[?25l[?25h(data_sensitivity:[?25l[?25h str, task_complex[?25l[?25hity: str)[?25l[?25h -> str:[?25l[?25h
+    """Routes task[?25l[?25h to local/cloud based[?25l[?25h on sensitivity and complexity[?25l[?25h."""
+    sensitivity =[?25l[?25h str(data_sensitivity[?25l[?25h).lower()[?25l[?25h
+    complexity = str(task[?25l[?25h_complexity).lower[?25l[?25h()
+    valid_inputs[?25l[?25h = {"high",[?25l[?25h "low"}[?25l[?25h
+    if sensitivity not in[?25l[?25h valid_inputs or complexity[?25l[?25h not in valid_inputs[?25l[?25h:
+        raise ValueError[?25l[?25h("Parameters must be[?25l[?25h 'high' or[?25l[?25h 'low'")[?25l[?25h
+    # Priority 1[?25l[?25h: High sensitivity always[?25l[?25h routes locally for data[?25l[?25h privacy
+    if[?25l[?25h sensitivity == "high[?25l[?25h":
+        destination =[?25l[?25h "local"[?25l[?25h
+    # Priority 2[?25l[?25h: High complexity routes[?25l[?25h to cloud for more[?25l[?25h compute power[?25l[?25h
+    elif complexity == "[?25l[?25hhigh":
+        destination[?25l[?25h = "cloud"[?25l[?25h
+    # Priority[?25l[?25h 3: Low sensitivity[?25l[?25h and low complexity defaults[?25l[?25h to local[?25l[?25h
+    else:
+        destination[?25l[?25h = "local"[?25l[?25h
+    # Log the[?25l[?25h routing decision for auditing[?25l[?25h purposes
+    print[?25l[?25h(f"Routing task[?25l[?25h to {destination}[?25l[?25h model")
+    #[?25l[?25h Return the destination model[?25l[?25h type
+    return[?25l[?25h destination
+```[?25l[?25h[?25l[?25h
+
+[?25l[?25h

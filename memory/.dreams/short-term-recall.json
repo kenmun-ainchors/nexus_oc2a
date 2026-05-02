@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "updatedAt": "2026-05-01T16:07:29.412Z",
+  "updatedAt": "2026-05-02T01:54:12.333Z",
   "entries": {
     "memory:memory/2026-04-26.md:94:122": {
       "key": "memory:memory/2026-04-26.md:94:122",
@@ -505,6 +505,100 @@
         "state/model-policy.json",
         "per-agent",
         "scripts/model-drift-check.sh"
+      ]
+    },
+    "memory:memory/2026-05-02.md:1:27": {
+      "key": "memory:memory/2026-05-02.md:1:27",
+      "path": "memory/2026-05-02.md",
+      "startLine": 1,
+      "endLine": 27,
+      "source": "memory",
+      "snippet": "# Daily Memory — 2026-05-02 _Flushed from Day 7 session (2026-05-01 evening). Carry-forward context for next session._ --- ## Session Summary — Day 7 Evening (2026-05-01 18:53–23:51 AEST) ### Key Decisions - **Ollama Cloud PoC:** Option A (Pro upgrade, $20/mo) approved for tomorrow. Option B (qwen3.5:cloud for background crons) implemented tonight as interim. - **qwen3.5 latency mitigation:** `think=False` tested + confirmed positive. Implemented in AKB cron (CHG-0111). Overnight test at 03:00 AEST. - **MEMORY.md truncation fixed:** `bootstrapMaxChars` raised 10k→20k (CHG-0107). MEMORY.md trimmed 12,870→10,225 chars. Auto-heal Check #14 added to guard all SOUL.md + MEMORY.md sizes going",
+      "recallCount": 1,
+      "dailyCount": 0,
+      "groundedCount": 0,
+      "totalScore": 0.4825169056653976,
+      "maxScore": 0.4825169056653976,
+      "firstRecalledAt": "2026-05-01T21:01:21.084Z",
+      "lastRecalledAt": "2026-05-01T21:01:21.084Z",
+      "queryHashes": [
+        "8f0bb5249b0a"
+      ],
+      "recallDays": [
+        "2026-05-02"
+      ],
+      "conceptTags": [
+        "carry-forward",
+        "20/mo",
+        "qwen3.5",
+        "chg-0111",
+        "memory.md",
+        "chg-0107",
+        "auto-heal",
+        "soul.md"
+      ]
+    },
+    "memory:memory/2026-05-02.md:20:52": {
+      "key": "memory:memory/2026-05-02.md:20:52",
+      "path": "memory/2026-05-02.md",
+      "startLine": 20,
+      "endLine": 52,
+      "source": "memory",
+      "snippet": "- CHG-0101: TRIGGER-04/06 release monitor cron (daily 06:00 AEST) - CHG-0102: CHG trigger state file + HEARTBEAT monitoring encoded - CHG-0107: bootstrapMaxChars 10k→20k - CHG-0108: auto-heal Check #14 — MEMORY.md + SOUL.md size guard - CHG-0110: Option B — qwen3.5:cloud routed to AKB cron (03:00 AEST) - CHG-0111: think=False implemented in AKB cron ### Ollama Cloud PoC Status - Sub-agent completed Phases 1–5 on free tier - Free tier CANNOT access kimi-k2.6, glm-5.1, deepseek — gated behind paid plan - qwen3.5:cloud tested: quality 3.8/5, latency 55.5s (thinking mode) → mitigated to ~2s with think=False - TRIGGER-05 state: `partial-pass-pending-pro-upgrade` - **Tomorrow:** Ken confirms Pro",
+      "recallCount": 2,
+      "dailyCount": 0,
+      "groundedCount": 0,
+      "totalScore": 1.1507494972013184,
+      "maxScore": 0.672890450146074,
+      "firstRecalledAt": "2026-05-01T21:01:21.084Z",
+      "lastRecalledAt": "2026-05-02T00:32:18.073Z",
+      "queryHashes": [
+        "8f0bb5249b0a",
+        "c9bda8b22cac"
+      ],
+      "recallDays": [
+        "2026-05-02"
+      ],
+      "conceptTags": [
+        "chg-0101",
+        "trigger-04/06",
+        "chg-0102",
+        "chg-0107",
+        "chg-0108",
+        "auto-heal",
+        "memory.md",
+        "soul.md"
+      ]
+    },
+    "memory:memory/2026-04-27.md:259:284": {
+      "key": "memory:memory/2026-04-27.md:259:284",
+      "path": "memory/2026-04-27.md",
+      "startLine": 259,
+      "endLine": 284,
+      "source": "memory",
+      "snippet": "### CHG-0026 — Governance Layer Created - Three cross-stream governance agents stood up to review all Aria external-facing output before execution: - **Shield 🔐** — Security agent (Sonnet). Checks for data exposure, auth risks, policy violations. - **Lex ⚖️** — Legal agent (Opus). Checks for contractual, regulatory, and liability issues. - **Sage 🧪** — QA agent (Sonnet). Checks for accuracy, completeness, and quality. - `Operations/GovernanceFramework.md` created — defines routing rules, escalation thresholds, veto authority. - `scripts/governance-review.sh` created — Aria calls this before any external delivery. - TKT-0012 covered this work. --- ## 11:25–12:16 AEST — Aria Rules, C",
+      "recallCount": 1,
+      "dailyCount": 0,
+      "groundedCount": 0,
+      "totalScore": 0.42916851341724394,
+      "maxScore": 0.42916851341724394,
+      "firstRecalledAt": "2026-05-02T01:54:12.333Z",
+      "lastRecalledAt": "2026-05-02T01:54:12.333Z",
+      "queryHashes": [
+        "25fe43764ea7"
+      ],
+      "recallDays": [
+        "2026-05-02"
+      ],
+      "conceptTags": [
+        "chg-0026",
+        "cross-stream",
+        "external-facing",
+        "scripts/governance-review.sh",
+        "tkt-0012",
+        "chg",
+        "governance",
+        "layer"
       ]
     }
   }

@@ -324,6 +324,35 @@ for SOUL in "$WORKSPACE/SOUL.md" \
   fi
 done
 
+# ---------- CHECK 15: Cron dead-letter cleanup ----------
+log "CHECK 15: cron dead-letter state"
+CHECKS_RUN+=("cron_dead_letter")
+DL_FILE="$STATE_DIR/cron-dead-letter.json"
+if [[ -f "$DL_FILE" ]]; then
+  # Any cron with failCount >= 5 and not recovered → needs-ken
+  CRITICAL=$(jq -r '[.[] | select(.failCount >= 5 and .status != "recovered")] | length' "$DL_FILE" 2>/dev/null || echo 0)
+  if (( CRITICAL > 0 )); then
+    CRITICAL_NAMES=$(jq -r '[.[] | select(.failCount >= 5 and .status != "recovered") | "\(.name) (\(.cronId)) fails=\(.failCount) lastErr=\(.lastError | .[0:80])"] | join("; ")' "$DL_FILE" 2>/dev/null || echo "unknown")
+    ISSUES_FOUND+=("cron-dead-letter:${CRITICAL}-critical")
+    NEEDS_KEN+=("$CRITICAL cron(s) dead-lettered with >= 5 failures — disable or fix before they burn more API calls: $CRITICAL_NAMES")
+    log "  ISSUE: $CRITICAL cron(s) with failCount >= 5 not recovered"
+  fi
+  # Auto-fix: remove entries with status=recovered
+  RECOVERED=$(jq '[.[] | select(.status == "recovered")] | length' "$DL_FILE" 2>/dev/null || echo 0)
+  if (( RECOVERED > 0 )); then
+    CLEANED=$(jq '[.[] | select(.status != "recovered")]' "$DL_FILE")
+    echo "$CLEANED" > "$DL_FILE"
+    AUTO_FIXED+=("cron-dead-letter-cleanup:removed-${RECOVERED}-recovered-entries")
+    log "  AUTO-FIX: removed $RECOVERED recovered entries from cron-dead-letter.json"
+  fi
+  if (( CRITICAL == 0 && RECOVERED == 0 )); then
+    TOTAL=$(jq 'length' "$DL_FILE" 2>/dev/null || echo 0)
+    log "  OK: $TOTAL dead-letter entries, none critical"
+  fi
+else
+  log "  OK: no cron-dead-letter.json (no dead-lettered crons)"
+fi
+
 # ---------- WRITE REPORT ----------
 log "=== WRITING REPORT ==="
 

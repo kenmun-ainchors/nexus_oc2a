@@ -1,0 +1,90 @@
+[?2026h[?25l[1G⠙ [K[?25h[?2026l[?2026h[?25l[1G⠹ [K[?25h[?2026l[?2026h[?25l[1G⠸ [K[?25h[?2026l[?2026h[?25l[1G⠼ [K[?25h[?2026l[?2026h[?25l[1G⠴ [K[?25h[?2026l[?2026h[?25l[1G⠦ [K[?25h[?2026l[?2026h[?25l[1G⠧ [K[?25h[?2026l[?2026h[?25l[1G⠇ [K[?25h[?2026l[?2026h[?25l[1G⠇ [K[?25h[?2026l[?2026h[?25l[1G⠋ [K[?25h[?2026l[?2026h[?25l[1G⠙ [K[?25h[?2026l[?2026h[?25l[1G⠹ [K[?25h[?2026l[?2026h[?25l[1G⠸ [K[?25h[?2026l[?2026h[?25l[1G⠸ [K[?25h[?2026l[?2026h[?25l[1G⠴ [K[?25h[?2026l[?2026h[?25l[1G⠦ [K[?25h[?2026l[?2026h[?25l[1G⠧ [K[?25h[?2026l[?2026h[?25l[1G⠇ [K[?25h[?2026l[?2026h[?25l[1G⠏ [K[?25h[?2026l[?2026h[?25l[1G⠋ [K[?25h[?2026l[?25l[?2026h[?25l[1G[K[?25h[?2026l[2K[1G[?25hThinking...
+1[?25l[?25h.  **An[?25l[?25halyze the Request:[?25l[?25h**
+    *[?25l[?25h   **Role:** AI[?25l[?25h ops agent.[?25l[?25h
+    *   **[?25l[?25hTopic:** Top[?25l[?25h 3 risks of running[?25l[?25h frontier LLMs[?25l[?25h on shared cloud inf[3D[K
+infrastructure[?25l[?25h for a small business[?25l[?25h.
+    *[?25l[?25h   **Constraint:** Be[?25l[?25h concise.
+
+2.[?25l[?25h  **Identify[?25l[?25h the Core[?25l[?25h Risks ([?25l[?25hBrain[?25l[?25hstorming):[?25l[?25h**
+    *[?25l[?25h   *Cost[?25l[?25h/[?25l[?25hFinancial[?25l[?25h:* Un[?25l[?25hpredictable token[?25l[?25h-based[?25l[?25h pricing, compute[?25l[?25h costs[?25l[?25h,[6D[K
+costs, e[?25l[?25hgress fees.[?25l[?25h Shared[?25l[?25h clouds[?25l[?25h can lead[?25l[?25h to bill[?25l[?25h shock.
+    *[?25l[?25h   *Security[?25l[?25h/Data Privacy:* Prompt[?25l[?25h injection[?25l[?25h, data leakage to[?25l[?25h the[?25l[?25h mode[4D[K
+model provider ([?25l[?25htraining[?25l[?25h), cross[?25l[?25h-tenant attacks[?25l[?25h (side[?25l[?25h-ch[?25l[?25hannels, though rare[?25l[?25h[4D[K
+rare,[?25l[?25h are[?25l[?25h a risk[?25l[?25h),[?25l[?25h compliance[?25l[?25h violations[?25l[?25h.
+    *[?25l[?25h   *Performance/Rel[?25l[?25hiability:* No[?25l[?25hisy neighbor[?25l[?25h problem (shared GPUs[?25l[?25h mean[?25l[?25h[4D[K
+mean throttling[?25l[?25h/[?25l[?25hlatency), rate[?25l[?25h limits, downtime[?25l[?25h.
+    *[?25l[?25h   *Vendor Lock-in[?25l[?25h/Control:* API[?25l[?25h changes, de[?25l[?25hprec[?25l[?25hations, terms[?25l[?25h of servi[5D[K
+service changes[?25l[?25h.
+
+3.[?25l[?25h  **Select the Top[?25l[?25h 3 Risks[?25l[?25h for a *[?25l[?25hSmall Business*:[?25l[?25h**
+    *[?25l[?25h   *Risk 1[?25l[?25h: Data Privacy[?25l[?25h & Security.* Small[?25l[?25h businesses often lack[?25l[?25h robu[4D[K
+robust[?25l[?25h data[?25l[?25h isolation[?25l[?25h strategies[?25l[?25h;[?25l[?25h putting proprietary[?25l[?25h/customer[?25l[?25h data on shar[4D[K
+shared[?25l[?25h infrastructure[?25l[?25h risks[?25l[?25h exposure[?25l[?25h ([?25l[?25heither[?25l[?25h to the provider or[?25l[?25h via[?25l[?25h breache[7D[K
+breaches[?25l[?25h).
+    *[?25l[?25h   *Risk 2[?25l[?25h: Un[?25l[?25hpredictable Costs.*[?25l[?25h Small businesses have[?25l[?25h tight budgets.[8D[K
+budgets. Token[?25l[?25h/com[?25l[?25hpute scaling[?25l[?25h can[?25l[?25h cause[?25l[?25h massive bill[?25l[?25h shock.[?25l[?25h No[?25l[?25hisy neighbor[8D[K
+neighbors can[?25l[?25h also drive[?25l[?25h up latency[?25l[?25h/c[?25l[?25hosts.[?25l[?25h
+    *   *Risk[?25l[?25h 3: Performance[?25l[?25h Vari[?25l[?25hability (Noisy[?25l[?25h Neighbor).* Shared[?25l[?25h infrastr[8D[K
+infrastructure means competing[?25l[?25h for GPU[?25l[?25h time[?25l[?25h. High[?25l[?25h latency or[?25l[?25h thrott[?25l[?25hling[?25l[?25h can[?25l[?25h[3D[K
+can break[?25l[?25h user[?25l[?25h-facing apps[?25l[?25h.
+
+4.[?25l[?25h  **Draft the Response[?25l[?25h (inc[?25l[?25horporating AI[?25l[?25h Ops perspective[?25l[?25h &[?25l[?25h conciseness):[?25l[?25h*[14D[K
+conciseness):**
+    *[?25l[?25h   *Draft[?25l[?25h 1:*[?25l[?25h
+        1.[?25l[?25h **[?25l[?25hData Leakage[?25l[?25h & Privacy[?25l[?25h:** Small businesses often[?25l[?25h process[?25l[?25h sensi[5D[K
+sensitive customer data.[?25l[?25h On shared infrastructure,[?25l[?25h there's a[?25l[?25h risk of cross[?25l[?25h-[6D[K
+cross-tenant data exposure[?25l[?25h or your[?25l[?25h data being used to[?25l[?25h train the provider's[?25l[?25h [K
+models, violating[?25l[?25h compliance ([?25l[?25hGDPR, etc[?25l[?25h.).[?25l[?25h
+        2. **Un[?25l[?25hpredictable Costs ([?25l[?25hBill[?25l[?25h Shock):** Frontier[?25l[?25h LLMs have[?25l[?25h high[?25l[?25h to[2D[K
+token and[?25l[?25h compute costs. Without[?25l[?25h strict guard[?25l[?25hrails, a[?25l[?25h sudden[?25l[?25h spike in usage[5D[K
+usage or[?25l[?25h a prompt[?25l[?25h injection attack can drain[?25l[?25h a small business's[?25l[?25h budget over[4D[K
+overnight[?25l[?25h.
+        3[?25l[?25h. **Performance[?25l[?25h Variability (No[?25l[?25hisy Neighbor):**[?25l[?25h Shared GPU[?25l[?25h pools[?25l[?25h m[1D[K
+mean you[?25l[?25h compete[?25l[?25h for[?25l[?25h resources. During[?25l[?25h peak times[?25l[?25h, your[?25l[?25h L[?25l[?25hLM inference can[?25l[?25h f[1D[K
+face[?25l[?25h high[?25l[?25h latency or rate[?25l[?25h limits, de[?25l[?25hgrading your[?25l[?25h application's user[?25l[?25h experie[7D[K
+experience.
+    *[?25l[?25h   *Refining[?25l[?25h for Maximum[?25l[?25h Conciseness ([?25l[?25has[?25l[?25h requested):*[?25l[?25h
+        1. **[?25l[?25hData Privacy[?25l[?25h & Leakage[?25l[?25h:** Risk[?25l[?25h of proprietary/customer[?25l[?25h data be[2D[K
+being[?25l[?25h exposed to the cloud[?25l[?25h provider or other[?25l[?25h tenants, or ing[?25l[?25hested for[?25l[?25h model[5D[K
+model training, potentially[?25l[?25h violating compliance ([?25l[?25he.g., GDPR[?25l[?25h).
+        2[?25l[?25h. **Un[?25l[?25hpredictable Costs:**[?25l[?25h Token[?25l[?25h-based pricing and shared[?25l[?25h compute [K
+can lead[?25l[?25h to "bill shock[?25l[?25h." A sudden usage[?25l[?25h spike or malicious prompt[?25l[?25h-in[?25l[?25hjectio[15D[K
+prompt-injection attack can quickly[?25l[?25h exhaust a small business[?25l[?25h's budget.[?25l[?25h
+        3. **[?25l[?25hPerformance Variability ("[?25l[?25hNoisy Ne[?25l[?25highbors"):** Compet[?25l[?25hing for s[1D[K
+shared GPU[?25l[?25h resources leads[?25l[?25h to inconsistent[?25l[?25h latency, rate[?25l[?25h limits, and thrott[?25l[?25h[6D[K
+throttling during peak times[?25l[?25h, which de[?25l[?25hgrades the[?25l[?25h end-user experience.[?25l[?25h
+
+5.  **[?25l[?25hFinal Polish:** Ensure[?25l[?25h tone[?25l[?25h is professional, ops[?25l[?25h-focused[?25l[?25h, and directl[7D[K
+directly answers[?25l[?25h the prompt. Keep[?25l[?25h it under 150[?25l[?25h words if[?25l[?25h possible.[?25l[?25h
+
+    1. **Data[?25l[?25h Privacy[?25l[?25h & Leakage:** Risk[?25l[?25h of proprietary or[?25l[?25h customer data bei[3D[K
+being exposed[?25l[?25h to other[?25l[?25h tenants or ing[?25l[?25hested for provider[?25l[?25h model[?25l[?25h training, pot[3D[K
+potentially[?25l[?25h violating compliance regulations[?25l[?25h.[?25l[?25h
+    2.[?25l[?25h **Unpredictable[?25l[?25h Costs:**[?25l[?25h Token-based pricing and[?25l[?25h compute[?25l[?25h scaling can[3D[K
+can cause[?25l[?25h severe "[?25l[?25hbill shock." A[?25l[?25h usage[?25l[?25h spike or prompt[?25l[?25h-injection attack can[?25l[?25h[3D[K
+can rapidly[?25l[?25h de[?25l[?25hplete a limited[?25l[?25h budget.[?25l[?25h
+    3. **Performance[?25l[?25h Variability:**[?25l[?25h The[?25l[?25h "noisy neighbor[?25l[?25h" effect on[?25l[?25h shared G[1D[K
+GPUs[?25l[?25h leads[?25l[?25h to inconsistent latency,[?25l[?25h throttling, and[?25l[?25h API[?25l[?25h rate limits, de[?25l[?25hgrad[6D[K
+degrading application[?25l[?25h reliability and[?25l[?25h user experience.
+
+6[?25l[?25h.[?25l[?25h  **Review against constraints[?25l[?25h:** Top[?25l[?25h 3? Yes[?25l[?25h. Frontier[?25l[?25h LLMs on[?25l[?25h shared clo[3D[K
+cloud? Yes[?25l[?25h. Small[?25l[?25h business focus[?25l[?25h? Yes ([?25l[?25hbudget, compliance[?25l[?25h).[?25l[?25h Concise[?25l[?25h? Yes. A[1D[K
+AI[?25l[?25h ops agent persona?[?25l[?25h Yes, uses[?25l[?25h ops[?25l[?25h terminology (no[?25l[?25hisy neighbor, rate[?25l[?25h limit[5D[K
+limits, bill[?25l[?25h shock,[?25l[?25h latency).
+...done thinking.
+
+1[?25l[?25h. **Data Privacy[?25l[?25h & Leakage:** Risk[?25l[?25h of proprietary or customer[?25l[?25h data being e[1D[K
+exposed to[?25l[?25h other tenants or ing[?25l[?25hested for provider[?25l[?25h model training, creating[?25l[?25h [K
+major[?25l[?25h compliance liabilities[?25l[?25h (e.g.,[?25l[?25h GDPR, HIPAA[?25l[?25h) for businesses[?25l[?25h lacking ded[3D[K
+dedicated[?25l[?25h legal teams.[?25l[?25h
+
+2. **Un[?25l[?25hpredictable Costs:**[?25l[?25h Token-based pricing and[?25l[?25h shared[?25l[?25h compute scaling [K
+can cause[?25l[?25h severe "bill shock[?25l[?25h." A sudden usage[?25l[?25h spike or prompt[?25l[?25h-injection att[3D[K
+attack can[?25l[?25h rapidly de[?25l[?25hplete a small business[?25l[?25h's limited[?25l[?25h cloud[?25l[?25h budget.
+
+3.[?25l[?25h **Performance Variability[?25l[?25h:**[?25l[?25h The "noisy[?25l[?25h neighbor" effect on[?25l[?25h shared GPU[?25l[?25h p[1D[K
+pools[?25l[?25h leads[?25l[?25h to inconsistent inference[?25l[?25h latency, API[?25l[?25h rate limits, and[?25l[?25h throttl[7D[K
+throttling during peak[?25l[?25h hours[?25l[?25h, degrading application[?25l[?25h reliability and user ex[2D[K
+experience[?25l[?25h.[?25l[?25h[?25l[?25h
+
+[?25l[?25h

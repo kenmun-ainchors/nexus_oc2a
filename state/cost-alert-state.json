@@ -1,11 +1,11 @@
 {
   "schema_version": "1.0",
   "description": "Tracks response counters and alert state for tiered credit alerts. Updated by Yoda at runtime.",
-  "currentBalance": 79.0,
-  "lastBalanceCheck": "2026-05-01T14:45:00Z",
-  "activeTier": 1,
+  "currentBalance": 65.41,
+  "lastBalanceCheck": "2026-05-01T20:57:45.973Z",
+  "activeTier": 0,
   "tier1": {
-    "triggered": true,
+    "triggered": false,
     "triggeredAt": "2026-05-01T14:45:00Z",
     "threshold": 80
   },
@@ -57,18 +57,26 @@
     {
       "tier": 0,
       "sentAt": "2026-05-01T14:44:43Z",
-      "balanceEstimate": 79.0,
+      "balanceEstimate": 79,
       "note": "Balance $79 confirmed by Ken at session close. Tiers reset. Tracker will decrement from $79 from 2026-05-02 onwards."
     },
     {
       "tier": 1,
       "sentAt": "2026-05-01T14:45:00Z",
-      "balanceEstimate": 79.0,
+      "balanceEstimate": 79,
       "note": "T1 alert fired at 00:45 AEST May 2. Ken acknowledged (expected, no action needed tonight). Angie notified via Aria. Fired by mission-control refresh cron."
+    },
+    {
+      "tier": "manual-correction",
+      "sentAt": "2026-05-01T20:57:45.973Z",
+      "balanceEstimate": 65.41,
+      "note": "Balance corrected to $65.41 by Ken at 06:57 AEST May 2."
     }
   ],
-  "balance": 79.0,
-  "confirmedAt": "2026-05-01T14:44:43Z",
+  "balance": 65.41,
+  "confirmedAt": "2026-05-01T20:57:45.973Z",
   "confirmedBy": "Ken",
-  "topUpNote": "Balance $79.00 USD confirmed by Ken 2026-05-02 00:44 AEST."
+  "topUpNote": "Balance $65.41 USD confirmed by Ken 2026-05-02 06:57 AEST.",
+  "lastTopUpAt": "2026-05-02T01:33:36.135217Z",
+  "lastTopUpAmount": 140.0
 }

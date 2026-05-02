@@ -1,7 +1,7 @@
 {
   "schema_version": "1.0",
   "description": "AInchors Service Ticket Log. Every ad-hoc request, task, or action without an existing INC/US/CHG reference MUST have a TKT number before work begins.",
-  "sequence": 33,
+  "sequence": 38,
   "tickets": [
     {
       "id": "TKT-0001",
@@ -603,6 +603,82 @@
       "created": "2026-05-02T00:29:23+10:00",
       "updated": "2026-05-02T00:29:23+10:00",
       "description": "Ken directive 2026-05-02: Governance framework and ITIL are NON-NEGOTIABLE. Violations risk fines, imprisonment, company closure. Must enforce governance gate on ALL external assets and full ITIL compliance. Expand Warden scope.",
+      "resolution": null,
+      "linked": {
+        "us": [],
+        "inc": [],
+        "chg": []
+      },
+      "notes": ""
+    },
+    {
+      "id": "TKT-0033",
+      "title": "Structural governance gate: all public-facing content and comms through Lex before delivery",
+      "type": "request",
+      "priority": "high",
+      "status": "resolved",
+      "requester": "Ken",
+      "assignee": "Yoda",
+      "created": "2026-05-02T11:54:57+10:00",
+      "updated": "2026-05-02T12:20:45+10:00",
+      "description": "Blog published without Lex gate (CHG-0114). Lex added to blog cron only — structural gap remains. All content/copy/comms from any agent/path must go through governance gate before delivery. Options being groomed with Ken.",
+      "resolution": "All 10 ACs implemented and verified.",
+      "linked": {
+        "us": [],
+        "inc": [],
+        "chg": []
+      },
+      "notes": "Groomed with Ken 2026-05-02. Option 4 approved (layered: requestor enforcement + content queue). Full triad: Lex+Shield+Sage. AC10 added: footer governance stamp on all content outputs. DOCX today = internal only. Ken approved US, pending build sign-off."
+    },
+    {
+      "id": "TKT-0034",
+      "title": "Automated social posting — trigger when social accounts connected",
+      "type": "request",
+      "priority": "low",
+      "status": "open",
+      "requester": "Ken",
+      "assignee": "Yoda",
+      "created": "2026-05-02T12:06:51+10:00",
+      "updated": "2026-05-02T12:06:51+10:00",
+      "description": "Automate social media posting (Instagram, Facebook, LinkedIn) for approved content. Trigger condition: social accounts connected to platform. Dependency: TKT-0033 (content governance gate) must be live. Current status: social accounts not yet connected.",
+      "resolution": null,
+      "linked": {
+        "us": [],
+        "inc": [],
+        "chg": []
+      },
+      "notes": ""
+    },
+    {
+      "id": "TKT-0035",
+      "title": "Dedicated Content Agent — creator-side governance, all content queued through single agent",
+      "type": "request",
+      "priority": "medium",
+      "status": "open",
+      "requester": "Ken",
+      "assignee": "Yoda",
+      "created": "2026-05-02T12:06:51+10:00",
+      "updated": "2026-05-02T12:06:51+10:00",
+      "description": "Spin up a persistent content/copy/marketing/communications agent. All content work routed through this agent only. Governance triad gate baked in at creation, not delivery. Before Phase 2 (first P2 client). Dependency: TKT-0033 (content governance gate) must be live first.",
+      "resolution": null,
+      "linked": {
+        "us": [],
+        "inc": [],
+        "chg": []
+      },
+      "notes": ""
+    },
+    {
+      "id": "TKT-0037",
+      "title": "Warden per-agent model gating — real-time routing enforcement, not just compliance reporting",
+      "type": "request",
+      "priority": "medium",
+      "status": "open",
+      "requester": "Ken",
+      "assignee": "Yoda",
+      "created": "2026-05-02T12:07:37+10:00",
+      "updated": "2026-05-02T12:07:37+10:00",
+      "description": "Warden currently checks model compliance after-the-fact (15-min sweep). Next step: Warden intercepts routing decisions BEFORE they happen and blocks non-compliant model selection. Turns Warden from reporter to enforcer. Trigger: post-OC2 when model routing is a first-class infrastructure feature. Linked: TRIGGER-01, model-policy.json.",
       "resolution": null,
       "linked": {
         "us": [],

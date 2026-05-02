@@ -429,11 +429,41 @@
       "pass": 5,
       "fail": 0,
       "issues": []
+    },
+    {
+      "ts": "2026-05-02T12:16:53+10:00",
+      "asset": "/tmp/test-governance-content.html",
+      "producedBy": "yoda",
+      "intendedFor": "public distribution",
+      "verdict": "PASS",
+      "pass": 5,
+      "fail": 0,
+      "issues": []
+    },
+    {
+      "ts": "2026-05-02T12:16:53+10:00",
+      "asset": "/tmp/test-governance-content.html",
+      "producedBy": "yoda",
+      "intendedFor": "public distribution",
+      "verdict": "PASS",
+      "pass": 5,
+      "fail": 0,
+      "issues": []
+    },
+    {
+      "ts": "2026-05-02T12:16:54+10:00",
+      "asset": "/tmp/test-governance-content.html",
+      "producedBy": "yoda",
+      "intendedFor": "public distribution",
+      "verdict": "PASS",
+      "pass": 5,
+      "fail": 0,
+      "issues": []
     }
   ],
   "summary": {
-    "total": 43,
-    "pass": 34,
+    "total": 46,
+    "pass": 37,
     "fail": 9
   }
 }
