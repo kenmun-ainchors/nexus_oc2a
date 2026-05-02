@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "updatedAt": "2026-05-02T01:54:12.333Z",
+  "updatedAt": "2026-05-02T13:57:39.504Z",
   "entries": {
     "memory:memory/2026-04-26.md:94:122": {
       "key": "memory:memory/2026-04-26.md:94:122",
@@ -72,19 +72,21 @@
       "endLine": 409,
       "source": "memory",
       "snippet": "- \"you've lost all the context of the work we've done today? we did a lot before we started on the Claude upgrade in sprint 2\" - \"yes, that's the one. new rule. next time before we trigger any changes that risks breaking openclaw, I want you to first lock everything we've done up to that point into persistent storage.\" - \"amazing progress and work done for today\" - \"I'm very worried now with the stability of your system. am losing time, don't have a clue what I can do but wait - and worry if you'd come back online or fully broken this time.\" - \"ok, thanks for the confidence.\" - \"as we're only in day 2 and SOUL.md is already at almost 7k chars with a limit of 12k, is there risk of this exceed",
-      "recallCount": 2,
+      "recallCount": 3,
       "dailyCount": 0,
       "groundedCount": 0,
-      "totalScore": 0.8147176831960679,
-      "maxScore": 0.41760026216506957,
+      "totalScore": 1.2500471353530884,
+      "maxScore": 0.43532945215702057,
       "firstRecalledAt": "2026-04-26T21:40:39.525Z",
-      "lastRecalledAt": "2026-04-26T22:00:43.034Z",
+      "lastRecalledAt": "2026-05-02T12:00:13.797Z",
       "queryHashes": [
         "f2b77b60492e",
-        "40c172efdae9"
+        "40c172efdae9",
+        "03883e5ba370"
       ],
       "recallDays": [
-        "2026-04-27"
+        "2026-04-27",
+        "2026-05-02"
       ],
       "conceptTags": [
         "soul.md",
@@ -135,20 +137,22 @@
       "endLine": 123,
       "source": "memory",
       "snippet": "- TOM = Target Operating Model (Ken's term for agent team roster, approved 2026-04-26) ## Deferred Items (with reminders) - GitHub CLI auth: reminder 28 Apr - Gmail/gog OAuth: reminder 2 May - Google Cloud OAuth setup walkthrough: reminder 2 May ## Open Risks - Backup on same disk as live data (no offsite yet — Phase 4) - Secrets in plaintext config files (fix before Phase 2 — 1Password CLI) - Social media API approvals not started (Meta + LinkedIn — can take 2-6 weeks) - Angie has no system access (resolve before Phase 3) - Data residency / privacy policy not documented (before first client) - Tailscale not set up (Phase 3 now) ## Key File Locations - Workspace: ~/.openclaw/workspace/ -",
-      "recallCount": 2,
+      "recallCount": 3,
       "dailyCount": 0,
       "groundedCount": 0,
-      "totalScore": 0.8023518711328506,
-      "maxScore": 0.4111104816198349,
+      "totalScore": 1.2309737890958785,
+      "maxScore": 0.42862191796302795,
       "firstRecalledAt": "2026-04-26T22:00:43.034Z",
-      "lastRecalledAt": "2026-04-28T04:32:39.445Z",
+      "lastRecalledAt": "2026-05-02T07:22:18.228Z",
       "queryHashes": [
         "40c172efdae9",
-        "d7adbee3a31e"
+        "d7adbee3a31e",
+        "883f7f2743c4"
       ],
       "recallDays": [
         "2026-04-27",
-        "2026-04-28"
+        "2026-04-28",
+        "2026-05-02"
       ],
       "conceptTags": [
         "backup",
@@ -599,6 +603,99 @@
         "chg",
         "governance",
         "layer"
+      ]
+    },
+    "memory:memory/2026-04-27.md:242:262": {
+      "key": "memory:memory/2026-04-27.md:242:262",
+      "path": "memory/2026-04-27.md",
+      "startLine": 242,
+      "endLine": 262,
+      "source": "memory",
+      "snippet": "### CHG-0023 — Business Lead Agent Aria 🔵 Created - New agent **Aria 🔵** stood up as Business Lead Agent — OC2 precursor. - Working directory: `workspace-business/` (isolated from Yoda's `workspace/`). - **Angie Foong** (Telegram `8141152780`) bound directly to Aria. Angie accesses the business stream independently, not via Yoda. - TKT-0011 covered this work. ### CHG-0024 — Yoda → Aria Oversight + Shared Knowledge Bridge - Yoda has oversight of Aria but does not manage day-to-day business stream work. - `~/Documents/AInchors/Shared/` directory created as the cross-agent knowledge bridge (both agents read/write). - **Nightly context sync cron at 23:00 AEST** — syncs Yoda's operational know",
+      "recallCount": 1,
+      "dailyCount": 0,
+      "groundedCount": 0,
+      "totalScore": 0.4411752343177795,
+      "maxScore": 0.4411752343177795,
+      "firstRecalledAt": "2026-05-02T07:22:18.228Z",
+      "lastRecalledAt": "2026-05-02T07:22:18.228Z",
+      "queryHashes": [
+        "883f7f2743c4"
+      ],
+      "recallDays": [
+        "2026-05-02"
+      ],
+      "conceptTags": [
+        "chg-0023",
+        "workspace-business",
+        "tkt-0011",
+        "chg-0024",
+        "day-to-day",
+        "documents/ainchors/shared",
+        "cross-agent",
+        "read/write"
+      ]
+    },
+    "memory:memory/2026-04-27.md:297:323": {
+      "key": "memory:memory/2026-04-27.md:297:323",
+      "path": "memory/2026-04-27.md",
+      "startLine": 297,
+      "endLine": 323,
+      "source": "memory",
+      "snippet": "- Items cover: project intake, brief templates, WBS, risk register, stakeholder comms, and milestone tracking. ### CHG-0032 — 3-Tier Credit Alert System - Tiered API credit alert system implemented, replacing simple percentage thresholds: - **Tier 1 — $50:** One-time alert. Yellow. Continue working. - **Tier 2 — $25:** Alert every 3rd response. Orange. Reduce non-essential tasks. - **Tier 3 — $10:** Pause all work. Red. Ack required from Ken before continuing. - Both **Ken (Telegram `8574109706`)** and **Angie via Aria (Telegram `8141152780`)** receive alerts at all tiers. - `state/cost-alert-state.json` created to track tier state and last-alert counters. ### CHG-0033 — US22 Closed",
+      "recallCount": 1,
+      "dailyCount": 0,
+      "groundedCount": 0,
+      "totalScore": 0.43894226849079127,
+      "maxScore": 0.43894226849079127,
+      "firstRecalledAt": "2026-05-02T13:57:39.504Z",
+      "lastRecalledAt": "2026-05-02T13:57:39.504Z",
+      "queryHashes": [
+        "e927ae3c02c1"
+      ],
+      "recallDays": [
+        "2026-05-02"
+      ],
+      "conceptTags": [
+        "chg-0032",
+        "3-tier",
+        "one-time",
+        "non-essential",
+        "state/cost-alert-state.json",
+        "last-alert",
+        "chg-0033",
+        "items"
+      ]
+    },
+    "memory:memory/2026-04-27.md:366:388": {
+      "key": "memory:memory/2026-04-27.md:366:388",
+      "path": "memory/2026-04-27.md",
+      "startLine": 366,
+      "endLine": 388,
+      "source": "memory",
+      "snippet": "| TKT-0002 | Fix cost tracker script (US22) | High | Closed ✅ | | TKT-0003 | QW-1: Define SLOs — Operations/SLOs.md (P1–P4 + 99.5% availability) | Critical | Open | | TKT-0004 | QW-2: Add --severity P1–P4 to incident-log.sh | High | Open | | TKT-0005 | QW-3: Declare Yoda = Service Desk lead in Standards.md | High | Open | | TKT-0006 | QW-4: Add uptime logging to health-check.sh (state/uptime-log.json) | Medium | Open | | TKT-0007 | QW-5: Create CI Register Notion DB | Medium | Open | | TKT-0008 | QW-6: Add change type (Std/Normal/Emergency) to pre-risky-op + CHG template | Medium | Open | | TKT-0009 | QW-7: Tag all 13 Operations docs with ITIL practice header | Low | Open | | TKT-0010 | QW-8",
+      "recallCount": 1,
+      "dailyCount": 0,
+      "groundedCount": 0,
+      "totalScore": 0.42220963835716246,
+      "maxScore": 0.42220963835716246,
+      "firstRecalledAt": "2026-05-02T13:57:39.504Z",
+      "lastRecalledAt": "2026-05-02T13:57:39.504Z",
+      "queryHashes": [
+        "e927ae3c02c1"
+      ],
+      "recallDays": [
+        "2026-05-02"
+      ],
+      "conceptTags": [
+        "tkt-0002",
+        "tkt-0003",
+        "qw-1",
+        "operations/slos.md",
+        "99.5",
+        "tkt-0004",
+        "qw-2",
+        "incident-log.sh"
       ]
     }
   }

@@ -38,8 +38,15 @@
 - **Aria 🔵** = Business Lead Agent (on OC1, migrates to OC2 at TRIGGER-10)
   - Governance layer: Shield 🛡️ (security), Lex ⚖️ (legal), Sage 🧪 (QA) — all Sonnet
   - Aria primary model: Sonnet
+- **Spark ✨** = Social Content Agent. Model: kimi-k2.6:cloud. Workspace: workspace-social/. Managed by Yoda.
+  - Scope: LinkedIn content marketing — Ken's voice, thought leadership, AU audience
+  - Crons: Tue 7:30am / Wed 12:00pm / Thu 7:30am AEST (IDs: e7ebaf61, bef42235)
+  - 30-day review cron: 2026-06-02 (ID: 316df676)
+  - State: state/linkedin-queue.json + state/linkedin-content-tracker.json
+  - Governance: content-governance-review.sh (Shield→Lex→Sage triad). Ken approves via Telegram before posting.
+  - First run: 2026-05-06 07:30 AEST. CHG-0130. TKT-0038.
 - **Gemma4 policy: background/non-interactive crons ONLY** — cold-load causes system-wide slowdown.
-- Sub-agents to build: content, social, support, marketing, reporting, coding
+- Sub-agents to build: content, support, marketing, reporting, coding
 
 ## Agent SOUL.md Compact Standard (NON-NEGOTIABLE — locked 2026-04-30)
 - **Rule:** Every agent SOUL.md must be under 5,000 chars. Hard limit: 10,000 chars (OpenClaw truncation threshold).
@@ -138,6 +145,16 @@
 - CHG-0100/101/102: TRIGGER-08 in cost-tracker, TRIGGER-04/06 release cron, HEARTBEAT trigger monitoring
 - CHG-0107: bootstrapMaxChars 10k→20k (fix MEMORY.md truncation)
 - Balance: $115.00 USD (top-up 19:04 AEST). All-time: $828.27 USD over 7 days.
+
+## Day 8 Context (2026-05-02) — Webchat Session
+- CHG-0120–0130 logged (11 entries). PoC complete, Spark live, CI framework live, content governance live.
+- Ollama Pro: accounts@ainchors.com (NOT kenmun). Run `ollama signout && ollama signin` to switch.
+- /standup, /update, /eod, /blog slash commands locked in RULES.md
+- CI Framework: Cycle A (7d batch shadow, always-on) + Cycle B (concurrent wk 2). First report: 2026-05-09 ~11:00 AEST. Model: deepseek-v4-pro:cloud. State: ci-agent-state.json.
+- Content governance triad (TKT-0033 ✅): Shield→Lex→Sage. PVT 10/10. Warden Check #15 guards published-without-clearance.
+- Spark ✨ live (CHG-0130). First LinkedIn run: Tue 2026-05-06 7:30am AEST.
+- Balance top-up: $140 at ~11:33 AEST. All-time: $828.27 (Day 1–7) + Day 8 spend TBD.
+- New tickets: TKT-0033 (resolved), TKT-0034 (social auto-post), TKT-0035 (content agent), TKT-0037 (Warden per-agent gating), TKT-0038 (LinkedIn — in progress).
 
 ## Ollama Cloud PoC — COMPLETE (2026-05-02)
 

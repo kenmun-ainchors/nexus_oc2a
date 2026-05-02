@@ -226,7 +226,7 @@ if [[ -f "$LEX_LOG" ]]; then
   PASS=$((PASS + 1))
 else
   echo "  FAIL  governance: lex-qa-log.json missing — governance gate never run"
-  FINDINGS+=('{"agentId":"governance.lex-log","severity":"GOVERNANCE_GATE_MISSING","note":"lex-qa-log.json missing. Governance gate has never been run. All public assets unreviewed.","detectedAt":""$AEST_TIMESTAMP""}')
+  FINDINGS+=('{"agentId":"governance.lex-log","severity":"GOVERNANCE_GATE_MISSING","note":"lex-qa-log.json missing. Governance gate has never been run. All public assets unreviewed.","detectedAt":"'"$AEST_TIMESTAMP"'}')
   FAIL=$((FAIL + 1))
 fi
 
@@ -236,7 +236,7 @@ if [[ -f "$HEALTH_STATE" ]]; then
   HEALTH_AGE_MINS=$(( ( $(date +%s) - $(stat -f %m "$HEALTH_STATE" 2>/dev/null || echo 0) ) / 60 ))
   if (( HEALTH_AGE_MINS > 10 )); then
     echo "  FAIL  ITIL-3: health-state.json is ${HEALTH_AGE_MINS}min old (max: 10min)"
-    FINDINGS+=('{"agentId":"itil.health-freshness","severity":"ITIL_VIOLATION","note":"health-state.json is '"$HEALTH_AGE_MINS"'min old. health-check.sh may not be running. ITIL-3 breach.","detectedAt":""$AEST_TIMESTAMP""}')
+    FINDINGS+=('{"agentId":"itil.health-freshness","severity":"ITIL_VIOLATION","note":"health-state.json is '"$HEALTH_AGE_MINS"'min old. health-check.sh may not be running. ITIL-3 breach.","detectedAt":"'"$AEST_TIMESTAMP"'}')
     FAIL=$((FAIL + 1))
   else
     echo "  OK  ITIL-3: health-state.json ${HEALTH_AGE_MINS}min old"
@@ -244,7 +244,7 @@ if [[ -f "$HEALTH_STATE" ]]; then
   fi
 else
   echo "  FAIL  ITIL-3: health-state.json missing"
-  FINDINGS+=('{"agentId":"itil.health-state","severity":"ITIL_VIOLATION","note":"health-state.json missing. Health monitoring not running. ITIL-3 breach.","detectedAt":""$AEST_TIMESTAMP""}')
+  FINDINGS+=('{"agentId":"itil.health-state","severity":"ITIL_VIOLATION","note":"health-state.json missing. Health monitoring not running. ITIL-3 breach.","detectedAt":"'"$AEST_TIMESTAMP"'}')
   FAIL=$((FAIL + 1))
 fi
 
@@ -254,7 +254,7 @@ if [[ -f "$OBS_STATE" ]]; then
   OBS_AGE_MINS=$(( ( $(date +%s) - $(stat -f %m "$OBS_STATE" 2>/dev/null || echo 0) ) / 60 ))
   if (( OBS_AGE_MINS > 10 )); then
     echo "  FAIL  ITIL-4: obs-collector-state.json is ${OBS_AGE_MINS}min old (max: 10min)"
-    FINDINGS+=('{"agentId":"itil.obs-freshness","severity":"ITIL_VIOLATION","note":"obs-collector-state.json is '"$OBS_AGE_MINS"'min old. Observability collector may not be running. ITIL-4 breach.","detectedAt":""$AEST_TIMESTAMP""}')
+    FINDINGS+=('{"agentId":"itil.obs-freshness","severity":"ITIL_VIOLATION","note":"obs-collector-state.json is '"$OBS_AGE_MINS"'min old. Observability collector may not be running. ITIL-4 breach.","detectedAt":"'"$AEST_TIMESTAMP"'}')
     FAIL=$((FAIL + 1))
   else
     echo "  OK  ITIL-4: obs-collector-state.json ${OBS_AGE_MINS}min old"
@@ -272,7 +272,7 @@ if [[ -f "$INC_LOG" ]]; then
   PASS=$((PASS + 1))
 else
   echo "  FAIL  ITIL-1: incident-log.json missing — incident management not operational"
-  FINDINGS+=('{"agentId":"itil.incident-log","severity":"ITIL_VIOLATION","note":"incident-log.json missing. Incident management not operational. ITIL-1 breach.","detectedAt":""$AEST_TIMESTAMP""}')
+  FINDINGS+=('{"agentId":"itil.incident-log","severity":"ITIL_VIOLATION","note":"incident-log.json missing. Incident management not operational. ITIL-1 breach.","detectedAt":"'"$AEST_TIMESTAMP"'}')
   FAIL=$((FAIL + 1))
 fi
 
@@ -282,7 +282,7 @@ if [[ -f "$COST_STATE" ]]; then
   COST_AGE_MINS=$(( ( $(date +%s) - $(stat -f %m "$COST_STATE" 2>/dev/null || echo 0) ) / 60 ))
   if (( COST_AGE_MINS > 1560 )); then
     echo "  FAIL  ITIL-5: cost-state.json is ${COST_AGE_MINS}min old (max: 1560min/26h)"
-    FINDINGS+=('{"agentId":"itil.cost-freshness","severity":"ITIL_VIOLATION","note":"cost-state.json is '"$COST_AGE_MINS"'min old. Cost tracking not running. ITIL-5 breach.","detectedAt":""$AEST_TIMESTAMP""}')
+    FINDINGS+=('{"agentId":"itil.cost-freshness","severity":"ITIL_VIOLATION","note":"cost-state.json is '"$COST_AGE_MINS"'min old. Cost tracking not running. ITIL-5 breach.","detectedAt":"'"$AEST_TIMESTAMP"'}')
     FAIL=$((FAIL + 1))
   else
     echo "  OK  ITIL-5: cost-state.json ${COST_AGE_MINS}min old"
@@ -290,7 +290,7 @@ if [[ -f "$COST_STATE" ]]; then
   fi
 else
   echo "  FAIL  ITIL-5: cost-state.json missing"
-  FINDINGS+=('{"agentId":"itil.cost-state","severity":"ITIL_VIOLATION","note":"cost-state.json missing. Cost tracking not operational. ITIL-5 breach.","detectedAt":""$AEST_TIMESTAMP""}')
+  FINDINGS+=('{"agentId":"itil.cost-state","severity":"ITIL_VIOLATION","note":"cost-state.json missing. Cost tracking not operational. ITIL-5 breach.","detectedAt":"'"$AEST_TIMESTAMP"'}')
   FAIL=$((FAIL + 1))
 fi
 
@@ -360,7 +360,7 @@ if os.path.exists(state_file):
 else:
     state = {'totalChecksRun': 0, 'totalViolationsFound': 0, 'consecutiveClean': 0, 'violationHistory': []}
 
-state['lastCheck'] = "$AEST_TIMESTAMP"
+state['lastCheck'] = '$AEST_TIMESTAMP'
 state['lastStatus'] = '$STATUS'
 state['lastPassCount'] = $PASS
 state['lastFailCount'] = $FAIL
@@ -372,7 +372,7 @@ if '$STATUS' == 'clean':
 else:
     state['consecutiveClean'] = 0
     state['totalViolationsFound'] = state.get('totalViolationsFound', 0) + $FAIL
-    state['lastViolationAt'] = "$AEST_TIMESTAMP"
+    state['lastViolationAt'] = '$AEST_TIMESTAMP'
 
 with open(state_file, 'w') as f:
     json.dump(state, f, indent=2)
@@ -401,7 +401,7 @@ for f in findings:
 # Keep last 100 violations max
 data['violations'] = data['violations'][-100:]
 data['totalUnresolved'] = sum(1 for v in data['violations'] if v.get('status') == 'unresolved')
-data['lastUpdated'] = "$AEST_TIMESTAMP"
+data['lastUpdated'] = '$AEST_TIMESTAMP'
 
 with open(vfile, 'w') as f2:
     json.dump(data, f2, indent=2)

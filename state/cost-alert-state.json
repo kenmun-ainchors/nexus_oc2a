@@ -1,8 +1,8 @@
 {
   "schema_version": "1.0",
   "description": "Tracks response counters and alert state for tiered credit alerts. Updated by Yoda at runtime.",
-  "currentBalance": 65.41,
-  "lastBalanceCheck": "2026-05-01T20:57:45.973Z",
+  "currentBalance": 121.0,
+  "lastBalanceCheck": "2026-05-02T06:41:46.287497+00:00",
   "activeTier": 0,
   "tier1": {
     "triggered": false,
@@ -12,10 +12,10 @@
   "tier2": {
     "responsesSinceLastAlert": 0,
     "alertEvery": 3,
-    "lastAlertAt": "2026-04-30T12:50:09.735774Z",
+    "lastAlertAt": "2026-05-02T06:20:00Z",
     "threshold": 40,
     "triggered": false,
-    "triggeredAt": null
+    "triggeredAt": "2026-05-02T06:20:00Z"
   },
   "tier3": {
     "active": false,
@@ -71,12 +71,24 @@
       "sentAt": "2026-05-01T20:57:45.973Z",
       "balanceEstimate": 65.41,
       "note": "Balance corrected to $65.41 by Ken at 06:57 AEST May 2."
+    },
+    {
+      "tier": 2,
+      "sentAt": "2026-05-02T06:20:00Z",
+      "balanceEstimate": 36,
+      "note": "T2 triggered at 16:20 AEST May 2. Confirmed $65.41 at 06:57 AEST minus $29 by noon tracker = ~$36 remaining. Ken alerted via Telegram msg 565. Aria session not active \u2014 Angie alert pending next Aria session."
+    },
+    {
+      "tier": 0,
+      "sentAt": "2026-05-02T06:41:46.287497+00:00",
+      "balanceEstimate": 121.0,
+      "note": "Tiers reset. balance field corrected from 65.41 to 121.00. T2 alert at 16:20 AEST was false positive \u2014 reading stale balance field instead of confirmedBalance."
     }
   ],
-  "balance": 65.41,
-  "confirmedAt": "2026-05-01T20:57:45.973Z",
+  "balance": 121.0,
+  "confirmedAt": "2026-05-02T03:18:00Z",
   "confirmedBy": "Ken",
-  "topUpNote": "Balance $65.41 USD confirmed by Ken 2026-05-02 06:57 AEST.",
+  "topUpNote": "Balance $121.00 USD confirmed by Ken 2026-05-02 13:18 AEST (webchat).",
   "lastTopUpAt": "2026-05-02T01:33:36.135217Z",
-  "lastTopUpAmount": 140.0
+  "lastTopUpAmount": 140
 }

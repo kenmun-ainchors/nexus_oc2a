@@ -35,6 +35,42 @@ This log captures **every change** Yoda makes to AInchors infrastructure, config
 **Linked:** decisions.md 2026-04-27 entries
 ---
 
+## 2026-05-02 18:52 AEST — [CHG-0132] Fix model-drift-check.sh AEST_TIMESTAMP SyntaxError in Python state update
+**Type:** script
+**Source:** manual
+**Trigger:** Warden escalation warden-20260502-1840 (pending-yoda-action)
+**What changed:** scripts/model-drift-check.sh: AEST_TIMESTAMP double-quoted → single-quoted in Python blocks (lines 363/375/404); FINDINGS JSON timestamp shell concat fix (lines 229-293)
+**Why:** python3 -c outer double-quote stripped Python string quotes from timestamp. Python saw unquoted 2026-05-02T18:40:13+10:00, parsed :00 as leading-zero decimal — SyntaxError. State update failed on every Warden run.
+**Verification:** model-drift-check.sh exit 0, 15/15 PASS, State updated confirmed.
+**Rollback:** N/A
+**Linked:** none
+---
+
+
+## 2026-05-02 15:50 AEST — [CHG-0131] Warden escalation WARDEN-20260502-152449 closed — obs-collector healthy
+**Type:** doc
+**Source:** manual
+**Trigger:** Heartbeat warden escalation check 15:49 AEST
+**What changed:** Updated warden-escalation-pending.json status to resolved-by-yoda
+**Why:** obs-collector was stale at 03:07 AEST (12min old). Verified at 15:47 AEST — running normally. All 15 compliance checks passed.
+**Verification:** state/obs-collector-state.json lastRun=2026-05-02T05:47:10Z confirmed fresh
+**Rollback:** N/A
+**Linked:** none
+---
+
+
+## 2026-05-02 13:07 AEST — [CHG-0130] Spark ✨ social agent live — TKT-0038 LinkedIn content marketing, 3x weekly
+**Type:** config
+**Source:** ken-prompt
+**Trigger:** TKT-0038 Ken groomed + approved
+**What changed:** Spark ✨ registered as social agent (kimi-k2.6:cloud). SOUL.md + SPARK_RULES.md created in workspace-social/. Crons: Tue 7:30am (e7ebaf61), Wed 12pm (bef42235), Thu 7:30am (e7ebaf61). 30-day report cron (316df676) 2026-06-02. State: linkedin-content-tracker.json + linkedin-queue.json created. Governance gate hooked up (content-governance-review.sh). TKT-0038 updated.
+**Why:** Ken: dedicated social sub-agent for LinkedIn content marketing. Ken's voice, practitioner-heavy, AU market. Yoda manages. 1-month test then automation review.
+**Verification:** Agent registered, 3 crons active, state files created, governance gate integrated
+**Rollback:** N/A
+**Linked:** none
+---
+
+
 ## 2026-05-02 12:20 AEST — [CHG-0129] TKT-0033: Content governance triad gate live — Lex+Shield+Sage on all public content
 **Type:** rule
 **Source:** ken-prompt
@@ -1643,3 +1679,12 @@ _Pre-existing changes (Day 1, Day 2) are captured in `memory/shared/decisions.md
   - Test data cleaned post-verification
 **Authorised by:** Ken Mun
 **Logged by:** Yoda (subagent)
+
+## 2026-05-02 15:19 AEST — [CHG-0124] Warden Escalation ESC-20260502-warden-001 Auto-Resolved
+
+**Type:** Incident Resolution
+**Trigger:** Heartbeat — Warden escalation file detected
+**Summary:** Warden flagged obs-collector-state.json as 12min stale at 01:07 AEST (ITIL_VIOLATION). Auto-resolved at 15:19 AEST — obs-collector confirmed running (last run 15:17 AEST, cron healthy, 5-min cadence). Transient stale state during low-traffic overnight window. No service disruption.
+**Action:** warden-escalation-pending.json status set to resolved-by-yoda.
+**Authorised by:** Yoda (auto-resolve — no Ken action required)
+**Logged by:** Yoda (heartbeat)

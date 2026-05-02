@@ -599,7 +599,7 @@ Exit 2 = do not publish. Fix all issues and re-run until exit 0.
 
 **Intent:** Quick situational awareness snapshot since the last standup. Not a full standup — no sprint plan, no RTB, no new input capture. Critical items, actions needed, things requiring attention. In and out.
 
-**Trigger:** Ken types **`/update`** (case-insensitive) in any channel.
+**Trigger:** Ken types **`/update`** or **`/flash`** (case-insensitive, both identical) in any channel.
 
 **Window:** Same as `/standup` — read `state/standup-state.json`, use `lastStandupAt` as windowStart. If null, default to 24h ago.
 

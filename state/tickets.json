@@ -1,7 +1,7 @@
 {
   "schema_version": "1.0",
   "description": "AInchors Service Ticket Log. Every ad-hoc request, task, or action without an existing INC/US/CHG reference MUST have a TKT number before work begins.",
-  "sequence": 38,
+  "sequence": 39,
   "tickets": [
     {
       "id": "TKT-0001",
@@ -33,7 +33,7 @@
       "created": "2026-04-27T09:44:36+10:00",
       "updated": "2026-04-27T12:16:48+10:00",
       "description": "cost-tracker.sh session log parsing broken since Day 2. No accurate daily cost breakdown available.",
-      "resolution": "Cost tracker script was working — issue was stale state from broken session. Script successfully parsed Day 3 data: $38.31 / 273 turns (272 Sonnet + 1 Gemma4). All 3 days now in cost-state.json history.",
+      "resolution": "Cost tracker script was working \u2014 issue was stale state from broken session. Script successfully parsed Day 3 data: $38.31 / 273 turns (272 Sonnet + 1 Gemma4). All 3 days now in cost-state.json history.",
       "linked": {
         "us": [],
         "inc": [],
@@ -43,7 +43,7 @@
     },
     {
       "id": "TKT-0003",
-      "title": "QW-1: Define SLOs — write Operations/SLOs.md (P1-P4 + 99.5% availability)",
+      "title": "QW-1: Define SLOs \u2014 write Operations/SLOs.md (P1-P4 + 99.5% availability)",
       "type": "task",
       "priority": "critical",
       "status": "resolved",
@@ -176,7 +176,7 @@
     },
     {
       "id": "TKT-0010",
-      "title": "QW-8: File PRB-001 — first Problem record from incident history",
+      "title": "QW-8: File PRB-001 \u2014 first Problem record from incident history",
       "type": "task",
       "priority": "medium",
       "status": "resolved",
@@ -195,7 +195,7 @@
     },
     {
       "id": "TKT-0011",
-      "title": "Business Stream Lead Agent setup — OC2 precursor (Angie direct access)",
+      "title": "Business Stream Lead Agent setup \u2014 OC2 precursor (Angie direct access)",
       "type": "task",
       "priority": "critical",
       "status": "resolved",
@@ -214,7 +214,7 @@
     },
     {
       "id": "TKT-0012",
-      "title": "Governance layer: Security + Legal + QA agents — operational for Aria/Angie work",
+      "title": "Governance layer: Security + Legal + QA agents \u2014 operational for Aria/Angie work",
       "type": "task",
       "priority": "critical",
       "status": "resolved",
@@ -222,7 +222,7 @@
       "assignee": "Yoda",
       "created": "2026-04-27T11:20:51+10:00",
       "updated": "2026-04-28T16:52:01+10:00",
-      "description": "Stand up 3 cross-stream governance agents (Security 🔐, Legal ⚖️, QA 🧪). All Aria external-facing work routes through governance before execution. Immediate priority — Angie is active on Aria now.",
+      "description": "Stand up 3 cross-stream governance agents (Security \ud83d\udd10, Legal \u2696\ufe0f, QA \ud83e\uddea). All Aria external-facing work routes through governance before execution. Immediate priority \u2014 Angie is active on Aria now.",
       "resolution": null,
       "linked": {
         "us": [],
@@ -233,7 +233,7 @@
     },
     {
       "id": "TKT-0013",
-      "title": "Warden agent — model governance and compliance",
+      "title": "Warden agent \u2014 model governance and compliance",
       "type": "task",
       "priority": "high",
       "status": "resolved",
@@ -241,7 +241,7 @@
       "assignee": "Yoda",
       "created": "2026-04-28T07:51:13+10:00",
       "updated": "2026-04-28T07:55:00+10:00",
-      "description": "Build Warden 🔍 as dedicated model compliance agent in governance layer. Monitors all agents (technical + business streams) for model drift, validates against critical-config-baseline, maintains audit log, escalates violations to Yoda for remediation.",
+      "description": "Build Warden \ud83d\udd0d as dedicated model compliance agent in governance layer. Monitors all agents (technical + business streams) for model drift, validates against critical-config-baseline, maintains audit log, escalates violations to Yoda for remediation.",
       "resolution": null,
       "linked": {
         "us": [],
@@ -252,7 +252,7 @@
     },
     {
       "id": "TKT-0014",
-      "title": "US35: Haiku 4.5 as Tier 2 — sub-task routing implementation",
+      "title": "US35: Haiku 4.5 as Tier 2 \u2014 sub-task routing implementation",
       "type": "task",
       "priority": "high",
       "status": "resolved",
@@ -271,7 +271,7 @@
     },
     {
       "id": "TKT-0015",
-      "title": "Day 4 Sprint — shadow logging, US22, config-009, burn alert",
+      "title": "Day 4 Sprint \u2014 shadow logging, US22, config-009, burn alert",
       "type": "task",
       "priority": "high",
       "status": "resolved",
@@ -328,7 +328,7 @@
     },
     {
       "id": "TKT-0018",
-      "title": "US23: Resilient outage handling — execution sprint",
+      "title": "US23: Resilient outage handling \u2014 execution sprint",
       "type": "task",
       "priority": "high",
       "status": "resolved",
@@ -366,7 +366,7 @@
     },
     {
       "id": "TKT-0020",
-      "title": "Business ROI framework — value definition, tracking, Aria implementation",
+      "title": "Business ROI framework \u2014 value definition, tracking, Aria implementation",
       "type": "task",
       "priority": "high",
       "status": "resolved",
@@ -412,7 +412,7 @@
       "assignee": "Yoda",
       "created": "2026-04-29T10:47:14+10:00",
       "updated": "2026-04-29T11:25:24+10:00",
-      "description": "Aria (business agent) inherits defaults fallback [Opus, Gemma4:26b] — both prohibited per model-policy.json. Change defaults.model.fallbacks to [Haiku] only. Opus is deliberate escalation only, not automatic fallback. Update validate-fallback-chain.sh, model-policy.json, cost state to USD91.17.",
+      "description": "Aria (business agent) inherits defaults fallback [Opus, Gemma4:26b] \u2014 both prohibited per model-policy.json. Change defaults.model.fallbacks to [Haiku] only. Opus is deliberate escalation only, not automatic fallback. Update validate-fallback-chain.sh, model-policy.json, cost state to USD91.17.",
       "resolution": "CHG-0075 complete. defaults.model.fallbacks changed to [haiku-4-5]. Warden updated. 9/9 PASS. Gateway restarted.",
       "linked": {
         "us": [],
@@ -423,7 +423,7 @@
     },
     {
       "id": "TKT-0023",
-      "title": "US20: Research Framework — define Tiers 2-4, /research routing, registry, Notion AKB",
+      "title": "US20: Research Framework \u2014 define Tiers 2-4, /research routing, registry, Notion AKB",
       "type": "task",
       "priority": "high",
       "status": "closed",
@@ -442,7 +442,7 @@
     },
     {
       "id": "TKT-0024",
-      "title": "US18: Monthly SLA Report — incident persistence, report gen, cron, Notion",
+      "title": "US18: Monthly SLA Report \u2014 incident persistence, report gen, cron, Notion",
       "type": "task",
       "priority": "high",
       "status": "open",
@@ -461,7 +461,7 @@
     },
     {
       "id": "TKT-0025",
-      "title": "US40: Observability sub-agent — platform-wide logging",
+      "title": "US40: Observability sub-agent \u2014 platform-wide logging",
       "type": "task",
       "priority": "high",
       "status": "open",
@@ -480,7 +480,7 @@
     },
     {
       "id": "TKT-0026",
-      "title": "US41: Task monitoring sub-agent — cross-agent task tracker",
+      "title": "US41: Task monitoring sub-agent \u2014 cross-agent task tracker",
       "type": "task",
       "priority": "high",
       "status": "open",
@@ -499,7 +499,7 @@
     },
     {
       "id": "TKT-0027",
-      "title": "Marketing collaterals for Angie — client/student pitch assets from platform data",
+      "title": "Marketing collaterals for Angie \u2014 client/student pitch assets from platform data",
       "type": "task",
       "priority": "high",
       "status": "open",
@@ -518,7 +518,7 @@
     },
     {
       "id": "TKT-0028",
-      "title": "US38: Cost tracker — scan all agent sessions, breakdown by stream",
+      "title": "US38: Cost tracker \u2014 scan all agent sessions, breakdown by stream",
       "type": "task",
       "priority": "high",
       "status": "open",
@@ -537,7 +537,7 @@
     },
     {
       "id": "TKT-0029",
-      "title": "US42 Ollama routing fix — resolve model routing for background/cron tier",
+      "title": "US42 Ollama routing fix \u2014 resolve model routing for background/cron tier",
       "type": "task",
       "priority": "high",
       "status": "resolved",
@@ -556,7 +556,7 @@
     },
     {
       "id": "TKT-0030",
-      "title": "Investigate obs spike — 120 gateway_restart events in 24h",
+      "title": "Investigate obs spike \u2014 120 gateway_restart events in 24h",
       "type": "incident",
       "priority": "high",
       "status": "resolved",
@@ -575,7 +575,7 @@
     },
     {
       "id": "TKT-0031",
-      "title": "Add per-request latency tracking to obs-collector — model performance benchmarking",
+      "title": "Add per-request latency tracking to obs-collector \u2014 model performance benchmarking",
       "type": "task",
       "priority": "high",
       "status": "open",
@@ -621,7 +621,7 @@
       "assignee": "Yoda",
       "created": "2026-05-02T11:54:57+10:00",
       "updated": "2026-05-02T12:20:45+10:00",
-      "description": "Blog published without Lex gate (CHG-0114). Lex added to blog cron only — structural gap remains. All content/copy/comms from any agent/path must go through governance gate before delivery. Options being groomed with Ken.",
+      "description": "Blog published without Lex gate (CHG-0114). Lex added to blog cron only \u2014 structural gap remains. All content/copy/comms from any agent/path must go through governance gate before delivery. Options being groomed with Ken.",
       "resolution": "All 10 ACs implemented and verified.",
       "linked": {
         "us": [],
@@ -632,7 +632,7 @@
     },
     {
       "id": "TKT-0034",
-      "title": "Automated social posting — trigger when social accounts connected",
+      "title": "Automated social posting \u2014 trigger when social accounts connected",
       "type": "request",
       "priority": "low",
       "status": "open",
@@ -651,7 +651,7 @@
     },
     {
       "id": "TKT-0035",
-      "title": "Dedicated Content Agent — creator-side governance, all content queued through single agent",
+      "title": "Dedicated Content Agent \u2014 creator-side governance, all content queued through single agent",
       "type": "request",
       "priority": "medium",
       "status": "open",
@@ -670,7 +670,7 @@
     },
     {
       "id": "TKT-0037",
-      "title": "Warden per-agent model gating — real-time routing enforcement, not just compliance reporting",
+      "title": "Warden per-agent model gating \u2014 real-time routing enforcement, not just compliance reporting",
       "type": "request",
       "priority": "medium",
       "status": "open",
@@ -686,6 +686,43 @@
         "chg": []
       },
       "notes": ""
+    },
+    {
+      "id": "TKT-0038",
+      "title": "Content marketing \u2014 automated content pipeline for AInchors brand and lead generation",
+      "type": "request",
+      "priority": "medium",
+      "status": "in-progress",
+      "requester": "Ken",
+      "assignee": "Yoda",
+      "created": "2026-05-02T12:38:01+10:00",
+      "updated": "2026-05-02T13:07:03+10:00",
+      "description": "New US: content marketing capability. Scope, channels, cadence, ownership TBD \u2014 grooming with Ken 2026-05-02.",
+      "resolution": null,
+      "linked": {
+        "us": [],
+        "inc": [],
+        "chg": []
+      },
+      "notes": "Spark agent live. 3x weekly crons active. 30-day report 2026-06-02. First run: next Tuesday 7:30am AEST."
+    },
+    {
+      "id": "TKT-0039",
+      "title": "Spark \u2014 LinkedIn Authority Campaign Proposal (Ken personal profile)",
+      "type": "US",
+      "status": "backlog",
+      "priority": "high",
+      "stream": "technical",
+      "agent": "Spark",
+      "createdAt": "2026-05-02T08:34:52.946486+00:00",
+      "createdBy": "Ken",
+      "description": "Install SPARK_SOCIAL_SKILL.md into Spark workspace. Extend Spark scope to LinkedIn (Ken personal profile). Spark to audit last 30-90 days LinkedIn performance and produce two drafts: (1) LinkedIn Authority Campaign Proposal \u2014 4-12 week authority/visibility plan, content themes, posting rhythm, engagement routines, metrics/reporting. Skill frameworks: AIDA/PAS, content pillars, Hero-Hub-Help, ICE/PIE, attribution. Spark pauses after proposals \u2014 no posting/scheduling until Ken approves.",
+      "notes": "Instagram deferred (TKT-0034 \u2014 social APIs not connected). LinkedIn only. Ken personal profile. Next priority after current sprint.",
+      "linkedTickets": [
+        "TKT-0034",
+        "TKT-0038"
+      ],
+      "skillFile": "workspace-social/SPARK_SOCIAL_SKILL.md"
     }
   ]
 }

@@ -5012,10 +5012,490 @@
       "status": "pass",
       "latencyMs": 0,
       "notes": "14 checks run: 14 PASS, 0 FAIL. Agent models compliant. Fallback chain verified. Governance gates OK."
+    },
+    {
+      "ts": "2026-05-02T12:25:01+10:00",
+      "date": "2026-05-02",
+      "tier": "T2",
+      "taskType": "warden-check",
+      "model": "anthropic/claude-haiku-4-5",
+      "status": "fail",
+      "latencyMs": 0,
+      "notes": "15 compliance checks PASS; state file update failed (SyntaxError: timestamp format in Python script)"
+    },
+    {
+      "ts": "2026-05-02T12:39:56+10:00",
+      "date": "2026-05-02",
+      "tier": "T2",
+      "taskType": "warden-check",
+      "model": "anthropic/claude-haiku-4-5",
+      "status": "error",
+      "latencyMs": 0,
+      "notes": "15 checks run, all passed. Script error writing state file (syntax error)."
+    },
+    {
+      "ts": "2026-05-02T12:54:56+10:00",
+      "date": "2026-05-02",
+      "tier": "T2",
+      "taskType": "warden-check",
+      "model": "anthropic/claude-haiku-4-5",
+      "status": "fail",
+      "latencyMs": 0,
+      "notes": "15 checks run, script error (JSON datetime formatting)"
+    },
+    {
+      "ts": "2026-05-02T13:09:55+10:00",
+      "date": "2026-05-02",
+      "tier": "T2",
+      "taskType": "warden-check",
+      "model": "anthropic/claude-haiku-4-5",
+      "status": "error",
+      "latencyMs": 0,
+      "notes": "Script exited with code 1 (SyntaxError in date parsing). 15/15 checks PASS but state update failed."
+    },
+    {
+      "ts": "2026-05-02T13:25:06+10:00",
+      "date": "2026-05-02",
+      "tier": "T2",
+      "taskType": "warden-check",
+      "model": "anthropic/claude-haiku-4-5",
+      "status": "fail",
+      "latencyMs": 0,
+      "notes": "model-drift-check.sh exited with code 1 (syntax error in state timestamp write). All 15 checks passed but script had error writing results."
+    },
+    {
+      "ts": "2026-05-02T13:40:01+10:00",
+      "date": "2026-05-02",
+      "tier": "T2",
+      "taskType": "warden-check",
+      "model": "anthropic/claude-haiku-4-5",
+      "status": "fail",
+      "latencyMs": 0,
+      "notes": "15 checks PASS; script error on state update (SyntaxError in timestamp format)"
+    },
+    {
+      "ts": "2026-05-02T13:55:00+10:00",
+      "date": "2026-05-02",
+      "tier": "T2",
+      "taskType": "warden-check",
+      "model": "anthropic/claude-haiku-4-5",
+      "status": "fail",
+      "latencyMs": 0,
+      "notes": "15 checks run; script exit code 1 (timestamp format error, not model violation)"
+    },
+    {
+      "ts": "2026-05-02T14:10:10+10:00",
+      "date": "2026-05-02",
+      "tier": "T2",
+      "taskType": "warden-check",
+      "model": "anthropic/claude-haiku-4-5",
+      "status": "fail",
+      "latencyMs": 0,
+      "notes": "15 compliance checks: PASS 15 FAIL 0. Script error exit-1 (timestamp format). Violations file has 1 unresolved ITIL-4 (obs-collector-state stale)."
+    },
+    {
+      "ts": "2026-05-02T14:25:03+10:00",
+      "date": "2026-05-02",
+      "tier": "T2",
+      "taskType": "warden-check",
+      "model": "anthropic/claude-haiku-4-5",
+      "status": "fail",
+      "latencyMs": 0,
+      "notes": "15 checks run - syntax error in timestamp logging (exit 1)"
+    },
+    {
+      "ts": "2026-05-02T14:40:07+10:00",
+      "date": "2026-05-02",
+      "tier": "T2",
+      "taskType": "warden-check",
+      "model": "anthropic/claude-haiku-4-5",
+      "status": "error",
+      "latencyMs": 0,
+      "notes": "Script exited with code 1 (syntax error in state timestamp update). All 15 compliance checks passed."
+    },
+    {
+      "ts": "2026-05-02T14:54:59+10:00",
+      "date": "2026-05-02",
+      "tier": "T2",
+      "taskType": "warden-check",
+      "model": "anthropic/claude-haiku-4-5",
+      "status": "fail",
+      "latencyMs": 0,
+      "notes": "Script exit 1: JSON date syntax error in state file update"
+    },
+    {
+      "ts": "2026-05-02T15:10:02+10:00",
+      "date": "2026-05-02",
+      "tier": "T2",
+      "taskType": "warden-check",
+      "model": "anthropic/claude-haiku-4-5",
+      "status": "error",
+      "latencyMs": 0,
+      "notes": "15 checks run: 15 PASS, 0 FAIL. Script error on timestamp write (exit 1, not 2). Compliance clean."
+    },
+    {
+      "ts": "2026-05-02T15:25:09+10:00",
+      "date": "2026-05-02",
+      "tier": "T2",
+      "taskType": "warden-check",
+      "model": "anthropic/claude-haiku-4-5",
+      "status": "fail",
+      "latencyMs": 0,
+      "notes": "15 checks run; script exit code 1 (SyntaxError in timestamp logging)"
+    },
+    {
+      "ts": "2026-05-02T15:40:06+10:00",
+      "date": "2026-05-02",
+      "tier": "T2",
+      "taskType": "warden-check",
+      "model": "anthropic/claude-haiku-4-5",
+      "status": "fail",
+      "latencyMs": 0,
+      "notes": "15 checks passed, exit code 1 (timestamp formatting error in state update)"
+    },
+    {
+      "ts": "2026-05-02T15:55:04+10:00",
+      "date": "2026-05-02",
+      "tier": "T2",
+      "taskType": "warden-check",
+      "model": "anthropic/claude-haiku-4-5",
+      "status": "fail",
+      "latencyMs": 0,
+      "notes": "Warden check completed: 15/15 compliance checks PASS. State file update failed (SyntaxError in timestamp formatting)."
+    },
+    {
+      "ts": "2026-05-02T16:10:07+10:00",
+      "date": "2026-05-02",
+      "tier": "T2",
+      "taskType": "warden-check",
+      "model": "anthropic/claude-haiku-4-5",
+      "status": "fail",
+      "latencyMs": 0,
+      "notes": "Script error (exit 1): timestamp format bug in state save. Checks themselves: 15 PASS / 0 FAIL. All model compliance rules OK."
+    },
+    {
+      "ts": "2026-05-02T16:25:40+10:00",
+      "date": "2026-05-02",
+      "tier": "T2",
+      "taskType": "warden-check",
+      "model": "anthropic/claude-haiku-4-5",
+      "status": "error",
+      "latencyMs": 0,
+      "notes": "Script syntax error in timestamp formatting (15 compliance checks PASS, exit 1)"
+    },
+    {
+      "ts": "2026-05-02T16:40:31+10:00",
+      "date": "2026-05-02",
+      "tier": "T2",
+      "taskType": "warden-check",
+      "model": "anthropic/claude-haiku-4-5",
+      "status": "fail",
+      "latencyMs": 0,
+      "notes": "script exit code 1: SyntaxError writing timestamp to state file"
+    },
+    {
+      "ts": "2026-05-02T16:55:29+10:00",
+      "date": "2026-05-02",
+      "tier": "T2",
+      "taskType": "warden-check",
+      "model": "anthropic/claude-haiku-4-5",
+      "status": "fail",
+      "latencyMs": 0,
+      "notes": "9 checks passed; script exit code 1 (SyntaxError in timestamp write to state file)"
+    },
+    {
+      "ts": "2026-05-02T17:10:29+10:00",
+      "date": "2026-05-02",
+      "tier": "T2",
+      "taskType": "warden-check",
+      "model": "anthropic/claude-haiku-4-5",
+      "status": "error",
+      "latencyMs": 0,
+      "notes": "15/15 checks passed, syntax error in state file write (exit 1)"
+    },
+    {
+      "ts": "2026-05-02T17:25:40+10:00",
+      "date": "2026-05-02",
+      "tier": "T2",
+      "taskType": "warden-check",
+      "model": "anthropic/claude-haiku-4-5",
+      "status": "fail",
+      "latencyMs": 0,
+      "notes": "15 checks PASS, 0 FAIL (script syntax error in timestamp write)"
+    },
+    {
+      "ts": "2026-05-02T17:40:32+10:00",
+      "date": "2026-05-02",
+      "tier": "T2",
+      "taskType": "warden-check",
+      "model": "anthropic/claude-haiku-4-5",
+      "status": "fail",
+      "latencyMs": 0,
+      "notes": "15 compliance checks PASS; script failure: SyntaxError in state write (timestamp format)"
+    },
+    {
+      "ts": "2026-05-02T17:55:30+10:00",
+      "date": "2026-05-02",
+      "tier": "T2",
+      "taskType": "warden-check",
+      "model": "anthropic/claude-haiku-4-5",
+      "status": "fail",
+      "latencyMs": 0,
+      "notes": "15 checks PASS, 0 violations. Script error exit-1: SyntaxError in state-file JSON timestamp format. Governance gates OK."
+    },
+    {
+      "ts": "2026-05-02T18:10:34+10:00",
+      "date": "2026-05-02",
+      "tier": "T2",
+      "taskType": "warden-check",
+      "model": "anthropic/claude-haiku-4-5",
+      "status": "fail",
+      "latencyMs": 0,
+      "notes": "15 checks PASS, syntax error writing state file (exit 1)"
+    },
+    {
+      "ts": "2026-05-02T18:25:39+10:00",
+      "date": "2026-05-02",
+      "tier": "T2",
+      "taskType": "warden-check",
+      "model": "anthropic/claude-haiku-4-5",
+      "status": "fail",
+      "latencyMs": 0,
+      "notes": "Script syntax error in timestamp logging (exit 1). All 15 compliance checks PASSED, but state file update failed. Governance gates OK."
+    },
+    {
+      "ts": "2026-05-02T18:40:34+10:00",
+      "date": "2026-05-02",
+      "tier": "T2",
+      "taskType": "warden-check",
+      "model": "anthropic/claude-haiku-4-5",
+      "status": "fail",
+      "latencyMs": 0,
+      "notes": "15 checks PASS, 0 FAIL | State file SyntaxError (exit code 1)"
+    },
+    {
+      "ts": "2026-05-02T18:55:29+10:00",
+      "date": "2026-05-02",
+      "tier": "T2",
+      "taskType": "warden-check",
+      "model": "anthropic/claude-haiku-4-5",
+      "status": "pass",
+      "latencyMs": 0,
+      "notes": "15 checks run"
+    },
+    {
+      "ts": "2026-05-02T19:10:30+10:00",
+      "date": "2026-05-02",
+      "tier": "T2",
+      "taskType": "warden-check",
+      "model": "anthropic/claude-haiku-4-5",
+      "status": "pass",
+      "latencyMs": 0,
+      "notes": "15 checks run"
+    },
+    {
+      "ts": "2026-05-02T19:25:32+10:00",
+      "date": "2026-05-02",
+      "tier": "T2",
+      "taskType": "warden-check",
+      "model": "anthropic/claude-haiku-4-5",
+      "status": "pass",
+      "latencyMs": 0,
+      "notes": "15 checks run"
+    },
+    {
+      "ts": "2026-05-02T19:40:35+10:00",
+      "date": "2026-05-02",
+      "tier": "T2",
+      "taskType": "warden-check",
+      "model": "anthropic/claude-haiku-4-5",
+      "status": "pass",
+      "latencyMs": 0,
+      "notes": "15 checks run"
+    },
+    {
+      "ts": "2026-05-02T19:55:28+10:00",
+      "date": "2026-05-02",
+      "tier": "T2",
+      "taskType": "warden-check",
+      "model": "anthropic/claude-haiku-4-5",
+      "status": "pass",
+      "latencyMs": 0,
+      "notes": "15 checks run: 15 PASS 0 FAIL (models, governance, ITIL, cost gates all compliant)"
+    },
+    {
+      "ts": "2026-05-02T20:00:15+10:00",
+      "date": "2026-05-02",
+      "tier": "T2",
+      "taskType": "burn-check",
+      "model": "anthropic/claude-haiku-4-5",
+      "status": "pass",
+      "latencyMs": 0,
+      "notes": "Burn check: .99 today (below  threshold)"
+    },
+    {
+      "ts": "2026-05-02T20:10:28+10:00",
+      "date": "2026-05-02",
+      "tier": "T2",
+      "taskType": "warden-check",
+      "model": "anthropic/claude-haiku-4-5",
+      "status": "pass",
+      "latencyMs": 0,
+      "notes": "15 checks run, 0 failures"
+    },
+    {
+      "ts": "2026-05-02T20:25:33+10:00",
+      "date": "2026-05-02",
+      "tier": "T2",
+      "taskType": "warden-check",
+      "model": "anthropic/claude-haiku-4-5",
+      "status": "pass",
+      "latencyMs": 0,
+      "notes": "15 checks run: 15 PASS, 0 FAIL. No model drift."
+    },
+    {
+      "ts": "2026-05-02T20:40:31+10:00",
+      "date": "2026-05-02",
+      "tier": "T2",
+      "taskType": "warden-check",
+      "model": "anthropic/claude-haiku-4-5",
+      "status": "pass",
+      "latencyMs": 0,
+      "notes": "15 checks run"
+    },
+    {
+      "ts": "2026-05-02T20:55:28+10:00",
+      "date": "2026-05-02",
+      "tier": "T2",
+      "taskType": "warden-check",
+      "model": "anthropic/claude-haiku-4-5",
+      "status": "pass",
+      "latencyMs": 0,
+      "notes": "15 checks run"
+    },
+    {
+      "ts": "2026-05-02T21:10:28+10:00",
+      "date": "2026-05-02",
+      "tier": "T2",
+      "taskType": "warden-check",
+      "model": "anthropic/claude-haiku-4-5",
+      "status": "pass",
+      "latencyMs": 0,
+      "notes": "15 checks run, 0 violations"
+    },
+    {
+      "ts": "2026-05-02T21:25:32+10:00",
+      "date": "2026-05-02",
+      "tier": "T2",
+      "taskType": "warden-check",
+      "model": "anthropic/claude-haiku-4-5",
+      "status": "pass",
+      "latencyMs": 0,
+      "notes": "15 checks run, all pass"
+    },
+    {
+      "ts": "2026-05-02T21:40:30+10:00",
+      "date": "2026-05-02",
+      "tier": "T2",
+      "taskType": "warden-check",
+      "model": "anthropic/claude-haiku-4-5",
+      "status": "pass",
+      "latencyMs": 0,
+      "notes": "15 checks run"
+    },
+    {
+      "ts": "2026-05-02T21:55:28+10:00",
+      "date": "2026-05-02",
+      "tier": "T2",
+      "taskType": "warden-check",
+      "model": "anthropic/claude-haiku-4-5",
+      "status": "pass",
+      "latencyMs": 0,
+      "notes": "15 checks run, 15 PASS, 0 FAIL \u2014 model drift: none"
+    },
+    {
+      "ts": "2026-05-02T22:10:43+10:00",
+      "date": "2026-05-02",
+      "tier": "T2",
+      "taskType": "warden-check",
+      "model": "anthropic/claude-haiku-4-5",
+      "status": "pass",
+      "latencyMs": 0,
+      "notes": "15 checks run - 15 PASS, 0 FAIL"
+    },
+    {
+      "ts": "2026-05-02T22:25:51+10:00",
+      "date": "2026-05-02",
+      "tier": "T2",
+      "taskType": "warden-check",
+      "model": "anthropic/claude-haiku-4-5",
+      "status": "pass",
+      "latencyMs": 0,
+      "notes": "15 checks run"
+    },
+    {
+      "ts": "2026-05-02T22:40:43+10:00",
+      "date": "2026-05-02",
+      "tier": "T2",
+      "taskType": "warden-check",
+      "model": "anthropic/claude-haiku-4-5",
+      "status": "pass",
+      "latencyMs": 0,
+      "notes": "15 checks run: 15 PASS, 0 FAIL. All model configs and governance gates compliant."
+    },
+    {
+      "ts": "2026-05-02T22:55:41+10:00",
+      "date": "2026-05-02",
+      "tier": "T2",
+      "taskType": "warden-check",
+      "model": "anthropic/claude-haiku-4-5",
+      "status": "pass",
+      "latencyMs": 0,
+      "notes": "15 checks run"
+    },
+    {
+      "ts": "2026-05-02T23:10:44+10:00",
+      "date": "2026-05-02",
+      "tier": "T2",
+      "taskType": "warden-check",
+      "model": "anthropic/claude-haiku-4-5",
+      "status": "pass",
+      "latencyMs": 0,
+      "notes": "15 checks run"
+    },
+    {
+      "ts": "2026-05-02T23:26:02+10:00",
+      "date": "2026-05-02",
+      "tier": "T2",
+      "taskType": "warden-check",
+      "model": "anthropic/claude-haiku-4-5",
+      "status": "pass",
+      "latencyMs": 0,
+      "notes": "15 checks run: 15 PASS, 0 FAIL. All model compliance gates clean."
+    },
+    {
+      "ts": "2026-05-02T23:41:08+10:00",
+      "date": "2026-05-02",
+      "tier": "T2",
+      "taskType": "warden-check",
+      "model": "anthropic/claude-haiku-4-5",
+      "status": "pass",
+      "latencyMs": 0,
+      "notes": "15 checks run"
+    },
+    {
+      "ts": "2026-05-03T00:04:21+10:00",
+      "date": "2026-05-03",
+      "tier": "T2",
+      "taskType": "warden-check",
+      "model": "anthropic/claude-haiku-4-5",
+      "status": "fail",
+      "latencyMs": 0,
+      "notes": "1 unresolved violation (obs-collector stale) + script syntax error. See warden-escalation-pending.json"
     }
   ],
   "summary": {
-    "total": 501,
+    "total": 549,
     "byTier": {
       "T1": {
         "pass": 0,
@@ -5023,8 +5503,8 @@
         "timeout": 0
       },
       "T2": {
-        "pass": 492,
-        "fail": 8,
+        "pass": 513,
+        "fail": 29,
         "timeout": 0
       },
       "T3": {
@@ -5041,8 +5521,8 @@
         "tier": "T2"
       },
       "warden-check": {
-        "pass": 330,
-        "fail": 2,
+        "pass": 350,
+        "fail": 23,
         "timeout": 0,
         "tier": "T2"
       },
@@ -5059,12 +5539,12 @@
         "tier": "T2"
       },
       "burn-check": {
-        "pass": 4,
+        "pass": 5,
         "fail": 0,
         "timeout": 0,
         "tier": "T2"
       }
     },
-    "estimatedSavingsUSD": 2.4675
+    "estimatedSavingsUSD": 2.5725
   }
 }

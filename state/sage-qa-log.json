@@ -251,11 +251,81 @@
       "issues": [
         "[]"
       ]
+    },
+    {
+      "ts": "2026-05-02T13:28:48+10:00",
+      "assetPath": "/tmp/spark-seeder-1.txt",
+      "assetType": "social",
+      "producedBy": "yoda",
+      "intendedFor": "public distribution",
+      "brief": "Content governance review for CONTENT-SEED-1",
+      "verdict": "FAIL",
+      "passCount": 6,
+      "failCount": 1,
+      "issues": [
+        "File too small:      289 bytes. Likely truncated or generation failed."
+      ]
+    },
+    {
+      "ts": "2026-05-02T13:29:22+10:00",
+      "assetPath": "/tmp/spark-seeder-1.txt",
+      "assetType": "social",
+      "producedBy": "yoda",
+      "intendedFor": "public distribution",
+      "brief": "Content governance review for CONTENT-SEED-1",
+      "verdict": "PASS",
+      "passCount": 7,
+      "failCount": 0,
+      "issues": [
+        "[]"
+      ]
+    },
+    {
+      "ts": "2026-05-02T13:29:27+10:00",
+      "assetPath": "/tmp/spark-seeder-2.txt",
+      "assetType": "social",
+      "producedBy": "yoda",
+      "intendedFor": "public distribution",
+      "brief": "Content governance review for CONTENT-SEED-2",
+      "verdict": "PASS",
+      "passCount": 7,
+      "failCount": 0,
+      "issues": [
+        "[]"
+      ]
+    },
+    {
+      "ts": "2026-05-02T21:41:03+10:00",
+      "assetPath": "/Users/ainchorsangiefpl/.openclaw/workspace-social/proposals/linkedin-sample-posts-draft.md",
+      "assetType": "social",
+      "producedBy": "yoda",
+      "intendedFor": "public distribution",
+      "brief": "Content governance review for CONTENT-0039",
+      "verdict": "PASS",
+      "passCount": 7,
+      "failCount": 0,
+      "issues": [
+        "[]"
+      ]
+    },
+    {
+      "ts": "2026-05-03T00:08:47+10:00",
+      "assetPath": "/tmp/blog-draft-2026-05-02.html",
+      "assetType": "blog",
+      "producedBy": "yoda",
+      "intendedFor": "public distribution",
+      "brief": "Content governance review for CONTENT-0040",
+      "verdict": "PASS",
+      "passCount": 7,
+      "failCount": 0,
+      "issues": [
+        "[]"
+      ]
     }
   ],
   "summary": {
-    "total": 18,
-    "pass": 18,
-    "fail": 0
+    "total": 23,
+    "pass": 22,
+    "fail": 1
   }
 }

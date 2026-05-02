@@ -1,78 +1,35 @@
 {
-  "violations": [
-    {
-      "agentId": "default.fallbacks",
-      "expected": [
-        "anthropic/claude-opus-4-7",
-        "ollama/gemma4:26b"
-      ],
-      "actual": [
-        "anthropic/claude-haiku-4-5"
-      ],
-      "severity": "VIOLATION",
-      "note": "Superseded by policy change 2026-04-28: Lex now Sonnet. Warden test false positive cleared.",
-      "detectedAt": "2026-04-28T07:53:06+10:00",
-      "id": "DRIFT-20260427215306-default_fallbacks",
-      "status": "superseded",
-      "escalatedToYoda": false
-    },
-    {
-      "agentId": "legal",
-      "expected": "anthropic/claude-opus-4-7",
-      "actual": "anthropic/claude-sonnet-4-6",
-      "severity": "EXCEPTION_DRIFT",
-      "note": "Superseded by policy change 2026-04-28: Lex now Sonnet. Warden test false positive cleared.",
-      "detectedAt": "2026-04-28T07:57:25+10:00",
-      "id": "DRIFT-20260427215725-legal",
-      "status": "superseded",
-      "escalatedToYoda": false
-    },
-    {
-      "agentId": "default.fallbacks",
-      "expected": [
-        "anthropic/claude-opus-4-7",
-        "ollama/gemma4:e2b"
-      ],
-      "actual": [
-        "anthropic/claude-haiku-4-5"
-      ],
-      "severity": "VIOLATION",
-      "note": "Fallback chain drift breaks resilient outage handling. SUPERSEDED: CHG-0075 intentional policy change to Haiku-only.",
-      "detectedAt": "2026-04-29T10:55:46+10:00",
-      "id": "DRIFT-20260429005546-default_fallbacks",
-      "status": "superseded",
-      "escalatedToYoda": true,
-      "supersededBy": "CHG-0075"
-    },
-    {
-      "agentId": "default.fallbacks",
-      "expected": [
-        "anthropic/claude-opus-4-7",
-        "ollama/gemma4:e2b"
-      ],
-      "actual": [
-        "anthropic/claude-haiku-4-5"
-      ],
-      "severity": "VIOLATION",
-      "note": "Fallback chain drift breaks resilient outage handling. SUPERSEDED: CHG-0075 intentional policy change to Haiku-only.",
-      "detectedAt": "2026-04-29T11:10:46+10:00",
-      "id": "DRIFT-20260429011046-default_fallbacks",
-      "status": "superseded",
-      "escalatedToYoda": true,
-      "supersededBy": "CHG-0075"
-    },
-    {
-      "agentId": "itil.obs-freshness",
-      "severity": "ITIL_VIOLATION",
-      "note": "obs-collector-state.json is 12min old. Observability collector may not be running. ITIL-4 breach.",
-      "detectedAt": "2026-05-02T03:07:41+10:00",
-      "id": "DRIFT-20260501170741-itil_obs-freshness",
-      "status": "resolved-auto",
-      "escalatedToYoda": false,
-      "resolvedAt": "2026-05-02T20:49:00Z",
-      "resolvedNote": "obs-collector-state.json confirmed current at heartbeat 06:49 AEST (lastRun=2026-05-01T20:49:08Z). Cron d3b1e203 running ok. False positive \u2014 stale window at 3:07AM resolved naturally."
-    }
+  "escalationId": "warden-20260503-0003",
+  "timestamp": "2026-05-03T00:03:48+10:00",
+  "checkType": "model-drift-check",
+  "exitCode": 1,
+  "severity": "error+violation",
+  "finding": "Script syntax error AND unresolved ITIL-4 violation: obs-collector-state.json is 13 minutes old (max: 10 min)",
+  "details": {
+    "checksRun": 15,
+    "checksPassed": 14,
+    "checksFailed": 1,
+    "failingCheck": "ITIL-4: obs-collector-state freshness",
+    "staleness": "13 minutes old",
+    "maxAllowed": "10 minutes",
+    "scriptError": "SyntaxError: EOL while scanning string literal (missing closing quote in findings array)",
+    "errorLine": "findings = [{...detectedAt:\"2026-05-03T00:03:48+10:00}] (missing closing quote)"
+  },
+  "unresolved": {
+    "violationId": "DRIFT-20260501170741-itil_obs-freshness",
+    "agentId": "itil.obs-freshness",
+    "severity": "ITIL_VIOLATION",
+    "firstDetected": "2026-05-02T03:07:41+10:00",
+    "lastDetected": "2026-05-03T00:03:48+10:00",
+    "escalatedToYoda": true,
+    "note": "Observability collector may not be running. ITIL-4 compliance breach."
+  },
+  "remediation": [
+    "Fix model-drift-check.sh JSON syntax error (line ~11, missing closing quote in findings array)",
+    "Investigate and restart obs-collector to clear obs-collector-state timestamp",
+    "Rerun model-drift-check.sh to confirm clean exit and ITIL-4 resolution"
   ],
-  "totalUnresolved": 0,
-  "lastUpdated": "2026-05-02T20:49:00Z"
+  "status": "pending-yoda-action",
+  "escalatedToYoda": true,
+  "escalatedAt": "2026-05-03T00:03:48+10:00"
 }

@@ -1,5 +1,5 @@
 {
-  "lastUpdated": "2026-05-02T02:00:12Z",
+  "lastUpdated": "2026-05-02T13:55:16Z",
   "history": {
     "2026-04-25": {
       "date": "2026-04-25",
@@ -208,30 +208,38 @@
     },
     "2026-05-02": {
       "date": "2026-05-02",
-      "totalCost": 28.9958,
-      "totalTurns": 664,
-      "totalInputTokens": 1863,
-      "totalOutputTokens": 250826,
-      "totalCacheReadTokens": 27561086,
-      "totalCacheWriteTokens": 4669096,
+      "totalCost": 87.3005,
+      "totalTurns": 3122,
+      "totalInputTokens": 11052,
+      "totalOutputTokens": 736040,
+      "totalCacheReadTokens": 95064923,
+      "totalCacheWriteTokens": 13908689,
       "source": "session-log-estimate",
       "note": "Session log estimate. usage.cost.total includes cacheWrite charges. CHG-0097: confirmed cost includes cache writes.",
       "byModel": {
         "claude-sonnet-4-6": {
-          "input": 887,
-          "output": 237481,
-          "cacheRead": 26191692,
-          "cacheWrite": 4612973,
-          "cost": 28.721,
-          "turns": 573
+          "input": 4100,
+          "output": 621045,
+          "cacheRead": 85304901,
+          "cacheWrite": 13374912,
+          "cost": 85.0754,
+          "turns": 2484
         },
         "claude-haiku-4-5": {
-          "input": 976,
-          "output": 13345,
-          "cacheRead": 1369394,
-          "cacheWrite": 56123,
-          "cost": 0.2748,
-          "turns": 89
+          "input": 6952,
+          "output": 114995,
+          "cacheRead": 9760022,
+          "cacheWrite": 533777,
+          "cost": 2.2252,
+          "turns": 633
+        },
+        "delivery-mirror": {
+          "input": 0,
+          "output": 0,
+          "cacheRead": 0,
+          "cacheWrite": 0,
+          "cost": 0.0,
+          "turns": 3
         },
         "gateway-injected": {
           "input": 0,
@@ -244,19 +252,19 @@
       }
     }
   },
-  "allTimeTotalCost": 893.1404,
+  "allTimeTotalCost": 951.4451,
   "daysTracked": 8,
-  "avgDailyCost": 111.6426,
+  "avgDailyCost": 118.9306,
   "apiBalance": {
     "currency": "USD",
-    "balance": 65.41,
+    "balance": 121.0,
     "topUpDate": "2026-05-01",
     "spentSinceTopUp": 0,
-    "remainingEstimate": 140.0,
-    "note": "Balance $65.41 USD confirmed by Ken 2026-05-02 06:57 AEST.",
-    "confirmedAt": "2026-05-02T01:33:31.383650Z",
+    "remainingEstimate": 121.0,
+    "note": "Balance $121.00 USD confirmed by Ken 2026-05-02 13:18 AEST (webchat). balance field corrected at 16:41 AEST \u2014 was stuck at 65.41 due to partial update.",
+    "confirmedAt": "2026-05-02T03:18:00Z",
     "confirmedBy": "Ken",
-    "confirmedBalance": 140.0,
+    "confirmedBalance": 121.0,
     "preTopUpActual": 18,
     "trackerDiscrepancy": {
       "trackerEstimate": 103,
@@ -264,7 +272,7 @@
       "gap": 85,
       "cause": "input_cache_write_5m charges excluded from session-log estimates"
     },
-    "remainingNote": "confirmedBalance=140.0 at 2026-05-02; spentAfter=0"
+    "remainingNote": "confirmedBalance=121.0 at 2026-05-02; spentAfter=0"
   },
   "spendAlerts": {
     "tier1": {
