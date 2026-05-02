@@ -29,7 +29,9 @@
     "Investigate and restart obs-collector to clear obs-collector-state timestamp",
     "Rerun model-drift-check.sh to confirm clean exit and ITIL-4 resolution"
   ],
-  "status": "pending-yoda-action",
+  "status": "resolved-by-yoda",
   "escalatedToYoda": true,
-  "escalatedAt": "2026-05-03T00:03:48+10:00"
+  "escalatedAt": "2026-05-03T00:03:48+10:00",
+  "resolvedAt": "2026-05-03T00:22:00+10:00",
+  "resolution": "obs-collector self-recovered (cron running normally, state now 5min fresh). model-drift-check.sh violations Python quoting bug fixed (temp-file approach). 15/15 PASS on re-run. CHG-0133."
 }

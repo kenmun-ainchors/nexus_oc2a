@@ -381,9 +381,13 @@ print('State updated.')
 
 # ── Write violations if any ────────────────────────────────────────────────────
 if [ $FAIL -gt 0 ]; then
-  python3 -c "
+  # Write FINDINGS_JSON to a temp file to avoid shell quoting issues in python -c
+  FINDINGS_TMP=$(mktemp /tmp/warden-findings-XXXXXX.json)
+  echo "$FINDINGS_JSON" > "$FINDINGS_TMP"
+  python3 - <<PYEOF
 import json, os
 vfile = '$VIOLATIONS'
+findings_file = '$FINDINGS_TMP'
 # Load existing
 if os.path.exists(vfile):
     with open(vfile) as f:
@@ -391,7 +395,10 @@ if os.path.exists(vfile):
 else:
     data = {'violations': [], 'totalUnresolved': 0}
 
-findings = $FINDINGS_JSON
+with open(findings_file) as ff:
+    findings = json.load(ff)
+os.unlink(findings_file)
+
 for f in findings:
     f['id'] = 'DRIFT-' + '$TIMESTAMP'.replace(':','').replace('-','').replace('T','').replace('Z','')[:14] + '-' + f['agentId'].replace('.','_').replace(' ','_')[:20]
     f['status'] = 'unresolved'
@@ -406,7 +413,7 @@ data['lastUpdated'] = '$AEST_TIMESTAMP'
 with open(vfile, 'w') as f2:
     json.dump(data, f2, indent=2)
 print(f'Violations written: {len(findings)}')
-"
+PYEOF
   echo ""
   echo "⚠️  VIOLATIONS DETECTED — written to state/model-drift-violations.json"
   echo "    Warden will escalate to Yoda."

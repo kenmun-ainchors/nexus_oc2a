@@ -5492,10 +5492,40 @@
       "status": "fail",
       "latencyMs": 0,
       "notes": "1 unresolved violation (obs-collector stale) + script syntax error. See warden-escalation-pending.json"
+    },
+    {
+      "ts": "2026-05-03T00:19:03+10:00",
+      "date": "2026-05-03",
+      "tier": "T2",
+      "taskType": "warden-check",
+      "model": "anthropic/claude-haiku-4-5",
+      "status": "pass",
+      "latencyMs": 0,
+      "notes": "15 checks run"
+    },
+    {
+      "ts": "2026-05-03T00:34:04+10:00",
+      "date": "2026-05-03",
+      "tier": "T2",
+      "taskType": "warden-check",
+      "model": "anthropic/claude-haiku-4-5",
+      "status": "pass",
+      "latencyMs": 0,
+      "notes": "15 checks run: 15 PASS, 0 FAIL. No model drift detected."
+    },
+    {
+      "ts": "2026-05-03T00:49:07+10:00",
+      "date": "2026-05-03",
+      "tier": "T2",
+      "taskType": "warden-check",
+      "model": "anthropic/claude-haiku-4-5",
+      "status": "pass",
+      "latencyMs": 0,
+      "notes": "15 checks run - all PASS"
     }
   ],
   "summary": {
-    "total": 549,
+    "total": 552,
     "byTier": {
       "T1": {
         "pass": 0,
@@ -5503,7 +5533,7 @@
         "timeout": 0
       },
       "T2": {
-        "pass": 513,
+        "pass": 516,
         "fail": 29,
         "timeout": 0
       },
@@ -5521,7 +5551,7 @@
         "tier": "T2"
       },
       "warden-check": {
-        "pass": 350,
+        "pass": 353,
         "fail": 23,
         "timeout": 0,
         "tier": "T2"
@@ -5545,6 +5575,6 @@
         "tier": "T2"
       }
     },
-    "estimatedSavingsUSD": 2.5725
+    "estimatedSavingsUSD": 2.5875
   }
 }

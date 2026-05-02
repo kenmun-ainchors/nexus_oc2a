@@ -1,6 +1,13 @@
 # AInchors Change Log
 _Established: 2026-04-27 | Owner: Yoda 🟢 | Append-only, reverse-chronological_
 
+## 2026-05-03 00:22 AEST — [CHG-0133] Resolve Warden escalation warden-20260503-0003; fix model-drift-check.sh violations Python quoting bug
+- **Trigger:** Heartbeat picked up warden-escalation-pending.json (status=pending-yoda-action)
+- **Root cause:** obs-collector-state.json went stale overnight (~10h gap from ~14:16 UTC yesterday). Cron resumed normally; file now fresh (5min old).
+- **Secondary fix:** model-drift-check.sh had a latent Python quoting bug in the violations-write path — inline `python3 -c "...findings = $FINDINGS_JSON..."` broke when FINDINGS_JSON contained double-quoted JSON values. Fixed by writing FINDINGS_JSON to a temp file and reading it in Python (heredoc approach).
+- **Verification:** Ran model-drift-check.sh manually → 15/15 PASS, exit 0.
+- **Escalation:** Marked warden-escalation-pending.json resolved-by-yoda. Ken notified.
+
 This log captures **every change** Yoda makes to AInchors infrastructure, config, scripts, agents, or operating rules. Every change vector — Ken-prompted, auto-heal, incident-recovery, scheduled — must call `scripts/changelog-append.sh`.
 
 **Schema:**
