@@ -1,11 +1,11 @@
 {
-  "generated_at": "2026-05-02T14:56:08.423415+00:00",
-  "generated_at_aest": "2026-05-03 00:56 AEST",
+  "generated_at": "2026-05-02T15:56:08.441723+00:00",
+  "generated_at_aest": "2026-05-03 01:56 AEST",
   "period_hours": 24,
   "totals": {
     "ERROR": 36,
-    "WARN": 905,
-    "INFO": 6
+    "WARN": 917,
+    "INFO": 8
   },
   "top_errors": [
     {
@@ -24,7 +24,7 @@
     },
     {
       "type": "gateway_restart",
-      "count": 165
+      "count": 177
     },
     {
       "type": "lane_error",
@@ -37,10 +37,10 @@
   ],
   "trend": {
     "has_prev_data": true,
-    "prev_errors": 298,
-    "prev_warns": 748,
-    "errors_pct_change": -87.9,
-    "warns_pct_change": 21.0
+    "prev_errors": 274,
+    "prev_warns": 724,
+    "errors_pct_change": -86.9,
+    "warns_pct_change": 26.7
   },
   "worst_hour": {
     "hour": "2026-05-02T04:00Z",
