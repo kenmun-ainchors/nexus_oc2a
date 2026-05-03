@@ -1,17 +1,15 @@
 {
   "id": "INC-20260503-001",
-  "title": "Gateway OOM crash loop (TKT-0040)",
+  "title": "Anthropic API key mismatch \u2014 keychain stale post CHG-0139 rotation",
   "severity": "P2",
-  "ticket": "TKT-0040",
-  "start": "2026-04-28T21:52:00Z",
-  "end": "2026-05-03T08:40:00Z",
-  "detectedBy": "Yoda (automated obs + TKT-0040 investigation)",
-  "cause": "Node.js heap OOM: sessions.json grew to 16MB+ (1.7GB total sessions dir), exhausting default Node.js heap. Gateway crashed 8 times over 5 days with FATAL ERROR 'Reached heap limit Allocation failed'. Secondary issue: obs-collector.sh timezone parsing bug caused same error log line to be re-detected on every 5-min run, inflating 8 real restarts into 235+ obs events.",
-  "resolution": "1. Added NODE_OPTIONS=--max-old-space-size=4096 to LaunchAgent plist ~/Library/LaunchAgents/ai.openclaw.gateway.plist (activates on next gateway restart). 2. Fixed line_epoch() timezone parsing bug in scripts/obs-collector.sh — local +10:00 timestamps were treated as UTC, making log lines appear 10h in the future and thus always newer than lastRunEpoch. 3. Cleaned 5 stale .tmp session files from ~/.openclaw/agents/main/sessions/. 4. Reset obs-collector lastRunEpoch to prevent re-detection of old error log lines.",
-  "preventable": true,
-  "impact": "Gateway auto-restarted 8 times, interrupting active main sessions. 235+ false-positive gateway_restart obs events generated, masking real signal.",
+  "startAt": "2026-05-03T04:03:52Z",
+  "endAt": "2026-05-03T08:06:22.075848+00:00",
   "status": "resolved",
-  "loggedBy": "Yoda (subagent TKT-0040)",
-  "loggedAt": "2026-05-03T08:40:00Z",
-  "actionRequired": "Ken: restart gateway at next convenient time to activate NODE_OPTIONS heap increase. Command: openclaw gateway restart"
+  "cause": "API key rotated (CHG-0139) but macOS Keychain entry anthropic-api-key not updated. Gateway works via OpenClaw config. All diagnostic scripts and agent heartbeats (Aria/Shield/Lex/Sage) returning HTTP 401.",
+  "impact": "outage-detect, health-check, agent heartbeats all failing. Standby mode active. Fallback chain broken. Gateway + main session unaffected.",
+  "resolution": "Keychain entry anthropic-api-key updated to AInchors key (CHG-0139). All diagnostic scripts + agent heartbeats restored. Verified via API call.",
+  "detectedBy": "Yoda heartbeat cron 2026-05-03T04:19Z",
+  "preventable": true,
+  "chg": "CHG-0139",
+  "actionRequired": "Ken to run: security add-generic-password -U -s anthropic-api-key -a anthropic -w <NEW_KEY>"
 }

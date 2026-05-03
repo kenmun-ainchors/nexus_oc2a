@@ -353,6 +353,58 @@ else
   log "  OK: no cron-dead-letter.json (no dead-lettered crons)"
 fi
 
+# ---------- CHECK 16: Keychain secret liveness ----------
+log "CHECK 16: keychain secret liveness"
+CHECKS_RUN+=("keychain_liveness")
+GET_SECRET="$WORKSPACE/scripts/get-secret.sh"
+if [[ -f "$GET_SECRET" ]]; then
+  # Anthropic key
+  ANTH_KEY=$(zsh "$GET_SECRET" anthropic-api-key 2>/dev/null)
+  if [[ -n "$ANTH_KEY" && ${#ANTH_KEY} -gt 20 ]]; then
+    ANTH_HTTP=$(curl -s -o /dev/null -w "%{http_code}" \
+      -H "anthropic-version: 2023-06-01" \
+      -H "x-api-key: $ANTH_KEY" \
+      "https://api.anthropic.com/v1/models" 2>/dev/null)
+    if [[ "$ANTH_HTTP" == "200" ]]; then
+      log "  OK: anthropic-api-key live (HTTP 200)"
+      # AUTO-FIX: sync key to all agent auth-profiles.json files that have a stale copy
+      for AUTH_FILE in \
+        "$HOME/.openclaw/agents/business/agent/auth-profiles.json" \
+        "$HOME/.openclaw/agents/security/agent/auth-profiles.json" \
+        "$HOME/.openclaw/agents/governance/agent/auth-profiles.json" \
+        "$HOME/.openclaw/agents/legal/agent/auth-profiles.json" \
+        "$HOME/.openclaw/agents/qa/agent/auth-profiles.json"; do
+        if [[ -f "$AUTH_FILE" ]]; then
+          STORED_KEY=$(python3 -c "import json; d=json.load(open('$AUTH_FILE')); print(d.get('profiles',{}).get('anthropic:default',{}).get('key',''))" 2>/dev/null)
+          if [[ "$STORED_KEY" != "$ANTH_KEY" ]]; then
+            python3 -c "
+import json
+path='$AUTH_FILE'
+with open(path) as f: d=json.load(f)
+if 'anthropic:default' in d.get('profiles',{}):
+    d['profiles']['anthropic:default']['key']='$ANTH_KEY'
+with open(path,'w') as f: json.dump(d,f,indent=2)
+" 2>/dev/null && {
+              AUTO_FIXED+=("auth-key-synced:$(basename $(dirname $AUTH_FILE))")
+              log "  AUTO-FIX: synced anthropic key to $AUTH_FILE"
+            }
+          fi
+        fi
+      done
+    else
+      ISSUES_FOUND+=("keychain:anthropic-key-stale")
+      NEEDS_KEN+=("Anthropic API key in keychain returning HTTP $ANTH_HTTP — key may be rotated or disabled. Run: zsh scripts/get-secret.sh anthropic-api-key and update keychain if needed.")
+      log "  ISSUE: anthropic-api-key returning HTTP $ANTH_HTTP — stale or disabled"
+    fi
+  else
+    ISSUES_FOUND+=("keychain:anthropic-key-missing")
+    NEEDS_KEN+=("Anthropic API key not found in keychain via get-secret.sh")
+    log "  ISSUE: anthropic-api-key not found"
+  fi
+else
+  log "  SKIP: get-secret.sh not found at $GET_SECRET"
+fi
+
 # ---------- WRITE REPORT ----------
 log "=== WRITING REPORT ==="
 

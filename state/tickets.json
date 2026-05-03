@@ -635,11 +635,11 @@
       "title": "Automated social posting — trigger when social accounts connected",
       "type": "request",
       "priority": "low",
-      "status": "open",
+      "status": "resolved",
       "requester": "Ken",
       "assignee": "Yoda",
       "created": "2026-05-02T12:06:51+10:00",
-      "updated": "2026-05-02T12:06:51+10:00",
+      "updated": "2026-05-03T18:36:02+10:00",
       "description": "Automate social media posting (Instagram, Facebook, LinkedIn) for approved content. Trigger condition: social accounts connected to platform. Dependency: TKT-0033 (content governance gate) must be live. Current status: social accounts not yet connected.",
       "resolution": null,
       "linked": {
@@ -647,7 +647,7 @@
         "inc": [],
         "chg": []
       },
-      "notes": ""
+      "notes": "LinkedIn API connected 2026-05-03. OAuth live, member ID FhpPCanUWM, w_member_social scope active. CHG-0137."
     },
     {
       "id": "TKT-0035",
@@ -710,31 +710,31 @@
       "id": "TKT-0039",
       "title": "Spark — LinkedIn Authority Campaign Proposal (Ken personal profile)",
       "type": "US",
-      "status": "resolved",
+      "status": "in-progress",
       "priority": "high",
       "stream": "technical",
       "agent": "Spark",
       "createdAt": "2026-05-02T08:34:52.946486+00:00",
       "createdBy": "Ken",
       "description": "Install SPARK_SOCIAL_SKILL.md into Spark workspace. Extend Spark scope to LinkedIn (Ken personal profile). Spark to audit last 30-90 days LinkedIn performance and produce two drafts: (1) LinkedIn Authority Campaign Proposal — 4-12 week authority/visibility plan, content themes, posting rhythm, engagement routines, metrics/reporting. Skill frameworks: AIDA/PAS, content pillars, Hero-Hub-Help, ICE/PIE, attribution. Spark pauses after proposals — no posting/scheduling until Ken approves.",
-      "notes": "Instagram deferred (TKT-0034 — social APIs not connected). LinkedIn only. Ken personal profile. Next priority after current sprint. | route-model.sh integration complete. Created spawn-with-routing.sh; governance-review.sh and content-governance-review.sh updated; Midday Cost Tracker downgraded to Gemma4:e2b (T3/free). CHG-0135.",
+      "notes": "Instagram deferred (TKT-0034 — social APIs not connected). LinkedIn only. Ken personal profile. Next priority after current sprint. | route-model.sh integration complete. Created spawn-with-routing.sh; governance-review.sh and content-governance-review.sh updated; Midday Cost Tracker downgraded to Gemma4:e2b (T3/free). CHG-0135. | Ken approved 2026-05-03 18:58 AEST. Proposal v2 approved. Campaign launching. Week 1 drafts queued for Spark. | Week 1 content approved 19:31 AEST. 4 posts queued. Profile prereqs complete. Campaign live from Tue 7:30 AEST.",
       "linkedTickets": [
         "TKT-0034",
         "TKT-0038"
       ],
       "skillFile": "workspace-social/SPARK_SOCIAL_SKILL.md",
-      "updated": "2026-05-03T08:42:12+10:00"
+      "updated": "2026-05-03T19:32:22+10:00"
     },
     {
       "id": "TKT-0039",
       "title": "Wire route-model.sh into sub-agent spawning — Tier A/B/C delegation live",
       "type": "task",
       "priority": "high",
-      "status": "resolved",
+      "status": "in-progress",
       "requester": "Ken",
       "assignee": "Yoda",
       "created": "2026-05-03T08:35:53+10:00",
-      "updated": "2026-05-03T08:42:12+10:00",
+      "updated": "2026-05-03T19:32:22+10:00",
       "description": "",
       "resolution": null,
       "linked": {
@@ -742,7 +742,7 @@
         "inc": [],
         "chg": []
       },
-      "notes": "route-model.sh integration complete. Created spawn-with-routing.sh; governance-review.sh and content-governance-review.sh updated; Midday Cost Tracker downgraded to Gemma4:e2b (T3/free). CHG-0135."
+      "notes": "route-model.sh integration complete. Created spawn-with-routing.sh; governance-review.sh and content-governance-review.sh updated; Midday Cost Tracker downgraded to Gemma4:e2b (T3/free). CHG-0135. | Ken approved 2026-05-03 18:58 AEST. Proposal v2 approved. Campaign launching. Week 1 drafts queued for Spark. | Week 1 content approved 19:31 AEST. 4 posts queued. Profile prereqs complete. Campaign live from Tue 7:30 AEST."
     },
     {
       "id": "TKT-0040",

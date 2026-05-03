@@ -727,6 +727,7 @@ Exit 2 = do not publish. Fix all issues and re-run until exit 0.
 - Active incidents (check state/incident-log or scripts/incident-log.sh)
 - Warden escalation pending (state/warden-escalation-pending.json)
 - Task stall alerts (state/task-stall-alert.json)
+- **Cron failures** — run `bash scripts/cron-health-check.sh` — ANY failure on a daily cron = critical. Single timeout on AKB/standup/EOD/backup = surface immediately. Do not wait for dead-letter threshold.
 
 **⚠️ Needs Action** — items requiring Ken’s input or decision:
 - New US raised since last standup (check Notion or state/tickets.json for items created in window)
@@ -875,9 +876,13 @@ Step 4 - Log: include `--category CATEGORY --framework-docs "doc1, doc2"` in the
 
 - All secrets stored in macOS Keychain (zero cost, built-in)
 - CLI: `scripts/secrets-init.sh store|get|list|verify|export`
-- Expected secrets: `anthropic-api-key`, `notion-api-key`, `telegram-bot-token`
-- Account: `ainchors`
-- New integrations: store in Keychain first, update EXPECTED_SECRETS array in script, update SecretsManagement.md
+- **CANONICAL LOOKUP: ALL scripts MUST use `zsh scripts/get-secret.sh <name>` — NEVER hardcode `security find-generic-password` directly in scripts**
+- When a key is rotated or renamed → update `scripts/get-secret.sh` ONLY. One file. No drift.
+- Canonical secret names: `anthropic-api-key`, `notion-api-key`, `telegram-bot-token`
+- Active keychain entries: `ainchors-anthropic-api-key` (acct: anthropic) → resolves as `anthropic-api-key`
+- Account default: `ainchors`
+- New integrations: store in Keychain first, add entry to `scripts/get-secret.sh`, update EXPECTED_SECRETS in `secrets-init.sh`, update SecretsManagement.md
+- Auto-heal Check #16 validates Anthropic key liveness every nightly run → alerts Ken if stale
 - Doc: `~/Documents/AInchors/Operations/SecretsManagement.md`
 
 ---

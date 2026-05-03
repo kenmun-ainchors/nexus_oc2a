@@ -661,11 +661,83 @@
       "verdict": "PASS",
       "pass": 5,
       "fail": 0
+    },
+    {
+      "ts": "2026-05-03T19:00:42+10:00",
+      "asset": "/tmp/li-w1-p1.txt",
+      "producedBy": "yoda",
+      "intendedFor": "public distribution",
+      "verdict": "PASS",
+      "pass": 5,
+      "fail": 0
+    },
+    {
+      "ts": "2026-05-03T19:00:42+10:00",
+      "asset": "/tmp/li-w1-p1.txt",
+      "producedBy": "yoda",
+      "intendedFor": "public distribution",
+      "verdict": "PASS",
+      "pass": 5,
+      "fail": 0
+    },
+    {
+      "ts": "2026-05-03T19:00:47+10:00",
+      "asset": "/tmp/li-w1-p2.txt",
+      "producedBy": "yoda",
+      "intendedFor": "public distribution",
+      "verdict": "PASS",
+      "pass": 5,
+      "fail": 0
+    },
+    {
+      "ts": "2026-05-03T19:00:47+10:00",
+      "asset": "/tmp/li-w1-p2.txt",
+      "producedBy": "yoda",
+      "intendedFor": "public distribution",
+      "verdict": "PASS",
+      "pass": 5,
+      "fail": 0
+    },
+    {
+      "ts": "2026-05-03T19:00:56+10:00",
+      "asset": "/tmp/li-w1-p3.txt",
+      "producedBy": "yoda",
+      "intendedFor": "public distribution",
+      "verdict": "PASS",
+      "pass": 5,
+      "fail": 0
+    },
+    {
+      "ts": "2026-05-03T19:00:56+10:00",
+      "asset": "/tmp/li-w1-p3.txt",
+      "producedBy": "yoda",
+      "intendedFor": "public distribution",
+      "verdict": "PASS",
+      "pass": 5,
+      "fail": 0
+    },
+    {
+      "ts": "2026-05-03T19:01:01+10:00",
+      "asset": "/tmp/li-w1-p4.txt",
+      "producedBy": "yoda",
+      "intendedFor": "public distribution",
+      "verdict": "PASS",
+      "pass": 5,
+      "fail": 0
+    },
+    {
+      "ts": "2026-05-03T19:01:02+10:00",
+      "asset": "/tmp/li-w1-p4.txt",
+      "producedBy": "yoda",
+      "intendedFor": "public distribution",
+      "verdict": "PASS",
+      "pass": 5,
+      "fail": 0
     }
   ],
   "summary": {
-    "total": 52,
-    "pass": 50,
+    "total": 60,
+    "pass": 58,
     "fail": 1
   }
 }

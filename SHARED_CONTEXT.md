@@ -4,7 +4,7 @@ _Read this first. Every agent, every session._
 ---
 
 ## Who We Are
-- **Company:** AI Anchor Solutions Pty Ltd (AInchors)
+- **Company:** Ainchor Solutions Pty Ltd (AInchors)
 - **Domain:** ainchors.com
 - **What we do:** AI training/courses, AI consulting, AI solution building
 - **Stage:** Early — building the foundation

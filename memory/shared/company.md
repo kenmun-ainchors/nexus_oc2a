@@ -2,7 +2,7 @@
 _Shared by all agents. Keep this current._
 
 ## Identity
-- **Full name:** AI Anchor Solutions Pty Ltd
+- **Full name:** Ainchor Solutions Pty Ltd
 - **Short name:** AInchors
 - **Domain:** ainchors.com
 - **Founded:** 2026-04-25

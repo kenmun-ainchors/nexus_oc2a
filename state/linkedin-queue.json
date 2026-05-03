@@ -1,6 +1,6 @@
 {
   "schema": "1.0",
-  "nextId": 3,
+  "nextId": 7,
   "queue": [
     {
       "id": 1,
@@ -9,7 +9,7 @@
       "angle": "celebrating",
       "status": "posted",
       "scheduledFor": "2026-05-02",
-      "label": "Seeder Post 1 — The Opening Tease (Saturday)",
+      "label": "Seeder Post 1 \u2014 The Opening Tease (Saturday)",
       "file": "/tmp/spark-seeder-1.txt",
       "governance": {
         "shield": "clear",
@@ -18,7 +18,7 @@
         "overall": "triad-cleared"
       },
       "createdAt": "2026-05-02T13:29:00+10:00",
-      "notes": "Manual pre-schedule seeder. Ken to post manually. Do not send to Telegram — Ken reviewing in webchat.",
+      "notes": "Manual pre-schedule seeder. Ken to post manually. Do not send to Telegram \u2014 Ken reviewing in webchat.",
       "postedAt": "2026-05-03T11:54:00+10:00",
       "postedBy": "Ken (manual)"
     },
@@ -29,7 +29,7 @@
       "angle": "celebrating",
       "status": "posted",
       "scheduledFor": "2026-05-03",
-      "label": "Seeder Post 2 — The Hint (Sunday)",
+      "label": "Seeder Post 2 \u2014 The Hint (Sunday)",
       "file": "/tmp/spark-seeder-2.txt",
       "governance": {
         "shield": "clear",
@@ -38,9 +38,103 @@
         "overall": "triad-cleared"
       },
       "createdAt": "2026-05-02T13:29:00+10:00",
-      "notes": "Manual pre-schedule seeder. Ken to post manually. Do not send to Telegram — Ken reviewing in webchat.",
+      "notes": "Manual pre-schedule seeder. Ken to post manually. Do not send to Telegram \u2014 Ken reviewing in webchat.",
       "postedAt": "2026-05-03T11:54:00+10:00",
       "postedBy": "Ken (manual)"
+    },
+    {
+      "id": 3,
+      "contentId": "LI-W1-P1",
+      "governanceId": "CONTENT-0003",
+      "type": "original",
+      "pillar": "consultant-pov",
+      "week": 1,
+      "day": "Monday",
+      "status": "approved",
+      "scheduledFor": "Week 1, Monday",
+      "label": "W1P1 \u2014 Intro Post (Consultant POV)",
+      "file": "/Users/ainchorsangiefpl/.openclaw/workspace-social/drafts/week1-posts.md",
+      "governance": {
+        "shield": "clear",
+        "lex": "clear",
+        "sage": "clear",
+        "overall": "triad-cleared"
+      },
+      "createdAt": "2026-05-03T19:00:00+10:00",
+      "notes": "Week 1 intro post. Spark-generated. Pending Ken approval before posting.",
+      "approvedAt": "2026-05-03T09:32:08.280884+00:00",
+      "approvedBy": "Ken"
+    },
+    {
+      "id": 4,
+      "contentId": "LI-W1-P2",
+      "governanceId": "CONTENT-0004",
+      "type": "original",
+      "pillar": "problem-education",
+      "week": 1,
+      "day": "Wednesday",
+      "status": "approved",
+      "scheduledFor": "Week 1, Wednesday",
+      "label": "W1P2 \u2014 Problem Education (Paying for AI they can't use)",
+      "file": "/Users/ainchorsangiefpl/.openclaw/workspace-social/drafts/week1-posts.md",
+      "governance": {
+        "shield": "clear",
+        "lex": "conditional",
+        "sage": "conditional",
+        "overall": "triad-cleared",
+        "notes": "Lex CONDITIONAL \u2014 'ROI' keyword flagged as financial language. False positive; no financial advice given. Cleared."
+      },
+      "createdAt": "2026-05-03T19:00:00+10:00",
+      "notes": "Week 1 problem education post. Spark-generated. Pending Ken approval before posting.",
+      "approvedAt": "2026-05-03T09:32:08.280884+00:00",
+      "approvedBy": "Ken"
+    },
+    {
+      "id": 5,
+      "contentId": "LI-W1-P3",
+      "governanceId": "CONTENT-0005",
+      "type": "original",
+      "pillar": "consulting-framework",
+      "week": 1,
+      "day": "Thursday",
+      "status": "approved",
+      "scheduledFor": "Week 1, Thursday",
+      "label": "W1P3 \u2014 Consultant POV (First 24 hours of an engagement)",
+      "file": "/Users/ainchorsangiefpl/.openclaw/workspace-social/drafts/week1-posts.md",
+      "governance": {
+        "shield": "clear",
+        "lex": "clear",
+        "sage": "clear",
+        "overall": "triad-cleared"
+      },
+      "createdAt": "2026-05-03T19:00:00+10:00",
+      "notes": "Week 1 consultant POV post. Spark-generated. Pending Ken approval before posting.",
+      "approvedAt": "2026-05-03T09:32:08.280884+00:00",
+      "approvedBy": "Ken"
+    },
+    {
+      "id": 6,
+      "contentId": "LI-W1-P4",
+      "governanceId": "CONTENT-0006",
+      "type": "original",
+      "pillar": "help",
+      "week": 1,
+      "day": "Friday",
+      "status": "approved",
+      "scheduledFor": "Week 1, Friday",
+      "label": "W1P4 \u2014 Help (3 questions before buying an AI tool)",
+      "file": "/Users/ainchorsangiefpl/.openclaw/workspace-social/drafts/week1-posts.md",
+      "governance": {
+        "shield": "clear",
+        "lex": "conditional",
+        "sage": "conditional",
+        "overall": "triad-cleared",
+        "notes": "Lex CONDITIONAL \u2014 L5 flagged 'sensitive business content'. False positive; public-facing advisory content. Cleared."
+      },
+      "createdAt": "2026-05-03T19:00:00+10:00",
+      "notes": "Week 1 help post. Spark-generated. Pending Ken approval before posting.",
+      "approvedAt": "2026-05-03T09:32:08.280884+00:00",
+      "approvedBy": "Ken"
     }
   ],
   "apiEnabled": true,

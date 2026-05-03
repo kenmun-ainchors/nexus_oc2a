@@ -36,7 +36,7 @@ log() {
 }
 
 # ── Retrieve Anthropic key from keychain ──────────────────────────────────────
-ANTHROPIC_KEY=$(security find-generic-password -s "anthropic-api-key" -w 2>/dev/null || echo "")
+ANTHROPIC_KEY=$(security find-generic-password -s "ainchors-anthropic-api-key" -a "anthropic" -w 2>/dev/null || security find-generic-password -s "anthropic-api-key" -w 2>/dev/null || echo "")
 
 if [[ -z "$ANTHROPIC_KEY" || ${#ANTHROPIC_KEY} -lt 20 ]]; then
   log "FAIL — Anthropic key missing from keychain"
@@ -150,7 +150,7 @@ Yoda is now in STANDBY MODE.
 To triage:
 1. Check https://status.anthropic.com
 2. Check https://console.anthropic.com/settings/billing
-3. Verify key: security find-generic-password -s "anthropic-api-key" -w | head -c 20
+3. Verify key: security find-generic-password -s "ainchors-anthropic-api-key" -a "anthropic" -w 2>/dev/null || security find-generic-password -s "anthropic-api-key" -w | head -c 20
 4. Re-run: zsh scripts/outage-detect.sh
 
 Fallback chain: Sonnet → Haiku → STANDBY (CHG-0075)

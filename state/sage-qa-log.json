@@ -321,11 +321,67 @@
       "issues": [
         "[]"
       ]
+    },
+    {
+      "ts": "2026-05-03T19:00:42+10:00",
+      "assetPath": "/tmp/li-w1-p1.txt",
+      "assetType": "social",
+      "producedBy": "yoda",
+      "intendedFor": "public distribution",
+      "brief": "Content governance review for CONTENT-0003",
+      "verdict": "PASS",
+      "passCount": 7,
+      "failCount": 0,
+      "issues": [
+        "[]"
+      ]
+    },
+    {
+      "ts": "2026-05-03T19:00:47+10:00",
+      "assetPath": "/tmp/li-w1-p2.txt",
+      "assetType": "social",
+      "producedBy": "yoda",
+      "intendedFor": "public distribution",
+      "brief": "Content governance review for CONTENT-0004",
+      "verdict": "PASS",
+      "passCount": 7,
+      "failCount": 0,
+      "issues": [
+        "[]"
+      ]
+    },
+    {
+      "ts": "2026-05-03T19:00:56+10:00",
+      "assetPath": "/tmp/li-w1-p3.txt",
+      "assetType": "social",
+      "producedBy": "yoda",
+      "intendedFor": "public distribution",
+      "brief": "Content governance review for CONTENT-0005",
+      "verdict": "PASS",
+      "passCount": 7,
+      "failCount": 0,
+      "issues": [
+        "[]"
+      ]
+    },
+    {
+      "ts": "2026-05-03T19:01:02+10:00",
+      "assetPath": "/tmp/li-w1-p4.txt",
+      "assetType": "social",
+      "producedBy": "yoda",
+      "intendedFor": "public distribution",
+      "brief": "Content governance review for CONTENT-0006",
+      "verdict": "PASS",
+      "passCount": 7,
+      "failCount": 0,
+      "issues": [
+        "[]"
+      ]
     }
   ],
   "summary": {
-    "total": 23,
-    "pass": 22,
+    "total": 27,
+    "pass": 26,
     "fail": 1
   }
 }

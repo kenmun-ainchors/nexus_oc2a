@@ -1,6 +1,69 @@
 {
   "runs": [
     {
+      "run_id": "akb-catch-up-20260503-1952",
+      "date": "2026-05-03",
+      "coverage_date": "2026-05-02 + 2026-05-03",
+      "started_at": "2026-05-03T09:52:00Z",
+      "model": "anthropic/claude-sonnet-4-6",
+      "status": "complete",
+      "reason": "Manual catch-up run — AKB Daily Update cron timed out on 2026-05-03 03:00 (qwen3.5:cloud, 600s). Day 8 and Day 9 both missing. Catch-up covers both days.",
+      "inputs_read": [
+        "memory/CHANGELOG.md (CHG-0113 to CHG-0142)",
+        "memory/2026-05-03.md (Day 9)",
+        "memory/2026-05-02.md (Day 8)",
+        "MEMORY.md",
+        "state/agent-status.json",
+        "state/cost-state.json",
+        "state/linkedin-auth.json",
+        "state/chg-triggers.json"
+      ],
+      "obsidian_files_updated": [
+        {
+          "file": "HOME.md",
+          "changes": "last-updated confirmed 2026-05-03, Day 9 confirmed. AKB update note updated to catch-up run."
+        },
+        {
+          "file": "Company/Decisions.md",
+          "changes": "Added 2026-05-03 Day 9 decisions block (10 decisions): Notion AKB Backlog single source of truth, /roster+/finops commands, Spark scope expansion, LinkedIn API, OpenClaw update, Anthropic key rotation, balance top-up $495.26, Campaign Week 1, get-secret.sh canonical helper, auto-heal auth-profile sync."
+        },
+        {
+          "file": "Agents/Architecture.md",
+          "changes": "v3.5→v3.6. Spark description updated: LinkedIn-only → Social & Digital Marketing Agent (all platforms). LinkedIn API details added. /roster+/finops added. History entry v3.6 added."
+        },
+        {
+          "file": "Agents/ModelStrategy.md",
+          "changes": "v2.6→v2.7. Day 9 history entry added: key rotation, balance top-up $495.26, cost $5.18, all-time $956.63, OpenClaw v2026.5.2, auto-heal Check #16, get-secret.sh, auth-profile auto-sync."
+        },
+        {
+          "file": "Operations/IncidentLog.md",
+          "changes": "Added INC-20260503-001 (Anthropic API key mismatch post-rotation, P3, 19min, resolved CHG-0141). MTTR summary updated: 5→6 incidents, ~50→~69 min downtime."
+        },
+        {
+          "file": "Shared/context-for-aria.md",
+          "changes": "Updated last-updated to Day 9 catch-up. Platform state table: Spark updated to Social & Digital Marketing Agent with LinkedIn API note. Day 9 Updates Summary section added. Lesson 18 added (key rotation incident). Training content items 25-26 added."
+        }
+      ],
+      "notion_updates": {
+        "missing_chg_created": [
+          "CHG-0138: OpenClaw updated 2026.4.24→2026.5.2 (Notion ID: 355c1829-53ff-8134-b3c6-f26e96ffeb33)",
+          "CHG-0139: Anthropic API key rotated + balance topped up (Notion ID: 355c1829-53ff-814a-8294-f3d654d47a4f)"
+        ],
+        "already_present": [
+          "CHG-0136 ✅ Done",
+          "CHG-0137 ✅ Done",
+          "CHG-0140 ✅ Done",
+          "CHG-0141 ✅ Done",
+          "CHG-0142 ✅ Done"
+        ]
+      },
+      "gaps": [
+        "2026-05-02 EOD journal (journal-2026-05-02.md) was not found — Day 8 EOD may have been skipped or named differently. Decisions.md Day 8 block was already present from previous partial run.",
+        "Shared/yoda-daily-brief.md not updated — Day 9 brief context not appended (out of scope for catch-up focus)"
+      ],
+      "notes": "Two-day catch-up covering Day 8 (2026-05-02) and Day 9 (2026-05-03). Day 8 Decisions.md block was already populated by a partial AKB run. Day 9 decisions added fresh. Architecture.md was already at v3.5 with Day 8 content — bumped to v3.6 with Day 9 specifics. ModelStrategy.md was already at v2.6 — bumped to v2.7. CHG-0138 and CHG-0139 were missing from Notion — created. All other CHG-0136 through CHG-0142 were confirmed present."
+    },
+    {
       "run_id": "akb-20260502-0300",
       "date": "2026-05-02",
       "coverage_date": "2026-05-01",

@@ -71,6 +71,14 @@
   - Alert Ken via Telegram with: what drifted, what was fixed, CHG reference
   - State key: wardenEscalation
 
+### Cron Health Check (check every 30 min)
+- Run `bash scripts/cron-health-check.sh`
+- If exit 1 OR `state/cron-health-alert.json` exists with `acknowledged: false`:
+  - Alert Ken for each failure: ❌ **Cron failed:** `[name]` ([cronId]) — status: [status]
+  - Mark `acknowledged: true` after alerting
+- **Key rule:** A single failure on a daily cron = alert immediately. Do NOT wait for 3 failures.
+- State key: lastChecks.cronHealth
+
 ### Cron Dead-Letter Alerts (check every 30 min)
 - Check if `state/cron-dead-letter-alert.json` exists
 - If it exists and has any entry with `acknowledged = false`:

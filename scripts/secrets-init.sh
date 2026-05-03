@@ -16,8 +16,10 @@
 ACCOUNT="ainchors"
 
 # Canonical list of expected secrets
+# NOTE: anthropic-api-key resolves via get-secret.sh → ainchors-anthropic-api-key (account: anthropic)
+# Do NOT add bare keychain lookups in other scripts — use scripts/get-secret.sh instead.
 EXPECTED_SECRETS=(
-  "anthropic-api-key"
+  "ainchors-anthropic-api-key"  # Resolved via get-secret.sh as 'anthropic-api-key'
   "notion-api-key"
   "telegram-bot-token"
 )

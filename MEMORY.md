@@ -16,7 +16,7 @@
   - Telegram bot: **@AInchorsAriaBot** → routes to Aria (Angie only, strict allowlist)
 
 ## The Company
-- **Name:** AI Anchor Solutions Pty Ltd | **Short:** AInchors | **Domain:** ainchors.com
+- **Name:** Ainchor Solutions Pty Ltd | **Short:** AInchors | **Domain:** ainchors.com
 - Sydney NSW + Melbourne. Day 1 of tech dept = 2026-04-25.
 - Focus: (1) AI courses & training (2) AI consulting (3) AI solutions/products
 - Emails: kenmun@ainchors.com ✅ gog working | info@ainchors.com | accounts@ainchors.com | Provider: Gmail (Google Workspace)
@@ -146,6 +146,15 @@
 - CHG-0100/101/102: TRIGGER-08 in cost-tracker, TRIGGER-04/06 release cron, HEARTBEAT trigger monitoring
 - CHG-0107: bootstrapMaxChars 10k→20k (fix MEMORY.md truncation)
 - Balance: $115.00 USD (top-up 19:04 AEST). All-time: $828.27 USD over 7 days.
+
+## Day 9 Context (2026-05-03) — Key Events
+- CHG-0139: Anthropic API key rotated. Moved to AInchors Anthropic account. Balance $98 USD confirmed.
+- T1 balance alert fired 13:20 AEST ($45.24 < $80 threshold) — then reset after CHG-0139 key rotation + top-up to $98.
+- Standby mode 14:11–14:30 AEST: HTTP 401 on outage-detect.sh — stale keychain key post-rotation. Self-cleared after key update.
+- Warden escalation warden-20260503-0003 resolved CHG-0133 (obs-collector self-recovered, model-drift-check.sh quoting bug fixed, 15/15 PASS).
+- TKT-0039 EOD reminder fired 17:00 AEST — Ken decision pending: LinkedIn Authority Campaign Week 1 start date.
+- Partnership Discussion meeting notes arrived 10:47AM AEST (gemini-notes) — key actions: company setup (immediate), training due tomorrow, IP strategy. Flagged to Ken.
+- Calendar: Meeting with Ken and Colbert — 2026-05-04 14:00–15:00 AEST.
 
 ## Day 8 Context (2026-05-02) — Webchat Session
 - CHG-0120–0130 logged (11 entries). PoC complete, Spark live, CI framework live, content governance live.

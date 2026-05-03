@@ -1,7 +1,7 @@
 # YODA — OC1 / OC2 Operational Brief
 ## Platform Decisions, Architecture, Limitations, Controls & CHG Trigger Rules
 **Classification:** Internal — Technical Operations
-**Author:** Ken Mun, CTO · AInchors AI Anchor Solutions Pty Ltd
+**Author:** Ken Mun, CTO · AInchors Ainchor Solutions Pty Ltd
 **Issued:** May 2026 · Version 1.0
 **Derived from:** Technical Option Paper + Addendum A (Ollama Cloud)
 
@@ -802,6 +802,6 @@ The platform is the product. Protect it.
 *a revised instruction that supersedes a section above.*
 
 ---
-**AInchors — AI Anchor Solutions Pty Ltd**
+**AInchors — Ainchor Solutions Pty Ltd**
 **Ken Mun, CTO & Co-founder · kenmun@ainchors.com**
 **Generated with AI research assistance · May 2026 · Version 1.0**

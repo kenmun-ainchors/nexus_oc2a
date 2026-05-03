@@ -13,12 +13,12 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "RULES.md",
+                "file": "AGENTS.md",
                 "mode": "source",
                 "source": false
               },
               "icon": "lucide-file",
-              "title": "RULES"
+              "title": "AGENTS"
             }
           }
         ]
@@ -185,41 +185,41 @@
   },
   "active": "c616c22763a60529",
   "lastOpenFiles": [
+    "AGENT_ARCHITECTURE.md",
+    "state/ollama-cloud-poc-report.md",
+    "state/cron-health-state.json",
+    "scripts/cron-health-check.sh",
     "state/obs.db-journal",
+    "AGENTS.md",
+    "memory/agents/support.md",
+    "memory/agents/social.md",
+    "memory/agents/security.md",
+    "memory/agents/report.md",
+    "memory/agents/marketing.md",
+    "memory/agents/legal.md",
+    "memory/agents/infra.md",
+    "memory/agents/dev.md",
+    "memory/agents/content.md",
+    "memory/agents/qa.md",
+    "memory/agents/research.md",
+    "RULES.md",
+    "scripts/get-secret.sh",
+    "state/outage-alert-state.json",
+    "state/standby-mode.json",
     "state/linkedin-auth.json",
     "scripts/linkedin-metrics.sh",
     "scripts/linkedin-post.sh",
     "scripts/linkedin-auth.sh",
     "memory/2026-05-03.md",
-    "state/incidents/INC-20260503-001.json",
-    "scripts/spawn-with-routing.sh",
-    "state/auto-heal-2026-05-03.json",
-    "state/auto-heal-2026-05-03.log",
-    "canvas/documents/ainchors-2026-05-02/index.html",
-    "canvas/documents/ainchors-2026-05-02",
     "memory/journal-2026-05-02.md",
     "memory/journal-2026-04-30.md",
     "memory/journal-2026-05-01.md",
     "memory/2026-05-02.md",
     "memory/journal-2026-04-28.md",
-    "state/ollama-cloud-poc-report.md",
     "OllamaCloud_PoC.md",
     "YODA_OC1_OC2_OPERATIONAL_BRIEF.md",
     "memory/2026-04-30.md",
     "memory/journal-2026-04-29.md",
-    "reports/sla-2026-04.md",
-    "Operations/GatewayRecovery.md",
-    "state/pir/PIR-20260428-COMPLETE.md",
-    "memory/2026-04-28.md",
-    "memory/2026-04-26.md",
-    "memory/2026-04-27.md",
-    "memory/journal-2026-04-26.md",
-    "memory/journal-2026-04-25.md",
-    "AGENT_ARCHITECTURE.md",
-    "reports/diagnostics-2026-04-28-1431.md",
-    "AGENTS.md",
-    "memory/journal-2026-04-27.md",
-    "memory/journal-2026-04-26.summary.md",
-    "reports/diagnostics-2026-04-27-2206.md"
+    "reports/sla-2026-04.md"
   ]
 }

@@ -72,7 +72,7 @@ state = {
     'recoverySteps': [
         '1. Check API billing at console.anthropic.com',
         '2. Top up credit if exhausted',
-        '3. Verify auth key: security find-generic-password -s anthropic-api-key -w',
+        '3. Verify auth key: zsh scripts/get-secret.sh anthropic-api-key | head -c 20',
         '4. Run: zsh scripts/validate-fallback-chain.sh to confirm recovery',
         '5. Delete state/standby-mode.json to clear standby banner'
     ]

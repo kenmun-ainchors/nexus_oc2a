@@ -88,7 +88,8 @@ log "  Memory files: $MEM_FILES"
 # Secrets
 KEYCHAIN_KEYS=()
 for k in anthropic-api-key notion-api-key telegram-bot-token; do
-  if security find-generic-password -s "$k" > /dev/null 2>&1; then
+  VAL=$(zsh "$(dirname "$0")/get-secret.sh" "$k" 2>/dev/null)
+  if [[ -n "$VAL" && ${#VAL} -gt 10 ]]; then
     KEYCHAIN_KEYS+=("$k")
     pass "keychain: $k present"
   else
@@ -100,7 +101,7 @@ done
 phase "2. Provider Chain Ping"
 
 # Anthropic — use a 3-token test via curl with stored key
-ANTHROPIC_KEY=$(security find-generic-password -s anthropic-api-key -w 2>/dev/null || echo "")
+ANTHROPIC_KEY=$(zsh "$(dirname "$0")/get-secret.sh" anthropic-api-key)
 if [[ -n "$ANTHROPIC_KEY" ]]; then
   RESP=$(curl -sS -m 30 https://api.anthropic.com/v1/messages \
     -H "x-api-key: $ANTHROPIC_KEY" \

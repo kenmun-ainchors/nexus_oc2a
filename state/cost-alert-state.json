@@ -1,12 +1,12 @@
 {
   "schema_version": "1.0",
   "description": "Tracks response counters and alert state for tiered credit alerts. Updated by Yoda at runtime.",
-  "currentBalance": 45.24,
-  "lastBalanceCheck": "2026-05-03T03:21:25Z",
-  "activeTier": 1,
+  "currentBalance": 495.26,
+  "lastBalanceCheck": "2026-05-03T03:55:56.871560+00:00",
+  "activeTier": 0,
   "tier1": {
-    "triggered": true,
-    "triggeredAt": "2026-05-03T03:21:25Z",
+    "triggered": false,
+    "triggeredAt": null,
     "threshold": 80
   },
   "tier2": {
@@ -15,7 +15,7 @@
     "lastAlertAt": "2026-05-02T06:20:00Z",
     "threshold": 40,
     "triggered": false,
-    "triggeredAt": "2026-05-02T06:20:00Z"
+    "triggeredAt": null
   },
   "tier3": {
     "active": false,
@@ -89,12 +89,24 @@
       "sentAt": "2026-05-03T03:21:25Z",
       "balanceEstimate": 45.24,
       "note": "T1 triggered at 13:20 AEST May 3. Confirmed balance $45.24 (below $80 threshold). Ken + Angie alerted."
+    },
+    {
+      "tier": 0,
+      "sentAt": "2026-05-03T03:55:56.871560+00:00",
+      "balanceEstimate": 98.0,
+      "note": "Tiers reset. AInchors Anthropic account live. Balance $98.00 USD. API key rotated CHG-0139."
+    },
+    {
+      "tier": 0,
+      "sentAt": "2026-05-03T09:36:46.702063+00:00",
+      "balanceEstimate": 495.26,
+      "note": "Tiers reset. Top-up confirmed $495.26 AInchors account. 2026-05-03 19:36 AEST."
     }
   ],
-  "balance": 45.24,
-  "confirmedAt": "2026-05-03T03:15:14Z",
+  "balance": 495.26,
+  "confirmedAt": "2026-05-03T09:36:46.702063+00:00",
   "confirmedBy": "Ken",
   "topUpNote": "Balance $121.00 USD confirmed by Ken 2026-05-02 13:18 AEST (webchat).",
-  "lastTopUpAt": "2026-05-02T01:33:36.135217Z",
-  "lastTopUpAmount": 140
+  "lastTopUpAt": "2026-05-03T03:55:56.871560+00:00",
+  "lastTopUpAmount": 98
 }
