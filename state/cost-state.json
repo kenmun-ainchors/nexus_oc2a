@@ -1,5 +1,5 @@
 {
-  "lastUpdated": "2026-05-02T15:50:17Z",
+  "lastUpdated": "2026-05-03T02:00:40Z",
   "history": {
     "2026-04-25": {
       "date": "2026-04-25",
@@ -250,21 +250,58 @@
           "turns": 2
         }
       }
+    },
+    "2026-05-03": {
+      "date": "2026-05-03",
+      "totalCost": 5.183,
+      "totalTurns": 380,
+      "totalInputTokens": 14633,
+      "totalOutputTokens": 58851,
+      "totalCacheReadTokens": 8026430,
+      "totalCacheWriteTokens": 650929,
+      "source": "session-log-estimate",
+      "note": "Session log estimate. usage.cost.total includes cacheWrite charges. CHG-0097: confirmed cost includes cache writes.",
+      "byModel": {
+        "claude-sonnet-4-6": {
+          "input": 511,
+          "output": 46255,
+          "cacheRead": 6783226,
+          "cacheWrite": 580415,
+          "cost": 4.9069,
+          "turns": 297
+        },
+        "claude-haiku-4-5": {
+          "input": 900,
+          "output": 12561,
+          "cacheRead": 1243204,
+          "cacheWrite": 70514,
+          "cost": 0.2762,
+          "turns": 82
+        },
+        "gemma4:e2b": {
+          "input": 13222,
+          "output": 35,
+          "cacheRead": 0,
+          "cacheWrite": 0,
+          "cost": 0.0,
+          "turns": 1
+        }
+      }
     }
   },
-  "allTimeTotalCost": 951.4451,
-  "daysTracked": 8,
-  "avgDailyCost": 118.9306,
+  "allTimeTotalCost": 956.6281,
+  "daysTracked": 9,
+  "avgDailyCost": 106.292,
   "apiBalance": {
     "currency": "USD",
-    "balance": 121.0,
+    "balance": 45.24,
     "topUpDate": "2026-05-01",
-    "spentSinceTopUp": 0,
-    "remainingEstimate": 121.0,
-    "note": "Balance $121.00 USD confirmed by Ken 2026-05-02 13:18 AEST (webchat). balance field corrected at 16:41 AEST \u2014 was stuck at 65.41 due to partial update.",
-    "confirmedAt": "2026-05-02T03:18:00Z",
+    "spentSinceTopUp": 5.183,
+    "remainingEstimate": 45.24,
+    "note": "Balance $45.24 confirmed by Ken 2026-05-03 13:14 AEST (webchat).",
+    "confirmedAt": "2026-05-03T03:15:14.774137+00:00",
     "confirmedBy": "Ken",
-    "confirmedBalance": 121.0,
+    "confirmedBalance": 45.24,
     "preTopUpActual": 18,
     "trackerDiscrepancy": {
       "trackerEstimate": 103,
@@ -272,7 +309,7 @@
       "gap": 85,
       "cause": "input_cache_write_5m charges excluded from session-log estimates"
     },
-    "remainingNote": "confirmedBalance=121.0 at 2026-05-02; spentAfter=0"
+    "remainingNote": "confirmedBalance=121.0 at 2026-05-02; spentAfter=5.183"
   },
   "spendAlerts": {
     "tier1": {

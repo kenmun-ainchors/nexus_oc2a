@@ -106,3 +106,43 @@ fi
 } > "${CHANGELOG}.tmp" && mv "${CHANGELOG}.tmp" "$CHANGELOG"
 
 echo "$CHG_ID"
+
+# ── Notion sync (best-effort — failure does NOT block CHG logging) ──────────────
+NOTION_KEY_FILE="$HOME/.config/notion/api_key"
+NOTION_DB_ID="34dc1829-53ff-814b-8257-d3a3bf351d44"
+if [[ -f "$NOTION_KEY_FILE" ]] && command -v jq > /dev/null && command -v curl > /dev/null; then
+  NOTION_KEY=$(cat "$NOTION_KEY_FILE")
+  N_TODAY=$(date '+%Y-%m-%d')
+  N_TITLE="[${CHG_ID}] ${TITLE}"
+  # Build CHG details for Notes (truncated to 2000 chars)
+  N_NOTES="Type: ${TYPE} | Source: ${SOURCE} | Trigger: ${TRIGGER} | Changed: ${CHANGED} | Why: ${WHY} | Verified: ${VERIFIED} | Rollback: ${ROLLBACK}"
+  N_NOTES="${N_NOTES:0:2000}"
+  N_PAYLOAD=$(jq -n \
+    --arg db  "$NOTION_DB_ID" \
+    --arg ttl "$N_TITLE" \
+    --arg cdt "$N_TODAY" \
+    --arg nts "$N_NOTES" \
+    '{
+      parent: {database_id: $db},
+      properties: {
+        "US Title":     {title:  [{text: {content: $ttl}}]},
+        "Status":       {select: {name: "Done"}},
+        "Type":         {select: {name: "CHG"}},
+        "Created Date": {date:   {start: $cdt}},
+        "Notes":        {rich_text: [{text: {content: $nts}}]}
+      }
+    }' 2>/dev/null)
+  if [[ -n "$N_PAYLOAD" ]]; then
+    N_RESP=$(curl -s -X POST "https://api.notion.com/v1/pages" \
+      -H "Authorization: Bearer $NOTION_KEY" \
+      -H "Notion-Version: 2025-09-03" \
+      -H "Content-Type: application/json" \
+      --data "$N_PAYLOAD" 2>/dev/null)
+    N_PAGE_ID=$(echo "$N_RESP" | jq -r '.id // ""' 2>/dev/null)
+    if [[ -n "$N_PAGE_ID" && "$N_PAGE_ID" != "null" && "$N_PAGE_ID" != "" ]]; then
+      echo "[notion] ✅ $CHG_ID synced → $N_PAGE_ID" >&2
+    else
+      echo "[notion] ⚠️  sync failed for $CHG_ID (CHG still logged)" >&2
+    fi
+  fi
+fi

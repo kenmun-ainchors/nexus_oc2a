@@ -421,14 +421,24 @@ PATTERNS = [
      'Tool execution failure detected'),
 ]
 
-TS_RE = re.compile(r'^(\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2})')
+# Regex captures datetime + optional fractional seconds + optional timezone offset
+TS_RE = re.compile(r'^(\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2})(?:\.\d+)?([+-]\d{2}:\d{2}|Z)?')
 
 def line_epoch(line):
     m = TS_RE.match(line)
     if not m: return 0
     try:
-        dt = datetime.fromisoformat(m.group(1))
-        return int(dt.replace(tzinfo=timezone.utc).timestamp())
+        from datetime import timedelta
+        dt_s, tz_s = m.group(1), m.group(2)
+        dt = datetime.fromisoformat(dt_s)  # naive datetime
+        if tz_s and tz_s != 'Z':
+            sign = 1 if tz_s[0] == '+' else -1
+            hh, mm = int(tz_s[1:3]), int(tz_s[4:6])
+            tz = timezone(timedelta(hours=sign*hh, minutes=sign*mm))
+            dt = dt.replace(tzinfo=tz)
+        else:
+            dt = dt.replace(tzinfo=timezone.utc)
+        return int(dt.astimezone(timezone.utc).timestamp())
     except Exception:
         return 0
 

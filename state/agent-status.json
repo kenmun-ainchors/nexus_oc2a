@@ -1,5 +1,5 @@
 {
-  "lastUpdated": "2026-04-25",
+  "lastUpdated": "2026-05-03",
   "agents": {
     "yoda": {
       "status": "active",
@@ -44,12 +44,6 @@
       "stream": "technical",
       "role": "Platform ops, deployments, monitoring, config"
     },
-    "social": {
-      "status": "planned",
-      "layer": "business",
-      "stream": "business",
-      "role": "Instagram, Facebook, LinkedIn — post, monitor, engage"
-    },
     "content": {
       "status": "planned",
       "layer": "business",
@@ -73,6 +67,16 @@
       "layer": "business",
       "stream": "business",
       "role": "Weekly/monthly reports, dashboards, proposals, decks"
+    },
+    "spark": {
+      "status": "active",
+      "layer": "business",
+      "stream": "both",
+      "lastRun": "2026-05-03",
+      "role": "Social & Digital Marketing Agent \u2014 all platforms, strategy, campaigns, content, and execution (Ken personal + AInchors brand)",
+      "model": "kimi-k2.6:cloud",
+      "cadence": "Tue 7:30am / Wed 12:00pm / Thu 7:30am AEST",
+      "notes": "Replaces planned Social (full API) agent slot. Scope expanded 2026-05-03 by Ken."
     }
   }
 }

@@ -38,8 +38,9 @@
 - **Aria 🔵** = Business Lead Agent (on OC1, migrates to OC2 at TRIGGER-10)
   - Governance layer: Shield 🛡️ (security), Lex ⚖️ (legal), Sage 🧪 (QA) — all Sonnet
   - Aria primary model: Sonnet
-- **Spark ✨** = Social Content Agent. Model: kimi-k2.6:cloud. Workspace: workspace-social/. Managed by Yoda.
-  - Scope: LinkedIn content marketing — Ken's voice, thought leadership, AU audience
+- **Spark ✨** = Social & Digital Marketing Agent. Model: kimi-k2.6:cloud. Workspace: workspace-social/. Managed by Yoda.
+  - Scope: ALL social platforms + digital marketing — strategy, campaigns, content, execution across LinkedIn, Instagram, Facebook, X, and future channels (Ken personal + AInchors brand). Replaces planned "Social (full API)" agent slot.
+  - Ken approves: his personal content. Angie approves: AInchors brand content.
   - Crons: Tue 7:30am / Wed 12:00pm / Thu 7:30am AEST (IDs: e7ebaf61, bef42235)
   - 30-day review cron: 2026-06-02 (ID: 316df676)
   - State: state/linkedin-queue.json + state/linkedin-content-tracker.json
@@ -71,8 +72,8 @@
 ## Key Scripts & Infrastructure
 - `scripts/auto-heal.sh` — nightly 23:30 AEST, 12 checks, auto-fixes stale state, files Notion US for needs-Ken items
 - `scripts/run-diagnostics.sh` — on-demand `/diagnostics`, 6 phases
-- `scripts/ticket.sh` — ITSM ticketing (TKT-NNNN), ticket-first rule enforced before any ad-hoc work
-- `scripts/changelog-append.sh` — auto-increments CHG-NNNN in `memory/CHANGELOG.md`
+- `scripts/ticket.sh` — ITSM ticketing (TKT-NNNN), ticket-first rule enforced before any ad-hoc work. Auto-syncs to Notion AKB Backlog on new/update/close. Use `notion-sync TKT-NNNN` for backfill.
+- `scripts/changelog-append.sh` — auto-increments CHG-NNNN in `memory/CHANGELOG.md`. Auto-syncs each CHG to Notion AKB Backlog (Status=Done).
 - `scripts/gateway-config-snapshot.sh` + `scripts/gateway-restore.sh` — config snapshot/restore SOP
 - `scripts/cost-tracker.sh` — daily spend tracking. Balance: confirmedBalance − spentAfterDate (CHG-0098)
 - `state/critical-config-baseline.json` — anti-drift guard (7 configs), validated by auto-heal Check #12
@@ -89,7 +90,7 @@
 
 ## Open Items
 - ken@ainchors.com alias → kenmun@ainchors.com (gog working ✅ — alias setup status unknown)
-- Project management tool: not yet decided (Notion used for US/backlog)
+- Project management tool: **Notion AKB Backlog = single source of truth for US/TKT/CHG (enforced 2026-05-03)**. ticket.sh and changelog-append.sh auto-sync to Notion on every write. DB ID (create): `34dc1829-53ff-814b-8257-d3a3bf351d44`. DB ID (query): `34dc182953ff812d8e43000b83eb0e7e` (via `/v1/data_sources/` endpoint).
 - Social media accounts not yet connected (Instagram → Facebook → LinkedIn)
 - Tailscale remote access: deferred
 - S4 (agent tool scopes): all agents have tools=null — define explicit scopes before TRIGGER-07 (first P2 client)

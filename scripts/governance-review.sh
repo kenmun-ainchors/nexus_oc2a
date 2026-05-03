@@ -23,8 +23,15 @@ done
 
 [[ -z "$CONTENT" ]] && { echo "ERROR: --content required" >&2; exit 1; }
 
+# ── Route model via tier routing engine (TKT-0039) ───────────────────────────
+GOV_MODEL=$(bash "$WORKSPACE/scripts/spawn-with-routing.sh" "governance-review" "governance-review.sh" "type=$TYPE")
+SHIELD_MODEL=$(bash "$WORKSPACE/scripts/spawn-with-routing.sh" "shield-review" "governance-review.sh" "shield")
+LEX_MODEL=$(bash "$WORKSPACE/scripts/spawn-with-routing.sh" "lex-review" "governance-review.sh" "lex")
+SAGE_MODEL=$(bash "$WORKSPACE/scripts/spawn-with-routing.sh" "sage-review" "governance-review.sh" "sage")
+
 NOW=$(date '+%Y-%m-%d %H:%M %Z')
 echo "[$NOW] GOVERNANCE REVIEW — type=$TYPE requester=$REQUESTER" | tee -a "$LOG"
+echo "[$NOW] Routing: governance=$GOV_MODEL shield=$SHIELD_MODEL lex=$LEX_MODEL sage=$SAGE_MODEL" | tee -a "$LOG"
 echo "[$NOW] Content preview: ${CONTENT:0:200}..." | tee -a "$LOG"
 
 echo ""
@@ -43,3 +50,5 @@ echo "Check state/governance-review.log for audit trail."
 
 # Log the review request
 echo "[$NOW] Review requested — content type: $TYPE | requester: $REQUESTER | chars: ${#CONTENT}" >> "$LOG"
+echo "[$NOW] Routed models — governance: $GOV_MODEL | shield: $SHIELD_MODEL | lex: $LEX_MODEL | sage: $SAGE_MODEL" >> "$LOG"
+echo "ROUTE:governance=$GOV_MODEL ROUTE:shield=$SHIELD_MODEL ROUTE:lex=$LEX_MODEL ROUTE:sage=$SAGE_MODEL"

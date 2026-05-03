@@ -29,6 +29,11 @@ while (( $# > 0 )); do
   esac
 done
 
+# ── Route governance sub-agents via tier routing engine (TKT-0039) ───────────
+SHIELD_MODEL=$(bash "$SCRIPTS_DIR/spawn-with-routing.sh" "shield-review" "content-governance-review.sh" "content-id=$CONTENT_ID" 2>/dev/null || echo "anthropic/claude-haiku-4-5")
+LEX_MODEL=$(bash "$SCRIPTS_DIR/spawn-with-routing.sh" "lex-review" "content-governance-review.sh" "content-id=$CONTENT_ID" 2>/dev/null || echo "anthropic/claude-haiku-4-5")
+SAGE_MODEL=$(bash "$SCRIPTS_DIR/spawn-with-routing.sh" "sage-review" "content-governance-review.sh" "content-id=$CONTENT_ID" 2>/dev/null || echo "anthropic/claude-haiku-4-5")
+
 [[ -z "$CONTENT_ID" ]] && { echo "ERROR: --content-id required (e.g. CONTENT-0001)" >&2; exit 1; }
 [[ -z "$FILE" ]]       && { echo "ERROR: --file required" >&2; exit 1; }
 [[ -z "$TYPE" ]]       && { echo "ERROR: --type required (blog|proposal|social|email|training|doc)" >&2; exit 1; }

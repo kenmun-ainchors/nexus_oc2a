@@ -45,8 +45,13 @@
       "action": "Critical CVE: update within 48h. High: within 7 days. Raise CHG. Freeze client onboarding if P1.",
       "cronId": null,
       "currentVersion": "2026.4.29",
-      "lastChecked": "2026-05-01T20:00:11Z",
-      "status": "monitoring"
+      "lastChecked": "2026-05-03T20:00:00Z",
+      "status": "fired",
+      "firedAt": "2026-05-03T06:00:00Z",
+      "classification": "High",
+      "details": "v2026.4.29: Multiple security fixes including OpenGrep scanning, exec/pairing/owner-scope hardening, HTML sanitization, timing-safe secrets, DM allowlist security, Telegram adapters. No explicit CVE but 6+ security components addressed.",
+      "upgradeWindow": "7 days",
+      "notes": "Security release without explicit CVE number. Classified as High priority. Previous version: 2026.4.24."
     },
     "TRIGGER-05": {
       "name": "Ollama Cloud PoC PASS",

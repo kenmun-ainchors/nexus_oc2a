@@ -81,13 +81,13 @@ print(json.dumps(tasks))
 PYEOF
 )
 
-STALLS_DETECTED=$(python3 -c "import sys,json; print(len(json.loads(sys.stdin.read())))" <<< "$STALLED_TASKS")
+STALLS_DETECTED=$(python3 -c "import sys,json; d=sys.stdin.read().strip(); print(len(json.loads(d)) if d else 0)" <<< "${STALLED_TASKS:-[]}")
 
 # Log each stalled task
 if (( STALLS_DETECTED > 0 )); then
   python3 - "$STALLED_TASKS" <<'PYEOF'
 import sys, json, subprocess, os
-tasks = json.loads(sys.stdin.read())
+tasks = json.loads(sys.argv[1])
 obs_log = os.path.expanduser("~/.openclaw/workspace/scripts/obs-log.sh")
 for t in tasks:
     heartbeat = t.get("last_heartbeat") or t.get("created_at") or "unknown"
@@ -120,7 +120,7 @@ print(json.dumps([dict(r) for r in rows]))
 PYEOF
 )
 
-DONE_COUNT=$(python3 -c "import sys,json; print(len(json.loads(sys.stdin.read())))" <<< "$DONE_TASKS")
+DONE_COUNT=$(python3 -c "import sys,json; d=sys.stdin.read().strip(); print(len(json.loads(d)) if d else 0)" <<< "${DONE_TASKS:-[]}")
 
 if (( DONE_COUNT > 0 )); then
   # Build new alerts list
@@ -129,7 +129,7 @@ if (( DONE_COUNT > 0 )); then
   # Process each done task
   python3 - "$DONE_TASKS" <<'PYEOF' | while IFS= read -r TASK_ID; do
 import sys, json
-tasks = json.loads(sys.stdin.read())
+tasks = json.loads(sys.argv[1])
 for t in tasks:
     print(t["id"])
 PYEOF

@@ -7,9 +7,9 @@
       "contentId": "CONTENT-SEED-1",
       "type": "original",
       "angle": "celebrating",
-      "status": "draft",
+      "status": "posted",
       "scheduledFor": "2026-05-02",
-      "label": "Seeder Post 1 \u2014 The Opening Tease (Saturday)",
+      "label": "Seeder Post 1 — The Opening Tease (Saturday)",
       "file": "/tmp/spark-seeder-1.txt",
       "governance": {
         "shield": "clear",
@@ -18,16 +18,18 @@
         "overall": "triad-cleared"
       },
       "createdAt": "2026-05-02T13:29:00+10:00",
-      "notes": "Manual pre-schedule seeder. Ken to post manually. Do not send to Telegram \u2014 Ken reviewing in webchat."
+      "notes": "Manual pre-schedule seeder. Ken to post manually. Do not send to Telegram — Ken reviewing in webchat.",
+      "postedAt": "2026-05-03T11:54:00+10:00",
+      "postedBy": "Ken (manual)"
     },
     {
       "id": 2,
       "contentId": "CONTENT-SEED-2",
       "type": "original",
       "angle": "celebrating",
-      "status": "draft",
+      "status": "posted",
       "scheduledFor": "2026-05-03",
-      "label": "Seeder Post 2 \u2014 The Hint (Sunday)",
+      "label": "Seeder Post 2 — The Hint (Sunday)",
       "file": "/tmp/spark-seeder-2.txt",
       "governance": {
         "shield": "clear",
@@ -36,7 +38,11 @@
         "overall": "triad-cleared"
       },
       "createdAt": "2026-05-02T13:29:00+10:00",
-      "notes": "Manual pre-schedule seeder. Ken to post manually. Do not send to Telegram \u2014 Ken reviewing in webchat."
+      "notes": "Manual pre-schedule seeder. Ken to post manually. Do not send to Telegram — Ken reviewing in webchat.",
+      "postedAt": "2026-05-03T11:54:00+10:00",
+      "postedBy": "Ken (manual)"
     }
-  ]
+  ],
+  "apiEnabled": true,
+  "apiConnectedAt": "2026-05-03T02:52:00Z"
 }

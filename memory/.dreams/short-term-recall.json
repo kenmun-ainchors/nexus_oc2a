@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "updatedAt": "2026-05-02T13:57:39.504Z",
+  "updatedAt": "2026-05-03T03:04:42.738Z",
   "entries": {
     "memory:memory/2026-04-26.md:94:122": {
       "key": "memory:memory/2026-04-26.md:94:122",
@@ -696,6 +696,68 @@
         "tkt-0004",
         "qw-2",
         "incident-log.sh"
+      ]
+    },
+    "memory:memory/2026-04-26.md:304:332": {
+      "key": "memory:memory/2026-04-26.md:304:332",
+      "path": "memory/2026-04-26.md",
+      "startLine": 304,
+      "endLine": 332,
+      "source": "memory",
+      "snippet": "### INC-20260426-001 — Power trip (physical) - Cause: planned circuit shutdown ~10:00 AM - Duration: ~30 min - Resolution: manual login after FileVault unlock - Learning: FileVault stays (security). Solar battery doesn't cover planned full shutdowns. PiKVM is the real fix — deferred to backlog. ### INC-20260426-002 — OpenClaw update SIGKILL → context loss - Cause: ran `openclaw update` without checkpoint — SIGKILL mid-restart - Duration: ~52 min (Ken had to trigger memory recall twice) - Resolution: session rebuilt from TASK files + handoff docs - Learning: pre-risky-op checkpoint rule created. NEVER run risky ops without flushing context first. ### INC-20260426-003 — ENOTEMPTY crash loop",
+      "recallCount": 1,
+      "dailyCount": 0,
+      "groundedCount": 0,
+      "totalScore": 0.4560600250959396,
+      "maxScore": 0.4560600250959396,
+      "firstRecalledAt": "2026-05-03T03:04:42.738Z",
+      "lastRecalledAt": "2026-05-03T03:04:42.738Z",
+      "queryHashes": [
+        "42783666bda8"
+      ],
+      "recallDays": [
+        "2026-05-03"
+      ],
+      "conceptTags": [
+        "inc-20260426-001",
+        "inc-20260426-002",
+        "mid-restart",
+        "pre-risky-op",
+        "inc-20260426-003",
+        "inc",
+        "power",
+        "trip"
+      ]
+    },
+    "memory:memory/2026-04-27.md:490:519": {
+      "key": "memory:memory/2026-04-27.md:490:519",
+      "path": "memory/2026-04-27.md",
+      "startLine": 490,
+      "endLine": 519,
+      "source": "memory",
+      "snippet": "- LaunchAgent: gateway + Ollama auto-restart - OfflinePlaybook.md #### Level 2: Preventive (pre-existing) - PVT 9/9 (`scripts/pvt.sh`) - Pre-risky-op checkpoint rule - `pre-restart-cleanup.sh` #### Level 3 (NEW Day 3): Auto-Heal — nightly 23:30 AEST - Script: `scripts/auto-heal.sh` - 12 checks (11 original + Check #12 critical config baseline) - Auto-fix bucket: stale plugin-runtime-deps, stale locks, dirty git repos - Needs-Ken bucket: auth missing, cron errors, backup stale, disk full, health-state stale, low balance, incident pattern, config drift → filed as Notion US `[AUTO-HEAL]` - Output: `state/auto-heal-YYYY-MM-DD.json` - Integrated into morning standup (🔧 Auto-Heal Report section",
+      "recallCount": 1,
+      "dailyCount": 0,
+      "groundedCount": 0,
+      "totalScore": 0.44780708253383633,
+      "maxScore": 0.44780708253383633,
+      "firstRecalledAt": "2026-05-03T03:04:42.738Z",
+      "lastRecalledAt": "2026-05-03T03:04:42.738Z",
+      "queryHashes": [
+        "42783666bda8"
+      ],
+      "recallDays": [
+        "2026-05-03"
+      ],
+      "conceptTags": [
+        "backup",
+        "gateway",
+        "auto-restart",
+        "offlineplaybook.md",
+        "pre-existing",
+        "9/9",
+        "scripts/pvt.sh",
+        "pre-risky-op"
       ]
     }
   }

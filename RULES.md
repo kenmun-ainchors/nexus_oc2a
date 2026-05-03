@@ -17,7 +17,7 @@ Before triggering ANY operation that could break, restart, or interrupt OpenClaw
 2. Write all decisions made this session to decisions.md
 3. Update Notion with current sprint status
 4. Git commit the workspace
-5. Clear stale plugin-runtime-deps: `rm -rf ~/.openclaw/plugin-runtime-deps/openclaw-unknown-* 2>/dev/null; ls ~/.openclaw/plugin-runtime-deps/` - confirm only one versioned dir remains
+5. Clear stale plugin-runtime-deps: `rm -rf ~/.openclaw/plugin-runtime-deps/openclaw-unknown-* 2>/dev/null; ls ~/.openclaw/plugin-runtime-deps/` - confirm only one versioned dir remains. **AUTO-REMEDIATE — no Ken approval required for this step.** If stale dirs found: clear them silently, log to CHG, proceed. Never skip.
 6. Confirm to Ken: "Checkpoint saved. Safe to proceed."
 
 Only THEN execute the risky operation.
@@ -25,6 +25,15 @@ Only THEN execute the risky operation.
 **Post-op:** Run `bash scripts/pvt.sh` - all 9/9 checks must pass before resuming normal operations.
 
 **Why:** INC-20260426-002 (SIGKILL context loss, 52 min) and INC-20260426-003 (ENOTEMPTY crash loop, 116 min) both caused by skipping pre-op checks.
+
+**TRIGGER-04 / OpenClaw update procedure (runs automatically when TRIGGER-04 fires):**
+Before presenting the update to Ken for approval, Yoda MUST silently run and auto-remediate:
+  a. Check `~/.openclaw/plugin-runtime-deps/` — auto-clear any `openclaw-unknown-*` dirs
+  b. Check git workspace — auto-commit dirty files with message "pre-update checkpoint [date]"
+  c. Check `state/active-work.json` — if `awaitingResult: true`, BLOCK the update and alert Ken: "Active task in flight — complete or cancel before updating."
+  d. Check gateway health — if unhealthy, BLOCK and alert Ken
+  e. Only THEN present Ken with: "TRIGGER-04: OpenClaw vX available. Pre-checks passed. Safe to update. Reply GO to proceed."
+If Ken says GO: execute update → gateway restart → PVT → report result.
 
 ---
 
@@ -56,6 +65,35 @@ Full policy: `~/Documents/AInchors/Agents/ModelStrategy.md`
 - **API outage:** Gemma4 sends status to Ken, queues work, waits for API return.
 - **Monthly review:** 28th of each month. Ken explicit sign-off required before any routing rule changes.
 - **Gemma4 logging:** Every delegation logged to `state/gemma4-delegation-log.json`. If Tier A success rate drops below 90% - alert Ken immediately.
+
+---
+
+## /roster - Active Agent Roster
+_Slash command. Available to Ken. Added 2026-05-03._
+
+**Purpose:** Instant visibility into every active agent — who they are, what they do, what model they run on, their cadence, and their current active task.
+
+**Trigger:** `/roster` in any channel.
+
+**What it produces (inline, no sub-agent):**
+For each ACTIVE agent, display:
+- 🟢/🔵/🛡️/⚖️/🧪/🔍/✨ Emoji + Name
+- **Role:** one-line description
+- **Model:** current model (from model-policy.json or cron config)
+- **Cadence:** how often it runs (cron schedule or always-on)
+- **Current task:** what it's actively working on right now (check active-work.json + cron last run + known active sub-agents)
+- **Status:** healthy / degraded / error (from last cron run or agent-status.json)
+
+**Sources to read:**
+1. `state/model-policy.json` — model assignments per agent
+2. Cron list — cadence and last run status per agent cron
+3. `state/active-work.json` — any in-flight sub-agent tasks
+4. `memory/CHANGELOG.md` (last 5 entries) — recent agent activity
+5. `state/agent-status.json` — health flags
+
+**Format:** Structured list. One agent per block. Flag any agent with consecutiveErrors > 0 or status != ok.
+
+**PLANNED agents:** Show in a separate compact section: "Planned (not yet built): [list]"
 
 ---
 
@@ -395,8 +433,10 @@ All agents and sub-agents must comply with ALL of the following at all times:
 
 Any work or task that is **ad-hoc** (not already tracked under an INC, US, or CHG) MUST have a ticket raised BEFORE work begins.
 
-**Ticket system:** `state/tickets.json` | CLI: `scripts/ticket.sh` | Notion: 🎫 Service Tickets DB
+**Ticket system:** `state/tickets.json` | CLI: `scripts/ticket.sh` | Notion: 📋 AKB Backlog DB
 **Format:** `TKT-NNNN` - auto-incremented via `ticket.sh new`
+
+> **🏛️ SINGLE SOURCE OF TRUTH (enforced 2026-05-03):** Notion AKB Backlog is the authoritative record for ALL US, TKT, and CHG items. Every new ticket or change log entry MUST sync to Notion automatically via `ticket.sh` / `changelog-append.sh`. Local files (`state/tickets.json`, `memory/CHANGELOG.md`) serve as cache/backup only. If a ticket exists locally but not in Notion, run `ticket.sh notion-sync TKT-NNNN` to backfill.
 
 **When to raise a ticket:**
 - Any request from Ken not already a US or CHG
@@ -443,6 +483,7 @@ Any work or task that is **ad-hoc** (not already tracked under an INC, US, or CH
   - Output files: `reports/[topic]-[YYYY-MM-DD].md` (T1-T3). Minimum 2 independent sources per factual claim (VERACITY standard).
 - `/resume` - cross-channel handoff (see /resume section above)
 - `/commit` - persist all session memory + decisions to Obsidian + git. Not a close - can be run anytime mid-session (see /commit section below)
+- `/roster` - list all active agents with role, model, cadence, and current active task. Inline delivery, no sub-agent. See /roster section below.
 
 All slash triggers are case-insensitive. Never fire on partial matches (e.g. "run diagnostics" text does not trigger `/diagnostics`).
 
@@ -608,8 +649,13 @@ Exit 2 = do not publish. Fix all issues and re-run until exit 0.
 **When `/update` is received:**
 
 1. **Read window** — `state/standup-state.json` → `lastStandupAt`. Window = lastStandupAt → now.
-2. **Spawn isolated sub-agent** with the flash update payload below.
-3. **Deliver** — Telegram to Ken (8574109706) + confirm in current channel.
+2. **MANDATORY pre-checks (do these BEFORE composing output — never skip):**
+   a. `state/chg-triggers.json` — any trigger with `status: fired` not yet actioned → surface in 🚨 or ⚠️
+   b. `state/incidents/` directory — any INC file with `status: open` or `resolutionStatus: pending-action` → surface in 🚨
+   c. `state/active-work.json` — any entry with `awaitingResult: true` or pending action → surface in ⚠️
+   d. `state/warden-escalation-pending.json` — if exists and status=pending-yoda-action → surface in 🚨
+3. **Spawn isolated sub-agent** with the flash update payload below.
+4. **Deliver** — Telegram to Ken (8574109706) + confirm in current channel.
 
 **Flash update payload (cover in order, keep it tight):**
 

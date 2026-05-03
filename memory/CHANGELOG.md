@@ -42,6 +42,54 @@ This log captures **every change** Yoda makes to AInchors infrastructure, config
 **Linked:** decisions.md 2026-04-27 entries
 ---
 
+## 2026-05-03 12:54 AEST — [CHG-0137] LinkedIn API Integration — OAuth + Spark posting
+**Type:** script
+**Source:** ken-prompt
+**Trigger:** Ken requested LinkedIn API connection for automated posting via Spark
+**What changed:** Created linkedin-auth.sh (PKCE OAuth flow), linkedin-post.sh (Posts API), linkedin-metrics.sh (engagement metrics). Updated SPARK_RULES.md with API integration section. Updated state/linkedin-queue.json with apiEnabled:true.
+**Why:** LinkedIn API connected — OAuth scripts built. Spark wired to post via API after Ken approval. Client credentials in Keychain.
+**Verification:** Scripts created, chmod+x applied, dry-run flag implemented, Keychain integration wired
+**Rollback:** Remove scripts; revert to manual posting. Keychain entries persist until deleted.
+**Linked:** none
+---
+
+
+## 2026-05-03 12:21 AEST — [CHG-0136] Notion AKB Backlog enforced as single source of truth for US/TKT/CHG
+**Type:** script
+**Source:** ken-prompt
+**Trigger:** Ken directive 2026-05-03 — Notion AKB Backlog = single source of truth for all work items
+**What changed:** ticket.sh updated: new/update/close subcommands now auto-sync to Notion AKB Backlog. Added notion-sync subcommand for manual backfill. changelog-append.sh updated: each CHG entry auto-creates Notion page (Status=Done). RULES.md + MEMORY.md updated with policy.
+**Why:** Notion AKB Backlog is the authoritative record for sprint planning and cross-agent coordination. Local files remain as cache/backup only.
+**Verification:** TKT-0041 TEST created → Notion page verified (Backlog/TKT/Low). Closed → Notion Status confirmed Done. All 4 files updated.
+**Rollback:** Revert ticket.sh and changelog-append.sh to pre-change versions from git. Notion pages remain but are non-authoritative.
+**Linked:** TKT-first-rule, EPIC-001
+---
+
+
+## 2026-05-03 08:42 AEST — [CHG-0135] TKT-0039: route-model.sh wired into sub-agent spawning — Tier A/B/C delegation live
+**Type:** config
+**Source:** scheduled
+**Trigger:** TKT-0039 scheduled integration task
+**What changed:** Created spawn-with-routing.sh; updated governance-review.sh and content-governance-review.sh to call route-model.sh and log routing decisions to obs.db; downgraded AInchors Midday Cost Tracker cron from Haiku to Gemma4:e2b (T3, free)
+**Why:** Wire Tier A/B/C model routing into all sub-agent spawning points for real cost savings before May 28 model review
+**Verification:** route-model.sh tested across 15 task types; spawn-with-routing.sh confirmed clean stdout; obs.db receiving routing events; Cost Tracker cron confirmed on gemma4:e2b
+**Rollback:** N/A
+**Linked:** none
+---
+
+
+## 2026-05-03 06:01 AEST — [CHG-0134] TRIGGER-04: OpenClaw v2026.4.29 security release detected
+**Type:** config
+**Source:** scheduled
+**Trigger:** TRIGGER-04
+**What changed:** chg-triggers.json: TRIGGER-04 fired, currentVersion→2026.4.29, status→fired
+**Why:** OpenClaw release includes 6+ security components: OpenGrep scanning, exec/pairing/owner-scope hardening, HTML sanitization, timing-safe secrets comparison, DM allowlist security (6 channels), Telegram adapters
+**Verification:** Yes: GitHub release body reviewed, High priority classification, alert sent to Ken (8574109706)
+**Rollback:** N/A
+**Linked:** none
+---
+
+
 ## 2026-05-02 18:52 AEST — [CHG-0132] Fix model-drift-check.sh AEST_TIMESTAMP SyntaxError in Python state update
 **Type:** script
 **Source:** manual

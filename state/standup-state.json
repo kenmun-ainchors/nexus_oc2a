@@ -1,6 +1,13 @@
 {
-  "lastStandupAt": null,
-  "lastStandupType": null,
-  "lastStandupWindowStart": null,
-  "history": []
+  "lastStandupAt": "2026-05-02T22:02:30Z",
+  "lastStandupType": "scheduled",
+  "lastStandupWindowStart": "2026-05-01T22:02:30Z",
+  "history": [
+    {
+      "type": "scheduled",
+      "at": "2026-05-02T22:02:30Z",
+      "windowStart": "2026-05-01T22:02:30Z",
+      "channel": "telegram"
+    }
+  ]
 }
