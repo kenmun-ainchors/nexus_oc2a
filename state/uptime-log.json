@@ -5671,14 +5671,24 @@
       "ts": "2026-05-03T14:48:57.446241+00:00",
       "status": "ok",
       "issues": []
+    },
+    {
+      "ts": "2026-05-03T14:53:55.794232+00:00",
+      "status": "ok",
+      "issues": []
+    },
+    {
+      "ts": "2026-05-03T14:58:55.875384+00:00",
+      "status": "ok",
+      "issues": []
     }
   ],
   "summary": {
-    "totalChecks": 1131,
-    "upChecks": 1124,
+    "totalChecks": 1133,
+    "upChecks": 1126,
     "downtimeMinutes": 105,
-    "uptimePct": 99.381,
-    "lastCheck": "2026-05-03T14:48:57.446241+00:00",
+    "uptimePct": 99.382,
+    "lastCheck": "2026-05-03T14:58:55.875384+00:00",
     "lastStatus": "ok"
   }
 }
