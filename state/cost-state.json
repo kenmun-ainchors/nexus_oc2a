@@ -1,5 +1,5 @@
 {
-  "lastUpdated": "2026-05-03T02:00:40Z",
+  "lastUpdated": "2026-05-03T13:56:34Z",
   "history": {
     "2026-04-25": {
       "date": "2026-04-25",
@@ -253,50 +253,58 @@
     },
     "2026-05-03": {
       "date": "2026-05-03",
-      "totalCost": 5.183,
-      "totalTurns": 380,
-      "totalInputTokens": 14633,
-      "totalOutputTokens": 58851,
-      "totalCacheReadTokens": 8026430,
-      "totalCacheWriteTokens": 650929,
+      "totalCost": 147.5663,
+      "totalTurns": 4964,
+      "totalInputTokens": 43202,
+      "totalOutputTokens": 923627,
+      "totalCacheReadTokens": 120287465,
+      "totalCacheWriteTokens": 27010389,
       "source": "session-log-estimate",
       "note": "Session log estimate. usage.cost.total includes cacheWrite charges. CHG-0097: confirmed cost includes cache writes.",
       "byModel": {
         "claude-sonnet-4-6": {
-          "input": 511,
-          "output": 46255,
-          "cacheRead": 6783226,
-          "cacheWrite": 580415,
-          "cost": 4.9069,
-          "turns": 297
+          "input": 6215,
+          "output": 835736,
+          "cacheRead": 112288682,
+          "cacheWrite": 26526831,
+          "cost": 145.7169,
+          "turns": 4404
         },
         "claude-haiku-4-5": {
-          "input": 900,
-          "output": 12561,
-          "cacheRead": 1243204,
-          "cacheWrite": 70514,
-          "cost": 0.2762,
-          "turns": 82
+          "input": 6163,
+          "output": 87791,
+          "cacheRead": 7998783,
+          "cacheWrite": 483558,
+          "cost": 1.8494,
+          "turns": 555
         },
         "gemma4:e2b": {
-          "input": 13222,
-          "output": 35,
+          "input": 30824,
+          "output": 100,
           "cacheRead": 0,
           "cacheWrite": 0,
           "cost": 0.0,
-          "turns": 1
+          "turns": 3
+        },
+        "delivery-mirror": {
+          "input": 0,
+          "output": 0,
+          "cacheRead": 0,
+          "cacheWrite": 0,
+          "cost": 0.0,
+          "turns": 2
         }
       }
     }
   },
-  "allTimeTotalCost": 956.6281,
+  "allTimeTotalCost": 1099.0114,
   "daysTracked": 9,
-  "avgDailyCost": 106.292,
+  "avgDailyCost": 122.1124,
   "apiBalance": {
     "currency": "USD",
     "balance": 495.26,
     "topUpDate": "2026-05-03",
-    "spentSinceTopUp": 0.0,
+    "spentSinceTopUp": 0,
     "remainingEstimate": 445.77,
     "note": "Balance $495.26 USD \u2014 AInchors Anthropic account. Top-up 2026-05-03 19:36 AEST.",
     "confirmedAt": "2026-05-03T09:36:46.702063+00:00",
@@ -309,7 +317,7 @@
       "gap": 85,
       "cause": "input_cache_write_5m charges excluded from session-log estimates"
     },
-    "remainingNote": "confirmedBalance=121.0 at 2026-05-02; spentAfter=5.183",
+    "remainingNote": "confirmedBalance=445.77 at 2026-05-03; spentAfter=0",
     "lastConfirmedAt": "2026-05-03T22:53:00+10:00",
     "lastConfirmedBy": "Ken"
   },

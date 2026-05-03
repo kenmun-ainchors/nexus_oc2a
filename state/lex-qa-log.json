@@ -733,11 +733,29 @@
       "verdict": "PASS",
       "pass": 5,
       "fail": 0
+    },
+    {
+      "ts": "2026-05-04T00:08:21+10:00",
+      "asset": "/tmp/blog-draft-2026-05-03.html",
+      "producedBy": "yoda",
+      "intendedFor": "public distribution",
+      "verdict": "PASS",
+      "pass": 5,
+      "fail": 0
+    },
+    {
+      "ts": "2026-05-04T00:08:21+10:00",
+      "asset": "/tmp/blog-draft-2026-05-03.html",
+      "producedBy": "yoda",
+      "intendedFor": "public distribution",
+      "verdict": "PASS",
+      "pass": 5,
+      "fail": 0
     }
   ],
   "summary": {
-    "total": 60,
-    "pass": 58,
+    "total": 62,
+    "pass": 60,
     "fail": 1
   }
 }

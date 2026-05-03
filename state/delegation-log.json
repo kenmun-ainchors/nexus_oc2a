@@ -6392,10 +6392,60 @@
       "status": "pass",
       "latencyMs": 0,
       "notes": "15 checks run"
+    },
+    {
+      "ts": "2026-05-03T23:00:13+10:00",
+      "date": "2026-05-03",
+      "tier": "T2",
+      "taskType": "warden-check",
+      "model": "anthropic/claude-haiku-4-5",
+      "status": "pass",
+      "latencyMs": 0,
+      "notes": "15 checks run, 0 violations"
+    },
+    {
+      "ts": "2026-05-03T23:15:16+10:00",
+      "date": "2026-05-03",
+      "tier": "T2",
+      "taskType": "warden-check",
+      "model": "anthropic/claude-haiku-4-5",
+      "status": "pass",
+      "latencyMs": 0,
+      "notes": "15 checks run: 15 PASS, 0 FAIL. All model compliance gates met. No drift detected."
+    },
+    {
+      "ts": "2026-05-03T23:30:15+10:00",
+      "date": "2026-05-03",
+      "tier": "T2",
+      "taskType": "warden-check",
+      "model": "anthropic/claude-haiku-4-5",
+      "status": "pass",
+      "latencyMs": 0,
+      "notes": "15 checks run - all PASS"
+    },
+    {
+      "ts": "2026-05-03T23:45:35+10:00",
+      "date": "2026-05-03",
+      "tier": "T2",
+      "taskType": "warden-check",
+      "model": "anthropic/claude-haiku-4-5",
+      "status": "pass",
+      "latencyMs": 0,
+      "notes": "15 checks run, all PASS"
+    },
+    {
+      "ts": "2026-05-04T00:00:35+10:00",
+      "date": "2026-05-04",
+      "tier": "T2",
+      "taskType": "warden-check",
+      "model": "anthropic/claude-haiku-4-5",
+      "status": "pass",
+      "latencyMs": 0,
+      "notes": "15 checks run: 15 PASS, 0 FAIL. No model drift detected."
     }
   ],
   "summary": {
-    "total": 639,
+    "total": 644,
     "byTier": {
       "T1": {
         "pass": 0,
@@ -6403,7 +6453,7 @@
         "timeout": 0
       },
       "T2": {
-        "pass": 602,
+        "pass": 607,
         "fail": 29,
         "timeout": 0
       },
@@ -6421,7 +6471,7 @@
         "tier": "T2"
       },
       "warden-check": {
-        "pass": 438,
+        "pass": 443,
         "fail": 23,
         "timeout": 0,
         "tier": "T2"
@@ -6445,6 +6495,6 @@
         "tier": "T2"
       }
     },
-    "estimatedSavingsUSD": 3.0175
+    "estimatedSavingsUSD": 3.0425
   }
 }
