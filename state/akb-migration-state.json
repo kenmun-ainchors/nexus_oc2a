@@ -1,0 +1,25 @@
+{
+  "tkt": "TKT-0042",
+  "phase1": "complete",
+  "phase2": "complete",
+  "phase3": "pending",
+  "phase4": "pending",
+  "auditFile": "state/notion-audit.json",
+  "nextPhase": "Phase 3 — Migrate Obsidian content to Notion",
+  "summary": {
+    "totalPagesFound": 304,
+    "pagesAudited": 304,
+    "activeKept": 27,
+    "systemEntries": "~240+ AKB Backlog entries (untouched)",
+    "staleArchived": 56,
+    "orphanedArchived": 7,
+    "totalArchived": 63,
+    "newPagesCreated": 7
+  },
+  "newStructure": {
+    "root": "AInchors HQ (34dc1829-53ff-8039-a2ea-d3b675f8d2de)",
+    "holocron": "355c1829-53ff-81db-9fbc-c46e878dc3b5",
+    "company": "355c1829-53ff-81e0-be02-e0ad4cc41e35"
+  },
+  "completedAt": "2026-05-03T22:35:00+10:00"
+}

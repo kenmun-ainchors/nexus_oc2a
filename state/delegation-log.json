@@ -6332,10 +6332,70 @@
       "status": "pass",
       "latencyMs": 0,
       "notes": "15 checks run - all PASS"
+    },
+    {
+      "ts": "2026-05-03T21:27:23+10:00",
+      "date": "2026-05-03",
+      "tier": "T2",
+      "taskType": "warden-check",
+      "model": "anthropic/claude-haiku-4-5",
+      "status": "pass",
+      "latencyMs": 0,
+      "notes": "15 checks run, all passed"
+    },
+    {
+      "ts": "2026-05-03T21:42:57+10:00",
+      "date": "2026-05-03",
+      "tier": "T2",
+      "taskType": "warden-check",
+      "model": "anthropic/claude-haiku-4-5",
+      "status": "pass",
+      "latencyMs": 0,
+      "notes": "15 checks run, 15 PASS, 0 FAIL"
+    },
+    {
+      "ts": "2026-05-03T21:59:54+10:00",
+      "date": "2026-05-03",
+      "tier": "T2",
+      "taskType": "warden-check",
+      "model": "anthropic/claude-haiku-4-5",
+      "status": "pass",
+      "latencyMs": 0,
+      "notes": "15 checks run"
+    },
+    {
+      "ts": "2026-05-03T22:15:03+10:00",
+      "date": "2026-05-03",
+      "tier": "T2",
+      "taskType": "warden-check",
+      "model": "anthropic/claude-haiku-4-5",
+      "status": "pass",
+      "latencyMs": 0,
+      "notes": "15 checks run: 15 PASS, 0 FAIL. No model drift detected."
+    },
+    {
+      "ts": "2026-05-03T22:30:13+10:00",
+      "date": "2026-05-03",
+      "tier": "T2",
+      "taskType": "warden-check",
+      "model": "anthropic/claude-haiku-4-5",
+      "status": "pass",
+      "latencyMs": 0,
+      "notes": "15 checks run: 15 PASS, 0 FAIL. No model drift detected."
+    },
+    {
+      "ts": "2026-05-03T22:45:14+10:00",
+      "date": "2026-05-03",
+      "tier": "T2",
+      "taskType": "warden-check",
+      "model": "anthropic/claude-haiku-4-5",
+      "status": "pass",
+      "latencyMs": 0,
+      "notes": "15 checks run"
     }
   ],
   "summary": {
-    "total": 633,
+    "total": 639,
     "byTier": {
       "T1": {
         "pass": 0,
@@ -6343,7 +6403,7 @@
         "timeout": 0
       },
       "T2": {
-        "pass": 596,
+        "pass": 602,
         "fail": 29,
         "timeout": 0
       },
@@ -6361,7 +6421,7 @@
         "tier": "T2"
       },
       "warden-check": {
-        "pass": 432,
+        "pass": 438,
         "fail": 23,
         "timeout": 0,
         "tier": "T2"
@@ -6385,6 +6445,6 @@
         "tier": "T2"
       }
     },
-    "estimatedSavingsUSD": 2.9875
+    "estimatedSavingsUSD": 3.0175
   }
 }

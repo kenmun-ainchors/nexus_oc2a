@@ -42,6 +42,90 @@ This log captures **every change** Yoda makes to AInchors infrastructure, config
 **Linked:** decisions.md 2026-04-27 entries
 ---
 
+## 2026-05-03 22:41 AEST — [CHG-0149] TKT-0042 Phase 1+2: Notion audit complete + structure established
+**Type:** doc
+**Source:** ken-prompt
+**Trigger:** Ken approved TKT-0042 Phase 1+2 2026-05-03
+**What changed:** 304 pages audited, 63 archived (56 stale Obsidian mirrors + 7 orphaned), 7 new pages created
+**Why:** Notion KB restructure — single source of truth migration. Obsidian retired.
+**Verification:** notion-audit.json written, akb-migration-state.json written
+**Rollback:** N/A
+**Linked:** none
+---
+
+
+## 2026-05-03 22:09 AEST — [CHG-0148] Forge activated — ITIL/ITSM/AIOps + CI full ownership
+**Type:** agent
+**Source:** ken-prompt
+**Trigger:** Ken directive 2026-05-03: Forge owns all ITIL/ITSM/AIOps + CI tasks
+**What changed:** Reassigned 10 agentTurn crons to agentId=infra (backup, cost tracker, burn alert, asset review x2, release monitor, glm check, GCP checks, TRIGGER-12, fallback chain validation, CI Cycle A). 7 systemEvent crons remain agentId=main (platform constraint) but are logically owned by Forge (documented in INFRA_RULES.md). Expanded INFRA_RULES.md with full scope table. agent-status.json updated with full cron ID lists.
+**Why:** Forge (infra agent) activated to own all ITIL/ITSM/AIOps and CI responsibilities. Previously these ran as anonymous crons under main or were unassigned.
+**Verification:** All 12 crons updated to agentId=infra (confirmed in cron API responses). INFRA_RULES.md 3386 chars (well under 5k limit). agent-status.json valid.
+**Rollback:** N/A
+**Linked:** none
+---
+
+
+## 2026-05-03 22:03 AEST — [CHG-0147] openclaw.json config recovery — allowedInCrons rejected (agents.list.6)
+**Type:** config
+**Source:** incident-recovery
+**Trigger:** OpenClaw config reload rejected unknown key 'allowedInCrons' on infra agent (agents.list.6). Restored from .last-good backup at 21:59 AEST.
+**What changed:** openclaw.json restored from last-known-good. Clobbered file preserved. Config clean — infra agent no longer has allowedInCrons. Note: allowedInCrons belongs in model-policy.json (Warden), not openclaw.json.
+**Why:** allowedInCrons is not a valid OpenClaw config schema key. A previous session patch incorrectly wrote it to openclaw.json on the infra agent.
+**Verification:** Current openclaw.json: no allowedInCrons. health-check clean. Warden: 75 consecutive clean. TRIGGER-12 cron prompt: safe (writes model-policy.json only).
+**Rollback:** N/A
+**Linked:** none
+---
+
+
+## 2026-05-03 21:50 AEST — [CHG-0146] AKB Holocron cron fixed — Notion-only, timeout resolved, delivery fixed
+**Type:** cron
+**Source:** ken-prompt
+**Trigger:** Ken: make sure Holocron daily update cron is working 2026-05-03
+**What changed:** cron dce1ada4: (1) Removed Obsidian writes (retired). (2) Removed git commits (nightly auto-heal handles). (3) Focused to: Agent Status DB update (7 agents) + Daily Platform Brief page upsert + akb-update-log write. (4) timeoutSeconds: 900->600 (actual platform cap is 600s). (5) Fixed delivery: channel:last (broken) -> channel:telegram to:8574109706 (explicit). Test run fired.
+**Why:** Cron timed out at 600s on Day 9 (Obsidian+Notion+git on heavy day). Obsidian deprecated per Ken architecture decision. Delivery was broken since Day 4 (channel:last never resolved chatId). Notion is now single source of truth.
+**Verification:** Test run in progress. Prior clean runs: Day 5 (341s), Day 6 (527s), Day 7 (403s).
+**Rollback:** N/A
+**Linked:** none
+---
+
+
+## 2026-05-03 21:42 AEST — [CHG-0145] Notion model strategy page updated to 4-tier
+**Type:** doc
+**Source:** ken-prompt
+**Trigger:** Ken: update notion model strategy 2026-05-03
+**What changed:** Notion page 34ec1829 (Model Strategy): deleted 76 stale blocks (3-tier Gemma4/Sonnet/Opus), wrote 105 new blocks. Sections: 4-tier stack, per-agent routing (all 7 agents), Ollama Cloud PoC results, TRIGGER-12, key rules, decisions log.
+**Why:** Page was stale — still showed original 3-tier design from Day 1. Now reflects current 4-tier strategy with Ollama Cloud Tier 2b, allowlist audit, and TRIGGER-12.
+**Verification:** Notion API confirmed 10+ blocks with has_more=true. First 5 blocks verified correct.
+**Rollback:** N/A
+**Linked:** none
+---
+
+
+## 2026-05-03 21:36 AEST — [CHG-0144] TRIGGER-12: Agent allowlist auto-sync on CI Cycle B decision / model strategy update
+**Type:** cron
+**Source:** ken-prompt
+**Trigger:** Ken directive 2026-05-03: implement trigger to update all agents allowlist at every CI Cycle B decision and model strategy change
+**What changed:** New: scripts/allowlist-sync.sh + allowlist_sync_core.py + allowlist-detect.sh. Cron TRIGGER-12 (every 30 min, haiku, id: 6a059e9e). TRIGGER-12 added to chg-triggers.json.
+**Why:** Allowlists need auto-sync when CI approves new models or tier strategy changes. Previously manual.
+**Verification:** detect+sync scripts tested clean. JSON valid. Cron registered.
+**Rollback:** N/A
+**Linked:** none
+---
+
+
+## 2026-05-03 21:31 AEST — [CHG-0143] Agent allowlist audit — Ollama Cloud Tier 2 propagation + Lex fix + Spark added
+**Type:** config
+**Source:** ken-prompt
+**Trigger:** Ken directive: update allowlists based on latest model strategy 2026-05-03
+**What changed:** model-policy.json: Yoda/Aria/Sage/Warden allowedInCrons += Ollama Cloud Tier 2. Lex opus contradiction fixed. Spark agent entry added. tierStrategy updated to 4-tier.
+**Why:** Ollama Cloud models approved CHG-0120/0123 but not propagated per-agent. Lex had opus allowedInCrons vs prohibitedModels contradiction. Spark had no policy entry.
+**Verification:** JSON valid, all fields consistent, Warden enforces next check
+**Rollback:** N/A
+**Linked:** none
+---
+
+
 ## 2026-05-03 17:10 AEST — [CHG-0142] Fix Aria stale Anthropic key + auto-heal auto-sync across all agent auth-profiles
 **Type:** script
 **Source:** incident-recovery
@@ -1828,5 +1912,11 @@ _Pre-existing changes (Day 1, Day 2) are captured in `memory/shared/decisions.md
 - RULES.md /update and standup: added mandatory cron health check step
 - AKB cron (dce1ada4): model qwen3.5:cloud → Sonnet, timeout 600s → 900s, delivery → Telegram Ken
 **Rule locked:** A single failure on a daily cron = immediate alert. No dead-letter threshold applies.
+**Authorised by:** Ken Mun
+**Logged by:** Yoda
+
+## 2026-05-03 21:21 AEST — [CHG-0142] /commit — Day 9 session memory persisted
+**Type:** ops
+**What changed:** Session memory flushed to memory/2026-05-03.md. Git committed. All Day 9 decisions, CHGs, and US items persisted.
 **Authorised by:** Ken Mun
 **Logged by:** Yoda

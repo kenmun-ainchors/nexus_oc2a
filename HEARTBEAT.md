@@ -53,6 +53,11 @@
   - Log CHG entry for each remediation
 - State key: taskVerificationAlerts
 
+### Allowlist Sync State (check every 30 min)
+- Check state/allowlist-sync-state.json → if lastResult = 'changes-applied' AND lastSyncAt is recent (< 1hr ago): surface to Ken with the change summary
+- TRIGGER-12 cron (6a059e9e) handles detection automatically — heartbeat only needs to surface if alert was missed
+- If state/allowlist-sync-state.json is missing: run `zsh scripts/allowlist-sync.sh --source manual` to initialise
+
 ### CHG Trigger Monitoring (check every heartbeat)
 - Read state/chg-triggers.json
 - **TRIGGER-01/02/03** (OC2 arrival, HA live, Gemma4 validated): If Ken mentions hardware arrived or OC2 online → raise CHG immediately, execute setup sequence

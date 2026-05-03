@@ -119,6 +119,14 @@ All modules and functions within the Nexus platform use Star Wars themed names.
 - S4 (agent tool scopes): all agents have tools=null — define explicit scopes before TRIGGER-07 (first P2 client)
 - Agent team to be designed and built
 
+## TRIGGER-12 — Allowlist Auto-Sync (live, 2026-05-03)
+- **What:** Auto-syncs all agent `allowedInCrons` when CI Cycle B approves models OR model-policy.json tierStrategy changes.
+- **Scripts:** `scripts/allowlist-sync.sh` (engine) + `scripts/allowlist_sync_core.py` (Python logic) + `scripts/allowlist-detect.sh` (detector)
+- **Cron:** 6a059e9e (every 30 min, haiku) — detects trigger, runs sync, alerts Ken via Telegram if changes applied
+- **Eligibility matrix:** main/Aria=all cloud; Spark=kimi+pro; Sage=kimi+flash; Warden=flash only; Shield/Lex=no cloud (sensitive)
+- **State:** `state/allowlist-sync-state.json` — tracks lastSyncAt, lastChanges, approvedCloudModels
+- **CHG:** CHG-0144
+
 ## Active Backlog (Notion source of truth)
 - US19: HA Design (reliability, High priority)
 - US39: Preventable Downtime Enforcement (future sprint)

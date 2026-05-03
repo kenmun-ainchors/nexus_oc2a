@@ -39,10 +39,37 @@
       "role": "AI research, competitive intel, technical analysis"
     },
     "infra": {
-      "status": "planned",
+      "status": "active",
       "layer": "technical",
       "stream": "technical",
-      "role": "Platform ops, deployments, monitoring, config"
+      "lastRun": "2026-05-03",
+      "role": "ITIL/ITSM/AIOps + CI Continuous Improvement \u2014 backup/DR, auto-heal, SLA, asset management, release monitoring, fallback chain, cost/burn tracking, observability, allowlist sync, CI Cycle A/B evaluation, model benchmarking. systemEvent crons (health, obs, task monitor, mission control) are logically owned by Forge but technically bound to main (platform constraint).",
+      "model": "anthropic/claude-sonnet-4-6 (primary) | ollama/deepseek-v4-pro:cloud (CI crons) | anthropic/claude-haiku-4-5 (ops crons)",
+      "cadence": "Ops: 5-min to hourly | Cost: daily | CI: every 6h | SLA: monthly | Assets: weekly/quarterly | Releases: daily",
+      "notes": "Activated 2026-05-03 by Ken. Owns fallback chain validation (35c8cd08) and CI Cycle A (3ec512f3). Previously ephemeral under main agentId. CHG-0147.",
+      "cronIds_assigned": [
+        "01aaa54f",
+        "c5debd26",
+        "e8b17c79",
+        "2e235063",
+        "ca5d5e50",
+        "6bd53c89",
+        "bb47c6de",
+        "7fc738fb",
+        "c3211271",
+        "6a059e9e",
+        "35c8cd08",
+        "3ec512f3"
+      ],
+      "cronIds_logical_owner": [
+        "c65ace85",
+        "80c9226b",
+        "e269d620",
+        "d32f2b9a",
+        "6a88375e",
+        "d3b1e203",
+        "637ecb12"
+      ]
     },
     "content": {
       "status": "planned",
