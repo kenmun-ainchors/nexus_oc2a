@@ -1,10 +1,10 @@
 {
-  "generated_at": "2026-05-03T14:08:55.616322+00:00",
-  "generated_at_aest": "2026-05-04 00:08 AEST",
+  "generated_at": "2026-05-03T14:13:52.751331+00:00",
+  "generated_at_aest": "2026-05-04 00:13 AEST",
   "period_hours": 24,
   "totals": {
-    "ERROR": 97,
-    "WARN": 659,
+    "ERROR": 96,
+    "WARN": 656,
     "INFO": 29
   },
   "top_errors": [
@@ -26,7 +26,7 @@
     },
     {
       "type": "warden_violation",
-      "count": 2
+      "count": 1
     }
   ],
   "top_warnings": [
@@ -36,27 +36,27 @@
     },
     {
       "type": "task_stall",
-      "count": 130
+      "count": 131
     },
     {
       "type": "incomplete_turn",
-      "count": 113
-    },
-    {
-      "type": "tool_fail",
       "count": 112
     },
     {
+      "type": "tool_fail",
+      "count": 111
+    },
+    {
       "type": "gateway_restart",
-      "count": 81
+      "count": 80
     }
   ],
   "trend": {
     "has_prev_data": true,
-    "prev_errors": 34,
-    "prev_warns": 887,
-    "errors_pct_change": 185.3,
-    "warns_pct_change": -25.7
+    "prev_errors": 35,
+    "prev_warns": 889,
+    "errors_pct_change": 174.3,
+    "warns_pct_change": -26.2
   },
   "worst_hour": {
     "hour": "2026-05-03T04:00Z",
