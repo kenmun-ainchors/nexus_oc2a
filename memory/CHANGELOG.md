@@ -42,6 +42,18 @@ This log captures **every change** Yoda makes to AInchors infrastructure, config
 **Linked:** decisions.md 2026-04-27 entries
 ---
 
+## 2026-05-04 00:38 AEST — [CHG-0150] Spark LinkedIn Authority Campaign — v4 brief locked and approved
+**Type:** agent
+**Source:** ken-prompt
+**Trigger:** Ken: approved with this campaign brief. Lock in and go. 2026-05-04 00:38 AEST
+**What changed:** Campaign brief v4 locked. Key decisions: practitioner voice (not consultant-selling), AInchors-is-first-client narrative, EOD blog as content source, 3 posts/week Tue/Wed/Thu, consulting POV rotates into 1 slot randomly, Spark auto-posts on Ken approval, no co-founder/client mentions, metrics safe to share at outcome level. TKT-0039 → In Progress. SPARK_RULES hardened.
+**Why:** Campaign brief required multiple POV corrections — consultant-selling angle, fake client results risk, co-founder identity, 5-post overload. v4 is honest, practitioner-first, and matches Ken's internal voice.
+**Verification:** Proposal status locked, tracker updated, TKT-0039 In Progress, week1-posts.md final
+**Rollback:** N/A
+**Linked:** none
+---
+
+
 ## 2026-05-03 22:41 AEST — [CHG-0149] TKT-0042 Phase 1+2: Notion audit complete + structure established
 **Type:** doc
 **Source:** ken-prompt

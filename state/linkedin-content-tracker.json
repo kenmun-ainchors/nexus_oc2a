@@ -31,53 +31,58 @@
       "id": "LI-W1-P1",
       "queueId": 3,
       "title": "W1P1 \u2014 Intro Post (Consultant POV)",
-      "status": "needs-revision",
+      "status": "pending-ken-approval",
       "week": 1,
       "day": "Monday",
       "pillar": "consultant-pov",
       "governanceId": "CONTENT-0003",
       "governanceResult": "triad-cleared",
       "createdAt": "2026-05-03T19:00:00+10:00",
-      "revisionNote": "POV shift per Ken 2026-05-03: practitioner voice, not consultant-selling. New drafts in week1-posts.md."
+      "revisionNote": "v4 final \u2014 campaign locked"
     },
     {
       "id": "LI-W1-P2",
       "queueId": 4,
       "title": "W1P2 \u2014 Problem Education (Paying for AI they can't use)",
-      "status": "needs-revision",
+      "status": "pending-ken-approval",
       "week": 1,
       "day": "Wednesday",
       "pillar": "problem-education",
       "governanceId": "CONTENT-0004",
       "governanceResult": "triad-cleared",
       "createdAt": "2026-05-03T19:00:00+10:00",
-      "revisionNote": "POV shift per Ken 2026-05-03: practitioner voice, not consultant-selling. New drafts in week1-posts.md."
+      "revisionNote": "v4 final \u2014 campaign locked"
     },
     {
       "id": "LI-W1-P3",
       "queueId": 5,
       "title": "W1P3 \u2014 Consultant POV (First 24 hours of an engagement)",
-      "status": "needs-revision",
+      "status": "pending-ken-approval",
       "week": 1,
       "day": "Thursday",
       "pillar": "consulting-framework",
       "governanceId": "CONTENT-0005",
       "governanceResult": "triad-cleared",
       "createdAt": "2026-05-03T19:00:00+10:00",
-      "revisionNote": "POV shift per Ken 2026-05-03: practitioner voice, not consultant-selling. New drafts in week1-posts.md."
+      "revisionNote": "v4 final \u2014 campaign locked"
     },
     {
       "id": "LI-W1-P4",
       "queueId": 6,
       "title": "W1P4 \u2014 Help (3 questions before buying an AI tool)",
-      "status": "needs-revision",
+      "status": "pending-ken-approval",
       "week": 1,
       "day": "Friday",
       "pillar": "help",
       "governanceId": "CONTENT-0006",
       "governanceResult": "triad-cleared",
       "createdAt": "2026-05-03T19:00:00+10:00",
-      "revisionNote": "POV shift per Ken 2026-05-03: practitioner voice, not consultant-selling. New drafts in week1-posts.md."
+      "revisionNote": "v4 final \u2014 campaign locked"
     }
-  ]
+  ],
+  "campaignStatus": "locked",
+  "campaignApprovedAt": "2026-05-04T00:38:00+10:00",
+  "campaignApprovedBy": "Ken",
+  "campaignVersion": "v4",
+  "notes": "Campaign brief locked 2026-05-04. Practitioner voice. AInchors-first. EOD blog source. 3 posts/week Tue/Wed/Thu. Consulting POV rotates. Spark auto-posts on Ken approval."
 }
