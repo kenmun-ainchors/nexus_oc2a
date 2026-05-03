@@ -178,6 +178,13 @@ All modules and functions within the Nexus platform use Star Wars themed names.
 - CHG-0107: bootstrapMaxChars 10k→20k (fix MEMORY.md truncation)
 - Balance: $115.00 USD (top-up 19:04 AEST). All-time: $828.27 USD over 7 days.
 
+## Day 10 Context — next session
+- Phase 3 gate: present full Obsidian→Notion mapping table to Ken for approval before any migration
+- Forge name: still proposed ("Forge 🏗️") — Ken to confirm
+- TKT-0043 to TKT-0048: all in Backlog, untouched — not actioned
+- CI Cycle A first report due ~2026-05-09
+- Balance: $445.77 USD (confirmed Ken 22:53 AEST)
+
 ## Day 9 Context (2026-05-03) — Key Events
 - CHG-0139: Anthropic API key rotated. Moved to AInchors Anthropic account. Balance $98 USD confirmed.
 - T1 balance alert fired 13:20 AEST ($45.24 < $80 threshold) — then reset after CHG-0139 key rotation + top-up to $98.
@@ -186,6 +193,15 @@ All modules and functions within the Nexus platform use Star Wars themed names.
 - TKT-0039 EOD reminder fired 17:00 AEST — Ken decision pending: LinkedIn Authority Campaign Week 1 start date.
 - Partnership Discussion meeting notes arrived 10:47AM AEST (gemini-notes) — key actions: company setup (immediate), training due tomorrow, IP strategy. Flagged to Ken.
 - Calendar: Meeting with Ken and Colbert — 2026-05-04 14:00–15:00 AEST.
+
+## Day 9 Context (2026-05-03) — Key Events (continued)
+- CHG-0140: Allowlist audit — Ollama Cloud Tier 2b propagated to all eligible agents. Spark added to model-policy.json. Lex opus contradiction fixed.
+- CHG-0143/0144: TRIGGER-12 implemented — allowlist-sync.sh auto-fires on CI Cycle B decision or strategy change.
+- CHG-0145: Notion Model Strategy page fully rewritten — 4-tier, per-agent routing, PoC results, TRIGGER-12.
+- CHG-0146: Holocron daily cron fixed — Notion-only (Obsidian removed), timeout resolved, Telegram delivery fixed. Runs 134s.
+- CHG-0147/0148: Forge 🏗️ activated — owns all ITIL/ITSM/AIOps + CI. 12 crons assigned to agentId=infra. INFRA_RULES.md created.
+- TKT-0042 Phase 1+2 complete (sub-agent) — Notion audit done, 63 stale pages archived, clean Holocron structure established. Phase 3 pending Ken approval.
+- openclaw.json: Ollama Cloud models added to agents.defaults.models (were missing — caused CI cron failures).
 
 ## Day 8 Context (2026-05-02) — Webchat Session
 - CHG-0120–0130 logged (11 entries). PoC complete, Spark live, CI framework live, content governance live.
