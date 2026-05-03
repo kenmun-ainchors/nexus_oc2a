@@ -4,21 +4,21 @@
     "type": "split",
     "children": [
       {
-        "id": "8cf3b6804f757852",
+        "id": "b80393f466bdb13c",
         "type": "tabs",
         "children": [
           {
-            "id": "c616c22763a60529",
+            "id": "f1a7a61edf38e95c",
             "type": "leaf",
             "state": {
               "type": "markdown",
               "state": {
-                "file": "AGENTS.md",
+                "file": "AGENT_ARCHITECTURE.md",
                 "mode": "source",
                 "source": false
               },
               "icon": "lucide-file",
-              "title": "AGENTS"
+              "title": "AGENT_ARCHITECTURE"
             }
           }
         ]
@@ -183,25 +183,26 @@
       "bases:Create new base": false
     }
   },
-  "active": "c616c22763a60529",
+  "active": "77bd0598df197eaf",
   "lastOpenFiles": [
+    "state/obs.db-journal",
+    "memory/journal-2026-05-02.md",
+    "memory/agents/support.md",
+    "memory/agents/security.md",
+    "memory/agents/research.md",
+    "memory/agents/legal.md",
+    "memory/agents/dev.md",
+    "memory/agents/content.md",
     "AGENT_ARCHITECTURE.md",
+    "AGENTS.md",
     "state/ollama-cloud-poc-report.md",
     "state/cron-health-state.json",
     "scripts/cron-health-check.sh",
-    "state/obs.db-journal",
-    "AGENTS.md",
-    "memory/agents/support.md",
     "memory/agents/social.md",
-    "memory/agents/security.md",
     "memory/agents/report.md",
     "memory/agents/marketing.md",
-    "memory/agents/legal.md",
     "memory/agents/infra.md",
-    "memory/agents/dev.md",
-    "memory/agents/content.md",
     "memory/agents/qa.md",
-    "memory/agents/research.md",
     "RULES.md",
     "scripts/get-secret.sh",
     "state/outage-alert-state.json",
@@ -211,7 +212,6 @@
     "scripts/linkedin-post.sh",
     "scripts/linkedin-auth.sh",
     "memory/2026-05-03.md",
-    "memory/journal-2026-05-02.md",
     "memory/journal-2026-04-30.md",
     "memory/journal-2026-05-01.md",
     "memory/2026-05-02.md",
@@ -219,7 +219,6 @@
     "OllamaCloud_PoC.md",
     "YODA_OC1_OC2_OPERATIONAL_BRIEF.md",
     "memory/2026-04-30.md",
-    "memory/journal-2026-04-29.md",
-    "reports/sla-2026-04.md"
+    "memory/journal-2026-04-29.md"
   ]
 }

@@ -6262,10 +6262,80 @@
       "status": "pass",
       "latencyMs": 0,
       "notes": "15 checks run, 15 PASS, 0 FAIL. No model drift detected."
+    },
+    {
+      "ts": "2026-05-03T19:57:19+10:00",
+      "date": "2026-05-03",
+      "tier": "T2",
+      "taskType": "warden-check",
+      "model": "anthropic/claude-haiku-4-5",
+      "status": "pass",
+      "latencyMs": 0,
+      "notes": "15 checks run, all passed. 0 violations."
+    },
+    {
+      "ts": "2026-05-03T20:00:15+10:00",
+      "date": "2026-05-03",
+      "tier": "T2",
+      "taskType": "burn-check",
+      "model": "anthropic/claude-haiku-4-5",
+      "status": "pass",
+      "latencyMs": 0,
+      "notes": "Burn check: $5.18 today (threshold: $40 \u2014 no alert)"
+    },
+    {
+      "ts": "2026-05-03T20:12:19+10:00",
+      "date": "2026-05-03",
+      "tier": "T2",
+      "taskType": "warden-check",
+      "model": "anthropic/claude-haiku-4-5",
+      "status": "pass",
+      "latencyMs": 0,
+      "notes": "15 checks run"
+    },
+    {
+      "ts": "2026-05-03T20:27:21+10:00",
+      "date": "2026-05-03",
+      "tier": "T2",
+      "taskType": "warden-check",
+      "model": "anthropic/claude-haiku-4-5",
+      "status": "pass",
+      "latencyMs": 0,
+      "notes": "15 checks run"
+    },
+    {
+      "ts": "2026-05-03T20:42:20+10:00",
+      "date": "2026-05-03",
+      "tier": "T2",
+      "taskType": "warden-check",
+      "model": "anthropic/claude-haiku-4-5",
+      "status": "pass",
+      "latencyMs": 0,
+      "notes": "15 checks run, 0 violations"
+    },
+    {
+      "ts": "2026-05-03T20:57:19+10:00",
+      "date": "2026-05-03",
+      "tier": "T2",
+      "taskType": "warden-check",
+      "model": "anthropic/claude-haiku-4-5",
+      "status": "pass",
+      "latencyMs": 0,
+      "notes": "15 checks run"
+    },
+    {
+      "ts": "2026-05-03T21:12:18+10:00",
+      "date": "2026-05-03",
+      "tier": "T2",
+      "taskType": "warden-check",
+      "model": "anthropic/claude-haiku-4-5",
+      "status": "pass",
+      "latencyMs": 0,
+      "notes": "15 checks run - all PASS"
     }
   ],
   "summary": {
-    "total": 626,
+    "total": 633,
     "byTier": {
       "T1": {
         "pass": 0,
@@ -6273,7 +6343,7 @@
         "timeout": 0
       },
       "T2": {
-        "pass": 589,
+        "pass": 596,
         "fail": 29,
         "timeout": 0
       },
@@ -6291,7 +6361,7 @@
         "tier": "T2"
       },
       "warden-check": {
-        "pass": 426,
+        "pass": 432,
         "fail": 23,
         "timeout": 0,
         "tier": "T2"
@@ -6309,12 +6379,12 @@
         "tier": "T2"
       },
       "burn-check": {
-        "pass": 5,
+        "pass": 6,
         "fail": 0,
         "timeout": 0,
         "tier": "T2"
       }
     },
-    "estimatedSavingsUSD": 2.9525
+    "estimatedSavingsUSD": 2.9875
   }
 }

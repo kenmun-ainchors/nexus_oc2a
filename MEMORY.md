@@ -88,6 +88,29 @@
 ## GitHub
 - GitHub CLI (`gh`) authenticated: account **kenmun-ainchors**, scopes: repo, read:org, gist (token in keyring)
 
+## Nexus — Star Wars Naming Convention (CONFIRMED 2026-05-03, Ken)
+All modules and functions within the Nexus platform use Star Wars themed names.
+
+| Module | Star Wars Name | Description |
+|---|---|---|
+| Overall platform | **Nexus** | Force Nexus — convergence of power and data. API-first Hive portal. |
+| Knowledge Base / AKB | **Holocron** | Jedi/Sith data repositories. Single source of truth. |
+| Command Centre (AInchors) | **The Bridge** | Ship command bridge — real-time ops view for Ken + Yoda. |
+| Client Portal | **The Citadel** | Fortified, isolated per-client access. |
+| Real-time data/API layer | **Holonet** | Galaxy-wide comms network — live data feeds. |
+| Monitoring / Health | **Beacon** | Distress beacon — health alerts and observability. |
+| Governance vault | **The Sanctum** | Sacred protected space — Shield/Lex/Sage triad. |
+| Reporting / Dashboards | **Datapad** | Standard Star Wars data terminal. |
+
+**Rule:** When naming new Nexus modules or functions, propose a Star Wars themed name first. Ken approves.
+**Proposal status:** Names above are locked proposals. Each is reviewed and confirmed by Ken when the corresponding work kicks off — not before. Do not use as final names until confirmed at kickoff.
+
+## Architecture Decision — Knowledge Base (2026-05-03, Ken)
+- **Obsidian: RETIRE** — migrate all content to Notion. Obsidian out entirely.
+- **Notion: Single KB** — restructure + cleanup required. Only AKB Backlog currently has live data. All other Notion pages stale/orphaned/unused.
+- **Sequence (TKT-0042):** (1) Audit + archive stale Notion pages → (2) Design clean Notion structure → (3) Migrate Obsidian content → (4) Redirect AKB cron from Obsidian to Notion → (5) Remove Obsidian from all agent workflows
+- AKB daily update cron must be rewritten to write to Notion only (not Obsidian) after migration
+
 ## Open Items
 - ken@ainchors.com alias → kenmun@ainchors.com (gog working ✅ — alias setup status unknown)
 - Project management tool: **Notion AKB Backlog = single source of truth for US/TKT/CHG (enforced 2026-05-03)**. ticket.sh and changelog-append.sh auto-sync to Notion on every write. DB ID (create): `34dc1829-53ff-814b-8257-d3a3bf351d44`. DB ID (query): `34dc182953ff812d8e43000b83eb0e7e` (via `/v1/data_sources/` endpoint).
