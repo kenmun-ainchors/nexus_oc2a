@@ -1,12 +1,12 @@
 {
   "schema_version": "1.0",
   "description": "Tracks response counters and alert state for tiered credit alerts. Updated by Yoda at runtime.",
-  "currentBalance": 121.0,
-  "lastBalanceCheck": "2026-05-02T06:41:46.287497+00:00",
-  "activeTier": 0,
+  "currentBalance": 45.24,
+  "lastBalanceCheck": "2026-05-03T03:21:25Z",
+  "activeTier": 1,
   "tier1": {
-    "triggered": false,
-    "triggeredAt": "2026-05-01T14:45:00Z",
+    "triggered": true,
+    "triggeredAt": "2026-05-03T03:21:25Z",
     "threshold": 80
   },
   "tier2": {
@@ -83,10 +83,16 @@
       "sentAt": "2026-05-02T06:41:46.287497+00:00",
       "balanceEstimate": 121.0,
       "note": "Tiers reset. balance field corrected from 65.41 to 121.00. T2 alert at 16:20 AEST was false positive \u2014 reading stale balance field instead of confirmedBalance."
+    },
+    {
+      "tier": 1,
+      "sentAt": "2026-05-03T03:21:25Z",
+      "balanceEstimate": 45.24,
+      "note": "T1 triggered at 13:20 AEST May 3. Confirmed balance $45.24 (below $80 threshold). Ken + Angie alerted."
     }
   ],
-  "balance": 121.0,
-  "confirmedAt": "2026-05-02T03:18:00Z",
+  "balance": 45.24,
+  "confirmedAt": "2026-05-03T03:15:14Z",
   "confirmedBy": "Ken",
   "topUpNote": "Balance $121.00 USD confirmed by Ken 2026-05-02 13:18 AEST (webchat).",
   "lastTopUpAt": "2026-05-02T01:33:36.135217Z",

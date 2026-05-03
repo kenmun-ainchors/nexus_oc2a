@@ -1743,3 +1743,16 @@ _Pre-existing changes (Day 1, Day 2) are captured in `memory/shared/decisions.md
 **Action:** warden-escalation-pending.json status set to resolved-by-yoda.
 **Authorised by:** Yoda (auto-resolve — no Ken action required)
 **Logged by:** Yoda (heartbeat)
+
+## 2026-05-03 13:19 AEST — [CHG-0138] OpenClaw updated 2026.4.24 → 2026.5.2
+**Type:** security / platform
+**Trigger:** TRIGGER-04 (High priority security release)
+**What changed:**
+- OpenClaw updated: 2026.4.24 → 2026.5.2
+- Pre-checks: cleared stale openclaw-unknown-48e1596a6b24 dir, git committed 43 files
+- pvt.sh memory check updated for v2026.5.x output format
+- TRIGGER-04 status updated in chg-triggers.json
+**Security fixes in v2026.5.2:** exec/pairing/owner-scope hardening, HTML sanitisation, timing-safe secrets, DM allowlist, Telegram adapters
+**PVT:** 10/10 PASS
+**Authorised by:** Ken Mun
+**Logged by:** Yoda

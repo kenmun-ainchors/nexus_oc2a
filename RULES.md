@@ -68,6 +68,63 @@ Full policy: `~/Documents/AInchors/Agents/ModelStrategy.md`
 
 ---
 
+## /finops - FinOps Cost & ROI Report
+_Slash command. Available to Ken. Added 2026-05-03._
+
+**Purpose:** Instant FinOps snapshot — spend, model efficiency, balance runway, and ROI justification.
+
+**Trigger:** `/finops` in any channel.
+
+**Sources to read (mandatory — all of them):**
+1. `state/cost-state.json` — daily spend history, model breakdown, balance
+2. `state/cost-alert-state.json` — active tier, alert history
+3. `state/ci-agent-state.json` — CI Framework savings data (when available)
+4. `state/roi-data.json` (when exists) — time-saved metrics, revenue attribution
+5. Recent CHG entries — count of changes delivered (platform value proxy)
+6. `state/tickets.json` — US/TKT delivered count (output proxy)
+
+**Report structure (in order):**
+
+### 1. Daily Spend Table
+- All days tracked: date, cost, source (CSV/estimate), notes
+- Average daily (all days + excl. anomaly days)
+- Today's partial burn + current hourly rate
+
+### 2. Model Breakdown
+- By model: cost, %, role, stream
+- Tier 2 (Ollama Cloud) usage and savings vs Sonnet equivalent
+
+### 3. Balance & Runway
+- Current balance, active alert tier
+- Runway at today's burn rate AND at 7-day average
+- Top-up history and recommendation if < 2 days runway
+
+### 4. Cost Optimisation Status
+- Each active initiative: status, estimated saving
+- CI Framework: current cycle, first report ETA
+
+### 5. ROI Section (always include — deepen as TKT-0041 is built out)
+**Current minimum viable ROI (until TKT-0041 delivers deeper data):**
+- Platform build cost (total spend to date)
+- Human equivalent estimate (senior AU DevOps/platform eng rate ~$150/hr)
+- CHG entries delivered (platform output count)
+- Agents live and their function coverage
+- Qualitative: what a human team equivalent would cost monthly
+
+**When TKT-0041 is complete, ROI section expands to:**
+- Time-saved metrics (hours/day automated per agent, monetised)
+- Build cost vs hire cost comparison
+- Revenue pipeline attribution (Spark/Aria-influenced leads)
+- Risk/compliance value (incidents prevented, governance automated)
+- Platform value scorecard (investor/client ready)
+
+### 6. Recommendations
+- Top 1-2 cost actions needed right now
+
+**Format:** Inline delivery (no sub-agent). Telegram: condensed version, key numbers only.
+
+---
+
 ## /roster - Active Agent Roster
 _Slash command. Available to Ken. Added 2026-05-03._
 
@@ -484,6 +541,7 @@ Any work or task that is **ad-hoc** (not already tracked under an INC, US, or CH
 - `/resume` - cross-channel handoff (see /resume section above)
 - `/commit` - persist all session memory + decisions to Obsidian + git. Not a close - can be run anytime mid-session (see /commit section below)
 - `/roster` - list all active agents with role, model, cadence, and current active task. Inline delivery, no sub-agent. See /roster section below.
+- `/finops` - FinOps cost and ROI report. See /finops section below.
 
 All slash triggers are case-insensitive. Never fire on partial matches (e.g. "run diagnostics" text does not trigger `/diagnostics`).
 

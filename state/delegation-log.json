@@ -6002,10 +6002,30 @@
       "status": "pass",
       "latencyMs": 0,
       "notes": "15 checks run: 15 PASS, 0 FAIL. No model drift detected."
+    },
+    {
+      "ts": "2026-05-03T13:25:24+10:00",
+      "date": "2026-05-03",
+      "tier": "T2",
+      "taskType": "warden-check",
+      "model": "anthropic/claude-haiku-4-5",
+      "status": "pass",
+      "latencyMs": 0,
+      "notes": "15 checks run, 0 violations, model compliance clean"
+    },
+    {
+      "ts": "2026-05-03T13:40:19+10:00",
+      "date": "2026-05-03",
+      "tier": "T2",
+      "taskType": "warden-check",
+      "model": "anthropic/claude-haiku-4-5",
+      "status": "pass",
+      "latencyMs": 0,
+      "notes": "15 checks run"
     }
   ],
   "summary": {
-    "total": 600,
+    "total": 602,
     "byTier": {
       "T1": {
         "pass": 0,
@@ -6013,7 +6033,7 @@
         "timeout": 0
       },
       "T2": {
-        "pass": 563,
+        "pass": 565,
         "fail": 29,
         "timeout": 0
       },
@@ -6031,7 +6051,7 @@
         "tier": "T2"
       },
       "warden-check": {
-        "pass": 400,
+        "pass": 402,
         "fail": 23,
         "timeout": 0,
         "tier": "T2"
@@ -6055,6 +6075,6 @@
         "tier": "T2"
       }
     },
-    "estimatedSavingsUSD": 2.8225
+    "estimatedSavingsUSD": 2.8325
   }
 }

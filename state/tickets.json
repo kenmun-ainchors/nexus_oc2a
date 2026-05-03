@@ -1,7 +1,7 @@
 {
   "schema_version": "1.0",
   "description": "AInchors Service Ticket Log. Every ad-hoc request, task, or action without an existing INC/US/CHG reference MUST have a TKT number before work begins.",
-  "sequence": 41,
+  "sequence": 42,
   "tickets": [
     {
       "id": "TKT-0001",
@@ -762,6 +762,26 @@
         "chg": []
       },
       "notes": "Root cause: (1) Node.js OOM crashes — gateway heap exhausted by 16MB sessions.json and 1.7GB sessions dir. Fix: Added NODE_OPTIONS=--max-old-space-size=4096 to LaunchAgent plist (takes effect on next restart). (2) False positive storm — obs-collector.sh timezone parsing bug caused same error log line to be re-logged every 5 min, inflating 8 real restarts to 235 obs events. Fix: patched line_epoch() to correctly parse +10:00 timezone offsets. Also cleaned 5 stale .tmp session files and reset lastRunEpoch. Actions: (1) Gateway currently stable pid 46502; (2) Schedule manual gateway restart or wait for next natural restart to pick up 4GB heap limit; (3) Real restarts were 8 OOM crashes over 5 days — acceptable once heap is increased."
+    },
+    {
+      "id": "TKT-0041",
+      "title": "US-FinOps: Deepen ROI data and justification for /finops report",
+      "type": "task",
+      "priority": "high",
+      "status": "open",
+      "requester": "Ken",
+      "assignee": "Yoda",
+      "created": "2026-05-03T13:30:41+10:00",
+      "updated": "2026-05-03T13:30:41+10:00",
+      "description": "",
+      "resolution": null,
+      "linked": {
+        "us": [],
+        "inc": [],
+        "chg": []
+      },
+      "notes": "",
+      "notionPageId": "355c1829-53ff-8113-b691-e185204b06f3"
     }
   ]
 }
