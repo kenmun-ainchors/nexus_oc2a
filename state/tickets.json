@@ -1,7 +1,7 @@
 {
   "schema_version": "1.0",
   "description": "AInchors Service Ticket Log. Every ad-hoc request, task, or action without an existing INC/US/CHG reference MUST have a TKT number before work begins.",
-  "sequence": 49,
+  "sequence": 50,
   "tickets": [
     {
       "id": "TKT-0001",
@@ -873,7 +873,27 @@
       "assignee": "Yoda",
       "created": "2026-05-03T20:42:51+10:00",
       "updated": "2026-05-03T20:45:56+10:00",
-      "description": "EPIC MASTER — links US36 (AInchors Hub) and US37 (Mission Control redesign) as child stories.\n\nSYSTEM NAME: Nexus (proposed — Ken to confirm). Star Wars lore: a Force Nexus is a convergence point of power and information. Fits an API-first command hub perfectly.\n\nTWO VIEWS:\n(1) AInchors Command Centre — internal ops view. Real-time platform status, agent health, cost, task pipeline, sprint board, decisions log. Replaces current Mission Control static HTML. Live data feeds from OC Hive via API. Operators: Ken + Yoda.\n(2) Client Portal — multi-tenant, abstracted view. Each client sees only their own data: project status, AI task outputs, reports, usage. Isolated per client. No cross-tenant data access. Access control: invite-only, token-scoped. Future: self-serve client onboarding.\n\nAPI-FIRST ARCHITECTURE:\n- OC Hive exposes a Nexus API layer — agents write structured output to the API, both views consume it\n- All data in Notion (AKB Backlog already live) — Nexus reads from Notion as source of truth\n- Real-time where possible (websocket or polling), near-real-time acceptable for MVP\n- Runs on OC1 now, scales to OC2 containers when ready (link: TKT-0045)\n\nLINKED STORIES (children of this EPIC):\n- US36: AInchors Hub — real-time data feeds (Notion ID: 350c1829-53ff-8103-95b7-f52bffb560bf)\n- US37: Mission Control redesign — Kanban format (Notion ID: 350c1829-53ff-8152-8a47-f759f46cd9a7)\n\nDEPENDENCIES: TKT-0042 (Notion as single KB — must complete first), TKT-0045 (containerisation — informs client isolation approach)\n\nDELIVERABLES: (1) System name confirmed, (2) Architecture proposal (interim OC1 + target OC2), (3) AInchors Command Centre v1 (replaces Mission Control), (4) Client Portal v1 (single client, manually provisioned), (5) API spec for Nexus layer.",
+      "description": "EPIC MASTER — links US36 (AInchors Hub) and US37 (Mission Control redesign) as child stories.
+
+SYSTEM NAME: Nexus (proposed — Ken to confirm). Star Wars lore: a Force Nexus is a convergence point of power and information. Fits an API-first command hub perfectly.
+
+TWO VIEWS:
+(1) AInchors Command Centre — internal ops view. Real-time platform status, agent health, cost, task pipeline, sprint board, decisions log. Replaces current Mission Control static HTML. Live data feeds from OC Hive via API. Operators: Ken + Yoda.
+(2) Client Portal — multi-tenant, abstracted view. Each client sees only their own data: project status, AI task outputs, reports, usage. Isolated per client. No cross-tenant data access. Access control: invite-only, token-scoped. Future: self-serve client onboarding.
+
+API-FIRST ARCHITECTURE:
+- OC Hive exposes a Nexus API layer — agents write structured output to the API, both views consume it
+- All data in Notion (AKB Backlog already live) — Nexus reads from Notion as source of truth
+- Real-time where possible (websocket or polling), near-real-time acceptable for MVP
+- Runs on OC1 now, scales to OC2 containers when ready (link: TKT-0045)
+
+LINKED STORIES (children of this EPIC):
+- US36: AInchors Hub — real-time data feeds (Notion ID: 350c1829-53ff-8103-95b7-f52bffb560bf)
+- US37: Mission Control redesign — Kanban format (Notion ID: 350c1829-53ff-8152-8a47-f759f46cd9a7)
+
+DEPENDENCIES: TKT-0042 (Notion as single KB — must complete first), TKT-0045 (containerisation — informs client isolation approach)
+
+DELIVERABLES: (1) System name confirmed, (2) Architecture proposal (interim OC1 + target OC2), (3) AInchors Command Centre v1 (replaces Mission Control), (4) Client Portal v1 (single client, manually provisioned), (5) API spec for Nexus layer.",
       "resolution": null,
       "linked": {
         "us": [],
@@ -922,6 +942,26 @@
       },
       "notes": "",
       "notionPageId": "355c1829-53ff-814c-909b-f56985d89ecc"
+    },
+    {
+      "id": "TKT-0049",
+      "title": "Share Notion Cost Tracker + ROI Tracker DBs with AInchors Yoda integration",
+      "type": "task",
+      "priority": "high",
+      "status": "open",
+      "requester": "Ken",
+      "assignee": "Yoda",
+      "created": "2026-05-04T00:48:13+10:00",
+      "updated": "2026-05-04T00:48:13+10:00",
+      "description": "Cost Tracker DB (34dc1829-53ff-81b1-a587-ec39b239e465) and ROI Tracker DB (34ec1829-53ff-81a2-9a7b-c499b51f7f7b) not shared with Yoda integration. Holocron write failed 2026-05-03. Fix: open each DB in Notion → ... → Connections → Add connections → AInchors Yoda. 2-min fix.",
+      "resolution": null,
+      "linked": {
+        "us": [],
+        "inc": [],
+        "chg": []
+      },
+      "notes": "",
+      "notionPageId": null
     }
   ]
 }

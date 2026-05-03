@@ -5661,14 +5661,24 @@
       "ts": "2026-05-03T14:39:36.835378+00:00",
       "status": "ok",
       "issues": []
+    },
+    {
+      "ts": "2026-05-03T14:43:55.648037+00:00",
+      "status": "ok",
+      "issues": []
+    },
+    {
+      "ts": "2026-05-03T14:48:57.446241+00:00",
+      "status": "ok",
+      "issues": []
     }
   ],
   "summary": {
-    "totalChecks": 1129,
-    "upChecks": 1122,
+    "totalChecks": 1131,
+    "upChecks": 1124,
     "downtimeMinutes": 105,
-    "uptimePct": 99.38,
-    "lastCheck": "2026-05-03T14:39:36.835378+00:00",
+    "uptimePct": 99.381,
+    "lastCheck": "2026-05-03T14:48:57.446241+00:00",
     "lastStatus": "ok"
   }
 }
