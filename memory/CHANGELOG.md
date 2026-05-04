@@ -42,6 +42,18 @@ This log captures **every change** Yoda makes to AInchors infrastructure, config
 **Linked:** decisions.md 2026-04-27 entries
 ---
 
+## 2026-05-04 11:22 AEST — [CHG-0156] TKT-0042 Phase 3: Obsidian→Notion migration complete
+**Type:** doc
+**Source:** manual
+**Trigger:** TKT-0042-phase3
+**What changed:** 38 pages migrated across Agents (5), Operations (21), Company (3), Marketing (4+containers), Research (1+container), Templates (4+container) sections. Stub block removed from Holocron root.
+**Why:** Phase 3 of Obsidian retirement — all meaningful content now in Notion Holocron. AKB and Shared excluded (AKB already in Notion, Shared = Phase 5).
+**Verification:** All 38 pages created in Notion with 0 errors. akb-migration-state.json updated phase3=complete.
+**Rollback:** N/A
+**Linked:** none
+---
+
+
 ## 2026-05-04 11:05 AEST — [CHG-0155] TKT-0049 complete: Ollama Cloud provider configured, CI Cycle A reverted, all crons PASS preflight
 **Type:** infra
 **Source:** manual
