@@ -163,7 +163,7 @@ HTTP_RESPONSE=$(curl -s -w "\n__HTTP_STATUS__%{http_code}" \
   -X POST "$POSTS_ENDPOINT" \
   -H "Authorization: Bearer $ACCESS_TOKEN" \
   -H "Content-Type: application/json" \
-  -H "LinkedIn-Version: 202501" \
+  -H "LinkedIn-Version: 202503" \
   -H "X-Restli-Protocol-Version: 2.0.0" \
   -d "$PAYLOAD")
 

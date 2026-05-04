@@ -219,7 +219,7 @@ log "Fetching member info from LinkedIn..."
 
 USERINFO_RESPONSE=$(curl -s "$USERINFO_ENDPOINT" \
   -H "Authorization: Bearer $ACCESS_TOKEN" \
-  -H "LinkedIn-Version: 202501")
+  -H "LinkedIn-Version: 202503")
 
 MEMBER_ID=$(echo "$USERINFO_RESPONSE" | python3 -c "import sys,json; d=json.load(sys.stdin); print(d.get('sub',''))")
 DISPLAY_NAME=$(echo "$USERINFO_RESPONSE" | python3 -c "import sys,json; d=json.load(sys.stdin); print(d.get('name','unknown'))")

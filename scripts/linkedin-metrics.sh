@@ -84,7 +84,7 @@ echo "  Fetching metrics for: $POST_URN" >&2
 REACTIONS_RESPONSE=$(curl -s -w "\n__HTTP_STATUS__%{http_code}" \
   "${REACTIONS_ENDPOINT}?q=entity&entity=${POST_URN_ENCODED}" \
   -H "Authorization: Bearer $ACCESS_TOKEN" \
-  -H "LinkedIn-Version: 202501" \
+  -H "LinkedIn-Version: 202503" \
   -H "X-Restli-Protocol-Version: 2.0.0")
 
 REACTIONS_STATUS=$(echo "$REACTIONS_RESPONSE" | grep "__HTTP_STATUS__" | sed 's/__HTTP_STATUS__//')
@@ -116,7 +116,7 @@ except:
 SOCIAL_RESPONSE=$(curl -s -w "\n__HTTP_STATUS__%{http_code}" \
   "${SOCIAL_ACTIONS_ENDPOINT}/${POST_URN_ENCODED}" \
   -H "Authorization: Bearer $ACCESS_TOKEN" \
-  -H "LinkedIn-Version: 202501" \
+  -H "LinkedIn-Version: 202503" \
   -H "X-Restli-Protocol-Version: 2.0.0")
 
 SOCIAL_STATUS=$(echo "$SOCIAL_RESPONSE" | grep "__HTTP_STATUS__" | sed 's/__HTTP_STATUS__//')

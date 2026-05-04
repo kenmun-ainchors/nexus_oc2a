@@ -2124,3 +2124,10 @@ _Pre-existing changes (Day 1, Day 2) are captured in `memory/shared/decisions.md
 **What changed:** Session memory flushed to memory/2026-05-03.md. Git committed. All Day 9 decisions, CHGs, and US items persisted.
 **Authorised by:** Ken Mun
 **Logged by:** Yoda
+
+## CHG-0163 — LinkedIn API Version Fix
+**Date:** 2026-05-05 07:48 AEST
+**By:** Yoda (heartbeat auto-fix)
+**What:** Updated LinkedIn API version from 202501→202503 in linkedin-post.sh, linkedin-auth.sh, linkedin-metrics.sh
+**Why:** W1P1 post failed HTTP 426 — 202501 expired (LinkedIn interprets as 20250101). 202503 confirmed valid.
+**Impact:** W1P1 queue reset to approved. W1P2 Wed + W1P3 Thu crons will use fixed version.
