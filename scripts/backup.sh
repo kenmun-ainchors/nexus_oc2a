@@ -39,18 +39,40 @@ else
 fi
 
 # 3. Snapshot workspace to timestamped tar
+# Exclude auth files (S5 fix: CHG-0152 followup — prevent API keys leaking into backups)
 WORKSPACE_SNAP="$BACKUP_ROOT/workspace/workspace-$TIMESTAMP.tar.gz"
-tar -czf "$WORKSPACE_SNAP" -C "$HOME/.openclaw" workspace 2>> "$LOG"
-log "Workspace snapshot: $WORKSPACE_SNAP"
+tar -czf "$WORKSPACE_SNAP" \
+  --exclude="workspace/.openclaw/agents/*/agent/auth-profiles.json" \
+  --exclude="workspace/.openclaw/agents/*/agent/auth-state.json" \
+  --exclude="workspace/**/auth-profiles*.json" \
+  --exclude="workspace/**/auth-state*.json" \
+  -C "$HOME/.openclaw" workspace 2>> "$LOG"
+log "Workspace snapshot: $WORKSPACE_SNAP (auth files excluded)"
 
 # 4. Snapshot Obsidian vault to timestamped tar
 VAULT_SNAP="$BACKUP_ROOT/obsidian/ainchors-vault-$TIMESTAMP.tar.gz"
 tar -czf "$VAULT_SNAP" --exclude=".git" -C "$HOME/Documents" AInchors 2>> "$LOG"
 log "Obsidian snapshot: $VAULT_SNAP"
 
-# 5. Backup OpenClaw config
-cp "$CONFIG" "$BACKUP_ROOT/config/openclaw-$TIMESTAMP.json"
-log "Config backup: openclaw-$TIMESTAMP.json"
+# 5. Backup OpenClaw config (strip auth fields before saving)
+# Use python3 to scrub any authProfiles/authState keys from the config snapshot
+python3 - "$CONFIG" "$BACKUP_ROOT/config/openclaw-$TIMESTAMP.json" << 'PYEOF'
+import json, sys, re
+src, dst = sys.argv[1], sys.argv[2]
+with open(src) as f:
+    data = json.load(f)
+# Remove auth-sensitive keys recursively
+def scrub(obj):
+    if isinstance(obj, dict):
+        return {k: scrub(v) for k, v in obj.items()
+                if not re.match(r'auth(Profiles?|State|Key|Token|Secret)', k, re.IGNORECASE)}
+    elif isinstance(obj, list):
+        return [scrub(i) for i in obj]
+    return obj
+with open(dst, 'w') as f:
+    json.dump(scrub(data), f, indent=2)
+PYEOF
+log "Config backup: openclaw-$TIMESTAMP.json (auth fields scrubbed)"
 
 # 6. Prune old backups (keep last MAX_BACKUPS)
 for dir in "$BACKUP_ROOT/workspace" "$BACKUP_ROOT/obsidian" "$BACKUP_ROOT/config"; do

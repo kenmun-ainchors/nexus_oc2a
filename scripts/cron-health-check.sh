@@ -12,17 +12,45 @@ ALERT_FILE="$WORKSPACE/state/cron-health-alert.json"
 # Pull last 100 task runs, filter crons only
 TASKS=$(openclaw tasks list --limit 100 2>/dev/null || echo "")
 
+# Pull live cron state for consecutiveErrors check — write to temp file to avoid control char issues
+CRON_STATE_TMP=$(mktemp /tmp/cron-state-XXXXXX.json)
+openclaw cron list --json 2>/dev/null > "$CRON_STATE_TMP" || echo '{"jobs":[]}' > "$CRON_STATE_TMP"
+
 python3 << PYEOF
 import sys, os, re, json
 from datetime import datetime, timezone, timedelta
 
 tasks_raw = """$TASKS"""
+cron_state_tmp = """$CRON_STATE_TMP"""
+try:
+    with open(cron_state_tmp.strip()) as _f:
+        cron_state_raw = _f.read()
+except Exception:
+    cron_state_raw = '{"jobs":[]}'  
 now = datetime.now(timezone.utc)
 cutoff = now - timedelta(hours=26)  # look back 26h — catches missed daily crons
 
 failures = []
 warnings = []
 seen_crons = set()
+
+# --- Live consecutiveErrors check (Fix 1: CHG-0152 followup) ---
+try:
+    cron_data = json.loads(cron_state_raw)
+    for job in cron_data.get('jobs', []):
+        consecutive = job.get('state', {}).get('consecutiveErrors', 0)
+        if consecutive >= 3:
+            last_status = job.get('state', {}).get('lastStatus', '')
+            failures.append({
+                'cronId': job.get('id', '')[:8],
+                'fullCronId': job.get('id', ''),
+                'name': job.get('name', '')[:60],
+                'consecutiveErrors': consecutive,
+                'lastError': last_status,
+                'source': 'live-cron-state'
+            })
+except Exception as e:
+    warnings.append({'source': 'live-cron-state', 'detail': f'Failed to parse cron state: {e}'})
 
 for line in tasks_raw.strip().split('\n'):
     if not line.strip() or 'cron' not in line:
@@ -85,7 +113,10 @@ if failures or warnings:
 
     print(f"ALERT: {len(failures)} cron failure(s), {len(warnings)} warning(s)")
     for item in failures:
-        print(f"  ❌ [{item['cronId']}] {item['name']} — {item['status']}")
+        if item.get('source') == 'live-cron-state':
+            print(f"  ❌ [{item['cronId']}] {item['name']} — consecutiveErrors={item['consecutiveErrors']} lastStatus={item['lastError']}")
+        else:
+            print(f"  ❌ [{item['cronId']}] {item['name']} — {item['status']}")
     for item in warnings:
         print(f"  ⚠️  [{item['cronId']}] {item['name']} — {item.get('detail','')}")
     sys.exit(1)
@@ -93,3 +124,6 @@ else:
     print(f"OK: cron health clean")
     sys.exit(0)
 PYEOF
+
+# Cleanup temp file
+[ -f "$CRON_STATE_TMP" ] && rm -f "$CRON_STATE_TMP"

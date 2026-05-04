@@ -42,6 +42,30 @@ This log captures **every change** Yoda makes to AInchors infrastructure, config
 **Linked:** decisions.md 2026-04-27 entries
 ---
 
+## 2026-05-04 10:51 AEST — [CHG-0154] CHG-0152 Followup: 3 preventive infra fixes (cron health, backup auth exclusion, cron-agent preflight)
+**Type:** script
+**Source:** incident-recovery
+**Trigger:** CHG-0152-followup
+**What changed:** 1) cron-health-check.sh: added live consecutiveErrors check via openclaw cron list --json (alerts if >=3). 2) backup.sh: excludes auth-profiles.json/auth-state.json from workspace tar + strips auth fields from openclaw.json backup. 3) scripts/cron-agent-preflight.sh: new validation script — PASS/WARN/FAIL for cron model resolution before agentId assignment. 4) /agents/infra/agent/INFRA_RULES.md: created with Cron-Agent Assignment SOP.
+**Why:** Post-incident fixes for CHG-0152: TRIGGER-12 had 14 consecutive 401s before detection (cron-health-check missed live consecutiveErrors), CI Cycle A had 3 model rejections from unverified agentId assignment, backup.sh captured API keys in auth-profiles.json (S5).
+**Verification:** cron-health-check.sh runs clean (exit 0). cron-agent-preflight.sh: PASS for haiku-4-5, WARN (exit 1) for ollama/:cloud on localhost. INFRA_RULES.md created.
+**Rollback:** N/A
+**Linked:** none
+---
+
+
+## 2026-05-04 10:50 AEST — [CHG-0153] Fix cron-health-check.sh control char interpolation bug
+**Type:** script
+**Source:** manual
+**Trigger:** Cron health warning detected in heartbeat — false positive
+**What changed:** cron-health-check.sh: write openclaw cron list --json to temp file instead of shell var interpolation into Python heredoc. Add temp file cleanup.
+**Why:** Control chars in cron lastError fields broke Python JSON parsing. 41 crons healthy, 0 real failures.
+**Verification:** bash scripts/cron-health-check.sh → OK: cron health clean (exit 0)
+**Rollback:** N/A
+**Linked:** none
+---
+
+
 ## 2026-05-04 10:41 AEST — [CHG-0152] Infra cron recovery + S5 partial remediation
 **Type:** infra
 **Source:** manual

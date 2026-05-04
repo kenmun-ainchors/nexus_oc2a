@@ -6246,14 +6246,29 @@
       "ts": "2026-05-04T00:30:53.115748+00:00",
       "status": "ok",
       "issues": []
+    },
+    {
+      "ts": "2026-05-04T00:42:03.511603+00:00",
+      "status": "ok",
+      "issues": []
+    },
+    {
+      "ts": "2026-05-04T00:43:45.675855+00:00",
+      "status": "ok",
+      "issues": []
+    },
+    {
+      "ts": "2026-05-04T00:50:38.890301+00:00",
+      "status": "ok",
+      "issues": []
     }
   ],
   "summary": {
-    "totalChecks": 1246,
-    "upChecks": 1239,
+    "totalChecks": 1249,
+    "upChecks": 1242,
     "downtimeMinutes": 105,
-    "uptimePct": 99.438,
-    "lastCheck": "2026-05-04T00:30:53.115748+00:00",
+    "uptimePct": 99.44,
+    "lastCheck": "2026-05-04T00:50:38.890301+00:00",
     "lastStatus": "ok"
   }
 }
