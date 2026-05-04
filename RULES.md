@@ -232,11 +232,15 @@ _Reserved slash command. Available to Ken. Locked 2026-05-04._
 - `/handover` in webchat → sends handover message to Telegram (8574109706)
 - `/handover` in Telegram → sends handover message to webchat session
 
+**⚠️ CRITICAL: Do NOT reply the handover content in the current channel. The entire point is to push it to the OTHER channel. Step 4 (cross-channel send) must fire BEFORE step 5.**
+
 **What it does (in order):**
 1. Reads `state/active-work.json` — get in-flight state
 2. Reviews current session context — extract key decisions/actions from this session
-3. Composes the handover message content
-4. **Fires a one-shot deleteAfterRun cron** with `sessionTarget: isolated`, `delivery: { mode: announce, channel: telegram, to: 8574109706 }` (webchat→Telegram) or `sessions_send` to webchat session (Telegram→webchat). DO NOT use the relay queue — relay sessions cannot use sessions_send cross-tree (visibility=tree restriction).
+3. Composes the handover message content (keep it in memory — do NOT output it yet)
+4. **Fires the handover based on direction:**
+   - **webchat→Telegram:** Fires a one-shot deleteAfterRun cron with `sessionTarget: isolated`, `delivery: { mode: announce, channel: telegram, to: 8574109706 }`.
+   - **Telegram→webchat:** Use `cron(action=wake, text="🔀 HANDOVER...")` — injects a wake event into the main session (webchat). DO NOT use `sessions_send` — Telegram session cannot reach webchat session cross-tree (visibility=tree restriction). `cron wake` bypasses this.
 5. Replies in the CURRENT channel: "✅ Handover sent to [channel]. Pick up there."
 6. Updates `state/active-work.json`: set `lastHandoverAt`, `lastHandoverFrom`, `lastHandoverTo`
 
@@ -557,6 +561,7 @@ Any work or task that is **ad-hoc** (not already tracked under an INC, US, or CH
 - Incident response (reference INC-ID)
 - Config change (reference CHG-NNNN)
 - Auto-heal auto-fix (logged automatically via changelog-append.sh)
+- **EPICs** — EPICs are Agile Framework cadence items (sprint planning, backlog grooming). Do NOT raise a TKT for an EPIC. EPICs are tracked in the Agile cadence; individual US/TKT/INC/CHG items underneath them carry the work tracking.
 
 **Process:**
 1. `zsh scripts/ticket.sh new --title "..." --type TYPE --priority PRIORITY`

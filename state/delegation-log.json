@@ -6962,10 +6962,130 @@
       "status": "pass",
       "latencyMs": 0,
       "notes": "15 checks run"
+    },
+    {
+      "ts": "2026-05-04T13:20:29+10:00",
+      "date": "2026-05-04",
+      "tier": "T2",
+      "taskType": "warden-check",
+      "model": "anthropic/claude-haiku-4-5",
+      "status": "pass",
+      "latencyMs": 0,
+      "notes": "15 checks run, all passed"
+    },
+    {
+      "ts": "2026-05-04T13:35:30+10:00",
+      "date": "2026-05-04",
+      "tier": "T2",
+      "taskType": "warden-check",
+      "model": "anthropic/claude-haiku-4-5",
+      "status": "pass",
+      "latencyMs": 0,
+      "notes": "15 checks run, all PASS"
+    },
+    {
+      "ts": "2026-05-04T13:50:29+10:00",
+      "date": "2026-05-04",
+      "tier": "T2",
+      "taskType": "warden-check",
+      "model": "anthropic/claude-haiku-4-5",
+      "status": "pass",
+      "latencyMs": 0,
+      "notes": "15 checks run"
+    },
+    {
+      "ts": "2026-05-04T14:05:32+10:00",
+      "date": "2026-05-04",
+      "tier": "T2",
+      "taskType": "warden-check",
+      "model": "anthropic/claude-haiku-4-5",
+      "status": "pass",
+      "latencyMs": 0,
+      "notes": "15 checks run, all PASS"
+    },
+    {
+      "ts": "2026-05-04T14:20:31+10:00",
+      "date": "2026-05-04",
+      "tier": "T2",
+      "taskType": "warden-check",
+      "model": "anthropic/claude-haiku-4-5",
+      "status": "pass",
+      "latencyMs": 0,
+      "notes": "15 checks run: 15 PASS, 0 FAIL. All agent models compliant. Governance gates OK."
+    },
+    {
+      "ts": "2026-05-04T14:35:31+10:00",
+      "date": "2026-05-04",
+      "tier": "T2",
+      "taskType": "warden-check",
+      "model": "anthropic/claude-haiku-4-5",
+      "status": "pass",
+      "latencyMs": 0,
+      "notes": "15 checks run (9 PASS model checks, 6 PASS governance checks)"
+    },
+    {
+      "ts": "2026-05-04T14:50:32+10:00",
+      "date": "2026-05-04",
+      "tier": "T2",
+      "taskType": "warden-check",
+      "model": "anthropic/claude-haiku-4-5",
+      "status": "pass",
+      "latencyMs": 0,
+      "notes": "15 checks run, all PASS"
+    },
+    {
+      "ts": "2026-05-04T15:05:31+10:00",
+      "date": "2026-05-04",
+      "tier": "T2",
+      "taskType": "warden-check",
+      "model": "anthropic/claude-haiku-4-5",
+      "status": "pass",
+      "latencyMs": 0,
+      "notes": "15 checks run: 15 PASS, 0 FAIL. All agents compliant. No model drift detected."
+    },
+    {
+      "ts": "2026-05-04T15:21:03+10:00",
+      "date": "2026-05-04",
+      "tier": "T2",
+      "taskType": "warden-check",
+      "model": "anthropic/claude-haiku-4-5",
+      "status": "pass",
+      "latencyMs": 0,
+      "notes": "15 checks run"
+    },
+    {
+      "ts": "2026-05-04T15:36:04+10:00",
+      "date": "2026-05-04",
+      "tier": "T2",
+      "taskType": "warden-check",
+      "model": "anthropic/claude-haiku-4-5",
+      "status": "pass",
+      "latencyMs": 0,
+      "notes": "15 checks run - all PASS"
+    },
+    {
+      "ts": "2026-05-04T15:51:03+10:00",
+      "date": "2026-05-04",
+      "tier": "T2",
+      "taskType": "warden-check",
+      "model": "anthropic/claude-haiku-4-5",
+      "status": "pass",
+      "latencyMs": 0,
+      "notes": "15 checks run"
+    },
+    {
+      "ts": "2026-05-04T16:06:04+10:00",
+      "date": "2026-05-04",
+      "tier": "T2",
+      "taskType": "warden-check",
+      "model": "anthropic/claude-haiku-4-5",
+      "status": "pass",
+      "latencyMs": 0,
+      "notes": "15 checks run, 15 pass, 0 fail. No model drift detected."
     }
   ],
   "summary": {
-    "total": 696,
+    "total": 708,
     "byTier": {
       "T1": {
         "pass": 0,
@@ -6973,7 +7093,7 @@
         "timeout": 0
       },
       "T2": {
-        "pass": 659,
+        "pass": 671,
         "fail": 29,
         "timeout": 0
       },
@@ -6991,7 +7111,7 @@
         "tier": "T2"
       },
       "warden-check": {
-        "pass": 495,
+        "pass": 507,
         "fail": 23,
         "timeout": 0,
         "tier": "T2"
@@ -7015,6 +7135,6 @@
         "tier": "T2"
       }
     },
-    "estimatedSavingsUSD": 3.3025
+    "estimatedSavingsUSD": 3.3625
   }
 }

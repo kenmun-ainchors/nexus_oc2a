@@ -42,6 +42,30 @@ This log captures **every change** Yoda makes to AInchors infrastructure, config
 **Linked:** decisions.md 2026-04-27 entries
 ---
 
+## 2026-05-04 15:20 AEST — [CHG-0162] TKT-0059: Approval gate added to W1P1/P2/P3 LinkedIn post crons
+**Type:** config
+**Source:** ken-prompt
+**Trigger:** TKT-0059 - content gating bypass fix
+**What changed:** All 3 W1P cron payloads patched with Step 0 approval gate. Created workspace-social/state/linkedin-queue.json with LI-W1-P1/P2/P3 status=approved. Gate halts and alerts Ken via Telegram if status != approved before any LinkedIn API call.
+**Why:** Content gating loophole - crons were posting without checking Ken approval state
+**Verification:** Crons updated, queue file created, TKT-0059 closed
+**Rollback:** N/A
+**Linked:** TKT-0059
+---
+
+
+## 2026-05-04 15:16 AEST — [CHG-0161] LinkedIn content theme roadmap locked
+**Type:** config
+**Source:** ken-prompt
+**Trigger:** Ken approval 2026-05-04 15:16 AEST
+**What changed:** SPARK_RULES.md theme strategy locked: 6 cycles (AIOps, Observability, AI Governance, FinOps, Resiliency, Security). Week 1 Posts 2+3 revised. Long-form capstone per cycle. No-em-dash rule enforced.
+**Why:** Ken-directed content strategy: theme-anchored 2-week cycles with long-form capstone
+**Verification:** SPARK_RULES.md updated, week1-posts.md v4 saved, em dashes clean
+**Rollback:** N/A
+**Linked:** TKT-0039 TKT-0056
+---
+
+
 ## 2026-05-04 13:17 AEST — [CHG-0160] Spark extended to IG/LinkedIn/Facebook/YouTube — AU/MY/GCC — audit + 4 proposals in progress
 **Type:** agent
 **Source:** manual

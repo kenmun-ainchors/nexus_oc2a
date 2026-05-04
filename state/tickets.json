@@ -1,5 +1,5 @@
 {
-  "sequence": 50,
+  "sequence": 60,
   "tickets": [
     {
       "id": "TKT-0049",
@@ -20,6 +20,215 @@
       },
       "notes": "",
       "notionPageId": "356c1829-53ff-81ca-ac5c-d2e1e01e2042"
+    },
+    {
+      "id": "TKT-0050",
+      "title": "/handover cross-channel push broken",
+      "type": "bug",
+      "priority": "low",
+      "status": "open",
+      "requester": "Ken",
+      "assignee": "Yoda",
+      "created": "2026-05-04T13:56:14+10:00",
+      "updated": "2026-05-04T13:56:14+10:00",
+      "description": "Telegram→webchat /handover always replies inline in Telegram instead of pushing to webchat. Step 4 of RULES.md (cron wake/sessions_send) is ignored. Partial fixes applied: visibility=agent config, RULES.md CRITICAL warning. Needs proper enforcement or alternative delivery mechanism.",
+      "resolution": null,
+      "linked": {
+        "us": [],
+        "inc": [],
+        "chg": []
+      },
+      "notes": "",
+      "notionPageId": "356c1829-53ff-81f2-bf99-f0aa073e10ee"
+    },
+    {
+      "id": "TKT-0051",
+      "title": "Architecture Assurance Agent",
+      "type": "request",
+      "priority": "medium",
+      "status": "open",
+      "requester": "Ken",
+      "assignee": "Yoda",
+      "created": "2026-05-04T13:56:41+10:00",
+      "updated": "2026-05-04T13:56:41+10:00",
+      "description": "New agent for architecture assurance - governance layer",
+      "resolution": null,
+      "linked": {
+        "us": [],
+        "inc": [],
+        "chg": []
+      },
+      "notes": "",
+      "notionPageId": "356c1829-53ff-81c0-a8bf-fb94c03778f2"
+    },
+    {
+      "id": "TKT-0052",
+      "title": "AI Governance",
+      "type": "request",
+      "priority": "medium",
+      "status": "open",
+      "requester": "Ken",
+      "assignee": "Yoda",
+      "created": "2026-05-04T13:56:41+10:00",
+      "updated": "2026-05-04T13:56:41+10:00",
+      "description": "Agentic AI and LLM governance",
+      "resolution": null,
+      "linked": {
+        "us": [],
+        "inc": [],
+        "chg": []
+      },
+      "notes": "",
+      "notionPageId": "356c1829-53ff-81e6-a977-efba0044e380"
+    },
+    {
+      "id": "TKT-0053",
+      "title": "Data and Memory Architecture",
+      "type": "request",
+      "priority": "medium",
+      "status": "open",
+      "requester": "Ken",
+      "assignee": "Yoda",
+      "created": "2026-05-04T13:56:41+10:00",
+      "updated": "2026-05-04T13:56:41+10:00",
+      "description": "Extending Holocron exercise to proper data and memory strategy and architecture for Nexus",
+      "resolution": null,
+      "linked": {
+        "us": [],
+        "inc": [],
+        "chg": []
+      },
+      "notes": "",
+      "notionPageId": "356c1829-53ff-8189-8fec-caf537e9bac6"
+    },
+    {
+      "id": "TKT-0054",
+      "title": "AI Charter, Ethics and Principles",
+      "type": "request",
+      "priority": "medium",
+      "status": "open",
+      "description": "Policies, rules and guidelines that define agents and how they work and operate",
+      "notionPageId": "356c1829-53ff-81da-9656-cbd8c2b4c853",
+      "requester": "Ken",
+      "assignee": "Yoda",
+      "created": "2026-05-04T13:58:09.692025+10:00",
+      "updated": "2026-05-04T13:58:09.692025+10:00",
+      "resolution": null,
+      "linked": {
+        "us": [],
+        "inc": [],
+        "chg": []
+      },
+      "notes": ""
+    },
+    {
+      "id": "TKT-0055",
+      "title": "Spark: Instagram Growth & Lead Campaign — review, refine, activate",
+      "type": "task",
+      "priority": "medium",
+      "status": "open",
+      "requester": "Ken",
+      "assignee": "Spark",
+      "created": "2026-05-04T14:47:03.004406+10:00",
+      "updated": "2026-05-04T14:47:03.004406+10:00",
+      "description": "Review instagram-growth-lead-campaign-draft.md. Activate when Instagram campaign is created. Full governance gate required before execution.",
+      "resolution": null,
+      "linked": {
+        "us": [],
+        "inc": [],
+        "chg": [
+          "CHG-0160"
+        ]
+      },
+      "notes": "Trigger: activate when respective campaign is created. Steps: review proposal → Ken approves → Spark refines → governance gate → activate.",
+      "notionPageId": "356c1829-53ff-811c-9307-fe4f9254d5db"
+    },
+    {
+      "id": "TKT-0056",
+      "title": "Spark: LinkedIn Authority Pipeline Campaign — review, refine, activate",
+      "type": "task",
+      "priority": "medium",
+      "status": "open",
+      "requester": "Ken",
+      "assignee": "Spark",
+      "created": "2026-05-04T14:47:03.004406+10:00",
+      "updated": "2026-05-04T14:47:03.004406+10:00",
+      "description": "Review linkedin-authority-pipeline-campaign-draft.md. Activate when LinkedIn campaign is created. Full governance gate required before execution.",
+      "resolution": null,
+      "linked": {
+        "us": [],
+        "inc": [],
+        "chg": [
+          "CHG-0160"
+        ]
+      },
+      "notes": "Trigger: activate when respective campaign is created. Steps: review proposal → Ken approves → Spark refines → governance gate → activate.",
+      "notionPageId": "356c1829-53ff-810e-9705-c0385f474bee"
+    },
+    {
+      "id": "TKT-0057",
+      "title": "Spark: Facebook Growth & Engagement Campaign — review, refine, activate",
+      "type": "task",
+      "priority": "medium",
+      "status": "open",
+      "requester": "Ken",
+      "assignee": "Spark",
+      "created": "2026-05-04T14:47:03.004406+10:00",
+      "updated": "2026-05-04T14:47:03.004406+10:00",
+      "description": "Review facebook-growth-engagement-campaign-draft.md. Activate when Facebook campaign is created. Full governance gate required before execution.",
+      "resolution": null,
+      "linked": {
+        "us": [],
+        "inc": [],
+        "chg": [
+          "CHG-0160"
+        ]
+      },
+      "notes": "Trigger: activate when respective campaign is created. Steps: review proposal → Ken approves → Spark refines → governance gate → activate.",
+      "notionPageId": "356c1829-53ff-813e-8797-e4c94bea72e3"
+    },
+    {
+      "id": "TKT-0058",
+      "title": "Spark: YouTube Growth & Retention Campaign — review, refine, activate",
+      "type": "task",
+      "priority": "medium",
+      "status": "open",
+      "requester": "Ken",
+      "assignee": "Spark",
+      "created": "2026-05-04T14:47:03.004406+10:00",
+      "updated": "2026-05-04T14:47:03.004406+10:00",
+      "description": "Review youtube-growth-retention-campaign-draft.md. Activate when YouTube campaign is created. Full governance gate required before execution.",
+      "resolution": null,
+      "linked": {
+        "us": [],
+        "inc": [],
+        "chg": [
+          "CHG-0160"
+        ]
+      },
+      "notes": "Trigger: activate when respective campaign is created. Steps: review proposal → Ken approves → Spark refines → governance gate → activate.",
+      "notionPageId": "356c1829-53ff-81b3-9ede-ffb4d4f7195d"
+    },
+    {
+      "id": "TKT-0059",
+      "title": "Content gating bypass — W1P1+ cron posts without confirmed Ken approval",
+      "type": "bug",
+      "priority": "high",
+      "status": "closed",
+      "requester": "Ken",
+      "assignee": "Yoda",
+      "created": "2026-05-04T14:57:10+10:00",
+      "updated": "2026-05-04T15:20:42+10:00",
+      "description": "Approval flow loophole: week1-posts.md status='Pending Ken approval' but W1P1/W1P2/W1P3 crons fire directly to LinkedIn API without checking approval state. Ken must reply APPROVED:[queue-id] per SPARK_RULES.md but no gate enforces this before posting. Risk: unapproved content published automatically. Fix: crons must check linkedin-queue.json for status=approved before posting, halt and alert if not.",
+      "resolution": "Approval gate added to all 3 W1P crons (Step 0). Gate reads linkedin-queue.json, checks status=approved for the contentId, halts and alerts Ken via Telegram if not approved. Queue created with LI-W1-P1/P2/P3 all set to approved (Ken approved 2026-05-04 15:17 AEST).",
+      "linked": {
+        "us": [],
+        "inc": [],
+        "chg": []
+      },
+      "notes": "",
+      "notionPageId": "356c1829-53ff-815c-b7c9-c4b88f7204fb"
     }
-  ]
+  ],
+  "lastId": "TKT-0058"
 }
