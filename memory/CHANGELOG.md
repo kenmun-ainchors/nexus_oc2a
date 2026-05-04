@@ -42,6 +42,18 @@ This log captures **every change** Yoda makes to AInchors infrastructure, config
 **Linked:** decisions.md 2026-04-27 entries
 ---
 
+## 2026-05-04 23:23 AEST — [CHG-0166] /handover cross-channel fix confirmed — TKT-0050 closed
+**Type:** config
+**Source:** ken-prompt
+**Trigger:** Ken confirmation 2026-05-04 23:23 AEST
+**What changed:** tools.sessions.visibility = agent (was: tree). Enables sessions_send across Telegram and webchat sessions within same agent. /handover Telegram→webchat now working.
+**Why:** TKT-0050 — cross-tree sessions_send was blocked at tree scope
+**Verification:** Ken confirmed working 23:23 AEST
+**Rollback:** N/A
+**Linked:** TKT-0050
+---
+
+
 ## 2026-05-04 17:50 AEST — [CHG-0165] AI Governance Framework v1.0 approved — TKT-0052
 **Type:** config
 **Source:** ken-prompt

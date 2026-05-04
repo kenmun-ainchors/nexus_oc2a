@@ -1,5 +1,35 @@
 # Aria Daily Brief
 
+---
+
+## 2026-05-04 — Business Stream Summary
+_Written 23:45 AEST by Aria cron_
+
+### Angie interactions today
+- No Angie activity today.
+
+### Decisions made
+- None.
+
+### Governance reviews
+- None.
+
+### Open items
+- 🔴 **JotForm API key** — outstanding since 28 April. HRDF form blocked.
+- 🔴 **Onboarding** — Stage 1 still in progress. 6th consecutive day without Angie inbound. OB-02, OB-04 through OB-07 unchecked. Stages 2–6 not started.
+- 🟡 **Weekly wrap reply** (sent 3 May) — no response received.
+- 🟡 **April 30 class debrief** — still missing.
+- 🟡 **Meta appeal** — status unknown.
+- 🟡 **Social posts** (Instagram, WhatsApp, Facebook) — drafted 28 April, publication status unknown.
+
+### Handoff to Yoda
+- Day 6 of no Angie inbound. Weekly wrap sent 3 May still unanswered. A secondary nudge is now overdue — Aria will send one next session trigger.
+- All open items carry forward unchanged.
+- No relay messages to Ken today.
+- No business stream activity.
+
+---
+
 ## 2026-05-03 — Heartbeat Check (18:03 AEST)
 
 ### Status

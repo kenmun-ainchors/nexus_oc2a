@@ -759,11 +759,101 @@
       "pass": 5,
       "fail": 0,
       "issues": []
+    },
+    {
+      "ts": "2026-05-05T00:07:24+10:00",
+      "asset": "/tmp/blog-draft-2026-05-04.html",
+      "producedBy": "yoda",
+      "intendedFor": "public distribution",
+      "verdict": "FAIL",
+      "pass": 4,
+      "fail": 1,
+      "issues": []
+    },
+    {
+      "ts": "2026-05-05T00:07:24+10:00",
+      "asset": "/tmp/blog-draft-2026-05-04.html",
+      "producedBy": "yoda",
+      "intendedFor": "public distribution",
+      "verdict": "FAIL",
+      "pass": 4,
+      "fail": 1,
+      "issues": []
+    },
+    {
+      "ts": "2026-05-05T00:07:25+10:00",
+      "asset": "/tmp/blog-draft-2026-05-04.html",
+      "producedBy": "yoda",
+      "intendedFor": "public distribution",
+      "verdict": "FAIL",
+      "pass": 4,
+      "fail": 1,
+      "issues": []
+    },
+    {
+      "ts": "2026-05-05T00:08:07+10:00",
+      "asset": "/tmp/blog-draft-2026-05-04.html",
+      "producedBy": "yoda",
+      "intendedFor": "public distribution",
+      "verdict": "FAIL",
+      "pass": 4,
+      "fail": 1,
+      "issues": []
+    },
+    {
+      "ts": "2026-05-05T00:08:07+10:00",
+      "asset": "/tmp/blog-draft-2026-05-04.html",
+      "producedBy": "yoda",
+      "intendedFor": "public distribution",
+      "verdict": "FAIL",
+      "pass": 4,
+      "fail": 1,
+      "issues": []
+    },
+    {
+      "ts": "2026-05-05T00:08:07+10:00",
+      "asset": "/tmp/blog-draft-2026-05-04.html",
+      "producedBy": "yoda",
+      "intendedFor": "public distribution",
+      "verdict": "FAIL",
+      "pass": 4,
+      "fail": 1,
+      "issues": []
+    },
+    {
+      "ts": "2026-05-05T00:08:26+10:00",
+      "asset": "/tmp/blog-draft-2026-05-04.html",
+      "producedBy": "yoda",
+      "intendedFor": "public distribution",
+      "verdict": "PASS",
+      "pass": 5,
+      "fail": 0,
+      "issues": []
+    },
+    {
+      "ts": "2026-05-05T00:08:27+10:00",
+      "asset": "/tmp/blog-draft-2026-05-04.html",
+      "producedBy": "yoda",
+      "intendedFor": "public distribution",
+      "verdict": "PASS",
+      "pass": 5,
+      "fail": 0,
+      "issues": []
+    },
+    {
+      "ts": "2026-05-05T00:08:27+10:00",
+      "asset": "/tmp/blog-draft-2026-05-04.html",
+      "producedBy": "yoda",
+      "intendedFor": "public distribution",
+      "verdict": "PASS",
+      "pass": 5,
+      "fail": 0,
+      "issues": []
     }
   ],
   "summary": {
-    "total": 76,
-    "pass": 67,
-    "fail": 9
+    "total": 85,
+    "pass": 70,
+    "fail": 15
   }
 }
