@@ -42,6 +42,42 @@ This log captures **every change** Yoda makes to AInchors infrastructure, config
 **Linked:** decisions.md 2026-04-27 entries
 ---
 
+## 2026-05-04 17:50 AEST — [CHG-0165] AI Governance Framework v1.0 approved — TKT-0052
+**Type:** config
+**Source:** ken-prompt
+**Trigger:** Ken approval 2026-05-04 17:50 AEST
+**What changed:** AI_GOVERNANCE_FRAMEWORK_v1.0.md status set to APPROVED. Two foundational governance documents now approved: AI Charter v1.0 (TKT-0054, CHG-0163) and AI Governance Framework v1.0 (TKT-0052, this CHG). P2 dependencies tracked: TKT-0060/0061/0062/0063.
+**Why:** Ken final approval
+**Verification:** File status updated, Notion sync pending EOD
+**Rollback:** N/A
+**Linked:** TKT-0052 TKT-0054
+---
+
+
+## 2026-05-04 17:47 AEST — [CHG-0164] AI Governance Framework v1.0 decisions resolved — TKT-0052
+**Type:** config
+**Source:** ken-prompt
+**Trigger:** Ken approval 2026-05-04 17:46 AEST
+**What changed:** All 5 YODA NOTES decisions confirmed. S4: Shield drafts (TKT-0062, due 2026-06-03). Ollama Cloud: DPA/exclusion/BYOK decision mandatory P2 (TKT-0063). Audit committee: Ken acting all roles, P2 structure TBC. Warden thresholds: deadline 2026-08-02 (TKT-0061). Cost metering: Ollama flat rate accepted, all other providers need dedicated metering.
+**Why:** TKT-0052 YODA NOTES resolution
+**Verification:** Framework updated, tickets raised/updated, TKT-0052 closed
+**Rollback:** N/A
+**Linked:** TKT-0052 TKT-0061 TKT-0062 TKT-0063
+---
+
+
+## 2026-05-04 17:29 AEST — [CHG-0163] AI Charter v1.0 approved — TKT-0054
+**Type:** config
+**Source:** ken-prompt
+**Trigger:** Ken approval 2026-05-04 17:28 AEST
+**What changed:** docs/AI_CHARTER_v1.0.md created and approved. 8 sections: purpose, 7 principles, can/cannot, HITL tiers, data ethics, accountability, content ethics, governance. Key decisions: live retention 12mo/offline 7yr, proactive AI labelling, P1 Tier 3 = Ken only, DPA dependency (TKT-0060), Warden thresholds (TKT-0061).
+**Why:** TKT-0054 — foundational AI governance document. Informs TKT-0052 and TKT-0053.
+**Verification:** File saved, status=APPROVED, TKT-0054 closed
+**Rollback:** N/A
+**Linked:** TKT-0054 TKT-0060 TKT-0061
+---
+
+
 ## 2026-05-04 15:20 AEST — [CHG-0162] TKT-0059: Approval gate added to W1P1/P2/P3 LinkedIn post crons
 **Type:** config
 **Source:** ken-prompt

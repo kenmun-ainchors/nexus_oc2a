@@ -1,5 +1,5 @@
 {
-  "sequence": 60,
+  "sequence": 64,
   "tickets": [
     {
       "id": "TKT-0049",
@@ -66,19 +66,19 @@
       "title": "AI Governance",
       "type": "request",
       "priority": "medium",
-      "status": "open",
+      "status": "closed",
       "requester": "Ken",
       "assignee": "Yoda",
       "created": "2026-05-04T13:56:41+10:00",
-      "updated": "2026-05-04T13:56:41+10:00",
+      "updated": "2026-05-04T17:47:48+10:00",
       "description": "Agentic AI and LLM governance",
-      "resolution": null,
+      "resolution": "AI Governance Framework v1.0 complete. All 5 YODA NOTES resolved by Ken 2026-05-04 17:46 AEST. Saved to docs/AI_GOVERNANCE_FRAMEWORK_v1.0.md. P2 dependencies: TKT-0060 (client DPA), TKT-0061 (Warden thresholds, deadline 2026-08-02), TKT-0062 (S4 tool scope, deadline 2026-06-03), TKT-0063 (Ollama Cloud DPA/BYOK). Pending Ken final approval.",
       "linked": {
         "us": [],
         "inc": [],
         "chg": []
       },
-      "notes": "",
+      "notes": "SEQUENCE: 2 of 3. Blocked by TKT-0054. Builds on Charter principles. Scope: formal AI Governance framework for AInchors platform — model policy enforcement, agent accountability, audit trails, human-in-the-loop requirements, LLM-specific risks. Warden and governance triad are implementation pieces; this is the framework above them. | Started 2026-05-04 17:30 AEST. Sequence 2 of 3, builds on AI Charter v1.0 (TKT-0054 closed). Sub-agent drafting framework document.",
       "notionPageId": "356c1829-53ff-81e6-a977-efba0044e380"
     },
     {
@@ -90,7 +90,7 @@
       "requester": "Ken",
       "assignee": "Yoda",
       "created": "2026-05-04T13:56:41+10:00",
-      "updated": "2026-05-04T13:56:41+10:00",
+      "updated": "2026-05-04T17:12:12+10:00",
       "description": "Extending Holocron exercise to proper data and memory strategy and architecture for Nexus",
       "resolution": null,
       "linked": {
@@ -98,7 +98,7 @@
         "inc": [],
         "chg": []
       },
-      "notes": "",
+      "notes": "SEQUENCE: 3 of 3. First assignment for Atlas (TKT-0051 validation task). Builds on Holocron migration (TKT-0042 complete). Scope: proper data and memory strategy for Nexus — agent memory, shared state, knowledge architecture, data sovereignty, retention policies. Atlas produces Architecture + Solution Design doc (DRAFT) for Ken review.",
       "notionPageId": "356c1829-53ff-8189-8fec-caf537e9bac6"
     },
     {
@@ -106,20 +106,20 @@
       "title": "AI Charter, Ethics and Principles",
       "type": "request",
       "priority": "medium",
-      "status": "open",
+      "status": "closed",
       "description": "Policies, rules and guidelines that define agents and how they work and operate",
       "notionPageId": "356c1829-53ff-81da-9656-cbd8c2b4c853",
       "requester": "Ken",
       "assignee": "Yoda",
       "created": "2026-05-04T13:58:09.692025+10:00",
-      "updated": "2026-05-04T13:58:09.692025+10:00",
-      "resolution": null,
+      "updated": "2026-05-04T17:29:04+10:00",
+      "resolution": "AI Charter v1.0 approved by Ken Mun 2026-05-04 17:28 AEST. All 5 YODA NOTES decisions resolved. Saved to docs/AI_CHARTER_v1.0.md. P2 dependencies raised: TKT-0060 (Lex DPA), TKT-0061 (Warden thresholds). Pending Notion sync and agent RULES.md reference update.",
       "linked": {
         "us": [],
         "inc": [],
         "chg": []
       },
-      "notes": ""
+      "notes": "SEQUENCE: 1 of 3. Must complete before TKT-0052. Foundational — defines principles that govern all agent behaviour. Deliverable: AI Charter document (Markdown). Owner: Ken authors/approves, Yoda drafts. Scope: internal (agent governance) + external-ready (client/partner evidence of responsible AI). Referenced in all agent RULES.md post-approval."
     },
     {
       "id": "TKT-0055",
@@ -228,6 +228,86 @@
       },
       "notes": "",
       "notionPageId": "356c1829-53ff-815c-b7c9-c4b88f7204fb"
+    },
+    {
+      "id": "TKT-0060",
+      "title": "Lex: Draft standard Client Data Processing Agreement (DPA)",
+      "type": "task",
+      "priority": "high",
+      "status": "open",
+      "requester": "Ken",
+      "assignee": "Yoda",
+      "created": "2026-05-04T17:25:22+10:00",
+      "updated": "2026-05-04T17:25:22+10:00",
+      "description": "Dependency to closing first P2 client onboarding. Lex to draft standard DPA template covering: AI model processing consent, data residency, retention/deletion obligations, APP alignment. Must be reviewed by Ken and approved before any external client signs. Referenced in AI Charter v1.0 Section 5.",
+      "resolution": null,
+      "linked": {
+        "us": [],
+        "inc": [],
+        "chg": []
+      },
+      "notes": "",
+      "notionPageId": null
+    },
+    {
+      "id": "TKT-0061",
+      "title": "Warden: Define and document model behaviour escalation thresholds",
+      "type": "task",
+      "priority": "medium",
+      "status": "open",
+      "requester": "Ken",
+      "assignee": "Yoda",
+      "created": "2026-05-04T17:25:22+10:00",
+      "updated": "2026-05-04T17:47:48+10:00",
+      "description": "Mandatory before P2. Document Warden's formal baseline: what constitutes anomalous model behaviour, escalation triggers, alert criteria. Must be auditable by external clients. Referenced in AI Charter v1.0 Section 6.",
+      "resolution": null,
+      "linked": {
+        "us": [],
+        "inc": [],
+        "chg": []
+      },
+      "notes": "Deadline confirmed: 2026-08-02 (90 days from 2026-05-04, Ken confirmed). Mandatory before P2 live. Shield/Warden to define formal escalation thresholds, sensitivity levels, and suppression rules.",
+      "notionPageId": null
+    },
+    {
+      "id": "TKT-0062",
+      "title": "Shield: Define and implement per-agent tool scope (S4)",
+      "type": "task",
+      "priority": "high",
+      "status": "open",
+      "requester": "Ken",
+      "assignee": "Yoda",
+      "created": "2026-05-04T17:46:38+10:00",
+      "updated": "2026-05-04T17:47:48+10:00",
+      "description": "S4 security control: define explicit tool scope per agent. Currently all agents have tools=null (full access). Shield to draft proposed allowlists per agent for Ken review. Must be confirmed and implemented within 30 days (deadline 2026-06-03). Referenced in AI Governance Framework v1.0 YODA NOTES item 1.",
+      "resolution": null,
+      "linked": {
+        "us": [],
+        "inc": [],
+        "chg": []
+      },
+      "notes": "Owner: Shield. Deadline: 2026-06-03 (30 days from today). Deliverable: per-agent tool scope proposals for Ken review. Covers all 8 agents. Must be confirmed AND implemented, not just documented.",
+      "notionPageId": null
+    },
+    {
+      "id": "TKT-0063",
+      "title": "Ollama Cloud: DPA / exclusion-acceptance / BYOK decision before P2",
+      "type": "task",
+      "priority": "high",
+      "status": "open",
+      "requester": "Ken",
+      "assignee": "Yoda",
+      "created": "2026-05-04T17:46:38+10:00",
+      "updated": "2026-05-04T17:47:48+10:00",
+      "description": "Mandatory P2 pre-condition. Three options to resolve: (A) Formal DPA with Ollama Cloud covering data residency and processing, (B) Explicit acceptance/exclusion of Ollama Cloud offering for client workloads, (C) Clients bring their own model keys (BYOK model). Lex to assess options and present recommendation. Ken decides before P2 live.",
+      "resolution": null,
+      "linked": {
+        "us": [],
+        "inc": [],
+        "chg": []
+      },
+      "notes": "Owner: Lex. Mandatory before P2 live. Three options: (A) DPA with Ollama, (B) Explicit exclusion/acceptance, (C) BYOK. Lex assesses and presents recommendation to Ken. Ken decides.",
+      "notionPageId": null
     }
   ],
   "lastId": "TKT-0058"
