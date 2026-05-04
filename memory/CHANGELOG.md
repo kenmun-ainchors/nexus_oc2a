@@ -42,6 +42,18 @@ This log captures **every change** Yoda makes to AInchors infrastructure, config
 **Linked:** decisions.md 2026-04-27 entries
 ---
 
+## 2026-05-04 10:41 AEST — [CHG-0152] Infra cron recovery + S5 partial remediation
+**Type:** infra
+**Source:** manual
+**Trigger:** S5-audit + cron-health
+**What changed:** TRIGGER-12 recovered (14x 401 transient). CI Cycle A model changed deepseek-pro->haiku (Ollama Cloud not OC provider). Old rotated key sanitised from backups/. auth-profiles.json chmod 600 all agents. TKT-0049 raised. tickets.json repaired (seq 49).
+**Why:** TRIGGER-12 had 14 consecutive auth failures (now resolved). CI Cycle A had 3 consecutive allowlist rejections. S5 backup audit found old key in plaintext.
+**Verification:** TRIGGER-12 manual run OK. CI Cycle A manual run OK. Backup clean confirmed. Permissions 600 confirmed.
+**Rollback:** N/A
+**Linked:** none
+---
+
+
 ## 2026-05-04 10:14 AEST — [CHG-0151] Fix US18 auto-discover loop + infra stale auth key + allowlist drift
 **Type:** script
 **Source:** ken-prompt

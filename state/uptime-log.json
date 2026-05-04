@@ -6236,14 +6236,24 @@
       "ts": "2026-05-04T00:20:53.541633+00:00",
       "status": "ok",
       "issues": []
+    },
+    {
+      "ts": "2026-05-04T00:27:43.901646+00:00",
+      "status": "ok",
+      "issues": []
+    },
+    {
+      "ts": "2026-05-04T00:30:53.115748+00:00",
+      "status": "ok",
+      "issues": []
     }
   ],
   "summary": {
-    "totalChecks": 1244,
-    "upChecks": 1237,
+    "totalChecks": 1246,
+    "upChecks": 1239,
     "downtimeMinutes": 105,
-    "uptimePct": 99.437,
-    "lastCheck": "2026-05-04T00:20:53.541633+00:00",
+    "uptimePct": 99.438,
+    "lastCheck": "2026-05-04T00:30:53.115748+00:00",
     "lastStatus": "ok"
   }
 }
