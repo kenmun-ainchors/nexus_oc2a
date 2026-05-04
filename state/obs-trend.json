@@ -1,30 +1,30 @@
 {
-  "generated_at": "2026-05-04T07:51:37.192997+00:00",
-  "generated_at_aest": "2026-05-04 17:51 AEST",
+  "generated_at": "2026-05-04T13:18:12.740609+00:00",
+  "generated_at_aest": "2026-05-04 23:18 AEST",
   "period_hours": 24,
   "totals": {
-    "ERROR": 75,
-    "WARN": 404,
-    "INFO": 32
+    "ERROR": 34,
+    "WARN": 274,
+    "INFO": 19
   },
   "top_errors": [
     {
       "type": "anthropic_api_fail",
-      "count": 75
+      "count": 34
     }
   ],
   "top_warnings": [
     {
       "type": "task_stall",
-      "count": 198
+      "count": 135
     },
     {
       "type": "lane_error",
-      "count": 176
+      "count": 114
     },
     {
       "type": "incomplete_turn",
-      "count": 26
+      "count": 22
     },
     {
       "type": "auto_heal_needs_ken",
@@ -32,18 +32,18 @@
     },
     {
       "type": "gateway_restart",
-      "count": 2
+      "count": 1
     }
   ],
   "trend": {
     "has_prev_data": true,
-    "prev_errors": 57,
-    "prev_warns": 738,
-    "errors_pct_change": 31.6,
-    "warns_pct_change": -45.3
+    "prev_errors": 93,
+    "prev_warns": 677,
+    "errors_pct_change": -63.4,
+    "warns_pct_change": -59.5
   },
   "worst_hour": {
-    "hour": "2026-05-03T10:00Z",
-    "cnt": 10
+    "hour": "2026-05-03T18:00Z",
+    "cnt": 7
   }
 }
