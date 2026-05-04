@@ -24,9 +24,35 @@
       "postedBy": "Ken (manual)",
       "angle": "celebrating",
       "type": "original"
+    },
+    {
+      "id": "LI-W1-P1",
+      "queueId": 3,
+      "title": "W1P1 \u2014 Practitioner Intro (Tue 7:30am)",
+      "status": "posted",
+      "postedAt": "2026-05-05T07:52:00+10:00",
+      "postedBy": "Yoda (API fix + manual retry)",
+      "angle": "practitioner",
+      "type": "original",
+      "week": 1,
+      "slot": "Tue 7:30am"
     }
   ],
-  "drafts": [
+  "scheduled": [
+    {
+      "id": "LI-C1-W2-P1",
+      "queueId": 7,
+      "title": "C1W2P1 \u2014 AIOps: Who watches the agents? (Part 1/6)",
+      "status": "pending-ken-approval",
+      "cycle": 1,
+      "week": "A",
+      "part": 1,
+      "theme": "AIOps",
+      "pillar": "what-we-learned",
+      "governanceId": "CONTENT-0010",
+      "governanceResult": "triad-cleared",
+      "createdAt": "2026-05-05T07:31:00+10:00"
+    },
     {
       "id": "LI-W1-P1",
       "queueId": 3,
@@ -80,7 +106,11 @@
       "revisionNote": "v4 final \u2014 campaign locked"
     }
   ],
-  "campaignStatus": "locked",
+  "activeTheme": "AIOps",
+  "activeCycle": 1,
+  "activeSeries": [
+    "AIOps"
+  ],
   "campaignApprovedAt": "2026-05-04T00:38:00+10:00",
   "campaignApprovedBy": "Ken",
   "campaignVersion": "v4",

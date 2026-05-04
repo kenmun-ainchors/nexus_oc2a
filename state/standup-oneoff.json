@@ -13,9 +13,9 @@
       "id": "w1p1-status-may5",
       "includeOnce": true,
       "included": false,
-      "priority": "urgent",
+      "priority": "info",
       "category": "Spark / LinkedIn",
-      "message": "\u26a0\ufe0f W1P1 LinkedIn post FAILED + FIXED: Post cron fired 07:30am, approval gate PASSED (pre-approved by Ken). FAILED due to expired LinkedIn API version (202501 interpreted as 20250101). Yoda fixed: all LinkedIn scripts updated 202501\u2192202503. Queue reset to status=approved. W1P2 cron (Wed 12pm) and W1P3 (Thu 7:30am) will use fixed version. ACTION: Ken to reply APPROVED to this standup note to trigger manual W1P1 retry, OR wait for Spark to handle next slot and W1P1 posts manually."
+      "message": "\u2705 W1P1 POSTED: LinkedIn \"Practitioner Intro\" post went live at 07:52 AEST. Initial cron failed HTTP 426 (expired LinkedIn API version 202501). Yoda fixed: scripts updated 202501\u2192202503, post manually retried and published successfully (HTTP 201). CHG-0163 logged. W1P2 (Wed 12pm) and W1P3 (Thu 7:30am) will use fixed version \u2014 no action needed."
     }
   ]
 }
