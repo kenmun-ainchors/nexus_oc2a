@@ -6231,14 +6231,19 @@
       "ts": "2026-05-04T00:09:05.013243+00:00",
       "status": "ok",
       "issues": []
+    },
+    {
+      "ts": "2026-05-04T00:20:53.541633+00:00",
+      "status": "ok",
+      "issues": []
     }
   ],
   "summary": {
-    "totalChecks": 1243,
-    "upChecks": 1236,
+    "totalChecks": 1244,
+    "upChecks": 1237,
     "downtimeMinutes": 105,
     "uptimePct": 99.437,
-    "lastCheck": "2026-05-04T00:09:05.013243+00:00",
+    "lastCheck": "2026-05-04T00:20:53.541633+00:00",
     "lastStatus": "ok"
   }
 }

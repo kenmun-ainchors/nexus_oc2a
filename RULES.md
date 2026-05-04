@@ -218,6 +218,56 @@ for mtime, f in webchat[:3]:
 Then read the most recent webchat file: extract user messages (strip sender metadata blocks), last assistant reply.
 
 **Failure mode to avoid:** Using only the current channel's context and missing activity from the other channel. Always check both. sessions_list alone is NOT sufficient - always fall back to session file search for webchat.
+
+---
+
+## /handover - Explicit Channel Handover
+_Reserved slash command. Available to Ken. Locked 2026-05-04._
+
+**Purpose:** Explicitly push the current session context to the OTHER channel and signal Ken to continue there. Contrasts with `/resume` (which PULLS context — use when Ken forgets to `/handover` before switching).
+
+**Trigger:** `/handover` in any channel - webchat or Telegram.
+
+**Direction (automatic):**
+- `/handover` in webchat → sends handover message to Telegram (8574109706)
+- `/handover` in Telegram → sends handover message to webchat session
+
+**What it does (in order):**
+1. Reads `state/active-work.json` — get in-flight state
+2. Reads last 20 messages from current session — extract key context
+3. Composes a handover message (see format below)
+4. **Sends the message to the OTHER channel** via sessions_send or Telegram
+5. Replies in the CURRENT channel: "✅ Handover sent to [channel]. Pick up there."
+6. Updates `state/active-work.json`: set `lastHandoverAt`, `lastHandoverFrom`, `lastHandoverTo`
+
+**Handover message format (sent to the other channel):**
+
+🔀 HANDOVER from [source channel] — [timestamp AEST]
+
+📍 Where we left off:
+[1-3 lines: last actions/decisions in current session]
+
+🔄 In flight:
+[anything pending, waiting for input, or running — or "Nothing in flight"]
+
+⚡ What's next:
+[top 1-3 priorities Ken should pick up]
+
+💰 System: Balance $[X] | Health [ok/warn] | [any active alerts or "Clean"]
+
+Ready for your instructions 👋
+
+**Format rules:**
+- Telegram target: plain text, no markdown tables, 12 lines max
+- Webchat target: up to 20 lines, light formatting ok
+- Always forward-looking — not a history lesson
+- Include open decisions/blockers if Ken needs to decide something
+
+**Key difference from /resume:**
+- `/handover` = PUSH from here to other channel (Ken is about to switch)
+- `/resume` = PULL from both channels (Ken already switched and needs context catch-up)
+- If Ken switches without doing `/handover`, they use `/resume` on arrival to catch up
+
 ---
 
 ## MORNING STAND-UP (NON-NEGOTIABLE - 8:00 AM DAILY)
@@ -538,7 +588,8 @@ Any work or task that is **ad-hoc** (not already tracked under an INC, US, or CH
   - `/research [topic]` (no tier) → Yoda asks Ken to select tier before proceeding
   - T1+T2: auto-filed to Notion AKB Research Log + `state/research-registry.json`. T3: filed on request. T4: inline only.
   - Output files: `reports/[topic]-[YYYY-MM-DD].md` (T1-T3). Minimum 2 independent sources per factual claim (VERACITY standard).
-- `/resume` - cross-channel handoff (see /resume section above)
+- `/resume` - cross-channel context PULL (Ken already switched; see /resume section above)
+- `/handover` - explicit channel PUSH (Ken about to switch; see /handover section above)
 - `/commit` - persist all session memory + decisions to Obsidian + git. Not a close - can be run anytime mid-session (see /commit section below)
 - `/roster` - list all active agents with role, model, cadence, and current active task. Inline delivery, no sub-agent. See /roster section below.
 - `/finops` - FinOps cost and ROI report. See /finops section below.
