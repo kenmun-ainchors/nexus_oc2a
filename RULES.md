@@ -234,9 +234,9 @@ _Reserved slash command. Available to Ken. Locked 2026-05-04._
 
 **What it does (in order):**
 1. Reads `state/active-work.json` — get in-flight state
-2. Reads last 20 messages from current session — extract key context
-3. Composes a handover message (see format below)
-4. **Sends the message to the OTHER channel** via sessions_send or Telegram
+2. Reviews current session context — extract key decisions/actions from this session
+3. Composes the handover message content
+4. **Fires a one-shot deleteAfterRun cron** with `sessionTarget: isolated`, `delivery: { mode: announce, channel: telegram, to: 8574109706 }` (webchat→Telegram) or `sessions_send` to webchat session (Telegram→webchat). DO NOT use the relay queue — relay sessions cannot use sessions_send cross-tree (visibility=tree restriction).
 5. Replies in the CURRENT channel: "✅ Handover sent to [channel]. Pick up there."
 6. Updates `state/active-work.json`: set `lastHandoverAt`, `lastHandoverFrom`, `lastHandoverTo`
 

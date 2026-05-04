@@ -33,7 +33,10 @@
     "completedChannel": "telegram",
     "subAgentKeyCleared": true,
     "subAgentKeyClearedAt": "2026-05-04T00:09:00Z",
-    "subAgentKeyClearedReason": "Cleared by Yoda fix CHG \u2014 auto-discover loop. US18 verified complete 2026-04-30."
+    "subAgentKeyClearedReason": "Cleared by Yoda fix CHG \u2014 auto-discover loop. US18 verified complete 2026-04-30.",
+    "lastHandoverAt": "2026-05-04 10:23 AEST",
+    "lastHandoverFrom": "webchat",
+    "lastHandoverTo": "telegram"
   },
   "recentContext": {
     "channel": "telegram",
