@@ -42,6 +42,18 @@ This log captures **every change** Yoda makes to AInchors infrastructure, config
 **Linked:** decisions.md 2026-04-27 entries
 ---
 
+## 2026-05-04 13:17 AEST — [CHG-0160] Spark extended to IG/LinkedIn/Facebook/YouTube — AU/MY/GCC — audit + 4 proposals in progress
+**Type:** agent
+**Source:** manual
+**Trigger:** Ken-email-SPARK_SOCIAL_SKILLS_EXTENDED-2026-05-04
+**What changed:** SPARK_SOCIAL_SKILL_EXTENDED.md attached to workspace-social/. SOUL.md updated: regions AU/MY/GCC, 4 channels (IG/LI/FB/YT), frameworks (AIDA/PAS/Hero-Hub-Help/ICE/PIE), PLANNING MODE enforced. Spark sub-agent spawned to audit existing activity and produce 4 draft proposals. PAUSE mode active — no execution until Ken approves.
+**Why:** Ken email instruction (kenmun@gmail.com → kenmun@ainchors.com, 2026-05-04): extend Spark, audit all channels, 4 draft proposals, pause before execution.
+**Verification:** Spec file loaded (337 lines, 12.5KB). SOUL.md updated. Sub-agent running.
+**Rollback:** N/A
+**Linked:** none
+---
+
+
 ## 2026-05-04 12:57 AEST — [CHG-0159] TKT-0042 final: Obsidian vault cleared — only Shared/ARCHITECTURE.md stub remains
 **Type:** infra
 **Source:** manual
