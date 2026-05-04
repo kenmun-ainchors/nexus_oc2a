@@ -8,7 +8,6 @@
     "title": "US18 \u2014 Monthly SLA Report",
     "ticket": "TKT-0024",
     "status": "completed",
-    "subAgentKey": "agent:main:subagent:cde177ca-f5d7-4c08-9f84-0be9e522e55d",
     "subAgentRunId": "08c781d8-456d-448f-a718-9ab8e8b026c0",
     "spawnedAt": "2026-04-29T10:26:44Z",
     "spawnedFrom": "telegram",
@@ -31,7 +30,10 @@
     "awaitingResult": false,
     "notes": "Ken approved Option A on Telegram at 20:25 AEST. Sub-agent spawned 20:26. Waiting for completion announce.",
     "completedAt": "2026-04-29T10:41:00Z",
-    "completedChannel": "telegram"
+    "completedChannel": "telegram",
+    "subAgentKeyCleared": true,
+    "subAgentKeyClearedAt": "2026-05-04T00:09:00Z",
+    "subAgentKeyClearedReason": "Cleared by Yoda fix CHG \u2014 auto-discover loop. US18 verified complete 2026-04-30."
   },
   "recentContext": {
     "channel": "telegram",

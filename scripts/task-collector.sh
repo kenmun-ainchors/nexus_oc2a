@@ -222,11 +222,14 @@ if os.path.exists(active_work_path):
             aw = json.load(f)
         # Look for subAgentKey style tasks
         work = aw.get("currentWork", {})
-        if work and work.get("ticket"):
+        # Skip completed/cancelled work — prevents auto-discover loop on stale entries
+        if work and work.get("ticket") and work.get("status","") not in ("completed","cancelled","done"):
             ticket = work.get("ticket","")
             title = work.get("title","")
             key = work.get("subAgentKey","")
-            if ticket and title and ticket not in existing and key not in existing:
+            # Check by us_ref column (not task id) to avoid duplicate registration
+            existing_us_refs = set(r[0] for r in conn.execute("SELECT us_ref FROM tasks WHERE us_ref IS NOT NULL").fetchall())
+            if ticket and title and ticket not in existing_us_refs and (not key or key not in existing):
                 candidates.append({
                     "title": title[:100],
                     "agent": key or "active-work",

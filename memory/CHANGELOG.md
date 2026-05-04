@@ -42,6 +42,18 @@ This log captures **every change** Yoda makes to AInchors infrastructure, config
 **Linked:** decisions.md 2026-04-27 entries
 ---
 
+## 2026-05-04 10:14 AEST — [CHG-0151] Fix US18 auto-discover loop + infra stale auth key + allowlist drift
+**Type:** script
+**Source:** ken-prompt
+**Trigger:** Ken-20260504
+**What changed:** Cancelled 249 stalled tasks; fixed task-collector.sh auto-discover (us_ref check, skip completed status); cleared subAgentKey from active-work.json; copied valid API key to infra/auth-profiles.json; cleared cooldown; added kimi/deepseek-flash/deepseek-pro to agents.defaults.models allowlist.
+**Why:** task-collector looped on TKT-0024 every 5min. Infra stale key not updated during CHG-0139 rotation. Allowlist drift.
+**Verification:** 249 tasks cancelled; active-work.json fixed; infra auth cleared; allowlist 8 entries
+**Rollback:** N/A
+**Linked:** none
+---
+
+
 ## 2026-05-04 00:38 AEST — [CHG-0150] Spark LinkedIn Authority Campaign — v4 brief locked and approved
 **Type:** agent
 **Source:** ken-prompt
