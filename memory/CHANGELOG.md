@@ -42,6 +42,18 @@ This log captures **every change** Yoda makes to AInchors infrastructure, config
 **Linked:** decisions.md 2026-04-27 entries
 ---
 
+## 2026-05-04 12:57 AEST — [CHG-0159] TKT-0042 final: Obsidian vault cleared — only Shared/ARCHITECTURE.md stub remains
+**Type:** infra
+**Source:** manual
+**Trigger:** TKT-0042-final
+**What changed:** Removed all migrated content from ~/Documents/AInchors (Operations/, Agents/, Company/, Marketing/, Research/, Templates/, AKB/, stub READMEs). Kept .obsidian config, .git, Shared/ with ARCHITECTURE.md only. Full archive at Backups/obsidian-vault-retired-2026-05-04.tar.gz.
+**Why:** Holocron architecture finalised. Vault no longer holds any live content. Notion = user-facing KB. workspace/state/ = agent operational memory.
+**Verification:** 0 crons reference Documents/AInchors. 38 pages live in Notion. Vault contains only Shared/ARCHITECTURE.md + .obsidian config.
+**Rollback:** N/A
+**Linked:** none
+---
+
+
 ## 2026-05-04 12:08 AEST — [CHG-0158] TKT-0042 Phase 5 complete: Obsidian fully retired — Shared/ migrated to workspace, all agent crons updated
 **Type:** infra
 **Source:** manual
