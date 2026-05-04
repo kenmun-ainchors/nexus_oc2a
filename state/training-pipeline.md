@@ -58,6 +58,12 @@ _Maintained by Aria 🔵 + Yoda 🟢 | Status-tracked content for AInchors train
 | TC-051 | Cron health monitoring: why a single failure should trigger an immediate alert | 💡 Idea | Yoda Day 9 (CHG-0141, cron-health-check.sh, one failure = immediate Ken alert) | Both |
 | TC-052 | Auto-syncing AI model allowlists: closing the gap between policy and reality | 💡 Idea | Yoda Day 9 (CHG-0144, TRIGGER-12 — allowlist-sync.sh auto-fires on model strategy change) | Yoda |
 | TC-053 | Standing up a new AI agent in a day: Forge and ITIL/ITSM ownership | 💡 Idea | Yoda Day 9 (CHG-0148, Forge 🏗️ activated — 12 crons, INFRA_RULES.md, CI ownership) | Both |
+| TC-054 | Retiring a tool gracefully: how to migrate 100+ files and kill the old system without breaking anything | 💡 Idea | Yoda Day 10 (TKT-0042, Obsidian fully retired — 38 pages migrated, 5 crons updated, vault archived) | Both |
+| TC-055 | Writing an AI Charter: what principles should govern your AI agents and why it matters | 💡 Idea | Yoda Day 10 (CHG-0163, AI_CHARTER_v1.0.md approved — 8 sections, HITL tiers, data ethics) | Aria |
+| TC-056 | AI Governance Frameworks for small teams: building accountability when one person wears every hat | 💡 Idea | Yoda Day 10 (CHG-0165, AI_GOVERNANCE_FRAMEWORK_v1.0.md approved, 5 YODA NOTES resolved) | Aria |
+| TC-057 | Content roadmaps for AI agents: building a 6-cycle LinkedIn strategy with theme-anchored posts | 💡 Idea | Yoda Day 10 (CHG-0161, LinkedIn 6-cycle roadmap locked: AIOps/Obs/Governance/FinOps/Resiliency/Security) | Both |
+| TC-058 | Approval gates in AI automation: why every automated post needs a human checkpoint | 💡 Idea | Yoda Day 10 (CHG-0162, TKT-0059 — linkedin-queue.json Step 0 gate on all W1P crons) | Aria |
+| TC-059 | The architect agent pattern: why your AI platform needs a guardian who checks every design decision | 💡 Idea | Yoda Day 10 (Atlas 🏛️ activated, TKT-0051 — architecture assurance + Nexus naming convention) | Both |
 
 ## Status Legend
 💡 Idea → 📝 Draft → 🔍 Review (Yoda validates) → ✅ Ready → 📢 Published

@@ -3,6 +3,86 @@ _Updated by Yoda 🟢 after every session. Written for Aria and Angie — plain 
 
 ---
 
+## 2026-05-04 (Day 10) — Summary
+
+### What Yoda Built Today
+
+**1. Obsidian retired — Notion is now the one and only knowledge base**
+All content from the Obsidian vault (38 pages across Agents, Operations, Company, Marketing, Research, and Templates) was migrated into Notion Holocron. Every agent script and cron that referenced the old Obsidian paths was updated. The vault itself is now empty and archived. This was a big piece of infrastructure work that had been building for several days.
+
+**2. AI Charter v1.0 approved**
+AInchors' foundational AI principles document is now official. It covers what AI agents can and cannot do, how human oversight works (HITL tiers), data ethics, accountability, content ethics, and governance. Retention policy confirmed: live data 12 months, offline 7 years. Ken is the sole approver for Tier 3 decisions in P1. Full document lives at `docs/AI_CHARTER_v1.0.md`.
+
+**3. AI Governance Framework v1.0 approved**
+The second major governance document is live. Covers agent model policy, data sovereignty, audit requirements, and open decisions resolved by Ken: S4 (Shield drafts due 2026-06-03), Ollama Cloud data agreement requirements (P2), Ken acting as all audit roles in P1, Warden threshold deadlines (2026-08-02). Four new follow-on tickets raised (TKT-0060–0063).
+
+**4. LinkedIn content roadmap locked — 6 cycles**
+Spark's ✨ content strategy is now a locked 6-cycle roadmap: AIOps → Observability → AI Governance → FinOps → Resiliency → Security. Each cycle is 2 weeks with a long-form capstone post. Week 1 Posts 2 and 3 were revised (Post 2 = big picture teaser, Post 3 = theme setup). All three Week 1 posts approved by Ken.
+
+**5. LinkedIn approval gate wired in (TKT-0059 closed)**
+A Step 0 approval gate was added to all three W1P LinkedIn crons. If `linkedin-queue.json` doesn't show `status=approved` for a post, the cron halts and alerts Ken. Nothing posts without explicit approval.
+
+**6. Atlas 🏛️ agent created**
+New architect agent stood up based on Ken's email brief. Atlas owns architecture assurance, Nexus module design reviews, and the Star Wars naming convention. Workspace at `agents/atlas/`, registered in `openclaw.json`.
+
+**7. Notion backlog cleaned**
+Duplicates removed, stale in-progress tickets corrected (TKT-0001, TKT-0038, TKT-0039, TKT-0042). Four proposal review tickets raised (TKT-0055–0058). Clean state for Day 11.
+
+**8. Ollama Cloud cron models fixed (TKT-0049)**
+Cloud models (kimi-k2.6, deepseek-v4-pro, deepseek-v4-flash) were missing from `openclaw.json` provider catalog — this was causing cron preflight failures silently. All three added. CI Cycle A reverted to correct model (deepseek-v4-pro:cloud). Cron preflight script updated to validate cloud models properly.
+
+**9. /handover regression fixed (TKT-0050)**
+The `/handover` command was failing due to a `visibility=agent` config that blocked cross-tree session access. Fixed and tested — webchat → Telegram handover confirmed working.
+
+**10. Spark ⛔ PAUSE MODE — 4 proposals ready for Ken review**
+Spark ran a full channel audit and produced 4 draft proposals (LinkedIn, Instagram, Facebook, YouTube) covering AU/MY/GCC regions. All proposals are in `workspace-social/proposals/`. No execution until Ken reviews and approves.
+
+---
+
+### Key Decisions Made
+
+| Decision | Context |
+|----------|---------|
+| AI Charter v1.0 APPROVED | Foundational AI principles locked. Effective immediately. TKT-0054 closed. |
+| AI Governance Framework v1.0 APPROVED | All 5 YODA NOTES resolved by Ken. TKT-0052 closed. |
+| LinkedIn theme roadmap locked | 6 cycles: AIOps → Observability → AI Governance → FinOps → Resiliency → Security |
+| No-em-dash rule enforced platform-wide | All content (Spark, blog, docs) must avoid em dashes — accessibility and clean style |
+| Obsidian fully retired | Vault archived. Notion = sole knowledge base from now on. |
+| Atlas 🏛️ activated as Architect Agent | Owns architecture assurance and Nexus naming reviews |
+| S4 (agent tool scopes): Shield drafts due 2026-06-03 | TKT-0062 raised |
+| Ollama Cloud: DPA/exclusion/BYOK = P2 mandatory decision | TKT-0063 raised |
+
+---
+
+### Training Content Angles (New Ideas from Today's Work)
+
+Ideas for AInchors AI courses — added to training-pipeline.md:
+
+- **TC-054** — Retiring a tool gracefully: how to migrate 100+ files and kill the old system without breaking anything
+- **TC-055** — Writing an AI Charter: what principles should govern your AI agents and why it matters
+- **TC-056** — AI Governance Frameworks for small teams: how to build accountability when one person wears every hat
+- **TC-057** — Content roadmaps for AI agents: building a 6-cycle LinkedIn strategy with theme-anchored posts
+- **TC-058** — Approval gates in AI automation: why every automated post needs a human checkpoint
+- **TC-059** — The architect agent pattern: why your AI platform needs a guardian who checks every design decision
+
+---
+
+### What's Open / What's Next
+
+| Item | Status | Owner |
+|------|--------|-------|
+| Spark W1P1 fires | Tue 2026-05-05 07:30 AEST | Spark (auto) |
+| 4 Spark proposals review | Awaiting Ken review | Ken |
+| TKT-0060: DPA review for Ollama Cloud | P2 dependency | Ken/Lex |
+| TKT-0061: Warden drift thresholds | Due 2026-08-02 | Forge/Warden |
+| TKT-0062: S4 tool scope drafts | Due 2026-06-03 | Shield |
+| TKT-0063: Ollama Cloud data controls | P2 mandatory | Ken |
+| CI Framework Cycle A first report | ~2026-05-09 11:00 AEST | Forge/CI Agent |
+| OC2 arrival | ETA July 2026 | External |
+| ken@ainchors.com alias | Status unknown | Ken/gog |
+
+---
+
 ## 2026-05-03 (Day 9) — Summary
 
 ### What Yoda Built Today
