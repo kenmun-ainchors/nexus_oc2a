@@ -7402,10 +7402,50 @@
       "status": "pass",
       "latencyMs": 0,
       "notes": "15 checks run"
+    },
+    {
+      "ts": "2026-05-05T00:13:19+10:00",
+      "date": "2026-05-05",
+      "tier": "T2",
+      "taskType": "warden-check",
+      "model": "anthropic/claude-haiku-4-5",
+      "status": "pass",
+      "latencyMs": 0,
+      "notes": "15 checks run"
+    },
+    {
+      "ts": "2026-05-05T00:28:24+10:00",
+      "date": "2026-05-05",
+      "tier": "T2",
+      "taskType": "warden-check",
+      "model": "anthropic/claude-haiku-4-5",
+      "status": "pass",
+      "latencyMs": 0,
+      "notes": "15 checks run"
+    },
+    {
+      "ts": "2026-05-05T00:43:20+10:00",
+      "date": "2026-05-05",
+      "tier": "T2",
+      "taskType": "warden-check",
+      "model": "anthropic/claude-haiku-4-5",
+      "status": "pass",
+      "latencyMs": 0,
+      "notes": "15 checks run"
+    },
+    {
+      "ts": "2026-05-05T00:58:19+10:00",
+      "date": "2026-05-05",
+      "tier": "T2",
+      "taskType": "warden-check",
+      "model": "anthropic/claude-haiku-4-5",
+      "status": "pass",
+      "latencyMs": 0,
+      "notes": "15 checks run: 15 PASS, 0 FAIL. Model compliance clean."
     }
   ],
   "summary": {
-    "total": 740,
+    "total": 744,
     "byTier": {
       "T1": {
         "pass": 0,
@@ -7413,7 +7453,7 @@
         "timeout": 0
       },
       "T2": {
-        "pass": 703,
+        "pass": 707,
         "fail": 29,
         "timeout": 0
       },
@@ -7431,7 +7471,7 @@
         "tier": "T2"
       },
       "warden-check": {
-        "pass": 538,
+        "pass": 542,
         "fail": 23,
         "timeout": 0,
         "tier": "T2"
@@ -7455,6 +7495,6 @@
         "tier": "T2"
       }
     },
-    "estimatedSavingsUSD": 3.5225
+    "estimatedSavingsUSD": 3.5425
   }
 }
