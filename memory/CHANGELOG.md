@@ -42,6 +42,18 @@ This log captures **every change** Yoda makes to AInchors infrastructure, config
 **Linked:** decisions.md 2026-04-27 entries
 ---
 
+## 2026-05-04 11:05 AEST — [CHG-0155] TKT-0049 complete: Ollama Cloud provider configured, CI Cycle A reverted, all crons PASS preflight
+**Type:** infra
+**Source:** manual
+**Trigger:** TKT-0049
+**What changed:** C: Added kimi-k2.6:cloud, deepseek-v4-pro:cloud, deepseek-v4-flash:cloud to models.providers.ollama.models in openclaw.json. D: CI Cycle A (3ec512f3) reverted from haiku back to ollama/deepseek-v4-pro:cloud. E: cron-agent-preflight.sh updated — cloud model check now validates provider model catalog (not just baseUrl locality). All 5 cloud-model crons PASS preflight. A(chmod600)+B(backup exclusion) done in CHG-0152/CHG-0154.
+**Why:** Ollama Cloud models were in agents.defaults.models alias map but not in models.providers.ollama.models — OpenClaw could not route to them. Confirmed local Ollama (signed in to Pro) proxies cloud requests via HTTP API. Added model definitions to provider catalog. All cloud cron routing now verified end-to-end.
+**Verification:** HTTP API test: kimi-k2.6:cloud responded via localhost:11434 streaming. Preflight: 5/5 cloud crons PASS. CI Cycle A manual test running.
+**Rollback:** N/A
+**Linked:** none
+---
+
+
 ## 2026-05-04 10:51 AEST — [CHG-0154] CHG-0152 Followup: 3 preventive infra fixes (cron health, backup auth exclusion, cron-agent preflight)
 **Type:** script
 **Source:** incident-recovery

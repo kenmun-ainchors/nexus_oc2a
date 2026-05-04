@@ -133,20 +133,24 @@ if provider_name == 'ollama':
     # --- Special check for ollama/:cloud models ---
     # :cloud means we need a non-localhost Ollama baseUrl
     if is_cloud_tag:
-        base_url = provider_config.get('baseUrl', '')
-        is_local = bool(re.match(r'https?://(localhost|127\.0\.0\.1)(:\d+)?', base_url, re.IGNORECASE))
-        if is_local:
-            print(f"⚠️  WARN: model '{model}' requires a cloud Ollama provider (non-localhost baseUrl).")
-            print(f"   Current ollama.baseUrl: {base_url} (this is localhost — cloud routing unavailable)")
-            print(f"   Action options:")
-            print(f"     1. Configure a cloud Ollama provider with a non-localhost baseUrl, OR")
-            print(f"     2. Change cron model to a locally-resolvable fallback (e.g. ollama/gemma4:26b)")
-            print(f"     3. Document decision in CHG before proceeding.")
-            print()
-            print(f"⚠️  WARN: NOT safe to assign agentId '{agent_id}' until model issue resolved.")
-            sys.exit(1)
+        # Cloud models work via local Ollama when it is signed in to Ollama Pro.
+        # Check: is this cloud model registered in models.providers.ollama.models?
+        # If yes → PASS (local Ollama proxies the cloud request).
+        # If no  → WARN (model not registered; will fail at runtime with allowlist rejection).
+        registered_model_ids = {m.get('id', '') for m in provider_config.get('models', [])}
+        if model_tag in registered_model_ids:
+            base_url = provider_config.get('baseUrl', '')
+            print(f"✅ Cloud model '{model_tag}' is registered in ollama provider models.")
+            print(f"   Ollama host: {base_url} (cloud routing via signed-in Ollama Pro)")
         else:
-            print(f"✅ Cloud Ollama provider configured (baseUrl: {base_url}).")
+            print(f"⚠️  WARN: cloud model '{model_tag}' is NOT registered in models.providers.ollama.models.")
+            print(f"   It is in agents.defaults.models allowlist but not in provider model catalog.")
+            print(f"   OpenClaw cannot route to it — will fail with allowlist rejection at runtime.")
+            print(f"   Action: Add model definition to models.providers.ollama.models in openclaw.json")
+            print(f"   Then re-run this preflight.")
+            print()
+            print(f"⚠️  WARN: NOT safe to assign agentId '{agent_id}' until model is registered in provider.")
+            sys.exit(1)
 else:
     # Non-ollama (e.g. anthropic): check auth.profiles or models.providers
     if not provider_in_providers and not provider_in_auth:
