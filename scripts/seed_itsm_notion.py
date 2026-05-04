@@ -520,7 +520,7 @@ STORIES = [
       "- INC and PRB records have KB link field: 'resolved using KB-NNN'\n"
       "- 'Onboarding KB' package created: essential articles for any new agent type\n\n"
       "Dependencies: ITSM-US-010\n"
-      "Existing artefacts: ~/Documents/AInchors (Obsidian vault), Operations/ docs (13 files)"
+      "Existing artefacts: Notion Holocron (migrated TKT-0042), workspace Operations/ docs"
     ),
     "yoda": (
       "The 13 Operations docs exist but are undiscoverable without knowing their filenames. "
@@ -798,7 +798,7 @@ STORIES = [
       "- Article status set to Active for all 13 (they're current)\n"
       "- Quarterly review reminder set for all 13 (trigger: 90 days from registration)\n\n"
       "Dependencies: ITSM-US-019\n"
-      "Existing artefacts: ~/Documents/AInchors/Operations/ (13 files: Reliability.md, ResiliencyFramework.md, AutoHeal.md, "
+      "Existing artefacts: Notion Holocron Platform Operations + workspace Operations/ ("
       "RunDiagnostics.md, IncidentLog.md, OfflinePlaybook.md, AsyncExecution.md, SecretsManagement.md, Standards.md, "
       "Compliance.md, JournalFormat.md, BlogFormat.md, ROIModel.md)"
     ),
@@ -957,7 +957,7 @@ MIG_STORIES = [
       "- Article status set to Active for all 13\n"
       "- Quarterly review reminder set for all 13\n\n"
       "Dependencies: ITSM-US-019\n"
-      "Existing artefacts: ~/Documents/AInchors/Operations/ (13 files)\n\n"
+      "Existing artefacts: Notion Holocron Platform Operations\n\n"
       "[Migration story — mirrors ITSM-US-030]"
     ),
     "yoda": (

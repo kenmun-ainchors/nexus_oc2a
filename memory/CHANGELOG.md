@@ -42,6 +42,18 @@ This log captures **every change** Yoda makes to AInchors infrastructure, config
 **Linked:** decisions.md 2026-04-27 entries
 ---
 
+## 2026-05-04 12:08 AEST — [CHG-0158] TKT-0042 Phase 5 complete: Obsidian fully retired — Shared/ migrated to workspace, all agent crons updated
+**Type:** infra
+**Source:** manual
+**Trigger:** TKT-0042-phase5
+**What changed:** 5 Shared/ files moved to workspace state/ (relay-to-ken.json, aria-daily-brief.md, yoda-daily-brief.md, training-pipeline.md) + context-for-aria.md to workspace root. 5 crons updated (relay poller, Aria daily summary, morning standup, Yoda->Aria sync, journal close). seed_itsm_notion.py refs cleaned. Vault archived to Backups/obsidian-vault-retired-2026-05-04.tar.gz (101 files, 396K). Migration state all phases complete.
+**Why:** Final phase of Obsidian retirement (TKT-0042). All agent workflows now use workspace paths exclusively. ~/Documents/AInchors no longer required at runtime.
+**Verification:** 5/5 crons updated and confirmed. Files present in workspace state/. Archive verified (101 files). No remaining Documents/AInchors refs in cron payloads.
+**Rollback:** N/A
+**Linked:** none
+---
+
+
 ## 2026-05-04 11:34 AEST — [CHG-0157] TKT-0042 Phase 4: Obsidian references removed from scripts, crons, SOUL.md, MEMORY.md
 **Type:** doc
 **Source:** manual

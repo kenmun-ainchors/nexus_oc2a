@@ -1,0 +1,38 @@
+{
+  "schema": "yoda-to-aria-relay-v1",
+  "pending": [
+    {
+      "id": "relay-1777594212",
+      "from": "yoda",
+      "sentAt": "2026-05-01T00:12:00Z",
+      "sent": true,
+      "message": "\ud83d\udccb Message from Yoda (Tech stream):\n\nKen has asked me to pass on a request regarding today's RTB business stream items. When you have a chance, please let Angie know:\n\n\ud83c\udf39 *ROSE [Biz]* \u2014 CAMP-0001 class debrief: The April 30 Mont Kiara class is done but no debrief received yet. Can Angie do a quick debrief when she has time \u2014 what went well, issues, student feedback, next steps?\n\n\ud83c\udf35 *THORN [Biz]* \u2014 Unblock onboarding: The JotForm API key is still outstanding and blocking the integration. Can Angie prioritise providing it today if possible?\n\nKen says no pressure but would appreciate it when she can. \ud83d\ude4f",
+      "cancelled": true
+    },
+    {
+      "id": "relay-1777594392",
+      "from": "yoda",
+      "sentAt": "2026-05-01T00:13:12.490291+00:00",
+      "sent": true,
+      "message": "\ud83d\udccb From Ken (via Yoda) \u2014 action required:\n\nAngie's onboarding has been stuck in limbo too long. Ken wants this closed out today.\n\n\ud83c\udf35 *JotForm API key \u2014 EOD deadline:*\nTwo options:\n1\ufe0f\u20e3 Provide the JotForm API key \u2192 Yoda integrates it today.\n2\ufe0f\u20e3 Tell Ken it's not happening / wrong tool \u2192 he'll make the call to pivot or descope.\n\nNo more leaving it open. Please action this and reply to Ken today. \ud83d\ude4f",
+      "cancelled": true
+    },
+    {
+      "id": "relay-1777594640",
+      "from": "yoda",
+      "sentAt": "2026-05-01T00:20:00Z",
+      "sent": true,
+      "type": "aria-directive",
+      "message": "\ud83d\udccb Directive from Ken (via Yoda):\n\nAngie onboarding is a priority. Next time Angie connects, please make it the first agenda item \u2014 do not let it get displaced by ad-hoc work again.\n\nCurrent status: Stage 1 only 2/7 items done (OB-01, OB-03). Stages 2-6 not started. Last active: April 28.\n\nKen wants Angie to complete Stage 1 in the next session before any other work. Please treat this as a standing priority until Stage 1 is fully closed."
+    },
+    {
+      "id": "relay-1777674539",
+      "from": "yoda",
+      "sentAt": "2026-05-01T22:28:59.487889+00:00",
+      "sent": false,
+      "type": "aria-directive",
+      "priority": "normal",
+      "message": "\ud83d\udccb Ken-approved task for Aria:\n\nPlease send Angie a warm Saturday check-in message today. Ken has specifically approved this.\n\nCover:\n1. Warm Saturday greeting\n2. Gentle check-in on the April 30 Mont Kiara class \u2014 how did it go? (attendance, energy, any feedback)\n3. Soft nudge on JotForm API key \u2014 still blocking the HRDF form, 3+ days outstanding\n4. Ask if there's anything she needs from the tech team this weekend\n\nTone: Warm colleague, not a status report. Short and friendly.\n\nSend via Telegram to Angie (chatId: 8141152780) using your bot. Confirm to me via aria-daily-brief.md once sent."
+    }
+  ]
+}

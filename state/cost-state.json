@@ -1,5 +1,5 @@
 {
-  "lastUpdated": "2026-05-03T13:56:34Z",
+  "lastUpdated": "2026-05-04T02:00:29Z",
   "history": {
     "2026-04-25": {
       "date": "2026-04-25",
@@ -295,17 +295,62 @@
           "turns": 2
         }
       }
+    },
+    "2026-05-04": {
+      "date": "2026-05-04",
+      "totalCost": 32.8365,
+      "totalTurns": 936,
+      "totalInputTokens": 815927,
+      "totalOutputTokens": 224421,
+      "totalCacheReadTokens": 26996843,
+      "totalCacheWriteTokens": 6009854,
+      "source": "session-log-estimate",
+      "note": "Session log estimate. usage.cost.total includes cacheWrite charges. CHG-0097: confirmed cost includes cache writes.",
+      "byModel": {
+        "claude-haiku-4-5": {
+          "input": 1076,
+          "output": 17175,
+          "cacheRead": 1224589,
+          "cacheWrite": 240435,
+          "cost": 0.51,
+          "turns": 97
+        },
+        "claude-sonnet-4-6": {
+          "input": 1434,
+          "output": 197014,
+          "cacheRead": 25772254,
+          "cacheWrite": 5769419,
+          "cost": 32.3265,
+          "turns": 816
+        },
+        "gemma4:e2b": {
+          "input": 12412,
+          "output": 35,
+          "cacheRead": 0,
+          "cacheWrite": 0,
+          "cost": 0.0,
+          "turns": 1
+        },
+        "deepseek-v4-pro:cloud": {
+          "input": 801005,
+          "output": 10197,
+          "cacheRead": 0,
+          "cacheWrite": 0,
+          "cost": 0.0,
+          "turns": 22
+        }
+      }
     }
   },
-  "allTimeTotalCost": 1099.0114,
-  "daysTracked": 9,
-  "avgDailyCost": 122.1124,
+  "allTimeTotalCost": 1131.8479,
+  "daysTracked": 10,
+  "avgDailyCost": 113.1848,
   "apiBalance": {
     "currency": "USD",
     "balance": 495.26,
     "topUpDate": "2026-05-03",
-    "spentSinceTopUp": 0,
-    "remainingEstimate": 445.77,
+    "spentSinceTopUp": 32.8365,
+    "remainingEstimate": 412.9335,
     "note": "Balance $495.26 USD \u2014 AInchors Anthropic account. Top-up 2026-05-03 19:36 AEST.",
     "confirmedAt": "2026-05-03T09:36:46.702063+00:00",
     "confirmedBy": "Ken",
@@ -317,7 +362,7 @@
       "gap": 85,
       "cause": "input_cache_write_5m charges excluded from session-log estimates"
     },
-    "remainingNote": "confirmedBalance=445.77 at 2026-05-03; spentAfter=0",
+    "remainingNote": "confirmedBalance=445.77 at 2026-05-03; spentAfter=32.8365",
     "lastConfirmedAt": "2026-05-03T22:53:00+10:00",
     "lastConfirmedBy": "Ken"
   },

@@ -5,7 +5,7 @@
   "phase3": "complete",
   "phase4": "complete",
   "auditFile": "state/notion-audit.json",
-  "nextPhase": "Phase 5 \u2014 Remove Obsidian from agent workflows (Shared/ folder)",
+  "nextPhase": "Complete \u2014 Obsidian fully retired",
   "summary": {
     "totalPagesFound": 304,
     "pagesAudited": 304,
@@ -93,5 +93,27 @@
       "morning standup",
       "journal cron (aria-daily-brief ref)"
     ]
+  },
+  "phase5": "complete",
+  "phase5CompletedAt": "2026-05-04T02:08:27.947011+00:00",
+  "phase5Summary": {
+    "filesMigrated": [
+      "relay-to-ken.json",
+      "aria-daily-brief.md",
+      "yoda-daily-brief.md",
+      "training-pipeline.md"
+    ],
+    "contextFileMigrated": "context-for-aria.md \u2192 workspace root",
+    "cronsUpdated": [
+      "7a28cc83 Aria->Ken relay",
+      "a7e7a820 Aria daily summary",
+      "3c279099 Morning standup",
+      "7d362d91 Yoda->Aria sync",
+      "4d926b2c Journal close"
+    ],
+    "scriptsCleaned": [
+      "seed_itsm_notion.py"
+    ],
+    "vaultRetired": true
   }
 }
