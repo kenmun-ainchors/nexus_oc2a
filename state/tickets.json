@@ -1,5 +1,5 @@
 {
-  "sequence": 64,
+  "sequence": 65,
   "tickets": [
     {
       "id": "TKT-0049",
@@ -308,6 +308,26 @@
       },
       "notes": "Owner: Lex. Mandatory before P2 live. Three options: (A) DPA with Ollama, (B) Explicit exclusion/acceptance, (C) BYOK. Lex assesses and presents recommendation to Ken. Ken decides.",
       "notionPageId": null
+    },
+    {
+      "id": "TKT-0064",
+      "title": "[AUTO-HEAL] MEMORY.md oversized — 20151 chars exceeds warning threshold",
+      "type": "task",
+      "priority": "medium",
+      "status": "open",
+      "requester": "Ken",
+      "assignee": "Yoda",
+      "created": "2026-05-05T01:00:43+10:00",
+      "updated": "2026-05-05T01:00:43+10:00",
+      "description": "MEMORY.md is 20151 chars (warning: 15000, hard limit: 20000). Trim curated content or increase bootstrapMaxChars to avoid truncation in future sessions. Detected by auto-heal nightly sweep 2026-05-05.",
+      "resolution": null,
+      "linked": {
+        "us": [],
+        "inc": [],
+        "chg": []
+      },
+      "notes": "",
+      "notionPageId": "356c1829-53ff-81db-816b-f9d53075e896"
     }
   ],
   "lastId": "TKT-0058"
