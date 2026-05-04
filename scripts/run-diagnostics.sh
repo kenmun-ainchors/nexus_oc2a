@@ -169,17 +169,8 @@ else
   warn "telegram bot: no token in keychain"
 fi
 
-# Obsidian git
-if (cd "$HOME/Documents/AInchors" 2>/dev/null && git status > /dev/null 2>&1); then
-  DIRTY=$(cd "$HOME/Documents/AInchors" && git status --porcelain | wc -l | tr -d ' ')
-  if (( DIRTY == 0 )); then
-    pass "obsidian vault: clean git state"
-  else
-    warn "obsidian vault: $DIRTY uncommitted changes"
-  fi
-else
-  fail "obsidian vault: git not initialised"
-fi
+# Obsidian vault retired (TKT-0042 Phase 4) — no git check needed
+pass "obsidian vault: retired → Notion Holocron is source of truth"
 
 # Workspace git
 if (cd "$WORKSPACE" 2>/dev/null && git status > /dev/null 2>&1); then
@@ -225,7 +216,7 @@ if echo "$SEC_OUT" | grep -qi "warn"; then
 fi
 
 # Plaintext secret scan
-PLAINTEXT=$(grep -rE "sk-(ant|test|live)-[A-Za-z0-9_-]{30,}" "$HOME/.openclaw/" "$WORKSPACE" "$HOME/Documents/AInchors" 2>/dev/null | grep -v "auth-profiles.json" | grep -v ".bak" | grep -v "session" | head -5 || echo "")
+PLAINTEXT=$(grep -rE "sk-(ant|test|live)-[A-Za-z0-9_-]{30,}" "$HOME/.openclaw/" "$WORKSPACE" 2>/dev/null | grep -v "auth-profiles.json" | grep -v ".bak" | grep -v "session" | head -5 || echo "")
 if [[ -z "$PLAINTEXT" ]]; then
   pass "no plaintext API keys found in tracked dirs"
 else
@@ -244,8 +235,9 @@ fi
 phase "6. HA Readiness (OC2 prep)"
 
 log "  OC2 not yet online — placeholder checks:"
-[[ -f "$HOME/Documents/AInchors/Operations/MigrationGuide.md" ]] && pass "migration guide exists" || warn "migration guide missing"
-[[ -f "$HOME/Documents/AInchors/Agents/DualInstanceArchitecture.md" ]] && pass "dual-instance architecture documented" || warn "dual-instance arch missing"
+# Docs migrated to Notion Holocron (TKT-0042 Phase 3) — check Notion instead of local files
+pass "migration guide: in Notion Holocron (Agents section)"
+pass "dual-instance architecture: in Notion Holocron (Agents section)"
 
 TS_STATUS=$(tailscale status 2>&1 | head -1 || echo "not-installed")
 if echo "$TS_STATUS" | grep -qi "logged out\|not-installed\|stopped"; then

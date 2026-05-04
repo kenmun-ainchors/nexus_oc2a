@@ -42,6 +42,18 @@ This log captures **every change** Yoda makes to AInchors infrastructure, config
 **Linked:** decisions.md 2026-04-27 entries
 ---
 
+## 2026-05-04 11:34 AEST — [CHG-0157] TKT-0042 Phase 4: Obsidian references removed from scripts, crons, SOUL.md, MEMORY.md
+**Type:** doc
+**Source:** manual
+**Trigger:** TKT-0042-phase4
+**What changed:** auto-heal.sh: Obsidian git check removed. run-diagnostics.sh: 3 Obsidian refs cleaned. backup.sh: vault backup + git commit removed. SOUL.md: Standards.md → Notion ref. MEMORY.md: JournalFormat/BlogFormat/GatewayRecovery → Notion refs. Blog cron: BlogFormat.md path → workspace Operations/. JournalFormat.md + BlogFormat.md copied to workspace Operations/. AKB cron already Notion-only (CHG-0146).
+**Why:** Phase 4 of Obsidian retirement — all non-Shared Obsidian references removed from infrastructure. Shared/ deferred to Phase 5 (agent workflow replacement required).
+**Verification:** Scripts edited and verified. Cron updated. State file phase4=complete.
+**Rollback:** N/A
+**Linked:** none
+---
+
+
 ## 2026-05-04 11:22 AEST — [CHG-0156] TKT-0042 Phase 3: Obsidian→Notion migration complete
 **Type:** doc
 **Source:** manual

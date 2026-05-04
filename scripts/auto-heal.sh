@@ -149,7 +149,8 @@ fi
 # ---------- CHECK 7: Git repo health ----------
 log "CHECK 7: git repo health"
 CHECKS_RUN+=("git_health")
-for repo in "$WORKSPACE" "$HOME/Documents/AInchors"; do
+# Obsidian vault retired (TKT-0042 Phase 4) — workspace only
+for repo in "$WORKSPACE"; do
   if [[ -d "$repo/.git" ]]; then
     cd "$repo" || continue
     DIRTY=$(git status --porcelain | wc -l | tr -d ' ')

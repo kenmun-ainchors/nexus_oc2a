@@ -80,9 +80,9 @@
 - `state/chg-triggers.json` — 10 CHG triggers, status, detection method
 
 ## Operations Docs (locked)
-- `~/Documents/AInchors/Operations/JournalFormat.md` — locked journal spec (verbatim Ken prompts, Yoda voice, private)
-- `~/Documents/AInchors/Operations/BlogFormat.md` — locked blog spec (Ken first-person, public-ready, built FROM journal)
-- `~/Documents/AInchors/Operations/GatewayRecovery.md` — troubleshoot → restore from snapshot → openclaw reset
+- JournalFormat: Notion Holocron › Platform Operations › JournalFormat (locked spec — verbatim Ken prompts, Yoda voice, private)
+- BlogFormat: Notion Holocron › Platform Operations › BlogFormat (locked spec — Ken first-person, public-ready, built FROM journal)
+- GatewayRecovery: Notion Holocron › Platform Operations › GatewayRecoverySOP (troubleshoot → restore from snapshot → openclaw reset)
 - **Journal:** `memory/journal-YYYY-MM-DD.md` | **Blog:** `canvas/documents/ainchors-YYYY-MM-DD/index.html`
 
 ## GitHub
