@@ -42,6 +42,34 @@ This log captures **every change** Yoda makes to AInchors infrastructure, config
 **Linked:** decisions.md 2026-04-27 entries
 ---
 
+## 2026-05-05 23:59 AEST — [CHG-0190] EOD close — Day 11 journal complete + Notion cost tracker updated
+**Type:** doc
+**Source:** scheduled
+**Trigger:** 23:55 EOD cron 2026-05-05
+**What changed:** memory/journal-2026-05-05.md: Business Stream section added (Aria daily brief). Evening verbatim Ken prompts added (BPS_AGENT, DTCMS_AGENT, confirm names, /commit). Cost summary updated (.56, 6431 turns). Notion cost tracker DB: Day 11 entry created (357c1829).
+**Why:** End-of-day journal close per RULES.md EOD procedure.
+**Verification:** Journal 400+ lines. Notion entry created. Git committed 77310ec.
+**Rollback:** N/A
+**Linked:** none
+**Category:** operating-process
+**Framework docs:** ~/.openclaw/workspace/SOUL.md, ~/.openclaw/workspace/RULES.md
+---
+
+
+## 2026-05-05 20:56 AEST — [CHG-0189] /commit — Day 11 persistent memory commit. PVT 10/10.
+**Type:** doc
+**Source:** ken-prompt
+**Trigger:** Ken /commit 2026-05-05 20:54 AEST
+**What changed:** memory/2026-05-05.md: full day flush. MEMORY.md: 15,259 chars. model-policy.json: 4 new agents (architect, platform-arch, biz-process, change-mgt). Git commit: Day 11 CHG-0167→0188. Gateway snapshot: 2026-05-05.
+**Why:** End of session commit. All decisions, changes, state persisted.
+**Verification:** PVT 10/10 PASS. Git committed. Snapshot complete.
+**Rollback:** N/A
+**Linked:** none
+**Category:** operating-process
+**Framework docs:** ~/.openclaw/workspace/SOUL.md, ~/.openclaw/workspace/RULES.md
+---
+
+
 ## 2026-05-05 20:52 AEST — [CHG-0188] Agent ID + label updates: bpm→biz-process, dtcm→change-mgt. Names standardised.
 **Type:** config
 **Source:** ken-prompt

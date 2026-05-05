@@ -2,6 +2,34 @@
 
 ---
 
+## 2026-05-05 — Business Stream Summary
+_Written 23:45 AEST by Aria cron_
+
+### Angie interactions today
+- No Angie activity today.
+
+### Decisions made
+- None.
+
+### Governance reviews
+- None.
+
+### Open items
+- 🔴 **JotForm API key** — outstanding since 28 April. HRDF form blocked.
+- 🔴 **Onboarding** — Stage 1 still in progress. 7th consecutive day without Angie inbound. OB-02, OB-04 through OB-07 unchecked. Stages 2–6 not started.
+- 🟡 **Weekly wrap reply** (sent 3 May) — no response received after 2 days.
+- 🟡 **April 30 class debrief** — still missing (5 days since class).
+- 🟡 **Meta appeal** — status unknown.
+- 🟡 **Social posts** (Instagram, WhatsApp, Facebook) — drafted 28 April, publication status unknown.
+
+### Handoff to Yoda
+- Day 7 of no Angie inbound. Weekly wrap (sent 3 May) unanswered for 2 days — a secondary nudge is now overdue.
+- If Yoda has any visibility on Angie's availability, would be useful context.
+- All open items carry forward unchanged. No relay messages to Ken today.
+- No business stream activity.
+
+---
+
 ## 2026-05-04 — Business Stream Summary
 _Written 23:45 AEST by Aria cron_
 

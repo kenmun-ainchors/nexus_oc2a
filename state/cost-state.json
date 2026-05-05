@@ -1,5 +1,5 @@
 {
-  "lastUpdated": "2026-05-05T09:50:00Z",
+  "lastUpdated": "2026-05-05T13:55:18Z",
   "history": {
     "2026-04-25": {
       "date": "2026-04-25",
@@ -297,35 +297,58 @@
     },
     "2026-05-05": {
       "date": "2026-05-05",
-      "totalCost": 137.7,
-      "totalTurns": 961,
-      "totalInputTokens": 361864,
-      "totalOutputTokens": 116035,
-      "totalCacheReadTokens": 11871387,
-      "totalCacheWriteTokens": 5918834,
-      "source": "anthropic_csv_partial",
-      "note": "CSV partial extract (earlier today). Actual full-day cost higher \u2014 balance diff shows ~$415.89 total since May 4 17:51 AEST confirmation.",
+      "totalCost": 184.5558,
+      "totalTurns": 6431,
+      "totalInputTokens": 1544582,
+      "totalOutputTokens": 1011822,
+      "totalCacheReadTokens": 134659969,
+      "totalCacheWriteTokens": 36010751,
+      "source": "session-log-estimate",
+      "note": "Session log estimate. usage.cost.total includes cacheWrite charges. CHG-0097: confirmed cost includes cache writes.",
       "byModel": {
-        "claude-haiku-4-5": {
-          "cost": 1.86
-        },
         "claude-sonnet-4-6": {
-          "cost": 127.46
+          "input": 11884,
+          "output": 871237,
+          "cacheRead": 126725402,
+          "cacheWrite": 34844415,
+          "cost": 181.7884,
+          "turns": 5792
         },
-        "claude-sonnet-4-6-200k": {
-          "cost": 8.38
+        "claude-haiku-4-5": {
+          "input": 6709,
+          "output": 101859,
+          "cacheRead": 7934567,
+          "cacheWrite": 1166336,
+          "cost": 2.7674,
+          "turns": 604
+        },
+        "gemma4:e2b": {
+          "input": 25204,
+          "output": 53,
+          "cacheRead": 0,
+          "cacheWrite": 0,
+          "cost": 0.0,
+          "turns": 2
+        },
+        "deepseek-v4-pro:cloud": {
+          "input": 1500785,
+          "output": 38673,
+          "cacheRead": 0,
+          "cacheWrite": 0,
+          "cost": 0.0,
+          "turns": 33
         }
       }
     }
   },
-  "allTimeTotalCost": 1640.5751,
+  "allTimeTotalCost": 1687.4309,
   "daysTracked": 11,
-  "avgDailyCost": 149.1432,
+  "avgDailyCost": 153.4028,
   "apiBalance": {
     "currency": "USD",
     "balance": 495.26,
     "topUpDate": "2026-05-03",
-    "spentSinceTopUp": 244.9971,
+    "spentSinceTopUp": 0,
     "remainingEstimate": 309.11,
     "note": "Corrected 2026-05-04 17:51 AEST via webchat session reconciliation",
     "confirmedAt": "2026-05-05T09:50:00Z",
@@ -338,7 +361,7 @@
       "gap": 85,
       "cause": "input_cache_write_5m charges excluded from session-log estimates"
     },
-    "remainingNote": "Ken confirmed $309.11 at 19:50 AEST May 5. Use this as baseline.",
+    "remainingNote": "confirmedBalance=309.11 at 2026-05-05; spentAfter=0",
     "lastConfirmedAt": "2026-05-05T09:50:00Z",
     "lastConfirmedBy": "Ken",
     "lastConfirmedBalance": 309.11,

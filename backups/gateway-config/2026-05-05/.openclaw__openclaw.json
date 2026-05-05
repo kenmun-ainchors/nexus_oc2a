@@ -12,18 +12,18 @@
       "resetOnExit": false
     },
     "controlUi": {
-      "allowInsecureAuth": true
+      "allowInsecureAuth": false
     }
   },
   "wizard": {
-    "lastRunAt": "2026-04-27T09:29:10.113Z",
-    "lastRunVersion": "2026.4.24",
-    "lastRunCommand": "onboard",
+    "lastRunAt": "2026-05-05T09:47:18.999Z",
+    "lastRunVersion": "2026.5.4",
+    "lastRunCommand": "doctor",
     "lastRunMode": "local"
   },
   "meta": {
-    "lastTouchedVersion": "2026.4.24",
-    "lastTouchedAt": "2026-04-27T11:41:52.882Z"
+    "lastTouchedVersion": "2026.5.4",
+    "lastTouchedAt": "2026-05-05T09:47:19.030Z"
   },
   "agents": {
     "defaults": {
@@ -203,7 +203,7 @@
       },
       {
         "id": "platform-arch",
-        "name": "Thrawn \u2014 AI Platform Architect (name pending Ken)",
+        "name": "Thrawn \u2014 AI Platform Architect",
         "workspace": "/Users/ainchorsangiefpl/.openclaw/workspace-platform-arch",
         "agentDir": "/Users/ainchorsangiefpl/.openclaw/agents/platform-arch/agent",
         "tools": {
@@ -215,6 +215,42 @@
             "web_fetch",
             "sessions_list",
             "sessions_history"
+          ]
+        }
+      },
+      {
+        "id": "biz-process",
+        "name": "Lando \u2014 Business Process Specialist",
+        "workspace": "/Users/ainchorsangiefpl/.openclaw/workspace-bpm",
+        "agentDir": "/Users/ainchorsangiefpl/.openclaw/agents/biz-process/agent",
+        "tools": {
+          "allow": [
+            "read",
+            "write",
+            "edit",
+            "web_search",
+            "web_fetch",
+            "sessions_list",
+            "sessions_history",
+            "session_status"
+          ]
+        }
+      },
+      {
+        "id": "change-mgt",
+        "name": "Mon Mothma \u2014 Digital Transformation CM Specialist",
+        "workspace": "/Users/ainchorsangiefpl/.openclaw/workspace-dtcm",
+        "agentDir": "/Users/ainchorsangiefpl/.openclaw/agents/change-mgt/agent",
+        "tools": {
+          "allow": [
+            "read",
+            "write",
+            "edit",
+            "web_search",
+            "web_fetch",
+            "sessions_list",
+            "sessions_history",
+            "session_status"
           ]
         }
       }
@@ -278,12 +314,122 @@
       },
       "bonjour": {
         "enabled": false
+      },
+      "minimax": {
+        "enabled": true
       }
     }
   },
   "skills": {
     "install": {
       "nodeManager": "npm"
+    },
+    "entries": {
+      "apple-notes": {
+        "enabled": false
+      },
+      "apple-reminders": {
+        "enabled": false
+      },
+      "bear-notes": {
+        "enabled": false
+      },
+      "blogwatcher": {
+        "enabled": false
+      },
+      "blucli": {
+        "enabled": false
+      },
+      "bluebubbles": {
+        "enabled": false
+      },
+      "camsnap": {
+        "enabled": false
+      },
+      "coding-agent": {
+        "enabled": false
+      },
+      "discord": {
+        "enabled": false
+      },
+      "eightctl": {
+        "enabled": false
+      },
+      "gemini": {
+        "enabled": false
+      },
+      "gifgrep": {
+        "enabled": false
+      },
+      "goplaces": {
+        "enabled": false
+      },
+      "himalaya": {
+        "enabled": false
+      },
+      "imsg": {
+        "enabled": false
+      },
+      "mcporter": {
+        "enabled": false
+      },
+      "model-usage": {
+        "enabled": false
+      },
+      "nano-pdf": {
+        "enabled": false
+      },
+      "openai-whisper": {
+        "enabled": false
+      },
+      "openai-whisper-api": {
+        "enabled": false
+      },
+      "openhue": {
+        "enabled": false
+      },
+      "ordercli": {
+        "enabled": false
+      },
+      "sag": {
+        "enabled": false
+      },
+      "session-logs": {
+        "enabled": false
+      },
+      "sherpa-onnx-tts": {
+        "enabled": false
+      },
+      "slack": {
+        "enabled": false
+      },
+      "songsee": {
+        "enabled": false
+      },
+      "sonoscli": {
+        "enabled": false
+      },
+      "spotify-player": {
+        "enabled": false
+      },
+      "summarize": {
+        "enabled": false
+      },
+      "things-mac": {
+        "enabled": false
+      },
+      "tmux": {
+        "enabled": false
+      },
+      "trello": {
+        "enabled": false
+      },
+      "voice-call": {
+        "enabled": false
+      },
+      "wacli": {
+        "enabled": false
+      }
     }
   },
   "models": {
@@ -424,5 +570,10 @@
     "root": "/Users/ainchorsangiefpl/.openclaw/canvas",
     "port": 18790,
     "liveReload": false
+  },
+  "messages": {
+    "groupChat": {
+      "visibleReplies": "message_tool"
+    }
   }
 }

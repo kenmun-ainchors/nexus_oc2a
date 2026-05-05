@@ -1,13 +1,13 @@
 {
   "schema": "1.0",
-  "description": "CI Agent \u2014 per-task comparison records",
+  "description": "CI Agent — per-task comparison records",
   "records": [
     {
       "cycle": 1,
       "phase": "A",
       "runAt": "2026-05-02T07:12:00Z",
       "taskCategory": "reasoning",
-      "cronName": "Warden \u2014 Model Compliance",
+      "cronName": "Warden — Model Compliance",
       "cronId": "83accf7b-c3e5-4f0a-9a0c-d67d74ffff01",
       "originalModel": "anthropic/claude-sonnet-4-6",
       "t2bModel": "deepseek-v4-pro:cloud",
@@ -20,14 +20,14 @@
       "passLatency": false,
       "candidateScore": 0.12,
       "recommendation": "keep-on-claude",
-      "notes": "Model timed out at 45s \u2014 extended thinking chain, no final output produced. deepseek-v4-pro:cloud unsuitable for time-constrained governance prompts without think-limit tuning."
+      "notes": "Model timed out at 45s — extended thinking chain, no final output produced. deepseek-v4-pro:cloud unsuitable for time-constrained governance prompts without think-limit tuning."
     },
     {
       "cycle": 1,
       "phase": "A",
       "runAt": "2026-05-02T07:12:00Z",
       "taskCategory": "reasoning",
-      "cronName": "Shield \u2014 Security Review",
+      "cronName": "Shield — Security Review",
       "cronId": "cfc40ddb-a876-4bb7-8bb9-b6a240cb761a",
       "originalModel": "anthropic/claude-sonnet-4-6",
       "t2bModel": "deepseek-v4-pro:cloud",
@@ -107,7 +107,7 @@
       "phase": "A",
       "runAt": "2026-05-02T13:12:00Z",
       "taskCategory": "creative",
-      "cronName": "AInchors Daily Close \u2014 Blog",
+      "cronName": "AInchors Daily Close — Blog",
       "cronId": "a027fd60-fd23-4c50-a823-81555acfbf84",
       "originalModel": "anthropic/claude-sonnet-4-6",
       "t2bModel": "kimi-k2.6:cloud",
@@ -140,14 +140,14 @@
       "passLatency": true,
       "candidateScore": 0.88,
       "recommendation": "head-to-head-candidate",
-      "notes": "Output: daily=6 | projected=186 | remaining=314 | on-track. Verified math in thinking chain (6\u00d731=186, 500-186=314). Correct, structured, pipe-delimited as required. Latency 18s, borderline but within threshold. First attempt failed (SIGKILL at 30s) \u2014 model needed prompt reformatting."
+      "notes": "Output: daily=6 | projected=186 | remaining=314 | on-track. Verified math in thinking chain (6x31=186, 500-186=314). Correct, structured, pipe-delimited as required. Latency 18s, borderline but within threshold. First attempt failed (SIGKILL at 30s) — model needed prompt reformatting."
     },
     {
       "cycle": 1,
       "phase": "A",
       "runAt": "2026-05-02T13:12:00Z",
       "taskCategory": "reasoning",
-      "cronName": "Lex \u2014 Legal Review",
+      "cronName": "Lex — Legal Review",
       "cronId": "4ae7274d-71b8-4220-8f42-bec7c7ba5a1a",
       "originalModel": "anthropic/claude-sonnet-4-6",
       "t2bModel": "deepseek-v4-pro:cloud",
@@ -160,14 +160,14 @@
       "passLatency": false,
       "candidateScore": 0.5,
       "recommendation": "borderline",
-      "notes": "3-row table produced: unsolicited Telegram spam (High), AI-generated founder impersonation (High), personal data in cloud APIs (Critical). Correct severity classifications, practical mitigations. Latency 23s exceeds 20s threshold \u2014 borderline. Good quality but fails latency SLA."
+      "notes": "3-row table produced: unsolicited Telegram spam (High), AI-generated founder impersonation (High), personal data in cloud APIs (Critical). Correct severity classifications, practical mitigations. Latency 23s exceeds 20s threshold — borderline. Good quality but fails latency SLA."
     },
     {
       "cycle": 1,
       "phase": "A",
       "runAt": "2026-05-02T13:12:00Z",
       "taskCategory": "reasoning",
-      "cronName": "Sage \u2014 QA Review",
+      "cronName": "Sage — QA Review",
       "cronId": "8231f723-5580-435e-a8d5-8962f4843495",
       "originalModel": "anthropic/claude-sonnet-4-6",
       "t2bModel": "deepseek-v4-pro:cloud",
@@ -200,7 +200,7 @@
       "passLatency": false,
       "candidateScore": 0.12,
       "recommendation": "keep-on-claude",
-      "notes": "SIGKILL at 30s hard limit. deepseek-v4-flash overthinks monitoring prompts \u2014 extended chain iterating on format interpretation, never reaching final output. Same failure mode as previous Warden attempt. Monitoring/status prompts need ultra-concise framing to avoid chain runaway."
+      "notes": "SIGKILL at 30s hard limit. deepseek-v4-flash overthinks monitoring prompts — extended chain iterating on format interpretation, never reaching final output. Same failure mode as previous Warden attempt. Monitoring/status prompts need ultra-concise framing to avoid chain runaway."
     },
     {
       "cycle": 1,
@@ -227,7 +227,7 @@
       "phase": "A",
       "runAt": "2026-05-02T19:12:00Z",
       "taskCategory": "creative",
-      "cronName": "AInchors Daily Close \u2014 Journal",
+      "cronName": "AInchors Daily Close — Journal",
       "cronId": "4d926b2c-3551-4324-aa9b-81fcaf26ca75",
       "originalModel": "anthropic/claude-sonnet-4-6",
       "t2bModel": "kimi-k2.6:cloud",
@@ -240,14 +240,14 @@
       "passLatency": true,
       "candidateScore": 0.94,
       "recommendation": "head-to-head-candidate",
-      "notes": "~56-word, 3-paragraph output. Task (vendor onboarding, 2wk\u21924d provisioning), improvement (Mixpanel\u2192PagerDuty churn alerts), tomorrow (sprint planning Q3 hiring). Operational first-person tone nailed. No headers. kimi-k2.6 consistent 4.5 across all creative/ops journal formats."
+      "notes": "~56-word, 3-paragraph output. Task (vendor onboarding, 2wk->4d provisioning), improvement (Mixpanel->PagerDuty churn alerts), tomorrow (sprint planning Q3 hiring). Operational first-person tone nailed. No headers. kimi-k2.6 consistent 4.5 across all creative/ops journal formats."
     },
     {
       "cycle": 1,
       "phase": "A",
       "runAt": "2026-05-02T19:12:00Z",
       "taskCategory": "reasoning",
-      "cronName": "Sage \u2014 QA Review (retry)",
+      "cronName": "Sage — QA Review (retry)",
       "cronId": "8231f723-5580-435e-a8d5-8962f4843495",
       "originalModel": "anthropic/claude-sonnet-4-6",
       "t2bModel": "deepseek-v4-pro:cloud",
@@ -260,14 +260,14 @@
       "passLatency": false,
       "candidateScore": 0.5,
       "recommendation": "borderline",
-      "notes": "No 503 this time. Full 5-row markdown table: Telegram delivery, cron scheduling, model fallback, credential safety, cost alerting \u2014 all with correct expected outputs and pass criteria. Quality good. Latency 26s, same pattern as Lex at 23s. deepseek-v4-pro consistently borderline on latency for QA/checklist reasoning prompts."
+      "notes": "No 503 this time. Full 5-row markdown table: Telegram delivery, cron scheduling, model fallback, credential safety, cost alerting — all with correct expected outputs and pass criteria. Quality good. Latency 26s, same pattern as Lex at 23s. deepseek-v4-pro consistently borderline on latency for QA/checklist reasoning prompts."
     },
     {
       "cycle": 1,
       "phase": "A",
       "runAt": "2026-05-03T01:12:00Z",
       "taskCategory": "reasoning",
-      "cronName": "Warden \u2014 Model Compliance (retry 2)",
+      "cronName": "Warden — Model Compliance (retry 2)",
       "cronId": "83accf7b-c3e5-4f0a-9a0c-d67d74ffff01",
       "originalModel": "anthropic/claude-sonnet-4-6",
       "t2bModel": "deepseek-v4-pro:cloud",
@@ -280,7 +280,7 @@
       "passLatency": false,
       "candidateScore": 0.42,
       "recommendation": "borderline",
-      "notes": "Clean 3-row table produced: Prompt logging/PII capture (High), Keychain/cron agent overreach (Medium), Telegram alert leakage unencrypted (Medium). Correct risks, correct format. Thinking chain visible but final output clean. Latency 26s exceeds threshold \u2014 consistent pattern with deepseek-v4-pro on reasoning tasks. Shorter prompt (vs run1) reduced timeout but still above SLA. Needs think-budget constraint or model-level max-tokens."
+      "notes": "Clean 3-row table produced: Prompt logging/PII capture (High), Keychain/cron agent overreach (Medium), Telegram alert leakage unencrypted (Medium). Correct risks, correct format. Thinking chain visible but final output clean. Latency 26s exceeds threshold — consistent pattern with deepseek-v4-pro on reasoning tasks. Shorter prompt (vs run1) reduced timeout but still above SLA. Needs think-budget constraint or model-level max-tokens."
     },
     {
       "cycle": 1,
@@ -300,7 +300,7 @@
       "passLatency": false,
       "candidateScore": 0.42,
       "recommendation": "borderline",
-      "notes": "Format compliance correct: 3 lines (Model|Status|Last-check) + RECOMMENDATION line. Timestamps fabricated (no live data \u2014 expected for prompt-only eval). No SIGKILL this time \u2014 shorter prompt eliminated chain runaway from run3. Latency 22s, 2s over threshold. Improvement from 30s+ SIGKILL in prior run. Borderline: quality passes, latency misses by 2s. May pass with further prompt tightening."
+      "notes": "Format compliance correct: 3 lines (Model|Status|Last-check) + RECOMMENDATION line. Timestamps fabricated (no live data — expected for prompt-only eval). No SIGKILL this time — shorter prompt eliminated chain runaway from run3. Latency 22s, 2s over threshold. Improvement from 30s+ SIGKILL in prior run. Borderline: quality passes, latency misses by 2s. May pass with further prompt tightening."
     },
     {
       "cycle": 1,
@@ -320,7 +320,7 @@
       "passLatency": false,
       "candidateScore": 0.54,
       "recommendation": "borderline",
-      "notes": "Output extracted before SIGKILL: strong founder hook (The team I wanted to hire didn't exist...), 3 paragraphs, authentic 3am contrast, question at end (What would you hand off if it kept working while you didn't?). No hashtags. ~65 words. kimi-k2.6 consistently produces high-quality creative at 4.5 across all creative formats (blog, journal, standup, LinkedIn). Latency 22s misses by 2s \u2014 same pattern across creative tasks. Borderline purely on latency SLA."
+      "notes": "Output extracted before SIGKILL: strong founder hook (The team I wanted to hire didn't exist...), 3 paragraphs, authentic 3am contrast, question at end (What would you hand off if it kept working while you didn't?). No hashtags. ~65 words. kimi-k2.6 consistently produces high-quality creative at 4.5 across all creative formats (blog, journal, standup, LinkedIn). Latency 22s misses by 2s — same pattern across creative tasks. Borderline purely on latency SLA."
     },
     {
       "cycle": 1,
@@ -340,14 +340,14 @@
       "passLatency": false,
       "candidateScore": 0.12,
       "recommendation": "keep-on-claude",
-      "notes": "SIGKILL at 22s. Model spent full budget in thinking chain debating WARN vs FAIL semantics \u2014 never produced the output table. Same failure mode as Fallback Chain Monitor run3 (overthinking ambiguous structured prompts). deepseek-v4-flash cannot handle any semantic ambiguity in structured prompts \u2014 needs fully deterministic spec (no WARN, FAIL, or PASS/FAIL logic). Pattern: works well for pure data transcription (Backup, Cost Snapshot) but fails on prompts requiring any inference."
+      "notes": "SIGKILL at 22s. Model spent full budget in thinking chain debating WARN vs FAIL semantics — never produced the output table. Same failure mode as Fallback Chain Monitor run3 (overthinking ambiguous structured prompts). deepseek-v4-flash cannot handle any semantic ambiguity in structured prompts — needs fully deterministic spec (no WARN, FAIL, or PASS/FAIL logic). Pattern: works well for pure data transcription (Backup, Cost Snapshot) but fails on prompts requiring any inference."
     },
     {
       "cycle": 1,
       "phase": "A",
       "runAt": "2026-05-04T00:36:49Z",
       "taskCategory": "reasoning",
-      "cronName": "Governance Review \u2014 AI Platform",
+      "cronName": "Governance Review — AI Platform",
       "cronId": "governance-review-001",
       "originalModel": "anthropic/claude-sonnet-4-6",
       "t2bModel": "deepseek-v4-pro:cloud",
@@ -359,14 +359,14 @@
       "passLatency": true,
       "candidateScore": 0.94,
       "recommendation": "head-to-head-candidate",
-      "notes": "Clean 3-row governance table: Keychain access (High), email reading without consent (High), autonomous messaging+cron (Medium). 40 words, table-only format. Correct risk levels, practical mitigations. No thinking visible in output. Best reasoning run yet \u2014 deepseek-v4-pro:cloud can handle governance when prompt is tightly constrained."
+      "notes": "Clean 3-row governance table: Keychain access (High), email reading without consent (High), autonomous messaging+cron (Medium). 40 words, table-only format. Correct risk levels, practical mitigations. No thinking visible in output. Best reasoning run yet — deepseek-v4-pro:cloud can handle governance when prompt is tightly constrained."
     },
     {
       "cycle": 1,
       "phase": "A",
       "runAt": "2026-05-04T00:36:49Z",
       "taskCategory": "reasoning",
-      "cronName": "Compliance Audit \u2014 Multi-Regulation",
+      "cronName": "Compliance Audit — Multi-Regulation",
       "cronId": "compliance-audit-001",
       "originalModel": "anthropic/claude-sonnet-4-6",
       "t2bModel": "deepseek-v4-pro:cloud",
@@ -378,7 +378,7 @@
       "passLatency": true,
       "candidateScore": 0.94,
       "recommendation": "head-to-head-candidate",
-      "notes": "3-row table: SOC 2 (access controls+encryption+monitoring gap), Aus Privacy Act (cross-border transfer+consent gap), GDPR (lawful basis+DPIA gap). 51 words, table-only. Correct regulatory analysis at high level. Both reasoning tasks this run scored 4.5 \u2014 suggests deepseek-v4-pro:cloud improves significantly with ultra-concise format constraints."
+      "notes": "3-row table: SOC 2 (access controls+encryption+monitoring gap), Aus Privacy Act (cross-border transfer+consent gap), GDPR (lawful basis+DPIA gap). 51 words, table-only. Correct regulatory analysis at high level. Both reasoning tasks this run scored 4.5 — suggests deepseek-v4-pro:cloud improves significantly with ultra-concise format constraints."
     },
     {
       "cycle": 1,
@@ -397,7 +397,7 @@
       "passLatency": true,
       "candidateScore": 0.94,
       "recommendation": "head-to-head-candidate",
-      "notes": "5-row incident table, correct MTTR calculation (8.5h/5=1.7h). Top risk correctly identified as disk full (4h longest outage). 4s latency \u2014 fastest run ever across all models. deepseek-v4-flash:cloud excels at structured data transcription with explicit format specs. No thinking chain runaway \u2014 deterministic format eliminated ambiguity entirely."
+      "notes": "5-row incident table, correct MTTR calculation (8.5h/5=1.7h). Top risk correctly identified as disk full (4h longest outage). 4s latency — fastest run ever across all models. deepseek-v4-flash:cloud excels at structured data transcription with explicit format specs. No thinking chain runaway — deterministic format eliminated ambiguity entirely."
     },
     {
       "cycle": 1,
@@ -416,7 +416,7 @@
       "passLatency": false,
       "candidateScore": 0.54,
       "recommendation": "borderline",
-      "notes": "3-paragraph investor email: shipped ops agent (24/7 cron+Telegram+email), 20+ workflows live, enterprise pilot in 2 weeks, warm intro ask. 86 words, confident founder tone. Quality excellent (4.5) but latency 26s misses 20s threshold \u2014 kimi-k2.6 spent budget counting words obsessively. Pattern across creative tasks: quality consistently 4.5 but latency borderline (22s, 26s). Need to test with word-count-not-needed directive."
+      "notes": "3-paragraph investor email: shipped ops agent (24/7 cron+Telegram+email), 20+ workflows live, enterprise pilot in 2 weeks, warm intro ask. 86 words, confident founder tone. Quality excellent (4.5) but latency 26s misses 20s threshold — kimi-k2.6 spent budget counting words obsessively. Pattern across creative tasks: quality consistently 4.5 but latency borderline (22s, 26s). Need to test with word-count-not-needed directive."
     },
     {
       "cycle": 1,
@@ -473,7 +473,7 @@
       "passLatency": true,
       "candidateScore": 0.94,
       "recommendation": "head-to-head-candidate",
-      "notes": "3-risk table: Stale Context (High) \u2192 real-time sync with TTLs, Privilege Escalation (Critical) \u2192 least-privilege IAM signed payloads, Data Leakage (Critical) \u2192 E2E encryption ABAC audit logs. 12.12s latency. Tightly constrained format + reasoning prompt delivered both quality and speed. deepseek-v4-pro:cloud shows strong performance when format constraints are explicit. Minor: 4-row markdown table (incl header) instead of pure 3 data rows."
+      "notes": "3-risk table: Stale Context (High) -> real-time sync with TTLs, Privilege Escalation (Critical) -> least-privilege IAM signed payloads, Data Leakage (Critical) -> E2E encryption ABAC audit logs. 12.12s latency. Tightly constrained format + reasoning prompt delivered both quality and speed. deepseek-v4-pro:cloud shows strong performance when format constraints are explicit. Minor: 4-row markdown table (incl header) instead of pure 3 data rows."
     },
     {
       "cycle": 1,
@@ -492,7 +492,7 @@
       "passLatency": true,
       "candidateScore": 0.94,
       "recommendation": "head-to-head-candidate",
-      "notes": "3 bullets: shipped v2 model API (latency -40%, tickets halved), pausing standups saved 5h but async updates ignored \u2192 need checkpoints, close 3 enterprise pilots by Friday no new features. 35 words, direct tone, no corporate speak. 11.00s latency. kimi-k2.6 performs excellently when word count is explicitly constrained (50 words). Contrast with task 1 (280 char, 44s): longer output budget = longer thinking. Key insight: kimi latency scales with output length allowance."
+      "notes": "3 bullets: shipped v2 model API (latency -40%, tickets halved), pausing standups saved 5h but async updates ignored -> need checkpoints, close 3 enterprise pilots by Friday no new features. 35 words, direct tone, no corporate speak. 11.00s latency. kimi-k2.6 performs excellently when word count is explicitly constrained (50 words). Contrast with task 1 (280 char, 44s): longer output budget = longer thinking. Key insight: kimi latency scales with output length allowance."
     },
     {
       "cycle": 1,
@@ -588,7 +588,7 @@
       "passLatency": true,
       "candidateScore": 0.94,
       "recommendation": "head-to-head-candidate",
-      "notes": "5-row asset table + CRITICAL: Telegram Bot \u2014 deprecated. Correct format, correctly identified deprecated Telegram Bot as critical. ~15s, clean output. deepseek-v4-flash continues strong for structured data with explicit format specs."
+      "notes": "5-row asset table + CRITICAL: Telegram Bot — deprecated. Correct format, correctly identified deprecated Telegram Bot as critical. ~15s, clean output. deepseek-v4-flash continues strong for structured data with explicit format specs."
     },
     {
       "cycle": 1,
@@ -608,7 +608,7 @@
       "passLatency": false,
       "candidateScore": 0.54,
       "recommendation": "borderline",
-      "notes": "5-row table + SECURITY: python3 \u2014 Update. Correct format, correctly identified python3 as most critical (5 CVEs, 1 critical, outdated). Latency 23.2s exceeds 20s threshold \u2014 thinking chain debated action semantics. Same pattern: deepseek-v4-flash quality 4.5 but latency borderline when prompt includes inference/decision-making."
+      "notes": "5-row table + SECURITY: python3 — Update. Correct format, correctly identified python3 as most critical (5 CVEs, 1 critical, outdated). Latency 23.2s exceeds 20s threshold — thinking chain debated action semantics. Same pattern: deepseek-v4-flash quality 4.5 but latency borderline when prompt includes inference/decision-making."
     },
     {
       "cycle": 1,
@@ -628,7 +628,7 @@
       "passLatency": true,
       "candidateScore": 0.94,
       "recommendation": "head-to-head-candidate",
-      "notes": "3-row privacy risk table: OAuth overreach (High), cron shell exec (Critical), Telegram PII exposure (Medium). Correct format, no headers, 34 words. 16.3s latency \u2014 within threshold. deepseek-v4-pro:cloud continues strong on reasoning tasks with tight format constraints. 4.5 quality + fast latency = head-to-head candidate."
+      "notes": "3-row privacy risk table: OAuth overreach (High), cron shell exec (Critical), Telegram PII exposure (Medium). Correct format, no headers, 34 words. 16.3s latency — within threshold. deepseek-v4-pro:cloud continues strong on reasoning tasks with tight format constraints. 4.5 quality + fast latency = head-to-head candidate."
     },
     {
       "cycle": 1,
@@ -648,14 +648,14 @@
       "passLatency": false,
       "candidateScore": 0.54,
       "recommendation": "borderline",
-      "notes": "3-sentence output: 'Welcome to the team\u2014you own your work and can chase bold ideas from day one. We ship fast, treat stumbles as data, and believe messy iterations beat perfect plans every time. You'll find teammates ready to rally when things break, learn with you, and build it stronger.' 41 words, warm/authentic tone, all 3 themes covered. Quality 4.5 but latency 36.8s \u2014 kimi-k2.6 spent 30s+ iterating on word choices in thinking chain. Consistent pattern: kimi creative quality excellent but latency fails when thinking budget is unbounded for nuanced creative tasks."
+      "notes": "3-sentence output: 'Welcome to the team—you own your work and can chase bold ideas from day one. We ship fast, treat stumbles as data, and believe messy iterations beat perfect plans every time. You'll find teammates ready to rally when things break, learn with you, and build it stronger.' 41 words, warm/authentic tone, all 3 themes covered. Quality 4.5 but latency 36.8s — kimi-k2.6 spent 30s+ iterating on word choices in thinking chain. Consistent pattern: kimi creative quality excellent but latency fails when thinking budget is unbounded for nuanced creative tasks."
     },
     {
       "cycle": 1,
       "phase": "A",
       "runAt": "2026-05-04T18:36:00+00:00",
       "taskCategory": "reasoning",
-      "cronName": "Warden \u2014 Model Compliance (retry 3)",
+      "cronName": "Warden — Model Compliance (retry 3)",
       "cronId": "83accf7b-c3e5-4f0a-9a0c-d67d74ffff01",
       "originalModel": "anthropic/claude-sonnet-4-6",
       "t2bModel": "deepseek-v4-pro:cloud",
@@ -667,7 +667,7 @@
       "passLatency": false,
       "candidateScore": 0.12,
       "recommendation": "keep-on-claude",
-      "notes": "SIGTERM at 28s alarm. Thinking chain still iterating on risk classifications \u2014 never reached final output. 3rd attempt on this task, consistent failure mode. deepseek-v4-pro:cloud cannot complete model compliance prompts under 25s. Conclusive: keep-on-claude for Warden forever."
+      "notes": "SIGTERM at 28s alarm. Thinking chain still iterating on risk classifications — never reached final output. 3rd attempt on this task, consistent failure mode. deepseek-v4-pro:cloud cannot complete model compliance prompts under 25s. Conclusive: keep-on-claude for Warden forever."
     },
     {
       "cycle": 1,
@@ -686,7 +686,7 @@
       "passLatency": true,
       "candidateScore": 0.94,
       "recommendation": "head-to-head-candidate",
-      "notes": "4-line pipe-delimited output: daily burn rate|6, projected month-end spend|186, budget remaining|476, status|Under budget. Correct math (6\u00d731=186, 500-24=476). ~6s latency. Clean structured output with minimal thinking chain. deepseek-v4-flash excels at deterministic computation with explicit format constraints."
+      "notes": "4-line pipe-delimited output: daily burn rate|6, projected month-end spend|186, budget remaining|476, status|Under budget. Correct math (6x31=186, 500-24=476). ~6s latency. Clean structured output with minimal thinking chain. deepseek-v4-flash excels at deterministic computation with explicit format constraints."
     },
     {
       "cycle": 1,
@@ -705,7 +705,7 @@
       "passLatency": true,
       "candidateScore": 0.94,
       "recommendation": "head-to-head-candidate",
-      "notes": "3 bullets: Ship v2 model API to staging | GPU cluster quota stuck pending | Cut inference latency 40%. 15 words, direct ops tone, correct structure. ~8s latency (vs 13s in run1). Tighter prompt (under 40 words constraint) reduced thinking chain bloat while maintaining quality. kimi-k2.6 delivers 4.5 quality at 8s \u2014 best creative latency yet."
+      "notes": "3 bullets: Ship v2 model API to staging | GPU cluster quota stuck pending | Cut inference latency 40%. 15 words, direct ops tone, correct structure. ~8s latency (vs 13s in run1). Tighter prompt (under 40 words constraint) reduced thinking chain bloat while maintaining quality. kimi-k2.6 delivers 4.5 quality at 8s — best creative latency yet."
     },
     {
       "cycle": 1,
@@ -724,7 +724,7 @@
       "passLatency": true,
       "candidateScore": 0.94,
       "recommendation": "head-to-head-candidate",
-      "notes": "Root cause: Uncontrolled log growth filled disk, crashing cron (alerts) and backup; missed alerts let Ollama rate limit escalate unseen. 3 fix lines: disk monitoring/cleanup|Critical|Low, Ollama rate-limit alerts|High|Low, cron agent disk-health checks|High|Medium. ~10s latency. 28 words. Correct cascade analysis. deepseek-v4-pro:cloud handles incident RCA well when format is tightly specified \u2014 another reasoning sub-type passes both quality and latency."
+      "notes": "Root cause: Uncontrolled log growth filled disk, crashing cron (alerts) and backup; missed alerts let Ollama rate limit escalate unseen. 3 fix lines: disk monitoring/cleanup|Critical|Low, Ollama rate-limit alerts|High|Low, cron agent disk-health checks|High|Medium. ~10s latency. 28 words. Correct cascade analysis. deepseek-v4-pro:cloud handles incident RCA well when format is tightly specified — another reasoning sub-type passes both quality and latency."
     },
     {
       "cycle": 1,
@@ -750,7 +750,7 @@
       "phase": "A",
       "runAt": "2026-05-05T00:34:00Z",
       "taskCategory": "creative",
-      "cronName": "AKB Holocron \u2014 Daily Update (3AM)",
+      "cronName": "AKB Holocron — Daily Update (3AM)",
       "cronId": "dce1ada4-8012-4ab9-bd13-2da68ae0c9bb",
       "originalModel": "anthropic/claude-sonnet-4-6",
       "t2bModel": "kimi-k2.6:cloud",
@@ -769,7 +769,7 @@
       "phase": "A",
       "runAt": "2026-05-05T00:34:00Z",
       "taskCategory": "subtask",
-      "cronName": "Aria\u2192Ken Relay Queue Poller",
+      "cronName": "Aria->Ken Relay Queue Poller",
       "cronId": "7a28cc83-6e94-410d-92aa-1ba309d9891a",
       "originalModel": "anthropic/claude-haiku-4-5",
       "t2bModel": "deepseek-v4-flash:cloud",
@@ -781,7 +781,7 @@
       "passLatency": false,
       "candidateScore": 0.12,
       "recommendation": "keep-on-claude",
-      "notes": "SIGKILL at 30s. Thinking chain debated how to handle missing file vs command execution vs simulation \u2014 never reached output. Same failure mode as Health Check Summary run. deepseek-v4-flash cannot handle prompts with any decision ambiguity. Keep on Haiku for relay polling."
+      "notes": "SIGKILL at 30s. Thinking chain debated how to handle missing file vs command execution vs simulation — never reached output. Same failure mode as Health Check Summary run. deepseek-v4-flash cannot handle prompts with any decision ambiguity. Keep on Haiku for relay polling."
     },
     {
       "cycle": 1,
@@ -800,14 +800,14 @@
       "passLatency": true,
       "candidateScore": 0.94,
       "recommendation": "head-to-head-candidate",
-      "notes": "Output: VERSION_CHECK: new | type=minor | action=alert. Exact one-line format. Correctly identified minor upgrade (1.8.3\u21921.9.0), no security fix, not major. ~8s latency. deepseek-v4-flash handles deterministic comparison tasks well when no ambiguity exists. Note: qualityDelta +0.3 vs Haiku baseline (4.2) \u2014 T2b outperforms original on this subtask."
+      "notes": "Output: VERSION_CHECK: new | type=minor | action=alert. Exact one-line format. Correctly identified minor upgrade (1.8.3->1.9.0), no security fix, not major. ~8s latency. deepseek-v4-flash handles deterministic comparison tasks well when no ambiguity exists. Note: qualityDelta +0.3 vs Haiku baseline (4.2) — T2b outperforms original on this subtask."
     },
     {
       "cycle": 1,
       "phase": "A",
       "runAt": "2026-05-05T06:34:00+00:00",
       "taskCategory": "reasoning",
-      "cronName": "TRIGGER-12 \u2014 Allowlist Review (retry)",
+      "cronName": "TRIGGER-12 — Allowlist Review (retry)",
       "cronId": "6a059e9e-fffb-4651-97cb-19c864d747d6",
       "originalModel": "anthropic/claude-sonnet-4-6",
       "t2bModel": "deepseek-v4-pro:cloud",
@@ -819,7 +819,7 @@
       "passLatency": false,
       "candidateScore": 0.12,
       "recommendation": "keep-on-claude",
-      "notes": "TIMEOUT at 35s. Thinking chain obsessed over word counting \u2014 spent entire budget iterating token counts per row. Never reached final output. Same fatal pattern as Warden/Health Check: deepseek-v4-pro cannot handle open-ended list-gen tasks within time budget."
+      "notes": "TIMEOUT at 35s. Thinking chain obsessed over word counting — spent entire budget iterating token counts per row. Never reached final output. Same fatal pattern as Warden/Health Check: deepseek-v4-pro cannot handle open-ended list-gen tasks within time budget."
     },
     {
       "cycle": 1,
@@ -838,14 +838,14 @@
       "passLatency": false,
       "candidateScore": 0.54,
       "recommendation": "borderline",
-      "notes": "Clean 3-row RCA table: Gateway OOM (Critical), Ollama 503 (High), Cron stale PID (Medium). Correct root causes/fixes. 42 words, pipe-delimited, format compliant. Quality 4.5 excellent but latency 31.44s exceeds 20s. Thinking chain spent ~25s on word-count optimization \u2014 consistent deepseek-v4-pro pattern."
+      "notes": "Clean 3-row RCA table: Gateway OOM (Critical), Ollama 503 (High), Cron stale PID (Medium). Correct root causes/fixes. 42 words, pipe-delimited, format compliant. Quality 4.5 excellent but latency 31.44s exceeds 20s. Thinking chain spent ~25s on word-count optimization — consistent deepseek-v4-pro pattern."
     },
     {
       "cycle": 1,
       "phase": "A",
       "runAt": "2026-05-05T06:34:00+00:00",
       "taskCategory": "creative",
-      "cronName": "Spark LinkedIn W1P2 \u2014 v2 Ship Post",
+      "cronName": "Spark LinkedIn W1P2 — v2 Ship Post",
       "cronId": "8fdfab40-d163-44b7-b308-d92814e32bf6",
       "originalModel": "anthropic/claude-sonnet-4-6",
       "t2bModel": "kimi-k2.6:cloud",
@@ -876,7 +876,83 @@
       "passLatency": false,
       "candidateScore": 0.54,
       "recommendation": "borderline",
-      "notes": "5-row table + VERDICT: FAIL (postgres-dump.sql corrupt). Correct format, correct corrupt detection. Quality 4.5 but latency 24.42s exceeds 20s. Thinking chain debated word-token methodology ~18s. First pure-data-transcription run exceeding latency threshold \u2014 possible server congestion at peak 4:34PM AEST."
+      "notes": "5-row table + VERDICT: FAIL (postgres-dump.sql corrupt). Correct format, correct corrupt detection. Quality 4.5 but latency 24.42s exceeds 20s. Thinking chain debated word-token methodology ~18s. First pure-data-transcription run exceeding latency threshold — possible server congestion at peak 4:34PM AEST."
+    },
+    {
+      "cycle": 1,
+      "phase": "A",
+      "runAt": "2026-05-05T12:34:00Z",
+      "taskCategory": "reasoning",
+      "cronName": "Lex — Legal Review (retry 2)",
+      "cronId": "4ae7274d-71b8-4220-8f42-bec7c7ba5a1a",
+      "originalModel": "anthropic/claude-sonnet-4-6",
+      "t2bModel": "deepseek-v4-pro:cloud",
+      "qualityScore": 4.5,
+      "latencySeconds": 12.4,
+      "baselineScore": 4.8,
+      "qualityDelta": -0.3,
+      "passQuality": true,
+      "passLatency": true,
+      "candidateScore": 0.94,
+      "recommendation": "head-to-head-candidate",
+      "notes": "Clean 3-row table: unsolicited messages|High|opt-in consent, AI misrepresenting founder|Medium|disclaimer+review, personal data exposed via cloud AI|High|anonymize+DPA. 12.4s. Tight prompt eliminated prior 23s latency issue. deepseek-v4-pro handles legal review well with ultra-concise format."
+    },
+    {
+      "cycle": 1,
+      "phase": "A",
+      "runAt": "2026-05-05T12:34:00Z",
+      "taskCategory": "reasoning",
+      "cronName": "Mission Control — Systemic Risk Review",
+      "cronId": "mission-control-ci-001",
+      "originalModel": "anthropic/claude-sonnet-4-6",
+      "t2bModel": "deepseek-v4-pro:cloud",
+      "qualityScore": 4.5,
+      "latencySeconds": 9.1,
+      "baselineScore": 4.8,
+      "qualityDelta": -0.3,
+      "passQuality": true,
+      "passLatency": true,
+      "candidateScore": 0.94,
+      "recommendation": "head-to-head-candidate",
+      "notes": "3-row table: cascading cron overload|High|rate-limit+dead man switch, infinite routing loops/escalation|Critical|schema validation+allowlisting, unsupervised shell wipe/exfil|Critical|sandbox+whitelist+audit. 9.1s — fastest reasoning run yet. deepseek-v4-pro excels when format constraints are explicit and unambiguous."
+    },
+    {
+      "cycle": 1,
+      "phase": "A",
+      "runAt": "2026-05-05T12:34:00Z",
+      "taskCategory": "creative",
+      "cronName": "LinkedIn MDP — 24/7 Ops Post",
+      "cronId": "linkedin-mdp-ci-001",
+      "originalModel": "anthropic/claude-sonnet-4-6",
+      "t2bModel": "kimi-k2.6:cloud",
+      "qualityScore": 4.5,
+      "latencySeconds": 18.4,
+      "baselineScore": 4.8,
+      "qualityDelta": -0.3,
+      "passQuality": true,
+      "passLatency": true,
+      "candidateScore": 0.94,
+      "recommendation": "head-to-head-candidate",
+      "notes": "64 words, 3 paragraphs. Hook: 'turned off the pager and the lights stayed on.' Covers midnight deployments + morning reports before coffee. Para 2: goal was to end 3am scramble, quiet reliability > heroic firefighting. Question: 'first thing you'd hand off if systems could truly run themselves?' Authentic founder voice, no hashtags. 18.4s. kimi-k2.6 continues strong for creative when word budget constrained."
+    },
+    {
+      "cycle": 1,
+      "phase": "A",
+      "runAt": "2026-05-05T12:34:00Z",
+      "taskCategory": "subtask",
+      "cronName": "AInchors Gateway Health Check",
+      "cronId": "gateway-health-ci-001",
+      "originalModel": "anthropic/claude-sonnet-4-6",
+      "t2bModel": "deepseek-v4-flash:cloud",
+      "qualityScore": 1.0,
+      "latencySeconds": 30,
+      "baselineScore": 4.8,
+      "qualityDelta": -3.8,
+      "passQuality": false,
+      "passLatency": false,
+      "candidateScore": 0.12,
+      "recommendation": "keep-on-claude",
+      "notes": "SIGKILL at 30s. Thinking chain debated degraded/WARN semantics vs 'healthy' classification — never reached output. Same failure mode as Health Check Summary run + Aria Relay Poller. deepseek-v4-flash cannot handle any prompt with non-binary status semantics (healthy/degraded/down). Conclusive pattern across 4 failures now. Only works with fully deterministic, pre-computed data transcription tasks."
     }
   ]
 }
