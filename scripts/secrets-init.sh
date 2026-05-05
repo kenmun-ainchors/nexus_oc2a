@@ -45,7 +45,7 @@ case "$1" in
       echo "Usage: $0 get <service>"
       exit 1
     fi
-    VALUE=$(security find-generic-password -a "$ACCOUNT" -s "$SERVICE" -w 2>/dev/null)
+    VALUE=$(security find-generic-password -s "$SERVICE" -w 2>/dev/null)
     if [[ -z "$VALUE" ]]; then
       echo "❌ Not found: $SERVICE" >&2
       exit 1
@@ -57,7 +57,7 @@ case "$1" in
     echo "AInchors secrets in macOS Keychain (account: $ACCOUNT):"
     echo ""
     for SERVICE in "${EXPECTED_SECRETS[@]}"; do
-      VALUE=$(security find-generic-password -a "$ACCOUNT" -s "$SERVICE" -w 2>/dev/null)
+      VALUE=$(security find-generic-password -s "$SERVICE" -w 2>/dev/null)
       if [[ -n "$VALUE" ]]; then
         echo "  ✅ $SERVICE"
       else
@@ -70,7 +70,7 @@ case "$1" in
     # Source this to load secrets as env vars:
     # eval $(scripts/secrets-init.sh export)
     for SERVICE in "${EXPECTED_SECRETS[@]}"; do
-      VALUE=$(security find-generic-password -a "$ACCOUNT" -s "$SERVICE" -w 2>/dev/null)
+      VALUE=$(security find-generic-password -s "$SERVICE" -w 2>/dev/null)
       if [[ -n "$VALUE" ]]; then
         # Convert service name to env var: notion-api-key -> NOTION_API_KEY
         ENV_VAR=$(echo "$SERVICE" | tr '[:lower:]-' '[:upper:]_')
@@ -83,7 +83,7 @@ case "$1" in
     echo "Verifying AInchors secrets..."
     MISSING=0
     for SERVICE in "${EXPECTED_SECRETS[@]}"; do
-      VALUE=$(security find-generic-password -a "$ACCOUNT" -s "$SERVICE" -w 2>/dev/null)
+      VALUE=$(security find-generic-password -s "$SERVICE" -w 2>/dev/null)
       if [[ -z "$VALUE" ]]; then
         echo "  ❌ MISSING: $SERVICE"
         MISSING=$((MISSING + 1))

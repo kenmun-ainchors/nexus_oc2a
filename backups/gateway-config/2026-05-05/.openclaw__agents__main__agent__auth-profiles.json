@@ -1,0 +1,15 @@
+{
+  "version": 1,
+  "profiles": {
+    "anthropic:default": {
+      "type": "api_key",
+      "provider": "anthropic",
+      "key": "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"
+    },
+    "ollama:default": {
+      "type": "api_key",
+      "provider": "ollama",
+      "key": "ollama-local"
+    }
+  }
+}

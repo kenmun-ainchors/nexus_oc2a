@@ -1,29 +1,78 @@
 {
   "schema": "framework-audit-v1",
-  "lastRun": "2026-04-30T01:30:20.501087+00:00",
-  "checkDate": "2026-04-30",
-  "docsChecked": 3,
-  "gapsFound": 0,
-  "gaps": [],
+  "lastRun": "2026-05-05T10:54:58.323656+00:00",
+  "checkDate": "2026-05-05",
+  "docsChecked": 7,
+  "gapsFound": 4,
+  "gaps": [
+    {
+      "path": "/Users/ainchorsangiefpl/.openclaw/workspace/SOUL.md",
+      "exists": true,
+      "updatedToday": false,
+      "lastModified": "2026-05-04 17:29 AEST"
+    },
+    {
+      "path": "/Users/ainchorsangiefpl/.openclaw/workspace/state/model-policy.json",
+      "exists": true,
+      "updatedToday": false,
+      "lastModified": "2026-05-03 21:59 AEST"
+    },
+    {
+      "path": "SOUL.md",
+      "exists": true,
+      "updatedToday": false,
+      "lastModified": "2026-05-04 17:29 AEST"
+    },
+    {
+      "path": "state/framework-registry.json",
+      "exists": true,
+      "updatedToday": false,
+      "lastModified": "2026-04-30 11:28 AEST"
+    }
+  ],
   "checked": [
+    {
+      "path": "/Users/ainchorsangiefpl/.openclaw/workspace/MEMORY.md",
+      "exists": true,
+      "updatedToday": true,
+      "lastModified": "2026-05-05 20:52 AEST"
+    },
     {
       "path": "/Users/ainchorsangiefpl/.openclaw/workspace/RULES.md",
       "exists": true,
       "updatedToday": true,
-      "lastModified": "2026-04-30 11:30 AEST"
+      "lastModified": "2026-05-05 19:47 AEST"
+    },
+    {
+      "path": "/Users/ainchorsangiefpl/.openclaw/workspace/SOUL.md",
+      "exists": true,
+      "updatedToday": false,
+      "lastModified": "2026-05-04 17:29 AEST"
+    },
+    {
+      "path": "/Users/ainchorsangiefpl/.openclaw/workspace/state/model-policy.json",
+      "exists": true,
+      "updatedToday": false,
+      "lastModified": "2026-05-03 21:59 AEST"
     },
     {
       "path": "RULES.md",
       "exists": true,
       "updatedToday": true,
-      "lastModified": "2026-04-30 11:30 AEST"
+      "lastModified": "2026-05-05 19:47 AEST"
+    },
+    {
+      "path": "SOUL.md",
+      "exists": true,
+      "updatedToday": false,
+      "lastModified": "2026-05-04 17:29 AEST"
     },
     {
       "path": "state/framework-registry.json",
       "exists": true,
-      "updatedToday": true,
+      "updatedToday": false,
       "lastModified": "2026-04-30 11:28 AEST"
     }
   ],
-  "status": "clean"
+  "status": "gaps"
 }

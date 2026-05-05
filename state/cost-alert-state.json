@@ -1,7 +1,7 @@
 {
   "schema_version": "1.0",
   "description": "Tracks response counters and alert state for tiered credit alerts. Updated by Yoda at runtime.",
-  "currentBalance": 225.0,
+  "currentBalance": 309.11,
   "lastBalanceCheck": "2026-05-03T03:55:56.871560+00:00",
   "activeTier": 0,
   "tier1": {
@@ -102,14 +102,20 @@
       "sentAt": "2026-05-03T09:36:46.702063+00:00",
       "balanceEstimate": 495.26,
       "note": "Tiers reset. Top-up confirmed $495.26 AInchors account. 2026-05-03 19:36 AEST."
+    },
+    {
+      "tier": 0,
+      "sentAt": "2026-05-05T09:50:00Z",
+      "balanceEstimate": 309.11,
+      "note": "Tiers reset. Second $500 top-up confirmed. CSV reconciliation applied. Balance $309.11 confirmed by Ken."
     }
   ],
-  "balance": 225.0,
-  "confirmedAt": "2026-05-04T07:51:00.000000+00:00",
+  "balance": 309.11,
+  "confirmedAt": "2026-05-05T09:50:00Z",
   "confirmedBy": "Ken",
   "topUpNote": "Balance corrected to $225 USD by Ken 2026-05-04 17:51 AEST (webchat).",
-  "lastTopUpAt": "2026-05-03T03:55:56.871560+00:00",
-  "lastTopUpAmount": 98,
-  "lastUpdated": "2026-05-04T07:52:00.000000+00:00",
-  "lastUpdatedBy": "Yoda heartbeat sync \u2014 Ken confirmed $225 at 17:51 AEST"
+  "lastTopUpAt": "2026-05-05T09:50:00Z",
+  "lastTopUpAmount": 500,
+  "lastUpdated": "2026-05-05T09:50:00Z",
+  "lastUpdatedBy": "Ken confirmation + CSV reconciliation 2026-05-05 19:50 AEST"
 }

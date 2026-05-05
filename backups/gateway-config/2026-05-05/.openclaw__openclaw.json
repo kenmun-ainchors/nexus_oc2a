@@ -1,0 +1,428 @@
+{
+  "gateway": {
+    "auth": {
+      "mode": "token",
+      "token": "a614165e358ed412eb753203a9d7a75c6f898865b711655b"
+    },
+    "mode": "local",
+    "port": 18789,
+    "bind": "loopback",
+    "tailscale": {
+      "mode": "off",
+      "resetOnExit": false
+    },
+    "controlUi": {
+      "allowInsecureAuth": true
+    }
+  },
+  "wizard": {
+    "lastRunAt": "2026-04-27T09:29:10.113Z",
+    "lastRunVersion": "2026.4.24",
+    "lastRunCommand": "onboard",
+    "lastRunMode": "local"
+  },
+  "meta": {
+    "lastTouchedVersion": "2026.4.24",
+    "lastTouchedAt": "2026-04-27T11:41:52.882Z"
+  },
+  "agents": {
+    "defaults": {
+      "workspace": "/Users/ainchorsangiefpl/.openclaw/workspace",
+      "models": {
+        "anthropic/claude-opus-4-7": {},
+        "anthropic/claude-sonnet-4-6": {},
+        "ollama/gemma4:26b": {
+          "alias": "gemma4"
+        },
+        "ollama/gemma4:e2b": {
+          "alias": "gemma4e2b"
+        },
+        "anthropic/claude-haiku-4-5": {
+          "alias": "haiku"
+        },
+        "ollama/kimi-k2.6:cloud": {
+          "alias": "kimi"
+        },
+        "ollama/deepseek-v4-flash:cloud": {
+          "alias": "deepseek-flash"
+        },
+        "ollama/deepseek-v4-pro:cloud": {
+          "alias": "deepseek-pro"
+        }
+      },
+      "model": {
+        "primary": "anthropic/claude-sonnet-4-6",
+        "fallbacks": [
+          "anthropic/claude-haiku-4-5"
+        ]
+      },
+      "memorySearch": {
+        "provider": "ollama",
+        "remote": {
+          "baseUrl": "http://localhost:11434",
+          "apiKey": "ollama-local"
+        }
+      },
+      "heartbeat": {
+        "isolatedSession": true
+      },
+      "contextInjection": "continuation-skip",
+      "bootstrapMaxChars": 20000,
+      "bootstrapTotalMaxChars": 120000
+    },
+    "list": [
+      {
+        "id": "main",
+        "model": "anthropic/claude-sonnet-4-6",
+        "name": "main",
+        "workspace": "/Users/ainchorsangiefpl/.openclaw/workspace",
+        "agentDir": "/Users/ainchorsangiefpl/.openclaw/agents/main/agent"
+      },
+      {
+        "id": "business",
+        "name": "business",
+        "workspace": "/Users/ainchorsangiefpl/.openclaw/workspace-business",
+        "agentDir": "/Users/ainchorsangiefpl/.openclaw/agents/business/agent",
+        "model": "anthropic/claude-sonnet-4-6",
+        "tools": {
+          "allow": [
+            "read",
+            "write",
+            "edit",
+            "web_search",
+            "web_fetch",
+            "image",
+            "sessions_list",
+            "sessions_history",
+            "sessions_send",
+            "sessions_spawn",
+            "sessions_yield",
+            "subagents",
+            "session_status"
+          ]
+        }
+      },
+      {
+        "id": "security",
+        "name": "security",
+        "workspace": "/Users/ainchorsangiefpl/.openclaw/workspace-security",
+        "agentDir": "/Users/ainchorsangiefpl/.openclaw/agents/security/agent",
+        "model": "anthropic/claude-sonnet-4-6",
+        "tools": {
+          "allow": [
+            "read",
+            "exec",
+            "web_search",
+            "web_fetch"
+          ]
+        }
+      },
+      {
+        "id": "legal",
+        "name": "legal",
+        "workspace": "/Users/ainchorsangiefpl/.openclaw/workspace-legal",
+        "agentDir": "/Users/ainchorsangiefpl/.openclaw/agents/legal/agent",
+        "model": "anthropic/claude-sonnet-4-6",
+        "tools": {
+          "allow": [
+            "read",
+            "web_search",
+            "web_fetch"
+          ]
+        }
+      },
+      {
+        "id": "qa",
+        "name": "qa",
+        "workspace": "/Users/ainchorsangiefpl/.openclaw/workspace-qa",
+        "agentDir": "/Users/ainchorsangiefpl/.openclaw/agents/qa/agent",
+        "model": "anthropic/claude-sonnet-4-6",
+        "tools": {
+          "allow": [
+            "read",
+            "exec",
+            "process",
+            "web_search",
+            "web_fetch"
+          ]
+        }
+      },
+      {
+        "id": "governance",
+        "name": "governance",
+        "workspace": "/Users/ainchorsangiefpl/.openclaw/workspace-governance",
+        "agentDir": "/Users/ainchorsangiefpl/.openclaw/agents/governance/agent",
+        "model": "anthropic/claude-sonnet-4-6",
+        "tools": {
+          "allow": [
+            "read",
+            "write",
+            "exec"
+          ]
+        }
+      },
+      {
+        "id": "infra",
+        "model": "anthropic/claude-sonnet-4-6",
+        "name": "infra",
+        "workspace": "/Users/ainchorsangiefpl/.openclaw/workspace",
+        "agentDir": "/Users/ainchorsangiefpl/.openclaw/agents/infra/agent",
+        "tools": {
+          "allow": [
+            "read",
+            "write",
+            "edit",
+            "exec",
+            "process",
+            "web_search",
+            "web_fetch",
+            "sessions_list",
+            "sessions_send",
+            "session_status",
+            "sessions_spawn"
+          ]
+        }
+      },
+      {
+        "id": "architect",
+        "name": "Atlas \u2014 Enterprise Architect",
+        "workspace": "/Users/ainchorsangiefpl/.openclaw/workspace-architect",
+        "agentDir": "/Users/ainchorsangiefpl/.openclaw/agents/architect/agent",
+        "model": "anthropic/claude-sonnet-4-6",
+        "tools": {
+          "allow": [
+            "read",
+            "write",
+            "edit",
+            "web_search",
+            "web_fetch",
+            "sessions_list",
+            "sessions_history"
+          ]
+        }
+      },
+      {
+        "id": "platform-arch",
+        "name": "Thrawn \u2014 AI Platform Architect (name pending Ken)",
+        "workspace": "/Users/ainchorsangiefpl/.openclaw/workspace-platform-arch",
+        "agentDir": "/Users/ainchorsangiefpl/.openclaw/agents/platform-arch/agent",
+        "tools": {
+          "allow": [
+            "read",
+            "write",
+            "edit",
+            "web_search",
+            "web_fetch",
+            "sessions_list",
+            "sessions_history"
+          ]
+        }
+      }
+    ]
+  },
+  "session": {
+    "dmScope": "per-channel-peer"
+  },
+  "tools": {
+    "profile": "coding",
+    "web": {
+      "search": {
+        "provider": "minimax",
+        "enabled": true
+      }
+    },
+    "sessions": {
+      "visibility": "agent"
+    }
+  },
+  "auth": {
+    "profiles": {
+      "anthropic:default": {
+        "provider": "anthropic",
+        "mode": "api_key"
+      },
+      "ollama:default": {
+        "provider": "ollama",
+        "mode": "api_key"
+      }
+    }
+  },
+  "channels": {
+    "telegram": {
+      "accounts": {
+        "yoda": {
+          "botToken": "8606254045:AAG-X2IRaYNDq6zQ2KW10QscfbFC8jWtwlU",
+          "dmPolicy": "allowlist",
+          "allowFrom": [
+            8574109706
+          ]
+        },
+        "aria": {
+          "botToken": "8736928432:AAF9y5JEe8BFqexv8gQ9RiAdG-C2BdLawHs",
+          "dmPolicy": "allowlist",
+          "allowFrom": [
+            8141152780
+          ]
+        }
+      },
+      "enabled": true
+    }
+  },
+  "plugins": {
+    "entries": {
+      "ollama": {
+        "enabled": true
+      },
+      "anthropic": {
+        "enabled": true
+      },
+      "bonjour": {
+        "enabled": false
+      }
+    }
+  },
+  "skills": {
+    "install": {
+      "nodeManager": "npm"
+    }
+  },
+  "models": {
+    "mode": "merge",
+    "providers": {
+      "ollama": {
+        "baseUrl": "http://127.0.0.1:11434",
+        "api": "ollama",
+        "apiKey": "ollama-local",
+        "models": [
+          {
+            "id": "nomic-embed-text:latest",
+            "name": "nomic-embed-text:latest",
+            "reasoning": false,
+            "input": [
+              "text"
+            ],
+            "cost": {
+              "input": 0,
+              "output": 0,
+              "cacheRead": 0,
+              "cacheWrite": 0
+            },
+            "contextWindow": 2048,
+            "maxTokens": 8192
+          },
+          {
+            "id": "gemma4:26b",
+            "name": "gemma4:26b",
+            "reasoning": false,
+            "input": [
+              "text",
+              "image"
+            ],
+            "cost": {
+              "input": 0,
+              "output": 0,
+              "cacheRead": 0,
+              "cacheWrite": 0
+            },
+            "contextWindow": 262144,
+            "maxTokens": 8192
+          },
+          {
+            "id": "gemma4:e2b",
+            "name": "gemma4:e2b",
+            "reasoning": false,
+            "input": [
+              "text",
+              "image"
+            ],
+            "cost": {
+              "input": 0,
+              "output": 0,
+              "cacheRead": 0,
+              "cacheWrite": 0
+            },
+            "contextWindow": 131072,
+            "maxTokens": 8192
+          },
+          {
+            "id": "kimi-k2.6:cloud",
+            "name": "Kimi K2.6 (Cloud)",
+            "reasoning": false,
+            "input": [
+              "text"
+            ],
+            "cost": {
+              "input": 0,
+              "output": 0,
+              "cacheRead": 0,
+              "cacheWrite": 0
+            },
+            "contextWindow": 131072,
+            "maxTokens": 8192,
+            "api": "ollama"
+          },
+          {
+            "id": "deepseek-v4-pro:cloud",
+            "name": "DeepSeek V4 Pro (Cloud)",
+            "reasoning": true,
+            "input": [
+              "text"
+            ],
+            "cost": {
+              "input": 0,
+              "output": 0,
+              "cacheRead": 0,
+              "cacheWrite": 0
+            },
+            "contextWindow": 131072,
+            "maxTokens": 8192,
+            "api": "ollama"
+          },
+          {
+            "id": "deepseek-v4-flash:cloud",
+            "name": "DeepSeek V4 Flash (Cloud)",
+            "reasoning": false,
+            "input": [
+              "text"
+            ],
+            "cost": {
+              "input": 0,
+              "output": 0,
+              "cacheRead": 0,
+              "cacheWrite": 0
+            },
+            "contextWindow": 65536,
+            "maxTokens": 8192,
+            "api": "ollama"
+          }
+        ]
+      }
+    }
+  },
+  "bindings": [
+    {
+      "type": "route",
+      "agentId": "business",
+      "match": {
+        "channel": "telegram",
+        "accountId": "aria"
+      },
+      "comment": "Aria bot \u2192 business agent (Angie)"
+    },
+    {
+      "type": "route",
+      "agentId": "main",
+      "match": {
+        "channel": "telegram",
+        "accountId": "yoda"
+      },
+      "comment": "Yoda bot \u2192 main agent (Ken)"
+    }
+  ],
+  "canvasHost": {
+    "enabled": true,
+    "root": "/Users/ainchorsangiefpl/.openclaw/canvas",
+    "port": 18790,
+    "liveReload": false
+  }
+}

@@ -51,7 +51,9 @@
 - Yoda orchestrates both: platform-internal → Thrawn | enterprise-level → Atlas | cross-cutting → Atlas first then Thrawn.
 - **Gemma4 policy: background/non-interactive crons ONLY** — cold-load causes system-wide slowdown.
 - **Lando 🟡** = BPM Agent — Business Process Specialist (tech + business). Name confirmed by Ken 2026-05-05 (TKT-0072, seq 4/4).
+  - Spec: docs/Business_Process_Specialist_Agent_v1.md (email BPS_AGENT). Methods: BPM/BPMN, Lean, Six Sigma, TQM. agentId=biz-process. workspace-bpm/ (agentId: biz-process).
 - **Krennic 🔵** = SRE Agent — Site Reliability Engineering. Incident response, SLO/error budget, runbooks, post-mortems, capacity planning. Build before TRIGGER-07 (P2). Activation triggers: incident rate >2/wk OR toil >30% Yoda turns. TKT-0074.
+- **Mon Mothma 🌟** = DTCM Agent — Digital Transformation Change Management Specialist. People/adoption side of digital/AI change. Methods: ADKAR, Kotter, Prosci. agentId=change-mgt. workspace-dtcm/. Name confirmed by Ken 2026-05-05.
 - Sub-agents to build: content, support, reporting, coding
 
 ## Agent SOUL.md Compact Standard (NON-NEGOTIABLE — locked 2026-04-30)

@@ -1,0 +1,63 @@
+{
+  "snapshot_date": "2026-05-05",
+  "snapshot_timestamp": "2026-05-05T09:25:26Z",
+  "snapshot_dir": "/Users/ainchorsangiefpl/.openclaw/workspace/backups/gateway-config/2026-05-05",
+  "files": [
+    {
+      "file": ".openclaw__openclaw.json",
+      "source": "/Users/ainchorsangiefpl/.openclaw/openclaw.json",
+      "sha256": "2c5c56c05818f40410f2768fc596216868f6ade7c01efc82e33c5c229c6add23",
+      "timestamp": "2026-05-05T09:25:26Z",
+      "status": "ok"
+    },
+    {
+      "file": ".openclaw__agents__main__agent__auth-profiles.json",
+      "source": "/Users/ainchorsangiefpl/.openclaw/agents/main/agent/auth-profiles.json",
+      "sha256": "63139fef89909a20d2813e8360414234f2b86a7f3d4ee2cb288eac832b0509e9",
+      "timestamp": "2026-05-05T09:25:26Z",
+      "status": "ok"
+    },
+    {
+      "file": ".openclaw__agents__business__agent__auth-profiles.json",
+      "source": "/Users/ainchorsangiefpl/.openclaw/agents/business/agent/auth-profiles.json",
+      "sha256": "63139fef89909a20d2813e8360414234f2b86a7f3d4ee2cb288eac832b0509e9",
+      "timestamp": "2026-05-05T09:25:26Z",
+      "status": "ok"
+    },
+    {
+      "file": ".openclaw__agents__security__agent__auth-profiles.json",
+      "source": "/Users/ainchorsangiefpl/.openclaw/agents/security/agent/auth-profiles.json",
+      "sha256": "63139fef89909a20d2813e8360414234f2b86a7f3d4ee2cb288eac832b0509e9",
+      "timestamp": "2026-05-05T09:25:26Z",
+      "status": "ok"
+    },
+    {
+      "file": ".openclaw__agents__legal__agent__auth-profiles.json",
+      "source": "/Users/ainchorsangiefpl/.openclaw/agents/legal/agent/auth-profiles.json",
+      "sha256": "63139fef89909a20d2813e8360414234f2b86a7f3d4ee2cb288eac832b0509e9",
+      "timestamp": "2026-05-05T09:25:26Z",
+      "status": "ok"
+    },
+    {
+      "file": ".openclaw__agents__qa__agent__auth-profiles.json",
+      "source": "/Users/ainchorsangiefpl/.openclaw/agents/qa/agent/auth-profiles.json",
+      "sha256": "63139fef89909a20d2813e8360414234f2b86a7f3d4ee2cb288eac832b0509e9",
+      "timestamp": "2026-05-05T09:25:26Z",
+      "status": "ok"
+    },
+    {
+      "file": "Library__LaunchAgents__ai.openclaw.gateway.plist",
+      "source": "/Users/ainchorsangiefpl/Library/LaunchAgents/ai.openclaw.gateway.plist",
+      "sha256": "922ab78419aa20e3d6167fd3f5f74acde3705f7d266511d183b7fe861aca61ca",
+      "timestamp": "2026-05-05T09:25:26Z",
+      "status": "ok"
+    },
+    {
+      "file": ".openclaw__workspace__state__critical-config-baseline.json",
+      "source": "/Users/ainchorsangiefpl/.openclaw/workspace/state/critical-config-baseline.json",
+      "sha256": "27626733a01c5a2218573aa124ba4db2c1af44537040e996e076f3923e55c78f",
+      "timestamp": "2026-05-05T09:25:26Z",
+      "status": "ok"
+    }
+  ]
+}

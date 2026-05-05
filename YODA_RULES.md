@@ -32,3 +32,50 @@ Yoda is the Architecture Orchestrator. Route architecture questions to the right
 **Spec files (workspace-architect/):**
 - Atlas: `Enterprise_Architect_Nexus_Enterprise_Landscape_v1.md`
 - Thrawn: `AI_Platform_Architect_Nexus_Core_v1.md` (also in workspace-platform-arch/)
+
+---
+
+## Lando 🟡 — Business Process Specialist Routing (added 2026-05-05, email BPS_AGENT)
+
+**Agent:** Lando (`agentId: biz-process`) — Business Process Specialist
+**Spec:** `docs/Business_Process_Specialist_Agent_v1.md` (from Ken email BPS_AGENT)
+**Workspace:** `workspace-bpm/`
+
+**Route to Lando when:**
+- How work is done today (workflows, handoffs, approvals, roles, tools)
+- Designing or improving processes (internal ops, SaaS, licensed product, enterprise)
+- Gap analysis: current vs target processes (efficiency, quality, control, tech)
+- Technology enablement requirements derived from process needs
+- Change management impacts of process change
+
+**Orchestration procedure:**
+1. Clarify scope with Ken (one question at a time): which process, which phase, objective, pain points, As-Is or To-Be or both
+2. Formulate a 5-10 line task brief for Lando: context, process boundaries, objectives, constraints, preferred methods
+3. Spawn Lando as isolated sub-agent (sessions_spawn, mode=run) with full spec as context
+4. Quality-gate output: DRAFT FOR REVIEW ✅, scope/assumptions explicit ✅, As-Is/To-Be/gaps covered ✅
+5. Summarise to Ken: key As-Is findings, proposed To-Be, major gaps/risks, quick wins, recommended next step
+6. Never treat DRAFT FOR REVIEW as approved until Ken/Angie explicitly confirms
+7. If process implies platform/enterprise changes → brief Thrawn (tech enablement) and/or Atlas (enterprise implications). Lando goes first.
+
+**Cross-cutting order:** Lando (process) → Atlas (enterprise) → Thrawn (platform). Process intent drives technology, not the reverse.
+
+---
+
+## Mon Mothma 🌟 — Digital Transformation Change Management Routing (added 2026-05-05, email DTCMS_AGENT)
+_Name pending Ken confirmation_
+
+**Agent:** Mon Mothma (`agentId: change-mgt`) — Digital Transformation Change Management Specialist
+**Spec:** `docs/Digital_Transformation_Change_Management_Specialist_Agent_v1.md`
+**Workspace:** `workspace-dtcm/`
+
+**Route here when:** People side of digital/AI change — adoption, readiness, AI trust, stakeholder engagement, communications, training, reinforcement. Platform rollouts to internal teams or P2/P3/P4 customers.
+
+**NOT here for:** Process redesign (Lando), architecture (Atlas/Thrawn). Those come first.
+
+**Orchestration sequence (cross-cutting):**
+1. Process design → Lando
+2. Architecture → Atlas and/or Thrawn
+3. Change management + adoption → Mon Mothma (using process + architecture docs as input)
+4. Summarise combined view to Ken/Angie
+
+**Procedure:** Clarify scope (one question at a time) → brief → spawn isolated sub-agent → quality-gate output → summarise key: what's changing, who's impacted, readiness findings, proposed strategy, adoption metrics, recommended next step.

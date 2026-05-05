@@ -42,6 +42,74 @@ This log captures **every change** Yoda makes to AInchors infrastructure, config
 **Linked:** decisions.md 2026-04-27 entries
 ---
 
+## 2026-05-05 20:52 AEST — [CHG-0188] Agent ID + label updates: bpm→biz-process, dtcm→change-mgt. Names standardised.
+**Type:** config
+**Source:** ken-prompt
+**Trigger:** Ken 2026-05-05 20:51 AEST
+**What changed:** openclaw.json: bpm→biz-process (Lando), dtcm→change-mgt (Mon Mothma). agentDirs renamed. YODA_RULES.md: IDs + labels updated. MEMORY.md: agentId refs updated. No gateway restart — config hot-applied.
+**Why:** Ken: cleaner agentId naming. BPM→Business Process, DTCM→change-mgt.
+**Verification:** 11 agents listed. IDs biz-process + change-mgt confirmed.
+**Rollback:** N/A
+**Linked:** none
+**Category:** agent-architecture
+**Framework docs:** ~/.openclaw/workspace/MEMORY.md, ~/Documents/AInchors/Agents/ModelStrategy.md
+---
+
+
+## 2026-05-05 20:07 AEST — [CHG-0187] AI governance gap analysis vs external LLM governance framework — 3 actions raised
+**Type:** doc
+**Source:** ken-prompt
+**Trigger:** Ken reviewed external AI LLM governance MD 2026-05-05 20:06 AEST
+**What changed:** TKT-0075: Audit Log Architecture Beacon v2 (P2 blocker — unified audit spine, trace ID, tool-call logging). TKT-0070 updated: quarterly risk assessment cadence + structured decision log format + HITL threshold table added to scope. TKT-0076: Governance Framework v1.1 (S4 resolved, HITL thresholds, gateway PII control as P2 gate).
+**Why:** Gap analysis identified logging architecture and structured audit trail as highest-priority P2 blockers.
+**Verification:** TKT-0075, TKT-0076 created. TKT-0070 updated. All synced to Notion.
+**Rollback:** N/A
+**Linked:** none
+**Category:** governance
+**Framework docs:** ~/Documents/AInchors/Agents/ModelStrategy.md, ~/.openclaw/workspace/state/model-policy.json
+---
+
+
+## 2026-05-05 20:00 AEST — [CHG-0186] Cost tracker reconciled from Anthropic CSV. Balance .11. Second $500 top-up.
+**Type:** data
+**Source:** ken-prompt
+**Trigger:** Ken provided CSV + confirmed balance 2026-05-05 19:50 AEST
+**What changed:** cost-state.json: May3 →, May4 →, May5 partial  (CSV), balance .11. cost-alert-state.json: tiers reset, balance .11. All-time total now ,640.58. Root cause of gaps: cache_write_5m not in session logs (May4 alone: +$140 gap).
+**Why:** Session-log estimates miss cache_write_5m charges — CSV is ground truth.
+**Verification:** cost-state.json updated. Tiers reset. Ken confirmed balance.
+**Rollback:** N/A
+**Linked:** none
+**Category:** observability
+**Framework docs:** ~/.openclaw/workspace/RULES.md
+---
+
+
+## 2026-05-05 19:47 AEST — [CHG-0185] v2026.5.4 post-update: doctor --fix run, stabcheck updated, allowInsecureAuth disabled
+**Type:** infra
+**Source:** ken-prompt
+**Trigger:** Ken /shakedown + 5.4 feature review 2026-05-05 19:46 AEST
+**What changed:** openclaw doctor --fix: sandbox registry migrated to per-runtime shards. RULES.md /stabcheck: openclaw models auth list added to step 10. allowInsecureAuth=false (applied earlier). All automatic 5.4 benefits active: prompt-cache restored, tool allowlist fix, DeepSeek V4 fix, gateway perf.
+**Why:** 5.4 post-update hardening. Doctor --fix required manual trigger for sandbox registry migration.
+**Verification:** doctor exit 0. Gateway healthy.
+**Rollback:** N/A
+**Linked:** none
+**Category:** infra
+---
+
+
+## 2026-05-05 19:40 AEST — [CHG-0184] TRIGGER-04: OpenClaw updated v2026.5.2 → v2026.5.4. PVT 10/10 PASS.
+**Type:** infra
+**Source:** ken-prompt
+**Trigger:** Ken approved GO 5.4 at 19:26 AEST. /shakedown at 19:36 AEST.
+**What changed:** openclaw updated via npm install -g openclaw@2026.5.4. Gateway restarted. PVT 10/10 PASS. Bonus fix: secrets-init.sh verify account mismatch resolved (ainchors vs anthropic). plugin-runtime-deps dir recreating (warn only — expected post-update).
+**Why:** TRIGGER-04: routine update, no CVE. v2026.5.4 is latest stable.
+**Verification:** openclaw --version: 2026.5.4 (325df3e). PVT 10/10 PASS.
+**Rollback:** N/A
+**Linked:** none
+**Category:** infra
+---
+
+
 ## 2026-05-05 19:23 AEST — [CHG-0183] Krennic 🔵 confirmed — SRE Agent (TKT-0074). AInchors naming principle locked.
 **Type:** agent
 **Source:** ken-prompt

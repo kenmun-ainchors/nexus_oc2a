@@ -1345,6 +1345,7 @@ _Locked 2026-04-28. Ken: "continue to provide this trigger and what I need to kn
 7. `df -h /` — disk space
 8. If zombie tasks found: cancel them with `openclaw tasks cancel <taskId>`
 9. If event loop saturated OR zombies existed: `openclaw gateway restart`
-10. Report: what was found, what was fixed, current state
+10. `openclaw models auth list` — verify per-agent auth profiles intact
+11. Report: what was found, what was fixed, current state
 
 **Auto-remediate:** Cancel zombies. Restart gateway if loop was saturated. Log CHG.
