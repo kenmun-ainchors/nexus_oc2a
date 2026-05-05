@@ -86,12 +86,14 @@
       "note": "obs-collector-state.json is 12min old. Observability collector may not be running. ITIL-4 breach.",
       "detectedAt": "2026-05-02T03:07:41+10:00",
       "id": "DRIFT-20260501170741-itil_obs-freshness",
-      "status": "unresolved",
+      "status": "resolved",
       "escalatedToYoda": true,
       "lastReEscalatedAt": "2026-05-03T00:03:48+10:00",
-      "reEscalationReason": "Still unresolved + script syntax error blocks automated recovery"
+      "reEscalationReason": "Still unresolved + script syntax error blocks automated recovery",
+      "resolvedAt": "2026-05-05T17:47:56.037246+10:00",
+      "resolvedNote": "obs-collector-state.json confirmed fresh (5.5 min age at 2026-05-05T17:47:56.037246+10:00). Collector running normally. Auto-resolved by Warden heartbeat."
     }
   ],
-  "totalUnresolved": 1,
-  "lastUpdated": "2026-05-03T00:03:48+10:00"
+  "totalUnresolved": 0,
+  "lastUpdated": "2026-05-05T17:47:56.037246+10:00"
 }

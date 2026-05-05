@@ -29,7 +29,7 @@
   - Post-OC2 role: lightweight relay node, ITSM/obs/cost-tracking, Tier 0/1 only.
 - **OC2-A** — Mac Mini M4 Pro 48GB — INCOMING (ETA: July 2026). HA Primary. Local inference primary.
 - **OC2-B** — Mac Mini M4 Pro 48GB — INCOMING (ETA: July 2026). HA Secondary, hot standby.
-- Supporting: Tailscale mesh, NAS (shared model weights + state), Obsidian vault (shared KB across all nodes)
+- Supporting: Tailscale mesh, NAS (shared model weights + state). Obsidian vault RETIRED (migration complete 2026-05-04).
 - Platform: OpenClaw confirmed for P1 and P2. Final decision. No replatforming.
 - Telegram: Ken's secondary channel (urgent/offline)
 
@@ -41,13 +41,18 @@
 - **Spark ✨** = Social & Digital Marketing Agent. Model: kimi-k2.6:cloud. Workspace: workspace-social/. Managed by Yoda.
   - Scope: ALL social platforms + digital marketing — strategy, campaigns, content, execution across LinkedIn, Instagram, Facebook, X, and future channels (Ken personal + AInchors brand). Replaces planned "Social (full API)" agent slot.
   - Ken approves: his personal content. Angie approves: AInchors brand content.
-  - Crons: Tue 7:30am / Wed 12:00pm / Thu 7:30am AEST (IDs: e7ebaf61, bef42235)
+  - Generation crons: e7ebaf61 = Tue+Thu 7:30am AEST (one cron, days 2+4) | bef42235 = Wed 12:00pm AEST
   - 30-day review cron: 2026-06-02 (ID: 316df676)
   - State: state/linkedin-queue.json + state/linkedin-content-tracker.json
   - Governance: content-governance-review.sh (Shield→Lex→Sage triad). Ken approves via Telegram before posting.
-  - First run: 2026-05-06 07:30 AEST. CHG-0130. TKT-0038.
+  - First run: 2026-05-05 07:30 AEST ✅ completed. CHG-0130. TKT-0038.
+- **Atlas 🏛️** = Enterprise Architect (agentId: architect). TOGAF B/D/A/T, P1–P4 roadmap, integration strategy, security zones, regulatory. SOUL.md v2.1 (2,088 chars ✅).
+- **Thrawn** (name TBC) = AI Platform Architect — Nexus Core (agentId: platform-arch). Agent orchestration, model strategy, S1–S7 implementation, observability. SOUL.md v1.0 (2,470 chars ✅).
+- Yoda orchestrates both: platform-internal → Thrawn | enterprise-level → Atlas | cross-cutting → Atlas first then Thrawn.
 - **Gemma4 policy: background/non-interactive crons ONLY** — cold-load causes system-wide slowdown.
-- Sub-agents to build: content, support, marketing, reporting, coding
+- **Lando 🟡** = BPM Agent — Business Process Specialist (tech + business). Name confirmed by Ken 2026-05-05 (TKT-0072, seq 4/4).
+- **Krennic 🔵** = SRE Agent — Site Reliability Engineering. Incident response, SLO/error budget, runbooks, post-mortems, capacity planning. Build before TRIGGER-07 (P2). Activation triggers: incident rate >2/wk OR toil >30% Yoda turns. TKT-0074.
+- Sub-agents to build: content, support, reporting, coding
 
 ## Agent SOUL.md Compact Standard (NON-NEGOTIABLE — locked 2026-04-30)
 - **Rule:** Every agent SOUL.md must be under 5,000 chars. Hard limit: 10,000 chars (OpenClaw truncation threshold).
@@ -67,6 +72,7 @@
   - State: `state/model-drift-state.json`, `state/model-drift-violations.json`
   - Escalation: writes `state/warden-escalation-pending.json` → Yoda heartbeat picks up + remediates
   - Cron: every 15 min, isolated agentTurn (cron id: 83accf7b), model: gemma4:e2b (CHG-0096)
+  - Monitors all 9 agents (main, business, security, legal, qa, governance, infra, architect, platform-arch)
   - Policy registry: `state/model-policy.json` (per-agent allowed/required/prohibited models)
 
 ## Key Scripts & Infrastructure
@@ -102,22 +108,21 @@ All modules and functions within the Nexus platform use Star Wars themed names.
 | Governance vault | **The Sanctum** | Sacred protected space — Shield/Lex/Sage triad. |
 | Reporting / Dashboards | **Datapad** | Standard Star Wars data terminal. |
 
-**Rule:** When naming new Nexus modules or functions, propose a Star Wars themed name first. Ken approves.
-**Proposal status:** Names above are locked proposals. Each is reviewed and confirmed by Ken when the corresponding work kicks off — not before. Do not use as final names until confirmed at kickoff.
+**Rule:** When naming new Nexus modules or functions, use Star Wars themed names. Ken approves new ones.
+**Status: LOCKED ✅** — Confirmed by Ken + Angie (2026-05-05). All names above are final. Use them. No further approval needed at kickoff.
 
 ## Architecture Decision — Knowledge Base (2026-05-03, Ken)
-- **Obsidian: RETIRE** — migrate all content to Notion. Obsidian out entirely.
-- **Notion: Single KB** — restructure + cleanup required. Only AKB Backlog currently has live data. All other Notion pages stale/orphaned/unused.
-- **Sequence (TKT-0042):** (1) Audit + archive stale Notion pages → (2) Design clean Notion structure → (3) Migrate Obsidian content → (4) Redirect AKB cron from Obsidian to Notion → (5) Remove Obsidian from all agent workflows
-- AKB daily update cron must be rewritten to write to Notion only (not Obsidian) after migration
+- **Obsidian: RETIRED** ✅ — All 5 phases complete (TKT-0042 closed 2026-05-05). 38 pages migrated. Vault decommissioned.
+- **Notion: Single KB** — Holocron structure live. AKB daily cron writes Notion-only.
 
 ## Open Items
 - ken@ainchors.com alias → kenmun@ainchors.com (gog working ✅ — alias setup status unknown)
-- Project management tool: **Notion AKB Backlog = single source of truth for US/TKT/CHG (enforced 2026-05-03)**. ticket.sh and changelog-append.sh auto-sync to Notion on every write. DB ID (create): `34dc1829-53ff-814b-8257-d3a3bf351d44`. DB ID (query): `34dc182953ff812d8e43000b83eb0e7e` (via `/v1/data_sources/` endpoint).
-- Social media accounts not yet connected (Instagram → Facebook → LinkedIn)
+- **Notion AKB Backlog** = single source of truth. DB ID (create): `34dc1829-53ff-814b-8257-d3a3bf351d44`. DB ID (query): `34dc182953ff812d8e43000b83eb0e7e`.
+- LinkedIn ✅ connected. Instagram/Facebook/X not yet connected.
 - Tailscale remote access: deferred
-- S4 (agent tool scopes): all agents have tools=null — define explicit scopes before TRIGGER-07 (first P2 client)
-- Agent team to be designed and built
+- S4 ✅ DONE — per-agent tool scopes applied (CHG-0176, 2026-05-05)
+- Agent team design + build: US raised (see Notion Backlog). Needs Atlas + Thrawn architecture input before build.
+- **OpenClaw update pending:** v2026.5.2 installed → v2026.5.3 available (routine, no CVE). Update when convenient.
 
 ## TRIGGER-12 — Allowlist Auto-Sync (live, 2026-05-03)
 - **What:** Auto-syncs all agent `allowedInCrons` when CI Cycle B approves models OR model-policy.json tierStrategy changes.
@@ -130,10 +135,9 @@ All modules and functions within the Nexus platform use Star Wars themed names.
 ## Active Backlog (Notion source of truth)
 - US19: HA Design (reliability, High priority)
 - US39: Preventable Downtime Enforcement (future sprint)
-- gog for Angie: ✅ RESOLVED — angie.foong@ainchors.com OAuth working (verified 2026-05-01)
 - CAMP-0001 (Mont Kiara Apr 30 class): no debrief from Angie yet
 - OC2 arrival (ETA July 2026) → fires TRIGGER-01 setup sequence
-- Ollama Cloud PoC: **COMPLETE + EXTENDED** ✅ (2026-05-02). kimi-k2.6:cloud PASSED (Q=4.6/5, L=6.8s). deepseek-v4-flash:cloud PASSED (Q=4.2/5, L=12.6s). deepseek-v4-pro:cloud PASSED (Q=4.6/5, L=18.4s). All 3 added as Tier 2 models (CHG-0120, CHG-0123). Estimated monthly saving: $690–1,755/mo. glm-5.1:cloud FAILED. qwen3.5:cloud FAILED. Only non-sensitive (low data_sensitivity) tasks eligible. Routing guidance: kimi=fastest/creative, deepseek-flash=fast subtasks, deepseek-pro=complex code/reasoning.
+- Ollama Cloud PoC: ✅ COMPLETE. kimi/deepseek-flash/deepseek-pro Tier 2. Full report: state/ollama-cloud-poc-report.md
 
 ## Blog Post Ideas (Ken-originated, do not write until Ken signals ready)
 - **"Building observability for an Agentic AI platform"** (Apr 30, medium priority) — Status: idea only
@@ -144,8 +148,8 @@ All modules and functions within the Nexus platform use Star Wars themed names.
 - Tier 2: Ollama Cloud (kimi-k2.6 / qwen3.5 / glm-5.1) — $100/mo flat — AInchors own ops only (NEVER client data)
 - Tier 3: Claude Sonnet 4.6 — pay-per-token — FALLBACK ONLY
 - Data sovereignty: DS-1 to DS-5 enforced by Warden. Client data = Tier 0/1 local ONLY.
-- CURRENT state (pre-OC2, pre-PoC): all agents on Sonnet. Existing routing unchanged until PoC results.
-- PoC: Ollama Cloud free-tier PoC to run after AKB + S1-S7 audit. Ken decision gate before any model changes.
+- CURRENT state (pre-OC2, post-PoC): Sonnet primary + Ollama Cloud Tier 2 active (kimi-k2.6, deepseek-flash, deepseek-pro). Full 4-tier pending OC2 arrival (July 2026).
+- PoC: ✅ COMPLETE (TRIGGER-05 fired 2026-05-02). Ken decision gate passed. Full rollout at OC2.
 
 ## Security Controls (S1–S7) — from Ken brief May 2026
 - S1: OpenClaw version ≥ v2026.1.29 (CVE-2026-25253 patched). Daily Warden check.
@@ -168,90 +172,11 @@ All modules and functions within the Nexus platform use Star Wars themed names.
 - TRIGGER-09: Warden model drift detected → Yoda remediates within 1 heartbeat
 - TRIGGER-10: Business stream ready → migrate Aria + agents from OC1 to OC2
 
-## Day 7 Context (2026-05-01)
-- CHG-0095: obs-collector session_stuck dedup fixed (183→0 events/24h); standup Telegram 3,500-char guard
-- CHG-0096: US42 complete — Ollama routing confirmed, Warden on gemma4:e2b
-- CHG-0097: Balance corrected to $115 (pre-top-up actual was $18; tracker showed ~$103)
-- CHG-0098: cost-tracker.sh bug fixed — remainingEstimate now auto-decrements daily from confirmedBalance
-- CHG-0099: 8 AKB entries created (AKB-PLATFORM-001–008). S1-S7 audit: 6 PASS / 1 WARN (S4) / 0 FAIL
-- CHG-0100/101/102: TRIGGER-08 in cost-tracker, TRIGGER-04/06 release cron, HEARTBEAT trigger monitoring
-- CHG-0107: bootstrapMaxChars 10k→20k (fix MEMORY.md truncation)
-- Balance: $115.00 USD (top-up 19:04 AEST). All-time: $828.27 USD over 7 days.
-
-## Day 10 Context (2026-05-04) — Live
-- TKT-0051–0059 raised and groomed (Nexus Foundation + Spark/LinkedIn fixes)
-- Atlas 🏛️ (Architect Agent) instantiated — workspace + SOUL.md + registered in openclaw.json
-- TKT-0059 closed — approval gate added to all W1P crons, linkedin-queue.json created
-- Week 1 LinkedIn posts revised + approved (Posts 2 & 3 rewritten for big picture/theme setup)
-- LinkedIn theme roadmap locked — 6 cycles, AIOps first (CHG-0161)
-- CHG-0162 logged
-- Spark ⛔ PAUSE MODE — 4 proposals ready in workspace-social/proposals/, awaiting Ken review
-- W1P1 fires tonight 7:30pm → posts Tue 7:30am AEST
-- Notion backlog cleaned — 100 items tidied, duplicates archived
-- Balance: $412.93 remaining
-
-## Day 10 Context — next session (STALE — see above)
-- Phase 3 gate: present full Obsidian→Notion mapping table to Ken for approval before any migration
-- Forge name: still proposed ("Forge 🏗️") — Ken to confirm
-- TKT-0043 to TKT-0048: all in Backlog, untouched — not actioned
-- CI Cycle A first report due ~2026-05-09
-- Balance: $445.77 USD (confirmed Ken 22:53 AEST)
-
-## Day 9 Context (2026-05-03) — Key Events
-- CHG-0139: Anthropic API key rotated. Moved to AInchors Anthropic account. Balance $98 USD confirmed.
-- T1 balance alert fired 13:20 AEST ($45.24 < $80 threshold) — then reset after CHG-0139 key rotation + top-up to $98.
-- Standby mode 14:11–14:30 AEST: HTTP 401 on outage-detect.sh — stale keychain key post-rotation. Self-cleared after key update.
-- Warden escalation warden-20260503-0003 resolved CHG-0133 (obs-collector self-recovered, model-drift-check.sh quoting bug fixed, 15/15 PASS).
-- TKT-0039 EOD reminder fired 17:00 AEST — Ken decision pending: LinkedIn Authority Campaign Week 1 start date.
-- Partnership Discussion meeting notes arrived 10:47AM AEST (gemini-notes) — key actions: company setup (immediate), training due tomorrow, IP strategy. Flagged to Ken.
-- Calendar: Meeting with Ken and Colbert — 2026-05-04 14:00–15:00 AEST.
-
-## Day 9 Context (2026-05-03) — Key Events (continued)
-- CHG-0140: Allowlist audit — Ollama Cloud Tier 2b propagated to all eligible agents. Spark added to model-policy.json. Lex opus contradiction fixed.
-- CHG-0143/0144: TRIGGER-12 implemented — allowlist-sync.sh auto-fires on CI Cycle B decision or strategy change.
-- CHG-0145: Notion Model Strategy page fully rewritten — 4-tier, per-agent routing, PoC results, TRIGGER-12.
-- CHG-0146: Holocron daily cron fixed — Notion-only (Obsidian removed), timeout resolved, Telegram delivery fixed. Runs 134s.
-- CHG-0147/0148: Forge 🏗️ activated — owns all ITIL/ITSM/AIOps + CI. 12 crons assigned to agentId=infra. INFRA_RULES.md created.
-- TKT-0042 Phase 1+2 complete (sub-agent) — Notion audit done, 63 stale pages archived, clean Holocron structure established. Phase 3 pending Ken approval.
-- openclaw.json: Ollama Cloud models added to agents.defaults.models (were missing — caused CI cron failures).
-
-## Day 8 Context (2026-05-02) — Webchat Session
-- CHG-0120–0130 logged (11 entries). PoC complete, Spark live, CI framework live, content governance live.
-- Ollama Pro: accounts@ainchors.com (NOT kenmun). Run `ollama signout && ollama signin` to switch.
-- /standup, /update, /eod, /blog slash commands locked in RULES.md
-- CI Framework: Cycle A (7d batch shadow, always-on) + Cycle B (concurrent wk 2). First report: 2026-05-09 ~11:00 AEST. Model: deepseek-v4-pro:cloud. State: ci-agent-state.json.
-- Content governance triad (TKT-0033 ✅): Shield→Lex→Sage. PVT 10/10. Warden Check #15 guards published-without-clearance.
-- Spark ✨ live (CHG-0130). First LinkedIn run: Tue 2026-05-06 7:30am AEST.
-- Balance top-up: $140 at ~11:33 AEST. All-time: $828.27 (Day 1–7) + Day 8 spend TBD.
-- New tickets: TKT-0033 (resolved), TKT-0034 (social auto-post), TKT-0035 (content agent), TKT-0037 (Warden per-agent gating), TKT-0038 (LinkedIn — in progress).
-
-## Ollama Cloud PoC — COMPLETE (2026-05-02)
-
-**Status: ✅ COMPLETE — Phase 6 Implemented**
-**Authorised by:** Ken (Ollama Pro signup accounts@ainchors.com)
-**CHG:** CHG-0120
-**Full report:** /Users/ainchorsangiefpl/.openclaw/workspace/state/ollama-cloud-poc-report.md
-
-### Benchmark Results — All Models
-
-| Model | Avg Quality | Avg Latency | Result |
-|-------|-------------|-------------|--------|
-| kimi-k2.6:cloud | 4.6/5 | 6.8s | **✅ PASS** |
-| deepseek-v4-flash:cloud | 4.2/5 | 12.6s | **✅ PASS** |
-| deepseek-v4-pro:cloud | 4.6/5 | 18.4s | **✅ PASS** |
-| glm-5.1:cloud | N/A | 221s+ | **❌ FAIL** |
-| qwen3.5:cloud (/no_think) | 4.6/5 | 42.3s | **❌ FAIL (latency)** |
-
-### Tier 2 Implementation (Phase 6 + Phase 5D)
-- **kimi-k2.6:cloud** — fastest (6.8s), best for creative/content tasks. CHG-0120.
-- **deepseek-v4-flash:cloud** — fast subtasks (12.6s avg). CHG-0123.
-- **deepseek-v4-pro:cloud** — complex code/reasoning (18.4s avg, async preferred). CHG-0123.
-- Constraint: ALL three = non-sensitive tasks ONLY (`data_sensitivity == "low"`)
-- Warden must enforce: no PII, no medical, no legal data via any Ollama Cloud model
-- Estimated saving: **$690–1,755/mo** vs current Claude spend of ~$3,550/mo
-- glm-5.1 and qwen3.5: NOT added. Revisit qwen3.5 for async batch jobs in OC2.
-
-### Key caveats
-- kimi-k2.6 quality excellent but output includes thinking tokens (visible in stream) — acceptable for background tasks
-- Full 4-tier model strategy still pending OC2 arrival (July 2026)
-- Routing implementation (Warden enforcement, agent-level gating) is next step
+## Session History — Key Facts (Days 7-11)
+- Day 7 (May 1): Ollama routing live, Warden on gemma4:e2b, S1-S7 audit 6 PASS/1 WARN(S4). bootstrapMaxChars 20k.
+- Day 8 (May 2): Ollama Cloud PoC complete. Spark live. CI Framework A+B live. Content governance triad live. Ollama Pro: accounts@ainchors.com.
+- Day 9 (May 3): Anthropic key rotated → AInchors account ($495 balance). TRIGGER-12 live. Obsidian retired. Notion Holocron structure live. Forge 🏗️ activated (agentId=infra).
+- Day 10 (May 4): Atlas 🏛️ instantiated. W1 LinkedIn posts approved. AIOps theme roadmap locked (6 cycles). AI Charter + Governance Framework approved. Obsidian migration Phases 1-3 done.
+- Day 11 (May 5): W1P1 posted (urn:li:activity:7457186904363421696). RTB done. W2 crons live (3 posts May 12-14). Obsidian migration all 5 phases done (TKT-0042 closed). S4 tool scopes applied (CHG-0176). Atlas v2.1 EA + Thrawn (platform-arch) registered. Architecture orchestration routing in YODA_RULES.md.
+- CI Cycle A first report: ~2026-05-09 11:00 AEST. State: ci-agent-state.json.
+- Ollama Pro account: accounts@ainchors.com. Run `ollama signout && ollama signin` to switch.

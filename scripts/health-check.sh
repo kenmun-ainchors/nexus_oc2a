@@ -219,6 +219,46 @@ else
   fi
 fi
 
+# ── CHECK 16: Event loop health (gateway log) ───────────────────────────────
+GW_LOG="/tmp/openclaw/openclaw-$(date +%Y-%m-%d).log"
+CHECK_eventLoop="ok"
+if [[ -f "$GW_LOG" ]]; then
+  # Check last 5 minutes of log for critical event loop warnings
+  LOOP_WARN=$(tail -200 "$GW_LOG" 2>/dev/null | grep "eventLoopDelayMaxMs" | tail -3)
+  if [[ -n "$LOOP_WARN" ]]; then
+    MAX_DELAY=$(echo "$LOOP_WARN" | grep -oE 'eventLoopDelayMaxMs=[0-9.]+' | tail -1 | cut -d= -f2 | cut -d. -f1)
+    UTIL=$(echo "$LOOP_WARN" | grep -oE 'eventLoopUtilization=[0-9.]+' | tail -1 | cut -d= -f2)
+    if [[ -n "$MAX_DELAY" ]] && (( MAX_DELAY > 10000 )); then
+      CHECK_eventLoop="critical"
+      [[ "$OVERALL_STATUS" == "ok" ]] && OVERALL_STATUS="degraded"
+      ISSUES+=("Event loop delay critical: ${MAX_DELAY}ms max, utilisation ${UTIL} — gateway may be saturated")
+      log "CHECK eventLoop: CRITICAL maxDelay=${MAX_DELAY}ms util=${UTIL}"
+    elif [[ -n "$MAX_DELAY" ]] && (( MAX_DELAY > 5000 )); then
+      CHECK_eventLoop="warning"
+      log "CHECK eventLoop: WARNING maxDelay=${MAX_DELAY}ms util=${UTIL}"
+    else
+      log "CHECK eventLoop: OK maxDelay=${MAX_DELAY}ms"
+    fi
+  else
+    log "CHECK eventLoop: OK (no delay warnings in log)"
+  fi
+else
+  log "CHECK eventLoop: SKIP (log not found at $GW_LOG)"
+fi
+
+# ── CHECK 17: Zombie task runs ───────────────────────────────────────────────
+CHECK_zombieTasks="ok"
+ZOMBIE_IDS=$(openclaw tasks audit 2>/dev/null | grep "stale_running" | awk '{print $4}' || true)
+if [[ -n "$ZOMBIE_IDS" ]]; then
+  ZOMBIE_COUNT=$(echo "$ZOMBIE_IDS" | wc -l | tr -d ' ')
+  CHECK_zombieTasks="warning:${ZOMBIE_COUNT}"
+  [[ "$OVERALL_STATUS" == "ok" ]] && OVERALL_STATUS="degraded"
+  ISSUES+=("$ZOMBIE_COUNT zombie task run(s) detected — run: openclaw tasks audit")
+  log "CHECK zombieTasks: $ZOMBIE_COUNT stale_running tasks found"
+else
+  log "CHECK zombieTasks: OK"
+fi
+
 # ── CHECK 5: Stale lock files — clear if >LOCK_STALE_MIN old ─────────────────
 LOCK_CLEARED=0
 LOCK_FOUND=0

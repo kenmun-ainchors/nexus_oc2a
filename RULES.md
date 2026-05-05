@@ -686,6 +686,17 @@ bash scripts/content-governance-review.sh --content-id CONTENT-NNNN --file /tmp/
 ```
 Exit 2 = do not publish. Fix all issues and re-run until exit 0.
 
+**LinkedIn metrics hook (near end of EOD close):**
+Before finalising the EOD post, read `state/linkedin-metrics.json` and surface last-7-days post performance as a brief section:
+
+```
+Latest LinkedIn metrics:
+- LI-W1-P1 (urn:li:activity:...) — 6h: 0♥ 0💬 0🔁 | 24h: N♥ N💬 N🔁 | ...
+- [per-post line for each post with snapshots in the last 7 days]
+```
+
+Only include posts where `snapshots` exist and `fetchedAt` is within the last 7 days. If no posts, skip section entirely.
+
 ---
 
 ## /blog - Standalone Topic Blog Post
@@ -1315,3 +1326,25 @@ _Locked 2026-04-28. Ken: "continue to provide this trigger and what I need to kn
 > ⚠️ [any flags]
 > First up tomorrow: [top priority]
 > Balance: USD $X.XX - top up recommended / runway ~N days
+
+---
+
+## /stabcheck — System Stability Check
+
+**Keyword:** `/stabcheck` (case-insensitive)
+**Trigger:** Ken types `/stabcheck` in any channel.
+**Purpose:** On-demand full stability snapshot. Use when experiencing stalls, cut-offs, gateway blips, or slow responses.
+
+**When received, run in order:**
+1. `openclaw gateway status` — confirm running, PID, connectivity
+2. `openclaw tasks list --status running --json` — count running tasks; flag any >1h old as zombies
+3. `openclaw tasks audit` — surface stale_running and lost task errors
+4. Gateway err log tail: `tail -30 /tmp/openclaw/openclaw-$(date +%Y-%m-%d).log | grep -E "warn|error|overflow|delay|blocked"`
+5. Event loop health: check for `eventLoopDelayMaxMs` >5000 or `eventLoopUtilization` >0.8 in log
+6. `vm_stat` — memory pressure check
+7. `df -h /` — disk space
+8. If zombie tasks found: cancel them with `openclaw tasks cancel <taskId>`
+9. If event loop saturated OR zombies existed: `openclaw gateway restart`
+10. Report: what was found, what was fixed, current state
+
+**Auto-remediate:** Cancel zombies. Restart gateway if loop was saturated. Log CHG.

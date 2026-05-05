@@ -1,7 +1,7 @@
 {
-  "lastStandupAt": "2026-05-03T22:06:33.459605Z",
-  "lastStandupType": "scheduled",
-  "lastStandupWindowStart": "2026-05-03T22:00:00.000Z",
+  "lastStandupAt": "2026-05-05T03:53:37Z",
+  "lastStandupType": "ad-hoc",
+  "lastStandupWindowStart": "2026-05-04T22:02:47.767808Z",
   "history": [
     {
       "type": "scheduled",
@@ -20,6 +20,18 @@
       "at": "2026-05-03T22:06:33.459605Z",
       "windowStart": "2026-05-03T22:00:00.000Z",
       "channel": "telegram"
+    },
+    {
+      "type": "scheduled",
+      "at": "2026-05-04T22:02:47.767808Z",
+      "windowStart": "2026-05-03T22:02:47.767808Z",
+      "channel": "telegram"
+    },
+    {
+      "type": "ad-hoc",
+      "at": "2026-05-05T03:53:37Z",
+      "windowStart": "2026-05-04T22:02:47.767808Z",
+      "channel": "webchat"
     }
   ]
 }

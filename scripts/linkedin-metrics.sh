@@ -59,7 +59,11 @@ print(d.get('tokenExpiry', ''))
 if [[ -n "$TOKEN_EXPIRY" ]]; then
   EXPIRED=$(python3 -c "
 from datetime import datetime, timezone
-expiry = datetime.strptime('$TOKEN_EXPIRY', '%Y-%m-%dT%H:%M:%SZ').replace(tzinfo=timezone.utc)
+from dateutil import parser as dp
+try:
+    expiry = dp.parse('$TOKEN_EXPIRY').astimezone(timezone.utc)
+except:
+    expiry = datetime.strptime('$TOKEN_EXPIRY', '%Y-%m-%dT%H:%M:%SZ').replace(tzinfo=timezone.utc)
 now = datetime.now(timezone.utc)
 print('yes' if now >= expiry else 'no')
 ")

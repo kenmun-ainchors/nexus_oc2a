@@ -42,6 +42,243 @@ This log captures **every change** Yoda makes to AInchors infrastructure, config
 **Linked:** decisions.md 2026-04-27 entries
 ---
 
+## 2026-05-05 19:23 AEST — [CHG-0183] Krennic 🔵 confirmed — SRE Agent (TKT-0074). AInchors naming principle locked.
+**Type:** agent
+**Source:** ken-prompt
+**Trigger:** Ken confirmed 2026-05-05 19:22 AEST
+**What changed:** TKT-0074 raised: Krennic SRE Agent. MEMORY.md: Krennic added. Notion Star Wars page: Krennic + AInchors principle (dark/light force distinction does not apply — principles, dedication and commitment). Activation: before TRIGGER-07 or if incident rate >2/wk.
+**Why:** SRE capability required before P2. Post-incident learning from today's instability.
+**Verification:** TKT-0074 open. MEMORY.md 14,851 chars. Notion page updated.
+**Rollback:** N/A
+**Linked:** none
+**Category:** agent-architecture
+**Framework docs:** ~/.openclaw/workspace/MEMORY.md, ~/Documents/AInchors/Agents/ModelStrategy.md
+---
+
+
+## 2026-05-05 19:17 AEST — [CHG-0182] TKT-0071: Atlas note added — availability + stability layer required in EA roadmap
+**Type:** doc
+**Source:** ken-prompt
+**Trigger:** Ken 2026-05-05 19:16 AEST. Post-incident learning.
+**What changed:** TKT-0071 notes updated with Atlas brief: 6-point availability/stability design scope for P1-P4 roadmap. Covers HA, observability stack, AIOps maturity, infra resilience, SLO design, incident response per phase.
+**Why:** Today's instability exposed AIOps gaps. EA roadmap must treat availability as a first-class design concern.
+**Verification:** TKT-0071 updated. Notes written.
+**Rollback:** N/A
+**Linked:** none
+**Category:** observability
+**Framework docs:** ~/.openclaw/workspace/RULES.md
+---
+
+
+## 2026-05-05 18:52 AEST — [CHG-0181] /stabcheck command + AIOps gap fixes: zombie task + event loop detection added
+**Type:** script
+**Source:** ken-prompt
+**Trigger:** Ken post-incident learning 2026-05-05 18:50 AEST
+**What changed:** RULES.md: /stabcheck command defined. auto-heal.sh: CHECK 17 zombie task detection + auto-cancel. health-check.sh: CHECK 16 event loop delay monitor (>10s=critical), CHECK 17 zombie task count. All checks write to OVERALL_STATUS and ISSUES array.
+**Why:** AIOps gap: zombie tasks + event loop saturation caused today's instability but zero monitors detected them. Closing the gap.
+**Verification:** Scripts updated. /stabcheck documented in RULES.md.
+**Rollback:** N/A
+**Linked:** none
+**Category:** observability
+**Framework docs:** ~/.openclaw/workspace/RULES.md
+---
+
+
+## 2026-05-05 18:47 AEST — [CHG-0180] INC: Gateway instability fixed — zombie tasks cancelled, cron allowlist cleaned
+**Type:** infra
+**Source:** ken-prompt
+**Trigger:** Ken reported cut-offs/stalls 2026-05-05 18:45 AEST
+**What changed:** Cancelled 2 zombie CLI task runs from May 1 (4d9h stale, blocking all gateway restarts). Removed 'cron' from business + infra tool allowlists (invalid runtime entry). Gateway restarted clean (new PID 37720). 41 lost tasks remain (noise only, no instability impact).
+**Why:** Event loop utilisation hit 93.8%, 28s delays. Zombies were root cause.
+**Verification:** Gateway: running PID 37720. Connectivity: ok. Running tasks: 1 (legitimate). No audit errors.
+**Rollback:** N/A
+**Linked:** none
+**Category:** incident-process
+**Framework docs:** ~/Documents/AInchors/Operations/ResiliencyFramework.md, ~/Documents/AInchors/Operations/GatewayRecovery.md
+---
+
+
+## 2026-05-05 18:31 AEST — [CHG-0179] Lando confirmed. Notion Star Wars page updated with full names + roles (10 agents + 8 modules)
+**Type:** doc
+**Source:** ken-prompt
+**Trigger:** Ken confirmed Lando 2026-05-05 18:28 AEST
+**What changed:** MEMORY.md: Lando confirmed. Notion Star Wars Naming Convention page: added Agent Full Reference table (10 agents, full SW name + role + stream) and Nexus Module Full Reference table (8 modules). Thrawn updated in MEMORY.md as platform-arch.
+**Why:** Ken requested full Star Wars names and roles in Notion for all agents and modules.
+**Verification:** Notion: 7 blocks appended. Page live.
+**Rollback:** N/A
+**Linked:** none
+**Category:** operating-process
+**Framework docs:** ~/.openclaw/workspace/SOUL.md, ~/.openclaw/workspace/RULES.md
+---
+
+
+## 2026-05-05 18:25 AEST — [CHG-0178] Raised 4 US backlog items with locked sequencing (TKT-0069 to TKT-0072)
+**Type:** data
+**Source:** ken-prompt
+**Trigger:** Ken 2026-05-05 18:22 AEST
+**What changed:** TKT-0069 Vision & Mission (High, seq 1). TKT-0070 AI Policies (High, seq 2). TKT-0071 Nexus P1-P4 Roadmap (Critical, seq 3, owner Atlas). TKT-0072 BPM Agent (Medium, seq 4, proposed name Lando). All synced to Notion Backlog.
+**Why:** Ken confirmed sequencing locked. BPM Agent name Lando proposed — Ken to confirm.
+**Verification:** 4 tickets in tickets.json + Notion. Sequencing notes written.
+**Rollback:** N/A
+**Linked:** none
+**Category:** itsm-process
+**Framework docs:** ~/.openclaw/workspace/RULES.md
+---
+
+
+## 2026-05-05 17:28 AEST — [CHG-0177] TKT-0042 closed — Obsidian→Notion migration fully complete (all 5 phases)
+**Type:** doc
+**Source:** ken-prompt
+**Trigger:** Ken groom 2026-05-05
+**What changed:** TKT-0042 marked closed. MEMORY.md open items updated. akb-migration-state.json confirms all phases done: 38 pages migrated, vault retired, scripts cleaned, crons updated.
+**Why:** Ticket was complete but never formally closed. MEMORY.md had stale open item.
+**Verification:** akb-migration-state.json phase1-5 all complete. Obsidian vault retired 2026-05-04.
+**Rollback:** N/A
+**Linked:** none
+**Category:** housekeeping
+---
+
+
+## 2026-05-05 17:25 AEST — [CHG-0176] S4 — Per-agent tool scopes (least privilege) applied to all 9 agents
+**Type:** config
+**Source:** ken-prompt
+**Trigger:** Ken approved S4 groom 2026-05-05 17:25 AEST
+**What changed:** openclaw.json tools allowlists: main=unrestricted; business=13 tools (no exec/process); security=4 (read-only FS); legal=3 (research-only); qa=5 (test runner); governance=3 (state+exec); infra=12 (full ops); architect=6 (design-only); platform-arch=6 (design-only).
+**Why:** Security control S4: least privilege per agent. Governance agents read-only FS.
+**Verification:** Config confirmed. Gateway restarted and running.
+**Rollback:** N/A
+**Linked:** none
+**Category:** security
+**Framework docs:** ~/Documents/AInchors/Operations/Standards.md, ~/.openclaw/workspace/RULES.md
+---
+
+
+## 2026-05-05 16:51 AEST — [CHG-0175] S4 implemented: per-agent tool scopes applied to all 8 agents
+**Type:** config
+**Source:** ken-prompt
+**Trigger:** Ken approved S4 on Telegram. Config applied + gateway restarted.
+**What changed:** openclaw.json agents: main=null(full), business=13 tools(no exec), security=4(read+exec+web), legal=3(read+web), qa=5(read+exec+process+web), governance=3(read+write+exec), infra=12(full ops), architect=6(read+write+web+sessions)
+**Why:** S4 security control: least-privilege tool access per agent role.
+**Verification:** openclaw.json: all 8 agents have tools configured. Gateway restarted.
+**Rollback:** N/A
+**Linked:** none
+**Category:** security
+**Framework docs:** ~/Documents/AInchors/Operations/Standards.md, ~/.openclaw/workspace/RULES.md
+---
+
+
+## 2026-05-05 15:13 AEST — [CHG-0174] Notion: Star Wars Naming Convention page created in Holocron
+**Type:** doc
+**Source:** ken-prompt
+**Trigger:** Ken confirmed agents + systems naming locked. Angie approved. 2026-05-05 15:12 AEST.
+**What changed:** Holocron page created: Star Wars Naming Convention (ID: 357c1829-53ff-819c-9371-c0bc4d4b1e45). Tables: 8 Nexus modules + 9 agents with Star Wars references, roles, streams. Naming rules documented.
+**Why:** Both founders aligned. Single reference for all naming decisions.
+**Verification:** Notion page live: notion.so/Star-Wars-Naming-Convention-357c...
+**Rollback:** N/A
+**Linked:** none
+**Category:** operating-process
+**Framework docs:** ~/.openclaw/workspace/SOUL.md, ~/.openclaw/workspace/RULES.md
+---
+
+
+## 2026-05-05 14:49 AEST — [CHG-0173] Star Wars naming convention LOCKED — confirmed by Ken + Angie
+**Type:** rule
+**Source:** ken-prompt
+**Trigger:** Angie confirmed enthusiasm. Ken locked 2026-05-05 14:49 AEST.
+**What changed:** MEMORY.md: Nexus naming status updated from 'locked proposals' to 'LOCKED ✅ — confirmed by Ken + Angie'. Names are final, no re-approval needed at kickoff.
+**Why:** Both founders aligned on Star Wars theme across all Nexus modules.
+**Verification:** MEMORY.md updated. Names: Nexus, Holocron, The Bridge, The Citadel, Holonet, Beacon, The Sanctum, Datapad.
+**Rollback:** N/A
+**Linked:** none
+**Category:** operating-process
+**Framework docs:** ~/.openclaw/workspace/SOUL.md, ~/.openclaw/workspace/RULES.md
+---
+
+
+## 2026-05-05 14:44 AEST — [CHG-0172] Notion backlog cleanup: 15 completed items marked Done
+**Type:** data
+**Source:** ken-prompt
+**Trigger:** Ken approved 2026-05-05 14:42 AEST
+**What changed:** 15 Backlog→Done: gog OAuth, kenmun email, LinkedIn API, ITSM-US-005/018, 2x health-state stale, 2x Aria fallback, 2x MEMORY.md auto-heal, TKT-0024/0039/0054/0064/0065
+**Why:** Items were completed but never marked done in Notion — dashboard noise.
+**Verification:** Notion API: 15 PATCH requests OK, 0 failed
+**Rollback:** N/A
+**Linked:** none
+**Category:** itsm-process
+**Framework docs:** ~/.openclaw/workspace/RULES.md
+---
+
+
+## 2026-05-05 14:36 AEST — [CHG-0171] TKT-0064: MEMORY.md trimmed 20,151 → 13,680 chars
+**Type:** data
+**Source:** ken-prompt
+**Trigger:** Auto-heal flagged oversized. Ken approved 2026-05-05.
+**What changed:** Removed Day 7-10 stale context blocks. Condensed: Ollama PoC, KB architecture, Open Items, Active Backlog. Added Session History summary section.
+**Why:** Hard limit 20k chars. bootstrapMaxChars truncation risk.
+**Verification:** wc -c MEMORY.md = 13,680 (under 15k warning threshold)
+**Rollback:** N/A
+**Linked:** none
+**Category:** observability
+**Framework docs:** ~/.openclaw/workspace/RULES.md
+---
+
+
+## 2026-05-05 14:13 AEST — [CHG-0170] Spark W2 AIOps pipeline: 3 drafts governed, delivered to Ken, queue updated
+**Type:** data
+**Source:** ken-prompt
+**Trigger:** Ken BUD approval 2026-05-05 14:07 AEST (TKT-0066)
+**What changed:** LI-C1-W2-P1 (existing draft, em-dash fix). LI-C1-W2-P2 (heartbeat problem). LI-C1-W2-P3 (what teams miss, client-ref fixed). All 3 governance-cleared. linkedin-queue.json: 3 pending-ken entries. activeTheme=AIOps. Drafts in workspace-social/drafts/. Telegram delivered to Ken.
+**Why:** W1 ends Thu May 8. W2 content must be approved before then.
+**Verification:** Queue: 3 pending-ken entries. Telegram: 2 msgs sent OK.
+**Rollback:** N/A
+**Linked:** none
+**Category:** observability
+**Framework docs:** ~/.openclaw/workspace/RULES.md
+---
+
+
+## 2026-05-05 14:07 AEST — [CHG-0169] Fix auto-heal.sh: exclude git-commit ops from incident logging
+**Type:** script
+**Source:** ken-prompt
+**Trigger:** Root cause of CHG-0168 — git commits were triggering INC records
+**What changed:** auto-heal.sh: added git-commit:* exclusion filter in AUTO-FIX INC filing loop
+**Why:** Routine auto-heal git commits are not incidents. Noise prevention.
+**Verification:** Pattern: if fix == git-commit:* skip INC
+**Rollback:** N/A
+**Linked:** none
+**Category:** incident-process
+**Framework docs:** ~/Documents/AInchors/Operations/ResiliencyFramework.md, ~/Documents/AInchors/Operations/GatewayRecovery.md
+---
+
+
+## 2026-05-05 14:06 AEST — [CHG-0168] THORN: Closed 7 stale April incidents
+**Type:** data
+**Source:** ken-prompt
+**Trigger:** Ken approved THORN (2026-05-05 14:05 AEST)
+**What changed:** state/incident-log.json: 7 incidents set to status=closed (INC-20260428-001..005, INC-20260429-001..002). 2 were test entries, 5 were auto-heal git commits incorrectly logged as incidents.
+**Why:** False signals in incident dashboard. Cleanup removes noise for real incident detection.
+**Verification:** incident-log.json open count = 0 (was 7)
+**Rollback:** N/A
+**Linked:** none
+**Category:** incident-process
+**Framework docs:** ~/Documents/AInchors/Operations/ResiliencyFramework.md, ~/Documents/AInchors/Operations/GatewayRecovery.md
+---
+
+
+## 2026-05-05 14:05 AEST — [CHG-0167] TKT-0065: LinkedIn post metrics snapshot pipeline
+**Type:** script
+**Source:** ken-prompt
+**Trigger:** Ken approved TASK-20260505-001 — LinkedIn metrics pipeline for post tracking
+**What changed:** Created state/linkedin-metrics.json (seed with LI-W1-P1 6h snapshot), scripts/linkedin-metrics-snapshot.sh, scripts/create-post-snapshot-crons.sh; created 3 snapshot crons (24h/48h/7d) for LI-W1-P1; updated SPARK_RULES.md post flow; added EOD LinkedIn metrics hook to RULES.md
+**Why:** Observability: track post engagement over time (6h/24h/48h/7d intervals) to measure content performance
+**Verification:** Files exist and are executable; crons created (IDs: 37917545, 76f30da4, ae3ada11); state seeded with correct schema
+**Rollback:** N/A
+**Linked:** TKT-0065
+**Category:** observability
+**Framework docs:** ~/.openclaw/workspace/RULES.md
+---
+
+
 ## 2026-05-04 23:23 AEST — [CHG-0166] /handover cross-channel fix confirmed — TKT-0050 closed
 **Type:** config
 **Source:** ken-prompt

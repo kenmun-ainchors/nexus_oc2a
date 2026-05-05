@@ -73,11 +73,14 @@
       "description": "QW-2 test entry",
       "duration_minutes": 5,
       "rca": "auto-detected",
-      "resolution": "in-progress",
+      "resolution": "Closed \u2014 test entry for QW-2 severity flag validation. Not a real incident.",
       "mttr_minutes": 5,
       "recurrence": false,
-      "status": "open",
-      "notion_page_id": null
+      "status": "closed",
+      "notion_page_id": null,
+      "resolutionStatus": "resolved",
+      "closedAt": "2026-05-05T04:05:00Z",
+      "closedBy": "Yoda (Ken approved THORN \u2014 2026-05-05 14:05 AEST)"
     },
     {
       "id": "INC-20260428-002",
@@ -89,11 +92,14 @@
       "description": "PIR test",
       "duration_minutes": 60,
       "rca": "auto-detected",
-      "resolution": "in-progress",
+      "resolution": "Closed \u2014 test entry for PIR auto-trigger validation. Not a real incident.",
       "mttr_minutes": 60,
       "recurrence": false,
-      "status": "open",
-      "notion_page_id": null
+      "status": "closed",
+      "notion_page_id": null,
+      "resolutionStatus": "resolved",
+      "closedAt": "2026-05-05T04:05:00Z",
+      "closedBy": "Yoda (Ken approved THORN \u2014 2026-05-05 14:05 AEST)"
     },
     {
       "id": "INC-20260428-003",
@@ -105,11 +111,14 @@
       "description": "Auto-healed by auto-heal.sh at 2026-04-28 21:56 AEST. Item: git-commit:workspace:4-files. No Ken action required.",
       "duration_minutes": 5,
       "rca": "auto-detected",
-      "resolution": "in-progress",
+      "resolution": "Closed \u2014 auto-heal git commit incorrectly logged as incident. Not an incident.",
       "mttr_minutes": 5,
       "recurrence": false,
-      "status": "open",
-      "notion_page_id": null
+      "status": "closed",
+      "notion_page_id": null,
+      "resolutionStatus": "resolved",
+      "closedAt": "2026-05-05T04:05:00Z",
+      "closedBy": "Yoda (Ken approved THORN \u2014 2026-05-05 14:05 AEST)"
     },
     {
       "id": "INC-20260428-004",
@@ -121,11 +130,14 @@
       "description": "Auto-healed by auto-heal.sh at 2026-04-28 21:56 AEST. Item: git-commit:AInchors:15-files. No Ken action required.",
       "duration_minutes": 5,
       "rca": "auto-detected",
-      "resolution": "in-progress",
+      "resolution": "Closed \u2014 auto-heal git commit incorrectly logged as incident. Not an incident.",
       "mttr_minutes": 5,
       "recurrence": false,
-      "status": "open",
-      "notion_page_id": null
+      "status": "closed",
+      "notion_page_id": null,
+      "resolutionStatus": "resolved",
+      "closedAt": "2026-05-05T04:05:00Z",
+      "closedBy": "Yoda (Ken approved THORN \u2014 2026-05-05 14:05 AEST)"
     },
     {
       "id": "INC-20260428-005",
@@ -137,11 +149,14 @@
       "description": "Auto-healed by auto-heal.sh at 2026-04-28 21:56 AEST. Item: aria-git-commit:15-files. No Ken action required.",
       "duration_minutes": 5,
       "rca": "auto-detected",
-      "resolution": "in-progress",
+      "resolution": "Closed \u2014 auto-heal git commit incorrectly logged as incident. Not an incident.",
       "mttr_minutes": 5,
       "recurrence": false,
-      "status": "open",
-      "notion_page_id": null
+      "status": "closed",
+      "notion_page_id": null,
+      "resolutionStatus": "resolved",
+      "closedAt": "2026-05-05T04:05:00Z",
+      "closedBy": "Yoda (Ken approved THORN \u2014 2026-05-05 14:05 AEST)"
     },
     {
       "id": "INC-20260429-001",
@@ -153,11 +168,14 @@
       "description": "Auto-healed by auto-heal.sh at 2026-04-29 01:00 AEST. Item: git-commit:workspace:7-files. No Ken action required.",
       "duration_minutes": 5,
       "rca": "auto-detected",
-      "resolution": "in-progress",
+      "resolution": "Closed \u2014 auto-heal git commit incorrectly logged as incident. Not an incident.",
       "mttr_minutes": 5,
       "recurrence": false,
-      "status": "open",
-      "notion_page_id": null
+      "status": "closed",
+      "notion_page_id": null,
+      "resolutionStatus": "resolved",
+      "closedAt": "2026-05-05T04:05:00Z",
+      "closedBy": "Yoda (Ken approved THORN \u2014 2026-05-05 14:05 AEST)"
     },
     {
       "id": "INC-20260429-002",
@@ -169,11 +187,14 @@
       "description": "Auto-healed by auto-heal.sh at 2026-04-29 01:00 AEST. Item: git-commit:AInchors:1-files. No Ken action required.",
       "duration_minutes": 5,
       "rca": "auto-detected",
-      "resolution": "in-progress",
+      "resolution": "Closed \u2014 auto-heal git commit incorrectly logged as incident. Not an incident.",
       "mttr_minutes": 5,
       "recurrence": false,
-      "status": "open",
-      "notion_page_id": null
+      "status": "closed",
+      "notion_page_id": null,
+      "resolutionStatus": "resolved",
+      "closedAt": "2026-05-05T04:05:00Z",
+      "closedBy": "Yoda (Ken approved THORN \u2014 2026-05-05 14:05 AEST)"
     },
     {
       "id": "INC-20260502-001",

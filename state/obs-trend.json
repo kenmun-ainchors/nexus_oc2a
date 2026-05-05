@@ -1,45 +1,45 @@
 {
-  "generated_at": "2026-05-04T21:45:13.426661+00:00",
-  "generated_at_aest": "2026-05-05 07:45 AEST",
+  "generated_at": "2026-05-05T09:21:29.922432+00:00",
+  "generated_at_aest": "2026-05-05 19:21 AEST",
   "period_hours": 24,
   "totals": {
-    "ERROR": 6,
-    "WARN": 87,
+    "ERROR": 1,
+    "WARN": 31,
     "INFO": 25
   },
   "top_errors": [
     {
       "type": "anthropic_api_fail",
-      "count": 6
+      "count": 1
     }
   ],
   "top_warnings": [
     {
-      "type": "task_stall",
-      "count": 35
-    },
-    {
-      "type": "lane_error",
-      "count": 29
-    },
-    {
       "type": "incomplete_turn",
-      "count": 21
+      "count": 26
     },
     {
       "type": "auto_heal_needs_ken",
       "count": 2
+    },
+    {
+      "type": "lane_error",
+      "count": 2
+    },
+    {
+      "type": "session_stuck",
+      "count": 1
     }
   ],
   "trend": {
     "has_prev_data": true,
-    "prev_errors": 118,
-    "prev_warns": 488,
-    "errors_pct_change": -94.9,
-    "warns_pct_change": -82.2
+    "prev_errors": 62,
+    "prev_warns": 365,
+    "errors_pct_change": -98.4,
+    "warns_pct_change": -91.5
   },
   "worst_hour": {
-    "hour": "2026-05-03T23:00Z",
-    "cnt": 3
+    "hour": "2026-05-05T04:00Z",
+    "cnt": 1
   }
 }

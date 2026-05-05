@@ -12,10 +12,11 @@
     {
       "id": "w1p1-status-may5",
       "includeOnce": true,
-      "included": false,
+      "included": true,
       "priority": "info",
       "category": "Spark / LinkedIn",
-      "message": "\u2705 W1P1 POSTED: LinkedIn \"Practitioner Intro\" post went live at 07:52 AEST. Initial cron failed HTTP 426 (expired LinkedIn API version 202501). Yoda fixed: scripts updated 202501\u2192202503, post manually retried and published successfully (HTTP 201). CHG-0163 logged. W1P2 (Wed 12pm) and W1P3 (Thu 7:30am) will use fixed version \u2014 no action needed."
+      "message": "\u2705 W1P1 POSTED: LinkedIn \"Practitioner Intro\" post went live at 07:52 AEST. Initial cron failed HTTP 426 (expired LinkedIn API version 202501). Yoda fixed: scripts updated 202501\u2192202503, post manually retried and published successfully (HTTP 201). CHG-0163 logged. W1P2 (Wed 12pm) and W1P3 (Thu 7:30am) will use fixed version \u2014 no action needed.",
+      "includedAt": "2026-05-05T22:00:00Z"
     }
   ]
 }

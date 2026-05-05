@@ -355,6 +355,27 @@ else
 fi
 
 # ---------- CHECK 16: Keychain secret liveness ----------
+log "CHECK 17: zombie task runs (stale_running)"
+CHECKS_RUN+=("zombie_tasks")
+ZOMBIE_TASKS=$(openclaw tasks audit 2>/dev/null | grep "stale_running" | awk '{print $4}' || true)
+if [[ -n "$ZOMBIE_TASKS" ]]; then
+  ZOMBIE_COUNT=$(echo "$ZOMBIE_TASKS" | wc -l | tr -d ' ')
+  log "  ISSUE: $ZOMBIE_COUNT zombie task(s) detected — cancelling..."
+  CANCELLED=0
+  while IFS= read -r task_id; do
+    [[ -z "$task_id" ]] && continue
+    openclaw tasks cancel "$task_id" >> "$LOG" 2>&1 && \
+      AUTO_FIXED+=("zombie-task-cancelled:${task_id:0:8}") && \
+      (( CANCELLED++ )) || true
+  done <<< "$ZOMBIE_TASKS"
+  log "  AUTO-FIX: cancelled $CANCELLED zombie task(s)"
+  if (( CANCELLED < ZOMBIE_COUNT )); then
+    NEEDS_KEN+=("$((ZOMBIE_COUNT - CANCELLED)) zombie task(s) could not be auto-cancelled — run: openclaw tasks audit")
+  fi
+else
+  log "  OK: no zombie tasks"
+fi
+
 log "CHECK 16: keychain secret liveness"
 CHECKS_RUN+=("keychain_liveness")
 GET_SECRET="$WORKSPACE/scripts/get-secret.sh"
@@ -434,9 +455,16 @@ EOF
 
 
 # ---------- FILE INC FOR EACH AUTO-FIX (ITSM-US-007) ----------
+# NOTE: git-commit auto-fixes are EXCLUDED from incident logging (CHG-0168, 2026-05-05).
+# Routine auto-heal git commits are not incidents. Only log real service/config issues.
 if (( ${#AUTO_FIXED[@]} > 0 )); then
-  log "Filing INC records for ${#AUTO_FIXED[@]} auto-fixed item(s)..."
+  log "Filing INC records for qualifying auto-fixed item(s)..."
   for fix in "${AUTO_FIXED[@]}"; do
+    # Skip git commit operations — these are housekeeping, not incidents
+    if [[ "$fix" == git-commit:* ]]; then
+      log "  Skipping INC for routine git op: $fix"
+      continue
+    fi
     bash "$WORKSPACE/scripts/incident-log.sh" \
       --title "AUTO-HEAL: $fix" \
       --severity P4 \
@@ -444,7 +472,7 @@ if (( ${#AUTO_FIXED[@]} > 0 )); then
       --description "Auto-healed by auto-heal.sh at $NOW_LOCAL. Item: $fix. No Ken action required." \
       >> "$HOME/Backups/ainchors/logs/auto-heal.log" 2>&1 || true
   done
-  log "INC records filed for all auto-fixed items."
+  log "INC records filed for qualifying auto-fixed items (git ops excluded)."
 fi
 
 log "Report written: $REPORT"
