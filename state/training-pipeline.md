@@ -64,6 +64,12 @@ _Maintained by Aria 🔵 + Yoda 🟢 | Status-tracked content for AInchors train
 | TC-057 | Content roadmaps for AI agents: building a 6-cycle LinkedIn strategy with theme-anchored posts | 💡 Idea | Yoda Day 10 (CHG-0161, LinkedIn 6-cycle roadmap locked: AIOps/Obs/Governance/FinOps/Resiliency/Security) | Both |
 | TC-058 | Approval gates in AI automation: why every automated post needs a human checkpoint | 💡 Idea | Yoda Day 10 (CHG-0162, TKT-0059 — linkedin-queue.json Step 0 gate on all W1P crons) | Aria |
 | TC-059 | The architect agent pattern: why your AI platform needs a guardian who checks every design decision | 💡 Idea | Yoda Day 10 (Atlas 🏛️ activated, TKT-0051 — architecture assurance + Nexus naming convention) | Both |
+| TC-060 | When AI tasks never end: zombie detection and how to stop event loop saturation | 💡 Idea | Yoda Day 11 (gateway instability — 2 zombie tasks, 93.8% event loop, 28s delays, auto-fix added) | Yoda |
+| TC-061 | The SRE agent pattern: what site reliability engineering looks like when your engineer is an AI | 💡 Idea | Yoda Day 11 (Krennic 🔵 confirmed, incident rate trigger, before first P2 client) | Both |
+| TC-062 | Why both founders need to agree on naming conventions: culture-first decisions in AI platform design | 💡 Idea | Yoda Day 11 (Star Wars naming locked by Ken + Angie, AInchors principle, Notion Holocron reference) | Aria |
+| TC-063 | The AI billing gap: why real-time estimates lie and CSV is the only truth | 💡 Idea | Yoda Day 11 (CHG-0186, cache_write_5m charges invisible in session logs — CSV reconciliation only) | Aria |
+| TC-064 | AI governance gap analysis: how to benchmark your framework against industry standards | 💡 Idea | Yoda Day 11 (CHG-0187, external LLM governance comparison — 3 gaps, TKT-0075/0076/0070) | Both |
+| TC-065 | Three-agent orchestration: how to split enterprise, platform, and routing responsibilities across AI agents | 💡 Idea | Yoda Day 11 (Atlas + Thrawn + Yoda orchestration restructure — enterprise vs platform vs routing) | Both |
 
 ## Status Legend
 💡 Idea → 📝 Draft → 🔍 Review (Yoda validates) → ✅ Ready → 📢 Published
