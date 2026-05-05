@@ -2,19 +2,19 @@
   "lastChecks": {
     "email": "2026-05-05T10:36:00.000000Z",
     "calendar": "2026-05-05T10:36:00.000000Z",
-    "agentHealth": "2026-05-05T15:07:53.750Z",
-    "apiBalance": "2026-05-05T15:37:00.000Z",
-    "taskWatchdog": "2026-05-05T15:47:46.004Z",
-    "cronHealth": "2026-05-05T15:47:46.005Z",
+    "agentHealth": "2026-05-05T16:02:51.171457Z",
+    "apiBalance": "2026-05-05T16:02:51.171457Z",
+    "taskWatchdog": "2026-05-05T16:02:51.171457Z",
+    "cronHealth": "2026-05-05T16:02:51.171457Z",
     "memoryMaintenance": "2026-05-05T08:07:57.441016+00:00",
     "weather": null,
     "dailyClose": 1777993673,
-    "wardenEscalation": "2026-05-05T15:47:46.005Z",
-    "cronDeadLetter": "2026-05-05T15:32:43.529Z",
+    "wardenEscalation": "2026-05-05T16:02:51.171457Z",
+    "cronDeadLetter": "2026-05-05T16:02:51.171457Z",
     "ariaContextSync": "2026-05-04T13:00:00Z",
     "standup": "2026-05-04T22:00:00Z",
     "missionControl": "2026-05-05T09:26:00.000000Z"
   },
-  "notes": "May6 01:47 AEST: All nominal. Balance $309.11 T0. Cron alert already acknowledged (Ken alerted 15:17 AEST). No new alerts. Late night standby.",
+  "notes": "May6 02:02 AEST: All nominal. Balance .11 T0. Journal+blog May5 exist. 3 cron failures (Warden/Forge/DailyClose) acknowledged - Ken alerted 15:17 AEST May5. No new alerts. Late night standby.",
   "gogAccount": "kenmun@ainchors.com"
 }
