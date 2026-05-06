@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-05-06T11:27:37.778281+00:00",
+  "generatedAt": "2026-05-06T14:04:08.115104+00:00",
   "failures": [
     {
       "cronId": "83accf7b",
@@ -7,11 +7,9 @@
       "name": "Warden \u2014 Model Compliance Check",
       "consecutiveErrors": 3,
       "lastError": "error",
-      "source": "live-cron-state",
-      "acknowledged": true,
-      "acknowledgedNote": "Ken ack 2026-05-06 via heartbeat-state notes"
+      "source": "live-cron-state"
     }
   ],
   "warnings": [],
-  "acknowledged": true
+  "acknowledged": false
 }

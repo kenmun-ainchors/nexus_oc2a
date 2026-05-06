@@ -9726,14 +9726,159 @@
       "ts": "2026-05-06T11:37:25.428695+00:00",
       "status": "ok",
       "issues": []
+    },
+    {
+      "ts": "2026-05-06T11:43:04.614813+00:00",
+      "status": "ok",
+      "issues": []
+    },
+    {
+      "ts": "2026-05-06T11:47:35.857490+00:00",
+      "status": "ok",
+      "issues": []
+    },
+    {
+      "ts": "2026-05-06T11:51:12.541361+00:00",
+      "status": "ok",
+      "issues": []
+    },
+    {
+      "ts": "2026-05-06T11:58:05.130424+00:00",
+      "status": "ok",
+      "issues": []
+    },
+    {
+      "ts": "2026-05-06T12:01:04.455111+00:00",
+      "status": "ok",
+      "issues": []
+    },
+    {
+      "ts": "2026-05-06T12:05:54.037789+00:00",
+      "status": "ok",
+      "issues": []
+    },
+    {
+      "ts": "2026-05-06T12:10:56.849646+00:00",
+      "status": "ok",
+      "issues": []
+    },
+    {
+      "ts": "2026-05-06T12:17:28.991060+00:00",
+      "status": "ok",
+      "issues": []
+    },
+    {
+      "ts": "2026-05-06T12:20:56.829180+00:00",
+      "status": "ok",
+      "issues": []
+    },
+    {
+      "ts": "2026-05-06T12:26:16.245788+00:00",
+      "status": "ok",
+      "issues": []
+    },
+    {
+      "ts": "2026-05-06T12:32:45.739979+00:00",
+      "status": "ok",
+      "issues": []
+    },
+    {
+      "ts": "2026-05-06T12:46:06.317914+00:00",
+      "status": "ok",
+      "issues": []
+    },
+    {
+      "ts": "2026-05-06T12:50:21.293577+00:00",
+      "status": "ok",
+      "issues": []
+    },
+    {
+      "ts": "2026-05-06T12:55:20.382426+00:00",
+      "status": "ok",
+      "issues": []
+    },
+    {
+      "ts": "2026-05-06T13:01:53.657493+00:00",
+      "status": "ok",
+      "issues": []
+    },
+    {
+      "ts": "2026-05-06T13:05:20.626970+00:00",
+      "status": "ok",
+      "issues": []
+    },
+    {
+      "ts": "2026-05-06T13:10:20.374927+00:00",
+      "status": "ok",
+      "issues": []
+    },
+    {
+      "ts": "2026-05-06T13:16:13.098692+00:00",
+      "status": "ok",
+      "issues": []
+    },
+    {
+      "ts": "2026-05-06T13:21:30.535947+00:00",
+      "status": "ok",
+      "issues": []
+    },
+    {
+      "ts": "2026-05-06T13:27:00.707394+00:00",
+      "status": "ok",
+      "issues": []
+    },
+    {
+      "ts": "2026-05-06T13:31:36.039157+00:00",
+      "status": "ok",
+      "issues": []
+    },
+    {
+      "ts": "2026-05-06T13:35:26.054765+00:00",
+      "status": "degraded",
+      "issues": [
+        "Event loop delay critical: 15913ms max, utilisation 0.994 \u2014 gateway may be saturated"
+      ]
+    },
+    {
+      "ts": "2026-05-06T13:40:49.466150+00:00",
+      "status": "degraded",
+      "issues": [
+        "Event loop delay critical: 15913ms max, utilisation 0.994 \u2014 gateway may be saturated"
+      ]
+    },
+    {
+      "ts": "2026-05-06T13:45:54.725622+00:00",
+      "status": "degraded",
+      "issues": [
+        "Event loop delay critical: 15913ms max, utilisation 0.994 \u2014 gateway may be saturated"
+      ]
+    },
+    {
+      "ts": "2026-05-06T13:52:15.432307+00:00",
+      "status": "degraded",
+      "issues": [
+        "Event loop delay critical: 15913ms max, utilisation 0.994 \u2014 gateway may be saturated"
+      ]
+    },
+    {
+      "ts": "2026-05-06T13:58:14.037220+00:00",
+      "status": "degraded",
+      "issues": [
+        "Event loop delay critical: 15913ms max, utilisation 0.994 \u2014 gateway may be saturated"
+      ]
+    },
+    {
+      "ts": "2026-05-06T14:00:54.864418+00:00",
+      "status": "ok",
+      "issues": []
     }
   ],
   "summary": {
-    "totalChecks": 1938,
-    "upChecks": 1921,
-    "downtimeMinutes": 255,
-    "uptimePct": 99.123,
-    "lastCheck": "2026-05-06T11:37:25.428695+00:00",
+    "totalChecks": 1965,
+    "upChecks": 1943,
+    "downtimeMinutes": 330,
+    "uptimePct": 98.88,
+    "lastCheck": "2026-05-06T14:00:54.864418+00:00",
     "lastStatus": "ok"
   }
 }

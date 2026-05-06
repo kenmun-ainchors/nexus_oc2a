@@ -1,20 +1,20 @@
 {
   "lastChecks": {
-    "email": "2026-05-06T10:05:07.793343+00:00",
-    "calendar": "2026-05-06T10:05:07.793343+00:00",
-    "agentHealth": "2026-05-06T11:36:36Z",
-    "apiBalance": "2026-05-06T11:36:36Z",
-    "taskWatchdog": "2026-05-06T11:36:36Z",
-    "cronHealth": "2026-05-06T11:36:36Z",
-    "memoryMaintenance": "2026-05-05T08:07:57.441016+00:00",
+    "email": "2026-05-06T12:08:05.282947Z",
+    "calendar": "2026-05-06T12:08:05.282947Z",
+    "agentHealth": "2026-05-06T14:00:14.346064Z",
+    "apiBalance": "2026-05-06T14:00:14.346064Z",
+    "taskWatchdog": "2026-05-06T14:00:14.346064Z",
+    "cronHealth": "2026-05-06T14:00:14.346064Z",
+    "memoryMaintenance": "2026-05-06T13:49:30.166021+00:00",
     "weather": null,
-    "dailyClose": 1777993673,
-    "wardenEscalation": "2026-05-06T11:36:36Z",
-    "cronDeadLetter": "2026-05-06T11:36:36Z",
+    "dailyClose": 1778075370166,
+    "wardenEscalation": "2026-05-06T14:00:14.346064Z",
+    "cronDeadLetter": "2026-05-06T14:00:14.346064Z",
     "ariaContextSync": "2026-05-04T13:00:00Z",
     "standup": "2026-05-05T21:53:00Z",
     "missionControl": "2026-05-05T09:26:00.000000Z"
   },
-  "notes": "May6 21:36 AEST: All clear. Balance $100.13 OK. Cron health clean. Warden alert already acked. Journal+blog due at 23:30.",
+  "notes": "May6 23:59 AEST: All clear. Journal+blog \u2705. Balance $100.13 Tier 0. Crons clean. No escalations. Gateway event loop delay flagged (15913ms, 0.994 util) but 0 consecutive failures.",
   "gogAccount": "kenmun@ainchors.com"
 }

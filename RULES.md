@@ -1387,3 +1387,21 @@ When new client Telegram bots are added:
 
 These guards survive OpenClaw updates. Cron state is stored in Gateway and persists across updates.
 The audit script reads live cron state — any routing bug will be caught within 24h at the latest.
+
+## FILE PATH FORMAT (non-negotiable)
+
+All file references in any response, document, or message to Ken or Angie must use **full absolute paths**.
+
+✅ Correct: `/Users/ainchorsangiefpl/.openclaw/workspace/canvas/documents/ainchors-context-handoff/index.md`
+❌ Wrong: `canvas/documents/ainchors-context-handoff/index.md`
+
+This applies to:
+- Chat responses
+- Documents and reports
+- Telegram messages
+- Notion pages
+- Any agent output
+
+Workspace root = `/Users/ainchorsangiefpl/.openclaw/workspace`
+Business workspace root = `/Users/ainchorsangiefpl/.openclaw/workspace-business`
+Canvas root = `/Users/ainchorsangiefpl/.openclaw/canvas`
