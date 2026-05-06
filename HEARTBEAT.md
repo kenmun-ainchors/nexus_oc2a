@@ -109,3 +109,15 @@
 
 ## State Tracking
 State file: state/heartbeat-state.json
+
+### Ahsoka Pilot Completion Gate (check every heartbeat)
+- Check `state/ahsoka-pilot-state.json`
+- If `pilots.pilot1.status = "complete"` AND `pilots.pilot2.status = "complete"` AND `confirmationTriggered = false`:
+  - Alert Ken immediately:
+    > 🤍 **Ahsoka — Both Pilots Complete**
+    > Pilot 1 (TKT-0082) ✅ and Pilot 2 (TKT-0083) ✅ are done.
+    > **Ready for your final call:** Reply `APPROVED` to activate Ahsoka for business operations and notify Angie.
+    > Or flag any issues for Yoda to fix first.
+  - Set `confirmationTriggered = true` in the state file
+  - Do NOT notify Angie until Ken explicitly says APPROVED
+- State key: ahsokaPilot

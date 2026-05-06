@@ -1,0 +1,29 @@
+{
+  "schema": "ahsoka-pilot-state.v1",
+  "agent": "ahsoka",
+  "status": "pilot_testing",
+  "pilots": {
+    "pilot1": {
+      "tkt": "TKT-0082",
+      "title": "Ahsoka Pilot Case 1",
+      "status": "pending",
+      "startedAt": null,
+      "completedAt": null,
+      "kenNotes": null
+    },
+    "pilot2": {
+      "tkt": "TKT-0083",
+      "title": "Ahsoka Pilot Case 2",
+      "status": "pending",
+      "startedAt": null,
+      "completedAt": null,
+      "kenNotes": null
+    }
+  },
+  "confirmationTriggered": false,
+  "kenApproved": false,
+  "approvedAt": null,
+  "angieNotified": false,
+  "createdAt": "2026-05-07T00:04:00Z",
+  "chgRef": "CHG-0202"
+}
