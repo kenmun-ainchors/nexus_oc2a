@@ -2,19 +2,19 @@
   "lastChecks": {
     "email": "2026-05-06T12:08:05.282947Z",
     "calendar": "2026-05-06T12:08:05.282947Z",
-    "agentHealth": "2026-05-06T14:00:14.346064Z",
-    "apiBalance": "2026-05-06T14:00:14.346064Z",
-    "taskWatchdog": "2026-05-06T14:00:14.346064Z",
-    "cronHealth": "2026-05-06T14:00:14.346064Z",
+    "agentHealth": "2026-05-06T14:16:49.114867Z",
+    "apiBalance": "2026-05-06T14:16:49.114866Z",
+    "taskWatchdog": "2026-05-06T14:16:49.114868Z",
+    "cronHealth": "2026-05-06T14:16:49.114777Z",
     "memoryMaintenance": "2026-05-06T13:49:30.166021+00:00",
     "weather": null,
     "dailyClose": 1778075370166,
-    "wardenEscalation": "2026-05-06T14:00:14.346064Z",
-    "cronDeadLetter": "2026-05-06T14:00:14.346064Z",
+    "wardenEscalation": "2026-05-06T14:16:49.114868Z",
+    "cronDeadLetter": "2026-05-06T14:16:49.114865Z",
     "ariaContextSync": "2026-05-04T13:00:00Z",
     "standup": "2026-05-05T21:53:00Z",
     "missionControl": "2026-05-05T09:26:00.000000Z"
   },
-  "notes": "May6 23:59 AEST: All clear. Journal+blog \u2705. Balance $100.13 Tier 0. Crons clean. No escalations. Gateway event loop delay flagged (15913ms, 0.994 util) but 0 consecutive failures.",
+  "notes": "May7 00:16 AEST: Warden cron 83accf7b still 3 consecutive framework errors \u2014 deferred morning review (drift-state clean, consecutiveClean=5). Balance $100.13 Tier 0. No escalations, no stalls, no dead-letters.",
   "gogAccount": "kenmun@ainchors.com"
 }

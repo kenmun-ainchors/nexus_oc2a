@@ -300,14 +300,11 @@ Trigger: end-of-session, nightly cron 23:55 Melbourne, or Ken's explicit request
    - PII: redact third-party IDs/keys/IPs in the journal; keep Ken's prompts intact. Blog post has stricter redaction.
    - Reference exemplars: `memory/journal-2026-04-25.md`, `memory/journal-2026-04-26.md`. Format changes require Ken approval + update to JournalFormat.md.
 
-2. **Blog post** → `canvas/documents/ainchors-YYYY-MM-DD/index.html`
-   - 🔒 **LOCKED FORMAT** - full spec: `~/Documents/AInchors/Operations/BlogFormat.md`
-   - **Distinct from the journal.** Journal = raw record (verbatim, Yoda voice, private). Blog = curated narrative (Ken's first-person voice, public-ready, built FROM the journal).
-   - Source of truth: today's journal. Don't re-extract from session transcripts.
-   - Mandatory sections: Hero → Opening → The Story (3-6 acts) → What Broke (if any) → What I Learned → The Cost of Day N → What's Next → While You Were Away (quiet days) → Footer.
-   - Self-contained HTML (CSS inline, no external CDN), Medium-style typography, mobile-responsive.
-   - PII: ALL sensitive values → `<PLACEHOLDER>`. Treated as public. Run redaction sweep before saving.
-   - Length is not the metric. ~1500-3000 words typical; cut filler.
+2. **Blog post** → ⚠️ **DO NOT generate blog here. The 00:05 cron (a027fd60) handles this exclusively.**
+   - Correct path (00:05 cron only): `/Users/ainchorsangiefpl/.openclaw/canvas/documents/ainchors-YYYY-MM-DD/index.html`
+   - ❌ NEVER write blog to: `/Users/ainchorsangiefpl/.openclaw/workspace/canvas/documents/` (workspace canvas — wrong)
+   - The journal cron (23:55) and any EOD sub-agent spawned from main session must NOT generate the blog.
+   - If Ken explicitly requests `/eod` or `/blog` — trigger the blog cron (a027fd60) or spawn isolated agent writing to the CORRECT absolute path only.
 
 3. **Cost report** → run `scripts/cost-tracker.sh`, update Notion Cost Tracker DB, include in journal
 

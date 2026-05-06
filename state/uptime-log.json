@@ -9871,14 +9871,24 @@
       "ts": "2026-05-06T14:00:54.864418+00:00",
       "status": "ok",
       "issues": []
+    },
+    {
+      "ts": "2026-05-06T14:09:52.088427+00:00",
+      "status": "ok",
+      "issues": []
+    },
+    {
+      "ts": "2026-05-06T14:14:35.200178+00:00",
+      "status": "ok",
+      "issues": []
     }
   ],
   "summary": {
-    "totalChecks": 1965,
-    "upChecks": 1943,
+    "totalChecks": 1967,
+    "upChecks": 1945,
     "downtimeMinutes": 330,
-    "uptimePct": 98.88,
-    "lastCheck": "2026-05-06T14:00:54.864418+00:00",
+    "uptimePct": 98.882,
+    "lastCheck": "2026-05-06T14:14:35.200178+00:00",
     "lastStatus": "ok"
   }
 }

@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-05-06T14:04:08.115104+00:00",
+  "generatedAt": "2026-05-06T14:16:27.543730+00:00",
   "failures": [
     {
       "cronId": "83accf7b",
@@ -11,5 +11,7 @@
     }
   ],
   "warnings": [],
-  "acknowledged": false
+  "acknowledged": true,
+  "acknowledgedAt": "2026-05-06T14:16:49.091127Z",
+  "acknowledgedNote": "Deferred to morning review (00:16 AEST). Warden drift-state clean (consecutiveClean=5, no violations). Cron framework error only."
 }
