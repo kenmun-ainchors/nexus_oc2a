@@ -1,0 +1,55 @@
+{
+  "violations": [],
+  "passes": [
+    {
+      "job": "AKB Holocron \u2014 Daily Update (3AM)",
+      "id": "dce1ada4-8012-4ab9-bd13-2da68ae0c9bb",
+      "to": "8574109706",
+      "accountId": "yoda(default)"
+    },
+    {
+      "job": "AInchors Morning Stand-Up",
+      "id": "3c279099-bddb-4ef3-bfea-fc22f342abd8",
+      "to": "8574109706",
+      "accountId": "yoda(default)"
+    },
+    {
+      "job": "Spark \u2014 LinkedIn Friday Post (W1P4 + recurring)",
+      "id": "243634a7-c7ae-47f2-9a04-b27583217c36",
+      "to": "8574109706",
+      "accountId": "yoda(default)"
+    },
+    {
+      "job": "Aria \ud83d\udd35 \u2014 Weekly Business ROI Summary",
+      "id": "7a4d8381-2384-4719-b8d3-daff97a65b8a",
+      "to": "8141152780",
+      "accountId": "aria"
+    },
+    {
+      "job": "AInchors Monthly Model Strategy Review",
+      "id": "38d77d14-a535-4a62-8352-85f6c1776983",
+      "to": "8574109706",
+      "accountId": "yoda(default)"
+    },
+    {
+      "job": "Spark \u2728 \u2014 30-Day LinkedIn Report",
+      "id": "316df676-af46-4ffa-93cb-719fb1ae14d6",
+      "to": "8574109706",
+      "accountId": "yoda(default)"
+    },
+    {
+      "job": "AInchors Quarterly Asset Registry Review",
+      "id": "2e235063-a34e-4a55-8fa5-7f8dd087a1e5",
+      "to": "8574109706",
+      "accountId": "yoda(default)"
+    }
+  ],
+  "warnings": [],
+  "auditAt": "2026-05-06T09:57:42Z",
+  "summary": {
+    "violations": 0,
+    "passes": 7,
+    "warnings": 0
+  },
+  "status": "pass"
+}

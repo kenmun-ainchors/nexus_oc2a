@@ -44,16 +44,16 @@
       "detection": "automated \u2014 daily cron checks github.com/openclaw/openclaw/releases",
       "action": "Critical CVE: update within 48h. High: within 7 days. Raise CHG. Freeze client onboarding if P1.",
       "cronId": null,
-      "currentVersion": "2026.5.2",
-      "availableVersion": "2026.5.3",
-      "lastChecked": "2026-05-04T20:00:17Z",
+      "currentVersion": "2026.5.4",
+      "availableVersion": null,
+      "lastChecked": "2026-05-05T20:00:18Z",
       "status": "monitoring",
       "firedAt": null,
-      "lastReleaseDate": "2026-05-04T07:01:29Z",
+      "lastReleaseDate": "2026-05-05T20:00:18Z",
       "classification": "Regular",
-      "details": "v2026.5.3: Plugin install hardening, channel streaming reliability, gateway performance, config validation. Multiple stability improvements. No explicit CVE/security-critical marker.",
+      "details": "v2026.5.4: Realtime voice/Google Meet improvements, plugin migration hints, dependency refresh, performance optimizations. Secrets contract resolution fix. No CVE/security-critical marker.",
       "upgradeWindow": "routine",
-      "notes": "Regular release with stability improvements. Previous critical release: v2026.4.29 (High, now patched)."
+      "notes": "Installed version up to date. Regular release with stability and performance improvements. No action required."
     },
     "TRIGGER-05": {
       "name": "Ollama Cloud PoC PASS",

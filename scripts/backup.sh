@@ -71,3 +71,25 @@ done
 
 log "--- Backup complete: $TIMESTAMP ---"
 echo ""
+
+# 7. Write backup state file (for heartbeat + auto-heal checks)
+STATE_FILE="$HOME/.openclaw/workspace/state/backup-state.json"
+python3 -c "
+import json, os, time
+state_file = '$STATE_FILE'
+ws_snap = '$WORKSPACE_SNAP'
+try:
+    size = os.path.getsize(ws_snap)
+except:
+    size = 0
+state = {
+    'lastRunAt': '$(date -u +%Y-%m-%dT%H:%M:%SZ)',
+    'lastSuccess': True,
+    'workspaceSnapshot': os.path.basename(ws_snap),
+    'snapshotSizeBytes': size,
+    'backupRoot': '$BACKUP_ROOT'
+}
+with open(state_file, 'w') as f:
+    json.dump(state, f, indent=2)
+"
+log "State file written: $STATE_FILE"

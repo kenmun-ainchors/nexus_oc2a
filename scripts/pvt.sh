@@ -256,7 +256,7 @@ fi
 
 # ── CHECK 9: Telegram channel
 # (note: check 10 added below after check 9) ─────────────────────────────────────────────────
-[[ "$QUIET" != "--quiet" ]] && echo -e "${BOLD}[9/10] Telegram${RESET}"
+[[ "$QUIET" != "--quiet" ]] && echo -e "${BOLD}[9/11] Telegram${RESET}"
 OC_STATUS=$(openclaw status 2>/dev/null || echo "")
 if echo "$OC_STATUS" | grep -qi "telegram"; then
   check_pass "Telegram" "telegram channel present in openclaw status"
@@ -289,7 +289,7 @@ fi
 
 
 # ── CHECK 10: Content governance gate ─────────────────────────────────────────
-[[ "$QUIET" != "--quiet" ]] && echo -e "${BOLD}[10/10] Content Governance Gate${RESET}"
+[[ "$QUIET" != "--quiet" ]] && echo -e "${BOLD}[10/11] Content Governance Gate${RESET}"
 CGR_SCRIPT="$WORKSPACE/scripts/content-governance-review.sh"
 if [[ ! -f "$CGR_SCRIPT" ]]; then
   check_fail "Content Governance Gate" "scripts/content-governance-review.sh not found"
@@ -302,7 +302,30 @@ else
   log "Content Governance Gate: PASS"
 fi
 
-# ── Results banner ────────────────────────────────────────────────────────────
+# ── CHECK 11: Telegram routing integrity ──────────────────────────────────────
+[[ "$QUIET" != "--quiet" ]] && echo -e "${BOLD}[11/11] Telegram Routing Integrity${RESET}"
+TG_AUDIT="$WORKSPACE/scripts/telegram-routing-audit.sh"
+if [[ ! -f "$TG_AUDIT" ]]; then
+  check_fail "Telegram Routing" "telegram-routing-audit.sh not found"
+  log "Telegram Routing: FAIL (script missing)"
+elif [[ ! -x "$TG_AUDIT" ]]; then
+  check_fail "Telegram Routing" "telegram-routing-audit.sh not executable"
+  log "Telegram Routing: FAIL (not executable)"
+else
+  TG_OUTPUT=$(bash "$TG_AUDIT" --quiet 2>&1)
+  TG_EXIT=$?
+  if [[ $TG_EXIT -eq 0 ]]; then
+    PASS_DETAIL=$(cat "$WORKSPACE/state/telegram-routing-audit.json" 2>/dev/null | python3 -c "import json,sys; d=json.load(sys.stdin); print(f\"{d['summary']['passes']} routes correct, {d['summary']['warnings']} unknown chatIds\")" 2>/dev/null || echo "all routes correct")
+    check_pass "Telegram Routing" "$PASS_DETAIL"
+    log "Telegram Routing: PASS"
+  else
+    VIOLATION_DETAIL=$(cat "$WORKSPACE/state/telegram-routing-audit.json" 2>/dev/null | python3 -c "import json,sys; d=json.load(sys.stdin); vs=d.get('violations',[]); print('; '.join([v['job'] for v in vs[:3]]))" 2>/dev/null || echo "see state/telegram-routing-audit.json")
+    check_fail "Telegram Routing" "routing violation(s): $VIOLATION_DETAIL"
+    log "Telegram Routing: FAIL"
+  fi
+fi
+
+# ── Results banner ────────────────────────────────────────────
 TOTAL=$((PASS_COUNT + FAIL_COUNT))
 echo ""
 if [[ $FAIL_COUNT -eq 0 ]]; then

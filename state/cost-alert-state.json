@@ -1,8 +1,8 @@
 {
   "schema_version": "1.0",
   "description": "Tracks response counters and alert state for tiered credit alerts. Updated by Yoda at runtime.",
-  "currentBalance": 309.11,
-  "lastBalanceCheck": "2026-05-05T11:04:00Z",
+  "currentBalance": 100.13,
+  "lastBalanceCheck": "2026-05-06T11:33:52Z",
   "activeTier": 0,
   "tier1": {
     "triggered": false,
@@ -108,14 +108,20 @@
       "sentAt": "2026-05-05T09:50:00Z",
       "balanceEstimate": 309.11,
       "note": "Tiers reset. Second $500 top-up confirmed. CSV reconciliation applied. Balance $309.11 confirmed by Ken."
+    },
+    {
+      "tier": 0,
+      "sentAt": "2026-05-06T11:33:52Z",
+      "balanceEstimate": 100.13,
+      "note": "Balance confirmed $100.13 by Ken 2026-05-06 21:33 AEST. Tiers reset."
     }
   ],
-  "balance": 309.11,
-  "confirmedAt": "2026-05-05T09:50:00Z",
+  "balance": 100.13,
+  "confirmedAt": "2026-05-06T11:33:52Z",
   "confirmedBy": "Ken",
   "topUpNote": "Balance corrected to $225 USD by Ken 2026-05-04 17:51 AEST (webchat).",
   "lastTopUpAt": "2026-05-05T09:50:00Z",
   "lastTopUpAmount": 500,
-  "lastUpdated": "2026-05-05T09:50:00Z",
-  "lastUpdatedBy": "Ken confirmation + CSV reconciliation 2026-05-05 19:50 AEST"
+  "lastUpdated": "2026-05-06T11:33:52Z",
+  "lastUpdatedBy": "Ken confirmation webchat 2026-05-06 21:33 AEST"
 }

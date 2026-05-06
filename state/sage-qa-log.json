@@ -433,11 +433,25 @@
       "issues": [
         "[]"
       ]
+    },
+    {
+      "ts": "2026-05-06T12:02:19+10:00",
+      "assetPath": "/Users/ainchorsangiefpl/.openclaw/workspace-social/drafts/linkedin-c1-w2-p1.md",
+      "assetType": "social",
+      "producedBy": "yoda",
+      "intendedFor": "public distribution",
+      "brief": "Content governance review for LI-C1-W2-P1",
+      "verdict": "PASS",
+      "passCount": 7,
+      "failCount": 0,
+      "issues": [
+        "[]"
+      ]
     }
   ],
   "summary": {
-    "total": 31,
-    "pass": 30,
+    "total": 32,
+    "pass": 31,
     "fail": 1
   }
 }

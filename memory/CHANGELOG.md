@@ -42,6 +42,121 @@ This log captures **every change** Yoda makes to AInchors infrastructure, config
 **Linked:** decisions.md 2026-04-27 entries
 ---
 
+## 2026-05-06 21:38 AEST — [CHG-0199] EOD close 2026-05-06
+**Type:** doc
+**Source:** scheduled
+**Trigger:** Ken end-of-day
+**What changed:** memory/journal-2026-05-06.md, canvas/documents/ainchors-2026-05-06/index.html
+**Why:** Daily journal and blog post
+**Verification:** Yoda
+**Rollback:** N/A
+**Linked:** none
+---
+
+
+## 2026-05-06 21:34 AEST — [CHG-0198] API balance confirmed USD100.13
+**Type:** config
+**Source:** ken-prompt
+**Trigger:** Ken webchat 2026-05-06 21:33 AEST
+**What changed:** state/cost-state.json, state/cost-alert-state.json
+**Why:** Ken confirmed balance. Tiers reset above USD80 threshold.
+**Verification:** Ken
+**Rollback:** N/A
+**Linked:** none
+---
+
+
+## 2026-05-06 20:49 AEST — [CHG-0197] TKT-0078: Holocron comprehensive audit and update complete
+**Type:** doc
+**Source:** manual
+**Trigger:** TKT-0078 one-off audit task
+**What changed:** Agent DB: 3 renames (Shield/Lex/Sage), 5 new entries (Atlas/Thrawn/Lando/Mon Mothma/Forge). Agent Architecture page populated from stub (50 blocks). Agent Architecture Detail populated (38 blocks). Platform Operations stub removed. 7 sections audited.
+**Why:** Bring Holocron SSOT up to current agent state. Star Wars naming convention enforcement.
+**Verification:** All Notion API calls returned success. Gap report written to state/holocron-audit-2026-05-06.json.
+**Rollback:** N/A
+**Linked:** TKT-0078
+---
+
+
+## 2026-05-06 15:05 AEST — [CHG-0196] Aria: exec+process restored to tool scope (S4 revision) + relay JSON write fix
+**Type:** config
+**Source:** ken-prompt
+**Trigger:** Angie hit exec blocker via Aria 2026-05-06 — gog CLI (calendar/gmail/voice) broken
+**What changed:** openclaw.json: exec+process added back to business agent tools. Gateway restarted. ARIA_RULES.md: JSON state updates to use python3 read/modify/write (not edit tool). Relay: CR-001+MSG-001 injected and marked sent. S4 note: exec is required for Aria gog CLI — business agent exec exception to least-privilege baseline.
+**Why:** S4 removed exec from Aria for security, but exec is needed for gog CLI (calendar/Gmail/voice). Aria could not relay flags to Ken due to same JSON-edit fragility as Spark.
+**Verification:** Aria tools confirmed exec+process. Gateway pid 46118 running.
+**Rollback:** N/A
+**Linked:** none
+**Category:** security
+**Framework docs:** ~/Documents/AInchors/Operations/Standards.md, ~/.openclaw/workspace/RULES.md
+---
+
+
+## 2026-05-06 14:54 AEST — [CHG-0195] Spark: fix tracker JSON update pattern + prune stale scheduled entries
+**Type:** script
+**Source:** ken-prompt
+**Trigger:** Ken investigation of bef42235 Wed 12pm cron error 2026-05-06
+**What changed:** SPARK_RULES.md: replaced edit-tool JSON updates with python3 read/modify/write pattern. linkedin-content-tracker.json: removed 4 stale W1 scheduled entries (LI-W1-P1 to P4) superseded by AIOps cycle.
+**Why:** edit tool fails on empty arrays [] due to exact string matching. Brittle pattern caused cron error. Python write is always safe.
+**Verification:** Tracker valid JSON. SPARK_RULES.md updated with code pattern. Stale entries pruned.
+**Rollback:** N/A
+**Linked:** none
+**Category:** reliability
+---
+
+
+## 2026-05-06 14:50 AEST — [CHG-0194] kimi RTB trial cron + Tier 2B added to route-model.sh
+**Type:** config
+**Source:** ken-prompt
+**Trigger:** Ken approved kimi trial for RTB/descriptive tasks 2026-05-06
+**What changed:** route-model.sh: added TIER2B=kimi-k2.6:cloud for rtb-summary/daily-report/state-summary task types. Cron 57105907: RTB kimi trial daily 8:10am AEST, parallel to Sonnet standup, delivers [kimi] tagged RTB to Telegram.
+**Why:** Cost optimisation: descriptive read+summarise tasks dont need Sonnet. Trial to validate kimi quality before broader rollout.
+**Verification:** Cron 57105907 registered. route-model.sh updated. First run tomorrow 8:10am AEST.
+**Rollback:** N/A
+**Linked:** none
+**Category:** cost
+---
+
+
+## 2026-05-06 14:36 AEST — [CHG-0193] Governance triad (Shield/Lex/Sage) switched to Haiku — cost optimisation
+**Type:** config
+**Source:** ken-prompt
+**Trigger:** Ken approved 2026-05-06 — descriptive/review tasks don't need Sonnet
+**What changed:** openclaw.json: security/legal/qa model → anthropic/claude-haiku-4-5. model-drift-check.sh: Warden checks updated for all 3. model-policy.json: required=haiku, allowed=[haiku] for security/legal/qa.
+**Why:** Governance triad was consuming ~$181 Sonnet on May 5. Review tasks are descriptive — no complex reasoning needed.
+**Verification:** openclaw.json confirmed. Gateway running pid 42727.
+**Rollback:** N/A
+**Linked:** none
+**Category:** cost
+---
+
+
+## 2026-05-06 13:45 AEST — [CHG-0192] MEMORY.md compacted (pre-standup hygiene)
+**Type:** doc
+**Source:** manual
+**Trigger:** Auto-heal warned 15570 chars > 15000 threshold
+**What changed:** Reduced MEMORY.md from ~15500 to under 12000 chars. No facts changed.
+**Why:** bootstrapMaxChars=20000, warning at 15000. Compact to give headroom.
+**Verification:** wc -c confirmed under 12000
+**Rollback:** N/A
+**Linked:** none
+**Category:** housekeeping
+---
+
+
+## 2026-05-06 13:42 AEST — [CHG-0191] backup.sh — write state/backup-state.json after each run
+**Type:** script
+**Source:** ken-prompt
+**Trigger:** Ken flagged missing backup state file 2026-05-06
+**What changed:** backup.sh: added step 7 to write state/backup-state.json (lastRunAt, lastSuccess, snapshotFile, size). Backfilled current state.
+**Why:** heartbeat/auto-heal had no machine-readable backup status.
+**Verification:** state/backup-state.json created. backup.sh updated.
+**Rollback:** N/A
+**Linked:** none
+**Category:** reliability
+---
+
+
 ## 2026-05-05 23:59 AEST — [CHG-0190] EOD close — Day 11 journal complete + Notion cost tracker updated
 **Type:** doc
 **Source:** scheduled

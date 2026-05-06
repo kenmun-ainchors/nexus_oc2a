@@ -98,7 +98,13 @@
       ],
       "rationale": "Governance agents run Sonnet for consistency. No Opus (cost), no Gemma4 (quality risk for security reviews).",
       "configPath": "/Users/ainchorsangiefpl/.openclaw/openclaw.json",
-      "configJqQuery": ".agents.list[] | select(.id==\"security\") | .model"
+      "configJqQuery": ".agents.list[] | select(.id==\"security\") | .model",
+      "required": "anthropic/claude-haiku-4-5",
+      "allowed": [
+        "anthropic/claude-haiku-4-5"
+      ],
+      "prohibited": [],
+      "note": "Switched to Haiku 2026-05-06 \u2014 Ken cost optimisation. Descriptive/review tasks only."
     },
     "legal": {
       "description": "Lex \u2696\ufe0f \u2014 Legal Governance Agent",
@@ -132,7 +138,13 @@
       "exceptionDate": "2026-04-28",
       "rationale": "Ken confirmed Sonnet sufficient. Opus exception removed 2026-04-28. Ollama Cloud explicitly prohibited \u2014 legal content is sensitive. No external cloud for legal reviews. CHG-0140 audit.",
       "configPath": "/Users/ainchorsangiefpl/.openclaw/openclaw.json",
-      "configJqQuery": ".agents.list[] | select(.id==\"legal\") | .model"
+      "configJqQuery": ".agents.list[] | select(.id==\"legal\") | .model",
+      "required": "anthropic/claude-haiku-4-5",
+      "allowed": [
+        "anthropic/claude-haiku-4-5"
+      ],
+      "prohibited": [],
+      "note": "Switched to Haiku 2026-05-06 \u2014 Ken cost optimisation. Descriptive/review tasks only."
     },
     "qa": {
       "description": "Sage \ud83e\uddea \u2014 QA Governance Agent",
@@ -156,7 +168,13 @@
       "ollamaCloudConstraint": "Non-sensitive content QA only (blog posts, marketing copy, internal docs). Not for reviewing content that may contain PII or client data.",
       "rationale": "Governance agents run Sonnet for consistency. Ollama Cloud (kimi, deepseek-flash) allowed for non-sensitive content QA crons \u2014 CHG-0140.",
       "configPath": "/Users/ainchorsangiefpl/.openclaw/openclaw.json",
-      "configJqQuery": ".agents.list[] | select(.id==\"qa\") | .model"
+      "configJqQuery": ".agents.list[] | select(.id==\"qa\") | .model",
+      "required": "anthropic/claude-haiku-4-5",
+      "allowed": [
+        "anthropic/claude-haiku-4-5"
+      ],
+      "prohibited": [],
+      "note": "Switched to Haiku 2026-05-06 \u2014 Ken cost optimisation. Descriptive/review tasks only."
     },
     "spark": {
       "description": "Spark \u2728 \u2014 Social & Digital Marketing Agent",

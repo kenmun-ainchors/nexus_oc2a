@@ -160,9 +160,9 @@ echo ""
 echo "[ Agent Models ]"
 check_agent "main"       "anthropic/claude-sonnet-4-6"
 check_agent "business"   "anthropic/claude-sonnet-4-6"
-check_agent "security"   "anthropic/claude-sonnet-4-6"
-check_agent "legal"      "anthropic/claude-sonnet-4-6"            # Sonnet confirmed by Ken 2026-04-28
-check_agent "qa"         "anthropic/claude-sonnet-4-6"
+check_agent "security"   "anthropic/claude-haiku-4-5"  # switched to Haiku 2026-05-06 (Ken cost optimisation)
+check_agent "legal"      "anthropic/claude-haiku-4-5"             # switched to Haiku 2026-05-06 (Ken cost optimisation)
+check_agent "qa"         "anthropic/claude-haiku-4-5"             # switched to Haiku 2026-05-06 (Ken cost optimisation)
 check_agent "governance" "anthropic/claude-sonnet-4-6"
 
 echo ""

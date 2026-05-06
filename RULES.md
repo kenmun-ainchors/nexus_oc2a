@@ -327,7 +327,7 @@ Full doc: `~/Documents/AInchors/Operations/Standards.md`
 
 Alerts go to BOTH:
 - **Ken** - Telegram 8574109706
-- **Angie** - via Aria agent, Telegram 8141152780
+- **Angie** - via `sessions_send` to Aria session (sessionKey: `session:agent:business:main`). Aria delivers to Angie via @AInchorsAriaBot. **NEVER send directly to Telegram 8141152780 from Yoda — it will come from Yoda's bot, not Aria's.**
 
 Check `state/cost-alert-state.json` for current tier and counters. Update after every response.
 
@@ -761,17 +761,19 @@ Exit 2 = do not publish. Fix all issues and re-run until exit 0.
 
 ---
 
-## /update - Ad-Hoc Flash Update
+## /flashupdate - Ad-Hoc Flash Update
 
 **Intent:** Quick situational awareness snapshot since the last standup. Not a full standup — no sprint plan, no RTB, no new input capture. Critical items, actions needed, things requiring attention. In and out.
 
-**Trigger:** Ken types **`/update`** or **`/flash`** (case-insensitive, both identical) in any channel.
+**Trigger:** Ken types **`/flashupdate`** (case-insensitive) in any channel.
+
+**Note:** `/flash` and `/update` are reserved OpenClaw platform keywords and must NOT be used as agent triggers.
 
 **Window:** Same as `/standup` — read `state/standup-state.json`, use `lastStandupAt` as windowStart. If null, default to 24h ago.
 
-**Important:** `/update` does NOT update `standup-state.json`. It does not reset the standup clock. Only `/standup` and the 8AM cron do that.
+**Important:** `/flashupdate` does NOT update `standup-state.json`. It does not reset the standup clock. Only `/standup` and the 8AM cron do that.
 
-**When `/update` is received:**
+**When `/flashupdate` is received:**
 
 1. **Read window** — `state/standup-state.json` → `lastStandupAt`. Window = lastStandupAt → now.
 2. **MANDATORY pre-checks (do these BEFORE composing output — never skip):**
@@ -1349,3 +1351,39 @@ _Locked 2026-04-28. Ken: "continue to provide this trigger and what I need to kn
 11. Report: what was found, what was fixed, current state
 
 **Auto-remediate:** Cancel zombies. Restart gateway if loop was saturated. Log CHG.
+
+## TELEGRAM ROUTING RULES (non-negotiable — prevents cross-bot messaging)
+
+**Root cause:** If a cron delivery targets Angie (8141152780) without `accountId: "aria"`, OpenClaw defaults to Yoda's bot and Angie receives messages from @AInchorsOC1Bot instead of @AInchorsAriaBot. Confirmed incident 2026-05-06.
+
+### Rule 1: Mandatory delivery spec for Angie-targeted crons
+Any cron with `delivery.to = "8141152780"` MUST include:
+```json
+"delivery": {
+  "mode": "announce",
+  "channel": "telegram",
+  "accountId": "aria",
+  "to": "8141152780"
+}
+```
+**Never omit `accountId: "aria"`.** Without it, Yoda's bot delivers.
+
+### Rule 2: Never send direct Telegram to Angie from Yoda context
+Yoda (main session) must NEVER call a Telegram send tool targeting 8141152780.
+Always route via `sessions_send` to `session:agent:business:main` and let Aria deliver.
+
+### Rule 3: Client bot routing (P2-P4)
+When new client Telegram bots are added:
+1. Add the bot to `openclaw.json` under `channels.telegram.accounts` with a unique `accountId`
+2. Add the chatId → accountId mapping to `scripts/telegram-routing-audit.sh` routing_policy
+3. Run `bash scripts/pvt.sh` — check 11 will validate routing before go-live
+4. **Never create a cron targeting a client chatId without specifying the correct `accountId`**
+
+### Rule 4: Automated enforcement
+- `bash scripts/telegram-routing-audit.sh` — run any time to check all cron routing
+- `bash scripts/telegram-routing-audit.sh --fix` — auto-correct known violations
+- `bash scripts/pvt.sh` — check 11 runs this audit on every post-op verification
+- `scripts/auto-heal.sh` check 14B — nightly detection and auto-fix
+
+These guards survive OpenClaw updates. Cron state is stored in Gateway and persists across updates.
+The audit script reads live cron state — any routing bug will be caught within 24h at the latest.

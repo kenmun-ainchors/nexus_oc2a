@@ -1,5 +1,5 @@
 {
-  "lastUpdated": "2026-05-05T13:55:18Z",
+  "lastUpdated": "2026-05-06T02:21:40Z",
   "history": {
     "2026-04-25": {
       "date": "2026-04-25",
@@ -339,48 +339,66 @@
           "turns": 33
         }
       }
+    },
+    "2026-05-06": {
+      "date": "2026-05-06",
+      "totalCost": 15.7702,
+      "totalTurns": 1260,
+      "totalInputTokens": 804014,
+      "totalOutputTokens": 199635,
+      "totalCacheReadTokens": 19398144,
+      "totalCacheWriteTokens": 2160717,
+      "source": "session-log-estimate",
+      "note": "Session log estimate. usage.cost.total includes cacheWrite charges. CHG-0097: confirmed cost includes cache writes.",
+      "byModel": {
+        "claude-sonnet-4-6": {
+          "input": 2340,
+          "output": 165307,
+          "cacheRead": 17926749,
+          "cacheWrite": 1983250,
+          "cost": 15.3018,
+          "turns": 1126
+        },
+        "gemma4:e2b": {
+          "input": 20630,
+          "output": 52,
+          "cacheRead": 0,
+          "cacheWrite": 0,
+          "cost": 0.0,
+          "turns": 2
+        },
+        "deepseek-v4-pro:cloud": {
+          "input": 302125,
+          "output": 10395,
+          "cacheRead": 0,
+          "cacheWrite": 0,
+          "cost": 0.0,
+          "turns": 9
+        },
+        "claude-haiku-4-5": {
+          "input": 1182,
+          "output": 19649,
+          "cacheRead": 1471395,
+          "cacheWrite": 177467,
+          "cost": 0.4684,
+          "turns": 106
+        },
+        "kimi-k2.6:cloud": {
+          "input": 477737,
+          "output": 4232,
+          "cacheRead": 0,
+          "cacheWrite": 0,
+          "cost": 0.0,
+          "turns": 17
+        }
+      }
     }
   },
-  "allTimeTotalCost": 1687.4309,
-  "daysTracked": 11,
-  "avgDailyCost": 153.4028,
+  "allTimeTotalCost": 1703.2011,
+  "daysTracked": 12,
+  "avgDailyCost": 141.9334,
   "apiBalance": {
-    "currency": "USD",
-    "balance": 495.26,
-    "topUpDate": "2026-05-03",
-    "spentSinceTopUp": 0,
-    "remainingEstimate": 309.11,
-    "note": "Corrected 2026-05-04 17:51 AEST via webchat session reconciliation",
-    "confirmedAt": "2026-05-05T09:50:00Z",
-    "confirmedBy": "Ken",
-    "confirmedBalance": 309.11,
-    "preTopUpActual": 18,
-    "trackerDiscrepancy": {
-      "trackerEstimate": 103,
-      "actual": 18,
-      "gap": 85,
-      "cause": "input_cache_write_5m charges excluded from session-log estimates"
-    },
-    "remainingNote": "confirmedBalance=309.11 at 2026-05-05; spentAfter=0",
-    "lastConfirmedAt": "2026-05-05T09:50:00Z",
-    "lastConfirmedBy": "Ken",
-    "lastConfirmedBalance": 309.11,
-    "lastUpdatedBy": "Ken confirmation + Anthropic CSV reconciliation 2026-05-05 19:50 AEST",
-    "lastUpdated": "2026-05-05T09:50:00Z",
-    "topUpHistory": [
-      {
-        "date": "2026-05-03",
-        "amount": 500.0,
-        "note": "First AInchors account top-up"
-      },
-      {
-        "date": "2026-05-05",
-        "amount": 500.0,
-        "note": "Second top-up confirmed by Ken 19:50 AEST"
-      }
-    ],
-    "spentSinceLastConfirm": 415.89,
-    "spentSinceLastConfirmNote": "225 (confirmed May4) + 500 (topup May5) - 309.11 (confirmed now) = 415.89"
+    "remainingEstimate": 100.13
   },
   "spendAlerts": {
     "tier1": {
@@ -430,5 +448,8 @@
     "note": "Thresholds recalibrated 2026-04-28. Actual burn $101/day from Anthropic CSV. T1=$80, T2=$40, T3=$15."
   },
   "costDataSource": "anthropic_csv_ground_truth",
-  "costDataNote": "May 3+4 reconciled from Anthropic CSV 2026-05-05. Pre-May3 from earlier CSV reconciliation."
+  "costDataNote": "May 3+4 reconciled from Anthropic CSV 2026-05-05. Pre-May3 from earlier CSV reconciliation.",
+  "confirmedBalance": 100.13,
+  "confirmedAt": "2026-05-06T11:33:52Z",
+  "confirmedBy": "Ken"
 }

@@ -8,6 +8,7 @@
 # ── Tier Definitions ──────────────────────────────────────────────────────────
 TIER1="anthropic/claude-sonnet-4-6"   # Orchestration — Ken-facing, complex, multi-step
 TIER2="anthropic/claude-haiku-4-5"    # Sub-tasks — bounded, structured, governance
+TIER2B="ollama/kimi-k2.6:cloud"       # Descriptive/summary — RTB, reports, read+summarise (no complex tool chains)
 TIER3="ollama/gemma4:e2b"             # Background — offline crons, zero-cost batch
 FALLBACK="ollama/gemma4:26b"          # Emergency — offline when Anthropic API down
 
@@ -31,6 +32,13 @@ case "$TASK_TYPE" in
   classification|extraction|summary-brief|backup-report|compliance-check|\
   alert-format|sub-task|bounded)
     echo "$TIER2" ;;
+
+  # TIER 2B — kimi-k2.6:cloud
+  # Descriptive, read-then-summarise tasks — no complex multi-step tool chains
+  # RTB recommendations, daily reports, state-file summaries, content triage
+  rtb-summary|daily-report|state-summary|content-triage|obs-summary|\
+  akb-update|aria-summary|cost-summary|metric-summary|changelog-digest)
+    echo "$TIER2B" ;;
 
   # TIER 3 — gemma4:e2b (local, free, offline-capable)
   # Fully deterministic background crons, cost tracking, asset review,

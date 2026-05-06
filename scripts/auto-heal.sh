@@ -288,6 +288,32 @@ else
   fi
 fi
 
+# ---------- CHECK 14B: Telegram routing integrity (auto-fix) ----------
+log "CHECK 14B: Telegram routing audit"
+CHECKS_RUN+=("telegram_routing")
+TG_AUDIT="$WORKSPACE/scripts/telegram-routing-audit.sh"
+if [[ -x "$TG_AUDIT" ]]; then
+  bash "$TG_AUDIT" --quiet 2>/dev/null
+  TG_EXIT=$?
+  if [[ $TG_EXIT -ne 0 ]]; then
+    log "  VIOLATION: Telegram routing misconfigured — attempting auto-fix..."
+    bash "$TG_AUDIT" --fix --quiet 2>/dev/null
+    FIX_EXIT=$?
+    if [[ $FIX_EXIT -eq 0 ]]; then
+      AUTO_FIXED+=("telegram_routing:auto-fixed")
+      log "  AUTO-FIX: Telegram routing corrected"
+    else
+      ISSUES_FOUND+=("telegram_routing_violation")
+      NEEDS_KEN+=("Telegram routing violation detected and auto-fix failed — run: bash scripts/telegram-routing-audit.sh --fix")
+      log "  FAIL: Telegram routing auto-fix failed — needs Ken"
+    fi
+  else
+    log "  OK: Telegram routing all correct"
+  fi
+else
+  log "  SKIP: telegram-routing-audit.sh not found"
+fi
+
 # ---------- CHECK 14: MEMORY.md + SOUL.md size guard ----------
 log "CHECK 14: bootstrap file size guard"
 CHECKS_RUN+=("bootstrap_size")

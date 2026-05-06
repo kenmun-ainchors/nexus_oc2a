@@ -1,20 +1,20 @@
 {
   "lastChecks": {
-    "email": "2026-05-05T10:36:00.000000Z",
-    "calendar": "2026-05-05T10:36:00.000000Z",
-    "agentHealth": "2026-05-05T16:02:51.171457Z",
-    "apiBalance": "2026-05-05T16:02:51.171457Z",
-    "taskWatchdog": "2026-05-05T16:02:51.171457Z",
-    "cronHealth": "2026-05-05T16:02:51.171457Z",
+    "email": "2026-05-06T10:05:07.793343+00:00",
+    "calendar": "2026-05-06T10:05:07.793343+00:00",
+    "agentHealth": "2026-05-06T11:36:36Z",
+    "apiBalance": "2026-05-06T11:36:36Z",
+    "taskWatchdog": "2026-05-06T11:36:36Z",
+    "cronHealth": "2026-05-06T11:36:36Z",
     "memoryMaintenance": "2026-05-05T08:07:57.441016+00:00",
     "weather": null,
     "dailyClose": 1777993673,
-    "wardenEscalation": "2026-05-05T16:02:51.171457Z",
-    "cronDeadLetter": "2026-05-05T16:02:51.171457Z",
+    "wardenEscalation": "2026-05-06T11:36:36Z",
+    "cronDeadLetter": "2026-05-06T11:36:36Z",
     "ariaContextSync": "2026-05-04T13:00:00Z",
-    "standup": "2026-05-04T22:00:00Z",
+    "standup": "2026-05-05T21:53:00Z",
     "missionControl": "2026-05-05T09:26:00.000000Z"
   },
-  "notes": "May6 02:02 AEST: All nominal. Balance .11 T0. Journal+blog May5 exist. 3 cron failures (Warden/Forge/DailyClose) acknowledged - Ken alerted 15:17 AEST May5. No new alerts. Late night standby.",
+  "notes": "May6 21:36 AEST: All clear. Balance $100.13 OK. Cron health clean. Warden alert already acked. Journal+blog due at 23:30.",
   "gogAccount": "kenmun@ainchors.com"
 }
