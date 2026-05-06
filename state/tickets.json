@@ -1,5 +1,5 @@
 {
-  "sequence": 85,
+  "sequence": 86,
   "tickets": [
     {
       "id": "TKT-0049",
@@ -578,7 +578,7 @@
       "requester": "Ken",
       "assignee": "Yoda",
       "created": "2026-05-06T19:48:23+10:00",
-      "updated": "2026-05-06T19:48:23+10:00",
+      "updated": "2026-05-07T03:18:30+10:00",
       "description": "All rules, routing policies, and configurations that agents need to operate must be persistent and stateless. Nothing critical should exist only in Gateway runtime state or agent memory. Everything must be written to files in the workspace repo, bootstrapped upon agent load, or validated/restored by auto-heal/PVT. Triggered by: Telegram routing misconfiguration (2026-05-06) where a cron delivery accountId setting had no durable enforcement until post-incident. Scope: audit all agent operational dependencies, define bootstrap manifest, implement load-time validation.",
       "resolution": null,
       "linked": {
@@ -586,7 +586,7 @@
         "inc": [],
         "chg": []
       },
-      "notes": "",
+      "notes": "AC12 added 2026-05-07: Create dedicated agent directories for Shield, Lex, and Sage with proper SOUL.md and rules files. G1-G2 governance guardrails currently in governance-guardrails-2026-05.md only — need proper agent dirs for full separation. Tag: persistent-config, governance, stateless-bootstrap.",
       "notionPageId": "358c1829-53ff-8161-a324-ef907a5e13e2"
     },
     {
@@ -728,6 +728,26 @@
       },
       "notes": "",
       "notionPageId": "358c1829-53ff-81d0-b253-d9edd2169093"
+    },
+    {
+      "id": "TKT-0085",
+      "title": "Sprint: Strategy & Governance Integration — Tie-together, Gap Review, Re-plan",
+      "type": "task",
+      "priority": "high",
+      "status": "open",
+      "requester": "Ken",
+      "assignee": "Yoda",
+      "created": "2026-05-07T03:25:58+10:00",
+      "updated": "2026-05-07T03:25:58+10:00",
+      "description": "Priority sprint session to consolidate all strategy and governance work loaded 2026-05-07. Scope: (1) Audit that VMS, Strategy OKR, and Guardrails all tie together consistently across Holocron, agent rules, and state files. (2) Review all open TKTs linked to vision/mission/strategy/AI policy/rules/guardrails — identify gaps and loose strings. (3) Close off completed TKTs. (4) Review AInchors framework against established frameworks (McKinsey Rewired, BCG AI@Scale, ISO 42001, NIST AI RMF, Deloitte Trustworthy AI) and re-plan priorities + next steps. Input docs: ainchors-VMS135.md, ainchors-strategy-okr-2026-05.md, ainchors-guardrails-rules-2026-05.md. Related: TKT-0069, TKT-0070, TKT-0071, TKT-0072, TKT-0077, TKT-0084.",
+      "resolution": null,
+      "linked": {
+        "us": [],
+        "inc": [],
+        "chg": []
+      },
+      "notes": "",
+      "notionPageId": "358c1829-53ff-81b1-9359-edcad305428b"
     }
   ],
   "lastId": "TKT-0076"
