@@ -70,6 +70,15 @@ _Maintained by Aria 🔵 + Yoda 🟢 | Status-tracked content for AInchors train
 | TC-063 | The AI billing gap: why real-time estimates lie and CSV is the only truth | 💡 Idea | Yoda Day 11 (CHG-0186, cache_write_5m charges invisible in session logs — CSV reconciliation only) | Aria |
 | TC-064 | AI governance gap analysis: how to benchmark your framework against industry standards | 💡 Idea | Yoda Day 11 (CHG-0187, external LLM governance comparison — 3 gaps, TKT-0075/0076/0070) | Both |
 | TC-065 | Three-agent orchestration: how to split enterprise, platform, and routing responsibilities across AI agents | 💡 Idea | Yoda Day 11 (Atlas + Thrawn + Yoda orchestration restructure — enterprise vs platform vs routing) | Both |
+| TC-066 | Bot identity as a trust signal: why the wrong bot is a silent, serious failure | 💡 Idea | Yoda Day 12 (Angie receiving Yoda messages instead of Aria — no error thrown, only human noticed) | Both |
+| TC-067 | Right-sizing AI models to the task: when Haiku beats Sonnet | 💡 Idea | Yoda Day 12 (CHG-0193 — governance triad Sonnet→Haiku, review tasks don't need reasoning) | Aria |
+| TC-068 | Benchmarking Ollama Cloud for non-reasoning tasks: the kimi RTB trial | 💡 Idea | Yoda Day 12 (CHG-0194 — kimi trial for RTB/daily-report/state-summary Tier 2B) | Both |
+| TC-069 | The architecture audit pattern: comparing what your platform thinks it looks like vs. reality | 💡 Idea | Yoda Day 12 (TKT-0078 — Holocron audit, 5 missing agents, 3 structural gaps) | Both |
+| TC-070 | Why scattered agent config is a governance risk: the case for a central agent registry | 💡 Idea | Yoda Day 12 (TKT-0079 — agent-registry.json — 11 agents, 11 dirs, no single index) | Yoda |
+| TC-071 | Cron ownership traceability: linking every scheduled task to the agent responsible | 💡 Idea | Yoda Day 12 (TKT-0080 — dynamic cron ownership model, routing failures untraceable) | Both |
+| TC-072 | Agent onboarding gates: the checklist that stops bad agents from entering your platform | 💡 Idea | Yoda Day 12 (TKT-0081 — no validation before agent registration, risk of misconfigured agents) | Aria |
+| TC-073 | JSON write patterns in AI automation scripts: why a brittle edit call breaks your cron at 3am | 💡 Idea | Yoda Day 12 (CHG-0195 — Spark edit-tool vs Python read-modify-write, silent failure on empty array) | Yoda |
+| TC-074 | Security policy side-effects: what happens when least-privilege removes a tool you actually need | 💡 Idea | Yoda Day 12 (CHG-0196 — S4 removed exec from Aria, broke gog CLI, required documented exception) | Both |
 
 ## Status Legend
 💡 Idea → 📝 Draft → 🔍 Review (Yoda validates) → ✅ Ready → 📢 Published
