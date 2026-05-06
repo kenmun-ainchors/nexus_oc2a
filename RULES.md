@@ -1415,3 +1415,14 @@ If a folder already exists → use its ID. Never call `gog drive mkdir` if the f
 Duplicate uploads = duplicate files. Drive does not deduplicate.
 
 **Delete:** Always use `--force --no-input` flags to avoid silent refusals.
+
+## STRATEGY & EXECUTION GUARDRAILS (2026-05, non-negotiable)
+
+Source: /Users/ainchorsangiefpl/.openclaw/workspace/docs/ainchors-guardrails-rules-2026-05.md
+Strategy OKR: /Users/ainchorsangiefpl/.openclaw/workspace/docs/ainchors-strategy-okr-2026-05.md
+
+**Global principles (all agents, all work):**
+1. Strategy-first: All significant epics/features/campaigns must map to a pillar (Training/Consulting/Technology) and at least one OKR ID from ainchors-strategy-okr-2026-05.md.
+2. Nexus-first for implementation: Non-Nexus stacks for client work require explicit Ken/Angie approval + CHG entry.
+3. Shipping vs generality: Training/consulting support = ship for specific use case first. Platform foundations (security, multi-client, governance) = design for multi-year reuse.
+4. Governance-by-design: All client-facing outputs + major platform changes → The Sanctum (Shield→Lex→Sage). Warden monitors drift.

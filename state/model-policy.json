@@ -480,5 +480,29 @@
         ]
       }
     }
+  },
+  "guardrails": {
+    "_comment": "Added 2026-05-07 per ainchors-guardrails-rules-2026-05.md (G1-G2, W1-W2)",
+    "sanctumSLAs": {
+      "trainingMarketingContent_maxHours": 24,
+      "proposalsContracts_maxHours": 72,
+      "missedSLAAction": "log and review monthly"
+    },
+    "dataResidency": {
+      "clientData_allowedTiers": [
+        "Tier0",
+        "Tier1"
+      ],
+      "clientData_prohibitedTiers": [
+        "Tier2",
+        "Tier3"
+      ],
+      "enforcedBy": "Shield"
+    },
+    "wardenHeartbeat": {
+      "intervalMinutes": 15,
+      "driftActionRequired": "flag to Yoda immediately"
+    },
+    "strategyRef": "/Users/ainchorsangiefpl/.openclaw/workspace/docs/ainchors-guardrails-rules-2026-05.md"
   }
 }

@@ -1,10 +1,10 @@
 {
-  "generated_at": "2026-05-06T17:04:44.710897+00:00",
-  "generated_at_aest": "2026-05-07 03:04 AEST",
+  "generated_at": "2026-05-06T17:11:22.600606+00:00",
+  "generated_at_aest": "2026-05-07 03:11 AEST",
   "period_hours": 24,
   "totals": {
     "ERROR": 21,
-    "WARN": 38,
+    "WARN": 39,
     "INFO": 23
   },
   "top_errors": [
@@ -20,7 +20,7 @@
   "top_warnings": [
     {
       "type": "incomplete_turn",
-      "count": 23
+      "count": 24
     },
     {
       "type": "auto_heal_needs_ken",
@@ -36,7 +36,7 @@
     "prev_errors": 1,
     "prev_warns": 29,
     "errors_pct_change": 2000.0,
-    "warns_pct_change": 31.0
+    "warns_pct_change": 34.5
   },
   "worst_hour": {
     "hour": "2026-05-06T13:00Z",

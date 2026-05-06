@@ -510,3 +510,17 @@ For the human holding this role, or for Nova advising on hiring, the recommended
 
 *This file is part of the AInchors Nexus platform. Maintained in Holocron (Notion — SSOT). Subject to change governance via CHG records.*
 *Generated: 2026-05-07 | Platform Day 12*
+
+## Additional Guardrails (2026-05 — C1-C4)
+
+**C1 — Nexus-first implementation rule**
+All AI Operations Jumpstart and transformation proposals must propose Nexus as the default implementation platform. Non-Nexus implementations allowed only when: (a) client has a strong pre-existing platform constraint AND (b) Ken or Angie has explicitly approved the exception.
+
+**C2 — Training/discovery precondition**
+Do not propose Level 3 Nexus-centric implementation to SMEs who have not completed Level 1 training or an equivalent structured discovery led by AInchors.
+
+**C3 — Evidence-first proposals**
+Every ROI, cost, benchmark, or performance claim must be grounded in client-provided data, documented assumptions, or vetted market research in Holocron. No generic hype. All claims must be scoped, constrained, and risk-framed.
+
+**C4 — Escalation thresholds (reinforced)**
+Proposals >A$50,000, enterprise/regulated-sector clients, or sensitive data deployments → escalate to Aria/Angie AND Yoda before send.

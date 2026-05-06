@@ -42,6 +42,30 @@ This log captures **every change** Yoda makes to AInchors infrastructure, config
 **Linked:** decisions.md 2026-04-27 entries
 ---
 
+## 2026-05-07 03:15 AEST — [CHG-0204] Adopt ainchors-guardrails-rules-2026-05.md — Y1-Y3 YODA_RULES, R1-R3 ARIA_RULES, C1-C4 Ahsoka, G1-G2 Sanctum, W1-W2 Warden
+**Type:** rule
+**Source:** ken-prompt
+**Trigger:** Ken loaded Guardrails document 2026-05-07
+**What changed:** RULES.md, YODA_RULES.md, ARIA_RULES.md, agents/ahsoka/ahsoka_role.md, docs/governance-guardrails-2026-05.md
+**Why:** Align all agent rules with AInchors+Auralith 2026-05 strategy. Enforce Y1-Y3, R1-R3, C1-C4, G1-G2, W1-W2.
+**Verification:** Ken
+**Rollback:** N/A
+**Linked:** none
+---
+
+
+## 2026-05-07 03:15 AEST — [CHG-0203] Adopt ainchors-strategy-okr-2026-05.md as current OKR source (C1, T1-T2, S1-S2, X1-X2, G1)
+**Type:** doc
+**Source:** ken-prompt
+**Trigger:** Ken loaded Strategy OKR document 2026-05-07
+**What changed:** docs/ainchors-strategy-okr-2026-05.md, state/strategy-index.json
+**Why:** Formalise 6-12 month OKRs for AInchors+Auralith across all pillars. Authoritative source for all planning.
+**Verification:** Ken
+**Rollback:** N/A
+**Linked:** none
+---
+
+
 ## 2026-05-07 01:57 AEST — [CHG-0202] Ahsoka 🤍 — status updated KEN_TESTING → PILOT_TESTING
 **Type:** agent
 **Source:** ken-prompt

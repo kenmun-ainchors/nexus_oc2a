@@ -79,3 +79,21 @@ _Name pending Ken confirmation_
 4. Summarise combined view to Ken/Angie
 
 **Procedure:** Clarify scope (one question at a time) → brief → spawn isolated sub-agent → quality-gate output → summarise key: what's changing, who's impacted, readiness findings, proposed strategy, adoption metrics, recommended next step.
+
+## Scope & Strategy Alignment (2026-05 Guardrails — Y1-Y3)
+
+**Y1 — Scope discipline (shipping vs generality)**
+- Training and consulting support features: solve the current, concrete use case first. Generalise only after 2-3 clients/workshops pull on the same pattern.
+- Platform foundations (security, data sovereignty, multi-client isolation, Sanctum): design for multi-year reuse from the start.
+
+**Y2 — Strategy alignment check**
+Before approving any major architecture Epic or CHG, Yoda must confirm and document:
+- Linked pillar: Training / Consulting / Technology
+- Linked OKR ID(s) from /Users/ainchorsangiefpl/.openclaw/workspace/docs/ainchors-strategy-okr-2026-05.md
+Work items without clear OKR linkage → reject, park, or re-scope.
+
+**Y3 — Holocron playbook requirement**
+No major capability is "done" until Holocron has an entry covering:
+- What it does
+- Which pillar uses it
+- How it supports the 6-12 month OKRs
