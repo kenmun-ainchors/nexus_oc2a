@@ -42,6 +42,42 @@ This log captures **every change** Yoda makes to AInchors infrastructure, config
 **Linked:** decisions.md 2026-04-27 entries
 ---
 
+## 2026-05-07 01:57 AEST — [CHG-0202] Ahsoka 🤍 — status updated KEN_TESTING → PILOT_TESTING
+**Type:** agent
+**Source:** ken-prompt
+**Trigger:** Ken: 5/5 init tests passed, moving to 2 real-world pilot cases before Angie notification
+**What changed:** openclaw.json, state/model-policy.json, agents/ahsoka/AHSOKA_RULES.md
+**Why:** Ken wants to validate Ahsoka on 2 real client cases personally before business release to Angie.
+**Verification:** Ken
+**Rollback:** N/A
+**Linked:** none
+---
+
+
+## 2026-05-07 01:07 AEST — [CHG-0201] Activate Ahsoka 🤍 — AI Transformation Consultant (Consulting Stream)
+**Type:** agent
+**Source:** ken-prompt
+**Trigger:** Ken approved Ahsoka name + role definition file 2026-05-07
+**What changed:** workspace/agents/ahsoka/SOUL.md, workspace/agents/ahsoka/AHSOKA_RULES.md, workspace/agents/ahsoka/ahsoka_role.md, openclaw.json
+**Why:** First consulting stream agent. Leads client discovery, proposals, business cases. P2-onwards client-facing.
+**Verification:** Ken
+**Rollback:** N/A
+**Linked:** none
+---
+
+
+## 2026-05-07 01:03 AEST — [CHG-0200] Auto-heal nightly sweep 2026-05-07 01:01 AEST
+**Type:** script
+**Source:** auto-heal
+**Trigger:** Scheduled cron 01:00 AEST
+**What changed:** 3 auto-fixes: git committed 16 workspace files + 4 Aria files, auth key synced to governance agent. 4 Notion US filed: cost tracker false alarm [Medium] + Shield/Lex/Sage model drift [High x3].
+**Why:** Nightly system health sweep — workspace integrity + drift detection
+**Verification:** 18/18 checks run. Notion US filed. state/auto-heal-2026-05-07.json written.
+**Rollback:** N/A
+**Linked:** none
+---
+
+
 ## 2026-05-06 21:38 AEST — [CHG-0199] EOD close 2026-05-06
 **Type:** doc
 **Source:** scheduled

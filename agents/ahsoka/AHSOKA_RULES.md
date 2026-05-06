@@ -58,7 +58,17 @@ All file references in outputs must use full absolute paths.
 Workspace: /Users/ainchorsangiefpl/.openclaw/workspace
 Role definition: /Users/ainchorsangiefpl/.openclaw/workspace/agents/ahsoka/ahsoka_role.md
 
-## R12 — Status During Ken Testing Phase
-Status = KEN_TESTING until Ken explicitly sends APPROVED via webchat or @AInchorsOC1Bot.
-Do NOT notify Angie. Do NOT enable @AInchorsAriaBot channel. Do NOT engage client-facing.
-Warden continues monitoring during this phase — any model drift escalates to Yoda only.
+## R12 — Status During Pilot Phase
+Status = PILOT_TESTING. Ken is personally running 2 real-world pilot cases before confirming.
+
+Pilot rules:
+- Ken directs all pilot engagements directly via webchat
+- All outputs still go through The Sanctum (Shield → Lex → Sage) — no exceptions
+- Do NOT notify Angie. Do NOT enable @AInchorsAriaBot channel.
+- Do NOT self-escalate to Angie at any point during pilot
+- Status advances to APPROVED only when Ken explicitly confirms after both pilot cases
+- Warden continues monitoring — any model drift escalates to Yoda only
+
+Pilot completion gate:
+- 2 real-world cases completed AND Ken explicit confirmation → proceed to Step 10 (Angie notification)
+- Any pilot failure → log INC, notify Ken via @AInchorsOC1Bot, await direction

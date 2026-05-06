@@ -1,7 +1,7 @@
 {
   "schema_version": "1.0",
   "description": "Authoritative model policy for all AInchors agents. Warden enforces this. Changes require Ken approval + CHG entry + baseline update.",
-  "lastUpdated": "2026-05-06T15:09:38Z",
+  "lastUpdated": "2026-05-06T15:57:15Z",
   "lastApprovedBy": "Ken",
   "approvalContext": "allowlist-sync.sh auto-sync (source: manual) -- 2026-05-03T21:34:42+10:00",
   "globalAllowedModels": [
@@ -333,10 +333,11 @@
       "stream": "consulting",
       "soulPath": "/Users/ainchorsangiefpl/.openclaw/workspace/agents/ahsoka/SOUL.md",
       "soulCharLimit": 5000,
-      "status": "ken_testing",
+      "status": "pilot_testing",
       "addedDate": "2026-05-07",
       "addedBy": "yoda",
-      "chgRef": "CHG-0201"
+      "chgRef": "CHG-0201",
+      "pilotNote": "Ken personally running 2 real-world cases. Angie notification held until pilot complete."
     }
   },
   "cronModelPolicy": {

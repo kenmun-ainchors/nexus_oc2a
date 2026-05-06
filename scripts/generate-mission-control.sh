@@ -109,8 +109,14 @@ gateway_uptime = health.get("lastOk", "")
 
 # ── 2. Balance ───────────────────────────────────────────────────────────────
 cost  = safe_read_json(WORKSPACE / "state" / "cost-state.json")
-api_balance = cost.get("apiBalance", {})
-balance_amount = api_balance.get("remainingEstimate", api_balance.get("confirmedBalance", 0.0))
+cost_alert = safe_read_json(WORKSPACE / "state" / "cost-alert-state.json")
+# Prefer cost-alert-state confirmedBalance (live, set by Ken) over apiBalance.remainingEstimate (stale formula)
+balance_amount = (
+    cost_alert.get("currentBalance") or
+    cost_alert.get("balance") or
+    cost.get("confirmedBalance") or
+    cost.get("apiBalance", {}).get("remainingEstimate", 0.0)
+)
 # Determine tier
 if balance_amount > 50:
     balance_tier = 3  # green
