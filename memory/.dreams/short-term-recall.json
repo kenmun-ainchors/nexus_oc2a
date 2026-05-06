@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "updatedAt": "2026-05-06T16:46:45.377Z",
+  "updatedAt": "2026-05-06T16:59:42.625Z",
   "entries": {
     "memory:memory/2026-04-26.md:94:122": {
       "key": "memory:memory/2026-04-26.md:94:122",
@@ -137,18 +137,19 @@
       "endLine": 123,
       "source": "memory",
       "snippet": "- TOM = Target Operating Model (Ken's term for agent team roster, approved 2026-04-26) ## Deferred Items (with reminders) - GitHub CLI auth: reminder 28 Apr - Gmail/gog OAuth: reminder 2 May - Google Cloud OAuth setup walkthrough: reminder 2 May ## Open Risks - Backup on same disk as live data (no offsite yet — Phase 4) - Secrets in plaintext config files (fix before Phase 2 — 1Password CLI) - Social media API approvals not started (Meta + LinkedIn — can take 2-6 weeks) - Angie has no system access (resolve before Phase 3) - Data residency / privacy policy not documented (before first client) - Tailscale not set up (Phase 3 now) ## Key File Locations - Workspace: ~/.openclaw/workspace/ -",
-      "recallCount": 4,
+      "recallCount": 5,
       "dailyCount": 0,
       "groundedCount": 0,
-      "totalScore": 1.629930245876312,
+      "totalScore": 2.03741155564785,
       "maxScore": 0.42862191796302795,
       "firstRecalledAt": "2026-04-26T22:00:43.034Z",
-      "lastRecalledAt": "2026-05-06T16:46:45.377Z",
+      "lastRecalledAt": "2026-05-06T16:59:42.625Z",
       "queryHashes": [
         "40c172efdae9",
         "d7adbee3a31e",
         "883f7f2743c4",
-        "9c49295f2494"
+        "9c49295f2494",
+        "9998a3d3c359"
       ],
       "recallDays": [
         "2026-04-27",
@@ -174,19 +175,21 @@
       "endLine": 283,
       "source": "memory",
       "snippet": "- Obsidian vault: ~/Documents/AInchors/ - Backups: ~/Backups/ainchors/ - Scripts: workspace/scripts/backup.sh, health-check.sh - Shared memory: workspace/memory/shared/ (company, projects, decisions, integrations, notion) - Agent state: workspace/state/agent-status.json - Health state: workspace/state/health-state.json - Heartbeat state: workspace/state/heartbeat-state.json ## Post-Midnight Additions (00:00–01:03 AEST) ### End-of-Day Close Rule Established - SOUL.md: non-negotiable daily close rule — journal + blog + cost report every night - Nightly cron set: 23:55 Melbourne, main session - Two journal lenses: active day (verbatim prompts) vs quiet day (platform/autonomous activity) - Blo",
-      "recallCount": 2,
+      "recallCount": 3,
       "dailyCount": 0,
       "groundedCount": 0,
-      "totalScore": 0.8286367267370224,
+      "totalScore": 1.2263361871242524,
       "maxScore": 0.42051108479499816,
       "firstRecalledAt": "2026-04-27T11:30:17.284Z",
-      "lastRecalledAt": "2026-04-27T13:57:07.598Z",
+      "lastRecalledAt": "2026-05-06T16:59:42.625Z",
       "queryHashes": [
         "dd184e1b6189",
-        "2b7b37c03dad"
+        "2b7b37c03dad",
+        "9998a3d3c359"
       ],
       "recallDays": [
-        "2026-04-27"
+        "2026-04-27",
+        "2026-05-07"
       ],
       "conceptTags": [
         "backup",

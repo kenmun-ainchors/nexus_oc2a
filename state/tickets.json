@@ -1,5 +1,5 @@
 {
-  "sequence": 84,
+  "sequence": 85,
   "tickets": [
     {
       "id": "TKT-0049",
@@ -414,11 +414,11 @@
       "title": "Vision & Mission — Define and confirm Nexus Vision and Mission",
       "type": "task",
       "priority": "high",
-      "status": "open",
+      "status": "in-progress",
       "requester": "Ken",
       "assignee": "Yoda",
       "created": "2026-05-05T18:22:29+10:00",
-      "updated": "2026-05-05T18:24:08+10:00",
+      "updated": "2026-05-07T03:06:14+10:00",
       "description": "Define and confirm the Vision and Mission for Nexus. Aligns all P1-P4 architecture, product, and agent decisions to a clear purpose statement. Input to Atlas EA roadmap and all strategy work.",
       "resolution": null,
       "linked": {
@@ -426,7 +426,7 @@
         "inc": [],
         "chg": []
       },
-      "notes": "Sequence: 1 of 4. Must complete before TKT-0070, TKT-0071, TKT-0072. Foundation for all EA and product decisions.",
+      "notes": "Sequence: 1 of 4. Must complete before TKT-0070, TKT-0071, TKT-0072. Foundation for all EA and product decisions. | VMS document received from Perplexity research 2026-05-07. Key outputs: Vision/Mission/Positioning defined. Auralith introduced as IP/tech entity. GCC added as Year 3 market. Training ladder L1/L2/L3 formalised. Revenue mix: Y1 80/20, Y3 45/40/15, Y5 all pillars. 8 execution guardrails for Yoda/Atlas/Ahsoka. Document stored: workspace/media/inbound/ainchors-VMS135. Needs: Ken review + formal approval + commit to Holocron. Feeds TKT-0070/0071/0072. | CONFIRMED 2026-05-07 03:06 AEST by Ken: Auralith is a real entity. Ken intends to incorporate. Auralith = IP/technology company that owns and operates Nexus. AInchors Solutions Pty Ltd = market-facing brand. This is a structural architecture decision — feeds Atlas EA, Ahsoka positioning, and Holocron structure. Update MEMORY.md, Atlas SOUL.md scope, and EA roadmap accordingly.",
       "notionPageId": "357c1829-53ff-81cc-a793-d3792f386f8c"
     },
     {
@@ -708,6 +708,26 @@
       },
       "notes": "REORDERED: ASM is now Pilot 2. Pending completion of Pilot 1 (AInchors internal). Ken has discovery brief ready in Google Drive (Ahsoka-ASM folder).",
       "notionPageId": "358c1829-53ff-81cd-a582-c5663380a9ef"
+    },
+    {
+      "id": "TKT-0084",
+      "title": "Formalise ITSM ticket taxonomy — US vs TKT vs CHG separate sequences",
+      "type": "task",
+      "priority": "medium",
+      "status": "open",
+      "requester": "Ken",
+      "assignee": "Yoda",
+      "created": "2026-05-07T03:03:41+10:00",
+      "updated": "2026-05-07T03:03:41+10:00",
+      "description": "Currently all backlog items use a single TKT-NNNN sequence regardless of type (user stories, incidents, requests, bugs). CHG-NNNN is separate. US (User Stories) should be a distinct sequence with acceptance criteria format. Proposed: US-NNNN for user stories with ACs, TKT-NNNN for operational tickets (incidents, requests, bugs, tasks), CHG-NNNN for change records (existing, keep). Requires: update ticket.sh, backlog schema in Notion, RULES.md. Tag to TKT-0077 scope (persistent config / stateless bootstrap).",
+      "resolution": null,
+      "linked": {
+        "us": [],
+        "inc": [],
+        "chg": []
+      },
+      "notes": "",
+      "notionPageId": "358c1829-53ff-81d0-b253-d9edd2169093"
     }
   ],
   "lastId": "TKT-0076"

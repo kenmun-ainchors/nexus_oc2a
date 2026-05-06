@@ -10041,14 +10041,19 @@
       "ts": "2026-05-06T16:56:35.179662+00:00",
       "status": "ok",
       "issues": []
+    },
+    {
+      "ts": "2026-05-06T17:04:46.784676+00:00",
+      "status": "ok",
+      "issues": []
     }
   ],
   "summary": {
-    "totalChecks": 1999,
-    "upChecks": 1977,
+    "totalChecks": 2000,
+    "upChecks": 1978,
     "downtimeMinutes": 330,
-    "uptimePct": 98.899,
-    "lastCheck": "2026-05-06T16:56:35.179662+00:00",
+    "uptimePct": 98.9,
+    "lastCheck": "2026-05-06T17:04:46.784676+00:00",
     "lastStatus": "ok"
   }
 }

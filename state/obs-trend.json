@@ -1,6 +1,6 @@
 {
-  "generated_at": "2026-05-06T16:56:44.951324+00:00",
-  "generated_at_aest": "2026-05-07 02:56 AEST",
+  "generated_at": "2026-05-06T17:04:44.710897+00:00",
+  "generated_at_aest": "2026-05-07 03:04 AEST",
   "period_hours": 24,
   "totals": {
     "ERROR": 21,
@@ -34,9 +34,9 @@
   "trend": {
     "has_prev_data": true,
     "prev_errors": 1,
-    "prev_warns": 30,
+    "prev_warns": 29,
     "errors_pct_change": 2000.0,
-    "warns_pct_change": 26.7
+    "warns_pct_change": 31.0
   },
   "worst_hour": {
     "hour": "2026-05-06T13:00Z",

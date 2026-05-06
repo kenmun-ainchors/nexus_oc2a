@@ -11,6 +11,7 @@
 
 ## The Company
 - **Ainchor Solutions Pty Ltd** | ainchors.com | Sydney NSW + Melbourne. Day 1: 2026-04-25. Focus: AI courses/training, consulting, solutions/products.
+- **Auralith** — IP/technology entity. Ken intends to incorporate. Owns and operates Nexus platform. AInchors = market-facing brand; Auralith = platform company behind it. Confirmed by Ken 2026-05-07. Feeds Atlas EA, Ahsoka positioning, Holocron structure. TKT-0069.
 - Emails: kenmun@ ✅ gog | info@ | accounts@ | Gmail (Google Workspace). Tech stream: Ken+Yoda. Business stream: Angie+Aria.
 
 ## Infrastructure — HIVE Architecture (confirmed May 2026)
