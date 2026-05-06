@@ -1,7 +1,7 @@
 {
   "schema_version": "1.0",
   "description": "Authoritative model policy for all AInchors agents. Warden enforces this. Changes require Ken approval + CHG entry + baseline update.",
-  "lastUpdated": "2026-05-03T21:59:17+10:00",
+  "lastUpdated": "2026-05-06T15:09:38Z",
   "lastApprovedBy": "Ken",
   "approvalContext": "allowlist-sync.sh auto-sync (source: manual) -- 2026-05-03T21:34:42+10:00",
   "globalAllowedModels": [
@@ -321,6 +321,22 @@
       ],
       "data_sensitivity": "medium",
       "notes": "Mon Mothma \u2014 Digital Transformation CM Specialist. Change design only."
+    },
+    "ahsoka": {
+      "description": "Ahsoka \ud83e\udd0d \u2014 AI Transformation Consultant (Consulting Stream)",
+      "requiredModel": "anthropic/claude-sonnet-4-6",
+      "allowedModels": [
+        "anthropic/claude-sonnet-4-6"
+      ],
+      "escalationModel": "anthropic/claude-opus-4-7",
+      "escalationRule": "High-stakes proposals or 2x failure only. Ken approval required.",
+      "stream": "consulting",
+      "soulPath": "/Users/ainchorsangiefpl/.openclaw/workspace/agents/ahsoka/SOUL.md",
+      "soulCharLimit": 5000,
+      "status": "ken_testing",
+      "addedDate": "2026-05-07",
+      "addedBy": "yoda",
+      "chgRef": "CHG-0201"
     }
   },
   "cronModelPolicy": {
