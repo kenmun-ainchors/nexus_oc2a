@@ -1402,3 +1402,16 @@ This applies to:
 Workspace root = `/Users/ainchorsangiefpl/.openclaw/workspace`
 Business workspace root = `/Users/ainchorsangiefpl/.openclaw/workspace-business`
 Canvas root = `/Users/ainchorsangiefpl/.openclaw/canvas`
+
+## GOOGLE DRIVE RULES (non-negotiable)
+
+**Folder creation:** Always search for an existing folder before creating. Use:
+```bash
+gog drive search "name = 'FOLDER_NAME' and mimeType = 'application/vnd.google-apps.folder'" --json
+```
+If a folder already exists → use its ID. Never call `gog drive mkdir` if the folder exists.
+
+**File upload:** Upload once only. Verify with `gog drive search` after upload before retrying.
+Duplicate uploads = duplicate files. Drive does not deduplicate.
+
+**Delete:** Always use `--force --no-input` flags to avoid silent refusals.

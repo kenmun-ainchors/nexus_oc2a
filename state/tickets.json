@@ -674,11 +674,11 @@
       "title": "Ahsoka Pilot Case 1 — Real-world AI Transformation Consulting",
       "type": "task",
       "priority": "high",
-      "status": "open",
+      "status": "in-progress",
       "requester": "Ken",
       "assignee": "Yoda",
       "created": "2026-05-07T02:05:00+10:00",
-      "updated": "2026-05-07T02:05:00+10:00",
+      "updated": "2026-05-07T02:44:00+10:00",
       "description": "Ken personally runs Ahsoka 🤍 through a real-world client scenario (Pilot Case 1 of 2). Scope: full discovery → proposal flow. All outputs through The Sanctum. Ken evaluates quality, accuracy, discovery discipline, and Nexus positioning. On completion, mark pilot-1 complete in state/ahsoka-pilot-state.json. Related: CHG-0201, CHG-0202, TKT-0083 (Pilot 2).",
       "resolution": null,
       "linked": {
@@ -686,7 +686,7 @@
         "inc": [],
         "chg": []
       },
-      "notes": "",
+      "notes": "Pilot 1 started 2026-05-07 02:08 AEST. Ken working directly with Ahsoka. | REORDERED: AInchors is now Pilot 1. Ahsoka runs AI transformation consulting on AInchors itself first — building the real reference case before engaging ASM. Ken activating promptly.",
       "notionPageId": "358c1829-53ff-81cc-9141-e9c43a06bc08"
     },
     {
@@ -698,7 +698,7 @@
       "requester": "Ken",
       "assignee": "Yoda",
       "created": "2026-05-07T02:05:01+10:00",
-      "updated": "2026-05-07T02:05:01+10:00",
+      "updated": "2026-05-07T02:44:01+10:00",
       "description": "Ken personally runs Ahsoka 🤍 through a second real-world client scenario (Pilot Case 2 of 2). On completion, Yoda automatically prompts Ken for final APPROVED confirmation before Angie is notified and Ahsoka goes live for business operations. Mark pilot-2 complete in state/ahsoka-pilot-state.json to trigger confirmation prompt. Related: CHG-0201, CHG-0202, TKT-0082 (Pilot 1).",
       "resolution": null,
       "linked": {
@@ -706,7 +706,7 @@
         "inc": [],
         "chg": []
       },
-      "notes": "",
+      "notes": "REORDERED: ASM is now Pilot 2. Pending completion of Pilot 1 (AInchors internal). Ken has discovery brief ready in Google Drive (Ahsoka-ASM folder).",
       "notionPageId": "358c1829-53ff-81cd-a582-c5663380a9ef"
     }
   ],
