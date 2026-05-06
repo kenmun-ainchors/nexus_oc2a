@@ -738,7 +738,7 @@
       "requester": "Ken",
       "assignee": "Yoda",
       "created": "2026-05-07T03:25:58+10:00",
-      "updated": "2026-05-07T03:25:58+10:00",
+      "updated": "2026-05-07T03:29:41+10:00",
       "description": "Priority sprint session to consolidate all strategy and governance work loaded 2026-05-07. Scope: (1) Audit that VMS, Strategy OKR, and Guardrails all tie together consistently across Holocron, agent rules, and state files. (2) Review all open TKTs linked to vision/mission/strategy/AI policy/rules/guardrails — identify gaps and loose strings. (3) Close off completed TKTs. (4) Review AInchors framework against established frameworks (McKinsey Rewired, BCG AI@Scale, ISO 42001, NIST AI RMF, Deloitte Trustworthy AI) and re-plan priorities + next steps. Input docs: ainchors-VMS135.md, ainchors-strategy-okr-2026-05.md, ainchors-guardrails-rules-2026-05.md. Related: TKT-0069, TKT-0070, TKT-0071, TKT-0072, TKT-0077, TKT-0084.",
       "resolution": null,
       "linked": {
@@ -746,7 +746,7 @@
         "inc": [],
         "chg": []
       },
-      "notes": "",
+      "notes": "Point 4 clarified by Ken 2026-05-07: Review our existing backlog (TKTs and US driving current work) against the newly loaded strategy roadmap (ainchors-strategy-okr-2026-05.md). Are we working on the right things? Map each open TKT to a pillar + OKR ID. Surface items that have no OKR linkage (candidates to park or re-scope). Surface OKR gaps where no TKT exists yet (new work to raise). Output: re-prioritised backlog aligned to strategy.",
       "notionPageId": "358c1829-53ff-81b1-9359-edcad305428b"
     }
   ],

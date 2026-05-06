@@ -1,8 +1,8 @@
 {
   "schema_version": "1.0",
   "description": "Tracks response counters and alert state for tiered credit alerts. Updated by Yoda at runtime.",
-  "currentBalance": 100.13,
-  "lastBalanceCheck": "2026-05-06T11:33:52Z",
+  "currentBalance": 470.93,
+  "lastBalanceCheck": "2026-05-06T17:31:53Z",
   "activeTier": 0,
   "tier1": {
     "triggered": false,
@@ -114,14 +114,20 @@
       "sentAt": "2026-05-06T11:33:52Z",
       "balanceEstimate": 100.13,
       "note": "Balance confirmed $100.13 by Ken 2026-05-06 21:33 AEST. Tiers reset."
+    },
+    {
+      "tier": 0,
+      "sentAt": "2026-05-06T17:31:53Z",
+      "balanceEstimate": 470.93,
+      "note": "Auto-reload fired 2026-05-07 03:31 AEST. $500 reloaded. Balance $470.93. Tiers reset."
     }
   ],
-  "balance": 100.13,
-  "confirmedAt": "2026-05-06T11:33:52Z",
+  "balance": 470.93,
+  "confirmedAt": "2026-05-06T17:31:53Z",
   "confirmedBy": "Ken",
   "topUpNote": "Balance corrected to $225 USD by Ken 2026-05-04 17:51 AEST (webchat).",
-  "lastTopUpAt": "2026-05-05T09:50:00Z",
+  "lastTopUpAt": "2026-05-06T17:31:53Z",
   "lastTopUpAmount": 500,
-  "lastUpdated": "2026-05-06T11:33:52Z",
-  "lastUpdatedBy": "Ken confirmation webchat 2026-05-06 21:33 AEST"
+  "lastUpdated": "2026-05-06T17:31:53Z",
+  "lastUpdatedBy": "Auto-reload trigger 2026-05-07 03:31 AEST"
 }

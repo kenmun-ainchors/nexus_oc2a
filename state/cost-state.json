@@ -414,9 +414,7 @@
   "daysTracked": 12,
   "avgDailyCost": 150.2054,
   "apiBalance": {
-    "remainingEstimate": 0,
-    "spentSinceTopUp": 1802.465,
-    "remainingNote": "confirmedBalance=None at 1970-01-01; spentAfter=1802.465"
+    "remainingEstimate": 470.93
   },
   "spendAlerts": {
     "tier1": {
@@ -467,7 +465,10 @@
   },
   "costDataSource": "anthropic_csv_ground_truth",
   "costDataNote": "May 3+4 reconciled from Anthropic CSV 2026-05-05. Pre-May3 from earlier CSV reconciliation.",
-  "confirmedBalance": 100.13,
-  "confirmedAt": "2026-05-06T11:33:52Z",
-  "confirmedBy": "Ken"
+  "confirmedBalance": 470.93,
+  "confirmedAt": "2026-05-06T17:31:53Z",
+  "confirmedBy": "Ken",
+  "lastTopUpAt": "2026-05-06T17:31:53Z",
+  "lastTopUpAmount": 500,
+  "topUpNote": "Auto-reload trigger fired 2026-05-07 03:31 AEST. $500 reloaded. Balance $470.93."
 }

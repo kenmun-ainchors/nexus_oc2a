@@ -42,6 +42,18 @@ This log captures **every change** Yoda makes to AInchors infrastructure, config
 **Linked:** decisions.md 2026-04-27 entries
 ---
 
+## 2026-05-07 03:31 AEST — [CHG-0205] API credit auto-reload — USD500 reloaded, balance USD470.93
+**Type:** config
+**Source:** ken-prompt
+**Trigger:** Auto-reload trigger fired 2026-05-07 03:31 AEST
+**What changed:** state/cost-state.json, state/cost-alert-state.json
+**Why:** Automatic credit top-up trigger fired. Balance .93 post-reload. Tiers reset.
+**Verification:** Ken
+**Rollback:** N/A
+**Linked:** none
+---
+
+
 ## 2026-05-07 03:15 AEST — [CHG-0204] Adopt ainchors-guardrails-rules-2026-05.md — Y1-Y3 YODA_RULES, R1-R3 ARIA_RULES, C1-C4 Ahsoka, G1-G2 Sanctum, W1-W2 Warden
 **Type:** rule
 **Source:** ken-prompt
