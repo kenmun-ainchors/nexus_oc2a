@@ -4,6 +4,24 @@ _Last updated: 2026-04-26_
 
 ---
 
+## CANVAS EMBED DELIVERY RULE (NON-NEGOTIABLE — CHG-0217)
+
+Embeds (`[embed ...]`) ONLY render in webchat when Yoda sends them directly. They do NOT render when delivered via `sessions_send` from sub-agents.
+
+**Sub-agents:** NEVER include `[embed ...]` in sessions_send messages. Write the canvas file path in plain text only. Yoda will embed it.
+
+**Yoda:** Whenever a sub-agent writes a canvas file, embed it directly in your NEXT response to Ken:
+```
+[embed ref="<directory-name>" title="..." height="900" /]
+```
+The `ref` value = the directory name under `/Users/ainchorsangiefpl/.openclaw/canvas/documents/`.
+
+Example: file at `canvas/documents/auralith-strategy-paper/index.html` → `ref="auralith-strategy-paper"`
+
+**Do not pass through sub-agent embed attempts** — rewrite them as direct Yoda embeds.
+
+---
+
 ## EXEC BINARY PATH RULE (NON-NEGOTIABLE — CHG-0211)
 
 All `exec` calls (crons, sub-agents, scripts) run with **minimal PATH**. `/opt/homebrew/bin` is NOT in PATH by default.

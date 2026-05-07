@@ -42,6 +42,18 @@ This log captures **every change** Yoda makes to AInchors infrastructure, config
 **Linked:** decisions.md 2026-04-27 entries
 ---
 
+## 2026-05-07 14:13 AEST — [CHG-0217] Canvas embed delivery rule: sub-agents report path only, Yoda embeds directly
+**Type:** rule
+**Source:** ken-prompt
+**Trigger:** ken-prompt 2026-05-07 14:12 — repeated embed failure
+**What changed:** Canvas embed delivery rule added to RULES.md and AGENTS.md: (1) Embeds only render when Yoda sends them directly — sub-agents cannot deliver working embeds via sessions_send. (2) Sub-agents must write canvas files and report the path only — never include [embed] tags in sessions_send messages. (3) Yoda must embed directly in the next response after any sub-agent canvas write.
+**Why:** Ken frustrated by repeated embed failures. Root cause: Atlas and standup crons delivering [embed] tags via sessions_send — those do not render. Rule locks in correct pattern permanently.
+**Verification:** RULES.md + AGENTS.md updated. Embed confirmed rendering directly from Yoda response.
+**Rollback:** Remove canvas embed delivery sections from RULES.md and AGENTS.md.
+**Linked:** none
+---
+
+
 ## 2026-05-07 13:37 AEST — [CHG-0216] RULES.md: remove stale Obsidian references from /commit procedure
 **Type:** rule
 **Source:** ken-prompt
