@@ -519,5 +519,13 @@
       "rule": "Every Warden run must log a timestamp to state/warden-interval-log.json. Monthly script calculates missed 15-min intervals. Target: <0.5% missed over 30 days.",
       "status": "defined \u2014 interval log implementation pending"
     }
+  },
+  "byokPolicy": {
+    "description": "Client Bring Your Own Key (BYOK) model policy",
+    "default": "Clients use Ollama Cloud (Tier 2) models only \u2014 no limitations on AInchors-approved list",
+    "byokOption": "If client supplies own cloud API keys: no model restrictions. Nexus tracks and reports usage only.",
+    "dataResidency": "Data sovereignty rules apply regardless of BYOK \u2014 client data still Tier 0/1 only",
+    "approvedBy": "Ken Mun 2026-05-07",
+    "linkedDecision": "D2 / TKT-0088"
   }
 }

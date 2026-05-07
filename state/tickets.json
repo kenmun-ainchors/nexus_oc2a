@@ -1,5 +1,5 @@
 {
-  "sequence": 90,
+  "sequence": 91,
   "tickets": [
     {
       "id": "TKT-0049",
@@ -802,14 +802,16 @@
       "title": "Seq2: Atlas EA roadmap paper review + Section 10 decisions",
       "type": "task",
       "priority": "high",
-      "status": "open",
+      "status": "closed",
       "sequence": 2,
       "blockedBy": "TKT-0087",
       "requester": "Ken",
       "assignee": "Ken",
       "created": "2026-05-07T04:33:00+10:00",
       "updated": "2026-05-07T04:33:00+10:00",
-      "description": "Ken reviews Auralith Technology Strategy paper and makes all 8 Section 10 decisions. File: /Users/ainchorsangiefpl/.openclaw/canvas/documents/auralith-strategy-paper/index.html. Confirmed decisions trigger Seq3. BLOCKED until TKT-0087 complete."
+      "description": "Ken reviews Auralith Technology Strategy paper and makes all 8 Section 10 decisions. File: /Users/ainchorsangiefpl/.openclaw/canvas/documents/auralith-strategy-paper/index.html. Confirmed decisions trigger Seq3. BLOCKED until TKT-0087 complete.",
+      "closedAt": "2026-05-07T04:58:12+10:00",
+      "notes": "All 8 Section 10 decisions made by Ken 2026-05-07 14:56 AEST. Recorded in state/tkt-0088-decisions.json."
     },
     {
       "id": "TKT-0089",
@@ -838,6 +840,20 @@
       "created": "2026-05-07T04:33:00+10:00",
       "updated": "2026-05-07T04:33:00+10:00",
       "description": "Lock the AGILE delivery framework. Define and document: QBR structure and cadence, epic definition and scope, sprint length and ceremonies, definition of done. BLOCKED until TKT-0089 complete and approved by Ken."
+    },
+    {
+      "id": "TKT-0091",
+      "title": "D5 Groom: Managed tenant timing conflict \u2014 Atlas A1 vs VMS (3yr vs 5yr horizon)",
+      "type": "task",
+      "priority": "high",
+      "status": "open",
+      "blockedBy": null,
+      "hardGate": "Must complete before P2 go-live",
+      "requester": "Ken",
+      "assignee": "Atlas",
+      "created": "2026-05-07T04:58:12+10:00",
+      "updated": "2026-05-07T04:58:12+10:00",
+      "description": "Atlas A1 guardrail implies managed tenants at 3yr horizon. VMS says 3-5yr. Conflict needs detailed grooming: define exactly what managed tenant scale means at each horizon, what the platform capability requirements are, and when Auralith external tenants become viable. Ken: needs more details before deciding. MUST complete before P2 go-live."
     }
   ],
   "lastId": "TKT-0076"

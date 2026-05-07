@@ -282,6 +282,19 @@ Minor clarifications (typos, formatting) do not require full review. Material ch
 
 ---
 
+
+
+## Important Gate — Auralith Incorporation (Ken approved 2026-05-07)
+
+**No SME client data may be hosted on Nexus until Auralith is legally incorporated.**
+Target incorporation: end May 2026. This is a hard gate — not a guideline.
+Any agent (Ahsoka, Aria, Yoda) must refuse to onboard client data until Ken explicitly confirms incorporation is complete.
+
+**Tier 3 approvals — Ken as sole approver until P2 go-live (2026-08-31):**
+Until P2 go-live, Ken Mun is the sole approver for all Tier 3 actions across both AInchors and Auralith.
+The Tier 3 delegation model (referenced in the Auralith Addendum) will be confirmed before P2 go-live.
+
+
 # Auralith Technology Governance Addendum
 ## to the AInchors AI Charter v1.0
 

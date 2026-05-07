@@ -42,6 +42,18 @@ This log captures **every change** Yoda makes to AInchors infrastructure, config
 **Linked:** decisions.md 2026-04-27 entries
 ---
 
+## 2026-05-07 14:58 AEST — [CHG-0221] TKT-0088 closed: all 8 Section 10 decisions recorded, P2 target Aug 2026, BYOK policy, Auralith gate
+**Type:** doc
+**Source:** ken-prompt
+**Trigger:** Ken Section 10 decisions 2026-05-07 14:56 AEST
+**What changed:** TKT-0088 closed. 8 Section 10 decisions recorded to state/tkt-0088-decisions.json. Key outcomes: (D1) P2 target=end Aug 2026. (D2) FinOps approved+BYOK policy added to model-policy.json. (D3) Auralith incorporation target end-May-2026; hard gate: no client data until confirmed — added to AI Charter. (D4) TKT-0060/0061/0063 deferred to end-May — cron reminder set. (D5) Managed tenant timing deferred — TKT-0091 raised for grooming. (D6/D7/D8) Approved — all already executed in TKT-0087. Ken sole Tier 3 approver until P2 added to AI Charter. strategy-index.json + model-policy.json updated.
+**Why:** TKT-0088 Seq2 complete. All 8 Atlas strategy paper Section 10 decisions made by Ken.
+**Verification:** State files updated. AI Charter gates added. Cron reminder set. TKT-0088 closed. TKT-0091 raised.
+**Rollback:** Revert state files. Remove Charter gate section. Delete cron 8831b6c3.
+**Linked:** none
+---
+
+
 ## 2026-05-07 14:45 AEST — [CHG-0220] AI Charter: Auralith Technology Governance Addendum merged (Ken approved 2026-05-07)
 **Type:** doc
 **Source:** ken-prompt

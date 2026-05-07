@@ -1,0 +1,63 @@
+{
+  "schema": "section10-decisions-v1",
+  "decidedBy": "Ken Mun",
+  "decidedAt": "2026-05-07T14:56:00+10:00",
+  "reference": "TKT-0088 / Atlas Strategy Paper Section 10",
+  "decisions": {
+    "D1": {
+      "title": "P1→P2 gate target date",
+      "decision": "End August 2026",
+      "notes": "OC2 arrives July 2026. HIVE setup + validation during July. P2 go-live target: end August 2026.",
+      "status": "approved"
+    },
+    "D2": {
+      "title": "FinOps controls implementation",
+      "decision": "Approved with caveat",
+      "notes": "Platform enforces token budgets and cost caps. Default: clients use Ollama Cloud models (Tier 2) only. BYOK option: if client brings own cloud API keys, no model limitations apply — Nexus tracks and reports usage only. Data sovereignty rules remain regardless of BYOK.",
+      "status": "approved",
+      "caveat": "BYOK model: client-supplied API keys = no model restrictions, track+report only. Default: Ollama Cloud only."
+    },
+    "D3": {
+      "title": "Auralith incorporation plan and timeline",
+      "decision": "Target incorporation end May 2026. HARD GATE: no SME client data hosted on Nexus until Auralith is legally incorporated.",
+      "notes": "Auralith planned. Incorporation by end May 2026. Hard gate enforced before P2 client onboarding.",
+      "status": "approved",
+      "hardGate": "No client data until Auralith incorporated"
+    },
+    "D4": {
+      "title": "TKT-0060/0061/0062/0063 critical path elevation",
+      "decision": "Deferred. Revisit end-May 2026.",
+      "notes": "All 4 TKTs must be completed before P2 go-live. Deferred for now; revisit end-May as part of Auralith incorporation checkpoint.",
+      "status": "deferred",
+      "revisitBy": "2026-05-31",
+      "hardGate": "Must complete before P2 go-live"
+    },
+    "D5": {
+      "title": "Managed tenant timing conflict (Atlas A1 vs VMS)",
+      "decision": "Deferred. Needs grooming — more details required.",
+      "notes": "Must be completed before P2 go-live. Raise as separate groom ticket.",
+      "status": "deferred",
+      "hardGate": "Must complete before P2 go-live",
+      "action": "Raise groom ticket"
+    },
+    "D6": {
+      "title": "Ahsoka governance registration",
+      "decision": "Approved",
+      "notes": "Already executed in TKT-0087 AC-6 — Ahsoka registered in AI Charter agent table, CHG-0218.",
+      "status": "approved-and-done"
+    },
+    "D7": {
+      "title": "Nexus-first mandate in RULES.md + AI Charter",
+      "decision": "Approved",
+      "notes": "Already executed in TKT-0087 AC-4 — Nexus-first added to RULES.md global principles and AI Charter Section 1.5, CHG-0218.",
+      "status": "approved-and-done"
+    },
+    "D8": {
+      "title": "R1/C4 conflict resolution (large deal exception clause)",
+      "decision": "Approved. Exception in force. Ken is single Tier 3 approver until P2 go-live.",
+      "notes": "R1 exception clause already added (TKT-0087 AC-5, CHG-0218). Ken sole Tier 3 approver until P2. Revisit and reconfirm delegation model before P2 go-live.",
+      "status": "approved",
+      "caveat": "Ken single Tier 3 approver until P2. Must reconfirm before P2 go-live."
+    }
+  }
+}
