@@ -1,30 +1,34 @@
 {
   "schema_version": "1.0",
   "description": "AInchors operational framework maturity registry. Updated by /frameworks command and on material changes to any framework.",
-  "lastAssessed": "2026-04-28T16:35:00+10:00",
+  "lastAssessed": "2026-05-07T06:40:30+10:00",
   "assessedBy": "Yoda + Ken",
   "overallMaturity": "L2-L3",
   "frameworks": {
     "agile": {
       "name": "AGILE",
       "purpose": "PM and delivery",
-      "maturity": "L2",
-      "maturityLabel": "Developing",
+      "maturity": "L3",
+      "maturityLabel": "Defined",
       "live": [
         "Notion backlog \u2014 User Stories with priority, effort, stream, category",
         "Ticket-first rule (TKT-NNNN) enforced before all ad-hoc work",
         "Sprint planning with Ken each session",
         "Sprint review at sprint close",
         "Morning standup 8AM AEST via Telegram (automated)",
-        "Ken approves sprint before work starts"
+        "Ken approves sprint before work starts",
+        "Agile Framework v1.0 approved 2026-05-07 \u2014 docs/ainchors-agile-framework-v1.md",
+        "QBR cadence defined (quarterly, 1st week)",
+        "Sprint cadence locked (1 week, max 6 items, Mon-Sun AEST)",
+        "Epic gate defined (OKR-linked, Ken approval required)",
+        "Definition of Done formalised per work item type",
+        "Velocity tracking introduced (rolling 4-sprint trend)",
+        "5 lean ceremonies defined"
       ],
       "gaps": [
-        "No fixed sprint length or cadence",
-        "No velocity tracking or historical throughput data",
-        "No burndown or cumulative flow charts",
-        "No formal retrospectives",
-        "Sprint planning is reactive, not rhythmic",
-        "No definition of done enforcement (relies on Sage QA gate)"
+        "First QBR not yet run (scheduled Q3 Jul 2026 \u2014 1st week)",
+        "Velocity data accumulating from Sprint 1",
+        "Retrospective cadence not yet established (monthly target)"
       ],
       "opportunities": [
         "Set a fixed sprint length (1 week suggested)",

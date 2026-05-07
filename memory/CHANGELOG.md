@@ -42,6 +42,18 @@ This log captures **every change** Yoda makes to AInchors infrastructure, config
 **Linked:** decisions.md 2026-04-27 entries
 ---
 
+## 2026-05-07 16:40 AEST — [CHG-0222] Agile Framework v1.0 locked + Agile L2→L3 + TKT-0086/0090 closed — Sprint 1 starts
+**Type:** doc
+**Source:** ken-prompt
+**Trigger:** Ken approved Agile Framework v1.0 2026-05-07 16:39 AEST
+**What changed:** AInchors Agile Delivery Framework v1.0 locked (docs/ainchors-agile-framework-v1.md). Agile maturity updated L2 → L3 in frameworks-maturity.json. TKT-0090 and TKT-0086 closed. Full TKT-0086 sequence complete: TKT-0086 (strategy review) → TKT-0087 (20 governance ACs) → TKT-0088 (8 Section 10 decisions) → TKT-0089 (95-item backlog replan) → TKT-0090 (Agile framework lock). Sprint 1 formally starts now.
+**Why:** TKT-0090 Seq4 completion. Final gate of the 4-sequence strategy and governance alignment work initiated at 3AM 2026-05-07.
+**Verification:** Framework file locked. Maturity L3 confirmed. Both TKTs closed. Ken approval on record.
+**Rollback:** Revert docs/ainchors-agile-framework-v1.md status. Revert agile maturity in frameworks-maturity.json.
+**Linked:** none
+---
+
+
 ## 2026-05-07 14:58 AEST — [CHG-0221] TKT-0088 closed: all 8 Section 10 decisions recorded, P2 target Aug 2026, BYOK policy, Auralith gate
 **Type:** doc
 **Source:** ken-prompt
