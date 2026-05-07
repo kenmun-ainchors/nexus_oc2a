@@ -756,6 +756,7 @@ Exit 2 = do not publish. Fix all issues and re-run until exit 0.
 **Note on 8AM scheduled standup:** The 8AM cron (id: 3c279099) updates `state/standup-state.json` after each run. Canvas doc overwrites `/canvas/documents/standup-daily/index.html` daily.
 
 **Embed in webchat:** `[embed ref="standup-daily" title="Daily Stand-up" height="900" /]`
+**Email delivery:** Full HTML brief sent to `kenmun@gmail.com` (from `kenmun@ainchors.com` via gog) after canvas write. Fail-safe: errors logged to `state/standup-email-errors.json`, does not abort standup.
 
 **Payload:** Same as cron `3c279099` (MORNING_STANDUP_V2), with:
 - Dynamic window: replace `--hours 24` with `--since [windowStart ISO]`

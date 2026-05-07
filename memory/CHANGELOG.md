@@ -42,6 +42,30 @@ This log captures **every change** Yoda makes to AInchors infrastructure, config
 **Linked:** decisions.md 2026-04-27 entries
 ---
 
+## 2026-05-07 10:53 AEST — [CHG-0209] Standup: add email delivery to kenmun@gmail.com (Phase 4)
+**Type:** cron
+**Source:** ken-prompt
+**Trigger:** ken-approved 2026-05-07 10:52 AEST
+**What changed:** Standup cron 3c279099: added Phase 4 — email HTML brief to kenmun@gmail.com via gog (GOG_ACCOUNT=kenmun@ainchors.com, --body-html). Email sent after canvas write, before webchat notify. Fail-safe: email error logs to state/standup-email-errors.json, does not abort standup. Telegram flash updated to say 'Full brief → email + OpenClaw webchat'.
+**Why:** Ken request: email standup to kenmun@gmail.com as fallback when outside and can't access webchat.
+**Verification:** Cron updated via cron tool. gog --body-html flag confirmed available (v0.13.0).
+**Rollback:** Remove Phase 4 email block from standup cron 3c279099.
+**Linked:** none
+---
+
+
+## 2026-05-07 10:30 AEST — [CHG-0208] Standup v2: two-layer format + Aria brief sessions_history fix + kimi RTB label
+**Type:** cron
+**Source:** ken-prompt
+**Trigger:** ken-approved 2026-05-07 10:25 AEST
+**What changed:** 6 changes: (1) Standup 3c279099 rewritten to MORNING_STANDUP_V2: Layer 1=canvas HTML at /canvas/documents/standup-daily/index.html, Layer 2=ONE Telegram flash max 600 chars. (2) Live wc -c MEMORY.md check in standup, threshold 16000. (3) Governance maturity reads exact .maturity field verbatim from frameworks-maturity.json. (4) Aria brief cron a7e7a820 rewired to use sessions_list+sessions_history as ground truth for Angie activity; prepend ordering. (5) Kimi RTB cron 57105907 has unmissable divider+emoji header. (6) RULES.md /standup updated for v2 format + embed instruction.
+**Why:** Ken feedback 2026-05-07: stale flags in standup (MEMORY.md false positive, governance L0 wrong), Aria activity showing 0 despite Angie being active, kimi label invisible, 3-message Telegram noise. Two-layer format removes noise; full detail in webchat canvas.
+**Verification:** Cron updates confirmed via cron tool. RULES.md updated. git committed 37fb63f.
+**Rollback:** Revert crons 3c279099/a7e7a820/57105907 to prior payload via cron update. Revert RULES.md /standup section.
+**Linked:** Ken feedback 2026-05-07
+---
+
+
 ## 2026-05-07 09:41 AEST — [CHG-0207] Aria TOOLS.md: gog CLI correct flag syntax (--summary/--from/--to)
 **Type:** doc
 **Source:** ken-prompt
