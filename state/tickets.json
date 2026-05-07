@@ -1,5 +1,5 @@
 {
-  "sequence": 91,
+  "sequence": 94,
   "tickets": [
     {
       "id": "TKT-0049",
@@ -12,7 +12,7 @@
       "created": "2026-05-04T10:40:54+10:00",
       "updated": "2026-05-04T11:05:08+10:00",
       "description": "S5 control (no hardcoded creds). Findings: (1) RESOLVED: Old rotated Anthropic key in backups/gateway-config/2026-04-27/ sanitised (CHG pending). (2) OPEN: All agent auth-profiles.json store API keys as plaintext JSON. Need: chmod 600 on all agentDir/, verify OpenClaw SecretRef support, update backup-exclusion policy. (3) OPEN: Ollama Cloud models not configured as OpenClaw provider. kimi/deepseek only work via ollama CLI, not OpenClaw model routing. CI Cycle A workaround applied (haiku). Full provider setup needed. Acceptance: a) auth-profiles chmod 600, b) backup excludes auth files, c) Ollama Cloud provider configured, d) CI Cycle A reverted to deepseek-pro.",
-      "resolution": "All 5 items complete. A: chmod 600 auth-profiles (CHG-0152). B: backup.sh excludes auth files (CHG-0154). C: Ollama Cloud models added to models.providers.ollama \u2014 kimi-k2.6, deepseek-v4-pro, deepseek-v4-flash (CHG-0155). D: CI Cycle A reverted to deepseek-v4-pro:cloud (CHG-0155). E: cron-agent-preflight.sh updated with correct cloud model resolution logic \u2014 5/5 crons PASS. HTTP API verified working via local Ollama Pro.",
+      "resolution": "All 5 items complete. A: chmod 600 auth-profiles (CHG-0152). B: backup.sh excludes auth files (CHG-0154). C: Ollama Cloud models added to models.providers.ollama — kimi-k2.6, deepseek-v4-pro, deepseek-v4-flash (CHG-0155). D: CI Cycle A reverted to deepseek-v4-pro:cloud (CHG-0155). E: cron-agent-preflight.sh updated with correct cloud model resolution logic — 5/5 crons PASS. HTTP API verified working via local Ollama Pro.",
       "linked": {
         "us": [],
         "inc": [],
@@ -31,8 +31,8 @@
       "assignee": "Yoda",
       "created": "2026-05-04T13:56:14+10:00",
       "updated": "2026-05-04T23:23:31+10:00",
-      "description": "Telegram\u2192webchat /handover always replies inline in Telegram instead of pushing to webchat. Step 4 of RULES.md (cron wake/sessions_send) is ignored. Partial fixes applied: visibility=agent config, RULES.md CRITICAL warning. Needs proper enforcement or alternative delivery mechanism.",
-      "resolution": "Cross-channel /handover working. Fix: tools.sessions.visibility changed from 'tree' to 'agent' \u2014 allows Telegram session to see and reach webchat session via sessions_send. Confirmed by Ken 2026-05-04 23:23 AEST.",
+      "description": "Telegram→webchat /handover always replies inline in Telegram instead of pushing to webchat. Step 4 of RULES.md (cron wake/sessions_send) is ignored. Partial fixes applied: visibility=agent config, RULES.md CRITICAL warning. Needs proper enforcement or alternative delivery mechanism.",
+      "resolution": "Cross-channel /handover working. Fix: tools.sessions.visibility changed from 'tree' to 'agent' — allows Telegram session to see and reach webchat session via sessions_send. Confirmed by Ken 2026-05-04 23:23 AEST.",
       "linked": {
         "us": [],
         "inc": [],
@@ -78,7 +78,7 @@
         "inc": [],
         "chg": []
       },
-      "notes": "SEQUENCE: 2 of 3. Blocked by TKT-0054. Builds on Charter principles. Scope: formal AI Governance framework for AInchors platform \u2014 model policy enforcement, agent accountability, audit trails, human-in-the-loop requirements, LLM-specific risks. Warden and governance triad are implementation pieces; this is the framework above them. | Started 2026-05-04 17:30 AEST. Sequence 2 of 3, builds on AI Charter v1.0 (TKT-0054 closed). Sub-agent drafting framework document.",
+      "notes": "SEQUENCE: 2 of 3. Blocked by TKT-0054. Builds on Charter principles. Scope: formal AI Governance framework for AInchors platform — model policy enforcement, agent accountability, audit trails, human-in-the-loop requirements, LLM-specific risks. Warden and governance triad are implementation pieces; this is the framework above them. | Started 2026-05-04 17:30 AEST. Sequence 2 of 3, builds on AI Charter v1.0 (TKT-0054 closed). Sub-agent drafting framework document.",
       "notionPageId": "356c1829-53ff-81e6-a977-efba0044e380"
     },
     {
@@ -98,7 +98,7 @@
         "inc": [],
         "chg": []
       },
-      "notes": "SEQUENCE: 3 of 3. First assignment for Atlas (TKT-0051 validation task). Builds on Holocron migration (TKT-0042 complete). Scope: proper data and memory strategy for Nexus \u2014 agent memory, shared state, knowledge architecture, data sovereignty, retention policies. Atlas produces Architecture + Solution Design doc (DRAFT) for Ken review.",
+      "notes": "SEQUENCE: 3 of 3. First assignment for Atlas (TKT-0051 validation task). Builds on Holocron migration (TKT-0042 complete). Scope: proper data and memory strategy for Nexus — agent memory, shared state, knowledge architecture, data sovereignty, retention policies. Atlas produces Architecture + Solution Design doc (DRAFT) for Ken review.",
       "notionPageId": "356c1829-53ff-8189-8fec-caf537e9bac6"
     },
     {
@@ -119,11 +119,11 @@
         "inc": [],
         "chg": []
       },
-      "notes": "SEQUENCE: 1 of 3. Must complete before TKT-0052. Foundational \u2014 defines principles that govern all agent behaviour. Deliverable: AI Charter document (Markdown). Owner: Ken authors/approves, Yoda drafts. Scope: internal (agent governance) + external-ready (client/partner evidence of responsible AI). Referenced in all agent RULES.md post-approval."
+      "notes": "SEQUENCE: 1 of 3. Must complete before TKT-0052. Foundational — defines principles that govern all agent behaviour. Deliverable: AI Charter document (Markdown). Owner: Ken authors/approves, Yoda drafts. Scope: internal (agent governance) + external-ready (client/partner evidence of responsible AI). Referenced in all agent RULES.md post-approval."
     },
     {
       "id": "TKT-0055",
-      "title": "Spark: Instagram Growth & Lead Campaign \u2014 review, refine, activate",
+      "title": "Spark: Instagram Growth & Lead Campaign — review, refine, activate",
       "type": "task",
       "priority": "medium",
       "status": "open",
@@ -140,12 +140,12 @@
           "CHG-0160"
         ]
       },
-      "notes": "Trigger: activate when respective campaign is created. Steps: review proposal \u2192 Ken approves \u2192 Spark refines \u2192 governance gate \u2192 activate.",
+      "notes": "Trigger: activate when respective campaign is created. Steps: review proposal → Ken approves → Spark refines → governance gate → activate.",
       "notionPageId": "356c1829-53ff-811c-9307-fe4f9254d5db"
     },
     {
       "id": "TKT-0056",
-      "title": "Spark: LinkedIn Authority Pipeline Campaign \u2014 review, refine, activate",
+      "title": "Spark: LinkedIn Authority Pipeline Campaign — review, refine, activate",
       "type": "task",
       "priority": "medium",
       "status": "open",
@@ -162,12 +162,12 @@
           "CHG-0160"
         ]
       },
-      "notes": "Trigger: activate when respective campaign is created. Steps: review proposal \u2192 Ken approves \u2192 Spark refines \u2192 governance gate \u2192 activate.",
+      "notes": "Trigger: activate when respective campaign is created. Steps: review proposal → Ken approves → Spark refines → governance gate → activate.",
       "notionPageId": "356c1829-53ff-810e-9705-c0385f474bee"
     },
     {
       "id": "TKT-0057",
-      "title": "Spark: Facebook Growth & Engagement Campaign \u2014 review, refine, activate",
+      "title": "Spark: Facebook Growth & Engagement Campaign — review, refine, activate",
       "type": "task",
       "priority": "medium",
       "status": "open",
@@ -184,12 +184,12 @@
           "CHG-0160"
         ]
       },
-      "notes": "Trigger: activate when respective campaign is created. Steps: review proposal \u2192 Ken approves \u2192 Spark refines \u2192 governance gate \u2192 activate.",
+      "notes": "Trigger: activate when respective campaign is created. Steps: review proposal → Ken approves → Spark refines → governance gate → activate.",
       "notionPageId": "356c1829-53ff-813e-8797-e4c94bea72e3"
     },
     {
       "id": "TKT-0058",
-      "title": "Spark: YouTube Growth & Retention Campaign \u2014 review, refine, activate",
+      "title": "Spark: YouTube Growth & Retention Campaign — review, refine, activate",
       "type": "task",
       "priority": "medium",
       "status": "open",
@@ -206,12 +206,12 @@
           "CHG-0160"
         ]
       },
-      "notes": "Trigger: activate when respective campaign is created. Steps: review proposal \u2192 Ken approves \u2192 Spark refines \u2192 governance gate \u2192 activate.",
+      "notes": "Trigger: activate when respective campaign is created. Steps: review proposal → Ken approves → Spark refines → governance gate → activate.",
       "notionPageId": "356c1829-53ff-81b3-9ede-ffb4d4f7195d"
     },
     {
       "id": "TKT-0059",
-      "title": "Content gating bypass \u2014 W1P1+ cron posts without confirmed Ken approval",
+      "title": "Content gating bypass — W1P1+ cron posts without confirmed Ken approval",
       "type": "bug",
       "priority": "high",
       "status": "closed",
@@ -249,7 +249,7 @@
       "notes": "",
       "notionPageId": null,
       "criticalPath": true,
-      "criticalPathReason": "P2 pre-condition \u2014 required for C1-KR3 (2 SME clients within 6-12mo OKR). Elevated per TKT-0087 AC-2."
+      "criticalPathReason": "P2 pre-condition — required for C1-KR3 (2 SME clients within 6-12mo OKR). Elevated per TKT-0087 AC-2."
     },
     {
       "id": "TKT-0061",
@@ -271,7 +271,7 @@
       "notes": "Deadline confirmed: 2026-08-02 (90 days from 2026-05-04, Ken confirmed). Mandatory before P2 live. Shield/Warden to define formal escalation thresholds, sensitivity levels, and suppression rules.",
       "notionPageId": null,
       "criticalPath": true,
-      "criticalPathReason": "P2 pre-condition \u2014 required for C1-KR3 (2 SME clients within 6-12mo OKR). Elevated per TKT-0087 AC-2."
+      "criticalPathReason": "P2 pre-condition — required for C1-KR3 (2 SME clients within 6-12mo OKR). Elevated per TKT-0087 AC-2."
     },
     {
       "id": "TKT-0062",
@@ -313,11 +313,11 @@
       "notes": "Owner: Lex. Mandatory before P2 live. Three options: (A) DPA with Ollama, (B) Explicit exclusion/acceptance, (C) BYOK. Lex assesses and presents recommendation to Ken. Ken decides.",
       "notionPageId": null,
       "criticalPath": true,
-      "criticalPathReason": "P2 pre-condition \u2014 required for C1-KR3 (2 SME clients within 6-12mo OKR). Elevated per TKT-0087 AC-2."
+      "criticalPathReason": "P2 pre-condition — required for C1-KR3 (2 SME clients within 6-12mo OKR). Elevated per TKT-0087 AC-2."
     },
     {
       "id": "TKT-0064",
-      "title": "[AUTO-HEAL] MEMORY.md oversized \u2014 20151 chars exceeds warning threshold",
+      "title": "[AUTO-HEAL] MEMORY.md oversized — 20151 chars exceeds warning threshold",
       "type": "task",
       "priority": "medium",
       "status": "resolved",
@@ -337,7 +337,7 @@
     },
     {
       "id": "TKT-0065",
-      "title": "LinkedIn Post Metrics \u2014 Automated Snapshot Pipeline",
+      "title": "LinkedIn Post Metrics — Automated Snapshot Pipeline",
       "type": "task",
       "priority": "medium",
       "status": "resolved",
@@ -357,7 +357,7 @@
     },
     {
       "id": "TKT-0066",
-      "title": "Spark W2 Content Pipeline \u2014 AIOps Cycle 1 Week A",
+      "title": "Spark W2 Content Pipeline — AIOps Cycle 1 Week A",
       "type": "task",
       "priority": "high",
       "status": "resolved",
@@ -377,7 +377,7 @@
     },
     {
       "id": "TKT-0067",
-      "title": "S4 \u2014 Define agent tool scopes (least privilege)",
+      "title": "S4 — Define agent tool scopes (least privilege)",
       "type": "task",
       "priority": "high",
       "status": "resolved",
@@ -397,7 +397,7 @@
     },
     {
       "id": "TKT-0068",
-      "title": "Agent Team Design & Build \u2014 AInchors AI Ops",
+      "title": "Agent Team Design & Build — AInchors AI Ops",
       "type": "task",
       "priority": "high",
       "status": "open",
@@ -417,7 +417,7 @@
     },
     {
       "id": "TKT-0069",
-      "title": "Vision & Mission \u2014 Define and confirm Nexus Vision and Mission",
+      "title": "Vision & Mission — Define and confirm Nexus Vision and Mission",
       "type": "task",
       "priority": "high",
       "status": "in-progress",
@@ -432,12 +432,12 @@
         "inc": [],
         "chg": []
       },
-      "notes": "Sequence: 1 of 4. Must complete before TKT-0070, TKT-0071, TKT-0072. Foundation for all EA and product decisions. | VMS document received from Perplexity research 2026-05-07. Key outputs: Vision/Mission/Positioning defined. Auralith introduced as IP/tech entity. GCC added as Year 3 market. Training ladder L1/L2/L3 formalised. Revenue mix: Y1 80/20, Y3 45/40/15, Y5 all pillars. 8 execution guardrails for Yoda/Atlas/Ahsoka. Document stored: workspace/media/inbound/ainchors-VMS135. Needs: Ken review + formal approval + commit to Holocron. Feeds TKT-0070/0071/0072. | CONFIRMED 2026-05-07 03:06 AEST by Ken: Auralith is a real entity. Ken intends to incorporate. Auralith = IP/technology company that owns and operates Nexus. AInchors Solutions Pty Ltd = market-facing brand. This is a structural architecture decision \u2014 feeds Atlas EA, Ahsoka positioning, and Holocron structure. Update MEMORY.md, Atlas SOUL.md scope, and EA roadmap accordingly.",
+      "notes": "Sequence: 1 of 4. Must complete before TKT-0070, TKT-0071, TKT-0072. Foundation for all EA and product decisions. | VMS document received from Perplexity research 2026-05-07. Key outputs: Vision/Mission/Positioning defined. Auralith introduced as IP/tech entity. GCC added as Year 3 market. Training ladder L1/L2/L3 formalised. Revenue mix: Y1 80/20, Y3 45/40/15, Y5 all pillars. 8 execution guardrails for Yoda/Atlas/Ahsoka. Document stored: workspace/media/inbound/ainchors-VMS135. Needs: Ken review + formal approval + commit to Holocron. Feeds TKT-0070/0071/0072. | CONFIRMED 2026-05-07 03:06 AEST by Ken: Auralith is a real entity. Ken intends to incorporate. Auralith = IP/technology company that owns and operates Nexus. AInchors Solutions Pty Ltd = market-facing brand. This is a structural architecture decision — feeds Atlas EA, Ahsoka positioning, and Holocron structure. Update MEMORY.md, Atlas SOUL.md scope, and EA roadmap accordingly.",
       "notionPageId": "357c1829-53ff-81cc-a793-d3792f386f8c"
     },
     {
       "id": "TKT-0070",
-      "title": "AI Policies \u2014 Define AI Policies, Processes, Procedures and Controls Audit",
+      "title": "AI Policies — Define AI Policies, Processes, Procedures and Controls Audit",
       "type": "task",
       "priority": "high",
       "status": "open",
@@ -452,12 +452,12 @@
         "inc": [],
         "chg": []
       },
-      "notes": "Sequence: 2 of 4. Depends on TKT-0069 (Vision & Mission). Input to TKT-0071 roadmap. | Scope additions from AI governance gap analysis (2026-05-05): (1) Formalise risk reassessment cadence \u2014 quarterly periodic AI impact/risk assessment process (not just update when noticed). (2) Define structured decision log format aligned with what P2 external auditors expect. Lex to own the format. (3) HITL threshold table \u2014 enumerate specific monetary and data-access triggers per domain (not just qualitative tiers). These additions are required for P2 Evidence Pack completeness (Governance Framework v1.0 Section 6.5).",
+      "notes": "Sequence: 2 of 4. Depends on TKT-0069 (Vision & Mission). Input to TKT-0071 roadmap. | Scope additions from AI governance gap analysis (2026-05-05): (1) Formalise risk reassessment cadence — quarterly periodic AI impact/risk assessment process (not just update when noticed). (2) Define structured decision log format aligned with what P2 external auditors expect. Lex to own the format. (3) HITL threshold table — enumerate specific monetary and data-access triggers per domain (not just qualitative tiers). These additions are required for P2 Evidence Pack completeness (Governance Framework v1.0 Section 6.5).",
       "notionPageId": "357c1829-53ff-818e-aeb1-ee6880318fc1"
     },
     {
       "id": "TKT-0071",
-      "title": "Nexus P1-P4 Roadmap \u2014 EA technology roadmap, blueprint and checklist",
+      "title": "Nexus P1-P4 Roadmap — EA technology roadmap, blueprint and checklist",
       "type": "task",
       "priority": "critical",
       "status": "open",
@@ -472,12 +472,12 @@
         "inc": [],
         "chg": []
       },
-      "notes": "Sequence: 3 of 4. Depends on TKT-0069 + TKT-0070. Owner: Atlas (Enterprise Architect). Output: DRAFT FOR REVIEW EA roadmap. | Sequence 3/4. Owner: Atlas (Enterprise Architect). ATLAS NOTE (2026-05-05): Ensure the P1-P4 roadmap includes a dedicated Technology Availability & Stability layer covering: (1) System availability architecture per phase \u2014 HA design, failover, recovery targets (RTO/RPO); (2) Observability stack \u2014 event loop monitoring, zombie task detection, gateway health, agent health, model performance trending; (3) AIOps maturity model \u2014 what checks exist per phase, what gets automated vs human-escalated; (4) Infrastructure resilience patterns \u2014 OC1/OC2 HA, Tailscale mesh, NAS failover; (5) SLA/SLO/error budget design per phase (P1 internal vs P2 client-facing vs P3/P4 enterprise); (6) Incident response capability per phase \u2014 runbooks, on-call model, escalation paths. Trigger: today's zombie task + event loop incident (INC CHG-0180) exposed gaps in our AIOps coverage. This layer must be a first-class section in the EA roadmap, not an afterthought.",
+      "notes": "Sequence: 3 of 4. Depends on TKT-0069 + TKT-0070. Owner: Atlas (Enterprise Architect). Output: DRAFT FOR REVIEW EA roadmap. | Sequence 3/4. Owner: Atlas (Enterprise Architect). ATLAS NOTE (2026-05-05): Ensure the P1-P4 roadmap includes a dedicated Technology Availability & Stability layer covering: (1) System availability architecture per phase — HA design, failover, recovery targets (RTO/RPO); (2) Observability stack — event loop monitoring, zombie task detection, gateway health, agent health, model performance trending; (3) AIOps maturity model — what checks exist per phase, what gets automated vs human-escalated; (4) Infrastructure resilience patterns — OC1/OC2 HA, Tailscale mesh, NAS failover; (5) SLA/SLO/error budget design per phase (P1 internal vs P2 client-facing vs P3/P4 enterprise); (6) Incident response capability per phase — runbooks, on-call model, escalation paths. Trigger: today's zombie task + event loop incident (INC CHG-0180) exposed gaps in our AIOps coverage. This layer must be a first-class section in the EA roadmap, not an afterthought.",
       "notionPageId": "357c1829-53ff-8103-ac81-ccc9df9a5115"
     },
     {
       "id": "TKT-0072",
-      "title": "BPM Agent \u2014 Business Process Specialist for AInchors",
+      "title": "BPM Agent — Business Process Specialist for AInchors",
       "type": "task",
       "priority": "medium",
       "status": "open",
@@ -485,19 +485,19 @@
       "assignee": "Yoda",
       "created": "2026-05-05T18:22:29+10:00",
       "updated": "2026-05-05T18:24:08+10:00",
-      "description": "Design and build a Business Process Management specialist agent for AInchors. Covers both technology and business process domains. Defines, maps, optimises and automates AInchors business processes. Star Wars name TBC \u2014 Ken approval required.",
+      "description": "Design and build a Business Process Management specialist agent for AInchors. Covers both technology and business process domains. Defines, maps, optimises and automates AInchors business processes. Star Wars name TBC — Ken approval required.",
       "resolution": null,
       "linked": {
         "us": [],
         "inc": [],
         "chg": []
       },
-      "notes": "Sequence: 4 of 4. Depends on TKT-0071 (phase placement). Proposed name: Lando \u2014 pending Ken approval.",
+      "notes": "Sequence: 4 of 4. Depends on TKT-0071 (phase placement). Proposed name: Lando — pending Ken approval.",
       "notionPageId": "357c1829-53ff-8125-8d52-f8f5f772ad54"
     },
     {
       "id": "TKT-0073",
-      "title": "AIOps Gap: Zombie task + event loop observability \u2014 US raised from incident learning",
+      "title": "AIOps Gap: Zombie task + event loop observability — US raised from incident learning",
       "type": "task",
       "priority": "high",
       "status": "open",
@@ -517,7 +517,7 @@
     },
     {
       "id": "TKT-0074",
-      "title": "SRE Agent \u2014 Krennic \ud83d\udd35 (Site Reliability Engineering)",
+      "title": "SRE Agent — Krennic 🔵 (Site Reliability Engineering)",
       "type": "task",
       "priority": "high",
       "status": "open",
@@ -525,7 +525,7 @@
       "assignee": "Yoda",
       "created": "2026-05-05T19:23:08+10:00",
       "updated": "2026-05-05T19:23:08+10:00",
-      "description": "Build Krennic \u2014 SRE agent for AInchors platform. Owns incident response, SLO/error budget management, runbook execution, post-mortems, capacity planning, and toil reduction. Must be live BEFORE TRIGGER-07 (first P2 client). P1: design + spec. P2: activate. Activation also triggers if internal incident rate >2/week OR toil >30% of Yoda turns. Named after Director Orson Krennic \u2014 dedication, precision, uncompromising standards. Star Wars principle: commitment and craft, not allegiance.",
+      "description": "Build Krennic — SRE agent for AInchors platform. Owns incident response, SLO/error budget management, runbook execution, post-mortems, capacity planning, and toil reduction. Must be live BEFORE TRIGGER-07 (first P2 client). P1: design + spec. P2: activate. Activation also triggers if internal incident rate >2/week OR toil >30% of Yoda turns. Named after Director Orson Krennic — dedication, precision, uncompromising standards. Star Wars principle: commitment and craft, not allegiance.",
       "resolution": null,
       "linked": {
         "us": [],
@@ -537,7 +537,7 @@
     },
     {
       "id": "TKT-0075",
-      "title": "Audit Log Architecture \u2014 Beacon v2: structured trace ID, tool-call logging, unified audit spine",
+      "title": "Audit Log Architecture — Beacon v2: structured trace ID, tool-call logging, unified audit spine",
       "type": "task",
       "priority": "high",
       "status": "open",
@@ -545,7 +545,7 @@
       "assignee": "Yoda",
       "created": "2026-05-05T20:06:48+10:00",
       "updated": "2026-05-05T20:06:48+10:00",
-      "description": "P2 blocker. Gap from AI governance review (2026-05-05). Current state: two separate systems \u2014 tech logs (gateway.err.log) and audit logs (CHANGELOG.md + obs.db + Notion) \u2014 no bridge, no shared trace ID, no tool-call structured records, no prompt/response logging. Required: (1) Shared trace ID across multi-step agent runs. (2) Structured tool-call audit records: timestamp, tool name, params summary, outcome. (3) Policy event log: which guardrail fired, allow/block/modify decision, why. (4) Gateway + orchestrator + connector three-layer logging spine. (5) Same spine serves operational debugging AND compliance/regulatory reporting. Design owner: Atlas (EA) + Thrawn (PA). Build owner: Forge + Krennic (when live). Must be complete before P2 client onboarding.",
+      "description": "P2 blocker. Gap from AI governance review (2026-05-05). Current state: two separate systems — tech logs (gateway.err.log) and audit logs (CHANGELOG.md + obs.db + Notion) — no bridge, no shared trace ID, no tool-call structured records, no prompt/response logging. Required: (1) Shared trace ID across multi-step agent runs. (2) Structured tool-call audit records: timestamp, tool name, params summary, outcome. (3) Policy event log: which guardrail fired, allow/block/modify decision, why. (4) Gateway + orchestrator + connector three-layer logging spine. (5) Same spine serves operational debugging AND compliance/regulatory reporting. Design owner: Atlas (EA) + Thrawn (PA). Build owner: Forge + Krennic (when live). Must be complete before P2 client onboarding.",
       "resolution": null,
       "linked": {
         "us": [],
@@ -557,7 +557,7 @@
     },
     {
       "id": "TKT-0076",
-      "title": "AI Governance Framework v1.1 \u2014 S4 resolved, HITL thresholds, gateway PII control as P2 gate",
+      "title": "AI Governance Framework v1.1 — S4 resolved, HITL thresholds, gateway PII control as P2 gate",
       "type": "task",
       "priority": "medium",
       "status": "open",
@@ -565,7 +565,7 @@
       "assignee": "Yoda",
       "created": "2026-05-05T20:06:48+10:00",
       "updated": "2026-05-05T20:06:48+10:00",
-      "description": "Three updates required from gap analysis (2026-05-05): (1) S4 status \u2014 update YODA NOTE item 1 from 'known gap' to resolved. Document the tool scope matrix implemented CHG-0175 (2026-05-05). (2) HITL threshold table \u2014 add concrete triggers per domain to Charter (monetary thresholds, data-access triggers, new provider triggers). Currently qualitative tiers only \u2014 not sufficient for P2 audit. (3) Gateway-level PII control \u2014 add as a P2 pre-condition: lightweight automated PII pattern detection at the gateway layer before external API calls. Currently enforcement is config-level only (model routing). Infrastructure-level enforcement gap. Lex to assess and propose. Owner: Yoda. Requires Lex + Sage review before v1.1 approved.",
+      "description": "Three updates required from gap analysis (2026-05-05): (1) S4 status — update YODA NOTE item 1 from 'known gap' to resolved. Document the tool scope matrix implemented CHG-0175 (2026-05-05). (2) HITL threshold table — add concrete triggers per domain to Charter (monetary thresholds, data-access triggers, new provider triggers). Currently qualitative tiers only — not sufficient for P2 audit. (3) Gateway-level PII control — add as a P2 pre-condition: lightweight automated PII pattern detection at the gateway layer before external API calls. Currently enforcement is config-level only (model routing). Infrastructure-level enforcement gap. Lex to assess and propose. Owner: Yoda. Requires Lex + Sage review before v1.1 approved.",
       "resolution": null,
       "linked": {
         "us": [],
@@ -577,7 +577,7 @@
     },
     {
       "id": "TKT-0077",
-      "title": "Persistent Agent Configuration \u2014 Stateless Bootstrap",
+      "title": "Persistent Agent Configuration — Stateless Bootstrap",
       "type": "task",
       "priority": "high",
       "status": "open",
@@ -592,12 +592,12 @@
         "inc": [],
         "chg": []
       },
-      "notes": "AC12 added 2026-05-07: Create dedicated agent directories for Shield, Lex, and Sage with proper SOUL.md and rules files. G1-G2 governance guardrails currently in governance-guardrails-2026-05.md only \u2014 need proper agent dirs for full separation. Tag: persistent-config, governance, stateless-bootstrap.",
+      "notes": "AC12 added 2026-05-07: Create dedicated agent directories for Shield, Lex, and Sage with proper SOUL.md and rules files. G1-G2 governance guardrails currently in governance-guardrails-2026-05.md only — need proper agent dirs for full separation. Tag: persistent-config, governance, stateless-bootstrap.",
       "notionPageId": "358c1829-53ff-8161-a324-ef907a5e13e2"
     },
     {
       "id": "TKT-0078",
-      "title": "Holocron Comprehensive Audit & Update \u2014 One-off",
+      "title": "Holocron Comprehensive Audit & Update — One-off",
       "type": "task",
       "priority": "high",
       "status": "open",
@@ -605,7 +605,7 @@
       "assignee": "Yoda",
       "created": "2026-05-06T20:42:17+10:00",
       "updated": "2026-05-06T20:42:17+10:00",
-      "description": "One-off audit and full update of Notion Holocron. Scope: (1) Agent Architecture page \u2014 populate from scratch with all current agents (Yoda, Aria, Spark, Atlas, Thrawn, Lando, Mon Mothma, Warden, Shield, Lex, Sage, Forge, Krennic). (2) Agent Status DB \u2014 add all missing agents (Atlas, Thrawn, Lando, Mon Mothma, Forge). (3) All other Holocron sections \u2014 audit for staleness, update to current state. (4) Produce gap report. Triggered by: Agent Architecture page found as stub-only, Agent Status DB missing 5 agents as of 2026-05-06.",
+      "description": "One-off audit and full update of Notion Holocron. Scope: (1) Agent Architecture page — populate from scratch with all current agents (Yoda, Aria, Spark, Atlas, Thrawn, Lando, Mon Mothma, Warden, Shield, Lex, Sage, Forge, Krennic). (2) Agent Status DB — add all missing agents (Atlas, Thrawn, Lando, Mon Mothma, Forge). (3) All other Holocron sections — audit for staleness, update to current state. (4) Produce gap report. Triggered by: Agent Architecture page found as stub-only, Agent Status DB missing 5 agents as of 2026-05-06.",
       "resolution": null,
       "linked": {
         "us": [],
@@ -617,7 +617,7 @@
     },
     {
       "id": "TKT-0079",
-      "title": "Holocron \u2014 Cost & Billing Page",
+      "title": "Holocron — Cost & Billing Page",
       "type": "task",
       "priority": "medium",
       "status": "open",
@@ -637,7 +637,7 @@
     },
     {
       "id": "TKT-0080",
-      "title": "Holocron \u2014 Infrastructure (HIVE) Current-State Ops Page",
+      "title": "Holocron — Infrastructure (HIVE) Current-State Ops Page",
       "type": "task",
       "priority": "medium",
       "status": "open",
@@ -657,7 +657,7 @@
     },
     {
       "id": "TKT-0081",
-      "title": "Holocron \u2014 Security Posture Page (S1-S7)",
+      "title": "Holocron — Security Posture Page (S1-S7)",
       "type": "task",
       "priority": "medium",
       "status": "open",
@@ -677,7 +677,7 @@
     },
     {
       "id": "TKT-0082",
-      "title": "Ahsoka Pilot Case 1 \u2014 Real-world AI Transformation Consulting",
+      "title": "Ahsoka Pilot Case 1 — Real-world AI Transformation Consulting",
       "type": "task",
       "priority": "high",
       "status": "in-progress",
@@ -685,19 +685,19 @@
       "assignee": "Yoda",
       "created": "2026-05-07T02:05:00+10:00",
       "updated": "2026-05-07T02:44:00+10:00",
-      "description": "Ken personally runs Ahsoka \ud83e\udd0d through a real-world client scenario (Pilot Case 1 of 2). Scope: full discovery \u2192 proposal flow. All outputs through The Sanctum. Ken evaluates quality, accuracy, discovery discipline, and Nexus positioning. On completion, mark pilot-1 complete in state/ahsoka-pilot-state.json. Related: CHG-0201, CHG-0202, TKT-0083 (Pilot 2).",
+      "description": "Ken personally runs Ahsoka 🤍 through a real-world client scenario (Pilot Case 1 of 2). Scope: full discovery → proposal flow. All outputs through The Sanctum. Ken evaluates quality, accuracy, discovery discipline, and Nexus positioning. On completion, mark pilot-1 complete in state/ahsoka-pilot-state.json. Related: CHG-0201, CHG-0202, TKT-0083 (Pilot 2).",
       "resolution": null,
       "linked": {
         "us": [],
         "inc": [],
         "chg": []
       },
-      "notes": "Pilot 1 started 2026-05-07 02:08 AEST. Ken working directly with Ahsoka. | REORDERED: AInchors is now Pilot 1. Ahsoka runs AI transformation consulting on AInchors itself first \u2014 building the real reference case before engaging ASM. Ken activating promptly.",
+      "notes": "Pilot 1 started 2026-05-07 02:08 AEST. Ken working directly with Ahsoka. | REORDERED: AInchors is now Pilot 1. Ahsoka runs AI transformation consulting on AInchors itself first — building the real reference case before engaging ASM. Ken activating promptly.",
       "notionPageId": "358c1829-53ff-81cc-9141-e9c43a06bc08"
     },
     {
       "id": "TKT-0083",
-      "title": "Ahsoka Pilot Case 2 \u2014 Real-world AI Transformation Consulting",
+      "title": "Ahsoka Pilot Case 2 — Real-world AI Transformation Consulting",
       "type": "task",
       "priority": "high",
       "status": "open",
@@ -705,7 +705,7 @@
       "assignee": "Yoda",
       "created": "2026-05-07T02:05:01+10:00",
       "updated": "2026-05-07T02:44:01+10:00",
-      "description": "Ken personally runs Ahsoka \ud83e\udd0d through a second real-world client scenario (Pilot Case 2 of 2). On completion, Yoda automatically prompts Ken for final APPROVED confirmation before Angie is notified and Ahsoka goes live for business operations. Mark pilot-2 complete in state/ahsoka-pilot-state.json to trigger confirmation prompt. Related: CHG-0201, CHG-0202, TKT-0082 (Pilot 1).",
+      "description": "Ken personally runs Ahsoka 🤍 through a second real-world client scenario (Pilot Case 2 of 2). On completion, Yoda automatically prompts Ken for final APPROVED confirmation before Angie is notified and Ahsoka goes live for business operations. Mark pilot-2 complete in state/ahsoka-pilot-state.json to trigger confirmation prompt. Related: CHG-0201, CHG-0202, TKT-0082 (Pilot 1).",
       "resolution": null,
       "linked": {
         "us": [],
@@ -717,7 +717,7 @@
     },
     {
       "id": "TKT-0084",
-      "title": "Formalise ITSM ticket taxonomy \u2014 US vs TKT vs CHG separate sequences",
+      "title": "Formalise ITSM ticket taxonomy — US vs TKT vs CHG separate sequences",
       "type": "task",
       "priority": "medium",
       "status": "open",
@@ -737,7 +737,7 @@
     },
     {
       "id": "TKT-0085",
-      "title": "Sprint: Strategy & Governance Integration \u2014 Tie-together, Gap Review, Re-plan",
+      "title": "Sprint: Strategy & Governance Integration — Tie-together, Gap Review, Re-plan",
       "type": "task",
       "priority": "high",
       "status": "open",
@@ -745,7 +745,7 @@
       "assignee": "Yoda",
       "created": "2026-05-07T03:25:58+10:00",
       "updated": "2026-05-07T03:29:41+10:00",
-      "description": "Priority sprint session to consolidate all strategy and governance work loaded 2026-05-07. Scope: (1) Audit that VMS, Strategy OKR, and Guardrails all tie together consistently across Holocron, agent rules, and state files. (2) Review all open TKTs linked to vision/mission/strategy/AI policy/rules/guardrails \u2014 identify gaps and loose strings. (3) Close off completed TKTs. (4) Review AInchors framework against established frameworks (McKinsey Rewired, BCG AI@Scale, ISO 42001, NIST AI RMF, Deloitte Trustworthy AI) and re-plan priorities + next steps. Input docs: ainchors-VMS135.md, ainchors-strategy-okr-2026-05.md, ainchors-guardrails-rules-2026-05.md. Related: TKT-0069, TKT-0070, TKT-0071, TKT-0072, TKT-0077, TKT-0084.",
+      "description": "Priority sprint session to consolidate all strategy and governance work loaded 2026-05-07. Scope: (1) Audit that VMS, Strategy OKR, and Guardrails all tie together consistently across Holocron, agent rules, and state files. (2) Review all open TKTs linked to vision/mission/strategy/AI policy/rules/guardrails — identify gaps and loose strings. (3) Close off completed TKTs. (4) Review AInchors framework against established frameworks (McKinsey Rewired, BCG AI@Scale, ISO 42001, NIST AI RMF, Deloitte Trustworthy AI) and re-plan priorities + next steps. Input docs: ainchors-VMS135.md, ainchors-strategy-okr-2026-05.md, ainchors-guardrails-rules-2026-05.md. Related: TKT-0069, TKT-0070, TKT-0071, TKT-0072, TKT-0077, TKT-0084.",
       "resolution": null,
       "linked": {
         "us": [],
@@ -765,7 +765,7 @@
       "assignee": "Yoda",
       "created": "2026-05-07T13:25:57+10:00",
       "updated": "2026-05-07T13:25:57+10:00",
-      "description": "5-step governance and strategy alignment sequence:\nStep 1 (Coherence): Review loaded strategy MDs (VMS, OKR 2026-05, Guardrails 2026-05) for internal consistency, conflicting instructions, gaps.\nStep 2 (Governance): Review Step 1 output against existing governance/policies (AI Charter, AI Governance Framework, S1-S7, agent rules). Identify gaps, loose threads, realignment needs.\nStep 3 (Atlas): Ken uploads tech strategy MD. Atlas produces: current + target state architecture roadmap, P1-P5 transition states (progressive delivery \u2014 no over-engineering), immediate 1Y plan and priorities.\nStep 4 (Backlog replan): Run Step 3 output against existing backlog frameworks. Replan and reprioritise backlog.\nStep 5 (TRIGGER): On completion of Step 4 \u2014 lock AGILE delivery framework: QBR cadence, epic scope, sprint scope. Non-negotiable gate.\nReconstructed 2026-05-07 after 3AM session context loss (pre-empted by CHG-0215 Decision Capture Rule).",
+      "description": "5-step governance and strategy alignment sequence:\nStep 1 (Coherence): Review loaded strategy MDs (VMS, OKR 2026-05, Guardrails 2026-05) for internal consistency, conflicting instructions, gaps.\nStep 2 (Governance): Review Step 1 output against existing governance/policies (AI Charter, AI Governance Framework, S1-S7, agent rules). Identify gaps, loose threads, realignment needs.\nStep 3 (Atlas): Ken uploads tech strategy MD. Atlas produces: current + target state architecture roadmap, P1-P5 transition states (progressive delivery — no over-engineering), immediate 1Y plan and priorities.\nStep 4 (Backlog replan): Run Step 3 output against existing backlog frameworks. Replan and reprioritise backlog.\nStep 5 (TRIGGER): On completion of Step 4 — lock AGILE delivery framework: QBR cadence, epic scope, sprint scope. Non-negotiable gate.\nReconstructed 2026-05-07 after 3AM session context loss (pre-empted by CHG-0215 Decision Capture Rule).",
       "resolution": null,
       "linked": {
         "us": [],
@@ -777,7 +777,7 @@
     },
     {
       "id": "TKT-0087",
-      "title": "Document generation pipeline (DOCX/XLSX/PPTX/PDF) \u2014 Ahsoka Q1 blocker",
+      "title": "Document generation pipeline (DOCX/XLSX/PPTX/PDF) — Ahsoka Q1 blocker",
       "type": "task",
       "priority": "critical",
       "status": "closed",
@@ -829,7 +829,7 @@
     },
     {
       "id": "TKT-0090",
-      "title": "Seq4: Agile framework lock \u2014 QBR cadence, epic scope, sprint definition",
+      "title": "Seq4: Agile framework lock — QBR cadence, epic scope, sprint definition",
       "type": "task",
       "priority": "high",
       "status": "open",
@@ -843,7 +843,7 @@
     },
     {
       "id": "TKT-0091",
-      "title": "D5 Groom: Managed tenant timing conflict \u2014 Atlas A1 vs VMS (3yr vs 5yr horizon)",
+      "title": "D5 Groom: Managed tenant timing conflict — Atlas A1 vs VMS (3yr vs 5yr horizon)",
       "type": "task",
       "priority": "high",
       "status": "open",
@@ -854,6 +854,57 @@
       "created": "2026-05-07T04:58:12+10:00",
       "updated": "2026-05-07T04:58:12+10:00",
       "description": "Atlas A1 guardrail implies managed tenants at 3yr horizon. VMS says 3-5yr. Conflict needs detailed grooming: define exactly what managed tenant scale means at each horizon, what the platform capability requirements are, and when Auralith external tenants become viable. Ken: needs more details before deciding. MUST complete before P2 go-live."
+    },
+    {
+      "id": "TKT-0092",
+      "title": "FinOps Q1: Per-agent token budget limits and per-workflow cost caps — platform enforcement",
+      "type": "task",
+      "priority": "critical",
+      "status": "open",
+      "requester": "Ken",
+      "assignee": "Yoda",
+      "created": "2026-05-07T05:04:10+10:00",
+      "updated": "2026-05-07T05:04:10+10:00",
+      "description": "Atlas Q1 Must-Do #2. Implement platform-level enforcement: token budgets per agent, cost caps per workflow type. R3 live risk. BYOK model per D2 decision. Must be live before P2 client work. OKR: X1, G1.",
+      "linked": {
+        "us": [],
+        "inc": [],
+        "chg": []
+      }
+    },
+    {
+      "id": "TKT-0093",
+      "title": "NAS encryption + 3-2-1+1 backup strategy — S7 completion (Atlas Q1 Must-Do #3)",
+      "type": "task",
+      "priority": "critical",
+      "status": "open",
+      "requester": "Ken",
+      "assignee": "Yoda",
+      "created": "2026-05-07T05:04:10+10:00",
+      "updated": "2026-05-07T05:04:10+10:00",
+      "description": "Atlas Q1 Must-Do #3 and #4. Close S7 security gap (NAS encryption). Implement 3-2-1+1 backup: NAS hourly + cloud S3 daily + USB weekly. Required before OC2 arrival. OKR: X1-KR1, X1-KR4, G1-KR3.",
+      "linked": {
+        "us": [],
+        "inc": [],
+        "chg": []
+      }
+    },
+    {
+      "id": "TKT-0094",
+      "title": "OC2 deployment playbook in Holocron — TRIGGER-01 pre-documentation (Atlas Q1 Must-Do #5)",
+      "type": "task",
+      "priority": "high",
+      "status": "open",
+      "requester": "Ken",
+      "assignee": "Yoda",
+      "created": "2026-05-07T05:04:10+10:00",
+      "updated": "2026-05-07T05:04:10+10:00",
+      "description": "Atlas Q1 Must-Do #5. Document TRIGGER-01 sequence in Holocron before OC2 arrives July 2026. HIVE deployment cannot be improvised. Covers: OC2-A/B setup, Ollama install, Gemma4:26b load, OpenClaw config, Tailscale mesh, failover test procedure. OKR: X1-KR4.",
+      "linked": {
+        "us": [],
+        "inc": [],
+        "chg": []
+      }
     }
   ],
   "lastId": "TKT-0076"
