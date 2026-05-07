@@ -48,3 +48,4 @@ Add whatever helps you do your job. This is your cheat sheet.
 - OAuth client: `966422666914` (project: AInchors OC1)
 - Token stored: macOS Keychain (default client)
 - Connected: 2026-04-29
+- Binary: `/opt/homebrew/bin/gog` — **always use full path** in exec/cron (minimal PATH won't find it)

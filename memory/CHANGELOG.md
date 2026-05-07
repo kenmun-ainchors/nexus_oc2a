@@ -42,6 +42,18 @@ This log captures **every change** Yoda makes to AInchors infrastructure, config
 **Linked:** decisions.md 2026-04-27 entries
 ---
 
+## 2026-05-07 10:58 AEST — [CHG-0210] Fix: gog full binary path /opt/homebrew/bin/gog in all exec contexts
+**Type:** config
+**Source:** ken-prompt
+**Trigger:** Angie reported calendar create still failing after CHG-0207
+**What changed:** Root cause: exec runs with minimal PATH (/usr/bin:/bin only), /opt/homebrew/bin not included, so bare 'gog' command fails with 'not found'. Fix: (1) Aria TOOLS.md (workspace-business): all gog examples updated to /opt/homebrew/bin/gog full path + added --no-input to all write commands. (2) Yoda TOOLS.md: added binary path note. (3) Standup cron 3c279099 Phase 4 email: updated to /opt/homebrew/bin/gog. Verified: dry-run with minimal PATH env confirms bare 'gog' fails, full path succeeds.
+**Why:** Angie tested with Aria after CHG-0207 flag fix and still couldn't create calendar events. Root cause was PATH not flag syntax.
+**Verification:** env -i test confirmed: bare gog = not found, /opt/homebrew/bin/gog = works. Aria TOOLS.md + standup cron updated.
+**Rollback:** Revert TOOLS.md changes. Not needed — full path is strictly better.
+**Linked:** none
+---
+
+
 ## 2026-05-07 10:53 AEST — [CHG-0209] Standup: add email delivery to kenmun@gmail.com (Phase 4)
 **Type:** cron
 **Source:** ken-prompt
