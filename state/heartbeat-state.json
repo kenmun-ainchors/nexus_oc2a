@@ -2,20 +2,20 @@
   "lastChecks": {
     "email": "2026-05-07T04:07:52Z",
     "calendar": "2026-05-07T04:07:52Z",
-    "agentHealth": "2026-05-07T04:33:51.446Z",
-    "apiBalance": "2026-05-07T04:33:51.446Z",
-    "taskWatchdog": "2026-05-07T04:33:51.446Z",
-    "cronHealth": "2026-05-07T04:33:51.446Z",
+    "agentHealth": "2026-05-07T04:43:34Z",
+    "apiBalance": "2026-05-07T04:43:34Z",
+    "taskWatchdog": "2026-05-07T04:43:34Z",
+    "cronHealth": "2026-05-07T04:43:34Z",
     "memoryMaintenance": "2026-05-06T13:49:30.166021+00:00",
     "weather": null,
     "dailyClose": 1778097322362,
-    "wardenEscalation": "2026-05-07T04:33:51.446Z",
-    "cronDeadLetter": "2026-05-07T04:33:51.446Z",
-    "ahsokaPilot": "2026-05-07T04:33:51.446Z",
+    "wardenEscalation": "2026-05-07T04:43:34Z",
+    "cronDeadLetter": "2026-05-07T04:43:34Z",
+    "ahsokaPilot": "2026-05-07T04:43:34Z",
     "ariaContextSync": "2026-05-04T13:00:00Z",
     "standup": "2026-05-06T21:58:26.663467Z",
     "missionControl": "2026-05-05T09:26:00.000000Z"
   },
-  "notes": "May7 14:33 AEST: All clean. Balance $470.93 T0. Crons OK. No alerts. Ahsoka P1 parked/P2 pending. Triggers nominal.",
+  "notes": "May7 14:42 AEST: Health degraded (event loop 20787ms, 1 hit, no alert). Balance $470.93 T0. OC v2026.5.6 available (routine). Crons OK. No alerts. Ahsoka P1 parked/P2 pending.",
   "gogAccount": "kenmun@ainchors.com"
 }

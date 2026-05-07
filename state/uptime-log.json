@@ -10719,14 +10719,21 @@
       "issues": [
         "Event loop delay critical: 20787ms max, utilisation 0.708 \u2014 gateway may be saturated"
       ]
+    },
+    {
+      "ts": "2026-05-07T04:43:53.320516+00:00",
+      "status": "degraded",
+      "issues": [
+        "Event loop delay critical: 20787ms max, utilisation 0.708 \u2014 gateway may be saturated"
+      ]
     }
   ],
   "summary": {
-    "totalChecks": 2133,
+    "totalChecks": 2134,
     "upChecks": 2107,
-    "downtimeMinutes": 390,
-    "uptimePct": 98.781,
-    "lastCheck": "2026-05-07T04:37:10.285559+00:00",
+    "downtimeMinutes": 405,
+    "uptimePct": 98.735,
+    "lastCheck": "2026-05-07T04:43:53.320516+00:00",
     "lastStatus": "degraded"
   }
 }

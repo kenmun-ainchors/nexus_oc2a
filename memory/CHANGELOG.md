@@ -42,6 +42,18 @@ This log captures **every change** Yoda makes to AInchors infrastructure, config
 **Linked:** decisions.md 2026-04-27 entries
 ---
 
+## 2026-05-07 14:45 AEST — [CHG-0220] AI Charter: Auralith Technology Governance Addendum merged (Ken approved 2026-05-07)
+**Type:** doc
+**Source:** ken-prompt
+**Trigger:** Ken approved Auralith Charter addendum 2026-05-07 14:44 AEST
+**What changed:** Auralith Technology Governance Addendum merged into AI_CHARTER_v1.0.md. Covers: (1) Scope — AInchors/Auralith governance spine. (2) Data responsibility — controller/processor split, DPA signing authority, Tier 0/1 enforcement. (3) IP/liability — Nexus IP = Auralith, service delivery liability = AInchors. (4) Governance applicability — full Charter applies to both entities. (5) Operational handoff — CHG gate for platform changes, Atlas/Yoda feasibility gate for commercial commitments. 5 open items flagged for P2 formalisation (Lex). TKT-0087 closed — all 20 ACs complete.
+**Why:** TKT-0087 AC-1 completion. Auralith was absent from all governance documents — material gap before P2 client onboarding. Approved by Ken 2026-05-07.
+**Verification:** AI_CHARTER_v1.0.md updated (397 lines). TKT-0087 status=closed. Ken approval confirmed.
+**Rollback:** Remove addendum from AI_CHARTER_v1.0.md (last section after hr divider).
+**Linked:** none
+---
+
+
 ## 2026-05-07 14:40 AEST — [CHG-0219] TKT-0087 AC-9 to AC-20: P2/P3 governance ACs — SLA log, Warden W1/W2, guardrail rules
 **Type:** rule
 **Source:** ken-prompt

@@ -77,13 +77,13 @@ The governance triad (Shield, Lex, Sage) applies to Auralith platform decisions 
 
 **Boundary summary (quick reference):**
 
-| Scenario | Who acts first | Approval required |
-|---|---|---|
-| Nexus platform change (no client impact) | Auralith (Thrawn/Yoda) | CHG entry, Ken spot-review |
-| Nexus platform change (client-facing impact) | Auralith (Thrawn/Yoda) | CHG entry + Ken approval (Tier 3) |
-| New client requirement needing Nexus capability | AInchors (Ahsoka) triggers | Atlas/Yoda feasibility first, then Ken |
-| Client data incident (Nexus-originated) | Auralith (Yoda/Shield) | Incident log, Ken immediate notification |
-| Client relationship issue (service delivery) | AInchors (Aria/Ahsoka) | Ken approval if it has financial or legal impact |
+| Scenario                                        | Who acts first             | Approval required                                |
+| ----------------------------------------------- | -------------------------- | ------------------------------------------------ |
+| Nexus platform change (no client impact)        | Auralith (Thrawn/Yoda)     | CHG entry, Ken spot-review                       |
+| Nexus platform change (client-facing impact)    | Auralith (Thrawn/Yoda)     | CHG entry + Ken approval (Tier 3)                |
+| New client requirement needing Nexus capability | AInchors (Ahsoka) triggers | Atlas/Yoda feasibility first, then Ken           |
+| Client data incident (Nexus-originated)         | Auralith (Yoda/Shield)     | Incident log, Ken immediate notification         |
+| Client relationship issue (service delivery)    | AInchors (Aria/Ahsoka)     | Ken approval if it has financial or legal impact |
 
 ---
 
@@ -99,15 +99,15 @@ The governance triad (Shield, Lex, Sage) applies to Auralith platform decisions 
 
 ## Addendum Governance
 
-| Field | Value |
-|---|---|
-| Version | Draft 0.1 |
-| Status | **DRAFT — For Ken Mun Review and Approval** |
-| Prepared by | Lex ⚖️ |
-| Reference ticket | TKT-0087 AC-1 |
-| Date prepared | 2026-05-07 |
-| Sits under | AInchors AI Charter v1.0 |
-| Approval authority | Ken Mun, CTO (AInchors + Auralith) |
-| Review trigger | On APP formalisation, P2 first client onboarding, or any material change to entity structure |
+| Field              | Value                                                                                        |
+| ------------------ | -------------------------------------------------------------------------------------------- |
+| Version            | Draft 0.1                                                                                    |
+| Status             | **DRAFT — For Ken Mun Review and Approval**                                                  |
+| Prepared by        | Lex ⚖️                                                                                       |
+| Reference ticket   | TKT-0087 AC-1                                                                                |
+| Date prepared      | 2026-05-07                                                                                   |
+| Sits under         | AInchors AI Charter v1.0                                                                     |
+| Approval authority | Ken Mun, CTO (AInchors + Auralith)                                                           |
+| Review trigger     | On APP formalisation, P2 first client onboarding, or any material change to entity structure |
 
 Once approved by Ken, this addendum is appended to the canonical AI Charter in Notion Holocron › Platform Operations › AI Charter and referenced in all agent RULES.md files alongside the parent Charter.

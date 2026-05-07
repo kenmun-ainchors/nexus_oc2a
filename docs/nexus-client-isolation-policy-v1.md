@@ -43,15 +43,15 @@ Every client environment on Nexus must satisfy **all** of the following requirem
 
 Each client environment must have a fully independent configuration context — no shared configuration files between clients, and no shared configuration between AInchors internal operations and any client environment.
 
-| Requirement | Detail | Phase |
-|---|---|---|
-| Separate workspace directory | `workspace-client-{id}/` — never a subdirectory of the AInchors ops workspace | P1 |
-| Separate SOUL.md | Client-scoped identity, persona, and operating constraints | P1 |
-| Separate MEMORY.md | Client-scoped persistent memory — no AInchors internal context | P1 |
-| Separate AGENTS.md | Client-scoped agent operating rules | P1 |
-| Separate API key set | Each client has its own API keys — never shared across clients or with AInchors internal keys | P1 |
-| Separate openclaw.json | Independent OpenClaw agent configuration per client instance | P1 |
-| Separate model-policy.json | Client agents operate under their own model tier policy | P1 |
+| Requirement                  | Detail                                                                                        | Phase |
+| ---------------------------- | --------------------------------------------------------------------------------------------- | ----- |
+| Separate workspace directory | `workspace-client-{id}/` — never a subdirectory of the AInchors ops workspace                 | P1    |
+| Separate SOUL.md             | Client-scoped identity, persona, and operating constraints                                    | P1    |
+| Separate MEMORY.md           | Client-scoped persistent memory — no AInchors internal context                                | P1    |
+| Separate AGENTS.md           | Client-scoped agent operating rules                                                           | P1    |
+| Separate API key set         | Each client has its own API keys — never shared across clients or with AInchors internal keys | P1    |
+| Separate openclaw.json       | Independent OpenClaw agent configuration per client instance                                  | P1    |
+| Separate model-policy.json   | Client agents operate under their own model tier policy                                       | P1    |
 
 **Verification:** Yoda runs a config diff check at onboarding to confirm no shared paths or API keys between client environments and the AInchors internal workspace.
 
@@ -61,13 +61,13 @@ Each client environment must have a fully independent configuration context — 
 
 Client data must never cross into another client's context, into AInchors internal operations, or into Tier 2/3 cloud APIs. The data sovereignty principle from the AI Charter (§2, Principle 4) is non-negotiable and extends to all client data.
 
-| Requirement | Detail | Phase |
-|---|---|---|
-| Separate logging directory | `logs/client-{id}/` — no shared log streams between clients | P1 |
-| Separate obs.db instance or client_id partitioning | Either a fully separate `obs.db` per client, or all records tagged with a unique `client_id` and isolated by tag in queries | P1 |
-| No cross-client agent context | Client agent sessions must not have access to another client's workspace, memory, or task history — verified by Warden | P1 |
-| Tier 0/1 model enforcement | Client data never routes to Tier 2/3 cloud APIs (Claude, Ollama Cloud). Enforced via client-scoped `model-policy.json` and monitored by Warden | P1 |
-| Tier 1 local inference for client workloads | With OC2-A live, all client-facing LLM workloads route to local Gemma4:26b (Tier 1) | P2 |
+| Requirement                                        | Detail                                                                                                                                         | Phase |
+| -------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------- | ----- |
+| Separate logging directory                         | `logs/client-{id}/` — no shared log streams between clients                                                                                    | P1    |
+| Separate obs.db instance or client_id partitioning | Either a fully separate `obs.db` per client, or all records tagged with a unique `client_id` and isolated by tag in queries                    | P1    |
+| No cross-client agent context                      | Client agent sessions must not have access to another client's workspace, memory, or task history — verified by Warden                         | P1    |
+| Tier 0/1 model enforcement                         | Client data never routes to Tier 2/3 cloud APIs (Claude, Ollama Cloud). Enforced via client-scoped `model-policy.json` and monitored by Warden | P1    |
+| Tier 1 local inference for client workloads        | With OC2-A live, all client-facing LLM workloads route to local Gemma4:26b (Tier 1)                                                            | P2    |
 
 **Verification:** Warden runs a `client_id` tag audit on all agent runs. Any log entry, obs.db record, or model call without a valid client tag in a client context is flagged as a violation.
 
@@ -77,12 +77,12 @@ Client data must never cross into another client's context, into AInchors intern
 
 Each client must have its own communication channel. Client agents must not be able to reach AInchors internal agents, relay queues, or communication infrastructure.
 
-| Requirement | Detail | Phase |
-|---|---|---|
-| Separate Telegram bot per client | Separate bot token and separate `allowFrom` list per client — no shared bot with AInchors internal channels | P1 |
-| Client agents cannot reach AInchors internal agents | `sessions_send` routing must not permit client agents to address internal agents (Yoda, Atlas, Aria, etc.) by session ID | P1 |
-| Per-client relay queue | Each client has its own relay queue file (e.g., `relay-to-client-{id}.json`) — no shared `relay-to-ken.json` access | P1 |
-| Separate allowFrom list | Client Telegram bot must not include Ken's personal Telegram ID or AInchors internal contacts in its `allowFrom` unless explicitly authorised | P1 |
+| Requirement                                         | Detail                                                                                                                                        | Phase |
+| --------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------- | ----- |
+| Separate Telegram bot per client                    | Separate bot token and separate `allowFrom` list per client — no shared bot with AInchors internal channels                                   | P1    |
+| Client agents cannot reach AInchors internal agents | `sessions_send` routing must not permit client agents to address internal agents (Yoda, Atlas, Aria, etc.) by session ID                      | P1    |
+| Per-client relay queue                              | Each client has its own relay queue file (e.g., `relay-to-client-{id}.json`) — no shared `relay-to-ken.json` access                           | P1    |
+| Separate allowFrom list                             | Client Telegram bot must not include Ken's personal Telegram ID or AInchors internal contacts in its `allowFrom` unless explicitly authorised | P1    |
 
 **Verification:** Attempt to `sessions_send` from a client agent to an internal agent session — must be blocked. Verify relay queue files are client-scoped and not readable cross-client.
 
@@ -92,12 +92,12 @@ Each client must have its own communication channel. Client agents must not be a
 
 Governance reviews (Sanctum) and audit records must be per-client. AInchors internal governance context must not be visible to or contaminated by client governance flows.
 
-| Requirement | Detail | Phase |
-|---|---|---|
-| Separate Sanctum review context per client | Shield, Lex, and Sage run per-client review sessions — not a shared Sanctum instance reviewing both AInchors internal and client workloads | P1 |
-| Per-client Notion Holocron subfolder | Governance logs, decision records, and Sanctum review outputs stored under a client-specific subfolder in the Notion Holocron | P1 |
-| Warden monitoring with client_id tag | Warden monitors all client agents under a `client_id` tag — enabling per-client compliance reports, separate from AInchors internal monitoring | P1 |
-| Separate CHANGELOG.md per client | Change records for client environments logged in the client workspace, not mixed into the AInchors internal CHANGELOG.md | P1 |
+| Requirement                                | Detail                                                                                                                                         | Phase |
+| ------------------------------------------ | ---------------------------------------------------------------------------------------------------------------------------------------------- | ----- |
+| Separate Sanctum review context per client | Shield, Lex, and Sage run per-client review sessions — not a shared Sanctum instance reviewing both AInchors internal and client workloads     | P1    |
+| Per-client Notion Holocron subfolder       | Governance logs, decision records, and Sanctum review outputs stored under a client-specific subfolder in the Notion Holocron                  | P1    |
+| Warden monitoring with client_id tag       | Warden monitors all client agents under a `client_id` tag — enabling per-client compliance reports, separate from AInchors internal monitoring | P1    |
+| Separate CHANGELOG.md per client           | Change records for client environments logged in the client workspace, not mixed into the AInchors internal CHANGELOG.md                       | P1    |
 
 **Verification:** Warden generates a per-client compliance report monthly. Sanctum review history is queryable by client context — no cross-client review results appear.
 
@@ -107,12 +107,12 @@ Governance reviews (Sanctum) and audit records must be per-client. AInchors inte
 
 > ⚠️ **P2 requirement.** The following are mandatory for P2 (OC2 deployment, Q2 2026) and are NOT required for P1. On P1, configuration and data isolation (§2.1–§2.4) provide the minimum acceptable isolation floor.
 
-| Requirement | Detail | Phase |
-|---|---|---|
-| Separate Docker container per client | Each client's OpenClaw instance runs in its own container — no shared process namespace | P2 |
-| Separate network namespace | No direct container-to-container traffic without explicit routing rules. Client containers cannot reach AInchors internal containers by default | P2 |
-| Separate filesystem mount per client container | Client workspace, logs, and config mounted into the client container only — not accessible from other containers | P2 |
-| Separate Docker secrets/env per container | API keys and secrets injected via Docker secrets or per-container environment variables — never baked into a shared image layer | P2 |
+| Requirement                                    | Detail                                                                                                                                          | Phase |
+| ---------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------- | ----- |
+| Separate Docker container per client           | Each client's OpenClaw instance runs in its own container — no shared process namespace                                                         | P2    |
+| Separate network namespace                     | No direct container-to-container traffic without explicit routing rules. Client containers cannot reach AInchors internal containers by default | P2    |
+| Separate filesystem mount per client container | Client workspace, logs, and config mounted into the client container only — not accessible from other containers                                | P2    |
+| Separate Docker secrets/env per container      | API keys and secrets injected via Docker secrets or per-container environment variables — never baked into a shared image layer                 | P2    |
 
 **P2 target (Q2 success criteria, per Auralith IT Strategy §5):** 2 SME client environments deployed in isolated Docker containers on Nexus.
 
@@ -254,26 +254,26 @@ Any confirmed or suspected cross-client data exposure, context bleed, or relay q
 
 ## 6. P1 vs P2 Implementation
 
-| Requirement | P1 (OC1 — Now) | P2 (OC2 — Q2 2026) |
-|---|---|---|
-| Separate workspace directory | ✅ Required and achievable | ✅ Required |
-| Separate SOUL.md / MEMORY.md / AGENTS.md | ✅ Required and achievable | ✅ Required |
-| Separate API key set | ✅ Required — macOS Keychain, client-scoped entry | ✅ Required |
-| Separate openclaw.json | ✅ Required and achievable | ✅ Required |
-| Separate logging directory | ✅ Required and achievable | ✅ Required |
-| obs.db isolation (tag or separate instance) | ✅ Required — client_id tag approach viable on P1 | ✅ Required |
-| No cross-client agent context | ✅ Required — verified by Warden | ✅ Required |
-| Tier 0/1 model enforcement for clients | ✅ Required — via model-policy.json | ✅ Required |
-| Separate Telegram bot per client | ✅ Required and achievable | ✅ Required |
-| sessions_send routing restriction | ✅ Required — workspace boundary enforcement | ✅ Required |
-| Per-client relay queue | ✅ Required and achievable | ✅ Required |
-| Per-client Sanctum review context | ✅ Required and achievable | ✅ Required |
-| Notion Holocron client subfolder | ✅ Required and achievable | ✅ Required |
-| Warden client_id monitoring | ✅ Required and achievable | ✅ Required |
-| Docker container per client | ❌ Not required for P1 | ✅ **Required for P2** |
-| Separate network namespace | ❌ Not required for P1 | ✅ **Required for P2** |
-| Separate filesystem mount per container | ❌ Not required for P1 | ✅ **Required for P2** |
-| Tier 1 local inference (Gemma4:26b on OC2-A) | ❌ Not available on P1 | ✅ **Required for P2 client workloads** |
+| Requirement                                  | P1 (OC1 — Now)                                   | P2 (OC2 — Q2 2026)                     |
+| -------------------------------------------- | ------------------------------------------------ | -------------------------------------- |
+| Separate workspace directory                 | ✅ Required and achievable                        | ✅ Required                             |
+| Separate SOUL.md / MEMORY.md / AGENTS.md     | ✅ Required and achievable                        | ✅ Required                             |
+| Separate API key set                         | ✅ Required — macOS Keychain, client-scoped entry | ✅ Required                             |
+| Separate openclaw.json                       | ✅ Required and achievable                        | ✅ Required                             |
+| Separate logging directory                   | ✅ Required and achievable                        | ✅ Required                             |
+| obs.db isolation (tag or separate instance)  | ✅ Required — client_id tag approach viable on P1 | ✅ Required                             |
+| No cross-client agent context                | ✅ Required — verified by Warden                  | ✅ Required                             |
+| Tier 0/1 model enforcement for clients       | ✅ Required — via model-policy.json               | ✅ Required                             |
+| Separate Telegram bot per client             | ✅ Required and achievable                        | ✅ Required                             |
+| sessions_send routing restriction            | ✅ Required — workspace boundary enforcement      | ✅ Required                             |
+| Per-client relay queue                       | ✅ Required and achievable                        | ✅ Required                             |
+| Per-client Sanctum review context            | ✅ Required and achievable                        | ✅ Required                             |
+| Notion Holocron client subfolder             | ✅ Required and achievable                        | ✅ Required                             |
+| Warden client_id monitoring                  | ✅ Required and achievable                        | ✅ Required                             |
+| Docker container per client                  | ❌ Not required for P1                            | ✅ **Required for P2**                  |
+| Separate network namespace                   | ❌ Not required for P1                            | ✅ **Required for P2**                  |
+| Separate filesystem mount per container      | ❌ Not required for P1                            | ✅ **Required for P2**                  |
+| Tier 1 local inference (Gemma4:26b on OC2-A) | ❌ Not available on P1                            | ✅ **Required for P2 client workloads** |
 
 **P1 isolation floor summary:** On OC1, isolation is achieved through directory separation, separate config files, separate API keys, separate Telegram bots, and Warden enforcement of model tier policy and client_id tagging. There is no process-level or network-level isolation between client environments on P1 — this is an accepted P1 risk, mitigated by the config controls above.
 
