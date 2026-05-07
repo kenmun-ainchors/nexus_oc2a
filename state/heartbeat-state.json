@@ -1,20 +1,20 @@
 {
   "lastChecks": {
-    "email": "2026-05-06T12:08:05.282947Z",
-    "calendar": "2026-05-06T12:08:05.282947Z",
-    "agentHealth": "2026-05-06T14:55:02.573369Z",
-    "apiBalance": "2026-05-06T17:23:03.018Z",
-    "taskWatchdog": "2026-05-06T17:23:03.018Z",
-    "cronHealth": "2026-05-06T17:23:03.018Z",
+    "email": "2026-05-07T23:06:00Z",
+    "calendar": "2026-05-07T23:06:00Z",
+    "agentHealth": "2026-05-07T00:05:40.497Z",
+    "apiBalance": "2026-05-07T00:05:40.497Z",
+    "taskWatchdog": "2026-05-07T00:05:40.497Z",
+    "cronHealth": "2026-05-07T00:05:40.497Z",
     "memoryMaintenance": "2026-05-06T13:49:30.166021+00:00",
     "weather": null,
-    "dailyClose": 1778077332498,
-    "wardenEscalation": "2026-05-06T17:23:03.018Z",
-    "cronDeadLetter": "2026-05-06T17:23:03.018Z",
+    "dailyClose": 1778097322362,
+    "wardenEscalation": "2026-05-07T00:05:40.497Z",
+    "cronDeadLetter": "2026-05-07T00:05:40.497Z",
     "ariaContextSync": "2026-05-04T13:00:00Z",
-    "standup": "2026-05-05T21:53:00Z",
+    "standup": "2026-05-06T21:58:26.663467Z",
     "missionControl": "2026-05-05T09:26:00.000000Z"
   },
-  "notes": "May7 03:31 AEST: All clean. Balance $100.13 above thresholds. Cron health OK. Ahsoka P1 parked (discovery done, 2x DOCX in Drive). Quiet hours.",
+  "notes": "May7 10:05 AEST: All clean. Balance $470.93 T0. No stalls. No warden escalation (prior 83accf7b still acknowledged). Cron health clean. Ahsoka P1 parked/P2 pending. No alerts.",
   "gogAccount": "kenmun@ainchors.com"
 }

@@ -42,6 +42,31 @@ This log captures **every change** Yoda makes to AInchors infrastructure, config
 **Linked:** decisions.md 2026-04-27 entries
 ---
 
+## 2026-05-07 09:41 AEST — [CHG-0207] Aria TOOLS.md: gog CLI correct flag syntax (--summary/--from/--to)
+**Type:** doc
+**Source:** ken-prompt
+**Trigger:** Angie reported Aria still could not create calendar events 2026-05-07
+**What changed:** workspace-business/TOOLS.md: added gog cheat sheet with correct flags. --summary not --title, --from/--to not --start/--end. Includes calendar create, gmail send, gmail list examples with dry-run note.
+**Why:** Aria was using wrong gog flag names. Auth and exec were both fine. Wrong syntax caused silent failure.
+**Verification:** gog calendar create --dry-run confirmed working with correct flags for angie.foong@ainchors.com
+**Rollback:** N/A
+**Linked:** none
+**Category:** reliability
+---
+
+
+## 2026-05-07 06:00 AEST — [CHG-0206] TRIGGER-04: OpenClaw v2026.5.6 released (routine bugfix)
+**Type:** config
+**Source:** scheduled
+**Trigger:** TRIGGER-04
+**What changed:** chg-triggers.json updated: availableVersion v2026.5.6, classification Regular
+**Why:** Daily release monitor cron detected new version
+**Verification:** automated github.com/openclaw/openclaw/releases check
+**Rollback:** N/A
+**Linked:** none
+---
+
+
 ## 2026-05-07 03:31 AEST — [CHG-0205] API credit auto-reload — USD500 reloaded, balance USD470.93
 **Type:** config
 **Source:** ken-prompt

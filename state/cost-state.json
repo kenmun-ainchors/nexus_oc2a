@@ -1,5 +1,5 @@
 {
-  "lastUpdated": "2026-05-06T13:55:31Z",
+  "lastUpdated": "2026-05-06T22:11:59Z",
   "history": {
     "2026-04-25": {
       "date": "2026-04-25",
@@ -414,7 +414,9 @@
   "daysTracked": 12,
   "avgDailyCost": 150.2054,
   "apiBalance": {
-    "remainingEstimate": 470.93
+    "remainingEstimate": 0,
+    "spentSinceTopUp": 1802.465,
+    "remainingNote": "confirmedBalance=None at 1970-01-01; spentAfter=1802.465"
   },
   "spendAlerts": {
     "tier1": {

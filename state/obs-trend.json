@@ -1,11 +1,11 @@
 {
-  "generated_at": "2026-05-06T17:26:29.693727+00:00",
-  "generated_at_aest": "2026-05-07 03:26 AEST",
+  "generated_at": "2026-05-07T00:24:59.740908+00:00",
+  "generated_at_aest": "2026-05-07 10:24 AEST",
   "period_hours": 24,
   "totals": {
     "ERROR": 21,
-    "WARN": 39,
-    "INFO": 23
+    "WARN": 41,
+    "INFO": 24
   },
   "top_errors": [
     {
@@ -20,7 +20,7 @@
   "top_warnings": [
     {
       "type": "incomplete_turn",
-      "count": 24
+      "count": 26
     },
     {
       "type": "auto_heal_needs_ken",
@@ -34,9 +34,9 @@
   "trend": {
     "has_prev_data": true,
     "prev_errors": 1,
-    "prev_warns": 29,
+    "prev_warns": 28,
     "errors_pct_change": 2000.0,
-    "warns_pct_change": 34.5
+    "warns_pct_change": 46.4
   },
   "worst_hour": {
     "hour": "2026-05-06T13:00Z",

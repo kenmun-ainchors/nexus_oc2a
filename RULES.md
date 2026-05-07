@@ -735,26 +735,31 @@ Exit 2 = do not publish. Fix all issues and re-run until exit 0.
 
 **Intent:** Trigger the full morning stand-up on demand, outside of the scheduled 8AM cron. Reporting window is dynamic — data is pulled from the last standup timestamp rather than a fixed 24h window.
 
+**Format (v2 — two-layer, CHG-0207):**
+- **Layer 1:** Full brief written as HTML canvas doc → `/canvas/documents/standup-daily/index.html` (fixed path, always latest). Viewable in OpenClaw webchat.
+- **Layer 2:** One short Telegram flash message (max 600 chars) with RTB + action items + 'Full brief in OpenClaw webchat'.
+
 **Trigger:** Ken types **`/standup`** (case-insensitive) in any channel.
 
 **When `/standup` is received:**
 
 1. **Read window** — read `state/standup-state.json`. Get `lastStandupAt`. If null, default to 24h ago.
 2. **Set window** — `windowStart = lastStandupAt`, `windowEnd = now`. All data queries use this window.
-3. **Execute standup** — spawn an isolated sub-agent with the full standup payload below, but with the dynamic window substituted for the hardcoded 24h references.
+3. **Execute standup** — spawn an isolated sub-agent running the MORNING_STANDUP_V2 payload (same as 8AM cron `3c279099`), with dynamic window substituted for hardcoded 24h references.
 4. **Update state** — after standup completes, update `state/standup-state.json`:
    - `lastStandupAt` = now (ISO UTC)
    - `lastStandupType` = "ad-hoc"
    - `lastStandupWindowStart` = the windowStart used
    - append to `history` array: `{ type: "ad-hoc", at: now, windowStart, channel }`
-5. **Deliver** — same delivery as the 8AM cron (Telegram to Ken 8574109706), PLUS reply in the current channel confirming it's been sent.
+5. **Deliver** — Telegram flash (same as scheduled) PLUS reply in current channel confirming it ran.
 
-**Note on 8AM scheduled standup:** The 8AM cron (id: 3c279099) must also update `state/standup-state.json` after each run — `lastStandupAt` = run time, `lastStandupType` = "scheduled". This ensures the ad-hoc window is always accurate.
+**Note on 8AM scheduled standup:** The 8AM cron (id: 3c279099) updates `state/standup-state.json` after each run. Canvas doc overwrites `/canvas/documents/standup-daily/index.html` daily.
 
-**Payload:** Same as the 8AM cron (cron id: 3c279099), with these substitutions:
-- Replace all `--hours 24` with `--since [windowStart ISO]`
-- Replace "last standup" references to use the actual windowStart timestamp
-- Include a header at the top of the Telegram message: `⚡ Ad-hoc stand-up | Window: [windowStart AEST] → now`
+**Embed in webchat:** `[embed ref="standup-daily" title="Daily Stand-up" height="900" /]`
+
+**Payload:** Same as cron `3c279099` (MORNING_STANDUP_V2), with:
+- Dynamic window: replace `--hours 24` with `--since [windowStart ISO]`
+- Add header to Telegram flash: `⚡ Ad-hoc | Window: [windowStart AEST] → now`
 
 ---
 

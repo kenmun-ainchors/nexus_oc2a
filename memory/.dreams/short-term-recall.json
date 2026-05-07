@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "updatedAt": "2026-05-06T16:59:42.625Z",
+  "updatedAt": "2026-05-07T00:05:19.353Z",
   "entries": {
     "memory:memory/2026-04-26.md:94:122": {
       "key": "memory:memory/2026-04-26.md:94:122",
@@ -525,18 +525,20 @@
       "endLine": 27,
       "source": "memory",
       "snippet": "# Daily Memory — 2026-05-02 _Flushed from Day 7 session (2026-05-01 evening). Carry-forward context for next session._ --- ## Session Summary — Day 7 Evening (2026-05-01 18:53–23:51 AEST) ### Key Decisions - **Ollama Cloud PoC:** Option A (Pro upgrade, $20/mo) approved for tomorrow. Option B (qwen3.5:cloud for background crons) implemented tonight as interim. - **qwen3.5 latency mitigation:** `think=False` tested + confirmed positive. Implemented in AKB cron (CHG-0111). Overnight test at 03:00 AEST. - **MEMORY.md truncation fixed:** `bootstrapMaxChars` raised 10k→20k (CHG-0107). MEMORY.md trimmed 12,870→10,225 chars. Auto-heal Check #14 added to guard all SOUL.md + MEMORY.md sizes going",
-      "recallCount": 1,
+      "recallCount": 2,
       "dailyCount": 0,
       "groundedCount": 0,
-      "totalScore": 0.4825169056653976,
+      "totalScore": 0.8988787591457367,
       "maxScore": 0.4825169056653976,
       "firstRecalledAt": "2026-05-01T21:01:21.084Z",
-      "lastRecalledAt": "2026-05-01T21:01:21.084Z",
+      "lastRecalledAt": "2026-05-07T00:05:19.353Z",
       "queryHashes": [
-        "8f0bb5249b0a"
+        "8f0bb5249b0a",
+        "a98a690ab657"
       ],
       "recallDays": [
-        "2026-05-02"
+        "2026-05-02",
+        "2026-05-07"
       ],
       "conceptTags": [
         "carry-forward",
@@ -619,18 +621,20 @@
       "endLine": 262,
       "source": "memory",
       "snippet": "### CHG-0023 — Business Lead Agent Aria 🔵 Created - New agent **Aria 🔵** stood up as Business Lead Agent — OC2 precursor. - Working directory: `workspace-business/` (isolated from Yoda's `workspace/`). - **Angie Foong** (Telegram `8141152780`) bound directly to Aria. Angie accesses the business stream independently, not via Yoda. - TKT-0011 covered this work. ### CHG-0024 — Yoda → Aria Oversight + Shared Knowledge Bridge - Yoda has oversight of Aria but does not manage day-to-day business stream work. - `~/Documents/AInchors/Shared/` directory created as the cross-agent knowledge bridge (both agents read/write). - **Nightly context sync cron at 23:00 AEST** — syncs Yoda's operational know",
-      "recallCount": 1,
+      "recallCount": 2,
       "dailyCount": 0,
       "groundedCount": 0,
-      "totalScore": 0.4411752343177795,
+      "totalScore": 0.8512412786483764,
       "maxScore": 0.4411752343177795,
       "firstRecalledAt": "2026-05-02T07:22:18.228Z",
-      "lastRecalledAt": "2026-05-02T07:22:18.228Z",
+      "lastRecalledAt": "2026-05-06T22:11:32.763Z",
       "queryHashes": [
-        "883f7f2743c4"
+        "883f7f2743c4",
+        "846415ba3b36"
       ],
       "recallDays": [
-        "2026-05-02"
+        "2026-05-02",
+        "2026-05-07"
       ],
       "conceptTags": [
         "chg-0023",
