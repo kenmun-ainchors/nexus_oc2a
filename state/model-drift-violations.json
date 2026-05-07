@@ -92,8 +92,74 @@
       "reEscalationReason": "Still unresolved + script syntax error blocks automated recovery",
       "resolvedAt": "2026-05-05T17:47:56.037246+10:00",
       "resolvedNote": "obs-collector-state.json confirmed fresh (5.5 min age at 2026-05-05T17:47:56.037246+10:00). Collector running normally. Auto-resolved by Warden heartbeat."
+    },
+    {
+      "agentId": "security",
+      "expected": "anthropic/claude-haiku-4-5",
+      "actual": "anthropic/claude-sonnet-4-6",
+      "severity": "VIOLATION",
+      "note": "",
+      "detectedAt": "2026-05-08T01:04:23+10:00",
+      "id": "DRIFT-20260507150423-security",
+      "status": "unresolved",
+      "escalatedToYoda": true
+    },
+    {
+      "agentId": "legal",
+      "expected": "anthropic/claude-haiku-4-5",
+      "actual": "anthropic/claude-sonnet-4-6",
+      "severity": "VIOLATION",
+      "note": "",
+      "detectedAt": "2026-05-08T01:04:23+10:00",
+      "id": "DRIFT-20260507150423-legal",
+      "status": "unresolved",
+      "escalatedToYoda": true
+    },
+    {
+      "agentId": "qa",
+      "expected": "anthropic/claude-haiku-4-5",
+      "actual": "anthropic/claude-sonnet-4-6",
+      "severity": "VIOLATION",
+      "note": "",
+      "detectedAt": "2026-05-08T01:04:23+10:00",
+      "id": "DRIFT-20260507150423-qa",
+      "status": "unresolved",
+      "escalatedToYoda": true
+    },
+    {
+      "agentId": "security",
+      "expected": "anthropic/claude-haiku-4-5",
+      "actual": "anthropic/claude-sonnet-4-6",
+      "severity": "VIOLATION",
+      "note": "",
+      "detectedAt": "2026-05-08T01:19:24+10:00",
+      "id": "DRIFT-20260507151924-security",
+      "status": "unresolved",
+      "escalatedToYoda": true
+    },
+    {
+      "agentId": "legal",
+      "expected": "anthropic/claude-haiku-4-5",
+      "actual": "anthropic/claude-sonnet-4-6",
+      "severity": "VIOLATION",
+      "note": "",
+      "detectedAt": "2026-05-08T01:19:24+10:00",
+      "id": "DRIFT-20260507151924-legal",
+      "status": "unresolved",
+      "escalatedToYoda": true
+    },
+    {
+      "agentId": "qa",
+      "expected": "anthropic/claude-haiku-4-5",
+      "actual": "anthropic/claude-sonnet-4-6",
+      "severity": "VIOLATION",
+      "note": "",
+      "detectedAt": "2026-05-08T01:19:24+10:00",
+      "id": "DRIFT-20260507151924-qa",
+      "status": "unresolved",
+      "escalatedToYoda": true
     }
   ],
-  "totalUnresolved": 0,
-  "lastUpdated": "2026-05-05T17:47:56.037246+10:00"
+  "totalUnresolved": 6,
+  "lastUpdated": "2026-05-08T01:19:24+10:00"
 }

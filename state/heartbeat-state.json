@@ -2,20 +2,20 @@
   "lastChecks": {
     "email": "2026-05-07T11:15:25.746Z",
     "calendar": "2026-05-07T11:15:25.746Z",
-    "agentHealth": "2026-05-07T14:57:28.473Z",
-    "apiBalance": "2026-05-07T14:57:28.473Z",
-    "taskWatchdog": "2026-05-07T14:57:28.473Z",
-    "cronHealth": "2026-05-07T14:57:28.473Z",
+    "agentHealth": "2026-05-07T15:28:00.000Z",
+    "apiBalance": "2026-05-07T15:28:00.000Z",
+    "taskWatchdog": "2026-05-07T15:28:00.000Z",
+    "cronHealth": "2026-05-07T15:28:00.000Z",
     "memoryMaintenance": "2026-05-06T13:49:30.166021+00:00",
     "weather": null,
     "dailyClose": 1778161778.659,
-    "wardenEscalation": "2026-05-07T14:57:28.473Z",
-    "cronDeadLetter": "2026-05-07T14:57:28.473Z",
-    "ahsokaPilot": "2026-05-07T14:57:28.473Z",
+    "wardenEscalation": "2026-05-07T15:28:00.000Z",
+    "cronDeadLetter": "2026-05-07T15:28:00.000Z",
+    "ahsokaPilot": "2026-05-07T15:28:00.000Z",
     "ariaContextSync": "2026-05-04T13:00:00Z",
     "standup": "2026-05-06T21:58:26.663467Z",
     "missionControl": "2026-05-05T09:26:00.000000Z"
   },
-  "notes": "May 8 12:56 AM AEST (5th check): All clean. Balance $266.76 T0. Warden cron 83accf7b still failing but acknowledged. Ahsoka P1 parked/P2 pending. Late night — silent.",
+  "notes": "May 8 1:58 AM AEST: All clear. No alerts. Warden resolved (CHG-0225). Ahsoka P1 parked/P2 pending. Quiet hours — standing down.",
   "gogAccount": "kenmun@ainchors.com"
 }

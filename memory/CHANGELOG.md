@@ -2881,3 +2881,10 @@ _Pre-existing changes (Day 1, Day 2) are captured in `memory/shared/decisions.md
 **What:** Updated LinkedIn API version from 202501→202503 in linkedin-post.sh, linkedin-auth.sh, linkedin-metrics.sh
 **Why:** W1P1 post failed HTTP 426 — 202501 expired (LinkedIn interprets as 20250101). 202503 confirmed valid.
 **Impact:** W1P1 queue reset to approved. W1P2 Wed + W1P3 Thu crons will use fixed version.
+
+## 2026-05-08 01:19 AEST — [CHG-0225] Warden model drift auto-remediation
+- Warden escalation WARDEN-20260508-011924 (HIGH severity)
+- Drift: security, legal, qa agents running Sonnet instead of Haiku
+- Fix: Updated openclaw.json — all 3 agents corrected to anthropic/claude-haiku-4-5
+- Policy basis: Ken approved Haiku switch 2026-05-06 (cost optimisation)
+- Status: Resolved by Yoda heartbeat auto-remediation

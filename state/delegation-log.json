@@ -10282,10 +10282,50 @@
       "status": "pass",
       "latencyMs": 0,
       "notes": "15 checks run: 15 PASS | 0 FAIL | model drift clean | governance gates OK"
+    },
+    {
+      "ts": "2026-05-08T01:04:27+10:00",
+      "date": "2026-05-08",
+      "tier": "T2",
+      "taskType": "warden-check",
+      "model": "anthropic/claude-haiku-4-5",
+      "status": "fail",
+      "latencyMs": 0,
+      "notes": "3 model-drift violations detected: security, legal, qa agents assigned Sonnet instead of Haiku. Governance gates OK."
+    },
+    {
+      "ts": "2026-05-08T01:19:27+10:00",
+      "date": "2026-05-08",
+      "tier": "T2",
+      "taskType": "warden-check",
+      "model": "anthropic/claude-haiku-4-5",
+      "status": "fail",
+      "latencyMs": 0,
+      "notes": "3 model drift violations: security, legal, qa running Sonnet instead of Haiku"
+    },
+    {
+      "ts": "2026-05-08T01:34:27+10:00",
+      "date": "2026-05-08",
+      "tier": "T2",
+      "taskType": "warden-check",
+      "model": "anthropic/claude-haiku-4-5",
+      "status": "pass",
+      "latencyMs": 0,
+      "notes": "15 checks run | 15 PASS 0 FAIL | No model drift"
+    },
+    {
+      "ts": "2026-05-08T01:49:25+10:00",
+      "date": "2026-05-08",
+      "tier": "T2",
+      "taskType": "warden-check",
+      "model": "anthropic/claude-haiku-4-5",
+      "status": "pass",
+      "latencyMs": 0,
+      "notes": "15 checks run, 0 violations"
     }
   ],
   "summary": {
-    "total": 1028,
+    "total": 1032,
     "byTier": {
       "T1": {
         "pass": 0,
@@ -10293,8 +10333,8 @@
         "timeout": 0
       },
       "T2": {
-        "pass": 988,
-        "fail": 31,
+        "pass": 990,
+        "fail": 33,
         "timeout": 0
       },
       "T3": {
@@ -10311,8 +10351,8 @@
         "tier": "T2"
       },
       "warden-check": {
-        "pass": 820,
-        "fail": 25,
+        "pass": 822,
+        "fail": 27,
         "timeout": 0,
         "tier": "T2"
       },
@@ -10335,6 +10375,6 @@
         "tier": "T2"
       }
     },
-    "estimatedSavingsUSD": 4.9475
+    "estimatedSavingsUSD": 4.9575
   }
 }
