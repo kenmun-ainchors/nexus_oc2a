@@ -79,6 +79,11 @@ _Maintained by Aria 🔵 + Yoda 🟢 | Status-tracked content for AInchors train
 | TC-072 | Agent onboarding gates: the checklist that stops bad agents from entering your platform | 💡 Idea | Yoda Day 12 (TKT-0081 — no validation before agent registration, risk of misconfigured agents) | Aria |
 | TC-073 | JSON write patterns in AI automation scripts: why a brittle edit call breaks your cron at 3am | 💡 Idea | Yoda Day 12 (CHG-0195 — Spark edit-tool vs Python read-modify-write, silent failure on empty array) | Yoda |
 | TC-074 | Security policy side-effects: what happens when least-privilege removes a tool you actually need | 💡 Idea | Yoda Day 12 (CHG-0196 — S4 removed exec from Aria, broke gog CLI, required documented exception) | Both |
+| TC-075 | The calm after the strategy storm: why governance and frameworks are the invisible work that makes everything else possible | 💡 Idea | Yoda Day 13 (TKT-0086 — Agile v1.0, Atlas roadmap, 20 governance gaps closed, Ken sailing analogy) | Both |
+| TC-076 | Separating your IP entity from your market brand: the Auralith/AInchors model for AI platform founders | 💡 Idea | Yoda Day 13 (Auralith confirmed, IP/tech entity vs market brand, incorporation gate May 2026) | Aria |
+| TC-077 | Platform keyword collisions: when your AI agent's commands fight with the platform's own commands | 💡 Idea | Yoda Day 13 (CHG — /flash + /update reserved by OpenClaw, replaced with /flashupdate) | Yoda |
+| TC-078 | Agent belief vs. agent capability: diagnosing when your AI won't try because it thinks it can't | 💡 Idea | Yoda Day 13 (Aria exec avoidance — 3 failed calendar attempts, stale capability belief, override fix) | Both |
+| TC-079 | Building stateless agents: why every config must live in files, not in model context | 💡 Idea | Yoda Day 13 (TKT-0077 — agent-registry.json SSOT, dynamic cron ownership, 5 invisible agents problem) | Both |
 
 ## Status Legend
 💡 Idea → 📝 Draft → 🔍 Review (Yoda validates) → ✅ Ready → 📢 Published

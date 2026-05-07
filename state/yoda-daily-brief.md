@@ -1,135 +1,100 @@
-# Yoda Daily Brief — 2026-05-06 (Day 12)
-_For Aria 🔵 + Angie — written by Yoda 🟢 at 23:00 AEST_
+# Yoda Daily Brief — 2026-05-07 (Day 13)
+_Last updated: 2026-05-07 23:02 AEST | Written by Yoda 🟢 for Aria 🔵 + Angie_
 
 ---
 
 ## What Yoda Built Today
 
-**Day 12 was a diagnostics, governance, and architecture clean-up day.** No new features shipped — instead, the platform got tighter, the knowledge base got complete, and several structural gaps got turned into tickets so they don't fall through the cracks.
+**This was the biggest single day of the project so far.** Day 13 was less about features and more about foundations — the hard, unglamorous work that makes everything else possible.
 
-### 1. Platform Updated to v2026.5.5
-Routine update. Everything passed health checks and PVT post-update. Clean.
+### Morning
+- **Rebuilt the daily standup from scratch.** It was giving wrong information (stale data, bad governance scores). Fixed so it now reads live state files, delivers one clean Telegram message, plus a full HTML brief, plus an email to Ken's Gmail as a backup.
+- **Locked in a global rule:** every exec command must use full paths for tools like `gog`, `node`, and `jq`. This was causing silent failures across agents. Now enforced in the platform config AND documented as a non-negotiable rule.
+- **Diagnosed why Aria couldn't create a calendar event for Angie.** The root cause: Aria had an old belief that `exec` was blocked, so she kept apologising instead of trying. Fixed by writing an urgent override file to her workspace — she'll pick it up on Angie's next message.
+- **Confirmed Auralith** as the technology/IP entity behind the scenes. AInchors is the market-facing brand. Auralith owns and operates the Nexus platform. This matters for incorporation planning.
 
-### 2. Slash Command Conflict Fixed
-Two custom commands (`/flash` and `/update`) were clashing with built-in OpenClaw platform commands. Renamed to `/flashupdate` to avoid any routing confusion. Small fix, important to get right.
+### Afternoon (the big session)
+Ken and Yoda ran a full strategy coherence review. This meant:
 
-### 3. Angie Bot Routing Bug — Diagnosed and Fixed
-**This was the most important fix of the day.** Angie was receiving messages from the Yoda bot instead of the Aria bot. That's the wrong identity, wrong tone — and if it continued, would have been confusing and unprofessional.
+1. **Governance gaps closed (20 of them)** — including the AI Charter, Nexus-first mandate locked globally, Auralith addendum approved, and P2 client gates defined.
+2. **Atlas produced the first formal architecture roadmap** — P1 through P5, with clear milestones and gates.
+3. **Backlog replanned against the strategy** — 95 items, 3 sprints defined.
+4. **Agile Delivery Framework v1.0 approved and locked.** AInchors now has a formal delivery methodology. Sprint 1 starts next.
 
-Two root causes were found and fixed:
-- Some cron jobs weren't specifying which bot to use (Yoda's was the default)
-- Aria's scheduled warm nudge to Angie was misconfigured to use Yoda's account
-
-**What was hardened after the fix:**
-- A new script (`telegram-routing-audit.sh`) now checks all delivery configs for bot identity mismatches
-- PVT Check 11 added — verifies all Angie-destined messages use the Aria bot before they go out
-- Auto-heal Check 14B added — catches routing mismatches automatically during nightly health runs
-
-This should not happen again.
-
-### 4. Cost Optimisation — Governance Agents Switched to Haiku
-The Shield, Lex, and Sage agents (security, legal, QA review) were running on Sonnet. That's our most capable — and most expensive — model. Their work is review and analysis, not complex reasoning, so they don't need it.
-
-**Switched all three to Haiku.** Warden's compliance checks updated to match. The governance triad is still fully functional at a fraction of the cost.
-
-### 5. kimi Trial for RTB Reports
-Ken approved a trial: daily RTB (Rose, Thorn, Bud) reports delivered via kimi (Ollama Cloud Tier 2) at 8:10am AEST, running in parallel with the Sonnet standup. Tagged `[kimi]` so it's clearly labelled as a trial. If the quality is good, we expand kimi usage to other descriptive tasks.
-
-### 6. Aria's Tools Restored (S4 Security Fix Side-Effect)
-An earlier security tightening (S4 — least-privilege tool scopes) accidentally removed `exec` from Aria's tools. That broke Aria's ability to run gog CLI commands — which means no Calendar, no Gmail, no voice via Aria.
-
-Restored today. Documented as an intentional exception: `exec` is required for business agent gog CLI, and that's acceptable.
-
-Also fixed: Aria and Spark were both using a fragile method for updating JSON state files. Switched both to a safer Python read-modify-write pattern that doesn't break on edge cases.
-
-### 7. Backup State File Added
-The backup script was running nightly but not writing a machine-readable status file. Heartbeat and auto-heal had no way to confirm the last backup ran. Fixed: `state/backup-state.json` now records last run time and result after every backup.
-
-### 8. Holocron Agent Architecture Audit (TKT-0078)
-The Holocron knowledge base had an Agent Architecture page that was basically empty — just headings. Fixed today.
-
-**What was done:**
-- Page fully populated: agent roster, roles, tool scopes, routing matrix, bootstrap sequence, interaction model
-- Agent Status DB audited: 5 agents were missing (Atlas, Thrawn, Lando, Mon Mothma, Forge). All added.
-- 3 existing governance agents renamed to match the Star Wars naming convention (Shield, Lex, Sage)
-
-This is significant — the Holocron is now accurate and Aria should find it reliable as a reference.
-
-### 9. Three Structural Gaps Identified and Ticketed
-During the audit, three platform gaps were identified and turned into formal tickets:
-
-| Ticket | Gap | Why It Matters |
-|--------|-----|----------------|
-| TKT-0079 | No central `agent-registry.json` | Agent config is scattered across directories — no single source of truth |
-| TKT-0080 | Crons not linked to owning agents | When a cron fails, it's hard to trace which agent owns it |
-| TKT-0081 | No agent onboarding gate | New agents can be registered without passing a validation checklist |
-
-### 10. TKT-0077 Expanded to 11 Acceptance Criteria
-TKT-0077 (Persistent Agent Configuration — Stateless Bootstrap) was raised earlier in the day, then expanded after the audit surfaced the three gaps above. The ticket now covers bootstrap loading, a central registry, cron ownership, onboarding gates, and PVT auto-sync. 11 ACs. High priority.
-
-### 11. API Balance Confirmed: USD$100.13
-Ken confirmed the Anthropic API balance at EOD. Previous balance was ~$309 (Day 11). Implied burn over two days: ~$208. That's high — worth a deeper look next session.
-
-T1 alert threshold is $80. We're at $100.13 — no alerts active, but getting close. Next session should pull a fresh CSV to understand the true burn rate.
+### Evening
+- Cleaned up MEMORY.md — removed stale entries, corrected the TKT-0042 Obsidian closure (already done), added Auralith properly.
+- Created a daily memory hygiene cron (7:45 AM AEST) so MEMORY.md stays accurate without manual review.
 
 ---
 
 ## Key Decisions Made Today
 
-| Decision | Why |
-|----------|-----|
-| Shield, Lex, Sage → Haiku model | Review tasks don't need Sonnet. Significant cost saving. |
-| kimi trial for RTB/daily-report tasks | Test if Tier 2 Ollama Cloud handles descriptive summaries well before broader rollout |
-| Aria exec exception to S4 policy | exec is required for gog CLI — business agent needs it, security exception documented |
-| Spark + Aria JSON writes → Python pattern | edit tool fails on empty arrays; Python write is always safe |
-| `/flashupdate` replaces `/flash` + `/update` | Avoid conflict with reserved OpenClaw platform namespace |
+| # | Decision | Why It Matters |
+|---|----------|----------------|
+| 1 | `/flashupdate` replaces the old agent keywords `/flash` and `/update` | Those keywords collide with native OpenClaw platform commands — they now trigger platform actions, not agent ones |
+| 2 | Yoda never sends directly to Angie's Telegram ID | All Yoda→Angie messages must go via `sessions_send → Aria session` — this keeps bot identity clean |
+| 3 | Full absolute paths are mandatory in all exec calls | `/opt/homebrew/bin/gog` not just `gog` — ensures it works in crons and sub-agents with minimal PATH |
+| 4 | EOD blog generation belongs to one cron only (`a027fd60`) | Prevents duplicate blog posts (this was a recurring bug) |
+| 5 | Governance triad (Shield/Lex/Sage) moved from Sonnet → Haiku | Review tasks don't need deep reasoning — saves significant API cost |
+| 6 | AInchors Agile Delivery Framework v1.0 approved | Formal delivery methodology locked — Sprint 1 starts |
+| 7 | P2 client target: end August 2026 | Hard deadline confirmed |
+| 8 | Auralith incorporation: hard gate end May 2026 | Must be done before P2 work begins |
+| 9 | Nexus-first mandate locked globally | All agents, all decisions — platform coherence non-negotiable |
+| 10 | BYOK (Bring Your Own Key) policy live | Client data sovereignty protected |
 
 ---
 
-## Training Content Angles — Day 12
+## Training Content Angles — Day 13
 
-Things from today that would make great AI training course content:
+These are the real-world lessons from today that could become course content for AInchors:
 
-1. **Bot identity routing bugs are silent failures** — No error was thrown when Angie received a Yoda message. Only a human noticed. Lesson: every message pathway needs an identity assertion, not just a delivery check.
+**TC-075 — The calm after the strategy storm: why governance and frameworks are the invisible work**
+Ken put it perfectly: "Without a plan, you're just busy — headless." Spending Day 13 on governance instead of features felt slow. But it turned a chaotic sprint into a structured programme. This is the story of why most AI projects fail — not because the tech is wrong, but because the foundations were never laid. The analogy: sailing through a storm vs. knowing your ship can handle any weather.
 
-2. **Right-sizing AI models to the task** — Switching three governance agents from Sonnet to Haiku is a real-world example of model selection strategy. Review tasks don't need reasoning — they need speed and economy.
+**TC-076 — Separating your IP entity from your market brand: the Auralith/AInchors model**
+AInchors sells. Auralith owns. This split isn't just semantic — it has implications for IP protection, incorporation, investor conversations, and how you present to enterprise clients. A practical lesson for founders building both a brand and a technology platform.
 
-3. **The architecture audit pattern** — How do you find out what your platform actually looks like vs. what you think it looks like? Systematic audit of your knowledge base against your config files.
+**TC-077 — Platform keyword collisions: when your AI's commands fight with the platform's commands**
+`/update` was supposed to be an agent-level command. Instead, it triggered an OpenClaw platform update. This is a real engineering hazard when you're building agents on top of a platform you don't fully control — how to design command namespaces that won't collide.
 
-4. **Why centralized agent configuration matters** — Scattered config (11 agents, 11 directories, no central index) is a governance risk. When something breaks, you can't trace it. TKT-0079 illustrates the problem clearly.
+**TC-078 — Agent belief vs. agent capability: when your AI won't try because it thinks it can't**
+Aria made 3 failed attempts to create a calendar event — and every time she filed a change request instead of trying a different approach. The actual problem? She had a stale belief that `exec` was blocked. Tool availability and agent belief about tool availability are different things. How to diagnose and fix agent belief drift.
 
-5. **Cron ownership traceability** — When a cron fails at 3am, whose job is it to fix it? If the cron isn't linked to an owning agent, nobody knows. TKT-0080.
-
-6. **Agent onboarding gates** — You wouldn't add a staff member without an onboarding checklist. Same principle applies to AI agents. TKT-0081.
-
-7. **Why JSON write patterns matter in AI automation scripts** — A brittle `edit` tool call on an empty array `[]` silently breaks a cron. The fix is a safe Python read-modify-write pattern. A practical scripting lesson.
-
-8. **Cost tracking that accounts for billing model quirks** — The balance dropped by ~$208 in two days, but the in-session API logs may not match the CSV. We've seen this before (Day 7). Always verify against the real billing CSV.
+**TC-079 — Building a stateless agent: why all config must live in files, not in context**
+TKT-0077 is the sprint anchor for tomorrow. The problem: 5 agents were missing from Holocron because the cron that reported on them had hardcoded IDs. Every new agent was invisible until someone manually updated a cron. The fix: `state/agent-registry.json` as single source of truth, everything reads from it dynamically. This is a scalability lesson for any multi-agent system.
 
 ---
 
 ## What's Open / What's Next
 
-### High Priority
-- **Balance approaching T1 threshold ($80)** — At $100.13. Pull a fresh CSV burn rate next session and re-evaluate.
-- **TKT-0077** — Persistent Agent Configuration (Stateless Bootstrap) — 11 ACs, high priority, Thrawn as owner
-- **TKT-0079** — Create `agent-registry.json` as central agent config index
-- **TKT-0080** — Link all crons to owning agentId
-- **TKT-0081** — Build agent onboarding gate/validation checklist
+### Immediate (Sprint 1 starts now)
+- **TKT-0077** — Persistent agent config / stateless bootstrap. This is the sprint anchor.
+- **Aria calendar create** — Override file deployed. Waiting for Angie to send one message to Aria to trigger it.
 
-### Ongoing
-- **kimi RTB trial** — First run tomorrow (May 7) at 8:10am AEST. Compare output quality with Sonnet standup.
-- **W1P2 LinkedIn post** — Fires tomorrow at noon AEST (cron bef42235). Spark owns this.
-- **Business stream** — Angie 8+ days no inbound signal. Aria should surface this when appropriate.
-- **API balance** — Monitor closely. T1 alert fires at $80. May need a top-up conversation with Ken soon.
-- **OC2 ETA July 2026** — No updates yet. TRIGGER-01 fires on arrival.
+### Open Issues
+- **LinkedIn W1-P3 post** — Ken flagged it looks incomplete. Awaiting Ken's feedback on what's missing.
+- **LinkedIn MDP request #69747** — Submitted May 3, no response. Ken needs to follow up.
+- **Gateway restart** — `tools.sessions.visibility: all` config change needs a restart to activate. Pending Ken's go-ahead.
+- **CTO contract meeting** — Friday 8 May, 3:00 PM Sydney. Check if Ken needs prep material.
 
-### Backlog (not urgent)
-- TKT-0069: Vision & Mission
-- US19: HA Design
-- W2 LinkedIn posts (May 12-14)
-- CI Cycle A first report ~May 9
+### Upcoming Gates
+| Gate | Deadline | Status |
+|------|----------|--------|
+| Auralith incorporation | End May 2026 | Not started |
+| TKT-0060/0061/0063 | End May 2026 | In backlog |
+| P2 first client | End August 2026 | Sprint 1 underway |
+
+### Backlog (Holocron pages, medium priority)
+- TKT-0079 — Holocron Cost & Billing Page
+- TKT-0080 — Holocron Infrastructure (HIVE) Ops Page
+- TKT-0081 — Holocron Security Posture Page (S1-S7)
 
 ---
 
-_Yoda 🟢 | AInchors | OC1 | Day 12 complete_
+## Platform Health at Close
+- **API balance:** ~$266.76 USD (Tier 3 — monitored)
+- **Gateway:** ✅ Running (pid 58244)
+- **Warden:** ✅ Clean
+- **All health checks:** ✅ Passed (11 checks clean)
+- **OpenClaw version:** 2026.5.5
+- **CHGs today:** CHG-0208 through CHG-0222 (15 changes)
