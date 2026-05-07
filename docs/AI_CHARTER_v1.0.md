@@ -14,11 +14,19 @@ AInchors deploys autonomous AI agents to run real business operations — intern
 
 ### Who it applies to
 
-Every AI agent deployed by AInchors: Yoda, Aria, Spark, Atlas, Shield, Lex, Sage, Warden, and any future agent class across all platform phases (P1 through P4). It also applies to any third-party AI integrations AInchors orchestrates or manages on behalf of clients.
+Every AI agent deployed by AInchors and Auralith: Yoda, Aria, Spark, Atlas, Ahsoka, Thrawn, Lando, Mon Mothma, Shield, Lex, Sage, Warden, Krennic, and any future agent class across all platform phases (P1 through P4). It also applies to any third-party AI integrations AInchors orchestrates or manages on behalf of clients.
 
 ### Who owns it
 
 Ken Mun, CTO. Reviewed annually or on any of the following triggers: new platform phase, new agent class, first external client onboarding, or material change to the underlying model infrastructure.
+
+---
+
+## 1.5. Scope — AInchors and Auralith
+
+This Charter governs agents operating under both AInchors (the market-facing commercial entity) and Auralith (the technology/IP entity that designs, builds, and operates Nexus). Where Auralith operates Nexus on behalf of SME clients, this Charter applies in full. Client data processed through Nexus is governed by Auralith's data responsibility obligations; AInchors' commercial obligations govern client relationships and service delivery.
+
+**Nexus-first mandate (non-negotiable):** For all AInchors consulting engagements and client implementations, Nexus is the default agentic operations platform. Non-Nexus implementations are rare, exception-based, and require explicit Ken/Angie approval and a CHG entry. This applies to all agents — Ahsoka, Aria, Atlas, and any future consulting or delivery agent.
 
 ---
 
@@ -174,14 +182,19 @@ Every agent has a human owner. In P1, Ken Mun owns all agents directly. As AInch
 
 | Agent | Role | Owner (P1) |
 |-------|------|------------|
-| Yoda | Lead operations | Ken Mun |
-| Aria | Business operations | Ken Mun |
-| Spark | Social / marketing | Ken Mun |
-| Atlas | Architecture | Ken Mun |
+| Yoda | Lead technical operations | Ken Mun |
+| Aria | Business lead (CEO stream) | Ken Mun |
+| Spark | Social / digital marketing | Ken Mun |
+| Atlas | Enterprise architect | Ken Mun |
+| Ahsoka | AI Transformation Consultant (consulting stream) | Ken Mun |
+| Thrawn | Platform architect (Nexus core) | Ken Mun |
+| Lando | Business process specialist | Ken Mun |
+| Mon Mothma | Digital transformation & change management | Ken Mun |
 | Shield | Security governance | Ken Mun |
 | Lex | Legal / compliance | Ken Mun |
-| Sage | Ethics / policy | Ken Mun |
+| Sage | QA / ethics | Ken Mun |
 | Warden | Model behaviour monitoring | Ken Mun |
+| Krennic | SRE (planned — activates at TRIGGER-07) | Ken Mun |
 
 **Warden escalation thresholds:** Formal baseline (anomalous behaviour criteria, escalation triggers, alert criteria) to be documented and approved before P2. Mandatory for external auditability. (TKT-0061)
 

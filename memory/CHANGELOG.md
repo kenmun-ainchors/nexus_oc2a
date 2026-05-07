@@ -42,6 +42,18 @@ This log captures **every change** Yoda makes to AInchors infrastructure, config
 **Linked:** decisions.md 2026-04-27 entries
 ---
 
+## 2026-05-07 14:36 AEST — [CHG-0218] TKT-0087 ACs 2/4/5/6/7/8: Charter, Nexus-first, agent roster, R1 fix, P2 critical path
+**Type:** rule
+**Source:** ken-prompt
+**Trigger:** TKT-0087 execution — AC-4/AC-5/AC-6/AC-7/AC-8/AC-2
+**What changed:** 6 ACs executed: (AC-4) Nexus-first mandate added to AI Charter Section 1.5 + RULES.md global principles — non-negotiable. (AC-5) R1 exception clause added to ARIA_RULES.md for deals >AK escalated per C4 — prevents Aria/Ahsoka deadlock. (AC-6) Ahsoka + Thrawn + Lando + Mon Mothma + Krennic added to AI Charter Section 6 agent table. Auralith scope added to Section 1.5. (AC-7) CONFIRMED — R1/R2/R3 already in ARIA_RULES.md. (AC-8) CONFIRMED — C1/C2/C3/C4 already in ahsoka_role.md. (AC-2) TKT-0060/0061/0063 elevated to criticalPath=true — P2 pre-conditions now on 6-12mo OKR critical path.
+**Why:** TKT-0087 Seq1 execution. P0/P1 ACs: Auralith Charter coverage, Nexus-first mandate, Ahsoka registration, R1 vs C4 deadlock fix, P2 pre-conditions elevated.
+**Verification:** AI Charter, ARIA_RULES.md, RULES.md updated. tickets.json criticalPath flags set.
+**Rollback:** Revert AI Charter Section 1.5 + agent table. Revert ARIA_RULES.md R1 exception. Remove Nexus-first non-negotiable from RULES.md.
+**Linked:** none
+---
+
+
 ## 2026-05-07 14:13 AEST — [CHG-0217] Canvas embed delivery rule: sub-agents report path only, Yoda embeds directly
 **Type:** rule
 **Source:** ken-prompt

@@ -233,12 +233,12 @@
       "id": "TKT-0060",
       "title": "Lex: Draft standard Client Data Processing Agreement (DPA)",
       "type": "task",
-      "priority": "high",
+      "priority": "critical",
       "status": "open",
       "requester": "Ken",
       "assignee": "Yoda",
       "created": "2026-05-04T17:25:22+10:00",
-      "updated": "2026-05-04T17:25:22+10:00",
+      "updated": "2026-05-07T04:35:28+10:00",
       "description": "Dependency to closing first P2 client onboarding. Lex to draft standard DPA template covering: AI model processing consent, data residency, retention/deletion obligations, APP alignment. Must be reviewed by Ken and approved before any external client signs. Referenced in AI Charter v1.0 Section 5.",
       "resolution": null,
       "linked": {
@@ -247,18 +247,20 @@
         "chg": []
       },
       "notes": "",
-      "notionPageId": null
+      "notionPageId": null,
+      "criticalPath": true,
+      "criticalPathReason": "P2 pre-condition \u2014 required for C1-KR3 (2 SME clients within 6-12mo OKR). Elevated per TKT-0087 AC-2."
     },
     {
       "id": "TKT-0061",
       "title": "Warden: Define and document model behaviour escalation thresholds",
       "type": "task",
-      "priority": "medium",
+      "priority": "critical",
       "status": "open",
       "requester": "Ken",
       "assignee": "Yoda",
       "created": "2026-05-04T17:25:22+10:00",
-      "updated": "2026-05-04T17:47:48+10:00",
+      "updated": "2026-05-07T04:35:28+10:00",
       "description": "Mandatory before P2. Document Warden's formal baseline: what constitutes anomalous model behaviour, escalation triggers, alert criteria. Must be auditable by external clients. Referenced in AI Charter v1.0 Section 6.",
       "resolution": null,
       "linked": {
@@ -267,7 +269,9 @@
         "chg": []
       },
       "notes": "Deadline confirmed: 2026-08-02 (90 days from 2026-05-04, Ken confirmed). Mandatory before P2 live. Shield/Warden to define formal escalation thresholds, sensitivity levels, and suppression rules.",
-      "notionPageId": null
+      "notionPageId": null,
+      "criticalPath": true,
+      "criticalPathReason": "P2 pre-condition \u2014 required for C1-KR3 (2 SME clients within 6-12mo OKR). Elevated per TKT-0087 AC-2."
     },
     {
       "id": "TKT-0062",
@@ -293,12 +297,12 @@
       "id": "TKT-0063",
       "title": "Ollama Cloud: DPA / exclusion-acceptance / BYOK decision before P2",
       "type": "task",
-      "priority": "high",
+      "priority": "critical",
       "status": "open",
       "requester": "Ken",
       "assignee": "Yoda",
       "created": "2026-05-04T17:46:38+10:00",
-      "updated": "2026-05-04T17:47:48+10:00",
+      "updated": "2026-05-07T04:35:28+10:00",
       "description": "Mandatory P2 pre-condition. Three options to resolve: (A) Formal DPA with Ollama Cloud covering data residency and processing, (B) Explicit acceptance/exclusion of Ollama Cloud offering for client workloads, (C) Clients bring their own model keys (BYOK model). Lex to assess options and present recommendation. Ken decides before P2 live.",
       "resolution": null,
       "linked": {
@@ -307,7 +311,9 @@
         "chg": []
       },
       "notes": "Owner: Lex. Mandatory before P2 live. Three options: (A) DPA with Ollama, (B) Explicit exclusion/acceptance, (C) BYOK. Lex assesses and presents recommendation to Ken. Ken decides.",
-      "notionPageId": null
+      "notionPageId": null,
+      "criticalPath": true,
+      "criticalPathReason": "P2 pre-condition \u2014 required for C1-KR3 (2 SME clients within 6-12mo OKR). Elevated per TKT-0087 AC-2."
     },
     {
       "id": "TKT-0064",
