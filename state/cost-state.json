@@ -1,5 +1,5 @@
 {
-  "lastUpdated": "2026-05-07T02:02:05Z",
+  "lastUpdated": "2026-05-07T02:38:56Z",
   "history": {
     "2026-04-25": {
       "date": "2026-04-25",
@@ -411,22 +411,22 @@
     },
     "2026-05-07": {
       "date": "2026-05-07",
-      "totalCost": 25.2488,
-      "totalTurns": 1116,
-      "totalInputTokens": 574859,
-      "totalOutputTokens": 248627,
-      "totalCacheReadTokens": 29305719,
-      "totalCacheWriteTokens": 3961073,
+      "totalCost": 38.3981,
+      "totalTurns": 1480,
+      "totalInputTokens": 587061,
+      "totalOutputTokens": 331748,
+      "totalCacheReadTokens": 41782378,
+      "totalCacheWriteTokens": 6315209,
       "source": "session-log-estimate",
       "note": "Session log estimate. usage.cost.total includes cacheWrite charges. CHG-0097: confirmed cost includes cache writes.",
       "byModel": {
         "claude-sonnet-4-6": {
-          "input": 1428,
-          "output": 199810,
-          "cacheRead": 26142853,
-          "cacheWrite": 3567259,
-          "cost": 24.2215,
-          "turns": 788
+          "input": 1894,
+          "output": 270433,
+          "cacheRead": 37695054,
+          "cacheWrite": 5776986,
+          "cost": 37.0344,
+          "turns": 1060
         },
         "deepseek-v4-pro:cloud": {
           "input": 559505,
@@ -437,31 +437,31 @@
           "turns": 12
         },
         "claude-haiku-4-5": {
-          "input": 3573,
-          "output": 43035,
-          "cacheRead": 3162866,
-          "cacheWrite": 393814,
-          "cost": 1.0273,
-          "turns": 315
+          "input": 4607,
+          "output": 55516,
+          "cacheRead": 4087324,
+          "cacheWrite": 538223,
+          "cost": 1.3637,
+          "turns": 406
         },
         "gemma4:e2b": {
-          "input": 10353,
-          "output": 35,
+          "input": 21055,
+          "output": 52,
           "cacheRead": 0,
           "cacheWrite": 0,
           "cost": 0.0,
-          "turns": 1
+          "turns": 2
         }
       }
     }
   },
-  "allTimeTotalCost": 1827.7138,
+  "allTimeTotalCost": 1840.8631,
   "daysTracked": 13,
-  "avgDailyCost": 140.5934,
+  "avgDailyCost": 141.6049,
   "apiBalance": {
     "remainingEstimate": 0,
-    "spentSinceTopUp": 1827.7138,
-    "remainingNote": "confirmedBalance=None at 1970-01-01; spentAfter=1827.7138"
+    "spentSinceTopUp": 1840.8631,
+    "remainingNote": "confirmedBalance=None at 1970-01-01; spentAfter=1840.8631"
   },
   "spendAlerts": {
     "tier1": {

@@ -560,6 +560,24 @@ All agents and sub-agents must comply with ALL of the following at all times:
 
 Any work or task that is **ad-hoc** (not already tracked under an INC, US, or CHG) MUST have a ticket raised BEFORE work begins.
 
+### 🧠 DECISION CAPTURE RULE (non-negotiable — CHG-0215)
+
+Any **strategic decision, priority outcome, or replanning result** made in-session MUST be captured immediately — same session, before moving on.
+
+**Capture = at minimum one of:**
+- TKT/US raised in Notion (preferred for anything that drives work)
+- Entry appended to `memory/YYYY-MM-DD.md` (acceptable for context/decisions with no immediate work)
+
+**Never defer to /commit.** If you reach /commit and realise a decision wasn't captured, stop — capture it first, then commit.
+
+**This rule fires when:**
+- Ken and Yoda agree on priorities, a plan, or a replan
+- A strategic review produces follow-up actions
+- Any "we'll do X" conclusion is reached in session
+- Any discussion outcome that would be confusing if lost
+
+**Root cause this prevents:** 2026-05-07 — 4 priority governance follow-up tasks decided at 3AM after `/commit` ran. No TKT raised, no memory flush. Lost on session compaction.
+
 **Ticket system:** `state/tickets.json` | CLI: `scripts/ticket.sh` | Notion: 📋 AKB Backlog DB
 **Format:** `TKT-NNNN` - auto-incremented via `ticket.sh new`
 
@@ -847,6 +865,14 @@ Exit 2 = do not publish. Fix all issues and re-run until exit 0.
 Trigger: Ken types **`/commit`** (case-insensitive) on any channel.
 
 When `/commit` is received:
+
+**⚠️ PRE-FLIGHT GATE (mandatory — CHG-0215):**
+Before executing any step, ask: *"Since the last commit, were any decisions, priorities, or replan outcomes made that have NOT been raised as TKT/US or written to memory?"*
+- If YES → stop. Capture them now (TKT/US + memory entry). Then proceed.
+- If NO → continue.
+
+This gate exists because `/commit` can only capture what is already decided. Decisions made AFTER `/commit` runs are lost on session close.
+
 1. **Memory flush** - append all outstanding session events, decisions, and learnings to `memory/YYYY-MM-DD.md`
 2. **Framework audit** - run `zsh scripts/framework-audit.sh`. For any gaps (framework docs not updated): update them now before proceeding.
 3. **Obsidian sync** - write/update relevant Obsidian pages: decisions.md, ResiliencyFramework.md, any spec that changed this session

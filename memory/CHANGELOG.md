@@ -42,6 +42,18 @@ This log captures **every change** Yoda makes to AInchors infrastructure, config
 **Linked:** decisions.md 2026-04-27 entries
 ---
 
+## 2026-05-07 13:10 AEST — [CHG-0215] Decision Capture Rule + /commit Pre-Flight Gate (prevent session context loss)
+**Type:** rule
+**Source:** ken-prompt
+**Trigger:** ken-approved 2026-05-07 13:09 AEST — session context loss post-mortem
+**What changed:** Two rules added to RULES.md: (1) DECISION CAPTURE RULE — any strategic decision/priority/replan outcome must be captured immediately in same session (TKT/US or memory entry). Never defer to /commit. (2) /commit PRE-FLIGHT GATE — before executing /commit, Yoda must check if any uncaptured decisions exist since last commit. If yes: stop, capture first, then commit.
+**Why:** Root cause analysis of 2026-05-07 3AM session: 4 priority governance follow-up tasks decided after /commit ran. No TKT raised, no memory flush. Lost on session compaction. Prevents recurrence.
+**Verification:** RULES.md updated. Both rules in place.
+**Rollback:** Remove Decision Capture Rule and /commit Pre-Flight Gate from RULES.md.
+**Linked:** none
+---
+
+
 ## 2026-05-07 12:14 AEST — [CHG-0214] agentToAgent enabled — cross-agent sessions_send live, Aria calendar create confirmed working
 **Type:** config
 **Source:** ken-prompt

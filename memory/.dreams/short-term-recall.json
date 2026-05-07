@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "updatedAt": "2026-05-07T00:54:45.907Z",
+  "updatedAt": "2026-05-07T02:28:32.004Z",
   "entries": {
     "memory:memory/2026-04-26.md:94:122": {
       "key": "memory:memory/2026-04-26.md:94:122",
@@ -591,18 +591,20 @@
       "endLine": 284,
       "source": "memory",
       "snippet": "### CHG-0026 — Governance Layer Created - Three cross-stream governance agents stood up to review all Aria external-facing output before execution: - **Shield 🔐** — Security agent (Sonnet). Checks for data exposure, auth risks, policy violations. - **Lex ⚖️** — Legal agent (Opus). Checks for contractual, regulatory, and liability issues. - **Sage 🧪** — QA agent (Sonnet). Checks for accuracy, completeness, and quality. - `Operations/GovernanceFramework.md` created — defines routing rules, escalation thresholds, veto authority. - `scripts/governance-review.sh` created — Aria calls this before any external delivery. - TKT-0012 covered this work. --- ## 11:25–12:16 AEST — Aria Rules, C",
-      "recallCount": 1,
+      "recallCount": 2,
       "dailyCount": 0,
       "groundedCount": 0,
-      "totalScore": 0.42916851341724394,
+      "totalScore": 0.8499259114265442,
       "maxScore": 0.42916851341724394,
       "firstRecalledAt": "2026-05-02T01:54:12.333Z",
-      "lastRecalledAt": "2026-05-02T01:54:12.333Z",
+      "lastRecalledAt": "2026-05-07T02:28:32.004Z",
       "queryHashes": [
-        "25fe43764ea7"
+        "25fe43764ea7",
+        "d880ce131095"
       ],
       "recallDays": [
-        "2026-05-02"
+        "2026-05-02",
+        "2026-05-07"
       ],
       "conceptTags": [
         "chg-0026",
@@ -770,6 +772,99 @@
         "9/9",
         "scripts/pvt.sh",
         "pre-risky-op"
+      ]
+    },
+    "memory:memory/2026-05-07.md:78:94": {
+      "key": "memory:memory/2026-05-07.md:78:94",
+      "path": "memory/2026-05-07.md",
+      "startLine": 78,
+      "endLine": 94,
+      "source": "memory",
+      "snippet": "1. `/flashupdate` replaces `/flash` and `/update` as agent keyword 2. Yoda NEVER sends directly to Angie's chatId (8141152780) — always via `sessions_send → Aria session` 3. Full absolute paths mandatory for all file references in agent responses 4. EOD blog generation = `a027fd60` cron ONLY — no sub-agent generates blog 5. TKT-0077 is the sprint anchor for tomorrow — persistent config / stateless bootstrap 6. Three new Holocron US raised (TKT-0079, 0080, 0081) — medium priority, sprint planning --- ## State of Play at Flush - OpenClaw version: **2026.5.5** (updated today) - API balance: **USD$100.13** - Active backlog items: TKT-0077 (sprint tomorrow), TKT-0079/0080/0081 (Holocron pages)",
+      "recallCount": 1,
+      "dailyCount": 0,
+      "groundedCount": 0,
+      "totalScore": 0.42521901130676265,
+      "maxScore": 0.42521901130676265,
+      "firstRecalledAt": "2026-05-07T02:28:29.072Z",
+      "lastRecalledAt": "2026-05-07T02:28:29.072Z",
+      "queryHashes": [
+        "3e57419ccece"
+      ],
+      "recallDays": [
+        "2026-05-07"
+      ],
+      "conceptTags": [
+        "sessions-send",
+        "sub-agent",
+        "tkt-0077",
+        "tkt-0079",
+        "2026.5.5",
+        "100.13",
+        "tkt-0079/0080/0081",
+        "flashupdate"
+      ]
+    },
+    "memory:memory/2026-05-03.md:132:156": {
+      "key": "memory:memory/2026-05-03.md:132:156",
+      "path": "memory/2026-05-03.md",
+      "startLine": 132,
+      "endLine": 156,
+      "source": "memory",
+      "snippet": "**Nexus — Star Wars naming convention confirmed** - System: Nexus | KB: Holocron | Command Centre: The Bridge | Client Portal: The Citadel - Holonet (API layer) | Beacon (monitoring) | The Sanctum (governance) | Datapad (reporting) - Names are proposals — confirmed at kickoff of each respective US ### US/TKT Raised Today | ID | Title | |---|---| | TKT-0039 | LinkedIn Authority Campaign (approved, campaign live) | | TKT-0041 | US-FinOps: Deepen ROI data and justification | | TKT-0042 | US-AKB/Holocron: Restructure + migrate to Notion | | TKT-0043 | US-GOV: Deep review governance triad | | TKT-0044 | US-DR: Disaster Recovery strategy | | TKT-0045 | US-ARCH: Containerised OpenClaw for SaaS | |",
+      "recallCount": 1,
+      "dailyCount": 0,
+      "groundedCount": 0,
+      "totalScore": 0.4424514651298523,
+      "maxScore": 0.4424514651298523,
+      "firstRecalledAt": "2026-05-07T02:28:32.004Z",
+      "lastRecalledAt": "2026-05-07T02:28:32.004Z",
+      "queryHashes": [
+        "d880ce131095"
+      ],
+      "recallDays": [
+        "2026-05-07"
+      ],
+      "conceptTags": [
+        "us/tkt",
+        "tkt-0039",
+        "tkt-0041",
+        "us-finops",
+        "tkt-0042",
+        "us-akb/holocron",
+        "tkt-0043",
+        "us-gov"
+      ]
+    },
+    "memory:memory/2026-05-02.md:190:217": {
+      "key": "memory:memory/2026-05-02.md:190:217",
+      "path": "memory/2026-05-02.md",
+      "startLine": 190,
+      "endLine": 217,
+      "source": "memory",
+      "snippet": "- Full triad: Shield (PII) → Lex (legal) → Sage (quality) - `scripts/content-governance-review.sh` — exit 0 (cleared) / exit 2 (blocked) - `state/content-queue.json` — tracks all content: draft → triad-pending → triad-cleared → published - Footer stamp: ✅ Cleared / ⚠️ Internal only / 🚫 Blocked - Warden extended (Check #15): published-without-clearance = violation - PVT: 10/10 (test #10 added: governance gate exists + executable) - Applies to: Yoda + Aria both. EOD/blog cron updated. ### New Tickets - TKT-0033: Content governance triad gate — RESOLVED - TKT-0034: Automated social posting — trigger when social accounts connected - TKT-0035: Dedicated Content Agent — before Phase 2 (first P2",
+      "recallCount": 1,
+      "dailyCount": 0,
+      "groundedCount": 0,
+      "totalScore": 0.41507433652877807,
+      "maxScore": 0.41507433652877807,
+      "firstRecalledAt": "2026-05-07T02:28:32.004Z",
+      "lastRecalledAt": "2026-05-07T02:28:32.004Z",
+      "queryHashes": [
+        "d880ce131095"
+      ],
+      "recallDays": [
+        "2026-05-07"
+      ],
+      "conceptTags": [
+        "state/content-queue.json",
+        "triad-pending",
+        "triad-cleared",
+        "published-without-clearance",
+        "10/10",
+        "eod/blog",
+        "tkt-0033",
+        "tkt-0034"
       ]
     }
   }
