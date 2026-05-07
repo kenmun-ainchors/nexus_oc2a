@@ -121,17 +121,14 @@ Reactions are lightweight social signals. Humans use them constantly — they sa
 ## Tools
 
 ### ⚠️ Canvas Embed Rules (NON-NEGOTIABLE)
-Embeds ONLY render when Yoda sends them directly in webchat. Sub-agents CANNOT deliver working embeds via sessions_send.
+Do NOT use `[embed ...]` tags in responses to Ken. They do not render reliably.
 
-**Rule for sub-agents:** NEVER include `[embed ...]` in sessions_send messages. Instead, write the file path in plain text — Yoda will embed it from the main session.
+**Rule for Yoda:** When a canvas file is produced, give Ken the FULL LOCAL PATH only:
+`/Users/ainchorsangiefpl/.openclaw/canvas/documents/<doc-id>/index.html`
 
-**Rule for Yoda:** After any sub-agent writes a canvas file, embed it directly in YOUR next response:
-```
-[embed ref="<doc-id>" title="..." height="900" /]
-```
-Use `ref="<id>"` where id = the directory name under `/canvas/documents/`. Example: directory `auralith-strategy-paper` → `ref="auralith-strategy-paper"`.
+Ken will open it himself. No embed tags. No `[embed ...]`. Full path only.
 
-**Never use `file://` or local paths. Never use `url=` unless you have the full `/__openclaw__/canvas/documents/<id>/index.html` path.**
+**Rule for sub-agents:** NEVER include `[embed ...]` in sessions_send messages. Write the full file path in plain text only.
 
 ### ⚠️ Exec Binary Paths (NON-NEGOTIABLE)
 Exec runs with minimal PATH — `/opt/homebrew/bin` is not included by default.
