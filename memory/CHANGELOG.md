@@ -42,6 +42,31 @@ This log captures **every change** Yoda makes to AInchors infrastructure, config
 **Linked:** decisions.md 2026-04-27 entries
 ---
 
+## 2026-05-07 22:51 AEST — [CHG-0224] API credit balance updated: $266.76 (2026-05-07 EOD)
+**Type:** data
+**Source:** ken-prompt
+**Trigger:** Ken manual update 2026-05-07 22:51 AEST
+**What changed:** cost-state.json confirmedBalance updated: $470.93 → $266.76
+**Why:** Day 13 spend: ~$204 across 15 CHGs, strategy work, Atlas roadmap, governance sequence.
+**Verification:** Ken confirmed balance.
+**Rollback:** Revert confirmedBalance to 470.93.
+**Linked:** none
+---
+
+
+## 2026-05-07 18:53 AEST — [CHG-0223] linkedin-post.sh: add --content-file flag to prevent shell arg truncation
+**Type:** script
+**Source:** ken-prompt
+**Trigger:** W1-P3 post truncated at line 4 — shell arg truncation of multiline --text
+**What changed:** linkedin-post.sh: added --content-file <path> flag. Reads post body from file via Python — no shell escaping issues. Extracts body between --- delimiters, stops before ## Hashtags/Metadata. SPARK_RULES.md: updated to use --content-file always, never --text for post content.
+**Why:** Multi-line post text passed via --text shell arg gets truncated. --content-file reads safely via Python file IO.
+**Verification:** Dry-run extraction confirms full 6-question + 3-para + hashtags content extracted correctly.
+**Rollback:** N/A
+**Linked:** none
+**Category:** reliability
+---
+
+
 ## 2026-05-07 16:40 AEST — [CHG-0222] Agile Framework v1.0 locked + Agile L2→L3 + TKT-0086/0090 closed — Sprint 1 starts
 **Type:** doc
 **Source:** ken-prompt

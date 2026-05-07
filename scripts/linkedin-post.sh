@@ -18,6 +18,7 @@ POSTS_ENDPOINT="https://api.linkedin.com/rest/posts"
 # ── Defaults ──────────────────────────────────────────────────────────────────
 
 POST_TEXT=""
+CONTENT_FILE=""
 VISIBILITY="PUBLIC"
 DRY_RUN=false
 
@@ -27,6 +28,11 @@ while [[ $# -gt 0 ]]; do
   case "$1" in
     --text)
       POST_TEXT="$2"
+      shift 2
+      ;;
+    --content-file)
+      # Preferred over --text: reads from file, no shell arg truncation on multiline content
+      CONTENT_FILE="$2"
       shift 2
       ;;
     --visibility)
@@ -47,9 +53,33 @@ done
 
 # ── Validate ──────────────────────────────────────────────────────────────────
 
-if [[ -z "$POST_TEXT" ]]; then
-  echo "❌ --text is required." >&2
-  exit 1
+# Prefer --content-file (safe for multi-line) over --text
+if [[ -n "$CONTENT_FILE" ]]; then
+  if [[ ! -f "$CONTENT_FILE" ]]; then
+    echo "❌ --content-file not found: $CONTENT_FILE" >&2; exit 1
+  fi
+  POST_TEXT=$(python3 -c "
+import sys
+with open(sys.argv[1]) as f:
+    content = f.read()
+# Extract clean body between --- delimiters, stop at ## Hashtags/## Metadata
+lines = content.split('\n')
+body, in_body, hashtag_line = [], False, ''
+for line in lines:
+    s = line.strip()
+    if s == '---':
+        in_body = not in_body; continue
+    if in_body:
+        if s.startswith('## Hashtags') or s.startswith('## Metadata'): break
+        body.append(line)
+    if s.startswith('#') and not s.startswith('##'):
+        hashtag_line = line
+if hashtag_line and hashtag_line not in body:
+    body.append(hashtag_line)
+print('\n'.join(body).strip())
+" "$CONTENT_FILE")
+elif [[ -z "$POST_TEXT" ]]; then
+  echo "❌ --content-file or --text required." >&2; exit 1
 fi
 
 if [[ "$VISIBILITY" != "PUBLIC" && "$VISIBILITY" != "CONNECTIONS" ]]; then

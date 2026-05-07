@@ -10,5 +10,16 @@
     "w_member_social"
   ],
   "tokenExpiry": "2026-07-02T03:00:20.940024+00:00",
-  "apiEnabled": true
+  "apiEnabled": true,
+  "mdpRequest": {
+    "requestId": "69747",
+    "submittedAt": "2026-05-03",
+    "companyAssociationVerified": true,
+    "advertisingApiRequested": "2026-05-07",
+    "status": "under-review",
+    "reviewWindowDays": "20-25",
+    "expectedBy": "2026-05-28",
+    "followUpCronId": "379ef588-40c8-41ae-9f87-29df99f782f7",
+    "notes": "Helpdesk confirmed review team will handle. 20-25 day window from 2026-05-07."
+  }
 }

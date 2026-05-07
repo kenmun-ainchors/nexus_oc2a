@@ -1,5 +1,5 @@
 {
-  "lastUpdated": "2026-05-07T02:38:56Z",
+  "lastUpdated": "2026-05-07T09:10:12.153Z",
   "history": {
     "2026-04-25": {
       "date": "2026-04-25",
@@ -238,7 +238,7 @@
           "output": 0,
           "cacheRead": 0,
           "cacheWrite": 0,
-          "cost": 0.0,
+          "cost": 0,
           "turns": 3
         },
         "gateway-injected": {
@@ -246,7 +246,7 @@
           "output": 0,
           "cacheRead": 0,
           "cacheWrite": 0,
-          "cost": 0.0,
+          "cost": 0,
           "turns": 2
         }
       }
@@ -327,7 +327,7 @@
           "output": 53,
           "cacheRead": 0,
           "cacheWrite": 0,
-          "cost": 0.0,
+          "cost": 0,
           "turns": 2
         },
         "deepseek-v4-pro:cloud": {
@@ -335,7 +335,7 @@
           "output": 38673,
           "cacheRead": 0,
           "cacheWrite": 0,
-          "cost": 0.0,
+          "cost": 0,
           "turns": 33
         }
       }
@@ -372,7 +372,7 @@
           "output": 20592,
           "cacheRead": 0,
           "cacheWrite": 0,
-          "cost": 0.0,
+          "cost": 0,
           "turns": 38
         },
         "gemma4:e2b": {
@@ -380,7 +380,7 @@
           "output": 52,
           "cacheRead": 0,
           "cacheWrite": 0,
-          "cost": 0.0,
+          "cost": 0,
           "turns": 2
         },
         "kimi-k2.6:cloud": {
@@ -388,7 +388,7 @@
           "output": 4232,
           "cacheRead": 0,
           "cacheWrite": 0,
-          "cost": 0.0,
+          "cost": 0,
           "turns": 17
         },
         "deepseek-v4-flash:cloud": {
@@ -396,7 +396,7 @@
           "output": 39,
           "cacheRead": 0,
           "cacheWrite": 0,
-          "cost": 0.0,
+          "cost": 0,
           "turns": 1
         },
         "gateway-injected": {
@@ -404,7 +404,7 @@
           "output": 0,
           "cacheRead": 0,
           "cacheWrite": 0,
-          "cost": 0.0,
+          "cost": 0,
           "turns": 1
         }
       }
@@ -433,7 +433,7 @@
           "output": 5747,
           "cacheRead": 0,
           "cacheWrite": 0,
-          "cost": 0.0,
+          "cost": 0,
           "turns": 12
         },
         "claude-haiku-4-5": {
@@ -449,7 +449,7 @@
           "output": 52,
           "cacheRead": 0,
           "cacheWrite": 0,
-          "cost": 0.0,
+          "cost": 0,
           "turns": 2
         }
       }
@@ -459,9 +459,11 @@
   "daysTracked": 13,
   "avgDailyCost": 141.6049,
   "apiBalance": {
-    "remainingEstimate": 0,
+    "remainingEstimate": 470.93,
     "spentSinceTopUp": 1840.8631,
-    "remainingNote": "confirmedBalance=None at 1970-01-01; spentAfter=1840.8631"
+    "remainingNote": "confirmedBalance=None at 1970-01-01; spentAfter=1840.8631",
+    "confirmedAt": "2026-05-06T17:31:53Z",
+    "note": "Synced from cost-alert-state.json auto-reload 2026-05-07 03:31 AEST"
   },
   "spendAlerts": {
     "tier1": {
@@ -512,10 +514,11 @@
   },
   "costDataSource": "anthropic_csv_ground_truth",
   "costDataNote": "May 3+4 reconciled from Anthropic CSV 2026-05-05. Pre-May3 from earlier CSV reconciliation.",
-  "confirmedBalance": 470.93,
-  "confirmedAt": "2026-05-06T17:31:53Z",
+  "confirmedBalance": 266.76,
+  "confirmedAt": "2026-05-07T12:51:48.111697+00:00",
   "confirmedBy": "Ken",
   "lastTopUpAt": "2026-05-06T17:31:53Z",
   "lastTopUpAmount": 500,
-  "topUpNote": "Auto-reload trigger fired 2026-05-07 03:31 AEST. $500 reloaded. Balance $470.93."
+  "topUpNote": "Auto-reload trigger fired 2026-05-07 03:31 AEST. $500 reloaded. Balance $470.93.",
+  "confirmedNote": "Manual update 2026-05-07 22:51 AEST"
 }
