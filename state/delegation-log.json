@@ -9942,10 +9942,20 @@
       "status": "pass",
       "latencyMs": 0,
       "notes": "15 checks run, 0 violations. Model compliance clean."
+    },
+    {
+      "ts": "2026-05-07T16:46:30+10:00",
+      "date": "2026-05-07",
+      "tier": "T2",
+      "taskType": "warden-check",
+      "model": "anthropic/claude-haiku-4-5",
+      "status": "pass-with-warning",
+      "latencyMs": 0,
+      "notes": "9 model checks PASS. Governance gates show 2 stale state files (ITIL-3/4, 12min old). Violations file: 0 active (5 superseded, 1 resolved). Script exit=1 due to temp file collision (non-fatal)."
     }
   ],
   "summary": {
-    "total": 994,
+    "total": 995,
     "byTier": {
       "T1": {
         "pass": 0,

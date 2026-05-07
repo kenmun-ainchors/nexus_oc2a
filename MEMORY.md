@@ -139,6 +139,12 @@ Rule: New module names use Star Wars themes. Ken approves. All above final — n
 - TRIGGER-10: Business stream ready → migrate Aria + agents from OC1 to OC2.
 
 ## Recent Milestones (Days 7-13 Summary)
+- Agile Framework v1.0 locked (Day 13, CHG-0222) — Agile L2→L3. Sprint 1 starts.
+- TKT-0086 sequence complete: strategy coherence → governance gaps (20 ACs) → Atlas EA roadmap P1-P5 → backlog replan (95 items) → Agile framework
+- P2 target confirmed: end August 2026. Auralith incorporation hard gate: end May 2026.
+- BYOK policy live. Nexus-first locked globally. 15 CHGs today (CHG-0208 to CHG-0222).
+- canvas embed rule: sub-agents pass full path only, no embed tags — Yoda embeds directly
+- agentToAgent enabled in openclaw.json — cross-agent sessions_send now live
 - Ollama Cloud PoC PASS (TRIGGER-05) with kimi-k2.6, deepseek Tier 2 active (Day 8)
 - Obsidian fully retired (Day 9), Notion Holocron live (5 phases complete Day 9, TKT-0042 closed Day 11)
 - S4 tool scopes applied all agents (Day 11, CHG-0176)
