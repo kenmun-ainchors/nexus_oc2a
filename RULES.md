@@ -4,6 +4,25 @@ _Last updated: 2026-04-26_
 
 ---
 
+## EXEC BINARY PATH RULE (NON-NEGOTIABLE — CHG-0211)
+
+All `exec` calls (crons, sub-agents, scripts) run with **minimal PATH**. `/opt/homebrew/bin` is NOT in PATH by default.
+
+**Rule: always use absolute binary paths for Homebrew tools.**
+
+| Tool | Full path |
+|------|-----------|
+| gog | `/opt/homebrew/bin/gog` |
+| node | `/opt/homebrew/bin/node` |
+| jq | `/opt/homebrew/bin/jq` |
+| brew | `/opt/homebrew/bin/brew` |
+
+Standard system binaries are fine as-is: `/usr/bin/git`, `/usr/bin/python3`, `/bin/bash`, `/usr/bin/curl`, `/usr/bin/wc`.
+
+**Infrastructure fix applied (CHG-0211):** `tools.exec.pathPrepend: ["/opt/homebrew/bin", "/usr/local/bin"]` set in `openclaw.json`. The gateway injects these into PATH for all exec runs. The rule above is the belt-and-suspenders fallback — always use full paths in TOOLS.md examples and cron prompts regardless.
+
+---
+
 ## PRE-RISKY-OP CHECKPOINT (NON-NEGOTIABLE - APPROVED 2026-04-26)
 
 Before triggering ANY operation that could break, restart, or interrupt OpenClaw - including but not limited to:

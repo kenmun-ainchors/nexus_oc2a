@@ -42,6 +42,30 @@ This log captures **every change** Yoda makes to AInchors infrastructure, config
 **Linked:** decisions.md 2026-04-27 entries
 ---
 
+## 2026-05-07 11:16 AEST — [CHG-0212] Exec PATH fix: tools.exec.pathPrepend + non-negotiable full-path rule
+**Type:** config
+**Source:** ken-prompt
+**Trigger:** ken-approved 2026-05-07 11:11 AEST — recurring full path issue
+**What changed:** Two-part fix: (1) INFRA: openclaw.json tools.exec.pathPrepend set to ['/opt/homebrew/bin', '/usr/local/bin'] — gateway now injects these dirs into PATH for all exec runs. (2) RULE: Non-negotiable rule added to RULES.md (EXEC BINARY PATH RULE section), Yoda AGENTS.md, and Aria AGENTS.md — always use absolute paths for Homebrew binaries in exec/cron/scripts regardless of infra fix.
+**Why:** Recurring problem: relative binary names (gog, node, jq) fail silently in sub-agent exec contexts due to minimal PATH. Root cause hit 3 times in one day (CHG-0207 flag fix, CHG-0210 gog path, this). Permanent dual fix: infra guard + non-negotiable rule.
+**Verification:** openclaw.json patched and gateway running. Rule added to RULES.md + both AGENTS.md files. pathPrepend doc confirmed: /opt/homebrew/lib/node_modules/openclaw/docs/tools/exec.md.
+**Rollback:** Remove tools.exec.pathPrepend from openclaw.json. Remove rule sections from RULES.md + AGENTS.md files.
+**Linked:** CHG-0207, CHG-0210
+---
+
+
+## 2026-05-07 11:08 AEST — [CHG-0211] Fix Ahsoka agent config — remove unrecognized keys
+**Type:** config
+**Source:** auto-heal
+**Trigger:** openclaw CLI Invalid config error blocking cron list
+**What changed:** Removed keys: stream, reports_to, status, chg_ref, activated_by, activation_date, pilot_note from Ahsoka agent in openclaw.json
+**Why:** OpenClaw schema rejects unrecognized agent keys — was breaking all CLI commands
+**Verification:** openclaw cron list clean. cron-health-check.sh exit 0.
+**Rollback:** N/A
+**Linked:** none
+---
+
+
 ## 2026-05-07 10:58 AEST — [CHG-0210] Fix: gog full binary path /opt/homebrew/bin/gog in all exec contexts
 **Type:** config
 **Source:** ken-prompt

@@ -120,6 +120,17 @@ Reactions are lightweight social signals. Humans use them constantly — they sa
 
 ## Tools
 
+### ⚠️ Exec Binary Paths (NON-NEGOTIABLE)
+Exec runs with minimal PATH — `/opt/homebrew/bin` is not included by default.
+Always use absolute paths for Homebrew tools in exec calls, cron prompts, and scripts:
+- `gog` → `/opt/homebrew/bin/gog`
+- `node` → `/opt/homebrew/bin/node`
+- `jq` → `/opt/homebrew/bin/jq`
+- `brew` → `/opt/homebrew/bin/brew`
+
+System binaries (`/usr/bin/git`, `/usr/bin/python3`, `/bin/bash`, `/usr/bin/curl`) are fine without full path.
+Full rule + table: `RULES.md` → EXEC BINARY PATH RULE.
+
 Skills provide your tools. When you need one, check its `SKILL.md`. Keep local notes (camera names, SSH details, voice preferences) in `TOOLS.md`.
 
 **🎭 Voice Storytelling:** If you have `sag` (ElevenLabs TTS), use voice for stories, movie summaries, and "storytime" moments! Way more engaging than walls of text. Surprise people with funny voices.
