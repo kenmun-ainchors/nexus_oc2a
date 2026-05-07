@@ -42,6 +42,18 @@ This log captures **every change** Yoda makes to AInchors infrastructure, config
 **Linked:** decisions.md 2026-04-27 entries
 ---
 
+## 2026-05-07 12:03 AEST — [CHG-0213] RCA fix: Aria exec belief — CR-001 resolved, urgent override written to Aria workspace
+**Type:** config
+**Source:** ken-prompt
+**Trigger:** Angie 3rd failed attempt — RCA found 2026-05-07 11:58 AEST
+**What changed:** RCA: Aria never tried exec — assumed blocked from pre-CHG-0196 belief. exec has been in tools.allow since CHG-0196 (May 6 15:05). Aria filed CR-001 and apologised to Angie for days without ever attempting the call. Fix: (1) Written urgent override to workspace-business/state/yoda-urgent-override.json. (2) AGENTS.md urgent banner added. (3) tools.sessions.visibility changed to 'all' in openclaw.json (requires restart to activate for cross-agent sessions_send). Previous fixes CHG-0207/CHG-0210/CHG-0212 were all solving wrong problem — flag syntax and PATH were fine; Aria just never called exec.
+**Why:** 3 failed fix attempts. All previous fixes (flag syntax, PATH, pathPrepend rule) were solving wrong problem. Real issue: Aria's stale belief that exec was blocked.
+**Verification:** Session transcript confirms 0 exec calls in 526-entry Angie session. tools.allow confirmed exec present. State override written.
+**Rollback:** Remove urgent override file. Revert AGENTS.md banner after Aria acknowledges.
+**Linked:** CHG-0196, CHG-0207, CHG-0210, CHG-0212, CR-001
+---
+
+
 ## 2026-05-07 11:16 AEST — [CHG-0212] Exec PATH fix: tools.exec.pathPrepend + non-negotiable full-path rule
 **Type:** config
 **Source:** ken-prompt

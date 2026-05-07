@@ -2,19 +2,19 @@
   "lastChecks": {
     "email": "2026-05-07T23:06:00Z",
     "calendar": "2026-05-07T23:06:00Z",
-    "agentHealth": "2026-05-07T01:10:28.872559Z",
-    "apiBalance": "2026-05-07T01:10:28.872559Z",
-    "taskWatchdog": "2026-05-07T01:10:28.872559Z",
-    "cronHealth": "2026-05-07T01:10:28.872559Z",
+    "agentHealth": "2026-05-07T01:57:00Z",
+    "apiBalance": "2026-05-07T01:57:00Z",
+    "taskWatchdog": "2026-05-07T01:57:00Z",
+    "cronHealth": "2026-05-07T01:57:00Z",
     "memoryMaintenance": "2026-05-06T13:49:30.166021+00:00",
     "weather": null,
     "dailyClose": 1778097322362,
-    "wardenEscalation": "2026-05-07T01:10:28.872559Z",
-    "cronDeadLetter": "2026-05-07T01:10:28.872559Z",
+    "wardenEscalation": "2026-05-07T01:57:00Z",
+    "cronDeadLetter": "2026-05-07T01:57:00Z",
     "ariaContextSync": "2026-05-04T13:00:00Z",
     "standup": "2026-05-06T21:58:26.663467Z",
     "missionControl": "2026-05-05T09:26:00.000000Z"
   },
-  "notes": "May7 11:09 AEST: All checks clean. Balance $470.93 T0. Cron health OK. No stalls, no escalations. Ahsoka P1 parked (discovery done). Allowlist no-changes.",
+  "notes": "May7 11:57 AEST: All clean. Balance $470.93 T0. No escalations. Warden cron failure acknowledged (Ken notified earlier). Ahsoka P1 parked, P2 pending.",
   "gogAccount": "kenmun@ainchors.com"
 }
