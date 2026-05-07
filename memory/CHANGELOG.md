@@ -42,6 +42,18 @@ This log captures **every change** Yoda makes to AInchors infrastructure, config
 **Linked:** decisions.md 2026-04-27 entries
 ---
 
+## 2026-05-07 13:37 AEST — [CHG-0216] RULES.md: remove stale Obsidian references from /commit procedure
+**Type:** rule
+**Source:** ken-prompt
+**Trigger:** TKT-0087 step 1+2 gap analysis — Obsidian stale references
+**What changed:** RULES.md: 4 Obsidian references replaced with Notion Holocron. (1) /commit intent line. (2) /commit step 3 Obsidian sync -> Notion Holocron sync. (3) Git commit step — removed Obsidian vault. (4) Agent cadence line. Added retirement note: Obsidian retired 2026-05-04 CHG-0142.
+**Why:** Step 2 governance gap analysis identified stale Obsidian references in /commit procedure. Obsidian retired May 4. Agents following /commit were attempting Obsidian writes.
+**Verification:** RULES.md updated. grep confirms no remaining stale Obsidian refs in /commit section.
+**Rollback:** Revert RULES.md Obsidian reference changes.
+**Linked:** none
+---
+
+
 ## 2026-05-07 13:10 AEST — [CHG-0215] Decision Capture Rule + /commit Pre-Flight Gate (prevent session context loss)
 **Type:** rule
 **Source:** ken-prompt

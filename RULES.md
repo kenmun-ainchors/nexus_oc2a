@@ -629,7 +629,7 @@ Any **strategic decision, priority outcome, or replanning result** made in-sessi
   - Output files: `reports/[topic]-[YYYY-MM-DD].md` (T1-T3). Minimum 2 independent sources per factual claim (VERACITY standard).
 - `/resume` - cross-channel context PULL (Ken already switched; see /resume section above)
 - `/handover` - explicit channel PUSH (Ken about to switch; see /handover section above)
-- `/commit` - persist all session memory + decisions to Obsidian + git. Not a close - can be run anytime mid-session (see /commit section below)
+- `/commit` - persist all session memory + decisions to Notion Holocron + git. Not a close - can be run anytime mid-session (see /commit section below)
 - `/roster` - list all active agents with role, model, cadence, and current active task. Inline delivery, no sub-agent. See /roster section below.
 - `/finops` - FinOps cost and ROI report. See /finops section below.
 
@@ -860,7 +860,7 @@ Exit 2 = do not publish. Fix all issues and re-run until exit 0.
 
 ## /commit - PERSISTENT MEMORY COMMIT
 
-**Intent:** Write everything held in session memory - decisions, changes, context, state - into Obsidian as the persistent long-term store. Safe to run mid-session or at any natural breakpoint. Does NOT close the session.
+**Intent:** Write everything held in session memory - decisions, changes, context, state - into Notion Holocron + git as the persistent long-term store. Safe to run mid-session or at any natural breakpoint. Does NOT close the session. (Note: Obsidian retired 2026-05-04 — CHG-0142. All writes go to Notion Holocron only.)
 
 Trigger: Ken types **`/commit`** (case-insensitive) on any channel.
 
@@ -875,11 +875,11 @@ This gate exists because `/commit` can only capture what is already decided. Dec
 
 1. **Memory flush** - append all outstanding session events, decisions, and learnings to `memory/YYYY-MM-DD.md`
 2. **Framework audit** - run `zsh scripts/framework-audit.sh`. For any gaps (framework docs not updated): update them now before proceeding.
-3. **Obsidian sync** - write/update relevant Obsidian pages: decisions.md, ResiliencyFramework.md, any spec that changed this session
+3. **Notion Holocron sync** - update relevant Notion Holocron pages: Decisions DB, any spec or framework doc that changed this session. (Obsidian retired 2026-05-04 — no Obsidian writes.)
 4. **MEMORY.md** - update long-term memory with anything that should survive beyond today
 5. **CHANGELOG** - log a CHG entry for any config/infra changes not yet logged (include `--category` and `--framework-docs`)
 6. **Notion** - update any US/ticket statuses changed this session
-7. **Git commit** - `git add -A && git commit` in workspace + Obsidian vault. Message: `commit: [brief summary]`
+7. **Git commit** - `git add -A && git commit` in workspace. Message: `commit: [brief summary]`
 8. **Gateway snapshot** - run `bash scripts/gateway-restore.sh --snapshot` if config changed this session
 9. **PVT** - run `bash scripts/pvt.sh`. Report result.
 10. **Summary** - confirm what was persisted, what's still in session-only memory, what's open

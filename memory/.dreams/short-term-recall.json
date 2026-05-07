@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "updatedAt": "2026-05-07T02:28:32.004Z",
+  "updatedAt": "2026-05-07T03:31:36.873Z",
   "entries": {
     "memory:memory/2026-04-26.md:94:122": {
       "key": "memory:memory/2026-04-26.md:94:122",
@@ -137,20 +137,21 @@
       "endLine": 123,
       "source": "memory",
       "snippet": "- TOM = Target Operating Model (Ken's term for agent team roster, approved 2026-04-26) ## Deferred Items (with reminders) - GitHub CLI auth: reminder 28 Apr - Gmail/gog OAuth: reminder 2 May - Google Cloud OAuth setup walkthrough: reminder 2 May ## Open Risks - Backup on same disk as live data (no offsite yet — Phase 4) - Secrets in plaintext config files (fix before Phase 2 — 1Password CLI) - Social media API approvals not started (Meta + LinkedIn — can take 2-6 weeks) - Angie has no system access (resolve before Phase 3) - Data residency / privacy policy not documented (before first client) - Tailscale not set up (Phase 3 now) ## Key File Locations - Workspace: ~/.openclaw/workspace/ -",
-      "recallCount": 6,
+      "recallCount": 7,
       "dailyCount": 0,
       "groundedCount": 0,
-      "totalScore": 2.4562281757593154,
-      "maxScore": 0.42862191796302795,
+      "totalScore": 2.8932129979133605,
+      "maxScore": 0.4369848221540451,
       "firstRecalledAt": "2026-04-26T22:00:43.034Z",
-      "lastRecalledAt": "2026-05-07T00:54:45.907Z",
+      "lastRecalledAt": "2026-05-07T03:31:36.873Z",
       "queryHashes": [
         "40c172efdae9",
         "d7adbee3a31e",
         "883f7f2743c4",
         "9c49295f2494",
         "9998a3d3c359",
-        "09018af7ebe9"
+        "09018af7ebe9",
+        "08a9b04847ee"
       ],
       "recallDays": [
         "2026-04-27",
@@ -865,6 +866,68 @@
         "eod/blog",
         "tkt-0033",
         "tkt-0034"
+      ]
+    },
+    "memory:memory/2026-05-05.md:60:82": {
+      "key": "memory:memory/2026-05-05.md:60:82",
+      "path": "memory/2026-05-05.md",
+      "startLine": 60,
+      "endLine": 82,
+      "source": "memory",
+      "snippet": "- Angie confirmed. All agent and Nexus module names from Star Wars. Final. No further approval needed at kickoff. - Holocron naming reference page created in Notion. - Full agent roster with Star Wars character full names and roles added to Notion. **Architecture Orchestration — RESTRUCTURED** - Atlas 🏛️ v2.1 = Enterprise Architect (workspace-architect/). Reverted from orchestrator role. - New agent: AI Platform Architect (workspace-platform-arch/). SOUL.md + PLATFORM_ARCH_RULES.md created. Name = Thrawn pending Ken confirmation. Ken confirmed: Thrawn ✅ (2026-05-05). - Yoda = Architecture Orchestrator (routing logic in YODA_RULES.md). - Orchestration routing: Enterprise-level → Atlas | Pla",
+      "recallCount": 1,
+      "dailyCount": 0,
+      "groundedCount": 0,
+      "totalScore": 0.44243535995483396,
+      "maxScore": 0.44243535995483396,
+      "firstRecalledAt": "2026-05-07T03:31:36.873Z",
+      "lastRecalledAt": "2026-05-07T03:31:36.873Z",
+      "queryHashes": [
+        "08a9b04847ee"
+      ],
+      "recallDays": [
+        "2026-05-07"
+      ],
+      "conceptTags": [
+        "v2.1",
+        "workspace-architect",
+        "workspace-platform-arch",
+        "soul.md",
+        "platform-arch-rules.md",
+        "yoda-rules.md",
+        "enterprise-level",
+        "angie"
+      ]
+    },
+    "memory:memory/2026-05-07.md:246:275": {
+      "key": "memory:memory/2026-05-07.md:246:275",
+      "path": "memory/2026-05-07.md",
+      "startLine": 246,
+      "endLine": 275,
+      "source": "memory",
+      "snippet": "- Owns and operates Nexus platform - AInchors = market-facing brand; Auralith = platform company behind it - Feeds Atlas EA, Ahsoka positioning, Holocron structure - TKT-0069 raised --- ## Key Decisions — Morning Session 1. Standup is now two-layer: Telegram flash (1 msg) + canvas HTML + email to kenmun@gmail.com + webchat embed 2. Exec PATH is non-negotiable: full paths always + pathPrepend in openclaw.json 3. Aria calendar failure = exec avoidance belief, not a CLI bug — fixed via urgent override file 4. Governance maturity L0 in standup was a false read — actual L2-L3 (confirmed from frameworks-maturity.json) 5. Kimi message must carry unmissable `[Kimi]` label — confirmed as separate 4",
+      "recallCount": 1,
+      "dailyCount": 0,
+      "groundedCount": 0,
+      "totalScore": 0.43495980501174925,
+      "maxScore": 0.43495980501174925,
+      "firstRecalledAt": "2026-05-07T03:31:36.873Z",
+      "lastRecalledAt": "2026-05-07T03:31:36.873Z",
+      "queryHashes": [
+        "08a9b04847ee"
+      ],
+      "recallDays": [
+        "2026-05-07"
+      ],
+      "conceptTags": [
+        "market-facing",
+        "tkt-0069",
+        "two-layer",
+        "gmail.com",
+        "non-negotiable",
+        "openclaw.json",
+        "l2-l3",
+        "frameworks-maturity.json"
       ]
     }
   }
