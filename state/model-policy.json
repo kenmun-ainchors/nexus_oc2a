@@ -503,6 +503,21 @@
       "intervalMinutes": 15,
       "driftActionRequired": "flag to Yoda immediately"
     },
-    "strategyRef": "/Users/ainchorsangiefpl/.openclaw/workspace/docs/ainchors-guardrails-rules-2026-05.md"
+    "strategyRef": "/Users/ainchorsangiefpl/.openclaw/workspace/docs/ainchors-guardrails-rules-2026-05.md",
+    "w2": {
+      "description": "Warden W2 \u2014 client data tier enforcement",
+      "rule": "Any task tagged with client_id must not use Tier 2/3 models (Ollama Cloud, Claude). Violations flagged immediately to Yoda.",
+      "clientIdField": "metadata.client_id",
+      "blockedTiers": [
+        2,
+        3
+      ],
+      "status": "defined \u2014 enforcement implementation pending (OC2 + Docker per-client isolation)"
+    },
+    "w1_intervalTracking": {
+      "description": "Warden W1 \u2014 interval compliance tracking",
+      "rule": "Every Warden run must log a timestamp to state/warden-interval-log.json. Monthly script calculates missed 15-min intervals. Target: <0.5% missed over 30 days.",
+      "status": "defined \u2014 interval log implementation pending"
+    }
   }
 }

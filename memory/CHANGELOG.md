@@ -42,6 +42,18 @@ This log captures **every change** Yoda makes to AInchors infrastructure, config
 **Linked:** decisions.md 2026-04-27 entries
 ---
 
+## 2026-05-07 14:40 AEST — [CHG-0219] TKT-0087 AC-9 to AC-20: P2/P3 governance ACs — SLA log, Warden W1/W2, guardrail rules
+**Type:** rule
+**Source:** ken-prompt
+**Trigger:** TKT-0087 execution — AC-9 through AC-20
+**What changed:** P2/P3 ACs executed: AC-9 sanctum-sla-log.json schema created. AC-10/11 model-policy.json updated with W1 interval tracking + W2 client data tier enforcement definitions. AC-12 business-roi.json seed created (80/20 tracking). AC-13 Spark confirmed active in Charter. AC-14 Atlas A1 managed tenant timing clarified (5yr for mass MSP). AC-15 R4 NPS tracking added to guardrails. AC-16 R5 use-case capture added. AC-17 Angie network lead distinction added to R2. AC-18 A4 quarterly arch review added. AC-19 C5 SEA market guardrail added. AC-20 L3 training governance trigger added to RULES.md gate section.
+**Why:** TKT-0087 P2/P3 batch execution. All guardrail gaps from TKT-0086 Steps 1+2 gap analysis now addressed in source documents.
+**Verification:** Guardrails doc, RULES.md, state files updated. git commit pending.
+**Rollback:** Revert docs/ainchors-guardrails-rules-2026-05.md, RULES.md governance gate section, state/sanctum-sla-log.json, state/business-roi.json, state/model-policy.json guardrails key.
+**Linked:** none
+---
+
+
 ## 2026-05-07 14:36 AEST — [CHG-0218] TKT-0087 ACs 2/4/5/6/7/8: Charter, Nexus-first, agent roster, R1 fix, P2 critical path
 **Type:** rule
 **Source:** ken-prompt

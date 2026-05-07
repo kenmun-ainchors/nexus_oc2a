@@ -449,6 +449,7 @@ Three governance agents review ALL external-facing work before delivery:
 - Blog posts, marketing materials, public web content
 - Emails, Telegram messages, or any comms sent to anyone outside Ken+Yoda loop
 - Client content, proposals, training materials, social posts
+- **Level 3 (L3) Nexus training engagements** — any L3 training that involves deploying or configuring Nexus for a client environment, even in a training context, requires the same full triad gate as a consulting proposal. (AC-20)
 - Notion pages visible to Angie or external parties
 - SLA reports, ROI reports, any document with financial figures
 - Any content naming a real person (even internal)

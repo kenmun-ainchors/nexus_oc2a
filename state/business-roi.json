@@ -1,0 +1,7 @@
+{
+  "schema": "business-roi-v1",
+  "description": "Monthly business stream metric: training vs consulting pipeline ratio. Alert if consulting exceeds 30% of total activity.",
+  "alertThresholdPct": 30,
+  "lastUpdated": "2026-05-07T04:38:57Z",
+  "months": []
+}

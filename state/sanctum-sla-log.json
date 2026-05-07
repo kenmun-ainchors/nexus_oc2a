@@ -1,0 +1,9 @@
+{
+  "schema": "sanctum-sla-v1",
+  "description": "Sanctum review SLA tracking log. Every Shield/Lex/Sage review writes start + completion timestamps. Yoda produces monthly SLA compliance report on the 28th. Target: <24h for content/marketing, <72h for proposals/contracts.",
+  "slaTargets": {
+    "content": { "maxHours": 24, "type": "training/marketing content" },
+    "proposal": { "maxHours": 72, "type": "proposals and contracts" }
+  },
+  "reviews": []
+}
