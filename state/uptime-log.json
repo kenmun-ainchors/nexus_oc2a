@@ -10561,14 +10561,19 @@
       "ts": "2026-05-07T01:55:23.975658+00:00",
       "status": "ok",
       "issues": []
+    },
+    {
+      "ts": "2026-05-07T02:03:41.962485+00:00",
+      "status": "ok",
+      "issues": []
     }
   ],
   "summary": {
-    "totalChecks": 2103,
-    "upChecks": 2081,
+    "totalChecks": 2104,
+    "upChecks": 2082,
     "downtimeMinutes": 330,
     "uptimePct": 98.954,
-    "lastCheck": "2026-05-07T01:55:23.975658+00:00",
+    "lastCheck": "2026-05-07T02:03:41.962485+00:00",
     "lastStatus": "ok"
   }
 }

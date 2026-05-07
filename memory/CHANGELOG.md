@@ -42,6 +42,18 @@ This log captures **every change** Yoda makes to AInchors infrastructure, config
 **Linked:** decisions.md 2026-04-27 entries
 ---
 
+## 2026-05-07 12:14 AEST — [CHG-0214] agentToAgent enabled — cross-agent sessions_send live, Aria calendar create confirmed working
+**Type:** config
+**Source:** ken-prompt
+**Trigger:** gateway restart 2026-05-07 12:12 AEST
+**What changed:** Added tools.agentToAgent.enabled=true with allow list covering all 9 agents. Gateway restarted (pid 58244). Cross-agent sessions_send now operational. Aria confirmed exec works — both Friday calendar events created (Lynn Huang 11am + CTO Contract 4pm). CR-001 resolved. yoda-urgent-override.json cleanup delegated to Aria.
+**Why:** sessions_send to Aria was blocked by missing agentToAgent config. Required two restarts to get all config live: pathPrepend, sessions.visibility=all, agentToAgent.enabled.
+**Verification:** sessions_send returned status=ok. Aria reply confirmed both events created.
+**Rollback:** Set tools.agentToAgent.enabled=false. Unlikely to need rollback.
+**Linked:** CHG-0213, CR-001
+---
+
+
 ## 2026-05-07 12:03 AEST — [CHG-0213] RCA fix: Aria exec belief — CR-001 resolved, urgent override written to Aria workspace
 **Type:** config
 **Source:** ken-prompt
