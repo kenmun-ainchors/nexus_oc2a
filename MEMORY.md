@@ -21,14 +21,31 @@
 - Supporting: Tailscale mesh, NAS (shared model weights + state). Obsidian RETIRED 2026-05-04. Platform: OpenClaw (final, no replatforming).
 
 ## Agent Architecture
+
+### Governance Tier Model (approved Ken 2026-05-08, TKT-0103)
+- **Tier 0:** Lead Anchor (Yoda only) — owns governance enforcement fleet-wide
+- **Tier 1:** Dual-Principal — two principals (CEO primary + Yoda tech oversight). Agent: Aria
+- **Tier 2:** Yoda-Govern — Yoda owns mandate, agent never acts outside Yoda approval. Agent: Warden
+- **Tier 3:** Yoda-Manage-Passthrough — **default for all new operational agents with clear domains.** Yoda coordinates, Ken/Angie approve outputs. Agents: Spark, Ahsoka, Atlas, Thrawn, Lando, Mon Mothma, Krennic
+- **Tier 4:** Triad Service Agent — reactive gate agents, verdict-returning only, no initiative. Agents: Shield, Lex, Sage
+- **New subagent rule:** Yoda must propose all new agents with reasoning before build. Ken confirms. No exceptions.
+- **Squad Model (future Tier 5+):** When ephemeral dev/delivery squads are needed, a new governance tier will be required. TKT-0107 open. TRIGGER: define before any development squad work begins.
+- **Model3-Policy:** SOPs + domain boundaries required for all Tier 3 agents (AC open — TKT-0105 + TKT-0106)
+- **Framework doc:** docs/Agent_Governance_Framework_v1.md
+
 - **Yoda 🟢** = lead agent (technical stream, oversees all)
-- **Aria 🔵** = Business Lead Agent (OC1 → OC2 at TRIGGER-10). Model: Sonnet. Governance: Shield/Lex/Sage triad.
+- **Aria 🔵** = Business Lead Agent (OC1 → OC2 at TRIGGER-10). Model: Sonnet. Governance: Shield/Lex/Sage triad. **All business stream decisions sit with Angie. Aria follows Angie's pace — no pushing, no chasing. (Ken confirmed 2026-05-08)**
 - **Spark ✨** = Social & Digital Marketing (model: kimi-k2.6:cloud, workspace-social/). Scope: all social (LinkedIn, Instagram, Facebook, X) + digital marketing. Ken approves personal; Angie approves brand content.
   - Crons: e7ebaf61 (Tue+Thu 7:30am AEST) | bef42235 (Wed 12pm AEST) | 30-day review: 316df676 (2026-06-02)
   - State: state/linkedin-queue.json + state/linkedin-content-tracker.json. Governance: content-governance-review.sh.
   - First run: 2026-05-05 07:30 AEST ✅ CHG-0130. TKT-0038.
 - **Atlas 🏛️** (agentId: architect) = Enterprise Architect. TOGAF, P1–P4 roadmap. SOUL.md v2.1 (2,088 chars ✅).
-- **Thrawn** (agentId: platform-arch) = AI Platform Architect, Nexus Core. Agent orchestration, model strategy, S1–S7. SOUL.md v1.0 (2,470 chars ✅). Routing: platform-internal→Thrawn | enterprise→Atlas | cross-cutting→Atlas+Thrawn.
+- **Thrawn** (agentId: platform-arch) = AI Platform Architect, Nexus Core. Agent orchestration, model strategy, S1–S7. SOUL.md v1.0 (2,470 chars ✅).
+- **Atlas vs Thrawn Routing Rule (locked 2026-05-08):**
+  - **Atlas:** Enterprise-facing — TOGAF B/D/A/T, P1–P4 roadmap, client/market/regulatory, integration estate, deployment models, investment framing. Sets constraints Thrawn implements inside.
+  - **Thrawn:** Platform-internal — Nexus agent orchestration, model routing/tiering, governance implementation (Shield/Lex/Sage/Warden), observability, ITSM hooks, session/cron architecture.
+  - **Cross-cutting:** Both — Atlas sets constraints, Thrawn implements inside them.
+  - **Yoda behaviour:** If Ken assigns a task to the wrong agent, Yoda must advise the correct assignment and ask Ken to confirm before proceeding. No silent reassignment.
 - **Lando 🟡** = BPM Agent (agentId: biz-process, workspace-bpm/). Methods: BPM/BPMN, Lean, Six Sigma, TQM. Spec: docs/Business_Process_Specialist_Agent_v1.md. Name confirmed 2026-05-05 (TKT-0072, seq 4/4).
 - **Krennic 🔵** = SRE Agent. Incident response, SLO/error budget, runbooks, post-mortems. Build before TRIGGER-07. TKT-0074. Activation: >2 incidents/wk OR >30% Yoda toil.
 - **Mon Mothma 🌟** = DTCM Agent (agentId: change-mgt, workspace-dtcm/). Methods: ADKAR, Kotter, Prosci. Name confirmed 2026-05-05.
@@ -44,7 +61,7 @@
 - RULES.md files: YODA_RULES.md, ARIA_RULES.md, SAGE_RULES.md, LEX_RULES.md live. Shield: SHIELD_RULE_1.md.
 
 ## Governance Layer — Agents
-- **Shield 🛡️** (security) | **Lex ⚖️** (legal) | **Sage 🧪** (qa) — all Sonnet. (Lex Opus exception removed 2026-04-28.)
+- **Shield 🛡️** (security) | **Lex ⚖️** (legal) | **Sage 🧪** (qa) — **Haiku** (updated 2026-05-08, CHG-0230). Pre-OC2 cost strategy. Will move to Gemma4 local on TRIGGER-03.
 - **Warden 🔍** = Model Compliance Officer. Checks all 6 agents every 15 min. Reports to Yoda. Never acts directly.
   - Script: scripts/model-drift-check.sh (9 checks, exit 0=clean/exit 2=violation). Cron: 83accf7b (15 min, anthropic/claude-haiku-4-5, CHG-0096).
   - State: state/model-drift-state.json, state/model-drift-violations.json. Policy: state/model-policy.json.
@@ -126,7 +143,7 @@ Rule: New module names use Star Wars themes. Ken approves. All above final — n
 - S6: All CHG entries logged. Warden model compliance. Incident log current.
 - S7: Obsidian vault encrypted. NAS encrypted (post-OC2).
 
-## CHG Trigger Rules (TRIGGER-01 to TRIGGER-10)
+## CHG Trigger Rules (TRIGGER-01 to TRIGGER-12)
 - TRIGGER-01: OC2 arrival → 10-step setup (Ollama config, Gemma4 install, Tailscale, OpenClaw config, HA validation).
 - TRIGGER-02: Both OC2 nodes live → HA architecture active, NAS shared state.
 - TRIGGER-03: Gemma4 validated on OC2 → switch governance agents from Haiku to Gemma4:26b local.
@@ -135,14 +152,24 @@ Rule: New module names use Star Wars themes. Ken approves. All above final — n
 - TRIGGER-06: OpenClaw v4.0 ships → P3 gate assessment. CrewAI vs native multi-agent eval for Ken.
 - TRIGGER-07: First P2 client → onboarding checklist execution.
 - TRIGGER-08: Daily API cost >$60 USD → T1 alert; >$80 → T2; >$100 → T3 pause.
+- **Auto-reload:** enabled at <$50 → reloads to $500. Credit alert thresholds recalibrated 2026-05-08 (CHG-0232): T1=$60 (alert once), T2=$55 (pre-reload heads-up), T3=$15 (reload failed, real emergency).
 - TRIGGER-09: Warden model drift detected → Yoda remediates within 1 heartbeat.
 - TRIGGER-10: Business stream ready → migrate Aria + agents from OC1 to OC2.
+- TRIGGER-11: glm-5.1 no-think mode availability (monthly check) → benchmark if available, add to Tier 2 if latency <=20s.
+- TRIGGER-12: Agent allowlist auto-sync (live 2026-05-03) → fires on CI Cycle B decisions or model-policy.json updates. Script: allowlist-sync.sh. CHG-0144.
 
-## Recent Milestones (Days 7-13 Summary)
-- Agile Framework v1.0 locked (Day 13, CHG-0222) — Agile L2→L3. Sprint 1 starts.
-- TKT-0086 sequence complete: strategy coherence → governance gaps (20 ACs) → Atlas EA roadmap P1-P5 → backlog replan (95 items) → Agile framework
+## Recent Milestones (Days 7-14 Summary)
+- Agile Framework v1.0 locked (Day 13, CHG-0222) — Agile L2→L3. Sprint 1 started 2026-05-07.
+- TKT-0086 sequence complete: strategy coherence → governance gaps (20 ACs) → Atlas EA roadmap P1-P5 → backlog replan (95 items) → Agile framework.
 - P2 target confirmed: end August 2026. Auralith incorporation hard gate: end May 2026.
-- BYOK policy live. Nexus-first locked globally. 15 CHGs today (CHG-0208 to CHG-0222).
+- **P1–P4 Phase Definitions (locked 2026-05-08):** P1=internal single-tenant (current) | P2=SaaS individual agents | P3=SaaS company/multi-agents (shared context + data) | P4=Enterprise/FSI consulting. Licensed product scope DROPPED from P3.
+- **P3 REDEFINED (2026-05-08 15:08 AEST):** P3 is NOT a build phase. It is a commercial tier label and feature unlock within P2. Multi-tenant foundation built in P2 from day one (tenant_id, RLS, shared state). P3 tier enabled on demand, only if ROI justified. Phase structure: P1 → P2 (multi-tenant + P3 label as add-on tier) → P4.
+- **BYOK policy live. Nexus-first locked globally. 18+ CHGs logged (CHG-0208 through CHG-0226 as of May 8).**
+- **P2 isolation model: RLS (row-level security) from day one** — confirmed Ken 2026-05-08.
+- **P3 trigger: formal ROI checklist required** before enabling company/multi-agent tier. Ken skeptical — maintenance cost may not justify. Strategic note: P4 enterprise clients may prefer physical/in-house deployment over P3 SaaS — P3 may be skipped entirely in practice.
+- **BYOK policy live. Nexus-first locked globally.**
+- **P2 client model policy (locked CHG-0236):** Default = Gemma4 local only for all client-facing workloads. Client BYOK = opt-in (client brings own Anthropic key, owns data residency responsibility — AInchors not liable). Claude API not used for client data until Anthropic DPA verified.
+- BYOK policy live. Nexus-first locked globally. 18+ CHGs logged (CHG-0208 through CHG-0226 as of May 8).
 - canvas embed rule: sub-agents pass full path only, no embed tags — Yoda embeds directly
 - agentToAgent enabled in openclaw.json — cross-agent sessions_send now live
 - Ollama Cloud PoC PASS (TRIGGER-05) with kimi-k2.6, deepseek Tier 2 active (Day 8)

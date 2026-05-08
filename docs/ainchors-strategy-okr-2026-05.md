@@ -73,9 +73,9 @@ Help SME founders and owners design, adopt, and operate AI-driven businesses thr
 - **KR3:** Ensure Warden checks all agents every 15 minutes with <0.5% missed intervals over a 30-day period.[file:1]
 - **KR4:** Complete OC2-A/B deployment and validate failover/HA patterns in a test scenario before the 12-month mark.[file:1]
 
-### Objective X2 — Align Auralith’s architecture clearly with P2/P3 roadmap.
+### Objective X2 — Align Auralith’s architecture clearly with P2/P4 roadmap. *(Updated CHG-0234: P3 is a commercial tier within P2 — not a separate build phase)*
 
-- **KR1:** Atlas and Yoda produce a P2/P3 architecture roadmap that explicitly ties key platform capabilities (multi-client, tenancy, document generation, ITSM, Sanctum) to these 6–12 month OKRs.[file:1][file:3]
+- **KR1:** Atlas and Yoda produce a P2/P4 architecture roadmap that explicitly ties key platform capabilities (multi-client, multi-tenant foundation from day one, document generation, ITSM, Sanctum) to these 6–12 month OKRs. Note: P3 commercial tier (company/multi-agent) is a feature unlock within P2 — roadmap must reflect multi-tenant foundation as a P2 day-one requirement, not a later phase. Licensed Product scope dropped (CHG-0234).[file:1][file:3]
 - **KR2:** Tag all major architecture Epics with pillar + OKR IDs so no significant work is outside this strategy.
 - **KR3:** Complete at least 2 internal architecture reviews per quarter to check work-in-progress against these OKRs.
 

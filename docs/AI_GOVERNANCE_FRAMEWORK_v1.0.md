@@ -374,7 +374,7 @@ This framework must be reviewed — not just updated if someone notices — when
 
 - A new agent class is deployed
 - A new AI provider is added to the platform
-- Platform phase changes (P1 → P2, P2 → P3)
+- Platform phase changes (P1 → P2, P2 → P4). Note: P3 is a commercial tier label within P2, not a separate build phase (CHG-0234). Enabling the P3 commercial tier (company/multi-agent) within P2 is also a mandatory governance framework review trigger.
 - A material incident occurs that reveals a governance gap
 - Annual review (alongside the Charter)
 - Australian privacy law or regulatory guidance changes materially

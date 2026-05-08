@@ -1,21 +1,24 @@
 {
   "lastChecks": {
-    "email": "2026-05-07T11:15:25.746Z",
-    "calendar": "2026-05-07T11:15:25.746Z",
-    "agentHealth": "2026-05-07T15:28:00.000Z",
-    "apiBalance": "2026-05-07T15:28:00.000Z",
-    "taskWatchdog": "2026-05-07T15:28:00.000Z",
-    "cronHealth": "2026-05-07T15:28:00.000Z",
+    "email": "2026-05-08T07:34:00.000Z",
+    "calendar": "2026-05-08T07:34:00.000Z",
+    "agentHealth": "2026-05-08T08:22:00Z",
+    "apiBalance": "2026-05-08T08:22:00Z",
+    "taskWatchdog": "2026-05-08T08:22:00Z",
+    "wardenEscalation": "2026-05-08T08:22:00Z",
+    "cronDeadLetter": "2026-05-08T08:15:00Z",
+    "ahsokaPilot": "2026-05-08T08:15:00Z",
+    "standby": "2026-05-08T08:15:00Z",
+    "cronHealth": "2026-05-08T08:22:00Z",
+    "allowlistSync": "2026-05-08T08:15:00Z",
     "memoryMaintenance": "2026-05-06T13:49:30.166021+00:00",
     "weather": null,
     "dailyClose": 1778161778.659,
-    "wardenEscalation": "2026-05-07T15:28:00.000Z",
-    "cronDeadLetter": "2026-05-07T15:28:00.000Z",
-    "ahsokaPilot": "2026-05-07T15:28:00.000Z",
     "ariaContextSync": "2026-05-04T13:00:00Z",
     "standup": "2026-05-06T21:58:26.663467Z",
-    "missionControl": "2026-05-05T09:26:00.000000Z"
+    "missionControl": "2026-05-05T09:26:00.000000Z",
+    "diskCheck": "2026-05-08T06:16:13.287Z",
+    "budgetCheck": "2026-05-08T08:18:54.774367Z"
   },
-  "notes": "May 8 2:05 AM AEST: All clear. Balance $266.76 (Tier 0). Cron health clean. Warden resolved (CHG-0225). Ahsoka P1 parked/P2 pending. No new alerts. Quiet hours — standing down.",
-  "gogAccount": "kenmun@ainchors.com"
+  "notes": "May 8 6:18 PM AEST: Budget alert infra agent $14.38 vs $5 cap — Ken alerted. All else clear."
 }

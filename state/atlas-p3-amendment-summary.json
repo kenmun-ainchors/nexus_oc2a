@@ -1,0 +1,35 @@
+{
+  "amendmentFor": "CHG-0234",
+  "finalPhaseStructure": "P1→P2(multi-tenant foundation from day one + P3 commercial tier label as feature unlock)→P4",
+  "completedAt": "2026-05-08T15:09:00+10:00",
+  "docsAmended": [
+    "/Users/ainchorsangiefpl/.openclaw/workspace/docs/DataMemory_P1P4_Roadmap.md",
+    "/Users/ainchorsangiefpl/.openclaw/workspace-architect/Enterprise_Architect_Nexus_Enterprise_Landscape_v1.md",
+    "/Users/ainchorsangiefpl/.openclaw/workspace-architect/Agentic_AI_Architect_Agent_System_Instruction_P1-P4.md",
+    "/Users/ainchorsangiefpl/.openclaw/workspace-architect/AI_Platform_Architect_Nexus_Core_v1.md",
+    "/Users/ainchorsangiefpl/.openclaw/workspace/docs/ainchors-strategy-okr-2026-05.md",
+    "/Users/ainchorsangiefpl/.openclaw/workspace/docs/auralith-it-strategy-2026-05.md",
+    "/Users/ainchorsangiefpl/.openclaw/workspace/docs/AI_GOVERNANCE_FRAMEWORK_v1.0.md"
+  ],
+  "keyP2ArchChanges": [
+    "Multi-tenant foundation is a P2 day-one requirement — not a P2→P3 migration",
+    "tenant_id (NOT NULL, indexed) on ALL Postgres tables from P2 day one",
+    "Row-Level Security (RLS) policies enforced at Postgres level from P2 day one",
+    "agent_shared_state table requires optimistic locking (version column) from P2 day one",
+    "Access control matrix per tenant: agent roles scoped to tenant context from P2 day one",
+    "Company-level auth hooks: org_id field, group membership, SSO/SAML integration points stubbed in P2",
+    "Cross-tenant access architecturally prohibited at schema level from P2 day one",
+    "P3 commercial tier (company/multi-agent) = feature flag and commercial unlock on top of P2 foundation — no separate infra build",
+    "Phase sequence updated: P1→P2→P4 (P3 label survives as commercial tier only)",
+    "Licensed Product scope: DROPPED entirely"
+  ],
+  "p3CommercialTier": "Feature unlock within P2. Enabled on demand, ROI-gated. Delivers: company/multi-agent capabilities, shared context + data across an organisation, org-level auth (SSO/SAML), multi-agent orchestration for a single client org. No separate build deliverables. No separate deployment phase.",
+  "thrawnActionsRequired": false,
+  "thrawnActions": [],
+  "openQuestionsForKen": [
+    "P2 multi-tenancy isolation model: shared schema + RLS from day one, or schema-per-tenant for early P2 (<=20 tenants) then migrate? Decision 6 in DataMemory doc updated to recommend RLS from day one but Ken should confirm.",
+    "P3 commercial tier ROI trigger: what is the threshold criteria for enabling the company/multi-agent feature flag for a client? Should this be documented as a formal ROI checklist?",
+    "Q9 in DataMemory doc resolved per CHG-0234 — no further input needed on that question."
+  ],
+  "amendmentNotes": "All 7 documents amended with CHG-0234 phase structure. Approach: prominent amendment banners added at top of each doc, Phase Reference tables updated, P3 rows/references relabelled as commercial tier within P2, Decision 6 (multi-tenancy) updated to reflect day-one requirement, roadmap sections updated, governance framework review trigger updated. No tables dropped — P3 column relabelled as 'P3 Commercial Tier (within P2)' for traceability."
+}

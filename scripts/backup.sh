@@ -59,6 +59,28 @@ with open(dst, 'w') as f:
 PYEOF
 log "Config backup: openclaw-$TIMESTAMP.json (auth fields scrubbed)"
 
+# 5b. iCloud offsite backup (TKT-0093 — 3-2-1+1 cloud copy)
+ICLOUD_BACKUP="$HOME/Library/Mobile Documents/com~apple~CloudDocs/AInchors-Backups"
+ICLOUD_MAX=7  # Keep 7 copies in iCloud (storage cost)
+
+if [[ -d "$HOME/Library/Mobile Documents/com~apple~CloudDocs" ]]; then
+  mkdir -p "$ICLOUD_BACKUP"
+  ICLOUD_DEST="$ICLOUD_BACKUP/$(basename $WORKSPACE_SNAP)"
+  cp "$WORKSPACE_SNAP" "$ICLOUD_DEST" 2>> "$LOG" && log "iCloud backup: $(basename $WORKSPACE_SNAP) copied" || log "iCloud backup: FAILED to copy"
+  # Prune iCloud copies (keep last ICLOUD_MAX)
+  ICLOUD_COUNT=$(ls "$ICLOUD_BACKUP"/*.tar.gz 2>/dev/null | wc -l | tr -d ' ')
+  if (( ICLOUD_COUNT > ICLOUD_MAX )); then
+    ICLOUD_EXCESS=$((ICLOUD_COUNT - ICLOUD_MAX))
+    ls -t "$ICLOUD_BACKUP"/*.tar.gz 2>/dev/null | tail -$ICLOUD_EXCESS | xargs rm -f
+    log "iCloud pruned $ICLOUD_EXCESS old copies (keeping $ICLOUD_MAX)"
+  fi
+  CLOUD_BACKUP_ENABLED=true
+else
+  # TODO: iCloud not accessible — set up alternative cloud sync (rclone, S3, etc.)
+  log "iCloud backup: SKIPPED — iCloud Drive not found at ~/Library/Mobile Documents/com~apple~CloudDocs"
+  CLOUD_BACKUP_ENABLED=false
+fi
+
 # 6. Prune old backups (keep last MAX_BACKUPS)
 for dir in "$BACKUP_ROOT/workspace" "$BACKUP_ROOT/config"; do
   COUNT=$(ls "$dir" | wc -l | tr -d ' ')
@@ -72,24 +94,27 @@ done
 log "--- Backup complete: $TIMESTAMP ---"
 echo ""
 
-# 7. Write backup state file (for heartbeat + auto-heal checks)
+# 7. Write backup state file (TKT-0093 format — for heartbeat + auto-heal checks)
 STATE_FILE="$HOME/.openclaw/workspace/state/backup-state.json"
+WS_SNAP_BASENAME=$(basename "$WORKSPACE_SNAP")
+CONFIG_SNAP_BASENAME=$(basename "$BACKUP_ROOT/config/openclaw-$TIMESTAMP.json")
+BACKUP_COUNT=$(ls "$BACKUP_ROOT/workspace"/*.tar.gz 2>/dev/null | wc -l | tr -d ' ')
+SIZE_BYTES=$(stat -f%z "$WORKSPACE_SNAP" 2>/dev/null || echo 0)
+
 python3 -c "
-import json, os, time
-state_file = '$STATE_FILE'
-ws_snap = '$WORKSPACE_SNAP'
-try:
-    size = os.path.getsize(ws_snap)
-except:
-    size = 0
+import json, os
 state = {
-    'lastRunAt': '$(date -u +%Y-%m-%dT%H:%M:%SZ)',
-    'lastSuccess': True,
-    'workspaceSnapshot': os.path.basename(ws_snap),
-    'snapshotSizeBytes': size,
-    'backupRoot': '$BACKUP_ROOT'
+    'lastBackup': '$(date -u +%Y-%m-%dT%H:%M:%SZ)',
+    'status': 'ok',
+    'location': '$BACKUP_ROOT',
+    'lastWorkspaceSnap': '$WS_SNAP_BASENAME',
+    'lastConfigSnap': '$CONFIG_SNAP_BASENAME',
+    'nasConnected': False,
+    'cloudBackupEnabled': ${CLOUD_BACKUP_ENABLED:-false},
+    'sizeBytes': $SIZE_BYTES,
+    'backupCount': $BACKUP_COUNT
 }
-with open(state_file, 'w') as f:
+with open('$STATE_FILE', 'w') as f:
     json.dump(state, f, indent=2)
 "
 log "State file written: $STATE_FILE"

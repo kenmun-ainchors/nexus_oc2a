@@ -1,9 +1,9 @@
 {
   "schema_version": "1.0",
   "description": "Critical configurations that MUST NOT drift. Auto-heal check #12 validates each one nightly. Drift = needs-Ken US filed immediately. Update this baseline ONLY through explicit Ken-approved decision logged in decisions.md.",
-  "lastUpdated": "2026-04-29T00:45:00+10:00",
+  "lastUpdated": "2026-05-08T12:26:00+10:00",
   "lastApprovedBy": "Ken",
-  "lastApprovalContext": "CHG-0075 TKT-0022: Fix Aria fallback chain. config-003 updated to Haiku-only. config-009 updated to check Opus absence.",
+  "lastApprovalContext": "CHG-0228: Shield/Lex/Sage baseline updated from Sonnet to Haiku. Pre-OC2 cost strategy — governance agents run Haiku. Ken approved 2026-05-08 12:26 AEST.",
   "checks": [
     {
       "id": "config-001",
@@ -97,33 +97,33 @@
     },
     {
       "id": "config-010",
-      "name": "Shield (security agent) model is Sonnet",
+      "name": "Shield (security agent) model is Haiku",
       "severity": "critical",
       "file": "/Users/ainchorsangiefpl/.openclaw/openclaw.json",
       "jq_query": ".agents.list[] | select(.id==\"security\") | .model",
-      "expected_value": "anthropic/claude-sonnet-4-6",
-      "rationale": "Governance agents run Sonnet. No Opus (cost), no Gemma4 (quality risk). TKT-0013.",
-      "fix_command": "edit openclaw.json: agents.list[id=security].model = anthropic/claude-sonnet-4-6"
+      "expected_value": "anthropic/claude-haiku-4-5",
+      "rationale": "Pre-OC2 cost strategy: governance agents run Haiku. Ken approved 2026-05-08. Will move to Gemma4 local post-OC2 (TRIGGER-03).",
+      "fix_command": "edit openclaw.json: agents.list[id=security].model = anthropic/claude-haiku-4-5"
     },
     {
       "id": "config-011",
-      "name": "Lex (legal agent) model is Sonnet",
+      "name": "Lex (legal agent) model is Haiku",
       "severity": "critical",
       "file": "/Users/ainchorsangiefpl/.openclaw/openclaw.json",
       "jq_query": ".agents.list[] | select(.id==\"legal\") | .model",
-      "expected_value": "anthropic/claude-sonnet-4-6",
-      "rationale": "Ken confirmed Sonnet sufficient 2026-04-28. Opus exception removed.",
-      "fix_command": "edit openclaw.json: agents.list[id=legal].model = anthropic/claude-sonnet-4-6"
+      "expected_value": "anthropic/claude-haiku-4-5",
+      "rationale": "Pre-OC2 cost strategy: governance agents run Haiku. Ken approved 2026-05-08. Will move to Gemma4 local post-OC2 (TRIGGER-03).",
+      "fix_command": "edit openclaw.json: agents.list[id=legal].model = anthropic/claude-haiku-4-5"
     },
     {
       "id": "config-012",
-      "name": "Sage (qa agent) model is Sonnet",
+      "name": "Sage (qa agent) model is Haiku",
       "severity": "critical",
       "file": "/Users/ainchorsangiefpl/.openclaw/openclaw.json",
       "jq_query": ".agents.list[] | select(.id==\"qa\") | .model",
-      "expected_value": "anthropic/claude-sonnet-4-6",
-      "rationale": "Governance agents run Sonnet. TKT-0013.",
-      "fix_command": "edit openclaw.json: agents.list[id=qa].model = anthropic/claude-sonnet-4-6"
+      "expected_value": "anthropic/claude-haiku-4-5",
+      "rationale": "Pre-OC2 cost strategy: governance agents run Haiku. Ken approved 2026-05-08. Will move to Gemma4 local post-OC2 (TRIGGER-03).",
+      "fix_command": "edit openclaw.json: agents.list[id=qa].model = anthropic/claude-haiku-4-5"
     },
     {
       "id": "config-013",

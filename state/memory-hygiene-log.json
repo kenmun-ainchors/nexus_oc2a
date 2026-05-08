@@ -6,5 +6,9 @@
   {
     "date": "2026-05-07T07:45:00+10:00",
     "changes": "5 minor edits: (1) Fixed Obsidian retirement date precision (phases 1-5 complete 2026-05-04, not May 5). (2) Updated Open Items: LinkedIn expanded to IG/LI/FB/YT (CHG-0160), TKT-0068 reference added. (3) Cleaned Active Backlog: removed stale US19/US39 references, added Tier 2B trial note. (4) Removed stale Blog Post Ideas section (April 30). (5) Condensed Session History (Days 7-11) to Recent Milestones summary (Days 7-13, more concise). MEMORY.md: 12257 → 11732 chars. No fact mismatches found."
+  },
+  {
+    "date": "2026-05-08T07:45:00+10:00",
+    "changes": "2 items updated: (1) CHG Trigger Rules section: TRIGGER-01 to TRIGGER-10 → TRIGGER-01 to TRIGGER-12. Added TRIGGER-11 (glm-5.1 no-think monthly check, added 2026-05-02) and TRIGGER-12 (allowlist auto-sync, live 2026-05-03, CHG-0144). (2) Recent Milestones updated: Days 7-13 → Days 7-14 summary, CHG range extended from CHG-0208-0222 to CHG-0208-0226 (as of May 8 07:32 AEST). All cross-references validated against state files: tickets.json (sequence 94), cost-state.json (balance $266.76), akb-migration-state.json (phases 1-5 complete), chg-triggers.json (12 triggers live). No fact mismatches. MEMORY.md: clean."
   }
 ]

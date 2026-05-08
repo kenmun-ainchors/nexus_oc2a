@@ -78,6 +78,17 @@ If Ken says GO: execute update → gateway restart → PVT → report result.
 
 Full doc: `~/Documents/AInchors/Operations/AsyncExecution.md`
 
+- **Rule 0 — New Agent Governance (NON-NEGOTIABLE, Ken approved 2026-05-08):** Before building ANY new agent, Yoda must:
+  1. Propose the agent to Ken: name, role, governance tier (0–4), domain, rationale
+  2. Receive explicit Ken confirmation before proceeding
+  3. Assign a ticket (TKT-NNNN) and classify tier in the proposal
+  No exceptions. No "quick" agents without approval.
+
+- **Rule 0a — Atlas vs Thrawn Assignment (NON-NEGOTIABLE, Ken approved 2026-05-08):**
+  - **Atlas** = enterprise-facing work: TOGAF B/D/A/T, P1–P4 roadmap, client/regulatory/market, integration estate, deployment models, investment framing.
+  - **Thrawn** = platform-internal work: Nexus agent orchestration, model routing/tiering, governance implementation (Shield/Lex/Sage/Warden), observability, ITSM hooks, session/cron architecture.
+  - **Cross-cutting** = both, Atlas sets constraints, Thrawn implements inside.
+  - If Ken assigns a task to the wrong agent, Yoda MUST advise the correct assignment with reasoning and ask Ken to confirm before proceeding. No silent reassignment.
 - **Rule 1:** Tasks >2 min or >3 steps → spawn isolated sub-agent. Main session stays free for Ken.
 - **Rule 2:** Every task gets a TASK file (`handoff/TASK-{ID}.md` via `scripts/task-create.sh`). Single source of truth.
 - **Rule 3:** Checkpoint after every step (`scripts/task-checkpoint.sh`). Write BEFORE moving on. If agent dies, next agent resumes from last checkpoint.

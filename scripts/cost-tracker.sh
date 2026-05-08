@@ -293,3 +293,72 @@ for stream, d in sorted(by_stream.items(), key=lambda x: -x[1]["cost"]):
 for model, d in sorted(by_model.items(), key=lambda x: -x[1]["cost"]):
     print(f"  {model}: {d['turns']} turns | \${d['cost']:.4f}")
 PYEOF
+# ---------------------------------------------------------------------------
+# estimate_workflow_cost WORKFLOW_NAME
+# TKT-0092: Estimates p50/p90 cost for a named workflow and compares to cap.
+# Reads last 7 days of cost-state.json history; uses daily avg as proxy until
+# per-workflow session tagging is implemented.
+# ---------------------------------------------------------------------------
+estimate_workflow_cost() {
+  local workflow_name="${1:-}"
+  if [[ -z "$workflow_name" ]]; then
+    echo "Usage: estimate_workflow_cost WORKFLOW_NAME"
+    return 1
+  fi
+
+  local budget_file="$HOME/.openclaw/workspace/state/agent-budgets.json"
+  local JQ_BIN="/opt/homebrew/bin/jq"
+
+  if [[ ! -f "$budget_file" ]]; then
+    echo "ERROR: agent-budgets.json not found — run TKT-0092 setup first"
+    return 1
+  fi
+
+  local cap
+  cap=$("$JQ_BIN" -r --arg w "$workflow_name" '.workflows[$w].perRunCapUsd // empty' "$budget_file" 2>/dev/null)
+  if [[ -z "$cap" ]]; then
+    echo "ERROR: Workflow '$workflow_name' not in agent-budgets.json"
+    return 1
+  fi
+
+  local STATE_FILE_LOC="$HOME/.openclaw/workspace/state/cost-state.json"
+  python3 << ESTIMATOR_EOF
+import json, os, statistics
+from datetime import datetime, timedelta
+
+state_file = os.path.expanduser("$HOME/.openclaw/workspace/state/cost-state.json")
+budget_file = os.path.expanduser("$HOME/.openclaw/workspace/state/agent-budgets.json")
+workflow = "$workflow_name"
+
+with open(state_file) as f:
+    state = json.load(f)
+
+with open(budget_file) as f:
+    budgets = json.load(f)
+
+cap = budgets.get('workflows', {}).get(workflow, {}).get('perRunCapUsd', 0)
+
+# Last 7 days of total daily costs as proxy (no per-workflow data yet)
+today = datetime.utcnow().date()
+daily_costs = []
+for i in range(1, 8):
+    day = (today - timedelta(days=i)).isoformat()
+    c = state.get('history', {}).get(day, {}).get('totalCost')
+    if c is not None:
+        daily_costs.append(c)
+
+if len(daily_costs) >= 2:
+    p50 = statistics.median(daily_costs)
+    p90 = sorted(daily_costs)[max(0, int(len(daily_costs)*0.9)-1)] if len(daily_costs) >= 5 else max(daily_costs)
+    status = "OK" if p90 <= float(cap) * 50 else "WARN_HIGH_PLATFORM_COST"
+    print(f"WORKFLOW {workflow}: p50=\${p50:.2f}/day p90=\${p90:.2f}/day cap=\${float(cap):.2f}/run STATUS={status}")
+    print(f"Note: Platform-level daily costs shown — per-workflow isolation pending session tagging (US future).")
+else:
+    print(f"WORKFLOW {workflow}: p50=N/A p90=N/A cap=\${float(cap):.2f}/run STATUS=INSUFFICIENT_DATA")
+ESTIMATOR_EOF
+}
+
+# If called with --estimate-workflow flag, run estimator
+if [[ "${1:-}" == "--estimate-workflow" && -n "${2:-}" ]]; then
+  estimate_workflow_cost "$2"
+fi

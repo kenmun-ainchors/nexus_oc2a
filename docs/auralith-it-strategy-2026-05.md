@@ -168,7 +168,7 @@ The Mac Mini M4 Pro with 48GB is the correct hardware choice for this purpose: i
 
 ***
 
-### Quarter 4 (November 2026 – January 2027): Platform Consolidation & P3 Readiness
+### Quarter 4 (November 2026 – January 2027): Platform Consolidation & P4 Readiness *(CHG-0234: "P3 Readiness" renamed — P3 is a commercial tier within P2, not a separate phase)*
 
 **Priority: ITSM client-facing, Holonet, security hardening review, onboarding playbook**
 
@@ -195,7 +195,7 @@ The Mac Mini M4 Pro with 48GB is the correct hardware choice for this purpose: i
 - Holonet v0.1 connecting at least 1 client system (e.g. CRM or Google Workspace) to a live agent workflow.
 - Security onboarding checklist approved by Lex and Shield.
 - Full client onboarding playbook in Holocron.
-- P3 readiness review: platform capable of supporting 5+ concurrent SME clients.
+- P2 scale readiness review: platform capable of supporting 5+ concurrent SME clients. Assess whether P3 commercial tier (company/multi-agent) has been triggered by any client — if yes, validate ROI case before enabling feature flag (CHG-0234).
 
 ***
 
@@ -206,7 +206,7 @@ The Mac Mini M4 Pro with 48GB is the correct hardware choice for this purpose: i
 | Q1 (May–Jul 2026) | Foundation & Hardening | OC1 hardened, FinOps controls, Ahsoka live, NAS encrypted, backup 3-2-1+1, doc generation |
 | Q2 (Jul–Aug 2026) | HIVE & Multi-Tenancy | OC2-A/B deployed, Tier 1 live, Docker per-client isolation, Aria migrated, failover validated |
 | Q3 (Sep–Oct 2026) | Client Enablement | Citadel v1, Beacon, Datapad, Holocron API for Ahsoka |
-| Q4 (Nov 2026–Jan 2027) | Consolidation & P3 Ready | ITSM client-facing, Holonet v0.1, security audit, onboarding playbook |
+| Q4 (Nov 2026–Jan 2027) | Consolidation & P4 Ready | ITSM client-facing, Holonet v0.1, security audit, onboarding playbook. P3 commercial tier assessed if triggered by client demand (CHG-0234). |
 
 ***
 
@@ -215,7 +215,7 @@ The Mac Mini M4 Pro with 48GB is the correct hardware choice for this purpose: i
 ### Year 1 (P1 → P2): Internal Platform → First Client Deployments
 *As detailed above.* The goal is a production-grade, governance-first, multi-tenant-capable Nexus managing AInchors operations and 2–5 SME Jumpstart clients by end of Year 1.
 
-### Year 2 (P2 → P3): Managed Platform at Scale
+### Year 2 (P2 at Scale — P3 commercial tier unlocks as needed): Managed Platform at Scale *(CHG-0234: P3 is not a separate transition — it is a feature unlock within P2)*
 
 **Strategic intent:** Nexus evolves from a validated pilot platform to a systemised managed AI operations platform for AInchors' growing SME client base.
 
@@ -229,7 +229,7 @@ The Mac Mini M4 Pro with 48GB is the correct hardware choice for this purpose: i
 
 Multi-agent architectures at production scale in 2026 demonstrate up to 80% reduction in manual processing and 99.9% deterministic output rates through modular manager-worker patterns. Nexus' existing architecture (Yoda as orchestrator, specialist agents as workers) is already aligned to this pattern and should be formalised as the canonical Nexus architecture blueprint.[^10]
 
-### Year 3 (P3 → P4 Threshold): Platform Readiness for Enterprise Consideration
+### Year 3 (P2 mature → P4 threshold): Platform Readiness for Enterprise Consideration *(CHG-0234: P3 was a separate phase — now commercial tier within P2. Year 3 trajectory is P2 mature → P4.)*
 
 **Strategic intent:** Nexus is a mature managed platform with a strong SME portfolio and early evidence of enterprise viability, primarily for regulated sectors (financial services, legal, government) where data sovereignty and governance-by-design are mandatory requirements.[^24][^25]
 
@@ -259,13 +259,13 @@ The 2026 industry trend is clear: multi-agent systems dominate production AI, an
 | Decision | Rationale | Review Trigger |
 |---|---|---|
 | OpenClaw as agent framework (final) | Native multi-agent, self-hosted, extensible, community-aligned[^10][^13] | TRIGGER-06: OpenClaw v4.0 ships |
-| HIVE: Mac Mini M4 Pro 48GB × 2 for OC2 | Best price/performance for local Gemma4:26b inference; low-power, always-on[^1][^20][^21] | OC3 consideration at P3/P4 |
+| HIVE: Mac Mini M4 Pro 48GB × 2 for OC2 | Best price/performance for local Gemma4:26b inference; low-power, always-on[^1][^20][^21] | OC3 consideration at P4 (CHG-0234: P3 is commercial tier, not build phase) |
 | Docker for multi-client tenant isolation | Filesystem, process, network, and credential isolation per client[^22][^16] | Review if OpenClaw native multi-tenancy matures[^15] |
 | Tailscale mesh for remote access | Zero-trust, loopback-binding-only approach for S2 compliance | Annual security review |
 | 4-tier model strategy | FinOps + data sovereignty enforcement[^12] | Monthly model strategy review (28th) |
 | Notion (Holocron) as SSOT | API-first, Angie-accessible, collaborative | If Notion API limitations emerge |
 | Anthropic Claude Sonnet 4.6 as Tier 3 | Best in class for complex reasoning, Ahsoka proposals, governance | Quarterly model CI review (Cycle A/B) |
-| TOGAF ADM as EA framework (Atlas) | Industry standard for structured AI transformation architecture[^8][^9][^11] | Atlas to assess fit at P3 for ISO 42001 alignment |
+| TOGAF ADM as EA framework (Atlas) | Industry standard for structured AI transformation architecture[^8][^9][^11] | Atlas to assess fit at P4 for ISO 42001 alignment (CHG-0234: P3 = commercial tier, review trigger updated to P4) |
 
 ***
 

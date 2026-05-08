@@ -42,6 +42,150 @@ This log captures **every change** Yoda makes to AInchors infrastructure, config
 **Linked:** decisions.md 2026-04-27 entries
 ---
 
+## 2026-05-08 18:17 AEST — [CHG-0237] TKT-0092: FinOps per-agent budget limits + workflow cost caps
+**Type:** script
+**Source:** ken-prompt
+**Trigger:** Ken approved Sprint 1 critical path 2026-05-08
+**What changed:** Created state/agent-budgets.json (per-agent daily budgets + workflow caps), scripts/budget-check.sh (per-agent spend vs budget check with --report/--agent/--workflow modes), added estimate_workflow_cost() to cost-tracker.sh, added Budget Check section to HEARTBEAT.md, registered daily 7:55AM cron (ID: 3ea986bf) for budget report + Telegram alert on exceeded. First run: infra agent .38 vs  cap (287%) — budget needs calibration upward. Platform at .64/ (7.8% OK).
+**Why:** R3 guardrail live risk. No client work without cost controls. TKT-0092 Sprint 1 critical path.
+**Verification:** budget-check.sh --report exit=2 (infra exceeded at 287.6%); platform OK at 7.8%; all other agents OK; cron 3ea986bf registered at 07:55 AEST daily
+**Rollback:** N/A
+**Linked:** none
+---
+
+
+## 2026-05-08 18:04 AEST — [CHG-0236] TKT-0046 closed — P2 client model policy + P3 ROI gate confirmed
+**Type:** rule
+**Source:** ken-prompt
+**Trigger:** Ken decisions on TKT-0046 enterprise landscape open decisions 2026-05-08 18:04 AEST
+**What changed:** Decision H: P2 client workloads = Gemma4 local only (default). Client BYOK = opt-in, client owns Anthropic data residency responsibility. Decision G: P3 ROI checklist = mandatory gate before enabling company/multi-agent tier per client. TKT-0046 resolved.
+**Why:** Protects AInchors from data residency liability before Anthropic DPA confirmed. BYOK shifts responsibility cleanly to the client. P3 gate prevents over-building uncommercial features.
+**Verification:** TKT-0046 status=resolved. MEMORY.md to be updated.
+**Rollback:** N/A
+**Linked:** none
+---
+
+
+## 2026-05-08 15:19 AEST — [CHG-0235] TKT-0104 closed — all Data+Memory decisions locked
+**Type:** doc
+**Source:** ken-prompt
+**Trigger:** Ken final answers on remaining TKT-0104 open questions 2026-05-08 15:19 AEST
+**What changed:** P2 isolation=RLS from day one (confirmed). P3 trigger=formal ROI checklist required before enabling company/multi-agent tier. Strategic note added: P4 enterprise may prefer physical/in-house deployment — P3 commercial tier may be skipped entirely. TKT-0104 resolved. TKT-0046 queued as next Atlas task (enterprise landscape P2-P4).
+**Why:** Closes all architecture decisions on Data+Memory. P3 skepticism noted — ROI gate protects against over-engineering. P4 physical deployment possibility keeps old P3 intent alive at enterprise tier.
+**Verification:** TKT-0104 status=resolved. MEMORY.md updated. TKT-0046 queued.
+**Rollback:** N/A
+**Linked:** none
+---
+
+
+## 2026-05-08 15:01 AEST — [CHG-0234] P1-P4 Phase Definitions Redefined + TKT-0104 Decisions Locked
+**Type:** doc
+**Source:** ken-prompt
+**Trigger:** Ken decisions on TKT-0104 Data+Memory Architecture 2026-05-08 15:00 AEST
+**What changed:** Phase definitions updated: P2=SaaS individual agents, P3=SaaS company/multi-agents (shared context+data), P4=Enterprise/FSI. Licensed product scope DROPPED from P3. Atlas EA doc updated. MEMORY.md updated. TKT-0104 decisions: (1) Anthropic DPA deferred to P2 gate, (2) nomic-embed-text 768-dim confirmed, (3) P3 redefined.
+**Why:** P3 scope change from licensed product to SaaS multi-agent materially changes architecture profile. Embedded in EA framework before further Atlas/Thrawn work proceeds.
+**Verification:** Enterprise_Architect_Nexus_Enterprise_Landscape_v1.md updated. MEMORY.md locked. TKT-0104 notes updated.
+**Rollback:** N/A
+**Linked:** none
+---
+
+
+## 2026-05-08 14:23 AEST — [CHG-0233] Agent Governance Framework v1.0 — 5-Tier Model Approved
+**Type:** rule
+**Source:** ken-prompt
+**Trigger:** Ken approved TKT-0103 Atlas findings and 7 decisions 2026-05-08 14:20 AEST
+**What changed:** 5-tier model approved. Aria=T1, Warden=T2, Spark/Ahsoka/Atlas/Thrawn/Lando/Mon Mothma/Krennic=T3, Shield/Lex/Sage=T5. Ahsoka added. T3=default for new agents. Rule 0 added to RULES.md (propose+confirm before any new agent). TKT-0105 + TKT-0106 raised. Framework: docs/Agent_Governance_Framework_v1.md. MEMORY.md + RULES.md updated.
+**Why:** Governance gaps across 7 of 13 agents. Formalised 5-tier model as policy for all future builds.
+**Verification:** Framework doc status=APPROVED. Rule 0 in RULES.md. Tier model in MEMORY.md. TKT-0105 + TKT-0106 open.
+**Rollback:** N/A
+**Linked:** none
+---
+
+
+## 2026-05-08 13:41 AEST — [CHG-0232] Credit alert thresholds recalibrated + Aria pace policy locked
+**Type:** config
+**Source:** ken-prompt
+**Trigger:** Ken confirmed auto-reload enabled (<$50 → $500). Confirmed all business stream decisions sit with Angie.
+**What changed:** cost-alert-state.json: T1 $80→$60 (alert once, reload imminent), T2 $40→$55 (pre-reload heads-up), T3 stays $15 (reload failed). HEARTBEAT.md updated. MEMORY.md updated: auto-reload policy + Aria pace rule.
+**Why:** Auto-reload at <$50 makes $80 T1 noisy and $40 T2 irrelevant. Recalibrated to reflect real risk profile. Aria pace rule: no chasing Angie, follow her lead.
+**Verification:** cost-alert-state.json and HEARTBEAT.md updated. MEMORY.md locked with both rules.
+**Rollback:** N/A
+**Linked:** none
+---
+
+
+## 2026-05-08 12:31 AEST — [CHG-0231] incomplete_turns remediation — 4-fix bundle
+**Type:** config
+**Source:** ken-prompt
+**Trigger:** Ken approved all 4 fixes after incomplete_turns briefing (17 in 24h)
+**What changed:** 1) Haiku fallback added to 7 Sonnet crons: Blog, AKB Holocron, Aria Daily, Standup, Monthly Review, Weekly ROI, Quarterly Review. 2) timeoutSeconds added to AKB Holocron (600s) + Monthly Review (300s). 3) Shield/Lex/Sage prompts updated: 'silent' replaced with mandatory one-line output (SHIELD/LEX/SAGE: clear) to fix payloads=0 incomplete turns. 4) Warden rescheduled from every-15min to cron '7 */1 * * *' (7-past-each-hour) to avoid top-of-hour collision with Fallback Chain validator.
+**Why:** 17 incomplete_turns in 24h. Root causes: LLM timeout with no fallback, event-loop concurrency, empty model responses (payloads=0), and Warden/Fallback Chain overlap.
+**Verification:** All 11 cron updates confirmed via cron tool. Warden next run shifted to 12:37 AEST (was :08). Shield/Lex/Sage prompts enforce single-line output.
+**Rollback:** N/A
+**Linked:** none
+---
+
+
+## 2026-05-08 12:26 AEST — [CHG-0230] Baseline update — Shield/Lex/Sage model Sonnet → Haiku
+**Type:** config
+**Source:** ken-prompt
+**Trigger:** Auto-heal flagged config-010/011/012 drift. Ken approved baseline update.
+**What changed:** critical-config-baseline.json: config-010 (Shield), config-011 (Lex), config-012 (Sage) expected_value updated from anthropic/claude-sonnet-4-6 to anthropic/claude-haiku-4-5. Rationale updated: pre-OC2 cost strategy. TRIGGER-03 gate retained.
+**Why:** Pre-OC2 cost strategy: governance agents run Haiku. Will migrate to Gemma4 local post-OC2 on TRIGGER-03.
+**Verification:** Actual config matches new baseline: all three agents confirmed running anthropic/claude-haiku-4-5.
+**Rollback:** N/A
+**Linked:** none
+---
+
+
+## 2026-05-08 11:15 AEST — [CHG-0229] RTB kimi trial: Option 2 shared snapshot
+**Type:** cron
+**Source:** ken-prompt
+**Trigger:** Ken approved Option 2: standup writes shared data snapshot, kimi reads it
+**What changed:** Standup cron (3c279099) now writes state/standup-data-YYYY-MM-DD.json in Phase 1h. Kimi RTB cron (57105907) reads this snapshot instead of raw files.
+**Why:** Both crons were reading different data sources, causing divergent RTB context. Shared snapshot ensures apples-to-apples comparison.
+**Verification:** Both crons updated via cron tool. Snapshot write added to standup Phase 1h. Kimi prompt replaced 6 raw reads with single snapshot read + fallback.
+**Rollback:** N/A
+**Linked:** none
+---
+
+
+## 2026-05-08 08:21 AEST — [CHG-0228] TKT-0085 Strategy & Governance Integration Sprint — complete
+**Type:** doc
+**Source:** scheduled
+**Trigger:** Scheduled sprint cron
+**What changed:** Coherence audit PASS (VMS/OKR/Guardrails consistent). TKT-0069 closed. 6 new TKTs raised: TKT-0097 Auralith incorporation, TKT-0098 Jumpstart v1, TKT-0099 Workshop formats, TKT-0100 Consulting playbook, TKT-0101 Sanctum checklists, TKT-0102 Guardrail integration gaps. Backlog re-prioritised into 5 tiers (35 items). Output: state/tkt-0085-sprint-output.md.
+**Why:** Priority sprint TKT-0085 to consolidate strategy and governance work loaded Day 13. Map backlog to OKRs. Surface gaps.
+**Verification:** Sprint output file written. TKT-0085 and TKT-0069 closed in tickets.json and Notion. 6 new TKTs synced to Notion.
+**Rollback:** N/A
+**Linked:** TKT-0085, TKT-0069, TKT-0097, TKT-0098, TKT-0099, TKT-0100, TKT-0101, TKT-0102
+---
+
+
+## 2026-05-08 08:00 AEST — [CHG-0227] Tailscale Serve — Remote Gateway Access
+**Type:** config
+**Source:** ken-prompt
+**Trigger:** Ken enabled Tailscale and requested configuration
+**What changed:** gateway.tailscale.mode=serve, gateway.auth.allowTailscale=true, gateway.tailscale.resetOnExit=false. Symlinked /opt/homebrew/bin/tailscale to /usr/local/bin/tailscale (1.96.5) to fix CLI/daemon version mismatch.
+**Why:** Enable secure remote access to OpenClaw Control UI from Tailscale devices without exposing port 18789 publicly. S2 compliant.
+**Verification:** tailscale serve status confirms proxy active: https://ainchorss-mac-mini.tail5e2567.ts.net → http://127.0.0.1:18789. CLI version 1.96.5, no mismatch warning.
+**Rollback:** N/A
+**Linked:** none
+---
+
+
+## 2026-05-08 07:32 AEST — [CHG-0226] W1P4 marked draft-missing — no Friday post 2026-05-08
+**Type:** data
+**Source:** scheduled
+**Trigger:** Spark Fri 7:30am cron — no draft content found
+**What changed:** linkedin-queue.json: LI-W1-P4 status updated from approved to draft-missing
+**Why:** week1-posts.md only contained P1-P3. W1P4 had no actual draft content. Campaign brief cadence is Tue/Wed/Thu — Friday was outside the locked plan.
+**Verification:** Queue updated. week1-posts.md confirmed 3 posts only. No post sent. Aligns with locked cadence.
+**Rollback:** N/A — no content was posted
+**Linked:** none
+---
+
+
 ## 2026-05-07 22:51 AEST — [CHG-0224] API credit balance updated: $266.76 (2026-05-07 EOD)
 **Type:** data
 **Source:** ken-prompt

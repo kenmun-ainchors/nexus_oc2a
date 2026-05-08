@@ -15,7 +15,7 @@
       "seriesTotal": 6,
       "status": "delivered",
       "scheduledFor": "2026-05-06",
-      "label": "C1W2P1 \u2014 AIOps: Who watches the agents? (Part 1/6)",
+      "label": "C1W2P1 — AIOps: Who watches the agents? (Part 1/6)",
       "file": "/Users/ainchorsangiefpl/.openclaw/workspace-social/drafts/linkedin-c1-w2-p1.md",
       "governance": {
         "shield": "clear",
@@ -34,7 +34,7 @@
       "angle": "celebrating",
       "status": "posted",
       "scheduledFor": "2026-05-02",
-      "label": "Seeder Post 1 \u2014 The Opening Tease (Saturday)",
+      "label": "Seeder Post 1 — The Opening Tease (Saturday)",
       "file": "/tmp/spark-seeder-1.txt",
       "governance": {
         "shield": "clear",
@@ -43,7 +43,7 @@
         "overall": "triad-cleared"
       },
       "createdAt": "2026-05-02T13:29:00+10:00",
-      "notes": "Manual pre-schedule seeder. Ken to post manually. Do not send to Telegram \u2014 Ken reviewing in webchat.",
+      "notes": "Manual pre-schedule seeder. Ken to post manually. Do not send to Telegram — Ken reviewing in webchat.",
       "postedAt": "2026-05-03T11:54:00+10:00",
       "postedBy": "Ken (manual)"
     },
@@ -54,7 +54,7 @@
       "angle": "celebrating",
       "status": "posted",
       "scheduledFor": "2026-05-03",
-      "label": "Seeder Post 2 \u2014 The Hint (Sunday)",
+      "label": "Seeder Post 2 — The Hint (Sunday)",
       "file": "/tmp/spark-seeder-2.txt",
       "governance": {
         "shield": "clear",
@@ -63,7 +63,7 @@
         "overall": "triad-cleared"
       },
       "createdAt": "2026-05-02T13:29:00+10:00",
-      "notes": "Manual pre-schedule seeder. Ken to post manually. Do not send to Telegram \u2014 Ken reviewing in webchat.",
+      "notes": "Manual pre-schedule seeder. Ken to post manually. Do not send to Telegram — Ken reviewing in webchat.",
       "postedAt": "2026-05-03T11:54:00+10:00",
       "postedBy": "Ken (manual)"
     },
@@ -77,7 +77,7 @@
       "day": "Monday",
       "status": "approved",
       "scheduledFor": "Week 1, Monday",
-      "label": "W1P1 \u2014 Intro Post (Consultant POV)",
+      "label": "W1P1 — Intro Post (Consultant POV)",
       "file": "/Users/ainchorsangiefpl/.openclaw/workspace-social/drafts/week1-posts.md",
       "governance": {
         "shield": "clear",
@@ -101,14 +101,14 @@
       "day": "Wednesday",
       "status": "approved",
       "scheduledFor": "Week 1, Wednesday",
-      "label": "W1P2 \u2014 Problem Education (Paying for AI they can't use)",
+      "label": "W1P2 — Problem Education (Paying for AI they can't use)",
       "file": "/Users/ainchorsangiefpl/.openclaw/workspace-social/drafts/week1-posts.md",
       "governance": {
         "shield": "clear",
         "lex": "conditional",
         "sage": "conditional",
         "overall": "triad-cleared",
-        "notes": "Lex CONDITIONAL \u2014 'ROI' keyword flagged as financial language. False positive; no financial advice given. Cleared."
+        "notes": "Lex CONDITIONAL — 'ROI' keyword flagged as financial language. False positive; no financial advice given. Cleared."
       },
       "createdAt": "2026-05-03T19:00:00+10:00",
       "notes": "Week 1 problem education post. Spark-generated. Pending Ken approval before posting.",
@@ -126,7 +126,7 @@
       "day": "Thursday",
       "status": "approved",
       "scheduledFor": "Week 1, Thursday",
-      "label": "W1P3 \u2014 Consultant POV (First 24 hours of an engagement)",
+      "label": "W1P3 — Consultant POV (First 24 hours of an engagement)",
       "file": "/Users/ainchorsangiefpl/.openclaw/workspace-social/drafts/week1-posts.md",
       "governance": {
         "shield": "clear",
@@ -148,22 +148,24 @@
       "pillar": "help",
       "week": 1,
       "day": "Friday",
-      "status": "approved",
+      "status": "draft-missing",
       "scheduledFor": "Week 1, Friday",
-      "label": "W1P4 \u2014 Help (3 questions before buying an AI tool)",
+      "label": "W1P4 — Help (3 questions before buying an AI tool)",
       "file": "/Users/ainchorsangiefpl/.openclaw/workspace-social/drafts/week1-posts.md",
       "governance": {
         "shield": "clear",
         "lex": "conditional",
         "sage": "conditional",
         "overall": "triad-cleared",
-        "notes": "Lex CONDITIONAL \u2014 L5 flagged 'sensitive business content'. False positive; public-facing advisory content. Cleared."
+        "notes": "Lex CONDITIONAL — L5 flagged 'sensitive business content'. False positive; public-facing advisory content. Cleared."
       },
       "createdAt": "2026-05-03T19:00:00+10:00",
-      "notes": "Week 1 help post. Spark-generated. Pending Ken approval before posting.",
+      "notes": "W1P4 had no draft content in week1-posts.md (only P1-P3 were written). Campaign brief is Tue/Wed/Thu — Friday was outside the locked plan. Skipped 2026-05-08. No action required. Logged by Yoda heartbeat.",
       "approvedAt": "2026-05-04T00:40:00+10:00",
       "approvedBy": "Ken",
-      "approvedChannel": "webchat"
+      "approvedChannel": "webchat",
+      "skippedAt": "2026-05-08T07:31:00+10:00",
+      "skippedBy": "Yoda (auto — draft-missing, outside locked cadence)"
     }
   ],
   "apiEnabled": true,

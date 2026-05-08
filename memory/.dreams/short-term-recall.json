@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "updatedAt": "2026-05-07T03:31:36.873Z",
+  "updatedAt": "2026-05-08T03:10:29.967Z",
   "entries": {
     "memory:memory/2026-04-26.md:94:122": {
       "key": "memory:memory/2026-04-26.md:94:122",
@@ -211,20 +211,22 @@
       "endLine": 302,
       "source": "memory",
       "snippet": "3. **CR gate** — all technical changes (config, scripts, integrations) require a CHG entry before execution. - `openclaw.json` updated: Aria agent model explicitly set to `gemma4`. - `state/critical-config-baseline.json` updated: `config-008` added to guard Aria's model assignment. ### CHG-0029 — Aria TOM Authority + Gemma4 Extended - Aria granted **Target Operating Model (TOM) authority** for the business stream — can define and evolve business processes within her domain. - Gemma4 extended as default model to **all business stream agents** (Shield, Lex, Sage) with same escalation-ask rule. ### CHG-0030 — Angie Onboarding Journey Created - Two new Operations docs: - `Operations/AngieO",
-      "recallCount": 2,
+      "recallCount": 3,
       "dailyCount": 0,
       "groundedCount": 0,
-      "totalScore": 0.8076043903827667,
-      "maxScore": 0.4089118957519531,
+      "totalScore": 1.2247088342905044,
+      "maxScore": 0.4171044439077377,
       "firstRecalledAt": "2026-04-27T13:57:07.598Z",
-      "lastRecalledAt": "2026-05-06T16:46:45.377Z",
+      "lastRecalledAt": "2026-05-07T21:48:15.760Z",
       "queryHashes": [
         "2b7b37c03dad",
-        "9c49295f2494"
+        "9c49295f2494",
+        "266e50ffd2cd"
       ],
       "recallDays": [
         "2026-04-27",
-        "2026-05-07"
+        "2026-05-07",
+        "2026-05-08"
       ],
       "conceptTags": [
         "openclaw.json",
@@ -813,18 +815,20 @@
       "endLine": 156,
       "source": "memory",
       "snippet": "**Nexus — Star Wars naming convention confirmed** - System: Nexus | KB: Holocron | Command Centre: The Bridge | Client Portal: The Citadel - Holonet (API layer) | Beacon (monitoring) | The Sanctum (governance) | Datapad (reporting) - Names are proposals — confirmed at kickoff of each respective US ### US/TKT Raised Today | ID | Title | |---|---| | TKT-0039 | LinkedIn Authority Campaign (approved, campaign live) | | TKT-0041 | US-FinOps: Deepen ROI data and justification | | TKT-0042 | US-AKB/Holocron: Restructure + migrate to Notion | | TKT-0043 | US-GOV: Deep review governance triad | | TKT-0044 | US-DR: Disaster Recovery strategy | | TKT-0045 | US-ARCH: Containerised OpenClaw for SaaS | |",
-      "recallCount": 1,
+      "recallCount": 2,
       "dailyCount": 0,
       "groundedCount": 0,
-      "totalScore": 0.4424514651298523,
+      "totalScore": 0.8656432688236236,
       "maxScore": 0.4424514651298523,
       "firstRecalledAt": "2026-05-07T02:28:32.004Z",
-      "lastRecalledAt": "2026-05-07T02:28:32.004Z",
+      "lastRecalledAt": "2026-05-08T03:10:29.967Z",
       "queryHashes": [
-        "d880ce131095"
+        "d880ce131095",
+        "24dec5366fa6"
       ],
       "recallDays": [
-        "2026-05-07"
+        "2026-05-07",
+        "2026-05-08"
       ],
       "conceptTags": [
         "us/tkt",
@@ -928,6 +932,161 @@
         "openclaw.json",
         "l2-l3",
         "frameworks-maturity.json"
+      ]
+    },
+    "memory:memory/2026-04-26.md:226:259": {
+      "key": "memory:memory/2026-04-26.md:226:259",
+      "path": "memory/2026-04-26.md",
+      "startLine": 226,
+      "endLine": 259,
+      "source": "memory",
+      "snippet": "- OpenClaw update: already on 2026.4.24 — no action needed - Audit errors (2 lost tasks): cleared — orphaned from power trip, benign - 1Password CLI setup: in progress - US17 — Incident Log & MTTR: in progress ## TOM v2.1 - Business Research Agent 🔎 added — 13 agents total (1 lead + 3 governance + 3 technical + 6 business) - New backlog: US17 (Incident Log), US18 (Monthly SLA Report), US19 (HA Design), US20 (Research Framework) ## New Rules Added This Session - Pre-risky-op checkpoint rule: before any OpenClaw update/restart, flush all context to persistent storage first - TOM = Target Operating Model (Ken's term for agent team roster, approved 2026-04-26) ## Deferred Items (with reminde",
+      "recallCount": 1,
+      "dailyCount": 0,
+      "groundedCount": 0,
+      "totalScore": 0.4258086025714874,
+      "maxScore": 0.4258086025714874,
+      "firstRecalledAt": "2026-05-07T21:35:12.272Z",
+      "lastRecalledAt": "2026-05-07T21:35:12.272Z",
+      "queryHashes": [
+        "4b4fecd0a880"
+      ],
+      "recallDays": [
+        "2026-05-08"
+      ],
+      "conceptTags": [
+        "2026.4.24",
+        "v2.1",
+        "pre-risky-op",
+        "update/restart",
+        "openclaw",
+        "update",
+        "already",
+        "action"
+      ]
+    },
+    "memory:memory/2026-05-07.md:393:419": {
+      "key": "memory:memory/2026-05-07.md:393:419",
+      "path": "memory/2026-05-07.md",
+      "startLine": 393,
+      "endLine": 419,
+      "source": "memory",
+      "snippet": "6. Three new Holocron US raised (TKT-0079, 0080, 0081) — medium priority, sprint planning --- ## State of Play at Flush - OpenClaw version: **2026.5.5** (updated today) - API balance: **USD$100.13** - Active backlog items: TKT-0077 (sprint tomorrow), TKT-0079/0080/0081 (Holocron pages) - Pending: AI Transformation Consultant activation (awaiting role definition file + name from Ken) - CHG sequence: last logged CHG-0199 - EOD close: ✅ complete (journal + blog + git) --- ## Session Events — Thu 2026-05-07 Morning (Day 13, continued) # Appended by: Yoda 🟢 | Pre-compaction flush | 12:05 PM AEST ### Standup v2 — Full Rebuild (CHG-0208) - Ken reviewed standup and raised 4 issues: stale items",
+      "recallCount": 1,
+      "dailyCount": 0,
+      "groundedCount": 0,
+      "totalScore": 0.5002720683813094,
+      "maxScore": 0.5002720683813094,
+      "firstRecalledAt": "2026-05-07T21:35:16.379Z",
+      "lastRecalledAt": "2026-05-07T21:35:16.379Z",
+      "queryHashes": [
+        "38182aeb51a6"
+      ],
+      "recallDays": [
+        "2026-05-08"
+      ],
+      "conceptTags": [
+        "tkt-0079",
+        "2026.5.5",
+        "100.13",
+        "tkt-0077",
+        "tkt-0079/0080/0081",
+        "chg-0199",
+        "pre-compaction",
+        "chg-0208"
+      ]
+    },
+    "memory:memory/2026-05-07.md:173:202": {
+      "key": "memory:memory/2026-05-07.md:173:202",
+      "path": "memory/2026-05-07.md",
+      "startLine": 173,
+      "endLine": 202,
+      "source": "memory",
+      "snippet": "3. Full absolute paths mandatory for all file references in agent responses 4. EOD blog generation = `a027fd60` cron ONLY — no sub-agent generates blog 5. TKT-0077 is the sprint anchor for tomorrow — persistent config / stateless bootstrap 6. Three new Holocron US raised (TKT-0079, 0080, 0081) — medium priority, sprint planning --- ## State of Play at Flush - OpenClaw version: **2026.5.5** (updated today) - API balance: **USD$100.13** - Active backlog items: TKT-0077 (sprint tomorrow), TKT-0079/0080/0081 (Holocron pages) - Pending: AI Transformation Consultant activation (awaiting role definition file + name from Ken) - CHG sequence: last logged CHG-0199 - EOD close: ✅ complete (journal +",
+      "recallCount": 1,
+      "dailyCount": 0,
+      "groundedCount": 0,
+      "totalScore": 0.4612296193838119,
+      "maxScore": 0.4612296193838119,
+      "firstRecalledAt": "2026-05-07T21:35:16.379Z",
+      "lastRecalledAt": "2026-05-07T21:35:16.379Z",
+      "queryHashes": [
+        "38182aeb51a6"
+      ],
+      "recallDays": [
+        "2026-05-08"
+      ],
+      "conceptTags": [
+        "sub-agent",
+        "tkt-0077",
+        "tkt-0079",
+        "2026.5.5",
+        "100.13",
+        "tkt-0079/0080/0081",
+        "chg-0199",
+        "full"
+      ]
+    },
+    "memory:memory/2026-05-07.md:485:513": {
+      "key": "memory:memory/2026-05-07.md:485:513",
+      "path": "memory/2026-05-07.md",
+      "startLine": 485,
+      "endLine": 513,
+      "source": "memory",
+      "snippet": "- Gateway restart needed: `tools.sessions.visibility: all` not hot-reloadable — pending Ken approval - TKT-0077: Persistent agent config / stateless bootstrap — sprint item - TKT-0079/0080/0081: Holocron pages — backlog - API balance: USD$470.93 (topped up CHG-0205) - Ahsoka: PILOT_TESTING status, CHG-0201/0202 --- ## EOD Session Summary — Thu 2026-05-07 (Day 13, continued) # Appended 16:48 AEST ### Major Work Completed (afternoon session) - TKT-0086 full 4-sequence complete: coherence review → governance gaps → Atlas EA roadmap → backlog replan → Agile framework lock - TKT-0087: 20 governance ACs closed (AI Charter, Nexus-first, Ahsoka registration, R1/C4 fix, P2 gates) - TKT-0088: 8 Sec",
+      "recallCount": 1,
+      "dailyCount": 0,
+      "groundedCount": 0,
+      "totalScore": 0.45873903334140775,
+      "maxScore": 0.45873903334140775,
+      "firstRecalledAt": "2026-05-07T21:35:16.379Z",
+      "lastRecalledAt": "2026-05-07T21:35:16.379Z",
+      "queryHashes": [
+        "38182aeb51a6"
+      ],
+      "recallDays": [
+        "2026-05-08"
+      ],
+      "conceptTags": [
+        "gateway",
+        "tools.sessions.visibility",
+        "hot-reloadable",
+        "tkt-0077",
+        "tkt-0079/0080/0081",
+        "470.93",
+        "chg-0205",
+        "pilot-testing"
+      ]
+    },
+    "memory:memory/2026-05-07.md:270:298": {
+      "key": "memory:memory/2026-05-07.md:270:298",
+      "path": "memory/2026-05-07.md",
+      "startLine": 270,
+      "endLine": 298,
+      "source": "memory",
+      "snippet": "- Gateway restart needed: `tools.sessions.visibility: all` not hot-reloadable — pending Ken approval - TKT-0077: Persistent agent config / stateless bootstrap — sprint item - TKT-0079/0080/0081: Holocron pages — backlog - API balance: USD$470.93 (topped up CHG-0205) - Ahsoka: PILOT_TESTING status, CHG-0201/0202 --- ## EOD Session Summary — Thu 2026-05-07 (Day 13, continued) # Appended 16:48 AEST ### Major Work Completed (afternoon session) - TKT-0086 full 4-sequence complete: coherence review → governance gaps → Atlas EA roadmap → backlog replan → Agile framework lock - TKT-0087: 20 governance ACs closed (AI Charter, Nexus-first, Ahsoka registration, R1/C4 fix, P2 gates) - TKT-0088: 8 Sec",
+      "recallCount": 1,
+      "dailyCount": 0,
+      "groundedCount": 0,
+      "totalScore": 0.45873903334140775,
+      "maxScore": 0.45873903334140775,
+      "firstRecalledAt": "2026-05-07T21:35:16.379Z",
+      "lastRecalledAt": "2026-05-07T21:35:16.379Z",
+      "queryHashes": [
+        "38182aeb51a6"
+      ],
+      "recallDays": [
+        "2026-05-08"
+      ],
+      "conceptTags": [
+        "gateway",
+        "tools.sessions.visibility",
+        "hot-reloadable",
+        "tkt-0077",
+        "tkt-0079/0080/0081",
+        "470.93",
+        "chg-0205",
+        "pilot-testing"
       ]
     }
   }

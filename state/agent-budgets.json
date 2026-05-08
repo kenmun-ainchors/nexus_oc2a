@@ -1,0 +1,101 @@
+{
+  "schema_version": "1.0",
+  "lastUpdated": "2026-05-08T08:12:00Z",
+  "dailyPlatformCap": 200,
+  "agents": {
+    "main": {
+      "dailyBudgetUsd": 80,
+      "sessionBudgetUsd": 15,
+      "alertAt": 0.8,
+      "note": "Primary agent. Largest share of spend. ~56% of platform cost historically."
+    },
+    "business": {
+      "dailyBudgetUsd": 30,
+      "sessionBudgetUsd": 10,
+      "alertAt": 0.8,
+      "note": "Business operations agent. ~21% of platform cost."
+    },
+    "security": {
+      "dailyBudgetUsd": 3,
+      "sessionBudgetUsd": 1,
+      "alertAt": 0.9,
+      "note": "Security scans. Should be low-cost Haiku tasks."
+    },
+    "legal": {
+      "dailyBudgetUsd": 3,
+      "sessionBudgetUsd": 1,
+      "alertAt": 0.9,
+      "note": "Legal review agent. Infrequent, bounded tasks."
+    },
+    "qa": {
+      "dailyBudgetUsd": 3,
+      "sessionBudgetUsd": 1,
+      "alertAt": 0.9,
+      "note": "QA validation agent. Lightweight checks."
+    },
+    "governance": {
+      "dailyBudgetUsd": 5,
+      "sessionBudgetUsd": 2,
+      "alertAt": 0.9,
+      "note": "Governance checks. Should be Haiku-driven."
+    },
+    "infra": {
+      "dailyBudgetUsd": 20,
+      "sessionBudgetUsd": 2,
+      "alertAt": 0.9,
+      "note": "Infrastructure agent. Script execution, low token cost."
+    },
+    "architect": {
+      "dailyBudgetUsd": 10,
+      "sessionBudgetUsd": 5,
+      "alertAt": 0.8,
+      "note": "Architecture design. May use Opus — monitor closely."
+    },
+    "platform-arch": {
+      "dailyBudgetUsd": 10,
+      "sessionBudgetUsd": 5,
+      "alertAt": 0.8,
+      "note": "Platform architecture. Sonnet default."
+    }
+  },
+  "workflows": {
+    "standup": {
+      "perRunCapUsd": 3.00,
+      "note": "Daily 8AM morning stand-up. Haiku + brief context."
+    },
+    "blog": {
+      "perRunCapUsd": 2.00,
+      "note": "End-of-day blog post generation."
+    },
+    "akb-holocron": {
+      "perRunCapUsd": 2.00,
+      "note": "AKB / Notion Holocron sync."
+    },
+    "ci-cycle-a": {
+      "perRunCapUsd": 1.00,
+      "note": "CI pipeline validation cycle."
+    },
+    "spark-post": {
+      "perRunCapUsd": 1.50,
+      "note": "Spark social post generation."
+    },
+    "warden-check": {
+      "perRunCapUsd": 0.10,
+      "note": "Warden policy compliance check. Haiku, tiny context."
+    },
+    "fallback-chain": {
+      "perRunCapUsd": 0.20,
+      "note": "Fallback chain validation."
+    },
+    "allowlist-sync": {
+      "perRunCapUsd": 0.15,
+      "note": "Allowlist sync from Notion/Drive."
+    }
+  },
+  "derivedFrom": {
+    "observedDays": 14,
+    "avgDailyCost": 141.86,
+    "peakDailyCost": 358.56,
+    "note": "Budgets set from 14-day actual spend patterns (2026-04-25 to 2026-05-08). No per-agent breakdown available in cost-state.json — agent allocations are proportional estimates. Platform cap set at $200 (above 14-day avg, below p75). Ken to review and adjust after per-agent tracking is live."
+  }
+}

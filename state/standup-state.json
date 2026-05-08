@@ -1,7 +1,7 @@
 {
-  "lastStandupAt": "2026-05-06T22:03:25.725444+00:00",
+  "lastStandupAt": "2026-05-08T22:00:00.000Z",
   "lastStandupType": "scheduled",
-  "lastStandupWindowStart": "2026-05-05T22:03:25.725444+00:00",
+  "lastStandupWindowStart": "2026-05-07T22:00:00.000Z",
   "history": [
     {
       "type": "scheduled",
@@ -55,6 +55,12 @@
       "type": "scheduled",
       "at": "2026-05-06T22:03:25.725444+00:00",
       "windowStart": "2026-05-05T22:03:25.725444+00:00",
+      "channel": "telegram"
+    },
+    {
+      "type": "scheduled",
+      "at": "2026-05-08T22:00:00.000Z",
+      "windowStart": "2026-05-07T22:00:00.000Z",
       "channel": "telegram"
     }
   ]

@@ -1,5 +1,24 @@
 [
   {
+    "run_id": "akb-2026-05-08-0300",
+    "date": "2026-05-08",
+    "started_at": "2026-05-07T17:03:14.730020+00:00",
+    "status": "complete",
+    "agents_updated": [
+      "Yoda",
+      "Aria",
+      "Spark",
+      "Shield",
+      "Lex",
+      "Sage",
+      "Warden"
+    ],
+    "notion_page": "Holocron \u2014 Daily Platform Brief",
+    "notion_page_id": "359c1829-53ff-81e0-a0a7-d053cf04811c",
+    "balance": "$266.76",
+    "chg_count": 20
+  },
+  {
     "run_id": "akb-2026-05-07-0300",
     "date": "2026-05-07",
     "started_at": "2026-05-06T17:03:54Z",
@@ -162,84 +181,5 @@
       "Shared/yoda-daily-brief.md not updated \u2014 Day 9 brief context not appended (out of scope for catch-up focus)"
     ],
     "notes": "Two-day catch-up covering Day 8 (2026-05-02) and Day 9 (2026-05-03). Day 8 Decisions.md block was already populated by a partial AKB run. Day 9 decisions added fresh. Architecture.md was already at v3.5 with Day 8 content \u2014 bumped to v3.6 with Day 9 specifics. ModelStrategy.md was already at v2.6 \u2014 bumped to v2.7. CHG-0138 and CHG-0139 were missing from Notion \u2014 created. All other CHG-0136 through CHG-0142 were confirmed present."
-  },
-  {
-    "run_id": "akb-20260502-0300",
-    "date": "2026-05-02",
-    "coverage_date": "2026-05-01",
-    "started_at": "2026-05-01T17:00:00Z",
-    "model": "ollama/qwen3.5:cloud",
-    "think": false,
-    "status": "complete",
-    "inputs_read": [
-      "memory/journal-2026-05-01.md",
-      "Documents/AInchors/Shared/aria-daily-brief.md (2026-05-01 entry)",
-      "memory/CHANGELOG.md (CHG-0095 to CHG-0117)",
-      "MEMORY.md"
-    ],
-    "obsidian_files_updated": [
-      {
-        "file": "HOME.md",
-        "changes": "last-updated 2026-05-01\u21922026-05-02, stage Day 7\u2192Day 8, last AKB update note updated"
-      },
-      {
-        "file": "Company/Decisions.md",
-        "changes": "Added 2026-05-01 Day 7 decisions block (15 decisions): HIVE architecture, 4-tier target strategy, gemma4:e2b routing unchanged, US42 complete, obs-collector dedup, credit tracker fix, Ollama Cloud PoC PARTIAL PASS, think=False mitigation, Option B (AKB cron \u2192 qwen3.5:cloud), Option A deferred, S1-S7 audit 6/7 PASS, TRIGGER-08/04/06 wiring, MEMORY.md bootstrap fix, CHECK 14, latency tracker, Day 7 cost."
-      },
-      {
-        "file": "Agents/Architecture.md",
-        "changes": "v3.3\u2192v3.4: Warden governance table model Haiku\u2192gemma4:e2b (CHG-0096). Model change note for CHG-0096. latency-tracker.sh added to scripts table. Cron table: AKB Daily Update (qwen3.5:cloud), Release Monitor (systemEvent, 6bd53c89), Auto-Heal CHECK 14 note. Warden Check cron: Haiku\u2192gemma4:e2b. History entry v3.4 added."
-      },
-      {
-        "file": "Agents/ModelStrategy.md",
-        "changes": "v2.4\u2192v2.5: Warden Check cron: Haiku\u2192gemma4:e2b. Auto-Heal CHECK 14 note. AKB Daily Update + Release Monitor rows added. Day 7 cost history entry (.60 USD, 7-day all-time .28). Ollama Cloud PoC results. think=False mitigation. Latency baselines. Version history v2.5."
-      },
-      {
-        "file": "Shared/context-for-aria.md",
-        "changes": "last-updated to 2026-05-02 (Day 8). Platform state table: AKB cron note (qwen3.5:cloud + think=False), latency tracker, release monitor added as LIVE. Day 8 business stream priorities (Angie warm check-in, class debrief, JotForm, Meta, social posts, onboarding). Lessons 11-13 added (HIVE architecture, think=False, Ollama Cloud constraints). Training content items 16-20 added."
-      },
-      {
-        "file": "Shared/yoda-daily-brief.md",
-        "changes": "Appended Day 7 Late-Night Addendum: CHG-0110 (AKB cron \u2192 qwen3.5:cloud) and CHG-0111 (think=False mitigation). Training angle: inference mode matching. Business stream note for Aria."
-      }
-    ],
-    "notion_updates": {
-      "agent_status_db": {
-        "updated": [
-          "Yoda (Last Run \u2192 2026-05-01)",
-          "Aria (Last Run \u2192 2026-05-01)",
-          "Security Agent / Shield (Last Run \u2192 2026-05-01)",
-          "Legal Agent / Lex (Last Run \u2192 2026-05-01)",
-          "QA Agent / Sage (Last Run \u2192 2026-05-01)",
-          "Warden (Last Run \u2192 2026-05-01)"
-        ]
-      },
-      "backlog_db": {
-        "checked": "US42 already marked Done \u2014 no update needed"
-      },
-      "decisions_db": {
-        "status": "SKIPPED \u2014 database not listed in notion.md (not accessible to integration). Day 7 decisions recorded in Decisions.md only."
-      }
-    },
-    "git_commits": {
-      "ainchors_repo": "63d4ea7 \u2014 6 files changed, 80 insertions, 18 deletions",
-      "workspace_repo": "e1e0119 \u2014 12 files changed, 150 insertions, 43 deletions"
-    },
-    "skipped_files": [
-      {
-        "file": "Operations/GovernanceFramework.md",
-        "reason": "No governance rule changes on Day 7 in scope (CHG-0095-0111). CHG-0116 governance enforcement happened on 2026-05-02 \u2014 next run scope."
-      },
-      {
-        "file": "Operations/IncidentLog.md",
-        "reason": "No new incidents logged on Day 7 (INC-20260502-001 from CHG-0117 is today 2026-05-02, not in scope)."
-      },
-      {
-        "file": "Company/Overview.md",
-        "reason": "No new company info, contacts, or structural changes on Day 7."
-      }
-    ],
-    "chg_range": "CHG-0095 to CHG-0111 (Day 7 journal scope)",
-    "notes": "First AKB run on qwen3.5:cloud with think=False (CHG-0110/0111 implemented yesterday). Day 7 was the HIVE architecture and Ollama Cloud PoC day: 17 CHG entries. HIVE architecture formally documented. S1-S7 security audit 6/7 PASS. Warden migrated to gemma4:e2b (96 daily checks now free). Latency tracker live. AKB cron itself switched to qwen3.5:cloud. think=False confirmed: 94% structured-task latency reduction. CHG-0112-0117 are in scope for tomorrow (2026-05-03) AKB run \u2014 they cover blog governance, ITIL enforcement, INC-20260502-001."
   }
 ]

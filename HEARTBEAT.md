@@ -17,9 +17,10 @@
 ### API Balance — 3-Tier Alert System (check every 30 min)
 - Read state/cost-state.json → apiBalance.remainingEstimate
 - Read state/cost-alert-state.json → activeTier, tier states
-- **Tier 1 ($80):** If balance <= $80 AND tier1.triggered=false → alert Ken (8574109706) directly + send to Angie via sessions_send to Aria session (NOT direct Telegram — Angie must receive via @AInchorsAriaBot). ONCE. Set triggered=true.
-- **Tier 2 ($40):** If balance <= $40 → set activeTier=2. Alert Ken directly + Angie via Aria session every 3rd response.
-- **Tier 3 ($10):** If balance <= $10 → set activeTier=3, tier3.active=true. PAUSE before every request. Alert Ken + Angie. Require explicit acknowledgement before proceeding.
+- **Auto-reload policy:** Triggers at <$50 → reloads to $500. Effectively continuous runway unless billing fails.
+- **Tier 1 ($60):** If balance <= $60 AND tier1.triggered=false → alert Ken once. Reload imminent but not yet fired. ONCE.
+- **Tier 2 ($55):** Pre-reload heads-up only. Alert Ken: "Auto-reload imminent — verify billing card active."
+- **Tier 3 ($15):** Auto-reload FAILED. PAUSE before every request. Alert Ken + Angie urgently. Real emergency only.
 - Alert format and message templates in RULES.md Credit Alert Rules section.
 - State key: cost-alert-state.json
 
@@ -75,6 +76,14 @@
   - Update warden-escalation-pending.json status to 'resolved-by-yoda'
   - Alert Ken via Telegram with: what drifted, what was fixed, CHG reference
   - State key: wardenEscalation
+
+### Budget Check — TKT-0092 (check every 30 min)
+- Run `zsh scripts/budget-check.sh --report`
+- Read `state/budget-alert-state.json` for unacknowledged alerts
+- **WARNING (≥alertAt threshold):** Surface to Ken at next natural interaction (non-urgent). Example: "⚠️ Agent `main` at 82% of daily budget ($65.60/$80)"
+- **EXCEEDED:** Alert Ken via Telegram immediately: "🚨 Budget exceeded: agent `main` spent $82.50 vs $80.00 cap"
+- After alerting, set `acknowledged: true` in the alert entry
+- State key: `lastChecks.budgetCheck`
 
 ### Cron Health Check (check every 30 min)
 - Run `bash scripts/cron-health-check.sh`

@@ -1,18 +1,20 @@
 {
-  "status": "ok",
-  "overallStatus": "ok",
+  "status": "degraded",
+  "overallStatus": "degraded",
   "consecutiveFailures": 0,
   "alerted": false,
-  "lastCheck": "2026-05-07T16:00:20Z",
-  "lastOk": "2026-05-07T16:00:20Z",
-  "exitCode": 0,
-  "issues": [],
+  "lastCheck": "2026-05-08T08:28:36Z",
+  "lastOk": "2026-05-08T08:28:36Z",
+  "exitCode": 1,
+  "issues": [
+    "Disk usage high: /Volumes/Docker at 94%"
+  ],
   "anthropicReachable": true,
   "ollamaReachable": true,
   "checks": {
     "gateway": "ok",
     "ollama": "ok",
-    "disk": "ok",
+    "disk": "degraded",
     "healthStateAge": "ok",
     "costStateAge": "ok",
     "staleLockFilesCleared": 0,
