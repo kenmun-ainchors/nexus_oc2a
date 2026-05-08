@@ -42,6 +42,64 @@ This log captures **every change** Yoda makes to AInchors infrastructure, config
 **Linked:** decisions.md 2026-04-27 entries
 ---
 
+## 2026-05-08 19:54 AEST — [CHG-0241] Agile Framework: velocity targets + P2 deadline analysis locked
+**Type:** doc
+**Source:** ken-prompt
+**Trigger:** Ken sprint capacity planning discussion 2026-05-08 19:53 AEST
+**What changed:** ainchors-agile-framework-v1.md: velocity targets added (pre-OC2=5/sprint, OC2 setup=2-3/sprint, post-OC2=5/sprint, 30% headroom). P2 end-Aug confirmed achievable but zero slack in likely scenario. Early warning threshold: <4 items delivered = flag P2 slip. OC2-gated items explicitly called out.
+**Why:** P2 deadline depends on OC2 arrival (6-13 Jul) + 2-week setup. Velocity must be tracked against these phases or P2 slips silently.
+**Verification:** Agile framework doc updated. Sprint map and velocity targets locked.
+**Rollback:** N/A
+**Linked:** none
+---
+
+
+## 2026-05-08 18:40 AEST — [CHG-0240] TKT-0108: Document generation pipeline — DOCX/XLSX/PPTX/PDF
+**Type:** script
+**Source:** ken-prompt
+**Trigger:** Ken Sprint 1 critical path 2026-05-08
+**What changed:** 4 template scripts + generate-doc.sh wrapper + test outputs. Unblocks Ahsoka client deliverables.
+**Why:** Ahsoka cannot produce proposals/reports without this. S1-KR2 blocker.
+**Verification:** 4 test files produced: test-proposal.docx, test-report.pdf, test-data.xlsx, test-slides.pptx
+**Rollback:** N/A
+**Linked:** none
+---
+
+
+## 2026-05-08 18:37 AEST — [CHG-0239] Anthropic DPA confirmed — Claude API blocked for client data (APRA/Privacy Act)
+**Type:** rule
+**Source:** ken-prompt
+**Trigger:** Ken received Anthropic DPA response 2026-05-08 18:37 AEST
+**What changed:** Anthropic confirmed: processing can occur in AU, but data storage always in US. inference_geo only supports global/us — no AU-lock. VERDICT: Claude API cannot be used for client data under APRA CPG 235 / Privacy Act APP 11. P2 client model policy confirmed: Gemma4 local default, BYOK opt-in (client owns residency risk). MEMORY.md updated.
+**Why:** US data storage = cross-border transfer under Privacy Act. Unacceptable for regulated client workloads. Policy stands as locked in CHG-0236.
+**Verification:** Anthropic DPA response reviewed. inference_geo limitation confirmed. Decision: no Claude API for client data.
+**Rollback:** N/A
+**Linked:** none
+---
+
+
+## 2026-05-08 18:31 AEST — [CHG-0238] TKT-0093: 3-2-1+1 backup strategy + S7 partial completion
+**Type:** script
+**Source:** ken-prompt
+**Trigger:** Ken Sprint 1 critical path 2026-05-08
+**What changed:** backup.sh: new backup-state.json format (lastBackup/status/lastWorkspaceSnap/lastConfigSnap/nasConnected/cloudBackupEnabled/sizeBytes/backupCount), iCloud offsite backup to ~/Library/Mobile Documents/com~apple~CloudDocs/AInchors-Backups (7-copy retention), Python bool fix. New: docs/Backup_Strategy_3-2-1-1.md (3-2-1+1 strategy doc, NAS encryption plan, S7 compliance matrix, recovery procedures). New cron: TKT-0093 Backup Health Check (daily 8:05 AEST, Haiku, 60s timeout, Telegram alert to Ken if stale >25h or failed).
+**Why:** S7 security gap. Pre-OC2 blocker. No client work without backup strategy.
+**Verification:** {
+  "lastBackup": "2026-05-08T08:31:08Z",
+  "status": "ok",
+  "location": "/Users/ainchorsangiefpl/Backups/ainchors",
+  "lastWorkspaceSnap": "workspace-2026-05-08-1831.tar.gz",
+  "lastConfigSnap": "openclaw-2026-05-08-1831.json",
+  "nasConnected": false,
+  "cloudBackupEnabled": true,
+  "sizeBytes": 60537072,
+  "backupCount": 28
+}
+**Rollback:** N/A
+**Linked:** none
+---
+
+
 ## 2026-05-08 18:17 AEST — [CHG-0237] TKT-0092: FinOps per-agent budget limits + workflow cost caps
 **Type:** script
 **Source:** ken-prompt

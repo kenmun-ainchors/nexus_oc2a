@@ -1,4 +1,14 @@
 {
-  "lastChecked": "2026-05-08T08:24:22Z",
-  "alerts": []
+  "lastChecked": "2026-05-08T10:07:45Z",
+  "alerts": [
+    {
+      "agent": "main",
+      "type": "0",
+      "todaySpend": 81.6548,
+      "budget": 80,
+      "pct": 1.0207,
+      "detectedAt": "2026-05-08T10:07:45Z",
+      "acknowledged": false
+    }
+  ]
 }

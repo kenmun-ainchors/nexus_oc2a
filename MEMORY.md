@@ -169,6 +169,7 @@ Rule: New module names use Star Wars themes. Ken approves. All above final — n
 - **P3 trigger: formal ROI checklist required** before enabling company/multi-agent tier. Ken skeptical — maintenance cost may not justify. Strategic note: P4 enterprise clients may prefer physical/in-house deployment over P3 SaaS — P3 may be skipped entirely in practice.
 - **BYOK policy live. Nexus-first locked globally.**
 - **P2 client model policy (locked CHG-0236):** Default = Gemma4 local only for all client-facing workloads. Client BYOK = opt-in (client brings own Anthropic key, owns data residency responsibility — AInchors not liable). Claude API not used for client data until Anthropic DPA verified.
+- **Anthropic DPA confirmed 2026-05-08:** Processing can occur in AU (global routing includes Anthropic Australia Pty Ltd). BUT storage always in US regardless of inference_geo. inference_geo only supports 'global' or 'us' — no AU-only option. VERDICT: Claude API cannot be used for client data under APRA CPG 235 / Privacy Act APP 11 (US storage = cross-border transfer). Policy stands: Gemma4 local default. BYOK = client accepts residency risk.
 - BYOK policy live. Nexus-first locked globally. 18+ CHGs logged (CHG-0208 through CHG-0226 as of May 8).
 - canvas embed rule: sub-agents pass full path only, no embed tags — Yoda embeds directly
 - agentToAgent enabled in openclaw.json — cross-agent sessions_send now live

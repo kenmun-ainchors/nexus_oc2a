@@ -136,6 +136,14 @@ EPIC-XXXX | [Title] | [Pillar] | [OKR ID] | Owner: [Yoda/Aria] | Target: [Q] | S
 
 **Capacity:** Max 6 items per sprint (realistic ceiling for a 2-person + AI team)
 
+**Velocity targets (locked 2026-05-08, based on P2 deadline analysis):**
+- **Sprints 2–9 (pre-OC2, 12 May–6 Jul):** 5 items/sprint — 30% headroom applied (3–4 planned + 1–2 ad-hoc/critical/debt)
+- **Sprints 10–12 (OC2 setup, 7–27 Jul):** 2–3 items/sprint — reduced capacity, setup work runs in parallel
+- **Sprints 13–17 (post-OC2, 28 Jul–31 Aug):** 5 items/sprint — full capacity resumes
+- **P2 deadline:** End August 2026 (achievable, zero slack in likely scenario). Contingency: mid-September.
+- **Early warning:** If any sprint delivers < 4 planned items, flag P2 slip risk immediately.
+- **OC2 gate items (cannot start until TRIGGER-03 fired):** Gemma4 production validation, HA architecture, NAS encryption, client-facing data sovereignty workloads.
+
 **Sprint planning:**
 - **When:** Sunday evening, as part of the standup review
 - **Who:** Yoda proposes sprint items; Ken approves before work starts
@@ -152,6 +160,8 @@ EPIC-XXXX | [Title] | [Pillar] | [OKR ID] | Owner: [Yoda/Aria] | Target: [Q] | S
 - Rolling window: 4 sprints
 - Reviewed: Every sprint close + QBR
 - Target: ≥ 80% sprint completion rate (steady state from Sprint 5 onwards)
+- P2 velocity baseline: 5 items/sprint (30% headroom factored in)
+- Baseline revision: reassess after Sprint 4 (first clean full sprint post-foundations)
 
 **Sprint health rule:** If velocity drops below 60% for 2 consecutive sprints, mandatory retrospective before the next sprint starts.
 

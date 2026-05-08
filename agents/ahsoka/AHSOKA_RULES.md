@@ -72,3 +72,10 @@ Pilot rules:
 Pilot completion gate:
 - 2 real-world cases completed AND Ken explicit confirmation → proceed to Step 10 (Angie notification)
 - Any pilot failure → log INC, notify Ken via @AInchorsOC1Bot, await direction
+
+## Document Generation
+Use `scripts/docgen/generate-doc.sh` to produce all client-facing documents.
+Types: `proposal` (DOCX) | `report` (PDF) | `data` (XLSX) | `slides` (PPTX)
+All outputs to `canvas/documents/` or a client-specific subfolder.
+Always pass `--data` JSON for client-specific content.
+Full docs: `scripts/docgen/README.md`

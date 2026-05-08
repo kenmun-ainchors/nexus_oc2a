@@ -1430,6 +1430,48 @@ _Locked 2026-04-28. Ken: "continue to provide this trigger and what I need to kn
 
 **Auto-remediate:** Cancel zombies. Restart gateway if loop was saturated. Log CHG.
 
+## /sprint — Burndown Review (on-demand)
+
+**Keyword:** `/sprint` (case-insensitive)
+**Trigger:** Ken types `/sprint` in any channel.
+**Purpose:** On-demand **Burndown Review** — current sprint health check only. NOT the Sprint Review ceremony (that runs in the Friday 8AM standup). Interim solution until The Bridge (Nexus Command Center) delivers live sprint data. Ken uses this for daily visibility into sprint status between formal Friday reviews.
+
+**When received, produce in order:**
+
+### 1. Sprint Header
+- Current sprint number, dates (Mon–Sun AEST), days remaining
+- Read `docs/ainchors-agile-framework-v1.md` for sprint definition
+
+### 2. Shipped This Sprint ✅
+- All tickets/CHGs closed or resolved since sprint start (Mon 00:00 AEST)
+- Source: `state/tickets.json` + `memory/CHANGELOG.md` (entries this week)
+
+### 3. In Progress 🔄
+- Tickets with status in-progress or active sub-agents running
+- Source: `state/active-work.json` + `state/tickets.json`
+
+### 4. Not Started / Carried 🔴
+- Tickets classified SPRINT NOW in `state/tkt-0089-backlog-replan.md` that haven't shipped
+- Flag any that are P2 blockers
+
+### 5. Velocity
+- Shipped count vs total sprint-now items
+- % complete
+- First sprint: no baseline. Sprint 2+: compare to prior sprint.
+
+### 6. Sprint 2 Preview (top 5 items)
+- Carry-overs + next priority items from backlog
+- Note any hard-gate dependencies (Auralith, OC2, etc.)
+
+### 7. Actions
+- Sprint planning due: Sunday 20:00 AEST
+- Any Ken decisions needed before Sprint 2 starts?
+
+**Format:** Inline delivery. No sub-agent. Telegram: condensed (shipped count, top blockers, velocity %).
+**Added:** 2026-05-08 (Ken request)
+
+---
+
 ## TELEGRAM ROUTING RULES (non-negotiable — prevents cross-bot messaging)
 
 **Root cause:** If a cron delivery targets Angie (8141152780) without `accountId: "aria"`, OpenClaw defaults to Yoda's bot and Angie receives messages from @AInchorsOC1Bot instead of @AInchorsAriaBot. Confirmed incident 2026-05-06.

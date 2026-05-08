@@ -10802,10 +10802,40 @@
       "status": "pass",
       "latencyMs": 0,
       "notes": "15 checks run: 15 PASS, 0 FAIL - model drift clean"
+    },
+    {
+      "ts": "2026-05-08T19:07:10+10:00",
+      "date": "2026-05-08",
+      "tier": "T2",
+      "taskType": "warden-check",
+      "model": "anthropic/claude-haiku-4-5",
+      "status": "pass",
+      "latencyMs": 0,
+      "notes": "15 checks run: 15 PASS, 0 FAIL. Model drift check clean."
+    },
+    {
+      "ts": "2026-05-08T20:00:20+10:00",
+      "date": "2026-05-08",
+      "tier": "T2",
+      "taskType": "burn-check",
+      "model": "anthropic/claude-haiku-4-5",
+      "status": "pass",
+      "latencyMs": 0,
+      "notes": "Burn check: $15.64 today (threshold: $40) \u2014 silent OK"
+    },
+    {
+      "ts": "2026-05-08T20:07:10+10:00",
+      "date": "2026-05-08",
+      "tier": "T2",
+      "taskType": "warden-check",
+      "model": "anthropic/claude-haiku-4-5",
+      "status": "pass",
+      "latencyMs": 0,
+      "notes": "15 checks run: 9 model policies + 6 governance gates. All PASS. No drift."
     }
   ],
   "summary": {
-    "total": 1080,
+    "total": 1083,
     "byTier": {
       "T1": {
         "pass": 0,
@@ -10813,7 +10843,7 @@
         "timeout": 0
       },
       "T2": {
-        "pass": 1038,
+        "pass": 1041,
         "fail": 33,
         "timeout": 0
       },
@@ -10831,7 +10861,7 @@
         "tier": "T2"
       },
       "warden-check": {
-        "pass": 870,
+        "pass": 872,
         "fail": 27,
         "timeout": 0,
         "tier": "T2"
@@ -10849,12 +10879,12 @@
         "tier": "T2"
       },
       "burn-check": {
-        "pass": 10,
+        "pass": 11,
         "fail": 0,
         "timeout": 0,
         "tier": "T2"
       }
     },
-    "estimatedSavingsUSD": 5.1975
+    "estimatedSavingsUSD": 5.2125
   }
 }

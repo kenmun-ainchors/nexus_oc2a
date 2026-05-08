@@ -1,5 +1,5 @@
 {
-  "sequence": 108,
+  "sequence": 112,
   "tickets": [
     {
       "id": "TKT-0104",
@@ -72,6 +72,86 @@
       "created": "2026-05-08T14:52:48+10:00",
       "updated": "2026-05-08T14:52:48+10:00",
       "description": "Forward-looking governance model for when AInchors spins up ephemeral agent squads for development and delivery work. May require a new tier beyond the current 0-4 framework. Questions to resolve: What is a squad? How are they composed (temporary multi-agent teams)? Who owns squad governance — Yoda or Atlas? How does a squad spin up and tear down? What's the approval gate? How does squad output get assurance-checked before merging back to main? TRIGGER: Review and define BEFORE any development squad work begins. Do not activate until development sprint work is imminent.",
+      "resolution": null,
+      "linked": {
+        "us": [],
+        "inc": [],
+        "chg": []
+      },
+      "notes": "",
+      "notionPageId": null
+    },
+    {
+      "id": "TKT-0108",
+      "title": "Document Generation Pipeline — DOCX/XLSX/PPTX/PDF (Ahsoka Q1 blocker)",
+      "type": "task",
+      "priority": "high",
+      "status": "open",
+      "requester": "Ken",
+      "assignee": "Yoda",
+      "created": "2026-05-08T18:35:20+10:00",
+      "updated": "2026-05-08T18:35:20+10:00",
+      "description": "Build reusable document generation pipeline for Ahsoka. Required to produce consulting proposals, discovery reports, data exports, and presentations. Ahsoka cannot deliver client outputs without this. Libraries: python-docx (DOCX), openpyxl+pandas (XLSX), python-pptx (PPTX), fpdf+reportlab (PDF). Deliverables: install script, generate-doc.sh wrapper, 4 AInchors-branded templates, test output for each format.",
+      "resolution": null,
+      "linked": {
+        "us": [],
+        "inc": [],
+        "chg": []
+      },
+      "notes": "",
+      "notionPageId": null
+    },
+    {
+      "id": "TKT-0109",
+      "title": "Agile PM / Scrum Master / Agile Coach Agent — Design and Build",
+      "type": "task",
+      "priority": "medium",
+      "status": "open",
+      "requester": "Ken",
+      "assignee": "Yoda",
+      "created": "2026-05-08T19:55:50+10:00",
+      "updated": "2026-05-08T19:55:50+10:00",
+      "description": "Dedicated agent to own sprint facilitation, velocity tracking, QBR packs, epic/milestone management, dependency tracking, and Agile coaching for clients and business users. Three modes: (1) Scrum Master — sprint ceremonies, blockers, velocity, retrospectives; (2) Agile PM — epic tracking, capacity planning, QBR prep, dependency management; (3) Agile Coach — working with external clients and business users to run their own delivery framework. Proposed name: Cassian Andor. Governance: Tier 3 (Yoda-Manage-Passthrough). TRIGGER: multiple concurrent client projects OR external users running sprints OR squad model activated (TKT-0107) OR Yoda PM overhead >40%. REVIEW: July 2026 QBR. Do not build before review.",
+      "resolution": null,
+      "linked": {
+        "us": [],
+        "inc": [],
+        "chg": []
+      },
+      "notes": "",
+      "notionPageId": null
+    },
+    {
+      "id": "TKT-0110",
+      "title": "Process Documentation Framework — User Guides for Business Stream and Clients",
+      "type": "task",
+      "priority": "medium",
+      "status": "open",
+      "requester": "Ken",
+      "assignee": "Yoda",
+      "created": "2026-05-08T20:00:03+10:00",
+      "updated": "2026-05-08T20:00:03+10:00",
+      "description": "Lando (BPM agent) to own process documentation for all product capabilities and features shipped. Documents must be ready BEFORE each release, written for business users and clients (non-technical). Current Notion content is technical and only fit for Ken. Need: (1) Process document template/standard (what goes in a user guide, style, format); (2) Per-capability user guides produced ahead of P2 releases; (3) Integration with sprint/release cycle — Definition of Done must include user doc ready; (4) Delivery format TBD (Notion public page, PDF, HTML). Covers: Nexus features, agent capabilities, Citadel portal, Ahsoka consulting outputs. Assign: Lando. Governance: Tier 3 (Yoda-Manage-Passthrough). Review: as part of P2 release planning.",
+      "resolution": null,
+      "linked": {
+        "us": [],
+        "inc": [],
+        "chg": []
+      },
+      "notes": "",
+      "notionPageId": null
+    },
+    {
+      "id": "TKT-0111",
+      "title": "Angie Agile + Nexus Working Guide — Delivered via Aria",
+      "type": "task",
+      "priority": "medium",
+      "status": "open",
+      "requester": "Ken",
+      "assignee": "Yoda",
+      "created": "2026-05-08T20:07:14+10:00",
+      "updated": "2026-05-08T20:07:14+10:00",
+      "description": "Produce a practical guide for Angie on: (1) How to work within the AInchors Agile framework — sprint cycles, how to raise requests, what to expect each week, how her work gets prioritised; (2) How to work with Nexus multi-agent system — what Aria can do, how to instruct agents, what Ahsoka delivers, how to get the most out of the platform; (3) How to plan and execute business work efficiently using the agents — maximising output, knowing when to delegate vs decide, how to track progress. Delivered BY Aria TO Angie (Angie's pace — not pushed). Format: conversational, non-technical, practical. Lando owns process doc structure. Aria delivers and coaches. DEPENDENCY: TKT-0110 (process doc framework) for template/format standard. Part of Angie onboarding Stage 2+ completion.",
       "resolution": null,
       "linked": {
         "us": [],

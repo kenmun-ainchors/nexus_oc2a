@@ -1,24 +1,24 @@
 {
   "lastChecks": {
-    "email": "2026-05-08T07:34:00.000Z",
-    "calendar": "2026-05-08T07:34:00.000Z",
-    "agentHealth": "2026-05-08T08:22:00Z",
-    "apiBalance": "2026-05-08T08:22:00Z",
-    "taskWatchdog": "2026-05-08T08:22:00Z",
-    "wardenEscalation": "2026-05-08T08:22:00Z",
-    "cronDeadLetter": "2026-05-08T08:15:00Z",
-    "ahsokaPilot": "2026-05-08T08:15:00Z",
-    "standby": "2026-05-08T08:15:00Z",
-    "cronHealth": "2026-05-08T08:22:00Z",
-    "allowlistSync": "2026-05-08T08:15:00Z",
+    "email": "2026-05-08T09:24:42.866Z",
+    "calendar": "2026-05-08T09:24:42.866Z",
+    "agentHealth": "2026-05-08T09:24:42.866Z",
+    "apiBalance": "2026-05-08T10:06:27.768Z",
+    "taskWatchdog": "2026-05-08T10:06:27.768Z",
+    "wardenEscalation": "2026-05-08T10:06:27.768Z",
+    "cronDeadLetter": "2026-05-08T10:06:27.768Z",
+    "ahsokaPilot": "2026-05-08T10:06:27.768Z",
+    "standby": "2026-05-08T10:06:27.768Z",
+    "cronHealth": "2026-05-08T10:06:27.768Z",
+    "allowlistSync": "2026-05-08T10:06:27.768Z",
     "memoryMaintenance": "2026-05-06T13:49:30.166021+00:00",
     "weather": null,
     "dailyClose": 1778161778.659,
     "ariaContextSync": "2026-05-04T13:00:00Z",
     "standup": "2026-05-06T21:58:26.663467Z",
     "missionControl": "2026-05-05T09:26:00.000000Z",
-    "diskCheck": "2026-05-08T06:16:13.287Z",
-    "budgetCheck": "2026-05-08T08:18:54.774367Z"
+    "diskCheck": "2026-05-08T09:15:09.541Z",
+    "budgetCheck": "2026-05-08T10:06:27.768Z"
   },
-  "notes": "May 8 6:18 PM AEST: Budget alert infra agent $14.38 vs $5 cap — Ken alerted. All else clear."
+  "notes": "May 8 8:05 PM AEST: All checks clean. Balance $150.59. Budget exceeded alert acknowledged. Crons OK. Warden resolved. No escalations."
 }
