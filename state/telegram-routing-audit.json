@@ -8,12 +8,6 @@
       "accountId": "yoda(default)"
     },
     {
-      "job": "Spark \u2014 LinkedIn Friday Post (W1P4 + recurring)",
-      "id": "243634a7-c7ae-47f2-9a04-b27583217c36",
-      "to": "8574109706",
-      "accountId": "yoda(default)"
-    },
-    {
       "job": "AInchors Morning Stand-Up",
       "id": "3c279099-bddb-4ef3-bfea-fc22f342abd8",
       "to": "8574109706",
@@ -24,6 +18,12 @@
       "id": "7a4d8381-2384-4719-b8d3-daff97a65b8a",
       "to": "8141152780",
       "accountId": "aria"
+    },
+    {
+      "job": "Spark \u2014 LinkedIn Friday Post (W1P4 + recurring)",
+      "id": "243634a7-c7ae-47f2-9a04-b27583217c36",
+      "to": "8574109706",
+      "accountId": "yoda(default)"
     },
     {
       "job": "AInchors Monthly Model Strategy Review",
@@ -45,7 +45,7 @@
     }
   ],
   "warnings": [],
-  "auditAt": "2026-05-07T15:00:21Z",
+  "auditAt": "2026-05-08T15:00:57Z",
   "summary": {
     "violations": 0,
     "passes": 7,

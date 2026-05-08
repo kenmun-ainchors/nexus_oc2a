@@ -13051,14 +13051,91 @@
       "issues": [
         "Disk usage high: /Volumes/Docker at 94%"
       ]
+    },
+    {
+      "ts": "2026-05-08T15:05:37.036561+00:00",
+      "status": "degraded",
+      "issues": [
+        "Disk usage high: /Volumes/Docker at 94%"
+      ]
+    },
+    {
+      "ts": "2026-05-08T15:10:50.660469+00:00",
+      "status": "degraded",
+      "issues": [
+        "Disk usage high: /Volumes/Docker at 94%"
+      ]
+    },
+    {
+      "ts": "2026-05-08T15:15:36.054711+00:00",
+      "status": "degraded",
+      "issues": [
+        "Disk usage high: /Volumes/Docker at 94%"
+      ]
+    },
+    {
+      "ts": "2026-05-08T15:19:59.356585+00:00",
+      "status": "degraded",
+      "issues": [
+        "Disk usage high: /Volumes/Docker at 94%"
+      ]
+    },
+    {
+      "ts": "2026-05-08T15:25:00.876256+00:00",
+      "status": "degraded",
+      "issues": [
+        "Disk usage high: /Volumes/Docker at 94%"
+      ]
+    },
+    {
+      "ts": "2026-05-08T15:30:10.989096+00:00",
+      "status": "degraded",
+      "issues": [
+        "Disk usage high: /Volumes/Docker at 94%"
+      ]
+    },
+    {
+      "ts": "2026-05-08T15:34:59.758079+00:00",
+      "status": "degraded",
+      "issues": [
+        "Disk usage high: /Volumes/Docker at 94%"
+      ]
+    },
+    {
+      "ts": "2026-05-08T15:40:23.685059+00:00",
+      "status": "degraded",
+      "issues": [
+        "Disk usage high: /Volumes/Docker at 94%"
+      ]
+    },
+    {
+      "ts": "2026-05-08T15:45:23.153795+00:00",
+      "status": "degraded",
+      "issues": [
+        "Disk usage high: /Volumes/Docker at 94%"
+      ]
+    },
+    {
+      "ts": "2026-05-08T15:50:00.243078+00:00",
+      "status": "degraded",
+      "issues": [
+        "Disk usage high: /Volumes/Docker at 94%"
+      ]
+    },
+    {
+      "ts": "2026-05-08T15:55:31.843085+00:00",
+      "status": "degraded",
+      "issues": [
+        "Disk usage high: /Volumes/Docker at 94%"
+      ]
     }
   ],
   "summary": {
-    "totalChecks": 2531,
+    "totalChecks": 2542,
     "upChecks": 2335,
-    "downtimeMinutes": 2940,
-    "uptimePct": 92.256,
-    "lastCheck": "2026-05-08T15:00:52.936769+00:00",
+    "downtimeMinutes": 3105,
+    "uptimePct": 91.857,
+    "lastCheck": "2026-05-08T15:55:31.843085+00:00",
     "lastStatus": "degraded"
   }
 }

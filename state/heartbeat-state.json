@@ -3,13 +3,13 @@
     "email": "2026-05-08T11:16:00.000Z",
     "calendar": "2026-05-08T11:16:00.000Z",
     "agentHealth": 1778240971.911819,
-    "apiBalance": "2026-05-08T14:59:42.970Z",
-    "taskWatchdog": "2026-05-08T14:59:42.970Z",
-    "wardenEscalation": "2026-05-08T14:59:42.970Z",
-    "cronDeadLetter": "2026-05-08T14:59:42.970Z",
-    "ahsokaPilot": "2026-05-08T14:51:02.500Z",
-    "standby": "2026-05-08T14:59:42.970Z",
-    "cronHealth": "2026-05-08T14:59:42.970Z",
+    "apiBalance": "2026-05-08T15:57:00.000Z",
+    "taskWatchdog": "2026-05-08T15:57:00.000Z",
+    "wardenEscalation": "2026-05-08T15:57:00.000Z",
+    "cronDeadLetter": "2026-05-08T15:57:00.000Z",
+    "ahsokaPilot": "2026-05-08T15:57:00.000Z",
+    "standby": "2026-05-08T15:57:00.000Z",
+    "cronHealth": "2026-05-08T15:57:00.000Z",
     "allowlistSync": "2026-05-08T11:45:04.868Z",
     "memoryMaintenance": "2026-05-06T13:49:30.166021+00:00",
     "weather": null,
@@ -21,5 +21,5 @@
     "budgetCheck": "2026-05-08T13:35:49Z",
     "doDGates": "2026-05-08T11:35:00.000Z"
   },
-  "notes": "May 9 12:59 AM AEST: All clear. Balance $479.35 T0 ✅ warden resolved ✅ cron clean ✅ no stalls ✅ no dead-letters ✅ quiet hours — no action"
+  "notes": "May 9 1:57 AM AEST: All clear. Balance $479.35, activeTier=0. No standby, no task alerts, no dead letters, no warden issues (resolved CHG-0225). Daily close done (23:42 AEST). Ahsoka Pilot 1 parked (in_progress). Quiet hours."
 }
