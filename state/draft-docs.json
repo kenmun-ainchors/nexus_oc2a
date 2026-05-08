@@ -1,0 +1,80 @@
+{
+  "schema_version": "1.0",
+  "description": "Gate 2 DoD tracker — all documents in DRAFT FOR REVIEW status requiring Ken endorsement before linked ticket can close. Retrospective populated 2026-05-08 to capture all pre-today gaps.",
+  "lastUpdated": "2026-05-08T20:43:00+10:00",
+  "drafts": [
+    {
+      "id": "DRAFT-001",
+      "document": "docs/DataMemory_P1P4_Roadmap.md",
+      "producedBy": "Atlas",
+      "producedAt": "2026-05-08",
+      "linkedTicket": "TKT-0104",
+      "status": "draft",
+      "openDecisions": ["DEC-005","DEC-006","DEC-007","DEC-008","DEC-009","DEC-010","DEC-011"],
+      "note": "Material decisions Q1/Q8/Q9 confirmed. 7 remaining open decisions must close before APPROVED."
+    },
+    {
+      "id": "DRAFT-002",
+      "document": "docs/Nexus_Enterprise_Landscape_P2P4.md",
+      "producedBy": "Atlas",
+      "producedAt": "2026-05-08",
+      "linkedTicket": "TKT-0046",
+      "status": "draft",
+      "openDecisions": ["DEC-001","DEC-002","DEC-003","DEC-004"],
+      "note": "Decisions A/B/G/H confirmed. 4 remaining open decisions must close before APPROVED."
+    },
+    {
+      "id": "DRAFT-003",
+      "document": "workspace-architect/Enterprise_Architect_Nexus_Enterprise_Landscape_v1.md",
+      "producedBy": "Atlas",
+      "producedAt": "2026-05-07",
+      "amendedAt": "2026-05-08",
+      "linkedTicket": "TKT-0046",
+      "status": "draft",
+      "openDecisions": ["DEC-001","DEC-002","DEC-003","DEC-004"],
+      "note": "RETROSPECTIVE GAP. Atlas EA working doc. Amended CHG-0234. Never formally approved by Ken. Closes with DRAFT-002."
+    },
+    {
+      "id": "DRAFT-004",
+      "document": "workspace-architect/AI_Platform_Architect_Nexus_Core_v1.md",
+      "producedBy": "Atlas/Thrawn",
+      "producedAt": "2026-05-07",
+      "amendedAt": "2026-05-08",
+      "linkedTicket": "TKT-0046",
+      "status": "draft",
+      "openDecisions": [],
+      "note": "RETROSPECTIVE GAP. Thrawn platform doc. Amended CHG-0234 for P3 redefinition. Requires Ken review and acceptance. No blocking decisions — can close independently."
+    },
+    {
+      "id": "DRAFT-005",
+      "document": "docs/ainchors-strategy-okr-2026-05.md",
+      "producedBy": "Yoda/Atlas",
+      "producedAt": "2026-05-07",
+      "linkedTicket": "TKT-0086",
+      "status": "draft",
+      "openDecisions": [],
+      "note": "RETROSPECTIVE GAP. Strategy + OKR doc. No APPROVED status stamp. Ken verbally confirmed strategy (VMS locked CHG-0221, Agile locked CHG-0222) but doc never formally accepted. Quick close — Ken confirmation needed."
+    },
+    {
+      "id": "DRAFT-006",
+      "document": "docs/auralith-it-strategy-2026-05.md",
+      "producedBy": "Atlas",
+      "producedAt": "2026-05-07",
+      "amendedAt": "2026-05-08",
+      "linkedTicket": "TKT-0088",
+      "status": "draft",
+      "openDecisions": [],
+      "note": "RETROSPECTIVE GAP. Auralith IT strategy doc. Amended CHG-0234 for P3 redefinition. No formal Ken acceptance stamp. Quick close — Ken confirmation needed."
+    },
+    {
+      "id": "DRAFT-007",
+      "document": "docs/Business_Process_Specialist_Agent_v1.md",
+      "producedBy": "Yoda",
+      "producedAt": "2026-04-29",
+      "linkedTicket": "TKT-0072",
+      "status": "draft",
+      "openDecisions": ["DEC-012"],
+      "note": "RETROSPECTIVE GAP. Lando BPM agent spec. Produced Day 5, never formally accepted. Lando is now Tier 3 per governance framework — spec needs review against new governance model before acceptance."
+    }
+  ]
+}

@@ -512,10 +512,10 @@
   "daysTracked": 14,
   "avgDailyCost": 141.8625,
   "apiBalance": {
-    "remainingEstimate": 150.59,
+    "remainingEstimate": 479.35,
     "spentSinceTopUp": 1986.0748,
     "remainingNote": "confirmedBalance=None at 2026-05-06; spentAfter=1986.0748",
-    "confirmedAt": "2026-05-08T03:11:18.6NZ",
+    "confirmedAt": "2026-05-08T11:32:26Z",
     "note": "Confirmed by Ken 2026-05-08 13:10 AEST. Auto-reload active."
   },
   "spendAlerts": {
@@ -567,16 +567,16 @@
   },
   "costDataSource": "anthropic_csv_ground_truth",
   "costDataNote": "May 3+4 reconciled from Anthropic CSV 2026-05-05. Pre-May3 from earlier CSV reconciliation.",
-  "confirmedBalance": 150.59,
-  "confirmedAt": "2026-05-08T03:11:18.6NZ",
+  "confirmedBalance": 479.35,
+  "confirmedAt": "2026-05-08T11:32:26Z",
   "confirmedBy": "Ken",
-  "lastTopUpAt": "2026-05-06T17:31:53Z",
-  "lastTopUpAmount": 500,
+  "lastTopUpAt": "2026-05-08T11:32:26Z",
+  "lastTopUpAmount": 450,
   "topUpNote": "Auto-reload trigger fired 2026-05-07 03:31 AEST. $500 reloaded. Balance $470.93.",
-  "confirmedNote": "Manual update 2026-05-08 13:10 AEST. Auto-reload enabled: triggers at <$50, reloads to $500.",
+  "confirmedNote": "Manual top-up 2026-05-08 21:32 AEST. Balance $479.35. Auto-reload policy corrected: triggers at <$50, reloads $450 (not $500). From $50 + $450 = $500 total.",
   "autoReload": {
     "enabled": true,
     "triggerThreshold": 50,
-    "reloadAmount": 500
+    "reloadAmount": 450
   }
 }

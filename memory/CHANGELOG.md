@@ -42,6 +42,30 @@ This log captures **every change** Yoda makes to AInchors infrastructure, config
 **Linked:** decisions.md 2026-04-27 entries
 ---
 
+## 2026-05-08 20:48 AEST — [CHG-0243] DoD retrospective — open decisions + draft docs backfilled from all prior work
+**Type:** rule
+**Source:** ken-prompt
+**Trigger:** Ken identified governance gap on pre-today items 2026-05-08 20:43 AEST
+**What changed:** open-decisions.json: 15 decisions tracked (11 from today + 4 retrospective: DEC-012 Lando spec review, DEC-013 Warden scope, DEC-014 Aria context files, DEC-015 TKT-0102 guardrail integration gaps). draft-docs.json: 7 drafts tracked (2 from today + 5 retrospective: Enterprise Landscape EA doc, Thrawn platform doc, Strategy OKR doc, Auralith IT strategy, Lando BPM spec). All marked with retrospective:true flag.
+**Why:** DoD Gates 1+2 were not enforced before today. Retrospective ensures all prior Atlas/sub-agent outputs are accounted for. Nothing marked Done that has open gates.
+**Verification:** open-decisions.json: 15 entries. draft-docs.json: 7 entries. Both surfaced at sprint planning Sunday.
+**Rollback:** N/A
+**Linked:** none
+---
+
+
+## 2026-05-08 20:42 AEST — [CHG-0242] Definition of Done formalised — 3-gate DoD + open decisions tracking
+**Type:** rule
+**Source:** ken-prompt
+**Trigger:** Ken identified DoD gap during Atlas proposal review 2026-05-08 20:41 AEST
+**What changed:** Agile framework: Universal DoD Gates added (Gate 1: open decisions closed, Gate 2: no drafts pending, Gate 3: both cleared = Done). state/open-decisions.json created: 11 open decisions from TKT-0046 + TKT-0104. state/draft-docs.json created: 2 draft docs pending acceptance (DataMemory roadmap + Enterprise Landscape). HEARTBEAT.md updated: DoD gate check added to sprint planning + review cadence.
+**Why:** Atlas produced proposals with open decisions and draft docs. No systematic tracking existed. Items were at risk of being marked Done without all gates cleared.
+**Verification:** Agile framework Section 6 updated. Both tracking files created and populated. HEARTBEAT wired.
+**Rollback:** N/A
+**Linked:** none
+---
+
+
 ## 2026-05-08 19:54 AEST — [CHG-0241] Agile Framework: velocity targets + P2 deadline analysis locked
 **Type:** doc
 **Source:** ken-prompt

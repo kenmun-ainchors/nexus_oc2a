@@ -1,0 +1,176 @@
+{
+  "schema_version": "1.0",
+  "description": "Gate 1 DoD tracker — all open decisions requiring Ken confirmation. Retrospective populated 2026-05-08 to capture all pre-today gaps. Checked at sprint planning and sprint review.",
+  "lastUpdated": "2026-05-08T20:43:00+10:00",
+  "decisions": [
+    {
+      "id": "DEC-001",
+      "source": "TKT-0046",
+      "raisedBy": "Atlas",
+      "raisedAt": "2026-05-08",
+      "decision": "Holocron at P4 FSI: Hybrid (Notion internal + self-hosted client KB) vs Notion-restrictions-only",
+      "recommended": "Hybrid — Notion for AInchors internal, self-hosted KB for FSI client environments",
+      "blockedItem": "TKT-0046 / DRAFT-002 / DRAFT-003",
+      "urgency": "P2 gate",
+      "status": "open"
+    },
+    {
+      "id": "DEC-002",
+      "source": "TKT-0046",
+      "raisedBy": "Atlas",
+      "raisedAt": "2026-05-08",
+      "decision": "The Citadel build approach: Notion-based P2 / custom build P4 (recommended) vs direct custom build from P2",
+      "recommended": "Notion-based v0 for first 2-3 SME clients Q3 2026, custom build Q3-Q4 for P4-ready version",
+      "blockedItem": "TKT-0046 / DRAFT-002",
+      "urgency": "P2 gate — before first client onboarded",
+      "status": "open"
+    },
+    {
+      "id": "DEC-003",
+      "source": "TKT-0046",
+      "raisedBy": "Atlas",
+      "raisedAt": "2026-05-08",
+      "decision": "Holonet P2 scope: REST/webhooks only (recommended) vs include DB connectors from P2",
+      "recommended": "REST/webhooks only for P2. DB connectors = P3 commercial tier or P4.",
+      "blockedItem": "TKT-0046 / DRAFT-002",
+      "urgency": "P2 gate — before API build begins",
+      "status": "open"
+    },
+    {
+      "id": "DEC-004",
+      "source": "TKT-0046",
+      "raisedBy": "Atlas",
+      "raisedAt": "2026-05-08",
+      "decision": "Warden deployment model: AInchors-managed P2 (recommended) vs per-tenant Warden from P2",
+      "recommended": "AInchors-managed single Warden for P2. Per-tenant Warden = P4 FSI only.",
+      "blockedItem": "TKT-0046 / DRAFT-002",
+      "urgency": "P2 gate",
+      "status": "open"
+    },
+    {
+      "id": "DEC-005",
+      "source": "TKT-0104",
+      "raisedBy": "Atlas",
+      "raisedAt": "2026-05-08",
+      "decision": "Postgres deployment on OC1: standalone Homebrew vs Docker",
+      "recommended": "Standalone Homebrew for P1/dev. Docker for P2 production.",
+      "blockedItem": "TKT-0104 / DRAFT-001 / Data+Memory implementation",
+      "urgency": "Before any Postgres schema build begins",
+      "status": "open"
+    },
+    {
+      "id": "DEC-006",
+      "source": "TKT-0104",
+      "raisedBy": "Atlas",
+      "raisedAt": "2026-05-08",
+      "decision": "Redis in P1: add now for P2-readiness vs defer to P2 and use Postgres session tables only",
+      "recommended": "Defer Redis to P2. Use Postgres session tables for P1 short-term memory.",
+      "blockedItem": "TKT-0104 / DRAFT-001 / T2 session memory build",
+      "urgency": "Before T2 session memory build begins",
+      "status": "open"
+    },
+    {
+      "id": "DEC-007",
+      "source": "TKT-0104",
+      "raisedBy": "Atlas",
+      "raisedAt": "2026-05-08",
+      "decision": "Initial knowledge base ingestion priority — which documents to ingest first in Month 2",
+      "recommended": "AInchors strategy docs, agent SOUL.md/RULES.md, Agile framework, EA docs. Then client-facing docs.",
+      "blockedItem": "TKT-0104 / DRAFT-001 / T4 Semantic Memory build",
+      "urgency": "Before T4 RAG pipeline build begins",
+      "status": "open"
+    },
+    {
+      "id": "DEC-008",
+      "source": "TKT-0104",
+      "raisedBy": "Atlas",
+      "raisedAt": "2026-05-08",
+      "decision": "PII scanner tool: spaCy (lighter, Python-native) vs Presidio (enterprise-grade, Microsoft)",
+      "recommended": "Presidio — APRA CPG 234 requires enterprise-grade PII detection for P2+ client workloads",
+      "blockedItem": "TKT-0104 / DRAFT-001 / PII detection implementation",
+      "urgency": "P2 gate — before client data ingestion",
+      "status": "open"
+    },
+    {
+      "id": "DEC-009",
+      "source": "TKT-0104",
+      "raisedBy": "Atlas",
+      "raisedAt": "2026-05-08",
+      "decision": "Formal audit log retention policy for P1: set now (recommended: indefinite) vs defer",
+      "recommended": "Set now: indefinite retention for P1. Review at P2 for regulated data retention schedules.",
+      "blockedItem": "TKT-0104 / DRAFT-001 / TKT-0075 Audit Log Architecture",
+      "urgency": "Before T3 episodic log build begins",
+      "status": "open"
+    },
+    {
+      "id": "DEC-010",
+      "source": "TKT-0104",
+      "raisedBy": "Atlas",
+      "raisedAt": "2026-05-08",
+      "decision": "agent_shared_state conflict handling: automatic retry on optimistic lock conflict vs last-write-wins with history preserved",
+      "recommended": "Automatic retry (3x) on optimistic lock conflict. Last-write-wins only as final fallback with history entry.",
+      "blockedItem": "TKT-0104 / DRAFT-001 / T5 Shared Memory build",
+      "urgency": "Before T5 shared state build begins",
+      "status": "open"
+    },
+    {
+      "id": "DEC-011",
+      "source": "TKT-0104",
+      "raisedBy": "Atlas",
+      "raisedAt": "2026-05-08",
+      "decision": "Portfolio artefacts primary audience: Ken job search (CIO/CTO credential) vs AInchors client-facing sales collateral",
+      "recommended": "Both — dual-purpose. Ken job search framing for P1. Client-facing from P2.",
+      "blockedItem": "TKT-0104 / DRAFT-001 / portfolio artefact production",
+      "urgency": "Low — inform tone/framing only",
+      "status": "open"
+    },
+    {
+      "id": "DEC-012",
+      "source": "TKT-0072",
+      "raisedBy": "Yoda",
+      "raisedAt": "2026-04-29",
+      "retrospective": true,
+      "decision": "Lando BPM agent spec (Business_Process_Specialist_Agent_v1.md) — review against new Tier 3 governance model before formal acceptance",
+      "recommended": "Review spec, add Tier 3 SOP and domain boundary section (per TKT-0105 Model3-Policy), then accept.",
+      "blockedItem": "TKT-0072 / DRAFT-007",
+      "urgency": "Before Lando is operationalised",
+      "status": "open"
+    },
+    {
+      "id": "DEC-013",
+      "source": "TKT-0103",
+      "raisedBy": "Atlas",
+      "raisedAt": "2026-05-08",
+      "retrospective": true,
+      "decision": "Warden monitoring scope: enrol specialist agents (Atlas, Thrawn, Lando, Mon Mothma, Spark) in model-policy.json OR document explicit exclusion permanently",
+      "recommended": "Explicit exclusion documented in model-policy.json for Tier 3 agents (no model drift risk — they use Sonnet/Haiku by design). Krennic to be added when built.",
+      "blockedItem": "TKT-0103 CHG-P4 / Warden coverage",
+      "urgency": "Before P2 — governance completeness",
+      "status": "open"
+    },
+    {
+      "id": "DEC-014",
+      "source": "TKT-0103",
+      "raisedBy": "Atlas",
+      "raisedAt": "2026-05-08",
+      "retrospective": true,
+      "decision": "Aria shared context files — verify context-for-aria.md, yoda-daily-brief.md, aria-daily-brief.md, relay-to-ken.json are present and active",
+      "recommended": "Run verification check. If any missing, recreate. This is CHG-P6 from TKT-0103.",
+      "blockedItem": "TKT-0103 CHG-P6",
+      "urgency": "Medium — affects Aria/Yoda coordination reliability",
+      "status": "open"
+    },
+    {
+      "id": "DEC-015",
+      "source": "TKT-0102",
+      "raisedBy": "Yoda",
+      "raisedAt": "2026-05-08",
+      "retrospective": true,
+      "decision": "Guardrail integration: R4/R5 (Aria NPS/pattern capture), C1-C5 (Ahsoka), A1-A4 (Atlas), G1-G2/W1-W2 (Sanctum/Warden) — all missing or unverified",
+      "recommended": "Integrate R4/R5 into ARIA_RULES.md, verify/integrate C1-C5 into Ahsoka's rules, verify A1-A4 in Atlas SOUL.md, verify G1-G2/W1-W2. Track per TKT-0102.",
+      "blockedItem": "TKT-0102",
+      "urgency": "Sprint 2 — strategy docs reference these as live but they are not",
+      "status": "open"
+    }
+  ]
+}

@@ -152,7 +152,7 @@ Rule: New module names use Star Wars themes. Ken approves. All above final — n
 - TRIGGER-06: OpenClaw v4.0 ships → P3 gate assessment. CrewAI vs native multi-agent eval for Ken.
 - TRIGGER-07: First P2 client → onboarding checklist execution.
 - TRIGGER-08: Daily API cost >$60 USD → T1 alert; >$80 → T2; >$100 → T3 pause.
-- **Auto-reload:** enabled at <$50 → reloads to $500. Credit alert thresholds recalibrated 2026-05-08 (CHG-0232): T1=$60 (alert once), T2=$55 (pre-reload heads-up), T3=$15 (reload failed, real emergency).
+- **Auto-reload:** enabled at <$50 → reloads **$450** (confirmed 2026-05-08: +$450 from $50 = $500 total, not $500 reload). Credit alert thresholds recalibrated 2026-05-08 (CHG-0232): T1=$60 (alert once), T2=$55 (pre-reload heads-up), T3=$15 (reload failed, real emergency).
 - TRIGGER-09: Warden model drift detected → Yoda remediates within 1 heartbeat.
 - TRIGGER-10: Business stream ready → migrate Aria + agents from OC1 to OC2.
 - TRIGGER-11: glm-5.1 no-think mode availability (monthly check) → benchmark if available, add to Tier 2 if latency <=20s.

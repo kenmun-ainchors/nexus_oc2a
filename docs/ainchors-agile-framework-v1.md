@@ -271,6 +271,22 @@ Within any sprint, prioritise in this order:
 
 "Done" means the work is complete, verified, and recorded. Not "mostly done." Not "working on my machine." Done.
 
+### Universal DoD Gates (apply to ALL item types — locked 2026-05-08)
+
+Before ANY ticket, US, epic, or architecture task can be marked Done, ALL three gates must pass:
+
+**Gate 1 — Open Decisions Closed**
+All decisions raised during the work (unanswered, blocked, dependent, or triggered) must be resolved and confirmed by Ken. Tracked in `state/open-decisions.json`. A ticket with open decisions is BLOCKED — not Done.
+
+**Gate 2 — No Draft Outputs**
+Any document, framework, policy, or architecture artefact produced as a deliverable must be explicitly endorsed/accepted/confirmed by Ken before the item closes. "DRAFT FOR REVIEW" status = not Done. Ken's explicit confirmation (in webchat or Telegram) = accepted. Yoda updates doc status and logs CHG.
+
+**Gate 3 — Gates 1 and/or 2 fully cleared**
+Only when all open decisions are closed AND all drafts are accepted is the item considered Done. Partial closure is not Done.
+
+**Tracking:** Yoda maintains `state/open-decisions.json` for Gate 1 and `state/draft-docs.json` for Gate 2. Both are checked at sprint planning (Sunday) and sprint review (Friday standup). Any item with open gates cannot be carried forward as "Done" — it is "Blocked" or "In Review".
+
+
 ### TKT (Task / Ticket)
 
 A TKT is done when ALL of the following are true:

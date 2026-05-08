@@ -84,6 +84,15 @@ _Maintained by Aria 🔵 + Yoda 🟢 | Status-tracked content for AInchors train
 | TC-077 | Platform keyword collisions: when your AI agent's commands fight with the platform's own commands | 💡 Idea | Yoda Day 13 (CHG — /flash + /update reserved by OpenClaw, replaced with /flashupdate) | Yoda |
 | TC-078 | Agent belief vs. agent capability: diagnosing when your AI won't try because it thinks it can't | 💡 Idea | Yoda Day 13 (Aria exec avoidance — 3 failed calendar attempts, stale capability belief, override fix) | Both |
 | TC-079 | Building stateless agents: why every config must live in files, not in model context | 💡 Idea | Yoda Day 13 (TKT-0077 — agent-registry.json SSOT, dynamic cron ownership, 5 invisible agents problem) | Both |
+| TC-080 | Why Claude can't touch your client data: Anthropic DPA + Australian privacy law explained | 💡 Idea | Yoda Day 14 (CHG-0239 — APRA CPG 235 / Privacy Act APP 11, US storage = cross-border transfer, Gemma4 local default) | Aria |
+| TC-081 | Per-agent cost budgets: the FinOps move that makes AI ops safe for client work | 💡 Idea | Yoda Day 14 (CHG-0237 TKT-0092 — agent-budgets.json, budget-check.sh, daily Telegram alert) | Both |
+| TC-082 | Diagnosing AI cron reliability: 17 failures in 24 hours and how we fixed them | 💡 Idea | Yoda Day 14 (CHG-0231 — 4-fix bundle: Haiku fallback, timeouts, empty response fix, Warden stagger) | Yoda |
+| TC-083 | Five tiers of agent governance: accountability at scale when you have 13 AI agents | 💡 Idea | Yoda Day 14 (CHG-0233 — Agent_Governance_Framework_v1.md, T0-T4, Dual-Principal, Triad Service patterns) | Both |
+| TC-084 | Making AI produce real deliverables: document generation pipelines for DOCX, XLSX, PPTX, PDF | 💡 Idea | Yoda Day 14 (CHG-0240 TKT-0108 — generate-doc.sh + 4 template scripts, unblocks Ahsoka proposals) | Aria |
+| TC-085 | 3-2-1+1 backup strategy for AI platforms: data protection before your first client | 💡 Idea | Yoda Day 14 (CHG-0238 TKT-0093 — iCloud offsite, NAS plan, Backup_Strategy_3-2-1-1.md, S7 compliance) | Both |
+| TC-086 | Definition of Done for AI delivery: the 3-gate framework that keeps work honest | 💡 Idea | Yoda Day 14 (CHG-0242 — open-decisions.json, draft-docs.json, DoD gate enforced at sprint planning + review) | Aria |
+| TC-087 | BYOK: how to let clients use their own AI keys without inheriting their data residency risk | 💡 Idea | Yoda Day 14 (CHG-0236 — BYOK opt-in, client accepts Anthropic DPA liability, AInchors not liable) | Both |
+| TC-088 | Multi-tenant from day one: why RLS is easier to build in than to bolt on later | 💡 Idea | Yoda Day 14 (CHG-0235 — P2 isolation model, row-level security confirmed from day one, no retrofit) | Yoda |
 
 ## Status Legend
 💡 Idea → 📝 Draft → 🔍 Review (Yoda validates) → ✅ Ready → 📢 Published

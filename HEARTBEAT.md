@@ -85,6 +85,14 @@
 - After alerting, set `acknowledged: true` in the alert entry
 - State key: `lastChecks.budgetCheck`
 
+### Open Decisions + Draft Docs — DoD Gate Check (check at sprint planning + sprint review)
+- Read `state/open-decisions.json` → count decisions where status = "open"
+- Read `state/draft-docs.json` → count drafts where status = "draft"
+- At sprint planning (Sunday): surface ALL open decisions and draft docs to Ken — nothing can be marked Done until gates clear
+- At sprint review (Friday): include gate status in sprint review section
+- If any decision has urgency containing "P2 gate" AND sprint is within 3 sprints of P2 build — escalate immediately
+- State key: lastChecks.doDGates
+
 ### Cron Health Check (check every 30 min)
 - Run `bash scripts/cron-health-check.sh`
 - If exit 1 OR `state/cron-health-alert.json` exists with `acknowledged: false`:
