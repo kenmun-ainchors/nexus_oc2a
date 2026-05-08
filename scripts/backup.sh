@@ -101,6 +101,9 @@ CONFIG_SNAP_BASENAME=$(basename "$BACKUP_ROOT/config/openclaw-$TIMESTAMP.json")
 BACKUP_COUNT=$(ls "$BACKUP_ROOT/workspace"/*.tar.gz 2>/dev/null | wc -l | tr -d ' ')
 SIZE_BYTES=$(stat -f%z "$WORKSPACE_SNAP" 2>/dev/null || echo 0)
 
+CLOUD_FLAG="False"
+[[ "${CLOUD_BACKUP_ENABLED:-false}" == "true" ]] && CLOUD_FLAG="True"
+
 python3 -c "
 import json, os
 state = {
@@ -110,7 +113,7 @@ state = {
     'lastWorkspaceSnap': '$WS_SNAP_BASENAME',
     'lastConfigSnap': '$CONFIG_SNAP_BASENAME',
     'nasConnected': False,
-    'cloudBackupEnabled': ${CLOUD_BACKUP_ENABLED:-false},
+    'cloudBackupEnabled': $CLOUD_FLAG,
     'sizeBytes': $SIZE_BYTES,
     'backupCount': $BACKUP_COUNT
 }
