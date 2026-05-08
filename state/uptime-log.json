@@ -13128,14 +13128,28 @@
       "issues": [
         "Disk usage high: /Volumes/Docker at 94%"
       ]
+    },
+    {
+      "ts": "2026-05-08T16:00:27.287701+00:00",
+      "status": "degraded",
+      "issues": [
+        "Disk usage high: /Volumes/Docker at 94%"
+      ]
+    },
+    {
+      "ts": "2026-05-08T16:04:59.831054+00:00",
+      "status": "degraded",
+      "issues": [
+        "Disk usage high: /Volumes/Docker at 94%"
+      ]
     }
   ],
   "summary": {
-    "totalChecks": 2542,
+    "totalChecks": 2544,
     "upChecks": 2335,
-    "downtimeMinutes": 3105,
-    "uptimePct": 91.857,
-    "lastCheck": "2026-05-08T15:55:31.843085+00:00",
+    "downtimeMinutes": 3135,
+    "uptimePct": 91.785,
+    "lastCheck": "2026-05-08T16:04:59.831054+00:00",
     "lastStatus": "degraded"
   }
 }
