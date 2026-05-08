@@ -1,24 +1,25 @@
 {
   "lastChecks": {
-    "email": "2026-05-08T09:24:42.866Z",
-    "calendar": "2026-05-08T09:24:42.866Z",
-    "agentHealth": "2026-05-08T09:24:42.866Z",
-    "apiBalance": "2026-05-08T10:06:27.768Z",
-    "taskWatchdog": "2026-05-08T10:06:27.768Z",
-    "wardenEscalation": "2026-05-08T10:06:27.768Z",
-    "cronDeadLetter": "2026-05-08T10:06:27.768Z",
-    "ahsokaPilot": "2026-05-08T10:06:27.768Z",
-    "standby": "2026-05-08T10:06:27.768Z",
-    "cronHealth": "2026-05-08T10:06:27.768Z",
-    "allowlistSync": "2026-05-08T10:06:27.768Z",
+    "email": "2026-05-08T11:16:00.000Z",
+    "calendar": "2026-05-08T11:16:00.000Z",
+    "agentHealth": 1778240971.911819,
+    "apiBalance": "2026-05-08T11:45:04.868Z",
+    "taskWatchdog": 1778240971.911808,
+    "wardenEscalation": "2026-05-08T11:45:04.868Z",
+    "cronDeadLetter": "2026-05-08T11:45:04.868Z",
+    "ahsokaPilot": "2026-05-08T11:45:04.868Z",
+    "standby": "2026-05-08T11:45:04.868Z",
+    "cronHealth": 1778240971.911823,
+    "allowlistSync": "2026-05-08T11:45:04.868Z",
     "memoryMaintenance": "2026-05-06T13:49:30.166021+00:00",
     "weather": null,
-    "dailyClose": 1778161778.659,
+    "dailyClose": "2026-05-08T11:56:00Z",
     "ariaContextSync": "2026-05-04T13:00:00Z",
     "standup": "2026-05-06T21:58:26.663467Z",
-    "missionControl": "2026-05-05T09:26:00.000000Z",
-    "diskCheck": "2026-05-08T09:15:09.541Z",
-    "budgetCheck": "2026-05-08T10:06:27.768Z"
+    "missionControl": "2026-05-08T11:27:00.000Z",
+    "diskCheck": "2026-05-08T11:27:00.000Z",
+    "budgetCheck": 1778240971.911821,
+    "doDGates": "2026-05-08T11:35:00.000Z"
   },
-  "notes": "May 8 8:05 PM AEST: All checks clean. Balance $150.59. Budget exceeded alert acknowledged. Crons OK. Warden resolved. No escalations."
+  "notes": "May 8 9:45 PM AEST: Sprint Review DoD gate check surfaced to Ken — 15 open decisions, 7 drafts. Balance $479.35 T0. No stalls, no dead letters, Warden resolved. Ahsoka P1 parked. Daily close window not yet open (23:30)."
 }
