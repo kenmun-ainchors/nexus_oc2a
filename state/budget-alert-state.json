@@ -1,23 +1,27 @@
 {
-  "lastChecked": "2026-05-08T12:51:44Z",
+  "lastChecked": "2026-05-08T13:34:55Z",
   "alerts": [
     {
       "agent": "infra",
       "type": "0",
-      "todaySpend": 23.976,
+      "todaySpend": 24.8984,
       "budget": 20,
-      "pct": 1.1988,
-      "detectedAt": "2026-05-08T12:51:44Z",
-      "acknowledged": true
+      "pct": 1.2449,
+      "detectedAt": "2026-05-08T13:34:55Z",
+      "acknowledged": true,
+      "acknowledgedAt": "2026-05-08T13:35:00Z",
+      "acknowledgedBy": "Yoda heartbeat — Ken alerted via Telegram"
     },
     {
       "agent": "main",
       "type": "0",
-      "todaySpend": 96.4588,
+      "todaySpend": 99.0477,
       "budget": 80,
-      "pct": 1.2057,
-      "detectedAt": "2026-05-08T12:51:44Z",
-      "acknowledged": true
+      "pct": 1.2381,
+      "detectedAt": "2026-05-08T13:34:55Z",
+      "acknowledged": true,
+      "acknowledgedAt": "2026-05-08T13:35:00Z",
+      "acknowledgedBy": "Yoda heartbeat — Ken alerted via Telegram"
     }
   ]
 }

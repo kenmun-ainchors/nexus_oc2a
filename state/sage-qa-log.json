@@ -475,11 +475,25 @@
       "issues": [
         "[]"
       ]
+    },
+    {
+      "ts": "2026-05-09T00:09:23+10:00",
+      "assetPath": "/tmp/blog-draft-2026-05-08.html",
+      "assetType": "blog",
+      "producedBy": "yoda",
+      "intendedFor": "public distribution",
+      "brief": "Content governance review for CONTENT-0046",
+      "verdict": "PASS",
+      "passCount": 7,
+      "failCount": 0,
+      "issues": [
+        "[]"
+      ]
     }
   ],
   "summary": {
-    "total": 34,
-    "pass": 33,
+    "total": 35,
+    "pass": 34,
     "fail": 1
   }
 }
