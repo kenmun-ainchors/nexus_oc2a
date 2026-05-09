@@ -10,5 +10,9 @@
   {
     "date": "2026-05-08T07:45:00+10:00",
     "changes": "2 items updated: (1) CHG Trigger Rules section: TRIGGER-01 to TRIGGER-10 → TRIGGER-01 to TRIGGER-12. Added TRIGGER-11 (glm-5.1 no-think monthly check, added 2026-05-02) and TRIGGER-12 (allowlist auto-sync, live 2026-05-03, CHG-0144). (2) Recent Milestones updated: Days 7-13 → Days 7-14 summary, CHG range extended from CHG-0208-0222 to CHG-0208-0226 (as of May 8 07:32 AEST). All cross-references validated against state files: tickets.json (sequence 94), cost-state.json (balance $266.76), akb-migration-state.json (phases 1-5 complete), chg-triggers.json (12 triggers live). No fact mismatches. MEMORY.md: clean."
+  },
+  {
+    "date": "2026-05-09T07:45:00+10:00",
+    "changes": "4 items corrected: (1) TKT-0104 status: changed from 'pending/awaiting Ken to fire' → 'RESOLVED (2026-05-08 15:19)' with Atlas outcome locked. (2) Pending Tickets sequence: tickets.json now seq 112 (was 104). Added TKT-0108 (Document Generation Pipeline). (3) TRIGGER-08 cost thresholds: corrected T1=$80 (was $60), T2=$40 (was $55), T3=$15; noted T3 firing 2026-05-08. (4) Obsidian retirement day count: fixed 'Day 9' → 'Day 10' (2026-05-04 phase completion date). Cost balance verified: $479.35 (confirmed Ken 2026-05-08 21:32 AEST). All cross-checks passed: tickets.json, chg-triggers.json, cost-state.json, akb-migration-state.json. MEMORY.md clean."
   }
 ]

@@ -1,25 +1,26 @@
 {
   "lastChecks": {
-    "email": "2026-05-08T11:16:00.000Z",
-    "calendar": "2026-05-08T11:16:00.000Z",
-    "agentHealth": 1778240971.911819,
-    "apiBalance": "2026-05-08T16:00:00Z",
-    "taskWatchdog": "2026-05-08T16:00:00Z",
-    "wardenEscalation": "2026-05-08T16:00:00Z",
-    "cronDeadLetter": "2026-05-08T16:00:00Z",
-    "ahsokaPilot": "2026-05-08T16:00:00Z",
-    "standby": "2026-05-08T16:00:00Z",
-    "cronHealth": "2026-05-08T16:00:00Z",
-    "allowlistSync": "2026-05-08T11:45:04.868Z",
-    "memoryMaintenance": "2026-05-06T13:49:30.166021+00:00",
+    "email": "2026-05-09T00:32:00Z",
+    "calendar": "2026-05-09T00:32:00Z",
+    "agentHealth": "2026-05-09T01:47:00Z",
+    "apiBalance": "2026-05-09T01:52:00Z",
+    "taskWatchdog": "2026-05-09T01:47:00Z",
+    "wardenEscalation": "2026-05-09T01:47:00Z",
+    "cronDeadLetter": "2026-05-09T01:47:00Z",
+    "ahsokaPilot": "2026-05-09T01:47:00Z",
+    "standby": "2026-05-09T01:47:00Z",
+    "cronHealth": "2026-05-09T01:47:00Z",
+    "allowlistSync": "2026-05-09T01:40:00Z",
+    "memoryMaintenance": "2026-05-08T19:58:34.724799Z",
     "weather": null,
     "dailyClose": "2026-05-08T13:42:00Z",
     "ariaContextSync": "2026-05-04T13:00:00Z",
     "standup": "2026-05-06T21:58:26.663467Z",
     "missionControl": "2026-05-08T11:27:00.000Z",
-    "diskCheck": "2026-05-08T11:27:00.000Z",
-    "budgetCheck": "2026-05-08T13:35:49Z",
-    "doDGates": "2026-05-08T11:35:00.000Z"
+    "diskCheck": "2026-05-08T21:32:00Z",
+    "budgetCheck": "2026-05-09T01:36:06.166Z",
+    "doDGates": "2026-05-08T22:04:00.000Z",
+    "chgTriggers": "2026-05-09T01:42:00Z"
   },
-  "notes": "May 9 2:01 AM AEST: All clear. Balance $479.35, activeTier=0. Cron health clean. No stalls. Warden resolved. Ahsoka P1 parked. Quiet hours."
+  "notes": "May 9 11:52AM AEST: All clear. Balance $479.35 (tier 0). Cron health clean. Budget clean. Warden resolved. Ahsoka P1=in_progress/P2=pending. No stalls, dead-letters, standby, or task-verification alerts."
 }

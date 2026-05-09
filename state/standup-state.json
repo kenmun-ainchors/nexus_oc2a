@@ -62,6 +62,16 @@
       "at": "2026-05-08T22:00:00.000Z",
       "windowStart": "2026-05-07T22:00:00.000Z",
       "channel": "telegram"
+    },
+    {
+      "type": "scheduled",
+      "at": "2026-05-08T22:00:00.000Z",
+      "windowStart": "2026-05-07T22:00:00.000Z",
+      "channel": "telegram",
+      "dayN": 15,
+      "channels": ["telegram", "email", "webchat"],
+      "emailSent": "kenmun@gmail.com",
+      "telegramSent": "8574109706"
     }
   ]
 }

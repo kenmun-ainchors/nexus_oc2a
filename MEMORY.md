@@ -16,8 +16,10 @@
 
 ## Infrastructure — HIVE Architecture (confirmed May 2026)
 - **OC1** — Mac Mini M4 24GB — LIVE Production. PERMANENT. HARD LIMIT: No local LLM inference >~8B Q4.
-- **OC2-A** — Mac Mini M4 Pro 48GB — INCOMING ETA July 2026. HA Primary, local inference primary.
-- **OC2-B** — Mac Mini M4 Pro 48GB — INCOMING ETA July 2026. HA Secondary, hot standby.
+- **OC2-A** — Mac Mini M4 Pro 48GB — INCOMING ETA 6–13 Jul 2026 (refined). HA Primary, local inference primary.
+- **OC2-B** — Mac Mini M4 Pro 48GB — INCOMING ETA 6–13 Jul 2026. HA Secondary, hot standby.
+- OC2 setup ~2 weeks → commissioned ~27 Jul 2026. OC2-gated sprint items cannot start until TRIGGER-03.
+- Main disk fine (21% — 88Gi/460Gi). /Volumes/Docker alert was a mounted installer DMG — ejected 2026-05-09 (CHG-0246).
 - Supporting: Tailscale mesh, NAS (shared model weights + state). Obsidian RETIRED 2026-05-04. Platform: OpenClaw (final, no replatforming).
 
 ## Agent Architecture
@@ -79,9 +81,7 @@
 - `state/chg-triggers.json` — 10 CHG triggers, status, detection method.
 
 ## Operations Docs (locked)
-- JournalFormat: Notion Holocron › Platform Operations › JournalFormat (verbatim Ken prompts, Yoda voice, private)
-- BlogFormat: Notion Holocron › Platform Operations › BlogFormat (Ken first-person, public-ready, built FROM journal)
-- GatewayRecovery: Notion Holocron › Platform Operations › GatewayRecoverySOP
+- JournalFormat: Notion (verbatim Ken prompts, Yoda voice, private) | BlogFormat: Notion (Ken first-person, built FROM journal)
 - Journal: `memory/journal-YYYY-MM-DD.md` | Blog: `canvas/documents/ainchors-YYYY-MM-DD/index.html`
 
 ## GitHub
@@ -102,9 +102,7 @@
 
 Rule: New module names use Star Wars themes. Ken approves. All above final — no further approval needed at kickoff.
 
-## Architecture Decision — Knowledge Base (2026-05-03)
-- **Obsidian: RETIRED ✅** — All 5 phases complete (TKT-0042 closed 2026-05-05). Phases 1-5 completed 2026-05-04. 38 pages migrated. Vault decommissioned.
-- **Notion: Single KB** — Holocron structure live. AKB daily cron writes Notion-only.
+- **Obsidian: RETIRED ✅** (TKT-0042, 2026-05-04, 38 pages). Notion = Single KB. Holocron structure live.
 
 ## Open Items
 - ken@ainchors.com alias → kenmun@ainchors.com (alias setup status unknown)
@@ -113,18 +111,9 @@ Rule: New module names use Star Wars themes. Ken approves. All above final — n
 - Tailscale remote access: deferred. S4 ✅ DONE — per-agent tool scopes applied (CHG-0176, 2026-05-05).
 - Agent team design + build: US raised. Needs Atlas + Thrawn input before build. TKT-0068 open.
 
-## TRIGGER-12 — Allowlist Auto-Sync (live, 2026-05-03)
-- Auto-syncs all agent `allowedInCrons` when CI Cycle B approves models OR model-policy.json tierStrategy changes.
-- Scripts: scripts/allowlist-sync.sh + scripts/allowlist_sync_core.py + scripts/allowlist-detect.sh.
-- Cron: 6a059e9e (every 30 min, haiku). State: state/allowlist-sync-state.json. CHG: CHG-0144.
-- Eligibility: main/Aria=all cloud; Spark=kimi+pro; Sage=kimi+flash; Warden=flash only; Shield/Lex=no cloud (sensitive).
-
-## Active Backlog (Notion source of truth)
-- OC2 arrival (ETA July 2026) → fires TRIGGER-01 setup sequence.
-- Ollama Cloud PoC: ✅ COMPLETE (TRIGGER-05 fired 2026-05-02). kimi/deepseek-flash/deepseek-pro Tier 2 active. Tier 2B trial (kimi-k2.6) added for RTB tasks (CHG-0194, 2026-05-06).
-
-## Blog Post Ideas (Ken-originated — do not write until Ken signals ready)
-- None currently tracked. Historical ideas archived.
+## TRIGGER-12 — Allowlist Auto-Sync (live, CHG-0144)
+- Scripts: allowlist-sync.sh + allowlist-detect.sh. Cron: 6a059e9e (30 min, haiku). State: allowlist-sync-state.json.
+- Eligibility: main/Aria=all cloud; Spark=kimi+pro; Sage=kimi+flash; Warden=flash only; Shield/Lex=no cloud.
 
 ## 4-Tier Model Strategy (Target — post OC2)
 - Tier 0: No LLM (systemEvent crons) — $0 — health, obs, task monitoring.
@@ -151,33 +140,40 @@ Rule: New module names use Star Wars themes. Ken approves. All above final — n
 - TRIGGER-05: Ollama Cloud PoC PASS → 4-tier model strategy. **FIRED 2026-05-02** — kimi-k2.6:cloud Tier 2 active.
 - TRIGGER-06: OpenClaw v4.0 ships → P3 gate assessment. CrewAI vs native multi-agent eval for Ken.
 - TRIGGER-07: First P2 client → onboarding checklist execution.
-- TRIGGER-08: Daily API cost >$60 USD → T1 alert; >$80 → T2; >$100 → T3 pause.
-- **Auto-reload:** enabled at <$50 → reloads **$450** (confirmed 2026-05-08: +$450 from $50 = $500 total, not $500 reload). Credit alert thresholds recalibrated 2026-05-08 (CHG-0232): T1=$60 (alert once), T2=$55 (pre-reload heads-up), T3=$15 (reload failed, real emergency).
+- TRIGGER-08: Daily API cost >$80 USD → T1 alert; >$40 → T2; >$15 → T3 pause. **FIRED 2026-05-08 at T3 level.** Cost-tracker.sh fires daily at 12pm.
+- **Auto-reload:** enabled at <$50 → reloads **$450** (confirmed 2026-05-08: +$450 reload fires; balance = $500 max). Current balance: **$479.35** (confirmed Ken 2026-05-08 21:32 AEST, manual top-up). Cost thresholds recalibrated 2026-05-08 (CHG-0232): T1=$80 (alert once), T2=$40 (every 3rd response), T3=$15 (every request — CRITICAL).
 - TRIGGER-09: Warden model drift detected → Yoda remediates within 1 heartbeat.
 - TRIGGER-10: Business stream ready → migrate Aria + agents from OC1 to OC2.
 - TRIGGER-11: glm-5.1 no-think mode availability (monthly check) → benchmark if available, add to Tier 2 if latency <=20s.
 - TRIGGER-12: Agent allowlist auto-sync (live 2026-05-03) → fires on CI Cycle B decisions or model-policy.json updates. Script: allowlist-sync.sh. CHG-0144.
 
-## Recent Milestones (Days 7-14 Summary)
-- Agile Framework v1.0 locked (Day 13, CHG-0222) — Agile L2→L3. Sprint 1 started 2026-05-07.
-- TKT-0086 sequence complete: strategy coherence → governance gaps (20 ACs) → Atlas EA roadmap P1-P5 → backlog replan (95 items) → Agile framework.
-- P2 target confirmed: end August 2026. Auralith incorporation hard gate: end May 2026.
-- **P1–P4 Phase Definitions (locked 2026-05-08):** P1=internal single-tenant (current) | P2=SaaS individual agents | P3=SaaS company/multi-agents (shared context + data) | P4=Enterprise/FSI consulting. Licensed product scope DROPPED from P3.
-- **P3 REDEFINED (2026-05-08 15:08 AEST):** P3 is NOT a build phase. It is a commercial tier label and feature unlock within P2. Multi-tenant foundation built in P2 from day one (tenant_id, RLS, shared state). P3 tier enabled on demand, only if ROI justified. Phase structure: P1 → P2 (multi-tenant + P3 label as add-on tier) → P4.
-- **BYOK policy live. Nexus-first locked globally. 18+ CHGs logged (CHG-0208 through CHG-0226 as of May 8).**
-- **P2 isolation model: RLS (row-level security) from day one** — confirmed Ken 2026-05-08.
-- **P3 trigger: formal ROI checklist required** before enabling company/multi-agent tier. Ken skeptical — maintenance cost may not justify. Strategic note: P4 enterprise clients may prefer physical/in-house deployment over P3 SaaS — P3 may be skipped entirely in practice.
-- **BYOK policy live. Nexus-first locked globally.**
-- **P2 client model policy (locked CHG-0236):** Default = Gemma4 local only for all client-facing workloads. Client BYOK = opt-in (client brings own Anthropic key, owns data residency responsibility — AInchors not liable). Claude API not used for client data until Anthropic DPA verified.
-- **Anthropic DPA confirmed 2026-05-08:** Processing can occur in AU (global routing includes Anthropic Australia Pty Ltd). BUT storage always in US regardless of inference_geo. inference_geo only supports 'global' or 'us' — no AU-only option. VERDICT: Claude API cannot be used for client data under APRA CPG 235 / Privacy Act APP 11 (US storage = cross-border transfer). Policy stands: Gemma4 local default. BYOK = client accepts residency risk.
-- BYOK policy live. Nexus-first locked globally. 18+ CHGs logged (CHG-0208 through CHG-0226 as of May 8).
-- canvas embed rule: sub-agents pass full path only, no embed tags — Yoda embeds directly
-- agentToAgent enabled in openclaw.json — cross-agent sessions_send now live
-- Ollama Cloud PoC PASS (TRIGGER-05) with kimi-k2.6, deepseek Tier 2 active (Day 8)
-- Obsidian fully retired (Day 9), Notion Holocron live (5 phases complete Day 9, TKT-0042 closed Day 11)
-- S4 tool scopes applied all agents (Day 11, CHG-0176)
-- Spark extended to IG/LI/FB/YT (Day 9, CHG-0160), W1P1 posted, W2 approved
-- Agents expanded: Atlas, Thrawn (platform-arch), Ahsoka (pilot testing Day 13)
-- Strategy locked: VMS, OKRs, Guardrails (Day 13, CHG-0201-0206)
-- CI Cycle A running (status: cycle-a, phase A, 17 runs to date, target A-phase end ~May 9)
-- Ollama Pro: accounts@ainchors.com
+## Tailscale Config (CHG-0227/228)
+- Serve enabled on OC1. `allowTailscale: true`. URL: `https://ainchorss-mac-mini.tail5e2567.ts.net`. CLI: v1.96.5. S2 compliant.
+
+## Sprint Capacity Model (CHG-0241, locked 2026-05-08)
+- Pre-OC2: 5 items/sprint | OC2 setup window: 2–3 items/sprint | Post-OC2: 5 items/sprint
+- 30% headroom buffer. Early warning: <4 delivered in any sprint = flag P2 slip.
+- P2 target end-Aug achievable with zero slack. Contingency: mid-Sep.
+- `/sprint` command = on-demand burndown (distinct from Friday standup Sprint Review ceremony)
+
+## Pending Tickets (raised Day 14, 2026-05-08)
+- **TKT-0104:** ✅ RESOLVED — Data+Memory Architecture (2026-05-08). nomic-embed-text 768-dim, P3 redefined, RLS day one.
+- **TKT-0105:** Model3-Policy SOPs — open | not started | Ken to confirm design questions during grooming
+- **TKT-0106:** Apply Model3-Policy to Tier 3 agents — open | blocked on TKT-0105 approval
+- **TKT-0108:** Document Generation Pipeline (DOCX/XLSX/PPTX/PDF) — open | Ahsoka blocker
+- **TKT-0109:** Cassian Andor — Agile PM/Scrum Master agent (Tier 3). Review at July QBR. No build before then.
+- **TKT-0110:** Process Documentation Framework — open | Lando owns user guides. DoD must include user doc.
+- **TKT-0111:** Angie Agile + Nexus Working Guide — open | Lando produces, Aria delivers. Dep: TKT-0110.
+- **tickets.json** sequence 112 (as of 2026-05-08). Notion AKB Backlog = SSOT.
+
+## Key Decisions & Architecture (locked)
+- **P1–P4:** P1=internal | P2=SaaS individual agents | P3=commercial tier label (add-on to P2, not a build phase) | P4=Enterprise/FSI. Licensed product DROPPED from P3.
+- **P3 trigger:** formal ROI checklist before enabling. P4 may skip P3 entirely (enterprise prefers physical).
+- **P2 isolation:** RLS from day one. Multi-tenant foundation in P2 (tenant_id, RLS, shared state).
+- **P2 client model policy (CHG-0236):** Gemma4 local only for client workloads. BYOK = opt-in, client accepts data residency risk.
+- **Anthropic DPA:** Claude API blocked for client data (APRA CPG 235 / Privacy Act APP 11 — US storage = cross-border transfer). Policy: Gemma4 local default. BYOK = client's responsibility.
+- **BYOK + Nexus-first locked globally.** canvas embed rule: sub-agents pass full path, no embed tags.
+- agentToAgent enabled (openclaw.json). Ollama Pro: accounts@ainchors.com.
+- Agile Framework v1.0 locked (Day 13, CHG-0222). Sprint 1 started 2026-05-07. P2 target: end-Aug 2026. Auralith hard gate: end-May 2026.
+- CI Cycle A running (cycle-a, phase A). Cycle 1A 7-day report generated CHG-0244. Cycle 2A started.
+- **Day 15 (2026-05-09):** Standup email theme → light (CHG-0246). /Volumes/Docker alert was installer DMG, ejected. MEMORY.md compacted.

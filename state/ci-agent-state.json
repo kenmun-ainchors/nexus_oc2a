@@ -5,24 +5,64 @@
   "ciModel": "ollama/deepseek-v4-pro:cloud",
   "testStartAt": "2026-05-02T01:23:51.709013Z",
   "testEndAt": null,
-  "lastRunAt": "2026-05-08T12:38:00Z",
-  "status": "cycle-a",
-  "totalRuns": 24,
-  "totalTasksEvaluated": 81,
+  "lastRunAt": "2026-05-09T00:39:03.265567+00:00",
+  "status": "awaiting-ken-approval",
+  "totalRuns": 26,
+  "totalTasksEvaluated": 85,
   "runFrequencyHours": 6,
   "qualityThreshold": 3.5,
   "latencyThresholdSeconds": 20,
   "cronId": "3ec512f3-d85a-486c-866a-8c2c55882641",
   "reportCronId": "a6ec7539-ec94-4fd4-b226-2699636a9f63",
   "cycleDurationDays": 7,
-  "currentCycle": 1,
+  "currentCycle": 2,
   "currentPhase": "A",
-  "cycleAStartAt": "2026-05-02T01:23:51.709013Z",
-  "cycleAEndAt": null,
+  "cycleAStartAt": "2026-05-08T18:41:21.275203+00:00",
+  "cycleAEndAt": "2026-05-08T18:41:21.275203+00:00",
   "cycleBStartAt": null,
   "cycleBEndAt": null,
-  "topCandidates": [],
-  "cycleHistory": [],
+  "topCandidates": [
+    {
+      "task": "subtask",
+      "model": "deepseek-v4-flash:cloud",
+      "avgQuality": 3.88,
+      "avgLatency": 15.51,
+      "confidence": "MEDIUM"
+    },
+    {
+      "task": "creative",
+      "model": "kimi-k2.6:cloud",
+      "avgQuality": 4.14,
+      "avgLatency": 24.13,
+      "confidence": "LOW"
+    }
+  ],
+  "cycleHistory": [
+    {
+      "cycle": 1,
+      "phase": "A",
+      "startAt": "2026-05-02T01:23:51.709013Z",
+      "endAt": "2026-05-08T18:41:21.275203+00:00",
+      "totalRuns": 25,
+      "totalTasks": 97,
+      "topCandidates": [
+        {
+          "task": "subtask",
+          "model": "deepseek-v4-flash:cloud",
+          "avgQuality": 3.88,
+          "avgLatency": 15.51,
+          "confidence": "MEDIUM"
+        },
+        {
+          "task": "creative",
+          "model": "kimi-k2.6:cloud",
+          "avgQuality": 4.14,
+          "avgLatency": 24.13,
+          "confidence": "LOW"
+        }
+      ]
+    }
+  ],
   "cycleBCronId": null,
   "approvalRequired": true
 }

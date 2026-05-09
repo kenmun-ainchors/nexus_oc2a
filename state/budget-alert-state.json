@@ -1,27 +1,4 @@
 {
-  "lastChecked": "2026-05-08T13:34:55Z",
-  "alerts": [
-    {
-      "agent": "infra",
-      "type": "0",
-      "todaySpend": 24.8984,
-      "budget": 20,
-      "pct": 1.2449,
-      "detectedAt": "2026-05-08T13:34:55Z",
-      "acknowledged": true,
-      "acknowledgedAt": "2026-05-08T13:35:00Z",
-      "acknowledgedBy": "Yoda heartbeat — Ken alerted via Telegram"
-    },
-    {
-      "agent": "main",
-      "type": "0",
-      "todaySpend": 99.0477,
-      "budget": 80,
-      "pct": 1.2381,
-      "detectedAt": "2026-05-08T13:34:55Z",
-      "acknowledged": true,
-      "acknowledgedAt": "2026-05-08T13:35:00Z",
-      "acknowledgedBy": "Yoda heartbeat — Ken alerted via Telegram"
-    }
-  ]
+  "lastChecked": "2026-05-09T01:52:23Z",
+  "alerts": []
 }

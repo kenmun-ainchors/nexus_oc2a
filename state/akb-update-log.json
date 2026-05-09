@@ -1,46 +1,8 @@
 [
   {
-    "run_id": "akb-2026-05-08-0300",
-    "date": "2026-05-08",
-    "started_at": "2026-05-07T17:03:14.730020+00:00",
-    "status": "complete",
-    "agents_updated": [
-      "Yoda",
-      "Aria",
-      "Spark",
-      "Shield",
-      "Lex",
-      "Sage",
-      "Warden"
-    ],
-    "notion_page": "Holocron \u2014 Daily Platform Brief",
-    "notion_page_id": "359c1829-53ff-81e0-a0a7-d053cf04811c",
-    "balance": "$266.76",
-    "chg_count": 20
-  },
-  {
-    "run_id": "akb-2026-05-07-0300",
-    "date": "2026-05-07",
-    "started_at": "2026-05-06T17:03:54Z",
-    "status": "complete",
-    "agents_updated": [
-      "Yoda",
-      "Aria",
-      "Spark",
-      "Shield",
-      "Lex",
-      "Sage",
-      "Warden"
-    ],
-    "notion_page": "Holocron \u2014 Daily Platform Brief",
-    "balance": "$100.13",
-    "chg_count": 3
-  },
-  {
-    "run_id": "akb-2026-05-06-0300",
-    "date": "2026-05-06",
-    "started_at": "2026-05-05T17:00:00Z",
-    "completed_at": "2026-05-05T17:03:28.750361+00:00",
+    "run_id": "akb-2026-05-09-0300",
+    "date": "2026-05-09",
+    "started_at": "2026-05-09T03:00:00+10:00",
     "status": "complete",
     "agents_updated": [
       "Yoda",
@@ -53,133 +15,10 @@
     ],
     "notion_page": "Holocron \u2014 Daily Platform Brief",
     "notion_page_id": "356c1829-53ff-8104-a01e-d3617bff59e5",
-    "balance": "~$309.11",
-    "chg_count": 20,
-    "day_n": 12,
-    "health_status": "ok",
-    "warden_consecutive_clean": 16,
-    "blocks_written": 40
-  },
-  {
-    "run_id": "akb-2026-05-05-0300",
-    "date": "2026-05-05",
-    "started_at": "2026-05-04T17:00:00Z",
-    "completed_at": "2026-05-04T17:05:35.901111+00:00",
-    "status": "complete",
-    "agents_updated": [
-      "Yoda",
-      "Aria",
-      "Spark",
-      "Shield",
-      "Lex",
-      "Sage",
-      "Warden"
-    ],
-    "notion_page": "Holocron \u2014 Daily Platform Brief",
-    "notion_page_id": "356c1829-53ff-8104-a01e-d3617bff59e5",
-    "balance": "$227.42",
-    "chg_count": 17,
-    "day_n": 11,
-    "health_status": "ok",
-    "warden_consecutive_clean": 17
-  },
-  {
-    "run_id": "akb-2026-05-04-0300",
-    "date": "2026-05-04",
-    "started_at": "2026-05-03T17:02:44.619890+00:00",
-    "status": "complete",
-    "agents_updated": [
-      "Yoda",
-      "Aria",
-      "Spark",
-      "Shield",
-      "Lex",
-      "Sage",
-      "Warden"
-    ],
-    "notion_page": "Holocron \u2014 Daily Platform Brief",
-    "balance": "$445.77",
-    "chg_count": 15
-  },
-  {
-    "run_id": "akb-2026-05-03-0300",
-    "date": "2026-05-03",
-    "started_at": "2026-05-03T11:51:34Z",
-    "status": "complete",
-    "agents_updated": [
-      "Yoda",
-      "Aria",
-      "Spark",
-      "Shield",
-      "Lex",
-      "Sage",
-      "Warden"
-    ],
-    "notion_page": "Holocron \u2014 Daily Platform Brief",
-    "balance": "$495.26",
-    "chg_count": 11
-  },
-  {
-    "run_id": "akb-catch-up-20260503-1952",
-    "date": "2026-05-03",
-    "coverage_date": "2026-05-02 + 2026-05-03",
-    "started_at": "2026-05-03T09:52:00Z",
-    "model": "anthropic/claude-sonnet-4-6",
-    "status": "complete",
-    "reason": "Manual catch-up run \u2014 AKB Daily Update cron timed out on 2026-05-03 03:00 (qwen3.5:cloud, 600s). Day 8 and Day 9 both missing. Catch-up covers both days.",
-    "inputs_read": [
-      "memory/CHANGELOG.md (CHG-0113 to CHG-0142)",
-      "memory/2026-05-03.md (Day 9)",
-      "memory/2026-05-02.md (Day 8)",
-      "MEMORY.md",
-      "state/agent-status.json",
-      "state/cost-state.json",
-      "state/linkedin-auth.json",
-      "state/chg-triggers.json"
-    ],
-    "obsidian_files_updated": [
-      {
-        "file": "HOME.md",
-        "changes": "last-updated confirmed 2026-05-03, Day 9 confirmed. AKB update note updated to catch-up run."
-      },
-      {
-        "file": "Company/Decisions.md",
-        "changes": "Added 2026-05-03 Day 9 decisions block (10 decisions): Notion AKB Backlog single source of truth, /roster+/finops commands, Spark scope expansion, LinkedIn API, OpenClaw update, Anthropic key rotation, balance top-up $495.26, Campaign Week 1, get-secret.sh canonical helper, auto-heal auth-profile sync."
-      },
-      {
-        "file": "Agents/Architecture.md",
-        "changes": "v3.5\u2192v3.6. Spark description updated: LinkedIn-only \u2192 Social & Digital Marketing Agent (all platforms). LinkedIn API details added. /roster+/finops added. History entry v3.6 added."
-      },
-      {
-        "file": "Agents/ModelStrategy.md",
-        "changes": "v2.6\u2192v2.7. Day 9 history entry added: key rotation, balance top-up $495.26, cost $5.18, all-time $956.63, OpenClaw v2026.5.2, auto-heal Check #16, get-secret.sh, auth-profile auto-sync."
-      },
-      {
-        "file": "Operations/IncidentLog.md",
-        "changes": "Added INC-20260503-001 (Anthropic API key mismatch post-rotation, P3, 19min, resolved CHG-0141). MTTR summary updated: 5\u21926 incidents, ~50\u2192~69 min downtime."
-      },
-      {
-        "file": "Shared/context-for-aria.md",
-        "changes": "Updated last-updated to Day 9 catch-up. Platform state table: Spark updated to Social & Digital Marketing Agent with LinkedIn API note. Day 9 Updates Summary section added. Lesson 18 added (key rotation incident). Training content items 25-26 added."
-      }
-    ],
-    "notion_updates": {
-      "missing_chg_created": [
-        "CHG-0138: OpenClaw updated 2026.4.24\u21922026.5.2 (Notion ID: 355c1829-53ff-8134-b3c6-f26e96ffeb33)",
-        "CHG-0139: Anthropic API key rotated + balance topped up (Notion ID: 355c1829-53ff-814a-8294-f3d654d47a4f)"
-      ],
-      "already_present": [
-        "CHG-0136 \u2705 Done",
-        "CHG-0137 \u2705 Done",
-        "CHG-0140 \u2705 Done",
-        "CHG-0141 \u2705 Done",
-        "CHG-0142 \u2705 Done"
-      ]
-    },
-    "gaps": [
-      "2026-05-02 EOD journal (journal-2026-05-02.md) was not found \u2014 Day 8 EOD may have been skipped or named differently. Decisions.md Day 8 block was already present from previous partial run.",
-      "Shared/yoda-daily-brief.md not updated \u2014 Day 9 brief context not appended (out of scope for catch-up focus)"
-    ],
-    "notes": "Two-day catch-up covering Day 8 (2026-05-02) and Day 9 (2026-05-03). Day 8 Decisions.md block was already populated by a partial AKB run. Day 9 decisions added fresh. Architecture.md was already at v3.5 with Day 8 content \u2014 bumped to v3.6 with Day 9 specifics. ModelStrategy.md was already at v2.6 \u2014 bumped to v2.7. CHG-0138 and CHG-0139 were missing from Notion \u2014 created. All other CHG-0136 through CHG-0142 were confirmed present."
+    "balance": "$479.35 (confirmed 2026-05-08 13:10 AEST)",
+    "chg_count": 18,
+    "health_status": "degraded",
+    "warden_consecutive_clean": 59,
+    "day_n": 15
   }
 ]

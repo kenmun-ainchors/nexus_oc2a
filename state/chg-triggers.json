@@ -45,15 +45,15 @@
       "action": "Critical CVE: update within 48h. High: within 7 days. Raise CHG. Freeze client onboarding if P1.",
       "cronId": null,
       "currentVersion": "2026.5.5",
-      "availableVersion": "v2026.5.6",
-      "lastChecked": "2026-05-08T20:00:00Z",
+      "availableVersion": "v2026.5.7",
+      "lastChecked": "2026-05-08T20:00:07Z",
       "status": "monitoring",
       "firedAt": null,
-      "lastReleaseDate": "2026-05-06T17:51:03Z",
+      "lastReleaseDate": "2026-05-07T20:57:43Z",
       "classification": "Regular",
-      "details": "v2026.5.6: Doctor/OAuth revert, plugin fetch metadata cleanup (symbol dict handling), debug proxy normalization, web fetch timeout cleanup. No CVE/security-critical marker.",
+      "details": "v2026.5.7: Plugin publishing, OpenAI chat-latest, cron JSON output, channels CLI, native auth, Active Memory scoping, skills snapshots, auto-reply gating, Tavily credentials, npm lifecycle, context engine cache, Discord routing, compaction tokens, BTW escaping, cron doctor, Telegram allowlist, delivery reporting, session rollover, Doctor OAuth, polling watchdog, subagent TTL, plugin channel, voice permissions, voice capture grace, WhatsApp routing, caption replies, Codex approvals, provider normalization. No CVE/security-critical marker.",
       "upgradeWindow": "routine",
-      "notes": "New release available. Regular bugfix release with fetch & metadata handling improvements. No security patch triggers. Routine upgrade within 30 days."
+      "notes": "New release available (v2026.5.7). Regular bugfix release with improvements to plugin publishing, channel CLIs, Discord/Telegram/WhatsApp support, and auth/approval gating. No security patch triggers. Routine upgrade within 30 days."
     },
     "TRIGGER-05": {
       "name": "Ollama Cloud PoC PASS",

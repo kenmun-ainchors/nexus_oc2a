@@ -1,0 +1,127 @@
+{
+  "date": "2026-05-09",
+  "generatedAt": "2026-05-09T22:00:00Z",
+  "dayN": 15,
+  "isFriday": false,
+  "health": {
+    "overallStatus": "degraded",
+    "gateway": "ok",
+    "disk": "degraded",
+    "diskIssue": "Docker volume at 94%",
+    "anthropicApi": "ok",
+    "ollama": "ok",
+    "consecutiveFailures": 0,
+    "lastCheck": "2026-05-08T21:55:10Z"
+  },
+  "cost": {
+    "confirmedBalance": 479.35,
+    "confirmedAt": "2026-05-08T11:32:26Z",
+    "confirmedBy": "Ken",
+    "autoReload": true,
+    "autoReloadThreshold": 50,
+    "autoReloadAmount": 450,
+    "todayEstimate": 168.01,
+    "avgDailyCost": 152.75,
+    "allTimeTotalCost": 2138.45
+  },
+  "backup": {
+    "status": "ok",
+    "lastBackup": "2026-05-08T16:05:09Z",
+    "lastSnap": "workspace-2026-05-09-0205.tar.gz"
+  },
+  "memoryMd": {
+    "chars": 18861,
+    "oversized": true,
+    "threshold": 16000
+  },
+  "obs": {
+    "events24h": 282,
+    "errors": 249,
+    "warn": 14,
+    "info": 19,
+    "healthFailures": 245,
+    "autoHealFix": 6,
+    "autoHealNeedsKen": 4
+  },
+  "tasks": {
+    "total": 0,
+    "failed": 0,
+    "stalled": 0
+  },
+  "warden": {
+    "consecutiveClean": 64,
+    "lastCheck": "2026-05-09T07:07:04+10:00",
+    "lastViolation": "2026-05-08T01:19:24+10:00",
+    "status": "clean"
+  },
+  "wardenEscalation": {
+    "id": "WARDEN-20260508-011924",
+    "status": "resolved-by-yoda",
+    "resolvedAt": "2026-05-07T15:20:56Z",
+    "resolution": "CHG-0225: security/legal/qa set to Haiku"
+  },
+  "incidents": {
+    "open": 0,
+    "latest": "INC-20260503-001 (P2, resolved 2026-05-03)"
+  },
+  "autoHeal": {
+    "runAt": "2026-05-08T01:00:00+10:00",
+    "checksRun": 18,
+    "issuesFound": 4,
+    "autoFixed": 3,
+    "needsKen": 4,
+    "needsKenItems": [
+      "API balance $0 (NOW RESOLVED - top-up $479.35)",
+      "Shield model drift - RESOLVED CHG-0225",
+      "Lex model drift - RESOLVED CHG-0225",
+      "Sage model drift - RESOLVED CHG-0225"
+    ]
+  },
+  "business": {
+    "angieLastActive": "2026-05-07",
+    "angieActivity": "Voice message requesting Google Meet for CTO Contract meeting (created successfully)",
+    "daysSilent": 9,
+    "openItems": [
+      "JotForm API key outstanding since Apr 28 — HRDF form blocked",
+      "Onboarding Stage 1 stalled — OB-02, OB-04–OB-07 unchecked",
+      "Weekly wrap reply (sent May 3) — no response",
+      "April 30 class debrief — outstanding 9 days",
+      "Meta appeal — status unknown",
+      "Social posts — drafted Apr 28, publication status unknown"
+    ]
+  },
+  "frameworkMaturity": {
+    "agile": "L3",
+    "itsm": "L3",
+    "governance": "L2-L3",
+    "tom": "L2",
+    "modelStrategy": "L3-L4",
+    "knowledgeManagement": "L2",
+    "costManagement": "L2-L3",
+    "businessROI": "L2"
+  },
+  "changesSinceLastStandup": [
+    "CHG-0236: TKT-0046 P2 client model policy closed",
+    "CHG-0237: TKT-0092 FinOps per-agent budget limits",
+    "CHG-0238: TKT-0093 3-2-1+1 backup strategy",
+    "CHG-0239: Anthropic DPA confirmed (Claude blocked for client data)",
+    "CHG-0240: TKT-0108 Document generation pipeline (DOCX/XLSX/PPTX/PDF)",
+    "CHG-0241: Agile Framework velocity targets + P2 deadline analysis",
+    "CHG-0242: Definition of Done formalised (3-gate DoD)",
+    "CHG-0243: DoD retrospective — open decisions backfilled",
+    "CHG-0244: CI Cycle 1A Weekly Report",
+    "CHG-0245: OpenClaw v2026.5.7 detected"
+  ],
+  "rtb": {
+    "tech": {
+      "rose": "10 CHGs shipped in 24h — DoD locked, Agile framework complete, FinOps budgets, backup strategy, doc gen pipeline",
+      "thorn": "Docker disk /Volumes/Docker at 94% — needs clearing. MEMORY.md oversized (18.8k). 249 health failures in 24h.",
+      "bud": "OpenClaw v2026.5.7 upgrade ready (CHG-0245). DoD framework unlocks Sprint 2 quality gates."
+    },
+    "biz": {
+      "rose": "Aria successfully created CTO Contract Google Meet (May 7); Jack Ooi invited to class",
+      "thorn": "9+ days Angie contact gap. JotForm API key blocking HRDF form. Onboarding Stage 1 stalled.",
+      "bud": "TOM at L2 — BUD target per framework gate. Angie onboarding Stage 1 unblocks TOM + BusinessROI + Governance metrics."
+    }
+  }
+}

@@ -1,3 +1,21 @@
+## 2026-05-09 11:52 AEST — [CHG-0246] Standup email — dark theme replaced with light (email-safe)
+**Type:** config
+**Source:** ken-prompt
+**Trigger:** Ken feedback Day 15 — standup email theme "changed and ineligible"
+**What changed:** Standup cron (3c279099) Phase 2 HTML spec updated. Replaced dark theme (#0d1117 bg, #e6edf3 text) with light theme (white bg #ffffff, dark text #24292f, blue headings #0969da, same status colours). Dark themes cause Gmail rendering issues and ineligible classification.
+**Why:** HTML email dark backgrounds are unreliable in Gmail — get flagged or inverted. Light theme is email-safe and renders consistently.
+
+## 2026-05-09 04:43 AEST — [CHG-0244] CI Cycle 1A Weekly Report Generated
+- **Type:** CHG
+- **Source:** ci-agent
+- **Trigger:** Cycle 1A 7-day window elapsed (2026-05-02 → 2026-05-09)
+- **Change:** Generated weekly report for CI Cycle 1A. 97 tasks across 25 runs. Top candidates: subtask→deepseek-v4-flash:cloud (MEDIUM, 62% pass), creative→kimi-k2.6:cloud (LOW, 45% pass). Cycle 2A window started.
+- **Why:** Scheduled CI weekly report boundary
+- **Verified:** Report saved to state/ci-cycle-1A-report.md, Telegram sent to Ken (msg_id=1054)
+- **Rollback:** N/A
+- **Links:** state/ci-cycle-1A-report.md
+
+
 # AInchors Change Log
 _Established: 2026-04-27 | Owner: Yoda 🟢 | Append-only, reverse-chronological_
 
@@ -41,6 +59,18 @@ This log captures **every change** Yoda makes to AInchors infrastructure, config
 **Rollback:** Git revert; restore previous SOUL.md/RULES.md/cron payload.
 **Linked:** decisions.md 2026-04-27 entries
 ---
+
+## 2026-05-09 06:00 AEST — [CHG-0245] OpenClaw v2026.5.7 detected
+**Type:** config
+**Source:** scheduled
+**Trigger:** TRIGGER-04/06
+**What changed:** state/chg-triggers.json: TRIGGER-04 updated with new available version
+**Why:** Daily release monitor cron ran. v2026.5.7 released 2026-05-07 with plugin publishing, CLI improvements, Discord/Telegram/WhatsApp enhancements, auth gating. No CVE/security marker detected. Routine upgrade window applies.
+**Verification:** GitHub API query returned latest release. Release body scanned for CVE/security markers. Version does not match v4.x pattern. Both TRIGGER-04 and TRIGGER-06 conditions not met.
+**Rollback:** N/A
+**Linked:** none
+---
+
 
 ## 2026-05-08 20:48 AEST — [CHG-0243] DoD retrospective — open decisions + draft docs backfilled from all prior work
 **Type:** rule
