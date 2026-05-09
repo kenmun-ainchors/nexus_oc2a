@@ -22,5 +22,5 @@
     "doDGates": "2026-05-09T05:47:25.701Z",
     "chgTriggers": "2026-05-09T04:50:00.000Z"
   },
-  "notes": "May 9 3:58PM AEST: All clean. Balance ~ est (confirmed .35 May 8, ~ spent today). activeTier=0. No warden escalations. Cron health clean. No stalls/TVA/dead-letters. Ahsoka P1 in-progress, P2 pending. Allowlist sync 3:25PM confirmed real changes: gemma4:31b-cloud removed from 5 agents (main, business, spark, qa, governance) — per strategy-update source."
+  "notes": "May 9 4:04PM AEST: All clean. Balance est ~$464 (confirmed $479.35 May 8, ~$14.86 spent today). activeTier=0. Warden escalation resolved-by-yoda (CHG-0252). Cron health clean. No stalls/TVA/dead-letters. Ahsoka P1 in-progress, P2 pending. Allowlist sync confirmed real changes: gemma4:31b-cloud removed from 5 agents."
 }

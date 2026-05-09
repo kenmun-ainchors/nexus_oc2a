@@ -39,5 +39,56 @@
         }
       ]
     }
-  ]
+  ],
+  "visualSnapshot": {
+    "source": "visual-screenshot",
+    "fetchedAt": "2026-05-09T06:06:00.181062+00:00",
+    "note": "Manual read from LinkedIn activity feed screenshot \u2014 API URN mismatch fixed separately",
+    "posts": [
+      {
+        "contentId": "LI-visual-4d",
+        "text_preview": "Most AI content is someone telling you what's possible. I'm here to talk about what's actually happening.",
+        "postedApprox": "2026-05-05",
+        "impressions": 904,
+        "reactions": 25,
+        "comments": 2,
+        "reposts": 0
+      },
+      {
+        "contentId": "LI-visual-3d",
+        "text_preview": "When we decided to run AInchors on AI agents, I thought the hard part was picking the right models.",
+        "postedApprox": "2026-05-06",
+        "impressions": 458,
+        "reactions": 7,
+        "comments": 0,
+        "reposts": 0
+      },
+      {
+        "contentId": "LI-visual-2d",
+        "text_preview": "Most AI adoption conversations I see start with the same question: which model should we use? That's the last question you should be asking.",
+        "postedApprox": "2026-05-07",
+        "impressions": 173,
+        "reactions": 5,
+        "comments": 0,
+        "reposts": 1,
+        "note": "Post got cut off on original posting \u2014 edited. Original had same content."
+      },
+      {
+        "contentId": "LI-visual-1d",
+        "text_preview": "Repost of cut-off post",
+        "postedApprox": "2026-05-08",
+        "impressions": 99,
+        "reactions": 2,
+        "comments": 0,
+        "reposts": 0
+      }
+    ],
+    "totals": {
+      "impressions": 1634,
+      "reactions": 39,
+      "comments": 2,
+      "reposts": 1
+    }
+  },
+  "apiUrnNote": "Tracked URN urn:li:activity:7457186904363421696 does not match live posts \u2014 returns 0/0/0. Need correct URNs from LinkedIn API."
 }
