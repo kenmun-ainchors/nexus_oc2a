@@ -161,8 +161,19 @@
       "id": "DRIFT-20260507151924-qa",
       "status": "unresolved",
       "escalatedToYoda": true
+    },
+    {
+      "agentId": "default.primary",
+      "expected": "anthropic/claude-sonnet-4-6",
+      "actual": "ollama/gemma4:31b-cloud",
+      "severity": "VIOLATION",
+      "note": "",
+      "detectedAt": "2026-05-09T13:07:03+10:00",
+      "id": "DRIFT-20260509030703-default_primary",
+      "status": "unresolved",
+      "escalatedToYoda": true
     }
   ],
-  "totalUnresolved": 6,
-  "lastUpdated": "2026-05-08T01:19:24+10:00"
+  "totalUnresolved": 7,
+  "lastUpdated": "2026-05-09T13:07:03+10:00"
 }

@@ -1,63 +1,87 @@
 {
-  "escalationId": "WARDEN-20260508-011924",
-  "timestamp": "2026-05-08T01:19:24+10:00",
-  "severity": "HIGH",
-  "status": "resolved-by-yoda",
-  "violations": [
+  "escalatedAt": "2026-05-09T13:07:03+10:00",
+  "status": "pending-yoda-action",
+  "warden-check-result": "FAIL (exit code 2)",
+  "activeViolations": [
     {
+      "id": "DRIFT-20260507150423-security",
       "agentId": "security",
       "expected": "anthropic/claude-haiku-4-5",
       "actual": "anthropic/claude-sonnet-4-6",
       "severity": "VIOLATION",
-      "detectedAt": "2026-05-08T01:19:24+10:00",
-      "id": "DRIFT-20260507151924-security"
+      "firstDetected": "2026-05-08T01:04:23+10:00",
+      "status": "unresolved"
     },
     {
+      "id": "DRIFT-20260507150423-legal",
       "agentId": "legal",
       "expected": "anthropic/claude-haiku-4-5",
       "actual": "anthropic/claude-sonnet-4-6",
       "severity": "VIOLATION",
-      "detectedAt": "2026-05-08T01:19:24+10:00",
-      "id": "DRIFT-20260507151924-legal"
+      "firstDetected": "2026-05-08T01:04:23+10:00",
+      "status": "unresolved"
     },
     {
+      "id": "DRIFT-20260507150423-qa",
       "agentId": "qa",
       "expected": "anthropic/claude-haiku-4-5",
       "actual": "anthropic/claude-sonnet-4-6",
       "severity": "VIOLATION",
-      "detectedAt": "2026-05-08T01:19:24+10:00",
-      "id": "DRIFT-20260507151924-qa"
+      "firstDetected": "2026-05-08T01:04:23+10:00",
+      "status": "unresolved"
+    },
+    {
+      "id": "DRIFT-20260507151924-security",
+      "agentId": "security",
+      "expected": "anthropic/claude-haiku-4-5",
+      "actual": "anthropic/claude-sonnet-4-6",
+      "severity": "VIOLATION",
+      "firstDetected": "2026-05-08T01:19:24+10:00",
+      "status": "unresolved"
+    },
+    {
+      "id": "DRIFT-20260507151924-legal",
+      "agentId": "legal",
+      "expected": "anthropic/claude-haiku-4-5",
+      "actual": "anthropic/claude-sonnet-4-6",
+      "severity": "VIOLATION",
+      "firstDetected": "2026-05-08T01:19:24+10:00",
+      "status": "unresolved"
+    },
+    {
+      "id": "DRIFT-20260507151924-qa",
+      "agentId": "qa",
+      "expected": "anthropic/claude-haiku-4-5",
+      "actual": "anthropic/claude-sonnet-4-6",
+      "severity": "VIOLATION",
+      "firstDetected": "2026-05-08T01:19:24+10:00",
+      "status": "unresolved"
+    },
+    {
+      "id": "DRIFT-20260509030703-default_primary",
+      "agentId": "default.primary",
+      "expected": "anthropic/claude-sonnet-4-6",
+      "actual": "ollama/gemma4:31b-cloud",
+      "severity": "VIOLATION",
+      "firstDetected": "2026-05-09T13:07:03+10:00",
+      "status": "unresolved",
+      "newViolation": true
     }
   ],
-  "remediation": [
-    {
-      "step": 1,
-      "action": "Verify policy intent: Do security, legal, qa agents require Haiku per governance or is this a config drift?",
-      "owner": "Yoda (Ken sign-off)"
-    },
-    {
-      "step": 2,
-      "action": "If policy requires Haiku: Update openclaw.json agents.security.model, agents.legal.model, agents.qa.model to anthropic/claude-haiku-4-5",
-      "owner": "Yoda"
-    },
-    {
-      "step": 3,
-      "action": "If policy changed (e.g., Sonnet now approved for these agents): Update RULES.md, create CHG ticket, run warden re-check",
-      "owner": "Yoda + Ken (CHG approval)"
-    },
-    {
-      "step": 4,
-      "action": "Run model-drift-check.sh again to confirm clean",
-      "owner": "Yoda"
-    }
-  ],
-  "context": {
-    "governanceSource": "RULES.md Model Routing",
-    "policyRef": "Model strategy A$500/month cap, default Sonnet. Cost-sensitive agents (security, legal, qa) should use Haiku per cost governance",
-    "lastClean": "2026-05-02T10:00:00+10:00",
-    "costImpact": "Sonnet=3.75x cost of Haiku per 1M tokens. Drift may breach A$500/month cap."
+  "totalUnresolvedViolations": 7,
+  "remediation": {
+    "shortTerm": [
+      "Check openclaw.json config for agent model assignments (security, legal, qa, default.primary)",
+      "Verify intended model allocation vs. actual state",
+      "Determine if these are configuration drifts or intentional policy changes"
+    ],
+    "actionRequired": [
+      "1. For security/legal/qa agents: Confirm if Sonnet assignment is intentional or revert to Haiku",
+      "2. For default.primary: Revert ollama/gemma4:31b-cloud → anthropic/claude-sonnet-4-6 or document CHG record",
+      "3. Update openclaw.json or create CHG record to explain policy change",
+      "4. Mark violations as resolved (or superseded) in model-drift-violations.json"
+    ],
+    "escalationNote": "7 unresolved drift violations spanning 2 days. All tagged escalatedToYoda=true. Requires Ken decision on intended model policy."
   },
-  "nextAction": "Yoda to assess + Ken sign-off before remediation",
-  "resolvedAt": "2026-05-07T15:20:56.998Z",
-  "resolution": "CHG-0225: Updated security/legal/qa to Haiku in openclaw.json per Ken-approved policy (2026-05-06)"
+  "nextSteps": "Yoda to review, validate config intent, and execute remediation or create CHG record."
 }
