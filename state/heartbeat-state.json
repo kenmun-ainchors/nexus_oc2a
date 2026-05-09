@@ -2,16 +2,16 @@
   "lastChecks": {
     "email": "2026-05-09T02:26:50.878Z",
     "calendar": "2026-05-09T02:26:50.879Z",
-    "agentHealth": "2026-05-09T03:19:34.900Z",
-    "apiBalance": "2026-05-09T03:19:34.900Z",
-    "taskWatchdog": "2026-05-09T03:19:34.900Z",
-    "wardenEscalation": "2026-05-09T03:19:34.900Z",
-    "cronDeadLetter": "2026-05-09T03:19:34.900Z",
-    "ahsokaPilot": "2026-05-09T03:19:34.900Z",
-    "standby": "2026-05-09T03:19:34.900Z",
-    "cronHealth": "2026-05-09T03:19:34.900Z",
-    "budgetCheck": "2026-05-09T03:19:34.900Z",
-    "allowlistSync": "2026-05-09T03:19:34.900Z",
+    "agentHealth": "2026-05-09T03:24:00.000Z",
+    "apiBalance": "2026-05-09T03:24:00.000Z",
+    "taskWatchdog": "2026-05-09T03:24:00.000Z",
+    "wardenEscalation": "2026-05-09T03:24:00.000Z",
+    "cronDeadLetter": "2026-05-09T03:24:00.000Z",
+    "ahsokaPilot": "2026-05-09T03:24:00.000Z",
+    "standby": "2026-05-09T03:24:00.000Z",
+    "cronHealth": "2026-05-09T03:24:00.000Z",
+    "budgetCheck": "2026-05-09T03:24:00.000Z",
+    "allowlistSync": "2026-05-09T03:24:00.000Z",
     "memoryMaintenance": "2026-05-08T19:58:34.724799Z",
     "weather": null,
     "dailyClose": "2026-05-08T13:42:00Z",
@@ -22,5 +22,5 @@
     "doDGates": "2026-05-08T22:04:00.000Z",
     "chgTriggers": "2026-05-09T01:42:00Z"
   },
-  "notes": "May 9 1:19PM AEST: All systems nominal. No alerts. Warden resolved (CHG-0252). Ahsoka Pilot 1 parked/in-progress."
+  "notes": "May 9 1:24PM AEST: Health degraded — 3 zombie task runs (non-escalating, 0 consecutive failures). Warden resolved CHG-0252. Balance $479.35 — well above thresholds. All other checks clear."
 }

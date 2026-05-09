@@ -84,6 +84,18 @@ This log captures **every change** Yoda makes to AInchors infrastructure, config
 **Linked:** decisions.md 2026-04-27 entries
 ---
 
+## 2026-05-09 13:25 AEST — [CHG-0251] Auto allowlist sync -- Tier 2 propagation (strategy-update)
+**Type:** config
+**Source:** ken-prompt
+**Trigger:** allowlist-sync.sh triggered by: strategy-update at 2026-05-09T13:25:59+10:00
+**What changed:** model-policy.json allowedInCrons updated.   main: -['ollama/gemma4:31b-cloud'];  business: -['ollama/gemma4:31b-cloud'];  spark: -['ollama/gemma4:31b-cloud'];  qa: -['ollama/gemma4:31b-cloud'];  governance: -['ollama/gemma4:31b-cloud']
+**Why:** CI Cycle B decision or model strategy update. Allowlists auto-propagated per eligibility matrix.
+**Verification:** allowlist-sync-state.json written, model-policy.json JSON valid
+**Rollback:** N/A
+**Linked:** none
+---
+
+
 ## 2026-05-09 12:17 AEST — [CHG-0249] INC-20260509-001: 26hr health degradation — zero API balance
 **Type:** infra
 **Source:** incident-recovery
