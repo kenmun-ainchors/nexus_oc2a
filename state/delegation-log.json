@@ -11192,10 +11192,20 @@
       "status": "pass",
       "latencyMs": 0,
       "notes": "15 checks run: 15 PASS, 0 FAIL. No model drift detected. All agent models compliant."
+    },
+    {
+      "ts": "2026-05-10T09:07:06+10:00",
+      "date": "2026-05-10",
+      "tier": "T2",
+      "taskType": "warden-check",
+      "model": "anthropic/claude-haiku-4-5",
+      "status": "pass",
+      "latencyMs": 0,
+      "notes": "15 checks run: 0 violations, all model routes compliant"
     }
   ],
   "summary": {
-    "total": 1119,
+    "total": 1120,
     "byTier": {
       "T1": {
         "pass": 0,
@@ -11203,7 +11213,7 @@
         "timeout": 0
       },
       "T2": {
-        "pass": 1076,
+        "pass": 1077,
         "fail": 34,
         "timeout": 0
       },
@@ -11221,7 +11231,7 @@
         "tier": "T2"
       },
       "warden-check": {
-        "pass": 906,
+        "pass": 907,
         "fail": 28,
         "timeout": 0,
         "tier": "T2"
@@ -11245,6 +11255,6 @@
         "tier": "T2"
       }
     },
-    "estimatedSavingsUSD": 5.3875
+    "estimatedSavingsUSD": 5.3925
   }
 }

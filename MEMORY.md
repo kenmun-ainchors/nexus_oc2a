@@ -144,6 +144,8 @@ Rule: New module names use Star Wars themes. Ken approves. All above final — n
 
 ## Pending Tickets
 **Critical/High (next 2 sprints):**
+- **TKT-0124:** MinIO self-hosted object store on OC1 — interim blob/file access layer. HIGH. External access for Angie staff Malaysia. Per Atlas P2 blob design.
+- **TKT-0125:** Strategy-to-Backlog Pipeline — formalize roadmap → tickets ceremony. HIGH. Linked TKT-0110. Doc: docs/Strategy_to_Backlog_Pipeline_v0.1.md. Ken approved 2026-05-10.
 - **TKT-0105:** Model3-Policy SOPs — open | Ken to confirm design questions during grooming
 - **TKT-0106:** Apply Model3-Policy to Tier 3 agents — blocked on TKT-0105
 - **TKT-0108:** Document Generation Pipeline (DOCX/XLSX/PPTX/PDF) — open | Ahsoka blocker
