@@ -68,6 +68,18 @@ This log captures **every change** Yoda makes to AInchors infrastructure, config
 **Linked:** decisions.md 2026-04-27 entries
 ---
 
+## 2026-05-09 12:17 AEST — [CHG-0249] INC-20260509-001: 26hr health degradation — zero API balance
+**Type:** infra
+**Source:** incident-recovery
+**Trigger:** TRIGGER-08 (cost zero)
+**What changed:** Incident log filed. Health recovered. Auto-reload re-armed.
+**Why:** API balance hit zero causing 26hr degraded health state. Alert system silently failed during event.
+**Verification:** Health state ok. Balance 479.35 USD. INC-20260509-001.json written.
+**Rollback:** N/A
+**Linked:** none
+---
+
+
 ## 2026-05-09 06:00 AEST — [CHG-0245] OpenClaw v2026.5.7 detected
 **Type:** config
 **Source:** scheduled

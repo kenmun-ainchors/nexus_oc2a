@@ -1,9 +1,9 @@
 {
-  "generated_at": "2026-05-09T02:09:59.496077+00:00",
-  "generated_at_aest": "2026-05-09 12:09 AEST",
+  "generated_at": "2026-05-09T02:24:52.128885+00:00",
+  "generated_at_aest": "2026-05-09 12:24 AEST",
   "period_hours": 24,
   "totals": {
-    "ERROR": 332,
+    "ERROR": 431,
     "WARN": 12,
     "INFO": 19
   },
@@ -14,7 +14,7 @@
     },
     {
       "type": "delegation_fail",
-      "count": 66
+      "count": 165
     },
     {
       "type": "anthropic_api_fail",
@@ -42,12 +42,12 @@
   "trend": {
     "has_prev_data": true,
     "prev_errors": 38,
-    "prev_warns": 17,
-    "errors_pct_change": 773.7,
-    "warns_pct_change": -29.4
+    "prev_warns": 16,
+    "errors_pct_change": 1034.2,
+    "warns_pct_change": -25.0
   },
   "worst_hour": {
     "hour": "2026-05-09T02:00Z",
-    "cnt": 66
+    "cnt": 165
   }
 }

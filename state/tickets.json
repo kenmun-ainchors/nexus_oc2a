@@ -1,5 +1,5 @@
 {
-  "sequence": 113,
+  "sequence": 120,
   "tickets": [
     {
       "id": "TKT-0104",
@@ -180,6 +180,146 @@
       },
       "notes": "",
       "notionPageId": "35bc1829-53ff-8169-b4e5-c8c1e5f6e5ab"
+    },
+    {
+      "id": "TKT-0113",
+      "title": "Fallback alert channel — API-independent notification path",
+      "type": "task",
+      "priority": "high",
+      "status": "open",
+      "requester": "Ken",
+      "assignee": "Yoda",
+      "created": "2026-05-09T12:18:26+10:00",
+      "updated": "2026-05-09T12:18:26+10:00",
+      "description": "INC-20260509-001 prevention gap: Telegram alerting depends on Anthropic API — same API it monitors. When API hits /bin/zsh, alerts go silent. Need secondary alert path (local script → SMS or email via secondary provider e.g. Twilio/Postmark) that fires when primary API is degraded.",
+      "resolution": null,
+      "linked": {
+        "us": [],
+        "inc": [],
+        "chg": []
+      },
+      "notes": "",
+      "notionPageId": "35bc1829-53ff-8189-af98-e0e79714c2a8"
+    },
+    {
+      "id": "TKT-0114",
+      "title": "AInchors–Aevlith Technologies partnership agreement — confirm with Angie",
+      "type": "task",
+      "priority": "high",
+      "status": "open",
+      "requester": "Ken",
+      "assignee": "Yoda",
+      "created": "2026-05-09T12:25:42+10:00",
+      "updated": "2026-05-09T12:25:42+10:00",
+      "description": "Ken to confirm partnership/shareholder agreement between Ainchor Solutions Pty Ltd and Aevlith Technologies Pty Ltd with Angie before ASIC registration proceeds. This is the blocker for TKT-0114 through TKT-0117. Target: this week (w/c 2026-05-09).",
+      "resolution": null,
+      "linked": {
+        "us": [],
+        "inc": [],
+        "chg": []
+      },
+      "notes": "",
+      "notionPageId": "35bc1829-53ff-819f-85b1-dd374f2ad45b"
+    },
+    {
+      "id": "TKT-0115",
+      "title": "Register Aevlith Technologies Pty Ltd with ASIC",
+      "type": "task",
+      "priority": "high",
+      "status": "open",
+      "requester": "Ken",
+      "assignee": "Yoda",
+      "created": "2026-05-09T12:25:43+10:00",
+      "updated": "2026-05-09T12:25:43+10:00",
+      "description": "Formally incorporate Aevlith Technologies Pty Ltd. Blocked on TKT-0113 (AInchors-Aevlith partnership agreement confirmed by Ken + Angie). Target: next week (w/c 2026-05-12). Domains cannot be secured under company name until ASIC registration complete.",
+      "resolution": null,
+      "linked": {
+        "us": [],
+        "inc": [],
+        "chg": []
+      },
+      "notes": "",
+      "notionPageId": "35bc1829-53ff-815c-9150-f1ffb3c73f74"
+    },
+    {
+      "id": "TKT-0116",
+      "title": "Secure aevlith.ai domain",
+      "type": "task",
+      "priority": "high",
+      "status": "open",
+      "requester": "Ken",
+      "assignee": "Yoda",
+      "created": "2026-05-09T12:25:43+10:00",
+      "updated": "2026-05-09T12:25:43+10:00",
+      "description": "Register aevlith.ai via Namecheap or Ventra IP. Blocked on TKT-0114 (ASIC registration). Target: next week (w/c 2026-05-12).",
+      "resolution": null,
+      "linked": {
+        "us": [],
+        "inc": [],
+        "chg": []
+      },
+      "notes": "",
+      "notionPageId": "35bc1829-53ff-81f2-8320-d2fba8351c38"
+    },
+    {
+      "id": "TKT-0117",
+      "title": "Secure aevlith.com.au domain",
+      "type": "task",
+      "priority": "medium",
+      "status": "open",
+      "requester": "Ken",
+      "assignee": "Yoda",
+      "created": "2026-05-09T12:25:44+10:00",
+      "updated": "2026-05-09T12:25:44+10:00",
+      "description": "Register aevlith.com.au (auDA eligibility requires Aevlith Technologies Pty Ltd to be registered with ASIC first). Blocked on TKT-0114. Target: next week (w/c 2026-05-12).",
+      "resolution": null,
+      "linked": {
+        "us": [],
+        "inc": [],
+        "chg": []
+      },
+      "notes": "",
+      "notionPageId": "35bc1829-53ff-81db-8c94-c80c2ce8b496"
+    },
+    {
+      "id": "TKT-0118",
+      "title": "Secure aevlith.com domain",
+      "type": "task",
+      "priority": "medium",
+      "status": "open",
+      "requester": "Ken",
+      "assignee": "Yoda",
+      "created": "2026-05-09T12:25:45+10:00",
+      "updated": "2026-05-09T12:25:45+10:00",
+      "description": "Register aevlith.com if available. Can proceed in parallel with ASIC registration. Target: next week (w/c 2026-05-12).",
+      "resolution": null,
+      "linked": {
+        "us": [],
+        "inc": [],
+        "chg": []
+      },
+      "notes": "",
+      "notionPageId": "35bc1829-53ff-81fd-b61f-c99616742d23"
+    },
+    {
+      "id": "TKT-0119",
+      "title": "IP Australia trademark filing — Aevlith (Classes 35 + 42)",
+      "type": "task",
+      "priority": "medium",
+      "status": "open",
+      "requester": "Ken",
+      "assignee": "Yoda",
+      "created": "2026-05-09T12:25:45+10:00",
+      "updated": "2026-05-09T12:25:45+10:00",
+      "description": "File Aevlith trademark with IP Australia. Class 35 (business software) + Class 42 (AI platform services). Lex review required before filing. Blocked on TKT-0114 (ASIC registration). Target: P2 milestone (end-Aug 2026).",
+      "resolution": null,
+      "linked": {
+        "us": [],
+        "inc": [],
+        "chg": []
+      },
+      "notes": "",
+      "notionPageId": "35bc1829-53ff-81d7-bda5-cf78308c88a8"
     }
   ]
 }
