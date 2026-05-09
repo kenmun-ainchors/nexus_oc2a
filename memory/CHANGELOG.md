@@ -84,6 +84,18 @@ This log captures **every change** Yoda makes to AInchors infrastructure, config
 **Linked:** decisions.md 2026-04-27 entries
 ---
 
+## 2026-05-10 08:24 AEST — [CHG-0254] Spark: LinkedIn image generation via HF FLUX.1-schnell (TKT-0121)
+**Type:** script
+**Source:** ken-prompt
+**Trigger:** TKT-0121 directive
+**What changed:** New: hf-generate-image.sh (HF Inference API, FLUX.1-schnell, 1024x1024 default, Keychain token); linkedin-upload-image.sh (LinkedIn Assets API initializeUpload + binary PUT). Updated: linkedin-post.sh (--image-asset-urn flag + content.media payload injection). SPARK_RULES.md: image generation section added.
+**Why:** Automate LinkedIn post images via HF free tier. Removes manual ChatGPT image step.
+**Verification:** Dry-runs pass for all 3 scripts. Payload shape confirmed correct.
+**Rollback:** N/A
+**Linked:** TKT-0121
+---
+
+
 ## 2026-05-09 21:48 AEST — [CHG-0253] obs-collector.sh delegation_fail deduplication bug fix
 **Type:** script
 **Source:** manual

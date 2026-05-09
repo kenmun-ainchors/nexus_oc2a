@@ -3,7 +3,13 @@
 # Uses newer LinkedIn Posts API (REST) format.
 #
 # Usage:
-#   linkedin-post.sh --text "post content" [--visibility PUBLIC|CONNECTIONS] [--dry-run]
+#   linkedin-post.sh --text "post content" [--visibility PUBLIC|CONNECTIONS] [--image-asset-urn urn:li:image:XXX] [--dry-run]
+#   linkedin-post.sh --content-file /path/to/draft.md [--image-asset-urn urn:li:image:XXX] [--dry-run]
+#
+# Image workflow (TKT-0121):
+#   1. Generate image:  bash scripts/hf-generate-image.sh --prompt "..." → /path/to/image.jpg
+#   2. Upload to LI:    bash scripts/linkedin-upload-image.sh --image-file /path/to/image.jpg → urn:li:image:XXX
+#   3. Attach to post:  bash scripts/linkedin-post.sh --content-file draft.md --image-asset-urn urn:li:image:XXX
 #
 # Requirements:
 #   - Run linkedin-auth.sh first to obtain and store tokens
@@ -20,6 +26,7 @@ POSTS_ENDPOINT="https://api.linkedin.com/rest/posts"
 POST_TEXT=""
 CONTENT_FILE=""
 VISIBILITY="PUBLIC"
+IMAGE_ASSET_URN=""
 DRY_RUN=false
 
 # ── Parse args ────────────────────────────────────────────────────────────────
@@ -39,13 +46,18 @@ while [[ $# -gt 0 ]]; do
       VISIBILITY="${2:u}"   # uppercase
       shift 2
       ;;
+    --image-asset-urn)
+      # LinkedIn image asset URN (e.g. urn:li:image:XXXXX) — attach image to post
+      IMAGE_ASSET_URN="$2"
+      shift 2
+      ;;
     --dry-run)
       DRY_RUN=true
       shift
       ;;
     *)
       echo "❌ Unknown argument: $1" >&2
-      echo "Usage: linkedin-post.sh --text \"content\" [--visibility PUBLIC|CONNECTIONS] [--dry-run]" >&2
+      echo "Usage: linkedin-post.sh --content-file draft.md [--image-asset-urn urn:li:image:XXX] [--visibility PUBLIC|CONNECTIONS] [--dry-run]" >&2
       exit 1
       ;;
   esac
@@ -151,13 +163,14 @@ ACCESS_TOKEN=$(security find-generic-password -a linkedin -s ainchors-linkedin-a
 # Map visibility: CONNECTIONS → "CONNECTIONS", PUBLIC → "PUBLIC"
 PAYLOAD_FILE=$(mktemp /tmp/li_payload_XXXXXX.json)
 
-python3 - "$POST_TEXT" "$VISIBILITY" "$MEMBER_ID" "$PAYLOAD_FILE" << 'PYEOF'
+python3 - "$POST_TEXT" "$VISIBILITY" "$MEMBER_ID" "$PAYLOAD_FILE" "$IMAGE_ASSET_URN" << 'PYEOF'
 import json, sys
 
 text = sys.argv[1]
 visibility = sys.argv[2]
 member_id = sys.argv[3]
 out_file = sys.argv[4]
+image_urn = sys.argv[5] if len(sys.argv) > 5 else ''
 
 payload = {
     'author': f'urn:li:person:{member_id}',
@@ -171,6 +184,14 @@ payload = {
     'lifecycleState': 'PUBLISHED',
     'isReshareDisabledByAuthor': False
 }
+
+# Attach image if asset URN provided (TKT-0121: HF FLUX.1-schnell integration)
+if image_urn:
+    payload['content'] = {
+        'media': {
+            'id': image_urn
+        }
+    }
 
 with open(out_file, 'w', encoding='utf-8') as f:
     json.dump(payload, f, ensure_ascii=False, indent=2)
@@ -190,6 +211,9 @@ if [[ "$DRY_RUN" == "true" ]]; then
   echo "  Endpoint  : POST $POSTS_ENDPOINT"
   echo "  Member ID : $MEMBER_ID"
   echo "  Visibility: $VISIBILITY"
+  if [[ -n "$IMAGE_ASSET_URN" ]]; then
+    echo "  Image URN : $IMAGE_ASSET_URN"
+  fi
   echo ""
   echo "  Payload:"
   echo "$PAYLOAD" | sed 's/^/    /'

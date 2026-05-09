@@ -1,11 +1,11 @@
 {
-  "generated_at": "2026-05-09T16:05:57.186579+00:00",
-  "generated_at_aest": "2026-05-10 02:05 AEST",
+  "generated_at": "2026-05-09T22:16:30.849640+00:00",
+  "generated_at_aest": "2026-05-10 08:16 AEST",
   "period_hours": 24,
   "totals": {
-    "ERROR": 3954,
-    "WARN": 8,
-    "INFO": 9
+    "ERROR": 3886,
+    "WARN": 4,
+    "INFO": 8
   },
   "top_errors": [
     {
@@ -14,41 +14,33 @@
     },
     {
       "type": "health_failure",
-      "count": 190
+      "count": 123
     },
     {
       "type": "warden_violation",
       "count": 2
-    },
-    {
-      "type": "anthropic_api_fail",
-      "count": 1
     }
   ],
   "top_warnings": [
-    {
-      "type": "incomplete_turn",
-      "count": 3
-    },
     {
       "type": "auto_heal_needs_ken",
       "count": 2
     },
     {
       "type": "gateway_restart",
-      "count": 2
+      "count": 1
     },
     {
-      "type": "lane_error",
+      "type": "incomplete_turn",
       "count": 1
     }
   ],
   "trend": {
     "has_prev_data": true,
-    "prev_errors": 180,
-    "prev_warns": 15,
-    "errors_pct_change": 2096.7,
-    "warns_pct_change": -46.7
+    "prev_errors": 251,
+    "prev_warns": 14,
+    "errors_pct_change": 1448.2,
+    "warns_pct_change": -71.4
   },
   "worst_hour": {
     "hour": "2026-05-09T10:00Z",

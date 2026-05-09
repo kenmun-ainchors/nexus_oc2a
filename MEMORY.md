@@ -111,7 +111,7 @@ Rule: New module names use Star Wars themes. Ken approves. All above final — n
 - **gemma4:31b-cloud (CHG-0249, 2026-05-09):** Added to Tier 2. Benchmark 4.2/5, ~1-4s/task, no thinking-mode bleed, 256k ctx. Approved for background crons. 5-day parallel RTB trial vs kimi running (cron 7ff14b97, 8:15am AEST). CI Cycle B candidate. Alias: gemma4cloud.
 
 ## Security Controls (S1–S7)
-- S1: OC ≥ v2026.1.29 (CVE-2026-25253 patched). Daily Warden check.
+- S1: OC ≥ v2026.5.5 (current). v2026.5.7 available (routine bugfix, no CVE). Daily Warden check.
 - S2: Gateway loopback only. Port 18789 never public. Tailscale remote access.
 - S3: No ClawHub skills on prod. Custom-built only. Weekly audit.
 - S4: Least privilege per agent. Governance agents read-only FS.
@@ -143,14 +143,37 @@ Rule: New module names use Star Wars themes. Ken approves. All above final — n
 - `/sprint` command = on-demand burndown (distinct from Friday standup Sprint Review ceremony)
 
 ## Pending Tickets
+**Critical/High (next 2 sprints):**
 - **TKT-0105:** Model3-Policy SOPs — open | Ken to confirm design questions during grooming
 - **TKT-0106:** Apply Model3-Policy to Tier 3 agents — blocked on TKT-0105
 - **TKT-0108:** Document Generation Pipeline (DOCX/XLSX/PPTX/PDF) — open | Ahsoka blocker
+- **TKT-0113:** Fallback alert channel (API-independent) — open | HIGH | INC-20260509-001 prevention
+- **TKT-0112:** obs-collector: cron run failures not captured in obs.db — open | MEDIUM
+
+**Infrastructure & Setup (Aevlith/OC2 path):**
+- **TKT-0114:** AInchors–Aevlith Technologies partnership agreement — open | HIGH | GATE for TKT-0115-0117
+- **TKT-0115:** Register Aevlith Technologies Pty Ltd with ASIC — open | HIGH | blocked on TKT-0114
+- **TKT-0116:** Secure aevlith.ai domain — open | HIGH | blocked on TKT-0115
+- **TKT-0117:** Secure aevlith.com.au domain — open | MEDIUM | blocked on TKT-0115
+- **TKT-0118:** Secure aevlith.com domain — open | MEDIUM | can run in parallel
+- **TKT-0119:** IP Australia trademark filing (Classes 35+42) — open | MEDIUM | blocked on TKT-0114
+- **TKT-0120:** RustDesk self-hosted on OC1 — open | HIGH
+
+**Spark (Social + LinkedIn Enhancements):**
+- **TKT-0121:** Spark: LinkedIn image generation via Hugging Face (Flux.1-schnell) — open | MEDIUM
+- **TKT-0122:** Spark: LinkedIn image generation via ComfyUI + Flux.1-schnell (fallback/upgrade) — open | LOW
+- **TKT-0123:** Fix linkedin-post.sh: add delimiter guard + token delete scope — open | MEDIUM
+
+**Medium-Priority (Q2+):**
+- **TKT-0107:** Agent Governance — Squad Model (Tier 5+) — open | MEDIUM | GATE: define before squad work
 - **TKT-0109:** Cassian Andor (Agile PM) — review July QBR. No build before then.
 - **TKT-0110:** Process Documentation Framework — open | Lando owns. DoD must include user doc.
 - **TKT-0111:** Angie Agile + Nexus Working Guide — open | Dep: TKT-0110
-- **TKT-0113:** Fallback alert channel (API-independent) — open | HIGH | INC-20260509-001 prevention
-- tickets.json seq 113. Notion AKB Backlog = SSOT.
+
+**Resolved (logged):**
+- **TKT-0104:** ✅ Data + Memory Architecture — P1-P4 Progressive Alignment (2026-05-08 resolved, Atlas locked output)
+
+tickets.json seq 124. Notion AKB Backlog = SSOT.
 
 ## Key Decisions & Architecture (locked)
 - **P1–P4:** P1=internal | P2=SaaS individual agents | P3=commercial tier label (add-on to P2, not a build phase) | P4=Enterprise/FSI. Licensed product DROPPED from P3.

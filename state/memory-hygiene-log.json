@@ -14,5 +14,9 @@
   {
     "date": "2026-05-09T07:45:00+10:00",
     "changes": "4 items corrected: (1) TKT-0104 status: changed from 'pending/awaiting Ken to fire' → 'RESOLVED (2026-05-08 15:19)' with Atlas outcome locked. (2) Pending Tickets sequence: tickets.json now seq 112 (was 104). Added TKT-0108 (Document Generation Pipeline). (3) TRIGGER-08 cost thresholds: corrected T1=$80 (was $60), T2=$40 (was $55), T3=$15; noted T3 firing 2026-05-08. (4) Obsidian retirement day count: fixed 'Day 9' → 'Day 10' (2026-05-04 phase completion date). Cost balance verified: $479.35 (confirmed Ken 2026-05-08 21:32 AEST). All cross-checks passed: tickets.json, chg-triggers.json, cost-state.json, akb-migration-state.json. MEMORY.md clean."
+  },
+  {
+    "date": "2026-05-10T07:45:00+10:00",
+    "changes": "6 items corrected: (1) Pending Tickets section: tickets.json seq 113 → 124 (11 new tickets added 2026-05-09). (2) Added 10 missing tickets: TKT-0107 (Squad Model), TKT-0112 (obs-collector), TKT-0114-0123 (Aevlith setup, RustDesk, Spark LinkedIn features). (3) Reorganized Pending Tickets into 5 buckets: Critical/High, Infrastructure & Setup, Spark enhancements, Medium-Priority, Resolved. (4) Marked TKT-0104 as resolved (✅ locked). (5) Updated S1 security control: OpenClaw v2026.1.29 → v2026.5.5 (current), noted v2026.5.7 available (routine bugfix, no CVE per TRIGGER-04). (6) Cost balance verified: $278.73 remaining (as of 2026-05-09 20:22 UTC per cost-state.json). All cross-checks passed: tickets.json seq 124, chg-triggers.json (TRIGGER-04 shows v2026.5.7 available), cost-state.json, akb-migration-state.json phases 1-5 complete. MEMORY.md: 6 targeted edits, 0 factual conflicts."
   }
 ]

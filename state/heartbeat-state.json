@@ -1,17 +1,19 @@
 {
   "lastChecks": {
-    "email": "2026-05-09T11:04:24Z",
-    "calendar": "2026-05-09T11:04:24Z",
+    "email": "2026-05-10T21:59:00Z",
+    "calendar": "2026-05-10T21:59:00Z",
     "weather": null,
-    "taskWatchdog": 1778336207,
-    "cronHealth": 1778336207,
-    "budgetCheck": 1778336207,
-    "doDGates": null,
-    "cronDeadLetter": 1778336207,
-    "dailyClose": "2026-05-09T13:51:19.656Z",
-    "agentHealth": 1778336207,
-    "wardenEscalation": 1778336207,
-    "allowlistSync": 1778336207
+    "taskWatchdog": 1778364037580,
+    "cronHealth": 1778364037,
+    "budgetCheck": 1778364037,
+    "doDGates": "2026-05-09T21:59:00Z",
+    "cronDeadLetter": 1778364037580,
+    "dailyClose": "2026-05-09T18:16:19.589Z",
+    "agentHealth": 1778364037580,
+    "wardenEscalation": 1778364037580,
+    "allowlistSync": 1778364037580
   },
-  "lastHeartbeat": "2026-05-09T16:05:00Z"
+  "doDGatesSunday": "2026-05-09T22:11:00Z",
+  "lastHeartbeat": "2026-05-09T22:11:00Z",
+  "lastHeartbeatNote": "2026-05-10 08:11 AEST — Sunday sprint planning heartbeat. Balance ~$278.73 (safe). Cron clean. Warden escalation resolved. DoD gates: 15 open decisions, 7 draft docs surfaced to Ken for sprint planning."
 }
