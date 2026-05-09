@@ -1,17 +1,17 @@
 {
   "lastChecks": {
-    "email": "2026-05-09T02:26:50.878Z",
-    "calendar": "2026-05-09T02:26:50.879Z",
-    "agentHealth": "2026-05-09T04:22:53.552Z",
-    "apiBalance": "2026-05-09T04:22:53.552Z",
-    "taskWatchdog": "2026-05-09T04:22:53.552Z",
-    "wardenEscalation": "2026-05-09T04:22:53.552Z",
-    "cronDeadLetter": "2026-05-09T04:22:53.552Z",
-    "ahsokaPilot": "2026-05-09T04:22:53.552Z",
-    "standby": "2026-05-09T04:22:53.552Z",
-    "cronHealth": "2026-05-09T04:22:53.552Z",
-    "budgetCheck": "2026-05-09T04:22:53.552Z",
-    "allowlistSync": "2026-05-09T04:22:53.552Z",
+    "email": "2026-05-09T04:50:00.000Z",
+    "calendar": "2026-05-09T05:13:11Z",
+    "agentHealth": "2026-05-09T05:58:59.324Z",
+    "apiBalance": "2026-05-09T05:58:59.324Z",
+    "taskWatchdog": "2026-05-09T05:58:59.324Z",
+    "wardenEscalation": "2026-05-09T05:58:59.324Z",
+    "cronDeadLetter": "2026-05-09T04:50:00.000Z",
+    "ahsokaPilot": "2026-05-09T05:58:59.324Z",
+    "standby": "2026-05-09T05:10:20.474Z",
+    "cronHealth": "2026-05-09T05:58:59.324Z",
+    "budgetCheck": "2026-05-09T05:50:42.075Z",
+    "allowlistSync": "2026-05-09T05:58:59.324Z",
     "memoryMaintenance": "2026-05-08T19:58:34.724799Z",
     "weather": null,
     "dailyClose": "2026-05-08T13:42:00Z",
@@ -19,8 +19,8 @@
     "standup": "2026-05-06T21:58:26.663467Z",
     "missionControl": "2026-05-08T11:27:00.000Z",
     "diskCheck": "2026-05-08T21:32:00Z",
-    "doDGates": "2026-05-08T22:04:00.000Z",
-    "chgTriggers": "2026-05-09T04:22:53.552Z"
+    "doDGates": "2026-05-09T05:47:25.701Z",
+    "chgTriggers": "2026-05-09T04:50:00.000Z"
   },
-  "notes": "May 9 2:20PM AEST: All clean. Balance ~$479 T0. No standby, no banner. Warden escalation already resolved (CHG-0252). No stalls, no dead-letter, no verification alerts. Cron health OK. Budget OK. Ahsoka P1 in-progress/P2 pending. Allowlist sync changes already surfaced earlier (gemma4:31b-cloud removed x5). HEARTBEAT_OK."
+  "notes": "May 9 3:58PM AEST: All clean. Balance ~ est (confirmed .35 May 8, ~ spent today). activeTier=0. No warden escalations. Cron health clean. No stalls/TVA/dead-letters. Ahsoka P1 in-progress, P2 pending. Allowlist sync 3:25PM confirmed real changes: gemma4:31b-cloud removed from 5 agents (main, business, spark, qa, governance) — per strategy-update source."
 }

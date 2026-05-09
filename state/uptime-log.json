@@ -14114,14 +14114,97 @@
       "ts": "2026-05-09T04:26:47.217162+00:00",
       "status": "ok",
       "issues": []
+    },
+    {
+      "ts": "2026-05-09T04:43:44.241309+00:00",
+      "status": "degraded",
+      "issues": [
+        "Event loop delay critical: 38554ms max, utilisation 0.82 \u2014 gateway may be saturated"
+      ]
+    },
+    {
+      "ts": "2026-05-09T04:47:31.558358+00:00",
+      "status": "degraded",
+      "issues": [
+        "Event loop delay critical: 38554ms max, utilisation 0.82 \u2014 gateway may be saturated"
+      ]
+    },
+    {
+      "ts": "2026-05-09T04:58:30.339706+00:00",
+      "status": "ok",
+      "issues": []
+    },
+    {
+      "ts": "2026-05-09T05:00:56.973088+00:00",
+      "status": "ok",
+      "issues": []
+    },
+    {
+      "ts": "2026-05-09T05:05:36.207973+00:00",
+      "status": "ok",
+      "issues": []
+    },
+    {
+      "ts": "2026-05-09T05:11:30.999110+00:00",
+      "status": "ok",
+      "issues": []
+    },
+    {
+      "ts": "2026-05-09T05:16:19.839840+00:00",
+      "status": "ok",
+      "issues": []
+    },
+    {
+      "ts": "2026-05-09T05:23:49.441040+00:00",
+      "status": "ok",
+      "issues": []
+    },
+    {
+      "ts": "2026-05-09T05:26:15.518272+00:00",
+      "status": "ok",
+      "issues": []
+    },
+    {
+      "ts": "2026-05-09T05:31:04.258897+00:00",
+      "status": "ok",
+      "issues": []
+    },
+    {
+      "ts": "2026-05-09T05:36:47.667605+00:00",
+      "status": "ok",
+      "issues": []
+    },
+    {
+      "ts": "2026-05-09T05:43:46.219649+00:00",
+      "status": "ok",
+      "issues": []
+    },
+    {
+      "ts": "2026-05-09T05:48:24.753683+00:00",
+      "status": "ok",
+      "issues": []
+    },
+    {
+      "ts": "2026-05-09T05:51:06.293756+00:00",
+      "status": "degraded",
+      "issues": [
+        "Disk usage high: /private/tmp/KSInstallAction.aqWDvvP7G0/m at 100%"
+      ]
+    },
+    {
+      "ts": "2026-05-09T05:56:06.809863+00:00",
+      "status": "degraded",
+      "issues": [
+        "Disk usage high: /private/tmp/KSInstallAction.aqWDvvP7G0/m at 100%"
+      ]
     }
   ],
   "summary": {
-    "totalChecks": 2690,
-    "upChecks": 2360,
-    "downtimeMinutes": 4950,
-    "uptimePct": 87.732,
-    "lastCheck": "2026-05-09T04:26:47.217162+00:00",
-    "lastStatus": "ok"
+    "totalChecks": 2705,
+    "upChecks": 2371,
+    "downtimeMinutes": 5010,
+    "uptimePct": 87.652,
+    "lastCheck": "2026-05-09T05:56:06.809863+00:00",
+    "lastStatus": "degraded"
   }
 }

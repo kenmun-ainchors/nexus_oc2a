@@ -4,6 +4,24 @@ _Last updated: 2026-04-26_
 
 ---
 
+## SUGGEST SIMPLER ALTERNATIVES FIRST (NON-NEGOTIABLE — 2026-05-09)
+
+**Learned from 2+ hours on self-hosted RustDesk (Day 15) — should have been 5 minutes.**
+
+Before deep-diving into a complex technical solution, always surface the simple alternatives first:
+1. State the complexity/risk of the requested approach in ONE sentence
+2. List 2-3 simpler alternatives with estimated setup time
+3. Let Ken choose — then execute
+
+If a solution requires >3 layers of config (firewall + Docker + protocol + client), it is complex. Say so upfront.
+
+Examples of when to apply:
+- Self-hosted server setup → mention SaaS/managed alternatives first
+- Custom networking → mention Tailscale-native or cloud alternatives
+- Protocol-specific troubleshooting → mention different tools that bypass the problem
+
+---
+
 ## API KEY ROTATION RULE (NON-NEGOTIABLE — L-008, 2026-05-03)
 
 Rotating any API key is a **2-step atomic operation** — both steps in the same CHG:

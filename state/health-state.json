@@ -1,18 +1,20 @@
 {
-  "status": "ok",
-  "overallStatus": "ok",
+  "status": "degraded",
+  "overallStatus": "degraded",
   "consecutiveFailures": 0,
   "alerted": false,
-  "lastCheck": "2026-05-09T04:26:47Z",
-  "lastOk": "2026-05-09T04:26:47Z",
-  "exitCode": 0,
-  "issues": [],
+  "lastCheck": "2026-05-09T05:56:06Z",
+  "lastOk": "2026-05-09T05:56:06Z",
+  "exitCode": 1,
+  "issues": [
+    "Disk usage high: /private/tmp/KSInstallAction.aqWDvvP7G0/m at 100%"
+  ],
   "anthropicReachable": true,
   "ollamaReachable": true,
   "checks": {
     "gateway": "ok",
     "ollama": "ok",
-    "disk": "ok",
+    "disk": "degraded",
     "healthStateAge": "ok",
     "costStateAge": "ok",
     "staleLockFilesCleared": 0,
