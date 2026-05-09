@@ -6,7 +6,7 @@
   "testStartAt": "2026-05-02T01:23:51.709013Z",
   "testEndAt": null,
   "lastRunAt": "2026-05-09T00:39:03.265567+00:00",
-  "status": "cycle-b",
+  "status": "cycle-a",
   "totalRuns": 26,
   "totalTasksEvaluated": 85,
   "runFrequencyHours": 6,
@@ -16,10 +16,10 @@
   "reportCronId": "a6ec7539-ec94-4fd4-b226-2699636a9f63",
   "cycleDurationDays": 7,
   "currentCycle": 2,
-  "currentPhase": "B",
+  "currentPhase": "A",
   "cycleAStartAt": "2026-05-08T18:41:21.275203+00:00",
   "cycleAEndAt": "2026-05-08T18:41:21.275203+00:00",
-  "cycleBStartAt": "2026-05-09T02:40:08.257313+00:00",
+  "cycleBStartAt": null,
   "cycleBEndAt": null,
   "topCandidates": [
     {
@@ -64,18 +64,31 @@
     }
   ],
   "cycleBCronId": null,
-  "approvalRequired": false,
+  "approvalRequired": true,
   "approvedBy": "Ken",
   "approvedAt": "2026-05-09T02:40:08.257313+00:00",
   "approvalNote": "Ken approved Cycle B 2026-05-09. Top candidates: subtask\u2192deepseek-v4-flash:cloud (MEDIUM), creative\u2192kimi-k2.6:cloud (LOW). Cycle B = real-time parallel evaluation on live tasks.",
-  "cycleB_additionalCandidates": [
+  "cycleBCancelledAt": "2026-05-09T03:03:30.319520+00:00",
+  "cycleBCancelReason": "Ken directive 2026-05-09: Cycle B requires >=75% pass rate. Cycle 1A candidates MEDIUM/LOW confidence \u2014 threshold not met. gemma4:31b-cloud added as Cycle 2A candidate alongside deepseek-flash and kimi. Re-evaluate all three after 7-day Cycle 2A window.",
+  "cycleBPassRateThreshold": 0.75,
+  "cycleBPassRateRule": "All top candidates must achieve >=75% pass rate (tasks scoring >= qualityThreshold) in Cycle A before Cycle B activation. Ken approves after threshold is confirmed.",
+  "cycleACandidates": [
     {
-      "task": "ops-cron",
+      "model": "deepseek-v4-flash:cloud",
+      "task": "subtask",
+      "addedCycle": 1
+    },
+    {
+      "model": "kimi-k2.6:cloud",
+      "task": "creative",
+      "addedCycle": 1
+    },
+    {
       "model": "gemma4:31b-cloud",
-      "addedAt": "2026-05-09T02:57:49.319361+00:00",
-      "addedReason": "Benchmark 4.2/5, no thinking-mode bleed, ~6-9s for 3 tasks. 2x faster than prior Gemma4. Testing as background cron replacement and RTB alternative.",
-      "confidence": "PENDING",
-      "cycleTarget": "B"
+      "task": "ops-cron",
+      "addedCycle": 2,
+      "addedAt": "2026-05-09T03:03:30.319520+00:00",
+      "reason": "Benchmark 4.2/5, no thinking-mode bleed, 2x speed. Added Day 15."
     }
   ]
 }

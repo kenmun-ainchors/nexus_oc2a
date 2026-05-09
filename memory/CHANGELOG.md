@@ -1,3 +1,10 @@
+## 2026-05-09 13:04 AEST — [CHG-0250] CI Cycle B cancelled — new 75% pass rate gate + Cycle 2A with gemma4:31b
+**Type:** decision
+**Source:** ken-prompt
+**Trigger:** Ken: Cycle B requires >=75% pass rate. Cycle 1A confidence LOW/MEDIUM — threshold not met. gemma4:31b promising.
+**What changed:** (1) Cycle B approval cancelled. (2) New rule: Cycle B only activates when all top candidates achieve >=75% pass rate in Cycle A. (3) gemma4:31b-cloud added as Cycle 2A candidate (alongside deepseek-flash + kimi). (4) Cycle 2A now running — 7-day window, 3 candidates evaluated.
+**Why:** Gemma4:31b benchmark 4.2/5 warrants inclusion in Cycle A evaluation. MEDIUM/LOW confidence from Cycle 1A insufficient for production routing decisions.
+
 ## 2026-05-09 12:58 AEST — [CHG-0249] gemma4:31b-cloud operationalized — model policy + RTB trial + CI Cycle B
 **Type:** config
 **Source:** ken-prompt
