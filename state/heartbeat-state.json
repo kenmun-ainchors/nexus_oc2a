@@ -1,7 +1,7 @@
 {
   "lastChecks": {
-    "email": "2026-05-09T00:32:00Z",
-    "calendar": "2026-05-09T00:32:00Z",
+    "email": "2026-05-09T02:26:50.878Z",
+    "calendar": "2026-05-09T02:26:50.879Z",
     "agentHealth": "2026-05-09T02:18:00Z",
     "apiBalance": "2026-05-09T02:18:00Z",
     "taskWatchdog": "2026-05-09T02:18:00Z",
@@ -10,7 +10,7 @@
     "ahsokaPilot": "2026-05-09T02:18:00Z",
     "standby": "2026-05-09T02:18:00Z",
     "cronHealth": "2026-05-09T02:18:00Z",
-    "budgetCheck": "2026-05-09T02:18:00Z",
+    "budgetCheck": "2026-05-09T02:03:57.084Z",
     "allowlistSync": "2026-05-09T01:40:00Z",
     "memoryMaintenance": "2026-05-08T19:58:34.724799Z",
     "weather": null,
@@ -19,9 +19,8 @@
     "standup": "2026-05-06T21:58:26.663467Z",
     "missionControl": "2026-05-08T11:27:00.000Z",
     "diskCheck": "2026-05-08T21:32:00Z",
-    "budgetCheck": "2026-05-09T02:03:57.084Z",
     "doDGates": "2026-05-08T22:04:00.000Z",
     "chgTriggers": "2026-05-09T01:42:00Z"
   },
-  "notes": "May 9 12:24PM AEST: All clear. Balance $479.35 (Tier 0). Health OK. No stalls, no dead-letters, no Warden escalations (resolved). Cron health acknowledged. Ahsoka P1=in_progress (parked)/P2=pending — no gate trigger. System clean."
+  "notes": "May 9 12:26PM AEST: Email check done. Unread: Google Tag install request (info@ → Ken+Angie, 2 days old). Calendar clear. Balance ~$464 (Tier 0). All systems clean."
 }
