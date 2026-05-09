@@ -108,6 +108,7 @@ Rule: New module names use Star Wars themes. Ken approves. All above final — n
 - Tier 3: Claude Sonnet 4.6 — pay-per-token — FALLBACK ONLY.
 - Data sovereignty: DS-1 to DS-5 enforced by Warden. Client data = Tier 0/1 local ONLY.
 - CURRENT (pre-OC2): Sonnet primary + Ollama Cloud Tier 2 active. Full 4-tier pending OC2 July 2026. PoC: ✅ COMPLETE (TRIGGER-05 fired 2026-05-02). Ollama Pro: accounts@ainchors.com.
+- **gemma4:31b-cloud (CHG-0249, 2026-05-09):** Added to Tier 2. Benchmark 4.2/5, ~1-4s/task, no thinking-mode bleed, 256k ctx. Approved for background crons. 5-day parallel RTB trial vs kimi running (cron 7ff14b97, 8:15am AEST). CI Cycle B candidate. Alias: gemma4cloud.
 
 ## Security Controls (S1–S7)
 - S1: OC ≥ v2026.1.29 (CVE-2026-25253 patched). Daily Warden check.

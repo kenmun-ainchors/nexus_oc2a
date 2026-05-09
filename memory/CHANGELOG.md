@@ -1,3 +1,12 @@
+## 2026-05-09 12:58 AEST — [CHG-0249] gemma4:31b-cloud operationalized — model policy + RTB trial + CI Cycle B
+**Type:** config
+**Source:** ken-prompt
+**Trigger:** Ken directed Gemma4:31b-cloud assessment (Day 15). Ollama Cloud launch: 2x faster, MTP, 256k ctx.
+**What changed:** (1) ollama/gemma4:31b-cloud added to globalAllowedModels + allowedInCrons (background only, no interactive). (2) 5-day parallel RTB trial cron created (7ff14b97, 8:15am AEST, delivers Telegram). (3) Added as CI Cycle B additional candidate. (4) Alias: gemma4cloud. (5) MEMORY.md model strategy updated.
+**Benchmark:** 4.2/5 avg quality. Task A 5/5 JSON, Task B 4/5 summary, Task C 4/5 RTB. No thinking-mode bleed. ~1-4s per task. 256k ctx.
+**Approved for:** Background crons immediately. RTB trial 5 days. CI Cycle B candidate. Governance triad conditional (human-in-loop required first).
+**Not approved for:** Interactive sessions. Sonnet replacement without further validation.
+
 ## 2026-05-09 12:15 AEST — [CHG-0248] Aevlith Technologies — entity name locked, all references updated
 **Type:** decision
 **Source:** ken-prompt

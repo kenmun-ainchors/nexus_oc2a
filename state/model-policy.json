@@ -1,9 +1,9 @@
 {
   "schema_version": "1.0",
   "description": "Authoritative model policy for all AInchors agents. Warden enforces this. Changes require Ken approval + CHG entry + baseline update.",
-  "lastUpdated": "2026-05-06T15:57:15Z",
+  "lastUpdated": "2026-05-09T02:58:00Z",
   "lastApprovedBy": "Ken",
-  "approvalContext": "allowlist-sync.sh auto-sync (source: manual) -- 2026-05-03T21:34:42+10:00",
+  "approvalContext": "CHG-0249: gemma4:31b-cloud added \u2014 background crons + RTB trial. Benchmark 4.2/5, no thinking-mode bleed, ~1-4s/task.",
   "globalAllowedModels": [
     "anthropic/claude-sonnet-4-6",
     "anthropic/claude-haiku-4-5",
@@ -12,11 +12,13 @@
     "ollama/gemma4:26b",
     "ollama/kimi-k2.6:cloud",
     "ollama/deepseek-v4-flash:cloud",
-    "ollama/deepseek-v4-pro:cloud"
+    "ollama/deepseek-v4-pro:cloud",
+    "ollama/gemma4:31b-cloud"
   ],
   "globalProhibitedInInteractive": [
     "ollama/gemma4:e2b",
-    "ollama/gemma4:26b"
+    "ollama/gemma4:26b",
+    "ollama/gemma4:31b-cloud"
   ],
   "agents": {
     "main": {
@@ -37,7 +39,8 @@
         "ollama/gemma4:e2b",
         "ollama/kimi-k2.6:cloud",
         "ollama/deepseek-v4-flash:cloud",
-        "ollama/deepseek-v4-pro:cloud"
+        "ollama/deepseek-v4-pro:cloud",
+        "ollama/gemma4:31b-cloud"
       ],
       "ollamaCloudConstraint": "Non-sensitive (low data_sensitivity) crons only. No PII, no medical, no legal. AInchors own ops only.",
       "rationale": "US11 model strategy. Sonnet is default. Opus for escalation only. Gemma4:e2b for background crons. Ollama Cloud Tier 2 (kimi/deepseek) for non-sensitive cron tasks (CHG-0140).",
@@ -64,7 +67,8 @@
         "anthropic/claude-sonnet-4-6",
         "ollama/kimi-k2.6:cloud",
         "ollama/deepseek-v4-flash:cloud",
-        "ollama/deepseek-v4-pro:cloud"
+        "ollama/deepseek-v4-pro:cloud",
+        "ollama/gemma4:31b-cloud"
       ],
       "ollamaCloudConstraint": "Non-sensitive (low data_sensitivity) crons only. No PII, no medical, no legal. AInchors internal ops only \u2014 never client data.",
       "rationale": "CHG-0037 + Option C decision 2026-04-27. Gemma4 cold-load prohibited. Sonnet for Aria interactive. Opus prohibited \u2014 cost control. Ollama Cloud Tier 2 added for non-sensitive business ops crons (CHG-0140).",
@@ -163,7 +167,8 @@
         "anthropic/claude-haiku-4-5",
         "anthropic/claude-sonnet-4-6",
         "ollama/kimi-k2.6:cloud",
-        "ollama/deepseek-v4-flash:cloud"
+        "ollama/deepseek-v4-flash:cloud",
+        "ollama/gemma4:31b-cloud"
       ],
       "ollamaCloudConstraint": "Non-sensitive content QA only (blog posts, marketing copy, internal docs). Not for reviewing content that may contain PII or client data.",
       "rationale": "Governance agents run Sonnet for consistency. Ollama Cloud (kimi, deepseek-flash) allowed for non-sensitive content QA crons \u2014 CHG-0140.",
@@ -199,7 +204,8 @@
         "ollama/kimi-k2.6:cloud",
         "ollama/deepseek-v4-pro:cloud",
         "anthropic/claude-sonnet-4-6",
-        "anthropic/claude-haiku-4-5"
+        "anthropic/claude-haiku-4-5",
+        "ollama/gemma4:31b-cloud"
       ],
       "ollamaCloudConstraint": "Social content, marketing copy, strategy, campaigns only. No client PII. AInchors own content only.",
       "dataConstraints": "Non-sensitive (low data_sensitivity) only. Social/marketing content. Never client PII.",
@@ -229,7 +235,8 @@
       "allowedInCrons": [
         "anthropic/claude-haiku-4-5",
         "anthropic/claude-sonnet-4-6",
-        "ollama/deepseek-v4-flash:cloud"
+        "ollama/deepseek-v4-flash:cloud",
+        "ollama/gemma4:31b-cloud"
       ],
       "ollamaCloudConstraint": "Warden reads config files and model IDs only \u2014 inherently non-sensitive. deepseek-flash approved for compliance check crons.",
       "rationale": "Lightweight compliance monitor. Haiku primary (CHG-0096). deepseek-flash approved for cron compliance checks (non-sensitive config reads). Sonnet fallback. CHG-0140.",
@@ -257,7 +264,8 @@
         "anthropic/claude-sonnet-4-6",
         "ollama/deepseek-v4-pro:cloud",
         "ollama/deepseek-v4-flash:cloud",
-        "ollama/kimi-k2.6:cloud"
+        "ollama/kimi-k2.6:cloud",
+        "ollama/gemma4:31b-cloud"
       ],
       "ollamaCloudConstraint": "CI tasks only (non-sensitive model benchmarking). Never client data.",
       "rationale": "Haiku for ops validation crons. deepseek-v4-pro:cloud for CI evaluation (approved CHG-0123). All Ollama Cloud = CI/internal ops only. CHG-0147.",
