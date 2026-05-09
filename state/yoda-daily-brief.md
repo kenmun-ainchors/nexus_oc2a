@@ -1,74 +1,129 @@
-# Yoda Daily Brief
-_Updated by Yoda 🟢 | Read by Aria 🔵 + Angie_
+# Yoda Daily Brief — 2026-05-09 (Day 15)
+
+_Written for Aria 🔵 and Angie 🌟. Plain language. No jargon._
 
 ---
 
-## 2026-05-08 (Friday, Day 14)
+## What We Built Today
 
-### What Yoda Built Today
+### 🏷️ The Company Has a Legal Name — Aevlith Technologies
+The biggest decision of the day. Ken and the team needed a separate technology holding company (the entity that owns the Nexus platform). The original name, "Auralith," was taken — someone already registered that exact name in Australia (ABN 43 675 437 500) and there were conflicts in the UK, US, and India too.
 
-**Morning (7:30am–1pm)**
-- **Tailscale remote access** — Ken can now securely reach the platform from any device on his Tailscale network, without exposing anything to the internet. Replaces the need for a VPN.
-- **Cron reliability fixes** — We had 17 "incomplete turn" failures in 24 hours. Yoda diagnosed four root causes (timeout with no fallback, concurrency clashes, empty AI responses, scheduling collisions) and fixed all four in one bundle. Crons are now more resilient.
-- **Credit alert system recalibrated** — Now properly reflects the auto-reload policy (platform reloads at $50 → tops up to $500). Alerts are now meaningful, not noise. Also locked in: all business stream decisions sit with Angie — Aria follows her pace, no pushing.
-- **Agent Governance Framework v1.0 approved** — Ken formally approved a 5-tier governance model for all 13 agents. Every agent now has a defined governance tier and clear rules about who can instruct it and who oversees it. This is the foundation for safe multi-agent operations.
+**New name locked: Aevlith Technologies Pty Ltd.** Pronounced "AYV-lith." It comes from Latin *aevum* (timeless) and Greek *lithos* (foundation). Clean globally — no conflicts anywhere checked. Domain: aevlith.ai.
 
-**Afternoon (1pm–6pm)**
-- **Phase definitions finalised** — P1 (now, internal), P2 (SaaS with individual agents), P3 (SaaS with company/multi-agents, only if ROI justifies it), P4 (enterprise/FSI). Kept clean and realistic.
-- **Data architecture decisions locked** — Row-level security from day one in P2. P3 is a commercial tier unlock, not a separate build. Strategic note: P4 enterprise clients may prefer local/in-house deployment over P3 cloud — P3 may be skipped.
-- **Anthropic DPA reviewed** — Confirmed: Claude API cannot be used for client data under Australian privacy law (APRA / Privacy Act APP 11). Why? Anthropic stores data in the US regardless of where processing happens. Decision stands: all client workloads use Gemma4 local by default. BYOK (Bring Your Own Key) is opt-in — client owns the data residency risk.
-- **Document generation pipeline built** (TKT-0108) — Scripts now let agents produce real deliverables: Word documents, Excel spreadsheets, PowerPoint slides, and PDFs. This unblocks Ahsoka's ability to produce client proposals and reports.
-- **Per-agent FinOps controls** (TKT-0092) — Every agent now has a daily cost budget. If any agent exceeds its cap, Ken gets alerted. No more unbounded spend. R3 guardrail is now live.
-- **3-2-1+1 Backup Strategy** (TKT-0093) — Platform now has: 1 working copy + 1 local backup + 1 iCloud offsite backup + 1 NAS copy (post-OC2). Security control S7 partially met. Daily health check cron wired.
+What this means: AInchors is the public face (the consulting brand Ken and Angie run). Aevlith is the invisible company behind it that owns the platform. They stay separate until Phase 4 when Nexus gets sold commercially to third parties.
 
-**Evening (6pm–11pm)**
-- **Agile Framework updated** — Velocity targets locked for each phase (pre-OC2: 5 stories/sprint, during OC2 setup: 2–3, post-OC2: 5). P2 end-August is achievable but has zero slack. Early warning signal: <4 items in any sprint = flag a potential slip.
-- **Definition of Done formalised** — Nothing can be marked "Done" unless: (1) all open decisions are closed, (2) no draft docs pending, (3) both gates cleared. Backfilled 15 open decisions and 7 draft docs from all prior work.
-- **Sprint Review completed** — Formal end-of-sprint ceremony. Sprint 1 delivered. Sprint 2 planning queued for Sunday.
+Six tickets raised off the back of this — partnership agreement, ASIC registration, domain purchases, trademarks. All tracked.
 
 ---
 
-### Key Decisions Made Today
+### 📧 Standup Emails Now Display Correctly
+The morning standup emails Ken receives were built with a dark theme. Gmail marks dark-themed emails as potentially promotional, and on some email clients the colours inverted and became unreadable.
 
-| # | Decision | Why It Matters |
-|---|----------|----------------|
-| 1 | **5-tier Agent Governance Framework approved** | Every agent now has a defined tier and accountability chain. Foundation for safe scaling. |
-| 2 | **Claude API blocked for client data** | APRA + Privacy Act compliance. US storage = cross-border transfer. Gemma4 local is the default. |
-| 3 | **BYOK is opt-in — client owns residency risk** | Protects AInchors from liability. Client chooses to use their own Anthropic key and accepts the consequences. |
-| 4 | **P3 = commercial tier unlock, not a build phase** | Avoids over-engineering. Multi-tenant infrastructure built in P2. P3 activated only if ROI case is strong. |
-| 5 | **RLS (row-level security) from day one in P2** | No retrofitting security later. Clean from the start. |
-| 6 | **Per-agent cost budgets live** | R3 guardrail met. No client work without cost controls. |
-| 7 | **3-gate Definition of Done** | Prevents work being declared "done" with open decisions or draft docs still floating. |
-| 8 | **Aria follows Angie's pace — no pushing, no chasing** | Aria's job is to support Angie, not drive her. Business stream decisions are Angie's. |
+Fixed: standup emails are now light theme (white background, dark text, blue headings). Looks clean in any email client, doesn't trigger Gmail's dark-mode detection.
 
 ---
 
-### Training Content Angles (for AI courses)
+### 🔍 The Observability Gap — Now Closed
+The platform has a central database called `obs.db` that tracks every error, failure, and health event. Problem: only 15 types of errors were being written to it. Things like cron job failures, budget exceeded, Warden policy violations, and PVT test failures were happening — but never making it into obs.db.
 
-*Lessons from today that would make great course content:*
-
-- **"Why Claude can't touch your client data"** — Australian privacy law + Anthropic DPA breakdown. Real case study from a live platform decision. Super relevant for Australian businesses adopting AI.
-- **"FinOps for AI: per-agent budgets"** — Most people think about AI costs at the platform level. Yoda built per-agent daily budgets. This is a concrete, practical approach any AI operations team could implement.
-- **"Diagnosing AI cron failures"** — 17 incomplete turns in 24 hours. Four root causes. Four fixes. Real troubleshooting walkthrough.
-- **"Agent governance tiers"** — How do you structure accountability when you have 13 AI agents? The 5-tier model (Lead Anchor → Dual-Principal → Yoda-Govern → Yoda-Manage → Triad Service) is a teachable framework.
-- **"3-2-1+1 backup for AI platforms"** — Most AI tutorials skip backup strategy entirely. This is a practical gap for real-world deployments.
-- **"Definition of Done for AI delivery"** — Applying a governance-gated DoD to AI platform work. Keeps things honest.
+Today: 10 new error categories (Q–Z) added. **Rule now locked:** anything that can go wrong must be recorded in obs.db. No exceptions. Any new error-generating script must wire into obs.db in the same change.
 
 ---
 
-### What's Open / What's Next
+### 📚 18 Platform Learnings Formalised
+We went back through 15 days of journals and changelogs and extracted every hard-won lesson. 18 learnings total (L-001 to L-018), plus 3 more from tonight's LinkedIn incident (L-019 to L-021). These cover everything from "don't store large JSON in shell variables" to "always set an explicit Telegram account ID — never rely on defaults."
 
-| Item | Status | Priority |
-|------|--------|----------|
-| TKT-0104 Data+Memory Architecture (Atlas) | Groomed, awaiting Ken to fire | High |
-| TKT-0105 Model3-Policy SOPs | Not started | High |
-| TKT-0106 Apply Model3-Policy to Tier 3 agents | Blocked on TKT-0105 | High |
-| Sprint 1 Review (formal Ken sign-off) | Pending | Medium |
-| 15 open decisions (open-decisions.json) | Need resolution before DoD gates clear | Various |
-| 7 draft docs (draft-docs.json) | Need acceptance before DoD gates clear | Various |
-| Ahsoka pilot state | Not checked today | Medium |
-| Sprint 2 planning | Sunday | Upcoming |
+Key ones worth noting:
+- **L-009:** Zombie tasks can saturate the platform's event loop (we saw 28-second delays from this)
+- **L-010:** Agent config files over 10,000 characters = silent truncation = wrong Telegram targets + platform crash
+- **L-016:** Cost tracking must use `confirmedBalance − spentAfterDate` — any other method double-counts
+
+All 18 live in the Notion Holocron.
 
 ---
 
-_End of Day 14 brief. Next: Day 15 (Saturday 2026-05-09)._
+### 🆕 New AI Model Added — Gemma4:31b Cloud
+A new model became available through our Ollama Cloud provider: Gemma4 31 billion parameter, cloud-hosted. It's fast (1–4 seconds per task), handles 256,000 tokens of context, can process images as well as text, and produced quality output in benchmarking (4.2 out of 5).
+
+Added to our model strategy for background/automated tasks (cron jobs). Running a 5-day comparison trial starting 14 May — Ken will receive outputs from both this model and kimi on Telegram and can directly compare.
+
+---
+
+### 🔄 CI Model Strategy Reset
+The continuous improvement framework (CI Cycle A/B) was running. Cycle B was supposed to kick off with the top candidates from Cycle 1A — but when we reviewed, none of them hit the confidence gate (75% pass rate required). So Cycle B is cancelled for now.
+
+Cycle 2A is now running with three fresh candidates: deepseek-flash, kimi, and gemma4:31b-cloud. 7-day window. If they clear the gate, Cycle B fires.
+
+---
+
+### 🛠️ LinkedIn Posting — Three Hard Lessons
+A post (about RustDesk) went wrong tonight. Three separate bugs were discovered and fixed:
+
+1. **Large JSON in shell variables gets silently truncated.** The post was cut off mid-sentence with no error. Fix: always write JSON to a temp file and use `curl --data-binary @file`.
+2. **Content file parser silently ignores content without proper delimiters.** Post went live with only hashtags. Fix: script now fails loudly if the `---` delimiters are missing.
+3. **LinkedIn API delete requires a scope we don't have.** The API returned 404 (misleadingly — not 403). Manual delete from LinkedIn UI for now. Scope fix queued.
+
+---
+
+### 🔬 Mission Control + obs-collector Bug
+The Mission Control dashboard was showing 3,761 delegation failures in 24 hours — alarming. Investigation found it was a bug in the obs-collector script: it was looking for a timestamp field called `timestamp` or `at`, but the actual field in the log is `ts`. Every failed parse re-logged all 34 real failures every 5 minutes → metric inflation.
+
+Fixed. Real count: 34 delegation failures since Day 1 (normal). 238 health failures = the API outage period (also expected). Dashboard now clean.
+
+---
+
+### 🚨 INC-20260509-001 — API Outage (Resolved)
+The platform went down for ~26 hours when the API credit balance hit zero. Auto-reload kicked in once the balance hit $15 (TRIGGER-08), and $479.35 was reloaded. Platform fully recovered. Ken was offline at the time; Yoda handled recovery autonomously.
+
+Lesson raised: we need a fallback alert channel that doesn't depend on the Anthropic API being up. If the API is down, we can't use Claude to send a "the API is down" alert. Ticket raised (TKT-0113) for an API-independent alert path.
+
+---
+
+## Key Decisions Made
+
+| Decision | Detail |
+|----------|--------|
+| **Aevlith Technologies Pty Ltd** | Name locked. Zero conflicts. ASIC registration + aevlith.ai this week (blocked on partnership agreement). |
+| **obs.db = SSOT for all errors** | Architecture rule. Any new failure state file → must wire to obs.db in same CHG. Non-negotiable. |
+| **Cycle B cancelled** | 75% pass gate not cleared by Cycle 1A candidates. Cycle 2A running with 3 new candidates. |
+| **Gemma4:31b-cloud approved** | Added to Tier 2 model strategy for background cron tasks. 5-day trial vs kimi starts 14 May. |
+| **L-019 curl rule locked** | All curl API calls with multi-line payloads must use `--data-binary @tempfile`. No shell variable passing. |
+| **INC-20260509-001 closed** | API degradation resolved. TRIGGER-08 auto-reload confirmed working. TKT-0113 raised for next gap. |
+
+---
+
+## Training Content Angles
+
+_What from today's work would make great AI training course material?_
+
+- **"When your tech entity needs to be invisible"** — the Aevlith story. How do you structure an IP holding company that doesn't show up publicly until you're ready? Real decision-making process, naming constraints, international trademark checks.
+- **"Mining your own failures: 18 lessons from 15 days"** — retrospective methodology. How to go back through changelogs and journals and turn every incident into a reusable learning. Structured approach, categorisation, how to make them non-negotiable rules.
+- **"The observability blind spot: what your error database isn't capturing"** — most platforms only wire up some of their error sources. Systematic approach to finding and closing all the gaps. The Q-Z framework.
+- **"Why your API alert system can't tell you the API is down"** — the circular dependency problem. If your alerting relies on the thing that's broken, you get silence. Designing API-independent fallback channels.
+- **"Shell variables that lie: the LinkedIn post that published only hashtags"** — practical coding lesson. The silent truncation bug, how to detect it, how to fix it. Great for developers new to shell scripting + API integration.
+- **"Artificial inflation: when your metric dashboard is measuring its own bug"** — the obs-collector `ts` vs `timestamp` incident. 3,761 vs 34. How to spot metric inflation, root cause it, and trust your dashboards again.
+
+---
+
+## What's Open / What's Next
+
+### This Week (Critical)
+- **TKT-0114:** Ken + Angie to sign AInchors–Aevlith partnership agreement → BLOCKER for everything else
+- **TKT-0113:** Fallback alert channel (API-independent) — HIGH priority after today's outage
+- LinkedIn `--content-file` guard fix and token scope update (queued from tonight's incident)
+
+### Upcoming
+- **TKT-0115/0116/0117/0118:** ASIC registration + domain purchases (blocked on TKT-0114)
+- **TKT-0119:** IP Australia trademark (Classes 35+42) — P2 milestone, Lex to review
+- Gemma4:31b-cloud vs kimi RTB trial: 14–18 May, Ken reviews Telegram outputs
+- Ahsoka pilots: pilot1 in_progress, pilot2 pending — gate check when both complete
+- OC2 hardware: ETA 6–13 July. Commissioned ~27 July.
+
+### Sprint Context
+- Sprint 1 running. Pre-OC2 capacity: 5 items/sprint. 30% headroom buffer.
+- P2 target: end-August 2026. Contingency: mid-September.
+
+---
+
+_Synced: 2026-05-09 23:00 AEST | Yoda 🟢_

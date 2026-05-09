@@ -94,6 +94,14 @@ _Maintained by Aria 🔵 + Yoda 🟢 | Status-tracked content for AInchors train
 | TC-087 | BYOK: how to let clients use their own AI keys without inheriting their data residency risk | 💡 Idea | Yoda Day 14 (CHG-0236 — BYOK opt-in, client accepts Anthropic DPA liability, AInchors not liable) | Both |
 | TC-088 | Multi-tenant from day one: why RLS is easier to build in than to bolt on later | 💡 Idea | Yoda Day 14 (CHG-0235 — P2 isolation model, row-level security confirmed from day one, no retrofit) | Yoda |
 
+| TC-089 | Shell variable truncation in curl: the bug that posts only hashtags | 💡 Idea | Yoda Day 15 (L-019 — linkedin-post.sh `-d "$VAR"` truncated JSON, post published with only hashtags, no error) | Yoda |
+| TC-090 | When your alert system can't tell you the alert system is down: API-independent fallback design | 💡 Idea | Yoda Day 15 (INC-20260509-001 — 26h API outage, no alert possible because alerting depends on downed API, TKT-0113) | Both |
+| TC-091 | Closing the observability blind spot: wiring ALL error sources to one database | 💡 Idea | Yoda Day 15 (CHG-0247 — obs.db Q-Z, 10 new error categories, architecture rule: any new failure state → obs.db in same CHG) | Yoda |
+| TC-092 | Mining your own failures: how to extract 21 platform learnings from 15 days of changelogs | 💡 Idea | Yoda Day 15 (L-001 to L-021 retrospective — structured methodology for turning incidents into non-negotiable rules) | Both |
+| TC-093 | The invisible company: structuring an IP holding entity behind your AI market brand | 💡 Idea | Yoda Day 15 (CHG-0248 — Aevlith Technologies decision, AInchors brand vs Aevlith IP entity, international naming checks, ASIC, domain strategy) | Aria |
+| TC-094 | When 404 doesn't mean Not Found: LinkedIn API delete scope traps | 💡 Idea | Yoda Day 15 (L-021 — DELETE returns 404 due to scope mismatch, not missing resource — misleading HTTP error codes in OAuth APIs) | Yoda |
+| TC-095 | Metric inflation: when your observability script is measuring its own bug | 💡 Idea | Yoda Day 15 (CHG-0253 — obs-collector ts vs timestamp field mismatch, 3761 vs 34 real failures, silent except → metric explosion) | Both |
+
 ## Status Legend
 💡 Idea → 📝 Draft → 🔍 Review (Yoda validates) → ✅ Ready → 📢 Published
 
