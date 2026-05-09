@@ -3,12 +3,12 @@
   "agent": "Spark",
   "topics": [],
   "series": [],
-  "lastUpdated": "2026-05-07T07:30:00+10:00",
+  "lastUpdated": "2026-05-09T08:44:40.807974Z",
   "published": [
     {
       "id": "CONTENT-SEED-1",
       "queueId": 1,
-      "title": "Seeder Post 1 \u2014 The Opening Tease (Saturday)",
+      "title": "Seeder Post 1 — The Opening Tease (Saturday)",
       "status": "posted",
       "postedAt": "2026-05-03T11:54:00+10:00",
       "postedBy": "Ken (manual)",
@@ -18,7 +18,7 @@
     {
       "id": "CONTENT-SEED-2",
       "queueId": 2,
-      "title": "Seeder Post 2 \u2014 The Hint (Sunday)",
+      "title": "Seeder Post 2 — The Hint (Sunday)",
       "status": "posted",
       "postedAt": "2026-05-03T11:54:00+10:00",
       "postedBy": "Ken (manual)",
@@ -28,7 +28,7 @@
     {
       "id": "LI-W1-P1",
       "queueId": 3,
-      "title": "W1P1 \u2014 Practitioner Intro (Tue 7:30am)",
+      "title": "W1P1 — Practitioner Intro (Tue 7:30am)",
       "status": "posted",
       "postedAt": "2026-05-05T07:52:00+10:00",
       "postedBy": "Yoda (API fix + manual retry)",
@@ -38,13 +38,24 @@
       "slot": "Tue 7:30am",
       "postUrn": "urn:li:activity:7457186904363421696",
       "postUrl": "https://www.linkedin.com/posts/activity-7457186904363421696-UUyZ/"
+    },
+    {
+      "id": "LI-ADHOC-RUSTDESK",
+      "queueId": 8,
+      "title": "Ad-hoc — RustDesk self-hosting cautionary tale (v3)",
+      "status": "posted",
+      "postedAt": "2026-05-09T08:44:40.807974Z",
+      "postedBy": "Spark (API)",
+      "pillar": "what-we-learned",
+      "type": "original",
+      "notes": "Ken-approved v3. RustDesk Docker failure + Tailscale pivot. Irony layer: official docs led into the trap."
     }
   ],
   "scheduled": [
     {
       "id": "LI-C1-W2-P1",
       "queueId": 7,
-      "title": "C1W2P1 \u2014 AIOps: Who watches the agents? (Part 1/6)",
+      "title": "C1W2P1 — AIOps: Who watches the agents? (Part 1/6)",
       "status": "delivered-to-ken",
       "cycle": 1,
       "week": "A",

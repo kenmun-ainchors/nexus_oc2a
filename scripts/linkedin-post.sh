@@ -64,16 +64,24 @@ with open(sys.argv[1]) as f:
     content = f.read()
 # Extract clean body between --- delimiters, stop at ## Hashtags/## Metadata
 lines = content.split('\n')
-body, in_body, hashtag_line = [], False, ''
+body, in_body, hashtag_line, found_delimiters = [], False, '', False
 for line in lines:
     s = line.strip()
     if s == '---':
-        in_body = not in_body; continue
+        in_body = not in_body
+        found_delimiters = True
+        continue
     if in_body:
         if s.startswith('## Hashtags') or s.startswith('## Metadata'): break
         body.append(line)
     if s.startswith('#') and not s.startswith('##'):
         hashtag_line = line
+if not found_delimiters:
+    print('ERROR: No --- delimiters found in content file. Cannot post. Wrap post body in --- delimiters.', file=sys.stderr)
+    sys.exit(1)
+if not body:
+    print('ERROR: No content found between --- delimiters.', file=sys.stderr)
+    sys.exit(1)
 if hashtag_line and hashtag_line not in body:
     body.append(hashtag_line)
 print('\n'.join(body).strip())
@@ -141,12 +149,15 @@ ACCESS_TOKEN=$(security find-generic-password -a linkedin -s ainchors-linkedin-a
 # ── Build post payload ────────────────────────────────────────────────────────
 
 # Map visibility: CONNECTIONS → "CONNECTIONS", PUBLIC → "PUBLIC"
-PAYLOAD=$(python3 -c "
+PAYLOAD_FILE=$(mktemp /tmp/li_payload_XXXXXX.json)
+
+python3 - "$POST_TEXT" "$VISIBILITY" "$MEMBER_ID" "$PAYLOAD_FILE" << 'PYEOF'
 import json, sys
 
 text = sys.argv[1]
 visibility = sys.argv[2]
 member_id = sys.argv[3]
+out_file = sys.argv[4]
 
 payload = {
     'author': f'urn:li:person:{member_id}',
@@ -161,8 +172,12 @@ payload = {
     'isReshareDisabledByAuthor': False
 }
 
-print(json.dumps(payload, indent=2, ensure_ascii=False))
-" "$POST_TEXT" "$VISIBILITY" "$MEMBER_ID")
+with open(out_file, 'w', encoding='utf-8') as f:
+    json.dump(payload, f, ensure_ascii=False, indent=2)
+PYEOF
+
+# Also capture payload string for dry-run preview
+PAYLOAD=$(cat "$PAYLOAD_FILE")
 
 # ── Dry-run mode ──────────────────────────────────────────────────────────────
 
@@ -195,7 +210,9 @@ HTTP_RESPONSE=$(curl -s -w "\n__HTTP_STATUS__%{http_code}" \
   -H "Content-Type: application/json" \
   -H "LinkedIn-Version: 202503" \
   -H "X-Restli-Protocol-Version: 2.0.0" \
-  -d "$PAYLOAD")
+  --data-binary @"$PAYLOAD_FILE")
+
+rm -f "$PAYLOAD_FILE"
 
 HTTP_STATUS=$(echo "$HTTP_RESPONSE" | grep "__HTTP_STATUS__" | sed 's/__HTTP_STATUS__//')
 RESPONSE_BODY=$(echo "$HTTP_RESPONSE" | grep -v "__HTTP_STATUS__")

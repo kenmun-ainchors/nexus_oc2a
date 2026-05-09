@@ -1,26 +1,26 @@
 {
   "lastChecks": {
-    "email": "2026-05-09T04:50:00.000Z",
-    "calendar": "2026-05-09T05:13:11Z",
-    "agentHealth": "2026-05-09T06:07:46.397Z",
-    "apiBalance": "2026-05-09T06:07:46.397Z",
-    "taskWatchdog": "2026-05-09T06:07:46.397Z",
-    "wardenEscalation": "2026-05-09T06:07:46.397Z",
-    "cronDeadLetter": "2026-05-09T04:50:00.000Z",
-    "ahsokaPilot": "2026-05-09T06:07:46.397Z",
-    "standby": "2026-05-09T06:07:46.397Z",
-    "cronHealth": "2026-05-09T06:07:46.397Z",
-    "budgetCheck": "2026-05-09T05:50:42.075Z",
-    "allowlistSync": "2026-05-09T05:58:59.324Z",
+    "email": "2026-05-09T09:02:10Z",
+    "calendar": "2026-05-09T09:02:10Z",
+    "agentHealth": "2026-05-09T09:21:36.867Z",
+    "apiBalance": "2026-05-09T09:21:36.867Z",
+    "taskWatchdog": "2026-05-09T09:21:36.867Z",
+    "wardenEscalation": "2026-05-09T09:21:36.867Z",
+    "cronDeadLetter": "2026-05-09T09:21:36.867Z",
+    "ahsokaPilot": "2026-05-09T09:21:36.867Z",
+    "standby": "2026-05-09T09:05:00Z",
+    "cronHealth": "2026-05-09T09:21:36.867Z",
+    "budgetCheck": "2026-05-09T09:17:30.451Z",
+    "allowlistSync": "2026-05-09T09:21:36.867Z",
     "memoryMaintenance": "2026-05-08T19:58:34.724799Z",
     "weather": null,
     "dailyClose": "2026-05-08T13:42:00Z",
     "ariaContextSync": "2026-05-04T13:00:00Z",
     "standup": "2026-05-06T21:58:26.663467Z",
     "missionControl": "2026-05-08T11:27:00.000Z",
-    "diskCheck": "2026-05-08T21:32:00Z",
+    "diskCheck": "2026-05-09T08:31:00Z",
     "doDGates": "2026-05-09T05:47:25.701Z",
-    "chgTriggers": "2026-05-09T04:50:00.000Z"
+    "chgTriggers": "2026-05-09T07:02:54.732Z"
   },
-  "notes": "May 9 4:07PM AEST: All clean. Balance est ~ (confirmed .35 May 8 minus ~.86). activeTier=0. Cron health clean. No stalls/TVA/dead-letters. Ahsoka P1 parked, P2 pending. Warden escalation resolved."
+  "notes": "May 9 7:21PM AEST: All clear. Balance $479.35. No stalls, no dead-letter, no standby. Warden escalation resolved (CHG-0252). Ahsoka P1 parked/P2 pending. Allowlist sync surfaced earlier today. Cron health clean."
 }

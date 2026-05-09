@@ -1,5 +1,5 @@
 {
-  "sequence": 123,
+  "sequence": 124,
   "tickets": [
     {
       "id": "TKT-0104",
@@ -380,6 +380,26 @@
       },
       "notes": "",
       "notionPageId": "35bc1829-53ff-81cc-b687-ccc176014178"
+    },
+    {
+      "id": "TKT-0123",
+      "title": "Fix linkedin-post.sh: add delimiter guard + token delete scope",
+      "type": "task",
+      "priority": "medium",
+      "status": "open",
+      "requester": "Ken",
+      "assignee": "Yoda",
+      "created": "2026-05-09T19:27:49+10:00",
+      "updated": "2026-05-09T19:27:49+10:00",
+      "description": "Two fixes: (1) --content-file parser: add guard that fails loudly if no --- delimiters found (L-020). (2) linkedin-auth.sh: add delete scope to token on next re-auth so API delete works (L-021). Guard already partially patched in this session — full test + CHG needed.",
+      "resolution": null,
+      "linked": {
+        "us": [],
+        "inc": [],
+        "chg": []
+      },
+      "notes": "",
+      "notionPageId": null
     }
   ]
 }

@@ -1,0 +1,25 @@
+---
+I spent 3 hours today trying to save $20/month.
+
+Self-hosted RustDesk. Docker. How hard could it be?
+
+RustDesk's own docs recommend Docker as the preferred installation method. I followed them. First mistake.
+
+RustDesk's self-hosted stack runs two components: hbbs (the rendezvous broker) and hbbr (the relay server). Straightforward on paper. On macOS with Docker Desktop, a different story.
+
+The walls hit fast. macOS Application Firewall silently drops Docker UDP traffic — no error, no log, just nothing. Docker Desktop on macOS has known UDP port forwarding issues after any network change. The config file (RustDesk2.toml) gets overwritten on every app launch — you have to edit through the UI, not the file, and nobody tells you this. Then the 1.4.x client tries port 21114 (API server) before falling back to 21116 — but the open-source server doesn't include the API server. Firewall silently drops 21114. Client never falls back. Zero registrations. No error.
+
+I spun up Tailscale. NAT traversal, no open ports, free tier. Ten minutes later, remote access was working.
+
+Two things I'll carry forward.
+
+Know your options before you start. Tailscale, Cloudflare Tunnel, WireGuard, a cloud-hosted RustDesk on Linux — these were all valid paths. Knowing your fallbacks upfront changes how you evaluate the primary option.
+
+Know when to pivot. Chasing a fix only makes sense when you understand the effort-to-return ratio. A fallback in hand tells you exactly when the current path stops being worth it.
+
+There's never just one way. Research the landscape first, then commit.
+
+What's the most expensive "free" solution you've chased down a rabbit hole?
+
+#SelfHosting #DevOps #RemoteAccess #CTO #LessonsLearned
+---
