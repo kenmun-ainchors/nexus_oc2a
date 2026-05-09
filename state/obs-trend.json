@@ -1,9 +1,9 @@
 {
-  "generated_at": "2026-05-09T15:59:49.775318+00:00",
-  "generated_at_aest": "2026-05-10 01:59 AEST",
+  "generated_at": "2026-05-09T16:05:57.186579+00:00",
+  "generated_at_aest": "2026-05-10 02:05 AEST",
   "period_hours": 24,
   "totals": {
-    "ERROR": 3955,
+    "ERROR": 3954,
     "WARN": 8,
     "INFO": 9
   },
@@ -14,7 +14,7 @@
     },
     {
       "type": "health_failure",
-      "count": 191
+      "count": 190
     },
     {
       "type": "warden_violation",
@@ -45,9 +45,9 @@
   ],
   "trend": {
     "has_prev_data": true,
-    "prev_errors": 179,
+    "prev_errors": 180,
     "prev_warns": 15,
-    "errors_pct_change": 2109.5,
+    "errors_pct_change": 2096.7,
     "warns_pct_change": -46.7
   },
   "worst_hour": {
