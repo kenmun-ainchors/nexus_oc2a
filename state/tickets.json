@@ -1,5 +1,5 @@
 {
-  "sequence": 126,
+  "sequence": 128,
   "tickets": [
     {
       "id": "TKT-0104",
@@ -408,11 +408,11 @@
       "title": "MinIO self-hosted object store on OC1 — interim blob/file access layer",
       "type": "task",
       "priority": "high",
-      "status": "open",
+      "status": "in-progress",
       "requester": "Ken",
       "assignee": "Yoda",
       "created": "2026-05-10T09:30:31+10:00",
-      "updated": "2026-05-10T09:30:31+10:00",
+      "updated": "2026-05-10T09:48:02+10:00",
       "description": "Deploy MinIO on OC1 as S3-compatible interim object store. Goal: bridge remote file access gap before P2 AWS S3 deployment. Addresses generated images and blobs not accessible from Windows/external devices via Tailscale. Expanding use beyond Ken to Angie staff in Malaysia makes this urgent. Scope: (1) MinIO in Docker on OC1, (2) bucket structure per Atlas P2 blob design, (3) presigned URL helper script, (4) update hf-generate-image.sh to store to MinIO + return presigned URL, (5) Tailscale Serve path for MinIO API. Upstream: Atlas DataMemory_P1P4_Roadmap.md P2 blob design. Replaces filesystem MEDIA paths with presigned URLs accessible to all Tailscale peers.",
       "resolution": null,
       "linked": {
@@ -420,7 +420,7 @@
         "inc": [],
         "chg": []
       },
-      "notes": "",
+      "notes": "SCOPE EXPANDED 2026-05-10 09:45: Now also covers (1) Business stream file repository — Angie + KL team upload/share business files and data, (2) Agent business memory layer — Aria and business-stream agents use this as persistent business memory + document access. KL team NOT on Tailscale mesh — access model TBD (pending Atlas assessment). This is now interim Business Data + Agent Memory infrastructure platform, not just image serving fix.",
       "notionPageId": null
     },
     {
@@ -438,6 +438,48 @@
       "linked": {
         "us": [
           "TKT-0110"
+        ],
+        "inc": [],
+        "chg": []
+      },
+      "notes": "",
+      "notionPageId": null
+    },
+    {
+      "id": "TKT-0126",
+      "title": "Fix LinkedIn post: special character encoding breaks post content",
+      "type": "bug",
+      "priority": "high",
+      "status": "open",
+      "requester": "Ken",
+      "assignee": "Yoda",
+      "created": "2026-05-10T09:55:10+10:00",
+      "updated": "2026-05-10T09:55:10+10:00",
+      "description": "LinkedIn posts with special characters (em dash, smart quotes, unicode) break post content or cause API rejection. Observed in RustDesk post and ongoing content. Fix: (1) audit linkedin-post.sh content extraction for character encoding issues, (2) ensure UTF-8 is preserved end-to-end from draft file → python extraction → JSON payload → API call, (3) test with em dash, smart quotes, ellipsis, unicode. Related: TKT-0123 (delimiter guard). Unblock Spark from using any character in drafts without silent truncation or breakage.",
+      "resolution": null,
+      "linked": {
+        "us": [],
+        "inc": [],
+        "chg": []
+      },
+      "notes": "",
+      "notionPageId": null
+    },
+    {
+      "id": "TKT-0127",
+      "title": "Agentic Marketing Org Design — activate business stream marketing agents for Angie + KL team",
+      "type": "task",
+      "priority": "high",
+      "status": "open",
+      "requester": "Ken",
+      "assignee": "Yoda",
+      "created": "2026-05-10T09:55:34+10:00",
+      "updated": "2026-05-10T09:55:39+10:00",
+      "description": "Design and implement agentic marketing organisation for AInchors business stream. Informed by: 'Redesigning Your Marketing Organization for the Agentic Age' (HBR, May 2026, https://hbr.org/2026/05/redesigning-your-marketing-organization-for-the-agentic-age). Scope: solution design, proposal, and implementation roadmap for activating marketing agents to work with Angie (CEO, Melbourne) and KL team (Malaysia). Two phases: PHASE 1 (P1 MVP, pre-OC2): activate existing agents (Spark + Aria) for business stream marketing ops, define workflows, integrate with MinIO (TKT-0124) for file/asset sharing, establish Angie+KL team access and collaboration model. PHASE 2 (P2, post-OC2): fully agentic marketing org supporting AInchors internally AND ready to deliver as a service to external clients. Deliverables: (1) current-state assessment of AInchors marketing capability, (2) target agentic marketing org design (agent roles, workflows, tools), (3) P1 MVP implementation plan, (4) P2 transition roadmap, (5) integration with MinIO business repo (TKT-0124). Owners: Spark (marketing), Aria (business stream), Atlas (architecture), Lando (process). Ken + Angie to approve. Dependency: TKT-0124 (MinIO — file/asset sharing for KL team).",
+      "resolution": null,
+      "linked": {
+        "us": [
+          "TKT-0124"
         ],
         "inc": [],
         "chg": []

@@ -3,17 +3,17 @@
     "email": "2026-05-10T21:59:00Z",
     "calendar": "2026-05-10T21:59:00Z",
     "weather": null,
-    "taskWatchdog": 1778373000,
-    "cronHealth": 1778373000,
-    "budgetCheck": 1778373000,
+    "taskWatchdog": 1778370903,
+    "cronHealth": 1778370903041,
+    "budgetCheck": 1778370903041,
     "doDGates": "2026-05-09T23:28:00Z",
-    "cronDeadLetter": 1778373000,
+    "cronDeadLetter": 1778370903,
     "dailyClose": "2026-05-09T18:16:19.589Z",
-    "agentHealth": 1778373000,
-    "wardenEscalation": 1778373000,
-    "allowlistSync": 1778373000
+    "agentHealth": 1778370903,
+    "wardenEscalation": 1778370903041,
+    "allowlistSync": 1778370903
   },
-  "doDGatesSunday": "2026-05-09T23:28:00Z",
-  "lastHeartbeat": "2026-05-09T23:30:00Z",
-  "lastHeartbeatNote": "2026-05-10 09:30 AEST — Sunday. Balance ~$279 Tier 0. Warden cron (83accf7b) failures acknowledged. Warden escalation resolved. DoD gate check done 09:28 AEST (15 open decisions, 7 draft docs). Ahsoka Pilot 1 in-progress/parked, Pilot 2 pending. No stall/verification/dead-letter/banner alerts. All clear."
+  "doDGatesSunday": "2026-05-09T23:55:03.041Z",
+  "lastHeartbeat": "2026-05-09T23:55:03.042Z",
+  "lastHeartbeatNote": "2026-05-10 09:54 AEST — Sunday sprint planning gate check. 15 open decisions, 7 draft docs surfaced. Balance $278.73 healthy. Warden cron 83accf7b still failing (3x) — re-alerted. No task stalls."
 }
