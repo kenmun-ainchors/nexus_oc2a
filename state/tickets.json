@@ -1,5 +1,5 @@
 {
-  "sequence": 121,
+  "sequence": 123,
   "tickets": [
     {
       "id": "TKT-0104",
@@ -340,6 +340,46 @@
       },
       "notes": "",
       "notionPageId": "35bc1829-53ff-81ce-a93d-da6bcfd759f0"
+    },
+    {
+      "id": "TKT-0121",
+      "title": "Spark: LinkedIn image generation via Hugging Face (Flux.1-schnell, free)",
+      "type": "task",
+      "priority": "medium",
+      "status": "open",
+      "requester": "Ken",
+      "assignee": "Yoda",
+      "created": "2026-05-09T16:11:31+10:00",
+      "updated": "2026-05-09T16:11:31+10:00",
+      "description": "Add image generation to Spark using Hugging Face Inference API (free tier, ~1000 req/month). Model: black-forest-labs/FLUX.1-schnell. Flow: Spark generates image prompt from post content → calls HF API → saves image locally → uploads to LinkedIn Assets API → attaches to post. Requires: (1) Ken creates HF account + API key → store in Keychain, (2) Spark SOUL/RULES update, (3) LinkedIn image upload code. Dependency: TKT-0121 (local fallback option).",
+      "resolution": null,
+      "linked": {
+        "us": [],
+        "inc": [],
+        "chg": []
+      },
+      "notes": "",
+      "notionPageId": "35bc1829-53ff-819d-ae29-ec1d2d22fc9a"
+    },
+    {
+      "id": "TKT-0122",
+      "title": "Spark: LinkedIn image generation via ComfyUI + Flux.1-schnell local on OC1 (fallback/upgrade)",
+      "type": "task",
+      "priority": "low",
+      "status": "open",
+      "requester": "Ken",
+      "assignee": "Yoda",
+      "created": "2026-05-09T16:11:33+10:00",
+      "updated": "2026-05-09T16:11:33+10:00",
+      "description": "Run Flux.1-schnell locally on OC1 (M4 24GB) via ComfyUI for unlimited free image generation. Setup: install ComfyUI + Flux.1-schnell weights (~6GB). Spark calls ComfyUI API locally. No rate limits, best quality, full control. Dependency on TKT-0120 (HF option) — do this only if HF limits become an issue or Ken prefers full local ownership. OC1 M4 24GB handles Flux.1-schnell well on MPS (Metal).",
+      "resolution": null,
+      "linked": {
+        "us": [],
+        "inc": [],
+        "chg": []
+      },
+      "notes": "",
+      "notionPageId": "35bc1829-53ff-81cc-b687-ccc176014178"
     }
   ]
 }

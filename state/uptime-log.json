@@ -14204,14 +14204,21 @@
       "issues": [
         "Disk usage high: /private/tmp/KSInstallAction.aqWDvvP7G0/m at 100%"
       ]
+    },
+    {
+      "ts": "2026-05-09T06:06:32.257544+00:00",
+      "status": "degraded",
+      "issues": [
+        "Disk usage high: /private/tmp/KSInstallAction.aqWDvvP7G0/m at 100%"
+      ]
     }
   ],
   "summary": {
-    "totalChecks": 2706,
+    "totalChecks": 2707,
     "upChecks": 2371,
-    "downtimeMinutes": 5025,
-    "uptimePct": 87.62,
-    "lastCheck": "2026-05-09T06:01:56.170339+00:00",
+    "downtimeMinutes": 5040,
+    "uptimePct": 87.588,
+    "lastCheck": "2026-05-09T06:06:32.257544+00:00",
     "lastStatus": "degraded"
   }
 }

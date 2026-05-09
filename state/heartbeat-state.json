@@ -2,14 +2,14 @@
   "lastChecks": {
     "email": "2026-05-09T04:50:00.000Z",
     "calendar": "2026-05-09T05:13:11Z",
-    "agentHealth": "2026-05-09T05:58:59.324Z",
-    "apiBalance": "2026-05-09T05:58:59.324Z",
-    "taskWatchdog": "2026-05-09T05:58:59.324Z",
-    "wardenEscalation": "2026-05-09T05:58:59.324Z",
+    "agentHealth": "2026-05-09T06:07:46.397Z",
+    "apiBalance": "2026-05-09T06:07:46.397Z",
+    "taskWatchdog": "2026-05-09T06:07:46.397Z",
+    "wardenEscalation": "2026-05-09T06:07:46.397Z",
     "cronDeadLetter": "2026-05-09T04:50:00.000Z",
-    "ahsokaPilot": "2026-05-09T05:58:59.324Z",
-    "standby": "2026-05-09T05:10:20.474Z",
-    "cronHealth": "2026-05-09T05:58:59.324Z",
+    "ahsokaPilot": "2026-05-09T06:07:46.397Z",
+    "standby": "2026-05-09T06:07:46.397Z",
+    "cronHealth": "2026-05-09T06:07:46.397Z",
     "budgetCheck": "2026-05-09T05:50:42.075Z",
     "allowlistSync": "2026-05-09T05:58:59.324Z",
     "memoryMaintenance": "2026-05-08T19:58:34.724799Z",
@@ -22,5 +22,5 @@
     "doDGates": "2026-05-09T05:47:25.701Z",
     "chgTriggers": "2026-05-09T04:50:00.000Z"
   },
-  "notes": "May 9 4:04PM AEST: All clean. Balance est ~$464 (confirmed $479.35 May 8, ~$14.86 spent today). activeTier=0. Warden escalation resolved-by-yoda (CHG-0252). Cron health clean. No stalls/TVA/dead-letters. Ahsoka P1 in-progress, P2 pending. Allowlist sync confirmed real changes: gemma4:31b-cloud removed from 5 agents."
+  "notes": "May 9 4:07PM AEST: All clean. Balance est ~ (confirmed .35 May 8 minus ~.86). activeTier=0. Cron health clean. No stalls/TVA/dead-letters. Ahsoka P1 parked, P2 pending. Warden escalation resolved."
 }
