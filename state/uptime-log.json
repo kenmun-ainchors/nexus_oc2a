@@ -14052,14 +14052,76 @@
       "issues": [
         "3 zombie task run(s) detected \u2014 run: openclaw tasks audit"
       ]
+    },
+    {
+      "ts": "2026-05-09T03:31:24.273074+00:00",
+      "status": "degraded",
+      "issues": [
+        "3 zombie task run(s) detected \u2014 run: openclaw tasks audit"
+      ]
+    },
+    {
+      "ts": "2026-05-09T03:35:51.591787+00:00",
+      "status": "ok",
+      "issues": []
+    },
+    {
+      "ts": "2026-05-09T03:40:10.666905+00:00",
+      "status": "ok",
+      "issues": []
+    },
+    {
+      "ts": "2026-05-09T03:45:58.437369+00:00",
+      "status": "ok",
+      "issues": []
+    },
+    {
+      "ts": "2026-05-09T03:50:29.693091+00:00",
+      "status": "ok",
+      "issues": []
+    },
+    {
+      "ts": "2026-05-09T03:55:33.026691+00:00",
+      "status": "ok",
+      "issues": []
+    },
+    {
+      "ts": "2026-05-09T04:00:15.417665+00:00",
+      "status": "ok",
+      "issues": []
+    },
+    {
+      "ts": "2026-05-09T04:04:59.205588+00:00",
+      "status": "ok",
+      "issues": []
+    },
+    {
+      "ts": "2026-05-09T04:09:58.255502+00:00",
+      "status": "ok",
+      "issues": []
+    },
+    {
+      "ts": "2026-05-09T04:18:37.917452+00:00",
+      "status": "ok",
+      "issues": []
+    },
+    {
+      "ts": "2026-05-09T04:26:28.996705+00:00",
+      "status": "ok",
+      "issues": []
+    },
+    {
+      "ts": "2026-05-09T04:26:47.217162+00:00",
+      "status": "ok",
+      "issues": []
     }
   ],
   "summary": {
-    "totalChecks": 2678,
-    "upChecks": 2349,
-    "downtimeMinutes": 4935,
-    "uptimePct": 87.715,
-    "lastCheck": "2026-05-09T03:25:07.027359+00:00",
-    "lastStatus": "degraded"
+    "totalChecks": 2690,
+    "upChecks": 2360,
+    "downtimeMinutes": 4950,
+    "uptimePct": 87.732,
+    "lastCheck": "2026-05-09T04:26:47.217162+00:00",
+    "lastStatus": "ok"
   }
 }
