@@ -4,6 +4,55 @@ _Last updated: 2026-04-26_
 
 ---
 
+## API KEY ROTATION RULE (NON-NEGOTIABLE — L-008, 2026-05-03)
+
+Rotating any API key is a **2-step atomic operation** — both steps in the same CHG:
+1. Update `openclaw.json` / gateway config
+2. Update macOS Keychain via `scripts/secrets-init.sh`
+
+Run PVT (9/9) to verify ALL consumers (gateway + scripts + agent heartbeats) before closing the CHG. The gateway reads config directly; scripts and heartbeats read Keychain. A mismatch causes a partial outage with no clear alert.
+
+---
+
+## SOUL.MD SIZE RULE (NON-NEGOTIABLE — L-010, 2026-04-30)
+
+Oversize SOUL.md causes silent truncation → wrong Telegram targets → gateway OOM.
+- **Hard limit:** 10,000 chars
+- **Warning threshold:** 6,000 chars
+- **Pattern:** SOUL.md = identity + traits + brief rules only. All procedures in `[AGENT]_RULES.md`
+- auto-heal Check #14 guards all SOUL.md sizes automatically
+- Warden monitors `soul_truncated` obs events
+
+Never grow a SOUL.md past 6,000 chars without trimming. New agents start lean.
+
+---
+
+## ISOLATED CRON VISIBILITY RULE (NON-NEGOTIABLE — L-012, 2026-05-06)
+
+Isolated crons have **no access to other agents' session history**. State files can be stale.
+
+Any cron that needs to report on another agent's activity (brief, summary, activity check) **MUST** call `sessions_history(sessionKey)` as its ground truth source — not state files alone.
+
+Applies to: Aria daily brief, standup agent activity sections, any cross-agent reporting cron.
+
+---
+
+## ROOT CAUSE RULE (NON-NEGOTIABLE — L-014, 2026-05-06)
+
+Never attempt a fix without confirmed root cause.
+
+**The 3-attempt rule:** If 2 fixes have failed, STOP. Re-diagnose from scratch before a 3rd attempt.
+
+Checklist before any fix:
+1. Reproduce the exact error (not a variation)
+2. Identify the lowest-level failure point
+3. Confirm the fix addresses that specific point, not a symptom
+4. Log root cause in the CHG **before** logging the fix
+
+Failed-fix anti-patterns: assuming config when it's a prompt issue, assuming PATH when it's a flag issue, assuming technical when it's a belief/prompt issue.
+
+---
+
 ## CRON DELIVERY RULE (NON-NEGOTIABLE — CHG-0247, 2026-05-09)
 
 **L-001 + L-002 — Learned from kimi RTB silent failure + budget/backup cron errors (Day 15)**
