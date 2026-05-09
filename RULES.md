@@ -1506,7 +1506,7 @@ _Locked 2026-04-28. Ken: "continue to provide this trigger and what I need to kn
 
 ### 6. Sprint 2 Preview (top 5 items)
 - Carry-overs + next priority items from backlog
-- Note any hard-gate dependencies (Auralith, OC2, etc.)
+- Note any hard-gate dependencies (Aevlith Technologies, OC2, etc.)
 
 ### 7. Actions
 - Sprint planning due: Sunday 20:00 AEST
@@ -1591,6 +1591,6 @@ Strategy OKR: /Users/ainchorsangiefpl/.openclaw/workspace/docs/ainchors-strategy
 
 **Global principles (all agents, all work):**
 1. Strategy-first: All significant epics/features/campaigns must map to a pillar (Training/Consulting/Technology) and at least one OKR ID from ainchors-strategy-okr-2026-05.md.
-2. **Nexus-first for implementation (NON-NEGOTIABLE — AC-4, CHG-0218):** Nexus is the default agentic platform for ALL AInchors + Auralith client implementations. Non-Nexus stacks require explicit Ken/Angie written approval + CHG entry. No exceptions. This rule applies to all agents. Also enshrined in AI Charter Section 1.5.
+2. **Nexus-first for implementation (NON-NEGOTIABLE — AC-4, CHG-0218):** Nexus is the default agentic platform for ALL AInchors + Aevlith Technologies client implementations. Non-Nexus stacks require explicit Ken/Angie written approval + CHG entry. No exceptions. This rule applies to all agents. Also enshrined in AI Charter Section 1.5.
 3. Shipping vs generality: Training/consulting support = ship for specific use case first. Platform foundations (security, multi-client, governance) = design for multi-year reuse.
 4. Governance-by-design: All client-facing outputs + major platform changes → The Sanctum (Shield→Lex→Sage). Warden monitors drift.

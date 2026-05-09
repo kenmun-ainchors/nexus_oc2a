@@ -1,8 +1,8 @@
-# AInchors + Auralith Execution Guardrails & Agent Rule Updates
+# AInchors + Aevlith Technologies Execution Guardrails & Agent Rule Updates
 
 ## 1. Purpose
 
-This document defines execution guardrails and concrete rule updates for Yoda, Atlas, Aria, Ahsoka, and The Sanctum so that day-to-day decisions align with the AInchors + Auralith strategy and 6–12 month OKRs.[file:1][file:3][memory:38]
+This document defines execution guardrails and concrete rule updates for Yoda, Atlas, Aria, Ahsoka, and The Sanctum so that day-to-day decisions align with the AInchors + Aevlith Technologies strategy and 6–12 month OKRs.[file:1][file:3][memory:38]
 
 It is intended to be referenced by:
 - `RULES.md` (global rules)
@@ -17,7 +17,7 @@ It is intended to be referenced by:
 2. **Nexus-first for implementation:** For SME clients, AInchors designs and implements agentic workflows on Nexus by default; non-Nexus stacks are rare, exception-based, and require explicit human approval.[file:1][file:3]
 3. **Shipping vs generality:**
    - Training and consulting support work should prioritise shipping value for specific workshops/clients.
-   - Core Nexus/Auralith components for security, governance, data model, and multi-client isolation can be designed with multi-year generality.
+   - Core Nexus/Aevlith Technologies components for security, governance, data model, and multi-client isolation can be designed with multi-year generality.
 4. **Governance-by-design:** All client-facing outputs and major platform changes must pass through The Sanctum (Shield → Lex → Sage), with Warden monitoring model/configuration drift.
 
 ## 3. Yoda — Technical Lead Guardrails
@@ -139,7 +139,7 @@ These additions are intended to be appended into `AI_Transformation_Consultant_v
 
 ### 9.1 Strategy & OKRs Document
 
-1. **File location:** Save or sync `ainchors-strategy-okr.md` into the Holocron/Notion workspace under a new or existing section, e.g. `Strategy > AInchors + Auralith > 2026-05 Strategy & OKRs`.
+1. **File location:** Save or sync `ainchors-strategy-okr.md` into the Holocron/Notion workspace under a new or existing section, e.g. `Strategy > AInchors + Aevlith Technologies > 2026-05 Strategy & OKRs`.
 2. **Indexing:** Ensure the file is registered in any local `STATE` or `INDEX` file Yoda uses for strategic documents so it can be referenced by ID.
 3. **Agent access:** Update Yoda’s memory/CONFIG so that:
    - Yoda, Atlas, Aria, and Ahsoka treat `ainchors-strategy-okr` as the **authoritative source** for 6–12 month OKRs.

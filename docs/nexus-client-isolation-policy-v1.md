@@ -114,7 +114,7 @@ Governance reviews (Sanctum) and audit records must be per-client. AInchors inte
 | Separate filesystem mount per client container | Client workspace, logs, and config mounted into the client container only — not accessible from other containers                                | P2    |
 | Separate Docker secrets/env per container      | API keys and secrets injected via Docker secrets or per-container environment variables — never baked into a shared image layer                 | P2    |
 
-**P2 target (Q2 success criteria, per Auralith IT Strategy §5):** 2 SME client environments deployed in isolated Docker containers on Nexus.
+**P2 target (Q2 success criteria, per Aevlith Technologies IT Strategy §5):** 2 SME client environments deployed in isolated Docker containers on Nexus.
 
 ---
 
@@ -277,7 +277,7 @@ Any confirmed or suspected cross-client data exposure, context bleed, or relay q
 
 **P1 isolation floor summary:** On OC1, isolation is achieved through directory separation, separate config files, separate API keys, separate Telegram bots, and Warden enforcement of model tier policy and client_id tagging. There is no process-level or network-level isolation between client environments on P1 — this is an accepted P1 risk, mitigated by the config controls above.
 
-**P2 prerequisite:** Docker-based infrastructure isolation is the architectural prerequisite for P2 multi-client production. No P2 client may go live without the Docker isolation requirements in §2.5 in place. This aligns with the Auralith IT Strategy Q2 success criteria and OKR X1-KR2.
+**P2 prerequisite:** Docker-based infrastructure isolation is the architectural prerequisite for P2 multi-client production. No P2 client may go live without the Docker isolation requirements in §2.5 in place. This aligns with the Aevlith Technologies IT Strategy Q2 success criteria and OKR X1-KR2.
 
 ---
 

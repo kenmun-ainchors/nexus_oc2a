@@ -1,20 +1,20 @@
-# Auralith IT Strategy: 3–5 Year Plan and 1-Year Execution Detail
+# Aevlith Technologies IT Strategy: 3–5 Year Plan and 1-Year Execution Detail
 
-*Prepared as primary input for Atlas (Enterprise Architect) to develop the EA roadmap and technology/architecture implementation strategy for the AInchors + Auralith platform. Grounded in the validated AInchors business strategy (CHECKPOINT 1), current Nexus platform state, and 2026 multi-agent platform architecture best practices.*
+*Prepared as primary input for Atlas (Enterprise Architect) to develop the EA roadmap and technology/architecture implementation strategy for the AInchors + Aevlith Technologies platform. Grounded in the validated AInchors business strategy (CHECKPOINT 1), current Nexus platform state, and 2026 multi-agent platform architecture best practices.*
 
 ***
 
 ## 1. Strategic Context and Purpose
 
-Auralith is the internal technology/IP company that designs, builds, and operates Nexus — AInchors' agentic AI operations platform. Auralith's IT strategy must directly serve AInchors' business goals: training-led revenue in Year 1, productised consulting from Year 1–2, and a managed multi-client AI operations platform from Year 2 onwards. Every architectural decision, platform investment, and capability build must be traceable to one of AInchors' three pillars — Training, Consulting (Ahsoka), or Technology/Nexus — and to the validated 1/3/5-year OKRs.
+Aevlith Technologies is the internal technology/IP company that designs, builds, and operates Nexus — AInchors' agentic AI operations platform. Aevlith's IT strategy must directly serve AInchors' business goals: training-led revenue in Year 1, productised consulting from Year 1–2, and a managed multi-client AI operations platform from Year 2 onwards. Every architectural decision, platform investment, and capability build must be traceable to one of AInchors' three pillars — Training, Consulting (Ahsoka), or Technology/Nexus — and to the validated 1/3/5-year OKRs.
 
 The current state on Day 12 is strong: Nexus is a live production platform on OC1 (Mac Mini M4 24GB), running 12 active agents with a four-tier model strategy, Sanctum governance, Warden compliance monitoring, and ITSM-grade operations. The platform's architecture is file-system-first, running on OpenClaw v2026.5.5, with Claude Sonnet 4.6 as the primary model and Ollama Cloud (Tier 2) and local gemma4:e2b (Tier 1 preview) supplementing. OC2-A and OC2-B (Mac Mini M4 Pro 48GB each) arrive in July 2026, enabling true local Tier 1 inference and high-availability HIVE architecture.[^1]
 
-The 2026 industry context is directly relevant: multi-agent architectures are now the dominant production pattern for serious AI operations work; multi-tenant AI platform architecture is an established, well-documented engineering domain; and TOGAF ADM is the most appropriate structured framework for Atlas to apply to this type of AI platform transformation. Auralith's IT strategy is structured to feed directly into a TOGAF ADM-based EA process.[^2][^3][^4][^5][^6][^7][^8][^9][^10][^11]
+The 2026 industry context is directly relevant: multi-agent architectures are now the dominant production pattern for serious AI operations work; multi-tenant AI platform architecture is an established, well-documented engineering domain; and TOGAF ADM is the most appropriate structured framework for Atlas to apply to this type of AI platform transformation. Aevlith's IT strategy is structured to feed directly into a TOGAF ADM-based EA process.[^2][^3][^4][^5][^6][^7][^8][^9][^10][^11]
 
 ***
 
-## 2. IT Strategic Principles (Auralith-specific)
+## 2. IT Strategic Principles (Aevlith Technologies-specific)
 
 These principles govern all architectural and platform decisions:
 
@@ -34,7 +34,7 @@ Atlas should structure the EA roadmap across five architecture domains:
 
 | Domain | Description | Nexus Relevance |
 |---|---|---|
-| **Business Architecture** | Pillar missions, client journeys, consulting/training offers, Ahsoka engagement model | Training ladder, Jumpstart offer, Auralith–AInchors relationship |
+| **Business Architecture** | Pillar missions, client journeys, consulting/training offers, Ahsoka engagement model | Training ladder, Jumpstart offer, Aevlith Technologies–AInchors relationship |
 | **Data Architecture** | Data sovereignty, Holocron/Notion as SSOT, client data isolation, model state management | Client data Tier 0/1 enforcement, multi-tenant data separation |
 | **Application Architecture** | Agent roster, Nexus modules, OpenClaw gateway, Sanctum, Warden, document generation | All 13 agents, all 8 Nexus modules (Holocron, Citadel, Sanctum, Beacon, etc.) |
 | **Technology Architecture** | HIVE (OC1/OC2), Tailscale mesh, NAS, Ollama, model tiers, backup/DR | OC1→OC2 migration, HA patterns, multi-client tenant isolation |
@@ -236,21 +236,21 @@ Multi-agent architectures at production scale in 2026 demonstrate up to 80% redu
 **Key architectural moves:**
 - **Enterprise-grade security and compliance layer**: ISO/IEC 42001 alignment for AI governance, Australian Privacy Principles (APP) compliance documentation for enterprise clients, audit trail completeness.
 - **Krennic activation (SRE agent)**: Deploy Krennic for full SRE capability — SLO/error budgets, incident response, automated runbooks, and reliable SLA enforcement for enterprise clients.
-- **Selective Auralith external tenants**: If demand warrants, Auralith begins hosting a small number of direct non-AInchors tenants as managed Nexus clients, with full data sovereignty and governance guarantees. This is the P4 product-company option preserved from the strategy.
+- **Selective Aevlith Technologies external tenants**: If demand warrants, Aevlith Technologies begins hosting a small number of direct non-AInchors tenants as managed Nexus clients, with full data sovereignty and governance guarantees. This is the P4 product-company option preserved from the strategy.
 - **Nexus as reference architecture**: AInchors is documented as a TOGAF-compliant reference architecture for AI-native SME operations, usable in consulting engagements as a proven, certified design pattern.[^8][^9]
 
 ***
 
-## 8. 5-Year IT Vision (Auralith Platform Trajectory)
+## 8. 5-Year IT Vision (Aevlith Technologies Platform Trajectory)
 
-By Year 5, Auralith's Nexus platform serves as:
+By Year 5, Aevlith's Nexus platform serves as:
 
 1. **A managed AI operations platform** for AInchors' SME client base across AU, MY, and GCC, with a productised onboarding process, strong governance credentials, and a growing case study portfolio.
-2. **An optionally external platform** for a carefully selected set of non-AInchors managed tenants, if the economics and demand justify the step toward Auralith being a product company in its own right.
+2. **An optionally external platform** for a carefully selected set of non-AInchors managed tenants, if the economics and demand justify the step toward Aevlith Technologies being a product company in its own right.
 3. **A reference and curriculum asset** for the AInchors training business — the Nexus Academy uses the platform as a live learning environment, and Level 3 training leads directly into managed Nexus deployments.
 4. **An enterprise-credentialed platform** with ISO/IEC 42001 alignment, APP compliance documentation, and The Sanctum as a demonstrable and auditable governance layer for regulated sector clients.[^25]
 
-The 2026 industry trend is clear: multi-agent systems dominate production AI, and the next frontier is **client-aware distributed multi-gateway** architectures where a single client may have multiple physically separate gateways with intelligent routing. Auralith should track this trajectory carefully: the HIVE architecture (OC1/OC2-A/OC2-B with Tailscale mesh) is already directionally aligned with this model, and future expansion to OC3 nodes in MY or GCC data centres (or co-lo facilities) becomes a viable 5-year option if geographic data residency requirements arise.[^7]
+The 2026 industry trend is clear: multi-agent systems dominate production AI, and the next frontier is **client-aware distributed multi-gateway** architectures where a single client may have multiple physically separate gateways with intelligent routing. Aevlith Technologies should track this trajectory carefully: the HIVE architecture (OC1/OC2-A/OC2-B with Tailscale mesh) is already directionally aligned with this model, and future expansion to OC3 nodes in MY or GCC data centres (or co-lo facilities) becomes a viable 5-year option if geographic data residency requirements arise.[^7]
 
 ***
 

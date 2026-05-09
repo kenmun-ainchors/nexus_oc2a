@@ -250,7 +250,7 @@ Within any sprint, prioritise in this order:
 
 | Priority | Category                       | Rule                                                                                          |
 | -------- | ------------------------------ | --------------------------------------------------------------------------------------------- |
-| P1       | **Critical path blocker**      | P2-blocking items or Auralith incorporation gate dependencies. Must be in sprint if not done. |
+| P1       | **Critical path blocker**      | P2-blocking items or Aevlith Technologies incorporation gate dependencies. Must be in sprint if not done. |
 | P2       | **OKR-linked, this quarter**   | Committed OKR KR delivery items for current quarter.                                          |
 | P3       | **Platform health / security** | S1-S7 security posture, model drift corrections, health check failures, backup validation.    |
 | P4       | **Governance / compliance**    | ITIL enforcement, governance gate coverage, policy updates.                                   |
@@ -261,7 +261,7 @@ Within any sprint, prioritise in this order:
 **Tiebreaker:** When two items have the same priority, pick the one that unblocks more downstream work.
 
 **Current critical path items (as at Sprint 1):**
-- Auralith incorporation gate: TKT-0060/0061/0062/0063 (hard gate: end May 2026)
+- Aevlith Technologies incorporation gate: TKT-0060/0061/0062/0063 (hard gate: end May 2026)
 - P2 go-live: OC2 deployment, Beacon v2 (TKT-0075), FinOps caps (TKT-0092), Docker isolation
 - Atlas Q1 must-do: Doc gen pipeline (TKT-0095), NAS+backup (TKT-0093)
 
@@ -432,7 +432,7 @@ Sunday           → Velocity updated; next sprint proposed
 
 ```
 Before picking the next item, ask:
-1. Is this on the critical path? (P2 blocker or Auralith gate) → P1
+1. Is this on the critical path? (P2 blocker or Aevlith Technologies gate) → P1
 2. Is this OKR-linked with this quarter delivery commitment? → P2
 3. Is this a platform health / security gap? → P3
 4. Is this governance / compliance? → P4

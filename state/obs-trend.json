@@ -1,9 +1,9 @@
 {
-  "generated_at": "2026-05-09T02:04:07.738619+00:00",
-  "generated_at_aest": "2026-05-09 12:04 AEST",
+  "generated_at": "2026-05-09T02:09:59.496077+00:00",
+  "generated_at_aest": "2026-05-09 12:09 AEST",
   "period_hours": 24,
   "totals": {
-    "ERROR": 266,
+    "ERROR": 332,
     "WARN": 12,
     "INFO": 19
   },
@@ -11,6 +11,10 @@
     {
       "type": "health_failure",
       "count": 262
+    },
+    {
+      "type": "delegation_fail",
+      "count": 66
     },
     {
       "type": "anthropic_api_fail",
@@ -39,11 +43,11 @@
     "has_prev_data": true,
     "prev_errors": 38,
     "prev_warns": 17,
-    "errors_pct_change": 600.0,
+    "errors_pct_change": 773.7,
     "warns_pct_change": -29.4
   },
   "worst_hour": {
-    "hour": "2026-05-08T15:00Z",
-    "cnt": 14
+    "hour": "2026-05-09T02:00Z",
+    "cnt": 66
   }
 }

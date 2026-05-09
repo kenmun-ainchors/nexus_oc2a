@@ -1,7 +1,7 @@
 # Nexus Enterprise Landscape: Solutions and Components P2–P4
 **TKT-0046 | Enterprise Architecture Deliverable**
 **Status:** DRAFT FOR REVIEW
-**Author:** Atlas 🏛️ — Enterprise Architect, AInchors / Auralith
+**Author:** Atlas 🏛️ — Enterprise Architect, AInchors / Aevlith Technologies
 **Date:** 2026-05-08
 **Version:** v1.0
 
@@ -20,20 +20,20 @@
 
 ### Executive Summary
 
-Nexus is Auralith's agentic AI operations platform — the technical core that powers AInchors' AI training, consulting (Ahsoka), and technology-as-a-service offerings across the P1–P4 commercial trajectory. At P1, Nexus runs entirely within OC1 (a Mac Mini M4 in Melbourne), orchestrating twelve live agents across Yoda's governance layer, Aria's business stream, Spark's social marketing, Atlas/Thrawn's architecture function, and the Sanctum governance triad (Shield, Lex, Sage). The platform is production-grade, ITSM-instrumented, and already differentiated by a four-tier model strategy enforcing client-side data sovereignty.
+Nexus is Aevlith's agentic AI operations platform — the technical core that powers AInchors' AI training, consulting (Ahsoka), and technology-as-a-service offerings across the P1–P4 commercial trajectory. At P1, Nexus runs entirely within OC1 (a Mac Mini M4 in Melbourne), orchestrating twelve live agents across Yoda's governance layer, Aria's business stream, Spark's social marketing, Atlas/Thrawn's architecture function, and the Sanctum governance triad (Shield, Lex, Sage). The platform is production-grade, ITSM-instrumented, and already differentiated by a four-tier model strategy enforcing client-side data sovereignty.
 
 In the enterprise context, Nexus sits at the centre of a broader landscape spanning four rings: (1) a **core agent runtime** built on OpenClaw, (2) an **integration estate** connecting to LLM providers, communication channels, and knowledge management, (3) **client-facing surfaces** (The Bridge, The Citadel, Datapad, Holonet) that expose value to operators and end-clients, and (4) **governance and observability infrastructure** (Sanctum, Warden, Beacon) that makes Nexus auditable and trusted in regulated environments.
 
 The P2 commercial launch targets end-August 2026, with multi-tenant isolation (tenant_id + RLS on all tables), single-agent deployments as the Standard tier, and the P3 company/multi-agent tier unlockable on demand, ROI-gated. P4 expands to enterprise and FSI (APRA CPG 234/235) clients who may prefer physical/in-house deployment over shared SaaS — a model that is architecturally viable given Nexus's containerised, local-inference-first design.
 
-For Ken, the strategic framing is this: **Nexus is not just an internal tool. It is a deployable, governed, data-sovereign agentic operations platform that can be operated as SaaS, hosted for enterprise, or installed physically in a client's infrastructure.** That breadth — from a Mac Mini in an SME boardroom to a regulated FSI on-prem deployment — is Auralith's defensible architectural position.
+For Ken, the strategic framing is this: **Nexus is not just an internal tool. It is a deployable, governed, data-sovereign agentic operations platform that can be operated as SaaS, hosted for enterprise, or installed physically in a client's infrastructure.** That breadth — from a Mac Mini in an SME boardroom to a regulated FSI on-prem deployment — is Aevlith's defensible architectural position.
 
 ---
 
 ## Section 2 — Component Map: Core vs Adjacent
 
 ### Classification Legend
-- **Core** — Inside Nexus, owned and operated by AInchors/Auralith
+- **Core** — Inside Nexus, owned and operated by AInchors/Aevlith Technologies
 - **Adjacent** — Outside Nexus, integrated or consumed
 - **Client-side** — Deployed in or operated by the client environment (P4)
 
@@ -601,5 +601,5 @@ Prioritised list for Atlas and Thrawn.
 ---
 
 *Document: DRAFT FOR REVIEW*
-*TKT-0046 | Atlas 🏛️ Enterprise Architect | AInchors / Auralith*
+*TKT-0046 | Atlas 🏛️ Enterprise Architect | AInchors / Aevlith Technologies*
 *2026-05-08 | v1.0*

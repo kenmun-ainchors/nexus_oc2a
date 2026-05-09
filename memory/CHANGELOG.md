@@ -1,3 +1,11 @@
+## 2026-05-09 12:15 AEST — [CHG-0248] Aevlith Technologies — entity name locked, all references updated
+**Type:** decision
+**Source:** ken-prompt
+**Trigger:** Ken + Angie confirmed Auralith name taken (active AU Pty Ltd ABN 43 675 437 500). New name: Aevlith Technologies Pty Ltd, confirmed 2026-05-09.
+**What changed:** All workspace references updated: MEMORY.md, RULES.md, AI_CHARTER_v1.0.md, ainchors-strategy-okr, Nexus_Enterprise_Landscape, ainchors-guardrails, ainchors-agile-framework, nexus-client-isolation-policy, charter addendum, IT strategy. auralith-*.md files renamed to aevlith-*.md. Brand decision doc saved to docs/Aevlith_Brand_Decision_2026-05-09.md.
+**Legal name:** Aevlith Technologies Pty Ltd | **Domain:** aevlith.ai | **Pronunciation:** AYV-lith | **Status:** Globally clean, ASIC registration required this week.
+**Why Aevlith:** Aev- (Latin aevum = timeless dimension) + -lith (Greek lithos = stone/foundation). The timeless foundation. Cosmic Force alignment. Same 3-syllable cadence as Auralith.
+
 ## 2026-05-09 11:52 AEST — [CHG-0246] Standup email — dark theme replaced with light (email-safe)
 **Type:** config
 **Source:** ken-prompt

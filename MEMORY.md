@@ -11,7 +11,7 @@
 
 ## The Company
 - **Ainchor Solutions Pty Ltd** | ainchors.com | Sydney NSW + Melbourne. Day 1: 2026-04-25. Focus: AI courses/training, consulting, solutions/products.
-- **Auralith** — IP/technology entity. Ken intends to incorporate. Owns and operates Nexus platform. AInchors = market-facing brand; Auralith = platform company behind it. Confirmed by Ken 2026-05-07. Feeds Atlas EA, Ahsoka positioning, Holocron structure. TKT-0069.
+- **Aevlith Technologies Pty Ltd** — Technology holding entity. Owns and operates Nexus platform. AInchors = market-facing consulting brand; Aevlith = invisible platform company behind it. Legal name: Aevlith Technologies Pty Ltd. Domain: aevlith.ai. Pronunciation: AYV-lith. Name locked 2026-05-09 by Ken + Angie (Auralith was taken — active AU Pty Ltd ABN 43 675 437 500). Globally clean — zero conflicts AU/UK/US/EU/India. ASIC registration + aevlith.ai domain = this week. TKT-0069. P1–P3: silent entity. P4: Aevlith surfaces as product brand when Nexus sold to third parties.
 - Emails: kenmun@ ✅ gog | info@ | accounts@ | Gmail (Google Workspace). Tech stream: Ken+Yoda. Business stream: Angie+Aria.
 
 ## Infrastructure — HIVE Architecture (confirmed May 2026)
@@ -174,6 +174,6 @@ Rule: New module names use Star Wars themes. Ken approves. All above final — n
 - **Anthropic DPA:** Claude API blocked for client data (APRA CPG 235 / Privacy Act APP 11 — US storage = cross-border transfer). Policy: Gemma4 local default. BYOK = client's responsibility.
 - **BYOK + Nexus-first locked globally.** canvas embed rule: sub-agents pass full path, no embed tags.
 - agentToAgent enabled (openclaw.json). Ollama Pro: accounts@ainchors.com.
-- Agile Framework v1.0 locked (Day 13, CHG-0222). Sprint 1 started 2026-05-07. P2 target: end-Aug 2026. Auralith hard gate: end-May 2026.
+- Agile Framework v1.0 locked (Day 13, CHG-0222). Sprint 1 started 2026-05-07. P2 target: end-Aug 2026. Aevlith Technologies incorporation hard gate: end-May 2026.
 - CI Cycle A running (cycle-a, phase A). Cycle 1A 7-day report generated CHG-0244. Cycle 2A started.
 - **Day 15 (2026-05-09):** Standup email theme → light (CHG-0246). /Volumes/Docker alert was installer DMG, ejected. MEMORY.md compacted.

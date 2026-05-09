@@ -1,16 +1,16 @@
-# AInchors + Auralith Strategy & 6–12 Month OKRs
+# AInchors + Aevlith Technologies Strategy & 6–12 Month OKRs
 
 ## 1. Context
 
 AInchors is a two-founder AI-native business in Sydney/Melbourne focused on AI training, AI consulting, and AI solutions/products, currently in P1 (internal build and proof-of-concept) with Nexus as its internal agentic platform.[file:1]
-Auralith is the internal technology/IP company that designs, builds, and operates Nexus for AInchors and future sister entities, with the option in years 3–5 to host a small number of direct managed tenants.[file:1]
+Aevlith Technologies is the internal technology/IP company that designs, builds, and operates Nexus for AInchors and future sister entities, with the option in years 3–5 to host a small number of direct managed tenants.[file:1]
 The next 6–12 months are designed to be training-led (~80%) with consulting (~20%) as a selective upsell, focused on SME founders/owners (10–200 FTE) in AU/SEA and anchored on Nexus as the default implementation platform.[file:1][file:3][memory:38]
 
 ## 2. Company-Level North Star (Summary)
 
 ### Vision (5+ Years)
 
-AInchors is the trusted AI transformation partner and operations academy for SMEs in Australia, Malaysia, and the GCC, powered by Auralith’s Nexus platform and serving as a live example of how a small team with AI agents can operate a full-stack business.[file:1][file:3]
+AInchors is the trusted AI transformation partner and operations academy for SMEs in Australia, Malaysia, and the GCC, powered by Aevlith Technologies’s Nexus platform and serving as a live example of how a small team with AI agents can operate a full-stack business.[file:1][file:3]
 
 ### Mission (Next 3 Years)
 
@@ -20,7 +20,7 @@ Help SME founders and owners design, adopt, and operate AI-driven businesses thr
 
 - **Training:** Equip SME founders and key operators with the clarity, skills, and playbooks to design and run AI-operated businesses, starting platform-agnostic and progressing into Nexus-based implementation for those who commit.[file:1][file:3]
 - **Consulting (Ahsoka):** Deliver productised "AI Operations Jumpstarts" that discover, prioritise, and implement a small set of high-value agentic workflows on Nexus for SMEs, with a few deeper transformation cases as reference exemplars.[file:1][file:3]
-- **Technology (Auralith/Nexus):** Provide a robust, cost-optimised, and governance-first agentic operations platform that powers AInchors and its clients, evolving from an internal platform to managed multi-client infrastructure over 3–5 years.[file:1]
+- **Technology (Aevlith/Nexus):** Provide a robust, cost-optimised, and governance-first agentic operations platform that powers AInchors and its clients, evolving from an internal platform to managed multi-client infrastructure over 3–5 years.[file:1]
 
 ## 3. 6–12 Month Company-Level OKR
 
@@ -64,7 +64,7 @@ Help SME founders and owners design, adopt, and operate AI-driven businesses thr
 - **KR2:** Ensure 100% of proposals and business cases go through Shield, Lex, and Sage before send (no bypasses).[file:1][file:3]
 - **KR3:** Create 1–2 exemplar long-form proposals and 2–3 1-page AI Opportunity Briefs as templates for reuse.[file:3]
 
-## 6. Technology / Auralith / Nexus OKRs (6–12 Months)
+## 6. Technology / Aevlith Technologies / Nexus OKRs (6–12 Months)
 
 ### Objective X1 — Harden Nexus for AInchors + first SME tenants with full governance and observability.
 
@@ -73,7 +73,7 @@ Help SME founders and owners design, adopt, and operate AI-driven businesses thr
 - **KR3:** Ensure Warden checks all agents every 15 minutes with <0.5% missed intervals over a 30-day period.[file:1]
 - **KR4:** Complete OC2-A/B deployment and validate failover/HA patterns in a test scenario before the 12-month mark.[file:1]
 
-### Objective X2 — Align Auralith’s architecture clearly with P2/P4 roadmap. *(Updated CHG-0234: P3 is a commercial tier within P2 — not a separate build phase)*
+### Objective X2 — Align Aevlith Technologies’s architecture clearly with P2/P4 roadmap. *(Updated CHG-0234: P3 is a commercial tier within P2 — not a separate build phase)*
 
 - **KR1:** Atlas and Yoda produce a P2/P4 architecture roadmap that explicitly ties key platform capabilities (multi-client, multi-tenant foundation from day one, document generation, ITSM, Sanctum) to these 6–12 month OKRs. Note: P3 commercial tier (company/multi-agent) is a feature unlock within P2 — roadmap must reflect multi-tenant foundation as a P2 day-one requirement, not a later phase. Licensed Product scope dropped (CHG-0234).[file:1][file:3]
 - **KR2:** Tag all major architecture Epics with pillar + OKR IDs so no significant work is outside this strategy.
