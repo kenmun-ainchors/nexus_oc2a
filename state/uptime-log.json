@@ -14808,14 +14808,19 @@
       "ts": "2026-05-09T13:54:46.923592+00:00",
       "status": "ok",
       "issues": []
+    },
+    {
+      "ts": "2026-05-09T14:00:38.571309+00:00",
+      "status": "ok",
+      "issues": []
     }
   ],
   "summary": {
-    "totalChecks": 2800,
-    "upChecks": 2398,
+    "totalChecks": 2801,
+    "upChecks": 2399,
     "downtimeMinutes": 6030,
-    "uptimePct": 85.643,
-    "lastCheck": "2026-05-09T13:54:46.923592+00:00",
+    "uptimePct": 85.648,
+    "lastCheck": "2026-05-09T14:00:38.571309+00:00",
     "lastStatus": "ok"
   }
 }
