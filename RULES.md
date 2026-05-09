@@ -4,6 +4,51 @@ _Last updated: 2026-04-26_
 
 ---
 
+## OBSERVABILITY ARCHITECTURE RULE (NON-NEGOTIABLE — CHG-0247, 2026-05-09)
+
+**obs.db is the single source of truth for all operational errors and warnings.**
+No error, failure, or warning log may exist ONLY in an isolated state file.
+Every source of error data MUST be wired into `obs-collector.sh` as a named CHECK.
+
+### Rule: Any new state file or log that captures errors MUST have an obs CHECK
+
+When any of the following is created, an obs-collector CHECK must be added **in the same CHG**:
+- A new `state/*.json` file that has `status`, `error`, `failures`, `violations`, or `alerts` fields
+- A new `*.log` file capturing operational events
+- A new cron job whose output is written to a state file
+- A new agent that produces QA verdicts, governance results, or health outputs
+- A new script that writes failure state (`*-error.json`, `*-alert.json`, `*-violations.json`)
+
+### Rule: CHECK naming convention
+- Sequential: CHECK A, B, C... Q, R... (next available letter/number after exhausting alphabet)
+- Format: `# ── CHECK [ID]: [source-file] — [what it catches]`
+- Every CHECK must: (1) guard with `[[ -f "$FILE" ]]`, (2) be timestamp-dedup safe (only log events newer than `lastRunEpoch`), (3) use `obs-log.sh` with `--source`, `--level`, `--type`, `--message`, `--detail`
+
+### Rule: obs event types (extend as needed, never duplicate)
+| Type | Level | Meaning |
+|---|---|---|
+| `health_failure` | ERROR | System health check failed |
+| `cron_run_fail` | ERROR | Cron job execution error |
+| `open_incident` | WARN | Unresolved incident in log |
+| `warden_violation_unescalated` | ERROR | Model drift not escalated |
+| `budget_exceeded` | ERROR | Agent budget cap breached |
+| `delegation_fail` | ERROR | Task delegation returned failure |
+| `pvt_fail` | ERROR | Post-validation test <9/9 |
+| `relay_stuck` | WARN | Ken relay message unsent >30min |
+| `overnight_task_fail` | ERROR | Overnight task failed/stalled |
+| `governance_qa_fail` | ERROR | Shield/Lex/Sage QA verdict=fail |
+| `sla_breach` | WARN | Sanctum SLA threshold exceeded |
+| `incomplete_turn` | WARN | Agent produced no output |
+| `anthropic_api_fail` | ERROR | Anthropic API error/overload |
+| `gateway_restart` | WARN | Gateway main session interrupted |
+
+### Enforcement
+- **PR/CHG gate:** Any CHG that adds a new state file with error data must include an obs CHECK. Yoda enforces this at CHG log time.
+- **Weekly audit:** auto-heal.sh Check #19 (add) scans `state/*.json` for error/failure keys not covered by obs-collector.sh, surfaces gaps to Ken.
+- **Architecture doc:** `docs/architecture/Observability_Architecture.md`
+
+---
+
 ## CANVAS EMBED DELIVERY RULE (NON-NEGOTIABLE — CHG-0217)
 
 Embeds (`[embed ...]`) ONLY render in webchat when Yoda sends them directly. They do NOT render when delivered via `sessions_send` from sub-agents.

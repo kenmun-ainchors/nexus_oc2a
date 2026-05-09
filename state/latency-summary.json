@@ -1,10 +1,10 @@
 {
-  "generatedAt": "2026-05-09T02:06:49.482062+00:00",
+  "generatedAt": "2026-05-09T02:07:17.418694+00:00",
   "windowDays": 7,
   "note": "Duration = end-to-end cron task time (includes LLM call + tool use). TTFT instrumentation pending gateway-level hooks.",
   "overall": {
-    "sampleCount": 10400,
-    "avgMs": 11212,
+    "sampleCount": 10401,
+    "avgMs": 11215,
     "peakMs": 559881,
     "minMs": 1
   },
@@ -46,12 +46,12 @@
       "avgTokens": 16180
     },
     "claude-sonnet-4-6": {
-      "sampleCount": 7506,
-      "avgMs": 10294,
+      "sampleCount": 7507,
+      "avgMs": 10298,
       "minMs": 1,
       "maxMs": 472834,
       "p50Ms": 4273,
-      "p95Ms": 33486,
+      "p95Ms": 33511,
       "avgTokens": 193
     }
   }
