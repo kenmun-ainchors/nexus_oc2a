@@ -12,7 +12,7 @@
 set -euo pipefail
 
 WORKSPACE="/Users/ainchorsangiefpl/.openclaw/workspace"
-HF_ENDPOINT="https://api-inference.huggingface.co/models/black-forest-labs/FLUX.1-schnell"
+HF_ENDPOINT="https://router.huggingface.co/hf-inference/models/black-forest-labs/FLUX.1-schnell"
 IMAGES_DIR="$WORKSPACE/state/generated-images"
 KEYCHAIN_SERVICE="ainchors-hf-api-token"
 KEYCHAIN_ACCOUNT="kenmun@ainchors.com"
@@ -141,7 +141,7 @@ HTTP_RESPONSE=$(curl -s -w "\n__HTTP_STATUS__%{http_code}" \
   -X POST "$HF_ENDPOINT" \
   -H "Authorization: Bearer $HF_TOKEN" \
   -H "Content-Type: application/json" \
-  -H "Accept: image/jpeg,image/*,*/*" \
+  -H "Accept: image/jpeg" \
   -d "$PAYLOAD" \
   -o "$OUTPUT_FILE.tmp")
 
