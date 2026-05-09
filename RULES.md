@@ -4,6 +4,68 @@ _Last updated: 2026-04-26_
 
 ---
 
+## CRON DELIVERY RULE (NON-NEGOTIABLE — CHG-0247, 2026-05-09)
+
+**L-001 + L-002 — Learned from kimi RTB silent failure + budget/backup cron errors (Day 15)**
+
+1. **Never use `sessions_send` inside a cron to deliver to Telegram.** `sessions_send` routes into an OpenClaw session object — it does NOT push to the user’s actual Telegram. Ken will receive nothing.
+2. **Never use `delivery: last`** on any cron. It fails when no prior Telegram route exists.
+3. **All crons that must deliver to Telegram** must use: `delivery: { mode: "announce", channel: "telegram", to: "<chatId>" }`. The agent’s text output IS the delivery — the cron system handles the push.
+4. **Do not call any messaging tool (sessions_send, gog, Telegram API)** inside a cron payload as a substitute for announce delivery.
+
+---
+
+## AGENT FILE WRITE RULE (NON-NEGOTIABLE — CHG-0247, 2026-05-09)
+
+**L-003 — Learned from kimi-rtb-trial.json corruption (Day 15)**
+
+When an agent or cron needs to **append to a JSON array state file**:
+1. Read the full file
+2. Parse and validate the JSON array
+3. Append the new object in memory
+4. Write the **full updated array** back using the `write` tool
+
+**Never use the `edit` tool for JSON array mutations.** The `edit` tool fails on any pre-existing malformation (e.g., orphan object appended after array). `write` overwrites the full file safely regardless of prior state.
+
+Applies to: `kimi-rtb-trial.json`, `delegation-log.json`, `incident-log.json`, and any other array-based state file.
+
+---
+
+## EMAIL HTML RULE (NON-NEGOTIABLE — CHG-0246, 2026-05-09)
+
+**L-006 — Learned from standup email dark theme ineligible in Gmail (Day 15)**
+
+- **Email-destined HTML must use light theme.** Dark backgrounds (`#0d1117` etc.) are unreliable in Gmail — they get flagged as ineligible and rendered incorrectly.
+- **Standard email-safe spec:** background `#ffffff`, text `#24292f`, headings `#0969da`, status colours on light backgrounds.
+- **Dark themes** are acceptable for webchat canvas embeds only — not for any HTML sent via `gog gmail send --body-html`.
+
+---
+
+## INFRA HYGIENE RULE (NON-NEGOTIABLE — 2026-05-09)
+
+**L-005 — Learned from /Volumes/Docker 94% false alert generating 261 health failures (Day 15)**
+
+- **Eject installer DMGs immediately** after installation: `hdiutil detach /Volumes/<name>`
+- Mounted DMGs appear as disk volumes and trigger health alerts at >80%. They are not data volumes.
+- If a `/Volumes/` disk alert fires: **check if it is a DMG installer first** before escalating. `ls /Volumes/<name>/` — if it contains a `.app` file and/or `Applications` symlink, it is a DMG. Eject it.
+
+---
+
+## ENTITY NAMING RULE (NON-NEGOTIABLE — CHG-0248, 2026-05-09)
+
+**L-007 — Learned from Auralith name conflict requiring bulk replace across 10 docs (Day 15)**
+
+Before using any entity/product/brand name in workspace files, docs, or MEMORY.md:
+1. ASIC name search (search.asic.gov.au)
+2. IP Australia trademark search (ipaustralia.gov.au)
+3. UK Companies House (find-and-update.company-information.service.gov.uk)
+4. Global brand + domain search (Perplexity or equivalent)
+
+**All four must be clean before the name is written into any workspace file.**
+Provisional/unverified names in drafts must be marked `[UNVERIFIED]`.
+
+---
+
 ## OBSERVABILITY ARCHITECTURE RULE (NON-NEGOTIABLE — CHG-0247, 2026-05-09)
 
 **obs.db is the single source of truth for all operational errors and warnings.**
