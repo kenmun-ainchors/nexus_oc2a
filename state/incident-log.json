@@ -208,7 +208,8 @@
       "impact": "WebSocket 1006 (abnormal drop) + 1000 (clean reconnect). ~1 min disruption to webchat. All sub-agents completed successfully.",
       "prevention": "Avoid spawning multiple large sub-agents simultaneously in final session hour. Pre-risky-op step 5 (clear stale plugin-runtime-deps) needs to run more proactively.",
       "loggedBy": "Yoda",
-      "loggedAt": "2026-05-01T14:42:21Z"
+      "loggedAt": "2026-05-01T14:42:21Z",
+      "status": "resolved"
     }
   ],
   "summary": {

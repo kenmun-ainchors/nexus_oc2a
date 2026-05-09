@@ -1,5 +1,5 @@
 {
-  "sequence": 112,
+  "sequence": 113,
   "tickets": [
     {
       "id": "TKT-0104",
@@ -160,6 +160,26 @@
       },
       "notes": "",
       "notionPageId": null
+    },
+    {
+      "id": "TKT-0112",
+      "title": "obs-collector: cron run failures not captured in obs.db",
+      "type": "bug",
+      "priority": "medium",
+      "status": "open",
+      "requester": "Ken",
+      "assignee": "Yoda",
+      "created": "2026-05-09T12:01:43+10:00",
+      "updated": "2026-05-09T12:01:43+10:00",
+      "description": "cron-health-check.sh detects cron consecutiveErrors but does not feed results into obs.db. obs-collector.sh has no check against cron-health-state.json. Result: cron job failures are invisible to the standup 24h error count and obs trend dashboard. Kimi RTB cron failed silently (Day 15) — not surfaced in standup. Fix: add check in obs-collector.sh to read cron-health-state.json failures array and log each as obs event type=cron_run_fail level=ERROR source=cron-health.",
+      "resolution": null,
+      "linked": {
+        "us": [],
+        "inc": [],
+        "chg": []
+      },
+      "notes": "",
+      "notionPageId": "35bc1829-53ff-8169-b4e5-c8c1e5f6e5ab"
     }
   ]
 }

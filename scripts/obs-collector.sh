@@ -552,5 +552,297 @@ for f in failures:
 PYEOF
 fi
 
+
+# ── CHECK R: incident-log.json — open (unresolved) incidents ─────────────────
+INCIDENT_LOG="$STATE/incident-log.json"
+if [[ -f "$INCIDENT_LOG" ]]; then
+  python3 - <<'PYEOF2'
+import json, subprocess, os
+
+state = os.environ.get('WORKSPACE', os.path.expanduser('~/.openclaw/workspace'))
+obs_log = os.path.join(state, 'scripts', 'obs-log.sh')
+f = os.path.join(state, 'state', 'incident-log.json')
+try:
+    d = json.load(open(f))
+    incs = d if isinstance(d, list) else d.get('incidents', [])
+    open_incs = [i for i in incs if isinstance(i, dict)
+                 and i.get('status', '') not in ('resolved', 'closed')
+                 and not i.get('resolvedAt')]
+    for i in open_incs:
+        msg = f"Open incident: {i.get('id','?')} [{i.get('severity','?')}] — {i.get('title','?')[:100]}"
+        subprocess.run(['bash', obs_log, '--source', 'incident-log',
+                        '--level', 'WARN', '--type', 'open_incident',
+                        '--message', msg,
+                        '--detail', json.dumps({'id': i.get('id'), 'severity': i.get('severity'), 'detectedAt': i.get('detectedAt', '')})],
+                       capture_output=True)
+except Exception:
+    pass
+PYEOF2
+fi
+
+# ── CHECK S: model-drift-violations.json — unescalated active violations ──────
+MDV_FILE="$STATE/model-drift-violations.json"
+if [[ -f "$MDV_FILE" ]]; then
+  python3 - <<'PYEOF2'
+import json, subprocess, os
+
+state = os.environ.get('WORKSPACE', os.path.expanduser('~/.openclaw/workspace'))
+obs_log = os.path.join(state, 'scripts', 'obs-log.sh')
+f = os.path.join(state, 'state', 'model-drift-violations.json')
+try:
+    d = json.load(open(f))
+    viols = d if isinstance(d, list) else d.get('violations', [])
+    active = [v for v in viols if isinstance(v, dict)
+              and not v.get('escalatedToYoda', True)
+              and v.get('status', '') not in ('superseded', 'resolved', 'cleared')]
+    for v in active:
+        msg = f"Warden violation (unescalated): agent={v.get('agentId','?')} severity={v.get('severity','?')}"
+        subprocess.run(['bash', obs_log, '--source', 'warden',
+                        '--level', 'ERROR', '--type', 'warden_violation_unescalated',
+                        '--message', msg,
+                        '--detail', json.dumps({'id': v.get('id'), 'agentId': v.get('agentId'), 'severity': v.get('severity')})],
+                       capture_output=True)
+except Exception:
+    pass
+PYEOF2
+fi
+
+# ── CHECK T: budget-alert-state.json — unacknowledged budget exceeded ─────────
+BUDGET_ALERT="$STATE/budget-alert-state.json"
+if [[ -f "$BUDGET_ALERT" ]]; then
+  python3 - <<'PYEOF2'
+import json, subprocess, os
+
+state = os.environ.get('WORKSPACE', os.path.expanduser('~/.openclaw/workspace'))
+obs_log = os.path.join(state, 'scripts', 'obs-log.sh')
+f = os.path.join(state, 'state', 'budget-alert-state.json')
+try:
+    d = json.load(open(f))
+    alerts = d if isinstance(d, list) else d.get('alerts', [])
+    unack = [a for a in alerts if isinstance(a, dict) and not a.get('acknowledged', True)]
+    for a in unack:
+        agent = a.get('agent', a.get('agentId', '?'))
+        spent = a.get('spent', a.get('amount', '?'))
+        cap = a.get('cap', a.get('budget', '?'))
+        msg = f"Budget exceeded (unacknowledged): agent={agent} spent={spent} cap={cap}"
+        subprocess.run(['bash', obs_log, '--source', 'budget',
+                        '--level', 'ERROR', '--type', 'budget_exceeded',
+                        '--message', msg,
+                        '--detail', json.dumps(a)],
+                       capture_output=True)
+except Exception:
+    pass
+PYEOF2
+fi
+
+# ── CHECK U: delegation-log.json — task delegation failures ───────────────────
+DELEG_LOG="$STATE/delegation-log.json"
+if [[ -f "$DELEG_LOG" ]]; then
+  python3 - <<'PYEOF2'
+import json, subprocess, os, time
+
+state = os.environ.get('WORKSPACE', os.path.expanduser('~/.openclaw/workspace'))
+obs_log = os.path.join(state, 'scripts', 'obs-log.sh')
+collector_state = os.path.join(state, 'state', 'obs-collector-state.json')
+f = os.path.join(state, 'state', 'delegation-log.json')
+try:
+    cs = json.load(open(collector_state))
+    last_run = int(cs.get('lastRunEpoch', 0))
+except Exception:
+    last_run = 0
+try:
+    d = json.load(open(f))
+    entries = d if isinstance(d, list) else d.get('entries', [])
+    for e in entries:
+        if not isinstance(e, dict): continue
+        if e.get('status') != 'fail': continue
+        # Only new since last obs run
+        import datetime
+        ts_str = e.get('timestamp', e.get('at', ''))
+        try:
+            from datetime import timezone
+            dt = datetime.datetime.fromisoformat(ts_str.replace('Z', '+00:00'))
+            if int(dt.timestamp()) <= last_run: continue
+        except Exception:
+            pass
+        msg = f"Delegation failure: task={e.get('task', e.get('taskId','?'))[:60]} agent={e.get('agent','?')}"
+        subprocess.run(['bash', obs_log, '--source', 'delegation',
+                        '--level', 'ERROR', '--type', 'delegation_fail',
+                        '--message', msg,
+                        '--detail', json.dumps({'task': e.get('task', e.get('taskId', '')), 'agent': e.get('agent', ''), 'error': str(e.get('error', ''))[:200]})],
+                       capture_output=True)
+except Exception:
+    pass
+PYEOF2
+fi
+
+# ── CHECK V: pvt-last-result.json — PVT failure ────────────────────────────────
+PVT_FILE="$STATE/pvt-last-result.json"
+if [[ -f "$PVT_FILE" ]]; then
+  python3 - <<'PYEOF2'
+import json, subprocess, os
+
+state = os.environ.get('WORKSPACE', os.path.expanduser('~/.openclaw/workspace'))
+obs_log = os.path.join(state, 'scripts', 'obs-log.sh')
+f = os.path.join(state, 'state', 'pvt-last-result.json')
+try:
+    d = json.load(open(f))
+    passed = int(d.get('passed', d.get('score', 9)))
+    total  = int(d.get('total', 9))
+    if passed < total:
+        msg = f"PVT failed: {passed}/{total} checks passed"
+        failed = d.get('failed', d.get('failures', []))
+        subprocess.run(['bash', obs_log, '--source', 'pvt',
+                        '--level', 'ERROR', '--type', 'pvt_fail',
+                        '--message', msg,
+                        '--detail', json.dumps({'passed': passed, 'total': total, 'failed': failed})],
+                       capture_output=True)
+except Exception:
+    pass
+PYEOF2
+fi
+
+# ── CHECK W: relay-to-ken.json — messages stuck unsent >30 min ───────────────
+RELAY_FILE="$STATE/relay-to-ken.json"
+if [[ -f "$RELAY_FILE" ]]; then
+  python3 - <<'PYEOF2'
+import json, subprocess, os, datetime
+
+state = os.environ.get('WORKSPACE', os.path.expanduser('~/.openclaw/workspace'))
+obs_log = os.path.join(state, 'scripts', 'obs-log.sh')
+f = os.path.join(state, 'state', 'relay-to-ken.json')
+STALE_SECS = 1800  # 30 min
+now = datetime.datetime.now(datetime.timezone.utc)
+try:
+    d = json.load(open(f))
+    msgs = d if isinstance(d, list) else d.get('messages', [])
+    for m in msgs:
+        if not isinstance(m, dict): continue
+        if m.get('sent', True): continue
+        created = m.get('createdAt', m.get('timestamp', ''))
+        try:
+            dt = datetime.datetime.fromisoformat(created.replace('Z', '+00:00'))
+            age = (now - dt).total_seconds()
+            if age > STALE_SECS:
+                msg = f"Relay message stuck unsent: id={m.get('id','?')} age={int(age/60)}min"
+                subprocess.run(['bash', obs_log, '--source', 'relay',
+                                '--level', 'WARN', '--type', 'relay_stuck',
+                                '--message', msg,
+                                '--detail', json.dumps({'id': m.get('id', ''), 'createdAt': created, 'ageMinutes': int(age/60)})],
+                               capture_output=True)
+        except Exception:
+            pass
+except Exception:
+    pass
+PYEOF2
+fi
+
+# ── CHECK X: overnight-task-status.json — overnight task failures ─────────────
+OVERNIGHT_FILE="$STATE/overnight-task-status.json"
+if [[ -f "$OVERNIGHT_FILE" ]]; then
+  python3 - <<'PYEOF2'
+import json, subprocess, os
+
+state = os.environ.get('WORKSPACE', os.path.expanduser('~/.openclaw/workspace'))
+obs_log = os.path.join(state, 'scripts', 'obs-log.sh')
+f = os.path.join(state, 'state', 'overnight-task-status.json')
+try:
+    d = json.load(open(f))
+    tasks = d if isinstance(d, list) else d.get('tasks', [])
+    for t in tasks:
+        if not isinstance(t, dict): continue
+        if t.get('status') in ('failed', 'error', 'stalled'):
+            msg = f"Overnight task {t.get('status','failed')}: {t.get('name', t.get('id','?'))[:80]}"
+            subprocess.run(['bash', obs_log, '--source', 'overnight-task',
+                            '--level', 'ERROR', '--type', 'overnight_task_fail',
+                            '--message', msg,
+                            '--detail', json.dumps({'id': t.get('id', ''), 'name': t.get('name', ''), 'error': str(t.get('error', ''))[:200]})],
+                           capture_output=True)
+except Exception:
+    pass
+PYEOF2
+fi
+
+# ── CHECK Y: governance triad QA logs — shield/lex/sage failures ──────────────
+for QA_AGENT in shield lex sage; do
+  QA_FILE="$STATE/${QA_AGENT}-qa-log.json"
+  if [[ -f "$QA_FILE" ]]; then
+    python3 - "$QA_FILE" "$QA_AGENT" <<'PYEOF2'
+import json, subprocess, os, sys
+
+state = os.environ.get('WORKSPACE', os.path.expanduser('~/.openclaw/workspace'))
+obs_log = os.path.join(state, 'scripts', 'obs-log.sh')
+collector_state = os.path.join(state, 'state', 'obs-collector-state.json')
+qa_file, agent = sys.argv[1], sys.argv[2]
+try:
+    cs = json.load(open(collector_state))
+    last_run = int(cs.get('lastRunEpoch', 0))
+except Exception:
+    last_run = 0
+try:
+    d = json.load(open(qa_file))
+    entries = d if isinstance(d, list) else d.get('entries', [])
+    for e in entries[-20:]:
+        if not isinstance(e, dict): continue
+        if e.get('verdict', e.get('result', '')) != 'fail': continue
+        import datetime
+        ts_str = e.get('timestamp', e.get('at', ''))
+        try:
+            from datetime import timezone
+            dt = datetime.datetime.fromisoformat(ts_str.replace('Z', '+00:00'))
+            if int(dt.timestamp()) <= last_run: continue
+        except Exception:
+            pass
+        msg = f"{agent.capitalize()} QA failure: {e.get('task', e.get('check', '?'))[:80]}"
+        subprocess.run(['bash', obs_log, '--source', f'{agent}-qa',
+                        '--level', 'ERROR', '--type', 'governance_qa_fail',
+                        '--message', msg,
+                        '--detail', json.dumps({'agent': agent, 'task': e.get('task', e.get('check', '')), 'reason': str(e.get('reason', e.get('error', '')))[:200]})],
+                       capture_output=True)
+except Exception:
+    pass
+PYEOF2
+  fi
+done
+
+# ── CHECK Z: sanctum-sla-log.json — SLA breaches ─────────────────────────────
+SANCTUM_FILE="$STATE/sanctum-sla-log.json"
+if [[ -f "$SANCTUM_FILE" ]]; then
+  python3 - <<'PYEOF2'
+import json, subprocess, os
+
+state = os.environ.get('WORKSPACE', os.path.expanduser('~/.openclaw/workspace'))
+obs_log = os.path.join(state, 'scripts', 'obs-log.sh')
+collector_state = os.path.join(state, 'state', 'obs-collector-state.json')
+f = os.path.join(state, 'state', 'sanctum-sla-log.json')
+try:
+    cs = json.load(open(collector_state))
+    last_run = int(cs.get('lastRunEpoch', 0))
+except Exception:
+    last_run = 0
+try:
+    d = json.load(open(f))
+    breaches = d.get('breaches', [])
+    for b in breaches:
+        if not isinstance(b, dict): continue
+        import datetime
+        ts_str = b.get('detectedAt', b.get('timestamp', ''))
+        try:
+            from datetime import timezone
+            dt = datetime.datetime.fromisoformat(ts_str.replace('Z', '+00:00'))
+            if int(dt.timestamp()) <= last_run: continue
+        except Exception:
+            pass
+        msg = f"Sanctum SLA breach: {b.get('sla','?')} — {b.get('agent','?')} exceeded {b.get('thresholdMs','?')}ms"
+        subprocess.run(['bash', obs_log, '--source', 'sanctum',
+                        '--level', 'WARN', '--type', 'sla_breach',
+                        '--message', msg,
+                        '--detail', json.dumps(b)],
+                       capture_output=True)
+except Exception:
+    pass
+PYEOF2
+fi
+
 # ── Final output (exactly one line) ──────────────────────────────────────────
 echo "OBS: $NEW_EVENTS new events logged"

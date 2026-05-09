@@ -15,7 +15,8 @@
       "detectedAt": "2026-04-28T07:53:06+10:00",
       "id": "DRIFT-20260427215306-default_fallbacks",
       "status": "superseded",
-      "escalatedToYoda": false
+      "escalatedToYoda": true,
+      "escalationNote": "superseded-no-action-required"
     },
     {
       "agentId": "legal",
@@ -26,7 +27,8 @@
       "detectedAt": "2026-04-28T07:57:25+10:00",
       "id": "DRIFT-20260427215725-legal",
       "status": "superseded",
-      "escalatedToYoda": false
+      "escalatedToYoda": true,
+      "escalationNote": "superseded-no-action-required"
     },
     {
       "agentId": "default.fallbacks",
@@ -43,8 +45,9 @@
       "detectedAt": "2026-04-28T08:36:06+10:00",
       "id": "DRIFT-20260427223606-default_fallbacks",
       "status": "superseded",
-      "escalatedToYoda": false,
-      "supersededBy": "CHG-0075"
+      "escalatedToYoda": true,
+      "supersededBy": "CHG-0075",
+      "escalationNote": "superseded-no-action-required"
     },
     {
       "agentId": "default.fallbacks",
