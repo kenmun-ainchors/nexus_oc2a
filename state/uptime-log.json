@@ -14024,14 +14024,28 @@
       "ts": "2026-05-09T03:06:21.223243+00:00",
       "status": "ok",
       "issues": []
+    },
+    {
+      "ts": "2026-05-09T03:12:52.795528+00:00",
+      "status": "degraded",
+      "issues": [
+        "2 zombie task run(s) detected \u2014 run: openclaw tasks audit"
+      ]
+    },
+    {
+      "ts": "2026-05-09T03:16:12.854449+00:00",
+      "status": "degraded",
+      "issues": [
+        "3 zombie task run(s) detected \u2014 run: openclaw tasks audit"
+      ]
     }
   ],
   "summary": {
-    "totalChecks": 2674,
+    "totalChecks": 2676,
     "upChecks": 2349,
-    "downtimeMinutes": 4875,
-    "uptimePct": 87.846,
-    "lastCheck": "2026-05-09T03:06:21.223243+00:00",
-    "lastStatus": "ok"
+    "downtimeMinutes": 4905,
+    "uptimePct": 87.78,
+    "lastCheck": "2026-05-09T03:16:12.854449+00:00",
+    "lastStatus": "degraded"
   }
 }

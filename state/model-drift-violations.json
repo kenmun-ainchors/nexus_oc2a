@@ -104,8 +104,10 @@
       "note": "",
       "detectedAt": "2026-05-08T01:04:23+10:00",
       "id": "DRIFT-20260507150423-security",
-      "status": "unresolved",
-      "escalatedToYoda": true
+      "status": "resolved",
+      "escalatedToYoda": true,
+      "resolvedAt": "2026-05-09T03:15:12Z",
+      "resolvedNote": "Config already correct (agent model = haiku). Warden false positive — misread from prior session state. Resolved by Yoda heartbeat."
     },
     {
       "agentId": "legal",
@@ -115,8 +117,10 @@
       "note": "",
       "detectedAt": "2026-05-08T01:04:23+10:00",
       "id": "DRIFT-20260507150423-legal",
-      "status": "unresolved",
-      "escalatedToYoda": true
+      "status": "resolved",
+      "escalatedToYoda": true,
+      "resolvedAt": "2026-05-09T03:15:12Z",
+      "resolvedNote": "Config already correct (agent model = haiku). Warden false positive — misread from prior session state. Resolved by Yoda heartbeat."
     },
     {
       "agentId": "qa",
@@ -126,8 +130,10 @@
       "note": "",
       "detectedAt": "2026-05-08T01:04:23+10:00",
       "id": "DRIFT-20260507150423-qa",
-      "status": "unresolved",
-      "escalatedToYoda": true
+      "status": "resolved",
+      "escalatedToYoda": true,
+      "resolvedAt": "2026-05-09T03:15:12Z",
+      "resolvedNote": "Config already correct (agent model = haiku). Warden false positive — misread from prior session state. Resolved by Yoda heartbeat."
     },
     {
       "agentId": "security",
@@ -137,8 +143,10 @@
       "note": "",
       "detectedAt": "2026-05-08T01:19:24+10:00",
       "id": "DRIFT-20260507151924-security",
-      "status": "unresolved",
-      "escalatedToYoda": true
+      "status": "resolved",
+      "escalatedToYoda": true,
+      "resolvedAt": "2026-05-09T03:15:12Z",
+      "resolvedNote": "Config already correct (agent model = haiku). Warden false positive — misread from prior session state. Resolved by Yoda heartbeat."
     },
     {
       "agentId": "legal",
@@ -148,8 +156,10 @@
       "note": "",
       "detectedAt": "2026-05-08T01:19:24+10:00",
       "id": "DRIFT-20260507151924-legal",
-      "status": "unresolved",
-      "escalatedToYoda": true
+      "status": "resolved",
+      "escalatedToYoda": true,
+      "resolvedAt": "2026-05-09T03:15:12Z",
+      "resolvedNote": "Config already correct (agent model = haiku). Warden false positive — misread from prior session state. Resolved by Yoda heartbeat."
     },
     {
       "agentId": "qa",
@@ -159,8 +169,10 @@
       "note": "",
       "detectedAt": "2026-05-08T01:19:24+10:00",
       "id": "DRIFT-20260507151924-qa",
-      "status": "unresolved",
-      "escalatedToYoda": true
+      "status": "resolved",
+      "escalatedToYoda": true,
+      "resolvedAt": "2026-05-09T03:15:12Z",
+      "resolvedNote": "Config already correct (agent model = haiku). Warden false positive — misread from prior session state. Resolved by Yoda heartbeat."
     },
     {
       "agentId": "default.primary",
@@ -170,10 +182,12 @@
       "note": "",
       "detectedAt": "2026-05-09T13:07:03+10:00",
       "id": "DRIFT-20260509030703-default_primary",
-      "status": "unresolved",
-      "escalatedToYoda": true
+      "status": "resolved",
+      "escalatedToYoda": true,
+      "resolvedAt": "2026-05-09T03:15:12Z",
+      "resolvedNote": "Reverted default.primary ollama/gemma4:31b-cloud → anthropic/claude-sonnet-4-6. CHG-0249 approved crons only, not global default. Fixed by Yoda heartbeat."
     }
   ],
-  "totalUnresolved": 7,
-  "lastUpdated": "2026-05-09T13:07:03+10:00"
+  "totalUnresolved": 0,
+  "lastUpdated": "2026-05-09T03:15:12Z"
 }

@@ -1,6 +1,6 @@
 {
   "escalatedAt": "2026-05-09T13:07:03+10:00",
-  "status": "pending-yoda-action",
+  "status": "resolved-by-yoda",
   "warden-check-result": "FAIL (exit code 2)",
   "activeViolations": [
     {
@@ -83,5 +83,7 @@
     ],
     "escalationNote": "7 unresolved drift violations spanning 2 days. All tagged escalatedToYoda=true. Requires Ken decision on intended model policy."
   },
-  "nextSteps": "Yoda to review, validate config intent, and execute remediation or create CHG record."
+  "nextSteps": "Yoda to review, validate config intent, and execute remediation or create CHG record.",
+  "resolvedAt": "2026-05-09T03:15:15Z",
+  "resolutionNote": "default.primary reverted sonnet (CHG-0252). security/legal/qa violations were false positives — config already correct."
 }

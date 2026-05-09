@@ -3,7 +3,7 @@
   "tickets": [
     {
       "id": "TKT-0104",
-      "title": "Data + Memory Architecture — P1-P4 Progressive Alignment",
+      "title": "Data + Memory Architecture \u2014 P1-P4 Progressive Alignment",
       "type": "task",
       "priority": "high",
       "status": "resolved",
@@ -18,7 +18,7 @@
         "inc": [],
         "chg": []
       },
-      "notes": "Assigned to Atlas. Source doc saved to docs/Phase4_DataMemory_Architecture.md (from email 2026-05-04, 20.8KB). Atlas to run after TKT-0103 completes. | Groomed 2026-05-08 14:28 AEST. Add-on lenses confirmed 14:40 AEST: (1) Data classification + use (Client/Internal/System/Operational/Repository/Backup), (2) Data type (relational/structured/unstructured/vector/blob), (3) Additional considerations (encryption, real-time, batch, caching, retention policy), (4) Physical infrastructure architecture (storage type, location, performance tier). Atlas to cover all 4 lenses per phase across P1-P4. Firing Atlas now. | Ken decisions 2026-05-08 15:00 AEST: (1) Anthropic DPA deferred — P1 acceptable, no client data. Gate: must confirm before P2 live. (2) Embedding: nomic-embed-text 768-dim CONFIRMED. (3) P3 REDEFINED — not licensed product. New phase definitions: P2=SaaS individual agents, P3=SaaS company multi-agents (shared context + data), P4=Enterprise/FSI unchanged. DataMemory_P1P4_Roadmap.md requires amendment — P3 section must be rewritten. Flag to Atlas. | All decisions resolved 2026-05-08 15:19 AEST. Final: (1) Anthropic DPA deferred to P2 gate, (2) nomic-embed-text 768-dim confirmed, (3) P3=commercial tier label, (4) P2 isolation=RLS from day one, (5) P3 trigger=formal ROI checklist required — Ken skeptical of P3 value given maintenance cost. Strategic note: P4 enterprise may prefer physical/in-house deployment over P3 SaaS multi-agent — P3 may be skipped entirely in practice. TKT-0046 queued as next Atlas task.",
+      "notes": "Assigned to Atlas. Source doc saved to docs/Phase4_DataMemory_Architecture.md (from email 2026-05-04, 20.8KB). Atlas to run after TKT-0103 completes. | Groomed 2026-05-08 14:28 AEST. Add-on lenses confirmed 14:40 AEST: (1) Data classification + use (Client/Internal/System/Operational/Repository/Backup), (2) Data type (relational/structured/unstructured/vector/blob), (3) Additional considerations (encryption, real-time, batch, caching, retention policy), (4) Physical infrastructure architecture (storage type, location, performance tier). Atlas to cover all 4 lenses per phase across P1-P4. Firing Atlas now. | Ken decisions 2026-05-08 15:00 AEST: (1) Anthropic DPA deferred \u2014 P1 acceptable, no client data. Gate: must confirm before P2 live. (2) Embedding: nomic-embed-text 768-dim CONFIRMED. (3) P3 REDEFINED \u2014 not licensed product. New phase definitions: P2=SaaS individual agents, P3=SaaS company multi-agents (shared context + data), P4=Enterprise/FSI unchanged. DataMemory_P1P4_Roadmap.md requires amendment \u2014 P3 section must be rewritten. Flag to Atlas. | All decisions resolved 2026-05-08 15:19 AEST. Final: (1) Anthropic DPA deferred to P2 gate, (2) nomic-embed-text 768-dim confirmed, (3) P3=commercial tier label, (4) P2 isolation=RLS from day one, (5) P3 trigger=formal ROI checklist required \u2014 Ken skeptical of P3 value given maintenance cost. Strategic note: P4 enterprise may prefer physical/in-house deployment over P3 SaaS multi-agent \u2014 P3 may be skipped entirely in practice. TKT-0046 queued as next Atlas task.",
       "notionPageId": null
     },
     {
@@ -38,7 +38,7 @@
         "inc": [],
         "chg": []
       },
-      "notes": "Design consideration added 2026-05-08 14:49 AEST (Ken): Should Atlas have governance/assurance accountability over all architecture sub-agents and related architectural work? If yes, Atlas moves beyond Tier 3 passive passthrough — gains an assurance role, reviewing outputs of Thrawn, Lando, Mon Mothma, and any future architecture agents to ensure alignment. Implications: (1) Atlas tier classification may need revisiting — hybrid Tier 2/3? (2) What triggers Atlas review — all outputs or selective? (3) How does this interact with Yoda's coordination role? (4) Does Atlas assure just architecture quality, or also governance compliance? DECIDE AS PART OF TKT-0105 GROOMING. Do not implement before Ken confirmation.",
+      "notes": "Design consideration added 2026-05-08 14:49 AEST (Ken): Should Atlas have governance/assurance accountability over all architecture sub-agents and related architectural work? If yes, Atlas moves beyond Tier 3 passive passthrough \u2014 gains an assurance role, reviewing outputs of Thrawn, Lando, Mon Mothma, and any future architecture agents to ensure alignment. Implications: (1) Atlas tier classification may need revisiting \u2014 hybrid Tier 2/3? (2) What triggers Atlas review \u2014 all outputs or selective? (3) How does this interact with Yoda's coordination role? (4) Does Atlas assure just architecture quality, or also governance compliance? DECIDE AS PART OF TKT-0105 GROOMING. Do not implement before Ken confirmation.",
       "notionPageId": null
     },
     {
@@ -63,7 +63,7 @@
     },
     {
       "id": "TKT-0107",
-      "title": "Agent Governance — Squad Model (Tier 5+): Ephemeral Dev/Delivery Squads",
+      "title": "Agent Governance \u2014 Squad Model (Tier 5+): Ephemeral Dev/Delivery Squads",
       "type": "task",
       "priority": "medium",
       "status": "open",
@@ -71,7 +71,7 @@
       "assignee": "Yoda",
       "created": "2026-05-08T14:52:48+10:00",
       "updated": "2026-05-08T14:52:48+10:00",
-      "description": "Forward-looking governance model for when AInchors spins up ephemeral agent squads for development and delivery work. May require a new tier beyond the current 0-4 framework. Questions to resolve: What is a squad? How are they composed (temporary multi-agent teams)? Who owns squad governance — Yoda or Atlas? How does a squad spin up and tear down? What's the approval gate? How does squad output get assurance-checked before merging back to main? TRIGGER: Review and define BEFORE any development squad work begins. Do not activate until development sprint work is imminent.",
+      "description": "Forward-looking governance model for when AInchors spins up ephemeral agent squads for development and delivery work. May require a new tier beyond the current 0-4 framework. Questions to resolve: What is a squad? How are they composed (temporary multi-agent teams)? Who owns squad governance \u2014 Yoda or Atlas? How does a squad spin up and tear down? What's the approval gate? How does squad output get assurance-checked before merging back to main? TRIGGER: Review and define BEFORE any development squad work begins. Do not activate until development sprint work is imminent.",
       "resolution": null,
       "linked": {
         "us": [],
@@ -83,7 +83,7 @@
     },
     {
       "id": "TKT-0108",
-      "title": "Document Generation Pipeline — DOCX/XLSX/PPTX/PDF (Ahsoka Q1 blocker)",
+      "title": "Document Generation Pipeline \u2014 DOCX/XLSX/PPTX/PDF (Ahsoka Q1 blocker)",
       "type": "task",
       "priority": "high",
       "status": "open",
@@ -103,7 +103,7 @@
     },
     {
       "id": "TKT-0109",
-      "title": "Agile PM / Scrum Master / Agile Coach Agent — Design and Build",
+      "title": "Agile PM / Scrum Master / Agile Coach Agent \u2014 Design and Build",
       "type": "task",
       "priority": "medium",
       "status": "open",
@@ -111,7 +111,7 @@
       "assignee": "Yoda",
       "created": "2026-05-08T19:55:50+10:00",
       "updated": "2026-05-08T19:55:50+10:00",
-      "description": "Dedicated agent to own sprint facilitation, velocity tracking, QBR packs, epic/milestone management, dependency tracking, and Agile coaching for clients and business users. Three modes: (1) Scrum Master — sprint ceremonies, blockers, velocity, retrospectives; (2) Agile PM — epic tracking, capacity planning, QBR prep, dependency management; (3) Agile Coach — working with external clients and business users to run their own delivery framework. Proposed name: Cassian Andor. Governance: Tier 3 (Yoda-Manage-Passthrough). TRIGGER: multiple concurrent client projects OR external users running sprints OR squad model activated (TKT-0107) OR Yoda PM overhead >40%. REVIEW: July 2026 QBR. Do not build before review.",
+      "description": "Dedicated agent to own sprint facilitation, velocity tracking, QBR packs, epic/milestone management, dependency tracking, and Agile coaching for clients and business users. Three modes: (1) Scrum Master \u2014 sprint ceremonies, blockers, velocity, retrospectives; (2) Agile PM \u2014 epic tracking, capacity planning, QBR prep, dependency management; (3) Agile Coach \u2014 working with external clients and business users to run their own delivery framework. Proposed name: Cassian Andor. Governance: Tier 3 (Yoda-Manage-Passthrough). TRIGGER: multiple concurrent client projects OR external users running sprints OR squad model activated (TKT-0107) OR Yoda PM overhead >40%. REVIEW: July 2026 QBR. Do not build before review.",
       "resolution": null,
       "linked": {
         "us": [],
@@ -123,7 +123,7 @@
     },
     {
       "id": "TKT-0110",
-      "title": "Process Documentation Framework — User Guides for Business Stream and Clients",
+      "title": "Process Documentation Framework \u2014 User Guides for Business Stream and Clients",
       "type": "task",
       "priority": "medium",
       "status": "open",
@@ -131,7 +131,7 @@
       "assignee": "Yoda",
       "created": "2026-05-08T20:00:03+10:00",
       "updated": "2026-05-08T20:00:03+10:00",
-      "description": "Lando (BPM agent) to own process documentation for all product capabilities and features shipped. Documents must be ready BEFORE each release, written for business users and clients (non-technical). Current Notion content is technical and only fit for Ken. Need: (1) Process document template/standard (what goes in a user guide, style, format); (2) Per-capability user guides produced ahead of P2 releases; (3) Integration with sprint/release cycle — Definition of Done must include user doc ready; (4) Delivery format TBD (Notion public page, PDF, HTML). Covers: Nexus features, agent capabilities, Citadel portal, Ahsoka consulting outputs. Assign: Lando. Governance: Tier 3 (Yoda-Manage-Passthrough). Review: as part of P2 release planning.",
+      "description": "Lando (BPM agent) to own process documentation for all product capabilities and features shipped. Documents must be ready BEFORE each release, written for business users and clients (non-technical). Current Notion content is technical and only fit for Ken. Need: (1) Process document template/standard (what goes in a user guide, style, format); (2) Per-capability user guides produced ahead of P2 releases; (3) Integration with sprint/release cycle \u2014 Definition of Done must include user doc ready; (4) Delivery format TBD (Notion public page, PDF, HTML). Covers: Nexus features, agent capabilities, Citadel portal, Ahsoka consulting outputs. Assign: Lando. Governance: Tier 3 (Yoda-Manage-Passthrough). Review: as part of P2 release planning.",
       "resolution": null,
       "linked": {
         "us": [],
@@ -143,7 +143,7 @@
     },
     {
       "id": "TKT-0111",
-      "title": "Angie Agile + Nexus Working Guide — Delivered via Aria",
+      "title": "Angie Agile + Nexus Working Guide \u2014 Delivered via Aria",
       "type": "task",
       "priority": "medium",
       "status": "open",
@@ -151,7 +151,7 @@
       "assignee": "Yoda",
       "created": "2026-05-08T20:07:14+10:00",
       "updated": "2026-05-08T20:07:14+10:00",
-      "description": "Produce a practical guide for Angie on: (1) How to work within the AInchors Agile framework — sprint cycles, how to raise requests, what to expect each week, how her work gets prioritised; (2) How to work with Nexus multi-agent system — what Aria can do, how to instruct agents, what Ahsoka delivers, how to get the most out of the platform; (3) How to plan and execute business work efficiently using the agents — maximising output, knowing when to delegate vs decide, how to track progress. Delivered BY Aria TO Angie (Angie's pace — not pushed). Format: conversational, non-technical, practical. Lando owns process doc structure. Aria delivers and coaches. DEPENDENCY: TKT-0110 (process doc framework) for template/format standard. Part of Angie onboarding Stage 2+ completion.",
+      "description": "Produce a practical guide for Angie on: (1) How to work within the AInchors Agile framework \u2014 sprint cycles, how to raise requests, what to expect each week, how her work gets prioritised; (2) How to work with Nexus multi-agent system \u2014 what Aria can do, how to instruct agents, what Ahsoka delivers, how to get the most out of the platform; (3) How to plan and execute business work efficiently using the agents \u2014 maximising output, knowing when to delegate vs decide, how to track progress. Delivered BY Aria TO Angie (Angie's pace \u2014 not pushed). Format: conversational, non-technical, practical. Lando owns process doc structure. Aria delivers and coaches. DEPENDENCY: TKT-0110 (process doc framework) for template/format standard. Part of Angie onboarding Stage 2+ completion.",
       "resolution": null,
       "linked": {
         "us": [],
@@ -171,7 +171,7 @@
       "assignee": "Yoda",
       "created": "2026-05-09T12:01:43+10:00",
       "updated": "2026-05-09T12:01:43+10:00",
-      "description": "cron-health-check.sh detects cron consecutiveErrors but does not feed results into obs.db. obs-collector.sh has no check against cron-health-state.json. Result: cron job failures are invisible to the standup 24h error count and obs trend dashboard. Kimi RTB cron failed silently (Day 15) — not surfaced in standup. Fix: add check in obs-collector.sh to read cron-health-state.json failures array and log each as obs event type=cron_run_fail level=ERROR source=cron-health.",
+      "description": "cron-health-check.sh detects cron consecutiveErrors but does not feed results into obs.db. obs-collector.sh has no check against cron-health-state.json. Result: cron job failures are invisible to the standup 24h error count and obs trend dashboard. Kimi RTB cron failed silently (Day 15) \u2014 not surfaced in standup. Fix: add check in obs-collector.sh to read cron-health-state.json failures array and log each as obs event type=cron_run_fail level=ERROR source=cron-health.",
       "resolution": null,
       "linked": {
         "us": [],
@@ -183,7 +183,7 @@
     },
     {
       "id": "TKT-0113",
-      "title": "Fallback alert channel — API-independent notification path",
+      "title": "Fallback alert channel \u2014 API-independent notification path",
       "type": "task",
       "priority": "high",
       "status": "open",
@@ -191,7 +191,7 @@
       "assignee": "Yoda",
       "created": "2026-05-09T12:18:26+10:00",
       "updated": "2026-05-09T12:18:26+10:00",
-      "description": "INC-20260509-001 prevention gap: Telegram alerting depends on Anthropic API — same API it monitors. When API hits /bin/zsh, alerts go silent. Need secondary alert path (local script → SMS or email via secondary provider e.g. Twilio/Postmark) that fires when primary API is degraded.",
+      "description": "INC-20260509-001 prevention gap: Telegram alerting depends on Anthropic API \u2014 same API it monitors. When API hits /bin/zsh, alerts go silent. Need secondary alert path (local script \u2192 SMS or email via secondary provider e.g. Twilio/Postmark) that fires when primary API is degraded.",
       "resolution": null,
       "linked": {
         "us": [],
@@ -203,7 +203,7 @@
     },
     {
       "id": "TKT-0114",
-      "title": "AInchors–Aevlith Technologies partnership agreement — confirm with Angie",
+      "title": "AInchors\u2013Aevlith Technologies partnership agreement \u2014 confirm with Angie",
       "type": "task",
       "priority": "high",
       "status": "open",
@@ -303,7 +303,7 @@
     },
     {
       "id": "TKT-0119",
-      "title": "IP Australia trademark filing — Aevlith (Classes 35 + 42)",
+      "title": "IP Australia trademark filing \u2014 Aevlith (Classes 35 + 42)",
       "type": "task",
       "priority": "medium",
       "status": "open",
