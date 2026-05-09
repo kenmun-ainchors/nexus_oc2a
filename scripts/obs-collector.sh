@@ -520,5 +520,37 @@ existing['lastRunEpoch'] = $NOW_EPOCH
 json.dump(existing, open('$COLLECTOR_STATE', 'w'), indent=2)
 " 2>/dev/null || true
 
+# ── CHECK Q: cron-health-state.json — cron run failures ─────────────────────────────
+CRON_HEALTH_FILE="$STATE/cron-health-state.json"
+if [[ -f "$CRON_HEALTH_FILE" ]]; then
+  python3 - <<'PYEOF'
+import json, subprocess, sys, os
+
+state_file = os.path.join(os.environ.get('WORKSPACE', os.path.expanduser('~/.openclaw/workspace')), 'state', 'cron-health-state.json')
+obs_log    = os.path.join(os.environ.get('WORKSPACE', os.path.expanduser('~/.openclaw/workspace')), 'scripts', 'obs-log.sh')
+try:
+    d = json.load(open(state_file))
+except Exception:
+    sys.exit(0)
+
+failures = d.get('failures', [])
+for f in failures:
+    cron_id  = f.get('cronId', 'unknown')[:8]
+    name     = f.get('name', 'unknown cron')[:80]
+    err      = f.get('error', '')[:200]
+    detail   = json.dumps({'cronId': cron_id, 'name': name, 'error': err})
+    msg      = f'Cron run failure: {name} ({cron_id}) — {err[:100]}'
+    subprocess.run(
+        ['bash', obs_log,
+         '--source', 'cron-health',
+         '--level', 'ERROR',
+         '--type', 'cron_run_fail',
+         '--message', msg,
+         '--detail', detail],
+        capture_output=True
+    )
+PYEOF
+fi
+
 # ── Final output (exactly one line) ──────────────────────────────────────────
 echo "OBS: $NEW_EVENTS new events logged"
