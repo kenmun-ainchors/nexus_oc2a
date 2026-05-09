@@ -2,16 +2,16 @@
   "lastChecks": {
     "email": "2026-05-09T02:26:50.878Z",
     "calendar": "2026-05-09T02:26:50.879Z",
-    "agentHealth": "2026-05-09T02:18:00Z",
-    "apiBalance": "2026-05-09T03:04:00Z",
-    "taskWatchdog": "2026-05-09T03:04:00Z",
-    "wardenEscalation": "2026-05-09T03:15:27Z",
-    "cronDeadLetter": "2026-05-09T03:04:00Z",
-    "ahsokaPilot": "2026-05-09T03:04:00Z",
-    "standby": "2026-05-09T03:04:00Z",
-    "cronHealth": "2026-05-09T03:15:27Z",
-    "budgetCheck": "2026-05-09T03:04:00Z",
-    "allowlistSync": "2026-05-09T03:04:00Z",
+    "agentHealth": "2026-05-09T03:19:34.900Z",
+    "apiBalance": "2026-05-09T03:19:34.900Z",
+    "taskWatchdog": "2026-05-09T03:19:34.900Z",
+    "wardenEscalation": "2026-05-09T03:19:34.900Z",
+    "cronDeadLetter": "2026-05-09T03:19:34.900Z",
+    "ahsokaPilot": "2026-05-09T03:19:34.900Z",
+    "standby": "2026-05-09T03:19:34.900Z",
+    "cronHealth": "2026-05-09T03:19:34.900Z",
+    "budgetCheck": "2026-05-09T03:19:34.900Z",
+    "allowlistSync": "2026-05-09T03:19:34.900Z",
     "memoryMaintenance": "2026-05-08T19:58:34.724799Z",
     "weather": null,
     "dailyClose": "2026-05-08T13:42:00Z",
@@ -22,5 +22,5 @@
     "doDGates": "2026-05-08T22:04:00.000Z",
     "chgTriggers": "2026-05-09T01:42:00Z"
   },
-  "notes": "May 9 1:13PM AEST: Warden escalation resolved. default.primary reverted sonnet (CHG-0251). security/legal/qa false positives cleared. Cron health OK. No dead-letter/stall/task-verification alerts. No standby. Ahsoka pilots parked. Systems nominal."
+  "notes": "May 9 1:19PM AEST: All systems nominal. No alerts. Warden resolved (CHG-0252). Ahsoka Pilot 1 parked/in-progress."
 }
