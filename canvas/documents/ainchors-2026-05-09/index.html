@@ -1,0 +1,386 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Day 15 — The Foundation Day | AInchors Build Log</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    background: #0d1117;
+    color: #e6edf3;
+    font-family: Georgia, 'Times New Roman', serif;
+    font-size: 18px;
+    line-height: 1.75;
+  }
+  a { color: #58a6ff; text-decoration: none; }
+  a:hover { text-decoration: underline; }
+
+  .hero {
+    background: linear-gradient(135deg, #161b22 0%, #0d1117 60%, #13202d 100%);
+    border-bottom: 1px solid #21262d;
+    padding: 72px 24px 56px;
+    text-align: center;
+  }
+  .hero .day-label {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    font-size: 13px;
+    font-weight: 600;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: #58a6ff;
+    margin-bottom: 20px;
+  }
+  .hero h1 {
+    font-size: clamp(28px, 5vw, 52px);
+    font-weight: 700;
+    color: #f0f6fc;
+    line-height: 1.2;
+    margin-bottom: 20px;
+    max-width: 800px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+  .hero .subtitle {
+    font-size: 18px;
+    color: #8b949e;
+    max-width: 640px;
+    margin: 0 auto 32px;
+    font-style: italic;
+  }
+  .hero .meta {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    font-size: 13px;
+    color: #6e7681;
+    display: flex;
+    gap: 24px;
+    justify-content: center;
+    flex-wrap: wrap;
+  }
+  .hero .meta span { display: flex; align-items: center; gap: 6px; }
+
+  .content {
+    max-width: 720px;
+    margin: 0 auto;
+    padding: 48px 24px 80px;
+  }
+
+  h2 {
+    font-size: 26px;
+    font-weight: 700;
+    color: #f0f6fc;
+    margin-top: 56px;
+    margin-bottom: 16px;
+    border-left: 3px solid #58a6ff;
+    padding-left: 16px;
+  }
+  h3 {
+    font-size: 19px;
+    font-weight: 600;
+    color: #e6edf3;
+    margin-top: 32px;
+    margin-bottom: 10px;
+  }
+  p { margin-bottom: 20px; color: #c9d1d9; }
+  ul, ol {
+    margin: 0 0 20px 24px;
+    color: #c9d1d9;
+  }
+  li { margin-bottom: 8px; }
+
+  .callout {
+    background: #161b22;
+    border: 1px solid #30363d;
+    border-left: 4px solid #58a6ff;
+    border-radius: 6px;
+    padding: 20px 24px;
+    margin: 28px 0;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    font-size: 15px;
+    color: #8b949e;
+  }
+  .callout strong { color: #e6edf3; }
+
+  .callout.amber {
+    border-left-color: #d29922;
+  }
+  .callout.green {
+    border-left-color: #3fb950;
+  }
+  .callout.red {
+    border-left-color: #f85149;
+  }
+
+  .stat-row {
+    display: flex;
+    gap: 16px;
+    flex-wrap: wrap;
+    margin: 32px 0;
+  }
+  .stat-card {
+    flex: 1;
+    min-width: 140px;
+    background: #161b22;
+    border: 1px solid #21262d;
+    border-radius: 8px;
+    padding: 20px 16px;
+    text-align: center;
+  }
+  .stat-card .number {
+    font-size: 28px;
+    font-weight: 700;
+    color: #58a6ff;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    display: block;
+  }
+  .stat-card .label {
+    font-size: 12px;
+    color: #6e7681;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin-top: 6px;
+    display: block;
+  }
+
+  .learning-pill {
+    display: inline-block;
+    background: #1f2937;
+    border: 1px solid #374151;
+    border-radius: 4px;
+    padding: 2px 8px;
+    font-family: 'SF Mono', 'Fira Code', monospace;
+    font-size: 12px;
+    color: #d29922;
+    margin-right: 6px;
+    margin-bottom: 4px;
+  }
+
+  .timeline-item {
+    border-left: 2px solid #21262d;
+    padding-left: 20px;
+    margin-bottom: 32px;
+    position: relative;
+  }
+  .timeline-item::before {
+    content: '';
+    position: absolute;
+    left: -6px;
+    top: 8px;
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    background: #58a6ff;
+    border: 2px solid #0d1117;
+  }
+  .timeline-time {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    font-size: 12px;
+    color: #6e7681;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin-bottom: 6px;
+  }
+  .timeline-title {
+    font-size: 17px;
+    font-weight: 600;
+    color: #e6edf3;
+    margin-bottom: 8px;
+  }
+  .timeline-body {
+    font-size: 15px;
+    color: #8b949e;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    line-height: 1.6;
+  }
+
+  footer {
+    border-top: 1px solid #21262d;
+    padding: 40px 24px;
+    text-align: center;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    font-size: 13px;
+    color: #6e7681;
+  }
+  footer a { color: #58a6ff; }
+</style>
+</head>
+<body>
+
+<div class="hero">
+  <div class="day-label">AInchors Build Log · Day 15</div>
+  <h1>The Foundation Day</h1>
+  <div class="subtitle">We named the company that will own it all, locked the architecture rules that will govern it forever, and catalogued 21 hard-won lessons from 15 days in the trenches.</div>
+  <div class="meta">
+    <span>📅 Saturday, 9 May 2026</span>
+    <span>✍️ Ken Mun</span>
+    <span>⏱ ~8 hours active</span>
+  </div>
+</div>
+
+<div class="content">
+
+  <div class="stat-row">
+    <div class="stat-card">
+      <span class="number">21</span>
+      <span class="label">Learnings</span>
+    </div>
+    <div class="stat-card">
+      <span class="number">9</span>
+      <span class="label">Changes</span>
+    </div>
+    <div class="stat-card">
+      <span class="number">7</span>
+      <span class="label">Tickets</span>
+    </div>
+    <div class="stat-card">
+      <span class="number">1</span>
+      <span class="label">Name Locked</span>
+    </div>
+  </div>
+
+  <div class="callout amber">
+    <strong>Day 15 opened in recovery mode.</strong> Yesterday's 26-hour API outage — balance hitting zero, auto-reload not configured correctly — finally behind us. The fix is permanent now: auto-reload fires at &lt;$50, tops up to $500. It won't happen again. And TKT-0113 is open to build a fallback alert channel that doesn't depend on the API being alive in the first place.
+  </div>
+
+  <h2>We Have a Name</h2>
+
+  <p>For weeks I've been saying "the technology holding entity" in every conversation. Today that changed.</p>
+
+  <p>We were going to call it Auralith. I liked it — clean, original, distinctive. Then I ran the ASIC check. Active Australian Pty Ltd, ABN 43 675 437 500. Hard stop. No path through.</p>
+
+  <p>So Yoda and I went back to first principles: what does this company actually do? It's the invisible foundation. It owns Nexus. It operates the platform. AInchors is the market-facing consulting brand. Aevlith is what sits underneath — the thing that makes all of it possible.</p>
+
+  <p>The name that emerged: <strong>Aevlith Technologies Pty Ltd.</strong></p>
+
+  <p>Latin <em>aevum</em> (eternal, timeless) + Greek <em>lithos</em> (foundation, stone). Pronounced <strong>AYV-lith</strong>. Globally clean — zero conflicts across AU, UK, US, EU, India. Domain: aevlith.ai.</p>
+
+  <div class="callout green">
+    <strong>LOCKED.</strong> Aevlith Technologies Pty Ltd. This is the entity that will hold the IP, operate Nexus, and eventually — when we reach P4 — surface as a product brand in its own right. For now, it's invisible. The foundation always is.
+  </div>
+
+  <p>Next steps: Angie and I need to complete the AInchors–Aevlith partnership agreement this week. That's the blocker for ASIC registration, domain acquisition, and everything downstream. TKT-0114 through TKT-0119 are all queued and waiting on that one conversation.</p>
+
+  <h2>The Architecture Rule We Should Have Had on Day 1</h2>
+
+  <p>I made a discovery this morning that bothered me more than it should have: our obs.db — the database that's supposed to give us full operational visibility — had only 15 sources wired. Cron failures? Not captured. Warden violations? Not captured. Budget exceeded events? Not captured.</p>
+
+  <p>We had built sophisticated detection systems and then not connected them to the central observability layer. Classic integration gap. We could have been flying blind on something serious.</p>
+
+  <p>So we fixed it — added 10 new CHECK sources (Q through Z), covering cron failures, Warden violations, budget alerts, delegation failures, PVT failures, relay stuck states, and SLA breaches. obs.db now covers the full operational surface.</p>
+
+  <p>But more importantly, we formalised the rule that prevents this from happening again:</p>
+
+  <div class="callout">
+    <strong>Architecture Rule (non-negotiable, permanent):</strong> obs.db is the single source of truth for ALL operational errors. Any new state file that tracks error, failure, or violation data requires a corresponding obs CHECK in the same change. No exceptions.
+  </div>
+
+  <p>This joins the exec binary path rule and the canvas embed rule as things I never want to explain twice.</p>
+
+  <h2>21 Lessons in 15 Days</h2>
+
+  <p>One of the things I wanted to do today — on what felt like a natural inflection point in the build — was stop and catalogue everything we've learned. Not just list it, but properly formalise it so future decisions don't have to be rediscovered the hard way.</p>
+
+  <p>We went through 15 days of journals, CHANGELOGs, and incident reports. What came out:</p>
+
+  <div style="margin: 24px 0;">
+    <span class="learning-pill">L-001</span> Telegram delivery requires <code>delivery: announce</code> — not sessions_send from crons<br><br>
+    <span class="learning-pill">L-008</span> API key rotation is a 2-step atomic op — config + Keychain together, never one without the other<br><br>
+    <span class="learning-pill">L-010</span> SOUL.md oversize causes silent truncation — 17k chars → wrong Telegram targets + gateway OOM. Hard limit: 10k<br><br>
+    <span class="learning-pill">L-014</span> Three-attempt rule — fully diagnose before applying fix #3, or escalate<br><br>
+    <span class="learning-pill">L-017</span> Canvas served files live at <code>~/.openclaw/canvas</code>, not <code>workspace/canvas</code><br><br>
+    <span class="learning-pill">L-019</span> Shell variable truncation of large JSON in curl — always use <code>--data-binary @tempfile</code>
+  </div>
+
+  <p>Four of these became permanent non-negotiable rules in RULES.md. All 21 are now in Notion Holocron under Platform Operational Learnings, available to every agent on the platform.</p>
+
+  <p>The point isn't the list. The point is the discipline: when something goes wrong, you document it properly, not as an incident to close but as a learning to keep. Fifteen days in, we have 21 of them. That's one platform-wide lesson every 17 hours of operation.</p>
+
+  <h2>Model Strategy: Raising the Bar</h2>
+
+  <p>Two model decisions today, moving in opposite directions.</p>
+
+  <p>First, we added <code>ollama/gemma4:31b-cloud</code> to the model strategy. Benchmarked at 4.2/5, 1–4 second latency, 256k context, no thinking-mode bleed. It goes into Tier 2 alongside kimi-k2.6:cloud. A 5-day parallel trial is now running — both models get the same morning RTB brief, I get both on Telegram, and in two weeks we'll know which one to promote.</p>
+
+  <p>Second — and this one matters more — we cancelled Cycle B of the CI trial and reset to Cycle 2A.</p>
+
+  <p>The Cycle 1A candidates came back MEDIUM/LOW confidence. That's not good enough to promote. So we established a gate: Cycle B only activates when ≥75% of Cycle A candidates pass. If the models aren't clearly earning their place, they don't advance.</p>
+
+  <p>This might seem obvious in retrospect. But it's the kind of standard that's easy to let slip when you're moving fast and a model looks "pretty good." We're not building for pretty good.</p>
+
+  <h2>The Day in Motion</h2>
+
+  <div class="timeline-item">
+    <div class="timeline-time">11:48 AM</div>
+    <div class="timeline-title">Standup email — light theme fix</div>
+    <div class="timeline-body">The morning standup HTML was generating dark backgrounds. Gmail clients were rendering it illegibly. Fixed to a clean light theme. Also closed a false alarm: the /Volumes/Docker disk alert turned out to be a mounted Google Keystone installer DMG, not actual Docker data. Ejected. Main disk at 21%.</div>
+  </div>
+
+  <div class="timeline-item">
+    <div class="timeline-time">12:10 PM</div>
+    <div class="timeline-title">obs.db gap closed — 10 new sources</div>
+    <div class="timeline-body">Discovered cron failures, Warden violations, and budget events weren't in obs.db. Added CHECK Q–Z. Architecture rule formalised. Observability now covers the full operational surface.</div>
+  </div>
+
+  <div class="timeline-item">
+    <div class="timeline-time">12:45 PM</div>
+    <div class="timeline-title">Aevlith Technologies — name locked</div>
+    <div class="timeline-body">Auralith blocked by existing AU Pty Ltd. Researched, decided, locked: Aevlith Technologies Pty Ltd. All workspace references updated. 6 tickets raised for incorporation and domain acquisition.</div>
+  </div>
+
+  <div class="timeline-item">
+    <div class="timeline-time">13:20 PM</div>
+    <div class="timeline-title">Platform retrospective — 21 learnings</div>
+    <div class="timeline-body">Full 15-day retrospective. Mined journals, CHANGELOG, incident reports. 21 learnings formalised. 4 promoted to RULES.md as non-negotiable. All in Holocron.</div>
+  </div>
+
+  <div class="timeline-item">
+    <div class="timeline-time">14:00 PM</div>
+    <div class="timeline-title">Gemma4:31b-cloud — Tier 2 candidate</div>
+    <div class="timeline-body">Benchmarked and added to model strategy. 5-day parallel RTB trial vs kimi running from Monday.</div>
+  </div>
+
+  <div class="timeline-item">
+    <div class="timeline-time">14:30 PM</div>
+    <div class="timeline-title">CI Cycle B cancelled — gate raised</div>
+    <div class="timeline-body">Cycle 1A candidates below threshold. Cycle B gate locked at ≥75% Cycle A pass rate. Cycle 2A running with three new candidates.</div>
+  </div>
+
+  <div class="timeline-item">
+    <div class="timeline-time">15:30 PM</div>
+    <div class="timeline-title">Kimi RTB delivery fix</div>
+    <div class="timeline-body">RTB cron was using sessions_send instead of Telegram delivery. Fixed. L-001 reinforced.</div>
+  </div>
+
+  <div class="timeline-item">
+    <div class="timeline-time">7:30 PM</div>
+    <div class="timeline-title">LinkedIn incident — 3 more learnings</div>
+    <div class="timeline-body">RustDesk post got truncated mid-publish. Root cause: shell variable truncation of large JSON in curl. Plus a silent parser failure in the content file format. Fixed both, documented L-019 through L-021. LinkedIn API lacks delete scope — manual cleanup from UI, TKT raised for next token re-auth.</div>
+  </div>
+
+  <h2>What I'm Thinking About</h2>
+
+  <p>Day 15 felt different from the days before it. We're past the raw construction phase — the infrastructure is standing, the agents are running, the processes are documented. Today was about hardening. Naming things properly. Writing the rules down so they don't have to be discovered again.</p>
+
+  <p>Aevlith is real now. Not just a concept in a conversation, but a name we picked deliberately, checked globally, and locked. That matters. Companies are built on foundations, and foundations need names.</p>
+
+  <p>The 21 learnings matter for the same reason. Every platform has operational knowledge that lives in people's heads until it doesn't — until the person who knew it leaves, or forgets, or the system outgrows the team that built it. We're writing it down at Day 15, not Day 150. That's the right time.</p>
+
+  <p>OC2 arrives in July. That's when the real architecture — local inference, HA, Gemma4 as the default — comes online. Until then, we build with what we have and we document what we learn.</p>
+
+  <p>Fifteen days down. The foundation is solid.</p>
+
+  <div class="callout green">
+    <strong>Tomorrow's focus:</strong> Angie needs the AInchors–Aevlith partnership brief so TKT-0114 can start. Sprint continues. Ahsoka Pilot 1 is parked pending the UC-001 automation work. Kimi RTB and gemma4 RTB both deliver from Monday.
+  </div>
+
+</div>
+
+<footer>
+  <p>AInchors Build Log · Day 15 · Saturday, 9 May 2026</p>
+  <p style="margin-top: 8px;">Written by Ken Mun, CTO · <a href="https://ainchors.com">ainchors.com</a></p>
+  <p style="margin-top: 16px; font-size: 11px; color: #484f58;">Built with Yoda 🟢 · OpenClaw · OC1 Mac Mini M4</p>
+</footer>
+
+</body>
+</html>

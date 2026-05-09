@@ -658,13 +658,13 @@ try:
         if e.get('status') != 'fail': continue
         # Only new since last obs run
         import datetime
-        ts_str = e.get('timestamp', e.get('at', ''))
+        ts_str = e.get('timestamp', e.get('at', e.get('ts', '')))
         try:
             from datetime import timezone
             dt = datetime.datetime.fromisoformat(ts_str.replace('Z', '+00:00'))
             if int(dt.timestamp()) <= last_run: continue
         except Exception:
-            pass
+            continue  # skip if timestamp unparseable — avoids re-logging every run
         msg = f"Delegation failure: task={e.get('task', e.get('taskId','?'))[:60]} agent={e.get('agent','?')}"
         subprocess.run(['bash', obs_log, '--source', 'delegation',
                         '--level', 'ERROR', '--type', 'delegation_fail',

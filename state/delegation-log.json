@@ -11062,10 +11062,60 @@
       "status": "pass",
       "latencyMs": 0,
       "notes": "15 checks run - all pass. No model drift detected."
+    },
+    {
+      "ts": "2026-05-09T20:00:09+10:00",
+      "date": "2026-05-09",
+      "tier": "T2",
+      "taskType": "burn-check",
+      "model": "anthropic/claude-haiku-4-5",
+      "status": "pass",
+      "latencyMs": 0,
+      "notes": "Burn check: $157.28 today (THRESHOLD MET: $40) \u2014 Alert sent"
+    },
+    {
+      "ts": "2026-05-09T20:07:05+10:00",
+      "date": "2026-05-09",
+      "tier": "T2",
+      "taskType": "warden-check",
+      "model": "anthropic/claude-haiku-4-5",
+      "status": "pass",
+      "latencyMs": 0,
+      "notes": "15 checks run: 15 PASS, 0 FAIL"
+    },
+    {
+      "ts": "2026-05-09T21:07:25+10:00",
+      "date": "2026-05-09",
+      "tier": "T2",
+      "taskType": "warden-check",
+      "model": "anthropic/claude-haiku-4-5",
+      "status": "pass",
+      "latencyMs": 0,
+      "notes": "15 checks run \u2014 15 pass, 0 fail. Model compliance clean. Governance gates OK. No drift detected."
+    },
+    {
+      "ts": "2026-05-09T22:07:30+10:00",
+      "date": "2026-05-09",
+      "tier": "T2",
+      "taskType": "warden-check",
+      "model": "anthropic/claude-haiku-4-5",
+      "status": "pass",
+      "latencyMs": 0,
+      "notes": "15 checks run: 15 PASS, 0 FAIL. All model assignments compliant. Governance gates OK."
+    },
+    {
+      "ts": "2026-05-09T23:07:08+10:00",
+      "date": "2026-05-09",
+      "tier": "T2",
+      "taskType": "warden-check",
+      "model": "anthropic/claude-haiku-4-5",
+      "status": "pass",
+      "latencyMs": 0,
+      "notes": "15 checks run"
     }
   ],
   "summary": {
-    "total": 1106,
+    "total": 1111,
     "byTier": {
       "T1": {
         "pass": 0,
@@ -11073,7 +11123,7 @@
         "timeout": 0
       },
       "T2": {
-        "pass": 1063,
+        "pass": 1068,
         "fail": 34,
         "timeout": 0
       },
@@ -11091,7 +11141,7 @@
         "tier": "T2"
       },
       "warden-check": {
-        "pass": 894,
+        "pass": 898,
         "fail": 28,
         "timeout": 0,
         "tier": "T2"
@@ -11109,12 +11159,12 @@
         "tier": "T2"
       },
       "burn-check": {
-        "pass": 11,
+        "pass": 12,
         "fail": 0,
         "timeout": 0,
         "tier": "T2"
       }
     },
-    "estimatedSavingsUSD": 5.3225
+    "estimatedSavingsUSD": 5.3475
   }
 }

@@ -84,6 +84,30 @@ This log captures **every change** Yoda makes to AInchors infrastructure, config
 **Linked:** decisions.md 2026-04-27 entries
 ---
 
+## 2026-05-09 21:48 AEST — [CHG-0253] obs-collector.sh delegation_fail deduplication bug fix
+**Type:** script
+**Source:** manual
+**Trigger:** Mission Control refresh showed 3761 delegation_fail errors (inflated)
+**What changed:** obs-collector.sh line 661: added ts fallback in timestamp field lookup; changed bare except to continue to skip unparseable timestamps
+**Why:** delegation-log.json uses ts field but collector looked for timestamp/at. Parse always failed silently — all 34 fail entries re-logged every 5min cron run. 3761 inflated errors. Real failure count: 34 since day 1.
+**Verification:** Code diff confirmed. Next obs-collector run will deduplicate correctly.
+**Rollback:** Revert except clause from continue back to pass
+**Linked:** none
+---
+
+
+## 2026-05-09 21:41 AEST — [CHG-0252] Auto-ejected installer DMG KSInstallAction.aqWDvvP7G0
+**Type:** infra
+**Source:** auto-heal
+**Trigger:** health-state degraded: /private/tmp/KSInstallAction.aqWDvvP7G0/m at 100%
+**What changed:** Ejected 24MB Google Keystone installer DMG. health-state.json reset to ok.
+**Why:** False positive disk alert — same pattern as CHG-0246. Temp installer mount, not system disk.
+**Verification:** disk7 ejected. health-state overallStatus=ok.
+**Rollback:** N/A
+**Linked:** none
+---
+
+
 ## 2026-05-09 13:25 AEST — [CHG-0251] Auto allowlist sync -- Tier 2 propagation (strategy-update)
 **Type:** config
 **Source:** ken-prompt
