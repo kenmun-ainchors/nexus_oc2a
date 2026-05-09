@@ -6,7 +6,7 @@
   "testStartAt": "2026-05-02T01:23:51.709013Z",
   "testEndAt": null,
   "lastRunAt": "2026-05-09T00:39:03.265567+00:00",
-  "status": "awaiting-ken-approval",
+  "status": "cycle-b",
   "totalRuns": 26,
   "totalTasksEvaluated": 85,
   "runFrequencyHours": 6,
@@ -16,10 +16,10 @@
   "reportCronId": "a6ec7539-ec94-4fd4-b226-2699636a9f63",
   "cycleDurationDays": 7,
   "currentCycle": 2,
-  "currentPhase": "A",
+  "currentPhase": "B",
   "cycleAStartAt": "2026-05-08T18:41:21.275203+00:00",
   "cycleAEndAt": "2026-05-08T18:41:21.275203+00:00",
-  "cycleBStartAt": null,
+  "cycleBStartAt": "2026-05-09T02:40:08.257313+00:00",
   "cycleBEndAt": null,
   "topCandidates": [
     {
@@ -64,5 +64,8 @@
     }
   ],
   "cycleBCronId": null,
-  "approvalRequired": true
+  "approvalRequired": false,
+  "approvedBy": "Ken",
+  "approvedAt": "2026-05-09T02:40:08.257313+00:00",
+  "approvalNote": "Ken approved Cycle B 2026-05-09. Top candidates: subtask\u2192deepseek-v4-flash:cloud (MEDIUM), creative\u2192kimi-k2.6:cloud (LOW). Cycle B = real-time parallel evaluation on live tasks."
 }

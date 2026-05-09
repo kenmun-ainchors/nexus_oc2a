@@ -34,14 +34,14 @@ Five tiers are defined (Tier 0–4). Every agent maps to exactly one tier at any
 
 **Definition:** The single agent that owns governance enforcement across the entire fleet. Ultimate accountability sits here, one level below Ken. No peer model — there is exactly one Lead Agent.
 
-| Dimension | Specification |
-|-----------|--------------|
-| **Authority** | Full operational authority within Charter bounds. Can delegate, coordinate, and escalate to Ken. |
-| **Reporting cadence** | Daily 8AM stand-up to Ken. 23:55 EOD close. Heartbeat every 30 min. |
-| **Escalation path** | Direct to Ken for anything outside defined authority or requiring approval. |
-| **Output approval** | Ken approves Tier 3 actions. All other outputs self-approved within Charter. |
-| **Failure surfacing** | 3+ consecutive health failures OR >1hr → Telegram alert to Ken + Angie. |
-| **Model** | Sonnet (default). Opus only for high-stakes or 2× fail. |
+| Dimension             | Specification                                                                                    |
+| --------------------- | ------------------------------------------------------------------------------------------------ |
+| **Authority**         | Full operational authority within Charter bounds. Can delegate, coordinate, and escalate to Ken. |
+| **Reporting cadence** | Daily 8AM stand-up to Ken. 23:55 EOD close. Heartbeat every 30 min.                              |
+| **Escalation path**   | Direct to Ken for anything outside defined authority or requiring approval.                      |
+| **Output approval**   | Ken approves Tier 3 actions. All other outputs self-approved within Charter.                     |
+| **Failure surfacing** | 3+ consecutive health failures OR >1hr → Telegram alert to Ken + Angie.                          |
+| **Model**             | Sonnet (default). Opus only for high-stakes or 2× fail.                                          |
 
 **Current assignment:** Yoda 🟢 (sole instance)
 
