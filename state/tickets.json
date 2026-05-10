@@ -1,5 +1,5 @@
 {
-  "sequence": 137,
+  "sequence": 138,
   "tickets": [
     {
       "id": "TKT-0104",
@@ -675,6 +675,26 @@
       },
       "notes": "",
       "notionPageId": "35cc1829-53ff-81e8-b3ac-cd66602e651e"
+    },
+    {
+      "id": "TKT-0137",
+      "title": "AInchors Policy Register — formal policy library derived from Charter and Governance Framework",
+      "type": "task",
+      "priority": "high",
+      "status": "open",
+      "requester": "Ken",
+      "assignee": "Yoda",
+      "created": "2026-05-10T15:13:44+10:00",
+      "updated": "2026-05-10T15:13:44+10:00",
+      "description": "Establish a formal AInchors Policy Register: numbered prescriptive policy documents (POL-001+) sitting between Governance Framework and SOPs. Required for audit readiness. Owner: Ken. Producer: Lex. Collaborators: Atlas, Yoda. Domains: POL-001 Data Sovereignty, POL-002 Model Usage, POL-003 Access Control, POL-004 Content Governance, POL-005 Change Management, POL-006 Incident Management, POL-007 Data Classification, POL-008 Agent Governance, POL-009 Client Isolation (DRAFT exists: nexus-client-isolation-policy-v1.md), POL-010 Audit and Compliance. Each policy: numbered, owner, effective date, prescriptive (must/shall/shall not), derived from Charter + Governance Framework, Ken-approved. Output: Policy Register in Notion Holocron + PDF per policy in Google Drive. All policies CHG-logged. Review cadence: annually or on material change. Gap identified: governance exists (Charter + Framework) but no formal policy layer = audit cannot be performed without policies to audit against.",
+      "resolution": null,
+      "linked": {
+        "us": [],
+        "inc": [],
+        "chg": []
+      },
+      "notes": "",
+      "notionPageId": "35cc1829-53ff-81c3-b9d4-fd24dc91ca02"
     }
   ]
 }

@@ -15,6 +15,6 @@
     "apiBalance": "2026-05-10T04:53:00Z"
   },
   "doDGatesSunday": "2026-05-10T04:57:31.705Z",
-  "lastHeartbeat": "2026-05-10T04:57:31.705Z",
-  "lastHeartbeatNote": "2026-05-10 14:56 AEST — Budget WARNING main 95.8% ($76.67/$80) surfaced to Ken. DoD gates surfaced: 15 open decisions + 7 draft docs. Warden cron 83accf7b: 3 errors, ack=true (already noted). No task stalls. No dead letters. No warden escalation pending. Allowlist no-changes. Ahsoka pilots in_progress/pending."
+  "lastHeartbeat": "2026-05-10T05:05:00.000Z",
+  "lastHeartbeatNote": "2026-05-10 15:05 AEST — Gateway health degraded: event loop delay 29225ms max, util 0.721 (consecutiveFailures=0, first occurrence). Alerted Ken. Budget all green. Cron health clean. Warden cron 83accf7b 3 errors ack=true (ongoing). DoD gates already surfaced 14:57 AEST. Ahsoka P1 in_progress P2 pending. Allowlist no-changes."
 }
