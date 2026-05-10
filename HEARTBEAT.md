@@ -85,6 +85,24 @@
 - After alerting, set `acknowledged: true` in the alert entry
 - State key: `lastChecks.budgetCheck`
 
+### Agile Ceremony Gate — NON-NEGOTIABLE (check every Monday morning)
+⚠️ **Ken has explicitly asked to be held accountable to agile ceremonies before any sprint work begins.**
+
+**Rule (locked 2026-05-11):** At the start of each sprint week (Monday), check if the prior week's ceremonies were completed:
+- **Friday Sprint Review** — did it happen? Is it logged?
+- **Sunday Sprint Planning** — did it happen? Is Sprint N committed and approved?
+
+If EITHER ceremony was missed:
+1. Flag to Ken immediately: "⚠️ Ceremony gap: [ceremony] for Sprint [N] was not completed. Run it now before starting sprint work?"
+2. **Do not log any sprint items as started until Ken confirms ceremonies are done OR explicitly defers them**
+3. Ken may say "defer" — that's valid. Log the deferral in sprint-current.json and proceed.
+4. Ken may say "do it now" — run the ceremony inline before any other sprint work.
+
+This is Ken's rule, not Yoda's suggestion. Enforce it.
+- State key: lastChecks.ceremoniesThisWeek
+
+---
+
 ### Open Decisions + Draft Docs — DoD Gate Check (check at sprint planning + sprint review)
 - Read `state/open-decisions.json` → count decisions where status = "open"
 - Read `state/draft-docs.json` → count drafts where status = "draft"

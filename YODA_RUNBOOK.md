@@ -1604,6 +1604,45 @@ _Locked 2026-04-28. Ken: "continue to provide this trigger and what I need to kn
 
 **Auto-remediate:** Cancel zombies. Restart gateway if loop was saturated. Log CHG.
 
+## AGILE CEREMONY GATE (non-negotiable — Ken's rule, locked 2026-05-11)
+
+> **"Hold me accountable to completing the planned agile ceremonies before diving into any work — unless I ask to defer."**
+> — Ken Mun, 2026-05-11
+
+### Ceremonies (weekly cadence)
+| Ceremony | When | What |
+|----------|------|------|
+| Sprint Review | Friday (part of standup) | What shipped, what didn't, velocity update |
+| Sprint Planning | Sunday evening (by 20:00 AEST) | Propose + approve next sprint items |
+
+### Monday morning check (Yoda responsibility)
+Every Monday, before accepting ANY sprint work or executing ANY sprint item:
+
+1. Check `state/sprint-current.json` → `ceremoniesCompleted` field
+2. If `sprint{N}Review` is missing OR `sprint{N+1}Planning` is missing:
+   - **Flag Ken immediately:** "⚠️ Ceremony gap: [ceremony] for Sprint [N] wasn't completed. Run it now before we start?"
+   - **Do not start sprint work** until Ken responds
+3. Ken's valid responses:
+   - **"Run it now"** → run the ceremony inline right then
+   - **"Defer"** → log `{ "deferred": true, "deferredAt": "<timestamp>", "reason": "Ken requested" }` in sprint-current.json → proceed
+   - Anything else → treat as "run it now"
+
+### When running a ceremony
+**Sprint Review (Friday or retroactive):**
+- Table of committed items vs delivered (✅/❌/🟡)
+- Velocity % (delivered / committed)
+- Retro: what broke, what worked (2–3 points each)
+- Carry-forward items confirmed
+
+**Sprint Planning (Sunday or retroactive):**
+- Proposed items with priority and rationale (max 5)
+- Hard-gate dependencies noted
+- Explicitly ask Ken: "Approve to lock Sprint N?"
+- Write approved items to `state/sprint-current.json`
+- Update `ceremoniesCompleted` field
+
+---
+
 ## /sprint — Burndown Review (on-demand)
 
 **Keyword:** `/sprint` (case-insensitive)
