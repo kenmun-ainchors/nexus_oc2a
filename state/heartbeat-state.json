@@ -3,17 +3,17 @@
     "email": "2026-05-10T21:59:00Z",
     "calendar": "2026-05-10T21:59:00Z",
     "weather": null,
-    "taskWatchdog": 1778370903,
-    "cronHealth": 1778370903041,
+    "taskWatchdog": 1778371096214,
+    "cronHealth": 1778371096214,
     "budgetCheck": 1778370903041,
     "doDGates": "2026-05-09T23:28:00Z",
     "cronDeadLetter": 1778370903,
     "dailyClose": "2026-05-09T18:16:19.589Z",
-    "agentHealth": 1778370903,
+    "agentHealth": 1778371096214,
     "wardenEscalation": 1778370903041,
     "allowlistSync": 1778370903
   },
   "doDGatesSunday": "2026-05-09T23:55:03.041Z",
-  "lastHeartbeat": "2026-05-09T23:55:03.042Z",
-  "lastHeartbeatNote": "2026-05-10 09:54 AEST — Sunday sprint planning gate check. 15 open decisions, 7 draft docs surfaced. Balance $278.73 healthy. Warden cron 83accf7b still failing (3x) — re-alerted. No task stalls."
+  "lastHeartbeat": "2026-05-09T23:58:16.214Z",
+  "lastHeartbeatNote": "2026-05-10 09:57 AEST — Warden cron 83accf7b still failing (3 consec errors). Alerted Ken. Balance $278.73 healthy. No other issues."
 }

@@ -474,7 +474,7 @@
       "requester": "Ken",
       "assignee": "Yoda",
       "created": "2026-05-10T09:55:34+10:00",
-      "updated": "2026-05-10T09:55:39+10:00",
+      "updated": "2026-05-10T10:00:05+10:00",
       "description": "Design and implement agentic marketing organisation for AInchors business stream. Informed by: 'Redesigning Your Marketing Organization for the Agentic Age' (HBR, May 2026, https://hbr.org/2026/05/redesigning-your-marketing-organization-for-the-agentic-age). Scope: solution design, proposal, and implementation roadmap for activating marketing agents to work with Angie (CEO, Melbourne) and KL team (Malaysia). Two phases: PHASE 1 (P1 MVP, pre-OC2): activate existing agents (Spark + Aria) for business stream marketing ops, define workflows, integrate with MinIO (TKT-0124) for file/asset sharing, establish Angie+KL team access and collaboration model. PHASE 2 (P2, post-OC2): fully agentic marketing org supporting AInchors internally AND ready to deliver as a service to external clients. Deliverables: (1) current-state assessment of AInchors marketing capability, (2) target agentic marketing org design (agent roles, workflows, tools), (3) P1 MVP implementation plan, (4) P2 transition roadmap, (5) integration with MinIO business repo (TKT-0124). Owners: Spark (marketing), Aria (business stream), Atlas (architecture), Lando (process). Ken + Angie to approve. Dependency: TKT-0124 (MinIO — file/asset sharing for KL team).",
       "resolution": null,
       "linked": {
@@ -484,7 +484,7 @@
         "inc": [],
         "chg": []
       },
-      "notes": "",
+      "notes": "HBR article content loaded 2026-05-10. Framework: 4-layer platform (Brand Code foundation, Execution, Orchestration, Interface) + 5 workstreams (Intelligence+Ideation, Content Creation, Research+Testing, Distribution, Performance+Reporting). P1 MVP focus: Brand Code build + Content Creation + Distribution workstreams, Telegram interface, MinIO file layer (TKT-0124). P2: all 5 workstreams + orchestration layer + external client delivery. Key new concept: Brand Code = machine-readable KB for Aria. Ref: docs/HBR_Agentic_Marketing_Org_May2026_Summary.md",
       "notionPageId": null
     }
   ]

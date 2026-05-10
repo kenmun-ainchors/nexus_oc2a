@@ -1,9 +1,9 @@
 {
-  "generated_at": "2026-05-09T23:53:24.815427+00:00",
-  "generated_at_aest": "2026-05-10 09:53 AEST",
+  "generated_at": "2026-05-09T23:55:52.261244+00:00",
+  "generated_at_aest": "2026-05-10 09:55 AEST",
   "period_hours": 24,
   "totals": {
-    "ERROR": 3874,
+    "ERROR": 3875,
     "WARN": 5,
     "INFO": 8
   },
@@ -18,7 +18,7 @@
     },
     {
       "type": "cron_run_fail",
-      "count": 7
+      "count": 8
     },
     {
       "type": "warden_violation",
@@ -41,9 +41,9 @@
   ],
   "trend": {
     "has_prev_data": true,
-    "prev_errors": 255,
+    "prev_errors": 254,
     "prev_warns": 13,
-    "errors_pct_change": 1419.2,
+    "errors_pct_change": 1425.6,
     "warns_pct_change": -61.5
   },
   "worst_hour": {
