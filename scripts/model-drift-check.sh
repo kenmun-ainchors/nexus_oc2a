@@ -158,12 +158,17 @@ echo "────────────────────────�
 # Agent model checks
 echo ""
 echo "[ Agent Models ]"
-check_agent "main"       "anthropic/claude-sonnet-4-6"
-check_agent "business"   "anthropic/claude-sonnet-4-6"
-check_agent "security"   "anthropic/claude-haiku-4-5"  # switched to Haiku 2026-05-06 (Ken cost optimisation)
-check_agent "legal"      "anthropic/claude-haiku-4-5"             # switched to Haiku 2026-05-06 (Ken cost optimisation)
-check_agent "qa"         "anthropic/claude-haiku-4-5"             # switched to Haiku 2026-05-06 (Ken cost optimisation)
-check_agent "governance" "anthropic/claude-sonnet-4-6"
+check_agent "main"         "anthropic/claude-sonnet-4-6"
+check_agent "business"     "anthropic/claude-sonnet-4-6"
+check_agent "security"     "anthropic/claude-haiku-4-5"  # switched to Haiku 2026-05-06
+check_agent "legal"        "anthropic/claude-haiku-4-5"  # switched to Haiku 2026-05-06
+check_agent "qa"           "anthropic/claude-haiku-4-5"  # switched to Haiku 2026-05-06
+check_agent "governance"   "anthropic/claude-sonnet-4-6"
+# T3 specialist agents — added to monitoring CHG-0258 (Ken approved 2026-05-10)
+check_agent "architect"    "anthropic/claude-sonnet-4-6"  # Atlas
+check_agent "platform-arch" "anthropic/claude-sonnet-4-6" # Thrawn
+check_agent "biz-process"  "anthropic/claude-sonnet-4-6"  # Lando
+check_agent "change-mgt"   "anthropic/claude-sonnet-4-6"  # Mon Mothma
 
 echo ""
 echo "[ Default Config ]"

@@ -3,17 +3,17 @@
     "email": "2026-05-10T21:59:00Z",
     "calendar": "2026-05-10T21:59:00Z",
     "weather": null,
-    "taskWatchdog": 1778373777902,
-    "cronHealth": 1778376760000,
-    "budgetCheck": 1778376760000,
-    "doDGates": "2026-05-10T00:16:00Z",
-    "cronDeadLetter": 1778376760000,
-    "agentHealth": 1778376760000,
-    "wardenEscalation": 1778376760000,
-    "allowlistSync": 1778376760000,
+    "taskWatchdog": 1778376160536,
+    "cronHealth": 1778376160536,
+    "budgetCheck": 1778376160536,
+    "doDGates": "2026-05-10T01:25:00Z",
+    "cronDeadLetter": 1778376160536,
+    "agentHealth": 1778376160536,
+    "wardenEscalation": 1778376160536,
+    "allowlistSync": 1778376160536,
     "dailyClose": "2026-05-09T18:16:19.589Z"
   },
   "doDGatesSunday": "2026-05-10T00:16:00Z",
-  "lastHeartbeat": "2026-05-10T00:52:00Z",
-  "lastHeartbeatNote": "2026-05-10 10:52 AEST — All clear. Balance ~$278.73 (T0). No standby, no stall, no dead letters, no active warden escalation (prev resolved-by-yoda). Cron health clean. Ahsoka P1 in_progress / P2 pending. DoD Sunday check done at 10:16. No alerts."
+  "lastHeartbeat": "2026-05-10T01:25:00Z",
+  "lastHeartbeatNote": "2026-05-10 11:25 AEST — Sunday sprint planning gate check. 15 open decisions, 7 draft docs surfaced to Ken. Balance ~$279 (T0). Cron OK. Ahsoka pilot 1 in_progress. All other checks clean."
 }

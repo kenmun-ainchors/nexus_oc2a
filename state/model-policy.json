@@ -1,9 +1,9 @@
 {
   "schema_version": "1.0",
   "description": "Authoritative model policy for all AInchors agents. Warden enforces this. Changes require Ken approval + CHG entry + baseline update.",
-  "lastUpdated": "2026-05-09T22:18:52.130702+00:00",
+  "lastUpdated": "2026-05-10T11:26:08.043361+10:00",
   "lastApprovedBy": "Ken",
-  "approvalContext": "Ken prompt 2026-05-10: fix governance triad to Haiku",
+  "approvalContext": "Ken approved 2026-05-10: add T3 specialist agents to Warden monitoring (Option A). Atlas/Thrawn/Lando/Mon Mothma. CHG-0258.",
   "globalAllowedModels": [
     "anthropic/claude-sonnet-4-6",
     "anthropic/claude-haiku-4-5",
@@ -272,58 +272,68 @@
       "changeRef": "CHG-0147"
     },
     "architect": {
-      "requiredModel": "claude-sonnet-4-6",
+      "description": "Atlas \u2014 Enterprise Architect (Tier 3)",
+      "requiredModel": "anthropic/claude-sonnet-4-6",
       "allowedModels": [
-        "claude-sonnet-4-6",
-        "claude-opus-4-7"
+        "anthropic/claude-sonnet-4-6"
       ],
-      "prohibitedModels": [],
-      "allowedInCrons": [
-        "claude-sonnet-4-6",
-        "claude-haiku-4-5"
+      "escalationModel": "anthropic/claude-opus-4-7",
+      "escalationRule": "Opus only for high-stakes architectural assessments (P2 client work, legal/regulatory architecture). Ken must approve.",
+      "prohibitedModels": [
+        "ollama/gemma4:e2b",
+        "ollama/gemma4:26b"
       ],
-      "data_sensitivity": "medium",
-      "notes": "Atlas \u2014 Enterprise Architect. Design only, no production execution."
+      "rationale": "On-demand EA work. Sonnet default. Added to Warden monitoring scope (CHG-0258, Ken approved 2026-05-10). Option A: model compliance monitoring for T3 specialists.",
+      "configPath": "/Users/ainchorsangiefpl/.openclaw/openclaw.json",
+      "configJqQuery": ".agents.list[] | select(.id==\"architect\") | .model"
     },
     "platform-arch": {
-      "requiredModel": "claude-sonnet-4-6",
+      "description": "Thrawn \u2014 AI Platform Architect (Tier 3)",
+      "requiredModel": "anthropic/claude-sonnet-4-6",
       "allowedModels": [
-        "claude-sonnet-4-6",
-        "claude-opus-4-7"
+        "anthropic/claude-sonnet-4-6"
       ],
-      "prohibitedModels": [],
-      "allowedInCrons": [
-        "claude-sonnet-4-6",
-        "claude-haiku-4-5"
+      "escalationModel": "anthropic/claude-opus-4-7",
+      "escalationRule": "Opus only for critical Nexus platform decisions. Ken must approve.",
+      "prohibitedModels": [
+        "ollama/gemma4:e2b",
+        "ollama/gemma4:26b"
       ],
-      "data_sensitivity": "medium",
-      "notes": "Thrawn \u2014 AI Platform Architect. Design only."
+      "rationale": "On-demand platform architecture. Sonnet default. Added to Warden monitoring scope (CHG-0258, Ken approved 2026-05-10).",
+      "configPath": "/Users/ainchorsangiefpl/.openclaw/openclaw.json",
+      "configJqQuery": ".agents.list[] | select(.id==\"platform-arch\") | .model"
     },
     "biz-process": {
-      "requiredModel": "claude-sonnet-4-6",
+      "description": "Lando \u2014 BPM Agent (Tier 3)",
+      "requiredModel": "anthropic/claude-sonnet-4-6",
       "allowedModels": [
-        "claude-sonnet-4-6"
+        "anthropic/claude-sonnet-4-6"
       ],
-      "prohibitedModels": [],
-      "allowedInCrons": [
-        "claude-sonnet-4-6",
-        "claude-haiku-4-5"
+      "escalationModel": null,
+      "escalationRule": "No Opus. BPM work does not warrant escalation model.",
+      "prohibitedModels": [
+        "anthropic/claude-opus-4-7",
+        "ollama/gemma4:e2b"
       ],
-      "data_sensitivity": "medium",
-      "notes": "Lando \u2014 Business Process Specialist. Process design only."
+      "rationale": "On-demand BPM/process work. Sonnet default. Added to Warden monitoring scope (CHG-0258, Ken approved 2026-05-10).",
+      "configPath": "/Users/ainchorsangiefpl/.openclaw/openclaw.json",
+      "configJqQuery": ".agents.list[] | select(.id==\"biz-process\") | .model"
     },
     "change-mgt": {
-      "requiredModel": "claude-sonnet-4-6",
+      "description": "Mon Mothma \u2014 DTCM Agent (Tier 3)",
+      "requiredModel": "anthropic/claude-sonnet-4-6",
       "allowedModels": [
-        "claude-sonnet-4-6"
+        "anthropic/claude-sonnet-4-6"
       ],
-      "prohibitedModels": [],
-      "allowedInCrons": [
-        "claude-sonnet-4-6",
-        "claude-haiku-4-5"
+      "escalationModel": null,
+      "escalationRule": "No Opus. Change management work does not warrant escalation model.",
+      "prohibitedModels": [
+        "anthropic/claude-opus-4-7",
+        "ollama/gemma4:e2b"
       ],
-      "data_sensitivity": "medium",
-      "notes": "Mon Mothma \u2014 Digital Transformation CM Specialist. Change design only."
+      "rationale": "On-demand DTCM/change work. Dormant in P1. Sonnet default. Added to Warden monitoring scope (CHG-0258, Ken approved 2026-05-10).",
+      "configPath": "/Users/ainchorsangiefpl/.openclaw/openclaw.json",
+      "configJqQuery": ".agents.list[] | select(.id==\"change-mgt\") | .model"
     },
     "ahsoka": {
       "description": "Ahsoka \ud83e\udd0d \u2014 AI Transformation Consultant (Consulting Stream)",

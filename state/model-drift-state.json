@@ -1,11 +1,11 @@
 {
-  "totalChecksRun": 1009,
-  "totalViolationsFound": 27,
-  "consecutiveClean": 20,
-  "lastCheck": "2026-05-10T10:07:03+10:00",
+  "totalChecksRun": 1013,
+  "totalViolationsFound": 30,
+  "consecutiveClean": 1,
+  "lastCheck": "2026-05-10T11:27:16+10:00",
   "lastStatus": "clean",
-  "lastPassCount": 15,
+  "lastPassCount": 19,
   "lastFailCount": 0,
-  "lastViolationAt": "2026-05-09T13:07:03+10:00",
+  "lastViolationAt": "2026-05-10T11:26:58+10:00",
   "notes": "Heartbeat check 2026-05-05T19:22:24.008882+10:00. All 7 policy-covered agents on Sonnet as required. architect/platform-arch not in policy \u2014 gap noted."
 }

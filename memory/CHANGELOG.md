@@ -84,6 +84,30 @@ This log captures **every change** Yoda makes to AInchors infrastructure, config
 **Linked:** decisions.md 2026-04-27 entries
 ---
 
+## 2026-05-10 11:27 AEST — [CHG-0259] Set explicit models for T3 specialist agents in openclaw.json (CHG-0258 follow-on)
+**Type:** config
+**Source:** ken-prompt
+**Trigger:** Warden detected NOT_SET on platform-arch, biz-process, change-mgt after model-policy.json update
+**What changed:** openclaw.json: set model=anthropic/claude-sonnet-4-6 for platform-arch (Thrawn), biz-process (Lando), change-mgt (Mon Mothma). model-drift-check.sh: added 4 T3 agents to check list. Warden now runs 19 checks (was 15). All 19 PASS.
+**Why:** Explicit model config enforces policy at source. Warden can now detect T3 specialist drift.
+**Verification:** model-drift-check.sh: 19/19 PASS. No violations.
+**Rollback:** N/A
+**Linked:** TKT-0105
+---
+
+
+## 2026-05-10 11:26 AEST — [CHG-0258] Warden: add T3 specialist agents to model compliance monitoring (Option A)
+**Type:** data
+**Source:** ken-prompt
+**Trigger:** TKT-0105 grooming — Ken approved Option A 2026-05-10
+**What changed:** model-policy.json: added architect (Atlas), platform-arch (Thrawn), biz-process (Lando), change-mgt (Mon Mothma). All set to Sonnet required. Opus escalation for Atlas/Thrawn only (Ken approval required). Gemma4/Opus prohibited for Lando/Mon Mothma. Total agents in policy: 13.
+**Why:** Warden was blind to T3 specialist model drift. Option A closes compliance gap with zero Warden script changes. Mandate drift monitoring via QBR fleet review.
+**Verification:** model-policy.json updated. Warden next run will include all 13 agents.
+**Rollback:** N/A
+**Linked:** TKT-0105
+---
+
+
 ## 2026-05-10 10:54 AEST — [CHG-0257] Post-mortem: INC-20260509-001 — API degradation 26h
 **Type:** doc
 **Source:** ken-prompt

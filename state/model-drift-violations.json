@@ -107,7 +107,7 @@
       "status": "resolved",
       "escalatedToYoda": true,
       "resolvedAt": "2026-05-09T03:15:12Z",
-      "resolvedNote": "Config already correct (agent model = haiku). Warden false positive — misread from prior session state. Resolved by Yoda heartbeat."
+      "resolvedNote": "Config already correct (agent model = haiku). Warden false positive \u2014 misread from prior session state. Resolved by Yoda heartbeat."
     },
     {
       "agentId": "legal",
@@ -120,7 +120,7 @@
       "status": "resolved",
       "escalatedToYoda": true,
       "resolvedAt": "2026-05-09T03:15:12Z",
-      "resolvedNote": "Config already correct (agent model = haiku). Warden false positive — misread from prior session state. Resolved by Yoda heartbeat."
+      "resolvedNote": "Config already correct (agent model = haiku). Warden false positive \u2014 misread from prior session state. Resolved by Yoda heartbeat."
     },
     {
       "agentId": "qa",
@@ -133,7 +133,7 @@
       "status": "resolved",
       "escalatedToYoda": true,
       "resolvedAt": "2026-05-09T03:15:12Z",
-      "resolvedNote": "Config already correct (agent model = haiku). Warden false positive — misread from prior session state. Resolved by Yoda heartbeat."
+      "resolvedNote": "Config already correct (agent model = haiku). Warden false positive \u2014 misread from prior session state. Resolved by Yoda heartbeat."
     },
     {
       "agentId": "security",
@@ -146,7 +146,7 @@
       "status": "resolved",
       "escalatedToYoda": true,
       "resolvedAt": "2026-05-09T03:15:12Z",
-      "resolvedNote": "Config already correct (agent model = haiku). Warden false positive — misread from prior session state. Resolved by Yoda heartbeat."
+      "resolvedNote": "Config already correct (agent model = haiku). Warden false positive \u2014 misread from prior session state. Resolved by Yoda heartbeat."
     },
     {
       "agentId": "legal",
@@ -159,7 +159,7 @@
       "status": "resolved",
       "escalatedToYoda": true,
       "resolvedAt": "2026-05-09T03:15:12Z",
-      "resolvedNote": "Config already correct (agent model = haiku). Warden false positive — misread from prior session state. Resolved by Yoda heartbeat."
+      "resolvedNote": "Config already correct (agent model = haiku). Warden false positive \u2014 misread from prior session state. Resolved by Yoda heartbeat."
     },
     {
       "agentId": "qa",
@@ -172,7 +172,7 @@
       "status": "resolved",
       "escalatedToYoda": true,
       "resolvedAt": "2026-05-09T03:15:12Z",
-      "resolvedNote": "Config already correct (agent model = haiku). Warden false positive — misread from prior session state. Resolved by Yoda heartbeat."
+      "resolvedNote": "Config already correct (agent model = haiku). Warden false positive \u2014 misread from prior session state. Resolved by Yoda heartbeat."
     },
     {
       "agentId": "default.primary",
@@ -185,9 +185,42 @@
       "status": "resolved",
       "escalatedToYoda": true,
       "resolvedAt": "2026-05-09T03:15:12Z",
-      "resolvedNote": "Reverted default.primary ollama/gemma4:31b-cloud → anthropic/claude-sonnet-4-6. CHG-0249 approved crons only, not global default. Fixed by Yoda heartbeat."
+      "resolvedNote": "Reverted default.primary ollama/gemma4:31b-cloud \u2192 anthropic/claude-sonnet-4-6. CHG-0249 approved crons only, not global default. Fixed by Yoda heartbeat."
+    },
+    {
+      "agentId": "platform-arch",
+      "expected": "anthropic/claude-sonnet-4-6",
+      "actual": "NOT_SET",
+      "severity": "VIOLATION",
+      "note": "",
+      "detectedAt": "2026-05-10T11:26:58+10:00",
+      "id": "DRIFT-20260510012658-platform-arch",
+      "status": "unresolved",
+      "escalatedToYoda": false
+    },
+    {
+      "agentId": "biz-process",
+      "expected": "anthropic/claude-sonnet-4-6",
+      "actual": "NOT_SET",
+      "severity": "VIOLATION",
+      "note": "",
+      "detectedAt": "2026-05-10T11:26:58+10:00",
+      "id": "DRIFT-20260510012658-biz-process",
+      "status": "unresolved",
+      "escalatedToYoda": false
+    },
+    {
+      "agentId": "change-mgt",
+      "expected": "anthropic/claude-sonnet-4-6",
+      "actual": "NOT_SET",
+      "severity": "VIOLATION",
+      "note": "",
+      "detectedAt": "2026-05-10T11:26:58+10:00",
+      "id": "DRIFT-20260510012658-change-mgt",
+      "status": "unresolved",
+      "escalatedToYoda": false
     }
   ],
-  "totalUnresolved": 0,
-  "lastUpdated": "2026-05-09T03:15:12Z"
+  "totalUnresolved": 3,
+  "lastUpdated": "2026-05-10T11:26:58+10:00"
 }
