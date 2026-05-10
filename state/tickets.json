@@ -126,11 +126,11 @@
       "title": "Process Documentation Framework — User Guides for Business Stream and Clients",
       "type": "task",
       "priority": "medium",
-      "status": "open",
+      "status": "in-progress",
       "requester": "Ken",
       "assignee": "Yoda",
       "created": "2026-05-08T20:00:03+10:00",
-      "updated": "2026-05-08T20:00:03+10:00",
+      "updated": "2026-05-10T14:34:09+10:00",
       "description": "Lando (BPM agent) to own process documentation for all product capabilities and features shipped. Documents must be ready BEFORE each release, written for business users and clients (non-technical). Current Notion content is technical and only fit for Ken. Need: (1) Process document template/standard (what goes in a user guide, style, format); (2) Per-capability user guides produced ahead of P2 releases; (3) Integration with sprint/release cycle — Definition of Done must include user doc ready; (4) Delivery format TBD (Notion public page, PDF, HTML). Covers: Nexus features, agent capabilities, Citadel portal, Ahsoka consulting outputs. Assign: Lando. Governance: Tier 3 (Yoda-Manage-Passthrough). Review: as part of P2 release planning.",
       "resolution": null,
       "linked": {
@@ -138,8 +138,8 @@
         "inc": [],
         "chg": []
       },
-      "notes": "",
-      "notionPageId": null
+      "notes": "2026-05-10: Activated. Lando to produce: (1) process doc template + style guide, (2) DoD gate rule for user-facing capabilities, (3) pilot user guide = LinkedIn posting flow. All DRAFT docs uploaded to Drive: drive.google.com/drive/folders/1w8WhcaoPAXzsgU2epycoIoBag-JWWnKN",
+      "notionPageId": "35cc1829-53ff-8190-a2d2-e055b69fc692"
     },
     {
       "id": "TKT-0111",
@@ -412,7 +412,7 @@
       "requester": "Ken",
       "assignee": "Yoda",
       "created": "2026-05-10T09:30:31+10:00",
-      "updated": "2026-05-10T13:38:25.102818+10:00",
+      "updated": "2026-05-10T14:20:28.341034+10:00",
       "description": "Deploy MinIO on OC1 as S3-compatible interim object store. Goal: bridge remote file access gap before P2 AWS S3 deployment. Addresses generated images and blobs not accessible from Windows/external devices via Tailscale. Expanding use beyond Ken to Angie staff in Malaysia makes this urgent. Scope: (1) MinIO in Docker on OC1, (2) bucket structure per Atlas P2 blob design, (3) presigned URL helper script, (4) update hf-generate-image.sh to store to MinIO + return presigned URL, (5) Tailscale Serve path for MinIO API. Upstream: Atlas DataMemory_P1P4_Roadmap.md P2 blob design. Replaces filesystem MEDIA paths with presigned URLs accessible to all Tailscale peers.",
       "resolution": null,
       "linked": {
@@ -420,7 +420,7 @@
         "inc": [],
         "chg": []
       },
-      "notes": "HYBRID STORAGE DECISION 2026-05-10 Ken: Google Drive=human layer (live), MinIO=agent layer only. P2 unchanged (full S3). MinIO buckets: agent-memory, generated-media, workspace-assets, brand-code. Documents/business-docs -> Drive.",
+      "notes": "HYBRID STORAGE DECISION 2026-05-10 Ken: Google Drive=human layer (live), MinIO=agent layer only. P2 unchanged (full S3). MinIO buckets: agent-memory, generated-media, workspace-assets, brand-code. Documents/business-docs -> Drive. | Sprint 3 COMMITTED — Ken confirmed 2026-05-10.",
       "notionPageId": "35cc1829-53ff-815a-b9ca-f3a56796697b"
     },
     {
@@ -643,7 +643,7 @@
       "requester": "Ken",
       "assignee": "Yoda",
       "created": "2026-05-10T14:17:52+10:00",
-      "updated": "2026-05-10T14:17:52+10:00",
+      "updated": "2026-05-10T14:20:28.341045+10:00",
       "description": "Design and build an isolated sandbox environment for showcase, demo, PoC and potential client/investor testing. Requirements: (1) ISOLATED — zero data sharing with production OC1 platform, no shared state, no cross-contamination. (2) EPHEMERAL — spun up on demand, destroyed completely after use. No persistent data after teardown. (3) MANAGED — elegant spin-up process (single command or Yoda-triggered), pre-configured with demo data/agents, destroys cleanly with verification. (4) CONTAINED — own network namespace, own credential scope, own OpenClaw instance or sandboxed session. Should not be possible to accidentally touch production from sandbox. Architecture options to assess: Docker-based isolated OpenClaw instance, VM snapshot, separate OpenClaw agent profile with sandbox mode, or OC2 dedicated sandbox tenant. Deliverables: (a) Architecture assessment (Atlas), (b) Spin-up/teardown scripts, (c) Demo data/agent configuration, (d) Verification checklist post-teardown. Trigger: Ken/Angie request for demo or PoC. Atlas to assess architecture before build.",
       "resolution": null,
       "linked": {
@@ -651,7 +651,7 @@
         "inc": [],
         "chg": []
       },
-      "notes": "",
+      "notes": " | Sprint 3 COMMITTED — Ken confirmed 2026-05-10.",
       "notionPageId": "35cc1829-53ff-81b6-a95e-d7c8367f7d5a"
     }
   ]

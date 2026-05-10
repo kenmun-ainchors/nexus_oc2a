@@ -1,20 +1,20 @@
 {
   "lastChecks": {
-    "email": "2026-05-10T02:05:00Z",
-    "calendar": "2026-05-10T02:05:00Z",
+    "email": "2026-05-10T04:18:00Z",
+    "calendar": "2026-05-10T04:18:00Z",
     "weather": null,
-    "taskWatchdog": "2026-05-10T04:16:00Z",
-    "cronHealth": "2026-05-10T04:16:00Z",
+    "taskWatchdog": "2026-05-10T04:31:23.738Z",
+    "cronHealth": "2026-05-10T04:31:23.738Z",
     "budgetCheck": "2026-05-10T04:16:00Z",
     "doDGates": "2026-05-10T04:16:00Z",
-    "cronDeadLetter": 1778381367903,
-    "agentHealth": "2026-05-10T04:16:00Z",
-    "wardenEscalation": "2026-05-10T04:16:00Z",
-    "allowlistSync": "2026-05-10T04:16:00Z",
+    "cronDeadLetter": 1778387483738,
+    "agentHealth": "2026-05-10T04:31:23.738Z",
+    "wardenEscalation": "2026-05-10T04:31:23.738Z",
+    "allowlistSync": "2026-05-10T04:31:23.738Z",
     "dailyClose": "2026-05-09T18:16:19.589Z",
-    "apiBalance": "2026-05-10T04:16:00Z"
+    "apiBalance": "2026-05-10T04:31:23.738Z"
   },
   "doDGatesSunday": "2026-05-10T04:16:00Z",
-  "lastHeartbeat": "2026-05-10T04:16:00Z",
-  "lastHeartbeatNote": "2026-05-10 14:16 AEST — Sunday sprint planning DoD gate check fired. 15 open decisions, 7 draft docs surfaced to Ken. Balance $479.35 T0. Cron clean. No stalls. Warden resolved. Ahsoka P1 parked/P2 pending."
+  "lastHeartbeat": "2026-05-10T04:31:23.738Z",
+  "lastHeartbeatNote": "2026-05-10 14:30 AEST — All clear. Budget 82% acknowledged. Warden cron 3x failures acknowledged. Warden escalation resolved. No stalls, standby, dead letters, or task alerts. API balance ~$241 est (auto-reload active). Ahsoka Pilot 1 parked, Pilot 2 pending."
 }

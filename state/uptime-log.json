@@ -4,16 +4,6 @@
   "sloTarget": 0.995,
   "entries": [
     {
-      "ts": "2026-04-29T17:51:34.056340+00:00",
-      "status": "ok",
-      "issues": []
-    },
-    {
-      "ts": "2026-04-29T18:51:54.725991+00:00",
-      "status": "ok",
-      "issues": []
-    },
-    {
       "ts": "2026-04-29T19:06:54.372051+00:00",
       "status": "ok",
       "issues": []
@@ -15219,14 +15209,24 @@
       "ts": "2026-05-10T04:17:32.883756+00:00",
       "status": "ok",
       "issues": []
+    },
+    {
+      "ts": "2026-05-10T04:23:43.098641+00:00",
+      "status": "ok",
+      "issues": []
+    },
+    {
+      "ts": "2026-05-10T04:27:50.031470+00:00",
+      "status": "ok",
+      "issues": []
     }
   ],
   "summary": {
-    "totalChecks": 2968,
-    "upChecks": 2563,
+    "totalChecks": 2970,
+    "upChecks": 2565,
     "downtimeMinutes": 6075,
-    "uptimePct": 86.354,
-    "lastCheck": "2026-05-10T04:17:32.883756+00:00",
+    "uptimePct": 86.364,
+    "lastCheck": "2026-05-10T04:27:50.031470+00:00",
     "lastStatus": "ok"
   }
 }
