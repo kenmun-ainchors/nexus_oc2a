@@ -130,7 +130,7 @@
       "requester": "Ken",
       "assignee": "Yoda",
       "created": "2026-05-08T20:00:03+10:00",
-      "updated": "2026-05-10T14:34:09+10:00",
+      "updated": "2026-05-10T14:40:41+10:00",
       "description": "Lando (BPM agent) to own process documentation for all product capabilities and features shipped. Documents must be ready BEFORE each release, written for business users and clients (non-technical). Current Notion content is technical and only fit for Ken. Need: (1) Process document template/standard (what goes in a user guide, style, format); (2) Per-capability user guides produced ahead of P2 releases; (3) Integration with sprint/release cycle — Definition of Done must include user doc ready; (4) Delivery format TBD (Notion public page, PDF, HTML). Covers: Nexus features, agent capabilities, Citadel portal, Ahsoka consulting outputs. Assign: Lando. Governance: Tier 3 (Yoda-Manage-Passthrough). Review: as part of P2 release planning.",
       "resolution": null,
       "linked": {
@@ -138,7 +138,7 @@
         "inc": [],
         "chg": []
       },
-      "notes": "2026-05-10: Activated. Lando to produce: (1) process doc template + style guide, (2) DoD gate rule for user-facing capabilities, (3) pilot user guide = LinkedIn posting flow. All DRAFT docs uploaded to Drive: drive.google.com/drive/folders/1w8WhcaoPAXzsgU2epycoIoBag-JWWnKN",
+      "notes": "2026-05-10: Activated. Lando to produce: (1) process doc template + style guide, (2) DoD gate rule for user-facing capabilities, (3) pilot user guide = LinkedIn posting flow. All DRAFT docs uploaded to Drive: drive.google.com/drive/folders/1w8WhcaoPAXzsgU2epycoIoBag-JWWnKN | PILOT USER GUIDE UPDATED 2026-05-10 (Ken): Pilot guide = KL Team Onboarding + Agile Working Guide (not LinkedIn flow). Covers: how the KL team works within AInchors Agile framework, their role in the business stream, tools (Telegram + Drive), how content requests flow through Aria, sprint cadence, approvals. Lando produces, Aria delivers to Angie for KL team onboarding. Related: TKT-0111 (Angie Agile + Nexus Working Guide — same deliverable family). | REFINED 2026-05-10: KL team onboarding is a proper AI transformation programme, not just a user guide. Three-agent stack: Ahsoka (AI transformation primer + training design), Lando (working guides + process docs), Mon Mothma (ADKAR adoption plan — soft-activated for KL team per dormancy gate). Programme: Phase 1 Ahsoka (why AI + mindset), Phase 2 Lando (working guides + Agile), Phase 3 Mon Mothma (ADKAR plan). Aria delivers to Angie for KL distribution. Ken confirmed 2026-05-10.",
       "notionPageId": "35cc1829-53ff-8190-a2d2-e055b69fc692"
     },
     {
@@ -146,11 +146,11 @@
       "title": "Angie Agile + Nexus Working Guide — Delivered via Aria",
       "type": "task",
       "priority": "medium",
-      "status": "open",
+      "status": "in-progress",
       "requester": "Ken",
       "assignee": "Yoda",
       "created": "2026-05-08T20:07:14+10:00",
-      "updated": "2026-05-08T20:07:14+10:00",
+      "updated": "2026-05-10T14:40:41+10:00",
       "description": "Produce a practical guide for Angie on: (1) How to work within the AInchors Agile framework — sprint cycles, how to raise requests, what to expect each week, how her work gets prioritised; (2) How to work with Nexus multi-agent system — what Aria can do, how to instruct agents, what Ahsoka delivers, how to get the most out of the platform; (3) How to plan and execute business work efficiently using the agents — maximising output, knowing when to delegate vs decide, how to track progress. Delivered BY Aria TO Angie (Angie's pace — not pushed). Format: conversational, non-technical, practical. Lando owns process doc structure. Aria delivers and coaches. DEPENDENCY: TKT-0110 (process doc framework) for template/format standard. Part of Angie onboarding Stage 2+ completion.",
       "resolution": null,
       "linked": {
@@ -158,8 +158,8 @@
         "inc": [],
         "chg": []
       },
-      "notes": "",
-      "notionPageId": null
+      "notes": "LINKED to TKT-0110 programme. KL Team Onboarding + Agile Working Guide is Phase 2 of the KL transformation programme (Lando produces). Sequenced after Ahsoka Phase 1 (AI transformation primer). Aria delivers.",
+      "notionPageId": "35cc1829-53ff-815c-9128-c015b890d76e"
     },
     {
       "id": "TKT-0112",
