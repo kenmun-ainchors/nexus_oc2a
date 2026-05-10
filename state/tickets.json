@@ -1,5 +1,5 @@
 {
-  "sequence": 134,
+  "sequence": 136,
   "tickets": [
     {
       "id": "TKT-0104",
@@ -613,6 +613,46 @@
       },
       "notes": "",
       "notionPageId": "35cc1829-53ff-8179-9069-f0da8cc3a293"
+    },
+    {
+      "id": "TKT-0134",
+      "title": "Model strategy review — Gemma4:31b-cloud pilot results + OC2-gated capability unblock assessment",
+      "type": "task",
+      "priority": "medium",
+      "status": "open",
+      "requester": "Ken",
+      "assignee": "Yoda",
+      "created": "2026-05-10T14:17:42+10:00",
+      "updated": "2026-05-10T14:17:42+10:00",
+      "description": "Trigger: Gemma4:31b-cloud (gemma4cloud alias) 5-day RTB pilot ends ~2026-05-18. If pilot passes, assess which OC2-gated capabilities can be unlocked immediately on OC1 using Gemma4:31b-cloud instead of waiting for OC2 hardware. Review scope: (1) Which agents currently using Sonnet could move to gemma4cloud for background/non-interactive tasks? (2) Which parked capabilities (Tier 1 local inference) become viable via gemma4cloud? (3) Does this change the OC2 capacity planning? (4) Update model-policy.json, agent allowlists, and cost model accordingly. Inputs: RTB pilot cron results (7ff14b97), CI Cycle A benchmark data, cost-state.json. Ken approves all model changes. Trigger: auto-fire when pilot cron 316df676 completes OR Yoda confirms gemma4cloud operational.",
+      "resolution": null,
+      "linked": {
+        "us": [],
+        "inc": [],
+        "chg": []
+      },
+      "notes": "",
+      "notionPageId": "35cc1829-53ff-811e-b5ac-cf90b64281cd"
+    },
+    {
+      "id": "TKT-0135",
+      "title": "AInchors Sandbox Environment — isolated, ephemeral, managed for demos, PoC and client showcases",
+      "type": "task",
+      "priority": "high",
+      "status": "open",
+      "requester": "Ken",
+      "assignee": "Yoda",
+      "created": "2026-05-10T14:17:52+10:00",
+      "updated": "2026-05-10T14:17:52+10:00",
+      "description": "Design and build an isolated sandbox environment for showcase, demo, PoC and potential client/investor testing. Requirements: (1) ISOLATED — zero data sharing with production OC1 platform, no shared state, no cross-contamination. (2) EPHEMERAL — spun up on demand, destroyed completely after use. No persistent data after teardown. (3) MANAGED — elegant spin-up process (single command or Yoda-triggered), pre-configured with demo data/agents, destroys cleanly with verification. (4) CONTAINED — own network namespace, own credential scope, own OpenClaw instance or sandboxed session. Should not be possible to accidentally touch production from sandbox. Architecture options to assess: Docker-based isolated OpenClaw instance, VM snapshot, separate OpenClaw agent profile with sandbox mode, or OC2 dedicated sandbox tenant. Deliverables: (a) Architecture assessment (Atlas), (b) Spin-up/teardown scripts, (c) Demo data/agent configuration, (d) Verification checklist post-teardown. Trigger: Ken/Angie request for demo or PoC. Atlas to assess architecture before build.",
+      "resolution": null,
+      "linked": {
+        "us": [],
+        "inc": [],
+        "chg": []
+      },
+      "notes": "",
+      "notionPageId": "35cc1829-53ff-81b6-a95e-d7c8367f7d5a"
     }
   ]
 }
