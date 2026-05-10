@@ -2,7 +2,7 @@
 # RustDesk relay startup — uses Colima (not Docker Desktop)
 # Colima auto-starts at login via: brew services start colima
 # This script starts the hbbs/hbbr containers + nginx relay.
-DOCKER="/usr/local/bin/docker"
+DOCKER="/opt/homebrew/bin/docker"  # brew-installed standalone CLI (not Docker Desktop)
 NGINX="/opt/homebrew/bin/nginx"
 COMPOSE_DIR="/Users/ainchorsangiefpl/.openclaw/workspace/infra/rustdesk"
 LOG="$COMPOSE_DIR/startup.log"
