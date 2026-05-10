@@ -1,5 +1,5 @@
 {
-  "sequence": 128,
+  "sequence": 130,
   "tickets": [
     {
       "id": "TKT-0104",
@@ -474,7 +474,7 @@
       "requester": "Ken",
       "assignee": "Yoda",
       "created": "2026-05-10T09:55:34+10:00",
-      "updated": "2026-05-10T10:00:05+10:00",
+      "updated": "2026-05-10T10:41:08+10:00",
       "description": "Design and implement agentic marketing organisation for AInchors business stream. Informed by: 'Redesigning Your Marketing Organization for the Agentic Age' (HBR, May 2026, https://hbr.org/2026/05/redesigning-your-marketing-organization-for-the-agentic-age). Scope: solution design, proposal, and implementation roadmap for activating marketing agents to work with Angie (CEO, Melbourne) and KL team (Malaysia). Two phases: PHASE 1 (P1 MVP, pre-OC2): activate existing agents (Spark + Aria) for business stream marketing ops, define workflows, integrate with MinIO (TKT-0124) for file/asset sharing, establish Angie+KL team access and collaboration model. PHASE 2 (P2, post-OC2): fully agentic marketing org supporting AInchors internally AND ready to deliver as a service to external clients. Deliverables: (1) current-state assessment of AInchors marketing capability, (2) target agentic marketing org design (agent roles, workflows, tools), (3) P1 MVP implementation plan, (4) P2 transition roadmap, (5) integration with MinIO business repo (TKT-0124). Owners: Spark (marketing), Aria (business stream), Atlas (architecture), Lando (process). Ken + Angie to approve. Dependency: TKT-0124 (MinIO — file/asset sharing for KL team).",
       "resolution": null,
       "linked": {
@@ -484,8 +484,53 @@
         "inc": [],
         "chg": []
       },
-      "notes": "HBR article content loaded 2026-05-10. Framework: 4-layer platform (Brand Code foundation, Execution, Orchestration, Interface) + 5 workstreams (Intelligence+Ideation, Content Creation, Research+Testing, Distribution, Performance+Reporting). P1 MVP focus: Brand Code build + Content Creation + Distribution workstreams, Telegram interface, MinIO file layer (TKT-0124). P2: all 5 workstreams + orchestration layer + external client delivery. Key new concept: Brand Code = machine-readable KB for Aria. Ref: docs/HBR_Agentic_Marketing_Org_May2026_Summary.md",
+      "notes": "HBR article content loaded 2026-05-10. Framework: 4-layer platform (Brand Code foundation, Execution, Orchestration, Interface) + 5 workstreams (Intelligence+Ideation, Content Creation, Research+Testing, Distribution, Performance+Reporting). P1 MVP focus: Brand Code build + Content Creation + Distribution workstreams, Telegram interface, MinIO file layer (TKT-0124). P2: all 5 workstreams + orchestration layer + external client delivery. Key new concept: Brand Code = machine-readable KB for Aria. Ref: docs/HBR_Agentic_Marketing_Org_May2026_Summary.md | 2026-05-10: Role structure locked. Spark (P1+P2 content+distribution+reporting), Aria expanded mandate (P1 orchestration+Brand Code steward - TKT-0128), Luthen new P2 Marketing Intelligence agent (TKT-0129). No additional P1 agents needed. KL team interface via Angie relay in P1, direct Telegram access in P2. Sub-tickets: TKT-0128 (Aria, HIGH, P1), TKT-0129 (Luthen, MEDIUM, P2).",
       "notionPageId": "35cc1829-53ff-8150-93cd-ee2d9dd5cd9a"
+    },
+    {
+      "id": "TKT-0128",
+      "title": "Aria: expanded marketing orchestration mandate + Brand Code stewardship (P1)",
+      "type": "task",
+      "priority": "high",
+      "status": "open",
+      "requester": "Ken",
+      "assignee": "Yoda",
+      "created": "2026-05-10T10:40:50+10:00",
+      "updated": "2026-05-10T10:41:03+10:00",
+      "description": "Expand Aria's mandate to cover: (1) Brand Code stewardship — seed and maintain structured brand KB in MinIO (TKT-0124) across brand-strategy, voice-and-tone, ICP profiles, market rules (AU/MY), product catalogue, content rules. (2) Marketing orchestration — receive content requests from Angie/KL team, brief Spark from Brand Code, review Spark output for brand alignment, route to Angie for approval. (3) KL team interface (P1: via Angie relay). Spec: docs/Aria_Marketing_Mandate_Addendum_v1.md. Blocked on: TKT-0124 (MinIO must be live). Sub-ticket of TKT-0127.",
+      "resolution": null,
+      "linked": {
+        "us": [
+          "TKT-0127",
+          "TKT-0124"
+        ],
+        "inc": [],
+        "chg": []
+      },
+      "notes": "",
+      "notionPageId": "35cc1829-53ff-8145-b89d-d4a71a2b0811"
+    },
+    {
+      "id": "TKT-0129",
+      "title": "Luthen: Marketing Intelligence Agent — design and build (P2)",
+      "type": "task",
+      "priority": "medium",
+      "status": "open",
+      "requester": "Ken",
+      "assignee": "Yoda",
+      "created": "2026-05-10T10:40:57+10:00",
+      "updated": "2026-05-10T10:41:03+10:00",
+      "description": "Design and build Luthen, the Marketing Intelligence Agent. Tier 3 (Yoda-Manage-Passthrough). Owns HBR workstreams 1 (Intelligence + Ideation) and 3 (Research + Testing). Does NOT create content — generates briefs for Spark and feeds learnings into Brand Code. Capabilities: market signal monitoring, competitive intelligence, structured brief generation, A/B test design + analysis, Brand Code contribution. Spec: docs/Luthen_Marketing_Intelligence_Agent_v1.md. Build trigger: OC2 commissioned + P2 client sprint begins + Aria has seeded Brand Code. Sub-ticket of TKT-0127. Blocked on: TKT-0124, TKT-0128.",
+      "resolution": null,
+      "linked": {
+        "us": [
+          "TKT-0127"
+        ],
+        "inc": [],
+        "chg": []
+      },
+      "notes": "",
+      "notionPageId": "35cc1829-53ff-8160-af0a-eb6ddf1e87c1"
     }
   ]
 }

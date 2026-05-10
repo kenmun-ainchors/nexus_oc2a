@@ -3,17 +3,17 @@
     "email": "2026-05-10T21:59:00Z",
     "calendar": "2026-05-10T21:59:00Z",
     "weather": null,
-    "taskWatchdog": 1778371096214,
-    "cronHealth": 1778371509129,
+    "taskWatchdog": 1778372995507,
+    "cronHealth": 1778372995507,
     "budgetCheck": 1778370903041,
     "doDGates": "2026-05-09T23:28:00Z",
-    "cronDeadLetter": 1778370903,
+    "cronDeadLetter": 1778372995507,
     "dailyClose": "2026-05-09T18:16:19.589Z",
-    "agentHealth": 1778371284397,
-    "wardenEscalation": 1778371509129,
-    "allowlistSync": 1778370903
+    "agentHealth": 1778372995507,
+    "wardenEscalation": 1778372995507,
+    "allowlistSync": 1778372995507
   },
-  "doDGatesSunday": "2026-05-09T23:55:03.041Z",
-  "lastHeartbeat": "2026-05-10T00:04:00Z",
-  "lastHeartbeatNote": "2026-05-10 10:04 AEST — All clear. Warden cron-health alert acknowledged (Ken already notified 09:57). Balance ~$278.73 auto-reload active. No task stalls. No new escalations."
+  "doDGatesSunday": "2026-05-10T00:16:00Z",
+  "lastHeartbeat": "2026-05-10T00:32:00.000Z",
+  "lastHeartbeatNote": "2026-05-10 10:32 AEST — All clear. Balance ~$278.73 (T0). No standby, no task alerts, no dead letters, warden escalation resolved. Cron health alert acknowledged (Warden cron 83accf7b 3x errors). Allowlist: no-changes. Budget: 0 unacknowledged alerts. Ahsoka P1 in_progress / parked. DoD gate check already done this Sunday."
 }
