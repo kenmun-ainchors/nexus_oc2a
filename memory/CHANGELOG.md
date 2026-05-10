@@ -84,6 +84,18 @@ This log captures **every change** Yoda makes to AInchors infrastructure, config
 **Linked:** decisions.md 2026-04-27 entries
 ---
 
+## 2026-05-10 11:32 AEST — [CHG-0261] Model3-Policy applied to all 5 T3 agent SOUL.md files (TKT-0106)
+**Type:** rule
+**Source:** ken-prompt
+**Trigger:** TKT-0105 closed, TKT-0106 unblocked
+**What changed:** SOUL.md updated: workspace-social/Spark, workspace-architect/Atlas, workspace-platform-arch/Thrawn, workspace-bpm/Lando, workspace-dtcm/Mon Mothma. Policy ref, boundaries, Warden compliance, scope gate. Atlas assurance role. Mon Mothma DORMANT gate.
+**Why:** Agents must know their own boundaries from their context window. Model3-Policy is only effective if agents load it on startup.
+**Verification:** All 5 SOUL.md within size limits. Policy block present and correct in each.
+**Rollback:** N/A
+**Linked:** TKT-0106, TKT-0105
+---
+
+
 ## 2026-05-10 11:29 AEST — [CHG-0260] Model3-Policy.md v1.0 — Tier 3 agent SOPs and domain boundaries
 **Type:** doc
 **Source:** ken-prompt

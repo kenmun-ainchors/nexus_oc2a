@@ -46,11 +46,11 @@
       "title": "Model3-Policy: Apply to existing Tier 3 agents, review and confirm with Ken",
       "type": "task",
       "priority": "high",
-      "status": "open",
+      "status": "done",
       "requester": "Ken",
       "assignee": "Yoda",
       "created": "2026-05-08T14:22:56+10:00",
-      "updated": "2026-05-08T14:22:56+10:00",
+      "updated": "2026-05-10T11:32:11+10:00",
       "description": "AC for TKT-0103. Once Model3-Policy.md is approved (TKT-0105), apply the SOPs and domain boundaries to each existing Tier 3 agent (Spark, Ahsoka, Atlas, Thrawn, Lando, Mon Mothma). Update each agent's SOUL.md/RULES.md to reflect their formal domain boundary and escalation path. Review each agent with Ken before marking as operationalised. Gate: TKT-0105 must be complete and approved first.",
       "resolution": null,
       "linked": {
@@ -58,8 +58,8 @@
         "inc": [],
         "chg": []
       },
-      "notes": "",
-      "notionPageId": null
+      "notes": "COMPLETE 2026-05-10. Model3-Policy.md block added to all 5 active T3 agent SOUL.md files: Spark (4,332), Atlas (2,850), Thrawn (3,152), Lando (2,737), Mon Mothma (2,936). All within size limits. Key additions: policy ref, invocation rules, hard boundaries, Warden compliance note, scope expansion gate. Atlas: architecture assurance role added. Mon Mothma: DORMANT status + activation gate. Lando: active deliverables listed.",
+      "notionPageId": "35cc1829-53ff-812f-b2c1-d736279f23cf"
     },
     {
       "id": "TKT-0107",
