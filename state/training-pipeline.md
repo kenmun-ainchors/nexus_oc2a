@@ -102,6 +102,12 @@ _Maintained by Aria 🔵 + Yoda 🟢 | Status-tracked content for AInchors train
 | TC-094 | When 404 doesn't mean Not Found: LinkedIn API delete scope traps | 💡 Idea | Yoda Day 15 (L-021 — DELETE returns 404 due to scope mismatch, not missing resource — misleading HTTP error codes in OAuth APIs) | Yoda |
 | TC-095 | Metric inflation: when your observability script is measuring its own bug | 💡 Idea | Yoda Day 15 (CHG-0253 — obs-collector ts vs timestamp field mismatch, 3761 vs 34 real failures, silent except → metric explosion) | Both |
 
+| TC-096 | AI image generation: when to automate and when to keep humans in the loop | 💡 Idea | Yoda Day 16 (HF FLUX.1-schnell vs ChatGPT — Ken chose human-made, AI = fallback; human-AI creative collaboration) | Aria |
+| TC-097 | Token efficiency as a design principle: why your AI bill is an architecture problem | 💡 Idea | Yoda Day 16 (Warden 17k tokens/run for pure automation → P1-P6 token efficiency rules, 6 root causes, perpetual monthly audit) | Both |
+| TC-098 | The isolated agent pattern: why delegate-and-forget breaks in multi-agent systems | 💡 Idea | Yoda Day 16 (Atlas sessions_send → heartbeat recycling → deliverable lost; fix: isolated one-shot cron, L-022) | Yoda |
+| TC-099 | Strategy to backlog: the gap that kills AI platform roadmaps | 💡 Idea | Yoda Day 16 (MinIO in Atlas roadmap but no ticket — TKT-0125 Roadmap Refinement ceremony formalised, DoD seeding list) | Both |
+| TC-100 | The invisible file problem: how to make AI-generated outputs accessible to humans | 💡 Idea | Yoda Day 16 (Ken couldn't access files via Tailscale — Drive interim layer → MinIO agent layer architecture decision) | Aria |
+
 ## Status Legend
 💡 Idea → 📝 Draft → 🔍 Review (Yoda validates) → ✅ Ready → 📢 Published
 

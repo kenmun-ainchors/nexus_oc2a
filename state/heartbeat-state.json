@@ -1,22 +1,22 @@
 {
   "lastChecks": {
-    "email": "2026-05-10T09:55:11Z",
-    "calendar": "2026-05-10T09:55:11Z",
+    "email": "2026-05-10T10:59:06Z",
+    "calendar": "2026-05-10T10:59:06Z",
     "weather": null,
-    "taskWatchdog": "2026-05-10T10:18:00Z",
-    "cronHealth": "2026-05-10T10:18:00Z",
-    "budgetCheck": "2026-05-10T10:12:45.3NZ",
-    "doDGates": "2026-05-10T10:35:00Z",
-    "cronDeadLetter": "2026-05-10T08:52:29.126338Z",
-    "agentHealth": "2026-05-10T09:44:46Z",
-    "wardenEscalation": "2026-05-10T10:12:45.3NZ",
-    "allowlistSync": "2026-05-10T09:06:21.973Z",
-    "dailyClose": "2026-05-09T18:16:19.589Z",
-    "apiBalance": "2026-05-10T09:59:34.319084Z",
+    "taskWatchdog": "2026-05-10T12:36:00.000Z",
+    "cronHealth": "2026-05-10T12:36:00.000Z",
+    "budgetCheck": "2026-05-10T12:51:47Z",
+    "doDGates": "2026-05-10T12:47:00Z",
+    "cronDeadLetter": "2026-05-10T12:36:00.000Z",
+    "agentHealth": "2026-05-10T12:36:00.000Z",
+    "wardenEscalation": "2026-05-10T12:36:00.000Z",
+    "allowlistSync": "2026-05-10T12:36:00.000Z",
+    "dailyClose": "2026-05-10T12:27:00Z",
+    "apiBalance": "2026-05-10T12:36:00.000Z",
     "assetReview": "2026-05-10T07:05:46Z",
-    "ahsokaPilot": "2026-05-10T10:12:45.3NZ"
+    "ahsokaPilot": "2026-05-10T12:36:00.000Z"
   },
-  "doDGatesSunday": "2026-05-10T10:35:00Z",
-  "lastHeartbeat": "2026-05-10T10:51:50Z",
-  "lastHeartbeatNote": "2026-05-10 20:50 AEST — Budget alert: main $177/$150 (118%) + infra $21/$20 (106%). Ken notified via Telegram. Acknowledged. All else clean."
+  "doDGatesSunday": "2026-05-10T12:47:00Z",
+  "lastHeartbeat": "2026-05-10T12:59:00Z",
+  "lastHeartbeatNote": "2026-05-10 22:59 AEST — All clean. No standby/banner/stall/dead-letter/task-verification alerts. Budget alerts acknowledged. Warden cron health alert acknowledged. Warden escalation resolved. Ahsoka pilots in progress (P1 parked, P2 pending). EOD close window at 23:30 AEST."
 }
