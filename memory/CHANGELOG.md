@@ -84,6 +84,18 @@ This log captures **every change** Yoda makes to AInchors infrastructure, config
 **Linked:** decisions.md 2026-04-27 entries
 ---
 
+## 2026-05-10 17:37 AEST — [CHG-0270] Skill Installation Policy v1.0 + audit-skill.sh + skill registry
+**Type:** script
+**Source:** ken-prompt
+**Trigger:** TKT-0141/0142 + Ken directive: comprehensive controls before skill installation
+**What changed:** docs/Skill-Installation-Policy-v1.0.md: 7-step gate with Shield+Sage+Ken approval. scripts/audit-skill.sh: 9 security checks (PIPE_SHELL, INSTR_OVERRIDE, CRED_EXFIL, EVAL_DYNAMIC, IP_URL, URL_SHORTENER, RM_DANGEROUS, EXFIL_NETCAT, CLAWDBOT_EXEC). state/skill-registry.json: 63 skills seeded. RULES.md: SKILL INSTALLATION GATE section added.
+**Why:** DDIPE attack vector (2.5% scanner evasion rate). ToxicSkills/ClawHavoc precedent. Zero tolerance policy required.
+**Verification:** audit-skill.sh tested: gog CLEAR, xurl BLOCK (pipe-to-shell). Registry seeded. Policy doc complete.
+**Rollback:** N/A
+**Linked:** TKT-0141, TKT-0142
+---
+
+
 ## 2026-05-10 17:29 AEST — [CHG-0269] TKT-0142: SKILL.md security audit — 63 files scanned, no malicious content found
 **Type:** doc
 **Source:** ken-prompt

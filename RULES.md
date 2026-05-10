@@ -1723,3 +1723,20 @@ Strategy OKR: /Users/ainchorsangiefpl/.openclaw/workspace/docs/ainchors-strategy
 2. **Nexus-first for implementation (NON-NEGOTIABLE — AC-4, CHG-0218):** Nexus is the default agentic platform for ALL AInchors + Aevlith Technologies client implementations. Non-Nexus stacks require explicit Ken/Angie written approval + CHG entry. No exceptions. This rule applies to all agents. Also enshrined in AI Charter Section 1.5.
 3. Shipping vs generality: Training/consulting support = ship for specific use case first. Platform foundations (security, multi-client, governance) = design for multi-year reuse.
 4. Governance-by-design: All client-facing outputs + major platform changes → The Sanctum (Shield→Lex→Sage). Warden monitors drift.
+
+---
+
+## SKILL INSTALLATION GATE (NON-NEGOTIABLE — TKT-0141/0142)
+
+**Full policy:** `docs/Skill-Installation-Policy-v1.0.md`
+
+1. **S3 absolute prohibition:** No ClawHub or skills.sh skills. Ever. Zero exceptions.
+2. **Ticket-first:** TKT required before any new skill is discussed or installed.
+3. **Audit before approval:** Run `bash scripts/audit-skill.sh --path /path/to/SKILL.md --strict`
+4. **Shield + Sage review:** Both must clear before Ken is asked.
+5. **Ken approves every installation.** No exceptions. Silence = no.
+6. **Register after install:** `state/skill-registry.json` must be updated immediately.
+7. **Manual read is mandatory.** Scanners have a 2.5% evasion rate. Yoda reads the full file.
+
+**Audit script exit codes:** 0=CLEAR | 1=FLAG (review needed) | 2=BLOCK (do not install)
+

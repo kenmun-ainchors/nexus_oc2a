@@ -786,11 +786,11 @@
       "title": "Security: SKILL.md poisoning — formal skill review process + audit of existing custom skills",
       "type": "task",
       "priority": "high",
-      "status": "open",
+      "status": "in-progress",
       "requester": "Ken",
       "assignee": "Yoda",
       "created": "2026-05-10T17:27:30+10:00",
-      "updated": "2026-05-10T17:27:30+10:00",
+      "updated": "2026-05-10T17:37:28+10:00",
       "description": "ToxicSkills research (Snyk, Feb 2026) found 76 confirmed malicious payloads across ClawHub and skills.sh. 13.4% of 3,984 scanned agent skills had at least one critical security issue. ClawHavoc campaign (Koi Security Jan 2026, expanded by Antiy CERT): 1,184 compromised packages on ClawHub delivering Atomic Stealer via skill definitions with professional documentation. DDIPE attack technique (Hong Kong/NTU/UNSW/Tokyo, April 2026): embeds malicious logic inside code examples in skill documentation — achieves 2.5% full evasion rate against all detection layers. AInchors context: S3 control ('no ClawHub skills, custom-built only') is a partial control. We have custom SKILL.md files in plugin-skills/ and workspace skills/ that have never been formally audited. Actions required: (1) Audit all existing custom SKILL.md files on OC1 — scan for embedded instructions that could execute as operational directives (look for: shell commands in examples, credential references, network calls, exfiltration patterns). (2) Define formal SKILL.md review checklist — what Shield and Sage must verify before any skill is used. (3) Update S3 control to explicitly include: no unreviewed SKILL.md regardless of source. (4) Evaluate Cisco Skill Scanner (open-source) and Snyk mcp-scan for automated skill scanning. (5) Document all approved skills in a skill registry with: source, author, review date, reviewer. (6) Add skill intake to governance gate — any new skill = Shield + Sage mandatory review before installation. Owner: Shield (security), Lex (policy update for S3), Yoda (operational). Ken approves.",
       "resolution": null,
       "linked": {
@@ -798,7 +798,7 @@
         "inc": [],
         "chg": []
       },
-      "notes": "",
+      "notes": "2026-05-10: Skill Installation Policy v1.0 written (docs/Skill-Installation-Policy-v1.0.md). audit-skill.sh built with 9 security checks (BLOCK/FLAG). skill-registry.json seeded with 63 existing skills (10 workspace + 53 bundled). RULES.md updated with non-negotiable gate. Formal SOP + registry = controls in place. Remaining: TKT-0137 (Policy Register) to include this as POL-011.",
       "notionPageId": "35cc1829-53ff-817e-9407-d3c4295f20e6"
     }
   ]
