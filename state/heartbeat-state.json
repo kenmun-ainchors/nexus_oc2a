@@ -5,8 +5,8 @@
     "weather": null,
     "taskWatchdog": "2026-05-10T04:55:55Z",
     "cronHealth": "2026-05-10T04:53:00Z",
-    "budgetCheck": "2026-05-10T04:55:55Z",
-    "doDGates": "2026-05-10T04:16:00Z",
+    "budgetCheck": "2026-05-10T04:57:31.705Z",
+    "doDGates": "2026-05-10T04:57:31.705Z",
     "cronDeadLetter": 1778387483738,
     "agentHealth": "2026-05-10T04:55:55Z",
     "wardenEscalation": "2026-05-10T04:53:00Z",
@@ -14,7 +14,7 @@
     "dailyClose": "2026-05-09T18:16:19.589Z",
     "apiBalance": "2026-05-10T04:53:00Z"
   },
-  "doDGatesSunday": "2026-05-10T04:16:00Z",
-  "lastHeartbeat": "2026-05-10T04:55:55Z",
-  "lastHeartbeatNote": "2026-05-10 14:54 AEST — Budget warning: main at 93.6% ($74.88/$80). Acknowledged. No task stall. No dead letter. No warden escalations. Allowlist no-changes. Ahsoka pilots in_progress/pending. DoD gates MISSING (open-decisions.json + draft-docs.json absent). API balance ~$479 Tier 0 (cost-state remainingEstimate stale)."
+  "doDGatesSunday": "2026-05-10T04:57:31.705Z",
+  "lastHeartbeat": "2026-05-10T04:57:31.705Z",
+  "lastHeartbeatNote": "2026-05-10 14:56 AEST — Budget WARNING main 95.8% ($76.67/$80) surfaced to Ken. DoD gates surfaced: 15 open decisions + 7 draft docs. Warden cron 83accf7b: 3 errors, ack=true (already noted). No task stalls. No dead letters. No warden escalation pending. Allowlist no-changes. Ahsoka pilots in_progress/pending."
 }
