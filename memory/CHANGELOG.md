@@ -84,6 +84,18 @@ This log captures **every change** Yoda makes to AInchors infrastructure, config
 **Linked:** decisions.md 2026-04-27 entries
 ---
 
+## 2026-05-10 13:21 AEST — [CHG-0264] TKT-0126/0123: LinkedIn post special char validation + mktemp fix
+**Type:** script
+**Source:** ken-prompt
+**Trigger:** TKT-0126 execution
+**What changed:** linkedin-post.sh: (1) pre-flight em dash validator — blocks post with actionable error before API call (TKT-0126); (2) mktemp collision guard — cleans stale /tmp/li_payload_*.json before each run. TKT-0123 delimiter guard confirmed working.
+**Why:** Em dash passes through API silently but violates SPARK_RULES bot-signal rule. mktemp collision caused silent failures. Both now fail loudly with actionable errors.
+**Verification:** Em dash test: blocked with clear error. Clean content: passes dry-run. Delimiter guard: errors loudly on missing ---.
+**Rollback:** N/A
+**Linked:** TKT-0126, TKT-0123
+---
+
+
 ## 2026-05-10 13:17 AEST — [CHG-0263] TKT-0128: Aria marketing mandate + Brand Code staging (partial)
 **Type:** rule
 **Source:** ken-prompt

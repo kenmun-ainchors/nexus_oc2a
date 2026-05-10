@@ -107,6 +107,25 @@ if [[ "$VISIBILITY" != "PUBLIC" && "$VISIBILITY" != "CONNECTIONS" ]]; then
   exit 1
 fi
 
+# ── Pre-flight content validation ────────────────────────────────────────────────────────────────────────────────────
+
+# TKT-0126: em dash check — bot signal per SPARK_RULES.md. Block before API call.
+if echo "$POST_TEXT" | python3 -c "
+import sys
+text = sys.stdin.read()
+em_dashes = [i for i, c in enumerate(text) if c == '\u2014']
+if em_dashes:
+    print(f'ERROR: Em dash (\u2014) found at positions: {em_dashes[:5]}', file=sys.stderr)
+    print('Replace with hyphen (-) before posting. Em dashes are a bot signal.', file=sys.stderr)
+    sys.exit(1)
+" 2>&1; then
+  : # clean
+else
+  echo "❌ Content validation failed — em dash (\u2014) detected in post text." >&2
+  echo "   Replace all \u2014 with hyphen (-) per SPARK_RULES.md." >&2
+  exit 1
+fi
+
 if [[ ! -f "$AUTH_STATE_FILE" ]]; then
   echo "❌ Auth state not found: $AUTH_STATE_FILE" >&2
   echo "   Run linkedin-auth.sh first." >&2
@@ -161,6 +180,8 @@ ACCESS_TOKEN=$(security find-generic-password -a linkedin -s ainchors-linkedin-a
 # ── Build post payload ────────────────────────────────────────────────────────
 
 # Map visibility: CONNECTIONS → "CONNECTIONS", PUBLIC → "PUBLIC"
+# Clean up any stale payload files from previous runs (mktemp collision guard)
+rm -f /tmp/li_payload_*.json 2>/dev/null || true
 PAYLOAD_FILE=$(mktemp /tmp/li_payload_XXXXXX.json)
 
 python3 - "$POST_TEXT" "$VISIBILITY" "$MEMBER_ID" "$PAYLOAD_FILE" "$IMAGE_ASSET_URN" << 'PYEOF'

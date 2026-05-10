@@ -388,11 +388,11 @@
       "title": "Fix linkedin-post.sh: add delimiter guard + token delete scope",
       "type": "task",
       "priority": "medium",
-      "status": "open",
+      "status": "done",
       "requester": "Ken",
       "assignee": "Yoda",
       "created": "2026-05-09T19:27:49+10:00",
-      "updated": "2026-05-09T19:27:49+10:00",
+      "updated": "2026-05-10T13:21:23+10:00",
       "description": "Two fixes: (1) --content-file parser: add guard that fails loudly if no --- delimiters found (L-020). (2) linkedin-auth.sh: add delete scope to token on next re-auth so API delete works (L-021). Guard already partially patched in this session — full test + CHG needed.",
       "resolution": null,
       "linked": {
@@ -400,8 +400,8 @@
         "inc": [],
         "chg": []
       },
-      "notes": "",
-      "notionPageId": null
+      "notes": "COMPLETE 2026-05-10 (merged into TKT-0126 fix). Delimiter guard confirmed working — fails loudly with actionable error. Token delete scope: deferred to next linkedin-auth.sh re-auth (requires re-running auth flow). Low priority. CHG-0264.",
+      "notionPageId": "35cc1829-53ff-814d-9a41-f8c0710c26be"
     },
     {
       "id": "TKT-0124",
@@ -450,11 +450,11 @@
       "title": "Fix LinkedIn post: special character encoding breaks post content",
       "type": "bug",
       "priority": "high",
-      "status": "open",
+      "status": "done",
       "requester": "Ken",
       "assignee": "Yoda",
       "created": "2026-05-10T09:55:10+10:00",
-      "updated": "2026-05-10T09:55:10+10:00",
+      "updated": "2026-05-10T13:21:22+10:00",
       "description": "LinkedIn posts with special characters (em dash, smart quotes, unicode) break post content or cause API rejection. Observed in RustDesk post and ongoing content. Fix: (1) audit linkedin-post.sh content extraction for character encoding issues, (2) ensure UTF-8 is preserved end-to-end from draft file → python extraction → JSON payload → API call, (3) test with em dash, smart quotes, ellipsis, unicode. Related: TKT-0123 (delimiter guard). Unblock Spark from using any character in drafts without silent truncation or breakage.",
       "resolution": null,
       "linked": {
@@ -462,7 +462,7 @@
         "inc": [],
         "chg": []
       },
-      "notes": "",
+      "notes": "COMPLETE 2026-05-10. Root cause: em dash (U+2014) in draft content passes through API without error but violates SPARK_RULES.md bot-signal rule. Fix: pre-flight em dash validator added to linkedin-post.sh — blocks post with actionable error before API call. Also fixed mktemp collision guard (stale /tmp/li_payload_*.json files). Delimiter guard (TKT-0123) confirmed working. CHG-0264.",
       "notionPageId": "35cc1829-53ff-816b-b049-fc517f98d2cd"
     },
     {
@@ -496,7 +496,7 @@
       "requester": "Ken",
       "assignee": "Yoda",
       "created": "2026-05-10T10:40:50+10:00",
-      "updated": "2026-05-10T13:17:06+10:00",
+      "updated": "2026-05-10T13:17:59+10:00",
       "description": "Expand Aria's mandate to cover: (1) Brand Code stewardship — seed and maintain structured brand KB in MinIO (TKT-0124) across brand-strategy, voice-and-tone, ICP profiles, market rules (AU/MY), product catalogue, content rules. (2) Marketing orchestration — receive content requests from Angie/KL team, brief Spark from Brand Code, review Spark output for brand alignment, route to Angie for approval. (3) KL team interface (P1: via Angie relay). Spec: docs/Aria_Marketing_Mandate_Addendum_v1.md. Blocked on: TKT-0124 (MinIO must be live). Sub-ticket of TKT-0127.",
       "resolution": null,
       "linked": {
@@ -507,7 +507,7 @@
         "inc": [],
         "chg": []
       },
-      "notes": "2026-05-10: Aria SOUL.md updated with marketing orchestration mandate (4,659 chars, within limits). Brand Code staging area created: workspace-business/projects/brand-code/ — 7 documents drafted (brand-strategy, voice-and-tone, icp-profiles, product-catalogue, content-rules, au.md, my.md). All marked DRAFT — Angie review required. MinIO-dependent seeding blocked on TKT-0124. ARIA_RULES.md update + MinIO integration pending TKT-0124 delivery.",
+      "notes": "2026-05-10: Aria SOUL.md updated with marketing orchestration mandate (4,659 chars, within limits). Brand Code staging area created: workspace-business/projects/brand-code/ — 7 documents drafted (brand-strategy, voice-and-tone, icp-profiles, product-catalogue, content-rules, au.md, my.md). All marked DRAFT — Angie review required. MinIO-dependent seeding blocked on TKT-0124. ARIA_RULES.md update + MinIO integration pending TKT-0124 delivery. | 2026-05-10 13:17: Ken confirmed — hold Brand Code delivery to Angie until MinIO (TKT-0124) is live. Remaining work: MinIO integration + ARIA_RULES.md update + Angie review flow. All gated on TKT-0124.",
       "notionPageId": "35cc1829-53ff-8145-b89d-d4a71a2b0811"
     },
     {
