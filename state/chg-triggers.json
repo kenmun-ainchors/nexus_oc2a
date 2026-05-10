@@ -1,7 +1,7 @@
 {
   "schema": "1.0",
   "description": "CHG Trigger Rules from YODA_OC1_OC2_OPERATIONAL_BRIEF.md v1.0. Yoda monitors these and raises CHG+Telegram alert when triggered.",
-  "lastUpdated": "2026-05-03",
+  "lastUpdated": "2026-05-10T20:51:20.003729+10:00",
   "triggers": {
     "TRIGGER-01": {
       "name": "OC2 arrival",
@@ -19,6 +19,14 @@
           "addedDate": "2026-05-02",
           "addedBy": "Ken",
           "priority": "low"
+        },
+        {
+          "id": "TRIGGER-01-B",
+          "name": "Orchestrator MD version bump",
+          "action": "Version bump SOUL.md + YODA_RULES.md + ORCHESTRATOR.md to reflect OC2 architecture, HA state, Gemma4:26b local inference.",
+          "addedDate": "2026-05-10",
+          "addedBy": "Ken",
+          "priority": "high"
         }
       ]
     },
@@ -137,6 +145,17 @@
       "addedBy": "Ken",
       "firedAt": null,
       "notes": "Idempotent -- safe to run on every strategy change. Script exits 0 if already current, 1 if changes applied."
+    },
+    "TRIGGER-QBR": {
+      "name": "Quarterly QBR \u2014 Agent Fleet Review + Orchestrator MD version bump",
+      "condition": "Every Jan/Apr/Jul/Oct",
+      "detection": "calendar \u2014 recurring ceremony",
+      "action": "Run Agent Fleet Review (TKT-0130). Version bump SOUL.md + YODA_RULES.md + ORCHESTRATOR.md. Run Roadmap Refinement ceremony (TKT-0125). Review Cassian Andor (TKT-0109).",
+      "status": "recurring",
+      "firedAt": null,
+      "firstDue": "2026-07-01",
+      "approvedBy": "Ken",
+      "approvedAt": "2026-05-10"
     }
   }
 }

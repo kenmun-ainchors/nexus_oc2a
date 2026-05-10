@@ -438,8 +438,21 @@ This document is DRAFT FOR REVIEW until Ken explicitly approves it.
 
 **Update protocol:**
 Any change to this document = CHG record + version bump + Ken review.
-Yoda presents changes as "DRAFT FOR REVIEW" in the morning stand-up or
-via @AInchorsOC1Bot with a 1-paragraph summary of what changed and why.
+Yoda presents changes as "DRAFT FOR REVIEW" via @AInchorsOC1Bot with a
+1-paragraph summary of what changed and why.
+
+**Formal update triggers (locked 2026-05-10, Ken approved):**
+- TRIGGER-QBR: Every Jan/Apr/Jul/Oct QBR — full version bump of SOUL.md,
+  YODA_RULES.md, and ORCHESTRATOR.md as part of Agent Fleet Review (TKT-0130)
+- TRIGGER-OC2: OC2 commissioning (~27 Jul 2026) — version bump to reflect
+  new hardware, HA architecture, Gemma4:26b local inference, NAS storage
+- TRIGGER-P2: First external client onboarding — version bump to reflect
+  multi-tenant model, Citadel activation, Ahsoka live delivery
+- TRIGGER-MAJOR: Any significant mandate change, new agent stream, or
+  structural governance change — version bump same session, Ken approves
+
+**Between triggers:** Yoda manages SOUL.md, YODA_RULES.md, YODA_RUNBOOK.md
+incrementally as decisions are made. No ceremony required for routine updates.
 
 ---
 
