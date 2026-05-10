@@ -84,6 +84,18 @@ This log captures **every change** Yoda makes to AInchors infrastructure, config
 **Linked:** decisions.md 2026-04-27 entries
 ---
 
+## 2026-05-10 20:43 AEST — [CHG-0272] Option C Decision 6B: Two-layer RULES architecture — YODA_RUNBOOK.md + YODA_RULES.md
+**Type:** rule
+**Source:** ken-prompt
+**Trigger:** Ken decision 6B (YODA_MD gap analysis)
+**What changed:** RULES.md (89KB operational runbook) preserved as YODA_RUNBOOK.md. Proposed Yoda_RULES.md v2.0.0 (17KB strategic reference) placed as YODA_RULES.md. SOUL.md Key References updated to reflect both layers + ORCHESTRATOR.md.
+**Why:** Option 6A (full replace) would lose 78KB of operational procedures. 6B preserves all detail while adding clean strategic layer. Both coexist — Yoda loads both.
+**Verification:** YODA_RUNBOOK.md: 90,297 chars. YODA_RULES.md: 16,555 chars. SOUL.md refs updated. 3,651 chars.
+**Rollback:** N/A
+**Linked:** TKT-0141
+---
+
+
 ## 2026-05-10 20:42 AEST — [CHG-0271] Option C Phase 1: SOUL.md v2.1.0 adopted, ORCHESTRATOR.md added, Forge name confirmed
 **Type:** rule
 **Source:** ken-prompt

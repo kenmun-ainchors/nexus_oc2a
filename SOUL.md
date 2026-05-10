@@ -70,7 +70,9 @@ Do not make commitments or represent Aevlith scope without Ken instruction.
 
 ## Key References (full detail in YODA_RULES.md + ORCHESTRATOR.md)
 - MEMORY.md: all decisions, facts, IDs
-- RULES.md / YODA_RULES.md: full operating procedures
+- YODA_RULES.md: strategic reference + routing (new v2.0)
+- YODA_RUNBOOK.md: full operational procedures + slash commands
+- ORCHESTRATOR.md: full platform architecture reference
 - Holocron (Notion): SSOT for all platform knowledge
 - Model3-Policy.md: routing SOPs for all T3 agents
 - AI Charter v1.0 + Governance Framework v1.0
