@@ -61,10 +61,8 @@ Add whatever helps you do your job. This is your cheat sheet.
 
 ## Remote Access
 
-- **VNC (primary):** `vnc://100.91.60.36:5900` — screensharingd on Tailscale IP, direct (no proxy)
-  - Works at login/lock screen ✅
-  - macOS: Finder → Go → Connect to Server → `vnc://100.91.60.36:5900`
-  - Windows/other: any VNC client to `100.91.60.36:5900`
-- **Google Remote Desktop:** works after VNC login (use VNC to unlock, then CRD for session)
-- **RustDesk:** public relay, connect by OC1 ID (visible in app UI) — no custom server
+- **RustDesk (primary):** public relay, connect by OC1 ID (visible in app UI) — no custom server
+- **Google Remote Desktop:** works when OC1 is logged in — use RustDesk first to get past login/lock screen, then CRD for full session
+- **Workaround for lock screen:** RustDesk → unlock OC1 → CRD takes over. Accepted pattern, no further VNC work planned.
 - **Tailscale IP (OC1):** `100.91.60.36`
+- **VNC:** attempted 2026-05-11, abandoned — macOS RFB 003.889 + Tailscale utun4 TCP_NODELAY incompatibility. Not worth the complexity.
