@@ -198,3 +198,14 @@ Ken can only access files via: (1) Notion Holocron, (2) email to kenmun@ainchors
 - Generated Images subfolder: 1nbhGoRCu36JKD38ucOGtWYPqJ8IGtcXR
 - State: workspace/state/gdrive-folders.json
 **Rule:** Any file Ken needs to access remotely → upload to Drive AND/OR email. This is the interim until MinIO replaces it.
+- **Google Drive folder created 2026-05-10:** "AInchors — Yoda Working Files"
+- Root: https://drive.google.com/drive/folders/1EyLi8JCvxwixhpBdRwP0PwdZokrg78Jl
+- EA Assessments subfolder: 1W2VIaqKBBWyiOqBs6329QdPk91VaxQ0c
+- Sprint Docs subfolder: 12YQYTesnCqOvJ9Nb8LoMKevLKm0nNbdm
+- Generated Images subfolder: 1nbhGoRCu36JKD38ucOGtWYPqJ8IGtcXR
+- Drafts for Ken Review (DoD): 1w8WhcaoPAXzsgU2epycoIoBag-JWWnKN
+- Journal + Blog: 1WUcG6cdT95FYzSu-bh9S9Jaux4rWRR3z
+- Memory + Context: 1qn7pZaw4akt8a7DDsSoGS55KMsevLFgu
+- Platform Docs: 1WsvbM7RbUXBRGKk_izbtWSlQ_z3kjx0t
+- State: workspace/state/gdrive-folders.json
+**Rule:** Any file Ken needs to access remotely → upload to Drive AND/OR email. This is the interim until MinIO replaces it.

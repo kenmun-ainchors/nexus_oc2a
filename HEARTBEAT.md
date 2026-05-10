@@ -138,3 +138,21 @@ State file: state/heartbeat-state.json
   - Set `confirmationTriggered = true` in the state file
   - Do NOT notify Angie until Ken explicitly says APPROVED
 - State key: ahsokaPilot
+
+### Google Drive EOD Sync (daily, part of End-of-Day close)
+After journal + blog are created, auto-upload to Drive:
+- Journal MD → Journal + Blog folder (1WUcG6cdT95FYzSu-bh9S9Jaux4rWRR3z)
+- Blog HTML → Journal + Blog folder
+- MEMORY.md → Memory + Context folder (1qn7pZaw4akt8a7DDsSoGS55KMsevLFgu) if updated
+- Any new docs in docs/ → Platform Docs folder (1WsvbM7RbUXBRGKk_izbtWSlQ_z3kjx0t)
+
+Commands:
+```bash
+TODAY=$(date +%Y-%m-%d)
+GOG_ACCOUNT=kenmun@ainchors.com /opt/homebrew/bin/gog drive upload \
+  "/Users/ainchorsangiefpl/.openclaw/workspace/memory/journal-${TODAY}.md" \
+  --parent "1WUcG6cdT95FYzSu-bh9S9Jaux4rWRR3z" 2>/dev/null
+GOG_ACCOUNT=kenmun@ainchors.com /opt/homebrew/bin/gog drive upload \
+  "/Users/ainchorsangiefpl/.openclaw/canvas/documents/ainchors-${TODAY}/index.html" \
+  --parent "1WUcG6cdT95FYzSu-bh9S9Jaux4rWRR3z" 2>/dev/null
+```

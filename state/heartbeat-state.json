@@ -1,20 +1,20 @@
 {
   "lastChecks": {
-    "email": "2026-05-10T04:18:00Z",
-    "calendar": "2026-05-10T04:18:00Z",
+    "email": "2026-05-10T05:31:00Z",
+    "calendar": "2026-05-10T05:31:00Z",
     "weather": null,
-    "taskWatchdog": "2026-05-10T05:25:00.000Z",
-    "cronHealth": "2026-05-10T05:25:00.000Z",
-    "budgetCheck": "2026-05-10T05:25:00.000Z",
-    "doDGates": "2026-05-10T04:57:31.705Z",
+    "taskWatchdog": "2026-05-10T05:34:00Z",
+    "cronHealth": "2026-05-10T05:34:00Z",
+    "budgetCheck": "2026-05-10T05:34:00Z",
+    "doDGates": "2026-05-10T05:34:00Z",
     "cronDeadLetter": 1778387483738,
-    "agentHealth": "2026-05-10T05:25:00.000Z",
-    "wardenEscalation": "2026-05-10T05:25:00.000Z",
-    "allowlistSync": "2026-05-10T05:25:00.000Z",
+    "agentHealth": "2026-05-10T05:34:00Z",
+    "wardenEscalation": "2026-05-10T05:34:00Z",
+    "allowlistSync": "2026-05-10T05:34:00Z",
     "dailyClose": "2026-05-09T18:16:19.589Z",
     "apiBalance": "2026-05-10T04:53:00Z"
   },
-  "doDGatesSunday": "2026-05-10T04:57:31.705Z",
-  "lastHeartbeat": "2026-05-10T05:25:00.000Z",
-  "lastHeartbeatNote": "2026-05-10 15:25 AEST — All clean. Balance ~$479 (T0). Warden escalation resolved. Cron health alert acknowledged. Ahsoka pilot1 parked, pilot2 pending. No new alerts."
+  "doDGatesSunday": "2026-05-10T05:34:00Z",
+  "lastHeartbeat": "2026-05-10T05:34:00Z",
+  "lastHeartbeatNote": "2026-05-10 15:34 AEST — Sunday sprint planning: 15 open decisions + 7 draft docs surfaced. Warden cron 83accf7b: 3 consecutive failures (ack). Balance ~$425. All else clean."
 }

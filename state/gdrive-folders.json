@@ -30,8 +30,30 @@
         "social-marketing": "15dYFcaM0MqD53r-GxM7mpCEhGgBF6Pwx",
         "brand-code-angie": "1SPPBu9vzpF0VZGnSjwjBkx4t8u8PvERj"
       }
+    },
+    "journal-blog": {
+      "name": "Journal + Blog",
+      "id": "1WUcG6cdT95FYzSu-bh9S9Jaux4rWRR3z",
+      "url": "https://drive.google.com/drive/folders/1WUcG6cdT95FYzSu-bh9S9Jaux4rWRR3z",
+      "syncedOn": "2026-05-10",
+      "contains": "Daily journal MD + blog HTML per day"
+    },
+    "memory-context": {
+      "name": "Memory + Context",
+      "id": "1qn7pZaw4akt8a7DDsSoGS55KMsevLFgu",
+      "url": "https://drive.google.com/drive/folders/1qn7pZaw4akt8a7DDsSoGS55KMsevLFgu",
+      "syncedOn": "2026-05-10",
+      "contains": "MEMORY.md, daily memory files, context-for-aria.md"
+    },
+    "platform-docs": {
+      "name": "Platform Docs",
+      "id": "1WsvbM7RbUXBRGKk_izbtWSlQ_z3kjx0t",
+      "url": "https://drive.google.com/drive/folders/1WsvbM7RbUXBRGKk_izbtWSlQ_z3kjx0t",
+      "syncedOn": "2026-05-10",
+      "contains": "Charter, Governance Framework, Agent Framework, Model3-Policy, TOM Review, Strategy docs"
     }
   },
   "note": "Interim file access bridge until TKT-0124 (MinIO) is live. Account: kenmun@ainchors.com",
-  "createdAt": "2026-05-10"
+  "createdAt": "2026-05-10",
+  "purpose": "Interim personal repo / Holocron extension for Ken. Syncs OC1 assets until MinIO live. EOD close auto-uploads journal+blog daily."
 }
