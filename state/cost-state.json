@@ -1,5 +1,5 @@
 {
-  "lastUpdated": "2026-05-10T02:37:34Z",
+  "lastUpdated": "2026-05-10T13:56:22Z",
   "history": {
     "2026-04-25": {
       "date": "2026-04-25",
@@ -578,57 +578,57 @@
     },
     "2026-05-10": {
       "date": "2026-05-10",
-      "totalCost": 37.2932,
-      "totalTurns": 1032,
-      "totalInputTokens": 589609,
-      "totalOutputTokens": 298192,
-      "totalCacheReadTokens": 39939991,
-      "totalCacheWriteTokens": 6114459,
+      "totalCost": 266.3311,
+      "totalTurns": 7219,
+      "totalInputTokens": 2440665,
+      "totalOutputTokens": 1963199,
+      "totalCacheReadTokens": 272500052,
+      "totalCacheWriteTokens": 45082684,
       "source": "session-log-estimate",
       "note": "Session log estimate. usage.cost.total includes cacheWrite charges. CHG-0097: confirmed cost includes cache writes.",
       "byModel": {
         "claude-sonnet-4-6": {
-          "input": 1259,
-          "output": 255177,
-          "cacheRead": 37265613,
-          "cacheWrite": 5672062,
-          "cost": 36.2813,
-          "turns": 741
-        },
-        "gemma4:e2b": {
-          "input": 10488,
-          "output": 35,
-          "cacheRead": 0,
-          "cacheWrite": 0,
-          "cost": 0.0,
-          "turns": 1
+          "input": 9077,
+          "output": 1674641,
+          "cacheRead": 253274356,
+          "cacheWrite": 42218325,
+          "cost": 259.4479,
+          "turns": 5193
         },
         "claude-haiku-4-5": {
-          "input": 3197,
-          "output": 37644,
-          "cacheRead": 2674378,
-          "cacheWrite": 442397,
-          "cost": 1.0119,
-          "turns": 279
+          "input": 22710,
+          "output": 271507,
+          "cacheRead": 19225696,
+          "cacheWrite": 2864359,
+          "cost": 6.8833,
+          "turns": 1984
         },
         "deepseek-v4-pro:cloud": {
-          "input": 574665,
-          "output": 5336,
+          "input": 2353859,
+          "output": 16814,
           "cacheRead": 0,
           "cacheWrite": 0,
           "cost": 0.0,
-          "turns": 11
+          "turns": 37
+        },
+        "gemma4:e2b": {
+          "input": 55019,
+          "output": 237,
+          "cacheRead": 0,
+          "cacheWrite": 0,
+          "cost": 0.0,
+          "turns": 5
         }
       }
     }
   },
-  "allTimeTotalCost": 2376.3668,
+  "allTimeTotalCost": 2605.4047,
   "daysTracked": 16,
-  "avgDailyCost": 148.5229,
+  "avgDailyCost": 162.8378,
   "apiBalance": {
-    "remainingEstimate": 425.12,
-    "spentSinceTopUp": 2376.3668,
-    "remainingNote": "confirmedBalance=None at 2026-05-08; spentAfter=2376.3668",
+    "remainingEstimate": 0,
+    "spentSinceTopUp": 2605.4047,
+    "remainingNote": "confirmedBalance=None at 2026-05-08; spentAfter=2605.4047",
     "confirmedAt": "2026-05-08T11:32:26Z",
     "note": "Auto-reload triggered 2026-05-10. Balance $425.12 post-reload spend.",
     "lastUpdated": "2026-05-10T15:25:58.923445+10:00",
