@@ -37,6 +37,7 @@ notion_status() {
     open)        echo "Backlog" ;;
     in-progress) echo "In Progress" ;;
     pending)     echo "Backlog" ;;
+    done)        echo "Done" ;;
     resolved)    echo "Done" ;;
     closed)      echo "Done" ;;
     cancelled)   echo "Deferred" ;;
