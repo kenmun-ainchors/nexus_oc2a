@@ -11242,10 +11242,20 @@
       "status": "pass",
       "latencyMs": 0,
       "notes": "19 checks run"
+    },
+    {
+      "ts": "2026-05-10T14:09:00+10:00",
+      "date": "2026-05-10",
+      "tier": "T2",
+      "taskType": "warden-check",
+      "model": "anthropic/claude-haiku-4-5",
+      "status": "pass",
+      "latencyMs": 0,
+      "notes": "19 checks run (13 agent models + default + fallback + system + governance gates)"
     }
   ],
   "summary": {
-    "total": 1124,
+    "total": 1125,
     "byTier": {
       "T1": {
         "pass": 0,
@@ -11253,7 +11263,7 @@
         "timeout": 0
       },
       "T2": {
-        "pass": 1081,
+        "pass": 1082,
         "fail": 34,
         "timeout": 0
       },
@@ -11271,7 +11281,7 @@
         "tier": "T2"
       },
       "warden-check": {
-        "pass": 911,
+        "pass": 912,
         "fail": 28,
         "timeout": 0,
         "tier": "T2"
@@ -11295,6 +11305,6 @@
         "tier": "T2"
       }
     },
-    "estimatedSavingsUSD": 5.4125
+    "estimatedSavingsUSD": 5.4175
   }
 }
