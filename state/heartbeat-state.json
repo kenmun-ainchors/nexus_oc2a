@@ -3,18 +3,18 @@
     "email": "2026-05-10T04:18:00Z",
     "calendar": "2026-05-10T04:18:00Z",
     "weather": null,
-    "taskWatchdog": "2026-05-10T04:31:23.738Z",
-    "cronHealth": "2026-05-10T04:31:23.738Z",
-    "budgetCheck": "2026-05-10T04:16:00Z",
+    "taskWatchdog": "2026-05-10T04:55:55Z",
+    "cronHealth": "2026-05-10T04:53:00Z",
+    "budgetCheck": "2026-05-10T04:55:55Z",
     "doDGates": "2026-05-10T04:16:00Z",
     "cronDeadLetter": 1778387483738,
-    "agentHealth": "2026-05-10T04:31:23.738Z",
-    "wardenEscalation": "2026-05-10T04:31:23.738Z",
-    "allowlistSync": "2026-05-10T04:31:23.738Z",
+    "agentHealth": "2026-05-10T04:55:55Z",
+    "wardenEscalation": "2026-05-10T04:53:00Z",
+    "allowlistSync": "2026-05-10T04:53:00Z",
     "dailyClose": "2026-05-09T18:16:19.589Z",
-    "apiBalance": "2026-05-10T04:31:23.738Z"
+    "apiBalance": "2026-05-10T04:53:00Z"
   },
   "doDGatesSunday": "2026-05-10T04:16:00Z",
-  "lastHeartbeat": "2026-05-10T04:38:00.000Z",
-  "lastHeartbeatNote": "2026-05-10 14:38 AEST — Sunday sprint planning gates surfaced to Ken. 15 open decisions, 7 draft docs. No standby, no stalls, no dead letters, no task alerts. Warden escalation resolved. Cron failures acknowledged. API balance ~$241 est (auto-reload active at $50). Ahsoka Pilot 1 parked, Pilot 2 pending."
+  "lastHeartbeat": "2026-05-10T04:55:55Z",
+  "lastHeartbeatNote": "2026-05-10 14:54 AEST — Budget warning: main at 93.6% ($74.88/$80). Acknowledged. No task stall. No dead letter. No warden escalations. Allowlist no-changes. Ahsoka pilots in_progress/pending. DoD gates MISSING (open-decisions.json + draft-docs.json absent). API balance ~$479 Tier 0 (cost-state remainingEstimate stale)."
 }

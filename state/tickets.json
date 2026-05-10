@@ -1,5 +1,5 @@
 {
-  "sequence": 136,
+  "sequence": 137,
   "tickets": [
     {
       "id": "TKT-0104",
@@ -653,6 +653,28 @@
       },
       "notes": " | Sprint 3 COMMITTED — Ken confirmed 2026-05-10.",
       "notionPageId": "35cc1829-53ff-81b6-a95e-d7c8367f7d5a"
+    },
+    {
+      "id": "TKT-0136",
+      "title": "AInchors Consulting Playbook — AI Transformation framework assets and IP library",
+      "type": "task",
+      "priority": "high",
+      "status": "open",
+      "requester": "Ken",
+      "assignee": "Yoda",
+      "created": "2026-05-10T14:55:51+10:00",
+      "updated": "2026-05-10T14:56:00+10:00",
+      "description": "Establish the AInchors Consulting Playbook: a structured, versioned library of all AI transformation consulting IP. Ownership: Ken (IP authority + client-facing approval). Accountability: Yoda (operational governance, versioning, CHG logging) + Ahsoka (consulting methodology quality). Scope: (1) Define playbook structure — discovery, assessment, ROI models, transformation frameworks, change management, training materials, proposals. (2) Storage: workspace-business/projects/consulting-ip/ + Google Drive + Nexus Citadel at P2. (3) Every asset versioned (v1.0+), CHG-logged, Ken approval before external use. (4) First assets: KL team AI transformation programme materials (TKT-0110/0111) seeded as Playbook v1.0. (5) Lando defines documentation standards and template structure. (6) Ahsoka owns methodology integrity — Playbook is the source of truth for all engagements. Asset types: SPIN discovery templates, AI readiness assessments, ROI models (XLSX), proposal PPTX/DOCX templates, AI Transformation Primer, ADKAR change plans, client onboarding guides, workshop materials. P2: Playbook surfaced in Nexus Citadel per client with access control.",
+      "resolution": null,
+      "linked": {
+        "us": [
+          "TKT-0110"
+        ],
+        "inc": [],
+        "chg": []
+      },
+      "notes": "",
+      "notionPageId": "35cc1829-53ff-81e8-b3ac-cd66602e651e"
     }
   ]
 }

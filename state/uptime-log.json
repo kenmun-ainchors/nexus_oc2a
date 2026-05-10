@@ -4,21 +4,6 @@
   "sloTarget": 0.995,
   "entries": [
     {
-      "ts": "2026-04-29T19:36:53.842410+00:00",
-      "status": "ok",
-      "issues": []
-    },
-    {
-      "ts": "2026-04-29T19:51:54.846049+00:00",
-      "status": "ok",
-      "issues": []
-    },
-    {
-      "ts": "2026-04-29T20:06:54.446296+00:00",
-      "status": "ok",
-      "issues": []
-    },
-    {
       "ts": "2026-04-29T20:21:55.651189+00:00",
       "status": "ok",
       "issues": []
@@ -15219,14 +15204,33 @@
       "ts": "2026-05-10T04:39:40.328087+00:00",
       "status": "ok",
       "issues": []
+    },
+    {
+      "ts": "2026-05-10T04:45:03.262267+00:00",
+      "status": "ok",
+      "issues": []
+    },
+    {
+      "ts": "2026-05-10T04:47:56.646791+00:00",
+      "status": "degraded",
+      "issues": [
+        "Event loop delay critical: 29225ms max, utilisation 0.721 \u2014 gateway may be saturated"
+      ]
+    },
+    {
+      "ts": "2026-05-10T04:52:53.635003+00:00",
+      "status": "degraded",
+      "issues": [
+        "Event loop delay critical: 29225ms max, utilisation 0.721 \u2014 gateway may be saturated"
+      ]
     }
   ],
   "summary": {
-    "totalChecks": 2972,
-    "upChecks": 2567,
-    "downtimeMinutes": 6075,
-    "uptimePct": 86.373,
-    "lastCheck": "2026-05-10T04:39:40.328087+00:00",
-    "lastStatus": "ok"
+    "totalChecks": 2975,
+    "upChecks": 2568,
+    "downtimeMinutes": 6105,
+    "uptimePct": 86.319,
+    "lastCheck": "2026-05-10T04:52:53.635003+00:00",
+    "lastStatus": "degraded"
   }
 }
