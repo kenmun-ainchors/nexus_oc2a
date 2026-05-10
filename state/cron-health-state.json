@@ -1,15 +1,6 @@
 {
-  "checkedAt": "2026-05-10T10:17:44.657604+00:00",
-  "failures": [
-    {
-      "cronId": "83accf7b",
-      "fullCronId": "83accf7b-c3e5-4f0a-9a0c-d67d74ffff01",
-      "name": "Warden \u2014 Model Compliance Check",
-      "consecutiveErrors": 3,
-      "lastError": "error",
-      "source": "live-cron-state"
-    }
-  ],
+  "checkedAt": "2026-05-10T10:30:37.240668+00:00",
+  "failures": [],
   "warnings": [],
-  "healthy": false
+  "healthy": true
 }

@@ -1740,3 +1740,20 @@ Strategy OKR: /Users/ainchorsangiefpl/.openclaw/workspace/docs/ainchors-strategy
 
 **Audit script exit codes:** 0=CLEAR | 1=FLAG (review needed) | 2=BLOCK (do not install)
 
+
+---
+
+## CRON TOKEN EFFICIENCY RULE (NON-NEGOTIABLE — L-022)
+
+**Full context:** `memory/2026-05-10.md` → L-022
+
+Before creating OR modifying any cron agentTurn:
+
+1. **Does this task need LLM reasoning?** If the task is: run a script, check exit code, log result → use `systemEvent` or a shell wrapper script. NO `agentTurn`.
+2. **Set `lightContext: true`** on ALL isolated background crons unless the task genuinely requires MEMORY.md / SOUL.md context (standup, RTB summaries are exceptions).
+3. **Script stdout → state files.** Scripts write JSON results. LLM reads the summary. Never pipe large stdout back to model context.
+4. **Model right-sizing:** Use lowest tier that meets the quality bar. Compliance check = Haiku max. Health check = systemEvent. Ops summary = Haiku/gemma4. Content = Sonnet.
+5. **Token targets:** Monitoring <500/run | Compliance <2,000/run | Reporting <5,000/run | Content <10,000/run.
+
+Any cron exceeding 2x its category target → flag in monthly CI audit.
+

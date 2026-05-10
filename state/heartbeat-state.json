@@ -6,7 +6,7 @@
     "taskWatchdog": "2026-05-10T10:18:00Z",
     "cronHealth": "2026-05-10T10:18:00Z",
     "budgetCheck": "2026-05-10T10:12:45.3NZ",
-    "doDGates": "2026-05-10T10:10:05.122Z",
+    "doDGates": "2026-05-10T10:31:19.573704Z",
     "cronDeadLetter": "2026-05-10T08:52:29.126338Z",
     "agentHealth": "2026-05-10T09:44:46Z",
     "wardenEscalation": "2026-05-10T10:12:45.3NZ",
@@ -17,6 +17,6 @@
     "ahsokaPilot": "2026-05-10T10:12:45.3NZ"
   },
   "doDGatesSunday": "2026-05-10T09:15:08.6NZ",
-  "lastHeartbeat": "2026-05-10T10:18:00Z",
-  "lastHeartbeatNote": "2026-05-10 20:17 AEST — Warden cron 83accf7b still 3x consecutive failures, flagged to Ken. Balance $425.12 OK. All else clean."
+  "lastHeartbeat": "2026-05-10T10:29:00Z",
+  "lastHeartbeatNote": "2026-05-10 20:29 AEST \u2014 All checks clean. Balance $479.35 (well above tiers). Warden cron 83accf7b 3x failures acknowledged. No stalls, no dead-letters, no standby. Ahsoka pilots in progress. EOD close not yet due (23:30)."
 }

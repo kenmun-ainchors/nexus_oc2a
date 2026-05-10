@@ -1,5 +1,5 @@
 {
-  "sequence": 144,
+  "sequence": 145,
   "tickets": [
     {
       "id": "TKT-0104",
@@ -822,6 +822,26 @@
       },
       "notes": "",
       "notionPageId": "35cc1829-53ff-8154-8a99-df074516eb5c"
+    },
+    {
+      "id": "TKT-0144",
+      "title": "Platform CI: Token Efficiency Audit — perpetual optimisation loop",
+      "type": "task",
+      "priority": "medium",
+      "status": "open",
+      "requester": "Ken",
+      "assignee": "Yoda",
+      "created": "2026-05-10T20:32:50+10:00",
+      "updated": "2026-05-10T20:32:50+10:00",
+      "description": "Perpetual CI activity (monthly) to audit all crons for token efficiency. Principles from L-022: (1) Shell-first: tasks with no reasoning → systemEvent/wrapper script, no agentTurn. (2) lightContext:true on all isolated background crons. (3) Script stdout → state files, not LLM context. (4) Model right-sizing: use lowest tier that meets quality bar. (5) Token budget targets per category: monitoring <500/run, compliance <2,000/run, reporting <5,000/run, content <10,000/run. Deliverables: (a) write scripts/token-efficiency-audit.sh to scan all crons and flag any exceeding 2x category target, (b) backfill lightContext:true on all existing eligible crons, (c) identify any current crons that should be converted to systemEvent, (d) add token tracking to obs.db (avg tokens/run per cron). Run monthly. Never-ending CI loop. Reference: L-022, CHG-Warden-fix.",
+      "resolution": null,
+      "linked": {
+        "us": [],
+        "inc": [],
+        "chg": []
+      },
+      "notes": "",
+      "notionPageId": "35cc1829-53ff-8114-8341-eee1485f00c3"
     }
   ]
 }
