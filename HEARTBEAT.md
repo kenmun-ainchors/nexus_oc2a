@@ -142,4 +142,4 @@ State file: state/heartbeat-state.json
 
 ### Google Drive EOD Sync
 🚫 **HEARTBEAT NEVER TOUCHES DRIVE SYNC.**
-Drive sync is owned by cron `c5a3911d` (23:00 AEST). Heartbeat must not run or duplicate it.
+Drive sync is owned by cron `c5a3911d` (00:30 AEST — runs after blog). Heartbeat must not run or duplicate it.
