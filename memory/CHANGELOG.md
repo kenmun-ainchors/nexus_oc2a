@@ -84,6 +84,18 @@ This log captures **every change** Yoda makes to AInchors infrastructure, config
 **Linked:** decisions.md 2026-04-27 entries
 ---
 
+## 2026-05-10 11:39 AEST — [CHG-0262] TKT-0113: API-independent Telegram fallback alert (telegram-alert.sh)
+**Type:** script
+**Source:** ken-prompt
+**Trigger:** INC-20260509-001 post-mortem action A1. Ken locked into sprint.
+**What changed:** New: scripts/telegram-alert.sh (direct Bot HTTP, /usr/bin/curl only, Keychain token, retry x2, no Anthropic/Python/OpenClaw dependency). Updated: health-check.sh — gateway failures alert + first Anthropic API down detection alert.
+**Why:** During API outage the alert system was silent because it depended on Anthropic. Now fires independently via Telegram Bot API.
+**Verification:** Live test: HTTP 200. Message delivered to Ken Telegram.
+**Rollback:** N/A
+**Linked:** TKT-0113, INC-20260509-001
+---
+
+
 ## 2026-05-10 11:32 AEST — [CHG-0261] Model3-Policy applied to all 5 T3 agent SOUL.md files (TKT-0106)
 **Type:** rule
 **Source:** ken-prompt

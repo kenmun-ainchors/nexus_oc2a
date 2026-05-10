@@ -186,11 +186,11 @@
       "title": "Fallback alert channel — API-independent notification path",
       "type": "task",
       "priority": "high",
-      "status": "in-progress",
+      "status": "done",
       "requester": "Ken",
       "assignee": "Yoda",
       "created": "2026-05-09T12:18:26+10:00",
-      "updated": "2026-05-10T10:56:20+10:00",
+      "updated": "2026-05-10T11:39:23+10:00",
       "description": "INC-20260509-001 prevention gap: Telegram alerting depends on Anthropic API — same API it monitors. When API hits /bin/zsh, alerts go silent. Need secondary alert path (local script → SMS or email via secondary provider e.g. Twilio/Postmark) that fires when primary API is degraded.",
       "resolution": null,
       "linked": {
@@ -198,7 +198,7 @@
         "inc": [],
         "chg": []
       },
-      "notes": "2026-05-10: Locked into Sprint 2 (Ken confirmed). Post-mortem INC-20260509-001 action item A1+A4. Build API-independent Telegram alert path — direct HTTP to Telegram Bot API, no Anthropic dependency. Must fire on: balance /bin/zsh, API down, gateway down, health_failure consecutive 3+.",
+      "notes": "2026-05-10: Locked into Sprint 2 (Ken confirmed). Post-mortem INC-20260509-001 action item A1+A4. Build API-independent Telegram alert path — direct HTTP to Telegram Bot API, no Anthropic dependency. Must fire on: balance /bin/zsh, API down, gateway down, health_failure consecutive 3+. | COMPLETE 2026-05-10. Built scripts/telegram-alert.sh: direct Telegram Bot HTTP, no Anthropic/OpenClaw dependency, Keychain token, /usr/bin/curl only, retry x2. Wired into health-check.sh: (1) gateway consecutive failures >= threshold, (2) first Anthropic API unreachable detection. CHG-0262. Test confirmed HTTP 200.",
       "notionPageId": "35bc1829-53ff-8189-af98-e0e79714c2a8"
     },
     {

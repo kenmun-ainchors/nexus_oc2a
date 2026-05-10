@@ -194,6 +194,13 @@ if [[ "$ANTHROPIC_REACHABLE" == "0" ]]; then
   if [[ -f "$STANDBY_FILE" ]]; then
     # Already in standby — preserve original 'since' timestamp
     SINCE_TS=$(python3 -c "import json; d=json.load(open('$STANDBY_FILE')); print(d.get('since','$SINCE_TS'))" 2>/dev/null || echo "$SINCE_TS")
+  else
+    # First detection — fire API-independent alert immediately (TKT-0113)
+    log "ALERT: Anthropic API down — firing fallback Telegram alert (TKT-0113)"
+    bash "$HOME/.openclaw/workspace/scripts/telegram-alert.sh" \
+      --message "🚨 Anthropic API UNREACHABLE\n\nTime: $(date)\nHTTP: $ANTHROPIC_HTTP\n\nStandby mode activating. Check billing at console.anthropic.com\nAuto-reload active — if balance is fine, may be a transient outage." \
+      --chat-id "8574109706" --silent >> "$LOG" 2>&1 \
+      || log "WARNING: Telegram fallback alert failed"
   fi
   python3 - << PYEOF2
 import json
@@ -296,10 +303,19 @@ if [[ "$GATEWAY_OK" == "false" ]]; then
     log "Restart command sent"
   fi
 
-  # Alert Ken after threshold
+  # Alert Ken after threshold — TKT-0113: API-independent fallback alert
   if (( NEW_FAILURES >= FAILURE_THRESHOLD )) && [[ "$ALERTED" != "true" ]]; then
-    log "ALERT: Sending gateway-down notification"
-    echo "🚨 AInchors Gateway DOWN\n\nConsecutive failures: $NEW_FAILURES\nTime: $(date)\nHTTP status: $HTTP_STATUS\n\nAuto-restart attempted on first failure. Manual check needed." > /tmp/startup-alert.txt
+    log "ALERT: Sending gateway-down notification via direct Telegram"
+    ALERT_MSG="🚨 AInchors Gateway DOWN
+
+Consecutive failures: $NEW_FAILURES
+Time: $(date)
+HTTP status: $HTTP_STATUS
+
+Auto-restart attempted. Manual check needed."
+    bash "$HOME/.openclaw/workspace/scripts/telegram-alert.sh" \
+      --message "$ALERT_MSG" --chat-id "8574109706" --silent \
+      >> "$LOG" 2>&1 || log "WARNING: Telegram fallback alert also failed"
   fi
 
   # US40: Log health failure to obs.db
