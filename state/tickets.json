@@ -1,5 +1,5 @@
 {
-  "sequence": 139,
+  "sequence": 140,
   "tickets": [
     {
       "id": "TKT-0104",
@@ -717,6 +717,29 @@
       },
       "notes": "",
       "notionPageId": "35cc1829-53ff-8194-8bc9-f61f1183cbf4"
+    },
+    {
+      "id": "TKT-0139",
+      "title": "Consulting Product Portfolio — commercial offerings mapped to business stages, maturity and P2-P4 strategy",
+      "type": "task",
+      "priority": "high",
+      "status": "open",
+      "requester": "Ken",
+      "assignee": "Yoda",
+      "created": "2026-05-10T15:21:58+10:00",
+      "updated": "2026-05-10T15:22:03+10:00",
+      "description": "Design the full AInchors Consulting Product Portfolio: identify commercial products across client AI maturity stages, business processes, and domains. Aligned to P2-P4 strategy. Cross-pollinate into training courses product line. Scope: (1) PRODUCT IDENTIFICATION — map AI maturity (Experimenter, Adopter, Transformer, AI-Native) to commercial offerings. Business Jumpstart (TKT-0138) is the entry product. What comes next? AI Ops Retainer, Nexus Implementation, AI Readiness Assessment, AI Governance Audit, Transformation Programme. (2) COMMERCIAL ROADMAP — sequence products against P2 (first client, prove model), P3 (productised delivery), P4 (platform + self-serve). Which products launch at P2? Which need P3 infrastructure? (3) TRAINING COURSE PIPELINE — identify which consulting frameworks generate training courses. Business Jumpstart -> AI Jumpstart for Business course. VMS methodology -> AI Strategy for Leaders. Agile-first sprint -> Agile AI Delivery workshop. (4) MATERIALS MATRIX — per product: required Consulting Playbook assets (TKT-0136), Nexus modules, agent capabilities. Identify gaps early. (5) PRIORITISATION — ICE/PIE scoring against P2-P4 revenue targets, effort, strategic fit. Owners: Ahsoka (product design), Aria (commercial + Angie alignment), Atlas (platform capability mapping). Ken + Angie approve portfolio. Gate: Ken + Angie sign-off before any product goes to market.",
+      "resolution": null,
+      "linked": {
+        "us": [
+          "TKT-0136",
+          "TKT-0138"
+        ],
+        "inc": [],
+        "chg": []
+      },
+      "notes": "",
+      "notionPageId": "35cc1829-53ff-8153-a8bb-e9aa6c92d69a"
     }
   ]
 }
