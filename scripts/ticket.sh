@@ -58,10 +58,10 @@ notion_priority() {
 # Create a new Notion page for a ticket. Prints the page ID on success, or "NOTION_SKIP".
 # Usage: notion_create_ticket TKT-ID TITLE STATUS PRIORITY CREATED_DATE [NOTES]
 notion_create_ticket() {
-  local tkt_id="$1" title="$2" status="$3" priority="$4" created_date="$5" notes="${6:-}"
+  local tkt_id="$1" title="$2" tkt_status="$3" priority="$4" created_date="$5" notes="${6:-}"
   [[ ! -f "$NOTION_KEY_FILE" ]] && echo "NOTION_SKIP" && return
   local key; key=$(cat "$NOTION_KEY_FILE")
-  local n_status; n_status=$(notion_status "$status")
+  local n_status; n_status=$(notion_status "$tkt_status")
   local n_priority; n_priority=$(notion_priority "$priority")
   local n_title="[${tkt_id}] ${title}"
   notes="${notes:0:2000}"
@@ -108,11 +108,11 @@ notion_create_ticket() {
 # Update an existing Notion page's Status, Priority, and Notes.
 # Usage: notion_update_ticket PAGE_ID STATUS PRIORITY [NOTES]
 notion_update_ticket() {
-  local page_id="$1" status="$2" priority="$3" notes="${4:-}"
+  local page_id="$1" tkt_status="$2" priority="$3" notes="${4:-}"
   [[ -z "$page_id" || "$page_id" == "null" || "$page_id" == "NOTION_SKIP" ]] && return
   [[ ! -f "$NOTION_KEY_FILE" ]] && return
   local key; key=$(cat "$NOTION_KEY_FILE")
-  local n_status; n_status=$(notion_status "$status")
+  local n_status; n_status=$(notion_status "$tkt_status")
   local n_priority; n_priority=$(notion_priority "$priority")
   notes="${notes:0:2000}"
 

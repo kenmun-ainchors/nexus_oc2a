@@ -170,7 +170,7 @@
       "requester": "Ken",
       "assignee": "Yoda",
       "created": "2026-05-09T12:01:43+10:00",
-      "updated": "2026-05-09T12:01:43+10:00",
+      "updated": "2026-05-10T10:05:21+10:00",
       "description": "cron-health-check.sh detects cron consecutiveErrors but does not feed results into obs.db. obs-collector.sh has no check against cron-health-state.json. Result: cron job failures are invisible to the standup 24h error count and obs trend dashboard. Kimi RTB cron failed silently (Day 15) — not surfaced in standup. Fix: add check in obs-collector.sh to read cron-health-state.json failures array and log each as obs event type=cron_run_fail level=ERROR source=cron-health.",
       "resolution": null,
       "linked": {
@@ -178,7 +178,7 @@
         "inc": [],
         "chg": []
       },
-      "notes": "",
+      "notes": "2026-05-10: Elevated to sprint item. Phantom delegation_fail alerts firing repeatedly (3,761 entries, all empty task/agent/error). Fix: exclude empty-field entries from delegation_fail check in obs-collector.",
       "notionPageId": "35bc1829-53ff-8169-b4e5-c8c1e5f6e5ab"
     },
     {
@@ -412,7 +412,7 @@
       "requester": "Ken",
       "assignee": "Yoda",
       "created": "2026-05-10T09:30:31+10:00",
-      "updated": "2026-05-10T09:48:02+10:00",
+      "updated": "2026-05-10T10:01:39+10:00",
       "description": "Deploy MinIO on OC1 as S3-compatible interim object store. Goal: bridge remote file access gap before P2 AWS S3 deployment. Addresses generated images and blobs not accessible from Windows/external devices via Tailscale. Expanding use beyond Ken to Angie staff in Malaysia makes this urgent. Scope: (1) MinIO in Docker on OC1, (2) bucket structure per Atlas P2 blob design, (3) presigned URL helper script, (4) update hf-generate-image.sh to store to MinIO + return presigned URL, (5) Tailscale Serve path for MinIO API. Upstream: Atlas DataMemory_P1P4_Roadmap.md P2 blob design. Replaces filesystem MEDIA paths with presigned URLs accessible to all Tailscale peers.",
       "resolution": null,
       "linked": {
@@ -420,8 +420,8 @@
         "inc": [],
         "chg": []
       },
-      "notes": "SCOPE EXPANDED 2026-05-10 09:45: Now also covers (1) Business stream file repository — Angie + KL team upload/share business files and data, (2) Agent business memory layer — Aria and business-stream agents use this as persistent business memory + document access. KL team NOT on Tailscale mesh — access model TBD (pending Atlas assessment). This is now interim Business Data + Agent Memory infrastructure platform, not just image serving fix.",
-      "notionPageId": null
+      "notes": "SCOPE EXPANDED 2026-05-10 09:45: Now also covers (1) Business stream file repository — Angie + KL team upload/share business files and data, (2) Agent business memory layer — Aria and business-stream agents use this as persistent business memory + document access. KL team NOT on Tailscale mesh — access model TBD (pending Atlas assessment). This is now interim Business Data + Agent Memory infrastructure platform, not just image serving fix. | SCOPE ADDITION 2026-05-10 10:01: Brand Code (HBR Agentic Marketing Org framework) folds into this business memory layer. TKT-0124 is not just object storage — it IS the business memory layer for the agentic marketing org. MinIO buckets + metadata layer must support Brand Code: brand strategy, product experience, customer insights, business rules — stored as structured documents accessible by Aria and all business-stream agents. TKT-0127 depends on TKT-0124 as its foundation.",
+      "notionPageId": "35cc1829-53ff-815a-b9ca-f3a56796697b"
     },
     {
       "id": "TKT-0125",
@@ -443,7 +443,7 @@
         "chg": []
       },
       "notes": "",
-      "notionPageId": null
+      "notionPageId": "35cc1829-53ff-8108-abc1-c3efd4698e49"
     },
     {
       "id": "TKT-0126",
@@ -463,7 +463,7 @@
         "chg": []
       },
       "notes": "",
-      "notionPageId": null
+      "notionPageId": "35cc1829-53ff-816b-b049-fc517f98d2cd"
     },
     {
       "id": "TKT-0127",
@@ -485,7 +485,7 @@
         "chg": []
       },
       "notes": "HBR article content loaded 2026-05-10. Framework: 4-layer platform (Brand Code foundation, Execution, Orchestration, Interface) + 5 workstreams (Intelligence+Ideation, Content Creation, Research+Testing, Distribution, Performance+Reporting). P1 MVP focus: Brand Code build + Content Creation + Distribution workstreams, Telegram interface, MinIO file layer (TKT-0124). P2: all 5 workstreams + orchestration layer + external client delivery. Key new concept: Brand Code = machine-readable KB for Aria. Ref: docs/HBR_Agentic_Marketing_Org_May2026_Summary.md",
-      "notionPageId": null
+      "notionPageId": "35cc1829-53ff-8150-93cd-ee2d9dd5cd9a"
     }
   ]
 }

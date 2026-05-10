@@ -1,6 +1,6 @@
 {
-  "generated_at": "2026-05-09T23:55:52.261244+00:00",
-  "generated_at_aest": "2026-05-10 09:55 AEST",
+  "generated_at": "2026-05-10T00:05:51.471617+00:00",
+  "generated_at_aest": "2026-05-10 10:05 AEST",
   "period_hours": 24,
   "totals": {
     "ERROR": 3875,
@@ -14,11 +14,11 @@
     },
     {
       "type": "health_failure",
-      "count": 104
+      "count": 102
     },
     {
       "type": "cron_run_fail",
-      "count": 8
+      "count": 10
     },
     {
       "type": "warden_violation",

@@ -4,16 +4,16 @@
     "calendar": "2026-05-10T21:59:00Z",
     "weather": null,
     "taskWatchdog": 1778371096214,
-    "cronHealth": 1778371096214,
+    "cronHealth": 1778371509129,
     "budgetCheck": 1778370903041,
     "doDGates": "2026-05-09T23:28:00Z",
     "cronDeadLetter": 1778370903,
     "dailyClose": "2026-05-09T18:16:19.589Z",
-    "agentHealth": 1778371096214,
-    "wardenEscalation": 1778370903041,
+    "agentHealth": 1778371284397,
+    "wardenEscalation": 1778371509129,
     "allowlistSync": 1778370903
   },
   "doDGatesSunday": "2026-05-09T23:55:03.041Z",
-  "lastHeartbeat": "2026-05-09T23:58:16.214Z",
-  "lastHeartbeatNote": "2026-05-10 09:57 AEST — Warden cron 83accf7b still failing (3 consec errors). Alerted Ken. Balance $278.73 healthy. No other issues."
+  "lastHeartbeat": "2026-05-10T00:04:00Z",
+  "lastHeartbeatNote": "2026-05-10 10:04 AEST — All clear. Warden cron-health alert acknowledged (Ken already notified 09:57). Balance ~$278.73 auto-reload active. No task stalls. No new escalations."
 }

@@ -84,6 +84,18 @@ This log captures **every change** Yoda makes to AInchors infrastructure, config
 **Linked:** decisions.md 2026-04-27 entries
 ---
 
+## 2026-05-10 10:09 AEST — [CHG-0255] Fix ticket.sh Notion sync — status reserved variable in zsh
+**Type:** script
+**Source:** ken-prompt
+**Trigger:** Ken reported repeated Notion sync failures
+**What changed:** notion_create_ticket() and notion_update_ticket(): renamed local variable 'status' to 'tkt_status' — 'status' is a zsh read-only variable causing silent function failure on every sync attempt.
+**Why:** All ticket creates/updates since deploy were silently failing Notion sync. Root cause: zsh treats 'status' as read-only (stores last command exit code). Declaring local status=... exits the function immediately.
+**Verification:** TKT-0124/0125/0126/0127/0112 all synced successfully post-fix.
+**Rollback:** N/A
+**Linked:** none
+---
+
+
 ## 2026-05-10 08:24 AEST — [CHG-0254] Spark: LinkedIn image generation via HF FLUX.1-schnell (TKT-0121)
 **Type:** script
 **Source:** ken-prompt

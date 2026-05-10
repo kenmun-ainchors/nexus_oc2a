@@ -50,9 +50,11 @@ AI doesn't fix marketing by speeding up existing workflows. It requires a new op
 ---
 
 ## AInchors Application Notes
-- Brand Code = Aria's structured knowledge base (first build)
+- **Brand Code folds into TKT-0124 business memory layer** (Ken confirmed 2026-05-10). Not a separate build — it IS the structured content of the MinIO-backed business memory layer.
+- TKT-0124 = infrastructure + memory layer (MinIO + Brand Code documents + business data)
+- TKT-0127 = agents + workstreams built on top of TKT-0124
 - Angie + KL team = the human directors in this model
 - Spark already covers content creation + distribution for Ken's personal profile
 - Need to extend Spark (or new agents) to cover AInchors brand channels
-- Phase 1: Brand Code + Content Creation + Distribution (MVP)
-- Phase 2: All 5 workstreams + orchestration layer + external client delivery
+- Phase 1 (P1 MVP, pre-OC2): TKT-0124 live → Brand Code seeded → Content Creation + Distribution workstreams active for Angie+KL team
+- Phase 2 (P2, post-OC2): All 5 workstreams + orchestration layer + external client delivery
