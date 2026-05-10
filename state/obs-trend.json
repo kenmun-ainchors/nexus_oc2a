@@ -1,9 +1,9 @@
 {
-  "generated_at": "2026-05-10T00:45:46.898081+00:00",
-  "generated_at_aest": "2026-05-10 10:45 AEST",
+  "generated_at": "2026-05-10T00:51:28.340594+00:00",
+  "generated_at_aest": "2026-05-10 10:51 AEST",
   "period_hours": 24,
   "totals": {
-    "ERROR": 3868,
+    "ERROR": 3867,
     "WARN": 5,
     "INFO": 8
   },
@@ -14,7 +14,7 @@
     },
     {
       "type": "health_failure",
-      "count": 94
+      "count": 93
     },
     {
       "type": "cron_run_fail",
@@ -43,7 +43,7 @@
     "has_prev_data": true,
     "prev_errors": 255,
     "prev_warns": 12,
-    "errors_pct_change": 1416.9,
+    "errors_pct_change": 1416.5,
     "warns_pct_change": -58.3
   },
   "worst_hour": {

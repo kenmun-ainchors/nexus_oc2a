@@ -1,17 +1,20 @@
 {
   "id": "INC-20260509-001",
-  "title": "Extended health degradation — API balance zero (26hr)",
+  "title": "Extended health degradation \u2014 API balance zero (26hr)",
   "severity": "P2",
   "startedAt": "2026-05-08T00:05:00Z",
   "resolvedAt": "2026-05-09T01:59:56Z",
   "durationMinutes": 1554,
-  "rootCause": "Anthropic API balance hit $0. Health checks reported 'degraded' status continuously for ~26 hours. Telegram alert system silently failed — gateway could not fire alerts while API was unavailable.",
+  "rootCause": "Anthropic API balance hit $0. Health checks reported 'degraded' status continuously for ~26 hours. Telegram alert system silently failed \u2014 gateway could not fire alerts while API was unavailable.",
   "impact": "Internal ops degraded ~26hrs. No client impact (P1 ops only). 274 health_failure events logged. 99 delegation_fail batch events logged by obs-collector on recovery.",
   "resolution": "Ken manually topped up API balance to $479.35 at 21:32 AEST 2026-05-08. System self-recovered. Auto-reload re-armed. Health state: ok as of 2026-05-09T02:12Z.",
   "preventable": true,
   "prevention": "Auto-reload threshold ($50) should prevent recurrence. Root gap: alert system was non-functional during the exact scenario it was needed for. Need fallback alert path that does not depend on Anthropic API.",
-  "linkedChg": null,
+  "linkedChg": "CHG-0257",
   "detectedBy": "Yoda (post-incident obs-trend review at 12:14 AEST 2026-05-09)",
   "relatedUS": [],
-  "loggedAt": "2026-05-09T02:14:00Z"
+  "loggedAt": "2026-05-09T02:14:00Z",
+  "postMortemAt": "2026-05-10T10:54:53.163671+10:00",
+  "postMortemDoc": "docs/postmortem-INC-20260509-001.md",
+  "status": "post-mortem-complete"
 }

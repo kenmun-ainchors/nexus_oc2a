@@ -4,16 +4,16 @@
     "calendar": "2026-05-10T21:59:00Z",
     "weather": null,
     "taskWatchdog": 1778373777902,
-    "cronHealth": 1778373777902,
-    "budgetCheck": 1778370903041,
-    "doDGates": "2026-05-09T23:28:00Z",
-    "cronDeadLetter": 1778373777902,
-    "dailyClose": "2026-05-09T18:16:19.589Z",
-    "agentHealth": 1778373777902,
-    "wardenEscalation": 1778373777902,
-    "allowlistSync": 1778373777902
+    "cronHealth": 1778376760000,
+    "budgetCheck": 1778376760000,
+    "doDGates": "2026-05-10T00:16:00Z",
+    "cronDeadLetter": 1778376760000,
+    "agentHealth": 1778376760000,
+    "wardenEscalation": 1778376760000,
+    "allowlistSync": 1778376760000,
+    "dailyClose": "2026-05-09T18:16:19.589Z"
   },
   "doDGatesSunday": "2026-05-10T00:16:00Z",
-  "lastHeartbeat": "2026-05-10T00:43:00Z",
-  "lastHeartbeatNote": "2026-05-10 10:43 AEST — All clear. Balance ~$278.73 (T0). No standby, no stall, no dead letters, no warden escalation, no budget alerts. Cron health clean. Allowlist: no-changes. Ahsoka P1 parked / P2 pending. Open decisions: 0. DoD gates clean (Sunday sprint planning check done at 10:16)."
+  "lastHeartbeat": "2026-05-10T00:52:00Z",
+  "lastHeartbeatNote": "2026-05-10 10:52 AEST — All clear. Balance ~$278.73 (T0). No standby, no stall, no dead letters, no active warden escalation (prev resolved-by-yoda). Cron health clean. Ahsoka P1 in_progress / P2 pending. DoD Sunday check done at 10:16. No alerts."
 }

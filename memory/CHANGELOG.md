@@ -84,6 +84,30 @@ This log captures **every change** Yoda makes to AInchors infrastructure, config
 **Linked:** decisions.md 2026-04-27 entries
 ---
 
+## 2026-05-10 10:54 AEST — [CHG-0257] Post-mortem: INC-20260509-001 — API degradation 26h
+**Type:** doc
+**Source:** ken-prompt
+**Trigger:** TOM review action item — post-mortem outstanding
+**What changed:** Written docs/postmortem-INC-20260509-001.md. 6 action items raised: TKT-0113 (API-independent alert) priority confirmed, billing card check cron, Ken manual recovery guide, L-021 learning added.
+**Why:** Post-mortem 22 days overdue. Needed to capture learnings and close the loop before P2.
+**Verification:** Incident log updated. Doc written. Action items tracked.
+**Rollback:** N/A
+**Linked:** INC-20260509-001, TKT-0113
+---
+
+
+## 2026-05-10 10:53 AEST — [CHG-0256] Warden: add failureAlert after 3 consecutive failures → Telegram Ken
+**Type:** cron
+**Source:** ken-prompt
+**Trigger:** TOM review gap: Warden had no failure alerting configured
+**What changed:** Added failureAlert to Warden cron (83accf7b): after=3, channel=telegram, to=8574109706, cooldown=1h.
+**Why:** TRIGGER-09 policy: Warden failures should surface to Yoda. Without failureAlert, consecutive errors were silent.
+**Verification:** Cron updated. Current state: ✅ healthy — last run 10:07 AEST clean, consecutiveErrors=0. Prior 2 errors were gateway restart + transient Haiku blip, both self-resolved.
+**Rollback:** N/A
+**Linked:** none
+---
+
+
 ## 2026-05-10 10:09 AEST — [CHG-0255] Fix ticket.sh Notion sync — status reserved variable in zsh
 **Type:** script
 **Source:** ken-prompt
