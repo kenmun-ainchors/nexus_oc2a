@@ -79,6 +79,10 @@ _Author: Yoda 🟢 | For: Ken Mun (CTO) | Private — personal review only_
 - Real commands inside ```bash fences
 - Decisions taken inline
 
+**Yoda's response (verbatim):**
+> "Exact closing reply delivered to Ken — the final summary or answer sent in chat."
+> "If multi-message, quote each separately."
+
 **Outcome:** Concrete result — file written, alert sent, decision logged, error captured.
 
 ---
@@ -104,7 +108,14 @@ _Author: Yoda 🟢 | For: Ken Mun (CTO) | Private — personal review only_
 
 2. **Chronological order.** No re-ordering for narrative. The log follows the clock.
 
-3. **Every meaningful prompt must appear.** This includes:
+3. **Every meaningful prompt AND response must appear.** The `Yoda's response (verbatim)` field captures the final reply delivered to Ken for each entry — not tool output, not intermediate steps, but the closing message Ken actually received in chat. This creates a bidirectional record: Ken's intent + Yoda's answer. Rules:
+   - Quote Yoda's final chat reply exactly, preserving formatting, numbers, and conclusions
+   - If Yoda sent multiple follow-up messages for one request, quote each
+   - If the response was purely mechanical (e.g. "Done. Committed."), quote it anyway — it shows confirmation
+   - If no reply was sent (silent system event), write: `> _(silent — no chat reply)_`
+   - Do NOT paste tool call output or intermediate reasoning — only the message Ken received
+
+4. **Every meaningful prompt must appear.** This includes:
    - Sprint kickoffs and approvals
    - Mid-sprint corrections ("no, do it this way instead")
    - Quick replies that change direction ("yes", "ok do it", "use sonnet")
@@ -115,29 +126,29 @@ _Author: Yoda 🟢 | For: Ken Mun (CTO) | Private — personal review only_
    
    It does **not** include heartbeat polls, system events, reminder-cron triggers, or auto-generated context blocks.
 
-4. **Section titles describe the work, not the format.** Good: `09:01 — US11 Model Strategy Sprint`. Bad: `09:01 — Ken Sent Message`.
+5. **Section titles describe the work, not the format.** Good: `09:01 — US11 Model Strategy Sprint`. Bad: `09:01 — Ken Sent Message`.
 
-5. **Unrecoverable verbatim.** If a real Ken prompt was made (e.g. via voice that wasn't transcribed, or a session log was lost), mark it explicitly:
+6. **Unrecoverable verbatim.** If a real Ken prompt was made (e.g. via voice that wasn't transcribed, or a session log was lost), mark it explicitly:
    ```
    **Ken's prompt (verbatim):** _[not recovered from transcript — paraphrased from journal summary]_
    _Paraphrased: "Ken asked about X."_
    ```
    Better honest than fabricated.
 
-6. **PII redaction.** Inside the journal (private):
+7. **PII redaction.** Inside the journal (private):
    - Keep Ken's verbatim prompts intact
    - Redact third-party IDs (e.g. Telegram user IDs of others), API keys, pairing codes, IPs → replace with `[REDACTED]` or `<PLACEHOLDER>`
    - The blog post (public) has stricter redaction — see RULES.md PII section
 
-7. **Active vs Quiet day.**
+8. **Active vs Quiet day.**
    - **Active day** (significant Ken interaction): full chronological format above
    - **Quiet day** (autonomous platform activity only): switch lens to "what the platform did" — cron results, health status, autonomous decisions, deferred items checked. Still timestamped. Still ends with retro.
 
-8. **Source the prompts.** When rebuilding a journal from session transcripts, list which session jsonl files the prompts came from in the retro footer (one line: `Sources: d7290252.jsonl, b147ee4b.jsonl, ...`).
+9. **Source the prompts.** When rebuilding a journal from session transcripts, list which session jsonl files the prompts came from in the retro footer (one line: `Sources: d7290252.jsonl, b147ee4b.jsonl, ...`).
 
-9. **No summary substitution.** A journal in summary style is **not a journal**. If the format is wrong, redo it. (Day 2 was rebuilt 2026-04-27 06:39 for this exact reason.)
+10. **No summary substitution.** A journal in summary style is **not a journal**. If the format is wrong, redo it. (Day 2 was rebuilt 2026-04-27 06:39 for this exact reason.)
 
-10. **Length is not the metric.** Day 1 is 540 lines. Day 2 is 1,011 lines. The right length is whatever it takes to capture the day faithfully.
+11. **Length is not the metric.** Day 1 is 540 lines. Day 2 is 1,011 lines. The right length is whatever it takes to capture the day faithfully.
 
 ---
 
@@ -186,3 +197,4 @@ Format changes require:
 | 2026-04-25 | Day 1 journal written in this format (organic) |
 | 2026-04-26 | Day 2 written in summary style (deviation) |
 | 2026-04-27 | Day 2 rebuilt to match Day 1 format. Format LOCKED IN as standard. This document created. |
+| 2026-05-11 | **`Yoda's response (verbatim)` field added** — Ken approved. Captures Yoda's final chat reply per entry. Bidirectional record: Ken's intent + Yoda's answer. Rule 3 updated. |
