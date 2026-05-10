@@ -1,23 +1,24 @@
 {
-  "lastChecked": "2026-05-10T12:50:53Z",
+  "lastChecked": "2026-05-10T13:44:19Z",
   "alerts": [
     {
       "agent": "infra",
       "type": "0",
-      "todaySpend": 26.5299,
+      "todaySpend": 28.3514,
       "budget": 20,
-      "pct": 1.3265,
-      "detectedAt": "2026-05-10T12:50:53Z",
+      "pct": 1.4176,
+      "detectedAt": "2026-05-10T13:44:19Z",
       "acknowledged": true
     },
     {
       "agent": "main",
       "type": "0",
-      "todaySpend": 186.3054,
+      "todaySpend": 188.7529,
       "budget": 150,
-      "pct": 1.242,
-      "detectedAt": "2026-05-10T12:50:53Z",
+      "pct": 1.2584,
+      "detectedAt": "2026-05-10T13:44:19Z",
       "acknowledged": true
     }
-  ]
+  ],
+  "acknowledged": true
 }

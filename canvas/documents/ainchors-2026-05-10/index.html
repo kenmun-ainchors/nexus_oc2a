@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AInchors Journal — Sunday, 10 May 2026</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+      font-family: 'Georgia', serif;
+      background: #0e0e11;
+      color: #e8e6e1;
+      line-height: 1.75;
+      padding: 48px 24px;
+    }
+    .container { max-width: 720px; margin: 0 auto; }
+    .meta {
+      font-family: 'Courier New', monospace;
+      font-size: 12px;
+      color: #5a9e7a;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      margin-bottom: 12px;
+    }
+    h1 {
+      font-size: 2rem;
+      font-weight: 700;
+      color: #f0ede8;
+      margin-bottom: 8px;
+      line-height: 1.25;
+    }
+    .subtitle {
+      font-size: 1rem;
+      color: #8a8580;
+      margin-bottom: 40px;
+      font-style: italic;
+    }
+    .divider {
+      border: none;
+      border-top: 1px solid #2a2a2e;
+      margin: 36px 0;
+    }
+    h2 {
+      font-size: 1.1rem;
+      font-weight: 600;
+      color: #5a9e7a;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      margin-bottom: 16px;
+      margin-top: 36px;
+    }
+    p { margin-bottom: 18px; color: #ccc8c0; }
+    ul { margin: 0 0 18px 20px; }
+    li { color: #ccc8c0; margin-bottom: 6px; }
+    .highlight {
+      background: #1a2e22;
+      border-left: 3px solid #5a9e7a;
+      padding: 16px 20px;
+      border-radius: 4px;
+      margin: 28px 0;
+      font-style: italic;
+      color: #a8c8b5;
+    }
+    .ticket-list {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-bottom: 20px;
+    }
+    .ticket {
+      background: #1e1e24;
+      border: 1px solid #2e2e38;
+      border-radius: 4px;
+      padding: 4px 10px;
+      font-family: 'Courier New', monospace;
+      font-size: 12px;
+      color: #7ab89a;
+    }
+    .footer {
+      margin-top: 64px;
+      padding-top: 24px;
+      border-top: 1px solid #2a2a2e;
+      font-size: 12px;
+      color: #444;
+      font-family: 'Courier New', monospace;
+      text-align: center;
+    }
+    strong { color: #e8e6e1; }
+  </style>
+</head>
+<body>
+<div class="container">
+
+  <div class="meta">AInchors — Internal Journal · Sunday, 10 May 2026 · Platform Day 16</div>
+  <h1>Sprint 2 complete. The consulting direction just got real.</h1>
+  <div class="subtitle">Eight tickets closed. Three new capability streams opened. One lesson I won't forget.</div>
+
+  <hr class="divider">
+
+  <h2>The Numbers</h2>
+  <p>Sprint 2 is wrapped. Eight tickets delivered. Auto-reload fired today — we hit under $15 before the reload kicked in, so we're back to <strong>$425.12</strong> in the Anthropic account. That's the TRIGGER-08 safety net doing exactly what it's supposed to do.</p>
+
+  <h2>What We Shipped</h2>
+
+  <div class="ticket-list">
+    <span class="ticket">TKT-0121</span>
+    <span class="ticket">TKT-0105</span>
+    <span class="ticket">TKT-0106</span>
+    <span class="ticket">TKT-0113</span>
+    <span class="ticket">TKT-0112</span>
+    <span class="ticket">TKT-0123</span>
+    <span class="ticket">TKT-0125</span>
+    <span class="ticket">TKT-0126</span>
+  </div>
+
+  <p>The headline deliverable is <strong>Model3-Policy v1.0</strong> — every Tier 3 agent now has a documented mandate, routing rules, and a clear decision tree. That's been an open action for weeks. It's done. Warden's monitoring scope expanded from 15 to 19 checks — Atlas, Thrawn, Lando, and Mon Mothma are now watched.</p>
+
+  <p>The <strong>Hugging Face FLUX.1 image pipeline</strong> (TKT-0121) is live and tested. For now I'm generating LinkedIn visuals manually and we'll use HF as fallback — but the infrastructure is there for when we automate it fully. The LinkedIn pre-flight validator (TKT-0126) finally kills the em dash encoding issue that's been breaking posts.</p>
+
+  <p>The <strong>API-independent Telegram fallback</strong> (TKT-0113) was the right call after INC-20260509-001. If Anthropic goes down again, we now have an alerting path that doesn't depend on the same stack that's broken.</p>
+
+  <h2>Architecture Decisions</h2>
+
+  <p><strong>TKT-0124 storage architecture confirmed:</strong> Two-layer hybrid. Google Drive handles the human layer — files Angie, the KL team, and clients can access directly. MinIO handles the agent layer — structured data, tool output, state. The P2 multi-tenant architecture stays clean. Sprint 3 will build the MinIO side.</p>
+
+  <p><strong>Atlas assurance model locked.</strong> Option B: Architecture Assurance. Atlas reviews and signs off on EA work. That incident today — where Yoda wrote an EA assessment and attributed it to Atlas — was exactly the kind of governance failure this model prevents. EA assessments come from Atlas. That's the standard now, and the delivery mechanism is fixed (isolated cron, not heartbeat session).</p>
+
+  <h2>Agent Fleet</h2>
+
+  <p>We ran a full <strong>TOM review</strong> across all 14 agents today. Lando is activated. Mon Mothma is soft-activated — the KL team gate is met. Three critical gaps were identified and actioned. The Holocron Agent Fleet page is rebuilt with a clean Roster and TOM view.</p>
+
+  <p>Something I want to clarify for the record: the "KL team workshop June 2025" reference in our documents is a <strong>client training workshop</strong>, not internal KL staff training. Easy to conflate. The KL team onboarding programme (TKT-0111) is a separate, internal thing — it's about getting our own people up to speed on working with the Nexus agents.</p>
+
+  <h2>The Consulting Product Direction</h2>
+
+  <div class="highlight">
+    "These are the commercial building blocks for P2." — the last hour of today's session changed the shape of what we're building.
+  </div>
+
+  <p>In the final part of the session, four new backlog items landed that I think matter more than any of the sprint delivery:</p>
+
+  <ul>
+    <li><strong>TKT-0136 — Consulting Playbook:</strong> AI Transformation IP library. The accumulated patterns, frameworks, and delivery approaches we're building — codified and owned.</li>
+    <li><strong>TKT-0137 — Policy Register:</strong> Lex to produce. Every policy we operate under, documented and current. This is governance hygiene that P2 clients will expect.</li>
+    <li><strong>TKT-0138 — Business Jumpstart:</strong> A 3-part consulting pathway product. Entry-point offer for clients who need a structured way in.</li>
+    <li><strong>TKT-0139 — Consulting Product Portfolio:</strong> P2-P4 commercial roadmap. What we sell, at what tier, to whom.</li>
+  </ul>
+
+  <p>The brand code conversation earlier — that folds into the business memory layer under TKT-0124. It's not a separate track. It's a data layer capability that makes everything downstream more consistent.</p>
+
+  <h2>Sprint 3 Focus</h2>
+
+  <p>Two committed items: <strong>TKT-0124 MinIO agent layer</strong> (4 buckets, revised scope — Atlas EA assessment first, then build) and <strong>TKT-0135 Sandbox environment</strong>. The sandbox is the thing I'm most keen to have — it means we can test agent changes without risking production.</p>
+
+  <h2>Lesson Learned</h2>
+
+  <p>Yoda caught itself writing Atlas's EA assessment. I caught it. That's the governance model working. But the better outcome is that it doesn't happen in the first place — and now the delivery mechanism is fixed so it structurally can't. Good agents don't just get corrected; they get constrained so the error mode doesn't recur.</p>
+
+  <hr class="divider">
+
+  <p style="color:#666; font-size:0.9rem;">It was a full day. Fourteen agents, eight tickets, a governance catch, and a consulting product direction that didn't exist this morning. Day 16 of the platform. The shape of what AInchors is becoming is getting clearer.</p>
+
+  <div class="footer">
+    AInchors · Nexus Platform · Platform Day 16 · Generated by Yoda 🟢
+  </div>
+
+</div>
+</body>
+</html>
