@@ -766,11 +766,11 @@
       "title": "Security: CLI-Anything supply chain risk — agent integration layer poisoning via auto-generated SKILL.md",
       "type": "task",
       "priority": "high",
-      "status": "open",
+      "status": "in-progress",
       "requester": "Ken",
       "assignee": "Yoda",
       "created": "2026-05-10T17:27:10+10:00",
-      "updated": "2026-05-10T17:27:10+10:00",
+      "updated": "2026-05-10T17:39:41+10:00",
       "description": "VentureBeat/VentureBeast report (2026-05-05) documents CLI-Anything: a tool that generates SKILL.md files from any open-source repo's source code, enabling AI agents (including OpenClaw) to operate any repo with a single command. OpenClaw is explicitly named as a supported platform. Risk: attackers submit poisoned repos or SKILL.md files that agents ingest and trust as operational directives. No mainstream SAST/SCA scanner has a detection category for malicious agent instruction files. Actions required: (1) Inventory all SKILL.md files in use on OC1 — document source, author, review status for each. (2) Prohibit use of CLI-Anything or any auto-generated skill tools on production OC1. (3) Establish formal skill intake SOP: any new SKILL.md must pass Shield + Sage review AND be from a verified, known source before installation. (4) Check if any existing plugin-skills or workspace skills were sourced from unverified third parties. (5) Evaluate Cisco open-source Skill Scanner and Snyk mcp-scan for agent-layer scanning. Owner: Shield (security review), Yoda (operational). Ken approves any new controls. Reference: VentureBeat CLI-Anything article + Snyk ToxicSkills research (13.4% of 3,984 ClawHub skills had critical security issues).",
       "resolution": null,
       "linked": {
@@ -778,7 +778,7 @@
         "inc": [],
         "chg": []
       },
-      "notes": "",
+      "notes": "2026-05-10 17:39 Ken: Atlas to assess CLI-Anything as a potential component for future phases. Assess: suitability, use cases for AInchors P2-P4, integration with Nexus, risk posture vs opportunity. Separate from the security threat angle — this is the strategic opportunity assessment.",
       "notionPageId": "35cc1829-53ff-8101-8608-f2fd159ec227"
     },
     {

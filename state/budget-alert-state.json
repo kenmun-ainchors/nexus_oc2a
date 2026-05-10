@@ -1,4 +1,23 @@
 {
-  "lastChecked": "2026-05-10T07:35:08Z",
-  "alerts": []
+  "lastChecked": "2026-05-10T09:32:07Z",
+  "alerts": [
+    {
+      "agent": "infra",
+      "type": "0",
+      "todaySpend": 18.9037,
+      "budget": 20,
+      "pct": 0.9452,
+      "detectedAt": "2026-05-10T09:32:07Z",
+      "acknowledged": true
+    },
+    {
+      "agent": "main",
+      "type": "0",
+      "todaySpend": 137.8736,
+      "budget": 150,
+      "pct": 0.9192,
+      "detectedAt": "2026-05-10T09:32:07Z",
+      "acknowledged": true
+    }
+  ]
 }

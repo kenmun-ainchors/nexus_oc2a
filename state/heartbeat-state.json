@@ -3,19 +3,20 @@
     "email": "2026-05-10T07:35:17Z",
     "calendar": "2026-05-10T07:35:17Z",
     "weather": null,
-    "taskWatchdog": "2026-05-10T07:35:17Z",
-    "cronHealth": "2026-05-10T07:35:17Z",
-    "budgetCheck": "2026-05-10T07:35:17Z",
-    "doDGates": "2026-05-10T07:31:00Z",
-    "cronDeadLetter": 1778387483738,
-    "agentHealth": "2026-05-10T07:35:17Z",
-    "wardenEscalation": "2026-05-10T07:35:17Z",
-    "allowlistSync": "2026-05-10T07:35:17Z",
+    "taskWatchdog": "2026-05-10T09:30:20.212Z",
+    "cronHealth": "2026-05-10T09:30:20.212Z",
+    "budgetCheck": 1778404398274,
+    "doDGates": 1778404199.905665,
+    "cronDeadLetter": "2026-05-10T08:52:29.126338Z",
+    "agentHealth": "2026-05-10T09:30:20.211Z",
+    "wardenEscalation": "2026-05-10T09:30:20.212Z",
+    "allowlistSync": "2026-05-10T09:06:21.973Z",
     "dailyClose": "2026-05-09T18:16:19.589Z",
-    "apiBalance": "2026-05-10T07:35:17Z",
-    "assetReview": "2026-05-10T07:05:46Z"
+    "apiBalance": 1778405420212,
+    "assetReview": "2026-05-10T07:05:46Z",
+    "ahsokaPilot": "2026-05-10T09:06:21.973Z"
   },
-  "doDGatesSunday": "2026-05-10T05:34:00Z",
-  "lastHeartbeat": "2026-05-10T07:35:17Z",
-  "lastHeartbeatNote": "2026-05-10 17:34 AEST \u2014 Sunday sprint planning heartbeat. Budget OK (.12, 18.6%). DoD gates surfaced: 15 open decisions, 7 draft docs. Cron health clean. No urgent alerts. Ahsoka pilot1 parked/pilot2 pending."
+  "doDGatesSunday": "2026-05-10T09:15:08.6NZ",
+  "lastHeartbeat": "2026-05-10T09:30:20.212Z",
+  "lastHeartbeatNote": "2026-05-10 19:29 AEST — All checks clean. Balance $425.12. Crons OK. No alerts. DoD gates (15 open, 7 drafts) already surfaced at 19:14 AEST."
 }

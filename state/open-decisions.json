@@ -1,7 +1,7 @@
 {
   "schema_version": "1.0",
-  "description": "Gate 1 DoD tracker — all open decisions requiring Ken confirmation. Retrospective populated 2026-05-08 to capture all pre-today gaps. Checked at sprint planning and sprint review.",
-  "lastUpdated": "2026-05-08T20:43:00+10:00",
+  "description": "Gate 1 DoD tracker \u2014 all open decisions requiring Ken confirmation. Retrospective populated 2026-05-08 to capture all pre-today gaps. Checked at sprint planning and sprint review.",
+  "lastUpdated": "2026-05-10T07:50:06.814342+00:00",
   "decisions": [
     {
       "id": "DEC-001",
@@ -9,7 +9,7 @@
       "raisedBy": "Atlas",
       "raisedAt": "2026-05-08",
       "decision": "Holocron at P4 FSI: Hybrid (Notion internal + self-hosted client KB) vs Notion-restrictions-only",
-      "recommended": "Hybrid — Notion for AInchors internal, self-hosted KB for FSI client environments",
+      "recommended": "Hybrid \u2014 Notion for AInchors internal, self-hosted KB for FSI client environments",
       "blockedItem": "TKT-0046 / DRAFT-002 / DRAFT-003",
       "urgency": "P2 gate",
       "status": "open"
@@ -22,7 +22,7 @@
       "decision": "The Citadel build approach: Notion-based P2 / custom build P4 (recommended) vs direct custom build from P2",
       "recommended": "Notion-based v0 for first 2-3 SME clients Q3 2026, custom build Q3-Q4 for P4-ready version",
       "blockedItem": "TKT-0046 / DRAFT-002",
-      "urgency": "P2 gate — before first client onboarded",
+      "urgency": "P2 gate \u2014 before first client onboarded",
       "status": "open"
     },
     {
@@ -33,7 +33,7 @@
       "decision": "Holonet P2 scope: REST/webhooks only (recommended) vs include DB connectors from P2",
       "recommended": "REST/webhooks only for P2. DB connectors = P3 commercial tier or P4.",
       "blockedItem": "TKT-0046 / DRAFT-002",
-      "urgency": "P2 gate — before API build begins",
+      "urgency": "P2 gate \u2014 before API build begins",
       "status": "open"
     },
     {
@@ -74,7 +74,7 @@
       "source": "TKT-0104",
       "raisedBy": "Atlas",
       "raisedAt": "2026-05-08",
-      "decision": "Initial knowledge base ingestion priority — which documents to ingest first in Month 2",
+      "decision": "Initial knowledge base ingestion priority \u2014 which documents to ingest first in Month 2",
       "recommended": "AInchors strategy docs, agent SOUL.md/RULES.md, Agile framework, EA docs. Then client-facing docs.",
       "blockedItem": "TKT-0104 / DRAFT-001 / T4 Semantic Memory build",
       "urgency": "Before T4 RAG pipeline build begins",
@@ -86,9 +86,9 @@
       "raisedBy": "Atlas",
       "raisedAt": "2026-05-08",
       "decision": "PII scanner tool: spaCy (lighter, Python-native) vs Presidio (enterprise-grade, Microsoft)",
-      "recommended": "Presidio — APRA CPG 234 requires enterprise-grade PII detection for P2+ client workloads",
+      "recommended": "Presidio \u2014 APRA CPG 234 requires enterprise-grade PII detection for P2+ client workloads",
       "blockedItem": "TKT-0104 / DRAFT-001 / PII detection implementation",
-      "urgency": "P2 gate — before client data ingestion",
+      "urgency": "P2 gate \u2014 before client data ingestion",
       "status": "open"
     },
     {
@@ -119,9 +119,9 @@
       "raisedBy": "Atlas",
       "raisedAt": "2026-05-08",
       "decision": "Portfolio artefacts primary audience: Ken job search (CIO/CTO credential) vs AInchors client-facing sales collateral",
-      "recommended": "Both — dual-purpose. Ken job search framing for P1. Client-facing from P2.",
+      "recommended": "Both \u2014 dual-purpose. Ken job search framing for P1. Client-facing from P2.",
       "blockedItem": "TKT-0104 / DRAFT-001 / portfolio artefact production",
-      "urgency": "Low — inform tone/framing only",
+      "urgency": "Low \u2014 inform tone/framing only",
       "status": "open"
     },
     {
@@ -130,7 +130,7 @@
       "raisedBy": "Yoda",
       "raisedAt": "2026-04-29",
       "retrospective": true,
-      "decision": "Lando BPM agent spec (Business_Process_Specialist_Agent_v1.md) — review against new Tier 3 governance model before formal acceptance",
+      "decision": "Lando BPM agent spec (Business_Process_Specialist_Agent_v1.md) \u2014 review against new Tier 3 governance model before formal acceptance",
       "recommended": "Review spec, add Tier 3 SOP and domain boundary section (per TKT-0105 Model3-Policy), then accept.",
       "blockedItem": "TKT-0072 / DRAFT-007",
       "urgency": "Before Lando is operationalised",
@@ -143,9 +143,9 @@
       "raisedAt": "2026-05-08",
       "retrospective": true,
       "decision": "Warden monitoring scope: enrol specialist agents (Atlas, Thrawn, Lando, Mon Mothma, Spark) in model-policy.json OR document explicit exclusion permanently",
-      "recommended": "Explicit exclusion documented in model-policy.json for Tier 3 agents (no model drift risk — they use Sonnet/Haiku by design). Krennic to be added when built.",
+      "recommended": "Explicit exclusion documented in model-policy.json for Tier 3 agents (no model drift risk \u2014 they use Sonnet/Haiku by design). Krennic to be added when built.",
       "blockedItem": "TKT-0103 CHG-P4 / Warden coverage",
-      "urgency": "Before P2 — governance completeness",
+      "urgency": "Before P2 \u2014 governance completeness",
       "status": "open"
     },
     {
@@ -154,10 +154,10 @@
       "raisedBy": "Atlas",
       "raisedAt": "2026-05-08",
       "retrospective": true,
-      "decision": "Aria shared context files — verify context-for-aria.md, yoda-daily-brief.md, aria-daily-brief.md, relay-to-ken.json are present and active",
+      "decision": "Aria shared context files \u2014 verify context-for-aria.md, yoda-daily-brief.md, aria-daily-brief.md, relay-to-ken.json are present and active",
       "recommended": "Run verification check. If any missing, recreate. This is CHG-P6 from TKT-0103.",
       "blockedItem": "TKT-0103 CHG-P6",
-      "urgency": "Medium — affects Aria/Yoda coordination reliability",
+      "urgency": "Medium \u2014 affects Aria/Yoda coordination reliability",
       "status": "open"
     },
     {
@@ -166,11 +166,63 @@
       "raisedBy": "Yoda",
       "raisedAt": "2026-05-08",
       "retrospective": true,
-      "decision": "Guardrail integration: R4/R5 (Aria NPS/pattern capture), C1-C5 (Ahsoka), A1-A4 (Atlas), G1-G2/W1-W2 (Sanctum/Warden) — all missing or unverified",
+      "decision": "Guardrail integration: R4/R5 (Aria NPS/pattern capture), C1-C5 (Ahsoka), A1-A4 (Atlas), G1-G2/W1-W2 (Sanctum/Warden) \u2014 all missing or unverified",
       "recommended": "Integrate R4/R5 into ARIA_RULES.md, verify/integrate C1-C5 into Ahsoka's rules, verify A1-A4 in Atlas SOUL.md, verify G1-G2/W1-W2. Track per TKT-0102.",
       "blockedItem": "TKT-0102",
-      "urgency": "Sprint 2 — strategy docs reference these as live but they are not",
+      "urgency": "Sprint 2 \u2014 strategy docs reference these as live but they are not",
       "status": "open"
+    },
+    {
+      "id": "DEC-016",
+      "source": "CHG-0268",
+      "raisedBy": "Yoda",
+      "raisedAt": "2026-05-10",
+      "decision": "main agent daily budget cap raised $80 \u2192 $150 for Sprint 3 monitoring period",
+      "recommended": "$150 cap for Sprint 3. Review at sprint end. Revert to $80 if average daily spend <$100, keep at $150 if consistently above.",
+      "blockedItem": "None \u2014 change already applied. Confirmation locks the monitoring criteria.",
+      "urgency": "Low \u2014 active now, review at Sprint 3 close",
+      "status": "pending-ken",
+      "chgRef": "CHG-0268",
+      "reviewCriteria": "At Sprint 3 end: if avg daily main spend <$100 \u2192 revert to $80. If $100-$150 \u2192 keep $150. If >$150 \u2192 escalate and discuss."
+    },
+    {
+      "id": "DEC-017",
+      "source": "TKT-0141",
+      "raisedBy": "Yoda",
+      "raisedAt": "2026-05-10",
+      "decision": "CLI-Anything adoption decision \u2014 yes / no / conditional for AInchors P2-P4",
+      "recommended": "Pending Atlas assessment (state/atlas-cli-anything-assessment.md). Atlas fires today.",
+      "blockedItem": "TKT-0141 \u2014 strategic opportunity angle. No build starts until Ken confirms.",
+      "urgency": "Low \u2014 strategic decision, no P2 gate dependency",
+      "status": "pending-ken",
+      "tktRef": "TKT-0141",
+      "reviewNote": "Read Atlas assessment summary (Telegram delivery) + state/atlas-cli-anything-assessment.md. Confirm: adopt / reject / conditional with gates."
+    },
+    {
+      "id": "DEC-018",
+      "source": "TKT-0141",
+      "raisedBy": "Yoda",
+      "raisedAt": "2026-05-10",
+      "decision": "xurl bundled skill BLOCK verdict \u2014 accept as documented false positive or quarantine?",
+      "recommended": "Accept as false positive \u2014 the curl|bash pattern is in an install example, not an agent-executable directive. Already logged in skill-registry.json as 'clean-5-low-fp'.",
+      "blockedItem": "None \u2014 xurl is a bundled OpenClaw skill, already in use.",
+      "urgency": "Low \u2014 informational, skill already installed",
+      "status": "pending-ken",
+      "tktRef": "TKT-0141/0142",
+      "reviewNote": "Confirm: accept the xurl false positive verdict, or restrict xurl from being loaded in agent sessions."
+    },
+    {
+      "id": "DEC-019",
+      "source": "TKT-0141",
+      "raisedBy": "Yoda",
+      "raisedAt": "2026-05-10",
+      "decision": "Evaluate Cisco open-source Skill Scanner + Snyk mcp-scan as additional controls \u2014 add to intake SOP or skip?",
+      "recommended": "Evaluate both tools. Cisco skill scanner is open-source and directly addresses SKILL.md poisoning. Snyk mcp-scan is MCP-focused. Suggest: pilot Cisco scanner as a mandatory step 3b in the intake SOP.",
+      "blockedItem": "TKT-0141 \u2014 tooling controls. Requires Ken go-ahead before evaluating.",
+      "urgency": "Low \u2014 nice-to-have hardening, no P2 gate",
+      "status": "pending-ken",
+      "tktRef": "TKT-0141",
+      "reviewNote": "Confirm: pilot Cisco skill scanner as additional SOP step, or skip and rely on audit-skill.sh + manual read only."
     }
   ]
 }
