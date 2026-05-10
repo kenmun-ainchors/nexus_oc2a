@@ -3,7 +3,7 @@
   "tickets": [
     {
       "id": "TKT-0104",
-      "title": "Data + Memory Architecture \u2014 P1-P4 Progressive Alignment",
+      "title": "Data + Memory Architecture — P1-P4 Progressive Alignment",
       "type": "task",
       "priority": "high",
       "status": "resolved",
@@ -18,7 +18,7 @@
         "inc": [],
         "chg": []
       },
-      "notes": "Assigned to Atlas. Source doc saved to docs/Phase4_DataMemory_Architecture.md (from email 2026-05-04, 20.8KB). Atlas to run after TKT-0103 completes. | Groomed 2026-05-08 14:28 AEST. Add-on lenses confirmed 14:40 AEST: (1) Data classification + use (Client/Internal/System/Operational/Repository/Backup), (2) Data type (relational/structured/unstructured/vector/blob), (3) Additional considerations (encryption, real-time, batch, caching, retention policy), (4) Physical infrastructure architecture (storage type, location, performance tier). Atlas to cover all 4 lenses per phase across P1-P4. Firing Atlas now. | Ken decisions 2026-05-08 15:00 AEST: (1) Anthropic DPA deferred \u2014 P1 acceptable, no client data. Gate: must confirm before P2 live. (2) Embedding: nomic-embed-text 768-dim CONFIRMED. (3) P3 REDEFINED \u2014 not licensed product. New phase definitions: P2=SaaS individual agents, P3=SaaS company multi-agents (shared context + data), P4=Enterprise/FSI unchanged. DataMemory_P1P4_Roadmap.md requires amendment \u2014 P3 section must be rewritten. Flag to Atlas. | All decisions resolved 2026-05-08 15:19 AEST. Final: (1) Anthropic DPA deferred to P2 gate, (2) nomic-embed-text 768-dim confirmed, (3) P3=commercial tier label, (4) P2 isolation=RLS from day one, (5) P3 trigger=formal ROI checklist required \u2014 Ken skeptical of P3 value given maintenance cost. Strategic note: P4 enterprise may prefer physical/in-house deployment over P3 SaaS multi-agent \u2014 P3 may be skipped entirely in practice. TKT-0046 queued as next Atlas task.",
+      "notes": "Assigned to Atlas. Source doc saved to docs/Phase4_DataMemory_Architecture.md (from email 2026-05-04, 20.8KB). Atlas to run after TKT-0103 completes. | Groomed 2026-05-08 14:28 AEST. Add-on lenses confirmed 14:40 AEST: (1) Data classification + use (Client/Internal/System/Operational/Repository/Backup), (2) Data type (relational/structured/unstructured/vector/blob), (3) Additional considerations (encryption, real-time, batch, caching, retention policy), (4) Physical infrastructure architecture (storage type, location, performance tier). Atlas to cover all 4 lenses per phase across P1-P4. Firing Atlas now. | Ken decisions 2026-05-08 15:00 AEST: (1) Anthropic DPA deferred — P1 acceptable, no client data. Gate: must confirm before P2 live. (2) Embedding: nomic-embed-text 768-dim CONFIRMED. (3) P3 REDEFINED — not licensed product. New phase definitions: P2=SaaS individual agents, P3=SaaS company multi-agents (shared context + data), P4=Enterprise/FSI unchanged. DataMemory_P1P4_Roadmap.md requires amendment — P3 section must be rewritten. Flag to Atlas. | All decisions resolved 2026-05-08 15:19 AEST. Final: (1) Anthropic DPA deferred to P2 gate, (2) nomic-embed-text 768-dim confirmed, (3) P3=commercial tier label, (4) P2 isolation=RLS from day one, (5) P3 trigger=formal ROI checklist required — Ken skeptical of P3 value given maintenance cost. Strategic note: P4 enterprise may prefer physical/in-house deployment over P3 SaaS multi-agent — P3 may be skipped entirely in practice. TKT-0046 queued as next Atlas task.",
       "notionPageId": null
     },
     {
@@ -38,7 +38,7 @@
         "inc": [],
         "chg": []
       },
-      "notes": "Design consideration added 2026-05-08 14:49 AEST (Ken): Should Atlas have governance/assurance accountability over all architecture sub-agents and related architectural work? If yes, Atlas moves beyond Tier 3 passive passthrough \u2014 gains an assurance role, reviewing outputs of Thrawn, Lando, Mon Mothma, and any future architecture agents to ensure alignment. Implications: (1) Atlas tier classification may need revisiting \u2014 hybrid Tier 2/3? (2) What triggers Atlas review \u2014 all outputs or selective? (3) How does this interact with Yoda's coordination role? (4) Does Atlas assure just architecture quality, or also governance compliance? DECIDE AS PART OF TKT-0105 GROOMING. Do not implement before Ken confirmation. | DESIGN DECISIONS CONFIRMED 2026-05-10 (Ken): (1) Atlas Option B \u2014 Architecture Assurance role. Atlas reviews Thrawn/Lando/Mon Mothma outputs where architectural implications exist. Verdict: ALIGNED/NEEDS-REVISION/FLAG-TO-YODA. Not a blocker, quality gate only. Atlas stays Tier 3. Reviewed to Option C at July QBR. (2) Warden T3 monitoring Option A \u2014 Atlas/Thrawn/Lando/Mon Mothma added to model-policy.json for model compliance checks. CHG-0258. Mandate drift monitoring via QBR fleet review (not Warden). Unblocks: write Model3-Policy.md + TKT-0106. | COMPLETE 2026-05-10. docs/Model3-Policy.md written. All 7 T3 agents: Spark/Atlas/Thrawn/Lando/Mon Mothma/Krennic/Luthen. Routing decision tree, domain scope, boundaries, invocation triggers, approval matrix, escalation path, failure handling. Atlas assurance protocol (Option B). Warden T3 monitoring live (19 checks). Unblocks TKT-0106.",
+      "notes": "Design consideration added 2026-05-08 14:49 AEST (Ken): Should Atlas have governance/assurance accountability over all architecture sub-agents and related architectural work? If yes, Atlas moves beyond Tier 3 passive passthrough — gains an assurance role, reviewing outputs of Thrawn, Lando, Mon Mothma, and any future architecture agents to ensure alignment. Implications: (1) Atlas tier classification may need revisiting — hybrid Tier 2/3? (2) What triggers Atlas review — all outputs or selective? (3) How does this interact with Yoda's coordination role? (4) Does Atlas assure just architecture quality, or also governance compliance? DECIDE AS PART OF TKT-0105 GROOMING. Do not implement before Ken confirmation. | DESIGN DECISIONS CONFIRMED 2026-05-10 (Ken): (1) Atlas Option B — Architecture Assurance role. Atlas reviews Thrawn/Lando/Mon Mothma outputs where architectural implications exist. Verdict: ALIGNED/NEEDS-REVISION/FLAG-TO-YODA. Not a blocker, quality gate only. Atlas stays Tier 3. Reviewed to Option C at July QBR. (2) Warden T3 monitoring Option A — Atlas/Thrawn/Lando/Mon Mothma added to model-policy.json for model compliance checks. CHG-0258. Mandate drift monitoring via QBR fleet review (not Warden). Unblocks: write Model3-Policy.md + TKT-0106. | COMPLETE 2026-05-10. docs/Model3-Policy.md written. All 7 T3 agents: Spark/Atlas/Thrawn/Lando/Mon Mothma/Krennic/Luthen. Routing decision tree, domain scope, boundaries, invocation triggers, approval matrix, escalation path, failure handling. Atlas assurance protocol (Option B). Warden T3 monitoring live (19 checks). Unblocks TKT-0106.",
       "notionPageId": "35cc1829-53ff-81ca-822d-dfb8b8b108ad"
     },
     {
@@ -63,7 +63,7 @@
     },
     {
       "id": "TKT-0107",
-      "title": "Agent Governance \u2014 Squad Model (Tier 5+): Ephemeral Dev/Delivery Squads",
+      "title": "Agent Governance — Squad Model (Tier 5+): Ephemeral Dev/Delivery Squads",
       "type": "task",
       "priority": "medium",
       "status": "open",
@@ -71,7 +71,7 @@
       "assignee": "Yoda",
       "created": "2026-05-08T14:52:48+10:00",
       "updated": "2026-05-08T14:52:48+10:00",
-      "description": "Forward-looking governance model for when AInchors spins up ephemeral agent squads for development and delivery work. May require a new tier beyond the current 0-4 framework. Questions to resolve: What is a squad? How are they composed (temporary multi-agent teams)? Who owns squad governance \u2014 Yoda or Atlas? How does a squad spin up and tear down? What's the approval gate? How does squad output get assurance-checked before merging back to main? TRIGGER: Review and define BEFORE any development squad work begins. Do not activate until development sprint work is imminent.",
+      "description": "Forward-looking governance model for when AInchors spins up ephemeral agent squads for development and delivery work. May require a new tier beyond the current 0-4 framework. Questions to resolve: What is a squad? How are they composed (temporary multi-agent teams)? Who owns squad governance — Yoda or Atlas? How does a squad spin up and tear down? What's the approval gate? How does squad output get assurance-checked before merging back to main? TRIGGER: Review and define BEFORE any development squad work begins. Do not activate until development sprint work is imminent.",
       "resolution": null,
       "linked": {
         "us": [],
@@ -83,7 +83,7 @@
     },
     {
       "id": "TKT-0108",
-      "title": "Document Generation Pipeline \u2014 DOCX/XLSX/PPTX/PDF (Ahsoka Q1 blocker)",
+      "title": "Document Generation Pipeline — DOCX/XLSX/PPTX/PDF (Ahsoka Q1 blocker)",
       "type": "task",
       "priority": "high",
       "status": "open",
@@ -103,7 +103,7 @@
     },
     {
       "id": "TKT-0109",
-      "title": "Agile PM / Scrum Master / Agile Coach Agent \u2014 Design and Build",
+      "title": "Agile PM / Scrum Master / Agile Coach Agent — Design and Build",
       "type": "task",
       "priority": "medium",
       "status": "open",
@@ -111,7 +111,7 @@
       "assignee": "Yoda",
       "created": "2026-05-08T19:55:50+10:00",
       "updated": "2026-05-08T19:55:50+10:00",
-      "description": "Dedicated agent to own sprint facilitation, velocity tracking, QBR packs, epic/milestone management, dependency tracking, and Agile coaching for clients and business users. Three modes: (1) Scrum Master \u2014 sprint ceremonies, blockers, velocity, retrospectives; (2) Agile PM \u2014 epic tracking, capacity planning, QBR prep, dependency management; (3) Agile Coach \u2014 working with external clients and business users to run their own delivery framework. Proposed name: Cassian Andor. Governance: Tier 3 (Yoda-Manage-Passthrough). TRIGGER: multiple concurrent client projects OR external users running sprints OR squad model activated (TKT-0107) OR Yoda PM overhead >40%. REVIEW: July 2026 QBR. Do not build before review.",
+      "description": "Dedicated agent to own sprint facilitation, velocity tracking, QBR packs, epic/milestone management, dependency tracking, and Agile coaching for clients and business users. Three modes: (1) Scrum Master — sprint ceremonies, blockers, velocity, retrospectives; (2) Agile PM — epic tracking, capacity planning, QBR prep, dependency management; (3) Agile Coach — working with external clients and business users to run their own delivery framework. Proposed name: Cassian Andor. Governance: Tier 3 (Yoda-Manage-Passthrough). TRIGGER: multiple concurrent client projects OR external users running sprints OR squad model activated (TKT-0107) OR Yoda PM overhead >40%. REVIEW: July 2026 QBR. Do not build before review.",
       "resolution": null,
       "linked": {
         "us": [],
@@ -123,7 +123,7 @@
     },
     {
       "id": "TKT-0110",
-      "title": "Process Documentation Framework \u2014 User Guides for Business Stream and Clients",
+      "title": "Process Documentation Framework — User Guides for Business Stream and Clients",
       "type": "task",
       "priority": "medium",
       "status": "open",
@@ -131,7 +131,7 @@
       "assignee": "Yoda",
       "created": "2026-05-08T20:00:03+10:00",
       "updated": "2026-05-08T20:00:03+10:00",
-      "description": "Lando (BPM agent) to own process documentation for all product capabilities and features shipped. Documents must be ready BEFORE each release, written for business users and clients (non-technical). Current Notion content is technical and only fit for Ken. Need: (1) Process document template/standard (what goes in a user guide, style, format); (2) Per-capability user guides produced ahead of P2 releases; (3) Integration with sprint/release cycle \u2014 Definition of Done must include user doc ready; (4) Delivery format TBD (Notion public page, PDF, HTML). Covers: Nexus features, agent capabilities, Citadel portal, Ahsoka consulting outputs. Assign: Lando. Governance: Tier 3 (Yoda-Manage-Passthrough). Review: as part of P2 release planning.",
+      "description": "Lando (BPM agent) to own process documentation for all product capabilities and features shipped. Documents must be ready BEFORE each release, written for business users and clients (non-technical). Current Notion content is technical and only fit for Ken. Need: (1) Process document template/standard (what goes in a user guide, style, format); (2) Per-capability user guides produced ahead of P2 releases; (3) Integration with sprint/release cycle — Definition of Done must include user doc ready; (4) Delivery format TBD (Notion public page, PDF, HTML). Covers: Nexus features, agent capabilities, Citadel portal, Ahsoka consulting outputs. Assign: Lando. Governance: Tier 3 (Yoda-Manage-Passthrough). Review: as part of P2 release planning.",
       "resolution": null,
       "linked": {
         "us": [],
@@ -143,7 +143,7 @@
     },
     {
       "id": "TKT-0111",
-      "title": "Angie Agile + Nexus Working Guide \u2014 Delivered via Aria",
+      "title": "Angie Agile + Nexus Working Guide — Delivered via Aria",
       "type": "task",
       "priority": "medium",
       "status": "open",
@@ -151,7 +151,7 @@
       "assignee": "Yoda",
       "created": "2026-05-08T20:07:14+10:00",
       "updated": "2026-05-08T20:07:14+10:00",
-      "description": "Produce a practical guide for Angie on: (1) How to work within the AInchors Agile framework \u2014 sprint cycles, how to raise requests, what to expect each week, how her work gets prioritised; (2) How to work with Nexus multi-agent system \u2014 what Aria can do, how to instruct agents, what Ahsoka delivers, how to get the most out of the platform; (3) How to plan and execute business work efficiently using the agents \u2014 maximising output, knowing when to delegate vs decide, how to track progress. Delivered BY Aria TO Angie (Angie's pace \u2014 not pushed). Format: conversational, non-technical, practical. Lando owns process doc structure. Aria delivers and coaches. DEPENDENCY: TKT-0110 (process doc framework) for template/format standard. Part of Angie onboarding Stage 2+ completion.",
+      "description": "Produce a practical guide for Angie on: (1) How to work within the AInchors Agile framework — sprint cycles, how to raise requests, what to expect each week, how her work gets prioritised; (2) How to work with Nexus multi-agent system — what Aria can do, how to instruct agents, what Ahsoka delivers, how to get the most out of the platform; (3) How to plan and execute business work efficiently using the agents — maximising output, knowing when to delegate vs decide, how to track progress. Delivered BY Aria TO Angie (Angie's pace — not pushed). Format: conversational, non-technical, practical. Lando owns process doc structure. Aria delivers and coaches. DEPENDENCY: TKT-0110 (process doc framework) for template/format standard. Part of Angie onboarding Stage 2+ completion.",
       "resolution": null,
       "linked": {
         "us": [],
@@ -166,24 +166,24 @@
       "title": "obs-collector: cron run failures not captured in obs.db",
       "type": "bug",
       "priority": "medium",
-      "status": "open",
+      "status": "done",
       "requester": "Ken",
       "assignee": "Yoda",
       "created": "2026-05-09T12:01:43+10:00",
-      "updated": "2026-05-10T10:05:21+10:00",
-      "description": "cron-health-check.sh detects cron consecutiveErrors but does not feed results into obs.db. obs-collector.sh has no check against cron-health-state.json. Result: cron job failures are invisible to the standup 24h error count and obs trend dashboard. Kimi RTB cron failed silently (Day 15) \u2014 not surfaced in standup. Fix: add check in obs-collector.sh to read cron-health-state.json failures array and log each as obs event type=cron_run_fail level=ERROR source=cron-health.",
+      "updated": "2026-05-10T13:41:42+10:00",
+      "description": "cron-health-check.sh detects cron consecutiveErrors but does not feed results into obs.db. obs-collector.sh has no check against cron-health-state.json. Result: cron job failures are invisible to the standup 24h error count and obs trend dashboard. Kimi RTB cron failed silently (Day 15) — not surfaced in standup. Fix: add check in obs-collector.sh to read cron-health-state.json failures array and log each as obs event type=cron_run_fail level=ERROR source=cron-health.",
       "resolution": null,
       "linked": {
         "us": [],
         "inc": [],
         "chg": []
       },
-      "notes": "2026-05-10: Elevated to sprint item. Phantom delegation_fail alerts firing repeatedly (3,761 entries, all empty task/agent/error). Fix: exclude empty-field entries from delegation_fail check in obs-collector.",
+      "notes": "2026-05-10: Elevated to sprint item. Phantom delegation_fail alerts firing repeatedly (3,761 entries, all empty task/agent/error). Fix: exclude empty-field entries from delegation_fail check in obs-collector. | COMPLETE 2026-05-10. Two fixes in obs-collector.sh: (1) delegation_fail phantom guard: skip entries where task+agent+error all empty (latency tracking records, not real failures). (2) CHECK Q cron_run_fail deduplication: added lastRunEpoch check to prevent re-logging same cron failures on every 5-min collector run. Test: 3761 phantom entries -> 0 logged. Collector run: 0 new events (correct). CHG-0266.",
       "notionPageId": "35bc1829-53ff-8169-b4e5-c8c1e5f6e5ab"
     },
     {
       "id": "TKT-0113",
-      "title": "Fallback alert channel \u2014 API-independent notification path",
+      "title": "Fallback alert channel — API-independent notification path",
       "type": "task",
       "priority": "high",
       "status": "done",
@@ -191,19 +191,19 @@
       "assignee": "Yoda",
       "created": "2026-05-09T12:18:26+10:00",
       "updated": "2026-05-10T11:39:23+10:00",
-      "description": "INC-20260509-001 prevention gap: Telegram alerting depends on Anthropic API \u2014 same API it monitors. When API hits /bin/zsh, alerts go silent. Need secondary alert path (local script \u2192 SMS or email via secondary provider e.g. Twilio/Postmark) that fires when primary API is degraded.",
+      "description": "INC-20260509-001 prevention gap: Telegram alerting depends on Anthropic API — same API it monitors. When API hits /bin/zsh, alerts go silent. Need secondary alert path (local script → SMS or email via secondary provider e.g. Twilio/Postmark) that fires when primary API is degraded.",
       "resolution": null,
       "linked": {
         "us": [],
         "inc": [],
         "chg": []
       },
-      "notes": "2026-05-10: Locked into Sprint 2 (Ken confirmed). Post-mortem INC-20260509-001 action item A1+A4. Build API-independent Telegram alert path \u2014 direct HTTP to Telegram Bot API, no Anthropic dependency. Must fire on: balance /bin/zsh, API down, gateway down, health_failure consecutive 3+. | COMPLETE 2026-05-10. Built scripts/telegram-alert.sh: direct Telegram Bot HTTP, no Anthropic/OpenClaw dependency, Keychain token, /usr/bin/curl only, retry x2. Wired into health-check.sh: (1) gateway consecutive failures >= threshold, (2) first Anthropic API unreachable detection. CHG-0262. Test confirmed HTTP 200.",
+      "notes": "2026-05-10: Locked into Sprint 2 (Ken confirmed). Post-mortem INC-20260509-001 action item A1+A4. Build API-independent Telegram alert path — direct HTTP to Telegram Bot API, no Anthropic dependency. Must fire on: balance /bin/zsh, API down, gateway down, health_failure consecutive 3+. | COMPLETE 2026-05-10. Built scripts/telegram-alert.sh: direct Telegram Bot HTTP, no Anthropic/OpenClaw dependency, Keychain token, /usr/bin/curl only, retry x2. Wired into health-check.sh: (1) gateway consecutive failures >= threshold, (2) first Anthropic API unreachable detection. CHG-0262. Test confirmed HTTP 200.",
       "notionPageId": "35bc1829-53ff-8189-af98-e0e79714c2a8"
     },
     {
       "id": "TKT-0114",
-      "title": "AInchors\u2013Aevlith Technologies partnership agreement \u2014 confirm with Angie",
+      "title": "AInchors–Aevlith Technologies partnership agreement — confirm with Angie",
       "type": "task",
       "priority": "high",
       "status": "open",
@@ -303,7 +303,7 @@
     },
     {
       "id": "TKT-0119",
-      "title": "IP Australia trademark filing \u2014 Aevlith (Classes 35 + 42)",
+      "title": "IP Australia trademark filing — Aevlith (Classes 35 + 42)",
       "type": "task",
       "priority": "medium",
       "status": "open",
@@ -323,7 +323,7 @@
     },
     {
       "id": "TKT-0120",
-      "title": "RustDesk self-hosted server on OC1 \u2014 direct P2P via LAN + Tailscale",
+      "title": "RustDesk self-hosted server on OC1 — direct P2P via LAN + Tailscale",
       "type": "task",
       "priority": "high",
       "status": "open",
@@ -351,7 +351,7 @@
       "assignee": "Yoda",
       "created": "2026-05-09T16:11:31+10:00",
       "updated": "2026-05-10T08:25:08.979197+10:00",
-      "description": "Add image generation to Spark using Hugging Face Inference API (free tier, ~1000 req/month). Model: black-forest-labs/FLUX.1-schnell. Flow: Spark generates image prompt from post content \u2192 calls HF API \u2192 saves image locally \u2192 uploads to LinkedIn Assets API \u2192 attaches to post. Requires: (1) Ken creates HF account + API key \u2192 store in Keychain, (2) Spark SOUL/RULES update, (3) LinkedIn image upload code. Dependency: TKT-0121 (local fallback option).",
+      "description": "Add image generation to Spark using Hugging Face Inference API (free tier, ~1000 req/month). Model: black-forest-labs/FLUX.1-schnell. Flow: Spark generates image prompt from post content → calls HF API → saves image locally → uploads to LinkedIn Assets API → attaches to post. Requires: (1) Ken creates HF account + API key → store in Keychain, (2) Spark SOUL/RULES update, (3) LinkedIn image upload code. Dependency: TKT-0121 (local fallback option).",
       "resolution": "CHG-0254: hf-generate-image.sh, linkedin-upload-image.sh created; linkedin-post.sh --image-asset-urn added; SPARK_RULES.md updated. Blocked on HF API key Keychain setup by Ken.",
       "linked": {
         "us": [],
@@ -373,7 +373,7 @@
       "assignee": "Yoda",
       "created": "2026-05-09T16:11:33+10:00",
       "updated": "2026-05-09T16:11:33+10:00",
-      "description": "Run Flux.1-schnell locally on OC1 (M4 24GB) via ComfyUI for unlimited free image generation. Setup: install ComfyUI + Flux.1-schnell weights (~6GB). Spark calls ComfyUI API locally. No rate limits, best quality, full control. Dependency on TKT-0120 (HF option) \u2014 do this only if HF limits become an issue or Ken prefers full local ownership. OC1 M4 24GB handles Flux.1-schnell well on MPS (Metal).",
+      "description": "Run Flux.1-schnell locally on OC1 (M4 24GB) via ComfyUI for unlimited free image generation. Setup: install ComfyUI + Flux.1-schnell weights (~6GB). Spark calls ComfyUI API locally. No rate limits, best quality, full control. Dependency on TKT-0120 (HF option) — do this only if HF limits become an issue or Ken prefers full local ownership. OC1 M4 24GB handles Flux.1-schnell well on MPS (Metal).",
       "resolution": null,
       "linked": {
         "us": [],
@@ -393,19 +393,19 @@
       "assignee": "Yoda",
       "created": "2026-05-09T19:27:49+10:00",
       "updated": "2026-05-10T13:21:23+10:00",
-      "description": "Two fixes: (1) --content-file parser: add guard that fails loudly if no --- delimiters found (L-020). (2) linkedin-auth.sh: add delete scope to token on next re-auth so API delete works (L-021). Guard already partially patched in this session \u2014 full test + CHG needed.",
+      "description": "Two fixes: (1) --content-file parser: add guard that fails loudly if no --- delimiters found (L-020). (2) linkedin-auth.sh: add delete scope to token on next re-auth so API delete works (L-021). Guard already partially patched in this session — full test + CHG needed.",
       "resolution": null,
       "linked": {
         "us": [],
         "inc": [],
         "chg": []
       },
-      "notes": "COMPLETE 2026-05-10 (merged into TKT-0126 fix). Delimiter guard confirmed working \u2014 fails loudly with actionable error. Token delete scope: deferred to next linkedin-auth.sh re-auth (requires re-running auth flow). Low priority. CHG-0264.",
+      "notes": "COMPLETE 2026-05-10 (merged into TKT-0126 fix). Delimiter guard confirmed working — fails loudly with actionable error. Token delete scope: deferred to next linkedin-auth.sh re-auth (requires re-running auth flow). Low priority. CHG-0264.",
       "notionPageId": "35cc1829-53ff-814d-9a41-f8c0710c26be"
     },
     {
       "id": "TKT-0124",
-      "title": "MinIO self-hosted object store on OC1 \u2014 interim blob/file access layer",
+      "title": "MinIO self-hosted object store on OC1 — interim blob/file access layer",
       "type": "task",
       "priority": "high",
       "status": "in-progress",
@@ -425,7 +425,7 @@
     },
     {
       "id": "TKT-0125",
-      "title": "Strategy-to-Backlog Pipeline \u2014 formalize roadmap decomposition into actionable tickets",
+      "title": "Strategy-to-Backlog Pipeline — formalize roadmap decomposition into actionable tickets",
       "type": "task",
       "priority": "high",
       "status": "open",
@@ -433,7 +433,7 @@
       "assignee": "Yoda",
       "created": "2026-05-10T09:32:32+10:00",
       "updated": "2026-05-10T09:32:35+10:00",
-      "description": "Define and document the formal pipeline for converting strategy/roadmap artefacts (Atlas, Thrawn, Lando) into groomed user stories and sprint-ready tickets. Current gap: roadmaps exist but no ceremony converts them to backlog items. Triggered by Atlas DataMemory roadmap having MinIO/blob solution planned but no ticket raised. Scope: (1) Strategy-to-Backlog ceremony definition \u2014 QBR-triggered + mid-sprint triage, Yoda coordinates, Atlas/Thrawn/Lando input, Ken approves. (2) Artefact standard \u2014 every roadmap doc must produce a backlog seeding list as a deliverable. (3) DoD gate \u2014 strategy artefacts not Done until backlog items raised. (4) Agile Framework v1.0 update with new ceremony. (5) Lando documents under TKT-0110. Dependency: TKT-0110.",
+      "description": "Define and document the formal pipeline for converting strategy/roadmap artefacts (Atlas, Thrawn, Lando) into groomed user stories and sprint-ready tickets. Current gap: roadmaps exist but no ceremony converts them to backlog items. Triggered by Atlas DataMemory roadmap having MinIO/blob solution planned but no ticket raised. Scope: (1) Strategy-to-Backlog ceremony definition — QBR-triggered + mid-sprint triage, Yoda coordinates, Atlas/Thrawn/Lando input, Ken approves. (2) Artefact standard — every roadmap doc must produce a backlog seeding list as a deliverable. (3) DoD gate — strategy artefacts not Done until backlog items raised. (4) Agile Framework v1.0 update with new ceremony. (5) Lando documents under TKT-0110. Dependency: TKT-0110.",
       "resolution": null,
       "linked": {
         "us": [
@@ -455,19 +455,19 @@
       "assignee": "Yoda",
       "created": "2026-05-10T09:55:10+10:00",
       "updated": "2026-05-10T13:21:22+10:00",
-      "description": "LinkedIn posts with special characters (em dash, smart quotes, unicode) break post content or cause API rejection. Observed in RustDesk post and ongoing content. Fix: (1) audit linkedin-post.sh content extraction for character encoding issues, (2) ensure UTF-8 is preserved end-to-end from draft file \u2192 python extraction \u2192 JSON payload \u2192 API call, (3) test with em dash, smart quotes, ellipsis, unicode. Related: TKT-0123 (delimiter guard). Unblock Spark from using any character in drafts without silent truncation or breakage.",
+      "description": "LinkedIn posts with special characters (em dash, smart quotes, unicode) break post content or cause API rejection. Observed in RustDesk post and ongoing content. Fix: (1) audit linkedin-post.sh content extraction for character encoding issues, (2) ensure UTF-8 is preserved end-to-end from draft file → python extraction → JSON payload → API call, (3) test with em dash, smart quotes, ellipsis, unicode. Related: TKT-0123 (delimiter guard). Unblock Spark from using any character in drafts without silent truncation or breakage.",
       "resolution": null,
       "linked": {
         "us": [],
         "inc": [],
         "chg": []
       },
-      "notes": "COMPLETE 2026-05-10. Root cause: em dash (U+2014) in draft content passes through API without error but violates SPARK_RULES.md bot-signal rule. Fix: pre-flight em dash validator added to linkedin-post.sh \u2014 blocks post with actionable error before API call. Also fixed mktemp collision guard (stale /tmp/li_payload_*.json files). Delimiter guard (TKT-0123) confirmed working. CHG-0264.",
+      "notes": "COMPLETE 2026-05-10. Root cause: em dash (U+2014) in draft content passes through API without error but violates SPARK_RULES.md bot-signal rule. Fix: pre-flight em dash validator added to linkedin-post.sh — blocks post with actionable error before API call. Also fixed mktemp collision guard (stale /tmp/li_payload_*.json files). Delimiter guard (TKT-0123) confirmed working. CHG-0264.",
       "notionPageId": "35cc1829-53ff-816b-b049-fc517f98d2cd"
     },
     {
       "id": "TKT-0127",
-      "title": "Agentic Marketing Org Design \u2014 activate business stream marketing agents for Angie + KL team",
+      "title": "Agentic Marketing Org Design — activate business stream marketing agents for Angie + KL team",
       "type": "task",
       "priority": "high",
       "status": "open",
@@ -475,7 +475,7 @@
       "assignee": "Yoda",
       "created": "2026-05-10T09:55:34+10:00",
       "updated": "2026-05-10T10:41:08+10:00",
-      "description": "Design and implement agentic marketing organisation for AInchors business stream. Informed by: 'Redesigning Your Marketing Organization for the Agentic Age' (HBR, May 2026, https://hbr.org/2026/05/redesigning-your-marketing-organization-for-the-agentic-age). Scope: solution design, proposal, and implementation roadmap for activating marketing agents to work with Angie (CEO, Melbourne) and KL team (Malaysia). Two phases: PHASE 1 (P1 MVP, pre-OC2): activate existing agents (Spark + Aria) for business stream marketing ops, define workflows, integrate with MinIO (TKT-0124) for file/asset sharing, establish Angie+KL team access and collaboration model. PHASE 2 (P2, post-OC2): fully agentic marketing org supporting AInchors internally AND ready to deliver as a service to external clients. Deliverables: (1) current-state assessment of AInchors marketing capability, (2) target agentic marketing org design (agent roles, workflows, tools), (3) P1 MVP implementation plan, (4) P2 transition roadmap, (5) integration with MinIO business repo (TKT-0124). Owners: Spark (marketing), Aria (business stream), Atlas (architecture), Lando (process). Ken + Angie to approve. Dependency: TKT-0124 (MinIO \u2014 file/asset sharing for KL team).",
+      "description": "Design and implement agentic marketing organisation for AInchors business stream. Informed by: 'Redesigning Your Marketing Organization for the Agentic Age' (HBR, May 2026, https://hbr.org/2026/05/redesigning-your-marketing-organization-for-the-agentic-age). Scope: solution design, proposal, and implementation roadmap for activating marketing agents to work with Angie (CEO, Melbourne) and KL team (Malaysia). Two phases: PHASE 1 (P1 MVP, pre-OC2): activate existing agents (Spark + Aria) for business stream marketing ops, define workflows, integrate with MinIO (TKT-0124) for file/asset sharing, establish Angie+KL team access and collaboration model. PHASE 2 (P2, post-OC2): fully agentic marketing org supporting AInchors internally AND ready to deliver as a service to external clients. Deliverables: (1) current-state assessment of AInchors marketing capability, (2) target agentic marketing org design (agent roles, workflows, tools), (3) P1 MVP implementation plan, (4) P2 transition roadmap, (5) integration with MinIO business repo (TKT-0124). Owners: Spark (marketing), Aria (business stream), Atlas (architecture), Lando (process). Ken + Angie to approve. Dependency: TKT-0124 (MinIO — file/asset sharing for KL team).",
       "resolution": null,
       "linked": {
         "us": [
@@ -497,7 +497,7 @@
       "assignee": "Yoda",
       "created": "2026-05-10T10:40:50+10:00",
       "updated": "2026-05-10T13:17:59+10:00",
-      "description": "Expand Aria's mandate to cover: (1) Brand Code stewardship \u2014 seed and maintain structured brand KB in MinIO (TKT-0124) across brand-strategy, voice-and-tone, ICP profiles, market rules (AU/MY), product catalogue, content rules. (2) Marketing orchestration \u2014 receive content requests from Angie/KL team, brief Spark from Brand Code, review Spark output for brand alignment, route to Angie for approval. (3) KL team interface (P1: via Angie relay). Spec: docs/Aria_Marketing_Mandate_Addendum_v1.md. Blocked on: TKT-0124 (MinIO must be live). Sub-ticket of TKT-0127.",
+      "description": "Expand Aria's mandate to cover: (1) Brand Code stewardship — seed and maintain structured brand KB in MinIO (TKT-0124) across brand-strategy, voice-and-tone, ICP profiles, market rules (AU/MY), product catalogue, content rules. (2) Marketing orchestration — receive content requests from Angie/KL team, brief Spark from Brand Code, review Spark output for brand alignment, route to Angie for approval. (3) KL team interface (P1: via Angie relay). Spec: docs/Aria_Marketing_Mandate_Addendum_v1.md. Blocked on: TKT-0124 (MinIO must be live). Sub-ticket of TKT-0127.",
       "resolution": null,
       "linked": {
         "us": [
@@ -507,12 +507,12 @@
         "inc": [],
         "chg": []
       },
-      "notes": "2026-05-10: Aria SOUL.md updated with marketing orchestration mandate (4,659 chars, within limits). Brand Code staging area created: workspace-business/projects/brand-code/ \u2014 7 documents drafted (brand-strategy, voice-and-tone, icp-profiles, product-catalogue, content-rules, au.md, my.md). All marked DRAFT \u2014 Angie review required. MinIO-dependent seeding blocked on TKT-0124. ARIA_RULES.md update + MinIO integration pending TKT-0124 delivery. | 2026-05-10 13:17: Ken confirmed \u2014 hold Brand Code delivery to Angie until MinIO (TKT-0124) is live. Remaining work: MinIO integration + ARIA_RULES.md update + Angie review flow. All gated on TKT-0124.",
+      "notes": "2026-05-10: Aria SOUL.md updated with marketing orchestration mandate (4,659 chars, within limits). Brand Code staging area created: workspace-business/projects/brand-code/ — 7 documents drafted (brand-strategy, voice-and-tone, icp-profiles, product-catalogue, content-rules, au.md, my.md). All marked DRAFT — Angie review required. MinIO-dependent seeding blocked on TKT-0124. ARIA_RULES.md update + MinIO integration pending TKT-0124 delivery. | 2026-05-10 13:17: Ken confirmed — hold Brand Code delivery to Angie until MinIO (TKT-0124) is live. Remaining work: MinIO integration + ARIA_RULES.md update + Angie review flow. All gated on TKT-0124.",
       "notionPageId": "35cc1829-53ff-8145-b89d-d4a71a2b0811"
     },
     {
       "id": "TKT-0129",
-      "title": "Luthen: Marketing Intelligence Agent \u2014 design and build (P2)",
+      "title": "Luthen: Marketing Intelligence Agent — design and build (P2)",
       "type": "task",
       "priority": "medium",
       "status": "open",
@@ -520,7 +520,7 @@
       "assignee": "Yoda",
       "created": "2026-05-10T10:40:57+10:00",
       "updated": "2026-05-10T10:41:03+10:00",
-      "description": "Design and build Luthen, the Marketing Intelligence Agent. Tier 3 (Yoda-Manage-Passthrough). Owns HBR workstreams 1 (Intelligence + Ideation) and 3 (Research + Testing). Does NOT create content \u2014 generates briefs for Spark and feeds learnings into Brand Code. Capabilities: market signal monitoring, competitive intelligence, structured brief generation, A/B test design + analysis, Brand Code contribution. Spec: docs/Luthen_Marketing_Intelligence_Agent_v1.md. Build trigger: OC2 commissioned + P2 client sprint begins + Aria has seeded Brand Code. Sub-ticket of TKT-0127. Blocked on: TKT-0124, TKT-0128.",
+      "description": "Design and build Luthen, the Marketing Intelligence Agent. Tier 3 (Yoda-Manage-Passthrough). Owns HBR workstreams 1 (Intelligence + Ideation) and 3 (Research + Testing). Does NOT create content — generates briefs for Spark and feeds learnings into Brand Code. Capabilities: market signal monitoring, competitive intelligence, structured brief generation, A/B test design + analysis, Brand Code contribution. Spec: docs/Luthen_Marketing_Intelligence_Agent_v1.md. Build trigger: OC2 commissioned + P2 client sprint begins + Aria has seeded Brand Code. Sub-ticket of TKT-0127. Blocked on: TKT-0124, TKT-0128.",
       "resolution": null,
       "linked": {
         "us": [
@@ -534,7 +534,7 @@
     },
     {
       "id": "TKT-0130",
-      "title": "QBR Agent Fleet Review \u2014 mandatory ceremony for mandate, role, scope and TOM optimization",
+      "title": "QBR Agent Fleet Review — mandatory ceremony for mandate, role, scope and TOM optimization",
       "type": "task",
       "priority": "high",
       "status": "open",
@@ -542,7 +542,7 @@
       "assignee": "Yoda",
       "created": "2026-05-10T10:49:24+10:00",
       "updated": "2026-05-10T10:51:11+10:00",
-      "description": "Formalize quarterly Agent Fleet Review as mandatory QBR ceremony. Purpose: ensure agent mandate, role, scope, and governance tier remain fit for purpose as AInchors evolves. Reviews: (1) All active agents vs current TOM \u2014 mandate valid? Scope drifted? Utilization right? (2) Governance tier correct? Agents needing tier change? (3) Agent performance \u2014 invocation rate, output quality, escalation rate. (4) New agents proposed and approved. (5) Retirements assessed. (6) Mandate conflicts/overlaps resolved. (7) MEMORY.md, Agent_Governance_Framework, SOUL.md updated. Output: Agent Fleet Status Report + TKT/CHG for any changes. Owner: Yoda facilitates, Ken approves. First instance: July 2026 QBR. Cadence: Jan/Apr/Jul/Oct. Integrates with TKT-0125 (Strategy-to-Backlog) and TKT-0109 (Agile PM review). Ken directive 2026-05-10.",
+      "description": "Formalize quarterly Agent Fleet Review as mandatory QBR ceremony. Purpose: ensure agent mandate, role, scope, and governance tier remain fit for purpose as AInchors evolves. Reviews: (1) All active agents vs current TOM — mandate valid? Scope drifted? Utilization right? (2) Governance tier correct? Agents needing tier change? (3) Agent performance — invocation rate, output quality, escalation rate. (4) New agents proposed and approved. (5) Retirements assessed. (6) Mandate conflicts/overlaps resolved. (7) MEMORY.md, Agent_Governance_Framework, SOUL.md updated. Output: Agent Fleet Status Report + TKT/CHG for any changes. Owner: Yoda facilitates, Ken approves. First instance: July 2026 QBR. Cadence: Jan/Apr/Jul/Oct. Integrates with TKT-0125 (Strategy-to-Backlog) and TKT-0109 (Agile PM review). Ken directive 2026-05-10.",
       "resolution": null,
       "linked": {
         "us": [
@@ -556,7 +556,7 @@
     },
     {
       "id": "TKT-0131",
-      "title": "Review task log and tracker \u2014 completeness, accuracy, gaps",
+      "title": "Review task log and tracker — completeness, accuracy, gaps",
       "type": "task",
       "priority": "medium",
       "status": "open",
@@ -576,7 +576,7 @@
     },
     {
       "id": "TKT-0132",
-      "title": "Review cost and ROI log and tracker \u2014 accuracy, coverage, insights",
+      "title": "Review cost and ROI log and tracker — accuracy, coverage, insights",
       "type": "task",
       "priority": "medium",
       "status": "open",
@@ -584,7 +584,7 @@
       "assignee": "Yoda",
       "created": "2026-05-10T11:03:14+10:00",
       "updated": "2026-05-10T11:03:14+10:00",
-      "description": "Audit the current cost tracking and ROI log system. Review: (1) Is cost-state.json accurate and up to date? (2) Are daily cost snapshots being captured? (3) Is spend being attributed correctly per agent/task? (4) Is there an ROI tracking layer \u2014 are we capturing value delivered vs cost incurred? (5) Budget alerts (TKT-0092) working correctly? (6) Recommend: what ROI metrics should we track for P1 \u2192 P2 transition (time saved, output volume, error rate reduction)? Deliverable: cost/ROI audit report + recommendations. Owner: Yoda.",
+      "description": "Audit the current cost tracking and ROI log system. Review: (1) Is cost-state.json accurate and up to date? (2) Are daily cost snapshots being captured? (3) Is spend being attributed correctly per agent/task? (4) Is there an ROI tracking layer — are we capturing value delivered vs cost incurred? (5) Budget alerts (TKT-0092) working correctly? (6) Recommend: what ROI metrics should we track for P1 → P2 transition (time saved, output volume, error rate reduction)? Deliverable: cost/ROI audit report + recommendations. Owner: Yoda.",
       "resolution": null,
       "linked": {
         "us": [],
@@ -596,7 +596,7 @@
     },
     {
       "id": "TKT-0133",
-      "title": "EA: Observability Strategy & Tool Selection \u2014 OTel vs Dynatrace",
+      "title": "EA: Observability Strategy & Tool Selection — OTel vs Dynatrace",
       "type": "task",
       "priority": "medium",
       "status": "open",
@@ -604,7 +604,7 @@
       "assignee": "Yoda",
       "created": "2026-05-10T12:27:28+10:00",
       "updated": "2026-05-10T12:27:28+10:00",
-      "description": "Enterprise Architecture task for Atlas. Produce an observability strategy recommendation for AInchors/Aevlith Nexus platform. Brief: evaluate OpenTelemetry (OTel) vs Dynatrace as the observability foundation. Cover: (1) current state gap analysis vs AInchors ops maturity, (2) OTel open-source stack (collector + backends: Jaeger/Prometheus/Grafana/Tempo) vs Dynatrace SaaS, (3) cost model at P1/P2/P4 scale, (4) data sovereignty implications (Anthropic DPA / APRA CPG 235 \u2014 client data must stay local), (5) integration with existing obs.db + OpenClaw health stack, (6) recommended path with clear P2 gate criteria. Output: EA decision record with recommendation + migration plan stub. Owner: Atlas.",
+      "description": "Enterprise Architecture task for Atlas. Produce an observability strategy recommendation for AInchors/Aevlith Nexus platform. Brief: evaluate OpenTelemetry (OTel) vs Dynatrace as the observability foundation. Cover: (1) current state gap analysis vs AInchors ops maturity, (2) OTel open-source stack (collector + backends: Jaeger/Prometheus/Grafana/Tempo) vs Dynatrace SaaS, (3) cost model at P1/P2/P4 scale, (4) data sovereignty implications (Anthropic DPA / APRA CPG 235 — client data must stay local), (5) integration with existing obs.db + OpenClaw health stack, (6) recommended path with clear P2 gate criteria. Output: EA decision record with recommendation + migration plan stub. Owner: Atlas.",
       "resolution": null,
       "linked": {
         "us": [],

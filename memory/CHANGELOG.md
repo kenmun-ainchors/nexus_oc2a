@@ -84,6 +84,18 @@ This log captures **every change** Yoda makes to AInchors infrastructure, config
 **Linked:** decisions.md 2026-04-27 entries
 ---
 
+## 2026-05-10 13:41 AEST — [CHG-0266] TKT-0112: obs-collector phantom delegation_fail + cron_run_fail dedup
+**Type:** script
+**Source:** ken-prompt
+**Trigger:** TKT-0112 sprint item
+**What changed:** obs-collector.sh CHECK U: skip entries where task+agent+error all empty (phantom guard). CHECK Q: added lastRunEpoch deduplication — cron failures only logged once, not on every 5-min run.
+**Why:** 3761 phantom delegation_fail alerts from latency tracking entries with no task/agent data. cron_run_fail logged same failures repeatedly without dedup.
+**Verification:** Filter test: 2 phantoms removed, 1 real kept. Collector run post-fix: 0 new events. Telegram false alarms stopped.
+**Rollback:** N/A
+**Linked:** TKT-0112
+---
+
+
 ## 2026-05-10 13:39 AEST — [CHG-0265] TKT-0124: Hybrid storage model — Google Drive (human) + MinIO (agent)
 **Type:** doc
 **Source:** ken-prompt

@@ -526,15 +526,33 @@ if [[ -f "$CRON_HEALTH_FILE" ]]; then
   python3 - <<'PYEOF'
 import json, subprocess, sys, os
 
-state_file = os.path.join(os.environ.get('WORKSPACE', os.path.expanduser('~/.openclaw/workspace')), 'state', 'cron-health-state.json')
-obs_log    = os.path.join(os.environ.get('WORKSPACE', os.path.expanduser('~/.openclaw/workspace')), 'scripts', 'obs-log.sh')
+state_dir  = os.environ.get('WORKSPACE', os.path.expanduser('~/.openclaw/workspace'))
+state_file = os.path.join(state_dir, 'state', 'cron-health-state.json')
+obs_log    = os.path.join(state_dir, 'scripts', 'obs-log.sh')
+coll_state = os.path.join(state_dir, 'state', 'obs-collector-state.json')
 try:
     d = json.load(open(state_file))
 except Exception:
     sys.exit(0)
 
+# TKT-0112: deduplicate — only log failures newer than last obs run
+try:
+    cs = json.load(open(coll_state))
+    last_run = int(cs.get('lastRunEpoch', 0))
+except Exception:
+    last_run = 0
+
+import datetime
 failures = d.get('failures', [])
 for f in failures:
+    # Dedup: skip if failure was detected before last collector run
+    detected = f.get('detectedAt', f.get('failedAt', f.get('ts', '')))
+    if detected:
+        try:
+            dt = datetime.datetime.fromisoformat(str(detected).replace('Z', '+00:00'))
+            if int(dt.timestamp()) <= last_run: continue
+        except Exception:
+            pass  # can't parse timestamp — log it to be safe
     cron_id  = f.get('cronId', 'unknown')[:8]
     name     = f.get('name', 'unknown cron')[:80]
     err      = f.get('error', '')[:200]
@@ -656,6 +674,11 @@ try:
     for e in entries:
         if not isinstance(e, dict): continue
         if e.get('status') != 'fail': continue
+        # TKT-0112: skip phantom entries — latency records with no real task data
+        task_val  = str(e.get('task',   e.get('taskId', '')) or '').strip()
+        agent_val = str(e.get('agent',  '') or '').strip()
+        error_val = str(e.get('error',  '') or '').strip()
+        if not task_val and not agent_val and not error_val: continue  # phantom — skip
         # Only new since last obs run
         import datetime
         ts_str = e.get('timestamp', e.get('at', e.get('ts', '')))
@@ -665,7 +688,7 @@ try:
             if int(dt.timestamp()) <= last_run: continue
         except Exception:
             continue  # skip if timestamp unparseable — avoids re-logging every run
-        msg = f"Delegation failure: task={e.get('task', e.get('taskId','?'))[:60]} agent={e.get('agent','?')}"
+        msg = f"Delegation failure: task={task_val[:60]} agent={agent_val}"
         subprocess.run(['bash', obs_log, '--source', 'delegation',
                         '--level', 'ERROR', '--type', 'delegation_fail',
                         '--message', msg,
