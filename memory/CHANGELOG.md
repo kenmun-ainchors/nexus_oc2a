@@ -84,6 +84,18 @@ This log captures **every change** Yoda makes to AInchors infrastructure, config
 **Linked:** decisions.md 2026-04-27 entries
 ---
 
+## 2026-05-10 13:39 AEST — [CHG-0265] TKT-0124: Hybrid storage model — Google Drive (human) + MinIO (agent)
+**Type:** doc
+**Source:** ken-prompt
+**Trigger:** Ken approved 2026-05-10 13:37 — AInchors on Google Workspace
+**What changed:** Architecture amendment: Drive for human layer (already live), MinIO for agent layer only. MinIO buckets reduced 6->4 (removed ainchors-documents, ainchors-business-docs -> Drive). Tailscale Funnel scope reduced. AC list: added AC16 (Drive live), AC17 (Brand Code sync). P2 strategy unchanged (S3-compatible for all). docs/TKT-0124-Hybrid-Storage-Amendment.md
+**Why:** AInchors on Google Workspace. Drive handles human file access with zero new infrastructure. MinIO scoped to agent-only. P2 clients cannot support multi-model storage.
+**Verification:** Drive folder live, gog upload working (atlas docx uploaded + accessible from Windows). Amendment doc written.
+**Rollback:** N/A
+**Linked:** TKT-0124
+---
+
+
 ## 2026-05-10 13:21 AEST — [CHG-0264] TKT-0126/0123: LinkedIn post special char validation + mktemp fix
 **Type:** script
 **Source:** ken-prompt
