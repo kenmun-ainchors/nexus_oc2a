@@ -84,6 +84,18 @@ This log captures **every change** Yoda makes to AInchors infrastructure, config
 **Linked:** decisions.md 2026-04-27 entries
 ---
 
+## 2026-05-10 20:42 AEST — [CHG-0271] Option C Phase 1: SOUL.md v2.1.0 adopted, ORCHESTRATOR.md added, Forge name confirmed
+**Type:** rule
+**Source:** ken-prompt
+**Trigger:** Ken approved Option C, decisions 1-5+7 (YODA_MD email gap analysis)
+**What changed:** SOUL.md: replaced with v2.1.0 (3,527 chars). Added rules 9+10 (credit alert + boundaries). Adds Skill Gate, Consulting stream, routing table, Aevlith placeholder. Removes stale Obsidian ref. docs/Yoda_ORCHESTRATOR.md: added as net-new companion reference. docs/Yoda_RULES.md: Warden model corrected to claude-haiku-4-5. infra agent renamed to Forge (openclaw.json). MEMORY.md updated.
+**Why:** Gap analysis (DRAFT_Gap_Analysis_Yoda_Orchestrator_MD_20260510.md) approved by Ken. Phase 1 of Option C. Phase 2 (RULES.md two-layer) pending Decision 6.
+**Verification:** SOUL.md: 3,527 chars (under 5,000). ORCHESTRATOR.md: in place. Warden model: corrected. Forge: confirmed.
+**Rollback:** N/A
+**Linked:** TKT-0141
+---
+
+
 ## 2026-05-10 17:37 AEST — [CHG-0270] Skill Installation Policy v1.0 + audit-skill.sh + skill registry
 **Type:** script
 **Source:** ken-prompt

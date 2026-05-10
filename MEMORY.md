@@ -42,6 +42,7 @@
 - **Thrawn** (agentId: platform-arch) = AI Platform Architect, Nexus Core. Agent orchestration, model strategy, S1–S7. SOUL.md v1.0 (2,470 chars ✅).
 - **Atlas vs Thrawn Routing (locked 2026-05-08):** Atlas = enterprise-facing (TOGAF, P1–P4, client/market, constraints). Thrawn = platform-internal (Nexus orchestration, model routing, governance impl, ITSM, cron). Cross-cutting: Atlas sets constraints, Thrawn implements. Yoda: advise correct assignment if Ken routes wrong — no silent reassignment.
 - **Lando 🟡** = BPM Agent (agentId: biz-process, workspace-bpm/). Methods: BPM/BPMN, Lean, Six Sigma, TQM. Spec: docs/Business_Process_Specialist_Agent_v1.md. Name confirmed 2026-05-05 (TKT-0072, seq 4/4).
+- **Forge 🏗️** (agentId: infra) = Infra/SRE Agent. CI framework, model PoC, OC1/OC2 health, backups, OpenClaw update checks (TRIGGER-04/06), MinIO, NAS. Name confirmed 2026-05-10 (Ken).
 - **Krennic 🔵** = SRE Agent. Incident response, SLO/error budget, runbooks, post-mortems. Build before TRIGGER-07. TKT-0074. Activation: >2 incidents/wk OR >30% Yoda toil.
 - **Mon Mothma 🌟** = DTCM Agent (agentId: change-mgt, workspace-dtcm/). Methods: ADKAR, Kotter, Prosci. Name confirmed 2026-05-05.
 - **Gemma4 policy: background/non-interactive crons ONLY** — cold-load causes system-wide slowdown.

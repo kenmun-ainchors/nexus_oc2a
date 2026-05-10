@@ -121,7 +121,7 @@ GOVERNANCE (cross-stream):
 | Shield 🛡️ | Security gate — pre-action review | Sonnet | LIVE |
 | Lex ⚖️ | Legal gate — APP, contracts, privacy | Sonnet | LIVE |
 | Sage 🧪 | QA gate — accuracy, quality, policy | Sonnet | LIVE |
-| Warden 🔍 | Compliance monitor — all agents every 15 min (T3 hourly) | gemma4:e2b | LIVE |
+| Warden 🔍 | Compliance monitor — all agents every 15 min (T3 hourly) | claude-haiku-4-5 (Haiku) | LIVE |
 
 Fleet total: 14 agents — 10 active, 2 activating, 1 planned, 1 P2 gate
 

@@ -6,7 +6,7 @@
     "taskWatchdog": "2026-05-10T10:18:00Z",
     "cronHealth": "2026-05-10T10:18:00Z",
     "budgetCheck": "2026-05-10T10:12:45.3NZ",
-    "doDGates": "2026-05-10T10:31:19.573704Z",
+    "doDGates": "2026-05-10T10:35:00Z",
     "cronDeadLetter": "2026-05-10T08:52:29.126338Z",
     "agentHealth": "2026-05-10T09:44:46Z",
     "wardenEscalation": "2026-05-10T10:12:45.3NZ",
@@ -16,7 +16,7 @@
     "assetReview": "2026-05-10T07:05:46Z",
     "ahsokaPilot": "2026-05-10T10:12:45.3NZ"
   },
-  "doDGatesSunday": "2026-05-10T09:15:08.6NZ",
-  "lastHeartbeat": "2026-05-10T10:29:00Z",
-  "lastHeartbeatNote": "2026-05-10 20:29 AEST \u2014 All checks clean. Balance $479.35 (well above tiers). Warden cron 83accf7b 3x failures acknowledged. No stalls, no dead-letters, no standby. Ahsoka pilots in progress. EOD close not yet due (23:30)."
+  "doDGatesSunday": "2026-05-10T10:35:00Z",
+  "lastHeartbeat": "2026-05-10T10:38:00Z",
+  "lastHeartbeatNote": "2026-05-10 20:38 AEST — All clean. Balance $425.12 (post-reload, healthy). Health OK. No stalls, dead-letters, warden escalations, or standby. Cron health clean. Budget OK ($37.29/$200). Sunday DoD gate check already run at 20:35."
 }
