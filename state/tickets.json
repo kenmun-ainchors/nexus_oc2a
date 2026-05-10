@@ -1,5 +1,5 @@
 {
-  "sequence": 138,
+  "sequence": 139,
   "tickets": [
     {
       "id": "TKT-0104",
@@ -695,6 +695,28 @@
       },
       "notes": "",
       "notionPageId": "35cc1829-53ff-81c3-b9d4-fd24dc91ca02"
+    },
+    {
+      "id": "TKT-0138",
+      "title": "Business Jumpstart — 3-part client engagement pathway (Consulting Framework)",
+      "type": "task",
+      "priority": "high",
+      "status": "open",
+      "requester": "Ken",
+      "assignee": "Yoda",
+      "created": "2026-05-10T15:16:32+10:00",
+      "updated": "2026-05-10T15:16:36+10:00",
+      "description": "Design and build the AInchors Business Jumpstart: a structured 3-part client engagement pathway. This is AInchors' flagship consulting delivery framework — how clients go from first contact to active AI operations. Part of the Consulting Playbook (TKT-0136). PART 1 — ONBOARDING + USING NEXUS: Client introduction to AInchors, the Nexus platform, how agents work, what the engagement looks like. Sets expectations, establishes working norms, access setup, Sanctum introduction. Deliverable: Onboarding Guide + Nexus orientation session. PART 2 — DEFINE BUSINESS VMS + REQUIREMENTS + CHALLENGES: Structured discovery session. Define (or validate) client Vision, Mission, Strategy. Map current business requirements and pain points. Identify AI transformation challenges and opportunities. Produce Discovery Summary + AI Opportunity Map (scored matrix). Deliverable: VMS Document, Discovery Summary, AI Opportunity Assessment. PART 3 — AGILE-FIRST SPRINT: Convert top AI opportunity into a structured first sprint. Define backlog, define DoD, run Sprint 1 with client. Establishes the working rhythm, proves value fast. Deliverable: Sprint 1 backlog, Sprint 1 output, retrospective. Owner: Ahsoka (consulting delivery). Collaborators: Lando (process), Atlas (architecture), Aria (client comms via Angie). Ken approves framework before client use. Part of Consulting Playbook IP (TKT-0136).",
+      "resolution": null,
+      "linked": {
+        "us": [
+          "TKT-0136"
+        ],
+        "inc": [],
+        "chg": []
+      },
+      "notes": "",
+      "notionPageId": "35cc1829-53ff-8194-8bc9-f61f1183cbf4"
     }
   ]
 }

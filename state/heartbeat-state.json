@@ -3,18 +3,18 @@
     "email": "2026-05-10T04:18:00Z",
     "calendar": "2026-05-10T04:18:00Z",
     "weather": null,
-    "taskWatchdog": "2026-05-10T04:55:55Z",
+    "taskWatchdog": "2026-05-10T05:15:00.000Z",
     "cronHealth": "2026-05-10T04:53:00Z",
     "budgetCheck": "2026-05-10T04:57:31.705Z",
     "doDGates": "2026-05-10T04:57:31.705Z",
     "cronDeadLetter": 1778387483738,
-    "agentHealth": "2026-05-10T04:55:55Z",
-    "wardenEscalation": "2026-05-10T04:53:00Z",
-    "allowlistSync": "2026-05-10T04:53:00Z",
+    "agentHealth": "2026-05-10T05:15:00.000Z",
+    "wardenEscalation": "2026-05-10T05:15:00.000Z",
+    "allowlistSync": "2026-05-10T05:15:00.000Z",
     "dailyClose": "2026-05-09T18:16:19.589Z",
     "apiBalance": "2026-05-10T04:53:00Z"
   },
   "doDGatesSunday": "2026-05-10T04:57:31.705Z",
-  "lastHeartbeat": "2026-05-10T05:05:00.000Z",
-  "lastHeartbeatNote": "2026-05-10 15:05 AEST — Gateway health degraded: event loop delay 29225ms max, util 0.721 (consecutiveFailures=0, first occurrence). Alerted Ken. Budget all green. Cron health clean. Warden cron 83accf7b 3 errors ack=true (ongoing). DoD gates already surfaced 14:57 AEST. Ahsoka P1 in_progress P2 pending. Allowlist no-changes."
+  "lastHeartbeat": "2026-05-10T05:15:00.000Z",
+  "lastHeartbeatNote": "2026-05-10 15:15 AEST \u2014 All clean. Warden cron 83accf7b errors ack=true (ongoing). No new alerts. Budget/allowlist/agent health OK."
 }
