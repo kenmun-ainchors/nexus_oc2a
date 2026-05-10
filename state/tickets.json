@@ -1,5 +1,5 @@
 {
-  "sequence": 133,
+  "sequence": 134,
   "tickets": [
     {
       "id": "TKT-0104",
@@ -593,6 +593,26 @@
       },
       "notes": "",
       "notionPageId": "35cc1829-53ff-818e-95f5-c700a5594cca"
+    },
+    {
+      "id": "TKT-0133",
+      "title": "EA: Observability Strategy & Tool Selection — OTel vs Dynatrace",
+      "type": "task",
+      "priority": "medium",
+      "status": "open",
+      "requester": "Ken",
+      "assignee": "Yoda",
+      "created": "2026-05-10T12:27:28+10:00",
+      "updated": "2026-05-10T12:27:28+10:00",
+      "description": "Enterprise Architecture task for Atlas. Produce an observability strategy recommendation for AInchors/Aevlith Nexus platform. Brief: evaluate OpenTelemetry (OTel) vs Dynatrace as the observability foundation. Cover: (1) current state gap analysis vs AInchors ops maturity, (2) OTel open-source stack (collector + backends: Jaeger/Prometheus/Grafana/Tempo) vs Dynatrace SaaS, (3) cost model at P1/P2/P4 scale, (4) data sovereignty implications (Anthropic DPA / APRA CPG 235 — client data must stay local), (5) integration with existing obs.db + OpenClaw health stack, (6) recommended path with clear P2 gate criteria. Output: EA decision record with recommendation + migration plan stub. Owner: Atlas.",
+      "resolution": null,
+      "linked": {
+        "us": [],
+        "inc": [],
+        "chg": []
+      },
+      "notes": "",
+      "notionPageId": "35cc1829-53ff-8179-9069-f0da8cc3a293"
     }
   ]
 }

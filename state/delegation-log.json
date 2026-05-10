@@ -11222,10 +11222,30 @@
       "status": "pass",
       "latencyMs": 0,
       "notes": "15 checks run: 9 model compliance + 6 governance gates. All pass."
+    },
+    {
+      "ts": "2026-05-10T12:07:30+10:00",
+      "date": "2026-05-10",
+      "tier": "T2",
+      "taskType": "warden-check",
+      "model": "anthropic/claude-haiku-4-5",
+      "status": "pass",
+      "latencyMs": 0,
+      "notes": "19 checks run (all PASS)"
+    },
+    {
+      "ts": "2026-05-10T13:07:08+10:00",
+      "date": "2026-05-10",
+      "tier": "T2",
+      "taskType": "warden-check",
+      "model": "anthropic/claude-haiku-4-5",
+      "status": "pass",
+      "latencyMs": 0,
+      "notes": "19 checks run"
     }
   ],
   "summary": {
-    "total": 1122,
+    "total": 1124,
     "byTier": {
       "T1": {
         "pass": 0,
@@ -11233,7 +11253,7 @@
         "timeout": 0
       },
       "T2": {
-        "pass": 1079,
+        "pass": 1081,
         "fail": 34,
         "timeout": 0
       },
@@ -11251,7 +11271,7 @@
         "tier": "T2"
       },
       "warden-check": {
-        "pass": 909,
+        "pass": 911,
         "fail": 28,
         "timeout": 0,
         "tier": "T2"
@@ -11275,6 +11295,6 @@
         "tier": "T2"
       }
     },
-    "estimatedSavingsUSD": 5.4025
+    "estimatedSavingsUSD": 5.4125
   }
 }

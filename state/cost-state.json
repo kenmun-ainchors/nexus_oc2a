@@ -1,5 +1,5 @@
 {
-  "lastUpdated": "2026-05-09T20:22:06.386Z",
+  "lastUpdated": "2026-05-10T02:37:34Z",
   "history": {
     "2026-04-25": {
       "date": "2026-04-25",
@@ -133,7 +133,7 @@
       "totalCacheReadTokens": 166665793,
       "totalCacheWriteTokens": 28934304,
       "source": "session-log-estimate",
-      "note": "Session log estimate — excludes input_cache_write_5m charges billed separately by Anthropic. Actual cost is higher. See US38 for Anthropic Billing API integration.",
+      "note": "Session log estimate \u2014 excludes input_cache_write_5m charges billed separately by Anthropic. Actual cost is higher. See US38 for Anthropic Billing API integration.",
       "byModel": {
         "claude-sonnet-4-6": {
           "input": 4020,
@@ -575,31 +575,76 @@
           "turns": 1
         }
       }
+    },
+    "2026-05-10": {
+      "date": "2026-05-10",
+      "totalCost": 37.2932,
+      "totalTurns": 1032,
+      "totalInputTokens": 589609,
+      "totalOutputTokens": 298192,
+      "totalCacheReadTokens": 39939991,
+      "totalCacheWriteTokens": 6114459,
+      "source": "session-log-estimate",
+      "note": "Session log estimate. usage.cost.total includes cacheWrite charges. CHG-0097: confirmed cost includes cache writes.",
+      "byModel": {
+        "claude-sonnet-4-6": {
+          "input": 1259,
+          "output": 255177,
+          "cacheRead": 37265613,
+          "cacheWrite": 5672062,
+          "cost": 36.2813,
+          "turns": 741
+        },
+        "gemma4:e2b": {
+          "input": 10488,
+          "output": 35,
+          "cacheRead": 0,
+          "cacheWrite": 0,
+          "cost": 0.0,
+          "turns": 1
+        },
+        "claude-haiku-4-5": {
+          "input": 3197,
+          "output": 37644,
+          "cacheRead": 2674378,
+          "cacheWrite": 442397,
+          "cost": 1.0119,
+          "turns": 279
+        },
+        "deepseek-v4-pro:cloud": {
+          "input": 574665,
+          "output": 5336,
+          "cacheRead": 0,
+          "cacheWrite": 0,
+          "cost": 0.0,
+          "turns": 11
+        }
+      }
     }
   },
-  "allTimeTotalCost": 2339.0736,
-  "daysTracked": 15,
-  "avgDailyCost": 155.9382,
+  "allTimeTotalCost": 2376.3668,
+  "daysTracked": 16,
+  "avgDailyCost": 148.5229,
   "apiBalance": {
-    "remainingEstimate": 278.73,
-    "spentSinceTopUp": 2339.0736,
-    "remainingNote": "confirmedBalance=479.35 at 2026-05-08; May9 spend=200.62; est remaining=278.73",
+    "remainingEstimate": 0,
+    "spentSinceTopUp": 2376.3668,
+    "remainingNote": "confirmedBalance=None at 2026-05-08; spentAfter=2376.3668",
     "confirmedAt": "2026-05-08T11:32:26Z",
     "note": "Confirmed by Ken 2026-05-08 13:10 AEST. Auto-reload active."
   },
   "spendAlerts": {
     "tier1": {
       "threshold": 80,
-      "label": "Tier 1 — $80 remaining",
+      "label": "Tier 1 \u2014 $80 remaining",
       "action": "Alert Ken + Angie ONCE. ~19hrs runway at current burn. Top up soon.",
       "frequency": "once",
       "triggered": false,
       "triggeredAt": null,
-      "note": "Updated 2026-04-28 from $50 to $80 — actual burn $101/day from CSV"
+      "note": "Updated 2026-04-28 from $50 to $80 \u2014 actual burn $101/day from CSV"
     },
     "tier2": {
       "threshold": 40,
-      "label": "Tier 2 — $40 remaining",
+      "label": "Tier 2 \u2014 $40 remaining",
       "action": "Alert Ken + Angie every 3rd response. ~9hrs runway. Top up urgently.",
       "frequency": "every-3rd-response",
       "responseCounter": 0,
@@ -608,7 +653,7 @@
     },
     "tier3": {
       "threshold": 15,
-      "label": "Tier 3 — $15 remaining — CRITICAL",
+      "label": "Tier 3 \u2014 $15 remaining \u2014 CRITICAL",
       "action": "PAUSE before every request. Alert Ken + Angie. Require acknowledgement.",
       "frequency": "every-request-and-response",
       "triggered": false,
@@ -628,7 +673,7 @@
         "name": "Angie",
         "via": "Aria",
         "bot": "@AInchorsAriaBot",
-        "note": "Must route via Aria's bot — NOT Yoda's bot. Use sessions_send to Aria session."
+        "note": "Must route via Aria's bot \u2014 NOT Yoda's bot. Use sessions_send to Aria session."
       }
     },
     "status": "monitoring",
