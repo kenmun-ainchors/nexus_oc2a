@@ -1,5 +1,5 @@
 {
-  "sequence": 140,
+  "sequence": 141,
   "tickets": [
     {
       "id": "TKT-0104",
@@ -740,6 +740,26 @@
       },
       "notes": "",
       "notionPageId": "35cc1829-53ff-8153-a8bb-e9aa6c92d69a"
+    },
+    {
+      "id": "TKT-0140",
+      "title": "obs-collector: add dedup guard to prevent re-logging on state reset",
+      "type": "task",
+      "priority": "medium",
+      "status": "done",
+      "requester": "Ken",
+      "assignee": "Yoda",
+      "created": "2026-05-10T16:05:08+10:00",
+      "updated": "2026-05-10T16:11:21+10:00",
+      "description": "Root cause: when obs-collector-state.json is reset (lastRunEpoch=0 or missing), the collector re-logs all historical entries in delegation-log.json from epoch 0. During INC-20260509-001 recovery, this produced 3,761 phantom delegation_fail entries over 9.5 hours. Fix: (1) Add dedup check — skip entries already logged in obs.db (by timestamp+event_type+source). (2) Cap historical lookback on state reset to last 24h only, not epoch 0. (3) Filter delegation-log.json latency records (status=fail but empty task/agent/error) from delegation_fail check. Linked: TKT-0112 (cron run failures not captured in obs.db).",
+      "resolution": null,
+      "linked": {
+        "us": [],
+        "inc": [],
+        "chg": []
+      },
+      "notes": "COMPLETE 2026-05-10. (1) 24h lookback cap: when lastRunEpoch=0 or state missing, defaults to now-86400 instead of epoch 0 — prevents re-logging all history on state reset. (2) Dedup check in _obs_log wrapper: queries obs.db for same event_type+source within last 5min before logging — skips if already present. (3) Empty field filter already done in TKT-0112. Test: simulated state reset produced 4 events (was 3761). CHG-0267.",
+      "notionPageId": "35cc1829-53ff-8176-b721-d4b67570b4af"
     }
   ]
 }

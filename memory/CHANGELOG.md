@@ -84,6 +84,18 @@ This log captures **every change** Yoda makes to AInchors infrastructure, config
 **Linked:** decisions.md 2026-04-27 entries
 ---
 
+## 2026-05-10 16:11 AEST — [CHG-0267] TKT-0140: obs-collector dedup guard + 24h lookback cap on state reset
+**Type:** script
+**Source:** ken-prompt
+**Trigger:** TKT-0140 execution — Ken
+**What changed:** obs-collector.sh: (1) LAST_RUN: epoch=0 now caps to now-86400 (24h) instead of scanning from epoch 0. (2) _obs_log wrapper: dedup check queries obs.db for same event_type+source in last 5min before logging.
+**Why:** INC-20260509-001 recovery reset lastRunEpoch=0, causing 9.5h of re-logging (3761 phantom events). 24h cap prevents this. Dedup check is secondary safety net.
+**Verification:** State reset test: 4 events logged (was 3761). Collector runs clean.
+**Rollback:** N/A
+**Linked:** TKT-0140, TKT-0112
+---
+
+
 ## 2026-05-10 13:41 AEST — [CHG-0266] TKT-0112: obs-collector phantom delegation_fail + cron_run_fail dedup
 **Type:** script
 **Source:** ken-prompt

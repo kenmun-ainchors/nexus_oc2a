@@ -24,6 +24,26 @@ NEW_EVENTS=0
 
 _obs_log() {
   # Wrapper: increments NEW_EVENTS on success
+  # TKT-0140: dedup check — skip if identical event already in obs.db (same ts_epoch+event_type+source)
+  # Prevents re-logging on state reset
+  local _msg="" _type="" _source="" _ts=""
+  local _args=("$@")
+  for ((i=0; i<${#_args[@]}; i++)); do
+    case "${_args[$i]}" in
+      --message) _msg="${_args[$((i+1))]}" ;;
+      --type)    _type="${_args[$((i+1))]}" ;;
+      --source)  _source="${_args[$((i+1))]}" ;;
+    esac
+  done
+  if [[ -n "$_type" && -n "$_source" && -f "$OBS_DB" ]]; then
+    local _exists
+    _exists=$(sqlite3 "$OBS_DB" \
+      "SELECT COUNT(*) FROM obs_log WHERE event_type='$_type' AND source='$_source' AND ts_epoch > $(( NOW_EPOCH - 300 )) AND message='${_msg//\'/\'\'}'" \
+      2>/dev/null || echo 0)
+    if [[ "$_exists" -gt 0 ]]; then
+      return 0  # already logged in last 5 min, skip
+    fi
+  fi
   if bash "$OBS_LOG_CMD" "$@" >/dev/null 2>&1; then
     NEW_EVENTS=$((NEW_EVENTS + 1))
   fi
@@ -31,13 +51,19 @@ _obs_log() {
 
 # ── Read lastRun epoch from state ─────────────────────────────────────────────
 LAST_RUN=$(python3 -c "
-import json, sys
+import json, sys, time
 try:
     d = json.load(open('$COLLECTOR_STATE'))
-    print(int(d.get('lastRunEpoch', 0)))
+    epoch = int(d.get('lastRunEpoch', 0))
+    # TKT-0140: cap lookback to 24h on state reset (epoch=0 or missing)
+    # Prevents re-logging all historical entries after state wipe (INC-20260509-001 root cause)
+    if epoch == 0:
+        epoch = int(time.time()) - 86400
+    print(epoch)
 except Exception:
-    print(0)
-" 2>/dev/null || echo 0)
+    # State file missing entirely — cap to 24h ago
+    print(int(time.time()) - 86400)
+" 2>/dev/null || echo $(($(date +%s) - 86400)))
 
 # ── CHECK A: health-state.json ────────────────────────────────────────────────
 HEALTH_FILE="$STATE/health-state.json"
