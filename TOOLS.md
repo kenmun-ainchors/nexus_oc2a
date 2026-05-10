@@ -58,3 +58,13 @@ Add whatever helps you do your job. This is your cheat sheet.
 - Colima socket: `unix:///Users/ainchorsangiefpl/.colima/default/docker.sock`
 - Docker context: `colima` (active, set as default)
 - RustDesk containers managed via: `/Users/ainchorsangiefpl/.openclaw/workspace/infra/rustdesk/`
+
+## Remote Access
+
+- **VNC (primary):** `vnc://100.91.60.36:5900` — screensharingd on Tailscale IP, direct (no proxy)
+  - Works at login/lock screen ✅
+  - macOS: Finder → Go → Connect to Server → `vnc://100.91.60.36:5900`
+  - Windows/other: any VNC client to `100.91.60.36:5900`
+- **Google Remote Desktop:** works after VNC login (use VNC to unlock, then CRD for session)
+- **RustDesk:** public relay, connect by OC1 ID (visible in app UI) — no custom server
+- **Tailscale IP (OC1):** `100.91.60.36`
