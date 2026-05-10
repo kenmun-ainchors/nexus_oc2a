@@ -1,5 +1,5 @@
 {
-  "sequence": 143,
+  "sequence": 144,
   "tickets": [
     {
       "id": "TKT-0104",
@@ -800,6 +800,28 @@
       },
       "notes": "2026-05-10: Skill Installation Policy v1.0 written (docs/Skill-Installation-Policy-v1.0.md). audit-skill.sh built with 9 security checks (BLOCK/FLAG). skill-registry.json seeded with 63 existing skills (10 workspace + 53 bundled). RULES.md updated with non-negotiable gate. Formal SOP + registry = controls in place. Remaining: TKT-0137 (Policy Register) to include this as POL-011.",
       "notionPageId": "35cc1829-53ff-817e-9407-d3c4295f20e6"
+    },
+    {
+      "id": "TKT-0143",
+      "title": "CLI-Anything strategic assessment — review Atlas EA and confirm adoption decision",
+      "type": "task",
+      "priority": "medium",
+      "status": "open",
+      "requester": "Ken",
+      "assignee": "Yoda",
+      "created": "2026-05-10T19:39:49+10:00",
+      "updated": "2026-05-10T19:40:03+10:00",
+      "description": "Atlas completed EA assessment for CLI-Anything (2026-05-10). Verdict: CONDITIONAL ADOPT — introduce in P2, with controlled internal use from late P1. Assessment at: state/atlas-cli-anything-assessment.md (24KB). Key findings: (1) Internal use now — speeds up making AInchors tools agent-native, removes manual SKILL.md authoring bottleneck. (2) P2 Business Jumpstart — make client repos agent-native as a structured consulting offering. (3) Nexus Holocron integration — CLI-Anything as input layer to Nexus skill registry (P3). Security risk controlled via TKT-0141/0142 + Skill-Installation-Policy-v1.0.md. Action required: Ken to review Atlas assessment and confirm: adopt/defer/reject + phase timeline. Once confirmed, raise CHG for controlled P1 internal adoption if approved. Linked to TKT-0141 (security controls already built).",
+      "resolution": null,
+      "linked": {
+        "us": [
+          "TKT-0141"
+        ],
+        "inc": [],
+        "chg": []
+      },
+      "notes": "",
+      "notionPageId": "35cc1829-53ff-8154-8a99-df074516eb5c"
     }
   ]
 }
