@@ -84,6 +84,18 @@ This log captures **every change** Yoda makes to AInchors infrastructure, config
 **Linked:** decisions.md 2026-04-27 entries
 ---
 
+## 2026-05-10 17:29 AEST — [CHG-0269] TKT-0142: SKILL.md security audit — 63 files scanned, no malicious content found
+**Type:** doc
+**Source:** ken-prompt
+**Trigger:** Ken email: OC Vulnerability (VentureBeat CLI-Anything/ToxicSkills article)
+**What changed:** Manual audit of 63 SKILL.md files (10 workspace custom + 53 bundled OpenClaw official). Custom workspace skills: 10/10 clean. Bundled: 5 low/negligible flags (all false positives or benign documentation patterns). xurl pipe-to-shell noted but is standard CLI install documentation.
+**Why:** ToxicSkills research (Snyk) found 13.4% of ClawHub skills malicious. Proactive audit to verify our skill set is clean before formalising review process (TKT-0142).
+**Verification:** No genuine DDIPE indicators (instruction override, credential exfil, malicious network calls) found in any custom skill. S3 control (no ClawHub skills) confirmed effective.
+**Rollback:** N/A
+**Linked:** TKT-0141, TKT-0142
+---
+
+
 ## 2026-05-10 17:02 AEST — [CHG-0268] Raise main agent daily budget cap $80 → $150
 **Type:** config
 **Source:** ken-prompt
