@@ -428,11 +428,11 @@
       "title": "Strategy-to-Backlog Pipeline — formalize roadmap decomposition into actionable tickets",
       "type": "task",
       "priority": "high",
-      "status": "open",
+      "status": "done",
       "requester": "Ken",
       "assignee": "Yoda",
       "created": "2026-05-10T09:32:32+10:00",
-      "updated": "2026-05-10T09:32:35+10:00",
+      "updated": "2026-05-10T14:08:26+10:00",
       "description": "Define and document the formal pipeline for converting strategy/roadmap artefacts (Atlas, Thrawn, Lando) into groomed user stories and sprint-ready tickets. Current gap: roadmaps exist but no ceremony converts them to backlog items. Triggered by Atlas DataMemory roadmap having MinIO/blob solution planned but no ticket raised. Scope: (1) Strategy-to-Backlog ceremony definition — QBR-triggered + mid-sprint triage, Yoda coordinates, Atlas/Thrawn/Lando input, Ken approves. (2) Artefact standard — every roadmap doc must produce a backlog seeding list as a deliverable. (3) DoD gate — strategy artefacts not Done until backlog items raised. (4) Agile Framework v1.0 update with new ceremony. (5) Lando documents under TKT-0110. Dependency: TKT-0110.",
       "resolution": null,
       "linked": {
@@ -442,7 +442,7 @@
         "inc": [],
         "chg": []
       },
-      "notes": "",
+      "notes": "COMPLETE 2026-05-10. Strategy-to-Backlog Pipeline v0.1 documented (docs/Strategy_to_Backlog_Pipeline_v0.1.md). Roadmap Refinement ceremony defined. DoD gate for strategy artefacts established. Ken approved.",
       "notionPageId": "35cc1829-53ff-8108-abc1-c3efd4698e49"
     },
     {

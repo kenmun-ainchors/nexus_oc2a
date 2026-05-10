@@ -57,9 +57,9 @@ notion_priority() {
 }
 
 # Create a new Notion page for a ticket. Prints the page ID on success, or "NOTION_SKIP".
-# Usage: notion_create_ticket TKT-ID TITLE STATUS PRIORITY CREATED_DATE [NOTES]
+# Usage: notion_create_ticket TKT-ID TITLE STATUS PRIORITY CREATED_DATE [NOTES] [SPRINT] [PLANNED_DATE] [DELIVERED_DATE]
 notion_create_ticket() {
-  local tkt_id="$1" title="$2" tkt_status="$3" priority="$4" created_date="$5" notes="${6:-}"
+  local tkt_id="$1" title="$2" tkt_status="$3" priority="$4" created_date="$5" notes="${6:-}" sprint="${7:-}" planned_date="${8:-}" delivered_date="${9:-}"
   [[ ! -f "$NOTION_KEY_FILE" ]] && echo "NOTION_SKIP" && return
   local key; key=$(cat "$NOTION_KEY_FILE")
   local n_status; n_status=$(notion_status "$tkt_status")
@@ -76,15 +76,21 @@ notion_create_ticket() {
     --arg pri  "$n_priority" \
     --arg cdt  "$created_date" \
     --arg nts  "$notes" \
+    --arg spr  "$sprint" \
+    --arg pdt  "$planned_date" \
+    --arg ddt  "$delivered_date" \
     '{
       parent: {database_id: $db},
       properties: {
-        "US Title":     {title:  [{text: {content: $ttl}}]},
-        "Status":       {select: {name: $sta}},
-        "Type":         {select: {name: "TKT"}},
-        "Priority":     {select: {name: $pri}},
-        "Created Date": {date:   {start: $cdt}},
-        "Notes":        {rich_text: (if $nts != "" then [{text: {content: $nts}}] else [] end)}
+        "US Title":        {title:  [{text: {content: $ttl}}]},
+        "Status":          {select: {name: $sta}},
+        "Type":            {select: {name: "TKT"}},
+        "Priority":        {select: {name: $pri}},
+        "Created Date":    {date:   {start: $cdt}},
+        "Notes":           {rich_text: (if $nts != "" then [{text: {content: $nts}}] else [] end)},
+        "Sprint":          (if $spr != "" then {select: {name: $spr}} else {select: null} end),
+        "Planned Date":    (if $pdt != "" then {date: {start: $pdt}} else {date: null} end),
+        "Delivered Date":  (if $ddt != "" then {date: {start: $ddt}} else {date: null} end)
       }
     }' 2>/dev/null)
 
@@ -107,9 +113,9 @@ notion_create_ticket() {
 }
 
 # Update an existing Notion page's Status, Priority, and Notes.
-# Usage: notion_update_ticket PAGE_ID STATUS PRIORITY [NOTES]
+# Usage: notion_update_ticket PAGE_ID STATUS PRIORITY [NOTES] [SPRINT] [PLANNED_DATE] [DELIVERED_DATE]
 notion_update_ticket() {
-  local page_id="$1" tkt_status="$2" priority="$3" notes="${4:-}"
+  local page_id="$1" tkt_status="$2" priority="$3" notes="${4:-}" sprint="${5:-}" planned_date="${6:-}" delivered_date="${7:-}"
   [[ -z "$page_id" || "$page_id" == "null" || "$page_id" == "NOTION_SKIP" ]] && return
   [[ ! -f "$NOTION_KEY_FILE" ]] && return
   local key; key=$(cat "$NOTION_KEY_FILE")
@@ -122,11 +128,17 @@ notion_update_ticket() {
     --arg sta "$n_status" \
     --arg pri "$n_priority" \
     --arg nts "$notes" \
+    --arg spr "$sprint" \
+    --arg pdt "$planned_date" \
+    --arg ddt "$delivered_date" \
     '{
       properties: {
-        "Status":   {select: {name: $sta}},
-        "Priority": {select: {name: $pri}},
-        "Notes":    {rich_text: (if $nts != "" then [{text: {content: $nts}}] else [] end)}
+        "Status":         {select: {name: $sta}},
+        "Priority":       {select: {name: $pri}},
+        "Notes":          {rich_text: (if $nts != "" then [{text: {content: $nts}}] else [] end)},
+        "Sprint":         (if $spr != "" then {select: {name: $spr}} else {} end),
+        "Planned Date":   (if $pdt != "" then {date: {start: $pdt}} else {} end),
+        "Delivered Date": (if $ddt != "" then {date: {start: $ddt}} else {} end)
       }
     }' 2>/dev/null)
   [[ -z "$payload" ]] && return
@@ -139,17 +151,24 @@ notion_update_ticket() {
 }
 
 # Set Notion page Status to Done (used by close).
-# Usage: notion_close_ticket PAGE_ID
+# Usage: notion_close_ticket PAGE_ID [DELIVERED_DATE]
 notion_close_ticket() {
-  local page_id="$1"
+  local page_id="$1" delivered_date="${2:-}"
   [[ -z "$page_id" || "$page_id" == "null" || "$page_id" == "NOTION_SKIP" ]] && return
   [[ ! -f "$NOTION_KEY_FILE" ]] && return
   local key; key=$(cat "$NOTION_KEY_FILE")
+  local payload
+  payload=$(jq -n --arg ddt "$delivered_date" '{
+    "properties": {
+      "Status": {"select": {"name": "Done"}},
+      "Delivered Date": (if $ddt != "" then {"date": {"start": $ddt}} else {} end)
+    }
+  }')
   curl -s -X PATCH "https://api.notion.com/v1/pages/${page_id}" \
     -H "Authorization: Bearer $key" \
     -H "Notion-Version: 2025-09-03" \
     -H "Content-Type: application/json" \
-    --data '{"properties": {"Status": {"select": {"name": "Done"}}}}' \
+    --data "$payload" \
     > /dev/null 2>&1 || true
 }
 

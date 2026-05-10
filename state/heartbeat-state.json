@@ -5,8 +5,8 @@
     "weather": null,
     "taskWatchdog": "2026-05-10T03:06:57.191Z",
     "cronHealth": "2026-05-10T03:06:57.191Z",
-    "budgetCheck": "2026-05-10T03:04:36Z",
-    "doDGates": "2026-05-10T03:04:36Z",
+    "budgetCheck": "2026-05-10T04:05:56.891Z",
+    "doDGates": "2026-05-10T04:05:56.891Z",
     "cronDeadLetter": 1778381367903,
     "agentHealth": "2026-05-10T03:47:01.037Z",
     "wardenEscalation": "2026-05-10T03:47:01.037Z",
@@ -15,6 +15,6 @@
     "apiBalance": "2026-05-10T03:06:57.191Z"
   },
   "doDGatesSunday": "2026-05-10T03:01:00Z",
-  "lastHeartbeat": "2026-05-10T04:02:00.000Z",
-  "lastHeartbeatNote": "2026-05-10 14:02 AEST — Sunday HB. Balance $479.35 (Tier 0). No stalls, no banners, no dead-letter, no task verification alerts, no budget alerts. Warden escalation resolved. Ahsoka pilots in progress (not complete). All clear."
+  "lastHeartbeat": "2026-05-10T04:05:56.891Z",
+  "lastHeartbeatNote": "2026-05-10 14:05 AEST — Sunday sprint planning HB. 15 open decisions, 7 draft docs surfaced. Budget OK. Balance $479.35. Warden cron 3x fail (acknowledged). Ahsoka Pilot 1 parked."
 }
