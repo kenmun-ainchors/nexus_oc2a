@@ -188,3 +188,13 @@ tickets.json seq 124. Notion AKB Backlog = SSOT.
 - Agile Framework v1.0 locked (Day 13, CHG-0222). Sprint 1 started 2026-05-07. P2 target: end-Aug 2026. Aevlith Technologies incorporation hard gate: end-May 2026.
 - CI Cycle A running (cycle-a, phase A). Cycle 1A 7-day report generated CHG-0244. Cycle 2A started.
 - **Day 15 (2026-05-09):** Standup email theme → light (CHG-0246). /Volumes/Docker alert was installer DMG, ejected. INC-20260509-001: 26h API degradation (balance $0 → $479.35 top-up → recovered). TKT-0113 raised for fallback alert path.
+
+## Working Constraint — File Access (until TKT-0124 live)
+Ken can only access files via: (1) Notion Holocron, (2) email to kenmun@ainchors.com, (3) Google Drive.
+**Google Drive folder created 2026-05-10:** "AInchors — Yoda Working Files"
+- Root: https://drive.google.com/drive/folders/1EyLi8JCvxwixhpBdRwP0PwdZokrg78Jl
+- EA Assessments subfolder: 1W2VIaqKBBWyiOqBs6329QdPk91VaxQ0c
+- Sprint Docs subfolder: 12YQYTesnCqOvJ9Nb8LoMKevLKm0nNbdm
+- Generated Images subfolder: 1nbhGoRCu36JKD38ucOGtWYPqJ8IGtcXR
+- State: workspace/state/gdrive-folders.json
+**Rule:** Any file Ken needs to access remotely → upload to Drive AND/OR email. This is the interim until MinIO replaces it.

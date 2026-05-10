@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "updatedAt": "2026-05-08T03:10:29.967Z",
+  "updatedAt": "2026-05-10T03:22:45.023Z",
   "entries": {
     "memory:memory/2026-04-26.md:94:122": {
       "key": "memory:memory/2026-04-26.md:94:122",
@@ -1087,6 +1087,37 @@
         "470.93",
         "chg-0205",
         "pilot-testing"
+      ]
+    },
+    "memory:memory/2026-04-26.md:45:72": {
+      "key": "memory:memory/2026-04-26.md:45:72",
+      "path": "memory/2026-04-26.md",
+      "startLine": 45,
+      "endLine": 72,
+      "source": "memory",
+      "snippet": "- 20 skills installed. Key: notion, obsidian, gog (deferred), github (deferred 28 Apr), pls-office-docs, pdf-generator, oracle, peekaboo, taskflow, video-frames. - Trello removed. - Python libs installed: python-docx, openpyxl, python-pptx, fpdf2, reportlab, pdfplumber, pymupdf, pypdf. ### Model Strategy (3-tier) - Tier 1: Gemma4 (ollama/gemma4:26b) — free, local, default for delegation. - Tier 2: Sonnet (claude-sonnet-4-6) — cloud, mid-cost, for complex/nuanced tasks. - Tier 3: Opus (claude-opus-4-7) — premium, Legal Agent default + high-stakes only. - Ollama LaunchAgent installed — Gemma4 auto-starts on boot. - nomic-embed-text installed for memory embeddings. ### Infrastructure - Gatewa",
+      "recallCount": 1,
+      "dailyCount": 0,
+      "groundedCount": 0,
+      "totalScore": 0.39807768166065216,
+      "maxScore": 0.39807768166065216,
+      "firstRecalledAt": "2026-05-10T03:22:45.023Z",
+      "lastRecalledAt": "2026-05-10T03:22:45.023Z",
+      "queryHashes": [
+        "ffa522b8217d"
+      ],
+      "recallDays": [
+        "2026-05-10"
+      ],
+      "conceptTags": [
+        "embedding",
+        "embeddings",
+        "pls-office-docs",
+        "pdf-generator",
+        "video-frames",
+        "python-docx",
+        "python-pptx",
+        "3-tier"
       ]
     }
   }

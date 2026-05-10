@@ -4,11 +4,6 @@
   "sloTarget": 0.995,
   "entries": [
     {
-      "ts": "2026-04-29T14:49:54.181948+00:00",
-      "status": "ok",
-      "issues": []
-    },
-    {
       "ts": "2026-04-29T15:04:53.951804+00:00",
       "status": "ok",
       "issues": []
@@ -15219,14 +15214,19 @@
       "ts": "2026-05-10T03:11:03.299610+00:00",
       "status": "ok",
       "issues": []
+    },
+    {
+      "ts": "2026-05-10T03:22:04.505345+00:00",
+      "status": "ok",
+      "issues": []
     }
   ],
   "summary": {
-    "totalChecks": 2956,
-    "upChecks": 2551,
+    "totalChecks": 2957,
+    "upChecks": 2552,
     "downtimeMinutes": 6075,
-    "uptimePct": 86.299,
-    "lastCheck": "2026-05-10T03:11:03.299610+00:00",
+    "uptimePct": 86.304,
+    "lastCheck": "2026-05-10T03:22:04.505345+00:00",
     "lastStatus": "ok"
   }
 }
