@@ -492,11 +492,11 @@
       "title": "Aria: expanded marketing orchestration mandate + Brand Code stewardship (P1)",
       "type": "task",
       "priority": "high",
-      "status": "open",
+      "status": "in-progress",
       "requester": "Ken",
       "assignee": "Yoda",
       "created": "2026-05-10T10:40:50+10:00",
-      "updated": "2026-05-10T10:41:03+10:00",
+      "updated": "2026-05-10T13:17:06+10:00",
       "description": "Expand Aria's mandate to cover: (1) Brand Code stewardship — seed and maintain structured brand KB in MinIO (TKT-0124) across brand-strategy, voice-and-tone, ICP profiles, market rules (AU/MY), product catalogue, content rules. (2) Marketing orchestration — receive content requests from Angie/KL team, brief Spark from Brand Code, review Spark output for brand alignment, route to Angie for approval. (3) KL team interface (P1: via Angie relay). Spec: docs/Aria_Marketing_Mandate_Addendum_v1.md. Blocked on: TKT-0124 (MinIO must be live). Sub-ticket of TKT-0127.",
       "resolution": null,
       "linked": {
@@ -507,7 +507,7 @@
         "inc": [],
         "chg": []
       },
-      "notes": "",
+      "notes": "2026-05-10: Aria SOUL.md updated with marketing orchestration mandate (4,659 chars, within limits). Brand Code staging area created: workspace-business/projects/brand-code/ — 7 documents drafted (brand-strategy, voice-and-tone, icp-profiles, product-catalogue, content-rules, au.md, my.md). All marked DRAFT — Angie review required. MinIO-dependent seeding blocked on TKT-0124. ARIA_RULES.md update + MinIO integration pending TKT-0124 delivery.",
       "notionPageId": "35cc1829-53ff-8145-b89d-d4a71a2b0811"
     },
     {

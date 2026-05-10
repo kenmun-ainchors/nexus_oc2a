@@ -84,6 +84,18 @@ This log captures **every change** Yoda makes to AInchors infrastructure, config
 **Linked:** decisions.md 2026-04-27 entries
 ---
 
+## 2026-05-10 13:17 AEST — [CHG-0263] TKT-0128: Aria marketing mandate + Brand Code staging (partial)
+**Type:** rule
+**Source:** ken-prompt
+**Trigger:** TKT-0128 execution — Ken approved
+**What changed:** Aria SOUL.md: marketing orchestration + Brand Code stewardship section added (4,659 chars). Brand Code staging: workspace-business/projects/brand-code/ — 7 draft docs created. Angie review required before MinIO seed.
+**Why:** Aria needs to know her expanded mandate in her context window. Brand Code docs staged for Angie approval, ready to seed to MinIO when TKT-0124 ships.
+**Verification:** SOUL.md size: 4,659 chars (under 6k warning). 7 brand code docs present in staging.
+**Rollback:** N/A
+**Linked:** TKT-0128, TKT-0124, TKT-0127
+---
+
+
 ## 2026-05-10 11:39 AEST — [CHG-0262] TKT-0113: API-independent Telegram fallback alert (telegram-alert.sh)
 **Type:** script
 **Source:** ken-prompt
