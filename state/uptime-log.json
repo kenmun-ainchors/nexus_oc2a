@@ -4,11 +4,6 @@
   "sloTarget": 0.995,
   "entries": [
     {
-      "ts": "2026-04-30T10:11:29.703352+00:00",
-      "status": "ok",
-      "issues": []
-    },
-    {
       "ts": "2026-04-30T10:16:00.267035+00:00",
       "status": "ok",
       "issues": []
@@ -15261,14 +15256,21 @@
       "issues": [
         "Event loop delay critical: 32799ms max, utilisation 0.904 \u2014 gateway may be saturated"
       ]
+    },
+    {
+      "ts": "2026-05-10T16:02:35.949693+00:00",
+      "status": "degraded",
+      "issues": [
+        "Event loop delay critical: 32799ms max, utilisation 0.904 \u2014 gateway may be saturated"
+      ]
     }
   ],
   "summary": {
-    "totalChecks": 3104,
+    "totalChecks": 3105,
     "upChecks": 2678,
-    "downtimeMinutes": 6390,
-    "uptimePct": 86.276,
-    "lastCheck": "2026-05-10T15:56:07.914968+00:00",
+    "downtimeMinutes": 6405,
+    "uptimePct": 86.248,
+    "lastCheck": "2026-05-10T16:02:35.949693+00:00",
     "lastStatus": "degraded"
   }
 }
