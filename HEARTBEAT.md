@@ -117,17 +117,13 @@
 - Update MEMORY.md with anything significant
 - Commit workspace changes to git
 
-### End-of-Day Close (check at 23:30–23:59)
-⚠️ **TIME GATE — NON-NEGOTIABLE:** Before running ANY EOD procedure, check the actual current time.
-- If current time is NOT between 23:30 and 23:59 AEST → **STOP. Do not run EOD. Skip this section entirely.**
-- A null `lastChecks.dailyClose` is NOT sufficient reason to run EOD at the wrong time.
-- Root cause of Day 16 journal failure: heartbeat ran EOD at 15:27 AEST because dailyClose was null. Journal created in wrong format 8 hours early. Fixed 2026-05-11 (CHG-TODO).
-- Has journal been created today? Check: memory/journal-YYYY-MM-DD.md
-- Has blog post been created today? Check: canvas/documents/ainchors-YYYY-MM-DD/index.html
-- If EITHER is missing — create both now before midnight
-- Use verbatim prompts from today's session for the journal — NOT a summary. The correct format is per-entry: timestamp → Ken's verbatim prompt → My understanding → What happened → Outcome (see memory/journal-2026-05-09.md as reference)
-- **Critical:** A heartbeat session does NOT have full session transcript context. If EOD is triggered from a heartbeat, use `sessions_history` to pull the day's main session prompts before writing the journal.
-- State key: lastChecks.dailyClose
+### End-of-Day Close
+🚫 **HEARTBEAT NEVER TOUCHES EOD. FULL STOP.**
+Journal is owned by cron `4d926b2c` (23:55 AEST).
+Blog is owned by cron `a027fd60` (00:05 AEST).
+Drive sync is owned by cron `c5a3911d` (23:00 AEST).
+Heartbeat must NEVER create, update, or trigger journal/blog/drive-sync regardless of time, state, or any other condition.
+Root cause of Day 16 journal corruption: heartbeat ran EOD at 15:27 AEST because dailyClose=null and time was not checked. Fixed 2026-05-11.
 
 ## State Tracking
 State file: state/heartbeat-state.json
@@ -144,20 +140,6 @@ State file: state/heartbeat-state.json
   - Do NOT notify Angie until Ken explicitly says APPROVED
 - State key: ahsokaPilot
 
-### Google Drive EOD Sync (daily, part of End-of-Day close)
-After journal + blog are created, auto-upload to Drive:
-- Journal MD → Journal + Blog folder (1WUcG6cdT95FYzSu-bh9S9Jaux4rWRR3z)
-- Blog HTML → Journal + Blog folder
-- MEMORY.md → Memory + Context folder (1qn7pZaw4akt8a7DDsSoGS55KMsevLFgu) if updated
-- Any new docs in docs/ → Platform Docs folder (1WsvbM7RbUXBRGKk_izbtWSlQ_z3kjx0t)
-
-Commands:
-```bash
-TODAY=$(date +%Y-%m-%d)
-GOG_ACCOUNT=kenmun@ainchors.com /opt/homebrew/bin/gog drive upload \
-  "/Users/ainchorsangiefpl/.openclaw/workspace/memory/journal-${TODAY}.md" \
-  --parent "1WUcG6cdT95FYzSu-bh9S9Jaux4rWRR3z" 2>/dev/null
-GOG_ACCOUNT=kenmun@ainchors.com /opt/homebrew/bin/gog drive upload \
-  "/Users/ainchorsangiefpl/.openclaw/canvas/documents/ainchors-${TODAY}/index.html" \
-  --parent "1WUcG6cdT95FYzSu-bh9S9Jaux4rWRR3z" 2>/dev/null
-```
+### Google Drive EOD Sync
+🚫 **HEARTBEAT NEVER TOUCHES DRIVE SYNC.**
+Drive sync is owned by cron `c5a3911d` (23:00 AEST). Heartbeat must not run or duplicate it.

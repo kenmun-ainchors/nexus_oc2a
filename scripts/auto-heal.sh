@@ -351,6 +351,51 @@ for SOUL in "$WORKSPACE/SOUL.md" \
   fi
 done
 
+# ---------- CHECK 14C: Journal format validation ----------
+log "CHECK 14C: journal format validation"
+CHECKS_RUN+=("journal_format")
+JOURNAL_TODAY="$WORKSPACE/memory/journal-${TODAY}.md"
+JOURNAL_YESTERDAY="$WORKSPACE/memory/journal-$(date -v-1d '+%Y-%m-%d').md"
+for JFILE in "$JOURNAL_TODAY" "$JOURNAL_YESTERDAY"; do
+  JDATE=$(basename "$JFILE" .md | sed 's/journal-//')
+  if [[ ! -f "$JFILE" ]]; then
+    # Today's journal missing after 23:45 is an issue; yesterday always must exist
+    HOUR_NOW=$(date '+%H')
+    if [[ "$JFILE" == "$JOURNAL_YESTERDAY" ]]; then
+      ISSUES_FOUND+=("journal:missing:${JDATE}")
+      NEEDS_KEN+=("Journal missing for ${JDATE}: $JFILE not found. EOD cron (4d926b2c) may have failed.")
+      log "  ISSUE: journal missing for $JDATE"
+    elif (( HOUR_NOW >= 0 && HOUR_NOW < 2 )); then
+      # Today's journal should have been created by 23:55 cron — we're past midnight
+      ISSUES_FOUND+=("journal:missing:${JDATE}")
+      NEEDS_KEN+=("Today's journal missing: $JFILE. EOD cron (4d926b2c) may have failed. Rebuild required.")
+      log "  ISSUE: today's journal missing (post-midnight check)"
+    else
+      log "  SKIP: journal not yet due for $JDATE (hour=$HOUR_NOW)"
+    fi
+    continue
+  fi
+  # Journal exists — validate format (must have per-entry structure, not summary style)
+  # Correct format signature: "Ken's prompt (verbatim):"
+  # Wrong format signature: large block of prompts at top without per-entry structure
+  VERBATIM_COUNT=$(grep -c "Ken's prompt (verbatim):" "$JFILE" 2>/dev/null || echo 0)
+  LINE_COUNT=$(wc -l < "$JFILE" | tr -d ' ')
+  # A valid journal for an active day should have many per-entry blocks
+  # Wrong-format journal will have 0 verbatim markers (summary style)
+  if (( VERBATIM_COUNT == 0 && LINE_COUNT > 50 )); then
+    ISSUES_FOUND+=("journal:wrong-format:${JDATE}")
+    NEEDS_KEN+=("Journal ${JDATE} is in WRONG FORMAT (${LINE_COUNT} lines, 0 per-entry verbatim blocks). Likely created by premature heartbeat. Rebuild required — see memory/journal-2026-05-09.md for correct format.")
+    log "  ISSUE: journal $JDATE wrong format — $LINE_COUNT lines, 0 verbatim blocks"
+  elif (( VERBATIM_COUNT < 3 && LINE_COUNT > 100 )); then
+    # Low verbatim count for a long journal is suspicious
+    ISSUES_FOUND+=("journal:suspect-format:${JDATE}")
+    NEEDS_KEN+=("Journal ${JDATE} may be in wrong format (${LINE_COUNT} lines, only ${VERBATIM_COUNT} per-entry verbatim blocks). Review format.")
+    log "  WARN: journal $JDATE suspect — $LINE_COUNT lines, only $VERBATIM_COUNT verbatim blocks"
+  else
+    log "  OK: journal $JDATE valid ($LINE_COUNT lines, $VERBATIM_COUNT verbatim blocks)"
+  fi
+done
+
 # ---------- CHECK 15: Cron dead-letter cleanup ----------
 log "CHECK 15: cron dead-letter state"
 CHECKS_RUN+=("cron_dead_letter")
