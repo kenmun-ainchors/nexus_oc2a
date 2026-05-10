@@ -3,18 +3,18 @@
     "email": "2026-05-10T04:18:00Z",
     "calendar": "2026-05-10T04:18:00Z",
     "weather": null,
-    "taskWatchdog": "2026-05-10T05:19:00.000Z",
-    "cronHealth": "2026-05-10T05:19:00.000Z",
-    "budgetCheck": "2026-05-10T04:57:31.705Z",
+    "taskWatchdog": "2026-05-10T05:25:00.000Z",
+    "cronHealth": "2026-05-10T05:25:00.000Z",
+    "budgetCheck": "2026-05-10T05:25:00.000Z",
     "doDGates": "2026-05-10T04:57:31.705Z",
     "cronDeadLetter": 1778387483738,
-    "agentHealth": "2026-05-10T05:19:00.000Z",
-    "wardenEscalation": "2026-05-10T05:19:00.000Z",
-    "allowlistSync": "2026-05-10T05:19:00.000Z",
+    "agentHealth": "2026-05-10T05:25:00.000Z",
+    "wardenEscalation": "2026-05-10T05:25:00.000Z",
+    "allowlistSync": "2026-05-10T05:25:00.000Z",
     "dailyClose": "2026-05-09T18:16:19.589Z",
     "apiBalance": "2026-05-10T04:53:00Z"
   },
   "doDGatesSunday": "2026-05-10T04:57:31.705Z",
-  "lastHeartbeat": "2026-05-10T05:19:00.000Z",
-  "lastHeartbeatNote": "2026-05-10 15:19 AEST \u2014 All clean. No stalls, no alerts, no dead letters. Balance ~$479 (T0). Warden ack=true (known). Ahsoka P1 parked/P2 pending. DoD gates done at 14:57."
+  "lastHeartbeat": "2026-05-10T05:25:00.000Z",
+  "lastHeartbeatNote": "2026-05-10 15:25 AEST — All clean. Balance ~$479 (T0). Warden escalation resolved. Cron health alert acknowledged. Ahsoka pilot1 parked, pilot2 pending. No new alerts."
 }

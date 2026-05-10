@@ -626,11 +626,13 @@
   "daysTracked": 16,
   "avgDailyCost": 148.5229,
   "apiBalance": {
-    "remainingEstimate": 0,
+    "remainingEstimate": 425.12,
     "spentSinceTopUp": 2376.3668,
     "remainingNote": "confirmedBalance=None at 2026-05-08; spentAfter=2376.3668",
     "confirmedAt": "2026-05-08T11:32:26Z",
-    "note": "Confirmed by Ken 2026-05-08 13:10 AEST. Auto-reload active."
+    "note": "Auto-reload triggered 2026-05-10. Balance $425.12 post-reload spend.",
+    "lastUpdated": "2026-05-10T15:25:58.923445+10:00",
+    "lastConfirmedBy": "Ken"
   },
   "spendAlerts": {
     "tier1": {

@@ -1,20 +1,20 @@
 {
-  "generated_at": "2026-05-10T05:19:23.288121+00:00",
-  "generated_at_aest": "2026-05-10 15:19 AEST",
+  "generated_at": "2026-05-10T05:25:10.929025+00:00",
+  "generated_at_aest": "2026-05-10 15:25 AEST",
   "period_hours": 24,
   "totals": {
-    "ERROR": 2809,
+    "ERROR": 2778,
     "WARN": 4,
     "INFO": 8
   },
   "top_errors": [
     {
       "type": "delegation_fail",
-      "count": 2584
+      "count": 2550
     },
     {
       "type": "warden_violation_unescalated",
-      "count": 138
+      "count": 141
     },
     {
       "type": "health_failure",
@@ -37,9 +37,9 @@
   ],
   "trend": {
     "has_prev_data": true,
-    "prev_errors": 1429,
+    "prev_errors": 1461,
     "prev_warns": 13,
-    "errors_pct_change": 96.6,
+    "errors_pct_change": 90.1,
     "warns_pct_change": -69.2
   },
   "worst_hour": {
