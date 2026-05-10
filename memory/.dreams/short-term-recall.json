@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "updatedAt": "2026-05-10T03:22:45.023Z",
+  "updatedAt": "2026-05-10T22:14:10.545Z",
   "entries": {
     "memory:memory/2026-04-26.md:94:122": {
       "key": "memory:memory/2026-04-26.md:94:122",
@@ -1117,6 +1117,130 @@
         "video-frames",
         "python-docx",
         "python-pptx",
+        "3-tier"
+      ]
+    },
+    "memory:memory/2026-04-27.md:462:500": {
+      "key": "memory:memory/2026-04-27.md:462:500",
+      "path": "memory/2026-04-27.md",
+      "startLine": 462,
+      "endLine": 500,
+      "source": "memory",
+      "snippet": "### Journal (`memory/journal-YYYY-MM-DD.md`) — LOCKED 🔒 - Voice: Yoda, recording Ken verbatim - Audience: Private (Ken only) - Source: Session transcripts - Format: Timestamp → Ken's prompt (verbatim) → My understanding → Actions → Outcome - PII: Redact third-party IDs only; keep Ken's prompts intact - Spec: `~/Documents/AInchors/Operations/JournalFormat.md` ### Blog (`canvas/documents/ainchors-YYYY-MM-DD/index.html`) — LOCKED 🔒 - Voice: Ken's first-person - Audience: Public-ready - Source: TODAY'S JOURNAL (not transcripts — critical distinction) - Format: Hero → Opening → Story (3–6 acts) → What Broke → What I Learned → Cost → What's Next → Footer - PII: Strict — all sensitive values `<P",
+      "recallCount": 1,
+      "dailyCount": 0,
+      "groundedCount": 0,
+      "totalScore": 0.4168722748756408,
+      "maxScore": 0.4168722748756408,
+      "firstRecalledAt": "2026-05-10T21:11:56.331Z",
+      "lastRecalledAt": "2026-05-10T21:11:56.331Z",
+      "queryHashes": [
+        "a9044b60771e"
+      ],
+      "recallDays": [
+        "2026-05-11"
+      ],
+      "conceptTags": [
+        "memory/journal-yyyy-mm-dd.md",
+        "third-party",
+        "first-person",
+        "public-ready",
+        "journal",
+        "yyyy",
+        "dd.md",
+        "locked"
+      ]
+    },
+    "memory:memory/2026-05-07.md:433:447": {
+      "key": "memory:memory/2026-05-07.md:433:447",
+      "path": "memory/2026-05-07.md",
+      "startLine": 433,
+      "endLine": 447,
+      "source": "memory",
+      "snippet": "- Added `--no-input` to all write commands to prevent silent hangs - Yoda's TOOLS.md: path note added - Standup email phase: updated to full path ### Exec PATH — Non-Negotiable System Rule (CHG-0212) - **Problem:** PATH issue kept recurring across agents/crons — 3rd time hitting the same class of bug - **Ken decision:** Burn in permanent system-wide rule AND fix infra - **Infrastructure fix:** `tools.exec.pathPrepend: [\"/opt/homebrew/bin\", \"/usr/local/bin\"]` written to openclaw.json — gateway injects into PATH for every exec call, every agent, every cron - **Rule added to:** RULES.md (non-negotiable section), Yoda AGENTS.md, Aria AGENTS.md - Rule: Always use absolute paths for Homebrew bina",
+      "recallCount": 1,
+      "dailyCount": 0,
+      "groundedCount": 0,
+      "totalScore": 0.4603483825922012,
+      "maxScore": 0.4603483825922012,
+      "firstRecalledAt": "2026-05-10T22:14:10.545Z",
+      "lastRecalledAt": "2026-05-10T22:14:10.545Z",
+      "queryHashes": [
+        "edab79184f28"
+      ],
+      "recallDays": [
+        "2026-05-11"
+      ],
+      "conceptTags": [
+        "gateway",
+        "no-input",
+        "tools.md",
+        "non-negotiable",
+        "chg-0212",
+        "agents/crons",
+        "system-wide",
+        "tools.exec.pathprepend"
+      ]
+    },
+    "memory:memory/2026-05-07.md:214:232": {
+      "key": "memory:memory/2026-05-07.md:214:232",
+      "path": "memory/2026-05-07.md",
+      "startLine": 214,
+      "endLine": 232,
+      "source": "memory",
+      "snippet": "- Use case: Ken outside, no webchat access ### gog Full Path Fix (CHG-0210) - Aria's TOOLS.md: all gog commands updated to `/opt/homebrew/bin/gog` - Added `--no-input` to all write commands to prevent silent hangs - Yoda's TOOLS.md: path note added - Standup email phase: updated to full path ### Exec PATH — Non-Negotiable System Rule (CHG-0212) - **Problem:** PATH issue kept recurring across agents/crons — 3rd time hitting the same class of bug - **Ken decision:** Burn in permanent system-wide rule AND fix infra - **Infrastructure fix:** `tools.exec.pathPrepend: [\"/opt/homebrew/bin\", \"/usr/local/bin\"]` written to openclaw.json — gateway injects into PATH for every exec call, every agent, e",
+      "recallCount": 1,
+      "dailyCount": 0,
+      "groundedCount": 0,
+      "totalScore": 0.4422273904085159,
+      "maxScore": 0.4422273904085159,
+      "firstRecalledAt": "2026-05-10T22:14:10.545Z",
+      "lastRecalledAt": "2026-05-10T22:14:10.545Z",
+      "queryHashes": [
+        "edab79184f28"
+      ],
+      "recallDays": [
+        "2026-05-11"
+      ],
+      "conceptTags": [
+        "gateway",
+        "chg-0210",
+        "tools.md",
+        "opt/homebrew/bin/gog",
+        "no-input",
+        "non-negotiable",
+        "chg-0212",
+        "agents/crons"
+      ]
+    },
+    "memory:memory/2026-04-30.md:81:105": {
+      "key": "memory:memory/2026-04-30.md:81:105",
+      "path": "memory/2026-04-30.md",
+      "startLine": 81,
+      "endLine": 105,
+      "source": "memory",
+      "snippet": "- Cron: staggered 2.5 min from US40 to keep Ollama warm when routing is fixed - Cron ID (agentTurn Haiku): `637ecb12-eae2-4c16-b174-8acdaa2729cc` — **converted to systemEvent** (Option A) - HEARTBEAT.md patched to monitor task-verification-alert.json --- ## US42 — Gemma4 Overnight Cost Optimisation (Groomed, in progress) - Key insight: pure exec tasks don't need LLM at all - Option A implemented immediately: converted 3 crons (health-check, obs-collector, task-monitor) from agentTurn Haiku → systemEvent main session - Estimated saving: ~$1.50/day - US42 objective expanded: establish 3-tier LLM decision framework for ALL crons/tasks - Tier 0 (No LLM): pure script → systemEvent - Tier 1",
+      "recallCount": 1,
+      "dailyCount": 0,
+      "groundedCount": 0,
+      "totalScore": 0.41634322404861446,
+      "maxScore": 0.41634322404861446,
+      "firstRecalledAt": "2026-05-10T22:14:10.545Z",
+      "lastRecalledAt": "2026-05-10T22:14:10.545Z",
+      "queryHashes": [
+        "edab79184f28"
+      ],
+      "recallDays": [
+        "2026-05-11"
+      ],
+      "conceptTags": [
+        "2.5",
+        "heartbeat.md",
+        "task-verification-alert.json",
+        "health-check",
+        "obs-collector",
+        "task-monitor",
+        "1.50/day",
         "3-tier"
       ]
     }

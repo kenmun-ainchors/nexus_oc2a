@@ -11412,10 +11412,80 @@
       "status": "pass",
       "latencyMs": 0,
       "notes": "warden check"
+    },
+    {
+      "ts": "2026-05-11T02:07:10+10:00",
+      "date": "2026-05-11",
+      "tier": "T2",
+      "taskType": "warden-check",
+      "model": "anthropic/claude-haiku-4-5",
+      "status": "pass",
+      "latencyMs": 0,
+      "notes": "warden check"
+    },
+    {
+      "ts": "2026-05-11T03:07:04+10:00",
+      "date": "2026-05-11",
+      "tier": "T2",
+      "taskType": "warden-check",
+      "model": "anthropic/claude-haiku-4-5",
+      "status": "pass",
+      "latencyMs": 0,
+      "notes": "warden check"
+    },
+    {
+      "ts": "2026-05-11T04:07:06+10:00",
+      "date": "2026-05-11",
+      "tier": "T2",
+      "taskType": "warden-check",
+      "model": "anthropic/claude-haiku-4-5",
+      "status": "pass",
+      "latencyMs": 0,
+      "notes": "warden check"
+    },
+    {
+      "ts": "2026-05-11T05:07:03+10:00",
+      "date": "2026-05-11",
+      "tier": "T2",
+      "taskType": "warden-check",
+      "model": "anthropic/claude-haiku-4-5",
+      "status": "pass",
+      "latencyMs": 0,
+      "notes": "warden check"
+    },
+    {
+      "ts": "2026-05-11T06:07:06+10:00",
+      "date": "2026-05-11",
+      "tier": "T2",
+      "taskType": "warden-check",
+      "model": "anthropic/claude-haiku-4-5",
+      "status": "pass",
+      "latencyMs": 0,
+      "notes": "warden check"
+    },
+    {
+      "ts": "2026-05-11T07:07:05+10:00",
+      "date": "2026-05-11",
+      "tier": "T2",
+      "taskType": "warden-check",
+      "model": "anthropic/claude-haiku-4-5",
+      "status": "pass",
+      "latencyMs": 0,
+      "notes": "warden check"
+    },
+    {
+      "ts": "2026-05-11T08:08:30+10:00",
+      "date": "2026-05-11",
+      "tier": "T2",
+      "taskType": "warden-check",
+      "model": "anthropic/claude-haiku-4-5",
+      "status": "pass",
+      "latencyMs": 0,
+      "notes": "warden check"
     }
   ],
   "summary": {
-    "total": 1141,
+    "total": 1148,
     "byTier": {
       "T1": {
         "pass": 0,
@@ -11423,7 +11493,7 @@
         "timeout": 0
       },
       "T2": {
-        "pass": 1098,
+        "pass": 1105,
         "fail": 34,
         "timeout": 0
       },
@@ -11441,7 +11511,7 @@
         "tier": "T2"
       },
       "warden-check": {
-        "pass": 927,
+        "pass": 934,
         "fail": 28,
         "timeout": 0,
         "tier": "T2"
@@ -11465,6 +11535,6 @@
         "tier": "T2"
       }
     },
-    "estimatedSavingsUSD": 5.4975
+    "estimatedSavingsUSD": 5.5325
   }
 }

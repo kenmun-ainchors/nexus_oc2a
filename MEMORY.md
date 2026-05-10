@@ -51,7 +51,7 @@
 ## Agent SOUL.md Compact Standard (NON-NEGOTIABLE)
 - Hard limit: 10,000 chars. Warning: 6,000. Pattern: SOUL.md = identity+traits+rules+cadences. Details in [AGENT]_RULES.md.
 - Why: Aria 17,393 chars → silent truncation → wrong Telegram targets → gateway OOM (2026-04-30).
-- Sizes: Yoda 4,334 ✅ | Aria 3,765 ✅ | Shield 3,857 ✅ | Governance 1,334 ✅ | Sage 1,830 ✅ | Lex 2,322 ✅
+- Sizes: Yoda 3,527 ✅ | Aria 4,659 ✅ | Shield 3,857 ✅ | Spark 4,332 ✅ | Atlas 2,850 ✅ | Thrawn 3,152 ✅ | Lando 2,737 ✅ | Mon Mothma 2,936 ✅ | Sage 1,830 ✅ | Lex 2,322 ✅ | Governance 1,334 ✅
 
 ## Governance Layer — Agents
 - **Shield 🛡️** (security) | **Lex ⚖️** (legal) | **Sage 🧪** (qa) — Haiku (CHG-0230). Pre-OC2. Move to Gemma4 at TRIGGER-03.
@@ -64,12 +64,22 @@
 - `scripts/changelog-append.sh` — auto-increments CHG-NNNN in memory/CHANGELOG.md. Auto-syncs each CHG to Notion AKB Backlog.
 - `scripts/gateway-config-snapshot.sh` + `scripts/gateway-restore.sh` — config snapshot/restore SOP.
 - `scripts/cost-tracker.sh` — daily spend. Balance: confirmedBalance − spentAfterDate (CHG-0098).
+- `scripts/audit-skill.sh` — SKILL.md security audit (9 checks). TKT-0141/0142. CHG-0270.
+- `scripts/telegram-alert.sh` — API-independent Telegram alert (direct Bot HTTP). TKT-0113. CHG-0262.
 - `state/critical-config-baseline.json` — anti-drift guard (7 configs), validated by auto-heal Check #12.
-- `state/chg-triggers.json` — 10 CHG triggers, status, detection method.
+- `state/chg-triggers.json` — 12 CHG triggers (TRIGGER-01 to TRIGGER-12 + TRIGGER-QBR), status, detection method.
+- `state/skill-registry.json` — 63 verified SKILL.md files (10 custom + 53 bundled). TKT-0142. CHG-0270.
 
 ## Operations Docs (locked)
 - JournalFormat: Notion (verbatim Ken prompts, Yoda voice, private) | BlogFormat: Notion (Ken first-person, built FROM journal)
 - Journal: `memory/journal-YYYY-MM-DD.md` | Blog: `canvas/documents/ainchors-YYYY-MM-DD/index.html`
+- **Key reference docs added 2026-05-08 to 2026-05-10:**
+  - docs/Agent_Governance_Framework_v1.md (CHG-0233, TKT-0103)
+  - docs/Model3-Policy.md (CHG-0260, TKT-0105)
+  - docs/Strategy_to_Backlog_Pipeline_v0.1.md (CHG-0244, TKT-0125)
+  - docs/Skill-Installation-Policy-v1.0.md (CHG-0270, TKT-0142)
+  - docs/Yoda_ORCHESTRATOR.md (CHG-0271, new reference doc)
+  - docs/Yoda_RUNBOOK.md (preserved RULES.md as operational detail layer; YODA_RULES.md is strategic ref)
 
 ## GitHub
 - gh CLI authenticated: account **kenmun-ainchors**, scopes: repo, read:org, gist (token in keyring).
@@ -105,11 +115,11 @@ Rule: New module names use Star Wars themes. Ken approves. All above final — n
 ## 4-Tier Model Strategy (Target — post OC2)
 - Tier 0: No LLM (systemEvent crons) — $0 — health, obs, task monitoring.
 - Tier 1: Gemma4:26b local on OC2 — $0 — governance, client workloads, data-sovereign tasks.
-- Tier 2: Ollama Cloud (kimi-k2.6 / qwen3.5 / glm-5.1) — $100/mo flat — AInchors ops only (NEVER client data).
+- Tier 2: Ollama Cloud (kimi-k2.6 / deepseek-v4-flash / deepseek-v4-pro) — $100/mo flat — AInchors ops only (NEVER client data).
 - Tier 3: Claude Sonnet 4.6 — pay-per-token — FALLBACK ONLY.
 - Data sovereignty: DS-1 to DS-5 enforced by Warden. Client data = Tier 0/1 local ONLY.
 - CURRENT (pre-OC2): Sonnet primary + Ollama Cloud Tier 2 active. Full 4-tier pending OC2 July 2026. PoC: ✅ COMPLETE (TRIGGER-05 fired 2026-05-02). Ollama Pro: accounts@ainchors.com.
-- **gemma4:31b-cloud (CHG-0249, 2026-05-09):** Added to Tier 2. Benchmark 4.2/5, ~1-4s/task, no thinking-mode bleed, 256k ctx. Approved for background crons. 5-day parallel RTB trial vs kimi running (cron 7ff14b97, 8:15am AEST). CI Cycle B candidate. Alias: gemma4cloud.
+- **gemma4:31b-cloud (CHG-0249, 2026-05-09 — REMOVED CHG-0250/0251):** Added Tier 2 candidate, benchmark 4.2/5. CI Cycle B cancelled 2026-05-09 (CHG-0250): >=75% pass rate gate required before production routing. RTB trial removed from all agent allowlists (CHG-0251). Status: experimental/archived.
 
 ## Security Controls (S1–S7)
 - S1: OC ≥ v2026.5.5 (current). v2026.5.7 available (routine bugfix, no CVE). Daily Warden check.
@@ -142,41 +152,68 @@ Rule: New module names use Star Wars themes. Ken approves. All above final — n
 - 30% headroom buffer. Early warning: <4 delivered in any sprint = flag P2 slip.
 - P2 target end-Aug achievable with zero slack. Contingency: mid-Sep.
 - `/sprint` command = on-demand burndown (distinct from Friday standup Sprint Review ceremony)
+- **Main agent daily budget cap:** $150 (raised from $80 CHG-0268 2026-05-10 — too tight on sprint-heavy days)
 
 ## Pending Tickets
 **Critical/High (next 2 sprints):**
-- **TKT-0124:** MinIO self-hosted object store on OC1 — interim blob/file access layer. HIGH. External access for Angie staff Malaysia. Per Atlas P2 blob design.
-- **TKT-0125:** Strategy-to-Backlog Pipeline — formalize roadmap → tickets ceremony. HIGH. Linked TKT-0110. Doc: docs/Strategy_to_Backlog_Pipeline_v0.1.md. Ken approved 2026-05-10.
-- **TKT-0105:** Model3-Policy SOPs — open | Ken to confirm design questions during grooming
-- **TKT-0106:** Apply Model3-Policy to Tier 3 agents — blocked on TKT-0105
-- **TKT-0108:** Document Generation Pipeline (DOCX/XLSX/PPTX/PDF) — open | Ahsoka blocker
-- **TKT-0113:** Fallback alert channel (API-independent) — open | HIGH | INC-20260509-001 prevention
-- **TKT-0112:** obs-collector: cron run failures not captured in obs.db — open | MEDIUM
+- **TKT-0124:** MinIO self-hosted object store on OC1 — interim blob/file access layer. HIGH. Hybrid: Drive (human) + MinIO (agent). Sprint 3 committed. CHG-0265.
+- **TKT-0125:** Strategy-to-Backlog Pipeline — formalize roadmap → tickets ceremony. HIGH. Complete. Ken approved 2026-05-10. CHG-0244.
+- **TKT-0105:** ✅ Model3-Policy SOPs — done 2026-05-10. docs/Model3-Policy.md. CHG-0260.
+- **TKT-0106:** ✅ Apply Model3-Policy to Tier 3 agents — done 2026-05-10. CHG-0261.
+- **TKT-0108:** ✅ Document Generation Pipeline (DOCX/XLSX/PPTX/PDF) — done. CHG-0240.
+- **TKT-0113:** ✅ Fallback alert channel (API-independent) — done 2026-05-10. scripts/telegram-alert.sh. CHG-0262.
+- **TKT-0112:** ✅ obs-collector phantom + cron dedup — done 2026-05-10. CHG-0266. TKT-0140: ✅ obs-collector dedup guard 24h cap — done. CHG-0267.
 
 **Infrastructure & Setup (Aevlith/OC2 path):**
-- **TKT-0114:** AInchors–Aevlith Technologies partnership agreement — open | HIGH | GATE for TKT-0115-0117
+- **TKT-0114:** AInchors–Aevlith Technologies partnership — open | HIGH | GATE for TKT-0115-0117
 - **TKT-0115:** Register Aevlith Technologies Pty Ltd with ASIC — open | HIGH | blocked on TKT-0114
 - **TKT-0116:** Secure aevlith.ai domain — open | HIGH | blocked on TKT-0115
 - **TKT-0117:** Secure aevlith.com.au domain — open | MEDIUM | blocked on TKT-0115
-- **TKT-0118:** Secure aevlith.com domain — open | MEDIUM | can run in parallel
-- **TKT-0119:** IP Australia trademark filing (Classes 35+42) — open | MEDIUM | blocked on TKT-0114
+- **TKT-0118:** Secure aevlith.com domain — open | MEDIUM | can run parallel
+- **TKT-0119:** IP Australia trademark (Classes 35+42) — open | MEDIUM | blocked on TKT-0114
 - **TKT-0120:** RustDesk self-hosted on OC1 — open | HIGH
 
-**Spark (Social + LinkedIn Enhancements):**
-- **TKT-0121:** Spark: LinkedIn image generation via Hugging Face (Flux.1-schnell) — open | MEDIUM
-- **TKT-0122:** Spark: LinkedIn image generation via ComfyUI + Flux.1-schnell (fallback/upgrade) — open | LOW
-- **TKT-0123:** Fix linkedin-post.sh: add delimiter guard + token delete scope — open | MEDIUM
+**Spark (Social + LinkedIn):**
+- **TKT-0121:** ✅ LinkedIn image generation via HF FLUX.1-schnell — done 2026-05-10. hf-generate-image.sh + linkedin-upload-image.sh. CHG-0254. Blocked on: Ken HF API key Keychain setup.
+- **TKT-0122:** LinkedIn image via ComfyUI fallback — open | LOW | dependent on TKT-0121
+- **TKT-0123:** ✅ Fix linkedin-post.sh delimiter + token scope — done 2026-05-10. CHG-0264. Merged into TKT-0126.
+- **TKT-0126:** ✅ Fix LinkedIn special characters — done 2026-05-10. em dash validator + mktemp fix. CHG-0264.
 
-**Medium-Priority (Q2+):**
+**Business Stream & Consulting (P2 path):**
+- **TKT-0127:** Agentic Marketing Org Design — open | HIGH | Phase 1 (Aria+Spark) + Phase 2 (Luthen). Dep: TKT-0124 MinIO.
+- **TKT-0128:** Aria marketing mandate + Brand Code stewardship (P1) — in-progress | HIGH | staging complete, MinIO-dependent delivery. CHG-0263.
+- **TKT-0129:** Luthen: Marketing Intelligence Agent (P2) — open | MEDIUM | blocked on TKT-0124+0128.
+
+**Process & Documentation:**
 - **TKT-0107:** Agent Governance — Squad Model (Tier 5+) — open | MEDIUM | GATE: define before squad work
-- **TKT-0109:** Cassian Andor (Agile PM) — review July QBR. No build before then.
-- **TKT-0110:** Process Documentation Framework — open | Lando owns. DoD must include user doc.
-- **TKT-0111:** Angie Agile + Nexus Working Guide — open | Dep: TKT-0110
+- **TKT-0109:** Cassian Andor (Agile PM) — open | MEDIUM | review July QBR
+- **TKT-0110:** Process Documentation Framework — in-progress | MEDIUM | Lando owns. Pilot: KL team + Agile Working Guide.
+- **TKT-0111:** Angie Agile + Nexus Working Guide — in-progress | MEDIUM | part of KL transformation programme (Phase 2)
+
+**Enterprise Architecture & Product Strategy:**
+- **TKT-0130:** QBR Agent Fleet Review ceremony — open | HIGH | cadence Jan/Apr/Jul/Oct. First: Jul 2026. CHG-0267.
+- **TKT-0131:** Review task log and tracker — open | MEDIUM | completeness, accuracy, gaps audit
+- **TKT-0132:** Review cost and ROI log — open | MEDIUM | cost-state.json, business ROI tracking, P1→P2 metrics
+- **TKT-0133:** EA: Observability Strategy & Tool Selection (OTel vs Dynatrace) — open | MEDIUM | Atlas owns
+- **TKT-0134:** Model strategy review — Gemma4:31b-cloud pilot + OC2-gated unblock assessment — open | MEDIUM | trigger: auto-fire when pilot ends ~2026-05-18
+- **TKT-0135:** AInchors Sandbox Environment — open | HIGH | isolated, ephemeral demo/PoC setup. Sprint 3 committed. CHG-0265.
+- **TKT-0136:** AInchors Consulting Playbook — open | HIGH | IP library (discovery, assessment, ROI, frameworks). Part of TKT-0138 family.
+- **TKT-0137:** AInchors Policy Register (POL-001+) — open | HIGH | formal policy docs. Audit readiness. Lex producer.
+- **TKT-0138:** Business Jumpstart (3-part engagement pathway) — open | HIGH | Part 1: onboarding+Nexus, Part 2: discovery+VMS, Part 3: sprint 1. Ahsoka owns. Part of TKT-0136 family.
+- **TKT-0139:** Consulting Product Portfolio — open | HIGH | commercial offerings by maturity stage. P2-P4 strategy. Training course pipeline.
+
+**Security & Governance:**
+- **TKT-0141:** CLI-Anything supply chain risk audit — in-progress | HIGH | DDIPE vector + controls (skill-registry.json, audit-skill.sh). CHG-0270/0271.
+- **TKT-0142:** SKILL.md poisoning — formal review process + skill audit — in-progress | HIGH | ToxicSkills precedent. 63 skills audited (clean). CHG-0270/0272.
+- **TKT-0143:** CLI-Anything strategic assessment (Atlas EA) — open | MEDIUM | CONDITIONAL ADOPT (P2). Review Ken approval.
+
+**Perpetual Optimization:**
+- **TKT-0144:** Platform CI: Token Efficiency Audit — open | MEDIUM | monthly perpetual loop. Category targets per L-022. scripts/token-efficiency-audit.sh.
 
 **Resolved (logged):**
-- **TKT-0104:** ✅ Data + Memory Architecture — P1-P4 Progressive Alignment (2026-05-08 resolved, Atlas locked output)
+- **TKT-0104:** ✅ Data + Memory Architecture — locked 2026-05-08. CHG-0235.
 
-tickets.json seq 124. Notion AKB Backlog = SSOT.
+tickets.json seq 145 (updated 2026-05-10). Notion AKB Backlog = SSOT.
 
 ## Key Decisions & Architecture (locked)
 - **P1–P4:** P1=internal | P2=SaaS individual agents | P3=commercial tier label (add-on to P2, not a build phase) | P4=Enterprise/FSI. Licensed product DROPPED from P3.

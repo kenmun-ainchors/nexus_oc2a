@@ -10,7 +10,9 @@
       "actual": "anthropic/claude-sonnet-4-6",
       "severity": "VIOLATION",
       "firstDetected": "2026-05-08T01:04:23+10:00",
-      "status": "unresolved"
+      "status": "resolved-by-yoda",
+      "resolvedAt": "2026-05-11T08:15:00+10:00",
+      "resolvedNote": "Config verified: security/legal/qa correctly on haiku-4-5 in openclaw.json. model-drift-state shows 26 consecutive clean Warden runs. Stale pre-fix violations closed."
     },
     {
       "id": "DRIFT-20260507150423-legal",
@@ -19,7 +21,9 @@
       "actual": "anthropic/claude-sonnet-4-6",
       "severity": "VIOLATION",
       "firstDetected": "2026-05-08T01:04:23+10:00",
-      "status": "unresolved"
+      "status": "resolved-by-yoda",
+      "resolvedAt": "2026-05-11T08:15:00+10:00",
+      "resolvedNote": "Config verified: security/legal/qa correctly on haiku-4-5 in openclaw.json. model-drift-state shows 26 consecutive clean Warden runs. Stale pre-fix violations closed."
     },
     {
       "id": "DRIFT-20260507150423-qa",
@@ -28,7 +32,9 @@
       "actual": "anthropic/claude-sonnet-4-6",
       "severity": "VIOLATION",
       "firstDetected": "2026-05-08T01:04:23+10:00",
-      "status": "unresolved"
+      "status": "resolved-by-yoda",
+      "resolvedAt": "2026-05-11T08:15:00+10:00",
+      "resolvedNote": "Config verified: security/legal/qa correctly on haiku-4-5 in openclaw.json. model-drift-state shows 26 consecutive clean Warden runs. Stale pre-fix violations closed."
     },
     {
       "id": "DRIFT-20260507151924-security",
@@ -37,7 +43,9 @@
       "actual": "anthropic/claude-sonnet-4-6",
       "severity": "VIOLATION",
       "firstDetected": "2026-05-08T01:19:24+10:00",
-      "status": "unresolved"
+      "status": "resolved-by-yoda",
+      "resolvedAt": "2026-05-11T08:15:00+10:00",
+      "resolvedNote": "Config verified: security/legal/qa correctly on haiku-4-5 in openclaw.json. model-drift-state shows 26 consecutive clean Warden runs. Stale pre-fix violations closed."
     },
     {
       "id": "DRIFT-20260507151924-legal",
@@ -46,7 +54,9 @@
       "actual": "anthropic/claude-sonnet-4-6",
       "severity": "VIOLATION",
       "firstDetected": "2026-05-08T01:19:24+10:00",
-      "status": "unresolved"
+      "status": "resolved-by-yoda",
+      "resolvedAt": "2026-05-11T08:15:00+10:00",
+      "resolvedNote": "Config verified: security/legal/qa correctly on haiku-4-5 in openclaw.json. model-drift-state shows 26 consecutive clean Warden runs. Stale pre-fix violations closed."
     },
     {
       "id": "DRIFT-20260507151924-qa",
@@ -55,7 +65,9 @@
       "actual": "anthropic/claude-sonnet-4-6",
       "severity": "VIOLATION",
       "firstDetected": "2026-05-08T01:19:24+10:00",
-      "status": "unresolved"
+      "status": "resolved-by-yoda",
+      "resolvedAt": "2026-05-11T08:15:00+10:00",
+      "resolvedNote": "Config verified: security/legal/qa correctly on haiku-4-5 in openclaw.json. model-drift-state shows 26 consecutive clean Warden runs. Stale pre-fix violations closed."
     },
     {
       "id": "DRIFT-20260509030703-default_primary",
@@ -69,7 +81,7 @@
       "resolvedNote": "Config confirmed correct: default.primary = anthropic/claude-sonnet-4-6. Warden false positive."
     }
   ],
-  "totalUnresolvedViolations": 7,
+  "totalUnresolvedViolations": 0,
   "remediation": {
     "shortTerm": [
       "Check openclaw.json config for agent model assignments (security, legal, qa, default.primary)",
@@ -85,7 +97,7 @@
     "escalationNote": "7 unresolved drift violations spanning 2 days. All tagged escalatedToYoda=true. Requires Ken decision on intended model policy."
   },
   "nextSteps": "Yoda to review, validate config intent, and execute remediation or create CHG record.",
-  "resolvedAt": "2026-05-09T03:15:15Z",
+  "resolvedAt": "2026-05-11T08:15:00+10:00",
   "resolutionNote": "default.primary reverted sonnet (CHG-0252). security/legal/qa violations were false positives — config already correct.",
   "lastReviewAt": "2026-05-09T13:08:00+10:00",
   "lastReviewNote": "Heartbeat 23:08 AEST. default.primary false positive confirmed. Config is sonnet as expected."

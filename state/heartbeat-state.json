@@ -1,23 +1,23 @@
 {
   "lastChecks": {
-    "email": "2026-05-10T13:45:00Z",
-    "calendar": "2026-05-10T13:45:00Z",
+    "email": "2026-05-10T21:00:01.287Z",
+    "calendar": "2026-05-10T21:00:01.287Z",
     "weather": null,
-    "taskWatchdog": "2026-05-10T16:04:14.363Z",
-    "cronHealth": "2026-05-10T16:04:14.363Z",
-    "budgetCheck": "2026-05-10T15:52:00Z",
-    "doDGates": "2026-05-10T13:45:00Z",
-    "cronDeadLetter": "2026-05-10T16:04:14.363Z",
-    "agentHealth": "2026-05-10T16:04:14.363Z",
-    "wardenEscalation": "2026-05-10T16:04:14.363Z",
-    "allowlistSync": "2026-05-10T16:04:14.363Z",
+    "taskWatchdog": "2026-05-10T22:21:07.038Z",
+    "cronHealth": "2026-05-10T22:21:07.038Z",
+    "budgetCheck": "2026-05-10T21:56:00.000Z",
+    "doDGates": "2026-05-10T21:00:01.287Z",
+    "cronDeadLetter": "2026-05-10T22:21:07.038Z",
+    "agentHealth": "2026-05-10T22:21:07.038Z",
+    "wardenEscalation": "2026-05-10T22:21:07.038Z",
+    "allowlistSync": "2026-05-10T22:21:07.038Z",
     "dailyClose": "2026-05-10T13:55:39.660Z",
-    "apiBalance": "2026-05-10T16:04:14.363Z",
+    "apiBalance": "2026-05-10T22:21:07.038Z",
     "assetReview": "2026-05-10T07:05:46Z",
-    "ahsokaPilot": "2026-05-10T16:04:14.363Z"
+    "ahsokaPilot": "2026-05-10T21:56:00.000Z"
   },
-  "doDGatesSunday": "2026-05-10T12:47:00Z",
-  "lastHeartbeat": "2026-05-10T16:04:14.363Z",
-  "lastHeartbeatNote": "2026-05-11 02:03 AEST — Late night quiet hours. Balance $479.35 activeTier=0. Warden cron failures acknowledged. No stalls/dead-letters/standby/alerts. All clear.",
+  "doDGatesSunday": "2026-05-10T21:00:01.287Z",
+  "lastHeartbeat": "2026-05-10T22:21:07.038Z",
+  "lastHeartbeatNote": "2026-05-11 08:20 AEST Mon — All clear. Gateway OK. Health OK. Balance .35 (activeTier=0, well above thresholds). Warden escalation resolved. Cron health alert (Warden 83accf7b) already acknowledged. No stall/dead-letter/task-verif alerts. Ahsoka pilot 1 in_progress (parked). No action required.",
   "lastDriveSync": "2026-05-10T13:36:00Z"
 }
