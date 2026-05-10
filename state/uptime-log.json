@@ -4,66 +4,6 @@
   "sloTarget": 0.995,
   "entries": [
     {
-      "ts": "2026-04-30T09:11:01.071925+00:00",
-      "status": "ok",
-      "issues": []
-    },
-    {
-      "ts": "2026-04-30T09:16:01.121890+00:00",
-      "status": "ok",
-      "issues": []
-    },
-    {
-      "ts": "2026-04-30T09:21:00.402653+00:00",
-      "status": "ok",
-      "issues": []
-    },
-    {
-      "ts": "2026-04-30T09:26:24.946276+00:00",
-      "status": "ok",
-      "issues": []
-    },
-    {
-      "ts": "2026-04-30T09:31:01.800016+00:00",
-      "status": "ok",
-      "issues": []
-    },
-    {
-      "ts": "2026-04-30T09:36:35.952981+00:00",
-      "status": "ok",
-      "issues": []
-    },
-    {
-      "ts": "2026-04-30T09:41:00.490116+00:00",
-      "status": "ok",
-      "issues": []
-    },
-    {
-      "ts": "2026-04-30T09:46:00.772246+00:00",
-      "status": "ok",
-      "issues": []
-    },
-    {
-      "ts": "2026-04-30T09:51:00.734205+00:00",
-      "status": "ok",
-      "issues": []
-    },
-    {
-      "ts": "2026-04-30T09:56:00.482388+00:00",
-      "status": "ok",
-      "issues": []
-    },
-    {
-      "ts": "2026-04-30T10:01:00.265514+00:00",
-      "status": "ok",
-      "issues": []
-    },
-    {
-      "ts": "2026-04-30T10:06:03.024617+00:00",
-      "status": "ok",
-      "issues": []
-    },
-    {
       "ts": "2026-04-30T10:11:29.703352+00:00",
       "status": "ok",
       "issues": []
@@ -15257,14 +15197,78 @@
       "ts": "2026-05-10T14:55:22.765174+00:00",
       "status": "ok",
       "issues": []
+    },
+    {
+      "ts": "2026-05-10T15:03:17.173886+00:00",
+      "status": "ok",
+      "issues": []
+    },
+    {
+      "ts": "2026-05-10T15:05:25.087939+00:00",
+      "status": "ok",
+      "issues": []
+    },
+    {
+      "ts": "2026-05-10T15:10:31.566124+00:00",
+      "status": "ok",
+      "issues": []
+    },
+    {
+      "ts": "2026-05-10T15:17:28.519461+00:00",
+      "status": "ok",
+      "issues": []
+    },
+    {
+      "ts": "2026-05-10T15:20:48.517026+00:00",
+      "status": "ok",
+      "issues": []
+    },
+    {
+      "ts": "2026-05-10T15:25:26.426495+00:00",
+      "status": "ok",
+      "issues": []
+    },
+    {
+      "ts": "2026-05-10T15:30:29.336536+00:00",
+      "status": "ok",
+      "issues": []
+    },
+    {
+      "ts": "2026-05-10T15:37:08.913276+00:00",
+      "status": "ok",
+      "issues": []
+    },
+    {
+      "ts": "2026-05-10T15:40:53.297582+00:00",
+      "status": "ok",
+      "issues": []
+    },
+    {
+      "ts": "2026-05-10T15:45:29.810812+00:00",
+      "status": "ok",
+      "issues": []
+    },
+    {
+      "ts": "2026-05-10T15:52:50.191391+00:00",
+      "status": "degraded",
+      "issues": [
+        "Event loop delay critical: 32799ms max, utilisation 0.904 \u2014 gateway may be saturated"
+      ]
+    },
+    {
+      "ts": "2026-05-10T15:56:07.914968+00:00",
+      "status": "degraded",
+      "issues": [
+        "Event loop delay critical: 32799ms max, utilisation 0.904 \u2014 gateway may be saturated"
+      ]
     }
   ],
   "summary": {
-    "totalChecks": 3092,
-    "upChecks": 2668,
-    "downtimeMinutes": 6360,
-    "uptimePct": 86.287,
-    "lastCheck": "2026-05-10T14:55:22.765174+00:00",
-    "lastStatus": "ok"
+    "totalChecks": 3104,
+    "upChecks": 2678,
+    "downtimeMinutes": 6390,
+    "uptimePct": 86.276,
+    "lastCheck": "2026-05-10T15:56:07.914968+00:00",
+    "lastStatus": "degraded"
   }
 }
