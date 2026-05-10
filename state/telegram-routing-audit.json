@@ -38,12 +38,6 @@
       "accountId": "yoda(default)"
     },
     {
-      "job": "Aria \ud83d\udd35 \u2014 Weekly Business ROI Summary",
-      "id": "7a4d8381-2384-4719-b8d3-daff97a65b8a",
-      "to": "8141152780",
-      "accountId": "aria"
-    },
-    {
       "job": "LI-W1-P1-snapshot-7d",
       "id": "ae3ada11-ac79-4014-88b4-e61218de81d7",
       "to": "8574109706",
@@ -54,6 +48,12 @@
       "id": "243634a7-c7ae-47f2-9a04-b27583217c36",
       "to": "8574109706",
       "accountId": "yoda(default)"
+    },
+    {
+      "job": "Aria \ud83d\udd35 \u2014 Weekly Business ROI Summary",
+      "id": "7a4d8381-2384-4719-b8d3-daff97a65b8a",
+      "to": "8141152780",
+      "accountId": "aria"
     },
     {
       "job": "AInchors Monthly Model Strategy Review",
@@ -75,7 +75,7 @@
     }
   ],
   "warnings": [],
-  "auditAt": "2026-05-09T15:00:41Z",
+  "auditAt": "2026-05-10T15:00:10Z",
   "summary": {
     "violations": 0,
     "passes": 12,
