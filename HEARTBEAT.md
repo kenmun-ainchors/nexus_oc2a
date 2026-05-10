@@ -118,10 +118,15 @@
 - Commit workspace changes to git
 
 ### End-of-Day Close (check at 23:30–23:59)
+⚠️ **TIME GATE — NON-NEGOTIABLE:** Before running ANY EOD procedure, check the actual current time.
+- If current time is NOT between 23:30 and 23:59 AEST → **STOP. Do not run EOD. Skip this section entirely.**
+- A null `lastChecks.dailyClose` is NOT sufficient reason to run EOD at the wrong time.
+- Root cause of Day 16 journal failure: heartbeat ran EOD at 15:27 AEST because dailyClose was null. Journal created in wrong format 8 hours early. Fixed 2026-05-11 (CHG-TODO).
 - Has journal been created today? Check: memory/journal-YYYY-MM-DD.md
 - Has blog post been created today? Check: canvas/documents/ainchors-YYYY-MM-DD/index.html
 - If EITHER is missing — create both now before midnight
-- Use verbatim prompts from today's session for the journal
+- Use verbatim prompts from today's session for the journal — NOT a summary. The correct format is per-entry: timestamp → Ken's verbatim prompt → My understanding → What happened → Outcome (see memory/journal-2026-05-09.md as reference)
+- **Critical:** A heartbeat session does NOT have full session transcript context. If EOD is triggered from a heartbeat, use `sessions_history` to pull the day's main session prompts before writing the journal.
 - State key: lastChecks.dailyClose
 
 ## State Tracking
