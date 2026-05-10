@@ -84,6 +84,18 @@ This log captures **every change** Yoda makes to AInchors infrastructure, config
 **Linked:** decisions.md 2026-04-27 entries
 ---
 
+## 2026-05-10 17:02 AEST — [CHG-0268] Raise main agent daily budget cap $80 → $150
+**Type:** config
+**Source:** ken-prompt
+**Trigger:** Ken prompt 2026-05-10: budget too tight on sprint-heavy days
+**What changed:** state/agent-budgets.json: agents.main.dailyBudgetUsd 80 → 150
+**Why:** Main agent consistently exceeds $80 on sprint days (~$120-130 typical). $80 was generating false-alarm budget alerts. Review at Sprint 3 end.
+**Verification:** agent-budgets.json updated. budget-check.sh reads from this file directly.
+**Rollback:** N/A
+**Linked:** none
+---
+
+
 ## 2026-05-10 16:11 AEST — [CHG-0267] TKT-0140: obs-collector dedup guard + 24h lookback cap on state reset
 **Type:** script
 **Source:** ken-prompt

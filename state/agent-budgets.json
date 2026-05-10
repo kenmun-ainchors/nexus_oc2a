@@ -1,13 +1,13 @@
 {
   "schema_version": "1.0",
-  "lastUpdated": "2026-05-08T08:12:00Z",
+  "lastUpdated": "2026-05-10T07:02:45.757247+00:00",
   "dailyPlatformCap": 200,
   "agents": {
     "main": {
-      "dailyBudgetUsd": 80,
+      "dailyBudgetUsd": 150,
       "sessionBudgetUsd": 15,
       "alertAt": 0.8,
-      "note": "Primary agent. Largest share of spend. ~56% of platform cost historically."
+      "note": "Primary agent. Raised from $80 \u2192 $150 (Ken, 2026-05-10) \u2014 monitoring Sprint 3, review at sprint end."
     },
     "business": {
       "dailyBudgetUsd": 30,
@@ -49,7 +49,7 @@
       "dailyBudgetUsd": 10,
       "sessionBudgetUsd": 5,
       "alertAt": 0.8,
-      "note": "Architecture design. May use Opus — monitor closely."
+      "note": "Architecture design. May use Opus \u2014 monitor closely."
     },
     "platform-arch": {
       "dailyBudgetUsd": 10,
@@ -60,31 +60,31 @@
   },
   "workflows": {
     "standup": {
-      "perRunCapUsd": 3.00,
+      "perRunCapUsd": 3.0,
       "note": "Daily 8AM morning stand-up. Haiku + brief context."
     },
     "blog": {
-      "perRunCapUsd": 2.00,
+      "perRunCapUsd": 2.0,
       "note": "End-of-day blog post generation."
     },
     "akb-holocron": {
-      "perRunCapUsd": 2.00,
+      "perRunCapUsd": 2.0,
       "note": "AKB / Notion Holocron sync."
     },
     "ci-cycle-a": {
-      "perRunCapUsd": 1.00,
+      "perRunCapUsd": 1.0,
       "note": "CI pipeline validation cycle."
     },
     "spark-post": {
-      "perRunCapUsd": 1.50,
+      "perRunCapUsd": 1.5,
       "note": "Spark social post generation."
     },
     "warden-check": {
-      "perRunCapUsd": 0.10,
+      "perRunCapUsd": 0.1,
       "note": "Warden policy compliance check. Haiku, tiny context."
     },
     "fallback-chain": {
-      "perRunCapUsd": 0.20,
+      "perRunCapUsd": 0.2,
       "note": "Fallback chain validation."
     },
     "allowlist-sync": {
@@ -96,6 +96,6 @@
     "observedDays": 14,
     "avgDailyCost": 141.86,
     "peakDailyCost": 358.56,
-    "note": "Budgets set from 14-day actual spend patterns (2026-04-25 to 2026-05-08). No per-agent breakdown available in cost-state.json — agent allocations are proportional estimates. Platform cap set at $200 (above 14-day avg, below p75). Ken to review and adjust after per-agent tracking is live."
+    "note": "Budgets set from 14-day actual spend patterns (2026-04-25 to 2026-05-08). No per-agent breakdown available in cost-state.json \u2014 agent allocations are proportional estimates. Platform cap set at $200 (above 14-day avg, below p75). Ken to review and adjust after per-agent tracking is live."
   }
 }

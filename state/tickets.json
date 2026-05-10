@@ -1,5 +1,5 @@
 {
-  "sequence": 141,
+  "sequence": 143,
   "tickets": [
     {
       "id": "TKT-0104",
@@ -760,6 +760,46 @@
       },
       "notes": "COMPLETE 2026-05-10. (1) 24h lookback cap: when lastRunEpoch=0 or state missing, defaults to now-86400 instead of epoch 0 — prevents re-logging all history on state reset. (2) Dedup check in _obs_log wrapper: queries obs.db for same event_type+source within last 5min before logging — skips if already present. (3) Empty field filter already done in TKT-0112. Test: simulated state reset produced 4 events (was 3761). CHG-0267.",
       "notionPageId": "35cc1829-53ff-8176-b721-d4b67570b4af"
+    },
+    {
+      "id": "TKT-0141",
+      "title": "Security: CLI-Anything supply chain risk — agent integration layer poisoning via auto-generated SKILL.md",
+      "type": "task",
+      "priority": "high",
+      "status": "open",
+      "requester": "Ken",
+      "assignee": "Yoda",
+      "created": "2026-05-10T17:27:10+10:00",
+      "updated": "2026-05-10T17:27:10+10:00",
+      "description": "VentureBeat/VentureBeast report (2026-05-05) documents CLI-Anything: a tool that generates SKILL.md files from any open-source repo's source code, enabling AI agents (including OpenClaw) to operate any repo with a single command. OpenClaw is explicitly named as a supported platform. Risk: attackers submit poisoned repos or SKILL.md files that agents ingest and trust as operational directives. No mainstream SAST/SCA scanner has a detection category for malicious agent instruction files. Actions required: (1) Inventory all SKILL.md files in use on OC1 — document source, author, review status for each. (2) Prohibit use of CLI-Anything or any auto-generated skill tools on production OC1. (3) Establish formal skill intake SOP: any new SKILL.md must pass Shield + Sage review AND be from a verified, known source before installation. (4) Check if any existing plugin-skills or workspace skills were sourced from unverified third parties. (5) Evaluate Cisco open-source Skill Scanner and Snyk mcp-scan for agent-layer scanning. Owner: Shield (security review), Yoda (operational). Ken approves any new controls. Reference: VentureBeat CLI-Anything article + Snyk ToxicSkills research (13.4% of 3,984 ClawHub skills had critical security issues).",
+      "resolution": null,
+      "linked": {
+        "us": [],
+        "inc": [],
+        "chg": []
+      },
+      "notes": "",
+      "notionPageId": "35cc1829-53ff-8101-8608-f2fd159ec227"
+    },
+    {
+      "id": "TKT-0142",
+      "title": "Security: SKILL.md poisoning — formal skill review process + audit of existing custom skills",
+      "type": "task",
+      "priority": "high",
+      "status": "open",
+      "requester": "Ken",
+      "assignee": "Yoda",
+      "created": "2026-05-10T17:27:30+10:00",
+      "updated": "2026-05-10T17:27:30+10:00",
+      "description": "ToxicSkills research (Snyk, Feb 2026) found 76 confirmed malicious payloads across ClawHub and skills.sh. 13.4% of 3,984 scanned agent skills had at least one critical security issue. ClawHavoc campaign (Koi Security Jan 2026, expanded by Antiy CERT): 1,184 compromised packages on ClawHub delivering Atomic Stealer via skill definitions with professional documentation. DDIPE attack technique (Hong Kong/NTU/UNSW/Tokyo, April 2026): embeds malicious logic inside code examples in skill documentation — achieves 2.5% full evasion rate against all detection layers. AInchors context: S3 control ('no ClawHub skills, custom-built only') is a partial control. We have custom SKILL.md files in plugin-skills/ and workspace skills/ that have never been formally audited. Actions required: (1) Audit all existing custom SKILL.md files on OC1 — scan for embedded instructions that could execute as operational directives (look for: shell commands in examples, credential references, network calls, exfiltration patterns). (2) Define formal SKILL.md review checklist — what Shield and Sage must verify before any skill is used. (3) Update S3 control to explicitly include: no unreviewed SKILL.md regardless of source. (4) Evaluate Cisco Skill Scanner (open-source) and Snyk mcp-scan for automated skill scanning. (5) Document all approved skills in a skill registry with: source, author, review date, reviewer. (6) Add skill intake to governance gate — any new skill = Shield + Sage mandatory review before installation. Owner: Shield (security), Lex (policy update for S3), Yoda (operational). Ken approves.",
+      "resolution": null,
+      "linked": {
+        "us": [],
+        "inc": [],
+        "chg": []
+      },
+      "notes": "",
+      "notionPageId": "35cc1829-53ff-817e-9407-d3c4295f20e6"
     }
   ]
 }

@@ -3,18 +3,19 @@
     "email": "2026-05-10T05:31:00Z",
     "calendar": "2026-05-10T05:31:00Z",
     "weather": null,
-    "taskWatchdog": "2026-05-10T06:06:49.088Z",
-    "cronHealth": "2026-05-10T06:06:49.088Z",
-    "budgetCheck": "2026-05-10T05:59:45Z",
+    "taskWatchdog": "2026-05-10T07:05:46Z",
+    "cronHealth": "2026-05-10T07:05:46Z",
+    "budgetCheck": "2026-05-10T06:45:00Z",
     "doDGates": "2026-05-10T05:59:45Z",
     "cronDeadLetter": 1778387483738,
-    "agentHealth": "2026-05-10T06:06:49.088Z",
-    "wardenEscalation": "2026-05-10T06:06:49.088Z",
-    "allowlistSync": "2026-05-10T06:06:49.088Z",
+    "agentHealth": "2026-05-10T07:05:46Z",
+    "wardenEscalation": "2026-05-10T07:05:46Z",
+    "allowlistSync": "2026-05-10T07:05:46Z",
     "dailyClose": "2026-05-09T18:16:19.589Z",
-    "apiBalance": "2026-05-10T06:06:49.088Z"
+    "apiBalance": "2026-05-10T07:05:46Z",
+    "assetReview": "2026-05-10T07:05:46Z"
   },
   "doDGatesSunday": "2026-05-10T05:34:00Z",
-  "lastHeartbeat": "2026-05-10T06:06:49.088Z",
-  "lastHeartbeatNote": "2026-05-10 16:06 AEST — Handover processed. Balance $479.35 healthy. No active tasks. Budget alert ack'd. Warden cron failures ack'd. All clean."
+  "lastHeartbeat": "2026-05-10T07:25:00Z",
+  "lastHeartbeatNote": "2026-05-10 17:25 AEST — Sunday 5:25PM. All clear. Balance $479.35, all tiers inactive. No standby, no stall/verification/dead-letter alerts. Warden resolved-by-yoda. Warden cron (83accf7b) has 3 consecutive errors — acknowledged. Ahsoka Pilot 1 in-progress (parked), Pilot 2 pending. DoD gates surfaced earlier today."
 }
