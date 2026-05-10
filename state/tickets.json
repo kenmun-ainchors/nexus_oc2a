@@ -26,11 +26,11 @@
       "title": "Model3-Policy: Define SOPs and domain boundaries for all Tier 3 agents",
       "type": "task",
       "priority": "high",
-      "status": "in-progress",
+      "status": "done",
       "requester": "Ken",
       "assignee": "Yoda",
       "created": "2026-05-08T14:22:51+10:00",
-      "updated": "2026-05-10T11:26:15+10:00",
+      "updated": "2026-05-10T11:29:46+10:00",
       "description": "AC for TKT-0103. Define formal SOPs and domain boundaries (Model3-Policy) for all Tier 3 (Yoda-Manage-Passthrough) agents: Spark, Ahsoka, Atlas, Thrawn, Lando, Mon Mothma, Krennic. Document: scope limits, what requires Ken/Angie approval, reporting cadence, escalation path, failure handling. Output: Model3-Policy.md in docs/. Ken to confirm before policy is live.",
       "resolution": null,
       "linked": {
@@ -38,7 +38,7 @@
         "inc": [],
         "chg": []
       },
-      "notes": "Design consideration added 2026-05-08 14:49 AEST (Ken): Should Atlas have governance/assurance accountability over all architecture sub-agents and related architectural work? If yes, Atlas moves beyond Tier 3 passive passthrough — gains an assurance role, reviewing outputs of Thrawn, Lando, Mon Mothma, and any future architecture agents to ensure alignment. Implications: (1) Atlas tier classification may need revisiting — hybrid Tier 2/3? (2) What triggers Atlas review — all outputs or selective? (3) How does this interact with Yoda's coordination role? (4) Does Atlas assure just architecture quality, or also governance compliance? DECIDE AS PART OF TKT-0105 GROOMING. Do not implement before Ken confirmation. | DESIGN DECISIONS CONFIRMED 2026-05-10 (Ken): (1) Atlas Option B — Architecture Assurance role. Atlas reviews Thrawn/Lando/Mon Mothma outputs where architectural implications exist. Verdict: ALIGNED/NEEDS-REVISION/FLAG-TO-YODA. Not a blocker, quality gate only. Atlas stays Tier 3. Reviewed to Option C at July QBR. (2) Warden T3 monitoring Option A — Atlas/Thrawn/Lando/Mon Mothma added to model-policy.json for model compliance checks. CHG-0258. Mandate drift monitoring via QBR fleet review (not Warden). Unblocks: write Model3-Policy.md + TKT-0106.",
+      "notes": "Design consideration added 2026-05-08 14:49 AEST (Ken): Should Atlas have governance/assurance accountability over all architecture sub-agents and related architectural work? If yes, Atlas moves beyond Tier 3 passive passthrough — gains an assurance role, reviewing outputs of Thrawn, Lando, Mon Mothma, and any future architecture agents to ensure alignment. Implications: (1) Atlas tier classification may need revisiting — hybrid Tier 2/3? (2) What triggers Atlas review — all outputs or selective? (3) How does this interact with Yoda's coordination role? (4) Does Atlas assure just architecture quality, or also governance compliance? DECIDE AS PART OF TKT-0105 GROOMING. Do not implement before Ken confirmation. | DESIGN DECISIONS CONFIRMED 2026-05-10 (Ken): (1) Atlas Option B — Architecture Assurance role. Atlas reviews Thrawn/Lando/Mon Mothma outputs where architectural implications exist. Verdict: ALIGNED/NEEDS-REVISION/FLAG-TO-YODA. Not a blocker, quality gate only. Atlas stays Tier 3. Reviewed to Option C at July QBR. (2) Warden T3 monitoring Option A — Atlas/Thrawn/Lando/Mon Mothma added to model-policy.json for model compliance checks. CHG-0258. Mandate drift monitoring via QBR fleet review (not Warden). Unblocks: write Model3-Policy.md + TKT-0106. | COMPLETE 2026-05-10. docs/Model3-Policy.md written. All 7 T3 agents: Spark/Atlas/Thrawn/Lando/Mon Mothma/Krennic/Luthen. Routing decision tree, domain scope, boundaries, invocation triggers, approval matrix, escalation path, failure handling. Atlas assurance protocol (Option B). Warden T3 monitoring live (19 checks). Unblocks TKT-0106.",
       "notionPageId": "35cc1829-53ff-81ca-822d-dfb8b8b108ad"
     },
     {

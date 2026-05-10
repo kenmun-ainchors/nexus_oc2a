@@ -84,6 +84,18 @@ This log captures **every change** Yoda makes to AInchors infrastructure, config
 **Linked:** decisions.md 2026-04-27 entries
 ---
 
+## 2026-05-10 11:29 AEST — [CHG-0260] Model3-Policy.md v1.0 — Tier 3 agent SOPs and domain boundaries
+**Type:** doc
+**Source:** ken-prompt
+**Trigger:** TKT-0105 completion
+**What changed:** docs/Model3-Policy.md: routing decision tree, SOPs for all 7 T3 agents, Atlas architecture assurance protocol, cross-cutting rules. 15,235 chars.
+**Why:** Formalises T3 agent governance. Closes routing ambiguity. Enables Warden mandate compliance reviews. Unblocks TKT-0106.
+**Verification:** Doc complete. TKT-0105 closed. Warden 19/19 PASS.
+**Rollback:** N/A
+**Linked:** TKT-0105, TKT-0106
+---
+
+
 ## 2026-05-10 11:27 AEST — [CHG-0259] Set explicit models for T3 specialist agents in openclaw.json (CHG-0258 follow-on)
 **Type:** config
 **Source:** ken-prompt
