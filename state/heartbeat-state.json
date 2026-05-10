@@ -1,22 +1,22 @@
 {
   "lastChecks": {
-    "email": "2026-05-10T07:35:17Z",
-    "calendar": "2026-05-10T07:35:17Z",
+    "email": "2026-05-10T09:55:11Z",
+    "calendar": "2026-05-10T09:55:11Z",
     "weather": null,
-    "taskWatchdog": "2026-05-10T09:30:20.212Z",
-    "cronHealth": "2026-05-10T09:30:20.212Z",
-    "budgetCheck": 1778404398274,
-    "doDGates": 1778404199.905665,
+    "taskWatchdog": "2026-05-10T10:18:00Z",
+    "cronHealth": "2026-05-10T10:18:00Z",
+    "budgetCheck": "2026-05-10T10:12:45.3NZ",
+    "doDGates": "2026-05-10T10:10:05.122Z",
     "cronDeadLetter": "2026-05-10T08:52:29.126338Z",
-    "agentHealth": "2026-05-10T09:30:20.211Z",
-    "wardenEscalation": "2026-05-10T09:30:20.212Z",
+    "agentHealth": "2026-05-10T09:44:46Z",
+    "wardenEscalation": "2026-05-10T10:12:45.3NZ",
     "allowlistSync": "2026-05-10T09:06:21.973Z",
     "dailyClose": "2026-05-09T18:16:19.589Z",
-    "apiBalance": 1778405420212,
+    "apiBalance": "2026-05-10T09:59:34.319084Z",
     "assetReview": "2026-05-10T07:05:46Z",
-    "ahsokaPilot": "2026-05-10T09:06:21.973Z"
+    "ahsokaPilot": "2026-05-10T10:12:45.3NZ"
   },
   "doDGatesSunday": "2026-05-10T09:15:08.6NZ",
-  "lastHeartbeat": "2026-05-10T09:30:20.212Z",
-  "lastHeartbeatNote": "2026-05-10 19:29 AEST — All checks clean. Balance $425.12. Crons OK. No alerts. DoD gates (15 open, 7 drafts) already surfaced at 19:14 AEST."
+  "lastHeartbeat": "2026-05-10T10:18:00Z",
+  "lastHeartbeatNote": "2026-05-10 20:17 AEST — Warden cron 83accf7b still 3x consecutive failures, flagged to Ken. Balance $425.12 OK. All else clean."
 }
