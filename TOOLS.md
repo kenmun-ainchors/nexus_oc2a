@@ -49,3 +49,12 @@ Add whatever helps you do your job. This is your cheat sheet.
 - Token stored: macOS Keychain (default client)
 - Connected: 2026-04-29
 - Binary: `/opt/homebrew/bin/gog` — **always use full path** in exec/cron (minimal PATH won't find it)
+
+## Docker / Colima
+
+- `docker` → `/opt/homebrew/bin/docker` — brew standalone CLI (Docker Desktop removed 2026-05-11)
+- `colima` → `/opt/homebrew/bin/colima` — container runtime, replaces Docker Desktop
+- Colima auto-starts at login: `brew services start colima` (active)
+- Colima socket: `unix:///Users/ainchorsangiefpl/.colima/default/docker.sock`
+- Docker context: `colima` (active, set as default)
+- RustDesk containers managed via: `/Users/ainchorsangiefpl/.openclaw/workspace/infra/rustdesk/`
