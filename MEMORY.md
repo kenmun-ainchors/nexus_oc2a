@@ -208,12 +208,12 @@ Rule: New module names use Star Wars themes. Ken approves. All above final — n
 - **TKT-0143:** CLI-Anything strategic assessment (Atlas EA) — open | MEDIUM | CONDITIONAL ADOPT (P2). Review Ken approval.
 
 **Perpetual Optimization:**
-- **TKT-0144:** Platform CI: Token Efficiency Audit — open | MEDIUM | monthly perpetual loop. Category targets per L-022. scripts/token-efficiency-audit.sh.
+- **TKT-0144:** ✅ Platform CI: Token Efficiency Audit — DONE 2026-05-11. Cycle 1: 14 crons optimised, 1.8M tokens/day saved. CHG-0273. Perpetual loop active.
 
 **Resolved (logged):**
 - **TKT-0104:** ✅ Data + Memory Architecture — locked 2026-05-08. CHG-0235.
 
-tickets.json seq 145 (updated 2026-05-10). Notion AKB Backlog = SSOT.
+tickets.json seq 152 (updated 2026-05-11). Notion AKB Backlog = SSOT.
 
 ## Key Decisions & Architecture (locked)
 - **P1–P4:** P1=internal | P2=SaaS individual agents | P3=commercial tier label (add-on to P2, not a build phase) | P4=Enterprise/FSI. Licensed product DROPPED from P3.
@@ -227,23 +227,7 @@ tickets.json seq 145 (updated 2026-05-10). Notion AKB Backlog = SSOT.
 - CI Cycle A running (cycle-a, phase A). Cycle 1A 7-day report generated CHG-0244. Cycle 2A started.
 - **Day 15 (2026-05-09):** Standup email theme → light (CHG-0246). /Volumes/Docker alert was installer DMG, ejected. INC-20260509-001: 26h API degradation (balance $0 → $479.35 top-up → recovered). TKT-0113 raised for fallback alert path.
 
-## Working Constraint — File Access (until TKT-0124 live)
-Ken can only access files via: (1) Notion Holocron, (2) email to kenmun@ainchors.com, (3) Google Drive.
-**Google Drive folder created 2026-05-10:** "AInchors — Yoda Working Files"
-- Root: https://drive.google.com/drive/folders/1EyLi8JCvxwixhpBdRwP0PwdZokrg78Jl
-- EA Assessments subfolder: 1W2VIaqKBBWyiOqBs6329QdPk91VaxQ0c
-- Sprint Docs subfolder: 12YQYTesnCqOvJ9Nb8LoMKevLKm0nNbdm
-- Generated Images subfolder: 1nbhGoRCu36JKD38ucOGtWYPqJ8IGtcXR
-- State: workspace/state/gdrive-folders.json
-**Rule:** Any file Ken needs to access remotely → upload to Drive AND/OR email. This is the interim until MinIO replaces it.
-- **Google Drive folder created 2026-05-10:** "AInchors — Yoda Working Files"
-- Root: https://drive.google.com/drive/folders/1EyLi8JCvxwixhpBdRwP0PwdZokrg78Jl
-- EA Assessments subfolder: 1W2VIaqKBBWyiOqBs6329QdPk91VaxQ0c
-- Sprint Docs subfolder: 12YQYTesnCqOvJ9Nb8LoMKevLKm0nNbdm
-- Generated Images subfolder: 1nbhGoRCu36JKD38ucOGtWYPqJ8IGtcXR
-- Drafts for Ken Review (DoD): 1w8WhcaoPAXzsgU2epycoIoBag-JWWnKN
-- Journal + Blog: 1WUcG6cdT95FYzSu-bh9S9Jaux4rWRR3z
-- Memory + Context: 1qn7pZaw4akt8a7DDsSoGS55KMsevLFgu
-- Platform Docs: 1WsvbM7RbUXBRGKk_izbtWSlQ_z3kjx0t
-- State: workspace/state/gdrive-folders.json
-**Rule:** Any file Ken needs to access remotely → upload to Drive AND/OR email. This is the interim until MinIO replaces it.
+## File Access
+- **MinIO live (TKT-0124 ✅ 2026-05-11):** Agent object store on OC1. Tailscale URL: `https://ainchorss-mac-mini.tail5e2567.ts.net`. Presigned URLs via `scripts/minio-upload.sh`. 4 buckets: agent-memory, generated-media, workspace-assets, brand-code.
+- **Google Drive (human layer):** "AInchors — Yoda Working Files" | Root: `1EyLi8JCvxwixhpBdRwP0PwdZokrg78Jl` | Subfolders: EA Assessments, Sprint Docs, Generated Images, Drafts for Ken Review, Journal+Blog, Memory+Context, Platform Docs. State: `state/gdrive-folders.json`
+- **File access rule:** Agent blobs → MinIO (presigned URL). Human docs → Drive. No longer interim — this is the P1 permanent setup until P2 S3 migration.
