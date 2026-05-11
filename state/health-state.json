@@ -1,12 +1,14 @@
 {
-  "status": "ok",
-  "overallStatus": "ok",
+  "status": "degraded",
+  "overallStatus": "degraded",
   "consecutiveFailures": 0,
   "alerted": false,
-  "lastCheck": "2026-05-11T02:40:36Z",
-  "lastOk": "2026-05-11T02:40:36Z",
-  "exitCode": 0,
-  "issues": [],
+  "lastCheck": "2026-05-11T03:00:24Z",
+  "lastOk": "2026-05-11T03:00:24Z",
+  "exitCode": 1,
+  "issues": [
+    "Event loop delay critical: 30970ms max, utilisation 0.573 \u2014 gateway may be saturated"
+  ],
   "anthropicReachable": true,
   "ollamaReachable": true,
   "checks": {
