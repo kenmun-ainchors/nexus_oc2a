@@ -844,7 +844,7 @@
       "requester": "Ken",
       "assignee": "Yoda",
       "created": "2026-05-10T20:32:50+10:00",
-      "updated": "2026-05-11T11:46:12+10:00",
+      "updated": "2026-05-11T12:12:20+10:00",
       "description": "Perpetual CI activity (monthly) to audit all crons for token efficiency. Principles from L-022: (1) Shell-first: tasks with no reasoning → systemEvent/wrapper script, no agentTurn. (2) lightContext:true on all isolated background crons. (3) Script stdout → state files, not LLM context. (4) Model right-sizing: use lowest tier that meets quality bar. (5) Token budget targets per category: monitoring <500/run, compliance <2,000/run, reporting <5,000/run, content <10,000/run. Deliverables: (a) write scripts/token-efficiency-audit.sh to scan all crons and flag any exceeding 2x category target, (b) backfill lightContext:true on all existing eligible crons, (c) identify any current crons that should be converted to systemEvent, (d) add token tracking to obs.db (avg tokens/run per cron). Run monthly. Never-ending CI loop. Reference: L-022, CHG-Warden-fix.",
       "resolution": null,
       "linked": {
@@ -852,7 +852,7 @@
         "inc": [],
         "chg": []
       },
-      "notes": "Sprint 3 (12–18 May 2026) | Sprint 3 — started 2026-05-11 | Cycle 1 complete 2026-05-11. CHG-273 logged. 14 crons optimised: 2 P1 fixes (systemEvent conversion/disable), 11 lightContext adds, 3 bug fixes. Est ~1.8M tokens/day saved.",
+      "notes": "Sprint 3 (12–18 May 2026) | Sprint 3 — started 2026-05-11 | Cycle 1 complete 2026-05-11. CHG-273 logged. 14 crons optimised: 2 P1 fixes (systemEvent conversion/disable), 11 lightContext adds, 3 bug fixes. Est ~1.8M tokens/day saved. | Cycle 2 scope (next audit ~Jun 2026): extend beyond crons to cover non-cron token efficiency — interactive agent session context sizing, prompt verbosity, active session bootstrap weight. TKT-0145 superseded and merged here.",
       "notionPageId": "35cc1829-53ff-8114-8341-eee1485f00c3",
       "sprint": 3,
       "sprintLabel": "Sprint 3 (12–18 May 2026)",
@@ -863,11 +863,11 @@
       "title": "Token Burn Retro — audit all crons/agents for unnecessary context, optimise",
       "type": "task",
       "priority": "medium",
-      "status": "open",
+      "status": "closed",
       "requester": "Ken",
       "assignee": "Yoda",
       "created": "2026-05-11T10:19:34+10:00",
-      "updated": "2026-05-11T10:19:34+10:00",
+      "updated": "2026-05-11T12:12:19+10:00",
       "description": "Platform-wide token efficiency sweep. Audit every cron and agent: lightContext set? verbose script stdout piped to LLM? systemEvent used where no reasoning needed? Produce report and apply fixes. One-time full sweep, then hands off to TKT-0144 perpetual CI loop. Related: L-022, TKT-0144.",
       "resolution": null,
       "linked": {
@@ -875,7 +875,7 @@
         "inc": [],
         "chg": []
       },
-      "notes": "",
+      "notes": "Superseded by TKT-0144 Cycle 1 (2026-05-11). Cycle 1 audit covered all 53 platform crons — full scope of what TKT-0145 intended. Non-cron token efficiency (agent sessions, prompt sizing) added to TKT-0144 Cycle 2 scope.",
       "notionPageId": "35dc1829-53ff-81cd-a987-deb53d0f6531"
     },
     {
