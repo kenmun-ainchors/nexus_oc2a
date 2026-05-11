@@ -1,5 +1,5 @@
 {
-  "sequence": 151,
+  "sequence": 153,
   "tickets": [
     {
       "id": "TKT-0104",
@@ -977,6 +977,46 @@
       },
       "notes": "AC ADD-ON: Google Drive offsite backup — DR playbook must include AC for uploading full weekly backup (Sunday tar.gz) to Google Drive (AInchors Yoda Working Files folder). Use gog drive upload. Replaces/supplements iCloud offsite path. Drive folder already exists: 1EyLi8JCvxwixhpBdRwP0PwdZokrg78Jl. Recovery path: download from Drive → run dr-restore.sh. Sprint 4.",
       "notionPageId": "35dc1829-53ff-81d1-ac74-d276be8c3c98"
+    },
+    {
+      "id": "TKT-0151",
+      "title": "Agentic Development Framework — squad model, process model, Day 1 fixed + future ephemeral",
+      "type": "task",
+      "priority": "high",
+      "status": "open",
+      "requester": "Ken",
+      "assignee": "Yoda",
+      "created": "2026-05-11T13:15:08+10:00",
+      "updated": "2026-05-11T13:15:08+10:00",
+      "description": "Develop the AInchors Agentic Development Framework and Development Process Model. Covers: (1) Framework design — how software/platform development is done with AI agents. (2) Squad model — voice of engineering and delivery. Day 1 fixed agents (Yoda, Atlas, Thrawn, Forge) + future ephemeral dev squads (Tier 5+ per TKT-0107). (3) Process model — how development tasks flow from backlog to delivery: ticket-first, spec, build, review, test, deploy. (4) Integration with Agile Framework v1.0 (TKT-0090). Atlas leads EA. Thrawn leads platform architecture input. Krennic (SRE) gates deployment. Outputs: docs/Agentic_Development_Framework_v1.md. Ken approves before execution.",
+      "resolution": null,
+      "linked": {
+        "us": [],
+        "inc": [],
+        "chg": []
+      },
+      "notes": "",
+      "notionPageId": "35dc1829-53ff-8157-a2c1-c9e992098682"
+    },
+    {
+      "id": "TKT-0152",
+      "title": "Agentic Testing Framework — squad model, process model, tech + business streams, Day 1 fixed + future ephemeral",
+      "type": "task",
+      "priority": "high",
+      "status": "open",
+      "requester": "Ken",
+      "assignee": "Yoda",
+      "created": "2026-05-11T13:15:08+10:00",
+      "updated": "2026-05-11T13:15:08+10:00",
+      "description": "Develop the AInchors Agentic Testing Framework and Testing Process Model. Covers: (1) Framework design — how testing is done across technology and business streams with AI agents. (2) Squad model — voice of quality. Day 1 fixed agents (Sage QA, Shield security, Lex legal) + future ephemeral testing squads. (3) Process model — test types (unit, integration, UAT, governance gate, regression), ownership per stream, DoD quality gates. (4) Business stream testing: Aria-led, Angie approves. Technology stream testing: Yoda/Sage-led, Ken approves. (5) Extends Sanctum protocol (Shield/Lex/Sage triad) into a full testing framework. Outputs: docs/Agentic_Testing_Framework_v1.md. Ken approves before execution.",
+      "resolution": null,
+      "linked": {
+        "us": [],
+        "inc": [],
+        "chg": []
+      },
+      "notes": "",
+      "notionPageId": "35dc1829-53ff-81f5-87da-f3c5155b6bdb"
     }
   ]
 }
