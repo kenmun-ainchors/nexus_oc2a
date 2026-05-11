@@ -927,7 +927,7 @@
       "requester": "Ken",
       "assignee": "Yoda",
       "created": "2026-05-11T10:19:52+10:00",
-      "updated": "2026-05-11T10:19:52+10:00",
+      "updated": "2026-05-11T11:24:47+10:00",
       "description": "Extends TKT-0134. AC items to refine with Ken: (1) Identify highest capability Ollama Cloud model per persona and use case for KL team and client engagements. (2) Design workflow-approval gate for using paid/premium models (eg Sonnet) on high-value/complex work — specialist agents creating client content. AC NEEDS GROOMING WITH KEN before execution.",
       "resolution": null,
       "linked": {
@@ -935,7 +935,7 @@
         "inc": [],
         "chg": []
       },
-      "notes": "",
+      "notes": "AC GROOMED 2026-05-11 with Ken. Objective: contain token-cost overrun. Ollama Cloud best model = fixed-cost default for all non-BYOK users (P2a individuals, P2b business owners+employees, consulting delivery agents). Ken+Angie remain on Sonnet. Class-of-work escalation to paid models: Tech stream = Ken approves; Business stream = Angie or Ken. Role-based (not cost-threshold). BYOK clients excluded. 4 ACs: (1) Persona matrix 6 personas x use cases x Ollama Cloud model; (2) Class-of-work approval list + model-approval-log.json; (3) BYOK exclusion documented; (4) Dependent on TKT-0134 pilot results for AC-1 completion. | Linked dependency: TKT-0134 (pilot results required for AC-1)",
       "notionPageId": "35dc1829-53ff-816d-b896-e5f255f59be5"
     },
     {
