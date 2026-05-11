@@ -3,14 +3,17 @@
   "title": "Model drift — Opus snuck in x2 after agent reset",
   "severity": "P2",
   "startedAt": "2026-04-27T21:53:00+10:00",
-  "resolvedAt": "2026-04-27T23:45:00+10:00",
+  "resolvedAt": "2026-05-11T12:05:00+10:00",
   "durationMinutes": 52,
   "rootCause": "After agent reset, fallback chain reverted to claude-opus-4-7 for default.fallbacks and legal agent. Warden drift check detected the violation but policy update (CHG-0028) was required to re-align.",
   "impact": "Cost overrun — Opus is ~10x more expensive than Sonnet. 2 drift violations recorded. Warden escalated to Yoda.",
-  "resolution": "Policy reset to Sonnet. Warden violations superseded by CHG-0028. Model-drift-state.json updated. Drift detection confirmed working.",
+  "resolution": "Batch close — incident resolved, post-mortem complete or superseded. Closed by Yoda with Ken approval 2026-05-11.",
   "preventable": true,
   "prevention": "Pre-risky-op checkpoint protocol (now in place from 2026-04-26). Model policy lock in place post-reset.",
   "linkedChg": "CHG-0028",
   "detectedBy": "Warden drift monitor (automated)",
-  "relatedUS": ["US14"]
+  "relatedUS": [
+    "US14"
+  ],
+  "status": "resolved"
 }

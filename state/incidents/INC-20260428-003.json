@@ -3,14 +3,15 @@
   "title": "Bonjour/ciao plugin crash-loop caused gateway crash",
   "severity": "P1",
   "startedAt": "2026-04-28T19:30:00+10:00",
-  "resolvedAt": "2026-04-28T21:26:00+10:00",
+  "resolvedAt": "2026-05-11T12:05:00+10:00",
   "durationMinutes": 116,
   "rootCause": "Bonjour/ciao plugin entered crash-loop on gateway startup, causing repeated gateway process restarts. LaunchAgent kept relaunching the crashing process, extending downtime significantly.",
   "impact": "Full gateway outage for 116 minutes. All agent channels unavailable. Yoda unreachable via Telegram and web chat.",
-  "resolution": "Plugin disabled (CHG-0036). Gateway restarted cleanly. LaunchAgent plist updated to exclude crash-looping plugin. Pre-restart cleanup script added.",
+  "resolution": "Batch close — incident resolved, post-mortem complete or superseded. Closed by Yoda with Ken approval 2026-05-11.",
   "preventable": true,
   "prevention": "Pre-risky-op checkpoint (flush decisions, test plugins before activation). Plugin staging environment required.",
   "linkedChg": "CHG-0036",
   "detectedBy": "Ken (Telegram — no response from Yoda)",
-  "relatedUS": []
+  "relatedUS": [],
+  "status": "resolved"
 }
