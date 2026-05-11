@@ -1,11 +1,10 @@
 {
-  "lastBackup": "2026-05-10T16:05:43Z",
+  "lastBackup": "2026-05-11T02:14:17Z",
   "status": "ok",
+  "backupType": "incremental",
   "location": "/Users/ainchorsangiefpl/Backups/ainchors",
-  "lastWorkspaceSnap": "workspace-2026-05-11-0205.tar.gz",
-  "lastConfigSnap": "openclaw-2026-05-11-0205.json",
+  "lastSnap": "workspace-2026-05-11-1214",
   "nasConnected": false,
-  "cloudBackupEnabled": true,
-  "sizeBytes": 137562234,
-  "backupCount": 30
+  "cloudBackupEnabled": false,
+  "schedule": "incremental Mon-Sat (rsync --link-dest), full Sun (tar.gz)"
 }
