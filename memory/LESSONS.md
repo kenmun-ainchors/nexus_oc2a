@@ -115,3 +115,8 @@
 - **Correct flow:** Atlas (assess) → Thrawn (design) → **Forge (build)** → Atlas (assurance review) → Ken (approve)
 - **Root cause:** Routing Thrawn for TKT-0135 build was convenient (already in the loop) — convenience ≠ correct routing. Thrawn then wrote directly to `openclaw.json` → INC-20260511-001, gateway down.
 **Source:** INC-20260511-001, TKT-0135, Day 17. CHG-0276.
+
+## L-027 — 2026-05-11 | Agent Heartbeat / Cost
+**Lesson:** Infrastructure agents driven entirely by crons do NOT need a heartbeat. Setting `heartbeat.every: "0m"` is correct for ops-only agents. Leaving heartbeat enabled causes every `exec` exit in cron sessions to wake a new heartbeat session via `notifyOnExit`. With undefined model (`null`), sessions default to Sonnet — 180 sessions/day × $0.12 = $22/day overrun.
+**Rule:** Any agent with `agentId` used only by scheduled crons → set `heartbeat.every: "0m"` and explicitly set model to Haiku or lower.
+**Source:** Forge budget overrun Day 17. 180 Sonnet heartbeat sessions. Fixed: infra model → Haiku, heartbeat → 0m. CHG-0277.

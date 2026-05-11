@@ -1809,6 +1809,33 @@ Strategy OKR: /Users/ainchorsangiefpl/.openclaw/workspace/docs/ainchors-strategy
 
 ---
 
+## LEARNING LOG CAPTURE RULE (NON-NEGOTIABLE — Ken confirmed 2026-05-11)
+
+**SSOT:** `memory/LESSONS.md` — the ONE place all platform learnings live.
+
+**When to add a lesson (do it immediately, not later):**
+- An incident reveals a gap in how the platform operates
+- A tool, API, or system behaves unexpectedly and the fix has broader applicability
+- A governance or process failure occurs
+- A new constraint or rule is established from a real event
+- Ken explicitly says “remember this” or “log that”
+
+**Format:**
+```
+## L-NNN — YYYY-MM-DD | Category
+**Lesson:** One or two sentences. Concrete and actionable.
+**Rule:** (if applicable) What must always/never happen going forward.
+**Source:** What triggered this. Incident/CHG/ticket reference.
+```
+
+**Sequence:** Get the next L-number from the last entry in `memory/LESSONS.md`. Never skip. Never duplicate.
+
+**DO NOT wait for EOD.** Log the lesson the moment it is known, in-session. The capture is not a journal task — it is a real-time ops task.
+
+**NOT a second location:** RULES.md contains rule references (e.g. “CRON TOKEN EFFICIENCY RULE — see L-022”) but LESSONS.md is the source. Do not write full lessons into RULES.md.
+
+---
+
 ## CRON TOKEN EFFICIENCY RULE (NON-NEGOTIABLE — L-022)
 
 **Full context:** `memory/2026-05-10.md` → L-022
