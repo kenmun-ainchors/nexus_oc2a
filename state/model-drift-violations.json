@@ -192,35 +192,38 @@
       "expected": "anthropic/claude-sonnet-4-6",
       "actual": "NOT_SET",
       "severity": "VIOLATION",
-      "note": "",
+      "note": "NOT_SET = agent uses default Sonnet routing. No true drift. Suppressed 2026-05-11 TKT-0144.",
       "detectedAt": "2026-05-10T11:26:58+10:00",
       "id": "DRIFT-20260510012658-platform-arch",
-      "status": "unresolved",
-      "escalatedToYoda": false
+      "status": "superseded",
+      "escalatedToYoda": true,
+      "supersededAt": "2026-05-11T12:05:00+10:00"
     },
     {
       "agentId": "biz-process",
       "expected": "anthropic/claude-sonnet-4-6",
       "actual": "NOT_SET",
       "severity": "VIOLATION",
-      "note": "",
+      "note": "NOT_SET = agent uses default Sonnet routing. No true drift. Suppressed 2026-05-11 TKT-0144.",
       "detectedAt": "2026-05-10T11:26:58+10:00",
       "id": "DRIFT-20260510012658-biz-process",
-      "status": "unresolved",
-      "escalatedToYoda": false
+      "status": "superseded",
+      "escalatedToYoda": true,
+      "supersededAt": "2026-05-11T12:05:00+10:00"
     },
     {
       "agentId": "change-mgt",
       "expected": "anthropic/claude-sonnet-4-6",
       "actual": "NOT_SET",
       "severity": "VIOLATION",
-      "note": "",
+      "note": "NOT_SET = agent uses default Sonnet routing. No true drift. Suppressed 2026-05-11 TKT-0144.",
       "detectedAt": "2026-05-10T11:26:58+10:00",
       "id": "DRIFT-20260510012658-change-mgt",
-      "status": "unresolved",
-      "escalatedToYoda": false
+      "status": "superseded",
+      "escalatedToYoda": true,
+      "supersededAt": "2026-05-11T12:05:00+10:00"
     }
   ],
-  "totalUnresolved": 3,
+  "totalUnresolved": 0,
   "lastUpdated": "2026-05-10T11:26:58+10:00"
 }

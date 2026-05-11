@@ -636,16 +636,42 @@ f = os.path.join(state, 'state', 'model-drift-violations.json')
 try:
     d = json.load(open(f))
     viols = d if isinstance(d, list) else d.get('violations', [])
+    # Suppression rules (TKT-0144, CHG-0273, 2026-05-11):
+    # 1. NOT_SET actual = agent uses default model routing, not a true drift violation -> INFO only
+    # 2. Skip violations already logged in obs.db in the last 60 minutes (dedup)
+    import subprocess as sp
+    try:
+        import sqlite3
+        db_path = os.path.join(state, 'state', 'obs.db')
+        conn = sqlite3.connect(db_path)
+        recent_ids = set(row[0] for row in conn.execute(
+            "SELECT json_extract(details,'$.id') FROM obs_log WHERE event_type='warden_violation_unescalated' AND ts_epoch > strftime('%s','now','-60 minutes')"
+        ).fetchall() if os.path.exists(db_path) else [])
+        conn.close()
+    except Exception:
+        recent_ids = set()
+
     active = [v for v in viols if isinstance(v, dict)
               and not v.get('escalatedToYoda', True)
-              and v.get('status', '') not in ('superseded', 'resolved', 'cleared')]
+              and v.get('status', '') not in ('superseded', 'resolved', 'cleared')
+              and v.get('id') not in recent_ids]  # dedup: skip if logged < 60 min ago
     for v in active:
-        msg = f"Warden violation (unescalated): agent={v.get('agentId','?')} severity={v.get('severity','?')}"
-        subprocess.run(['bash', obs_log, '--source', 'warden',
-                        '--level', 'ERROR', '--type', 'warden_violation_unescalated',
-                        '--message', msg,
-                        '--detail', json.dumps({'id': v.get('id'), 'agentId': v.get('agentId'), 'severity': v.get('severity')})],
-                       capture_output=True)
+        actual = v.get('actual', '')
+        # Suppression rule: NOT_SET = agent has no explicit model override, uses default routing
+        # Log as INFO/gap-noted rather than ERROR to avoid noise
+        if actual == 'NOT_SET':
+            subprocess.run(['bash', obs_log, '--source', 'warden',
+                            '--level', 'INFO', '--type', 'warden_gap_noted',
+                            '--message', f"Warden gap (no explicit model config): agent={v.get('agentId','?')} uses default routing",
+                            '--detail', json.dumps({'id': v.get('id'), 'agentId': v.get('agentId'), 'note': 'NOT_SET=default routing, not drift'})],
+                           capture_output=True)
+        else:
+            msg = f"Warden violation (unescalated): agent={v.get('agentId','?')} severity={v.get('severity','?')}"
+            subprocess.run(['bash', obs_log, '--source', 'warden',
+                            '--level', 'ERROR', '--type', 'warden_violation_unescalated',
+                            '--message', msg,
+                            '--detail', json.dumps({'id': v.get('id'), 'agentId': v.get('agentId'), 'severity': v.get('severity')})],
+                           capture_output=True)
 except Exception:
     pass
 PYEOF2

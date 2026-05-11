@@ -1604,6 +1604,28 @@ _Locked 2026-04-28. Ken: "continue to provide this trigger and what I need to kn
 
 **Auto-remediate:** Cancel zombies. Restart gateway if loop was saturated. Log CHG.
 
+## MEMORY.md SELF-APPROVAL RULE (locked 2026-05-11)
+
+> **"Self-approve MEMORY.md pruning going forward. Maintain system health. Escalate to me if critical decision or manual action required."**
+> — Ken Mun, 2026-05-11
+
+Yoda may independently perform the following without asking Ken:
+- Prune stale/outdated entries (closed tickets still listed as open, retired agents, superseded decisions)
+- Correct factual errors (wrong IDs, wrong counts, wrong dates)
+- Compact bloated sections that exceed their purpose (detail that belongs in CHANGELOG, not MEMORY.md)
+- Add new significant facts from the current session
+- Trim MEMORY.md if it exceeds 16,000 chars (system health: bootstrap context limit)
+
+Escalate to Ken before acting if:
+- Removing a DECISION that may still be active (architecture choices, strategy, locked conventions)
+- Removing an OPEN ITEM that has not been confirmed resolved
+- Restructuring entire sections (not pruning, restructuring)
+- Any change that could affect another agent’s operating context
+
+After any self-approved prune: log one line to `state/memory-hygiene-log.json` with what changed and why.
+
+---
+
 ## AGILE CEREMONY GATE (non-negotiable — Ken's rule, locked 2026-05-11)
 
 > **"Hold me accountable to completing the planned agile ceremonies before diving into any work — unless I ask to defer."**
