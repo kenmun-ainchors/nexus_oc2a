@@ -24,13 +24,9 @@
 ## Agent Architecture
 
 ### Governance Tier Model (approved Ken 2026-05-08, TKT-0103)
-- **T0:** Lead Anchor (Yoda) — owns governance fleet-wide
-- **T1:** Dual-Principal — CEO primary + Yoda tech oversight. Agent: Aria
-- **T2:** Yoda-Govern — agent never acts outside Yoda approval. Agent: Warden
-- **T3:** Yoda-Manage-Passthrough — default for new operational agents. Agents: Spark, Ahsoka, Atlas, Thrawn, Lando, Mon Mothma, Krennic
-- **T4:** Triad Service Agent — reactive verdict-only. Agents: Shield, Lex, Sage
+- T0: Yoda (lead) | T1: Aria (dual-principal: CEO+Yoda) | T2: Warden (Yoda-Govern) | T3: Spark, Ahsoka, Atlas, Thrawn, Lando, Mon Mothma, Krennic (Yoda-Manage-Passthrough) | T4: Shield, Lex, Sage (reactive verdict-only)
 - **New subagent rule:** Yoda must propose all new agents before build. Ken confirms. No exceptions.
-- **Squad Model (future T5+):** Define before any dev squad work. TKT-0107. Framework: docs/Agent_Governance_Framework_v1.md
+- Squad Model (T5+): TKT-0107. Framework: docs/Agent_Governance_Framework_v1.md
 
 - **Yoda 🟢** = lead agent (technical stream, oversees all)
 - **Aria 🔵** = Business Lead Agent (OC1 → OC2 at TRIGGER-10). Model: Sonnet. All business stream decisions sit with Angie. Aria follows Angie's pace — no pushing, no chasing.
@@ -48,25 +44,22 @@
 ## Agent SOUL.md Compact Standard (NON-NEGOTIABLE)
 - Hard limit: 10,000 chars. Warning: 6,000. SOUL.md = identity+traits+rules+cadences. Details in [AGENT]_RULES.md.
 - Why: Aria 17,393 chars → silent truncation → wrong Telegram targets → gateway OOM (2026-04-30).
-- Sizes: Yoda 3,527 ✅ | Aria 4,659 ✅ | Shield 3,857 ✅ | Spark 4,332 ✅ | Atlas 2,850 ✅ | Thrawn 3,152 ✅ | Lando 2,737 ✅ | Mon Mothma 2,936 ✅ | Sage 1,830 ✅ | Lex 2,322 ✅ | Governance 1,334 ✅
+- All agents ✅ within limits as of 2026-05-08.
 
 ## Governance Agents
 - **Shield 🛡️** (security) | **Lex ⚖️** (legal) | **Sage 🧪** (qa) — Haiku (CHG-0230). Move to Gemma4 at TRIGGER-03.
 - **Warden 🔍** = Model Compliance Officer. 15-min checks, 9 agents. Cron: 83accf7b (haiku). State: model-drift-state.json / violations.json. Escalation: warden-escalation-pending.json → Yoda remediates.
 
 ## Key Scripts & Infrastructure
-- `scripts/auto-heal.sh` — nightly 01:00 AEST, 18 checks, auto-fixes, files Notion US for Ken action items.
-- `scripts/run-diagnostics.sh` — on-demand /diagnostics, 7 phases.
-- `scripts/ticket.sh` — ITSM (TKT-NNNN), auto-syncs to Notion AKB Backlog.
-- `scripts/changelog-append.sh` — CHG-NNNN in memory/CHANGELOG.md, syncs to Notion.
-- `scripts/gateway-config-snapshot.sh` + `scripts/gateway-restore.sh` — config snapshot/restore SOP.
-- `scripts/cost-tracker.sh` | `scripts/audit-skill.sh` | `scripts/telegram-alert.sh` (API-independent Bot HTTP, CHG-0262).
-- `state/critical-config-baseline.json` — anti-drift guard (7 configs). `state/chg-triggers.json` — 12 triggers. `state/skill-registry.json` — 63 SKILL.md files.
+- `auto-heal.sh` — nightly 01:00 AEST, 19 checks, auto-fixes, files Notion US for needs-Ken items.
+- `run-diagnostics.sh` — on-demand /diagnostics, 7 phases. `ticket.sh` — ITSM (TKT-NNNN), Notion sync.
+- `changelog-append.sh` — CHG-NNNN log + Notion sync. `gateway-config-snapshot.sh` / `gateway-restore.sh` — config SOP.
+- `cost-tracker.sh` | `audit-skill.sh` | `telegram-alert.sh` (API-independent Bot HTTP, CHG-0262).
 
 ## Operations Docs (locked)
 - Journal: Notion + `memory/journal-YYYY-MM-DD.md` (verbatim Ken prompts, Yoda voice, private)
 - Blog: Notion + `canvas/documents/ainchors-YYYY-MM-DD/index.html` (Ken first-person, built FROM journal)
-- Key docs (all in docs/): Agent_Governance_Framework_v1.md | Model3-Policy.md | Strategy_to_Backlog_Pipeline_v0.1.md | Skill-Installation-Policy-v1.0.md | Yoda_ORCHESTRATOR.md | Yoda_RUNBOOK.md
+- Key docs (docs/): Agent_Governance_Framework_v1.md | Model3-Policy.md | Strategy_to_Backlog_Pipeline_v0.1.md | Skill-Installation-Policy-v1.0.md | Yoda_ORCHESTRATOR.md | Yoda_RUNBOOK.md
 
 ## GitHub
 - gh CLI authenticated: account **kenmun-ainchors**, scopes: repo, read:org, gist (token in keyring).
@@ -81,31 +74,23 @@ Rule: New modules use Star Wars themes. Ken approves. All above final.
 - ⚠️ **TKT-0121 action pending:** Ken to add HF API key to Keychain (LinkedIn FLUX image gen).
 - Agent team design + build: Needs Atlas + Thrawn input. TKT-0068 open.
 
-## TRIGGER-12 — Allowlist Auto-Sync (live, CHG-0144)
-- Scripts: allowlist-sync.sh + allowlist-detect.sh. Cron: 6a059e9e (30 min, haiku). State: allowlist-sync-state.json.
-- Eligibility: main/Aria=all cloud; Spark=kimi+pro; Sage=kimi+flash; Warden=flash only; Shield/Lex=no cloud.
-
 ## 4-Tier Model Strategy (Target — post OC2)
 - T0: No LLM (systemEvent) — $0. T1: Gemma4:26b local (OC2) — $0 client workloads. T2: Ollama Cloud (kimi/deepseek) — $100/mo flat. T3: Claude Sonnet — FALLBACK ONLY.
 - Data sovereignty: DS-1 to DS-5. Client data = T0/T1 local ONLY. NEVER cloud.
-- CURRENT (pre-OC2): Sonnet primary + Ollama Cloud T2 active. Ollama Pro: accounts@ainchors.com. PoC: ✅ COMPLETE (TRIGGER-05).
-- gemma4:31b-cloud: experimental/archived (CHG-0249-0251). >=75% pass rate gate required before production routing. TKT-0134 review ~2026-05-18.
+- CURRENT (pre-OC2): Sonnet primary + Ollama Cloud T2 active. Ollama Pro: accounts@ainchors.com. PoC: ✅ COMPLETE.
+- gemma4:31b-cloud: experimental/archived. >=75% pass rate gate before prod. TKT-0134 review ~2026-05-18.
 
 ## Security Controls (S1–S7)
 - S1: OC ≥ v2026.5.5 (current; v2026.5.7 available — routine, no CVE). S2: Gateway loopback only, port 18789 never public. S3: No ClawHub skills on prod. S4: Least privilege per agent. S5: No hardcoded creds, Keychain+env only. S6: All CHG logged, Warden compliance. S7: NAS encrypted (post-OC2).
 
 ## CHG Trigger Rules
-- TRIGGER-01: OC2 arrival → 10-step setup. TRIGGER-02: Both OC2 live → HA + NAS.
-- TRIGGER-03: Gemma4 validated → governance Haiku → Gemma4:26b. TRIGGER-04: OC security patch → 48h/7d.
-- TRIGGER-05: ✅ FIRED — kimi T2 active. TRIGGER-06: OC v4.0 → P3 gate + CrewAI eval.
-- TRIGGER-07: First P2 client → onboarding. TRIGGER-08: ✅ FIRED — Auto-reload: <$50 → $500. Thresholds: T1=$60, T2=$55, T3=$15 (CHG-0232).
-- TRIGGER-09: Warden drift → Yoda remediates within 1 heartbeat. TRIGGER-10: Business ready → Aria to OC2.
-- TRIGGER-11: glm-5.1 no-think → monthly check. TRIGGER-12: ✅ Allowlist auto-sync live (CHG-0144).
-- TRIGGER-13: OC2 stable + MinIO 2-sprint prod validation → activate TKT-0153 semantic memory (Option D). Deprecates MEMORY_TICKETS.md + MEMORY_DECISIONS.md.
+- T01: OC2 arrival→setup | T02: Both OC2→HA+NAS | T03: Gemma4 validated→swap Haiku | T04: OC patch→48h/7d
+- T05: ✅ kimi T2 active | T06: OC v4.0→P3+CrewAI | T07: First P2 client→onboarding | T08: ✅ Auto-reload <$50→$500 (T1=$60/T2=$55/T3=$15, CHG-0232)
+- T09: Warden drift→Yoda remediates 1 heartbeat | T10: Aria→OC2 | T11: monthly model check | T12: ✅ Allowlist auto-sync live (CHG-0144)
+- T13: OC2+MinIO 2-sprint validated→TKT-0153 semantic memory. Deprecates MEMORY_TICKETS.md + MEMORY_DECISIONS.md.
 
 ## Tailscale Config (CHG-0227/228)
-- Serve enabled on OC1. `allowTailscale: true`. URL: `https://ainchorss-mac-mini.tail5e2567.ts.net`. S2 compliant.
-- Windows webchat 1006 fix (2026-05-11): `tailscale serve --https=443 --bg http://localhost:18789`.
+- Serve on OC1. `allowTailscale: true`. URL: `https://ainchorss-mac-mini.tail5e2567.ts.net`. S2 compliant. Windows 1006 fix: `tailscale serve --https=443 --bg http://localhost:18789`.
 
 ## Sprint Capacity Model (CHG-0241)
 - Pre-OC2: 5 items/sprint | OC2 setup: 2–3 | Post-OC2: 5. 30% headroom buffer. P2 target: end-Aug 2026. Contingency: mid-Sep.
