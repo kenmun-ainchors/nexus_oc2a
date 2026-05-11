@@ -3444,3 +3444,14 @@ _Pre-existing changes (Day 1, Day 2) are captured in `memory/shared/decisions.md
 - Fix: Updated openclaw.json — all 3 agents corrected to anthropic/claude-haiku-4-5
 - Policy basis: Ken approved Haiku switch 2026-05-06 (cost optimisation)
 - Status: Resolved by Yoda heartbeat auto-remediation
+
+## 2026-05-11 11:46 AEST — [CHG-273] TKT-0144 Cycle 1: Token Efficiency Audit — 14 crons optimised
+**Type:** config
+**Source:** ken-prompt
+**Trigger:** Sprint 3, TKT-0144, Ken approved 2026-05-11
+**What changed:** P1 fixes: Midday Cost Tracker → systemEvent (was gemma4:e2b agentTurn). Duplicate backup cron 01aaa54f disabled (systemEvent 80c9226b retained). lightContext:true added to 11 isolated agentTurn crons: Relay Poller (5min), Allowlist Sync (30min), Fallback Chain (1hr), Burn Alert, OpenClaw Release Monitor, Shield daily sweep, Lex daily sweep, Sage daily sweep, Memory Hygiene, Backup Health Check, Morning Standup. Bug fixes: Backup Health stale 2026-05-08 timestamp removed, Spark Wed edit→write rule enforced, Standup tilde path → absolute.
+**Why:** L-022 token efficiency principle. Est savings: ~1.8M tokens/day from lightContext on high-frequency crons (Relay Poller 288x/day × 5k tokens saved = 1.44M tokens/day alone).
+**Verification:** 14 crons updated live via cron tool. Changes active immediately.
+**Rollback:** Revert individual cron payloads via cron update if context needed.
+**Linked:** TKT-0144
+---
