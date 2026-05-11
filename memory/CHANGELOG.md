@@ -84,6 +84,18 @@ This log captures **every change** Yoda makes to AInchors infrastructure, config
 **Linked:** decisions.md 2026-04-27 entries
 ---
 
+## 2026-05-11 23:18 AEST — [CHG-0277] Option B: Tiered memory split — MEMORY.md + MEMORY_TICKETS.md + MEMORY_DECISIONS.md
+**Type:** data
+**Source:** ken-prompt
+**Trigger:** MEMORY.md hitting 20k+ — Ken approved Option B 2026-05-11
+**What changed:** Split MEMORY.md into 3 tiers with auto-heal size caps. Raised TKT-0153 + TRIGGER-13 for Option D (semantic store post-OC2).
+**Why:** Structural fix: ticket accumulation was primary growth driver.
+**Verification:** MEMORY.md=9.9k, MEMORY_TICKETS.md=2.8k, MEMORY_DECISIONS.md=2.7k. All within limits.
+**Rollback:** Merge sub-files back into MEMORY.md
+**Linked:** none
+---
+
+
 ## 2026-05-10 20:43 AEST — [CHG-0272] Option C Decision 6B: Two-layer RULES architecture — YODA_RUNBOOK.md + YODA_RULES.md
 **Type:** rule
 **Source:** ken-prompt

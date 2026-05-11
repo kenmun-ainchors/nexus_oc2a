@@ -314,23 +314,39 @@ else
   log "  SKIP: telegram-routing-audit.sh not found"
 fi
 
-# ---------- CHECK 14: MEMORY.md + SOUL.md size guard ----------
-log "CHECK 14: bootstrap file size guard"
+# ---------- CHECK 14: MEMORY.md + tiered memory files size guard ----------
+log "CHECK 14: bootstrap file size guard (tiered memory: Option B)"
 CHECKS_RUN+=("bootstrap_size")
-BOOTSTRAP_MAX=15000
-MEMORY_FILE="$WORKSPACE/MEMORY.md"
-if [[ -f "$MEMORY_FILE" ]]; then
-  MEMORY_SIZE=$(wc -c < "$MEMORY_FILE" | tr -d ' ')
-  if (( MEMORY_SIZE > BOOTSTRAP_MAX )); then
-    ISSUES_FOUND+=("memory_md_oversized")
-    NEEDS_KEN+=("MEMORY.md is ${MEMORY_SIZE} chars (limit 15000 warning / 20000 hard). Trim before next session or increase bootstrapMaxChars.")
-    log "  WARN: MEMORY.md ${MEMORY_SIZE} chars > ${BOOTSTRAP_MAX} warning threshold"
+# Tiered limits: MEMORY.md ≤10k (warn 8k), MEMORY_TICKETS.md ≤8k, MEMORY_DECISIONS.md ≤6k
+declare -A MEM_FILES MEM_WARN MEM_HARD
+MEM_FILES=([MEMORY.md]="$WORKSPACE/MEMORY.md" [MEMORY_TICKETS.md]="$WORKSPACE/MEMORY_TICKETS.md" [MEMORY_DECISIONS.md]="$WORKSPACE/MEMORY_DECISIONS.md")
+MEM_WARN=([MEMORY.md]=8000 [MEMORY_TICKETS.md]=6000 [MEMORY_DECISIONS.md]=5000)
+MEM_HARD=([MEMORY.md]=10000 [MEMORY_TICKETS.md]=8000 [MEMORY_DECISIONS.md]=6000)
+for fname in MEMORY.md MEMORY_TICKETS.md MEMORY_DECISIONS.md; do
+  fpath="${MEM_FILES[$fname]}"
+  fwarn="${MEM_WARN[$fname]}"
+  fhard="${MEM_HARD[$fname]}"
+  if [[ -f "$fpath" ]]; then
+    fsize=$(wc -c < "$fpath" | tr -d ' ')
+    if (( fsize > fhard )); then
+      ISSUES_FOUND+=("${fname}_hard_limit")
+      NEEDS_KEN+=("${fname} is ${fsize} chars — OVER hard limit ${fhard}. Trim immediately.")
+      log "  ERROR: ${fname} ${fsize} chars > hard limit ${fhard}"
+    elif (( fsize > fwarn )); then
+      ISSUES_FOUND+=("${fname}_warn")
+      NEEDS_KEN+=("${fname} is ${fsize} chars (warn ${fwarn} / hard ${fhard}). Trim soon.")
+      log "  WARN: ${fname} ${fsize} chars > warn threshold ${fwarn}"
+    else
+      log "  OK: ${fname} ${fsize} chars (warn ${fwarn} / hard ${fhard})"
+    fi
   else
-    log "  OK: MEMORY.md ${MEMORY_SIZE} chars (threshold ${BOOTSTRAP_MAX})"
+    if [[ "$fname" == "MEMORY.md" ]]; then
+      log "  SKIP: ${fname} not found"
+    else
+      log "  OK: ${fname} not yet created (optional)"
+    fi
   fi
-else
-  log "  SKIP: MEMORY.md not found"
-fi
+done
 # Check SOUL.md sizes for all agents
 for SOUL in "$WORKSPACE/SOUL.md" \
             "$HOME/.openclaw/workspace-business/SOUL.md" \

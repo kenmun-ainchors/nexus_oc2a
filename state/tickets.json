@@ -1,5 +1,5 @@
 {
-  "sequence": 153,
+  "sequence": 154,
   "tickets": [
     {
       "id": "TKT-0104",
@@ -1017,6 +1017,26 @@
       },
       "notes": "AC ADD-ON (2026-05-11 Ken): Full Test Lifecycle must be covered. Framework must address all phases and artefacts: (1) Test Strategy — overall approach, scope, tools, agent roles per stream; (2) Test Planning — test plan per sprint/release, entry/exit criteria, resource allocation; (3) Test Preparation — environment setup, test data, preconditions; (4) Test Case Creation — format, ownership, traceability to AC/requirements; (5) Test Automation and Execution — automated vs manual split, agent-driven execution, results capture; (6) Test Summary Report — pass/fail counts, coverage, defect log, sign-off. Testing phases to cover: UT (Unit Test), SIT (System Integration Test), UAT (User Acceptance Test), Pre-Prod (optional regression gate), PROD Validation (post-deploy smoke). Both tech and business stream must map each phase to the responsible agent and human approver.",
       "notionPageId": "35dc1829-53ff-81f5-87da-f3c5155b6bdb"
+    },
+    {
+      "id": "TKT-0153",
+      "title": "Semantic Memory Store — Vector/JSON memory on MinIO (Option D)",
+      "type": "task",
+      "priority": "high",
+      "status": "open",
+      "requester": "Ken",
+      "assignee": "Yoda",
+      "created": "2026-05-11T23:15:29+10:00",
+      "updated": "2026-05-11T23:15:29+10:00",
+      "description": "Replace MEMORY.md file-based memory with a searchable semantic store on MinIO. Yoda retrieves only relevant context per session. No fixed file size limit. Long-term replacement for Option B (tiered MEMORY split). Requires OC2 + MinIO validated. Trigger: TRIGGER-13 (post OC2-stable + MinIO proven in prod for 2 sprints).",
+      "resolution": null,
+      "linked": {
+        "us": [],
+        "inc": [],
+        "chg": []
+      },
+      "notes": "",
+      "notionPageId": "35dc1829-53ff-816f-9d11-d5c57de790b8"
     }
   ]
 }
