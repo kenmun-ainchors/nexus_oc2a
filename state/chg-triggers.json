@@ -6,7 +6,7 @@
     "TRIGGER-01": {
       "name": "OC2 arrival",
       "condition": "OC2-A or OC2-B physically arrives",
-      "detection": "manual — Ken notifies Yoda",
+      "detection": "manual \u2014 Ken notifies Yoda",
       "action": "10-step setup sequence: Ollama config, Gemma4 install, Tailscale mesh, OpenClaw config update, HA validation",
       "eta": "July 2026",
       "status": "pending",
@@ -33,7 +33,7 @@
     "TRIGGER-02": {
       "name": "Both OC2 nodes live",
       "condition": "OC2-A and OC2-B both online and validated",
-      "detection": "manual — validated after TRIGGER-01 complete for both nodes",
+      "detection": "manual \u2014 validated after TRIGGER-01 complete for both nodes",
       "action": "Activate HA architecture. Configure NAS shared state.",
       "status": "pending",
       "firedAt": null
@@ -41,7 +41,7 @@
     "TRIGGER-03": {
       "name": "Gemma4 validated on OC2",
       "condition": "Gemma4:26b confirmed running on OC2 at acceptable performance",
-      "detection": "auto — check after TRIGGER-01 completes",
+      "detection": "auto \u2014 check after TRIGGER-01 completes",
       "action": "Switch Shield/Lex/Sage/Warden from Haiku to Gemma4:26b local (Tier 1)",
       "status": "pending",
       "firedAt": null
@@ -49,7 +49,7 @@
     "TRIGGER-04": {
       "name": "OpenClaw security patch",
       "condition": "New OpenClaw version released with security fix",
-      "detection": "automated — daily cron checks github.com/openclaw/openclaw/releases",
+      "detection": "automated \u2014 daily cron checks github.com/openclaw/openclaw/releases",
       "action": "Critical CVE: update within 48h. High: within 7 days. Raise CHG. Freeze client onboarding if P1.",
       "cronId": null,
       "currentVersion": "2026.5.5",
@@ -71,13 +71,13 @@
       "status": "passed-phase6-implemented",
       "pocSubAgent": "agent:main:subagent:f93145b9-5f9b-43e3-abca-3dca35f19918",
       "firedAt": "2026-05-02T10:13:00+10:00",
-      "note": "Full PoC PASS (CHG-0120). kimi-k2.6:cloud: Q=4.6/5, L=6.8s avg — implemented as Tier 2. glm-5.1: FAIL (thinking mode, 221s+). qwen3.5:cloud: FAIL (42.3s avg with /no_think). Phase 6 implemented. Monthly glm-5.1 no-think check cron active.",
+      "note": "Full PoC PASS (CHG-0120). kimi-k2.6:cloud: Q=4.6/5, L=6.8s avg \u2014 implemented as Tier 2. glm-5.1: FAIL (thinking mode, 221s+). qwen3.5:cloud: FAIL (42.3s avg with /no_think). Phase 6 implemented. Monthly glm-5.1 no-think check cron active.",
       "qwen35Findings": "Quality 4.6/5 OK. Latency 42.3s FAIL (/no_think helped text tasks, not code/tool). Reassessment queued for TRIGGER-01-A (OC2 arrival)."
     },
     "TRIGGER-06": {
       "name": "OpenClaw v4.0 ships",
       "condition": "OpenClaw v4.x release detected",
-      "detection": "automated — same daily release check cron as TRIGGER-04",
+      "detection": "automated \u2014 same daily release check cron as TRIGGER-04",
       "action": "P3 gate assessment. Present Ken with native multi-agent vs CrewAI evaluation within 24h.",
       "status": "monitoring",
       "firedAt": null
@@ -85,7 +85,7 @@
     "TRIGGER-07": {
       "name": "First P2 client",
       "condition": "First paying client onboarded to P2 platform",
-      "detection": "manual — Angie/Ken notifies Yoda",
+      "detection": "manual \u2014 Angie/Ken notifies Yoda",
       "action": "Execute onboarding checklist. Run S1-S7 compliance audit. Ensure Tier 0/1 only for client data.",
       "status": "pending",
       "firedAt": null
@@ -93,7 +93,7 @@
     "TRIGGER-08": {
       "name": "Daily API cost threshold",
       "condition": "Daily API spend exceeds $60 / $80 / $100 USD",
-      "detection": "automated — cost-tracker.sh daily run",
+      "detection": "automated \u2014 cost-tracker.sh daily run",
       "action": "T1 ($60): alert Ken. T2 ($80): escalate. T3 ($100): pause and alert.",
       "thresholds": {
         "t1": 60,
@@ -108,7 +108,7 @@
     "TRIGGER-09": {
       "name": "Warden model drift",
       "condition": "Model drift detected by Warden",
-      "detection": "automated — Warden cron every 15min, escalation via warden-escalation-pending.json",
+      "detection": "automated \u2014 Warden cron every 15min, escalation via warden-escalation-pending.json",
       "action": "Yoda remediates within 1 heartbeat. Log CHG. Alert Ken.",
       "status": "active",
       "notes": "Already implemented. Warden cron id: 83accf7b"
@@ -116,7 +116,7 @@
     "TRIGGER-10": {
       "name": "Business stream migration OC1 to OC2",
       "condition": "OC2 live, Aria + business agents ready to migrate",
-      "detection": "manual — conditional on TRIGGER-02 complete",
+      "detection": "manual \u2014 conditional on TRIGGER-02 complete",
       "action": "Migrate Aria + specialist agents from OC1 to OC2. Update routing. Validate.",
       "status": "pending",
       "firedAt": null
@@ -124,7 +124,7 @@
     "TRIGGER-11": {
       "name": "glm-5.1 no-think mode availability",
       "condition": "Monthly check: has Ollama released a no-think/non-reasoning variant of glm-5.1:cloud?",
-      "detection": "automated — monthly cron checks Ollama model library",
+      "detection": "automated \u2014 monthly cron checks Ollama model library",
       "action": "If no-think mode confirmed available: re-run B2 (coding) and B4 (tool-use) benchmarks with it. If avg latency <=20s and quality >=3.5 -> raise CHG to add as Tier 2 alongside kimi-k2.6. If still fails -> skip month, check again next month.",
       "status": "monitoring",
       "addedDate": "2026-05-02",
@@ -147,9 +147,9 @@
       "notes": "Idempotent -- safe to run on every strategy change. Script exits 0 if already current, 1 if changes applied."
     },
     "TRIGGER-QBR": {
-      "name": "Quarterly QBR — Agent Fleet Review + Orchestrator MD version bump",
+      "name": "Quarterly QBR \u2014 Agent Fleet Review + Orchestrator MD version bump",
       "condition": "Every Jan/Apr/Jul/Oct",
-      "detection": "calendar — recurring ceremony",
+      "detection": "calendar \u2014 recurring ceremony",
       "action": "Run Agent Fleet Review (TKT-0130). Version bump SOUL.md + YODA_RULES.md + ORCHESTRATOR.md. Run Roadmap Refinement ceremony (TKT-0125). Review Cassian Andor (TKT-0109).",
       "status": "recurring",
       "firedAt": null,
@@ -159,11 +159,11 @@
     },
     "TRIGGER-13": {
       "name": "Semantic Memory Store Go-Live",
-      "description": "OC2 stable + MinIO proven in prod for 2 sprints → activate TKT-0153 semantic memory store. Deprecates MEMORY_TICKETS.md + MEMORY_DECISIONS.md (Option B).",
+      "description": "OC2 stable + MinIO proven in prod for 2 sprints \u2192 activate TKT-0153 semantic memory store. Deprecates MEMORY_TICKETS.md + MEMORY_DECISIONS.md (Option B).",
       "status": "pending",
       "gate": "OC2 commissioned + MinIO in prod 2+ sprints",
       "tkt": "TKT-0153",
-      "detectionMethod": "manual — Yoda flags when gate conditions met",
+      "detectionMethod": "manual \u2014 Yoda flags when gate conditions met",
       "actions": [
         "Build memory_store.sh + memory_search.sh",
         "Migrate MEMORY_TICKETS.md + MEMORY_DECISIONS.md to store",

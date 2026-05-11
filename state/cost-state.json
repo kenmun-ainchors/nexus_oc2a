@@ -1,5 +1,5 @@
 {
-  "lastUpdated": "2026-05-11T07:10:38Z",
+  "lastUpdated": "2026-05-11T13:55:20Z",
   "history": {
     "2026-04-25": {
       "date": "2026-04-25",
@@ -623,57 +623,49 @@
     },
     "2026-05-11": {
       "date": "2026-05-11",
-      "totalCost": 120.5296,
-      "totalTurns": 3680,
-      "totalInputTokens": 4618715,
-      "totalOutputTokens": 991432,
-      "totalCacheReadTokens": 116972382,
-      "totalCacheWriteTokens": 20495613,
+      "totalCost": 90.7272,
+      "totalTurns": 4417,
+      "totalInputTokens": 2063852,
+      "totalOutputTokens": 1160498,
+      "totalCacheReadTokens": 76748121,
+      "totalCacheWriteTokens": 15607655,
       "source": "session-log-estimate",
       "note": "Session log estimate. usage.cost.total includes cacheWrite charges. CHG-0097: confirmed cost includes cache writes.",
       "byModel": {
         "claude-sonnet-4-6": {
-          "input": 4616,
-          "output": 833231,
-          "cacheRead": 107078222,
-          "cacheWrite": 19423651,
-          "cost": 117.4745,
-          "turns": 2536
+          "input": 5494,
+          "output": 955307,
+          "cacheRead": 63602152,
+          "cacheWrite": 14201766,
+          "cost": 86.6834,
+          "turns": 2868
         },
         "claude-haiku-4-5": {
-          "input": 12271,
-          "output": 142706,
-          "cacheRead": 9894160,
-          "cacheWrite": 1071962,
-          "cost": 3.0552,
-          "turns": 1072
+          "input": 17180,
+          "output": 190944,
+          "cacheRead": 13145969,
+          "cacheWrite": 1405889,
+          "cost": 4.0439,
+          "turns": 1503
         },
         "deepseek-v4-pro:cloud": {
-          "input": 1862927,
-          "output": 12712,
+          "input": 2041178,
+          "output": 14247,
           "cacheRead": 0,
           "cacheWrite": 0,
           "cost": 0.0,
-          "turns": 34
-        },
-        "kimi-k2.6:cloud": {
-          "input": 2738901,
-          "output": 2783,
-          "cacheRead": 0,
-          "cacheWrite": 0,
-          "cost": 0.0,
-          "turns": 38
+          "turns": 46
         }
       }
     }
   },
-  "allTimeTotalCost": 2725.9343,
+  "allTimeTotalCost": 2696.1319,
   "daysTracked": 17,
-  "avgDailyCost": 160.3491,
+  "avgDailyCost": 158.596,
   "apiBalance": {
     "remainingEstimate": 0,
-    "spentSinceTopUp": 2725.9343,
-    "remainingNote": "confirmedBalance=None at 2026-05-08; spentAfter=2725.9343",
+    "spentSinceTopUp": 2696.1319,
+    "remainingNote": "confirmedBalance=None at 2026-05-08; spentAfter=2696.1319",
     "confirmedAt": "2026-05-08T11:32:26Z",
     "note": "Auto-reload triggered 2026-05-10. Balance $425.12 post-reload spend.",
     "lastUpdated": "2026-05-10T15:25:58.923445+10:00",
