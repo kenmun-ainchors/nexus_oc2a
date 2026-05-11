@@ -32,7 +32,7 @@
       "file": "/Users/ainchorsangiefpl/.openclaw/openclaw.json",
       "jq_query": ".agents.defaults.model.fallbacks | tostring",
       "expected_value": "[\"anthropic/claude-haiku-4-5\"]",
-      "rationale": "CHG-0075 TKT-0022: Opus removed from auto-fallback \u2014 deliberate escalation only. Aria (business agent) prohibits Opus and Gemma4 in interactive. Global defaults must be Aria-safe. Approved Ken 2026-04-29.",
+      "rationale": "CHG-0075 TKT-0022: Opus removed from auto-fallback — deliberate escalation only. Aria (business agent) prohibits Opus and Gemma4 in interactive. Global defaults must be Aria-safe. Approved Ken 2026-04-29.",
       "fix_command": "edit ~/.openclaw/openclaw.json: agents.defaults.model.fallbacks = [\"anthropic/claude-haiku-4-5\"]"
     },
     {
@@ -82,7 +82,7 @@
       "file": "/Users/ainchorsangiefpl/.openclaw/openclaw.json",
       "jq_query": ".agents.list[] | select(.id==\"business\") | .model",
       "expected_value": "anthropic/claude-sonnet-4-6",
-      "rationale": "Option C decision 2026-04-27 21:18 AEST: Gemma4 cold-load (26B params) caused 30-60s freezes on every Aria Telegram response. Sonnet is always-on cloud \u2014 no cold-load, no RAM spike. Gemma4 remains available for background crons only.",
+      "rationale": "Option C decision 2026-04-27 21:18 AEST: Gemma4 cold-load (26B params) caused 30-60s freezes on every Aria Telegram response. Sonnet is always-on cloud — no cold-load, no RAM spike. Gemma4 remains available for background crons only.",
       "fix_command": "edit openclaw.json: agents.list[id=business].model = anthropic/claude-sonnet-4-6"
     },
     {
@@ -144,6 +144,15 @@
       "expected_value": "true",
       "rationale": "Haiku 4.5 is Tier 2 model (3x cheaper than Sonnet). Must be registered for cron routing. TKT-0014.",
       "fix_command": "Add anthropic/claude-haiku-4-5 to openclaw.json agents.defaults.models"
+    },
+    {
+      "id": "AGENT-MODEL-NULL",
+      "name": "No agent has model=null in openclaw.json",
+      "file": "/Users/ainchorsangiefpl/.openclaw/openclaw.json",
+      "jq_query": "[.agents.list[] | select(.model == null)] | length",
+      "expected_value": "0",
+      "severity": "critical",
+      "fix_command": "Set explicit model on all agents in openclaw.json. Run: jq .agents.list[].id ~/.openclaw/openclaw.json"
     }
   ]
 }
