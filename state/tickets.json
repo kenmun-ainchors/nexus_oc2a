@@ -1,5 +1,5 @@
 {
-  "sequence": 145,
+  "sequence": 150,
   "tickets": [
     {
       "id": "TKT-0104",
@@ -412,7 +412,7 @@
       "requester": "Ken",
       "assignee": "Yoda",
       "created": "2026-05-10T09:30:31+10:00",
-      "updated": "2026-05-10T14:20:28.341034+10:00",
+      "updated": "2026-05-11T10:21:05+10:00",
       "description": "Deploy MinIO on OC1 as S3-compatible interim object store. Goal: bridge remote file access gap before P2 AWS S3 deployment. Addresses generated images and blobs not accessible from Windows/external devices via Tailscale. Expanding use beyond Ken to Angie staff in Malaysia makes this urgent. Scope: (1) MinIO in Docker on OC1, (2) bucket structure per Atlas P2 blob design, (3) presigned URL helper script, (4) update hf-generate-image.sh to store to MinIO + return presigned URL, (5) Tailscale Serve path for MinIO API. Upstream: Atlas DataMemory_P1P4_Roadmap.md P2 blob design. Replaces filesystem MEDIA paths with presigned URLs accessible to all Tailscale peers.",
       "resolution": null,
       "linked": {
@@ -420,8 +420,11 @@
         "inc": [],
         "chg": []
       },
-      "notes": "HYBRID STORAGE DECISION 2026-05-10 Ken: Google Drive=human layer (live), MinIO=agent layer only. P2 unchanged (full S3). MinIO buckets: agent-memory, generated-media, workspace-assets, brand-code. Documents/business-docs -> Drive. | Sprint 3 COMMITTED — Ken confirmed 2026-05-10.",
-      "notionPageId": "35cc1829-53ff-815a-b9ca-f3a56796697b"
+      "notes": "HYBRID STORAGE DECISION 2026-05-10 Ken: Google Drive=human layer (live), MinIO=agent layer only. P2 unchanged (full S3). MinIO buckets: agent-memory, generated-media, workspace-assets, brand-code. Documents/business-docs -> Drive. | Sprint 3 COMMITTED — Ken confirmed 2026-05-10. | Sprint 3 (12–18 May 2026)",
+      "notionPageId": "35cc1829-53ff-815a-b9ca-f3a56796697b",
+      "sprint": 3,
+      "sprintLabel": "Sprint 3 (12–18 May 2026)",
+      "updatedAt": "2026-05-11T00:21:21.536Z"
     },
     {
       "id": "TKT-0125",
@@ -643,7 +646,7 @@
       "requester": "Ken",
       "assignee": "Yoda",
       "created": "2026-05-10T14:17:52+10:00",
-      "updated": "2026-05-10T14:20:28.341045+10:00",
+      "updated": "2026-05-11T10:21:06+10:00",
       "description": "Design and build an isolated sandbox environment for showcase, demo, PoC and potential client/investor testing. Requirements: (1) ISOLATED — zero data sharing with production OC1 platform, no shared state, no cross-contamination. (2) EPHEMERAL — spun up on demand, destroyed completely after use. No persistent data after teardown. (3) MANAGED — elegant spin-up process (single command or Yoda-triggered), pre-configured with demo data/agents, destroys cleanly with verification. (4) CONTAINED — own network namespace, own credential scope, own OpenClaw instance or sandboxed session. Should not be possible to accidentally touch production from sandbox. Architecture options to assess: Docker-based isolated OpenClaw instance, VM snapshot, separate OpenClaw agent profile with sandbox mode, or OC2 dedicated sandbox tenant. Deliverables: (a) Architecture assessment (Atlas), (b) Spin-up/teardown scripts, (c) Demo data/agent configuration, (d) Verification checklist post-teardown. Trigger: Ken/Angie request for demo or PoC. Atlas to assess architecture before build.",
       "resolution": null,
       "linked": {
@@ -651,8 +654,11 @@
         "inc": [],
         "chg": []
       },
-      "notes": " | Sprint 3 COMMITTED — Ken confirmed 2026-05-10.",
-      "notionPageId": "35cc1829-53ff-81b6-a95e-d7c8367f7d5a"
+      "notes": " | Sprint 3 COMMITTED — Ken confirmed 2026-05-10. | Sprint 3 (12–18 May 2026)",
+      "notionPageId": "35cc1829-53ff-81b6-a95e-d7c8367f7d5a",
+      "sprint": 3,
+      "sprintLabel": "Sprint 3 (12–18 May 2026)",
+      "updatedAt": "2026-05-11T00:21:21.540Z"
     },
     {
       "id": "TKT-0136",
@@ -770,7 +776,7 @@
       "requester": "Ken",
       "assignee": "Yoda",
       "created": "2026-05-10T17:27:10+10:00",
-      "updated": "2026-05-10T17:39:41+10:00",
+      "updated": "2026-05-11T10:21:06+10:00",
       "description": "VentureBeat/VentureBeast report (2026-05-05) documents CLI-Anything: a tool that generates SKILL.md files from any open-source repo's source code, enabling AI agents (including OpenClaw) to operate any repo with a single command. OpenClaw is explicitly named as a supported platform. Risk: attackers submit poisoned repos or SKILL.md files that agents ingest and trust as operational directives. No mainstream SAST/SCA scanner has a detection category for malicious agent instruction files. Actions required: (1) Inventory all SKILL.md files in use on OC1 — document source, author, review status for each. (2) Prohibit use of CLI-Anything or any auto-generated skill tools on production OC1. (3) Establish formal skill intake SOP: any new SKILL.md must pass Shield + Sage review AND be from a verified, known source before installation. (4) Check if any existing plugin-skills or workspace skills were sourced from unverified third parties. (5) Evaluate Cisco open-source Skill Scanner and Snyk mcp-scan for agent-layer scanning. Owner: Shield (security review), Yoda (operational). Ken approves any new controls. Reference: VentureBeat CLI-Anything article + Snyk ToxicSkills research (13.4% of 3,984 ClawHub skills had critical security issues).",
       "resolution": null,
       "linked": {
@@ -778,8 +784,11 @@
         "inc": [],
         "chg": []
       },
-      "notes": "2026-05-10 17:39 Ken: Atlas to assess CLI-Anything as a potential component for future phases. Assess: suitability, use cases for AInchors P2-P4, integration with Nexus, risk posture vs opportunity. Separate from the security threat angle — this is the strategic opportunity assessment.",
-      "notionPageId": "35cc1829-53ff-8101-8608-f2fd159ec227"
+      "notes": "2026-05-10 17:39 Ken: Atlas to assess CLI-Anything as a potential component for future phases. Assess: suitability, use cases for AInchors P2-P4, integration with Nexus, risk posture vs opportunity. Separate from the security threat angle — this is the strategic opportunity assessment. | Sprint 3 (12–18 May 2026)",
+      "notionPageId": "35cc1829-53ff-8101-8608-f2fd159ec227",
+      "sprint": 3,
+      "sprintLabel": "Sprint 3 (12–18 May 2026)",
+      "updatedAt": "2026-05-11T00:21:21.540Z"
     },
     {
       "id": "TKT-0142",
@@ -790,7 +799,7 @@
       "requester": "Ken",
       "assignee": "Yoda",
       "created": "2026-05-10T17:27:30+10:00",
-      "updated": "2026-05-10T17:37:28+10:00",
+      "updated": "2026-05-11T10:21:06+10:00",
       "description": "ToxicSkills research (Snyk, Feb 2026) found 76 confirmed malicious payloads across ClawHub and skills.sh. 13.4% of 3,984 scanned agent skills had at least one critical security issue. ClawHavoc campaign (Koi Security Jan 2026, expanded by Antiy CERT): 1,184 compromised packages on ClawHub delivering Atomic Stealer via skill definitions with professional documentation. DDIPE attack technique (Hong Kong/NTU/UNSW/Tokyo, April 2026): embeds malicious logic inside code examples in skill documentation — achieves 2.5% full evasion rate against all detection layers. AInchors context: S3 control ('no ClawHub skills, custom-built only') is a partial control. We have custom SKILL.md files in plugin-skills/ and workspace skills/ that have never been formally audited. Actions required: (1) Audit all existing custom SKILL.md files on OC1 — scan for embedded instructions that could execute as operational directives (look for: shell commands in examples, credential references, network calls, exfiltration patterns). (2) Define formal SKILL.md review checklist — what Shield and Sage must verify before any skill is used. (3) Update S3 control to explicitly include: no unreviewed SKILL.md regardless of source. (4) Evaluate Cisco Skill Scanner (open-source) and Snyk mcp-scan for automated skill scanning. (5) Document all approved skills in a skill registry with: source, author, review date, reviewer. (6) Add skill intake to governance gate — any new skill = Shield + Sage mandatory review before installation. Owner: Shield (security), Lex (policy update for S3), Yoda (operational). Ken approves.",
       "resolution": null,
       "linked": {
@@ -798,8 +807,11 @@
         "inc": [],
         "chg": []
       },
-      "notes": "2026-05-10: Skill Installation Policy v1.0 written (docs/Skill-Installation-Policy-v1.0.md). audit-skill.sh built with 9 security checks (BLOCK/FLAG). skill-registry.json seeded with 63 existing skills (10 workspace + 53 bundled). RULES.md updated with non-negotiable gate. Formal SOP + registry = controls in place. Remaining: TKT-0137 (Policy Register) to include this as POL-011.",
-      "notionPageId": "35cc1829-53ff-817e-9407-d3c4295f20e6"
+      "notes": "2026-05-10: Skill Installation Policy v1.0 written (docs/Skill-Installation-Policy-v1.0.md). audit-skill.sh built with 9 security checks (BLOCK/FLAG). skill-registry.json seeded with 63 existing skills (10 workspace + 53 bundled). RULES.md updated with non-negotiable gate. Formal SOP + registry = controls in place. Remaining: TKT-0137 (Policy Register) to include this as POL-011. | Sprint 3 (12–18 May 2026)",
+      "notionPageId": "35cc1829-53ff-817e-9407-d3c4295f20e6",
+      "sprint": 3,
+      "sprintLabel": "Sprint 3 (12–18 May 2026)",
+      "updatedAt": "2026-05-11T00:21:21.540Z"
     },
     {
       "id": "TKT-0143",
@@ -832,7 +844,7 @@
       "requester": "Ken",
       "assignee": "Yoda",
       "created": "2026-05-10T20:32:50+10:00",
-      "updated": "2026-05-10T20:32:50+10:00",
+      "updated": "2026-05-11T10:21:07+10:00",
       "description": "Perpetual CI activity (monthly) to audit all crons for token efficiency. Principles from L-022: (1) Shell-first: tasks with no reasoning → systemEvent/wrapper script, no agentTurn. (2) lightContext:true on all isolated background crons. (3) Script stdout → state files, not LLM context. (4) Model right-sizing: use lowest tier that meets quality bar. (5) Token budget targets per category: monitoring <500/run, compliance <2,000/run, reporting <5,000/run, content <10,000/run. Deliverables: (a) write scripts/token-efficiency-audit.sh to scan all crons and flag any exceeding 2x category target, (b) backfill lightContext:true on all existing eligible crons, (c) identify any current crons that should be converted to systemEvent, (d) add token tracking to obs.db (avg tokens/run per cron). Run monthly. Never-ending CI loop. Reference: L-022, CHG-Warden-fix.",
       "resolution": null,
       "linked": {
@@ -840,8 +852,111 @@
         "inc": [],
         "chg": []
       },
+      "notes": "Sprint 3 (12–18 May 2026)",
+      "notionPageId": "35cc1829-53ff-8114-8341-eee1485f00c3",
+      "sprint": 3,
+      "sprintLabel": "Sprint 3 (12–18 May 2026)",
+      "updatedAt": "2026-05-11T00:21:21.540Z"
+    },
+    {
+      "id": "TKT-0145",
+      "title": "Token Burn Retro — audit all crons/agents for unnecessary context, optimise",
+      "type": "task",
+      "priority": "medium",
+      "status": "open",
+      "requester": "Ken",
+      "assignee": "Yoda",
+      "created": "2026-05-11T10:19:34+10:00",
+      "updated": "2026-05-11T10:19:34+10:00",
+      "description": "Platform-wide token efficiency sweep. Audit every cron and agent: lightContext set? verbose script stdout piped to LLM? systemEvent used where no reasoning needed? Produce report and apply fixes. One-time full sweep, then hands off to TKT-0144 perpetual CI loop. Related: L-022, TKT-0144.",
+      "resolution": null,
+      "linked": {
+        "us": [],
+        "inc": [],
+        "chg": []
+      },
       "notes": "",
-      "notionPageId": "35cc1829-53ff-8114-8341-eee1485f00c3"
+      "notionPageId": "35dc1829-53ff-81cd-a987-deb53d0f6531"
+    },
+    {
+      "id": "TKT-0146",
+      "title": "Backup optimisation — incremental daily, full weekly",
+      "type": "task",
+      "priority": "medium",
+      "status": "open",
+      "requester": "Ken",
+      "assignee": "Yoda",
+      "created": "2026-05-11T10:19:50+10:00",
+      "updated": "2026-05-11T10:19:50+10:00",
+      "description": "Current: full backup daily. Target: incremental daily (changed files only) + full backup weekly (Sunday). Goals: reduce time, storage, maintain full recovery point. Forge owns. Review backup scripts, assess rsync --link-dest or equivalent, confirm retention policy, implement, test restore.",
+      "resolution": null,
+      "linked": {
+        "us": [],
+        "inc": [],
+        "chg": []
+      },
+      "notes": "",
+      "notionPageId": "35dc1829-53ff-81a6-8bb9-efd4505ebec8"
+    },
+    {
+      "id": "TKT-0147",
+      "title": "TOM specialist agent gap analysis — consulting and training stream",
+      "type": "task",
+      "priority": "medium",
+      "status": "open",
+      "requester": "Ken",
+      "assignee": "Yoda",
+      "created": "2026-05-11T10:19:51+10:00",
+      "updated": "2026-05-11T10:19:51+10:00",
+      "description": "Review agent TOM and identify specialist agents needed for consulting/training delivery: slide creation, training decks, proposals, scripts. Map each to: capability, model tier, governance requirements, build priority relative to P2. Atlas leads EA, Yoda reviews output.",
+      "resolution": null,
+      "linked": {
+        "us": [],
+        "inc": [],
+        "chg": []
+      },
+      "notes": "",
+      "notionPageId": "35dc1829-53ff-8100-b728-c69ae6db4673"
+    },
+    {
+      "id": "TKT-0148",
+      "title": "Extend TKT-0134 AC — best model by persona/use case for KL team + clients on Ollama Cloud; paid model approval workflow",
+      "type": "task",
+      "priority": "medium",
+      "status": "open",
+      "requester": "Ken",
+      "assignee": "Yoda",
+      "created": "2026-05-11T10:19:52+10:00",
+      "updated": "2026-05-11T10:19:52+10:00",
+      "description": "Extends TKT-0134. AC items to refine with Ken: (1) Identify highest capability Ollama Cloud model per persona and use case for KL team and client engagements. (2) Design workflow-approval gate for using paid/premium models (eg Sonnet) on high-value/complex work — specialist agents creating client content. AC NEEDS GROOMING WITH KEN before execution.",
+      "resolution": null,
+      "linked": {
+        "us": [],
+        "inc": [],
+        "chg": []
+      },
+      "notes": "",
+      "notionPageId": "35dc1829-53ff-816d-b896-e5f255f59be5"
+    },
+    {
+      "id": "TKT-0149",
+      "title": "Aria MD gap analysis — update Aria SOUL.md/RULES.md taking cue from Yoda CHG-0271/0272",
+      "type": "task",
+      "priority": "medium",
+      "status": "open",
+      "requester": "Ken",
+      "assignee": "Yoda",
+      "created": "2026-05-11T10:19:52+10:00",
+      "updated": "2026-05-11T10:19:52+10:00",
+      "description": "Mirror the Yoda MD restructure (CHG-0271/0272) for Aria. Review Aria's current SOUL.md, RULES.md, and companion docs. Identify gaps vs the two-layer architecture pattern (strategic reference + operational runbook). Produce gap analysis, propose Option A/B/C to Ken/Angie, implement approved option. Aria stream: Angie must approve changes to Aria's MD.",
+      "resolution": null,
+      "linked": {
+        "us": [],
+        "inc": [],
+        "chg": []
+      },
+      "notes": "",
+      "notionPageId": "35dc1829-53ff-8184-9d5c-e70f00f28762"
     }
   ]
 }
