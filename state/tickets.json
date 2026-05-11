@@ -1007,7 +1007,7 @@
       "requester": "Ken",
       "assignee": "Yoda",
       "created": "2026-05-11T13:15:08+10:00",
-      "updated": "2026-05-11T13:15:08+10:00",
+      "updated": "2026-05-11T13:19:12+10:00",
       "description": "Develop the AInchors Agentic Testing Framework and Testing Process Model. Covers: (1) Framework design — how testing is done across technology and business streams with AI agents. (2) Squad model — voice of quality. Day 1 fixed agents (Sage QA, Shield security, Lex legal) + future ephemeral testing squads. (3) Process model — test types (unit, integration, UAT, governance gate, regression), ownership per stream, DoD quality gates. (4) Business stream testing: Aria-led, Angie approves. Technology stream testing: Yoda/Sage-led, Ken approves. (5) Extends Sanctum protocol (Shield/Lex/Sage triad) into a full testing framework. Outputs: docs/Agentic_Testing_Framework_v1.md. Ken approves before execution.",
       "resolution": null,
       "linked": {
@@ -1015,7 +1015,7 @@
         "inc": [],
         "chg": []
       },
-      "notes": "",
+      "notes": "AC ADD-ON (2026-05-11 Ken): Full Test Lifecycle must be covered. Framework must address all phases and artefacts: (1) Test Strategy — overall approach, scope, tools, agent roles per stream; (2) Test Planning — test plan per sprint/release, entry/exit criteria, resource allocation; (3) Test Preparation — environment setup, test data, preconditions; (4) Test Case Creation — format, ownership, traceability to AC/requirements; (5) Test Automation and Execution — automated vs manual split, agent-driven execution, results capture; (6) Test Summary Report — pass/fail counts, coverage, defect log, sign-off. Testing phases to cover: UT (Unit Test), SIT (System Integration Test), UAT (User Acceptance Test), Pre-Prod (optional regression gate), PROD Validation (post-deploy smoke). Both tech and business stream must map each phase to the responsible agent and human approver.",
       "notionPageId": "35dc1829-53ff-81f5-87da-f3c5155b6bdb"
     }
   ]
