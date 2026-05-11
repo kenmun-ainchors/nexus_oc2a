@@ -105,6 +105,7 @@ _Author: Yoda 🟢 | For: Ken Mun (CTO) | Private — personal review only_
 ## Hard Rules
 
 1. **Verbatim is verbatim.** Quote Ken's prompts exactly with `> "..."`. No paraphrasing, no cleaning up typos, no merging messages. Each separate Telegram or webchat message gets its own `> "..."` line.
+   **No truncation. Ever.** If Ken's prompt is 1,000 characters, quote all 1,000. Do NOT end a quote with `...` or cut it short. When extracting from session transcripts, read the full message content — do not apply any `.substring()`, character limit, or preview cap. A truncated verbatim is not verbatim.
 
 2. **Chronological order.** No re-ordering for narrative. The log follows the clock.
 
