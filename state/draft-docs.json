@@ -10,7 +10,15 @@
       "producedAt": "2026-05-08",
       "linkedTicket": "TKT-0104",
       "status": "draft",
-      "openDecisions": ["DEC-005","DEC-006","DEC-007","DEC-008","DEC-009","DEC-010","DEC-011"],
+      "openDecisions": [
+        "DEC-005",
+        "DEC-006",
+        "DEC-007",
+        "DEC-008",
+        "DEC-009",
+        "DEC-010",
+        "DEC-011"
+      ],
       "note": "Material decisions Q1/Q8/Q9 confirmed. 7 remaining open decisions must close before APPROVED."
     },
     {
@@ -19,9 +27,20 @@
       "producedBy": "Atlas",
       "producedAt": "2026-05-08",
       "linkedTicket": "TKT-0046",
-      "status": "draft",
-      "openDecisions": ["DEC-001","DEC-002","DEC-003","DEC-004"],
-      "note": "Decisions A/B/G/H confirmed. 4 remaining open decisions must close before APPROVED."
+      "status": "conditional-revision",
+      "openDecisions": [
+        "DEC-001",
+        "DEC-002",
+        "DEC-003",
+        "DEC-004"
+      ],
+      "note": "Decisions A/B/G/H confirmed. 4 remaining open decisions must close before APPROVED.",
+      "kenReviewedAt": "2026-05-11T23:38+10:00",
+      "kenVerdict": "CONDITIONAL — 2 supplements required before resubmission",
+      "supplementsRequired": [
+        "SUP-1: Re-review and update with Gemma4:31b test results (blocked on TKT-0134, auto-fire ~2026-05-18)",
+        "SUP-2: OC2 HA design — blue-green architecture for updates/patches: success=deploy across, fail=rollback"
+      ]
     },
     {
       "id": "DRAFT-003",
@@ -30,9 +49,20 @@
       "producedAt": "2026-05-07",
       "amendedAt": "2026-05-08",
       "linkedTicket": "TKT-0046",
-      "status": "draft",
-      "openDecisions": ["DEC-001","DEC-002","DEC-003","DEC-004"],
-      "note": "RETROSPECTIVE GAP. Atlas EA working doc. Amended CHG-0234. Never formally approved by Ken. Closes with DRAFT-002."
+      "status": "conditional-revision",
+      "openDecisions": [
+        "DEC-001",
+        "DEC-002",
+        "DEC-003",
+        "DEC-004"
+      ],
+      "note": "RETROSPECTIVE GAP. Atlas EA working doc. Amended CHG-0234. Never formally approved by Ken. Closes with DRAFT-002.",
+      "kenReviewedAt": "2026-05-11T23:38+10:00",
+      "kenVerdict": "CONDITIONAL — 2 supplements required before resubmission",
+      "supplementsRequired": [
+        "SUP-1: Re-review and update with Gemma4:31b test results (blocked on TKT-0134, auto-fire ~2026-05-18)",
+        "SUP-2: OC2 HA design — blue-green architecture for updates/patches: success=deploy across, fail=rollback"
+      ]
     },
     {
       "id": "DRAFT-004",
@@ -41,9 +71,15 @@
       "producedAt": "2026-05-07",
       "amendedAt": "2026-05-08",
       "linkedTicket": "TKT-0046",
-      "status": "draft",
+      "status": "conditional-revision",
       "openDecisions": [],
-      "note": "RETROSPECTIVE GAP. Thrawn platform doc. Amended CHG-0234 for P3 redefinition. Requires Ken review and acceptance. No blocking decisions — can close independently."
+      "note": "RETROSPECTIVE GAP. Thrawn platform doc. Amended CHG-0234 for P3 redefinition. Requires Ken review and acceptance. No blocking decisions — can close independently.",
+      "kenReviewedAt": "2026-05-11T23:38+10:00",
+      "kenVerdict": "CONDITIONAL — 2 supplements required before resubmission",
+      "supplementsRequired": [
+        "SUP-1: Re-review and update with Gemma4:31b test results (blocked on TKT-0134, auto-fire ~2026-05-18)",
+        "SUP-2: OC2 HA design — blue-green architecture for updates/patches: success=deploy across, fail=rollback"
+      ]
     },
     {
       "id": "DRAFT-005",
@@ -73,7 +109,9 @@
       "producedAt": "2026-04-29",
       "linkedTicket": "TKT-0072",
       "status": "draft",
-      "openDecisions": ["DEC-012"],
+      "openDecisions": [
+        "DEC-012"
+      ],
       "note": "RETROSPECTIVE GAP. Lando BPM agent spec. Produced Day 5, never formally accepted. Lando is now Tier 3 per governance framework — spec needs review against new governance model before acceptance."
     }
   ]
