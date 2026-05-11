@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "updatedAt": "2026-05-10T22:14:10.545Z",
+  "updatedAt": "2026-05-11T12:34:57.934Z",
   "entries": {
     "memory:memory/2026-04-26.md:94:122": {
       "key": "memory:memory/2026-04-26.md:94:122",
@@ -1242,6 +1242,37 @@
         "task-monitor",
         "1.50/day",
         "3-tier"
+      ]
+    },
+    "memory:memory/2026-04-27.md:193:226": {
+      "key": "memory:memory/2026-04-27.md:193:226",
+      "path": "memory/2026-04-27.md",
+      "startLine": 193,
+      "endLine": 226,
+      "source": "memory",
+      "snippet": "6. ResiliencyFramework.md to be kept evergreen as source for future blog post --- ## Open Items Carried Forward - US22: Cost tracker parser fix (High — broken since Day 2) - US23: Resilient outage handling — fallback chain automation, Gemma4 standby mode - US24: Backup cron verification — confirm 02:00+02:05 both succeed tomorrow morning - US27: Run Diagnostics phases 7–9 (recovery drills, performance baseline, cost projection) - GitHub CLI auth (reminder: 28 Apr — tomorrow) - Gmail/gog OAuth (reminder: 2 May) - 8AM standup happened (in session, not Telegram — Telegram routing was just fixed, first proper Telegram standup tomorrow) --- ## Resiliency Feedback Loop Pattern (Locked in Resi",
+      "recallCount": 1,
+      "dailyCount": 0,
+      "groundedCount": 0,
+      "totalScore": 0.4316136628389358,
+      "maxScore": 0.4316136628389358,
+      "firstRecalledAt": "2026-05-11T12:34:57.934Z",
+      "lastRecalledAt": "2026-05-11T12:34:57.934Z",
+      "queryHashes": [
+        "c298c8cf9a8f"
+      ],
+      "recallDays": [
+        "2026-05-11"
+      ],
+      "conceptTags": [
+        "backup",
+        "resiliencyframework.md",
+        "gmail/gog",
+        "kept",
+        "evergreen",
+        "source",
+        "future",
+        "blog"
       ]
     }
   }
