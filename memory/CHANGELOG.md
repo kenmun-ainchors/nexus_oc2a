@@ -3467,3 +3467,15 @@ _Pre-existing changes (Day 1, Day 2) are captured in `memory/shared/decisions.md
 **Rollback:** Revert backup.sh from git. Old workspace/ backups retained until natural pruning cycle.
 **Linked:** TKT-0146
 ---
+
+
+## 2026-05-11 12:35 AEST — [CHG-275] TKT-0124: MinIO deployed on OC1 — S3-compatible agent object store
+**Type:** infra
+**Source:** ken-prompt
+**Trigger:** Sprint 3, TKT-0124
+**What changed:** MinIO deployed via Colima Docker. 4 buckets: ainchors-agent-memory (versioning), ainchors-generated-media, ainchors-workspace-assets, ainchors-brand-code (versioning + object lock). Tailscale Serve proxies HTTPS to MinIO. minio-upload.sh: uploads + returns Tailscale-accessible presigned URLs (72h default). hf-generate-image.sh: auto-uploads to MinIO, returns presigned URL. health-check.sh: CHECK 18 MinIO health + Telegram alert. Credentials in macOS Keychain. LaunchAgent com.ainchors.minio auto-starts on login.
+**Why:** TKT-0124 — agent object store for generated media, workspace assets, brand code, and Aria memory.
+**Verification:** PVT 16/16 passed.
+**Rollback:** DOCKER_CONTEXT=colima docker-compose -f infra/minio/docker-compose.yml down
+**Linked:** TKT-0124
+---

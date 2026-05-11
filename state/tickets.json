@@ -408,11 +408,11 @@
       "title": "MinIO self-hosted object store on OC1 — interim blob/file access layer",
       "type": "task",
       "priority": "high",
-      "status": "in-progress",
+      "status": "done",
       "requester": "Ken",
       "assignee": "Yoda",
       "created": "2026-05-10T09:30:31+10:00",
-      "updated": "2026-05-11T10:21:05+10:00",
+      "updated": "2026-05-11T12:35:27+10:00",
       "description": "Deploy MinIO on OC1 as S3-compatible interim object store. Goal: bridge remote file access gap before P2 AWS S3 deployment. Addresses generated images and blobs not accessible from Windows/external devices via Tailscale. Expanding use beyond Ken to Angie staff in Malaysia makes this urgent. Scope: (1) MinIO in Docker on OC1, (2) bucket structure per Atlas P2 blob design, (3) presigned URL helper script, (4) update hf-generate-image.sh to store to MinIO + return presigned URL, (5) Tailscale Serve path for MinIO API. Upstream: Atlas DataMemory_P1P4_Roadmap.md P2 blob design. Replaces filesystem MEDIA paths with presigned URLs accessible to all Tailscale peers.",
       "resolution": null,
       "linked": {
@@ -420,7 +420,7 @@
         "inc": [],
         "chg": []
       },
-      "notes": "HYBRID STORAGE DECISION 2026-05-10 Ken: Google Drive=human layer (live), MinIO=agent layer only. P2 unchanged (full S3). MinIO buckets: agent-memory, generated-media, workspace-assets, brand-code. Documents/business-docs -> Drive. | Sprint 3 COMMITTED — Ken confirmed 2026-05-10. | Sprint 3 (12–18 May 2026)",
+      "notes": "HYBRID STORAGE DECISION 2026-05-10 Ken: Google Drive=human layer (live), MinIO=agent layer only. P2 unchanged (full S3). MinIO buckets: agent-memory, generated-media, workspace-assets, brand-code. Documents/business-docs -> Drive. | Sprint 3 COMMITTED — Ken confirmed 2026-05-10. | Sprint 3 (12–18 May 2026) | Complete 2026-05-11. CHG-275. PVT 16/16. MinIO live at http://127.0.0.1:9000 + Tailscale HTTPS. 4 buckets, versioning, object lock on brand-code, presigned URLs, health check, LaunchAgent.",
       "notionPageId": "35cc1829-53ff-815a-b9ca-f3a56796697b",
       "sprint": 3,
       "sprintLabel": "Sprint 3 (12–18 May 2026)",

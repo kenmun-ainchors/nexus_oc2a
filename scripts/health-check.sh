@@ -266,6 +266,19 @@ else
   log "CHECK zombieTasks: OK"
 fi
 
+# ── CHECK 18: MinIO health (TKT-0124) ───────────────────────────────────────────────────────
+MINIO_HEALTH=$(curl -sf --connect-timeout 3 http://127.0.0.1:9000/minio/health/live 2>/dev/null && echo "ok" || echo "down")
+if [[ "$MINIO_HEALTH" != "ok" ]]; then
+  ISSUES+=("MinIO: down (http://127.0.0.1:9000/minio/health/live failed)")
+  log "CHECK 18: MinIO DOWN"
+  # Alert via Telegram if gateway is healthy enough
+  bash "$WORKSPACE/scripts/telegram-alert.sh" \
+    "📦 MinIO down on OC1 — agent object store unavailable. Check Colima + ainchors-minio container." \
+    "$TELEGRAM_CHAT_ID" 2>/dev/null || true
+else
+  log "CHECK 18: MinIO ok"
+fi
+
 # ── CHECK 5: Stale lock files — clear if >LOCK_STALE_MIN old ─────────────────
 LOCK_CLEARED=0
 LOCK_FOUND=0

@@ -202,5 +202,20 @@ echo "  Size      : $FILE_SIZE"
 echo "  Type      : $FILE_TYPE"
 echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
 
-# Output path to stdout for piping
-echo "$OUTPUT_FILE"
+# AC5 (TKT-0124): Upload to MinIO generated-media bucket + return presigned URL
+MINIO_UPLOAD="/Users/ainchorsangiefpl/.openclaw/workspace/scripts/minio-upload.sh"
+if [[ -x "$MINIO_UPLOAD" ]]; then
+  MINIO_KEY="generated/$(basename $OUTPUT_FILE)"
+  PRESIGNED_URL=$("$MINIO_UPLOAD" --file "$OUTPUT_FILE" --bucket ainchors-generated-media --key "$MINIO_KEY" --expires 72h 2>/dev/null)
+  if [[ -n "$PRESIGNED_URL" ]]; then
+    echo ""
+    echo "  MinIO URL : $PRESIGNED_URL"
+    echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
+    echo "$PRESIGNED_URL"
+  else
+    # MinIO unavailable — fallback to local path
+    echo "$OUTPUT_FILE"
+  fi
+else
+  echo "$OUTPUT_FILE"
+fi
