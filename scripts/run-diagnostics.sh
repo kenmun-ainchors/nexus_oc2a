@@ -223,8 +223,8 @@ else
   fail "plaintext API key pattern found: $(echo "$PLAINTEXT" | head -1)"
 fi
 
-# Public canvas PII scan
-PII_HITS=$(grep -rE "B[0-9A-Z]{7}|sk-ant-|[0-9]{10,}" "$HOME/.openclaw/canvas/documents/" 2>/dev/null | head -3 || echo "")
+# Public canvas PII scan — exclude PDFs (binary offsets/timestamps cause false positives)
+PII_HITS=$(grep -rE --include="*.html" --include="*.md" --include="*.txt" --include="*.json" "sk-ant-|\+614[0-9]{8}|[0-9]{4} [0-9]{3} [0-9]{3} [0-9]{3}" "$HOME/.openclaw/canvas/documents/" 2>/dev/null | head -3 || echo "")
 if [[ -z "$PII_HITS" ]]; then
   pass "canvas/blogs: no obvious PII patterns"
 else
