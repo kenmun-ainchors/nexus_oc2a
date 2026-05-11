@@ -12,10 +12,11 @@
     "sprint3Planning": "2026-05-11"
   },
   "items": [
-    { "tkt": "TKT-0124", "title": "MinIO on OC1 — agent storage layer (4 buckets)", "priority": "P1" },
-    { "tkt": "TKT-0135", "title": "Sandbox environment — isolated demo/PoC setup", "priority": "P1" },
-    { "tkt": "TKT-0141", "title": "Security: CLI-Anything supply chain risk + controls", "priority": "P2" },
-    { "tkt": "TKT-0142", "title": "Security: SKILL.md poisoning — review process", "priority": "P2" },
-    { "tkt": "TKT-0144", "title": "Platform CI: Token Efficiency Audit (cycle 1)", "priority": "P3" }
-  ]
+    { "tkt": "TKT-0124", "title": "MinIO on OC1 — agent storage layer (4 buckets)", "priority": "P1", "status": "done", "completedAt": "2026-05-11T13:01:00+10:00", "note": "UAT 1-4 all passed. Live on Tailscale." },
+    { "tkt": "TKT-0135", "title": "Sandbox environment — isolated demo/PoC setup", "priority": "P1", "status": "pending" },
+    { "tkt": "TKT-0141", "title": "Security: CLI-Anything supply chain risk + controls", "priority": "P2", "status": "pending" },
+    { "tkt": "TKT-0142", "title": "Security: SKILL.md poisoning — review process", "priority": "P2", "status": "pending" },
+    { "tkt": "TKT-0144", "title": "Platform CI: Token Efficiency Audit (cycle 1)", "priority": "P3", "status": "pending" }
+  ],
+  "velocity": { "done": 1, "inProgress": 0, "pending": 4, "lastUpdated": "2026-05-11T15:03:00+10:00" }
 }

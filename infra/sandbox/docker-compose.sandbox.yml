@@ -1,0 +1,107 @@
+# TKT-0135 — Nexus Sandbox Environment
+# Docker Compose Stack — openclaw-sandbox
+# Status: DRAFT FOR REVIEW (Atlas Architecture Assurance required before deploy)
+# Version: 1.0 | 2026-05-10
+
+name: openclaw-sandbox
+
+networks:
+  sandbox-net:
+    driver: bridge
+    name: openclaw-sandbox-net
+    # Isolated bridge network — no prod network access
+
+volumes:
+  minio-sb-data:
+    name: openclaw-sandbox-minio-data
+    # Dedicated sandbox volume — NOT prod MinIO bucket
+
+services:
+
+  # ─── OpenClaw Sandbox Instance ──────────────────────────────────────────────
+  openclaw-sb:
+    build:
+      context: .
+      dockerfile: Dockerfile.sandbox
+    image: openclaw-sandbox:latest
+    container_name: openclaw-sandbox-app
+    restart: "no"                          # Demo lifecycle: no auto-restart
+    networks:
+      - sandbox-net
+    ports:
+      - "127.0.0.1:${SANDBOX_PORT:-3131}:3000"   # Colima port-forward ONLY — loopback bind
+    env_file:
+      - .env.sandbox
+    environment:
+      - NODE_ENV=sandbox
+      - OPENCLAW_SANDBOX=true
+      - MINIO_ENDPOINT=minio-sb
+      - MINIO_PORT=9000
+      - MINIO_BUCKET=demo
+    volumes:
+      # Seed configs injected at build time (see Dockerfile.sandbox)
+      # NO host workspace or keychain bind mounts — Atlas constraint enforced
+      - type: tmpfs
+        target: /tmp/sandbox-work            # Ephemeral scratch space only
+    depends_on:
+      minio-sb:
+        condition: service_healthy
+    deploy:
+      resources:
+        limits:
+          cpus: "3.0"                        # 3 of 4 vCPU allotted to OC instance
+          memory: 4G                         # 4 of 6 GB RAM
+        reservations:
+          cpus: "1.0"
+          memory: 1G
+    # Security hardening — Atlas constraints enforced
+    security_opt:
+      - no-new-privileges:true
+    read_only: false                         # OC runtime needs write access to /app
+    # NOTE: --privileged is explicitly NOT set (Atlas constraint 1)
+    healthcheck:
+      test: ["CMD", "wget", "-qO-", "http://localhost:3000/health"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 30s
+
+  # ─── MinIO Sandbox Storage ───────────────────────────────────────────────────
+  minio-sb:
+    image: minio/minio:RELEASE.2024-01-01T00-00-00Z
+    container_name: openclaw-sandbox-minio
+    restart: "no"
+    networks:
+      - sandbox-net
+    ports:
+      - "127.0.0.1:${SANDBOX_MINIO_PORT:-9131}:9000"
+      - "127.0.0.1:${SANDBOX_MINIO_CONSOLE_PORT:-9132}:9001"
+    env_file:
+      - .env.sandbox
+    environment:
+      - MINIO_ROOT_USER=${SANDBOX_MINIO_USER}
+      - MINIO_ROOT_PASSWORD=${SANDBOX_MINIO_PASSWORD}
+    volumes:
+      - minio-sb-data:/data                 # Dedicated sandbox volume — NOT prod bucket
+    command: server /data --console-address ":9001"
+    deploy:
+      resources:
+        limits:
+          cpus: "1.0"                        # 1 of 4 vCPU
+          memory: 2G                         # 2 of 6 GB RAM
+        reservations:
+          cpus: "0.25"
+          memory: 256M
+    security_opt:
+      - no-new-privileges:true
+    healthcheck:
+      test: ["CMD", "mc", "ready", "local"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 15s
+
+# ─── Resource Total ──────────────────────────────────────────────────────────
+# openclaw-sb: 3 vCPU / 4 GB RAM
+# minio-sb:    1 vCPU / 2 GB RAM
+# TOTAL HARD CAP: 4 vCPU / 6 GB RAM — within approved limits (TKT-0135)

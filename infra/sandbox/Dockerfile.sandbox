@@ -1,0 +1,73 @@
+# TKT-0135 — Nexus Sandbox Dockerfile
+# Status: DRAFT FOR REVIEW (Atlas Architecture Assurance required before deploy)
+# Version: 1.0 | 2026-05-10
+#
+# Purpose: Builds the versioned seed image for the sandbox environment.
+# Demo agents: Mini Yoda (orchestration showcase) + Aria (business agent showcase)
+# Lifecycle: 4C Hybrid — full destroy after each session, spin-up from cached layers (~30-60s)
+#
+# Atlas constraints enforced:
+#   - No --privileged (runtime constraint, enforced in compose)
+#   - No host bind mounts to /Users/.../.openclaw/workspace or keychain paths
+#   - Credentials via .env.sandbox ONLY — no secrets baked into image
+
+# ─── Base Image ───────────────────────────────────────────────────────────────
+FROM ghcr.io/openclaw/openclaw:latest AS base
+
+# Build-time label metadata
+LABEL org.opencontainers.image.title="OpenClaw Sandbox"
+LABEL org.opencontainers.image.description="Nexus sandbox demo environment — Mini Yoda + Aria"
+LABEL org.opencontainers.image.version="1.0.0"
+LABEL nexus.tkt="TKT-0135"
+LABEL nexus.environment="sandbox"
+LABEL nexus.agents="mini-yoda,aria"
+
+# ─── Environment Defaults (non-secret) ────────────────────────────────────────
+ENV NODE_ENV=sandbox
+ENV OPENCLAW_SANDBOX=true
+ENV OPENCLAW_LOG_LEVEL=info
+ENV OPENCLAW_DATA_DIR=/app/data
+ENV OPENCLAW_AGENTS_DIR=/app/agents
+
+# ─── Create runtime directories ───────────────────────────────────────────────
+RUN mkdir -p \
+    /app/data \
+    /app/agents/mini-yoda \
+    /app/agents/aria \
+    /app/seed \
+    /app/seed/data \
+    /tmp/sandbox-work && \
+    chown -R node:node /app /tmp/sandbox-work
+
+# ─── Copy Demo Agent Configs ──────────────────────────────────────────────────
+# Mini Yoda — lightweight orchestration showcase agent
+COPY --chown=node:node seed/agents/mini-yoda/ /app/agents/mini-yoda/
+
+# Aria — business/customer-facing showcase agent
+COPY --chown=node:node seed/agents/aria/ /app/agents/aria/
+
+# ─── Copy Seed Data (synthetic demo data only — NO prod data) ─────────────────
+COPY --chown=node:node seed/data/ /app/seed/data/
+
+# ─── Copy Seed Script ─────────────────────────────────────────────────────────
+COPY --chown=node:node seed/seed.sh /app/seed/seed.sh
+RUN chmod +x /app/seed/seed.sh
+
+# ─── Copy Entrypoint ─────────────────────────────────────────────────────────
+COPY --chown=node:node seed/entrypoint.sh /app/entrypoint.sh
+RUN chmod +x /app/entrypoint.sh
+
+# ─── Switch to non-root user ──────────────────────────────────────────────────
+USER node
+
+# ─── Healthcheck ─────────────────────────────────────────────────────────────
+HEALTHCHECK --interval=10s --timeout=5s --start-period=30s --retries=5 \
+    CMD wget -qO- http://localhost:3000/health || exit 1
+
+# ─── Expose internal port ─────────────────────────────────────────────────────
+EXPOSE 3000
+
+# ─── Entrypoint ───────────────────────────────────────────────────────────────
+# seed.sh runs first (seeds MinIO demo bucket), then OpenClaw starts
+ENTRYPOINT ["/app/entrypoint.sh"]
+CMD ["openclaw", "gateway", "start", "--foreground"]

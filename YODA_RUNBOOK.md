@@ -399,10 +399,15 @@ _Reserved slash command. Available to Ken. Locked 2026-04-28 (refined 2026-04-28
 **Execution steps (mandatory - do not skip ANY step):**
 0. ⚡ **FIRST** - read `state/active-work.json` (if exists). This is the authoritative in-flight state file, written at every sub-agent spawn and channel switch. If `awaitingResult: true`, immediately surface it in "What's in flight". Never skip this step.
 1. `sessions_list` - try to find both Telegram and webchat sessions
-2. If webchat session NOT returned by sessions_list (common - webchat sessions are often not listed):
-   - Search session files directly: `python3 -c "import json,os,glob; ..."` scanning `~/.openclaw/agents/main/sessions/*.jsonl` for lines containing `openclaw-control-ui` (webchat sender id)
-   - Sort by mtime descending, take the most recent webchat session file
-   - Read last 30 lines of that file to extract recent user messages and assistant replies
+2. **⚡ MANDATORY — webchat session read (DO NOT SKIP even if sessions_list returns nothing):**
+   - Use `sessions.json` index to find most recent webchat session:
+     ```
+     python3 -c "import json,os,datetime; sf=os.path.expanduser('~/.openclaw/agents/main/sessions/sessions.json'); data=json.load(open(sf)); wc=[(v.get('updatedAt',0), k, v.get('sessionId','')) for k,v in data.items() if isinstance(v,dict) and (v.get('channel')=='webchat' or 'dashboard' in k)]; wc.sort(reverse=True); [print(datetime.datetime.fromtimestamp(t/1000).strftime('%Y-%m-%d %H:%M'), k, sid) for t,k,sid in wc[:3]]"
+     ```
+   - This correctly finds `agent:main:dashboard:*` and `agent:main:main` webchat sessions
+   - Take the most recent webchat sessionId, then read last 60 lines of: `~/.openclaw/agents/main/sessions/<sid>.jsonl`
+   - Extract last USER and ASST messages — these are the ground truth for what happened in webchat
+   - **⚠️ KNOWN FAILURE MODE (2026-05-11):** `active-work.json` does NOT auto-update during normal webchat work — only on explicit handovers/sub-agent spawns. ALWAYS read the actual webchat session transcript; never trust active-work.json alone.
 3. **MANDATORY** - `sessions_history` on Telegram session (sessionKey: agent:main:telegram:direct:8574109706) - last 20 messages. Do this even if sessions_list returned the Telegram session. The transcript has context that state files don't.
 4. Compare timestamps from both channels - find the most recent activity across either
 5. Surface the most recent activity from EITHER channel as "Where we left off"

@@ -400,3 +400,26 @@ Yoda embodies and enforces all 7 principles across the fleet:
 *Location: workspace/YODA_RULES.md*
 *Maintained by: Yoda 🟢 | Approved by: Ken Mun (CTO)*
 *Ref: 20260507_AInchors Context.md + Context-Handoff-Delta-20260507-20260510.md*
+
+---
+
+## Agent Routing — Build vs Design (L-026, 2026-05-11)
+
+**HARD RULE:** Implementation work NEVER goes to Thrawn or Atlas.
+
+| Agent | Role | Can build? |
+|---|---|---|
+| Atlas 🏛️ | Enterprise architecture assessment | ❌ NO |
+| Thrawn 🔵 | Platform architecture design | ❌ NO |
+| Forge 🏗️ | Infra, scripts, builds, file generation | ✅ YES |
+
+**Correct flow for any build task:**
+1. Atlas → assess (if EA needed)
+2. Thrawn → design/architecture (if platform design needed)
+3. **Forge → build** (always — no exceptions)
+4. Atlas → Architecture Assurance review
+5. Ken → approve
+
+**Trigger words that mean Forge, not Thrawn/Atlas:** build, create files, write scripts, implement, generate, deploy, configure, install.
+
+Source: INC-20260511-001 — Thrawn routed incorrectly for TKT-0135 build → openclaw.json corruption.

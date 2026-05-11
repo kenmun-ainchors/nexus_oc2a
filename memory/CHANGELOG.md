@@ -3479,3 +3479,17 @@ _Pre-existing changes (Day 1, Day 2) are captured in `memory/shared/decisions.md
 **Rollback:** DOCKER_CONTEXT=colima docker-compose -f infra/minio/docker-compose.yml down
 **Linked:** TKT-0124
 ---
+
+## CHG-0276 — 2026-05-11 22:10 AEST
+**Type:** Fix / Incident Remediation
+**Source:** Yoda
+**Title:** INC-20260511-001 — Thrawn openclaw.json corruption remediation
+**Trigger:** INC-20260511-001 — gateway startup_failed loop, openclaw.json corrupted by Thrawn
+**What changed:**
+1. Thrawn SOUL.md patched — hard rule added: NEVER write to openclaw.json directly; use gateway config.patch only
+2. TKT-0135 sandbox build files relayed from workspace-platform-arch/output → workspace/infra/sandbox
+3. Gateway recovered via openclaw doctor --fix (Ken action)
+**Why:** Thrawn wrote `"infra": {"model": "..."}` as a named key directly under the agents array — JSON schema violation. Gateway startup loop. ~2 min downtime.
+**Verification:** Gateway running (pid 52637 → new pid post-restart). openclaw.json.last-good restored. Thrawn SOUL.md rule confirmed written.
+**Rollback:** N/A (fix already applied by doctor --fix)
+**Linked:** INC-20260511-001, TKT-0135

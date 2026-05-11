@@ -1,28 +1,21 @@
 {
   "schema": "1.0",
   "description": "Single source of truth for in-flight work.",
-  "lastUpdated": "2026-05-05T06:49:00Z",
-  "lastUpdatedChannel": "webchat",
+  "lastUpdated": "2026-05-11T15:03:00+10:00",
+  "lastUpdatedChannel": "telegram",
   "lastUpdatedBy": "Yoda",
   "currentWork": {
-    "title": "TKT-0066 \u2014 Spark W2 Content Pipeline AIOps",
-    "ticket": "TKT-0066",
-    "taskFile": "handoff/TASK-20260505-002.md",
-    "status": "completed",
-    "spawnedAt": "2026-05-05T04:07:00Z",
+    "title": "Sprint 3 — MinIO + Sandbox + Security",
+    "ticket": "Sprint-3",
+    "status": "in-progress",
     "spawnedFrom": "webchat",
-    "brief": "Spark W2 AIOps drafts P1(exists)+P2+P3, governance, Ken approval, W2 crons",
-    "expectedDeliverables": [
-      "LI-C1-W2-P1/P2/P3 drafts written + governance cleared",
-      "Delivered to Ken via Telegram for approval",
-      "queue entries in linkedin-queue.json",
-      "W2 crons registered (disabled until Ken approves)",
-      "linkedin-content-tracker.json activeTheme=AIOps"
-    ],
+    "brief": "Sprint 3: 3/5 done. TKT-0124 MinIO ✅ complete (UAT passed 13:01 AEST). Next: TKT-0135 Sandbox (P1).",
+    "completedItems": ["TKT-0124"],
+    "pendingItems": ["TKT-0135", "TKT-0141", "TKT-0142", "TKT-0144"],
     "awaitingResult": false,
-    "completedAt": "2026-05-05T05:26:00Z"
+    "note": "TKT-0151 + TKT-0152 added to backlog during webchat session 2026-05-11 13:14-13:21 AEST"
   },
-  "lastHandoverAt": "2026-05-10T06:06:15.474367+00:00",
-  "lastHandoverFrom": "telegram",
-  "lastHandoverTo": "webchat"
+  "lastHandoverAt": "2026-05-11T15:02:00+10:00",
+  "lastHandoverFrom": "webchat",
+  "lastHandoverTo": "telegram"
 }
