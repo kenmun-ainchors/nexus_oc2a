@@ -967,7 +967,7 @@
       "requester": "Ken",
       "assignee": "Yoda",
       "created": "2026-05-11T12:27:16+10:00",
-      "updated": "2026-05-11T12:27:16+10:00",
+      "updated": "2026-05-11T12:28:59+10:00",
       "description": "No full DR playbook exists. gateway-restore.sh only covers openclaw.json config. Need: (1) A documented step-by-step DR playbook covering the full recovery sequence from a fresh OpenClaw installation back to production state using backup files. (2) A run script (restore.sh or dr-restore.sh) that automates as much of the recovery as possible. Scope: fresh OS/OpenClaw install → restore workspace from incremental/full backup → restore openclaw.json config → restore agent configs + auth → restore cron jobs → restore state files → verify platform health (PVT pass). Forge owns. Inputs: TKT-0146 backup structure (incremental + full). Deliverable: docs/DR_Playbook.md + scripts/dr-restore.sh.",
       "resolution": null,
       "linked": {
@@ -975,7 +975,7 @@
         "inc": [],
         "chg": []
       },
-      "notes": "",
+      "notes": "AC ADD-ON: Google Drive offsite backup — DR playbook must include AC for uploading full weekly backup (Sunday tar.gz) to Google Drive (AInchors Yoda Working Files folder). Use gog drive upload. Replaces/supplements iCloud offsite path. Drive folder already exists: 1EyLi8JCvxwixhpBdRwP0PwdZokrg78Jl. Recovery path: download from Drive → run dr-restore.sh. Sprint 4.",
       "notionPageId": "35dc1829-53ff-81d1-ac74-d276be8c3c98"
     }
   ]
