@@ -883,11 +883,11 @@
       "title": "Backup optimisation — incremental daily, full weekly",
       "type": "task",
       "priority": "medium",
-      "status": "in-progress",
+      "status": "done",
       "requester": "Ken",
       "assignee": "Yoda",
       "created": "2026-05-11T10:19:50+10:00",
-      "updated": "2026-05-11T12:13:15+10:00",
+      "updated": "2026-05-11T12:14:58+10:00",
       "description": "Current: full backup daily. Target: incremental daily (changed files only) + full backup weekly (Sunday). Goals: reduce time, storage, maintain full recovery point. Forge owns. Review backup scripts, assess rsync --link-dest or equivalent, confirm retention policy, implement, test restore.",
       "resolution": null,
       "linked": {
@@ -895,7 +895,7 @@
         "inc": [],
         "chg": []
       },
-      "notes": "Sprint 3 — started 2026-05-11",
+      "notes": "Sprint 3 — started 2026-05-11 | Complete 2026-05-11. CHG-274 logged. rsync --link-dest incremental Mon-Sat + full tar.gz Sunday. Hard-link verified. Restore tested. Est 95%+ storage reduction on daily backups.",
       "notionPageId": "35dc1829-53ff-81a6-8bb9-efd4505ebec8"
     },
     {

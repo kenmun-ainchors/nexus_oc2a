@@ -3455,3 +3455,15 @@ _Pre-existing changes (Day 1, Day 2) are captured in `memory/shared/decisions.md
 **Rollback:** Revert individual cron payloads via cron update if context needed.
 **Linked:** TKT-0144
 ---
+
+
+## 2026-05-11 12:14 AEST — [CHG-274] TKT-0146: Backup optimisation — incremental daily, full weekly
+**Type:** infra
+**Source:** ken-prompt
+**Trigger:** Sprint 3, TKT-0146
+**What changed:** backup.sh rewritten. Strategy: rsync --link-dest incremental Mon-Sat (only changed files stored via hard-links), full tar.gz Sunday. iCloud offsite on Sunday only. Retention: 7 incrementals + 4 full. Config backups: 14 days. Hard-link confirmed (same inode for unchanged files). Restore path tested and verified.
+**Why:** 1GB full daily backups → ~2-5MB real disk/day (incremental) + 130MB/week (full Sunday).
+**Verification:** Two test runs confirm link-dest working. SOUL.md inode matches across snapshots. Diff against live = identical.
+**Rollback:** Revert backup.sh from git. Old workspace/ backups retained until natural pruning cycle.
+**Linked:** TKT-0146
+---
