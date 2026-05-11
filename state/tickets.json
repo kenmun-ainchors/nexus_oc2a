@@ -987,7 +987,7 @@
       "requester": "Ken",
       "assignee": "Yoda",
       "created": "2026-05-11T13:15:08+10:00",
-      "updated": "2026-05-11T13:15:08+10:00",
+      "updated": "2026-05-11T13:21:55+10:00",
       "description": "Develop the AInchors Agentic Development Framework and Development Process Model. Covers: (1) Framework design — how software/platform development is done with AI agents. (2) Squad model — voice of engineering and delivery. Day 1 fixed agents (Yoda, Atlas, Thrawn, Forge) + future ephemeral dev squads (Tier 5+ per TKT-0107). (3) Process model — how development tasks flow from backlog to delivery: ticket-first, spec, build, review, test, deploy. (4) Integration with Agile Framework v1.0 (TKT-0090). Atlas leads EA. Thrawn leads platform architecture input. Krennic (SRE) gates deployment. Outputs: docs/Agentic_Development_Framework_v1.md. Ken approves before execution.",
       "resolution": null,
       "linked": {
@@ -995,7 +995,7 @@
         "inc": [],
         "chg": []
       },
-      "notes": "",
+      "notes": "AC ADD-ON (2026-05-11 Ken): Framework must address the following engineering considerations: (1) Git Branching — branching strategy (trunk-based vs GitFlow vs feature branching), branch naming conventions, merge rules, PR/review process in an agentic context; (2) DevSecOps — security integrated into the dev pipeline, not bolted on at the end. Shield gates at code/config change level. S1-S7 controls applied at build/deploy phase. Vulnerability scanning, secret detection, dependency audit; (3) Feature Toggles — feature flag strategy for safe incremental releases. Agents deploy behind toggles, Ken/Angie controls activation. Decouples deployment from release; (4) Blue-Green Deployment — zero-downtime deployment model. Blue = live, Green = new version staged. Traffic switch only after Green validation passes. Rollback = instant traffic revert to Blue. Agent role in health validation before switch. Maps to OC1 → OC2 HA architecture.",
       "notionPageId": "35dc1829-53ff-8157-a2c1-c9e992098682"
     },
     {
