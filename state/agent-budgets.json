@@ -7,7 +7,7 @@
       "dailyBudgetUsd": 150,
       "sessionBudgetUsd": 15,
       "alertAt": 0.8,
-      "note": "Primary agent. Raised from $80 \u2192 $150 (Ken, 2026-05-10) \u2014 monitoring Sprint 3, review at sprint end."
+      "note": "Primary agent. Raised from $80 → $150 (Ken, 2026-05-10) — monitoring Sprint 3, review at sprint end."
     },
     "business": {
       "dailyBudgetUsd": 30,
@@ -40,16 +40,16 @@
       "note": "Governance checks. Should be Haiku-driven."
     },
     "infra": {
-      "dailyBudgetUsd": 20,
+      "dailyBudgetUsd": 15,
       "sessionBudgetUsd": 2,
       "alertAt": 0.9,
-      "note": "Infrastructure agent. Script execution, low token cost."
+      "note": "Forge infra agent. Haiku model set 2026-05-11. Budget raised from $20 (was over-budgeted on assumption of low Sonnet use). Heartbeat frequency being investigated."
     },
     "architect": {
       "dailyBudgetUsd": 10,
       "sessionBudgetUsd": 5,
       "alertAt": 0.8,
-      "note": "Architecture design. May use Opus \u2014 monitor closely."
+      "note": "Architecture design. May use Opus — monitor closely."
     },
     "platform-arch": {
       "dailyBudgetUsd": 10,
@@ -96,6 +96,6 @@
     "observedDays": 14,
     "avgDailyCost": 141.86,
     "peakDailyCost": 358.56,
-    "note": "Budgets set from 14-day actual spend patterns (2026-04-25 to 2026-05-08). No per-agent breakdown available in cost-state.json \u2014 agent allocations are proportional estimates. Platform cap set at $200 (above 14-day avg, below p75). Ken to review and adjust after per-agent tracking is live."
+    "note": "Budgets set from 14-day actual spend patterns (2026-04-25 to 2026-05-08). No per-agent breakdown available in cost-state.json — agent allocations are proportional estimates. Platform cap set at $200 (above 14-day avg, below p75). Ken to review and adjust after per-agent tracking is live."
   }
 }
