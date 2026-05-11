@@ -11,223 +11,159 @@
 
 ## The Company
 - **Ainchor Solutions Pty Ltd** | ainchors.com | Sydney NSW + Melbourne. Day 1: 2026-04-25. Focus: AI courses/training, consulting, solutions/products.
-- **Aevlith Technologies Pty Ltd** — Technology holding entity. Owns and operates Nexus platform. AInchors = market-facing consulting brand; Aevlith = invisible platform company behind it. Legal name: Aevlith Technologies Pty Ltd. Domain: aevlith.ai. Pronunciation: AYV-lith. Name locked 2026-05-09 by Ken + Angie (Auralith was taken — active AU Pty Ltd ABN 43 675 437 500). Globally clean — zero conflicts AU/UK/US/EU/India. ASIC registration + aevlith.ai domain = this week. TKT-0069. P1–P3: silent entity. P4: Aevlith surfaces as product brand when Nexus sold to third parties.
-- Emails: kenmun@ ✅ gog | info@ | accounts@ | Gmail (Google Workspace). Tech stream: Ken+Yoda. Business stream: Angie+Aria.
+- **Aevlith Technologies Pty Ltd** — Technology holding entity, owns Nexus platform. AInchors = market-facing brand; Aevlith = invisible platform company. Domain: aevlith.ai (AYV-lith). Name locked 2026-05-09. Globally clean. ASIC registration + domain = this week. TKT-0069. P1–P3: silent. P4: surfaces as product brand.
+- Emails: kenmun@ ✅ gog | info@ | accounts@ | Gmail (Google Workspace). Tech: Ken+Yoda. Business: Angie+Aria.
 
 ## Infrastructure — HIVE Architecture (confirmed May 2026)
 - **OC1** — Mac Mini M4 24GB — LIVE Production. PERMANENT. HARD LIMIT: No local LLM inference >~8B Q4.
-- **OC2-A** — Mac Mini M4 Pro 48GB — INCOMING ETA 6–13 Jul 2026 (refined). HA Primary, local inference primary.
+- **OC2-A** — Mac Mini M4 Pro 48GB — INCOMING ETA 6–13 Jul 2026. HA Primary, local inference primary.
 - **OC2-B** — Mac Mini M4 Pro 48GB — INCOMING ETA 6–13 Jul 2026. HA Secondary, hot standby.
-- OC2 setup ~2 weeks → commissioned ~27 Jul 2026. OC2-gated sprint items cannot start until TRIGGER-03.
-- Main disk fine (21% — 88Gi/460Gi). /Volumes/Docker alert was a mounted installer DMG — ejected 2026-05-09 (CHG-0246).
-- Supporting: Tailscale mesh, NAS (shared model weights + state). Obsidian RETIRED 2026-05-04. Platform: OpenClaw (final, no replatforming).
+- OC2 commissioned ~27 Jul 2026. OC2-gated items wait for TRIGGER-03.
+- Main disk fine (21%). Supporting: Tailscale mesh, NAS. Obsidian RETIRED 2026-05-04. Platform: OpenClaw (final).
 
 ## Agent Architecture
 
 ### Governance Tier Model (approved Ken 2026-05-08, TKT-0103)
-- **Tier 0:** Lead Anchor (Yoda only) — owns governance enforcement fleet-wide
-- **Tier 1:** Dual-Principal — two principals (CEO primary + Yoda tech oversight). Agent: Aria
-- **Tier 2:** Yoda-Govern — Yoda owns mandate, agent never acts outside Yoda approval. Agent: Warden
-- **Tier 3:** Yoda-Manage-Passthrough — **default for all new operational agents with clear domains.** Yoda coordinates, Ken/Angie approve outputs. Agents: Spark, Ahsoka, Atlas, Thrawn, Lando, Mon Mothma, Krennic
-- **Tier 4:** Triad Service Agent — reactive gate agents, verdict-returning only, no initiative. Agents: Shield, Lex, Sage
-- **New subagent rule:** Yoda must propose all new agents with reasoning before build. Ken confirms. No exceptions.
-- **Squad Model (future Tier 5+):** When ephemeral dev/delivery squads are needed, a new governance tier will be required. TKT-0107 open. TRIGGER: define before any development squad work begins.
-- **Model3-Policy:** SOPs + domain boundaries required for all Tier 3 agents (AC open — TKT-0105 + TKT-0106)
-- **Framework doc:** docs/Agent_Governance_Framework_v1.md
+- **T0:** Lead Anchor (Yoda) — owns governance fleet-wide
+- **T1:** Dual-Principal — CEO primary + Yoda tech oversight. Agent: Aria
+- **T2:** Yoda-Govern — agent never acts outside Yoda approval. Agent: Warden
+- **T3:** Yoda-Manage-Passthrough — default for new operational agents. Agents: Spark, Ahsoka, Atlas, Thrawn, Lando, Mon Mothma, Krennic
+- **T4:** Triad Service Agent — reactive verdict-only. Agents: Shield, Lex, Sage
+- **New subagent rule:** Yoda must propose all new agents before build. Ken confirms. No exceptions.
+- **Squad Model (future T5+):** Define before any dev squad work. TKT-0107. Framework: docs/Agent_Governance_Framework_v1.md
 
 - **Yoda 🟢** = lead agent (technical stream, oversees all)
-- **Aria 🔵** = Business Lead Agent (OC1 → OC2 at TRIGGER-10). Model: Sonnet. Governance: Shield/Lex/Sage triad. **All business stream decisions sit with Angie. Aria follows Angie's pace — no pushing, no chasing. (Ken confirmed 2026-05-08)**
-- **Spark ✨** = Social & Digital Marketing (kimi-k2.6:cloud, workspace-social/). All social + digital. Ken approves personal; Angie approves brand. Crons: e7ebaf61 (Tue+Thu 7:30am) | bef42235 (Wed 12pm) | review: 316df676 (2026-06-02). State: linkedin-queue.json + linkedin-content-tracker.json.
-- **Atlas 🏛️** (agentId: architect) = Enterprise Architect. TOGAF, P1–P4 roadmap. SOUL.md v2.1 (2,088 chars ✅).
-- **Thrawn** (agentId: platform-arch) = AI Platform Architect, Nexus Core. Agent orchestration, model strategy, S1–S7. SOUL.md v1.0 (2,470 chars ✅).
-- **Atlas vs Thrawn Routing (locked 2026-05-08):** Atlas = enterprise-facing (TOGAF, P1–P4, client/market, constraints). Thrawn = platform-internal (Nexus orchestration, model routing, governance impl, ITSM, cron). Cross-cutting: Atlas sets constraints, Thrawn implements. Yoda: advise correct assignment if Ken routes wrong — no silent reassignment.
-- **Lando 🟡** = BPM Agent (agentId: biz-process, workspace-bpm/). Methods: BPM/BPMN, Lean, Six Sigma, TQM. Spec: docs/Business_Process_Specialist_Agent_v1.md. Name confirmed 2026-05-05 (TKT-0072, seq 4/4).
-- **Forge 🏗️** (agentId: infra) = Infra/SRE Agent. CI framework, model PoC, OC1/OC2 health, backups, OpenClaw update checks (TRIGGER-04/06), MinIO, NAS. Name confirmed 2026-05-10 (Ken).
-- **Krennic 🔵** = SRE Agent. Incident response, SLO/error budget, runbooks, post-mortems. Build before TRIGGER-07. TKT-0074. Activation: >2 incidents/wk OR >30% Yoda toil.
-- **Mon Mothma 🌟** = DTCM Agent (agentId: change-mgt, workspace-dtcm/). Methods: ADKAR, Kotter, Prosci. Name confirmed 2026-05-05.
+- **Aria 🔵** = Business Lead Agent (OC1 → OC2 at TRIGGER-10). Model: Sonnet. All business stream decisions sit with Angie. Aria follows Angie's pace — no pushing, no chasing.
+- **Spark ✨** = Social & Digital Marketing (kimi-k2.6:cloud, workspace-social/). Ken approves personal; Angie approves brand. Crons: e7ebaf61 (Tue+Thu 7:30am) | bef42235 (Wed 12pm) | review: 316df676 (2026-06-02).
+- **Atlas 🏛️** (agentId: architect) = Enterprise Architect. TOGAF, P1–P4 roadmap.
+- **Thrawn** (agentId: platform-arch) = AI Platform Architect, Nexus Core. Orchestration, model strategy, S1–S7.
+- **Atlas vs Thrawn Routing (locked):** Atlas = enterprise-facing (TOGAF, P1–P4, client/market). Thrawn = platform-internal (Nexus, model routing, governance, ITSM). Atlas sets constraints, Thrawn implements. Yoda: advise correct assignment if Ken routes wrong.
+- **⚠️ Routing rule (L-026):** Build/implement/scripts → **Forge ONLY**. Atlas=EA assess. Thrawn=arch design. NEVER route build work to Thrawn or Atlas.
+- **Lando 🟡** = BPM Agent (agentId: biz-process, workspace-bpm/). BPM/BPMN, Lean, Six Sigma.
+- **Forge 🏗️** (agentId: infra) = Infra/SRE Agent. CI, model PoC, OC1/OC2 health, backups, MinIO, NAS.
+- **Krennic 🔵** = SRE Agent. Incidents, SLO/error budget. Build before TRIGGER-07. TKT-0074.
+- **Mon Mothma 🌟** = DTCM Agent (agentId: change-mgt, workspace-dtcm/). ADKAR, Kotter, Prosci.
 - **Gemma4 policy: background/non-interactive crons ONLY** — cold-load causes system-wide slowdown.
-- Sub-agents to build: content, support, reporting, coding.
 
 ## Agent SOUL.md Compact Standard (NON-NEGOTIABLE)
-- Hard limit: 10,000 chars. Warning: 6,000. Pattern: SOUL.md = identity+traits+rules+cadences. Details in [AGENT]_RULES.md.
+- Hard limit: 10,000 chars. Warning: 6,000. SOUL.md = identity+traits+rules+cadences. Details in [AGENT]_RULES.md.
 - Why: Aria 17,393 chars → silent truncation → wrong Telegram targets → gateway OOM (2026-04-30).
 - Sizes: Yoda 3,527 ✅ | Aria 4,659 ✅ | Shield 3,857 ✅ | Spark 4,332 ✅ | Atlas 2,850 ✅ | Thrawn 3,152 ✅ | Lando 2,737 ✅ | Mon Mothma 2,936 ✅ | Sage 1,830 ✅ | Lex 2,322 ✅ | Governance 1,334 ✅
 
-## Governance Layer — Agents
-- **Shield 🛡️** (security) | **Lex ⚖️** (legal) | **Sage 🧪** (qa) — Haiku (CHG-0230). Pre-OC2. Move to Gemma4 at TRIGGER-03.
+## Governance Agents
+- **Shield 🛡️** (security) | **Lex ⚖️** (legal) | **Sage 🧪** (qa) — Haiku (CHG-0230). Move to Gemma4 at TRIGGER-03.
 - **Warden 🔍** = Model Compliance Officer. 15-min checks, 9 agents. Cron: 83accf7b (haiku). State: model-drift-state.json / violations.json. Escalation: warden-escalation-pending.json → Yoda remediates.
 
 ## Key Scripts & Infrastructure
-- `scripts/auto-heal.sh` — nightly 23:30 AEST, 12 checks, auto-fixes stale state, files Notion US for Ken-action items.
-- `scripts/run-diagnostics.sh` — on-demand /diagnostics, 6 phases.
-- `scripts/ticket.sh` — ITSM ticketing (TKT-NNNN), ticket-first rule. Auto-syncs to Notion AKB Backlog. Use `notion-sync TKT-NNNN` for backfill.
-- `scripts/changelog-append.sh` — auto-increments CHG-NNNN in memory/CHANGELOG.md. Auto-syncs each CHG to Notion AKB Backlog.
+- `scripts/auto-heal.sh` — nightly 01:00 AEST, 18 checks, auto-fixes, files Notion US for Ken action items.
+- `scripts/run-diagnostics.sh` — on-demand /diagnostics, 7 phases.
+- `scripts/ticket.sh` — ITSM (TKT-NNNN), auto-syncs to Notion AKB Backlog.
+- `scripts/changelog-append.sh` — CHG-NNNN in memory/CHANGELOG.md, syncs to Notion.
 - `scripts/gateway-config-snapshot.sh` + `scripts/gateway-restore.sh` — config snapshot/restore SOP.
-- `scripts/cost-tracker.sh` — daily spend. Balance: confirmedBalance − spentAfterDate (CHG-0098).
-- `scripts/audit-skill.sh` — SKILL.md security audit (9 checks). TKT-0141/0142. CHG-0270.
-- `scripts/telegram-alert.sh` — API-independent Telegram alert (direct Bot HTTP). TKT-0113. CHG-0262.
-- `state/critical-config-baseline.json` — anti-drift guard (7 configs), validated by auto-heal Check #12.
-- `state/chg-triggers.json` — 12 CHG triggers (TRIGGER-01 to TRIGGER-12 + TRIGGER-QBR), status, detection method.
-- `state/skill-registry.json` — 63 verified SKILL.md files (10 custom + 53 bundled). TKT-0142. CHG-0270.
+- `scripts/cost-tracker.sh` | `scripts/audit-skill.sh` | `scripts/telegram-alert.sh` (API-independent Bot HTTP, CHG-0262).
+- `state/critical-config-baseline.json` — anti-drift guard (7 configs). `state/chg-triggers.json` — 12 triggers. `state/skill-registry.json` — 63 SKILL.md files.
 
 ## Operations Docs (locked)
-- JournalFormat: Notion (verbatim Ken prompts, Yoda voice, private) | BlogFormat: Notion (Ken first-person, built FROM journal)
-- Journal: `memory/journal-YYYY-MM-DD.md` | Blog: `canvas/documents/ainchors-YYYY-MM-DD/index.html`
-- **Key reference docs added 2026-05-08 to 2026-05-10:**
-  - docs/Agent_Governance_Framework_v1.md (CHG-0233, TKT-0103)
-  - docs/Model3-Policy.md (CHG-0260, TKT-0105)
-  - docs/Strategy_to_Backlog_Pipeline_v0.1.md (CHG-0244, TKT-0125)
-  - docs/Skill-Installation-Policy-v1.0.md (CHG-0270, TKT-0142)
-  - docs/Yoda_ORCHESTRATOR.md (CHG-0271, new reference doc)
-  - docs/Yoda_RUNBOOK.md (preserved RULES.md as operational detail layer; YODA_RULES.md is strategic ref)
+- Journal: Notion + `memory/journal-YYYY-MM-DD.md` (verbatim Ken prompts, Yoda voice, private)
+- Blog: Notion + `canvas/documents/ainchors-YYYY-MM-DD/index.html` (Ken first-person, built FROM journal)
+- Key docs (all in docs/): Agent_Governance_Framework_v1.md | Model3-Policy.md | Strategy_to_Backlog_Pipeline_v0.1.md | Skill-Installation-Policy-v1.0.md | Yoda_ORCHESTRATOR.md | Yoda_RUNBOOK.md
 
 ## GitHub
 - gh CLI authenticated: account **kenmun-ainchors**, scopes: repo, read:org, gist (token in keyring).
 
-## Nexus — Star Wars Naming Convention (CONFIRMED 2026-05-03, Ken + Angie — LOCKED ✅)
-
-| Module | Star Wars Name | Description |
-|---|---|---|
-| Overall platform | **Nexus** | API-first Hive portal |
-| Knowledge Base / AKB | **Holocron** | Single source of truth |
-| Command Centre | **The Bridge** | Real-time ops view for Ken + Yoda |
-| Client Portal | **The Citadel** | Fortified per-client access |
-| Real-time data/API layer | **Holonet** | Live data feeds |
-| Monitoring / Health | **Beacon** | Health alerts and observability |
-| Governance vault | **The Sanctum** | Shield/Lex/Sage triad |
-| Reporting / Dashboards | **Datapad** | Data terminal |
-
-Rule: New module names use Star Wars themes. Ken approves. All above final — no further approval needed at kickoff.
-
-- **Obsidian: RETIRED ✅** (TKT-0042, 2026-05-04, 38 pages). Notion = Single KB. Holocron structure live.
+## Nexus — Star Wars Naming (LOCKED ✅ 2026-05-03)
+Nexus=platform | Holocron=AKB/KB | The Bridge=command centre | The Citadel=client portal | Holonet=live data | Beacon=monitoring | The Sanctum=governance vault | Datapad=reporting
+Rule: New modules use Star Wars themes. Ken approves. All above final.
 
 ## Open Items
-- ken@ainchors.com alias → kenmun@ainchors.com (alias setup status unknown)
 - **Notion AKB Backlog** = SSOT. DB ID (create): `34dc1829-53ff-814b-8257-d3a3bf351d44`. DB ID (query): `34dc182953ff812d8e43000b83eb0e7e`.
-- LinkedIn ✅ connected. Instagram/Facebook/X not yet connected. Spark extended to IG/LI/FB/YT (CHG-0160, 2026-05-04).
-- Tailscale remote access: deferred. S4 ✅ DONE — per-agent tool scopes applied (CHG-0176, 2026-05-05).
-- Agent team design + build: US raised. Needs Atlas + Thrawn input before build. TKT-0068 open.
+- LinkedIn ✅ connected. Instagram/Facebook/X not yet connected. Spark scope: IG/LI/FB/YT (CHG-0160).
+- ⚠️ **TKT-0121 action pending:** Ken to add HF API key to Keychain (LinkedIn FLUX image gen).
+- Agent team design + build: Needs Atlas + Thrawn input. TKT-0068 open.
 
 ## TRIGGER-12 — Allowlist Auto-Sync (live, CHG-0144)
 - Scripts: allowlist-sync.sh + allowlist-detect.sh. Cron: 6a059e9e (30 min, haiku). State: allowlist-sync-state.json.
 - Eligibility: main/Aria=all cloud; Spark=kimi+pro; Sage=kimi+flash; Warden=flash only; Shield/Lex=no cloud.
 
 ## 4-Tier Model Strategy (Target — post OC2)
-- Tier 0: No LLM (systemEvent crons) — $0 — health, obs, task monitoring.
-- Tier 1: Gemma4:26b local on OC2 — $0 — governance, client workloads, data-sovereign tasks.
-- Tier 2: Ollama Cloud (kimi-k2.6 / deepseek-v4-flash / deepseek-v4-pro) — $100/mo flat — AInchors ops only (NEVER client data).
-- Tier 3: Claude Sonnet 4.6 — pay-per-token — FALLBACK ONLY.
-- Data sovereignty: DS-1 to DS-5 enforced by Warden. Client data = Tier 0/1 local ONLY.
-- CURRENT (pre-OC2): Sonnet primary + Ollama Cloud Tier 2 active. Full 4-tier pending OC2 July 2026. PoC: ✅ COMPLETE (TRIGGER-05 fired 2026-05-02). Ollama Pro: accounts@ainchors.com.
-- **gemma4:31b-cloud (CHG-0249, 2026-05-09 — REMOVED CHG-0250/0251):** Added Tier 2 candidate, benchmark 4.2/5. CI Cycle B cancelled 2026-05-09 (CHG-0250): >=75% pass rate gate required before production routing. RTB trial removed from all agent allowlists (CHG-0251). Status: experimental/archived.
+- T0: No LLM (systemEvent) — $0. T1: Gemma4:26b local (OC2) — $0 client workloads. T2: Ollama Cloud (kimi/deepseek) — $100/mo flat. T3: Claude Sonnet — FALLBACK ONLY.
+- Data sovereignty: DS-1 to DS-5. Client data = T0/T1 local ONLY. NEVER cloud.
+- CURRENT (pre-OC2): Sonnet primary + Ollama Cloud T2 active. Ollama Pro: accounts@ainchors.com. PoC: ✅ COMPLETE (TRIGGER-05).
+- gemma4:31b-cloud: experimental/archived (CHG-0249-0251). >=75% pass rate gate required before production routing. TKT-0134 review ~2026-05-18.
 
 ## Security Controls (S1–S7)
-- S1: OC ≥ v2026.5.5 (current). v2026.5.7 available (routine bugfix, no CVE). Daily Warden check.
-- S2: Gateway loopback only. Port 18789 never public. Tailscale remote access.
-- S3: No ClawHub skills on prod. Custom-built only. Weekly audit.
-- S4: Least privilege per agent. Governance agents read-only FS.
-- S5: No hardcoded creds. Keychain + env vars only.
-- S6: All CHG logged. Warden compliance. Incident log current.
-- S7: NAS encrypted (post-OC2).
+- S1: OC ≥ v2026.5.5 (current; v2026.5.7 available — routine, no CVE). S2: Gateway loopback only, port 18789 never public. S3: No ClawHub skills on prod. S4: Least privilege per agent. S5: No hardcoded creds, Keychain+env only. S6: All CHG logged, Warden compliance. S7: NAS encrypted (post-OC2).
 
-## CHG Trigger Rules (TRIGGER-01 to TRIGGER-12)
-- TRIGGER-01: OC2 arrival → 10-step setup (Ollama, Gemma4, Tailscale, OpenClaw, HA validation).
-- TRIGGER-02: Both OC2 nodes live → HA active, NAS shared state.
-- TRIGGER-03: Gemma4 validated → switch governance agents Haiku → Gemma4:26b local.
-- TRIGGER-04: OpenClaw security patch → 48h (critical) / 7d (high). Raise CHG.
-- TRIGGER-05: ✅ FIRED 2026-05-02 — kimi-k2.6:cloud Tier 2 active.
-- TRIGGER-06: OpenClaw v4.0 ships → P3 gate assessment + CrewAI vs native eval.
-- TRIGGER-07: First P2 client → onboarding checklist.
-- TRIGGER-08: ✅ FIRED 2026-05-08 at T3. Auto-reload at <$50 → reloads to $500. Thresholds (CHG-0232): T1=$80 (once), T2=$40 (every 3rd), T3=$15 (every request). Balance recovered 2026-05-09 after INC-20260509-001.
-- TRIGGER-09: Warden model drift → Yoda remediates within 1 heartbeat.
-- TRIGGER-10: Business stream ready → migrate Aria to OC2.
-- TRIGGER-11: glm-5.1 no-think mode → monthly check, benchmark if available.
-- TRIGGER-12: Allowlist auto-sync live (CHG-0144). Script: allowlist-sync.sh.
+## CHG Trigger Rules
+- TRIGGER-01: OC2 arrival → 10-step setup. TRIGGER-02: Both OC2 live → HA + NAS.
+- TRIGGER-03: Gemma4 validated → governance Haiku → Gemma4:26b. TRIGGER-04: OC security patch → 48h/7d.
+- TRIGGER-05: ✅ FIRED — kimi T2 active. TRIGGER-06: OC v4.0 → P3 gate + CrewAI eval.
+- TRIGGER-07: First P2 client → onboarding. TRIGGER-08: ✅ FIRED — Auto-reload: <$50 → $500. Thresholds: T1=$60, T2=$55, T3=$15 (CHG-0232).
+- TRIGGER-09: Warden drift → Yoda remediates within 1 heartbeat. TRIGGER-10: Business ready → Aria to OC2.
+- TRIGGER-11: glm-5.1 no-think → monthly check. TRIGGER-12: ✅ Allowlist auto-sync live (CHG-0144).
 
 ## Tailscale Config (CHG-0227/228)
-- Serve enabled on OC1. `allowTailscale: true`. URL: `https://ainchorss-mac-mini.tail5e2567.ts.net`. CLI: v1.96.5. S2 compliant.
+- Serve enabled on OC1. `allowTailscale: true`. URL: `https://ainchorss-mac-mini.tail5e2567.ts.net`. S2 compliant.
+- Windows webchat 1006 fix (2026-05-11): `tailscale serve --https=443 --bg http://localhost:18789`.
 
-## Sprint Capacity Model (CHG-0241, locked 2026-05-08)
-- Pre-OC2: 5 items/sprint | OC2 setup window: 2–3 items/sprint | Post-OC2: 5 items/sprint
-- 30% headroom buffer. Early warning: <4 delivered in any sprint = flag P2 slip.
-- P2 target end-Aug achievable with zero slack. Contingency: mid-Sep.
-- `/sprint` command = on-demand burndown (distinct from Friday standup Sprint Review ceremony)
-- **Main agent daily budget cap:** $150 (raised from $80 CHG-0268 2026-05-10 — too tight on sprint-heavy days)
+## Sprint Capacity Model (CHG-0241)
+- Pre-OC2: 5 items/sprint | OC2 setup: 2–3 | Post-OC2: 5. 30% headroom buffer. P2 target: end-Aug 2026. Contingency: mid-Sep.
+- `/sprint` = on-demand burndown. **Main agent daily budget cap:** $150 (CHG-0268).
 
 ## Pending Tickets
-**Critical/High (next 2 sprints):**
-- **TKT-0124:** MinIO self-hosted object store on OC1 — interim blob/file access layer. HIGH. Hybrid: Drive (human) + MinIO (agent). Sprint 3 committed. CHG-0265.
-- **TKT-0125:** Strategy-to-Backlog Pipeline — formalize roadmap → tickets ceremony. HIGH. Complete. Ken approved 2026-05-10. CHG-0244.
-- **TKT-0105:** ✅ Model3-Policy SOPs — done 2026-05-10. docs/Model3-Policy.md. CHG-0260.
-- **TKT-0106:** ✅ Apply Model3-Policy to Tier 3 agents — done 2026-05-10. CHG-0261.
-- **TKT-0108:** ✅ Document Generation Pipeline (DOCX/XLSX/PPTX/PDF) — done. CHG-0240.
-- **TKT-0113:** ✅ Fallback alert channel (API-independent) — done 2026-05-10. scripts/telegram-alert.sh. CHG-0262.
-- **TKT-0112:** ✅ obs-collector phantom + cron dedup — done 2026-05-10. CHG-0266. TKT-0140: ✅ obs-collector dedup guard 24h cap — done. CHG-0267.
 
-**Infrastructure & Setup (Aevlith/OC2 path):**
-- **TKT-0114:** AInchors–Aevlith Technologies partnership — open | HIGH | GATE for TKT-0115-0117
-- **TKT-0115:** Register Aevlith Technologies Pty Ltd with ASIC — open | HIGH | blocked on TKT-0114
-- **TKT-0116:** Secure aevlith.ai domain — open | HIGH | blocked on TKT-0115
-- **TKT-0117:** Secure aevlith.com.au domain — open | MEDIUM | blocked on TKT-0115
-- **TKT-0118:** Secure aevlith.com domain — open | MEDIUM | can run parallel
-- **TKT-0119:** IP Australia trademark (Classes 35+42) — open | MEDIUM | blocked on TKT-0114
-- **TKT-0120:** RustDesk self-hosted on OC1 — open | HIGH
+**Critical/High (active):**
+- **TKT-0124:** MinIO on OC1 — ✅ LIVE 2026-05-11. Sprint 3 committed. CHG-0265.
+- ✅ Day 15–17 completions: TKT-0125 (Strategy Pipeline), TKT-0105/106 (Model3-Policy), TKT-0108 (Doc Gen), TKT-0113 (Telegram fallback), TKT-0112/140 (obs dedup), TKT-0121 (HF image), TKT-0123/126 (LinkedIn fix), TKT-0144 (CI token audit) — CHG refs in CHANGELOG.md
 
-**Spark (Social + LinkedIn):**
-- **TKT-0121:** ✅ LinkedIn image generation via HF FLUX.1-schnell — done 2026-05-10. hf-generate-image.sh + linkedin-upload-image.sh. CHG-0254. Blocked on: Ken HF API key Keychain setup.
-- **TKT-0122:** LinkedIn image via ComfyUI fallback — open | LOW | dependent on TKT-0121
-- **TKT-0123:** ✅ Fix linkedin-post.sh delimiter + token scope — done 2026-05-10. CHG-0264. Merged into TKT-0126.
-- **TKT-0126:** ✅ Fix LinkedIn special characters — done 2026-05-10. em dash validator + mktemp fix. CHG-0264.
+**Infrastructure (Aevlith/OC2):**
+- TKT-0114: AInchors–Aevlith partnership — HIGH | GATE for 0115-0117
+- TKT-0115: Register Aevlith ASIC — HIGH | blocked on 0114
+- TKT-0116: aevlith.ai domain — HIGH | blocked on 0115
+- TKT-0117: aevlith.com.au — MEDIUM | blocked on 0115
+- TKT-0118: aevlith.com — MEDIUM | parallel
+- TKT-0119: IP Australia trademark — MEDIUM | blocked on 0114
+- TKT-0120: RustDesk self-hosted OC1 — HIGH
 
-**Business Stream & Consulting (P2 path):**
-- **TKT-0127:** Agentic Marketing Org Design — open | HIGH | Phase 1 (Aria+Spark) + Phase 2 (Luthen). Dep: TKT-0124 MinIO.
-- **TKT-0128:** Aria marketing mandate + Brand Code stewardship (P1) — in-progress | HIGH | staging complete, MinIO-dependent delivery. CHG-0263.
-- **TKT-0129:** Luthen: Marketing Intelligence Agent (P2) — open | MEDIUM | blocked on TKT-0124+0128.
+**Business Stream (P2):**
+- TKT-0127: Agentic Marketing Org Design — HIGH | dep: TKT-0124
+- TKT-0128: Aria marketing mandate + Brand Code (P1) — in-progress | MinIO-dependent. CHG-0263.
+- TKT-0129: Luthen Marketing Agent (P2) — MEDIUM | blocked on 0124+0128
 
-**Process & Documentation:**
-- **TKT-0107:** Agent Governance — Squad Model (Tier 5+) — open | MEDIUM | GATE: define before squad work
-- **TKT-0109:** Cassian Andor (Agile PM) — open | MEDIUM | review July QBR
-- **TKT-0110:** Process Documentation Framework — in-progress | MEDIUM | Lando owns. Pilot: KL team + Agile Working Guide.
-- **TKT-0111:** Angie Agile + Nexus Working Guide — in-progress | MEDIUM | part of KL transformation programme (Phase 2)
+**Process & Docs:**
+- TKT-0107: Squad Model (T5+) — MEDIUM | GATE before squad work
+- TKT-0109: Cassian Andor (Agile PM) — MEDIUM | Jul QBR
+- TKT-0110: Process Documentation Framework — in-progress | Lando owns
+- TKT-0111: Angie Agile + Nexus Working Guide — in-progress
 
-**Enterprise Architecture & Product Strategy:**
-- **TKT-0130:** QBR Agent Fleet Review ceremony — open | HIGH | cadence Jan/Apr/Jul/Oct. First: Jul 2026. CHG-0267.
-- **TKT-0131:** Review task log and tracker — open | MEDIUM | completeness, accuracy, gaps audit
-- **TKT-0132:** Review cost and ROI log — open | MEDIUM | cost-state.json, business ROI tracking, P1→P2 metrics
-- **TKT-0133:** EA: Observability Strategy & Tool Selection (OTel vs Dynatrace) — open | MEDIUM | Atlas owns
-- **TKT-0134:** Model strategy review — Gemma4:31b-cloud pilot + OC2-gated unblock assessment — open | MEDIUM | trigger: auto-fire when pilot ends ~2026-05-18
-- **TKT-0135:** AInchors Sandbox Environment — open | HIGH | isolated, ephemeral demo/PoC setup. Sprint 3 committed. CHG-0265.
-- **TKT-0136:** AInchors Consulting Playbook — open | HIGH | IP library (discovery, assessment, ROI, frameworks). Part of TKT-0138 family.
-- **TKT-0137:** AInchors Policy Register (POL-001+) — open | HIGH | formal policy docs. Audit readiness. Lex producer.
-- **TKT-0138:** Business Jumpstart (3-part engagement pathway) — open | HIGH | Part 1: onboarding+Nexus, Part 2: discovery+VMS, Part 3: sprint 1. Ahsoka owns. Part of TKT-0136 family.
-- **TKT-0139:** Consulting Product Portfolio — open | HIGH | commercial offerings by maturity stage. P2-P4 strategy. Training course pipeline.
+**EA & Product Strategy:**
+- TKT-0130: QBR Fleet Review — HIGH | Jan/Apr/Jul/Oct. First: Jul 2026.
+- TKT-0131: Review task log — MEDIUM. TKT-0132: Review cost + ROI log — MEDIUM.
+- TKT-0133: Observability Strategy (OTel vs Dynatrace) — MEDIUM | Atlas owns
+- TKT-0134: Model strategy review — MEDIUM | auto-fire ~2026-05-18
+- TKT-0135: AInchors Sandbox — HIGH | Sprint 3 committed. Forge builds. CHG-0265.
+- TKT-0136: Consulting Playbook — HIGH. TKT-0137: Policy Register (POL-001+) — HIGH | Lex.
+- TKT-0138: Business Jumpstart pathway — HIGH | Ahsoka owns
+- TKT-0139: Consulting Product Portfolio — HIGH
 
 **Security & Governance:**
-- **TKT-0141:** CLI-Anything supply chain risk audit — in-progress | HIGH | DDIPE vector + controls (skill-registry.json, audit-skill.sh). CHG-0270/0271.
-- **TKT-0142:** SKILL.md poisoning — formal review process + skill audit — in-progress | HIGH | ToxicSkills precedent. 63 skills audited (clean). CHG-0270/0272.
-- **TKT-0143:** CLI-Anything strategic assessment (Atlas EA) — open | MEDIUM | CONDITIONAL ADOPT (P2). Review Ken approval.
+- TKT-0141: CLI-Anything supply chain audit — in-progress | HIGH
+- TKT-0142: SKILL.md poisoning review — in-progress | HIGH | 63 skills audited clean
+- TKT-0143: CLI-Anything EA assessment — MEDIUM | CONDITIONAL ADOPT (P2)
 
-**Perpetual Optimization:**
-- **TKT-0144:** ✅ Platform CI: Token Efficiency Audit — DONE 2026-05-11. Cycle 1: 14 crons optimised, 1.8M tokens/day saved. CHG-0273. Perpetual loop active.
-
-**Resolved (logged):**
-- **TKT-0104:** ✅ Data + Memory Architecture — locked 2026-05-08. CHG-0235.
-
-tickets.json seq 152 (updated 2026-05-11). Notion AKB Backlog = SSOT.
+tickets.json seq 152. Notion AKB Backlog = SSOT.
 
 ## Key Decisions & Architecture (locked)
-- **P1–P4:** P1=internal | P2=SaaS individual agents | P3=commercial tier label (add-on to P2, not a build phase) | P4=Enterprise/FSI. Licensed product DROPPED from P3.
-- **P3 trigger:** formal ROI checklist before enabling. P4 may skip P3 entirely (enterprise prefers physical).
-- **P2 isolation:** RLS from day one. Multi-tenant foundation in P2 (tenant_id, RLS, shared state).
-- **P2 client model policy (CHG-0236):** Gemma4 local only for client workloads. BYOK = opt-in, client accepts data residency risk.
-- **Anthropic DPA:** Claude API blocked for client data (APRA CPG 235 / Privacy Act APP 11 — US storage = cross-border transfer). Policy: Gemma4 local default. BYOK = client's responsibility.
-- **BYOK + Nexus-first locked globally.** canvas embed rule: sub-agents pass full path, no embed tags.
-- agentToAgent enabled (openclaw.json). Ollama Pro: accounts@ainchors.com.
-- Agile Framework v1.0 locked (Day 13, CHG-0222). Sprint 1 started 2026-05-07. P2 target: end-Aug 2026. Aevlith Technologies incorporation hard gate: end-May 2026.
-- CI Cycle A running (cycle-a, phase A). Cycle 1A 7-day report generated CHG-0244. Cycle 2A started.
-- **Day 15 (2026-05-09):** Standup email theme → light (CHG-0246). /Volumes/Docker alert was installer DMG, ejected. INC-20260509-001: 26h API degradation (balance $0 → $479.35 top-up → recovered). TKT-0113 raised for fallback alert path.
+- **P1–P4:** P1=internal | P2=SaaS individual agents | P3=commercial tier label | P4=Enterprise/FSI. Licensed product DROPPED from P3.
+- **P2:** RLS from day one. Multi-tenant (tenant_id, RLS, shared state). Client model: Gemma4 local only. BYOK = opt-in (CHG-0236).
+- **Anthropic DPA:** Claude API blocked for client data (APRA CPG 235 / Privacy Act APP 11). Gemma4 local default.
+- **BYOK + Nexus-first locked globally.** agentToAgent enabled. canvas embed: sub-agents pass full path only.
+- Agile Framework v1.0 (CHG-0222). Sprint 1 started 2026-05-07. P2 target: end-Aug 2026. Aevlith inc. hard gate: end-May 2026.
+- CI Cycle A running. Cycle 2A started.
+- **INC-20260511-001 (22:03 AEST Day 17):** Thrawn wrote directly to openclaw.json → array schema break → ~2 min gateway crash. Fix: `openclaw doctor --fix`. Rule locked: Thrawn/Atlas NEVER write files. Config via gateway tool only.
+- **INC-20260509-001:** 26h API degradation (balance $0). Auto-reload live post-recovery.
 
 ## File Access
-- **MinIO live (TKT-0124 ✅ 2026-05-11):** Agent object store on OC1. Tailscale URL: `https://ainchorss-mac-mini.tail5e2567.ts.net`. Presigned URLs via `scripts/minio-upload.sh`. 4 buckets: agent-memory, generated-media, workspace-assets, brand-code.
-- **Google Drive (human layer):** "AInchors — Yoda Working Files" | Root: `1EyLi8JCvxwixhpBdRwP0PwdZokrg78Jl` | Subfolders: EA Assessments, Sprint Docs, Generated Images, Drafts for Ken Review, Journal+Blog, Memory+Context, Platform Docs. State: `state/gdrive-folders.json`
-- **File access rule:** Agent blobs → MinIO (presigned URL). Human docs → Drive. No longer interim — this is the P1 permanent setup until P2 S3 migration.
+- **MinIO live (TKT-0124 ✅ 2026-05-11):** Agent object store on OC1. Tailscale URL: `https://ainchorss-mac-mini.tail5e2567.ts.net`. Presigned URLs via `scripts/minio-upload.sh`. Buckets: agent-memory, generated-media, workspace-assets, brand-code.
+- **Google Drive (human layer):** "AInchors — Yoda Working Files" | Root: `1EyLi8JCvxwixhpBdRwP0PwdZokrg78Jl` | State: `state/gdrive-folders.json`
+- **File access rule:** Agent blobs → MinIO. Human docs → Drive. P1 permanent until P2 S3 migration.
