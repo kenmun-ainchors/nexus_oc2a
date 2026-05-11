@@ -1,16 +1,16 @@
 {
-  "generated_at": "2026-05-11T13:00:55.480435+00:00",
-  "generated_at_aest": "2026-05-11 23:00 AEST",
+  "generated_at": "2026-05-11T13:40:40.349131+00:00",
+  "generated_at_aest": "2026-05-11 23:40 AEST",
   "period_hours": 24,
   "totals": {
-    "ERROR": 464,
+    "ERROR": 438,
     "WARN": 5,
     "INFO": 16
   },
   "top_errors": [
     {
       "type": "warden_violation_unescalated",
-      "count": 447
+      "count": 423
     },
     {
       "type": "health_failure",
@@ -18,7 +18,7 @@
     },
     {
       "type": "budget_exceeded",
-      "count": 5
+      "count": 3
     }
   ],
   "top_warnings": [
@@ -37,9 +37,9 @@
   ],
   "trend": {
     "has_prev_data": true,
-    "prev_errors": 442,
+    "prev_errors": 468,
     "prev_warns": 11,
-    "errors_pct_change": 5.0,
+    "errors_pct_change": -6.4,
     "warns_pct_change": -54.5
   },
   "worst_hour": {
