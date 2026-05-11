@@ -108,6 +108,13 @@ _Maintained by Aria 🔵 + Yoda 🟢 | Status-tracked content for AInchors train
 | TC-099 | Strategy to backlog: the gap that kills AI platform roadmaps | 💡 Idea | Yoda Day 16 (MinIO in Atlas roadmap but no ticket — TKT-0125 Roadmap Refinement ceremony formalised, DoD seeding list) | Both |
 | TC-100 | The invisible file problem: how to make AI-generated outputs accessible to humans | 💡 Idea | Yoda Day 16 (Ken couldn't access files via Tailscale — Drive interim layer → MinIO agent layer architecture decision) | Aria |
 
+| TC-101 | Token efficiency at scale: how 14 cron fixes save 1.8 million tokens per day | 💡 Idea | Yoda Day 17 (CHG-273 — 14 crons audited, lightContext, systemEvent switch, Relay Poller 1.44M tokens/day saving) | Both |
+| TC-102 | Smart backups for AI platforms: incremental vs full and why 1GB/day is unsustainable | 💡 Idea | Yoda Day 17 (CHG-274 — rsync --link-dest incremental Mon-Sat, full Sun, 1GB → 5MB/day) | Aria |
+| TC-103 | How MinIO works: private S3 storage for AI agents that keeps data on your own hardware | 💡 Idea | Yoda Day 17 (CHG-275 TKT-0124 — MinIO live, 4 buckets, Tailscale HTTPS, presigned URLs, LaunchAgent auto-start) | Aria |
+| TC-104 | The architect-builder separation: why your AI designer should never write the files | 💡 Idea | Yoda Day 17 (INC-20260511-001 + L-026 — Thrawn wrote openclaw.json directly → schema break → 2 min gateway crash; rule: Forge builds, always) | Both |
+| TC-105 | Why /tmp is not your friend in AI automation: isolated sessions and file path discipline | 💡 Idea | Yoda Day 17 (L-023 — blog cron failed silently writing to /tmp from isolated session; fix: workspace/tmp/) | Yoda |
+| TC-106 | Automating journal integrity: why AI platforms need their own QA layer | 💡 Idea | Yoda Day 17 (L-024 — journal corruption undetected for hours; auto-heal CHECK 14C added; lesson: operational tooling needs tooling) | Both |
+
 ## Status Legend
 💡 Idea → 📝 Draft → 🔍 Review (Yoda validates) → ✅ Ready → 📢 Published
 
