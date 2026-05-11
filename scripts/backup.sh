@@ -1,24 +1,30 @@
 #!/bin/zsh
-# AInchors Backup Script
-# Runs via cron. Backs up workspace + OpenClaw config.
-# Obsidian vault retired TKT-0042 Phase 4 — no longer backed up here.
+# AInchors Backup Script — TKT-0146 incremental optimisation
+# Strategy: incremental daily (rsync --link-dest) + full tar.gz weekly (Sunday)
+# Obsidian vault retired TKT-0042 Phase 4 — no longer backed up.
 
 TIMESTAMP=$(date +%Y-%m-%d-%H%M)
+DOW=$(date +%u)  # 1=Monday, 7=Sunday
 BACKUP_ROOT="$HOME/Backups/ainchors"
 WORKSPACE="$HOME/.openclaw/workspace"
 CONFIG="$HOME/.openclaw/openclaw.json"
 LOG="$BACKUP_ROOT/logs/backup.log"
-MAX_BACKUPS=30  # Keep 30 daily backups (~1 month)
 
-mkdir -p "$BACKUP_ROOT/workspace" "$BACKUP_ROOT/config" "$BACKUP_ROOT/logs"
+# Retention: 7 daily incrementals + 4 weekly fulls
+MAX_INCREMENTAL=7
+MAX_FULL=4
+MAX_CONFIG=14
+
+mkdir -p "$BACKUP_ROOT/workspace-incremental" "$BACKUP_ROOT/workspace-full" \
+         "$BACKUP_ROOT/config" "$BACKUP_ROOT/logs"
 
 log() {
   echo "[$(date '+%Y-%m-%d %H:%M:%S')] $1" | tee -a "$LOG"
 }
 
-log "--- Backup started: $TIMESTAMP ---"
+log "--- Backup started: $TIMESTAMP (DOW=$DOW) ---"
 
-# 1. Git commit workspace (capture any changes since last commit)
+# ── Step 1: Git commit workspace ──────────────────────────────────────────────
 cd "$WORKSPACE"
 if [[ -n $(git status --porcelain) ]]; then
   git add -A
@@ -28,25 +34,87 @@ else
   log "Workspace: no changes since last commit"
 fi
 
-# 2. Snapshot workspace to timestamped tar
-# Exclude auth files (S5 fix: CHG-0152 followup — prevent API keys leaking into backups)
-WORKSPACE_SNAP="$BACKUP_ROOT/workspace/workspace-$TIMESTAMP.tar.gz"
-tar -czf "$WORKSPACE_SNAP" \
-  --exclude="workspace/.openclaw/agents/*/agent/auth-profiles.json" \
-  --exclude="workspace/.openclaw/agents/*/agent/auth-state.json" \
-  --exclude="workspace/**/auth-profiles*.json" \
-  --exclude="workspace/**/auth-state*.json" \
-  -C "$HOME/.openclaw" workspace 2>> "$LOG"
-log "Workspace snapshot: $WORKSPACE_SNAP (auth files excluded)"
+# ── Step 2a: Full backup on Sunday (DOW=7) ────────────────────────────────────
+if [[ "$DOW" == "7" ]]; then
+  log "FULL backup (Sunday)"
+  FULL_SNAP="$BACKUP_ROOT/workspace-full/workspace-full-$TIMESTAMP.tar.gz"
+  tar -czf "$FULL_SNAP" \
+    --exclude=".openclaw/agents/*/agent/auth-profiles.json" \
+    --exclude=".openclaw/agents/*/agent/auth-state.json" \
+    --exclude="**auth-profiles*.json" \
+    --exclude="**auth-state*.json" \
+    -C "$HOME/.openclaw" workspace 2>> "$LOG"
+  log "Full snapshot: $FULL_SNAP ($(du -sh "$FULL_SNAP" | cut -f1))"
 
-# 3. Backup OpenClaw config (strip auth fields before saving)
-# Use python3 to scrub any authProfiles/authState keys from the config snapshot
-python3 - "$CONFIG" "$BACKUP_ROOT/config/openclaw-$TIMESTAMP.json" << 'PYEOF'
+  # Prune old full backups
+  FULL_COUNT=$(ls "$BACKUP_ROOT/workspace-full/"*.tar.gz 2>/dev/null | wc -l | tr -d ' ')
+  if (( FULL_COUNT > MAX_FULL )); then
+    EXCESS=$((FULL_COUNT - MAX_FULL))
+    ls -t "$BACKUP_ROOT/workspace-full/"*.tar.gz | tail -$EXCESS | xargs rm -f
+    log "Pruned $EXCESS old full backups (keeping $MAX_FULL)"
+  fi
+  BACKUP_TYPE="full"
+  BACKUP_SNAP="$FULL_SNAP"
+
+# ── Step 2b: Incremental backup Mon-Sat (rsync --link-dest) ───────────────────
+else
+  log "INCREMENTAL backup (Mon-Sat)"
+  INCR_DEST="$BACKUP_ROOT/workspace-incremental/workspace-$TIMESTAMP"
+
+  # Find the most recent incremental or full snapshot to link against
+  PREV_INCR=$(ls -dt "$BACKUP_ROOT/workspace-incremental/workspace-"* 2>/dev/null | head -1)
+  PREV_FULL_TAR=$(ls -t "$BACKUP_ROOT/workspace-full/"*.tar.gz 2>/dev/null | head -1)
+
+  if [[ -n "$PREV_INCR" ]]; then
+    LINK_DEST="$PREV_INCR"
+    log "Linking against previous incremental: $(basename $LINK_DEST)"
+  else
+    # No previous incremental — this is the first run, do a full rsync without link-dest
+    log "No previous incremental found — running first full rsync"
+    LINK_DEST=""
+  fi
+
+  mkdir -p "$INCR_DEST"
+
+  if [[ -n "$LINK_DEST" ]]; then
+    rsync -a \
+      --link-dest="$LINK_DEST/" \
+      --exclude="agents/*/agent/auth-profiles.json" \
+      --exclude="agents/*/agent/auth-state.json" \
+      --exclude="**auth-profiles*.json" \
+      --exclude="**auth-state*.json" \
+      "$HOME/.openclaw/workspace/" \
+      "$INCR_DEST/" >> "$LOG" 2>&1
+  else
+    rsync -a \
+      --exclude="agents/*/agent/auth-profiles.json" \
+      --exclude="agents/*/agent/auth-state.json" \
+      --exclude="**auth-profiles*.json" \
+      --exclude="**auth-state*.json" \
+      "$HOME/.openclaw/workspace/" \
+      "$INCR_DEST/" >> "$LOG" 2>&1
+  fi
+
+  INCR_SIZE=$(du -sh "$INCR_DEST" 2>/dev/null | cut -f1)
+  log "Incremental snapshot: $INCR_DEST ($INCR_SIZE apparent, hard-links reduce actual usage)"
+
+  # Prune old incrementals
+  INCR_COUNT=$(ls -d "$BACKUP_ROOT/workspace-incremental/workspace-"* 2>/dev/null | wc -l | tr -d ' ')
+  if (( INCR_COUNT > MAX_INCREMENTAL )); then
+    EXCESS=$((INCR_COUNT - MAX_INCREMENTAL))
+    ls -dt "$BACKUP_ROOT/workspace-incremental/workspace-"* | tail -$EXCESS | xargs rm -rf
+    log "Pruned $EXCESS old incrementals (keeping $MAX_INCREMENTAL)"
+  fi
+  BACKUP_TYPE="incremental"
+  BACKUP_SNAP="$INCR_DEST"
+fi
+
+# ── Step 3: Config backup (daily, auth scrubbed) ──────────────────────────────
+/usr/bin/python3 - "$CONFIG" "$BACKUP_ROOT/config/openclaw-$TIMESTAMP.json" << 'PYEOF'
 import json, sys, re
 src, dst = sys.argv[1], sys.argv[2]
 with open(src) as f:
     data = json.load(f)
-# Remove auth-sensitive keys recursively
 def scrub(obj):
     if isinstance(obj, dict):
         return {k: scrub(v) for k, v in obj.items()
@@ -59,65 +127,58 @@ with open(dst, 'w') as f:
 PYEOF
 log "Config backup: openclaw-$TIMESTAMP.json (auth fields scrubbed)"
 
-# 5b. iCloud offsite backup (TKT-0093 — 3-2-1+1 cloud copy)
-ICLOUD_BACKUP="$HOME/Library/Mobile Documents/com~apple~CloudDocs/AInchors-Backups"
-ICLOUD_MAX=7  # Keep 7 copies in iCloud (storage cost)
-
-if [[ -d "$HOME/Library/Mobile Documents/com~apple~CloudDocs" ]]; then
-  mkdir -p "$ICLOUD_BACKUP"
-  ICLOUD_DEST="$ICLOUD_BACKUP/$(basename $WORKSPACE_SNAP)"
-  cp "$WORKSPACE_SNAP" "$ICLOUD_DEST" 2>> "$LOG" && log "iCloud backup: $(basename $WORKSPACE_SNAP) copied" || log "iCloud backup: FAILED to copy"
-  # Prune iCloud copies (keep last ICLOUD_MAX)
-  ICLOUD_COUNT=$(ls "$ICLOUD_BACKUP"/*.tar.gz 2>/dev/null | wc -l | tr -d ' ')
-  if (( ICLOUD_COUNT > ICLOUD_MAX )); then
-    ICLOUD_EXCESS=$((ICLOUD_COUNT - ICLOUD_MAX))
-    ls -t "$ICLOUD_BACKUP"/*.tar.gz 2>/dev/null | tail -$ICLOUD_EXCESS | xargs rm -f
-    log "iCloud pruned $ICLOUD_EXCESS old copies (keeping $ICLOUD_MAX)"
-  fi
-  CLOUD_BACKUP_ENABLED=true
-else
-  # TODO: iCloud not accessible — set up alternative cloud sync (rclone, S3, etc.)
-  log "iCloud backup: SKIPPED — iCloud Drive not found at ~/Library/Mobile Documents/com~apple~CloudDocs"
-  CLOUD_BACKUP_ENABLED=false
+# Prune old config backups
+CONFIG_COUNT=$(ls "$BACKUP_ROOT/config/"*.json 2>/dev/null | wc -l | tr -d ' ')
+if (( CONFIG_COUNT > MAX_CONFIG )); then
+  EXCESS=$((CONFIG_COUNT - MAX_CONFIG))
+  ls -t "$BACKUP_ROOT/config/"*.json | tail -$EXCESS | xargs rm -f
+  log "Pruned $EXCESS old config backups (keeping $MAX_CONFIG)"
 fi
 
-# 6. Prune old backups (keep last MAX_BACKUPS)
-for dir in "$BACKUP_ROOT/workspace" "$BACKUP_ROOT/config"; do
-  COUNT=$(ls "$dir" | wc -l | tr -d ' ')
-  if (( COUNT > MAX_BACKUPS )); then
-    EXCESS=$((COUNT - MAX_BACKUPS))
-    ls -t "$dir" | tail -$EXCESS | xargs -I{} rm "$dir/{}"
-    log "Pruned $EXCESS old backups from $dir"
+# ── Step 4: iCloud offsite (workspace-full only on Sunday) ───────────────────
+ICLOUD_BACKUP="$HOME/Library/Mobile Documents/com~apple~CloudDocs/AInchors-Backups"
+ICLOUD_MAX=4
+CLOUD_BACKUP_ENABLED=false
+
+if [[ "$DOW" == "7" && -d "$HOME/Library/Mobile Documents/com~apple~CloudDocs" ]]; then
+  mkdir -p "$ICLOUD_BACKUP"
+  ICLOUD_DEST="$ICLOUD_BACKUP/$(basename $FULL_SNAP)"
+  cp "$FULL_SNAP" "$ICLOUD_DEST" 2>> "$LOG" && {
+    log "iCloud backup: $(basename $FULL_SNAP) copied"
+    CLOUD_BACKUP_ENABLED=true
+  } || log "iCloud backup: FAILED"
+  # Prune iCloud
+  ICLOUD_COUNT=$(ls "$ICLOUD_BACKUP"/*.tar.gz 2>/dev/null | wc -l | tr -d ' ')
+  if (( ICLOUD_COUNT > ICLOUD_MAX )); then
+    ls -t "$ICLOUD_BACKUP"/*.tar.gz | tail -$((ICLOUD_COUNT - ICLOUD_MAX)) | xargs rm -f
+    log "iCloud pruned to $ICLOUD_MAX copies"
   fi
-done
+elif [[ "$DOW" != "7" ]]; then
+  log "iCloud backup: skipped (incremental day — iCloud only on full/Sunday)"
+else
+  log "iCloud backup: skipped — iCloud Drive not found"
+fi
 
-log "--- Backup complete: $TIMESTAMP ---"
-echo ""
-
-# 7. Write backup state file (TKT-0093 format — for heartbeat + auto-heal checks)
-STATE_FILE="$HOME/.openclaw/workspace/state/backup-state.json"
-WS_SNAP_BASENAME=$(basename "$WORKSPACE_SNAP")
-CONFIG_SNAP_BASENAME=$(basename "$BACKUP_ROOT/config/openclaw-$TIMESTAMP.json")
-BACKUP_COUNT=$(ls "$BACKUP_ROOT/workspace"/*.tar.gz 2>/dev/null | wc -l | tr -d ' ')
-SIZE_BYTES=$(stat -f%z "$WORKSPACE_SNAP" 2>/dev/null || echo 0)
-
+# ── Step 5: Write state file ──────────────────────────────────────────────────
+STATE_FILE="$WORKSPACE/state/backup-state.json"
 CLOUD_FLAG="False"
-[[ "${CLOUD_BACKUP_ENABLED:-false}" == "true" ]] && CLOUD_FLAG="True"
+[[ "$CLOUD_BACKUP_ENABLED" == "true" ]] && CLOUD_FLAG="True"
 
-python3 -c "
-import json, os
+/usr/bin/python3 -c "
+import json
 state = {
     'lastBackup': '$(date -u +%Y-%m-%dT%H:%M:%SZ)',
     'status': 'ok',
+    'backupType': '$BACKUP_TYPE',
     'location': '$BACKUP_ROOT',
-    'lastWorkspaceSnap': '$WS_SNAP_BASENAME',
-    'lastConfigSnap': '$CONFIG_SNAP_BASENAME',
+    'lastSnap': '$(basename $BACKUP_SNAP)',
     'nasConnected': False,
     'cloudBackupEnabled': $CLOUD_FLAG,
-    'sizeBytes': $SIZE_BYTES,
-    'backupCount': $BACKUP_COUNT
+    'schedule': 'incremental Mon-Sat (rsync --link-dest), full Sun (tar.gz)'
 }
 with open('$STATE_FILE', 'w') as f:
     json.dump(state, f, indent=2)
 "
-log "State file written: $STATE_FILE"
+
+log "--- Backup complete: $TIMESTAMP ($BACKUP_TYPE) ---"
+echo ""

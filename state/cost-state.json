@@ -1,5 +1,5 @@
 {
-  "lastUpdated": "2026-05-10T13:56:22Z",
+  "lastUpdated": "2026-05-11T02:00:11Z",
   "history": {
     "2026-04-25": {
       "date": "2026-04-25",
@@ -620,15 +620,52 @@
           "turns": 5
         }
       }
+    },
+    "2026-05-11": {
+      "date": "2026-05-11",
+      "totalCost": 32.4814,
+      "totalTurns": 980,
+      "totalInputTokens": 979690,
+      "totalOutputTokens": 261796,
+      "totalCacheReadTokens": 31090066,
+      "totalCacheWriteTokens": 5615462,
+      "source": "session-log-estimate",
+      "note": "Session log estimate. usage.cost.total includes cacheWrite charges. CHG-0097: confirmed cost includes cache writes.",
+      "byModel": {
+        "claude-sonnet-4-6": {
+          "input": 1222,
+          "output": 214495,
+          "cacheRead": 28100742,
+          "cacheWrite": 5321376,
+          "cost": 31.6065,
+          "turns": 662
+        },
+        "claude-haiku-4-5": {
+          "input": 3488,
+          "output": 40985,
+          "cacheRead": 2989324,
+          "cacheWrite": 294086,
+          "cost": 0.875,
+          "turns": 305
+        },
+        "deepseek-v4-pro:cloud": {
+          "input": 974980,
+          "output": 6316,
+          "cacheRead": 0,
+          "cacheWrite": 0,
+          "cost": 0.0,
+          "turns": 13
+        }
+      }
     }
   },
-  "allTimeTotalCost": 2605.4047,
-  "daysTracked": 16,
-  "avgDailyCost": 162.8378,
+  "allTimeTotalCost": 2637.8861,
+  "daysTracked": 17,
+  "avgDailyCost": 155.1698,
   "apiBalance": {
     "remainingEstimate": 0,
-    "spentSinceTopUp": 2605.4047,
-    "remainingNote": "confirmedBalance=None at 2026-05-08; spentAfter=2605.4047",
+    "spentSinceTopUp": 2637.8861,
+    "remainingNote": "confirmedBalance=None at 2026-05-08; spentAfter=2637.8861",
     "confirmedAt": "2026-05-08T11:32:26Z",
     "note": "Auto-reload triggered 2026-05-10. Balance $425.12 post-reload spend.",
     "lastUpdated": "2026-05-10T15:25:58.923445+10:00",

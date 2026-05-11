@@ -644,9 +644,10 @@ try:
         import sqlite3
         db_path = os.path.join(state, 'state', 'obs.db')
         conn = sqlite3.connect(db_path)
-        recent_ids = set(row[0] for row in conn.execute(
+        _rows = conn.execute(
             "SELECT json_extract(details,'$.id') FROM obs_log WHERE event_type='warden_violation_unescalated' AND ts_epoch > strftime('%s','now','-60 minutes')"
-        ).fetchall() if os.path.exists(db_path) else [])
+        ).fetchall() if os.path.exists(db_path) else []
+        recent_ids = set(row[0] for row in _rows)
         conn.close()
     except Exception:
         recent_ids = set()
