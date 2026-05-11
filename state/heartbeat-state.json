@@ -4,11 +4,11 @@
     "calendar": "2026-05-11T11:20:00Z",
     "weather": "2026-05-11T07:42:02.352Z",
     "taskWatchdog": "2026-05-11T11:20:00Z",
-    "cronHealth": "2026-05-11T11:20:00Z",
-    "budgetCheck": "2026-05-11T11:20:00Z",
+    "cronHealth": "2026-05-11T12:47:00Z",
+    "budgetCheck": "2026-05-11T12:47:00Z",
     "doDGates": "2026-05-11T08:12:00.000Z",
     "cronDeadLetter": "2026-05-11T11:20:00Z",
-    "agentHealth": "2026-05-11T11:20:00Z",
+    "agentHealth": "2026-05-11T12:47:00Z",
     "wardenEscalation": "2026-05-11T11:20:00Z",
     "allowlistSync": "2026-05-11T10:47:00Z",
     "dailyClose": "2026-05-10T13:55:39.660Z",
@@ -18,6 +18,6 @@
     "taskVerification": "2026-05-11T11:20:00Z"
   },
   "doDGatesSunday": "2026-05-10T23:53:00.000Z",
-  "lastHeartbeat": "2026-05-11T12:15:00Z",
-  "lastHeartbeatNote": "22:15 AEST Mon. All clear. Ceremonies confirmed done (retroactive Sprint 1+2 Review + Sprint 3 Planning, Ken approved 09:40 AEST). Sprint 3 started: 1/5 done (TKT-0124 MinIO ✅). Cron health clean. Warden all resolved. Budget activeTier=0. No standby/stalls/dead-letter/task-verification alerts. Ahsoka pilot1 in_progress/pilot2 pending."
+  "lastHeartbeat": "2026-05-11T12:47:00Z",
+  "lastHeartbeatNote": "22:47 AEST Mon. Budget alert: infra agent $23.36 vs $15 cap (155.7%). Telegram sent to Ken. Acknowledged. Cron health clean. Warden resolved. No standby/stalls/dead-letter/task-verification. Ahsoka pilot1 in_progress. All other checks clear."
 }
