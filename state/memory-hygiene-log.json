@@ -22,5 +22,9 @@
   {
     "date": "2026-05-11T07:46:00+10:00",
     "changes": "7 fact corrections made: (1) Agent SOUL.md sizes: Yoda 2,088→3,527 chars (v2.1.0 CHG-0271), Aria 3,765→4,659 chars (CHG-0263), added Spark/Atlas/Thrawn/Lando/Mon Mothma sizes. (2) Model strategy: gemma4:31b-cloud status corrected—Added per CHG-0249 but removed per CHG-0250/0251 (CI Cycle B cancelled, removed from agent allowlists). Tier 2 models: kimi/deepseek-flash/deepseek-pro (not gemma4:31b). (3) Pending Tickets: 15 new tickets added (TKT-0131→0144), reorganized into categories (Infrastructure, Business Stream, Process, Enterprise Arch, Security, Optimization). 8 tickets marked done with CHG refs. (4) Tickets.json: seq 124→145. (5) Scripts: added audit-skill.sh, telegram-alert.sh, skill-registry.json refs (TKT-0141/0142). (6) Docs: added CHG-0270/0271 reference docs (Orchestrator, Skill Policy). (7) Budget: main agent cap $80→$150 (CHG-0268). Cross-checks: tickets.json seq 145, cost-state.json balance tracked, chg-triggers.json (TRIGGER-04/05/08/12 verified), akb-migration-state.json phases complete. No conflicts. 0 alerts to Ken."
+  },
+  {
+    "date": "2026-05-12T07:45:00+10:00",
+    "changes": "2 fact corrections: (1) TKT-0121 status corrected from 'action pending' to 'done (CHG-0254)' with note on HF API key follow-on. (2) tickets.json sequence updated: seq 153 → 154. Cross-checks: tickets.json shows sequence:154, MEMORY_TICKETS.md shows seq 153 with note (managed by script). MEMORY.md now accurate. No alerts to Ken."
   }
 ]

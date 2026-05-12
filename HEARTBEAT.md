@@ -130,6 +130,15 @@ This is Ken's rule, not Yoda's suggestion. Enforce it.
   - Do NOT delete the file (auto-heal.sh manages cleanup)
 - State key: lastChecks.cronDeadLetter
 
+### Auto-Heal NEEDS_KEN → Notion (check every morning after auto-heal run)
+- Read state/auto-heal-[YESTERDAY].json → needs_ken array
+- If needs_ken_count > 0: raise each item as a Notion page in AKB Backlog
+- **Status: ALWAYS set to "Done"** — AUTO-HEAL items are informational records, not actionable backlog
+- Title format: [AUTO-HEAL] [item description]
+- Type: task | Priority: medium | Notes: full item text
+- After raising: send Telegram alert to Ken with count + summary (urgent items only)
+- Do NOT create Backlog items that clutter the sprint view — Done = logged for awareness, not action
+
 ### Memory Maintenance (once per day, during low-traffic hours)
 - Review recent memory/YYYY-MM-DD.md files
 - Update MEMORY.md with anything significant

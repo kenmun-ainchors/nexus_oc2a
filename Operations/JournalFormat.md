@@ -79,9 +79,7 @@ _Author: Yoda 🟢 | For: Ken Mun (CTO) | Private — personal review only_
 - Real commands inside ```bash fences
 - Decisions taken inline
 
-**Yoda's response (verbatim):**
-> "Exact closing reply delivered to Ken — the final summary or answer sent in chat."
-> "If multi-message, quote each separately."
+**Yoda's closing note:** 2–3 sentences summarising what was delivered — the key decision, answer, or action confirmed to Ken. Not a quote; a concise record of what closed the interaction.
 
 **Outcome:** Concrete result — file written, alert sent, decision logged, error captured.
 
@@ -109,12 +107,11 @@ _Author: Yoda 🟢 | For: Ken Mun (CTO) | Private — personal review only_
 
 2. **Chronological order.** No re-ordering for narrative. The log follows the clock.
 
-3. **Every meaningful prompt AND response must appear.** The `Yoda's response (verbatim)` field captures the final reply delivered to Ken for each entry — not tool output, not intermediate steps, but the closing message Ken actually received in chat. This creates a bidirectional record: Ken's intent + Yoda's answer. Rules:
-   - Quote Yoda's final chat reply exactly, preserving formatting, numbers, and conclusions
-   - If Yoda sent multiple follow-up messages for one request, quote each
-   - If the response was purely mechanical (e.g. "Done. Committed."), quote it anyway — it shows confirmation
-   - If no reply was sent (silent system event), write: `> _(silent — no chat reply)_`
-   - Do NOT paste tool call output or intermediate reasoning — only the message Ken received
+3. **Every meaningful prompt AND response must appear.** The `Yoda's closing note` field captures the essence of what was delivered to Ken — 2–3 sentences max. Not a verbatim quote; a concise record. Rules:
+   - Summarise the key decision, answer, or confirmation in plain language
+   - Capture the substance: what was fixed, approved, built, or resolved
+   - If response was silent/mechanical, write: `_(silent system event — no chat reply)_`
+   - This field is always writeable regardless of session compaction — it is a summary, not a quote
 
 4. **Every meaningful prompt must appear.** This includes:
    - Sprint kickoffs and approvals

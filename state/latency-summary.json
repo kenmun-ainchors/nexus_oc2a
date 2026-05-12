@@ -1,67 +1,67 @@
 {
-  "generatedAt": "2026-05-11T16:03:44.596923+00:00",
+  "generatedAt": "2026-05-12T14:05:29.762894+00:00",
   "windowDays": 7,
   "note": "Duration = end-to-end cron task time (includes LLM call + tool use). TTFT instrumentation pending gateway-level hooks.",
   "overall": {
-    "sampleCount": 10199,
-    "avgMs": 13460,
+    "sampleCount": 10091,
+    "avgMs": 13847,
     "peakMs": 559881,
     "minMs": 1
   },
   "byModel": {
     "deepseek-v4-pro:cloud": {
-      "sampleCount": 26,
-      "avgMs": 310691,
+      "sampleCount": 23,
+      "avgMs": 305147,
       "minMs": 125526,
       "maxMs": 559881,
-      "p50Ms": 278281,
+      "p50Ms": 239045,
       "p95Ms": 523087,
-      "avgTokens": 69385
+      "avgTokens": 71317
     },
     "kimi-k2.6:cloud": {
-      "sampleCount": 9,
-      "avgMs": 67025,
+      "sampleCount": 10,
+      "avgMs": 51690,
       "minMs": 22023,
       "maxMs": 169390,
-      "p50Ms": 34087,
-      "p95Ms": 142013,
-      "avgTokens": 22406
-    },
-    "gemma4:26b": {
-      "sampleCount": 1,
-      "avgMs": 45808,
-      "minMs": 45808,
-      "maxMs": 45808,
-      "p50Ms": 45808,
-      "p95Ms": 45808,
-      "avgTokens": 15033
+      "p50Ms": 27990,
+      "p95Ms": 70968,
+      "avgTokens": 19582
     },
     "gemma4:e2b": {
-      "sampleCount": 7,
-      "avgMs": 35396,
-      "minMs": 33506,
+      "sampleCount": 6,
+      "avgMs": 35711,
+      "minMs": 33577,
       "maxMs": 43931,
-      "p50Ms": 33616,
+      "p50Ms": 34119,
       "p95Ms": 34798,
-      "avgTokens": 11227
+      "avgTokens": 10969
+    },
+    "gemma4:26b": {
+      "sampleCount": 2,
+      "avgMs": 31497,
+      "minMs": 17186,
+      "maxMs": 45808,
+      "p50Ms": 17186,
+      "p95Ms": 17186,
+      "avgTokens": 15134
     },
     "claude-sonnet-4-6": {
-      "sampleCount": 7348,
-      "avgMs": 13564,
+      "sampleCount": 7275,
+      "avgMs": 14116,
       "minMs": 1,
       "maxMs": 400084,
-      "p50Ms": 5039,
-      "p95Ms": 55914,
-      "avgTokens": 189
+      "p50Ms": 5292,
+      "p95Ms": 58087,
+      "avgTokens": 177
     },
     "claude-haiku-4-5": {
-      "sampleCount": 2808,
-      "avgMs": 10197,
-      "minMs": 3801,
+      "sampleCount": 2775,
+      "avgMs": 10532,
+      "minMs": 3947,
       "maxMs": 142323,
-      "p50Ms": 7287,
-      "p95Ms": 38088,
-      "avgTokens": 15987
+      "p50Ms": 7358,
+      "p95Ms": 40483,
+      "avgTokens": 15732
     }
   }
 }

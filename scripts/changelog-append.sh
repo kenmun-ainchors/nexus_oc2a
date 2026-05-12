@@ -12,7 +12,7 @@ set -e
 CHANGELOG="/Users/ainchorsangiefpl/.openclaw/workspace/memory/CHANGELOG.md"
 
 # Defaults
-TYPE=""; SOURCE=""; TITLE=""; TRIGGER=""; CHANGED=""; WHY=""; VERIFIED=""; ROLLBACK="N/A"; LINKED=""; FRAMEWORK_DOCS=""; CATEGORY=""
+TYPE=""; SOURCE=""; TITLE=""; TRIGGER=""; CHANGED=""; WHY=""; VERIFIED=""; ROLLBACK="N/A"; LINKED=""; FRAMEWORK_DOCS=""; CATEGORY=""; CHANGE_TYPE="Normal"
 
 while (( $# > 0 )); do
   case "$1" in
@@ -27,9 +27,16 @@ while (( $# > 0 )); do
     --linked)          LINKED="$2"; shift 2 ;;
     --framework-docs)  FRAMEWORK_DOCS="$2"; shift 2 ;;
     --category)        CATEGORY="$2"; shift 2 ;;
+    --change-type)     CHANGE_TYPE="$2"; shift 2 ;;
     *) echo "Unknown arg: $1" >&2; exit 1 ;;
   esac
 done
+
+# Validate change-type
+case "$CHANGE_TYPE" in
+  Standard|Normal|Emergency) ;;
+  *) echo "ERROR: --change-type must be one of: Standard|Normal|Emergency" >&2; exit 6 ;;
+esac
 
 # Validate required
 for var in TYPE SOURCE TITLE TRIGGER CHANGED WHY VERIFIED; do
@@ -79,6 +86,7 @@ FRAMEWORK_LINE=""
 
 ENTRY="## ${TS} — [${CHG_ID}] ${TITLE}
 **Type:** ${TYPE}
+**Change Type:** ${CHANGE_TYPE}
 **Source:** ${SOURCE}
 **Trigger:** ${TRIGGER}
 **What changed:** ${CHANGED}

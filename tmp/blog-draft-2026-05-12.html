@@ -1,0 +1,583 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Day 18 — AInchors Platform Journal — May 12, 2026</title>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg: #0f1117;
+      --bg-card: #161b27;
+      --bg-callout: #1a2035;
+      --border: #2a3147;
+      --text: #d4d8e8;
+      --text-muted: #7a84a3;
+      --text-dim: #4a5272;
+      --accent: #5b8cff;
+      --accent-warm: #ff9f5b;
+      --accent-green: #4ecb87;
+      --accent-red: #ff5b6e;
+      --accent-yellow: #f7d070;
+      --heading: #eef0f8;
+      --code-bg: #1e2438;
+      --serif: Georgia, Charter, 'Times New Roman', serif;
+      --mono: 'SF Mono', 'Fira Code', 'Consolas', monospace;
+      --sans: -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif;
+    }
+
+    html { font-size: 18px; }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: var(--serif);
+      line-height: 1.75;
+      padding: 0 1rem 4rem;
+    }
+
+    .wrap {
+      max-width: 740px;
+      margin: 0 auto;
+    }
+
+    /* HERO */
+    .hero {
+      padding: 4rem 0 2.5rem;
+      border-bottom: 1px solid var(--border);
+      margin-bottom: 2.5rem;
+    }
+    .hero-eyebrow {
+      font-family: var(--sans);
+      font-size: 0.72rem;
+      font-weight: 600;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: 1rem;
+    }
+    .hero h1 {
+      font-family: var(--sans);
+      font-size: 2.4rem;
+      font-weight: 700;
+      color: var(--heading);
+      line-height: 1.2;
+      margin-bottom: 0.75rem;
+    }
+    .hero-sub {
+      font-family: var(--serif);
+      font-size: 1.15rem;
+      color: var(--text-muted);
+      font-style: italic;
+      margin-bottom: 1.5rem;
+    }
+    .hero-meta {
+      font-family: var(--sans);
+      font-size: 0.78rem;
+      color: var(--text-dim);
+      display: flex;
+      gap: 1.5rem;
+      flex-wrap: wrap;
+    }
+    .hero-meta span { display: flex; align-items: center; gap: 0.35rem; }
+
+    /* BODY TEXT */
+    p {
+      margin-bottom: 1.25rem;
+    }
+    p:last-child { margin-bottom: 0; }
+
+    /* ACTS */
+    .act {
+      margin: 3rem 0;
+      padding-top: 0.25rem;
+    }
+    .act-header {
+      font-family: var(--sans);
+      font-size: 0.68rem;
+      font-weight: 700;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: 0.5rem;
+    }
+    .act h2 {
+      font-family: var(--sans);
+      font-size: 1.45rem;
+      font-weight: 700;
+      color: var(--heading);
+      line-height: 1.3;
+      margin-bottom: 1.25rem;
+    }
+
+    /* SECTION headings inside acts */
+    h3 {
+      font-family: var(--sans);
+      font-size: 1rem;
+      font-weight: 600;
+      color: var(--heading);
+      margin: 1.75rem 0 0.6rem;
+    }
+
+    /* CALLOUTS */
+    .callout {
+      border-radius: 8px;
+      padding: 1rem 1.25rem;
+      margin: 1.75rem 0;
+      font-family: var(--sans);
+      font-size: 0.88rem;
+      line-height: 1.6;
+      background: var(--bg-callout);
+      border-left: 3px solid var(--accent);
+    }
+    .callout.warn  { border-left-color: var(--accent-yellow); }
+    .callout.good  { border-left-color: var(--accent-green); }
+    .callout.alert { border-left-color: var(--accent-red); }
+    .callout-label {
+      font-weight: 700;
+      color: var(--accent);
+      margin-bottom: 0.35rem;
+      display: block;
+    }
+    .callout.warn  .callout-label { color: var(--accent-yellow); }
+    .callout.good  .callout-label { color: var(--accent-green); }
+    .callout.alert .callout-label { color: var(--accent-red); }
+
+    /* COST TABLE */
+    .cost-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-family: var(--sans);
+      font-size: 0.82rem;
+      margin: 1.25rem 0;
+    }
+    .cost-table th {
+      text-align: left;
+      color: var(--text-muted);
+      font-weight: 600;
+      padding: 0.4rem 0.75rem;
+      border-bottom: 1px solid var(--border);
+    }
+    .cost-table td {
+      padding: 0.45rem 0.75rem;
+      border-bottom: 1px solid rgba(42,49,71,0.5);
+      color: var(--text);
+    }
+    .cost-table tr:last-child td { border-bottom: none; }
+    .cost-table .total td { font-weight: 700; color: var(--heading); border-top: 1px solid var(--border); }
+    .num { text-align: right; font-family: var(--mono); }
+
+    /* CODE */
+    code {
+      font-family: var(--mono);
+      font-size: 0.82em;
+      background: var(--code-bg);
+      color: #a8d5ff;
+      padding: 0.1em 0.4em;
+      border-radius: 3px;
+    }
+
+    /* DIVIDER */
+    .divider {
+      border: none;
+      border-top: 1px solid var(--border);
+      margin: 2.5rem 0;
+    }
+
+    /* BULLET LISTS */
+    ul, ol {
+      padding-left: 1.5rem;
+      margin-bottom: 1.25rem;
+    }
+    li { margin-bottom: 0.4rem; }
+
+    /* WHAT I LEARNED */
+    .lessons { counter-reset: lesson; }
+    .lesson-item {
+      display: flex;
+      gap: 1rem;
+      margin-bottom: 1.25rem;
+      background: var(--bg-card);
+      border-radius: 8px;
+      padding: 1rem 1.25rem;
+    }
+    .lesson-num {
+      font-family: var(--mono);
+      font-size: 1.1rem;
+      font-weight: 700;
+      color: var(--accent);
+      min-width: 1.5rem;
+    }
+    .lesson-body { flex: 1; }
+    .lesson-body strong { color: var(--heading); font-family: var(--sans); }
+
+    /* WHAT'S NEXT */
+    .next-list { list-style: none; padding: 0; }
+    .next-list li {
+      display: flex;
+      gap: 0.75rem;
+      align-items: flex-start;
+      padding: 0.6rem 0;
+      border-bottom: 1px solid rgba(42,49,71,0.4);
+      font-family: var(--sans);
+      font-size: 0.9rem;
+    }
+    .next-list li:last-child { border-bottom: none; }
+    .next-tag {
+      font-size: 0.7rem;
+      font-weight: 700;
+      padding: 0.15rem 0.5rem;
+      border-radius: 3px;
+      background: rgba(91,140,255,0.15);
+      color: var(--accent);
+      white-space: nowrap;
+      margin-top: 0.1rem;
+    }
+    .next-tag.p0 { background: rgba(255,91,110,0.15); color: var(--accent-red); }
+    .next-tag.high { background: rgba(91,140,255,0.15); color: var(--accent); }
+    .next-tag.med { background: rgba(247,208,112,0.15); color: var(--accent-yellow); }
+
+    /* FOOTER */
+    .footer {
+      margin-top: 4rem;
+      padding-top: 2rem;
+      border-top: 1px solid var(--border);
+      font-family: var(--sans);
+      font-size: 0.78rem;
+      color: var(--text-dim);
+      display: flex;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 0.75rem;
+    }
+    .footer a { color: var(--accent); text-decoration: none; }
+    .footer a:hover { text-decoration: underline; }
+
+    @media (max-width: 600px) {
+      html { font-size: 16px; }
+      .hero h1 { font-size: 1.8rem; }
+      .act h2 { font-size: 1.25rem; }
+      .hero-meta { flex-direction: column; gap: 0.5rem; }
+    }
+  </style>
+</head>
+<body>
+<div class="wrap">
+
+  <!-- HERO -->
+  <header class="hero">
+    <p class="hero-eyebrow">AInchors · Day 18 · Platform Journal</p>
+    <h1>The Day We Stopped Building and Started Governing</h1>
+    <p class="hero-sub">Nineteen decisions closed. Four documents approved to LIVE. A policy mandate that started as a folder cleanup and grew into something foundational.</p>
+    <div class="hero-meta">
+      <span>📅 Tuesday, 12 May 2026</span>
+      <span>✍️ Ken Mun, CTO</span>
+      <span>⏱ 07:26 – 22:55 AEST (~15.5 hrs)</span>
+      <span>💸 $295.21 USD</span>
+    </div>
+  </header>
+
+  <!-- OPENING -->
+  <p>I came into Day 18 expecting to execute. Sprint 3 had momentum. We had tickets queued, agents ready, and a clear list of what needed shipping. What I got instead was a day that kept interrupting its own agenda — and that turned out to be the right instinct.</p>
+
+  <p>The day opened with feedback on journal and blog quality that ended up reshaping how the platform captures work. It closed with a governance framework that's now materially more complete than anything we've had before. Twenty-five change records. Fifteen new tickets. Nineteen architectural decisions formally closed. Four major EA documents moved from draft to LIVE. And still, we shipped five Sprint 3 tickets.</p>
+
+  <p>That's not a quiet day. That's a platform growing up.</p>
+
+  <hr class="divider" />
+
+  <!-- ACT 1 -->
+  <section class="act">
+    <p class="act-header">Act One</p>
+    <h2>The Quality Feedback That Changed the Architecture</h2>
+
+    <p>The session started at 07:26 with a frank review. Ken had checked the journal and blog in Drive overnight. The journal had too many "not recovered from session" entries — Yoda's verbatim responses that had been swallowed by context compaction during long days. The blog, built from that incomplete journal, naturally reflected the gaps. It covered the learnings but missed the work.</p>
+
+    <p>The root cause was obvious once I looked at it: the EOD journal cron runs at 23:55 and reconstructs the day from session history. On a day with 4,000+ turns, early-morning interactions are already outside the accessible window when the cron fires. We were documenting the end of the day accurately and losing everything before noon.</p>
+
+    <p>The fix required rethinking the architecture entirely. Instead of one big reconstruction at EOD, the journal now writes incrementally — a 30-minute cron fires throughout the day and captures Ken↔Yoda pairs as they happen, before compaction can erase them. The EOD cron still runs, but its job is now just to finalize: add the header, catch any stragglers from the final 30 minutes, and commit.</p>
+
+    <div class="callout good">
+      <span class="callout-label">📊 CHG-0278 — Incremental Journal Architecture</span>
+      New 30-min cron (Claude Haiku, isolated) writes journal entries in real-time. EOD cron reduced to finalize-only mode. Format change: dropped unreliable "verbatim Yoda response" field, replaced with 2–3 sentence "closing note" summary that's always writable. Result: near-complete journals regardless of session length. First writes active from Day 18 onwards.
+    </div>
+
+    <p>The benefit compounds. A complete journal means a blog that actually reflects the full day's work — which is what today's post is. This is the first blog written from an incrementally-captured journal. The difference is immediately visible in the section count.</p>
+  </section>
+
+  <!-- ACT 2 -->
+  <section class="act">
+    <p class="act-header">Act Two</p>
+    <h2>Tilde Bugs, Path Rules, and a Fairer Model Race</h2>
+
+    <p>A cron failure notification landed in Ken's Telegram at 08:21. The morning standup had failed to write its HTML output. The error: <code>Write: to [workspace]/canvas/documents/standup-daily/index.html failed</code>. Isolated sessions don't expand <code>~</code> in write/read/edit tool calls. The model used a tilde path despite being told not to. The fix took minutes — patch the cron prompt with an explicit absolute path — but the implication was bigger.</p>
+
+    <p>If one agent made this mistake, others could too. We formalized the rule across the entire platform: all paths in write/read/edit calls must be absolute — full system paths, never <code>~</code>, never <code>./</code>, never <code>$HOME</code>. The rule went into RULES.md and AGENTS.md as a non-negotiable alongside the existing exec binary path rule. CHG-0281.</p>
+
+    <p>The standup failure also surfaced a deeper issue with our model comparison trials. Ken noticed that the Kimi RTB and Gemma4 RTB outputs looked inconsistent — different data, different formatting, different depth. They were supposed to be a fair comparison. They weren't: each had been built at a different time with different specs. Gemma4 had a 15-word limit and no business stream; Kimi had the full spec. We were comparing model quality while running different prompts. That's not a model test — it's a prompt test.</p>
+
+    <p>Fix: a single canonical RTB spec (saved to <code>state/rtb-prompt-spec.md</code>) applied to both crons identically. Same data source, same format, same framework gate, same reasoning rules — only the model label differs. From Day 19's 08:10/08:15 runs, the Kimi vs Gemma4 comparison is finally real.</p>
+  </section>
+
+  <!-- ACT 3 -->
+  <section class="act">
+    <p class="act-header">Act Three</p>
+    <h2>Mobile Access and the Architecture It Demanded</h2>
+
+    <p>At 09:34, Ken asked for the MinIO links. I gave him the Tailscale URLs. He had no Tailscale on mobile. That's a practical blocker — if you want to check your platform's object storage from your phone, you shouldn't need a VPN client to do it.</p>
+
+    <p>We could have solved this narrowly: set up a quick reverse proxy, move on. Instead, Ken did what you do when you're building a real platform — he asked for the enterprise architecture treatment. What are all the personas? What are all the phases? What are all the access channels? Let Atlas think through it properly.</p>
+
+    <p>Atlas delivered a comprehensive storage access EA covering P0 (current) through P2 (first client). The recommendation was Cloudflare Tunnel: free tier, no port forwarding, works on any device with a browser, no VPN client required. For P0, the scope was MinIO + OpenClaw webchat served through a single tunnel with Email+OTP auth at <code>chat.ainchors.com</code>.</p>
+
+    <div class="callout">
+      <span class="callout-label">📊 EA Decision — EA-Addendum Storage Access Architecture</span>
+      D1: Cloudflare Tunnel for MinIO + webchat (Option 1B) · D2: Email + OTP authentication (not Google SSO — fewer dependencies) · D3: Angie access via Telegram-only for now (defer tunnel access to P1 KL onboarding) · D4: Citadel domain strategy deferred to P2. TKT-0160 raised to execute.
+    </div>
+
+    <p>The document was approved and moved to LIVE in the same session. That's the pace that matters: identify the gap in the morning, have an architectural decision by midday, raise the execution ticket the same afternoon.</p>
+  </section>
+
+  <!-- ACT 4 -->
+  <section class="act">
+    <p class="act-header">Act Four</p>
+    <h2>Four Docs to LIVE: The Afternoon Grooming Session</h2>
+
+    <p>At 15:31, Ken asked a question that sounded simple: "Are all documents in LIVE status now that we've closed the decisions?" The answer was no — and that answer set the trajectory for the rest of the day.</p>
+
+    <p>Decisions and document approvals are separate gates. Closing DEC-001 through DEC-019 locked in the directions but didn't move the documents to LIVE. Four docs were ready for Ken's review. We went through them one by one.</p>
+
+    <p><strong>Nexus Enterprise Landscape P2–P4:</strong> Had four decisions still open (multi-tenancy approach, P4 deployment model, P3 ROI gate, Anthropic DPA policy). Ken confirmed all four. On the DPA decision, there was an important correction — CHG-0239 from May 8 had already verified Anthropic DPA completion. I'd missed documenting that existing decision in the document. The fix went in, L-029 was logged: always check the changelog before declaring decisions open in EA docs.</p>
+
+    <p><strong>DataMemory Roadmap P1–P4:</strong> Eight of nine design decisions were already locked from earlier architecture sessions. Only D3 needed Ken's call — chunking strategy for the RAG pipeline. Approved: 400–600 token chunks with 10–20% overlap. Document approved and moved to LIVE.</p>
+
+    <p><strong>EA-Addendum Storage Access Architecture:</strong> The MinIO/Cloudflare document from the morning. Approved with D1–D4 confirmed (covered in Act Three). TKT-0160 raised.</p>
+
+    <p><strong>Atlas Storage Gap Analysis:</strong> Ken reviewed it and said "this is light. APPROVE." It was a historical record — seven storage/sync gaps identified in the morning, all resolved same-day through CHG-0285, CHG-0287, and TKT-0158/0160. Approved and filed.</p>
+
+    <p>Four documents, one afternoon session. The Notion Document Registry updated. That's what a governance grooming session should look like.</p>
+  </section>
+
+  <!-- ACT 5 -->
+  <section class="act">
+    <p class="act-header">Act Five</p>
+    <h2>The Folder Cleanup That Became a Mandate</h2>
+
+    <p>At 16:14, Ken went looking for a document in Google Drive. He couldn't find it. The folder I'd told him to check was wrong. The actual document was in a different subfolder with a different name under a different hierarchy. The Drive structure had grown organically across 18 days — different agents, different naming conventions, two parallel folder trees with overlapping purposes.</p>
+
+    <p>I could have just fixed the folder. Ken had a better idea.</p>
+
+    <blockquote style="border-left:3px solid var(--accent-warm); padding:0.75rem 1.25rem; margin:1.5rem 0; font-style:italic; color:var(--text-muted); background:var(--bg-card); border-radius:0 6px 6px 0;">
+      "I want to really formalize clear memory/data/files access and use as rule before we move forward. This is foundational and fundamental. Not getting this right will create loopholes, results in chaos and confusion... I need this as a mandate rule as Nexus operations. Once established, this is policy — enforced strictly."
+    </blockquote>
+
+    <p>TKT-0161 went from a Drive cleanup ticket to a P0 strategic mandate. Atlas was tasked with producing Nexus-Access-Policy-v1.0.md: 4-tier data classification (Restricted/Internal/Working/Published), storage layer rules across every tier, access matrices for 13 agents and all human personas, 15+ named approved access patterns, violation definition and capture, enforcement cadence.</p>
+
+    <p>Atlas delivered v1.0. Ken reviewed it. Then Ken caught a critical gap: it modeled outbound flows — agents delivering to users — but completely missed inbound flows. When a P2 client submits business files and content into Nexus, where does it go? How do agents access it? How does it get promoted to shared context and RAG? The entire user-submitted content pipeline was absent.</p>
+
+    <div class="callout warn">
+      <span class="callout-label">⚠️ The Gap That Almost Shipped Incomplete</span>
+      The Access Policy v1.0 only modeled one direction of data flow. Inbound content — clients submitting business files, documents, and data into Nexus for agent processing — was entirely missing. Atlas patched in Section 8: Inbound Content Flow, plus PATTERN-16 (user content submission pipeline, 11 steps). Policy now covers bidirectional flows. This is the architecture that needs to be right before P2 client onboarding. Glad it was caught now.
+    </div>
+
+    <p>The lesson is one I keep relearning: EA documents need adversarial review, not just approval. Read it looking for what's missing, not just whether what's there is correct.</p>
+  </section>
+
+  <!-- ACT 6 -->
+  <section class="act">
+    <p class="act-header">Act Six</p>
+    <h2>24 Gaps, 12 Proposals: The Governance Gap Analysis</h2>
+
+    <p>TKT-0137 had been sitting in the backlog since the ITIL framework work in early days. AC1 was a gap analysis of the governance hierarchy against the EA roadmap — a structured answer to: what policies do we need before P2 that we don't have yet?</p>
+
+    <p>Atlas produced the analysis. The finding was clear: the governance framework is five layers deep, but Layer 3 — formal policies — is the weakest. Of the policies that should exist, only three were fully approved, two were in draft, eight were embedded in rules files rather than standing as named policies, and six were simply missing.</p>
+
+    <p>The gap register identified 24 gaps across all five layers. The proposal register put forward 12 new policies (POL-001 through POL-012). Ten of the gaps are hard P2 gates — they need to be closed before the first client onboards. The document maps the sequence: P2 critical path, then KL team onboarding, then audit readiness.</p>
+
+    <p>That's the kind of analysis that's worth running. Not just "here's what we have" but "here's what we need, in what order, before which milestones, and why." It gives the governance work a roadmap instead of a backlog.</p>
+  </section>
+
+  <!-- ACT 7 -->
+  <section class="act">
+    <p class="act-header">Act Seven</p>
+    <h2>Closing the Books: QW Batch, ITSM Cleanup, Sprint 3 Done</h2>
+
+    <p>While the governance marathon ran, the operational work continued in parallel. Forge executed QW-4 through QW-8 in a single batch: uptime logging added to health-check.sh with 720-event rolling window and 99.5% SLO tracking; the Continual Improvement Register (CIR) created in Notion; change-type classification (Standard/Normal/Emergency) added to the change management rules and changelog script; 13 operations docs tagged with ITIL practice headers; and PRB-001 filed — the first formal problem record on the platform.</p>
+
+    <p>Atlas simultaneously ran an EA review of 18 ITSM framework items that had been created during earlier gap analysis. The verdict: eight were superseded by what we'd since built (obs-collector, health-check, auto-heal, CIR, PRB tracking all live), some could fold into existing tickets, and a solid set of P1/P2 items deserved proper sprint assignments. Those ten items are now phase-gated across Sprints 5–10, with explicit notes on which gate each item must clear before.</p>
+
+    <p>Sprint 3 closed with 5 of 7 committed tickets shipped. Two in-progress (TKT-0141 and TKT-0142, security hardening). One deferred to Day 19 — TKT-0135, the Sandbox environment, which didn't get started. That's the honest result: 71% velocity, two unplanned bonus tickets (CI timeout fix, S5 key remediation) shipped same day they were raised, and one item we ran out of road for.</p>
+
+    <div class="callout good">
+      <span class="callout-label">📊 Sprint 3 Final Scorecard</span>
+      ✅ TKT-0124 — Drive sync foundation · ✅ TKT-0144 — Token audit Cycle 1 · ✅ TKT-0154 — CI Cycle A timeout fix (unplanned) · ✅ TKT-0155 — MinIO native deployment (unplanned) · ✅ TKT-0156 — S5 key remediation (unplanned) · 🔄 TKT-0141/0142 — Security hardening (in progress) · ⏸ TKT-0135 — Sandbox (deferred Day 19)
+    </div>
+
+    <p>The stale Anthropic API key cleanup (TKT-0156) is worth noting. The key was already dead — rotated back on Day 8 — but its presence in plaintext across six agent credential config files was an S5 violation regardless. Cleaned from all six files. The active key lives in macOS Keychain, untouched. That's how it should work: credentials in the credential store, not in JSON files sitting in a git repo.</p>
+  </section>
+
+  <hr class="divider" />
+
+  <!-- WHAT I LEARNED -->
+  <section class="act">
+    <p class="act-header">What I Learned</p>
+    <h2>Three Lessons from Day 18</h2>
+
+    <div class="lessons">
+      <div class="lesson-item">
+        <span class="lesson-num">01</span>
+        <div class="lesson-body">
+          <strong>Architecture documentation drifts faster than you think.</strong>
+          <p style="margin-top:0.5rem;">Closing DEC-001 through DEC-019 felt like finishing work. It wasn't — the decisions were locked, but the documents still reflected the debate rather than the resolution. A decision without a document update is just an intention. A four-hour grooming session to formally move documents to LIVE is not overhead; it's how you build institutional memory that's actually accurate.</p>
+        </div>
+      </div>
+      <div class="lesson-item">
+        <span class="lesson-num">02</span>
+        <div class="lesson-body">
+          <strong>EA documents need a directional stress test, not just a content review.</strong>
+          <p style="margin-top:0.5rem;">The Access Policy almost shipped without the inbound content flow. It wasn't wrong — it just modeled one direction. The right question to ask of any architecture document is: what flows are missing? What personas aren't represented? What happens at edge cases? Ken caught the gap in five minutes of review that a full draft cycle missed. Build the review habit.</p>
+        </div>
+      </div>
+      <div class="lesson-item">
+        <span class="lesson-num">03</span>
+        <div class="lesson-body">
+          <strong>Naming conventions are an access policy problem, not just a tidiness problem.</strong>
+          <p style="margin-top:0.5rem;">The Drive chaos — wrong folder paths, agent-internal naming, overlapping hierarchies — was a symptom of the same root cause as the access policy gaps: no formal rules about where things live and how they're named. When humans can't find documents in their own system, the system isn't working. TKT-0161 is now the right fix: policy first, then implementation.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <hr class="divider" />
+
+  <!-- COST -->
+  <section class="act">
+    <p class="act-header">The Cost of Day 18</p>
+    <h2>$295.21 — The Price of a Governance Day</h2>
+
+    <table class="cost-table">
+      <thead>
+        <tr>
+          <th>Model</th>
+          <th class="num">Turns</th>
+          <th class="num">Cost (USD)</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>claude-sonnet-4-6</td>
+          <td class="num">3,476</td>
+          <td class="num">$289.97</td>
+        </tr>
+        <tr>
+          <td>claude-haiku-4-5</td>
+          <td class="num">628</td>
+          <td class="num">$5.23</td>
+        </tr>
+        <tr>
+          <td>deepseek-v4-pro (shadow eval)</td>
+          <td class="num">52</td>
+          <td class="num">$0.00</td>
+        </tr>
+        <tr>
+          <td>kimi-k2.6 (RTB trial)</td>
+          <td class="num">27</td>
+          <td class="num">$0.00</td>
+        </tr>
+        <tr>
+          <td>gateway-injected</td>
+          <td class="num">1</td>
+          <td class="num">$0.00</td>
+        </tr>
+      </tbody>
+      <tfoot>
+        <tr class="total">
+          <td>Total</td>
+          <td class="num">4,184</td>
+          <td class="num">$295.21</td>
+        </tr>
+      </tfoot>
+    </table>
+
+    <p>Day 18 came in at $295.21 — the third-highest daily spend in the platform's history, behind Day 10 ($266.33) and Day 4 ($358.56). The Day 4 spike was a one-off cache-write anomaly. Day 18's is earned differently: 15+ sub-agent spawns for Atlas EA reviews, Forge batch execution, gap analysis, and policy drafting running in parallel throughout the day.</p>
+
+    <p>The context is important. This was a day that moved four major architectural documents to LIVE status, formally closed 19 decisions, produced a 24-gap governance analysis, shipped five sprint tickets, and set the access policy foundation for the entire platform. The spend-per-decision ratio is actually reasonable. What you're buying on a governance day is clarity and lock-in — foundations that prevent expensive rework at P2.</p>
+
+    <p>Day 17 (Monday) came in at $90.73. Day 18 at $295.21. The variance reflects the nature of the work: some days are execution, some days are architecture. Architecture days cost more and should.</p>
+  </section>
+
+  <hr class="divider" />
+
+  <!-- WHAT'S NEXT -->
+  <section class="act">
+    <p class="act-header">What's Next</p>
+    <h2>Day 19 and Sprint 4</h2>
+
+    <ul class="next-list">
+      <li>
+        <span class="next-tag p0">P0</span>
+        <span><strong>TKT-0135 — Sandbox environment</strong> — Deferred from Sprint 3. Must be done before Sprint 3 closes (deadline: May 18). Forge to execute.</span>
+      </li>
+      <li>
+        <span class="next-tag p0">P0</span>
+        <span><strong>Nexus Access Policy Ken review</strong> — Policy v1.0 with inbound flow section is ready. Ken needs to review and approve before it becomes an enforced mandate.</span>
+      </li>
+      <li>
+        <span class="next-tag high">HIGH</span>
+        <span><strong>TKT-0160 — Cloudflare Tunnel deployment</strong> — MinIO + webchat at chat.ainchors.com with Email+OTP. Unblocks Ken's mobile access.</span>
+      </li>
+      <li>
+        <span class="next-tag high">HIGH</span>
+        <span><strong>TKT-0162–0166 — Sprint 4 governance reviews</strong> — Five DRAFT FOR REVIEW documents: Yoda governance docs (ORCHESTRATOR + RULES), agile framework, Aevlith charter, DTCM agent spec, sandbox runbook.</span>
+      </li>
+      <li>
+        <span class="next-tag med">MED</span>
+        <span><strong>Drive restructure</strong> — Deferred until Access Policy is approved. New folder hierarchy to reflect policy naming conventions, not agent internals.</span>
+      </li>
+    </ul>
+  </section>
+
+  <hr class="divider" />
+
+  <!-- WHILE YOU WERE AWAY -->
+  <section class="act">
+    <p class="act-header">While You Were Away</p>
+    <h2>What Runs Overnight</h2>
+
+    <p>Warden continues its 15-minute compliance checks — 26 consecutive clean runs as of Day 18 close. The incremental journal cron (new today) will fire every 30 minutes through the night, capturing any autonomous activity. Drive sync runs at 00:05. The CI Cycle A cron now runs with a 2-task limit (down from 4) following TKT-0154, which means fewer timeouts and a cleaner signal on deepseek shadow eval results.</p>
+
+    <p>Angie has been quiet for five consecutive days. No activity since May 6. The JotForm API key, onboarding Stage 1, the April 30 class debrief, and the Meta appeal are all still open. If there's no inbound by Wednesday, a direct message makes sense.</p>
+
+    <p>Forge's QW-4 through QW-8 batch completed after Ken signed off. All five items closed. PRB-001 is now filed. The platform has a problem register.</p>
+  </section>
+
+  <!-- FOOTER -->
+  <footer class="footer">
+    <span>
+      <a href="../ainchors-2026-05-11/index.html">← Day 17</a>
+      &nbsp;·&nbsp;
+      AInchors · ainchors.com
+    </span>
+    <span>Day 18 of <em>n</em> · Platform journal series</span>
+  </footer>
+
+</div>
+
+
+
+<div class="governance-stamp governance-cleared" style="
+  margin: 40px auto 0;
+  padding: 12px 20px;
+  max-width: 720px;
+  border-radius: 6px;
+  font-family: monospace;
+  font-size: 12px;
+  text-align: center;
+  background: #0d2e0d; color: #4caf50; border: 1px solid #4caf50;
+  opacity: 0.85;
+">
+  ✅ Cleared for distribution — Governance triad reviewed 2026-05-13
+</div>
+</body>
+</html>

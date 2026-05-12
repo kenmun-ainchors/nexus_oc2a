@@ -1,6 +1,6 @@
 {
   "schema": "1.0",
-  "nextId": 9,
+  "nextId": 10,
   "queue": [
     {
       "id": 7,
@@ -184,8 +184,39 @@
       "postedAt": "2026-05-10T02:25:44.148404+00:00",
       "postedBy": "Ken (manual edit + image)",
       "imageAssetUrn": "urn:li:image:D5610AQETOvgOItuu2w"
+    },
+    {
+      "id": 9,
+      "contentId": "LI-C1-W2-P2",
+      "governanceId": "LI-C1-W2-P2",
+      "type": "original",
+      "pillar": "what-we-learned",
+      "theme": "AIOps",
+      "cycle": 1,
+      "week": "A",
+      "part": 2,
+      "seriesTotal": 6,
+      "status": "posted",
+      "scheduledFor": "2026-05-07",
+      "label": "C1W2P2 v2 \u2014 AIOps: The Hidden Cost of \"Just Monitoring\" (Part 2/6)",
+      "file": "/Users/ainchorsangiefpl/.openclaw/workspace-social/drafts/linkedin-c1-w2-p2-v2.md",
+      "governance": {
+        "shield": "clear",
+        "lex": "conditional",
+        "sage": "conditional",
+        "overall": "triad-cleared"
+      },
+      "createdAt": "2026-05-12T07:36:00+10:00",
+      "updatedAt": "2026-05-12T00:43:42.644018+00:00",
+      "notes": "Cycle 1 Week A Post 2. AIOps theme. Generated from Day 17 EOD blog L-026. Delivered to Ken via Telegram 2026-05-12 07:36 AEST. Waiting for APPROVED/EDIT/REJECT reply. | REJECTED 2026-05-12 09:17 AEST \u2014 topic too internal. | REPLACEMENT DRAFT v2 generated 2026-05-12 09:19 AEST. Topic changed from internal agent routing to token efficiency/cost transparency. Zero internal refs. External-facing. Governance: triad-cleared.",
+      "rejectedAt": "2026-05-11T23:17:46.969533+00:00",
+      "rejectionReason": "Ken: readers have no context of agents and roles we have set up. Means nothing to external readers. Pick another topic.",
+      "postedAt": "2026-05-12T00:43:42.644018+00:00",
+      "imageMinioUrl": "https://ainchorss-mac-mini.tail5e2567.ts.net:9000/ainchors-generated-media/social/linkedin/LI-C1-W2-P2/aiops-p2-monitoring-cost.png",
+      "imageAssetUrn": "urn:li:image:D5610AQGtwTcUyH-JPg"
     }
   ],
   "apiEnabled": true,
-  "apiConnectedAt": "2026-05-03T02:52:00Z"
+  "apiConnectedAt": "2026-05-03T02:52:00Z",
+  "lastUpdated": "2026-05-12T09:19:00+10:00"
 }

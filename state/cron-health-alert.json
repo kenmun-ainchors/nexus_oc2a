@@ -1,14 +1,13 @@
 {
-  "generatedAt": "2026-05-10T10:22:57.677510+00:00",
+  "generatedAt": "2026-05-12T11:45:34.150921+00:00",
   "failures": [
     {
-      "cronId": "83accf7b",
-      "fullCronId": "83accf7b-c3e5-4f0a-9a0c-d67d74ffff01",
-      "name": "Warden — Model Compliance Check",
+      "cronId": "1b853131",
+      "fullCronId": "1b853131-a542-4cec-af09-d1ba27a416b0",
+      "name": "Journal Incremental Writer (every 30 min)",
       "consecutiveErrors": 3,
       "lastError": "error",
-      "source": "live-cron-state",
-      "acknowledged": true
+      "source": "live-cron-state"
     }
   ],
   "warnings": [],

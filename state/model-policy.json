@@ -1,7 +1,7 @@
 {
   "schema_version": "1.0",
   "description": "Authoritative model policy for all AInchors agents. Warden enforces this. Changes require Ken approval + CHG entry + baseline update.",
-  "lastUpdated": "2026-05-10T11:26:08.043361+10:00",
+  "lastUpdated": "2026-05-12T07:17:51.228374+00:00",
   "lastApprovedBy": "Ken",
   "approvalContext": "Ken approved 2026-05-10: add T3 specialist agents to Warden monitoring (Option A). Atlas/Thrawn/Lando/Mon Mothma. CHG-0258.",
   "globalAllowedModels": [
@@ -285,7 +285,9 @@
       ],
       "rationale": "On-demand EA work. Sonnet default. Added to Warden monitoring scope (CHG-0258, Ken approved 2026-05-10). Option A: model compliance monitoring for T3 specialists.",
       "configPath": "/Users/ainchorsangiefpl/.openclaw/openclaw.json",
-      "configJqQuery": ".agents.list[] | select(.id==\"architect\") | .model"
+      "configJqQuery": ".agents.list[] | select(.id==\"architect\") | .model",
+      "enrolledAt": "2026-05-12T07:17:51.228374+00:00",
+      "notes": " | Re-confirmed ENROL D4 2026-05-12"
     },
     "platform-arch": {
       "description": "Thrawn \u2014 AI Platform Architect (Tier 3)",
@@ -301,7 +303,9 @@
       ],
       "rationale": "On-demand platform architecture. Sonnet default. Added to Warden monitoring scope (CHG-0258, Ken approved 2026-05-10).",
       "configPath": "/Users/ainchorsangiefpl/.openclaw/openclaw.json",
-      "configJqQuery": ".agents.list[] | select(.id==\"platform-arch\") | .model"
+      "configJqQuery": ".agents.list[] | select(.id==\"platform-arch\") | .model",
+      "enrolledAt": "2026-05-12T07:17:51.228374+00:00",
+      "notes": " | Re-confirmed ENROL D4 2026-05-12"
     },
     "biz-process": {
       "description": "Lando \u2014 BPM Agent (Tier 3)",
@@ -317,7 +321,9 @@
       ],
       "rationale": "On-demand BPM/process work. Sonnet default. Added to Warden monitoring scope (CHG-0258, Ken approved 2026-05-10).",
       "configPath": "/Users/ainchorsangiefpl/.openclaw/openclaw.json",
-      "configJqQuery": ".agents.list[] | select(.id==\"biz-process\") | .model"
+      "configJqQuery": ".agents.list[] | select(.id==\"biz-process\") | .model",
+      "enrolledAt": "2026-05-12T07:17:51.228374+00:00",
+      "notes": " | Re-confirmed ENROL D4 2026-05-12"
     },
     "change-mgt": {
       "description": "Mon Mothma \u2014 DTCM Agent (Tier 3)",
@@ -333,7 +339,9 @@
       ],
       "rationale": "On-demand DTCM/change work. Dormant in P1. Sonnet default. Added to Warden monitoring scope (CHG-0258, Ken approved 2026-05-10).",
       "configPath": "/Users/ainchorsangiefpl/.openclaw/openclaw.json",
-      "configJqQuery": ".agents.list[] | select(.id==\"change-mgt\") | .model"
+      "configJqQuery": ".agents.list[] | select(.id==\"change-mgt\") | .model",
+      "enrolledAt": "2026-05-12T07:17:51.228374+00:00",
+      "notes": " | Re-confirmed ENROL D4 2026-05-12"
     },
     "ahsoka": {
       "description": "Ahsoka \ud83e\udd0d \u2014 AI Transformation Consultant (Consulting Stream)",
@@ -351,6 +359,11 @@
       "addedBy": "yoda",
       "chgRef": "CHG-0201",
       "pilotNote": "Ken personally running 2 real-world cases. Angie notification held until pilot complete."
+    },
+    "social": {
+      "requiredModel": "ollama/kimi-k2.6:cloud",
+      "description": "Tier 3 specialist \u2014 enrolled CHG-0293 2026-05-12",
+      "notes": "Enrolled per DEC-013/D4. Ken confirmed ENROL."
     }
   },
   "cronModelPolicy": {

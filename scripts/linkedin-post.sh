@@ -85,6 +85,8 @@ for line in lines:
         continue
     if in_body:
         if s.startswith('## Hashtags') or s.startswith('## Metadata'): break
+        # Skip section marker headings (## DRAFT, ## CONTENT, etc.) — not post content
+        if s.startswith('## '): continue
         body.append(line)
     if s.startswith('#') and not s.startswith('##'):
         hashtag_line = line

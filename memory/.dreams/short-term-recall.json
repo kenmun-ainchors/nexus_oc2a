@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "updatedAt": "2026-05-11T14:05:15.728Z",
+  "updatedAt": "2026-05-12T05:26:02.760Z",
   "entries": {
     "memory:memory/2026-04-26.md:94:122": {
       "key": "memory:memory/2026-04-26.md:94:122",
@@ -106,18 +106,20 @@
       "endLine": 399,
       "source": "memory",
       "snippet": "- Detailed procedures → Operations/*.md docs (already there) - Future: create RULES.md for operational rules that don't need every-turn loading - Target: keep SOUL.md under 6k permanently - Ken approved approach: create RULES.md + refactor SOUL.md to pure one-liners (deferred to next session) ## Cost — Day 2 - Day 2 cost: $37.15 USD (499 turns, Sonnet primary) - Day 1 cost: $25.75 USD (416 turns) - All-time: $62.90 USD - ⚠️ API balance at $7.31 USD at end of day — Ken needs to top up before Day 3 - Cost tracker script broken (not parsing sessions correctly) → US22 ## Key New Files Created Today - scripts/pvt.sh (PVT — 9/9 checks) - scripts/pre-restart-cleanup.sh (pre-restart safety) - scri",
-      "recallCount": 1,
+      "recallCount": 2,
       "dailyCount": 0,
       "groundedCount": 0,
-      "totalScore": 0.39240315258502956,
-      "maxScore": 0.39240315258502956,
+      "totalScore": 0.8555515825748443,
+      "maxScore": 0.4631484299898147,
       "firstRecalledAt": "2026-04-26T22:00:43.034Z",
-      "lastRecalledAt": "2026-04-26T22:00:43.034Z",
+      "lastRecalledAt": "2026-05-12T05:26:02.760Z",
       "queryHashes": [
-        "40c172efdae9"
+        "40c172efdae9",
+        "0fa9cd49634f"
       ],
       "recallDays": [
-        "2026-04-27"
+        "2026-04-27",
+        "2026-05-12"
       ],
       "conceptTags": [
         "rules.md",
@@ -137,13 +139,13 @@
       "endLine": 123,
       "source": "memory",
       "snippet": "- TOM = Target Operating Model (Ken's term for agent team roster, approved 2026-04-26) ## Deferred Items (with reminders) - GitHub CLI auth: reminder 28 Apr - Gmail/gog OAuth: reminder 2 May - Google Cloud OAuth setup walkthrough: reminder 2 May ## Open Risks - Backup on same disk as live data (no offsite yet — Phase 4) - Secrets in plaintext config files (fix before Phase 2 — 1Password CLI) - Social media API approvals not started (Meta + LinkedIn — can take 2-6 weeks) - Angie has no system access (resolve before Phase 3) - Data residency / privacy policy not documented (before first client) - Tailscale not set up (Phase 3 now) ## Key File Locations - Workspace: ~/.openclaw/workspace/ -",
-      "recallCount": 8,
+      "recallCount": 10,
       "dailyCount": 0,
       "groundedCount": 0,
-      "totalScore": 3.3384999334812164,
-      "maxScore": 0.4452869355678558,
+      "totalScore": 4.204609084129333,
+      "maxScore": 0.4499389111995697,
       "firstRecalledAt": "2026-04-26T22:00:43.034Z",
-      "lastRecalledAt": "2026-05-11T14:05:15.728Z",
+      "lastRecalledAt": "2026-05-12T00:22:39.412Z",
       "queryHashes": [
         "40c172efdae9",
         "d7adbee3a31e",
@@ -152,7 +154,9 @@
         "9998a3d3c359",
         "09018af7ebe9",
         "08a9b04847ee",
-        "662590ae7ec3"
+        "662590ae7ec3",
+        "763c944a8b88",
+        "618b66eef003"
       ],
       "recallDays": [
         "2026-04-27",
@@ -179,21 +183,23 @@
       "endLine": 283,
       "source": "memory",
       "snippet": "- Obsidian vault: ~/Documents/AInchors/ - Backups: ~/Backups/ainchors/ - Scripts: workspace/scripts/backup.sh, health-check.sh - Shared memory: workspace/memory/shared/ (company, projects, decisions, integrations, notion) - Agent state: workspace/state/agent-status.json - Health state: workspace/state/health-state.json - Heartbeat state: workspace/state/heartbeat-state.json ## Post-Midnight Additions (00:00–01:03 AEST) ### End-of-Day Close Rule Established - SOUL.md: non-negotiable daily close rule — journal + blog + cost report every night - Nightly cron set: 23:55 Melbourne, main session - Two journal lenses: active day (verbatim prompts) vs quiet day (platform/autonomous activity) - Blo",
-      "recallCount": 3,
+      "recallCount": 4,
       "dailyCount": 0,
       "groundedCount": 0,
-      "totalScore": 1.2263361871242524,
-      "maxScore": 0.42051108479499816,
+      "totalScore": 1.6543477565050126,
+      "maxScore": 0.4280115693807602,
       "firstRecalledAt": "2026-04-27T11:30:17.284Z",
-      "lastRecalledAt": "2026-05-06T16:59:42.625Z",
+      "lastRecalledAt": "2026-05-12T00:22:39.380Z",
       "queryHashes": [
         "dd184e1b6189",
         "2b7b37c03dad",
-        "9998a3d3c359"
+        "9998a3d3c359",
+        "4efcfaa80c98"
       ],
       "recallDays": [
         "2026-04-27",
-        "2026-05-07"
+        "2026-05-07",
+        "2026-05-12"
       ],
       "conceptTags": [
         "backup",
@@ -376,18 +382,20 @@
       "endLine": 12,
       "source": "memory",
       "snippet": "# 2026-04-25 ## Bootstrap - Identity set: Yoda 🟢 — AI business operations lead agent - User: Ken Mun (call him Ken), Melbourne GMT+10 - Primary channel: web chat - Secondary channel: Telegram (urgent/offline only) - Telegram paired and tested — working ## Config notes - Security flag: Telegram group commands have no sender allowlist — low risk (personal use only), revisit later",
-      "recallCount": 1,
+      "recallCount": 2,
       "dailyCount": 0,
       "groundedCount": 0,
-      "totalScore": 0.423972487449646,
+      "totalScore": 0.8397592693567275,
       "maxScore": 0.423972487449646,
       "firstRecalledAt": "2026-04-30T22:06:08.100Z",
-      "lastRecalledAt": "2026-04-30T22:06:08.100Z",
+      "lastRecalledAt": "2026-05-11T23:49:43.978Z",
       "queryHashes": [
-        "f19d93029481"
+        "f19d93029481",
+        "763c944a8b88"
       ],
       "recallDays": [
-        "2026-05-01"
+        "2026-05-01",
+        "2026-05-12"
       ],
       "conceptTags": [
         "urgent/offline",
@@ -1036,18 +1044,20 @@
       "endLine": 513,
       "source": "memory",
       "snippet": "- Gateway restart needed: `tools.sessions.visibility: all` not hot-reloadable — pending Ken approval - TKT-0077: Persistent agent config / stateless bootstrap — sprint item - TKT-0079/0080/0081: Holocron pages — backlog - API balance: USD$470.93 (topped up CHG-0205) - Ahsoka: PILOT_TESTING status, CHG-0201/0202 --- ## EOD Session Summary — Thu 2026-05-07 (Day 13, continued) # Appended 16:48 AEST ### Major Work Completed (afternoon session) - TKT-0086 full 4-sequence complete: coherence review → governance gaps → Atlas EA roadmap → backlog replan → Agile framework lock - TKT-0087: 20 governance ACs closed (AI Charter, Nexus-first, Ahsoka registration, R1/C4 fix, P2 gates) - TKT-0088: 8 Sec",
-      "recallCount": 1,
+      "recallCount": 2,
       "dailyCount": 0,
       "groundedCount": 0,
-      "totalScore": 0.45873903334140775,
-      "maxScore": 0.45873903334140775,
+      "totalScore": 0.9312651604413986,
+      "maxScore": 0.4725261270999908,
       "firstRecalledAt": "2026-05-07T21:35:16.379Z",
-      "lastRecalledAt": "2026-05-07T21:35:16.379Z",
+      "lastRecalledAt": "2026-05-11T23:57:29.677Z",
       "queryHashes": [
-        "38182aeb51a6"
+        "38182aeb51a6",
+        "d35120f21ffa"
       ],
       "recallDays": [
-        "2026-05-08"
+        "2026-05-08",
+        "2026-05-12"
       ],
       "conceptTags": [
         "gateway",
@@ -1067,18 +1077,20 @@
       "endLine": 298,
       "source": "memory",
       "snippet": "- Gateway restart needed: `tools.sessions.visibility: all` not hot-reloadable — pending Ken approval - TKT-0077: Persistent agent config / stateless bootstrap — sprint item - TKT-0079/0080/0081: Holocron pages — backlog - API balance: USD$470.93 (topped up CHG-0205) - Ahsoka: PILOT_TESTING status, CHG-0201/0202 --- ## EOD Session Summary — Thu 2026-05-07 (Day 13, continued) # Appended 16:48 AEST ### Major Work Completed (afternoon session) - TKT-0086 full 4-sequence complete: coherence review → governance gaps → Atlas EA roadmap → backlog replan → Agile framework lock - TKT-0087: 20 governance ACs closed (AI Charter, Nexus-first, Ahsoka registration, R1/C4 fix, P2 gates) - TKT-0088: 8 Sec",
-      "recallCount": 1,
+      "recallCount": 2,
       "dailyCount": 0,
       "groundedCount": 0,
-      "totalScore": 0.45873903334140775,
-      "maxScore": 0.45873903334140775,
+      "totalScore": 0.9312651604413986,
+      "maxScore": 0.4725261270999908,
       "firstRecalledAt": "2026-05-07T21:35:16.379Z",
-      "lastRecalledAt": "2026-05-07T21:35:16.379Z",
+      "lastRecalledAt": "2026-05-11T23:57:29.677Z",
       "queryHashes": [
-        "38182aeb51a6"
+        "38182aeb51a6",
+        "d35120f21ffa"
       ],
       "recallDays": [
-        "2026-05-08"
+        "2026-05-08",
+        "2026-05-12"
       ],
       "conceptTags": [
         "gateway",
@@ -1337,6 +1349,261 @@
         "24h/48h/7d",
         "scripts/linkedin",
         "maintenance"
+      ]
+    },
+    "memory:memory/2026-05-07.md:461:495": {
+      "key": "memory:memory/2026-05-07.md:461:495",
+      "path": "memory/2026-05-07.md",
+      "startLine": 461,
+      "endLine": 495,
+      "source": "memory",
+      "snippet": "- Owns and operates Nexus platform - AInchors = market-facing brand; Auralith = platform company behind it - Feeds Atlas EA, Ahsoka positioning, Holocron structure - TKT-0069 raised --- ## Key Decisions — Morning Session 1. Standup is now two-layer: Telegram flash (1 msg) + canvas HTML + email to kenmun@gmail.com + webchat embed 2. Exec PATH is non-negotiable: full paths always + pathPrepend in openclaw.json 3. Aria calendar failure = exec avoidance belief, not a CLI bug — fixed via urgent override file 4. Governance maturity L0 in standup was a false read — actual L2-L3 (confirmed from frameworks-maturity.json) 5. Kimi message must carry unmissable `[Kimi]` label — confirmed as separate 4",
+      "recallCount": 3,
+      "dailyCount": 0,
+      "groundedCount": 0,
+      "totalScore": 1.3011510044336319,
+      "maxScore": 0.45457060933113097,
+      "firstRecalledAt": "2026-05-11T23:27:40.911Z",
+      "lastRecalledAt": "2026-05-11T23:57:29.677Z",
+      "queryHashes": [
+        "627cf1a7c708",
+        "1e7052cca8a6",
+        "d35120f21ffa"
+      ],
+      "recallDays": [
+        "2026-05-12"
+      ],
+      "conceptTags": [
+        "market-facing",
+        "tkt-0069",
+        "two-layer",
+        "gmail.com",
+        "non-negotiable",
+        "openclaw.json",
+        "l2-l3",
+        "frameworks-maturity.json"
+      ]
+    },
+    "memory:memory/2026-05-07.md:246:280": {
+      "key": "memory:memory/2026-05-07.md:246:280",
+      "path": "memory/2026-05-07.md",
+      "startLine": 246,
+      "endLine": 280,
+      "source": "memory",
+      "snippet": "- Owns and operates Nexus platform - AInchors = market-facing brand; Auralith = platform company behind it - Feeds Atlas EA, Ahsoka positioning, Holocron structure - TKT-0069 raised --- ## Key Decisions — Morning Session 1. Standup is now two-layer: Telegram flash (1 msg) + canvas HTML + email to kenmun@gmail.com + webchat embed 2. Exec PATH is non-negotiable: full paths always + pathPrepend in openclaw.json 3. Aria calendar failure = exec avoidance belief, not a CLI bug — fixed via urgent override file 4. Governance maturity L0 in standup was a false read — actual L2-L3 (confirmed from frameworks-maturity.json) 5. Kimi message must carry unmissable `[Kimi]` label — confirmed as separate 4",
+      "recallCount": 3,
+      "dailyCount": 0,
+      "groundedCount": 0,
+      "totalScore": 1.3011510044336319,
+      "maxScore": 0.45457060933113097,
+      "firstRecalledAt": "2026-05-11T23:27:40.911Z",
+      "lastRecalledAt": "2026-05-11T23:57:29.677Z",
+      "queryHashes": [
+        "627cf1a7c708",
+        "1e7052cca8a6",
+        "d35120f21ffa"
+      ],
+      "recallDays": [
+        "2026-05-12"
+      ],
+      "conceptTags": [
+        "market-facing",
+        "tkt-0069",
+        "two-layer",
+        "gmail.com",
+        "non-negotiable",
+        "openclaw.json",
+        "l2-l3",
+        "frameworks-maturity.json"
+      ]
+    },
+    "memory:memory/2026-04-27.md:595:633": {
+      "key": "memory:memory/2026-04-27.md:595:633",
+      "path": "memory/2026-04-27.md",
+      "startLine": 595,
+      "endLine": 633,
+      "source": "memory",
+      "snippet": "- Full read access: Yoda workspace, Obsidian vault, canvas, Notion, state files - Rule: when Angie asks anything, go find the answer, never say \"I don't have access\" - CEO authority = highest authority. Non-negotiable. ### CHG-0026: Governance Layer — Shield/Lex/Sage - Shield 🔐 (Security agent, Sonnet) - Lex ⚖️ (Legal agent, Opus) - Sage 🧪 (QA agent, Sonnet) - `~/Documents/AInchors/Operations/GovernanceFramework.md` created - `scripts/governance-review.sh` created - All business stream output should flow through governance before delivery --- ## 11:25–12:16 AEST — Aria Rules + Cost + Angie Onboarding ### CHG-0027: API Balance Topped Up - Ken topped up at 11:24 AEST: $107.06 USD ### CH",
+      "recallCount": 2,
+      "dailyCount": 0,
+      "groundedCount": 0,
+      "totalScore": 0.8613934010267257,
+      "maxScore": 0.44436599910259245,
+      "firstRecalledAt": "2026-05-11T23:27:43.060Z",
+      "lastRecalledAt": "2026-05-12T00:22:39.412Z",
+      "queryHashes": [
+        "017bc0449066",
+        "618b66eef003"
+      ],
+      "recallDays": [
+        "2026-05-12"
+      ],
+      "conceptTags": [
+        "non-negotiable",
+        "chg-0026",
+        "shield/lex/sage",
+        "scripts/governance-review.sh",
+        "chg-0027",
+        "107.06",
+        "full",
+        "read"
+      ]
+    },
+    "memory:memory/2026-05-10.md:154:178": {
+      "key": "memory:memory/2026-05-10.md:154:178",
+      "path": "memory/2026-05-10.md",
+      "startLine": 154,
+      "endLine": 178,
+      "source": "memory",
+      "snippet": "- Strategy-to-Backlog Pipeline (TKT-0125): Roadmap Refinement ceremony formalised - Luthen (Marketing Intelligence agent): name confirmed, P2 spec written - ticket.sh fix: status=done now maps to Notion Done (was falling to Backlog) - ticket.sh fix: Notion status variable was zsh read-only — fixed Infrastructure built today: - telegram-alert.sh: API-independent Telegram fallback (no Anthropic dependency) - hf-generate-image.sh + linkedin-upload-image.sh: LinkedIn image pipeline live - linkedin-post.sh: em dash validator + mktemp collision guard + --image-asset-urn flag - Notion: Sprint, Planned Date, Delivered Date columns added. Sprint 2 backfilled. - Google Drive: \"AInchors Yoda Working F",
+      "recallCount": 2,
+      "dailyCount": 0,
+      "groundedCount": 0,
+      "totalScore": 0.8135349124670028,
+      "maxScore": 0.41561488211154934,
+      "firstRecalledAt": "2026-05-11T23:27:45.121Z",
+      "lastRecalledAt": "2026-05-11T23:49:43.978Z",
+      "queryHashes": [
+        "827bc588f2a3",
+        "763c944a8b88"
+      ],
+      "recallDays": [
+        "2026-05-12"
+      ],
+      "conceptTags": [
+        "strategy-to-backlog",
+        "tkt-0125",
+        "ticket.sh",
+        "read-only",
+        "telegram-alert.sh",
+        "api-independent",
+        "hf-generate-image.sh",
+        "linkedin-upload-image.sh"
+      ]
+    },
+    "memory:memory/2026-05-03.md:28:51": {
+      "key": "memory:memory/2026-05-03.md:28:51",
+      "path": "memory/2026-05-03.md",
+      "startLine": 28,
+      "endLine": 51,
+      "source": "memory",
+      "snippet": "- Added `/roster` to RULES.md as a new slash command - Output: lists all activated agents with role, model, cadence, current task, status - Current roster: Yoda 🟢, Aria 🔵, Shield 🛡️, Lex ⚖️, Sage 🧪, Warden 🔍, Spark ✨, CI Agent ### Spark ✨ — Scope Expanded - Spark role upgraded from \"LinkedIn content agent\" to **Social & Digital Marketing Agent** - Scope: ALL platforms — LinkedIn (Ken personal + AInchors company), Instagram, Facebook, X (future) - Responsibilities: strategy + campaigns + execution + analytics + reporting - Ken approves personal content; Angie approves AInchors brand content - Updated: workspace-social/SOUL.md, MEMORY.md, state/agent-status.json - \"Social (full API)\" pla",
+      "recallCount": 1,
+      "dailyCount": 0,
+      "groundedCount": 0,
+      "totalScore": 0.43419835567474363,
+      "maxScore": 0.43419835567474363,
+      "firstRecalledAt": "2026-05-11T23:49:43.978Z",
+      "lastRecalledAt": "2026-05-11T23:49:43.978Z",
+      "queryHashes": [
+        "763c944a8b88"
+      ],
+      "recallDays": [
+        "2026-05-12"
+      ],
+      "conceptTags": [
+        "rules.md",
+        "workspace-social/soul.md",
+        "memory.md",
+        "state/agent-status.json",
+        "added",
+        "roster",
+        "new",
+        "slash"
+      ]
+    },
+    "memory:memory/2026-05-03.md:1:33": {
+      "key": "memory:memory/2026-05-03.md:1:33",
+      "path": "memory/2026-05-03.md",
+      "startLine": 1,
+      "endLine": 33,
+      "source": "memory",
+      "snippet": "# Daily Memory — 2026-05-03 (Day 9) ## Session Summary - Channel: WebChat - Active from: ~11:50 AEST --- ## Key Decisions & Actions ### Notion AKB Backlog — Single Source of Truth (CHG-0136) - Notion AKB Backlog renamed to `📋 AInchors Backlog` - Added **Type** column (US / TKT / CHG) and **Created Date** column - `scripts/ticket.sh` updated — every new/update/close auto-syncs to Notion, stores `notionPageId` in tickets.json - `scripts/changelog-append.sh` updated — every CHG entry auto-creates Notion page - RULES.md + MEMORY.md updated with policy: Notion = single source of truth - Sub-agent tested: TKT-0041 created → Notion ✅ → closed → Done ✅ → cleaned up ✅ - Historical CHG/TKT NOT mi",
+      "recallCount": 1,
+      "dailyCount": 0,
+      "groundedCount": 0,
+      "totalScore": 0.41375550627708435,
+      "maxScore": 0.41375550627708435,
+      "firstRecalledAt": "2026-05-11T23:49:43.978Z",
+      "lastRecalledAt": "2026-05-11T23:49:43.978Z",
+      "queryHashes": [
+        "763c944a8b88"
+      ],
+      "recallDays": [
+        "2026-05-12"
+      ],
+      "conceptTags": [
+        "chg-0136",
+        "scripts/ticket.sh",
+        "new/update/close",
+        "auto-syncs",
+        "tickets.json",
+        "scripts/changelog-append.sh",
+        "auto-creates",
+        "rules.md"
+      ]
+    },
+    "memory:memory/2026-04-26.md:67:98": {
+      "key": "memory:memory/2026-04-26.md:67:98",
+      "path": "memory/2026-04-26.md",
+      "startLine": 67,
+      "endLine": 98,
+      "source": "memory",
+      "snippet": "- DB IDs stored in workspace/memory/shared/notion.md. ### Dual-Instance Architecture (Decision) - OC1 = this Mac mini. Permanent. Yoda lives here. Technical stream + governance. - OC2 = future (current Mac mini reassigned after Yoda migrates to new, more powerful Mac mini). - OC2 = Angie's machine. Business stream. Yoda oversees OC2. - Tailscale promoted to Phase 3 (needed for OC1↔OC2 comms). - Obsidian vault Git-synced between both instances. Yoda holds canonical main. - Migration guide documented: ~1.5-2 hrs. MigrationGuide.md ready. ## Sprint 2 (Evening — started 19:13) - OpenClaw update: already on 2026.4.24 — no action needed - Audit errors (2 lost tasks): cleared — orphaned from powe",
+      "recallCount": 2,
+      "dailyCount": 0,
+      "groundedCount": 0,
+      "totalScore": 0.8837976813316344,
+      "maxScore": 0.4465133488178253,
+      "firstRecalledAt": "2026-05-12T00:22:39.380Z",
+      "lastRecalledAt": "2026-05-12T00:22:48.449Z",
+      "queryHashes": [
+        "4efcfaa80c98",
+        "c6088504c4ea"
+      ],
+      "recallDays": [
+        "2026-05-12"
+      ],
+      "conceptTags": [
+        "dual-instance",
+        "git-synced",
+        "1.5-2",
+        "migrationguide.md",
+        "2026.4.24",
+        "ids",
+        "stored",
+        "shared"
+      ]
+    },
+    "memory:memory/2026-05-10.md:132:141": {
+      "key": "memory:memory/2026-05-10.md:132:141",
+      "path": "memory/2026-05-10.md",
+      "startLine": 132,
+      "endLine": 141,
+      "source": "memory",
+      "snippet": "- **Remote media issue:** Generated images not accessible from Ken's Windows machine via Tailscale. Error: \"Outside allowed folders\". Tried workspaceOnly:true, canvas dir, media/outbound — all blocked. Root cause: Atlas P2 blob design has the answer (S3 + presigned URLs) but not yet implemented. - **TKT-0124 raised:** MinIO on OC1 — interim S3-compatible object store. Bridges remote file access gap. HIGH. Angie staff Malaysia = urgency driver. - **Process gap identified:** Strategy artefacts not systematically converted to tickets. MinIO was in Atlas roadmap but no ticket existed. - **TKT-0125 raised:** Strategy-to-Backlog Pipeline. Formalizes Roadmap Refinement ceremony (QBR + ad-hoc). DoD",
+      "recallCount": 1,
+      "dailyCount": 0,
+      "groundedCount": 0,
+      "totalScore": 0.41676277220249175,
+      "maxScore": 0.41676277220249175,
+      "firstRecalledAt": "2026-05-12T00:22:39.412Z",
+      "lastRecalledAt": "2026-05-12T00:22:39.412Z",
+      "queryHashes": [
+        "618b66eef003"
+      ],
+      "recallDays": [
+        "2026-05-12"
+      ],
+      "conceptTags": [
+        "media/outbound",
+        "tkt-0124",
+        "s3-compatible",
+        "tkt-0125",
+        "strategy-to-backlog",
+        "ad-hoc",
+        "remote",
+        "media"
       ]
     }
   }

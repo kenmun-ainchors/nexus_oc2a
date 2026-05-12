@@ -5,6 +5,8 @@
 
 ---
 
+**ITIL Practice:** Service Configuration Management
+
 ## Overview
 
 This document defines the Standard Operating Procedures (SOPs) and domain boundaries for all Tier 3 (Yoda-Manage-Passthrough) agents. Every Tier 3 agent:

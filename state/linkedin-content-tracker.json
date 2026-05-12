@@ -1,14 +1,21 @@
 {
   "schema": "1.0",
   "agent": "Spark",
-  "topics": [],
+  "topics": [
+    {
+      "topic": "agent routing discipline",
+      "angle": "what-we-learned",
+      "usedAt": "2026-05-12T07:36:00+10:00",
+      "contentId": "LI-C1-W2-P2"
+    }
+  ],
   "series": [],
-  "lastUpdated": "2026-05-09T08:44:40.807974Z",
+  "lastUpdated": "2026-05-12T00:43:59.137101+00:00",
   "published": [
     {
       "id": "CONTENT-SEED-1",
       "queueId": 1,
-      "title": "Seeder Post 1 — The Opening Tease (Saturday)",
+      "title": "Seeder Post 1 \u2014 The Opening Tease (Saturday)",
       "status": "posted",
       "postedAt": "2026-05-03T11:54:00+10:00",
       "postedBy": "Ken (manual)",
@@ -18,7 +25,7 @@
     {
       "id": "CONTENT-SEED-2",
       "queueId": 2,
-      "title": "Seeder Post 2 — The Hint (Sunday)",
+      "title": "Seeder Post 2 \u2014 The Hint (Sunday)",
       "status": "posted",
       "postedAt": "2026-05-03T11:54:00+10:00",
       "postedBy": "Ken (manual)",
@@ -28,7 +35,7 @@
     {
       "id": "LI-W1-P1",
       "queueId": 3,
-      "title": "W1P1 — Practitioner Intro (Tue 7:30am)",
+      "title": "W1P1 \u2014 Practitioner Intro (Tue 7:30am)",
       "status": "posted",
       "postedAt": "2026-05-05T07:52:00+10:00",
       "postedBy": "Yoda (API fix + manual retry)",
@@ -42,20 +49,37 @@
     {
       "id": "LI-ADHOC-RUSTDESK",
       "queueId": 8,
-      "title": "Ad-hoc — RustDesk self-hosting cautionary tale (v3)",
+      "title": "Ad-hoc \u2014 RustDesk self-hosting cautionary tale (v3)",
       "status": "posted",
       "postedAt": "2026-05-09T08:44:40.807974Z",
       "postedBy": "Spark (API)",
       "pillar": "what-we-learned",
       "type": "original",
       "notes": "Ken-approved v3. RustDesk Docker failure + Tailscale pivot. Irony layer: official docs led into the trap."
+    },
+    {
+      "id": "LI-C1-W2-P2",
+      "queueId": 9,
+      "title": "C1W2P2 - AIOps: The Cost of Getting It Wrong (Part 2/6)",
+      "status": "posted",
+      "postedAt": "2026-05-12T00:43:59.137101+00:00",
+      "postedBy": "Spark (API)",
+      "cycle": 1,
+      "week": "A",
+      "part": 2,
+      "theme": "AIOps",
+      "pillar": "what-we-learned",
+      "type": "original",
+      "imageMinioUrl": "https://ainchorss-mac-mini.tail5e2567.ts.net:9000/ainchors-generated-media/social/linkedin/LI-C1-W2-P2/aiops-p2-monitoring-cost.png",
+      "imageAssetUrn": "urn:li:image:D5610AQGtwTcUyH-JPg",
+      "notes": "Posted via API with ChatGPT-generated image. Ken approved draft + image 2026-05-12."
     }
   ],
   "scheduled": [
     {
       "id": "LI-C1-W2-P1",
       "queueId": 7,
-      "title": "C1W2P1 — AIOps: Who watches the agents? (Part 1/6)",
+      "title": "C1W2P1 \u2014 AIOps: Who watches the agents? (Part 1/6)",
       "status": "delivered-to-ken",
       "cycle": 1,
       "week": "A",
@@ -67,6 +91,27 @@
       "createdAt": "2026-05-05T07:31:00+10:00",
       "updatedAt": "2026-05-07T07:30:00+10:00",
       "notes": "Regenerated from Day 10 EOD blog. Governance cleared."
+    },
+    {
+      "id": "LI-C1-W2-P2",
+      "queueId": 9,
+      "title": "C1W2P2 - AIOps: The Cost of Getting It Wrong (Part 2/6)",
+      "status": "posted",
+      "cycle": 1,
+      "week": "A",
+      "part": 2,
+      "theme": "AIOps",
+      "pillar": "what-we-learned",
+      "governanceId": "LI-C1-W2-P2",
+      "governanceResult": "triad-cleared",
+      "createdAt": "2026-05-12T07:36:00+10:00",
+      "updatedAt": "2026-05-12T07:37:54.698539+10:00",
+      "notes": "Posted via API with ChatGPT-generated image. Ken approved draft + image 2026-05-12.",
+      "postedAt": "2026-05-12T00:43:59.137101+00:00",
+      "postedBy": "Spark (API)",
+      "postUrl": "https://www.linkedin.com/posts/activity-(TBD-check-app)",
+      "imageMinioUrl": "https://ainchorss-mac-mini.tail5e2567.ts.net:9000/ainchors-generated-media/social/linkedin/LI-C1-W2-P2/aiops-p2-monitoring-cost.png",
+      "imageAssetUrn": "urn:li:image:D5610AQGtwTcUyH-JPg"
     }
   ],
   "activeTheme": "AIOps",

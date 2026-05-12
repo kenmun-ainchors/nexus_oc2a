@@ -9,6 +9,8 @@
 
 ---
 
+**ITIL Practice:** Service Design
+
 ## 1. Purpose
 
 AInchors has 13 agents built over 14 days. Three informal governance models emerged organically — but without formal definitions, the operating relationship, escalation paths, and approval authorities for most agents remain ambiguous or undocumented.

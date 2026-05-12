@@ -13,7 +13,11 @@ STATE_FILE="$WORKSPACE/state/drive-sync-state.json"
 
 JOURNAL_FOLDER="1WUcG6cdT95FYzSu-bh9S9Jaux4rWRR3z"
 MEMORY_FOLDER="1qn7pZaw4akt8a7DDsSoGS55KMsevLFgu"
-DOCS_FOLDER="1WsvbM7RbUXBRGKk_izbtWSlQ_z3kjx0t"
+DOCS_FOLDER="1WsvbM7RbUXBRGKk_izbtWSlQ_z3kjx0t"  # Docs (was Platform Docs)
+MARKETING_FOLDER="1rFUZ6-3xRrGK7EKV7CPg7ISQCNRsu8Wo"  # AInchors/Marketing
+CANVAS_FOLDER="1sY9qkXiAv8vy3m6E_W2eH73TCOreZKge"  # Docs/Canvas
+REVIEW_QUEUE_FOLDER="1w8WhcaoPAXzsgU2epycoIoBag-JWWnKN"  # Review Queue (was Drafts for Ken Review DoD)
+SOCIAL_FOLDER="1ATWhL4lRWB1Rf0Y4Y7YVYgeP_CiveK4A"  # Social
 
 FORCE=false
 SECTION="all"
@@ -108,6 +112,41 @@ if [[ "$SECTION" == "journal" || "$SECTION" == "all" ]]; then
   done
 fi
 
+# ── Canvas Deliverables (all non-dated canvas folders) ─────────────────────────
+if [[ "$SECTION" == "canvas" || "$SECTION" == "all" ]]; then
+  echo "── Canvas Deliverables ──"
+  # Resolve or create AInchors/Canvas folder in Drive
+  CANVAS_FOLDER_ID=$(GOG_ACCOUNT=kenmun@ainchors.com "$GOG" drive ls \
+    --query "name='Canvas' and mimeType='application/vnd.google-apps.folder' and '12pzxe8VJXm0L3cppNAZlB-pNdkcfZVtB' in parents" \
+    --no-input 2>/dev/null | grep -oE '[A-Za-z0-9_-]{33}' | head -1)
+  if [[ -z "$CANVAS_FOLDER_ID" ]]; then
+    CANVAS_FOLDER_ID=$(GOG_ACCOUNT=kenmun@ainchors.com "$GOG" drive mkdir "Canvas" \
+      --parent "12pzxe8VJXm0L3cppNAZlB-pNdkcfZVtB" --no-input 2>/dev/null | grep -oE '[A-Za-z0-9_-]{33}' | head -1)
+  fi
+  # Sync all non-dated canvas subfolders (excludes ainchors-YYYY-MM-DD which goes to journal)
+  for dir in "$CANVAS"/*/; do
+    dirname=$(basename "$dir")
+    [[ "$dirname" =~ ^ainchors-20[0-9]{2}-[0-9]{2}-[0-9]{2}$ ]] && continue  # skip dated blogs
+    [[ -f "$dir/index.html" ]] || continue
+    [[ -n "$CANVAS_FOLDER_ID" ]] && do_sync "$dir/index.html" "$CANVAS_FOLDER_ID" "${dirname}.html"
+  done
+fi
+
+# ── Marketing Collaterals (TKT-0027) ─────────────────────────────────
+if [[ "$SECTION" == "marketing" || "$SECTION" == "all" ]]; then
+  echo "── Marketing Collaterals ──"
+  MKTG_FOLDER_ID=$(GOG_ACCOUNT=kenmun@ainchors.com "$GOG" drive ls \
+    --query "name='Marketing' and mimeType='application/vnd.google-apps.folder' and '12pzxe8VJXm0L3cppNAZlB-pNdkcfZVtB' in parents" \
+    --no-input 2>/dev/null | grep -oE '[A-Za-z0-9_-]{33}' | head -1)
+  if [[ -z "$MKTG_FOLDER_ID" ]]; then
+    MKTG_FOLDER_ID=$(GOG_ACCOUNT=kenmun@ainchors.com "$GOG" drive mkdir "Marketing" \
+      --parent "12pzxe8VJXm0L3cppNAZlB-pNdkcfZVtB" --no-input 2>/dev/null | grep -oE '[A-Za-z0-9_-]{33}' | head -1)
+  fi
+  for f in "$CANVAS/ainchors-marketing/"*.html; do
+    [[ -f "$f" && -n "$MKTG_FOLDER_ID" ]] && do_sync "$f" "$MKTG_FOLDER_ID"
+  done
+fi
+
 # ── Memory + Context ─────────────────────────────────────────────────────────
 if [[ "$SECTION" == "memory" || "$SECTION" == "all" ]]; then
   echo "── Memory + Context ──"
@@ -132,7 +171,10 @@ if [[ "$SECTION" == "docs" || "$SECTION" == "all" ]]; then
     "$WORKSPACE/docs/Luthen_Marketing_Intelligence_Agent_v1.md" \
     "$WORKSPACE/docs/Aria_Marketing_Mandate_Addendum_v1.md" \
     "$WORKSPACE/docs/postmortem-INC-20260509-001.md" \
-    "$WORKSPACE/docs/TKT-0124-Hybrid-Storage-Amendment.md"; do
+    "$WORKSPACE/docs/TKT-0124-Hybrid-Storage-Amendment.md" \
+    "$WORKSPACE/docs/EA-Addendum-Storage-Access-Architecture-v0.1.md" \
+    "$WORKSPACE/docs/File-Routing-Policy-v1.0.md" \
+    "$WORKSPACE/state/minio-routing-policy.json"; do
     [[ -f "$f" ]] && do_sync "$f" "$DOCS_FOLDER"
   done
 fi

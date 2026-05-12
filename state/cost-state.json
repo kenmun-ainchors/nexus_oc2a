@@ -1,5 +1,5 @@
 {
-  "lastUpdated": "2026-05-11T13:55:20Z",
+  "lastUpdated": "2026-05-12T13:55:14Z",
   "history": {
     "2026-04-25": {
       "date": "2026-04-25",
@@ -657,15 +657,68 @@
           "turns": 46
         }
       }
+    },
+    "2026-05-12": {
+      "date": "2026-05-12",
+      "totalCost": 295.2059,
+      "totalTurns": 4184,
+      "totalInputTokens": 2576566,
+      "totalOutputTokens": 1357121,
+      "totalCacheReadTokens": 241089063,
+      "totalCacheWriteTokens": 56861180,
+      "source": "session-log-estimate",
+      "note": "Session log estimate. usage.cost.total includes cacheWrite charges. CHG-0097: confirmed cost includes cache writes.",
+      "byModel": {
+        "claude-haiku-4-5": {
+          "input": 7134,
+          "output": 247714,
+          "cacheRead": 9235154,
+          "cacheWrite": 2450986,
+          "cost": 5.233,
+          "turns": 628
+        },
+        "deepseek-v4-pro:cloud": {
+          "input": 2088593,
+          "output": 15238,
+          "cacheRead": 0,
+          "cacheWrite": 0,
+          "cost": 0.0,
+          "turns": 52
+        },
+        "claude-sonnet-4-6": {
+          "input": 5700,
+          "output": 1090761,
+          "cacheRead": 231853909,
+          "cacheWrite": 54410194,
+          "cost": 289.9729,
+          "turns": 3476
+        },
+        "kimi-k2.6:cloud": {
+          "input": 475139,
+          "output": 3408,
+          "cacheRead": 0,
+          "cacheWrite": 0,
+          "cost": 0.0,
+          "turns": 27
+        },
+        "gateway-injected": {
+          "input": 0,
+          "output": 0,
+          "cacheRead": 0,
+          "cacheWrite": 0,
+          "cost": 0.0,
+          "turns": 1
+        }
+      }
     }
   },
-  "allTimeTotalCost": 2696.1319,
-  "daysTracked": 17,
-  "avgDailyCost": 158.596,
+  "allTimeTotalCost": 2991.3378,
+  "daysTracked": 18,
+  "avgDailyCost": 166.1854,
   "apiBalance": {
     "remainingEstimate": 0,
-    "spentSinceTopUp": 2696.1319,
-    "remainingNote": "confirmedBalance=None at 2026-05-08; spentAfter=2696.1319",
+    "spentSinceTopUp": 2991.3378,
+    "remainingNote": "confirmedBalance=None at 2026-05-08; spentAfter=2991.3378",
     "confirmedAt": "2026-05-08T11:32:26Z",
     "note": "Auto-reload triggered 2026-05-10. Balance $425.12 post-reload spend.",
     "lastUpdated": "2026-05-10T15:25:58.923445+10:00",

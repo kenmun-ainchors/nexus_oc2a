@@ -5,6 +5,8 @@
 
 ---
 
+**ITIL Practice:** Service Configuration Management
+
 ## Purpose
 
 Skills extend agent capability via SKILL.md instruction files. A poisoned SKILL.md executes with full agent credentials, bypasses all SAST/SCA scanners, and leaves no trace in SBOMs. This policy ensures every skill installed on AInchors infrastructure passes a strict gate before it can influence any agent.

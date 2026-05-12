@@ -1,7 +1,7 @@
 {
-  "lastStandupAt": "2026-05-10T22:07:51.999Z",
+  "lastStandupAt": "2026-05-11T22:00:00.000Z",
   "lastStandupType": "scheduled",
-  "lastStandupWindowStart": "2026-05-10T22:00:00.000Z",
+  "lastStandupWindowStart": "2026-05-11T22:00:00.000Z",
   "history": [
     {
       "type": "scheduled",
@@ -69,11 +69,7 @@
       "windowStart": "2026-05-07T22:00:00.000Z",
       "channel": "telegram",
       "dayN": 15,
-      "channels": [
-        "telegram",
-        "email",
-        "webchat"
-      ],
+      "channels": ["telegram", "email", "webchat"],
       "emailSent": "kenmun@gmail.com",
       "telegramSent": "8574109706"
     },
@@ -83,11 +79,7 @@
       "windowStart": "2026-05-09T22:00:00.000Z",
       "channel": "telegram",
       "dayN": 16,
-      "channels": [
-        "telegram",
-        "email",
-        "webchat"
-      ],
+      "channels": ["telegram", "email", "webchat"],
       "emailSent": "kenmun@gmail.com",
       "telegramSent": "8574109706"
     },
@@ -97,11 +89,17 @@
       "windowStart": "2026-05-10T22:00:00.000Z",
       "channel": "telegram",
       "dayN": 17,
-      "channels": [
-        "telegram",
-        "email",
-        "webchat"
-      ],
+      "channels": ["telegram", "email", "webchat"],
+      "emailSent": "kenmun@gmail.com",
+      "telegramSent": "8574109706"
+    },
+    {
+      "type": "scheduled",
+      "at": "2026-05-11T22:00:00.000Z",
+      "windowStart": "2026-05-11T22:00:00.000Z",
+      "channel": "telegram",
+      "dayN": 18,
+      "channels": ["telegram", "email", "webchat"],
       "emailSent": "kenmun@gmail.com",
       "telegramSent": "8574109706"
     }

@@ -1,0 +1,100 @@
+{
+  "date": "2026-05-12",
+  "dayN": 18,
+  "generatedAt": "2026-05-11T22:00:00Z",
+  "isFriday": false,
+  "systemHealth": {
+    "overallStatus": "ok",
+    "gateway": "ok",
+    "ollama": "ok",
+    "disk": "ok",
+    "anthropicApi": "ok",
+    "ollamaApi": "ok",
+    "consecutiveFailures": 0,
+    "lastCheck": "2026-05-11T21:56:12Z"
+  },
+  "cost": {
+    "confirmedBalance": 479.35,
+    "confirmedAt": "2026-05-08T11:32:26Z",
+    "allTimeTotalCost": 2696.1319,
+    "todayEstimate": 90.73,
+    "avgDailyCost": 158.596,
+    "autoReloadEnabled": true,
+    "autoReloadThreshold": 50,
+    "autoReloadAmount": 450,
+    "noAlertsTriggered": true
+  },
+  "backup": {
+    "status": "ok",
+    "lastBackup": "2026-05-11T16:05:07Z",
+    "lastBackupLocal": "2026-05-12 02:05 AEST",
+    "nasConnected": false,
+    "cloudBackupEnabled": false
+  },
+  "memoryMd": {
+    "chars": 8618,
+    "oversized": false,
+    "limit": 16000
+  },
+  "obsQuery": {
+    "totalEvents24h": 184,
+    "errors": 149,
+    "warnings": 7,
+    "info": 28,
+    "wardenViolationsUnescalated": 141,
+    "healthFailures": 7,
+    "autoPurged": 1
+  },
+  "taskQuery": {
+    "totalTasks": 0,
+    "failed": 0,
+    "stalled": 0
+  },
+  "autoHeal": {
+    "runDate": "2026-05-11T01:00:00+10:00",
+    "checksRun": 18,
+    "issuesFound": ["balance:critical:$0", "memory_md_oversized"],
+    "autoFixed": ["git-commit:workspace:18-files", "aria-git-commit:1-files", "auth-key-synced:agent"],
+    "needsKen": ["API balance critically low: $0 USD remaining", "MEMORY.md oversized (17725 chars)"]
+  },
+  "warden": {
+    "consecutiveClean": 49,
+    "lastCheck": "2026-05-12T07:07:05+10:00",
+    "lastViolationAt": "2026-05-10T11:26:58+10:00",
+    "status": "clean"
+  },
+  "wardenEscalation": {
+    "totalUnresolvedViolations": 0,
+    "status": "resolved-by-yoda"
+  },
+  "incidents": {
+    "openIncidents": 0,
+    "recentResolved": ["INC-20260509-001 (P2, resolved)", "INC-20260503-001 (P2, resolved)"]
+  },
+  "businessStream": {
+    "lastAngieActivity": "2026-05-10 (Saturday evening)",
+    "tuesdayCheckInSent": true,
+    "openItems": [
+      "JotForm API key (outstanding since Apr 28)",
+      "Onboarding Stages 2-6 not started (OB-12, OB-14, OB-15 unchecked)",
+      "April 30 class debrief still missing",
+      "Meta appeal status unknown",
+      "Social posts publication status unknown"
+    ]
+  },
+  "frameworkMaturity": {
+    "agile": "L3",
+    "itsm": "L3",
+    "governance": "L2-L3",
+    "tom": "L2",
+    "modelStrategy": "L3-L4",
+    "knowledgeManagement": "L2",
+    "costManagement": "L2-L3",
+    "businessROI": "L2"
+  },
+  "recentCHGs": [
+    "CHG-0278 (2026-05-12 07:16 AEST) — Incremental journal writer",
+    "CHG-0277 (2026-05-11 23:18 AEST) — Tiered memory split"
+  ],
+  "lastStandupAt": "2026-05-10T22:07:51.999Z"
+}

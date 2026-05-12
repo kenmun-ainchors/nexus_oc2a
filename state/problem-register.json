@@ -1,0 +1,23 @@
+{
+  "schema": "1.0",
+  "problems": [
+    {
+      "id": "PRB-001",
+      "title": "openclaw.json corruption causing gateway crash and session loss",
+      "linkedIncidents": ["INC-20260511-001"],
+      "detectedAt": "2026-05-11",
+      "rootCause": "Concurrent write to openclaw.json during gateway restart — file written with truncated JSON. Gateway failed to parse config on next start. No atomic write protection on config file.",
+      "workaround": "Restore openclaw.json from git backup. Run: git checkout HEAD -- .openclaw/openclaw.json",
+      "permanentFix": "gateway-config-snapshot.sh + gateway-restore.sh implemented (CHG logged Day 17). Config now backed up before every change.",
+      "status": "resolved",
+      "resolvedAt": "2026-05-11",
+      "resolutionCHG": "CHG logged Day 17",
+      "preventionMeasures": [
+        "gateway-config-snapshot.sh pre-change backup",
+        "RULES.md PRE-RISKY-OP CHECKPOINT gate"
+      ],
+      "raisedBy": "Forge",
+      "raisedAt": "2026-05-12"
+    }
+  ]
+}

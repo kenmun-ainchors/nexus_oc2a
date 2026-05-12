@@ -141,6 +141,45 @@ Always use absolute paths for Homebrew tools in exec calls, cron prompts, and sc
 System binaries (`/usr/bin/git`, `/usr/bin/python3`, `/bin/bash`, `/usr/bin/curl`) are fine without full path.
 Full rule + table: `RULES.md` → EXEC BINARY PATH RULE.
 
+### ⚠️ Holocron Document Registry Rule (NON-NEGOTIABLE — CHG-0299)
+Every agent-produced proposal, assessment, policy, or deliverable doc must be registered in Holocron Document Registry as part of DoD.
+DoD = (1) saved locally, (2) uploaded to Drive, (3) uploaded to MinIO, (4) registered in Holocron with Drive link.
+Page ID: `35ec1829-53ff-8161-9bfe-c235984d33d2`
+Full rule: `RULES.md` → HOLOCRON DOCUMENT REGISTRY RULE.
+
+### ⚠️ Routing Discipline Rule (NON-NEGOTIABLE — CHG-0297)
+Yoda orchestrates. Yoda does NOT execute specialist work directly.
+- Infra/scripts/CLI → Forge | EA docs → Atlas | Platform design → Thrawn | BPM → Lando
+- Change mgmt → Mon Mothma | Consulting → Ahsoka | Social → Spark | Security → Shield
+- Legal → Lex | QA → Sage | Drift → Warden | Business stream → Aria
+- **No agent defined for a task? STOP — advise Ken (TOM gap) before acting.**
+Full rule: `RULES.md` → ROUTING DISCIPLINE RULE.
+
+### ⚠️ Strategy-Gate Rule (NON-NEGOTIABLE — CHG-0291)
+If a task depends on a DRAFT FOR REVIEW document or an open DEC-NNN decision: STOP. Do not build. Surface to Ken: "TKT-NNNN is blocked — [doc] is DRAFT FOR REVIEW. Cannot proceed until approved."
+Full rule: `RULES.md` → STRATEGY-GATE RULE.
+
+### ⚠️ Ticket Discipline Rule (NON-NEGOTIABLE — CHG-0289)
+All work requires a valid TKT. All ticket ops go through `ticket.sh`. NEVER write directly to `tickets.json`.
+- Before starting: confirm TKT exists and is in Notion
+- DoD gate: `zsh scripts/ticket.sh close TKT-NNNN --resolution "..."` — this is NOT done until this runs
+- Never: Python writes to tickets.json, marking done in JSON without ticket.sh
+Full rule: `RULES.md` → TICKET DISCIPLINE RULE.
+
+### ⚠️ Absolute File Path Rule (NON-NEGOTIABLE — CHG-0281)
+Never use `~`, `./`, or `$HOME` in `write`/`read`/`edit` tool calls or cron prompts.
+Isolated sessions do NOT expand `~` — writes silently fail.
+- ❌ `~/.openclaw/...` — never
+- ✅ `/Users/ainchorsangiefpl/.openclaw/...` — always
+Full rule: `RULES.md` → ABSOLUTE FILE PATH RULE.
+
+### ⚠️ MinIO URL Rule (NON-NEGOTIABLE — CHG-0284)
+All MinIO file URLs shared with Ken or in documents must use the Tailscale FQDN:
+`http://ainchorss-mac-mini.tail5e2567.ts.net:9000/{bucket}/{path}`
+- ❌ Never `s3://` — never IP (`100.91.60.36`) — never `local/` alias
+- Routing policy: `state/minio-routing-policy.json`
+Full rule: `RULES.md` → MINIO URL RULE.
+
 Skills provide your tools. When you need one, check its `SKILL.md`. Keep local notes (camera names, SSH details, voice preferences) in `TOOLS.md`.
 
 **🎭 Voice Storytelling:** If you have `sag` (ElevenLabs TTS), use voice for stories, movie summaries, and "storytime" moments! Way more engaging than walls of text. Surprise people with funny voices.

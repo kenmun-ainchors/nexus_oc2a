@@ -273,7 +273,7 @@ if [[ "$MINIO_HEALTH" != "ok" ]]; then
   log "CHECK 18: MinIO DOWN"
   # Alert via Telegram if gateway is healthy enough
   bash "$WORKSPACE/scripts/telegram-alert.sh" \
-    "📦 MinIO down on OC1 — agent object store unavailable. Check Colima + ainchors-minio container." \
+    "📦 MinIO down on OC1 — native minio process not responding on :9000. Check: pgrep minio / launchctl list com.ainchors.minio" \
     "$TELEGRAM_CHAT_ID" 2>/dev/null || true
 else
   log "CHECK 18: MinIO ok"
@@ -430,35 +430,49 @@ PYEOF
 fi
 
 
-# ── Uptime logging (QW-4) ─────────────────────────────────────────────────────
-UPTIME_LOG="$WORKSPACE/state/uptime-log.json"
+# ── Uptime logging (QW-4) ────────────────────────────────────────────────────
+# Track service uptime at every health check cycle for SLO reporting.
+UPTIME_FILE="$HOME/.openclaw/workspace/state/uptime-log.json"
+UPTIME_STATUS="${OVERALL_STATUS:-unknown}"
+UPTIME_ISSUES="${ISSUES_JSON:-[]}"
 python3 - << UEOF
-import json, os
+import json
 from datetime import datetime, timezone
 
-ufile = os.path.expanduser("~/.openclaw/workspace/state/uptime-log.json")
-now = "$TIMESTAMP" if "$TIMESTAMP" else datetime.now(timezone.utc).isoformat()
-status = "$OVERALL_STATUS"
+ufile = "$UPTIME_FILE"
+now = datetime.now(timezone.utc).isoformat()
+status = "$UPTIME_STATUS"
+try:
+    issues = $UPTIME_ISSUES
+except:
+    issues = []
 
-data = json.load(open(ufile)) if os.path.exists(ufile) else {
-    "schema_version": "1.0", "trackingStarted": now[:10],
-    "sloTarget": 0.995, "entries": [],
-    "summary": {"totalChecks": 0, "upChecks": 0, "downtimeMinutes": 0, "uptimePct": 100.0}
-}
+if not __import__('os').path.exists(ufile):
+    data = {
+        "schema": "1.0",
+        "trackingStarted": now[:10],
+        "sloTarget": 0.995,
+        "events": [],
+        "summary": {"totalChecks": 0, "upChecks": 0, "downtimeMinutes": 0, "uptimePct": 100.0}
+    }
+else:
+    data = json.load(open(ufile))
 
-entry = {"ts": now, "status": status, "issues": $ISSUES_JSON if '$ISSUES_JSON' else []}
-data["entries"] = data["entries"][-2880:]  # keep 30 days at 15-min intervals
-data["entries"].append(entry)
+data["events"].append({"ts": now, "status": status, "consecutiveFailures": $NEW_FAILURES, "issues": issues})
+data["events"] = data["events"][-720:]  # keep last 720 events (~2.5 days at 5-min cadence)
 
 s = data["summary"]
-s["totalChecks"] += 1
-if status == "ok": s["upChecks"] += 1
-else: s["downtimeMinutes"] = s.get("downtimeMinutes", 0) + 15
+s["totalChecks"] = s.get("totalChecks", 0) + 1
+if status == "ok":
+    s["upChecks"] = s.get("upChecks", 0) + 1
+else:
+    s["downtimeMinutes"] = s.get("downtimeMinutes", 0) + 5
 s["uptimePct"] = round(s["upChecks"] / s["totalChecks"] * 100, 3) if s["totalChecks"] > 0 else 100.0
 s["lastCheck"] = now
 s["lastStatus"] = status
 
 open(ufile, "w").write(json.dumps(data, indent=2))
+print(f"[uptime] {status} logged — uptime {s['uptimePct']}% ({s['upChecks']}/{s['totalChecks']} checks)")
 UEOF
 
 

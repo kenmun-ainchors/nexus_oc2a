@@ -59,6 +59,7 @@ notion_priority() {
 # Create a new Notion page for a ticket. Prints the page ID on success, or "NOTION_SKIP".
 # Usage: notion_create_ticket TKT-ID TITLE STATUS PRIORITY CREATED_DATE [NOTES] [SPRINT] [PLANNED_DATE] [DELIVERED_DATE]
 notion_create_ticket() {
+  sleep 0.4  # Notion rate limit: max 3 req/sec — pace writes
   local tkt_id="$1" title="$2" tkt_status="$3" priority="$4" created_date="$5" notes="${6:-}" sprint="${7:-}" planned_date="${8:-}" delivered_date="${9:-}"
   [[ ! -f "$NOTION_KEY_FILE" ]] && echo "NOTION_SKIP" && return
   local key; key=$(cat "$NOTION_KEY_FILE")
@@ -115,7 +116,7 @@ notion_create_ticket() {
 # Update an existing Notion page's Status, Priority, and Notes.
 # Usage: notion_update_ticket PAGE_ID STATUS PRIORITY [NOTES] [SPRINT] [PLANNED_DATE] [DELIVERED_DATE]
 notion_update_ticket() {
-  local page_id="$1" tkt_status="$2" priority="$3" notes="${4:-}" sprint="${5:-}" planned_date="${6:-}" delivered_date="${7:-}"
+  local page_id="$1" tkt_status="$2" priority="$3" notes="${4:-}" sprint="${5:-}" planned_date="${6:-}" delivered_date="${7:-}" stream="${8:-}" tkt_type="${9:-}"
   [[ -z "$page_id" || "$page_id" == "null" || "$page_id" == "NOTION_SKIP" ]] && return
   [[ ! -f "$NOTION_KEY_FILE" ]] && return
   local key; key=$(cat "$NOTION_KEY_FILE")
@@ -123,24 +124,27 @@ notion_update_ticket() {
   local n_priority; n_priority=$(notion_priority "$priority")
   notes="${notes:0:2000}"
 
+  # Build payload in Python to avoid jq {} empty-object bug (CHG-0290)
+  # Empty sprint/dates must be OMITTED entirely, not sent as {} (corrupts Notion DB)
   local payload
-  payload=$(jq -n \
-    --arg sta "$n_status" \
-    --arg pri "$n_priority" \
-    --arg nts "$notes" \
-    --arg spr "$sprint" \
-    --arg pdt "$planned_date" \
-    --arg ddt "$delivered_date" \
-    '{
-      properties: {
-        "Status":         {select: {name: $sta}},
-        "Priority":       {select: {name: $pri}},
-        "Notes":          {rich_text: (if $nts != "" then [{text: {content: $nts}}] else [] end)},
-        "Sprint":         (if $spr != "" then {select: {name: $spr}} else {} end),
-        "Planned Date":   (if $pdt != "" then {date: {start: $pdt}} else {} end),
-        "Delivered Date": (if $ddt != "" then {date: {start: $ddt}} else {} end)
-      }
-    }' 2>/dev/null)
+  payload=$(/usr/bin/python3 -c "
+import json, sys
+sta  = sys.argv[1]; pri = sys.argv[2]; nts = sys.argv[3]
+spr  = sys.argv[4]; pdt = sys.argv[5]; ddt = sys.argv[6]
+stm  = sys.argv[7] if len(sys.argv) > 7 else ''
+typ  = sys.argv[8] if len(sys.argv) > 8 else ''
+props = {
+    'Status':   {'select': {'name': sta}},
+    'Priority': {'select': {'name': pri}},
+    'Notes':    {'rich_text': [{'text': {'content': nts}}] if nts else []},
+}
+if spr: props['Sprint']         = {'select': {'name': spr}}
+if pdt: props['Planned Date']   = {'date': {'start': pdt}}
+if ddt: props['Delivered Date'] = {'date': {'start': ddt}}
+if stm: props['Stream']         = {'select': {'name': stm}}
+if typ: props['Type']           = {'select': {'name': typ.upper()}}
+print(json.dumps({'properties': props}))
+" "$n_status" "$n_priority" "$notes" "$sprint" "$planned_date" "$delivered_date" 2>/dev/null)
   [[ -z "$payload" ]] && return
 
   curl -s -X PATCH "https://api.notion.com/v1/pages/${page_id}" \
@@ -391,18 +395,29 @@ elif [[ "$SUBCOMMAND" == "notion-sync" ]]; then
   T_PRIORITY=$(echo "$TICKET_JSON" | jq -r '.priority')
   T_DESC=$(echo "$TICKET_JSON" | jq -r '.description // ""')
   T_NOTES=$(echo "$TICKET_JSON" | jq -r '.notes // ""')
-  T_CREATED=$(echo "$TICKET_JSON" | jq -r '.created[:10]')
+  T_CREATED=$(echo "$TICKET_JSON" | jq -r '(.created // .createdAt // "2026-01-01")[:10]')
   T_NOTION_ID=$(echo "$TICKET_JSON" | jq -r '.notionPageId // ""')
+  T_STREAM=$(echo "$TICKET_JSON" | jq -r '.stream // ""')
+  T_TYPE=$(echo "$TICKET_JSON" | jq -r '.type // "task"')
+  # Format sprint: integer 3 → "Sprint 3", string "Sprint 3" → "Sprint 3", null → ""
+  T_SPRINT_RAW=$(echo "$TICKET_JSON" | jq -r '.sprint // ""')
+  if [[ "$T_SPRINT_RAW" =~ ^[0-9]+$ ]]; then
+    T_SPRINT="Sprint $T_SPRINT_RAW"
+  elif [[ "$T_SPRINT_RAW" == "null" || "$T_SPRINT_RAW" == "None" || -z "$T_SPRINT_RAW" ]]; then
+    T_SPRINT=""
+  else
+    T_SPRINT="$T_SPRINT_RAW"
+  fi
 
   if [[ -n "$T_NOTION_ID" && "$T_NOTION_ID" != "null" && "$T_NOTION_ID" != "" ]]; then
     echo "Updating existing Notion page $T_NOTION_ID for $TKT_ID..."
-    notion_update_ticket "$T_NOTION_ID" "$T_STATUS" "$T_PRIORITY" "${T_NOTES:-$T_DESC}" 2>/dev/null \
+    notion_update_ticket "$T_NOTION_ID" "$T_STATUS" "$T_PRIORITY" "${T_NOTES:-$T_DESC}" "$T_SPRINT" "" "" "$T_STREAM" "$T_TYPE" 2>/dev/null \
       && echo "✅ $TKT_ID synced to Notion (updated)" \
       || echo "⚠️  Notion update failed for $TKT_ID"
   else
     echo "Creating new Notion page for $TKT_ID..."
     COMBINED_NOTES="${T_DESC}${T_NOTES:+ | $T_NOTES}"
-    NOTION_PAGE_ID=$(notion_create_ticket "$TKT_ID" "$T_TITLE" "$T_STATUS" "$T_PRIORITY" "$T_CREATED" "$COMBINED_NOTES" 2>/dev/null || echo "NOTION_SKIP")
+    NOTION_PAGE_ID=$(notion_create_ticket "$TKT_ID" "$T_TITLE" "$T_STATUS" "$T_PRIORITY" "$T_CREATED" "$COMBINED_NOTES" "$T_SPRINT" "" "" 2>/dev/null || echo "NOTION_SKIP")
     if [[ -n "$NOTION_PAGE_ID" && "$NOTION_PAGE_ID" != "NOTION_SKIP" ]]; then
       TMP=$(jq --arg id "$TKT_ID" --arg npid "$NOTION_PAGE_ID" \
         '(.tickets[] | select(.id == $id)) |= (.notionPageId = $npid)' "$TICKET_FILE")

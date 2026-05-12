@@ -1,7 +1,7 @@
 {
   "schema_version": "1.0",
   "description": "Gate 1 DoD tracker \u2014 all open decisions requiring Ken confirmation. Retrospective populated 2026-05-08 to capture all pre-today gaps. Checked at sprint planning and sprint review.",
-  "lastUpdated": "2026-05-10T07:50:06.814342+00:00",
+  "lastUpdated": "2026-05-12T02:36:50.186768+00:00",
   "decisions": [
     {
       "id": "DEC-001",
@@ -12,7 +12,9 @@
       "recommended": "Hybrid \u2014 Notion for AInchors internal, self-hosted KB for FSI client environments",
       "blockedItem": "TKT-0046 / DRAFT-002 / DRAFT-003",
       "urgency": "P2 gate",
-      "status": "open"
+      "status": "closed",
+      "closedAt": "2026-05-12T02:23:34.790991+00:00",
+      "kenDecision": "HYBRID \u2014 Notion for AInchors internal, self-hosted KB for FSI client environments at P4."
     },
     {
       "id": "DEC-002",
@@ -23,7 +25,9 @@
       "recommended": "Notion-based v0 for first 2-3 SME clients Q3 2026, custom build Q3-Q4 for P4-ready version",
       "blockedItem": "TKT-0046 / DRAFT-002",
       "urgency": "P2 gate \u2014 before first client onboarded",
-      "status": "open"
+      "status": "closed",
+      "closedAt": "2026-05-12T02:23:34.790991+00:00",
+      "kenDecision": "NOTION-P2 \u2014 Notion-based Citadel v0 for first 2-3 SME clients at P2. Custom build at P4."
     },
     {
       "id": "DEC-003",
@@ -34,7 +38,9 @@
       "recommended": "REST/webhooks only for P2. DB connectors = P3 commercial tier or P4.",
       "blockedItem": "TKT-0046 / DRAFT-002",
       "urgency": "P2 gate \u2014 before API build begins",
-      "status": "open"
+      "status": "closed",
+      "closedAt": "2026-05-12T02:23:34.790991+00:00",
+      "kenDecision": "REST-ONLY \u2014 Holonet P2 scope: REST/webhooks only. DB connectors deferred to P3/P4 commercial tier."
     },
     {
       "id": "DEC-004",
@@ -45,7 +51,9 @@
       "recommended": "AInchors-managed single Warden for P2. Per-tenant Warden = P4 FSI only.",
       "blockedItem": "TKT-0046 / DRAFT-002",
       "urgency": "P2 gate",
-      "status": "open"
+      "status": "closed",
+      "closedAt": "2026-05-12T02:23:34.790991+00:00",
+      "kenDecision": "AINCHORS-MANAGED \u2014 Single Warden at P2. Per-tenant Warden deferred to P4 FSI only."
     },
     {
       "id": "DEC-005",
@@ -56,7 +64,9 @@
       "recommended": "Standalone Homebrew for P1/dev. Docker for P2 production.",
       "blockedItem": "TKT-0104 / DRAFT-001 / Data+Memory implementation",
       "urgency": "Before any Postgres schema build begins",
-      "status": "open"
+      "status": "closed",
+      "closedAt": "2026-05-12T02:15:30.331146+00:00",
+      "kenDecision": "HOMEBREW \u2014 Postgres standalone Homebrew for P1/OC1. Revisit Docker at OC2 HA setup. Colima Tailscale incompatibility confirmed reason."
     },
     {
       "id": "DEC-006",
@@ -67,7 +77,9 @@
       "recommended": "Defer Redis to P2. Use Postgres session tables for P1 short-term memory.",
       "blockedItem": "TKT-0104 / DRAFT-001 / T2 session memory build",
       "urgency": "Before T2 session memory build begins",
-      "status": "open"
+      "status": "closed",
+      "closedAt": "2026-05-12T02:15:30.331146+00:00",
+      "kenDecision": "DEFER \u2014 Redis deferred to P2. Postgres session tables for P1 short-term memory. No Redis overhead on OC1."
     },
     {
       "id": "DEC-007",
@@ -78,7 +90,9 @@
       "recommended": "AInchors strategy docs, agent SOUL.md/RULES.md, Agile framework, EA docs. Then client-facing docs.",
       "blockedItem": "TKT-0104 / DRAFT-001 / T4 Semantic Memory build",
       "urgency": "Before T4 RAG pipeline build begins",
-      "status": "open"
+      "status": "closed",
+      "closedAt": "2026-05-12T02:16:16.202944+00:00",
+      "kenDecision": "APPROVED \u2014 Ingestion order: (1) Strategy docs, (2) Agent SOUL.md/RULES.md, (3) Governance docs, (4) EA/architecture docs (post-approval), (5) Client-facing docs at P2."
     },
     {
       "id": "DEC-008",
@@ -89,7 +103,9 @@
       "recommended": "Presidio \u2014 APRA CPG 234 requires enterprise-grade PII detection for P2+ client workloads",
       "blockedItem": "TKT-0104 / DRAFT-001 / PII detection implementation",
       "urgency": "P2 gate \u2014 before client data ingestion",
-      "status": "open"
+      "status": "closed",
+      "closedAt": "2026-05-12T02:16:52.030534+00:00",
+      "kenDecision": "PRESIDIO \u2014 Enterprise-grade PII detection. APRA CPG 234 baseline for AU financial services clients at P2+. Build direction locked."
     },
     {
       "id": "DEC-009",
@@ -100,7 +116,9 @@
       "recommended": "Set now: indefinite retention for P1. Review at P2 for regulated data retention schedules.",
       "blockedItem": "TKT-0104 / DRAFT-001 / TKT-0075 Audit Log Architecture",
       "urgency": "Before T3 episodic log build begins",
-      "status": "open"
+      "status": "closed",
+      "closedAt": "2026-05-12T02:17:42.091108+00:00",
+      "kenDecision": "APPROVED \u2014 Indefinite retention for P1. At P2: operational logs 90 days rolling, governance/decision logs 7 years (AU regulatory), client data audit trails per contract."
     },
     {
       "id": "DEC-010",
@@ -111,7 +129,9 @@
       "recommended": "Automatic retry (3x) on optimistic lock conflict. Last-write-wins only as final fallback with history entry.",
       "blockedItem": "TKT-0104 / DRAFT-001 / T5 Shared Memory build",
       "urgency": "Before T5 shared state build begins",
-      "status": "open"
+      "status": "closed",
+      "closedAt": "2026-05-12T02:20:39.236627+00:00",
+      "kenDecision": "AUTO-RETRY \u2014 Optimistic locking. First writer wins. Second writer retries up to 3x with 200ms delay. After 3 failures: log conflict + alert Yoda. No silent data loss."
     },
     {
       "id": "DEC-011",
@@ -122,7 +142,9 @@
       "recommended": "Both \u2014 dual-purpose. Ken job search framing for P1. Client-facing from P2.",
       "blockedItem": "TKT-0104 / DRAFT-001 / portfolio artefact production",
       "urgency": "Low \u2014 inform tone/framing only",
-      "status": "open"
+      "status": "closed",
+      "closedAt": "2026-05-12T02:21:21.992095+00:00",
+      "kenDecision": "DUAL \u2014 Ken first-person voice for P1 (job search credential + authentic brand). Repurpose as client evidence from P2 once real outcomes exist. EOD blogs continue current format."
     },
     {
       "id": "DEC-012",
@@ -134,7 +156,9 @@
       "recommended": "Review spec, add Tier 3 SOP and domain boundary section (per TKT-0105 Model3-Policy), then accept.",
       "blockedItem": "TKT-0072 / DRAFT-007",
       "urgency": "Before Lando is operationalised",
-      "status": "open"
+      "status": "closed",
+      "closedAt": "2026-05-12T02:24:07.308598+00:00",
+      "kenDecision": "UPDATE-FIRST \u2014 Atlas to patch Business_Process_Specialist_Agent_v1.md: add Tier 3 SOP, domain boundary, cross-stream handoff protocol. TKT-0072 unblocks after spec is updated and approved."
     },
     {
       "id": "DEC-013",
@@ -146,7 +170,9 @@
       "recommended": "Explicit exclusion documented in model-policy.json for Tier 3 agents (no model drift risk \u2014 they use Sonnet/Haiku by design). Krennic to be added when built.",
       "blockedItem": "TKT-0103 CHG-P4 / Warden coverage",
       "urgency": "Before P2 \u2014 governance completeness",
-      "status": "open"
+      "status": "closed",
+      "closedAt": "2026-05-12T02:25:57.471501+00:00",
+      "kenDecision": "EXPLICIT-EXCLUSION \u2014 Shield, Lex, Sage excluded from Warden monitoring by design. Document in model-policy.json. Ken directly oversees governance tier. TKT raised for human oversight process."
     },
     {
       "id": "DEC-014",
@@ -158,7 +184,9 @@
       "recommended": "Run verification check. If any missing, recreate. This is CHG-P6 from TKT-0103.",
       "blockedItem": "TKT-0103 CHG-P6",
       "urgency": "Medium \u2014 affects Aria/Yoda coordination reliability",
-      "status": "open"
+      "status": "closed",
+      "closedAt": "2026-05-12T02:30:32.786612+00:00",
+      "kenDecision": "VERIFY-NOW. Results: context-for-aria.md MISSING (recreated), yoda-daily-brief.md OK (13.5h), aria-daily-brief.md STALE (132h \u2014 Aria to refresh). TKT raised for scheduled integrity checks + HIVE design consideration."
     },
     {
       "id": "DEC-015",
@@ -170,7 +198,9 @@
       "recommended": "Integrate R4/R5 into ARIA_RULES.md, verify/integrate C1-C5 into Ahsoka's rules, verify A1-A4 in Atlas SOUL.md, verify G1-G2/W1-W2. Track per TKT-0102.",
       "blockedItem": "TKT-0102",
       "urgency": "Sprint 2 \u2014 strategy docs reference these as live but they are not",
-      "status": "open"
+      "status": "closed",
+      "closedAt": "2026-05-12T02:33:28.909919+00:00",
+      "kenDecision": "INTEGRATE-ALL \u2014 R4/R5 into ARIA_RULES.md, C1-C5 and A1-A4 into AHSOKA_RULES.md. Yoda to integrate now."
     },
     {
       "id": "DEC-016",
@@ -181,9 +211,11 @@
       "recommended": "$150 cap for Sprint 3. Review at sprint end. Revert to $80 if average daily spend <$100, keep at $150 if consistently above.",
       "blockedItem": "None \u2014 change already applied. Confirmation locks the monitoring criteria.",
       "urgency": "Low \u2014 active now, review at Sprint 3 close",
-      "status": "pending-ken",
+      "status": "closed",
       "chgRef": "CHG-0268",
-      "reviewCriteria": "At Sprint 3 end: if avg daily main spend <$100 \u2192 revert to $80. If $100-$150 \u2192 keep $150. If >$150 \u2192 escalate and discuss."
+      "reviewCriteria": "At Sprint 3 end: if avg daily main spend <$100 \u2192 revert to $80. If $100-$150 \u2192 keep $150. If >$150 \u2192 escalate and discuss.",
+      "closedAt": "2026-05-12T02:12:31.298516+00:00",
+      "kenDecision": "CONFIRMED \u2014 $150 daily cap locked for Sprint 3. Review at sprint end 2026-05-18. Revert to $80 if avg daily spend < $100 post-sprint."
     },
     {
       "id": "DEC-017",
@@ -194,9 +226,11 @@
       "recommended": "Pending Atlas assessment (state/atlas-cli-anything-assessment.md). Atlas fires today.",
       "blockedItem": "TKT-0141 \u2014 strategic opportunity angle. No build starts until Ken confirms.",
       "urgency": "Low \u2014 strategic decision, no P2 gate dependency",
-      "status": "pending-ken",
+      "status": "deferred",
       "tktRef": "TKT-0141",
-      "reviewNote": "Read Atlas assessment summary (Telegram delivery) + state/atlas-cli-anything-assessment.md. Confirm: adopt / reject / conditional with gates."
+      "reviewNote": "Read Atlas assessment summary (Telegram delivery) + state/atlas-cli-anything-assessment.md. Confirm: adopt / reject / conditional with gates.",
+      "closedAt": "2026-05-12T02:35:38.225229+00:00",
+      "kenDecision": "DEFER \u2014 wait for Atlas EA assessment (TKT-0143) before adopting, rejecting, or conditionalising CLI-Anything. No action on TKT-0141 strategic angle until assessment lands."
     },
     {
       "id": "DEC-018",
@@ -207,9 +241,11 @@
       "recommended": "Accept as false positive \u2014 the curl|bash pattern is in an install example, not an agent-executable directive. Already logged in skill-registry.json as 'clean-5-low-fp'.",
       "blockedItem": "None \u2014 xurl is a bundled OpenClaw skill, already in use.",
       "urgency": "Low \u2014 informational, skill already installed",
-      "status": "pending-ken",
+      "status": "closed",
       "tktRef": "TKT-0141/0142",
-      "reviewNote": "Confirm: accept the xurl false positive verdict, or restrict xurl from being loaded in agent sessions."
+      "reviewNote": "Confirm: accept the xurl false positive verdict, or restrict xurl from being loaded in agent sessions.",
+      "closedAt": "2026-05-12T02:13:50.207134+00:00",
+      "kenDecision": "ACCEPTED as documented false positive. xurl remains in use. curl|bash pattern is in install example comment only \u2014 not executable. Add to audit-skill.sh whitelist."
     },
     {
       "id": "DEC-019",
@@ -220,9 +256,11 @@
       "recommended": "Evaluate both tools. Cisco skill scanner is open-source and directly addresses SKILL.md poisoning. Snyk mcp-scan is MCP-focused. Suggest: pilot Cisco scanner as a mandatory step 3b in the intake SOP.",
       "blockedItem": "TKT-0141 \u2014 tooling controls. Requires Ken go-ahead before evaluating.",
       "urgency": "Low \u2014 nice-to-have hardening, no P2 gate",
-      "status": "pending-ken",
+      "status": "closed",
       "tktRef": "TKT-0141",
-      "reviewNote": "Confirm: pilot Cisco skill scanner as additional SOP step, or skip and rely on audit-skill.sh + manual read only."
+      "reviewNote": "Confirm: pilot Cisco skill scanner as additional SOP step, or skip and rely on audit-skill.sh + manual read only.",
+      "closedAt": "2026-05-12T02:36:50.186768+00:00",
+      "kenDecision": "CISCO-NOW + SNYK-DEFER \u2014 Pilot Cisco Skill Scanner now as SOP step 3b in skill installation. Snyk mcp-scan deferred to P2 when MCP integrations grow. Forge to integrate Cisco scanner into audit-skill.sh workflow."
     }
   ]
 }

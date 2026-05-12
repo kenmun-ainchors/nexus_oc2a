@@ -1,11 +1,14 @@
 # Data & Memory Architecture: P1-P4 Progressive Build Roadmap
 **TKT-0104 | Enterprise Architecture Deliverable**
-**Status:** DRAFT FOR REVIEW - AMENDED (CHG-0234)
+**Status:** LIVE — Approved by Ken Mun 2026-05-12
+**Decisions confirmed:** D1 pgvector, D2 nomic-embed-text 768-dim, D3 RecursiveChar 400-600 tokens, D4 optimistic locking, D5 DPA verified, D6 Shared-RLS, D8 Postgres P1→Redis P2. D7/D9 deferred to P2 gate.
 **Author:** Atlas 🏛️ - Enterprise Architect, AInchors
 **Date:** 2026-05-08 | **Amended:** 2026-05-08
 **Source:** Phase4_DataMemory_Architecture.md (Ken Mun, 1 May 2026)
 
 ---
+
+**ITIL Practice:** Service Design
 
 > **⚠️ PHASE STRUCTURE AMENDMENT - CHG-0234 (Ken confirmed 2026-05-08 15:08 AEST)**
 >

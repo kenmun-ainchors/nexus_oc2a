@@ -1,0 +1,333 @@
+{
+  "_meta": {
+    "version": "1.0",
+    "locked": "2026-05-12",
+    "chg": "CHG-0283",
+    "owner": "Yoda",
+    "note": "All agents must write outputs to MinIO using these paths. Local workspace files are ephemeral \u2014 MinIO is the durable store for all deliverables."
+  },
+  "endpoint": "http://localhost:9000",
+  "buckets": {
+    "ainchors-brand-code": "Brand content, marketing materials, social drafts, blog posts",
+    "ainchors-workspace-assets": "Working documents, architecture, consulting, governance, ops",
+    "ainchors-generated-media": "AI-generated images, videos, visual assets",
+    "ainchors-agent-memory": "Agent memory artifacts, handoffs, shared context"
+  },
+  "agents": {
+    "spark": {
+      "description": "Social & Digital Marketing",
+      "outputs": {
+        "linkedin-drafts": {
+          "path": "ainchors-brand-code/social/linkedin/drafts/",
+          "url_pattern": "http://ainchorss-mac-mini.tail5e2567.ts.net:9000/ainchors-brand-code/social/linkedin/drafts/{filename}"
+        },
+        "linkedin-approved": {
+          "path": "ainchors-brand-code/social/linkedin/approved/",
+          "url_pattern": "http://ainchorss-mac-mini.tail5e2567.ts.net:9000/ainchors-brand-code/social/linkedin/approved/{filename}"
+        },
+        "linkedin-posted": {
+          "path": "ainchors-brand-code/social/linkedin/posted/",
+          "url_pattern": "http://ainchorss-mac-mini.tail5e2567.ts.net:9000/ainchors-brand-code/social/linkedin/posted/{filename}"
+        },
+        "instagram-drafts": {
+          "path": "ainchors-brand-code/social/instagram/drafts/",
+          "url_pattern": "http://ainchorss-mac-mini.tail5e2567.ts.net:9000/ainchors-brand-code/social/instagram/drafts/{filename}"
+        },
+        "instagram-approved": {
+          "path": "ainchors-brand-code/social/instagram/approved/",
+          "url_pattern": "http://ainchorss-mac-mini.tail5e2567.ts.net:9000/ainchors-brand-code/social/instagram/approved/{filename}"
+        },
+        "blog-drafts": {
+          "path": "ainchors-brand-code/content/blog/drafts/",
+          "url_pattern": "http://ainchorss-mac-mini.tail5e2567.ts.net:9000/ainchors-brand-code/content/blog/drafts/{filename}"
+        },
+        "blog-published": {
+          "path": "ainchors-brand-code/content/blog/published/",
+          "url_pattern": "http://ainchorss-mac-mini.tail5e2567.ts.net:9000/ainchors-brand-code/content/blog/published/{filename}"
+        },
+        "generated-images": {
+          "path": "ainchors-generated-media/social/linkedin/",
+          "url_pattern": "http://ainchorss-mac-mini.tail5e2567.ts.net:9000/ainchors-generated-media/social/linkedin/{filename}"
+        },
+        "marketing-tech": {
+          "path": "ainchors-brand-code/marketing-materials/technology/",
+          "url_pattern": "http://ainchorss-mac-mini.tail5e2567.ts.net:9000/ainchors-brand-code/marketing-materials/technology/{filename}"
+        },
+        "marketing-consult": {
+          "path": "ainchors-brand-code/marketing-materials/consulting/",
+          "url_pattern": "http://ainchorss-mac-mini.tail5e2567.ts.net:9000/ainchors-brand-code/marketing-materials/consulting/{filename}"
+        },
+        "marketing-training": {
+          "path": "ainchors-brand-code/marketing-materials/training/",
+          "url_pattern": "http://ainchorss-mac-mini.tail5e2567.ts.net:9000/ainchors-brand-code/marketing-materials/training/{filename}"
+        }
+      },
+      "rule": "Route by content type first, then business function. Social posts \u2192 social/[platform]/drafts. Marketing collateral \u2192 marketing-materials/[function]."
+    },
+    "ahsoka": {
+      "description": "Consulting \u2014 Client Discovery & Proposals",
+      "outputs": {
+        "proposals": {
+          "path": "ainchors-workspace-assets/consulting/proposals/",
+          "url_pattern": "http://ainchorss-mac-mini.tail5e2567.ts.net:9000/ainchors-workspace-assets/consulting/proposals/{filename}"
+        },
+        "discovery": {
+          "path": "ainchors-workspace-assets/consulting/discovery/",
+          "url_pattern": "http://ainchorss-mac-mini.tail5e2567.ts.net:9000/ainchors-workspace-assets/consulting/discovery/{filename}"
+        },
+        "frameworks": {
+          "path": "ainchors-workspace-assets/consulting/frameworks/",
+          "url_pattern": "http://ainchorss-mac-mini.tail5e2567.ts.net:9000/ainchors-workspace-assets/consulting/frameworks/{filename}"
+        },
+        "client-deliverables": {
+          "path": "ainchors-workspace-assets/consulting/client-deliverables/",
+          "url_pattern": "http://ainchorss-mac-mini.tail5e2567.ts.net:9000/ainchors-workspace-assets/consulting/client-deliverables/{filename}"
+        },
+        "playbooks": {
+          "path": "ainchors-workspace-assets/consulting/playbooks/",
+          "url_pattern": "http://ainchorss-mac-mini.tail5e2567.ts.net:9000/ainchors-workspace-assets/consulting/playbooks/{filename}"
+        },
+        "marketing-content": {
+          "path": "ainchors-brand-code/marketing-materials/consulting/",
+          "url_pattern": "http://ainchorss-mac-mini.tail5e2567.ts.net:9000/ainchors-brand-code/marketing-materials/consulting/{filename}"
+        }
+      },
+      "rule": "All client-facing documents \u2192 consulting/. Marketing collateral about consulting \u2192 brand-code/marketing-materials/consulting/."
+    },
+    "atlas": {
+      "description": "Enterprise Architect",
+      "outputs": {
+        "architecture-docs": {
+          "path": "ainchors-workspace-assets/technology/architecture/",
+          "url_pattern": "http://ainchorss-mac-mini.tail5e2567.ts.net:9000/ainchors-workspace-assets/technology/architecture/{filename}"
+        },
+        "reports": {
+          "path": "ainchors-workspace-assets/technology/reports/",
+          "url_pattern": "http://ainchorss-mac-mini.tail5e2567.ts.net:9000/ainchors-workspace-assets/technology/reports/{filename}"
+        },
+        "frameworks": {
+          "path": "ainchors-workspace-assets/consulting/frameworks/",
+          "url_pattern": "http://ainchorss-mac-mini.tail5e2567.ts.net:9000/ainchors-workspace-assets/consulting/frameworks/{filename}"
+        },
+        "presentations": {
+          "path": "ainchors-generated-media/presentations/",
+          "url_pattern": "http://ainchorss-mac-mini.tail5e2567.ts.net:9000/ainchors-generated-media/presentations/{filename}"
+        }
+      },
+      "rule": "EA outputs \u2192 technology/architecture. Cross-stream frameworks \u2192 consulting/frameworks. Slide decks \u2192 generated-media/presentations."
+    },
+    "thrawn": {
+      "description": "AI Platform Architect",
+      "outputs": {
+        "platform-design": {
+          "path": "ainchors-workspace-assets/technology/architecture/",
+          "url_pattern": "http://ainchorss-mac-mini.tail5e2567.ts.net:9000/ainchors-workspace-assets/technology/architecture/{filename}"
+        },
+        "infra-docs": {
+          "path": "ainchors-workspace-assets/technology/infra/",
+          "url_pattern": "http://ainchorss-mac-mini.tail5e2567.ts.net:9000/ainchors-workspace-assets/technology/infra/{filename}"
+        },
+        "runbooks": {
+          "path": "ainchors-workspace-assets/technology/runbooks/",
+          "url_pattern": "http://ainchorss-mac-mini.tail5e2567.ts.net:9000/ainchors-workspace-assets/technology/runbooks/{filename}"
+        },
+        "poc-reports": {
+          "path": "ainchors-workspace-assets/technology/poc/",
+          "url_pattern": "http://ainchorss-mac-mini.tail5e2567.ts.net:9000/ainchors-workspace-assets/technology/poc/{filename}"
+        }
+      },
+      "rule": "Platform and infra docs \u2192 technology/. PoC reports \u2192 technology/poc/."
+    },
+    "forge": {
+      "description": "Infra / SRE",
+      "outputs": {
+        "infra-configs": {
+          "path": "ainchors-workspace-assets/technology/infra/",
+          "url_pattern": "http://ainchorss-mac-mini.tail5e2567.ts.net:9000/ainchors-workspace-assets/technology/infra/{filename}"
+        },
+        "runbooks": {
+          "path": "ainchors-workspace-assets/technology/runbooks/",
+          "url_pattern": "http://ainchorss-mac-mini.tail5e2567.ts.net:9000/ainchors-workspace-assets/technology/runbooks/{filename}"
+        },
+        "poc-outputs": {
+          "path": "ainchors-workspace-assets/technology/poc/",
+          "url_pattern": "http://ainchorss-mac-mini.tail5e2567.ts.net:9000/ainchors-workspace-assets/technology/poc/{filename}"
+        },
+        "reports": {
+          "path": "ainchors-workspace-assets/technology/reports/",
+          "url_pattern": "http://ainchorss-mac-mini.tail5e2567.ts.net:9000/ainchors-workspace-assets/technology/reports/{filename}"
+        }
+      },
+      "rule": "All infra and SRE outputs \u2192 technology/. Runbooks get their own subfolder."
+    },
+    "lando": {
+      "description": "BPM \u2014 Business Process",
+      "outputs": {
+        "process-maps": {
+          "path": "ainchors-workspace-assets/business/process-maps/",
+          "url_pattern": "http://ainchorss-mac-mini.tail5e2567.ts.net:9000/ainchors-workspace-assets/business/process-maps/{filename}"
+        },
+        "sops": {
+          "path": "ainchors-workspace-assets/business/sops/",
+          "url_pattern": "http://ainchorss-mac-mini.tail5e2567.ts.net:9000/ainchors-workspace-assets/business/sops/{filename}"
+        },
+        "reports": {
+          "path": "ainchors-workspace-assets/business/reports/",
+          "url_pattern": "http://ainchorss-mac-mini.tail5e2567.ts.net:9000/ainchors-workspace-assets/business/reports/{filename}"
+        }
+      },
+      "rule": "All BPM outputs \u2192 business/. Process maps and SOPs get dedicated subfolders."
+    },
+    "mon-mothma": {
+      "description": "Change Management (DTCM)",
+      "outputs": {
+        "change-plans": {
+          "path": "ainchors-workspace-assets/business/change-plans/",
+          "url_pattern": "http://ainchorss-mac-mini.tail5e2567.ts.net:9000/ainchors-workspace-assets/business/change-plans/{filename}"
+        },
+        "reports": {
+          "path": "ainchors-workspace-assets/business/reports/",
+          "url_pattern": "http://ainchorss-mac-mini.tail5e2567.ts.net:9000/ainchors-workspace-assets/business/reports/{filename}"
+        },
+        "training-docs": {
+          "path": "ainchors-workspace-assets/training/guides/",
+          "url_pattern": "http://ainchorss-mac-mini.tail5e2567.ts.net:9000/ainchors-workspace-assets/training/guides/{filename}"
+        }
+      },
+      "rule": "Change plans \u2192 business/change-plans. Training material produced for adoption \u2192 training/guides."
+    },
+    "shield": {
+      "description": "Security Governance",
+      "outputs": {
+        "reviews": {
+          "path": "ainchors-workspace-assets/governance/reviews/",
+          "url_pattern": "http://ainchorss-mac-mini.tail5e2567.ts.net:9000/ainchors-workspace-assets/governance/reviews/{filename}"
+        },
+        "audits": {
+          "path": "ainchors-workspace-assets/governance/audits/",
+          "url_pattern": "http://ainchorss-mac-mini.tail5e2567.ts.net:9000/ainchors-workspace-assets/governance/audits/{filename}"
+        }
+      },
+      "rule": "All security reviews and audits \u2192 governance/."
+    },
+    "lex": {
+      "description": "Legal & Compliance",
+      "outputs": {
+        "reviews": {
+          "path": "ainchors-workspace-assets/governance/reviews/",
+          "url_pattern": "http://ainchorss-mac-mini.tail5e2567.ts.net:9000/ainchors-workspace-assets/governance/reviews/{filename}"
+        },
+        "compliance": {
+          "path": "ainchors-workspace-assets/governance/compliance/",
+          "url_pattern": "http://ainchorss-mac-mini.tail5e2567.ts.net:9000/ainchors-workspace-assets/governance/compliance/{filename}"
+        }
+      },
+      "rule": "Legal reviews \u2192 governance/reviews. Compliance docs \u2192 governance/compliance."
+    },
+    "sage": {
+      "description": "QA",
+      "outputs": {
+        "reviews": {
+          "path": "ainchors-workspace-assets/governance/reviews/",
+          "url_pattern": "http://ainchorss-mac-mini.tail5e2567.ts.net:9000/ainchors-workspace-assets/governance/reviews/{filename}"
+        },
+        "reports": {
+          "path": "ainchors-workspace-assets/governance/audits/",
+          "url_pattern": "http://ainchorss-mac-mini.tail5e2567.ts.net:9000/ainchors-workspace-assets/governance/audits/{filename}"
+        }
+      },
+      "rule": "QA reviews and audit reports \u2192 governance/."
+    },
+    "warden": {
+      "description": "Model Compliance",
+      "outputs": {
+        "compliance-reports": {
+          "path": "ainchors-workspace-assets/governance/compliance/",
+          "url_pattern": "http://ainchorss-mac-mini.tail5e2567.ts.net:9000/ainchors-workspace-assets/governance/compliance/{filename}"
+        },
+        "incidents": {
+          "path": "ainchors-workspace-assets/governance/incidents/",
+          "url_pattern": "http://ainchorss-mac-mini.tail5e2567.ts.net:9000/ainchors-workspace-assets/governance/incidents/{filename}"
+        }
+      },
+      "rule": "Compliance check reports \u2192 governance/compliance. Escalation records \u2192 governance/incidents."
+    },
+    "aria": {
+      "description": "Business Lead Agent",
+      "outputs": {
+        "briefings": {
+          "path": "ainchors-agent-memory/aria/briefings/",
+          "url_pattern": "http://ainchorss-mac-mini.tail5e2567.ts.net:9000/ainchors-agent-memory/aria/briefings/{filename}"
+        },
+        "marketing-content": {
+          "path": "ainchors-brand-code/marketing-materials/",
+          "url_pattern": "http://ainchorss-mac-mini.tail5e2567.ts.net:9000/ainchors-brand-code/marketing-materials/{filename}"
+        },
+        "social-drafts": {
+          "path": "ainchors-brand-code/social/",
+          "url_pattern": "http://ainchorss-mac-mini.tail5e2567.ts.net:9000/ainchors-brand-code/social/{filename}"
+        },
+        "reports": {
+          "path": "ainchors-workspace-assets/business/reports/",
+          "url_pattern": "http://ainchorss-mac-mini.tail5e2567.ts.net:9000/ainchors-workspace-assets/business/reports/{filename}"
+        }
+      },
+      "rule": "Aria briefings \u2192 agent-memory/aria. Content Aria commissions \u2192 brand-code under appropriate function."
+    },
+    "yoda": {
+      "description": "Lead Orchestrator",
+      "outputs": {
+        "decisions": {
+          "path": "ainchors-agent-memory/yoda/decisions/",
+          "url_pattern": "http://ainchorss-mac-mini.tail5e2567.ts.net:9000/ainchors-agent-memory/yoda/decisions/{filename}"
+        },
+        "memory": {
+          "path": "ainchors-agent-memory/yoda/memory/",
+          "url_pattern": "http://ainchorss-mac-mini.tail5e2567.ts.net:9000/ainchors-agent-memory/yoda/memory/{filename}"
+        },
+        "handoffs": {
+          "path": "ainchors-agent-memory/shared/handoffs/",
+          "url_pattern": "http://ainchorss-mac-mini.tail5e2567.ts.net:9000/ainchors-agent-memory/shared/handoffs/{filename}"
+        },
+        "reports": {
+          "path": "ainchors-workspace-assets/business/reports/",
+          "url_pattern": "http://ainchorss-mac-mini.tail5e2567.ts.net:9000/ainchors-workspace-assets/business/reports/{filename}"
+        }
+      },
+      "rule": "Orchestration artifacts and decisions \u2192 agent-memory/yoda. Cross-agent handoffs \u2192 shared/handoffs."
+    }
+  },
+  "function-map": {
+    "technology": [
+      "atlas",
+      "thrawn",
+      "forge",
+      "warden"
+    ],
+    "consulting": [
+      "ahsoka",
+      "atlas"
+    ],
+    "training": [
+      "mon-mothma"
+    ],
+    "business": [
+      "lando",
+      "mon-mothma",
+      "aria"
+    ],
+    "marketing": [
+      "spark",
+      "aria"
+    ],
+    "governance": [
+      "shield",
+      "lex",
+      "sage",
+      "warden"
+    ]
+  },
+  "tailscale_fqdn": "https://ainchorss-mac-mini.tail5e2567.ts.net:9000",
+  "url_format": "https://ainchorss-mac-mini.tail5e2567.ts.net:9000/{bucket}/{object-path}",
+  "url_rule": "ALWAYS use Tailscale FQDN HTTPS for MinIO file references. Format: https://ainchorss-mac-mini.tail5e2567.ts.net:9000/{bucket}/{path}"
+}

@@ -652,26 +652,53 @@ try:
     except Exception:
         recent_ids = set()
 
-    active = [v for v in viols if isinstance(v, dict)
-              and not v.get('escalatedToYoda', True)
-              and v.get('status', '') not in ('superseded', 'resolved', 'cleared')
-              and v.get('id') not in recent_ids]  # dedup: skip if logged < 60 min ago
-    for v in active:
-        actual = v.get('actual', '')
-        # Suppression rule: NOT_SET = agent has no explicit model override, uses default routing
-        # Log as INFO/gap-noted rather than ERROR to avoid noise
-        if actual == 'NOT_SET':
+    # CHG-0279: Auto-resolve stale violations when Warden is consecutively clean
+    # If consecutiveClean > 0, all unresolved violations are from a prior era — mark superseded
+    drift_state_path = os.path.join(state, 'state', 'model-drift-state.json')
+    consecutive_clean = 0
+    try:
+        ds = json.load(open(drift_state_path))
+        consecutive_clean = ds.get('consecutiveClean', 0)
+    except Exception:
+        pass
+
+    if consecutive_clean > 0:
+        # Auto-supersede any unresolved violations — Warden has already cleared them
+        changed = False
+        for v in viols:
+            if isinstance(v, dict) and v.get('status') not in ('resolved', 'superseded', 'cleared'):
+                v['status'] = 'superseded'
+                v['supersededReason'] = f'Auto-superseded: Warden consecutiveClean={consecutive_clean} (CHG-0279)'
+                changed = True
+        if changed:
+            d['violations'] = viols
+            d['totalUnresolved'] = 0
+            with open(f, 'w') as fw:
+                json.dump(d, fw, indent=2)
+        # No obs log needed — Warden is clean
+    else:
+        active = [v for v in viols if isinstance(v, dict)
+                  and not v.get('escalatedToYoda', True)
+                  and v.get('status', '') not in ('superseded', 'resolved', 'cleared')
+                  and v.get('id') not in recent_ids]  # dedup: skip if logged < 60 min ago
+
+        # CHG-0279: Aggregate into ONE summary event instead of one ERROR per agent
+        gap_agents = [v.get('agentId','?') for v in active if v.get('actual','') == 'NOT_SET']
+        viol_agents = [v.get('agentId','?') for v in active if v.get('actual','') != 'NOT_SET']
+
+        if gap_agents:
             subprocess.run(['bash', obs_log, '--source', 'warden',
                             '--level', 'INFO', '--type', 'warden_gap_noted',
-                            '--message', f"Warden gap (no explicit model config): agent={v.get('agentId','?')} uses default routing",
-                            '--detail', json.dumps({'id': v.get('id'), 'agentId': v.get('agentId'), 'note': 'NOT_SET=default routing, not drift'})],
+                            '--message', f"Warden gap ({len(gap_agents)} agents use default routing): {', '.join(gap_agents)}",
+                            '--detail', json.dumps({'agents': gap_agents, 'note': 'NOT_SET=default routing, not drift'})],
                            capture_output=True)
-        else:
-            msg = f"Warden violation (unescalated): agent={v.get('agentId','?')} severity={v.get('severity','?')}"
+        if viol_agents:
+            # Single summary ERROR — not one per agent (CHG-0279)
+            msg = f"Warden: {len(viol_agents)} unescalated violation(s) — {', '.join(viol_agents)}"
             subprocess.run(['bash', obs_log, '--source', 'warden',
                             '--level', 'ERROR', '--type', 'warden_violation_unescalated',
                             '--message', msg,
-                            '--detail', json.dumps({'id': v.get('id'), 'agentId': v.get('agentId'), 'severity': v.get('severity')})],
+                            '--detail', json.dumps({'agents': viol_agents, 'count': len(viol_agents)})],
                            capture_output=True)
 except Exception:
     pass

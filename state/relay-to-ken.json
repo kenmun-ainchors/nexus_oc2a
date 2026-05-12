@@ -17,7 +17,7 @@
       "from": "Yoda",
       "priority": "normal",
       "sent": true,
-      "sentAt": "2026-04-30T03:30:00Z",
+      "sentAt": "2026-05-12T02:24:00Z",
       "message": "🎨 Marketing collaterals ready for Angie (TKT-0027):\n\n3 professional HTML assets built from AInchors platform data:\n\n1️⃣ Company Overview — capability one-pager for client meetings\n2️⃣ Training Brochure — student/professional acquisition page\n3️⃣ Client Pitch — consulting/solutions pitch for businesses\n\nAll located at: canvas/documents/ainchors-marketing/\n• company-overview.html\n• training-brochure.html\n• client-pitch.html\n\nAngie can open each in a browser, print, or share the links. Assets use ainchors.com branding — info@ainchors.com as contact throughout.\n\nNote for Angie: Pricing placeholders (AUD$X for consulting/builds) need to be confirmed and filled in before client distribution."
     },
     {
@@ -26,6 +26,7 @@
       "from": "Yoda",
       "priority": "normal",
       "sent": true,
+      "sentAt": "2026-05-12T02:24:00Z",
       "message": "🔀 HANDOVER from webchat — 2026-05-04 10:24 AEST\n\n📍 Where we left off:\n- Fixed US18 auto-discover loop: 249 stalled tasks cancelled, task-collector.sh patched\n- Fixed infra crons 401 auth: stale key from CHG-0139 miss, copied valid key, cleared cooldown. CHG-0151.\n- Fixed obs +244% error spike: same infra auth + Ollama Cloud models missing from allowlist\n- Created /handover slash command (PUSH to other channel, vs /resume PULL)\n\n🔄 In flight:\n- Infra crons recovering on next scheduled run\n- S5 violation: hardcoded key in infra/auth-profiles.json (needs keychain migration)\n- Colbert meeting today 14:00-15:00 AEST\n\n⚡ What's next:\n- Verify infra cron recovery (Forge, TRIGGER-12, CI Cycle A)\n- Raise TKT for S5 violation\n- Your call on next priority\n\n💰 System: Balance ~$445 | Health ok | Errors should trend down\n\nReady for your instructions 👋",
       "sentAt": "cancelled-visibility-blocked"
     },

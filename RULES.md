@@ -215,6 +215,264 @@ Standard system binaries are fine as-is: `/usr/bin/git`, `/usr/bin/python3`, `/b
 
 ---
 
+
+## POSTGRES ACCESS RULE (NON-NEGOTIABLE — confirmed Ken 2026-05-12)
+
+Postgres database access is **Tailscale-only**. Never via Cloudflare Tunnel or any public-facing proxy.
+
+- ✅ Loopback (localhost) — agents on OC1
+- ✅ Tailscale mesh — OC1↔OC2 inter-node (HIVE)
+- ❌ Cloudflare Tunnel — never
+- ❌ Public IP / port forwarding — never
+- ❌ Any path that routes Postgres traffic outside the Tailscale mesh
+
+Rationale: Postgres holds Tier 0 data. Cloudflare Tunnel proxies metadata through Cloudflare's edge — incompatible with data sovereignty requirements.
+
+---
+
+## DRIVE REVIEW QUEUE RULE (NON-NEGOTIABLE — CHG-0296)
+
+**Review Queue is a staging area. Approved documents must be moved to their target folder.**
+
+When Ken approves a document (says APPROVE), Yoda must:
+1. Mark the document LIVE in the workspace (status header update)
+2. Move the Drive file from `Review Queue/` to the target folder using `gog drive move`
+3. Log a CHG entry
+
+**Target folder routing (AInchors — Yoda Working Files/):**
+
+| Document type | Target folder | Drive ID |
+|---|---|---|
+| EA docs, policies, frameworks, specs | `Docs/` | 1WsvbM7RbUXBRGKk_izbtWSlQ_z3kjx0t |
+| Agent specs, runbooks | `Docs/` | 1WsvbM7RbUXBRGKk_izbtWSlQ_z3kjx0t |
+| Gap analyses, assessments | `Docs/` | 1WsvbM7RbUXBRGKk_izbtWSlQ_z3kjx0t |
+| EOD blogs, journals | `Journal + Blog/` | 1WUcG6cdT95FYzSu-bh9S9Jaux4rWRR3z |
+| Canvas HTML deliverables | `Canvas/` | 1sY9qkXiAv8vy3m6E_W2eH73TCOreZKge |
+| Marketing collaterals | `Marketing/` | 1rFUZ6-3xRrGK7EKV7CPg7ISQCNRsu8Wo |
+| Social content (approved) | `Social/` | 1ATWhL4lRWB1Rf0Y4Y7YVYgeP_CiveK4A |
+| MEMORY.md, daily notes | `Memory + Context/` | 1qn7pZaw4akt8a7DDsSoGS55KMsevLFgu |
+
+**Move command:**
+```bash
+GOG_ACCOUNT=kenmun@ainchors.com /opt/homebrew/bin/gog drive move <FILE_ID> \
+  --parent <TARGET_FOLDER_ID> --no-input
+```
+
+**Never leave an approved document in Review Queue.** Review Queue = staging only.
+
+---
+## HOLOCRON DOCUMENT REGISTRY RULE (NON-NEGOTIABLE — CHG-0299)
+
+**Every agent-produced proposal, assessment, policy, or deliverable document must be registered in the Holocron Document Registry as part of DoD.**
+
+### What requires registration
+Any document that an agent produces and submits for Ken's review or approval:
+- EA assessments, architecture proposals
+- Policy documents, framework docs
+- Gap analyses, audit reports
+- Consulting proposals, playbooks
+- Runbooks, agent specs
+- Any doc uploaded to Drive or MinIO as a deliverable
+
+### What does NOT require registration
+- Internal state files (JSON, logs, cron outputs)
+- Draft working files not submitted for review
+- Memory files (MEMORY.md, daily notes)
+
+### Registration format (add to Holocron Document Registry page)
+```
+[filename] | [LIVE/DRAFT FOR REVIEW/DRAFT] | [date] | [Drive link]
+```
+
+
+### Placement rule — observe document structure
+When adding entries to the Holocron Document Registry (or any structured Notion page):
+- **NEVER append to the bottom.** Always place the entry under its correct section.
+- Identify the appropriate section heading (Platform Architecture, Governance, Strategy, Agent Operations, Marketing, Consulting)
+- Find the last bulleted entry in that section
+- Use the Notion API `after` parameter to insert immediately after the last entry in that section
+- Respect existing ordering: newest entries at the bottom of each section
+
+Sections in Document Registry:
+- 🏗️ Platform Architecture & Engineering → EA docs, architecture assessments, storage/infra docs
+- ⚖️ Governance & Compliance → Policies, frameworks, charters, governance docs
+- 📐 Strategy & Business → OKRs, roadmaps, brand decisions, strategic plans
+- 🤖 Agent Operations → Agent specs, runbooks, orchestration docs
+- 📣 Marketing & Content → Collaterals, blogs, LinkedIn, social
+- 🏢 Consulting → Proposals, playbooks, client-facing docs
+- 📂 Other Documents → Any document that does not fit the above categories
+
+**If no section fits: use "📂 Other Documents".** Never append to the bottom of the page.
+The "Others" section exists for this purpose — create it if it doesn't exist yet.
+### How to register
+After uploading a document to Drive, add it to Notion Holocron Document Registry:
+- Page ID: 35ec1829-53ff-8161-9bfe-c235984d33d2
+- Add one bullet in the correct category section
+- Include Drive link for direct click access
+
+### DoD gate
+A task is NOT done until:
+1. Document saved locally (ABSOLUTE path)
+2. Uploaded to Drive (correct folder)
+3. Uploaded to MinIO (governance/reviews or technology/architecture)
+4. Registered in Holocron Document Registry with Drive link
+
+**Agents must complete all 4 steps. Yoda verifies on task completion.**
+
+---
+## ROUTING DISCIPLINE RULE (NON-NEGOTIABLE — CHG-0297)
+
+**Yoda orchestrates. Yoda does not execute specialist work directly.**
+
+### Rule 1 — Always route to the defined agent
+Every task has a defined owner. Use them:
+- Infra/SRE/scripts/CLI/Drive ops → **Forge**
+- Enterprise architecture/EA docs → **Atlas**
+- Platform design/model routing → **Thrawn**
+- BPM/process maps → **Lando**
+- Change management/ADKAR → **Mon Mothma**
+- Consulting/client proposals → **Ahsoka**
+- Social/marketing content → **Spark** (via Aria for business stream)
+- Security review → **Shield**
+- Legal/compliance review → **Lex**
+- QA/accuracy review → **Sage**
+- Model compliance/drift → **Warden**
+- Business stream decisions → **Aria** (Angie has final say)
+
+"Do it" from Ken = Yoda spawns the right agent. Not Yoda executing directly.
+
+### Rule 2 — No defined agent = STOP and advise Ken
+If a task requires specialist skills and NO agent/role is defined:
+1. **STOP — do not proceed**
+2. **Advise Ken immediately:**
+   - What the task is
+   - What specialist skill it requires
+   - Which TOM gap it represents (no agent defined for this domain)
+   - Recommended agent design or model for the gap
+3. **Wait for Ken's direction** before acting
+
+Never fill a TOM gap silently. Ken needs visibility to make TOM + model decisions.
+
+**Why:** Roles and responsibilities are already defined. Yoda executing specialist work directly bypasses the agent system, creates quality gaps, and breaks the governance model. Specialist agents exist for a reason.
+
+---
+
+## STRATEGY-GATE RULE (NON-NEGOTIABLE — CHG-0291)
+
+**No agent may action, build, or implement any task that has a dependency on an unapproved strategy or planning document.**
+
+If a task references a document with status DRAFT FOR REVIEW, or is blocked by an open decision (DEC-NNN), the agent must:
+1. **STOP** — do not proceed with implementation
+2. **Surface to Ken immediately:** "TKT-NNNN is blocked — depends on [doc name] which is DRAFT FOR REVIEW / DEC-NNN is open. Cannot proceed until Ken approves."
+3. **Do not find a workaround** — if the strategy isn’t approved, neither is the implementation
+
+**What counts as a dependency:**
+- Task description references a document tagged DRAFT FOR REVIEW
+- Task is listed in a decision’s `blockedItem` field in `state/open-decisions.json`
+- Task is an implementation step for a doc in `state/draft-docs.json` with status=draft
+
+**The TKT-0124 lesson (Day 18):** MinIO was built (Sprint 3 done) while EA-Addendum-Storage-Access-Architecture-v0.1.md was still DRAFT FOR REVIEW. Implementation without strategy approval creates technical debt and architecture drift. This rule prevents recurrence.
+
+**Check before every sprint item:**
+```bash
+# Check if a ticket is blocked by open decisions
+python3 -c "
+import json
+d=json.load(open('state/open-decisions.json'))
+blocked=[x for x in d['decisions'] if 'TKT-NNNN' in x.get('blockedItem','')]
+print(blocked)
+"
+```
+
+---
+
+## TICKET DISCIPLINE RULE (NON-NEGOTIABLE — CHG-0289)
+
+**All work requires a valid ticket. All ticket operations must go through `ticket.sh`. Never write directly to `tickets.json`.**
+
+### Before starting work:
+- Every task must have a TKT reference. If one doesn't exist: `zsh scripts/ticket.sh new --title "..." --type task --priority <p>`
+- Confirm the ticket is in Notion before starting (ticket.sh creates it automatically).
+
+### When work is complete (DoD gate — non-negotiable):
+Work is NOT done until the ticket is closed in Notion. Close it:
+```bash
+zsh /Users/ainchorsangiefpl/.openclaw/workspace/scripts/ticket.sh close TKT-NNNN \
+  --resolution "What was done and verified"
+```
+This updates `tickets.json` AND syncs to Notion in one step.
+
+### Never do this:
+- ❌ Direct Python writes to `state/tickets.json` to create or update tickets
+- ❌ Marking a ticket "done" in JSON without running `ticket.sh close` or `ticket.sh update`
+- ❌ Starting work without a TKT reference
+
+### Correct commands:
+```bash
+# Create
+zsh scripts/ticket.sh new --title "..." --type task --priority high
+# Update status
+zsh scripts/ticket.sh update TKT-NNNN --status in-progress --notes "..."
+# Close (DoD gate)
+zsh scripts/ticket.sh close TKT-NNNN --resolution "Done and verified"
+# Force Notion sync (if notionId missing)
+zsh scripts/ticket.sh notion-sync TKT-NNNN
+```
+
+**Root cause of rule (Day 18):** Agents bypassed `ticket.sh` by writing directly to tickets.json. TKT-0144/0154/0155/0156 were never in Notion until manual backfill. CHG-0289 locks this permanently.
+
+---
+
+## ABSOLUTE FILE PATH RULE (NON-NEGOTIABLE — CHG-0281)
+
+**All agents, crons, sub-agents, and scripts must use absolute file paths. Never use `~`, relative paths, or `$HOME` in any tool call or exec command.**
+
+**Why:** Isolated sessions (cron `agentTurn`, sub-agents) do NOT expand `~` in the `write`, `read`, or `edit` tools. Using `~` causes silent write failures — the file is not written, no error is surfaced until the cron failure alert fires.
+
+**Rule:**
+- ❌ `~/` — never
+- ❌ `./file.md` — never in tool calls
+- ❌ `$HOME/` — never in write/read/edit tools (fine in bash scripts with `set -e`)
+- ✅ `/Users/ainchorsangiefpl/.openclaw/workspace/` — always
+- ✅ `/Users/ainchorsangiefpl/.openclaw/canvas/` — always
+
+**Applies to:** `write`, `read`, `edit` tool paths; `exec` file args; cron prompt file references; sub-agent task instructions.
+
+**Home dir:** `/Users/ainchorsangiefpl/`
+**Workspace:** `/Users/ainchorsangiefpl/.openclaw/workspace/`
+**Canvas:** `/Users/ainchorsangiefpl/.openclaw/canvas/documents/`
+
+**Enforcement:** Any cron or sub-agent prompt that references `~` or relative paths must be patched before next run. Yoda to flag and fix on sight.
+
+---
+
+## MINIO URL RULE (NON-NEGOTIABLE — CHG-0284)
+
+All MinIO file references — in agent outputs, cron prompts, RULES, messages to Ken, and any document — must use the **Tailscale FQDN absolute URL**.
+
+**Correct format:**
+```
+https://ainchorss-mac-mini.tail5e2567.ts.net:9000/{bucket}/{object-path}
+```
+
+**Examples:**
+```
+https://ainchorss-mac-mini.tail5e2567.ts.net:9000/ainchors-brand-code/social/linkedin/drafts/post.md
+https://ainchorss-mac-mini.tail5e2567.ts.net:9000/ainchors-workspace-assets/consulting/proposals/proposal.pdf
+```
+
+**Never use:**
+- ❌ `s3://ainchors-brand-code/...` — wrong protocol
+- ❌ `http://100.91.60.36:9000/...` — IP address, not FQDN
+- ❌ `http://localhost:9000/...` — local only, not externally accessible
+- ❌ `local/ainchors-brand-code/...` — mc CLI alias, not a URL
+
+**mc CLI alias** (`local`) is for internal operations only — never share `local/...` paths with Ken or in documents.
+
+**Routing policy:** `state/minio-routing-policy.json` — maps every agent to its correct bucket and folder.
+
+---
+
 ## PRE-RISKY-OP CHECKPOINT (NON-NEGOTIABLE - APPROVED 2026-04-26)
 
 Before triggering ANY operation that could break, restart, or interrupt OpenClaw - including but not limited to:
@@ -222,6 +480,13 @@ Before triggering ANY operation that could break, restart, or interrupt OpenClaw
 - `openclaw gateway restart`
 - Major config changes
 - npm/brew upgrades that touch OpenClaw dependencies
+
+**Change type must be declared before execution:**
+- **Standard** — pre-approved, low risk, follows established procedure (e.g. routine config update)
+- **Normal** — requires review, moderate impact (e.g. new feature, infra change)
+- **Emergency** — urgent, high risk, Ken must approve in real-time (e.g. production incident fix)
+
+Declare: `CHANGE TYPE: Standard/Normal/Emergency — [reason]` before proceeding.
 
 **STOP. Do this first:**
 1. Flush all in-progress work to persistent files (MEMORY.md, memory/YYYY-MM-DD.md)

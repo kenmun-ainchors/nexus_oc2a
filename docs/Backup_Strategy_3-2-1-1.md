@@ -8,6 +8,8 @@
 
 ---
 
+**ITIL Practice:** IT Service Continuity Management
+
 ## Current State (P1, May 2026)
 
 | Component | Status |

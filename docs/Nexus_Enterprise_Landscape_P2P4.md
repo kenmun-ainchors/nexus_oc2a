@@ -1,6 +1,7 @@
 # Nexus Enterprise Landscape: Solutions and Components P2–P4
 **TKT-0046 | Enterprise Architecture Deliverable**
-**Status:** DRAFT FOR REVIEW
+**Status:** LIVE — Approved by Ken Mun 2026-05-12
+**Decisions confirmed:** A (Shared-RLS), B (Consulting-led P4), C (Hybrid Holocron), D (Notion-P2 Citadel), E (REST-only Holonet), F (AInchors-managed Warden), G (P3 ROI checklist), H (Block Claude for client workloads — exception: BYOK clients own their DPA)
 **Author:** Atlas 🏛️ — Enterprise Architect, AInchors / Aevlith Technologies
 **Date:** 2026-05-08
 **Version:** v1.0
@@ -534,7 +535,7 @@ These are the architectural decisions that must be made before P2 build begins. 
 
 **Recommendation:** Option 3 for client workloads at P2 launch (safest default). Option 1 maintained for AInchors-internal operations. Pursue Option 2 (DPA verification) in parallel as a Q1 2026 action — once resolved, may allow non-PII client workloads on Claude if residency is confirmed AU-based.
 
-**Ken must decide:** Confirms Option 3 as the P2 client data policy, and instructs Yoda to pursue Anthropic DPA verification as a Q1 priority.
+**Ken decision (2026-05-12):** BLOCK-CLIENT confirmed. Note: Anthropic DPA verification was already completed (missed in this doc — update required). Exception: BYOK clients bring their own keys and are responsible for their own DPA compliance. Claude block applies to non-BYOK P2 client workloads only.
 
 ---
 

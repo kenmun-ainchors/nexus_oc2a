@@ -11,7 +11,7 @@
 
 ## The Company
 - **Ainchor Solutions Pty Ltd** | ainchors.com | Sydney NSW + Melbourne. Day 1: 2026-04-25. Focus: AI courses/training, consulting, solutions/products.
-- **Aevlith Technologies Pty Ltd** — Technology holding entity, owns Nexus platform. AInchors = market-facing brand; Aevlith = invisible platform company. Domain: aevlith.ai (AYV-lith). Name locked 2026-05-09. Globally clean. ASIC registration + domain = this week. TKT-0069. P1–P3: silent. P4: surfaces as product brand.
+- **[PLACEHOLDER NAME: Aevlith Technologies Pty Ltd]** — Technology holding entity, owns Nexus platform. AInchors = market-facing brand; invisible platform company. Domain candidate: aevlith.ai (AYV-lith). ⚠️ NAME IS PLACEHOLDER — Ken to confirm final name before ANY incorporation, domain purchase, or trademark filing proceeds. TKT-0069. P1–P3: silent. P4: surfaces as product brand. ASIC/domain/trademark = BLOCKED until name confirmed.
 - Emails: kenmun@ ✅ gog | info@ | accounts@ | Gmail (Google Workspace). Tech: Ken+Yoda. Business: Angie+Aria.
 
 ## Infrastructure — HIVE Architecture (confirmed May 2026)
@@ -19,7 +19,7 @@
 - **OC2-A** — Mac Mini M4 Pro 48GB — INCOMING ETA 6–13 Jul 2026. HA Primary, local inference primary.
 - **OC2-B** — Mac Mini M4 Pro 48GB — INCOMING ETA 6–13 Jul 2026. HA Secondary, hot standby.
 - OC2 commissioned ~27 Jul 2026. OC2-gated items wait for TRIGGER-03.
-- Main disk fine (21%). Supporting: Tailscale mesh, NAS. Obsidian RETIRED 2026-05-04. Platform: OpenClaw (final).
+- Supporting: Tailscale mesh, NAS. Platform: OpenClaw (final).
 
 ## Agent Architecture
 
@@ -43,8 +43,7 @@
 
 ## Agent SOUL.md Compact Standard (NON-NEGOTIABLE)
 - Hard limit: 10,000 chars. Warning: 6,000. SOUL.md = identity+traits+rules+cadences. Details in [AGENT]_RULES.md.
-- Why: Aria 17,393 chars → silent truncation → wrong Telegram targets → gateway OOM (2026-04-30).
-- All agents ✅ within limits as of 2026-05-08.
+- Root cause (2026-04-30): Aria SOUL.md oversized → OOM. All agents ✅ within limits as of 2026-05-08.
 
 ## Governance Agents
 - **Shield 🛡️** (security) | **Lex ⚖️** (legal) | **Sage 🧪** (qa) — Haiku (CHG-0230). Move to Gemma4 at TRIGGER-03.
@@ -71,8 +70,7 @@ Rule: New modules use Star Wars themes. Ken approves. All above final.
 ## Open Items
 - **Notion AKB Backlog** = SSOT. DB ID (create): `34dc1829-53ff-814b-8257-d3a3bf351d44`. DB ID (query): `34dc182953ff812d8e43000b83eb0e7e`.
 - LinkedIn ✅ connected. Instagram/Facebook/X not yet connected. Spark scope: IG/LI/FB/YT (CHG-0160).
-- ⚠️ **TKT-0121 action pending:** Ken to add HF API key to Keychain (LinkedIn FLUX image gen).
-- Agent team design + build: Needs Atlas + Thrawn input. TKT-0068 open.
+- ⚠️ TKT-0121: Ken to add HF API key to Keychain (LinkedIn FLUX image gen, CHG-0254).
 
 ## 4-Tier Model Strategy (Target — post OC2)
 - T0: No LLM (systemEvent) — $0. T1: Gemma4:26b local (OC2) — $0 client workloads. T2: Ollama Cloud (kimi/deepseek) — $100/mo flat. T3: Claude Sonnet — FALLBACK ONLY.
@@ -85,20 +83,35 @@ Rule: New modules use Star Wars themes. Ken approves. All above final.
 
 ## CHG Trigger Rules
 - T01: OC2 arrival→setup | T02: Both OC2→HA+NAS | T03: Gemma4 validated→swap Haiku | T04: OC patch→48h/7d
-- T05: ✅ kimi T2 active | T06: OC v4.0→P3+CrewAI | T07: First P2 client→onboarding | T08: ✅ Auto-reload <$50→$500 (T1=$60/T2=$55/T3=$15, CHG-0232)
-- T09: Warden drift→Yoda remediates 1 heartbeat | T10: Aria→OC2 | T11: monthly model check | T12: ✅ Allowlist auto-sync live (CHG-0144)
+- T05: ✅ kimi T2 | T06: OC v4.0→P3+CrewAI | T07: First P2 client→onboarding | T08: ✅ Auto-reload <$50→$500 (CHG-0232)
+- T09: Warden drift→Yoda remediates | T10: Aria→OC2 | T11: monthly model check | T12: ✅ Allowlist auto-sync (CHG-0144)
 - T13: OC2+MinIO 2-sprint validated→TKT-0153 semantic memory. Deprecates MEMORY_TICKETS.md + MEMORY_DECISIONS.md.
 
 ## Tailscale Config (CHG-0227/228)
-- Serve on OC1. `allowTailscale: true`. URL: `https://ainchorss-mac-mini.tail5e2567.ts.net`. S2 compliant. Windows 1006 fix: `tailscale serve --https=443 --bg http://localhost:18789`.
+- Serve on OC1. `allowTailscale: true`. URL: `https://ainchorss-mac-mini.tail5e2567.ts.net`. S2 compliant.
+
+## Platform Phase Definitions (LOCKED 2026-05-12 — Ken Mun)
+- **MVP** — Now until OC2 arrives. OC1-only. Two founders (Ken + Angie). Core platform live.
+- **P1** — OC2 era. HA cluster, NAS, KL team onboarding, expanded agent team. (~Jul 2026)
+- **P2** — SaaS: Individuals + SME business owners. First paying customers. The Citadel live. (~Aug 2026)
+- **P3** — SaaS: SME onsite installation. ⚠️ PARKED — design noted, no investment now.
+- **P4** — SaaS: Enterprise clients. Full multi-tenant, advanced governance, BYOK, Holonet live.
+- Previous naming (P0, P3+) retired. Use MVP/P1/P2/P3/P4 exclusively going forward.
+
+## KL Team (confirmed 2026-05-12)
+- Location: Kuala Lumpur, Malaysia. Internal AInchors staff.
+- Roles: Marketing, Developer, Support, Admin (business stream)
+- Headcount: 4–5 (part-time/contract + 1–2 permanent)
+- Devices: Both laptop + mobile. External network — no Tailscale, no LAN.
+- Access: Cloudflare Access (P1 onboarding). No platform admin. Role-scoped IAM.
+- EA doc: docs/EA-Addendum-Storage-Access-Architecture-v0.1.md
 
 ## Sprint Capacity Model (CHG-0241)
 - Pre-OC2: 5 items/sprint | OC2 setup: 2–3 | Post-OC2: 5. 30% headroom buffer. P2 target: end-Aug 2026. Contingency: mid-Sep.
 - `/sprint` = on-demand burndown. **Main agent daily budget cap:** $150 (CHG-0268).
 
 ## Pending Tickets
-→ See **MEMORY_TICKETS.md** (auto-managed, ≤8k). tickets.json seq 153. Notion AKB Backlog = SSOT.
-- ⚠️ **TKT-0121 action pending:** Ken to add HF API key to Keychain (LinkedIn FLUX image gen).
+→ See **MEMORY_TICKETS.md** (auto-managed, ≤8k). tickets.json seq 154. Notion AKB Backlog = SSOT.
 
 ## Key Decisions & Architecture
 → See **MEMORY_DECISIONS.md** (append-only, ≤6k).

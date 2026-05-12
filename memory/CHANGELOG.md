@@ -84,6 +84,295 @@ This log captures **every change** Yoda makes to AInchors infrastructure, config
 **Linked:** decisions.md 2026-04-27 entries
 ---
 
+## 2026-05-12 22:16 AEST — [CHG-0302] QW-4 to QW-8: uptime log, CIR Notion, change type rule, ITIL headers, PRB-001
+**Type:** script
+**Change Type:** Standard
+**Source:** ken-prompt
+**Trigger:** Ken: Get Forge to do it (QW-4 to QW-8 batch)
+**What changed:** QW-4: fixed uptime-log.json tracking + health-check.sh uptime section (bug fix: WORKSPACE/TIMESTAMP vars, ISSUES_JSON fallback). QW-5: CIR page created in Holocron (35ec1829-53ff-8113-b913-e68f4f284bc3). QW-6: change type Standard/Normal/Emergency added to PRE-RISKY-OP section in RULES.md + --change-type flag in changelog-append.sh. QW-7: ITIL practice headers on 13 ops docs. QW-8: PRB-001 filed in state/problem-register.json + Holocron page (35ec1829-53ff-81df-8c64-f4050d226cc3).
+**Why:** 5 quick wins batched in one Forge run. All straightforward no-groom items.
+**Verification:** All 5 Notion QW items closed. health-check.sh uptime section tested. RULES.md updated. 13 docs tagged. problem-register.json created.
+**Rollback:** Revert health-check.sh, changelog-append.sh, RULES.md, 13 docs. Delete problem-register.json and uptime-log.json.
+**Linked:** QW-4 QW-5 QW-6 QW-7 QW-8
+---
+
+
+## 2026-05-12 21:51 AEST — [CHG-0301] AUTO-HEAL Notion tickets always created with status Done -- informational records not backlog
+**Type:** rule
+**Source:** ken-prompt
+**Trigger:** Ken: if Warden needs to raise AUTO-HEAL tickets, make sure they are created with status Done.
+**What changed:** HEARTBEAT.md: AUTO-HEAL NEEDS_KEN section added -- status must always be Done when raising to Notion. AUTO-HEAL items are informational records, not actionable sprint items.
+**Why:** 13 AUTO-HEAL items were cluttering the Notion backlog as open/Backlog items. They were all stale resolutions from auto-heal. Done status = logged for awareness, not action required.
+**Verification:** HEARTBEAT.md updated. Rule active from next auto-heal run (01:00 AEST).
+**Rollback:** Revert HEARTBEAT.md AUTO-HEAL section.
+**Linked:** 13 AUTO-HEAL items closed today; HEARTBEAT.md
+---
+
+
+## 2026-05-12 21:21 AEST — [CHG-0300] Backlog cleanup: TKT-0051/0102 closed, Holocron registry 28 Drive links added
+**Type:** doc
+**Source:** ken-prompt
+**Trigger:** Ken approved Fabric assessment, closed TKT-0051 (Atlas+Thrawn) and TKT-0053 (Atlas DataMemory), cleaned TKT-0102 (guardrails done).
+**What changed:** TKT-0051 Notion closed (Atlas+Thrawn = Architecture Assurance). TKT-0102 closed (DEC-015 guardrails integrated). Holocron Document Registry: 28 entries now have clickable Drive links. Fabric-RAG-Assessment registered in Holocron.
+**Why:** Stale backlog entries, missing Drive links in Holocron.
+**Verification:** TKT-0051 Done in Notion. TKT-0102 closed. 28 Holocron blocks now have Drive links.
+**Rollback:** Not applicable.
+**Linked:** TKT-0051 TKT-0053 TKT-0102; Holocron Document Registry CHG-0299
+---
+
+
+## 2026-05-12 21:15 AEST — [CHG-0299] Holocron Document Registry DoD rule -- all agent docs must be registered
+**Type:** rule
+**Source:** ken-prompt
+**Trigger:** Ken: Fabric assessment not in Holocron registry. Make it DoD that every agent document gets registered with Drive link.
+**What changed:** RULES.md: HOLOCRON DOCUMENT REGISTRY RULE. AGENTS.md: compact reminder. 11 agent RULES.md files patched. Fabric assessment added to Holocron registry with Drive link. Fabric doc marked LIVE. DoD = 4 steps: local + Drive + MinIO + Holocron registration.
+**Why:** Agents producing documents without registering them means Ken has no single view of what exists. Holocron registry is the SSOT for platform knowledge.
+**Verification:** Rule in RULES.md and AGENTS.md. All 11 agent files patched. Fabric doc in Holocron.
+**Rollback:** Remove HOLOCRON DOCUMENT REGISTRY RULE from RULES.md and agent files.
+**Linked:** Atlas-Fabric-RAG-Assessment; Holocron Document Registry; CHG-0297
+---
+
+
+## 2026-05-12 21:07 AEST — [CHG-0298] Fabric RAG Assessment approved -- DEFER-CLI, Atlas A3 pattern governance, /patterns/ library created
+**Type:** doc
+**Source:** ken-prompt
+**Trigger:** Ken decisions: D1=DEFER-CLI (Fabric CLI deferred to P2), D2=CONFIRM-ATLAS-A3 (pattern governance under Atlas A3, quarterly review, P2 trigger).
+**What changed:** 1) Atlas-Fabric-RAG-Assessment-2026-05-12.md → LIVE. 2) Atlas RULES.md: A3 extended with pattern library governance (own /patterns/, quarterly A4 review, P2 reassessment trigger). 3) Created workspace/patterns/ directory with README + 4 seed patterns: extract-wisdom, summarize, analyze-claims, pre-ingest-structure. 4) MinIO restarted (loopback 127.0.0.1:9000, Tailscale serve HTTPS re-enabled).
+**Why:** Fabric CLI deferred — pattern concept value at P1 is the library, not the toolchain. Atlas A3 is the natural governance home. P2 is the trigger for CLI integration when client content flows in.
+**Verification:** Doc LIVE. Atlas RULES.md updated. /patterns/ directory with 4 seed patterns created. MinIO HTTP 200.
+**Rollback:** Remove A3 extension from Atlas RULES.md. Delete /patterns/ directory.
+**Linked:** Atlas-Fabric-RAG-Assessment; TKT-0153; DataMemory_P1P4_Roadmap.md
+---
+
+
+## 2026-05-12 20:43 AEST — [CHG-0297] Routing Discipline Rule -- Yoda orchestrates only, TOM gap awareness mandatory
+**Type:** rule
+**Source:** ken-prompt
+**Trigger:** Ken: uphold routing rule governance. Orchestrate and hand off. No defined agent = pause and advise.
+**What changed:** RULES.md + AGENTS.md: ROUTING DISCIPLINE RULE. Rule 1: always route to defined agent (routing table added). Rule 2: no defined agent = STOP, advise Ken with task/skill/TOM gap/recommendation before acting. Never fill TOM gaps silently.
+**Why:** Yoda executing TKT-0161 directly instead of routing to Forge (L-030). Routing rules exist. They must be enforced. Ken needs visibility on TOM gaps.
+**Verification:** Rule in RULES.md and AGENTS.md.
+**Rollback:** Remove ROUTING DISCIPLINE RULE sections.
+**Linked:** L-030; TKT-0130 (QBR agent fleet review); CHG-0291
+---
+
+
+## 2026-05-12 20:31 AEST — [CHG-0296] TKT-0161: Drive restructure complete + Review Queue workflow rule
+**Type:** infra
+**Source:** ken-prompt
+**Trigger:** Ken: do TKT-0161 now.
+**What changed:** (1) 10 root-level loose files trashed (3x journal, 4x index.html, 2x blog, 1x dsync). (2) Renamed: Platform Docs→Docs, Drafts for Ken Review (DoD)→Review Queue, Generated Images→Images. (3) Created: Canvas/ and Social/ folders. (4) EA Assessments merged into Docs/ then deleted. (5) drive-sync.sh: CANVAS_FOLDER, REVIEW_QUEUE_FOLDER, SOCIAL_FOLDER, MARKETING_FOLDER IDs set. (6) RULES.md: DRIVE REVIEW QUEUE RULE — approved docs must be moved from Review Queue to target folder.
+**Why:** Drive was split, polluted at root, and had unfriendly folder names. Review Queue staging workflow needed a formal rule.
+**Verification:** All gog rename/delete/mkdir/move calls successful. drive-sync.sh updated. Rule in RULES.md.
+**Rollback:** Re-create deleted files from Drive Trash. Rename folders back via gog drive rename.
+**Linked:** TKT-0161; File-Routing-Policy-v1.0.md; CHG-0292
+---
+
+
+## 2026-05-12 17:48 AEST — [CHG-0295] S5 fix: removed stale Anthropic key from 6 agent auth-profiles.json files
+**Type:** infra
+**Source:** ken-prompt
+**Trigger:** TKT-0156: S5 violation — hardcoded key in auth-profiles.json files. Raised Day 18, executing now.
+**What changed:** Removed anthropic:default profile from 6 files: agents/infra, security, business, qa, legal, main. Key was stale (rotated in CHG-0151 Day 8). Files contained plaintext copy of dead credential. Active key remains in macOS Keychain unchanged.
+**Why:** S5 rule: no credentials in files. Key was already rotated so no active exposure, but plaintext presence is still a violation. Removed.
+**Verification:** All 6 files cleaned. Keychain active key unchanged. Agents verified working before this change (all using Keychain).
+**Rollback:** Re-add anthropic:default with Keychain key to auth-profiles if OpenClaw requires explicit entry. Key available from Keychain.
+**Linked:** TKT-0156; CHG-0151 (key rotation Day 8); S5 control
+---
+
+
+## 2026-05-12 17:44 AEST — [CHG-0294] TKT-0154: CI Cycle A batch reduced 4→2 tasks, timeout 600→300s
+**Type:** cron
+**Source:** ken-prompt
+**Trigger:** Ken: TKT-0154 first, go. CI Cycle A cron 3ec512f3 timing out at 600s (consecutiveErrors=2).
+**What changed:** Cron 3ec512f3: payload.timeoutSeconds 600→300. STEP 3 updated: select UP TO 2 TASKS ONLY (was 4). Reduces worst-case per-run from 4×50-150s=600s to 2×50-150s=300s. 4 ops-cron categories now covered across 2 runs per 12h (same daily data volume). Added ops-cron category with gemma4:31b-cloud as T2b model (was missing from STEP 2).
+**Why:** deepseek-v4-pro latency variance (20-150s/task) × 4 tasks = 200-600s total. Clips 600s timeout on bad Ollama days. 2 tasks per run fits comfortably in 300s even at worst-case latency.
+**Verification:** Cron updated. Next run at 17:52 AEST. consecutiveErrors will reset on first successful run.
+**Rollback:** Restore timeoutSeconds=600, STEP 3 back to 4 tasks.
+**Linked:** TKT-0154; CI Cycle A; CHG-0285
+---
+
+
+## 2026-05-12 17:21 AEST — [CHG-0293] TKT-0137 AC1 approved — Governance Gap Analysis LIVE, 7 ODs resolved, Tier3 agents enrolled
+**Type:** doc
+**Source:** ken-prompt
+**Trigger:** Ken approved TKT-0137-AC1-Governance-Gap-Analysis.md after full OD groom.
+**What changed:** Doc LIVE. D4: Atlas/Thrawn/Lando/Mon Mothma/Spark enrolled in model-policy.json. D6: P3 ROI Checklist created in Holocron. D7: Aevlith NOT YET incorporated, P2 gate blocked. All 7 ODs recorded.
+**Why:** AC1 of TKT-0137 complete. 24 gaps identified, 12 policies proposed for P0-P2 roadmap.
+**Verification:** Doc updated to LIVE. TKT-0137 updated. model-policy.json patched. Notion P3 checklist live.
+**Rollback:** Not applicable.
+**Linked:** TKT-0137 TKT-0167 TKT-0168; Nexus-Access-Policy; Governance-Gap-Analysis
+---
+
+
+## 2026-05-12 17:13 AEST — [CHG-0292] Nexus-Access-Policy-v1.0.md APPROVED — Nexus Operations Mandate live
+**Type:** doc
+**Source:** ken-prompt
+**Trigger:** Ken approved Nexus-Access-Policy-v1.0.md after review and feedback session (inbound flow added).
+**What changed:** Policy is now Nexus Operations Mandate. OD-01: Forge to create access-violations.json + obs CHECK (TKT-0167). OD-02: Angie MinIO read = brand-code/social/approved + marketing-materials. OD-03: KL dev IAM = workspace-assets/technology/dev/ R+W. OD-04: Postgres=Tailscale-only confirmed + added to RULES.md. OD-05: Notion Access Violations DB for V0/V1 (TKT-0168).
+**Why:** Policy was DRAFT FOR REVIEW. Ken approved after two rounds: (1) initial review, (2) inbound content flow added per Ken feedback. Now strictly enforced.
+**Verification:** Doc updated to LIVE. RULES.md Postgres rule added. TKT-0167/0168 raised and synced to Notion.
+**Rollback:** Not applicable — policy approval is irreversible. Amend via CHG.
+**Linked:** TKT-0161 TKT-0167 TKT-0168; Nexus-Access-Policy-v1.0.md
+---
+
+
+## 2026-05-12 12:37 AEST — [CHG-0290] Strategy-gate rule + Decision Registry + full decision grooming session (DEC-001 to DEC-019)
+**Type:** rule
+**Source:** ken-prompt
+**Trigger:** Ken: strategy-to-implementation gap identified (TKT-0124 built before EA-Addendum approved). Moving forward all tasks dependent on unapproved strategy docs must be blocked.
+**What changed:** RULES.md + AGENTS.md: STRATEGY-GATE RULE added (CHG-0291). Decision Registry created in Holocron (19 decisions). Full grooming: 17 of 19 decisions closed/deferred, 1 still open. 3 tickets raised (TKT-0157 governance oversight, TKT-0158 context file integrity + HIVE design, TKT-0159 Cisco scanner). Guardrails R4/R5, C1-C5, A1-A4 integrated into agent RULES files.
+**Why:** TKT-0124 executed while EA-Addendum was DRAFT FOR REVIEW — implementation without strategy approval. Rule prevents recurrence.
+**Verification:** Rule in RULES.md and AGENTS.md. 17 decisions closed in open-decisions.json. Tickets synced to Notion.
+**Rollback:** Remove STRATEGY-GATE RULE from RULES.md and AGENTS.md.
+**Linked:** TKT-0157 TKT-0158 TKT-0159; DEC-001 to DEC-019; CHG-0289
+---
+
+
+## 2026-05-12 10:55 AEST — [CHG-0289] Ticket discipline + DoD gate -- all agents must use ticket.sh, never direct JSON writes
+**Type:** rule
+**Source:** ken-prompt
+**Trigger:** Ken: Notion backlog not updated on completion. TKT-0144 done but not in Notion. CHG-0287 not captured. Find gap and enforce DoD.
+**What changed:** 1) Root cause: agents bypassed ticket.sh with direct Python writes to tickets.json -- no Notion sync. 2) ticket.sh patched: fixed .created vs .createdAt field mismatch (was silently breaking notion-sync for new tickets). 3) Backfilled TKT-0144/0154/0155/0156 to Notion via notion-sync. 4) RULES.md: new TICKET DISCIPLINE RULE section (DoD gate). 5) AGENTS.md: compact reminder added. 6) All 11 agent RULES.md files patched with DoD gate block.
+**Why:** Direct JSON writes bypass Notion sync entirely. Notion backlog becomes stale. DoD is not met if ticket not closed via ticket.sh.
+**Verification:** 4 tickets now in Notion. 11 agent files patched. ticket.sh field fix verified. Rule in RULES.md and AGENTS.md.
+**Rollback:** Remove TICKET DISCIPLINE RULE from RULES.md and AGENTS.md. Remove DoD block from agent files.
+**Linked:** TKT-0144 TKT-0154 TKT-0155 TKT-0156; CHG-0287; Day 18
+---
+
+
+## 2026-05-12 10:47 AEST — [CHG-0288] linkedin-post.sh: strip ## section headings from extracted post body
+**Type:** script
+**Source:** ken-prompt
+**Trigger:** LinkedIn AIOps Part 2/6 posted with '## DRAFT' as first line.
+**What changed:** linkedin-post.sh: added 'if s.startswith(## ): continue' in body extraction loop. Section marker headings (## DRAFT, ## CONTENT etc.) inside --- delimiters are now skipped. Re-posted AIOps Part 2/6 with clean content + image (HTTP 201).
+**Why:** Draft files use ## DRAFT as a section marker inside --- delimiters. Extraction logic included it verbatim in the post body.
+**Verification:** Dry-run confirmed clean output starting with post text. Re-post successful HTTP 201.
+**Rollback:** Remove the startswith check from linkedin-post.sh extraction loop.
+**Linked:** LI-C1-W2-P2; CHG-0286; AIOps Part 2/6
+---
+
+
+## 2026-05-12 10:40 AEST — [CHG-0287] Full routing rule enforcement -- Drive uploads, generic canvas sync, 10 agent RULES.md patched
+**Type:** rule
+**Source:** ken-prompt
+**Trigger:** Ken: run both, along with your 2 steps to fully enforce the routing rule.
+**What changed:** 1) TKT-0027 marketing collaterals (client-pitch, company-overview, training-brochure) uploaded to Drive AInchors/Marketing. 2) drive-sync.sh: added generic canvas section (all non-dated canvas folders to Drive/AInchors/Canvas), marketing section (canvas/ainchors-marketing/ to Drive/AInchors/Marketing), and new docs (EA-Addendum, File-Routing-Policy, minio-routing-policy). 3) MinIO routing rule appended to 10 agent RULES.md files: atlas, thrawn, forge, ahsoka, lando, mon-mothma, aria, sage, lex, yoda. Each file now contains their specific MinIO path assignments.
+**Why:** Routing policy existed but was guidance-only. Agents had no per-file instruction to upload to MinIO. Drive sync only covered dated blogs. Marketing collaterals inaccessible to Angie.
+**Verification:** 3 Drive uploads confirmed (with file IDs). 10 agent RULES files updated. drive-sync.sh patched and tested.
+**Rollback:** Remove MinIO rule block from agent RULES.md files. Revert drive-sync.sh sections.
+**Linked:** CHG-0283 CHG-0284 CHG-0286; TKT-0027; File-Routing-Policy-v1.0.md
+---
+
+
+## 2026-05-12 10:28 AEST — [CHG-0286] Spark: image required on every LinkedIn post -- ChatGPT prompt + send-image-back approval flow
+**Type:** rule
+**Source:** ken-prompt
+**Trigger:** Ken: add image to every post. Provide ChatGPT prompt, Ken generates and sends back as approval.
+**What changed:** SPARK_RULES.md: (1) EVERY post gets an image -- no exceptions. (2) Draft delivery must include copy-paste DALL-E 3 prompt. (3) Ken sending the image back = approval. (4) On image received: save to MinIO ainchors-generated-media/social/linkedin/[contentId]/, upload to LinkedIn, post with image. (5) Image prompt formula + 4 style examples added.
+**Why:** Ken wants visual consistency on all LinkedIn posts. ChatGPT/DALL-E 3 is the generation tool. Sending image back collapses approval + image delivery into one step.
+**Verification:** SPARK_RULES.md updated. ainchors-generated-media set to public read.
+**Rollback:** Revert SPARK_RULES.md image sections to optional flag workflow.
+**Linked:** TKT-0121; CHG-0285; LinkedIn AIOps Part 2
+---
+
+
+## 2026-05-12 10:22 AEST — [CHG-0285] TKT-0155: MinIO migrated from Docker/Colima to native macOS binary + tailscale serve HTTPS
+**Type:** infra
+**Source:** ken-prompt
+**Trigger:** Ken: execute TKT-0155. MinIO in Colima not reachable via Tailscale.
+**What changed:** 1) Installed minio binary via brew. 2) Copied Docker volume data to /Users/ainchorsangiefpl/.openclaw/minio-data/ (all 4 buckets preserved). 3) Stopped Docker MinIO container. 4) Started native MinIO on 0.0.0.0:9000. 5) Created LaunchAgent com.ainchors.minio for auto-start. 6) Exposed via tailscale serve --https=9000 (Tailscale-managed TLS). 7) Updated RULES.md + routing policy: http -> https for MinIO FQDN URL. 8) Updated mc aliases (local + minio-fqdn). Docker MinIO disabled.
+**Why:** Docker/Colima port forwarding does not bridge Tailscale traffic (same utun4 limitation as VNC). Native binary + tailscale serve bypasses Colima VM networking entirely.
+**Verification:** MinIO local health: HTTP 200. tailscale serve active on port 9000 HTTPS. All 4 buckets + 53 folders migrated. LaunchAgent registered.
+**Rollback:** launchctl unload com.ainchors.minio.plist. tailscale serve --https=9000 off. Restart Docker MinIO.
+**Linked:** TKT-0155; TKT-0124; CHG-0283 CHG-0284
+---
+
+
+## 2026-05-12 10:08 AEST — [CHG-0284] MinIO URL rule -- Tailscale FQDN only, never s3:// or IP address
+**Type:** rule
+**Source:** ken-prompt
+**Trigger:** Ken: MinIO link not correct. FQDN should be Tailscale absolute path, not s3://
+**What changed:** RULES.md: new MINIO URL RULE section. AGENTS.md: compact reminder added. minio-routing-policy.json: replaced s3/IP fields with tailscale_fqdn and url_format. SPARK_RULES.md: FQDN URL example added to step 8a. Correct format: http://ainchorss-mac-mini.tail5e2567.ts.net:9000/{bucket}/{path}
+**Why:** Previous guidance used s3:// protocol and IP address. Ken requires Tailscale FQDN (hostname-based) absolute URL for all MinIO references.
+**Verification:** RULES.md, AGENTS.md, minio-routing-policy.json, SPARK_RULES.md all updated.
+**Rollback:** Remove MinIO URL rule sections from RULES.md and AGENTS.md.
+**Linked:** CHG-0283; MinIO TKT-0124; Day 18
+---
+
+
+## 2026-05-12 10:07 AEST — [CHG-0283] MinIO folder structure by business function + agent routing policy
+**Type:** infra
+**Source:** ken-prompt
+**Trigger:** Ken: create folders for business functions (training, consulting, technology) and assign rules to all agents.
+**What changed:** Created 53 folders across 4 MinIO buckets (ainchors-brand-code, ainchors-workspace-assets, ainchors-generated-media, ainchors-agent-memory) organized by: business function (technology/consulting/training/business/governance) and content pipeline stage (drafts/approved/posted). Created state/minio-routing-policy.json mapping 13 agents to buckets/folders. Updated SPARK_RULES.md with MinIO upload step 8a (local save + 2x mc cp by platform and function).
+**Why:** Documents were landing in ad-hoc locations. Policy ensures all agent outputs are organized, discoverable, and routed to correct business function from Day 1.
+**Verification:** 53 folders created, 0 errors. minio-routing-policy.json written. SPARK_RULES.md updated. Draft moved to correct path.
+**Rollback:** Remove minio-routing-policy.json. Revert SPARK_RULES.md step 8a.
+**Linked:** TKT-0124 MinIO; CHG-0282; Day 18
+---
+
+
+## 2026-05-12 08:35 AEST — [CHG-0282] Canonical RTB prompt spec applied to Kimi and Gemma4 -- fair model comparison from Day 19
+**Type:** cron
+**Source:** ken-prompt
+**Trigger:** Ken: RTB data between Yoda, Gemma4, Kimi inconsistent -- are they using the same prompt and data?
+**What changed:** Created state/rtb-prompt-spec.md (canonical spec). Updated Kimi cron (57105907) and Gemma4 cron (7ff14b97) with identical prompt logic: same data source (standup-data-TODAY.json), same framework maturity gate, both streams, same format, same reasoning rules (no raw counts as thorns when consecutiveClean>10), same timeout (300s). Only model label and trial file differ.
+**Why:** Gemma4 was running a 15-word minimal prompt (tech-only, no framework gate). Kimi had full spec. Comparison was unfair -- model was penalised for prompt quality, not model quality.
+**Verification:** Both crons updated and confirmed. Active from tomorrow 08:10/08:15 AEST.
+**Rollback:** Restore previous Kimi/Gemma4 cron prompts from git history.
+**Linked:** TKT-0134; Day 18 standup inconsistency; CHG-0280 CHG-0281
+---
+
+
+## 2026-05-12 08:28 AEST — [CHG-0281] Absolute file path rule for all agents -- no tilde, no relative paths in tool calls
+**Type:** rule
+**Source:** ken-prompt
+**Trigger:** Standup HTML write failed (consecutiveErrors=2): isolated session used tilde in write tool. Ken: write a rule for all agents.
+**What changed:** RULES.md: new section ABSOLUTE FILE PATH RULE. AGENTS.md: compact reminder added alongside EXEC BINARY PATH RULE. Applies to write/read/edit tools, exec file args, cron prompts, sub-agent tasks.
+**Why:** Isolated sessions do not expand tilde in write/read/edit tools. Silent failures. Rule prevents recurrence across all agents.
+**Verification:** RULES.md and AGENTS.md updated. Standup cron already patched (CHG-0280).
+**Rollback:** Remove rule sections from RULES.md and AGENTS.md.
+**Linked:** CHG-0280; standup write failure Days 17+18; TKT-0154
+---
+
+
+## 2026-05-12 08:25 AEST — [CHG-0280] Standup cron: fix write failure caused by ~ path in isolated session
+**Type:** cron
+**Source:** ken-prompt
+**Trigger:** Ken reported standup HTML write failed twice (consecutiveErrors=2). Error: write tool used ~ path, isolated sessions do not expand ~.
+**What changed:** Standup cron (3c279099): added CRITICAL PATH RULE at top of prompt — explicit warning that isolated sessions do not expand ~, all paths must be absolute /Users/ainchorsangiefpl/... Also added mkdir -p safety step before canvas write in PHASE 2.
+**Why:** Isolated session write tool does not resolve ~. Model used ~ despite prompt saying absolute path. Write of 20888-char HTML failed; old 19264-byte file from prior run delivered instead.
+**Verification:** Cron prompt updated. Fix active for tomorrow 08:00 AEST run.
+**Rollback:** Revert standup cron prompt path rule section.
+**Linked:** consecutiveErrors=2; Day 17+18 standup HTML failure
+---
+
+
+## 2026-05-12 08:21 AEST — [CHG-0279] Obs verbosity audit — Warden per-agent ERRORs collapsed to single summary + auto-resolve stale violations
+**Type:** script
+**Source:** ken-prompt
+**Trigger:** Standup Day 18: 141 Warden obs events vs 49 clean — contradiction. obs-collector logging 3 ERRORs per run (one per agent) from unescalated violations that pre-dated 50 consecutive clean runs.
+**What changed:** obs-collector.sh CHECK S: (1) Auto-supersede unresolved violations when consecutiveClean>0 — Warden already cleared them; (2) Aggregate per-agent ERRORs into single summary event 'Warden: N violations — agent1, agent2' instead of N separate ERROR rows; gap-noted agents still log single INFO. Immediate cleanup: verified model-drift-violations.json already at 0 unresolved.
+**Why:** Per-agent logging created 3 ERRORs per run. 60-min dedup meant they re-fired hourly. 855 total ERROR rows in obs.db from one bad overnight period (May 11 gateway crash). Dashboard showed cumulative noise as active health issue.
+**Verification:** obs-collector.sh patched. model-drift-violations.json confirmed 0 unresolved. Next obs-collector run will no longer re-log old violations.
+**Rollback:** Revert obs-collector.sh CHECK S block to previous per-agent loop.
+**Linked:** CHG-0278; Day 18 standup; Warden consecutiveClean=50
+---
+
+
+## 2026-05-12 07:16 AEST — [CHG-0278] Incremental journal writer — 30-min cron, prevents session compaction data loss
+**Type:** cron
+**Source:** ken-prompt
+**Trigger:** Ken feedback: journal had 38 not-recovered entries Day 17 due to session compaction
+**What changed:** New cron 1b853131 (Haiku, every 30 min, isolated) appends journal entries in real-time. EOD cron 4d926b2c updated to finalize-only. JournalFormat.md: Yoda verbatim replaced with closing note. state/journal-write-state.json initialized.
+**Why:** Session compaction on long days loses early messages by 23:55. Real-time 30-min writes capture before compaction.
+**Verification:** Cron 1b853131 active. EOD cron updated. JournalFormat.md edited. State file created.
+**Rollback:** Remove cron 1b853131. Restore EOD cron to previous full-rebuild prompt.
+**Linked:** Day 17 journal 41 not-recovered entries; Ken feedback 2026-05-12
+---
+
+
 ## 2026-05-11 23:18 AEST — [CHG-0277] Option B: Tiered memory split — MEMORY.md + MEMORY_TICKETS.md + MEMORY_DECISIONS.md
 **Type:** data
 **Source:** ken-prompt

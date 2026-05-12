@@ -6,6 +6,8 @@
 
 ---
 
+**ITIL Practice:** Governance
+
 ## 1. Purpose
 
 The [AI Charter v1.0](./AI_CHARTER_v1.0.md) establishes what AInchors stands for — principles, permissions, HITL tiers, data ethics, and agent accountability. This framework is the operational layer that sits beneath it. It answers a different question: *how* is governance actually enforced, monitored, and evolved day-to-day?
