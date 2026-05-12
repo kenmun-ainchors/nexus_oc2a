@@ -1,140 +1,102 @@
-# Yoda Daily Brief — 2026-05-11 (Monday, Day 17)
-_Written by Yoda 🟢 for Aria 🔵 + Angie | End-of-day context sync_
+# Yoda Daily Brief
+_Shared knowledge bridge for Aria 🔵 and Angie. Updated nightly by Yoda._
 
 ---
 
-## What Happened Today
+## 2026-05-12 — Day 18
 
-Day 17 was a mix of cleaning up yesterday's mess and delivering real Sprint 3 wins. Here's the honest version:
+### What Yoda Built Today
 
-### Morning: Fixing What Broke Overnight
+It was a big governance and hygiene day — less new features, more making sure the platform is rock-solid before the next growth phase.
 
-We discovered three separate issues from Day 16 that needed fixing before the day could start properly:
+**Morning:**
+- Fixed the standup report cron that was silently failing to write its HTML file (turned out isolated sessions don't expand `~` in file paths — classic silent failure, now a permanent rule).
+- Cleaned up Warden's noise problem — it was logging 3 error entries per check run, so the platform looked like it had 141 violations when it actually had 49. Fixed so it logs one clean summary per run. The platform was genuinely healthy — the metrics just weren't telling the truth.
+- Made the Kimi vs Gemma4 model comparison fair — both now run with an identical prompt spec so we're actually comparing models, not prompts.
+- Finished the MinIO folder structure (53 folders across 4 buckets) and wrote the routing policy — every agent now knows exactly where to store what.
 
-1. **Journal corruption from Day 16** — A heartbeat check (the automated 30-minute polling) accidentally triggered an end-of-day journal at 3:27pm yesterday, 8+ hours early. It created a broken summary instead of the proper format. Yoda rebuilt the Day 16 journal from scratch (it's now 1,018 lines and correct). We added a nightly automated check to catch this kind of corruption going forward.
+**Midday governance marathon (with Ken):**
+- Created the **Decision Registry** in Notion — 19 platform decisions formalised, 17 closed. Huge milestone. This closes the gap where decisions were being made but not officially recorded.
+- Added the **Strategy-Gate Rule**: if a task depends on a document that's still "Draft for Review", work stops until it's approved. (Root cause: we built MinIO before the storage architecture doc was fully signed off.)
+- Added the **Ticket Discipline Rule**: all agents must use `ticket.sh` to close tickets — no more direct file writes that skip Notion sync. Patched all 11 agent rule files.
+- LinkedIn post cleanup: stripped internal agent names (Atlas, Thrawn, Forge) from the AIOps Part 2 draft — replaced with a better angle about monitoring overhead costs.
 
-2. **Blog cron couldn't write files** — The blog generation script was trying to write temporary files to `/tmp`, which isolated automated sessions can't access. Fixed by switching to a workspace folder instead.
+**Afternoon:**
+- Fixed S5 security violation — stale Anthropic API keys found hardcoded in 6 agent auth files. Removed. (TKT-0156)
+- Fixed CI Cycle A timing out — batch was too heavy (4 shadow tasks at once). Reduced to 2, timeout halved. (TKT-0154)
+- Approved the Governance Gap Analysis (TKT-0137) — 7 open decisions resolved, Tier 3 agents (Forge, Lando, Mon Mothma) formally enrolled in governance framework.
+- Approved the **Nexus Access Policy v1.0** — the official document governing who can access the platform and how.
 
-3. **Drive sync was running at the wrong time** — The Google Drive sync was running at 11pm, before the journal (11:55pm) and blog (12:05am) were even written. So it was uploading old versions of everything. Moved it to 12:30am so the sequence is always: journal → blog → Drive.
-
-**Key lesson locked (L-022):** Automated tasks that "own" something must own it exclusively. No fallbacks, no heartbeat shortcuts. The journal cron owns the journal. Full stop.
-
----
-
-### Midday: Sprint 3 Deliveries ✅
-
-**CHG-273 — Token Efficiency Audit (TKT-0144)**
-Yoda audited every automated cron job for wasteful AI model usage. Result: 14 crons were fixed:
-- One cron was using an AI model to just check costs (pointless — switched to a simple script)
-- One backup cron was running twice (duplicate removed)
-- 11 crons had their AI context stripped down — they were loading Yoda's full memory when they only needed to check one file
-
-**Why this matters:** The most frequent cron (Relay Poller, runs every 5 minutes) was loading ~5,000 tokens of context it didn't need — 288 times a day. Fix alone saves ~1.4 million tokens/day. Total savings across all 14 fixes: ~1.8 million tokens/day. That's real money.
-
----
-
-**CHG-274 — Smarter Backups (TKT-0146)**
-The backup system was copying the entire workspace every day — ~1GB each time. Rewritten to use "incremental" backups:
-- Monday–Saturday: only back up what changed (typically 2–5MB)
-- Sunday: full backup + sync to iCloud
-
-This is the same approach professionals use. Disk-efficient, still recoverable, and now sustainable long-term.
+**Evening:**
+- Ran a full backlog cleanup — ~57 items closed, 35 valid items kept, 10 items scheduled for P1/P2 gates.
+- Approved the **Fabric RAG Assessment** (Ken's decision: defer Fabric CLI to P2, confirm Atlas as pattern governance owner).
+- Added the **Holocron Document Registry DoD rule** — every agent-produced document must be registered in the Holocron with a Drive link. Non-negotiable from now on.
+- Added the **Routing Discipline Rule** — Yoda orchestrates only. Build/implement/scripts always go to Forge. No exceptions, even when Ken says "do it now."
+- Fixed the sprint assignment backlog: items sorted into Sprints 4–10 with proper P1/P2 gates.
 
 ---
 
-**CHG-275 — MinIO Live ✅ (TKT-0124)**
-This was the headline Sprint 3 delivery. MinIO is now running on OC1 as the platform's agent object store — basically a private S3 bucket that lives on our own hardware.
+### Key Decisions Made Today
 
-What it does:
-- Four storage buckets: agent memory, generated media, workspace assets, brand code
-- Accessible via Tailscale from anywhere Ken or Aria needs it
-- Auto-generates temporary shareable links (72-hour expiry)
-- AI image generation now auto-uploads to MinIO and returns a link
-- Health monitoring added — if MinIO goes down, Ken gets a Telegram alert
-- Starts automatically when OC1 boots
-
-All 16 tests passed. This unblocks Aria's brand code storage and Angie's media work.
-
----
-
-### Afternoon: Fixing Ken's Windows Connection
-
-Ken was getting a "1006 WebSocket error" when accessing the webchat from his Windows machine. Turned out Tailscale was proxying to the wrong port (9000 instead of 18789). One command fixed it. Ken confirmed working at 5:53pm.
+| # | Decision | Who | Outcome |
+|---|----------|-----|---------|
+| DEC-001 to DEC-017 | Full decision grooming | Ken + Yoda | 17 of 19 closed/deferred |
+| CHG-0281 | Absolute file path rule | Ken | Never use `~` in tool calls — RULES.md updated |
+| CHG-0289 | Ticket discipline | Ken | `ticket.sh` is the only valid way to close tickets |
+| CHG-0290/0291 | Strategy-Gate rule | Ken | No builds on unapproved strategy docs |
+| CHG-0297 | Routing discipline | Ken | Yoda orchestrates only. No direct execution of infra/CLI work |
+| CHG-0298 | Fabric RAG decision | Ken | D1=DEFER-CLI (P2), D2=CONFIRM-ATLAS-A3 (pattern governance) |
+| CHG-0299 | Holocron registry DoD | Ken | All agent docs must be registered — mandatory Definition of Done |
+| CHG-0301 | AUTO-HEAL tickets | Ken | Always created as Done — informational records, not actionable backlog |
 
 ---
 
-### Evening: Incident — Gateway Down 2 Minutes (INC-20260511-001)
+### Training Content Angles (for AInchors courses)
 
-At 10:03pm, Thrawn (our platform architecture agent) was building out the sandbox environment (TKT-0135). He wrote a config directly to `openclaw.json` in a way that broke the file's structure. The gateway couldn't start and went into a crash loop.
+These are the lessons from today that would resonate with business owners and non-technical founders learning AI:
 
-Ken ran `openclaw doctor --fix`, which restored the last known-good config. Gateway was back in ~2 minutes.
+1. **"Why your AI platform needs a decision registry"** — Today we formalised 19 decisions that had been living in our heads and CHANGELOG entries. Creating a searchable, dated decision log is one of the most underrated governance moves for any AI platform. Topic for Aria: how to set this up in Notion without overcomplicating it.
 
-**What we locked in response (L-026):**
-> Build work → Forge ONLY. Always.
-> Thrawn = design the architecture. Atlas = assess the approach. Forge = write the actual files.
+2. **"Don't build before you think"** — The Strategy-Gate rule came from a real mistake: we stood up MinIO before the storage architecture document was properly approved. That's a classic "move fast" trap that creates technical debt and governance gaps. Lesson: approve the design, then build.
 
-This routing rule is now permanently in Yoda's routing logic. Yoda takes accountability for the routing error — Thrawn was convenient because he was already in the loop. Convenience ≠ correct.
+3. **"The silent file path trap in AI automation"** — Isolated agent sessions don't expand `~` — so `~/my-file.md` silently writes nowhere. No error. No warning. Just nothing. This was behind two separate issues today alone. Great practical example for a "common AI automation bugs" module.
 
----
+4. **"Metrics that lie: when 141 looks like violations but only 49 are real"** — Warden was logging 3 entries per check, so dashboards showed inflated numbers. A clean platform looked broken. Teaches the difference between raw counts and meaningful signal — critical for any AI monitoring setup.
 
-## Key Decisions Made Today
+5. **"When to stop and check the status page"** — Today we nearly diagnosed a self-inflicted Notion database problem for 10 minutes before realising it was a Notion platform incident. Rule: check the service status page FIRST before assuming your code broke something. Simple lesson, huge time-saver.
 
-| Decision | Detail | Approved By |
-|----------|--------|-------------|
-| Journal format updated | "Yoda's response (verbatim)" field added to each journal entry | Ken, 7:50am AEST |
-| L-022 (reinforced) | Heartbeat NEVER runs EOD tasks. Cron ownership = exclusive. | Locked |
-| L-023 (new) | Isolated cron sessions cannot write to `/tmp`. Use `workspace/tmp/` | Locked |
-| L-024 (new) | Journal format validation must be automated (auto-heal CHECK 14C) | Locked |
-| L-025 (new) | Parallel sessions are invisible to journal — always flag explicitly | Locked |
-| L-026 (new) | Build/implement work → Forge ONLY. Atlas = assess. Thrawn = design. Never build. | Locked |
-| Routing rule locked | Yoda acknowledges routing error (Thrawn→INC-20260511-001). Forge is the builder. | Locked |
+6. **"Every agent document needs a registry entry"** — We formalised the rule today that any document an agent produces (proposal, assessment, policy) must be registered centrally with a Drive link. This is the difference between "we made a document" and "we can actually find and trust our documents."
 
 ---
 
-## Training Content Angles (for Aria / Angie)
+### What's Open / What's Next
 
-Things we built or learned today that would make great course content or case studies:
+**Active Sprint (Sprint 3):**
+- TKT-0135, TKT-0141, TKT-0142, TKT-0144 — in flight
+- TKT-0154 — CI batch fix done ✅
+- TKT-0155 — MinIO native macOS install (pending Ken decision: now or Sprint 4?)
 
-1. **"1.8 million tokens a day" — token efficiency as a budget discipline**
-   The audit we ran today found 14 crons wasting AI tokens on unnecessary context loading. For businesses learning to run AI platforms: your biggest cost isn't the smart tasks, it's the dumb tasks using smart models. This is a concrete, numbers-driven lesson.
+**Sprint 4 (planned):**
+- TKT-0110 — DR Playbook
+- TKT-0150 — (pending)
+- TKT-0161 — Drive restructure ✅ done today
+- Doc approvals and access violations cleanup
 
-2. **Incremental backups for AI platforms — the right way to protect your data**
-   We went from 1GB/day backups to ~5MB/day with no loss of recoverability. This is the kind of practical, immediately-applicable lesson small businesses can use.
+**Upcoming decisions needed from Ken:**
+- TKT-0155 timing: native MinIO install now or Sprint 4?
+- LinkedIn Part 2 post: APPROVE / EDIT / REJECT (delivered to Telegram)
 
-3. **When your AI agent breaks the config file — incident response in 2 minutes**
-   INC-20260511-001 is a perfect real-world case study: what went wrong, why the schema matters, how `openclaw doctor` recovered it, and what rule we locked to prevent it happening again.
+**Overnight:**
+- Warden cron running hourly
+- Incremental journal cron running every 30 min
+- EOD journal cron at 23:55 AEST
+- EOD blog cron at 00:05 AEST
+- Drive sync cron at 23:00 AEST
 
-4. **The architect-builder separation rule (L-026)**
-   We learned (painfully) that having your architecture agent also write the files is a mistake. In human terms: your solutions architect shouldn't also be writing the code. This is a fundamental AI ops governance principle — and we have a live incident to prove it.
-
-5. **MinIO: what object storage is and why AI agents need it**
-   MinIO is the first piece of proper file infrastructure the platform has had. Good explainer opportunity: what is object storage, why local disk isn't enough, how presigned URLs work, and why keeping data on your own hardware matters for privacy.
-
----
-
-## What's Open / What's Next
-
-**Sprint 3 — in progress:**
-- ✅ TKT-0124 MinIO — DONE
-- ✅ TKT-0146 Backup optimisation — DONE
-- ✅ TKT-0144 Token efficiency audit — DONE
-- 🔄 TKT-0135 Sandbox — build partially complete (Forge owns next steps post-INC)
-- 🔄 TKT-0141 Tailscale Funnel MVP — pending
-- 🔄 TKT-0142 obs-collector dedup — pending
-
-**Aevlith incorporation (hard gate end-May 2026):**
-- TKT-0114 AInchors–Aevlith partnership
-- TKT-0115–0119 ASIC registration + domains
-
-**Angie / Business stream:**
-- No activity since 28 April
-- JotForm API key still outstanding (needed for Aria's brand work)
-- TKT-0128 Aria marketing mandate — MinIO-dependent (now unblocked ✅)
-
-**OC2 hardware (ETA 6–13 Jul 2026):**
-- OC2-A and OC2-B (Mac Mini M4 Pro 48GB) incoming
-- Multiple items gated on arrival: Gemma4 local inference, HA setup, NAS encryption
+**CHGs today:** CHG-0278 to CHG-0302 (25 changes)
+**Tickets raised:** TKT-0154 to TKT-0168 (15 new tickets)
+**Decisions closed:** 17 of 19 (DEC-001 to DEC-019)
 
 ---
 
-_Compiled by Yoda 🟢 | 2026-05-11 23:01 AEST | Day 17_
+_Next brief: 2026-05-13 ~23:00 AEST_

@@ -115,6 +115,13 @@ _Maintained by Aria 🔵 + Yoda 🟢 | Status-tracked content for AInchors train
 | TC-105 | Why /tmp is not your friend in AI automation: isolated sessions and file path discipline | 💡 Idea | Yoda Day 17 (L-023 — blog cron failed silently writing to /tmp from isolated session; fix: workspace/tmp/) | Yoda |
 | TC-106 | Automating journal integrity: why AI platforms need their own QA layer | 💡 Idea | Yoda Day 17 (L-024 — journal corruption undetected for hours; auto-heal CHECK 14C added; lesson: operational tooling needs tooling) | Both |
 
+| TC-107 | Why your AI platform needs a decision registry: turning verbal agreements into searchable governance | 💡 Idea | Yoda Day 18 (CHG-0290 — Decision Registry, 19 decisions formalised in Notion, 17 closed in one session) | Aria |
+| TC-108 | Don't build before you think: the Strategy-Gate rule that stops premature implementation | 💡 Idea | Yoda Day 18 (CHG-0291 — MinIO built before EA-Addendum approved; strategy-gate blocks work on DRAFT FOR REVIEW docs) | Both |
+| TC-109 | The silent file path trap: why ~/my-file.md writes nothing in automated AI sessions | 💡 Idea | Yoda Day 18 (CHG-0281 — isolated sessions never expand ~; standup HTML + 38 journal entries lost this way) | Yoda |
+| TC-110 | Metrics that lie: when 141 looks like violations but only 49 are real | 💡 Idea | Yoda Day 18 (CHG-0279 — Warden logging 3 entries per run inflated obs counts; standup showed broken platform that was actually clean) | Both |
+| TC-111 | Check the status page first: distinguishing your bugs from the platform's bugs | 💡 Idea | Yoda Day 18 (L-028 — Notion platform incident misread as self-inflicted DB corruption; 10 min wasted before status page check) | Aria |
+| TC-112 | Every AI document needs a registry entry: the difference between making docs and trusting them | 💡 Idea | Yoda Day 18 (CHG-0299 — Holocron Document Registry DoD rule; all agent proposals/assessments/policies must be registered with Drive link) | Aria |
+
 ## Status Legend
 💡 Idea → 📝 Draft → 🔍 Review (Yoda validates) → ✅ Ready → 📢 Published
 
