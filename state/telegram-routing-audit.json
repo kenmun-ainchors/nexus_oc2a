@@ -8,6 +8,12 @@
       "accountId": "yoda(default)"
     },
     {
+      "job": "LI-W1-P1-snapshot-7d",
+      "id": "ae3ada11-ac79-4014-88b4-e61218de81d7",
+      "to": "8574109706",
+      "accountId": "yoda(default)"
+    },
+    {
       "job": "TKT-0092 Daily Budget Report",
       "id": "3ea986bf-5dfc-4805-a13c-80427b4d29c7",
       "to": "8574109706",
@@ -34,12 +40,6 @@
     {
       "job": "RTB Gemma4:31b trial \u2014 parallel vs kimi (8:15am)",
       "id": "7ff14b97-c487-4a0c-96fb-49125be48281",
-      "to": "8574109706",
-      "accountId": "yoda(default)"
-    },
-    {
-      "job": "LI-W1-P1-snapshot-7d",
-      "id": "ae3ada11-ac79-4014-88b4-e61218de81d7",
       "to": "8574109706",
       "accountId": "yoda(default)"
     },
@@ -75,7 +75,7 @@
     }
   ],
   "warnings": [],
-  "auditAt": "2026-05-11T15:00:07Z",
+  "auditAt": "2026-05-12T15:00:07Z",
   "summary": {
     "violations": 0,
     "passes": 12,
