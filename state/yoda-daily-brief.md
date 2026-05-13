@@ -1,102 +1,107 @@
-# Yoda Daily Brief
-_Shared knowledge bridge for Aria 🔵 and Angie. Updated nightly by Yoda._
+# Yoda Daily Brief — 2026-05-13 (Day 20)
+_Written by Yoda 🟢 for Aria 🔵 + Angie | ~11:00 PM AEST_
 
 ---
 
-## 2026-05-12 — Day 18
+## What Happened Today
 
-### What Yoda Built Today
+Today was a Day 20 survival story — a rough morning followed by a productive evening sprint.
 
-It was a big governance and hygiene day — less new features, more making sure the platform is rock-solid before the next growth phase.
+### Morning: The Great Blackout
 
-**Morning:**
-- Fixed the standup report cron that was silently failing to write its HTML file (turned out isolated sessions don't expand `~` in file paths — classic silent failure, now a permanent rule).
-- Cleaned up Warden's noise problem — it was logging 3 error entries per check run, so the platform looked like it had 141 violations when it actually had 49. Fixed so it logs one clean summary per run. The platform was genuinely healthy — the metrics just weren't telling the truth.
-- Made the Kimi vs Gemma4 model comparison fair — both now run with an identical prompt spec so we're actually comparing models, not prompts.
-- Finished the MinIO folder structure (53 folders across 4 buckets) and wrote the routing policy — every agent now knows exactly where to store what.
+Before anyone was awake, our Anthropic API key quietly expired. No warning email. No heads-up. Just silence.
 
-**Midday governance marathon (with Ken):**
-- Created the **Decision Registry** in Notion — 19 platform decisions formalised, 17 closed. Huge milestone. This closes the gap where decisions were being made but not officially recorded.
-- Added the **Strategy-Gate Rule**: if a task depends on a document that's still "Draft for Review", work stops until it's approved. (Root cause: we built MinIO before the storage architecture doc was fully signed off.)
-- Added the **Ticket Discipline Rule**: all agents must use `ticket.sh` to close tickets — no more direct file writes that skip Notion sync. Patched all 11 agent rule files.
-- LinkedIn post cleanup: stripped internal agent names (Atlas, Thrawn, Forge) from the AIOps Part 2 draft — replaced with a better angle about monitoring overhead costs.
+The gateway restarted at 7:09 AM (because a blog cron had stalled overnight), and that restart exposed the dead key. Six scheduled tasks across the platform went dark — including Aria's relay poller, the journal writer, Warden's compliance checks, and the morning stand-up.
 
-**Afternoon:**
-- Fixed S5 security violation — stale Anthropic API keys found hardcoded in 6 agent auth files. Removed. (TKT-0156)
-- Fixed CI Cycle A timing out — batch was too heavy (4 shadow tasks at once). Reduced to 2, timeout halved. (TKT-0154)
-- Approved the Governance Gap Analysis (TKT-0137) — 7 open decisions resolved, Tier 3 agents (Forge, Lando, Mon Mothma) formally enrolled in governance framework.
-- Approved the **Nexus Access Policy v1.0** — the official document governing who can access the platform and how.
+Ken ran a key rotation, then Yoda immediately pushed the new key to all 12 agents using a propagation script we wrote on the spot. All six affected tasks were manually re-triggered by around 1:00 PM and recovered cleanly.
 
-**Evening:**
-- Ran a full backlog cleanup — ~57 items closed, 35 valid items kept, 10 items scheduled for P1/P2 gates.
-- Approved the **Fabric RAG Assessment** (Ken's decision: defer Fabric CLI to P2, confirm Atlas as pattern governance owner).
-- Added the **Holocron Document Registry DoD rule** — every agent-produced document must be registered in the Holocron with a Drive link. Non-negotiable from now on.
-- Added the **Routing Discipline Rule** — Yoda orchestrates only. Build/implement/scripts always go to Forge. No exceptions, even when Ken says "do it now."
-- Fixed the sprint assignment backlog: items sorted into Sprints 4–10 with proper P1/P2 gates.
+**The bigger fix:** We identified the root cause — our fallback chain was `Sonnet → Haiku`, and *both* are Anthropic. When the key died, both models failed simultaneously with no safety net. We've now made it a platform rule that every single agent must have a third-level fallback using a completely different provider (Kimi from Ollama). No exceptions, no new agents without it. Ken locked this in as a permanent design principle.
 
----
+### Stand-Up Drama
 
-### Key Decisions Made Today
+The stand-up email had a rough day too. A bug caused it to send twice to Ken (both Day 19 and Day 20 reports, back-to-back). Root cause: the cron was using `~` in file paths, which silently fails in isolated sessions. Fixed with a two-step write pattern (write to temp file → shell copy to final path). An idempotency check was also added so it can never double-send again.
 
-| # | Decision | Who | Outcome |
-|---|----------|-----|---------|
-| DEC-001 to DEC-017 | Full decision grooming | Ken + Yoda | 17 of 19 closed/deferred |
-| CHG-0281 | Absolute file path rule | Ken | Never use `~` in tool calls — RULES.md updated |
-| CHG-0289 | Ticket discipline | Ken | `ticket.sh` is the only valid way to close tickets |
-| CHG-0290/0291 | Strategy-Gate rule | Ken | No builds on unapproved strategy docs |
-| CHG-0297 | Routing discipline | Ken | Yoda orchestrates only. No direct execution of infra/CLI work |
-| CHG-0298 | Fabric RAG decision | Ken | D1=DEFER-CLI (P2), D2=CONFIRM-ATLAS-A3 (pattern governance) |
-| CHG-0299 | Holocron registry DoD | Ken | All agent docs must be registered — mandatory Definition of Done |
-| CHG-0301 | AUTO-HEAL tickets | Ken | Always created as Done — informational records, not actionable backlog |
+### Health Check False Alarm
+
+After the key rotation, our health monitoring script reported the Anthropic API as "degraded" — even though Yoda was clearly working fine. The culprit: health-check scripts were reading from a stale keychain entry, not from the gateway's actual active key file. All four affected scripts were updated to read from the real source of truth first. The propagation script was also updated to sync keychain entries as part of the process.
+
+### Lessons Registry Tightened
+
+Ken explicitly flagged that lessons weren't being logged proactively — Yoda was waiting to be asked. That stops now. The rule is: every fix gets a lesson logged in the same turn, not later. RULES.md was updated, and a pre-work gate was added so Yoda checks the lessons registry before starting any cron, agent, or script work.
+
+### Evening: Governance Audit + Sprint Planning
+
+Four governance documents were reviewed and decisions made:
+
+- **Guardrails Policy** (DOC-AUDIT-007) — Approved as interim. Gap found: the integration steps were never actually executed. TKT-0156 raised to do a proper two-tier restructure.
+- **Duplicate guardrails doc** (DOC-AUDIT-008) — Superseded. Archived, no further action.
+- **Client Isolation Policy** (DOC-AUDIT-009) — Approved. Clear separation between what's achievable now vs. what needs OC2 hardware. Some stale references to patch before P2. TKT-0157 raised.
+- **Governance Gap Analysis** (DOC-AUDIT-006) — Approved. Atlas's audit found 24 governance gaps. Ten of these are hard gates for P2 — we cannot onboard clients until they're resolved. TKT-0158 raised to write the six most critical policies.
+
+Sprint 4 backlog was seeded with these four tickets. Planning ceremony is Sunday 18 May.
+
+All 10 audit documents were uploaded to Google Drive with links captured in the document registry.
 
 ---
 
-### Training Content Angles (for AInchors courses)
+## Key Decisions Made
 
-These are the lessons from today that would resonate with business owners and non-technical founders learning AI:
-
-1. **"Why your AI platform needs a decision registry"** — Today we formalised 19 decisions that had been living in our heads and CHANGELOG entries. Creating a searchable, dated decision log is one of the most underrated governance moves for any AI platform. Topic for Aria: how to set this up in Notion without overcomplicating it.
-
-2. **"Don't build before you think"** — The Strategy-Gate rule came from a real mistake: we stood up MinIO before the storage architecture document was properly approved. That's a classic "move fast" trap that creates technical debt and governance gaps. Lesson: approve the design, then build.
-
-3. **"The silent file path trap in AI automation"** — Isolated agent sessions don't expand `~` — so `~/my-file.md` silently writes nowhere. No error. No warning. Just nothing. This was behind two separate issues today alone. Great practical example for a "common AI automation bugs" module.
-
-4. **"Metrics that lie: when 141 looks like violations but only 49 are real"** — Warden was logging 3 entries per check, so dashboards showed inflated numbers. A clean platform looked broken. Teaches the difference between raw counts and meaningful signal — critical for any AI monitoring setup.
-
-5. **"When to stop and check the status page"** — Today we nearly diagnosed a self-inflicted Notion database problem for 10 minutes before realising it was a Notion platform incident. Rule: check the service status page FIRST before assuming your code broke something. Simple lesson, huge time-saver.
-
-6. **"Every agent document needs a registry entry"** — We formalised the rule today that any document an agent produces (proposal, assessment, policy) must be registered centrally with a Drive link. This is the difference between "we made a document" and "we can actually find and trust our documents."
+| Decision | What Was Decided | Who Approved |
+|---|---|---|
+| Kimi Safety Net (CHG-0270) | Every agent must have 3-level fallback; kimi = permanent final level | Ken (locked) |
+| LinkedIn missed-post rule | Never post late — skip to next scheduled slot | Ken (locked) |
+| Propagation script SOP | After any key rotation, run propagation script immediately (now covers keychain too) | Implicit (L-030) |
+| auth-profiles.json = source of truth | Scripts must read from gateway config first, keychain is fallback only | Implicit (L-030) |
+| Lessons discipline | Log lessons same turn as fix. No deferral. Pre-work gate enforced. | Ken (explicit) |
+| DOC-AUDIT-007 Approved interim | Guardrails policy stands, integration gap flagged for TKT-0156 | Ken |
+| DOC-AUDIT-009 Approved | Client isolation policy approved, stale refs to patch via TKT-0157 | Ken |
+| DOC-AUDIT-006 Approved | 24 governance gaps identified, 10 are P2 hard gates (TKT-0158) | Ken |
 
 ---
 
-### What's Open / What's Next
+## Training Content Angles (for AI Courses)
 
-**Active Sprint (Sprint 3):**
-- TKT-0135, TKT-0141, TKT-0142, TKT-0144 — in flight
-- TKT-0154 — CI batch fix done ✅
-- TKT-0155 — MinIO native macOS install (pending Ken decision: now or Sprint 4?)
+*New ideas from today's work — what lessons are worth teaching?*
 
-**Sprint 4 (planned):**
-- TKT-0110 — DR Playbook
-- TKT-0150 — (pending)
-- TKT-0161 — Drive restructure ✅ done today
-- Doc approvals and access violations cleanup
+**TC-113 — The single vendor trap: when your entire AI platform fails because one key expired**
+Your AI platform probably has a favourite AI provider. What happens if that provider's key dies overnight? Today it took 6 automated tasks offline simultaneously. The lesson: never let a single vendor be your only path. Build multi-vendor fallback chains from day one — it's an architectural decision, not an afterthought.
+*Source: Anthropic key expiry incident, CHG-0270*
 
-**Upcoming decisions needed from Ken:**
-- TKT-0155 timing: native MinIO install now or Sprint 4?
-- LinkedIn Part 2 post: APPROVE / EDIT / REJECT (delivered to Telegram)
+**TC-114 — Reading your own governance docs: a practical audit methodology**
+It's one thing to write a governance document. It's another to actually sit down and read it against what exists. Today we audited 4 documents and found: one duplicate, one with unexecuted integration steps, and one identifying 24 policy gaps (10 of which block client onboarding). How to structure a governance audit, what to look for, and how to turn findings into sprint work.
+*Source: DOC-AUDIT-006/007/008/009 session*
 
-**Overnight:**
-- Warden cron running hourly
-- Incremental journal cron running every 30 min
-- EOD journal cron at 23:55 AEST
-- EOD blog cron at 00:05 AEST
-- Drive sync cron at 23:00 AEST
+**TC-115 — Sprint seeding ceremonies: turning document reviews directly into backlog**
+A governance review isn't useful unless it creates actionable work. Today's document audit directly seeded four Sprint 4 tickets with clear priority and rationale. The pattern: review → decision → ticket in the same session. No review should end without an action registered somewhere.
+*Source: Sprint 4 seeding from DOC-AUDIT session*
 
-**CHGs today:** CHG-0278 to CHG-0302 (25 changes)
-**Tickets raised:** TKT-0154 to TKT-0168 (15 new tickets)
-**Decisions closed:** 17 of 19 (DEC-001 to DEC-019)
+**TC-116 — Why scripts lie: the stale keychain problem in AI automation**
+After rotating an API key, our health-check scripts still reported the old (dead) key — even though the platform was working fine. The root cause: scripts were reading from a keychain entry, not the gateway's actual config. "The script says it's broken" and "it's actually broken" are two very different things. Always verify your monitoring reads from the true source.
+*Source: CHG-0284, L-030*
 
 ---
 
-_Next brief: 2026-05-13 ~23:00 AEST_
+## What's Open / What's Next
+
+### Tomorrow
+- LI-C1-W2-P3 fires at 7:30 AM AEST — LinkedIn post scheduled, image attached and ready
+- Monitor overnight crons for stability with new key + updated fallback chains
+
+### This Week
+- Verify all agents have correct 3-level fallback chains (kimi as final level)
+- Patch: Forge to update any remaining agents missing the kimi safety net
+
+### Sprint 4 (Planning: Sunday 18 May)
+| Ticket | What It Is | Priority |
+|---|---|---|
+| TKT-0158 | Write 6 missing P2-gate governance policies (Data Classification, Privacy/APP, Sanctum, Warden Thresholds, Client DPA, Data Residency) | P1 |
+| TKT-0156 | Restructure platform guardrails into two tiers (universal + agent-specific) | P1 |
+| TKT-0157 | Patch stale references in client isolation policy before P2 | P2 |
+| TKT-0155 | Cloudflare Tunnel - CF Access config (parked pending DNS propagation) | P1 |
+
+### Waiting On Ken
+- Review of Atlas governance gap analysis (24 gaps, 10 are P2 blockers) — sprint planning is the right time for this conversation
+
+---
+
+*Next brief: tomorrow after close | Questions → ask Yoda in main chat*

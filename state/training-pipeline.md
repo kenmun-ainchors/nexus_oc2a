@@ -122,6 +122,11 @@ _Maintained by Aria 🔵 + Yoda 🟢 | Status-tracked content for AInchors train
 | TC-111 | Check the status page first: distinguishing your bugs from the platform's bugs | 💡 Idea | Yoda Day 18 (L-028 — Notion platform incident misread as self-inflicted DB corruption; 10 min wasted before status page check) | Aria |
 | TC-112 | Every AI document needs a registry entry: the difference between making docs and trusting them | 💡 Idea | Yoda Day 18 (CHG-0299 — Holocron Document Registry DoD rule; all agent proposals/assessments/policies must be registered with Drive link) | Aria |
 
+| TC-113 | The single vendor trap: when your entire AI platform fails because one key expired | 💡 Idea | Yoda Day 20 (CHG-0270 — Anthropic key expiry, 6 crons dark, kimi safety net rule born) | Both |
+| TC-114 | Reading your own governance docs: a practical audit methodology | 💡 Idea | Yoda Day 20 (DOC-AUDIT-006/007/008/009 — 24 gaps found, 10 P2-blockers, 1 duplicate archived) | Aria |
+| TC-115 | Sprint seeding ceremonies: turning document reviews directly into backlog | 💡 Idea | Yoda Day 20 (Sprint 4 seeded directly from DOC-AUDIT session — same-session ticket creation pattern) | Both |
+| TC-116 | Why scripts lie: the stale keychain problem in AI automation | 💡 Idea | Yoda Day 20 (CHG-0284 L-030 — health-check reported API dead when Yoda was running fine; scripts read stale keychain not auth-profiles.json) | Yoda |
+
 ## Status Legend
 💡 Idea → 📝 Draft → 🔍 Review (Yoda validates) → ✅ Ready → 📢 Published
 
