@@ -866,6 +866,6 @@ These do not block the policy's approval — they are scoped future enhancements
 
 *Atlas 🏛️ — Enterprise Architect, AInchors*
 *Requested: Ken Mun (CTO) | TKT-0161 | 2026-05-12*
-*Status: DRAFT FOR REVIEW — Pending Ken Mun approval*
+**Status:** APPROVED — Ken Mun, 2026-05-12 (via TKT-0136)
 *Updated: 2026-05-12 — Section 8 added (Inbound Content Flow); PATTERN-16 added; sections renumbered (old 8→9, 9→10, 10→11); bidirectional flow coverage completed (Ken Mun review feedback)*
 *Next version: v1.1 at Q3 2026 review (or P1 gate, whichever first)*

@@ -25,7 +25,7 @@
 > access architecture roadmap, (5) security posture mapping, and (6) a clear
 > recommendation with an immediate action for MVP.
 >
-> All architecture decisions herein are DRAFT FOR REVIEW. Ken has final authority.
+> All architecture decisions herein are APPROVED — Ken Mun, 2026-05-12 (via TKT-0136).
 
 ---
 

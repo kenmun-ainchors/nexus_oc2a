@@ -1,0 +1,75 @@
+{
+  "metadata": {
+    "generated": "2026-05-13T20:59:00+10:00",
+    "purpose": "GDrive links for 10 DOC-AUDIT documents uploaded from Holocron audit",
+    "status": "Ready for Notion registry update",
+    "source": "Yoda — Holocron Document Audit (TKT-0137 callback)"
+  },
+  "documents": [
+    {
+      "docId": "DOC-AUDIT-001",
+      "filename": "Context-Handoff-Delta-20260507-20260510.md",
+      "driveFileId": "1HsTUA92cvAdXSM961gNssv7qogkRfh19",
+      "driveLink": "https://drive.google.com/file/d/1HsTUA92cvAdXSM961gNssv7qogkRfh19/view?usp=drivesdk"
+    },
+    {
+      "docId": "DOC-AUDIT-002",
+      "filename": "DRAFT_Gap_Analysis_Yoda_Orchestrator_MD_20260510.md",
+      "driveFileId": "1I2qbfvvOsJy2QpZOFFR1ig-tgj1uLP5R",
+      "driveLink": "https://drive.google.com/file/d/1I2qbfvvOsJy2QpZOFFR1ig-tgj1uLP5R/view?usp=drivesdk"
+    },
+    {
+      "docId": "DOC-AUDIT-003",
+      "filename": "Digital_Transformation_Change_Management_Specialist_Agent_v1.md",
+      "driveFileId": "1tmfHjvQyz-jC7h18Od8rDmPAKT8R3nxb",
+      "driveLink": "https://drive.google.com/file/d/1tmfHjvQyz-jC7h18Od8rDmPAKT8R3nxb/view?usp=drivesdk"
+    },
+    {
+      "docId": "DOC-AUDIT-005",
+      "filename": "Nexus-Access-Policy-v1.0.md",
+      "driveFileId": "1Alxvzk9O3M-oc5YdpdrJGMwEj6H3qhGr",
+      "driveLink": "https://drive.google.com/file/d/1Alxvzk9O3M-oc5YdpdrJGMwEj6H3qhGr/view?usp=drivesdk"
+    },
+    {
+      "docId": "DOC-AUDIT-006",
+      "filename": "TKT-0137-AC1-Governance-Gap-Analysis.md",
+      "driveFileId": "1tuB4BoefOsUekEeSAptk_4VkVV_l2x34",
+      "driveLink": "https://drive.google.com/file/d/1tuB4BoefOsUekEeSAptk_4VkVV_l2x34/view?usp=drivesdk"
+    },
+    {
+      "docId": "DOC-AUDIT-007",
+      "filename": "ainchors-guardrails-rules-2026-05.md",
+      "driveFileId": "1IpBZov5eIBK6295p22Nur2b_QW6Iu0Pb",
+      "driveLink": "https://drive.google.com/file/d/1IpBZov5eIBK6295p22Nur2b_QW6Iu0Pb/view?usp=drivesdk"
+    },
+    {
+      "docId": "DOC-AUDIT-008",
+      "filename": "governance-guardrails-2026-05.md",
+      "driveFileId": "138xjnN-Z5uqWe4O94kXE_nlGJuv8mfBK",
+      "driveLink": "https://drive.google.com/file/d/138xjnN-Z5uqWe4O94kXE_nlGJuv8mfBK/view?usp=drivesdk"
+    },
+    {
+      "docId": "DOC-AUDIT-009",
+      "filename": "nexus-client-isolation-policy-v1.md",
+      "driveFileId": "1ur9L5ptiNyCmVLhdrrty4-PPJnqj3Goo",
+      "driveLink": "https://drive.google.com/file/d/1ur9L5ptiNyCmVLhdrrty4-PPJnqj3Goo/view?usp=drivesdk"
+    },
+    {
+      "docId": "DOC-AUDIT-010",
+      "filename": "postmortem-INC-20260509-001.md",
+      "driveFileId": "13YYY7Wa0G5dlL0eWrbXDsx-n0Br3Mx2_",
+      "driveLink": "https://drive.google.com/file/d/13YYY7Wa0G5dlL0eWrbXDsx-n0Br3Mx2_/view?usp=drivesdk"
+    },
+    {
+      "docId": "DOC-AUDIT-011",
+      "filename": "sandbox-runbook.md",
+      "driveFileId": "1KNbbXzwe7ytipx6eHzrtBB3cUOY_CJP5",
+      "driveLink": "https://drive.google.com/file/d/1KNbbXzwe7ytipx6eHzrtBB3cUOY_CJP5/view?usp=drivesdk"
+    }
+  ],
+  "instructions": {
+    "next_step": "Update Notion Holocron Document Registry with these Drive links",
+    "method": "Option A (Manual): Open Notion → find each DOC-AUDIT entry → paste driveLink into URL field",
+    "method_b": "Option B (Bulk): Provide this JSON to Ken for bulk Notion update if DB has API integration"
+  }
+}

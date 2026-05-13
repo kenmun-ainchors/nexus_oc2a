@@ -1,0 +1,352 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AInchors Stand-up — Day 20 | 13 May 2026</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { background: #ffffff; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif; font-size: 14px; color: #24292f; line-height: 1.5; }
+  .wrapper { background: #f6f8fa; max-width: 760px; margin: 0 auto; padding: 24px; }
+  .header { background: #0969da; color: #ffffff; padding: 20px 24px; border-radius: 8px; margin-bottom: 20px; }
+  .header h1 { font-size: 20px; font-weight: 700; margin-bottom: 4px; }
+  .header .meta { font-size: 13px; opacity: 0.85; }
+  .header .status-pill { display: inline-block; background: rgba(255,255,255,0.2); border-radius: 20px; padding: 3px 12px; font-size: 12px; font-weight: 600; margin-top: 8px; }
+  h2 { color: #0969da; font-size: 16px; font-weight: 700; border-bottom: 1px solid #d0d7de; padding-bottom: 8px; margin: 20px 0 12px; }
+  h3 { color: #57606a; font-size: 13px; text-transform: uppercase; letter-spacing: 0.5px; margin: 12px 0 6px; font-weight: 600; }
+  .card-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); gap: 10px; margin-bottom: 12px; }
+  .card { background: #ffffff; border: 1px solid #d0d7de; border-radius: 8px; padding: 14px; }
+  .card-label { font-size: 11px; color: #57606a; text-transform: uppercase; letter-spacing: 0.4px; margin-bottom: 4px; }
+  .card-value { font-size: 20px; font-weight: 700; color: #24292f; }
+  .card-sub { font-size: 12px; color: #57606a; margin-top: 2px; }
+  .badge { display: inline-block; border-radius: 4px; padding: 2px 8px; font-size: 12px; font-weight: 600; border: 1px solid; }
+  .ok { color: #1a7f37; background: #dafbe1; border-color: #2da44e; }
+  .warn { color: #9a6700; background: #fff8c5; border-color: #d4a72c; }
+  .critical { color: #cf222e; background: #ffebe9; border-color: #f85149; }
+  .blue { color: #0969da; background: #ddf4ff; border-color: #54aeff; }
+  .alert { border-radius: 6px; padding: 10px 14px; margin-bottom: 10px; font-size: 13px; }
+  .alert-critical { background: #ffebe9; border: 1px solid #f85149; color: #cf222e; }
+  .alert-warn { background: #fff8c5; border: 1px solid #d4a72c; color: #9a6700; }
+  .alert-info { background: #ddf4ff; border: 1px solid #54aeff; color: #0969da; }
+  table { width: 100%; border-collapse: collapse; font-size: 13px; }
+  th { background: #f6f8fa; color: #57606a; text-transform: uppercase; font-size: 11px; letter-spacing: 0.4px; padding: 8px 10px; text-align: left; border-bottom: 1px solid #d0d7de; }
+  td { padding: 8px 10px; border-bottom: 1px solid #eaeef2; vertical-align: top; }
+  tr:last-child td { border-bottom: none; }
+  .chg { color: #0969da; font-weight: 600; }
+  .section { background: #ffffff; border: 1px solid #d0d7de; border-radius: 8px; padding: 16px; margin-bottom: 16px; }
+  .rtb-row { display: grid; grid-template-columns: 80px 1fr; gap: 10px; padding: 8px 0; border-bottom: 1px solid #eaeef2; }
+  .rtb-row:last-child { border-bottom: none; }
+  .rtb-label { font-weight: 700; font-size: 13px; }
+  .rtb-streams { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+  .rtb-stream { font-size: 13px; }
+  .rtb-stream-label { font-size: 11px; text-transform: uppercase; color: #57606a; font-weight: 600; margin-bottom: 2px; }
+  ul { padding-left: 18px; }
+  ul li { margin-bottom: 4px; font-size: 13px; }
+  .footer { color: #57606a; font-size: 12px; border-top: 1px solid #d0d7de; padding-top: 12px; margin-top: 16px; text-align: center; }
+  @media (max-width: 500px) { .card-grid { grid-template-columns: 1fr 1fr; } .rtb-streams { grid-template-columns: 1fr; } }
+</style>
+</head>
+<body>
+<div class="wrapper">
+
+  <!-- Header -->
+  <div class="header">
+    <div class="header h1">📊 AInchors Morning Stand-up — Day 20</div>
+    <div class="meta">Wednesday, 13 May 2026 &nbsp;·&nbsp; 1:23 PM AEST &nbsp;·&nbsp; Yoda</div>
+    <div class="status-pill">🔴 System: DEGRADED &nbsp;·&nbsp; 💰 Balance: $479.35</div>
+  </div>
+
+  <!-- CRITICAL ALERT -->
+  <div class="alert alert-critical">
+    🚨 <strong>CRITICAL — Anthropic API HTTP 401</strong> — Health checks reporting <em>billing or auth failure</em>. Gateway sessions working (this standup ran OK), but diagnostic scripts and auto-heal returning 401. Auto-heal also flagged balance:critical:$0 last night. Verify API key in keychain and current balance via Anthropic console.
+  </div>
+
+  <!-- ACTION ALERT -->
+  <div class="alert alert-warn">
+    ⚠️ <strong>ACTION — Warden violation today</strong> — consecutiveClean=0, 12 checks failed at 13:07 AEST. Likely architect/platform-arch agents outside policy scope (known gap). Verify and resolve or update policy coverage.
+  </div>
+  <div class="alert alert-warn">
+    ⚠️ <strong>ACTION — Angie silent 5+ days</strong> — Business stream stalled. Morning check-in sent. Consider escalation or alternate contact to re-engage. Stage 1 onboarding (OB-12, OB-14, OB-15) pending.
+  </div>
+
+  <!-- SECTION 1: System Health -->
+  <h2>1 · System Health</h2>
+  <div class="card-grid">
+    <div class="card">
+      <div class="card-label">Gateway</div>
+      <div class="card-value">✅ OK</div>
+      <div class="card-sub">All routes green</div>
+    </div>
+    <div class="card">
+      <div class="card-label">Anthropic API</div>
+      <div class="card-value" style="font-size:14px;color:#cf222e;">🔴 HTTP 401</div>
+      <div class="card-sub">Billing/auth failure</div>
+    </div>
+    <div class="card">
+      <div class="card-label">Ollama</div>
+      <div class="card-value">✅ OK</div>
+      <div class="card-sub">Local LLM active</div>
+    </div>
+    <div class="card">
+      <div class="card-label">Balance</div>
+      <div class="card-value" style="font-size:16px;">$479.35</div>
+      <div class="card-sub">Confirmed 2026-05-08. Auto-reload $450 @ $50.</div>
+    </div>
+    <div class="card">
+      <div class="card-label">Backup</div>
+      <div class="card-value">✅ OK</div>
+      <div class="card-sub">2026-05-12 16:05 UTC</div>
+    </div>
+    <div class="card">
+      <div class="card-label">MEMORY.md</div>
+      <div class="card-value">10,177</div>
+      <div class="card-sub">chars — OK (&lt;16,000)</div>
+    </div>
+  </div>
+
+  <h3>Observability — 24h Summary</h3>
+  <div class="section">
+    <div class="card-grid" style="margin-bottom:0">
+      <div class="card"><div class="card-label">Total Events</div><div class="card-value">197</div></div>
+      <div class="card"><div class="card-label">Errors</div><div class="card-value" style="color:#cf222e;">159</div><div class="card-sub">+622% vs prev 24h</div></div>
+      <div class="card"><div class="card-label">Warnings</div><div class="card-value" style="color:#9a6700;">16</div><div class="card-sub">+128% vs prev 24h</div></div>
+      <div class="card"><div class="card-label">Info</div><div class="card-value">22</div></div>
+    </div>
+    <div style="margin-top:10px;font-size:13px;color:#57606a;">
+      Top: <strong>cron_run_fail</strong> 82 &nbsp;·&nbsp; <strong>health_failure</strong> 55 &nbsp;·&nbsp; <strong>budget_exceeded</strong> 10 &nbsp;·&nbsp; <strong>auto_heal_needs_ken</strong> 8
+    </div>
+  </div>
+
+  <!-- SECTION 2: Business Stream -->
+  <h2>2 · Business Stream</h2>
+  <div class="section">
+    <div class="alert alert-warn" style="margin-bottom:10px;">
+      📵 Angie silent for <strong>5+ days</strong> (last active: ~May 8). Morning check-in sent today (Wednesday). No inbound messages. Business stream at standby.
+    </div>
+    <h3>Open Items</h3>
+    <ul>
+      <li>🔴 <strong>JotForm API key</strong> — outstanding since 28 April. HRDF form blocked.</li>
+      <li>🔴 <strong>Onboarding Stage 1</strong> — OB-12, OB-14, OB-15 unchecked. Stages 2–6 not started.</li>
+      <li>🟡 <strong>Journal 2026-05-12</strong> — missing (auto-heal flagged; EOD cron failure).</li>
+      <li>🟡 <strong>Social posts</strong> — drafted 28 April; publication status unknown.</li>
+      <li>🟡 <strong>April 30 class debrief</strong> — CAMP-0001 debrief pending.</li>
+      <li>🟡 <strong>Meta appeal</strong> — status unknown.</li>
+    </ul>
+    <h3 style="margin-top:12px;">Handoff</h3>
+    <p style="font-size:13px;color:#57606a;">Aria in standby. No relay messages. No decisions or governance reviews. Business sub-agents (Social, Content, Marketing, Support, Report) remain at <em>Planned</em> status. Campaign CAMP-0001 active with 8 value entries (A$4,000 est, 10.7x ROI).</p>
+  </div>
+
+  <!-- SECTION 3: Governance -->
+  <h2>3 · Governance</h2>
+  <div class="section">
+    <div class="card-grid" style="margin-bottom:10px;">
+      <div class="card">
+        <div class="card-label">Warden Status</div>
+        <div class="card-value" style="font-size:14px;color:#cf222e;">🔴 Violation</div>
+        <div class="card-sub">consecutiveClean = 0</div>
+      </div>
+      <div class="card">
+        <div class="card-label">Last Check</div>
+        <div class="card-value" style="font-size:14px;">13:07 AEST</div>
+        <div class="card-sub">Today — 12 fails / 7 pass</div>
+      </div>
+      <div class="card">
+        <div class="card-label">Escalations</div>
+        <div class="card-value">✅ Clear</div>
+        <div class="card-sub">All resolved (2026-05-11)</div>
+      </div>
+      <div class="card">
+        <div class="card-label">Open Incidents</div>
+        <div class="card-value">✅ 0</div>
+        <div class="card-sub">5 total, all resolved</div>
+      </div>
+    </div>
+    <p style="font-size:12px;color:#57606a;">Warden note: 12 failures at 13:07 AEST. Policy gap: architect/platform-arch agents not covered in model-policy.json. All escalation-pending violations resolved 2026-05-11. Shield/Lex/Sage daily sweeps ran clean.</p>
+  </div>
+
+  <!-- SECTION 4: Auto-Heal -->
+  <h2>4 · Auto-Heal (Last Night — 01:00 AEST)</h2>
+  <div class="section">
+    <div class="card-grid" style="margin-bottom:10px;">
+      <div class="card">
+        <div class="card-label">Checks Run</div>
+        <div class="card-value">19</div>
+      </div>
+      <div class="card">
+        <div class="card-label">Issues Found</div>
+        <div class="card-value" style="color:#cf222e;">3</div>
+      </div>
+      <div class="card">
+        <div class="card-label">Auto-Fixed</div>
+        <div class="card-value" style="color:#1a7f37;">3</div>
+      </div>
+      <div class="card">
+        <div class="card-label">Needs Ken</div>
+        <div class="card-value" style="color:#9a6700;">3</div>
+      </div>
+    </div>
+    <h3>Auto-Fixed</h3>
+    <ul>
+      <li>✅ git-commit: workspace (17 files)</li>
+      <li>✅ aria-git-commit: 1 file</li>
+      <li>✅ auth-key-synced: agent</li>
+    </ul>
+    <h3 style="margin-top:10px;">Needs Ken</h3>
+    <ul>
+      <li>⚠️ API balance critically low: $0 USD (at time of heal run)</li>
+      <li>⚠️ MEMORY.md was 9,965 chars — trim recommended</li>
+      <li>⚠️ Journal 2026-05-12 missing — EOD cron failed; rebuild required</li>
+    </ul>
+  </div>
+
+  <!-- SECTION 5: Framework Maturity -->
+  <h2>5 · Framework Maturity</h2>
+  <div class="section">
+    <p style="font-size:12px;color:#57606a;margin-bottom:10px;">Last assessed: 2026-05-07 by Yoda + Ken. BUD gate: target lagging frameworks (TOM, KM, Business ROI — all L2).</p>
+    <table>
+      <thead>
+        <tr><th>Framework</th><th>Purpose</th><th>Maturity</th><th>Gap Status</th></tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><strong>AGILE</strong></td>
+          <td>PM &amp; Delivery</td>
+          <td><span class="badge ok">L3</span></td>
+          <td>On track</td>
+        </tr>
+        <tr>
+          <td><strong>ITSM</strong></td>
+          <td>Tech Operations</td>
+          <td><span class="badge ok">L3</span></td>
+          <td>On track — SLAs next</td>
+        </tr>
+        <tr>
+          <td><strong>GOVERNANCE</strong></td>
+          <td>Security / Legal / QA</td>
+          <td><span class="badge warn">L2-L3</span></td>
+          <td>-0.5 behind leaders</td>
+        </tr>
+        <tr>
+          <td><strong>TOM</strong></td>
+          <td>Agentic Operations</td>
+          <td><span class="badge critical">L2 🔴</span></td>
+          <td>Lagging -1.5 levels</td>
+        </tr>
+        <tr>
+          <td><strong>MODEL STRATEGY</strong></td>
+          <td>Model Selection &amp; Routing</td>
+          <td><span class="badge ok">L3-L4</span></td>
+          <td>✅ Highest</td>
+        </tr>
+        <tr>
+          <td><strong>KNOWLEDGE MGMT</strong></td>
+          <td>AKB / Obsidian / Notion</td>
+          <td><span class="badge critical">L2 🔴</span></td>
+          <td>Lagging -1.5 levels</td>
+        </tr>
+        <tr>
+          <td><strong>COST MANAGEMENT</strong></td>
+          <td>Cost Visibility &amp; Controls</td>
+          <td><span class="badge warn">L2-L3</span></td>
+          <td>-0.5 behind leaders</td>
+        </tr>
+        <tr>
+          <td><strong>BUSINESS ROI</strong></td>
+          <td>Business Value &amp; Revenue</td>
+          <td><span class="badge critical">L2 🔴</span></td>
+          <td>Lagging -1.5 levels</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- SECTION 6: Progress -->
+  <h2>6 · Progress — CHGs Since Last Stand-up</h2>
+  <div class="section">
+    <p style="font-size:12px;color:#57606a;margin-bottom:10px;">Last stand-up: Day 19 at 2026-05-13 01:08 AEST. Window: 2026-05-12 22:00 UTC onward.</p>
+    <table>
+      <thead><tr><th>CHG ID</th><th>Summary</th></tr></thead>
+      <tbody>
+        <tr><td><span class="chg">CHG-0302</span></td><td>QW-4 to QW-8 — uptime log, CIR Notion, change type rule, ITIL headers, PRB-001</td></tr>
+        <tr><td><span class="chg">CHG-0301</span></td><td>AUTO-HEAL Notion tickets always created with status Done (informational records)</td></tr>
+        <tr><td><span class="chg">CHG-0300</span></td><td>Backlog cleanup: TKT-0051/0102 closed, Holocron registry 28 Drive links added</td></tr>
+        <tr><td><span class="chg">CHG-0299</span></td><td>Holocron Document Registry DoD rule — all agent docs must be registered</td></tr>
+        <tr><td><span class="chg">CHG-0298</span></td><td>Fabric RAG Assessment approved — DEFER-CLI, Atlas A3 pattern governance, /patterns/ library created</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- SECTION 7: RTB -->
+  <h2>7 · Rose / Thorn / Bud</h2>
+  <div class="section">
+    <p style="font-size:12px;color:#57606a;margin-bottom:12px;">
+      Source: Kimi k2.6 (08:10 AEST trial) &nbsp;·&nbsp; Framework gate applied: BUD targets TOM (L2 — lagging -1.5 levels).
+    </p>
+
+    <div class="rtb-row">
+      <div class="rtb-label" style="color:#1a7f37;">🌹 ROSE</div>
+      <div class="rtb-streams">
+        <div class="rtb-stream">
+          <div class="rtb-stream-label">🔧 Tech</div>
+          Gateway and core infra stable. All 7 policy-covered agents on Sonnet as required. Model Strategy leading at L3-L4. Daily crons (Shield, Lex, Sage) ran clean. Backup current (01:00 AEST).
+        </div>
+        <div class="rtb-stream">
+          <div class="rtb-stream-label">💼 Biz</div>
+          CAMP-0001 (KL Class) has 8 value entries at A$4,000 estimated with 10.7x ROI vs tech spend. Campaign registry and value rubric operational. Business ROI framework foundation complete.
+        </div>
+      </div>
+    </div>
+
+    <div class="rtb-row">
+      <div class="rtb-label" style="color:#cf222e;">🌵 THORN</div>
+      <div class="rtb-streams">
+        <div class="rtb-stream">
+          <div class="rtb-stream-label">🔧 Tech</div>
+          Anthropic API HTTP 401 in health check scripts — possible keychain mismatch (re: INC-20260503-001). Obs 24h errors at +622% vs prior period (159 errors, 82 cron_run_fail). Auto-heal flagged balance:$0 last night. Warden consecutiveClean=0 today.
+        </div>
+        <div class="rtb-stream">
+          <div class="rtb-stream-label">💼 Biz</div>
+          Business stream effectively stalled — Angie silent 5+ days. Onboarding OB-12, OB-14, OB-15 unchecked. All business sub-agents (Social, Content, Marketing, Support, Report) at Planned status. Zero real revenue yet.
+        </div>
+      </div>
+    </div>
+
+    <div class="rtb-row">
+      <div class="rtb-label" style="color:#0969da;">🌱 BUD</div>
+      <div class="rtb-streams">
+        <div class="rtb-stream">
+          <div class="rtb-stream-label">🔧 Tech</div>
+          <strong>ITSM SLA definitions + PIR closure loop</strong> — matures ITSM from L3 → L4. Highest leverage tech step. Defines SLAs (P1=5min, P2=1hr, P3=next sprint) and closes the PIR action loop. Ken approves before work starts.
+        </div>
+        <div class="rtb-stream">
+          <div class="rtb-stream-label">💼 Biz</div>
+          <strong>Angie onboarding Stage 1</strong> — even without OC2 hardware, Aria can begin stream orientation and first value-logging. Unblocks TOM (L2→L3), Business ROI pipeline, and real governance volume. Highest priority across all frameworks. Ken approves before work starts.
+        </div>
+      </div>
+    </div>
+
+    <div style="margin-top:12px;padding:10px;background:#f6f8fa;border-radius:6px;font-size:12px;color:#57606a;">
+      <strong>Framework gate:</strong> BUD correctly targets TOM (L2 — lagging). Angie onboarding is the #1 priority across TOM, Business ROI, and Governance frameworks. ITSM SLA is the tech equivalent at highest leverage.
+    </div>
+  </div>
+
+  <!-- SECTION 8: New Input -->
+  <h2>8 · New Input / Priorities for Today</h2>
+  <div class="section">
+    <ol style="padding-left:18px;font-size:13px;">
+      <li style="margin-bottom:8px;"><strong>Investigate Anthropic API 401</strong> — check keychain <code>anthropic-api-key</code> vs gateway config. Verify actual balance in Anthropic console. If $0, check if auto-reload fired.</li>
+      <li style="margin-bottom:8px;"><strong>Resolve Warden violation</strong> — check if architect/platform-arch needs to be added to model-policy.json scope, or accepted as known gap.</li>
+      <li style="margin-bottom:8px;"><strong>Angie onboarding decision</strong> — approve Stage 1 start. Aria can begin without OC2. Highest business impact item.</li>
+      <li style="margin-bottom:8px;"><strong>ITSM SLA build</strong> — if approved, Yoda to draft SLA tiers and PIR closure process.</li>
+      <li><strong>Journal 2026-05-12</strong> — rebuild missing journal entry (auto-heal flagged).</li>
+    </ol>
+  </div>
+
+  <div class="footer">
+    AInchors Daily Stand-up · Day 20 · Wed 13 May 2026 · Generated by Yoda at 13:23 AEST<br>
+    Full brief also available at OpenClaw webchat canvas.
+  </div>
+
+</div>
+</body>
+</html>

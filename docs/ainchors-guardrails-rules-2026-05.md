@@ -1,5 +1,10 @@
 # AInchors + Aevlith Technologies Execution Guardrails & Agent Rule Updates
 
+**Status:** APPROVED INTERIM — Ken Mun, 2026-05-13
+**Superseded by:** TKT-0156 (two-tier restructure — PLATFORM_GUARDRAILS.md + living Tier 2 doc)
+**Valid until:** TKT-0156 complete
+
+
 ## 1. Purpose
 
 This document defines execution guardrails and concrete rule updates for Yoda, Atlas, Aria, Ahsoka, and The Sanctum so that day-to-day decisions align with the AInchors + Aevlith Technologies strategy and 6–12 month OKRs.[file:1][file:3][memory:38]

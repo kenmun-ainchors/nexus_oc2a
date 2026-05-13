@@ -1,6 +1,6 @@
 # Nexus Client Isolation Policy v1.0
 
-> **Status:** DRAFT — For Ken Mun Review
+> **Status:** APPROVED — Ken Mun, 2026-05-13 (via TKT-0157 — minor stale reference patch pending before P2 sprint)
 > **Reference:** TKT-0087 AC-3 | OKR X1-KR2
 > **Date:** 2026-05-07
 > **Owner:** Ken Mun, CTO — Ainchor Solutions Pty Ltd

@@ -1,3 +1,5 @@
+**Status:** SUPERSEDED — Ken Mun, 2026-05-13. Duplicate of DRAFT-009 (ainchors-guardrails-rules-2026-05.md). Do not use. Content migrating to PLATFORM_GUARDRAILS.md via TKT-0156.
+
 # Governance Guardrails 2026-05 (G1-G2, W1-W2)
 
 ## G1 — Data Sovereignty Alignment (Shield + Lex + Sage)

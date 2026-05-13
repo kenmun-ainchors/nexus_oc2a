@@ -27,6 +27,33 @@ die() { echo "ERROR: $1" >&2; exit 1; }
 require_jq() { command -v jq > /dev/null || die "jq required"; }
 require_jq
 
+SPRINT_FILE="/Users/ainchorsangiefpl/.openclaw/workspace/state/sprint-current.json"
+
+# Auto-sync ticket status into sprint-current.json if TKT is a sprint item
+sprint_sync() {
+  local tkt_id="$1" new_status="$2"
+  [[ ! -f "$SPRINT_FILE" ]] && return 0
+  local in_sprint
+  in_sprint=$(jq -r --arg id "$tkt_id" '.items[] | select(.tkt == $id) | .tkt' "$SPRINT_FILE" 2>/dev/null)
+  [[ -z "$in_sprint" ]] && return 0
+  local now_local
+  now_local=$(date '+%Y-%m-%dT%H:%M:%S+10:00')
+  local sprint_status="$new_status"
+  case "$new_status" in
+    closed|resolved) sprint_status="done" ;;
+  esac
+  local tmp
+  tmp=$(jq --arg id "$tkt_id" --arg st "$sprint_status" --arg ts "$now_local" '
+    (.items[] | select(.tkt == $id)) |= (.status = $st | if $st == "done" then .completedAt = $ts else . end) |
+    .velocity.done = ([.items[] | select(.status == "done")] | length) |
+    .velocity.inProgress = ([.items[] | select(.status == "in-progress")] | length) |
+    .velocity.pending = ([.items[] | select(.status == "pending")] | length) |
+    .velocity.lastUpdated = $ts
+  ' "$SPRINT_FILE")
+  echo "$tmp" > "$SPRINT_FILE"
+  echo "   Sprint:   ✅ sprint-current.json synced → $sprint_status"
+}
+
 # ──────────────────────────────────────────
 # NOTION HELPERS
 # ──────────────────────────────────────────
@@ -310,6 +337,9 @@ elif [[ "$SUBCOMMAND" == "update" ]]; then
   echo "$TMP" > "$TICKET_FILE"
   echo "✅ $TKT_ID updated"
 
+  # Sprint sync (auto)
+  [[ -n "$NEW_STATUS" ]] && sprint_sync "$TKT_ID" "$NEW_STATUS"
+
   # Notion sync (best-effort)
   NOTION_PAGE_ID=$(jq -r --arg id "$TKT_ID" '.tickets[] | select(.id == $id) | .notionPageId // ""' "$TICKET_FILE")
   CURR_STATUS=$(jq -r --arg id "$TKT_ID" '.tickets[] | select(.id == $id) | .status' "$TICKET_FILE")
@@ -369,6 +399,9 @@ elif [[ "$SUBCOMMAND" == "close" ]]; then
   ' "$TICKET_FILE")
   echo "$TMP" > "$TICKET_FILE"
   echo "✅ $TKT_ID closed"
+
+  # Sprint sync (auto)
+  sprint_sync "$TKT_ID" "done"
 
   # Notion sync — set Status to Done (best-effort)
   NOTION_PAGE_ID=$(jq -r --arg id "$TKT_ID" '.tickets[] | select(.id == $id) | .notionPageId // ""' "$TICKET_FILE")

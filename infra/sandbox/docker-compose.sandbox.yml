@@ -1,6 +1,6 @@
 # TKT-0135 — Nexus Sandbox Environment
 # Docker Compose Stack — openclaw-sandbox
-# Status: DRAFT FOR REVIEW (Atlas Architecture Assurance required before deploy)
+# Status: APPROVED — Ken Mun 2026-05-13
 # Version: 1.0 | 2026-05-10
 
 name: openclaw-sandbox
@@ -51,12 +51,14 @@ services:
     deploy:
       resources:
         limits:
-          cpus: "3.0"                        # 3 of 4 vCPU allotted to OC instance
-          memory: 4G                         # 4 of 6 GB RAM
+          cpus: "0.80"                       # Colima sandbox: 1 vCPU total
+          memory: 512M                       # Colima sandbox: 1 GiB total
         reservations:
-          cpus: "1.0"
-          memory: 1G
+          cpus: "0.25"
+          memory: 256M
     # Security hardening — Atlas constraints enforced
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
     security_opt:
       - no-new-privileges:true
     read_only: false                         # OC runtime needs write access to /app
@@ -89,11 +91,11 @@ services:
     deploy:
       resources:
         limits:
-          cpus: "1.0"                        # 1 of 4 vCPU
-          memory: 2G                         # 2 of 6 GB RAM
+          cpus: "0.20"                       # Colima sandbox: remaining CPU budget
+          memory: 256M                       # Colima sandbox: remaining RAM budget
         reservations:
-          cpus: "0.25"
-          memory: 256M
+          cpus: "0.05"
+          memory: 64M
     security_opt:
       - no-new-privileges:true
     healthcheck:

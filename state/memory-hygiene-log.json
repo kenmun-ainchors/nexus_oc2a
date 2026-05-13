@@ -26,5 +26,9 @@
   {
     "date": "2026-05-12T07:45:00+10:00",
     "changes": "2 fact corrections: (1) TKT-0121 status corrected from 'action pending' to 'done (CHG-0254)' with note on HF API key follow-on. (2) tickets.json sequence updated: seq 153 → 154. Cross-checks: tickets.json shows sequence:154, MEMORY_TICKETS.md shows seq 153 with note (managed by script). MEMORY.md now accurate. No alerts to Ken."
+  },
+  {
+    "date": "2026-05-13T03:05:00Z",
+    "changes": "3 targeted corrections: (1) Company name: removed PLACEHOLDER language from '[PLACEHOLDER NAME: Aevlith Technologies Pty Ltd]' section—name locked as 'Aevlith Technologies Pty Ltd' per CHG-0248 (2026-05-09, Ken+Angie confirmed). Updated domain to aevlith.ai, removed TKT-0069 blocker note. (2) T3 agent list: Governance tier summary corrected from 'Spark, Ahsoka, Atlas, Thrawn, Lando, Mon Mothma, Krennic' to 'Spark, Atlas, Thrawn, Lando, Forge, Mon Mothma, Krennic; Luthen queued P2'. Updated per TKT-0105 implementation (Model3-Policy completed 2026-05-10) and L-026 build routing rule. Ahsoka removed (not active in current agent roster), Forge added (operational per infra rule), Luthen noted as P2 planned. (3) Pending Tickets: sequence updated tickets.json seq 154 → 155. Cross-checks: tickets.json sequence:155 verified, chg-triggers.json (13 triggers + QBR, all current), cost-state.json (allTime $2991.34, daysTracked 18 through 2026-05-12), akb-migration-state.json (phases 1-5 complete 2026-05-04), allowlist-sync-state.json (last checked 2026-05-13 03:05 UTC, no-changes from 2026-05-09). All cross-references validated. No alerts to Ken."
   }
 ]

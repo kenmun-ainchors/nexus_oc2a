@@ -1,6 +1,15 @@
 {
-  "checkedAt": "2026-05-12T15:47:37.600860+00:00",
-  "failures": [],
+  "checkedAt": "2026-05-13T14:00:28.870023+00:00",
+  "failures": [
+    {
+      "cronId": "1b853131",
+      "fullCronId": "1b853131-a542-4cec-af09-d1ba27a416b0",
+      "name": "Journal Incremental Writer (every 30 min)",
+      "consecutiveErrors": 8,
+      "lastError": "error",
+      "source": "live-cron-state"
+    }
+  ],
   "warnings": [],
-  "healthy": true
+  "healthy": false
 }

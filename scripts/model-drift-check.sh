@@ -33,7 +33,12 @@ with open('$OC_CONFIG') as f:
 agents = d.get('agents', {}).get('list', [])
 for a in agents:
     if a.get('id') == '$agent_id':
-        print(a.get('model', 'NOT_SET'))
+        m = a.get('model', 'NOT_SET')
+        # model may be a string or a dict {primary, fallbacks} (CHG-0270)
+        if isinstance(m, dict):
+            print(m.get('primary', 'NOT_SET'))
+        else:
+            print(m)
         sys.exit(0)
 print('AGENT_NOT_FOUND')
 " 2>/dev/null || echo "ERROR")
@@ -163,16 +168,16 @@ check_agent "business"     "anthropic/claude-sonnet-4-6"
 check_agent "security"     "anthropic/claude-haiku-4-5"  # switched to Haiku 2026-05-06
 check_agent "legal"        "anthropic/claude-haiku-4-5"  # switched to Haiku 2026-05-06
 check_agent "qa"           "anthropic/claude-haiku-4-5"  # switched to Haiku 2026-05-06
-check_agent "governance"   "anthropic/claude-sonnet-4-6"
-# T3 specialist agents — added to monitoring CHG-0258 (Ken approved 2026-05-10)
-check_agent "architect"    "anthropic/claude-sonnet-4-6"  # Atlas
-check_agent "platform-arch" "anthropic/claude-sonnet-4-6" # Thrawn
-check_agent "biz-process"  "anthropic/claude-sonnet-4-6"  # Lando
-check_agent "change-mgt"   "anthropic/claude-sonnet-4-6"  # Mon Mothma
+check_agent "governance"   "anthropic/claude-haiku-4-5"   # CHG-0270 interim: haiku primary pre-OC2
+# T3 specialist agents — sonnet primary (Ken confirmed 2026-05-13, CHG-0285)
+check_agent "architect"    "anthropic/claude-sonnet-4-6"   # Atlas
+check_agent "platform-arch" "anthropic/claude-sonnet-4-6"  # Thrawn
+check_agent "biz-process"  "anthropic/claude-sonnet-4-6"   # Lando
+check_agent "change-mgt"   "anthropic/claude-sonnet-4-6"   # Mon Mothma
 
 echo ""
 echo "[ Default Config ]"
-check_default "primary" "anthropic/claude-sonnet-4-6" "primary"
+check_default "primary" "anthropic/claude-haiku-4-5" "primary"  # CHG-0270 interim: haiku default pre-OC2
 
 echo ""
 echo "[ Fallback Chain ]"
@@ -182,11 +187,17 @@ with open('$OC_CONFIG') as f:
     d = json.load(f)
 fb = d.get('agents', {}).get('defaults', {}).get('model', {}).get('fallbacks', [])
 # CHG-0075: Haiku-only. Opus removed from auto-fallback (deliberate escalation only, Aria-prohibited).
-expected = ['anthropic/claude-haiku-4-5']
-if fb == expected:
-    print('PASS:' + json.dumps(fb))
-elif 'anthropic/claude-opus-4-7' in fb:
+# CHG-0270: kimi safety net. Valid chains:
+# main/business: [haiku, kimi] | all others: [kimi, kimi]
+valid_chains = [
+    ['anthropic/claude-haiku-4-5'],           # legacy CHG-0075
+    ['anthropic/claude-haiku-4-5', 'ollama/kimi-k2.6:cloud'],  # main/business CHG-0270
+    ['ollama/kimi-k2.6:cloud', 'ollama/kimi-k2.6:cloud'],      # others CHG-0270
+]
+if 'anthropic/claude-opus-4-7' in fb:
     print('POLICY_VIOLATION:' + json.dumps(fb))
+elif fb in valid_chains:
+    print('PASS:' + json.dumps(fb))
 else:
     print('FAIL:' + json.dumps(fb))
 " 2>/dev/null || echo "FAIL:ERROR")

@@ -14,7 +14,7 @@
   "items": [
     {
       "tkt": "TKT-0124",
-      "title": "MinIO on OC1 \u2014 agent storage layer (4 buckets)",
+      "title": "MinIO on OC1 — agent storage layer (4 buckets)",
       "priority": "P1",
       "status": "done",
       "completedAt": "2026-05-11T13:01:00+10:00",
@@ -22,10 +22,11 @@
     },
     {
       "tkt": "TKT-0135",
-      "title": "Sandbox environment \u2014 isolated demo/PoC setup",
+      "title": "Sandbox environment — isolated demo/PoC setup",
       "priority": "P1",
-      "status": "pending",
-      "note": "Parked to Day 19 (2026-05-13). Ken directive."
+      "status": "done",
+      "note": "Parked to Day 19 (2026-05-13). Ken directive.",
+      "completedAt": "2026-05-13T19:14:09+10:00"
     },
     {
       "tkt": "TKT-0141",
@@ -35,7 +36,7 @@
     },
     {
       "tkt": "TKT-0142",
-      "title": "Security: SKILL.md poisoning \u2014 review process",
+      "title": "Security: SKILL.md poisoning — review process",
       "priority": "P2",
       "status": "pending"
     },
@@ -43,13 +44,15 @@
       "tkt": "TKT-0144",
       "title": "Platform CI: Token Efficiency Audit (cycle 1)",
       "priority": "P3",
-      "status": "pending"
+      "status": "done",
+      "completedAt": "2026-05-11T12:12:20+10:00",
+      "note": "Cycle 1 complete 2026-05-11. CHG-273. 14 crons optimised: 2 P1 fixes, 11 lightContext adds, 3 bug fixes. ~1.8M tokens/day saved. Cycle 2 scoped to ~Jun 2026."
     }
   ],
   "velocity": {
-    "done": 1,
+    "done": 3,
     "inProgress": 0,
-    "pending": 4,
-    "lastUpdated": "2026-05-12T07:52:35.082046+00:00"
+    "pending": 2,
+    "lastUpdated": "2026-05-13T19:14:09+10:00"
   }
 }

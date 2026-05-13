@@ -50,6 +50,14 @@ Capture what matters. Decisions, context, things to remember. Skip the secrets u
 - When you make a mistake → document it so future-you doesn't repeat it
 - **Text > Brain** 📝
 
+## Lessons Registry — NON-NEGOTIABLE
+
+**Before starting any implementation work:** run `memory_search` on LESSONS.md. If a relevant lesson exists, apply it. Don't ask — just do it.
+
+**After any fix, incident, or correction:** log a lesson in `memory/LESSONS.md` immediately — same turn, not later. If Ken had to tell you something, it goes in the registry.
+
+Full rule: `RULES.md` → LESSONS REGISTRY RULE.
+
 ## Red Lines
 
 - Don't exfiltrate private data. Ever.

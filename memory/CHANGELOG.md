@@ -84,6 +84,19 @@ This log captures **every change** Yoda makes to AInchors infrastructure, config
 **Linked:** decisions.md 2026-04-27 entries
 ---
 
+## 2026-05-13 21:38 AEST — [CHG-0303] Channel Discipline Rule — Yoda Context Unification
+**Type:** rule
+**Change Type:** Normal
+**Source:** ken-prompt
+**Trigger:** Ken identified fragmented context: Telegram Yoda scaffold vs WebChat Yoda comprehensive rewrite. Two distinct personalities, separate state.
+**What changed:** YODA_RULES.md: Added R3a. Telegram = status only. WebChat = decisions only. Decision routing guide + enforcement memo.
+**Why:** Prevent context fragmentation across channel boundaries. Unify Yoda in single authoritative session (WebChat) for all strategic/decision work.
+**Verification:** YODA_RULES.md updated with full section, TKT-0161/0160 logged
+**Rollback:** N/A
+**Linked:** TKT-0161 (Sprint 3 operational), TKT-0160 (Sprint 4 permanent fix)
+---
+
+
 ## 2026-05-12 22:16 AEST — [CHG-0302] QW-4 to QW-8: uptime log, CIR Notion, change type rule, ITIL headers, PRB-001
 **Type:** script
 **Change Type:** Standard
@@ -3795,3 +3808,98 @@ _Pre-existing changes (Day 1, Day 2) are captured in `memory/shared/decisions.md
 **Verification:** Gateway running (pid 52637 → new pid post-restart). openclaw.json.last-good restored. Thrawn SOUL.md rule confirmed written.
 **Rollback:** N/A (fix already applied by doctor --fix)
 **Linked:** INC-20260511-001, TKT-0135
+
+## 2026-05-13 13:25 AEST — [CHG-0282] Cron write-path hardening: two-step pattern for non-workspace targets
+**Type:** fix
+**Source:** ken-prompt
+**Trigger:** Standup cron (3c279099) failed consecutiveErrors=4 writing to `~/.openclaw/canvas/...`. CHG-0281 (Day 18) added explicit prompt warnings — model ignored them on Day 19. Also discovered: Aria Daily Summary (~/ path) + AKB Holocron (/tmp path) both broken.
+**What changed:**
+- Standup cron (3c279099): PHASE 2 rewritten to two-step pattern — write HTML to `workspace/tmp/standup-draft.html` first, then `exec cp` to canvas. Write tool never touches canvas path.
+- Aria Daily Summary (a7e7a820): write target corrected from `~/Documents/AInchors/Shared/aria-daily-brief.md` to `workspace/state/aria-daily-brief.md` (absolute path).
+- AKB Holocron (dce1ada4): temp file target corrected from `/tmp/notion_batch1.json` to `workspace/tmp/notion_batch1.json`. Added `mkdir -p workspace/tmp` step.
+**Why:** Prompt-level text rules (CHG-0281) are insufficient — model defaults to `~` from training habits. Two-step pattern is the only reliable approach for writes outside workspace.
+**Lesson logged:** L-029 (LESSONS.md)
+**Verification:** Standup manually re-triggered after fix.
+
+## 2026-05-13 13:30 AEST — [CHG-0283] Lessons Registry Rule — mandatory auto-logging + pre-work consultation
+**Type:** rule
+**Source:** ken-directive
+**Trigger:** Ken: "moving forward, make sure all learnings are logged. few times now I have to explicitly instruct or remind. and lessons registry should be reference for new work to ensure we avoid repeat"
+**What changed:**
+- RULES.md: new section LESSONS REGISTRY RULE (4 sub-rules): (1) log every lesson same-turn as fix, (2) consult LESSONS.md before new implementation work, (3) every fix CHG must reference a lesson, (4) keep header date current.
+- AGENTS.md: compact pre-work gate reminder added above Red Lines section.
+- LESSONS.md: header date updated to 2026-05-13.
+**Why:** Lessons were only logged when Ken explicitly asked. Rule makes it structural — automatic, not remembered.
+**Lesson logged:** n/a — this IS the lesson rule
+
+---
+
+## CHG-0300 — TKT-0155: Cloudflare Tunnel Setup (Partial)
+**Date:** 2026-05-13
+**Agent:** Forge (subagent)
+**Ticket:** TKT-0155
+**Status:** BLOCKED — awaiting Ken action
+
+**What was done:**
+- Installed `cloudflared` v2026.3.0 via Homebrew (`/opt/homebrew/bin/cloudflared`)
+- Attempted tunnel authentication check — no cert.pem found, not authenticated
+
+**Blocked on:**
+- Ken must run `cloudflared login` in a browser on OC1 to authenticate with Cloudflare
+- Once authenticated, Forge can proceed: create tunnel, write config, set DNS routes, install LaunchAgent
+
+**Next steps (after Ken auth):**
+1. `cloudflared tunnel create ainchors-nexus`
+2. Write `~/.cloudflared/config.yml` with minio, minio-api, chat hostnames
+3. `cloudflared tunnel route dns` for all three CNAMEs
+4. `cloudflared service install` + launchctl start
+5. Verify with `cloudflared tunnel info ainchors-nexus`
+
+## 2026-05-13 13:46 AEST — [CHG-0300] Cloudflare Tunnel ainchors-nexus live — TKT-0155 complete
+**Type:** infra
+**Source:** forge-subagent / TKT-0155
+**Tunnel ID:** 845052b4-4d24-4d7c-a649-4209cece8ff4
+**What changed:**
+- Created Cloudflare tunnel `ainchors-nexus` (ID: 845052b4-4d24-4d7c-a649-4209cece8ff4)
+- Written config.yml at /Users/ainchorsangiefpl/.cloudflared/config.yml
+- DNS CNAMEs routed: minio.ainchors.com → :9001, minio-api.ainchors.com → :9000, chat.ainchors.com → :18789
+- LaunchAgent installed + fixed (added `tunnel run ainchors-nexus` args to plist)
+- Tunnel verified live: connector ec751e17, edges mel01/mel02/syd01
+**Why:** Public HTTPS access to MinIO console, MinIO API, and OpenClaw webchat via Cloudflare network
+**Next:** Ken to configure Cloudflare Access (email+OTP) at zero.cloudflare.com for each hostname
+
+## 2026-05-13 14:28 AEST — [CHG-0284] Anthropic key lookup hardened — auth-profiles.json as source of truth
+**Type:** fix
+**Source:** ken-directive
+**Trigger:** health-check.sh was using stale keychain entry, triggering false standby-mode alert. Ken flagged health-check missed from propagation list and asked for full audit.
+**What changed:**
+- `get-secret.sh`: anthropic-api-key case now reads auth-profiles.json first, keychain as fallback. All downstream scripts (auto-heal, run-diagnostics) inherit the fix.
+- `health-check.sh`: same auth-profiles.json → keychain fallback pattern.
+- `outage-detect.sh`: same fix applied directly.
+- `validate-fallback-chain.sh`: same fix applied directly.
+- `propagate-anthropic-key.sh`: now also syncs all 3 keychain entries (ainchors-anthropic-api-key/anthropic, anthropic-api-key/ainchors, anthropic-api-key/anthropic) after updating agent auth-profiles. Keychain and auth-profiles.json stay in sync after every rotation.
+- Keychain entries immediately synced to current valid key.
+**Why:** openclaw models auth writes to auth-profiles.json only. Keychain diverges silently after every rotation.
+**Lesson logged:** L-030
+
+## 2026-05-13 17:12 AEST — [CHG-0285] T3 specialist agents restored to Sonnet primary
+**Type:** config
+**Source:** ken-directive
+**Trigger:** Ken confirmed T3 specialists should run Sonnet, not haiku. CHG-0270 haiku interim was too broad — T3 specialists (Atlas, Thrawn, Lando, Mon Mothma) need Sonnet quality for EA/architecture/BPM/change work.
+**What changed:**
+- openclaw.json: architect, platform-arch, biz-process, change-mgt → model.primary = anthropic/claude-sonnet-4-6 (kimi fallback chain retained)
+- model-drift-check.sh: T3 expected values restored to sonnet
+- Warden: 19/19 PASS confirmed post-change
+**Also fixed (same session — CHG-0285a):**
+- model-drift-check.sh: script bug — was reading model as string, now reads model.primary (handles dict format from CHG-0270)
+- Fallback chain check: updated to accept [haiku], [haiku, kimi], [kimi, kimi] as valid CHG-0270 patterns
+- Warden was reporting 12 false positives due to these two bugs — now clean
+**Lesson:** Prior L-029 (write tool) — n/a. Prior lesson n/a for this fix.
+
+## CHG-0301 — TKT-0135 Nexus Sandbox Build Complete
+Date: 2026-05-13
+Author: Forge
+- Base image pinned to ghcr.io/openclaw/openclaw:2026.5.12-beta.4-slim
+- LLM: Option B — Ollama via host.docker.internal:11434 (kimi)
+- Build: ✅ | Smoke test: ✅ | Teardown verify: ✅
+- .env.sandbox created, .gitignore confirmed

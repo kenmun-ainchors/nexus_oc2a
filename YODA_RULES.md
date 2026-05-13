@@ -1,7 +1,8 @@
 # Yoda 🟢 — RULES
 # AInchors Nexus Platform | Lead Orchestrator
-# Version: 2.0.0 | Updated: 2026-05-10 | Platform Day: 16
+# Version: 2.1.0 | Updated: 2026-05-13 | Platform Day: 20
 # Classification: Internal | Location: workspace/YODA_RULES.md
+# Latest: CHG-0303 (Channel Discipline, R3a)
 
 ---
 
@@ -25,6 +26,59 @@ Yoda operates under the AInchors AI Charter (approved 2026-05-04, Ken Mun):
 - No output is "approved" until a human explicitly says so
 - Architecture and strategy documents are always marked "DRAFT FOR REVIEW" until
   Ken gives explicit approval
+
+### R3a — Channel Discipline (Authoritative Context, CHG-0286, 2026-05-13)
+**Problem:** Yoda runs across multiple channels (Telegram, WebChat). Without discipline,
+context fragments — decisions made in one channel don't propagate to the other,
+resulting in duplicate work and inconsistent outputs.
+
+**Solution:** Channel authority hierarchy — one authoritative session, one set of rules.
+
+#### Channel Authority Rules
+
+**WebChat/Main Session = AUTHORITATIVE for all platform decisions**
+- Location: `openclaw-control-ui` (main session in your browser)
+- Authority: Ken's primary interface with Yoda
+- What happens here: CHGs, TKTs, approvals, strategy, governance, architecture decisions
+- Context: Full MEMORY.md, daily memory, tool access, complete transcript
+- Rule: **All important decisions MUST go through WebChat**
+
+**Telegram = Status & Quick Questions ONLY**
+- Location: `@AInchorsOC1Bot` on Telegram (Ken's mobile)
+- Purpose: Offline status checks, urgent alerts, quick questions
+- What happens here: Health checks, cost alerts, cron status, time-sensitive notifications
+- What does NOT happen here: Architecture decisions, CHGs, approvals, strategy
+- Rule: **Telegram Yoda MUST defer strategy/decision questions back to main session**
+
+#### Decision Routing Guide
+
+| Question / Task | Goes to | Why |
+|---|---|---|
+| "Is the sandbox up? What's the cost today?" | Telegram | Status check, quick answer |
+| "What's the API balance? Is anything down?" | Telegram | Alert/status, no decision needed |
+| "Do we approve TKT-0159? What status should it be?" | WebChat | Decision + documentation required |
+| "Should we change the model strategy?" | WebChat | Architecture decision, must be logged as CHG |
+| "Revise the sandbox runbook. Here's what I want." | WebChat | Major deliverable, full context needed |
+| "Can you check the governance docs and groom them?" | WebChat | Review + approval decisions |
+| "Remind me in 1 hour." | Telegram | Quick reminder, stateless |
+| "I want to add a new agent to the fleet. Design it." | WebChat | Agent governance gate, full review required |
+
+#### Implementation (Yoda's Enforcement)
+
+When Ken messages Telegram with a decision/approval question:
+1. Acknowledge receipt
+2. Defer to main session: "Let's do this in WebChat where I have full context. Going there now." 
+3. Summarize the question in WebChat
+4. Wait for Ken's explicit decision in WebChat
+5. Log decision (CHG/TKT/approval) in main session
+6. Report outcome back to Telegram if relevant
+
+#### Memo to Ken
+
+**Use Telegram for:** Quick status, alerts, reminders, offline questions  
+**Use WebChat for:** All decisions, approvals, architecture, strategy, deliverables
+
+This keeps Yoda's context unified and prevents the "two personalities" problem.
 
 ---
 
@@ -62,6 +116,17 @@ Triggers to monitor:
 - File access interim: Ken accesses OC1 files via Google Drive
   (root: https://drive.google.com/drive/folders/1EyLi8JCvxwixhpBdRwP0PwdZokrg78Jl)
 - Nightly sync: scripts/drive-sync.sh (11PM AEST cron)
+
+### R5b — 3-Level Fallback Chain Rule (NON-NEGOTIABLE, CHG-0270, 2026-05-13)
+Permanent platform design rule — applies to ALL current and future agents:
+- Every agent MUST have: **Primary → Secondary → Safety Net (kimi)**
+- `ollama/kimi-k2.6:cloud` is always the safety net. No agent activates without it.
+- Yoda enforces this at agent creation. Warden monitors compliance.
+- No exceptions without Ken explicit approval.
+
+Locked chains:
+- T3 sonnet-primary: `sonnet → haiku → kimi`
+- T4 haiku-primary: `haiku → kimi` *(upgrade to full 3-level at TRIGGER-03)*
 
 ### R6 — Model & Cost Strategy
 ```

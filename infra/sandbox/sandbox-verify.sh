@@ -22,8 +22,8 @@ GREEN='\033[0;32m'
 YELLOW='\033[1;33m'
 NC='\033[0m'
 
-pass() { echo -e "  ${GREEN}✓${NC} $1"; ((CHECKS_PASSED++)); }
-fail() { echo -e "  ${RED}✗${NC} $1"; ((ERRORS++)); }
+pass() { echo -e "  ${GREEN}✓${NC} $1"; CHECKS_PASSED=$((CHECKS_PASSED+1)); }
+fail() { echo -e "  ${RED}✗${NC} $1"; ERRORS=$((ERRORS+1)); }
 warn() { echo -e "  ${YELLOW}⚠${NC} $1"; }
 
 echo ""
@@ -101,17 +101,8 @@ fi
 # ─── Check 5: No compose project state ───────────────────────────────────────
 echo ""
 echo "→ Check 5: Compose project state..."
-PROJECT_STATE=$(docker compose \
-    -p "${COMPOSE_PROJECT}" \
-    -f /dev/null \
-    ps --format "{{.Name}}" 2>/dev/null || true)
-
-if [[ -z "$PROJECT_STATE" ]]; then
-    pass "No residual compose project state"
-else
-    # This check is best-effort — compose may report nothing even if state exists
-    warn "Compose project may have residual state (manual check recommended)"
-fi
+# Check 5 is best-effort — docker compose plugin not available; other checks are authoritative
+warn "Compose state check skipped — docker-compose plugin unavailable; checks 1-4 are authoritative"
 
 # ─── Check 6: No openclaw-sandbox-net network ────────────────────────────────
 echo ""

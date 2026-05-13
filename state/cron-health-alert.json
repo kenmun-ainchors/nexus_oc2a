@@ -1,11 +1,11 @@
 {
-  "generatedAt": "2026-05-12T11:45:34.150921+00:00",
+  "generatedAt": "2026-05-13T14:00:28.870023+00:00",
   "failures": [
     {
       "cronId": "1b853131",
       "fullCronId": "1b853131-a542-4cec-af09-d1ba27a416b0",
       "name": "Journal Incremental Writer (every 30 min)",
-      "consecutiveErrors": 3,
+      "consecutiveErrors": 8,
       "lastError": "error",
       "source": "live-cron-state"
     }

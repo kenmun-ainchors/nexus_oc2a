@@ -1,5 +1,5 @@
 # TKT-0135 — Nexus Sandbox Dockerfile
-# Status: DRAFT FOR REVIEW (Atlas Architecture Assurance required before deploy)
+# Status: APPROVED — Ken Mun 2026-05-13
 # Version: 1.0 | 2026-05-10
 #
 # Purpose: Builds the versioned seed image for the sandbox environment.
@@ -12,7 +12,7 @@
 #   - Credentials via .env.sandbox ONLY — no secrets baked into image
 
 # ─── Base Image ───────────────────────────────────────────────────────────────
-FROM ghcr.io/openclaw/openclaw:latest AS base
+FROM ghcr.io/openclaw/openclaw:2026.5.12-beta.4-slim AS base
 
 # Build-time label metadata
 LABEL org.opencontainers.image.title="OpenClaw Sandbox"
@@ -28,6 +28,7 @@ ENV OPENCLAW_SANDBOX=true
 ENV OPENCLAW_LOG_LEVEL=info
 ENV OPENCLAW_DATA_DIR=/app/data
 ENV OPENCLAW_AGENTS_DIR=/app/agents
+ENV OLLAMA_BASE_URL=http://host.docker.internal:11434
 
 # ─── Create runtime directories ───────────────────────────────────────────────
 RUN mkdir -p \
@@ -70,4 +71,4 @@ EXPOSE 3000
 # ─── Entrypoint ───────────────────────────────────────────────────────────────
 # seed.sh runs first (seeds MinIO demo bucket), then OpenClaw starts
 ENTRYPOINT ["/app/entrypoint.sh"]
-CMD ["openclaw", "gateway", "start", "--foreground"]
+CMD ["node", "openclaw.mjs", "gateway", "--allow-unconfigured"]

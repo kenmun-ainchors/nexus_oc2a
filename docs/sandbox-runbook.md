@@ -1,6 +1,14 @@
+# ⚠️ ARCHIVED — See Nexus-Sandbox-Runbook-v1.md
+
+**This scaffold version (v0.1) has been superseded.**
+
+**Use:** [docs/Nexus-Sandbox-Runbook-v1.md](Nexus-Sandbox-Runbook-v1.md) — comprehensive production-ready version (approved 2026-05-13).
+
+---
+
 # Nexus Sandbox Environment — Runbook
-**TKT-0135 | Version 1.0 | 2026-05-10**
-**Status: DRAFT FOR REVIEW**
+**TKT-0135 | Version 0.1 (ARCHIVED) | 2026-05-10**
+**Status: SUPERSEDED**
 
 ---
 

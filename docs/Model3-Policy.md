@@ -77,6 +77,8 @@ From P1 onward (TKT-0128 live): also responds to briefs from Aria for business s
 - Never publish financials, model names, internal architecture, or agent names
 - Never post on platforms without API access confirmed
 - Never generate content outside the Brand Code once it exists (TKT-0124/0128)
+- **Never use em dashes (—) in any content.** Use a hyphen (-) only when absolutely necessary. (locked 2026-05-13)
+- **Never reveal product names, agent names, or internal system design** in posts. Use generic references only: "our orchestrator" not "Yoda", "our platform" not "Nexus", "our agents" not specific agent names, "our governance layer" not "Strategy-Gate". (locked 2026-05-13)
 
 ### Invocation Triggers
 | Trigger | Frequency | Notes |
@@ -113,6 +115,7 @@ Token expiry → Yoda alert → Ken re-auth
 - Never silently skip a post. Always alert Ken if posting fails.
 - HF image failure → post without image + note in queue
 - LinkedIn API 429 → retry 3× with 60s backoff → alert Yoda
+- **Missed schedule (any cause):** Do NOT post late. Push to next available slot in the ladder: Tue 07:30 → Wed 12:00 → Thu 07:30 → following week Tue 07:30. If next slot is occupied by the next scheduled post, skip the missed one entirely. Ken decision: skip (locked 2026-05-13).
 
 ---
 
@@ -382,6 +385,29 @@ Market intelligence and testing for AInchors marketing. Will own:
 - OC2 commissioned AND
 - P2 client sprint begins AND
 - Aria has seeded the Brand Code (TKT-0128 complete)
+
+---
+
+## Model Fallback Chain — NON-NEGOTIABLE Platform Design Rule (CHG-0270, 2026-05-13)
+
+Every agent — current and future — MUST have a **3-level model fallback chain**:
+
+| Level | Role | Current Model |
+|---|---|---|
+| Primary | Best capability for the tier | e.g. `claude-sonnet-4-6` |
+| Secondary | Degraded but functional | e.g. `claude-haiku-4-5` |
+| Safety Net | Provider-independent last resort | `ollama/kimi-k2.6:cloud` (always) |
+
+**Rules:**
+- No agent may go live with fewer than 3 levels
+- `ollama/kimi-k2.6:cloud` is always the safety net — no substitutions without Ken approval
+- Chains verified by Warden on every compliance check
+- After any API key rotation: verify all 3 levels are intact before closing the incident
+- New agent activation checklist: Primary ✅ | Secondary ✅ | Safety net (kimi) ✅
+
+**Locked chains as of 2026-05-13:**
+- T3 agents (sonnet-primary): `sonnet → haiku → kimi`
+- T4 agents (haiku-primary): `haiku → kimi` *(2-level — upgrade to 3-level at TRIGGER-03 when Gemma4 validated)*
 
 ---
 

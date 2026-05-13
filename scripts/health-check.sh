@@ -142,7 +142,8 @@ check_state_age "$STATE_FILE" "health-state"
 check_state_age "$COST_STATE" "cost-state"
 
 # ── CHECK 13: Anthropic API reachability ────────────────────────────────────
-ANTHROPIC_KEY=$(security find-generic-password -s "ainchors-anthropic-api-key" -a "anthropic" -w 2>/dev/null || security find-generic-password -s "anthropic-api-key" -w 2>/dev/null || echo "")
+# Read from auth-profiles.json (source of truth for gateway key) with keychain as fallback
+ANTHROPIC_KEY=$(jq -r '.profiles["anthropic:default"].key // empty' /Users/ainchorsangiefpl/.openclaw/agents/main/agent/auth-profiles.json 2>/dev/null || security find-generic-password -s "anthropic-api-key" -a "ainchors" -w 2>/dev/null || security find-generic-password -s "anthropic-api-key" -w 2>/dev/null || echo "")
 if [[ -n "$ANTHROPIC_KEY" && ${#ANTHROPIC_KEY} -gt 20 ]]; then
   ANTHROPIC_HTTP=$(curl -s -o /dev/null -w "%{http_code}" \
     --connect-timeout 8 \

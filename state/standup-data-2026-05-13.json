@@ -1,0 +1,110 @@
+{
+  "generatedAt": "2026-05-13T03:23:00Z",
+  "dayN": 20,
+  "date": "2026-05-13",
+  "isFriday": false,
+  "health": {
+    "overallStatus": "degraded",
+    "gateway": "ok",
+    "anthropicApi": "failure (HTTP 401 — billing/auth)",
+    "ollama": "ok",
+    "disk": "ok",
+    "lastCheck": "2026-05-13T03:17:48Z"
+  },
+  "balance": {
+    "confirmedBalance": 479.35,
+    "confirmedAt": "2026-05-08T11:32:26Z",
+    "note": "Auto-reload enabled at $50/$450. Auto-heal flagged balance:critical:$0 last night (2026-05-12T15:00 AEST). Balance likely near $0 again.",
+    "status": "critical"
+  },
+  "backup": {
+    "status": "ok",
+    "lastBackup": "2026-05-12T16:05:08Z",
+    "lastSnap": "workspace-2026-05-13-0205"
+  },
+  "memory": {
+    "sizeChars": 10177,
+    "oversized": false,
+    "threshold": 16000
+  },
+  "obs24h": {
+    "total": 197,
+    "error": 159,
+    "warn": 16,
+    "info": 22,
+    "topEvents": {
+      "cron_run_fail": 82,
+      "health_failure": 55,
+      "budget_exceeded": 10,
+      "auto_heal_needs_ken": 8,
+      "auto_heal_fix": 7
+    }
+  },
+  "tasks24h": {
+    "total": 0,
+    "failed": 0,
+    "stalled": 0
+  },
+  "warden": {
+    "consecutiveClean": 0,
+    "lastViolationAt": "2026-05-13T13:07:37+10:00",
+    "lastPassCount": 7,
+    "lastFailCount": 12,
+    "escalationPending": false,
+    "note": "All escalations resolved. Last violation at 13:07 AEST today — likely architect/platform-arch agents not in policy scope (known gap)."
+  },
+  "autoHeal": {
+    "runAt": "2026-05-12 01:00 AEST",
+    "issuesFound": ["balance:critical:$0", "MEMORY.md_warn", "journal:missing:2026-05-12"],
+    "autoFixed": ["git-commit:workspace:17-files", "aria-git-commit:1-files", "auth-key-synced:agent"],
+    "needsKen": [
+      "API balance critically low: $0 USD remaining",
+      "MEMORY.md 9965 chars (warn 8000 / hard 10000)",
+      "Journal missing: 2026-05-12"
+    ]
+  },
+  "businessStream": {
+    "angieActive": false,
+    "silentDays": 5,
+    "lastActive": "2026-05-08",
+    "morningCheckInSent": true,
+    "openItems": [
+      "JotForm API key outstanding — HRDF form blocked",
+      "Onboarding Stage 1 pending — OB-12, OB-14, OB-15 unchecked",
+      "Journal 2026-05-12 missing",
+      "Social posts publication status unknown"
+    ]
+  },
+  "rtb": {
+    "source": "kimi-k2.6:cloud",
+    "rose": {
+      "tech": "Gateway stable — all core checks green, model policy compliant",
+      "biz": "CAMP-0001 KL Class has 8 value entries at A$4,000 estimated, 10.7x ROI vs tech spend"
+    },
+    "thorn": {
+      "tech": "Anthropic API HTTP 401 in health checks — possible keychain mismatch; obs 24h errors +622% vs prev period",
+      "biz": "Business stream stalled — Angie silent 5+ days, Stage 1 onboarding pending, all biz sub-agents at Planned"
+    },
+    "bud": {
+      "tech": "ITSM SLA definitions + PIR closure loop — matures ITSM L3→L4",
+      "biz": "Angie onboarding Stage 1 — unblocks business ROI data pipeline (TOM L2 → L3)"
+    }
+  },
+  "frameworks": {
+    "agile": "L3",
+    "itsm": "L3",
+    "governance": "L2-L3",
+    "tom": "L2",
+    "modelStrategy": "L3-L4",
+    "knowledgeManagement": "L2",
+    "costManagement": "L2-L3",
+    "businessROI": "L2"
+  },
+  "recentChanges": [
+    "CHG-0302 — QW-4 to QW-8: uptime log, CIR Notion, change type rule, ITIL headers, PRB-001",
+    "CHG-0301 — AUTO-HEAL Notion tickets always created with status Done",
+    "CHG-0300 — Backlog cleanup: TKT-0051/0102 closed, Holocron registry 28 Drive links added",
+    "CHG-0299 — Holocron Document Registry DoD rule",
+    "CHG-0298 — Fabric RAG Assessment approved — DEFER-CLI, Atlas A3 pattern governance"
+  ]
+}

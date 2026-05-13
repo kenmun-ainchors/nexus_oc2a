@@ -24,7 +24,8 @@ RESULTS=()
 log() { echo "[$(date '+%Y-%m-%d %H:%M:%S')] $1"; }
 
 # ── LINK 1: Anthropic API key accessible ─────────────────────────────────────
-ANTHROPIC_KEY=$(security find-generic-password -s "ainchors-anthropic-api-key" -a "anthropic" -w 2>/dev/null || security find-generic-password -s "anthropic-api-key" -w 2>/dev/null || echo "")
+# Source of truth: auth-profiles.json (keychain may be stale after rotation)
+ANTHROPIC_KEY=$(jq -r '.profiles["anthropic:default"].key // empty' /Users/ainchorsangiefpl/.openclaw/agents/main/agent/auth-profiles.json 2>/dev/null || security find-generic-password -s "ainchors-anthropic-api-key" -a "anthropic" -w 2>/dev/null || security find-generic-password -s "anthropic-api-key" -a "ainchors" -w 2>/dev/null || echo "")
 if [[ -n "$ANTHROPIC_KEY" && ${#ANTHROPIC_KEY} -gt 20 ]]; then
   log "LINK 1 (Anthropic key): OK"
   RESULTS+=("anthropicKey:ok")

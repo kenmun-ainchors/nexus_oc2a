@@ -587,11 +587,39 @@
       "issues": [
         "[]"
       ]
+    },
+    {
+      "ts": "2026-05-13T12:03:40+10:00",
+      "assetPath": "/Users/ainchorsangiefpl/.openclaw/workspace/workspace-social/drafts/linkedin-c1-w2-p3-token-efficiency.md",
+      "assetType": "social",
+      "producedBy": "yoda",
+      "intendedFor": "public distribution",
+      "brief": "Content governance review for LI-C1-W2-P3",
+      "verdict": "PASS",
+      "passCount": 7,
+      "failCount": 0,
+      "issues": [
+        "[]"
+      ]
+    },
+    {
+      "ts": "2026-05-14T00:10:03+10:00",
+      "assetPath": "/Users/ainchorsangiefpl/.openclaw/workspace/tmp/blog-draft-2026-05-13.html",
+      "assetType": "blog",
+      "producedBy": "yoda",
+      "intendedFor": "public distribution",
+      "brief": "Content governance review for CONTENT-0051",
+      "verdict": "PASS",
+      "passCount": 7,
+      "failCount": 0,
+      "issues": [
+        "[]"
+      ]
     }
   ],
   "summary": {
-    "total": 42,
-    "pass": 41,
+    "total": 44,
+    "pass": 43,
     "fail": 1
   }
 }

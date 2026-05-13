@@ -1,0 +1,279 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AInchors Stand-up — Day 18 | 12 May 2026</title>
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  body { background: #ffffff; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif; font-size: 14px; color: #24292f; line-height: 1.5; }
+  .page { background: #f6f8fa; max-width: 760px; margin: 0 auto; padding: 24px; }
+  .header { background: #0969da; color: #ffffff; border-radius: 8px; padding: 20px 24px; margin-bottom: 20px; }
+  .header h1 { font-size: 20px; font-weight: 700; }
+  .header .sub { font-size: 13px; opacity: 0.85; margin-top: 4px; }
+  .header .meta { display: flex; gap: 12px; margin-top: 12px; flex-wrap: wrap; }
+  .pill { display: inline-flex; align-items: center; gap: 4px; padding: 4px 10px; border-radius: 20px; font-size: 12px; font-weight: 600; }
+  .pill-green { background: #dafbe1; color: #1a7f37; border: 1px solid #2da44e; }
+  .pill-blue { background: #ddf4ff; color: #0969da; border: 1px solid #54aeff; }
+  .pill-yellow { background: #fff8c5; color: #9a6700; border: 1px solid #d4a72c; }
+  .pill-red { background: #ffebe9; color: #cf222e; border: 1px solid #f85149; }
+  .section { background: #ffffff; border: 1px solid #d0d7de; border-radius: 8px; padding: 16px; margin-bottom: 16px; }
+  h2 { color: #0969da; font-size: 16px; font-weight: 700; border-bottom: 1px solid #d0d7de; padding-bottom: 8px; margin-bottom: 12px; }
+  h3 { color: #57606a; font-size: 13px; text-transform: uppercase; letter-spacing: 0.5px; margin: 12px 0 6px; font-weight: 600; }
+  .card-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); gap: 10px; margin-bottom: 12px; }
+  .card { background: #f6f8fa; border: 1px solid #d0d7de; border-radius: 8px; padding: 14px; }
+  .card-label { font-size: 11px; color: #57606a; text-transform: uppercase; letter-spacing: 0.5px; }
+  .card-value { font-size: 20px; font-weight: 700; color: #24292f; margin: 2px 0; }
+  .card-sub { font-size: 12px; color: #57606a; }
+  .card-ok { border-left: 3px solid #2da44e; }
+  .card-warn { border-left: 3px solid #d4a72c; }
+  .card-info { border-left: 3px solid #54aeff; }
+  table { width: 100%; border-collapse: collapse; font-size: 13px; }
+  th { text-align: left; padding: 8px 10px; background: #f6f8fa; border: 1px solid #d0d7de; font-size: 11px; text-transform: uppercase; color: #57606a; letter-spacing: 0.5px; }
+  td { padding: 8px 10px; border: 1px solid #d0d7de; vertical-align: top; }
+  tr:nth-child(even) td { background: #f6f8fa; }
+  .chg { color: #0969da; font-weight: 600; }
+  .alert-warn { background: #fff8c5; border: 1px solid #d4a72c; border-radius: 6px; padding: 10px 14px; margin: 8px 0; font-size: 13px; color: #9a6700; }
+  .alert-ok { background: #dafbe1; border: 1px solid #2da44e; border-radius: 6px; padding: 10px 14px; margin: 8px 0; font-size: 13px; color: #1a7f37; }
+  .alert-info { background: #ddf4ff; border: 1px solid #54aeff; border-radius: 6px; padding: 10px 14px; margin: 8px 0; font-size: 13px; color: #0969da; }
+  ul { padding-left: 20px; margin: 6px 0; }
+  li { margin: 3px 0; font-size: 13px; }
+  .rtb-row { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 10px; }
+  .rtb-card { background: #f6f8fa; border: 1px solid #d0d7de; border-radius: 8px; padding: 12px; }
+  .rtb-icon { font-size: 18px; margin-bottom: 4px; }
+  .rtb-stream { font-size: 11px; color: #57606a; text-transform: uppercase; letter-spacing: 0.5px; font-weight: 600; }
+  .rtb-text { font-size: 13px; color: #24292f; margin-top: 4px; }
+  .rtb-reason { font-size: 12px; color: #57606a; margin-top: 4px; font-style: italic; }
+  .gate-badge { display: inline-block; background: #fff8c5; color: #9a6700; border: 1px solid #d4a72c; border-radius: 4px; font-size: 11px; padding: 2px 6px; font-weight: 600; margin-top: 6px; }
+  .footer { color: #57606a; font-size: 12px; border-top: 1px solid #d0d7de; padding-top: 14px; margin-top: 16px; text-align: center; }
+  .new-input { background: #f6f8fa; border: 1px dashed #0969da; border-radius: 8px; padding: 16px; text-align: center; color: #57606a; font-size: 13px; }
+  @media (max-width: 600px) { .rtb-row { grid-template-columns: 1fr; } .card-grid { grid-template-columns: 1fr 1fr; } }
+</style>
+</head>
+<body>
+<div class="page">
+
+  <div class="header">
+    <h1>☀️ AInchors Morning Stand-Up — Day 18</h1>
+    <div class="sub">Tuesday, 12 May 2026 · 8:00 AM AEST</div>
+    <div class="meta">
+      <span class="pill pill-green">🟢 System OK</span>
+      <span class="pill pill-blue">💰 Balance $479.35</span>
+      <span class="pill pill-green">🛡️ Warden 49 Clean</span>
+      <span class="pill pill-blue">📅 Day 18</span>
+    </div>
+  </div>
+
+  <div class="section">
+    <h2>1 · System Health</h2>
+    <div class="card-grid">
+      <div class="card card-ok">
+        <div class="card-label">Gateway</div>
+        <div class="card-value">🟢 OK</div>
+        <div class="card-sub">All checks passing</div>
+      </div>
+      <div class="card card-ok">
+        <div class="card-label">API Balance</div>
+        <div class="card-value">$479.35</div>
+        <div class="card-sub">Confirmed 8 May · Auto-reload ON</div>
+      </div>
+      <div class="card card-ok">
+        <div class="card-label">Backup</div>
+        <div class="card-value">🟢 Fresh</div>
+        <div class="card-sub">02:05 AEST today</div>
+      </div>
+      <div class="card card-ok">
+        <div class="card-label">MEMORY.md</div>
+        <div class="card-value">8,618</div>
+        <div class="card-sub">chars — under 16k limit</div>
+      </div>
+      <div class="card card-warn">
+        <div class="card-label">Obs Events (24h)</div>
+        <div class="card-value">184</div>
+        <div class="card-sub">149 ERR · 7 WARN · 28 INFO</div>
+      </div>
+      <div class="card card-ok">
+        <div class="card-label">Tasks (24h)</div>
+        <div class="card-value">🟢 Clear</div>
+        <div class="card-sub">0 failed · 0 stalled</div>
+      </div>
+    </div>
+    <div class="alert-warn">⚠️ 141 warden_violation_unescalated events in obs — high volume, but Warden itself shows 49 consecutive clean. Likely obs logging verbosity or tail-end of prior incident recovery. Warrants a CHG to investigate.</div>
+    <div class="alert-warn">⚠️ 7 health_failure + 1 budget_exceeded events — residual from INC-20260509-001 resolution window. No active incidents.</div>
+    <h3>API Spend (recent)</h3>
+    <table>
+      <tr><th>Date</th><th>Daily Cost</th><th>Source</th></tr>
+      <tr><td>May 9</td><td>$200.62</td><td>estimate</td></tr>
+      <tr><td>May 10</td><td>$266.33</td><td>estimate</td></tr>
+      <tr><td>May 11</td><td>$90.73</td><td>estimate</td></tr>
+      <tr><td><strong>Avg (17-day)</strong></td><td><strong>$158.60</strong></td><td>tracked</td></tr>
+    </table>
+    <h3>Backup Detail</h3>
+    <ul>
+      <li>Last snap: <strong>workspace-2026-05-12-0205</strong> (incremental rsync)</li>
+      <li>NAS: <span style="color:#9a6700;font-weight:600;">Not connected</span> · Cloud: <span style="color:#9a6700;font-weight:600;">Disabled</span></li>
+    </ul>
+  </div>
+
+  <div class="section">
+    <h2>2 · Business Stream (Angie / Aria)</h2>
+    <div class="alert-warn">⚠️ Day 3+ without Angie inbound. Last active: Sat 9 May evening. Tuesday morning check-in sent 08:00 AEST. Aria correctly blocked 5× duplicate attempts (REPLY_SKIP). Awaiting reply.</div>
+    <h3>Activity Since Last Stand-up</h3>
+    <ul>
+      <li>Week 2 wrap sent (Sun 10 May) — no response</li>
+      <li>Monday check-in sent (11 May 09:21 AEST) — no response</li>
+      <li>Tuesday check-in sent (12 May 08:00 AEST) — pending</li>
+      <li>Jack Ooi invite subagent completed successfully</li>
+      <li>Aria duplicate-suppression working correctly (REPLY_SKIP on 5 duplicate heartbeat injections)</li>
+    </ul>
+    <h3>Open Items</h3>
+    <ul>
+      <li><strong style="color:#cf222e;">🔴 JotForm API key</strong> — Day 14. HRDF form blocked.</li>
+      <li><strong style="color:#cf222e;">🔴 Onboarding</strong> — OB-12, OB-14, OB-15 unchecked. Stages 2–6 not started.</li>
+      <li><strong style="color:#9a6700;">🟡 April 30 class debrief</strong> — 12 days since class. Still missing.</li>
+      <li><strong style="color:#9a6700;">🟡 Meta appeal</strong> — status unknown.</li>
+      <li><strong style="color:#9a6700;">🟡 Social posts</strong> — drafted Apr 28, publication status unknown.</li>
+      <li><strong style="color:#9a6700;">🟡 Lynn Huang fee reply</strong> — awaiting response.</li>
+      <li><strong style="color:#9a6700;">🟡 Jack Ooi</strong> — meeting outcome unknown.</li>
+    </ul>
+    <h3>Handoff</h3>
+    <p style="font-size:13px;">Revenue targets locked: RM 30k/month (MY) + AUD 10k/month (AU). 6-month training projection ($1.065M AUD target) delivered. Calendar: Lynn Huang + Ken CTO contract both confirmed. Business stream is structurally sound — unblock requires Angie engagement.</p>
+  </div>
+
+  <div class="section">
+    <h2>3 · Governance</h2>
+    <div class="card-grid">
+      <div class="card card-ok">
+        <div class="card-label">Warden Clean</div>
+        <div class="card-value">49</div>
+        <div class="card-sub">Last check 07:07 AEST today</div>
+      </div>
+      <div class="card card-ok">
+        <div class="card-label">Escalations</div>
+        <div class="card-value">0</div>
+        <div class="card-sub">All resolved 11 May</div>
+      </div>
+      <div class="card card-ok">
+        <div class="card-label">Open Incidents</div>
+        <div class="card-value">0</div>
+        <div class="card-sub">All closed</div>
+      </div>
+    </div>
+    <h3>Incident Log</h3>
+    <table>
+      <tr><th>ID</th><th>Title</th><th>Sev</th><th>Status</th></tr>
+      <tr><td class="chg">INC-20260509-001</td><td>API balance $0 — 26hr degradation</td><td>P2</td><td style="color:#1a7f37;font-weight:600;">Resolved</td></tr>
+      <tr><td class="chg">INC-20260503-001</td><td>API key mismatch post-rotation</td><td>P2</td><td style="color:#1a7f37;font-weight:600;">Resolved</td></tr>
+    </table>
+    <div class="alert-info" style="margin-top:10px;">ℹ️ Shield / Lex / Sage daily sweeps running. Content volume through gates near zero — blocked on Angie onboarding. No pass/fail metrics yet measurable at scale.</div>
+  </div>
+
+  <div class="section">
+    <h2>4 · Auto-Heal (Yesterday — 11 May 2026, 01:00 AEST)</h2>
+    <div class="card-grid">
+      <div class="card card-ok"><div class="card-label">Checks Run</div><div class="card-value">18</div><div class="card-sub">All executed</div></div>
+      <div class="card card-ok"><div class="card-label">Auto-Fixed</div><div class="card-value">3</div><div class="card-sub">No manual action needed</div></div>
+      <div class="card card-warn"><div class="card-label">Needs-Ken</div><div class="card-value">2</div><div class="card-sub">Both now resolved ✅</div></div>
+    </div>
+    <h3>Auto-Fixed</h3>
+    <ul>
+      <li>✅ git-commit: workspace (18 files)</li>
+      <li>✅ aria-git-commit: 1 file</li>
+      <li>✅ auth-key-synced: agent</li>
+    </ul>
+    <h3>Needs-Ken (both self-resolved)</h3>
+    <div class="alert-ok">✅ API balance $0 — flagged at 01:00 AEST. Auto-reload fired. Balance now confirmed OK. No action needed.</div>
+    <div class="alert-ok">✅ MEMORY.md oversized (17,725 chars at run time) — pre-standup hygiene sweep ran this morning. Now 8,618 chars. Resolved.</div>
+  </div>
+
+  <div class="section">
+    <h2>5 · Framework Maturity</h2>
+    <p style="font-size:12px;color:#57606a;margin-bottom:10px;">Last assessed: 7 May 2026. Values VERBATIM from frameworks-maturity.json.</p>
+    <table>
+      <tr><th>Framework</th><th>Maturity</th><th>Label</th><th>Gap</th></tr>
+      <tr><td><strong>AGILE</strong></td><td><span class="pill pill-blue" style="font-size:11px;">L3</span></td><td>Defined</td><td>Baseline</td></tr>
+      <tr><td><strong>ITSM</strong></td><td><span class="pill pill-blue" style="font-size:11px;">L3</span></td><td>Defined</td><td>Baseline</td></tr>
+      <tr><td><strong>GOVERNANCE</strong></td><td><span class="pill pill-yellow" style="font-size:11px;">L2-L3</span></td><td>Defined — not battle-tested</td><td>Partial</td></tr>
+      <tr><td><strong>TOM 🎯</strong></td><td><span class="pill pill-yellow" style="font-size:11px;">L2</span></td><td>Developing</td><td><strong>BUD TARGET — High</strong></td></tr>
+      <tr><td><strong>MODEL STRATEGY</strong></td><td><span class="pill pill-green" style="font-size:11px;">L3-L4</span></td><td>Defined / Managed</td><td>Leading</td></tr>
+      <tr><td><strong>KNOWLEDGE MGMT</strong></td><td><span class="pill pill-yellow" style="font-size:11px;">L2</span></td><td>Developing</td><td>Lagging</td></tr>
+      <tr><td><strong>COST MANAGEMENT</strong></td><td><span class="pill pill-yellow" style="font-size:11px;">L2-L3</span></td><td>Developing/Defined</td><td>Partial</td></tr>
+      <tr><td><strong>BUSINESS ROI</strong></td><td><span class="pill pill-yellow" style="font-size:11px;">L2</span></td><td>Developing</td><td>Lagging — High</td></tr>
+    </table>
+    <div class="gate-badge" style="margin-top:10px;display:block;width:fit-content;">🎯 BUD GATE: TOM (L2) is lagging — BUD must target TOM this standup</div>
+    <p style="font-size:12px;color:#57606a;margin-top:8px;">Next step: Angie onboarding Stage 2 (Notion command centre). 10-minute touchpoint. Directly advances TOM L2→L3 AND unblocks Business ROI, Governance volume, sub-agent build.</p>
+  </div>
+
+  <div class="section">
+    <h2>6 · Progress (CHGs Since Last Stand-up)</h2>
+    <p style="font-size:12px;color:#57606a;margin-bottom:10px;">Window: 11 May 08:07 AEST → 12 May 08:00 AEST</p>
+    <table>
+      <tr><th>CHG</th><th>Time</th><th>Description</th></tr>
+      <tr><td class="chg">CHG-0278</td><td>12 May 07:16 AEST</td><td>Incremental journal writer — 30-min cron, prevents session compaction data loss</td></tr>
+      <tr><td class="chg">CHG-0277</td><td>11 May 23:18 AEST</td><td>Tiered memory split — MEMORY.md + MEMORY_TICKETS.md + MEMORY_DECISIONS.md</td></tr>
+    </table>
+    <p style="font-size:12px;color:#57606a;margin-top:8px;"><strong>2 CHGs</strong> — both infrastructure/memory improvements. No breaking changes. Healthy cadence.</p>
+  </div>
+
+  <div class="section">
+    <h2>7 · RTB — Rose / Thorn / Bud</h2>
+    <p style="font-size:12px;color:#57606a;margin-bottom:12px;">Framework gate: BUD must target TOM (L2 — highest-priority lagging framework)</p>
+
+    <h3>🌹 Rose — What's Working</h3>
+    <div class="rtb-row">
+      <div class="rtb-card">
+        <div class="rtb-icon">🌹</div>
+        <div class="rtb-stream">Tech Stream</div>
+        <div class="rtb-text"><strong>Warden 49 consecutive clean + architecture hardening.</strong> SOUL.md v2.1.0 + ORCHESTRATOR.md + tiered memory split (CHG-0277) + incremental journal (CHG-0278) all landed. System is cleaner and more resilient than Day 17.</div>
+        <div class="rtb-reason">Reasoning: Clean Warden streak is the governance confidence anchor. Memory architecture improvements directly prevent recurrence of the 17k-char bloat flagged yesterday.</div>
+      </div>
+      <div class="rtb-card">
+        <div class="rtb-icon">🌹</div>
+        <div class="rtb-stream">Business Stream</div>
+        <div class="rtb-text"><strong>Aria's discipline and deliverables.</strong> Duplicate suppression working (5× REPLY_SKIP). $1.065M revenue projection delivered. Lynn Huang + Ken CTO contract calendared. Platform ready — just needs Angie.</div>
+        <div class="rtb-reason">Reasoning: Despite 3+ days of silence, Aria is not flooding, not dropping items. The strategic assets (projection, calendar, Jack Ooi outreach) are real value created.</div>
+      </div>
+    </div>
+
+    <h3>🌵 Thorn — What's Blocking</h3>
+    <div class="rtb-row">
+      <div class="rtb-card">
+        <div class="rtb-icon">🌵</div>
+        <div class="rtb-stream">Tech Stream</div>
+        <div class="rtb-text"><strong>141 unescalated Warden obs events (24h).</strong> Warden shows 49 clean — contradiction needs explanation. Volume could mask a real future violation. Low risk now, but must not grow unchecked.</div>
+        <div class="rtb-reason">Reasoning: High obs event volume with no active violation suggests obs collector verbosity or stale pre-fix notifications still cycling. Needs a CHG to audit and tune before it becomes noise masking signal.</div>
+      </div>
+      <div class="rtb-card">
+        <div class="rtb-icon">🌵</div>
+        <div class="rtb-stream">Business Stream</div>
+        <div class="rtb-text"><strong>Angie engagement gap — Day 3+.</strong> JotForm outstanding 14 days. Onboarding Stages 2–6 stalled. April 30 class debrief 12 days missing. No governance volume. No Business ROI actuals. TOM stuck at L2.</div>
+        <div class="rtb-reason">Reasoning: Every downstream framework (Governance, Business ROI, TOM) needs Angie active. Without Stage 2 completion, we cannot advance any of the three lagging L2 frameworks. This is the single most important business unblock.</div>
+      </div>
+    </div>
+
+    <h3>🌱 Bud — What to Grow Next</h3>
+    <div class="rtb-card">
+      <div class="rtb-icon">🌱</div>
+      <div class="rtb-stream">Framework Gate — TOM (L2) Target</div>
+      <div class="rtb-text" style="margin-top:6px;"><strong>[Tech]</strong> File CHG to audit 141 warden_violation_unescalated obs events — diagnose root cause, tune verbosity, confirm no real violations hiding in noise.</div>
+      <div class="rtb-text" style="margin-top:8px;"><strong>[Biz]</strong> If no Angie response by Wednesday 13 May, Ken to send a direct personal message. Aria's automated check-ins are reaching the limit of their effectiveness. Stage 2 (Notion command centre — 10 min) is the entry point. Even a voice note response moves the needle.</div>
+      <div class="gate-badge" style="margin-top:8px;">🎯 TOM GATE: Angie Stage 2 = TOM L2→L3 + Governance volume + Business ROI actuals</div>
+      <div class="rtb-reason" style="margin-top:6px;">Reasoning: TOM is the highest-priority lagging framework at L2. The entire downstream stack (Governance real-world testing, Business ROI data, sub-agent build, Knowledge Management content) requires Angie active. Ken's direct involvement is likely the unlock — Aria has done what it can autonomously.</div>
+    </div>
+  </div>
+
+  <div class="section">
+    <h2>8 · New Input Prompt</h2>
+    <div class="new-input">
+      💬 What's your focus for today, Ken?<br>
+      <span style="font-size:12px;display:block;margin-top:4px;">Any new priorities, adjustments, or actions from this brief? Reply in Telegram or webchat to set Day 18's direction.</span>
+    </div>
+  </div>
+
+  <div class="footer">
+    🤖 AInchors Morning Stand-Up — Day 18 · Tuesday 12 May 2026 · Generated by Yoda at 08:00 AEST<br>
+    OC1 · AInchors's Mac mini · Darwin 25.4.0 (arm64) · Delivered: Telegram flash + Email (kenmun@gmail.com) + Webchat
+  </div>
+</div>
+</body>
+</html>

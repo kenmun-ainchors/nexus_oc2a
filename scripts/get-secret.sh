@@ -13,8 +13,13 @@ SECRET_NAME="${1:-}"
 
 case "$SECRET_NAME" in
   anthropic-api-key)
-    # AInchors company Anthropic key (ainchors-anthropic-api-key takes priority)
-    security find-generic-password -s "ainchors-anthropic-api-key" -a "anthropic" -w 2>/dev/null \
+    # Source of truth: auth-profiles.json (what the gateway actually uses)
+    # Keychain is fallback only — may be stale after key rotation
+    AUTH_PROFILES="/Users/ainchorsangiefpl/.openclaw/agents/main/agent/auth-profiles.json"
+    jq -r '.profiles["anthropic:default"].key // empty' "$AUTH_PROFILES" 2>/dev/null \
+      | grep -q '^sk-ant' && jq -r '.profiles["anthropic:default"].key' "$AUTH_PROFILES" 2>/dev/null \
+      || security find-generic-password -s "ainchors-anthropic-api-key" -a "anthropic" -w 2>/dev/null \
+      || security find-generic-password -s "anthropic-api-key" -a "ainchors" -w 2>/dev/null \
       || security find-generic-password -s "anthropic-api-key" -w 2>/dev/null \
       || echo ""
     ;;

@@ -2022,3 +2022,59 @@ Before creating OR modifying any cron agentTurn:
 
 Any cron exceeding 2x its category target → flag in monthly CI audit.
 
+
+
+---
+
+## LESSONS REGISTRY RULE (NON-NEGOTIABLE — CHG-0283, Ken directive 2026-05-13)
+
+**The problem:** Lessons were only logged when Ken explicitly asked. Same failures repeated across days. Lessons Registry exists but wasn't being consulted before new work.
+
+### Rule 1 — Log every lesson (automatic, no Ken prompt needed)
+
+Any incident, fix, or non-trivial correction MUST produce a LESSONS.md entry as part of DoD. No exceptions.
+
+**Triggers that always require a lesson entry:**
+- Any cron error (consecutiveErrors > 0) that required a fix
+- Any incident (INC-*) resolution
+- Any fix to a bug or failure that was already fixed before (repeat = highest priority)
+- Any case where a prompt/instruction didn't produce the expected model behaviour
+- Any case where Ken had to explicitly correct Yoda's approach
+- Any architectural decision or pattern that future work should follow
+
+**Format (L-NNN):**
+```
+## L-NNN — YYYY-MM-DD | Category
+**Lesson:** [What the lesson is — specific and actionable]
+**Root cause:** [Why it happened]
+**Rule:** [The specific behaviour change going forward]
+**Source:** [Incident/CHG/Ken directive that triggered this]
+```
+
+**When to log:** During the same turn as the fix — not later, not "when I have time".
+
+### Rule 2 — Consult LESSONS.md before new work
+
+Before implementing ANY of the following, run `memory_search` against LESSONS.md:
+- New cron job (agentTurn or systemEvent)
+- New agent configuration
+- New script that writes files
+- Any work touching cron prompts, file paths, or delivery patterns
+- Any repeat of a task type that has failed before
+
+**Search query pattern:** Use category keywords — "cron write", "file path", "delivery", "model drift", "heartbeat", etc.
+
+If a relevant lesson exists: apply it before writing a single line. If the lesson would have prevented the current issue: note it in the CHG entry.
+
+### Rule 3 — Lessons inform CHGs
+
+Every CHG entry for a fix MUST include either:
+- `**Lesson logged:** L-NNN` (new lesson created), OR
+- `**Prior lesson:** L-NNN` (existing lesson was consulted and applied), OR
+- `**Lesson:** n/a — cosmetic/non-recurring change`
+
+No CHG for a fix is complete without one of these three.
+
+### Rule 4 — LESSONS.md header stays current
+
+Update the `# Last updated:` date every time a new lesson is added.

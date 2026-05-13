@@ -1,6 +1,8 @@
 # AInchors Governance Hierarchy — Gap Analysis & Policy Creation Proposal
 
-**Status:** DRAFT FOR REVIEW — Pending Ken Mun approval
+**Status:** APPROVED — Ken Mun, 2026-05-13
+**Action:** TKT-0158 raised for 6 P2-gate policies. Remaining 6 in Sprint 4/5 backlog.
+**Note:** 2 gaps resolved post-analysis — Nexus Access Policy + Client Isolation Policy approved 2026-05-13.
 **Author:** Atlas 🏛️ — Enterprise Architect, AInchors / Aevlith Technologies
 **Ticket:** TKT-0137 AC1
 **Date:** 2026-05-12

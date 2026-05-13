@@ -36,7 +36,8 @@ log() {
 }
 
 # ── Retrieve Anthropic key from keychain ──────────────────────────────────────
-ANTHROPIC_KEY=$(security find-generic-password -s "ainchors-anthropic-api-key" -a "anthropic" -w 2>/dev/null || security find-generic-password -s "anthropic-api-key" -w 2>/dev/null || echo "")
+# Source of truth: auth-profiles.json (keychain may be stale after rotation)
+ANTHROPIC_KEY=$(jq -r '.profiles["anthropic:default"].key // empty' /Users/ainchorsangiefpl/.openclaw/agents/main/agent/auth-profiles.json 2>/dev/null || security find-generic-password -s "ainchors-anthropic-api-key" -a "anthropic" -w 2>/dev/null || security find-generic-password -s "anthropic-api-key" -a "ainchors" -w 2>/dev/null || echo "")
 
 if [[ -z "$ANTHROPIC_KEY" || ${#ANTHROPIC_KEY} -lt 20 ]]; then
   log "FAIL — Anthropic key missing from keychain"

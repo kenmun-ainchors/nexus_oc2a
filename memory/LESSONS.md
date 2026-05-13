@@ -2,7 +2,17 @@
 # AInchors Nexus Platform
 # Format: L-NNN | Date | Category | Lesson | Source incident/CHG
 # SSOT for all platform learnings. Updated as new lessons are logged.
-# Last updated: 2026-05-11
+# Last updated: 2026-05-13
+
+## L-030 — 2026-05-13 | Key Management / Diagnostics
+**Lesson:** macOS Keychain entries for the Anthropic API key diverge from the gateway's actual key after rotation. The gateway uses `agents/main/agent/auth-profiles.json` — NOT the keychain. Diagnostic scripts using keychain directly will return 401 false alarms after every key rotation.
+**Root cause:** `openclaw models auth` writes to `auth-profiles.json` only. Keychain entries (`ainchors-anthropic-api-key`, `anthropic-api-key`) are separate and not automatically updated.
+**Rule:** 
+- All scripts must read from `auth-profiles.json` first, keychain as fallback.
+- `propagate-anthropic-key.sh` must sync both agents AND all keychain entries after every rotation.
+- Never trust keychain alone as proof the gateway key is valid.
+**Scope of fix (Day 20):** `get-secret.sh` (central resolver), `health-check.sh`, `outage-detect.sh`, `validate-fallback-chain.sh` all updated. Propagation script now also syncs 3 keychain entries.
+**Source:** False standby-mode alert Day 20 — health-check returned 401 while gateway ran Sonnet fine. CHG-0284.
 
 ---
 
@@ -126,3 +136,22 @@
 **Rule:** On every new agent creation: (1) set `model` explicitly, (2) set `heartbeat.every: "0m"` if cron-only, (3) add to auto-heal critical-config-baseline.json for drift detection.
 **Cron-only agents → heartbeat MUST be 0m:** infra, security, legal, qa, governance. Interactive agents (main, business, architect, platform-arch, biz-process, change-mgt, ahsoka) inherit 30m default — acceptable.
 **Source:** infra model=null → 180 Sonnet heartbeats/day = $22. Extended sweep found security/legal/qa/governance also had 30m heartbeats unnecessarily. All set to 0m Day 17. CHG-0278.
+
+## L-029 — 2026-05-13 | Cron / File Writes (CRITICAL — REPEATED)
+**Lesson:** Prompt instructions alone CANNOT reliably prevent a model from using `~` in the write tool. CHG-0281 (Day 18) added explicit warnings — standup still failed on Day 19 with 4 consecutive errors using the same `~` path.
+**Root cause:** The model's training-time habits override prompt instructions when generating file paths. Text-level rules are insufficient for write tool path behaviour.
+**The only reliable fix:** Never ask the write tool to write to non-workspace paths. Use the two-step pattern instead:
+1. Write tool → `workspace/tmp/<file>` (always works)
+2. `exec: cp workspace/tmp/<file> <target-path>` (shell expands correctly)
+**Scope of fix (Day 19):**
+- Standup (3c279099): `~/.openclaw/canvas/...` → two-step write pattern
+- Aria Daily Summary (a7e7a820): `~/Documents/AInchors/Shared/...` → `workspace/state/aria-daily-brief.md`
+- AKB Holocron (dce1ada4): `/tmp/notion_batch1.json` → `workspace/tmp/notion_batch1.json`
+**Rule:** ANY cron that writes outside `workspace/` MUST use exec+cp. Never trust write tool with `~`, `/tmp`, or canvas paths from isolated sessions.
+**Source:** Standup failure consecutiveErrors=4, Day 19. CHG-0282.
+
+## L-027 — ticket.sh must auto-sync sprint-current.json (2026-05-13)
+**Incident:** Sprint status showed TKT-0144 as pending despite being closed. Ken had to flag it twice.
+**Root cause:** ticket.sh close/update had zero integration with sprint-current.json. Two separate state files with no bridge.
+**Fix:** Added sprint_sync() to ticket.sh — called automatically on every update/close. If TKT is in current sprint, status + velocity update in place.
+**Rule:** Never manually edit sprint-current.json item statuses. Always go through ticket.sh. sprint-current.json is now a derived view, not a source of truth.

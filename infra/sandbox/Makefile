@@ -1,6 +1,6 @@
 # TKT-0135 — Nexus Sandbox Makefile
 # Compose project: openclaw-sandbox
-# Status: DRAFT FOR REVIEW
+# Status: APPROVED — Ken Mun 2026-05-13
 # Version: 1.0 | 2026-05-10
 #
 # Usage:
@@ -29,7 +29,7 @@ _preflight:
 	@echo "→ Pre-flight: checking .env.sandbox..."
 	@test -f $(ENV_FILE) || (echo "ERROR: $(ENV_FILE) not found. Copy .env.sandbox.template and fill in values." && exit 1)
 	@echo "→ Pre-flight: checking Docker..."
-	@docker info > /dev/null 2>&1 || (echo "ERROR: Docker (Colima) not running." && exit 1)
+	@/opt/homebrew/bin/docker info > /dev/null 2>&1 || (echo "ERROR: Docker (Colima) not running." && exit 1)
 	@echo "→ Pre-flight: OK"
 
 # ─── sandbox-build ────────────────────────────────────────────────────────────
@@ -40,7 +40,7 @@ sandbox-build: _preflight
 	@echo "═══════════════════════════════════════════════════"
 	@echo "  TKT-0135 Sandbox — Building seed image"
 	@echo "═══════════════════════════════════════════════════"
-	docker compose \
+	docker-compose \
 		-p $(COMPOSE_PROJECT) \
 		-f $(COMPOSE_FILE) \
 		--env-file $(ENV_FILE) \
@@ -56,7 +56,7 @@ sandbox-up: _preflight
 	@echo "  TKT-0135 Sandbox — Starting"
 	@echo "  Compose project: $(COMPOSE_PROJECT)"
 	@echo "═══════════════════════════════════════════════════"
-	docker compose \
+	docker-compose \
 		-p $(COMPOSE_PROJECT) \
 		-f $(COMPOSE_FILE) \
 		--env-file $(ENV_FILE) \
@@ -77,7 +77,7 @@ sandbox-down:
 	@echo "═══════════════════════════════════════════════════"
 	@echo "  TKT-0135 Sandbox — Destroying (4C Hybrid)"
 	@echo "═══════════════════════════════════════════════════"
-	docker compose \
+	docker-compose \
 		-p $(COMPOSE_PROJECT) \
 		-f $(COMPOSE_FILE) \
 		down --volumes --remove-orphans
@@ -102,7 +102,7 @@ sandbox-status:
 	@echo "═══════════════════════════════════════════════════"
 	@echo "  TKT-0135 Sandbox — Status"
 	@echo "═══════════════════════════════════════════════════"
-	@docker compose \
+	@docker-compose \
 		-p $(COMPOSE_PROJECT) \
 		-f $(COMPOSE_FILE) \
 		ps 2>/dev/null || echo "  (no sandbox containers running)"
@@ -116,7 +116,7 @@ sandbox-status:
 # ─── Convenience targets ──────────────────────────────────────────────────────
 .PHONY: logs
 logs:
-	docker compose -p $(COMPOSE_PROJECT) -f $(COMPOSE_FILE) logs -f
+	docker-compose -p $(COMPOSE_PROJECT) -f $(COMPOSE_FILE) logs -f
 
 .PHONY: shell
 shell:
