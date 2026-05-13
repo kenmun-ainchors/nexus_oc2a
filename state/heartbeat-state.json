@@ -4,7 +4,7 @@
     "calendar": "2026-05-13T12:04:00Z",
     "weather": "2026-05-11T07:42:02.352Z",
     "taskWatchdog": "2026-05-13T14:00:00Z",
-    "cronHealth": "2026-05-13T14:00:00Z",
+    "cronHealth": "2026-05-13T14:16:00Z",
     "budgetCheck": "2026-05-13T12:49:00Z",
     "doDGates": "2026-05-11T08:12:00.000Z",
     "cronDeadLetter": "2026-05-13T14:00:00Z",
@@ -18,7 +18,7 @@
     "taskVerification": "2026-05-13T14:00:00Z"
   },
   "doDGatesSunday": "2026-05-10T23:53:00.000Z",
-  "lastHeartbeat": "2026-05-13T14:00:00Z",
-  "lastHeartbeatNote": "00:00 AEST Thu May 14. Health OK. Journal incremental writer (1b853131) 8 consecutive errors — cron-health-alert acknowledged. EOD journal 23:59 ran OK. Auto-heal needs_ken: auth-profiles drift (Ken: openclaw agents auth), backup 46h old, cost-state stale. Notion DB not accessible to Yoda integration (share issue). No active budget/warden/task alerts.",
+  "lastHeartbeat": "2026-05-13T14:22:00Z",
+  "lastHeartbeatNote": "00:22 AEST Thu May 14. Journal Incremental Writer (1b853131) still 8 consecutive errors \u2014 persistent from prior cycle, already alerted. Cron alert re-acknowledged. Warden: all resolved (0 unresolved). Ahsoka: pilots still in-progress. Balance T0 clean. No new alerts.",
   "pendingAlerts": []
 }
