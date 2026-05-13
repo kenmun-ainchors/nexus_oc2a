@@ -1,3 +1,36 @@
+## 2026-05-13 — Business Stream Summary
+_Written 23:45 AEST by Aria cron_
+
+### Angie interactions today
+- No Angie activity today. Day 5+ of silence since last onboarding engagement (last active ~May 8).
+
+### Aria outbound today
+- ~09:28 AEST — Wednesday morning check-in sent to Angie via Telegram: "Good morning Angie! 🌅 Hope you've had a good start to the week. I'm here whenever you're ready — even just a quick question or task is a great way to kick things off. What's on your plate today? 😊"
+- Aria correctly blocked 10+ duplicate check-in attempts from heartbeat cron throughout the day (one-per-day rule enforced).
+
+### Decisions made
+- None (no Angie session today).
+
+### Governance reviews
+- None triggered.
+
+### Open items
+- 🔴 **Onboarding Stage 2** — OB-12, OB-14, OB-15 unchecked. Waiting on Angie to re-engage.
+- 🟡 **Lynn Huang (bookkeeping)** — email sent Friday May 9, awaiting her fee schedule reply.
+- 🟡 **Jack Ooi (accounting)** — awaiting Angie update on how their meeting went.
+- 🟡 **Training revenue projection** — delivered Saturday May 10 ($1.065M AUD target). Pending Angie/Ken review.
+- 🟡 **Marketing collaterals** (company-overview, training-brochure, client-pitch) — ready in canvas/documents/ainchors-marketing/, Angie hasn't reviewed yet.
+- 🟡 **Meta appeal** — status unknown, no update received.
+- 🔴 **JotForm/HRDF** — still outstanding from April 28. No API key received.
+- 🟡 **April 30 class debrief** — still missing (13 days since class).
+
+### Handoff to Yoda
+- Angie has been quiet for 5+ days. Morning check-in sent but no response. No technical requests today.
+- Heartbeat cron is firing correctly but too frequently — Aria's dedup logic is working well (10+ duplicates blocked today). May be worth reviewing heartbeat cron frequency to reduce noise.
+- All business stream open items carry forward unchanged. No relay messages to Ken today.
+
+---
+
 # Aria Daily Brief
 
 ---
