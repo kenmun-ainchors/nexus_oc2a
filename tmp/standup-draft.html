@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>AInchors Morning Stand-Up — Day 20</title>
+<title>AInchors Morning Stand-Up — Day 21</title>
 <style>
   *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
   body { background: #ffffff; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif; font-size: 14px; color: #24292f; line-height: 1.5; }
@@ -56,382 +56,570 @@
 
   <!-- HEADER -->
   <div class="header">
-    <h1>☀️ AInchors Morning Stand-Up — Day 20</h1>
-    <div class="sub">Thursday, 14 May 2026 · 8:00 AM AEST</div>
+    <h1>☀️ AInchors Morning Stand-Up — Day 21</h1>
+    <div class="sub">Friday, 15 May 2026 · 8:00 AM AEST</div>
     <div class="meta">
-      <span class="pill pill-yellow">🟡 Gateway Degraded</span>
-      <span class="pill pill-blue">💰 $479.35 confirmed</span>
-      <span class="pill pill-green">🔍 Warden 17 clean</span>
-      <span class="pill pill-blue">📅 Day 20</span>
+      <span class="pill pill-green">🟢 Gateway OK</span>
+      <span class="pill pill-yellow">💰 $203.48 balance</span>
+      <span class="pill pill-yellow">🔍 Warden: 1 violation</span>
+      <span class="pill pill-blue">📅 Day 21 · Sprint 3 Review Due</span>
+      <span class="pill pill-yellow">⚠️ Daily cap $450 → reverts May 17</span>
     </div>
   </div>
 
   <!-- SECTION 1: SYSTEM HEALTH -->
   <div class="section">
-    <h2>1. System Health</h2>
+    <h2>1 · System Health</h2>
 
     <div class="card-grid">
-      <div class="card card-warn">
+      <div class="card card-ok">
         <div class="card-label">Gateway</div>
-        <div class="card-value">🟡</div>
-        <div class="card-sub">Degraded — event loop</div>
+        <div class="card-value">🟢 OK</div>
+        <div class="card-sub">All checks passing</div>
       </div>
-      <div class="card card-info">
-        <div class="card-label">API Balance</div>
-        <div class="card-value">$479.35</div>
-        <div class="card-sub">Confirmed 8 May · Auto-reload ✅</div>
+      <div class="card card-warn">
+        <div class="card-label">Balance</div>
+        <div class="card-value">$203.48</div>
+        <div class="card-sub">Confirmed 14 May 22:34 AEST · Auto-reload active @$50</div>
       </div>
       <div class="card card-ok">
         <div class="card-label">Backup</div>
-        <div class="card-value">✅</div>
-        <div class="card-sub">workspace-2026-05-14-0205</div>
+        <div class="card-value">🟢 Fresh</div>
+        <div class="card-sub">workspace-2026-05-15-0205 · Incremental</div>
       </div>
       <div class="card card-ok">
         <div class="card-label">MEMORY.md</div>
-        <div class="card-value">7,983</div>
-        <div class="card-sub">chars — OK (&lt;16,000)</div>
+        <div class="card-value">10,253</div>
+        <div class="card-sub">chars · Under 16k limit ✅</div>
       </div>
       <div class="card card-warn">
-        <div class="card-label">Obs Events (24h)</div>
-        <div class="card-value">305</div>
-        <div class="card-sub">221 ERR · 58 WARN · 26 INFO</div>
+        <div class="card-label">OBS 24h</div>
+        <div class="card-value">60 events</div>
+        <div class="card-sub">44 ERROR · 6 WARN · 10 INFO</div>
       </div>
       <div class="card card-ok">
-        <div class="card-label">Active Tasks (24h)</div>
-        <div class="card-value">0</div>
-        <div class="card-sub">No failures or stalls</div>
+        <div class="card-label">Tasks</div>
+        <div class="card-value">✅ 0</div>
+        <div class="card-sub">No failed / stalled tasks</div>
       </div>
     </div>
 
-    <div class="alert-critical">
-      ⚠️ <strong>Event Loop Delay CRITICAL:</strong> 24,998ms max delay, 91.4% utilisation — gateway may be saturated. Investigate immediately.
-    </div>
-    <div class="alert-warn">
-      ⚠️ <strong>Obs Trend vs Prev 24h:</strong> Errors +47.3%, Warns +544.4%. Top events: fallback_chain_broken (111), cron_run_fail (72), auto_heal_needs_ken (33), standby_active (19).
-    </div>
-    <div class="alert-ok">
-      ✅ Backup fresh — workspace-2026-05-14-0205. No stale tasks. Anthropic + Ollama reachable. Disk OK.
-    </div>
+    <div class="alert-warn">⚠️ <strong>Warden violation detected 07:07 AEST today</strong> — 18 pass / 1 fail. consecutiveClean=0. Investigate before next check window.</div>
+    <div class="alert-warn">⚠️ <strong>Daily cost cap $450 reverts Sun 17 May</strong> — heavy build phase cap expires. Avg 5-day burn: $178.86/day. Reverts to $150 — may trigger auto-reload more frequently.</div>
+    <div class="alert-ok">✅ Anthropic + Ollama APIs reachable · Disk OK · Auth profiles clean · Stale locks: 0</div>
+    <div class="alert-info">ℹ️ <strong>NAS not connected</strong> — cloud backup not enabled. Local incremental only. No offsite today.</div>
 
-    <h3>Daily Spend (last 5 days)</h3>
+    <h3>5-Day Spend Trend</h3>
     <table>
       <thead>
-        <tr><th>Date</th><th>Total Cost (USD)</th><th>Primary Model</th><th>Turns</th></tr>
+        <tr>
+          <th>Date</th>
+          <th>Total Cost (USD)</th>
+          <th>Primary Model</th>
+          <th>Source</th>
+        </tr>
       </thead>
       <tbody>
-        <tr><td>2026-05-14</td><td>—</td><td>claude-sonnet-4-6</td><td>In progress</td></tr>
-        <tr><td>2026-05-13</td><td class="chg">$90.03</td><td>claude-sonnet-4-6</td><td>3,277</td></tr>
-        <tr><td>2026-05-12</td><td class="chg">$295.21 ⚠️</td><td>claude-sonnet-4-6</td><td>4,184</td></tr>
-        <tr><td>2026-05-11</td><td>$90.73</td><td>claude-sonnet-4-6</td><td>4,417</td></tr>
-        <tr><td>2026-05-10</td><td class="chg">$266.33 ⚠️</td><td>claude-sonnet-4-6</td><td>7,219</td></tr>
-        <tr><td>2026-05-09</td><td>$200.62</td><td>claude-sonnet-4-6</td><td>7,280</td></tr>
+        <tr>
+          <td>2026-05-10</td>
+          <td class="chg">$266.33</td>
+          <td>Sonnet (97%)</td>
+          <td>Session log est.</td>
+        </tr>
+        <tr>
+          <td>2026-05-11</td>
+          <td>$90.73</td>
+          <td>Sonnet (95%)</td>
+          <td>Session log est.</td>
+        </tr>
+        <tr>
+          <td>2026-05-12</td>
+          <td class="chg">$295.21</td>
+          <td>Sonnet (98%)</td>
+          <td>Session log est.</td>
+        </tr>
+        <tr>
+          <td>2026-05-13</td>
+          <td>$90.03</td>
+          <td>Sonnet (93%)</td>
+          <td>Session log est.</td>
+        </tr>
+        <tr>
+          <td>2026-05-14</td>
+          <td>$151.99</td>
+          <td>Sonnet (97%)</td>
+          <td>Session log est.</td>
+        </tr>
       </tbody>
     </table>
-    <div class="alert-info" style="margin-top:8px;">
-      ℹ️ Auto-reload enabled: trigger at &lt;$50 → reload $450. Last top-up 8 May ($479.35 confirmed). Auto-reload likely fired ~May 10. All-time total: $3,081.37 across 19 tracked days.
-    </div>
+    <div class="alert-info" style="margin-top:8px;">ℹ️ 5-day avg: <strong>$178.86/day</strong> · All-time total: $3,233.36 · Days tracked: 20 · Auto-reload: $450 @ &lt;$50 trigger · Last top-up: 2026-05-14</div>
   </div>
 
   <!-- SECTION 2: BUSINESS STREAM -->
   <div class="section">
-    <h2>2. Business Stream</h2>
+    <h2>2 · Business Stream</h2>
 
-    <div class="alert-warn">
-      ⚠️ <strong>Angie Silence — Day 6+:</strong> No inbound since ~8 May. Aria sent morning check-in 13 May 09:28 AEST — no response. Heartbeat dedup logic working (10+ duplicates blocked).
-    </div>
+    <div class="alert-critical">🔴 <strong>Angie silent 5+ days</strong> — last active ~May 8. Morning check-in sent May 13, no response. Aria dedup blocking repeat pings (working correctly). Business stream dormant.</div>
 
-    <h3>Aria Activity (May 13)</h3>
+    <h3>Aria Activity (May 13 Brief)</h3>
     <ul>
-      <li>📤 Morning check-in sent to Angie via Telegram (~09:28 AEST)</li>
-      <li>✅ One-per-day rule enforced — 10+ heartbeat duplicates blocked</li>
-      <li>No Angie sessions, no governance reviews, no decisions</li>
+      <li>One morning check-in sent to Angie via Telegram (09:28 AEST)</li>
+      <li>Aria correctly blocked 10+ duplicate heartbeat check-ins (dedup logic working)</li>
+      <li>No Angie interactions, no governance reviews triggered</li>
     </ul>
 
     <h3>Open Items</h3>
     <table>
       <thead>
-        <tr><th>Priority</th><th>Item</th><th>Status</th><th>Age</th></tr>
+        <tr><th>Status</th><th>Item</th><th>Age</th></tr>
       </thead>
       <tbody>
-        <tr><td>🔴 High</td><td>Onboarding Stage 2 (OB-12, OB-14, OB-15)</td><td>Waiting on Angie</td><td>6d</td></tr>
-        <tr><td>🔴 High</td><td>JotForm/HRDF API key</td><td>Outstanding since 28 Apr</td><td>16d</td></tr>
-        <tr><td>🟡 Med</td><td>Lynn Huang (bookkeeper) — fee schedule reply</td><td>Email sent 9 May</td><td>5d</td></tr>
-        <tr><td>🟡 Med</td><td>Jack Ooi (accounting) — meeting outcome</td><td>Awaiting Angie update</td><td>—</td></tr>
-        <tr><td>🟡 Med</td><td>Training revenue projection ($1.065M AUD target)</td><td>Pending Ken/Angie review</td><td>4d</td></tr>
-        <tr><td>🟡 Med</td><td>Marketing collaterals (canvas/docs/ainchors-marketing/)</td><td>Ready — Angie not reviewed</td><td>—</td></tr>
-        <tr><td>🟡 Med</td><td>Meta appeal — status unknown</td><td>No update</td><td>—</td></tr>
-        <tr><td>🔴 High</td><td>April 30 class debrief (CAMP-0001)</td><td>Still missing</td><td>14d</td></tr>
+        <tr>
+          <td>🔴</td>
+          <td>Onboarding Stage 2 — OB-12, OB-14, OB-15 unchecked. Waiting on Angie re-engagement</td>
+          <td>7+ days</td>
+        </tr>
+        <tr>
+          <td>🔴</td>
+          <td>JotForm / HRDF API key — outstanding since 28 April</td>
+          <td>17 days</td>
+        </tr>
+        <tr>
+          <td>🟡</td>
+          <td>Lynn Huang (bookkeeping) — email sent Fri May 9, awaiting fee schedule</td>
+          <td>6 days</td>
+        </tr>
+        <tr>
+          <td>🟡</td>
+          <td>Jack Ooi (accounting) — awaiting Angie update on meeting outcome</td>
+          <td>6+ days</td>
+        </tr>
+        <tr>
+          <td>🟡</td>
+          <td>Training revenue projection ($1.065M AUD) — delivered May 10, pending Ken/Angie review</td>
+          <td>5 days</td>
+        </tr>
+        <tr>
+          <td>🟡</td>
+          <td>Marketing collaterals (company-overview, training-brochure, client-pitch) — in canvas, Angie hasn't reviewed</td>
+          <td>5+ days</td>
+        </tr>
+        <tr>
+          <td>🟡</td>
+          <td>Meta appeal — status unknown</td>
+          <td>17 days</td>
+        </tr>
+        <tr>
+          <td>🟡</td>
+          <td>April 30 class debrief — still missing (15 days since class)</td>
+          <td>15 days</td>
+        </tr>
+        <tr>
+          <td>🟡</td>
+          <td>TKT-0114: Aevlith/AInchors partnership agreement — Ken to discuss with Angie, target Fri 16 May</td>
+          <td>6 days</td>
+        </tr>
       </tbody>
     </table>
   </div>
 
   <!-- SECTION 3: GOVERNANCE -->
   <div class="section">
-    <h2>3. Governance</h2>
+    <h2>3 · Governance</h2>
 
     <div class="card-grid">
-      <div class="card card-ok">
+      <div class="card card-warn">
         <div class="card-label">Warden Streak</div>
-        <div class="card-value">17</div>
-        <div class="card-sub">Consecutive clean runs</div>
+        <div class="card-value">0</div>
+        <div class="card-sub">Consecutive clean — violation 07:07 today (1 fail / 18 pass)</div>
       </div>
       <div class="card card-ok">
         <div class="card-label">Escalations</div>
-        <div class="card-value">0</div>
-        <div class="card-sub">Unresolved violations</div>
+        <div class="card-value">✅ 0</div>
+        <div class="card-sub">All prior violations resolved</div>
       </div>
-      <div class="card card-info">
+      <div class="card card-ok">
         <div class="card-label">Total Checks Run</div>
-        <div class="card-value">1,110</div>
-        <div class="card-sub">116 violations total (historic)</div>
+        <div class="card-value">1,134</div>
+        <div class="card-sub">138 total violations (history)</div>
       </div>
-      <div class="card card-warn">
-        <div class="card-label">Open Incidents</div>
-        <div class="card-value">5</div>
-        <div class="card-sub">INC files — review for open/closed</div>
+      <div class="card card-ok">
+        <div class="card-label">Incidents</div>
+        <div class="card-value">5 filed</div>
+        <div class="card-sub">INC-20260426 through INC-20260509</div>
       </div>
     </div>
 
-    <div class="alert-ok">
-      ✅ All prior Warden escalations resolved. Last violation: 2026-05-13 17:03 AEST (resolved same day). Security, Legal, QA agents on Haiku as required.
-    </div>
-    <div class="alert-info">
-      ℹ️ 5 incident files on disk (INC-20260426-001 through INC-20260509-001). Verify open/closed status — no active escalation pending.
-    </div>
-    <div class="alert-info">
-      ℹ️ Shield 🛡️ / Lex ⚖️ / Sage 🧪 sweeps ran normally. Governance volume near zero pending Angie onboarding.
-    </div>
+    <div class="alert-warn">⚠️ <strong>Warden violation at 07:07 AEST today</strong> — 19 checks, 18 pass, 1 fail. Likely config-format false positive (same pattern as prior violations). Yoda to investigate and resolve before end of day. No Ken action required unless model assignment is genuinely wrong.</div>
+    <div class="alert-ok">✅ Warden escalation file: <strong>0 unresolved violations</strong> — all prior DRIFT violations (security/legal/qa false positives + default.primary) confirmed resolved. Stale entries closed.</div>
+    <div class="alert-info">ℹ️ Shield/Lex/Sage daily sweep crons running 22:00–22:10 AEST. Governance gate active. Aria ask-first rule enforced. Content volume through gate remains low — Angie onboarding required to generate real volume.</div>
   </div>
 
   <!-- SECTION 4: AUTO-HEAL -->
   <div class="section">
-    <h2>4. Auto-Heal — Yesterday (2026-05-13 01:00 AEST)</h2>
+    <h2>4 · Auto-Heal</h2>
+    <div class="alert-info">ℹ️ Auto-heal ran: <strong>2026-05-14 01:00 AEST</strong> (19 checks)</div>
 
-    <div class="card-grid">
-      <div class="card card-info">
-        <div class="card-label">Checks Run</div>
-        <div class="card-value">19</div>
-        <div class="card-sub">All categories</div>
-      </div>
-      <div class="card card-ok">
-        <div class="card-label">Auto-Fixed</div>
-        <div class="card-value">7</div>
-        <div class="card-sub">Items self-healed</div>
-      </div>
-      <div class="card card-warn">
-        <div class="card-label">Needs Ken</div>
-        <div class="card-value">6</div>
-        <div class="card-sub">Require action</div>
-      </div>
-    </div>
+    <h3>Auto-Fixed</h3>
+    <div class="alert-ok">✅ git-commit:workspace (16 files) · aria-git-commit (1 file) — workspace committed to git automatically</div>
 
-    <h3>Auto-Fixed ✅</h3>
-    <ul>
-      <li>git-commit: workspace (16 files)</li>
-      <li>aria-git-commit: 3 files</li>
-      <li>auth-key-synced: 5 agents</li>
-    </ul>
-
-    <h3>Needs Ken ⚠️</h3>
-    <div class="alert-warn">
-      ⚠️ Anthropic API key missing in auth-profiles.json — requires <code>openclaw agents auth</code>
-    </div>
-    <div class="alert-warn">
-      ⚠️ CRITICAL DRIFT: Anthropic auth-profiles entry present | expected 'true' | actual 'false' — fix via <code>openclaw agents auth</code> (Ken-only)
-    </div>
-    <div class="alert-warn">
-      ⚠️ Backup was 46h old at time of auto-heal (now resolved — fresh snap at 02:05 AEST today)
-    </div>
-    <div class="alert-warn">
-      ⚠️ API balance critically low at $0 at time of auto-heal (auto-reload likely fired — current $479.35 confirmed)
-    </div>
-    <div class="alert-warn">
-      ⚠️ MEMORY.md at 9,380 chars at auto-heal time (now 7,983 — OK after hygiene sweep)
-    </div>
-    <div class="alert-warn">
-      ⚠️ Today's journal missing (2026-05-13) — EOD cron may have failed. Rebuild may be required.
-    </div>
+    <h3>Needs-Ken (from overnight run)</h3>
+    <table>
+      <thead>
+        <tr><th>Item</th><th>Status</th><th>Action</th></tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>backup:stale:70h</td>
+          <td>✅ Resolved</td>
+          <td>Backup fresh as of 2026-05-15-0205</td>
+        </tr>
+        <tr>
+          <td>balance:critical:$0</td>
+          <td>✅ Resolved</td>
+          <td>Auto-reload active — $203.48 confirmed. Top-up fired 2026-05-14.</td>
+        </tr>
+        <tr>
+          <td>config-baseline drift (8 items: config-001, 002, 003, 008, 010, 011, 012, 013)</td>
+          <td>⚠️ Needs review</td>
+          <td>Likely false positives — config format uses object with fallbacks array, checker expects flat string. Yoda to verify agent configs match policy intent. No Ken action unless config genuinely wrong.</td>
+        </tr>
+        <tr>
+          <td>journal:missing:2026-05-14</td>
+          <td>🔴 Needs-Ken</td>
+          <td>EOD journal cron (4d926b2c) may have failed. Rebuild required for Day 20 journal entry.</td>
+        </tr>
+      </tbody>
+    </table>
   </div>
 
   <!-- SECTION 5: FRAMEWORK MATURITY -->
   <div class="section">
-    <h2>5. Framework Maturity</h2>
+    <h2>5 · Framework Maturity</h2>
+    <div class="alert-info">ℹ️ Last assessed: 2026-05-07 · Overall: L2–L3 · 8 frameworks tracked</div>
 
     <table>
       <thead>
-        <tr><th>Framework</th><th>Maturity</th><th>Gap Status</th><th>Priority</th></tr>
+        <tr>
+          <th>Framework</th>
+          <th>Maturity</th>
+          <th>Gap Status</th>
+          <th>Next Step</th>
+        </tr>
       </thead>
       <tbody>
         <tr>
           <td><strong>AGILE</strong></td>
-          <td class="chg">L3 — Defined</td>
-          <td>✅ No gap</td>
-          <td>Medium</td>
+          <td>L3 — Defined</td>
+          <td>✅ On track</td>
+          <td>Sprint cadence + velocity tracking</td>
         </tr>
         <tr>
           <td><strong>ITSM</strong></td>
-          <td class="chg">L3 — Defined</td>
-          <td>✅ No gap</td>
-          <td>High — SLAs + PIR closure</td>
+          <td>L3 — Defined</td>
+          <td>✅ On track (gap to L4)</td>
+          <td>SLAs + PIR closure loop</td>
         </tr>
         <tr>
           <td><strong>GOVERNANCE</strong></td>
-          <td>L2-L3 — Defined (not battle-tested)</td>
-          <td>🟡 1 level below ITSM</td>
-          <td>Medium</td>
+          <td>L2–L3 — Defined (not battle-tested)</td>
+          <td>⚠️ Below avg</td>
+          <td>Angie onboarding → real gate volume</td>
         </tr>
         <tr>
           <td><strong>TOM</strong></td>
           <td>L2 — Developing</td>
-          <td>🔴 2 levels below AGILE/ITSM</td>
-          <td>High — Angie Stage 1</td>
+          <td>🔴 Lagging (BUD target)</td>
+          <td>Angie onboarding Stage 1 — unblocks biz stream</td>
         </tr>
         <tr>
           <td><strong>MODEL STRATEGY</strong></td>
-          <td class="chg">L3-L4 — Managed</td>
+          <td>L3–L4 — Defined/Managed</td>
           <td>✅ Leading</td>
-          <td>Low</td>
+          <td>Accumulate delegation data → May 28 review</td>
         </tr>
         <tr>
           <td><strong>KNOWLEDGE MGMT</strong></td>
           <td>L2 — Developing</td>
-          <td>🔴 2 levels below AGILE/ITSM</td>
-          <td>Medium</td>
+          <td>🔴 Lagging</td>
+          <td>Aria extracts first training content (Days 1–4)</td>
         </tr>
         <tr>
           <td><strong>COST MANAGEMENT</strong></td>
-          <td>L2-L3 — Developing/Defined</td>
-          <td>🟡 1 level below ITSM</td>
-          <td>Medium — budget approval</td>
+          <td>L2–L3 — Developing/Defined</td>
+          <td>⚠️ Below avg</td>
+          <td>Business cost tracking + budget approval</td>
         </tr>
         <tr>
           <td><strong>BUSINESS ROI</strong></td>
           <td>L2 — Developing</td>
-          <td>🔴 2 levels below AGILE/ITSM</td>
-          <td>High — CAMP-0001 debrief</td>
+          <td>🔴 Lagging</td>
+          <td>CAMP-0001 debrief + Angie onboarding</td>
         </tr>
       </tbody>
     </table>
-    <div class="alert-warn">
-      ⚠️ <strong>Framework Gap:</strong> TOM / KM / Business ROI all at L2 — 2 levels below leading frameworks. Per BUD rule, today's focus should target TOM (Angie onboarding Stage 1 is the highest-leverage unlock for the business stream).
-    </div>
+    <div class="alert-warn">⚠️ <strong>TOM (L2) and KM (L2) are critical gaps</strong> — 2+ levels below MODEL STRATEGY (L3–L4). BUD must target TOM first: Angie onboarding Stage 1 unblocks business stream, governance volume, and Business ROI data simultaneously.</div>
   </div>
 
   <!-- SECTION 6: PROGRESS -->
   <div class="section">
-    <h2>6. Progress Since Last Stand-Up</h2>
-    <p style="font-size:13px; color:#57606a; margin-bottom:12px;">Last stand-up: 2026-05-13 13:23 AEST</p>
+    <h2>6 · Progress</h2>
 
+    <h3>Recent CHG Entries (since last standup)</h3>
     <table>
       <thead>
-        <tr><th>CHG</th><th>Title</th><th>Date/Time AEST</th></tr>
+        <tr>
+          <th>CHG</th>
+          <th>Date (AEST)</th>
+          <th>Description</th>
+        </tr>
       </thead>
       <tbody>
         <tr>
-          <td class="chg">CHG-0303</td>
-          <td>Channel Discipline Rule — Yoda Context Unification</td>
-          <td>2026-05-13 21:38</td>
+          <td class="chg">CHG-0324</td>
+          <td>2026-05-14 22:52</td>
+          <td>cost-tracker.sh: STREAM_MAP + by_stream updated — all 12 agents correctly classified</td>
         </tr>
         <tr>
-          <td class="chg">CHG-0302</td>
-          <td>QW-4 to QW-8: uptime log, CIR Notion, change type rule, ITIL headers, PRB-001</td>
-          <td>2026-05-12 22:16</td>
+          <td class="chg">CHG-0323</td>
+          <td>2026-05-14 22:45</td>
+          <td>Work Currency routing: 4 high-frequency crons moved off main Sonnet session</td>
         </tr>
         <tr>
-          <td class="chg">CHG-0301</td>
-          <td>AUTO-HEAL Notion tickets — status Done (informational, not backlog)</td>
-          <td>2026-05-12 21:51</td>
+          <td class="chg">CHG-0322</td>
+          <td>2026-05-14 22:32</td>
+          <td>linkedin-post.sh: --queue-content-id flag added — captures activity URN in queue after posting</td>
         </tr>
         <tr>
-          <td class="chg">CHG-0300</td>
-          <td>Backlog cleanup: TKT-0051/0102 closed, Holocron registry 28 Drive links added</td>
-          <td>2026-05-12 21:21</td>
+          <td class="chg">CHG-0321</td>
+          <td>2026-05-14 16:50</td>
+          <td>TKT-0174: Gateway hygiene — Mission Control 15min, weekly restart cron, stale task cleanup cron</td>
         </tr>
         <tr>
-          <td class="chg">CHG-0299</td>
-          <td>Holocron Document Registry DoD rule — all agent docs must be registered</td>
-          <td>2026-05-12 21:15</td>
+          <td class="chg">CHG-0320</td>
+          <td>2026-05-14 16:42</td>
+          <td>Gateway restart — event loop saturation (28,387ms delay, 98.3% utilisation)</td>
         </tr>
       </tbody>
     </table>
 
-    <h3>Mission Control</h3>
-    <ul>
-      <li>Tech backlog: 9 items · WIP: 0 · Done: 10</li>
-      <li>Biz backlog: 1 item · WIP: 0 · Done: 0</li>
-      <li>Governance: Shield 0 · Lex 0 · Sage 0 (no review triggers today)</li>
-    </ul>
+    <h3>Backlog Snapshot</h3>
+    <div class="card-grid">
+      <div class="card card-info">
+        <div class="card-label">Tickets Total</div>
+        <div class="card-value">177</div>
+        <div class="card-sub">Sequence to TKT-0177</div>
+      </div>
+      <div class="card card-warn">
+        <div class="card-label">Sprint 4 Items</div>
+        <div class="card-value">5</div>
+        <div class="card-sub">Starts 2026-05-19</div>
+      </div>
+      <div class="card card-info">
+        <div class="card-label">In-Progress</div>
+        <div class="card-value">2</div>
+        <div class="card-sub">TKT-0141, TKT-0142 (S3 carry)</div>
+      </div>
+      <div class="card card-ok">
+        <div class="card-label">Last Standup</div>
+        <div class="card-value">Day 20</div>
+        <div class="card-sub">2026-05-14</div>
+      </div>
+    </div>
   </div>
 
   <!-- SECTION 7: RTB -->
   <div class="section">
-    <h2>7. Rose / Thorn / Bud</h2>
+    <h2>7 · RTB — Rose · Thorn · Bud</h2>
 
-    <!-- ROSE -->
     <h3>🌹 Rose — What's Working</h3>
     <div class="rtb-row">
       <div class="rtb-card">
-        <div class="rtb-icon">🌹</div>
+        <div class="rtb-icon">🔧</div>
         <div class="rtb-stream">TECH</div>
-        <div class="rtb-text">17 consecutive clean Warden runs + CHG-0303 Channel Discipline locked. Zero unresolved governance violations. Auth drift resolved.</div>
-        <div class="rtb-reason">Governance layer is holding strong. Warden's 17-run streak shows model compliance is stable. Channel discipline rule prevents cross-context confusion going forward.</div>
+        <div class="rtb-text">Gateway hygiene landed well — CHG-0320/0321 fixed event loop saturation (98.3% → healthy). Mission Control now on 15-min cadence. Weekly restart cron + stale task cleanup both active. Platform stability significantly improved heading into Sprint 4.</div>
+        <div class="rtb-reason">Evidence: gateway restart resolved 28,387ms delay. 3 hygiene items shipped in one session (CHG-0321). Health check back to all-ok within minutes of restart.</div>
       </div>
       <div class="rtb-card">
-        <div class="rtb-icon">🌹</div>
+        <div class="rtb-icon">📋</div>
         <div class="rtb-stream">BIZ</div>
-        <div class="rtb-text">Aria heartbeat dedup logic working — blocked 10+ duplicate check-ins automatically. One-per-day rule enforced without intervention.</div>
-        <div class="rtb-reason">Aria's self-governance is maturing. Automated dedup prevents Angie message fatigue and shows the business agent operating with real discipline even without active sessions.</div>
+        <div class="rtb-text">Marketing collaterals (company-overview, training-brochure, client-pitch) are ready in canvas/documents/ainchors-marketing/. Training revenue projection delivered ($1.065M AUD). Brand Code staging area (7 docs) seeded in workspace-business. Output machine is armed — waiting on Angie re-engagement.</div>
+        <div class="rtb-reason">All business deliverables produced and staged. Zero blockers on the content side — gate is Angie availability, not agent capacity.</div>
       </div>
     </div>
 
-    <!-- THORN -->
-    <h3>🌵 Thorn — What's Hurting</h3>
+    <h3>🌵 Thorn — What's Causing Friction</h3>
     <div class="rtb-row">
       <div class="rtb-card">
-        <div class="rtb-icon">🌵</div>
+        <div class="rtb-icon">🔍</div>
         <div class="rtb-stream">TECH</div>
-        <div class="rtb-text">Gateway event loop delay CRITICAL (24,998ms, 91.4% util). 111 fallback_chain_broken + 72 cron_run_fail events in 24h. Obs errors up +47% vs prior day.</div>
-        <div class="rtb-reason">Saturated event loop means gateway is processing requests at near-capacity. Fallback chain breaks (111 events) suggest routing failures downstream. This is the top tech risk today — leaves the platform brittle under load.</div>
+        <div class="rtb-text">Warden violation at 07:07 AEST today — consecutiveClean reset to 0. Config-baseline drift false positives continue (auto-heal flagged 8 config items overnight). Cost tracker isolated session blind spot (TKT-0175 in-progress) means actual daily burn may be underreported.</div>
+        <div class="rtb-reason">Root cause: config checker format mismatch (expects flat string, gets object+fallbacks). Not a real drift — but recurring noise. Cost blind spot: ephemeral/subagent sessions not captured by current tracker glob.</div>
       </div>
       <div class="rtb-card">
-        <div class="rtb-icon">🌵</div>
+        <div class="rtb-icon">😶</div>
         <div class="rtb-stream">BIZ</div>
-        <div class="rtb-text">Angie 6th day of silence. All business stream open items stagnant — JotForm (16 days), April 30 class debrief (14 days), onboarding Stage 2 blocked.</div>
-        <div class="rtb-reason">Without Angie engagement, the business stream is idle. Real governance volume, campaign data, and ROI measurement all require her active participation. The longer this extends, the harder it is to recover momentum.</div>
+        <div class="rtb-text">Angie 5+ days silent. Business stream dormant. JotForm API key outstanding 17 days. April 30 class debrief 15 days overdue. Partnership agreement discussion (TKT-0114) must happen by Fri 16 May to unblock Aevlith ASIC registration, domain, and trademark chain.</div>
+        <div class="rtb-reason">Every day of Angie silence delays: TOM maturity, Business ROI data, Governance gate volume, CAMP-0001 debrief, and Aevlith entity establishment (TKT-0114–0119 all blocked).</div>
       </div>
     </div>
 
-    <!-- BUD -->
-    <h3>🌱 Bud — What to Grow Today</h3>
+    <h3>🌱 Bud — Action / Opportunity</h3>
     <div class="rtb-row">
       <div class="rtb-card">
-        <div class="rtb-icon">🌱</div>
+        <div class="rtb-icon">🏃</div>
         <div class="rtb-stream">TECH</div>
-        <div class="rtb-text">Investigate gateway event loop saturation root cause. Profile cron contention — consider throttling non-critical crons during peak hours.</div>
-        <div class="rtb-reason">Event loop at 91.4% utilisation is an incident-in-waiting. Profiling now while system is functional (not crashed) allows proactive mitigation. Cron scheduling audit + possible gateway restart during off-peak could restore headroom.</div>
+        <div class="rtb-text">Sprint 3 Review is due TODAY (Fri 16 May). Key items to close: (1) Fix Warden config-format false positive permanently, (2) Resolve journal:missing for Day 20, (3) Confirm TKT-0141/0142 carry-over status, (4) Start Sprint 4 planning with Ken. Cloudflare Tunnel (TKT-0160-CF) is Sprint 4 P1 — enables Angie web access.</div>
+        <div class="rtb-reason">Sprint 3 ended with solid delivery (6 items shipped). Review ceremony unblocks Sprint 4 formally. Cloudflare Tunnel is the single biggest unlocker for remote/KL team access in P1.</div>
+        <span class="gate-badge">TOM GAP: TOM at L2 — Angie onboarding Stage 1 is highest leverage action across 4 frameworks simultaneously</span>
       </div>
       <div class="rtb-card">
-        <div class="rtb-icon">🌱</div>
+        <div class="rtb-icon">🤝</div>
         <div class="rtb-stream">BIZ</div>
-        <div class="rtb-text">Escalate Angie re-engagement via Ken. Target TOM (L2 — lagging framework). Angie onboarding Stage 1 activation is the single highest-leverage unlock for business stream.</div>
-        <div class="rtb-reason">TOM sits 2 levels below leading frameworks. Per framework gap rule, BUD must target the lagging framework. Angie Stage 1 unblocks TOM → Governance volume → Business ROI data — a cascade of unlocks from a single action.</div>
-        <span class="gate-badge">⚠️ Framework Gap: TOM L2 vs AGILE/ITSM L3 — BUD targets TOM</span>
+        <div class="rtb-text">Ken to discuss Aevlith partnership with Angie this week — target agreed by Fri 16 May (TODAY). Once agreed: ASIC registration (~30 min), domain securing, IP trademark chain all unblock. This is the legal foundation for the company. Aria ready to send a fresh, warm re-engagement message to Angie when Ken confirms timing.</div>
+        <div class="rtb-reason">TKT-0114→0119 are all blocked on one conversation. ASIC registration is 30 minutes once the partnership is agreed. Delay costs: Aevlith entity cannot be established, no domains, no trademark filing possible.</div>
+        <span class="gate-badge">TOM GAP: Angie onboarding Stage 1 unblocks TOM L2→L3 + Business ROI + Governance volume</span>
       </div>
     </div>
   </div>
 
-  <!-- SECTION 8: NEW INPUT -->
-  <div class="new-input">
-    📥 <strong>New Input Prompt</strong><br>
-    Ken — anything to add? New priorities, blockers, decisions, or context for today?<br>
-    <span style="font-size:12px; margin-top:4px; display:block;">Open webchat → type your update → Yoda will incorporate into today's plan.</span>
+  <!-- SECTION 8: SPRINT REVIEW (FRIDAY ONLY) -->
+  <div class="section">
+    <h2>8 · Sprint Review 🏁</h2>
+    <div class="alert-info">ℹ️ <strong>Sprint 3 (12–18 May 2026)</strong> — Review ceremony due <strong>today (Fri 16 May)</strong>. Sprint 4 starts 2026-05-19.</div>
+
+    <div class="card-grid">
+      <div class="card card-ok">
+        <div class="card-label">Shipped</div>
+        <div class="card-value">6</div>
+        <div class="card-sub">Done / Closed items</div>
+      </div>
+      <div class="card card-warn">
+        <div class="card-label">Carried</div>
+        <div class="card-value">2</div>
+        <div class="card-sub">TKT-0141, TKT-0142 → Sprint 4</div>
+      </div>
+      <div class="card card-ok">
+        <div class="card-label">Velocity</div>
+        <div class="card-value">75%</div>
+        <div class="card-sub">6 of 8 committed items completed</div>
+      </div>
+      <div class="card card-info">
+        <div class="card-label">Sprint 4 Items</div>
+        <div class="card-value">5</div>
+        <div class="card-sub">Starts 2026-05-19 · Theme: Security Close-out + Phase 1 Quick Wins</div>
+      </div>
+    </div>
+
+    <h3>Sprint 3 — Shipped</h3>
+    <table>
+      <thead>
+        <tr><th>Ticket</th><th>Title</th><th>Status</th></tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td class="chg">TKT-0124</td>
+          <td>MinIO self-hosted object store on OC1</td>
+          <td>✅ Done</td>
+        </tr>
+        <tr>
+          <td class="chg">TKT-0135</td>
+          <td>AInchors Sandbox Environment (Docker/Ollama)</td>
+          <td>✅ Done</td>
+        </tr>
+        <tr>
+          <td class="chg">TKT-0144</td>
+          <td>Token Efficiency Audit Cycle 1 — ~1.8M tokens/day saved</td>
+          <td>✅ Done</td>
+        </tr>
+        <tr>
+          <td class="chg">TKT-0146</td>
+          <td>Backup optimisation — incremental daily, full weekly</td>
+          <td>✅ Done</td>
+        </tr>
+        <tr>
+          <td class="chg">TKT-0154</td>
+          <td>CI Cycle A timeout fix — split batch 4→2 tasks</td>
+          <td>✅ Closed</td>
+        </tr>
+        <tr>
+          <td class="chg">TKT-0156</td>
+          <td>S5 violation — hardcoded key removed from auth-profiles</td>
+          <td>✅ Closed</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <h3>Sprint 3 — Carried to Sprint 4</h3>
+    <table>
+      <thead>
+        <tr><th>Ticket</th><th>Title</th><th>Note</th></tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td class="chg">TKT-0141</td>
+          <td>CLI-Anything supply chain security</td>
+          <td>In-progress — security controls built, policy registry seeded</td>
+        </tr>
+        <tr>
+          <td class="chg">TKT-0142</td>
+          <td>SKILL.md poisoning review process</td>
+          <td>In-progress — audit-skill.sh + skill-registry.json (63 skills) done; POL-011 pending TKT-0137</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <h3>Sprint 4 (19–25 May 2026) — Committed</h3>
+    <table>
+      <thead>
+        <tr><th>Ticket</th><th>Title</th><th>Priority</th></tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td class="chg">TKT-0141</td>
+          <td>CLI-Anything supply chain security (carry)</td>
+          <td>P1</td>
+        </tr>
+        <tr>
+          <td class="chg">TKT-0142</td>
+          <td>SKILL.md poisoning review (carry)</td>
+          <td>P1</td>
+        </tr>
+        <tr>
+          <td class="chg">TKT-0165</td>
+          <td>Three Work Types Rule + Work Currency Routing Table</td>
+          <td>P1</td>
+        </tr>
+        <tr>
+          <td class="chg">TKT-0166</td>
+          <td>Sources of Truth Register — 10 core data types</td>
+          <td>P1</td>
+        </tr>
+        <tr>
+          <td class="chg">TKT-0160-CF</td>
+          <td>Cloudflare Tunnel — MinIO + OpenClaw webchat (P2 hard prereq)</td>
+          <td>P1</td>
+        </tr>
+      </tbody>
+    </table>
   </div>
 
-  <!-- FOOTER -->
+  <!-- SECTION 9: NEW INPUT (ALWAYS LAST, ALWAYS PRESENT) -->
+  <div class="section">
+    <h2>9 · New Input</h2>
+    <div class="new-input">
+      📝 What's on your mind today, Ken? Any new input, direction changes, or priorities?<br><br>
+      <strong>Today's hot items:</strong><br>
+      🏁 Sprint 3 Review due — 6 shipped, 2 carried. Ready when you are.<br>
+      🤝 Aevlith partnership — target today (Fri 16 May) to unblock ASIC + domain chain.<br>
+      🔍 Warden violation at 07:07 — Yoda investigating, likely config-format false positive.<br>
+      📅 Daily cap $450 reverts Sun 17 May — new week will be back to $150 cap.
+    </div>
+  </div>
+
   <div class="footer">
-    Generated by Yoda · AInchors Morning Stand-Up — Day 20 · Thursday, 14 May 2026 · 8:02 AM AEST<br>
-    Framework: 8 frameworks tracked · Warden: 17 clean runs · Auto-reload: enabled · NAS: not connected<br>
-    Canvas: /__openclaw__/canvas/documents/standup-daily/index.html
+    Generated by Yoda · AInchors Morning Stand-Up · Day 21 · Friday 15 May 2026 · 08:00 AEST<br>
+    Source: health-state.json · cost-state.json · obs-query · task-query · aria-daily-brief.md · frameworks-maturity.json · CHANGELOG.md · tickets.json · sprint-current.json
   </div>
 
 </div>

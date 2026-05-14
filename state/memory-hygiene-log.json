@@ -36,3 +36,9 @@
     "changes": "1 fact correction: tickets.json sequence updated 155 → 162. Cross-check verified: tickets.json shows sequence:162 with TKT-0104 through TKT-0138 (35 active+resolved tickets). allowlist-sync-state.json shows future timestamp (2026-05-14 07:34:12+10:00, data integrity issue noted but outside MEMORY.md scope). cost-state.json current to 2026-05-13 13:55:28Z (19 days tracked), chg-triggers.json all current, akb-migration-state.json phases 1-5 verified. MEMORY.md now accurate as of standup Day 19 pre-8AM sweep. No alerts to Ken."
   }
 ]
+,
+  {
+    "date": "2026-05-15T07:45:00+10:00",
+    "changes": "3 stale entries corrected: (1) Pending Tickets: tickets.json seq 162 → 177 (15 new tickets since last sweep). (2) Sprint Capacity: daily budget cap noted as temporary $450 (CHG-0312) until 2026-05-17, reverts to $150. (3) Golden Blueprint Documents: added external/sanitised v1.0 reference (CHG-0317) and locked cadence rule references (TRIGGER-15/16/17 per CHG-0319). Cross-checks: tickets.json seq:177 ✓, cost-state.json balance $203.48 confirmed by Ken 2026-05-14 ✓, chg-triggers.json includes TRIGGER-15/16/17 for golden blueprint cadence ✓, CHANGELOG.md latest CHG-0324 ✓, allowlist-sync-state.json lastChecked 2026-05-15 07:15:19 (today) ✓. No alerts to Ken."
+  }
+]

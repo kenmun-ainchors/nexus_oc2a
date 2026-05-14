@@ -89,10 +89,10 @@ Nexus=platform|Holocron=AKB|Bridge=cmd-centre|Citadel=client-portal|Holonet=live
 - Access: Cloudflare Access (P1). Role-scoped IAM.
 
 ## Sprint Capacity (CHG-0241)
-- Pre-OC2: 5/sprint | OC2 setup: 2–3 | Post-OC2: 5. 30% headroom. P2 target: end-Aug 2026 (contingency mid-Sep). **Daily budget cap: $150** (CHG-0268).
+- Pre-OC2: 5/sprint | OC2 setup: 2–3 | Post-OC2: 5. 30% headroom. P2 target: end-Aug 2026 (contingency mid-Sep). **Daily budget cap: $150** (CHG-0268) | **TEMPORARY: $450 until 2026-05-17** (CHG-0312, heavy build phase).
 
 ## Pending Tickets
-→ See **MEMORY_TICKETS.md** (auto-managed, ≤8k). tickets.json seq 162. Notion AKB Backlog = SSOT.
+→ See **MEMORY_TICKETS.md** (auto-managed, ≤8k). tickets.json seq 177. Notion AKB Backlog = SSOT.
 
 ## Anthropic API Key Rotation — SOP
 - Trigger: key expires/revoked. Ken: `openclaw models auth`. Yoda: `python3 scripts/propagate-anthropic-key.sh` → all 12 agents. Run immediately. (CHG-0142 + 2026-05-13)
@@ -103,7 +103,8 @@ Nexus=platform|Holocron=AKB|Bridge=cmd-centre|Citadel=client-portal|Holonet=live
 ## Golden Blueprint Documents — APPROVED (Day 20, 2026-05-14)
 - **Technology Strategy & Roadmap v1.0** (internal): `docs/Aevlith-Technology-Strategy-Roadmap-v1.0-Internal.md` — APPROVED Ken 2026-05-14. Drive: https://drive.google.com/file/d/10oGRVyYlEPLshPNQG-sF_1-NZu3LbI5I/view
 - **System Architecture Document v1.0**: `docs/Nexus-System-Architecture-v1.0.md` — APPROVED Ken 2026-05-14. Drive: https://drive.google.com/file/d/1FxEoTDzRlIMbbJHiD5XuR4Z5MNnpUAp-/view
-- Superseded docs archived; decision records in MEMORY_DECISIONS.md. AGENTS.md updated.
+- **Technology Strategy & Roadmap v1.0** (external/sanitised): `docs/Aevlith-Technology-Strategy-Roadmap-v1.0-External.md` — APPROVED Ken 2026-05-14 (CHG-0317).
+- Superseded docs archived; decision records in MEMORY_DECISIONS.md. AGENTS.md updated. All docs + CHG-0318 locked per golden blueprint cadence rules (TRIGGER-15/16/17).
 
 ## Nexus Platform Architecture Direction — APPROVED (Day 20, 2026-05-14)
 - **Decision: Option B Phased** — Redesign data + integration layers, keep OpenClaw. Approved Ken 2026-05-14 10:28 AEST. CHG-0308.
@@ -127,6 +128,6 @@ Nexus=platform|Holocron=AKB|Bridge=cmd-centre|Citadel=client-portal|Holonet=live
 - AInchors company page onboarding deferred. Trigger 05f9d2ef set.
 - L-027: Post cancellation must update queue state + delete cron. Never verbal-only acknowledgement.
 
-## Config Baseline (Day 20 — CHG-0306)
-- CHG-0270 object format; jq_queries→.model.primary. Defaults primary=Haiku. Warden=Haiku. BYOK+Nexus-first global. agentToAgent enabled. Canvas: sub-agents full path.
+## Config Baseline (Day 20 — CHG-0306, verified 2026-05-14 CHG-0306)
+- CHG-0270 object format; jq_queries→.model.primary. Defaults primary=Haiku. Warden=Haiku. BYOK+Nexus-first global. agentToAgent enabled. Canvas: sub-agents full path. Auto-heal baseline updated CHG-0306 to eliminate false-positive drift alerts (kimi duplicate removed, fallbacks chain verified).
 - CI Cycle A running; Cycle 2A started.

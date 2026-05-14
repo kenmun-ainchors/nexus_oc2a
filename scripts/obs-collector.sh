@@ -24,16 +24,19 @@ NEW_EVENTS=0
 
 _obs_log() {
   # Wrapper: increments NEW_EVENTS on success
-  # TKT-0140: dedup check — skip if identical event already in obs.db (same ts_epoch+event_type+source)
+  # TKT-0140: dedup check -- skip if identical event already in obs.db (same ts_epoch+event_type+source)
   # Prevents re-logging on state reset
   local _msg="" _type="" _source="" _ts=""
   local _args=("$@")
-  for ((i=0; i<${#_args[@]}; i++)); do
-    case "${_args[$i]}" in
+  local _n=${#_args[@]}
+  local i=0
+  while (( i < _n )); do
+    case "${_args[i]}" in
       --message) _msg="${_args[$((i+1))]}" ;;
       --type)    _type="${_args[$((i+1))]}" ;;
       --source)  _source="${_args[$((i+1))]}" ;;
     esac
+    i=$((i+1))
   done
   if [[ -n "$_type" && -n "$_source" && -f "$OBS_DB" ]]; then
     local _exists

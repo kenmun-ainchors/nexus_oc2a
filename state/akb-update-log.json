@@ -1,5 +1,32 @@
 [
   {
+    "run_id": "akb-2026-05-15-0300",
+    "date": "2026-05-15",
+    "started_at": "2026-05-14T17:00:00Z",
+    "completed_at": "2026-05-14T17:03:15Z",
+    "status": "complete",
+    "agents_updated": [
+      "Yoda",
+      "Aria",
+      "Spark",
+      "Shield",
+      "Lex",
+      "Sage",
+      "Warden"
+    ],
+    "notion_page": "Holocron \u2014 Daily Platform Brief",
+    "notion_page_id": "356c1829-53ff-8104-a01e-d3617bff59e5",
+    "balance": "~$203.48 (confirmed 2026-05-14 22:34 AEST by Ken)",
+    "today_spend": "$0.00",
+    "yesterday_spend": "$151.99",
+    "chg_count": 20,
+    "open_incidents": 0,
+    "health_status": "ok",
+    "warden_consecutive_clean": 0,
+    "warden_last_status": "violation",
+    "day_n": 21
+  },
+  {
     "run_id": "akb-2026-05-14-0300",
     "date": "2026-05-14",
     "started_at": "2026-05-13T17:03:42.930443+00:00",
@@ -128,23 +155,5 @@
     "health_status": "degraded",
     "warden_consecutive_clean": 59,
     "day_n": 15
-  },
-  {
-    "run_id": "akb-2026-05-08-0300",
-    "date": "2026-05-08",
-    "started_at": "2026-05-07T17:00:00Z",
-    "status": "complete",
-    "agents_updated": [
-      "Yoda",
-      "Aria",
-      "Spark",
-      "Shield",
-      "Lex",
-      "Sage",
-      "Warden"
-    ],
-    "notion_page": "Holocron \u2014 Daily Platform Brief",
-    "balance": "~$0 (auto-reload pending)",
-    "chg_count": 5
   }
 ]

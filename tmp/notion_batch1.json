@@ -4,8 +4,8 @@
       "object": "block",
       "type": "callout",
       "callout": {
-        "rich_text": [{"type": "text", "text": {"content": "🔄 Auto-updated daily at 3AM AEST by Yoda. Last run: 2026-05-14 (Day 20). This is the single daily reference — no need to prompt."}}],
-        "icon": {"emoji": "🔄"},
+        "rich_text": [{"type": "text", "text": {"content": "🔄 Auto-updated daily at 3AM AEST by Yoda. Last run: 2026-05-15 (Day 21). This is the single daily reference — no need to prompt."}}],
+        "icon": {"type": "emoji", "emoji": "🔄"},
         "color": "blue_background"
       }
     },
@@ -20,21 +20,21 @@
       "object": "block",
       "type": "paragraph",
       "paragraph": {
-        "rich_text": [{"type": "text", "text": {"content": "Gateway: OK | Health: ok | Consecutive failures: 0 | Last check: 2026-05-14 02:57 AEST"}}]
+        "rich_text": [{"type": "text", "text": {"content": "Gateway: OK | Health: ok | Consecutive failures: 0 | Last check: 2026-05-14T16:59:55Z"}}]
       }
     },
     {
       "object": "block",
       "type": "paragraph",
       "paragraph": {
-        "rich_text": [{"type": "text", "text": {"content": "API Balance: auto-reload active (confirmed $479.35 on 2026-05-08; auto-reload at <$50 → +$450) | Yesterday spend: $90.03 (2026-05-13) | remainingEstimate: $0 (auto-reload handles)"}}]
+        "rich_text": [{"type": "text", "text": {"content": "API Balance: ~$203.48 USD (confirmed 2026-05-14 22:34 AEST by Ken) | Auto-reload: ACTIVE (triggers <$50, loads $450) | Today spend: $0.00 (not yet logged)"}}]
       }
     },
     {
       "object": "block",
       "type": "paragraph",
       "paragraph": {
-        "rich_text": [{"type": "text", "text": {"content": "Warden: 1,105 checks, 116 violations total, 12 consecutive clean | Last: 2026-05-14 02:07 AEST | Last violation: 2026-05-13 17:03 AEST"}}]
+        "rich_text": [{"type": "text", "text": {"content": "Warden (Model Drift): 1,129 checks total | 133 violations total | Consecutive clean: 0 | Last check: 2026-05-15T02:07:10+10:00 | Last status: VIOLATION (1 fail, 18 pass)"}}]
       }
     },
     {
@@ -48,63 +48,203 @@
       "object": "block",
       "type": "bulleted_list_item",
       "bulleted_list_item": {
-        "rich_text": [{"type": "text", "text": {"content": "Yoda | Last Run: 2026-04-25 | Status: Active | Lead agent, main session"}}]
+        "rich_text": [{"type": "text", "text": {"content": "Yoda | Last Run: 2026-05-15 | Status: Active | Lead agent — main session, orchestration"}}]
       }
     },
     {
       "object": "block",
       "type": "bulleted_list_item",
       "bulleted_list_item": {
-        "rich_text": [{"type": "text", "text": {"content": "Aria | Status: Active | Angie's bot agent"}}]
+        "rich_text": [{"type": "text", "text": {"content": "Aria | Last Run: 2026-05-15 | Status: Active | Angie's personal assistant"}}]
       }
     },
     {
       "object": "block",
       "type": "bulleted_list_item",
       "bulleted_list_item": {
-        "rich_text": [{"type": "text", "text": {"content": "Spark | Last Run: 2026-05-03 | Status: Active | Social & Digital Marketing — kimi-k2.6:cloud | Tue/Wed/Thu 7:30am AEST"}}]
+        "rich_text": [{"type": "text", "text": {"content": "Spark | Last Run: 2026-05-15 | Status: Active | Social & Digital Marketing — all platforms (kimi-k2.6:cloud)"}}]
       }
     },
     {
       "object": "block",
       "type": "bulleted_list_item",
       "bulleted_list_item": {
-        "rich_text": [{"type": "text", "text": {"content": "Shield | Status: Active | Security & governance agent"}}]
+        "rich_text": [{"type": "text", "text": {"content": "Shield | Last Run: 2026-05-15 | Status: Active | Security, secrets audit, access control"}}]
       }
     },
     {
       "object": "block",
       "type": "bulleted_list_item",
       "bulleted_list_item": {
-        "rich_text": [{"type": "text", "text": {"content": "Lex | Status: Active | Legal & compliance agent"}}]
+        "rich_text": [{"type": "text", "text": {"content": "Lex | Last Run: 2026-05-15 | Status: Active | Legal, AU compliance, IP/copyright, privacy"}}]
       }
     },
     {
       "object": "block",
       "type": "bulleted_list_item",
       "bulleted_list_item": {
-        "rich_text": [{"type": "text", "text": {"content": "Sage | Status: Active | Research & intelligence agent"}}]
+        "rich_text": [{"type": "text", "text": {"content": "Sage | Last Run: 2026-05-15 | Status: Active | Research, competitive intel, technical analysis"}}]
       }
     },
     {
       "object": "block",
       "type": "bulleted_list_item",
       "bulleted_list_item": {
-        "rich_text": [{"type": "text", "text": {"content": "Warden | Status: Active | Model drift monitor — 1,105 checks, 12 consecutive clean"}}]
+        "rich_text": [{"type": "text", "text": {"content": "Warden | Last Run: 2026-05-15 | Status: Active | Model drift monitoring, policy enforcement"}}]
       }
     },
     {
       "object": "block",
       "type": "heading_1",
       "heading_1": {
-        "rich_text": [{"type": "text", "text": {"content": "Today Changes (Last 24h)"}}]
+        "rich_text": [{"type": "text", "text": {"content": "Today Changes (Last 24h — 2026-05-14)"}}]
       }
     },
     {
       "object": "block",
       "type": "bulleted_list_item",
       "bulleted_list_item": {
-        "rich_text": [{"type": "text", "text": {"content": "[CHG-0303] 2026-05-13 21:38 AEST — Channel Discipline Rule — Yoda Context Unification"}}]
+        "rich_text": [{"type": "text", "text": {"content": "[CHG-0324] cost-tracker.sh: STREAM_MAP + by_stream updated — all 12 agents correctly classified (22:52 AEST)"}}]
+      }
+    },
+    {
+      "object": "block",
+      "type": "bulleted_list_item",
+      "bulleted_list_item": {
+        "rich_text": [{"type": "text", "text": {"content": "[CHG-0323] Work Currency routing: 4 high-frequency crons moved off main Sonnet session (22:45 AEST)"}}]
+      }
+    },
+    {
+      "object": "block",
+      "type": "bulleted_list_item",
+      "bulleted_list_item": {
+        "rich_text": [{"type": "text", "text": {"content": "[CHG-0322] linkedin-post.sh: --queue-content-id flag added — captures activity URN in queue after posting (22:32 AEST)"}}]
+      }
+    },
+    {
+      "object": "block",
+      "type": "bulleted_list_item",
+      "bulleted_list_item": {
+        "rich_text": [{"type": "text", "text": {"content": "[CHG-0321] TKT-0174: Gateway hygiene — Mission Control 15min, weekly restart cron, stale task cleanup cron (16:50 AEST)"}}]
+      }
+    },
+    {
+      "object": "block",
+      "type": "bulleted_list_item",
+      "bulleted_list_item": {
+        "rich_text": [{"type": "text", "text": {"content": "[CHG-0320] Gateway restart — event loop saturation (28387ms delay, 98.3% utilisation) (16:42 AEST)"}}]
+      }
+    },
+    {
+      "object": "block",
+      "type": "bulleted_list_item",
+      "bulleted_list_item": {
+        "rich_text": [{"type": "text", "text": {"content": "[CHG-0319] Golden Blueprint cadence rules and triggers established (12:50 AEST)"}}]
+      }
+    },
+    {
+      "object": "block",
+      "type": "bulleted_list_item",
+      "bulleted_list_item": {
+        "rich_text": [{"type": "text", "text": {"content": "[CHG-0318] Golden blueprints approved + locked — Technology Strategy & System Architecture finalized (12:40 AEST)"}}]
+      }
+    },
+    {
+      "object": "block",
+      "type": "bulleted_list_item",
+      "bulleted_list_item": {
+        "rich_text": [{"type": "text", "text": {"content": "[CHG-0317] TKT-0172: Technology Strategy & Roadmap v1.0 External (1b) produced (12:22 AEST)"}}]
+      }
+    },
+    {
+      "object": "block",
+      "type": "bulleted_list_item",
+      "bulleted_list_item": {
+        "rich_text": [{"type": "text", "text": {"content": "[CHG-0316] TKT-0172: Technology Strategy & Roadmap v1.0 Internal produced (12:16 AEST)"}}]
+      }
+    },
+    {
+      "object": "block",
+      "type": "bulleted_list_item",
+      "bulleted_list_item": {
+        "rich_text": [{"type": "text", "text": {"content": "[CHG-0315] TKT-0172/0173: Technology Strategy & Roadmap (1a) + System Architecture Document produced (12:12 AEST)"}}]
+      }
+    },
+    {
+      "object": "block",
+      "type": "bulleted_list_item",
+      "bulleted_list_item": {
+        "rich_text": [{"type": "text", "text": {"content": "[CHG-0314] Nexus System Architecture Document v1.0 — TKT-0173 (12:10 AEST)"}}]
+      }
+    },
+    {
+      "object": "block",
+      "type": "bulleted_list_item",
+      "bulleted_list_item": {
+        "rich_text": [{"type": "text", "text": {"content": "[CHG-0313] Cost investigation: 3 quick wins applied, TKT-0165 data feed complete (11:40 AEST)"}}]
+      }
+    },
+    {
+      "object": "block",
+      "type": "bulleted_list_item",
+      "bulleted_list_item": {
+        "rich_text": [{"type": "text", "text": {"content": "[CHG-0312] Daily budget cap raised $150→$450 (temp, until Sun 17 May) (11:33 AEST)"}}]
+      }
+    },
+    {
+      "object": "block",
+      "type": "bulleted_list_item",
+      "bulleted_list_item": {
+        "rich_text": [{"type": "text", "text": {"content": "[CHG-0311] Grooming session complete — backlog bucketed, Sprint 4 locked, sprint plan S4-S8 confirmed (10:55 AEST)"}}]
+      }
+    },
+    {
+      "object": "block",
+      "type": "bulleted_list_item",
+      "bulleted_list_item": {
+        "rich_text": [{"type": "text", "text": {"content": "[CHG-0310] Sprint 4 committed — Security close-out + Phase 1 quick wins (10:47 AEST)"}}]
+      }
+    },
+    {
+      "object": "block",
+      "type": "bulleted_list_item",
+      "bulleted_list_item": {
+        "rich_text": [{"type": "text", "text": {"content": "[CHG-0309] TKT-0162 D4: Work Breakdown + KRI Dashboard + Phase 1 Tickets (Option B Architecture) (10:38 AEST)"}}]
+      }
+    },
+    {
+      "object": "block",
+      "type": "bulleted_list_item",
+      "bulleted_list_item": {
+        "rich_text": [{"type": "text", "text": {"content": "[CHG-0308] TKT-0162 Option Paper approved — Option B phased delivery, all 5 decisions confirmed (10:28 AEST)"}}]
+      }
+    },
+    {
+      "object": "block",
+      "type": "bulleted_list_item",
+      "bulleted_list_item": {
+        "rich_text": [{"type": "text", "text": {"content": "[CHG-0307] TKT-0162 Option Paper Amendment: Section 2.4 LLM Cost Topology + Work Currency Model (09:52 AEST)"}}]
+      }
+    },
+    {
+      "object": "block",
+      "type": "bulleted_list_item",
+      "bulleted_list_item": {
+        "rich_text": [{"type": "text", "text": {"content": "[CHG-0306] Config baseline updated — CHG-0270 model format + kimi safety net + CHG-0228 Haiku governance (09:39 AEST)"}}]
+      }
+    },
+    {
+      "object": "block",
+      "type": "bulleted_list_item",
+      "bulleted_list_item": {
+        "rich_text": [{"type": "text", "text": {"content": "[CHG-0305] LinkedIn MDP approved — token refreshed, analytics scopes activated (09:14 AEST)"}}]
+      }
+    },
+    {
+      "object": "block",
+      "type": "bulleted_list_item",
+      "bulleted_list_item": {
+        "rich_text": [{"type": "text", "text": {"content": "[CHG-0304] TKT-0162: Nexus Architecture Direction Option Paper produced (08:11 AEST)"}}]
       }
     },
     {
@@ -118,7 +258,7 @@
       "object": "block",
       "type": "paragraph",
       "paragraph": {
-        "rich_text": [{"type": "text", "text": {"content": "No open incidents. All 5 historical incidents resolved (last resolved: INC-20260509-001 on 2026-05-11)."}}]
+        "rich_text": [{"type": "text", "text": {"content": "No open incidents. All incidents resolved. Last incident: INC-20260502-001 (P3, resolved, WebSocket crash — 1 min downtime)."}}]
       }
     },
     {
@@ -146,7 +286,7 @@
       "object": "block",
       "type": "bulleted_list_item",
       "bulleted_list_item": {
-        "rich_text": [{"type": "text", "text": {"content": "Agent Status DB — live agent health (34dc182953ff814b8257d3a3bf351d44)"}}]
+        "rich_text": [{"type": "text", "text": {"content": "Agent Status DB — live agent health (7 agents: Yoda, Aria, Spark, Shield, Lex, Sage, Warden)"}}]
       }
     }
   ]
