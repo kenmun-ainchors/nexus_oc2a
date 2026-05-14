@@ -54,7 +54,7 @@
       "cronId": null,
       "currentVersion": "2026.5.5",
       "availableVersion": "v2026.5.7",
-      "lastChecked": "2026-05-12T20:00:00Z",
+      "lastChecked": "2026-05-13T20:00:06Z",
       "status": "monitoring",
       "firedAt": null,
       "lastReleaseDate": "2026-05-07T20:57:43Z",
@@ -171,5 +171,46 @@
         "Deprecate Option B tiered split"
       ]
     }
+  },
+  "TRIGGER-14": {
+    "name": "Phase 3: Event Sourcing Design",
+    "condition": "P2 stable \u2014 defined as: P2 launched, at least 2 SME clients live, platform uptime >99% for 30-day rolling window",
+    "action": "Initiate Phase 3 event sourcing design. Raise TKT for Atlas to design event sourcing migration from optimistic locking. Preserve TKT-0104 agent_state_history schema as seed.",
+    "status": "pending",
+    "approvedBy": "Ken Mun",
+    "approvedAt": "2026-05-14",
+    "linkedDecision": "TKT-0162 D5",
+    "linkedCHG": "CHG-0308"
+  },
+  "TRIGGER-15": {
+    "name": "P1\u2192P2 Checkpoint: Golden Blueprint Review",
+    "condition": "P2 launches \u2014 first SME client onboarded (target Aug 2026)",
+    "action": "Atlas: (1) refresh Nexus-System-Architecture-v1.0.md \u2014 full delta review, update Section 9 gap map, update agent roster, confirm locked decisions. (2) Revise Aevlith-Technology-Strategy-Roadmap-v1.0-Internal.md \u2014 update current state to P2 reality, revise P3/P4 sections. (3) Produce Architecture Delta Summary for Ken. (4) Deliver via webchat + Telegram. Ken replies APPROVED before P2 ops begin.",
+    "status": "pending",
+    "approvedBy": "Ken Mun",
+    "approvedAt": "2026-05-14",
+    "linkedDocs": [
+      "docs/Nexus-System-Architecture-v1.0.md",
+      "docs/Aevlith-Technology-Strategy-Roadmap-v1.0-Internal.md"
+    ],
+    "linkedCHG": "CHG-0318"
+  },
+  "TRIGGER-16": {
+    "name": "P2\u2192P4 Checkpoint: Golden Blueprint Review",
+    "condition": "TRIGGER-14 fires (post-P2 stable, event sourcing design begins)",
+    "action": "Atlas: (1) Full refresh of both golden blueprint documents. (2) Add Phase 3 event sourcing architecture to System Architecture doc. (3) Update strategy doc with FSI trajectory detail. (4) Architecture Delta Summary for Ken review.",
+    "status": "pending",
+    "approvedBy": "Ken Mun",
+    "approvedAt": "2026-05-14",
+    "linkedCHG": "CHG-0318"
+  },
+  "TRIGGER-17": {
+    "name": "Annual Review: Golden Blueprints (May each year)",
+    "condition": "May annually \u2014 platform anniversary month",
+    "action": "Atlas: (1) Full review of both golden blueprints against live platform state. (2) Prune outdated content. (3) Revalidate OKRs and KRIs. (4) Confirm locked decisions still hold. (5) Update current state sections. (6) Ken approval before next year.",
+    "status": "pending",
+    "approvedBy": "Ken Mun",
+    "approvedAt": "2026-05-14",
+    "linkedCHG": "CHG-0318"
   }
 }

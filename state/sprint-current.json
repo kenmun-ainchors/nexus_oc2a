@@ -1,58 +1,73 @@
 {
-  "sprint": 3,
-  "startDate": "2026-05-12",
-  "endDate": "2026-05-18",
-  "theme": "MinIO + Sandbox + Security",
+  "sprint": 4,
+  "startDate": "2026-05-19",
+  "endDate": "2026-05-25",
+  "theme": "Security Close-out + Phase 1 Quick Wins",
   "velocityTarget": 5,
   "approvedBy": "Ken Mun",
-  "approvedAt": "2026-05-11T09:40:00+10:00",
+  "approvedAt": "2026-05-14T10:45:00+10:00",
   "ceremoniesCompleted": {
-    "sprint1Review": "2026-05-11 (retroactive)",
-    "sprint2Review": "2026-05-11 (retroactive)",
-    "sprint3Planning": "2026-05-11"
+    "sprint3Review": "pending (due Fri 16 May)",
+    "sprint4Planning": "2026-05-14"
   },
   "items": [
     {
-      "tkt": "TKT-0124",
-      "title": "MinIO on OC1 — agent storage layer (4 buckets)",
-      "priority": "P1",
-      "status": "done",
-      "completedAt": "2026-05-11T13:01:00+10:00",
-      "note": "UAT 1-4 all passed. Live on Tailscale."
-    },
-    {
-      "tkt": "TKT-0135",
-      "title": "Sandbox environment — isolated demo/PoC setup",
-      "priority": "P1",
-      "status": "done",
-      "note": "Parked to Day 19 (2026-05-13). Ken directive.",
-      "completedAt": "2026-05-13T19:14:09+10:00"
-    },
-    {
       "tkt": "TKT-0141",
-      "title": "Security: CLI-Anything supply chain risk + controls",
-      "priority": "P2",
-      "status": "pending"
+      "title": "CLI-Anything supply chain security",
+      "priority": "P1",
+      "status": "in-progress",
+      "carry": "sprint3"
     },
     {
       "tkt": "TKT-0142",
-      "title": "Security: SKILL.md poisoning — review process",
-      "priority": "P2",
-      "status": "pending"
+      "title": "SKILL.md poisoning review process",
+      "priority": "P1",
+      "status": "in-progress",
+      "carry": "sprint3"
     },
     {
-      "tkt": "TKT-0144",
-      "title": "Platform CI: Token Efficiency Audit (cycle 1)",
-      "priority": "P3",
-      "status": "done",
-      "completedAt": "2026-05-11T12:12:20+10:00",
-      "note": "Cycle 1 complete 2026-05-11. CHG-273. 14 crons optimised: 2 P1 fixes, 11 lightContext adds, 3 bug fixes. ~1.8M tokens/day saved. Cycle 2 scoped to ~Jun 2026."
+      "tkt": "TKT-0165",
+      "title": "Three Work Types Rule + Work Currency Routing",
+      "priority": "P1",
+      "status": "open"
+    },
+    {
+      "tkt": "TKT-0166",
+      "title": "Sources of Truth Register \u2014 10 core data types",
+      "priority": "P1",
+      "status": "open"
+    },
+    {
+      "tkt": "TKT-0160-CF",
+      "title": "Cloudflare Tunnel \u2014 MinIO + OpenClaw webchat",
+      "priority": "P1",
+      "status": "open",
+      "note": "P2 hard prereq"
     }
   ],
   "velocity": {
-    "done": 3,
-    "inProgress": 0,
-    "pending": 2,
-    "lastUpdated": "2026-05-13T19:14:09+10:00"
+    "done": 0,
+    "inProgress": 2,
+    "pending": 3,
+    "lastUpdated": "2026-05-14T10:47:02.330584"
+  },
+  "backlog": {
+    "sprint5": [
+      "TKT-0164",
+      "TKT-0108",
+      "TKT-0157",
+      "TKT-0156",
+      "TKT-0130"
+    ],
+    "sprint6": [
+      "TKT-0167",
+      "TKT-0168",
+      "TKT-0170",
+      "TKT-0150"
+    ],
+    "sprint7": [
+      "TKT-0169",
+      "TKT-0171"
+    ]
   }
 }

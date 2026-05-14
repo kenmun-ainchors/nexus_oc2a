@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "updatedAt": "2026-05-13T11:10:14.303Z",
+  "updatedAt": "2026-05-14T02:21:08.515Z",
   "entries": {
     "memory:memory/2026-04-26.md:94:122": {
       "key": "memory:memory/2026-04-26.md:94:122",
@@ -831,20 +831,23 @@
       "endLine": 156,
       "source": "memory",
       "snippet": "**Nexus — Star Wars naming convention confirmed** - System: Nexus | KB: Holocron | Command Centre: The Bridge | Client Portal: The Citadel - Holonet (API layer) | Beacon (monitoring) | The Sanctum (governance) | Datapad (reporting) - Names are proposals — confirmed at kickoff of each respective US ### US/TKT Raised Today | ID | Title | |---|---| | TKT-0039 | LinkedIn Authority Campaign (approved, campaign live) | | TKT-0041 | US-FinOps: Deepen ROI data and justification | | TKT-0042 | US-AKB/Holocron: Restructure + migrate to Notion | | TKT-0043 | US-GOV: Deep review governance triad | | TKT-0044 | US-DR: Disaster Recovery strategy | | TKT-0045 | US-ARCH: Containerised OpenClaw for SaaS | |",
-      "recallCount": 2,
+      "recallCount": 4,
       "dailyCount": 0,
       "groundedCount": 0,
-      "totalScore": 0.8656432688236236,
-      "maxScore": 0.4424514651298523,
+      "totalScore": 1.7366039574146273,
+      "maxScore": 0.4464449644088745,
       "firstRecalledAt": "2026-05-07T02:28:32.004Z",
-      "lastRecalledAt": "2026-05-08T03:10:29.967Z",
+      "lastRecalledAt": "2026-05-13T22:29:02.733Z",
       "queryHashes": [
         "d880ce131095",
-        "24dec5366fa6"
+        "24dec5366fa6",
+        "2afd5a6456d7",
+        "ec9caae95a29"
       ],
       "recallDays": [
         "2026-05-07",
-        "2026-05-08"
+        "2026-05-08",
+        "2026-05-14"
       ],
       "conceptTags": [
         "us/tkt",
@@ -988,18 +991,20 @@
       "endLine": 419,
       "source": "memory",
       "snippet": "6. Three new Holocron US raised (TKT-0079, 0080, 0081) — medium priority, sprint planning --- ## State of Play at Flush - OpenClaw version: **2026.5.5** (updated today) - API balance: **USD$100.13** - Active backlog items: TKT-0077 (sprint tomorrow), TKT-0079/0080/0081 (Holocron pages) - Pending: AI Transformation Consultant activation (awaiting role definition file + name from Ken) - CHG sequence: last logged CHG-0199 - EOD close: ✅ complete (journal + blog + git) --- ## Session Events — Thu 2026-05-07 Morning (Day 13, continued) # Appended by: Yoda 🟢 | Pre-compaction flush | 12:05 PM AEST ### Standup v2 — Full Rebuild (CHG-0208) - Ken reviewed standup and raised 4 issues: stale items",
-      "recallCount": 1,
+      "recallCount": 2,
       "dailyCount": 0,
       "groundedCount": 0,
-      "totalScore": 0.5002720683813094,
+      "totalScore": 0.9495660632848739,
       "maxScore": 0.5002720683813094,
       "firstRecalledAt": "2026-05-07T21:35:16.379Z",
-      "lastRecalledAt": "2026-05-07T21:35:16.379Z",
+      "lastRecalledAt": "2026-05-14T02:11:42.327Z",
       "queryHashes": [
-        "38182aeb51a6"
+        "38182aeb51a6",
+        "1c92ea56852b"
       ],
       "recallDays": [
-        "2026-05-08"
+        "2026-05-08",
+        "2026-05-14"
       ],
       "conceptTags": [
         "tkt-0079",
@@ -1462,21 +1467,23 @@
       "endLine": 178,
       "source": "memory",
       "snippet": "- Strategy-to-Backlog Pipeline (TKT-0125): Roadmap Refinement ceremony formalised - Luthen (Marketing Intelligence agent): name confirmed, P2 spec written - ticket.sh fix: status=done now maps to Notion Done (was falling to Backlog) - ticket.sh fix: Notion status variable was zsh read-only — fixed Infrastructure built today: - telegram-alert.sh: API-independent Telegram fallback (no Anthropic dependency) - hf-generate-image.sh + linkedin-upload-image.sh: LinkedIn image pipeline live - linkedin-post.sh: em dash validator + mktemp collision guard + --image-asset-urn flag - Notion: Sprint, Planned Date, Delivered Date columns added. Sprint 2 backfilled. - Google Drive: \"AInchors Yoda Working F",
-      "recallCount": 3,
+      "recallCount": 4,
       "dailyCount": 0,
       "groundedCount": 0,
-      "totalScore": 1.240439459681511,
-      "maxScore": 0.42690454721450805,
+      "totalScore": 1.676323664188385,
+      "maxScore": 0.43588420450687404,
       "firstRecalledAt": "2026-05-11T23:27:45.121Z",
-      "lastRecalledAt": "2026-05-13T03:32:45.476Z",
+      "lastRecalledAt": "2026-05-13T22:10:23.877Z",
       "queryHashes": [
         "827bc588f2a3",
         "763c944a8b88",
-        "570a895a0310"
+        "570a895a0310",
+        "65d35902826c"
       ],
       "recallDays": [
         "2026-05-12",
-        "2026-05-13"
+        "2026-05-13",
+        "2026-05-14"
       ],
       "conceptTags": [
         "strategy-to-backlog",
@@ -1496,20 +1503,22 @@
       "endLine": 51,
       "source": "memory",
       "snippet": "- Added `/roster` to RULES.md as a new slash command - Output: lists all activated agents with role, model, cadence, current task, status - Current roster: Yoda 🟢, Aria 🔵, Shield 🛡️, Lex ⚖️, Sage 🧪, Warden 🔍, Spark ✨, CI Agent ### Spark ✨ — Scope Expanded - Spark role upgraded from \"LinkedIn content agent\" to **Social & Digital Marketing Agent** - Scope: ALL platforms — LinkedIn (Ken personal + AInchors company), Instagram, Facebook, X (future) - Responsibilities: strategy + campaigns + execution + analytics + reporting - Ken approves personal content; Angie approves AInchors brand content - Updated: workspace-social/SOUL.md, MEMORY.md, state/agent-status.json - \"Social (full API)\" pla",
-      "recallCount": 2,
+      "recallCount": 3,
       "dailyCount": 0,
       "groundedCount": 0,
-      "totalScore": 0.8618327468633651,
+      "totalScore": 1.272064682841301,
       "maxScore": 0.43419835567474363,
       "firstRecalledAt": "2026-05-11T23:49:43.978Z",
-      "lastRecalledAt": "2026-05-13T11:10:14.303Z",
+      "lastRecalledAt": "2026-05-13T22:10:23.877Z",
       "queryHashes": [
         "763c944a8b88",
-        "25df30902673"
+        "25df30902673",
+        "65d35902826c"
       ],
       "recallDays": [
         "2026-05-12",
-        "2026-05-13"
+        "2026-05-13",
+        "2026-05-14"
       ],
       "conceptTags": [
         "rules.md",
@@ -1529,20 +1538,22 @@
       "endLine": 33,
       "source": "memory",
       "snippet": "# Daily Memory — 2026-05-03 (Day 9) ## Session Summary - Channel: WebChat - Active from: ~11:50 AEST --- ## Key Decisions & Actions ### Notion AKB Backlog — Single Source of Truth (CHG-0136) - Notion AKB Backlog renamed to `📋 AInchors Backlog` - Added **Type** column (US / TKT / CHG) and **Created Date** column - `scripts/ticket.sh` updated — every new/update/close auto-syncs to Notion, stores `notionPageId` in tickets.json - `scripts/changelog-append.sh` updated — every CHG entry auto-creates Notion page - RULES.md + MEMORY.md updated with policy: Notion = single source of truth - Sub-agent tested: TKT-0041 created → Notion ✅ → closed → Done ✅ → cleaned up ✅ - Historical CHG/TKT NOT mi",
-      "recallCount": 2,
+      "recallCount": 3,
       "dailyCount": 0,
       "groundedCount": 0,
-      "totalScore": 0.8287636697292328,
-      "maxScore": 0.4150081634521484,
+      "totalScore": 1.2454800665378571,
+      "maxScore": 0.41671639680862427,
       "firstRecalledAt": "2026-05-11T23:49:43.978Z",
-      "lastRecalledAt": "2026-05-13T11:10:12.131Z",
+      "lastRecalledAt": "2026-05-13T22:10:23.877Z",
       "queryHashes": [
         "763c944a8b88",
-        "7dbe32c813b9"
+        "7dbe32c813b9",
+        "65d35902826c"
       ],
       "recallDays": [
         "2026-05-12",
-        "2026-05-13"
+        "2026-05-13",
+        "2026-05-14"
       ],
       "conceptTags": [
         "chg-0136",
@@ -1679,6 +1690,37 @@
         "health-check.sh",
         "add-generic-password",
         "new-key"
+      ]
+    },
+    "memory:memory/2026-05-09.md:36:55": {
+      "key": "memory:memory/2026-05-09.md:36:55",
+      "path": "memory/2026-05-09.md",
+      "startLine": 36,
+      "endLine": 55,
+      "source": "memory",
+      "snippet": "- **Architecture rule formalised** — obs.db is SSOT for ALL operational errors. Any new state file with error/failure/violation data → obs CHECK required in same CHG. Non-negotiable. Enforced at CHG log time. - Docs: `docs/architecture/Observability_Architecture.md` (v1.0, 26 sources A–Z mapped, event type registry, CHECK implementation standard) - Rule added to RULES.md (same weight as CANVAS EMBED + EXEC BINARY rules) ### Aevlith Technologies — Brand Decision (CHG-0248) - **Auralith taken** — Active AU Pty Ltd ABN 43 675 437 500 + UK/US/India conflicts. Hard block. - **LOCKED: Aevlith Technologies Pty Ltd** — zero conflicts AU/UK/US/EU/India - Domain: aevlith.ai | Pronunciation: AYV-lith",
+      "recallCount": 1,
+      "dailyCount": 0,
+      "groundedCount": 0,
+      "totalScore": 0.41316282749176025,
+      "maxScore": 0.41316282749176025,
+      "firstRecalledAt": "2026-05-14T02:21:08.515Z",
+      "lastRecalledAt": "2026-05-14T02:21:08.515Z",
+      "queryHashes": [
+        "e85fa5b8cebb"
+      ],
+      "recallDays": [
+        "2026-05-14"
+      ],
+      "conceptTags": [
+        "obs.db",
+        "error/failure/violation",
+        "non-negotiable",
+        "v1.0",
+        "rules.md",
+        "chg-0248",
+        "uk/us/india",
+        "au/uk/us/eu/india"
       ]
     }
   }

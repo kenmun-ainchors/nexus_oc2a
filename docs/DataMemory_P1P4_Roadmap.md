@@ -1,3 +1,5 @@
+> ⚠️ **INCORPORATED** — Data & memory architecture consolidated into `Nexus-System-Architecture-v1.0.md` (approved 2026-05-14). Locked decision record — preserve as-is.
+
 # Data & Memory Architecture: P1-P4 Progressive Build Roadmap
 **TKT-0104 | Enterprise Architecture Deliverable**
 **Status:** LIVE — Approved by Ken Mun 2026-05-12

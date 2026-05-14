@@ -12,7 +12,7 @@ STATE_DIR="$WORKSPACE/state"
 AUTH_STATE_FILE="$STATE_DIR/linkedin-auth.json"
 
 REDIRECT_URI="http://localhost:8765/callback"
-SCOPES="openid profile email w_member_social"
+SCOPES="openid profile email w_member_social r_basicprofile r_1st_connections_size r_organization_social r_organization_admin r_ads_reporting r_ads"
 AUTH_ENDPOINT="https://www.linkedin.com/oauth/v2/authorization"
 TOKEN_ENDPOINT="https://www.linkedin.com/oauth/v2/accessToken"
 USERINFO_ENDPOINT="https://api.linkedin.com/v2/userinfo"
@@ -67,8 +67,8 @@ ok "Credentials loaded from Keychain."
 # ── Build auth URL ─────────────────────────────────────────────────────────────
 
 STATE=$(random_state)
-CODE_VERIFIER=$(pkce_verifier)
-CODE_CHALLENGE=$(pkce_challenge "$CODE_VERIFIER")
+# PKCE disabled — using standard OAuth with client_secret (web app flow)
+# CODE_VERIFIER and CODE_CHALLENGE removed
 
 SCOPE_ENCODED=$(urlencode "$SCOPES")
 REDIRECT_ENCODED=$(urlencode "$REDIRECT_URI")
@@ -78,8 +78,6 @@ AUTH_URL+="&client_id=${CLIENT_ID}"
 AUTH_URL+="&redirect_uri=${REDIRECT_ENCODED}"
 AUTH_URL+="&scope=${SCOPE_ENCODED}"
 AUTH_URL+="&state=${STATE}"
-AUTH_URL+="&code_challenge=${CODE_CHALLENGE}"
-AUTH_URL+="&code_challenge_method=S256"
 
 echo ""
 echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
@@ -171,21 +169,24 @@ ok "Authorisation code received."
 # ── Exchange code for tokens ───────────────────────────────────────────────────
 
 log "Exchanging code for access token..."
+log "Auth code length: ${#AUTH_CODE}"
 
-TOKEN_RESPONSE=$(curl -s -X POST "$TOKEN_ENDPOINT" \
+TOKEN_RESPONSE=$(curl -s --max-time 30 -X POST "$TOKEN_ENDPOINT" \
   -H "Content-Type: application/x-www-form-urlencoded" \
   --data-urlencode "grant_type=authorization_code" \
   --data-urlencode "code=$AUTH_CODE" \
   --data-urlencode "redirect_uri=$REDIRECT_URI" \
   --data-urlencode "client_id=$CLIENT_ID" \
   --data-urlencode "client_secret=$CLIENT_SECRET" \
-  --data-urlencode "code_verifier=$CODE_VERIFIER")
+)
 
 # Parse fields
 ACCESS_TOKEN=$(echo "$TOKEN_RESPONSE" | python3 -c "import sys,json; d=json.load(sys.stdin); print(d.get('access_token',''))")
 REFRESH_TOKEN=$(echo "$TOKEN_RESPONSE" | python3 -c "import sys,json; d=json.load(sys.stdin); print(d.get('refresh_token',''))")
 EXPIRES_IN=$(echo "$TOKEN_RESPONSE" | python3 -c "import sys,json; d=json.load(sys.stdin); print(d.get('expires_in',0))")
 TOKEN_ERROR=$(echo "$TOKEN_RESPONSE" | python3 -c "import sys,json; d=json.load(sys.stdin); print(d.get('error',''))")
+
+log "Token response: $TOKEN_RESPONSE"
 
 if [[ -n "$TOKEN_ERROR" && "$TOKEN_ERROR" != "None" ]]; then
   err "Token exchange failed: $TOKEN_RESPONSE"
@@ -253,7 +254,7 @@ data = {
     'memberId': '$MEMBER_ID',
     'displayName': '$DISPLAY_NAME',
     'authorizedAt': '$AUTHORIZED_AT',
-    'scopes': ['openid', 'profile', 'email', 'w_member_social'],
+    'scopes': ['openid', 'profile', 'email', 'w_member_social', 'r_basicprofile', 'r_1st_connections_size', 'r_organization_social', 'r_organization_admin', 'r_ads_reporting', 'r_ads'],
     'tokenExpiry': '$TOKEN_EXPIRY'
 }
 with open('$AUTH_STATE_FILE', 'w') as f:
@@ -271,7 +272,7 @@ echo "  ✅ LinkedIn OAuth complete!"
 echo ""
 echo "  Member ID  : $MEMBER_ID"
 echo "  Name       : $DISPLAY_NAME"
-echo "  Scopes     : openid profile email w_member_social"
+echo "  Scopes     : $SCOPES"
 echo "  Token valid: until $TOKEN_EXPIRY"
 echo ""
 echo "  Tokens stored securely in macOS Keychain."

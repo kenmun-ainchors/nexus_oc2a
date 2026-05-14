@@ -1,6 +1,6 @@
 {
-  "checkedAt": "2026-05-13T15:18:12Z",
-  "overall": "broken",
+  "checkedAt": "2026-05-14T06:19:01Z",
+  "overall": "ok",
   "chain": [
     "anthropic/claude-sonnet-4-6",
     "anthropic/claude-haiku-4-5"
@@ -10,11 +10,9 @@
     "anthropicApi:ok",
     "ollamaRunning:ok",
     "gemma4Loaded:ok",
-    "gemma4Warm:ok"
+    "gemma4Warm:ok",
+    "fallbackChainConfig:ok"
   ],
-  "broken": [
-    "Fallback chain: primary model wrong (got 'anthropic/claude-haiku-4-5')",
-    "Fallback chain: fallback[0] wrong (got 'ollama/kimi-k2.6:cloud') \u2014 should be haiku-4-5"
-  ],
-  "brokenCount": 2
+  "broken": [],
+  "brokenCount": 0
 }

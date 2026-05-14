@@ -1,5 +1,5 @@
 {
-  "sequence": 162,
+  "sequence": 174,
   "tickets": [
     {
       "id": "TKT-0104",
@@ -86,11 +86,11 @@
       "title": "Document Generation Pipeline — DOCX/XLSX/PPTX/PDF (Ahsoka Q1 blocker)",
       "type": "task",
       "priority": "high",
-      "status": "open",
+      "status": "in-progress",
       "requester": "Ken",
       "assignee": "Yoda",
       "created": "2026-05-08T18:35:20+10:00",
-      "updated": "2026-05-08T18:35:20+10:00",
+      "updated": "2026-05-14T10:38:04+10:00",
       "description": "Build reusable document generation pipeline for Ahsoka. Required to produce consulting proposals, discovery reports, data exports, and presentations. Ahsoka cannot deliver client outputs without this. Libraries: python-docx (DOCX), openpyxl+pandas (XLSX), python-pptx (PPTX), fpdf+reportlab (PDF). Deliverables: install script, generate-doc.sh wrapper, 4 AInchors-branded templates, test output for each format.",
       "resolution": null,
       "linked": {
@@ -98,7 +98,7 @@
         "inc": [],
         "chg": []
       },
-      "notes": "",
+      "notes": "Groomed 2026-05-14 Sprint 4 candidate. Decisions: (1) Placeholder templates now — brand assets (logo, colours, fonts) to be supplied by Ken/Angie later as a follow-up update. (2) Pilot scope: Ahsoka + Yoda + Atlas. Future: all agents producing client deliverables. office-docs skill already installed — covers all 4 formats (PDF/DOCX/XLSX/PPTX). Work: pip install on OC1, generate-doc.sh wrapper, 4 placeholder branded templates, test output per format. Route to Forge for build. Atlas to define template structure/schema for consulting proposals + EA deliverables. Size: M. | Sprint 4 committed. Routed to Forge for build. Atlas to define template schema as first step (can run in parallel). No brand assets needed to start — placeholders first.",
       "notionPageId": "35ec1829-53ff-8114-a90f-fb2a3aeaf5b0"
     },
     {
@@ -211,7 +211,7 @@
       "requester": "Ken",
       "assignee": "Yoda",
       "created": "2026-05-09T12:25:42+10:00",
-      "updated": "2026-05-09T12:25:42+10:00",
+      "updated": "2026-05-14T10:57:49+10:00",
       "description": "Ken to confirm partnership/shareholder agreement between Ainchor Solutions Pty Ltd and Aevlith Technologies Pty Ltd with Angie before ASIC registration proceeds. This is the blocker for TKT-0114 through TKT-0117. Target: this week (w/c 2026-05-09).",
       "resolution": null,
       "linked": {
@@ -219,7 +219,7 @@
         "inc": [],
         "chg": []
       },
-      "notes": " | ⚠️ BLOCKED (Strategy-Gate 2026-05-12): Company name is PLACEHOLDER — Ken to confirm final name before this ticket can proceed. Do not action.",
+      "notes": " | ⚠️ BLOCKED (Strategy-Gate 2026-05-12): Company name is PLACEHOLDER — Ken to confirm final name before this ticket can proceed. Do not action. | Bucket D — Ken personal action. Discuss with Angie this week. ASIC registration takes ~30min once partnership agreed. Unblocks TKT-0115/0116/0117/0118/0119. Target: agreed by Fri 16 May. | Ken catching up with Angie this week (w/c 2026-05-12) — target finalized by end of week. ASIC registration to follow once partnership agreed. Grooming 2026-05-14.",
       "notionPageId": "35bc1829-53ff-819f-85b1-dd374f2ad45b"
     },
     {
@@ -734,7 +734,7 @@
       "requester": "Ken",
       "assignee": "Yoda",
       "created": "2026-05-10T15:21:58+10:00",
-      "updated": "2026-05-10T15:22:03+10:00",
+      "updated": "2026-05-14T10:55:26+10:00",
       "description": "Design the full AInchors Consulting Product Portfolio: identify commercial products across client AI maturity stages, business processes, and domains. Aligned to P2-P4 strategy. Cross-pollinate into training courses product line. Scope: (1) PRODUCT IDENTIFICATION — map AI maturity (Experimenter, Adopter, Transformer, AI-Native) to commercial offerings. Business Jumpstart (TKT-0138) is the entry product. What comes next? AI Ops Retainer, Nexus Implementation, AI Readiness Assessment, AI Governance Audit, Transformation Programme. (2) COMMERCIAL ROADMAP — sequence products against P2 (first client, prove model), P3 (productised delivery), P4 (platform + self-serve). Which products launch at P2? Which need P3 infrastructure? (3) TRAINING COURSE PIPELINE — identify which consulting frameworks generate training courses. Business Jumpstart -> AI Jumpstart for Business course. VMS methodology -> AI Strategy for Leaders. Agile-first sprint -> Agile AI Delivery workshop. (4) MATERIALS MATRIX — per product: required Consulting Playbook assets (TKT-0136), Nexus modules, agent capabilities. Identify gaps early. (5) PRIORITISATION — ICE/PIE scoring against P2-P4 revenue targets, effort, strategic fit. Owners: Ahsoka (product design), Aria (commercial + Angie alignment), Atlas (platform capability mapping). Ken + Angie approve portfolio. Gate: Ken + Angie sign-off before any product goes to market.",
       "resolution": null,
       "linked": {
@@ -745,7 +745,7 @@
         "inc": [],
         "chg": []
       },
-      "notes": "",
+      "notes": "Bucket B — consulting enablement. S5-S6 target. Ahsoka drafts, Ken reviews. No blocking dependency on critical path.",
       "notionPageId": "35cc1829-53ff-8153-a8bb-e9aa6c92d69a"
     },
     {
@@ -1025,13 +1025,13 @@
       "title": "Semantic Memory Store — Vector/JSON memory on MinIO (Option D)",
       "type": "task",
       "priority": "high",
-      "status": "open",
+      "status": "closed",
       "requester": "Ken",
       "assignee": "Yoda",
       "created": "2026-05-11T23:15:29+10:00",
-      "updated": "2026-05-11T23:15:29+10:00",
+      "updated": "2026-05-14T10:46:03+10:00",
       "description": "Replace MEMORY.md file-based memory with a searchable semantic store on MinIO. Yoda retrieves only relevant context per session. No fixed file size limit. Long-term replacement for Option B (tiered MEMORY split). Requires OC2 + MinIO validated. Trigger: TRIGGER-13 (post OC2-stable + MinIO proven in prod for 2 sprints).",
-      "resolution": null,
+      "resolution": "Superseded by TKT-0171 (pgvector + nomic-embed-text RAG Pipeline) as part of TKT-0162 Phase 1 architecture work. Option B approved 2026-05-14. Vector memory now tracked in architecture-kri-state.json WP8.",
       "linked": {
         "us": [],
         "inc": [],
@@ -1142,12 +1142,14 @@
       "id": "TKT-0162",
       "title": "Review + approve Yoda_ORCHESTRATOR.md and Yoda_RULES.md — DRAFT FOR REVIEW",
       "priority": "high",
-      "status": "open",
+      "status": "closed",
       "stream": "technical",
       "sprint": 4,
       "createdAt": "2026-05-12T03:05:49.116511+00:00",
       "notes": "Both docs are DRAFT FOR REVIEW. No decision blockers. Ken to read and approve. If gaps found, Yoda to patch before approval. These are the primary Yoda operational reference documents — approval makes them authoritative. Docs: workspace/docs/Yoda_ORCHESTRATOR.md + workspace/docs/Yoda_RULES.md. Drive: AInchors — Yoda Working Files/Platform Docs/.",
-      "notionPageId": "35ec1829-53ff-8109-86c2-c93fac4939e5"
+      "notionPageId": "35fc1829-53ff-8148-96bf-c420119649e9",
+      "resolution": "Option paper approved by Ken Mun 2026-05-14 10:28 AEST. Decision: Option B phased delivery. All 5 section-10 decisions confirmed. Full work breakdown, KRI dashboard, and tickets to be commissioned by Atlas subagent. Event sourcing deferred to Phase 3 post-P2 stable.",
+      "updated": "2026-05-14T10:28:51+10:00"
     },
     {
       "id": "TKT-0163",
@@ -1158,7 +1160,7 @@
       "sprint": 4,
       "createdAt": "2026-05-12T03:05:49.116511+00:00",
       "notes": "DRAFT FOR REVIEW. No decision blockers. Ken to read and approve. This is the AInchors agile framework — governs sprint ceremonies, velocity, and agile cadence. Approval makes it the authoritative process reference. Doc: workspace/docs/ainchors-agile-framework-v1.md.",
-      "notionPageId": "35ec1829-53ff-8106-b27b-e86abb7f8293"
+      "notionPageId": "35fc1829-53ff-810d-a6e4-f168ed3be38f"
     },
     {
       "id": "TKT-0164",
@@ -1169,7 +1171,7 @@
       "sprint": 4,
       "createdAt": "2026-05-12T03:05:49.116511+00:00",
       "notes": "DRAFT FOR REVIEW. Aevlith Technologies charter addendum. No decision blockers — this is a governance document for the Aevlith entity. Ken to review for accuracy re: entity structure, IP, and liability split between AInchors and Aevlith. Doc: workspace/docs/aevlith-charter-addendum-draft.md. Note: Lex should review before Ken final approval (governance document).",
-      "notionPageId": "35ec1829-53ff-8187-b538-e1313717fb46"
+      "notionPageId": "360c1829-53ff-8139-8a3d-eefbfb16a8c1"
     },
     {
       "id": "TKT-0165",
@@ -1179,8 +1181,9 @@
       "stream": "technical",
       "sprint": 4,
       "createdAt": "2026-05-12T03:05:49.116511+00:00",
-      "notes": "DRAFT FOR REVIEW. Mon Mothma (DTCM) agent spec. No decision blockers. Ken to review against current Tier 3 SOP and governance framework. Similar to Lando (DEC-012) — check if Tier 3 operating pattern is correctly reflected. Doc: workspace/docs/Digital_Transformation_Change_Management_Specialist_Agent_v1.md.",
-      "notionPageId": "35ec1829-53ff-818e-a986-cfdc21f3636e"
+      "notes": "DRAFT FOR REVIEW. Mon Mothma (DTCM) agent spec. No decision blockers. Ken to review against current Tier 3 SOP and governance framework. Similar to Lando (DEC-012) — check if Tier 3 operating pattern is correctly reflected. Doc: workspace/docs/Digital_Transformation_Change_Management_Specialist_Agent_v1.md. | Bucket A — batch Ken review session, week of 2026-05-14. Target: closed before Sprint 4 starts (May 19). | Cost investigation data added 2026-05-14. See state/cost-investigation-2026-05-14.json. Quick wins applied: (1) Aria Daily Summary: Sonnet → Haiku + lightContext=true, (2) Daily Blog: added lightContext=true, (3) Drive Sync: added lightContext=true. Estimated daily saving: $0.52. Cron layer finding: already 80% optimized. Real cost driver = interactive sessions on heavy work days. Feeding into Three Work Types Rule implementation. Pending Ken approval: Aria Weekly ROI (Sonnet → Haiku).",
+      "notionPageId": "360c1829-53ff-81ae-94e0-f0c738a7733f",
+      "updated": "2026-05-14T11:40:05+10:00"
     },
     {
       "id": "TKT-0166",
@@ -1191,7 +1194,7 @@
       "sprint": 4,
       "createdAt": "2026-05-12T03:05:49.116511+00:00",
       "notes": "DRAFT FOR REVIEW. Sandbox environment runbook — operational guide for TKT-0135 (AInchors Sandbox Environment). TKT-0135 (Sandbox build) is Sprint 3. This runbook must be approved before sandbox is considered DoD. Ken to review. Doc: workspace/docs/sandbox-runbook.md.",
-      "notionPageId": "35ec1829-53ff-8184-bccc-eb06b38d4faf"
+      "notionPageId": "360c1829-53ff-81bf-bc58-edf6397c317d"
     },
     {
       "id": "TKT-0154",
@@ -1222,7 +1225,7 @@
       "sprint": 4,
       "createdAt": "2026-05-12T07:12:51.913673+00:00",
       "notes": "OD-01 from Nexus-Access-Policy-v1.0.md approval. Forge to: (1) Create state/access-violations.json with schema from policy Section 9.3. (2) Add ACCESS CHECK to obs-collector.sh that detects V0/V1 violations and logs them. (3) Alert Yoda on V0 CRITICAL violations. Sprint 4.",
-      "notionPageId": "35ec1829-53ff-8100-8615-c6f6adb36bde"
+      "notionPageId": "360c1829-53ff-8172-a11b-f5a8db96501f"
     },
     {
       "id": "TKT-0168",
@@ -1233,7 +1236,7 @@
       "sprint": 4,
       "createdAt": "2026-05-12T07:12:51.913673+00:00",
       "notes": "OD-05 from Nexus-Access-Policy-v1.0.md approval. Create Notion DB for access violations. Forge to add auto-sync for V0 (CRITICAL) and V1 (HIGH) violations from state/access-violations.json → Notion DB. V2/V3 remain local-only. Sprint 4.",
-      "notionPageId": "35ec1829-53ff-8105-aa3a-d7227d107b8a"
+      "notionPageId": "360c1829-53ff-8155-b8f8-e621a60d7f1c"
     },
     {
       "id": "TKT-0155",
@@ -1374,6 +1377,246 @@
       },
       "notes": "",
       "notionPageId": "35fc1829-53ff-817b-bced-ca7959270f48"
+    },
+    {
+      "id": "TKT-0162",
+      "title": "Option Paper: Nexus Platform Architecture Direction (Data, Integration, Sustainability)",
+      "type": "task",
+      "priority": "high",
+      "status": "closed",
+      "requester": "Ken",
+      "assignee": "Yoda",
+      "created": "2026-05-14T08:01:49+10:00",
+      "updated": "2026-05-14T10:28:51+10:00",
+      "description": "Ken requested a formal option paper to support a CTO-level architecture decision before opening P1 more broadly. Three options to analyse: A=Incremental hardening, B=Redesign data+integration layers (keep OpenClaw), C=Radical platform refactor. Must be evaluated against all approved strategy, architecture decisions, OKRs, and P1-P4 roadmap. Atlas leads architectural framing. Yoda orchestrates and QA gates. Output: single well-structured markdown document. Audience: Ken as CTO.",
+      "resolution": "Option paper approved by Ken Mun 2026-05-14 10:28 AEST. Decision: Option B phased delivery. All 5 section-10 decisions confirmed. Full work breakdown, KRI dashboard, and tickets to be commissioned by Atlas subagent. Event sourcing deferred to Phase 3 post-P2 stable.",
+      "linked": {
+        "us": [],
+        "inc": [],
+        "chg": []
+      },
+      "notes": "",
+      "notionPageId": "35fc1829-53ff-8148-96bf-c420119649e9"
+    },
+    {
+      "id": "TKT-0163",
+      "title": "Standup Email: Email-Safe HTML Template (Gmail Rendering Fix)",
+      "type": "task",
+      "priority": "medium",
+      "status": "open",
+      "requester": "Ken",
+      "assignee": "Yoda",
+      "created": "2026-05-14T09:31:16+10:00",
+      "updated": "2026-05-14T09:31:16+10:00",
+      "description": "The standup email uses a GitHub-style CSS template (flex, grid, border-radius, class-based styles) that renders inconsistently in Gmail across devices. Need to either: (1) inline all CSS styles into HTML elements, or (2) build a separate email-safe table-based template that renders consistently in Gmail mobile and desktop. Canvas HTML can stay as-is for webchat display. Email layer needs its own rendering path. Reference: Day 20 standup email (2026-05-14) reported wrong rendering vs Day 19.",
+      "resolution": null,
+      "linked": {
+        "us": [],
+        "inc": [],
+        "chg": []
+      },
+      "notes": "",
+      "notionPageId": "35fc1829-53ff-810d-a6e4-f168ed3be38f"
+    },
+    {
+      "id": "TKT-0164",
+      "title": "Postgres Deploy + 5-Tier Schema on OC1 (TKT-0162 Phase 1, WP1)",
+      "type": "task",
+      "priority": "high",
+      "status": "open",
+      "requester": "Ken",
+      "assignee": "Yoda",
+      "created": "2026-05-14T10:33:14+10:00",
+      "updated": "2026-05-14T10:33:14+10:00",
+      "description": "Deploy Postgres on OC1 (Homebrew or Docker) and implement the full TKT-0104 5-tier memory architecture schema. Tables: agent_events, agent_decisions, decision_lineage, memory_access_log, knowledge_chunks, knowledge_documents, agent_shared_state, agent_state_history, session_state, cost_events, agent_health, change_records, workflow_state, tickets. All tables must include tenant_id column (DEFAULT 'ainchors') for P2 readiness. Add SHA-256 hashing to first 3 most active agents (Yoda, Forge, Warden). Add optimistic locking (version column) to agent_shared_state. This is WP1 — the foundational prerequisite for all other Phase 1 work packages. Source: TKT-0162 Option B Phase 1, TKT-0104 Action 1. Owner: Forge. Ken approval required on Postgres deployment model (Homebrew vs Docker on OC1). P2 launch blocker.",
+      "resolution": null,
+      "linked": {
+        "us": [],
+        "inc": [],
+        "chg": []
+      },
+      "notes": "",
+      "notionPageId": "360c1829-53ff-8139-8a3d-eefbfb16a8c1"
+    },
+    {
+      "id": "TKT-0165",
+      "title": "Three Work Types Rule + Work Currency Routing Table (TKT-0162 Phase 1, WP2)",
+      "type": "task",
+      "priority": "high",
+      "status": "open",
+      "requester": "Ken",
+      "assignee": "Yoda",
+      "created": "2026-05-14T10:33:27+10:00",
+      "updated": "2026-05-14T11:40:05+10:00",
+      "description": "Codify the Three Work Types Rule in RULES.md and all agent SOUL.md files. Three types: (1) Reasoning/LLM - analysis, planning, synthesis, novel content, complex decisions. Routes to T2/T3. (2) CRUD/Script - state mutations, ticket updates, file writes, cost records, status changes. Routes to T0 shell script or T1 Gemma4. Never LLM. (3) Coordination/Event - agent-to-agent handoffs. Light events via Postgres LISTEN/NOTIFY for async; sessions_send for synchronous orchestration. Publish Work Currency routing table: High→Sonnet/Haiku (T3), Medium→OllamaCloud/kimi (T2), Low→Gemma4/systemEvent (T1/T0), None→Script (T0). Audit top 6 LLM-for-CRUD offenders (ticket updates, cost writes, health state mutations, workflow state, linkedin queue, journal assembly) and replace with deterministic scripts. Target: 40% Sonnet/Haiku turn reduction within Sprint 4-5. Source: TKT-0162 Section 6.1. Owner: Yoda (rule), Forge (script replacements). DoD: RULES.md updated, routing table in Holocron, 6 offenders replaced with scripts, CHG logged.",
+      "resolution": null,
+      "linked": {
+        "us": [],
+        "inc": [],
+        "chg": []
+      },
+      "notes": "Bucket A — batch Ken review session, week of 2026-05-14. Target: closed before Sprint 4 starts (May 19). | Cost investigation data added 2026-05-14. See state/cost-investigation-2026-05-14.json. Quick wins applied: (1) Aria Daily Summary: Sonnet → Haiku + lightContext=true, (2) Daily Blog: added lightContext=true, (3) Drive Sync: added lightContext=true. Estimated daily saving: $0.52. Cron layer finding: already 80% optimized. Real cost driver = interactive sessions on heavy work days. Feeding into Three Work Types Rule implementation. Pending Ken approval: Aria Weekly ROI (Sonnet → Haiku).",
+      "notionPageId": "360c1829-53ff-81ae-94e0-f0c738a7733f"
+    },
+    {
+      "id": "TKT-0166",
+      "title": "Sources of Truth Register — 10 Core Data Types (TKT-0162 Phase 1, WP3)",
+      "type": "task",
+      "priority": "high",
+      "status": "open",
+      "requester": "Ken",
+      "assignee": "Yoda",
+      "created": "2026-05-14T10:33:37+10:00",
+      "updated": "2026-05-14T10:33:37+10:00",
+      "description": "Document the authoritative source for each of the 10 core data types. For each: owner agent/system, canonical storage location (Postgres table or file path), access pattern (read/write), retention policy, and classification tag. The 10 core types: (1) tickets — owner: ITSM/ticket.sh, target: Postgres tickets table. (2) cost_events — owner: cost-tracker.sh, target: Postgres cost_events table. (3) agent_health — owner: Forge/Warden, target: Postgres agent_health table. (4) change_records — owner: changelog-append.sh, target: Postgres change_records table. (5) workflow_state — owner: Yoda, target: Postgres workflow_state table. (6) linkedin_queue — owner: Spark, target: Postgres linkedin_posts table. (7) knowledge_chunks — owner: RAG pipeline, target: pgvector knowledge_chunks table. (8) agent_decisions — owner: decision_lineage system, target: Postgres agent_decisions table. (9) session_state — owner: OpenClaw, target: Postgres session_state table (P1), Redis (P2). (10) agent_shared_state — owner: Yoda coordination layer, target: Postgres agent_shared_state table. Publish register in Holocron AKB. Source: TKT-0162 Section 9 + TKT-0104. Owner: Atlas. DoD: all 10 types documented, register live in Holocron, linked to KRI dashboard.",
+      "resolution": null,
+      "linked": {
+        "us": [],
+        "inc": [],
+        "chg": []
+      },
+      "notes": "",
+      "notionPageId": "360c1829-53ff-81bf-bc58-edf6397c317d"
+    },
+    {
+      "id": "TKT-0167",
+      "title": "JSON→Postgres Migration — Top 5 State Files (TKT-0162 Phase 1, WP4)",
+      "type": "task",
+      "priority": "high",
+      "status": "open",
+      "requester": "Ken",
+      "assignee": "Yoda",
+      "created": "2026-05-14T10:33:46+10:00",
+      "updated": "2026-05-14T10:33:46+10:00",
+      "description": "Migrate the top 5 critical state files from JSON filesystem to Postgres tables. Migration sequence and approach: (1) tickets.json → Postgres tickets table. Wrap ticket.sh to write to Postgres, keep JSON as read fallback during transition window. (2) cost-state.json / cost event log → Postgres cost_events table. Update cost-tracker.sh to write to Postgres. (3) health-state.json → Postgres agent_health table. Update health-check.sh and Warden to read/write Postgres. (4) Change records → Postgres change_records table. Update changelog-append.sh to dual-write initially. (5) async-tasks.json / active-work.json → Postgres workflow_state table. Update all scripts that mutate these files. Each migration: (a) design Postgres table schema, (b) write migration script, (c) dual-write during transition (Postgres primary, JSON fallback), (d) validate data integrity, (e) deprecate JSON file. Kill switch in auto-heal.sh to revert specific migration if needed. Dependencies: TKT-0164 (Postgres deployed). P2 launch blocker. Owner: Forge. DoD: all 5 files migrated, JSON deprecated, Postgres verified as primary, validation tests passing.",
+      "resolution": null,
+      "linked": {
+        "us": [],
+        "inc": [],
+        "chg": []
+      },
+      "notes": "",
+      "notionPageId": "360c1829-53ff-8172-a11b-f5a8db96501f"
+    },
+    {
+      "id": "TKT-0168",
+      "title": "Postgres LISTEN/NOTIFY Event Bus — Core Event Types + 3 Publishers (TKT-0162 Phase 1, WP5)",
+      "type": "task",
+      "priority": "high",
+      "status": "open",
+      "requester": "Ken",
+      "assignee": "Yoda",
+      "created": "2026-05-14T10:33:58+10:00",
+      "updated": "2026-05-14T10:33:58+10:00",
+      "description": "Implement internal event bus using Postgres LISTEN/NOTIFY. This is the coordination backbone for Option B — replaces ad-hoc sessions_send for background async tasks. Scope: (1) Define core event channel names: nexus_tickets, nexus_agent_status, nexus_workflows, nexus_cost, nexus_decisions. (2) Define event envelope schema: {event_type, agent_id, tenant_id, payload, timestamp, correlation_id}. (3) Wire 3 initial event publishers: Yoda (workflow events), Forge (infra events), Spark (content pipeline events). (4) Implement event log table in Postgres: event_log(id, channel, event_type, agent_id, tenant_id, payload JSONB, published_at). All NOTIFY events also written to event_log for durability. (5) Build event publisher helper script: scripts/event-publish.sh <channel> <event_type> <payload_json>. (6) Build initial subscriber listener for Yoda to receive workflow completion events. Note: Postgres LISTEN/NOTIFY is not durable — lost events if listener not active. Durability via event_log table + replay on reconnect. P2: migrate to Redis Streams. Dependencies: TKT-0164 (Postgres deployed). Owner: Forge (infra), Yoda (subscriber pattern). DoD: event bus live, 3 publishers wired, event_log table capturing all events.",
+      "resolution": null,
+      "linked": {
+        "us": [],
+        "inc": [],
+        "chg": []
+      },
+      "notes": "",
+      "notionPageId": "360c1829-53ff-8155-b8f8-e621a60d7f1c"
+    },
+    {
+      "id": "TKT-0169",
+      "title": "Typed Agent Contracts — 4 Cross-Agent Handoffs (TKT-0162 Phase 1, WP6)",
+      "type": "task",
+      "priority": "high",
+      "status": "open",
+      "requester": "Ken",
+      "assignee": "Yoda",
+      "created": "2026-05-14T10:34:10+10:00",
+      "updated": "2026-05-14T10:34:10+10:00",
+      "description": "Define and implement typed JSON Schema contracts for the 4 highest-priority cross-agent handoffs. This makes integration failures observable and diagnosable. Scope: (1) Yoda→Forge: WorkflowRequest contract — required fields: task_type, priority, description, context_files[], expected_output, timeout_seconds, work_currency [high|medium|low|none]. (2) Yoda→Sanctum (Shield/Lex/Sage): ReviewRequest contract — required fields: review_type [security|legal|qa], document_path, context, urgency, requester. (3) Atlas→Ken: OptionPaperOutput contract — required fields: document_path, decision_required, options[], recommendation, trade_offs, open_questions[]. (4) Spark→Yoda: ContentReadyEvent contract — required fields: content_type, post_path, scheduled_at, platform, status, requires_approval. For each contract: (a) JSON Schema file in docs/contracts/. (b) Validator script: scripts/validate-contract.sh <contract_name> <json_payload>. (c) Contract registry entry in Holocron. (d) Standing cadence rule: all future agents require a defined output contract as New Agent Activation DoD gate. Dependencies: TKT-0168 (event bus). Owner: Atlas (schema design), Forge (validator script). DoD: 4 contracts defined, validator live, contracts registered in Holocron, New Agent DoD gate updated.",
+      "resolution": null,
+      "linked": {
+        "us": [],
+        "inc": [],
+        "chg": []
+      },
+      "notes": "",
+      "notionPageId": "360c1829-53ff-8119-9972-f1c6de2baf51"
+    },
+    {
+      "id": "TKT-0170",
+      "title": "PII Scanner on Document Ingestion Pipeline (TKT-0162 Phase 1, WP7)",
+      "type": "task",
+      "priority": "high",
+      "status": "open",
+      "requester": "Ken",
+      "assignee": "Yoda",
+      "created": "2026-05-14T10:34:22+10:00",
+      "updated": "2026-05-14T10:34:22+10:00",
+      "description": "Implement PII scanner as a mandatory gate on all document ingestion before chunking or embedding. This is an APP 11 (Privacy Act 1988) compliance control and a prerequisite for the RAG pipeline (TKT-0170). Scope: (1) Install spaCy with en_core_web_lg model on OC1 (lightweight, local, no data residency risk). Note: evaluate Microsoft Presidio as alternative — Ken to confirm preference (Presidio = heavier but better entity detection for structured data). (2) Build PII scanner script: scripts/pii-scan.sh <document_path> — returns JSON: {pii_present: bool, entities_found: [], risk_level: [low|medium|high]}. (3) Wire into document ingestion path: before any document is chunked or embedded, must pass scanner. (4) Set pii_present flag on knowledge_documents table record. (5) Block embedding when pii_present=TRUE without explicit Compliance Agent (Lex) approval. (6) Wire pii_detected event to agent_events table — triggers Lex review queue. (7) Build deletion capability: scripts/purge-document.sh <document_id> — removes all chunks and embeddings for a document (data subject deletion right, APP 12). Dependencies: TKT-0164 (Postgres for event logging). Precondition for TKT-0170 (RAG pipeline). Owner: Forge (build), Lex (policy approval). DoD: scanner live, pii_present flag on schema, block gate enforced, deletion script working.",
+      "resolution": null,
+      "linked": {
+        "us": [],
+        "inc": [],
+        "chg": []
+      },
+      "notes": "",
+      "notionPageId": "360c1829-53ff-8105-941f-d46f7a022a9a"
+    },
+    {
+      "id": "TKT-0171",
+      "title": "pgvector + nomic-embed-text RAG Pipeline — Initial Knowledge Base (TKT-0162 Phase 1, WP8)",
+      "type": "task",
+      "priority": "high",
+      "status": "open",
+      "requester": "Ken",
+      "assignee": "Yoda",
+      "created": "2026-05-14T10:34:35+10:00",
+      "updated": "2026-05-14T10:34:35+10:00",
+      "description": "Implement the full RAG pipeline using pgvector and nomic-embed-text (768-dim). This realises TKT-0104 T4 (Long-Term Semantic Memory). Scope: (1) Add pgvector extension to Postgres: CREATE EXTENSION vector. (2) Create knowledge_chunks and knowledge_documents tables (schema from TKT-0104): knowledge_documents(id, title, source_path, classification, pii_present, quality_score, provenance, ingested_at, expires_at, tenant_id), knowledge_chunks(id, document_id, chunk_index, content, embedding vector(768), classification, pii_present, quality_score, created_at, expires_at, tenant_id). HNSW index on embedding column. (3) Deploy nomic-embed-text via Ollama (already installed): ollama pull nomic-embed-text. (4) Build ingestion pipeline: scripts/ingest-document.sh <file_path> — reads file, PII scans, chunks (RecursiveCharacterTextSplitter 400-600 tokens, 10-20% overlap), embeds via nomic-embed-text, stores to pgvector. (5) Build retrieval query: scripts/rag-search.sh <query> <limit> — embeds query, cosine similarity search on knowledge_chunks, returns top-k with metadata. (6) Seed initial knowledge base: RULES.md, AGENTS.md, SOUL.md, Model3-Policy.md, Nexus-Access-Policy-v1.0.md, TKT-0104 doc, TKT-0046 doc. (7) Wire retrieval into Yoda heartbeat for relevant context injection. Dependencies: TKT-0164 (Postgres), TKT-0170 (PII scanner). This ticket: separate from TKT-0153 (Yoda semantic memory on MinIO). Owner: Forge (pipeline), Atlas (schema). DoD: pgvector live, ingestion pipeline working, initial 6 docs seeded, retrieval tested.",
+      "resolution": null,
+      "linked": {
+        "us": [],
+        "inc": [],
+        "chg": []
+      },
+      "notes": "",
+      "notionPageId": "360c1829-53ff-8110-b6cc-ccc4b4efbe65"
+    },
+    {
+      "id": "TKT-0172",
+      "title": "Aevlith Technology Strategy & Roadmap — Doc 1a (Internal) + 1b (External)",
+      "type": "task",
+      "priority": "high",
+      "status": "closed",
+      "requester": "Ken",
+      "assignee": "Yoda",
+      "created": "2026-05-14T11:58:07+10:00",
+      "updated": "2026-05-14T12:22:25+10:00",
+      "description": "Produce two versions of the consolidated Technology Strategy & Roadmap. 1a=internal (full detail, financial data, agent names, Star Wars IDs). 1b=external/client-facing (sanitised, no financials, role titles not agent names). Both: current state + full P1-P4 arc. Output: MD (golden blueprint for agents) + DOCX for 1b. Sources: aevlith-it-strategy, ainchors-strategy-okr, TKT-0162, TKT-0104, TKT-0046, MEMORY.md, all approved decisions.",
+      "resolution": "Doc 1a (Internal MD, 34.5KB) + Doc 1b (External MD + DOCX) both complete. DRAFT FOR REVIEW. All three files uploaded to Drive + MinIO + Holocron.",
+      "linked": {
+        "us": [],
+        "inc": [],
+        "chg": []
+      },
+      "notes": "",
+      "notionPageId": "360c1829-53ff-819d-8b45-eeb367503d52"
+    },
+    {
+      "id": "TKT-0173",
+      "title": "Nexus System Architecture Document — Full Stack, Current + Target State",
+      "type": "task",
+      "priority": "high",
+      "status": "closed",
+      "requester": "Ken",
+      "assignee": "Yoda",
+      "created": "2026-05-14T11:58:08+10:00",
+      "updated": "2026-05-14T12:12:13+10:00",
+      "description": "Single consolidated system architecture document (internal only). Full stack: agents, infrastructure (HIVE), data layer (current JSON + target Postgres/pgvector), integration layer (current P2P + target event bus), security controls S1-S7. Includes agent SOUL/role specs, component map (Core/Adjacent/Client-side), gap map current→target, P1-P4 architecture evolution. Output: MD (agent-consumable golden blueprint) + DOCX. Sources: Yoda_ORCHESTRATOR.md, TKT-0046, TKT-0104, TKT-0162, MEMORY.md, openclaw.json.",
+      "resolution": "Nexus-System-Architecture-v1.0.md produced (60KB, 993 lines). Full stack: agents, infrastructure, data, integration, security, gap map. DRAFT FOR REVIEW. Drive + MinIO uploaded. Holocron registered.",
+      "linked": {
+        "us": [],
+        "inc": [],
+        "chg": []
+      },
+      "notes": "",
+      "notionPageId": "360c1829-53ff-8160-b9b7-d65ed1a94990"
     }
   ]
 }

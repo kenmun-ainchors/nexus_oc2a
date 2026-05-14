@@ -1,3 +1,5 @@
+> ⚠️ **INCORPORATED** — Component landscape and architecture consolidated into `Nexus-System-Architecture-v1.0.md` (approved 2026-05-14). Locked decision record — preserve as-is.
+
 # Nexus Enterprise Landscape: Solutions and Components P2–P4
 **TKT-0046 | Enterprise Architecture Deliverable**
 **Status:** LIVE — Approved by Ken Mun 2026-05-12

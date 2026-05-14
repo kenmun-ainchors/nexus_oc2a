@@ -1,5 +1,5 @@
 {
-  "lastUpdated": "2026-05-13T13:55:28Z",
+  "lastUpdated": "2026-05-14T02:01:26Z",
   "history": {
     "2026-04-25": {
       "date": "2026-04-25",
@@ -763,19 +763,57 @@
           "turns": 39
         }
       }
+    },
+    "2026-05-14": {
+      "date": "2026-05-14",
+      "totalCost": 41.7115,
+      "totalTurns": 656,
+      "totalInputTokens": 638099,
+      "totalOutputTokens": 252644,
+      "totalCacheReadTokens": 29591056,
+      "totalCacheWriteTokens": 8192792,
+      "source": "session-log-estimate",
+      "note": "Session log estimate. usage.cost.total includes cacheWrite charges. CHG-0097: confirmed cost includes cache writes.",
+      "byModel": {
+        "claude-haiku-4-5": {
+          "input": 1047,
+          "output": 56145,
+          "cacheRead": 1479043,
+          "cacheWrite": 308916,
+          "cost": 0.8158,
+          "turns": 94
+        },
+        "deepseek-v4-pro:cloud": {
+          "input": 636158,
+          "output": 3508,
+          "cacheRead": 0,
+          "cacheWrite": 0,
+          "cost": 0.0,
+          "turns": 10
+        },
+        "claude-sonnet-4-6": {
+          "input": 894,
+          "output": 192991,
+          "cacheRead": 28112013,
+          "cacheWrite": 7883876,
+          "cost": 40.8957,
+          "turns": 552
+        }
+      }
     }
   },
-  "allTimeTotalCost": 3081.3681,
-  "daysTracked": 19,
-  "avgDailyCost": 162.1773,
+  "allTimeTotalCost": 3123.0796,
+  "daysTracked": 20,
+  "avgDailyCost": 156.154,
   "apiBalance": {
     "remainingEstimate": 0,
-    "spentSinceTopUp": 3081.3681,
-    "remainingNote": "confirmedBalance=None at 2026-05-08; spentAfter=3081.3681",
+    "spentSinceTopUp": 3123.0796,
+    "remainingNote": "confirmedBalance=None at 2026-05-08; spentAfter=3123.0796",
     "confirmedAt": "2026-05-08T11:32:26Z",
     "note": "Auto-reload triggered 2026-05-10. Balance $425.12 post-reload spend.",
     "lastUpdated": "2026-05-10T15:25:58.923445+10:00",
-    "lastConfirmedBy": "Ken"
+    "lastConfirmedBy": "Ken",
+    "lastConfirmed": "2026-05-14T11:23:00+10:00"
   },
   "spendAlerts": {
     "tier1": {
@@ -826,9 +864,9 @@
   },
   "costDataSource": "anthropic_csv_ground_truth",
   "costDataNote": "May 3+4 reconciled from Anthropic CSV 2026-05-05. Pre-May3 from earlier CSV reconciliation.",
-  "confirmedBalance": 479.35,
-  "confirmedAt": "2026-05-08T11:32:26Z",
-  "confirmedBy": "Ken",
+  "confirmedBalance": 303.66,
+  "confirmedAt": "2026-05-14T11:23:00+10:00",
+  "confirmedBy": "Ken (manual)",
   "lastTopUpAt": "2026-05-08T11:32:26Z",
   "lastTopUpAmount": 450,
   "topUpNote": "Auto-reload trigger fired 2026-05-07 03:31 AEST. $500 reloaded. Balance $470.93.",
@@ -836,6 +874,42 @@
   "autoReload": {
     "enabled": true,
     "triggerThreshold": 50,
-    "reloadAmount": 450
-  }
+    "reloadAmount": 450,
+    "active": true,
+    "triggerAt": 50,
+    "lastTopUp": "2026-05-10",
+    "topUpHistory": [
+      {
+        "date": "2026-05-10",
+        "amount": 450,
+        "trigger": "auto-reload <$50"
+      },
+      {
+        "date": "2026-05-11",
+        "amount": 450,
+        "trigger": "auto-reload <$50"
+      },
+      {
+        "date": "2026-05-12",
+        "amount": 450,
+        "trigger": "auto-reload <$50"
+      },
+      {
+        "date": "2026-05-13",
+        "amount": 450,
+        "trigger": "auto-reload <$50"
+      },
+      {
+        "date": "2026-05-14",
+        "amount": 450,
+        "trigger": "auto-reload <$50"
+      }
+    ]
+  },
+  "dailyCap": 450,
+  "dailyCapNote": "Temporary raise to $450/day for heavy build phase. Reverts to $150 after 2026-05-17 (Sun). CHG-0312.",
+  "dailyCapExpiry": "2026-05-17",
+  "dailyCapPrevious": 150,
+  "dailyCapUpdatedAt": "2026-05-14T11:32:00+10:00",
+  "dailyCapUpdatedBy": "Ken"
 }

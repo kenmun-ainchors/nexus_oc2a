@@ -226,10 +226,10 @@
       "week": "A",
       "part": 3,
       "seriesTotal": 6,
-      "status": "triad-cleared",
-      "scheduledFor": "2026-05-13",
-      "label": "C1W2P3 — Token Efficiency Is AIOps (Part 3/6)",
-      "file": "/Users/ainchorsangiefpl/.openclaw/workspace/workspace-social/drafts/linkedin-c1-w2-p3-token-efficiency.md",
+      "status": "posted",
+      "scheduledFor": "2026-05-14",
+      "label": "C1W2P3 — Multi-Agent Trust (Part 3/6)",
+      "file": "/Users/ainchorsangiefpl/.openclaw/workspace/tmp/li-c1-w2-p3-post.txt",
       "governance": {
         "shield": "clear",
         "lex": "conditional",
@@ -238,10 +238,12 @@
         "notes": "Lex L5 WARN: sensitive business content flag — false positive, public-facing operational findings. Sage: deferred LLM review, provisional pass. Same pattern as LI-C1-W2-P2 which was cleared and posted."
       },
       "createdAt": "2026-05-13T12:00:00+10:00",
-      "updatedAt": "2026-05-13T12:04:00.708131+10:00",
-      "notes": "Cycle 1 Week A Post 3. AIOps theme. Generated from Day 16 EOD blog. Governance: triad-cleared. | Image provided by Ken 2026-05-13, uploaded to LinkedIn. Asset URN ready for cron.",
+      "updatedAt": "2026-05-14T07:32:00+10:00",
+      "notes": "Cycle 1 Week A Post 3. AIOps theme. Generated from Day 16 EOD blog. Governance: triad-cleared. | Image provided by Ken 2026-05-13, uploaded to LinkedIn. Asset URN ready for cron. | Posted via Spark cron 2026-05-14 07:32 AEST with multi-agent trust content.",
       "imageAssetUrn": "urn:li:image:D4E10AQFaOFkuxvNOzA",
-      "imageLocalPath": "/Users/ainchorsangiefpl/.openclaw/workspace/workspace-social/images/linkedin/LI-C1-W2-P3/image.jpg"
+      "imageLocalPath": "/Users/ainchorsangiefpl/.openclaw/workspace/workspace-social/images/linkedin/LI-C1-W2-P3/image.jpg",
+      "postedAt": "2026-05-14T07:32:00+10:00",
+      "postedBy": "Spark (cron)"
     }
   ],
   "apiEnabled": true,

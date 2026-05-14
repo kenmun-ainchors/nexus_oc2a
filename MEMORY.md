@@ -98,12 +98,45 @@ Nexus=platform|Holocron=AKB|Bridge=cmd-centre|Citadel=client-portal|Holonet=live
 - Pre-OC2: 5/sprint | OC2 setup: 2–3 | Post-OC2: 5. 30% headroom. P2 target: end-Aug 2026 (contingency mid-Sep). **Daily budget cap: $150** (CHG-0268).
 
 ## Pending Tickets
-→ See **MEMORY_TICKETS.md** (auto-managed, ≤8k). tickets.json seq 155. Notion AKB Backlog = SSOT.
+→ See **MEMORY_TICKETS.md** (auto-managed, ≤8k). tickets.json seq 162. Notion AKB Backlog = SSOT.
 
 ## Anthropic API Key Rotation — SOP (locked 2026-05-13)
 - Trigger: key expires/revoked (no warning). Ken: `openclaw models auth` (main only). Yoda: `python3 scripts/propagate-anthropic-key.sh` → all 12 agents. Run immediately on key rotation. History: CHG-0142 (Day 8) + Day 19 (2026-05-13).
 
 ## Key Decisions & Architecture
 → See **MEMORY_DECISIONS.md** (append-only, ≤6k).
+
+## Golden Blueprint Documents — APPROVED (Day 20, 2026-05-14)
+- **Technology Strategy & Roadmap v1.0** (internal): `docs/Aevlith-Technology-Strategy-Roadmap-v1.0-Internal.md` — APPROVED Ken 2026-05-14. Drive: https://drive.google.com/file/d/10oGRVyYlEPLshPNQG-sF_1-NZu3LbI5I/view
+- **System Architecture Document v1.0**: `docs/Nexus-System-Architecture-v1.0.md` — APPROVED Ken 2026-05-14. Drive: https://drive.google.com/file/d/1FxEoTDzRlIMbbJHiD5XuR4Z5MNnpUAp-/view
+- External version (1b): deleted per Ken instruction
+- Superseded: aevlith-it-strategy-2026-05.md, ainchors-strategy-okr-2026-05.md, Nexus_Enterprise_Landscape_P2P4.md (decision record kept), DataMemory_P1P4_Roadmap.md (decision record kept), Yoda_ORCHESTRATOR.md (operational procedures remain active)
+- AGENTS.md updated with golden blueprint references
+
+## Nexus Platform Architecture Direction — APPROVED (Day 20, 2026-05-14)
+- **Decision: Option B Phased** — Redesign data + integration layers, keep OpenClaw. Approved Ken 2026-05-14 10:28 AEST. CHG-0308.
+- **Work Currency Model:** High-currency→Sonnet/Haiku/Opus | Medium→Ollama Cloud (kimi) | Low→Gemma4/systemEvent | None→Script. Primary cost justification for building integration layer.
+- **Phase 1 target (S4-S8, by ~8 Jun):** Postgres + 5-tier schema, Three Work Types Rule, SoT Register, JSON→Postgres migration (5 files), Event Bus, Typed Contracts (4 handoffs), PII Scanner, RAG pipeline. P2 blockers: WP1-5 by Sprint 8.
+- **Phase 2 (post-P2 +2wks):** Redis, multi-tenant RLS, Holonet v0, Citadel v0.
+- **Phase 3 (TRIGGER-14):** Event sourcing, WORM audit, APRA. Fires post-P2 stable.
+- **KRI Dashboard:** https://www.notion.so/Nexus-Architecture-KRI-Dashboard-Option-B-Implementation-360c182953ff816a9d1dd5c104ca6cd1
+- **architecture-kri-state.json** — Yoda owns live KRI updates at each sprint review.
+- **Structural fix for 2.3+2.4:** Risk reduced Sprint 4 end (25 May). Architecturally fixed Sprint 6 end (~8 Jun).
+
+## Sprint Plan (locked Day 20)
+- **Sprint 4 (May 19-25):** TKT-0141, TKT-0142 (S3 carries), TKT-0165 (Three Work Types Rule), TKT-0166 (SoT Register), Cloudflare Tunnel.
+- **Sprint 5:** TKT-0164 Postgres (critical path), TKT-0108 doc gen, TKT-0157, TKT-0156, TKT-0130 QBR.
+- **Sprint 6:** TKT-0167 JSON migration, TKT-0168 Event Bus, TKT-0170 PII Scanner, TKT-0150 DR Playbook.
+- **Sprint 7:** TKT-0169 Typed Contracts, TKT-0171 RAG Pipeline.
+- **Before Sprint 4 (this week):** Batch DRAFT FOR REVIEW session (Fri reminder set). TKT-0114 Aevlith/Angie discussion.
+- Bucket C (8 tickets) parked until QBR TKT-0130 Sprint 5. Bucket D (TKT-0114-0119) Ken action.
+
+## LinkedIn Auth (Day 20)
+- MDP approved under Advertising API. Token valid to 2026-07-12. PKCE removed (incompatible). New scopes: r_basicprofile, r_1st_connections_size, r_organization_social, r_organization_admin, r_ads_reporting, r_ads.
+- AInchors company page onboarding deferred. Trigger 05f9d2ef set.
+- L-027: Post cancellation must update queue state + delete cron. Never verbal-only acknowledgement.
+
+## Config Baseline (Day 20 — CHG-0306)
+- Updated for CHG-0270 object format. All jq_queries now use .model.primary. Defaults primary=Haiku. Warden=Haiku (CHG-0228). Duplicate kimi removed.
 - **BYOK + Nexus-first locked globally.** agentToAgent enabled. canvas embed: sub-agents pass full path only.
 - CI Cycle A running. Cycle 2A started.

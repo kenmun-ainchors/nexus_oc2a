@@ -155,3 +155,13 @@
 **Root cause:** ticket.sh close/update had zero integration with sprint-current.json. Two separate state files with no bridge.
 **Fix:** Added sprint_sync() to ticket.sh — called automatically on every update/close. If TKT is in current sprint, status + velocity update in place.
 **Rule:** Never manually edit sprint-current.json item statuses. Always go through ticket.sh. sprint-current.json is now a derived view, not a source of truth.
+
+## L-027 — LinkedIn Post Cancellation Must Update Queue State + Kill Crons (2026-05-14)
+**Trigger:** Ken cancelled "Token Efficiency Is AIOps (C1W2P3)" via Telegram. Post was posted anyway on Thursday. A third post would have fired Friday if not caught.
+**Root cause:** Verbal/chat cancellation was acknowledged but NOT propagated as a state change. Queue status remained "approved", one-shot cron was still enabled.
+**Rule:** When Ken cancels any LinkedIn post, Yoda MUST immediately: (1) Set status to "cancelled" in workspace/state/linkedin-queue.json AND workspace-social/state/linkedin-queue.json, (2) Delete or disable all associated one-shot crons (check cron list for matching contentId/label), (3) Confirm to Ken: "Cancelled: [post name] — queue updated, cron [ID] deleted." Never acknowledge verbally without state update.
+
+## L-028 — sessions_send to Telegram creates relay loop back to webchat (2026-05-14)
+**Trigger:** After sending backup investigation result to Telegram session via sessions_send, the Telegram Yoda confirmation reply was delivered back to the webchat session 4+ times via inter-session announce.
+**Root cause:** sessions_send from webchat→Telegram, Telegram session replies, reply routes back as inter-session message to webchat session, webchat Yoda processes and generates response, which may re-trigger the loop.
+**Rule:** When sending inter-session confirmations via sessions_send, do NOT send a follow-up response to the routed reply — reply NO_REPLY. The loop self-terminates after relay cron cycles clear. Do not engage with duplicate inter-session relay messages.

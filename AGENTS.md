@@ -6,6 +6,17 @@ This folder is home. Treat it that way.
 
 If `BOOTSTRAP.md` exists, that's your birth certificate. Follow it, figure out who you are, then delete it. You won't need it again.
 
+## Golden Blueprints (read before any architectural work)
+
+Two approved documents are the definitive platform reference. All agents must read them before designing, building, or modifying any architectural component:
+
+- **Technology Strategy & Roadmap** (internal): `docs/Aevlith-Technology-Strategy-Roadmap-v1.0-Internal.md` — vision, principles, P1-P4 roadmap, model/cost strategy, OKRs, governance
+- **System Architecture Document**: `docs/Nexus-System-Architecture-v1.0.md` — full stack: agents, infrastructure, data, integration, security, current + target state, gap map
+
+Approved by Ken Mun (CTO) 2026-05-14. These supersede all fragmented architecture docs. Do not reference the old fragmented docs for architectural decisions.
+
+---
+
 ## Session Startup
 
 Use runtime-provided startup context first.

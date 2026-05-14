@@ -412,3 +412,23 @@ Locked: Ken Mun, 2026-05-12.
 *Location: workspace/YODA_RULES.md*
 *Maintained by: Yoda 🟢 | Approved by: Ken Mun (CTO)*
 *Ref: 20260507_AInchors Context.md + Context-Handoff-Delta-20260507-20260510.md*
+
+---
+
+## Golden Blueprint Review Rule (NON-NEGOTIABLE — CHG-0318)
+
+The two approved golden blueprint documents are living references. Their review cadence is enforced:
+
+**1a — Technology Strategy & Roadmap:**
+- Review and revise at each P1→P4 stage checkpoint (TRIGGER-15, TRIGGER-16, TRIGGER-17)
+- Annual review every May (TRIGGER-17 cron: 8b856188)
+- Ken approval required before next phase work begins after each review
+
+**Doc 2 — System Architecture Document:**
+- Section 1.4 is the enforcement standard — read it
+- Atlas refreshes at each P1→P4 stage checkpoint
+- Atlas delivers Architecture Delta Summary for Ken review
+- Yoda updates gap map, KRI references, sprint tables between checkpoints (no Ken approval needed for these)
+- Ken approves all locked decision updates and section changes
+
+**Triggers:** TRIGGER-15 (P1→P2), TRIGGER-16 (P2→P4), TRIGGER-17 (annual May)

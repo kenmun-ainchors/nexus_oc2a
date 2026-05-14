@@ -1,15 +1,9 @@
 {
-  "generatedAt": "2026-05-13T14:22:27.571151+00:00",
-  "failures": [
-    {
-      "cronId": "1b853131",
-      "fullCronId": "1b853131-a542-4cec-af09-d1ba27a416b0",
-      "name": "Journal Incremental Writer (every 30 min)",
-      "consecutiveErrors": 8,
-      "lastError": "error",
-      "source": "live-cron-state"
-    }
-  ],
+  "generatedAt": "2026-05-14T01:21:00+10:00",
+  "resolvedAt": "2026-05-14T09:31:00+10:00",
+  "resolvedBy": "Yoda \u2014 timeout increased to 180s, limit reduced to 50",
+  "failures": [],
   "warnings": [],
-  "acknowledged": true
+  "acknowledged": true,
+  "status": "resolved"
 }

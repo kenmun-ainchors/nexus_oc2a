@@ -1,0 +1,153 @@
+{
+  "children": [
+    {
+      "object": "block",
+      "type": "callout",
+      "callout": {
+        "rich_text": [{"type": "text", "text": {"content": "🔄 Auto-updated daily at 3AM AEST by Yoda. Last run: 2026-05-14 (Day 20). This is the single daily reference — no need to prompt."}}],
+        "icon": {"emoji": "🔄"},
+        "color": "blue_background"
+      }
+    },
+    {
+      "object": "block",
+      "type": "heading_1",
+      "heading_1": {
+        "rich_text": [{"type": "text", "text": {"content": "Platform Health"}}]
+      }
+    },
+    {
+      "object": "block",
+      "type": "paragraph",
+      "paragraph": {
+        "rich_text": [{"type": "text", "text": {"content": "Gateway: OK | Health: ok | Consecutive failures: 0 | Last check: 2026-05-14 02:57 AEST"}}]
+      }
+    },
+    {
+      "object": "block",
+      "type": "paragraph",
+      "paragraph": {
+        "rich_text": [{"type": "text", "text": {"content": "API Balance: auto-reload active (confirmed $479.35 on 2026-05-08; auto-reload at <$50 → +$450) | Yesterday spend: $90.03 (2026-05-13) | remainingEstimate: $0 (auto-reload handles)"}}]
+      }
+    },
+    {
+      "object": "block",
+      "type": "paragraph",
+      "paragraph": {
+        "rich_text": [{"type": "text", "text": {"content": "Warden: 1,105 checks, 116 violations total, 12 consecutive clean | Last: 2026-05-14 02:07 AEST | Last violation: 2026-05-13 17:03 AEST"}}]
+      }
+    },
+    {
+      "object": "block",
+      "type": "heading_1",
+      "heading_1": {
+        "rich_text": [{"type": "text", "text": {"content": "Agent Status"}}]
+      }
+    },
+    {
+      "object": "block",
+      "type": "bulleted_list_item",
+      "bulleted_list_item": {
+        "rich_text": [{"type": "text", "text": {"content": "Yoda | Last Run: 2026-04-25 | Status: Active | Lead agent, main session"}}]
+      }
+    },
+    {
+      "object": "block",
+      "type": "bulleted_list_item",
+      "bulleted_list_item": {
+        "rich_text": [{"type": "text", "text": {"content": "Aria | Status: Active | Angie's bot agent"}}]
+      }
+    },
+    {
+      "object": "block",
+      "type": "bulleted_list_item",
+      "bulleted_list_item": {
+        "rich_text": [{"type": "text", "text": {"content": "Spark | Last Run: 2026-05-03 | Status: Active | Social & Digital Marketing — kimi-k2.6:cloud | Tue/Wed/Thu 7:30am AEST"}}]
+      }
+    },
+    {
+      "object": "block",
+      "type": "bulleted_list_item",
+      "bulleted_list_item": {
+        "rich_text": [{"type": "text", "text": {"content": "Shield | Status: Active | Security & governance agent"}}]
+      }
+    },
+    {
+      "object": "block",
+      "type": "bulleted_list_item",
+      "bulleted_list_item": {
+        "rich_text": [{"type": "text", "text": {"content": "Lex | Status: Active | Legal & compliance agent"}}]
+      }
+    },
+    {
+      "object": "block",
+      "type": "bulleted_list_item",
+      "bulleted_list_item": {
+        "rich_text": [{"type": "text", "text": {"content": "Sage | Status: Active | Research & intelligence agent"}}]
+      }
+    },
+    {
+      "object": "block",
+      "type": "bulleted_list_item",
+      "bulleted_list_item": {
+        "rich_text": [{"type": "text", "text": {"content": "Warden | Status: Active | Model drift monitor — 1,105 checks, 12 consecutive clean"}}]
+      }
+    },
+    {
+      "object": "block",
+      "type": "heading_1",
+      "heading_1": {
+        "rich_text": [{"type": "text", "text": {"content": "Today Changes (Last 24h)"}}]
+      }
+    },
+    {
+      "object": "block",
+      "type": "bulleted_list_item",
+      "bulleted_list_item": {
+        "rich_text": [{"type": "text", "text": {"content": "[CHG-0303] 2026-05-13 21:38 AEST — Channel Discipline Rule — Yoda Context Unification"}}]
+      }
+    },
+    {
+      "object": "block",
+      "type": "heading_1",
+      "heading_1": {
+        "rich_text": [{"type": "text", "text": {"content": "Open Incidents"}}]
+      }
+    },
+    {
+      "object": "block",
+      "type": "paragraph",
+      "paragraph": {
+        "rich_text": [{"type": "text", "text": {"content": "No open incidents. All 5 historical incidents resolved (last resolved: INC-20260509-001 on 2026-05-11)."}}]
+      }
+    },
+    {
+      "object": "block",
+      "type": "heading_1",
+      "heading_1": {
+        "rich_text": [{"type": "text", "text": {"content": "Key Reference Pages"}}]
+      }
+    },
+    {
+      "object": "block",
+      "type": "bulleted_list_item",
+      "bulleted_list_item": {
+        "rich_text": [{"type": "text", "text": {"content": "Model Strategy — notion.so/34ec1829-53ff-811c-869a-d9e12fc5cd54"}}]
+      }
+    },
+    {
+      "object": "block",
+      "type": "bulleted_list_item",
+      "bulleted_list_item": {
+        "rich_text": [{"type": "text", "text": {"content": "AKB Backlog — all TKT/CHG/US entries"}}]
+      }
+    },
+    {
+      "object": "block",
+      "type": "bulleted_list_item",
+      "bulleted_list_item": {
+        "rich_text": [{"type": "text", "text": {"content": "Agent Status DB — live agent health (34dc182953ff814b8257d3a3bf351d44)"}}]
+      }
+    }
+  ]
+}

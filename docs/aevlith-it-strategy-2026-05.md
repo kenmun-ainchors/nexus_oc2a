@@ -1,3 +1,5 @@
+> ⚠️ **SUPERSEDED** — This document has been consolidated into `Aevlith-Technology-Strategy-Roadmap-v1.0-Internal.md` (approved 2026-05-14). Kept as source record. Do not update this file.
+
 # Aevlith Technologies IT Strategy: 3–5 Year Plan and 1-Year Execution Detail
 
 *Prepared as primary input for Atlas (Enterprise Architect) to develop the EA roadmap and technology/architecture implementation strategy for the AInchors + Aevlith Technologies platform. Grounded in the validated AInchors business strategy (CHECKPOINT 1), current Nexus platform state, and 2026 multi-agent platform architecture best practices.*

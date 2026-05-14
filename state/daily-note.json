@@ -1,6 +1,6 @@
 {
-  "date": "2026-05-13",
-  "tip": "Day 20 priorities: (1) Investigate Anthropic API HTTP 401 in health check scripts — may be keychain mismatch vs gateway token; (2) Resolve Warden consecutiveClean=0 violation from this morning; (3) Kick off Angie onboarding Stage 1 — business stream stalled 5+ days; (4) ITSM SLA definitions build — matures L3→L4",
-  "updatedAt": "2026-05-13T03:23:00Z",
+  "date": "2026-05-14",
+  "tip": "1. Investigate gateway event loop saturation (24998ms). 2. Re-engage Angie — 5+ days silence blocking biz stream. 3. Confirm API key auth fix still holding (auto-heal flagged yesterday). 4. Review fallback_chain_broken root cause (111 events).",
+  "updatedAt": "2026-05-13T22:00:00.000Z",
   "updatedBy": "Yoda"
 }

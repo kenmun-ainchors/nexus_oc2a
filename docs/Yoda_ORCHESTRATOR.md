@@ -1,3 +1,5 @@
+> ⚠️ **SUPERSEDED (architecture sections)** — Agent and platform architecture consolidated into `Nexus-System-Architecture-v1.0.md` (approved 2026-05-14). Operational procedures remain active — do not delete.
+
 # Yoda 🟢 — Nexus Platform Orchestrator
 # Architecture & Operating Model Reference
 # Version: 2.0.0 | Updated: 2026-05-10 | Platform Day: 16

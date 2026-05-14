@@ -84,6 +84,214 @@ This log captures **every change** Yoda makes to AInchors infrastructure, config
 **Linked:** decisions.md 2026-04-27 entries
 ---
 
+## 2026-05-14 12:50 AEST — [CHG-0319] Golden Blueprint cadence rules and triggers established
+**Type:** rule
+**Change Type:** Normal
+**Source:** ken-prompt
+**Trigger:** Ken Mun 2026-05-14 12:49 AEST. Review + revise cadence for 1a and Doc 2 at P1-P4 checkpoints.
+**What changed:** Doc 2 Section 1.4 expanded: full enforcement standard, P1-P4 checkpoint table, Yoda continuous update scope, Atlas Delta Summary deliverable spec. 1a Appendix C added: review cadence table. TRIGGER-15 (P1→P2), TRIGGER-16 (P2→P4), TRIGGER-17 (annual May cron 8b856188) added to chg-triggers.json. YODA_RULES.md updated with Golden Blueprint Review Rule.
+**Why:** Documents are living references. Cadence ensures they stay current as the platform evolves through P1-P4.
+**Verification:** Section 1.4 updated. Appendix C added. Triggers registered. Annual cron set. Rules updated.
+**Rollback:** N/A
+**Linked:** TKT-0172,TKT-0173,CHG-0318
+---
+
+
+## 2026-05-14 12:40 AEST — [CHG-0318] Golden blueprints approved + locked — Technology Strategy & System Architecture finalized
+**Type:** doc
+**Change Type:** Normal
+**Source:** ken-prompt
+**Trigger:** Ken Mun approved all documents 2026-05-14 12:39 AEST. 1b deleted per Ken instruction.
+**What changed:** (1) 1a and Doc 2 status updated to APPROVED. (2) 1b (external) deleted. (3) 5 fragmented source docs tagged as SUPERSEDED/INCORPORATED: aevlith-it-strategy, ainchors-strategy-okr, Nexus_Enterprise_Landscape_P2P4, DataMemory_P1P4_Roadmap, Yoda_ORCHESTRATOR. (4) AGENTS.md updated with golden blueprint section. (5) MEMORY.md updated with approved doc references and Drive links. (6) Both approved docs re-uploaded to Drive + MinIO.
+**Why:** Consolidation complete. Two approved golden blueprints replace all fragmented architecture docs as the definitive agent-consumable reference for all future platform work.
+**Verification:** Files approved, tagged, uploaded. AGENTS.md and MEMORY.md updated.
+**Rollback:** N/A
+**Linked:** TKT-0172,TKT-0173,CHG-0315,CHG-0316,CHG-0317
+---
+
+
+## 2026-05-14 12:22 AEST — [CHG-0317] TKT-0172: Technology Strategy & Roadmap v1.0 External (1b) produced
+**Type:** doc
+**Change Type:** Normal
+**Source:** ken-prompt
+**Trigger:** Ken approved consolidated documentation 2026-05-14. External sanitised version derived from 1a.
+**What changed:** Aevlith-Technology-Strategy-Roadmap-v1.0-External.md + .docx created. Sanitised: no financials, role titles not agent names, no internal vulnerabilities. Appropriate for due diligence, client, partner context.
+**Why:** Client-facing version of strategy document needed for P2 commercial engagement and partner due diligence.
+**Verification:** MD + DOCX written. Drive + MinIO uploaded. Holocron registered.
+**Rollback:** N/A
+**Linked:** TKT-0172,CHG-0316
+---
+
+
+## 2026-05-14 12:16 AEST — [CHG-0316] TKT-0172: Technology Strategy & Roadmap v1.0 Internal produced
+**Type:** doc
+**Change Type:** Normal
+**Source:** ken-prompt
+**Trigger:** Ken approved consolidated documentation 2026-05-14
+**What changed:** Aevlith-Technology-Strategy-Roadmap-v1.0-Internal.md created. 10-section consolidated strategy document. Supersedes fragmented IT strategy docs.
+**Why:** Consolidation of all approved architectural work into single authoritative reference for agents and internal use.
+**Verification:** File saved, Drive uploaded, MinIO uploaded, Holocron registered.
+**Rollback:** N/A
+**Linked:** TKT-0172,TKT-0162,CHG-0308
+---
+
+
+## 2026-05-14 12:12 AEST — [CHG-0315] TKT-0172/0173: Technology Strategy & Roadmap (1a) + System Architecture Document produced
+**Type:** doc
+**Change Type:** Normal
+**Source:** ken-prompt
+**Trigger:** Ken approved consolidated documentation 2026-05-14. Supersedes all fragmented architecture docs.
+**What changed:** Nexus-System-Architecture-v1.0.md (60KB, 993 lines): full stack architecture, current+target state, gap map, agent roster, S1-S7, component map, decision log. Aevlith-Technology-Strategy-Roadmap-v1.0-Internal.md (47KB, 720 lines): strategy, principles, P1-P4 roadmap, cost model, OKRs, KRIs. Both DRAFT FOR REVIEW. 1b external version in progress.
+**Why:** Consolidation of fragmented architecture docs into two definitive golden blueprints — agent-consumable MD files as primary reference for all future architectural work.
+**Verification:** Files written. Drive + MinIO uploaded. Holocron registration in progress.
+**Rollback:** N/A
+**Linked:** TKT-0172,TKT-0173,TKT-0162,CHG-0308
+---
+
+
+## 2026-05-14 12:10 AEST — [CHG-0314] Nexus System Architecture Document v1.0 — TKT-0173
+**Type:** doc
+**Change Type:** Normal
+**Source:** ken-prompt
+**Trigger:** TKT-0173 commissioned by Ken via Yoda
+**What changed:** Produced Nexus-System-Architecture-v1.0.md + .docx: Golden blueprint covering all 12 agents with actual model configs, HIVE architecture (current + OC2 target), 5-tier data architecture, integration architecture (current + Option B Phase 1 target), full component map (38 Core/8 Adjacent/14 Client-side), security (S1-S7, Sanctum, HITL), gap map Phase 1-3, architecture decision log.
+**Why:** TKT-0173: Create definitive golden blueprint for all architectural decisions. P2 build preparation. Supersedes Yoda_ORCHESTRATOR.md architecture sections.
+**Verification:** MD (60KB) + DOCX (66KB) saved locally. Drive uploaded. MinIO uploaded. Holocron registered (block 360c1829-53ff-810c-a455-c3bcdca31ecc).
+**Rollback:** N/A
+**Linked:** TKT-0173, TKT-0046, TKT-0104, TKT-0162, CHG-0308
+---
+
+
+## 2026-05-14 11:40 AEST — [CHG-0313] Cost investigation: 3 quick wins applied, TKT-0165 data feed complete
+**Type:** config
+**Change Type:** Normal
+**Source:** ken-prompt
+**Trigger:** TKT-0165 cost investigation subagent task
+**What changed:** 3 cron configs updated: (1) Aria Daily Summary a7e7a820: Sonnet→Haiku+lightContext=true, (2) Daily Blog a027fd60: +lightContext=true, (3) Drive Sync c5a3911d: +lightContext=true
+**Why:** Cost investigation: Aria Daily Summary was Medium-currency work on Sonnet (no lightContext) — unjustified. Blog and Drive Sync missing lightContext added unnecessary bootstrap context overhead. Est. saving $0.52/day.
+**Verification:** openclaw cron edit confirmed: all 3 updates returned 200 with correct payload fields
+**Rollback:** N/A
+**Linked:** TKT-0165, state/cost-investigation-2026-05-14.json
+---
+
+
+## 2026-05-14 11:33 AEST — [CHG-0312] Daily budget cap raised $150→$450 (temp, until Sun 17 May)
+**Type:** config
+**Change Type:** Normal
+**Source:** ken-prompt
+**Trigger:** Ken approved 2026-05-14 11:32 AEST. Heavy build phase — actual daily spend ~$404/day, cap was being consistently exceeded.
+**What changed:** cost-state.json: dailyCap=450, expiry=2026-05-17. Reverts to $150 after Sunday. Investigation of cost gaps commissioned concurrently — findings to feed TKT-0165.
+**Why:** Tracker vs actual discrepancy exposed: $150 cap exceeded 6/10 days. Actual burn ~$400/day since May 10. Temp raise to match reality during intensive architecture/grooming phase.
+**Verification:** cost-state.json updated.
+**Rollback:** N/A
+**Linked:** CHG-0268,TKT-0165
+---
+
+
+## 2026-05-14 10:55 AEST — [CHG-0311] Grooming session complete — backlog bucketed, Sprint 4 locked, sprint plan S4-S8 confirmed
+**Type:** rule
+**Change Type:** Normal
+**Source:** ken-prompt
+**Trigger:** Ken approved full backlog prioritization recommendation 2026-05-14 10:55 AEST
+**What changed:** Bucket A (5 DRAFT FOR REVIEW tickets): batch review session this week, target before Sprint 4 May 19. Bucket B (TKT-0136/0138/0139/0127 consulting enablement): S5-S6, Ahsoka drafts Ken reviews. Bucket C (8 P2-era tickets): parked pending QBR TKT-0130 Sprint 5 mandate review. Bucket D (TKT-0114): Ken action this week, discuss Aevlith partnership with Angie. Reminder cron set for Fri 16 May 08:00 AEST.
+**Why:** Full grooming session Day 20. Sprint plan locked S4-S8. 54 open tickets organized: 16 on critical path, 38 bucketed. Non-critical-path backlog reduced to ~12 genuinely deferred P2+ items by end Sprint 5.
+**Verification:** All tickets updated in Notion. sprint-current.json updated. architecture-kri-state.json live. Reminder cron set.
+**Rollback:** N/A
+**Linked:** TKT-0162,CHG-0308,CHG-0309,CHG-0310
+---
+
+
+## 2026-05-14 10:47 AEST — [CHG-0310] Sprint 4 committed — Security close-out + Phase 1 quick wins
+**Type:** rule
+**Change Type:** Normal
+**Source:** ken-prompt
+**Trigger:** Grooming session 2026-05-14. TKT-0153 superseded. Sprint 4 slate finalised incorporating TKT-0162 D4 tickets.
+**What changed:** Sprint 4 (May 19-25): TKT-0141, TKT-0142 (S3 carries), TKT-0165 (Three Work Types Rule), TKT-0166 (SoT Register), Cloudflare Tunnel. S5: TKT-0164 Postgres critical path + TKT-0108 doc gen + admin. S6: Data migration + event bus. S7: Typed contracts + RAG. TKT-0153 closed as superseded by TKT-0171. TRIGGER-14 added for Phase 3 event sourcing post-P2 stable.
+**Why:** Full sprint plan reworked to incorporate all 8 TKT-0162 D4 architecture tickets sequenced by dependency. P2 blockers (WP1-5) targeted for completion by Sprint 8 (mid-Jun), leaving 6+ weeks buffer before Aug P2 launch.
+**Verification:** sprint-current.json updated, all tickets in Notion, KRI dashboard live.
+**Rollback:** N/A
+**Linked:** TKT-0162,CHG-0308,CHG-0309
+---
+
+
+## 2026-05-14 10:38 AEST — [CHG-0309] TKT-0162 D4: Work Breakdown + KRI Dashboard + Phase 1 Tickets (Option B Architecture)
+**Type:** doc
+**Change Type:** Normal
+**Source:** ken-prompt
+**Trigger:** TKT-0162 Decision 4 approved Ken Mun 2026-05-14 10:28 AEST — Option B Phased Delivery
+**What changed:** Created Notion KRI Dashboard (360c182953ff816a9d1dd5c104ca6cd1). Raised 8 Phase 1 tickets: TKT-0164 Postgres+Schema, TKT-0165 Three Work Types Rule, TKT-0166 SoT Register, TKT-0167 JSON→Postgres Migration, TKT-0168 Event Bus, TKT-0169 Typed Contracts, TKT-0170 PII Scanner, TKT-0171 RAG Pipeline. KRI state file: state/architecture-kri-state.json. Option paper on Drive (139rVstYy8prvrwafJIay7V-Njm7rMVbW) and MinIO. Holocron registered.
+**Why:** Option B Phased approved. D4 = commission full work breakdown, KRI dashboard, Phase 1 tickets.
+**Verification:** Notion page live, 8 tickets Notion-synced, KRI JSON written, Drive upload confirmed, MinIO upload confirmed, Holocron entry added.
+**Rollback:** N/A
+**Linked:** TKT-0162, TKT-0104, TKT-0046, TKT-0164–TKT-0171
+---
+
+
+## 2026-05-14 10:28 AEST — [CHG-0308] TKT-0162 Option Paper approved — Option B phased delivery, all 5 decisions confirmed
+**Type:** doc
+**Change Type:** Normal
+**Source:** ken-prompt
+**Trigger:** Ken Mun approved the Nexus Architecture Direction Option Paper 2026-05-14 10:28 AEST
+**What changed:** Option paper status: DRAFT FOR REVIEW → APPROVED. Decision: Option B phased. D1=Option B-phased. D2=Phase 1 JSON→Postgres list confirmed (tickets/cost-events/agent-health/change-records/workflow-state). D3=Typed contracts Yoda→Forge, Yoda→Sanctum, Atlas→Ken, Spark→Yoda + standing cadence as DoD gate at QBR + new agent activation. D4=Full work breakdown + KRI Notion dashboard + individual tickets commissioned, Yoda owns live KRI updates. D5=Event sourcing deferred Phase 3, trigger post-P2 stable.
+**Why:** Architecture direction locked before P2 opens broadly. Option B: redesign data+integration layers (keep OpenClaw). Work Currency Model: high-currency→paid models, medium→Ollama Cloud, low/none→scripts. Target 40-60% Sonnet/Haiku reduction within 3 months Phase 1 completion.
+**Verification:** Paper APPROVED, TKT-0162 closed, Holocron + Drive update commissioned via subagent.
+**Rollback:** N/A
+**Linked:** TKT-0162,TKT-0104,TKT-0046
+---
+
+
+## 2026-05-14 09:52 AEST — [CHG-0307] TKT-0162 Option Paper Amendment: Section 2.4 LLM Cost Topology + Work Currency Model
+**Type:** doc
+**Change Type:** Normal
+**Source:** ken-prompt
+**Trigger:** Ken directive 2026-05-14: add Work Currency Model to option paper; route high-currency to paid models, medium to Ollama Cloud, low/none to scripts
+**What changed:** Inserted Section 2.4 (LLM Cost Topology Today) identifying top 6 LLM-for-CRUD offenders and the structural gap; expanded LLM/compute sections in Options A, B, C with Work Currency routing table and per-option treatment; added Work Currency paragraph to Section 9 recommendation as Phase 1 design constraint
+**Why:** Work Currency Model is the primary cost justification for Option B integration layer; needed explicit architectural treatment to inform Ken's option decision
+**Verification:** All three edits applied via edit tool; Google Drive re-upload successful (id: 1Gwtw6FAdud_jz9p7kGieoj_s7kWvV2nN); DRAFT FOR REVIEW status unchanged
+**Rollback:** N/A
+**Linked:** TKT-0162, TKT-0104
+---
+
+
+## 2026-05-14 09:39 AEST — [CHG-0306] Config baseline updated for CHG-0270 model format + kimi safety net + CHG-0228 Haiku governance
+**Type:** config
+**Change Type:** Normal
+**Source:** ken-prompt
+**Trigger:** Auto-heal generating 47 false-positive needs_ken items per run due to stale baseline. Ken approved update 2026-05-14.
+**What changed:** critical-config-baseline.json: (1) All agent model jq_queries updated from .model to .model.primary (CHG-0270 object format). (2) config-002 expected_value Sonnet->Haiku (correct conservative default). (3) config-003 updated to check fallbacks.length>=1 + added config-003b for main agent 3-level chain. (4) config-013 Warden Sonnet->Haiku (CHG-0228). (5) Added kimi safety net rationale. Duplicate kimi removed from openclaw.json agents.defaults.model.fallbacks.
+**Why:** Baseline was last updated 2026-05-08 (CHG-0228). CHG-0270 changed model format from string to {primary,fallbacks} object. Every auto-heal run was generating 38+ false-positive drift alerts, polluting needs_ken signal and the obs_log.
+**Verification:** Baseline written. Duplicate kimi fixed in openclaw.json. Auto-heal check #12 will validate clean on next run.
+**Rollback:** N/A
+**Linked:** CHG-0270,CHG-0228
+---
+
+
+## 2026-05-14 09:14 AEST — [CHG-0305] LinkedIn MDP approved — token refreshed, analytics scopes activated
+**Type:** config
+**Change Type:** Normal
+**Source:** ken-prompt
+**Trigger:** Ken confirmed MDP approval in LinkedIn Developer Portal (Advertising API product)
+**What changed:** linkedin-auth.sh: PKCE removed (incompatible with app type), scopes expanded to 10 (added r_basicprofile, r_1st_connections_size, r_organization_social, r_organization_admin, r_ads_reporting, r_ads), hardcoded scope display fixed, 30s curl timeout added. linkedin-auth.json: token refreshed (valid to 2026-07-12), all 10 scopes recorded, mdpApproved=true. SPARK_RULES.md: MDP notes updated. Follow-up cron 379ef588 deleted.
+**Why:** MDP (Marketing Developer Platform) approved under Advertising API product 2026-05-14. Token refreshed to activate new analytics scopes. PKCE was causing invalid_client; removed in favour of standard OAuth with client_secret.
+**Verification:** r_basicprofile 200, r_organization_admin 200, r_ads 200. r_1st_connections_size scope granted, endpoint format TBD.
+**Rollback:** N/A
+**Linked:** TKT-0039
+---
+
+
+## 2026-05-14 08:11 AEST — [CHG-0304] TKT-0162: Nexus Architecture Direction Option Paper produced
+**Type:** doc
+**Change Type:** Normal
+**Source:** ken-prompt
+**Trigger:** TKT-0162 — Ken Mun requested formal option paper before opening P2 more broadly
+**What changed:** Produced and saved docs/TKT-0162-Option-Paper-Nexus-Architecture-Direction.md (52KB). Options A/B/C analysed across 5 criteria. Recommendation: Option B (Redesign Data + Integration Layers) with phased delivery. Uploaded to Drive (id: 1g6Lwuy0m1YDNCgyISGoeheknDe5ij1nV) and MinIO. Registered in Holocron.
+**Why:** Resolve data architecture fragmentation, integration spaghetti, and LLM-for-CRUD concerns before P2. Give Ken a structured architectural direction decision before opening P2 more broadly.
+**Verification:** File confirmed. Drive upload id: 1g6Lwuy0m1YDNCgyISGoeheknDe5ij1nV. MinIO confirmed. Holocron block id: 35fc1829-53ff-814f-b27c-e5357c33c664. Status: DRAFT FOR REVIEW.
+**Rollback:** N/A
+**Linked:** TKT-0162, TKT-0104, TKT-0046, CHG-0234
+---
+
+
 ## 2026-05-13 21:38 AEST — [CHG-0303] Channel Discipline Rule — Yoda Context Unification
 **Type:** rule
 **Change Type:** Normal

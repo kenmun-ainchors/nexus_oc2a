@@ -112,7 +112,10 @@ else
   RESULTS+=("gemma4Warm:skipped")
 fi
 
-# ── LINK 5: openclaw.json fallback chain matches expected ────────────────────
+# ── LINK 5: openclaw.json fallback chain for main (Yoda) agent ───────────────
+# CHG-0270: Yoda+Aria = sonnet→haiku→kimi | Others = haiku→kimi→kimi
+# agents.defaults.model = haiku→kimi→kimi (CORRECT for T4/tier agents)
+# agents.list[id=main].model = sonnet→haiku→kimi (CRITICAL — check this)
 EXPECTED_PRIMARY="anthropic/claude-sonnet-4-6"
 EXPECTED_FALLBACK_1="anthropic/claude-haiku-4-5"
 # Opus removed CHG-0075: deliberate escalation only, never automatic fallback
@@ -122,44 +125,49 @@ if [[ -f "$OPENCLAW_CFG" ]]; then
   PRIMARY=$(python3 -c "
 import json
 d = json.load(open('$OPENCLAW_CFG'))
-model_cfg = d.get('agents', {}).get('defaults', {}).get('model', {})
+agent_list = d.get('agents', {}).get('list', [])
+main_agent = next((a for a in agent_list if a.get('id') == 'main'), {})
+model_cfg = main_agent.get('model', {})
 print(model_cfg.get('primary', ''))
 " 2>/dev/null || echo "")
 
   FALLBACK_0=$(python3 -c "
 import json
 d = json.load(open('$OPENCLAW_CFG'))
-fb = d.get('agents', {}).get('defaults', {}).get('model', {}).get('fallbacks', [])
+agent_list = d.get('agents', {}).get('list', [])
+main_agent = next((a for a in agent_list if a.get('id') == 'main'), {})
+fb = main_agent.get('model', {}).get('fallbacks', [])
 print(fb[0] if len(fb) > 0 else '')
 " 2>/dev/null || echo "")
 
-  # Only one fallback now (Haiku) — CHG-0075
   CHAIN_OK=true
   if [[ "$PRIMARY" != "$EXPECTED_PRIMARY" ]]; then
-    log "LINK 5 (fallback chain): BROKEN — primary is '$PRIMARY', expected '$EXPECTED_PRIMARY'"
-    BROKEN+=("Fallback chain: primary model wrong (got '$PRIMARY')")
+    log "LINK 5 (fallback chain): BROKEN — main agent primary is '$PRIMARY', expected '$EXPECTED_PRIMARY'"
+    BROKEN+=("Fallback chain: main agent primary model wrong (got '$PRIMARY')")
     CHAIN_OK=false
   fi
   if [[ "$FALLBACK_0" != "$EXPECTED_FALLBACK_1" ]]; then
-    log "LINK 5 (fallback chain): BROKEN — fallback[0] is '$FALLBACK_0', expected '$EXPECTED_FALLBACK_1'"
-    BROKEN+=("Fallback chain: fallback[0] wrong (got '$FALLBACK_0') — should be haiku-4-5")
+    log "LINK 5 (fallback chain): BROKEN — main agent fallback[0] is '$FALLBACK_0', expected '$EXPECTED_FALLBACK_1'"
+    BROKEN+=("Fallback chain: main agent fallback[0] wrong (got '$FALLBACK_0') — should be haiku-4-5")
     CHAIN_OK=false
   fi
-  # Check that Opus is NOT in fallbacks (policy violation for Aria)
+  # Check that Opus is NOT in main agent fallbacks
   OPUS_IN_CHAIN=$(python3 -c "
 import json
 d = json.load(open('$OPENCLAW_CFG'))
-fb = d.get('agents', {}).get('defaults', {}).get('model', {}).get('fallbacks', [])
+agent_list = d.get('agents', {}).get('list', [])
+main_agent = next((a for a in agent_list if a.get('id') == 'main'), {})
+fb = main_agent.get('model', {}).get('fallbacks', [])
 print('yes' if 'anthropic/claude-opus-4-7' in fb else 'no')
 " 2>/dev/null || echo "no")
   if [[ "$OPUS_IN_CHAIN" == "yes" ]]; then
-    log "LINK 5 (fallback chain): POLICY VIOLATION — Opus found in fallbacks (prohibited for Aria)"
-    BROKEN+=("Policy violation: Opus in defaults fallbacks — prohibited for business agent (Aria)")
+    log "LINK 5 (fallback chain): POLICY VIOLATION — Opus found in main agent fallbacks (CHG-0075)"
+    BROKEN+=("Policy violation: Opus in main agent fallbacks — prohibited (CHG-0075)")
     CHAIN_OK=false
   fi
 
   if [[ "$CHAIN_OK" == "true" ]]; then
-    log "LINK 5 (fallback chain config): OK — $EXPECTED_PRIMARY → $EXPECTED_FALLBACK_1 (Aria-safe, CHG-0075)"
+    log "LINK 5 (fallback chain config): OK — $EXPECTED_PRIMARY → $EXPECTED_FALLBACK_1 → kimi (main agent, CHG-0270)"
     RESULTS+=("fallbackChainConfig:ok")
   fi
 else

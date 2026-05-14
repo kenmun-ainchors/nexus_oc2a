@@ -1,9 +1,9 @@
 {
   "schema_version": "1.0",
   "description": "Tracks response counters and alert state for tiered credit alerts. Updated by Yoda at runtime.",
-  "currentBalance": 479.35,
+  "currentBalance": 303.66,
   "lastBalanceCheck": "2026-05-08T03:10:00Z",
-  "activeTier": 0,
+  "activeTier": null,
   "tier1": {
     "triggered": false,
     "triggeredAt": null,
@@ -141,5 +141,6 @@
   "lastUpdatedBy": "Ken confirmed $479.35 top-up 2026-05-08 21:32 AEST. Auto-reload corrected: +$450 from $50 = $500.",
   "lastReloadAt": "2026-05-10T15:25:58.943798+10:00",
   "lastBalance": 425.12,
-  "reloadTriggeredBy": "TRIGGER-08 T3 auto-reload 2026-05-10"
+  "reloadTriggeredBy": "TRIGGER-08 T3 auto-reload 2026-05-10",
+  "lastChecked": "2026-05-14T11:23:00+10:00"
 }

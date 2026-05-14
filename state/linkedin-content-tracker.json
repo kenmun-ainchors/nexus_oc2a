@@ -21,7 +21,7 @@
     {
       "id": "CONTENT-SEED-1",
       "queueId": 1,
-      "title": "Seeder Post 1 \u2014 The Opening Tease (Saturday)",
+      "title": "Seeder Post 1 — The Opening Tease (Saturday)",
       "status": "posted",
       "postedAt": "2026-05-03T11:54:00+10:00",
       "postedBy": "Ken (manual)",
@@ -31,7 +31,7 @@
     {
       "id": "CONTENT-SEED-2",
       "queueId": 2,
-      "title": "Seeder Post 2 \u2014 The Hint (Sunday)",
+      "title": "Seeder Post 2 — The Hint (Sunday)",
       "status": "posted",
       "postedAt": "2026-05-03T11:54:00+10:00",
       "postedBy": "Ken (manual)",
@@ -41,7 +41,7 @@
     {
       "id": "LI-W1-P1",
       "queueId": 3,
-      "title": "W1P1 \u2014 Practitioner Intro (Tue 7:30am)",
+      "title": "W1P1 — Practitioner Intro (Tue 7:30am)",
       "status": "posted",
       "postedAt": "2026-05-05T07:52:00+10:00",
       "postedBy": "Yoda (API fix + manual retry)",
@@ -55,7 +55,7 @@
     {
       "id": "LI-ADHOC-RUSTDESK",
       "queueId": 8,
-      "title": "Ad-hoc \u2014 RustDesk self-hosting cautionary tale (v3)",
+      "title": "Ad-hoc — RustDesk self-hosting cautionary tale (v3)",
       "status": "posted",
       "postedAt": "2026-05-09T08:44:40.807974Z",
       "postedBy": "Spark (API)",
@@ -85,7 +85,7 @@
     {
       "id": "LI-C1-W2-P1",
       "queueId": 7,
-      "title": "C1W2P1 \u2014 AIOps: Who watches the agents? (Part 1/6)",
+      "title": "C1W2P1 — AIOps: Who watches the agents? (Part 1/6)",
       "status": "skipped",
       "cycle": 1,
       "week": "A",
@@ -98,7 +98,7 @@
       "updatedAt": "2026-05-07T07:30:00+10:00",
       "notes": "Regenerated from Day 10 EOD blog. Governance cleared.",
       "skippedAt": "2026-05-13T13:10:16.377967+10:00",
-      "skippedReason": "Missed 07:30 slot due to Anthropic key outage. Rule: missed schedule \u2192 push to next slot. Ken decision: skip P1 (P2 already posted, out of order)."
+      "skippedReason": "Missed 07:30 slot due to Anthropic key outage. Rule: missed schedule → push to next slot. Ken decision: skip P1 (P2 already posted, out of order)."
     },
     {
       "id": "LI-C1-W2-P2",
@@ -125,7 +125,7 @@
       "id": "LI-C1-W2-P3",
       "queueId": 10,
       "title": "C1W2P3 - Multi-Agent Trust (Part 3/6)",
-      "status": "approved",
+      "status": "posted",
       "cycle": 1,
       "week": "A",
       "part": 3,
@@ -134,7 +134,7 @@
       "governanceId": "LI-C1-W2-P3",
       "governanceResult": "triad-cleared",
       "createdAt": "2026-05-13T12:00:00+10:00",
-      "updatedAt": "2026-05-13T13:30:42.758916+10:00",
+      "updatedAt": "2026-05-14T07:32:00+10:00",
       "notes": "Cycle 1 Week A Post 3. Generated from Day 16 EOD blog. Governance cleared with conditional flags (false positives).",
       "rescheduledTo": "2026-05-14T07:30:00+10:00",
       "rescheduledReason": "Missed 12:00 Wed slot due to Anthropic key outage. Pushed to next slot: Thu 07:30 AEST.",
@@ -142,7 +142,10 @@
       "approvedBy": "Ken",
       "scheduledSlot": "Thu 07:30 AEST 2026-05-14",
       "cronId": "81f60636-acd7-4d8c-8fa1-59b5c54af04a",
-      "imageLocalPath": "/Users/ainchorsangiefpl/.openclaw/workspace/workspace-social/images/linkedin/LI-C1-W2-P3/image.png"
+      "imageLocalPath": "/Users/ainchorsangiefpl/.openclaw/workspace/workspace-social/images/linkedin/LI-C1-W2-P3/image.png",
+      "imageAssetUrn": "urn:li:image:D4E10AQFaOFkuxvNOzA",
+      "postedAt": "2026-05-14T07:32:00+10:00",
+      "postedBy": "Spark (cron)"
     }
   ],
   "activeTheme": "AIOps",

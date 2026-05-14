@@ -1,3 +1,5 @@
+> ⚠️ **INCORPORATED** — OKRs and strategy consolidated into `Aevlith-Technology-Strategy-Roadmap-v1.0-Internal.md` (approved 2026-05-14). Kept as source record.
+
 # AInchors + Aevlith Technologies Strategy & 6–12 Month OKRs
 
 ## 1. Context
