@@ -126,6 +126,11 @@ _Maintained by Aria 🔵 + Yoda 🟢 | Status-tracked content for AInchors train
 | TC-114 | Reading your own governance docs: a practical audit methodology | 💡 Idea | Yoda Day 20 (DOC-AUDIT-006/007/008/009 — 24 gaps found, 10 P2-blockers, 1 duplicate archived) | Aria |
 | TC-115 | Sprint seeding ceremonies: turning document reviews directly into backlog | 💡 Idea | Yoda Day 20 (Sprint 4 seeded directly from DOC-AUDIT session — same-session ticket creation pattern) | Both |
 | TC-116 | Why scripts lie: the stale keychain problem in AI automation | 💡 Idea | Yoda Day 20 (CHG-0284 L-030 — health-check reported API dead when Yoda was running fine; scripts read stale keychain not auth-profiles.json) | Yoda |
+| TC-117 | The Work Currency Model: matching your AI model tier to the task | 💡 Idea | Yoda Day 20 (CHG-0307/0308/0323 — Work Currency Model formalised; high-currency→Sonnet/Haiku, medium→kimi, low→scripts; ~$19/11hr saved moving 4 crons off main Sonnet session) | Both |
+| TC-118 | From five fragmented docs to two golden blueprints: how to consolidate your platform knowledge | 💡 Idea | Yoda Day 20 (CHG-0315/0318 — 2 definitive reference docs replace 5 fragmented architecture docs; scattered documentation as governance risk) | Aria |
+| TC-119 | When the platform eats itself: diagnosing gateway event loop saturation from intensive AI workloads | 💡 Idea | Yoda Day 20 (CHG-0320/0321 — 12+ concurrent sub-agents → 98.3% event loop utilisation, 28s delays, 7 lost tasks; weekly restart + stale cleanup crons added) | Yoda |
+| TC-120 | Closing the LinkedIn analytics loop: why you need to store the post ID at publish time | 💡 Idea | Yoda Day 20 (CHG-0322 — linkedin-post.sh --queue-content-id flag; activity URN must be captured at publish time or analytics are impossible) | Aria |
+| TC-121 | When your $150 budget cap costs $400 a day: how to detect and respond to cost reality drift | 💡 Idea | Yoda Day 20 (CHG-0312/0313 — cap exceeded 6/10 days, actual burn ~$400/day; tooling must be verified before trusting budget numbers) | Both |
 
 ## Status Legend
 💡 Idea → 📝 Draft → 🔍 Review (Yoda validates) → ✅ Ready → 📢 Published
