@@ -84,6 +84,71 @@ This log captures **every change** Yoda makes to AInchors infrastructure, config
 **Linked:** decisions.md 2026-04-27 entries
 ---
 
+## 2026-05-14 22:52 AEST — [CHG-0324] cost-tracker.sh: STREAM_MAP + by_stream updated — all 12 agents correctly classified
+**Type:** script
+**Change Type:** Normal
+**Source:** ken-prompt
+**Trigger:** Ken directed fix 2026-05-14 22:51 AEST.
+**What changed:** STREAM_MAP: added architect→technical, platform-arch→technical, infra→technical, biz-process→business, change-mgt→business, ahsoka→consulting. by_stream initialisation: added consulting stream. TKT-0175 raised for isolated session blind spot investigation.
+**Why:** 6 agents were missing from STREAM_MAP — falling back to 'technical'. Lando/Mon Mothma/Ahsoka were miscategorised. Consulting stream now tracked separately.
+**Verification:** Tracker runs clean. All 12 agents classified. consulting stream visible in output.
+**Rollback:** N/A
+**Linked:** TKT-0175
+---
+
+
+## 2026-05-14 22:45 AEST — [CHG-0323] Work Currency routing: 4 high-frequency crons moved off main Sonnet session
+**Type:** config
+**Change Type:** Normal
+**Source:** ken-prompt
+**Trigger:** Ken directed immediate Work Currency optimisation 2026-05-14 22:44 AEST. Estimated ~$19/11hr saving.
+**What changed:** HEALTH_CHECK: systemEvent→main(Sonnet) → isolated agentTurn Haiku lightContext. TASK_MONITOR: same. OBS_COLLECT: systemEvent→main(Sonnet) → isolated agentTurn kimi lightContext. MISSION_CONTROL_REFRESH: same→kimi lightContext. All 4 now isolated, none consume main Sonnet session turns.
+**Why:** 4 high-frequency crons (every 5-15 min) were firing as systemEvents into main Sonnet session — consuming ~400 Sonnet turns per 11-hour window (~$19). These are T0/Low-currency work. Work Currency Model: None/Low → Haiku/kimi not Sonnet.
+**Verification:** All 4 crons updated. Isolated pattern matches existing Warden/fallback-validation pattern.
+**Rollback:** N/A
+**Linked:** TKT-0165,CHG-0268
+---
+
+
+## 2026-05-14 22:32 AEST — [CHG-0322] linkedin-post.sh: --queue-content-id flag added — captures activity URN in queue after posting
+**Type:** script
+**Change Type:** Normal
+**Source:** ken-prompt
+**Trigger:** Ken requested activity URN be stored in queue for analytics tracking. MDP approved today.
+**What changed:** linkedin-post.sh: added --queue-content-id [contentId] optional flag. After successful post, script auto-updates linkedin-queue.json with postUrn (activity URN) and postUrl. SPARK_RULES.md updated: all posting calls must include --queue-content-id.
+**Why:** Activity URNs were not being stored after posting, making it impossible to pull social stats (likes, comments) via API. MDP approval enables analytics — but only if we have the URNs.
+**Verification:** Flag parses correctly. Queue update logic added.
+**Rollback:** N/A
+**Linked:** TKT-0039
+---
+
+
+## 2026-05-14 16:50 AEST — [CHG-0321] TKT-0174: Gateway hygiene — Mission Control 15min, weekly restart cron, stale task cleanup cron
+**Type:** infra
+**Change Type:** Normal
+**Source:** ken-prompt
+**Trigger:** Ken directed immediate execution. Gateway event loop saturation incident CHG-0320.
+**What changed:** (1) Mission Control Refresh d32f2b9a: 300s→900s interval. (2) Weekly gateway restart cron created (Sat midnight AEST). (3) Daily stale task cleanup cron created (03:00 AEST).
+**Why:** Prevent recurrence of Day 20 event loop saturation. Three hygiene items identified post-incident.
+**Verification:** Cron intervals updated, new crons created and verified.
+**Rollback:** N/A
+**Linked:** TKT-0174,CHG-0320
+---
+
+
+## 2026-05-14 16:42 AEST — [CHG-0320] Gateway restart — event loop saturation (28387ms delay, 98.3% utilisation)
+**Type:** infra
+**Change Type:** Emergency
+**Source:** ken-prompt
+**Trigger:** Ken flagged gateway degraded alert via Telegram. Investigated: event loop critical, 7 lost tasks, 3.4GB RAM, 96min CPU time from intensive Day 20 workload (12+ Atlas subagents, grooming session).
+**What changed:** Gateway restart initiated. Pre-restart git commit done. No active tasks. System CPU 93% idle, memory healthy — saturation is Node.js event loop only.
+**Why:** Event loop at 28,387ms max delay blocks all gateway responsiveness. Restart clears accumulated session state and stale task references.
+**Verification:** Pre-restart checks passed. Will verify post-restart.
+**Rollback:** N/A
+**Linked:** none
+---
+
+
 ## 2026-05-14 12:50 AEST — [CHG-0319] Golden Blueprint cadence rules and triggers established
 **Type:** rule
 **Change Type:** Normal

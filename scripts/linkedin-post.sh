@@ -55,13 +55,20 @@ while [[ $# -gt 0 ]]; do
       DRY_RUN=true
       shift
       ;;
+    --queue-content-id)
+      # Optional: content ID to update in linkedin-queue.json with the activity URN after posting
+      QUEUE_CONTENT_ID="$2"
+      shift 2
+      ;;
     *)
       echo "❌ Unknown argument: $1" >&2
-      echo "Usage: linkedin-post.sh --content-file draft.md [--image-asset-urn urn:li:image:XXX] [--visibility PUBLIC|CONNECTIONS] [--dry-run]" >&2
+      echo "Usage: linkedin-post.sh --content-file draft.md [--image-asset-urn urn:li:image:XXX] [--visibility PUBLIC|CONNECTIONS] [--dry-run] [--queue-content-id LI-C1-W2-P3]" >&2
       exit 1
       ;;
   esac
 done
+
+QUEUE_CONTENT_ID="${QUEUE_CONTENT_ID:-}"
 
 # ── Validate ──────────────────────────────────────────────────────────────────
 
@@ -303,6 +310,33 @@ except:
   # Output post URN to stdout for piping/capture
   if [[ -n "$POST_URN" ]]; then
     echo "$POST_URN"
+  fi
+
+  # ── Update linkedin-queue.json with activity URN ──────────────────────────
+  if [[ -n "$POST_URN" && -n "$QUEUE_CONTENT_ID" ]]; then
+    python3 - "$WORKSPACE/state/linkedin-queue.json" "$QUEUE_CONTENT_ID" "$POST_URN" << 'PYEOF'
+import json, sys
+queue_file, content_id, post_urn = sys.argv[1], sys.argv[2], sys.argv[3]
+try:
+    with open(queue_file) as f:
+        q = json.load(f)
+    updated = False
+    for item in q.get('queue', []):
+        if item.get('contentId') == content_id:
+            item['postUrn'] = post_urn
+            item['postUrl'] = f'https://www.linkedin.com/feed/update/{post_urn}/'
+            item['activityUrnStoredAt'] = __import__('datetime').datetime.utcnow().isoformat() + 'Z'
+            updated = True
+            break
+    if updated:
+        with open(queue_file, 'w') as f:
+            json.dump(q, f, indent=2)
+        print(f'  Queue updated: {content_id} → postUrn={post_urn}')
+    else:
+        print(f'  Queue: contentId {content_id} not found')
+except Exception as e:
+    print(f'  Queue update failed: {e}')
+PYEOF
   fi
 else
   echo "❌ Post failed (HTTP $HTTP_STATUS):" >&2

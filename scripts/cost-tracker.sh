@@ -23,10 +23,10 @@ date = "$DATE"
 state_file = os.path.expanduser("$STATE_FILE")
 cost_log = os.path.expanduser("$COST_LOG")
 
-STREAM_MAP = {"main":"technical","business":"business","security":"governance","governance":"governance","legal":"governance","qa":"governance"}
+STREAM_MAP = {"main":"technical","business":"business","security":"governance","governance":"governance","legal":"governance","qa":"governance","architect":"technical","platform-arch":"technical","infra":"technical","biz-process":"business","change-mgt":"business","ahsoka":"consulting"}
 
 by_model  = {}
-by_stream = {"technical":{"cost":0.0,"turns":0},"business":{"cost":0.0,"turns":0},"governance":{"cost":0.0,"turns":0}}
+by_stream = {"technical":{"cost":0.0,"turns":0},"business":{"cost":0.0,"turns":0},"governance":{"cost":0.0,"turns":0},"consulting":{"cost":0.0,"turns":0}}
 total_cost = 0.0
 total_input = 0
 total_output = 0

@@ -1,5 +1,5 @@
 {
-  "sequence": 174,
+  "sequence": 177,
   "tickets": [
     {
       "id": "TKT-0104",
@@ -1617,6 +1617,66 @@
       },
       "notes": "",
       "notionPageId": "360c1829-53ff-8160-b9b7-d65ed1a94990"
+    },
+    {
+      "id": "TKT-0174",
+      "title": "Gateway hygiene: Mission Control 5→15min, weekly restart, stale task cleanup",
+      "type": "task",
+      "priority": "medium",
+      "status": "closed",
+      "requester": "Ken",
+      "assignee": "Yoda",
+      "created": "2026-05-14T16:46:04+10:00",
+      "updated": "2026-05-14T16:50:53+10:00",
+      "description": "Three hygiene items following Day 20 event loop saturation incident (CHG-0320): (1) Reduce Mission Control Refresh cron d32f2b9a from 5-min to 15-min — 1032-line bash script with Notion API calls is too heavy for 5-min cadence. (2) Add weekly scheduled gateway restart (Saturday midnight AEST) to prevent session accumulation on heavy workload days. (3) Add stale task cleanup cron to periodically purge lost/missing backing session task references (7 stale tasks aged 1-6 days found during incident). Route to Forge.",
+      "resolution": "All three items implemented: (1) Mission Control Refresh 5min→15min (d32f2b9a, everyMs=900000). (2) Weekly gateway restart cron created (20f59555, Sat midnight AEST). (3) Daily stale task cleanup cron created (516135b9, 03:00 AEST). CHG-0321 logged.",
+      "linked": {
+        "us": [],
+        "inc": [],
+        "chg": []
+      },
+      "notes": "",
+      "notionPageId": "360c1829-53ff-8153-8fd6-ece11bcc185b"
+    },
+    {
+      "id": "TKT-0175",
+      "title": "Cost tracker: isolated session blind spot — capture subagent + cron session costs",
+      "type": "task",
+      "priority": "medium",
+      "status": "in-progress",
+      "requester": "Ken",
+      "assignee": "Yoda",
+      "created": "2026-05-14T22:51:53+10:00",
+      "updated": "2026-05-14T22:58:20+10:00",
+      "description": "Cost tracker (scripts/cost-tracker.sh) scans named agent session directories (agents/*/sessions/*.jsonl) but isolated/ephemeral sessions may not write to these paths. Today's isolated cron sessions (health-check, task-monitor, obs-collect, mission-control now on isolated Haiku/kimi) + all Atlas/Forge subagent sessions may not be captured. This explains the tracker vs actual discrepancy (tracker ~ vs actual ~+ today). Investigation needed: (1) Where do isolated agentTurn sessions write their trajectory files? (2) Are subagent sessions under the spawning agent's directory or a separate path? (3) Update tracker glob to capture all session types. Size: M. Route: Forge.",
+      "resolution": null,
+      "linked": {
+        "us": [],
+        "inc": [],
+        "chg": []
+      },
+      "notes": "Ken suggestion 2026-05-14: Alternative to file-system session parsing — use calculated estimate approach. We already know: (1) total turns per model from existing session logs, (2) average tokens per turn per model tier (can be derived from sampled sessions), (3) model pricing (Sonnet $3/MTok in, $15/MTok out; Haiku $0.80/$4; kimi fixed $0/turn). Calculated approach = turns × avg_tokens × price_per_token. Simpler, avoids OpenClaw internals complexity, good enough for cost governance. May be more accurate than chasing ephemeral session files. Forge to evaluate this as primary approach vs file-system parsing. | PRIMARY APPROACH: Calculated estimate (Ken approved 2026-05-14). Turns × avg_tokens_per_model_tier × price. Steps: (1) Sample 20-30 existing session logs per model tier to derive avg input/output tokens per turn. (2) Update cost-tracker.sh to use turn counts + model distribution × calculated rates. (3) Cross-validate against confirmed Anthropic balance deltas. Estimated accuracy: ±10-15% — sufficient for cost governance. Avoid ephemeral session file parsing — too complex, OpenClaw-internal.",
+      "notionPageId": "360c1829-53ff-8124-b25a-c939a9629220"
+    },
+    {
+      "id": "TKT-0176",
+      "title": "Tech Stream ROI Framework — design, groom and populate",
+      "type": "task",
+      "priority": "medium",
+      "status": "open",
+      "requester": "Ken",
+      "assignee": "Yoda",
+      "created": "2026-05-14T23:06:33+10:00",
+      "updated": "2026-05-14T23:06:33+10:00",
+      "description": "The business stream has a ROI framework but tech stream has zero entries in roi-tracker.json since Day 1. Raise to groom framework design with Ken, backfill Day 1-20, then maintain live.",
+      "resolution": null,
+      "linked": {
+        "us": [],
+        "inc": [],
+        "chg": []
+      },
+      "notes": "",
+      "notionPageId": "360c1829-53ff-8176-96f5-cfaa231bef01"
     }
   ]
 }
