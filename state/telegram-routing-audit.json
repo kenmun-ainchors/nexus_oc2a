@@ -8,8 +8,8 @@
       "accountId": "yoda(default)"
     },
     {
-      "job": "Spark \u2014 LI-C1-W2-P3 (Thu 07:30 rescheduled)",
-      "id": "81f60636-acd7-4d8c-8fa1-59b5c54af04a",
+      "job": "Spark \u2014 LinkedIn Friday Post (W1P4 + recurring)",
+      "id": "243634a7-c7ae-47f2-9a04-b27583217c36",
       "to": "8574109706",
       "accountId": "yoda(default)"
     },
@@ -44,12 +44,6 @@
       "accountId": "yoda(default)"
     },
     {
-      "job": "Spark \u2014 LinkedIn Friday Post (W1P4 + recurring)",
-      "id": "243634a7-c7ae-47f2-9a04-b27583217c36",
-      "to": "8574109706",
-      "accountId": "yoda(default)"
-    },
-    {
       "job": "Aria \ud83d\udd35 \u2014 Weekly Business ROI Summary",
       "id": "7a4d8381-2384-4719-b8d3-daff97a65b8a",
       "to": "8141152780",
@@ -75,10 +69,10 @@
     }
   ],
   "warnings": [],
-  "auditAt": "2026-05-13T15:00:08Z",
+  "auditAt": "2026-05-14T15:00:05Z",
   "summary": {
     "violations": 0,
-    "passes": 12,
+    "passes": 11,
     "warnings": 0
   },
   "status": "pass"
