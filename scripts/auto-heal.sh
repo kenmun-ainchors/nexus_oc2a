@@ -437,29 +437,44 @@ else
   log "  OK: no cron-dead-letter.json (no dead-lettered crons)"
 fi
 
-# ---------- CHECK 16: Keychain secret liveness ----------
-log "CHECK 17: zombie task runs (stale_running)"
+# ---------- CHECK 16: Stale running task cleanup ----------
+# Uses JSON API to get full task IDs (audit output truncates IDs with ellipsis)
+log "CHECK 16: zombie task runs (stale_running)"
 CHECKS_RUN+=("zombie_tasks")
-ZOMBIE_TASKS=$(openclaw tasks audit 2>/dev/null | grep "stale_running" | awk '{print $4}' || true)
-if [[ -n "$ZOMBIE_TASKS" ]]; then
-  ZOMBIE_COUNT=$(echo "$ZOMBIE_TASKS" | wc -l | tr -d ' ')
-  log "  ISSUE: $ZOMBIE_COUNT zombie task(s) detected — cancelling..."
+STALE_THRESHOLD_HOURS=4
+STALE_THRESHOLD_MS=$(( STALE_THRESHOLD_HOURS * 3600 * 1000 ))
+NOW_MS=$(date +%s)000
+
+ZOMBIE_JSON=$(openclaw tasks list --status running --json 2>/dev/null || echo '{"tasks":[]}')
+STALE_TASKS=$(echo "$ZOMBIE_JSON" | jq -r --argjson now "$NOW_MS" --argjson thresh "$STALE_THRESHOLD_MS" '
+  .tasks[]? | select(.status == "running") |
+  (.lastEventAt // .startedAt // 0) as $lastEvent |
+  select(($now | tonumber) - $lastEvent > $thresh) |
+  {taskId, runtime, lastEventAt, startedAt, age_ms: (($now | tonumber) - $lastEvent)}
+')
+
+STALE_COUNT=$(echo "$STALE_TASKS" | jq -s 'length')
+if (( STALE_COUNT > 0 )); then
+  log "  ISSUE: $STALE_COUNT zombie task(s) detected (> ${STALE_THRESHOLD_HOURS}h stale) — cancelling..."
   CANCELLED=0
-  while IFS= read -r task_id; do
+  echo "$STALE_TASKS" | jq -r '.taskId' | while IFS= read -r task_id; do
     [[ -z "$task_id" ]] && continue
-    openclaw tasks cancel "$task_id" >> "$LOG" 2>&1 && \
-      AUTO_FIXED+=("zombie-task-cancelled:${task_id:0:8}") && \
-      (( CANCELLED++ )) || true
-  done <<< "$ZOMBIE_TASKS"
-  log "  AUTO-FIX: cancelled $CANCELLED zombie task(s)"
-  if (( CANCELLED < ZOMBIE_COUNT )); then
-    NEEDS_KEN+=("$((ZOMBIE_COUNT - CANCELLED)) zombie task(s) could not be auto-cancelled — run: openclaw tasks audit")
+    openclaw tasks cancel "$task_id" >> "$LOG" 2>&1 && {
+      AUTO_FIXED+=("zombie-task-cancelled:${task_id:0:8}")
+      log "  AUTO-FIX: cancelled zombie task ${task_id:0:8}"
+      (( CANCELLED++ ))
+    } || log "  FAIL: could not cancel zombie task ${task_id:0:8}"
+  done
+  log "  AUTO-FIX: cancelled $CANCELLED/$STALE_COUNT zombie task(s)"
+  if (( CANCELLED < STALE_COUNT )); then
+    NEEDS_KEN+=("$((STALE_COUNT - CANCELLED)) zombie task(s) could not be auto-cancelled — run: openclaw tasks list --status running")
   fi
 else
-  log "  OK: no zombie tasks"
+  log "  OK: no zombie tasks (> ${STALE_THRESHOLD_HOURS}h threshold)"
 fi
 
-log "CHECK 16: keychain secret liveness"
+# ---------- CHECK 17: Keychain secret liveness ----------
+log "CHECK 17: keychain secret liveness"
 CHECKS_RUN+=("keychain_liveness")
 GET_SECRET="$WORKSPACE/scripts/get-secret.sh"
 if [[ -f "$GET_SECRET" ]]; then

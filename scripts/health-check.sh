@@ -260,16 +260,43 @@ else
 fi
 
 # ── CHECK 17: Zombie task runs ───────────────────────────────────────────────
+# Uses JSON API to get full task IDs (audit output truncates IDs with ellipsis)
 CHECK_zombieTasks="ok"
-ZOMBIE_IDS=$(openclaw tasks audit 2>/dev/null | grep "stale_running" | awk '{print $4}' || true)
-if [[ -n "$ZOMBIE_IDS" ]]; then
-  ZOMBIE_COUNT=$(echo "$ZOMBIE_IDS" | wc -l | tr -d ' ')
-  CHECK_zombieTasks="warning:${ZOMBIE_COUNT}"
-  [[ "$OVERALL_STATUS" == "ok" ]] && OVERALL_STATUS="degraded"
-  ISSUES+=("$ZOMBIE_COUNT zombie task run(s) detected — run: openclaw tasks audit")
-  log "CHECK zombieTasks: $ZOMBIE_COUNT stale_running tasks found"
+STALE_THRESHOLD_HOURS=4
+STALE_THRESHOLD_MS=$(( STALE_THRESHOLD_HOURS * 3600 * 1000 ))
+NOW_MS=$(date +%s)000
+
+ZOMBIE_JSON=$(openclaw tasks list --status running --json 2>/dev/null || echo '{"tasks":[]}')
+STALE_TASKS=$(echo "$ZOMBIE_JSON" | jq -r --argjson now "$NOW_MS" --argjson thresh "$STALE_THRESHOLD_MS" '
+  .tasks[]? | select(.status == "running") |
+  (.lastEventAt // .startedAt // 0) as $lastEvent |
+  select(($now | tonumber) - $lastEvent > $thresh) |
+  .taskId
+')
+
+if [[ -n "$STALE_TASKS" ]]; then
+  ZOMBIE_COUNT=$(echo "$STALE_TASKS" | grep -c '^' || echo 0)
+  log "CHECK zombieTasks: $ZOMBIE_COUNT stale_running task(s) found (> ${STALE_THRESHOLD_HOURS}h) — auto-cancelling..."
+  CANCELLED=0
+  while IFS= read -r task_id; do
+    [[ -z "$task_id" ]] && continue
+    if openclaw tasks cancel "$task_id" >> "$LOG" 2>&1; then
+      log "  AUTO-FIX: cancelled zombie task ${task_id:0:8}"
+      (( CANCELLED++ ))
+    else
+      log "  FAIL: could not cancel zombie task ${task_id:0:8}"
+    fi
+  done <<< "$STALE_TASKS"
+  log "CHECK zombieTasks: cancelled $CANCELLED/$ZOMBIE_COUNT zombie task(s)"
+  if (( CANCELLED > 0 )); then
+    CHECK_zombieTasks="fixed:${CANCELLED}"
+  else
+    CHECK_zombieTasks="warning:${ZOMBIE_COUNT}"
+    [[ "$OVERALL_STATUS" == "ok" ]] && OVERALL_STATUS="degraded"
+    ISSUES+=("$ZOMBIE_COUNT zombie task(s) could not be auto-cancelled — run: openclaw tasks list --status running")
+  fi
 else
-  log "CHECK zombieTasks: OK"
+  log "CHECK zombieTasks: OK (no stale tasks > ${STALE_THRESHOLD_HOURS}h)"
 fi
 
 # ── CHECK 18: MinIO health (TKT-0124) ───────────────────────────────────────────────────────
