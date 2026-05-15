@@ -2,14 +2,20 @@
   "violations": [],
   "passes": [
     {
-      "job": "AKB Holocron \u2014 Daily Update (3AM)",
-      "id": "dce1ada4-8012-4ab9-bd13-2da68ae0c9bb",
+      "job": "Nightly Gateway Restart (03:00 AEST)",
+      "id": "20f59555-781a-4863-a8bf-c90a088317d4",
       "to": "8574109706",
       "accountId": "yoda(default)"
     },
     {
-      "job": "Spark \u2014 LinkedIn Friday Post (W1P4 + recurring)",
-      "id": "243634a7-c7ae-47f2-9a04-b27583217c36",
+      "job": "Daily Stale Task Cleanup",
+      "id": "516135b9-2c17-4cbd-ac93-2113405e3743",
+      "to": "8574109706",
+      "accountId": "yoda(default)"
+    },
+    {
+      "job": "AKB Holocron \u2014 Daily Update (3AM)",
+      "id": "dce1ada4-8012-4ab9-bd13-2da68ae0c9bb",
       "to": "8574109706",
       "accountId": "yoda(default)"
     },
@@ -32,22 +38,16 @@
       "accountId": "yoda(default)"
     },
     {
-      "job": "RTB kimi trial \u2014 Daily Rose Thorn Bud (8:10am)",
-      "id": "57105907-d35b-47e3-a6ef-f13ce9cf468f",
-      "to": "8574109706",
-      "accountId": "yoda(default)"
-    },
-    {
-      "job": "RTB Gemma4:31b trial \u2014 parallel vs kimi (8:15am)",
-      "id": "7ff14b97-c487-4a0c-96fb-49125be48281",
-      "to": "8574109706",
-      "accountId": "yoda(default)"
-    },
-    {
       "job": "Aria \ud83d\udd35 \u2014 Weekly Business ROI Summary",
       "id": "7a4d8381-2384-4719-b8d3-daff97a65b8a",
       "to": "8141152780",
       "accountId": "aria"
+    },
+    {
+      "job": "Spark \u2014 LinkedIn Friday Post (W1P4 + recurring)",
+      "id": "243634a7-c7ae-47f2-9a04-b27583217c36",
+      "to": "8574109706",
+      "accountId": "yoda(default)"
     },
     {
       "job": "AInchors Monthly Model Strategy Review",
@@ -69,7 +69,7 @@
     }
   ],
   "warnings": [],
-  "auditAt": "2026-05-14T15:00:05Z",
+  "auditAt": "2026-05-15T15:00:17Z",
   "summary": {
     "violations": 0,
     "passes": 11,

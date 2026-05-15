@@ -4,102 +4,6 @@
   "sloTarget": 0.995,
   "events": [
     {
-      "ts": "2026-05-12T21:09:34.291137+00:00",
-      "status": "degraded",
-      "consecutiveFailures": 0,
-      "issues": [
-        "Event loop delay critical: 13396ms max, utilisation 1 \u2014 gateway may be saturated"
-      ]
-    },
-    {
-      "ts": "2026-05-13T02:48:27.473656+00:00",
-      "status": "degraded",
-      "consecutiveFailures": 0,
-      "issues": [
-        "Anthropic API unreachable (HTTP 401) \u2014 billing or auth failure"
-      ]
-    },
-    {
-      "ts": "2026-05-13T02:52:54.594241+00:00",
-      "status": "degraded",
-      "consecutiveFailures": 0,
-      "issues": [
-        "Anthropic API unreachable (HTTP 401) \u2014 billing or auth failure"
-      ]
-    },
-    {
-      "ts": "2026-05-13T02:57:56.526300+00:00",
-      "status": "degraded",
-      "consecutiveFailures": 0,
-      "issues": [
-        "Anthropic API unreachable (HTTP 401) \u2014 billing or auth failure"
-      ]
-    },
-    {
-      "ts": "2026-05-13T03:16:17.062396+00:00",
-      "status": "degraded",
-      "consecutiveFailures": 0,
-      "issues": [
-        "Anthropic API unreachable (HTTP 401) \u2014 billing or auth failure"
-      ]
-    },
-    {
-      "ts": "2026-05-13T03:17:48.814481+00:00",
-      "status": "degraded",
-      "consecutiveFailures": 0,
-      "issues": [
-        "Anthropic API unreachable (HTTP 401) \u2014 billing or auth failure"
-      ]
-    },
-    {
-      "ts": "2026-05-13T03:29:57.939540+00:00",
-      "status": "degraded",
-      "consecutiveFailures": 0,
-      "issues": [
-        "Anthropic API unreachable (HTTP 401) \u2014 billing or auth failure"
-      ]
-    },
-    {
-      "ts": "2026-05-13T03:31:34.834826+00:00",
-      "status": "degraded",
-      "consecutiveFailures": 0,
-      "issues": [
-        "Anthropic API unreachable (HTTP 401) \u2014 billing or auth failure"
-      ]
-    },
-    {
-      "ts": "2026-05-13T03:34:54.670979+00:00",
-      "status": "degraded",
-      "consecutiveFailures": 0,
-      "issues": [
-        "Anthropic API unreachable (HTTP 401) \u2014 billing or auth failure"
-      ]
-    },
-    {
-      "ts": "2026-05-13T03:40:01.183011+00:00",
-      "status": "degraded",
-      "consecutiveFailures": 0,
-      "issues": [
-        "Anthropic API unreachable (HTTP 401) \u2014 billing or auth failure"
-      ]
-    },
-    {
-      "ts": "2026-05-13T03:44:17.522646+00:00",
-      "status": "degraded",
-      "consecutiveFailures": 0,
-      "issues": [
-        "Anthropic API unreachable (HTTP 401) \u2014 billing or auth failure"
-      ]
-    },
-    {
-      "ts": "2026-05-13T03:50:40.952601+00:00",
-      "status": "degraded",
-      "consecutiveFailures": 0,
-      "issues": [
-        "Anthropic API unreachable (HTTP 401) \u2014 billing or auth failure"
-      ]
-    },
-    {
       "ts": "2026-05-13T03:54:25.422291+00:00",
       "status": "degraded",
       "consecutiveFailures": 0,
@@ -4753,14 +4657,110 @@
       "issues": [
         "1 zombie task run(s) detected \u2014 run: openclaw tasks audit"
       ]
+    },
+    {
+      "ts": "2026-05-15T15:04:21.111481+00:00",
+      "status": "degraded",
+      "consecutiveFailures": 0,
+      "issues": [
+        "1 zombie task run(s) detected \u2014 run: openclaw tasks audit"
+      ]
+    },
+    {
+      "ts": "2026-05-15T15:09:20.409810+00:00",
+      "status": "degraded",
+      "consecutiveFailures": 0,
+      "issues": [
+        "1 zombie task run(s) detected \u2014 run: openclaw tasks audit"
+      ]
+    },
+    {
+      "ts": "2026-05-15T15:14:20.332272+00:00",
+      "status": "degraded",
+      "consecutiveFailures": 0,
+      "issues": [
+        "1 zombie task run(s) detected \u2014 run: openclaw tasks audit"
+      ]
+    },
+    {
+      "ts": "2026-05-15T15:20:14.170755+00:00",
+      "status": "degraded",
+      "consecutiveFailures": 0,
+      "issues": [
+        "1 zombie task run(s) detected \u2014 run: openclaw tasks audit"
+      ]
+    },
+    {
+      "ts": "2026-05-15T15:25:09.080448+00:00",
+      "status": "degraded",
+      "consecutiveFailures": 0,
+      "issues": [
+        "1 zombie task run(s) detected \u2014 run: openclaw tasks audit"
+      ]
+    },
+    {
+      "ts": "2026-05-15T15:30:17.060466+00:00",
+      "status": "degraded",
+      "consecutiveFailures": 0,
+      "issues": [
+        "1 zombie task run(s) detected \u2014 run: openclaw tasks audit"
+      ]
+    },
+    {
+      "ts": "2026-05-15T15:35:16.640788+00:00",
+      "status": "degraded",
+      "consecutiveFailures": 0,
+      "issues": [
+        "1 zombie task run(s) detected \u2014 run: openclaw tasks audit"
+      ]
+    },
+    {
+      "ts": "2026-05-15T15:40:16.167601+00:00",
+      "status": "degraded",
+      "consecutiveFailures": 0,
+      "issues": [
+        "1 zombie task run(s) detected \u2014 run: openclaw tasks audit"
+      ]
+    },
+    {
+      "ts": "2026-05-15T15:45:16.332731+00:00",
+      "status": "degraded",
+      "consecutiveFailures": 0,
+      "issues": [
+        "1 zombie task run(s) detected \u2014 run: openclaw tasks audit"
+      ]
+    },
+    {
+      "ts": "2026-05-15T15:50:17.771158+00:00",
+      "status": "degraded",
+      "consecutiveFailures": 0,
+      "issues": [
+        "1 zombie task run(s) detected \u2014 run: openclaw tasks audit"
+      ]
+    },
+    {
+      "ts": "2026-05-15T15:55:16.420946+00:00",
+      "status": "degraded",
+      "consecutiveFailures": 0,
+      "issues": [
+        "1 zombie task run(s) detected \u2014 run: openclaw tasks audit"
+      ]
+    },
+    {
+      "ts": "2026-05-15T16:00:16.273533+00:00",
+      "status": "degraded",
+      "consecutiveFailures": 0,
+      "issues": [
+        "1 zombie task run(s) detected \u2014 run: openclaw tasks audit"
+      ]
     }
   ],
   "summary": {
-    "totalChecks": 824,
+    "totalChecks": 836,
     "upChecks": 589,
-    "downtimeMinutes": 1175,
-    "uptimePct": 71.481,
-    "lastCheck": "2026-05-15T14:59:20.942599+00:00",
+    "downtimeMinutes": 1235,
+    "uptimePct": 70.455,
+    "lastCheck": "2026-05-15T16:00:16.273533+00:00",
     "lastStatus": "degraded"
   }
 }
