@@ -4,86 +4,6 @@
   "sloTarget": 0.995,
   "events": [
     {
-      "ts": "2026-05-12T20:19:35.955997+00:00",
-      "status": "degraded",
-      "consecutiveFailures": 0,
-      "issues": [
-        "Event loop delay critical: 13396ms max, utilisation 1 \u2014 gateway may be saturated"
-      ]
-    },
-    {
-      "ts": "2026-05-12T20:24:32.631850+00:00",
-      "status": "degraded",
-      "consecutiveFailures": 0,
-      "issues": [
-        "Event loop delay critical: 13396ms max, utilisation 1 \u2014 gateway may be saturated"
-      ]
-    },
-    {
-      "ts": "2026-05-12T20:29:35.416482+00:00",
-      "status": "degraded",
-      "consecutiveFailures": 0,
-      "issues": [
-        "Event loop delay critical: 13396ms max, utilisation 1 \u2014 gateway may be saturated"
-      ]
-    },
-    {
-      "ts": "2026-05-12T20:34:36.001623+00:00",
-      "status": "degraded",
-      "consecutiveFailures": 0,
-      "issues": [
-        "Event loop delay critical: 13396ms max, utilisation 1 \u2014 gateway may be saturated"
-      ]
-    },
-    {
-      "ts": "2026-05-12T20:39:35.084518+00:00",
-      "status": "degraded",
-      "consecutiveFailures": 0,
-      "issues": [
-        "Event loop delay critical: 13396ms max, utilisation 1 \u2014 gateway may be saturated"
-      ]
-    },
-    {
-      "ts": "2026-05-12T20:44:34.643469+00:00",
-      "status": "degraded",
-      "consecutiveFailures": 0,
-      "issues": [
-        "Event loop delay critical: 13396ms max, utilisation 1 \u2014 gateway may be saturated"
-      ]
-    },
-    {
-      "ts": "2026-05-12T20:49:34.796025+00:00",
-      "status": "degraded",
-      "consecutiveFailures": 0,
-      "issues": [
-        "Event loop delay critical: 13396ms max, utilisation 1 \u2014 gateway may be saturated"
-      ]
-    },
-    {
-      "ts": "2026-05-12T20:54:32.538399+00:00",
-      "status": "degraded",
-      "consecutiveFailures": 0,
-      "issues": [
-        "Event loop delay critical: 13396ms max, utilisation 1 \u2014 gateway may be saturated"
-      ]
-    },
-    {
-      "ts": "2026-05-12T20:59:35.637105+00:00",
-      "status": "degraded",
-      "consecutiveFailures": 0,
-      "issues": [
-        "Event loop delay critical: 13396ms max, utilisation 1 \u2014 gateway may be saturated"
-      ]
-    },
-    {
-      "ts": "2026-05-12T21:04:36.809258+00:00",
-      "status": "degraded",
-      "consecutiveFailures": 0,
-      "issues": [
-        "Event loop delay critical: 13396ms max, utilisation 1 \u2014 gateway may be saturated"
-      ]
-    },
-    {
       "ts": "2026-05-12T21:09:34.291137+00:00",
       "status": "degraded",
       "consecutiveFailures": 0,
@@ -4753,14 +4673,94 @@
       "issues": [
         "1 zombie task run(s) detected \u2014 run: openclaw tasks audit"
       ]
+    },
+    {
+      "ts": "2026-05-15T14:13:40.336641+00:00",
+      "status": "degraded",
+      "consecutiveFailures": 0,
+      "issues": [
+        "1 zombie task run(s) detected \u2014 run: openclaw tasks audit"
+      ]
+    },
+    {
+      "ts": "2026-05-15T14:18:40.128698+00:00",
+      "status": "degraded",
+      "consecutiveFailures": 0,
+      "issues": [
+        "1 zombie task run(s) detected \u2014 run: openclaw tasks audit"
+      ]
+    },
+    {
+      "ts": "2026-05-15T14:23:48.102158+00:00",
+      "status": "degraded",
+      "consecutiveFailures": 0,
+      "issues": [
+        "1 zombie task run(s) detected \u2014 run: openclaw tasks audit"
+      ]
+    },
+    {
+      "ts": "2026-05-15T14:28:55.117946+00:00",
+      "status": "degraded",
+      "consecutiveFailures": 0,
+      "issues": [
+        "1 zombie task run(s) detected \u2014 run: openclaw tasks audit"
+      ]
+    },
+    {
+      "ts": "2026-05-15T14:33:52.995110+00:00",
+      "status": "degraded",
+      "consecutiveFailures": 0,
+      "issues": [
+        "1 zombie task run(s) detected \u2014 run: openclaw tasks audit"
+      ]
+    },
+    {
+      "ts": "2026-05-15T14:38:52.694527+00:00",
+      "status": "degraded",
+      "consecutiveFailures": 0,
+      "issues": [
+        "1 zombie task run(s) detected \u2014 run: openclaw tasks audit"
+      ]
+    },
+    {
+      "ts": "2026-05-15T14:43:53.465209+00:00",
+      "status": "degraded",
+      "consecutiveFailures": 0,
+      "issues": [
+        "1 zombie task run(s) detected \u2014 run: openclaw tasks audit"
+      ]
+    },
+    {
+      "ts": "2026-05-15T14:48:53.040944+00:00",
+      "status": "degraded",
+      "consecutiveFailures": 0,
+      "issues": [
+        "1 zombie task run(s) detected \u2014 run: openclaw tasks audit"
+      ]
+    },
+    {
+      "ts": "2026-05-15T14:53:53.003649+00:00",
+      "status": "degraded",
+      "consecutiveFailures": 0,
+      "issues": [
+        "1 zombie task run(s) detected \u2014 run: openclaw tasks audit"
+      ]
+    },
+    {
+      "ts": "2026-05-15T14:59:20.942599+00:00",
+      "status": "degraded",
+      "consecutiveFailures": 0,
+      "issues": [
+        "1 zombie task run(s) detected \u2014 run: openclaw tasks audit"
+      ]
     }
   ],
   "summary": {
-    "totalChecks": 814,
+    "totalChecks": 824,
     "upChecks": 589,
-    "downtimeMinutes": 1125,
-    "uptimePct": 72.359,
-    "lastCheck": "2026-05-15T14:01:58.717218+00:00",
+    "downtimeMinutes": 1175,
+    "uptimePct": 71.481,
+    "lastCheck": "2026-05-15T14:59:20.942599+00:00",
     "lastStatus": "degraded"
   }
 }

@@ -1,5 +1,5 @@
 {
-  "lastChecked": "2026-05-15T09:49:26Z",
+  "lastChecked": "2026-05-15T14:26:09.985472+00:00",
   "alerts": [
     {
       "agent": "main",
@@ -8,7 +8,8 @@
       "budget": 150,
       "pct": 3.4021,
       "detectedAt": "2026-05-15T09:49:26Z",
-      "acknowledged": false
+      "acknowledged": true,
+      "acknowledgedAt": "2026-05-15T14:26:09.985382+00:00"
     }
   ]
 }
