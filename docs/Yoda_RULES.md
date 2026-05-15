@@ -432,3 +432,49 @@ The two approved golden blueprint documents are living references. Their review 
 - Ken approves all locked decision updates and section changes
 
 **Triggers:** TRIGGER-15 (P1→P2), TRIGGER-16 (P2→P4), TRIGGER-17 (annual May)
+
+---
+
+## Platform Principle: Explicit-over-Implicit for Weaker Models (L-033 — 2026-05-15)
+
+**When writing rules for agents that may run on kimi, Gemma4, or other weaker-context models: always provide executable code, not abstract instructions. Abstract rules are Sonnet-only. Executable snippets work across all tiers.**
+
+This applies to: SOUL.md, RULES.md, HEARTBEAT.md, cron payloads, agent briefs.
+
+**Rule:** If an instruction requires a state write, API call, or multi-step action and the executing model may be kimi or weaker:
+- Provide an exact Python or shell snippet inline — not a description of what to do.
+- Test the snippet independently before embedding it in the rule.
+- Never use abstract language like "write to state file" or "persist the decision" without showing exactly how.
+
+**Source:** Option C UAT gap (TKT-0160, CHG-0342) — kimi followed explicit snippet reliably; ignored vague "should do" instruction.
+
+---
+
+## Google Drive Upload Rule (NON-NEGOTIABLE — CHG-0328)
+
+**NEVER upload to Drive root.** All uploads must specify `--parent <folder-id>`.
+
+Folder map (see full reference: `state/drive-folder-ids.json`):
+
+| Content Type | Folder | ID |
+|---|---|---|
+| Architecture docs, option papers, EA deliverables, policy docs | Docs | `1WsvbM7RbUXBRGKk_izbtWSlQ_z3kjx0t` |
+| Daily journals, blog HTML | Journal + Blog | `1WUcG6cdT95FYzSu-bh9S9Jaux4rWRR3z` |
+| MEMORY.md, agent context files | Memory + Context | `1qn7pZaw4akt8a7DDsSoGS55KMsevLFgu` |
+| Sprint reports, SLA reports, QBR | Sprint Docs | `12YQYTesnCqOvJ9Bn8LoMKevLKm0nNbdm` |
+| Docs pending Ken review | Review Queue | `1w8WhcaoPAXzsgU2epycoIoBag-JWWnKN` |
+| LinkedIn posts, social content | Social | `1ATWhL4lRWB1Rf0Y4Y7YVYgeP_CiveK4A` |
+| HTML canvas docs, dsync files | Canvas | `1sY9qkXiAv8vy3m6E_W2eH73TCOreZKge` |
+| Images | Images | `1nbhGoRCu36JKD38ucOGtWYPqJ8IGtcXR` |
+
+**Correct pattern:**
+```
+GOG_ACCOUNT=kenmun@ainchors.com /opt/homebrew/bin/gog drive upload "/path/to/file.md" --parent "1WsvbM7RbUXBRGKk_izbtWSlQ_z3kjx0t" 2>&1 | tail -3
+```
+
+**Wrong (never do this):**
+```
+/opt/homebrew/bin/gog drive upload "/path/to/file.md"   # no --parent = uploads to root
+```
+
+This applies to: Yoda, Atlas, Forge, all subagents, all cron payloads, all scripts.

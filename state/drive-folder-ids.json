@@ -1,0 +1,48 @@
+{
+  "root": "1EyLi8JCvxwixhpBdRwP0PwdZokrg78Jl",
+  "rootName": "AInchors — Yoda Working Files",
+  "folders": {
+    "docs": {
+      "id": "1WsvbM7RbUXBRGKk_izbtWSlQ_z3kjx0t",
+      "name": "Docs",
+      "use": "Architecture docs, option papers, strategy docs, EA deliverables, policy docs"
+    },
+    "journal": {
+      "id": "1WUcG6cdT95FYzSu-bh9S9Jaux4rWRR3z",
+      "name": "Journal + Blog",
+      "use": "Daily journals, blog HTML files, EOD summaries"
+    },
+    "memory": {
+      "id": "1qn7pZaw4akt8a7DDsSoGS55KMsevLFgu",
+      "name": "Memory + Context",
+      "use": "MEMORY.md, agent context files, shared decisions"
+    },
+    "sprint": {
+      "id": "12YQYTesnCqOvJ9Bn8LoMKevLKm0nNbdm",
+      "name": "Sprint Docs",
+      "use": "Sprint reports, SLA reports, QBR outputs, retrospectives"
+    },
+    "review": {
+      "id": "1w8WhcaoPAXzsgU2epycoIoBag-JWWnKN",
+      "name": "Review Queue",
+      "use": "Documents pending Ken review/approval"
+    },
+    "social": {
+      "id": "1ATWhL4lRWB1Rf0Y4Y7YVYgeP_CiveK4A",
+      "name": "Social",
+      "use": "LinkedIn posts, social content, campaign drafts"
+    },
+    "canvas": {
+      "id": "1sY9qkXiAv8vy3m6E_W2eH73TCOreZKge",
+      "name": "Canvas",
+      "use": "HTML canvas documents, blog HTML, dsync files"
+    },
+    "images": {
+      "id": "1nbhGoRCu36JKD38ucOGtWYPqJ8IGtcXR",
+      "name": "Images",
+      "use": "Generated images, LinkedIn post images"
+    }
+  },
+  "updatedAt": "2026-05-15",
+  "note": "NEVER upload to root. Always specify --parent with the correct folder ID."
+}

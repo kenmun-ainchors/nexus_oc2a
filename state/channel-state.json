@@ -1,0 +1,86 @@
+{
+  "_schema": "channel-state-v1",
+  "_description": "Cross-channel decision bridge. Telegram writes decisions here. WebChat reads on startup and surfaces unsynced decisions to Ken.",
+  "_rules": [
+    "Telegram Yoda: write every decision/approval immediately. syncedToWebchat = false.",
+    "WebChat Yoda: on session start, check for syncedToWebchat=false entries and surface them to Ken.",
+    "After surfacing, mark syncedToWebchat = true. Never re-ask a question already answered.",
+    "No sessions_send relay between channels. State file is the only bridge.",
+    "CHG entries are always logged in WebChat after the fact, even if decision came from Telegram."
+  ],
+  "pendingApprovals": [],
+  "recentDecisions": [
+    {
+      "decisionId": "DEC-20260515-1228",
+      "summary": "Requested backlog patch \u2014 kimi synced 45 missing tickets (TKT-0104\u2192TKT-0157) to Notion",
+      "channel": "telegram",
+      "timestamp": "2026-05-15T12:28:00+10:00",
+      "tkt": null,
+      "action": "directed",
+      "syncedToWebchat": true
+    },
+    {
+      "decisionId": "DEC-20260515-1256",
+      "summary": "TKT-0187 updated with correct details and consolidated notes from TKT-0155",
+      "channel": "telegram",
+      "timestamp": "2026-05-15T12:56:00+10:00",
+      "tkt": "TKT-0187",
+      "action": "directed",
+      "syncedToWebchat": true
+    },
+    {
+      "decisionId": "DEC-20260515-1257",
+      "summary": "TKT-0155 status updated to BLOCKED \u2014 pending TKT-0187 Cloudflare Tunnel completion",
+      "channel": "telegram",
+      "timestamp": "2026-05-15T12:57:00+10:00",
+      "tkt": "TKT-0155",
+      "action": "directed",
+      "syncedToWebchat": true
+    },
+    {
+      "decisionId": "DEC-20260515-130727",
+      "summary": "Ken approved TKT-0175 calculated cost approach, TKT-0176 Sprint 5 QBR, TKT-0160 UAT Step 1+2",
+      "channel": "telegram",
+      "timestamp": "2026-05-15T13:07:27.468750+10:00",
+      "tkt": "TKT-0175,TKT-0176,TKT-0160",
+      "action": "approved",
+      "syncedToWebchat": true
+    },
+    {
+      "decisionId": "DEC-20260515-131302",
+      "summary": "Ken: TKT-0160 UAT results to be handed to webchat. Context persistence FAIL confirmed. Continue work on webchat.",
+      "channel": "telegram",
+      "timestamp": "2026-05-15T13:13:02.558446+10:00",
+      "tkt": "TKT-0160",
+      "action": "directed",
+      "syncedToWebchat": true
+    },
+    {
+      "decisionId": "DEC-20260515-TEST01",
+      "summary": "TKT-0160 UAT Test 1: Decision persistence from Telegram to webchat",
+      "channel": "telegram",
+      "timestamp": "2026-05-15T13:30:07.029687+10:00",
+      "tkt": "TKT-0160",
+      "action": "test",
+      "syncedToWebchat": true,
+      "testData": "aurora-7x9z-persistence-check"
+    },
+    {
+      "decisionId": "DEC-20260515-UAT02",
+      "summary": "TKT-0160 UAT Round 2 results: Test1=PARTIAL, Test2=FAIL, Test3=PASS. Filesystem shared but in-memory state isolated. Continue on webchat.",
+      "channel": "telegram",
+      "timestamp": "2026-05-15T13:46:56.895340+10:00",
+      "tkt": "TKT-0160",
+      "action": "test-complete",
+      "syncedToWebchat": true,
+      "uatResults": {
+        "test1_decisionPersistence": "PARTIAL",
+        "test2_ticketStateSync": "FAIL",
+        "test3_crossChannelAction": "PASS",
+        "finding": "Filesystem shared, in-memory state isolated"
+      }
+    }
+  ],
+  "lastUpdated": "2026-05-15T13:46:56.895481+10:00",
+  "lastSyncedWebchat": "2026-05-15T13:47:00+10:00"
+}

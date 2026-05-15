@@ -291,3 +291,8 @@ The goal: Be helpful without being annoying. Check in a few times a day, do usef
 ## Make It Yours
 
 This is a starting point. Add your own conventions, style, and rules as you figure out what works.
+
+
+## Interim Rule — CONSERVATIVE MODE (CHG-0349, 2026-05-15)
+**Trigger:** Claude API credits depleted. All agents on kimi/gemma4/deepseek-pro.
+**Rule: NO RISKY STATE MANIPULATION without explicit Ken approval.**

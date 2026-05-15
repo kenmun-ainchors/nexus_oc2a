@@ -126,9 +126,11 @@
       "approvedBy": "Ken",
       "approvedAt": "2026-05-10",
       "tkt": "TKT-0142",
-      "lastAudited": "2026-05-10",
-      "auditResult": "clean",
-      "chg": "CHG-0270"
+      "lastAudited": "2026-05-15",
+      "auditResult": "clean-5-low-fp",
+      "chg": "CHG-0270",
+      "auditNote": "v2 BLOCK: PIPE_SHELL \u2014 line 54 is curl -fsSL https://raw.githubusercontent.com/xdevplatform/xurl/main/install.sh | bash in a shell script installation example. This is installation docs for the xurl CLI tool itself, not executed by the agent. FALSE POSITIVE. NOTE: real concern documented \u2014 TKT-0182 raised to review this bundled install pattern.",
+      "reviewedBy": "Yoda (2026-05-15) \u2014 Ken approved"
     },
     {
       "name": "1password",
@@ -243,9 +245,11 @@
       "approvedBy": "Ken",
       "approvedAt": "2026-05-10",
       "tkt": "TKT-0142",
-      "lastAudited": "2026-05-10",
+      "lastAudited": "2026-05-15",
       "auditResult": "clean-5-low-fp",
-      "chg": "CHG-0270"
+      "chg": "CHG-0270",
+      "auditNote": "v2 BLOCK: EXTERNAL_URL \u2014 line 141 is a Tailscale internal URL in a code example (http://peters-mac-studio-1.sheep-coho.ts.net). Illustrative only, not operational. FALSE POSITIVE.",
+      "reviewedBy": "Yoda (2026-05-15) \u2014 Ken approved"
     },
     {
       "name": "clawhub",
@@ -321,9 +325,11 @@
       "approvedBy": "Ken",
       "approvedAt": "2026-05-10",
       "tkt": "TKT-0142",
-      "lastAudited": "2026-05-10",
+      "lastAudited": "2026-05-15",
       "auditResult": "clean-5-low-fp",
-      "chg": "CHG-0270"
+      "chg": "CHG-0270",
+      "auditNote": "v2 BLOCK: CRED_EXFIL \u2014 line 92 is echo $GH_TOKEN in a diagnostic step showing how to check if env var is set. Token is not exfiltrated anywhere. Pre-existing v1 flag. FALSE POSITIVE.",
+      "reviewedBy": "Yoda (2026-05-15) \u2014 Ken approved"
     },
     {
       "name": "gifgrep",
@@ -386,9 +392,11 @@
       "approvedBy": "Ken",
       "approvedAt": "2026-05-10",
       "tkt": "TKT-0142",
-      "lastAudited": "2026-05-10",
+      "lastAudited": "2026-05-15",
       "auditResult": "clean-5-low-fp",
-      "chg": "CHG-0270"
+      "chg": "CHG-0270",
+      "auditNote": "v2 BLOCK: SYSTEM_PATH_WRITE \u2014 line 235 references memory/YYYY-MM-DD.md in documentation about writing audit summaries. Writing to memory/ is a legitimate platform pattern for this skill. FALSE POSITIVE.",
+      "reviewedBy": "Yoda (2026-05-15) \u2014 Ken approved"
     },
     {
       "name": "himalaya",
@@ -425,9 +433,11 @@
       "approvedBy": "Ken",
       "approvedAt": "2026-05-10",
       "tkt": "TKT-0142",
-      "lastAudited": "2026-05-10",
+      "lastAudited": "2026-05-15",
       "auditResult": "clean-5-low-fp",
-      "chg": "CHG-0270"
+      "chg": "CHG-0270",
+      "auditNote": "v2 BLOCK: EXTERNAL_URL \u2014 line 4 is homepage: http://mcporter.dev in skill YAML metadata. Not an operational URL, not fetched by any agent action. FALSE POSITIVE. Add to URL allowlist exceptions: metadata fields.",
+      "reviewedBy": "Yoda (2026-05-15) \u2014 Ken approved"
     },
     {
       "name": "model-usage",
@@ -607,9 +617,11 @@
       "approvedBy": "Ken",
       "approvedAt": "2026-05-10",
       "tkt": "TKT-0142",
-      "lastAudited": "2026-05-10",
+      "lastAudited": "2026-05-15",
       "auditResult": "clean-5-low-fp",
-      "chg": "CHG-0270"
+      "chg": "CHG-0270",
+      "auditNote": "v2 BLOCK: SYSTEM_PATH_WRITE \u2014 line 75 is $HOME/.openclaw in an installation config setup example. Skill legitimately needs to configure its model path in OpenClaw config. FALSE POSITIVE for bundled/trusted skills.",
+      "reviewedBy": "Yoda (2026-05-15) \u2014 Ken approved"
     },
     {
       "name": "skill-creator",
@@ -815,11 +827,17 @@
       "approvedBy": "Ken",
       "approvedAt": "2026-05-10",
       "tkt": "TKT-0142",
-      "lastAudited": "2026-05-10",
+      "lastAudited": "2026-05-15",
       "auditResult": "clean-5-low-fp",
-      "chg": "CHG-0270"
+      "chg": "CHG-0270",
+      "auditNote": "v2 BLOCK: PIPE_SHELL \u2014 line 54 is curl -fsSL https://raw.githubusercontent.com/xdevplatform/xurl/main/install.sh | bash in a shell script installation example. This is installation docs for the xurl CLI tool itself, not executed by the agent. FALSE POSITIVE. NOTE: real concern documented \u2014 TKT-0182 raised to review this bundled install pattern.",
+      "reviewedBy": "Yoda (2026-05-15) \u2014 Ken approved"
     }
   ],
   "lastFullAudit": "2026-05-10",
-  "auditScript": "scripts/audit-skill.sh"
+  "auditScript": "scripts/audit-skill.sh",
+  "auditScriptVersion": "v2",
+  "auditScriptUpdated": "2026-05-15",
+  "auditScriptTkt": "TKT-0180",
+  "auditScriptChg": "CHG-0334"
 }

@@ -44,7 +44,16 @@
       "ollamaCloudConstraint": "Non-sensitive (low data_sensitivity) crons only. No PII, no medical, no legal. AInchors own ops only.",
       "rationale": "US11 model strategy. Sonnet is default. Opus for escalation only. Gemma4:e2b for background crons. Ollama Cloud Tier 2 (kimi/deepseek) for non-sensitive cron tasks (CHG-0140).",
       "configPath": "/Users/ainchorsangiefpl/.openclaw/openclaw.json",
-      "configJqQuery": ".agents.list[] | select(.id==\"main\") | .model"
+      "configJqQuery": ".agents.list[] | select(.id==\"main\") | .model",
+      "requiredPrimary": "ollama/kimi-k2.6:cloud",
+      "_configFormat": "CHG-0270: openclaw.json .model is now {primary, fallbacks} object. Compare against .model.primary only.",
+      "requiredFallbacks": [
+        "ollama/kimi-k2.6:cloud",
+        "ollama/gemma4:26b",
+        "ollama/deepseek-v4-pro:cloud",
+        "ollama/deepseek-v4-flash:cloud"
+      ],
+      "_interimNote": "CHG-0348: Interim models during Claude API credit outage. Valid: kimi, gemma4, deepseek-pro, deepseek-flash"
     },
     "business": {
       "description": "Aria \u2014 Business Lead Agent",
@@ -75,7 +84,16 @@
       "fallbackChain": [
         "anthropic/claude-haiku-4-5"
       ],
-      "fallbackNote": "CHG-0075: Haiku-only fallback. Opus prohibited. Gemma4 prohibited in interactive. If Anthropic down \u2192 standby mode."
+      "fallbackNote": "CHG-0075: Haiku-only fallback. Opus prohibited. Gemma4 prohibited in interactive. If Anthropic down \u2192 standby mode.",
+      "requiredPrimary": "ollama/kimi-k2.6:cloud",
+      "_configFormat": "CHG-0270: openclaw.json .model is now {primary, fallbacks} object. Compare against .model.primary only.",
+      "requiredFallbacks": [
+        "ollama/kimi-k2.6:cloud",
+        "ollama/gemma4:26b",
+        "ollama/deepseek-v4-pro:cloud",
+        "ollama/deepseek-v4-flash:cloud"
+      ],
+      "_interimNote": "CHG-0348: Interim models during Claude API credit outage. Valid: kimi, gemma4, deepseek-pro, deepseek-flash"
     },
     "security": {
       "description": "Shield \ud83d\udee1\ufe0f \u2014 Security Governance Agent",
@@ -106,7 +124,16 @@
         "anthropic/claude-haiku-4-5"
       ],
       "prohibited": [],
-      "note": "Switched to Haiku 2026-05-06 \u2014 Ken cost optimisation. Descriptive/review tasks only."
+      "note": "Switched to Haiku 2026-05-06 \u2014 Ken cost optimisation. Descriptive/review tasks only.",
+      "requiredPrimary": "ollama/kimi-k2.6:cloud",
+      "_configFormat": "CHG-0270: openclaw.json .model is now {primary, fallbacks} object. Compare against .model.primary only.",
+      "requiredFallbacks": [
+        "ollama/kimi-k2.6:cloud",
+        "ollama/gemma4:26b",
+        "ollama/deepseek-v4-pro:cloud",
+        "ollama/deepseek-v4-flash:cloud"
+      ],
+      "_interimNote": "CHG-0348: Interim models during Claude API credit outage. Valid: kimi, gemma4, deepseek-pro, deepseek-flash"
     },
     "legal": {
       "description": "Lex \u2696\ufe0f \u2014 Legal Governance Agent",
@@ -146,7 +173,16 @@
         "anthropic/claude-haiku-4-5"
       ],
       "prohibited": [],
-      "note": "Switched to Haiku 2026-05-06 \u2014 Ken cost optimisation. Descriptive/review tasks only."
+      "note": "Switched to Haiku 2026-05-06 \u2014 Ken cost optimisation. Descriptive/review tasks only.",
+      "requiredPrimary": "ollama/kimi-k2.6:cloud",
+      "_configFormat": "CHG-0270: openclaw.json .model is now {primary, fallbacks} object. Compare against .model.primary only.",
+      "requiredFallbacks": [
+        "ollama/kimi-k2.6:cloud",
+        "ollama/gemma4:26b",
+        "ollama/deepseek-v4-pro:cloud",
+        "ollama/deepseek-v4-flash:cloud"
+      ],
+      "_interimNote": "CHG-0348: Interim models during Claude API credit outage. Valid: kimi, gemma4, deepseek-pro, deepseek-flash"
     },
     "qa": {
       "description": "Sage \ud83e\uddea \u2014 QA Governance Agent",
@@ -176,7 +212,16 @@
         "anthropic/claude-haiku-4-5"
       ],
       "prohibited": [],
-      "note": "Switched to Haiku 2026-05-06 \u2014 Ken cost optimisation. Descriptive/review tasks only."
+      "note": "Switched to Haiku 2026-05-06 \u2014 Ken cost optimisation. Descriptive/review tasks only.",
+      "requiredPrimary": "ollama/kimi-k2.6:cloud",
+      "_configFormat": "CHG-0270: openclaw.json .model is now {primary, fallbacks} object. Compare against .model.primary only.",
+      "requiredFallbacks": [
+        "ollama/kimi-k2.6:cloud",
+        "ollama/gemma4:26b",
+        "ollama/deepseek-v4-pro:cloud",
+        "ollama/deepseek-v4-flash:cloud"
+      ],
+      "_interimNote": "CHG-0348: Interim models during Claude API credit outage. Valid: kimi, gemma4, deepseek-pro, deepseek-flash"
     },
     "spark": {
       "description": "Spark \u2728 \u2014 Social & Digital Marketing Agent",
@@ -213,11 +258,20 @@
       "cronSchedule": "Tue 7:30am / Wed 12:00pm / Thu 7:30am AEST",
       "approvedBy": "Ken",
       "approvedDate": "2026-05-03",
-      "changeRef": "CHG-0130"
+      "changeRef": "CHG-0130",
+      "requiredPrimary": "ollama/kimi-k2.6:cloud",
+      "_configFormat": "CHG-0270: openclaw.json .model is now {primary, fallbacks} object. Compare against .model.primary only.",
+      "requiredFallbacks": [
+        "ollama/kimi-k2.6:cloud",
+        "ollama/gemma4:26b",
+        "ollama/deepseek-v4-pro:cloud",
+        "ollama/deepseek-v4-flash:cloud"
+      ],
+      "_interimNote": "CHG-0348: Interim models during Claude API credit outage. Valid: kimi, gemma4, deepseek-pro, deepseek-flash"
     },
     "governance": {
       "description": "Warden \ud83d\udd0d \u2014 Model Compliance Officer",
-      "requiredModel": "anthropic/claude-sonnet-4-6",
+      "requiredModel": "anthropic/claude-haiku-4-5",
       "allowedModels": [
         "anthropic/claude-sonnet-4-6"
       ],
@@ -236,11 +290,21 @@
       "ollamaCloudConstraint": "Warden reads config files and model IDs only \u2014 inherently non-sensitive. deepseek-flash approved for compliance check crons.",
       "rationale": "Lightweight compliance monitor. Haiku primary (CHG-0096). deepseek-flash approved for cron compliance checks (non-sensitive config reads). Sonnet fallback. CHG-0140.",
       "configPath": "/Users/ainchorsangiefpl/.openclaw/openclaw.json",
-      "configJqQuery": ".agents.list[] | select(.id==\"governance\") | .model"
+      "configJqQuery": ".agents.list[] | select(.id==\"governance\") | .model",
+      "requiredPrimary": "ollama/kimi-k2.6:cloud",
+      "_note": "Updated from anthropic/claude-sonnet-4-6 per CHG-0270/CHG-0228",
+      "_configFormat": "CHG-0270: openclaw.json .model is now {primary, fallbacks} object. Compare against .model.primary only.",
+      "requiredFallbacks": [
+        "ollama/kimi-k2.6:cloud",
+        "ollama/gemma4:26b",
+        "ollama/deepseek-v4-pro:cloud",
+        "ollama/deepseek-v4-flash:cloud"
+      ],
+      "_interimNote": "CHG-0348: Interim models during Claude API credit outage. Valid: kimi, gemma4, deepseek-pro, deepseek-flash"
     },
     "infra": {
       "description": "Forge \ud83c\udfd7\ufe0f \u2014 Infra/Ops Agent (platform ops + CI continuous improvement)",
-      "requiredModel": "anthropic/claude-sonnet-4-6",
+      "requiredModel": "anthropic/claude-haiku-4-5",
       "allowedModels": [
         "anthropic/claude-sonnet-4-6"
       ],
@@ -269,7 +333,17 @@
         "3ec512f3"
       ],
       "activatedDate": "2026-05-03",
-      "changeRef": "CHG-0147"
+      "changeRef": "CHG-0147",
+      "requiredPrimary": "ollama/kimi-k2.6:cloud",
+      "_note": "Updated from anthropic/claude-sonnet-4-6 per CHG-0270/CHG-0228",
+      "_configFormat": "CHG-0270: openclaw.json .model is now {primary, fallbacks} object. Compare against .model.primary only.",
+      "requiredFallbacks": [
+        "ollama/kimi-k2.6:cloud",
+        "ollama/gemma4:26b",
+        "ollama/deepseek-v4-pro:cloud",
+        "ollama/deepseek-v4-flash:cloud"
+      ],
+      "_interimNote": "CHG-0348: Interim models during Claude API credit outage. Valid: kimi, gemma4, deepseek-pro, deepseek-flash"
     },
     "architect": {
       "description": "Atlas \u2014 Enterprise Architect (Tier 3)",
@@ -287,7 +361,16 @@
       "configPath": "/Users/ainchorsangiefpl/.openclaw/openclaw.json",
       "configJqQuery": ".agents.list[] | select(.id==\"architect\") | .model",
       "enrolledAt": "2026-05-12T07:17:51.228374+00:00",
-      "notes": " | Re-confirmed ENROL D4 2026-05-12"
+      "notes": " | Re-confirmed ENROL D4 2026-05-12",
+      "requiredPrimary": "ollama/kimi-k2.6:cloud",
+      "_configFormat": "CHG-0270: openclaw.json .model is now {primary, fallbacks} object. Compare against .model.primary only.",
+      "requiredFallbacks": [
+        "ollama/kimi-k2.6:cloud",
+        "ollama/gemma4:26b",
+        "ollama/deepseek-v4-pro:cloud",
+        "ollama/deepseek-v4-flash:cloud"
+      ],
+      "_interimNote": "CHG-0348: Interim models during Claude API credit outage. Valid: kimi, gemma4, deepseek-pro, deepseek-flash"
     },
     "platform-arch": {
       "description": "Thrawn \u2014 AI Platform Architect (Tier 3)",
@@ -305,7 +388,16 @@
       "configPath": "/Users/ainchorsangiefpl/.openclaw/openclaw.json",
       "configJqQuery": ".agents.list[] | select(.id==\"platform-arch\") | .model",
       "enrolledAt": "2026-05-12T07:17:51.228374+00:00",
-      "notes": " | Re-confirmed ENROL D4 2026-05-12"
+      "notes": " | Re-confirmed ENROL D4 2026-05-12",
+      "requiredPrimary": "ollama/kimi-k2.6:cloud",
+      "_configFormat": "CHG-0270: openclaw.json .model is now {primary, fallbacks} object. Compare against .model.primary only.",
+      "requiredFallbacks": [
+        "ollama/kimi-k2.6:cloud",
+        "ollama/gemma4:26b",
+        "ollama/deepseek-v4-pro:cloud",
+        "ollama/deepseek-v4-flash:cloud"
+      ],
+      "_interimNote": "CHG-0348: Interim models during Claude API credit outage. Valid: kimi, gemma4, deepseek-pro, deepseek-flash"
     },
     "biz-process": {
       "description": "Lando \u2014 BPM Agent (Tier 3)",
@@ -323,7 +415,16 @@
       "configPath": "/Users/ainchorsangiefpl/.openclaw/openclaw.json",
       "configJqQuery": ".agents.list[] | select(.id==\"biz-process\") | .model",
       "enrolledAt": "2026-05-12T07:17:51.228374+00:00",
-      "notes": " | Re-confirmed ENROL D4 2026-05-12"
+      "notes": " | Re-confirmed ENROL D4 2026-05-12",
+      "requiredPrimary": "ollama/kimi-k2.6:cloud",
+      "_configFormat": "CHG-0270: openclaw.json .model is now {primary, fallbacks} object. Compare against .model.primary only.",
+      "requiredFallbacks": [
+        "ollama/kimi-k2.6:cloud",
+        "ollama/gemma4:26b",
+        "ollama/deepseek-v4-pro:cloud",
+        "ollama/deepseek-v4-flash:cloud"
+      ],
+      "_interimNote": "CHG-0348: Interim models during Claude API credit outage. Valid: kimi, gemma4, deepseek-pro, deepseek-flash"
     },
     "change-mgt": {
       "description": "Mon Mothma \u2014 DTCM Agent (Tier 3)",
@@ -341,11 +442,20 @@
       "configPath": "/Users/ainchorsangiefpl/.openclaw/openclaw.json",
       "configJqQuery": ".agents.list[] | select(.id==\"change-mgt\") | .model",
       "enrolledAt": "2026-05-12T07:17:51.228374+00:00",
-      "notes": " | Re-confirmed ENROL D4 2026-05-12"
+      "notes": " | Re-confirmed ENROL D4 2026-05-12",
+      "requiredPrimary": "ollama/kimi-k2.6:cloud",
+      "_configFormat": "CHG-0270: openclaw.json .model is now {primary, fallbacks} object. Compare against .model.primary only.",
+      "requiredFallbacks": [
+        "ollama/kimi-k2.6:cloud",
+        "ollama/gemma4:26b",
+        "ollama/deepseek-v4-pro:cloud",
+        "ollama/deepseek-v4-flash:cloud"
+      ],
+      "_interimNote": "CHG-0348: Interim models during Claude API credit outage. Valid: kimi, gemma4, deepseek-pro, deepseek-flash"
     },
     "ahsoka": {
       "description": "Ahsoka \ud83e\udd0d \u2014 AI Transformation Consultant (Consulting Stream)",
-      "requiredModel": "anthropic/claude-sonnet-4-6",
+      "requiredModel": "anthropic/claude-haiku-4-5",
       "allowedModels": [
         "anthropic/claude-sonnet-4-6"
       ],
@@ -358,12 +468,31 @@
       "addedDate": "2026-05-07",
       "addedBy": "yoda",
       "chgRef": "CHG-0201",
-      "pilotNote": "Ken personally running 2 real-world cases. Angie notification held until pilot complete."
+      "pilotNote": "Ken personally running 2 real-world cases. Angie notification held until pilot complete.",
+      "requiredPrimary": "ollama/kimi-k2.6:cloud",
+      "_note": "Updated from anthropic/claude-sonnet-4-6 per CHG-0270/CHG-0228",
+      "_configFormat": "CHG-0270: openclaw.json .model is now {primary, fallbacks} object. Compare against .model.primary only.",
+      "requiredFallbacks": [
+        "ollama/kimi-k2.6:cloud",
+        "ollama/gemma4:26b",
+        "ollama/deepseek-v4-pro:cloud",
+        "ollama/deepseek-v4-flash:cloud"
+      ],
+      "_interimNote": "CHG-0348: Interim models during Claude API credit outage. Valid: kimi, gemma4, deepseek-pro, deepseek-flash"
     },
     "social": {
       "requiredModel": "ollama/kimi-k2.6:cloud",
       "description": "Tier 3 specialist \u2014 enrolled CHG-0293 2026-05-12",
-      "notes": "Enrolled per DEC-013/D4. Ken confirmed ENROL."
+      "notes": "Enrolled per DEC-013/D4. Ken confirmed ENROL.",
+      "requiredPrimary": "ollama/kimi-k2.6:cloud",
+      "_configFormat": "CHG-0270: openclaw.json .model is now {primary, fallbacks} object. Compare against .model.primary only.",
+      "requiredFallbacks": [
+        "ollama/kimi-k2.6:cloud",
+        "ollama/gemma4:26b",
+        "ollama/deepseek-v4-pro:cloud",
+        "ollama/deepseek-v4-flash:cloud"
+      ],
+      "_interimNote": "CHG-0348: Interim models during Claude API credit outage. Valid: kimi, gemma4, deepseek-pro, deepseek-flash"
     }
   },
   "cronModelPolicy": {
@@ -553,5 +682,10 @@
     "dataResidency": "Data sovereignty rules apply regardless of BYOK \u2014 client data still Tier 0/1 only",
     "approvedBy": "Ken Mun 2026-05-07",
     "linkedDecision": "D2 / TKT-0088"
-  }
+  },
+  "_schemaNote": "CHG-0270 update: use requiredPrimary field for model compliance checks. requiredModel kept for reference. Compare against openclaw.json agents.list[id].model.primary",
+  "_updatedAt": "2026-05-15",
+  "_updatedBy": "Yoda (CHG-0270 format fix)",
+  "_interimPeriod": "2026-05-15",
+  "_revertTrigger": "CLAUDE RESTORE"
 }

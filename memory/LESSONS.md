@@ -159,9 +159,49 @@
 ## L-027 — LinkedIn Post Cancellation Must Update Queue State + Kill Crons (2026-05-14)
 **Trigger:** Ken cancelled "Token Efficiency Is AIOps (C1W2P3)" via Telegram. Post was posted anyway on Thursday. A third post would have fired Friday if not caught.
 **Root cause:** Verbal/chat cancellation was acknowledged but NOT propagated as a state change. Queue status remained "approved", one-shot cron was still enabled.
-**Rule:** When Ken cancels any LinkedIn post, Yoda MUST immediately: (1) Set status to "cancelled" in workspace/state/linkedin-queue.json AND workspace-social/state/linkedin-queue.json, (2) Delete or disable all associated one-shot crons (check cron list for matching contentId/label), (3) Confirm to Ken: "Cancelled: [post name] — queue updated, cron [ID] deleted." Never acknowledge verbally without state update.
+**Rule:** When Ken cancels any LinkedIn post, Yoda MUST immediately: (1) Set status to "cancelled" in `/Users/ainchorsangiefpl/.openclaw/workspace/state/linkedin-queue.json` (SSOT — workspace-social/state/linkedin-queue.json is now a symlink to this file per TKT-0185), (2) Delete or disable all associated one-shot crons (check cron list for matching contentId/label), (3) Confirm to Ken: "Cancelled: [post name] — queue updated, cron [ID] deleted." Never acknowledge verbally without state update.
 
 ## L-028 — sessions_send to Telegram creates relay loop back to webchat (2026-05-14)
 **Trigger:** After sending backup investigation result to Telegram session via sessions_send, the Telegram Yoda confirmation reply was delivered back to the webchat session 4+ times via inter-session announce.
 **Root cause:** sessions_send from webchat→Telegram, Telegram session replies, reply routes back as inter-session message to webchat session, webchat Yoda processes and generates response, which may re-trigger the loop.
 **Rule:** When sending inter-session confirmations via sessions_send, do NOT send a follow-up response to the routed reply — reply NO_REPLY. The loop self-terminates after relay cron cycles clear. Do not engage with duplicate inter-session relay messages.
+
+## L-029 — Spark content rules apply to ALL LinkedIn drafts, including Yoda-authored (2026-05-15)
+**Trigger:** Yoda drafted LI-C1-W2-P1 v2 directly (bypassing Spark) and broke two rules: (1) em dashes used, (2) absolute numbers and time references included ("twelve agents", "Three weeks in").
+**Rule:** When Yoda writes LinkedIn content directly (not via Spark), SPARK_RULES.md still applies fully. Check before sending: no em dashes (line 48), no absolute numbers/time refs that could become stale.
+**Fix before sending:** grep for "—" — if any hits in body text, rewrite. Remove specific counts and specific timeframes. Use relative/generic language.
+
+## L-030 — LinkedIn content = Spark, not Yoda. Orchestrate, don't execute. (2026-05-15)
+**Trigger:** Yoda drafted LI-C1-W2-P1 v1, v2, v3 directly instead of routing to Spark. Took 3 iterations with Ken to get right. Spark would have held rules and delivered full DoD (including image prompt) in one pass.
+**Rule:** ALL LinkedIn content work routes to Spark. Yoda's role = brief Spark clearly, QA the output, relay to Ken. Never draft posts directly. "Social/content/LinkedIn → Spark (via Aria)" — routing discipline rule, non-negotiable.
+**DoD for LinkedIn drafts:** (1) Post text clean — no em dashes, no absolute numbers/time refs. (2) Governance gate passed (Shield/Lex/Sage). (3) DALL-E 3 image prompt included. (4) Delivered as one complete Telegram package. Ken sending image back = approval.
+
+## L-031 — Governance rules must be enforced at system level, not agent self-discipline (2026-05-15)
+**Trigger:** Ken raised concern about P1-P4 rollout: agents bypassing routing rules (e.g. Yoda writing LinkedIn content instead of routing to Spark) creates governance violations that users won't detect.
+**Rule:** Rules in markdown files are advisory. Enforcement must be at the platform layer — policy-as-code, not agent self-discipline. Every agent can technically bypass any rule because OpenClaw gives us full tool access.
+**Status:** Ken requested architecture recommendations. Documented below in routing-enforcement-proposal.
+
+## L-031 — Governance rules must be enforced at system level, not agent self-discipline (2026-05-15)
+**Trigger:** Ken raised concern about P1-P4 rollout: agents bypassing routing rules (e.g. Yoda writing LinkedIn content instead of routing to Spark) creates governance violations that users won't detect. Users would not know — violation goes unnoticed.
+**Root cause:** OpenClaw gives every agent full tool access. Rules in markdown (SPARK_RULES.md, AGENTS.md) are advisory only. No technical enforcement of routing discipline exists.
+**Fix options:** Three layers proposed in TKT-0178:
+1. Audit + Detection (P1): automated audit of file writes, cross-domain violations flagged in real-time, Warden picks up as S2 violation
+2. Routing Gate (P1-P2 boundary): validate subagent spawns against AGENTS.md routing table, reject wrong routing before spawn
+3. RBAC (P3 deferred): JWT identity tokens + policy engine, agent-scoped tool permissions. Over-engineering for internal agents today.
+**Recommendation:** Layer 1 + 2 now. Layer 3 deferred. See TKT-0178-Routing-Enforcement-Proposal.md.
+**Action:** Ken to approve proposal → Forge/Thrawn implement Sprint 4-5.
+
+## L-033 — kimi requires executable code, not abstract instructions (2026-05-15)
+**Trigger:** SOUL.md channel-state.json write rule (Option C, CHG-0338) was not followed by kimi on yoda-telegram during UAT. kimi executed the decisions correctly but skipped the mandatory step 2 (persistence to channel-state.json).
+**Root cause:** Rule said "write to state file" without providing exact syntax or code. For weaker-context models like kimi, abstract "should do" instructions are insufficient — the model follows explicit executable patterns reliably but ignores vague directives without concrete syntax.
+**Fix:** Embed an exact Python exec snippet in SOUL.md. kimi will follow it reliably. Abstract rules are Sonnet-only.
+**Broader principle:** Design rules assuming the weakest model in the chain will execute them. If Sonnet can follow it implicitly, kimi needs it explicitly. This applies to SOUL.md, RULES.md, HEARTBEAT.md, cron payloads, and agent briefs.
+**Source:** Option C UAT gap, TKT-0160, 2026-05-15. Fixed in CHG-0342.
+
+---
+
+## L-032 — kimi pilot scope: STANDUP ONLY (2026-05-15)
+**Trigger:** Ken explicitly directed: revert webchat + telegram to Sonnet. kimi pilot = STANDUP ONLY (telegram + email).
+**Rule:** NEVER use kimi for complex orchestration, multi-threaded state tracking, or routing decisions. kimi = routine/background tasks ONLY.
+**Current state:** Webchat + Telegram → Sonnet. Standup cron (4a1b5c2c) → kimi.
+**Status:** Reverted immediately 2026-05-15 11:46 AEST.

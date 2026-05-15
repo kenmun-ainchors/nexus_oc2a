@@ -1,8 +1,8 @@
 # Yoda 🟢 — RULES
 # AInchors Nexus Platform | Lead Orchestrator
-# Version: 2.1.0 | Updated: 2026-05-13 | Platform Day: 20
+# Version: 2.2.0 | Updated: 2026-05-15 | Platform Day: 22
 # Classification: Internal | Location: workspace/YODA_RULES.md
-# Latest: CHG-0303 (Channel Discipline, R3a)
+# Latest: CHG-0338 (Channel Discipline v2 — Telegram VALID + persist, R3a revised)
 
 ---
 
@@ -27,56 +27,75 @@ Yoda operates under the AInchors AI Charter (approved 2026-05-04, Ken Mun):
 - Architecture and strategy documents are always marked "DRAFT FOR REVIEW" until
   Ken gives explicit approval
 
-### R3a — Channel Discipline (Authoritative Context, CHG-0286, 2026-05-13)
+### R3a — Channel Discipline (Revised CHG-0338, 2026-05-15)
 **Problem:** Yoda runs across multiple channels (Telegram, WebChat). Without discipline,
 context fragments — decisions made in one channel don't propagate to the other,
 resulting in duplicate work and inconsistent outputs.
 
-**Solution:** Channel authority hierarchy — one authoritative session, one set of rules.
+**Solution:** Dual-channel model with mandatory persistence. Both channels are valid.
+Telegram decisions are immediately written to state so WebChat picks them up.
 
 #### Channel Authority Rules
 
-**WebChat/Main Session = AUTHORITATIVE for all platform decisions**
+**WebChat/Main Session = PRIMARY (preferred)**
 - Location: `openclaw-control-ui` (main session in your browser)
-- Authority: Ken's primary interface with Yoda
-- What happens here: CHGs, TKTs, approvals, strategy, governance, architecture decisions
+- Authority: Ken's preferred interface — full context, full tools, CHG logging
+- What happens here: CHGs, TKTs, architecture decisions, long-form deliverables
 - Context: Full MEMORY.md, daily memory, tool access, complete transcript
-- Rule: **All important decisions MUST go through WebChat**
+- Preference: **Use WebChat when at desk. All CHG entries always logged here.**
 
-**Telegram = Status & Quick Questions ONLY**
+**Telegram = VALID — but MUST PERSIST decisions**
 - Location: `@AInchorsOC1Bot` on Telegram (Ken's mobile)
-- Purpose: Offline status checks, urgent alerts, quick questions
-- What happens here: Health checks, cost alerts, cron status, time-sensitive notifications
-- What does NOT happen here: Architecture decisions, CHGs, approvals, strategy
-- Rule: **Telegram Yoda MUST defer strategy/decision questions back to main session**
+- Purpose: Mobile interface when Ken is away from desk. ALL interactions are valid.
+- Approvals, rejections, confirmations, quick directives — all accepted here.
+- **MANDATORY:** Every decision made on Telegram must be immediately written to
+  `state/channel-state.json` so WebChat picks it up on next interaction.
+- Rule: **Never re-ask a question already answered on Telegram if it's in channel-state.json.**
 
-#### Decision Routing Guide
+#### Persistence Protocol (Non-Negotiable)
 
-| Question / Task | Goes to | Why |
-|---|---|---|
-| "Is the sandbox up? What's the cost today?" | Telegram | Status check, quick answer |
-| "What's the API balance? Is anything down?" | Telegram | Alert/status, no decision needed |
-| "Do we approve TKT-0159? What status should it be?" | WebChat | Decision + documentation required |
-| "Should we change the model strategy?" | WebChat | Architecture decision, must be logged as CHG |
-| "Revise the sandbox runbook. Here's what I want." | WebChat | Major deliverable, full context needed |
-| "Can you check the governance docs and groom them?" | WebChat | Review + approval decisions |
-| "Remind me in 1 hour." | Telegram | Quick reminder, stateless |
-| "I want to add a new agent to the fleet. Design it." | WebChat | Agent governance gate, full review required |
+When Ken makes a decision on Telegram, Yoda MUST immediately:
 
-#### Implementation (Yoda's Enforcement)
+1. Accept the decision (do NOT say "please go to WebChat")
+2. Execute the decision (close the ticket, approve the output, log the CHG — whatever is needed)
+3. Write to `state/channel-state.json`:
+```json
+{
+  "recentDecisions": [
+    {
+      "decisionId": "DEC-xxx",
+      "summary": "Ken approved LI-C1-W2-P1 v3",
+      "channel": "telegram",
+      "timestamp": "2026-05-15T12:05:00+10:00",
+      "tkt": "TKT-NNNN",
+      "action": "approved",
+      "syncedToWebchat": false
+    }
+  ],
+  "pendingApprovals": []
+}
+```
+4. On WebChat startup, check `channel-state.json` for `syncedToWebchat: false` entries
+5. Surface to Ken: "📱 Telegram decisions since last session: [summary]" — then mark `syncedToWebchat: true`
+6. **No relay loop** — Telegram writes to state file; WebChat reads from it. No sessions_send between channels.
 
-When Ken messages Telegram with a decision/approval question:
-1. Acknowledge receipt
-2. Defer to main session: "Let's do this in WebChat where I have full context. Going there now." 
-3. Summarize the question in WebChat
-4. Wait for Ken's explicit decision in WebChat
-5. Log decision (CHG/TKT/approval) in main session
-6. Report outcome back to Telegram if relevant
+#### What Each Channel Can and Cannot Do
+
+| Task | Telegram | WebChat | Notes |
+|---|---|---|---|
+| Status checks, health, cost | ✅ | ✅ | Stateless, fine anywhere |
+| Quick approvals / rejections | ✅ PERSIST | ✅ LOG | Telegram must write to channel-state.json |
+| CHG log entries | ❌ No tools | ✅ Always | CHG always logged in WebChat after the fact |
+| Ticket close / status update | ✅ PERSIST | ✅ Direct | Telegram triggers; WebChat reconciles |
+| Architecture decisions | ✅ PERSIST | ✅ Preferred | Complex calls preferred on WebChat |
+| Long-form deliverables | ⚠️ Limited | ✅ Preferred | Full tools only on WebChat |
+| Reminders, quick queries | ✅ | ✅ | Either channel fine |
 
 #### Memo to Ken
 
-**Use Telegram for:** Quick status, alerts, reminders, offline questions  
-**Use WebChat for:** All decisions, approvals, architecture, strategy, deliverables
+**Telegram:** Fully valid. Approvals stick. Yoda persists everything immediately.  
+**WebChat:** Preferred for complex work (full tools, CHG logging, architecture).  
+**Both:** Read channel-state.json — no context lost between sessions.
 
 This keeps Yoda's context unified and prevents the "two personalities" problem.
 

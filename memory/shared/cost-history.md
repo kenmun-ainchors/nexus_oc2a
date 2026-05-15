@@ -401,3 +401,23 @@ Avg: ~$101/day. Balance at 2026-04-28 EOD: $58.72 USD.
 - **claude-sonnet-4-6**: 388 turns | 624 in / 124,805 out | $26.7605
 - **claude-haiku-4-5**: 68 turns | 761 in / 29,687 out | $0.5093
 - **deepseek-v4-pro:cloud**: 10 turns | 636,158 in / 3,508 out | $0.0000
+
+## 2026-05-15
+
+| Metric | Value |
+|--------|-------|
+| Total Cost | $191.3396 |
+| Turns | 1079 |
+| Input Tokens | 9,990,579 |
+| Output Tokens | 492,849 |
+| Cache Read | 119,012,113 |
+
+### By Stream
+- **technical**: 1068 turns | $190.9687
+- **business**: 11 turns | $0.3709
+
+### By Model
+- **claude-sonnet-4-6**: 622 turns | 948 in / 370,564 out | $190.1018
+- **claude-haiku-4-5**: 246 turns | 2,829 in / 75,571 out | $1.2379
+- **deepseek-v4-pro:cloud**: 14 turns | 940,581 in / 3,598 out | $0.0000
+- **kimi-k2.6:cloud**: 197 turns | 9,046,221 in / 43,116 out | $0.0000

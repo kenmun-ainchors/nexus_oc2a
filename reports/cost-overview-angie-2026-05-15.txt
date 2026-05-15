@@ -1,0 +1,73 @@
+AInchors Nexus — Cost Overview
+Period: 25 April – 15 May 2026 (Day 1–21)
+Generated: 2026-05-15 19:21 AEST
+Prepared by: Yoda 🟢 | For: Angie Foong
+
+---
+
+WEEKLY BREAKDOWN
+
+Week            Cost      Notes
+W1 (Apr 25-30)  $802.68   Setup + early build
+W2 (May 1-7)    $1,422.57 Heavy build phase
+W3 (May 8-14)   $1,851.12 Peak — platform docs + LinkedIn build
+W4 (May 15+)    $103.08   Partial day
+
+TOTAL: $4,179.46
+Daily average: $199.02/day
+
+---
+
+BY MODEL
+
+Model                    Cost       Share
+Claude Sonnet 4.6        $4,034.73  96.5%
+Claude Haiku 4.5         $120.93    2.9%
+Claude Opus 4.7          $23.80     0.6%
+
+---
+
+BY AGENTS (ESTIMATED)
+
+⚠️  Limitation: Anthropic CSV provides model/workspace level only. True per-agent attribution requires Postgres migration (TKT-0195, Sprint 5). Below is inferred from agent model assignments.
+
+Agent                        Est. Cost  Share  Basis
+Yoda (Lead Orchestrator)     ~$1,210   29%    All interactive sessions + routing decisions
+Atlas (Enterprise Arch)      ~$1,009   24%    Document generation (TKT-0171, TKT-0172, etc.)
+Aria (Business Lead)         ~$403    10%    Business strategy, LinkedIn oversight
+Thrawn (Platform Arch)       ~$403    10%    Platform design, config, S1–S7
+Spark (Social)               ~$202    5%     LinkedIn content (moved to kimi 2026-05-15)
+Other T3 (Lando/Forge/MM)    ~$807    19%    BPM, infra, change management
+Ops Crons (Warden/Shield/etc.) $121   3%     Haiku 4.5 background monitoring
+Opus sessions                  $24     0.6%   Rare heavy architecture work
+Kimi / DeepSeek / Gemma4     $0*      —      Flat rate ~$100/mo, not per-token
+
+* Kimi/DeepSeek: Spark (post-2026-05-15), CI crons, fallback chains — billed at flat monthly rate via Ollama Cloud.
+
+---
+
+KEY METRICS
+
+Total spend (Day 1–21): $4,179.46
+Burniest single day: 10 May — $376.09
+Lightest full day: 29 Apr — $43.78
+Auto-reloads: ~$450 x ~13 times = $5,850 loaded
+Net balance remaining: ~$103
+Daily cap: $450 temp → reverts to $150 on Sun 17 May
+
+---
+
+DATA SOURCE
+
+Updated from Anthropic CSV sent by Ken 2026-05-15 17:20 AEST.
+174 line items, model-level ground truth for May 3–15.
+Pre-May 3 data from earlier CSV reconciliation.
+
+---
+
+NEXT STEPS
+
+1. Per-agent attribution: TKT-0195 (Postgres migration, Sprint 5)
+2. Daily cap reverts to $150 on Sun 17 May (heavy build phase ends)
+3. Claude API credits depleted 2026-05-15 — interim model chain active (kimi/gemma4/deepseek-pro)
+

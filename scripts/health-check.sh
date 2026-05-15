@@ -232,20 +232,25 @@ GW_LOG="/tmp/openclaw/openclaw-$(date +%Y-%m-%d).log"
 CHECK_eventLoop="ok"
 if [[ -f "$GW_LOG" ]]; then
   # Check last 5 minutes of log for critical event loop warnings
-  LOOP_WARN=$(tail -200 "$GW_LOG" 2>/dev/null | grep "eventLoopDelayMaxMs" | tail -3)
+  # Use P99 (not MAX) to avoid false positives from startup spikes
+  # Also skip entries during gateway startup phase (channels.telegram.start-account)
+  LOOP_WARN=$(tail -200 "$GW_LOG" 2>/dev/null | grep "eventLoopDelayMaxMs" | grep -v 'channels.telegram.start-account' | tail -3)
   if [[ -n "$LOOP_WARN" ]]; then
+    P99_DELAY=$(echo "$LOOP_WARN" | grep -oE 'eventLoopDelayP99Ms=[0-9.]+' | tail -1 | cut -d= -f2 | cut -d. -f1)
     MAX_DELAY=$(echo "$LOOP_WARN" | grep -oE 'eventLoopDelayMaxMs=[0-9.]+' | tail -1 | cut -d= -f2 | cut -d. -f1)
     UTIL=$(echo "$LOOP_WARN" | grep -oE 'eventLoopUtilization=[0-9.]+' | tail -1 | cut -d= -f2)
-    if [[ -n "$MAX_DELAY" ]] && (( MAX_DELAY > 10000 )); then
+    # Use P99 if available, fall back to MAX
+    CHECK_DELAY=${P99_DELAY:-$MAX_DELAY}
+    if [[ -n "$CHECK_DELAY" ]] && (( CHECK_DELAY > 10000 )); then
       CHECK_eventLoop="critical"
       [[ "$OVERALL_STATUS" == "ok" ]] && OVERALL_STATUS="degraded"
-      ISSUES+=("Event loop delay critical: ${MAX_DELAY}ms max, utilisation ${UTIL} — gateway may be saturated")
-      log "CHECK eventLoop: CRITICAL maxDelay=${MAX_DELAY}ms util=${UTIL}"
-    elif [[ -n "$MAX_DELAY" ]] && (( MAX_DELAY > 5000 )); then
+      ISSUES+=("Event loop delay critical: ${CHECK_DELAY}ms P99, utilisation ${UTIL} — gateway may be saturated")
+      log "CHECK eventLoop: CRITICAL maxDelay=${MAX_DELAY}ms p99=${P99_DELAY}ms util=${UTIL}"
+    elif [[ -n "$CHECK_DELAY" ]] && (( CHECK_DELAY > 5000 )); then
       CHECK_eventLoop="warning"
-      log "CHECK eventLoop: WARNING maxDelay=${MAX_DELAY}ms util=${UTIL}"
+      log "CHECK eventLoop: WARNING maxDelay=${MAX_DELAY}ms p99=${P99_DELAY}ms util=${UTIL}"
     else
-      log "CHECK eventLoop: OK maxDelay=${MAX_DELAY}ms"
+      log "CHECK eventLoop: OK maxDelay=${MAX_DELAY}ms p99=${P99_DELAY}ms"
     fi
   else
     log "CHECK eventLoop: OK (no delay warnings in log)"

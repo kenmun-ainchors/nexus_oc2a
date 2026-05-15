@@ -117,9 +117,9 @@ Nexus=platform|Holocron=AKB|Bridge=cmd-centre|Citadel=client-portal|Holonet=live
 - **Structural fix 2.3+2.4:** Risk ↓ Sprint 4 end (25 May). Fixed Sprint 6 end (~8 Jun).
 
 ## Sprint Plan (locked Day 20)
-- **Sprint 4 (May 19-25):** TKT-0141, TKT-0142 (S3 carries), TKT-0165 (Three Work Types Rule), TKT-0166 (SoT Register), Cloudflare Tunnel.
-- **Sprint 5:** TKT-0164 Postgres (critical path), TKT-0108 doc gen, TKT-0157, TKT-0156, TKT-0130 QBR.
-- **Sprint 6:** TKT-0167 JSON migration, TKT-0168 Event Bus, TKT-0170 PII Scanner, TKT-0150 DR Playbook.
+- **Sprint 4 (May 19-25):** TKT-0141, TKT-0142 (S3 carries), TKT-0196 (Three Work Types Rule), TKT-0197 (SoT Register), Cloudflare Tunnel.
+- **Sprint 5:** TKT-0195 Postgres (critical path), TKT-0108 doc gen, TKT-0157, TKT-0156, TKT-0130 QBR.
+- **Sprint 6:** TKT-0198 JSON migration, TKT-0199 Event Bus, TKT-0170 PII Scanner, TKT-0150 DR Playbook.
 - **Sprint 7:** TKT-0169 Typed Contracts, TKT-0171 RAG Pipeline.
 - Bucket C (8 tickets) parked until QBR Sprint 5. Bucket D (TKT-0114-0119) Ken action.
 
@@ -131,3 +131,10 @@ Nexus=platform|Holocron=AKB|Bridge=cmd-centre|Citadel=client-portal|Holonet=live
 ## Config Baseline (Day 20 — CHG-0306, verified 2026-05-14 CHG-0306)
 - CHG-0270 object format; jq_queries→.model.primary. Defaults primary=Haiku. Warden=Haiku. BYOK+Nexus-first global. agentToAgent enabled. Canvas: sub-agents full path. Auto-heal baseline updated CHG-0306 to eliminate false-positive drift alerts (kimi duplicate removed, fallbacks chain verified).
 - CI Cycle A running; Cycle 2A started.
+
+
+## kimi Policy — LOCKED 2026-05-15
+- **kimi = standup only** (telegram + email cron)
+- **Webchat + Telegram = Sonnet**
+- **NEVER use kimi for:** complex orchestration, multi-ticket routing, state tracking, CHG decisions
+- **kimi tasks:** routine, single-thread, background, non-interactive

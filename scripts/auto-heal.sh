@@ -375,19 +375,15 @@ JOURNAL_YESTERDAY="$WORKSPACE/memory/journal-$(date -v-1d '+%Y-%m-%d').md"
 for JFILE in "$JOURNAL_TODAY" "$JOURNAL_YESTERDAY"; do
   JDATE=$(basename "$JFILE" .md | sed 's/journal-//')
   if [[ ! -f "$JFILE" ]]; then
-    # Today's journal missing after 23:45 is an issue; yesterday always must exist
-    HOUR_NOW=$(date '+%H')
+    # Auto-heal runs at 01:00 AEST. At that time:
+    # - YESTERDAY's journal must exist (written at 23:55 AEST the previous day)
+    # - TODAY's journal does not exist yet (won't be written until 23:55 AEST today) — skip check
     if [[ "$JFILE" == "$JOURNAL_YESTERDAY" ]]; then
       ISSUES_FOUND+=("journal:missing:${JDATE}")
       NEEDS_KEN+=("Journal missing for ${JDATE}: $JFILE not found. EOD cron (4d926b2c) may have failed.")
       log "  ISSUE: journal missing for $JDATE"
-    elif (( HOUR_NOW >= 0 && HOUR_NOW < 2 )); then
-      # Today's journal should have been created by 23:55 cron — we're past midnight
-      ISSUES_FOUND+=("journal:missing:${JDATE}")
-      NEEDS_KEN+=("Today's journal missing: $JFILE. EOD cron (4d926b2c) may have failed. Rebuild required.")
-      log "  ISSUE: today's journal missing (post-midnight check)"
     else
-      log "  SKIP: journal not yet due for $JDATE (hour=$HOUR_NOW)"
+      log "  SKIP: today's journal not yet due at 01:00 AEST (written by EOD cron at 23:55 AEST)"
     fi
     continue
   fi

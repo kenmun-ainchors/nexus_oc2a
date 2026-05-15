@@ -13,10 +13,11 @@
       "week": "A",
       "part": 1,
       "seriesTotal": 6,
-      "status": "delivered",
-      "scheduledFor": "2026-05-06",
+      "status": "approved",
+      "scheduledFor": "2026-05-19T21:30:00Z",
+      "governanceStatus": "cleared",
       "label": "C1W2P1 \u2014 AIOps: Who watches the agents? (Part 1/6)",
-      "file": "/Users/ainchorsangiefpl/.openclaw/workspace-social/drafts/linkedin-c1-w2-p1.md",
+      "file": "/Users/ainchorsangiefpl/.openclaw/workspace-social/drafts/linkedin-c1-w2-p1-v3.md",
       "governance": {
         "shield": "clear",
         "lex": "clear",
@@ -24,8 +25,14 @@
         "overall": "triad-cleared"
       },
       "createdAt": "2026-05-05T07:31:00+10:00",
-      "updatedAt": "2026-05-07T07:30:00+10:00",
-      "notes": "Cycle 1 Week A Post 1. AIOps theme. Delivered to Ken via Telegram 2026-05-07 07:30 AEST. Waiting for APPROVED/EDIT/REJECT reply."
+      "updatedAt": "2026-05-15T10:11:00+10:00",
+      "notes": "Cycle 1 Week A Post 1. AIOps theme. Delivered to Ken via Telegram 2026-05-07 07:30 AEST. Waiting for APPROVED/EDIT/REJECT reply. | v2 redraft 2026-05-15: stale temporal refs removed, reflects 21-day production reality with 12 agents and tested governance.",
+      "approval": {
+        "approvedAt": "2026-05-15T10:22:00+10:00",
+        "approvedBy": "Ken Mun (webchat)",
+        "version": "v3",
+        "image": "Ken-generated holographic AI network"
+      }
     },
     {
       "id": 1,
@@ -75,7 +82,7 @@
       "pillar": "consultant-pov",
       "week": 1,
       "day": "Monday",
-      "status": "approved",
+      "status": "posted",
       "scheduledFor": "Week 1, Monday",
       "label": "W1P1 \u2014 Intro Post (Consultant POV)",
       "file": "/Users/ainchorsangiefpl/.openclaw/workspace-social/drafts/week1-posts.md",
@@ -86,10 +93,14 @@
         "overall": "triad-cleared"
       },
       "createdAt": "2026-05-03T19:00:00+10:00",
-      "notes": "Week 1 intro post. Spark-generated. Pending Ken approval before posting.",
+      "notes": "Posted May 5. Status corrected 2026-05-15 \u2014 main queue was not updated at time of posting (two-queue bug, ref Section 2.3 TKT-0162).",
       "approvedAt": "2026-05-04T00:40:00+10:00",
       "approvedBy": "Ken",
-      "approvedChannel": "webchat"
+      "approvedChannel": "webchat",
+      "postedAt": "2026-05-05T07:52:00+10:00",
+      "postedBy": "Spark (cron)",
+      "postUrn": "urn:li:activity:7457186904363421696",
+      "postUrl": "https://www.linkedin.com/posts/activity-7457186904363421696-UUyZ/"
     },
     {
       "id": 4,
@@ -99,7 +110,7 @@
       "pillar": "problem-education",
       "week": 1,
       "day": "Wednesday",
-      "status": "approved",
+      "status": "posted",
       "scheduledFor": "Week 1, Wednesday",
       "label": "W1P2 \u2014 Problem Education (Paying for AI they can't use)",
       "file": "/Users/ainchorsangiefpl/.openclaw/workspace-social/drafts/week1-posts.md",
@@ -111,10 +122,13 @@
         "notes": "Lex CONDITIONAL \u2014 'ROI' keyword flagged as financial language. False positive; no financial advice given. Cleared."
       },
       "createdAt": "2026-05-03T19:00:00+10:00",
-      "notes": "Week 1 problem education post. Spark-generated. Pending Ken approval before posting.",
+      "notes": "Posted May 6. Status corrected 2026-05-15.",
       "approvedAt": "2026-05-04T00:40:00+10:00",
       "approvedBy": "Ken",
-      "approvedChannel": "webchat"
+      "approvedChannel": "webchat",
+      "postedAt": "2026-05-06T02:04:04+10:00",
+      "postedBy": "Spark (cron)",
+      "postUrn": "urn:li:activity:pending-urn-check"
     },
     {
       "id": 5,
@@ -124,7 +138,7 @@
       "pillar": "consulting-framework",
       "week": 1,
       "day": "Thursday",
-      "status": "approved",
+      "status": "posted",
       "scheduledFor": "Week 1, Thursday",
       "label": "W1P3 \u2014 Consultant POV (First 24 hours of an engagement)",
       "file": "/Users/ainchorsangiefpl/.openclaw/workspace-social/drafts/week1-posts.md",
@@ -135,10 +149,13 @@
         "overall": "triad-cleared"
       },
       "createdAt": "2026-05-03T19:00:00+10:00",
-      "notes": "Week 1 consultant POV post. Spark-generated. Pending Ken approval before posting.",
+      "notes": "Posted May 7 (Ken edited for truncation). Status corrected 2026-05-15.",
       "approvedAt": "2026-05-04T00:40:00+10:00",
       "approvedBy": "Ken",
-      "approvedChannel": "webchat"
+      "approvedChannel": "webchat",
+      "postedAt": "2026-05-07T07:32:00+10:00",
+      "postedBy": "Spark (cron, Ken manual edit)",
+      "postUrn": "urn:li:activity:7457905291582689281"
     },
     {
       "id": 6,
@@ -148,7 +165,7 @@
       "pillar": "help",
       "week": 1,
       "day": "Friday",
-      "status": "draft-missing",
+      "status": "skipped",
       "scheduledFor": "Week 1, Friday",
       "label": "W1P4 \u2014 Help (3 questions before buying an AI tool)",
       "file": "/Users/ainchorsangiefpl/.openclaw/workspace-social/drafts/week1-posts.md",
@@ -160,7 +177,7 @@
         "notes": "Lex CONDITIONAL \u2014 L5 flagged 'sensitive business content'. False positive; public-facing advisory content. Cleared."
       },
       "createdAt": "2026-05-03T19:00:00+10:00",
-      "notes": "W1P4 had no draft content in week1-posts.md (only P1-P3 were written). Campaign brief is Tue/Wed/Thu \u2014 Friday was outside the locked plan. Skipped 2026-05-08. No action required. Logged by Yoda heartbeat.",
+      "notes": "W1P4 had no draft content. Friday was outside locked campaign schedule. Skipped 2026-05-08.",
       "approvedAt": "2026-05-04T00:40:00+10:00",
       "approvedBy": "Ken",
       "approvedChannel": "webchat",
@@ -248,7 +265,7 @@
   ],
   "apiEnabled": true,
   "apiConnectedAt": "2026-05-03T02:52:00Z",
-  "lastUpdated": "2026-05-14T16:55:00+10:00",
+  "lastUpdated": "2026-05-15T10:11:00+10:00",
   "sparkNotes": [
     {
       "date": "2026-05-14",

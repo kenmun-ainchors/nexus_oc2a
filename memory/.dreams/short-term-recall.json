@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "updatedAt": "2026-05-14T02:21:08.515Z",
+  "updatedAt": "2026-05-15T02:29:47.653Z",
   "entries": {
     "memory:memory/2026-04-26.md:94:122": {
       "key": "memory:memory/2026-04-26.md:94:122",
@@ -1055,20 +1055,23 @@
       "endLine": 513,
       "source": "memory",
       "snippet": "- Gateway restart needed: `tools.sessions.visibility: all` not hot-reloadable — pending Ken approval - TKT-0077: Persistent agent config / stateless bootstrap — sprint item - TKT-0079/0080/0081: Holocron pages — backlog - API balance: USD$470.93 (topped up CHG-0205) - Ahsoka: PILOT_TESTING status, CHG-0201/0202 --- ## EOD Session Summary — Thu 2026-05-07 (Day 13, continued) # Appended 16:48 AEST ### Major Work Completed (afternoon session) - TKT-0086 full 4-sequence complete: coherence review → governance gaps → Atlas EA roadmap → backlog replan → Agile framework lock - TKT-0087: 20 governance ACs closed (AI Charter, Nexus-first, Ahsoka registration, R1/C4 fix, P2 gates) - TKT-0088: 8 Sec",
-      "recallCount": 2,
+      "recallCount": 4,
       "dailyCount": 0,
       "groundedCount": 0,
-      "totalScore": 0.9312651604413986,
+      "totalScore": 1.8298876762390137,
       "maxScore": 0.4725261270999908,
       "firstRecalledAt": "2026-05-07T21:35:16.379Z",
-      "lastRecalledAt": "2026-05-11T23:57:29.677Z",
+      "lastRecalledAt": "2026-05-15T02:29:47.653Z",
       "queryHashes": [
         "38182aeb51a6",
-        "d35120f21ffa"
+        "d35120f21ffa",
+        "187c48274a49",
+        "70bd14b25069"
       ],
       "recallDays": [
         "2026-05-08",
-        "2026-05-12"
+        "2026-05-12",
+        "2026-05-15"
       ],
       "conceptTags": [
         "gateway",
@@ -1088,20 +1091,23 @@
       "endLine": 298,
       "source": "memory",
       "snippet": "- Gateway restart needed: `tools.sessions.visibility: all` not hot-reloadable — pending Ken approval - TKT-0077: Persistent agent config / stateless bootstrap — sprint item - TKT-0079/0080/0081: Holocron pages — backlog - API balance: USD$470.93 (topped up CHG-0205) - Ahsoka: PILOT_TESTING status, CHG-0201/0202 --- ## EOD Session Summary — Thu 2026-05-07 (Day 13, continued) # Appended 16:48 AEST ### Major Work Completed (afternoon session) - TKT-0086 full 4-sequence complete: coherence review → governance gaps → Atlas EA roadmap → backlog replan → Agile framework lock - TKT-0087: 20 governance ACs closed (AI Charter, Nexus-first, Ahsoka registration, R1/C4 fix, P2 gates) - TKT-0088: 8 Sec",
-      "recallCount": 2,
+      "recallCount": 4,
       "dailyCount": 0,
       "groundedCount": 0,
-      "totalScore": 0.9312651604413986,
+      "totalScore": 1.8298876762390137,
       "maxScore": 0.4725261270999908,
       "firstRecalledAt": "2026-05-07T21:35:16.379Z",
-      "lastRecalledAt": "2026-05-11T23:57:29.677Z",
+      "lastRecalledAt": "2026-05-15T02:29:47.653Z",
       "queryHashes": [
         "38182aeb51a6",
-        "d35120f21ffa"
+        "d35120f21ffa",
+        "187c48274a49",
+        "70bd14b25069"
       ],
       "recallDays": [
         "2026-05-08",
-        "2026-05-12"
+        "2026-05-12",
+        "2026-05-15"
       ],
       "conceptTags": [
         "gateway",
@@ -1721,6 +1727,37 @@
         "chg-0248",
         "uk/us/india",
         "au/uk/us/eu/india"
+      ]
+    },
+    "memory:memory/2026-05-05.md:115:139": {
+      "key": "memory:memory/2026-05-05.md:115:139",
+      "path": "memory/2026-05-05.md",
+      "startLine": 115,
+      "endLine": 139,
+      "source": "memory",
+      "snippet": "- CHG-0168: 7 false-positive incidents closed (auto-heal git commits) - CHG-0169: auto-heal fix — git commits excluded from incident log - CHG-0170: Spark W2 AIOps content pipeline - CHG-0171: MEMORY.md trim (in progress) - CHG-0172: Notion backlog cleanup (15 items closed) - CHG-0173: Star Wars naming locked - CHG-0174: Holocron naming reference page created - CHG-0175: Agent roster with SW full names/roles added to Notion - CHG-0176: S4 tool scopes applied - CHG-0177: Architecture orchestration restructured (Atlas + Thrawn) - CHG-0178: Gateway zombie + allowlist fix - CHG-0179: AIOps zombie detection + event loop monitor added ### End-of-Day Additions (20:54 AEST) **Agent Roster Finalise",
+      "recallCount": 1,
+      "dailyCount": 0,
+      "groundedCount": 0,
+      "totalScore": 0.4439459502696991,
+      "maxScore": 0.4439459502696991,
+      "firstRecalledAt": "2026-05-15T02:29:40.844Z",
+      "lastRecalledAt": "2026-05-15T02:29:40.844Z",
+      "queryHashes": [
+        "187c48274a49"
+      ],
+      "recallDays": [
+        "2026-05-15"
+      ],
+      "conceptTags": [
+        "gateway",
+        "chg-0168",
+        "false-positive",
+        "auto-heal",
+        "chg-0169",
+        "chg-0170",
+        "chg-0171",
+        "memory.md"
       ]
     }
   }

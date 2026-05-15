@@ -1,0 +1,24 @@
+{
+  "id": "skill-audit-weekly",
+  "description": "Weekly skill security audit — all installed skills via Shield",
+  "owner": "Shield",
+  "tkt": "TKT-0141",
+  "chg": "CHG-0301",
+  "schedule": {
+    "cron": "0 2 * * 0",
+    "humanReadable": "Every Sunday at 02:00 AEST",
+    "timezone": "Australia/Melbourne"
+  },
+  "script": "/Users/ainchorsangiefpl/.openclaw/workspace/scripts/skill-audit-cron.sh",
+  "logFile": "/Users/ainchorsangiefpl/.openclaw/workspace/state/skill-audit-cron.log",
+  "reportPattern": "/Users/ainchorsangiefpl/.openclaw/workspace/state/skill-audit-report-YYYY-MM-DD.json",
+  "stateFile": "/Users/ainchorsangiefpl/.openclaw/workspace/state/skill-audit-state.json",
+  "alerts": {
+    "BLOCK": "telegram-immediate",
+    "FLAG": "weekly-summary",
+    "CLEAR": "log-only"
+  },
+  "createdAt": "2026-05-15T11:30:00+10:00",
+  "createdBy": "Shield",
+  "status": "active"
+}

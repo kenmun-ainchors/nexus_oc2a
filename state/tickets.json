@@ -1,9 +1,9 @@
 {
-  "sequence": 177,
+  "sequence": 199,
   "tickets": [
     {
       "id": "TKT-0104",
-      "title": "Data + Memory Architecture — P1-P4 Progressive Alignment",
+      "title": "Data + Memory Architecture \u2014 P1-P4 Progressive Alignment",
       "type": "task",
       "priority": "high",
       "status": "resolved",
@@ -18,7 +18,7 @@
         "inc": [],
         "chg": []
       },
-      "notes": "Assigned to Atlas. Source doc saved to docs/Phase4_DataMemory_Architecture.md (from email 2026-05-04, 20.8KB). Atlas to run after TKT-0103 completes. | Groomed 2026-05-08 14:28 AEST. Add-on lenses confirmed 14:40 AEST: (1) Data classification + use (Client/Internal/System/Operational/Repository/Backup), (2) Data type (relational/structured/unstructured/vector/blob), (3) Additional considerations (encryption, real-time, batch, caching, retention policy), (4) Physical infrastructure architecture (storage type, location, performance tier). Atlas to cover all 4 lenses per phase across P1-P4. Firing Atlas now. | Ken decisions 2026-05-08 15:00 AEST: (1) Anthropic DPA deferred — P1 acceptable, no client data. Gate: must confirm before P2 live. (2) Embedding: nomic-embed-text 768-dim CONFIRMED. (3) P3 REDEFINED — not licensed product. New phase definitions: P2=SaaS individual agents, P3=SaaS company multi-agents (shared context + data), P4=Enterprise/FSI unchanged. DataMemory_P1P4_Roadmap.md requires amendment — P3 section must be rewritten. Flag to Atlas. | All decisions resolved 2026-05-08 15:19 AEST. Final: (1) Anthropic DPA deferred to P2 gate, (2) nomic-embed-text 768-dim confirmed, (3) P3=commercial tier label, (4) P2 isolation=RLS from day one, (5) P3 trigger=formal ROI checklist required — Ken skeptical of P3 value given maintenance cost. Strategic note: P4 enterprise may prefer physical/in-house deployment over P3 SaaS multi-agent — P3 may be skipped entirely in practice. TKT-0046 queued as next Atlas task.",
+      "notes": "Assigned to Atlas. Source doc saved to docs/Phase4_DataMemory_Architecture.md (from email 2026-05-04, 20.8KB). Atlas to run after TKT-0103 completes. | Groomed 2026-05-08 14:28 AEST. Add-on lenses confirmed 14:40 AEST: (1) Data classification + use (Client/Internal/System/Operational/Repository/Backup), (2) Data type (relational/structured/unstructured/vector/blob), (3) Additional considerations (encryption, real-time, batch, caching, retention policy), (4) Physical infrastructure architecture (storage type, location, performance tier). Atlas to cover all 4 lenses per phase across P1-P4. Firing Atlas now. | Ken decisions 2026-05-08 15:00 AEST: (1) Anthropic DPA deferred \u2014 P1 acceptable, no client data. Gate: must confirm before P2 live. (2) Embedding: nomic-embed-text 768-dim CONFIRMED. (3) P3 REDEFINED \u2014 not licensed product. New phase definitions: P2=SaaS individual agents, P3=SaaS company multi-agents (shared context + data), P4=Enterprise/FSI unchanged. DataMemory_P1P4_Roadmap.md requires amendment \u2014 P3 section must be rewritten. Flag to Atlas. | All decisions resolved 2026-05-08 15:19 AEST. Final: (1) Anthropic DPA deferred to P2 gate, (2) nomic-embed-text 768-dim confirmed, (3) P3=commercial tier label, (4) P2 isolation=RLS from day one, (5) P3 trigger=formal ROI checklist required \u2014 Ken skeptical of P3 value given maintenance cost. Strategic note: P4 enterprise may prefer physical/in-house deployment over P3 SaaS multi-agent \u2014 P3 may be skipped entirely in practice. TKT-0046 queued as next Atlas task.",
       "notionPageId": "35ec1829-53ff-81d2-b245-efedf695a107"
     },
     {
@@ -38,7 +38,7 @@
         "inc": [],
         "chg": []
       },
-      "notes": "Design consideration added 2026-05-08 14:49 AEST (Ken): Should Atlas have governance/assurance accountability over all architecture sub-agents and related architectural work? If yes, Atlas moves beyond Tier 3 passive passthrough — gains an assurance role, reviewing outputs of Thrawn, Lando, Mon Mothma, and any future architecture agents to ensure alignment. Implications: (1) Atlas tier classification may need revisiting — hybrid Tier 2/3? (2) What triggers Atlas review — all outputs or selective? (3) How does this interact with Yoda's coordination role? (4) Does Atlas assure just architecture quality, or also governance compliance? DECIDE AS PART OF TKT-0105 GROOMING. Do not implement before Ken confirmation. | DESIGN DECISIONS CONFIRMED 2026-05-10 (Ken): (1) Atlas Option B — Architecture Assurance role. Atlas reviews Thrawn/Lando/Mon Mothma outputs where architectural implications exist. Verdict: ALIGNED/NEEDS-REVISION/FLAG-TO-YODA. Not a blocker, quality gate only. Atlas stays Tier 3. Reviewed to Option C at July QBR. (2) Warden T3 monitoring Option A — Atlas/Thrawn/Lando/Mon Mothma added to model-policy.json for model compliance checks. CHG-0258. Mandate drift monitoring via QBR fleet review (not Warden). Unblocks: write Model3-Policy.md + TKT-0106. | COMPLETE 2026-05-10. docs/Model3-Policy.md written. All 7 T3 agents: Spark/Atlas/Thrawn/Lando/Mon Mothma/Krennic/Luthen. Routing decision tree, domain scope, boundaries, invocation triggers, approval matrix, escalation path, failure handling. Atlas assurance protocol (Option B). Warden T3 monitoring live (19 checks). Unblocks TKT-0106.",
+      "notes": "Design consideration added 2026-05-08 14:49 AEST (Ken): Should Atlas have governance/assurance accountability over all architecture sub-agents and related architectural work? If yes, Atlas moves beyond Tier 3 passive passthrough \u2014 gains an assurance role, reviewing outputs of Thrawn, Lando, Mon Mothma, and any future architecture agents to ensure alignment. Implications: (1) Atlas tier classification may need revisiting \u2014 hybrid Tier 2/3? (2) What triggers Atlas review \u2014 all outputs or selective? (3) How does this interact with Yoda's coordination role? (4) Does Atlas assure just architecture quality, or also governance compliance? DECIDE AS PART OF TKT-0105 GROOMING. Do not implement before Ken confirmation. | DESIGN DECISIONS CONFIRMED 2026-05-10 (Ken): (1) Atlas Option B \u2014 Architecture Assurance role. Atlas reviews Thrawn/Lando/Mon Mothma outputs where architectural implications exist. Verdict: ALIGNED/NEEDS-REVISION/FLAG-TO-YODA. Not a blocker, quality gate only. Atlas stays Tier 3. Reviewed to Option C at July QBR. (2) Warden T3 monitoring Option A \u2014 Atlas/Thrawn/Lando/Mon Mothma added to model-policy.json for model compliance checks. CHG-0258. Mandate drift monitoring via QBR fleet review (not Warden). Unblocks: write Model3-Policy.md + TKT-0106. | COMPLETE 2026-05-10. docs/Model3-Policy.md written. All 7 T3 agents: Spark/Atlas/Thrawn/Lando/Mon Mothma/Krennic/Luthen. Routing decision tree, domain scope, boundaries, invocation triggers, approval matrix, escalation path, failure handling. Atlas assurance protocol (Option B). Warden T3 monitoring live (19 checks). Unblocks TKT-0106.",
       "notionPageId": "35cc1829-53ff-81ca-822d-dfb8b8b108ad"
     },
     {
@@ -63,7 +63,7 @@
     },
     {
       "id": "TKT-0107",
-      "title": "Agent Governance — Squad Model (Tier 5+): Ephemeral Dev/Delivery Squads",
+      "title": "Agent Governance \u2014 Squad Model (Tier 5+): Ephemeral Dev/Delivery Squads",
       "type": "task",
       "priority": "medium",
       "status": "open",
@@ -71,7 +71,7 @@
       "assignee": "Yoda",
       "created": "2026-05-08T14:52:48+10:00",
       "updated": "2026-05-08T14:52:48+10:00",
-      "description": "Forward-looking governance model for when AInchors spins up ephemeral agent squads for development and delivery work. May require a new tier beyond the current 0-4 framework. Questions to resolve: What is a squad? How are they composed (temporary multi-agent teams)? Who owns squad governance — Yoda or Atlas? How does a squad spin up and tear down? What's the approval gate? How does squad output get assurance-checked before merging back to main? TRIGGER: Review and define BEFORE any development squad work begins. Do not activate until development sprint work is imminent.",
+      "description": "Forward-looking governance model for when AInchors spins up ephemeral agent squads for development and delivery work. May require a new tier beyond the current 0-4 framework. Questions to resolve: What is a squad? How are they composed (temporary multi-agent teams)? Who owns squad governance \u2014 Yoda or Atlas? How does a squad spin up and tear down? What's the approval gate? How does squad output get assurance-checked before merging back to main? TRIGGER: Review and define BEFORE any development squad work begins. Do not activate until development sprint work is imminent.",
       "resolution": null,
       "linked": {
         "us": [],
@@ -83,14 +83,14 @@
     },
     {
       "id": "TKT-0108",
-      "title": "Document Generation Pipeline — DOCX/XLSX/PPTX/PDF (Ahsoka Q1 blocker)",
+      "title": "Document Generation Pipeline \u2014 DOCX/XLSX/PPTX/PDF (Ahsoka Q1 blocker)",
       "type": "task",
       "priority": "high",
       "status": "in-progress",
       "requester": "Ken",
       "assignee": "Yoda",
       "created": "2026-05-08T18:35:20+10:00",
-      "updated": "2026-05-14T10:38:04+10:00",
+      "updated": "2026-05-15T14:54:20.642713+10:00",
       "description": "Build reusable document generation pipeline for Ahsoka. Required to produce consulting proposals, discovery reports, data exports, and presentations. Ahsoka cannot deliver client outputs without this. Libraries: python-docx (DOCX), openpyxl+pandas (XLSX), python-pptx (PPTX), fpdf+reportlab (PDF). Deliverables: install script, generate-doc.sh wrapper, 4 AInchors-branded templates, test output for each format.",
       "resolution": null,
       "linked": {
@@ -98,12 +98,13 @@
         "inc": [],
         "chg": []
       },
-      "notes": "Groomed 2026-05-14 Sprint 4 candidate. Decisions: (1) Placeholder templates now — brand assets (logo, colours, fonts) to be supplied by Ken/Angie later as a follow-up update. (2) Pilot scope: Ahsoka + Yoda + Atlas. Future: all agents producing client deliverables. office-docs skill already installed — covers all 4 formats (PDF/DOCX/XLSX/PPTX). Work: pip install on OC1, generate-doc.sh wrapper, 4 placeholder branded templates, test output per format. Route to Forge for build. Atlas to define template structure/schema for consulting proposals + EA deliverables. Size: M. | Sprint 4 committed. Routed to Forge for build. Atlas to define template schema as first step (can run in parallel). No brand assets needed to start — placeholders first.",
-      "notionPageId": "35ec1829-53ff-8114-a90f-fb2a3aeaf5b0"
+      "notes": "Groomed 2026-05-14 Sprint 4 candidate. Decisions: (1) Placeholder templates now \u2014 brand assets (logo, colours, fonts) to be supplied by Ken/Angie later as a follow-up update. (2) Pilot scope: Ahsoka + Yoda + Atlas. Future: all agents producing client deliverables. office-docs skill already installed \u2014 covers all 4 formats (PDF/DOCX/XLSX/PPTX). Work: pip install on OC1, generate-doc.sh wrapper, 4 placeholder branded templates, test output per format. Route to Forge for build. Atlas to define template structure/schema for consulting proposals + EA deliverables. Size: M. | Sprint 4 committed. Routed to Forge for build. Atlas to define template schema as first step (can run in parallel). No brand assets needed to start \u2014 placeholders first.",
+      "notionPageId": "35ec1829-53ff-8114-a90f-fb2a3aeaf5b0",
+      "sprint": 4
     },
     {
       "id": "TKT-0109",
-      "title": "Agile PM / Scrum Master / Agile Coach Agent — Design and Build",
+      "title": "Agile PM / Scrum Master / Agile Coach Agent \u2014 Design and Build",
       "type": "task",
       "priority": "medium",
       "status": "open",
@@ -111,7 +112,7 @@
       "assignee": "Yoda",
       "created": "2026-05-08T19:55:50+10:00",
       "updated": "2026-05-08T19:55:50+10:00",
-      "description": "Dedicated agent to own sprint facilitation, velocity tracking, QBR packs, epic/milestone management, dependency tracking, and Agile coaching for clients and business users. Three modes: (1) Scrum Master — sprint ceremonies, blockers, velocity, retrospectives; (2) Agile PM — epic tracking, capacity planning, QBR prep, dependency management; (3) Agile Coach — working with external clients and business users to run their own delivery framework. Proposed name: Cassian Andor. Governance: Tier 3 (Yoda-Manage-Passthrough). TRIGGER: multiple concurrent client projects OR external users running sprints OR squad model activated (TKT-0107) OR Yoda PM overhead >40%. REVIEW: July 2026 QBR. Do not build before review.",
+      "description": "Dedicated agent to own sprint facilitation, velocity tracking, QBR packs, epic/milestone management, dependency tracking, and Agile coaching for clients and business users. Three modes: (1) Scrum Master \u2014 sprint ceremonies, blockers, velocity, retrospectives; (2) Agile PM \u2014 epic tracking, capacity planning, QBR prep, dependency management; (3) Agile Coach \u2014 working with external clients and business users to run their own delivery framework. Proposed name: Cassian Andor. Governance: Tier 3 (Yoda-Manage-Passthrough). TRIGGER: multiple concurrent client projects OR external users running sprints OR squad model activated (TKT-0107) OR Yoda PM overhead >40%. REVIEW: July 2026 QBR. Do not build before review.",
       "resolution": null,
       "linked": {
         "us": [],
@@ -123,28 +124,28 @@
     },
     {
       "id": "TKT-0110",
-      "title": "Process Documentation Framework — User Guides for Business Stream and Clients (incl. Angie + KL Team pilot)",
+      "title": "Process Documentation Framework \u2014 User Guides for Business Stream and Clients (incl. Angie + KL Team pilot)",
       "type": "task",
       "priority": "medium",
       "status": "in-progress",
       "requester": "Ken",
       "assignee": "Yoda",
       "created": "2026-05-08T20:00:03+10:00",
-      "updated": "2026-05-12T12:28:33.658165+00:00",
-      "description": "Lando (BPM agent) to own process documentation for all product capabilities and features shipped. Documents must be ready BEFORE each release, written for business users and clients (non-technical). Current Notion content is technical and only fit for Ken. Need: (1) Process document template/standard (what goes in a user guide, style, format); (2) Per-capability user guides produced ahead of P2 releases; (3) Integration with sprint/release cycle — Definition of Done must include user doc ready; (4) Delivery format TBD (Notion public page, PDF, HTML). Covers: Nexus features, agent capabilities, Citadel portal, Ahsoka consulting outputs. Assign: Lando. Governance: Tier 3 (Yoda-Manage-Passthrough). Review: as part of P2 release planning.",
+      "updated": "2026-05-15T14:54:20.642713+10:00",
+      "description": "Lando (BPM agent) to own process documentation for all product capabilities and features shipped. Documents must be ready BEFORE each release, written for business users and clients (non-technical). Current Notion content is technical and only fit for Ken. Need: (1) Process document template/standard (what goes in a user guide, style, format); (2) Per-capability user guides produced ahead of P2 releases; (3) Integration with sprint/release cycle \u2014 Definition of Done must include user doc ready; (4) Delivery format TBD (Notion public page, PDF, HTML). Covers: Nexus features, agent capabilities, Citadel portal, Ahsoka consulting outputs. Assign: Lando. Governance: Tier 3 (Yoda-Manage-Passthrough). Review: as part of P2 release planning.",
       "resolution": null,
       "linked": {
         "us": [],
         "inc": [],
         "chg": []
       },
-      "notes": "2026-05-10: Activated. Lando to produce: (1) process doc template + style guide, (2) DoD gate rule for user-facing capabilities, (3) pilot user guide = LinkedIn posting flow. All DRAFT docs uploaded to Drive: drive.google.com/drive/folders/1w8WhcaoPAXzsgU2epycoIoBag-JWWnKN | PILOT USER GUIDE UPDATED 2026-05-10 (Ken): Pilot guide = KL Team Onboarding + Agile Working Guide (not LinkedIn flow). Covers: how the KL team works within AInchors Agile framework, their role in the business stream, tools (Telegram + Drive), how content requests flow through Aria, sprint cadence, approvals. Lando produces, Aria delivers to Angie for KL team onboarding. Related: TKT-0111 (Angie Agile + Nexus Working Guide — same deliverable family). | REFINED 2026-05-10: KL team onboarding is a proper AI transformation programme, not just a user guide. Three-agent stack: Ahsoka (AI transformation primer + training design), Lando (working guides + process docs), Mon Mothma (ADKAR adoption plan — soft-activated for KL team per dormancy gate). Programme: Phase 1 Ahsoka (why AI + mindset), Phase 2 Lando (working guides + Agile), Phase 3 Mon Mothma (ADKAR plan). Aria delivers to Angie for KL distribution. Ken confirmed 2026-05-10. | FOLDED TKT-0111 in 2026-05-12: Angie + KL Team Agile & Nexus Working Guide is the PILOT deliverable for this framework. Lando produces: (1) doc template + style guide, (2) DoD gate rule, (3) PILOT = Angie Agile+Nexus Working Guide (Aria delivers to Angie), (4) KL Team onboarding guide (Phase 2). Sprint 4 (2026-05-19 to 2026-05-25).",
+      "notes": "2026-05-10: Activated. Lando to produce: (1) process doc template + style guide, (2) DoD gate rule for user-facing capabilities, (3) pilot user guide = LinkedIn posting flow. All DRAFT docs uploaded to Drive: drive.google.com/drive/folders/1w8WhcaoPAXzsgU2epycoIoBag-JWWnKN | PILOT USER GUIDE UPDATED 2026-05-10 (Ken): Pilot guide = KL Team Onboarding + Agile Working Guide (not LinkedIn flow). Covers: how the KL team works within AInchors Agile framework, their role in the business stream, tools (Telegram + Drive), how content requests flow through Aria, sprint cadence, approvals. Lando produces, Aria delivers to Angie for KL team onboarding. Related: TKT-0111 (Angie Agile + Nexus Working Guide \u2014 same deliverable family). | REFINED 2026-05-10: KL team onboarding is a proper AI transformation programme, not just a user guide. Three-agent stack: Ahsoka (AI transformation primer + training design), Lando (working guides + process docs), Mon Mothma (ADKAR adoption plan \u2014 soft-activated for KL team per dormancy gate). Programme: Phase 1 Ahsoka (why AI + mindset), Phase 2 Lando (working guides + Agile), Phase 3 Mon Mothma (ADKAR plan). Aria delivers to Angie for KL distribution. Ken confirmed 2026-05-10. | FOLDED TKT-0111 in 2026-05-12: Angie + KL Team Agile & Nexus Working Guide is the PILOT deliverable for this framework. Lando produces: (1) doc template + style guide, (2) DoD gate rule, (3) PILOT = Angie Agile+Nexus Working Guide (Aria delivers to Angie), (4) KL Team onboarding guide (Phase 2). Sprint 4 (2026-05-19 to 2026-05-25).",
       "notionPageId": "35cc1829-53ff-8190-a2d2-e055b69fc692",
       "sprint": 4
     },
     {
       "id": "TKT-0111",
-      "title": "Angie Agile + Nexus Working Guide — Delivered via Aria",
+      "title": "Angie Agile + Nexus Working Guide \u2014 Delivered via Aria",
       "type": "task",
       "priority": "medium",
       "status": "closed",
@@ -152,7 +153,7 @@
       "assignee": "Yoda",
       "created": "2026-05-08T20:07:14+10:00",
       "updated": "2026-05-12T12:28:33.658165+00:00",
-      "description": "Produce a practical guide for Angie on: (1) How to work within the AInchors Agile framework — sprint cycles, how to raise requests, what to expect each week, how her work gets prioritised; (2) How to work with Nexus multi-agent system — what Aria can do, how to instruct agents, what Ahsoka delivers, how to get the most out of the platform; (3) How to plan and execute business work efficiently using the agents — maximising output, knowing when to delegate vs decide, how to track progress. Delivered BY Aria TO Angie (Angie's pace — not pushed). Format: conversational, non-technical, practical. Lando owns process doc structure. Aria delivers and coaches. DEPENDENCY: TKT-0110 (process doc framework) for template/format standard. Part of Angie onboarding Stage 2+ completion.",
+      "description": "Produce a practical guide for Angie on: (1) How to work within the AInchors Agile framework \u2014 sprint cycles, how to raise requests, what to expect each week, how her work gets prioritised; (2) How to work with Nexus multi-agent system \u2014 what Aria can do, how to instruct agents, what Ahsoka delivers, how to get the most out of the platform; (3) How to plan and execute business work efficiently using the agents \u2014 maximising output, knowing when to delegate vs decide, how to track progress. Delivered BY Aria TO Angie (Angie's pace \u2014 not pushed). Format: conversational, non-technical, practical. Lando owns process doc structure. Aria delivers and coaches. DEPENDENCY: TKT-0110 (process doc framework) for template/format standard. Part of Angie onboarding Stage 2+ completion.",
       "resolution": null,
       "linked": {
         "us": [],
@@ -172,7 +173,7 @@
       "assignee": "Yoda",
       "created": "2026-05-09T12:01:43+10:00",
       "updated": "2026-05-10T13:41:42+10:00",
-      "description": "cron-health-check.sh detects cron consecutiveErrors but does not feed results into obs.db. obs-collector.sh has no check against cron-health-state.json. Result: cron job failures are invisible to the standup 24h error count and obs trend dashboard. Kimi RTB cron failed silently (Day 15) — not surfaced in standup. Fix: add check in obs-collector.sh to read cron-health-state.json failures array and log each as obs event type=cron_run_fail level=ERROR source=cron-health.",
+      "description": "cron-health-check.sh detects cron consecutiveErrors but does not feed results into obs.db. obs-collector.sh has no check against cron-health-state.json. Result: cron job failures are invisible to the standup 24h error count and obs trend dashboard. Kimi RTB cron failed silently (Day 15) \u2014 not surfaced in standup. Fix: add check in obs-collector.sh to read cron-health-state.json failures array and log each as obs event type=cron_run_fail level=ERROR source=cron-health.",
       "resolution": null,
       "linked": {
         "us": [],
@@ -184,7 +185,7 @@
     },
     {
       "id": "TKT-0113",
-      "title": "Fallback alert channel — API-independent notification path",
+      "title": "Fallback alert channel \u2014 API-independent notification path",
       "type": "task",
       "priority": "high",
       "status": "done",
@@ -192,19 +193,19 @@
       "assignee": "Yoda",
       "created": "2026-05-09T12:18:26+10:00",
       "updated": "2026-05-10T11:39:23+10:00",
-      "description": "INC-20260509-001 prevention gap: Telegram alerting depends on Anthropic API — same API it monitors. When API hits /bin/zsh, alerts go silent. Need secondary alert path (local script → SMS or email via secondary provider e.g. Twilio/Postmark) that fires when primary API is degraded.",
+      "description": "INC-20260509-001 prevention gap: Telegram alerting depends on Anthropic API \u2014 same API it monitors. When API hits /bin/zsh, alerts go silent. Need secondary alert path (local script \u2192 SMS or email via secondary provider e.g. Twilio/Postmark) that fires when primary API is degraded.",
       "resolution": null,
       "linked": {
         "us": [],
         "inc": [],
         "chg": []
       },
-      "notes": "2026-05-10: Locked into Sprint 2 (Ken confirmed). Post-mortem INC-20260509-001 action item A1+A4. Build API-independent Telegram alert path — direct HTTP to Telegram Bot API, no Anthropic dependency. Must fire on: balance /bin/zsh, API down, gateway down, health_failure consecutive 3+. | COMPLETE 2026-05-10. Built scripts/telegram-alert.sh: direct Telegram Bot HTTP, no Anthropic/OpenClaw dependency, Keychain token, /usr/bin/curl only, retry x2. Wired into health-check.sh: (1) gateway consecutive failures >= threshold, (2) first Anthropic API unreachable detection. CHG-0262. Test confirmed HTTP 200.",
+      "notes": "2026-05-10: Locked into Sprint 2 (Ken confirmed). Post-mortem INC-20260509-001 action item A1+A4. Build API-independent Telegram alert path \u2014 direct HTTP to Telegram Bot API, no Anthropic dependency. Must fire on: balance /bin/zsh, API down, gateway down, health_failure consecutive 3+. | COMPLETE 2026-05-10. Built scripts/telegram-alert.sh: direct Telegram Bot HTTP, no Anthropic/OpenClaw dependency, Keychain token, /usr/bin/curl only, retry x2. Wired into health-check.sh: (1) gateway consecutive failures >= threshold, (2) first Anthropic API unreachable detection. CHG-0262. Test confirmed HTTP 200.",
       "notionPageId": "35bc1829-53ff-8189-af98-e0e79714c2a8"
     },
     {
       "id": "TKT-0114",
-      "title": "AInchors–[PLACEHOLDER] partnership agreement — BLOCKED pending name confirmation",
+      "title": "AInchors\u2013[PLACEHOLDER] partnership agreement \u2014 BLOCKED pending name confirmation",
       "type": "task",
       "priority": "high",
       "status": "pending",
@@ -219,12 +220,12 @@
         "inc": [],
         "chg": []
       },
-      "notes": " | ⚠️ BLOCKED (Strategy-Gate 2026-05-12): Company name is PLACEHOLDER — Ken to confirm final name before this ticket can proceed. Do not action. | Bucket D — Ken personal action. Discuss with Angie this week. ASIC registration takes ~30min once partnership agreed. Unblocks TKT-0115/0116/0117/0118/0119. Target: agreed by Fri 16 May. | Ken catching up with Angie this week (w/c 2026-05-12) — target finalized by end of week. ASIC registration to follow once partnership agreed. Grooming 2026-05-14.",
+      "notes": " | \u26a0\ufe0f BLOCKED (Strategy-Gate 2026-05-12): Company name is PLACEHOLDER \u2014 Ken to confirm final name before this ticket can proceed. Do not action. | Bucket D \u2014 Ken personal action. Discuss with Angie this week. ASIC registration takes ~30min once partnership agreed. Unblocks TKT-0115/0116/0117/0118/0119. Target: agreed by Fri 16 May. | Ken catching up with Angie this week (w/c 2026-05-12) \u2014 target finalized by end of week. ASIC registration to follow once partnership agreed. Grooming 2026-05-14.",
       "notionPageId": "35bc1829-53ff-819f-85b1-dd374f2ad45b"
     },
     {
       "id": "TKT-0115",
-      "title": "Register [PLACEHOLDER] Pty Ltd with ASIC — BLOCKED pending name confirmation",
+      "title": "Register [PLACEHOLDER] Pty Ltd with ASIC \u2014 BLOCKED pending name confirmation",
       "type": "task",
       "priority": "high",
       "status": "pending",
@@ -239,12 +240,12 @@
         "inc": [],
         "chg": []
       },
-      "notes": " | ⚠️ BLOCKED (Strategy-Gate 2026-05-12): Company name is PLACEHOLDER — Ken to confirm final name before this ticket can proceed. Do not action.",
+      "notes": " | \u26a0\ufe0f BLOCKED (Strategy-Gate 2026-05-12): Company name is PLACEHOLDER \u2014 Ken to confirm final name before this ticket can proceed. Do not action.",
       "notionPageId": "35bc1829-53ff-815c-9150-f1ffb3c73f74"
     },
     {
       "id": "TKT-0116",
-      "title": "Secure [PLACEHOLDER].ai domain — BLOCKED pending name confirmation",
+      "title": "Secure [PLACEHOLDER].ai domain \u2014 BLOCKED pending name confirmation",
       "type": "task",
       "priority": "high",
       "status": "pending",
@@ -259,12 +260,12 @@
         "inc": [],
         "chg": []
       },
-      "notes": " | ⚠️ BLOCKED (Strategy-Gate 2026-05-12): Company name is PLACEHOLDER — Ken to confirm final name before this ticket can proceed. Do not action.",
+      "notes": " | \u26a0\ufe0f BLOCKED (Strategy-Gate 2026-05-12): Company name is PLACEHOLDER \u2014 Ken to confirm final name before this ticket can proceed. Do not action.",
       "notionPageId": "35bc1829-53ff-81f2-8320-d2fba8351c38"
     },
     {
       "id": "TKT-0117",
-      "title": "Secure [PLACEHOLDER].com.au domain — BLOCKED pending name confirmation",
+      "title": "Secure [PLACEHOLDER].com.au domain \u2014 BLOCKED pending name confirmation",
       "type": "task",
       "priority": "medium",
       "status": "pending",
@@ -279,12 +280,12 @@
         "inc": [],
         "chg": []
       },
-      "notes": " | ⚠️ BLOCKED (Strategy-Gate 2026-05-12): Company name is PLACEHOLDER — Ken to confirm final name before this ticket can proceed. Do not action.",
+      "notes": " | \u26a0\ufe0f BLOCKED (Strategy-Gate 2026-05-12): Company name is PLACEHOLDER \u2014 Ken to confirm final name before this ticket can proceed. Do not action.",
       "notionPageId": "35bc1829-53ff-81db-8c94-c80c2ce8b496"
     },
     {
       "id": "TKT-0118",
-      "title": "Secure [PLACEHOLDER].com domain — BLOCKED pending name confirmation",
+      "title": "Secure [PLACEHOLDER].com domain \u2014 BLOCKED pending name confirmation",
       "type": "task",
       "priority": "medium",
       "status": "pending",
@@ -299,12 +300,12 @@
         "inc": [],
         "chg": []
       },
-      "notes": " | ⚠️ BLOCKED (Strategy-Gate 2026-05-12): Company name is PLACEHOLDER — Ken to confirm final name before this ticket can proceed. Do not action.",
+      "notes": " | \u26a0\ufe0f BLOCKED (Strategy-Gate 2026-05-12): Company name is PLACEHOLDER \u2014 Ken to confirm final name before this ticket can proceed. Do not action.",
       "notionPageId": "35bc1829-53ff-81fd-b61f-c99616742d23"
     },
     {
       "id": "TKT-0119",
-      "title": "IP Australia trademark filing — BLOCKED pending name confirmation",
+      "title": "IP Australia trademark filing \u2014 BLOCKED pending name confirmation",
       "type": "task",
       "priority": "medium",
       "status": "pending",
@@ -319,12 +320,12 @@
         "inc": [],
         "chg": []
       },
-      "notes": " | ⚠️ BLOCKED (Strategy-Gate 2026-05-12): Company name is PLACEHOLDER — Ken to confirm final name before this ticket can proceed. Do not action.",
+      "notes": " | \u26a0\ufe0f BLOCKED (Strategy-Gate 2026-05-12): Company name is PLACEHOLDER \u2014 Ken to confirm final name before this ticket can proceed. Do not action.",
       "notionPageId": "35bc1829-53ff-81d7-bda5-cf78308c88a8"
     },
     {
       "id": "TKT-0120",
-      "title": "RustDesk self-hosted server on OC1 — direct P2P via LAN + Tailscale",
+      "title": "RustDesk self-hosted server on OC1 \u2014 direct P2P via LAN + Tailscale",
       "type": "task",
       "priority": "high",
       "status": "closed",
@@ -333,7 +334,7 @@
       "created": "2026-05-09T13:20:31+10:00",
       "updated": "2026-05-12T21:31:46+10:00",
       "description": "Install RustDesk hbbs/hbbr server in Docker on OC1. Goal: eliminate public relay hops. LAN direct P2P on 192.168.3.3 when local. Tailscale P2P via 100.91.60.36 when remote. Ports: 21115-21117 TCP, 21116 UDP.",
-      "resolution": "RustDesk self-hosted superseded — public relay solution works (TOOLS.md). No self-hosted server needed. Current setup: public relay + RustDesk ID. Closed as superseded not built.",
+      "resolution": "RustDesk self-hosted superseded \u2014 public relay solution works (TOOLS.md). No self-hosted server needed. Current setup: public relay + RustDesk ID. Closed as superseded not built.",
       "linked": {
         "us": [],
         "inc": [],
@@ -352,7 +353,7 @@
       "assignee": "Yoda",
       "created": "2026-05-09T16:11:31+10:00",
       "updated": "2026-05-10T08:25:08.979197+10:00",
-      "description": "Add image generation to Spark using Hugging Face Inference API (free tier, ~1000 req/month). Model: black-forest-labs/FLUX.1-schnell. Flow: Spark generates image prompt from post content → calls HF API → saves image locally → uploads to LinkedIn Assets API → attaches to post. Requires: (1) Ken creates HF account + API key → store in Keychain, (2) Spark SOUL/RULES update, (3) LinkedIn image upload code. Dependency: TKT-0121 (local fallback option).",
+      "description": "Add image generation to Spark using Hugging Face Inference API (free tier, ~1000 req/month). Model: black-forest-labs/FLUX.1-schnell. Flow: Spark generates image prompt from post content \u2192 calls HF API \u2192 saves image locally \u2192 uploads to LinkedIn Assets API \u2192 attaches to post. Requires: (1) Ken creates HF account + API key \u2192 store in Keychain, (2) Spark SOUL/RULES update, (3) LinkedIn image upload code. Dependency: TKT-0121 (local fallback option).",
       "resolution": "CHG-0254: hf-generate-image.sh, linkedin-upload-image.sh created; linkedin-post.sh --image-asset-urn added; SPARK_RULES.md updated. Blocked on HF API key Keychain setup by Ken.",
       "linked": {
         "us": [],
@@ -374,7 +375,7 @@
       "assignee": "Yoda",
       "created": "2026-05-09T16:11:33+10:00",
       "updated": "2026-05-09T16:11:33+10:00",
-      "description": "Run Flux.1-schnell locally on OC1 (M4 24GB) via ComfyUI for unlimited free image generation. Setup: install ComfyUI + Flux.1-schnell weights (~6GB). Spark calls ComfyUI API locally. No rate limits, best quality, full control. Dependency on TKT-0120 (HF option) — do this only if HF limits become an issue or Ken prefers full local ownership. OC1 M4 24GB handles Flux.1-schnell well on MPS (Metal).",
+      "description": "Run Flux.1-schnell locally on OC1 (M4 24GB) via ComfyUI for unlimited free image generation. Setup: install ComfyUI + Flux.1-schnell weights (~6GB). Spark calls ComfyUI API locally. No rate limits, best quality, full control. Dependency on TKT-0120 (HF option) \u2014 do this only if HF limits become an issue or Ken prefers full local ownership. OC1 M4 24GB handles Flux.1-schnell well on MPS (Metal).",
       "resolution": null,
       "linked": {
         "us": [],
@@ -394,19 +395,19 @@
       "assignee": "Yoda",
       "created": "2026-05-09T19:27:49+10:00",
       "updated": "2026-05-10T13:21:23+10:00",
-      "description": "Two fixes: (1) --content-file parser: add guard that fails loudly if no --- delimiters found (L-020). (2) linkedin-auth.sh: add delete scope to token on next re-auth so API delete works (L-021). Guard already partially patched in this session — full test + CHG needed.",
+      "description": "Two fixes: (1) --content-file parser: add guard that fails loudly if no --- delimiters found (L-020). (2) linkedin-auth.sh: add delete scope to token on next re-auth so API delete works (L-021). Guard already partially patched in this session \u2014 full test + CHG needed.",
       "resolution": null,
       "linked": {
         "us": [],
         "inc": [],
         "chg": []
       },
-      "notes": "COMPLETE 2026-05-10 (merged into TKT-0126 fix). Delimiter guard confirmed working — fails loudly with actionable error. Token delete scope: deferred to next linkedin-auth.sh re-auth (requires re-running auth flow). Low priority. CHG-0264.",
+      "notes": "COMPLETE 2026-05-10 (merged into TKT-0126 fix). Delimiter guard confirmed working \u2014 fails loudly with actionable error. Token delete scope: deferred to next linkedin-auth.sh re-auth (requires re-running auth flow). Low priority. CHG-0264.",
       "notionPageId": "35cc1829-53ff-814d-9a41-f8c0710c26be"
     },
     {
       "id": "TKT-0124",
-      "title": "MinIO self-hosted object store on OC1 — interim blob/file access layer",
+      "title": "MinIO self-hosted object store on OC1 \u2014 interim blob/file access layer",
       "type": "task",
       "priority": "high",
       "status": "done",
@@ -421,15 +422,15 @@
         "inc": [],
         "chg": []
       },
-      "notes": "HYBRID STORAGE DECISION 2026-05-10 Ken: Google Drive=human layer (live), MinIO=agent layer only. P2 unchanged (full S3). MinIO buckets: agent-memory, generated-media, workspace-assets, brand-code. Documents/business-docs -> Drive. | Sprint 3 COMMITTED — Ken confirmed 2026-05-10. | Sprint 3 (12–18 May 2026) | Complete 2026-05-11. CHG-275. PVT 16/16. MinIO live at http://127.0.0.1:9000 + Tailscale HTTPS. 4 buckets, versioning, object lock on brand-code, presigned URLs, health check, LaunchAgent.",
+      "notes": "HYBRID STORAGE DECISION 2026-05-10 Ken: Google Drive=human layer (live), MinIO=agent layer only. P2 unchanged (full S3). MinIO buckets: agent-memory, generated-media, workspace-assets, brand-code. Documents/business-docs -> Drive. | Sprint 3 COMMITTED \u2014 Ken confirmed 2026-05-10. | Sprint 3 (12\u201318 May 2026) | Complete 2026-05-11. CHG-275. PVT 16/16. MinIO live at http://127.0.0.1:9000 + Tailscale HTTPS. 4 buckets, versioning, object lock on brand-code, presigned URLs, health check, LaunchAgent.",
       "notionPageId": "35cc1829-53ff-815a-b9ca-f3a56796697b",
       "sprint": 3,
-      "sprintLabel": "Sprint 3 (12–18 May 2026)",
+      "sprintLabel": "Sprint 3 (12\u201318 May 2026)",
       "updatedAt": "2026-05-11T00:21:21.536Z"
     },
     {
       "id": "TKT-0125",
-      "title": "Strategy-to-Backlog Pipeline — formalize roadmap decomposition into actionable tickets",
+      "title": "Strategy-to-Backlog Pipeline \u2014 formalize roadmap decomposition into actionable tickets",
       "type": "task",
       "priority": "high",
       "status": "done",
@@ -437,7 +438,7 @@
       "assignee": "Yoda",
       "created": "2026-05-10T09:32:32+10:00",
       "updated": "2026-05-10T14:08:26+10:00",
-      "description": "Define and document the formal pipeline for converting strategy/roadmap artefacts (Atlas, Thrawn, Lando) into groomed user stories and sprint-ready tickets. Current gap: roadmaps exist but no ceremony converts them to backlog items. Triggered by Atlas DataMemory roadmap having MinIO/blob solution planned but no ticket raised. Scope: (1) Strategy-to-Backlog ceremony definition — QBR-triggered + mid-sprint triage, Yoda coordinates, Atlas/Thrawn/Lando input, Ken approves. (2) Artefact standard — every roadmap doc must produce a backlog seeding list as a deliverable. (3) DoD gate — strategy artefacts not Done until backlog items raised. (4) Agile Framework v1.0 update with new ceremony. (5) Lando documents under TKT-0110. Dependency: TKT-0110.",
+      "description": "Define and document the formal pipeline for converting strategy/roadmap artefacts (Atlas, Thrawn, Lando) into groomed user stories and sprint-ready tickets. Current gap: roadmaps exist but no ceremony converts them to backlog items. Triggered by Atlas DataMemory roadmap having MinIO/blob solution planned but no ticket raised. Scope: (1) Strategy-to-Backlog ceremony definition \u2014 QBR-triggered + mid-sprint triage, Yoda coordinates, Atlas/Thrawn/Lando input, Ken approves. (2) Artefact standard \u2014 every roadmap doc must produce a backlog seeding list as a deliverable. (3) DoD gate \u2014 strategy artefacts not Done until backlog items raised. (4) Agile Framework v1.0 update with new ceremony. (5) Lando documents under TKT-0110. Dependency: TKT-0110.",
       "resolution": null,
       "linked": {
         "us": [
@@ -459,19 +460,19 @@
       "assignee": "Yoda",
       "created": "2026-05-10T09:55:10+10:00",
       "updated": "2026-05-10T13:21:22+10:00",
-      "description": "LinkedIn posts with special characters (em dash, smart quotes, unicode) break post content or cause API rejection. Observed in RustDesk post and ongoing content. Fix: (1) audit linkedin-post.sh content extraction for character encoding issues, (2) ensure UTF-8 is preserved end-to-end from draft file → python extraction → JSON payload → API call, (3) test with em dash, smart quotes, ellipsis, unicode. Related: TKT-0123 (delimiter guard). Unblock Spark from using any character in drafts without silent truncation or breakage.",
+      "description": "LinkedIn posts with special characters (em dash, smart quotes, unicode) break post content or cause API rejection. Observed in RustDesk post and ongoing content. Fix: (1) audit linkedin-post.sh content extraction for character encoding issues, (2) ensure UTF-8 is preserved end-to-end from draft file \u2192 python extraction \u2192 JSON payload \u2192 API call, (3) test with em dash, smart quotes, ellipsis, unicode. Related: TKT-0123 (delimiter guard). Unblock Spark from using any character in drafts without silent truncation or breakage.",
       "resolution": null,
       "linked": {
         "us": [],
         "inc": [],
         "chg": []
       },
-      "notes": "COMPLETE 2026-05-10. Root cause: em dash (U+2014) in draft content passes through API without error but violates SPARK_RULES.md bot-signal rule. Fix: pre-flight em dash validator added to linkedin-post.sh — blocks post with actionable error before API call. Also fixed mktemp collision guard (stale /tmp/li_payload_*.json files). Delimiter guard (TKT-0123) confirmed working. CHG-0264.",
+      "notes": "COMPLETE 2026-05-10. Root cause: em dash (U+2014) in draft content passes through API without error but violates SPARK_RULES.md bot-signal rule. Fix: pre-flight em dash validator added to linkedin-post.sh \u2014 blocks post with actionable error before API call. Also fixed mktemp collision guard (stale /tmp/li_payload_*.json files). Delimiter guard (TKT-0123) confirmed working. CHG-0264.",
       "notionPageId": "35cc1829-53ff-816b-b049-fc517f98d2cd"
     },
     {
       "id": "TKT-0127",
-      "title": "Agentic Marketing Org Design — activate business stream marketing agents for Angie + KL team",
+      "title": "Agentic Marketing Org Design \u2014 activate business stream marketing agents for Angie + KL team",
       "type": "task",
       "priority": "high",
       "status": "open",
@@ -479,7 +480,7 @@
       "assignee": "Yoda",
       "created": "2026-05-10T09:55:34+10:00",
       "updated": "2026-05-10T10:41:08+10:00",
-      "description": "Design and implement agentic marketing organisation for AInchors business stream. Informed by: 'Redesigning Your Marketing Organization for the Agentic Age' (HBR, May 2026, https://hbr.org/2026/05/redesigning-your-marketing-organization-for-the-agentic-age). Scope: solution design, proposal, and implementation roadmap for activating marketing agents to work with Angie (CEO, Melbourne) and KL team (Malaysia). Two phases: PHASE 1 (P1 MVP, pre-OC2): activate existing agents (Spark + Aria) for business stream marketing ops, define workflows, integrate with MinIO (TKT-0124) for file/asset sharing, establish Angie+KL team access and collaboration model. PHASE 2 (P2, post-OC2): fully agentic marketing org supporting AInchors internally AND ready to deliver as a service to external clients. Deliverables: (1) current-state assessment of AInchors marketing capability, (2) target agentic marketing org design (agent roles, workflows, tools), (3) P1 MVP implementation plan, (4) P2 transition roadmap, (5) integration with MinIO business repo (TKT-0124). Owners: Spark (marketing), Aria (business stream), Atlas (architecture), Lando (process). Ken + Angie to approve. Dependency: TKT-0124 (MinIO — file/asset sharing for KL team).",
+      "description": "Design and implement agentic marketing organisation for AInchors business stream. Informed by: 'Redesigning Your Marketing Organization for the Agentic Age' (HBR, May 2026, https://hbr.org/2026/05/redesigning-your-marketing-organization-for-the-agentic-age). Scope: solution design, proposal, and implementation roadmap for activating marketing agents to work with Angie (CEO, Melbourne) and KL team (Malaysia). Two phases: PHASE 1 (P1 MVP, pre-OC2): activate existing agents (Spark + Aria) for business stream marketing ops, define workflows, integrate with MinIO (TKT-0124) for file/asset sharing, establish Angie+KL team access and collaboration model. PHASE 2 (P2, post-OC2): fully agentic marketing org supporting AInchors internally AND ready to deliver as a service to external clients. Deliverables: (1) current-state assessment of AInchors marketing capability, (2) target agentic marketing org design (agent roles, workflows, tools), (3) P1 MVP implementation plan, (4) P2 transition roadmap, (5) integration with MinIO business repo (TKT-0124). Owners: Spark (marketing), Aria (business stream), Atlas (architecture), Lando (process). Ken + Angie to approve. Dependency: TKT-0124 (MinIO \u2014 file/asset sharing for KL team).",
       "resolution": null,
       "linked": {
         "us": [
@@ -500,8 +501,8 @@
       "requester": "Ken",
       "assignee": "Yoda",
       "created": "2026-05-10T10:40:50+10:00",
-      "updated": "2026-05-10T13:17:59+10:00",
-      "description": "Expand Aria's mandate to cover: (1) Brand Code stewardship — seed and maintain structured brand KB in MinIO (TKT-0124) across brand-strategy, voice-and-tone, ICP profiles, market rules (AU/MY), product catalogue, content rules. (2) Marketing orchestration — receive content requests from Angie/KL team, brief Spark from Brand Code, review Spark output for brand alignment, route to Angie for approval. (3) KL team interface (P1: via Angie relay). Spec: docs/Aria_Marketing_Mandate_Addendum_v1.md. Blocked on: TKT-0124 (MinIO must be live). Sub-ticket of TKT-0127.",
+      "updated": "2026-05-15T14:35:26.557437+10:00",
+      "description": "Expand Aria's mandate to cover: (1) Brand Code stewardship \u2014 seed and maintain structured brand KB in MinIO (TKT-0124) across brand-strategy, voice-and-tone, ICP profiles, market rules (AU/MY), product catalogue, content rules. (2) Marketing orchestration \u2014 receive content requests from Angie/KL team, brief Spark from Brand Code, review Spark output for brand alignment, route to Angie for approval. (3) KL team interface (P1: via Angie relay). Spec: docs/Aria_Marketing_Mandate_Addendum_v1.md. Blocked on: TKT-0124 (MinIO must be live). Sub-ticket of TKT-0127.",
       "resolution": null,
       "linked": {
         "us": [
@@ -511,12 +512,13 @@
         "inc": [],
         "chg": []
       },
-      "notes": "2026-05-10: Aria SOUL.md updated with marketing orchestration mandate (4,659 chars, within limits). Brand Code staging area created: workspace-business/projects/brand-code/ — 7 documents drafted (brand-strategy, voice-and-tone, icp-profiles, product-catalogue, content-rules, au.md, my.md). All marked DRAFT — Angie review required. MinIO-dependent seeding blocked on TKT-0124. ARIA_RULES.md update + MinIO integration pending TKT-0124 delivery. | 2026-05-10 13:17: Ken confirmed — hold Brand Code delivery to Angie until MinIO (TKT-0124) is live. Remaining work: MinIO integration + ARIA_RULES.md update + Angie review flow. All gated on TKT-0124.",
-      "notionPageId": "35cc1829-53ff-8145-b89d-d4a71a2b0811"
+      "notes": "2026-05-10: Aria SOUL.md updated with marketing orchestration mandate (4,659 chars, within limits). Brand Code staging area created: workspace-business/projects/brand-code/ \u2014 7 documents drafted (brand-strategy, voice-and-tone, icp-profiles, product-catalogue, content-rules, au.md, my.md). All marked DRAFT \u2014 Angie review required. MinIO-dependent seeding blocked on TKT-0124. ARIA_RULES.md update + MinIO integration pending TKT-0124 delivery. | 2026-05-10 13:17: Ken confirmed \u2014 hold Brand Code delivery to Angie until MinIO (TKT-0124) is live. Remaining work: MinIO integration + ARIA_RULES.md update + Angie review flow. All gated on TKT-0124. | Committed to Sprint 5 2026-05-15. Blocker TKT-0124 cleared. Remaining: MinIO seed, ARIA_RULES.md, Angie review flow.",
+      "notionPageId": "35cc1829-53ff-8145-b89d-d4a71a2b0811",
+      "sprint": 5
     },
     {
       "id": "TKT-0129",
-      "title": "Luthen: Marketing Intelligence Agent — design and build (P2)",
+      "title": "Luthen: Marketing Intelligence Agent \u2014 design and build (P2)",
       "type": "task",
       "priority": "medium",
       "status": "open",
@@ -524,7 +526,7 @@
       "assignee": "Yoda",
       "created": "2026-05-10T10:40:57+10:00",
       "updated": "2026-05-10T10:41:03+10:00",
-      "description": "Design and build Luthen, the Marketing Intelligence Agent. Tier 3 (Yoda-Manage-Passthrough). Owns HBR workstreams 1 (Intelligence + Ideation) and 3 (Research + Testing). Does NOT create content — generates briefs for Spark and feeds learnings into Brand Code. Capabilities: market signal monitoring, competitive intelligence, structured brief generation, A/B test design + analysis, Brand Code contribution. Spec: docs/Luthen_Marketing_Intelligence_Agent_v1.md. Build trigger: OC2 commissioned + P2 client sprint begins + Aria has seeded Brand Code. Sub-ticket of TKT-0127. Blocked on: TKT-0124, TKT-0128.",
+      "description": "Design and build Luthen, the Marketing Intelligence Agent. Tier 3 (Yoda-Manage-Passthrough). Owns HBR workstreams 1 (Intelligence + Ideation) and 3 (Research + Testing). Does NOT create content \u2014 generates briefs for Spark and feeds learnings into Brand Code. Capabilities: market signal monitoring, competitive intelligence, structured brief generation, A/B test design + analysis, Brand Code contribution. Spec: docs/Luthen_Marketing_Intelligence_Agent_v1.md. Build trigger: OC2 commissioned + P2 client sprint begins + Aria has seeded Brand Code. Sub-ticket of TKT-0127. Blocked on: TKT-0124, TKT-0128.",
       "resolution": null,
       "linked": {
         "us": [
@@ -538,7 +540,7 @@
     },
     {
       "id": "TKT-0130",
-      "title": "QBR Agent Fleet Review — mandatory ceremony for mandate, role, scope and TOM optimization",
+      "title": "QBR Agent Fleet Review \u2014 mandatory ceremony for mandate, role, scope and TOM optimization",
       "type": "task",
       "priority": "high",
       "status": "open",
@@ -546,7 +548,7 @@
       "assignee": "Yoda",
       "created": "2026-05-10T10:49:24+10:00",
       "updated": "2026-05-10T20:50:39+10:00",
-      "description": "Formalize quarterly Agent Fleet Review as mandatory QBR ceremony. Purpose: ensure agent mandate, role, scope, and governance tier remain fit for purpose as AInchors evolves. Reviews: (1) All active agents vs current TOM — mandate valid? Scope drifted? Utilization right? (2) Governance tier correct? Agents needing tier change? (3) Agent performance — invocation rate, output quality, escalation rate. (4) New agents proposed and approved. (5) Retirements assessed. (6) Mandate conflicts/overlaps resolved. (7) MEMORY.md, Agent_Governance_Framework, SOUL.md updated. Output: Agent Fleet Status Report + TKT/CHG for any changes. Owner: Yoda facilitates, Ken approves. First instance: July 2026 QBR. Cadence: Jan/Apr/Jul/Oct. Integrates with TKT-0125 (Strategy-to-Backlog) and TKT-0109 (Agile PM review). Ken directive 2026-05-10.",
+      "description": "Formalize quarterly Agent Fleet Review as mandatory QBR ceremony. Purpose: ensure agent mandate, role, scope, and governance tier remain fit for purpose as AInchors evolves. Reviews: (1) All active agents vs current TOM \u2014 mandate valid? Scope drifted? Utilization right? (2) Governance tier correct? Agents needing tier change? (3) Agent performance \u2014 invocation rate, output quality, escalation rate. (4) New agents proposed and approved. (5) Retirements assessed. (6) Mandate conflicts/overlaps resolved. (7) MEMORY.md, Agent_Governance_Framework, SOUL.md updated. Output: Agent Fleet Status Report + TKT/CHG for any changes. Owner: Yoda facilitates, Ken approves. First instance: July 2026 QBR. Cadence: Jan/Apr/Jul/Oct. Integrates with TKT-0125 (Strategy-to-Backlog) and TKT-0109 (Agile PM review). Ken directive 2026-05-10.",
       "resolution": null,
       "linked": {
         "us": [
@@ -555,12 +557,12 @@
         "inc": [],
         "chg": []
       },
-      "notes": "2026-05-10: QBR ceremony includes mandatory version bump of SOUL.md, YODA_RULES.md and ORCHESTRATOR.md. Ken approved as formal trigger (alongside OC2, P2 client, and major mandate changes). Base set from Day 16 state — managed incrementally between QBRs.",
+      "notes": "2026-05-10: QBR ceremony includes mandatory version bump of SOUL.md, YODA_RULES.md and ORCHESTRATOR.md. Ken approved as formal trigger (alongside OC2, P2 client, and major mandate changes). Base set from Day 16 state \u2014 managed incrementally between QBRs.",
       "notionPageId": "35cc1829-53ff-8147-86fc-e4684b825104"
     },
     {
       "id": "TKT-0131",
-      "title": "Review task log and tracker — completeness, accuracy, gaps",
+      "title": "Review task log and tracker \u2014 completeness, accuracy, gaps",
       "type": "task",
       "priority": "medium",
       "status": "open",
@@ -580,7 +582,7 @@
     },
     {
       "id": "TKT-0132",
-      "title": "Review cost and ROI log and tracker — accuracy, coverage, insights",
+      "title": "Review cost and ROI log and tracker \u2014 accuracy, coverage, insights",
       "type": "task",
       "priority": "medium",
       "status": "open",
@@ -588,7 +590,7 @@
       "assignee": "Yoda",
       "created": "2026-05-10T11:03:14+10:00",
       "updated": "2026-05-10T11:03:14+10:00",
-      "description": "Audit the current cost tracking and ROI log system. Review: (1) Is cost-state.json accurate and up to date? (2) Are daily cost snapshots being captured? (3) Is spend being attributed correctly per agent/task? (4) Is there an ROI tracking layer — are we capturing value delivered vs cost incurred? (5) Budget alerts (TKT-0092) working correctly? (6) Recommend: what ROI metrics should we track for P1 → P2 transition (time saved, output volume, error rate reduction)? Deliverable: cost/ROI audit report + recommendations. Owner: Yoda.",
+      "description": "Audit the current cost tracking and ROI log system. Review: (1) Is cost-state.json accurate and up to date? (2) Are daily cost snapshots being captured? (3) Is spend being attributed correctly per agent/task? (4) Is there an ROI tracking layer \u2014 are we capturing value delivered vs cost incurred? (5) Budget alerts (TKT-0092) working correctly? (6) Recommend: what ROI metrics should we track for P1 \u2192 P2 transition (time saved, output volume, error rate reduction)? Deliverable: cost/ROI audit report + recommendations. Owner: Yoda.",
       "resolution": null,
       "linked": {
         "us": [],
@@ -600,7 +602,7 @@
     },
     {
       "id": "TKT-0133",
-      "title": "EA: Observability Strategy & Tool Selection — OTel vs Dynatrace",
+      "title": "EA: Observability Strategy & Tool Selection \u2014 OTel vs Dynatrace",
       "type": "task",
       "priority": "medium",
       "status": "open",
@@ -608,7 +610,7 @@
       "assignee": "Yoda",
       "created": "2026-05-10T12:27:28+10:00",
       "updated": "2026-05-10T12:27:28+10:00",
-      "description": "Enterprise Architecture task for Atlas. Produce an observability strategy recommendation for AInchors/Aevlith Nexus platform. Brief: evaluate OpenTelemetry (OTel) vs Dynatrace as the observability foundation. Cover: (1) current state gap analysis vs AInchors ops maturity, (2) OTel open-source stack (collector + backends: Jaeger/Prometheus/Grafana/Tempo) vs Dynatrace SaaS, (3) cost model at P1/P2/P4 scale, (4) data sovereignty implications (Anthropic DPA / APRA CPG 235 — client data must stay local), (5) integration with existing obs.db + OpenClaw health stack, (6) recommended path with clear P2 gate criteria. Output: EA decision record with recommendation + migration plan stub. Owner: Atlas.",
+      "description": "Enterprise Architecture task for Atlas. Produce an observability strategy recommendation for AInchors/Aevlith Nexus platform. Brief: evaluate OpenTelemetry (OTel) vs Dynatrace as the observability foundation. Cover: (1) current state gap analysis vs AInchors ops maturity, (2) OTel open-source stack (collector + backends: Jaeger/Prometheus/Grafana/Tempo) vs Dynatrace SaaS, (3) cost model at P1/P2/P4 scale, (4) data sovereignty implications (Anthropic DPA / APRA CPG 235 \u2014 client data must stay local), (5) integration with existing obs.db + OpenClaw health stack, (6) recommended path with clear P2 gate criteria. Output: EA decision record with recommendation + migration plan stub. Owner: Atlas.",
       "resolution": null,
       "linked": {
         "us": [],
@@ -620,7 +622,7 @@
     },
     {
       "id": "TKT-0134",
-      "title": "Model strategy review — Gemma4:31b-cloud pilot results + OC2-gated capability unblock assessment",
+      "title": "Model strategy review \u2014 Gemma4:31b-cloud pilot results + OC2-gated capability unblock assessment",
       "type": "task",
       "priority": "medium",
       "status": "open",
@@ -640,7 +642,7 @@
     },
     {
       "id": "TKT-0135",
-      "title": "AInchors Sandbox Environment — isolated, ephemeral, managed for demos, PoC and client showcases",
+      "title": "AInchors Sandbox Environment \u2014 isolated, ephemeral, managed for demos, PoC and client showcases",
       "type": "task",
       "priority": "high",
       "status": "done",
@@ -648,22 +650,22 @@
       "assignee": "Yoda",
       "created": "2026-05-10T14:17:52+10:00",
       "updated": "2026-05-13T19:14:09+10:00",
-      "description": "Design and build an isolated sandbox environment for showcase, demo, PoC and potential client/investor testing. Requirements: (1) ISOLATED — zero data sharing with production OC1 platform, no shared state, no cross-contamination. (2) EPHEMERAL — spun up on demand, destroyed completely after use. No persistent data after teardown. (3) MANAGED — elegant spin-up process (single command or Yoda-triggered), pre-configured with demo data/agents, destroys cleanly with verification. (4) CONTAINED — own network namespace, own credential scope, own OpenClaw instance or sandboxed session. Should not be possible to accidentally touch production from sandbox. Architecture options to assess: Docker-based isolated OpenClaw instance, VM snapshot, separate OpenClaw agent profile with sandbox mode, or OC2 dedicated sandbox tenant. Deliverables: (a) Architecture assessment (Atlas), (b) Spin-up/teardown scripts, (c) Demo data/agent configuration, (d) Verification checklist post-teardown. Trigger: Ken/Angie request for demo or PoC. Atlas to assess architecture before build.",
+      "description": "Design and build an isolated sandbox environment for showcase, demo, PoC and potential client/investor testing. Requirements: (1) ISOLATED \u2014 zero data sharing with production OC1 platform, no shared state, no cross-contamination. (2) EPHEMERAL \u2014 spun up on demand, destroyed completely after use. No persistent data after teardown. (3) MANAGED \u2014 elegant spin-up process (single command or Yoda-triggered), pre-configured with demo data/agents, destroys cleanly with verification. (4) CONTAINED \u2014 own network namespace, own credential scope, own OpenClaw instance or sandboxed session. Should not be possible to accidentally touch production from sandbox. Architecture options to assess: Docker-based isolated OpenClaw instance, VM snapshot, separate OpenClaw agent profile with sandbox mode, or OC2 dedicated sandbox tenant. Deliverables: (a) Architecture assessment (Atlas), (b) Spin-up/teardown scripts, (c) Demo data/agent configuration, (d) Verification checklist post-teardown. Trigger: Ken/Angie request for demo or PoC. Atlas to assess architecture before build.",
       "resolution": null,
       "linked": {
         "us": [],
         "inc": [],
         "chg": []
       },
-      "notes": " | Sprint 3 COMMITTED — Ken confirmed 2026-05-10. | Sprint 3 (12–18 May 2026) | Parked to Day 19 (2026-05-13). Sprint 3 item — must complete before May 18. | Test sprint sync | Groomed 2026-05-13. Option B selected: Ollama via host.docker.internal:11434. Routing to Forge to build. | Build complete. CHG-0301. Image: openclaw-sandbox:latest. LLM: kimi via host.docker.internal. Smoke test passed. Teardown verified clean.",
+      "notes": " | Sprint 3 COMMITTED \u2014 Ken confirmed 2026-05-10. | Sprint 3 (12\u201318 May 2026) | Parked to Day 19 (2026-05-13). Sprint 3 item \u2014 must complete before May 18. | Test sprint sync | Groomed 2026-05-13. Option B selected: Ollama via host.docker.internal:11434. Routing to Forge to build. | Build complete. CHG-0301. Image: openclaw-sandbox:latest. LLM: kimi via host.docker.internal. Smoke test passed. Teardown verified clean.",
       "notionPageId": "35cc1829-53ff-81b6-a95e-d7c8367f7d5a",
       "sprint": 3,
-      "sprintLabel": "Sprint 3 (12–18 May 2026)",
+      "sprintLabel": "Sprint 3 (12\u201318 May 2026)",
       "updatedAt": "2026-05-11T00:21:21.540Z"
     },
     {
       "id": "TKT-0136",
-      "title": "AInchors Consulting Playbook — AI Transformation framework assets and IP library",
+      "title": "AInchors Consulting Playbook \u2014 AI Transformation framework assets and IP library",
       "type": "task",
       "priority": "high",
       "status": "open",
@@ -671,7 +673,7 @@
       "assignee": "Yoda",
       "created": "2026-05-10T14:55:51+10:00",
       "updated": "2026-05-10T14:56:00+10:00",
-      "description": "Establish the AInchors Consulting Playbook: a structured, versioned library of all AI transformation consulting IP. Ownership: Ken (IP authority + client-facing approval). Accountability: Yoda (operational governance, versioning, CHG logging) + Ahsoka (consulting methodology quality). Scope: (1) Define playbook structure — discovery, assessment, ROI models, transformation frameworks, change management, training materials, proposals. (2) Storage: workspace-business/projects/consulting-ip/ + Google Drive + Nexus Citadel at P2. (3) Every asset versioned (v1.0+), CHG-logged, Ken approval before external use. (4) First assets: KL team AI transformation programme materials (TKT-0110/0111) seeded as Playbook v1.0. (5) Lando defines documentation standards and template structure. (6) Ahsoka owns methodology integrity — Playbook is the source of truth for all engagements. Asset types: SPIN discovery templates, AI readiness assessments, ROI models (XLSX), proposal PPTX/DOCX templates, AI Transformation Primer, ADKAR change plans, client onboarding guides, workshop materials. P2: Playbook surfaced in Nexus Citadel per client with access control.",
+      "description": "Establish the AInchors Consulting Playbook: a structured, versioned library of all AI transformation consulting IP. Ownership: Ken (IP authority + client-facing approval). Accountability: Yoda (operational governance, versioning, CHG logging) + Ahsoka (consulting methodology quality). Scope: (1) Define playbook structure \u2014 discovery, assessment, ROI models, transformation frameworks, change management, training materials, proposals. (2) Storage: workspace-business/projects/consulting-ip/ + Google Drive + Nexus Citadel at P2. (3) Every asset versioned (v1.0+), CHG-logged, Ken approval before external use. (4) First assets: KL team AI transformation programme materials (TKT-0110/0111) seeded as Playbook v1.0. (5) Lando defines documentation standards and template structure. (6) Ahsoka owns methodology integrity \u2014 Playbook is the source of truth for all engagements. Asset types: SPIN discovery templates, AI readiness assessments, ROI models (XLSX), proposal PPTX/DOCX templates, AI Transformation Primer, ADKAR change plans, client onboarding guides, workshop materials. P2: Playbook surfaced in Nexus Citadel per client with access control.",
       "resolution": null,
       "linked": {
         "us": [
@@ -685,14 +687,14 @@
     },
     {
       "id": "TKT-0137",
-      "title": "AInchors Policy Register — formal policy library derived from Charter and Governance Framework",
+      "title": "AInchors Policy Register \u2014 formal policy library derived from Charter and Governance Framework",
       "type": "task",
       "priority": "high",
       "status": "in-progress",
       "requester": "Ken",
       "assignee": "Yoda",
       "created": "2026-05-10T15:13:44+10:00",
-      "updated": "2026-05-12T13:32:00+10:00",
+      "updated": "2026-05-15T14:54:20.642713+10:00",
       "description": "Establish a formal AInchors Policy Register: numbered prescriptive policy documents (POL-001+) sitting between Governance Framework and SOPs. Required for audit readiness. Owner: Ken. Producer: Lex. Collaborators: Atlas, Yoda. Domains: POL-001 Data Sovereignty, POL-002 Model Usage, POL-003 Access Control, POL-004 Content Governance, POL-005 Change Management, POL-006 Incident Management, POL-007 Data Classification, POL-008 Agent Governance, POL-009 Client Isolation (DRAFT exists: nexus-client-isolation-policy-v1.md), POL-010 Audit and Compliance. Each policy: numbered, owner, effective date, prescriptive (must/shall/shall not), derived from Charter + Governance Framework, Ken-approved. Output: Policy Register in Notion Holocron + PDF per policy in Google Drive. All policies CHG-logged. Review cadence: annually or on material change. Gap identified: governance exists (Charter + Framework) but no formal policy layer = audit cannot be performed without policies to audit against.",
       "resolution": "AC1 Governance Gap Analysis complete. 24 gaps identified, 12 policies proposed, 13 P0 critical path items. Document at docs/TKT-0137-AC1-Governance-Gap-Analysis.md. Drive and MinIO uploaded.",
       "linked": {
@@ -700,12 +702,13 @@
         "inc": [],
         "chg": []
       },
-      "notes": "AC1 complete 2026-05-12 — Gap Analysis approved by Ken. 24 gaps, 12 policies proposed, 7 ODs resolved. Next: AC2 = produce POL-001 through POL-008 (P0 critical path). Sprint 4. | AC2 (POL-001 to POL-008) scheduled Sprint 4 (2026-05-19 to 2026-05-25).",
-      "notionPageId": "35cc1829-53ff-81c3-b9d4-fd24dc91ca02"
+      "notes": "AC1 complete 2026-05-12 \u2014 Gap Analysis approved by Ken. 24 gaps, 12 policies proposed, 7 ODs resolved. Next: AC2 = produce POL-001 through POL-008 (P0 critical path). Sprint 4. | AC2 (POL-001 to POL-008) scheduled Sprint 4 (2026-05-19 to 2026-05-25).",
+      "notionPageId": "35cc1829-53ff-81c3-b9d4-fd24dc91ca02",
+      "sprint": 4
     },
     {
       "id": "TKT-0138",
-      "title": "Business Jumpstart — 3-part client engagement pathway (Consulting Framework)",
+      "title": "Business Jumpstart \u2014 3-part client engagement pathway (Consulting Framework)",
       "type": "task",
       "priority": "high",
       "status": "open",
@@ -713,7 +716,7 @@
       "assignee": "Yoda",
       "created": "2026-05-10T15:16:32+10:00",
       "updated": "2026-05-10T15:16:36+10:00",
-      "description": "Design and build the AInchors Business Jumpstart: a structured 3-part client engagement pathway. This is AInchors' flagship consulting delivery framework — how clients go from first contact to active AI operations. Part of the Consulting Playbook (TKT-0136). PART 1 — ONBOARDING + USING NEXUS: Client introduction to AInchors, the Nexus platform, how agents work, what the engagement looks like. Sets expectations, establishes working norms, access setup, Sanctum introduction. Deliverable: Onboarding Guide + Nexus orientation session. PART 2 — DEFINE BUSINESS VMS + REQUIREMENTS + CHALLENGES: Structured discovery session. Define (or validate) client Vision, Mission, Strategy. Map current business requirements and pain points. Identify AI transformation challenges and opportunities. Produce Discovery Summary + AI Opportunity Map (scored matrix). Deliverable: VMS Document, Discovery Summary, AI Opportunity Assessment. PART 3 — AGILE-FIRST SPRINT: Convert top AI opportunity into a structured first sprint. Define backlog, define DoD, run Sprint 1 with client. Establishes the working rhythm, proves value fast. Deliverable: Sprint 1 backlog, Sprint 1 output, retrospective. Owner: Ahsoka (consulting delivery). Collaborators: Lando (process), Atlas (architecture), Aria (client comms via Angie). Ken approves framework before client use. Part of Consulting Playbook IP (TKT-0136).",
+      "description": "Design and build the AInchors Business Jumpstart: a structured 3-part client engagement pathway. This is AInchors' flagship consulting delivery framework \u2014 how clients go from first contact to active AI operations. Part of the Consulting Playbook (TKT-0136). PART 1 \u2014 ONBOARDING + USING NEXUS: Client introduction to AInchors, the Nexus platform, how agents work, what the engagement looks like. Sets expectations, establishes working norms, access setup, Sanctum introduction. Deliverable: Onboarding Guide + Nexus orientation session. PART 2 \u2014 DEFINE BUSINESS VMS + REQUIREMENTS + CHALLENGES: Structured discovery session. Define (or validate) client Vision, Mission, Strategy. Map current business requirements and pain points. Identify AI transformation challenges and opportunities. Produce Discovery Summary + AI Opportunity Map (scored matrix). Deliverable: VMS Document, Discovery Summary, AI Opportunity Assessment. PART 3 \u2014 AGILE-FIRST SPRINT: Convert top AI opportunity into a structured first sprint. Define backlog, define DoD, run Sprint 1 with client. Establishes the working rhythm, proves value fast. Deliverable: Sprint 1 backlog, Sprint 1 output, retrospective. Owner: Ahsoka (consulting delivery). Collaborators: Lando (process), Atlas (architecture), Aria (client comms via Angie). Ken approves framework before client use. Part of Consulting Playbook IP (TKT-0136).",
       "resolution": null,
       "linked": {
         "us": [
@@ -727,7 +730,7 @@
     },
     {
       "id": "TKT-0139",
-      "title": "Consulting Product Portfolio — commercial offerings mapped to business stages, maturity and P2-P4 strategy",
+      "title": "Consulting Product Portfolio \u2014 commercial offerings mapped to business stages, maturity and P2-P4 strategy",
       "type": "task",
       "priority": "high",
       "status": "open",
@@ -735,7 +738,7 @@
       "assignee": "Yoda",
       "created": "2026-05-10T15:21:58+10:00",
       "updated": "2026-05-14T10:55:26+10:00",
-      "description": "Design the full AInchors Consulting Product Portfolio: identify commercial products across client AI maturity stages, business processes, and domains. Aligned to P2-P4 strategy. Cross-pollinate into training courses product line. Scope: (1) PRODUCT IDENTIFICATION — map AI maturity (Experimenter, Adopter, Transformer, AI-Native) to commercial offerings. Business Jumpstart (TKT-0138) is the entry product. What comes next? AI Ops Retainer, Nexus Implementation, AI Readiness Assessment, AI Governance Audit, Transformation Programme. (2) COMMERCIAL ROADMAP — sequence products against P2 (first client, prove model), P3 (productised delivery), P4 (platform + self-serve). Which products launch at P2? Which need P3 infrastructure? (3) TRAINING COURSE PIPELINE — identify which consulting frameworks generate training courses. Business Jumpstart -> AI Jumpstart for Business course. VMS methodology -> AI Strategy for Leaders. Agile-first sprint -> Agile AI Delivery workshop. (4) MATERIALS MATRIX — per product: required Consulting Playbook assets (TKT-0136), Nexus modules, agent capabilities. Identify gaps early. (5) PRIORITISATION — ICE/PIE scoring against P2-P4 revenue targets, effort, strategic fit. Owners: Ahsoka (product design), Aria (commercial + Angie alignment), Atlas (platform capability mapping). Ken + Angie approve portfolio. Gate: Ken + Angie sign-off before any product goes to market.",
+      "description": "Design the full AInchors Consulting Product Portfolio: identify commercial products across client AI maturity stages, business processes, and domains. Aligned to P2-P4 strategy. Cross-pollinate into training courses product line. Scope: (1) PRODUCT IDENTIFICATION \u2014 map AI maturity (Experimenter, Adopter, Transformer, AI-Native) to commercial offerings. Business Jumpstart (TKT-0138) is the entry product. What comes next? AI Ops Retainer, Nexus Implementation, AI Readiness Assessment, AI Governance Audit, Transformation Programme. (2) COMMERCIAL ROADMAP \u2014 sequence products against P2 (first client, prove model), P3 (productised delivery), P4 (platform + self-serve). Which products launch at P2? Which need P3 infrastructure? (3) TRAINING COURSE PIPELINE \u2014 identify which consulting frameworks generate training courses. Business Jumpstart -> AI Jumpstart for Business course. VMS methodology -> AI Strategy for Leaders. Agile-first sprint -> Agile AI Delivery workshop. (4) MATERIALS MATRIX \u2014 per product: required Consulting Playbook assets (TKT-0136), Nexus modules, agent capabilities. Identify gaps early. (5) PRIORITISATION \u2014 ICE/PIE scoring against P2-P4 revenue targets, effort, strategic fit. Owners: Ahsoka (product design), Aria (commercial + Angie alignment), Atlas (platform capability mapping). Ken + Angie approve portfolio. Gate: Ken + Angie sign-off before any product goes to market.",
       "resolution": null,
       "linked": {
         "us": [
@@ -745,7 +748,7 @@
         "inc": [],
         "chg": []
       },
-      "notes": "Bucket B — consulting enablement. S5-S6 target. Ahsoka drafts, Ken reviews. No blocking dependency on critical path.",
+      "notes": "Bucket B \u2014 consulting enablement. S5-S6 target. Ahsoka drafts, Ken reviews. No blocking dependency on critical path.",
       "notionPageId": "35cc1829-53ff-8153-a8bb-e9aa6c92d69a"
     },
     {
@@ -758,65 +761,65 @@
       "assignee": "Yoda",
       "created": "2026-05-10T16:05:08+10:00",
       "updated": "2026-05-10T16:11:21+10:00",
-      "description": "Root cause: when obs-collector-state.json is reset (lastRunEpoch=0 or missing), the collector re-logs all historical entries in delegation-log.json from epoch 0. During INC-20260509-001 recovery, this produced 3,761 phantom delegation_fail entries over 9.5 hours. Fix: (1) Add dedup check — skip entries already logged in obs.db (by timestamp+event_type+source). (2) Cap historical lookback on state reset to last 24h only, not epoch 0. (3) Filter delegation-log.json latency records (status=fail but empty task/agent/error) from delegation_fail check. Linked: TKT-0112 (cron run failures not captured in obs.db).",
+      "description": "Root cause: when obs-collector-state.json is reset (lastRunEpoch=0 or missing), the collector re-logs all historical entries in delegation-log.json from epoch 0. During INC-20260509-001 recovery, this produced 3,761 phantom delegation_fail entries over 9.5 hours. Fix: (1) Add dedup check \u2014 skip entries already logged in obs.db (by timestamp+event_type+source). (2) Cap historical lookback on state reset to last 24h only, not epoch 0. (3) Filter delegation-log.json latency records (status=fail but empty task/agent/error) from delegation_fail check. Linked: TKT-0112 (cron run failures not captured in obs.db).",
       "resolution": null,
       "linked": {
         "us": [],
         "inc": [],
         "chg": []
       },
-      "notes": "COMPLETE 2026-05-10. (1) 24h lookback cap: when lastRunEpoch=0 or state missing, defaults to now-86400 instead of epoch 0 — prevents re-logging all history on state reset. (2) Dedup check in _obs_log wrapper: queries obs.db for same event_type+source within last 5min before logging — skips if already present. (3) Empty field filter already done in TKT-0112. Test: simulated state reset produced 4 events (was 3761). CHG-0267.",
+      "notes": "COMPLETE 2026-05-10. (1) 24h lookback cap: when lastRunEpoch=0 or state missing, defaults to now-86400 instead of epoch 0 \u2014 prevents re-logging all history on state reset. (2) Dedup check in _obs_log wrapper: queries obs.db for same event_type+source within last 5min before logging \u2014 skips if already present. (3) Empty field filter already done in TKT-0112. Test: simulated state reset produced 4 events (was 3761). CHG-0267.",
       "notionPageId": "35cc1829-53ff-8176-b721-d4b67570b4af"
     },
     {
       "id": "TKT-0141",
-      "title": "Security: CLI-Anything supply chain risk — agent integration layer poisoning via auto-generated SKILL.md",
+      "title": "Security: CLI-Anything supply chain risk \u2014 agent integration layer poisoning via auto-generated SKILL.md",
       "type": "task",
       "priority": "high",
-      "status": "in-progress",
+      "status": "closed",
       "requester": "Ken",
       "assignee": "Yoda",
       "created": "2026-05-10T17:27:10+10:00",
       "updated": "2026-05-11T10:21:06+10:00",
-      "description": "VentureBeat/VentureBeast report (2026-05-05) documents CLI-Anything: a tool that generates SKILL.md files from any open-source repo's source code, enabling AI agents (including OpenClaw) to operate any repo with a single command. OpenClaw is explicitly named as a supported platform. Risk: attackers submit poisoned repos or SKILL.md files that agents ingest and trust as operational directives. No mainstream SAST/SCA scanner has a detection category for malicious agent instruction files. Actions required: (1) Inventory all SKILL.md files in use on OC1 — document source, author, review status for each. (2) Prohibit use of CLI-Anything or any auto-generated skill tools on production OC1. (3) Establish formal skill intake SOP: any new SKILL.md must pass Shield + Sage review AND be from a verified, known source before installation. (4) Check if any existing plugin-skills or workspace skills were sourced from unverified third parties. (5) Evaluate Cisco open-source Skill Scanner and Snyk mcp-scan for agent-layer scanning. Owner: Shield (security review), Yoda (operational). Ken approves any new controls. Reference: VentureBeat CLI-Anything article + Snyk ToxicSkills research (13.4% of 3,984 ClawHub skills had critical security issues).",
-      "resolution": null,
+      "description": "VentureBeat/VentureBeast report (2026-05-05) documents CLI-Anything: a tool that generates SKILL.md files from any open-source repo's source code, enabling AI agents (including OpenClaw) to operate any repo with a single command. OpenClaw is explicitly named as a supported platform. Risk: attackers submit poisoned repos or SKILL.md files that agents ingest and trust as operational directives. No mainstream SAST/SCA scanner has a detection category for malicious agent instruction files. Actions required: (1) Inventory all SKILL.md files in use on OC1 \u2014 document source, author, review status for each. (2) Prohibit use of CLI-Anything or any auto-generated skill tools on production OC1. (3) Establish formal skill intake SOP: any new SKILL.md must pass Shield + Sage review AND be from a verified, known source before installation. (4) Check if any existing plugin-skills or workspace skills were sourced from unverified third parties. (5) Evaluate Cisco open-source Skill Scanner and Snyk mcp-scan for agent-layer scanning. Owner: Shield (security review), Yoda (operational). Ken approves any new controls. Reference: VentureBeat CLI-Anything article + Snyk ToxicSkills research (13.4% of 3,984 ClawHub skills had critical security issues).",
+      "resolution": "Skill Installation Policy v1.0 APPROVED. audit-skill.sh v2 (5 new semantic checks). 63 skills scanned clean. Weekly audit cron active (Sundays 02:00 AEST). POL-011 created. CHG-0335.",
       "linked": {
         "us": [],
         "inc": [],
         "chg": []
       },
-      "notes": "2026-05-10 17:39 Ken: Atlas to assess CLI-Anything as a potential component for future phases. Assess: suitability, use cases for AInchors P2-P4, integration with Nexus, risk posture vs opportunity. Separate from the security threat angle — this is the strategic opportunity assessment. | Sprint 3 (12–18 May 2026)",
+      "notes": "2026-05-10 17:39 Ken: Atlas to assess CLI-Anything as a potential component for future phases. Assess: suitability, use cases for AInchors P2-P4, integration with Nexus, risk posture vs opportunity. Separate from the security threat angle \u2014 this is the strategic opportunity assessment. | Sprint 3 (12\u201318 May 2026)",
       "notionPageId": "35cc1829-53ff-8101-8608-f2fd159ec227",
       "sprint": 3,
-      "sprintLabel": "Sprint 3 (12–18 May 2026)",
+      "sprintLabel": "Sprint 3 (12\u201318 May 2026)",
       "updatedAt": "2026-05-11T00:21:21.540Z"
     },
     {
       "id": "TKT-0142",
-      "title": "Security: SKILL.md poisoning — formal skill review process + audit of existing custom skills",
+      "title": "Security: SKILL.md poisoning \u2014 formal skill review process + audit of existing custom skills",
       "type": "task",
       "priority": "high",
-      "status": "in-progress",
+      "status": "closed",
       "requester": "Ken",
       "assignee": "Yoda",
       "created": "2026-05-10T17:27:30+10:00",
       "updated": "2026-05-11T10:21:06+10:00",
-      "description": "ToxicSkills research (Snyk, Feb 2026) found 76 confirmed malicious payloads across ClawHub and skills.sh. 13.4% of 3,984 scanned agent skills had at least one critical security issue. ClawHavoc campaign (Koi Security Jan 2026, expanded by Antiy CERT): 1,184 compromised packages on ClawHub delivering Atomic Stealer via skill definitions with professional documentation. DDIPE attack technique (Hong Kong/NTU/UNSW/Tokyo, April 2026): embeds malicious logic inside code examples in skill documentation — achieves 2.5% full evasion rate against all detection layers. AInchors context: S3 control ('no ClawHub skills, custom-built only') is a partial control. We have custom SKILL.md files in plugin-skills/ and workspace skills/ that have never been formally audited. Actions required: (1) Audit all existing custom SKILL.md files on OC1 — scan for embedded instructions that could execute as operational directives (look for: shell commands in examples, credential references, network calls, exfiltration patterns). (2) Define formal SKILL.md review checklist — what Shield and Sage must verify before any skill is used. (3) Update S3 control to explicitly include: no unreviewed SKILL.md regardless of source. (4) Evaluate Cisco Skill Scanner (open-source) and Snyk mcp-scan for automated skill scanning. (5) Document all approved skills in a skill registry with: source, author, review date, reviewer. (6) Add skill intake to governance gate — any new skill = Shield + Sage mandatory review before installation. Owner: Shield (security), Lex (policy update for S3), Yoda (operational). Ken approves.",
-      "resolution": null,
+      "description": "ToxicSkills research (Snyk, Feb 2026) found 76 confirmed malicious payloads across ClawHub and skills.sh. 13.4% of 3,984 scanned agent skills had at least one critical security issue. ClawHavoc campaign (Koi Security Jan 2026, expanded by Antiy CERT): 1,184 compromised packages on ClawHub delivering Atomic Stealer via skill definitions with professional documentation. DDIPE attack technique (Hong Kong/NTU/UNSW/Tokyo, April 2026): embeds malicious logic inside code examples in skill documentation \u2014 achieves 2.5% full evasion rate against all detection layers. AInchors context: S3 control ('no ClawHub skills, custom-built only') is a partial control. We have custom SKILL.md files in plugin-skills/ and workspace skills/ that have never been formally audited. Actions required: (1) Audit all existing custom SKILL.md files on OC1 \u2014 scan for embedded instructions that could execute as operational directives (look for: shell commands in examples, credential references, network calls, exfiltration patterns). (2) Define formal SKILL.md review checklist \u2014 what Shield and Sage must verify before any skill is used. (3) Update S3 control to explicitly include: no unreviewed SKILL.md regardless of source. (4) Evaluate Cisco Skill Scanner (open-source) and Snyk mcp-scan for automated skill scanning. (5) Document all approved skills in a skill registry with: source, author, review date, reviewer. (6) Add skill intake to governance gate \u2014 any new skill = Shield + Sage mandatory review before installation. Owner: Shield (security), Lex (policy update for S3), Yoda (operational). Ken approves.",
+      "resolution": "Cisco Skill Scanner evaluated. Snyk mcp-scan deferred to P2. audit-skill.sh v2 provides adequate coverage. CHG-0335.",
       "linked": {
         "us": [],
         "inc": [],
         "chg": []
       },
-      "notes": "2026-05-10: Skill Installation Policy v1.0 written (docs/Skill-Installation-Policy-v1.0.md). audit-skill.sh built with 9 security checks (BLOCK/FLAG). skill-registry.json seeded with 63 existing skills (10 workspace + 53 bundled). RULES.md updated with non-negotiable gate. Formal SOP + registry = controls in place. Remaining: TKT-0137 (Policy Register) to include this as POL-011. | Sprint 3 (12–18 May 2026)",
+      "notes": "2026-05-10: Skill Installation Policy v1.0 written (docs/Skill-Installation-Policy-v1.0.md). audit-skill.sh built with 9 security checks (BLOCK/FLAG). skill-registry.json seeded with 63 existing skills (10 workspace + 53 bundled). RULES.md updated with non-negotiable gate. Formal SOP + registry = controls in place. Remaining: TKT-0137 (Policy Register) to include this as POL-011. | Sprint 3 (12\u201318 May 2026)",
       "notionPageId": "35cc1829-53ff-817e-9407-d3c4295f20e6",
       "sprint": 3,
-      "sprintLabel": "Sprint 3 (12–18 May 2026)",
+      "sprintLabel": "Sprint 3 (12\u201318 May 2026)",
       "updatedAt": "2026-05-11T00:21:21.540Z"
     },
     {
       "id": "TKT-0143",
-      "title": "CLI-Anything strategic assessment — review Atlas EA and confirm adoption decision",
+      "title": "CLI-Anything strategic assessment \u2014 review Atlas EA and confirm adoption decision",
       "type": "task",
       "priority": "medium",
       "status": "open",
@@ -824,7 +827,7 @@
       "assignee": "Yoda",
       "created": "2026-05-10T19:39:49+10:00",
       "updated": "2026-05-10T19:40:03+10:00",
-      "description": "Atlas completed EA assessment for CLI-Anything (2026-05-10). Verdict: CONDITIONAL ADOPT — introduce in P2, with controlled internal use from late P1. Assessment at: state/atlas-cli-anything-assessment.md (24KB). Key findings: (1) Internal use now — speeds up making AInchors tools agent-native, removes manual SKILL.md authoring bottleneck. (2) P2 Business Jumpstart — make client repos agent-native as a structured consulting offering. (3) Nexus Holocron integration — CLI-Anything as input layer to Nexus skill registry (P3). Security risk controlled via TKT-0141/0142 + Skill-Installation-Policy-v1.0.md. Action required: Ken to review Atlas assessment and confirm: adopt/defer/reject + phase timeline. Once confirmed, raise CHG for controlled P1 internal adoption if approved. Linked to TKT-0141 (security controls already built).",
+      "description": "Atlas completed EA assessment for CLI-Anything (2026-05-10). Verdict: CONDITIONAL ADOPT \u2014 introduce in P2, with controlled internal use from late P1. Assessment at: state/atlas-cli-anything-assessment.md (24KB). Key findings: (1) Internal use now \u2014 speeds up making AInchors tools agent-native, removes manual SKILL.md authoring bottleneck. (2) P2 Business Jumpstart \u2014 make client repos agent-native as a structured consulting offering. (3) Nexus Holocron integration \u2014 CLI-Anything as input layer to Nexus skill registry (P3). Security risk controlled via TKT-0141/0142 + Skill-Installation-Policy-v1.0.md. Action required: Ken to review Atlas assessment and confirm: adopt/defer/reject + phase timeline. Once confirmed, raise CHG for controlled P1 internal adoption if approved. Linked to TKT-0141 (security controls already built).",
       "resolution": null,
       "linked": {
         "us": [
@@ -838,7 +841,7 @@
     },
     {
       "id": "TKT-0144",
-      "title": "Platform CI: Token Efficiency Audit — perpetual optimisation loop",
+      "title": "Platform CI: Token Efficiency Audit \u2014 perpetual optimisation loop",
       "type": "task",
       "priority": "medium",
       "status": "done",
@@ -846,22 +849,22 @@
       "assignee": "Yoda",
       "created": "2026-05-10T20:32:50+10:00",
       "updated": "2026-05-11T12:12:20+10:00",
-      "description": "Perpetual CI activity (monthly) to audit all crons for token efficiency. Principles from L-022: (1) Shell-first: tasks with no reasoning → systemEvent/wrapper script, no agentTurn. (2) lightContext:true on all isolated background crons. (3) Script stdout → state files, not LLM context. (4) Model right-sizing: use lowest tier that meets quality bar. (5) Token budget targets per category: monitoring <500/run, compliance <2,000/run, reporting <5,000/run, content <10,000/run. Deliverables: (a) write scripts/token-efficiency-audit.sh to scan all crons and flag any exceeding 2x category target, (b) backfill lightContext:true on all existing eligible crons, (c) identify any current crons that should be converted to systemEvent, (d) add token tracking to obs.db (avg tokens/run per cron). Run monthly. Never-ending CI loop. Reference: L-022, CHG-Warden-fix.",
+      "description": "Perpetual CI activity (monthly) to audit all crons for token efficiency. Principles from L-022: (1) Shell-first: tasks with no reasoning \u2192 systemEvent/wrapper script, no agentTurn. (2) lightContext:true on all isolated background crons. (3) Script stdout \u2192 state files, not LLM context. (4) Model right-sizing: use lowest tier that meets quality bar. (5) Token budget targets per category: monitoring <500/run, compliance <2,000/run, reporting <5,000/run, content <10,000/run. Deliverables: (a) write scripts/token-efficiency-audit.sh to scan all crons and flag any exceeding 2x category target, (b) backfill lightContext:true on all existing eligible crons, (c) identify any current crons that should be converted to systemEvent, (d) add token tracking to obs.db (avg tokens/run per cron). Run monthly. Never-ending CI loop. Reference: L-022, CHG-Warden-fix.",
       "resolution": null,
       "linked": {
         "us": [],
         "inc": [],
         "chg": []
       },
-      "notes": "Sprint 3 (12–18 May 2026) | Sprint 3 — started 2026-05-11 | Cycle 1 complete 2026-05-11. CHG-273 logged. 14 crons optimised: 2 P1 fixes (systemEvent conversion/disable), 11 lightContext adds, 3 bug fixes. Est ~1.8M tokens/day saved. | Cycle 2 scope (next audit ~Jun 2026): extend beyond crons to cover non-cron token efficiency — interactive agent session context sizing, prompt verbosity, active session bootstrap weight. TKT-0145 superseded and merged here.",
+      "notes": "Sprint 3 (12\u201318 May 2026) | Sprint 3 \u2014 started 2026-05-11 | Cycle 1 complete 2026-05-11. CHG-273 logged. 14 crons optimised: 2 P1 fixes (systemEvent conversion/disable), 11 lightContext adds, 3 bug fixes. Est ~1.8M tokens/day saved. | Cycle 2 scope (next audit ~Jun 2026): extend beyond crons to cover non-cron token efficiency \u2014 interactive agent session context sizing, prompt verbosity, active session bootstrap weight. TKT-0145 superseded and merged here.",
       "notionPageId": "35cc1829-53ff-8114-8341-eee1485f00c3",
       "sprint": 3,
-      "sprintLabel": "Sprint 3 (12–18 May 2026)",
+      "sprintLabel": "Sprint 3 (12\u201318 May 2026)",
       "updatedAt": "2026-05-11T00:21:21.540Z"
     },
     {
       "id": "TKT-0145",
-      "title": "Token Burn Retro — audit all crons/agents for unnecessary context, optimise",
+      "title": "Token Burn Retro \u2014 audit all crons/agents for unnecessary context, optimise",
       "type": "task",
       "priority": "medium",
       "status": "closed",
@@ -876,12 +879,12 @@
         "inc": [],
         "chg": []
       },
-      "notes": "Superseded by TKT-0144 Cycle 1 (2026-05-11). Cycle 1 audit covered all 53 platform crons — full scope of what TKT-0145 intended. Non-cron token efficiency (agent sessions, prompt sizing) added to TKT-0144 Cycle 2 scope.",
+      "notes": "Superseded by TKT-0144 Cycle 1 (2026-05-11). Cycle 1 audit covered all 53 platform crons \u2014 full scope of what TKT-0145 intended. Non-cron token efficiency (agent sessions, prompt sizing) added to TKT-0144 Cycle 2 scope.",
       "notionPageId": "35dc1829-53ff-81cd-a987-deb53d0f6531"
     },
     {
       "id": "TKT-0146",
-      "title": "Backup optimisation — incremental daily, full weekly",
+      "title": "Backup optimisation \u2014 incremental daily, full weekly",
       "type": "task",
       "priority": "medium",
       "status": "done",
@@ -896,12 +899,12 @@
         "inc": [],
         "chg": []
       },
-      "notes": "Sprint 3 — started 2026-05-11 | Complete 2026-05-11. CHG-274 logged. rsync --link-dest incremental Mon-Sat + full tar.gz Sunday. Hard-link verified. Restore tested. Est 95%+ storage reduction on daily backups.",
+      "notes": "Sprint 3 \u2014 started 2026-05-11 | Complete 2026-05-11. CHG-274 logged. rsync --link-dest incremental Mon-Sat + full tar.gz Sunday. Hard-link verified. Restore tested. Est 95%+ storage reduction on daily backups.",
       "notionPageId": "35dc1829-53ff-81a6-8bb9-efd4505ebec8"
     },
     {
       "id": "TKT-0147",
-      "title": "TOM specialist agent gap analysis — consulting and training stream",
+      "title": "TOM specialist agent gap analysis \u2014 consulting and training stream",
       "type": "task",
       "priority": "medium",
       "status": "open",
@@ -921,7 +924,7 @@
     },
     {
       "id": "TKT-0148",
-      "title": "Extend TKT-0134 AC — best model by persona/use case for KL team + clients on Ollama Cloud; paid model approval workflow",
+      "title": "Extend TKT-0134 AC \u2014 best model by persona/use case for KL team + clients on Ollama Cloud; paid model approval workflow",
       "type": "task",
       "priority": "medium",
       "status": "open",
@@ -929,19 +932,19 @@
       "assignee": "Yoda",
       "created": "2026-05-11T10:19:52+10:00",
       "updated": "2026-05-11T11:31:53+10:00",
-      "description": "Extends TKT-0134. AC items to refine with Ken: (1) Identify highest capability Ollama Cloud model per persona and use case for KL team and client engagements. (2) Design workflow-approval gate for using paid/premium models (eg Sonnet) on high-value/complex work — specialist agents creating client content. AC NEEDS GROOMING WITH KEN before execution.",
+      "description": "Extends TKT-0134. AC items to refine with Ken: (1) Identify highest capability Ollama Cloud model per persona and use case for KL team and client engagements. (2) Design workflow-approval gate for using paid/premium models (eg Sonnet) on high-value/complex work \u2014 specialist agents creating client content. AC NEEDS GROOMING WITH KEN before execution.",
       "resolution": null,
       "linked": {
         "us": [],
         "inc": [],
         "chg": []
       },
-      "notes": "AC GROOMED 2026-05-11 with Ken. Objective: contain token-cost overrun. Ollama Cloud best model = fixed-cost default for all non-BYOK users (P2a individuals, P2b business owners+employees, consulting delivery agents). Ken+Angie remain on Sonnet. Class-of-work escalation to paid models: Tech stream = Ken approves; Business stream = Angie or Ken. Role-based (not cost-threshold). BYOK clients excluded. 4 ACs: (1) Persona matrix 6 personas x use cases x Ollama Cloud model; (2) Class-of-work approval list + model-approval-log.json; (3) BYOK exclusion documented; (4) Dependent on TKT-0134 pilot results for AC-1 completion. | Linked dependency: TKT-0134 (pilot results required for AC-1) | AC ADD-ON (2026-05-11 11:31): AC-1 extension — Work Category × Model Capability Matrix. For the 4 primary Ollama Cloud models (kimi-k2.6, gemma4:31b, deepseek-v4-pro/flash, qwen), identify the recommended model per work category: general assistant, creative, research, engineering, and others TBD. Each model has training biases favouring different use cases. Output: a model selection guide used at user onboarding — user selects their primary work category → agent is provisioned with the recommended model for that category. This feeds into the AC-1 persona matrix (persona × use case × recommended model).",
+      "notes": "AC GROOMED 2026-05-11 with Ken. Objective: contain token-cost overrun. Ollama Cloud best model = fixed-cost default for all non-BYOK users (P2a individuals, P2b business owners+employees, consulting delivery agents). Ken+Angie remain on Sonnet. Class-of-work escalation to paid models: Tech stream = Ken approves; Business stream = Angie or Ken. Role-based (not cost-threshold). BYOK clients excluded. 4 ACs: (1) Persona matrix 6 personas x use cases x Ollama Cloud model; (2) Class-of-work approval list + model-approval-log.json; (3) BYOK exclusion documented; (4) Dependent on TKT-0134 pilot results for AC-1 completion. | Linked dependency: TKT-0134 (pilot results required for AC-1) | AC ADD-ON (2026-05-11 11:31): AC-1 extension \u2014 Work Category \u00d7 Model Capability Matrix. For the 4 primary Ollama Cloud models (kimi-k2.6, gemma4:31b, deepseek-v4-pro/flash, qwen), identify the recommended model per work category: general assistant, creative, research, engineering, and others TBD. Each model has training biases favouring different use cases. Output: a model selection guide used at user onboarding \u2014 user selects their primary work category \u2192 agent is provisioned with the recommended model for that category. This feeds into the AC-1 persona matrix (persona \u00d7 use case \u00d7 recommended model).",
       "notionPageId": "35dc1829-53ff-816d-b896-e5f255f59be5"
     },
     {
       "id": "TKT-0149",
-      "title": "Aria MD gap analysis — update Aria SOUL.md/RULES.md taking cue from Yoda CHG-0271/0272",
+      "title": "Aria MD gap analysis \u2014 update Aria SOUL.md/RULES.md taking cue from Yoda CHG-0271/0272",
       "type": "task",
       "priority": "medium",
       "status": "open",
@@ -961,28 +964,28 @@
     },
     {
       "id": "TKT-0150",
-      "title": "DR Playbook — full restore from fresh OpenClaw install to production state",
+      "title": "DR Playbook \u2014 full restore from fresh OpenClaw install to production state",
       "type": "task",
       "priority": "high",
       "status": "open",
       "requester": "Ken",
       "assignee": "Yoda",
       "created": "2026-05-11T12:27:16+10:00",
-      "updated": "2026-05-12T12:31:03.496713+00:00",
-      "description": "No full DR playbook exists. gateway-restore.sh only covers openclaw.json config. Need: (1) A documented step-by-step DR playbook covering the full recovery sequence from a fresh OpenClaw installation back to production state using backup files. (2) A run script (restore.sh or dr-restore.sh) that automates as much of the recovery as possible. Scope: fresh OS/OpenClaw install → restore workspace from incremental/full backup → restore openclaw.json config → restore agent configs + auth → restore cron jobs → restore state files → verify platform health (PVT pass). Forge owns. Inputs: TKT-0146 backup structure (incremental + full). Deliverable: docs/DR_Playbook.md + scripts/dr-restore.sh.",
+      "updated": "2026-05-15T14:54:20.642713+10:00",
+      "description": "No full DR playbook exists. gateway-restore.sh only covers openclaw.json config. Need: (1) A documented step-by-step DR playbook covering the full recovery sequence from a fresh OpenClaw installation back to production state using backup files. (2) A run script (restore.sh or dr-restore.sh) that automates as much of the recovery as possible. Scope: fresh OS/OpenClaw install \u2192 restore workspace from incremental/full backup \u2192 restore openclaw.json config \u2192 restore agent configs + auth \u2192 restore cron jobs \u2192 restore state files \u2192 verify platform health (PVT pass). Forge owns. Inputs: TKT-0146 backup structure (incremental + full). Deliverable: docs/DR_Playbook.md + scripts/dr-restore.sh.",
       "resolution": null,
       "linked": {
         "us": [],
         "inc": [],
         "chg": []
       },
-      "notes": "AC ADD-ON: Google Drive offsite backup — DR playbook must include AC for uploading full weekly backup (Sunday tar.gz) to Google Drive (AInchors Yoda Working Files folder). Use gog drive upload. Replaces/supplements iCloud offsite path. Drive folder already exists: 1EyLi8JCvxwixhpBdRwP0PwdZokrg78Jl. Recovery path: download from Drive → run dr-restore.sh. Sprint 4. | Assigned Sprint 4 (2026-05-19 to 2026-05-25) per Ken 2026-05-12.",
+      "notes": "AC ADD-ON: Google Drive offsite backup \u2014 DR playbook must include AC for uploading full weekly backup (Sunday tar.gz) to Google Drive (AInchors Yoda Working Files folder). Use gog drive upload. Replaces/supplements iCloud offsite path. Drive folder already exists: 1EyLi8JCvxwixhpBdRwP0PwdZokrg78Jl. Recovery path: download from Drive \u2192 run dr-restore.sh. Sprint 4. | Assigned Sprint 4 (2026-05-19 to 2026-05-25) per Ken 2026-05-12.",
       "notionPageId": "35dc1829-53ff-81d1-ac74-d276be8c3c98",
       "sprint": 4
     },
     {
       "id": "TKT-0151",
-      "title": "Agentic Development Framework — squad model, process model, Day 1 fixed + future ephemeral",
+      "title": "Agentic Development Framework \u2014 squad model, process model, Day 1 fixed + future ephemeral",
       "type": "task",
       "priority": "high",
       "status": "open",
@@ -990,19 +993,19 @@
       "assignee": "Yoda",
       "created": "2026-05-11T13:15:08+10:00",
       "updated": "2026-05-11T13:21:55+10:00",
-      "description": "Develop the AInchors Agentic Development Framework and Development Process Model. Covers: (1) Framework design — how software/platform development is done with AI agents. (2) Squad model — voice of engineering and delivery. Day 1 fixed agents (Yoda, Atlas, Thrawn, Forge) + future ephemeral dev squads (Tier 5+ per TKT-0107). (3) Process model — how development tasks flow from backlog to delivery: ticket-first, spec, build, review, test, deploy. (4) Integration with Agile Framework v1.0 (TKT-0090). Atlas leads EA. Thrawn leads platform architecture input. Krennic (SRE) gates deployment. Outputs: docs/Agentic_Development_Framework_v1.md. Ken approves before execution.",
+      "description": "Develop the AInchors Agentic Development Framework and Development Process Model. Covers: (1) Framework design \u2014 how software/platform development is done with AI agents. (2) Squad model \u2014 voice of engineering and delivery. Day 1 fixed agents (Yoda, Atlas, Thrawn, Forge) + future ephemeral dev squads (Tier 5+ per TKT-0107). (3) Process model \u2014 how development tasks flow from backlog to delivery: ticket-first, spec, build, review, test, deploy. (4) Integration with Agile Framework v1.0 (TKT-0090). Atlas leads EA. Thrawn leads platform architecture input. Krennic (SRE) gates deployment. Outputs: docs/Agentic_Development_Framework_v1.md. Ken approves before execution.",
       "resolution": null,
       "linked": {
         "us": [],
         "inc": [],
         "chg": []
       },
-      "notes": "AC ADD-ON (2026-05-11 Ken): Framework must address the following engineering considerations: (1) Git Branching — branching strategy (trunk-based vs GitFlow vs feature branching), branch naming conventions, merge rules, PR/review process in an agentic context; (2) DevSecOps — security integrated into the dev pipeline, not bolted on at the end. Shield gates at code/config change level. S1-S7 controls applied at build/deploy phase. Vulnerability scanning, secret detection, dependency audit; (3) Feature Toggles — feature flag strategy for safe incremental releases. Agents deploy behind toggles, Ken/Angie controls activation. Decouples deployment from release; (4) Blue-Green Deployment — zero-downtime deployment model. Blue = live, Green = new version staged. Traffic switch only after Green validation passes. Rollback = instant traffic revert to Blue. Agent role in health validation before switch. Maps to OC1 → OC2 HA architecture.",
+      "notes": "AC ADD-ON (2026-05-11 Ken): Framework must address the following engineering considerations: (1) Git Branching \u2014 branching strategy (trunk-based vs GitFlow vs feature branching), branch naming conventions, merge rules, PR/review process in an agentic context; (2) DevSecOps \u2014 security integrated into the dev pipeline, not bolted on at the end. Shield gates at code/config change level. S1-S7 controls applied at build/deploy phase. Vulnerability scanning, secret detection, dependency audit; (3) Feature Toggles \u2014 feature flag strategy for safe incremental releases. Agents deploy behind toggles, Ken/Angie controls activation. Decouples deployment from release; (4) Blue-Green Deployment \u2014 zero-downtime deployment model. Blue = live, Green = new version staged. Traffic switch only after Green validation passes. Rollback = instant traffic revert to Blue. Agent role in health validation before switch. Maps to OC1 \u2192 OC2 HA architecture.",
       "notionPageId": "35dc1829-53ff-8157-a2c1-c9e992098682"
     },
     {
       "id": "TKT-0152",
-      "title": "Agentic Testing Framework — squad model, process model, tech + business streams, Day 1 fixed + future ephemeral",
+      "title": "Agentic Testing Framework \u2014 squad model, process model, tech + business streams, Day 1 fixed + future ephemeral",
       "type": "task",
       "priority": "high",
       "status": "open",
@@ -1010,19 +1013,19 @@
       "assignee": "Yoda",
       "created": "2026-05-11T13:15:08+10:00",
       "updated": "2026-05-11T13:19:12+10:00",
-      "description": "Develop the AInchors Agentic Testing Framework and Testing Process Model. Covers: (1) Framework design — how testing is done across technology and business streams with AI agents. (2) Squad model — voice of quality. Day 1 fixed agents (Sage QA, Shield security, Lex legal) + future ephemeral testing squads. (3) Process model — test types (unit, integration, UAT, governance gate, regression), ownership per stream, DoD quality gates. (4) Business stream testing: Aria-led, Angie approves. Technology stream testing: Yoda/Sage-led, Ken approves. (5) Extends Sanctum protocol (Shield/Lex/Sage triad) into a full testing framework. Outputs: docs/Agentic_Testing_Framework_v1.md. Ken approves before execution.",
+      "description": "Develop the AInchors Agentic Testing Framework and Testing Process Model. Covers: (1) Framework design \u2014 how testing is done across technology and business streams with AI agents. (2) Squad model \u2014 voice of quality. Day 1 fixed agents (Sage QA, Shield security, Lex legal) + future ephemeral testing squads. (3) Process model \u2014 test types (unit, integration, UAT, governance gate, regression), ownership per stream, DoD quality gates. (4) Business stream testing: Aria-led, Angie approves. Technology stream testing: Yoda/Sage-led, Ken approves. (5) Extends Sanctum protocol (Shield/Lex/Sage triad) into a full testing framework. Outputs: docs/Agentic_Testing_Framework_v1.md. Ken approves before execution.",
       "resolution": null,
       "linked": {
         "us": [],
         "inc": [],
         "chg": []
       },
-      "notes": "AC ADD-ON (2026-05-11 Ken): Full Test Lifecycle must be covered. Framework must address all phases and artefacts: (1) Test Strategy — overall approach, scope, tools, agent roles per stream; (2) Test Planning — test plan per sprint/release, entry/exit criteria, resource allocation; (3) Test Preparation — environment setup, test data, preconditions; (4) Test Case Creation — format, ownership, traceability to AC/requirements; (5) Test Automation and Execution — automated vs manual split, agent-driven execution, results capture; (6) Test Summary Report — pass/fail counts, coverage, defect log, sign-off. Testing phases to cover: UT (Unit Test), SIT (System Integration Test), UAT (User Acceptance Test), Pre-Prod (optional regression gate), PROD Validation (post-deploy smoke). Both tech and business stream must map each phase to the responsible agent and human approver.",
+      "notes": "AC ADD-ON (2026-05-11 Ken): Full Test Lifecycle must be covered. Framework must address all phases and artefacts: (1) Test Strategy \u2014 overall approach, scope, tools, agent roles per stream; (2) Test Planning \u2014 test plan per sprint/release, entry/exit criteria, resource allocation; (3) Test Preparation \u2014 environment setup, test data, preconditions; (4) Test Case Creation \u2014 format, ownership, traceability to AC/requirements; (5) Test Automation and Execution \u2014 automated vs manual split, agent-driven execution, results capture; (6) Test Summary Report \u2014 pass/fail counts, coverage, defect log, sign-off. Testing phases to cover: UT (Unit Test), SIT (System Integration Test), UAT (User Acceptance Test), Pre-Prod (optional regression gate), PROD Validation (post-deploy smoke). Both tech and business stream must map each phase to the responsible agent and human approver.",
       "notionPageId": "35dc1829-53ff-81f5-87da-f3c5155b6bdb"
     },
     {
       "id": "TKT-0153",
-      "title": "Semantic Memory Store — Vector/JSON memory on MinIO (Option D)",
+      "title": "Semantic Memory Store \u2014 Vector/JSON memory on MinIO (Option D)",
       "type": "task",
       "priority": "high",
       "status": "closed",
@@ -1042,41 +1045,41 @@
     },
     {
       "id": "TKT-0154",
-      "title": "CI Cycle A timeout — reduce scope / split batch to fix consecutiveErrors=2",
+      "title": "CI Cycle A timeout \u2014 reduce scope / split batch to fix consecutiveErrors=2",
       "priority": "medium",
       "status": "closed",
       "stream": "technical",
       "sprint": 3,
       "createdAt": "2026-05-11T22:28:02.736288+00:00",
-      "notes": "CI Cycle A cron (3ec512f3) timing out at 600s with consecutiveErrors=2. Runs 4 shadow tasks in single batch via Ollama cloud — too much for one run. Fix: split into per-task crons or increase timeout and reduce batch size. Raised Day 18 during Thorn/Bud review. | Executing 2026-05-12: splitting CI Cycle A batch into per-task crons.",
+      "notes": "CI Cycle A cron (3ec512f3) timing out at 600s with consecutiveErrors=2. Runs 4 shadow tasks in single batch via Ollama cloud \u2014 too much for one run. Fix: split into per-task crons or increase timeout and reduce batch size. Raised Day 18 during Thorn/Bud review. | Executing 2026-05-12: splitting CI Cycle A batch into per-task crons.",
       "notionPageId": "35ec1829-53ff-81f3-bf84-dddb22166d1e",
       "updated": "2026-05-12T17:44:26+10:00",
-      "resolution": "Reduced batch from 4→2 tasks per run, timeout 600→300s (CHG-0294). Worst-case latency now 2×150s=300s vs 4×150s=600s. Daily data volume maintained via 4 runs/24h × 2 tasks = 8 evals/day."
+      "resolution": "Reduced batch from 4\u21922 tasks per run, timeout 600\u2192300s (CHG-0294). Worst-case latency now 2\u00d7150s=300s vs 4\u00d7150s=600s. Daily data volume maintained via 4 runs/24h \u00d7 2 tasks = 8 evals/day."
     },
     {
       "id": "TKT-0155",
       "title": "Migrate MinIO from Colima/Docker to native macOS binary for Tailscale access",
       "priority": "high",
-      "status": "pending",
+      "status": "blocked",
       "stream": "technical",
       "sprint": 3,
       "createdAt": "2026-05-12T00:15:20.582453+00:00",
-      "notes": "MinIO in Colima not reachable via Tailscale (same utun4 incompatibility as VNC). Colima port forwarding passes TCP handshake but drops HTTP responses from Tailscale. Fix: install minio binary via brew, run natively on macOS, bind directly to all interfaces including Tailscale IP. Supersedes nginx proxy approach. | Tunnel live. DNS routed. LaunchAgent installed and fixed. Tunnel ID: 845052b4-4d24-4d7c-a649-4209cece8ff4. Active on edges mel01/mel02/syd01. Pending CF Access email+OTP config by Ken. | Tunnel live, DNS routed, LaunchAgent running. Cloudflare Access (email+OTP) not yet configured — DNS propagation pending. Parked by Ken 2026-05-13. Resume next week to configure CF Access policies at zero.cloudflare.com for minio.ainchors.com, minio-api.ainchors.com, chat.ainchors.com.",
+      "notes": "MinIO in Colima not reachable via Tailscale (same utun4 incompatibility as VNC). Colima port forwarding passes TCP handshake but drops HTTP responses from Tailscale. Fix: install minio binary via brew, run natively on macOS, bind directly to all interfaces including Tailscale IP. Supersedes nginx proxy approach. | Tunnel live. DNS routed. LaunchAgent installed and fixed. Tunnel ID: 845052b4-4d24-4d7c-a649-4209cece8ff4. Active on edges mel01/mel02/syd01. Pending CF Access email+OTP config by Ken. | Tunnel live, DNS routed, LaunchAgent running. Cloudflare Access (email+OTP) not yet configured \u2014 DNS propagation pending. Parked by Ken 2026-05-13. Resume next week to configure CF Access policies at zero.cloudflare.com for minio.ainchors.com, minio-api.ainchors.com, chat.ainchors.com. | BLOCKED 2026-05-15 \u2014 pending TKT-0187 (Cloudflare Tunnel) completion.",
       "notionPageId": "35fc1829-53ff-813a-ad7e-e1b4b21e65dc",
       "resolution": "MinIO migrated from Docker/Colima to native macOS binary. Tailscale serve HTTPS active on port 9000. LaunchAgent created. All 4 buckets + 53 folders preserved. CHG-0285.",
       "updated": "2026-05-13T13:51:58+10:00"
     },
     {
       "id": "TKT-0156",
-      "title": "S5 violation — hardcoded key in infra/auth-profiles.json",
+      "title": "S5 violation \u2014 hardcoded key in infra/auth-profiles.json",
       "priority": "high",
       "status": "closed",
       "stream": "technical",
       "sprint": 3,
       "createdAt": "2026-05-12T00:44:07.167566+00:00",
-      "notes": "Hardcoded credential found in infra/auth-profiles.json. S5 control breach — all creds must be in Keychain or env vars, never hardcoded in files. Forge to identify key, rotate it, move to Keychain, and remove from file. Raised from Telegram session 2026-05-12. | Sprint 4 backlog — added 2026-05-13",
+      "notes": "Hardcoded credential found in infra/auth-profiles.json. S5 control breach \u2014 all creds must be in Keychain or env vars, never hardcoded in files. Forge to identify key, rotate it, move to Keychain, and remove from file. Raised from Telegram session 2026-05-12. | Sprint 4 backlog \u2014 added 2026-05-13",
       "notionPageId": "35fc1829-53ff-81b8-971e-c8817eb22815",
-      "resolution": "Removed stale rotated Anthropic key from 6 agent auth-profiles.json files (infra, security, business, qa, legal, main). Key was already rotated in CHG-0151 (Day 8) — files contained a dead plaintext credential. Active key remains in macOS Keychain. No agent credential impact. CHG-0295.",
+      "resolution": "Removed stale rotated Anthropic key from 6 agent auth-profiles.json files (infra, security, business, qa, legal, main). Key was already rotated in CHG-0151 (Day 8) \u2014 files contained a dead plaintext credential. Active key remains in macOS Keychain. No agent credential impact. CHG-0295.",
       "updated": "2026-05-13T20:42:00+10:00"
     },
     {
@@ -1087,7 +1090,7 @@
       "stream": "technical",
       "sprint": null,
       "createdAt": "2026-05-12T02:25:57.471501+00:00",
-      "notes": "DEC-013: governance agents (Shield, Lex, Sage, Warden) explicitly excluded from Warden monitoring by design. Ken directly oversees governance tier. This ticket defines the human oversight process: review cadence, escalation path, compliance checks, and who reviews governance agent outputs. Design by Atlas, approved by Ken. | Sprint 4 backlog — added 2026-05-13",
+      "notes": "DEC-013: governance agents (Shield, Lex, Sage, Warden) explicitly excluded from Warden monitoring by design. Ken directly oversees governance tier. This ticket defines the human oversight process: review cadence, escalation path, compliance checks, and who reviews governance agent outputs. Design by Atlas, approved by Ken. | Sprint 4 backlog \u2014 added 2026-05-13",
       "notionPageId": "35fc1829-53ff-81b9-bb62-d4f6b877c9dc",
       "updated": "2026-05-13T20:42:01+10:00"
     },
@@ -1099,7 +1102,7 @@
       "stream": "technical",
       "sprint": null,
       "createdAt": "2026-05-12T02:30:32.786612+00:00",
-      "notes": "DEC-014 outcome: context-for-aria.md was missing, aria-daily-brief.md was 132h stale. Two parts: (1) Sprint item — add integrity check to health-check.sh or auto-heal: verify context-for-aria.md, yoda-daily-brief.md, aria-daily-brief.md exist and are <26h old. Alert if stale/missing. (2) Design consideration — when P1-P4 HIVE expands (OC2, KL team, Cloudflare access), context file sync must be redesigned: distributed context store (MinIO-backed), versioned handoff protocol, agent-to-agent context push via relay queue. Atlas to design as part of HIVE architecture. Cannot remain as flat files at P2+ scale. | AC (Ken 2026-05-12): HIVE design consideration must extend to: (1) Multi-tenant/client internal sync — how does context propagate between Yoda, Aria, and specialist agents when multiple clients are active simultaneously? Isolation vs shared context per client. (2) Tenant/client-Yoda/Aria external sync — how does client-facing context (Citadel, client sessions) flow into Yoda/Aria without cross-contamination? Client sees only their context; agents hold aggregate. Atlas to design both sync patterns as part of HIVE architecture. | Sprint 4 backlog — added 2026-05-13",
+      "notes": "DEC-014 outcome: context-for-aria.md was missing, aria-daily-brief.md was 132h stale. Two parts: (1) Sprint item \u2014 add integrity check to health-check.sh or auto-heal: verify context-for-aria.md, yoda-daily-brief.md, aria-daily-brief.md exist and are <26h old. Alert if stale/missing. (2) Design consideration \u2014 when P1-P4 HIVE expands (OC2, KL team, Cloudflare access), context file sync must be redesigned: distributed context store (MinIO-backed), versioned handoff protocol, agent-to-agent context push via relay queue. Atlas to design as part of HIVE architecture. Cannot remain as flat files at P2+ scale. | AC (Ken 2026-05-12): HIVE design consideration must extend to: (1) Multi-tenant/client internal sync \u2014 how does context propagate between Yoda, Aria, and specialist agents when multiple clients are active simultaneously? Isolation vs shared context per client. (2) Tenant/client-Yoda/Aria external sync \u2014 how does client-facing context (Citadel, client sessions) flow into Yoda/Aria without cross-contamination? Client sees only their context; agents hold aggregate. Atlas to design both sync patterns as part of HIVE architecture. | Sprint 4 backlog \u2014 added 2026-05-13",
       "notionPageId": "35fc1829-53ff-8125-a5f7-fc62acd96b5a",
       "updated": "2026-05-13T20:42:01+10:00"
     },
@@ -1116,105 +1119,89 @@
     },
     {
       "id": "TKT-0160",
-      "title": "Deploy Cloudflare Tunnel — MinIO + OpenClaw webchat (chat.ainchors.com)",
+      "title": "Deploy Cloudflare Tunnel \u2014 MinIO + OpenClaw webchat (chat.ainchors.com)",
       "priority": "high",
-      "status": "open",
+      "status": "closed",
       "stream": "technical",
       "sprint": null,
       "createdAt": "2026-05-12T02:49:03.718890+00:00",
       "notes": "EA-Addendum approved 2026-05-12. Decisions: D1=1B (MinIO API/console + OpenClaw webchat at chat.ainchors.com), D2=Email+OTP auth via Cloudflare Access. Forge to deploy cloudflared as launchd service on OC1. Estimate 30-45 min. Unblocks Ken mobile access + Angie web access at P1. Replaces current Tailscale serve workaround for MinIO (CHG-0285).",
-      "notionPageId": "35fc1829-53ff-81dd-a3a9-e8cc4db1944f"
+      "notionPageId": "35fc1829-53ff-81dd-a3a9-e8cc4db1944f",
+      "resolution": "Option C implemented: channel-state.json decision bridge + context brief (30-min refresh) + kimi on Telegram. Known gap: no live conversation history sharing \u2014 platform limitation (dmScope:main routes to agent:main:main, not webchat dashboard session). Deferred to OpenClaw upstream. UAT passed for decision persistence and file handoff. CHG-0338, CHG-0340-reverted, CHG-0343, CHG-0344-reverted, CHG-0345. Closed 2026-05-15."
     },
     {
       "id": "TKT-0161",
-      "title": "Nexus Access Policy — Memory/Data/Files access mandate (foundational, Sprint 4 P0)",
+      "title": "Nexus Access Policy \u2014 Memory/Data/Files access mandate (foundational, Sprint 4 P0)",
       "priority": "high",
       "status": "closed",
       "stream": "technical",
       "sprint": 4,
       "createdAt": "2026-05-12T03:04:30.113705+00:00",
-      "notes": "Ken directive 2026-05-12: Formalize comprehensive Nexus Operations Mandate covering memory access, data access, and file access. This is foundational — without it there are loopholes, confusion, and violations that compound over time. Scope: (1) Atlas to re-review File-Routing-Policy-v1.0.md + EA-Addendum + existing RULES.md and produce a comprehensive Nexus Data/Memory/Files Access Policy document. (2) Policy must define: approved access patterns per agent per file type, data classification (internal/working/shared/external), channel rules (Drive vs MinIO vs local vs Notion), agent access matrix (who reads/writes what). (3) Violation handling: what constitutes a violation, capture mechanism, escalation path, Warden coverage. (4) Once Ken approves: becomes Nexus Operations Mandate — strictly enforced. Violations captured and addressed. Linked: File-Routing-Policy-v1.0.md (Drive: 1hZ2KIE4RyqwLHHeiKRmav-akMuuAxt5-), EA-Addendum (Drive: 1hi-PItohR-FqHq02Trox9oFzXnp0iSDB). Drive cleanup (original TKT-0161 scope) is a sub-task of this — must align with the approved policy. Sprint 4 P0. | Groomed 2026-05-12 20:26 AEST. D1: DELETE root-level loose files (3x journal, 4x index.html). D2: APPROVED folder rename map — Platform Docs→Docs, Drafts for Ken Review→Review Queue, EA Assessments→merge into Docs/, Generated Images→Images, AInchors+YodaWorkingFiles→merge into AInchors/. Ken Q confirmed: Review Queue is staging — on approval, Yoda auto-moves doc to target folder (routing map defined). Forge Sprint 4 execute: (1) delete root pollution, (2) restructure, (3) update drive-sync.sh IDs, (4) add Yoda post-approval move step.",
+      "notes": "Ken directive 2026-05-12: Formalize comprehensive Nexus Operations Mandate covering memory access, data access, and file access. This is foundational \u2014 without it there are loopholes, confusion, and violations that compound over time. Scope: (1) Atlas to re-review File-Routing-Policy-v1.0.md + EA-Addendum + existing RULES.md and produce a comprehensive Nexus Data/Memory/Files Access Policy document. (2) Policy must define: approved access patterns per agent per file type, data classification (internal/working/shared/external), channel rules (Drive vs MinIO vs local vs Notion), agent access matrix (who reads/writes what). (3) Violation handling: what constitutes a violation, capture mechanism, escalation path, Warden coverage. (4) Once Ken approves: becomes Nexus Operations Mandate \u2014 strictly enforced. Violations captured and addressed. Linked: File-Routing-Policy-v1.0.md (Drive: 1hZ2KIE4RyqwLHHeiKRmav-akMuuAxt5-), EA-Addendum (Drive: 1hi-PItohR-FqHq02Trox9oFzXnp0iSDB). Drive cleanup (original TKT-0161 scope) is a sub-task of this \u2014 must align with the approved policy. Sprint 4 P0. | Groomed 2026-05-12 20:26 AEST. D1: DELETE root-level loose files (3x journal, 4x index.html). D2: APPROVED folder rename map \u2014 Platform Docs\u2192Docs, Drafts for Ken Review\u2192Review Queue, EA Assessments\u2192merge into Docs/, Generated Images\u2192Images, AInchors+YodaWorkingFiles\u2192merge into AInchors/. Ken Q confirmed: Review Queue is staging \u2014 on approval, Yoda auto-moves doc to target folder (routing map defined). Forge Sprint 4 execute: (1) delete root pollution, (2) restructure, (3) update drive-sync.sh IDs, (4) add Yoda post-approval move step.",
       "notionPageId": "35fc1829-53ff-817b-bced-ca7959270f48",
       "updated": "2026-05-12T20:31:00+10:00",
-      "resolution": "Drive restructure complete: 10 root-level loose files trashed, Platform Docs→Docs, Drafts for Ken Review→Review Queue, Generated Images→Images, EA Assessments merged into Docs. Canvas/ and Social/ folders created. drive-sync.sh IDs updated. DRIVE REVIEW QUEUE RULE added to RULES.md: approved docs auto-move from Review Queue to target folder."
+      "resolution": "Drive restructure complete: 10 root-level loose files trashed, Platform Docs\u2192Docs, Drafts for Ken Review\u2192Review Queue, Generated Images\u2192Images, EA Assessments merged into Docs. Canvas/ and Social/ folders created. drive-sync.sh IDs updated. DRIVE REVIEW QUEUE RULE added to RULES.md: approved docs auto-move from Review Queue to target folder."
     },
     {
       "id": "TKT-0162",
-      "title": "Review + approve Yoda_ORCHESTRATOR.md and Yoda_RULES.md — DRAFT FOR REVIEW",
+      "title": "Review + approve Yoda_ORCHESTRATOR.md and Yoda_RULES.md \u2014 DRAFT FOR REVIEW",
       "priority": "high",
       "status": "closed",
       "stream": "technical",
       "sprint": 4,
       "createdAt": "2026-05-12T03:05:49.116511+00:00",
-      "notes": "Both docs are DRAFT FOR REVIEW. No decision blockers. Ken to read and approve. If gaps found, Yoda to patch before approval. These are the primary Yoda operational reference documents — approval makes them authoritative. Docs: workspace/docs/Yoda_ORCHESTRATOR.md + workspace/docs/Yoda_RULES.md. Drive: AInchors — Yoda Working Files/Platform Docs/.",
+      "notes": "Both docs are DRAFT FOR REVIEW. No decision blockers. Ken to read and approve. If gaps found, Yoda to patch before approval. These are the primary Yoda operational reference documents \u2014 approval makes them authoritative. Docs: workspace/docs/Yoda_ORCHESTRATOR.md + workspace/docs/Yoda_RULES.md. Drive: AInchors \u2014 Yoda Working Files/Platform Docs/.",
       "notionPageId": "35fc1829-53ff-8148-96bf-c420119649e9",
       "resolution": "Option paper approved by Ken Mun 2026-05-14 10:28 AEST. Decision: Option B phased delivery. All 5 section-10 decisions confirmed. Full work breakdown, KRI dashboard, and tickets to be commissioned by Atlas subagent. Event sourcing deferred to Phase 3 post-P2 stable.",
-      "updated": "2026-05-14T10:28:51+10:00"
+      "updated": "2026-05-15T14:54:20.642713+10:00"
     },
     {
       "id": "TKT-0163",
-      "title": "Review + approve ainchors-agile-framework-v1.md — DRAFT FOR REVIEW",
+      "title": "Review + approve ainchors-agile-framework-v1.md \u2014 DRAFT FOR REVIEW",
       "priority": "high",
       "status": "open",
       "stream": "technical",
       "sprint": 4,
       "createdAt": "2026-05-12T03:05:49.116511+00:00",
-      "notes": "DRAFT FOR REVIEW. No decision blockers. Ken to read and approve. This is the AInchors agile framework — governs sprint ceremonies, velocity, and agile cadence. Approval makes it the authoritative process reference. Doc: workspace/docs/ainchors-agile-framework-v1.md.",
-      "notionPageId": "35fc1829-53ff-810d-a6e4-f168ed3be38f"
+      "notes": "DRAFT FOR REVIEW. No decision blockers. Ken to read and approve. This is the AInchors agile framework \u2014 governs sprint ceremonies, velocity, and agile cadence. Approval makes it the authoritative process reference. Doc: workspace/docs/ainchors-agile-framework-v1.md.",
+      "notionPageId": "35fc1829-53ff-810d-a6e4-f168ed3be38f",
+      "updated": "2026-05-15T14:54:20.642713+10:00"
     },
     {
       "id": "TKT-0164",
-      "title": "Review + approve aevlith-charter-addendum-draft.md — DRAFT FOR REVIEW",
+      "title": "Review + approve aevlith-charter-addendum-draft.md \u2014 DRAFT FOR REVIEW",
       "priority": "high",
       "status": "open",
       "stream": "technical",
       "sprint": 4,
       "createdAt": "2026-05-12T03:05:49.116511+00:00",
-      "notes": "DRAFT FOR REVIEW. Aevlith Technologies charter addendum. No decision blockers — this is a governance document for the Aevlith entity. Ken to review for accuracy re: entity structure, IP, and liability split between AInchors and Aevlith. Doc: workspace/docs/aevlith-charter-addendum-draft.md. Note: Lex should review before Ken final approval (governance document).",
-      "notionPageId": "360c1829-53ff-8139-8a3d-eefbfb16a8c1"
+      "notes": "DRAFT FOR REVIEW. Aevlith Technologies charter addendum. No decision blockers \u2014 this is a governance document for the Aevlith entity. Ken to review for accuracy re: entity structure, IP, and liability split between AInchors and Aevlith. Doc: workspace/docs/aevlith-charter-addendum-draft.md. Note: Lex should review before Ken final approval (governance document).",
+      "notionPageId": "360c1829-53ff-8139-8a3d-eefbfb16a8c1",
+      "updated": "2026-05-15T14:54:20.642713+10:00"
     },
     {
       "id": "TKT-0165",
-      "title": "Review + approve Digital_Transformation_Change_Management_Specialist_Agent_v1.md — DRAFT FOR REVIEW",
+      "title": "Review + approve Digital_Transformation_Change_Management_Specialist_Agent_v1.md \u2014 DRAFT FOR REVIEW",
       "priority": "medium",
       "status": "open",
       "stream": "technical",
       "sprint": 4,
       "createdAt": "2026-05-12T03:05:49.116511+00:00",
-      "notes": "DRAFT FOR REVIEW. Mon Mothma (DTCM) agent spec. No decision blockers. Ken to review against current Tier 3 SOP and governance framework. Similar to Lando (DEC-012) — check if Tier 3 operating pattern is correctly reflected. Doc: workspace/docs/Digital_Transformation_Change_Management_Specialist_Agent_v1.md. | Bucket A — batch Ken review session, week of 2026-05-14. Target: closed before Sprint 4 starts (May 19). | Cost investigation data added 2026-05-14. See state/cost-investigation-2026-05-14.json. Quick wins applied: (1) Aria Daily Summary: Sonnet → Haiku + lightContext=true, (2) Daily Blog: added lightContext=true, (3) Drive Sync: added lightContext=true. Estimated daily saving: $0.52. Cron layer finding: already 80% optimized. Real cost driver = interactive sessions on heavy work days. Feeding into Three Work Types Rule implementation. Pending Ken approval: Aria Weekly ROI (Sonnet → Haiku).",
+      "notes": "DRAFT FOR REVIEW. Mon Mothma (DTCM) agent spec. No decision blockers. Ken to review against current Tier 3 SOP and governance framework. Similar to Lando (DEC-012) \u2014 check if Tier 3 operating pattern is correctly reflected. Doc: workspace/docs/Digital_Transformation_Change_Management_Specialist_Agent_v1.md. | Bucket A \u2014 batch Ken review session, week of 2026-05-14. Target: closed before Sprint 4 starts (May 19). | Cost investigation data added 2026-05-14. See state/cost-investigation-2026-05-14.json. Quick wins applied: (1) Aria Daily Summary: Sonnet \u2192 Haiku + lightContext=true, (2) Daily Blog: added lightContext=true, (3) Drive Sync: added lightContext=true. Estimated daily saving: $0.52. Cron layer finding: already 80% optimized. Real cost driver = interactive sessions on heavy work days. Feeding into Three Work Types Rule implementation. Pending Ken approval: Aria Weekly ROI (Sonnet \u2192 Haiku).",
       "notionPageId": "360c1829-53ff-81ae-94e0-f0c738a7733f",
-      "updated": "2026-05-14T11:40:05+10:00"
+      "updated": "2026-05-15T14:54:20.642713+10:00"
     },
     {
       "id": "TKT-0166",
-      "title": "Review + approve sandbox-runbook.md — DRAFT FOR REVIEW (ties to TKT-0135)",
+      "title": "Review + approve sandbox-runbook.md \u2014 DRAFT FOR REVIEW (ties to TKT-0135)",
       "priority": "high",
       "status": "open",
       "stream": "technical",
       "sprint": 4,
       "createdAt": "2026-05-12T03:05:49.116511+00:00",
-      "notes": "DRAFT FOR REVIEW. Sandbox environment runbook — operational guide for TKT-0135 (AInchors Sandbox Environment). TKT-0135 (Sandbox build) is Sprint 3. This runbook must be approved before sandbox is considered DoD. Ken to review. Doc: workspace/docs/sandbox-runbook.md.",
-      "notionPageId": "360c1829-53ff-81bf-bc58-edf6397c317d"
-    },
-    {
-      "id": "TKT-0154",
-      "title": "LinkedIn: Fix token refresh + add comment/metrics fetching to Spark",
-      "type": "task",
-      "priority": "high",
-      "status": "closed",
-      "requester": "Ken",
-      "assignee": "Yoda",
-      "created": "2026-05-12T13:58:09+10:00",
-      "updated": "2026-05-12T17:44:26+10:00",
-      "description": "LinkedIn API token returning 401 (expired/invalid). Needs re-auth flow. Additionally, postUrn not being saved back to linkedin-content-tracker.json after posting — blocking metrics and comment fetching. Three deliverables: (1) Fix token refresh — guided re-auth with Ken, (2) Save postUrn to tracker on every successful post via linkedin-post.sh, (3) Spark can read and surface comments + reactions on owned posts via linkedin-metrics.sh. Scope check required: confirm r_organization_social or equivalent is included.",
-      "resolution": "Reduced batch from 4→2 tasks per run, timeout 600→300s (CHG-0294). Worst-case latency now 2×150s=300s vs 4×150s=600s. Daily data volume maintained via 4 runs/24h × 2 tasks = 8 evals/day.",
-      "linked": {
-        "us": [],
-        "inc": [],
-        "chg": []
-      },
-      "notes": "Executing 2026-05-12: splitting CI Cycle A batch into per-task crons.",
-      "notionPageId": "35ec1829-53ff-81f3-bf84-dddb22166d1e"
+      "notes": "DRAFT FOR REVIEW. Sandbox environment runbook \u2014 operational guide for TKT-0135 (AInchors Sandbox Environment). TKT-0135 (Sandbox build) is Sprint 3. This runbook must be approved before sandbox is considered DoD. Ken to review. Doc: workspace/docs/sandbox-runbook.md.",
+      "notionPageId": "360c1829-53ff-81bf-bc58-edf6397c317d",
+      "updated": "2026-05-15T14:54:20.642713+10:00"
     },
     {
       "id": "TKT-0167",
@@ -1225,7 +1212,8 @@
       "sprint": 4,
       "createdAt": "2026-05-12T07:12:51.913673+00:00",
       "notes": "OD-01 from Nexus-Access-Policy-v1.0.md approval. Forge to: (1) Create state/access-violations.json with schema from policy Section 9.3. (2) Add ACCESS CHECK to obs-collector.sh that detects V0/V1 violations and logs them. (3) Alert Yoda on V0 CRITICAL violations. Sprint 4.",
-      "notionPageId": "360c1829-53ff-8172-a11b-f5a8db96501f"
+      "notionPageId": "360c1829-53ff-8172-a11b-f5a8db96501f",
+      "updated": "2026-05-15T14:54:20.642713+10:00"
     },
     {
       "id": "TKT-0168",
@@ -1235,292 +1223,13 @@
       "stream": "technical",
       "sprint": 4,
       "createdAt": "2026-05-12T07:12:51.913673+00:00",
-      "notes": "OD-05 from Nexus-Access-Policy-v1.0.md approval. Create Notion DB for access violations. Forge to add auto-sync for V0 (CRITICAL) and V1 (HIGH) violations from state/access-violations.json → Notion DB. V2/V3 remain local-only. Sprint 4.",
-      "notionPageId": "360c1829-53ff-8155-b8f8-e621a60d7f1c"
-    },
-    {
-      "id": "TKT-0155",
-      "title": "Cloudflare Tunnel — MinIO + OpenClaw Webchat MVP Access",
-      "type": "task",
-      "priority": "high",
-      "status": "pending",
-      "requester": "Ken",
-      "assignee": "Yoda",
-      "created": "2026-05-13T13:34:09+10:00",
-      "updated": "2026-05-13T13:51:58+10:00",
-      "description": "Implement Cloudflare Tunnel for OC1 per Atlas EA-Addendum-Storage-Access-Architecture-v0.1.md (approved 2026-05-12, D1=1B). Expose MinIO console/API and OpenClaw webchat via authenticated public URLs. MVP access unblocked for Ken remote (Windows/mobile) and future KL team. Install cloudflared on OC1, create Cloudflare Tunnel, configure DNS routes, apply Cloudflare Access email+OTP (D2). Targets: minio.ainchors.com (console :9001, API :9000) + chat.ainchors.com (:18789). Estimated 30-45 min.",
-      "resolution": null,
-      "linked": {
-        "us": [],
-        "inc": [],
-        "chg": []
-      },
-      "notes": "Tunnel live. DNS routed. LaunchAgent installed and fixed. Tunnel ID: 845052b4-4d24-4d7c-a649-4209cece8ff4. Active on edges mel01/mel02/syd01. Pending CF Access email+OTP config by Ken. | Tunnel live, DNS routed, LaunchAgent running. Cloudflare Access (email+OTP) not yet configured — DNS propagation pending. Parked by Ken 2026-05-13. Resume next week to configure CF Access policies at zero.cloudflare.com for minio.ainchors.com, minio-api.ainchors.com, chat.ainchors.com.",
-      "notionPageId": "35fc1829-53ff-813a-ad7e-e1b4b21e65dc"
-    },
-    {
-      "id": "TKT-0156",
-      "title": "Platform Guardrails — Two-Tier Restructure + New Agent Activation DoD Gate",
-      "type": "task",
-      "priority": "high",
-      "status": "open",
-      "requester": "Ken",
-      "assignee": "Yoda",
-      "created": "2026-05-13T20:32:45+10:00",
-      "updated": "2026-05-13T20:42:00+10:00",
-      "description": "Restructure ainchors-guardrails-rules-2026-05.md into two tiers: (1) PLATFORM_GUARDRAILS.md — universal cross-cutting guardrails that apply to every agent always (strategy-first, Nexus-first, governance-by-design, data sovereignty, Holocron registration, 3-level fallback). Referenced in every agent SOUL.md on activation. (2) Agent-specific guardrails (Y1-Y3, A1-A4, R1-R5, C1-C5, G1-G2, W1-W2) remain as living doc — new agent section added at activation as mandatory DoD gate. Deliverables: (a) docs/PLATFORM_GUARDRAILS.md created and approved, (b) ainchors-guardrails-rules-2026-05.md restructured as Tier 2 living doc, (c) New Agent Activation DoD checklist updated to require Tier 1 reference in SOUL.md + Tier 2 section added + Holocron registered + Ken approved, (d) Warden updated to monitor Tier 1 compliance. Ken approved this design 2026-05-13.",
-      "resolution": null,
-      "linked": {
-        "us": [],
-        "inc": [],
-        "chg": []
-      },
-      "notes": "Sprint 4 backlog — added 2026-05-13",
-      "notionPageId": "35fc1829-53ff-81b8-971e-c8817eb22815"
-    },
-    {
-      "id": "TKT-0157",
-      "title": "Nexus Client Isolation Policy v1.0 — Patch stale references before P2 sprint",
-      "type": "task",
-      "priority": "high",
-      "status": "open",
-      "requester": "Ken",
-      "assignee": "Yoda",
-      "created": "2026-05-13T20:36:49+10:00",
-      "updated": "2026-05-13T20:42:01+10:00",
-      "description": "Minor updates to nexus-client-isolation-policy-v1.md before P2 sprint begins: (1) Model strategy section — update to reflect kimi safety net + interim fallback chains (CHG-0270, 2026-05-13). (2) Access architecture — reference Cloudflare Tunnel (EA-Addendum approved 2026-05-12) for client-facing access layer. (3) Platform phases — update any Q2/P3/P4 date references to use MVP/P1/P2/P3/P4 naming locked 2026-05-12. Document approved as-is by Ken 2026-05-13 — this TKT covers the minor patch only, not a full rewrite. Must close before P2 client onboarding sprint begins.",
-      "resolution": null,
-      "linked": {
-        "us": [],
-        "inc": [],
-        "chg": []
-      },
-      "notes": "Sprint 4 backlog — added 2026-05-13",
-      "notionPageId": "35fc1829-53ff-81b9-bb62-d4f6b877c9dc"
-    },
-    {
-      "id": "TKT-0158",
-      "title": "P2 Gate — 6 Missing Governance Policies (Data Classification, Privacy/APP, Sanctum Invocation, Warden Thresholds, Client DPA, Data Residency Register)",
-      "type": "task",
-      "priority": "high",
-      "status": "open",
-      "requester": "Ken",
-      "assignee": "Yoda",
-      "created": "2026-05-13T20:40:35+10:00",
-      "updated": "2026-05-13T20:42:01+10:00",
-      "description": "Write and approve the 6 P2-gate governance policies identified in TKT-0137-AC1-Governance-Gap-Analysis.md. P2 client onboarding cannot begin without all 6 approved. Route to Atlas + Lex for drafting, Ken approval required on each. Policies: (1) POL-001 Data Classification Policy — PUBLIC/INTERNAL/CONFIDENTIAL/RESTRICTED scheme, tenant_id enforcement, tagging obligations (APRA CPG 234). (2) POL-002 Privacy/APP Compliance Policy — APP gap analysis, PII handling, APP 11 security safeguards, Presidio integration requirement. (3) POL-003 Sanctum Invocation Policy — when to invoke all three vs single, triad disagreement resolution, SLA enforcement. (4) POL-004 Warden Escalation Thresholds Policy — formal breach thresholds, alert criteria, suppression rules, cross-tenant incident handling. TKT-0061 superseded by this. (5) POL-005 Client DPA Template — standard Data Processing Agreement for P2 SME clients. TKT-0060 superseded by this. (6) POL-006 Data Residency Register — per model/API document where data flows, Anthropic DPA status, Claude routing exclusion for client workloads. Source: TKT-0137 AC1. Ken approved 2026-05-13.",
-      "resolution": null,
-      "linked": {
-        "us": [],
-        "inc": [],
-        "chg": []
-      },
-      "notes": "Sprint 4 backlog — added 2026-05-13",
-      "notionPageId": "35fc1829-53ff-8125-a5f7-fc62acd96b5a"
-    },
-    {
-      "id": "TKT-0159",
-      "title": "Sandbox Runbook v1 — Ken Formal Review",
-      "type": "task",
-      "priority": "high",
-      "status": "open",
-      "requester": "Ken",
-      "assignee": "Yoda",
-      "created": "2026-05-13T21:29:57+10:00",
-      "updated": "2026-05-13T21:29:57+10:00",
-      "description": "Review comprehensive Nexus Sandbox Runbook v1 (docs/Nexus-Sandbox-Runbook-v1.md). Document: 25.7 KB, covers executive summary, architecture, 7 demo scenarios (S001-S007 with copy-paste prompts), setup/config, 4C lifecycle, troubleshooting, technical deep dive, FAQ, best practices. Rewritten from TKT-0135 scaffold to production-ready level. DoD: Ken approves (APPROVED status) or requests revisions (remains DRAFT). GDrive link: https://drive.google.com/file/d/1KNbbXzwe7ytipx6eHzrtBB3cUOY_CJP5/view?usp=drivesdk",
-      "resolution": null,
-      "linked": {
-        "us": [],
-        "inc": [],
-        "chg": []
-      },
-      "notes": "",
-      "notionPageId": "35fc1829-53ff-8130-b8c6-c24fbb2de733"
-    },
-    {
-      "id": "TKT-0160",
-      "title": "Yoda Context Unification — Channel-Agnostic Orchestrator (Sprint 4 Permanent Fix)",
-      "type": "task",
-      "priority": "high",
-      "status": "open",
-      "requester": "Ken",
-      "assignee": "Yoda",
-      "created": "2026-05-13T21:37:29+10:00",
-      "updated": "2026-05-13T21:37:29+10:00",
-      "description": "Architectural fix: Yoda currently runs as two semi-independent instances (Telegram + WebChat) with fragmented context. Symptoms: Telegram Yoda creates scaffolds, main Yoda recreates them properly; decisions in one channel don't propagate to the other. Root cause: OpenClaw channel-session isolation + no context bridge. Permanent solution (Option A): Single authoritative Yoda in main session; Telegram acts as relay only. Implementation: (1) Route all Telegram messages to main session handler, (2) Display main session responses back to Telegram, (3) Deprecate Telegram-native decision-making, (4) Update SOUL.md and YODA_RULES.md to enforce channel-agnostic behavior. Sprint 4 post-P2-policies work.",
-      "resolution": null,
-      "linked": {
-        "us": [],
-        "inc": [],
-        "chg": []
-      },
-      "notes": "",
-      "notionPageId": "35fc1829-53ff-81dd-a3a9-e8cc4db1944f"
-    },
-    {
-      "id": "TKT-0161",
-      "title": "Yoda Channel Discipline — Minimal Fix for Sprint 3 (Operational)",
-      "type": "task",
-      "priority": "high",
-      "status": "open",
-      "requester": "Ken",
-      "assignee": "Yoda",
-      "created": "2026-05-13T21:37:37+10:00",
-      "updated": "2026-05-13T21:37:37+10:00",
-      "description": "Minimal operational fix while TKT-0160 is designed. Document and enforce channel authority rules: (1) WebChat/main session = AUTHORITATIVE for all decisions, CHGs, approvals, architecture calls, strategy, governance. (2) Telegram = status checks, quick questions, time-sensitive alerts only. (3) Update YODA_RULES.md with 'Channel Discipline' section + clear rules. (4) Create decision routing guide for Ken. (5) Log the rule as CHG entry. DoD: YODA_RULES.md updated, CHG logged, Ken acknowledges rule. This prevents context fragmentation while permanent fix is built. Impact: All important decisions go through main session → single source of truth.",
-      "resolution": null,
-      "linked": {
-        "us": [],
-        "inc": [],
-        "chg": []
-      },
-      "notes": "",
-      "notionPageId": "35fc1829-53ff-817b-bced-ca7959270f48"
-    },
-    {
-      "id": "TKT-0162",
-      "title": "Option Paper: Nexus Platform Architecture Direction (Data, Integration, Sustainability)",
-      "type": "task",
-      "priority": "high",
-      "status": "closed",
-      "requester": "Ken",
-      "assignee": "Yoda",
-      "created": "2026-05-14T08:01:49+10:00",
-      "updated": "2026-05-14T10:28:51+10:00",
-      "description": "Ken requested a formal option paper to support a CTO-level architecture decision before opening P1 more broadly. Three options to analyse: A=Incremental hardening, B=Redesign data+integration layers (keep OpenClaw), C=Radical platform refactor. Must be evaluated against all approved strategy, architecture decisions, OKRs, and P1-P4 roadmap. Atlas leads architectural framing. Yoda orchestrates and QA gates. Output: single well-structured markdown document. Audience: Ken as CTO.",
-      "resolution": "Option paper approved by Ken Mun 2026-05-14 10:28 AEST. Decision: Option B phased delivery. All 5 section-10 decisions confirmed. Full work breakdown, KRI dashboard, and tickets to be commissioned by Atlas subagent. Event sourcing deferred to Phase 3 post-P2 stable.",
-      "linked": {
-        "us": [],
-        "inc": [],
-        "chg": []
-      },
-      "notes": "",
-      "notionPageId": "35fc1829-53ff-8148-96bf-c420119649e9"
-    },
-    {
-      "id": "TKT-0163",
-      "title": "Standup Email: Email-Safe HTML Template (Gmail Rendering Fix)",
-      "type": "task",
-      "priority": "medium",
-      "status": "open",
-      "requester": "Ken",
-      "assignee": "Yoda",
-      "created": "2026-05-14T09:31:16+10:00",
-      "updated": "2026-05-14T09:31:16+10:00",
-      "description": "The standup email uses a GitHub-style CSS template (flex, grid, border-radius, class-based styles) that renders inconsistently in Gmail across devices. Need to either: (1) inline all CSS styles into HTML elements, or (2) build a separate email-safe table-based template that renders consistently in Gmail mobile and desktop. Canvas HTML can stay as-is for webchat display. Email layer needs its own rendering path. Reference: Day 20 standup email (2026-05-14) reported wrong rendering vs Day 19.",
-      "resolution": null,
-      "linked": {
-        "us": [],
-        "inc": [],
-        "chg": []
-      },
-      "notes": "",
-      "notionPageId": "35fc1829-53ff-810d-a6e4-f168ed3be38f"
-    },
-    {
-      "id": "TKT-0164",
-      "title": "Postgres Deploy + 5-Tier Schema on OC1 (TKT-0162 Phase 1, WP1)",
-      "type": "task",
-      "priority": "high",
-      "status": "open",
-      "requester": "Ken",
-      "assignee": "Yoda",
-      "created": "2026-05-14T10:33:14+10:00",
-      "updated": "2026-05-14T10:33:14+10:00",
-      "description": "Deploy Postgres on OC1 (Homebrew or Docker) and implement the full TKT-0104 5-tier memory architecture schema. Tables: agent_events, agent_decisions, decision_lineage, memory_access_log, knowledge_chunks, knowledge_documents, agent_shared_state, agent_state_history, session_state, cost_events, agent_health, change_records, workflow_state, tickets. All tables must include tenant_id column (DEFAULT 'ainchors') for P2 readiness. Add SHA-256 hashing to first 3 most active agents (Yoda, Forge, Warden). Add optimistic locking (version column) to agent_shared_state. This is WP1 — the foundational prerequisite for all other Phase 1 work packages. Source: TKT-0162 Option B Phase 1, TKT-0104 Action 1. Owner: Forge. Ken approval required on Postgres deployment model (Homebrew vs Docker on OC1). P2 launch blocker.",
-      "resolution": null,
-      "linked": {
-        "us": [],
-        "inc": [],
-        "chg": []
-      },
-      "notes": "",
-      "notionPageId": "360c1829-53ff-8139-8a3d-eefbfb16a8c1"
-    },
-    {
-      "id": "TKT-0165",
-      "title": "Three Work Types Rule + Work Currency Routing Table (TKT-0162 Phase 1, WP2)",
-      "type": "task",
-      "priority": "high",
-      "status": "open",
-      "requester": "Ken",
-      "assignee": "Yoda",
-      "created": "2026-05-14T10:33:27+10:00",
-      "updated": "2026-05-14T11:40:05+10:00",
-      "description": "Codify the Three Work Types Rule in RULES.md and all agent SOUL.md files. Three types: (1) Reasoning/LLM - analysis, planning, synthesis, novel content, complex decisions. Routes to T2/T3. (2) CRUD/Script - state mutations, ticket updates, file writes, cost records, status changes. Routes to T0 shell script or T1 Gemma4. Never LLM. (3) Coordination/Event - agent-to-agent handoffs. Light events via Postgres LISTEN/NOTIFY for async; sessions_send for synchronous orchestration. Publish Work Currency routing table: High→Sonnet/Haiku (T3), Medium→OllamaCloud/kimi (T2), Low→Gemma4/systemEvent (T1/T0), None→Script (T0). Audit top 6 LLM-for-CRUD offenders (ticket updates, cost writes, health state mutations, workflow state, linkedin queue, journal assembly) and replace with deterministic scripts. Target: 40% Sonnet/Haiku turn reduction within Sprint 4-5. Source: TKT-0162 Section 6.1. Owner: Yoda (rule), Forge (script replacements). DoD: RULES.md updated, routing table in Holocron, 6 offenders replaced with scripts, CHG logged.",
-      "resolution": null,
-      "linked": {
-        "us": [],
-        "inc": [],
-        "chg": []
-      },
-      "notes": "Bucket A — batch Ken review session, week of 2026-05-14. Target: closed before Sprint 4 starts (May 19). | Cost investigation data added 2026-05-14. See state/cost-investigation-2026-05-14.json. Quick wins applied: (1) Aria Daily Summary: Sonnet → Haiku + lightContext=true, (2) Daily Blog: added lightContext=true, (3) Drive Sync: added lightContext=true. Estimated daily saving: $0.52. Cron layer finding: already 80% optimized. Real cost driver = interactive sessions on heavy work days. Feeding into Three Work Types Rule implementation. Pending Ken approval: Aria Weekly ROI (Sonnet → Haiku).",
-      "notionPageId": "360c1829-53ff-81ae-94e0-f0c738a7733f"
-    },
-    {
-      "id": "TKT-0166",
-      "title": "Sources of Truth Register — 10 Core Data Types (TKT-0162 Phase 1, WP3)",
-      "type": "task",
-      "priority": "high",
-      "status": "open",
-      "requester": "Ken",
-      "assignee": "Yoda",
-      "created": "2026-05-14T10:33:37+10:00",
-      "updated": "2026-05-14T10:33:37+10:00",
-      "description": "Document the authoritative source for each of the 10 core data types. For each: owner agent/system, canonical storage location (Postgres table or file path), access pattern (read/write), retention policy, and classification tag. The 10 core types: (1) tickets — owner: ITSM/ticket.sh, target: Postgres tickets table. (2) cost_events — owner: cost-tracker.sh, target: Postgres cost_events table. (3) agent_health — owner: Forge/Warden, target: Postgres agent_health table. (4) change_records — owner: changelog-append.sh, target: Postgres change_records table. (5) workflow_state — owner: Yoda, target: Postgres workflow_state table. (6) linkedin_queue — owner: Spark, target: Postgres linkedin_posts table. (7) knowledge_chunks — owner: RAG pipeline, target: pgvector knowledge_chunks table. (8) agent_decisions — owner: decision_lineage system, target: Postgres agent_decisions table. (9) session_state — owner: OpenClaw, target: Postgres session_state table (P1), Redis (P2). (10) agent_shared_state — owner: Yoda coordination layer, target: Postgres agent_shared_state table. Publish register in Holocron AKB. Source: TKT-0162 Section 9 + TKT-0104. Owner: Atlas. DoD: all 10 types documented, register live in Holocron, linked to KRI dashboard.",
-      "resolution": null,
-      "linked": {
-        "us": [],
-        "inc": [],
-        "chg": []
-      },
-      "notes": "",
-      "notionPageId": "360c1829-53ff-81bf-bc58-edf6397c317d"
-    },
-    {
-      "id": "TKT-0167",
-      "title": "JSON→Postgres Migration — Top 5 State Files (TKT-0162 Phase 1, WP4)",
-      "type": "task",
-      "priority": "high",
-      "status": "open",
-      "requester": "Ken",
-      "assignee": "Yoda",
-      "created": "2026-05-14T10:33:46+10:00",
-      "updated": "2026-05-14T10:33:46+10:00",
-      "description": "Migrate the top 5 critical state files from JSON filesystem to Postgres tables. Migration sequence and approach: (1) tickets.json → Postgres tickets table. Wrap ticket.sh to write to Postgres, keep JSON as read fallback during transition window. (2) cost-state.json / cost event log → Postgres cost_events table. Update cost-tracker.sh to write to Postgres. (3) health-state.json → Postgres agent_health table. Update health-check.sh and Warden to read/write Postgres. (4) Change records → Postgres change_records table. Update changelog-append.sh to dual-write initially. (5) async-tasks.json / active-work.json → Postgres workflow_state table. Update all scripts that mutate these files. Each migration: (a) design Postgres table schema, (b) write migration script, (c) dual-write during transition (Postgres primary, JSON fallback), (d) validate data integrity, (e) deprecate JSON file. Kill switch in auto-heal.sh to revert specific migration if needed. Dependencies: TKT-0164 (Postgres deployed). P2 launch blocker. Owner: Forge. DoD: all 5 files migrated, JSON deprecated, Postgres verified as primary, validation tests passing.",
-      "resolution": null,
-      "linked": {
-        "us": [],
-        "inc": [],
-        "chg": []
-      },
-      "notes": "",
-      "notionPageId": "360c1829-53ff-8172-a11b-f5a8db96501f"
-    },
-    {
-      "id": "TKT-0168",
-      "title": "Postgres LISTEN/NOTIFY Event Bus — Core Event Types + 3 Publishers (TKT-0162 Phase 1, WP5)",
-      "type": "task",
-      "priority": "high",
-      "status": "open",
-      "requester": "Ken",
-      "assignee": "Yoda",
-      "created": "2026-05-14T10:33:58+10:00",
-      "updated": "2026-05-14T10:33:58+10:00",
-      "description": "Implement internal event bus using Postgres LISTEN/NOTIFY. This is the coordination backbone for Option B — replaces ad-hoc sessions_send for background async tasks. Scope: (1) Define core event channel names: nexus_tickets, nexus_agent_status, nexus_workflows, nexus_cost, nexus_decisions. (2) Define event envelope schema: {event_type, agent_id, tenant_id, payload, timestamp, correlation_id}. (3) Wire 3 initial event publishers: Yoda (workflow events), Forge (infra events), Spark (content pipeline events). (4) Implement event log table in Postgres: event_log(id, channel, event_type, agent_id, tenant_id, payload JSONB, published_at). All NOTIFY events also written to event_log for durability. (5) Build event publisher helper script: scripts/event-publish.sh <channel> <event_type> <payload_json>. (6) Build initial subscriber listener for Yoda to receive workflow completion events. Note: Postgres LISTEN/NOTIFY is not durable — lost events if listener not active. Durability via event_log table + replay on reconnect. P2: migrate to Redis Streams. Dependencies: TKT-0164 (Postgres deployed). Owner: Forge (infra), Yoda (subscriber pattern). DoD: event bus live, 3 publishers wired, event_log table capturing all events.",
-      "resolution": null,
-      "linked": {
-        "us": [],
-        "inc": [],
-        "chg": []
-      },
-      "notes": "",
-      "notionPageId": "360c1829-53ff-8155-b8f8-e621a60d7f1c"
+      "notes": "OD-05 from Nexus-Access-Policy-v1.0.md approval. Create Notion DB for access violations. Forge to add auto-sync for V0 (CRITICAL) and V1 (HIGH) violations from state/access-violations.json \u2192 Notion DB. V2/V3 remain local-only. Sprint 4.",
+      "notionPageId": "360c1829-53ff-8155-b8f8-e621a60d7f1c",
+      "updated": "2026-05-15T14:54:20.642713+10:00"
     },
     {
       "id": "TKT-0169",
-      "title": "Typed Agent Contracts — 4 Cross-Agent Handoffs (TKT-0162 Phase 1, WP6)",
+      "title": "Typed Agent Contracts \u2014 4 Cross-Agent Handoffs (TKT-0162 Phase 1, WP6)",
       "type": "task",
       "priority": "high",
       "status": "open",
@@ -1528,7 +1237,7 @@
       "assignee": "Yoda",
       "created": "2026-05-14T10:34:10+10:00",
       "updated": "2026-05-14T10:34:10+10:00",
-      "description": "Define and implement typed JSON Schema contracts for the 4 highest-priority cross-agent handoffs. This makes integration failures observable and diagnosable. Scope: (1) Yoda→Forge: WorkflowRequest contract — required fields: task_type, priority, description, context_files[], expected_output, timeout_seconds, work_currency [high|medium|low|none]. (2) Yoda→Sanctum (Shield/Lex/Sage): ReviewRequest contract — required fields: review_type [security|legal|qa], document_path, context, urgency, requester. (3) Atlas→Ken: OptionPaperOutput contract — required fields: document_path, decision_required, options[], recommendation, trade_offs, open_questions[]. (4) Spark→Yoda: ContentReadyEvent contract — required fields: content_type, post_path, scheduled_at, platform, status, requires_approval. For each contract: (a) JSON Schema file in docs/contracts/. (b) Validator script: scripts/validate-contract.sh <contract_name> <json_payload>. (c) Contract registry entry in Holocron. (d) Standing cadence rule: all future agents require a defined output contract as New Agent Activation DoD gate. Dependencies: TKT-0168 (event bus). Owner: Atlas (schema design), Forge (validator script). DoD: 4 contracts defined, validator live, contracts registered in Holocron, New Agent DoD gate updated.",
+      "description": "Define and implement typed JSON Schema contracts for the 4 highest-priority cross-agent handoffs. This makes integration failures observable and diagnosable. Scope: (1) Yoda\u2192Forge: WorkflowRequest contract \u2014 required fields: task_type, priority, description, context_files[], expected_output, timeout_seconds, work_currency [high|medium|low|none]. (2) Yoda\u2192Sanctum (Shield/Lex/Sage): ReviewRequest contract \u2014 required fields: review_type [security|legal|qa], document_path, context, urgency, requester. (3) Atlas\u2192Ken: OptionPaperOutput contract \u2014 required fields: document_path, decision_required, options[], recommendation, trade_offs, open_questions[]. (4) Spark\u2192Yoda: ContentReadyEvent contract \u2014 required fields: content_type, post_path, scheduled_at, platform, status, requires_approval. For each contract: (a) JSON Schema file in docs/contracts/. (b) Validator script: scripts/validate-contract.sh <contract_name> <json_payload>. (c) Contract registry entry in Holocron. (d) Standing cadence rule: all future agents require a defined output contract as New Agent Activation DoD gate. Dependencies: TKT-0168 (event bus). Owner: Atlas (schema design), Forge (validator script). DoD: 4 contracts defined, validator live, contracts registered in Holocron, New Agent DoD gate updated.",
       "resolution": null,
       "linked": {
         "us": [],
@@ -1548,7 +1257,7 @@
       "assignee": "Yoda",
       "created": "2026-05-14T10:34:22+10:00",
       "updated": "2026-05-14T10:34:22+10:00",
-      "description": "Implement PII scanner as a mandatory gate on all document ingestion before chunking or embedding. This is an APP 11 (Privacy Act 1988) compliance control and a prerequisite for the RAG pipeline (TKT-0170). Scope: (1) Install spaCy with en_core_web_lg model on OC1 (lightweight, local, no data residency risk). Note: evaluate Microsoft Presidio as alternative — Ken to confirm preference (Presidio = heavier but better entity detection for structured data). (2) Build PII scanner script: scripts/pii-scan.sh <document_path> — returns JSON: {pii_present: bool, entities_found: [], risk_level: [low|medium|high]}. (3) Wire into document ingestion path: before any document is chunked or embedded, must pass scanner. (4) Set pii_present flag on knowledge_documents table record. (5) Block embedding when pii_present=TRUE without explicit Compliance Agent (Lex) approval. (6) Wire pii_detected event to agent_events table — triggers Lex review queue. (7) Build deletion capability: scripts/purge-document.sh <document_id> — removes all chunks and embeddings for a document (data subject deletion right, APP 12). Dependencies: TKT-0164 (Postgres for event logging). Precondition for TKT-0170 (RAG pipeline). Owner: Forge (build), Lex (policy approval). DoD: scanner live, pii_present flag on schema, block gate enforced, deletion script working.",
+      "description": "Implement PII scanner as a mandatory gate on all document ingestion before chunking or embedding. This is an APP 11 (Privacy Act 1988) compliance control and a prerequisite for the RAG pipeline (TKT-0170). Scope: (1) Install spaCy with en_core_web_lg model on OC1 (lightweight, local, no data residency risk). Note: evaluate Microsoft Presidio as alternative \u2014 Ken to confirm preference (Presidio = heavier but better entity detection for structured data). (2) Build PII scanner script: scripts/pii-scan.sh <document_path> \u2014 returns JSON: {pii_present: bool, entities_found: [], risk_level: [low|medium|high]}. (3) Wire into document ingestion path: before any document is chunked or embedded, must pass scanner. (4) Set pii_present flag on knowledge_documents table record. (5) Block embedding when pii_present=TRUE without explicit Compliance Agent (Lex) approval. (6) Wire pii_detected event to agent_events table \u2014 triggers Lex review queue. (7) Build deletion capability: scripts/purge-document.sh <document_id> \u2014 removes all chunks and embeddings for a document (data subject deletion right, APP 12). Dependencies: TKT-0164 (Postgres for event logging). Precondition for TKT-0170 (RAG pipeline). Owner: Forge (build), Lex (policy approval). DoD: scanner live, pii_present flag on schema, block gate enforced, deletion script working.",
       "resolution": null,
       "linked": {
         "us": [],
@@ -1560,7 +1269,7 @@
     },
     {
       "id": "TKT-0171",
-      "title": "pgvector + nomic-embed-text RAG Pipeline — Initial Knowledge Base (TKT-0162 Phase 1, WP8)",
+      "title": "pgvector + nomic-embed-text RAG Pipeline \u2014 Initial Knowledge Base (TKT-0162 Phase 1, WP8)",
       "type": "task",
       "priority": "high",
       "status": "open",
@@ -1568,7 +1277,7 @@
       "assignee": "Yoda",
       "created": "2026-05-14T10:34:35+10:00",
       "updated": "2026-05-14T10:34:35+10:00",
-      "description": "Implement the full RAG pipeline using pgvector and nomic-embed-text (768-dim). This realises TKT-0104 T4 (Long-Term Semantic Memory). Scope: (1) Add pgvector extension to Postgres: CREATE EXTENSION vector. (2) Create knowledge_chunks and knowledge_documents tables (schema from TKT-0104): knowledge_documents(id, title, source_path, classification, pii_present, quality_score, provenance, ingested_at, expires_at, tenant_id), knowledge_chunks(id, document_id, chunk_index, content, embedding vector(768), classification, pii_present, quality_score, created_at, expires_at, tenant_id). HNSW index on embedding column. (3) Deploy nomic-embed-text via Ollama (already installed): ollama pull nomic-embed-text. (4) Build ingestion pipeline: scripts/ingest-document.sh <file_path> — reads file, PII scans, chunks (RecursiveCharacterTextSplitter 400-600 tokens, 10-20% overlap), embeds via nomic-embed-text, stores to pgvector. (5) Build retrieval query: scripts/rag-search.sh <query> <limit> — embeds query, cosine similarity search on knowledge_chunks, returns top-k with metadata. (6) Seed initial knowledge base: RULES.md, AGENTS.md, SOUL.md, Model3-Policy.md, Nexus-Access-Policy-v1.0.md, TKT-0104 doc, TKT-0046 doc. (7) Wire retrieval into Yoda heartbeat for relevant context injection. Dependencies: TKT-0164 (Postgres), TKT-0170 (PII scanner). This ticket: separate from TKT-0153 (Yoda semantic memory on MinIO). Owner: Forge (pipeline), Atlas (schema). DoD: pgvector live, ingestion pipeline working, initial 6 docs seeded, retrieval tested.",
+      "description": "Implement the full RAG pipeline using pgvector and nomic-embed-text (768-dim). This realises TKT-0104 T4 (Long-Term Semantic Memory). Scope: (1) Add pgvector extension to Postgres: CREATE EXTENSION vector. (2) Create knowledge_chunks and knowledge_documents tables (schema from TKT-0104): knowledge_documents(id, title, source_path, classification, pii_present, quality_score, provenance, ingested_at, expires_at, tenant_id), knowledge_chunks(id, document_id, chunk_index, content, embedding vector(768), classification, pii_present, quality_score, created_at, expires_at, tenant_id). HNSW index on embedding column. (3) Deploy nomic-embed-text via Ollama (already installed): ollama pull nomic-embed-text. (4) Build ingestion pipeline: scripts/ingest-document.sh <file_path> \u2014 reads file, PII scans, chunks (RecursiveCharacterTextSplitter 400-600 tokens, 10-20% overlap), embeds via nomic-embed-text, stores to pgvector. (5) Build retrieval query: scripts/rag-search.sh <query> <limit> \u2014 embeds query, cosine similarity search on knowledge_chunks, returns top-k with metadata. (6) Seed initial knowledge base: RULES.md, AGENTS.md, SOUL.md, Model3-Policy.md, Nexus-Access-Policy-v1.0.md, TKT-0104 doc, TKT-0046 doc. (7) Wire retrieval into Yoda heartbeat for relevant context injection. Dependencies: TKT-0164 (Postgres), TKT-0170 (PII scanner). This ticket: separate from TKT-0153 (Yoda semantic memory on MinIO). Owner: Forge (pipeline), Atlas (schema). DoD: pgvector live, ingestion pipeline working, initial 6 docs seeded, retrieval tested.",
       "resolution": null,
       "linked": {
         "us": [],
@@ -1580,7 +1289,7 @@
     },
     {
       "id": "TKT-0172",
-      "title": "Aevlith Technology Strategy & Roadmap — Doc 1a (Internal) + 1b (External)",
+      "title": "Aevlith Technology Strategy & Roadmap \u2014 Doc 1a (Internal) + 1b (External)",
       "type": "task",
       "priority": "high",
       "status": "closed",
@@ -1600,7 +1309,7 @@
     },
     {
       "id": "TKT-0173",
-      "title": "Nexus System Architecture Document — Full Stack, Current + Target State",
+      "title": "Nexus System Architecture Document \u2014 Full Stack, Current + Target State",
       "type": "task",
       "priority": "high",
       "status": "closed",
@@ -1608,7 +1317,7 @@
       "assignee": "Yoda",
       "created": "2026-05-14T11:58:08+10:00",
       "updated": "2026-05-14T12:12:13+10:00",
-      "description": "Single consolidated system architecture document (internal only). Full stack: agents, infrastructure (HIVE), data layer (current JSON + target Postgres/pgvector), integration layer (current P2P + target event bus), security controls S1-S7. Includes agent SOUL/role specs, component map (Core/Adjacent/Client-side), gap map current→target, P1-P4 architecture evolution. Output: MD (agent-consumable golden blueprint) + DOCX. Sources: Yoda_ORCHESTRATOR.md, TKT-0046, TKT-0104, TKT-0162, MEMORY.md, openclaw.json.",
+      "description": "Single consolidated system architecture document (internal only). Full stack: agents, infrastructure (HIVE), data layer (current JSON + target Postgres/pgvector), integration layer (current P2P + target event bus), security controls S1-S7. Includes agent SOUL/role specs, component map (Core/Adjacent/Client-side), gap map current\u2192target, P1-P4 architecture evolution. Output: MD (agent-consumable golden blueprint) + DOCX. Sources: Yoda_ORCHESTRATOR.md, TKT-0046, TKT-0104, TKT-0162, MEMORY.md, openclaw.json.",
       "resolution": "Nexus-System-Architecture-v1.0.md produced (60KB, 993 lines). Full stack: agents, infrastructure, data, integration, security, gap map. DRAFT FOR REVIEW. Drive + MinIO uploaded. Holocron registered.",
       "linked": {
         "us": [],
@@ -1620,7 +1329,7 @@
     },
     {
       "id": "TKT-0174",
-      "title": "Gateway hygiene: Mission Control 5→15min, weekly restart, stale task cleanup",
+      "title": "Gateway hygiene: Mission Control 5\u219215min, weekly restart, stale task cleanup",
       "type": "task",
       "priority": "medium",
       "status": "closed",
@@ -1628,8 +1337,8 @@
       "assignee": "Yoda",
       "created": "2026-05-14T16:46:04+10:00",
       "updated": "2026-05-14T16:50:53+10:00",
-      "description": "Three hygiene items following Day 20 event loop saturation incident (CHG-0320): (1) Reduce Mission Control Refresh cron d32f2b9a from 5-min to 15-min — 1032-line bash script with Notion API calls is too heavy for 5-min cadence. (2) Add weekly scheduled gateway restart (Saturday midnight AEST) to prevent session accumulation on heavy workload days. (3) Add stale task cleanup cron to periodically purge lost/missing backing session task references (7 stale tasks aged 1-6 days found during incident). Route to Forge.",
-      "resolution": "All three items implemented: (1) Mission Control Refresh 5min→15min (d32f2b9a, everyMs=900000). (2) Weekly gateway restart cron created (20f59555, Sat midnight AEST). (3) Daily stale task cleanup cron created (516135b9, 03:00 AEST). CHG-0321 logged.",
+      "description": "Three hygiene items following Day 20 event loop saturation incident (CHG-0320): (1) Reduce Mission Control Refresh cron d32f2b9a from 5-min to 15-min \u2014 1032-line bash script with Notion API calls is too heavy for 5-min cadence. (2) Add weekly scheduled gateway restart (Saturday midnight AEST) to prevent session accumulation on heavy workload days. (3) Add stale task cleanup cron to periodically purge lost/missing backing session task references (7 stale tasks aged 1-6 days found during incident). Route to Forge.",
+      "resolution": "All three items implemented: (1) Mission Control Refresh 5min\u219215min (d32f2b9a, everyMs=900000). (2) Weekly gateway restart cron created (20f59555, Sat midnight AEST). (3) Daily stale task cleanup cron created (516135b9, 03:00 AEST). CHG-0321 logged.",
       "linked": {
         "us": [],
         "inc": [],
@@ -1640,34 +1349,34 @@
     },
     {
       "id": "TKT-0175",
-      "title": "Cost tracker: isolated session blind spot — capture subagent + cron session costs",
+      "title": "Cost tracker: isolated session blind spot \u2014 capture subagent + cron session costs",
       "type": "task",
       "priority": "medium",
-      "status": "in-progress",
+      "status": "done",
       "requester": "Ken",
       "assignee": "Yoda",
       "created": "2026-05-14T22:51:53+10:00",
-      "updated": "2026-05-14T22:58:20+10:00",
+      "updated": "2026-05-15T14:29:12.323296+10:00",
       "description": "Cost tracker (scripts/cost-tracker.sh) scans named agent session directories (agents/*/sessions/*.jsonl) but isolated/ephemeral sessions may not write to these paths. Today's isolated cron sessions (health-check, task-monitor, obs-collect, mission-control now on isolated Haiku/kimi) + all Atlas/Forge subagent sessions may not be captured. This explains the tracker vs actual discrepancy (tracker ~ vs actual ~+ today). Investigation needed: (1) Where do isolated agentTurn sessions write their trajectory files? (2) Are subagent sessions under the spawning agent's directory or a separate path? (3) Update tracker glob to capture all session types. Size: M. Route: Forge.",
-      "resolution": null,
+      "resolution": "Forge completed calculated cost approach. TURN_RATES added, calculated fallback for ephemeral sessions, discrepancy closed to <1%. CHG-0175 logged.",
       "linked": {
         "us": [],
         "inc": [],
         "chg": []
       },
-      "notes": "Ken suggestion 2026-05-14: Alternative to file-system session parsing — use calculated estimate approach. We already know: (1) total turns per model from existing session logs, (2) average tokens per turn per model tier (can be derived from sampled sessions), (3) model pricing (Sonnet $3/MTok in, $15/MTok out; Haiku $0.80/$4; kimi fixed $0/turn). Calculated approach = turns × avg_tokens × price_per_token. Simpler, avoids OpenClaw internals complexity, good enough for cost governance. May be more accurate than chasing ephemeral session files. Forge to evaluate this as primary approach vs file-system parsing. | PRIMARY APPROACH: Calculated estimate (Ken approved 2026-05-14). Turns × avg_tokens_per_model_tier × price. Steps: (1) Sample 20-30 existing session logs per model tier to derive avg input/output tokens per turn. (2) Update cost-tracker.sh to use turn counts + model distribution × calculated rates. (3) Cross-validate against confirmed Anthropic balance deltas. Estimated accuracy: ±10-15% — sufficient for cost governance. Avoid ephemeral session file parsing — too complex, OpenClaw-internal.",
+      "notes": "Ken suggestion 2026-05-14: Alternative to file-system session parsing \u2014 use calculated estimate approach. We already know: (1) total turns per model from existing session logs, (2) average tokens per turn per model tier (can be derived from sampled sessions), (3) model pricing (Sonnet $3/MTok in, $15/MTok out; Haiku $0.80/$4; kimi fixed $0/turn). Calculated approach = turns \u00d7 avg_tokens \u00d7 price_per_token. Simpler, avoids OpenClaw internals complexity, good enough for cost governance. May be more accurate than chasing ephemeral session files. Forge to evaluate this as primary approach vs file-system parsing. | PRIMARY APPROACH: Calculated estimate (Ken approved 2026-05-14). Turns \u00d7 avg_tokens_per_model_tier \u00d7 price. Steps: (1) Sample 20-30 existing session logs per model tier to derive avg input/output tokens per turn. (2) Update cost-tracker.sh to use turn counts + model distribution \u00d7 calculated rates. (3) Cross-validate against confirmed Anthropic balance deltas. Estimated accuracy: \u00b110-15% \u2014 sufficient for cost governance. Avoid ephemeral session file parsing \u2014 too complex, OpenClaw-internal.\n\n2026-05-15 14:29 AEST: Marked DONE by Ken. Forge implementation complete. CHG-0175.",
       "notionPageId": "360c1829-53ff-8124-b25a-c939a9629220"
     },
     {
       "id": "TKT-0176",
-      "title": "Tech Stream ROI Framework — design, groom and populate",
+      "title": "Tech Stream ROI Framework \u2014 design, groom and populate",
       "type": "task",
       "priority": "medium",
       "status": "open",
       "requester": "Ken",
       "assignee": "Yoda",
       "created": "2026-05-14T23:06:33+10:00",
-      "updated": "2026-05-14T23:06:33+10:00",
+      "updated": "2026-05-15T14:54:20.642713+10:00",
       "description": "The business stream has a ROI framework but tech stream has zero entries in roi-tracker.json since Day 1. Raise to groom framework design with Ken, backfill Day 1-20, then maintain live.",
       "resolution": null,
       "linked": {
@@ -1676,7 +1385,277 @@
         "chg": []
       },
       "notes": "",
-      "notionPageId": "360c1829-53ff-8176-96f5-cfaa231bef01"
+      "notionPageId": "360c1829-53ff-8176-96f5-cfaa231bef01",
+      "sprint": 4
+    },
+    {
+      "id": "TKT-0178",
+      "title": "Routing Discipline Enforcement \u2014 audit + detection + routing gate",
+      "type": "task",
+      "priority": "medium",
+      "status": "deferred",
+      "requester": "Ken",
+      "assignee": "Forge",
+      "sprint": null,
+      "notionPageId": "361c1829-53ff-8109-934a-d8abca42f271",
+      "notes": "Ken approved deferral 2026-05-15. Deferred post-Citadel."
+    },
+    {
+      "id": "TKT-0179",
+      "title": "ClawGuard security toolkit evaluation",
+      "type": "task",
+      "priority": "medium",
+      "status": "deferred",
+      "requester": "Ken",
+      "assignee": "Shield",
+      "sprint": null,
+      "notionPageId": "361c1829-53ff-81ba-a72b-e10ef52417f7",
+      "notes": "Deferred to P2 2026-05-15."
+    },
+    {
+      "id": "TKT-0180",
+      "title": "audit-skill.sh v2 \u2014 5 new semantic checks",
+      "type": "task",
+      "priority": "medium",
+      "status": "closed",
+      "requester": "Ken",
+      "assignee": "Forge",
+      "sprint": 4,
+      "notionPageId": "361c1829-53ff-81cc-9402-cd793d2d4070",
+      "resolution": "Implemented and tested. CHG-0334."
+    },
+    {
+      "id": "TKT-0181",
+      "title": "Gemma4 fine-tuning research \u2014 P3 boundary",
+      "type": "task",
+      "priority": "medium",
+      "status": "open",
+      "requester": "Ken",
+      "assignee": "Thrawn",
+      "sprint": null,
+      "notionPageId": "361c1829-53ff-81c8-9111-e1f85401284b",
+      "notes": "P3 research item. LoRA/QLoRA on OC2."
+    },
+    {
+      "id": "TKT-0182",
+      "title": "Explicit state checking pattern for bounded kimi/Gemma4 tasks \u2014 P2 research",
+      "type": "task",
+      "priority": "medium",
+      "status": "open",
+      "requester": "Ken",
+      "assignee": "Thrawn",
+      "sprint": null,
+      "notionPageId": "361c1829-53ff-8117-91dc-ee6300d8d130",
+      "notes": "Linked to TKT-0134 Gemma4:31b trial follow-up."
+    },
+    {
+      "id": "TKT-0183",
+      "title": "tickets.json deduplication \u2014 fix 14 colliding ticket IDs",
+      "type": "task",
+      "priority": "high",
+      "status": "closed",
+      "requester": "Ken",
+      "assignee": "Forge",
+      "sprint": null,
+      "notionPageId": "361c1829-53ff-811b-8875-ebaa1a4ba87c",
+      "resolution": "14 collisions renumbered TKT-0186+. CHG-0341."
+    },
+    {
+      "id": "TKT-0184",
+      "title": "Investigate OpenClaw native session binding \u2014 Telegram to main session (Option D)",
+      "type": "task",
+      "priority": "medium",
+      "status": "closed",
+      "requester": "Ken",
+      "assignee": "Thrawn",
+      "sprint": null,
+      "notionPageId": "361c1829-53ff-8173-a570-ec9a79e7bd7a",
+      "resolution": "Platform gap confirmed. dmScope:main routes to agent:main:main not webchat dashboard session. Option C + context brief = accepted P1 state."
+    },
+    {
+      "id": "TKT-0185",
+      "title": "LinkedIn queue consolidation \u2014 single SSOT at workspace/state/linkedin-queue.json",
+      "type": "task",
+      "priority": "high",
+      "status": "closed",
+      "requester": "Ken",
+      "assignee": "Forge",
+      "sprint": 3,
+      "notionPageId": "361c1829-53ff-81ad-9580-f6df9e823ae6",
+      "resolution": "Consolidated. Symlink created. CHG-0339."
+    },
+    {
+      "id": "TKT-0186",
+      "title": "LinkedIn: Fix token refresh + add comment/metrics fetching",
+      "type": "task",
+      "priority": "medium",
+      "status": "open",
+      "requester": "Ken",
+      "assignee": "Forge",
+      "sprint": null,
+      "notionPageId": null,
+      "notes": "Renumbered from TKT-0154 collision 2026-05-15."
+    },
+    {
+      "id": "TKT-0187",
+      "title": "Cloudflare Tunnel \u2014 MinIO + OpenClaw Webchat MVP Access",
+      "type": "task",
+      "priority": "high",
+      "status": "pending",
+      "requester": "Ken",
+      "assignee": "Forge",
+      "sprint": 4,
+      "notionPageId": null,
+      "notes": "Renumbered from TKT-0155 collision 2026-05-15. TKT-0155 now BLOCKED pending this.",
+      "updated": "2026-05-15T14:54:20.642713+10:00"
+    },
+    {
+      "id": "TKT-0188",
+      "title": "Platform Guardrails \u2014 Two-Tier Restructure + New Agent Activation DoD Gate",
+      "type": "task",
+      "priority": "high",
+      "status": "open",
+      "requester": "Ken",
+      "assignee": "Thrawn",
+      "sprint": 5,
+      "notionPageId": "361c1829-53ff-81c1-a227-dcc539386b4d",
+      "notes": "Renumbered from TKT-0156 collision 2026-05-15. Groomed and committed to Sprint 5 2026-05-15. Dependency: TKT-0197 (S4).",
+      "description": "Restructure platform guardrails into two tiers: (1) Universal principles \u2014 apply to all agents (routing discipline, ticket gate, memory rules, etc.). (2) Agent-specific sections \u2014 per-agent living doc with domain rules. Plus: define formal new agent activation DoD gate \u2014 checklist required before any agent goes live (SOUL.md, RULES.md, routing declared, Warden registered, test run). Output: docs/PLATFORM_GUARDRAILS.md. Dependency: TKT-0197 (SoT Register, S4). P2 relevance: activation gate needed before KL team onboarding.",
+      "updated": "2026-05-15T14:32:59.866925+10:00"
+    },
+    {
+      "id": "TKT-0189",
+      "title": "Nexus Client Isolation Policy v1.0 \u2014 Patch stale references",
+      "type": "task",
+      "priority": "medium",
+      "status": "open",
+      "requester": "Ken",
+      "assignee": "Lex",
+      "sprint": null,
+      "notionPageId": null,
+      "notes": "Renumbered from TKT-0157 collision 2026-05-15."
+    },
+    {
+      "id": "TKT-0190",
+      "title": "P2 Gate \u2014 6 Missing Governance Policies",
+      "type": "task",
+      "priority": "high",
+      "status": "open",
+      "requester": "Ken",
+      "assignee": "Lex",
+      "sprint": null,
+      "notionPageId": null,
+      "notes": "Renumbered from TKT-0158 collision 2026-05-15."
+    },
+    {
+      "id": "TKT-0191",
+      "title": "Sandbox Runbook v1 \u2014 Ken Formal Review",
+      "type": "task",
+      "priority": "medium",
+      "status": "open",
+      "requester": "Ken",
+      "assignee": "Yoda",
+      "sprint": null,
+      "notionPageId": null,
+      "notes": "Renumbered from TKT-0159 collision 2026-05-15."
+    },
+    {
+      "id": "TKT-0192",
+      "title": "Yoda Channel Discipline \u2014 Minimal Fix for Sprint 3",
+      "type": "task",
+      "priority": "high",
+      "status": "closed",
+      "requester": "Ken",
+      "assignee": "Yoda",
+      "sprint": 3,
+      "notionPageId": null,
+      "resolution": "Superseded by TKT-0160 Option C. Closed 2026-05-15."
+    },
+    {
+      "id": "TKT-0193",
+      "title": "Option Paper: Nexus Platform Architecture Direction",
+      "type": "task",
+      "priority": "high",
+      "status": "closed",
+      "requester": "Ken",
+      "assignee": "Yoda",
+      "sprint": null,
+      "notionPageId": null,
+      "resolution": "APPROVED 2026-05-14. Option B Phased Delivery. Renumbered from TKT-0162 collision."
+    },
+    {
+      "id": "TKT-0194",
+      "title": "Standup Email: Email-Safe HTML Template (Gmail Rendering Fix)",
+      "type": "task",
+      "priority": "medium",
+      "status": "open",
+      "requester": "Ken",
+      "assignee": "Forge",
+      "sprint": null,
+      "notionPageId": null,
+      "notes": "Renumbered from TKT-0163 collision 2026-05-15."
+    },
+    {
+      "id": "TKT-0195",
+      "title": "Postgres Deploy + 5-Tier Schema on OC1",
+      "type": "task",
+      "priority": "high",
+      "status": "open",
+      "requester": "Ken",
+      "assignee": "Forge",
+      "sprint": 5,
+      "notionPageId": null,
+      "notes": "Critical path for Option B Phase 1. Renumbered from TKT-0164 collision."
+    },
+    {
+      "id": "TKT-0196",
+      "title": "Three Work Types Rule + Work Currency Routing Table",
+      "type": "task",
+      "priority": "high",
+      "status": "open",
+      "requester": "Ken",
+      "assignee": "Forge",
+      "sprint": 4,
+      "notionPageId": null,
+      "notes": "Sprint 4 committed. Renumbered from TKT-0165 collision.",
+      "updated": "2026-05-15T14:54:20.642713+10:00"
+    },
+    {
+      "id": "TKT-0197",
+      "title": "Sources of Truth Register \u2014 10 Core Data Types",
+      "type": "task",
+      "priority": "high",
+      "status": "open",
+      "requester": "Ken",
+      "assignee": "Atlas",
+      "sprint": 4,
+      "notionPageId": null,
+      "notes": "Sprint 4 committed. Renumbered from TKT-0166 collision.",
+      "updated": "2026-05-15T14:54:20.642713+10:00"
+    },
+    {
+      "id": "TKT-0198",
+      "title": "JSON to Postgres Migration \u2014 Top 5 State Files",
+      "type": "task",
+      "priority": "high",
+      "status": "open",
+      "requester": "Ken",
+      "assignee": "Forge",
+      "sprint": 6,
+      "notionPageId": null,
+      "notes": "Renumbered from TKT-0167 collision."
+    },
+    {
+      "id": "TKT-0199",
+      "title": "Postgres LISTEN/NOTIFY Event Bus",
+      "type": "task",
+      "priority": "high",
+      "status": "open",
+      "requester": "Ken",
+      "assignee": "Forge",
+      "sprint": 6,
+      "notionPageId": null,
+      "notes": "Renumbered from TKT-0168 collision."
     }
   ]
 }

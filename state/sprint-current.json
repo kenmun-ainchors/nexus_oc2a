@@ -1,73 +1,34 @@
 {
   "sprint": 4,
-  "startDate": "2026-05-19",
-  "endDate": "2026-05-25",
-  "theme": "Security Close-out + Phase 1 Quick Wins",
-  "velocityTarget": 5,
-  "approvedBy": "Ken Mun",
-  "approvedAt": "2026-05-14T10:45:00+10:00",
-  "ceremoniesCompleted": {
-    "sprint3Review": "pending (due Fri 16 May)",
-    "sprint4Planning": "2026-05-14"
-  },
+  "dates": "May 19\u201325, 2026",
+  "status": "planning",
+  "theme": "Option B Phase 1 foundation + security hardening",
   "items": [
     {
-      "tkt": "TKT-0141",
-      "title": "CLI-Anything supply chain security",
-      "priority": "P1",
-      "status": "in-progress",
-      "carry": "sprint3"
-    },
-    {
-      "tkt": "TKT-0142",
-      "title": "SKILL.md poisoning review process",
-      "priority": "P1",
-      "status": "in-progress",
-      "carry": "sprint3"
-    },
-    {
-      "tkt": "TKT-0165",
-      "title": "Three Work Types Rule + Work Currency Routing",
-      "priority": "P1",
-      "status": "open"
-    },
-    {
-      "tkt": "TKT-0166",
-      "title": "Sources of Truth Register \u2014 10 core data types",
-      "priority": "P1",
-      "status": "open"
-    },
-    {
-      "tkt": "TKT-0160-CF",
-      "title": "Cloudflare Tunnel \u2014 MinIO + OpenClaw webchat",
-      "priority": "P1",
+      "ticket": "TKT-0196",
+      "title": "Three Work Types Rule \u2014 enforce script/governance/LLM separation",
       "status": "open",
-      "note": "P2 hard prereq"
+      "owner": "Forge",
+      "type": "architecture",
+      "note": "Quick win. Defines when work routes to script vs governance agent vs LLM. Reduces unnecessary Sonnet/Haiku usage."
+    },
+    {
+      "ticket": "TKT-0197",
+      "title": "Sources of Truth Register \u2014 10 core data types",
+      "status": "open",
+      "owner": "Atlas",
+      "type": "architecture",
+      "note": "Canonical storage location for each data domain. Prevents data fragmentation. Foundation for Phase 1."
+    },
+    {
+      "ticket": "TKT-0187",
+      "title": "Cloudflare Tunnel \u2014 MinIO + OpenClaw webchat",
+      "status": "open",
+      "owner": "Forge",
+      "type": "infra",
+      "note": "Secure external access to MinIO and webchat without exposing ports. P1 prerequisite for KL team."
     }
   ],
-  "velocity": {
-    "done": 0,
-    "inProgress": 2,
-    "pending": 3,
-    "lastUpdated": "2026-05-14T10:47:02.330584"
-  },
-  "backlog": {
-    "sprint5": [
-      "TKT-0164",
-      "TKT-0108",
-      "TKT-0157",
-      "TKT-0156",
-      "TKT-0130"
-    ],
-    "sprint6": [
-      "TKT-0167",
-      "TKT-0168",
-      "TKT-0170",
-      "TKT-0150"
-    ],
-    "sprint7": [
-      "TKT-0169",
-      "TKT-0171"
-    ]
-  }
+  "updatedAt": "2026-05-15T11:16:00+10:00",
+  "committedBy": "Ken Mun + Yoda"
 }
