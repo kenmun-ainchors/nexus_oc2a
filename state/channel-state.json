@@ -128,7 +128,17 @@
       "action": "sprint-assigned",
       "sprint": "S4",
       "syncedToWebchat": false
-    }
+    },
+    {
+      "decisionId": "DEC-20260511-1021",
+      "summary": "TKT-0141 CLOSED: Skill Installation Policy v1.0 APPROVED. audit-skill.sh v2 (5 semantic checks). 63 skills scanned clean. Weekly audit cron active. POL-011 created. CHG-0335.",
+      "channel": "webchat",
+      "timestamp": "2026-05-11T10:21:06+10:00",
+      "tkt": "TKT-0141",
+      "action": "closed",
+      "resolution": "Skill Installation Policy v1.0 approved. audit-skill.sh v2 deployed. Weekly cron active.",
+      "syncedToWebchat": true
+    },
     {
       "decisionId": "DEC-20260517-0918",
       "summary": "CHG-0362 APPROVED: Warden intentional model drift documentation + interim period skip logic + Conservative Mode runbook procedure",
