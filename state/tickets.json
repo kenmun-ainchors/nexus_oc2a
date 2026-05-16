@@ -1406,12 +1406,13 @@
       "title": "ClawGuard security toolkit evaluation",
       "type": "task",
       "priority": "medium",
-      "status": "deferred",
+      "status": "open",
       "requester": "Ken",
       "assignee": "Shield",
       "sprint": null,
       "notionPageId": "361c1829-53ff-81ba-a72b-e10ef52417f7",
-      "notes": "Deferred to P2 2026-05-15."
+      "notes": "Deferred to P2 2026-05-15. | Ken approved Option B 2026-05-16 12:52 AEST: (1) Enhance audit-skill.sh NOW — add semantic checks, dependency scanning. (2) Evaluate ClawGuard properly as P2 security research. (3) Defer full code audit. Sprint assignment: Sprint 4 (Forge) for audit-skill.sh enhancement. ClawGuard evaluation deferred to P2.",
+      "updated": "2026-05-16T12:53:35+10:00"
     },
     {
       "id": "TKT-0180",

@@ -96,6 +96,19 @@ This log captures **every change** Yoda makes to AInchors infrastructure, config
 **Linked:** decisions.md 2026-04-27 entries
 ---
 
+## 2026-05-16 12:47 AEST — [CHG-0359] Auto allowlist sync -- Tier 2 propagation (strategy-update)
+**Type:** config
+**Change Type:** Normal
+**Source:** ken-prompt
+**Trigger:** allowlist-sync.sh triggered by: strategy-update at 2026-05-16T12:47:09+10:00
+**What changed:** model-policy.json allowedInCrons updated.   main: +['ollama/gemma4:31b-cloud'];  business: +['ollama/gemma4:31b-cloud'];  security: prohibitedInCrons+['ollama/gemma4:31b-cloud'];  legal: prohibitedInCrons+['ollama/gemma4:31b-cloud']
+**Why:** CI Cycle B decision or model strategy update. Allowlists auto-propagated per eligibility matrix.
+**Verification:** allowlist-sync-state.json written, model-policy.json JSON valid
+**Rollback:** N/A
+**Linked:** none
+---
+
+
 ## 2026-05-16 10:42 AEST — [CHG-0356] CI Cycle 2A Complete — Cycle 3A Started
 **Type:** cron
 **Change Type:** Normal
@@ -4733,3 +4746,35 @@ Author: Forge
 - Close sub-tickets: `ticket.sh close TKT-0199 --resolution "parent restructured"`
 - Revert TKT-0178 to deferred status
 **Linked:** TKT-0178, CHG-0297 (Routing Discipline Rule)
+
+---
+
+## 2026-05-16 12:52 AEST — [CHG-0359] Ken approvals: LI-C1-W2-P1 + TKT-0179 Option B
+**Type:** approval
+**Source:** Ken via Telegram 2026-05-16 12:52 AEST
+**Trigger:** Ken confirmed both items approved.
+**What changed:**
+1. **LI-C1-W2-P1 v3 APPROVED:**
+   - LinkedIn post "AIOps: Who watches the agents?" approved for Tue 19 May 07:30 AEST
+   - Status: approved (linkedin-queue.json)
+   - Governance status: cleared
+   - Scheduled for: 2026-05-19T21:30:00Z (07:30 AEST)
+   - Action: Spark to schedule post. No further edits.
+2. **TKT-0179 Option B CONFIRMED:**
+   - Status: open (was deferred)
+   - Option B selected: (a) Enhance audit-skill.sh NOW, (b) Evaluate ClawGuard as P2 research, (c) Defer full code audit
+   - Sprint 4 assignment: Forge (audit-skill.sh enhancement)
+   - ClawGuard evaluation: Deferred to P2
+   - Notes updated with Ken's directive
+3. **Channel state logged:**
+   - Both decisions recorded in channel-state.json by Telegram session
+**Why:** Ken reviewed and approved both items via Telegram. LI-C1-W2-P1 ready for publication. TKT-0179 Option B provides immediate value (audit-skill.sh) while deferring heavy work (ClawGuard evaluation, full code audit) to P2.
+**Verification:**
+- LI-C1-W2-P1 status=approved in linkedin-queue.json: ✅
+- LI-C1-W2-P1 scheduled for 2026-05-19T21:30:00Z: ✅
+- TKT-0179 status=open, notes updated: ✅
+- Notion synced for TKT-0179: ✅
+**Rollback:**
+- LI-C1-W2-P1: Set status back to pending, remove scheduledFor
+- TKT-0179: Revert to deferred status
+**Linked:** CONTENT-0010, TKT-0179, Spark scheduling
