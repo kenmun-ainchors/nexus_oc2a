@@ -96,6 +96,19 @@ This log captures **every change** Yoda makes to AInchors infrastructure, config
 **Linked:** decisions.md 2026-04-27 entries
 ---
 
+## 2026-05-16 06:01 AEST — [CHG-0353] OpenClaw v2026.5.12 HIGH security patch detected by TRIGGER-04
+**Type:** doc
+**Change Type:** Standard
+**Source:** scheduled
+**Trigger:** TRIGGER-04
+**What changed:** OpenClaw version check: installed 2026.5.5 → available 2026.5.12 (HIGH security release)
+**Why:** Security-hardening release: (1) Windows sandbox USERPROFILE isolation (credential-bearing binds denied), (2) Provider credential config hardening (CVE mitigation for env-var inference), (3) macOS TLS certificate pinning enforcement, (4) Gateway/Slack/Telegram/browser/node-pairing/sandbox hardening. Broad security/provenance pass.
+**Verification:** GitHub API release v2026.5.12 (published 2026-05-14T18:28:04Z) verified. Release body analyzed: contains 'security' keyword markers. Classification: HIGH (7-day update window). No P1 freeze required. Telegram alert sent to Ken (8574109706).
+**Rollback:** N/A
+**Linked:** none
+---
+
+
 ## 2026-05-15 19:17 AEST — [CHG-0352] Standby mode: Anthropic API unreachable (502). Agents already on kimi — no impact.
 **Type:** config
 **Change Type:** Normal
@@ -4571,3 +4584,18 @@ Author: Forge
 **Root fix:** OpenClaw upstream — control UI should not create independent chat sessions.
 
 **File:** `docs/Model-Emergency-Runbook-v1.0.md` updated.
+
+---
+
+## 2026-05-16 10:20 AEST — [CHG-0355] MEMORY.md trim + archive: interim T2 management until T4 semantic memory
+**Type:** infra
+**Source:** memory-management
+**Trigger:** auto-heal flagged MEMORY.md at 11,141 chars (hard limit 10,000)
+**What changed:** 
+- Trimmed 1,713 chars from MEMORY.md (6 surgical cuts: sprint lists, config baseline detail, LinkedIn auth detail, Drive URLs, architecture phase detail, S2-S6 controls)
+- Created memory/MEMORY-archive-2026-05-16.md (2,902 chars) with P1 migration metadata header
+- Updated AGENTS.md with archive search rule: "Read archive on-demand via memory_search or read"
+**Why:** MEMORY.md hard limit (10,000 chars) protects against truncation. Archived content is searchable via memory_search but not loaded into default context. Interim bridge until T4 semantic memory (TKT-0153, TRIGGER-13).
+**Verification:** MEMORY.md now 9,428 chars (<10,000). Archive readable and searchable. AGENTS.md updated.
+**Rollback:** git checkout HEAD -- MEMORY.md && rm memory/MEMORY-archive-2026-05-16.md
+**Linked:** TKT-0153, TRIGGER-13

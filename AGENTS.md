@@ -51,6 +51,8 @@ Capture what matters. Decisions, context, things to remember. Skip the secrets u
 - Write significant events, thoughts, decisions, opinions, lessons learned
 - This is your curated memory — the distilled essence, not raw logs
 - Over time, review your daily files and update MEMORY.md with what's worth keeping
+- **Archive overflow:** If MEMORY.md exceeds 10,000 chars, trim non-critical sections and archive to `memory/MEMORY-archive-YYYY-MM-DD.md`. Read archive on-demand via `memory_search` or `read` when specific historical detail needed. Do NOT load archives into default context.
+- **Trimmed content is not lost** — archive files are searchable and preserve full history until P1 semantic memory (T4) is live.
 
 ### 📝 Write It Down - No "Mental Notes"!
 

@@ -10,8 +10,8 @@
   - Bot: @AInchorsAriaBot → Aria (strict allowlist). CEO = highest authority. Aria has full read access to all AInchors data.
 
 ## The Company
-- **Ainchor Solutions Pty Ltd** | ainchors.com | Sydney NSW + Melbourne. Day 1: 2026-04-25. Focus: AI courses/training, consulting, solutions/products.
-- **Aevlith Technologies Pty Ltd** — Technology holding entity, owns Nexus platform. AInchors = market-facing brand; invisible platform company. Domain: aevlith.ai (AYV-lith, confirmed 2026-05-09 per CHG-0248). ASIC registration to proceed. P1–P3: silent. P4: surfaces as product brand.
+- **AInchor Solutions Pty Ltd** | ainchors.com | Sydney + Melbourne. Day 1: 2026-04-25. Focus: AI courses/training, consulting, solutions/products.
+- **Aevlith Technologies Pty Ltd** — Technology holding entity, owns Nexus platform. AInchors = market-facing brand. Domain: aevlith.ai (AYV-lith, confirmed CHG-0248). ASIC registration to proceed. P1–P3: silent. P4: surfaces as product brand.
 - Emails: kenmun@ ✅ gog | info@ | accounts@ | Gmail (Google Workspace). Tech: Ken+Yoda. Business: Angie+Aria.
 
 ## Infrastructure — HIVE Architecture (confirmed May 2026)
@@ -65,10 +65,10 @@ Nexus=platform|Holocron=AKB|Bridge=cmd-centre|Citadel=client-portal|Holonet=live
 - T0: systemEvent $0 | T1: Gemma4:26b local (OC2) $0 | T2: Ollama Cloud (kimi/deepseek) $100/mo | T3: Claude Sonnet FALLBACK ONLY
 - Client data = T0/T1 local ONLY. NEVER cloud. DS-1 to DS-5.
 - CURRENT (pre-OC2): Sonnet primary + Ollama Cloud T2. Ollama Pro: accounts@ainchors.com. PoC ✅ COMPLETE.
-- gemma4:31b-cloud: experimental/archived. >=75% gate before prod. TKT-0134 review ~2026-05-18.
+- gemma4:31b-cloud: REMOVED from all agent allowlists 2026-05-09 (CHG-0250 CI Cycle B cancelled). No longer experimental—deprecated. TKT-0134 deferred post-OC2 commissioning.
 
 ## Security Controls (S1–S7)
-- S1: OC ≥ v2026.5.5 | S2: loopback only, 18789 never public | S3: No ClawHub on prod | S4: least-priv | S5: no hardcoded creds | S6: CHG logged/Warden | S7: NAS encrypted (post-OC2)
+- S1: OC ≥ v2026.5.12 (window CHG-0353; current 2026.5.5) | S2-S6: see `RULES.md` | S7: NAS encrypted (post-OC2)
 
 ## CHG Trigger Rules
 - T01: OC2→setup | T02: Both OC2→HA+NAS | T03: Gemma4→swap Haiku | T04: OC patch | T05: ✅ kimi T2 | T06: OC v4.0→P3+CrewAI | T07: P2 client→onboarding | T08: ✅ Auto-reload (CHG-0232)
@@ -92,7 +92,7 @@ Nexus=platform|Holocron=AKB|Bridge=cmd-centre|Citadel=client-portal|Holonet=live
 - Pre-OC2: 5/sprint | OC2 setup: 2–3 | Post-OC2: 5. 30% headroom. P2 target: end-Aug 2026 (contingency mid-Sep). **Daily budget cap: $150** (CHG-0268) | **TEMPORARY: $450 until 2026-05-17** (CHG-0312, heavy build phase).
 
 ## Pending Tickets
-→ See **MEMORY_TICKETS.md** (auto-managed, ≤8k). tickets.json seq 177. Notion AKB Backlog = SSOT.
+→ See **MEMORY_TICKETS.md** (auto-managed, ≤8k). tickets.json seq 199 (updated through 2026-05-15). Notion AKB Backlog = SSOT.
 
 ## Anthropic API Key Rotation — SOP
 - Trigger: key expires/revoked. Ken: `openclaw models auth`. Yoda: `python3 scripts/propagate-anthropic-key.sh` → all 12 agents. Run immediately. (CHG-0142 + 2026-05-13)
@@ -101,36 +101,28 @@ Nexus=platform|Holocron=AKB|Bridge=cmd-centre|Citadel=client-portal|Holonet=live
 → See **MEMORY_DECISIONS.md** (append-only, ≤6k).
 
 ## Golden Blueprint Documents — APPROVED (Day 20, 2026-05-14)
-- **Technology Strategy & Roadmap v1.0** (internal): `docs/Aevlith-Technology-Strategy-Roadmap-v1.0-Internal.md` — APPROVED Ken 2026-05-14. Drive: https://drive.google.com/file/d/10oGRVyYlEPLshPNQG-sF_1-NZu3LbI5I/view
-- **System Architecture Document v1.0**: `docs/Nexus-System-Architecture-v1.0.md` — APPROVED Ken 2026-05-14. Drive: https://drive.google.com/file/d/1FxEoTDzRlIMbbJHiD5XuR4Z5MNnpUAp-/view
-- **Technology Strategy & Roadmap v1.0** (external/sanitised): `docs/Aevlith-Technology-Strategy-Roadmap-v1.0-External.md` — APPROVED Ken 2026-05-14 (CHG-0317).
-- Superseded docs archived; decision records in MEMORY_DECISIONS.md. AGENTS.md updated. All docs + CHG-0318 locked per golden blueprint cadence rules (TRIGGER-15/16/17).
+- **Technology Strategy & Roadmap v1.0** (internal): `docs/Aevlith-Technology-Strategy-Roadmap-v1.0-Internal.md`
+- **System Architecture Document v1.0**: `docs/Nexus-System-Architecture-v1.0.md`
+- **Technology Strategy & Roadmap v1.0** (external): `docs/Aevlith-Technology-Strategy-Roadmap-v1.0-External.md` (CHG-0317)
+- Superseded archived. Decision records in MEMORY_DECISIONS.md. TRIGGER-15/16/17 locked.
 
 ## Nexus Platform Architecture Direction — APPROVED (Day 20, 2026-05-14)
-- **Decision: Option B Phased** — Redesign data + integration layers, keep OpenClaw. Approved Ken 2026-05-14 10:28 AEST. CHG-0308.
+- **Decision: Option B Phased** — Redesign data + integration layers, keep OpenClaw. CHG-0308.
 - **Work Currency:** High→Sonnet/Haiku/Opus | Medium→kimi | Low→Gemma4/systemEvent | None→Script.
-- **Phase 1 (S4-S8, ~8 Jun):** Postgres+5-tier schema, Three Work Types Rule, SoT Register, JSON→Postgres (5 files), Event Bus, Typed Contracts, PII Scanner, RAG. P2 blockers: WP1-5 by S8.
-- **Phase 2 (post-P2 +2wks):** Redis, multi-tenant RLS, Holonet v0, Citadel v0.
-- **Phase 3 (TRIGGER-14):** Event sourcing, WORM audit, APRA. Fires post-P2 stable.
-- **KRI Dashboard:** https://www.notion.so/Nexus-Architecture-KRI-Dashboard-Option-B-Implementation-360c182953ff816a9d1dd5c104ca6cd1
-- **architecture-kri-state.json** — Yoda owns live KRI updates at each sprint review.
-- **Structural fix 2.3+2.4:** Risk ↓ Sprint 4 end (25 May). Fixed Sprint 6 end (~8 Jun).
+- **Phase 1 (S4-S8, ~8 Jun):** Postgres+5-tier schema, Three Work Types Rule, SoT Register, JSON→Postgres, Event Bus, Typed Contracts, PII Scanner, RAG.
+- **KRI Dashboard:** Notion. **architecture-kri-state.json** — Yoda owns live updates.
+- P2/3 detail archived. See `docs/Nexus-System-Architecture-v1.0.md`.
 
 ## Sprint Plan (locked Day 20)
-- **Sprint 4 (May 19-25):** TKT-0141, TKT-0142 (S3 carries), TKT-0196 (Three Work Types Rule), TKT-0197 (SoT Register), Cloudflare Tunnel.
-- **Sprint 5:** TKT-0195 Postgres (critical path), TKT-0108 doc gen, TKT-0157, TKT-0156, TKT-0130 QBR.
-- **Sprint 6:** TKT-0198 JSON migration, TKT-0199 Event Bus, TKT-0170 PII Scanner, TKT-0150 DR Playbook.
-- **Sprint 7:** TKT-0169 Typed Contracts, TKT-0171 RAG Pipeline.
-- Bucket C (8 tickets) parked until QBR Sprint 5. Bucket D (TKT-0114-0119) Ken action.
+→ See **MEMORY_TICKETS.md** for ticket detail. S4–S7 mapped; C/D buckets parked.
 
 ## LinkedIn Auth (Day 20)
-- MDP approved, Advertising API. Token valid 2026-07-12. PKCE removed. Scopes: basicprofile, org_social, org_admin, ads.
-- AInchors company page onboarding deferred. Trigger 05f9d2ef set.
-- L-027: Post cancellation must update queue state + delete cron. Never verbal-only acknowledgement.
+- MDP approved, Advertising API. Token valid 2026-07-12.
+- L-027: Post cancellation must update queue state + delete cron.
 
-## Config Baseline (Day 20 — CHG-0306, verified 2026-05-14 CHG-0306)
-- CHG-0270 object format; jq_queries→.model.primary. Defaults primary=Haiku. Warden=Haiku. BYOK+Nexus-first global. agentToAgent enabled. Canvas: sub-agents full path. Auto-heal baseline updated CHG-0306 to eliminate false-positive drift alerts (kimi duplicate removed, fallbacks chain verified).
-- CI Cycle A running; Cycle 2A started.
+## Config Baseline (Day 20 — CHG-0306)
+→ See `state/critical-config-baseline.json` for live drift detection.
+- Defaults primary=Haiku, Warden=Haiku. BYOK+Nexus-first. CI Cycle A/2A running.
 
 
 ## kimi Policy — LOCKED 2026-05-15
@@ -138,3 +130,4 @@ Nexus=platform|Holocron=AKB|Bridge=cmd-centre|Citadel=client-portal|Holonet=live
 - **Webchat + Telegram = Sonnet**
 - **NEVER use kimi for:** complex orchestration, multi-ticket routing, state tracking, CHG decisions
 - **kimi tasks:** routine, single-thread, background, non-interactive
+- **INCIDENT CONTEXT (2026-05-15):** Claude API credits depleted unexpectedly (CHG-0348/0349). Emergency: all 12 agents switched to kimi→deepseek-pro fallback 17:19 AEST. Reverted 14:47 AEST (CHG-0336) after Sonnet restored. kimi confined to standup only going forward. Root cause investigation: TKT-0165 (cost tracking gaps), TKT-0175 (ephemeral session capture). Cost balance recovered via auto-reload.
