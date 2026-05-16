@@ -96,6 +96,19 @@ This log captures **every change** Yoda makes to AInchors infrastructure, config
 **Linked:** decisions.md 2026-04-27 entries
 ---
 
+## 2026-05-17 01:00 AEST — [CHG-0361] AUTO-HEAL nightly sweep 2026-05-17
+**Type:** cron
+**Change Type:** Normal
+**Source:** scheduled
+**Trigger:** cron
+**What changed:** 20 checks, 14 issues, 1 auto-fixed (git commit 12 files), 14 needs-Ken
+**Why:** Scheduled nightly maintenance
+**Verification:** auto-heal.sh
+**Rollback:** N/A
+**Linked:** none
+---
+
+
 ## 2026-05-16 12:47 AEST — [CHG-0359] Auto allowlist sync -- Tier 2 propagation (strategy-update)
 **Type:** config
 **Change Type:** Normal
