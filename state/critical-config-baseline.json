@@ -22,7 +22,7 @@
       "file": "/Users/ainchorsangiefpl/.openclaw/openclaw.json",
       "jq_query": ".agents.defaults.model.primary",
       "expected_value": "anthropic/claude-haiku-4-5",
-      "rationale": "CHG-0270: agents.defaults.model is now {primary, fallbacks} object. Default primary is Haiku — conservative cost-safe baseline for any agent without an explicit override. All primary agents (Yoda, Aria, Atlas, Thrawn, etc.) set their own Sonnet primary explicitly. Default Haiku prevents silent cost escalation from new/unconfigured agents.",
+      "rationale": "CHG-0270: agents.defaults.model is now {primary, fallbacks} object. Default primary is Haiku \u2014 conservative cost-safe baseline for any agent without an explicit override. All primary agents (Yoda, Aria, Atlas, Thrawn, etc.) set their own Sonnet primary explicitly. Default Haiku prevents silent cost escalation from new/unconfigured agents.",
       "fix_command": "edit ~/.openclaw/openclaw.json: agents.defaults.model.primary = anthropic/claude-haiku-4-5"
     },
     {
@@ -92,7 +92,7 @@
       "file": "/Users/ainchorsangiefpl/.openclaw/openclaw.json",
       "jq_query": ".agents.list[] | select(.id==\"business\") | .model.primary",
       "expected_value": "anthropic/claude-sonnet-4-6",
-      "rationale": "Option C decision 2026-04-27 21:18 AEST: Gemma4 cold-load (26B params) caused 30-60s freezes on every Aria Telegram response. Sonnet is always-on cloud — no cold-load, no RAM spike. Gemma4 remains available for background crons only. CHG-0270: .model.primary not .model.",
+      "rationale": "Option C decision 2026-04-27 21:18 AEST: Gemma4 cold-load (26B params) caused 30-60s freezes on every Aria Telegram response. Sonnet is always-on cloud \u2014 no cold-load, no RAM spike. Gemma4 remains available for background crons only. CHG-0270: .model.primary not .model.",
       "fix_command": "edit openclaw.json: agents.list[id=business].model.primary = anthropic/claude-sonnet-4-6"
     },
     {
@@ -142,7 +142,7 @@
       "file": "/Users/ainchorsangiefpl/.openclaw/openclaw.json",
       "jq_query": ".agents.list[] | select(.id==\"governance\") | .model.primary",
       "expected_value": "anthropic/claude-haiku-4-5",
-      "rationale": "CHG-0228: Warden moved to Haiku (pre-OC2 cost strategy, lightweight compliance monitor). Was Sonnet — updated 2026-05-08. Will move to Gemma4 local post-OC2 (TRIGGER-03). CHG-0270: .model.primary not .model.",
+      "rationale": "CHG-0228: Warden moved to Haiku (pre-OC2 cost strategy, lightweight compliance monitor). Was Sonnet \u2014 updated 2026-05-08. Will move to Gemma4 local post-OC2 (TRIGGER-03). CHG-0270: .model.primary not .model.",
       "fix_command": "edit openclaw.json: agents.list[id=governance].model.primary = anthropic/claude-haiku-4-5"
     },
     {
@@ -164,6 +164,16 @@
       "expected_value": "0",
       "rationale": "All agents must have explicit model config. null model = falls through to defaults which may not be appropriate for the agent's workload.",
       "fix_command": "Set explicit model on all agents in openclaw.json. Run: jq .agents.list[].id ~/.openclaw/openclaw.json"
+    },
+    {
+      "id": "config-gemma4-31b-cloud",
+      "name": "gemma4:31b-cloud in globalAllowedModels",
+      "file": "/Users/ainchorsangiefpl/.openclaw/workspace/state/model-policy.json",
+      "jq_query": "\"globalAllowedModels\" | contains([\"ollama/gemma4:31b-cloud\"])",
+      "expected_value": "true",
+      "severity": "critical",
+      "fix_command": "Update model-policy.json: add ollama/gemma4:31b-cloud to globalAllowedModels",
+      "rationale": "CHG-0356: gemma4:31b-cloud approved as T2 Ollama Cloud model (replaces 26b local)"
     }
   ]
 }

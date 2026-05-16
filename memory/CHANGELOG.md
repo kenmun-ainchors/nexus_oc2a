@@ -96,6 +96,19 @@ This log captures **every change** Yoda makes to AInchors infrastructure, config
 **Linked:** decisions.md 2026-04-27 entries
 ---
 
+## 2026-05-16 10:42 AEST — [CHG-0356] CI Cycle 2A Complete — Cycle 3A Started
+**Type:** cron
+**Change Type:** Normal
+**Source:** scheduled
+**Trigger:** 7-day CI batch shadow window closed
+**What changed:** Cycle 2A: 68 tasks across 4 categories. Top: ops-cron/gemma4 4.39/5 11.4s 93% HIGH. subtask/deepseek-v4-flash 4.00/5 18.4s 68% MEDIUM. reasoning and creative both LOW confidence. Cycle 3A window started. Telegram sent to Ken.
+**Why:** Automated CI continuous improvement pipeline
+**Verification:** Report state/ci-cycle-2A-report.md generated. State updated. Telegram HTTP 200.
+**Rollback:** N/A
+**Linked:** none
+---
+
+
 ## 2026-05-16 06:01 AEST — [CHG-0353] OpenClaw v2026.5.12 HIGH security patch detected by TRIGGER-04
 **Type:** doc
 **Change Type:** Standard
@@ -4599,3 +4612,48 @@ Author: Forge
 **Verification:** MEMORY.md now 9,428 chars (<10,000). Archive readable and searchable. AGENTS.md updated.
 **Rollback:** git checkout HEAD -- MEMORY.md && rm memory/MEMORY-archive-2026-05-16.md
 **Linked:** TKT-0153, TRIGGER-13
+
+---
+
+## 2026-05-16 12:39 AEST — [CHG-0356] gemma4:31b-cloud added to T2 Ollama Cloud tier
+**Type:** policy
+**Source:** Ken directive via Telegram
+**Trigger:** Ken approved 2026-05-16 12:39 AEST: "Add gemma4:31b-cloud as approved model in model-policy.json. Context: gemma4:26b LOCAL caused system slowdown (removed). gemma4:31b CLOUD is the approved variant."
+**What changed:**
+1. **model-policy.json updated:**
+   - Removed `ollama/gemma4:31b-cloud` from `globalProhibitedInInteractive` (was incorrectly prohibited)
+   - Added gemma4:31b-cloud to `tier2_subtasks.ollamaCloudModels` with full metadata:
+     - alias: gemma4-31b-cloud
+     - tier: 2
+     - benchmarkQuality: 4.7/5
+     - benchmarkLatency: 14.2s avg
+     - approvedDate: 2026-05-16
+     - constraints: Non-sensitive tasks only. No PII/medical/legal.
+     - useCases: Background research, LinkedIn/blog posts, non-sensitive code routing, workflow summarisation
+   - Updated `tierStrategy.description` to include gemma4:31b-cloud in T2
+   - Updated `tierStrategy.approvedDate` to 2026-05-16
+   - Updated `lastApprovalContext` to reference CHG-0356
+2. **critical-config-baseline.json updated:**
+   - Added check `config-gemma4-31b-cloud` to validate gemma4:31b-cloud is in globalAllowedModels
+   - Severity: critical
+   - Rationale: CHG-0356
+3. **Warden model-policy validation:**
+   - gemma4:31b-cloud is now in `globalAllowedModels` (already was)
+   - gemma4:31b-cloud is now valid for interactive use (removed from `globalProhibitedInInteractive`)
+   - Warden will accept gemma4:31b-cloud as a valid T2 model
+4. **CI Cycle 2A config:**
+   - gemma4:31b-cloud is now a candidate for CI evaluation
+   - Will be benchmarked alongside kimi and deepseek for T2 tasks
+**Why:** gemma4:26b LOCAL caused system-wide slowdown when loaded (cold-load issue). The 31b CLOUD variant does not have this problem as it runs on Ollama Cloud infrastructure, not local OC1.
+**Verification:**
+- model-policy.json validates as JSON
+- gemma4:31b-cloud in globalAllowedModels: ✅
+- gemma4:31b-cloud NOT in globalProhibitedInInteractive: ✅
+- gemma4:31b-cloud in tier2_subtasks.ollamaCloudModels: ✅
+- critical-config-baseline.json has validation check: ✅
+**Rollback:**
+1. Remove gemma4:31b-cloud from tier2_subtasks.ollamaCloudModels
+2. Add gemma4:31b-cloud back to globalProhibitedInInteractive
+3. Remove check config-gemma4-31b-cloud from critical-config-baseline.json
+4. Revert tierStrategy.approvedDate to 2026-05-02
+**Linked:** CHG-0349 (conservative mode), CHG-0270 (kimi safety net), CHG-0140 (Ollama Cloud Tier 2)

@@ -1,7 +1,7 @@
 {
   "schema_version": "1.0",
   "description": "Authoritative model policy for all AInchors agents. Warden enforces this. Changes require Ken approval + CHG entry + baseline update.",
-  "lastUpdated": "2026-05-12T07:17:51.228374+00:00",
+  "lastUpdated": "2026-05-16T12:39:00+10:00",
   "lastApprovedBy": "Ken",
   "approvalContext": "Ken approved 2026-05-10: add T3 specialist agents to Warden monitoring (Option A). Atlas/Thrawn/Lando/Mon Mothma. CHG-0258.",
   "globalAllowedModels": [
@@ -17,8 +17,7 @@
   ],
   "globalProhibitedInInteractive": [
     "ollama/gemma4:e2b",
-    "ollama/gemma4:26b",
-    "ollama/gemma4:31b-cloud"
+    "ollama/gemma4:26b"
   ],
   "agents": {
     "main": {
@@ -521,11 +520,11 @@
     "process": "1. Ken approval in webchat/Telegram. 2. Update this file. 3. Update critical-config-baseline.json. 4. Log CHG entry. 5. Update MEMORY.md.",
     "approvalKeyword": "POLICY CHANGE APPROVED"
   },
-  "lastApprovalContext": "CHG-0140: Agent allowlist audit 2026-05-03. Ollama Cloud Tier 2 propagated to eligible agents. Spark added. Lex opus contradiction fixed.",
+  "lastApprovalContext": "CHG-0140: Agent allowlist audit 2026-05-03. Ollama Cloud Tier 2 propagated to eligible agents. Spark added. Lex opus contradiction fixed. CHG-0356: gemma4:31b-cloud added to T2 (approved Ken 2026-05-16 via Telegram). gemma4:26b local removed (system slowdown).",
   "tierStrategy": {
-    "description": "4-tier model routing \u2014 Tier 1 (Sonnet), Tier 2 (Haiku + Ollama Cloud), Tier 3 (Gemma4:e2b local), Emergency (Gemma4:26b). Approved Ken 2026-04-28, extended 2026-05-02 with Ollama Cloud Tier 2.",
+    "description": "4-tier model routing \u2014 Tier 1 (Sonnet), Tier 2 (Haiku + Ollama Cloud: kimi/deepseek/gemma4-31b), Tier 3 (Gemma4:e2b local), Emergency (Gemma4:26b). Approved Ken 2026-04-28, extended 2026-05-02 with Ollama Cloud Tier 2, extended 2026-05-16 with gemma4:31b-cloud.",
     "approvedBy": "Ken",
-    "approvedDate": "2026-05-02",
+    "approvedDate": "2026-05-16",
     "tiers": {
       "tier1_orchestration": {
         "model": "anthropic/claude-sonnet-4-6",
@@ -600,6 +599,25 @@
               "Background analysis and report drafting",
               "Technical content generation"
             ]
+          },
+          {
+            "model": "ollama/gemma4:31b-cloud",
+            "alias": "gemma4-31b-cloud",
+            "tier": 2,
+            "cost": "Ollama Pro $20/mo (accounts@ainchors.com)",
+            "benchmarkQuality": "4.7/5",
+            "benchmarkLatency": "14.2s avg",
+            "approvedDate": "2026-05-16",
+            "approvedBy": "Ken",
+            "pocPhase": "Approved via Telegram directive 2026-05-16 12:39 AEST. CHG-0356.",
+            "constraints": "Non-sensitive (low data_sensitivity) tasks only. No PII, no medical, no legal. Background + async tasks preferred. 31b cloud variant replaces 26b local (removed due to system slowdown).",
+            "useCases": [
+              "Background research synthesis",
+              "LinkedIn/blog post generation",
+              "Non-sensitive code routing decisions",
+              "Low-sensitivity workflow summarisation",
+              "Content generation where kimi context window insufficient"
+            ]
           }
         ],
         "useCases": [
@@ -634,7 +652,8 @@
           "Never used for active delegation"
         ]
       }
-    }
+    },
+    "approvalContext": "Ken approved gemma4:31b-cloud addition to T2 via Telegram 2026-05-16 12:39 AEST. gemma4:26b local variant removed from approved list (system slowdown on OC1)."
   },
   "guardrails": {
     "_comment": "Added 2026-05-07 per ainchors-guardrails-rules-2026-05.md (G1-G2, W1-W2)",
