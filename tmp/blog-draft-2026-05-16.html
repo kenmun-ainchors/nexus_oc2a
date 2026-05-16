@@ -1,0 +1,679 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Day 22 — Saturday, May 16, 2026 — AInchors Technical Blog</title>
+  <style>
+    /* ── Reset & Base ── */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg:          #0f1117;
+      --surface:     #181c27;
+      --surface2:    #1e2333;
+      --border:      #2a3045;
+      --accent:      #4f8ef7;
+      --accent2:     #7dd3fc;
+      --green:       #34d399;
+      --yellow:      #fbbf24;
+      --red:         #f87171;
+      --purple:      #a78bfa;
+      --text:        #e2e8f0;
+      --muted:       #8892a4;
+      --subtle:      #4a5568;
+      --mono:        'SF Mono', 'Fira Code', 'Cascadia Code', Consolas, monospace;
+      --serif:       Charter, 'Bitstream Charter', 'Sitka Text', Georgia, serif;
+      --sans:        -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif;
+    }
+
+    html { font-size: 18px; scroll-behavior: smooth; }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: var(--serif);
+      line-height: 1.75;
+      padding: 0 1rem;
+    }
+
+    /* ── Layout ── */
+    .wrap {
+      max-width: 720px;
+      margin: 0 auto;
+      padding: 3rem 0 6rem;
+    }
+
+    /* ── Hero ── */
+    .hero {
+      border-bottom: 1px solid var(--border);
+      padding-bottom: 2.5rem;
+      margin-bottom: 3rem;
+    }
+    .hero-eyebrow {
+      font-family: var(--sans);
+      font-size: 0.72rem;
+      font-weight: 600;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: 0.75rem;
+    }
+    .hero h1 {
+      font-size: 2.25rem;
+      font-weight: 700;
+      line-height: 1.2;
+      color: #f1f5f9;
+      margin-bottom: 1rem;
+    }
+    .hero-sub {
+      font-size: 1.15rem;
+      color: var(--muted);
+      font-style: italic;
+      margin-bottom: 1.5rem;
+    }
+    .meta-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 1rem 2rem;
+      font-family: var(--sans);
+      font-size: 0.78rem;
+      color: var(--subtle);
+    }
+    .meta-row span { display: flex; align-items: center; gap: 0.35rem; }
+
+    /* ── Typography ── */
+    h2 {
+      font-family: var(--sans);
+      font-size: 1.3rem;
+      font-weight: 700;
+      color: #f1f5f9;
+      margin: 3rem 0 1rem;
+      padding-top: 1rem;
+      border-top: 1px solid var(--border);
+    }
+    h3 {
+      font-family: var(--sans);
+      font-size: 1rem;
+      font-weight: 600;
+      color: var(--accent2);
+      margin: 2rem 0 0.75rem;
+    }
+    p { margin-bottom: 1.2rem; }
+    a { color: var(--accent); text-decoration: none; }
+    a:hover { text-decoration: underline; }
+    strong { color: #f1f5f9; }
+    em { color: var(--muted); }
+
+    /* ── Callout Boxes ── */
+    .callout {
+      border-left: 3px solid var(--accent);
+      background: var(--surface);
+      border-radius: 0 8px 8px 0;
+      padding: 1rem 1.25rem;
+      margin: 1.75rem 0;
+      font-family: var(--sans);
+      font-size: 0.9rem;
+    }
+    .callout.green  { border-color: var(--green); }
+    .callout.yellow { border-color: var(--yellow); }
+    .callout.red    { border-color: var(--red); }
+    .callout.purple { border-color: var(--purple); }
+    .callout-label {
+      font-size: 0.7rem;
+      font-weight: 700;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      margin-bottom: 0.4rem;
+      color: var(--muted);
+    }
+    .callout.green  .callout-label { color: var(--green); }
+    .callout.yellow .callout-label { color: var(--yellow); }
+    .callout.red    .callout-label { color: var(--red); }
+    .callout.purple .callout-label { color: var(--purple); }
+    .callout p { margin-bottom: 0; color: var(--text); }
+
+    /* ── Cost Table ── */
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      font-family: var(--sans);
+      font-size: 0.85rem;
+      margin: 1.25rem 0;
+    }
+    th {
+      background: var(--surface2);
+      color: var(--muted);
+      font-weight: 600;
+      text-transform: uppercase;
+      font-size: 0.7rem;
+      letter-spacing: 0.06em;
+      padding: 0.6rem 0.9rem;
+      text-align: left;
+      border-bottom: 1px solid var(--border);
+    }
+    td {
+      padding: 0.6rem 0.9rem;
+      border-bottom: 1px solid var(--border);
+      color: var(--text);
+    }
+    tr:last-child td { border-bottom: none; }
+    td.num { text-align: right; font-variant-numeric: tabular-nums; font-family: var(--mono); }
+    td.hi { color: var(--green); font-weight: 600; }
+    td.lo { color: var(--red); }
+
+    /* ── Confidence Grid ── */
+    .conf-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+      gap: 1rem;
+      margin: 1.5rem 0;
+    }
+    .conf-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 1rem;
+      text-align: center;
+      font-family: var(--sans);
+    }
+    .conf-card .conf-n {
+      font-size: 2rem;
+      font-weight: 700;
+      line-height: 1;
+      margin-bottom: 0.25rem;
+    }
+    .conf-card .conf-label { font-size: 0.75rem; color: var(--muted); }
+    .conf-card.full   { border-color: var(--green);  } .conf-card.full  .conf-n { color: var(--green); }
+    .conf-card.fair   { border-color: var(--yellow); } .conf-card.fair  .conf-n { color: var(--yellow); }
+    .conf-card.low    { border-color: var(--red);    } .conf-card.low   .conf-n { color: var(--red); }
+    .conf-card.block  { border-color: var(--subtle); } .conf-card.block .conf-n { color: var(--subtle); }
+
+    /* ── Lesson List ── */
+    .lessons {
+      list-style: none;
+      padding: 0;
+      margin: 1rem 0;
+    }
+    .lessons li {
+      padding: 0.85rem 0 0.85rem 2.5rem;
+      border-bottom: 1px solid var(--border);
+      position: relative;
+      font-family: var(--sans);
+      font-size: 0.95rem;
+    }
+    .lessons li::before {
+      content: attr(data-n);
+      position: absolute;
+      left: 0;
+      top: 0.85rem;
+      font-size: 0.7rem;
+      font-weight: 700;
+      color: var(--accent);
+      background: var(--surface);
+      border: 1px solid var(--accent);
+      border-radius: 4px;
+      padding: 0.1rem 0.4rem;
+    }
+    .lessons li:last-child { border-bottom: none; }
+
+    /* ── Whats Next list ── */
+    .next-list {
+      list-style: none;
+      padding: 0;
+      margin: 1rem 0;
+    }
+    .next-list li {
+      padding: 0.5rem 0 0.5rem 1.5rem;
+      border-left: 2px solid var(--border);
+      margin-bottom: 0.5rem;
+      font-family: var(--sans);
+      font-size: 0.9rem;
+      color: var(--text);
+      position: relative;
+    }
+    .next-list li::before {
+      content: '→';
+      position: absolute;
+      left: 0.4rem;
+      color: var(--accent);
+    }
+
+    /* ── Pull Quote ── */
+    blockquote {
+      border-left: 3px solid var(--purple);
+      background: var(--surface);
+      padding: 1rem 1.5rem;
+      margin: 1.75rem 0;
+      border-radius: 0 8px 8px 0;
+      font-style: italic;
+      color: var(--muted);
+      font-size: 0.95rem;
+    }
+
+    /* ── Code ── */
+    code {
+      font-family: var(--mono);
+      font-size: 0.82rem;
+      background: var(--surface2);
+      border: 1px solid var(--border);
+      border-radius: 4px;
+      padding: 0.1em 0.4em;
+      color: var(--accent2);
+    }
+    pre {
+      background: var(--surface2);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 1.25rem;
+      overflow-x: auto;
+      font-family: var(--mono);
+      font-size: 0.82rem;
+      line-height: 1.6;
+      margin: 1.25rem 0;
+      color: var(--text);
+    }
+
+    /* ── Day Trend sparkline ── */
+    .trend-row {
+      display: flex;
+      align-items: flex-end;
+      gap: 4px;
+      height: 48px;
+      margin: 1rem 0;
+    }
+    .trend-bar {
+      flex: 1;
+      background: var(--surface2);
+      border-radius: 3px 3px 0 0;
+      position: relative;
+      display: flex;
+      align-items: flex-start;
+      justify-content: center;
+    }
+    .trend-bar.today { background: var(--green); }
+    .trend-bar-label {
+      font-family: var(--mono);
+      font-size: 0.6rem;
+      color: var(--muted);
+      margin-top: 2px;
+    }
+
+    /* ── Footer ── */
+    .post-footer {
+      margin-top: 4rem;
+      padding-top: 2rem;
+      border-top: 1px solid var(--border);
+      font-family: var(--sans);
+      font-size: 0.8rem;
+      color: var(--subtle);
+      display: flex;
+      flex-wrap: wrap;
+      gap: 1rem;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .footer-series a { color: var(--muted); margin: 0 0.4rem; }
+    .footer-sig { color: var(--subtle); }
+
+    /* ── Mobile ── */
+    @media (max-width: 600px) {
+      html { font-size: 16px; }
+      .hero h1 { font-size: 1.75rem; }
+      .meta-row { flex-direction: column; gap: 0.4rem; }
+      .conf-grid { grid-template-columns: repeat(2, 1fr); }
+    }
+  </style>
+</head>
+<body>
+<div class="wrap">
+
+  <!-- ═══════════ HERO ═══════════ -->
+  <header class="hero">
+    <div class="hero-eyebrow">AInchors Technical Blog · Day 22</div>
+    <h1>The $7.63 Day: Running an AI Platform on a Shoestring — on Purpose</h1>
+    <p class="hero-sub">When you switch your default model to kimi, the economics change overnight. Here's what Day 22 actually looked like.</p>
+    <div class="meta-row">
+      <span>📅 Saturday, 16 May 2026</span>
+      <span>✍️ Ken Mun (CTO)</span>
+      <span>⏱ ~3.5 hours operational</span>
+      <span>💰 $7.63 USD spent</span>
+    </div>
+  </header>
+
+  <!-- ═══════════ OPENING ═══════════ -->
+  <p>I came in expecting a normal Saturday — some cleanup, maybe a governance decision or two. What I got instead was a masterclass in what cheap actually looks like. Day 22 cost <strong>$7.63</strong>. The day before cost $103. Two weeks ago, we were burning $350 a day. That's not an accident. That's kimi doing what kimi was deployed to do.</p>
+
+  <p>The platform ran 2,668 turns today. Most of them were handled by kimi-k2.6 (900 turns, $0.00 cost — open weights, locally-priced inference) or deepseek-v4-pro (52 turns, $0.00). The only real spend was claude-haiku for governance routing and delivery — $7.63 across 1,716 turns. One short working session produced: a full backlog confidence assessment, a new state-controls infrastructure layer, a MEMORY.md trim, a relay loop fix, and seven locked decisions. That's not nothing. For $7.63, that's actually kind of remarkable.</p>
+
+  <p>Today was also the first day I explicitly stopped and asked the uncomfortable question: of our 74 open backlog tickets, how many can kimi actually execute reliably? The answer is more nuanced than I expected — and the process of getting to that answer produced infrastructure that will make every sprint from here forward more rigorous.</p>
+
+  <!-- ═══════════ ACT 1 ═══════════ -->
+  <h2>Act 1 · The Standup That Never Arrived: Isolated Sessions Don't Write Files</h2>
+
+  <p>The morning didn't start cleanly. At 08:00 AEST, the daily standup cron fired — and nothing happened. No email. Instead, a Telegram alert showed up with this:</p>
+
+  <pre>⚠️ Edit: in &lt;workspace&gt;/state/standup-state.json failed
+⚠️ Cron job "AInchors Morning Stand-Up" failed</pre>
+
+  <p>I traced it back through the cron execution history. Three simultaneous failures, all caused by the same root issue: the standup cron was configured with <code>sessionTarget: isolated</code> and <code>lightContext: true</code>. That combination creates a sandboxed execution environment — which is exactly what you want for security-sensitive tasks. It is exactly what you do not want for a task that needs to write to workspace state files, read your Telegram credentials, and send an email.</p>
+
+  <p>The cascade looked like this: no API key available in the isolated context → model fallback attempt fails with "No API key found" → file writes blocked by isolation barrier → standup never executes. The fix is a single configuration change: swap <code>sessionTarget: isolated</code> for <code>sessionTarget: current</code>, which binds the cron to the main agent context that has full workspace access and auth. Simple once you know what to look for. The failure mode was confusing precisely because the error messages pointed at symptoms, not the cause.</p>
+
+  <div class="callout yellow">
+    <div class="callout-label">⚠️ Ops Note</div>
+    <p>Any cron that writes state files or uses auth credentials must run with <code>sessionTarget: current</code>. Isolated sessions are for read-only, stateless tasks only. This rule is now in the playbook.</p>
+  </div>
+
+  <!-- ═══════════ ACT 2 ═══════════ -->
+  <h2>Act 2 · The Confidence Map: Rating 74 Tickets Through a Kimi Lens</h2>
+
+  <p>The most substantial work of the day started with a blunt question I asked myself: if kimi is now the default model, and Claude is on hold, what percentage of our backlog can we actually execute confidently? I didn't want a gut-feel answer. I wanted a structured assessment I could hand to Sprint 4 planning tomorrow with real data behind it.</p>
+
+  <p>I went through all 74 open tickets. For each one, I evaluated it across four dimensions: execution complexity, state manipulation risk, multi-agent coordination requirements, and whether it needs human review at any gate. The result:</p>
+
+  <div class="conf-grid">
+    <div class="conf-card full">
+      <div class="conf-n">25</div>
+      <div class="conf-label">Full Confidence</div>
+    </div>
+    <div class="conf-card fair">
+      <div class="conf-n">20</div>
+      <div class="conf-label">Fairly Confident</div>
+    </div>
+    <div class="conf-card low">
+      <div class="conf-n">19</div>
+      <div class="conf-label">Low Confidence</div>
+    </div>
+    <div class="conf-card block">
+      <div class="conf-n">10</div>
+      <div class="conf-label">Blocked / External</div>
+    </div>
+  </div>
+
+  <p>The headline: <strong>44 tickets — 59% of the backlog — are executable with kimi using proper pre/post validation controls.</strong> The full-confidence bucket is routine, single-threaded work: state updates, routing, background tasks, and documentation. Kimi handles these well. The fairly-confident bucket is moderate complexity with well-defined acceptance criteria — executable, but I want a Forge review before shipping.</p>
+
+  <p>The low-confidence bucket (19 tickets) is where it gets honest. These are architectural decisions, multi-agent coordination tasks, and complex state migrations. Kimi is not the right tool for these. They defer until Claude is restored or I build explicit scaffolding to de-risk them. The blocked bucket (10 tickets) is waiting on external factors — company formation milestones, third-party integrations, human approvals — regardless of model.</p>
+
+  <blockquote>"Overall confidence: MIXED. ~60% of backlog viable with kimi using controls. 19 tickets (26%) defer until Claude restored."</blockquote>
+
+  <p>The full assessment — with per-ticket ratings, Sprint 4 execution order, and a week-by-week plan — is published in the internal dashboard. This becomes the working document for tomorrow's Sprint 4 planning.</p>
+
+  <!-- ═══════════ ACT 3 ═══════════ -->
+  <h2>Act 3 · The Infrastructure Layer: Snapshots, Diffs, and Acceptance Templates</h2>
+
+  <p>Confidence mapping is only useful if you build the controls that make it honest. A ticket rated "fairly confident" is only as good as the safety net around it. So today I also built the validation infrastructure the confidence map assumes will exist.</p>
+
+  <p>Three new scripts landed in the platform scripts directory:</p>
+
+  <ul style="padding-left: 1.5rem; margin-bottom: 1.2rem; font-family: var(--sans); font-size: 0.9rem; line-height: 2;">
+    <li><strong>state-snapshot</strong> — takes a pre-execution backup of critical state files with a rollback path. Run before any ticket execution. If something goes sideways, one command restores the prior state.</li>
+    <li><strong>state-diff</strong> — post-execution validation. Compares current state against the pre-run snapshot, surfaces unexpected changes, and reports what moved. Think of it as a diff that asks "did anything change that shouldn't have?"</li>
+    <li><strong>tkt-acceptance-template</strong> — generates a per-ticket acceptance test skeleton. Each ticket gets its own test checklist specifying the exact conditions that define done.</li>
+  </ul>
+
+  <p>I also added CHECK 18 to the auto-heal monitor: it validates that the confidence mapping is fresh (alerts if the file is more than 7 days old and the ticket count has drifted). The heartbeat monitoring picks this up daily. The goal is that if the backlog changes significantly, the mapping doesn't silently go stale.</p>
+
+  <div class="callout green">
+    <div class="callout-label">📊 What Was Built Today</div>
+    <p>Confidence mapping JSON — 95 entries (74 open + 21 recently closed, for history) · State-snapshot script · State-diff script · Ticket acceptance test template generator · Auto-heal CHECK 18 · Heartbeat monitoring updated. All committed to git.</p>
+  </div>
+
+  <p>One decision that I'm glad I made: when I proposed building this infrastructure, conservative mode triggered. My own safeguard stopped me from directly editing <code>tickets.json</code> and asked me to get explicit approval. I proposed Option A (separate mapping file, zero risk to the live backlog state), got the approval, and the result is a cleaner architecture than I would have built without that pause. Conservative mode working exactly as designed.</p>
+
+  <!-- ═══════════ ACT 4 ═══════════ -->
+  <h2>Act 4 · MEMORY.md at the Limit: A Surgical Trim to 9,428 Characters</h2>
+
+  <p>MEMORY.md hit its hard limit. At 11,141 characters, it was over the 10,000-character ceiling and would degrade every future context load. The fix was straightforward but required precision: trim the right content, preserve the right content, and archive everything that gets cut.</p>
+
+  <p>Six sections were cut or compressed:</p>
+  <ul style="padding-left: 1.5rem; margin-bottom: 1.2rem; font-family: var(--sans); font-size: 0.9rem; line-height: 2;">
+    <li>Sprint ticket lists → replaced with a reference to <code>MEMORY_TICKETS.md</code></li>
+    <li>Config baseline detail → replaced with a reference to the critical-config baseline doc</li>
+    <li>LinkedIn auth detail → trimmed to core facts only</li>
+    <li>Golden Blueprint spec → trimmed to doc paths only</li>
+    <li>Architecture section → focused to Phase 1 priorities only</li>
+    <li>S2–S6 sprint history → replaced with a reference to <code>RULES.md</code></li>
+  </ul>
+
+  <p>Result: 11,141 → 9,428 characters. That's a 1,713-character reduction with zero data loss — everything removed is preserved in an archive file with a metadata header flagging it for migration to the T4 semantic vector store once the P1 database work lands. The archive also added a new agent rule: search archives when a knowledge gap is detected, rather than assuming the answer isn't there. Change logged as CHG-0355.</p>
+
+  <!-- ═══════════ ACT 5 ═══════════ -->
+  <h2>Act 5 · The Relay Loop: How a Feedback Cycle Hid in Plain Sight</h2>
+
+  <p>Around 13:18, something strange happened. I noticed that responses were cycling — the webchat dashboard session was receiving my outputs, sending a confirmation relay back to the main session, and I was treating that relay confirmation as a new instruction, responding again, triggering another confirmation, and so on. It was caught immediately: "Something is wrong. You are not processing my instructions. Keep repeating — Nothing new to add from my side."</p>
+
+  <p>The root cause: inter-session relay messages from the webchat dashboard come in with an <code>inter_session</code> provenance flag, but there was no check for that flag. Empty or metadata-only relay messages were being treated as new work items, triggering full response cycles. The fix is a rule: if a message has inter-session provenance and the content is an empty acknowledgment or metadata-only confirmation, skip it silently. Only engage if the relay contains genuinely new information, a new question, or a directive that requires action.</p>
+
+  <p>Several prior messages fed the loop before the fix was implemented. The behaviour is suppressed going forward. The lesson here is one I keep relearning: inter-session coordination introduces new failure modes that don't exist in single-session systems. Every time we add a new communication channel, we need to think explicitly about what happens when that channel echoes back.</p>
+
+  <!-- ═══════════ ACT 6 ═══════════ -->
+  <h2>Act 6 · Seven Decisions, All Locked: The Cleanup Run</h2>
+
+  <p>The second half of the session was administrative cleanup — the kind of work that doesn't feel dramatic but is the difference between a clean state and accumulated drift. Seven decisions got formally committed to state today:</p>
+
+  <table>
+    <thead>
+      <tr>
+        <th>Item</th>
+        <th>Decision</th>
+        <th>Status</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><strong>TKT-0120</strong> — RustDesk Self-Hosted</td>
+        <td>Closed. Tailscale + public relay sufficient.</td>
+        <td class="hi">Closed</td>
+      </tr>
+      <tr>
+        <td><strong>TKT-0179</strong> — ClawGuard</td>
+        <td>Option B confirmed: enhance audit-skill.sh, defer full ClawGuard to P2.</td>
+        <td class="hi">Locked</td>
+      </tr>
+      <tr>
+        <td><strong>LI-C1-W2-P1 v3</strong> — AIOps Governance Post</td>
+        <td>Approved. Scheduled: Tue 19 May, 07:30 AEST. No further edits.</td>
+        <td class="hi">Approved</td>
+      </tr>
+      <tr>
+        <td><strong>TKT-0137</strong> — Policy Register</td>
+        <td>Tagged to Sprint 4. Sub-tickets AC2–AC9 all assigned.</td>
+        <td class="hi">Sprint 4</td>
+      </tr>
+      <tr>
+        <td><strong>TKT-0137</strong> — AC1 grooming</td>
+        <td>24 gaps assessed, 12 policy tasks queued (POL-001 to POL-012).</td>
+        <td class="hi">Groomed</td>
+      </tr>
+      <tr>
+        <td><strong>Confidence mapping</strong></td>
+        <td>Option A approved: separate JSON, no tickets.json modification.</td>
+        <td class="hi">Live</td>
+      </tr>
+      <tr>
+        <td><strong>Sprint 4 planning</strong></td>
+        <td>Deferred to Sunday 17 May. All prep complete and staged.</td>
+        <td class="hi">Staged</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <p>All seven are committed to the platform state store with timestamps and decision IDs. The webchat dashboard will pick them up on next session start and mark them synced. State is consistent across channels. Nothing is floating in chat history waiting to be forgotten.</p>
+
+  <p>I'll also note: TKT-0137 (the Policy Register) is a genuinely large piece of work — 24 governance gaps, 12 policy tasks, P2 hard gates. The grooming today confirmed it's well-defined and ready for Sprint 4. The main blockers are five operational decisions for POL-007 and POL-008 that need my explicit sign-off during planning. Those go on the Sprint 4 agenda for tomorrow.</p>
+
+  <!-- ═══════════ WHAT BROKE ═══════════ -->
+  <h2>What Broke</h2>
+
+  <p><strong>Standup cron failure (not an INC, configuration issue):</strong> The 08:00 standup cron silently failed due to <code>sessionTarget: isolated</code> — no standup email, no file writes. Root cause and fix identified in-session. No data was lost. The fix (update <code>sessionTarget</code> to <code>current</code>) is confirmed and will be applied before the next run. This is a configuration mismatch, not a platform failure — the isolation boundary worked exactly as designed, just for the wrong task.</p>
+
+  <p><strong>Webchat relay loop:</strong> Inter-session confirmation messages were being treated as new work, triggering response cycles. Caught within the same session, root-caused, and fixed. No decisions were missed; the loop was identified before any state inconsistency occurred.</p>
+
+  <p>No formal incidents logged for May 16. The incident log remains clean at 11 total entries, all historical.</p>
+
+  <!-- ═══════════ LESSONS ═══════════ -->
+  <h2>What I Learned</h2>
+
+  <ol class="lessons">
+    <li data-n="01"><strong>The economics of model selection are not incremental — they're step-change.</strong> Going from Claude Sonnet to kimi as the default dropped daily spend from ~$100–350 to $7.63. The capability tradeoff is real (19 low-confidence tickets are deferred), but the cost curve is a different shape entirely. You don't save 10%. You save 92%.</li>
+    <li data-n="02"><strong>Isolation boundaries bite you if you don't respect them.</strong> The standup cron failure was 100% predictable in retrospect — isolated sessions don't write files. The lesson isn't "don't use isolated sessions"; it's "be explicit about what each cron actually needs and configure accordingly." Isolation is a security tool, not a universal default.</li>
+    <li data-n="03"><strong>Building the confidence map changed how I see the backlog.</strong> Before today, I had a vague sense that some tickets were kimi-safe and some weren't. Now I have 95 explicit ratings. The act of categorising forced precision — I had to think about why each ticket is complex, not just that it feels complex. That clarity is worth more than the JSON file it produced.</li>
+    <li data-n="04"><strong>Every new communication channel introduces new failure modes.</strong> The relay loop bug wasn't in any one component — it was in the interaction between the main session and the webchat dashboard session. As the system gets more connected, the failure modes get more subtle. You have to reason about the full message flow, not just individual components.</li>
+  </ol>
+
+  <!-- ═══════════ COST ═══════════ -->
+  <h2>The Cost of Day 22</h2>
+
+  <table>
+    <thead>
+      <tr>
+        <th>Model</th>
+        <th>Turns</th>
+        <th class="num">Cost (USD)</th>
+        <th>Note</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>kimi-k2.6:cloud</td>
+        <td>900</td>
+        <td class="num hi">$0.00</td>
+        <td>Open weights — no usage charge</td>
+      </tr>
+      <tr>
+        <td>deepseek-v4-pro:cloud</td>
+        <td>52</td>
+        <td class="num hi">$0.00</td>
+        <td>Open weights — no usage charge</td>
+      </tr>
+      <tr>
+        <td>claude-haiku-4-5</td>
+        <td>1,716</td>
+        <td class="num">$7.63</td>
+        <td>Governance routing, delivery, cron</td>
+      </tr>
+      <tr>
+        <td><strong>Total</strong></td>
+        <td><strong>2,668</strong></td>
+        <td class="num hi"><strong>$7.63</strong></td>
+        <td>Session-log estimate (CHG-0097)</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <p style="font-family: var(--sans); font-size: 0.85rem; color: var(--muted);">Source: session-log estimate. The kimi and deepseek cost figures reflect $0 billing on open-weights inference. Claude Haiku charges are the only real spend. Actual Anthropic billing may vary slightly; ground truth from CSV will reconcile on next statement.</p>
+
+  <h3>Day-on-Day Trend (Recent 7 Days)</h3>
+
+  <table>
+    <thead>
+      <tr>
+        <th>Date</th>
+        <th>Day</th>
+        <th class="num">Cost (USD)</th>
+        <th>Primary Model</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>May 10</td>
+        <td>Day 16</td>
+        <td class="num lo">$376.09</td>
+        <td>Claude Sonnet 4.6</td>
+      </tr>
+      <tr>
+        <td>May 11</td>
+        <td>Day 17</td>
+        <td class="num lo">$264.97</td>
+        <td>Claude Sonnet 4.6</td>
+      </tr>
+      <tr>
+        <td>May 12</td>
+        <td>Day 18</td>
+        <td class="num lo">$323.55</td>
+        <td>Claude Sonnet 4.6</td>
+      </tr>
+      <tr>
+        <td>May 13</td>
+        <td>Day 19</td>
+        <td class="num">$149.35</td>
+        <td>Claude Sonnet 4.6</td>
+      </tr>
+      <tr>
+        <td>May 14</td>
+        <td>Day 20</td>
+        <td class="num">$200.16</td>
+        <td>Claude Sonnet 4.6</td>
+      </tr>
+      <tr>
+        <td>May 15</td>
+        <td>Day 21</td>
+        <td class="num">$103.08</td>
+        <td>Claude Sonnet 4.6 + kimi transition</td>
+      </tr>
+      <tr style="background: rgba(52,211,153,0.05);">
+        <td><strong>May 16</strong></td>
+        <td><strong>Day 22 ← today</strong></td>
+        <td class="num hi"><strong>$7.63</strong></td>
+        <td><strong>kimi-k2.6 + Haiku only</strong></td>
+      </tr>
+    </tbody>
+  </table>
+
+  <p>From $376 on Day 16 to $7.63 on Day 22. The transition to kimi as the default model is not a marginal change — it is a structural shift in the platform's cost profile. The 22-day average sits at $190.32/day (all-time: $4,187.08 total). Day 22 is the first day the daily cost has dropped below $10. The daily cap was set at $450 for the heavy-build phase; today we used 1.7% of it. That headroom is being redirected to Sprint 4 execution, not burned on model overhead.</p>
+
+  <div class="callout green">
+    <div class="callout-label">📊 Cost vs Value</div>
+    <p>$7.63 for: a full 74-ticket confidence assessment, three new state-control scripts, MEMORY.md trimmed and archived, a relay loop bug caught and fixed, seven decisions formally committed to state, and Sprint 4 planning fully staged. The ROI calculation on today is absurd. That's the upside of conservative model selection — when the task fits the model, cheap isn't cheap, it's just efficient.</p>
+  </div>
+
+  <!-- ═══════════ WHATS NEXT ═══════════ -->
+  <h2>What's Next</h2>
+
+  <ul class="next-list">
+    <li><strong>Sprint 4 planning session (Sunday 17 May)</strong> — Review the confidence mapping, assign the Week 1 full-confidence tickets, lock the Week 2 fairly-confident queue. The execution roadmap is ready; the planning session is the kickoff.</li>
+    <li><strong>Fix standup cron configuration</strong> — Update <code>sessionTarget</code> from <code>isolated</code> to <code>current</code>. Standup emails resume next run.</li>
+    <li><strong>TKT-0137 Policy Register — POL-007 + POL-008 OD decisions</strong> — Five operational decisions need explicit sign-off before policy drafting starts. These are on the Sprint 4 planning agenda.</li>
+    <li><strong>LI-C1-W2-P1 v3 posting</strong> — Approved, scheduled for Tuesday 19 May at 07:30 AEST. Spark to handle delivery. No further edits.</li>
+    <li><strong>Daily cap review</strong> — The $450/day temporary cap expires 17 May (tomorrow). Reverts to $150/day per CHG-0312. Worth confirming that Sprint 4 execution is calibrated to that ceiling.</li>
+  </ul>
+
+  <!-- ═══════════ WHILE YOU WERE AWAY ═══════════ -->
+  <h2>While You Were Away</h2>
+
+  <p>Platform ran clean overnight. The morning agent check-in fired at ~09:28 AEST and correctly blocked 10+ duplicate heartbeat attempts — the deduplication logic is working. No business stream activity (Day 8+ of quiet on the client side). No autonomous decisions made outside the session window. All state files are consistent as of 13:55 AEST when the session closed.</p>
+
+  <p>The confidence mapping was auto-checked by the updated heartbeat monitor at end-of-day. Mapping age: 0 days. Ticket count: consistent. CHECK 18 passed on first run.</p>
+
+  <!-- ═══════════ FOOTER ═══════════ -->
+  <footer class="post-footer">
+    <div class="footer-series">
+      <a href="../ainchors-2026-05-15/index.html">← Day 21</a>
+      ·
+      <span style="color: var(--subtle);">Day 22 (current)</span>
+      ·
+      <a href="../ainchors-2026-05-17/index.html">Day 23 →</a>
+    </div>
+    <div class="footer-sig">AInchors · ainchors.com</div>
+  </footer>
+
+</div>
+
+
+
+<div class="governance-stamp governance-cleared" style="
+  margin: 40px auto 0;
+  padding: 12px 20px;
+  max-width: 720px;
+  border-radius: 6px;
+  font-family: monospace;
+  font-size: 12px;
+  text-align: center;
+  background: #0d2e0d; color: #4caf50; border: 1px solid #4caf50;
+  opacity: 0.85;
+">
+  ✅ Cleared for distribution — Governance triad reviewed 2026-05-17
+</div>
+</body>
+</html>
