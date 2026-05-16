@@ -1,12 +1,12 @@
 {
-  "totalChecksRun": 1174,
-  "totalViolationsFound": 510,
+  "totalChecksRun": 1175,
+  "totalViolationsFound": 522,
   "consecutiveClean": 0,
-  "lastCheck": "2026-05-16T23:07:03+10:00",
+  "lastCheck": "2026-05-17T00:12:27+10:00",
   "lastStatus": "violation",
   "lastPassCount": 7,
   "lastFailCount": 12,
-  "lastViolationAt": "2026-05-16T23:07:03+10:00",
+  "lastViolationAt": "2026-05-17T00:12:27+10:00",
   "notes": "Heartbeat check 2026-05-05T19:22:24.008882+10:00. All 7 policy-covered agents on Sonnet as required. architect/platform-arch not in policy \u2014 gap noted.",
   "approvedModels": [
     "ollama/gemma4:31b-cloud"
