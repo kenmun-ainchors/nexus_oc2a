@@ -1850,3 +1850,55 @@ Before creating OR modifying any cron agentTurn:
 
 Any cron exceeding 2x its category target → flag in monthly CI audit.
 
+---
+
+## CLAUDE CONSERVATIVE MODE PROCEDURE (CHG-0362)
+
+**Trigger:** Claude API credits depleted or any condition requiring all agents to run on non-Claude models (kimi/gemma4/deepseek-pro).
+**Duration:** Until Ken issues `CLAUDE RESTORE` keyword.
+**Authority:** Ken Mun (CTO) — explicit approval required to activate/deactivate.
+
+### What Changes
+1. **All agents** switch primary model to `ollama/kimi-k2.6:cloud` (or designated interim model).
+2. **Warden** stops flagging model drift for interim models — drift is intentional, not a violation.
+3. **Conservative mode rule (CHG-0350)** activates: NO risky state manipulation without explicit Ken approval.
+
+### Activation Steps (Yoda)
+1. Save current openclaw.json config snapshot: `state/claude-restore-config.json`
+2. Update all agents in openclaw.json: primary → `ollama/kimi-k2.6:cloud`, fallbacks → `[gemma4, deepseek-pro]`
+3. Write `state/interim-model-period.json`: `{ "active": true, "reason": "...", "revertKeyword": "CLAUDE RESTORE", "startedAt": "...", "approvedBy": "Ken" }`
+4. Update model-policy.json: add `interimPeriod` block documenting the exception
+5. Update Warden cron: skip drift checks when `interim-model-period.json active=true`
+6. Log CHG entry (reference CHG-0349/0362 pattern)
+7. Notify all agents via AGENTS.md / SOUL.md update: conservative mode active
+
+### Deactivation Steps (Yoda, upon Ken saying "CLAUDE RESTORE")
+1. Restore openclaw.json from `state/claude-restore-config.json`
+2. Delete `state/interim-model-period.json`
+3. Update model-policy.json: remove or set `interimPeriod.active = false`
+4. Revert Warden cron to full drift checking
+5. Remove conservative mode rule from SOUL.md / AGENTS.md
+6. Restart gateway to apply restored config
+7. Run PVT (9/9) to verify all agents on correct models
+8. Log CHG entry marking end of interim period
+
+### Warden Behaviour During Interim
+- **Drift checks:** SKIPPED entirely. Warden logs "INTERIM_PERIOD_ACTIVE" and exits clean.
+- **Escalations:** NO escalation file written for model drift.
+- **Heartbeat:** Surfaces interim status only — "Interim period active since [date], reason: [reason]".
+- **Other checks:** Non-model checks (obs freshness, ITIL compliance, cost alerts) continue normally.
+
+### Conservative Mode Rule (applies to ALL agents)
+During interim period:
+- ❌ **Requires explicit approval:** editing state files, modifying crons, deleting files, gateway restarts, config changes, risky git operations
+- ✅ **Safe without approval:** read-only operations, file reads, status checks, log reviews, generating reports
+- **Approval mechanism:** Agent alerts Ken: "⚠️ This involves [action]. During interim period, explicit approval required. Proceed?" Wait for "APPROVED" or "PROCEED".
+
+### Documentation Requirements
+- CHANGELOG entry for activation and deactivation
+- state/interim-model-period.json as live flag
+- Warden cron header comment referencing CHG-0362
+- This runbook section kept current
+
+**Linked:** CHG-0349, CHG-0350, CHG-0362, TKT-0165
+

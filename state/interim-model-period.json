@@ -1,0 +1,12 @@
+{
+  "active": true,
+  "reason": "CHG-0349 Claude API credit depletion",
+  "revertKeyword": "CLAUDE RESTORE",
+  "startedAt": "2026-05-15T18:19:00+10:00",
+  "expectedEnd": "Upon CLAUDE RESTORE keyword from Ken",
+  "approvedBy": "Ken Mun",
+  "approvedAt": "2026-05-17T09:18:00+10:00",
+  "approvedVia": "telegram",
+  "chgReference": "CHG-0362",
+  "note": "Warden must skip model drift checks during interim period. All agents on kimi/gemma4/deepseek-pro is intentional."
+}

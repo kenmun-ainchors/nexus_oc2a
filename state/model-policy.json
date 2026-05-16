@@ -715,5 +715,17 @@
   "_updatedAt": "2026-05-15",
   "_updatedBy": "Yoda (CHG-0270 format fix)",
   "_interimPeriod": "2026-05-15",
-  "_revertTrigger": "CLAUDE RESTORE"
+  "_revertTrigger": "CLAUDE RESTORE",
+  "interimPeriod": {
+    "active": true,
+    "chgReference": "CHG-0362",
+    "reason": "CHG-0349 Claude API credit depletion — all agents on interim models (kimi/gemma4/deepseek-pro)",
+    "revertKeyword": "CLAUDE RESTORE",
+    "startedAt": "2026-05-15T18:19:00+10:00",
+    "expectedEnd": "Upon CLAUDE RESTORE keyword from Ken",
+    "approvedBy": "Ken Mun",
+    "approvedAt": "2026-05-17T09:18:00+10:00",
+    "approvedVia": "telegram",
+    "note": "Warden skips model drift checks during interim period. Drift to interim models is intentional, not a violation. All other Warden checks (obs freshness, ITIL, cost) continue normally."
+  }
 }

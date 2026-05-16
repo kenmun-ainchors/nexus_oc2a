@@ -1,3 +1,16 @@
+## 2026-05-17 09:18 AEST — [CHG-0362] Warden intentional model drift documentation — interim period (kimi) declared not drift
+**Type:** config
+**Change Type:** Normal
+**Source:** ken-prompt
+**Trigger:** Ken approved via Telegram 2026-05-17 09:18 AEST. Warden reported model drift due to all agents on kimi interim models.
+**What changed:** (1) Documented in CHANGELOG that all agents currently on ollama/kimi-k2.6:cloud is INTENTIONAL per CHG-0349/0350. (2) Updated scripts/warden-cron.sh with interim-period skip logic: if state/interim-model-period.json exists and active=true, Warden bypasses drift checks against model-policy.json requiredPrimary values. (3) Added Claude Conservative Mode procedure to YODA_RUNBOOK.md: when interim period active, Warden logs drift as INFO not ERROR, no escalation file written, heartbeat surfaces interim status only. (4) Added `interimPeriod` field to model-policy.json: { "active": true, "reason": "CHG-0349 Claude API credit depletion", "revertKeyword": "CLAUDE RESTORE", "startedAt": "2026-05-15T18:19:00+10:00", "expectedEnd": "Upon CLAUDE RESTORE keyword from Ken" }.
+**Why:** Warden model-drift-check.sh flags all 12 agents as violating model-policy.json (Sonnet/Haiku required → kimi actual). Without documentation, Warden generates false-positive escalations and obs noise. CHG-0349 intentionally moved all agents to kimi; Warden must respect this.
+**Verification:** Warden cron run after update → exit 0, no escalation file written, log shows "INTERIM_PERIOD_ACTIVE: skipping drift checks".
+**Rollback:** Remove interim-model-period.json, revert warden-cron.sh, remove Conservative Mode section from runbook.
+**Linked:** CHG-0349, CHG-0350, TKT-0165, TKT-0175
+---
+
+
 ## 2026-05-15 13:10 AEST — [CHG-0175] Calculated cost fallback for ephemeral sessions
 **Type:** feature
 **Source:** TKT-0175

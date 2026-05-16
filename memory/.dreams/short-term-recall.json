@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "updatedAt": "2026-05-16T02:54:12.385Z",
+  "updatedAt": "2026-05-16T23:17:17.584Z",
   "entries": {
     "memory:memory/2026-04-26.md:94:122": {
       "key": "memory:memory/2026-04-26.md:94:122",
@@ -1375,20 +1375,22 @@
       "endLine": 495,
       "source": "memory",
       "snippet": "- Owns and operates Nexus platform - AInchors = market-facing brand; Auralith = platform company behind it - Feeds Atlas EA, Ahsoka positioning, Holocron structure - TKT-0069 raised --- ## Key Decisions — Morning Session 1. Standup is now two-layer: Telegram flash (1 msg) + canvas HTML + email to kenmun@gmail.com + webchat embed 2. Exec PATH is non-negotiable: full paths always + pathPrepend in openclaw.json 3. Aria calendar failure = exec avoidance belief, not a CLI bug — fixed via urgent override file 4. Governance maturity L0 in standup was a false read — actual L2-L3 (confirmed from frameworks-maturity.json) 5. Kimi message must carry unmissable `[Kimi]` label — confirmed as separate 4",
-      "recallCount": 3,
+      "recallCount": 4,
       "dailyCount": 0,
       "groundedCount": 0,
-      "totalScore": 1.3011510044336319,
+      "totalScore": 1.7294073849916458,
       "maxScore": 0.45457060933113097,
       "firstRecalledAt": "2026-05-11T23:27:40.911Z",
-      "lastRecalledAt": "2026-05-11T23:57:29.677Z",
+      "lastRecalledAt": "2026-05-16T23:17:17.584Z",
       "queryHashes": [
         "627cf1a7c708",
         "1e7052cca8a6",
-        "d35120f21ffa"
+        "d35120f21ffa",
+        "a8a843104824"
       ],
       "recallDays": [
-        "2026-05-12"
+        "2026-05-12",
+        "2026-05-17"
       ],
       "conceptTags": [
         "market-facing",
@@ -1408,20 +1410,22 @@
       "endLine": 280,
       "source": "memory",
       "snippet": "- Owns and operates Nexus platform - AInchors = market-facing brand; Auralith = platform company behind it - Feeds Atlas EA, Ahsoka positioning, Holocron structure - TKT-0069 raised --- ## Key Decisions — Morning Session 1. Standup is now two-layer: Telegram flash (1 msg) + canvas HTML + email to kenmun@gmail.com + webchat embed 2. Exec PATH is non-negotiable: full paths always + pathPrepend in openclaw.json 3. Aria calendar failure = exec avoidance belief, not a CLI bug — fixed via urgent override file 4. Governance maturity L0 in standup was a false read — actual L2-L3 (confirmed from frameworks-maturity.json) 5. Kimi message must carry unmissable `[Kimi]` label — confirmed as separate 4",
-      "recallCount": 3,
+      "recallCount": 4,
       "dailyCount": 0,
       "groundedCount": 0,
-      "totalScore": 1.3011510044336319,
+      "totalScore": 1.7294073849916458,
       "maxScore": 0.45457060933113097,
       "firstRecalledAt": "2026-05-11T23:27:40.911Z",
-      "lastRecalledAt": "2026-05-11T23:57:29.677Z",
+      "lastRecalledAt": "2026-05-16T23:17:17.584Z",
       "queryHashes": [
         "627cf1a7c708",
         "1e7052cca8a6",
-        "d35120f21ffa"
+        "d35120f21ffa",
+        "a8a843104824"
       ],
       "recallDays": [
-        "2026-05-12"
+        "2026-05-12",
+        "2026-05-17"
       ],
       "conceptTags": [
         "market-facing",
@@ -1473,26 +1477,28 @@
       "endLine": 178,
       "source": "memory",
       "snippet": "- Strategy-to-Backlog Pipeline (TKT-0125): Roadmap Refinement ceremony formalised - Luthen (Marketing Intelligence agent): name confirmed, P2 spec written - ticket.sh fix: status=done now maps to Notion Done (was falling to Backlog) - ticket.sh fix: Notion status variable was zsh read-only — fixed Infrastructure built today: - telegram-alert.sh: API-independent Telegram fallback (no Anthropic dependency) - hf-generate-image.sh + linkedin-upload-image.sh: LinkedIn image pipeline live - linkedin-post.sh: em dash validator + mktemp collision guard + --image-asset-urn flag - Notion: Sprint, Planned Date, Delivered Date columns added. Sprint 2 backfilled. - Google Drive: \"AInchors Yoda Working F",
-      "recallCount": 6,
+      "recallCount": 7,
       "dailyCount": 0,
       "groundedCount": 0,
-      "totalScore": 2.5221928656101227,
+      "totalScore": 2.965618297457695,
       "maxScore": 0.4526666313409805,
       "firstRecalledAt": "2026-05-11T23:27:45.121Z",
-      "lastRecalledAt": "2026-05-16T02:54:12.385Z",
+      "lastRecalledAt": "2026-05-16T23:17:17.584Z",
       "queryHashes": [
         "827bc588f2a3",
         "763c944a8b88",
         "570a895a0310",
         "65d35902826c",
         "168fa8b4e74d",
-        "30b1ca6ccf11"
+        "30b1ca6ccf11",
+        "a8a843104824"
       ],
       "recallDays": [
         "2026-05-12",
         "2026-05-13",
         "2026-05-14",
-        "2026-05-16"
+        "2026-05-16",
+        "2026-05-17"
       ],
       "conceptTags": [
         "strategy-to-backlog",
@@ -1823,6 +1829,37 @@
         "rules.md",
         "ad-hoc",
         "state/standup-state.json"
+      ]
+    },
+    "memory:memory/2026-05-14.md:51:69": {
+      "key": "memory:memory/2026-05-14.md:51:69",
+      "path": "memory/2026-05-14.md",
+      "startLine": 51,
+      "endLine": 69,
+      "source": "memory",
+      "snippet": "- Initial confusion: thought MDP was for organic post analytics → actually organic metrics come from Advertising API product - **Re-auth required** — lengthy debugging session: - Client secret was stale (Ken may have viewed/regenerated in portal while checking MDP status) - PKCE had to be removed from linkedin-auth.sh (LinkedIn wasn't accepting the code_challenge) - redirect_uri `http://localhost:8765/callback` confirmed registered correctly - Client secret re-copied without extra chars (was 33 chars ending = suggesting encoding issue) - **Final result:** Token successfully issued - Scopes: `email openid profile r_1st_connections_size r_ads r_ads_reporting r_basicprofile r_organiza",
+      "recallCount": 1,
+      "dailyCount": 0,
+      "groundedCount": 0,
+      "totalScore": 0.43526396751403806,
+      "maxScore": 0.43526396751403806,
+      "firstRecalledAt": "2026-05-16T23:17:17.584Z",
+      "lastRecalledAt": "2026-05-16T23:17:17.584Z",
+      "queryHashes": [
+        "a8a843104824"
+      ],
+      "recallDays": [
+        "2026-05-17"
+      ],
+      "conceptTags": [
+        "re-auth",
+        "viewed/regenerated",
+        "linkedin-auth.sh",
+        "code-challenge",
+        "redirect-uri",
+        "8765/callback",
+        "re-copied",
+        "r-1st-connections-size"
       ]
     }
   }

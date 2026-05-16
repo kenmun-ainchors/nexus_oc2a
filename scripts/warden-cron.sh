@@ -9,6 +9,28 @@ set -uo pipefail
 WORKSPACE="/Users/ainchorsangiefpl/.openclaw/workspace"
 cd "$WORKSPACE"
 
+# Step 0: Check if interim model period is active (CHG-0362)
+# During interim periods (e.g. Claude API credit depletion), all agents run on
+# interim models (kimi/gemma4/deepseek-pro). Warden must NOT flag this as drift.
+INTERIM_FILE="$WORKSPACE/state/interim-model-period.json"
+INTERIM_ACTIVE=false
+if [[ -f "$INTERIM_FILE" ]]; then
+    INTERIM_ACTIVE=$(/usr/bin/python3 -c "import json; d=json.load(open('$INTERIM_FILE')); print(str(d.get('active',False)).lower())" 2>/dev/null || echo "false")
+fi
+
+if [[ "$INTERIM_ACTIVE" == "true" ]]; then
+    # Interim period active: skip drift checks, log INFO only
+    INTERIM_REASON=$(/usr/bin/python3 -c "import json; d=json.load(open('$INTERIM_FILE')); print(d.get('reason','unknown'))" 2>/dev/null || echo "unknown")
+    echo "INTERIM_PERIOD_ACTIVE: skipping drift checks ($INTERIM_REASON)"
+    bash scripts/log-delegation.sh \
+        --tier T2 \
+        --task-type warden-check \
+        --model "anthropic/claude-haiku-4-5" \
+        --status "pass" \
+        --notes "warden check: INTERIM_PERIOD_ACTIVE ($INTERIM_REASON) — drift checks skipped per CHG-0362" > /dev/null 2>&1 || true
+    exit 0
+fi
+
 # Step 1: Run compliance check (silent)
 bash scripts/model-drift-check.sh > /dev/null 2>&1
 EXIT_CODE=$?
