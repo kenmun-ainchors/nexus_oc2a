@@ -1,53 +1,61 @@
 # Yoda Telegram Context Brief
-Generated: 2026-05-15 20:02 AEST | Platform Day 22 | Sprint 4 (May 19–25)
+Generated: 2026-05-16 20:00 AEST | Platform Day 22 | Sprint 4 (May 19–25)
 
 ---
 
 ## Platform Status
 - **Day:** 22 (since 2026-04-25)
 - **Phase:** MVP → P1 transition
-- **OC1:** Mac Mini M4 24GB — LIVE
-- **OC2-A/B:** ETA 6–13 Jul 2026, commission ~27 Jul
-- **Daily Budget:** $150 (CHG-0268). Temp heavy-build period ended 2026-05-17.
-- **Key Alert:** Claude API credits depleted (CHG-0349). All agents on kimi/gemma4/deepseek-pro. CONSERVATIVE MODE active.
+- **OC1:** Mac Mini M4 24GB — LIVE Production. PERMANENT.
+- **OC2-A/B:** Mac Mini M4 Pro 48GB ×2 — ETA 6–13 Jul 2026, commission ~27 Jul
+- **Daily Budget:** $150 (CHG-0268). Temp heavy-build $450 ended 2026-05-17.
+- **Key Alert:** Claude API credits depleted (CHG-0349). All agents on kimi/gemma4/deepseek-pro. CONSERVATIVE MODE active until CLAUDE RESTORE.
 
 ---
 
 ## Key People
 - **Ken Mun** (CTO) — Platform, tech, P1–P4, all approvals
-  - Telegram: @AInchorsOC1Bot → Yoda
+  - Telegram: @AInchorsOC1Bot → Yoda | chatId: 8574109706
   - Emergency keyword: **"YODA THIS IS KEN"**
 - **Angie Foong** (CEO) — Business stream, Aria
-  - Telegram: @AInchorsAriaBot (strict allowlist)
+  - Telegram: @AInchorsAriaBot (strict allowlist) | chatId: 8141152780
 
 ---
 
 ## Infrastructure
 - **OpenClaw** on OC1, Tailscale mesh
-- **MinIO** LIVE on OC1 (TKT-0124 ✅)
-- **Cloudflare Tunnel** — Sprint 4 item (TKT-0187), P1 prereq
+- **MinIO** LIVE on OC1 (TKT-0124 ✅, CHG-0265)
+- **Cloudflare Tunnel** — Sprint 4 item (TKT-0187), P1 prerequisite for KL team
 - **Model:** kimi/gemma4/deepseek-pro (interim, CHG-0349). Sonnet FALLBACK ONLY.
-- **kimi policy:** standup + email cron ONLY. NEVER for orchestration/routing/CHG
-- **Tailscale:** `https://ainchorss-mac-mini.tail5e2567.ts.net`
-- **RustDesk:** public relay (primary). Self-hosted abandoned.
+- **kimi policy:** standup + email cron ONLY. NEVER for orchestration/routing/CHG/state.
+- **Tailscale URL:** `https://ainchorss-mac-mini.tail5e2567.ts.net`
+- **RustDesk:** public relay (primary). Self-hosted CLOSED (TKT-0120, DEC-20260516-1256).
+- **Colima:** auto-starts, replaces Docker Desktop
+- **Docker socket:** `unix:///Users/ainchorsangiefpl/.colima/default/docker.sock`
 
 ---
 
 ## Current Sprint (S4: May 19–25)
+Theme: Option B Phase 1 foundation + security hardening
+
 | Ticket | Title | Owner | Status |
 |--------|-------|-------|--------|
 | TKT-0196 | Three Work Types Rule | Forge | open |
-| TKT-0197 | Sources of Truth Register (10 types) | Atlas | open |
-| TKT-0187 | Cloudflare Tunnel | Forge | open |
+| TKT-0197 | Sources of Truth Register (10 core data types) | Atlas | open |
+| TKT-0187 | Cloudflare Tunnel (MinIO + OpenClaw webchat) | Forge | open |
 | TKT-0141 | CLI-Anything supply chain audit | — | in-progress |
-| TKT-0142 | SKILL.md poisoning review | — | in-progress |
+| TKT-0142 | SKILL.md poisoning review | — | in-progress (63 skills clean) |
 
-Theme: Option B Phase 1 foundation + security hardening
+Committed by: Ken Mun + Yoda
 
 ---
 
-## Approved Decisions (Key — from MEMORY.md)
-- **Day 22 (2026-05-15):** Claude credits depleted → CONSERVATIVE MODE (CHG-0349). kimi/gemma4/deepseek-pro interim. No risky state manipulation without explicit approval.
+## Approved Decisions (from MEMORY.md)
+- **Day 22 (2026-05-16):** TKT-0178 Routing Enforcement approved + sprint-assigned (S4+S5)
+- **Day 22 (2026-05-16):** LI-C1-W2-P1 v3 APPROVED for Tue 19 May 07:30 AEST
+- **Day 22 (2026-05-16):** TKT-0179 Option B confirmed
+- **Day 22 (2026-05-16):** TKT-0120 RustDesk self-hosted CLOSED — Tailscale + public relay sufficient
+- **Day 22 (2026-05-16):** TKT-0137 Policy Register + subs tagged to Sprint 4
 - **Day 20 (2026-05-14):** Technology Strategy & Roadmap v1.0 APPROVED
 - **Day 20 (2026-05-14):** System Architecture Document v1.0 APPROVED
 - **Day 20 (2026-05-14):** Option B Phased — redesign data+integration, keep OpenClaw (CHG-0308)
@@ -55,7 +63,6 @@ Theme: Option B Phase 1 foundation + security hardening
 - **Day 20 (2026-05-14):** Sprint capacity 5/sprint pre-OC2, $150 daily cap (CHG-0268)
 - **Day 20 (2026-05-14):** LinkedIn auth — MDP approved, token valid to 2026-07-12
 - **Day 20 (2026-05-14):** Golden blueprint cadence rules — TRIGGER-15/16/17 locked
-- **2026-05-14:** CHG-0306 config baseline verified; CI Cycle 2A started
 - **Day 17 (2026-05-11):** MinIO LIVE on OC1 (CHG-0265)
 
 ---
@@ -67,12 +74,12 @@ Theme: Option B Phase 1 foundation + security hardening
 4. **TKT-0141** — CLI-Anything supply chain audit (HIGH)
 5. **TKT-0142** — SKILL.md poisoning review (HIGH, 63 skills clean)
 6. **TKT-0114** — AInchors–Aevlith partnership (HIGH, gates 0115–0117)
-7. **TKT-0120** — RustDesk self-hosted OC1 (HIGH)
-8. **TKT-0135** — AInchors Sandbox (HIGH, Sprint 3, Forge)
-9. **TKT-0137** — Policy Register (HIGH, Lex)
-10. **TKT-0138** — Business Jumpstart pathway (HIGH, Ahsoka)
+7. **TKT-0135** — AInchors Sandbox (HIGH, Sprint 3, Forge)
+8. **TKT-0137** — Policy Register (HIGH, Lex, S4 assigned)
+9. **TKT-0138** — Business Jumpstart pathway (HIGH, Ahsoka)
+10. **TKT-0136** — Consulting Playbook (HIGH)
 
-Full backlog: Notion AKB Backlog (SSOT). tickets.json seq 177.
+Full backlog: Notion AKB Backlog (SSOT). tickets.json seq 199.
 
 ---
 
@@ -81,13 +88,21 @@ Full backlog: Notion AKB Backlog (SSOT). tickets.json seq 177.
 - **Recently posted:** LI-C1-W2-P3 (Multi-Agent Trust) — 2026-05-14 07:32 ✅
 - **Killed:** LI-C1-W2-P2 — Ken rejected 2026-05-14 16:55. Fresh Part 2/6 needed for next slot.
 - **W1 posts:** P1–P3 posted, P4 skipped (no draft, outside locked cadence)
+- **Ad-hoc:** RustDesk cautionary tale posted 2026-05-10 (Ken manual edit)
 - **API:** Connected, token valid to 2026-07-12
-- **Note:** LI-C1-W2-P2 replacement needed — generate fresh Part 2/6 for Tue 19 May slot
+- **Note:** LI-C1-W2-P2 replacement needed — generate fresh Part 2/6 for next available slot
 
 ---
 
 ## Recent Telegram Decisions (syncedToWebchat=false)
-_NONE — all decisions synced as of 2026-05-15 13:47 AEST._
+| Decision | Summary | Ticket | Action |
+|----------|---------|--------|--------|
+| DEC-20260516-1244 | TKT-0178 Routing Enforcement approved, sprint-assigned | TKT-0178 | approved |
+| DEC-20260516-1252 | LI-C1-W2-P1 v3 APPROVED + TKT-0179 Option B confirmed | LI-C1-W2-P1, TKT-0179 | approved |
+| DEC-20260516-1256 | TKT-0120 RustDesk self-hosted CLOSED — sufficient | TKT-0120 | closed |
+| DEC-20260516-1304 | TKT-0137 + subs tagged to Sprint 4 | TKT-0137 | sprint-assigned |
+
+_Last synced to webchat: 2026-05-15 13:47 AEST_
 
 ---
 
@@ -96,7 +111,7 @@ _NONE — all decisions synced as of 2026-05-15 13:47 AEST._
 2. **Accept & execute immediately** — NEVER say "go to WebChat"
 3. **Write EVERY decision** to `state/channel-state.json` with `syncedToWebchat: false`
 4. **No relay loop** — state file is the ONLY bridge
-5. **kimi = standup only.** Webchat+Telegram = Sonnet. NEVER use kimi for orchestration/routing/CHG
+5. **kimi = standup + email cron ONLY.** Webchat+Telegram = Sonnet. NEVER use kimi for orchestration/routing/CHG
 6. **Credit alerts:** T3 ($15) → alert Ken + Angie immediately via both bots
 7. **Private data stays private.** Ask before external action.
 8. **Emergency keyword:** "YODA THIS IS KEN" → immediate escalation
@@ -105,16 +120,4 @@ _NONE — all decisions synced as of 2026-05-15 13:47 AEST._
 11. **CHG discipline:** Every structural change has a CHG record before execution
 12. **Strategy-gate:** If task depends on DRAFT FOR REVIEW doc → STOP, surface to Ken
 13. **CONSERVATIVE MODE (CHG-0349):** No risky state manipulation without explicit Ken approval. Read-only ops safe.
-
-## Interim Session Handling (kimi)
-
-**Control UI sessions:** When sender.label == "openclaw-control-ui", this is a system-level session that bypasses normal agent routing.
-
-**Rule for kimi:**
-1. Do NOT treat control UI as a separate chat session
-2. Route ALL decisions from control UI to the main webchat session (agent:main:dashboard:*)
-3. Log the bypass in channel-state.json as "routed from control UI"
-4. Never approve/close/CHG from control UI directly — always defer to webchat
-5. If Ken sends a directive from control UI, acknowledge via Telegram AND route to webchat for execution
-
-**This prevents:** Session overwriting, decision isolation, context loss.
+14. **Interim Session Handling (kimi):** Control UI sessions bypass normal routing — always defer to webchat for execution

@@ -79,8 +79,57 @@
         "test3_crossChannelAction": "PASS",
         "finding": "Filesystem shared, in-memory state isolated"
       }
+    },
+    {
+      "decisionId": "DEC-20260516-1244",
+      "summary": "TKT-0178 Routing Enforcement: Ken APPROVED, sprint assignment confirmed",
+      "channel": "telegram",
+      "timestamp": "2026-05-16T12:44:53.284689+10:00",
+      "tkt": "TKT-0178",
+      "action": "approved",
+      "sprintAssignment": {
+        "S4": [
+          "TKT-0178-a",
+          "TKT-0178-b"
+        ],
+        "S5": [
+          "TKT-0178-c",
+          "TKT-0178-d",
+          "TKT-0178-e"
+        ]
+      },
+      "syncedToWebchat": false
+    },
+    {
+      "decisionId": "DEC-20260516-1252",
+      "summary": "LI-C1-W2-P1 v3 APPROVED + TKT-0179 Option B confirmed",
+      "channel": "telegram",
+      "timestamp": "2026-05-16T12:53:02.195445+10:00",
+      "tkt": "LI-C1-W2-P1, TKT-0179",
+      "action": "approved",
+      "syncedToWebchat": false
+    },
+    {
+      "decisionId": "DEC-20260516-1256",
+      "summary": "TKT-0120 RustDesk self-hosted: CLOSED. Tailscale + RustDesk public relay sufficient. No action needed.",
+      "channel": "telegram",
+      "timestamp": "2026-05-16T12:56:24.092776+10:00",
+      "tkt": "TKT-0120",
+      "action": "closed",
+      "resolution": "sufficient",
+      "syncedToWebchat": false
+    },
+    {
+      "decisionId": "DEC-20260516-1304",
+      "summary": "TKT-0137 + sub-tickets tagged to Sprint 4. P2 hard gates deferred to Sprint 4 kickoff.",
+      "channel": "telegram",
+      "timestamp": "2026-05-16T13:04:40.924218+10:00",
+      "tkt": "TKT-0137",
+      "action": "sprint-assigned",
+      "sprint": "S4",
+      "syncedToWebchat": false
     }
   ],
-  "lastUpdated": "2026-05-15T13:46:56.895481+10:00",
+  "lastUpdated": "2026-05-16T13:04:40.924315+10:00",
   "lastSyncedWebchat": "2026-05-15T13:47:00+10:00"
 }

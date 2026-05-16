@@ -1,24 +1,23 @@
 {
-  "lastCheckedAt": "2026-05-16T01:46:18+10:00",
+  "lastCheckedAt": "2026-05-16T12:47:09+10:00",
   "lastSource": "strategy-update",
-  "lastResult": "no-changes",
-  "lastSyncAt": "2026-05-09T13:25:59+10:00",
-  "changeCount": 5,
+  "lastResult": "changes-applied",
+  "lastSyncAt": "2026-05-16T12:47:09+10:00",
+  "changeCount": 4,
   "lastChanges": [
     {
       "agent": "main",
-      "added": [],
-      "removed": [
+      "added": [
         "ollama/gemma4:31b-cloud"
       ],
+      "removed": [],
       "before": [
         "anthropic/claude-haiku-4-5",
         "anthropic/claude-sonnet-4-6",
         "ollama/gemma4:e2b",
         "ollama/kimi-k2.6:cloud",
         "ollama/deepseek-v4-flash:cloud",
-        "ollama/deepseek-v4-pro:cloud",
-        "ollama/gemma4:31b-cloud"
+        "ollama/deepseek-v4-pro:cloud"
       ],
       "after": [
         "anthropic/claude-haiku-4-5",
@@ -26,94 +25,54 @@
         "ollama/gemma4:e2b",
         "ollama/kimi-k2.6:cloud",
         "ollama/deepseek-v4-flash:cloud",
-        "ollama/deepseek-v4-pro:cloud"
+        "ollama/deepseek-v4-pro:cloud",
+        "ollama/gemma4:31b-cloud"
       ]
     },
     {
       "agent": "business",
-      "added": [],
-      "removed": [
+      "added": [
         "ollama/gemma4:31b-cloud"
       ],
+      "removed": [],
       "before": [
+        "anthropic/claude-haiku-4-5",
+        "anthropic/claude-sonnet-4-6",
+        "ollama/kimi-k2.6:cloud",
+        "ollama/deepseek-v4-flash:cloud",
+        "ollama/deepseek-v4-pro:cloud"
+      ],
+      "after": [
         "anthropic/claude-haiku-4-5",
         "anthropic/claude-sonnet-4-6",
         "ollama/kimi-k2.6:cloud",
         "ollama/deepseek-v4-flash:cloud",
         "ollama/deepseek-v4-pro:cloud",
         "ollama/gemma4:31b-cloud"
-      ],
-      "after": [
-        "anthropic/claude-haiku-4-5",
-        "anthropic/claude-sonnet-4-6",
-        "ollama/kimi-k2.6:cloud",
-        "ollama/deepseek-v4-flash:cloud",
-        "ollama/deepseek-v4-pro:cloud"
       ]
     },
     {
-      "agent": "spark",
+      "agent": "security",
       "added": [],
-      "removed": [
+      "removed": [],
+      "prohibitedAdded": [
         "ollama/gemma4:31b-cloud"
-      ],
-      "before": [
-        "ollama/kimi-k2.6:cloud",
-        "ollama/deepseek-v4-pro:cloud",
-        "anthropic/claude-sonnet-4-6",
-        "anthropic/claude-haiku-4-5",
-        "ollama/gemma4:31b-cloud"
-      ],
-      "after": [
-        "ollama/kimi-k2.6:cloud",
-        "anthropic/claude-sonnet-4-6",
-        "anthropic/claude-haiku-4-5",
-        "ollama/deepseek-v4-pro:cloud"
       ]
     },
     {
-      "agent": "qa",
+      "agent": "legal",
       "added": [],
-      "removed": [
+      "removed": [],
+      "prohibitedAdded": [
         "ollama/gemma4:31b-cloud"
-      ],
-      "before": [
-        "anthropic/claude-haiku-4-5",
-        "anthropic/claude-sonnet-4-6",
-        "ollama/kimi-k2.6:cloud",
-        "ollama/deepseek-v4-flash:cloud",
-        "ollama/gemma4:31b-cloud"
-      ],
-      "after": [
-        "anthropic/claude-haiku-4-5",
-        "anthropic/claude-sonnet-4-6",
-        "ollama/kimi-k2.6:cloud",
-        "ollama/deepseek-v4-flash:cloud"
-      ]
-    },
-    {
-      "agent": "governance",
-      "added": [],
-      "removed": [
-        "ollama/gemma4:31b-cloud"
-      ],
-      "before": [
-        "anthropic/claude-haiku-4-5",
-        "anthropic/claude-sonnet-4-6",
-        "ollama/deepseek-v4-flash:cloud",
-        "ollama/gemma4:31b-cloud"
-      ],
-      "after": [
-        "anthropic/claude-haiku-4-5",
-        "anthropic/claude-sonnet-4-6",
-        "ollama/deepseek-v4-flash:cloud"
       ]
     }
   ],
   "approvedCloudModels": [
     "ollama/kimi-k2.6:cloud",
     "ollama/deepseek-v4-flash:cloud",
-    "ollama/deepseek-v4-pro:cloud"
+    "ollama/deepseek-v4-pro:cloud",
+    "ollama/gemma4:31b-cloud"
   ],
   "surfacedToKen": "2026-05-09T07:57:00Z"
 }

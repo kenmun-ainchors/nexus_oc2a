@@ -31,10 +31,10 @@ _obs_log() {
   local _n=${#_args[@]}
   local i=0
   while (( i < _n )); do
-    case "${_args[i]}" in
-      --message) _msg="${_args[$((i+1))]}" ;;
-      --type)    _type="${_args[$((i+1))]}" ;;
-      --source)  _source="${_args[$((i+1))]}" ;;
+    case "${_args[i]:-}" in
+      --message) _msg="${_args[$((i+1))]:-}" ;;
+      --type)    _type="${_args[$((i+1))]:-}" ;;
+      --source)  _source="${_args[$((i+1))]:-}" ;;
     esac
     i=$((i+1))
   done

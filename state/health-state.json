@@ -1,14 +1,12 @@
 {
-  "status": "degraded",
-  "overallStatus": "degraded",
+  "status": "ok",
+  "overallStatus": "ok",
   "consecutiveFailures": 0,
   "alerted": false,
-  "lastCheck": "2026-05-15T16:00:16Z",
-  "lastOk": "2026-05-15T16:00:16Z",
-  "exitCode": 1,
-  "issues": [
-    "1 zombie task run(s) detected \u2014 run: openclaw tasks audit"
-  ],
+  "lastCheck": "2026-05-16T13:01:09Z",
+  "lastOk": "2026-05-16T13:01:09Z",
+  "exitCode": 0,
+  "issues": [],
   "anthropicReachable": true,
   "ollamaReachable": true,
   "checks": {

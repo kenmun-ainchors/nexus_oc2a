@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "updatedAt": "2026-05-15T02:29:47.653Z",
+  "updatedAt": "2026-05-16T02:54:12.385Z",
   "entries": {
     "memory:memory/2026-04-26.md:94:122": {
       "key": "memory:memory/2026-04-26.md:94:122",
@@ -1473,23 +1473,26 @@
       "endLine": 178,
       "source": "memory",
       "snippet": "- Strategy-to-Backlog Pipeline (TKT-0125): Roadmap Refinement ceremony formalised - Luthen (Marketing Intelligence agent): name confirmed, P2 spec written - ticket.sh fix: status=done now maps to Notion Done (was falling to Backlog) - ticket.sh fix: Notion status variable was zsh read-only — fixed Infrastructure built today: - telegram-alert.sh: API-independent Telegram fallback (no Anthropic dependency) - hf-generate-image.sh + linkedin-upload-image.sh: LinkedIn image pipeline live - linkedin-post.sh: em dash validator + mktemp collision guard + --image-asset-urn flag - Notion: Sprint, Planned Date, Delivered Date columns added. Sprint 2 backfilled. - Google Drive: \"AInchors Yoda Working F",
-      "recallCount": 4,
+      "recallCount": 6,
       "dailyCount": 0,
       "groundedCount": 0,
-      "totalScore": 1.676323664188385,
-      "maxScore": 0.43588420450687404,
+      "totalScore": 2.5221928656101227,
+      "maxScore": 0.4526666313409805,
       "firstRecalledAt": "2026-05-11T23:27:45.121Z",
-      "lastRecalledAt": "2026-05-13T22:10:23.877Z",
+      "lastRecalledAt": "2026-05-16T02:54:12.385Z",
       "queryHashes": [
         "827bc588f2a3",
         "763c944a8b88",
         "570a895a0310",
-        "65d35902826c"
+        "65d35902826c",
+        "168fa8b4e74d",
+        "30b1ca6ccf11"
       ],
       "recallDays": [
         "2026-05-12",
         "2026-05-13",
-        "2026-05-14"
+        "2026-05-14",
+        "2026-05-16"
       ],
       "conceptTags": [
         "strategy-to-backlog",
@@ -1758,6 +1761,68 @@
         "chg-0170",
         "chg-0171",
         "memory.md"
+      ]
+    },
+    "memory:memory/2026-05-11.md:94:118": {
+      "key": "memory:memory/2026-05-11.md:94:118",
+      "path": "memory/2026-05-11.md",
+      "startLine": 94,
+      "endLine": 118,
+      "source": "memory",
+      "snippet": "- TKT-0130 QBR Agent Fleet Review (first: Jul 2026) - TKT-0136–0139 Consulting product suite (Ahsoka-owned) - Angie business stream: no activity since 28 April. JotForm API key still outstanding. --- ## Fix: Windows Webchat 1006 WebSocket Disconnect (17:53 AEST) **Issue:** Ken's Windows machine (kenmun-x1) getting WebSocket 1006 error on webchat. **Root cause:** Tailscale serve was proxying `https://ainchorss-mac-mini.tail5e2567.ts.net` → `localhost:9000` (default nginx, not configured). OpenClaw runs on `localhost:18789`. **Fix:** Updated Tailscale serve: `tailscale serve --https=443 --bg http://localhost:18789` **Status:** Resolved ✅ — Ken confirmed working 17:53 AEST. **Note:** Nginx o",
+      "recallCount": 1,
+      "dailyCount": 0,
+      "groundedCount": 0,
+      "totalScore": 0.38910782933235166,
+      "maxScore": 0.38910782933235166,
+      "firstRecalledAt": "2026-05-16T02:54:12.385Z",
+      "lastRecalledAt": "2026-05-16T02:54:12.385Z",
+      "queryHashes": [
+        "30b1ca6ccf11"
+      ],
+      "recallDays": [
+        "2026-05-16"
+      ],
+      "conceptTags": [
+        "tkt-0130",
+        "tkt-0136",
+        "ahsoka-owned",
+        "kenmun-x1",
+        "tkt",
+        "qbr",
+        "fleet",
+        "review"
+      ]
+    },
+    "memory:memory/2026-05-02.md:172:194": {
+      "key": "memory:memory/2026-05-02.md:172:194",
+      "path": "memory/2026-05-02.md",
+      "startLine": 172,
+      "endLine": 194,
+      "source": "memory",
+      "snippet": "- CHG-0129: TKT-0033 — Content governance triad gate (Lex+Shield+Sage) live. PVT 10/10. - CHG-0130: Spark ✨ social content agent created. LinkedIn cron Tue/Wed/Thu AEST. ### New Slash Commands (locked in RULES.md) - `/standup` — ad-hoc morning standup. Window = since lastStandupAt. state/standup-state.json tracks clock. - `/update` — flash update. Critical + needs-action + attention only. Does NOT reset standup clock. - `/eod` — EOD blog (daily close, journal-based). Output: `ainchors-YYYY-MM-DD/index.html` - `/blog <topic>` — standalone topic blog. Output: `ainchors-blog-<slug>/index.html` ### CI Framework — Architecture - **Cycle A (7 days, always-on):** Batch shadow T1/T2a tasks → score",
+      "recallCount": 1,
+      "dailyCount": 0,
+      "groundedCount": 0,
+      "totalScore": 0.38909531235694883,
+      "maxScore": 0.38909531235694883,
+      "firstRecalledAt": "2026-05-16T02:54:12.385Z",
+      "lastRecalledAt": "2026-05-16T02:54:12.385Z",
+      "queryHashes": [
+        "30b1ca6ccf11"
+      ],
+      "recallDays": [
+        "2026-05-16"
+      ],
+      "conceptTags": [
+        "chg-0129",
+        "tkt-0033",
+        "10/10",
+        "chg-0130",
+        "tue/wed/thu",
+        "rules.md",
+        "ad-hoc",
+        "state/standup-state.json"
       ]
     }
   }

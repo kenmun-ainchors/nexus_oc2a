@@ -136,6 +136,12 @@ _Maintained by Aria 🔵 + Yoda 🟢 | Status-tracked content for AInchors train
 | TC-119 | When the platform eats itself: diagnosing gateway event loop saturation from intensive AI workloads | 💡 Idea | Yoda Day 20 (CHG-0320/0321 — 12+ concurrent sub-agents → 98.3% event loop utilisation, 28s delays, 7 lost tasks; weekly restart + stale cleanup crons added) | Yoda |
 | TC-120 | Closing the LinkedIn analytics loop: why you need to store the post ID at publish time | 💡 Idea | Yoda Day 20 (CHG-0322 — linkedin-post.sh --queue-content-id flag; activity URN must be captured at publish time or analytics are impossible) | Aria |
 | TC-121 | When your $150 budget cap costs $400 a day: how to detect and respond to cost reality drift | 💡 Idea | Yoda Day 20 (CHG-0312/0313 — cap exceeded 6/10 days, actual burn ~$400/day; tooling must be verified before trusting budget numbers) | Both |
+| TC-127 | Matching AI model tier to task complexity: a confidence-based backlog approach | 💡 Idea | Yoda Day 22 (kimi confidence mapping — 74 tickets rated, 60% viable on cheaper model with controls) | Both |
+| TC-128 | State controls that stop AI from breaking things: snapshot, diff, and validate | 💡 Idea | Yoda Day 22 (state-snapshot.sh + state-diff.sh + tkt-acceptance-template.sh for safe kimi execution) | Yoda |
+| TC-129 | When your AI cron fails silently: isolated session configuration traps | 💡 Idea | Yoda Day 22 (standup cron failed in isolated session — no file writes, no auth, no visible error until human noticed) | Yoda |
+| TC-130 | Memory management for long-running AI agents: from files to databases | 💡 Idea | Yoda Day 22 (MEMORY.md hit 10k limit, archival bridge built, T4 semantic memory planned for P1) | Both |
+| TC-131 | The relay loop: when AI confirmation messages trigger response cycles | 💡 Idea | Yoda Day 22 (webchat↔telegram relay loop — metadata-only messages need NO_REPLY handling) | Yoda |
+| TC-132 | Model evaluation cycles: the three-stage path from trial to production | 💡 Idea | Yoda Day 22 (gemma4:31b-cloud Cycle 1A → 2A → B: trial → validate → live production) | Both |
 
 ## Status Legend
 💡 Idea → 📝 Draft → 🔍 Review (Yoda validates) → ✅ Ready → 📢 Published

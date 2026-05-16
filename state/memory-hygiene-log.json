@@ -34,11 +34,13 @@
   {
     "date": "2026-05-13T21:45:27Z",
     "changes": "1 fact correction: tickets.json sequence updated 155 → 162. Cross-check verified: tickets.json shows sequence:162 with TKT-0104 through TKT-0138 (35 active+resolved tickets). allowlist-sync-state.json shows future timestamp (2026-05-14 07:34:12+10:00, data integrity issue noted but outside MEMORY.md scope). cost-state.json current to 2026-05-13 13:55:28Z (19 days tracked), chg-triggers.json all current, akb-migration-state.json phases 1-5 verified. MEMORY.md now accurate as of standup Day 19 pre-8AM sweep. No alerts to Ken."
-  }
-]
-,
+  },
   {
     "date": "2026-05-15T07:45:00+10:00",
     "changes": "3 stale entries corrected: (1) Pending Tickets: tickets.json seq 162 → 177 (15 new tickets since last sweep). (2) Sprint Capacity: daily budget cap noted as temporary $450 (CHG-0312) until 2026-05-17, reverts to $150. (3) Golden Blueprint Documents: added external/sanitised v1.0 reference (CHG-0317) and locked cadence rule references (TRIGGER-15/16/17 per CHG-0319). Cross-checks: tickets.json seq:177 ✓, cost-state.json balance $203.48 confirmed by Ken 2026-05-14 ✓, chg-triggers.json includes TRIGGER-15/16/17 for golden blueprint cadence ✓, CHANGELOG.md latest CHG-0324 ✓, allowlist-sync-state.json lastChecked 2026-05-15 07:15:19 (today) ✓. No alerts to Ken."
+  },
+  {
+    "date": "2026-05-16T07:45:00+10:00",
+    "changes": "4 critical updates: (1) OpenClaw security S1 control updated v2026.5.5 → v2026.5.12 (HIGH security release CHG-0353, 7-day update window, detected this morning 2026-05-16 06:01 AEST). (2) tickets.json seq 177 → 199 (22 new tickets added since last sweep 2026-05-15). (3) gemma4:31b-cloud status corrected: removed from all agent allowlists 2026-05-09 (CHG-0250 CI Cycle B cancelled), deprecated, no longer experimental. TKT-0134 deferred post-OC2. (4) Added emergency incident documentation: Claude API credit depletion 2026-05-15 (CHG-0348/0349/0336)—emergency mode activated, all agents switched to kimi→deepseek-pro fallback, reverted 14:47 AEST. Root causes under investigation (TKT-0165/0175 cost tracking gaps). Documented in kimi Policy section with fallback chain and recovery steps. Cross-checks: tickets.json seq:199 ✓, cost-state.json balance $203.48 (Ken confirmed 2026-05-14) ✓, chg-triggers.json TRIGGER-04 fired (v2026.5.12) ✓, allowlist-sync-state.json lastChecked 2026-05-16 07:16:22 (gemma4:31b-cloud removed) ✓, akb-migration-state.json phases 1-5 complete ✓, CHANGELOG.md latest CHG-0353 ✓. No alerts to Ken (incident documented, no blocking conflicts)."
   }
 ]

@@ -5,9 +5,9 @@
   "ciModel": "ollama/deepseek-v4-pro:cloud",
   "testStartAt": "2026-05-02T01:23:51.709013Z",
   "testEndAt": null,
-  "lastRunAt": "2026-05-15T12:40:06.274169+00:00",
-  "status": "cycle-a",
-  "totalRuns": 48,
+  "lastRunAt": "2026-05-16T12:39:37.416Z",
+  "status": "awaiting-ken-approval",
+  "totalRuns": 52,
   "totalTasksEvaluated": 105,
   "runFrequencyHours": 6,
   "qualityThreshold": 3.5,
@@ -15,26 +15,26 @@
   "cronId": "3ec512f3-d85a-486c-866a-8c2c55882641",
   "reportCronId": "a6ec7539-ec94-4fd4-b226-2699636a9f63",
   "cycleDurationDays": 7,
-  "currentCycle": 2,
+  "currentCycle": 3,
   "currentPhase": "A",
-  "cycleAStartAt": "2026-05-08T18:41:21.275203+00:00",
-  "cycleAEndAt": "2026-05-08T18:41:21.275203+00:00",
+  "cycleAStartAt": "2026-05-16T00:39:00.000Z",
+  "cycleAEndAt": "2026-05-16T00:39:00.000Z",
   "cycleBStartAt": null,
   "cycleBEndAt": null,
   "topCandidates": [
     {
-      "task": "subtask",
-      "model": "deepseek-v4-flash:cloud",
-      "avgQuality": 3.88,
-      "avgLatency": 15.51,
-      "confidence": "MEDIUM"
+      "task": "ops-cron",
+      "model": "gemma4:31b-cloud",
+      "avgQuality": 4.39,
+      "avgLatency": 11.43,
+      "confidence": "HIGH"
     },
     {
-      "task": "creative",
-      "model": "kimi-k2.6:cloud",
-      "avgQuality": 4.14,
-      "avgLatency": 24.13,
-      "confidence": "LOW"
+      "task": "subtask",
+      "model": "deepseek-v4-flash:cloud",
+      "avgQuality": 4,
+      "avgLatency": 18.41,
+      "confidence": "MEDIUM"
     }
   ],
   "cycleHistory": [
@@ -61,15 +61,39 @@
           "confidence": "LOW"
         }
       ]
+    },
+    {
+      "cycle": 2,
+      "phase": "A",
+      "startAt": "2026-05-08T18:41:21.275203+00:00",
+      "endAt": "2026-05-16T00:39:00.000Z",
+      "totalRuns": 50,
+      "totalTasks": 68,
+      "topCandidates": [
+        {
+          "task": "ops-cron",
+          "model": "gemma4:31b-cloud",
+          "avgQuality": 4.39,
+          "avgLatency": 11.43,
+          "confidence": "HIGH"
+        },
+        {
+          "task": "subtask",
+          "model": "deepseek-v4-flash:cloud",
+          "avgQuality": 4,
+          "avgLatency": 18.41,
+          "confidence": "MEDIUM"
+        }
+      ]
     }
   ],
   "cycleBCronId": null,
   "approvalRequired": true,
   "approvedBy": "Ken",
   "approvedAt": "2026-05-09T02:40:08.257313+00:00",
-  "approvalNote": "Ken approved Cycle B 2026-05-09. Top candidates: subtask\u2192deepseek-v4-flash:cloud (MEDIUM), creative\u2192kimi-k2.6:cloud (LOW). Cycle B = real-time parallel evaluation on live tasks.",
+  "approvalNote": "Ken approved Cycle B 2026-05-09. Top candidates: subtask→deepseek-v4-flash:cloud (MEDIUM), creative→kimi-k2.6:cloud (LOW). Cycle B = real-time parallel evaluation on live tasks.",
   "cycleBCancelledAt": "2026-05-09T03:03:30.319520+00:00",
-  "cycleBCancelReason": "Ken directive 2026-05-09: Cycle B requires >=75% pass rate. Cycle 1A candidates MEDIUM/LOW confidence \u2014 threshold not met. gemma4:31b-cloud added as Cycle 2A candidate alongside deepseek-flash and kimi. Re-evaluate all three after 7-day Cycle 2A window.",
+  "cycleBCancelReason": "Ken directive 2026-05-09: Cycle B requires >=75% pass rate. Cycle 1A candidates MEDIUM/LOW confidence — threshold not met. gemma4:31b-cloud added as Cycle 2A candidate alongside deepseek-flash and kimi. Re-evaluate all three after 7-day Cycle 2A window.",
   "cycleBPassRateThreshold": 0.75,
   "cycleBPassRateRule": "All top candidates must achieve >=75% pass rate (tasks scoring >= qualityThreshold) in Cycle A before Cycle B activation. Ken approves after threshold is confirmed.",
   "cycleACandidates": [

@@ -1,112 +1,109 @@
-# Yoda Daily Brief — 2026-05-15 (Day 21)
-_Written by Yoda 🟢 for Aria 🔵 + Angie | ~11:00 PM AEST_
+# Yoda Daily Brief — 2026-05-16
+_Auto-synced by Yoda for Aria 🔵 | Day 22 of AInchors | Conservative Mode Active_
 
 ---
 
-## What Happened Today
+## What Yoda Built Today
 
-Day 21 was a day of crises, recoveries, and hard decisions. The platform survived two significant challenges — and came out stronger on the other side with new rules, a formal emergency runbook, and a cost forecast for the months ahead.
+**1. MEMORY.md Trim + Archive**
+Our main memory file hit its size limit. Yoda trimmed 1,700 characters (sprint lists, config details, architecture detail) into a searchable archive. MEMORY.md now sits clean under the limit — no data lost, everything searchable. Set up rules so any agent can find archive content on demand. This is interim until our proper database memory goes live in P1.
 
-### Morning: Platform Tuning and Sprint Close-Out
+**2. Confidence Mapping for P1 Backlog**
+Ken asked: "Can we keep building with kimi instead of Claude?" We audited all 74 open tickets across four confidence levels:
+- **25 tickets — Full Confidence** (routine background work, well-documented)
+- **20 tickets — Fairly Confident** (moderate complexity, needs Forge review)
+- **19 tickets — Low Confidence** (complex multi-agent coordination, defer until Claude restored)
+- **10 tickets — Blocked/External** (needs human approval or external dependency)
 
-The day started with Ken verifying TKT-0160 (context unification between Telegram and webchat). After testing, we confirmed Option C as the final state: **kimi on Telegram, Sonnet on webchat**, with a context brief refreshed twice daily (2pm + 8pm) to bridge the gap. Ken also approved two new tickets for Sprint 5: TKT-0175 (fixing cost tracker blind spots) and TKT-0176 (tech stream ROI framework).
+This gives us a clear execution lens: ~60% of backlog is viable right now, 26% should wait for Claude, 14% blocked regardless.
 
-Ken then completed Sprint 3 review and staged Sprint 4 backlog — 15 candidate items ready for Sunday planning. Three hard commitments already locked: Three Work Types Rule, Sources of Truth Register, and Cloudflare Tunnel.
+**3. State Controls for Safe Execution**
+Built three new safety tools to make kimi execution safer:
+- `state-snapshot.sh` — backup state before any risky change
+- `state-diff.sh` — compare before/after to catch unintended changes
+- `tkt-acceptance-template.sh` — every ticket gets an acceptance test skeleton
 
-### Afternoon: Cost Tracking Fixed and Forecast Built
+Added auto-heal CHECK 18 to validate the confidence map stays fresh (alerts if older than 7 days).
 
-Ken asked for a cost report for Angie. The tracker had been undercounting by about 20% due to isolated cron/subagent sessions that don't write to the main log. Ken suggested a simple calculated approach (turns × model rate × token estimate) — much more practical than reverse-engineering OpenClaw internals. Approved and locked for Sprint 5.
+**4. Sprint 4 Planning Prep**
+Sprint 4 kicks off tomorrow (May 17). Confirmed scope:
+- **TKT-0137** — Policy Register (12 policy tasks, AC2–AC9) ✅ in scope
+- **P2 hard gates** (POL-001 to POL-008) deferred to Sprint 4 kickoff
+- **5 sub-tickets for TKT-0178** (routing discipline enforcement) created and assigned:
+  - Sprint 4: audit routing + Warden integration (Forge, 1.5 days)
+  - Sprint 5: design routing gate + implement + LinkedIn E2E test
 
-Ken then asked for a **full cost forecast to P4 completion** (end of year). Three scenarios generated:
-- **Scenario A (Best):** $61,270 — no contingency, everything goes to plan
-- **Scenario B (Realistic):** $70,460 — 15% contingency, our recommendation
-- **Scenario C (Worst):** $79,651 — 30% contingency, all risks materialise
+**5. Model Approval — gemma4:31b-cloud**
+Ken approved gemma4:31b-cloud for Tier 2 (Ollama Cloud). Key point: the local 26B version caused system-wide slowdown when loaded; the 31B cloud variant runs remotely with no OC1 impact. Cycle 2A proved it: 93% pass rate, HIGH confidence, 4.39/5 quality. Now running live production evaluation (Cycle B, 14 days) on operational crons.
 
-Plus a focused P1-only breakdown with three scope variants (full / core / bare minimum) to help Ken size the immediate work. Reports emailed as DOCX.
+**6. Standup Cron Bug Fix**
+Morning standup email failed — root cause: the cron was configured to run in an "isolated" session (no file access, no auth context). Fixed by switching to `current` session so it can write state and send emails. Standup will resume tomorrow.
 
-### Evening: API Emergency — All Agents Switched to kimi
+**7. Inter-Session Relay Loop Fix**
+Fixed a bug where relay messages between webchat and Telegram were creating response loops. New rule: if a message is just an acknowledgment/relay confirmation, Yoda silently skips it (`NO_REPLY`). Only engages when the relay contains actual new work.
 
-At 5:18 PM, Ken declared an emergency: **Claude API credits depleted, auto-reload not firing.**
-
-All 12 agents were immediately switched from Sonnet/Haiku to **kimi (Ollama Cloud)** as primary model. Key actions:
-- **Keyword locked:** `CLAUDE RESTORE` — Ken says this, we revert instantly
-- **Config saved:** Original Sonnet/Haiku settings backed up for clean rollback
-- **Conservative mode activated:** No risky state manipulation (file edits, restarts, deletions) without explicit Ken "PROCEED" approval
-- **Model Emergency Runbook v1.0** created — formal procedure for future incidents
-
-Later in the evening, Warden detected Anthropic API returning HTTP 502 (unreachable). Because all agents were already on kimi, there was **zero platform impact.** The interim switch proved its value.
-
-### Key Learning from the Emergency
-
-The emergency exposed a gap: kimi doesn't handle complex orchestration as reliably as Sonnet. A control UI session (system-level, not Ken's chat) was creating independent sessions — something Sonnet never did. We implemented an explicit routing workaround and documented it. The lesson: **interim models need interim rules.**
+**8. Two Tickets Closed/Groomed**
+- **TKT-0120** closed — Remote access (Tailscale + RustDesk public relay) confirmed sufficient. No need for self-hosted RustDesk server.
+- **TKT-0137** groomed — Full policy register status assessed, 12 policies queued, 5 operational decisions needed from Ken.
 
 ---
 
-## Key Decisions Made
+## Key Decisions Made Today
 
-| Decision | What Was Decided | Who Approved |
+| Decision | What | Status |
 |---|---|---|
-| TKT-0160 final state | Option C confirmed: kimi Telegram + Sonnet webchat + 2x daily context brief | Ken (14:27) |
-| Context brief cadence | 30-min → 2x daily (2pm + 8pm), silent (no notifications) | Ken (17:27) |
-| TKT-0175 strategy | Calculated cost approach (turns × rate × tokens) vs file parsing | Ken (09:51) |
-| TKT-0176 raised | Tech stream ROI framework — groom and populate | Ken (10:32) |
-| Sprint 4 planning | Sunday 18 May 09:00 AEST | Ken (17:32) |
-| Telegram model revert | Back to Sonnet (main) — kimi risk unacceptable for mobile work | Ken (14:36) |
-| API emergency switch | All 12 agents → kimi primary, deepseek fallback | Ken emergency (17:18) |
-| Conservative mode | No risky state manipulation without explicit "PROCEED" | Ken (18:30) |
-| Emergency runbook | `CLAUDE DEPLETED` = trigger, `CLAUDE RESTORE` = rollback | Ken approved (18:35) |
-| Cost forecast | Three scenarios to P4: A=$61K, B=$70K, C=$80K | Ken (20:29) |
+| LI-C1-W2-P1 v3 | LinkedIn post "AIOps: Who watches the agents?" approved for Tue 19 May 07:30 | ✅ Locked |
+| TKT-0179 Option B | Enhance audit-skill.sh now (Sprint 4), defer ClawGuard eval to P2 | ✅ Confirmed |
+| TKT-0120 | Tailscale sufficient — close ticket, no self-hosted RustDesk | ✅ Closed |
+| TKT-0137 | Tag to Sprint 4 — policy register work starts next sprint | ✅ Tagged |
+| gemma4:31b-cloud | Approved for T2, Cycle B live evaluation started | ✅ Active |
+| Sprint 4 scope | TKT-0137 + TKT-0178 sub-tickets confirmed; POL-001–008 deferred | ✅ Locked |
 
 ---
 
-## Training Content Angles (for AI Courses)
+## Training Content Angles — Today's Work
 
-*New ideas from today's work — what lessons are worth teaching?*
+**TC-127 — "Can your cheaper AI model handle the work?"**
+The confidence mapping exercise showed that not all tickets need the most expensive model. 60% of our backlog runs fine on a cheaper model with the right controls. Lesson: match AI model tier to task complexity, not just "use the best for everything."
 
-**TC-122 — The calculated cost approach: when perfect tracking is impossible, build a good-enough model**
-Ken suggested avoiding complex OpenClaw internals and instead using turn counts + model rates + token estimates to fill tracking gaps. Result: ~1.20x adjustment factor captures 95% of missed costs. The principle: when ground truth is expensive, a validated estimate beats a blind spot.
-*Source: TKT-0175 — Calculated cost fallback for ephemeral sessions*
+**TC-128 — "State controls that stop AI from breaking things"**
+The state-snapshot + diff + acceptance test tools are a pattern any AI operations team can use. Before any risky change: snapshot, execute, diff, validate. Simple controls that prevent expensive mistakes.
 
-**TC-123 — Emergency model switching: the runbook that saves your platform when the API dies**
-When Claude API credits depleted, we switched all 12 agents to kimi in under 10 minutes with zero downtime. The key was having: (1) a pre-defined trigger keyword (`CLAUDE DEPLETED`), (2) saved config for instant rollback (`CLAUDE RESTORE`), (3) conservative mode rules to prevent kimi from making bad decisions under pressure. Lesson: plan for API failure before it happens.
-*Source: CHG-0348/0349/0350/0351 — Model Emergency Runbook v1.0*
+**TC-129 — "When your AI cron fails silently: isolated session traps"**
+The standup cron failure is a great teaching case. Running in isolated mode broke file writes and auth — no error was visible until Ken noticed missing emails. Lesson: match session type to task requirements.
 
-**TC-124 — Interim models need interim rules: why kimi can't do everything Sonnet does**
-Switching to kimi introduced new failure modes: control UI sessions creating independent contexts, weaker reasoning on complex orchestration, false positives on state checks. We had to add explicit routing rules and conservative mode. The lesson: a model swap isn't just a config change — it's an operating model change.
-*Source: CHG-0350/0351 — Conservative mode + control UI mitigation*
+**TC-130 — "Memory management for AI agents that live forever"**
+MEMORY.md hitting its limit and needing archival is a real constraint. We built a bridge solution (file archives) but the long-term answer is a database with semantic search. Shows the evolution from file-based to database-based AI memory.
 
-**TC-125 — Cost forecasting for AI platforms: three scenarios every founder needs**
-Ken asked for a forecast to P4 completion. We built three scenarios (best/realistic/worst) with phase buffers, contingency tiers, and explicit assumptions. The lesson: AI platform costs are predictable if you track daily burn, know your model mix, and size your phases. Don't guess — model it.
-*Source: CHG-0354/0355 — Cost forecast to P4, P1 scenario DOCX reports*
+**TC-131 — "The relay loop: when AI talks to itself"**
+The inter-session relay bug — where confirmation messages triggered response loops — is a classic multi-agent coordination problem. The fix (detect metadata-only messages, skip with NO_REPLY) is a pattern for any system with multiple AI channels.
 
-**TC-126 — When the API goes down and you're already switched: the value of proactive failure modes**
-Warden detected Anthropic HTTP 502 at 7:16 PM. If agents were still on Sonnet, this would have been a platform outage. Because we'd already switched to kimi at 5:18 PM, impact was zero. The lesson: sometimes the best incident response is the one you already did.
-*Source: CHG-0349 — Standby mode activation with zero impact*
+**TC-132 — "Model evaluation cycles: from trial to production"**
+gemma4:31b-cloud went from Cycle 1A (7-day trial) → Cycle 2A (validation, 93% pass) → Cycle B (14-day live production). This three-cycle pattern (trial → validate → production) is a safe way to adopt new AI models without risking operations.
 
 ---
 
 ## What's Open / What's Next
 
-### Tomorrow (Saturday 16 May)
-- Standby mode continues — all agents on kimi until `CLAUDE RESTORE`
-- Conservative mode active — any destructive action needs explicit Ken approval
-- Context brief refreshes at 2pm and 8pm (silent)
+**Tomorrow (May 17 — Sunday)**
+- Sprint 4 Planning ceremony (Ken's rule: no sprint work starts without planning)
+- Ceremony gate check: verify Sprint 3 review happened Friday, Sprint 4 planning happens Sunday
+- Sprint 4 execution starts Monday May 19
 
-### Sunday 18 May — Sprint 4 Planning (09:00 AEST)
-- Triage 15 candidate items down to ~5 committed + carry
-- Decide: kimi standup pilot — CONTINUE or REVERT?
-- Three hard commitments: TKT-0196 (Three Work Types), TKT-0197 (SoT Register), TKT-0187 (Cloudflare Tunnel)
+**This Week (Sprint 4, May 19–25)**
+- TKT-0199 + TKT-0200: Forge builds audit-routing.sh + Warden integration
+- TKT-0137-AC2 to AC6: Policy drafting begins (Lex/Atlas/Thrawn)
+- POL-007 + POL-008: 5 operational decisions needed from Ken (policy access + privacy)
+- LI-C1-W2-P1: Spark posts Tuesday morning (approved, scheduled)
 
-### Sprint 4 (May 19–25)
-- TKT-0196, TKT-0197, TKT-0187 (committed)
-- TKT-0175, TKT-0176 (carries from Sprint 3)
-- 8 DRAFT FOR REVIEW docs to batch-review (TKT-0162–0168)
+**Blocked / Waiting**
+- 19 low-confidence tickets: waiting for Claude API restoration (`CLAUDE RESTORE` keyword)
+- TKT-0060 (Client DPA): blocked on Aevlith incorporation
+- TKT-0061 (Warden thresholds): drafted, deadline 2026-08-02
 
-### Waiting On
-- `CLAUDE RESTORE` from Ken when Anthropic credits reload
-- Angie: Brand Code review (7 DRAFT docs)
-- OC2 arrival: July 6–13 (TRIGGER-01)
+**Conservative Mode Active**
+All agents on kimi/deepseek-pro. No risky state edits without Ken's explicit "PROCEED" or "APPROVED." Read-only operations safe to proceed. Auto-reload active for Claude API credits.
 
 ---
 
-*Next brief: tomorrow after close | Questions → ask Yoda in main chat*
+*Synced: 2026-05-16 23:01 AEST | Next sync: 2026-05-17 23:00 AEST*
