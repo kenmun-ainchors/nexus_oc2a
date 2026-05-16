@@ -69,19 +69,34 @@ fi
 # ---------- CHECK 3: Backup freshness ----------
 log "CHECK 3: backup freshness"
 CHECKS_RUN+=("backup_freshness")
-LATEST_BACKUP=$(ls -t "$HOME/Backups/ainchors/workspace/" 2>/dev/null | head -1)
+# Check both full tar.gz backups and incremental rsync backups
+LATEST_FULL=$(ls -t "$HOME/Backups/ainchors/workspace/" 2>/dev/null | head -1)
+LATEST_INCR=$(ls -t "$HOME/Backups/ainchors/workspace-incremental/" 2>/dev/null | head -1)
+LATEST_BACKUP=""
+BACKUP_PATH=""
+BACKUP_TYPE=""
+
+if [[ -n "$LATEST_INCR" ]]; then
+  BACKUP_PATH="$HOME/Backups/ainchors/workspace-incremental/$LATEST_INCR"
+  LATEST_BACKUP="$LATEST_INCR"
+  BACKUP_TYPE="incremental"
+elif [[ -n "$LATEST_FULL" ]]; then
+  BACKUP_PATH="$HOME/Backups/ainchors/workspace/$LATEST_FULL"
+  LATEST_BACKUP="$LATEST_FULL"
+  BACKUP_TYPE="full"
+fi
+
 if [[ -z "$LATEST_BACKUP" ]]; then
   ISSUES_FOUND+=("backup:none-found")
-  NEEDS_KEN+=("No backup files found in ~/Backups/ainchors/workspace/")
+  NEEDS_KEN+=("No backup files found in ~/Backups/ainchors/workspace/ or workspace-incremental/")
 else
-  BACKUP_PATH="$HOME/Backups/ainchors/workspace/$LATEST_BACKUP"
   AGE_HOURS=$(( ( $(date +%s) - $(stat -f %m "$BACKUP_PATH") ) / 3600 ))
   if (( AGE_HOURS > 26 )); then
     ISSUES_FOUND+=("backup:stale:${AGE_HOURS}h")
-    NEEDS_KEN+=("Latest backup is ${AGE_HOURS}h old (>26h threshold). File: $LATEST_BACKUP")
-    log "  ISSUE: backup stale ${AGE_HOURS}h"
+    NEEDS_KEN+=("Latest ${BACKUP_TYPE} backup is ${AGE_HOURS}h old (>26h threshold). Path: ${BACKUP_PATH}")
+    log "  ISSUE: backup stale ${AGE_HOURS}h (${BACKUP_TYPE})"
   else
-    log "  OK: backup ${AGE_HOURS}h old"
+    log "  OK: ${BACKUP_TYPE} backup ${AGE_HOURS}h old: ${LATEST_BACKUP}"
   fi
 fi
 
