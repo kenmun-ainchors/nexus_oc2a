@@ -540,6 +540,44 @@ else
   log "  SKIP: get-secret.sh not found at $GET_SECRET"
 fi
 
+# ---------- CHECK 18: kimi Confidence Mapping Freshness ----------
+log "CHECK 18: kimi confidence mapping freshness"
+CHECKS_RUN+=("kimi_confidence_mapping")
+CONFIDENCE_MAP="$WORKSPACE/state/kimi-confidence-mapping.json"
+if [[ -f "$CONFIDENCE_MAP" ]]; then
+  MAP_AGE_DAYS=$(( ( $(date +%s) - $(stat -f %m "$CONFIDENCE_MAP") ) / 86400 ))
+  if (( MAP_AGE_DAYS > 7 )); then
+    ISSUES_FOUND+=("kimi-confidence-map:stale:${MAP_AGE_DAYS}d")
+    NEEDS_KEN+=("kimi confidence mapping is ${MAP_AGE_DAYS} days old — re-assess ticket confidence levels?")
+    log "  WARN: confidence mapping ${MAP_AGE_DAYS}d old"
+  else
+    # Validate mapping has all open tickets
+    OPEN_TICKETS=$(python3 -c "
+import json
+data = json.load(open('$WORKSPACE/state/tickets.json'))
+open_ids = [t['id'] for t in data.get('tickets', []) if t.get('status') not in ('closed','resolved','cancelled')]
+print(len(open_ids))
+" 2>/dev/null || echo 0)
+    MAPPED_TICKETS=$(python3 -c "
+import json
+data = json.load(open('$CONFIDENCE_MAP'))
+print(len(data.get('tickets', {})))
+" 2>/dev/null || echo 0)
+    
+    if [[ "$OPEN_TICKETS" != "$MAPPED_TICKETS" ]]; then
+      ISSUES_FOUND+=("kimi-confidence-map:count-mismatch")
+      NEEDS_KEN+=("kimi confidence mapping has $MAPPED_TICKETS tickets but $OPEN_TICKETS are open — re-sync needed")
+      log "  WARN: ticket count mismatch (mapped=$MAPPED_TICKETS, open=$OPEN_TICKETS)"
+    else
+      log "  OK: confidence mapping current (${MAP_AGE_DAYS}d old, $MAPPED_TICKETS tickets mapped)"
+    fi
+  fi
+else
+  ISSUES_FOUND+=("kimi-confidence-map:missing")
+  NEEDS_KEN+=("kimi confidence mapping missing at $CONFIDENCE_MAP — run assessment to create")
+  log "  ISSUE: confidence mapping missing"
+fi
+
 # ---------- WRITE REPORT ----------
 log "=== WRITING REPORT ==="
 

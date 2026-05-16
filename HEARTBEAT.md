@@ -170,3 +170,10 @@ State file: state/heartbeat-state.json
 ### Google Drive EOD Sync
 🚫 **HEARTBEAT NEVER TOUCHES DRIVE SYNC.**
 Drive sync is owned by cron `c5a3911d` (00:30 AEST — runs after blog). Heartbeat must not run or duplicate it.
+
+### kimi Confidence Mapping Check (once per day)
+- Read `state/kimi-confidence-mapping.json` → check `createdAt` age
+- If > 7 days old: alert Ken — "kimi confidence mapping is [N] days old. Re-assess ticket confidence levels?"
+- Check that mapped ticket count matches open ticket count in `state/tickets.json`
+- If mismatch: alert Ken — "kimi confidence mapping has [N] mapped but [M] open tickets. Re-sync needed."
+- State key: lastChecks.kimiConfidenceMapping
