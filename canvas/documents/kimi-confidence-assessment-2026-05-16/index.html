@@ -1,0 +1,332 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>kimi Confidence Assessment — P1 Backlog</title>
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+body { background: #ffffff; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif; font-size: 14px; color: #24292f; line-height: 1.5; }
+.page { background: #f6f8fa; max-width: 900px; margin: 0 auto; padding: 24px; }
+.header { background: #0969da; color: #ffffff; border-radius: 8px; padding: 20px 24px; margin-bottom: 20px; }
+.header h1 { font-size: 20px; font-weight: 700; }
+.header .sub { font-size: 13px; opacity: 0.85; margin-top: 4px; }
+.section { background: #ffffff; border: 1px solid #d0d7de; border-radius: 8px; padding: 16px; margin-bottom: 16px; }
+h2 { color: #0969da; font-size: 16px; font-weight: 700; border-bottom: 1px solid #d0d7de; padding-bottom: 8px; margin-bottom: 12px; }
+h3 { color: #57606a; font-size: 13px; text-transform: uppercase; letter-spacing: 0.5px; margin: 12px 0 6px; font-weight: 600; }
+.card-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 10px; margin-bottom: 12px; }
+.card { background: #f6f8fa; border: 1px solid #d0d7de; border-radius: 8px; padding: 14px; }
+.card-label { font-size: 11px; color: #57606a; text-transform: uppercase; letter-spacing: 0.5px; }
+.card-value { font-size: 24px; font-weight: 700; color: #24292f; margin: 2px 0; }
+.card-sub { font-size: 12px; color: #57606a; }
+.card-green { border-left: 3px solid #2da44e; }
+.card-yellow { border-left: 3px solid #d4a72c; }
+.card-red { border-left: 3px solid #cf222e; }
+.card-gray { border-left: 3px solid #8c959f; }
+table { width: 100%; border-collapse: collapse; font-size: 12px; }
+th { text-align: left; padding: 6px 8px; background: #f6f8fa; border: 1px solid #d0d7de; font-size: 10px; text-transform: uppercase; color: #57606a; letter-spacing: 0.5px; }
+td { padding: 6px 8px; border: 1px solid #d0d7de; vertical-align: top; }
+tr:nth-child(even) td { background: #f6f8fa; }
+.alert { border-radius: 6px; padding: 10px 14px; margin: 8px 0; font-size: 13px; }
+.alert-warn { background: #fff8c5; border: 1px solid #d4a72c; color: #9a6700; }
+.alert-info { background: #ddf4ff; border: 1px solid #54aeff; color: #0969da; }
+.alert-critical { background: #ffebe9; border: 1px solid #f85149; color: #cf222e; }
+ul { padding-left: 20px; margin: 6px 0; }
+li { margin: 3px 0; font-size: 12px; }
+.pill { display: inline-flex; align-items: center; gap: 4px; padding: 2px 8px; border-radius: 12px; font-size: 11px; font-weight: 600; }
+.pill-green { background: #dafbe1; color: #1a7f37; }
+.pill-yellow { background: #fff8c5; color: #9a6700; }
+.pill-red { background: #ffebe9; color: #cf222e; }
+.pill-gray { background: #eaeef2; color: #57606a; }
+.footer { color: #57606a; font-size: 11px; border-top: 1px solid #d0d7de; padding-top: 14px; margin-top: 16px; text-align: center; }
+</style>
+</head>
+<body>
+<div class="page">
+
+<div class="header">
+<h1>🤖 kimi Confidence Assessment — P1 Backlog</h1>
+<div class="sub">Date: 2026-05-16 | Total Open: 74 | Conservative Mode: ACTIVE (CHG-0349)</div>
+</div>
+
+<div class="section">
+<h2>Executive Summary</h2>
+<div class="alert alert-critical">
+<strong>Confidence Level: MIXED — kimi is viable for ~60% of backlog with controls</strong><br>
+Full confidence: 25 tickets (34%) | Fairly confident: 20 tickets (27%) | Low confidence: 19 tickets (26%) | Blocked: 10 tickets (13%)
+</div>
+
+<h3>Key Constraints</h3>
+<ul>
+<li><strong>kimi = standup only</strong> (per policy, but currently all-agent fallback due to CHG-0349)</li>
+<li><strong>NEVER use kimi for:</strong> complex orchestration, multi-ticket routing, state tracking, CHG decisions</li>
+<li><strong>Conservative Mode:</strong> NO risky state manipulation without explicit Ken approval</li>
+<li><strong>Fallback chain:</strong> Primary → Secondary → kimi (last resort)</li>
+</ul>
+</div>
+
+<div class="section">
+<h2>Confidence Distribution</h2>
+<div class="card-grid">
+<div class="card card-green">
+<div class="card-label">Full Confidence</div>
+<div class="card-value">25</div>
+<div class="card-sub">34% — Routine, single-thread, background</div>
+</div>
+<div class="card card-yellow">
+<div class="card-label">Fairly Confident</div>
+<div class="card-value">20</div>
+<div class="card-sub">27% — Moderate complexity, well-defined</div>
+</div>
+<div class="card card-red">
+<div class="card-label">Low Confidence</div>
+<div class="card-value">19</div>
+<div class="card-sub">26% — Complex, multi-agent, architectural</div>
+</div>
+<div class="card card-gray">
+<div class="card-label">Blocked/External</div>
+<div class="card-value">10</div>
+<div class="card-sub">13% — Human approval, DRAFT, dependencies</div>
+</div>
+</div>
+</div>
+
+<div class="section">
+<h2>A. Full Confidence <span class="pill pill-green">25 tickets</span></h2>
+<p><strong>Profile:</strong> Routine, single-thread, background tasks. Non-interactive crons. Well-defined scope with minimal state manipulation.</p>
+
+<h3>Characteristics</h3>
+<ul>
+<li>One-file changes or isolated script updates</li>
+<li>No multi-agent coordination required</li>
+<li>State reads only (no writes to critical config)</li>
+<li>Well-defined acceptance criteria</li>
+<li>Rollback is trivial (git revert)</li>
+</ul>
+
+<table>
+<tr><th>Ticket</th><th>Priority</th><th>Title</th></tr>
+<tr><td>TKT-0105</td><td>high</td><td>Model3-Policy: Define SOPs for Tier 3 agents</td></tr>
+<tr><td>TKT-0106</td><td>high</td><td>Model3-Policy: Apply to existing Tier 3 agents</td></tr>
+<tr><td>TKT-0109</td><td>medium</td><td>Agile PM / Scrum Master Agent — Design</td></tr>
+<tr><td>TKT-0113</td><td>high</td><td>Fallback alert channel — API-independent</td></tr>
+<tr><td>TKT-0127</td><td>high</td><td>Agentic Marketing Org Design</td></tr>
+<tr><td>TKT-0129</td><td>medium</td><td>Luthen: Marketing Intelligence Agent</td></tr>
+<tr><td>TKT-0130</td><td>high</td><td>QBR Agent Fleet Review ceremony</td></tr>
+<tr><td>TKT-0133</td><td>medium</td><td>EA: Observability Strategy (OTel vs Dynatrace)</td></tr>
+<tr><td>TKT-0139</td><td>high</td><td>Consulting Product Portfolio</td></tr>
+<tr><td>TKT-0143</td><td>medium</td><td>CLI-Anything strategic assessment</td></tr>
+<tr><td>TKT-0144</td><td>medium</td><td>Platform CI: Token Efficiency Audit</td></tr>
+<tr><td>TKT-0148</td><td>medium</td><td>Extend TKT-0134 AC — model by persona</td></tr>
+<tr><td>TKT-0157</td><td>high</td><td>Human oversight process for governance agents</td></tr>
+<tr><td>TKT-0158</td><td>high</td><td>Scheduled integrity checks for context files</td></tr>
+<tr><td>TKT-0159</td><td>medium</td><td>Integrate Cisco Skill Scanner</td></tr>
+<tr><td>TKT-0169</td><td>high</td><td>Typed Agent Contracts — 4 Cross-Agent Handoffs</td></tr>
+<tr><td>TKT-0178</td><td>medium</td><td>Routing Discipline Enforcement</td></tr>
+<tr><td>TKT-0179</td><td>medium</td><td>ClawGuard security toolkit evaluation</td></tr>
+<tr><td>TKT-0181</td><td>medium</td><td>Gemma4 fine-tuning research</td></tr>
+<tr><td>TKT-0182</td><td>medium</td><td>Explicit state checking pattern for bounded tasks</td></tr>
+<tr><td>TKT-0190</td><td>high</td><td>P2 Gate — 6 Missing Governance Policies</td></tr>
+<tr><td>TKT-0194</td><td>medium</td><td>Standup Email: Email-Safe HTML Template</td></tr>
+<tr><td>TKT-0196</td><td>high</td><td>Three Work Types Rule + Work Currency Routing</td></tr>
+<tr><td>TKT-0197</td><td>high</td><td>Sources of Truth Register — 10 Core Data Types</td></tr>
+<tr><td>TKT-0198</td><td>high</td><td>JSON to Postgres Migration — Top 5 State Files</td></tr>
+</table>
+
+<div class="alert alert-info">
+<strong>Recommendation:</strong> Execute with kimi + pre/post state validation. Add acceptance test script for each ticket.
+</div>
+</div>
+
+<div class="section">
+<h2>B. Fairly Confident <span class="pill pill-yellow">20 tickets</span></h2>
+<p><strong>Profile:</strong> Moderate complexity. Some state reads, potential for multi-file changes. Well-defined scope but requires careful execution.</p>
+
+<h3>Characteristics</h3>
+<ul>
+<li>Multi-file changes with clear dependencies</li>
+<li>Some state reads + limited writes (safe paths only)</li>
+<li>Potential for external API interactions</li>
+<li>Requires validation after execution</li>
+<li>Rollback: git revert + manual cleanup may be needed</li>
+</ul>
+
+<table>
+<tr><th>Ticket</th><th>Priority</th><th>Title</th></tr>
+<tr><td>TKT-0112</td><td>medium</td><td>obs-collector: cron failures not captured</td></tr>
+<tr><td>TKT-0121</td><td>medium</td><td>Spark: LinkedIn image generation (HF Flux)</td></tr>
+<tr><td>TKT-0122</td><td>low</td><td>Spark: LinkedIn image generation (ComfyUI local)</td></tr>
+<tr><td>TKT-0123</td><td>medium</td><td>Fix linkedin-post.sh: delimiter guard + token</td></tr>
+<tr><td>TKT-0124</td><td>high</td><td>MinIO self-hosted on OC1</td></tr>
+<tr><td>TKT-0126</td><td>high</td><td>Fix LinkedIn post: special character encoding</td></tr>
+<tr><td>TKT-0131</td><td>medium</td><td>Review task log and tracker</td></tr>
+<tr><td>TKT-0132</td><td>medium</td><td>Review cost and ROI log</td></tr>
+<tr><td>TKT-0134</td><td>medium</td><td>Model strategy review — Gemma4 pilot results</td></tr>
+<tr><td>TKT-0140</td><td>medium</td><td>obs-collector: dedup guard</td></tr>
+<tr><td>TKT-0146</td><td>medium</td><td>Backup optimisation — incremental/full</td></tr>
+<tr><td>TKT-0147</td><td>medium</td><td>TOM specialist agent gap analysis</td></tr>
+<tr><td>TKT-0149</td><td>medium</td><td>Aria MD gap analysis — SOUL.md/RULES.md update</td></tr>
+<tr><td>TKT-0155</td><td>high</td><td>Migrate MinIO to native macOS binary</td></tr>
+<tr><td>TKT-0167</td><td>high</td><td>OD-01: Create access-violations.json + obs</td></tr>
+<tr><td>TKT-0168</td><td>medium</td><td>OD-05: Notion Access Violations DB + sync</td></tr>
+<tr><td>TKT-0175</td><td>medium</td><td>Cost tracker: isolated session blind spot</td></tr>
+<tr><td>TKT-0186</td><td>medium</td><td>LinkedIn: Fix token refresh + comments</td></tr>
+<tr><td>TKT-0187</td><td>high</td><td>Cloudflare Tunnel — MinIO + Webchat</td></tr>
+<tr><td>TKT-0191</td><td>medium</td><td>Sandbox Runbook v1 — Formal Review</td></tr>
+</table>
+
+<div class="alert alert-warn">
+<strong>Recommendation:</strong> Execute with kimi + Forge review gate. Add pre-execution state snapshot + post-execution diff validation.
+</div>
+</div>
+
+<div class="section">
+<h2>C. Low Confidence <span class="pill pill-red">19 tickets</span></h2>
+<p><strong>Profile:</strong> Complex orchestration, multi-agent coordination, architectural decisions, CHG-level changes. High risk of state corruption or cascading failures.</p>
+
+<h3>Characteristics</h3>
+<ul>
+<li>Multi-agent coordination required</li>
+<li>Changes to core infrastructure or architecture</li>
+<li>State file modifications (JSON, config)</li>
+<li>Gateway-level changes</li>
+<li>Security-critical or compliance-related</li>
+<li>Rollback is complex or requires manual intervention</li>
+</ul>
+
+<table>
+<tr><th>Ticket</th><th>Priority</th><th>Title</th></tr>
+<tr><td>TKT-0107</td><td>medium</td><td>Agent Governance — Squad Model (Tier 5+)</td></tr>
+<tr><td>TKT-0108</td><td>high</td><td>Document Generation Pipeline (DOCX/XLSX/PPTX/PDF)</td></tr>
+<tr><td>TKT-0110</td><td>medium</td><td>Process Documentation Framework — User Guides</td></tr>
+<tr><td>TKT-0125</td><td>high</td><td>Strategy-to-Backlog Pipeline</td></tr>
+<tr><td>TKT-0128</td><td>high</td><td>Aria: expanded marketing orchestration mandate</td></tr>
+<tr><td>TKT-0135</td><td>high</td><td>AInchors Sandbox Environment</td></tr>
+<tr><td>TKT-0136</td><td>high</td><td>AInchors Consulting Playbook</td></tr>
+<tr><td>TKT-0137</td><td>high</td><td>AInchors Policy Register</td></tr>
+<tr><td>TKT-0138</td><td>high</td><td>Business Jumpstart — 3-part pathway</td></tr>
+<tr><td>TKT-0150</td><td>high</td><td>DR Playbook — full restore</td></tr>
+<tr><td>TKT-0151</td><td>high</td><td>Agentic Development Framework</td></tr>
+<tr><td>TKT-0152</td><td>high</td><td>Agentic Testing Framework</td></tr>
+<tr><td>TKT-0170</td><td>high</td><td>PII Scanner on Document Ingestion</td></tr>
+<tr><td>TKT-0171</td><td>high</td><td>pgvector + nomic-embed-text RAG Pipeline</td></tr>
+<tr><td>TKT-0176</td><td>medium</td><td>Tech Stream ROI Framework</td></tr>
+<tr><td>TKT-0188</td><td>high</td><td>Platform Guardrails — Two-Tier Restructure</td></tr>
+<tr><td>TKT-0189</td><td>medium</td><td>Nexus Client Isolation Policy v1.0</td></tr>
+<tr><td>TKT-0195</td><td>high</td><td>Postgres Deploy + 5-Tier Schema on OC1</td></tr>
+<tr><td>TKT-0199</td><td>high</td><td>Postgres LISTEN/NOTIFY Event Bus</td></tr>
+</table>
+
+<div class="alert alert-critical">
+<strong>Recommendation:</strong> DEFER until Claude restored. If MUST execute: human oversight at every checkpoint, full state snapshot before/after, staged rollout with validation gates.
+</div>
+</div>
+
+<div class="section">
+<h2>D. Blocked/External <span class="pill pill-gray">10 tickets</span></h2>
+<p><strong>Profile:</strong> External dependencies, human approval required, or DRAFT FOR REVIEW status.</p>
+
+<table>
+<tr><th>Ticket</th><th>Priority</th><th>Title</th></tr>
+<tr><td>TKT-0114</td><td>high</td><td>Partnership agreement — BLOCKED (name)</td></tr>
+<tr><td>TKT-0115</td><td>high</td><td>Register Pty Ltd with ASIC — BLOCKED (name)</td></tr>
+<tr><td>TKT-0116</td><td>high</td><td>Secure .ai domain — BLOCKED (name)</td></tr>
+<tr><td>TKT-0117</td><td>medium</td><td>Secure .com.au domain — BLOCKED (name)</td></tr>
+<tr><td>TKT-0118</td><td>medium</td><td>Secure .com domain — BLOCKED (name)</td></tr>
+<tr><td>TKT-0119</td><td>medium</td><td>IP Australia trademark — BLOCKED (name)</td></tr>
+<tr><td>TKT-0163</td><td>high</td><td>Review + approve ainchors-agile-framework-v1.md</td></tr>
+<tr><td>TKT-0164</td><td>high</td><td>Review + approve aevlith-charter-addendum</td></tr>
+<tr><td>TKT-0165</td><td>medium</td><td>Review + approve Change Management Specialist</td></tr>
+<tr><td>TKT-0166</td><td>high</td><td>Review + approve sandbox-runbook.md</td></tr>
+</table>
+
+<div class="alert alert-info">
+<strong>Recommendation:</strong> No model can unblock these. Requires Ken action or external process completion.
+</div>
+</div>
+
+<div class="section">
+<h2>Recommendations to Increase Confidence</h2>
+
+<h3>1. State Check Controls (Immediate)</h3>
+<ul>
+<li><strong>Pre-execution snapshot:</strong> `scripts/state-snapshot.sh` — backup all JSON state before any ticket work</li>
+<li><strong>Post-execution diff:</strong> `scripts/state-diff.sh` — validate only expected changes occurred</li>
+<li><strong>Rollback script:</strong> One-command restore from snapshot</li>
+<li><strong>Critical file allowlist:</strong> Only `workspace/`, `scripts/`, `docs/` — no `~/.openclaw/` edits</li>
+</ul>
+
+<h3>2. Validation Gates (Per Ticket)</h3>
+<ul>
+<li><strong>Acceptance test script:</strong> Every ticket gets a `tests/tkt-NNNN-acceptance.sh`</li>
+<li><strong>Forge review gate:</strong> All "Fairly Confident" tickets require Forge sign-off</li>
+<li><strong>Human checkpoint:</strong> "Fairly Confident" and above — pause for Ken approval at 50% milestone</li>
+</ul>
+
+<h3>3. Model Strategy (Until Claude Restored)</h3>
+<ul>
+<li><strong>kimi → deepseek-pro for complex tickets:</strong> deepseek-pro has better reasoning for multi-step tasks</li>
+<li><strong>Batch similar tickets:</strong> Group 3-5 "Full Confidence" tickets into one session</li>
+<li><strong>Avoid state manipulation:</strong> Prefer exec + shell scripts over edit tool for config changes</li>
+</ul>
+
+<h3>4. Monitoring (Ongoing)</h3>
+<ul>
+<li><strong>Ticket execution log:</strong> `state/ticket-execution-log.json` — track which model handled which ticket</li>
+<li><strong>Error pattern analysis:</strong> Weekly review of kimi failures to update confidence ratings</li>
+<li><strong>Cost tracking:</strong> Per-ticket cost attribution to validate model efficiency</li>
+</ul>
+
+<h3>5. Documentation (This Week)</h3>
+<ul>
+<li><strong>kimi SOP:</strong> Document which ticket types are safe/unsafe for kimi</li>
+<li><strong>Escalation rules:</strong> When to pause and ask for human review</li>
+<li><strong>Rollback playbook:</strong> Step-by-step for each ticket category</li>
+</ul>
+</div>
+
+<div class="section">
+<h2>Suggested Sprint 4 Execution Order (kimi-Optimized)</h2>
+
+<h3>Week 1 (May 19-25): Full Confidence Batch</h3>
+<p>Execute 10 "Full Confidence" tickets in sequence:</p>
+<ol>
+<li>TKT-0196 — Three Work Types Rule (policy doc)</li>
+<li>TKT-0197 — Sources of Truth Register (catalog)</li>
+<li>TKT-0198 — JSON to Postgres Migration (script)</li>
+<li>TKT-0105 — Model3-Policy SOPs (document)</li>
+<li>TKT-0106 — Model3-Policy Apply (script)</li>
+<li>TKT-0113 — Fallback alert channel (script)</li>
+<li>TKT-0144 — Token Efficiency Audit (analysis)</li>
+<li>TKT-0159 — Cisco Skill Scanner (integration)</li>
+<li>TKT-0179 — ClawGuard evaluation (assessment)</li>
+<li>TKT-0194 — Email-Safe HTML Template (template)</li>
+</ol>
+
+<h3>Week 2: Fairly Confident with Controls</h3>
+<p>Execute 5 "Fairly Confident" tickets with Forge review:</p>
+<ol>
+<li>TKT-0123 — linkedin-post.sh fix (script)</li>
+<li>TKT-0140 — obs-collector dedup (script)</li>
+<li>TKT-0146 — Backup optimisation (script)</li>
+<li>TKT-0112 — obs-collector cron failures (debug)</li>
+<li>TKT-0175 — Cost tracker blind spot (script)</li>
+</ol>
+
+<h3>Week 3+: Low Confidence → Deferred or Human Oversight</h3>
+<p>All "Low Confidence" tickets require:</p>
+<ul>
+<li>CLAUDE RESTORE, OR</li>
+<li>Ken explicit approval for kimi execution with full oversight, OR</li>
+<li>Break into smaller sub-tickets in "Full Confidence" category</li>
+</ul>
+</div>
+
+<div class="footer">
+Generated 2026-05-16 10:28 AEST | Conservative Mode: ACTIVE | Model: kimi-k2.6:cloud<br>
+Next review: When Claude restored or at Sprint 4 Review (May 25)
+</div>
+
+</div>
+</body>
+</html>
