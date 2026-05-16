@@ -501,6 +501,76 @@ Ready for your instructions 👋
 
 ---
 
+## CHANNEL-STATE.JSON PROTOCOL (NON-NEGOTIABLE — CHG-0362)
+
+**Purpose:** Cross-channel decision bridge. Telegram writes decisions here. WebChat reads on startup and surfaces unsynced decisions to Ken. This is the ONLY bridge between channels — no `sessions_send` relay.
+
+**File:** `state/channel-state.json`
+
+### Rules
+1. **Telegram Yoda:** Write EVERY decision/approval immediately after it happens. Set `syncedToWebchat = false`.
+2. **WebChat Yoda:** On every session start, check for `syncedToWebchat=false` entries and surface them to Ken. After surfacing, mark `syncedToWebchat = true`.
+3. **Never re-ask a question already answered.** If `syncedToWebchat = true`, the decision is already known on both channels.
+4. **CHG entries are always logged in WebChat** after the fact, even if the decision came from Telegram.
+
+### What MUST be recorded in channel-state.json
+- Every ticket closure (status → closed/resolved)
+- Every approval (Ken says "approved", "go", "yes", "PROCEED")
+- Every rejection or deferral
+- Every sprint assignment or re-prioritisation
+- Any decision that would confuse Ken if lost between channels
+
+### Format (per entry)
+```json
+{
+  "decisionId": "DEC-YYYYMMDD-HHMM",
+  "summary": "One-line description",
+  "channel": "telegram|webchat",
+  "timestamp": "2026-05-17T09:18:00+10:00",
+  "tkt": "TKT-NNNN or null",
+  "action": "approved|rejected|closed|directed|sprint-assigned",
+  "resolution": "Optional: closure details",
+  "syncedToWebchat": false
+}
+```
+
+### Failure mode: TKT-0141 lesson
+**What happened:** TKT-0141 was closed on 2026-05-11 in a WebChat session. The closure was written to `tickets.json` and CHANGELOG, but **NOT** to `channel-state.json`. Telegram sessions continued to show TKT-0141 as "open" for 6 days.
+
+**Root cause:** The agent closed the ticket via `ticket.sh close` but skipped the channel-state write step.
+
+**Prevention — mandatory checklist on EVERY ticket closure:**
+```bash
+# After: zsh scripts/ticket.sh close TKT-NNNN --resolution "..."
+# ALWAYS run:
+python3 -c "
+import json, datetime
+f = '/Users/ainchorsangiefpl/.openclaw/workspace/state/channel-state.json'
+d = json.load(open(f))
+d['recentDecisions'].append({
+  'decisionId': 'DEC-' + datetime.datetime.now().strftime('%Y%m%d-%H%M%S'),
+  'summary': 'TKT-NNNN CLOSED: [brief resolution]',
+  'channel': '[telegram|webchat]',
+  'timestamp': datetime.datetime.now(datetime.timezone(datetime.timedelta(hours=10))).isoformat(),
+  'tkt': 'TKT-NNNN',
+  'action': 'closed',
+  'resolution': '[resolution text]',
+  'syncedToWebchat': True  # if closed in webchat, already synced
+})
+d['lastUpdated'] = datetime.datetime.now(datetime.timezone(datetime.timedelta(hours=10))).isoformat()
+open(f,'w').write(json.dumps(d, indent=2))
+"
+```
+
+### Verification
+Run this after any closure to confirm sync:
+```bash
+grep "TKT-NNNN" /Users/ainchorsangiefpl/.openclaw/workspace/state/channel-state.json
+```
+If the ticket ID is absent from channel-state → **IMMEDIATELY** write the missing entry.
+
+---
+
 ## MORNING STAND-UP (NON-NEGOTIABLE - 8:00 AM DAILY)
 
 Deliver to Ken via Telegram before anything else.
