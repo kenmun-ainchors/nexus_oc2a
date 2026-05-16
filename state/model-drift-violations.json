@@ -182,10 +182,12 @@
       "note": "",
       "detectedAt": "2026-05-09T13:07:03+10:00",
       "id": "DRIFT-20260509030703-default_primary",
-      "status": "resolved",
+      "status": "cleared",
       "escalatedToYoda": true,
       "resolvedAt": "2026-05-09T03:15:12Z",
-      "resolvedNote": "Reverted default.primary ollama/gemma4:31b-cloud \u2192 anthropic/claude-sonnet-4-6. CHG-0249 approved crons only, not global default. Fixed by Yoda heartbeat."
+      "resolvedNote": "Reverted default.primary ollama/gemma4:31b-cloud \u2192 anthropic/claude-sonnet-4-6. CHG-0249 approved crons only, not global default. Fixed by Yoda heartbeat.",
+      "clearedAt": "2026-05-16T12:41:00+10:00",
+      "clearReason": "CHG-0357: gemma4:31b-cloud approved for T2 ops-cron via Cycle B activation"
     },
     {
       "agentId": "platform-arch",

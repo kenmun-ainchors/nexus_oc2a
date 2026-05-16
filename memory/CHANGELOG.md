@@ -4657,3 +4657,42 @@ Author: Forge
 3. Remove check config-gemma4-31b-cloud from critical-config-baseline.json
 4. Revert tierStrategy.approvedDate to 2026-05-02
 **Linked:** CHG-0349 (conservative mode), CHG-0270 (kimi safety net), CHG-0140 (Ollama Cloud Tier 2)
+
+---
+
+## 2026-05-16 12:41 AEST — [CHG-0357] Activate Cycle B: gemma4:31b-cloud for live ops-cron evaluation
+**Type:** infra
+**Source:** Ken APPROVED via Telegram 2026-05-16 12:41 AEST
+**Trigger:** Cycle 2A results confirm 93% pass rate, HIGH confidence, 4.39/5 quality. Exceeds 75% gate.
+**What changed:**
+1. **model-policy.json updated:**
+   - gemma4:31b-cloud promoted to T2 approved for ops-cron use case
+   - Added ops-cron specific use cases: Warden compliance checks, Shield health checks, Lex gateway monitoring, Sage observability, Forge auto-heal
+   - Updated pocPhase: "Cycle 2A COMPLETE (93% pass, HIGH confidence, 4.39/5). Cycle B ACTIVE 2026-05-16"
+2. **Warden policy updated:**
+   - Added gemma4:31b-cloud to approved models list in model-drift-state.json
+   - Cleared 1 gemma4:31b-cloud violation from model-drift-violations.json
+   - Warden now accepts gemma4:31b-cloud as valid T2 model
+3. **Cycle B activated:**
+   - Created state/ci-cycle-b-active.json with full configuration
+   - Duration: 14 days (2026-05-16 to 2026-05-30)
+   - Target agents: Warden, Shield, Lex, Sage, Forge
+   - Target cron types: model-compliance, health-check, gateway-status, observability, task-monitor, auto-heal
+   - Metrics: quality ≥4.0, latency ≤15s, pass rate ≥75%, min 50 runs
+   - Rollback triggers: 3 consecutive failures, quality drop 0.5, latency spike 2x, gateway degradation
+4. **CI state updated:**
+   - Cycle B status: active
+   - Cycle 2A status: complete (retained for historical reference)
+**Why:** Cycle 2A proved gemma4:31b-cloud excels at ops-cron tasks (93% pass, 4.39/5 quality, 11.4s avg latency). Cycle B validates these results on live production crons with real operational data before full promotion to T2.
+**Verification:**
+- model-policy.json updated with ops-cron use cases: ✅
+- Warden approved models includes gemma4:31b-cloud: ✅
+- model-drift-violations cleared: ✅
+- ci-cycle-b-active.json created: ✅
+- Rollback triggers defined: ✅
+**Rollback:**
+1. Delete state/ci-cycle-b-active.json
+2. Revert model-policy.json pocPhase to pre-Cycle B state
+3. Remove gemma4:31b-cloud from Warden approved models
+4. Log CHG for rollback
+**Linked:** CHG-0356 (gemma4:31b-cloud T2 approval), CHG-0349 (conservative mode), CHG-0140 (Ollama Cloud Tier 2), CI Cycle 2A report

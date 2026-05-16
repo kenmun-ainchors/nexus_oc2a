@@ -1,7 +1,7 @@
 {
   "schema_version": "1.0",
   "description": "Authoritative model policy for all AInchors agents. Warden enforces this. Changes require Ken approval + CHG entry + baseline update.",
-  "lastUpdated": "2026-05-16T12:39:00+10:00",
+  "lastUpdated": "2026-05-16T12:41:00+10:00",
   "lastApprovedBy": "Ken",
   "approvalContext": "Ken approved 2026-05-10: add T3 specialist agents to Warden monitoring (Option A). Atlas/Thrawn/Lando/Mon Mothma. CHG-0258.",
   "globalAllowedModels": [
@@ -609,14 +609,19 @@
             "benchmarkLatency": "14.2s avg",
             "approvedDate": "2026-05-16",
             "approvedBy": "Ken",
-            "pocPhase": "Approved via Telegram directive 2026-05-16 12:39 AEST. CHG-0356.",
+            "pocPhase": "Cycle 2A COMPLETE (93% pass, HIGH confidence, 4.39/5). Cycle B ACTIVE 2026-05-16: live ops-cron evaluation on Warden/Shield/Lex/Sage/Forge crons.",
             "constraints": "Non-sensitive (low data_sensitivity) tasks only. No PII, no medical, no legal. Background + async tasks preferred. 31b cloud variant replaces 26b local (removed due to system slowdown).",
             "useCases": [
               "Background research synthesis",
               "LinkedIn/blog post generation",
               "Non-sensitive code routing decisions",
               "Low-sensitivity workflow summarisation",
-              "Content generation where kimi context window insufficient"
+              "Content generation where kimi context window insufficient",
+              "Ops-cron tasks: model compliance checks (Warden)",
+              "Ops-cron tasks: health check interpretation (Shield)",
+              "Ops-cron tasks: gateway status monitoring (Lex)",
+              "Ops-cron tasks: observability collection (Sage)",
+              "Ops-cron tasks: auto-heal execution (Forge)"
             ]
           }
         ],
