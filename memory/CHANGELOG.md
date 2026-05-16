@@ -4778,3 +4778,34 @@ Author: Forge
 - LI-C1-W2-P1: Set status back to pending, remove scheduledFor
 - TKT-0179: Revert to deferred status
 **Linked:** CONTENT-0010, TKT-0179, Spark scheduling
+
+---
+
+## 2026-05-16 12:56 AEST — [CHG-0360] Sprint 4 scope confirmed by Ken
+**Type:** planning
+**Source:** Ken via Telegram 2026-05-16 12:56 AEST
+**Trigger:** Sprint 4 planning tomorrow (2026-05-17), Ken confirmed scope.
+**What changed:**
+1. **TKT-0137 confirmed for Sprint 4:**
+   - AInchors Policy Register — formal policy library
+   - Sub-tickets AC2–AC9 to be created/assigned to Sprint 4
+   - Owner: TBD (likely Atlas/Thrawn for policy work)
+2. **P2 hard gates deferred:**
+   - POL-001 to POL-008 deferred to Sprint 4 kickoff
+   - Not in initial Sprint 4 commitment
+3. **Sprint 4 planning notes created:**
+   - state/sprint-4-planning-notes.json
+   - Planning date: 2026-05-17
+   - Sprint start: 2026-05-19
+4. **No work starts until planning:**
+   - Explicit directive from Ken
+   - All execution deferred to post-planning
+**Why:** Ken confirmed Sprint 4 scope ahead of planning session. TKT-0137 is a P2 gate requirement — needs to be in Sprint 4 to stay on track. P2 hard gates (POL-001–008) deferred to kickoff to avoid scope overload.
+**Verification:**
+- Sprint 4 planning notes created: ✅
+- TKT-0137 confirmed in scope: ✅
+- POL-001–008 deferred noted: ✅
+**Rollback:**
+- Remove TKT-0137 from Sprint 4 scope
+- Revert sprint-4-planning-notes.json
+**Linked:** Sprint 4, TKT-0137, POL-001–008
