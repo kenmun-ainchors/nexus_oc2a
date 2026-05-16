@@ -4696,3 +4696,40 @@ Author: Forge
 3. Remove gemma4:31b-cloud from Warden approved models
 4. Log CHG for rollback
 **Linked:** CHG-0356 (gemma4:31b-cloud T2 approval), CHG-0349 (conservative mode), CHG-0140 (Ollama Cloud Tier 2), CI Cycle 2A report
+
+---
+
+## 2026-05-16 12:44 AEST — [CHG-0358] TKT-0178 sub-tickets created and sprint-assigned
+**Type:** task
+**Source:** Ken APPROVED via Telegram 2026-05-16 12:44 AEST
+**Trigger:** TKT-0178 CONFIRMED and APPROVED. Sprint assignment locked.
+**What changed:**
+1. **Sub-tickets created via ticket.sh:**
+   - TKT-0199: TKT-0178-a — Create audit-routing.sh (Sprint 4, Forge, 1 day)
+   - TKT-0200: TKT-0178-b — Integrate with Warden violations (Sprint 4, Forge, 0.5 day)
+   - TKT-0201: TKT-0178-c — Design routing-gate.sh (Sprint 5, Thrawn/Forge, 2 days)
+   - TKT-0202: TKT-0178-d — Implement routing gate (Sprint 5, Forge/Sage, 3 days)
+   - TKT-0203: TKT-0178-e — E2E test LinkedIn scenario (Sprint 5, Spark, 1 day)
+2. **Parent ticket TKT-0178 updated:**
+   - Status: in-progress
+   - Notes: Sub-tickets created and sprint-assigned
+   - Total estimate: ~7.5 days
+3. **Sprint assignments:**
+   - Sprint 4 (May 19-25): TKT-0199, TKT-0200 (Forge)
+   - Sprint 5: TKT-0201, TKT-0202, TKT-0203 (Thrawn/Forge/Sage)
+4. **Notion AKB Backlog synced:**
+   - All 5 sub-tickets synced to Notion (SSOT)
+   - Parent-child links maintained
+5. **Layer 3 (RBAC) deferred to P3:**
+   - Not in current sprint scope
+   - Will be revisited post-P2
+**Why:** TKT-0178 routing discipline enforcement is critical for governance. Breaking into sub-tickets enables incremental delivery: Sprint 4 (audit + detection), Sprint 5 (gate design + implementation + test).
+**Verification:**
+- All 5 sub-tickets created in tickets.json: ✅
+- All 5 synced to Notion AKB Backlog: ✅
+- Parent TKT-0178 updated with sub-ticket references: ✅
+- Sprint assignments recorded in ticket notes: ✅
+**Rollback:**
+- Close sub-tickets: `ticket.sh close TKT-0199 --resolution "parent restructured"`
+- Revert TKT-0178 to deferred status
+**Linked:** TKT-0178, CHG-0297 (Routing Discipline Rule)
