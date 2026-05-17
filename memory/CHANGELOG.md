@@ -5788,3 +5788,32 @@ Step 3: Confirm both match → report to Ken
 - CVE mitigation: env-var credential inference protection
 - macOS TLS trust enforcement
 - 100+ stability fixes
+
+---
+
+## 2026-05-17 18:26 AEST — [CHG-0394] Remove Anthropic from active config + Keychain cleanup
+**Type:** security
+**Source:** ken-directive (openclaw-control-ui)
+**Trigger:** Ken requested cleanup of Anthropic keys during interim period
+**Actions:**
+1. openclaw.json: Removed auth.profiles.anthropic:default
+2. openclaw.json: Removed anthropic model aliases (haiku, opus, sonnet)
+3. Keychain: Deleted 2 duplicate 'anthropic-api-key' entries
+4. Keychain: Preserved 'ainchors-anthropic-api-key' for future use
+5. Added TRIGGER-14: Post-conservative mode Anthropic re-provisioning
+
+**Remaining Anthropic reference:**
+- plugins.entries.anthropic = {enabled: True} — plugin available but inactive without auth profile
+
+**Re-provisioning checklist (TRIGGER-14):**
+When Ken issues CLAUDE RESTORE:
+1. Ken provides new Anthropic API key
+2. Store in Keychain: security add-generic-password -s ainchors-anthropic-api-key -a anthropic -w <key>
+3. Restore auth.profiles.anthropic:default to openclaw.json
+4. Restore anthropic model aliases to agents.defaults.models
+5. Add Anthropic models to model-policy.json globalAllowedModels
+6. Run validate-fallback-chain.sh
+7. Restore agent primary models from claude-restore-config.json
+8. Verify all agents can reach Anthropic API
+
+**Linked:** CHG-0349, CHG-0373, CHG-0393, TKT-0165

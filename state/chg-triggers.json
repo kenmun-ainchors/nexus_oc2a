@@ -27,6 +27,15 @@
           "addedDate": "2026-05-10",
           "addedBy": "Ken",
           "priority": "high"
+        },
+        {
+          "id": "TRIGGER-01-C",
+          "name": "SecretRefs Keychain Integration",
+          "action": "Implement SecretRefs with macOS Keychain integration (TKT-0228). Migrate all API keys from hardcoded config to structured SecretRefs. Dependencies: OC2 commissioning complete, stable OpenClaw v2026.5.12+, Anthropic key re-provisioned.",
+          "ticket": "TKT-0228",
+          "priority": "medium",
+          "addedDate": "2026-05-17",
+          "addedBy": "Ken"
         }
       ]
     },
