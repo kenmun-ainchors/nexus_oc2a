@@ -377,14 +377,19 @@ For each ACTIVE agent, display:
 ---
 
 ## /resume - Channel Handoff & Context Switch
-_Reserved slash command. Available to Ken. Locked 2026-04-28 (refined 2026-04-28)._
+_Reserved slash command. Available to Ken. Locked 2026-04-28 (refined 2026-05-17)._
 
-**Purpose:** Full context switch and handoff between channels (webchat ↔ Telegram). Enables seamless pickup when switching devices or channels mid-session.
+**Purpose:** Full context switch and handoff between channels (webchat ↔ Telegram). Enables seamless pickup when switching devices or channels mid-session. **Updated 2026-05-17:** Now performs bidirectional sync — explicitly pulls latest context from the OTHER channel and surfaces what was missed.
 
 **Trigger:** `/resume` in any channel - webchat or Telegram.
 
+**Bidirectional Sync Logic (NEW — 2026-05-17):**
+- **If triggered on WebChat:** → Pull and surface latest Telegram activity
+- **If triggered on Telegram:** → Pull and surface latest WebChat activity
+- This ensures Ken always sees what happened on the OTHER channel, even if he didn't `/handover` before switching.
+
 **What it produces (in order):**
-1. **Where we left off** - last 1-3 actions/decisions from the previous channel (not a full recap)
+1. **Where we left off** - last 1-3 actions/decisions from the OTHER channel (not a full recap)
 2. **What's in flight** - anything pending, waiting for input, or running in background
 3. **What's next** - top 1-3 priorities for this session
 4. **System pulse** - one line: balance, health, any active alerts
@@ -398,20 +403,32 @@ _Reserved slash command. Available to Ken. Locked 2026-04-28 (refined 2026-04-28
 
 **Execution steps (mandatory - do not skip ANY step):**
 0. ⚡ **FIRST** - read `state/active-work.json` (if exists). This is the authoritative in-flight state file, written at every sub-agent spawn and channel switch. If `awaitingResult: true`, immediately surface it in "What's in flight". Never skip this step.
-1. `sessions_list` - try to find both Telegram and webchat sessions
-2. **⚡ MANDATORY — webchat session read (DO NOT SKIP even if sessions_list returns nothing):**
-   - Use `sessions.json` index to find most recent webchat session:
-     ```
-     python3 -c "import json,os,datetime; sf=os.path.expanduser('~/.openclaw/agents/main/sessions/sessions.json'); data=json.load(open(sf)); wc=[(v.get('updatedAt',0), k, v.get('sessionId','')) for k,v in data.items() if isinstance(v,dict) and (v.get('channel')=='webchat' or 'dashboard' in k)]; wc.sort(reverse=True); [print(datetime.datetime.fromtimestamp(t/1000).strftime('%Y-%m-%d %H:%M'), k, sid) for t,k,sid in wc[:3]]"
-     ```
-   - This correctly finds `agent:main:dashboard:*` and `agent:main:main` webchat sessions
-   - Take the most recent webchat sessionId, then read last 60 lines of: `~/.openclaw/agents/main/sessions/<sid>.jsonl`
-   - Extract last USER and ASST messages — these are the ground truth for what happened in webchat
-   - **⚠️ KNOWN FAILURE MODE (2026-05-11):** `active-work.json` does NOT auto-update during normal webchat work — only on explicit handovers/sub-agent spawns. ALWAYS read the actual webchat session transcript; never trust active-work.json alone.
-3. **MANDATORY** - `sessions_history` on Telegram session (sessionKey: agent:main:telegram:direct:8574109706) - last 20 messages. Do this even if sessions_list returned the Telegram session. The transcript has context that state files don't.
-4. Compare timestamps from both channels - find the most recent activity across either
-5. Surface the most recent activity from EITHER channel as "Where we left off"
-6. Deliver the 5-point handoff format above
+1. ⚡ **SECOND** - read `state/channel-state.json`. Surface any `syncedToWebchat=false` (if on webchat) or unsynced Telegram decisions (if on Telegram). These are cross-channel decisions that may have been missed.
+2. **Determine current channel** from inbound context (`channel` field in metadata):
+   - If `channel == "webchat"` → Ken is on WebChat, need to pull from Telegram
+   - If `channel == "telegram"` → Ken is on Telegram, need to pull from WebChat
+3. **Pull from OTHER channel (the one Ken is NOT currently on):**
+   - **Telegram pull (when on WebChat):**
+     - `sessions_history` on Telegram session (sessionKey: agent:main:telegram:direct:8574109706) - last 20 messages
+     - Read last 40 lines of Telegram session `.jsonl` file directly as fallback
+     - Extract: last USER message (what Ken said), last ASST actions (what Yoda did), any CHG/decisions logged
+   - **WebChat pull (when on Telegram):**
+     - Use `sessions.json` index to find most recent webchat session:
+       ```
+       python3 -c "import json,os,datetime; sf=os.path.expanduser('~/.openclaw/agents/main/sessions/sessions.json'); data=json.load(open(sf)); wc=[(v.get('updatedAt',0), k, v.get('sessionId','')) for k,v in data.items() if isinstance(v,dict) and (v.get('channel')=='webchat' or 'dashboard' in k)]; wc.sort(reverse=True); [print(datetime.datetime.fromtimestamp(t/1000).strftime('%Y-%m-%d %H:%M'), k, sid) for t,k,sid in wc[:3]]"
+       ```
+     - Read last 60 lines of the most recent webchat `.jsonl` session file
+     - Extract last USER and ASST messages — ground truth for what happened in webchat
+4. **Pull from CURRENT channel (light check — what Ken already knows):**
+   - Read last 5 messages from current session to confirm where we are
+   - Only surface NEW info from other channel — don't repeat what Ken just said
+5. **Compare timestamps** — find the most recent activity across BOTH channels
+6. **Surface the OTHER channel's latest activity** as "Where we left off" — this is the context Ken may have missed
+7. **Deliver the 5-point handoff format** with emphasis on OTHER channel context
+
+**⚠️ KNOWN FAILURE MODE (2026-05-11):** `active-work.json` does NOT auto-update during normal webchat work — only on explicit handovers/sub-agent spawns. ALWAYS read the actual session transcripts from BOTH channels; never trust active-work.json alone.
+
+**⚠️ KNOWN FAILURE MODE (2026-05-16):** Without bidirectional sync, Telegram session made 8 commits (CHG-0361–0363, SOUL trim, RUNBOOK updates, Warden fixes, cron batch updates) that WebChat session was unaware of. `/resume` on WebChat only showed WebChat context. Fix: explicit OTHER channel pull now mandatory.
 
 **Session file search snippet (use when sessions_list misses webchat):**
 ```python
@@ -444,7 +461,38 @@ for mtime, f in webchat[:3]:
 ```
 Then read the most recent webchat file: extract user messages (strip sender metadata blocks), last assistant reply.
 
-**Failure mode to avoid:** Using only the current channel's context and missing activity from the other channel. Always check both. sessions_list alone is NOT sufficient - always fall back to session file search for webchat.
+**Telegram session read snippet (use when sessions_history fails):**
+```python
+import json, os, glob, datetime
+sd = os.path.expanduser('~/.openclaw/agents/main/sessions')
+telegram = []
+for f in glob.glob(f'{sd}/*.jsonl'):
+    if '.trajectory.' in f: continue
+    is_tg = False
+    try:
+        with open(f) as fh:
+            for line in fh:
+                if not line.strip(): continue
+                try:
+                    r = json.loads(line)
+                    if r.get('message',{}).get('role') != 'user': continue
+                    content = str(r.get('message',{}).get('content',''))
+                    if 'telegram:8574109706' in content or 'sourceChannel=telegram' in content:
+                        is_tg = True; break
+                except: pass
+    except: pass
+    if is_tg: telegram.append((os.path.getmtime(f), f))
+telegram.sort(reverse=True)
+for mtime, f in telegram[:3]:
+    print(datetime.datetime.fromtimestamp(mtime).strftime('%Y-%m-%d %H:%M'), f)
+```
+Then read last 40 lines of the most recent Telegram session file.
+
+**Failure modes to avoid:**
+1. **Only reading current channel:** Using only the current channel's context and missing activity from the other channel. Always check BOTH. sessions_list alone is NOT sufficient - always fall back to session file search.
+2. **Missing Telegram work:** 2026-05-16 incident — Telegram session made 8 commits that WebChat was unaware of because /resume only read WebChat context. ALWAYS pull from OTHER channel.
+3. **Stale active-work.json:** active-work.json does NOT auto-update during normal work. ALWAYS read actual session transcripts.
+4. **Not checking channel-state.json:** Decisions logged in channel-state may not appear in session transcripts. Always check channel-state.json for `syncedToWebchat=false` entries.
 
 ---
 

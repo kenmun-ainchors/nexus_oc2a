@@ -4847,3 +4847,39 @@ Author: Forge
 - Remove TKT-0137 from Sprint 4 scope
 - Revert sprint-4-planning-notes.json
 **Linked:** Sprint 4, TKT-0137, POL-001–008
+
+---
+
+## 2026-05-17 11:02 AEST — [CHG-0364] /resume bidirectional sync — explicit OTHER channel pull
+**Type:** process
+**Change Type:** Normal
+**Source:** ken-prompt
+**Trigger:** Ken requested: "update /resume keyword trigger to sync with the other channel — telegram-if on webchat, webchat-if on telegram like the above moving forward"
+**What changed:**
+1. **Updated YODA_RUNBOOK.md /resume section:**
+   - Added "Bidirectional Sync Logic" subsection (NEW 2026-05-17)
+   - /resume now explicitly determines current channel from inbound metadata
+   - If on WebChat → pulls latest Telegram activity (sessions_history + session file read)
+   - If on Telegram → pulls latest WebChat activity (sessions.json index + .jsonl file read)
+   - Surfaces OTHER channel's context as "Where we left off" — what Ken may have missed
+2. **Updated execution steps:**
+   - Step 1: Read channel-state.json for unsynced decisions (was implicit, now explicit)
+   - Step 2: Determine current channel
+   - Step 3: Pull from OTHER channel (mandatory, not optional)
+   - Step 4: Light check of current channel (confirm where we are)
+   - Step 5-7: Compare, surface OTHER channel, deliver handoff
+3. **Added Telegram session read snippet:**
+   - Python snippet to find most recent Telegram session file when sessions_history fails
+   - Reads last 40 lines of Telegram .jsonl for transcript extraction
+4. **Updated failure modes:**
+   - Added "Missing Telegram work" failure mode (2026-05-16 incident reference)
+   - Added "Not checking channel-state.json" failure mode
+   - Documented that active-work.json is still not auto-updating
+**Why:** 2026-05-16 incident demonstrated the problem: Telegram session made 8 commits (CHG-0361–0363, SOUL trim, RUNBOOK updates, Warden fixes, cron batch updates) over 16.5 hours. When Ken switched to WebChat and said "/resume", the WebChat session only showed WebChat context — completely missed all Telegram work. This caused confusion and required manual sync. Bidirectional sync fixes this by ALWAYS pulling from the OTHER channel.
+**Verification:**
+- RUNBOOK.md updated with new /resume section: ✅
+- Bidirectional sync logic documented: ✅
+- Telegram session read snippet added: ✅
+- Failure modes updated: ✅
+**Rollback:** Revert RUNBOOK.md /resume section to pre-2026-05-17 version.
+**Linked:** CHG-0362 (Conservative Mode), CHG-0363 (cron batch update), 2026-05-16 incident
