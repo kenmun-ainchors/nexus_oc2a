@@ -5077,3 +5077,39 @@ Author: Forge
 - Sprint 4/5 counts accurate: ✅
 **Rollback:** Delete backlog-state.json, revert Notion pages.
 **Linked:** CHG-0369, Sprint 4, AKB Backlog
+
+---
+
+## 2026-05-17 14:50 AEST — [CHG-0371] Notion AKB Backlog full sync (Option A)
+**Type:** task
+**Change Type:** Normal
+**Source:** ken-prompt
+**Trigger:** Ken approved Option A: full automated sync. Ensure [TKT/CHG/etc.] in square brackets.
+**What changed:**
+1. **Status fixes: 14 tickets updated**
+   - [TKT-0176] Notion='In Progress' -> tickets.json='Open' (Backlog)
+   - [TKT-0156] Notion='Cancelled' -> tickets.json='Closed' (Done)
+   - [TKT-0153] Notion='Backlog' -> tickets.json='Closed' (Done)
+   - [TKT-0114–0119] Notion='Backlog' -> tickets.json='Pending' (Pending)
+   - [TKT-0172–0174] Notion='Backlog' -> tickets.json='Closed' (Done)
+   - [TKT-0161–0162] Notion='Backlog' -> tickets.json='Closed' (Done)
+2. **Missing tickets: 10 created in Notion**
+   - [TKT-0178], [TKT-0179], [TKT-0181], [TKT-0182]
+   - [TKT-0186], [TKT-0187], [TKT-0188], [TKT-0189]
+   - [TKT-0191], [TKT-0195]
+3. **Extra pages: 18 orphaned**
+   - Old [TKT-0001]–[TKT-0059] pages marked as [ORPHAN] + Status=Done
+4. **Duplicates: 0 archived**
+   - Process interrupted before duplicate cleanup completed
+   - Remaining duplicates: ~55 still need cleanup
+**Bugs found:**
+- Double TKT prefix in output: "[TKT-TKT-0176]" — cosmetic only, actual page titles are correct
+- Process interrupted before full duplicate cleanup
+**Why:** Notion AKB Backlog had significant drift from tickets.json (55 duplicates, 14 status mismatches, 10 missing, 61 extra). Full sync required to restore SSOT alignment.
+**Verification:**
+- 14 status mismatches fixed: ✅
+- 10 missing tickets created: ✅
+- 18 extra pages orphaned: ✅
+- 55 duplicates: ⚠️ Partial (0 archived — needs completion)
+**Rollback:** Manual Notion page cleanup to restore pre-sync state.
+**Linked:** CHG-0370 (audit), AKB Backlog, tickets.json
