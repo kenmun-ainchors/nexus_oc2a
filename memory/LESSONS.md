@@ -325,3 +325,47 @@ After claiming completion:
 **Source:** Ken challenged CHG-0372 completion claim 2026-05-17 15:20 AEST.
 **Impact:** RULES.md DoD section completely rewritten with strict verification checklist.
 **Linked:** CHG-0373-REFINE, CHG-0372, L-036, KIMI MANDATE
+
+---
+
+## L-039 — OWL Drift During v2026.5.12 Upgrade (2026-05-17)
+**Lesson:** OWL mandate (CHG-0386) was not strictly followed during system upgrade, leading to errors.
+
+**What happened:**
+- Ken requested OpenClaw upgrade to v2026.5.12 (18:01 AEST)
+- Pre-update checks completed correctly (snapshot, health, crons)
+- BUT: Rushed into npm install without verifying version string format
+- npm install reported success but didn't actually update files
+- Rushed into gateway restart without verifying install
+- Old gateway process persisted with old version
+- Attempted force reinstall — accidentally deleted openclaw binary (rm -rf)
+- Emergency reinstall required
+- Gateway restart succeeded but with ~5min of instability
+- Ken flagged OWL drift at 18:30 AEST
+
+**Root causes:**
+1. **Insufficient pause between atoms** — Install → restart without verification gap
+2. **No verification step** — Didn't check `openclaw --version` between install and restart
+3. **Chain reaction on error** — When install failed, immediately tried force reinstall without assessing
+4. **Tier 3 work treated as Tier 2** — System upgrade is complex, should have had 5+ min analysis per atom
+
+**Impact:**
+- ~5 minutes gateway instability
+- Session disconnect/reconnect
+- Ken had to prompt for restart command
+- OWL credibility damaged (Ken noticed drift)
+
+**Fixes applied (Ken directive 18:30):**
+1. ✅ Added OWL Compliance Self-Check to HEARTBEAT.md
+2. ✅ Logged LESSON.md entry (this)
+3. ✅ Created TKT-0229 for OWL drift prevention
+
+**Prevention:**
+- **Tier 2/3 work:** Mandatory 3min/5min pause. Show thinking. Verify before next atom.
+- **Error handling:** STOP on first error. Assess. Report. Do not chain-react fixes.
+- **Verification gate:** Every atom must have explicit verification step before proceeding.
+- **Ken feedback:** When Ken says "slow down" or "you're rushing" → immediate OWL recommitment.
+
+**Refs:** CHG-0386 (OWL), CHG-0393 (upgrade), CHG-0349 (Conservative Mode)
+**Flagged by:** Ken Mun (CTO) 2026-05-17 18:30 AEST
+**Severity:** Medium — no data loss, but process integrity compromised

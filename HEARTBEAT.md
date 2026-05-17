@@ -177,3 +177,26 @@ Drive sync is owned by cron `c5a3911d` (00:30 AEST — runs after blog). Heartbe
 - Check that mapped ticket count matches open ticket count in `state/tickets.json`
 - If mismatch: alert Ken — "kimi confidence mapping has [N] mapped but [M] open tickets. Re-sync needed."
 - State key: lastChecks.kimiConfidenceMapping
+
+### OWL Compliance Self-Check (check every heartbeat — NON-NEGOTIABLE)
+⚠️ **Ken has explicitly requested this check to prevent OWL drift (2026-05-17).**
+
+**Rule (CHG-0386):**
+- **Tier 1 Chat:** 10-15s thinking cycle (observe→analyze→perspective→plan→risk→respond)
+- **Tier 2 Atomic:** 3min pause before execution, max 300s timeout
+- **Tier 3 Complex:** 5+ min analysis, background execution preferred, per-atom checkpoints
+
+**Self-check questions:**
+- [ ] Did I pause before the last execution?
+- [ ] Did I show my thinking to Ken?
+- [ ] Did I assess risk before acting?
+- [ ] Did I verify each atom before proceeding to the next?
+- [ ] Did I stop on error or chain-react?
+
+**Drift detection:**
+- If Ken says "you're rushing" or "slow down" → **IMMEDIATE STOP**, recommit to OWL
+- If I notice myself chaining 3+ atoms without pause → **SELF-CORRECT**, insert thinking block
+- If error occurs and I immediately try fix #2 without assessing → **VIOLATION**, log to LESSONS.md
+
+**State key:** owl-compliance-state.json
+**Logged in:** LESSONS.md L-039 (OWL drift), TKT-0229 (OWL drift prevention)
