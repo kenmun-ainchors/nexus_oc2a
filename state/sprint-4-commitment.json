@@ -1,0 +1,101 @@
+{
+  "sprint": 4,
+  "startDate": "2026-05-19",
+  "endDate": "2026-05-25",
+  "status": "committed",
+  "theme": "Architecture Foundation + Governance",
+  "capacity": 8,
+  "items": [
+    {
+      "id": "TKT-0196",
+      "title": "Three Work Types Rule — enforce script/governance/LLM separation",
+      "status": "open",
+      "owner": "Forge",
+      "type": "architecture",
+      "priority": "P1",
+      "kimiConfidence": "Full Confidence",
+      "order": 1,
+      "rationale": "Priority 1 — Architecture foundation. Ken approved Day 20."
+    },
+    {
+      "id": "TKT-0197",
+      "title": "Sources of Truth Register — 10 core data types",
+      "status": "open",
+      "owner": "Atlas",
+      "type": "architecture",
+      "priority": "P1",
+      "kimiConfidence": "Full Confidence",
+      "order": 1,
+      "rationale": "Priority 1 — Architecture foundation. Ken approved Day 20."
+    },
+    {
+      "id": "TKT-0127",
+      "title": "Agentic Marketing Org Design — activate business stream marketing agents for Angie + KL team",
+      "status": "open",
+      "owner": "Yoda",
+      "type": "task",
+      "priority": "P2",
+      "kimiConfidence": "Full Confidence",
+      "order": 2,
+      "rationale": "Priority 2 — Business stream activation. Full confidence on kimi."
+    },
+    {
+      "id": "TKT-0158",
+      "title": "P2 Gate — 6 Missing Governance Policies",
+      "status": "open",
+      "owner": "Atlas/Lex",
+      "type": "policy",
+      "priority": "P2",
+      "kimiConfidence": "Full Confidence",
+      "order": 2,
+      "rationale": "Priority 2 — P2 hard gate. No client onboards without these."
+    },
+    {
+      "id": "TKT-0178",
+      "title": "Routing Discipline Enforcement — audit + detection + routing gate",
+      "status": "in-progress",
+      "owner": "Forge",
+      "type": "task",
+      "priority": "P3",
+      "kimiConfidence": "Full Confidence",
+      "order": 3,
+      "rationale": "Priority 3 — CHG-0297 enforcement. Sub-tickets created."
+    },
+    {
+      "id": "TKT-0198",
+      "title": "Warden Drift Detection — automated model compliance checking",
+      "status": "open",
+      "owner": "Warden",
+      "type": "task",
+      "priority": "P3",
+      "kimiConfidence": "Full Confidence",
+      "order": 3,
+      "rationale": "Priority 3 — Automated governance. Sub-tickets created."
+    },
+    {
+      "id": "TKT-0169",
+      "title": "TypeScript Contract Layer — typed interfaces for all agent communication",
+      "status": "open",
+      "owner": "Thrawn",
+      "type": "architecture",
+      "priority": "P4",
+      "kimiConfidence": "Fairly Confident",
+      "order": 4,
+      "rationale": "Priority 4 — Type safety. kimi fairly confident."
+    },
+    {
+      "id": "TKT-0182",
+      "title": "PII Scanner — automated PII detection in agent outputs",
+      "status": "open",
+      "owner": "Shield",
+      "type": "security",
+      "priority": "P4",
+      "kimiConfidence": "Low Confidence",
+      "order": 4,
+      "rationale": "Priority 4 — Data protection. kimi low confidence, needs careful execution."
+    }
+  ],
+  "committedAt": "2026-05-17T17:10:00+10:00",
+  "committedBy": "Ken Mun",
+  "notes": "Sprint 4 committed. Day 1 = May 19. Architecture-first approach with Full Confidence items prioritized."
+}

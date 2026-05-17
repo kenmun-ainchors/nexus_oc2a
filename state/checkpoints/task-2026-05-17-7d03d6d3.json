@@ -1,0 +1,29 @@
+{
+  "schema": "checkpoint-v1",
+  "taskId": "task-2026-05-17-7d03d6d3",
+  "currentAtom": 1,
+  "atoms": [
+    {
+      "id": 1,
+      "description": "Create checkpoint file",
+      "status": "complete",
+      "completedAt": "2026-05-17T17:12:41.977306",
+      "result": "{\"result\":\"test\"}}"
+    },
+    {
+      "id": 2,
+      "description": "Verify it exists",
+      "status": "complete",
+      "completedAt": "2026-05-17T17:12:41.999676",
+      "result": "{\"result\":\"test\"}}"
+    },
+    {
+      "id": 3,
+      "description": "Complete task",
+      "status": "complete",
+      "completedAt": "2026-05-17T17:12:42.022850",
+      "result": "{\"result\":\"test\"}}"
+    }
+  ],
+  "lastUpdated": "2026-05-17T17:12:42.022855"
+}
