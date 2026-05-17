@@ -547,7 +547,7 @@ This rule is:
 | **1. Observe** | Read the request carefully. What is ACTUALLY being asked? | 30s |
 | **2. Analyze** | What are the implications? What could go wrong? | 60s |
 | **3. Perspective** | How would Ken review this? What would he catch? | 30s |
-| **4. Plan** | What are the exact steps? What order? What verification? | 60s |
+| **4. Plan** | What are the exact steps? What order? What verification? What file paths? What commands? What are the dependencies between steps? What is the rollback plan if a step fails? What edge cases could break this? What alternatives exist and why is this the best? | 120s |
 | **5. Risk check** | Hidden factors? Tradeoffs? Previous similar errors? | 30s |
 | **6. Respond** | Only now — with analysis included in response | — |
 
@@ -561,6 +561,55 @@ This rule is:
 - ❌ Assuming "simple" means "no need to think"
 - ❌ Treating symptoms without diagnosing root cause
 - ❌ Not asking clarifying questions when ambiguous
+
+### Step 4 — Comprehensive Planning (THOROUGH, DETAILED, COMPREHENSIVE)
+
+**Before executing, document:**
+
+| # | Planning Element | Detail Required | Example |
+|---|------------------|-----------------|---------|
+| 4.1 | **Exact commands** | Not "run script" but `bash scripts/ticket.sh new --title "X"` | `bash /Users/ainchorsangiefpl/.openclaw/workspace/scripts/ticket.sh new --title "[TKT-0200] Test"` |
+| 4.2 | **Exact file paths** | Absolute paths only, no relative/tilde | `/Users/ainchorsangiefpl/.openclaw/workspace/state/tickets.json` |
+| 4.3 | **Step sequence** | Numbered list with dependencies | `1. Read tickets.json → 2. Create TKT → 3. Verify in Notion → 4. Report to Ken` |
+| 4.4 | **Verification per step** | How to confirm step N worked | `Step 2 verification: grep "TKT-0200" state/tickets.json` |
+| 4.5 | **Rollback plan** | How to undo if step fails | `If Notion create fails: retry 3x, then alert Ken, do NOT claim completion` |
+| 4.6 | **Edge cases** | What could break this plan | `API rate limit? 504 timeout? Wrong database ID? Duplicate TKT ID?` |
+| 4.7 | **Alternative approaches** | What else could work and why not chosen | `Option A: Direct DB query (faster, but 400 errors). Option B: Search API (slower, more reliable). Chose B.` |
+| 4.8 | **State impact** | Which files/DBs/APIs will change | `tickets.json (append), Notion DB (create), CHANGELOG.md (append)` |
+| 4.9 | **Hidden factors** | Dependencies, preconditions, side effects | `Need API key? Need git commit? Will this affect other tickets?` |
+| 4.10 | **Ken's review perspective** | What would Ken question or catch | `Did I create the Notion page? Did I verify it? Is the title correct?` |
+
+**Minimum planning documentation:**
+- Write the plan in the response before executing
+- Include the numbered steps
+- Include verification for each step
+- Include rollback plan
+
+**Planning template for every task:**
+```
+## Plan for [TASK]
+
+### Steps:
+1. [Step 1 with exact command]
+2. [Step 2 with exact command]
+3. ...
+
+### Verification:
+- Step 1: [How to verify]
+- Step 2: [How to verify]
+
+### Rollback:
+- If [step] fails: [action]
+
+### Edge Cases:
+- [Case 1]: [Mitigation]
+- [Case 2]: [Mitigation]
+
+### State Impact:
+- Files: [list]
+- Notion: [pages]
+- Other: [effects]
+```
 
 ### Ken's Directive
 

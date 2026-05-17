@@ -5574,3 +5574,37 @@ Step 3: Confirm both match → report to Ken
 - RULES.md updated with OWL section: ✅
 - CHG-0386 logged: ✅
 **Linked:** CHG-0385, CHG-0383, CHG-0379, L-037, L-038
+
+---
+
+## 2026-05-17 16:40 AEST — [CHG-0387] OWL RULE Step 4 refined — Comprehensive Planning
+**Type:** policy
+**Source:** ken-directive (openclaw-control-ui)
+**Trigger:** Ken: "For step 4, refine - Also be thorough, detail and comprehensive."
+**What changed:**
+1. **RULE REFINED:** Step 4 (Plan) in OWL RULE expanded from 60s to 120s minimum
+2. **10 planning elements added:**
+   - 4.1 Exact commands (not vague descriptions)
+   - 4.2 Exact file paths (absolute, no tilde)
+   - 4.3 Step sequence with dependencies
+   - 4.4 Verification per step
+   - 4.5 Rollback plan
+   - 4.6 Edge cases
+   - 4.7 Alternative approaches evaluated
+   - 4.8 State impact documented
+   - 4.9 Hidden factors identified
+   - 4.10 Ken's review perspective
+3. **Planning template added:** Mandatory documentation format before execution
+4. **Requirement:** Write plan in response before executing ANY work
+**Why this matters:**
+- Today: "Run script" → wrong script run → error → rework
+- Target: `bash /exact/path/script.sh --flag value` → correct execution → done
+- Today: Missing verification step → claimed done but not verified
+- Target: Each step has explicit verification command
+- Today: No rollback plan → stuck when API fails
+- Target: "If fails → retry 3x → alert Ken → do NOT claim completion"
+**Verification:**
+- RULES.md Step 4 expanded: ✅
+- 10 planning elements documented: ✅
+- Planning template added: ✅
+**Linked:** CHG-0386, CHG-0385, CHG-0383, L-037, L-038
