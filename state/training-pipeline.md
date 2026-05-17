@@ -141,7 +141,10 @@ _Maintained by Aria 🔵 + Yoda 🟢 | Status-tracked content for AInchors train
 | TC-129 | When your AI cron fails silently: isolated session configuration traps | 💡 Idea | Yoda Day 22 (standup cron failed in isolated session — no file writes, no auth, no visible error until human noticed) | Yoda |
 | TC-130 | Memory management for long-running AI agents: from files to databases | 💡 Idea | Yoda Day 22 (MEMORY.md hit 10k limit, archival bridge built, T4 semantic memory planned for P1) | Both |
 | TC-131 | The relay loop: when AI confirmation messages trigger response cycles | 💡 Idea | Yoda Day 22 (webchat↔telegram relay loop — metadata-only messages need NO_REPLY handling) | Yoda |
-| TC-132 | Model evaluation cycles: the three-stage path from trial to production | 💡 Idea | Yoda Day 22 (gemma4:31b-cloud Cycle 1A → 2A → B: trial → validate → live production) | Both |
+| TC-133 | Emergency model switching: the runbook that saves your platform when the API dies | 💡 Idea | Yoda Day 21 (CHG-0348/0351 — all 12 agents switched to kimi in <10 min, zero downtime, `CLAUDE DEPLETED`/`CLAUDE RESTORE` keywords) | Both |
+| TC-134 | Interim models need interim rules: why kimi can't do everything Sonnet does | 💡 Idea | Yoda Day 21 (CHG-0350/0351 — control UI sessions, conservative mode, explicit routing rules for weaker reasoning models) | Yoda |
+| TC-135 | The relay loop: when stale queues create artificial noise in business streams | 💡 Idea | Yoda Day 23 (Aria relay cron bug — resolved items not being cleared from queue) | Yoda |
+| TC-136 | Platform versioning: the discipline of pre-update snapshots and post-validation | 💡 Idea | Yoda Day 23 (CHG-0393 — OpenClaw v2026.5.12 upgrade sequence) | Both |
 
 ## Status Legend
 💡 Idea → 📝 Draft → 🔍 Review (Yoda validates) → ✅ Ready → 📢 Published
