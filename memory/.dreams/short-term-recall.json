@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "updatedAt": "2026-05-17T05:56:55.187Z",
+  "updatedAt": "2026-05-17T08:18:53.588Z",
   "entries": {
     "memory:memory/2026-04-26.md:94:122": {
       "key": "memory:memory/2026-04-26.md:94:122",
@@ -254,20 +254,22 @@
       "endLine": 601,
       "source": "memory",
       "snippet": "### CHG-0022: Slash Commands Formalised - `/resume` — pull both webchat + Telegram transcripts, synthesise, deliver handoff summary - `/research` — deep research mode, spawn sub-agent, web access, structured findings with sources - `/diagnostics` — 6-phase deep inspection - RULES.md + SOUL.md updated. No more plain-phrase triggers. --- ## 10:34–11:23 AEST — Aria Created + Governance Layer ### CHG-0023: Business Lead Agent Aria 🔵 Created - `workspace-business/` directory created - Identity: Aria 🔵, AI Business Operations Lead - Angie Foong (Telegram 8141152780) bound to business agent - Any Angie Telegram message routes to Aria - OC2 precursor — lives on OC1 temporarily, migrates when ha",
-      "recallCount": 2,
+      "recallCount": 3,
       "dailyCount": 0,
       "groundedCount": 0,
-      "totalScore": 0.8315320283174514,
+      "totalScore": 1.2507006049156189,
       "maxScore": 0.4407440036535263,
       "firstRecalledAt": "2026-04-28T07:04:45.287Z",
-      "lastRecalledAt": "2026-04-29T05:13:49.704Z",
+      "lastRecalledAt": "2026-05-17T08:18:53.588Z",
       "queryHashes": [
         "7a37f92f1b87",
-        "ebff508a49a4"
+        "ebff508a49a4",
+        "c0d8f98b8f00"
       ],
       "recallDays": [
         "2026-04-28",
-        "2026-04-29"
+        "2026-04-29",
+        "2026-05-17"
       ],
       "conceptTags": [
         "chg-0022",
@@ -1953,6 +1955,37 @@
         "instagram/meta",
         "tkt-0027",
         "ken"
+      ]
+    },
+    "memory:memory/2026-05-15.md:1:10": {
+      "key": "memory:memory/2026-05-15.md:1:10",
+      "path": "memory/2026-05-15.md",
+      "startLine": 1,
+      "endLine": 10,
+      "source": "memory",
+      "snippet": "## 01:00 AEST — Auto-Heal Run (19 checks) - **Auto-fixed:** git committed 14 untracked workspace files + 1 Aria file - **Real issue:** Backup stale 94h (last: workspace-2026-05-11-0205.tar.gz) — Notion US created, Priority High - **MEMORY.md:** Was 11,221 chars (over 10,000 hard limit) — trimmed to 9,571 chars ✅ — Notion US created - **False alarms (investigated + closed):** - Balance $0: stale remainingEstimate field; Ken confirmed $203.48 at 22:34 AEST; auto-reload active daily - Journal missing 2026-05-15: expected at 1am (journal cron runs 23:55 tonight) - Config baseline: all 16 checks OK ✅ | Telegram routing: all 11 crons correct ✅ | Keychain: anthropic key live ✅",
+      "recallCount": 1,
+      "dailyCount": 0,
+      "groundedCount": 0,
+      "totalScore": 0.4160204321146011,
+      "maxScore": 0.4160204321146011,
+      "firstRecalledAt": "2026-05-17T08:18:53.588Z",
+      "lastRecalledAt": "2026-05-17T08:18:53.588Z",
+      "queryHashes": [
+        "c0d8f98b8f00"
+      ],
+      "recallDays": [
+        "2026-05-17"
+      ],
+      "conceptTags": [
+        "backup",
+        "auto-heal",
+        "auto-fixed",
+        "workspace-2026-05-11-0205.tar.gz",
+        "memory.md",
+        "203.48",
+        "auto-reload",
+        "aest"
       ]
     }
   }

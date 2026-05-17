@@ -1,7 +1,7 @@
 {
   "schema": "task-queue-v1",
   "description": "Master queue for async stateless tasks. Any agent can claim and resume.",
-  "lastUpdated": "2026-05-17T18:15:02.663954",
+  "lastUpdated": "2026-05-17T18:25:05.433781",
   "tasks": [
     {
       "id": "task-2026-05-17-2e43e59d",
@@ -239,10 +239,10 @@
         },
         {
           "id": 2,
-          "description": "Atom B — Superseded by TKT-0230 real implementation",
+          "description": "Atom B \u2014 Superseded by TKT-0230 real implementation",
           "status": "complete",
           "completedAt": "2026-05-17T18:18:00.000000",
-          "result": "{\"result\":\"TKT-0230 completed in webchat — test task no longer needed\"}}"
+          "result": "{\"result\":\"TKT-0230 completed in webchat \u2014 test task no longer needed\"}}"
         }
       ],
       "createdAt": "2026-05-17T17:25:10.330027",

@@ -171,6 +171,23 @@
         "Update session bootstrap to fetch-on-demand",
         "Deprecate Option B tiered split"
       ]
+    },
+    "TRIGGER-14": {
+      "name": "CLAUDE RESTORE \u2014 Anthropic API Key Re-provisioning",
+      "condition": "Ken issues CLAUDE RESTORE keyword or Anthropic API credits restored",
+      "detection": "manual \u2014 Ken signals readiness to exit interim period",
+      "action": "Prompt Ken to provide new Anthropic API key, then: (1) Store in Keychain as 'ainchors-anthropic-api-key', (2) Add auth.profiles.anthropic:default to openclaw.json, (3) Add anthropic model aliases to agents.defaults.models, (4) Update model-policy.json whitelist to include Anthropic models, (5) Run validate-fallback-chain.sh, (6) Restore agent primary models from claude-restore-config.json",
+      "status": "pending",
+      "firedAt": null,
+      "notes": "Created during CHG-0393 cleanup. All Anthropic config removed during interim period. Re-provisioning required before agents can use Claude models again.",
+      "linkedChgs": [
+        "CHG-0349",
+        "CHG-0373",
+        "CHG-0393"
+      ],
+      "linkedTkts": [
+        "TKT-0165"
+      ]
     }
   },
   "TRIGGER-14": {

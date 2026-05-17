@@ -2,7 +2,7 @@
   "schema": "aria-relay-queue-v1",
   "description": "Aria writes pending messages here. Yoda's 5-min cron picks them up and sends to Ken. Items auto-purge after 7 days. Resolved/cancelled items skipped automatically.",
   "pending": [],
-  "lastCleanedAt": "2026-05-17T18:01:00+10:00",
+  "lastCleanedAt": "2026-05-17T18:16:00+10:00",
   "stats": {
     "totalPurged": 5,
     "purgedIds": [
@@ -13,7 +13,7 @@
       "MSG-001"
     ],
     "reason": "Cleaned per L-038. Queue empty. All prior items stale (>7 days) or resolved.",
-    "lastRun": "2026-05-17T18:01:00+10:00",
+    "lastRun": "2026-05-17T18:26:00+10:00",
     "pendingCount": 0,
     "staleSkipped": 0,
     "resolvedSkipped": 0,
