@@ -1970,5 +1970,74 @@ During interim period:
 - Warden cron header comment referencing CHG-0362
 - This runbook section kept current
 
+### Cron Interim Model Update Procedure (CHG-0362 extension, 2026-05-17)
+
+When Claude API is unavailable (CHG-0349 interim period), ALL crons using `anthropic/claude-haiku-4-5` or `anthropic/claude-sonnet-4-6` will timeout and fail. These crons must be updated to use the interim model (`ollama/kimi-k2.6:cloud`).
+
+**Root cause:** Cron payloads have hardcoded model fields. When the API is unavailable, the cron tries to use the specified model, times out after 60-180 seconds, and reports `error`.
+
+**Precedent:** Warden cron (`83accf7b`) updated 2026-05-17 per CHG-0362. Same pattern applies to all affected crons.
+
+#### Step-by-step (Yoda, with Ken approval per Conservative Mode)
+
+1. **Identify failed crons:**
+   ```bash
+   openclaw cron list | grep "error"
+   ```
+   Look for crons with model = `anthropic/claude-haiku-4-5` or `anthropic/claude-sonnet-4-6`.
+
+2. **Confirm interim period active:**
+   Check `state/interim-model-period.json` exists and `active=true`. If not active, this is a real failure — investigate normally.
+
+3. **Get Ken approval:**
+   "⚠️ [N] crons failing due to Claude API timeout during interim period. Update all to `ollama/kimi-k2.6:cloud`? PROCEED?"
+   Wait for `APPROVED` or `PROCEED`.
+
+4. **Batch update crons:**
+   For each failed cron, run:
+   ```bash
+   openclaw cron update <cron-id> --patch '{"payload":{"model":"ollama/kimi-k2.6:cloud","timeoutSeconds":<same>}}'
+   ```
+   Preserve existing timeout values (do not change unless needed).
+   Update `fallbacks` field if present: `["ollama/kimi-k2.6:cloud"]`.
+
+5. **Verify no errors remain:**
+   ```bash
+   openclaw cron list | grep "error"
+   ```
+   Should return 0 results (status reflects next run, not historical).
+
+6. **Rerun failed crons to verify:**
+   ```bash
+   openclaw cron run <cron-id>
+   ```
+   For each updated cron, trigger immediate run and confirm `status=ok`.
+
+7. **Log CHG entry:**
+   Document: which crons updated, from which models, to which interim model, Ken approval reference, verification results.
+
+8. **Update this runbook:**
+   Add this procedure if not already present.
+
+**Key crons typically affected:**
+- TRIGGER-12 Allowlist Sync (`6a059e9e`)
+- Warden Model Compliance (`83accf7b`)
+- Journal Incremental Writer (`1b853131`)
+- Gateway Health Check (`c65ace85`)
+- Aria→Ken Relay Queue (`7a28cc83`)
+- Task Monitor (`637ecb12`)
+- Fallback Chain Validation (`35c8cd08`)
+- Daily Burn Alert (`ca5d5e50`)
+- Daily Close Blog (`a027fd60`)
+- Nightly Gateway Restart (`20f59555`)
+- Daily Stale Cleanup (`516135b9`)
+- AKB Holocron Daily (`dce1ada4`)
+- TRIGGER-04/06 OpenClaw (`6bd53c89`)
+- Memory Hygiene (`0afc4d20`)
+- Daily Budget Report (`3ea986bf`)
+- Backup Health Check (`e08e19ad`)
+
+**Reversion:** When `CLAUDE RESTORE` issued, all crons must be reverted to their original models. This is Step 1 of the Deactivation procedure.
+
 **Linked:** CHG-0349, CHG-0350, CHG-0362, TKT-0165
 
