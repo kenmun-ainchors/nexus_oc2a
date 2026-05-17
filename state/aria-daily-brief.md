@@ -1,3 +1,37 @@
+## 2026-05-17 — Business Stream Summary
+_Written 23:45 AEST by Aria cron_
+
+### Angie interactions today
+- No Angie activity today.
+
+### Aria outbound today
+- None (Sunday — no heartbeat check-in scheduled, weekend).
+
+### Decisions made
+- None.
+
+### Governance reviews
+- None triggered.
+
+### Open items
+- 🟢 **Meeting with Ken** — scheduled for Friday 15 May 4–5pm via Google Meet (zuc-jcua-hmp). Outcome unknown — awaiting Angie update on how it went.
+- 🔴 **Onboarding Stage 2** — OB-12, OB-14, OB-15 unchecked. Waiting on Angie to re-engage.
+- 🟡 **Lynn Huang (bookkeeping)** — email sent Friday May 9, awaiting her fee schedule reply.
+- 🟡 **Jack Ooi (accounting)** — awaiting Angie update on how their meeting went.
+- 🟡 **Training revenue projection** — delivered Saturday May 10 ($1.065M AUD target). Pending Angie/Ken review.
+- 🟡 **Marketing collaterals** (company-overview, training-brochure, client-pitch) — ready in canvas/documents/ainchors-marketing/, Angie hasn't reviewed yet.
+- 🟡 **Meta appeal** — status unknown, no update received.
+- 🔴 **JotForm/HRDF** — still outstanding from April 28. No API key received.
+- 🟡 **April 30 class debrief** — still missing (17 days since class).
+
+### Handoff to Yoda
+- Quiet Sunday. No Angie contact today or yesterday (weekend — expected).
+- Thursday May 14: Angie sent a voice note requesting a meeting with Ken. Aria scheduled it for Friday May 15 at 4pm (Google Meet: zuc-jcua-hmp). No debrief from Angie on outcome yet.
+- Friday May 15: Heartbeat delivered a morning check-in to Angie with meeting reminder. No response yet.
+- All open items carry forward unchanged. No relay messages to Ken this weekend.
+
+---
+
 ## 2026-05-13 — Business Stream Summary
 _Written 23:45 AEST by Aria cron_
 
