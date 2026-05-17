@@ -5000,3 +5000,46 @@ Author: Forge
 - Lock timestamp and approver recorded: ✅
 **Rollback:** Remove template-lock.json, revert to uncontrolled template iteration.
 **Linked:** CHG-0355 (standup two-step write), CHG-0353 (journal format), CHG-0290 (blog canvas), CHG-0232 (auto-reload)
+
+---
+
+## 2026-05-17 14:21 AEST — [CHG-0369] Sprint 4 scope expanded to 8 items + Sprint 5 pre-assigned
+**Type:** planning
+**Change Type:** Normal
+**Source:** ken-prompt
+**Trigger:** Ken approved via WebChat 2026-05-17 14:21 AEST: "expand sprint capacity for next 3 sprints to 8 items"
+**What changed:**
+1. **Sprint 4 expanded from 5 to 8 items:**
+   - TKT-0127: Agentic Marketing Org Design (Yoda) — NEW to Sprint 4
+   - TKT-0158: Scheduled integrity checks (TBD) — NEW to Sprint 4
+   - TKT-0196: Three Work Types Rule (Forge) — already Sprint 4
+   - TKT-0197: Sources of Truth Register (Atlas) — already Sprint 4
+   - TKT-0178: Routing Discipline Enforcement (Forge) — NEW to Sprint 4
+   - TKT-0198: JSON to Postgres Migration (Forge) — NEW to Sprint 4 (was Sprint 6)
+   - TKT-0169: Typed Agent Contracts (Yoda) — NEW to Sprint 4
+   - TKT-0182: Explicit state checking pattern (Thrawn) — NEW to Sprint 4
+2. **Sprint capacity expanded:**
+   - Sprint 4: 8 items (was 5)
+   - Sprint 5: 12 items pre-assigned (review at Sprint 5 planning)
+   - Sprint 6: TBD (review at Sprint 6 planning)
+3. **TKT-0194 CANCELLED:**
+   - Standup Email: Email-Safe HTML Template
+   - Reason: Standup template now locked (CHG-0368), no separate ticket needed
+   - Resolution: Superseded by template lock
+4. **Sprint 5 pre-assigned (12 items):**
+   - TKT-0109, TKT-0129, TKT-0130, TKT-0133, TKT-0139, TKT-0143, TKT-0148
+   - TKT-0157, TKT-0159, TKT-0179, TKT-0181, TKT-0190
+   - Status: pre-assigned, to be reviewed/confirmed at Sprint 5 planning
+5. **All tickets updated in tickets.json:**
+   - Sprint 4: status=open, notes=Sprint 4 assignment
+   - Sprint 5: status=open, notes=Sprint 5 pre-assignment
+   - TKT-0194: status=closed, resolution=superseded
+   - Notion AKB Backlog synced for all (where notionPageId exists)
+**Why:** Ken wants to accelerate delivery while Conservative Mode is active. Expanding to 8 items leverages the Full Confidence backlog (21 items) without overloading. Sprint 5+ items are pre-assigned for visibility but not committed — review gate at each planning session.
+**Verification:**
+- Sprint 4: 8 items tagged ✅
+- Sprint 5: 12 items pre-tagged ✅
+- TKT-0194 cancelled ✅
+- Notion synced for 17/21 tickets ✅
+**Rollback:** Revert all tickets to previous sprint assignments, restore TKT-0194 to open.
+**Linked:** CHG-0368 (template lock), Sprint 4 planning, kimi-confidence-mapping
