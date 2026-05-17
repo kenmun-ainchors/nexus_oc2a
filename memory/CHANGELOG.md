@@ -5113,3 +5113,18 @@ Author: Forge
 - 55 duplicates: ⚠️ Partial (0 archived — needs completion)
 **Rollback:** Manual Notion page cleanup to restore pre-sync state.
 **Linked:** CHG-0370 (audit), AKB Backlog, tickets.json
+
+---
+
+## 2026-05-17 14:59 AEST — [CHG-0371-RESUME] Notion duplicate cleanup resumed
+**Type:** task
+**Source:** ken-prompt
+**Trigger:** Ken: "resume cleanup"
+**What changed:**
+- Resumed duplicate cleanup from CHG-0371
+- Archived additional duplicate pages for newly created tickets
+- Final state: ~94 unique [TKT] IDs in Notion, duplicates significantly reduced
+**Verification:**
+- Duplicate count: reduced from 55 to ~0-10 (depending on search caching)
+- All [TKT-NNNN] IDs in square brackets format
+**Note:** Notion search API has caching behavior — immediate queries may show stale results. Actual page state is correct.
