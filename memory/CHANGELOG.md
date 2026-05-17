@@ -5608,3 +5608,35 @@ Step 3: Confirm both match → report to Ken
 - 10 planning elements documented: ✅
 - Planning template added: ✅
 **Linked:** CHG-0386, CHG-0385, CHG-0383, L-037, L-038
+
+---
+
+## 2026-05-17 16:48 AEST — [CHG-0388] Tiered OWL — Timeout Prevention for Tier 2 & 3
+**Type:** policy
+**Source:** ken-directive (openclaw-control-ui)
+**Trigger:** Ken: "A. For Tier 2 and 3, what can be done to ensure total execution time does not cause any work to be cut-off/killed/stalled due to timeout risk?"
+**Decision:** Option A (Tiered OWL) + Timeout Prevention mechanisms
+**What changed:**
+1. **TIER 1 defined:** Chat/Q&A — 10-15s owl-lite, no timeout risk
+2. **TIER 2 defined:** Atomic tasks — 3min max, subagent timeout=300s, progress checkpointing mandatory
+3. **TIER 3 defined:** Complex work — 5+ min, subagent timeout=0 (unlimited), background execution, progress tracking mandatory
+4. **TIMEOUT PREVENTION:**
+   - Tier 2: 300s subagent timeout (analysis 120s + execution 180s)
+   - Tier 3: 0s timeout (unlimited) + background subagent + progress file
+   - Progress checkpointing after every atomic step
+   - Recovery mechanisms for stalled/dead subagents
+5. **CHECKPOINTING:** Mandatory progress state files for Tier 2 & 3
+   - `state/tier2-progress-[taskId].json`
+   - `state/tier3-progress-[taskId].json`
+6. **RECOVERY:** Resume from last completed step, do not restart
+**Why this matters:**
+- Today: Subagent timed out (delivered-date-fix, 4m59s → killed)
+- Today: Multiple retries needed because work was cut off
+- Target: Tier 2 completes within 300s, Tier 3 runs unlimited in background
+- Hidden factor: Analysis phase itself consumes time — must budget for it
+**Verification:**
+- RULES.md Tiered OWL section added: ✅
+- Timeout configs documented: ✅
+- Progress checkpointing defined: ✅
+- Recovery mechanisms documented: ✅
+**Linked:** CHG-0387, CHG-0386, CHG-0383, L-037, L-038
