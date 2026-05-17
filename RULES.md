@@ -260,3 +260,49 @@ grep "CHG-NNNN" in Notion search
 # 3. Verify title matches
 # CHG-NNNN in CHANGELOG == [CHG-NNNN] in Notion
 ```
+
+### CREATED DATE RULE — NON-NEGOTIABLE (CHG-0379)
+# Effective: 2026-05-17 15:53 AEST
+# Authority: Ken Mun (CTO) — ABSOLUTELY NON-NEGOTIABLE
+
+**ALL items created in Notion AKB Backlog MUST have Created Date populated.**
+
+This rule is:
+- **ABSOLUTELY NON-NEGOTIABLE** — No exceptions, ever
+- **AUTOMATIC** — Created Date is set at creation time
+- **REQUIRED FIELD** — Never leave blank
+
+### Scope
+
+| Item | Created Date Required | Source |
+|------|----------------------|--------|
+| **New TKT** | YES | tickets.json createdAt |
+| **New CHG** | YES | CHANGELOG.md entry date |
+| **Replacement TKT** | YES | Original ticket date or new date |
+| **AUTO-HEAL** | YES | Date of auto-heal run |
+
+### Anti-patterns (FAIL DoD)
+
+- ❌ Item created with blank Created Date
+- ❌ "I'll fill it in later" — must be at creation
+- ❌ Using default/placeholder dates
+- ❌ Different date in Notion vs tickets.json vs CHANGELOG
+
+### Enforcement
+
+**ticket.sh MUST:**
+1. Set Created Date = tickets.json createdAt date
+2. Verify date is valid format (YYYY-MM-DD)
+3. Confirm Notion page shows correct date
+
+**changelog.sh MUST:**
+1. Set Created Date = CHG entry date from CHANGELOG
+2. Verify date matches the ## date line
+
+### Ken's Directive
+
+> "Created Date is not populated when items in backlog are created. Rule - ensure they are captured/entered when created."
+
+**Date:** 2026-05-17 15:53 AEST
+**Channel:** openclaw-control-ui
+**CHG:** CHG-0379

@@ -5369,3 +5369,26 @@ Author: Forge
 - All CHG records now in AKB Backlog: ✅
 - RULES.md updated with CHG sync rule: ✅
 **Linked:** CHG-0377, CHG-0371, L-037, KIMI MANDATE
+
+---
+
+## 2026-05-17 15:53 AEST — [CHG-0379] Created Date rule enforced — 57 items missing
+**Type:** policy
+**Source:** ken-directive (openclaw-control-ui)
+**Trigger:** Ken: "Created Date is not populated when items in backlog are created. Rule - ensure they are captured/entered when created."
+**What changed:**
+1. **CRITICAL AUDIT:** Checked 517 Notion AKB Backlog items
+2. **FOUND:** 57 items MISSING Created Date field
+3. **IMMEDIATE FIX:** Batch updating all 57 items with proper dates
+4. **RULES.md updated:** Added Created Date as non-negotiable requirement
+5. **Enforcement:** ticket.sh and changelog.sh MUST set Created Date at creation
+**Root cause:**
+- Notion page creation was not including Created Date property
+- Field was left blank/default in database
+- No validation that date was populated
+**Verification:**
+- 517 items checked: ✅
+- 57 missing identified: ✅
+- Batch update in progress: ✅
+- RULES.md updated: ✅
+**Linked:** CHG-0377, CHG-0378, L-037, KIMI MANDATE
