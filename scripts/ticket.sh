@@ -24,8 +24,16 @@ NOTION_DB_ID="34dc1829-53ff-814b-8257-d3a3bf351d44"
 NOTION_KEY_FILE="$HOME/.config/notion/api_key"
 
 die() { echo "ERROR: $1" >&2; exit 1; }
-require_jq() { command -v jq > /dev/null || die "jq required"; }
-require_jq
+# Atomic write helper to prevent corruption during simultaneous access
+atomic_write() {
+  local file="$1"
+  local content="$2"
+  local tmp_file="${file}.tmp.$RANDOM"
+  echo "$content" > "$tmp_file" && mv "$tmp_file" "$file" || {
+    echo "ERROR: Atomic write failed for $file" >&2
+    return 1
+  }
+}
 
 SPRINT_FILE="/Users/ainchorsangiefpl/.openclaw/workspace/state/sprint-current.json"
 
@@ -269,7 +277,7 @@ if [[ "$SUBCOMMAND" == "new" ]]; then
        notes: "",
        notionPageId: null
      }]' "$TICKET_FILE")
-  echo "$TMP" > "$TICKET_FILE"
+  atomic_write "$TICKET_FILE" "$TMP"
 
   echo "✅ Ticket created: $TKT_ID"
   echo "   Title:    $TITLE"
@@ -283,7 +291,7 @@ if [[ "$SUBCOMMAND" == "new" ]]; then
   if [[ -n "$NOTION_PAGE_ID" && "$NOTION_PAGE_ID" != "NOTION_SKIP" ]]; then
     TMP2=$(jq --arg id "$TKT_ID" --arg npid "$NOTION_PAGE_ID" \
       '(.tickets[] | select(.id == $id)) |= (.notionPageId = $npid)' "$TICKET_FILE")
-    echo "$TMP2" > "$TICKET_FILE"
+    atomic_write "$TICKET_FILE" "$TMP2"
     echo "✅ synced → $NOTION_PAGE_ID"
   else
     echo "⚠️  sync skipped or failed (local ticket still created)"
@@ -351,7 +359,7 @@ elif [[ "$SUBCOMMAND" == "update" ]]; then
       (if $resolution != "" then .resolution = $resolution else . end)
     )
   ' "$TICKET_FILE")
-  echo "$TMP" > "$TICKET_FILE"
+  atomic_write "$TICKET_FILE" "$TMP"
   echo "✅ $TKT_ID updated"
 
   # Sprint sync (auto)
@@ -414,7 +422,7 @@ elif [[ "$SUBCOMMAND" == "close" ]]; then
   TMP=$(jq --arg id "$TKT_ID" --arg res "$RESOLUTION" --arg updated "$NOW_LOCAL" '
     (.tickets[] | select(.id == $id)) |= (.status = "closed" | .resolution = $res | .updated = $updated)
   ' "$TICKET_FILE")
-  echo "$TMP" > "$TICKET_FILE"
+  atomic_write "$TICKET_FILE" "$TMP"
   echo "✅ $TKT_ID closed"
 
   # Sprint sync (auto)

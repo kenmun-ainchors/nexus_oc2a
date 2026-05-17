@@ -13102,10 +13102,70 @@
       "status": "pass",
       "latencyMs": 0,
       "notes": "warden check: INTERIM_PERIOD_ACTIVE (Ollama subscription limit \u2014 kimi blocked, all agents/crons on gemma4:31b-cloud) \u2014 drift checks skipped per CHG-0362"
+    },
+    {
+      "ts": "2026-05-18T02:07:19+10:00",
+      "date": "2026-05-18",
+      "tier": "T2",
+      "taskType": "warden-check",
+      "model": "anthropic/claude-haiku-4-5",
+      "status": "pass",
+      "latencyMs": 0,
+      "notes": "warden check: INTERIM_PERIOD_ACTIVE (Ollama subscription limit \u2014 kimi blocked, all agents/crons on gemma4:31b-cloud) \u2014 drift checks skipped per CHG-0362"
+    },
+    {
+      "ts": "2026-05-18T03:07:03+10:00",
+      "date": "2026-05-18",
+      "tier": "T2",
+      "taskType": "warden-check",
+      "model": "anthropic/claude-haiku-4-5",
+      "status": "pass",
+      "latencyMs": 0,
+      "notes": "warden check: INTERIM_PERIOD_ACTIVE (Ollama subscription limit \u2014 kimi blocked, all agents/crons on gemma4:31b-cloud) \u2014 drift checks skipped per CHG-0362"
+    },
+    {
+      "ts": "2026-05-18T04:07:03+10:00",
+      "date": "2026-05-18",
+      "tier": "T2",
+      "taskType": "warden-check",
+      "model": "anthropic/claude-haiku-4-5",
+      "status": "pass",
+      "latencyMs": 0,
+      "notes": "warden check: INTERIM_PERIOD_ACTIVE (Ollama subscription limit \u2014 kimi blocked, all agents/crons on gemma4:31b-cloud) \u2014 drift checks skipped per CHG-0362"
+    },
+    {
+      "ts": "2026-05-18T05:07:02+10:00",
+      "date": "2026-05-18",
+      "tier": "T2",
+      "taskType": "warden-check",
+      "model": "anthropic/claude-haiku-4-5",
+      "status": "pass",
+      "latencyMs": 0,
+      "notes": "warden check: INTERIM_PERIOD_ACTIVE (Ollama subscription limit \u2014 kimi blocked, all agents/crons on gemma4:31b-cloud) \u2014 drift checks skipped per CHG-0362"
+    },
+    {
+      "ts": "2026-05-18T06:07:03+10:00",
+      "date": "2026-05-18",
+      "tier": "T2",
+      "taskType": "warden-check",
+      "model": "anthropic/claude-haiku-4-5",
+      "status": "pass",
+      "latencyMs": 0,
+      "notes": "warden check: INTERIM_PERIOD_ACTIVE (Ollama subscription limit \u2014 kimi blocked, all agents/crons on gemma4:31b-cloud) \u2014 drift checks skipped per CHG-0362"
+    },
+    {
+      "ts": "2026-05-18T07:07:03+10:00",
+      "date": "2026-05-18",
+      "tier": "T2",
+      "taskType": "warden-check",
+      "model": "anthropic/claude-haiku-4-5",
+      "status": "pass",
+      "latencyMs": 0,
+      "notes": "warden check: INTERIM_PERIOD_ACTIVE (Ollama subscription limit \u2014 kimi blocked, all agents/crons on gemma4:31b-cloud) \u2014 drift checks skipped per CHG-0362"
     }
   ],
   "summary": {
-    "total": 1310,
+    "total": 1316,
     "byTier": {
       "T1": {
         "pass": 0,
@@ -13113,7 +13173,7 @@
         "timeout": 0
       },
       "T2": {
-        "pass": 1193,
+        "pass": 1199,
         "fail": 108,
         "timeout": 0
       },
@@ -13131,7 +13191,7 @@
         "tier": "T2"
       },
       "warden-check": {
-        "pass": 1014,
+        "pass": 1020,
         "fail": 102,
         "timeout": 0,
         "tier": "T2"
@@ -13155,6 +13215,6 @@
         "tier": "T2"
       }
     },
-    "estimatedSavingsUSD": 5.9725
+    "estimatedSavingsUSD": 6.0025
   }
 }

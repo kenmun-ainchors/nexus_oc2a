@@ -1,10 +1,10 @@
 {
-  "generatedAt": "2026-05-17T16:05:27.319445+00:00",
+  "generatedAt": "2026-05-17T21:24:40.083907+00:00",
   "windowDays": 7,
   "note": "Duration = end-to-end cron task time (includes LLM call + tool use). TTFT instrumentation pending gateway-level hooks.",
   "overall": {
     "sampleCount": 9330,
-    "avgMs": 11716,
+    "avgMs": 11623,
     "peakMs": 550338,
     "minMs": 1
   },
@@ -18,41 +18,32 @@
       "p95Ms": 45629,
       "avgTokens": 14335
     },
+    "gemma4:26b": {
+      "sampleCount": 38,
+      "avgMs": 16952,
+      "minMs": 3893,
+      "maxMs": 142738,
+      "p50Ms": 8495,
+      "p95Ms": 44501,
+      "avgTokens": 11279
+    },
     "deepseek-v4-pro:cloud": {
-      "sampleCount": 246,
-      "avgMs": 26210,
+      "sampleCount": 558,
+      "avgMs": 16723,
       "minMs": 3613,
       "maxMs": 550338,
-      "p50Ms": 6891,
-      "p95Ms": 149969,
-      "avgTokens": 16420
-    },
-    "gemma4:26b": {
-      "sampleCount": 37,
-      "avgMs": 13552,
-      "minMs": 3893,
-      "maxMs": 45808,
-      "p50Ms": 7904,
-      "p95Ms": 32014,
-      "avgTokens": 10936
+      "p50Ms": 6933,
+      "p95Ms": 58741,
+      "avgTokens": 13131
     },
     "claude-haiku-4-5": {
-      "sampleCount": 3708,
-      "avgMs": 12283,
+      "sampleCount": 3625,
+      "avgMs": 12336,
       "minMs": 3900,
       "maxMs": 368899,
-      "p50Ms": 7362,
-      "p95Ms": 45460,
-      "avgTokens": 14262
-    },
-    "claude-sonnet-4-6": {
-      "sampleCount": 3904,
-      "avgMs": 10675,
-      "minMs": 1,
-      "maxMs": 510678,
-      "p50Ms": 4,
-      "p95Ms": 52810,
-      "avgTokens": 257
+      "p50Ms": 7360,
+      "p95Ms": 45633,
+      "avgTokens": 14225
     },
     "kimi-k2.6:cloud": {
       "sampleCount": 1434,
@@ -62,6 +53,15 @@
       "p50Ms": 6836,
       "p95Ms": 22840,
       "avgTokens": 8180
+    },
+    "claude-sonnet-4-6": {
+      "sampleCount": 3674,
+      "avgMs": 10509,
+      "minMs": 1,
+      "maxMs": 510678,
+      "p50Ms": 3,
+      "p95Ms": 53375,
+      "avgTokens": 259
     }
   }
 }

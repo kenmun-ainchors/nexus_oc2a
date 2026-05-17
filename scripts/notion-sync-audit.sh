@@ -31,8 +31,10 @@ TICKETS_JSON=$(cat "$TICKET_FILE")
 log "Fetching Notion pages..."
 
 NOTION_PAGES=$(python3 - << "PYEOF"
-import json, urllib.request
-key = open('$NOTION_KEY_FILE').read().strip()
+import json, urllib.request, os
+key_path = os.path.expanduser('~/.config/notion/api_key')
+with open(key_path) as f:
+    key = f.read().strip()
 headers = {
     "Authorization": f"Bearer {key}",
     "Notion-Version": "2025-09-03",
