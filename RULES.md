@@ -412,3 +412,118 @@ This rule is:
 **Date:** 2026-05-17 16:04 AEST
 **Channel:** openclaw-control-ui
 **CHG:** CHG-0381
+
+---
+
+### KIMI ATOMIC TASK RULE — NON-NEGOTIABLE (CHG-0383)
+# Effective: 2026-05-17 16:21 AEST
+# Authority: Ken Mun (CTO) — ABSOLUTELY NON-NEGOTIABLE, PERSISTENT
+# Applies to: ALL agents using kimi model
+
+**ALL agents using kimi MUST ALWAYS enforce atomic tasks + HITL for risky items.**
+
+This rule is:
+- **ABSOLUTELY NON-NEGOTIABLE** — No exceptions, ever
+- **PERSISTENT** — Remains active indefinitely
+- **PLATFORM-WIDE** — Applies to all agents, all sessions, all crons
+- **MANDATORY** — Violation = immediate escalation to Ken
+
+### Rule Statement
+
+**kimi execution model:**
+- ❌ **NOT ALLOWED:** Multi-step complex workflows
+- ❌ **NOT ALLOWED:** Multi-ticket orchestration
+- ❌ **NOT ALLOWED:** State tracking across steps
+- ❌ **NOT ALLOWED:** CHG decisions or architectural calls
+- ✅ **REQUIRED:** Atomic (single-step) tasks only
+- ✅ **REQUIRED:** Explicit verification after each step
+- ✅ **REQUIRED:** HITL (Human-In-The-Loop) for risky items
+
+### What Are Atomic Tasks?
+
+| Task Type | Example | Allowed? |
+|-----------|---------|----------|
+| Read a file | "Read state/tickets.json" | ✅ Atomic |
+| Write a file | "Create scripts/test.sh" | ✅ Atomic |
+| Single git commit | "git add file && git commit" | ✅ Atomic |
+| Create one ticket | "ticket.sh new --title 'X'" | ✅ Atomic |
+| Update one Notion page | "Patch page X with status" | ✅ Atomic |
+| Multi-step workflow | "Create 5 tickets + sync to Notion + verify" | ❌ NOT atomic |
+| Complex orchestration | "Audit all items + fix + verify + report" | ❌ NOT atomic |
+| Multi-ticket routing | "Route TKT-0196 through TKT-0203" | ❌ NOT atomic |
+
+### HITL (Human-In-The-Loop) Requirements
+
+**HITL is MANDATORY for:**
+
+| Scenario | HITL Required? | Why |
+|----------|---------------|-----|
+| Status changes (open→closed) | ✅ YES | Irreversible state change |
+| File deletions | ✅ YES | Destructive action |
+| Cron modifications | ✅ YES | Affects platform operations |
+| Model config changes | ✅ YES | Affects all agents |
+| Notion bulk updates | ✅ YES | Affects SSOT |
+| CHG decisions | ✅ YES | Ken authority |
+| Budget/threshold changes | ✅ YES | Financial impact |
+| New agent activation | ✅ YES | Security impact |
+
+**HITL workflow:**
+```
+1. Agent proposes action: "Will update [X] to [Y]"
+2. Agent asks Ken: "Approve? Reply YES to proceed"
+3. Ken replies: "YES" or "NO" or "Modify to [Z]"
+4. Agent executes ONLY after explicit approval
+5. Agent verifies result and confirms to Ken
+```
+
+### Agent Self-Check (MANDATORY)
+
+**Before executing on kimi:**
+```
+1. "Is this a single atomic step?" → If NO, break into smaller tasks
+2. "Does this change state irreversibly?" → If YES, HITL required
+3. "Can I verify the result in one step?" → If NO, simplify
+4. "Would Ken want to approve this?" → If YES, HITL required
+```
+
+**After executing on kimi:**
+```
+1. "Did the step complete correctly?" → Verify with read/tool
+2. "Is there a next step needed?" → If YES, don't claim completion
+3. "Did I update all required state?" → Check files, Notion, etc.
+4. "Can Ken see the result?" → Ensure observable output
+```
+
+### Violation Examples (DoD FAIL)
+
+- ❌ "Created 5 tickets" (when only 3 were actually created)
+- ❌ "Updated Registry" (when pages were created but not linked on page)
+- ❌ "All done" (when verification step was skipped)
+- ❌ "Fixed issue" (without testing the fix)
+- ❌ "Synced to Notion" (when API errors were ignored)
+
+### Enforcement
+
+**Warden Check (every 15 min):**
+- Verify agent is on correct model
+- Flag any agent on kimi doing multi-step work without HITL
+- Escalate to Yoda → Ken immediately
+
+**Self-Reporting:**
+- Agent MUST report: "Step N complete, Step N+1 pending"
+- Agent MUST NOT report: "All done" until ALL steps verified
+- Agent MUST ask: "Continue with next step?" between atoms
+
+### Ken's Directive
+
+> "B. Enforce that as rule for all kimi model execution for all agents. Persistent. All agents using kimi MUST ALWAYS be explicit and enforce atomic tasks (+ HITL for items with risks)"
+
+**Date:** 2026-05-17 16:21 AEST
+**Channel:** openclaw-control-ui
+**Decision:** Option B — Atomic Tasks + HITL
+**CHG:** CHG-0383
+**Applies to:** ALL agents, ALL kimi execution, ALL sessions, ALL crons
+
+---
+
+**This rule is MANDATORY and PERSISTENT until explicitly revoked by Ken.**

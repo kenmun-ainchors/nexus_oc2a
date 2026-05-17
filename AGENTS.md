@@ -298,3 +298,55 @@ This is a starting point. Add your own conventions, style, and rules as you figu
 ## Interim Rule — CONSERVATIVE MODE (CHG-0349, 2026-05-15)
 **Trigger:** Claude API credits depleted. All agents on kimi/gemma4/deepseek-pro.
 **Rule: NO RISKY STATE MANIPULATION without explicit Ken approval.**
+
+## KIMI ATOMIC TASK RULE — NON-NEGOTIABLE (CHG-0383)
+
+**Effective:** 2026-05-17 16:21 AEST
+**Applies to:** ALL agents using kimi model
+**Enforcement:** Immediate, persistent, no exceptions
+
+### The Rule
+
+**kimi = ATOMIC TASKS ONLY + HITL for risky items**
+
+### What This Means
+
+| Before (Wrong) | After (Correct) |
+|----------------|-----------------|
+| "Create 5 tickets and sync to Notion" | "Create ticket 1" → verify → "Create ticket 2" → verify... |
+| "Update Registry with all missing lessons" | "Add L-029" → verify on page → "Add L-030" → verify... |
+| "Fix all dates in batch" | "Update 1 date" → verify → "Update next date" → verify... |
+| "Run full audit and fix all issues" | "Check 1 item" → report → Ken approves fix → "Fix 1 item" → verify... |
+
+### HITL Checkpoints
+
+**STOP and ask Ken before:**
+- Closing any ticket
+- Deleting any file or page
+- Modifying any cron
+- Changing any model config
+- Bulk updates (>1 item at once)
+- Any status change to Done/Closed
+
+### Verification After Each Atom
+
+**Every single step MUST be verified:**
+```
+1. Execute step
+2. Read back what was changed
+3. Confirm syntax/validity
+4. Report to Ken: "Step N: [description] ✅ verified"
+5. Ask: "Continue to step N+1?"
+```
+
+### Violation = DoD FAIL
+
+Claiming completion without:
+- Verifying EACH atomic step
+- Getting HITL approval for risky items
+- Confirming observable output
+- Is a **Definition of Done FAILURE**
+
+### Reference
+
+Full rule: `RULES.md` → "KIMI ATOMIC TASK RULE — NON-NEGOTIABLE (CHG-0383)"

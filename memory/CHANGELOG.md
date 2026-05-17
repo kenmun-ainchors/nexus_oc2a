@@ -5453,3 +5453,34 @@ Author: Forge
 - 7 missing lessons added to page: ✅
 - Registry now complete L-001 to L-038: ✅
 **Linked:** CHG-0381, CHG-0380, L-037, L-038
+
+---
+
+## 2026-05-17 16:21 AEST — [CHG-0383] KIMI ATOMIC TASK RULE — Option B Enforced
+**Type:** policy
+**Source:** ken-directive (openclaw-control-ui)
+**Trigger:** Ken: "B. Enforce that as rule for all kimi model execution for all agents. Persistent. All agents using kimi MUST ALWAYS be explicit and enforce atomic tasks (+ HITL for items with risks)"
+**Decision:** Option B — Atomic Tasks + HITL (not Option A Sonnet switch, not Option C hybrid, not Option D pause)
+**What changed:**
+1. **RULE ADDED to RULES.md:** Non-negotiable atomic task rule for ALL kimi execution
+2. **RULE ADDED to AGENTS.md:** Agent-level atomic task requirement
+3. **SCOPE:** All agents, all sessions, all crons, all subagents using kimi
+4. **HITL MANDATORY:** For status changes, deletions, cron mods, model changes, bulk updates, CHG decisions
+5. **VIOLATION:** = DoD FAIL, immediate escalation to Ken
+**Key constraints:**
+- ❌ Multi-step complex workflows → NOT ALLOWED on kimi
+- ❌ Multi-ticket orchestration → NOT ALLOWED on kimi
+- ❌ State tracking across steps → NOT ALLOWED on kimi
+- ✅ Single atomic steps only → REQUIRED
+- ✅ Explicit verification after each step → REQUIRED
+- ✅ HITL for risky items → REQUIRED
+**Impact on Sprint 4:**
+- Sprint 4 planning can continue on kimi (low risk)
+- Sprint 4 execution must be atomic steps with HITL
+- Architecture decisions (TKT-0196, TKT-0197) → HITL required
+- Build work (TKT-0198) → Atomic steps, Forge may be better suited
+**Verification:**
+- RULES.md updated with atomic task section: ✅
+- AGENTS.md updated with agent-level rule: ✅
+- CHG-0383 logged: ✅
+**Linked:** CHG-0382, CHG-0381, CHG-0380, L-037, L-038, KIMI MANDATE
