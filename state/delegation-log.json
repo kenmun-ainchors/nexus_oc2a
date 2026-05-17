@@ -13032,10 +13032,40 @@
       "status": "pass",
       "latencyMs": 0,
       "notes": "warden check: INTERIM_PERIOD_ACTIVE (CHG-0349 Claude API credit depletion) \u2014 drift checks skipped per CHG-0362"
+    },
+    {
+      "ts": "2026-05-17T20:00:09+10:00",
+      "date": "2026-05-17",
+      "tier": "T2",
+      "taskType": "burn-check",
+      "model": "anthropic/claude-haiku-4-5",
+      "status": "pass",
+      "latencyMs": 0,
+      "notes": "Burn check: /bin/zsh.03 today"
+    },
+    {
+      "ts": "2026-05-17T20:07:03+10:00",
+      "date": "2026-05-17",
+      "tier": "T2",
+      "taskType": "warden-check",
+      "model": "anthropic/claude-haiku-4-5",
+      "status": "pass",
+      "latencyMs": 0,
+      "notes": "warden check: INTERIM_PERIOD_ACTIVE (CHG-0349 Claude API credit depletion) \u2014 drift checks skipped per CHG-0362"
+    },
+    {
+      "ts": "2026-05-17T21:07:04+10:00",
+      "date": "2026-05-17",
+      "tier": "T2",
+      "taskType": "warden-check",
+      "model": "anthropic/claude-haiku-4-5",
+      "status": "pass",
+      "latencyMs": 0,
+      "notes": "warden check: INTERIM_PERIOD_ACTIVE (CHG-0349 Claude API credit depletion) \u2014 drift checks skipped per CHG-0362"
     }
   ],
   "summary": {
-    "total": 1303,
+    "total": 1306,
     "byTier": {
       "T1": {
         "pass": 0,
@@ -13043,7 +13073,7 @@
         "timeout": 0
       },
       "T2": {
-        "pass": 1186,
+        "pass": 1189,
         "fail": 108,
         "timeout": 0
       },
@@ -13061,7 +13091,7 @@
         "tier": "T2"
       },
       "warden-check": {
-        "pass": 1008,
+        "pass": 1010,
         "fail": 102,
         "timeout": 0,
         "tier": "T2"
@@ -13079,12 +13109,12 @@
         "tier": "T2"
       },
       "burn-check": {
-        "pass": 20,
+        "pass": 21,
         "fail": 0,
         "timeout": 0,
         "tier": "T2"
       }
     },
-    "estimatedSavingsUSD": 5.9375
+    "estimatedSavingsUSD": 5.9525
   }
 }
