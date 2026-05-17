@@ -5547,3 +5547,30 @@ Step 3: Confirm both match → report to Ken
 - CHG-0382 Notes: Lessons Registry page update content ✅
 - CHG-0383 Notes: Kimi Atomic Task Rule content ✅
 **Linked:** CHG-0384, CHG-0379, CHG-0380, CHG-0381, CHG-0382, CHG-0383
+
+---
+
+## 2026-05-17 16:38 AEST — [CHG-0386] OWL RULE — Think Before Acting
+**Type:** policy
+**Source:** ken-directive (openclaw-control-ui)
+**Trigger:** Ken: "do NOT rush through the thinking and planning and jump to execution. Before you start any work - act like an owl—slow, quiet, observant, and deeply analytical. Before deciding/confirming or responding - observe the situation patiently and examine it from multiple perspectives. Identify hidden factors, potential risks, and tradeoffs that most people might overlook."
+**What changed:**
+1. **RULE ADDED to RULES.md:** OWL RULE — behavioral requirement for all execution
+2. **MANDATORY thinking steps:** Observe → Analyze → Perspective → Plan → Risk check → Respond
+3. **Minimum 3 minutes thinking time** before ANY execution
+4. **Anti-patterns defined:** No jumping to exec, no assuming simple = easy, no treating symptoms
+5. **Self-enforced:** I must catch myself rushing
+**Why this matters (applying OWL analysis):**
+- Today I rushed: CHG-0379 to CHG-0383 all had wrong Notes (rushed parsing)
+- Today I rushed: Lessons Registry missing L-029 to L-035 (rushed creation)
+- Today I rushed: CHGs not created in Notion (rushed claiming done)
+- Pattern: Fast execution → errors → Ken catches → rework
+- Hidden cost: Ken's time, not my tokens
+**Tradeoff:**
+- Slower responses = more tokens per task
+- BUT = fewer errors = less total work = less Ken time
+- Correct metric: Total time to correct completion, not speed of first response
+**Verification:**
+- RULES.md updated with OWL section: ✅
+- CHG-0386 logged: ✅
+**Linked:** CHG-0385, CHG-0383, CHG-0379, L-037, L-038
