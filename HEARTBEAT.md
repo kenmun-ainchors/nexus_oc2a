@@ -198,5 +198,13 @@ Drive sync is owned by cron `c5a3911d` (00:30 AEST — runs after blog). Heartbe
 - If I notice myself chaining 3+ atoms without pause → **SELF-CORRECT**, insert thinking block
 - If error occurs and I immediately try fix #2 without assessing → **VIOLATION**, log to LESSONS.md
 
+**Execution:**
+OWL Compliance: 100% (Tier 1, 1 atoms)
+✅ Compliant
+Daily: 68% | Drifts today: 1
+OWL Compliance: 68% (daily: 68%)
+Responses today: 3 | Drifts: 1
+⚠️ LOW COMPLIANCE — Review needed
+
 **State key:** owl-compliance-state.json
 **Logged in:** LESSONS.md L-039 (OWL drift), TKT-0229 (OWL drift prevention)

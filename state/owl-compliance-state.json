@@ -1,0 +1,80 @@
+{
+  "schema_version": "1.0",
+  "description": "OWL Compliance State Tracking \u2014 Real-time monitoring of OWL mandate adherence (CHG-0386)",
+  "lastUpdated": "2026-05-17T18:48:23.635759",
+  "sessionId": "",
+  "complianceScore": 68,
+  "totalResponses": 3,
+  "driftIncidents": 1,
+  "selfCorrections": 0,
+  "currentTier": "1",
+  "currentResponse": {
+    "startedAt": "2026-05-17T18:48:23.635759",
+    "tier": "1",
+    "thinkingTimeSeconds": 15,
+    "atomCount": 1,
+    "atoms": [],
+    "pauseBetweenAtoms": [],
+    "hasPause": true,
+    "hasShownThinking": true,
+    "hasAssessedRisk": true,
+    "hasVerifiedAtoms": true,
+    "stoppedOnError": true,
+    "complianceScore": 100,
+    "driftFlags": {
+      "chainReactionDetected": false,
+      "insufficientPause": false,
+      "noThinkingShown": false,
+      "noRiskAssessment": false,
+      "errorNotStopped": false
+    }
+  },
+  "history": {
+    "last10Responses": [
+      {
+        "timestamp": "2026-05-17T18:48:09.904857",
+        "tier": "1",
+        "compliance": 100,
+        "drift": false
+      },
+      {
+        "timestamp": "2026-05-17T18:48:09.928445",
+        "tier": "2",
+        "compliance": 5,
+        "drift": true
+      },
+      {
+        "timestamp": "2026-05-17T18:48:23.635759",
+        "tier": "1",
+        "compliance": 100,
+        "drift": false
+      }
+    ],
+    "dailySummary": {
+      "date": "2026-05-17",
+      "totalResponses": 3,
+      "complianceScore": 68,
+      "driftIncidents": 1,
+      "selfCorrections": 0,
+      "tierBreakdown": {
+        "tier1": 2,
+        "tier2": 1,
+        "tier3": 0
+      }
+    }
+  },
+  "driftFlags": {
+    "chainReactionDetected": false,
+    "insufficientPause": false,
+    "noThinkingShown": false,
+    "noRiskAssessment": false,
+    "errorNotStopped": false
+  },
+  "selfCheckQuestions": [
+    "Did I pause before the last execution?",
+    "Did I show my thinking to Ken?",
+    "Did I assess risk before acting?",
+    "Did I verify each atom before proceeding to the next?",
+    "Did I stop on error or chain-react?"
+  ]
+}
