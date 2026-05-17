@@ -5392,3 +5392,20 @@ Author: Forge
 - Batch update in progress: ✅
 - RULES.md updated: ✅
 **Linked:** CHG-0377, CHG-0378, L-037, KIMI MANDATE
+
+---
+
+## 2026-05-17 15:57 AEST — [CHG-0380] Delivered Date rule enforced
+**Type:** policy
+**Source:** ken-directive (openclaw-control-ui)
+**Trigger:** Ken: "Similarly, all Delivered Date needs to be populated when completed/delivered. Enforce the rule."
+**What changed:**
+1. **RULE ADDED:** Delivered Date is non-negotiable for all Done items
+2. **RULES.md updated:** Complete Delivered Date policy section
+3. **Enforcement:** Status change to Done MUST include Delivered Date
+4. **Scope:** All TKT, CHG, AUTO-HEAL items with Status=Done
+**Verification:**
+- RULES.md updated with Delivered Date section: ✅
+- Policy defined for all item types: ✅
+- CHG-0380 logged: ✅
+**Linked:** CHG-0379, CHG-0377, CHG-0378, L-037, KIMI MANDATE

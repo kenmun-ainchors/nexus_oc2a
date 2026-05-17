@@ -306,3 +306,54 @@ This rule is:
 **Date:** 2026-05-17 15:53 AEST
 **Channel:** openclaw-control-ui
 **CHG:** CHG-0379
+
+### DELIVERED DATE RULE — NON-NEGOTIABLE (CHG-0380)
+# Effective: 2026-05-17 15:57 AEST
+# Authority: Ken Mun (CTO) — ABSOLUTELY NON-NEGOTIABLE
+
+**ALL items with Status = Done MUST have Delivered Date populated.**
+
+This rule is:
+- **ABSOLUTELY NON-NEGOTIABLE** — No exceptions, ever
+- **AUTOMATIC** — Delivered Date is set when status changes to Done
+- **REQUIRED FIELD** — Never leave blank for completed items
+
+### Scope
+
+| Item | Delivered Date Required | Source |
+|------|----------------------|--------|
+| **Done TKT** | YES | Resolution/closure date from tickets.json |
+| **Done CHG** | YES | CHG entry date from CHANGELOG |
+| **Done AUTO-HEAL** | YES | Date item was resolved |
+| **Any Done item** | YES | Date status changed to Done |
+
+### Anti-patterns (FAIL DoD)
+
+- ❌ Status = Done but Delivered Date is blank
+- ❌ "I'll fill it in later" — must be at completion
+- ❌ Using creation date instead of delivery date
+- ❌ Different delivery date in Notion vs tickets.json vs CHANGELOG
+
+### Enforcement
+
+**ticket.sh MUST (when closing):**
+1. Set Delivered Date = resolution date
+2. Update Notion page with date
+3. Verify both Status and Delivered Date are correct
+
+**Status change workflow:**
+```
+Status: In progress → Done
+  ↓
+Set Delivered Date = today
+  ↓
+Verify Notion shows both Status=Done and Delivered Date=YYYY-MM-DD
+```
+
+### Ken's Directive
+
+> "Similarly, all Delivered Date needs to be populated when completed/delivered. Enforce the rule."
+
+**Date:** 2026-05-17 15:57 AEST
+**Channel:** openclaw-control-ui
+**CHG:** CHG-0380
