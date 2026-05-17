@@ -5525,3 +5525,25 @@ Step 3: Confirm both match → report to Ken
 - 5 CHGs created in Notion: ✅
 - CHG-0384 logged: ✅
 **Linked:** CHG-0377, CHG-0378, CHG-0383, L-037, L-038
+
+---
+
+## 2026-05-17 16:31 AEST — [CHG-0385] Fixed wrong Notes on CHG-0379 to CHG-0383
+**Type:** fix
+**Source:** ken-directive (openclaw-control-ui)
+**Trigger:** Ken: "Your notes for the missed CHG-0379 to 0383 is wrong. fix."
+**What was wrong:**
+- CHG-0379 to CHG-0383 were created in Notion with WRONG Notes content
+- Notes field contained content from CHG-0363 (cron updates) instead of correct CHG content
+- Root cause: Regex parsing error when extracting "What changed" section from CHANGELOG.md
+**Fix applied:**
+- ✅ Re-parsed correct "What changed" content from CHANGELOG.md for each CHG
+- ✅ Updated Notes field on all 5 CHG pages in Notion
+- ✅ Verified correct content is now displayed
+**Verification:**
+- CHG-0379 Notes: Created Date rule content ✅
+- CHG-0380 Notes: Delivered Date rule content ✅
+- CHG-0381 Notes: Lessons Registry sync content ✅
+- CHG-0382 Notes: Lessons Registry page update content ✅
+- CHG-0383 Notes: Kimi Atomic Task Rule content ✅
+**Linked:** CHG-0384, CHG-0379, CHG-0380, CHG-0381, CHG-0382, CHG-0383
