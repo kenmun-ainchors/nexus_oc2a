@@ -5135,3 +5135,30 @@ Author: Forge
 - Final targeted cleanup of 9 remaining duplicates
 - All newly created [TKT-0186], [TKT-0188], [TKT-0189], [TKT-0191], [TKT-0195] duplicates archived
 **Status:** AKB Backlog aligned with tickets.json
+
+## 2026-05-17 15:10 AEST — [CHG-0372] L-035 mitigation partially implemented
+**Type:** infra
+**Source:** ken-prompt
+**Trigger:** Ken asked: "the above mitigation implemented?"
+**What changed:**
+1. **Created scripts/notion-sync-audit.sh:**
+   - Daily drift detection between tickets.json and Notion AKB Backlog
+   - Detects: duplicates, missing, extra pages
+   - Output: state/notion-audit-report.json
+   - Alert: Appends to /tmp/pvt-alert.txt if drift > 0
+2. **Verified existing infrastructure:**
+   - notionPageId tracking: ✅ Already in tickets.json (93 tickets have it)
+   - ticket.sh notion-sync: ✅ Already exists (manual trigger)
+3. **NOT yet implemented:**
+   - Daily cron for notion-sync-audit.sh (needs scheduling)
+   - ticket.sh automatic existence check before creating page (needs code change)
+   - Sprint Review Notion reconciliation step (needs ceremony update)
+**Why:** L-035 documented the lesson but tools weren't built. Ken asked for verification — partial implementation completed, gaps identified.
+**Verification:**
+- notion-sync-audit.sh created: ✅
+- Can run manually: bash scripts/notion-sync-audit.sh
+**Next:**
+- Create daily cron (04:00 AEST) for notion-sync-audit.sh
+- Modify ticket.sh create function with existence check
+- Update Sprint Review ceremony docs
+**Linked:** L-035, CHG-0371, AKB Backlog
