@@ -95,6 +95,23 @@ notion_create_ticket() {
   local n_title="[${tkt_id}] ${title}"
   notes="${notes:0:2000}"
 
+  # ── CHG-0372: Check if Notion page already exists ──────────────────────────
+  # Prevent duplicates by querying Notion before creating
+  local existing_page_id
+  existing_page_id=$(curl -s -X POST "https://api.notion.com/v1/search" \
+    -H "Authorization: Bearer $key" \
+    -H "Notion-Version: 2025-09-03" \
+    -H "Content-Type: application/json" \
+    -d "{\"query\": \"[${tkt_id}]\", \"page_size\": 5}" 2>/dev/null \
+    | jq -r '.results[0].id // ""' 2>/dev/null)
+  
+  if [[ -n "$existing_page_id" && "$existing_page_id" != "null" && "$existing_page_id" != "" ]]; then
+    # Page exists — update it instead of creating duplicate
+    echo "$existing_page_id"
+    return 0
+  fi
+  # ── End CHG-0372 duplicate prevention ───────────────────────────────────────
+
   # Use jq for safe JSON construction — handles all escaping/special chars
   local payload
   payload=$(jq -n \

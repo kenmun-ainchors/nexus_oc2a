@@ -1778,6 +1778,11 @@ Every Monday, before accepting ANY sprint work or executing ANY sprint item:
 - Velocity % (delivered / committed)
 - Retro: what broke, what worked (2–3 points each)
 - Carry-forward items confirmed
+- **Notion AKB Backlog reconciliation (CHG-0372/L-035):**
+  - Run `bash scripts/notion-sync-audit.sh` — detect drift
+  - Fix any duplicates, status mismatches, missing, or extra pages
+  - Ensure all [TKT-NNNN] IDs are in square brackets
+  - This is part of the ceremony — not optional
 
 **Sprint Planning (Sunday or retroactive):**
 - Proposed items with priority and rationale (max 5)
@@ -1785,6 +1790,10 @@ Every Monday, before accepting ANY sprint work or executing ANY sprint item:
 - Explicitly ask Ken: "Approve to lock Sprint N?"
 - Write approved items to `state/sprint-current.json`
 - Update `ceremoniesCompleted` field
+- **Notion AKB Backlog reconciliation (CHG-0372/L-035):**
+  - After sprint items locked, ensure all Sprint N tickets are in Notion
+  - Run `ticket.sh notion-sync TKT-NNNN` for any missing items
+  - Verify no duplicates exist for new sprint items
 
 ---
 
