@@ -5748,3 +5748,20 @@ Step 3: Confirm both match → report to Ken
 - Anthropic cron count: 0 ✅
 - Kimi cron count: 37 ✅ (was 25, now +12)
 **Linked:** CHG-0373 (KIMI MANDATE), CHG-0349 (Conservative Mode), CHG-0363 (cron interim update)
+
+---
+
+## 2026-05-17 18:01 AEST — [CHG-0393] OpenClaw upgrade v2026.5.5 → v2026.5.12
+**Type:** security
+**Source:** ken-directive (openclaw-control-ui)
+**Trigger:** Ken asked about v2026.5.12 availability, chose immediate upgrade
+**Pre-update version:** 2026.5.5 (b1abf9d)
+**Target version:** v2026.5.12
+**Classification:** High Security (TRIGGER-04)
+**Upgrade window:** 7-day (day 3 of 7)
+**Key security fixes:**
+- CVE mitigation: env-var credential inference protection (structured SecretRefs)
+- macOS TLS trust enforcement for gateway certificates
+- Windows sandbox USERPROFILE isolation
+- Media response body optimization
+- 100+ stability fixes
