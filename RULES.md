@@ -884,3 +884,119 @@ Phase 4: Completion Report
 ---
 
 **This rule is MANDATORY and PERSISTENT until explicitly revoked by Ken.**
+
+---
+
+### ASYNC STATELESS DESIGN — NON-NEGOTIABLE (CHG-0389)
+# Effective: 2026-05-17 16:51 AEST
+# Authority: Ken Mun (CTO) — ABSOLUTELY NON-NEGOTIABLE, PERSISTENT
+
+**Agents must be able to resume work from any checkpoint if timeout kicks in.**
+
+This rule is:
+- **ARCHITECTURAL** — Changes how work is structured and saved
+- **STATELESS** — Work survives agent/session death
+- **RESILIENT** — Any agent can resume any task
+- **ASYNC** — Work can run in background, progress checked later
+
+## The Problem
+
+**Current pattern (fragile):**
+```
+Agent starts work → works for 5 minutes → dies → work lost → restart from 0
+```
+
+**Why it fails:**
+- Work is bound to agent session
+- No checkpoints during execution
+- No shared queue of pending work
+- No concept of "pick up where left off"
+
+## The Solution: Async Stateless Task Queue
+
+### Core Principle
+
+**Every unit of work is a Task. Every Task is a series of Atoms. Each Atom is a checkpoint.**
+
+Any agent can read a Task and resume from the first pending atom.
+
+## Architecture: 3 Layers
+
+| Layer | Purpose | Storage |
+|-------|---------|---------|
+| **Task Queue** | Pending work pool | `state/task-queue.json` |
+| **Checkpoints** | Per-task atom status | `state/checkpoints/[taskId].json` |
+| **Artifacts** | Work output | Files, Notion pages, git commits |
+
+## Recovery Protocol
+
+```
+1. Agent dies at Atom 36
+2. New agent reads checkpoint file
+3. Sees: Atom 35 complete, Atom 36 failed, Atom 37 pending
+4. Resumes from Atom 36 (or retries Atom 36 if failed)
+5. Completes remaining atoms
+```
+
+## Race Condition Prevention
+
+### Task Locking
+- Agent claims task → sets claimTimeout = now + 30 min
+- If agent dies → claimTimeout expires → status resets to "pending"
+- New agent can claim expired task
+
+### Atom Locking
+- Atom "in-progress" for > 30 min → assume agent died → reset to "pending"
+- Only one agent can have atom in "in-progress"
+
+## Integration with Tiered OWL
+
+| Tier | Queue Usage |
+|------|-------------|
+| **Tier 1** | No queue (immediate response) |
+| **Tier 2** | Optional queue for tracking |
+| **Tier 3** | **Mandatory queue** — all complex work is queued |
+
+## Implementation
+
+### New Files
+
+| File | Purpose |
+|------|---------|
+| `state/task-queue.json` | Master queue of all tasks |
+| `state/checkpoints/[taskId].json` | Per-task checkpoint state |
+| `scripts/task-queue.sh` | CLI for queue management |
+| `scripts/resume-task.sh` | Resume from checkpoint |
+| `scripts/claim-task.sh` | Claim next pending task |
+
+### New Cron
+
+**Task Queue Processor (every 5 min):**
+- Find "pending" tasks
+- Find expired claims (claimTimeout passed)
+- Reset expired claims to "pending"
+- Report to Ken: "[N] tasks pending, [M] stale claims reset"
+
+## Benefits
+
+| Benefit | Explanation |
+|---------|-------------|
+| **Timeout resilience** | Work survives agent death |
+| **Load balancing** | Any agent can pick up work |
+| **Observability** | Ken can check progress anytime |
+| **Retry logic** | Failed atoms can be retried independently |
+| **Parallelization** | Multiple agents can work on different tasks |
+| **Audit trail** | Complete history of what was done when |
+
+## Ken's Directive
+
+> "is there option where we can consider async and stateless design that would allow agents to pick-up/resume where left off should the timeout does kick-in"
+
+**Date:** 2026-05-17 16:51 AEST
+**Channel:** openclaw-control-ui
+**Decision:** Yes — Async Stateless Task Queue
+**CHG:** CHG-0389
+
+---
+
+**This rule is MANDATORY and PERSISTENT until explicitly revoked by Ken.**

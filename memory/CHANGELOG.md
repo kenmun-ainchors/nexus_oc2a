@@ -5640,3 +5640,28 @@ Step 3: Confirm both match → report to Ken
 - Progress checkpointing defined: ✅
 - Recovery mechanisms documented: ✅
 **Linked:** CHG-0387, CHG-0386, CHG-0383, L-037, L-038
+
+---
+
+## 2026-05-17 16:51 AEST — [CHG-0389] Async Stateless Design — Resume After Timeout
+**Type:** architecture
+**Source:** ken-directive (openclaw-control-ui)
+**Trigger:** Ken: "is there option where we can consider async and stateless design that would allow agents to pick-up/resume where left off should the timeout does kick-in"
+**What changed:**
+1. **ARCHITECTURAL PROPOSAL:** Async Stateless Task Queue design
+2. **3 LAYERS:** Task Queue (pending work) + Checkpoints (per-atom status) + Artifacts (output)
+3. **RECOVERY PROTOCOL:** Agent dies → new agent reads checkpoint → resumes from first pending atom
+4. **RACE PREVENTION:** Task locking (claimTimeout) + Atom locking (30min in-progress limit)
+5. **TIER 3 MANDATORY:** All complex work must use task queue
+6. **NEW FILES:** task-queue.json, checkpoints/[taskId].json, task-queue.sh, resume-task.sh, claim-task.sh
+7. **NEW CRON:** Task Queue Processor (5min) — resets stale claims, reports queue stats
+**Why this matters:**
+- Today: Subagent dies → work lost → restart from 0 (e.g., delivered-date-fix timed out at 4m59s)
+- Target: Subagent dies at atom 36 → new agent resumes at atom 36 → completes
+- Ken can check progress anytime by reading checkpoint file
+- Multiple agents can work in parallel on different tasks
+**Verification:**
+- Architecture document created: state/async-stateless-design-v1.md ✅
+- RULES.md updated with Async Stateless section ✅
+- CHG-0389 logged ✅
+**Linked:** CHG-0388, CHG-0387, CHG-0383, L-037, L-038
