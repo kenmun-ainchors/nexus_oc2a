@@ -4,98 +4,6 @@
   "sloTarget": 0.995,
   "events": [
     {
-      "ts": "2026-05-14T19:49:58.447215+00:00",
-      "status": "ok",
-      "consecutiveFailures": 0,
-      "issues": []
-    },
-    {
-      "ts": "2026-05-14T19:55:00.560591+00:00",
-      "status": "ok",
-      "consecutiveFailures": 0,
-      "issues": []
-    },
-    {
-      "ts": "2026-05-14T20:00:35.683393+00:00",
-      "status": "ok",
-      "consecutiveFailures": 0,
-      "issues": []
-    },
-    {
-      "ts": "2026-05-14T20:05:35.984242+00:00",
-      "status": "ok",
-      "consecutiveFailures": 0,
-      "issues": []
-    },
-    {
-      "ts": "2026-05-14T20:10:36.047630+00:00",
-      "status": "ok",
-      "consecutiveFailures": 0,
-      "issues": []
-    },
-    {
-      "ts": "2026-05-14T20:15:35.930967+00:00",
-      "status": "ok",
-      "consecutiveFailures": 0,
-      "issues": []
-    },
-    {
-      "ts": "2026-05-14T20:20:50.504031+00:00",
-      "status": "degraded",
-      "consecutiveFailures": 0,
-      "issues": [
-        "Event loop delay critical: 16794ms max, utilisation 0.972 \u2014 gateway may be saturated"
-      ]
-    },
-    {
-      "ts": "2026-05-14T20:25:37.873242+00:00",
-      "status": "degraded",
-      "consecutiveFailures": 0,
-      "issues": [
-        "Event loop delay critical: 16794ms max, utilisation 0.972 \u2014 gateway may be saturated"
-      ]
-    },
-    {
-      "ts": "2026-05-14T20:30:36.204348+00:00",
-      "status": "degraded",
-      "consecutiveFailures": 0,
-      "issues": [
-        "Event loop delay critical: 16794ms max, utilisation 0.972 \u2014 gateway may be saturated"
-      ]
-    },
-    {
-      "ts": "2026-05-14T20:35:38.069695+00:00",
-      "status": "degraded",
-      "consecutiveFailures": 0,
-      "issues": [
-        "Event loop delay critical: 16794ms max, utilisation 0.972 \u2014 gateway may be saturated"
-      ]
-    },
-    {
-      "ts": "2026-05-14T20:40:36.858379+00:00",
-      "status": "degraded",
-      "consecutiveFailures": 0,
-      "issues": [
-        "Event loop delay critical: 16794ms max, utilisation 0.972 \u2014 gateway may be saturated"
-      ]
-    },
-    {
-      "ts": "2026-05-14T20:45:36.071159+00:00",
-      "status": "degraded",
-      "consecutiveFailures": 0,
-      "issues": [
-        "Event loop delay critical: 16794ms max, utilisation 0.972 \u2014 gateway may be saturated"
-      ]
-    },
-    {
-      "ts": "2026-05-14T20:50:36.569600+00:00",
-      "status": "degraded",
-      "consecutiveFailures": 0,
-      "issues": [
-        "Event loop delay critical: 16794ms max, utilisation 0.972 \u2014 gateway may be saturated"
-      ]
-    },
-    {
       "ts": "2026-05-14T20:55:35.861108+00:00",
       "status": "degraded",
       "consecutiveFailures": 0,
@@ -4809,14 +4717,92 @@
       "status": "ok",
       "consecutiveFailures": 0,
       "issues": []
+    },
+    {
+      "ts": "2026-05-17T15:01:36.922121+00:00",
+      "status": "ok",
+      "consecutiveFailures": 0,
+      "issues": []
+    },
+    {
+      "ts": "2026-05-17T15:06:37.605682+00:00",
+      "status": "ok",
+      "consecutiveFailures": 0,
+      "issues": []
+    },
+    {
+      "ts": "2026-05-17T15:11:37.532577+00:00",
+      "status": "ok",
+      "consecutiveFailures": 0,
+      "issues": []
+    },
+    {
+      "ts": "2026-05-17T15:16:48.376342+00:00",
+      "status": "ok",
+      "consecutiveFailures": 0,
+      "issues": []
+    },
+    {
+      "ts": "2026-05-17T15:21:49.510218+00:00",
+      "status": "ok",
+      "consecutiveFailures": 0,
+      "issues": []
+    },
+    {
+      "ts": "2026-05-17T15:26:48.252325+00:00",
+      "status": "ok",
+      "consecutiveFailures": 0,
+      "issues": []
+    },
+    {
+      "ts": "2026-05-17T15:31:47.991206+00:00",
+      "status": "ok",
+      "consecutiveFailures": 0,
+      "issues": []
+    },
+    {
+      "ts": "2026-05-17T15:36:47.960374+00:00",
+      "status": "ok",
+      "consecutiveFailures": 0,
+      "issues": []
+    },
+    {
+      "ts": "2026-05-17T15:42:02.109581+00:00",
+      "status": "ok",
+      "consecutiveFailures": 0,
+      "issues": []
+    },
+    {
+      "ts": "2026-05-17T15:46:48.869510+00:00",
+      "status": "ok",
+      "consecutiveFailures": 0,
+      "issues": []
+    },
+    {
+      "ts": "2026-05-17T15:51:49.395845+00:00",
+      "status": "ok",
+      "consecutiveFailures": 0,
+      "issues": []
+    },
+    {
+      "ts": "2026-05-17T15:56:48.441917+00:00",
+      "status": "ok",
+      "consecutiveFailures": 0,
+      "issues": []
+    },
+    {
+      "ts": "2026-05-17T16:01:48.497129+00:00",
+      "status": "ok",
+      "consecutiveFailures": 0,
+      "issues": []
     }
   ],
   "summary": {
-    "totalChecks": 1310,
-    "upChecks": 971,
+    "totalChecks": 1323,
+    "upChecks": 984,
     "downtimeMinutes": 1695,
-    "uptimePct": 74.122,
-    "lastCheck": "2026-05-17T14:56:37.617308+00:00",
+    "uptimePct": 74.376,
+    "lastCheck": "2026-05-17T16:01:48.497129+00:00",
     "lastStatus": "ok"
   }
 }
