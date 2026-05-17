@@ -1,7 +1,7 @@
 {
   "schema": "task-queue-v1",
   "description": "Master queue for async stateless tasks. Any agent can claim and resume.",
-  "lastUpdated": "2026-05-17T18:10:02.480690",
+  "lastUpdated": "2026-05-17T18:15:02.663954",
   "tasks": [
     {
       "id": "task-2026-05-17-2e43e59d",
@@ -224,10 +224,11 @@
       "id": "task-2026-05-17-3c40a62a",
       "title": "Atomic write test 2 \u2014 Verify fixed import",
       "tier": 2,
-      "status": "pending",
+      "status": "complete",
       "priority": "low",
       "source": "test",
-      "relatedChg": "",
+      "relatedChg": "TKT-0230",
+      "note": "Test task superseded by real TKT-0230 implementation. TKT-0230 completed in webchat 17:25-17:31. All atoms done. Git: 3416dcd. Marked complete per Ken confirmation 18:18 AEST.",
       "atoms": [
         {
           "id": 1,
@@ -238,12 +239,15 @@
         },
         {
           "id": 2,
-          "description": "Atom B",
-          "status": "pending"
+          "description": "Atom B — Superseded by TKT-0230 real implementation",
+          "status": "complete",
+          "completedAt": "2026-05-17T18:18:00.000000",
+          "result": "{\"result\":\"TKT-0230 completed in webchat — test task no longer needed\"}}"
         }
       ],
       "createdAt": "2026-05-17T17:25:10.330027",
-      "updatedAt": "2026-05-17T17:25:21.924298"
+      "updatedAt": "2026-05-17T18:18:00.000000",
+      "completedAt": "2026-05-17T18:18:00.000000"
     }
   ]
 }
