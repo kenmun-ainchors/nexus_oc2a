@@ -699,11 +699,25 @@
       "issues": [
         "[]"
       ]
+    },
+    {
+      "ts": "2026-05-18T00:10:30+10:00",
+      "assetPath": "/Users/ainchorsangiefpl/.openclaw/workspace/tmp/blog-draft-2026-05-17.html",
+      "assetType": "blog",
+      "producedBy": "yoda",
+      "intendedFor": "public distribution",
+      "brief": "Content governance review for CONTENT-0056",
+      "verdict": "PASS",
+      "passCount": 7,
+      "failCount": 0,
+      "issues": [
+        "[]"
+      ]
     }
   ],
   "summary": {
-    "total": 50,
-    "pass": 49,
+    "total": 51,
+    "pass": 50,
     "fail": 1
   }
 }

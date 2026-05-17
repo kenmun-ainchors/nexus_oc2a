@@ -2109,11 +2109,71 @@
       "pass": 5,
       "fail": 0,
       "issues": []
+    },
+    {
+      "ts": "2026-05-18T00:07:50+10:00",
+      "asset": "/Users/ainchorsangiefpl/.openclaw/workspace/tmp/blog-draft-2026-05-17.html",
+      "producedBy": "yoda",
+      "intendedFor": "public distribution",
+      "verdict": "FAIL",
+      "pass": 4,
+      "fail": 1,
+      "issues": []
+    },
+    {
+      "ts": "2026-05-18T00:07:51+10:00",
+      "asset": "/Users/ainchorsangiefpl/.openclaw/workspace/tmp/blog-draft-2026-05-17.html",
+      "producedBy": "yoda",
+      "intendedFor": "public distribution",
+      "verdict": "FAIL",
+      "pass": 4,
+      "fail": 1,
+      "issues": []
+    },
+    {
+      "ts": "2026-05-18T00:07:51+10:00",
+      "asset": "/Users/ainchorsangiefpl/.openclaw/workspace/tmp/blog-draft-2026-05-17.html",
+      "producedBy": "yoda",
+      "intendedFor": "public distribution",
+      "verdict": "FAIL",
+      "pass": 4,
+      "fail": 1,
+      "issues": []
+    },
+    {
+      "ts": "2026-05-18T00:10:29+10:00",
+      "asset": "/Users/ainchorsangiefpl/.openclaw/workspace/tmp/blog-draft-2026-05-17.html",
+      "producedBy": "yoda",
+      "intendedFor": "public distribution",
+      "verdict": "PASS",
+      "pass": 5,
+      "fail": 0,
+      "issues": []
+    },
+    {
+      "ts": "2026-05-18T00:10:29+10:00",
+      "asset": "/Users/ainchorsangiefpl/.openclaw/workspace/tmp/blog-draft-2026-05-17.html",
+      "producedBy": "yoda",
+      "intendedFor": "public distribution",
+      "verdict": "PASS",
+      "pass": 5,
+      "fail": 0,
+      "issues": []
+    },
+    {
+      "ts": "2026-05-18T00:10:30+10:00",
+      "asset": "/Users/ainchorsangiefpl/.openclaw/workspace/tmp/blog-draft-2026-05-17.html",
+      "producedBy": "yoda",
+      "intendedFor": "public distribution",
+      "verdict": "PASS",
+      "pass": 5,
+      "fail": 0,
+      "issues": []
     }
   ],
   "summary": {
-    "total": 211,
-    "pass": 148,
-    "fail": 63
+    "total": 217,
+    "pass": 151,
+    "fail": 66
   }
 }

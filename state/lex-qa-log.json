@@ -1399,11 +1399,38 @@
       "verdict": "PASS",
       "pass": 5,
       "fail": 0
+    },
+    {
+      "ts": "2026-05-18T00:07:51+10:00",
+      "asset": "/Users/ainchorsangiefpl/.openclaw/workspace/tmp/blog-draft-2026-05-17.html",
+      "producedBy": "yoda",
+      "intendedFor": "public distribution",
+      "verdict": "PASS",
+      "pass": 5,
+      "fail": 0
+    },
+    {
+      "ts": "2026-05-18T00:10:29+10:00",
+      "asset": "/Users/ainchorsangiefpl/.openclaw/workspace/tmp/blog-draft-2026-05-17.html",
+      "producedBy": "yoda",
+      "intendedFor": "public distribution",
+      "verdict": "PASS",
+      "pass": 5,
+      "fail": 0
+    },
+    {
+      "ts": "2026-05-18T00:10:30+10:00",
+      "asset": "/Users/ainchorsangiefpl/.openclaw/workspace/tmp/blog-draft-2026-05-17.html",
+      "producedBy": "yoda",
+      "intendedFor": "public distribution",
+      "verdict": "PASS",
+      "pass": 5,
+      "fail": 0
     }
   ],
   "summary": {
-    "total": 134,
-    "pass": 118,
+    "total": 137,
+    "pass": 121,
     "fail": 15
   }
 }
