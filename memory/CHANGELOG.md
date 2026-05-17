@@ -1,3 +1,15 @@
+## 2026-05-17 10:00 AEST — [CHG-0363] Cron Interim Model Batch Update — 16 crons to kimi
+**Type:** config
+**Change Type:** Normal
+**Source:** ken-prompt
+**Trigger:** Ken reported "All the cron jobs reported failed" during CHG-0349 interim period. Investigation showed all 16 failed crons using anthropic/claude-haiku-4-5 timing out due to API unavailability.
+**What changed:** (1) Updated 16 crons from anthropic/claude-haiku-4-5 to ollama/kimi-k2.6:cloud: TRIGGER-12 Allowlist (6a059e9e), Warden (83accf7b), Journal Incremental (1b853131), Gateway Health (c65ace85), Aria→Ken Relay (7a28cc83), Task Monitor (637ecb12), Fallback Chain (35c8cd08), Daily Burn Alert (ca5d5e50), Daily Close Blog (a027fd60), Nightly Gateway Restart (20f59555), Daily Stale Cleanup (516135b9), AKB Holocron (dce1ada4), TRIGGER-04/06 (6bd53c89), Memory Hygiene (0afc4d20), Daily Budget Report (3ea986bf), Backup Health Check (e08e19ad). (2) Added Cron Interim Model Update Procedure to YODA_RUNBOOK.md under Claude Conservative Mode section. (3) Immediate verification: 6/6 crons reran and passed with kimi (3-25s duration). (4) Remaining 9 crons have updated model and will pass on next scheduled run.
+**Why:** During CHG-0349 interim period, Claude API credits are depleted. All crons with hardcoded anthropic/claude-haiku-4-5 model field attempt to use unavailable API, timeout after 60-180s, and report error. This is a systemic failure pattern — all Anthropic-model crons fail simultaneously when API is down.
+**Verification:** Immediate rerun after model update: 6a059e9e (3.2s OK), 83accf7b (4.0s OK), 1b853131 (25.3s OK), c65ace85 (7.2s OK), 7a28cc83 (8.5s OK), 637ecb12 (5.0s OK). Remaining 9 crons scheduled — expected to pass.
+**Rollback:** Revert all 16 crons to anthropic/claude-haiku-4-5 when CLAUDE RESTORE issued.
+**Linked:** CHG-0349, CHG-0350, CHG-0362, TKT-0165
+---
+
 ## 2026-05-17 09:18 AEST — [CHG-0362] Warden intentional model drift documentation — interim period (kimi) declared not drift
 **Type:** config
 **Change Type:** Normal
