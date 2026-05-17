@@ -214,3 +214,46 @@
 - Added `_schema` field to `kimi-confidence-mapping.json` documenting structure
 - Agent scripts must validate schema before querying (assert key exists)
 **Impact:** Sprint planning delayed 3 minutes, Ken confidence shaken unnecessarily. Easily avoidable.
+
+## L-035 — Notion SSOT sync: Prevent drift between tickets.json and AKB Backlog (2026-05-17)
+**Lesson:** The Notion AKB Backlog drifted significantly from tickets.json (SSOT) — 55 duplicates, 14 status mismatches, 10 missing tickets, 61 extra pages. This happened because:
+1. ticket.sh creates Notion pages but doesn't validate uniqueness before creation
+2. No periodic sync/audit between tickets.json and Notion
+3. Notion integration can create pages even when database query returns 0 (inconsistent state)
+4. Status updates in tickets.json don't automatically sync to Notion
+5. Old/renumbered tickets leave orphan pages in Notion
+
+**Rule:**
+1. **AFTER EVERY ticket.sh create/update/close** → immediately run `ticket.sh notion-sync TKT-NNNN`
+2. **DAILY** → run `scripts/notion-sync-audit.sh` to detect drift (duplicates, mismatches, missing, extra)
+3. **WEEKLY** → full Notion AKB Backlog reconciliation (Sprint Review ceremony)
+4. **NEVER** create Notion pages directly via API without checking if page already exists
+
+**Prevention:**
+- Created `scripts/notion-sync-audit.sh` — daily drift detection (duplicates, status mismatches, missing, extra)
+- Added `notionPageId` field to tickets.json — tracks which tickets have Notion pages
+- ticket.sh now checks for existing Notion page before creating (avoids duplicates)
+- Status changes in tickets.json trigger automatic Notion update via ticket.sh
+
+**Source:** CHG-0370/0371 — Notion AKB Backlog full sync incident. Ken discovered duplicates, conflicts, wrong status values.
+**Impact:** 2 hours of manual cleanup, Ken confidence in Notion as SSOT shaken.
+**Root causes:**
+1. ticket.sh create function doesn't check for existing Notion page
+2. No automated daily/weekly reconciliation
+3. Notion integration disconnected and reconnected — pages created in void
+4. Multiple ticket.sh runs created same ticket multiple times
+5. Old TKT renumbering left orphan pages
+
+**What we need to do differently:**
+1. **ticket.sh create** → Query Notion first: `if page exists, update; else create`
+2. **Daily cron** → `notion-sync-audit.sh` at 04:00 AEST (after auto-heal)
+3. **Sprint Review** → Include Notion AKB Backlog reconciliation as ceremony step
+4. **Notion integration** → Document reconnection procedure (CHG-0371 lesson)
+5. **tickets.json** → `notionPageId` is single source of truth for page existence
+
+**Tool created:**
+- `scripts/notion-sync-audit.sh` — detects drift in 4 categories
+- `scripts/notion-sync-fix.sh` — automated fix for detected drift
+- `state/notion-audit-report.json` — stores last audit results
+
+**Linked:** L-034 (JSON structure drift), CHG-0370, CHG-0371, AKB Backlog
