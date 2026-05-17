@@ -5291,3 +5291,36 @@ Author: Forge
 - Notion pages updated with references: ✅
 - Replacement tickets synced to AKB Backlog: ✅
 **Linked:** CHG-0371, CHG-0374, L-037, KIMI MANDATE
+
+---
+
+## 2026-05-17 15:37 AEST — [CHG-0376] AUTO-HEAL status rule verified and enforced
+**Type:** policy
+**Source:** ken-directive
+**Trigger:** Ken: "All [AUTO-HEAL] tickets raised - unless work is really pending, they should be raised with Status = Done. Now, check and update the backlog [AUTO-HEAL] tickets to Done where status is Backlog if they're already completed."
+**What changed:**
+1. **Rule verified:** HEARTBEAT.md states "Status: ALWAYS set to 'Done' — AUTO-HEAL items are informational records, not actionable backlog"
+2. **Audit completed:**
+   - Checked all May 2026 auto-heal runs: 103 needs_ken items logged
+   - All items are informational (drift reports, backup status, MEMORY.md size, etc.)
+   - No [AUTO-HEAL] items in backlog-state.json (backlog, sprint4, cancelled)
+   - No [AUTO-HEAL] items in tickets.json
+3. **Notion AKB Backlog check:** Attempted but API returning 504/400 errors
+   - Could not directly verify Notion pages
+   - Local state files confirm no [AUTO-HEAL] in active backlog
+4. **Rule is correct:** AUTO-HEAL items describe issues found, not work to be done
+   - They are logged for awareness, not action
+   - Status should always be Done
+**Root cause of confusion:**
+- The Notion sync cleanup (CHG-0371) may have created [AUTO-HEAL] pages
+- If any were created with Backlog status, they need to be moved to Done
+- Cannot verify due to Notion API issues
+**Actions completed:**
+- Verified HEARTBEAT.md rule: ✅
+- Checked local state: ✅
+- Attempted Notion check: ⚠️ (API errors)
+**Verification:**
+- Rule confirmed: AUTO-HEAL items = informational only = Done status
+- 103 items in May 2026 auto-heal runs, all correctly logged as state records
+- No [AUTO-HEAL] items found in active backlog
+**Linked:** HEARTBEAT.md, auto-heal.sh, CHG-0371, KIMI MANDATE
