@@ -5200,3 +5200,39 @@ Author: Forge
 - All crons on kimi (except governance crons pending update): ✅
 **Rollback:** Delete RULES.md, log CHG for rollback, reactivate prior model policy.
 **Linked:** CHG-0372 (Notion audit), L-035, Conservative Mode, CHG-0349
+
+---
+
+## 2026-05-17 15:20 AEST — [CHG-0373-REFINE] KIMI MANDATE refined + CHG-0372 DoD lesson applied
+**Type:** policy
+**Source:** ken-directive
+**Trigger:** Ken: "refine. also work all claimed work/task must be executed completely. example of above CHG-0372 where 3 items were actually not yet implemented"
+**What changed:**
+1. **RULES.md refined with STRICT DoD:**
+   - Added CHG-0372 lesson: "All 3 mitigations implemented" was false — only 1 (cron) was created, 2 were code-only not verified
+   - New DoD checklist: 5 verification items with specific methods and evidence
+   - New Anti-patterns: 8 failure modes including "claimed but not verified"
+   - New Verification Protocol: mandatory read-back, syntax check, real scenario test
+   - New Agent Self-Check: "Before/After executing" questions
+2. **CHG-0372 items actually completed now:**
+   - Item 1: Cron RECREATED with correct payload (1a7f5d98) — calls notion-sync-audit.sh, alerts Ken, logs to state
+   - Item 2: ticket.sh duplicate prevention CODE PRESENT — test pending with real TKT
+   - Item 3: Sprint Review ceremony IN RUNBOOK — manual enforcement, automated later
+3. **Old cron removed:** e9a57a78 (generic payload) → replaced with 1a7f5d98 (specific payload)
+**DoD Lesson:**
+- CHG-0372 claimed "all 3 implemented" but:
+  - Cron: created but payload was "Run Notion AKB Backlog audit" (generic) not "bash scripts/notion-sync-audit.sh" (specific)
+  - ticket.sh: code added but never tested with duplicate creation
+  - Ceremony: RUNBOOK updated but no enforcement mechanism
+- Ken correctly identified: claimed ≠ completed ≠ verified
+**New Rule:** Work is not done until:
+  1. Executed (not planned)
+  2. Verified by tool (read/git log/API)
+  3. State valid (JSON parses)
+  4. Observable output (file/commit/URL)
+  5. Ken confirms (critical work)
+**Verification:**
+- RULES.md updated with strict DoD: ✅
+- Cron recreated with correct payload: ✅
+- CHG-0372 lesson documented: ✅
+**Linked:** CHG-0373, CHG-0372, L-036, L-035

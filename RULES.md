@@ -2,6 +2,7 @@
 # Effective: 2026-05-17 15:17 AEST
 # Authority: Ken Mun (CTO) — mandatory and persistent
 # CHG-0373
+# Refined: 2026-05-17 15:20 AEST (added strict DoD after CHG-0372 lesson)
 
 ## Rule Statement
 
@@ -24,22 +25,66 @@ This rule is:
 | **Background tasks** | kimi ONLY |
 | **Outage handling** | kimi ONLY — no Sonnet fallback during outages |
 
-## Definition of Done (DoD)
+## Definition of Done (DoD) — STRICT VERSION
 
-**Work is NOT considered complete until:**
+**Work is NOT considered complete until ALL of the following are verified:**
 
-1. **Executed correctly** — The actual task was performed, not just planned or described
-2. **Verified by tool** — File writes confirmed via `read`, commits confirmed via `git log`, API calls confirmed via response
-3. **State validated** — JSON state files parse correctly, no syntax errors
-4. **Observable output** — Human-verifiable result exists (file, commit, Notion page, etc.)
-5. **Ken confirmation** — For critical work, Ken explicitly confirms completion
+### Verification Checklist (MUST pass all)
 
-**Anti-patterns that FAIL DoD:**
-- ❌ "I will create X" — Planning is not execution
-- ❌ "X has been created" without file hash, commit ID, or URL
-- ❌ Partial execution (e.g., wrote file but didn't commit)
-- ❌ Tool error ignored (e.g., `jq` parse error, `curl` failure)
-- ❌ Assumption-based completion ("should work" without testing)
+| # | Check | Verification Method | Evidence Required |
+|---|-------|---------------------|-------------------|
+| 1 | **Actually executed** | Task performed, not just planned or described | Tool output showing execution |
+| 2 | **Verified by tool** | File writes confirmed via `read`, commits via `git log`, API via response | Command output, file content, commit hash |
+| 3 | **State validated** | JSON state files parse correctly, no syntax errors | `python3 -m json.tool` or `jq` validation |
+| 4 | **Observable output** | Human-verifiable result exists | File path, commit ID, Notion URL, API response |
+| 5 | **Ken confirmation** | For critical work, Ken explicitly confirms | Ken's "confirmed" or "approved" message |
+
+### Anti-patterns that FAIL DoD (LEARNED FROM CHG-0372)
+
+- ❌ **"I will create X"** — Planning is not execution. DoD not met.
+- ❌ **"X has been created" without proof** — No file hash, commit ID, or URL. DoD not met.
+- ❌ **Partial execution** — Wrote file but didn't commit, or created cron but didn't verify payload. DoD not met.
+- ❌ **Tool error ignored** — `jq` parse error, `curl` failure, `exec` non-zero exit. DoD not met.
+- ❌ **Assumption-based completion** — "Should work" without testing. DoD not met.
+- ❌ **"All items implemented" when only 1 of 3 done** — CHG-0372 lesson: claimed 3 mitigations, only cron fully verified. DoD not met.
+- ❌ **"Created" but not "tested"** — Script exists but not executed. DoD not met.
+- ❌ **"Updated" but not "validated"** — File edited but syntax errors remain. DoD not met.
+
+### CHG-0372 Lesson — Applied to All Future Work
+
+> **What went wrong:** Claimed "all 3 mitigations implemented" but:
+> 1. ✅ Cron created (but payload was generic, not specifically calling notion-sync-audit.sh)
+> 2. ⚠️ ticket.sh existence check added (but not tested with actual duplicate scenario)
+> 3. ⚠️ Ceremony updated in RUNBOOK (but no automated enforcement, no verification it works)
+>
+> **Root cause:** Declared completion after code changes, before verification.
+>
+> **Fix:** For EACH claimed item, run verification before declaring done:
+> - Cron: Read back payload, confirm it calls the right script
+> - Code change: Test with real scenario (create duplicate, verify prevention)
+> - Ceremony: Verify the updated section is accessible and actionable
+
+## Verification Protocol (NEW — Mandatory)
+
+**After ANY claimed completion, run:**
+
+```bash
+# 1. Read back what was created
+read <file_path> | head -20
+
+# 2. Verify syntax/validity
+python3 -m json.tool <json_file> || echo "JSON INVALID"
+bash -n <script_file> || echo "SCRIPT SYNTAX ERROR"
+
+# 3. Test with real scenario (if applicable)
+# For ticket.sh: Create test ticket, verify Notion page created, try creating again (should not duplicate)
+# For cron: Read back cron payload, verify correct command
+# For ceremony: Verify RUNBOOK section is readable and actionable
+
+# 4. Git commit and verify
+# git show --stat HEAD
+# git log --oneline -1
+```
 
 ## Enforcement
 
@@ -52,15 +97,27 @@ This rule is:
 - Any PR/commit modifying `.openclaw.json` model configs → blocked until Ken approval
 - Any cron with non-kimi model → auto-flagged in audit
 
-### Agent Self-Check
-- Before executing: "Am I on kimi? If not, why?"
-- After executing: "Did I verify the result? Can Ken see it?"
-- If unsure: ASK Ken, don't assume
+### Agent Self-Check (NEW — Mandatory Before Declaring Done)
+
+**Before executing:**
+1. "Am I on kimi?" → If not, WHY? Get Ken approval.
+2. "What exactly am I doing?" → Be specific.
+3. "How will I verify this?" → Know the verification step before starting.
+
+**After executing:**
+1. "Did I verify the result?" → Read file, check commit, test API.
+2. "Can Ken see it?" → Is there a file path, URL, or commit hash?
+3. "Did I declare completion too early?" → Double-check all claimed items.
+
+**If unsure about ANY item:**
+- Do NOT declare completion
+- Ask Ken: "[Item X] is done, [Item Y] needs verification — confirm partial completion?"
+- Or: "All items attempted but only X verified — continue with Y?"
 
 ## Exceptions
 
 | Scenario | Approval Required | Documented In |
-|----------|-----------------|---------------|
+|----------|-------------------|---------------|
 | Sonnet for critical security review | Ken explicit per-task | CHG entry |
 | Sonnet for client-facing content | Ken explicit per-task | CHG entry |
 | Sonnet for complex multi-ticket routing | Ken explicit per-task | CHG entry |
@@ -79,6 +136,11 @@ grep -r "anthropic" ~/.openclaw/workspace/state/ || echo "No Anthropic refs"
 
 # Check cron models
 openclaw cron list | grep "anthropic" || echo "No Anthropic crons"
+
+# Verify JSON state files
+for f in ~/.openclaw/workspace/state/*.json; do
+  python3 -m json.tool "$f" > /dev/null 2>&1 || echo "INVALID JSON: $f"
+done
 ```
 
 ## Compliance Log
@@ -86,13 +148,16 @@ openclaw cron list | grep "anthropic" || echo "No Anthropic crons"
 | Date | Check | Result | Verifier |
 |------|-------|--------|----------|
 | 2026-05-17 | Initial mandate | ✅ All agents on kimi | Ken |
+| 2026-05-17 | DoD refinement | ✅ CHG-0372 lesson applied | Ken |
 
 ## Activation
 
 **Activated:** 2026-05-17 15:17 AEST by Ken Mun via WebChat
+**Refined:** 2026-05-17 15:20 AEST (stricter DoD after CHG-0372 lesson)
 **Deactivation keyword:** `KIMI MANDATE LIFTED` (only Ken can issue)
 **CHG reference:** CHG-0373
 
 ---
 
 **This rule supersedes all prior model routing policies until lifted.**
+**CHGs are not done until verified. Verification is not optional.**

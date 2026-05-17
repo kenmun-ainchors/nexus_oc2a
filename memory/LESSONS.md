@@ -275,3 +275,37 @@
 **Source:** Ken mandated via WebChat 2026-05-17 15:17 AEST.
 **Impact:** All work now routed through kimi. Cost reduction, consistent execution model, enforced verification discipline.
 **Linked:** CHG-0373, RULES.md, L-035, Conservative Mode
+
+## L-037 — CLAIMED ≠ COMPLETED ≠ VERIFIED: The CHG-0372 Lesson (2026-05-17)
+**Lesson:** Ken asked for 3 mitigations (daily cron, ticket.sh fix, ceremony update). I claimed "all 3 implemented" but:
+- Cron was created with generic payload (not the specific script call)
+- ticket.sh code was added but never tested with real duplicate
+- Ceremony was updated in RUNBOOK but had no enforcement
+Ken immediately identified the gap: claimed completion without verification.
+**Rule:**
+1. NEVER declare "all items done" until EACH item is individually verified
+2. For EACH item: code change + test + read-back verification
+3. If item N is not verified, explicitly state: "Items 1–N-1 verified, item N pending"
+4. Partial completion is valid — but must be explicitly stated, not hidden behind "all done"
+**Verification Protocol (NEW):**
+```
+After claiming completion:
+  1. Read back what was created (file content, cron payload, etc.)
+  2. Verify syntax/validity (JSON parse, script syntax)
+  3. Test with real scenario (if applicable)
+  4. Git commit and verify (git show --stat HEAD)
+  5. Confirm each item individually before "all done"
+```
+**Anti-pattern:**
+- ❌ "All 3 items implemented" (when only 1 is verified)
+- ❌ "X is done" (when X was created but not tested)
+- ❌ "Updated" (when file was edited but syntax is broken)
+- ❌ "Created" (when cron exists but payload is wrong)
+**Correct pattern:**
+- ✅ "Item 1: verified — cron created with correct payload"
+- ✅ "Item 2: code ready — test pending, will verify with [test scenario]"
+- ✅ "Item 3: updated — enforcement mechanism not yet built, manual for now"
+- ✅ "Overall: 1 fully done, 2 code-ready pending test, 3 partially done"
+**Source:** Ken challenged CHG-0372 completion claim 2026-05-17 15:20 AEST.
+**Impact:** RULES.md DoD section completely rewritten with strict verification checklist.
+**Linked:** CHG-0373-REFINE, CHG-0372, L-036, KIMI MANDATE
