@@ -226,3 +226,37 @@ tickets.json status == Notion status
 **Date:** 2026-05-17 15:44 AEST
 **Channel:** openclaw-control-ui
 **CHG:** CHG-0377
+
+### CHG RECORDS — Also Non-Negotiable
+
+**ALL CHG (Change Log) entries MUST be created in Notion AKB Backlog.**
+
+- CHG records are not just in CHANGELOG.md — they must also appear in Backlog
+- Each CHG gets a Notion page with:
+  - Title: [CHG-NNNN] Description
+  - Status: Done (CHG records are completed changes)
+  - Type: change
+  - Priority: High (all CHGs are significant)
+  - Notes: Summary of what changed
+
+**Missing CHGs = Broken SSOT**
+
+### Enforcement for CHG
+
+**changelog.sh MUST:**
+1. Append to memory/CHANGELOG.md
+2. IMMEDIATELY create Notion page via API
+3. Verify Notion page exists
+4. Return CHG ID and Notion URL
+
+**After EVERY CHG:**
+```bash
+# 1. Check CHANGELOG.md has the entry
+grep "CHG-NNNN" memory/CHANGELOG.md
+
+# 2. Check Notion has the page
+grep "CHG-NNNN" in Notion search
+
+# 3. Verify title matches
+# CHG-NNNN in CHANGELOG == [CHG-NNNN] in Notion
+```

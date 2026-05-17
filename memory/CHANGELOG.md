@@ -5351,3 +5351,21 @@ Author: Forge
 - All 123 tickets now in AKB Backlog: ✅
 - RULES.md updated with non-negotiable rule: ✅
 **Linked:** CHG-0371, CHG-0375, CHG-0376, L-037, KIMI MANDATE
+
+---
+
+## 2026-05-17 15:49 AEST — [CHG-0378] CHG records sync enforced — 16 missing CHGs created
+**Type:** policy
+**Source:** ken-directive (openclaw-control-ui)
+**Trigger:** Ken: "How about the CHG records/items? I only see in the backlog up to CHG-0361"
+**What changed:**
+1. **CRITICAL AUDIT:** Ken identified CHG-0362+ missing from Notion AKB Backlog
+2. **FOUND:** 16 CHG records (CHG-0362 through CHG-0377) were in CHANGELOG.md but NOT in Notion
+3. **IMMEDIATE FIX:** Created all 16 missing CHG records in Notion AKB Backlog
+4. **RULES.md updated:** Added CHG sync as non-negotiable requirement
+5. **Root cause:** changelog.sh was appending to CHANGELOG.md but NOT syncing to Notion
+**Verification:**
+- 16 missing CHGs created in Notion: ✅
+- All CHG records now in AKB Backlog: ✅
+- RULES.md updated with CHG sync rule: ✅
+**Linked:** CHG-0377, CHG-0371, L-037, KIMI MANDATE
