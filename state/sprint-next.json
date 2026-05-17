@@ -45,6 +45,15 @@
       "rationale": "Tunnel live but unprotected. CF Access must be configured. DNS propagation pending.",
       "addedAt": "2026-05-13",
       "addedBy": "Yoda"
+    },
+    {
+      "tkt": "TKT-0230",
+      "title": "Atomic write pattern for checkpoint files \u2014 write temp, fsync, rename",
+      "priority": "P2",
+      "rationale": "Prevent checkpoint corruption on agent crash. Tier 3 async resilience.",
+      "addedAt": "2026-05-17T17:22:41.173036",
+      "addedBy": "Yoda",
+      "source": "retrospective-2026-05-17"
     }
   ],
   "lastUpdated": "2026-05-13T21:30:02.839306+10:00"

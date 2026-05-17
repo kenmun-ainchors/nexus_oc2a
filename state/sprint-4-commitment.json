@@ -8,94 +8,103 @@
   "items": [
     {
       "id": "TKT-0196",
-      "title": "Three Work Types Rule — enforce script/governance/LLM separation",
+      "title": "Three Work Types Rule \u2014 enforce script/governance/LLM separation",
       "status": "open",
       "owner": "Forge",
       "type": "architecture",
       "priority": "P1",
       "kimiConfidence": "Full Confidence",
       "order": 1,
-      "rationale": "Priority 1 — Architecture foundation. Ken approved Day 20."
+      "rationale": "Priority 1 \u2014 Architecture foundation. Ken approved Day 20."
     },
     {
       "id": "TKT-0197",
-      "title": "Sources of Truth Register — 10 core data types",
+      "title": "Sources of Truth Register \u2014 10 core data types",
       "status": "open",
       "owner": "Atlas",
       "type": "architecture",
       "priority": "P1",
       "kimiConfidence": "Full Confidence",
       "order": 1,
-      "rationale": "Priority 1 — Architecture foundation. Ken approved Day 20."
+      "rationale": "Priority 1 \u2014 Architecture foundation. Ken approved Day 20."
     },
     {
       "id": "TKT-0127",
-      "title": "Agentic Marketing Org Design — activate business stream marketing agents for Angie + KL team",
+      "title": "Agentic Marketing Org Design \u2014 activate business stream marketing agents for Angie + KL team",
       "status": "open",
       "owner": "Yoda",
       "type": "task",
       "priority": "P2",
       "kimiConfidence": "Full Confidence",
       "order": 2,
-      "rationale": "Priority 2 — Business stream activation. Full confidence on kimi."
+      "rationale": "Priority 2 \u2014 Business stream activation. Full confidence on kimi."
     },
     {
       "id": "TKT-0158",
-      "title": "P2 Gate — 6 Missing Governance Policies",
+      "title": "P2 Gate \u2014 6 Missing Governance Policies",
       "status": "open",
       "owner": "Atlas/Lex",
       "type": "policy",
       "priority": "P2",
       "kimiConfidence": "Full Confidence",
       "order": 2,
-      "rationale": "Priority 2 — P2 hard gate. No client onboards without these."
+      "rationale": "Priority 2 \u2014 P2 hard gate. No client onboards without these."
     },
     {
       "id": "TKT-0178",
-      "title": "Routing Discipline Enforcement — audit + detection + routing gate",
+      "title": "Routing Discipline Enforcement \u2014 audit + detection + routing gate",
       "status": "in-progress",
       "owner": "Forge",
       "type": "task",
       "priority": "P3",
       "kimiConfidence": "Full Confidence",
       "order": 3,
-      "rationale": "Priority 3 — CHG-0297 enforcement. Sub-tickets created."
+      "rationale": "Priority 3 \u2014 CHG-0297 enforcement. Sub-tickets created."
     },
     {
       "id": "TKT-0198",
-      "title": "Warden Drift Detection — automated model compliance checking",
+      "title": "Warden Drift Detection \u2014 automated model compliance checking",
       "status": "open",
       "owner": "Warden",
       "type": "task",
       "priority": "P3",
       "kimiConfidence": "Full Confidence",
       "order": 3,
-      "rationale": "Priority 3 — Automated governance. Sub-tickets created."
+      "rationale": "Priority 3 \u2014 Automated governance. Sub-tickets created."
     },
     {
       "id": "TKT-0169",
-      "title": "TypeScript Contract Layer — typed interfaces for all agent communication",
+      "title": "TypeScript Contract Layer \u2014 typed interfaces for all agent communication",
       "status": "open",
       "owner": "Thrawn",
       "type": "architecture",
       "priority": "P4",
       "kimiConfidence": "Fairly Confident",
       "order": 4,
-      "rationale": "Priority 4 — Type safety. kimi fairly confident."
+      "rationale": "Priority 4 \u2014 Type safety. kimi fairly confident."
     },
     {
       "id": "TKT-0182",
-      "title": "PII Scanner — automated PII detection in agent outputs",
+      "title": "PII Scanner \u2014 automated PII detection in agent outputs",
       "status": "open",
       "owner": "Shield",
       "type": "security",
       "priority": "P4",
       "kimiConfidence": "Low Confidence",
       "order": 4,
-      "rationale": "Priority 4 — Data protection. kimi low confidence, needs careful execution."
+      "rationale": "Priority 4 \u2014 Data protection. kimi low confidence, needs careful execution."
     }
   ],
   "committedAt": "2026-05-17T17:10:00+10:00",
   "committedBy": "Ken Mun",
-  "notes": "Sprint 4 committed. Day 1 = May 19. Architecture-first approach with Full Confidence items prioritized."
+  "notes": "Sprint 4 committed. Day 1 = May 19. Architecture-first approach with Full Confidence items prioritized.",
+  "ceremonies": [
+    {
+      "name": "Kimi Quality Check",
+      "frequency": "daily during Sprint 4",
+      "when": "After first 3 items completed",
+      "action": "Review execution quality. If error rate >20%, escalate to Ken.",
+      "addedAt": "2026-05-17T17:21:00+10:00"
+    }
+  ]
 }
