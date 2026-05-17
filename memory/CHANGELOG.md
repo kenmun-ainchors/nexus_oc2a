@@ -5484,3 +5484,44 @@ Author: Forge
 - AGENTS.md updated with agent-level rule: ✅
 - CHG-0383 logged: ✅
 **Linked:** CHG-0382, CHG-0381, CHG-0380, L-037, L-038, KIMI MANDATE
+
+---
+
+## 2026-05-17 16:27 AEST — [CHG-0384] DoD FAIL: CHG-0379-0383 not created in Backlog
+**Type:** incident
+**Source:** ken-test (openclaw-control-ui)
+**Trigger:** Ken: "Backlog CHG0379-0383 not created. what happened to the DoD rule?"
+**What happened:**
+1. **FAILURE:** CHG-0379, CHG-0380, CHG-0381, CHG-0382, CHG-0383 were logged in CHANGELOG.md
+2. **FAILURE:** None were created in Notion AKB Backlog
+3. **FAILURE:** DoD rule (CHG-0377) was violated immediately after being enforced
+4. **ROOT CAUSE:** I (Yoda) did not follow my own rule
+   - Logged CHG in CHANGELOG.md ✓
+   - Did NOT create Notion page ✗
+   - Did NOT verify Notion had the CHG ✗
+   - Did the same thing that caused CHG-0378 (missing CHGs)
+**Why this happened (applying CHG-0383 atomic task rule):**
+- I treated "log CHG" as one atomic step
+- I did NOT treat "create Notion page" as the NEXT required atomic step
+- I claimed completion after step 1, before step 2
+- This is EXACTLY what L-037 describes: CLAIMED ≠ COMPLETED ≠ VERIFIED
+**Immediate fix:**
+- ✅ Created CHG-0379 in Notion AKB Backlog
+- ✅ Created CHG-0380 in Notion AKB Backlog
+- ✅ Created CHG-0381 in Notion AKB Backlog
+- ✅ Created CHG-0382 in Notion AKB Backlog
+- ✅ Created CHG-0383 in Notion AKB Backlog
+**Correct atomic workflow (per CHG-0383):**
+```
+Step 1: Write CHG to CHANGELOG.md → verify file has entry
+Step 2: Create CHG page in Notion → verify page exists
+Step 3: Confirm both match → report to Ken
+```
+**Lesson reinforced:**
+- DoD is not met until ALL atomic steps are verified
+- "Logged" ≠ "Done" — Notion page creation is a separate required step
+- Self-check before claiming: "Did I create the Notion page?" → If NO, don't claim done
+**Verification:**
+- 5 CHGs created in Notion: ✅
+- CHG-0384 logged: ✅
+**Linked:** CHG-0377, CHG-0378, CHG-0383, L-037, L-038
