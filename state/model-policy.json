@@ -236,7 +236,7 @@
     },
     "spark": {
       "description": "Spark \u2728 \u2014 Social & Digital Marketing Agent",
-      "requiredModel": "ollama/kimi-k2.6:cloud",
+      "requiredModel": "ollama/deepseek-v4-pro:cloud",
       "allowedModels": [
         "ollama/kimi-k2.6:cloud",
         "anthropic/claude-sonnet-4-6"
@@ -508,7 +508,7 @@
       "_interimPrimaryUpdatedAt": "2026-05-17T22:03:05.756689"
     },
     "social": {
-      "requiredModel": "ollama/kimi-k2.6:cloud",
+      "requiredModel": "ollama/deepseek-v4-pro:cloud",
       "description": "Tier 3 specialist \u2014 enrolled CHG-0293 2026-05-12",
       "notes": "Enrolled per DEC-013/D4. Ken confirmed ENROL.",
       "requiredPrimary": "ollama/gemma4:31b-cloud",

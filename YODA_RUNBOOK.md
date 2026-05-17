@@ -2128,6 +2128,109 @@ When Claude API is unavailable (CHG-0349 interim period), ALL crons using `anthr
    Add this procedure if not already present.
 
 **Key crons typically affected:**
+
+---
+
+## PLATFORM MODEL MIGRATION CHECKLIST (Permanent Runbook)
+
+**Purpose:** Complete list of all locations requiring updates when platform model changes (e.g., kimi → gemma4 → deepseek-pro → claude). Use `{TARGET_MODEL}` as placeholder for the new model identifier.
+
+**Last migration:** 2026-05-17 22:00 AEST — `ollama/kimi-k2.6:cloud` → `ollama/deepseek-v4-pro:cloud` (kimi subscription limit)
+
+### 1. Agents (openclaw.json)
+
+| # | Location | Field | Action |
+|---|----------|-------|--------|
+| 1.1 | `agents.list[].model.primary` | All 12 agents | Set to `{TARGET_MODEL}` |
+| 1.2 | `agents.list[].model.fallbacks` | All 12 agents | Reorder: `{TARGET_MODEL}` → `[FB1, FB2]` |
+| 1.3 | `agents.defaults.model.primary` | Default fallback | Set to `{TARGET_MODEL}` |
+
+**Command:**
+```bash
+python3 -c "
+import json
+cfg = json.load(open('openclaw.json'))
+T = '{TARGET_MODEL}'
+for a in cfg['agents']['list']:
+    a['model']['primary'] = T
+cfg['agents']['defaults']['model']['primary'] = T
+json.dump(cfg, open('openclaw.json','w'), indent=2)
+"
+```
+
+### 2. Crons (Gateway-managed)
+
+| # | Location | Field | Action |
+|---|----------|-------|--------|
+| 2.1 | All crons with explicit model | `payload.model` | Set to `{TARGET_MODEL}` via `cron edit --model` |
+| 2.2 | Cron 03:00 cluster | Schedule | Ensure staggered: Gateway Restart 03:00, Stale Cleanup 03:10, AKB Holocron 03:20 |
+| 2.3 | Cron fallback references | Check old model names | Remove stale fallbacks (e.g., anthropic refs during interim) |
+
+**Command:**
+```bash
+for id in $(openclaw cron list | grep "OLD_MODEL" | awk '{print $1}'); do
+  openclaw cron edit "$id" --model {TARGET_MODEL}
+done
+```
+
+### 3. Model Policy (state/model-policy.json)
+
+| # | Location | Field | Action |
+|---|----------|-------|--------|
+| 3.1 | `agents.{id}.requiredModel` | spark, social agents | Set to `{TARGET_MODEL}` |
+| 3.2 | `agents.{id}.requiredPrimary` | All agents (if present) | Set to `{TARGET_MODEL}` |
+| 3.3 | `globalAllowedModels` | Whitelist | Add `{TARGET_MODEL}` if not present |
+| 3.4 | `lastUpdated` + `approvalContext` | Metadata | Update with migration timestamp and reason |
+
+### 4. Warden / Drift Management (state/)
+
+| # | Location | Field | Action |
+|---|----------|-------|--------|
+| 4.1 | `state/interim-model-period.json` | `updatedAt`, `currentModel` | Update to reflect new `{TARGET_MODEL}` |
+| 4.2 | `state/interim-model-period.json` | `blockedModels` | Add old/broken model to blocked list |
+| 4.3 | `state/warden-escalation-pending.json` | Status | Ensure `resolved-by-yoda` (no stale escalations) |
+| 4.4 | Warden cron (`83accf7b`) | Behaviour | Already SKIP_ALL_CHECKS during interim — verify |
+
+### 5. Model Definitions (openclaw.json)
+
+| # | Location | Field | Action |
+|---|----------|-------|--------|
+| 5.1 | `models.providers` | Provider auth | Verify target model's provider API key is still valid |
+| 5.2 | `agents.defaults.models` | Model aliases | Add `{TARGET_MODEL}` alias if needed |
+
+### 6. Documentation (Runbook + State Files)
+
+| # | Location | Action |
+|---|----------|--------|
+| 6.1 | `YODA_RUNBOOK.md` (this section) | Update `Last migration` timestamp and details |
+| 6.2 | `state/interim-model-period.json` | Update `reason` field with current context |
+| 6.3 | `memory/CHANGELOG.md` | Log CHG entry with full migration details |
+
+### 7. Validation Gates
+
+| # | Check | Command | Expected |
+|---|-------|---------|----------|
+| 7.1 | Agent model count | `python3 -c "..."` | 12/12 on `{TARGET_MODEL}` |
+| 7.2 | Cron model count | `openclaw cron list \| grep TARGET \| wc -l` | All active crons on target |
+| 7.3 | Zero stale model refs | `grep -r "OLD_MODEL" openclaw.json` | 0 active assignments |
+| 7.4 | Warden clean | Check no pending escalations | `resolved-by-yoda` or no file |
+| 7.5 | Gateway health | `openclaw gateway status` | Running, no restart errors |
+
+### 8. Rollback Procedure
+
+| # | Step | Command |
+|---|------|---------|
+| 8.1 | Restore agent config | `git checkout HEAD~1 -- openclaw.json` then `openclaw gateway restart` |
+| 8.2 | Restore cron models | Re-run migration commands with old model as target |
+| 8.3 | Restore policy | `git checkout HEAD~1 -- state/model-policy.json` |
+| 8.4 | Restore interim state | Revert `interim-model-period.json` to previous values |
+
+### Migration Execution Record
+
+| Date | From | To | Reason | CHG | Approved By |
+|------|------|----|--------|-----|-------------|
+| 2026-05-13 | claude-sonnet/haiku | ollama/kimi-k2.6:cloud | Claude API credits depleted | CHG-0348/0349 | Ken Mun |
+| 2026-05-17 | ollama/kimi-k2.6:cloud | ollama/deepseek-v4-pro:cloud | Ollama subscription limit (kimi blocked) | Pending | Ken Mun |
 - TRIGGER-12 Allowlist Sync (`6a059e9e`)
 - Warden Model Compliance (`83accf7b`)
 - Journal Incremental Writer (`1b853131`)

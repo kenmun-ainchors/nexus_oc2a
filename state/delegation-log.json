@@ -13062,10 +13062,20 @@
       "status": "pass",
       "latencyMs": 0,
       "notes": "warden check: INTERIM_PERIOD_ACTIVE (CHG-0349 Claude API credit depletion) \u2014 drift checks skipped per CHG-0362"
+    },
+    {
+      "ts": "2026-05-17T22:07:03+10:00",
+      "date": "2026-05-17",
+      "tier": "T2",
+      "taskType": "warden-check",
+      "model": "anthropic/claude-haiku-4-5",
+      "status": "pass",
+      "latencyMs": 0,
+      "notes": "warden check: INTERIM_PERIOD_ACTIVE (Ollama subscription limit \u2014 kimi blocked, all agents/crons on gemma4:31b-cloud) \u2014 drift checks skipped per CHG-0362"
     }
   ],
   "summary": {
-    "total": 1306,
+    "total": 1307,
     "byTier": {
       "T1": {
         "pass": 0,
@@ -13073,7 +13083,7 @@
         "timeout": 0
       },
       "T2": {
-        "pass": 1189,
+        "pass": 1190,
         "fail": 108,
         "timeout": 0
       },
@@ -13091,7 +13101,7 @@
         "tier": "T2"
       },
       "warden-check": {
-        "pass": 1010,
+        "pass": 1011,
         "fail": 102,
         "timeout": 0,
         "tier": "T2"
@@ -13115,6 +13125,6 @@
         "tier": "T2"
       }
     },
-    "estimatedSavingsUSD": 5.9525
+    "estimatedSavingsUSD": 5.9575
   }
 }
