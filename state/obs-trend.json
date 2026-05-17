@@ -1,16 +1,16 @@
 {
-  "generated_at": "2026-05-17T07:52:26.565413+00:00",
-  "generated_at_aest": "2026-05-17 17:52 AEST",
+  "generated_at": "2026-05-17T08:07:26.929265+00:00",
+  "generated_at_aest": "2026-05-17 18:07 AEST",
   "period_hours": 24,
   "totals": {
-    "ERROR": 152,
+    "ERROR": 149,
     "WARN": 39,
-    "INFO": 55
+    "INFO": 56
   },
   "top_errors": [
     {
       "type": "fallback_chain_broken",
-      "count": 145
+      "count": 142
     },
     {
       "type": "anthropic_api_fail",
@@ -43,7 +43,7 @@
     "has_prev_data": true,
     "prev_errors": 376,
     "prev_warns": 31,
-    "errors_pct_change": -59.6,
+    "errors_pct_change": -60.4,
     "warns_pct_change": 25.8
   },
   "worst_hour": {

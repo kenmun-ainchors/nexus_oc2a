@@ -5765,3 +5765,26 @@ Step 3: Confirm both match → report to Ken
 - Windows sandbox USERPROFILE isolation
 - Media response body optimization
 - 100+ stability fixes
+
+## [CHG-0393] COMPLETE — OpenClaw v2026.5.12 Upgrade
+**Completed:** 2026-05-17 18:06 AEST
+**Pre-update version:** 2026.5.5 (b1abf9d)
+**Post-update version:** 2026.5.12 (f066dd2)
+**Downtime:** ~1 minute (gateway restart)
+**Issues encountered:**
+1. npm install initially failed due to version string format
+2. rm -rf accidentally deleted openclaw binary
+3. Emergency reinstall from npm succeeded
+4. Gateway restart loaded new version correctly
+**Post-validation:**
+- ✅ Version: 2026.5.12 (f066dd2)
+- ✅ Gateway: LaunchAgent loaded, running
+- ✅ Crons: 54 total, 29 healthy (25 waiting for next schedule)
+- ✅ Agents: All 12 on ollama/kimi-k2.6:cloud
+- ✅ Model policy: 6 allowed models, 0 Anthropic in whitelist
+- ✅ Config files: All intact
+- ✅ Anthropic: 3 provider definitions only (not active assignments)
+**Security fixes now active:**
+- CVE mitigation: env-var credential inference protection
+- macOS TLS trust enforcement
+- 100+ stability fixes

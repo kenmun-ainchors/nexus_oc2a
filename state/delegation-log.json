@@ -13022,10 +13022,20 @@
       "status": "pass",
       "latencyMs": 0,
       "notes": "warden check: INTERIM_PERIOD_ACTIVE (CHG-0349 Claude API credit depletion) \u2014 drift checks skipped per CHG-0362"
+    },
+    {
+      "ts": "2026-05-17T18:07:06+10:00",
+      "date": "2026-05-17",
+      "tier": "T2",
+      "taskType": "warden-check",
+      "model": "anthropic/claude-haiku-4-5",
+      "status": "pass",
+      "latencyMs": 0,
+      "notes": "warden check: INTERIM_PERIOD_ACTIVE (CHG-0349 Claude API credit depletion) \u2014 drift checks skipped per CHG-0362"
     }
   ],
   "summary": {
-    "total": 1302,
+    "total": 1303,
     "byTier": {
       "T1": {
         "pass": 0,
@@ -13033,7 +13043,7 @@
         "timeout": 0
       },
       "T2": {
-        "pass": 1185,
+        "pass": 1186,
         "fail": 108,
         "timeout": 0
       },
@@ -13051,7 +13061,7 @@
         "tier": "T2"
       },
       "warden-check": {
-        "pass": 1007,
+        "pass": 1008,
         "fail": 102,
         "timeout": 0,
         "tier": "T2"
@@ -13075,6 +13085,6 @@
         "tier": "T2"
       }
     },
-    "estimatedSavingsUSD": 5.9325
+    "estimatedSavingsUSD": 5.9375
   }
 }
