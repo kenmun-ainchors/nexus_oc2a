@@ -1,0 +1,783 @@
+{
+  "updatedAt": "2026-05-17T14:25:13.954300+10:00",
+  "updatedBy": "Yoda",
+  "sprint4": {
+    "count": 22,
+    "capacity": 8,
+    "items": [
+      {
+        "id": "TKT-0108",
+        "title": "Document Generation Pipeline \u2014 DOCX/XLSX/PPTX/PDF (Ahsoka Q1 blocker)",
+        "status": "in-progress",
+        "priority": "high",
+        "assignee": "Yoda",
+        "sprint": 4,
+        "notes": "Groomed 2026-05-14 Sprint 4 candidate. Decisions: (1) Placeholder templates now "
+      },
+      {
+        "id": "TKT-0110",
+        "title": "Process Documentation Framework \u2014 User Guides for Business Stream and Clients (incl. Angie + KL Team pilot)",
+        "status": "in-progress",
+        "priority": "medium",
+        "assignee": "Yoda",
+        "sprint": 4,
+        "notes": "2026-05-10: Activated. Lando to produce: (1) process doc template + style guide,"
+      },
+      {
+        "id": "TKT-0127",
+        "title": "Agentic Marketing Org Design \u2014 activate business stream marketing agents for Angie + KL team",
+        "status": "open",
+        "priority": "high",
+        "assignee": "Yoda",
+        "sprint": "None",
+        "notes": "HBR article content loaded 2026-05-10. Framework: 4-layer platform (Brand Code f"
+      },
+      {
+        "id": "TKT-0137",
+        "title": "AInchors Policy Register \u2014 formal policy library derived from Charter and Governance Framework",
+        "status": "in-progress",
+        "priority": "high",
+        "assignee": "Yoda",
+        "sprint": 4,
+        "notes": "AC1 complete 2026-05-12 \u2014 Gap Analysis approved by Ken. 24 gaps, 12 policies pro"
+      },
+      {
+        "id": "TKT-0150",
+        "title": "DR Playbook \u2014 full restore from fresh OpenClaw install to production state",
+        "status": "open",
+        "priority": "high",
+        "assignee": "Yoda",
+        "sprint": 4,
+        "notes": "AC ADD-ON: Google Drive offsite backup \u2014 DR playbook must include AC for uploadi"
+      },
+      {
+        "id": "TKT-0156",
+        "title": "S5 violation \u2014 hardcoded key in infra/auth-profiles.json",
+        "status": "closed",
+        "priority": "high",
+        "assignee": "TBD",
+        "sprint": 3,
+        "notes": "Hardcoded credential found in infra/auth-profiles.json. S5 control breach \u2014 all "
+      },
+      {
+        "id": "TKT-0157",
+        "title": "Human oversight process for governance tier agents (Shield, Lex, Sage)",
+        "status": "open",
+        "priority": "high",
+        "assignee": "TBD",
+        "sprint": null,
+        "notes": "DEC-013: governance agents (Shield, Lex, Sage, Warden) explicitly excluded from "
+      },
+      {
+        "id": "TKT-0158",
+        "title": "Scheduled integrity checks for cross-agent context files + P1-P4 HIVE design consideration",
+        "status": "open",
+        "priority": "high",
+        "assignee": "TBD",
+        "sprint": null,
+        "notes": "DEC-014 outcome: context-for-aria.md was missing, aria-daily-brief.md was 132h s"
+      },
+      {
+        "id": "TKT-0161",
+        "title": "Nexus Access Policy \u2014 Memory/Data/Files access mandate (foundational, Sprint 4 P0)",
+        "status": "closed",
+        "priority": "high",
+        "assignee": "TBD",
+        "sprint": 4,
+        "notes": "Ken directive 2026-05-12: Formalize comprehensive Nexus Operations Mandate cover"
+      },
+      {
+        "id": "TKT-0165",
+        "title": "Review + approve Digital_Transformation_Change_Management_Specialist_Agent_v1.md \u2014 DRAFT FOR REVIEW",
+        "status": "open",
+        "priority": "medium",
+        "assignee": "TBD",
+        "sprint": 4,
+        "notes": "DRAFT FOR REVIEW. Mon Mothma (DTCM) agent spec. No decision blockers. Ken to rev"
+      },
+      {
+        "id": "TKT-0167",
+        "title": "OD-01: Create state/access-violations.json + obs-collector ACCESS CHECK (Forge)",
+        "status": "open",
+        "priority": "high",
+        "assignee": "TBD",
+        "sprint": 4,
+        "notes": "OD-01 from Nexus-Access-Policy-v1.0.md approval. Forge to: (1) Create state/acce"
+      },
+      {
+        "id": "TKT-0168",
+        "title": "OD-05: Create Notion Access Violations DB + Forge sync for V0/V1 violations",
+        "status": "open",
+        "priority": "medium",
+        "assignee": "TBD",
+        "sprint": 4,
+        "notes": "OD-05 from Nexus-Access-Policy-v1.0.md approval. Create Notion DB for access vio"
+      },
+      {
+        "id": "TKT-0169",
+        "title": "Typed Agent Contracts \u2014 4 Cross-Agent Handoffs (TKT-0162 Phase 1, WP6)",
+        "status": "open",
+        "priority": "high",
+        "assignee": "Yoda",
+        "sprint": "None",
+        "notes": "Sprint 4 assignment (May 19-25, 2026). Expanded capacity: 8 items. Ken approved "
+      },
+      {
+        "id": "TKT-0178",
+        "title": "Routing Discipline Enforcement \u2014 audit + detection + routing gate",
+        "status": "open",
+        "priority": "medium",
+        "assignee": "Forge",
+        "sprint": null,
+        "notes": "Ken approved deferral 2026-05-15. Deferred post-Citadel. | Sub-tickets created 2"
+      },
+      {
+        "id": "TKT-0179",
+        "title": "ClawGuard security toolkit evaluation",
+        "status": "open",
+        "priority": "medium",
+        "assignee": "Shield",
+        "sprint": null,
+        "notes": "Deferred to P2 2026-05-15. | Ken approved Option B 2026-05-16 12:52 AEST: (1) En"
+      },
+      {
+        "id": "TKT-0182",
+        "title": "Explicit state checking pattern for bounded kimi/Gemma4 tasks \u2014 P2 research",
+        "status": "open",
+        "priority": "medium",
+        "assignee": "Thrawn",
+        "sprint": null,
+        "notes": "Linked to TKT-0134 Gemma4:31b trial follow-up. | Sprint 4 assignment (May 19-25,"
+      },
+      {
+        "id": "TKT-0196",
+        "title": "Three Work Types Rule + Work Currency Routing Table",
+        "status": "open",
+        "priority": "high",
+        "assignee": "Forge",
+        "sprint": 4,
+        "notes": "Sprint 4 committed. Renumbered from TKT-0165 collision. | Sprint 4 assignment (M"
+      },
+      {
+        "id": "TKT-0197",
+        "title": "Sources of Truth Register \u2014 10 Core Data Types",
+        "status": "open",
+        "priority": "high",
+        "assignee": "Atlas",
+        "sprint": 4,
+        "notes": "Sprint 4 committed. Renumbered from TKT-0166 collision. | Sprint 4 assignment (M"
+      },
+      {
+        "id": "TKT-0198",
+        "title": "JSON to Postgres Migration \u2014 Top 5 State Files",
+        "status": "open",
+        "priority": "high",
+        "assignee": "Forge",
+        "sprint": 6,
+        "notes": "Renumbered from TKT-0167 collision. | Sprint 4 assignment (May 19-25, 2026). Exp"
+      },
+      {
+        "id": "TKT-0199",
+        "title": "Postgres LISTEN/NOTIFY Event Bus",
+        "status": "open",
+        "priority": "high",
+        "assignee": "Forge",
+        "sprint": 6,
+        "notes": "Renumbered from TKT-0168 collision. | Sprint 4 assignment (May 19-25). Forge exe"
+      },
+      {
+        "id": "TKT-0199",
+        "title": "TKT-0178-a: Create audit-routing.sh \u2014 Routing Discipline Audit Script",
+        "status": "open",
+        "priority": "medium",
+        "assignee": "Yoda",
+        "sprint": "None",
+        "notes": "Sprint 4 assignment (May 19-25). Forge execution."
+      },
+      {
+        "id": "TKT-0200",
+        "title": "TKT-0178-b: Integrate audit-routing.sh with Warden violations",
+        "status": "open",
+        "priority": "medium",
+        "assignee": "Yoda",
+        "sprint": "None",
+        "notes": "Sprint 4 assignment (May 19-25). Forge execution."
+      }
+    ]
+  },
+  "sprint5": {
+    "count": 15,
+    "capacity": 8,
+    "status": "pre-assigned",
+    "items": [
+      {
+        "id": "TKT-0109",
+        "title": "Agile PM / Scrum Master / Agile Coach Agent \u2014 Design and Build",
+        "status": "open",
+        "priority": "medium",
+        "assignee": "Yoda",
+        "sprint": "None",
+        "notes": "Sprint 5 pre-assignment (May 26+). Review and confirm during Sprint 5 planning. "
+      },
+      {
+        "id": "TKT-0128",
+        "title": "Aria: expanded marketing orchestration mandate + Brand Code stewardship (P1)",
+        "status": "in-progress",
+        "priority": "high",
+        "assignee": "Yoda",
+        "sprint": 5,
+        "notes": "2026-05-10: Aria SOUL.md updated with marketing orchestration mandate (4,659 cha"
+      },
+      {
+        "id": "TKT-0129",
+        "title": "Luthen: Marketing Intelligence Agent \u2014 design and build (P2)",
+        "status": "open",
+        "priority": "medium",
+        "assignee": "Yoda",
+        "sprint": "None",
+        "notes": "Sprint 5 pre-assignment (May 26+). Review and confirm during Sprint 5 planning. "
+      },
+      {
+        "id": "TKT-0130",
+        "title": "QBR Agent Fleet Review \u2014 mandatory ceremony for mandate, role, scope and TOM optimization",
+        "status": "open",
+        "priority": "high",
+        "assignee": "Yoda",
+        "sprint": "None",
+        "notes": "2026-05-10: QBR ceremony includes mandatory version bump of SOUL.md, YODA_RULES."
+      },
+      {
+        "id": "TKT-0133",
+        "title": "EA: Observability Strategy & Tool Selection \u2014 OTel vs Dynatrace",
+        "status": "open",
+        "priority": "medium",
+        "assignee": "Yoda",
+        "sprint": "None",
+        "notes": "Sprint 5 pre-assignment (May 26+). Review and confirm during Sprint 5 planning. "
+      },
+      {
+        "id": "TKT-0139",
+        "title": "Consulting Product Portfolio \u2014 commercial offerings mapped to business stages, maturity and P2-P4 strategy",
+        "status": "open",
+        "priority": "high",
+        "assignee": "Yoda",
+        "sprint": "None",
+        "notes": "Bucket B \u2014 consulting enablement. S5-S6 target. Ahsoka drafts, Ken reviews. No b"
+      },
+      {
+        "id": "TKT-0143",
+        "title": "CLI-Anything strategic assessment \u2014 review Atlas EA and confirm adoption decision",
+        "status": "open",
+        "priority": "medium",
+        "assignee": "Yoda",
+        "sprint": "None",
+        "notes": "Sprint 5 pre-assignment (May 26+). Review and confirm during Sprint 5 planning. "
+      },
+      {
+        "id": "TKT-0148",
+        "title": "Extend TKT-0134 AC \u2014 best model by persona/use case for KL team + clients on Ollama Cloud; paid model approval workflow",
+        "status": "open",
+        "priority": "medium",
+        "assignee": "Yoda",
+        "sprint": "None",
+        "notes": "AC GROOMED 2026-05-11 with Ken. Objective: contain token-cost overrun. Ollama Cl"
+      },
+      {
+        "id": "TKT-0159",
+        "title": "Integrate Cisco Skill Scanner as SOP step 3b in skill installation process",
+        "status": "open",
+        "priority": "medium",
+        "assignee": "TBD",
+        "sprint": null,
+        "notes": "DEC-019: Pilot Cisco open-source Skill Scanner. Add as step 3b to audit-skill.sh"
+      },
+      {
+        "id": "TKT-0181",
+        "title": "Gemma4 fine-tuning research \u2014 P3 boundary",
+        "status": "open",
+        "priority": "medium",
+        "assignee": "Thrawn",
+        "sprint": null,
+        "notes": "P3 research item. LoRA/QLoRA on OC2. | Sprint 5 pre-assignment (May 26+). Review"
+      },
+      {
+        "id": "TKT-0188",
+        "title": "Platform Guardrails \u2014 Two-Tier Restructure + New Agent Activation DoD Gate",
+        "status": "open",
+        "priority": "high",
+        "assignee": "Thrawn",
+        "sprint": 5,
+        "notes": "Renumbered from TKT-0156 collision 2026-05-15. Groomed and committed to Sprint 5"
+      },
+      {
+        "id": "TKT-0190",
+        "title": "P2 Gate \u2014 6 Missing Governance Policies",
+        "status": "open",
+        "priority": "high",
+        "assignee": "Lex",
+        "sprint": null,
+        "notes": "Renumbered from TKT-0158 collision 2026-05-15. | Sprint 5 pre-assignment (May 26"
+      },
+      {
+        "id": "TKT-0201",
+        "title": "TKT-0178-c: Design routing-gate.sh \u2014 Pre-execution Routing Gate",
+        "status": "open",
+        "priority": "high",
+        "assignee": "Yoda",
+        "sprint": "None",
+        "notes": "Sprint 5 assignment. Thrawn/Forge/Sage execution."
+      },
+      {
+        "id": "TKT-0202",
+        "title": "TKT-0178-d: Implement routing-gate.sh \u2014 Production Routing Gate",
+        "status": "open",
+        "priority": "high",
+        "assignee": "Yoda",
+        "sprint": "None",
+        "notes": "Sprint 5 assignment. Thrawn/Forge/Sage execution."
+      },
+      {
+        "id": "TKT-0203",
+        "title": "TKT-0178-e: E2E test routing gate \u2014 LinkedIn content scenario",
+        "status": "open",
+        "priority": "medium",
+        "assignee": "Yoda",
+        "sprint": "None",
+        "notes": "Sprint 5 assignment. Thrawn/Forge/Sage execution."
+      }
+    ]
+  },
+  "backlog": {
+    "count": 28,
+    "items": [
+      {
+        "id": "TKT-0114",
+        "title": "AInchors\u2013[PLACEHOLDER] partnership agreement \u2014 BLOCKED pending name confirmation",
+        "status": "pending",
+        "priority": "high",
+        "assignee": "Yoda",
+        "sprint": "None",
+        "notes": " | \u26a0\ufe0f BLOCKED (Strategy-Gate 2026-05-12): Company name is PLACEHOLDER \u2014 Ken to c"
+      },
+      {
+        "id": "TKT-0115",
+        "title": "Register [PLACEHOLDER] Pty Ltd with ASIC \u2014 BLOCKED pending name confirmation",
+        "status": "pending",
+        "priority": "high",
+        "assignee": "Yoda",
+        "sprint": "None",
+        "notes": " | \u26a0\ufe0f BLOCKED (Strategy-Gate 2026-05-12): Company name is PLACEHOLDER \u2014 Ken to c"
+      },
+      {
+        "id": "TKT-0116",
+        "title": "Secure [PLACEHOLDER].ai domain \u2014 BLOCKED pending name confirmation",
+        "status": "pending",
+        "priority": "high",
+        "assignee": "Yoda",
+        "sprint": "None",
+        "notes": " | \u26a0\ufe0f BLOCKED (Strategy-Gate 2026-05-12): Company name is PLACEHOLDER \u2014 Ken to c"
+      },
+      {
+        "id": "TKT-0136",
+        "title": "AInchors Consulting Playbook \u2014 AI Transformation framework assets and IP library",
+        "status": "open",
+        "priority": "high",
+        "assignee": "Yoda",
+        "sprint": "None",
+        "notes": ""
+      },
+      {
+        "id": "TKT-0138",
+        "title": "Business Jumpstart \u2014 3-part client engagement pathway (Consulting Framework)",
+        "status": "open",
+        "priority": "high",
+        "assignee": "Yoda",
+        "sprint": "None",
+        "notes": ""
+      },
+      {
+        "id": "TKT-0151",
+        "title": "Agentic Development Framework \u2014 squad model, process model, Day 1 fixed + future ephemeral",
+        "status": "open",
+        "priority": "high",
+        "assignee": "Yoda",
+        "sprint": "None",
+        "notes": "AC ADD-ON (2026-05-11 Ken): Framework must address the following engineering con"
+      },
+      {
+        "id": "TKT-0152",
+        "title": "Agentic Testing Framework \u2014 squad model, process model, tech + business streams, Day 1 fixed + future ephemeral",
+        "status": "open",
+        "priority": "high",
+        "assignee": "Yoda",
+        "sprint": "None",
+        "notes": "AC ADD-ON (2026-05-11 Ken): Full Test Lifecycle must be covered. Framework must "
+      },
+      {
+        "id": "TKT-0163",
+        "title": "Review + approve ainchors-agile-framework-v1.md \u2014 DRAFT FOR REVIEW",
+        "status": "open",
+        "priority": "high",
+        "assignee": "TBD",
+        "sprint": 4,
+        "notes": "DRAFT FOR REVIEW. No decision blockers. Ken to read and approve. This is the AIn"
+      },
+      {
+        "id": "TKT-0164",
+        "title": "Review + approve aevlith-charter-addendum-draft.md \u2014 DRAFT FOR REVIEW",
+        "status": "open",
+        "priority": "high",
+        "assignee": "TBD",
+        "sprint": 4,
+        "notes": "DRAFT FOR REVIEW. Aevlith Technologies charter addendum. No decision blockers \u2014 "
+      },
+      {
+        "id": "TKT-0166",
+        "title": "Review + approve sandbox-runbook.md \u2014 DRAFT FOR REVIEW (ties to TKT-0135)",
+        "status": "open",
+        "priority": "high",
+        "assignee": "TBD",
+        "sprint": 4,
+        "notes": "DRAFT FOR REVIEW. Sandbox environment runbook \u2014 operational guide for TKT-0135 ("
+      },
+      {
+        "id": "TKT-0170",
+        "title": "PII Scanner on Document Ingestion Pipeline (TKT-0162 Phase 1, WP7)",
+        "status": "open",
+        "priority": "high",
+        "assignee": "Yoda",
+        "sprint": "None",
+        "notes": ""
+      },
+      {
+        "id": "TKT-0171",
+        "title": "pgvector + nomic-embed-text RAG Pipeline \u2014 Initial Knowledge Base (TKT-0162 Phase 1, WP8)",
+        "status": "open",
+        "priority": "high",
+        "assignee": "Yoda",
+        "sprint": "None",
+        "notes": ""
+      },
+      {
+        "id": "TKT-0187",
+        "title": "Cloudflare Tunnel \u2014 MinIO + OpenClaw Webchat MVP Access",
+        "status": "pending",
+        "priority": "high",
+        "assignee": "Forge",
+        "sprint": 4,
+        "notes": "Renumbered from TKT-0155 collision 2026-05-15. TKT-0155 now BLOCKED pending this"
+      },
+      {
+        "id": "TKT-0195",
+        "title": "Postgres Deploy + 5-Tier Schema on OC1",
+        "status": "open",
+        "priority": "high",
+        "assignee": "Forge",
+        "sprint": 5,
+        "notes": "Critical path for Option B Phase 1. Renumbered from TKT-0164 collision."
+      },
+      {
+        "id": "TKT-0107",
+        "title": "Agent Governance \u2014 Squad Model (Tier 5+): Ephemeral Dev/Delivery Squads",
+        "status": "open",
+        "priority": "medium",
+        "assignee": "Yoda",
+        "sprint": "None",
+        "notes": ""
+      },
+      {
+        "id": "TKT-0117",
+        "title": "Secure [PLACEHOLDER].com.au domain \u2014 BLOCKED pending name confirmation",
+        "status": "pending",
+        "priority": "medium",
+        "assignee": "Yoda",
+        "sprint": "None",
+        "notes": " | \u26a0\ufe0f BLOCKED (Strategy-Gate 2026-05-12): Company name is PLACEHOLDER \u2014 Ken to c"
+      },
+      {
+        "id": "TKT-0118",
+        "title": "Secure [PLACEHOLDER].com domain \u2014 BLOCKED pending name confirmation",
+        "status": "pending",
+        "priority": "medium",
+        "assignee": "Yoda",
+        "sprint": "None",
+        "notes": " | \u26a0\ufe0f BLOCKED (Strategy-Gate 2026-05-12): Company name is PLACEHOLDER \u2014 Ken to c"
+      },
+      {
+        "id": "TKT-0119",
+        "title": "IP Australia trademark filing \u2014 BLOCKED pending name confirmation",
+        "status": "pending",
+        "priority": "medium",
+        "assignee": "Yoda",
+        "sprint": "None",
+        "notes": " | \u26a0\ufe0f BLOCKED (Strategy-Gate 2026-05-12): Company name is PLACEHOLDER \u2014 Ken to c"
+      },
+      {
+        "id": "TKT-0122",
+        "title": "Spark: LinkedIn image generation via ComfyUI + Flux.1-schnell local on OC1 (fallback/upgrade)",
+        "status": "open",
+        "priority": "low",
+        "assignee": "Yoda",
+        "sprint": "None",
+        "notes": ""
+      },
+      {
+        "id": "TKT-0131",
+        "title": "Review task log and tracker \u2014 completeness, accuracy, gaps",
+        "status": "open",
+        "priority": "medium",
+        "assignee": "Yoda",
+        "sprint": "None",
+        "notes": ""
+      },
+      {
+        "id": "TKT-0132",
+        "title": "Review cost and ROI log and tracker \u2014 accuracy, coverage, insights",
+        "status": "open",
+        "priority": "medium",
+        "assignee": "Yoda",
+        "sprint": "None",
+        "notes": ""
+      },
+      {
+        "id": "TKT-0134",
+        "title": "Model strategy review \u2014 Gemma4:31b-cloud pilot results + OC2-gated capability unblock assessment",
+        "status": "open",
+        "priority": "medium",
+        "assignee": "Yoda",
+        "sprint": "None",
+        "notes": "Re-opened: closed in error 2026-05-12. OC2-gated. Review at TRIGGER-03."
+      },
+      {
+        "id": "TKT-0147",
+        "title": "TOM specialist agent gap analysis \u2014 consulting and training stream",
+        "status": "open",
+        "priority": "medium",
+        "assignee": "Yoda",
+        "sprint": "None",
+        "notes": ""
+      },
+      {
+        "id": "TKT-0149",
+        "title": "Aria MD gap analysis \u2014 update Aria SOUL.md/RULES.md taking cue from Yoda CHG-0271/0272",
+        "status": "open",
+        "priority": "medium",
+        "assignee": "Yoda",
+        "sprint": "None",
+        "notes": ""
+      },
+      {
+        "id": "TKT-0176",
+        "title": "Tech Stream ROI Framework \u2014 design, groom and populate",
+        "status": "open",
+        "priority": "medium",
+        "assignee": "Yoda",
+        "sprint": 4,
+        "notes": ""
+      },
+      {
+        "id": "TKT-0186",
+        "title": "LinkedIn: Fix token refresh + add comment/metrics fetching",
+        "status": "open",
+        "priority": "medium",
+        "assignee": "Forge",
+        "sprint": null,
+        "notes": "Renumbered from TKT-0154 collision 2026-05-15."
+      },
+      {
+        "id": "TKT-0189",
+        "title": "Nexus Client Isolation Policy v1.0 \u2014 Patch stale references",
+        "status": "open",
+        "priority": "medium",
+        "assignee": "Lex",
+        "sprint": null,
+        "notes": "Renumbered from TKT-0157 collision 2026-05-15."
+      },
+      {
+        "id": "TKT-0191",
+        "title": "Sandbox Runbook v1 \u2014 Ken Formal Review",
+        "status": "open",
+        "priority": "medium",
+        "assignee": "Yoda",
+        "sprint": null,
+        "notes": "Renumbered from TKT-0159 collision 2026-05-15."
+      }
+    ]
+  },
+  "cancelled": {
+    "count": 19,
+    "items": [
+      {
+        "id": "TKT-0111",
+        "title": "Angie Agile + Nexus Working Guide \u2014 Delivered via Aria",
+        "status": "closed",
+        "priority": "medium",
+        "assignee": "Yoda",
+        "sprint": "None",
+        "notes": "LINKED to TKT-0110 programme. KL Team Onboarding + Agile Working Guide is Phase "
+      },
+      {
+        "id": "TKT-0120",
+        "title": "RustDesk self-hosted server on OC1 \u2014 direct P2P via LAN + Tailscale",
+        "status": "closed",
+        "priority": "high",
+        "assignee": "Yoda",
+        "sprint": "None",
+        "notes": ""
+      },
+      {
+        "id": "TKT-0141",
+        "title": "Security: CLI-Anything supply chain risk \u2014 agent integration layer poisoning via auto-generated SKILL.md",
+        "status": "closed",
+        "priority": "high",
+        "assignee": "Yoda",
+        "sprint": 3,
+        "notes": "2026-05-10 17:39 Ken: Atlas to assess CLI-Anything as a potential component for "
+      },
+      {
+        "id": "TKT-0142",
+        "title": "Security: SKILL.md poisoning \u2014 formal skill review process + audit of existing custom skills",
+        "status": "closed",
+        "priority": "high",
+        "assignee": "Yoda",
+        "sprint": 3,
+        "notes": "2026-05-10: Skill Installation Policy v1.0 written (docs/Skill-Installation-Poli"
+      },
+      {
+        "id": "TKT-0145",
+        "title": "Token Burn Retro \u2014 audit all crons/agents for unnecessary context, optimise",
+        "status": "closed",
+        "priority": "medium",
+        "assignee": "Yoda",
+        "sprint": "None",
+        "notes": "Superseded by TKT-0144 Cycle 1 (2026-05-11). Cycle 1 audit covered all 53 platfo"
+      },
+      {
+        "id": "TKT-0153",
+        "title": "Semantic Memory Store \u2014 Vector/JSON memory on MinIO (Option D)",
+        "status": "closed",
+        "priority": "high",
+        "assignee": "Yoda",
+        "sprint": "None",
+        "notes": ""
+      },
+      {
+        "id": "TKT-0154",
+        "title": "CI Cycle A timeout \u2014 reduce scope / split batch to fix consecutiveErrors=2",
+        "status": "closed",
+        "priority": "medium",
+        "assignee": "TBD",
+        "sprint": 3,
+        "notes": "CI Cycle A cron (3ec512f3) timing out at 600s with consecutiveErrors=2. Runs 4 s"
+      },
+      {
+        "id": "TKT-0160",
+        "title": "Deploy Cloudflare Tunnel \u2014 MinIO + OpenClaw webchat (chat.ainchors.com)",
+        "status": "closed",
+        "priority": "high",
+        "assignee": "TBD",
+        "sprint": null,
+        "notes": "EA-Addendum approved 2026-05-12. Decisions: D1=1B (MinIO API/console + OpenClaw "
+      },
+      {
+        "id": "TKT-0162",
+        "title": "Review + approve Yoda_ORCHESTRATOR.md and Yoda_RULES.md \u2014 DRAFT FOR REVIEW",
+        "status": "closed",
+        "priority": "high",
+        "assignee": "TBD",
+        "sprint": 4,
+        "notes": "Both docs are DRAFT FOR REVIEW. No decision blockers. Ken to read and approve. I"
+      },
+      {
+        "id": "TKT-0172",
+        "title": "Aevlith Technology Strategy & Roadmap \u2014 Doc 1a (Internal) + 1b (External)",
+        "status": "closed",
+        "priority": "high",
+        "assignee": "Yoda",
+        "sprint": "None",
+        "notes": ""
+      },
+      {
+        "id": "TKT-0173",
+        "title": "Nexus System Architecture Document \u2014 Full Stack, Current + Target State",
+        "status": "closed",
+        "priority": "high",
+        "assignee": "Yoda",
+        "sprint": "None",
+        "notes": ""
+      },
+      {
+        "id": "TKT-0174",
+        "title": "Gateway hygiene: Mission Control 5\u219215min, weekly restart, stale task cleanup",
+        "status": "closed",
+        "priority": "medium",
+        "assignee": "Yoda",
+        "sprint": "None",
+        "notes": ""
+      },
+      {
+        "id": "TKT-0180",
+        "title": "audit-skill.sh v2 \u2014 5 new semantic checks",
+        "status": "closed",
+        "priority": "medium",
+        "assignee": "Forge",
+        "sprint": 4,
+        "notes": ""
+      },
+      {
+        "id": "TKT-0183",
+        "title": "tickets.json deduplication \u2014 fix 14 colliding ticket IDs",
+        "status": "closed",
+        "priority": "high",
+        "assignee": "Forge",
+        "sprint": null,
+        "notes": ""
+      },
+      {
+        "id": "TKT-0184",
+        "title": "Investigate OpenClaw native session binding \u2014 Telegram to main session (Option D)",
+        "status": "closed",
+        "priority": "medium",
+        "assignee": "Thrawn",
+        "sprint": null,
+        "notes": ""
+      },
+      {
+        "id": "TKT-0185",
+        "title": "LinkedIn queue consolidation \u2014 single SSOT at workspace/state/linkedin-queue.json",
+        "status": "closed",
+        "priority": "high",
+        "assignee": "Forge",
+        "sprint": 3,
+        "notes": ""
+      },
+      {
+        "id": "TKT-0192",
+        "title": "Yoda Channel Discipline \u2014 Minimal Fix for Sprint 3",
+        "status": "closed",
+        "priority": "high",
+        "assignee": "Yoda",
+        "sprint": 3,
+        "notes": ""
+      },
+      {
+        "id": "TKT-0193",
+        "title": "Option Paper: Nexus Platform Architecture Direction",
+        "status": "closed",
+        "priority": "high",
+        "assignee": "Yoda",
+        "sprint": null,
+        "notes": ""
+      },
+      {
+        "id": "TKT-0194",
+        "title": "Standup Email: Email-Safe HTML Template (Gmail Rendering Fix)",
+        "status": "closed",
+        "priority": "medium",
+        "assignee": "Forge",
+        "sprint": null,
+        "notes": "Renumbered from TKT-0163 collision 2026-05-15. | CANCELLED per Ken directive 202"
+      }
+    ]
+  }
+}

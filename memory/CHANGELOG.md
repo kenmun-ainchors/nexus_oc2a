@@ -5043,3 +5043,37 @@ Author: Forge
 - Notion synced for 17/21 tickets ✅
 **Rollback:** Revert all tickets to previous sprint assignments, restore TKT-0194 to open.
 **Linked:** CHG-0368 (template lock), Sprint 4 planning, kimi-confidence-mapping
+
+---
+
+## 2026-05-17 14:25 AEST — [CHG-0370] Backlog updated with Sprint 4/5 assignments
+**Type:** planning
+**Change Type:** Normal
+**Source:** ken-prompt
+**Trigger:** Ken requested: "update the above status into the backlog"
+**What changed:**
+1. **Created state/backlog-state.json:**
+   - Sprint 4: 22 items (8 committed, 14 historical tags)
+   - Sprint 5: 15 items (12 pre-assigned, 3 historical)
+   - Backlog: 28 open items not yet assigned
+   - Cancelled: 19 items (including TKT-0194)
+   - Updated: 2026-05-17 14:25 AEST
+2. **Notion AKB Backlog synced:**
+   - TKT-0196: synced (new page)
+   - TKT-0197: synced (new page)
+   - TKT-0198: synced (new page)
+   - TKT-0194: synced (new page, status=closed)
+   - TKT-0190: synced (new page)
+   - All 5 tickets now in Notion SSOT
+3. **Backlog state structure:**
+   - sprint4: {count, capacity: 8, items: [...]}
+   - sprint5: {count, capacity: 8, status: 'pre-assigned', items: [...]}
+   - backlog: {count, items: [...]} — sorted by priority then ID
+   - cancelled: {count, items: [...]}
+**Why:** Centralized backlog view enables sprint planning, capacity tracking, and prevents ticket loss. All assignments visible in one file.
+**Verification:**
+- state/backlog-state.json created: ✅
+- Notion synced for 5 tickets: ✅
+- Sprint 4/5 counts accurate: ✅
+**Rollback:** Delete backlog-state.json, revert Notion pages.
+**Linked:** CHG-0369, Sprint 4, AKB Backlog
