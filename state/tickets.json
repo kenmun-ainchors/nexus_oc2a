@@ -1,7 +1,7 @@
 {
   "schema_version": "1.0",
-  "sequence": 228,
-  "lastUpdated": "2026-05-17T18:43:12.580283",
+  "sequence": 229,
+  "lastUpdated": "2026-05-17T18:44:39.316830",
   "source": "notion-akb-backlog-rebuild",
   "ticketCount": 214,
   "changeCount": 250,
@@ -2377,6 +2377,24 @@
       ],
       "linkedLessons": [
         "L-039"
+      ]
+    },
+    {
+      "id": "TKT-0229",
+      "sequence": 229,
+      "title": "[TKT-0229] Fix ticket.sh JSON write corruption in tickets.json",
+      "type": "bug",
+      "priority": "critical",
+      "status": "open",
+      "createdAt": "2026-05-17T18:44:39.316820",
+      "createdBy": "yoda",
+      "description": "CRITICAL BUG: ticket.sh corrupts tickets.json during ticket creation, reducing file to 1 byte.\n\nINCIDENTS:\n1. 2026-05-17 18:31 \u2014 Corrupted during upgrade operations\n2. 2026-05-17 18:42 \u2014 Corrupted during TKT-0228 creation\n\nSYMPTOMS:\n- After ticket.sh new, tickets.json becomes 1 byte (empty/corrupted)\n- JSON parse fails: Expecting value at line 2 column 1\n- All tickets lost locally (Notion sync may partially work)\n\nROOT CAUSE ANALYSIS NEEDED:\n- ticket.sh write path uses jq for JSON manipulation\n- jq parse error: Invalid string with control characters (U+0000 through U+001F)\n- Likely: description text with newlines/control chars not escaped properly before jq processing\n- Or: concurrent write race condition\n\nSCOPE:\n1. Debug ticket.sh write logic\n   - Trace exact command that corrupts file\n   - Test with controlled inputs\n   - Identify if jq or shell redirection is the failure point\n\n2. Implement atomic write pattern\n   - Write to temp file first\n   - Validate JSON before replacing original\n   - Use fsync + rename for atomicity\n   - See TKT-0230 (Atomic Write Pattern) for reference implementation\n\n3. Add write validation\n   - After any write, immediately read back and verify JSON validity\n   - If invalid, restore from backup and retry\n   - Log failure with context\n\n4. Regression testing\n   - Test ticket creation with various description lengths\n   - Test with special characters, newlines, unicode\n   - Test rapid sequential creations\n   - Verify no corruption after 10 consecutive creations\n\nACCEPTANCE CRITERIA:\n- [ ] Root cause identified and documented\n- [ ] Atomic write pattern implemented in ticket.sh\n- [ ] Write validation added (read-back verify)\n- [ ] 10 consecutive ticket creations without corruption\n- [ ] Special character/newline handling tested\n- [ ] Rollback mechanism documented\n\nDEPENDENCIES:\n- TKT-0230: Atomic Write Pattern (reference implementation)\n- CHG-0395: tickets.json rebuild (context for corruption)\n\nSPRINT: S4 (immediate \u2014 blocks all ticket operations)",
+      "sprint": "S4",
+      "linkedChgs": [
+        "CHG-0395"
+      ],
+      "linkedTkts": [
+        "TKT-0230"
       ]
     }
   ],
