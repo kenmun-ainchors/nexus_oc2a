@@ -5431,3 +5431,25 @@ Author: Forge
 - Batch sync to Notion in progress: ✅
 - RULES.md updated with Registry rule: ✅
 **Linked:** CHG-0380, CHG-0379, CHG-0377, L-037, L-038, KIMI MANDATE
+
+---
+
+## 2026-05-17 16:11 AEST — [CHG-0382] Lessons Registry page fully updated (L-029 to L-035)
+**Type:** fix
+**Source:** ken-directive (openclaw-control-ui)
+**Trigger:** Ken: "what happened to L-029 to L-035? it's still not in the registry"
+**What changed:**
+1. **INVESTIGATION:** Found L-029 to L-033 did NOT have pages in Notion at all
+2. **FOUND:** L-034 and L-035 had pages but were NOT on the Registry page
+3. **IMMEDIATE FIX:**
+   - Created pages for L-029, L-030, L-031, L-032, L-033
+   - Added all 7 missing lessons (L-029 to L-035) to Registry page
+4. **VERIFICATION:** Registry page now shows L-001 through L-038 (all 38 lessons)
+**Root cause:**
+- Lessons were in LESSONS.md but never synced to Notion pages
+- Existing pages (L-034, L-035) were not linked on Registry page
+- Registry page was incomplete
+**Verification:**
+- 7 missing lessons added to page: ✅
+- Registry now complete L-001 to L-038: ✅
+**Linked:** CHG-0381, CHG-0380, L-037, L-038
