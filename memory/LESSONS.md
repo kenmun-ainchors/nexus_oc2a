@@ -257,3 +257,21 @@
 - `state/notion-audit-report.json` — stores last audit results
 
 **Linked:** L-034 (JSON structure drift), CHG-0370, CHG-0371, AKB Backlog
+
+## L-036 — KIMI PLATFORM MANDATE: All execution on kimi, DoD = verified execution (2026-05-17)
+**Lesson:** Ken mandated that ALL platform execution uses kimi (`ollama/kimi-k2.6:cloud`) as the primary model. This is non-negotiable, mandatory, and persistent until Ken explicitly lifts it. The Definition of Done (DoD) requires that work is actually verified as executed correctly — not just planned, described, or assumed complete.
+**Rule:**
+1. ALL agents: kimi primary, NO exceptions without Ken's explicit per-task approval
+2. ALL crons: kimi ONLY — no Anthropic models in cron payloads
+3. ALL sub-agents: kimi primary with safety net
+4. DoD = Verified Execution: file confirmed, commit confirmed, API response confirmed, state valid
+5. Planning ≠ Execution ≠ Completion. Only verified completion counts.
+**Enforcement:**
+- Warden 15-min check: verify all agents on kimi
+- CI/CD gate: block PRs with non-kimi model configs
+- Agent self-check: "Am I on kimi? Did I verify the result?"
+**Exceptions:** Sonnet ONLY for: critical security review, client-facing content, complex multi-ticket routing, CHG decisions — ALL require Ken explicit per-task approval + CHG entry.
+**Deactivation keyword:** `KIMI MANDATE LIFTED` (Ken only)
+**Source:** Ken mandated via WebChat 2026-05-17 15:17 AEST.
+**Impact:** All work now routed through kimi. Cost reduction, consistent execution model, enforced verification discipline.
+**Linked:** CHG-0373, RULES.md, L-035, Conservative Mode

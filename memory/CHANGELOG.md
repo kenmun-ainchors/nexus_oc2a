@@ -5162,3 +5162,41 @@ Author: Forge
 - Modify ticket.sh create function with existence check
 - Update Sprint Review ceremony docs
 **Linked:** L-035, CHG-0371, AKB Backlog
+
+---
+
+## 2026-05-17 15:17 AEST — [CHG-0373] KIMI PLATFORM MANDATE — All execution on kimi, DoD = verified execution
+**Type:** policy
+**Change Type:** Emergency (non-negotiable, persistent)
+**Source:** ken-directive
+**Trigger:** Ken mandated via WebChat 2026-05-17 15:17 AEST: "create rule for running kimi as model across the platform. mandatory and non-negotiable, persist indefinitely. DoD is when committed work done/executed is actually verified executed and done correctly to be considered complete"
+**What changed:**
+1. **Created RULES.md — KIMI PLATFORM MANDATE:**
+   - ALL agents: kimi primary (ollama/kimi-k2.6:cloud)
+   - ALL crons: kimi ONLY
+   - ALL sub-agents: kimi primary with safety net
+   - ALL channels: kimi default
+   - NO exceptions without Ken explicit per-task approval + CHG entry
+2. **Definition of Done (DoD) defined:**
+   - Executed correctly (actual work performed, not planned)
+   - Verified by tool (file read, git log, API response)
+   - State validated (JSON parses, no syntax errors)
+   - Observable output (file, commit, Notion page, URL)
+   - Ken confirmation for critical work
+3. **Enforcement mechanisms:**
+   - Warden 15-min check: verify all agents on kimi
+   - CI/CD gate: block non-kimi model config changes
+   - Agent self-check: "Am I on kimi? Did I verify?"
+4. **Exceptions documented:**
+   - Sonnet for: security review, client content, multi-ticket routing, CHG decisions
+   - ALL require Ken explicit approval + CHG entry
+5. **Persistent until:** Ken issues `KIMI MANDATE LIFTED` keyword
+**Why:** Ken wants consistent, cost-effective execution across the platform with enforced verification discipline. Eliminates "planning = completion" anti-pattern.
+**Verification:**
+- RULES.md created: ✅
+- L-036 logged: ✅
+- CHG-0373 logged: ✅
+- All agents currently on kimi: ✅
+- All crons on kimi (except governance crons pending update): ✅
+**Rollback:** Delete RULES.md, log CHG for rollback, reactivate prior model policy.
+**Linked:** CHG-0372 (Notion audit), L-035, Conservative Mode, CHG-0349
