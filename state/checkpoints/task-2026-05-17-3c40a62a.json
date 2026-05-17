@@ -1,0 +1,20 @@
+{
+  "schema": "checkpoint-v1",
+  "taskId": "task-2026-05-17-3c40a62a",
+  "currentAtom": 1,
+  "atoms": [
+    {
+      "id": 1,
+      "description": "Atom A",
+      "status": "complete",
+      "completedAt": "2026-05-17T17:25:21.924838",
+      "result": "{\"result\":\"atomic write test\"}}"
+    },
+    {
+      "id": 2,
+      "description": "Atom B",
+      "status": "pending"
+    }
+  ],
+  "lastUpdated": "2026-05-17T17:25:21.924846"
+}

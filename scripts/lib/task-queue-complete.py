@@ -1,4 +1,8 @@
-import json, datetime, sys
+import json, datetime, sys, os
+
+# Import atomic write helper
+sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+from atomic_write import atomic_write_json
 
 QUEUE_FILE = sys.argv[1]
 CHECKPOINT_DIR = sys.argv[2]
@@ -27,8 +31,10 @@ for t in queue.get('tasks', []):
         t['updatedAt'] = datetime.datetime.now().isoformat()
         queue['lastUpdated'] = datetime.datetime.now().isoformat()
         
-        with open(QUEUE_FILE, 'w') as f:
-            json.dump(queue, f, indent=2)
+        # Atomic write queue file
+        if not atomic_write_json(QUEUE_FILE, queue):
+            print(f"ERROR: Failed to write queue file", file=sys.stderr)
+            sys.exit(1)
         
         # Update checkpoint
         try:
@@ -43,8 +49,12 @@ for t in queue.get('tasks', []):
                     except:
                         a['result'] = RESULT
             cp['lastUpdated'] = datetime.datetime.now().isoformat()
-            with open(f"{CHECKPOINT_DIR}/{TASK_ID}.json", 'w') as f:
-                json.dump(cp, f, indent=2)
+            
+            # Atomic write checkpoint file
+            cp_path = f"{CHECKPOINT_DIR}/{TASK_ID}.json"
+            if not atomic_write_json(cp_path, cp):
+                print(f"ERROR: Failed to write checkpoint file", file=sys.stderr)
+                sys.exit(1)
         except:
             pass
         

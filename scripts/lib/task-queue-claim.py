@@ -1,4 +1,8 @@
-import json, datetime, sys
+import json, datetime, sys, os
+
+# Import atomic write helper
+sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+from atomic_write import atomic_write_json
 
 with open(sys.argv[1]) as f:
     queue = json.load(f)
@@ -14,8 +18,11 @@ for t in queue.get('tasks', []):
         t['updatedAt'] = datetime.datetime.now().isoformat()
         
         queue['lastUpdated'] = datetime.datetime.now().isoformat()
-        with open(sys.argv[1], 'w') as f:
-            json.dump(queue, f, indent=2)
+        
+        # Atomic write queue file
+        if not atomic_write_json(sys.argv[1], queue):
+            print(f"ERROR: Failed to write queue file", file=sys.stderr)
+            sys.exit(1)
         
         print(f"Claimed: {t['id']} | {t['title'][:40]}... | Atoms: {len(t.get('atoms', []))}")
         break
