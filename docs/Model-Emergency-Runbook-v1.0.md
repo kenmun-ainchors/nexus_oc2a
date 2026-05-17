@@ -174,6 +174,7 @@ openclaw gateway restart
 | False positives from weaker models | Conservative mode: ask before acting |
 | Cost tracking gaps | Forge cost tracker (TKT-0175) |
 | **Cron explicit model override** | **See Section 7A — MUST update cron payloads, not just agent config** |
+| **Model policy whitelist** | **See Section 7B — MUST remove Anthropic from globalAllowedModels** |
 
 ---
 
@@ -239,6 +240,85 @@ CHG-0363 only updated **failed** Anthropic crons. Crons that hadn't failed yet (
 - CHG-0391: All 12 Anthropic crons switched to kimi (2026-05-17)
 - CHG-0363: Cron interim model batch update
 - CHG-0373: KIMI PLATFORM MANDATE
+
+---
+
+## 7B. Model Policy Whitelist — Remove Anthropic During Interim
+
+### The Problem
+
+`model-policy.json` has a `globalAllowedModels` whitelist. If Anthropic models remain in this list during interim period:
+- Agents could theoretically switch back to Anthropic if API key is restored
+- Bypasses the CLAUDE RESTORE keyword requirement
+- Violates KIMI MANDATE (CHG-0373)
+
+### The Rule
+
+> **During interim period: Remove ALL Anthropic models from `globalAllowedModels`. Re-add ONLY when Ken issues CLAUDE RESTORE.**
+
+### Procedure
+
+**Step 1: Check current whitelist**
+```bash
+cat /Users/ainchorsangiefpl/.openclaw/workspace/state/model-policy.json | \
+  python3 -c "import json,sys; d=json.load(sys.stdin); print(d['globalAllowedModels'])"
+```
+
+**Step 2: Remove Anthropic models**
+```bash
+# Edit model-policy.json — remove these lines:
+#   "anthropic/claude-sonnet-4-6",
+#   "anthropic/claude-haiku-4-5",
+#   "anthropic/claude-opus-4-7",
+```
+
+**Step 3: Update metadata**
+```json
+"lastUpdated": "[today]",
+"approvalContext": "Interim period — Anthropic models removed per KIMI MANDATE (CHG-0373). CLAUDE RESTORE will re-add.",
+"_interimNote": "Anthropic models removed during CHG-0349 interim. Will restore on CLAUDE RESTORE."
+```
+
+**Step 4: Verify**
+```bash
+cat /Users/ainchorsangiefpl/.openclaw/workspace/state/model-policy.json | \
+  python3 -c "import json,sys; d=json.load(sys.stdin); \
+  print('Anthropic in whitelist:', any('anthropic' in m for m in d['globalAllowedModels']))"
+# Should print: False
+```
+
+### What to Keep
+
+| File | Keep Anthropic refs? | Why |
+|------|----------------------|-----|
+| `model-policy.json` agents.* configs | ✅ Yes | Shows original models for restoration |
+| `claude-restore-config.json` | ✅ Yes | Full restoration snapshot |
+| Cost tracker pricing | ✅ Yes | Historical data |
+| API monitoring scripts | ✅ Yes | Need to detect Anthropic recovery |
+
+### What to Remove
+
+| File | Remove Anthropic refs? | Why |
+|------|------------------------|-----|
+| `globalAllowedModels` | ✅ **YES** | Prevents accidental use |
+| Active cron payloads | ✅ **YES** | Already done in Section 7A |
+| Agent active configs | ✅ **YES** | Already done in Step 3 |
+
+### Verification Checklist
+
+- [ ] `globalAllowedModels` contains 0 Anthropic entries
+- [ ] `lastUpdated` timestamp is today
+- [ ] `approvalContext` documents interim removal
+- [ ] `_interimNote` field added
+- [ ] CHG logged for the change
+- [ ] Warden skip flag is set (Warden skips drift checks during interim)
+
+### Related
+
+- CHG-0391: All Anthropic crons switched to kimi
+- CHG-0392: Anthropic removed from model whitelist (this CHG)
+- CHG-0373: KIMI PLATFORM MANDATE
+- CHG-0349: Conservative Mode activation
 
 ---
 
