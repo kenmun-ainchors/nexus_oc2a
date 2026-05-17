@@ -4973,3 +4973,30 @@ Author: Forge
 - Library referenced in Activation/Deactivation steps: ✅
 **Rollback:** Remove library, revert scripts to hardcoded interim checks.
 **Linked:** CHG-0366, CHG-0362, CHG-0363, CHG-0349, Conservative Mode
+
+---
+
+## 2026-05-17 14:00 AEST — [CHG-0368] EOD Journal, Daily Blog, Morning Standup — templates LOCKED
+**Type:** process
+**Change Type:** Normal
+**Source:** ken-prompt
+**Trigger:** Ken confirmed via WebChat 2026-05-17 14:00 AEST: "eod journal and blog yesterday reviewed and validated. including standup email this morning. all looking really good. confirmed and lock all 3 in as the final templates and format"
+**What changed:**
+1. **Created state/template-lock.json:**
+   - EOD Journal: memory/journal-YYYY-MM-DD.md — Markdown, timestamped, verbatim prompts, CHG refs
+   - Daily Blog: canvas/documents/ainchors-YYYY-MM-DD/index.html — HTML, embedded CSS, narrative
+   - Morning Standup: canvas/documents/standup-daily/index.html — HTML email-safe, agenda + pulse
+   - All 3 marked status: locked
+   - Locked by: Ken Mun, 2026-05-17 14:00 AEST
+2. **Cron configurations validated:**
+   - Journal cron: 4d926b2c — runs 23:55 AEST, writes to memory/
+   - Blog cron: a027fd60 — runs 00:05 AEST, writes to canvas/
+   - Standup cron: 3c279099 — runs 08:00 AEST, two-step write, Telegram + email
+3. **Lock rule:** Any changes to templates require Ken approval + CHG entry.
+**Why:** After 23 days of iteration, Ken confirmed all 3 templates meet quality bar. Locking prevents accidental drift and establishes them as AInchors operating standard.
+**Verification:**
+- state/template-lock.json created: ✅
+- All 3 templates documented with cron IDs: ✅
+- Lock timestamp and approver recorded: ✅
+**Rollback:** Remove template-lock.json, revert to uncontrolled template iteration.
+**Linked:** CHG-0355 (standup two-step write), CHG-0353 (journal format), CHG-0290 (blog canvas), CHG-0232 (auto-reload)
