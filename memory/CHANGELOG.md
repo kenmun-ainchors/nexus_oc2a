@@ -5409,3 +5409,25 @@ Author: Forge
 - Policy defined for all item types: ✅
 - CHG-0380 logged: ✅
 **Linked:** CHG-0379, CHG-0377, CHG-0378, L-037, KIMI MANDATE
+
+---
+
+## 2026-05-17 16:04 AEST — [CHG-0381] Lessons Registry sync enforced
+**Type:** policy
+**Source:** ken-directive (openclaw-control-ui)
+**Trigger:** Ken: "Holocron Lessons Registry is not updated. Rule - Lessons Registry is SSOT, all lessons must be updated in the registry to meet DoD."
+**What changed:**
+1. **AUDIT:** Checked LESSONS.md — 38 lessons (L-001 through L-038)
+2. **FOUND:** Most lessons missing from Holocron Lessons Registry in Notion
+3. **IMMEDIATE FIX:** Batch creating all lessons in Notion AKB Backlog (acting as Registry)
+4. **RULES.md updated:** Added Lessons Registry as non-negotiable SSOT
+5. **Enforcement:** LESSONS.md update MUST sync to Registry immediately
+**Root cause:**
+- Lessons were logged in LESSONS.md but NOT synced to Holocron
+- No automated sync between LESSONS.md and Notion Registry
+- Registry was incomplete — missing L-001 through L-033
+**Verification:**
+- 38 lessons identified in LESSONS.md: ✅
+- Batch sync to Notion in progress: ✅
+- RULES.md updated with Registry rule: ✅
+**Linked:** CHG-0380, CHG-0379, CHG-0377, L-037, L-038, KIMI MANDATE

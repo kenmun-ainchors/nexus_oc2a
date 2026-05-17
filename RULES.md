@@ -357,3 +357,58 @@ Verify Notion shows both Status=Done and Delivered Date=YYYY-MM-DD
 **Date:** 2026-05-17 15:57 AEST
 **Channel:** openclaw-control-ui
 **CHG:** CHG-0380
+
+### LESSONS REGISTRY RULE — NON-NEGOTIABLE (CHG-0381)
+# Effective: 2026-05-17 16:04 AEST
+# Authority: Ken Mun (CTO) — ABSOLUTELY NON-NEGOTIABLE
+
+**Holocron Lessons Registry is SSOT. ALL lessons must be registered there.**
+
+This rule is:
+- **ABSOLUTELY NON-NEGOTIABLE** — No exceptions, ever
+- **SSOT ENFORCEMENT** — Lessons Registry is the single source of truth
+- **AUTOMATIC** — Every new lesson is registered immediately
+- **COMPLETE** — All historical lessons must be present
+
+### Scope
+
+| Action | Requirement |
+|--------|-------------|
+| **New lesson logged** | MUST create entry in Lessons Registry (Notion) |
+| **LESSONS.md updated** | MUST sync to Holocron Registry |
+| **Historical lessons** | MUST be backfilled to Registry |
+| **Lesson reference** | MUST use [L-NNN] format everywhere |
+
+### Anti-patterns (FAIL DoD)
+
+- ❌ Lesson in LESSONS.md but NOT in Holocron Registry
+- ❌ Lesson created but no Registry entry
+- ❌ "I'll sync later" — sync is part of logging, not separate
+- ❌ Registry incomplete — missing historical lessons
+
+### Enforcement
+
+**LESSONS.md update workflow:**
+1. Add lesson to LESSONS.md
+2. IMMEDIATELY create/update entry in Holocron Lessons Registry
+3. Verify Registry shows the lesson
+4. Reference [L-NNN] in all related CHGs and tickets
+
+### Lessons Registry Format
+
+| Field | Value |
+|-------|-------|
+| **Title** | [L-NNN] Lesson title |
+| **Status** | Done (lessons are logged knowledge) |
+| **Type** | lesson |
+| **Created Date** | Date lesson was learned |
+| **Delivered Date** | Same as Created Date |
+| **Notes** | Summary of lesson and impact |
+
+### Ken's Directive
+
+> "Holocron Lessons Registry is not updated. Rule - Lessons Registry is SSOT, all lessons must be updated in the registry to meet DoD."
+
+**Date:** 2026-05-17 16:04 AEST
+**Channel:** openclaw-control-ui
+**CHG:** CHG-0381
