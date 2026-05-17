@@ -163,5 +163,17 @@
       "focus": "blocked_deferred",
       "note": "Low confidence deferred or broken into smaller sub-tickets"
     }
+  },
+  "_schema": {
+    "version": "1.0",
+    "description": "kimi confidence mapping for P1 backlog execution",
+    "primaryDataKey": "tickets",
+    "primaryDataType": "dict",
+    "keys": {
+      "tickets": "Dictionary: ticket_id -> confidence_level (full/fairly/low/blocked)",
+      "executionOrder": "Dictionary: phase -> {focus, maxTickets, tickets}",
+      "levels": "Dictionary: level -> {label, description, execution, review, rollback}"
+    },
+    "note": "Do NOT query mapping array. Use tickets dict."
   }
 }
