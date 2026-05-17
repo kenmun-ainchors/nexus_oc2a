@@ -5236,3 +5236,33 @@ Author: Forge
 - Cron recreated with correct payload: ✅
 - CHG-0372 lesson documented: ✅
 **Linked:** CHG-0373, CHG-0372, L-036, L-035
+
+---
+
+## 2026-05-17 15:29 AEST — [CHG-0374] Replacement tickets for wrongly archived Notion items
+**Type:** task
+**Source:** ken-prompt
+**Trigger:** Ken: "Create new tickets for items under work still open and legacy/unknown"
+**What changed:**
+1. **Created 9 replacement tickets for wrongly archived items:**
+   - [TKT-0201] ← TKT-0168: Notion Access Violations DB (high priority)
+   - [TKT-0202] ← TKT-0167: state/access-violations.json (high priority)
+   - [TKT-0203] ← TKT-0166: sandbox runbook review (medium)
+   - [TKT-0204] ← TKT-0165: Digital Transformation review (medium)
+   - [TKT-0205] ← TKT-0164: aevlith charter review (medium)
+   - [TKT-0206] ← TKT-0163: agile framework review (medium)
+   - [TKT-0207] ← TKT-0150: DR Playbook (high priority)
+   - [TKT-0208] ← TKT-0098: AI Operations Jumpstart legacy (medium)
+   - [TKT-0209] ← TKT-0094: Workshop Formats legacy (medium)
+2. **Updated Notion pages for old tickets:**
+   - Changed title from "[ARCHIVED] TKT-XXXX" to "[ARCHIVED] TKT-XXXX → REPLACED BY TKT-YYYY"
+   - Added Notes explaining why archived and where work continues
+3. **Root cause:** Notion sync cleanup (CHG-0371) wrongly archived open work items
+   - Sync script detected duplicates/extras and archived them
+   - Did not verify if original ticket was actually completed
+   - Lesson: L-037 applied — claimed completion without verification
+**Verification:**
+- 9 new tickets created in tickets.json: ✅
+- All synced to Notion AKB Backlog: ✅
+- Old Notion pages updated with replacement references: ✅
+**Linked:** CHG-0371, L-037, AKB Backlog
