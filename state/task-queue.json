@@ -1,0 +1,59 @@
+{
+  "schema": "task-queue-v1",
+  "description": "Master queue for async stateless tasks. Any agent can claim and resume.",
+  "lastUpdated": "2026-05-17T16:54:24.848330",
+  "tasks": [
+    {
+      "id": "task-2026-05-17-2e43e59d",
+      "title": "Test async task \u2014 Verify queue system",
+      "tier": 3,
+      "status": "complete",
+      "priority": "high",
+      "source": "test",
+      "relatedChg": "CHG-0389",
+      "atoms": [
+        {
+          "id": 1,
+          "description": "Read current tickets.json",
+          "status": "complete",
+          "completedAt": "2026-05-17T16:54:18.012417",
+          "result": {
+            "result": "Read 220 tickets"
+          }
+        },
+        {
+          "id": 2,
+          "description": "Create test TKT in Notion",
+          "status": "complete",
+          "completedAt": "2026-05-17T16:54:18.074170",
+          "result": {
+            "result": "Test TKT created"
+          }
+        },
+        {
+          "id": 3,
+          "description": "Verify checkpoint file",
+          "status": "complete",
+          "completedAt": "2026-05-17T16:54:18.096173",
+          "result": {
+            "result": "Checkpoint verified"
+          }
+        },
+        {
+          "id": 4,
+          "description": "Mark task complete",
+          "status": "complete",
+          "completedAt": "2026-05-17T16:54:18.118221",
+          "result": {
+            "result": "Task done"
+          }
+        }
+      ],
+      "createdAt": "2026-05-17T16:54:17.900569",
+      "updatedAt": "2026-05-17T16:54:24.848326",
+      "claimedBy": "agent:test",
+      "claimedAt": "2026-05-17T16:54:17.965863",
+      "claimTimeout": "2026-05-17T17:24:17.965867"
+    }
+  ]
+}

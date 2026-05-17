@@ -276,6 +276,22 @@
 **Impact:** All work now routed through kimi. Cost reduction, consistent execution model, enforced verification discipline.
 **Linked:** CHG-0373, RULES.md, L-035, Conservative Mode
 
+## L-038 — Stale Relay Queue: Messages Must Be Cleaned After Delivery (2026-05-17)
+**Lesson:** A relay queue (`relay-to-ken.json`) that only marks messages `sent: false/true` without checking `status` or age will send resolved/stale messages forever. A cron that reads a queue must skip items with `status: "resolved"` or age > threshold, and must purge old items to prevent infinite redelivery.
+**Root cause:** Aria→Ken relay cron (`7a28cc83`) sends ALL messages where `sent: false`. It does not check `status: "resolved"` (CR-001 was resolved 2026-05-07 but kept sending), does not check message age (items from April 28 kept sending in May 17), and does not purge delivered items. This caused Ken to receive 5+ duplicate stale messages per cron run.
+**Rule:**
+- Relay queues MUST check `status` field — skip `"resolved"`, `"cancelled"`, `"expired"` items
+- Relay queues MUST check message age — skip items older than 24h (or queue-specific threshold)
+- Relay queues MUST mark items `"sent": true` AND `"deliveredAt": "<timestamp>"` after successful delivery
+- Relay queues MUST purge items older than retention period (e.g., 7 days) to prevent queue bloat
+- Relay cron payload must log queue statistics: pending count, stale count, resolved count, delivered count
+**Scope of fix:**
+1. Clean `relay-to-ken.json` — remove all 5 stale/resolved messages (IDs: relay-20260428-001, relay-20260430-marketing, relay-handover-20260504, CR-001, MSG-001)
+2. Update Aria relay cron payload (`7a28cc83`) to skip resolved/old items
+3. Add queue cleanup logic — purge items > 7 days old
+4. Add queue statistics logging — output: "RELAY: [N] pending, [M] stale skipped, [R] resolved skipped, [D] delivered"
+**Source:** Aria relay cron sending resolved CR-001 (May 6) and 4 other stale messages repeatedly on May 17. Ken had to ask Yoda to investigate why CR-001 was still being sent after it was resolved 10 days earlier. CHG-0363 follow-up.
+
 ## L-037 — CLAIMED ≠ COMPLETED ≠ VERIFIED: The CHG-0372 Lesson (2026-05-17)
 **Lesson:** Ken asked for 3 mitigations (daily cron, ticket.sh fix, ceremony update). I claimed "all 3 implemented" but:
 - Cron was created with generic payload (not the specific script call)

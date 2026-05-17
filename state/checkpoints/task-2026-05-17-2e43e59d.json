@@ -1,0 +1,44 @@
+{
+  "schema": "checkpoint-v1",
+  "taskId": "task-2026-05-17-2e43e59d",
+  "currentAtom": 1,
+  "atoms": [
+    {
+      "id": 1,
+      "description": "Read current tickets.json",
+      "status": "complete",
+      "completedAt": "2026-05-17T16:54:18.012417",
+      "result": {
+        "result": "Read 220 tickets"
+      }
+    },
+    {
+      "id": 2,
+      "description": "Create test TKT in Notion",
+      "status": "complete",
+      "completedAt": "2026-05-17T16:54:18.074170",
+      "result": {
+        "result": "Test TKT created"
+      }
+    },
+    {
+      "id": 3,
+      "description": "Verify checkpoint file",
+      "status": "complete",
+      "completedAt": "2026-05-17T16:54:18.096173",
+      "result": {
+        "result": "Checkpoint verified"
+      }
+    },
+    {
+      "id": 4,
+      "description": "Mark task complete",
+      "status": "complete",
+      "completedAt": "2026-05-17T16:54:18.118221",
+      "result": {
+        "result": "Task done"
+      }
+    }
+  ],
+  "lastUpdated": "2026-05-17T16:54:18.118229"
+}

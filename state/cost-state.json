@@ -1,5 +1,5 @@
 {
-  "lastUpdated": "2026-05-16T13:55:41Z",
+  "lastUpdated": "2026-05-17T02:00:24Z",
   "history": {
     "2026-04-25": {
       "date": "2026-04-25",
@@ -532,15 +532,70 @@
           "calculatedTurns": 0
         }
       }
+    },
+    "2026-05-17": {
+      "date": "2026-05-17",
+      "totalCost": 0.0333,
+      "totalTurns": 473,
+      "totalInputTokens": 19634886,
+      "totalOutputTokens": 99148,
+      "totalCacheReadTokens": 0,
+      "totalCacheWriteTokens": 0,
+      "source": "session-log-estimate",
+      "note": "Session log estimate. usage.cost.total includes cacheWrite charges. CHG-0097: confirmed cost includes cache writes. CHG-0175: calculated fallback for ephemeral sessions.",
+      "calculatedCost": 0.0333,
+      "calculatedTurns": 4,
+      "byModel": {
+        "claude-haiku-4-5": {
+          "input": 0,
+          "output": 0,
+          "cacheRead": 0,
+          "cacheWrite": 0,
+          "cost": 0.0333,
+          "turns": 4,
+          "calculatedCost": 0.0333,
+          "calculatedTurns": 4
+        },
+        "deepseek-v4-pro:cloud": {
+          "input": 829859,
+          "output": 4526,
+          "cacheRead": 0,
+          "cacheWrite": 0,
+          "cost": 0.0,
+          "turns": 17,
+          "calculatedCost": 0.0,
+          "calculatedTurns": 0
+        },
+        "kimi-k2.6:cloud": {
+          "input": 18805027,
+          "output": 94622,
+          "cacheRead": 0,
+          "cacheWrite": 0,
+          "cost": 0.0,
+          "turns": 451,
+          "calculatedCost": 0.0,
+          "calculatedTurns": 0
+        },
+        "gemma4:26b": {
+          "input": 0,
+          "output": 0,
+          "cacheRead": 0,
+          "cacheWrite": 0,
+          "cost": 0.0,
+          "turns": 1,
+          "calculatedCost": 0.0,
+          "calculatedTurns": 0
+        }
+      }
     }
   },
-  "allTimeTotalCost": 4187.0823,
-  "daysTracked": 22,
-  "avgDailyCost": 190.3219,
+  "allTimeTotalCost": 4187.1156,
+  "daysTracked": 23,
+  "avgDailyCost": 182.0485,
   "apiBalance": {
     "remainingEstimate": 0,
-    "spentSinceTopUp": 4187.0823,
-    "remainingNote": "confirmedBalance=None at 2026-05-08; spentAfter=4187.0823",
+    "spentSinceTopUp": 4187.1156,
+    "remainingNote": "confirmedBalance=None at 2026-05-08; spentAfter=4187.1156",
     "confirmedAt": "2026-05-08T11:32:26Z",
     "note": "Auto-reload triggered 2026-05-10. Balance $425.12 post-reload spend.",
     "lastUpdated": "2026-05-10T15:25:58.923445+10:00",

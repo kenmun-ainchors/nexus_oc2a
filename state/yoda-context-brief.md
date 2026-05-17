@@ -1,15 +1,15 @@
 # Yoda Telegram Context Brief
-Generated: 2026-05-16 20:00 AEST | Platform Day 22 | Sprint 4 (May 19–25)
+Generated: 2026-05-17 14:00 AEST | Platform Day 23 | Sprint 4 (May 19–25)
 
 ---
 
 ## Platform Status
-- **Day:** 22 (since 2026-04-25)
+- **Day:** 23 (since 2026-04-25)
 - **Phase:** MVP → P1 transition
 - **OC1:** Mac Mini M4 24GB — LIVE Production. PERMANENT.
 - **OC2-A/B:** Mac Mini M4 Pro 48GB ×2 — ETA 6–13 Jul 2026, commission ~27 Jul
 - **Daily Budget:** $150 (CHG-0268). Temp heavy-build $450 ended 2026-05-17.
-- **Key Alert:** Claude API credits depleted (CHG-0349). All agents on kimi/gemma4/deepseek-pro. CONSERVATIVE MODE active until CLAUDE RESTORE.
+- **Key Alert:** CONSERVATIVE MODE active (CHG-0349). Claude credits depleted. All agents on kimi/gemma4/deepseek-pro until CLAUDE RESTORE keyword issued.
 
 ---
 
@@ -51,6 +51,7 @@ Committed by: Ken Mun + Yoda
 ---
 
 ## Approved Decisions (from MEMORY.md)
+- **Day 23 (2026-05-17):** CHG-0362 APPROVED — Warden model drift docs + Conservative Mode runbook
 - **Day 22 (2026-05-16):** TKT-0178 Routing Enforcement approved + sprint-assigned (S4+S5)
 - **Day 22 (2026-05-16):** LI-C1-W2-P1 v3 APPROVED for Tue 19 May 07:30 AEST
 - **Day 22 (2026-05-16):** TKT-0179 Option B confirmed
@@ -59,10 +60,8 @@ Committed by: Ken Mun + Yoda
 - **Day 20 (2026-05-14):** Technology Strategy & Roadmap v1.0 APPROVED
 - **Day 20 (2026-05-14):** System Architecture Document v1.0 APPROVED
 - **Day 20 (2026-05-14):** Option B Phased — redesign data+integration, keep OpenClaw (CHG-0308)
-- **Day 20 (2026-05-14):** Nexus Star Wars naming LOCKED
 - **Day 20 (2026-05-14):** Sprint capacity 5/sprint pre-OC2, $150 daily cap (CHG-0268)
 - **Day 20 (2026-05-14):** LinkedIn auth — MDP approved, token valid to 2026-07-12
-- **Day 20 (2026-05-14):** Golden blueprint cadence rules — TRIGGER-15/16/17 locked
 - **Day 17 (2026-05-11):** MinIO LIVE on OC1 (CHG-0265)
 
 ---
@@ -97,6 +96,7 @@ Full backlog: Notion AKB Backlog (SSOT). tickets.json seq 199.
 ## Recent Telegram Decisions (syncedToWebchat=false)
 | Decision | Summary | Ticket | Action |
 |----------|---------|--------|--------|
+| DEC-20260517-0918 | CHG-0362 APPROVED: Warden drift docs + Conservative Mode runbook | — | approved |
 | DEC-20260516-1244 | TKT-0178 Routing Enforcement approved, sprint-assigned | TKT-0178 | approved |
 | DEC-20260516-1252 | LI-C1-W2-P1 v3 APPROVED + TKT-0179 Option B confirmed | LI-C1-W2-P1, TKT-0179 | approved |
 | DEC-20260516-1256 | TKT-0120 RustDesk self-hosted CLOSED — sufficient | TKT-0120 | closed |

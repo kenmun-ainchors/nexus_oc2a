@@ -1,5 +1,5 @@
 {
-  "sequence": 204,
+  "sequence": 228,
   "tickets": [
     {
       "id": "TKT-0104",
@@ -1549,7 +1549,7 @@
       "requester": "Ken",
       "assignee": "Lex",
       "sprint": null,
-      "notionPageId": null,
+      "notionPageId": "363c1829-53ff-815b-9454-c9f38ea10bb0",
       "notes": "Renumbered from TKT-0158 collision 2026-05-15. | Sprint 5 pre-assignment (May 26+). Review and confirm during Sprint 5 planning. Ken directive 2026-05-17 14:21 AEST.",
       "updated": "2026-05-17T14:22:04+10:00"
     },
@@ -1598,7 +1598,7 @@
       "requester": "Ken",
       "assignee": "Forge",
       "sprint": null,
-      "notionPageId": null,
+      "notionPageId": "363c1829-53ff-8195-a51a-e5fa94bbda0d",
       "notes": "Renumbered from TKT-0163 collision 2026-05-15. | CANCELLED per Ken directive 2026-05-17 14:21 AEST. Standup email template now handled by locked template (CHG-0368). No separate ticket needed.",
       "updated": "2026-05-17T14:21:57+10:00"
     },
@@ -1623,7 +1623,7 @@
       "requester": "Ken",
       "assignee": "Forge",
       "sprint": 4,
-      "notionPageId": null,
+      "notionPageId": "363c1829-53ff-81f0-8595-df189f12c869",
       "notes": "Sprint 4 committed. Renumbered from TKT-0165 collision. | Sprint 4 assignment (May 19-25, 2026). Expanded capacity: 8 items. Ken approved 2026-05-17 14:21 AEST.",
       "updated": "2026-05-17T14:21:55+10:00"
     },
@@ -1636,7 +1636,7 @@
       "requester": "Ken",
       "assignee": "Atlas",
       "sprint": 4,
-      "notionPageId": null,
+      "notionPageId": "363c1829-53ff-81fb-95e6-e00137390aec",
       "notes": "Sprint 4 committed. Renumbered from TKT-0166 collision. | Sprint 4 assignment (May 19-25, 2026). Expanded capacity: 8 items. Ken approved 2026-05-17 14:21 AEST.",
       "updated": "2026-05-17T14:21:55+10:00"
     },
@@ -1649,7 +1649,7 @@
       "requester": "Ken",
       "assignee": "Forge",
       "sprint": 6,
-      "notionPageId": null,
+      "notionPageId": "363c1829-53ff-81c9-840b-c26cfcb13fd6",
       "notes": "Renumbered from TKT-0167 collision. | Sprint 4 assignment (May 19-25, 2026). Expanded capacity: 8 items. Ken approved 2026-05-17 14:21 AEST.",
       "updated": "2026-05-17T14:21:56+10:00"
     },
@@ -1765,6 +1765,486 @@
       },
       "notes": "Sprint 5 assignment. Thrawn/Forge/Sage execution.",
       "notionPageId": "362c1829-53ff-8184-933f-f65e7c57d5ab"
+    },
+    {
+      "id": "TKT-0204",
+      "title": "[TKT-0168-REPLACEMENT] Notion Access Violations DB + Forge sync — Governance Tier",
+      "type": "task",
+      "priority": "high",
+      "status": "open",
+      "requester": "Ken",
+      "assignee": "Yoda",
+      "created": "2026-05-17T15:29:49+10:00",
+      "updated": "2026-05-17T15:29:49+10:00",
+      "description": "Create Notion Access Violations database for governance tier agents. Sync with Forge for V0/V1 violations detection. Original TKT-0168 was wrongly archived during Notion sync cleanup (CHG-0371). Work still open.",
+      "resolution": null,
+      "linked": {
+        "us": [],
+        "inc": [],
+        "chg": []
+      },
+      "notes": "",
+      "notionPageId": "360c1829-53ff-8160-b9b7-d65ed1a94990"
+    },
+    {
+      "id": "TKT-0205",
+      "title": "[TKT-0167-REPLACEMENT] state/access-violations.json + obs-collector ACCESS CHECK",
+      "type": "task",
+      "priority": "high",
+      "status": "open",
+      "requester": "Ken",
+      "assignee": "Yoda",
+      "created": "2026-05-17T15:29:51+10:00",
+      "updated": "2026-05-17T15:29:51+10:00",
+      "description": "Create state/access-violations.json for tracking access violations. Integrate with obs-collector.sh as ACCESS CHECK (Check L). Original TKT-0167 was wrongly archived during Notion sync cleanup (CHG-0371). Work still open.",
+      "resolution": null,
+      "linked": {
+        "us": [],
+        "inc": [],
+        "chg": []
+      },
+      "notes": "",
+      "notionPageId": "360c1829-53ff-8160-b9b7-d65ed1a94990"
+    },
+    {
+      "id": "TKT-0206",
+      "title": "[TKT-0166-REPLACEMENT] Review + approve sandbox-runbook.md",
+      "type": "task",
+      "priority": "medium",
+      "status": "open",
+      "requester": "Ken",
+      "assignee": "Yoda",
+      "created": "2026-05-17T15:29:52+10:00",
+      "updated": "2026-05-17T15:29:52+10:00",
+      "description": "Review and approve sandbox-runbook.md. DRAFT FOR REVIEW status. Ties to TKT-0135. Original TKT-0166 was wrongly archived during Notion sync cleanup (CHG-0371). Work still open.",
+      "resolution": null,
+      "linked": {
+        "us": [],
+        "inc": [],
+        "chg": []
+      },
+      "notes": "",
+      "notionPageId": "360c1829-53ff-8160-b9b7-d65ed1a94990"
+    },
+    {
+      "id": "TKT-0207",
+      "title": "[TKT-0165-REPLACEMENT] Review + approve Digital_Transformation_Change_Management_Specialist_Agent_v1",
+      "type": "task",
+      "priority": "medium",
+      "status": "open",
+      "requester": "Ken",
+      "assignee": "Yoda",
+      "created": "2026-05-17T15:29:53+10:00",
+      "updated": "2026-05-17T15:29:53+10:00",
+      "description": "Review and approve Digital_Transformation_Change_Management_Specialist_Agent_v1.md. DRAFT FOR REVIEW. Original TKT-0165 was wrongly archived during Notion sync cleanup (CHG-0371). Work still open.",
+      "resolution": null,
+      "linked": {
+        "us": [],
+        "inc": [],
+        "chg": []
+      },
+      "notes": "",
+      "notionPageId": "360c1829-53ff-8160-b9b7-d65ed1a94990"
+    },
+    {
+      "id": "TKT-0208",
+      "title": "[TKT-0164-REPLACEMENT] Review + approve aevlith-charter-addendum-draft.md",
+      "type": "task",
+      "priority": "medium",
+      "status": "open",
+      "requester": "Ken",
+      "assignee": "Yoda",
+      "created": "2026-05-17T15:29:54+10:00",
+      "updated": "2026-05-17T15:29:54+10:00",
+      "description": "Review and approve aevlith-charter-addendum-draft.md. DRAFT FOR REVIEW. Original TKT-0164 was wrongly archived during Notion sync cleanup (CHG-0371). Work still open.",
+      "resolution": null,
+      "linked": {
+        "us": [],
+        "inc": [],
+        "chg": []
+      },
+      "notes": "",
+      "notionPageId": "360c1829-53ff-8160-b9b7-d65ed1a94990"
+    },
+    {
+      "id": "TKT-0209",
+      "title": "[TKT-0163-REPLACEMENT] Review + approve ainchors-agile-framework-v1.md",
+      "type": "task",
+      "priority": "medium",
+      "status": "open",
+      "requester": "Ken",
+      "assignee": "Yoda",
+      "created": "2026-05-17T15:29:56+10:00",
+      "updated": "2026-05-17T15:29:56+10:00",
+      "description": "Review and approve ainchors-agile-framework-v1.md. DRAFT FOR REVIEW. Original TKT-0163 was wrongly archived during Notion sync cleanup (CHG-0371). Work still open.",
+      "resolution": null,
+      "linked": {
+        "us": [],
+        "inc": [],
+        "chg": []
+      },
+      "notes": "",
+      "notionPageId": "360c1829-53ff-8160-b9b7-d65ed1a94990"
+    },
+    {
+      "id": "TKT-0210",
+      "title": "[TKT-0150-REPLACEMENT] DR Playbook — full restore from fresh OpenClaw install",
+      "type": "task",
+      "priority": "high",
+      "status": "open",
+      "requester": "Ken",
+      "assignee": "Yoda",
+      "created": "2026-05-17T15:29:57+10:00",
+      "updated": "2026-05-17T15:29:57+10:00",
+      "description": "Create DR Playbook documenting full restore from fresh OpenClaw install to production state. Original TKT-0150 was wrongly archived during Notion sync cleanup (CHG-0371). Work still open.",
+      "resolution": null,
+      "linked": {
+        "us": [],
+        "inc": [],
+        "chg": []
+      },
+      "notes": "",
+      "notionPageId": "360c1829-53ff-8160-b9b7-d65ed1a94990"
+    },
+    {
+      "id": "TKT-0211",
+      "title": "[TKT-0098-LEGACY] AI Operations Jumpstart v1 — design package",
+      "type": "task",
+      "priority": "medium",
+      "status": "open",
+      "requester": "Ken",
+      "assignee": "Yoda",
+      "created": "2026-05-17T15:29:58+10:00",
+      "updated": "2026-05-17T15:29:58+10:00",
+      "description": "AI Operations Jumpstart v1 design package — scope, pricing, deliverables. Original TKT-0098 not found in current tickets.json. Legacy ticket number. May be related to TKT-0138 (Business Jumpstart). Needs review to determine if still relevant.",
+      "resolution": null,
+      "linked": {
+        "us": [],
+        "inc": [],
+        "chg": []
+      },
+      "notes": "",
+      "notionPageId": "360c1829-53ff-8160-b9b7-d65ed1a94990"
+    },
+    {
+      "id": "TKT-0212",
+      "title": "[TKT-0094-LEGACY] Workshop Formats v1 — Design standardise and pilot 3 formats",
+      "type": "task",
+      "priority": "medium",
+      "status": "open",
+      "requester": "Ken",
+      "assignee": "Yoda",
+      "created": "2026-05-17T15:29:59+10:00",
+      "updated": "2026-05-17T15:29:59+10:00",
+      "description": "Workshop Formats v1 — Design, standardise and pilot 3 formats (L1, L2, L2.5). Original TKT-0094 not found in current tickets.json. Legacy ticket number. No replacement found. Needs review to determine if still relevant.",
+      "resolution": null,
+      "linked": {
+        "us": [],
+        "inc": [],
+        "chg": []
+      },
+      "notes": "",
+      "notionPageId": "360c1829-53ff-8160-b9b7-d65ed1a94990"
+    },
+    {
+      "id": "TKT-0213",
+      "title": "[TKT-0186-REPLACEMENT] LinkedIn: Fix token refresh + add comment/metrics fetching",
+      "type": "task",
+      "priority": "medium",
+      "status": "open",
+      "requester": "Ken",
+      "assignee": "Yoda",
+      "created": "2026-05-17T15:32:48+10:00",
+      "updated": "2026-05-17T15:32:48+10:00",
+      "description": "LinkedIn API token refresh broken — needs fix. Also add comment/metrics fetching. Original TKT-0186 was wrongly marked Done in Notion. Work still open. Part of LI-C1-W2-P1 campaign series.",
+      "resolution": null,
+      "linked": {
+        "us": [],
+        "inc": [],
+        "chg": []
+      },
+      "notes": "",
+      "notionPageId": "360c1829-53ff-8160-b9b7-d65ed1a94990"
+    },
+    {
+      "id": "TKT-0214",
+      "title": "[TKT-0181-REPLACEMENT] Gemma4 fine-tuning research — P3 boundary",
+      "type": "task",
+      "priority": "medium",
+      "status": "open",
+      "requester": "Ken",
+      "assignee": "Yoda",
+      "created": "2026-05-17T15:32:49+10:00",
+      "updated": "2026-05-17T15:32:49+10:00",
+      "description": "Research Gemma4 fine-tuning for P3 boundary. Thrawn owner. Original TKT-0181 was wrongly marked Done in Notion. Work still open.",
+      "resolution": null,
+      "linked": {
+        "us": [],
+        "inc": [],
+        "chg": []
+      },
+      "notes": "",
+      "notionPageId": "360c1829-53ff-8160-b9b7-d65ed1a94990"
+    },
+    {
+      "id": "TKT-0215",
+      "title": "[TKT-0178-REPLACEMENT] Routing Discipline Enforcement — audit + detection + routing gate",
+      "type": "task",
+      "priority": "high",
+      "status": "open",
+      "requester": "Ken",
+      "assignee": "Yoda",
+      "created": "2026-05-17T15:32:51+10:00",
+      "updated": "2026-05-17T15:32:51+10:00",
+      "description": "Full routing discipline enforcement: audit script, detection mechanism, and routing gate. Original TKT-0178 was deferred but wrongly marked Done in Notion. Work is deferred but not done. Sub-tickets created in TKT-0199-TKT-0203.",
+      "resolution": null,
+      "linked": {
+        "us": [],
+        "inc": [],
+        "chg": []
+      },
+      "notes": "",
+      "notionPageId": "360c1829-53ff-8160-b9b7-d65ed1a94990"
+    },
+    {
+      "id": "TKT-0216",
+      "title": "[TKT-0107-REPLACEMENT] Agent Governance — Squad Model (Tier 5+): Ephemeral Dev/Delivery Squads",
+      "type": "task",
+      "priority": "medium",
+      "status": "open",
+      "requester": "Ken",
+      "assignee": "Yoda",
+      "created": "2026-05-17T15:32:52+10:00",
+      "updated": "2026-05-17T15:32:52+10:00",
+      "description": "Define Agent Governance Squad Model for Tier 5+ ephemeral dev/delivery squads. Must be defined before any dev squad work. Original TKT-0107 was wrongly marked Done in Notion. Work still open.",
+      "resolution": null,
+      "linked": {
+        "us": [],
+        "inc": [],
+        "chg": []
+      },
+      "notes": "",
+      "notionPageId": "360c1829-53ff-8160-b9b7-d65ed1a94990"
+    },
+    {
+      "id": "TKT-0217",
+      "title": "[TKT-0109-REPLACEMENT] Cassian Andor — Agile PM/Scrum Master/Coach Agent",
+      "type": "task",
+      "priority": "medium",
+      "status": "open",
+      "requester": "Ken",
+      "assignee": "Yoda",
+      "created": "2026-05-17T15:32:53+10:00",
+      "updated": "2026-05-17T15:32:53+10:00",
+      "description": "Design and build Agile PM/Scrum Master/Agile Coach Agent (Cassian Andor). Review July QBR. Original TKT-0109 was wrongly marked Done in Notion. Work still open.",
+      "resolution": null,
+      "linked": {
+        "us": [],
+        "inc": [],
+        "chg": []
+      },
+      "notes": "",
+      "notionPageId": "360c1829-53ff-8160-b9b7-d65ed1a94990"
+    },
+    {
+      "id": "TKT-0218",
+      "title": "[TKT-0128-REPLACEMENT] Aria: expanded marketing orchestration mandate + Brand Code stewardship",
+      "type": "task",
+      "priority": "medium",
+      "status": "open",
+      "requester": "Ken",
+      "assignee": "Yoda",
+      "created": "2026-05-17T15:32:54+10:00",
+      "updated": "2026-05-17T15:32:54+10:00",
+      "description": "Aria expanded marketing mandate and Brand Code stewardship. Partial work done (CHG-0263) but not complete. Original TKT-0128 was wrongly marked Done in Notion. Work still in-progress.",
+      "resolution": null,
+      "linked": {
+        "us": [],
+        "inc": [],
+        "chg": []
+      },
+      "notes": "",
+      "notionPageId": "360c1829-53ff-8160-b9b7-d65ed1a94990"
+    },
+    {
+      "id": "TKT-0219",
+      "title": "[TKT-0110-REPLACEMENT] Process Documentation Framework — User Guides for Business Stream and Clients",
+      "type": "task",
+      "priority": "medium",
+      "status": "open",
+      "requester": "Ken",
+      "assignee": "Yoda",
+      "created": "2026-05-17T15:32:55+10:00",
+      "updated": "2026-05-17T15:32:55+10:00",
+      "description": "Process Documentation Framework including User Guides for Business Stream and Clients. Angie + KL Team pilot. Original TKT-0110 was wrongly marked Done in Notion. Work still in-progress.",
+      "resolution": null,
+      "linked": {
+        "us": [],
+        "inc": [],
+        "chg": []
+      },
+      "notes": "",
+      "notionPageId": "360c1829-53ff-8160-b9b7-d65ed1a94990"
+    },
+    {
+      "id": "TKT-0220",
+      "title": "[TKT-0108-REPLACEMENT] Document Generation Pipeline — DOCX/XLSX/PPTX/PDF",
+      "type": "task",
+      "priority": "high",
+      "status": "open",
+      "requester": "Ken",
+      "assignee": "Yoda",
+      "created": "2026-05-17T15:32:56+10:00",
+      "updated": "2026-05-17T15:32:56+10:00",
+      "description": "Document generation pipeline for DOCX/XLSX/PPTX/PDF. Ahsoka Q1 blocker. Original TKT-0108 was wrongly marked Done in Notion. Work still in-progress.",
+      "resolution": null,
+      "linked": {
+        "us": [],
+        "inc": [],
+        "chg": []
+      },
+      "notes": "",
+      "notionPageId": "360c1829-53ff-8160-b9b7-d65ed1a94990"
+    },
+    {
+      "id": "TKT-0221",
+      "title": "[TKT-0137-REPLACEMENT] AInchors Policy Register — formal policy library",
+      "type": "task",
+      "priority": "high",
+      "status": "open",
+      "requester": "Ken",
+      "assignee": "Yoda",
+      "created": "2026-05-17T15:32:58+10:00",
+      "updated": "2026-05-17T15:32:58+10:00",
+      "description": "AInchors Policy Register — formal policy library derived from Charter and Governance Framework. Governance Gap Analysis LIVE, 7 ODs resolved. Original TKT-0137 was wrongly marked Done in Notion. Work still in-progress.",
+      "resolution": null,
+      "linked": {
+        "us": [],
+        "inc": [],
+        "chg": []
+      },
+      "notes": "",
+      "notionPageId": "360c1829-53ff-8160-b9b7-d65ed1a94990"
+    },
+    {
+      "id": "TKT-0222",
+      "title": "[TKT-0115-MONITOR] Blocked/pending item — monitor for unblocking",
+      "type": "task",
+      "priority": "low",
+      "status": "open",
+      "requester": "Ken",
+      "assignee": "Yoda",
+      "created": "2026-05-17T15:33:23+10:00",
+      "updated": "2026-05-17T15:33:23+10:00",
+      "description": "Original TKT-0115 is blocked/pending in tickets.json but marked Done in Notion. This monitoring ticket tracks when the blocker resolves and work can resume.",
+      "resolution": null,
+      "linked": {
+        "us": [],
+        "inc": [],
+        "chg": []
+      },
+      "notes": "",
+      "notionPageId": "360c1829-53ff-8160-b9b7-d65ed1a94990"
+    },
+    {
+      "id": "TKT-0223",
+      "title": "[TKT-0116-MONITOR] Blocked/pending item — monitor for unblocking",
+      "type": "task",
+      "priority": "low",
+      "status": "open",
+      "requester": "Ken",
+      "assignee": "Yoda",
+      "created": "2026-05-17T15:33:24+10:00",
+      "updated": "2026-05-17T15:33:24+10:00",
+      "description": "Original TKT-0116 is blocked/pending in tickets.json but marked Done in Notion. This monitoring ticket tracks when the blocker resolves and work can resume.",
+      "resolution": null,
+      "linked": {
+        "us": [],
+        "inc": [],
+        "chg": []
+      },
+      "notes": "",
+      "notionPageId": "360c1829-53ff-8160-b9b7-d65ed1a94990"
+    },
+    {
+      "id": "TKT-0224",
+      "title": "[TKT-0117-MONITOR] Blocked/pending item — monitor for unblocking",
+      "type": "task",
+      "priority": "low",
+      "status": "open",
+      "requester": "Ken",
+      "assignee": "Yoda",
+      "created": "2026-05-17T15:33:26+10:00",
+      "updated": "2026-05-17T15:33:26+10:00",
+      "description": "Original TKT-0117 is blocked/pending in tickets.json but marked Done in Notion. This monitoring ticket tracks when the blocker resolves and work can resume.",
+      "resolution": null,
+      "linked": {
+        "us": [],
+        "inc": [],
+        "chg": []
+      },
+      "notes": "",
+      "notionPageId": "360c1829-53ff-8160-b9b7-d65ed1a94990"
+    },
+    {
+      "id": "TKT-0225",
+      "title": "[TKT-0118-MONITOR] Blocked/pending item — monitor for unblocking",
+      "type": "task",
+      "priority": "low",
+      "status": "open",
+      "requester": "Ken",
+      "assignee": "Yoda",
+      "created": "2026-05-17T15:33:27+10:00",
+      "updated": "2026-05-17T15:33:27+10:00",
+      "description": "Original TKT-0118 is blocked/pending in tickets.json but marked Done in Notion. This monitoring ticket tracks when the blocker resolves and work can resume.",
+      "resolution": null,
+      "linked": {
+        "us": [],
+        "inc": [],
+        "chg": []
+      },
+      "notes": "",
+      "notionPageId": "360c1829-53ff-8160-b9b7-d65ed1a94990"
+    },
+    {
+      "id": "TKT-0226",
+      "title": "[TKT-0119-MONITOR] Blocked/pending item — monitor for unblocking",
+      "type": "task",
+      "priority": "low",
+      "status": "open",
+      "requester": "Ken",
+      "assignee": "Yoda",
+      "created": "2026-05-17T15:33:28+10:00",
+      "updated": "2026-05-17T15:33:28+10:00",
+      "description": "Original TKT-0119 is blocked/pending in tickets.json but marked Done in Notion. This monitoring ticket tracks when the blocker resolves and work can resume.",
+      "resolution": null,
+      "linked": {
+        "us": [],
+        "inc": [],
+        "chg": []
+      },
+      "notes": "",
+      "notionPageId": "360c1829-53ff-8160-b9b7-d65ed1a94990"
+    },
+    {
+      "id": "TKT-0227",
+      "title": "[TKT-0155-MONITOR] Blocked/pending item — monitor for unblocking",
+      "type": "task",
+      "priority": "low",
+      "status": "open",
+      "requester": "Ken",
+      "assignee": "Yoda",
+      "created": "2026-05-17T15:33:30+10:00",
+      "updated": "2026-05-17T15:33:30+10:00",
+      "description": "Original TKT-0155 is blocked/pending in tickets.json but marked Done in Notion. This monitoring ticket tracks when the blocker resolves and work can resume.",
+      "resolution": null,
+      "linked": {
+        "us": [],
+        "inc": [],
+        "chg": []
+      },
+      "notes": "",
+      "notionPageId": "360c1829-53ff-8160-b9b7-d65ed1a94990"
     }
   ]
 }

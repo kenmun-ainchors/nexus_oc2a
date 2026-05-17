@@ -1,0 +1,275 @@
+{
+  "data_sources": {
+    "sprint_current_json": "3 items from sprint-current.json",
+    "ken_directive_2026_05_16": "TKT-0137 + sub-tickets confirmed",
+    "kimi_confidence_mapping": "95 tickets assessed",
+    "tickets_json_sprint4_tag": "18 tickets tagged Sprint 4"
+  },
+  "unified_items": [
+    {
+      "ticket": "TKT-0196",
+      "title": "Three Work Types Rule \u2014 enforce script/governance/LLM separation",
+      "owner": "Forge",
+      "type": "architecture",
+      "source": "sprint-current.json",
+      "status": "open",
+      "kimi_confidence": "Full Confidence",
+      "execution_order": 1,
+      "rationale": "Committed in sprint-current.json"
+    },
+    {
+      "ticket": "TKT-0197",
+      "title": "Sources of Truth Register \u2014 10 core data types",
+      "owner": "Atlas",
+      "type": "architecture",
+      "source": "sprint-current.json",
+      "status": "open",
+      "kimi_confidence": "Full Confidence",
+      "execution_order": 1,
+      "rationale": "Committed in sprint-current.json"
+    },
+    {
+      "ticket": "TKT-0187",
+      "title": "Cloudflare Tunnel \u2014 MinIO + OpenClaw webchat",
+      "owner": "Forge",
+      "type": "infra",
+      "source": "sprint-current.json",
+      "status": "open",
+      "kimi_confidence": "Fairly Confident",
+      "execution_order": 1,
+      "rationale": "Committed in sprint-current.json"
+    },
+    {
+      "ticket": "TKT-0137",
+      "title": "AInchors Policy Register \u2014 formal policy library",
+      "owner": "Atlas/Thrawn",
+      "type": "policy",
+      "source": "Ken directive 2026-05-16",
+      "status": "confirmed",
+      "kimi_confidence": "Low Confidence",
+      "execution_order": 2,
+      "rationale": "Ken confirmed + sub-tickets AC2-AC9",
+      "sub_tickets": "AC2-AC9 to be created"
+    },
+    {
+      "ticket": "TKT-0109",
+      "title": "Agile PM / Scrum Master / Agile Coach Agent \u2014 Design and Build",
+      "owner": "Yoda",
+      "type": "task",
+      "source": "kimi-confidence-mapping",
+      "status": "open",
+      "kimi_confidence": "Full Confidence",
+      "execution_order": 3,
+      "rationale": "sprint4Week1: full confidence"
+    },
+    {
+      "ticket": "TKT-0127",
+      "title": "Agentic Marketing Org Design \u2014 activate business stream marketing agents for Angie + KL team",
+      "owner": "Yoda",
+      "type": "task",
+      "source": "kimi-confidence-mapping",
+      "status": "open",
+      "kimi_confidence": "Full Confidence",
+      "execution_order": 3,
+      "rationale": "sprint4Week1: full confidence"
+    },
+    {
+      "ticket": "TKT-0129",
+      "title": "Luthen: Marketing Intelligence Agent \u2014 design and build (P2)",
+      "owner": "Yoda",
+      "type": "task",
+      "source": "kimi-confidence-mapping",
+      "status": "open",
+      "kimi_confidence": "Full Confidence",
+      "execution_order": 3,
+      "rationale": "sprint4Week1: full confidence"
+    },
+    {
+      "ticket": "TKT-0130",
+      "title": "QBR Agent Fleet Review \u2014 mandatory ceremony for mandate, role, scope and TOM optimization",
+      "owner": "Yoda",
+      "type": "task",
+      "source": "kimi-confidence-mapping",
+      "status": "open",
+      "kimi_confidence": "Full Confidence",
+      "execution_order": 3,
+      "rationale": "sprint4Week1: full confidence"
+    },
+    {
+      "ticket": "TKT-0133",
+      "title": "EA: Observability Strategy & Tool Selection \u2014 OTel vs Dynatrace",
+      "owner": "Yoda",
+      "type": "task",
+      "source": "kimi-confidence-mapping",
+      "status": "open",
+      "kimi_confidence": "Full Confidence",
+      "execution_order": 3,
+      "rationale": "sprint4Week1: full confidence"
+    },
+    {
+      "ticket": "TKT-0139",
+      "title": "Consulting Product Portfolio \u2014 commercial offerings mapped to business stages, maturity and P2-P4 strategy",
+      "owner": "Yoda",
+      "type": "task",
+      "source": "kimi-confidence-mapping",
+      "status": "open",
+      "kimi_confidence": "Full Confidence",
+      "execution_order": 3,
+      "rationale": "sprint4Week1: full confidence"
+    },
+    {
+      "ticket": "TKT-0143",
+      "title": "CLI-Anything strategic assessment \u2014 review Atlas EA and confirm adoption decision",
+      "owner": "Yoda",
+      "type": "task",
+      "source": "kimi-confidence-mapping",
+      "status": "open",
+      "kimi_confidence": "Full Confidence",
+      "execution_order": 3,
+      "rationale": "sprint4Week1: full confidence"
+    },
+    {
+      "ticket": "TKT-0122",
+      "title": "Spark: LinkedIn image generation via ComfyUI + Flux.1-schnell local on OC1 (fallback/upgrade)",
+      "owner": "Yoda",
+      "type": "task",
+      "source": "kimi-confidence-mapping",
+      "status": "open",
+      "kimi_confidence": "Fairly Confident",
+      "execution_order": 3,
+      "rationale": "sprint4Week2: fairly confidence"
+    },
+    {
+      "ticket": "TKT-0108",
+      "title": "Document Generation Pipeline \u2014 DOCX/XLSX/PPTX/PDF (Ahsoka Q1 blocker)",
+      "owner": "Yoda",
+      "type": "task",
+      "source": "tickets.json Sprint 4 tag",
+      "status": "in-progress",
+      "kimi_confidence": "Low Confidence",
+      "execution_order": 4,
+      "rationale": "Historical Sprint 4 tag"
+    },
+    {
+      "ticket": "TKT-0110",
+      "title": "Process Documentation Framework \u2014 User Guides for Business Stream and Clients (incl. Angie + KL Team pilot)",
+      "owner": "Yoda",
+      "type": "task",
+      "source": "tickets.json Sprint 4 tag",
+      "status": "in-progress",
+      "kimi_confidence": "Low Confidence",
+      "execution_order": 4,
+      "rationale": "Historical Sprint 4 tag"
+    },
+    {
+      "ticket": "TKT-0150",
+      "title": "DR Playbook \u2014 full restore from fresh OpenClaw install to production state",
+      "owner": "Yoda",
+      "type": "task",
+      "source": "tickets.json Sprint 4 tag",
+      "status": "open",
+      "kimi_confidence": "Low Confidence",
+      "execution_order": 4,
+      "rationale": "Historical Sprint 4 tag"
+    },
+    {
+      "ticket": "TKT-0157",
+      "title": "Human oversight process for governance tier agents (Shield, Lex, Sage)",
+      "owner": "TBD",
+      "type": "task",
+      "source": "tickets.json Sprint 4 tag",
+      "status": "open",
+      "kimi_confidence": "Full Confidence",
+      "execution_order": 4,
+      "rationale": "Historical Sprint 4 tag"
+    },
+    {
+      "ticket": "TKT-0158",
+      "title": "Scheduled integrity checks for cross-agent context files + P1-P4 HIVE design consideration",
+      "owner": "TBD",
+      "type": "task",
+      "source": "tickets.json Sprint 4 tag",
+      "status": "open",
+      "kimi_confidence": "Full Confidence",
+      "execution_order": 4,
+      "rationale": "Historical Sprint 4 tag"
+    },
+    {
+      "ticket": "TKT-0165",
+      "title": "Review + approve Digital_Transformation_Change_Management_Specialist_Agent_v1.md \u2014 DRAFT FOR REVIEW",
+      "owner": "TBD",
+      "type": "task",
+      "source": "tickets.json Sprint 4 tag",
+      "status": "open",
+      "kimi_confidence": "Blocked/External",
+      "execution_order": 4,
+      "rationale": "Historical Sprint 4 tag"
+    },
+    {
+      "ticket": "TKT-0167",
+      "title": "OD-01: Create state/access-violations.json + obs-collector ACCESS CHECK (Forge)",
+      "owner": "TBD",
+      "type": "task",
+      "source": "tickets.json Sprint 4 tag",
+      "status": "open",
+      "kimi_confidence": "Fairly Confident",
+      "execution_order": 4,
+      "rationale": "Historical Sprint 4 tag"
+    },
+    {
+      "ticket": "TKT-0168",
+      "title": "OD-05: Create Notion Access Violations DB + Forge sync for V0/V1 violations",
+      "owner": "TBD",
+      "type": "task",
+      "source": "tickets.json Sprint 4 tag",
+      "status": "open",
+      "kimi_confidence": "Fairly Confident",
+      "execution_order": 4,
+      "rationale": "Historical Sprint 4 tag"
+    },
+    {
+      "ticket": "TKT-0178",
+      "title": "Routing Discipline Enforcement \u2014 audit + detection + routing gate",
+      "owner": "Forge",
+      "type": "task",
+      "source": "tickets.json Sprint 4 tag",
+      "status": "in-progress",
+      "kimi_confidence": "Full Confidence",
+      "execution_order": 4,
+      "rationale": "Historical Sprint 4 tag"
+    },
+    {
+      "ticket": "TKT-0179",
+      "title": "ClawGuard security toolkit evaluation",
+      "owner": "Shield",
+      "type": "task",
+      "source": "tickets.json Sprint 4 tag",
+      "status": "open",
+      "kimi_confidence": "Full Confidence",
+      "execution_order": 4,
+      "rationale": "Historical Sprint 4 tag"
+    },
+    {
+      "ticket": "TKT-0199",
+      "title": "Postgres LISTEN/NOTIFY Event Bus",
+      "owner": "Forge",
+      "type": "task",
+      "source": "tickets.json Sprint 4 tag",
+      "status": "open",
+      "kimi_confidence": "Low Confidence",
+      "execution_order": 4,
+      "rationale": "Historical Sprint 4 tag"
+    },
+    {
+      "ticket": "TKT-0200",
+      "title": "TKT-0178-b: Integrate audit-routing.sh with Warden violations",
+      "owner": "Yoda",
+      "type": "task",
+      "source": "tickets.json Sprint 4 tag",
+      "status": "open",
+      "kimi_confidence": "Unknown",
+      "execution_order": 4,
+      "rationale": "Historical Sprint 4 tag"
+    }
+  ]
+}

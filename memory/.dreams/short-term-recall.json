@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "updatedAt": "2026-05-16T23:17:17.584Z",
+  "updatedAt": "2026-05-17T05:56:55.187Z",
   "entries": {
     "memory:memory/2026-04-26.md:94:122": {
       "key": "memory:memory/2026-04-26.md:94:122",
@@ -1860,6 +1860,99 @@
         "8765/callback",
         "re-copied",
         "r-1st-connections-size"
+      ]
+    },
+    "memory:memory/2026-05-17.md:26:50": {
+      "key": "memory:memory/2026-05-17.md:26:50",
+      "path": "memory/2026-05-17.md",
+      "startLine": 26,
+      "endLine": 50,
+      "source": "memory",
+      "snippet": "## Inter-Session Messages (from Aria relay cron 7a28cc83) ### ~10:30 AEST — Instagram Organic Sale (Angie via Aria) - Another sale from Instagram today - Instagram/Meta ads NOT running — pure organic conversion - **Signal:** Organic Instagram is converting without paid spend - **Routing:** Business stream (Aria). Logged for awareness. - **Potential actions:** Ahsoka could leverage for client prospecting; Spark could create content angle; Mon Mothma tracks if channel expansion needed. ### ~10:30 AEST — Marketing Collaterals Ready (TKT-0027) - **Delivered by:** Aria - **Assets:** 3 HTML marketing collaterals in `canvas/documents/ainchors-marketing/` 1. `company-overview.html` — Capability",
+      "recallCount": 1,
+      "dailyCount": 0,
+      "groundedCount": 0,
+      "totalScore": 0.7948358298613367,
+      "maxScore": 0.7948358298613367,
+      "firstRecalledAt": "2026-05-17T05:46:27.261Z",
+      "lastRecalledAt": "2026-05-17T05:46:27.261Z",
+      "queryHashes": [
+        "a7a1f90f89e7"
+      ],
+      "recallDays": [
+        "2026-05-17"
+      ],
+      "conceptTags": [
+        "inter-session",
+        "instagram/meta",
+        "tkt-0027",
+        "company-overview.html",
+        "inter",
+        "messages",
+        "aria",
+        "relay"
+      ]
+    },
+    "memory:memory/2026-05-17.md:92:118": {
+      "key": "memory:memory/2026-05-17.md:92:118",
+      "path": "memory/2026-05-17.md",
+      "startLine": 92,
+      "endLine": 118,
+      "source": "memory",
+      "snippet": "- **Ken confirmation 15:54 AEST:** \"all 5 items are stale and already actioned. confirmed and close\" — all 5 Aria relay items from Round 2 acknowledged as stale/duplicate. CR-001 remains pending Ken approval (not stale — original request still valid). ## CTO Contract Meeting — Friday 8 May (Logged for Awareness) - **Time:** Friday 8 May, 3:00 PM Sydney time - **Format:** Google Meet - **Context:** CTO contract discussion - **Action:** Angie creating invite manually (Aria lacks exec tool — see CR-001 above) - **Yoda Action:** Logged for Ken awareness. No action needed unless Ken wants this in calendar. ## Aria Tool Scope Request — CR-001 (Logged for Ken Review) - **Time:** ~11:00 AEST - *",
+      "recallCount": 1,
+      "dailyCount": 0,
+      "groundedCount": 0,
+      "totalScore": 0.7496612297764382,
+      "maxScore": 0.7496612297764382,
+      "firstRecalledAt": "2026-05-17T05:56:55.187Z",
+      "lastRecalledAt": "2026-05-17T05:56:55.187Z",
+      "queryHashes": [
+        "d95c4baddbc6"
+      ],
+      "recallDays": [
+        "2026-05-17"
+      ],
+      "conceptTags": [
+        "stale/duplicate",
+        "cr-001",
+        "ken",
+        "confirmation",
+        "aest",
+        "all",
+        "items",
+        "stale"
+      ]
+    },
+    "memory:memory/2026-05-17.md:113:138": {
+      "key": "memory:memory/2026-05-17.md:113:138",
+      "path": "memory/2026-05-17.md",
+      "startLine": 113,
+      "endLine": 138,
+      "source": "memory",
+      "snippet": "- **Ken Decision Required:** Approve adding `exec` to Aria's allowed tools? - **Security Note:** `exec` is powerful. If approved, should be restricted to `/opt/homebrew/bin/gog` and `/opt/homebrew/bin/sag` only (least privilege). - **Related:** CR-001, CHG-0349 (Conservative Mode active — requires explicit approval) ## Aria Relay Round 3 (run 530724d3) — 15:55 AEST ### Instagram Organic Sale (duplicate content, new run) - Same message as Rounds 1/2: \"We got another sale from Instagram today even though Instagram/Meta ads are not running. Organic Instagram is converting!\" - **Action:** Silently logged — Ken already aware from Round 1 ### Marketing Collaterals TKT-0027 (duplicate content, n",
+      "recallCount": 1,
+      "dailyCount": 0,
+      "groundedCount": 0,
+      "totalScore": 0.4534787744283676,
+      "maxScore": 0.4534787744283676,
+      "firstRecalledAt": "2026-05-17T05:56:55.187Z",
+      "lastRecalledAt": "2026-05-17T05:56:55.187Z",
+      "queryHashes": [
+        "d95c4baddbc6"
+      ],
+      "recallDays": [
+        "2026-05-17"
+      ],
+      "conceptTags": [
+        "opt/homebrew/bin/gog",
+        "opt/homebrew/bin/sag",
+        "cr-001",
+        "chg-0349",
+        "1/2",
+        "instagram/meta",
+        "tkt-0027",
+        "ken"
       ]
     }
   }

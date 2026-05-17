@@ -1,20 +1,18 @@
 {
-  "checkedAt": "2026-05-17T00:53:01Z",
-  "overall": "broken",
+  "checkedAt": "2026-05-17T06:38:11Z",
+  "overall": "ok",
   "chain": [
-    "anthropic/claude-sonnet-4-6",
-    "anthropic/claude-haiku-4-5"
+    "interim",
+    "interim"
   ],
   "checks": [
     "anthropicKey:ok",
     "anthropicApi:ok",
     "ollamaRunning:ok",
     "gemma4Loaded:ok",
-    "gemma4Warm:ok"
+    "gemma4Warm:ok",
+    "fallbackChainConfig:interim-skipped"
   ],
-  "broken": [
-    "Fallback chain: main agent primary model wrong (got 'ollama/kimi-k2.6:cloud')",
-    "Fallback chain: main agent fallback[0] wrong (got 'ollama/gemma4:26b') \u2014 should be haiku-4-5"
-  ],
-  "brokenCount": 2
+  "broken": [],
+  "brokenCount": 0
 }
