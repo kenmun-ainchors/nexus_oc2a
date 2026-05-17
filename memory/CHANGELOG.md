@@ -4883,3 +4883,28 @@ Author: Forge
 - Failure modes updated: ✅
 **Rollback:** Revert RUNBOOK.md /resume section to pre-2026-05-17 version.
 **Linked:** CHG-0362 (Conservative Mode), CHG-0363 (cron batch update), 2026-05-16 incident
+
+---
+
+## 2026-05-17 11:16 AEST — [CHG-0365] TRIGGER-03 enhancement — gemma4:31b-coding-mtp-bf16 for OC2 T1
+**Type:** trigger
+**Change Type:** Normal
+**Source:** ken-prompt
+**Trigger:** Ken requested to add gemma4:31b-coding-mtp-bf16 consideration to TRIGGER-03 after Ollama May 8 email (2x speed, MTP support).
+**What changed:**
+1. **Updated state/chg-triggers.json TRIGGER-03:**
+   - Added `gemma4:31b-coding-mtp-bf16` to modelsToEvaluate list
+   - Enhanced description to include BF16 variant validation
+   - Added validation step: "Validate 2x speed claim from Ollama May 8 email"
+   - Added note documenting the enhancement and rationale (OC2 48GB headroom for BF16)
+2. **Models to evaluate for T1 local on OC2:**
+   - ollama/gemma4:26b (original TRIGGER-03 plan)
+   - ollama/gemma4:31b-coding-mtp-bf16 (NEW — 2x speed, MTP, BF16 precision)
+**Why:** Ollama May 8 email announced gemma4:31b-coding-mtp-bf16 with 2x speed via Multi-Token Prediction on macOS MLX. OC2 has 48GB RAM — sufficient headroom for BF16 (vs Q4_0 for :26b). If the 2x speed claim holds, this could be a superior T1 option for governance agents (Shield/Lex/Sage).
+**When:** TRIGGER-03 fires after OC2 commissioning + MinIO validation (TRIGGER-01 + TRIGGER-02 + TRIGGER-13 complete).
+**Verification:**
+- chg-triggers.json updated with enhanced TRIGGER-03: ✅
+- gemma4:31b-coding-mtp-bf16 added to modelsToEvaluate: ✅
+- Enhanced note documenting rationale: ✅
+**Rollback:** Remove gemma4:31b-coding-mtp-bf16 from modelsToEvaluate, revert description to pre-enhancement.
+**Linked:** TRIGGER-03, TRIGGER-01, TRIGGER-02, TRIGGER-13, Ollama May 8 email, CHG-0356, CHG-0357

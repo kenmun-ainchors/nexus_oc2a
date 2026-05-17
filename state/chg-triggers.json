@@ -236,5 +236,28 @@
     "executedBy": "Lex",
     "linkedTKT": "TKT-0137",
     "driveLink": "https://drive.google.com/file/d/17GaIr_cA12ElKIzWNj65U6xKvexAELfb/view?usp=drivesdk"
+  },
+  "TRIGGER-03": {
+    "status": "pending",
+    "description": "OC2 Gemma4 swap-out: Replace Haiku (T1 governance) with gemma4:26b local. Validate gemma4:31b-coding-mtp-bf16 as T1 candidate for OC2 48GB.",
+    "triggerCondition": "OC2 commissioned + MinIO validated",
+    "dependencies": [
+      "TRIGGER-01",
+      "TRIGGER-02",
+      "TRIGGER-13"
+    ],
+    "actions": [
+      "1. Benchmark gemma4:26b on OC2 vs Haiku accuracy",
+      "2. Test gemma4:31b-coding-mtp-bf16 local inference on OC2 (MTP-BF16 variant)",
+      "3. Validate 2x speed claim from Ollama May 8 email",
+      "4. If pass rate >=75%, swap Haiku \u2192 gemma4 for T1 governance agents",
+      "5. Update model-policy.json T1 tier"
+    ],
+    "modelsToEvaluate": [
+      "ollama/gemma4:26b",
+      "ollama/gemma4:31b-coding-mtp-bf16"
+    ],
+    "note": "ENHANCED 2026-05-17: Added gemma4:31b-coding-mtp-bf16 per Ollama May 8 email (2x speed, MTP support on macOS MLX). OC2 48GB has headroom for BF16. Evaluate alongside :26b.",
+    "updatedAt": "2026-05-17T11:16:24.734868+10:00"
   }
 }
