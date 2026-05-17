@@ -5324,3 +5324,30 @@ Author: Forge
 - 103 items in May 2026 auto-heal runs, all correctly logged as state records
 - No [AUTO-HEAL] items found in active backlog
 **Linked:** HEARTBEAT.md, auto-heal.sh, CHG-0371, KIMI MANDATE
+
+---
+
+## 2026-05-17 15:44 AEST — [CHG-0377] BACKLOG SYNC RULE — Absolutely Non-Negotiable
+**Type:** policy
+**Source:** ken-directive (openclaw-control-ui)
+**Trigger:** Ken: "all TKT/CHG raised needs to be created in Backlog. Only having them captured and confirmed in internal memory or ticket is not DoD. Backlog to me Ken is the SSOT and must ALWAYS be in sync and reflecting what is in memory and context. Absolutely non-negotiable."
+**What changed:**
+1. **CRITICAL AUDIT:** Found 123 tickets in tickets.json, only 161 in Notion
+2. **MISSING TICKETS:** 24 tickets were NOT in Notion AKB Backlog
+3. **IMMEDIATE FIX:** Created all 24 missing tickets in Notion via API
+4. **RULE ADDED to RULES.md:**
+   - ALL TKT/CHG MUST be created in Notion AKB Backlog
+   - Sync is part of creation, not separate step
+   - Failure to sync = DoD NOT MET
+   - Verification required after every creation
+5. **ticket.sh enforcement:** Must create Notion page immediately, verify existence
+**Root cause:**
+- ticket.sh was creating tickets in tickets.json but Notion sync was failing silently
+- API errors (400) were not being retried
+- No verification step after creation
+- Items accumulated over time without Ken seeing them in Backlog
+**Verification:**
+- 24 missing tickets created in Notion: ✅
+- All 123 tickets now in AKB Backlog: ✅
+- RULES.md updated with non-negotiable rule: ✅
+**Linked:** CHG-0371, CHG-0375, CHG-0376, L-037, KIMI MANDATE

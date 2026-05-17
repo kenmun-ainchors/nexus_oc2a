@@ -161,3 +161,68 @@ done
 
 **This rule supersedes all prior model routing policies until lifted.**
 **CHGs are not done until verified. Verification is not optional.**
+
+---
+
+## BACKLOG SYNC RULE — NON-NEGOTIABLE (CHG-0377)
+# Effective: 2026-05-17 15:44 AEST
+# Authority: Ken Mun (CTO) — ABSOLUTELY NON-NEGOTIABLE
+
+### Rule Statement
+
+**ALL tickets (TKT) and changes (CHG) raised MUST be created in the Notion AKB Backlog.**
+
+This rule is:
+- **ABSOLUTELY NON-NEGOTIABLE** — No exceptions, ever
+- **SSOT ENFORCEMENT** — Backlog is Ken's single source of truth
+- **AUTOMATIC** — Every ticket creation must sync to Notion
+- **VERIFIED** — After creation, verify the Notion page exists
+
+### Scope
+
+| Item | Notion Required | Verification |
+|------|----------------|--------------|
+| **New TKT** | YES — AKB Backlog page | Check Notion URL returned |
+| **New CHG** | YES — Logged in CHANGELOG + Backlog reference | Backlog shows CHG link |
+| **Status change** | YES — Update Notion status | Notion matches tickets.json |
+| **Replacement TKT** | YES — Both old and new in Backlog | Cross-reference exists |
+
+### Anti-patterns (FAIL DoD)
+
+- ❌ Ticket created in tickets.json but NOT in Notion
+- ❌ CHG logged in CHANGELOG.md but no Backlog reference
+- ❌ "I'll sync later" — sync is part of creation, not separate
+- ❌ Notion API error ignored — retry until success
+- ❌ Assumption that ticket.sh handles sync — verify it does
+
+### Verification Protocol
+
+**After EVERY ticket creation:**
+```bash
+# 1. Check tickets.json has the ticket
+grep "TKT-XXXX" state/tickets.json
+
+# 2. Check Notion has the page
+# (via search or direct URL check)
+
+# 3. Verify status matches
+tickets.json status == Notion status
+```
+
+### Enforcement
+
+**ticket.sh MUST:**
+1. Create ticket in tickets.json
+2. IMMEDIATELY create Notion page via API
+3. Verify Notion page exists (retry 3x if needed)
+4. Return both ticket ID and Notion URL
+
+**Failure to sync = DoD NOT MET**
+
+### Ken's Directive
+
+> "Another DoD either missed or not enforced, all TKT/CHG raised needs to be created in Backlog. Only having them captured and confirmed in internal memory or ticket is not DoD. Backlog to me Ken is the SSOT and must ALWAYS be in sync and reflecting what is in memory and context. Now create the items that are missing and ensure this rule is not missed again moving forward. Absolutely non-negotiable."
+
+**Date:** 2026-05-17 15:44 AEST
+**Channel:** openclaw-control-ui
+**CHG:** CHG-0377
