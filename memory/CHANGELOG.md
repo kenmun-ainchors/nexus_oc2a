@@ -5128,3 +5128,10 @@ Author: Forge
 - Duplicate count: reduced from 55 to ~0-10 (depending on search caching)
 - All [TKT-NNNN] IDs in square brackets format
 **Note:** Notion search API has caching behavior — immediate queries may show stale results. Actual page state is correct.
+
+## 2026-05-17 15:00 AEST — [CHG-0371-FINAL] Notion AKB Backlog sync final cleanup
+**Type:** task
+**What changed:**
+- Final targeted cleanup of 9 remaining duplicates
+- All newly created [TKT-0186], [TKT-0188], [TKT-0189], [TKT-0191], [TKT-0195] duplicates archived
+**Status:** AKB Backlog aligned with tickets.json
