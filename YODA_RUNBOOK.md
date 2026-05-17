@@ -1979,7 +1979,8 @@ Any cron exceeding 2x its category target → flag in monthly CI audit.
 ### What Changes
 1. **All agents** switch primary model to `ollama/kimi-k2.6:cloud` (or designated interim model).
 2. **Warden** stops flagging model drift for interim models — drift is intentional, not a violation.
-3. **Conservative mode rule (CHG-0350)** activates: NO risky state manipulation without explicit Ken approval.
+3. **Fallback chain validator** skips LINK 5 (config validation) — interim models are intentional.
+4. **Conservative mode rule (CHG-0350)** activates: NO risky state manipulation without explicit Ken approval.
 
 ### Activation Steps (Yoda)
 1. Save current openclaw.json config snapshot: `state/claude-restore-config.json`
@@ -1987,24 +1988,74 @@ Any cron exceeding 2x its category target → flag in monthly CI audit.
 3. Write `state/interim-model-period.json`: `{ "active": true, "reason": "...", "revertKeyword": "CLAUDE RESTORE", "startedAt": "...", "approvedBy": "Ken" }`
 4. Update model-policy.json: add `interimPeriod` block documenting the exception
 5. Update Warden cron: skip drift checks when `interim-model-period.json active=true`
-6. Log CHG entry (reference CHG-0349/0362 pattern)
-7. Notify all agents via AGENTS.md / SOUL.md update: conservative mode active
+6. Update fallback chain validator: source `scripts/lib/conservative-mode.sh`, skip LINK 5 during interim
+7. Log CHG entry (reference CHG-0349/0362 pattern)
+8. Notify all agents via AGENTS.md / SOUL.md update: conservative mode active
 
 ### Deactivation Steps (Yoda, upon Ken saying "CLAUDE RESTORE")
 1. Restore openclaw.json from `state/claude-restore-config.json`
 2. Delete `state/interim-model-period.json`
 3. Update model-policy.json: remove or set `interimPeriod.active = false`
 4. Revert Warden cron to full drift checking
-5. Remove conservative mode rule from SOUL.md / AGENTS.md
-6. Restart gateway to apply restored config
-7. Run PVT (9/9) to verify all agents on correct models
-8. Log CHG entry marking end of interim period
+5. Revert fallback chain validator to full chain validation (remove interim skip)
+6. Remove conservative mode rule from SOUL.md / AGENTS.md
+7. Restart gateway to apply restored config
+8. Run PVT (9/9) to verify all agents on correct models
+9. Log CHG entry marking end of interim period
+
+### Shared Conservative Mode Library (CHG-0367)
+**File:** `scripts/lib/conservative-mode.sh`
+**Purpose:** Single source of truth for all scripts that need interim period awareness.
+**Sourced by:**
+- `warden-cron.sh` — drift check skip
+- `validate-fallback-chain.sh` — LINK 5 skip
+- `obs-collector.sh` — CHECK K interim detection
+- Any future scripts needing interim logic
+
+**Functions provided:**
+| Function | Returns | Usage |
+|----------|---------|-------|
+| `is_interim_period_active()` | exit 0 if active, 1 if not | `if is_interim_period_active; then ... fi` |
+| `get_interim_period_info()` | JSON with all fields | `info=$(get_interim_period_info)` |
+| `get_interim_status_human()` | Human-readable string | `echo "Interim: $(get_interim_status_human)"` |
+| `skip_if_interim()` | "skip" or "ok" | `case $(skip_if_interim) in skip) ... ;; esac` |
+| `log_with_interim()` | Prefixed log line | `log_with_interim "INFO" "message"` |
+| `require_ken_approval()` | exit 2 if approval needed | `require_ken_approval "action desc"` |
+| `validate_interim_state()` | Validate JSON integrity | `validate_interim_state` |
+| `check_claude_restore()` | exit 0 if keyword found | `check_claude_restore "$input"` |
+
+**Example usage in scripts:**
+```bash
+source "$WORKSPACE/scripts/lib/conservative-mode.sh"
+
+if is_interim_period_active; then
+  log_with_interim "INFO" "Skipping expensive operation during interim period"
+  # Skip validation, don't alert
+  exit 0
+fi
+
+# OR for actions requiring approval:
+if require_ken_approval "modify gateway config"; then
+  # Proceed
+else
+  # Approval required
+  exit 2
+fi
+```
+
+**Why this library exists:** CHG-0366 revealed that Warden (CHG-0362) and fallback validator had separate interim logic. When one was updated, the other was missed. This library ensures ALL scripts read from the same `state/interim-model-period.json` source.
 
 ### Warden Behaviour During Interim
 - **Drift checks:** SKIPPED entirely. Warden logs "INTERIM_PERIOD_ACTIVE" and exits clean.
 - **Escalations:** NO escalation file written for model drift.
 - **Heartbeat:** Surfaces interim status only — "Interim period active since [date], reason: [reason]".
 - **Other checks:** Non-model checks (obs freshness, ITIL compliance, cost alerts) continue normally.
+
+### Fallback Chain Validator Behaviour During Interim
+- **LINK 1-4:** Continue normally (Anthropic key, API, Ollama, Gemma4 warmup)
+- **LINK 5 (chain config):** SKIPPED. Interim models are intentional, not broken.
+- **Result:** `ok (0 broken)` with check `fallbackChainConfig:interim-skipped`
+- **obs-collector.sh CHECK K:** Detects `interim-skipped`, logs INFO not ERROR
 
 ### Conservative Mode Rule (applies to ALL agents)
 During interim period:

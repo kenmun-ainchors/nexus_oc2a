@@ -4937,3 +4937,39 @@ Author: Forge
 - No Telegram alert generated ✅
 **Rollback:** Revert validate-fallback-chain.sh and obs-collector.sh to pre-fix versions.
 **Linked:** CHG-0349, CHG-0362, CHG-0363, CHG-0270 (fallback chain), Conservative Mode
+
+---
+
+## 2026-05-17 13:55 AEST — [CHG-0367] Conservative Mode shared library + RUNBOOK update
+**Type:** process
+**Change Type:** Normal
+**Source:** ken-prompt
+**Trigger:** Ken asked: "why is fallback chain process required separately and outside of Warden?" → identified need for unified interim period handling.
+**What changed:**
+1. **Created scripts/lib/conservative-mode.sh:**
+   - Single source of truth for ALL interim period checks
+   - Functions: is_interim_period_active, get_interim_period_info, get_interim_status_human, skip_if_interim, log_with_interim, require_ken_approval, validate_interim_state, check_claude_restore
+   - Reads state/interim-model-period.json — no hardcoded values
+   - Designed to be sourced by any script needing interim awareness
+2. **Updated YODA_RUNBOOK.md Conservative Mode section:**
+   - Added "Shared Conservative Mode Library" subsection (CHG-0367)
+   - Documented all library functions with return values and usage examples
+   - Updated Activation Steps: added Step 6 (update fallback chain validator to source library)
+   - Updated Deactivation Steps: added Step 5 (revert fallback chain validator)
+   - Added "Fallback Chain Validator Behaviour During Interim" subsection
+   - Explained WHY the library exists: CHG-0366 gap where Warden was updated but fallback validator was missed
+3. **Linked CHG-0366 in docs:**
+   - Documented that validate-fallback-chain.sh now sources the shared library
+   - obs-collector.sh CHECK K updated to detect interim-skipped
+**Why:** CHG-0366 revealed a systemic gap — two scripts (Warden + fallback validator) had separate interim logic. When Warden was updated (CHG-0362), the fallback validator was missed, causing false alerts. A shared library ensures all scripts read from the same source of truth.
+**Future-proofing:**
+- Any new script needing interim awareness → source the library
+- Any change to interim period logic → update one file only
+- No more "did we update X?" questions
+**Verification:**
+- Library created: scripts/lib/conservative-mode.sh ✅
+- Functions documented with examples: ✅
+- RUNBOOK updated with library section: ✅
+- Library referenced in Activation/Deactivation steps: ✅
+**Rollback:** Remove library, revert scripts to hardcoded interim checks.
+**Linked:** CHG-0366, CHG-0362, CHG-0363, CHG-0349, Conservative Mode
