@@ -173,6 +173,72 @@ openclaw gateway restart
 | kimi may execute specialist work directly | AGENTS.md routing discipline enforced |
 | False positives from weaker models | Conservative mode: ask before acting |
 | Cost tracking gaps | Forge cost tracker (TKT-0175) |
+| **Cron explicit model override** | **See Section 7A — MUST update cron payloads, not just agent config** |
+
+---
+
+## 7A. Cron Model Override Behavior (CRITICAL GAP)
+
+### The Problem
+
+Cron jobs with explicit `model` field in their payload **override** the agent's default model and fallback chain.
+
+```json
+// Agent config: primary=kimi, fallbacks=[gemma4, deepseek-pro]
+// Cron payload:
+{
+  "payload": {
+    "model": "anthropic/claude-haiku-4-5",  // ← EXPLICIT OVERRIDE
+    "message": "..."
+  }
+}
+```
+
+**Result:** When the cron fires, OpenClaw uses the **cron's explicit model**, not the agent's config.
+
+**If Anthropic is blocked:**
+- Cron tries to use `claude-haiku-4-5`
+- Model fails (API unavailable)
+- **NO automatic fallback to agent primary (kimi)**
+- Cron execution fails → dead-letter or silent failure
+
+### The Rule
+
+> **During interim period: ALWAYS update cron payload model field. Do NOT rely on agent fallback chain for crons.**
+
+### Procedure
+
+**Step 1: Identify Anthropic crons**
+```bash
+openclaw cron list | grep "anthropic/claude"
+```
+
+**Step 2: Update each cron explicitly**
+```bash
+openclaw cron edit <cron-id> --model ollama/kimi-k2.6:cloud
+```
+
+**Step 3: Verify**
+```bash
+openclaw cron list | grep "anthropic/claude"  # Should return 0 results
+```
+
+### Verification Checklist
+
+- [ ] All crons with explicit `anthropic/*` model updated to `ollama/kimi-k2.6:cloud`
+- [ ] No Anthropic models remain in cron payloads
+- [ ] `openclaw cron list` confirms 0 Anthropic entries
+- [ ] CHG logged for the batch update
+
+### Root Cause
+
+CHG-0363 only updated **failed** Anthropic crons. Crons that hadn't failed yet (because they run at different times) retained their explicit Anthropic model. These would fail silently when their schedule next triggered.
+
+### Related
+
+- CHG-0391: All 12 Anthropic crons switched to kimi (2026-05-17)
+- CHG-0363: Cron interim model batch update
+- CHG-0373: KIMI PLATFORM MANDATE
 
 ---
 
