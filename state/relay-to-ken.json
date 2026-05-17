@@ -1,7 +1,7 @@
 {
   "schema": "aria-relay-queue-v1",
   "description": "Aria writes pending messages here. Yoda's 5-min cron picks them up and sends to Ken.",
-  "pending": [
+  "pending": []
     {
       "id": "relay-20260428-001",
       "timestamp": "2026-04-28T04:40:00Z",
