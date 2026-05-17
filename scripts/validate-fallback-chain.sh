@@ -112,6 +112,24 @@ else
   RESULTS+=("gemma4Warm:skipped")
 fi
 
+
+# ── INTERIM PERIOD CHECK (CHG-0362/0364) ────────────────────────────────────
+# During Conservative Mode interim period, fallback chain intentionally uses
+# interim models (kimi/gemma4/deepseek). Skip LINK 5 validation if active.
+INTERIM_ACTIVE=false
+INTERIM_REASON=""
+if [[ -f "$WORKSPACE/state/interim-model-period.json" ]]; then
+  INTERIM_ACTIVE=$(python3 -c "import json; d=json.load(open('$WORKSPACE/state/interim-model-period.json')); print('true' if d.get('active') else 'false')" 2>/dev/null || echo "false")
+  INTERIM_REASON=$(python3 -c "import json; d=json.load(open('$WORKSPACE/state/interim-model-period.json')); print(d.get('reason',''))" 2>/dev/null || echo "")
+fi
+
+if [[ "$INTERIM_ACTIVE" == "true" ]]; then
+  log "INTERIM PERIOD ACTIVE ($INTERIM_REASON) — skipping fallback chain config validation"
+  log "LINK 5 (fallback chain config): SKIPPED — interim period, using temporary models"
+  RESULTS+=("fallbackChainConfig:interim-skipped")
+  # Skip to end — no chain validation during interim
+else
+
 # ── LINK 5: openclaw.json fallback chain for main (Yoda) agent ───────────────
 # CHG-0270: Yoda+Aria = sonnet→haiku→kimi | Others = haiku→kimi→kimi
 # agents.defaults.model = haiku→kimi→kimi (CORRECT for T4/tier agents)
@@ -176,8 +194,14 @@ else
   RESULTS+=("fallbackChainConfig:broken:missing")
 fi
 
+fi
+
 # ── Write state/fallback-chain-status.json ────────────────────────────────────
 OVERALL=$([[ ${#BROKEN[@]} -eq 0 ]] && echo "ok" || echo "broken")
+
+# Set default chain values for interim period reporting
+CHAIN_PRIMARY="${EXPECTED_PRIMARY:-interim}"
+CHAIN_FALLBACK="${EXPECTED_FALLBACK_1:-interim}"
 
 RESULTS_CSV=$(IFS=,; echo "${RESULTS[*]:-}")
 BROKEN_NL=$(IFS=$'\n'; echo "${BROKEN[*]:-}")
@@ -194,8 +218,8 @@ state = {
   "checkedAt": "$TIMESTAMP",
   "overall": "$OVERALL",
   "chain": [
-    "$EXPECTED_PRIMARY",
-    "$EXPECTED_FALLBACK_1"
+    "$CHAIN_PRIMARY",
+    "$CHAIN_FALLBACK"
   ],
   "checks": results_list,
   "broken": broken_list,

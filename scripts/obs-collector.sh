@@ -300,20 +300,30 @@ else:
   fi
 fi
 
-# ── CHECK K: fallback-chain-status.json — chain broken ────────────────────
+# ── CHECK K: fallback-chain-status.json ────────────────────────────────────
+# CHG-0362/0364: During interim period, fallback chain uses temporary models.
+# Only report as broken if NOT interim-skipped and overall != ok.
 FB_STATUS="$STATE/fallback-chain-status.json"
 if [[ -f "$FB_STATUS" ]]; then
   _FBS=$(python3 -c "
 import json
 d=json.load(open('$FB_STATUS'))
-if d.get('overall') != 'ok':
+# Skip alert if interim period skipped the chain validation
+checks = d.get('checks', [])
+if 'fallbackChainConfig:interim-skipped' in checks:
+    print('INTERIM-SKIPPED')
+elif d.get('overall') != 'ok':
     broken=d.get('brokenLinks',[])
     import json as j
     print('BROKEN|Fallback chain broken: ' + str(broken)[:80] + '|' + j.dumps({'overall':d.get('overall'),'broken':broken}))
 else:
     print('OK')
 " 2>/dev/null || echo 'OK')
-  if [[ "$_FBS" == BROKEN* ]]; then
+  if [[ "$_FBS" == "INTERIM-SKIPPED" ]]; then
+    _obs_log --source platform --level INFO --type fallback_chain_interim \
+      --message "Fallback chain: interim period active, validation skipped" \
+      --detail "{\"note\":\"Conservative Mode interim period, chain uses temporary models\"}"
+  elif [[ "$_FBS" == BROKEN* ]]; then
     _MSG=$(echo "$_FBS" | cut -d'|' -f2)
     _DET=$(echo "$_FBS" | cut -d'|' -f3-)
     _obs_log --source platform --level ERROR --type fallback_chain_broken \

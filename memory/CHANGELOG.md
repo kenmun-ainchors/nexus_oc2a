@@ -4908,3 +4908,32 @@ Author: Forge
 - Enhanced note documenting rationale: ✅
 **Rollback:** Remove gemma4:31b-coding-mtp-bf16 from modelsToEvaluate, revert description to pre-enhancement.
 **Linked:** TRIGGER-03, TRIGGER-01, TRIGGER-02, TRIGGER-13, Ollama May 8 email, CHG-0356, CHG-0357
+
+---
+
+## 2026-05-17 13:51 AEST — [CHG-0366] Fallback chain validator interim period fix
+**Type:** bugfix
+**Change Type:** Hotfix
+**Source:** ken-alert (Telegram alert received)
+**Trigger:** Telegram alert: "Fallback Chain Broken — primary got 'ollama/kimi-k2.6:cloud'; fallback[0] got 'ollama/gemma4:26b' — should be haiku-4-5"
+**What changed:**
+1. **scripts/validate-fallback-chain.sh updated:**
+   - Added interim period check before LINK 5 (fallback chain config validation)
+   - Reads state/interim-model-period.json — if active=true, skips chain config validation
+   - Logs: "INTERIM PERIOD ACTIVE — skipping fallback chain config validation"
+   - RESULTS: "fallbackChainConfig:interim-skipped" instead of "broken"
+   - Exit code 0 (OK) during interim — no false alerts
+   - Fixed unbound variable issue (EXPECTED_PRIMARY in heredoc when skipped)
+2. **scripts/obs-collector.sh CHECK K updated:**
+   - Added interim-skipped detection in fallback-chain-status.json
+   - If "fallbackChainConfig:interim-skipped" in checks → logs INFO not ERROR
+   - Only alerts as broken if overall != ok AND not interim-skipped
+3. **Root cause:** validate-fallback-chain.sh had no awareness of CHG-0349 interim period. During Conservative Mode, all agents intentionally use interim models (kimi/gemma4/deepseek). The script hardcoded expected values (sonnet→haiku) and flagged intentional interim config as "broken."
+4. **Gap in Conservative Mode docs:** CHG-0362 documented Warden interim skip + CHG-0363 documented cron interim model update, but validate-fallback-chain.sh was missed.
+**Why:** False-positive fallback chain alerts during interim period cause unnecessary Telegram noise and desensitise Ken to real alerts.
+**Verification:**
+- validate-fallback-chain.sh rerun: exit 0, "ok (0 broken)" ✅
+- state/fallback-chain-status.json: overall=ok, checks include "fallbackChainConfig:interim-skipped" ✅
+- No Telegram alert generated ✅
+**Rollback:** Revert validate-fallback-chain.sh and obs-collector.sh to pre-fix versions.
+**Linked:** CHG-0349, CHG-0362, CHG-0363, CHG-0270 (fallback chain), Conservative Mode
