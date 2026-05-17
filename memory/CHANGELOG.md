@@ -5714,3 +5714,37 @@ Step 3: Confirm both match → report to Ken
 - Resume works: ✅
 - Cron created: ✅
 **Linked:** CHG-0389, CHG-0388, CHG-0387, CHG-0383
+
+---
+
+## 2026-05-17 17:49 AEST — [CHG-0391] All Anthropic crons switched to kimi
+**Type:** config
+**Source:** ken-directive (openclaw-control-ui)
+**Trigger:** Ken noticed 12 crons still on Anthropic/Haiku during Tiered OWL briefing
+**What was done:**
+- 12 Anthropic/Haiku crons switched to ollama/kimi-k2.6:cloud
+- Cron explicit model overrides agent fallback chain (gap identified in Conservative Mode runbook)
+- If Anthropic blocked, crons with explicit Haiku model would FAIL (no auto-fallback)
+- All 12 updated via `openclaw cron edit --model ollama/kimi-k2.6:cloud`
+**Crons updated (12):**
+1. Shield 🛡️ — Security Review Sweep (daily 22:00)
+2. Lex ⚖️ — Legal Review Sweep (daily 22:05)
+3. Sage 🧪 — QA Review Sweep (daily 22:10)
+4. Aria 🔵 — Weekly Business Review (Sun 18:00)
+5. Aria Daily Summary (daily 23:45)
+6. Drive sync — journal, blog, drive (daily 00:30)
+7. AInchors Monthly Model Check (28th 09:00)
+8. AInchors Quarterly Assessment (1st Jan/Apr/Jul/Oct 09:00)
+9. Spark — RustDesk LinkedIn post (May 10 09:00)
+10. glm-5.1 no-think mode check (2nd 09:00)
+11. GCP OpenClaw-Gmail integration (Jun 16 22:00)
+12. GCP OpenClaw-Gmail integration (Jun 17 22:00)
+**Gap identified:**
+- Model Emergency Runbook (CHG-0349) does NOT cover cron explicit model override behavior
+- Cron payload `model` field overrides agent fallback chain
+- If explicit model fails, cron FAILS (no automatic fallback to agent primary)
+- Action: Add cron model fallback section to runbook
+**Verification:**
+- Anthropic cron count: 0 ✅
+- Kimi cron count: 37 ✅ (was 25, now +12)
+**Linked:** CHG-0373 (KIMI MANDATE), CHG-0349 (Conservative Mode), CHG-0363 (cron interim update)
