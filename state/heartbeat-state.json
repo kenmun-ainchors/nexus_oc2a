@@ -1,38 +1,25 @@
 {
   "lastChecks": {
-    "heartbeat": "2026-05-18T09:19:00Z",
-    "apiBalance": "2026-05-18T09:19:00Z",
-    "agentHealth": "2026-05-18T09:19:00Z",
-    "cronHealth": "2026-05-18T09:19:00Z",
-    "cronDeadLetter": "2026-05-18T09:19:00Z",
-    "budgetCheck": "2026-05-18T09:19:00Z",
-    "wardenEscalation": "2026-05-18T09:19:00Z",
-    "ahsokaPilot": "2026-05-18T09:19:00Z",
-    "standbyMode": "2026-05-18T09:19:00Z",
-    "taskWatchdog": "2026-05-18T09:19:00Z",
-    "taskVerification": "2026-05-18T09:19:00Z",
-    "allowlistSync": "2026-05-18T09:19:00Z",
+    "heartbeat": "2026-05-18T13:56:00Z",
+    "apiBalance": "2026-05-18T13:56:00Z",
+    "agentHealth": "2026-05-18T13:56:00Z",
+    "cronHealth": "2026-05-18T13:56:00Z",
+    "cronDeadLetter": "2026-05-18T13:56:00Z",
+    "budgetCheck": "2026-05-18T13:56:00Z",
+    "wardenEscalation": "2026-05-18T13:56:00Z",
+    "ahsokaPilot": "2026-05-18T13:49:00Z",
+    "standbyMode": "2026-05-18T13:56:00Z",
+    "taskWatchdog": "2026-05-18T13:56:00Z",
+    "taskVerification": "2026-05-18T13:56:00Z",
+    "allowlistSync": "2026-05-18T13:56:00Z",
     "email": "2026-05-17T20:20:00+10:00",
     "calendar": "2026-05-17T20:20:00+10:00",
     "ceremoniesThisWeek": "2026-05-18T06:08:00.000Z",
-    "autoHealNotion": "2026-05-17T18:49:00+10:00",
-    "autoHealNotionNote": "14 items from auto-heal-2026-05-17.json reviewed. 1 genuine issue (backup stale). 10 config drifts intentional (conservative mode). 3 maintenance items (MEMORY.md/SOUL.md/kimi-confidence). Notion raise deferred pending Ken direction.",
     "doDGates": "2026-05-18T06:08:00.000Z",
     "kimiConfidenceMapping": "2026-05-16T18:20:30+10:00"
   },
-  "lastUpdated": "2026-05-18T09:19:00Z",
-  "cronMonitoring": {
-    "scheduledFor": "2026-05-18T08:00:00+10:00",
-    "cronsToCheck": [
-      "1a7f5d98-6c13-4819-be52-4fa06677f1c4",
-      "3c279099-bddb-4ef3-bfea-fc22f342abd8",
-      "442ad697-5044-45f3-a5a9-5d6092f48ba2"
-    ],
-    "status": "pending",
-    "addedAt": "2026-05-17T17:21:00+10:00"
-  },
-  "lastChecked": "2026-05-18T06:08:00.000Z",
+  "lastUpdated": "2026-05-18T13:56:00Z",
   "ceremoniesSprint3Review": "Completed 2026-05-15 per journal-2026-05-15.md",
   "ceremoniesSprint4Planning": "Completed 2026-05-17 14:21 AEST, committed by Ken Mun (CHG-0369)",
-  "wardenEscalationResolution": "False positive resolved \u2014 expected and actual fallback chains identical. Warden comparison bug logged as L-040."
+  "wardenEscalationResolution": "False positive resolved — expected and actual fallback chains identical. Warden comparison bug logged as L-040."
 }

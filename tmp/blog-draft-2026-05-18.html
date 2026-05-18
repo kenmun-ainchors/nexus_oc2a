@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Day 24 — 2026-05-18 — Purging the Ghost of Anthropic</title>
+    <style>
+        :root {
+            --bg: #121212;
+            --fg: #e0e0e0;
+            --accent: #bb86fc;
+            --callout-bg: #1e1e1e;
+            --callout-border: #333;
+            --code-bg: #1a1a1a;
+            --border-color: #333;
+            --text-muted: #a0a0a0;
+        }
+        body {
+            background-color: var(--bg);
+            color: var(--fg);
+            font-family: "Charter", "Georgia", serif;
+            line-height: 1.7;
+            max-width: 720px;
+            margin: 0 auto;
+            padding: 2rem 1rem;
+            -webkit-font-smoothing: antialiased;
+        }
+        h1, h2, h3 {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            color: var(--fg);
+        }
+        .hero {
+            text-align: center;
+            margin-bottom: 3rem;
+            border-bottom: 1px solid var(--border-color);
+            padding-bottom: 2rem;
+        }
+        .hero h1 { font-size: 2.5rem; margin-bottom: 0.5rem; }
+        .hero p { font-size: 1.2rem; color: var(--text-muted); }
+        .byline { font-style: italic; color: var(--accent); margin-top: 1rem; }
+        
+        .act { margin-bottom: 3rem; }
+        .act-title {
+            font-family: sans-serif;
+            font-weight: bold;
+            font-size: 1.4rem;
+            border-left: 4px solid var(--accent);
+            padding-left: 1rem;
+            margin-bottom: 1.5rem;
+            color: var(--fg);
+        }
+        
+        .callout {
+            background: var(--callout-bg);
+            border: 1px solid var(--callout-border);
+            border-left: 5px solid var(--accent);
+            padding: 1.5rem;
+            margin: 1.5rem 0;
+            border-radius: 4px;
+            font-style: normal;
+        }
+        .callout-warn { border-left-color: #cf6679; }
+        .callout-info { border-left-color: #03dac6; }
+        
+        code {
+            font-family: "SFMono-Regular", Consolas, "Liberation Mono", Menlo, monospace;
+            background: var(--code-bg);
+            padding: 0.2rem 0.4rem;
+            border-radius: 3px;
+            font-size: 0.9em;
+        }
+        pre {
+            background: var(--code-bg);
+            padding: 1rem;
+            overflow-x: auto;
+            border-radius: 8px;
+            border: 1px solid var(--border-color);
+            font-size: 0.9em;
+            line-height: 1.4;
+        }
+        
+        .footer {
+            margin-top: 4rem;
+            padding-top: 2rem;
+            border-top: 1px solid var(--border-color);
+            text-align: center;
+            font-size: 0.9rem;
+            color: var(--text-muted);
+        }
+        .nav-links { margin-bottom: 1rem; }
+        .nav-links a { color: var(--accent); text-decoration: none; margin: 0 10px; }
+        
+        .cost-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 1rem 0;
+        }
+        .cost-table td { padding: 0.5rem; border-bottom: 1px solid var(--border-color); }
+        .cost-table .label { color: var(--text-muted); }
+        .cost-table .value { text-align: right; font-weight: bold; }
+    </style>
+</head>
+<body>
+
+    <div class="hero">
+        <h1>Day 24 — 2026-05-18</h1>
+        <p>Purging the Ghost of Anthropic</p>
+        <div class="byline">Ken Mun (CTO)</div>
+    </div>
+
+    <p>Today was about alignment. For the last few days, we've been operating in a sort of "interim mode"—limping along on fallback models because of primary provider availability. It worked, but it left a residue of "if" statements and "skip" flags all over the codebase. The system was essentially holding its breath, waiting for a return to normalcy that I decided we no longer need to wait for.</p>
+    
+    <p>I came in expecting a few quick fixes, but I ended up ordering a full structural purge. If we're moving to a permanent DeepSeek/Gemma4/Kimi baseline, the code needs to reflect that as the primary reality, not a temporary detour. That's not nothing—it's the difference between a system that's "surviving an outage" and a system that has evolved its architecture.</p>
+
+    <div class="act">
+        <div class="act-title">The Morning Sprint: Atomic Writes & Security S6</div>
+        <p>The day started with a priority list: Atomic Writes first, then security gaps. I've been seeing too many "empty file" errors in the logs, which usually means a write operation crashed halfway through and nuked a state file. I pushed for an <code>atomic_write()</code> pattern in <code>ticket.sh</code>—write to a temp file, then <code>mv</code>. Simple, but non-negotiable for data integrity.</p>
+        
+        <p>Then we hit S6 (Audit Trail). The security audit had flagged the incident log for being a dictionary instead of a list. I had Yoda check it; turns out it was already compliant. A false positive in the audit, but it served as a good warm-up for the real maintenance that followed.</p>
+    </div>
+
+    <div class="act">
+        <div class="act-title">The Auto-Heal Gauntlet: Backups and Bloat</div>
+        <p>With the critical fixes done, we tore through the remaining auto-heal backlog. The biggest red flag was a 59-hour gap in incremental backups. In a high-velocity build, 60 hours of lost state is a catastrophe. We closed that gap immediately with <code>backup.sh</code>.</p>
+        
+        <p>We also hit the memory ceiling. <code>MEMORY.md</code> was creeping toward 10k characters, the point where context windows start to sweat. I had Yoda archive the low-frequency noise (like LinkedIn Auth stubs) into a separate archive file and condense the remaining core. The system is lean again.</p>
+
+        <div class="callout">
+            📊 <strong>The S4 Realization:</strong> Instead of just patching the "Least Privilege" warning for governance agents, I decided to formalise it. I raised <code>TKT-0230</code> to create a documented tool-scope map. We aren't just fixing a flag; we're building a permission matrix for when we onboard P2 clients.
+        </div>
+    </div>
+
+    <div class="act">
+        <div class="act-title">The Context Gap: The "Kimi Blindspot"</div>
+        <p>Then we hit a friction point. Yoda was completely oblivious to the results of today's Kimi-generated standup. Because the standup runs as an isolated cron, its output goes to Telegram and Email, but never hits the main session context. I had to manually tell Yoda to go find it.</p>
+        
+        <p>I don't want to be the one bridging the gap between my agents. I approved a three-layer redundancy architecture to kill this blindspot permanently:</p>
+        <ul>
+            <li><strong>Handoff Event:</strong> Standup cron now fires a <code>systemEvent</code> to wake the main session.</li>
+            <li><strong>Heartbeat Monitor:</strong> A 30-minute check that proactively surfaces new standups.</li>
+            <li><strong>Journal Bridge:</strong> Standup summaries are now written directly into the daily journal.</li>
+        </ul>
+        <p>The loop is closed. No more "did you see the standup?" prompts.</p>
+    </div>
+
+    <div class="act">
+        <div class="act-title">The Great Purge: Baseline v2.0</div>
+        <p>The final act was the most satisfying. I had Forge conduct a full audit of 40 active crons and all agent configs. We found a mess of interim logic: <code>SKIP_ALL_CHECKS</code> flags in the Warden, stale references to <code>haiku-4-5</code> fallbacks that didn't exist, and a a lot of "temporary" code that had become permanent.</p>
+        
+        <p>I ordered a total baseline update (<code>CHG-0395</code>). We decommissioned <code>interim-model-period.json</code> entirely. We rebuilt <code>model-policy.json</code> to version 2.0, establishing a clean two-tier system (User-facing vs Backend) and stripping every single reference to Anthropic routing. The Warden is now running on a clean policy with zero false positives.</p>
+
+        <div class="callout callout-warn">
+            ⚠️ <strong>The Zsh Echo Trap:</strong> During this process, we caught a critical bug. Zsh's <code>echo</code> builtin was silently corrupting <code>tickets.json</code> once the file crossed ~100KB. We replaced all such calls with <code>printf '%s'</code> and implemented a 5-stage atomic guard. This was a silent killer that would have eventually corrupted the entire ticket database.
+        </div>
+    </div>
+
+    <div class="act">
+        <div class="act-title">What I Learned</div>
+        <p><strong>1. Interim code is technical debt that accrues interest hourly.</strong> The moment "temporary" logic (like the interim model skip) is deployed, it starts obscuring real errors. The faster you move to a permanent baseline, the clearer your signal becomes.</p>
+        <p><strong>2. Shell builtins can be traitors.</strong> Relying on <code>echo</code> for large-scale state writes in Zsh is a gamble. <code>printf</code> is the only way to ensure byte-perfect integrity.</p>
+        <p><strong>3. Redundancy is the only cure for "Isolated Cron" amnesia.</strong> If a process is isolated, it must be forced to communicate its outcome via multiple channels (Events, State, and Journal) or it effectively didn't happen.</p>
+    </div>
+
+    <div class="act">
+        <div class="act-title">The Cost of Day 24</div>
+        <p>The cost today was effectively zero, as we've shifted our primary heavy lifting to the cloud-hosted Gemma and DeepSeek variants.</p>
+        <table class="cost-table">
+            <tr><td class="label">Total Spend</td><td class="value">$0.00</td></tr>
+            <tr><td class="label">Primary Model</td><td>gemma4:31b-cloud</td></tr>
+            <tr><td class="label">Supporting Model</td><td>deepseek-v4-pro:cloud</td></tr>
+            <tr><td class="label">Routine/Standup</td><td>kimi-k2.6:cloud</td></tr>
+        </table>
+        <p>Value framing: We traded a few dollars of API spend for a massive increase in infrastructure stability and a complete removal of "interim" cognitive load.</p>
+    </div>
+
+    <div class="act">
+        <div class="act-title">What's Next</div>
+        <ul>
+            <li><strong>TOM L2&rarr;L3 Transition:</strong> Moving from framework validation to actual implementation.</li>
+            <li><strong>Warden Noise Cleanup:</strong> Now that the baseline is v2.0, we can tune the signal for the new models.</li>
+            <li><strong>TKT-0230 Tool-Scope Map:</strong> Defining exactly what each agent can and cannot do.</li>
+        </ul>
+    </div>
+
+    <div class="footer">
+        <div class="nav-links">
+            <a href="/canvas/documents/ainchors-2026-05-17/index.html">&larr; Day 23</a>
+        </div>
+        <div>AInchors &middot; ainchors.com</div>
+    </div>
+
+
+
+
+<div class="governance-stamp governance-blocked" style="
+  margin: 40px auto 0;
+  padding: 12px 20px;
+  max-width: 720px;
+  border-radius: 6px;
+  font-family: monospace;
+  font-size: 12px;
+  text-align: center;
+  background: #2e0000; color: #f44336; border: 1px solid #f44336;
+  opacity: 0.85;
+">
+  🚫 BLOCKED — Do not distribute. Governance issues pending resolution.
+</div>
+</body>
+</html>

@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "updatedAt": "2026-05-18T06:24:11.657Z",
+  "updatedAt": "2026-05-18T13:00:41.377Z",
   "entries": {
     "memory:memory/2026-04-26.md:94:122": {
       "key": "memory:memory/2026-04-26.md:94:122",
@@ -2213,6 +2213,37 @@
         "qwen3.5",
         "chg-0111",
         "sub-agent"
+      ]
+    },
+    "memory:memory/2026-05-07.md:301:328": {
+      "key": "memory:memory/2026-05-07.md:301:328",
+      "path": "memory/2026-05-07.md",
+      "startLine": 301,
+      "endLine": 328,
+      "source": "memory",
+      "snippet": "**Blog angle:** Day 13 — the hardest, most uncomfortable work of building right. Not feature work. Not shipping. Governance, strategy, frameworks. The invisible work that makes everything else possible. The calm after the storm isn't luck. It's preparation. ### CHG sequence today: CHG-0208 through CHG-0222 (15 CHGs) ### State at EOD - API balance: ~$470 (topped up 03:31 AEST) - Gateway: running, pid 58244 - Warden: clean - Sprint 1: ready to execute - Next gates: Auralith incorporation (end May) + TKT-0060/0061/0063 (end May) # Daily Memory — 2026-05-07 (Day 13) # Written by: Yoda 🟢 | Pre-compaction flush | 1:06 AM AEST --- ## Session Events (Wed 2026-05-06 evening → Thu 2026-05-07 earl",
+      "recallCount": 1,
+      "dailyCount": 0,
+      "groundedCount": 0,
+      "totalScore": 0.46136651337146756,
+      "maxScore": 0.46136651337146756,
+      "firstRecalledAt": "2026-05-18T13:00:41.377Z",
+      "lastRecalledAt": "2026-05-18T13:00:41.377Z",
+      "queryHashes": [
+        "accaf3b27b3f"
+      ],
+      "recallDays": [
+        "2026-05-18"
+      ],
+      "conceptTags": [
+        "gateway",
+        "chg-0208",
+        "chg-0222",
+        "tkt-0060/0061/0063",
+        "pre-compaction",
+        "blog",
+        "angle",
+        "day"
       ]
     }
   }

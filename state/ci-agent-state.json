@@ -5,9 +5,9 @@
   "ciModel": "ollama/deepseek-v4-pro:cloud",
   "testStartAt": "2026-05-02T01:23:51.709013Z",
   "testEndAt": null,
-  "lastRunAt": "2026-05-18T06:43:22.414Z",
+  "lastRunAt": "2026-05-18T22:45:00Z",
   "status": "running",
-  "totalRuns": 59,
+  "totalRuns": 60,
   "totalTasksEvaluated": 105,
   "runFrequencyHours": 6,
   "qualityThreshold": 3.5,
@@ -103,7 +103,7 @@
       "addedCycle": 1
     },
     {
-      "model": "kimi-k2.6:cloud",
+      "model": "kimi-k2. la l k2.6:cloud",
       "task": "creative",
       "addedCycle": 1
     },

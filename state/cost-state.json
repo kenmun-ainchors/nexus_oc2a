@@ -1,5 +1,5 @@
 {
-  "lastUpdated": "2026-05-18T02:30:18Z",
+  "lastUpdated": "2026-05-18T13:55:44Z",
   "history": {
     "2026-04-25": {
       "date": "2026-04-25",
@@ -631,9 +631,9 @@
     "2026-05-18": {
       "date": "2026-05-18",
       "totalCost": 0.0,
-      "totalTurns": 648,
-      "totalInputTokens": 34287501,
-      "totalOutputTokens": 112204,
+      "totalTurns": 2836,
+      "totalInputTokens": 91084850,
+      "totalOutputTokens": 283820,
       "totalCacheReadTokens": 0,
       "totalCacheWriteTokens": 0,
       "source": "session-log-estimate",
@@ -641,23 +641,33 @@
       "calculatedCost": 0.0,
       "calculatedTurns": 0,
       "byModel": {
-        "deepseek-v4-pro:cloud": {
-          "input": 32274734,
-          "output": 97988,
+        "gemma4:31b-cloud": {
+          "input": 13535913,
+          "output": 62711,
           "cacheRead": 0,
           "cacheWrite": 0,
           "cost": 0.0,
-          "turns": 479,
+          "turns": 1613,
           "calculatedCost": 0.0,
           "calculatedTurns": 0
         },
-        "gemma4:31b-cloud": {
-          "input": 2012767,
-          "output": 14216,
+        "deepseek-v4-pro:cloud": {
+          "input": 77548937,
+          "output": 221109,
           "cacheRead": 0,
           "cacheWrite": 0,
           "cost": 0.0,
-          "turns": 165,
+          "turns": 903,
+          "calculatedCost": 0.0,
+          "calculatedTurns": 0
+        },
+        "kimi-k2.6:cloud": {
+          "input": 0,
+          "output": 0,
+          "cacheRead": 0,
+          "cacheWrite": 0,
+          "cost": 0.0,
+          "turns": 306,
           "calculatedCost": 0.0,
           "calculatedTurns": 0
         },
@@ -667,7 +677,7 @@
           "cacheRead": 0,
           "cacheWrite": 0,
           "cost": 0.0,
-          "turns": 4,
+          "turns": 14,
           "calculatedCost": 0.0,
           "calculatedTurns": 0
         }
