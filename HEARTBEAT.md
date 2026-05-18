@@ -158,9 +158,9 @@ Root cause of Day 16 journal corruption: heartbeat ran EOD at 15:27 AEST because
 State file: state/heartbeat-state.json
 
 ### Notion DB IDs (CHG-0401 3-DB architecture)
-- DB A (Backlog): 34dc1829-53ff-814b-8257-d3a3bf351d44
-- DB B (Auto-Heal): 364c1829-53ff-81c0-9dbd-ff2c907d1a6b  ← AUTO-HEAL items go HERE
-- DB C (Archive): 364c1829-53ff-818e-a783-ebafcb6a9880  ← closed tickets auto-archive HERE
+- DB A (Backlog): 34dc1829-53ff-812d-8e43-000b83eb0e7e
+- DB B (Auto-Heal): 364c1829-53ff-8174-9c18-000b19565e8f  ← AUTO-HEAL items go HERE
+- DB C (Archive): 364c1829-53ff-81b9-8467-000b175ec666  ← closed tickets auto-archive HERE
 
 ### Ahsoka Pilot Completion Gate (check every heartbeat)
 - Check `state/ahsoka-pilot-state.json`
