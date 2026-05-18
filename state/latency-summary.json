@@ -1,10 +1,10 @@
 {
-  "generatedAt": "2026-05-18T11:41:21.294876+00:00",
+  "generatedAt": "2026-05-18T11:51:21.839339+00:00",
   "windowDays": 7,
   "note": "Duration = end-to-end cron task time (includes LLM call + tool use). TTFT instrumentation pending gateway-level hooks.",
   "overall": {
-    "sampleCount": 9044,
-    "avgMs": 11073,
+    "sampleCount": 9052,
+    "avgMs": 11084,
     "peakMs": 510678,
     "minMs": 1
   },
@@ -19,13 +19,13 @@
       "avgTokens": 14335
     },
     "gemma4:26b": {
-      "sampleCount": 351,
-      "avgMs": 14144,
+      "sampleCount": 359,
+      "avgMs": 14353,
       "minMs": 3486,
       "maxMs": 163272,
-      "p50Ms": 10074,
-      "p95Ms": 33316,
-      "avgTokens": 9876
+      "p50Ms": 10126,
+      "p95Ms": 34079,
+      "avgTokens": 9863
     },
     "deepseek-v4-pro:cloud": {
       "sampleCount": 797,
