@@ -97,29 +97,6 @@ Nexus=platform|Holocron=AKB|Bridge=cmd-centre|Citadel=client-portal|Holonet=live
 ## Anthropic API Key Rotation — SOP
 - Trigger: key expires/revoked. Ken: `openclaw models auth`. Yoda: `python3 scripts/propagate-anthropic-key.sh` → all 12 agents. Run immediately. (CHG-0142 + 2026-05-13)
 
-## Key Decisions & Architecture
-→ See **MEMORY_DECISIONS.md** (append-only, ≤6k).
-
-## Golden Blueprint Documents — APPROVED (Day 20, 2026-05-14)
-- **Technology Strategy & Roadmap v1.0** (internal): `docs/Aevlith-Technology-Strategy-Roadmap-v1.0-Internal.md`
-- **System Architecture Document v1.0**: `docs/Nexus-System-Architecture-v1.0.md`
-- **Technology Strategy & Roadmap v1.0** (external): `docs/Aevlith-Technology-Strategy-Roadmap-v1.0-External.md` (CHG-0317)
-- Superseded archived. Decision records in MEMORY_DECISIONS.md. TRIGGER-15/16/17 locked.
-
-## Nexus Platform Architecture Direction — APPROVED (Day 20, 2026-05-14)
-- **Decision: Option B Phased** — Redesign data + integration layers, keep OpenClaw. CHG-0308.
-- **Work Currency:** High→Sonnet/Haiku/Opus | Medium→kimi | Low→Gemma4/systemEvent | None→Script.
-- **Phase 1 (S4-S8, ~8 Jun):** Postgres+5-tier schema, Three Work Types Rule, SoT Register, JSON→Postgres, Event Bus, Typed Contracts, PII Scanner, RAG.
-- **KRI Dashboard:** Notion. **architecture-kri-state.json** — Yoda owns live updates.
-- P2/3 detail archived. See `docs/Nexus-System-Architecture-v1.0.md`.
-
-## Sprint Plan (locked Day 20)
-→ See **MEMORY_TICKETS.md** for ticket detail. S4–S7 mapped; C/D buckets parked.
-
-## LinkedIn Auth (Day 20)
-- MDP approved, Advertising API. Token valid 2026-07-12.
-- L-027: Post cancellation must update queue state + delete cron.
-
 ## Config Baseline (Day 20 — CHG-0306)
 → See `state/critical-config-baseline.json` for live drift detection.
 - Defaults primary=Haiku, Warden=Haiku. BYOK+Nexus-first. CI Cycle A/2A running.

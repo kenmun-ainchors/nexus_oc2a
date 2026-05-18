@@ -163,21 +163,22 @@ echo "────────────────────────�
 # Agent model checks
 echo ""
 echo "[ Agent Models ]"
-check_agent "main"         "anthropic/claude-sonnet-4-6"
-check_agent "business"     "anthropic/claude-sonnet-4-6"
-check_agent "security"     "anthropic/claude-haiku-4-5"  # switched to Haiku 2026-05-06
-check_agent "legal"        "anthropic/claude-haiku-4-5"  # switched to Haiku 2026-05-06
-check_agent "qa"           "anthropic/claude-haiku-4-5"  # switched to Haiku 2026-05-06
-check_agent "governance"   "anthropic/claude-haiku-4-5"   # CHG-0270 interim: haiku primary pre-OC2
-# T3 specialist agents — sonnet primary (Ken confirmed 2026-05-13, CHG-0285)
-check_agent "architect"    "anthropic/claude-sonnet-4-6"   # Atlas
-check_agent "platform-arch" "anthropic/claude-sonnet-4-6"  # Thrawn
-check_agent "biz-process"  "anthropic/claude-sonnet-4-6"   # Lando
-check_agent "change-mgt"   "anthropic/claude-sonnet-4-6"   # Mon Mothma
+check_agent "main"         "ollama/deepseek-v4-pro:cloud"
+check_agent "business"     "ollama/deepseek-v4-pro:cloud"
+check_agent "security"     "ollama/gemma4:31b-cloud"
+check_agent "legal"        "ollama/gemma4:31b-cloud"
+check_agent "qa"           "ollama/gemma4:31b-cloud"
+check_agent "governance"   "ollama/gemma4:31b-cloud"
+check_agent "infra"        "ollama/gemma4:31b-cloud"
+check_agent "architect"    "ollama/gemma4:31b-cloud"
+check_agent "platform-arch" "ollama/gemma4:31b-cloud"
+check_agent "biz-process"  "ollama/gemma4:31b-cloud"
+check_agent "change-mgt"   "ollama/gemma4:31b-cloud"
+check_agent "ahsoka"       "ollama/gemma4:31b-cloud"
 
 echo ""
 echo "[ Default Config ]"
-check_default "primary" "anthropic/claude-haiku-4-5" "primary"  # CHG-0270 interim: haiku default pre-OC2
+check_default "primary" "ollama/gemma4:31b-cloud" "primary"  # CHG-0270 interim: haiku default pre-OC2
 
 echo ""
 echo "[ Fallback Chain ]"
@@ -208,7 +209,7 @@ if [ "$FALLBACK_STATUS" = "PASS" ]; then
   echo "  PASS  fallback chain → $FALLBACK_ACTUAL (Aria-safe CHG-0075)"
 else
   FAIL=$((FAIL + 1))
-  FALLBACK_EXPECTED='["anthropic/claude-haiku-4-5"]'
+  FALLBACK_EXPECTED='["ollama/deepseek-v4-pro:cloud","ollama/kimi-k2.6:cloud"]'
   echo "  FAIL  fallback chain → actual=$FALLBACK_ACTUAL expected=$FALLBACK_EXPECTED [VIOLATION]"
   FINDINGS+=("{\"agentId\":\"default.fallbacks\",\"expected\":$FALLBACK_EXPECTED,\"actual\":$FALLBACK_ACTUAL,\"severity\":\"VIOLATION\",\"note\":\"Fallback chain drift breaks resilient outage handling.\",\"detectedAt\":\"$AEST_TIMESTAMP\"}")
 fi

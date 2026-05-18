@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>AInchors Stand-up — Day 23 | 17 May 2026</title>
+<title>AInchors Stand-up — Day 24 | 18 May 2026</title>
 <style>
   *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
   body { background: #ffffff; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif; font-size: 14px; color: #24292f; line-height: 1.5; }
@@ -55,13 +55,13 @@
 <div class="page">
 
   <div class="header">
-    <h1>☀️ AInchors Morning Stand-Up — Day 23</h1>
-    <div class="sub">Sunday, 17 May 2026 · 8:00 AM AEST</div>
+    <h1>☀️ AInchors Morning Stand-Up — Day 24</h1>
+    <div class="sub">Monday, 18 May 2026 · 8:00 AM AEST</div>
     <div class="meta">
-      <span class="pill pill-green">🟢 System OK</span>
-      <span class="pill pill-yellow">💰 Balance $203.48</span>
-      <span class="pill pill-red">🛡️ Warden VIOLATED (0 clean)</span>
-      <span class="pill pill-blue">📅 Day 23</span>
+      <span class="pill pill-yellow">🟡 System OK (kimi interim)</span>
+      <span class="pill pill-blue">💰 Balance $203.48</span>
+      <span class="pill pill-yellow">🛡️ Warden 0 Clean</span>
+      <span class="pill pill-blue">📅 Day 24</span>
     </div>
   </div>
 
@@ -73,25 +73,25 @@
         <div class="card-value">🟢 OK</div>
         <div class="card-sub">All checks passing</div>
       </div>
-      <div class="card card-warn">
+      <div class="card card-ok">
         <div class="card-label">API Balance</div>
         <div class="card-value">$203.48</div>
-        <div class="card-sub">Confirmed 14 May · Daily cap $450 ends today</div>
+        <div class="card-sub">Confirmed 14 May · Auto-reload ON</div>
       </div>
       <div class="card card-ok">
         <div class="card-label">Backup</div>
         <div class="card-value">🟢 Fresh</div>
-        <div class="card-sub">17 May 02:05 AEST · Cloud ON</div>
+        <div class="card-sub">07:26 AEST today</div>
       </div>
       <div class="card card-ok">
         <div class="card-label">MEMORY.md</div>
-        <div class="card-value">9,428</div>
-        <div class="card-sub">chars — under 16k limit ✅</div>
+        <div class="card-value">8,008</div>
+        <div class="card-sub">chars — under 16k limit</div>
       </div>
       <div class="card card-warn">
         <div class="card-label">Obs Events (24h)</div>
-        <div class="card-value">246</div>
-        <div class="card-sub">202 ERR · 32 WARN · 12 INFO</div>
+        <div class="card-value">257</div>
+        <div class="card-sub">45 ERR · 45 WARN · 167 INFO</div>
       </div>
       <div class="card card-ok">
         <div class="card-label">Tasks (24h)</div>
@@ -99,46 +99,47 @@
         <div class="card-sub">0 failed · 0 stalled</div>
       </div>
     </div>
-    <div class="alert-warn">⚠️ 183 fallback_chain_broken events in obs (24h). Indicates repeated fallback failures — likely due to ollama/kimi-k2.6:cloud being used across all agents. Warden has 0 consecutive clean (violation detected today at 05:07 AEST).</div>
-    <div class="alert-warn">⚠️ 24 auto_heal_needs_ken events from yesterday's auto-heal — config drift and MEMORY.md / SOUL.md sizing flagged. Most resolved but model drift is active.</div>
+    <div class="alert-warn">⚠️ 151 fallback_chain_interim + 41 fallback_chain_broken events in obs — kimi interim period (CHG-0362/CHG-0363). Expected noise. Warden shows 0 consecutive clean (was violation at last check 05:07 AEST — 7 pass / 12 fail).</div>
+    <div class="alert-info">ℹ️ Auto-heal (01:00 AEST today) flagged 14 needs-ken items — 10 are expected kimi interim model drift (CHG-0362), 1 is stale backup flag (already fresh), 1 is balance $0 false positive (confirmed $203.48), 1 is MEMORY.md 9,428 chars (auto-heal pre-hygiene, now 8,008), 1 is kimi confidence map mismatch.</div>
     <h3>API Spend (recent)</h3>
     <table>
       <tr><th>Date</th><th>Daily Cost</th><th>Source</th></tr>
-      <tr><td>May 12</td><td>$323.55</td><td>ground truth (CSV)</td></tr>
-      <tr><td>May 13</td><td>$149.35</td><td>ground truth (CSV)</td></tr>
-      <tr><td>May 14</td><td>$200.16</td><td>ground truth (CSV)</td></tr>
-      <tr><td>May 15</td><td>$103.08</td><td>ground truth (CSV)</td></tr>
-      <tr><td>May 16</td><td>$7.63</td><td>estimate (kimi/deepsek)</td></tr>
-      <tr><td><strong>Avg (22-day)</strong></td><td><strong>$190.32</strong></td><td>tracked</td></tr>
+      <tr><td>May 15</td><td>$103.08</td><td>Anthropic CSV (ground truth)</td></tr>
+      <tr><td>May 16</td><td>$7.63</td><td>Session estimate (kimi shift)</td></tr>
+      <tr><td>May 17</td><td>$0.01</td><td>Session estimate (kimi dominant)</td></tr>
+      <tr><td><strong>Avg 23-day</strong></td><td><strong>$182.05</strong></td><td>All-time tracked</td></tr>
     </table>
+    <div class="alert-ok" style="margin-top:8px;">💡 Daily cap expired — was $450/day through May 17. Now reverts to $150/day. Actual spend has dropped sharply since kimi shift (~$0-8/day).</div>
     <h3>Backup Detail</h3>
     <ul>
-      <li>Last snap: <strong>workspace-full-2026-05-17-0205</strong> (full Sunday tar.gz)</li>
-      <li>NAS: <span style="color:#9a6700;font-weight:600;">Not connected</span> · Cloud: <span style="color:#1a7f37;font-weight:600;">Enabled</span></li>
+      <li>Last snap: <strong>workspace-2026-05-18-0726</strong> (incremental rsync)</li>
+      <li>NAS: <span style="color:#9a6700;font-weight:600;">Not connected</span> · Cloud: <span style="color:#9a6700;font-weight:600;">Disabled</span></li>
     </ul>
   </div>
 
   <div class="section">
     <h2>2 · Business Stream (Angie / Aria)</h2>
-    <div class="alert-warn">⚠️ Day 9+ without Angie inbound. Last active: Thu 14 May evening (voice note → meeting scheduled with Ken). Friday morning check-in sent (15 May) — no response. Weekend silence continues.</div>
-    <h3>Activity Since Last Stand-up (15–16 May)</h3>
+    <div class="alert-warn">⚠️ Day 4+ without Angie inbound. Last active: Thu 14 May (voice note requesting Ken meeting). Friday morning check-in delivered with meeting reminder — no response. Weekend passed quietly (expected).</div>
+    <h3>Activity Since Last Stand-up</h3>
     <ul>
-      <li>Friday check-in sent (15 May 08:00 AEST) — no response</li>
-      <li>Meeting with Ken successfully scheduled for Fri 15 May 4–5pm AEST (via Angie's Google Calendar, invite sent to kenmun@ainchors.com)</li>
-      <li>Aria duplicate-suppression working correctly (REPLY_SKIP on heartbeat injections)</li>
+      <li>Thu 14 May: Angie sent voice note — requested meeting with Ken. Aria scheduled Fri 15 May 4pm (Google Meet: zuc-jcua-hmp).</li>
+      <li>Fri 15 May: Aria delivered morning check-in with meeting reminder. No Angie response.</li>
+      <li>Sat-Sun: Weekend — no contact expected. Aria quiet.</li>
+      <li>Mon 18 May: Week 3 begins. No Angie contact yet today.</li>
     </ul>
     <h3>Open Items</h3>
     <ul>
-      <li><strong style="color:#cf222e;">🔴 JotForm API key</strong> — Day 19. HRDF form blocked.</li>
-      <li><strong style="color:#cf222e;">🔴 Onboarding</strong> — OB-12, OB-14, OB-15 unchecked. Stages 2–6 not started.</li>
-      <li><strong style="color:#9a6700;">🟡 April 30 class debrief</strong> — 17 days since class. Still missing.</li>
+      <li><strong style="color:#cf222e;">🔴 JotForm API key</strong> — Day 20. HRDF form blocked.</li>
+      <li><strong style="color:#cf222e;">🔴 Onboarding Stuck</strong> — OB-12, OB-14, OB-15 unchecked. Stages 2–6 not started. Ken meeting outcome unknown.</li>
+      <li><strong style="color:#9a6700;">🟡 April 30 class debrief</strong> — 18 days since class. Still missing.</li>
       <li><strong style="color:#9a6700;">🟡 Meta appeal</strong> — status unknown.</li>
-      <li><strong style="color:#9a6700;">🟡 Social posts</strong> — drafted Apr 28, publication status unknown.</li>
-      <li><strong style="color:#9a6700;">🟡 Lynn Huang fee reply</strong> — awaiting response.</li>
-      <li><strong style="color:#9a6700;">🟡 Jack Ooi</strong> — meeting outcome unknown (last: Angie asked Aria to find him).</li>
+      <li><strong style="color:#9a6700;">🟡 Lynn Huang fee reply</strong> — awaiting response (email sent May 9).</li>
+      <li><strong style="color:#9a6700;">🟡 Jack Ooi</strong> — meeting outcome unknown.</li>
+      <li><strong style="color:#9a6700;">🟡 Training revenue projection</strong> — $1.065M AUD target delivered. Pending Angie/Ken review.</li>
+      <li><strong style="color:#9a6700;">🟡 Marketing collaterals</strong> — ready, unreviewed.</li>
     </ul>
     <h3>Handoff</h3>
-    <p style="font-size:13px;">Revenue targets locked: RM 30k/month (MY) + AUD 10k/month (AU). 6-month training projection ($1.065M AUD target) delivered. Calendar: Lynn Huang + Ken CTO contract both confirmed. Business stream is structurally sound — unblock requires Angie engagement.</p>
+    <p style="font-size:13px;">The Fri 15 May Ken-Angie meeting is the key inflection point — outcome unknown. If productive, Angie may re-engage this week. If no contact by Tue-Wed, a direct Ken nudge may be needed. All business stream assets are structurally complete — unblock requires human engagement.</p>
   </div>
 
   <div class="section">
@@ -147,7 +148,7 @@
       <div class="card card-warn">
         <div class="card-label">Warden Clean</div>
         <div class="card-value">0</div>
-        <div class="card-sub">VIOLATION at 05:07 AEST today</div>
+        <div class="card-sub">Last check 05:07 AEST — 7P/12F</div>
       </div>
       <div class="card card-ok">
         <div class="card-label">Escalations</div>
@@ -157,37 +158,38 @@
       <div class="card card-ok">
         <div class="card-label">Open Incidents</div>
         <div class="card-value">0</div>
-        <div class="card-sub">All closed</div>
+        <div class="card-sub">All 5 resolved</div>
       </div>
     </div>
+    <div class="alert-warn">⚠️ Warden violation at 05:07 AEST — 7 pass / 12 fail. This coincides with the kimi interim period (CHG-0362). Warden's model policy likely checking against Anthropic models when agents are intentionally on kimi. Flagged for Ken awareness — expected during interim.</div>
     <h3>Incident Log</h3>
     <table>
       <tr><th>ID</th><th>Title</th><th>Sev</th><th>Status</th></tr>
-      <tr><td class="chg">INC-20260509-001</td><td>API balance $0 — 26hr degradation</td><td>P2</td><td style="color:#1a7f37;font-weight:600;">Resolved</td></tr>
-      <tr><td class="chg">INC-20260503-001</td><td>API key mismatch post-rotation</td><td>P2</td><td style="color:#1a7f37;font-weight:600;">Resolved</td></tr>
+      <tr><td>INC-20260509-001</td><td>Extended health degradation — API balance zero (26hr)</td><td>P2</td><td style="color:#1a7f37;font-weight:600;">Resolved</td></tr>
+      <tr><td>INC-20260503-001</td><td>Anthropic API key mismatch — keychain stale</td><td>P2</td><td style="color:#1a7f37;font-weight:600;">Resolved</td></tr>
+      <tr><td>INC-20260428-003</td><td>Bonjour/ciao plugin crash-loop → gateway crash</td><td>P1</td><td style="color:#1a7f37;font-weight:600;">Resolved</td></tr>
     </table>
-    <div class="alert-critical" style="margin-top:10px;">🔴 <strong>Warden violation active</strong>: model-drift-state shows 0 consecutive clean. Last check 05:07 AEST detected drift — all agents showing actual = "ollama/kimi-k2.6:cloud" vs expected Anthropic models. This is the critical path item for Ken today.</div>
-    <div class="alert-info" style="margin-top:10px;">ℹ️ Shield / Lex / Sage daily sweeps running. Content volume through gates near zero — blocked on Angie onboarding. No pass/fail metrics yet measurable at scale.</div>
+    <div class="alert-info" style="margin-top:10px;">ℹ️ Warden false-positives during kimi interim are documented (CHG-0362). All 7 escalation violations resolved. Content governance volume near zero — blocked on Angie onboarding.</div>
   </div>
 
   <div class="section">
-    <h2>4 · Auto-Heal (Yesterday — 16 May 2026, 01:00 AEST)</h2>
+    <h2>4 · Auto-Heal (Today — 18 May 2026, 01:00 AEST)</h2>
     <div class="card-grid">
-      <div class="card card-ok"><div class="card-label">Checks Run</div><div class="card-value">19</div><div class="card-sub">All executed</div></div>
-      <div class="card card-ok"><div class="card-label">Auto-Fixed</div><div class="card-value">2</div><div class="card-sub">No manual action needed</div></div>
-      <div class="card card-warn"><div class="card-label">Needs-Ken</div><div class="card-value">13</div><div class="card-sub">Critical drift + backup + sizing</div></div>
+      <div class="card card-ok"><div class="card-label">Checks Run</div><div class="card-value">20</div><div class="card-sub">All executed</div></div>
+      <div class="card card-ok"><div class="card-label">Auto-Fixed</div><div class="card-value">2</div><div class="card-sub">git commits</div></div>
+      <div class="card card-warn"><div class="card-label">Needs-Ken</div><div class="card-value">14</div><div class="card-sub">10 kimi-interim expected</div></div>
     </div>
     <h3>Auto-Fixed</h3>
     <ul>
-      <li>✅ git-commit: workspace (16 files)</li>
-      <li>✅ aria-git-commit: 1 file</li>
+      <li>✅ git-commit:workspace (15 files)</li>
+      <li>✅ aria-git-commit (1 file)</li>
     </ul>
-    <h3>Needs-Ken (Outstanding)</h3>
-    <div class="alert-critical">🔴 CRITICAL DRIFT: All agent primaries = "ollama/kimi-k2.6:cloud" vs expected Anthropic models. Main/default should be Sonnet; Aria should be Sonnet; Shield/Lex/Sage/Warden should be Haiku. Fix: edit openclaw.json agent model assignments or document intentional CHG.</div>
-    <div class="alert-warn">⚠️ Backup stale: 118h old at check time — has since been resolved (full backup ran 17 May 02:05).</div>
-    <div class="alert-warn">⚠️ MEMORY.md 10,547 chars — OVER hard limit 10,000. Needs trim (now 9,428 chars post-standup hygiene).</div>
-    <div class="alert-warn">⚠️ SOUL.md oversized: workspace 6,100 chars (warn threshold 6,000). Compact.</div>
-    <div class="alert-warn">⚠️ 1 zombie task(s) — run: openclaw tasks audit</div>
+    <h3>Needs-Ken (triaged)</h3>
+    <div class="alert-info">ℹ️ 10× model drift flags — expected during kimi interim (CHG-0362/CHG-0363). Main on deepseek-v4-pro, agents on gemma4:31b-cloud. Intentional.</div>
+    <div class="alert-ok">✅ Backup stale (59h) — auto-heal ran before 07:26 snap. Now fresh. No action needed.</div>
+    <div class="alert-ok">✅ API balance $0 — false positive. Confirmed balance $203.48. No action needed.</div>
+    <div class="alert-ok">✅ MEMORY.md 9,428 chars — pre-hygiene reading. Now 8,008. Resolved.</div>
+    <div class="alert-warn" style="margin-top:8px;">⚠️ kimi confidence mapping mismatch (95 tickets vs 158 open) — needs re-sync. Non-urgent.</div>
   </div>
 
   <div class="section">
@@ -205,20 +207,20 @@
       <tr><td><strong>BUSINESS ROI</strong></td><td><span class="pill pill-yellow" style="font-size:11px;">L2</span></td><td>Developing</td><td>Lagging — High</td></tr>
     </table>
     <div class="gate-badge" style="margin-top:10px;display:block;width:fit-content;">🎯 BUD GATE: TOM (L2) is lagging — BUD must target TOM this standup</div>
-    <p style="font-size:12px;color:#57606a;margin-top:8px;">Next step: Angie onboarding Stage 2 (Notion command centre). 10-minute touchpoint. Directly advances TOM L2→L3 AND unblocks Business ROI, Governance volume, sub-agent build.</p>
+    <p style="font-size:12px;color:#57606a;margin-top:8px;">Key unblock: Angie Stage 2 onboarding (Notion command centre). Single 10-min touchpoint advances TOM L2→L3 AND unblocks Governance volume + Business ROI actuals. Ken-Angie meeting outcome (Fri 15 May) may determine trajectory this week.</p>
   </div>
 
   <div class="section">
     <h2>6 · Progress (CHGs Since Last Stand-up)</h2>
-    <p style="font-size:12px;color:#57606a;margin-bottom:10px;">Window: 15 May → 17 May</p>
+    <p style="font-size:12px;color:#57606a;margin-bottom:10px;">Window: 17 May 08:00 AEST → 18 May 08:00 AEST</p>
     <table>
       <tr><th>CHG</th><th>Time</th><th>Description</th></tr>
-      <tr><td class="chg">CHG-0361</td><td>17 May 01:00 AEST</td><td>AUTO-HEAL nightly sweep — 19 checks, 2 auto-fixed, 13 needs-Ken</td></tr>
-      <tr><td class="chg">CHG-0359</td><td>16 May 12:47 AEST</td><td>Auto allowlist sync — Tier 2 propagation (strategy-update)</td></tr>
-      <tr><td class="chg">CHG-0356</td><td>16 May 10:42 AEST</td><td>CI Cycle 2A Complete — Cycle 3A Started</td></tr>
-      <tr><td class="chg">CHG-0353</td><td>16 May 06:01 AEST</td><td>OpenClaw v2026.5.12 HIGH security patch detected by TRIGGER-04</td></tr>
+      <tr><td class="chg">CHG-0363</td><td>17 May 10:00 AEST</td><td>Cron Interim Model Batch Update — 16 crons migrated to kimi</td></tr>
+      <tr><td class="chg">CHG-0362</td><td>17 May 09:18 AEST</td><td>Warden intentional model drift documentation — kimi interim declared not drift</td></tr>
+      <tr><td class="chg">CHG-0361</td><td>17 May 01:00 AEST</td><td>AUTO-HEAL nightly sweep 2026-05-17</td></tr>
+      <tr><td class="chg">CHG-0175</td><td>15 May 13:10 AEST</td><td>Calculated cost fallback for ephemeral sessions</td></tr>
     </table>
-    <p style="font-size:12px;color:#57606a;margin-top:8px;"><strong>4 CHGs</strong> — security patch, CI cycle completion, auto-allowlist sync, and nightly auto-heal. No breaking changes. Daily cap $450 expires today (reverts to $150).</p>
+    <p style="font-size:12px;color:#57606a;margin-top:8px;"><strong>4 CHGs</strong> — 3 from Sunday (model strategy + auto-heal), 1 from Friday (cost calc). Light weekend cadence — expected.</p>
   </div>
 
   <div class="section">
@@ -230,14 +232,14 @@
       <div class="rtb-card">
         <div class="rtb-icon">🌹</div>
         <div class="rtb-stream">Tech Stream</div>
-        <div class="rtb-text"><strong>CI Cycle 2A complete + Cycle 3A started (CHG-0356).</strong> Security patch detection working (CHG-0353). Mission Control generated successfully this morning. System operational despite model drift.</div>
-        <div class="rtb-reason">Reasoning: Despite the Warden violation, core build/test/security loops are functioning. Cycle completion shows the development pipeline is healthy and advancing.</div>
+        <div class="rtb-text"><strong>Kimi cost breakthrough — $0.01/day.</strong> 16 crons migrated to kimi (CHG-0363). Daily spend dropped from $100-200 to <$8. $203 balance now has weeks of runway vs days. Model strategy pivot paying off massively.</div>
+        <div class="rtb-reason">Reasoning: This is the single biggest operational improvement of the week. Cost was the #1 risk. The kimi interim has neutralized that risk while maintaining operational capability.</div>
       </div>
       <div class="rtb-card">
         <div class="rtb-icon">🌹</div>
         <div class="rtb-stream">Business Stream</div>
-        <div class="rtb-text"><strong>Aria calendared Angie↔Ken meeting successfully.</strong> Voice note transcription + Google Calendar event + Meet link all worked. Aria's operational capability for Angie's business admin tasks is proven.</div>
-        <div class="rtb-reason">Reasoning: This is a concrete business value delivery — meeting scheduling is a real-world task that saves Angie time. Aria can execute when Angie engages.</div>
+        <div class="rtb-text"><strong>Angie initiated Ken meeting via Aria.</strong> Thu 14 May voice note → Aria successfully scheduled Fri 4pm Google Meet. First Angie-initiated coordination through the platform. Even if outcome unknown, the pipeline works.</div>
+        <div class="rtb-reason">Reasoning: Angie using Aria to coordinate with Ken validates the dual-agent model. The platform is being used for its designed purpose — cross-stream coordination.</div>
       </div>
     </div>
 
@@ -246,14 +248,14 @@
       <div class="rtb-card">
         <div class="rtb-icon">🌵</div>
         <div class="rtb-stream">Tech Stream</div>
-        <div class="rtb-text"><strong>Warden VIOLATED — 0 consecutive clean.</strong> All agents reporting actual = "ollama/kimi-k2.6:cloud" vs expected Anthropic models. 183 fallback_chain_broken events (24h). Daily cap $450 expires today.</div>
-        <div class="rtb-reason">Reasoning: This is a critical drift. If intentional (kimi trial), it needs a CHG record. If unintentional, openclaw.json needs immediate correction. The fallback chain is breaking because primary models are not where Warden expects them.</div>
+        <div class="rtb-text"><strong>Warden at 0 clean + 151 fallback_chain events.</strong> Model compliance checking is generating false positives during kimi interim. 45 ERRORs in obs — noise masking any real signal. Needs Warden policy update or acknowledge as expected interim state.</div>
+        <div class="rtb-reason">Reasoning: While documented (CHG-0362), the alert volume is eroding governance confidence. Warden should either be updated for the kimi interim model set or suppressed during the declared interim period to preserve signal integrity.</div>
       </div>
       <div class="rtb-card">
         <div class="rtb-icon">🌵</div>
         <div class="rtb-stream">Business Stream</div>
-        <div class="rtb-text"><strong>Angie engagement gap — Day 9+.</strong> JotForm outstanding 19 days. Onboarding Stages 2–6 stalled. April 30 class debrief 17 days missing. No governance volume. No Business ROI actuals. TOM stuck at L2.</div>
-        <div class="rtb-reason">Reasoning: Every downstream framework (Governance, Business ROI, TOM) needs Angie active. Without Stage 2 completion, we cannot advance any of the three lagging L2 frameworks. Ken's direct involvement is likely the unlock.</div>
+        <div class="rtb-text"><strong>Angie engagement gap — Day 4+.</strong> JotForm Day 20. Onboarding Stages 2-6 stalled. April 30 class debrief 18 days missing. No visibility into Fri 15 May Ken-Angie meeting outcome. TOM, Governance, and Business ROI all stuck at L2.</div>
+        <div class="rtb-reason">Reasoning: The Ken-Angie meeting is the hinge point. If productive, this week could unlock everything. If not, the structural blockage continues. Either way, we need visibility on the meeting outcome before calibrating next steps.</div>
       </div>
     </div>
 
@@ -261,23 +263,23 @@
     <div class="rtb-card">
       <div class="rtb-icon">🌱</div>
       <div class="rtb-stream">Framework Gate — TOM (L2) Target</div>
-      <div class="rtb-text" style="margin-top:6px;"><strong>[Tech]</strong> File CHG to resolve Warden violation — either document intentional kimi-k2.6 deployment (CHG record) or revert agent primaries to Anthropic per model-policy.json. Confirm fallback chain integrity post-fix.</div>
-      <div class="rtb-text" style="margin-top:8px;"><strong>[Biz]</strong> Ken to check in with Angie directly this week. Aria's automated check-ins have reached their limit after 9+ days of silence. Stage 2 (Notion command centre — 10 min) is the entry point. Even a voice note response moves the needle.</div>
+      <div class="rtb-text" style="margin-top:6px;"><strong>[Tech]</strong> Update Warden policy for kimi interim period — either add kimi models to approved list temporarily, or suppress Warden during declared interim. Reduce false-positive noise so real violations are visible. Also: file CHG to re-sync kimi confidence mapping (95 vs 158 mismatch).</div>
+      <div class="rtb-text" style="margin-top:8px;"><strong>[Biz]</strong> Ken: what was the outcome of your Friday meeting with Angie? If productive, Aria should follow up with Stage 2 prompt (Notion command centre, 10 min). If Angie is unavailable this week, we need a pivot strategy for the business stream — TOM, Governance, and ROI can't advance without her.</div>
       <div class="gate-badge" style="margin-top:8px;">🎯 TOM GATE: Angie Stage 2 = TOM L2→L3 + Governance volume + Business ROI actuals</div>
-      <div class="rtb-reason" style="margin-top:6px;">Reasoning: TOM is the highest-priority lagging framework at L2. The entire downstream stack (Governance real-world testing, Business ROI data, sub-agent build, Knowledge Management content) requires Angie active. Ken's direct involvement is likely the unlock — Aria has done what it can autonomously.</div>
+      <div class="rtb-reason" style="margin-top:6px;">Reasoning: Week 3 begins. The Fri meeting is the inflection. If Ken and Angie aligned, this is the week to push Stage 2 and generate real business stream momentum. If not, we need a calibrated waiting strategy that doesn't burn platform credibility on automated check-ins.</div>
     </div>
   </div>
 
   <div class="section">
-    <h2>8 · New Input Prompt</h2>
+    <h2>8 · New Input</h2>
     <div class="new-input">
-      💬 What's your focus for today, Ken?<br>
-      <span style="font-size:12px;display:block;margin-top:4px;">Any new priorities, adjustments, or actions from this brief? Reply in Telegram or webchat to set Day 23's direction.</span>
+      📝 What's on your mind today, Ken?<br>
+      <span style="font-size:12px;display:block;margin-top:4px;">Key questions: (1) How was Friday's meeting with Angie? (2) Do you want Warden suppressed during kimi interim? (3) Any new priorities for Week 3? Reply in Telegram or webchat to set Day 24's direction.</span>
     </div>
   </div>
 
   <div class="footer">
-    🤖 AInchors Morning Stand-Up — Day 23 · Sunday 17 May 2026 · Generated by Yoda at 08:00 AEST<br>
+    🤖 AInchors Morning Stand-Up — Day 24 · Monday 18 May 2026 · Generated by Yoda at 08:00 AEST<br>
     OC1 · AInchors's Mac mini · Darwin 25.4.0 (arm64) · Delivered: Telegram flash + Email (kenmun@gmail.com) + Webchat
   </div>
 </div>

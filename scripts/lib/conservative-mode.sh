@@ -192,3 +192,35 @@ check_claude_restore() {
 #   skip) echo "Skipped due to interim period"; exit 0 ;;
 #   ok)   echo "Proceeding normally" ;;
 # esac
+
+# ──────────────────────────────────────────────────────────────────────────────
+# INTERIM PERIOD CHECKLIST — L-040 (MANDATORY when declaring interim period)
+# ──────────────────────────────────────────────────────────────────────────────
+# When interim model period is declared (Anthropic outage, kimi substitution, etc.)
+# ALL alert-generating scripts must be checked for interim awareness.
+# Patching Warden alone IS NOT ENOUGH. The platform has multiple independent signal paths.
+#
+# MANDATORY AUDIT:
+#   [ ] warden-cron.sh — Verify respects wardenBehavior field
+#   [ ] validate-fallback-chain.sh — Verify skips Anthropic model checks
+#   [ ] health-check.sh — Verify doesn't alert on Anthropic API 401/403
+#   [ ] outage-detect.sh — Verify doesn't declare outage for credit depletion
+#   [ ] outage-handler.sh — Verify doesn't trigger recovery for intentional interim
+#   [ ] run-diagnostics.sh — Verify reports interim status, not "FAIL"
+#   [ ] auto-heal.sh — Verify doesn't flag intentional model drifts as needs-ken
+#   [ ] startup-checks.sh — Verify startup doesn't block on missing Anthropic models
+#   [ ] obs-collector.sh — Verify OBS errors are annotated as interim
+#
+# VERIFICATION PROTOCOL:
+#   For EACH script above:
+#   1. Read the script
+#   2. Identify ALL Anthropic model references (anthropic/*, claude*, sonnet*, haiku*, opus*)
+#   3. Add interim period guard: source scripts/lib/conservative-mode.sh; if is_interim_period_active; then [skip/annotate]
+#   4. Test: run script manually, verify interim-awareness
+#   5. Commit: git add + git commit with CHG reference
+#
+# COMPLETION CRITERIA (L-037):
+#   Do NOT claim "all scripts checked" until EVERY script is individually verified.
+#   Partial completion: list which scripts are verified, which are pending.
+#
+# REFS: L-040, CHG-0362, CHG-0388, Day 24 fallback-chain-broken incident

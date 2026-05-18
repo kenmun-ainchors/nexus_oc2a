@@ -1,14 +1,16 @@
 {
-  "totalChecksRun": 1180,
-  "totalViolationsFound": 582,
+  "totalChecksRun": 7,
+  "totalViolationsFound": 11,
   "consecutiveClean": 0,
-  "lastCheck": "2026-05-17T05:07:02+10:00",
-  "lastStatus": "violation",
-  "lastPassCount": 7,
-  "lastFailCount": 12,
-  "lastViolationAt": "2026-05-17T05:07:02+10:00",
-  "notes": "Heartbeat check 2026-05-05T19:22:24.008882+10:00. All 7 policy-covered agents on Sonnet as required. architect/platform-arch not in policy \u2014 gap noted.",
+  "lastCheck": "2026-05-18T21:07:04+10:00",
+  "baselineResetAt": "2026-05-18T12:10:00+10:00",
   "approvedModels": [
-    "ollama/gemma4:31b-cloud"
-  ]
+    "ollama/gemma4:31b-cloud",
+    "ollama/deepseek-v4-pro:cloud",
+    "ollama/kimi-k2.6:cloud"
+  ],
+  "lastStatus": "violation",
+  "lastPassCount": 19,
+  "lastFailCount": 2,
+  "lastViolationAt": "2026-05-18T21:07:04+10:00"
 }

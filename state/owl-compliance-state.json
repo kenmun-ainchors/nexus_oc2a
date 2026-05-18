@@ -1,32 +1,25 @@
 {
   "schema_version": "1.0",
   "description": "OWL Compliance State Tracking \u2014 Real-time monitoring of OWL mandate adherence (CHG-0386)",
-  "lastUpdated": "2026-05-17T18:51:08.214217",
-  "sessionId": "",
-  "complianceScore": 51,
-  "totalResponses": 4,
-  "driftIncidents": 2,
+  "lastUpdated": "2026-05-18T19:20:43.875712",
+  "sessionId": "heartbeat",
+  "complianceScore": 100,
+  "totalResponses": 1,
+  "driftIncidents": 0,
   "selfCorrections": 0,
-  "currentTier": "3",
+  "currentTier": "1",
   "currentResponse": {
-    "startedAt": "2026-05-17T18:51:08.214217",
-    "tier": "3",
-    "thinkingTimeSeconds": 60,
-    "atomCount": 5,
-    "atoms": [],
-    "pauseBetweenAtoms": [],
-    "hasPause": false,
-    "hasShownThinking": false,
-    "hasAssessedRisk": false,
-    "hasVerifiedAtoms": false,
-    "stoppedOnError": false,
-    "complianceScore": 0,
+    "startedAt": "2026-05-18T19:20:43.875715",
+    "tier": "1",
+    "thinkingTimeSeconds": 10,
+    "atomCount": 6,
+    "complianceScore": 100,
     "driftFlags": {
-      "chainReactionDetected": true,
-      "insufficientPause": true,
-      "noThinkingShown": true,
-      "noRiskAssessment": true,
-      "errorNotStopped": true
+      "chainReactionDetected": false,
+      "insufficientPause": false,
+      "noThinkingShown": false,
+      "noRiskAssessment": false,
+      "errorNotStopped": false
     }
   },
   "history": {
@@ -54,27 +47,31 @@
         "tier": "3",
         "compliance": 0,
         "drift": true
+      },
+      {
+        "timestamp": "2026-05-18T19:20:43.875717",
+        "tier": "1",
+        "compliance": 100,
+        "drift": false
       }
     ],
     "dailySummary": {
-      "date": "2026-05-17",
-      "totalResponses": 4,
-      "complianceScore": 51,
-      "driftIncidents": 2,
+      "date": "2026-05-18",
+      "totalResponses": 1,
+      "complianceScore": 100,
+      "driftIncidents": 0,
       "selfCorrections": 0,
       "tierBreakdown": {
-        "tier1": 2,
-        "tier2": 1,
-        "tier3": 1
+        "tier1": 1
       }
     }
   },
   "driftFlags": {
-    "chainReactionDetected": true,
-    "insufficientPause": true,
-    "noThinkingShown": true,
-    "noRiskAssessment": true,
-    "errorNotStopped": true
+    "chainReactionDetected": false,
+    "insufficientPause": false,
+    "noThinkingShown": false,
+    "noRiskAssessment": false,
+    "errorNotStopped": false
   },
   "selfCheckQuestions": [
     "Did I pause before the last execution?",

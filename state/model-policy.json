@@ -1,757 +1,225 @@
 {
-  "schema_version": "1.0",
-  "description": "Authoritative model policy for all AInchors agents. Warden enforces this. Changes require Ken approval + CHG entry + baseline update.",
-  "lastUpdated": "2026-05-17T22:03:05.756689",
-  "lastApprovedBy": "Ken",
-  "approvalContext": "Interim model switch: kimi \u2192 gemma4:31b across all agents and crons (2026-05-17 ~22:00 AEST)",
+  "schema_version": "2.0",
+  "description": "PERMANENT model policy for all AInchors agents. Warden enforces this. Changes require Ken approval + CHG entry + baseline update.",
+  "lastUpdated": "2026-05-18T11:47:13+10:00",
+  "lastApprovedBy": "Ken Mun",
+  "approvalContext": "allowlist-sync.sh auto-sync (source: strategy-update) -- 2026-05-18T11:47:13+10:00",
+  "permanent": true,
+  "interimPeriod": false,
   "globalAllowedModels": [
-    "ollama/gemma4:e2b",
-    "ollama/gemma4:26b",
+    "ollama/gemma4:31b-cloud",
+    "ollama/deepseek-v4-pro:cloud",
     "ollama/kimi-k2.6:cloud",
     "ollama/deepseek-v4-flash:cloud",
-    "ollama/deepseek-v4-pro:cloud",
-    "ollama/gemma4:31b-cloud"
+    "ollama/gemma4:e2b",
+    "ollama/gemma4:26b"
   ],
-  "_interimNote": "Anthropic models removed from globalAllowedModels during CHG-0349 interim period. Required by KIMI MANDATE (CHG-0373). Will be restored on CLAUDE RESTORE keyword.",
   "globalProhibitedInInteractive": [
     "ollama/gemma4:e2b",
     "ollama/gemma4:26b"
   ],
+  "agentTiers": {
+    "userFacing": {
+      "description": "Agents that interact directly with humans (Ken, Angie) via webchat or Telegram",
+      "agentIds": [
+        "main",
+        "business"
+      ],
+      "primary": "ollama/deepseek-v4-pro:cloud",
+      "fallbacks": [
+        "ollama/gemma4:31b-cloud",
+        "ollama/kimi-k2.6:cloud"
+      ],
+      "rationale": "deepseek-v4-pro for quality interactive responses. gemma4:31b first fallback for cost. kimi final safety net."
+    },
+    "backend": {
+      "description": "All specialist/backend agents invoked via sub-agent or cron",
+      "agentIds": [
+        "security",
+        "legal",
+        "qa",
+        "governance",
+        "infra",
+        "architect",
+        "platform-arch",
+        "biz-process",
+        "change-mgt",
+        "ahsoka"
+      ],
+      "primary": "ollama/gemma4:31b-cloud",
+      "fallbacks": [
+        "ollama/deepseek-v4-pro:cloud",
+        "ollama/kimi-k2.6:cloud"
+      ],
+      "rationale": "gemma4:31b for cost-efficient backend work. deepseek-v4-pro fallback for complex tasks. kimi safety net."
+    }
+  },
   "agents": {
     "main": {
-      "description": "Yoda \u2014 Technical Lead Agent",
-      "requiredModel": "anthropic/claude-sonnet-4-6",
-      "allowedModels": [
-        "anthropic/claude-sonnet-4-6"
+      "description": "Yoda 🟢 — Lead Orchestrator (user-facing)",
+      "tier": "userFacing",
+      "requiredPrimary": "ollama/deepseek-v4-pro:cloud",
+      "requiredFallbacks": [
+        "ollama/gemma4:31b-cloud",
+        "ollama/kimi-k2.6:cloud"
       ],
-      "escalationModel": "anthropic/claude-opus-4-7",
-      "escalationRule": "High-stakes tasks or 2x failure only. Ken must approve or task must qualify per RULES.md.",
-      "prohibitedModels": [
-        "ollama/gemma4:e2b"
-      ],
-      "prohibitedInCrons": [],
-      "allowedInCrons": [
-        "anthropic/claude-haiku-4-5",
-        "anthropic/claude-sonnet-4-6",
-        "ollama/gemma4:e2b",
-        "ollama/kimi-k2.6:cloud",
-        "ollama/deepseek-v4-flash:cloud",
-        "ollama/deepseek-v4-pro:cloud",
-        "ollama/gemma4:31b-cloud"
-      ],
-      "ollamaCloudConstraint": "Non-sensitive (low data_sensitivity) crons only. No PII, no medical, no legal. AInchors own ops only.",
-      "rationale": "US11 model strategy. Sonnet is default. Opus for escalation only. Gemma4:e2b for background crons. Ollama Cloud Tier 2 (kimi/deepseek) for non-sensitive cron tasks (CHG-0140).",
       "configPath": "/Users/ainchorsangiefpl/.openclaw/openclaw.json",
       "configJqQuery": ".agents.list[] | select(.id==\"main\") | .model",
-      "requiredPrimary": "ollama/gemma4:31b-cloud",
-      "_configFormat": "CHG-0270: openclaw.json .model is now {primary, fallbacks} object. Compare against .model.primary only.",
-      "requiredFallbacks": [
-        "ollama/kimi-k2.6:cloud",
-        "ollama/gemma4:26b",
-        "ollama/deepseek-v4-pro:cloud",
-        "ollama/deepseek-v4-flash:cloud"
-      ],
-      "_interimNote": "CHG-0348: Interim models during Claude API credit outage. Valid: kimi, gemma4, deepseek-pro, deepseek-flash",
-      "_interimPrimaryUpdate": "Kimi \u2192 Gemma4:31b during subscription outage (2026-05-17)",
-      "_interimPrimaryUpdatedAt": "2026-05-17T22:03:05.756689"
+      "allowedInCrons": [
+        "anthropic/claude-haiku-4-5",
+        "anthropic/claude-sonnet-4-6",
+        "ollama/gemma4:e2b"
+      ]
     },
     "business": {
-      "description": "Aria \u2014 Business Lead Agent",
-      "requiredModel": "anthropic/claude-sonnet-4-6",
-      "allowedModels": [
-        "anthropic/claude-sonnet-4-6"
+      "description": "Aria 🔵 — Business Lead Agent (user-facing)",
+      "tier": "userFacing",
+      "requiredPrimary": "ollama/deepseek-v4-pro:cloud",
+      "requiredFallbacks": [
+        "ollama/gemma4:31b-cloud",
+        "ollama/kimi-k2.6:cloud"
       ],
-      "escalationModel": null,
-      "escalationRule": "No Opus. Aria never escalates to Opus \u2014 cost control for business stream.",
-      "prohibitedModels": [
-        "anthropic/claude-opus-4-7",
-        "ollama/gemma4:e2b"
-      ],
-      "prohibitedInCrons": [
-        "ollama/gemma4:26b"
-      ],
-      "allowedInCrons": [
-        "anthropic/claude-haiku-4-5",
-        "anthropic/claude-sonnet-4-6",
-        "ollama/kimi-k2.6:cloud",
-        "ollama/deepseek-v4-flash:cloud",
-        "ollama/deepseek-v4-pro:cloud",
-        "ollama/gemma4:31b-cloud"
-      ],
-      "ollamaCloudConstraint": "Non-sensitive (low data_sensitivity) crons only. No PII, no medical, no legal. AInchors internal ops only \u2014 never client data.",
-      "rationale": "CHG-0037 + Option C decision 2026-04-27. Gemma4 cold-load prohibited. Sonnet for Aria interactive. Opus prohibited \u2014 cost control. Ollama Cloud Tier 2 added for non-sensitive business ops crons (CHG-0140).",
       "configPath": "/Users/ainchorsangiefpl/.openclaw/openclaw.json",
       "configJqQuery": ".agents.list[] | select(.id==\"business\") | .model",
-      "fallbackChain": [
-        "anthropic/claude-haiku-4-5"
-      ],
-      "fallbackNote": "CHG-0075: Haiku-only fallback. Opus prohibited. Gemma4 prohibited in interactive. If Anthropic down \u2192 standby mode.",
-      "requiredPrimary": "ollama/gemma4:31b-cloud",
-      "_configFormat": "CHG-0270: openclaw.json .model is now {primary, fallbacks} object. Compare against .model.primary only.",
-      "requiredFallbacks": [
-        "ollama/kimi-k2.6:cloud",
-        "ollama/gemma4:26b",
-        "ollama/deepseek-v4-pro:cloud",
-        "ollama/deepseek-v4-flash:cloud"
-      ],
-      "_interimNote": "CHG-0348: Interim models during Claude API credit outage. Valid: kimi, gemma4, deepseek-pro, deepseek-flash",
-      "_interimPrimaryUpdate": "Kimi \u2192 Gemma4:31b during subscription outage (2026-05-17)",
-      "_interimPrimaryUpdatedAt": "2026-05-17T22:03:05.756689"
+      "allowedInCrons": [
+        "anthropic/claude-haiku-4-5",
+        "anthropic/claude-sonnet-4-6"
+      ]
     },
     "security": {
-      "description": "Shield \ud83d\udee1\ufe0f \u2014 Security Governance Agent",
-      "requiredModel": "anthropic/claude-haiku-4-5",
-      "allowedModels": [
-        "anthropic/claude-sonnet-4-6"
-      ],
-      "escalationModel": null,
-      "escalationRule": "No escalation. Security reviews must be consistent and cost-controlled.",
-      "prohibitedModels": [
-        "anthropic/claude-opus-4-7",
-        "ollama/gemma4:e2b"
-      ],
-      "prohibitedInCrons": [
-        "ollama/kimi-k2.6:cloud",
-        "ollama/deepseek-v4-flash:cloud",
+      "description": "Shield 🛡️ — Security Governance Agent",
+      "tier": "backend",
+      "requiredPrimary": "ollama/gemma4:31b-cloud",
+      "requiredFallbacks": [
         "ollama/deepseek-v4-pro:cloud",
-        "ollama/gemma4:31b-cloud"
+        "ollama/kimi-k2.6:cloud"
       ],
       "allowedInCrons": [
         "anthropic/claude-haiku-4-5",
         "anthropic/claude-sonnet-4-6"
-      ],
-      "rationale": "Governance agents run Sonnet for consistency. No Opus (cost), no Gemma4 (quality risk for security reviews). CHG-0193: switched to Haiku (cost saving, approved Ken 2026-05-07).",
-      "configPath": "/Users/ainchorsangiefpl/.openclaw/openclaw.json",
-      "configJqQuery": ".agents.list[] | select(.id==\"security\") | .model",
-      "required": "anthropic/claude-haiku-4-5",
-      "allowed": [
-        "anthropic/claude-haiku-4-5"
-      ],
-      "prohibited": [],
-      "note": "Switched to Haiku 2026-05-06 \u2014 Ken cost optimisation. Descriptive/review tasks only.",
-      "requiredPrimary": "ollama/gemma4:31b-cloud",
-      "_configFormat": "CHG-0270: openclaw.json .model is now {primary, fallbacks} object. Compare against .model.primary only.",
-      "requiredFallbacks": [
-        "ollama/kimi-k2.6:cloud",
-        "ollama/gemma4:26b",
-        "ollama/deepseek-v4-pro:cloud",
-        "ollama/deepseek-v4-flash:cloud"
-      ],
-      "_interimNote": "CHG-0348: Interim models during Claude API credit outage. Valid: kimi, gemma4, deepseek-pro, deepseek-flash",
-      "_interimPrimaryUpdate": "Kimi \u2192 Gemma4:31b during subscription outage (2026-05-17)",
-      "_interimPrimaryUpdatedAt": "2026-05-17T22:03:05.756689"
+      ]
     },
     "legal": {
-      "description": "Lex \u2696\ufe0f \u2014 Legal Governance Agent",
-      "requiredModel": "anthropic/claude-haiku-4-5",
-      "allowedModels": [
-        "anthropic/claude-sonnet-4-6"
-      ],
-      "escalationModel": null,
-      "escalationRule": "No escalation. Sonnet is sufficient for all legal reviews \u2014 Ken confirmed 2026-04-28. Opus exception removed.",
-      "prohibitedModels": [
-        "anthropic/claude-opus-4-7",
-        "ollama/gemma4:e2b",
-        "ollama/kimi-k2.6:cloud",
-        "ollama/deepseek-v4-flash:cloud",
-        "ollama/deepseek-v4-pro:cloud"
-      ],
-      "prohibitedInCrons": [
-        "ollama/gemma4:26b",
-        "anthropic/claude-opus-4-7",
-        "ollama/kimi-k2.6:cloud",
-        "ollama/deepseek-v4-flash:cloud",
+      "description": "Lex ⚖️ — Legal Governance Agent",
+      "tier": "backend",
+      "requiredPrimary": "ollama/gemma4:31b-cloud",
+      "requiredFallbacks": [
         "ollama/deepseek-v4-pro:cloud",
-        "ollama/gemma4:31b-cloud"
+        "ollama/kimi-k2.6:cloud"
       ],
       "allowedInCrons": [
         "anthropic/claude-haiku-4-5",
         "anthropic/claude-sonnet-4-6"
-      ],
-      "exception": false,
-      "exceptionReason": "Exception removed 2026-04-28. Ken confirmed Sonnet sufficient for legal reviews.",
-      "exceptionApprovedBy": "Ken",
-      "exceptionDate": "2026-04-28",
-      "rationale": "Ken confirmed Sonnet sufficient. Opus exception removed 2026-04-28. Ollama Cloud explicitly prohibited \u2014 legal content is sensitive. No external cloud for legal reviews. CHG-0140 audit. CHG-0193: switched to Haiku (cost saving, approved Ken 2026-05-07).",
-      "configPath": "/Users/ainchorsangiefpl/.openclaw/openclaw.json",
-      "configJqQuery": ".agents.list[] | select(.id==\"legal\") | .model",
-      "required": "anthropic/claude-haiku-4-5",
-      "allowed": [
-        "anthropic/claude-haiku-4-5"
-      ],
-      "prohibited": [],
-      "note": "Switched to Haiku 2026-05-06 \u2014 Ken cost optimisation. Descriptive/review tasks only.",
-      "requiredPrimary": "ollama/gemma4:31b-cloud",
-      "_configFormat": "CHG-0270: openclaw.json .model is now {primary, fallbacks} object. Compare against .model.primary only.",
-      "requiredFallbacks": [
-        "ollama/kimi-k2.6:cloud",
-        "ollama/gemma4:26b",
-        "ollama/deepseek-v4-pro:cloud",
-        "ollama/deepseek-v4-flash:cloud"
-      ],
-      "_interimNote": "CHG-0348: Interim models during Claude API credit outage. Valid: kimi, gemma4, deepseek-pro, deepseek-flash",
-      "_interimPrimaryUpdate": "Kimi \u2192 Gemma4:31b during subscription outage (2026-05-17)",
-      "_interimPrimaryUpdatedAt": "2026-05-17T22:03:05.756689"
+      ]
     },
     "qa": {
-      "description": "Sage \ud83e\uddea \u2014 QA Governance Agent",
-      "requiredModel": "anthropic/claude-haiku-4-5",
-      "allowedModels": [
-        "anthropic/claude-sonnet-4-6"
+      "description": "Sage 🧪 — QA Governance Agent",
+      "tier": "backend",
+      "requiredPrimary": "ollama/gemma4:31b-cloud",
+      "requiredFallbacks": [
+        "ollama/deepseek-v4-pro:cloud",
+        "ollama/kimi-k2.6:cloud"
       ],
-      "escalationModel": null,
-      "escalationRule": "No escalation. QA reviews must be consistent and cost-controlled.",
-      "prohibitedModels": [
-        "anthropic/claude-opus-4-7",
-        "ollama/gemma4:e2b"
-      ],
-      "prohibitedInCrons": [],
       "allowedInCrons": [
         "anthropic/claude-haiku-4-5",
-        "anthropic/claude-sonnet-4-6",
-        "ollama/kimi-k2.6:cloud",
-        "ollama/deepseek-v4-flash:cloud"
-      ],
-      "ollamaCloudConstraint": "Non-sensitive content QA only (blog posts, marketing copy, internal docs). Not for reviewing content that may contain PII or client data.",
-      "rationale": "Governance agents run Sonnet for consistency. Ollama Cloud (kimi, deepseek-flash) allowed for non-sensitive content QA crons \u2014 CHG-0140. CHG-0193: switched to Haiku (cost saving, approved Ken 2026-05-07).",
-      "configPath": "/Users/ainchorsangiefpl/.openclaw/openclaw.json",
-      "configJqQuery": ".agents.list[] | select(.id==\"qa\") | .model",
-      "required": "anthropic/claude-haiku-4-5",
-      "allowed": [
-        "anthropic/claude-haiku-4-5"
-      ],
-      "prohibited": [],
-      "note": "Switched to Haiku 2026-05-06 \u2014 Ken cost optimisation. Descriptive/review tasks only.",
-      "requiredPrimary": "ollama/gemma4:31b-cloud",
-      "_configFormat": "CHG-0270: openclaw.json .model is now {primary, fallbacks} object. Compare against .model.primary only.",
-      "requiredFallbacks": [
-        "ollama/kimi-k2.6:cloud",
-        "ollama/gemma4:26b",
-        "ollama/deepseek-v4-pro:cloud",
-        "ollama/deepseek-v4-flash:cloud"
-      ],
-      "_interimNote": "CHG-0348: Interim models during Claude API credit outage. Valid: kimi, gemma4, deepseek-pro, deepseek-flash",
-      "_interimPrimaryUpdate": "Kimi \u2192 Gemma4:31b during subscription outage (2026-05-17)",
-      "_interimPrimaryUpdatedAt": "2026-05-17T22:03:05.756689"
-    },
-    "spark": {
-      "description": "Spark \u2728 \u2014 Social & Digital Marketing Agent",
-      "requiredModel": "ollama/deepseek-v4-pro:cloud",
-      "allowedModels": [
-        "ollama/kimi-k2.6:cloud",
         "anthropic/claude-sonnet-4-6"
-      ],
-      "escalationModel": "anthropic/claude-sonnet-4-6",
-      "escalationRule": "Sonnet fallback when Ollama Cloud unavailable or for high-stakes content requiring approval.",
-      "prohibitedModels": [
-        "anthropic/claude-opus-4-7",
-        "ollama/gemma4:e2b",
-        "ollama/gemma4:26b"
-      ],
-      "prohibitedInCrons": [
-        "anthropic/claude-opus-4-7",
-        "ollama/gemma4:e2b",
-        "ollama/gemma4:26b"
-      ],
-      "allowedInCrons": [
-        "ollama/kimi-k2.6:cloud",
-        "anthropic/claude-sonnet-4-6",
-        "anthropic/claude-haiku-4-5",
-        "ollama/deepseek-v4-pro:cloud"
-      ],
-      "ollamaCloudConstraint": "Social content, marketing copy, strategy, campaigns only. No client PII. AInchors own content only.",
-      "dataConstraints": "Non-sensitive (low data_sensitivity) only. Social/marketing content. Never client PII.",
-      "rationale": "CHG-0130. kimi-k2.6:cloud primary \u2014 fastest (6.8s), best creative quality (4.6/5), ideal for social content. deepseek-pro for complex strategy analysis. Sonnet fallback. Opus prohibited (cost). Gemma4 prohibited (quality).",
-      "cronIds": [
-        "e7ebaf61",
-        "bef42235"
-      ],
-      "cronSchedule": "Tue 7:30am / Wed 12:00pm / Thu 7:30am AEST",
-      "approvedBy": "Ken",
-      "approvedDate": "2026-05-03",
-      "changeRef": "CHG-0130",
-      "requiredPrimary": "ollama/gemma4:31b-cloud",
-      "_configFormat": "CHG-0270: openclaw.json .model is now {primary, fallbacks} object. Compare against .model.primary only.",
-      "requiredFallbacks": [
-        "ollama/kimi-k2.6:cloud",
-        "ollama/gemma4:26b",
-        "ollama/deepseek-v4-pro:cloud",
-        "ollama/deepseek-v4-flash:cloud"
-      ],
-      "_interimNote": "CHG-0348: Interim models during Claude API credit outage. Valid: kimi, gemma4, deepseek-pro, deepseek-flash",
-      "_interimPrimaryUpdate": "Kimi \u2192 Gemma4:31b during subscription outage (2026-05-17)",
-      "_interimPrimaryUpdatedAt": "2026-05-17T22:03:05.756689"
+      ]
     },
     "governance": {
-      "description": "Warden \ud83d\udd0d \u2014 Model Compliance Officer",
-      "requiredModel": "anthropic/claude-haiku-4-5",
-      "allowedModels": [
-        "anthropic/claude-sonnet-4-6"
+      "description": "Warden 🔍 — Model Compliance Officer",
+      "tier": "backend",
+      "requiredPrimary": "ollama/gemma4:31b-cloud",
+      "requiredFallbacks": [
+        "ollama/deepseek-v4-pro:cloud",
+        "ollama/kimi-k2.6:cloud"
       ],
-      "escalationModel": null,
-      "escalationRule": "Warden never escalates. Lightweight compliance checks only.",
-      "prohibitedModels": [
-        "anthropic/claude-opus-4-7",
-        "ollama/gemma4:e2b"
-      ],
-      "prohibitedInCrons": [],
       "allowedInCrons": [
         "anthropic/claude-haiku-4-5",
-        "anthropic/claude-sonnet-4-6",
-        "ollama/deepseek-v4-flash:cloud"
-      ],
-      "ollamaCloudConstraint": "Warden reads config files and model IDs only \u2014 inherently non-sensitive. deepseek-flash approved for compliance check crons.",
-      "rationale": "Lightweight compliance monitor. Haiku primary (CHG-0096). deepseek-flash approved for cron compliance checks (non-sensitive config reads). Sonnet fallback. CHG-0140.",
-      "configPath": "/Users/ainchorsangiefpl/.openclaw/openclaw.json",
-      "configJqQuery": ".agents.list[] | select(.id==\"governance\") | .model",
-      "requiredPrimary": "ollama/gemma4:31b-cloud",
-      "_note": "Updated from anthropic/claude-sonnet-4-6 per CHG-0270/CHG-0228",
-      "_configFormat": "CHG-0270: openclaw.json .model is now {primary, fallbacks} object. Compare against .model.primary only.",
-      "requiredFallbacks": [
-        "ollama/kimi-k2.6:cloud",
-        "ollama/gemma4:26b",
-        "ollama/deepseek-v4-pro:cloud",
-        "ollama/deepseek-v4-flash:cloud"
-      ],
-      "_interimNote": "CHG-0348: Interim models during Claude API credit outage. Valid: kimi, gemma4, deepseek-pro, deepseek-flash",
-      "_interimPrimaryUpdate": "Kimi \u2192 Gemma4:31b during subscription outage (2026-05-17)",
-      "_interimPrimaryUpdatedAt": "2026-05-17T22:03:05.756689"
+        "anthropic/claude-sonnet-4-6"
+      ]
     },
     "infra": {
-      "description": "Forge \ud83c\udfd7\ufe0f \u2014 Infra/Ops Agent (platform ops + CI continuous improvement)",
-      "requiredModel": "anthropic/claude-haiku-4-5",
-      "allowedModels": [
-        "anthropic/claude-sonnet-4-6"
-      ],
-      "escalationModel": null,
-      "escalationRule": "No escalation. Ops tasks are deterministic. CI uses deepseek-pro as primary CI model.",
-      "prohibitedModels": [
-        "anthropic/claude-opus-4-7",
-        "ollama/gemma4:e2b",
-        "ollama/gemma4:26b"
-      ],
-      "prohibitedInCrons": [
-        "anthropic/claude-opus-4-7"
-      ],
-      "allowedInCrons": [
-        "anthropic/claude-haiku-4-5",
-        "anthropic/claude-sonnet-4-6",
-        "ollama/deepseek-v4-pro:cloud",
-        "ollama/deepseek-v4-flash:cloud",
-        "ollama/kimi-k2.6:cloud",
-        "ollama/gemma4:31b-cloud"
-      ],
-      "ollamaCloudConstraint": "CI tasks only (non-sensitive model benchmarking). Never client data.",
-      "rationale": "Haiku for ops validation crons. deepseek-v4-pro:cloud for CI evaluation (approved CHG-0123). All Ollama Cloud = CI/internal ops only. CHG-0147.",
-      "cronIds": [
-        "35c8cd08",
-        "3ec512f3"
-      ],
-      "activatedDate": "2026-05-03",
-      "changeRef": "CHG-0147",
+      "description": "Forge 🏗️ — Infra/Ops Agent",
+      "tier": "backend",
       "requiredPrimary": "ollama/gemma4:31b-cloud",
-      "_note": "Updated from anthropic/claude-sonnet-4-6 per CHG-0270/CHG-0228",
-      "_configFormat": "CHG-0270: openclaw.json .model is now {primary, fallbacks} object. Compare against .model.primary only.",
       "requiredFallbacks": [
-        "ollama/kimi-k2.6:cloud",
-        "ollama/gemma4:26b",
         "ollama/deepseek-v4-pro:cloud",
-        "ollama/deepseek-v4-flash:cloud"
-      ],
-      "_interimNote": "CHG-0348: Interim models during Claude API credit outage. Valid: kimi, gemma4, deepseek-pro, deepseek-flash",
-      "_interimPrimaryUpdate": "Kimi \u2192 Gemma4:31b during subscription outage (2026-05-17)",
-      "_interimPrimaryUpdatedAt": "2026-05-17T22:03:05.756689"
+        "ollama/kimi-k2.6:cloud"
+      ]
     },
     "architect": {
-      "description": "Atlas \u2014 Enterprise Architect (Tier 3)",
-      "requiredModel": "anthropic/claude-sonnet-4-6",
-      "allowedModels": [
-        "anthropic/claude-sonnet-4-6"
-      ],
-      "escalationModel": "anthropic/claude-opus-4-7",
-      "escalationRule": "Opus only for high-stakes architectural assessments (P2 client work, legal/regulatory architecture). Ken must approve.",
-      "prohibitedModels": [
-        "ollama/gemma4:e2b",
-        "ollama/gemma4:26b"
-      ],
-      "rationale": "On-demand EA work. Sonnet default. Added to Warden monitoring scope (CHG-0258, Ken approved 2026-05-10). Option A: model compliance monitoring for T3 specialists.",
-      "configPath": "/Users/ainchorsangiefpl/.openclaw/openclaw.json",
-      "configJqQuery": ".agents.list[] | select(.id==\"architect\") | .model",
-      "enrolledAt": "2026-05-12T07:17:51.228374+00:00",
-      "notes": " | Re-confirmed ENROL D4 2026-05-12",
+      "description": "Atlas 🏛️ — Enterprise Architect",
+      "tier": "backend",
       "requiredPrimary": "ollama/gemma4:31b-cloud",
-      "_configFormat": "CHG-0270: openclaw.json .model is now {primary, fallbacks} object. Compare against .model.primary only.",
       "requiredFallbacks": [
-        "ollama/kimi-k2.6:cloud",
-        "ollama/gemma4:26b",
         "ollama/deepseek-v4-pro:cloud",
-        "ollama/deepseek-v4-flash:cloud"
-      ],
-      "_interimNote": "CHG-0348: Interim models during Claude API credit outage. Valid: kimi, gemma4, deepseek-pro, deepseek-flash",
-      "_interimPrimaryUpdate": "Kimi \u2192 Gemma4:31b during subscription outage (2026-05-17)",
-      "_interimPrimaryUpdatedAt": "2026-05-17T22:03:05.756689"
+        "ollama/kimi-k2.6:cloud"
+      ]
     },
     "platform-arch": {
-      "description": "Thrawn \u2014 AI Platform Architect (Tier 3)",
-      "requiredModel": "anthropic/claude-sonnet-4-6",
-      "allowedModels": [
-        "anthropic/claude-sonnet-4-6"
-      ],
-      "escalationModel": "anthropic/claude-opus-4-7",
-      "escalationRule": "Opus only for critical Nexus platform decisions. Ken must approve.",
-      "prohibitedModels": [
-        "ollama/gemma4:e2b",
-        "ollama/gemma4:26b"
-      ],
-      "rationale": "On-demand platform architecture. Sonnet default. Added to Warden monitoring scope (CHG-0258, Ken approved 2026-05-10).",
-      "configPath": "/Users/ainchorsangiefpl/.openclaw/openclaw.json",
-      "configJqQuery": ".agents.list[] | select(.id==\"platform-arch\") | .model",
-      "enrolledAt": "2026-05-12T07:17:51.228374+00:00",
-      "notes": " | Re-confirmed ENROL D4 2026-05-12",
+      "description": "Thrawn — AI Platform Architect",
+      "tier": "backend",
       "requiredPrimary": "ollama/gemma4:31b-cloud",
-      "_configFormat": "CHG-0270: openclaw.json .model is now {primary, fallbacks} object. Compare against .model.primary only.",
       "requiredFallbacks": [
-        "ollama/kimi-k2.6:cloud",
-        "ollama/gemma4:26b",
         "ollama/deepseek-v4-pro:cloud",
-        "ollama/deepseek-v4-flash:cloud"
-      ],
-      "_interimNote": "CHG-0348: Interim models during Claude API credit outage. Valid: kimi, gemma4, deepseek-pro, deepseek-flash",
-      "_interimPrimaryUpdate": "Kimi \u2192 Gemma4:31b during subscription outage (2026-05-17)",
-      "_interimPrimaryUpdatedAt": "2026-05-17T22:03:05.756689"
+        "ollama/kimi-k2.6:cloud"
+      ]
     },
     "biz-process": {
-      "description": "Lando \u2014 BPM Agent (Tier 3)",
-      "requiredModel": "anthropic/claude-sonnet-4-6",
-      "allowedModels": [
-        "anthropic/claude-sonnet-4-6"
-      ],
-      "escalationModel": null,
-      "escalationRule": "No Opus. BPM work does not warrant escalation model.",
-      "prohibitedModels": [
-        "anthropic/claude-opus-4-7",
-        "ollama/gemma4:e2b"
-      ],
-      "rationale": "On-demand BPM/process work. Sonnet default. Added to Warden monitoring scope (CHG-0258, Ken approved 2026-05-10).",
-      "configPath": "/Users/ainchorsangiefpl/.openclaw/openclaw.json",
-      "configJqQuery": ".agents.list[] | select(.id==\"biz-process\") | .model",
-      "enrolledAt": "2026-05-12T07:17:51.228374+00:00",
-      "notes": " | Re-confirmed ENROL D4 2026-05-12",
+      "description": "Lando 🟡 — Business Process Specialist",
+      "tier": "backend",
       "requiredPrimary": "ollama/gemma4:31b-cloud",
-      "_configFormat": "CHG-0270: openclaw.json .model is now {primary, fallbacks} object. Compare against .model.primary only.",
       "requiredFallbacks": [
-        "ollama/kimi-k2.6:cloud",
-        "ollama/gemma4:26b",
         "ollama/deepseek-v4-pro:cloud",
-        "ollama/deepseek-v4-flash:cloud"
-      ],
-      "_interimNote": "CHG-0348: Interim models during Claude API credit outage. Valid: kimi, gemma4, deepseek-pro, deepseek-flash",
-      "_interimPrimaryUpdate": "Kimi \u2192 Gemma4:31b during subscription outage (2026-05-17)",
-      "_interimPrimaryUpdatedAt": "2026-05-17T22:03:05.756689"
+        "ollama/kimi-k2.6:cloud"
+      ]
     },
     "change-mgt": {
-      "description": "Mon Mothma \u2014 DTCM Agent (Tier 3)",
-      "requiredModel": "anthropic/claude-sonnet-4-6",
-      "allowedModels": [
-        "anthropic/claude-sonnet-4-6"
-      ],
-      "escalationModel": null,
-      "escalationRule": "No Opus. Change management work does not warrant escalation model.",
-      "prohibitedModels": [
-        "anthropic/claude-opus-4-7",
-        "ollama/gemma4:e2b"
-      ],
-      "rationale": "On-demand DTCM/change work. Dormant in P1. Sonnet default. Added to Warden monitoring scope (CHG-0258, Ken approved 2026-05-10).",
-      "configPath": "/Users/ainchorsangiefpl/.openclaw/openclaw.json",
-      "configJqQuery": ".agents.list[] | select(.id==\"change-mgt\") | .model",
-      "enrolledAt": "2026-05-12T07:17:51.228374+00:00",
-      "notes": " | Re-confirmed ENROL D4 2026-05-12",
+      "description": "Mon Mothma 🌟 — Digital Transformation CM Specialist",
+      "tier": "backend",
       "requiredPrimary": "ollama/gemma4:31b-cloud",
-      "_configFormat": "CHG-0270: openclaw.json .model is now {primary, fallbacks} object. Compare against .model.primary only.",
       "requiredFallbacks": [
-        "ollama/kimi-k2.6:cloud",
-        "ollama/gemma4:26b",
         "ollama/deepseek-v4-pro:cloud",
-        "ollama/deepseek-v4-flash:cloud"
-      ],
-      "_interimNote": "CHG-0348: Interim models during Claude API credit outage. Valid: kimi, gemma4, deepseek-pro, deepseek-flash",
-      "_interimPrimaryUpdate": "Kimi \u2192 Gemma4:31b during subscription outage (2026-05-17)",
-      "_interimPrimaryUpdatedAt": "2026-05-17T22:03:05.756689"
+        "ollama/kimi-k2.6:cloud"
+      ]
     },
     "ahsoka": {
-      "description": "Ahsoka \ud83e\udd0d \u2014 AI Transformation Consultant (Consulting Stream)",
-      "requiredModel": "anthropic/claude-haiku-4-5",
-      "allowedModels": [
-        "anthropic/claude-sonnet-4-6"
-      ],
-      "escalationModel": "anthropic/claude-opus-4-7",
-      "escalationRule": "High-stakes proposals or 2x failure only. Ken approval required.",
-      "stream": "consulting",
-      "soulPath": "/Users/ainchorsangiefpl/.openclaw/workspace/agents/ahsoka/SOUL.md",
-      "soulCharLimit": 5000,
-      "status": "pilot_testing",
-      "addedDate": "2026-05-07",
-      "addedBy": "yoda",
-      "chgRef": "CHG-0201",
-      "pilotNote": "Ken personally running 2 real-world cases. Angie notification held until pilot complete.",
+      "description": "Ahsoka 🤍 — AI Transformation Consultant",
+      "tier": "backend",
       "requiredPrimary": "ollama/gemma4:31b-cloud",
-      "_note": "Updated from anthropic/claude-sonnet-4-6 per CHG-0270/CHG-0228",
-      "_configFormat": "CHG-0270: openclaw.json .model is now {primary, fallbacks} object. Compare against .model.primary only.",
       "requiredFallbacks": [
-        "ollama/kimi-k2.6:cloud",
-        "ollama/gemma4:26b",
         "ollama/deepseek-v4-pro:cloud",
-        "ollama/deepseek-v4-flash:cloud"
-      ],
-      "_interimNote": "CHG-0348: Interim models during Claude API credit outage. Valid: kimi, gemma4, deepseek-pro, deepseek-flash",
-      "_interimPrimaryUpdate": "Kimi \u2192 Gemma4:31b during subscription outage (2026-05-17)",
-      "_interimPrimaryUpdatedAt": "2026-05-17T22:03:05.756689"
-    },
-    "social": {
-      "requiredModel": "ollama/deepseek-v4-pro:cloud",
-      "description": "Tier 3 specialist \u2014 enrolled CHG-0293 2026-05-12",
-      "notes": "Enrolled per DEC-013/D4. Ken confirmed ENROL.",
-      "requiredPrimary": "ollama/gemma4:31b-cloud",
-      "_configFormat": "CHG-0270: openclaw.json .model is now {primary, fallbacks} object. Compare against .model.primary only.",
-      "requiredFallbacks": [
-        "ollama/kimi-k2.6:cloud",
-        "ollama/gemma4:26b",
-        "ollama/deepseek-v4-pro:cloud",
-        "ollama/deepseek-v4-flash:cloud"
-      ],
-      "_interimNote": "CHG-0348: Interim models during Claude API credit outage. Valid: kimi, gemma4, deepseek-pro, deepseek-flash",
-      "_interimPrimaryUpdate": "Kimi \u2192 Gemma4:31b during subscription outage (2026-05-17)",
-      "_interimPrimaryUpdatedAt": "2026-05-17T22:03:05.756689"
+        "ollama/kimi-k2.6:cloud"
+      ]
     }
   },
   "cronModelPolicy": {
-    "description": "Allowed models for cron job payloads. Gemma4 is only permitted for specific background tasks.",
-    "gemma4AllowedCronNames": [
-      "AInchors Midday Cost Tracker",
-      "AInchors Workspace Backup"
-    ],
-    "gemma4ProhibitedPatterns": [
-      "standup",
-      "standup",
-      "close",
-      "journal",
-      "blog",
-      "alert",
-      "telegram"
-    ],
-    "standardGemma4Model": "ollama/gemma4:e2b",
-    "deprecatedModels": [
-      "ollama/gemma4:26b",
-      "ollama/gemma4:e4b"
-    ],
-    "promptPrefix": "Answer directly. No reasoning. No explanation. Output only the answer."
+    "description": "All isolated agentTurn crons use gemma4:31b-cloud with kimi fallback. Exception: Morning Stand-Up uses kimi primary (Ken-approved).",
+    "defaultPrimary": "ollama/gemma4:31b-cloud",
+    "defaultFallback": "ollama/kimi-k2.6:cloud",
+    "exceptions": {
+      "3c279099-bddb-4ef3-bfea-fc22f342abd8": {
+        "name": "AInchors Morning Stand-Up",
+        "primary": "ollama/kimi-k2.6:cloud",
+        "fallback": "ollama/gemma4:31b-cloud",
+        "approvedBy": "Ken Mun",
+        "approvedAt": "2026-05-18T11:34:00+10:00"
+      }
+    }
+  },
+  "kimiPolicy": {
+    "description": "kimi usage policy — PERMANENT, Ken-approved",
+    "permanent": true,
+    "approvedBy": "Ken Mun",
+    "approvedAt": "2026-05-18T09:04:00+10:00",
+    "allowedUse": "standup + email cron + routine single-thread background non-interactive tasks only",
+    "prohibitedUse": "complex orchestration, multi-ticket routing, state tracking, CHG decisions"
   },
   "changeControl": {
     "process": "1. Ken approval in webchat/Telegram. 2. Update this file. 3. Update critical-config-baseline.json. 4. Log CHG entry. 5. Update MEMORY.md.",
     "approvalKeyword": "POLICY CHANGE APPROVED"
   },
-  "lastApprovalContext": "CHG-0140: Agent allowlist audit 2026-05-03. Ollama Cloud Tier 2 propagated to eligible agents. Spark added. Lex opus contradiction fixed. CHG-0356: gemma4:31b-cloud added to T2 (approved Ken 2026-05-16 via Telegram). gemma4:26b local removed (system slowdown).",
-  "tierStrategy": {
-    "description": "4-tier model routing \u2014 Tier 1 (Sonnet), Tier 2 (Haiku + Ollama Cloud: kimi/deepseek/gemma4-31b), Tier 3 (Gemma4:e2b local), Emergency (Gemma4:26b). Approved Ken 2026-04-28, extended 2026-05-02 with Ollama Cloud Tier 2, extended 2026-05-16 with gemma4:31b-cloud.",
-    "approvedBy": "Ken",
-    "approvedDate": "2026-05-16",
-    "tiers": {
-      "tier1_orchestration": {
-        "model": "anthropic/claude-sonnet-4-6",
-        "alias": "sonnet",
-        "cost": "$3/$15 per MTok",
-        "useCases": [
-          "All Ken-facing interactive responses (Yoda main session)",
-          "Aria direct Angie conversations",
-          "Multi-step orchestration and planning",
-          "Complex reasoning and decision-making",
-          "Anything touching external sends, financial decisions, critical ops",
-          "Session-level context (main agent turns)"
-        ]
-      },
-      "tier2_subtasks": {
-        "model": "anthropic/claude-haiku-4-5",
-        "alias": "haiku",
-        "cost": "$1/$5 per MTok",
-        "costVsSonnet": "3x cheaper",
-        "ollamaCloudModels": [
-          {
-            "model": "ollama/kimi-k2.6:cloud",
-            "alias": "kimi-cloud",
-            "tier": 2,
-            "cost": "Ollama Pro $20/mo (accounts@ainchors.com)",
-            "benchmarkQuality": "4.6/5",
-            "benchmarkLatency": "6.8s avg",
-            "approvedDate": "2026-05-02",
-            "approvedBy": "Ken",
-            "pocPhase": "Phase 5 full benchmark",
-            "constraints": "Non-sensitive (low data_sensitivity) tasks only. No PII, no medical, no legal. Background + async tasks preferred.",
-            "useCases": [
-              "Background research synthesis",
-              "LinkedIn/blog post generation",
-              "Non-sensitive code routing decisions",
-              "Low-sensitivity workflow summarisation"
-            ]
-          },
-          {
-            "model": "ollama/deepseek-v4-flash:cloud",
-            "alias": "deepseek-flash-cloud",
-            "tier": 2,
-            "cost": "Ollama Pro $20/mo (accounts@ainchors.com)",
-            "benchmarkQuality": "4.2/5",
-            "benchmarkLatency": "12.6s avg",
-            "approvedDate": "2026-05-02",
-            "approvedBy": "Ken",
-            "pocPhase": "deepseek benchmark (Ken directive 2026-05-02)",
-            "constraints": "Non-sensitive (low data_sensitivity) tasks only. No PII, no medical, no legal. Background + async tasks preferred.",
-            "useCases": [
-              "Background research synthesis",
-              "LinkedIn/blog post generation",
-              "Non-sensitive code routing decisions",
-              "Low-sensitivity workflow summarisation",
-              "Fast concurrent subtasks requiring speed over depth"
-            ]
-          },
-          {
-            "model": "ollama/deepseek-v4-pro:cloud",
-            "alias": "deepseek-pro-cloud",
-            "tier": 2,
-            "cost": "Ollama Pro $20/mo (accounts@ainchors.com)",
-            "benchmarkQuality": "4.6/5",
-            "benchmarkLatency": "18.4s avg",
-            "approvedDate": "2026-05-02",
-            "approvedBy": "Ken",
-            "pocPhase": "deepseek benchmark (Ken directive 2026-05-02)",
-            "constraints": "Non-sensitive (low data_sensitivity) tasks only. No PII, no medical, no legal. Avg latency 18.4s \u2014 suitable for async/non-realtime tasks.",
-            "useCases": [
-              "Complex code generation subtasks (non-sensitive)",
-              "Deep reasoning on non-sensitive data",
-              "Background analysis and report drafting",
-              "Technical content generation"
-            ]
-          },
-          {
-            "model": "ollama/gemma4:31b-cloud",
-            "alias": "gemma4-31b-cloud",
-            "tier": 2,
-            "cost": "Ollama Pro $20/mo (accounts@ainchors.com)",
-            "benchmarkQuality": "4.7/5",
-            "benchmarkLatency": "14.2s avg",
-            "approvedDate": "2026-05-16",
-            "approvedBy": "Ken",
-            "pocPhase": "Cycle 2A COMPLETE (93% pass, HIGH confidence, 4.39/5). Cycle B ACTIVE 2026-05-16: live ops-cron evaluation on Warden/Shield/Lex/Sage/Forge crons.",
-            "constraints": "Non-sensitive (low data_sensitivity) tasks only. No PII, no medical, no legal. Background + async tasks preferred. 31b cloud variant replaces 26b local (removed due to system slowdown).",
-            "useCases": [
-              "Background research synthesis",
-              "LinkedIn/blog post generation",
-              "Non-sensitive code routing decisions",
-              "Low-sensitivity workflow summarisation",
-              "Content generation where kimi context window insufficient",
-              "Ops-cron tasks: model compliance checks (Warden)",
-              "Ops-cron tasks: health check interpretation (Shield)",
-              "Ops-cron tasks: gateway status monitoring (Lex)",
-              "Ops-cron tasks: observability collection (Sage)",
-              "Ops-cron tasks: auto-heal execution (Forge)"
-            ]
-          }
-        ],
-        "useCases": [
-          "Warden model compliance checks (cron)",
-          "Gateway health check interpretation",
-          "Shield/Lex/Sage governance reviews",
-          "Aria bounded sub-tasks (not direct Angie conversation)",
-          "Structured output within orchestration workflows",
-          "Simple routing decisions within pipelines",
-          "Ticket and status update generation",
-          "Health alert interpretation and formatting"
-        ]
-      },
-      "tier3_background": {
-        "model": "ollama/gemma4:e2b",
-        "alias": "gemma4e2b",
-        "cost": "Free (local)",
-        "useCases": [
-          "Cost tracker cron",
-          "Asset review cron",
-          "Deterministic batch operations",
-          "Non-interactive background work"
-        ]
-      },
-      "emergency_fallback": {
-        "model": "ollama/gemma4:26b",
-        "alias": "gemma4",
-        "cost": "Free (local)",
-        "useCases": [
-          "Offline fallback when Anthropic API unavailable (main/Yoda crons only)",
-          "NEVER used for Aria interactive sessions \u2014 Aria enters standby if Anthropic down",
-          "Never used for active delegation"
-        ]
-      }
-    },
-    "approvalContext": "Ken approved gemma4:31b-cloud addition to T2 via Telegram 2026-05-16 12:39 AEST. gemma4:26b local variant removed from approved list (system slowdown on OC1)."
-  },
-  "guardrails": {
-    "_comment": "Added 2026-05-07 per ainchors-guardrails-rules-2026-05.md (G1-G2, W1-W2)",
-    "sanctumSLAs": {
-      "trainingMarketingContent_maxHours": 24,
-      "proposalsContracts_maxHours": 72,
-      "missedSLAAction": "log and review monthly"
-    },
-    "dataResidency": {
-      "clientData_allowedTiers": [
-        "Tier0",
-        "Tier1"
-      ],
-      "clientData_prohibitedTiers": [
-        "Tier2",
-        "Tier3"
-      ],
-      "enforcedBy": "Shield"
-    },
-    "wardenHeartbeat": {
-      "intervalMinutes": 15,
-      "driftActionRequired": "flag to Yoda immediately"
-    },
-    "strategyRef": "/Users/ainchorsangiefpl/.openclaw/workspace/docs/ainchors-guardrails-rules-2026-05.md",
-    "w2": {
-      "description": "Warden W2 \u2014 client data tier enforcement",
-      "rule": "Any task tagged with client_id must not use Tier 2/3 models (Ollama Cloud, Claude). Violations flagged immediately to Yoda.",
-      "clientIdField": "metadata.client_id",
-      "blockedTiers": [
-        2,
-        3
-      ],
-      "status": "defined \u2014 enforcement implementation pending (OC2 + Docker per-client isolation)"
-    },
-    "w1_intervalTracking": {
-      "description": "Warden W1 \u2014 interval compliance tracking",
-      "rule": "Every Warden run must log a timestamp to state/warden-interval-log.json. Monthly script calculates missed 15-min intervals. Target: <0.5% missed over 30 days.",
-      "status": "defined \u2014 interval log implementation pending"
-    }
-  },
-  "byokPolicy": {
-    "description": "Client Bring Your Own Key (BYOK) model policy",
-    "default": "Clients use Ollama Cloud (Tier 2) models only \u2014 no limitations on AInchors-approved list",
-    "byokOption": "If client supplies own cloud API keys: no model restrictions. Nexus tracks and reports usage only.",
-    "dataResidency": "Data sovereignty rules apply regardless of BYOK \u2014 client data still Tier 0/1 only",
-    "approvedBy": "Ken Mun 2026-05-07",
-    "linkedDecision": "D2 / TKT-0088"
-  },
-  "_schemaNote": "CHG-0270 update: use requiredPrimary field for model compliance checks. requiredModel kept for reference. Compare against openclaw.json agents.list[id].model.primary",
-  "_updatedAt": "2026-05-15",
-  "_updatedBy": "Yoda (CHG-0270 format fix)",
-  "_interimPeriod": "2026-05-15",
-  "_revertTrigger": "CLAUDE RESTORE",
-  "interimPeriod": {
-    "active": true,
-    "chgReference": "CHG-0362",
-    "reason": "CHG-0349 Claude API credit depletion \u2014 all agents on interim models (kimi/gemma4/deepseek-pro)",
-    "revertKeyword": "CLAUDE RESTORE",
-    "startedAt": "2026-05-15T18:19:00+10:00",
-    "expectedEnd": "Upon CLAUDE RESTORE keyword from Ken",
-    "approvedBy": "Ken Mun",
-    "approvedAt": "2026-05-17T09:18:00+10:00",
-    "approvedVia": "telegram",
-    "note": "Warden skips model drift checks during interim period. Drift to interim models is intentional, not a violation. All other Warden checks (obs freshness, ITIL, cost) continue normally."
-  }
+  "baselineTimestamp": "2026-05-18T01:37:00+10:00",
+  "baselineCHG": "CHG-0394",
+  "_note": "This is a clean v2.0 rebuild. All interim flags, Anthropic model references, and stale policy fields removed. Anthropic models (sonnet, haiku, opus) are NOT currently approved or expected on any agent."
 }

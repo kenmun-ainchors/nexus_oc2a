@@ -369,3 +369,47 @@ After claiming completion:
 **Refs:** CHG-0386 (OWL), CHG-0393 (upgrade), CHG-0349 (Conservative Mode)
 **Flagged by:** Ken Mun (CTO) 2026-05-17 18:30 AEST
 **Severity:** Medium — no data loss, but process integrity compromised
+
+## L-040 — Interim-Aware Alert Pipeline: Verify ALL Signal Paths, Not Just Warden (2026-05-18)
+**Lesson:** When an interim model period is active (Anthropic credit outage, kimi substitution, etc.), patching ONLY the Warden cron is insufficient. The platform has multiple independent signal paths that each generate alerts — every single one must be checked and made interim-aware.
+
+**What happened (Day 24):**
+- Ken and Yoda completed comprehensive Warden policy update (CHG-0388): `interim-model-period.json` set to `SKIP_ANTHROPIC_ONLY`, `model-policy.json` updated, `warden-cron.sh` patched
+- 8 hours later, `validate-fallback-chain.sh` ran independently via `startup-checks.sh` / outage detection pipeline
+- This script had its own hardcoded Anthropic model checks (Sonnet/Haiku required) with zero awareness of the interim period
+- Result: "fallback chain broken" alert fired to Ken at 19:43 AEST — Ken surprised, confidence shaken
+- The script was NOT part of the Warden pipeline — it was a separate signal path that was missed in the morning sweep
+
+**Root causes:**
+1. **Incomplete alert pipeline mapping** — Focused on Warden (cron-based) but didn't trace standalone scripts run by health/startup/outage pipelines
+2. **Assumption that Warden = all alerts** — Warden is the PRIMARY governance alert system, but not the ONLY one
+3. **No "interim period" checklist existed** — No formal procedure requiring ALL alert-generating scripts to be reviewed when an interim period is declared
+
+**The alert pipeline (all must be checked when interim period is active):**
+| # | Script | Trigger | Alert Channel | Interim-Aware? |
+|---|--------|---------|---------------|----------------|
+| 1 | `warden-cron.sh` | Cron (15min) | warden-escalation-pending.json → Yoda | ✅ SKIP_ANTHROPIC_ONLY |
+| 2 | `validate-fallback-chain.sh` | startup-checks + health | Telegram + fallback-chain-status.json | ✅ Patched Day 24 |
+| 3 | `health-check.sh` | Cron (5min) | Telegram alerts | ⚠️ Verify |
+| 4 | `outage-detect.sh` | Cron → on-failure | Telegram alerts | ⚠️ Verify |
+| 5 | `run-diagnostics.sh` | Manual / cron | Reports + alerts | ⚠️ Verify |
+| 6 | `auto-heal.sh` | Cron (01:00 AEST) | Telegram (needs-ken) | ⚠️ Verify |
+
+**Rule — INTERIM PERIOD CHECKLIST:**
+When declaring ANY interim model period (Anthropic outage, kimi substitution, model swap):
+1. ✅ Update `interim-model-period.json` (active, reason, wardenBehavior)
+2. ✅ Update `model-policy.json` (interim period section)
+3. ✅ Patch Warden cron (`warden-cron.sh`) — respect wardenBehavior field
+4. ✅ **Patch ALL standalone alert scripts** — validate-fallback-chain.sh, health-check.sh, outage-detect.sh, run-diagnostics.sh, auto-heal.sh
+5. ✅ Verify each script individually — don't claim "all done" until each is tested (L-037)
+6. ✅ Document in CHANGELOG with CHG reference
+7. ✅ Notify Ken: interim period active, which alerts are silenced, which are still live
+
+**Prevention:**
+- Created `scripts/lib/interim-check.sh` — single source of truth for interim period detection. All scripts source it instead of hardcoding their own checks.
+- Added to Claude Conservative Runbook: INTERIM PERIOD section with mandatory script audit checklist
+- Heartbeat now monitors ALL alert sources, not just Warden, for interim awareness
+
+**Source:** Day 24 — fallback-chain-broken alert surprised Ken at 19:43 AEST, 8 hours after comprehensive Warden policy update. CHG-0388.
+**Impact:** Ken's confidence shaken — "I am surprised this sh script missed the full check done earlier". One false alert = erosion of trust in the entire governance pipeline.
+**Severity:** Medium — no data loss or outage, but governance credibility impacted.

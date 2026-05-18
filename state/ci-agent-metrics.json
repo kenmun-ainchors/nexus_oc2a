@@ -3441,6 +3441,46 @@
       "candidateScore": 0.94,
       "recommendation": "head-to-head-candidate",
       "notes": "3 clean pipe-delimited risks: Container breakout via misconfigured Docker socket | OAuth token exfiltration from cron script logs | Keychain secrets accessible to non-sandboxed containers. 16 words, under 30. All major platform components covered (Telegram alerts implicitly via cron script execution). 7.16s latency. deepseek-v4-pro handles security review well with ultra-concise format constraints."
+    },
+    {
+      "cycle": 3,
+      "phase": "A",
+      "runAt": "2026-05-18T00:46:19.815Z",
+      "taskCategory": "creative",
+      "cronName": "Product Launch Email — Auto-Healing (Cycle 3 r8)",
+      "cronId": "ci-shadow-3a-r8-creative",
+      "originalModel": "anthropic/claude-sonnet-4-6",
+      "t2bModel": "kimi-k2.6:cloud",
+      "prompt": "Write a product launch email for auto-healing feature. CTO target. 3 paragraphs, max 60 words, hook, question ending.",
+      "qualityScore": 4.5,
+      "latencySeconds": 82,
+      "baselineScore": 4.8,
+      "qualityDelta": -0.3,
+      "passQuality": true,
+      "passLatency": false,
+      "candidateScore": 0.54,
+      "recommendation": "borderline",
+      "notes": "Output: 50 words, 3 paragraphs, strong hook, CTO voice, question ending. Quality 4.5. Latency ~82s with 20+ draft iterations — SIGKILL after output. Classic kimi: Q strong, L catastrophic on short-form creative."
+    },
+    {
+      "cycle": 3,
+      "phase": "A",
+      "runAt": "2026-05-18T00:46:19.815Z",
+      "taskCategory": "subtask",
+      "cronName": "Database Backup Status Report (Cycle 3 r8)",
+      "cronId": "ci-shadow-3a-r8-subtask",
+      "originalModel": "anthropic/claude-sonnet-4-6",
+      "t2bModel": "deepseek-v4-flash:cloud",
+      "prompt": "DB backup status: 5 DBs with size+status, 5 pipe-delimited rows + VERDICT.",
+      "qualityScore": 4.5,
+      "latencySeconds": 34,
+      "baselineScore": 4.8,
+      "qualityDelta": -0.3,
+      "passQuality": true,
+      "passLatency": false,
+      "candidateScore": 0.54,
+      "recommendation": "borderline",
+      "notes": "5 pipe-delimited rows + VERDICT: 3 OK, 1 FAIL, 1 MISSING. Perfect format. Quality 4.5. Latency 34s exceeds 20s — debating verdict semantics. flash quality strong but latency borderline on verdict inference."
     }
   ]
 }

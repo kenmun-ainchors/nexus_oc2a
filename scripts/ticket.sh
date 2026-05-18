@@ -20,19 +20,72 @@ set -u
 
 TICKET_FILE="/Users/ainchorsangiefpl/.openclaw/workspace/state/tickets.json"
 CHANGELOG_HELPER="/Users/ainchorsangiefpl/.openclaw/workspace/scripts/changelog-append.sh"
-NOTION_DB_ID="34dc1829-53ff-814b-8257-d3a3bf351d44"
+# Notion DB IDs — CHG-0401 3-DB architecture
+NOTION_DB_BACKLOG="34dc1829-53ff-814b-8257-d3a3bf351d44"     # A: Active backlog (open/in-progress tickets)
+NOTION_DB_AUTOHEAL="364c1829-53ff-81c0-9dbd-ff2c907d1a6b"   # B: Auto-Heal (AUTO-HEAL items)
+NOTION_DB_ARCHIVE="364c1829-53ff-818e-a783-ebafcb6a9880"    # C: Completed-Archived (Done/closed items)
+
+# Legacy alias — used throughout the script, points to active backlog by default
+NOTION_DB_ID="$NOTION_DB_BACKLOG"
 NOTION_KEY_FILE="$HOME/.config/notion/api_key"
 
 die() { echo "ERROR: $1" >&2; exit 1; }
-# Atomic write helper to prevent corruption during simultaneous access
+# Atomic write helper with PRE-WRITE BACKUP + CORRUPTION GUARD
+# Creates a backup before every write, validates JSON integrity after write,
+# and automatically rolls back on failure.
 atomic_write() {
   local file="$1"
   local content="$2"
   local tmp_file="${file}.tmp.$RANDOM"
-  echo "$content" > "$tmp_file" && mv "$tmp_file" "$file" || {
-    echo "ERROR: Atomic write failed for $file" >&2
+  local bak_file="${file}.bak-$(date +%Y%m%d%H%M%S)"
+  
+  # GUARD 0: If content is empty or whitespace-only, ABORT
+  [[ -z "${content// }" ]] && { echo "CRITICAL: atomic_write blocked empty content for $file — ABORTED" >&2; return 1; }
+  
+  # GUARD 1: Create pre-write backup
+  if [[ -f "$file" ]]; then
+    cp "$file" "$bak_file" 2>/dev/null || true
+  fi
+  
+  # GUARD 2: Validate content is valid JSON before writing (for .json files)
+  if [[ "$file" == *.json ]]; then
+    printf '%s' "$content" > "$tmp_file"
+    /opt/homebrew/bin/jq . "$tmp_file" > /dev/null 2>&1 || {
+      echo "CRITICAL: atomic_write blocked invalid JSON for $file — ABORTED" >&2
+      echo "First error: $(/opt/homebrew/bin/jq . "$tmp_file" 2>&1 | head -1)" >&2
+      rm -f "$tmp_file"
+      return 1
+    }
+  fi
+  
+  # GUARD 3: Write to temp file, then atomic move
+  printf '%s' "$content" > "$tmp_file" 2>/dev/null || {
+    echo "CRITICAL: Failed to write temp file $tmp_file — ABORTED" >&2
     return 1
   }
+  
+  # GUARD 4: Verify temp file is non-empty before moving
+  if [[ ! -s "$tmp_file" ]]; then
+    echo "CRITICAL: Temp file $tmp_file is empty after write — ABORTED" >&2
+    return 1
+  fi
+  
+  mv "$tmp_file" "$file" || {
+    echo "CRITICAL: Atomic move failed from $tmp_file to $file — ABORTED" >&2
+    return 1
+  }
+  
+  # GUARD 5: Verify target file exists and is non-empty after move
+  if [[ ! -s "$file" ]]; then
+    echo "CRITICAL: Target file $file is empty after atomic move — ROLLING BACK from $bak_file" >&2
+    if [[ -f "$bak_file" ]]; then
+      cp "$bak_file" "$file"
+      echo "ROLLED BACK: Restored $file from $bak_file" >&2
+    fi
+    return 1
+  fi
+  
+  return 0
 }
 
 SPRINT_FILE="/Users/ainchorsangiefpl/.openclaw/workspace/state/sprint-current.json"
@@ -58,7 +111,7 @@ sprint_sync() {
     .velocity.pending = ([.items[] | select(.status == "pending")] | length) |
     .velocity.lastUpdated = $ts
   ' "$SPRINT_FILE")
-  echo "$tmp" > "$SPRINT_FILE"
+  atomic_write "$SPRINT_FILE" "$tmp" || echo "   Sprint:   ⚠️ sprint sync write failed" >&2
   echo "   Sprint:   ✅ sprint-current.json synced → $sprint_status"
 }
 
@@ -404,7 +457,7 @@ elif [[ "$SUBCOMMAND" == "link" ]]; then
       (if $chg != "" then .linked.chg += [$chg] else . end)
     )
   ' "$TICKET_FILE")
-  echo "$TMP" > "$TICKET_FILE"
+  atomic_write "$TICKET_FILE" "$TMP" || die "Failed to write link — tickets.json may be corrupted, check backup"
   echo "✅ $TKT_ID linked"
 
 # ──────────────────────────────────────────
@@ -432,10 +485,57 @@ elif [[ "$SUBCOMMAND" == "close" ]]; then
   NOTION_PAGE_ID=$(jq -r --arg id "$TKT_ID" '.tickets[] | select(.id == $id) | .notionPageId // ""' "$TICKET_FILE")
   if [[ -n "$NOTION_PAGE_ID" && "$NOTION_PAGE_ID" != "null" && "$NOTION_PAGE_ID" != "" ]]; then
     notion_close_ticket "$NOTION_PAGE_ID" 2>/dev/null \
-      && echo "   Notion:   ✅ marked Done" \
-      || echo "   Notion:   ⚠️  sync failed (local close still saved)"
+      && echo "   Notion:   ✅ marked Done in DB A" \
+      || echo "   Notion:   ⚠️  DB A sync failed (local close still saved)"
   else
     echo "   Notion:   ⚠️  no notionPageId — run: ticket.sh notion-sync $TKT_ID"
+  fi
+
+  # CHG-0402: Auto-archive to DB C (Completed-Archived)
+  echo -n "   Archive:  "
+  TKT_TITLE=$(jq -r --arg id "$TKT_ID" '.tickets[] | select(.id == $id) | .title // "$TKT_ID"' "$TICKET_FILE")
+  TKT_TYPE=$(jq -r --arg id "$TKT_ID" '.tickets[] | select(.id == $id) | .type // "task"' "$TICKET_FILE")
+  TKT_PRIORITY=$(jq -r --arg id "$TKT_ID" '.tickets[] | select(.id == $id) | .priority // "medium"' "$TICKET_FILE")
+  TKT_DESC=$(jq -r --arg id "$TKT_ID" '.tickets[] | select(.id == $id) | .description // ""' "$TICKET_FILE")
+  TKT_NOTES=$(jq -r --arg id "$TKT_ID" '.tickets[] | select(.id == $id) | .notes // ""' "$TICKET_FILE")
+  TODAY=$(date '+%Y-%m-%d')
+  
+  ARCHIVE_PAYLOAD=$(jq -n \
+    --arg ttl "$TKT_TITLE" \
+    --arg typ "$TKT_TYPE" \
+    --arg pri "$TKT_PRIORITY" \
+    --arg dsc "${TKT_DESC}${TKT_NOTES:+ | $TKT_NOTES}" \
+    --arg res "$RESOLUTION" \
+    --arg cdt "$TODAY" \
+    --arg db "$NOTION_DB_ARCHIVE" \
+    '{
+      parent: {database_id: $db},
+      properties: {
+        "Title":          {title: [{text: {content: $ttl}}]},
+        "Original ID":    {rich_text: [{text: {content: $ttl}}]},
+        "Type":           {select: {name: (if $typ == "change" then "CHG" elif $typ == "auto-heal" then "AUTO-HEAL" else ($typ | ascii_upcase) end)}},
+        "Status":         {select: {name: "Archived"}},
+        "Priority":       {select: {name: ($pri | ascii_upcase[:1] + ascii_downcase[1:])}},
+        "Completed Date": {date: {start: $cdt}},
+        "Description":    {rich_text: [{text: {content: ("Resolution: " + $res + (if $dsc != "" then " | " + $dsc else "" end))[:2000]}}]}
+      }
+    }' 2>/dev/null)
+  
+  if [[ -n "$ARCHIVE_PAYLOAD" ]] && [[ -f "$NOTION_KEY_FILE" ]]; then
+    local key; key=$(cat "$NOTION_KEY_FILE")
+    ARCHIVE_RESP=$(curl -s -X POST "https://api.notion.com/v1/pages" \
+      -H "Authorization: Bearer $key" \
+      -H "Notion-Version: 2022-06-28" \
+      -H "Content-Type: application/json" \
+      --data "$ARCHIVE_PAYLOAD" 2>/dev/null)
+    ARCHIVE_ID=$(echo "$ARCHIVE_RESP" | jq -r '.id // ""' 2>/dev/null)
+    if [[ -n "$ARCHIVE_ID" && "$ARCHIVE_ID" != "null" && "$ARCHIVE_ID" != "" ]]; then
+      echo "✅ archived to DB C ($ARCHIVE_ID)"
+    else
+      echo "⚠️  DB C archive failed (local close still saved)"
+    fi
+  else
+    echo "⚠️  skipped (DB C not configured)"
   fi
 
 # ──────────────────────────────────────────
@@ -479,7 +579,7 @@ elif [[ "$SUBCOMMAND" == "notion-sync" ]]; then
     if [[ -n "$NOTION_PAGE_ID" && "$NOTION_PAGE_ID" != "NOTION_SKIP" ]]; then
       TMP=$(jq --arg id "$TKT_ID" --arg npid "$NOTION_PAGE_ID" \
         '(.tickets[] | select(.id == $id)) |= (.notionPageId = $npid)' "$TICKET_FILE")
-      echo "$TMP" > "$TICKET_FILE"
+      atomic_write "$TICKET_FILE" "$TMP" || echo "⚠️ Write failed for $TKT_ID Notion sync"
       echo "✅ $TKT_ID synced to Notion — page ID: $NOTION_PAGE_ID"
     else
       echo "⚠️  Notion sync failed for $TKT_ID"

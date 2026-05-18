@@ -22,6 +22,136 @@
 **Linked:** CHG-0349, CHG-0350, TKT-0165, TKT-0175
 ---
 
+## 2026-05-18 21:39 AEST — [CHG-0404] Async Background Execution Rule — webchat must never be blocked by long-running tasks
+**Type:** rule
+**Change Type:** Normal
+**Source:** ken-prompt
+**Trigger:** Ken reported webchat was blocked from 1:20p during DB migration — session went into steer, couldn't send messages
+**What changed:** RULES.md: new NON-NEGOTIABLE rule CHG-0405 — tasks >30s must use sessions_spawn. AGENTS.md: added 'Don't block webchat' to Red Lines. SOUL.md: non-negotiable #11 added. scripts/async-task.sh: created async task queue helper.
+**Why:** The Notion migration (664 pages × API calls) ran synchronously, blocking webchat for ~13 minutes. Ken couldn't interact during that time. All future long-running ops must be backgrounded.
+**Verification:** RULES.md, AGENTS.md, SOUL.md updated. async-task.sh created with register/complete/status commands.
+**Rollback:** N/A
+**Linked:** none
+---
+
+
+## 2026-05-18 21:34 AEST — [CHG-0403] Heartbeat AUTO-HEAL pipeline routed to DB B — separate from sprint backlog
+**Type:** rule
+**Change Type:** Normal
+**Source:** ken-prompt
+**Trigger:** Ken: step 3 — connect heartbeat AUTO-HEAL pipeline to use DB B
+**What changed:** HEARTBEAT.md: Auto-Heal NEEDS_KEN section updated — target DB B (364c1829-53ff-81c0) instead of DB A. Status changed from Done→Open for review workflow. Added Category inference rule. Added Notion DB IDs reference section with all 3 DBs.
+**Why:** AUTO-HEAL items were cluttering DB A (Backlog). Now routed to dedicated DB B with Open/Reviewed/Resolved workflow instead of instant-Done.
+**Verification:** HEARTBEAT.md updated with DB B target + ID reference. Pipeline: auto-heal.sh → heartbeat reads → creates pages in DB B via Notion API.
+**Rollback:** N/A
+**Linked:** none
+---
+
+
+## 2026-05-18 21:20 AEST — [CHG-0402] ticket.sh close now auto-archives to DB C (Completed-Archived) on close
+**Type:** script
+**Change Type:** Normal
+**Source:** ken-prompt
+**Trigger:** Ken directive: step 2 — close ticket should auto-archive to DB C
+**What changed:** ticket.sh close command: after marking Done in DB A, creates a copy in DB C with Type/Priority/Resolution/Completed Date. Uses jq-built JSON payload for safe escaping. Best-effort — failure does not block local close.
+**Why:** 3-DB architecture (CHG-0401): A=active, B=auto-heal, C=archive. Close should move finished work to C for clean board.
+**Verification:** End-to-end test: created TKT-0231, closed with resolution, confirmed entry appears in DB C with correct type=task, status=Archived. DB A entry archived. Test cleaned up.
+**Rollback:** N/A
+**Linked:** none
+---
+
+
+## 2026-05-18 16:47 AEST — [CHG-0401] Notion 3-DB architecture: A(Backlog) B(Auto-Heal) C(Archive) — DBs created, migrated, routed
+**Type:** config
+**Change Type:** Normal
+**Source:** ken-prompt
+**Trigger:** Ken directive: restructure Notion AKB into A/B/C databases, move AUTO-HEAL to B, Done to C
+**What changed:** Created DB B ('🩺 AInchors Auto-Heal', 364c1829-53ff-81c0-9dbd) + DB C ('📦 AInchors Completed-Archived', 364c1829-53ff-818e). Migrated 56 AUTO-HEAL pages → B, 607 Done pages → C. Updated ticket.sh with 3-DB routing config. Original DB A retains Backlog + In Progress only.
+**Why:** DB A had accumulated 607 Done + 56 AUTO-HEAL cluttering active backlog. 3-DB separation: A=active work, B=auto-heal alerts, C=historical archive. Cleaner sprint view, automated routing going forward.
+**Verification:** DB A confirmed: 0 Done, 0 AUTO-HEAL remaining. DB B: 165 pages. DB C: 795 pages. All 3 DB IDs registered in ticket.sh.
+**Rollback:** N/A
+**Linked:** none
+---
+
+
+## 2026-05-18 12:53 AEST — [CHG-0400] ticket.sh permanent corruption fix — echo→printf + 5-guard atomic_write
+**Type:** script
+**Change Type:** Normal
+**Source:** ken-prompt
+**Trigger:** Ken asked if ticket.sh was permanently fixed after it zeroed tickets.json earlier today
+**What changed:** ticket.sh atomic_write(): (1) echo→printf '%s' to fix Zsh echo builtin silently corrupting 238KB+ strings (lost 173 bytes), (2) 5-guard system: empty-content abort, pre-write backup, JSON validation, non-empty verify, post-move rollback, (3) All 3 direct echo writes replaced with atomic_write, (4) Fixed duplicate TKT-0230/0231 cleanup
+**Why:** Root cause: Zsh echo builtin silently drops bytes on strings > ~100KB. This caused jq to fail with 'control characters' parse error, which then returned empty output, which echo wrote as empty file, which mv corrupted tickets.json. printf '%s' preserves all bytes exactly. 5-guard system ensures no future corruption regardless of root cause.
+**Verification:** printf test confirmed 238,583 bytes round-trip perfect. Ticket creation end-to-end test passed. JSON validation guard correctly blocked one invalid write during testing. 9 auto-backups created during test cycle.
+**Rollback:** N/A
+**Linked:** none
+---
+
+
+## 2026-05-18 12:01 AEST — [CHG-0399] Sprint 4 commitment restored — 9 items recovered from CHG-0369
+**Type:** data
+**Change Type:** Normal
+**Source:** ken-prompt
+**Trigger:** Ken identified Sprint 4 list lost — confirmed 8 items yesterday, sprint-current.json only showed 3
+**What changed:** sprint-current.json fully rebuilt from CHG-0369 (8 items) + CHG-0366 (TKT-0228). Root cause: file was overwritten at 14:28 AEST on 2026-05-17 with only 4 items, losing the 8-item commitment from 14:21.
+**Why:** sprint-current.json write at 14:28 only included 4 items (TKT-0196, TKT-0197, TKT-0187, TKT-0228) instead of the full 8+1 scope. Data recovered from CHANGELOG.md CHG-0369 which preserved the complete list.
+**Verification:** sprint-current.json validated with 9 items matching CHG-0369 + CHG-0366. All ticket IDs cross-referenced against tickets.json.
+**Rollback:** N/A
+**Linked:** none
+---
+
+
+## 2026-05-18 11:55 AEST — [CHG-0398] Telegram Message Chunking Rule — mandatory for all agents
+**Type:** rule
+**Change Type:** Normal
+**Source:** ken-prompt
+**Trigger:** Ken directive: all agents must chunk Telegram messages to avoid hitting content limit
+**What changed:** RULES.md (new NON-NEGOTIABLE rule CHG-0397), AGENTS.md (Platform Formatting section updated), SOUL.md (non-negotiable #10 added)
+**Why:** Telegram 4,096 char limit silently truncates oversized messages, stalling or cutting off communication. All agents must auto-chunk messages > 3,800 chars with numbered sequential delivery.
+**Verification:** RULES.md, AGENTS.md, SOUL.md all confirmed updated. SOUL.md at 4,411 chars — under 5,000 limit.
+**Rollback:** N/A
+**Linked:** none
+---
+
+
+## 2026-05-18 11:47 AEST — [CHG-0397] Auto allowlist sync -- Tier 2 propagation (strategy-update)
+**Type:** config
+**Change Type:** Normal
+**Source:** ken-prompt
+**Trigger:** allowlist-sync.sh triggered by: strategy-update at 2026-05-18T11:47:13+10:00
+**What changed:** model-policy.json allowedInCrons updated.   main: +['anthropic/claude-haiku-4-5', 'anthropic/claude-sonnet-4-6', 'ollama/gemma4:e2b'];  business: +['anthropic/claude-haiku-4-5', 'anthropic/claude-sonnet-4-6'];  qa: +['anthropic/claude-haiku-4-5', 'anthropic/claude-sonnet-4-6'];  governance: +['anthropic/claude-haiku-4-5', 'anthropic/claude-sonnet-4-6'];  security: +['anthropic/claude-haiku-4-5', 'anthropic/claude-sonnet-4-6'];  legal: +['anthropic/claude-haiku-4-5', 'anthropic/claude-sonnet-4-6']
+**Why:** CI Cycle B decision or model strategy update. Allowlists auto-propagated per eligibility matrix.
+**Verification:** allowlist-sync-state.json written, model-policy.json JSON valid
+**Rollback:** N/A
+**Linked:** none
+---
+
+
+## 2026-05-18 11:44 AEST — [CHG-0396] Forge cron audit — stale crons cleaned, task monitor timeout fixed, model references updated
+**Type:** config
+**Change Type:** Normal
+**Source:** ken-prompt
+**Trigger:** Ken directive: Forge to review all cron config post model reassignment (CHG-0394)
+**What changed:** Removed 3 stale disabled crons (LI-W1-P1 24h, LI-W1-P1 48h, Interim Fallback Review Gate). Fixed Task Monitor timeout 30s→60s (gemma4 timing). Updated Monthly Model Review prompt (removed Sonnet/Opus/Anthropic refs). Verified all scripts (cost-tracker/health-check/auto-heal Anthropic refs are diagnostic probes, not stale config). No other cron payloads contain stale Anthropic model references.
+**Why:** Post-model-reassignment cleanup. 3 disabled crons referenced dead Anthropic models. Task Monitor was timing out on gemma4:31b. Monthly review referenced obsolete model names.
+**Verification:** All 3 stale crons confirmed removed. Task Monitor timeout updated, next run succeeded. Monthly review prompt cleaned. Scripts verified — Anthropic refs are intentional diagnostics.
+**Rollback:** N/A
+**Linked:** none
+---
+
+
+## 2026-05-18 11:40 AEST — [CHG-0395] Warden model policy permanent baseline update — kimi interim decommissioned
+**Type:** config
+**Change Type:** Normal
+**Source:** ken-prompt
+**Trigger:** Ken directive: permanent model reassignment — 12 agents + 27 crons
+**What changed:** model-policy.json (v2.0 rebuild), interim-model-period.json (decommissioned), warden-cron.sh (interim skip logic removed), model-drift-state.json (counters reset), model-drift-violations.json (27 violations archived), warden-escalation-pending.json (cleared)
+**Why:** New permanent baseline. User-facing agents deepseek-v4-pro primary, backend agents gemma4:31b-cloud primary, crons gemma4:31b-cloud + kimi fallback, standup kimi primary.
+**Verification:** All 5 policy files read-back confirmed. Counters zeroed. Violations archived.
+**Rollback:** N/A
+**Linked:** none
+---
+
+
 
 ## 2026-05-15 13:10 AEST — [CHG-0175] Calculated cost fallback for ephemeral sessions
 **Type:** feature

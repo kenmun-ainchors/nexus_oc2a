@@ -132,12 +132,14 @@ This is Ken's rule, not Yoda's suggestion. Enforce it.
 
 ### Auto-Heal NEEDS_KEN → Notion (check every morning after auto-heal run)
 - Read state/auto-heal-[YESTERDAY].json → needs_ken array
-- If needs_ken_count > 0: raise each item as a Notion page in AKB Backlog
-- **Status: ALWAYS set to "Done"** — AUTO-HEAL items are informational records, not actionable backlog
+- If needs_ken_count > 0: raise each item as a Notion page in **DB B: Auto-Heal (364c1829-53ff-81c0-9dbd-ff2c907d1a6b)**
+- **Status: set to "Open"** — AUTO-HEAL items start open, can be reviewed and marked Resolved/False Positive
 - Title format: [AUTO-HEAL] [item description]
-- Type: task | Priority: medium | Notes: full item text
+- Category: infer from item text (Backup/Config Drift/API Balance/Memory/Cron/Auth/Other)
+- Date: today's date
+- Type: task | Notes: full item text
 - After raising: send Telegram alert to Ken with count + summary (urgent items only)
-- Do NOT create Backlog items that clutter the sprint view — Done = logged for awareness, not action
+- Do NOT flood DB A (Backlog) — AUTO-HEAL items belong in DB B, separate from sprint work
 
 ### Memory Maintenance (once per day, during low-traffic hours)
 - Review recent memory/YYYY-MM-DD.md files
@@ -154,6 +156,11 @@ Root cause of Day 16 journal corruption: heartbeat ran EOD at 15:27 AEST because
 
 ## State Tracking
 State file: state/heartbeat-state.json
+
+### Notion DB IDs (CHG-0401 3-DB architecture)
+- DB A (Backlog): 34dc1829-53ff-814b-8257-d3a3bf351d44
+- DB B (Auto-Heal): 364c1829-53ff-81c0-9dbd-ff2c907d1a6b  ← AUTO-HEAL items go HERE
+- DB C (Archive): 364c1829-53ff-818e-a783-ebafcb6a9880  ← closed tickets auto-archive HERE
 
 ### Ahsoka Pilot Completion Gate (check every heartbeat)
 - Check `state/ahsoka-pilot-state.json`

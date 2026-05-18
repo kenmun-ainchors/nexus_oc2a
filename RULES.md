@@ -1000,3 +1000,129 @@ Any agent can read a Task and resume from the first pending atom.
 ---
 
 **This rule is MANDATORY and PERSISTENT until explicitly revoked by Ken.**
+
+---
+
+## TELEGRAM MESSAGE CHUNKING RULE — NON-NEGOTIABLE (CHG-0397)
+
+# Authority: Ken Mun (CTO) — ABSOLUTELY NON-NEGOTIABLE, PERSISTENT
+# Effective: 2026-05-18 11:53 AEST
+# Applies to: ALL agents (current and future), ALL Telegram channels
+# Platform: AInchors Nexus Platform
+
+### Rule Statement
+
+**ALL agents sending messages to Telegram MUST automatically chunk and split messages that exceed Telegram's 4,096 character content limit to prevent truncation, stalled delivery, or cut-off communication to users.**
+
+This rule is:
+- **ABSOLUTELY NON-NEGOTIABLE** — No exceptions. No agent may send an oversized single message to Telegram.
+- **PERSISTENT** — Active indefinitely for all agents, current and future
+- **PLATFORM-WIDE** — Applies to all agents communicating via Telegram
+
+### Telegram Limits
+
+| Parameter | Value |
+|-----------|-------|
+| **Telegram max message length** | 4,096 characters |
+| **Safe chunk size** | 3,800 characters (margin for markdown/formatting) |
+
+### Chunking Protocol
+
+1. **PRE-FLIGHT CHECK:** Before sending ANY Telegram message, count characters. If ≤ 3,800 → send as-is. If > 3,800 → chunk.
+
+2. **CHUNK BOUNDARIES:** Always split at:
+   - Paragraph breaks (double newline)
+   - Section headers
+   - List item boundaries
+   - NEVER split mid-sentence, mid-word, or mid-URL
+
+3. **CHUNK NUMBERING:** Every chunk MUST be numbered:
+   ```
+   [1/3] First chunk content...
+
+   [2/3] Second chunk content...
+
+   [3/3] Last chunk content...
+   ```
+
+4. **CONTINUITY:** If a section spans chunks: end chunk N with `(continued →)` and start chunk N+1 with `(← continued)`.
+
+5. **HEADER REPETITION:** If chunked content has a title/context header, include it in [brackets] at the start of each chunk so partial views have context.
+
+6. **DELIVERY ORDER:** Send chunks sequentially (1, 2, 3...). Do NOT parallel-send — Telegram may reorder.
+
+### Content Types Requiring Chunking (common triggers)
+
+- Standup daily briefs · Diagnostic reports · Sprint reviews · CHG/incident summaries · Architecture proposals · Sub-agent completion reports · Cost/budget breakdowns · ROI summaries
+
+### Anti-Patterns (PROHIBITED)
+
+- ❌ Sending a 5,000+ char message as one chunk — WILL truncate silently
+- ❌ Splitting mid-word or mid-URL
+- ❌ Sending chunks out of order
+- ❌ Omitting chunk numbers
+- ❌ Assuming sessions_send auto-chunks — it does NOT
+
+### Verification
+
+Before any Telegram send:
+1. Count characters of the full message
+2. If > 3,800: split into N chunks at paragraph boundaries
+3. Verify each chunk is ≤ 3,800 chars
+4. Number chunks [1/N] through [N/N]
+5. Send sequentially
+
+### Ken's Directive
+
+> "set new mandatory rule for all agents (now and future) on telegram. ensure messages are chunk and split up to avoid hitting telegram message content limit, which will stall or cut-off communication to user"
+
+**Date:** 2026-05-18 11:53 AEST
+**CHG:** CHG-0397
+
+---
+
+**This rule is MANDATORY and PERSISTENT for ALL agents on ALL Telegram channels. Violation = communication failure.**
+
+---
+
+## ASYNC BACKGROUND EXECUTION RULE — NON-NEGOTIABLE (CHG-0405)
+
+# Authority: Ken Mun (CTO) — ABSOLUTELY NON-NEGOTIABLE
+# Effective: 2026-05-18 21:37 AEST
+# Applies to: ALL webchat sessions (Yoda)
+
+### Rule Statement
+
+**Any exec call expected to take > 30 seconds MUST be run as a background sub-agent via sessions_spawn. Webchat must never be blocked by a long-running synchronous exec.**
+
+### The Problem
+On 2026-05-18, a Notion database migration (664 pages) was run as a synchronous `exec` with `yieldMs`. The webchat session was blocked for ~13 minutes, preventing Ken from sending messages. The session went into steer mode — fully unresponsive.
+
+### The Fix
+
+1. **Pre-flight:** Before executing any task, estimate its duration:
+   - File I/O < 1MB → sync is fine
+   - API calls > 10 → background it
+   - Scripts touching Notion/Ollama/network → background it
+   - Anything with a loop over >20 items → background it
+
+2. **Background execution:** Use `sessions_spawn` with `mode="run"` — the task runs in an isolated session, Yoda stays responsive:
+   ```
+   sessions_spawn(taskName="migration_task", task="Run script X, report results", mode="run")
+   ```
+
+3. **Progress reporting:** Sub-agent announces completion via cron delivery. Yoda picks up the result and reports to Ken.
+
+4. **Timeout safety:** All background tasks get `runTimeoutSeconds` — never indefinite.
+
+### Anti-Patterns (PROHIBITED)
+- ❌ Running 600+ API calls in a synchronous exec with yieldMs
+- ❌ Blocking webchat for >30 seconds on any operation
+- ❌ Using exec(timeout=0) for long tasks (runs anyway, blocks session)
+- ❌ Assuming "it'll be quick" for API-heavy tasks
+
+### Ken's Directive
+> "how can we split this and run it async in the background? the time you mentioned was short but all-in, i was waiting for webchat to respond since 1:20p"
+
+**Date:** 2026-05-18 21:37 AEST
+**CHG:** CHG-0405

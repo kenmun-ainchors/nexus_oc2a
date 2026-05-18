@@ -1,10 +1,10 @@
 # Yoda Telegram Context Brief
-Generated: 2026-05-17 20:00 AEST | Platform Day 23 | Sprint 4 (May 19–25)
+Generated: 2026-05-18 20:00 AEST | Platform Day 24 | Sprint 4 (May 19–25)
 
 ---
 
 ## Platform Status
-- **Day:** 23 (since 2026-04-25)
+- **Day:** 24 (since 2026-04-25)
 - **Phase:** MVP → P1 transition
 - **OC1:** Mac Mini M4 24GB — LIVE Production. PERMANENT.
 - **OC2-A/B:** Mac Mini M4 Pro 48GB ×2 — ETA 6–13 Jul 2026, commission ~27 Jul
@@ -40,11 +40,15 @@ Theme: Option B Phase 1 foundation + security hardening
 
 | Ticket | Title | Owner | Status |
 |--------|-------|-------|--------|
-| TKT-0196 | Three Work Types Rule | Forge | open |
-| TKT-0197 | Sources of Truth Register (10 core data types) | Atlas | open |
-| TKT-0187 | Cloudflare Tunnel (MinIO + OpenClaw webchat) | Forge | open |
-| TKT-0141 | CLI-Anything supply chain audit | — | in-progress |
-| TKT-0142 | SKILL.md poisoning review | — | in-progress (63 skills clean) |
+| TKT-0127 | Agentic Marketing Org Design | Yoda | planned |
+| TKT-0158 | Scheduled integrity checks | Forge | planned |
+| TKT-0196 | Three Work Types Rule | Forge | planned |
+| TKT-0197 | Sources of Truth Register | Atlas | planned |
+| TKT-0178 | Routing Discipline Enforcement | Forge | planned |
+| TKT-0198 | JSON to Postgres Migration | Forge | planned |
+| TKT-0169 | Typed Agent Contracts | Yoda | planned |
+| TKT-0182 | Explicit state checking pattern | Thrawn | planned |
+| TKT-0228 | OWL Drift Detection System | Yoda | planned |
 
 Committed by: Ken Mun + Yoda
 
@@ -67,16 +71,16 @@ Committed by: Ken Mun + Yoda
 ---
 
 ## Open Tickets (Top 10 by Priority)
-1. **TKT-0196** — Three Work Types Rule (S4, Forge)
-2. **TKT-0197** — Sources of Truth Register (S4, Atlas)
-3. **TKT-0187** — Cloudflare Tunnel (S4, Forge)
-4. **TKT-0141** — CLI-Anything supply chain audit (HIGH)
-5. **TKT-0142** — SKILL.md poisoning review (HIGH, 63 skills clean)
-6. **TKT-0114** — AInchors–Aevlith partnership (HIGH, gates 0115–0117)
-7. **TKT-0135** — AInchors Sandbox (HIGH, Sprint 3, Forge)
-8. **TKT-0137** — Policy Register (HIGH, Lex, S4 assigned)
-9. **TKT-0138** — Business Jumpstart pathway (HIGH, Ahsoka)
-10. **TKT-0136** — Consulting Playbook (HIGH)
+1. **TKT-0114** — AInchors–Aevlith partnership (HIGH, gates 0115–0117)
+2. **TKT-0141** — CLI-Anything supply chain audit (HIGH)
+3. **TKT-0142** — SKILL.md poisoning review (HIGH, 63 skills clean)
+4. **TKT-0137** — Policy Register (HIGH, Lex, S4 assigned)
+5. **TKT-0135** — AInchors Sandbox (HIGH, Forge)
+6. **TKT-0136** — Consulting Playbook (HIGH)
+7. **TKT-0138** — Business Jumpstart pathway (HIGH, Ahsoka)
+8. **TKT-0196** — Three Work Types Rule (S4, Forge)
+9. **TKT-0197** — Sources of Truth Register (S4, Atlas)
+10. **TKT-0187** — Cloudflare Tunnel (S4, Forge)
 
 Full backlog: Notion AKB Backlog (SSOT). tickets.json seq 199.
 

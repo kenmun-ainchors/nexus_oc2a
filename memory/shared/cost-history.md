@@ -464,3 +464,24 @@ Avg: ~$101/day. Balance at 2026-04-28 EOD: $58.72 USD.
 - **deepseek-v4-pro:cloud**: 17 turns | 829,859 in / 4,526 out | $0.0000
 - **kimi-k2.6:cloud**: 451 turns | 18,805,027 in / 94,622 out | $0.0000
 - **gemma4:26b**: 1 turns | 0 in / 0 out | $0.0000
+
+## 2026-05-18
+
+| Metric | Value |
+|--------|-------|
+| Total Cost | $0.0000 |
+| Turns | 648 |
+| Input Tokens | 34,287,501 |
+| Output Tokens | 112,204 |
+| Cache Read | 0 |
+| Calculated Cost (ephemeral) | $0.0000 |
+| Calculated Turns | 0 |
+
+### By Stream
+- **technical**: 636 turns | $0.0000
+- **business**: 12 turns | $0.0000
+
+### By Model
+- **deepseek-v4-pro:cloud**: 479 turns | 32,274,734 in / 97,988 out | $0.0000
+- **gemma4:31b-cloud**: 165 turns | 2,012,767 in / 14,216 out | $0.0000
+- **delivery-mirror**: 4 turns | 0 in / 0 out | $0.0000

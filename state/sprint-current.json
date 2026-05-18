@@ -1,34 +1,86 @@
 {
   "sprint": 4,
-  "dates": "May 19\u201325, 2026",
-  "status": "planning",
-  "theme": "Option B Phase 1 foundation + security hardening",
+  "sprintName": "Sprint 4",
+  "startDate": "2026-05-19",
+  "endDate": "2026-05-25",
+  "committedAt": "2026-05-17T14:21:00+10:00",
+  "committedBy": "Ken Mun",
+  "chgReference": "CHG-0369",
+  "capacity": 8,
   "items": [
     {
+      "ticket": "TKT-0127",
+      "title": "Agentic Marketing Org Design — activate business stream marketing agent",
+      "status": "planned",
+      "owner": "Yoda",
+      "type": "architecture",
+      "note": "Activate marketing agent for AInchors own marketing. CHG-0369 Sprint 4 commitment."
+    },
+    {
+      "ticket": "TKT-0158",
+      "title": "Scheduled integrity checks — automated state file validation",
+      "status": "planned",
+      "owner": "Forge",
+      "type": "infra",
+      "note": "Periodic integrity checks for critical state files. CHG-0369 Sprint 4 commitment."
+    },
+    {
       "ticket": "TKT-0196",
-      "title": "Three Work Types Rule \u2014 enforce script/governance/LLM separation",
-      "status": "open",
+      "title": "Three Work Types Rule — enforce script/governance/LLM separation",
+      "status": "planned",
       "owner": "Forge",
       "type": "architecture",
-      "note": "Quick win. Defines when work routes to script vs governance agent vs LLM. Reduces unnecessary Sonnet/Haiku usage."
+      "note": "Quick win. Defines when work routes to script vs governance agent vs LLM."
     },
     {
       "ticket": "TKT-0197",
-      "title": "Sources of Truth Register \u2014 10 core data types",
-      "status": "open",
+      "title": "Sources of Truth Register — 10 core data types",
+      "status": "planned",
       "owner": "Atlas",
       "type": "architecture",
-      "note": "Canonical storage location for each data domain. Prevents data fragmentation. Foundation for Phase 1."
+      "note": "Canonical storage location for each data domain. Foundation for Phase 1."
     },
     {
-      "ticket": "TKT-0187",
-      "title": "Cloudflare Tunnel \u2014 MinIO + OpenClaw webchat",
-      "status": "open",
+      "ticket": "TKT-0178",
+      "title": "Routing Discipline Enforcement — agent task routing guard",
+      "status": "planned",
       "owner": "Forge",
-      "type": "infra",
-      "note": "Secure external access to MinIO and webchat without exposing ports. P1 prerequisite for KL team."
+      "type": "architecture",
+      "note": "Enforce Yoda-only orchestration, prevent agents from doing specialist work. CHG-0369."
+    },
+    {
+      "ticket": "TKT-0198",
+      "title": "JSON to Postgres Migration — Top 5 State Files",
+      "status": "planned",
+      "owner": "Forge",
+      "type": "data",
+      "note": "Migrate 5 most-critical JSON state files to Postgres. Was Sprint 6 → pulled forward."
+    },
+    {
+      "ticket": "TKT-0169",
+      "title": "Typed Agent Contracts — 4 Cross-Agent Handoffs",
+      "status": "planned",
+      "owner": "Yoda",
+      "type": "architecture",
+      "note": "Define typed contracts for agent-to-agent communication. CHG-0369."
+    },
+    {
+      "ticket": "TKT-0182",
+      "title": "Explicit state checking pattern — Thrawn platform rule",
+      "status": "planned",
+      "owner": "Thrawn",
+      "type": "architecture",
+      "note": "Codify state-check-before-act pattern across all agents. CHG-0369."
+    },
+    {
+      "ticket": "TKT-0228",
+      "title": "OWL Drift Detection and Prevention System",
+      "status": "planned",
+      "owner": "Yoda",
+      "type": "architecture",
+      "note": "5 stories: compliance tracking, drift alerts, runbook procedure, audit script, agent training. Added CHG-0366."
     }
   ],
-  "updatedAt": "2026-05-15T11:16:00+10:00",
-  "committedBy": "Ken Mun + Yoda"
+  "committedCount": 9,
+  "notes": "Restored from CHG-0369 (8 items) + CHG-0366 (TKT-0228 added). sprint-current.json was overwritten at 14:28 AEST on 2026-05-17, losing the 8-item scope. Restored 2026-05-18 12:00 AEST per Ken directive."
 }

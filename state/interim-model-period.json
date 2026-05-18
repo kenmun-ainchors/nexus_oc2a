@@ -1,20 +1,18 @@
 {
   "schema_version": "1.0",
-  "active": true,
+  "active": false,
+  "decommissioned": true,
   "startedAt": "2026-05-13T04:25:17Z",
-  "updatedAt": "2026-05-17T22:03:05.781986",
-  "reason": "Ollama subscription limit \u2014 kimi blocked, all agents/crons on gemma4:31b-cloud",
-  "currentModel": "ollama/gemma4:31b-cloud",
-  "blockedModels": [
-    "ollama/kimi-k2.6:cloud"
+  "decommissionedAt": "2026-05-18T01:37:00+10:00",
+  "reason": "Anthropic API credit depletion — resolved by permanent model reassignment (CHG-0394). Interim period closed as NEW PERMANENT BASELINE.",
+  "chgReference": "CHG-0394",
+  "revertKeyword": null,
+  "revertNote": "No revert keyword. This is the permanent configuration. Ken must approve any future model changes.",
+  "previousBlockedModels": [
+    "anthropic/claude-sonnet-4-6",
+    "anthropic/claude-haiku-4-5",
+    "anthropic/claude-opus-4-7"
   ],
-  "allowedModels": [
-    "ollama/gemma4:31b-cloud",
-    "ollama/deepseek-v4-pro:cloud",
-    "ollama/deepseek-v4-flash:cloud",
-    "ollama/gemma4:26b",
-    "ollama/gemma4:e2b"
-  ],
-  "wardenBehavior": "SKIP_ALL_CHECKS",
-  "notes": "Warden drift checks disabled during interim. All agents and crons migrated. Revert when subscription restored."
+  "approvedBy": "Ken Mun",
+  "approvedAt": "2026-05-18T11:34:00+10:00"
 }

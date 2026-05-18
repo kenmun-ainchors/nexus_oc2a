@@ -125,6 +125,10 @@ fi
 
 if [[ "$INTERIM_ACTIVE" == "true" ]]; then
   log "INTERIM PERIOD ACTIVE ($INTERIM_REASON) — skipping fallback chain config validation"
+  if [[ "$INTERIM_ACTIVE" == "true" ]]; then
+  BROKEN+=("Anthropic models unavailable during interim period (CHG-0388)"); log "LINK 5 (Anthropic models): SKIPPED (interim period active)"; RESULTS+=("anthropicModels:interim-skip")
+  ANTHROPIC_MODELS_OK=false
+else
   log "LINK 5 (fallback chain config): SKIPPED — interim period, using temporary models"
   RESULTS+=("fallbackChainConfig:interim-skipped")
   # Skip to end — no chain validation during interim
@@ -160,12 +164,20 @@ print(fb[0] if len(fb) > 0 else '')
 
   CHAIN_OK=true
   if [[ "$PRIMARY" != "$EXPECTED_PRIMARY" ]]; then
-    log "LINK 5 (fallback chain): BROKEN — main agent primary is '$PRIMARY', expected '$EXPECTED_PRIMARY'"
+    if [[ "$INTERIM_ACTIVE" == "true" ]]; then
+  BROKEN+=("Anthropic models unavailable during interim period (CHG-0388)"); log "LINK 5 (Anthropic models): SKIPPED (interim period active)"; RESULTS+=("anthropicModels:interim-skip")
+  ANTHROPIC_MODELS_OK=false
+else
+  log "LINK 5 (fallback chain): BROKEN — main agent primary is '$PRIMARY', expected '$EXPECTED_PRIMARY'"
     BROKEN+=("Fallback chain: main agent primary model wrong (got '$PRIMARY')")
     CHAIN_OK=false
   fi
   if [[ "$FALLBACK_0" != "$EXPECTED_FALLBACK_1" ]]; then
-    log "LINK 5 (fallback chain): BROKEN — main agent fallback[0] is '$FALLBACK_0', expected '$EXPECTED_FALLBACK_1'"
+    if [[ "$INTERIM_ACTIVE" == "true" ]]; then
+  BROKEN+=("Anthropic models unavailable during interim period (CHG-0388)"); log "LINK 5 (Anthropic models): SKIPPED (interim period active)"; RESULTS+=("anthropicModels:interim-skip")
+  ANTHROPIC_MODELS_OK=false
+else
+  log "LINK 5 (fallback chain): BROKEN — main agent fallback[0] is '$FALLBACK_0', expected '$EXPECTED_FALLBACK_1'"
     BROKEN+=("Fallback chain: main agent fallback[0] wrong (got '$FALLBACK_0') — should be haiku-4-5")
     CHAIN_OK=false
   fi
@@ -179,15 +191,27 @@ fb = main_agent.get('model', {}).get('fallbacks', [])
 print('yes' if 'anthropic/claude-opus-4-7' in fb else 'no')
 " 2>/dev/null || echo "no")
   if [[ "$OPUS_IN_CHAIN" == "yes" ]]; then
-    log "LINK 5 (fallback chain): POLICY VIOLATION — Opus found in main agent fallbacks (CHG-0075)"
+    if [[ "$INTERIM_ACTIVE" == "true" ]]; then
+  BROKEN+=("Anthropic models unavailable during interim period (CHG-0388)"); log "LINK 5 (Anthropic models): SKIPPED (interim period active)"; RESULTS+=("anthropicModels:interim-skip")
+  ANTHROPIC_MODELS_OK=false
+else
+  log "LINK 5 (fallback chain): POLICY VIOLATION — Opus found in main agent fallbacks (CHG-0075)"
     BROKEN+=("Policy violation: Opus in main agent fallbacks — prohibited (CHG-0075)")
     CHAIN_OK=false
   fi
 
   if [[ "$CHAIN_OK" == "true" ]]; then
-    log "LINK 5 (fallback chain config): OK — $EXPECTED_PRIMARY → $EXPECTED_FALLBACK_1 → kimi (main agent, CHG-0270)"
+    if [[ "$INTERIM_ACTIVE" == "true" ]]; then
+  BROKEN+=("Anthropic models unavailable during interim period (CHG-0388)"); log "LINK 5 (Anthropic models): SKIPPED (interim period active)"; RESULTS+=("anthropicModels:interim-skip")
+  ANTHROPIC_MODELS_OK=false
+else
+  log "LINK 5 (fallback chain config): OK — $EXPECTED_PRIMARY → $EXPECTED_FALLBACK_1 → kimi (main agent, CHG-0270)"
     RESULTS+=("fallbackChainConfig:ok")
   fi
+else
+  if [[ "$INTERIM_ACTIVE" == "true" ]]; then
+  BROKEN+=("Anthropic models unavailable during interim period (CHG-0388)"); log "LINK 5 (Anthropic models): SKIPPED (interim period active)"; RESULTS+=("anthropicModels:interim-skip")
+  ANTHROPIC_MODELS_OK=false
 else
   log "LINK 5 (fallback chain config): BROKEN — openclaw.json not found at $OPENCLAW_CFG"
   BROKEN+=("openclaw.json not found")

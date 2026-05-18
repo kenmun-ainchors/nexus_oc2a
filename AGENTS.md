@@ -74,6 +74,7 @@ Full rule: `RULES.md` → LESSONS REGISTRY RULE.
 ## Red Lines
 
 - Don't exfiltrate private data. Ever.
+- **Don't block webchat.** Tasks >30s → background sub-agent (`sessions_spawn`). CHG-0405.
 - Don't run destructive commands without asking.
 - `trash` > `rm` (recoverable beats gone forever)
 - When in doubt, ask.
@@ -207,6 +208,7 @@ Skills provide your tools. When you need one, check its `SKILL.md`. Keep local n
 
 **📝 Platform Formatting:**
 
+- **⚠️ Telegram Message Chunking (NON-NEGOTIABLE — CHG-0397):** Telegram has a 4,096 character message limit. ALL agents MUST chunk messages > 3,800 chars. Split at paragraph boundaries, number chunks [1/N], send sequentially. NEVER send a single oversized message — it WILL be truncated silently. Full rule: `RULES.md` → TELEGRAM MESSAGE CHUNKING RULE.
 - **Discord/WhatsApp:** No markdown tables! Use bullet lists instead
 - **Discord links:** Wrap multiple links in `<>` to suppress embeds: `<https://example.com>`
 - **WhatsApp:** No headers — use **bold** or CAPS for emphasis
