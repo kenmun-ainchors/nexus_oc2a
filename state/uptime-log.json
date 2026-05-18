@@ -4,110 +4,6 @@
   "sloTarget": 0.995,
   "events": [
     {
-      "ts": "2026-05-15T14:33:52.995110+00:00",
-      "status": "degraded",
-      "consecutiveFailures": 0,
-      "issues": [
-        "1 zombie task run(s) detected \u2014 run: openclaw tasks audit"
-      ]
-    },
-    {
-      "ts": "2026-05-15T14:38:52.694527+00:00",
-      "status": "degraded",
-      "consecutiveFailures": 0,
-      "issues": [
-        "1 zombie task run(s) detected \u2014 run: openclaw tasks audit"
-      ]
-    },
-    {
-      "ts": "2026-05-15T14:43:53.465209+00:00",
-      "status": "degraded",
-      "consecutiveFailures": 0,
-      "issues": [
-        "1 zombie task run(s) detected \u2014 run: openclaw tasks audit"
-      ]
-    },
-    {
-      "ts": "2026-05-15T14:48:53.040944+00:00",
-      "status": "degraded",
-      "consecutiveFailures": 0,
-      "issues": [
-        "1 zombie task run(s) detected \u2014 run: openclaw tasks audit"
-      ]
-    },
-    {
-      "ts": "2026-05-15T14:53:53.003649+00:00",
-      "status": "degraded",
-      "consecutiveFailures": 0,
-      "issues": [
-        "1 zombie task run(s) detected \u2014 run: openclaw tasks audit"
-      ]
-    },
-    {
-      "ts": "2026-05-15T14:59:20.942599+00:00",
-      "status": "degraded",
-      "consecutiveFailures": 0,
-      "issues": [
-        "1 zombie task run(s) detected \u2014 run: openclaw tasks audit"
-      ]
-    },
-    {
-      "ts": "2026-05-15T15:04:21.111481+00:00",
-      "status": "degraded",
-      "consecutiveFailures": 0,
-      "issues": [
-        "1 zombie task run(s) detected \u2014 run: openclaw tasks audit"
-      ]
-    },
-    {
-      "ts": "2026-05-15T15:09:20.409810+00:00",
-      "status": "degraded",
-      "consecutiveFailures": 0,
-      "issues": [
-        "1 zombie task run(s) detected \u2014 run: openclaw tasks audit"
-      ]
-    },
-    {
-      "ts": "2026-05-15T15:14:20.332272+00:00",
-      "status": "degraded",
-      "consecutiveFailures": 0,
-      "issues": [
-        "1 zombie task run(s) detected \u2014 run: openclaw tasks audit"
-      ]
-    },
-    {
-      "ts": "2026-05-15T15:20:14.170755+00:00",
-      "status": "degraded",
-      "consecutiveFailures": 0,
-      "issues": [
-        "1 zombie task run(s) detected \u2014 run: openclaw tasks audit"
-      ]
-    },
-    {
-      "ts": "2026-05-15T15:25:09.080448+00:00",
-      "status": "degraded",
-      "consecutiveFailures": 0,
-      "issues": [
-        "1 zombie task run(s) detected \u2014 run: openclaw tasks audit"
-      ]
-    },
-    {
-      "ts": "2026-05-15T15:30:17.060466+00:00",
-      "status": "degraded",
-      "consecutiveFailures": 0,
-      "issues": [
-        "1 zombie task run(s) detected \u2014 run: openclaw tasks audit"
-      ]
-    },
-    {
-      "ts": "2026-05-15T15:35:16.640788+00:00",
-      "status": "degraded",
-      "consecutiveFailures": 0,
-      "issues": [
-        "1 zombie task run(s) detected \u2014 run: openclaw tasks audit"
-      ]
-    },
-    {
       "ts": "2026-05-15T15:40:16.167601+00:00",
       "status": "degraded",
       "consecutiveFailures": 0,
@@ -4542,14 +4438,92 @@
       "status": "ok",
       "consecutiveFailures": 0,
       "issues": []
+    },
+    {
+      "ts": "2026-05-18T15:05:06.173976+00:00",
+      "status": "ok",
+      "consecutiveFailures": 0,
+      "issues": []
+    },
+    {
+      "ts": "2026-05-18T15:09:59.627988+00:00",
+      "status": "ok",
+      "consecutiveFailures": 0,
+      "issues": []
+    },
+    {
+      "ts": "2026-05-18T15:15:16.881455+00:00",
+      "status": "ok",
+      "consecutiveFailures": 0,
+      "issues": []
+    },
+    {
+      "ts": "2026-05-18T15:20:10.096978+00:00",
+      "status": "ok",
+      "consecutiveFailures": 0,
+      "issues": []
+    },
+    {
+      "ts": "2026-05-18T15:25:12.272819+00:00",
+      "status": "ok",
+      "consecutiveFailures": 0,
+      "issues": []
+    },
+    {
+      "ts": "2026-05-18T15:30:18.165659+00:00",
+      "status": "ok",
+      "consecutiveFailures": 0,
+      "issues": []
+    },
+    {
+      "ts": "2026-05-18T15:35:16.177872+00:00",
+      "status": "ok",
+      "consecutiveFailures": 0,
+      "issues": []
+    },
+    {
+      "ts": "2026-05-18T15:40:17.354963+00:00",
+      "status": "ok",
+      "consecutiveFailures": 0,
+      "issues": []
+    },
+    {
+      "ts": "2026-05-18T15:45:17.638422+00:00",
+      "status": "ok",
+      "consecutiveFailures": 0,
+      "issues": []
+    },
+    {
+      "ts": "2026-05-18T15:50:21.380517+00:00",
+      "status": "ok",
+      "consecutiveFailures": 0,
+      "issues": []
+    },
+    {
+      "ts": "2026-05-18T15:55:15.662216+00:00",
+      "status": "ok",
+      "consecutiveFailures": 0,
+      "issues": []
+    },
+    {
+      "ts": "2026-05-18T16:00:16.705962+00:00",
+      "status": "ok",
+      "consecutiveFailures": 0,
+      "issues": []
+    },
+    {
+      "ts": "2026-05-18T16:06:26.326249+00:00",
+      "status": "ok",
+      "consecutiveFailures": 0,
+      "issues": []
     }
   ],
   "summary": {
-    "totalChecks": 1538,
-    "upChecks": 1199,
+    "totalChecks": 1551,
+    "upChecks": 1212,
     "downtimeMinutes": 1695,
-    "uptimePct": 77.958,
-    "lastCheck": "2026-05-18T14:59:38.352447+00:00",
+    "uptimePct": 78.143,
+    "lastCheck": "2026-05-18T16:06:26.326249+00:00",
     "lastStatus": "ok"
   }
 }
