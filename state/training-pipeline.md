@@ -146,6 +146,13 @@ _Maintained by Aria 🔵 + Yoda 🟢 | Status-tracked content for AInchors train
 | TC-135 | The relay loop: when stale queues create artificial noise in business streams | 💡 Idea | Yoda Day 23 (Aria relay cron bug — resolved items not being cleared from queue) | Yoda |
 | TC-136 | Platform versioning: the discipline of pre-update snapshots and post-validation | 💡 Idea | Yoda Day 23 (CHG-0393 — OpenClaw v2026.5.12 upgrade sequence) | Both |
 
+| TC-137 | The three-database architecture for AI backlogs: separating live work, automated alerts, and historical archives | 💡 Idea | Yoda Day 24 (CHG-0401 — DB A/B/C split, 607 Done + 56 Auto-Heal migrated out, clean sprint board) | Aria |
+| TC-138 | Why printf beats echo in AI automation scripts: the silent corruption bug that ate tickets | 💡 Idea | Yoda Day 24 (CHG-0400 — echo interpreting special chars corrupted ticket JSON; printf + 5-guard atomic_write fix) | Yoda |
+| TC-139 | The heartbeat-to-database pipeline: how to route automated health alerts to the right place | 💡 Idea | Yoda Day 24 (CHG-0403 — AUTO-HEAL pipeline routed to DB B instead of cluttering sprint backlog) | Yoda |
+| TC-140 | Never freeze the command center: background execution as a platform constraint | 💡 Idea | Yoda Day 24 (CHG-0404/0405 — 13-min webchat block from Notion migration; sessions_spawn rule for >30s tasks) | Both |
+| TC-141 | Permanently rebuilding your model policy after an emergency: decommissioning interim mode | 💡 Idea | Yoda Day 24 (CHG-0395 — Warden model-policy v2.0 rebuild, interim decommissioned, 27 violations archived) | Yoda |
+| TC-142 | Cron hygiene: removing dead tasks, updating timeouts, and keeping model references current | 💡 Idea | Yoda Day 24 (CHG-0396 — 3 stale crons removed, task monitor 30→60s timeout, obsolete Anthropic refs cleaned) | Both |
+
 ## Status Legend
 💡 Idea → 📝 Draft → 🔍 Review (Yoda validates) → ✅ Ready → 📢 Published
 
