@@ -153,6 +153,17 @@ _Maintained by Aria 🔵 + Yoda 🟢 | Status-tracked content for AInchors train
 | TC-141 | Permanently rebuilding your model policy after an emergency: decommissioning interim mode | 💡 Idea | Yoda Day 24 (CHG-0395 — Warden model-policy v2.0 rebuild, interim decommissioned, 27 violations archived) | Yoda |
 | TC-142 | Cron hygiene: removing dead tasks, updating timeouts, and keeping model references current | 💡 Idea | Yoda Day 24 (CHG-0396 — 3 stale crons removed, task monitor 30→60s timeout, obsolete Anthropic refs cleaned) | Both |
 
+| TC-143 | The demo-to-production gap: why showing a 5-minute AI demo is nothing like running it 24/7 | 💡 Idea | Yoda Day 25 (LinkedIn post theme — infrastructure, error handling, state mgmt, and discipline are the real work) | Aria |
+| TC-144 | Single source of truth for content campaigns: how splitting state across 3 files guarantees drift | 💡 Idea | Yoda Day 25 (L-041 — LinkedIn campaign state drifted across 3 files; consolidated to one SSOT, problem vanished) | Both |
+| TC-145 | The hidden model references that survive a provider migration: audit your shell scripts too | 💡 Idea | Yoda Day 25 (CHG-0414 — 5 scripts still hardcoded to dead Anthropic models after agent+cron migration done) | Yoda |
+| TC-146 | UTC time zone traps: how one character wrong in a cron schedule delays your post by 24 hours | 💡 Idea | Yoda Day 25 (L-043 — AEST=UTC+10 means subtract, not add; P1 scheduled for tomorrow instead of today) | Both |
+| TC-147 | Why printf beats echo in AI automation scripts (already TC-138 — today's CHG-0414 is related shell hygiene) | 💡 Idea | Yoda Day 25 (CHG-0414 — broader pattern: shell quoting, heredocs, variable expansion traps in AI scripts) | Yoda |
+| TC-148 | When your backup health checker has been lying to you: trusting tool output without verifying the tool itself | 💡 Idea | Yoda Day 25 (CHG-0415 — backup-health-check.sh looked for wrong filename since creation; every run was false alarm) | Aria |
+| TC-149 | The two-cron restart pattern: how a marker file makes an unreliable operation verifiable | 💡 Idea | Yoda Day 25 (CHG-0411 — single cron killed by its own restart → two-cron design with marker file → reliable success/failure) | Yoda |
+| TC-150 | Protecting session transcripts: the pre-restart snapshot pattern for data that lives in memory | 💡 Idea | Yoda Day 25 (CHG-0416 — gateway restart overwrites active session files; snapshot before restart saves the day) | Yoda |
+| TC-151 | Finding your voice as a technical founder on LinkedIn: first-person reflective beats belittling every time | 💡 Idea | Yoda Day 25 (3 drafts rejected, then approved after switching from "you're wrong" to "here's what I learned") | Aria |
+| TC-152 | Standalone posts beat numbered series for AI-generated content: why Part 2 is a trap | 💡 Idea | Yoda Day 25 (AIOps series killed — P2 went out before P1, reschedules broke sequence, readers confused) | Both |
+
 ## Status Legend
 💡 Idea → 📝 Draft → 🔍 Review (Yoda validates) → ✅ Ready → 📢 Published
 
