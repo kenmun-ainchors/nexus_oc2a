@@ -2,8 +2,8 @@
   "violations": [],
   "passes": [
     {
-      "job": "Nightly Gateway Restart (03:00 AEST)",
-      "id": "20f59555-781a-4863-a8bf-c90a088317d4",
+      "job": "Nightly Gateway Restart Verify (03:05 AEST)",
+      "id": "d94ad8bb-513c-4569-8720-f5ed2a73cb04",
       "to": "8574109706",
       "accountId": "yoda(default)"
     },
@@ -26,6 +26,12 @@
       "accountId": "yoda(default)"
     },
     {
+      "job": "Spark LI Post 1 \u2014 Tue 07:30",
+      "id": "49d2ec7f-1bc3-4b7d-930c-3f8f052b66ae",
+      "to": "8574109706",
+      "accountId": "yoda(default)"
+    },
+    {
       "job": "TKT-0092 Daily Budget Report",
       "id": "3ea986bf-5dfc-4805-a13c-80427b4d29c7",
       "to": "8574109706",
@@ -40,6 +46,18 @@
     {
       "job": "TKT-0093 Backup Health Check",
       "id": "e08e19ad-2d15-47ff-9ac0-509c05889a0e",
+      "to": "8574109706",
+      "accountId": "yoda(default)"
+    },
+    {
+      "job": "Spark LI Post 2 \u2014 Wed 12:00",
+      "id": "c21fcb3e-eee9-409a-9850-6ad9739b2f92",
+      "to": "8574109706",
+      "accountId": "yoda(default)"
+    },
+    {
+      "job": "Spark LI Post 3 \u2014 Thu 07:30",
+      "id": "cdea7249-0e9e-4afb-9aeb-fa30fdb8d067",
       "to": "8574109706",
       "accountId": "yoda(default)"
     },
@@ -81,10 +99,10 @@
     }
   ],
   "warnings": [],
-  "auditAt": "2026-05-18T15:00:54Z",
+  "auditAt": "2026-05-19T15:00:08Z",
   "summary": {
     "violations": 0,
-    "passes": 13,
+    "passes": 16,
     "warnings": 0
   },
   "status": "pass"
