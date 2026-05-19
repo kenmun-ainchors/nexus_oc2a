@@ -1,6 +1,6 @@
 {
   "root": "1EyLi8JCvxwixhpBdRwP0PwdZokrg78Jl",
-  "rootName": "AInchors — Yoda Working Files",
+  "rootName": "AInchors \u2014 Yoda Working Files",
   "folders": {
     "docs": {
       "id": "1WsvbM7RbUXBRGKk_izbtWSlQ_z3kjx0t",
@@ -43,6 +43,6 @@
       "use": "Generated images, LinkedIn post images"
     }
   },
-  "updatedAt": "2026-05-15",
-  "note": "NEVER upload to root. Always specify --parent with the correct folder ID."
+  "updatedAt": "2026-05-19",
+  "note": "NEVER upload to root. Always --parent <folder-id>. Root pollution causes file sprawl. Use /opt/homebrew/bin/gog (absolute path for gog binary)."
 }

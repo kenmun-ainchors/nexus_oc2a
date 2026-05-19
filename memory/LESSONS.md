@@ -413,3 +413,70 @@ When declaring ANY interim model period (Anthropic outage, kimi substitution, mo
 **Source:** Day 24 — fallback-chain-broken alert surprised Ken at 19:43 AEST, 8 hours after comprehensive Warden policy update. CHG-0388.
 **Impact:** Ken's confidence shaken — "I am surprised this sh script missed the full check done earlier". One false alert = erosion of trust in the entire governance pipeline.
 **Severity:** Medium — no data loss or outage, but governance credibility impacted.
+
+## L-041 — Single SSOT for Campaign State: Never Split Across Multiple Files (2026-05-19)
+
+**Lesson:** Social media campaign state must live in ONE file. Splitting across multiple state files (queue, tracker, governance registry) guarantees drift when reschedules and rejects happen — each file gets updated independently and they diverge.
+
+**What happened (Day 25):**
+- LinkedIn campaign had 3 state files: `linkedin-queue.json` (posts), `linkedin-content-tracker.json` (schedule), `content-queue.json` (governance)
+- AIOps 6-part series: P2 posted out of order via API, P1 skipped, P3 posted separately
+- Each file tracked different pieces of the same campaign — no file had the full truth
+- Rejects and reschedules hit one file but not the others → fractured state
+- Ken: "I worry there are 2 threads of LinkedIn campaign or posts going on"
+
+**Root cause:**
+- No design decision was made about state architecture for Spark
+- Each feature (queue, tracker, governance) got its own file organically
+- Spark's RULES.md referenced different files for different operations (read tracker, write queue)
+- Nobody noticed the drift because no single view existed
+
+**Fix:**
+1. Created `state/linkedin-campaign.json` — single SSOT with full schema:
+   - `published[]` — historical record of all live posts
+   - `skipped[]` — posts scheduled but skipped
+   - `drafts.thisWeek` — current week's drafts with approval status
+   - `activeTheme` — current content theme
+   - `rejectionLog[]` — all rejected drafts with reason
+   - `usedTopics[]` — topics already covered (dedup)
+2. Updated SPARK_RULES.md: SSOT rule at the very top (NON-NEGOTIABLE)
+3. Old files deprecated: linkedin-queue.json, linkedin-content-tracker.json, content-queue.json (social entries only)
+
+**Prevention:**
+- **SSOT audit rule:** Any agent managing campaign/queue/sequence data must use ONE state file. If you find yourself reading 2+ files for the same domain, stop and consolidate.
+- **New agent onboarding gate:** Before any agent goes live with state, verify: (a) one SSOT file per domain, (b) full schema documented, (c) RULES references single file only
+- **CHG-0410 (state), CHG-0416 (changelog)**
+
+**Source:** Ken: "make sure Spark only maintains one single state file (one SSOT). avoid this problem from happening again in the future"
+**Impact:** Campaign credibility. AIOps series abandoned. Trust in automated posting pipeline damaged.
+**Severity:** Medium — no data loss, but 3-week campaign fracture and full reset required.
+
+## L-042 — Force Reload Webchat When UI Hangs After Rate Limit (2026-05-19)
+
+**Lesson:** When the webchat UI appears hung (stuck in "processing" / "steer" mode, won't accept new messages), the gateway and session are likely fine — the browser WebSocket connection is stale after an API rate-limit interruption.
+
+**What happened (Day 25):**
+- Deepseek API rate-limited mid-response at ~10:48 AEST
+- Webchat session completed cleanly (status: done, stopReason: stop at 12:02)
+- Browser UI showed "still processing" and went into steer mode for new messages
+- Gateway log showed repeated `sessions.resolve` errors with `No session found: current` — UI polling for a run that already finished
+- Attempting `sessions_send` to the dashboard session worked fine — session was alive
+- Ken fixed it: force reload the webchat page (Cmd+Shift+R or hard refresh)
+
+**Root cause:**
+- OpenClaw webchat uses persistent WebSocket connections
+- When an API rate limit interrupts a streaming response, the WebSocket can get into a stale state
+- The browser client doesn't automatically detect the session has completed and keeps polling
+- No automatic reconnect/recovery for this edge case in the OpenClaw UI client
+
+**Fix (for Ken):**
+1. Force reload the webchat page (Cmd+Shift+R)
+2. If that doesn't work: close tab, reopen webchat URL
+3. The session state is fine on the server — it's purely a client-side WebSocket issue
+
+**Prevention:**
+- This is an OpenClaw UI client limitation — nothing we can patch on our side
+- Added to runbook: first troubleshooting step for "webchat hung" = force reload
+
+**Source:** Ken: "looks like it's an openclaw thing. i needed to force reload the webpage to un-lock it in the polling mode"
+**Severity:** Low — no data loss, no server issue, client-side only. Workaround is simple.

@@ -13,7 +13,7 @@ ALERT_FILE="$WORKSPACE/state/cron-health-alert.json"
 TASKS=$(openclaw tasks list --limit 100 2>/dev/null || echo "")
 
 # Pull live cron state for consecutiveErrors check — write to temp file to avoid control char issues
-CRON_STATE_TMP=$(mktemp /tmp/cron-state-XXXXXX.json)
+CRON_STATE_TMP=$(mktemp /tmp/cron-state-health-XXXXXX.json)
 openclaw cron list --json 2>/dev/null > "$CRON_STATE_TMP" || echo '{"jobs":[]}' > "$CRON_STATE_TMP"
 
 python3 << PYEOF
@@ -34,10 +34,19 @@ failures = []
 warnings = []
 seen_crons = set()
 
+# CHG-0411: Crons where "error" status is expected (e.g. gateway restart kills the cron process)
+# These are ID prefixes — matched with .startswith()
+EXPECTED_ERROR_CRONS = [
+    '20f59555',  # Nightly Gateway Restart — "interrupted by gateway restart" is expected
+]
+
 # --- Live consecutiveErrors check (Fix 1: CHG-0152 followup) ---
 try:
     cron_data = json.loads(cron_state_raw)
     for job in cron_data.get('jobs', []):
+        job_id = job.get('id', '')
+        if any(job_id.startswith(prefix) for prefix in EXPECTED_ERROR_CRONS):
+            continue  # CHG-0411: expected error, skip
         consecutive = job.get('state', {}).get('consecutiveErrors', 0)
         if consecutive >= 3:
             last_status = job.get('state', {}).get('lastStatus', '')
@@ -69,6 +78,11 @@ for line in tasks_raw.strip().split('\n'):
         continue
 
     cron_id = cron_ref.replace('cron:', '')[:8]
+    full_cron_id = cron_ref.replace('cron:', '')
+
+    # CHG-0411: skip crons where error is expected
+    if any(full_cron_id.startswith(prefix) for prefix in EXPECTED_ERROR_CRONS):
+        continue
 
     if status in ('timed_out', 'error', 'failed'):
         # Only report once per cron (most recent)

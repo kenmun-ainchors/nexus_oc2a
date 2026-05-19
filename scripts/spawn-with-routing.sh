@@ -21,7 +21,7 @@ NOTES="${3:-}"
 
 # ── Validate route-model.sh exists ───────────────────────────────────────────
 if [[ ! -f "$ROUTE_SCRIPT" ]]; then
-  echo "anthropic/claude-sonnet-4-6"  # conservative fallback
+  echo "ollama/deepseek-v4-pro:cloud"  # conservative fallback (CHG-0413: Anthropic unavailable)
   exit 0
 fi
 

@@ -1,30 +1,45 @@
 #!/usr/bin/env bash
 # backup-health-check.sh — Verify backup integrity and freshness
-# Created 2026-05-18 (CHG-0400) — script was missing, cron e08e19ad was failing silently
+# Created 2026-05-18 (CHG-0400), fixed 2026-05-19 (CHG-0415: wrong state filename + missing size field)
 
 set -euo pipefail
 
 WORKSPACE="/Users/ainchorsangiefpl/.openclaw/workspace"
-BACKUP_STATE="$WORKSPACE/state/backup-status.json"
+BACKUP_STATE="$WORKSPACE/state/backup-state.json"
+BACKUP_DIR="/Users/ainchorsangiefpl/Backups/ainchors"
 
-# Check if state file exists and is recent
-if [[ -f "$BACKUP_STATE" ]]; then
-    LAST_BACKUP=$(/usr/bin/python3 -c "import json; d=json.load(open('$BACKUP_STATE')); print(d.get('lastBackup','unknown'))" 2>/dev/null || echo "unknown")
-    SIZE=$(/usr/bin/python3 -c "import json; d=json.load(open('$BACKUP_STATE')); print(d.get('size',0))" 2>/dev/null || echo "0")
-    
-    # Check if backup is within 25 hours
-    BACKUP_EPOCH=$(date -j -f "%Y-%m-%dT%H:%M:%S" "${LAST_BACKUP}" +%s 2>/dev/null || echo "0")
-    NOW_EPOCH=$(date +%s)
-    AGE_HOURS=$(( (NOW_EPOCH - BACKUP_EPOCH) / 3600 ))
-    
-    if [[ "$AGE_HOURS" -lt 25 ]] && [[ "$SIZE" -gt 0 ]]; then
-        echo "BACKUP: healthy (last: ${LAST_BACKUP}, size: ${SIZE})"
-        exit 0
-    else
-        echo "BACKUP: stale (last: ${LAST_BACKUP}, age: ${AGE_HOURS}h, size: ${SIZE})"
-        exit 1
-    fi
-else
+# Check if state file exists
+if [[ ! -f "$BACKUP_STATE" ]]; then
     echo "BACKUP: no state file found"
     exit 2
+fi
+
+LAST_BACKUP=$(/opt/homebrew/bin/jq -r '.lastBackup // "unknown"' "$BACKUP_STATE")
+LAST_SNAP=$(/opt/homebrew/bin/jq -r '.lastSnap // "unknown"' "$BACKUP_STATE")
+STATUS=$(/opt/homebrew/bin/jq -r '.status // "unknown"' "$BACKUP_STATE")
+
+# Check if backup directory actually has content
+if [[ -d "$BACKUP_DIR/workspace-incremental" ]]; then
+    BACKUP_SIZE=$(du -sh "$BACKUP_DIR/workspace-incremental" 2>/dev/null | cut -f1 || echo "unknown")
+    FILE_COUNT=$(find "$BACKUP_DIR/workspace-incremental" -type f 2>/dev/null | wc -l | xargs || echo "0")
+else
+    BACKUP_SIZE="0"
+    FILE_COUNT="0"
+fi
+
+# Check freshness: backup must be within 25 hours
+# Parse ISO timestamp with Z suffix
+BACKUP_EPOCH=$(date -j -f "%Y-%m-%dT%H:%M:%SZ" "${LAST_BACKUP}" +%s 2>/dev/null || echo "0")
+NOW_EPOCH=$(date +%s)
+AGE_HOURS=$(( (NOW_EPOCH - BACKUP_EPOCH) / 3600 ))
+
+if [[ "$AGE_HOURS" -lt 25 ]] && [[ "$FILE_COUNT" -gt 0 ]]; then
+    echo "BACKUP: healthy (snap: ${LAST_SNAP}, age: ${AGE_HOURS}h, size: ${BACKUP_SIZE}, files: ${FILE_COUNT})"
+    exit 0
+elif [[ "$AGE_HOURS" -ge 25 ]]; then
+    echo "BACKUP: stale — last snap ${LAST_SNAP}, age ${AGE_HOURS}h (>25h limit)"
+    exit 1
+else
+    echo "BACKUP: empty — no files in backup directory (${BACKUP_DIR}/workspace-incremental)"
+    exit 1
 fi

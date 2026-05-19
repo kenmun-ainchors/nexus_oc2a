@@ -1,5 +1,5 @@
 {
-  "lastUpdated": "2026-05-18T13:55:44Z",
+  "lastUpdated": "2026-05-19T13:55:37Z",
   "history": {
     "2026-04-25": {
       "date": "2026-04-25",
@@ -682,11 +682,76 @@
           "calculatedTurns": 0
         }
       }
+    },
+    "2026-05-19": {
+      "date": "2026-05-19",
+      "totalCost": 0.0,
+      "totalTurns": 2811,
+      "totalInputTokens": 61623776,
+      "totalOutputTokens": 209823,
+      "totalCacheReadTokens": 0,
+      "totalCacheWriteTokens": 0,
+      "source": "session-log-estimate",
+      "note": "Session log estimate. usage.cost.total includes cacheWrite charges. CHG-0097: confirmed cost includes cache writes. CHG-0175: calculated fallback for ephemeral sessions.",
+      "calculatedCost": 0.0,
+      "calculatedTurns": 0,
+      "byModel": {
+        "gemma4:31b-cloud": {
+          "input": 17518087,
+          "output": 62071,
+          "cacheRead": 0,
+          "cacheWrite": 0,
+          "cost": 0.0,
+          "turns": 1966,
+          "calculatedCost": 0.0,
+          "calculatedTurns": 0
+        },
+        "kimi-k2.6:cloud": {
+          "input": 0,
+          "output": 0,
+          "cacheRead": 0,
+          "cacheWrite": 0,
+          "cost": 0.0,
+          "turns": 178,
+          "calculatedCost": 0.0,
+          "calculatedTurns": 0
+        },
+        "deepseek-v4-flash:cloud": {
+          "input": 331328,
+          "output": 4127,
+          "cacheRead": 0,
+          "cacheWrite": 0,
+          "cost": 0.0,
+          "turns": 29,
+          "calculatedCost": 0.0,
+          "calculatedTurns": 0
+        },
+        "deepseek-v4-pro:cloud": {
+          "input": 43774361,
+          "output": 143625,
+          "cacheRead": 0,
+          "cacheWrite": 0,
+          "cost": 0.0,
+          "turns": 614,
+          "calculatedCost": 0.0,
+          "calculatedTurns": 0
+        },
+        "delivery-mirror": {
+          "input": 0,
+          "output": 0,
+          "cacheRead": 0,
+          "cacheWrite": 0,
+          "cost": 0.0,
+          "turns": 24,
+          "calculatedCost": 0.0,
+          "calculatedTurns": 0
+        }
+      }
     }
   },
   "allTimeTotalCost": 4187.0906,
-  "daysTracked": 24,
-  "avgDailyCost": 174.4621,
+  "daysTracked": 25,
+  "avgDailyCost": 167.4836,
   "apiBalance": {
     "remainingEstimate": 0,
     "spentSinceTopUp": 4187.0906,

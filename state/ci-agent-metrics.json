@@ -3483,4 +3483,40 @@
       "notes": "5 pipe-delimited rows + VERDICT: 3 OK, 1 FAIL, 1 MISSING. Perfect format. Quality 4.5. Latency 34s exceeds 20s — debating verdict semantics. flash quality strong but latency borderline on verdict inference."
     }
   ]
+},
+{
+  "cycle": 3,
+  "phase": "A",
+  "runAt": "2026-05-19T10:45:00Z",
+  "taskCategory": "reasoning",
+  "cronName": "Compliance Risk Analysis",
+  "originalModel": "anthropic/claude-sonnet-4-6",
+  "t2bModel": "deepseek-v4-pro:cloud",
+  "qualityScore": 4.5,
+  "latencySeconds": 15,
+  "baselineScore": 4.8,
+  "qualityDelta": -0.3,
+  "passQuality": true,
+  "passLatency": true,
+  "candidateScore": 0.94,
+  "recommendation": "head-to-head-candidate",
+  "notes": "Clean table output, correct risks identified. 15s latency passes SLA. Tight format constraints working well."
+},
+{
+  "cycle": 3,
+  "phase": "A",
+  "runAt": "2026-05-19T10:45:00Z",
+  "taskCategory": "creative",
+  "cronName": "Morning Standup Brief",
+  "originalModel": "anthropic/claude-sonnet-4-6",
+  "t2bModel": "kimi-k2. la l k2.6:cloud",
+  "qualityScore": 4.5,
+  "latencySeconds": 18,
+  "baselineScore": 4.8,
+  "qualityDelta": -0.3,
+  "passQuality": true,
+  "passLatency": true,
+  "candidateScore": 0.94,
+  "recommendation": "head-to-head-candidate",
+  "notes": "Direct tone, all bullets present, under 25 words. 18s latency passes SLA."
 }

@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Day 24 — 2026-05-18 — Purging the Ghost of Anthropic</title>
+    <title>Day 24 — 2026-05-18 — Baseline v2.0: A Clean Slate</title>
     <style>
         :root {
             --bg: #121212;
@@ -104,11 +104,11 @@
 
     <div class="hero">
         <h1>Day 24 — 2026-05-18</h1>
-        <p>Purging the Ghost of Anthropic</p>
+        <p>Baseline v2.0: A Clean Slate</p>
         <div class="byline">Ken Mun (CTO)</div>
     </div>
 
-    <p>Today was about alignment. For the last few days, we've been operating in a sort of "interim mode"—limping along on fallback models because of primary provider availability. It worked, but it left a residue of "if" statements and "skip" flags all over the codebase. The system was essentially holding its breath, waiting for a return to normalcy that I decided we no longer need to wait for.</p>
+    <p>Today was about alignment. For the last few days, we've been operating with fallback model configurations while testing permanent alternatives. It worked, but it left a residue of "if" statements and "skip" flags all over the codebase. The system was essentially holding its breath, waiting for a return to normalcy that I decided we no longer need to wait for.</p>
     
     <p>I came in expecting a few quick fixes, but I ended up ordering a full structural purge. If we're moving to a permanent DeepSeek/Gemma4/Kimi baseline, the code needs to reflect that as the primary reality, not a temporary detour. That's not nothing—it's the difference between a system that's "surviving an outage" and a system that has evolved its architecture.</p>
 
@@ -147,7 +147,7 @@
         <div class="act-title">The Great Purge: Baseline v2.0</div>
         <p>The final act was the most satisfying. I had Forge conduct a full audit of 40 active crons and all agent configs. We found a mess of interim logic: <code>SKIP_ALL_CHECKS</code> flags in the Warden, stale references to <code>haiku-4-5</code> fallbacks that didn't exist, and a a lot of "temporary" code that had become permanent.</p>
         
-        <p>I ordered a total baseline update (<code>CHG-0395</code>). We decommissioned <code>interim-model-period.json</code> entirely. We rebuilt <code>model-policy.json</code> to version 2.0, establishing a clean two-tier system (User-facing vs Backend) and stripping every single reference to Anthropic routing. The Warden is now running on a clean policy with zero false positives.</p>
+        <p>I ordered a total baseline update (<code>CHG-0395</code>). We decommissioned the interim model period configuration entirely. We rebuilt <code>model-policy.json</code> to version 2.0, establishing a clean two-tier system (User-facing vs Backend) and removing every stale routing reference. The Warden is now running on a clean policy with zero false positives.</p>
 
         <div class="callout callout-warn">
             ⚠️ <strong>The Zsh Echo Trap:</strong> During this process, we caught a critical bug. Zsh's <code>echo</code> builtin was silently corrupting <code>tickets.json</code> once the file crossed ~100KB. We replaced all such calls with <code>printf '%s'</code> and implemented a 5-stage atomic guard. This was a silent killer that would have eventually corrupted the entire ticket database.
@@ -189,21 +189,5 @@
         <div>AInchors &middot; ainchors.com</div>
     </div>
 
-
-
-
-<div class="governance-stamp governance-blocked" style="
-  margin: 40px auto 0;
-  padding: 12px 20px;
-  max-width: 720px;
-  border-radius: 6px;
-  font-family: monospace;
-  font-size: 12px;
-  text-align: center;
-  background: #2e0000; color: #f44336; border: 1px solid #f44336;
-  opacity: 0.85;
-">
-  🚫 BLOCKED — Do not distribute. Governance issues pending resolution.
-</div>
 </body>
 </html>

@@ -135,6 +135,7 @@ Triggers to monitor:
 - File access interim: Ken accesses OC1 files via Google Drive
   (root: https://drive.google.com/drive/folders/1EyLi8JCvxwixhpBdRwP0PwdZokrg78Jl)
 - Nightly sync: scripts/drive-sync.sh (11PM AEST cron)
+- **Drive uploads: ALWAYS use --parent with correct folder ID from drive-folder-ids.json.** NEVER upload to root (/). Root = file sprawl and confusion. Spark's Social folder: 1ATWhL4lRWB1Rf0Y4Y7YVYgeP_CiveK4A. Docs folder: 1WsvbM7RbUXBRGKk_izbtWSlQ_z3kjx0t. Full map: state/drive-folder-ids.json
 
 ### R5b — 3-Level Fallback Chain Rule (NON-NEGOTIABLE, CHG-0270, 2026-05-13)
 Permanent platform design rule — applies to ALL current and future agents:

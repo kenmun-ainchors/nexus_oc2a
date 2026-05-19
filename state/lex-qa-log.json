@@ -1462,11 +1462,47 @@
       "verdict": "FAIL",
       "pass": 4,
       "fail": 1
+    },
+    {
+      "ts": "2026-05-19T07:31:37+10:00",
+      "asset": "/Users/ainchorsangiefpl/.openclaw/workspace/social-drafts/linkedin-c1-w2-p2-v4.md",
+      "producedBy": "yoda",
+      "intendedFor": "public distribution",
+      "verdict": "PASS",
+      "pass": 5,
+      "fail": 0
+    },
+    {
+      "ts": "2026-05-19T07:31:37+10:00",
+      "asset": "/Users/ainchorsangiefpl/.openclaw/workspace/social-drafts/linkedin-c1-w2-p2-v4.md",
+      "producedBy": "yoda",
+      "intendedFor": "public distribution",
+      "verdict": "PASS",
+      "pass": 5,
+      "fail": 0
+    },
+    {
+      "ts": "2026-05-20T00:11:55+10:00",
+      "asset": "/Users/ainchorsangiefpl/.openclaw/workspace/tmp/blog-draft-2026-05-19.html",
+      "producedBy": "yoda",
+      "intendedFor": "public distribution",
+      "verdict": "PASS",
+      "pass": 5,
+      "fail": 0
+    },
+    {
+      "ts": "2026-05-20T00:11:55+10:00",
+      "asset": "/Users/ainchorsangiefpl/.openclaw/workspace/tmp/blog-draft-2026-05-19.html",
+      "producedBy": "yoda",
+      "intendedFor": "public distribution",
+      "verdict": "PASS",
+      "pass": 5,
+      "fail": 0
     }
   ],
   "summary": {
-    "total": 141,
-    "pass": 121,
+    "total": 145,
+    "pass": 125,
     "fail": 19
   }
 }

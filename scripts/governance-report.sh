@@ -244,7 +244,7 @@ rm -f "$_GR_TMP"
 
 # Log to delegation log
 bash "$WORKSPACE/scripts/log-delegation.sh" \
-  --tier T2 --task-type governance-check --model anthropic/claude-haiku-4-5 \
+  --tier T2 --task-type governance-check --model ollama/deepseek-v4-pro:cloud \
   --status $([ "$OVERALL" = "PASS" ] && echo pass || echo fail) \
   --notes "Governance gate: $OVERALL | Asset: $(basename $ASSET_PATH)" 2>/dev/null || true
 

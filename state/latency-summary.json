@@ -1,14 +1,23 @@
 {
-  "generatedAt": "2026-05-18T16:01:54.107265+00:00",
+  "generatedAt": "2026-05-19T14:04:02.743982+00:00",
   "windowDays": 7,
   "note": "Duration = end-to-end cron task time (includes LLM call + tool use). TTFT instrumentation pending gateway-level hooks.",
   "overall": {
-    "sampleCount": 9034,
-    "avgMs": 11295,
+    "sampleCount": 8846,
+    "avgMs": 11704,
     "peakMs": 525455,
     "minMs": 1
   },
   "byModel": {
+    "deepseek-v4-flash:cloud": {
+      "sampleCount": 2,
+      "avgMs": 109562,
+      "minMs": 95249,
+      "maxMs": 123874,
+      "p50Ms": 95249,
+      "p95Ms": 95249,
+      "avgTokens": 13773
+    },
     "gemma4:e2b": {
       "sampleCount": 1,
       "avgMs": 45629,
@@ -19,49 +28,49 @@
       "avgTokens": 14335
     },
     "gemma4:26b": {
-      "sampleCount": 554,
-      "avgMs": 17390,
-      "minMs": 3486,
+      "sampleCount": 1645,
+      "avgMs": 15134,
+      "minMs": 2970,
       "maxMs": 525455,
-      "p50Ms": 11227,
-      "p95Ms": 42768,
-      "avgTokens": 9799
+      "p50Ms": 10340,
+      "p95Ms": 38576,
+      "avgTokens": 9768
     },
     "deepseek-v4-pro:cloud": {
-      "sampleCount": 797,
-      "avgMs": 13994,
+      "sampleCount": 796,
+      "avgMs": 13748,
       "minMs": 3613,
       "maxMs": 341394,
       "p50Ms": 6716,
-      "p95Ms": 40498,
-      "avgTokens": 12233
+      "p95Ms": 38941,
+      "avgTokens": 12165
     },
     "claude-haiku-4-5": {
-      "sampleCount": 3338,
-      "avgMs": 12421,
+      "sampleCount": 2979,
+      "avgMs": 12511,
       "minMs": 3900,
       "maxMs": 368899,
-      "p50Ms": 7362,
-      "p95Ms": 45670,
-      "avgTokens": 14318
+      "p50Ms": 7448,
+      "p95Ms": 45163,
+      "avgTokens": 14391
     },
     "kimi-k2.6:cloud": {
-      "sampleCount": 1433,
-      "avgMs": 10515,
+      "sampleCount": 1432,
+      "avgMs": 10511,
       "minMs": 3042,
       "maxMs": 373400,
       "p50Ms": 6830,
-      "p95Ms": 22597,
+      "p95Ms": 22436,
       "avgTokens": 8177
     },
     "claude-sonnet-4-6": {
-      "sampleCount": 2911,
-      "avgMs": 8478,
+      "sampleCount": 1991,
+      "avgMs": 7590,
       "minMs": 1,
       "maxMs": 510678,
       "p50Ms": 2,
-      "p95Ms": 44602,
-      "avgTokens": 287
+      "p95Ms": 38784,
+      "avgTokens": 400
     }
   }
 }

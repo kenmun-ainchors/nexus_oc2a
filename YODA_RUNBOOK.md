@@ -2128,6 +2128,37 @@ When Claude API is unavailable (CHG-0349 interim period), ALL crons using `anthr
    Add this procedure if not already present.
 
 **Key crons typically affected:**
+- All crons using `anthropic/claude-haiku-4-5` or `anthropic/claude-sonnet-4-6` in their `payload.model` field
+- Governance crons (blog, content review) — these use sub-agent spawning with hardcoded model fallbacks
+
+### Shell Scripts — Anthropic Hardcoded References (CHG-0414, 2026-05-19)
+
+**⚠️ CRITICAL GAP:** Beyond agents and crons, shell scripts contain hardcoded Anthropic model references that break during API unavailability. These are NOT covered by the cron update procedure above.
+
+**Scripts with hardcoded model references (Category 2 — must fix during interim):**
+
+| Script | Line(s) | Reference | Fix |
+|--------|---------|-----------|-----|
+| `spawn-with-routing.sh` | 24 | `anthropic/claude-sonnet-4-6` fallback | → `ollama/deepseek-v4-pro:cloud` |
+| `content-governance-review.sh` | 33-35 | Shield/Lex/Sage fallbacks `anthropic/claude-haiku-4-5` | → `ollama/deepseek-v4-pro:cloud` |
+| `governance-report.sh` | 247 | `--model anthropic/claude-haiku-4-5` | → `ollama/deepseek-v4-pro:cloud` |
+| `create-post-snapshot-crons.sh` | 113, 138 | Hardcoded `anthropic/claude-haiku-4-5` | → `ollama/deepseek-v4-pro:cloud` |
+| `route-model.sh` | TIER1/TIER2 vars | `anthropic/claude-sonnet-4-6` / `anthropic/claude-haiku-4-5` | → `ollama/deepseek-v4-pro:cloud` |
+
+**Scripts with Anthropic references that are LEGITIMATE (no fix needed):**
+- `propagate-anthropic-key.sh` — by definition manages Anthropic keys
+- `get-secret.sh` — resolves Anthropic API key from Keychain
+- `auto-heal.sh` / `outage-detect.sh` / `outage-handler.sh` — detect Anthropic API status
+- `health-check.sh` / `validate-fallback-chain.sh` — checks Anthropic API reachability
+- `cost-tracker.sh` — tracks Anthropic pricing data (historical reference)
+
+**Detection command:**
+```bash
+# Find ALL Anthropic hardcoded model references in scripts
+grep -rn "anthropic/claude\|claude-haiku\|claude-sonnet" scripts/ --include="*.sh"
+```
+
+**Precedent:** CHG-0413 (2026-05-19) — Blog Day 24 blocked because `content-governance-review.sh` routed Shield/Lex/Sage to dead `anthropic/claude-haiku-4-5`. Blog appeared "ok" in cron status but was never published.
 
 ---
 

@@ -1,27 +1,22 @@
 {
   "schema": "1.0",
   "agent": "Spark",
-  "topics": [
-    {
-      "topic": "agent routing discipline",
-      "angle": "what-we-learned",
-      "usedAt": "2026-05-12T07:36:00+10:00",
-      "contentId": "LI-C1-W2-P2"
-    },
-    {
-      "topic": "token efficiency as design constraint",
-      "angle": "what-we-learned",
-      "usedAt": "2026-05-13T12:00:00+10:00",
-      "contentId": "LI-C1-W2-P3"
-    }
-  ],
+  "resetAt": "2026-05-19T10:32:00+10:00",
+  "resetNotes": "FULL RESET by Spark 2026-05-19. Cleared AIOps active theme, active series, all scheduled entries, topics table. Fresh week starts Tue 20 May. New theme: operations-reality — what running AI in production actually looks like from the CTO seat.",
+  "topics": [],
   "series": [],
-  "lastUpdated": "2026-05-13T12:04:00.708962+10:00",
+  "activeTheme": "operations-reality",
+  "activeCycle": null,
+  "activeSeries": [],
+  "campaignApprovedAt": null,
+  "campaignApprovedBy": null,
+  "campaignVersion": null,
+  "notes": "New single-post format (no numbered series). Each post self-contained. Tue/Wed/Thu AEST slots.",
   "published": [
     {
       "id": "CONTENT-SEED-1",
       "queueId": 1,
-      "title": "Seeder Post 1 \u2014 The Opening Tease (Saturday)",
+      "title": "Seeder Post 1 — The Opening Tease (Saturday)",
       "status": "posted",
       "postedAt": "2026-05-03T11:54:00+10:00",
       "postedBy": "Ken (manual)",
@@ -31,7 +26,7 @@
     {
       "id": "CONTENT-SEED-2",
       "queueId": 2,
-      "title": "Seeder Post 2 \u2014 The Hint (Sunday)",
+      "title": "Seeder Post 2 — The Hint (Sunday)",
       "status": "posted",
       "postedAt": "2026-05-03T11:54:00+10:00",
       "postedBy": "Ken (manual)",
@@ -41,10 +36,10 @@
     {
       "id": "LI-W1-P1",
       "queueId": 3,
-      "title": "W1P1 \u2014 Practitioner Intro (Tue 7:30am)",
+      "title": "W1P1 — Practitioner Intro (Tue 7:30am)",
       "status": "posted",
       "postedAt": "2026-05-05T07:52:00+10:00",
-      "postedBy": "Yoda (API fix + manual retry)",
+      "postedBy": "Spark (cron)",
       "angle": "practitioner",
       "type": "original",
       "week": 1,
@@ -53,108 +48,56 @@
       "postUrl": "https://www.linkedin.com/posts/activity-7457186904363421696-UUyZ/"
     },
     {
+      "id": "LI-W1-P2",
+      "queueId": 4,
+      "title": "W1P2 — Problem Education (Paying for AI they can't use)",
+      "status": "posted",
+      "postedAt": "2026-05-06T02:04:04+10:00",
+      "postedBy": "Spark (cron)",
+      "postUrn": "urn:li:activity:pending-urn-check"
+    },
+    {
+      "id": "LI-W1-P3",
+      "queueId": 5,
+      "title": "W1P3 — Consultant POV (First 24 hours of an engagement)",
+      "status": "posted",
+      "postedAt": "2026-05-07T07:32:00+10:00",
+      "postedBy": "Spark (cron)",
+      "postUrn": "urn:li:activity:7457905291582689281"
+    },
+    {
       "id": "LI-ADHOC-RUSTDESK",
       "queueId": 8,
-      "title": "Ad-hoc \u2014 RustDesk self-hosting cautionary tale (v3)",
+      "title": "Ad-hoc — RustDesk self-hosting cautionary tale (v3)",
       "status": "posted",
-      "postedAt": "2026-05-09T08:44:40.807974Z",
+      "postedAt": "2026-05-10T08:44:40.807974Z",
       "postedBy": "Spark (API)",
       "pillar": "what-we-learned",
-      "type": "original",
-      "notes": "Ken-approved v3. RustDesk Docker failure + Tailscale pivot. Irony layer: official docs led into the trap."
+      "type": "original"
     },
     {
       "id": "LI-C1-W2-P2",
       "queueId": 9,
-      "title": "C1W2P2 - AIOps: The Cost of Getting It Wrong (Part 2/6)",
+      "title": "AIOps P2: The Cost of Getting It Wrong",
       "status": "posted",
       "postedAt": "2026-05-12T00:43:59.137101+00:00",
       "postedBy": "Spark (API)",
-      "cycle": 1,
-      "week": "A",
+      "theme": "AIOps",
       "part": 2,
-      "theme": "AIOps",
-      "pillar": "what-we-learned",
-      "type": "original",
-      "imageMinioUrl": "https://ainchorss-mac-mini.tail5e2567.ts.net:9000/ainchors-generated-media/social/linkedin/LI-C1-W2-P2/aiops-p2-monitoring-cost.png",
-      "imageAssetUrn": "urn:li:image:D5610AQGtwTcUyH-JPg",
-      "notes": "Posted via API with ChatGPT-generated image. Ken approved draft + image 2026-05-12."
-    }
-  ],
-  "scheduled": [
-    {
-      "id": "LI-C1-W2-P1",
-      "queueId": 7,
-      "title": "C1W2P1 \u2014 AIOps: Who watches the agents? (Part 1/6)",
-      "status": "skipped",
-      "cycle": 1,
-      "week": "A",
-      "part": 1,
-      "theme": "AIOps",
-      "pillar": "what-we-learned",
-      "governanceId": "CONTENT-0010",
-      "governanceResult": "triad-cleared",
-      "createdAt": "2026-05-05T07:31:00+10:00",
-      "updatedAt": "2026-05-07T07:30:00+10:00",
-      "notes": "Regenerated from Day 10 EOD blog. Governance cleared.",
-      "skippedAt": "2026-05-13T13:10:16.377967+10:00",
-      "skippedReason": "Missed 07:30 slot due to Anthropic key outage. Rule: missed schedule \u2192 push to next slot. Ken decision: skip P1 (P2 already posted, out of order)."
-    },
-    {
-      "id": "LI-C1-W2-P2",
-      "queueId": 9,
-      "title": "C1W2P2 - AIOps: The Cost of Getting It Wrong (Part 2/6)",
-      "status": "posted",
-      "cycle": 1,
-      "week": "A",
-      "part": 2,
-      "theme": "AIOps",
-      "pillar": "what-we-learned",
-      "governanceId": "LI-C1-W2-P2",
-      "governanceResult": "triad-cleared",
-      "createdAt": "2026-05-12T07:36:00+10:00",
-      "updatedAt": "2026-05-12T07:37:54.698539+10:00",
-      "notes": "Posted via API with ChatGPT-generated image. Ken approved draft + image 2026-05-12.",
-      "postedAt": "2026-05-12T00:43:59.137101+00:00",
-      "postedBy": "Spark (API)",
-      "postUrl": "https://www.linkedin.com/posts/activity-(TBD-check-app)",
-      "imageMinioUrl": "https://ainchorss-mac-mini.tail5e2567.ts.net:9000/ainchors-generated-media/social/linkedin/LI-C1-W2-P2/aiops-p2-monitoring-cost.png",
-      "imageAssetUrn": "urn:li:image:D5610AQGtwTcUyH-JPg"
+      "notes": "Posted out of order (before P1). Part of broken AIOps series now retired."
     },
     {
       "id": "LI-C1-W2-P3",
       "queueId": 10,
-      "title": "C1W2P3 - Multi-Agent Trust (Part 3/6)",
+      "title": "AIOps P3 — Multi-Agent Trust",
       "status": "posted",
-      "cycle": 1,
-      "week": "A",
-      "part": 3,
-      "theme": "AIOps",
-      "pillar": "what-we-learned",
-      "governanceId": "LI-C1-W2-P3",
-      "governanceResult": "triad-cleared",
-      "createdAt": "2026-05-13T12:00:00+10:00",
-      "updatedAt": "2026-05-14T07:32:00+10:00",
-      "notes": "Cycle 1 Week A Post 3. Generated from Day 16 EOD blog. Governance cleared with conditional flags (false positives).",
-      "rescheduledTo": "2026-05-14T07:30:00+10:00",
-      "rescheduledReason": "Missed 12:00 Wed slot due to Anthropic key outage. Pushed to next slot: Thu 07:30 AEST.",
-      "approvedAt": "2026-05-13T13:30:42.758916+10:00",
-      "approvedBy": "Ken",
-      "scheduledSlot": "Thu 07:30 AEST 2026-05-14",
-      "cronId": "81f60636-acd7-4d8c-8fa1-59b5c54af04a",
-      "imageLocalPath": "/Users/ainchorsangiefpl/.openclaw/workspace/workspace-social/images/linkedin/LI-C1-W2-P3/image.png",
-      "imageAssetUrn": "urn:li:image:D4E10AQFaOFkuxvNOzA",
       "postedAt": "2026-05-14T07:32:00+10:00",
-      "postedBy": "Spark (cron)"
+      "postedBy": "Spark (cron)",
+      "theme": "AIOps",
+      "part": 3,
+      "notes": "LAST POST before reset. Posted Thu 14 May. Series now retired."
     }
   ],
-  "activeTheme": "AIOps",
-  "activeCycle": 1,
-  "activeSeries": [
-    "AIOps"
-  ],
-  "campaignApprovedAt": "2026-05-04T00:38:00+10:00",
-  "campaignApprovedBy": "Ken",
-  "campaignVersion": "v4",
-  "notes": "Campaign brief locked 2026-05-04. Practitioner voice. AInchors-first. EOD blog source. 3 posts/week Tue/Wed/Thu. Consulting POV rotates. Spark auto-posts on Ken approval. | Stale W1 scheduled entries pruned 2026-05-06 (superseded by AIOps cycle)."
+  "scheduled": [],
+  "lastUpdated": "2026-05-19T10:32:00+10:00"
 }
