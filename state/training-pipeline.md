@@ -164,6 +164,9 @@ _Maintained by Aria 🔵 + Yoda 🟢 | Status-tracked content for AInchors train
 | TC-151 | Finding your voice as a technical founder on LinkedIn: first-person reflective beats belittling every time | 💡 Idea | Yoda Day 25 (3 drafts rejected, then approved after switching from "you're wrong" to "here's what I learned") | Aria |
 | TC-152 | Standalone posts beat numbered series for AI-generated content: why Part 2 is a trap | 💡 Idea | Yoda Day 25 (AIOps series killed — P2 went out before P1, reschedules broke sequence, readers confused) | Both |
 
+| TC-153 | The silent zombie bot: diagnosing AI processes that die without reporting any error | 💡 Idea | Yoda Day 26 (Telegram outage — both bots zombie since 06:58, no alerts, no errors, just silence) | Yoda |
+| TC-154 | Lessons that prevent repeat mistakes: how structured registries catch errors before they happen twice | 💡 Idea | Yoda Day 26 (L-043 UTC trap prevented repeat scheduling error today) | Both |
+
 ## Status Legend
 💡 Idea → 📝 Draft → 🔍 Review (Yoda validates) → ✅ Ready → 📢 Published
 
