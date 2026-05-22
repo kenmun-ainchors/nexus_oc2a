@@ -1,86 +1,175 @@
-# STATE CHECKING PATTERN — NON-NEGOTIABLE (TKT-0182)n# Effective: 2026-05-21n# Authority: Ken Mun (CTO)nn**ALL stateful operations (Write/Update/Create) MUST follow the State Checking Pattern.**n- **MANDATORY:** Read current state $to$ Validate $to$ Execute $to$ Verify.n- **Reference:** `docs/State-Checking-Pattern.md`n- **Violation:** DoD FAILnn---n
+# STATE CHECKING PATTERN — NON-NEGOTIABLE (TKT-0182)
+# Effective: 2026-05-21
+# Authority: Ke
+ Mu
+ (CTO)n
+**ALL stateful operations (Write/Update/Create) MUST follow the State Checking Patter
+.**
+- **MANDATORY:** Read current state $to$ Validate $to$ Execute $to$ Verify.
+- **Reference:** `docs/State-Checking-Patter
+.md`
+- **Violatio
+:** DoD FAILn
+---
+
+# DoD VERIFICATION GATE — NON-NEGOTIABLE (TKT-0237)
+# Effective: 2026-05-22
+# Authority: Ken Mun (CTO)
+
+**NO ticket may be closed without passing the DoD Verification Gate.**
+- **MANDATORY:** `ticket.sh close` runs `verify_before_close()` before marking closed.
+- **Reference:** `docs/DoD-Validation-Rules.md`
+- **Override:** Ken only, via `--skip-verify` flag. Every override MUST be logged to CHANGELOG.md.
+- **Enforcement:** Platform-enforced in `scripts/ticket.sh`. Not a guideline — code blocks non-compliant closes.
+- **Violation:** DoD FAIL.
+
+---
+
 # KIMI PLATFORM MANDATE — NON-NEGOTIABLE RULE
 # Effective: 2026-05-17 15:17 AEST
-# Authority: Ken Mun (CTO) — mandatory and persistent
+# Authority: Ke
+ Mu
+ (CTO) — mandatory and persistent
 # CHG-0373
-# Refined: 2026-05-17 15:20 AEST (added strict DoD after CHG-0372 lesson)
+# Refined: 2026-05-17 15:20 AEST (added strict DoD after CHG-0372 lesso
+)
 
 ## Rule Statement
 
-**ALL agent execution across the AInchors Nexus platform SHALL use `ollama/kimi-k2.6:cloud` as the primary model until explicitly overridden by Ken.**
+**ALL agent executio
+ across the AInchors Nexus platform SHALL use `ollama/kimi-k2.6:cloud` as the primary model until explicitly overridde
+ by Ke
+.**
 
 This rule is:
-- **MANDATORY** — No exceptions without Ken's explicit written approval
+- **MANDATORY** — No exceptions without Ke
+'s explicit writte
+ approval
 - **NON-NEGOTIABLE** — Agents may not self-override or fallback without approval
-- **PERSISTENT** — Remains active indefinitely until Ken issues `KIMI MANDATE LIFTED` keyword
+- **PERSISTENT** — Remains active indefinitely until Ke
+ issues `KIMI MANDATE LIFTED` keyword
 - **PLATFORM-WIDE** — Applies to all agents, all sessions, all crons, all channels
 
 ## Scope
 
 | Component | Requirement |
 |-----------|-------------|
-| **Main session (webchat)** | kimi primary, Sonnet ONLY with explicit Ken approval per task |
-| **Telegram sessions** | kimi primary, Sonnet ONLY with explicit Ken approval per task |
-| **Cron jobs** | kimi ONLY — no Anthropic models in any cron payload |
+| **Mai
+ sessio
+ (webchat)** | kimi primary, Sonnet ONLY with explicit Ke
+ approval per task |
+| **Telegram sessions** | kimi primary, Sonnet ONLY with explicit Ke
+ approval per task |
+| **Cro
+ jobs** | kimi ONLY — no Anthropic models i
+ any cro
+ payload |
 | **Sub-agents** | kimi primary, with kimi safety net (3-level fallback) |
 | **Background tasks** | kimi ONLY |
 | **Outage handling** | kimi ONLY — no Sonnet fallback during outages |
 
-## Definition of Done (DoD) — STRICT VERSION
+## Definitio
+ of Done (DoD) — STRICT VERSION
 
 **Work is NOT considered complete until ALL of the following are verified:**
 
-### Verification Checklist (MUST pass all)
+### Verificatio
+ Checklist (MUST pass all)
 
-| # | Check | Verification Method | Evidence Required |
+| # | Check | Verificatio
+ Method | Evidence Required |
 |---|-------|---------------------|-------------------|
-| 1 | **Actually executed** | Task performed, not just planned or described | Tool output showing execution |
+| 1 | **Actually executed** | Task performed, not just planned or described | Tool output showing executio
+ |
 | 2 | **Verified by tool** | File writes confirmed via `read`, commits via `git log`, API via response | Command output, file content, commit hash |
-| 3 | **State validated** | JSON state files parse correctly, no syntax errors | `python3 -m json.tool` or `jq` validation |
-| 4 | **Observable output** | Human-verifiable result exists | File path, commit ID, Notion URL, API response |
-| 5 | **Ken confirmation** | For critical work, Ken explicitly confirms | Ken's "confirmed" or "approved" message |
+| 3 | **State validated** | JSON state files parse correctly, no syntax errors | `python3 -m jso
+.tool` or `jq` validatio
+ |
+| 4 | **Observable output** | Huma
+-verifiable result exists | File path, commit ID, Notio
+ URL, API response |
+| 5 | **Ke
+ confirmatio
+** | For critical work, Ke
+ explicitly confirms | Ke
+'s "confirmed" or "approved" message |
 
 ### Anti-patterns that FAIL DoD (LEARNED FROM CHG-0372)
 
-- ❌ **"I will create X"** — Planning is not execution. DoD not met.
-- ❌ **"X has been created" without proof** — No file hash, commit ID, or URL. DoD not met.
-- ❌ **Partial execution** — Wrote file but didn't commit, or created cron but didn't verify payload. DoD not met.
-- ❌ **Tool error ignored** — `jq` parse error, `curl` failure, `exec` non-zero exit. DoD not met.
-- ❌ **Assumption-based completion** — "Should work" without testing. DoD not met.
-- ❌ **"All items implemented" when only 1 of 3 done** — CHG-0372 lesson: claimed 3 mitigations, only cron fully verified. DoD not met.
+- ❌ **"I will create X"** — Planning is not executio
+. DoD not met.
+- ❌ **"X has bee
+ created" without proof** — No file hash, commit ID, or URL. DoD not met.
+- ❌ **Partial executio
+** — Wrote file but did
+'t commit, or created cro
+ but did
+'t verify payload. DoD not met.
+- ❌ **Tool error ignored** — `jq` parse error, `curl` failure, `exec` no
+-zero exit. DoD not met.
+- ❌ **Assumptio
+-based completio
+** — "Should work" without testing. DoD not met.
+- ❌ **"All items implemented" whe
+ only 1 of 3 done** — CHG-0372 lesso
+: claimed 3 mitigations, only cro
+ fully verified. DoD not met.
 - ❌ **"Created" but not "tested"** — Script exists but not executed. DoD not met.
-- ❌ **"Updated" but not "validated"** — File edited but syntax errors remain. DoD not met.
+- ❌ **"Updated" but not "validated"** — File edited but syntax errors remai
+. DoD not met.
 
-### CHG-0372 Lesson — Applied to All Future Work
+### CHG-0372 Lesso
+ — Applied to All Future Work
 
 > **What went wrong:** Claimed "all 3 mitigations implemented" but:
-> 1. ✅ Cron created (but payload was generic, not specifically calling notion-sync-audit.sh)
+> 1. ✅ Cro
+ created (but payload was generic, not specifically calling notio
+-sync-audit.sh)
 > 2. ⚠️ ticket.sh existence check added (but not tested with actual duplicate scenario)
-> 3. ⚠️ Ceremony updated in RUNBOOK (but no automated enforcement, no verification it works)
+> 3. ⚠️ Ceremony updated i
+ RUNBOOK (but no automated enforcement, no verificatio
+ it works)
 >
-> **Root cause:** Declared completion after code changes, before verification.
+> **Root cause:** Declared completio
+ after code changes, before verificatio
+.
 >
-> **Fix:** For EACH claimed item, run verification before declaring done:
-> - Cron: Read back payload, confirm it calls the right script
-> - Code change: Test with real scenario (create duplicate, verify prevention)
-> - Ceremony: Verify the updated section is accessible and actionable
+> **Fix:** For EACH claimed item, ru
+ verificatio
+ before declaring done:
+> - Cro
+: Read back payload, confirm it calls the right script
+> - Code change: Test with real scenario (create duplicate, verify preventio
+)
+> - Ceremony: Verify the updated sectio
+ is accessible and actionable
 
-## Verification Protocol (NEW — Mandatory)
+## Verificatio
+ Protocol (NEW — Mandatory)
 
-**After ANY claimed completion, run:**
+**After ANY claimed completio
+, ru
+:**
 
 ```bash
 # 1. Read back what was created
 read <file_path> | head -20
 
 # 2. Verify syntax/validity
-python3 -m json.tool <json_file> || echo "JSON INVALID"
-bash -n <script_file> || echo "SCRIPT SYNTAX ERROR"
+python3 -m jso
+.tool <json_file> || echo "JSON INVALID"
+bash -
+ <script_file> || echo "SCRIPT SYNTAX ERROR"
 
 # 3. Test with real scenario (if applicable)
-# For ticket.sh: Create test ticket, verify Notion page created, try creating again (should not duplicate)
-# For cron: Read back cron payload, verify correct command
-# For ceremony: Verify RUNBOOK section is readable and actionable
+# For ticket.sh: Create test ticket, verify Notio
+ page created, try creating agai
+ (should not duplicate)
+# For cro
+: Read back cro
+ payload, verify correct command
+# For ceremony: Verify RUNBOOK sectio
+ is readable and actionable
 
 # 4. Git commit and verify
 # git show --stat HEAD
@@ -89,44 +178,72 @@ bash -n <script_file> || echo "SCRIPT SYNTAX ERROR"
 
 ## Enforcement
 
-### Warden Check (every 15 min)
-- Verify all agents are on kimi or approved model
-- Flag any agent on non-kimi model without CHG approval
-- Escalate to Yoda → Ken immediately
+### Warde
+ Check (every 15 mi
+)
+- Verify all agents are o
+ kimi or approved model
+- Flag any agent o
+ no
+-kimi model without CHG approval
+- Escalate to Yoda → Ke
+ immediately
 
 ### CI/CD Gate
-- Any PR/commit modifying `.openclaw.json` model configs → blocked until Ken approval
-- Any cron with non-kimi model → auto-flagged in audit
+- Any PR/commit modifying `.openclaw.jso
+` model configs → blocked until Ke
+ approval
+- Any cro
+ with no
+-kimi model → auto-flagged i
+ audit
 
 ### Agent Self-Check (NEW — Mandatory Before Declaring Done)
 
 **Before executing:**
-1. "Am I on kimi?" → If not, WHY? Get Ken approval.
+1. "Am I o
+ kimi?" → If not, WHY? Get Ke
+ approval.
 2. "What exactly am I doing?" → Be specific.
-3. "How will I verify this?" → Know the verification step before starting.
+3. "How will I verify this?" → Know the verificatio
+ step before starting.
 
 **After executing:**
 1. "Did I verify the result?" → Read file, check commit, test API.
-2. "Can Ken see it?" → Is there a file path, URL, or commit hash?
-3. "Did I declare completion too early?" → Double-check all claimed items.
+2. "Ca
+ Ke
+ see it?" → Is there a file path, URL, or commit hash?
+3. "Did I declare completio
+ too early?" → Double-check all claimed items.
 
 **If unsure about ANY item:**
-- Do NOT declare completion
-- Ask Ken: "[Item X] is done, [Item Y] needs verification — confirm partial completion?"
+- Do NOT declare completio
+
+- Ask Ke
+: "[Item X] is done, [Item Y] needs verificatio
+ — confirm partial completio
+?"
 - Or: "All items attempted but only X verified — continue with Y?"
 
 ## Exceptions
 
-| Scenario | Approval Required | Documented In |
+| Scenario | Approval Required | Documented I
+ |
 |----------|-------------------|---------------|
-| Sonnet for critical security review | Ken explicit per-task | CHG entry |
-| Sonnet for client-facing content | Ken explicit per-task | CHG entry |
-| Sonnet for complex multi-ticket routing | Ken explicit per-task | CHG entry |
-| Sonnet for CHG decisions | Ken explicit per-task | CHG entry |
+| Sonnet for critical security review | Ke
+ explicit per-task | CHG entry |
+| Sonnet for client-facing content | Ke
+ explicit per-task | CHG entry |
+| Sonnet for complex multi-ticket routing | Ke
+ explicit per-task | CHG entry |
+| Sonnet for CHG decisions | Ke
+ explicit per-task | CHG entry |
 
-**Default: NO exceptions. All work on kimi.**
+**Default: NO exceptions. All work o
+ kimi.**
 
-## Verification Commands
+## Verificatio
+ Commands
 
 ```bash
 # Check current model
@@ -135,12 +252,17 @@ openclaw status | grep model
 # Check agent model configs
 grep -r "anthropic" ~/.openclaw/workspace/state/ || echo "No Anthropic refs"
 
-# Check cron models
-openclaw cron list | grep "anthropic" || echo "No Anthropic crons"
+# Check cro
+ models
+openclaw cro
+ list | grep "anthropic" || echo "No Anthropic crons"
 
 # Verify JSON state files
-for f in ~/.openclaw/workspace/state/*.json; do
-  python3 -m json.tool "$f" > /dev/null 2>&1 || echo "INVALID JSON: $f"
+for f i
+ ~/.openclaw/workspace/state/*.jso
+; do
+  python3 -m jso
+.tool "$f" > /dev/null 2>&1 || echo "INVALID JSON: $f"
 done
 ```
 
@@ -148,161 +270,255 @@ done
 
 | Date | Check | Result | Verifier |
 |------|-------|--------|----------|
-| 2026-05-17 | Initial mandate | ✅ All agents on kimi | Ken |
-| 2026-05-17 | DoD refinement | ✅ CHG-0372 lesson applied | Ken |
+| 2026-05-17 | Initial mandate | ✅ All agents o
+ kimi | Ke
+ |
+| 2026-05-17 | DoD refinement | ✅ CHG-0372 lesso
+ applied | Ke
+ |
 
-## Activation
+## Activatio
 
-**Activated:** 2026-05-17 15:17 AEST by Ken Mun via WebChat
-**Refined:** 2026-05-17 15:20 AEST (stricter DoD after CHG-0372 lesson)
-**Deactivation keyword:** `KIMI MANDATE LIFTED` (only Ken can issue)
+
+**Activated:** 2026-05-17 15:17 AEST by Ke
+ Mu
+ via WebChat
+**Refined:** 2026-05-17 15:20 AEST (stricter DoD after CHG-0372 lesso
+)
+**Deactivatio
+ keyword:** `KIMI MANDATE LIFTED` (only Ke
+ ca
+ issue)
 **CHG reference:** CHG-0373
 
 ---
 
 **This rule supersedes all prior model routing policies until lifted.**
-**CHGs are not done until verified. Verification is not optional.**
+**CHGs are not done until verified. Verificatio
+ is not optional.**
 
 ---
 
 ## BACKLOG SYNC RULE — NON-NEGOTIABLE (CHG-0377)
 # Effective: 2026-05-17 15:44 AEST
-# Authority: Ken Mun (CTO) — ABSOLUTELY NON-NEGOTIABLE
+# Authority: Ke
+ Mu
+ (CTO) — ABSOLUTELY NON-NEGOTIABLE
 
 ### Rule Statement
 
-**ALL tickets (TKT) and changes (CHG) raised MUST be created in the Notion AKB Backlog.**
+**ALL tickets (TKT) and changes (CHG) raised MUST be created i
+ the Notio
+ AKB Backlog.**
 
 This rule is:
 - **ABSOLUTELY NON-NEGOTIABLE** — No exceptions, ever
-- **SSOT ENFORCEMENT** — Backlog is Ken's single source of truth
-- **AUTOMATIC** — Every ticket creation must sync to Notion
-- **VERIFIED** — After creation, verify the Notion page exists
+- **SSOT ENFORCEMENT** — Backlog is Ke
+'s single source of truth
+- **AUTOMATIC** — Every ticket creatio
+ must sync to Notio
+
+- **VERIFIED** — After creatio
+, verify the Notio
+ page exists
 
 ### Scope
 
-| Item | Notion Required | Verification |
+| Item | Notio
+ Required | Verificatio
+ |
 |------|----------------|--------------|
-| **New TKT** | YES — AKB Backlog page | Check Notion URL returned |
-| **New CHG** | YES — Logged in CHANGELOG + Backlog reference | Backlog shows CHG link |
-| **Status change** | YES — Update Notion status | Notion matches tickets.json |
-| **Replacement TKT** | YES — Both old and new in Backlog | Cross-reference exists |
+| **New TKT** | YES — AKB Backlog page | Check Notio
+ URL returned |
+| **New CHG** | YES — Logged i
+ CHANGELOG + Backlog reference | Backlog shows CHG link |
+| **Status change** | YES — Update Notio
+ status | Notio
+ matches tickets.jso
+ |
+| **Replacement TKT** | YES — Both old and new i
+ Backlog | Cross-reference exists |
 
 ### Anti-patterns (FAIL DoD)
 
-- ❌ Ticket created in tickets.json but NOT in Notion
-- ❌ CHG logged in CHANGELOG.md but no Backlog reference
-- ❌ "I'll sync later" — sync is part of creation, not separate
-- ❌ Notion API error ignored — retry until success
-- ❌ Assumption that ticket.sh handles sync — verify it does
+- ❌ Ticket created i
+ tickets.jso
+ but NOT i
+ Notio
 
-### Verification Protocol
+- ❌ CHG logged i
+ CHANGELOG.md but no Backlog reference
+- ❌ "I'll sync later" — sync is part of creatio
+, not separate
+- ❌ Notio
+ API error ignored — retry until success
+- ❌ Assumptio
+ that ticket.sh handles sync — verify it does
 
-**After EVERY ticket creation:**
+### Verificatio
+ Protocol
+
+**After EVERY ticket creatio
+:**
 ```bash
-# 1. Check tickets.json has the ticket
-grep "TKT-XXXX" state/tickets.json
+# 1. Check tickets.jso
+ has the ticket
+grep "TKT-XXXX" state/tickets.jso
 
-# 2. Check Notion has the page
+
+# 2. Check Notio
+ has the page
 # (via search or direct URL check)
 
 # 3. Verify status matches
-tickets.json status == Notion status
+tickets.jso
+ status == Notio
+ status
 ```
 
 ### Enforcement
 
 **ticket.sh MUST:**
-1. Create ticket in tickets.json
-2. IMMEDIATELY create Notion page via API
-3. Verify Notion page exists (retry 3x if needed)
-4. Return both ticket ID and Notion URL
+1. Create ticket i
+ tickets.jso
+
+2. IMMEDIATELY create Notio
+ page via API
+3. Verify Notio
+ page exists (retry 3x if needed)
+4. Retur
+ both ticket ID and Notio
+ URL
 
 **Failure to sync = DoD NOT MET**
 
-### Ken's Directive
+### Ke
+'s Directive
 
-> "Another DoD either missed or not enforced, all TKT/CHG raised needs to be created in Backlog. Only having them captured and confirmed in internal memory or ticket is not DoD. Backlog to me Ken is the SSOT and must ALWAYS be in sync and reflecting what is in memory and context. Now create the items that are missing and ensure this rule is not missed again moving forward. Absolutely non-negotiable."
+> "Another DoD either missed or not enforced, all TKT/CHG raised needs to be created i
+ Backlog. Only having them captured and confirmed i
+ internal memory or ticket is not DoD. Backlog to me Ke
+ is the SSOT and must ALWAYS be i
+ sync and reflecting what is i
+ memory and context. Now create the items that are missing and ensure this rule is not missed agai
+ moving forward. Absolutely no
+-negotiable."
 
 **Date:** 2026-05-17 15:44 AEST
 **Channel:** openclaw-control-ui
 **CHG:** CHG-0377
 
-### CHG RECORDS — Also Non-Negotiable
+### CHG RECORDS — Also No
+-Negotiable
 
-**ALL CHG (Change Log) entries MUST be created in Notion AKB Backlog.**
+**ALL CHG (Change Log) entries MUST be created i
+ Notio
+ AKB Backlog.**
 
-- CHG records are not just in CHANGELOG.md — they must also appear in Backlog
-- Each CHG gets a Notion page with:
-  - Title: [CHG-NNNN] Description
+- CHG records are not just i
+ CHANGELOG.md — they must also appear i
+ Backlog
+- Each CHG gets a Notio
+ page with:
+  - Title: [CHG-NNNN] Descriptio
+
   - Status: Done (CHG records are completed changes)
   - Type: change
   - Priority: High (all CHGs are significant)
   - Notes: Summary of what changed
 
-**Missing CHGs = Broken SSOT**
+**Missing CHGs = Broke
+ SSOT**
 
 ### Enforcement for CHG
 
 **changelog.sh MUST:**
 1. Append to memory/CHANGELOG.md
-2. IMMEDIATELY create Notion page via API
-3. Verify Notion page exists
-4. Return CHG ID and Notion URL
+2. IMMEDIATELY create Notio
+ page via API
+3. Verify Notio
+ page exists
+4. Retur
+ CHG ID and Notio
+ URL
 
 **After EVERY CHG:**
 ```bash
 # 1. Check CHANGELOG.md has the entry
 grep "CHG-NNNN" memory/CHANGELOG.md
 
-# 2. Check Notion has the page
-grep "CHG-NNNN" in Notion search
+# 2. Check Notio
+ has the page
+grep "CHG-NNNN" i
+ Notio
+ search
 
 # 3. Verify title matches
-# CHG-NNNN in CHANGELOG == [CHG-NNNN] in Notion
+# CHG-NNNN i
+ CHANGELOG == [CHG-NNNN] i
+ Notio
+
 ```
 
 ### CREATED DATE RULE — NON-NEGOTIABLE (CHG-0379)
 # Effective: 2026-05-17 15:53 AEST
-# Authority: Ken Mun (CTO) — ABSOLUTELY NON-NEGOTIABLE
+# Authority: Ke
+ Mu
+ (CTO) — ABSOLUTELY NON-NEGOTIABLE
 
-**ALL items created in Notion AKB Backlog MUST have Created Date populated.**
+**ALL items created i
+ Notio
+ AKB Backlog MUST have Created Date populated.**
 
 This rule is:
 - **ABSOLUTELY NON-NEGOTIABLE** — No exceptions, ever
-- **AUTOMATIC** — Created Date is set at creation time
+- **AUTOMATIC** — Created Date is set at creatio
+ time
 - **REQUIRED FIELD** — Never leave blank
 
 ### Scope
 
 | Item | Created Date Required | Source |
 |------|----------------------|--------|
-| **New TKT** | YES | tickets.json createdAt |
+| **New TKT** | YES | tickets.jso
+ createdAt |
 | **New CHG** | YES | CHANGELOG.md entry date |
 | **Replacement TKT** | YES | Original ticket date or new date |
-| **AUTO-HEAL** | YES | Date of auto-heal run |
+| **AUTO-HEAL** | YES | Date of auto-heal ru
+ |
 
 ### Anti-patterns (FAIL DoD)
 
 - ❌ Item created with blank Created Date
-- ❌ "I'll fill it in later" — must be at creation
+- ❌ "I'll fill it i
+ later" — must be at creatio
+
 - ❌ Using default/placeholder dates
-- ❌ Different date in Notion vs tickets.json vs CHANGELOG
+- ❌ Different date i
+ Notio
+ vs tickets.jso
+ vs CHANGELOG
 
 ### Enforcement
 
 **ticket.sh MUST:**
-1. Set Created Date = tickets.json createdAt date
+1. Set Created Date = tickets.jso
+ createdAt date
 2. Verify date is valid format (YYYY-MM-DD)
-3. Confirm Notion page shows correct date
+3. Confirm Notio
+ page shows correct date
 
 **changelog.sh MUST:**
 1. Set Created Date = CHG entry date from CHANGELOG
 2. Verify date matches the ## date line
 
-### Ken's Directive
+### Ke
+'s Directive
 
-> "Created Date is not populated when items in backlog are created. Rule - ensure they are captured/entered when created."
+> "Created Date is not populated whe
+ items i
+ backlog are created. Rule - ensure they are captured/entered whe
+ created."
 
 **Date:** 2026-05-17 15:53 AEST
 **Channel:** openclaw-control-ui
@@ -310,20 +526,25 @@ This rule is:
 
 ### DELIVERED DATE RULE — NON-NEGOTIABLE (CHG-0380)
 # Effective: 2026-05-17 15:57 AEST
-# Authority: Ken Mun (CTO) — ABSOLUTELY NON-NEGOTIABLE
+# Authority: Ke
+ Mu
+ (CTO) — ABSOLUTELY NON-NEGOTIABLE
 
 **ALL items with Status = Done MUST have Delivered Date populated.**
 
 This rule is:
 - **ABSOLUTELY NON-NEGOTIABLE** — No exceptions, ever
-- **AUTOMATIC** — Delivered Date is set when status changes to Done
+- **AUTOMATIC** — Delivered Date is set whe
+ status changes to Done
 - **REQUIRED FIELD** — Never leave blank for completed items
 
 ### Scope
 
 | Item | Delivered Date Required | Source |
 |------|----------------------|--------|
-| **Done TKT** | YES | Resolution/closure date from tickets.json |
+| **Done TKT** | YES | Resolutio
+/closure date from tickets.jso
+ |
 | **Done CHG** | YES | CHG entry date from CHANGELOG |
 | **Done AUTO-HEAL** | YES | Date item was resolved |
 | **Any Done item** | YES | Date status changed to Done |
@@ -331,29 +552,42 @@ This rule is:
 ### Anti-patterns (FAIL DoD)
 
 - ❌ Status = Done but Delivered Date is blank
-- ❌ "I'll fill it in later" — must be at completion
-- ❌ Using creation date instead of delivery date
-- ❌ Different delivery date in Notion vs tickets.json vs CHANGELOG
+- ❌ "I'll fill it i
+ later" — must be at completio
+
+- ❌ Using creatio
+ date instead of delivery date
+- ❌ Different delivery date i
+ Notio
+ vs tickets.jso
+ vs CHANGELOG
 
 ### Enforcement
 
-**ticket.sh MUST (when closing):**
-1. Set Delivered Date = resolution date
-2. Update Notion page with date
+**ticket.sh MUST (whe
+ closing):**
+1. Set Delivered Date = resolutio
+ date
+2. Update Notio
+ page with date
 3. Verify both Status and Delivered Date are correct
 
 **Status change workflow:**
 ```
-Status: In progress → Done
+Status: I
+ progress → Done
   ↓
 Set Delivered Date = today
   ↓
-Verify Notion shows both Status=Done and Delivered Date=YYYY-MM-DD
+Verify Notio
+ shows both Status=Done and Delivered Date=YYYY-MM-DD
 ```
 
-### Ken's Directive
+### Ke
+'s Directive
 
-> "Similarly, all Delivered Date needs to be populated when completed/delivered. Enforce the rule."
+> "Similarly, all Delivered Date needs to be populated whe
+ completed/delivered. Enforce the rule."
 
 **Date:** 2026-05-17 15:57 AEST
 **Channel:** openclaw-control-ui
@@ -361,54 +595,81 @@ Verify Notion shows both Status=Done and Delivered Date=YYYY-MM-DD
 
 ### LESSONS REGISTRY RULE — NON-NEGOTIABLE (CHG-0381)
 # Effective: 2026-05-17 16:04 AEST
-# Authority: Ken Mun (CTO) — ABSOLUTELY NON-NEGOTIABLE
+# Authority: Ke
+ Mu
+ (CTO) — ABSOLUTELY NON-NEGOTIABLE
 
-**Holocron Lessons Registry is SSOT. ALL lessons must be registered there.**
+**Holocro
+ Lessons Registry is SSOT. ALL lessons must be registered there.**
 
 This rule is:
 - **ABSOLUTELY NON-NEGOTIABLE** — No exceptions, ever
 - **SSOT ENFORCEMENT** — Lessons Registry is the single source of truth
-- **AUTOMATIC** — Every new lesson is registered immediately
+- **AUTOMATIC** — Every new lesso
+ is registered immediately
 - **COMPLETE** — All historical lessons must be present
 
 ### Scope
 
-| Action | Requirement |
+| Actio
+ | Requirement |
 |--------|-------------|
-| **New lesson logged** | MUST create entry in Lessons Registry (Notion) |
-| **LESSONS.md updated** | MUST sync to Holocron Registry |
+| **New lesso
+ logged** | MUST create entry i
+ Lessons Registry (Notio
+) |
+| **LESSONS.md updated** | MUST sync to Holocro
+ Registry |
 | **Historical lessons** | MUST be backfilled to Registry |
-| **Lesson reference** | MUST use [L-NNN] format everywhere |
+| **Lesso
+ reference** | MUST use [L-NNN] format everywhere |
 
 ### Anti-patterns (FAIL DoD)
 
-- ❌ Lesson in LESSONS.md but NOT in Holocron Registry
-- ❌ Lesson created but no Registry entry
+- ❌ Lesso
+ i
+ LESSONS.md but NOT i
+ Holocro
+ Registry
+- ❌ Lesso
+ created but no Registry entry
 - ❌ "I'll sync later" — sync is part of logging, not separate
 - ❌ Registry incomplete — missing historical lessons
 
 ### Enforcement
 
 **LESSONS.md update workflow:**
-1. Add lesson to LESSONS.md
-2. IMMEDIATELY create/update entry in Holocron Lessons Registry
-3. Verify Registry shows the lesson
-4. Reference [L-NNN] in all related CHGs and tickets
+1. Add lesso
+ to LESSONS.md
+2. IMMEDIATELY create/update entry i
+ Holocro
+ Lessons Registry
+3. Verify Registry shows the lesso
+
+4. Reference [L-NNN] i
+ all related CHGs and tickets
 
 ### Lessons Registry Format
 
 | Field | Value |
 |-------|-------|
-| **Title** | [L-NNN] Lesson title |
+| **Title** | [L-NNN] Lesso
+ title |
 | **Status** | Done (lessons are logged knowledge) |
-| **Type** | lesson |
-| **Created Date** | Date lesson was learned |
+| **Type** | lesso
+ |
+| **Created Date** | Date lesso
+ was learned |
 | **Delivered Date** | Same as Created Date |
-| **Notes** | Summary of lesson and impact |
+| **Notes** | Summary of lesso
+ and impact |
 
-### Ken's Directive
+### Ke
+'s Directive
 
-> "Holocron Lessons Registry is not updated. Rule - Lessons Registry is SSOT, all lessons must be updated in the registry to meet DoD."
+> "Holocro
+ Lessons Registry is not updated. Rule - Lessons Registry is SSOT, all lessons must be updated i
+ the registry to meet DoD."
 
 **Date:** 2026-05-17 16:04 AEST
 **Channel:** openclaw-control-ui
@@ -418,7 +679,9 @@ This rule is:
 
 ### KIMI ATOMIC TASK RULE — NON-NEGOTIABLE (CHG-0383)
 # Effective: 2026-05-17 16:21 AEST
-# Authority: Ken Mun (CTO) — ABSOLUTELY NON-NEGOTIABLE, PERSISTENT
+# Authority: Ke
+ Mu
+ (CTO) — ABSOLUTELY NON-NEGOTIABLE, PERSISTENT
 # Applies to: ALL agents using kimi model
 
 **ALL agents using kimi MUST ALWAYS enforce atomic tasks + HITL for risky items.**
@@ -427,109 +690,164 @@ This rule is:
 - **ABSOLUTELY NON-NEGOTIABLE** — No exceptions, ever
 - **PERSISTENT** — Remains active indefinitely
 - **PLATFORM-WIDE** — Applies to all agents, all sessions, all crons
-- **MANDATORY** — Violation = immediate escalation to Ken
+- **MANDATORY** — Violatio
+ = immediate escalatio
+ to Ke
+
 
 ### Rule Statement
 
-**kimi execution model:**
+**kimi executio
+ model:**
 - ❌ **NOT ALLOWED:** Multi-step complex workflows
-- ❌ **NOT ALLOWED:** Multi-ticket orchestration
+- ❌ **NOT ALLOWED:** Multi-ticket orchestratio
+
 - ❌ **NOT ALLOWED:** State tracking across steps
 - ❌ **NOT ALLOWED:** CHG decisions or architectural calls
 - ✅ **REQUIRED:** Atomic (single-step) tasks only
-- ✅ **REQUIRED:** Explicit verification after each step
-- ✅ **REQUIRED:** HITL (Human-In-The-Loop) for risky items
+- ✅ **REQUIRED:** Explicit verificatio
+ after each step
+- ✅ **REQUIRED:** HITL (Huma
+-I
+-The-Loop) for risky items
 
 ### What Are Atomic Tasks?
 
 | Task Type | Example | Allowed? |
 |-----------|---------|----------|
-| Read a file | "Read state/tickets.json" | ✅ Atomic |
+| Read a file | "Read state/tickets.jso
+" | ✅ Atomic |
 | Write a file | "Create scripts/test.sh" | ✅ Atomic |
 | Single git commit | "git add file && git commit" | ✅ Atomic |
 | Create one ticket | "ticket.sh new --title 'X'" | ✅ Atomic |
-| Update one Notion page | "Patch page X with status" | ✅ Atomic |
-| Multi-step workflow | "Create 5 tickets + sync to Notion + verify" | ❌ NOT atomic |
-| Complex orchestration | "Audit all items + fix + verify + report" | ❌ NOT atomic |
+| Update one Notio
+ page | "Patch page X with status" | ✅ Atomic |
+| Multi-step workflow | "Create 5 tickets + sync to Notio
+ + verify" | ❌ NOT atomic |
+| Complex orchestratio
+ | "Audit all items + fix + verify + report" | ❌ NOT atomic |
 | Multi-ticket routing | "Route TKT-0196 through TKT-0203" | ❌ NOT atomic |
 
-### HITL (Human-In-The-Loop) Requirements
+### HITL (Huma
+-I
+-The-Loop) Requirements
 
 **HITL is MANDATORY for:**
 
 | Scenario | HITL Required? | Why |
 |----------|---------------|-----|
-| Status changes (open→closed) | ✅ YES | Irreversible state change |
-| File deletions | ✅ YES | Destructive action |
-| Cron modifications | ✅ YES | Affects platform operations |
+| Status changes (ope
+→closed) | ✅ YES | Irreversible state change |
+| File deletions | ✅ YES | Destructive actio
+ |
+| Cro
+ modifications | ✅ YES | Affects platform operations |
 | Model config changes | ✅ YES | Affects all agents |
-| Notion bulk updates | ✅ YES | Affects SSOT |
-| CHG decisions | ✅ YES | Ken authority |
+| Notio
+ bulk updates | ✅ YES | Affects SSOT |
+| CHG decisions | ✅ YES | Ke
+ authority |
 | Budget/threshold changes | ✅ YES | Financial impact |
-| New agent activation | ✅ YES | Security impact |
+| New agent activatio
+ | ✅ YES | Security impact |
 
 **HITL workflow:**
 ```
-1. Agent proposes action: "Will update [X] to [Y]"
-2. Agent asks Ken: "Approve? Reply YES to proceed"
-3. Ken replies: "YES" or "NO" or "Modify to [Z]"
+1. Agent proposes actio
+: "Will update [X] to [Y]"
+2. Agent asks Ke
+: "Approve? Reply YES to proceed"
+3. Ke
+ replies: "YES" or "NO" or "Modify to [Z]"
 4. Agent executes ONLY after explicit approval
-5. Agent verifies result and confirms to Ken
+5. Agent verifies result and confirms to Ke
+
 ```
 
 ### Agent Self-Check (MANDATORY)
 
-**Before executing on kimi:**
+**Before executing o
+ kimi:**
 ```
 1. "Is this a single atomic step?" → If NO, break into smaller tasks
 2. "Does this change state irreversibly?" → If YES, HITL required
-3. "Can I verify the result in one step?" → If NO, simplify
-4. "Would Ken want to approve this?" → If YES, HITL required
+3. "Ca
+ I verify the result i
+ one step?" → If NO, simplify
+4. "Would Ke
+ want to approve this?" → If YES, HITL required
 ```
 
-**After executing on kimi:**
+**After executing o
+ kimi:**
 ```
 1. "Did the step complete correctly?" → Verify with read/tool
-2. "Is there a next step needed?" → If YES, don't claim completion
-3. "Did I update all required state?" → Check files, Notion, etc.
-4. "Can Ken see the result?" → Ensure observable output
+2. "Is there a next step needed?" → If YES, do
+'t claim completio
+
+3. "Did I update all required state?" → Check files, Notio
+, etc.
+4. "Ca
+ Ke
+ see the result?" → Ensure observable output
 ```
 
-### Violation Examples (DoD FAIL)
+### Violatio
+ Examples (DoD FAIL)
 
-- ❌ "Created 5 tickets" (when only 3 were actually created)
-- ❌ "Updated Registry" (when pages were created but not linked on page)
-- ❌ "All done" (when verification step was skipped)
+- ❌ "Created 5 tickets" (whe
+ only 3 were actually created)
+- ❌ "Updated Registry" (whe
+ pages were created but not linked o
+ page)
+- ❌ "All done" (whe
+ verificatio
+ step was skipped)
 - ❌ "Fixed issue" (without testing the fix)
-- ❌ "Synced to Notion" (when API errors were ignored)
+- ❌ "Synced to Notio
+" (whe
+ API errors were ignored)
 
 ### Enforcement
 
-**Warden Check (every 15 min):**
-- Verify agent is on correct model
-- Flag any agent on kimi doing multi-step work without HITL
-- Escalate to Yoda → Ken immediately
+**Warde
+ Check (every 15 mi
+):**
+- Verify agent is o
+ correct model
+- Flag any agent o
+ kimi doing multi-step work without HITL
+- Escalate to Yoda → Ke
+ immediately
 
 **Self-Reporting:**
 - Agent MUST report: "Step N complete, Step N+1 pending"
 - Agent MUST NOT report: "All done" until ALL steps verified
-- Agent MUST ask: "Continue with next step?" between atoms
+- Agent MUST ask: "Continue with next step?" betwee
+ atoms
 
-### Ken's Directive
+### Ke
+'s Directive
 
-> "B. Enforce that as rule for all kimi model execution for all agents. Persistent. All agents using kimi MUST ALWAYS be explicit and enforce atomic tasks (+ HITL for items with risks)"
+> "B. Enforce that as rule for all kimi model executio
+ for all agents. Persistent. All agents using kimi MUST ALWAYS be explicit and enforce atomic tasks (+ HITL for items with risks)"
 
 **Date:** 2026-05-17 16:21 AEST
 **Channel:** openclaw-control-ui
-**Decision:** Option B — Atomic Tasks + HITL
+**Decisio
+:** Optio
+ B — Atomic Tasks + HITL
 **CHG:** CHG-0383
-**Applies to:** ALL agents, ALL kimi execution, ALL sessions, ALL crons
+**Applies to:** ALL agents, ALL kimi executio
+, ALL sessions, ALL crons
 
 ---
 
 ### OWL RULE — NON-NEGOTIABLE (CHG-0386)
 # Effective: 2026-05-17 16:38 AEST
-# Authority: Ken Mun (CTO) — ABSOLUTELY NON-NEGOTIABLE, PERSISTENT
+# Authority: Ke
+ Mu
+ (CTO) — ABSOLUTELY NON-NEGOTIABLE, PERSISTENT
 
 **Before ANY work begins — ACT LIKE AN OWL: slow, quiet, observant, deeply analytical.**
 
@@ -543,25 +861,37 @@ This rule is:
 
 **Before deciding, confirming, or responding:**
 
-| Step | Action | Time |
+| Step | Actio
+ | Time |
 |------|--------|------|
 | **1. Observe** | Read the request carefully. What is ACTUALLY being asked? | 30s |
 | **2. Analyze** | What are the implications? What could go wrong? | 60s |
-| **3. Perspective** | How would Ken review this? What would he catch? | 30s |
-| **4. Plan** | What are the exact steps? What order? What verification? What file paths? What commands? What are the dependencies between steps? What is the rollback plan if a step fails? What edge cases could break this? What alternatives exist and why is this the best? | 120s |
-| **5. Risk check** | Hidden factors? Tradeoffs? Previous similar errors? | 30s |
-| **6. Respond** | Only now — with analysis included in response | — |
+| **3. Perspective** | How would Ke
+ review this? What would he catch? | 30s |
+| **4. Pla
+** | What are the exact steps? What order? What verificatio
+? What file paths? What commands? What are the dependencies betwee
+ steps? What is the rollback pla
+ if a step fails? What edge cases could break this? What alternatives exist and why is this the best? | 120s |
+| **5. Risk check** | Hidde
+ factors? Tradeoffs? Previous similar errors? | 30s |
+| **6. Respond** | Only now — with analysis included i
+ response | — |
 
-**Total minimum thinking time: ~3 minutes before ANY execution**
+**Total minimum thinking time: ~3 minutes before ANY executio
+**
 
 ### Anti-Patterns (IMMEDIATE STOP)
 
 - ❌ "I'll do that now" (without analysis)
 - ❌ Jumping to exec before understanding the full request
-- ❌ Missing hidden requirements (e.g., "sync to Notion" = 2 steps: create page + add to registry)
+- ❌ Missing hidde
+ requirements (e.g., "sync to Notio
+" = 2 steps: create page + add to registry)
 - ❌ Assuming "simple" means "no need to think"
 - ❌ Treating symptoms without diagnosing root cause
-- ❌ Not asking clarifying questions when ambiguous
+- ❌ Not asking clarifying questions whe
+ ambiguous
 
 ### Step 4 — Comprehensive Planning (THOROUGH, DETAILED, COMPREHENSIVE)
 
@@ -569,52 +899,93 @@ This rule is:
 
 | # | Planning Element | Detail Required | Example |
 |---|------------------|-----------------|---------|
-| 4.1 | **Exact commands** | Not "run script" but `bash scripts/ticket.sh new --title "X"` | `bash /Users/ainchorsangiefpl/.openclaw/workspace/scripts/ticket.sh new --title "[TKT-0200] Test"` |
-| 4.2 | **Exact file paths** | Absolute paths only, no relative/tilde | `/Users/ainchorsangiefpl/.openclaw/workspace/state/tickets.json` |
-| 4.3 | **Step sequence** | Numbered list with dependencies | `1. Read tickets.json → 2. Create TKT → 3. Verify in Notion → 4. Report to Ken` |
-| 4.4 | **Verification per step** | How to confirm step N worked | `Step 2 verification: grep "TKT-0200" state/tickets.json` |
-| 4.5 | **Rollback plan** | How to undo if step fails | `If Notion create fails: retry 3x, then alert Ken, do NOT claim completion` |
-| 4.6 | **Edge cases** | What could break this plan | `API rate limit? 504 timeout? Wrong database ID? Duplicate TKT ID?` |
-| 4.7 | **Alternative approaches** | What else could work and why not chosen | `Option A: Direct DB query (faster, but 400 errors). Option B: Search API (slower, more reliable). Chose B.` |
-| 4.8 | **State impact** | Which files/DBs/APIs will change | `tickets.json (append), Notion DB (create), CHANGELOG.md (append)` |
-| 4.9 | **Hidden factors** | Dependencies, preconditions, side effects | `Need API key? Need git commit? Will this affect other tickets?` |
-| 4.10 | **Ken's review perspective** | What would Ken question or catch | `Did I create the Notion page? Did I verify it? Is the title correct?` |
+| 4.1 | **Exact commands** | Not "ru
+ script" but `bash scripts/ticket.sh new --title "X"` | `bash /Users/ainchorsangiefpl/.openclaw/workspace/scripts/ticket.sh new --title "[TKT-0200] Test"` |
+| 4.2 | **Exact file paths** | Absolute paths only, no relative/tilde | `/Users/ainchorsangiefpl/.openclaw/workspace/state/tickets.jso
+` |
+| 4.3 | **Step sequence** | Numbered list with dependencies | `1. Read tickets.jso
+ → 2. Create TKT → 3. Verify i
+ Notio
+ → 4. Report to Ke
+` |
+| 4.4 | **Verificatio
+ per step** | How to confirm step N worked | `Step 2 verificatio
+: grep "TKT-0200" state/tickets.jso
+` |
+| 4.5 | **Rollback pla
+** | How to undo if step fails | `If Notio
+ create fails: retry 3x, the
+ alert Ke
+, do NOT claim completio
+` |
+| 4.6 | **Edge cases** | What could break this pla
+ | `API rate limit? 504 timeout? Wrong database ID? Duplicate TKT ID?` |
+| 4.7 | **Alternative approaches** | What else could work and why not chose
+ | `Optio
+ A: Direct DB query (faster, but 400 errors). Optio
+ B: Search API (slower, more reliable). Chose B.` |
+| 4.8 | **State impact** | Which files/DBs/APIs will change | `tickets.jso
+ (append), Notio
+ DB (create), CHANGELOG.md (append)` |
+| 4.9 | **Hidde
+ factors** | Dependencies, preconditions, side effects | `Need API key? Need git commit? Will this affect other tickets?` |
+| 4.10 | **Ke
+'s review perspective** | What would Ke
+ questio
+ or catch | `Did I create the Notio
+ page? Did I verify it? Is the title correct?` |
 
-**Minimum planning documentation:**
-- Write the plan in the response before executing
+**Minimum planning documentatio
+:**
+- Write the pla
+ i
+ the response before executing
 - Include the numbered steps
-- Include verification for each step
-- Include rollback plan
+- Include verificatio
+ for each step
+- Include rollback pla
+
 
 **Planning template for every task:**
 ```
-## Plan for [TASK]
+## Pla
+ for [TASK]
 
 ### Steps:
 1. [Step 1 with exact command]
 2. [Step 2 with exact command]
 3. ...
 
-### Verification:
+### Verificatio
+:
 - Step 1: [How to verify]
 - Step 2: [How to verify]
 
 ### Rollback:
-- If [step] fails: [action]
+- If [step] fails: [actio
+]
 
 ### Edge Cases:
-- [Case 1]: [Mitigation]
-- [Case 2]: [Mitigation]
+- [Case 1]: [Mitigatio
+]
+- [Case 2]: [Mitigatio
+]
 
 ### State Impact:
 - Files: [list]
-- Notion: [pages]
+- Notio
+: [pages]
 - Other: [effects]
 ```
 
-### Ken's Directive
+### Ke
+'s Directive
 
-> "do NOT rush through the thinking and planning and jump to execution. Before you start any work - act like an owl—slow, quiet, observant, and deeply analytical. Before deciding/confirming or responding - observe the situation patiently and examine it from multiple perspectives. Identify hidden factors, potential risks, and tradeoffs that most people might overlook."
+> "do NOT rush through the thinking and planning and jump to executio
+. Before you start any work - act like a
+ owl—slow, quiet, observant, and deeply analytical. Before deciding/confirming or responding - observe the situatio
+ patiently and examine it from multiple perspectives. Identify hidde
+ factors, potential risks, and tradeoffs that most people might overlook."
 
 **Date:** 2026-05-17 16:38 AEST
 **Channel:** openclaw-control-ui
@@ -622,51 +993,67 @@ This rule is:
 
 ---
 
-**This rule is MANDATORY and PERSISTENT until explicitly revoked by Ken.**
+**This rule is MANDATORY and PERSISTENT until explicitly revoked by Ke
+.**
 
 ---
 
 ### TIERED OWL — NON-NEGOTIABLE (CHG-0388)
 # Effective: 2026-05-17 16:48 AEST
-# Authority: Ken Mun (CTO) — ABSOLUTELY NON-NEGOTIABLE, PERSISTENT
+# Authority: Ke
+ Mu
+ (CTO) — ABSOLUTELY NON-NEGOTIABLE, PERSISTENT
 
-**Full OWL on ALL actions creates timeouts. Tiered OWL prevents this.**
+**Full OWL o
+ ALL actions creates timeouts. Tiered OWL prevents this.**
 
 ## The Problem
 
-Applying full 4.5-minute OWL analysis to EVERY action creates:
+Applying full 4.5-minute OWL analysis to EVERY actio
+ creates:
 - Chat = unresponsive
 - Subagents = timeout failures  
 - Crons = missed executions
 - UX = poor
 
-## The Solution: 3 Tiers
+## The Solutio
+: 3 Tiers
 
 | Tier | Trigger | OWL Depth | Time Budget | Timeout Config |
 |------|---------|-----------|-------------|----------------|
-| **Tier 1: Chat/Q&A** | Question, status, clarification | Owl-lite | 10-15s | N/A (webchat) |
-| **Tier 2: Atomic Task** | Single step execution | Standard OWL | 3 min max | Subagent: 300s |
-| **Tier 3: Complex Multi-step** | Multi-step, bulk, risky | Full OWL + background | 5+ min | Subagent: 0 (no timeout) + background |
+| **Tier 1: Chat/Q&A** | Questio
+, status, clarificatio
+ | Owl-lite | 10-15s | N/A (webchat) |
+| **Tier 2: Atomic Task** | Single step executio
+ | Standard OWL | 3 mi
+ max | Subagent: 300s |
+| **Tier 3: Complex Multi-step** | Multi-step, bulk, risky | Full OWL + background | 5+ mi
+ | Subagent: 0 (no timeout) + background |
 
 ---
 
 ## TIER 1 — Chat/Q&A (10-15 seconds)
 
-### When to Use
-- Ken asks a question
+### Whe
+ to Use
+- Ke
+ asks a questio
+
 - Status updates
 - Clarifications
 - Simple lookups
 
 ### Process
 ```
-1. Observe (5s): What is Ken asking?
+1. Observe (5s): What is Ke
+ asking?
 2. Analyze (5s): Is this Q or request?  
 3. Respond (5s): Answer or acknowledge
 ```
 
 ### Examples
-| Input | Response Time | Action |
+| Input | Response Time | Actio
+ |
 |-------|--------------|--------|
 | "Status of TKT-0196?" | 10s | Quick lookup, immediate answer |
 | "What did we decide yesterday?" | 15s | Memory search, summary |
@@ -676,19 +1063,26 @@ Applying full 4.5-minute OWL analysis to EVERY action creates:
 
 ## TIER 2 — Atomic Task (3 minutes max)
 
-### When to Use
-- Single step execution
+### Whe
+ to Use
+- Single step executio
+
 - Create one ticket
 - Update one file
-- Run one script
+- Ru
+ one script
 - Verify one item
 
-### Timeout Configuration
+### Timeout Configuratio
 
-**Subagent spawn:**
-```json
+
+**Subagent spaw
+:**
+```jso
+
 {
-  "mode": "run",
+  "mode": "ru
+",
   "runTimeoutSeconds": 300,
   "timeoutSeconds": 300
 }
@@ -698,10 +1092,15 @@ Applying full 4.5-minute OWL analysis to EVERY action creates:
 ```
 1. Observe (30s): What exactly needs to be done?
 2. Analyze (60s): Implications, risks, what could fail
-3. Perspective (30s): What would Ken catch?
-4. Plan (60s max): Exact commands, exact paths, verification
-5. Risk check (30s): Hidden factors, edge cases
-6. Execute (remaining time): Run the single atomic step
+3. Perspective (30s): What would Ke
+ catch?
+4. Pla
+ (60s max): Exact commands, exact paths, verificatio
+
+5. Risk check (30s): Hidde
+ factors, edge cases
+6. Execute (remaining time): Ru
+ the single atomic step
 7. Verify: Confirm the step worked
 8. Report: "Step complete, result: [X]"
 ```
@@ -711,8 +1110,10 @@ Applying full 4.5-minute OWL analysis to EVERY action creates:
 | Phase | Time | Running Total |
 |-------|------|---------------|
 | Analysis (steps 1-5) | 120s | 120s |
-| Execution | 30s | 150s |
-| Verification | 20s | 170s |
+| Executio
+ | 30s | 150s |
+| Verificatio
+ | 20s | 170s |
 | Report | 10s | 180s |
 
 **If analysis exceeds 120s → escalate to Tier 3**
@@ -720,37 +1121,47 @@ Applying full 4.5-minute OWL analysis to EVERY action creates:
 ### Checkpointing (Mandatory)
 
 **After each atomic step, save progress:**
-```json
+```jso
+
 {
   "taskId": "[uuid]",
   "tier": 2,
-  "step": "[description]",
-  "status": "complete|in-progress|failed",
+  "step": "[descriptio
+]",
+  "status": "complete|i
+-progress|failed",
   "completedAt": "2026-05-17T16:30:00+10:00",
   "result": "[summary]",
-  "nextStep": "[description or null]",
+  "nextStep": "[descriptio
+ or null]",
   "retryCount": 0
 }
 ```
 
-**Save to:** `state/tier2-progress-[taskId].json`
+**Save to:** `state/tier2-progress-[taskId].jso
+`
 
 ---
 
 ## TIER 3 — Complex Multi-step (5+ minutes, background)
 
-### When to Use
+### Whe
+ to Use
 - Multi-step workflows
 - Bulk operations (>1 item)
 - Complex analysis
 - Risky operations requiring HITL
 
-### Timeout Configuration
+### Timeout Configuratio
 
-**Subagent spawn (background, no timeout):**
-```json
+
+**Subagent spaw
+ (background, no timeout):**
+```jso
+
 {
-  "mode": "run",
+  "mode": "ru
+",
   "runTimeoutSeconds": 0,
   "timeoutSeconds": 0,
   "label": "background-task-[name]"
@@ -765,48 +1176,71 @@ Applying full 4.5-minute OWL analysis to EVERY action creates:
 Phase 1: Analysis (5+ minutes, foreground)
   1. Observe: Full requirements gathering
   2. Analyze: Deep implications, dependencies, risks
-  3. Perspective: Multiple viewpoints (Ken, user, system)
-  4. Plan: Comprehensive plan with all steps documented
+  3. Perspective: Multiple viewpoints (Ke
+, user, system)
+  4. Pla
+: Comprehensive pla
+ with all steps documented
   5. Risk check: Edge cases, alternatives, rollback plans
-  → Output: Detailed plan document
+  → Output: Detailed pla
+ document
 
 Phase 2: HITL Gate (if risky)
-  → Present plan to Ken
-  → Ken approves/modifies/rejects
+  → Present pla
+ to Ke
+
+  → Ke
+ approves/modifies/rejects
   → Only proceed after explicit approval
 
-Phase 3: Execution (background)
-  → Spawn background subagent with timeout=0
-  → Subagent executes plan step-by-step
+Phase 3: Executio
+ (background)
+  → Spaw
+ background subagent with timeout=0
+  → Subagent executes pla
+ step-by-step
   → Progress saved to state file every step
-  → Ken can check progress via state file
+  → Ke
+ ca
+ check progress via state file
 
-Phase 4: Completion Report
+Phase 4: Completio
+ Report
   → Subagent completes or fails
-  → Final report delivered to Ken
-  → State file updated with completion status
+  → Final report delivered to Ke
+
+  → State file updated with completio
+ status
 ```
 
 ### Progress Tracking (Mandatory)
 
 **Progress state file:**
-```json
+```jso
+
 {
-  "taskId": "bulk-ticket-creation-2026-05-17",
+  "taskId": "bulk-ticket-creatio
+-2026-05-17",
   "tier": 3,
-  "status": "in-progress",
+  "status": "i
+-progress",
   "startedAt": "2026-05-17T16:30:00+10:00",
   "totalSteps": 10,
   "completedSteps": 3,
   "currentStep": {
     "number": 4,
-    "description": "Create TKT-0203 in Notion",
+    "descriptio
+": "Create TKT-0203 i
+ Notio
+",
     "startedAt": "2026-05-17T16:35:00+10:00"
   },
   "completed": [
     {
       "step": 1,
-      "description": "Read tickets.json",
+      "descriptio
+": "Read tickets.jso
+",
       "result": "Found 220 tickets, no duplicates",
       "completedAt": "2026-05-17T16:31:00+10:00"
     }
@@ -816,30 +1250,40 @@ Phase 4: Completion Report
 }
 ```
 
-**Save to:** `state/tier3-progress-[taskId].json`
+**Save to:** `state/tier3-progress-[taskId].jso
+`
 
-**Update frequency:** After EVERY atomic step within the Tier 3 task.
+**Update frequency:** After EVERY atomic step withi
+ the Tier 3 task.
 
 ### Recovery Mechanisms
 
 **If subagent stalls:**
 1. Progress file exists → resume from last completed step
-2. Ken can check: `read state/tier3-progress-[taskId].json`
-3. Yoda can resume or kill stalled subagent
+2. Ke
+ ca
+ check: `read state/tier3-progress-[taskId].jso
+`
+3. Yoda ca
+ resume or kill stalled subagent
 
 **If subagent dies:**
 1. Check progress file for last completed step
 2. Determine: resume from next step or restart from beginning
-3. Report to Ken: "Task [N]% complete, resuming from step [X]"
+3. Report to Ke
+: "Task [N]% complete, resuming from step [X]"
 
 **If gateway disconnects:**
 1. Background subagent continues running
 2. Progress file continues updating
-3. When Ken reconnects, read progress file for status
+3. Whe
+ Ke
+ reconnects, read progress file for status
 
 ---
 
-## Timeout Prevention Checklist
+## Timeout Preventio
+ Checklist
 
 ### Before Spawning ANY Subagent
 
@@ -847,8 +1291,10 @@ Phase 4: Completion Report
 |-------|--------|--------|--------|
 | Timeout configured? | N/A | 300s | 0 (unlimited) |
 | Progress file path defined? | No | Yes | Yes |
-| Rollback plan documented? | No | Yes | Yes |
-| Ken notified it's starting? | No | Yes | Yes |
+| Rollback pla
+ documented? | No | Yes | Yes |
+| Ke
+ notified it's starting? | No | Yes | Yes |
 | Progress reporting configured? | No | No | Yes |
 
 ### Subagent Self-Check
@@ -863,71 +1309,97 @@ Phase 4: Completion Report
 
 ---
 
-## Ken's Directive
+## Ke
+'s Directive
 
-> "A. For Tier 2 and 3, what can be done to ensure total execution time does not cause any work to be cut-off/killed/stalled due to timeout risk?"
+> "A. For Tier 2 and 3, what ca
+ be done to ensure total executio
+ time does not cause any work to be cut-off/killed/stalled due to timeout risk?"
 
 **Date:** 2026-05-17 16:48 AEST  
 **Channel:** openclaw-control-ui  
-**Decision:** Tiered OWL (Option A) + Timeout Prevention  
+**Decisio
+:** Tiered OWL (Optio
+ A) + Timeout Preventio
+  
 **CHG:** CHG-0388
 
 ---
 
 ## Enforcement
 
-**Warden Check (every 15 min):**
+**Warde
+ Check (every 15 mi
+):**
 - Verify subagent timeouts match tier
 - Flag Tier 2 subagents with timeout < 300s
 - Flag Tier 3 subagents with timeout != 0
-- Escalate violations to Yoda → Ken
+- Escalate violations to Yoda → Ke
+
 
 ---
 
-**This rule is MANDATORY and PERSISTENT until explicitly revoked by Ken.**
+**This rule is MANDATORY and PERSISTENT until explicitly revoked by Ke
+.**
 
 ---
 
 ### ASYNC STATELESS DESIGN — NON-NEGOTIABLE (CHG-0389)
 # Effective: 2026-05-17 16:51 AEST
-# Authority: Ken Mun (CTO) — ABSOLUTELY NON-NEGOTIABLE, PERSISTENT
+# Authority: Ke
+ Mu
+ (CTO) — ABSOLUTELY NON-NEGOTIABLE, PERSISTENT
 
-**Agents must be able to resume work from any checkpoint if timeout kicks in.**
+**Agents must be able to resume work from any checkpoint if timeout kicks i
+.**
 
 This rule is:
 - **ARCHITECTURAL** — Changes how work is structured and saved
-- **STATELESS** — Work survives agent/session death
-- **RESILIENT** — Any agent can resume any task
-- **ASYNC** — Work can run in background, progress checked later
+- **STATELESS** — Work survives agent/sessio
+ death
+- **RESILIENT** — Any agent ca
+ resume any task
+- **ASYNC** — Work ca
+ ru
+ i
+ background, progress checked later
 
 ## The Problem
 
-**Current pattern (fragile):**
+**Current patter
+ (fragile):**
 ```
 Agent starts work → works for 5 minutes → dies → work lost → restart from 0
 ```
 
 **Why it fails:**
-- Work is bound to agent session
-- No checkpoints during execution
+- Work is bound to agent sessio
+
+- No checkpoints during executio
+
 - No shared queue of pending work
 - No concept of "pick up where left off"
 
-## The Solution: Async Stateless Task Queue
+## The Solutio
+: Async Stateless Task Queue
 
 ### Core Principle
 
 **Every unit of work is a Task. Every Task is a series of Atoms. Each Atom is a checkpoint.**
 
-Any agent can read a Task and resume from the first pending atom.
+Any agent ca
+ read a Task and resume from the first pending atom.
 
 ## Architecture: 3 Layers
 
 | Layer | Purpose | Storage |
 |-------|---------|---------|
-| **Task Queue** | Pending work pool | `state/task-queue.json` |
-| **Checkpoints** | Per-task atom status | `state/checkpoints/[taskId].json` |
-| **Artifacts** | Work output | Files, Notion pages, git commits |
+| **Task Queue** | Pending work pool | `state/task-queue.jso
+` |
+| **Checkpoints** | Per-task atom status | `state/checkpoints/[taskId].jso
+` |
+| **Artifacts** | Work output | Files, Notio
+ pages, git commits |
 
 ## Recovery Protocol
 
@@ -939,18 +1411,28 @@ Any agent can read a Task and resume from the first pending atom.
 5. Completes remaining atoms
 ```
 
-## Race Condition Prevention
+## Race Conditio
+ Preventio
+
 
 ### Task Locking
-- Agent claims task → sets claimTimeout = now + 30 min
+- Agent claims task → sets claimTimeout = now + 30 mi
+
 - If agent dies → claimTimeout expires → status resets to "pending"
-- New agent can claim expired task
+- New agent ca
+ claim expired task
 
 ### Atom Locking
-- Atom "in-progress" for > 30 min → assume agent died → reset to "pending"
-- Only one agent can have atom in "in-progress"
+- Atom "i
+-progress" for > 30 mi
+ → assume agent died → reset to "pending"
+- Only one agent ca
+ have atom i
+ "i
+-progress"
 
-## Integration with Tiered OWL
+## Integratio
+ with Tiered OWL
 
 | Tier | Queue Usage |
 |------|-------------|
@@ -958,65 +1440,92 @@ Any agent can read a Task and resume from the first pending atom.
 | **Tier 2** | Optional queue for tracking |
 | **Tier 3** | **Mandatory queue** — all complex work is queued |
 
-## Implementation
+## Implementatio
+
 
 ### New Files
 
 | File | Purpose |
 |------|---------|
-| `state/task-queue.json` | Master queue of all tasks |
-| `state/checkpoints/[taskId].json` | Per-task checkpoint state |
+| `state/task-queue.jso
+` | Master queue of all tasks |
+| `state/checkpoints/[taskId].jso
+` | Per-task checkpoint state |
 | `scripts/task-queue.sh` | CLI for queue management |
 | `scripts/resume-task.sh` | Resume from checkpoint |
 | `scripts/claim-task.sh` | Claim next pending task |
 
-### New Cron
+### New Cro
 
-**Task Queue Processor (every 5 min):**
+
+**Task Queue Processor (every 5 mi
+):**
 - Find "pending" tasks
 - Find expired claims (claimTimeout passed)
 - Reset expired claims to "pending"
-- Report to Ken: "[N] tasks pending, [M] stale claims reset"
+- Report to Ke
+: "[N] tasks pending, [M] stale claims reset"
 
 ## Benefits
 
-| Benefit | Explanation |
+| Benefit | Explanatio
+ |
 |---------|-------------|
 | **Timeout resilience** | Work survives agent death |
-| **Load balancing** | Any agent can pick up work |
-| **Observability** | Ken can check progress anytime |
-| **Retry logic** | Failed atoms can be retried independently |
-| **Parallelization** | Multiple agents can work on different tasks |
-| **Audit trail** | Complete history of what was done when |
+| **Load balancing** | Any agent ca
+ pick up work |
+| **Observability** | Ke
+ ca
+ check progress anytime |
+| **Retry logic** | Failed atoms ca
+ be retried independently |
+| **Parallelizatio
+** | Multiple agents ca
+ work o
+ different tasks |
+| **Audit trail** | Complete history of what was done whe
+ |
 
-## Ken's Directive
+## Ke
+'s Directive
 
-> "is there option where we can consider async and stateless design that would allow agents to pick-up/resume where left off should the timeout does kick-in"
+> "is there optio
+ where we ca
+ consider async and stateless desig
+ that would allow agents to pick-up/resume where left off should the timeout does kick-i
+"
 
 **Date:** 2026-05-17 16:51 AEST
 **Channel:** openclaw-control-ui
-**Decision:** Yes — Async Stateless Task Queue
+**Decisio
+:** Yes — Async Stateless Task Queue
 **CHG:** CHG-0389
 
 ---
 
-**This rule is MANDATORY and PERSISTENT until explicitly revoked by Ken.**
+**This rule is MANDATORY and PERSISTENT until explicitly revoked by Ke
+.**
 
 ---
 
 ## TELEGRAM MESSAGE CHUNKING RULE — NON-NEGOTIABLE (CHG-0397)
 
-# Authority: Ken Mun (CTO) — ABSOLUTELY NON-NEGOTIABLE, PERSISTENT
+# Authority: Ke
+ Mu
+ (CTO) — ABSOLUTELY NON-NEGOTIABLE, PERSISTENT
 # Effective: 2026-05-18 11:53 AEST
 # Applies to: ALL agents (current and future), ALL Telegram channels
 # Platform: AInchors Nexus Platform
 
 ### Rule Statement
 
-**ALL agents sending messages to Telegram MUST automatically chunk and split messages that exceed Telegram's 4,096 character content limit to prevent truncation, stalled delivery, or cut-off communication to users.**
+**ALL agents sending messages to Telegram MUST automatically chunk and split messages that exceed Telegram's 4,096 character content limit to prevent truncatio
+, stalled delivery, or cut-off communicatio
+ to users.**
 
 This rule is:
-- **ABSOLUTELY NON-NEGOTIABLE** — No exceptions. No agent may send an oversized single message to Telegram.
+- **ABSOLUTELY NON-NEGOTIABLE** — No exceptions. No agent may send a
+ oversized single message to Telegram.
 - **PERSISTENT** — Active indefinitely for all agents, current and future
 - **PLATFORM-WIDE** — Applies to all agents communicating via Telegram
 
@@ -1025,7 +1534,9 @@ This rule is:
 | Parameter | Value |
 |-----------|-------|
 | **Telegram max message length** | 4,096 characters |
-| **Safe chunk size** | 3,800 characters (margin for markdown/formatting) |
+| **Safe chunk size** | 3,800 characters (margi
+ for markdow
+/formatting) |
 
 ### Chunking Protocol
 
@@ -1033,7 +1544,8 @@ This rule is:
 
 2. **CHUNK BOUNDARIES:** Always split at:
    - Paragraph breaks (double newline)
-   - Section headers
+   - Sectio
+ headers
    - List item boundaries
    - NEVER split mid-sentence, mid-word, or mid-URL
 
@@ -1046,15 +1558,19 @@ This rule is:
    [3/3] Last chunk content...
    ```
 
-4. **CONTINUITY:** If a section spans chunks: end chunk N with `(continued →)` and start chunk N+1 with `(← continued)`.
+4. **CONTINUITY:** If a sectio
+ spans chunks: end chunk N with `(continued →)` and start chunk N+1 with `(← continued)`.
 
-5. **HEADER REPETITION:** If chunked content has a title/context header, include it in [brackets] at the start of each chunk so partial views have context.
+5. **HEADER REPETITION:** If chunked content has a title/context header, include it i
+ [brackets] at the start of each chunk so partial views have context.
 
 6. **DELIVERY ORDER:** Send chunks sequentially (1, 2, 3...). Do NOT parallel-send — Telegram may reorder.
 
-### Content Types Requiring Chunking (common triggers)
+### Content Types Requiring Chunking (commo
+ triggers)
 
-- Standup daily briefs · Diagnostic reports · Sprint reviews · CHG/incident summaries · Architecture proposals · Sub-agent completion reports · Cost/budget breakdowns · ROI summaries
+- Standup daily briefs · Diagnostic reports · Sprint reviews · CHG/incident summaries · Architecture proposals · Sub-agent completio
+ reports · Cost/budget breakdowns · ROI summaries
 
 ### Anti-Patterns (PROHIBITED)
 
@@ -1064,7 +1580,8 @@ This rule is:
 - ❌ Omitting chunk numbers
 - ❌ Assuming sessions_send auto-chunks — it does NOT
 
-### Verification
+### Verificatio
+
 
 Before any Telegram send:
 1. Count characters of the full message
@@ -1073,57 +1590,97 @@ Before any Telegram send:
 4. Number chunks [1/N] through [N/N]
 5. Send sequentially
 
-### Ken's Directive
+### Ke
+'s Directive
 
-> "set new mandatory rule for all agents (now and future) on telegram. ensure messages are chunk and split up to avoid hitting telegram message content limit, which will stall or cut-off communication to user"
+> "set new mandatory rule for all agents (now and future) o
+ telegram. ensure messages are chunk and split up to avoid hitting telegram message content limit, which will stall or cut-off communicatio
+ to user"
 
 **Date:** 2026-05-18 11:53 AEST
 **CHG:** CHG-0397
 
 ---
 
-**This rule is MANDATORY and PERSISTENT for ALL agents on ALL Telegram channels. Violation = communication failure.**
+**This rule is MANDATORY and PERSISTENT for ALL agents o
+ ALL Telegram channels. Violatio
+ = communicatio
+ failure.**
 
 ---
 
 ## ASYNC BACKGROUND EXECUTION RULE — NON-NEGOTIABLE (CHG-0405)
 
-# Authority: Ken Mun (CTO) — ABSOLUTELY NON-NEGOTIABLE
+# Authority: Ke
+ Mu
+ (CTO) — ABSOLUTELY NON-NEGOTIABLE
 # Effective: 2026-05-18 21:37 AEST
 # Applies to: ALL webchat sessions (Yoda)
 
 ### Rule Statement
 
-**Any exec call expected to take > 30 seconds MUST be run as a background sub-agent via sessions_spawn. Webchat must never be blocked by a long-running synchronous exec.**
+**Any exec call expected to take > 30 seconds MUST be ru
+ as a background sub-agent via sessions_spaw
+. Webchat must never be blocked by a long-running synchronous exec.**
 
 ### The Problem
-On 2026-05-18, a Notion database migration (664 pages) was run as a synchronous `exec` with `yieldMs`. The webchat session was blocked for ~13 minutes, preventing Ken from sending messages. The session went into steer mode — fully unresponsive.
+O
+ 2026-05-18, a Notio
+ database migratio
+ (664 pages) was ru
+ as a synchronous `exec` with `yieldMs`. The webchat sessio
+ was blocked for ~13 minutes, preventing Ke
+ from sending messages. The sessio
+ went into steer mode — fully unresponsive.
 
 ### The Fix
 
-1. **Pre-flight:** Before executing any task, estimate its duration:
+1. **Pre-flight:** Before executing any task, estimate its duratio
+:
    - File I/O < 1MB → sync is fine
    - API calls > 10 → background it
-   - Scripts touching Notion/Ollama/network → background it
+   - Scripts touching Notio
+/Ollama/network → background it
    - Anything with a loop over >20 items → background it
 
-2. **Background execution:** Use `sessions_spawn` with `mode="run"` — the task runs in an isolated session, Yoda stays responsive:
+2. **Background executio
+:** Use `sessions_spaw
+` with `mode="ru
+"` — the task runs i
+ a
+ isolated sessio
+, Yoda stays responsive:
    ```
-   sessions_spawn(taskName="migration_task", task="Run script X, report results", mode="run")
+   sessions_spaw
+(taskName="migration_task", task="Ru
+ script X, report results", mode="ru
+")
    ```
 
-3. **Progress reporting:** Sub-agent announces completion via cron delivery. Yoda picks up the result and reports to Ken.
+3. **Progress reporting:** Sub-agent announces completio
+ via cro
+ delivery. Yoda picks up the result and reports to Ke
+.
 
 4. **Timeout safety:** All background tasks get `runTimeoutSeconds` — never indefinite.
 
 ### Anti-Patterns (PROHIBITED)
-- ❌ Running 600+ API calls in a synchronous exec with yieldMs
-- ❌ Blocking webchat for >30 seconds on any operation
-- ❌ Using exec(timeout=0) for long tasks (runs anyway, blocks session)
+- ❌ Running 600+ API calls i
+ a synchronous exec with yieldMs
+- ❌ Blocking webchat for >30 seconds o
+ any operatio
+
+- ❌ Using exec(timeout=0) for long tasks (runs anyway, blocks sessio
+)
 - ❌ Assuming "it'll be quick" for API-heavy tasks
 
-### Ken's Directive
-> "how can we split this and run it async in the background? the time you mentioned was short but all-in, i was waiting for webchat to respond since 1:20p"
+### Ke
+'s Directive
+> "how ca
+ we split this and ru
+ it async i
+ the background? the time you mentioned was short but all-i
+, i was waiting for webchat to respond since 1:20p"
 
 **Date:** 2026-05-18 21:37 AEST
 **CHG:** CHG-0405
@@ -1132,27 +1689,42 @@ On 2026-05-18, a Notion database migration (664 pages) was run as a synchronous 
 
 ## THREE WORK TYPES RULE — NON-NEGOTIABLE (CHG-0369, TKT-0196)
 
-**Effective:** 2026-05-21 | **Authority:** Ken Mun (CTO) | **Scope locked per Ken approval**
+**Effective:** 2026-05-21 | **Authority:** Ke
+ Mu
+ (CTO) | **Scope locked per Ke
+ approval**
 
-All tasks must be routed according to the Three Work Types Rule defined in `docs/Three-Work-Types-Rule.md`.
+All tasks must be routed according to the Three Work Types Rule defined i
+ `docs/Three-Work-Types-Rule.md`.
 
 ### Work Currencies
 
-| Currency | Definition | Route to | Model Tier |
+| Currency | Definitio
+ | Route to | Model Tier |
 |---|---|---|---|
-| HIGH | Reasoning, judgment, design, architecture | Claude Sonnet (T3) | Paid premium, fallback only |
-| MEDIUM | Content gen, data analysis, code gen, classification | Ollama Cloud (T2) | Flat-rate ($100/mo) |
+| HIGH | Reasoning, judgment, desig
+, architecture | Claude Sonnet (T3) | Paid premium, fallback only |
+| MEDIUM | Content ge
+, data analysis, code ge
+, classificatio
+ | Ollama Cloud (T2) | Flat-rate ($100/mo) |
 | LOW/ZERO | CRUD, system calls, health checks, file ops | Script layer (T1/$0) | bash/python3/jq |
 
-### Escalation Policy
+### Escalatio
+ Policy
 ```
 Tier attempts task → FAILS? → Self-Debug retry once → STILL FAILS? → Escalate UP one tier
-→ T2→T3 escalation: minimal context only (summary + errors + relevant snippets)
-→ STILL FAILS at T3? → HITL gate: STOP, ask Ken
+→ T2→T3 escalatio
+: minimal context only (summary + errors + relevant snippets)
+→ STILL FAILS at T3? → HITL gate: STOP, ask Ke
+
 ```
 
-### Phase 2 (Sprint 5+): Dynamic Escalation Pattern
-Local-first → retry → self-debug → minimal-context escalation → cloud.
+### Phase 2 (Sprint 5+): Dynamic Escalatio
+ Patter
+
+Local-first → retry → self-debug → minimal-context escalatio
+ → cloud.
 Reference: https://www.xda-developers.com/local-llm-call-claude-changed-everything-local-first-setup/
 (TKT for Phase 2 raised)
 
@@ -1163,7 +1735,9 @@ Reference: https://www.xda-developers.com/local-llm-call-claude-changed-everythi
 
 ## SUB-AGENT WORKSPACE DISCIPLINE — NON-NEGOTIABLE (CHG-0421, TKT-0235)
 
-**Effective:** 2026-05-21 | **Authority:** Ken Mun (CTO)
+**Effective:** 2026-05-21 | **Authority:** Ke
+ Mu
+ (CTO)
 **Applies to:** ALL agents — current (12) and future (spawned or permanent)
 
 ### The Rule
@@ -1174,17 +1748,32 @@ Agent-specific subdirectories (`forge/`, `atlas/`, `spark/`, etc.) are **tempora
 
 ### Mandatory Requirements
 
-| # | Requirement | Verification |
+| # | Requirement | Verificatio
+ |
 |---|---|---|
 | 1 | **Absolute paths only** — all `read`, `write`, `edit`, `exec` tool calls must use full paths from workspace root. Never `./` or relative paths. | Agent SOUL.md or AGENTS.md must state this explicitly. |
-| 2 | **Output target = workspace root** — `docs/`, `scripts/`, `canvas/`, `state/` are at workspace root level. NOT `agentname/docs/`. | Before task completion, verify files exist at correct paths. |
-| 3 | **Pre-completion verification** — confirm all deliverables at correct workspace paths before reporting done. If files only exist in agent subdirectory, the task is NOT complete. | Yoda verifies on receipt. |
-| 4 | **New agents inherit this rule** — all future agents (spawned sub-agents or permanent) must include workspace discipline in their AGENTS.md at creation. | Added to agent activation DoD. |
+| 2 | **Output target = workspace root** — `docs/`, `scripts/`, `canvas/`, `state/` are at workspace root level. NOT `agentname/docs/`. | Before task completio
+, verify files exist at correct paths. |
+| 3 | **Pre-completio
+ verificatio
+** — confirm all deliverables at correct workspace paths before reporting done. If files only exist i
+ agent subdirectory, the task is NOT complete. | Yoda verifies o
+ receipt. |
+| 4 | **New agents inherit this rule** — all future agents (spawned sub-agents or permanent) must include workspace discipline i
+ their AGENTS.md at creatio
+. | Added to agent activatio
+ DoD. |
 
-### Violation = DoD FAIL
+### Violatio
+ = DoD FAIL
 
-An agent claiming "done" when files are in their subdirectory (not workspace root) has failed Definition of Done. Task must be re-executed or files manually relocated by Yoda.
+A
+ agent claiming "done" whe
+ files are i
+ their subdirectory (not workspace root) has failed Definitio
+ of Done. Task must be re-executed or files manually relocated by Yoda.
 
-**Root cause (21 May 2026):** Forge failed 3 tasks because output went to `workspace/forge/` instead of `workspace/`. Atlas and Spark had the same risk pattern. This rule prevents recurrence across all current and future agents.
+**Root cause (21 May 2026):** Forge failed 3 tasks because output went to `workspace/forge/` instead of `workspace/`. Atlas and Spark had the same risk patter
+. This rule prevents recurrence across all current and future agents.
 
 **Linked:** CHG-0421, TKT-0235

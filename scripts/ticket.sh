@@ -18,7 +18,8 @@
 
 set -u
 
-TICKET_FILE="/Users/ainchorsangiefpl/.openclaw/workspace/state/tickets.json"
+WORKSPACE_ROOT="/Users/ainchorsangiefpl/.openclaw/workspace"
+TICKET_FILE="$WORKSPACE_ROOT/state/tickets.json"
 CHANGELOG_HELPER="/Users/ainchorsangiefpl/.openclaw/workspace/scripts/changelog-append.sh"
 NOTION_DB_BACKLOG="34dc1829-53ff-814b-8257-d3a3bf351d44"
 NOTION_DB_AUTOHEAL="364c1829-53ff-81c0-9dbd-ff2c907d1a6b"
@@ -33,10 +34,9 @@ die() { echo "ERROR: $1" >&2; exit 1; }
 # ──────────────────────────────────────────
 get_ticket_state() {
   local tkt_id="$1"
-  local status
-  status=$(psql -At -c "SELECT status FROM state_tickets WHERE id = '$tkt_id';" 2>/dev/null || \
-           jq -r --arg id "$tkt_id" '.tickets[] | select(.id == $id) | .status' "$TICKET_FILE" 2>/dev/null)
-  echo "$status"
+  local tkt_state
+  tkt_state=$(jq -r --arg id "$tkt_id" '.tickets[] | select(.id == $id) | .status // "unknown"' "$TICKET_FILE" 2>/dev/null)
+  echo "$tkt_state"
 }
 
 validate_transition() {
@@ -141,6 +141,95 @@ print(json.dumps({'properties': props}))" "$n_status" "$n_priority" "$notes" "$s
   curl -s -X PATCH "https://api.notion.com/v1/pages/${page_id}" -H "Authorization: Bearer $key" -H "Notion-Version: 2025-09-03" -H "Content-Type: application/json" --data "$payload" > /dev/null 2>&1 || true
 }
 
+# ──────────────────────────────────────────
+# DoD VERIFICATION GATE — TKT-0237 A1
+# ──────────────────────────────────────────
+verify_before_close() {
+  local tkt_id="$1" tkt_type="$2" deliverable_path="$3"
+  
+  # Atom 1.2 + 1.3: Task-type checks
+  if [[ "$tkt_type" == "task" ]]; then
+    if [[ -z "$deliverable_path" || "$deliverable_path" == "null" || "$deliverable_path" == "none" ]]; then
+      echo "ERROR: Task ticket ${tkt_id} has no deliverable path declared." >&2
+      return 1
+    fi
+    if [[ ! -f "$deliverable_path" ]]; then
+      echo "ERROR: Deliverable file '${deliverable_path}' does not exist for ${tkt_id}." >&2
+      return 1
+    fi
+    echo "VERIFY: ${tkt_id} — deliverable file exists: ${deliverable_path}" >&2
+    
+    local git_log
+    git_log=$(git -C "$WORKSPACE_ROOT" log -1 --oneline -- "$deliverable_path" 2>/dev/null)
+    if [[ -z "$git_log" ]]; then
+      echo "ERROR: Deliverable file '${deliverable_path}' is not committed to git for ${tkt_id}." >&2
+      return 1
+    fi
+    echo "VERIFY: ${tkt_id} — git committed: ${git_log}" >&2
+  fi
+  
+  # Atom 1.4: CHG-type verification
+  if [[ "$tkt_type" == "change" || "$tkt_type" == "chg" ]]; then
+    local chg_id="${tkt_id}"
+    if ! grep -q "${chg_id}" "$WORKSPACE_ROOT/memory/CHANGELOG.md" 2>/dev/null; then
+      echo "ERROR: No CHANGELOG.md entry found for ${chg_id}." >&2
+      return 1
+    fi
+    echo "VERIFY: ${chg_id} — CHANGELOG.md entry found" >&2
+    
+    local git_diff
+    git_diff=$(git -C "$WORKSPACE_ROOT" diff HEAD~1 --name-only 2>/dev/null)
+    if [[ -z "$git_diff" ]]; then
+      echo "ERROR: No code changes in git for ${chg_id}. CHG requires committed changes." >&2
+      return 1
+    fi
+    echo "VERIFY: ${chg_id} — code changes in git: $(echo "$git_diff" | wc -l | tr -d ' ') file(s)" >&2
+  fi
+  
+  # Atom 1.5: Bug-type verification
+  if [[ "$tkt_type" == "bug" ]]; then
+    if ! grep -q "${tkt_id}" "$WORKSPACE_ROOT/memory/CHANGELOG.md" 2>/dev/null; then
+      echo "ERROR: No CHANGELOG.md entry found for bug fix ${tkt_id}." >&2
+      return 1
+    fi
+    echo "VERIFY: ${tkt_id} — CHANGELOG.md entry found" >&2
+    
+    local git_diff
+    git_diff=$(git -C "$WORKSPACE_ROOT" diff HEAD~1 --name-only 2>/dev/null)
+    if [[ -z "$git_diff" ]]; then
+      echo "ERROR: No code changes in git for bug fix ${tkt_id}." >&2
+      return 1
+    fi
+    echo "VERIFY: ${tkt_id} — code changes committed" >&2
+  fi
+  
+  # Atom 1.6: Config-type verification
+  if [[ "$tkt_type" == "config" ]]; then
+    local config_path="${deliverable_path}"
+    if [[ -z "$config_path" || "$config_path" == "null" || "$config_path" == "none" ]]; then
+      echo "ERROR: Config ticket ${tkt_id} has no config path declared." >&2
+      return 1
+    fi
+    local config_changed
+    config_changed=$(git -C "$WORKSPACE_ROOT" diff HEAD~1 --name-only 2>/dev/null | grep "$config_path")
+    if [[ -z "$config_changed" ]]; then
+      echo "ERROR: Config file '${config_path}' not modified in git for ${tkt_id}." >&2
+      return 1
+    fi
+    echo "VERIFY: ${tkt_id} — config file modified: ${config_path}" >&2
+  fi
+  
+  # Atom 1.8: Edge case — already closed ticket (re-close is a no-op)
+  local current_status
+  current_status=$(jq -r --arg id "$tkt_id" '.tickets[] | select(.id == $id) | .status // "unknown"' "$TICKET_FILE" 2>/dev/null)
+  if [[ "$current_status" == "closed" || "$current_status" == "cancelled" ]]; then
+    echo "WARNING: ${tkt_id} is already ${current_status}. Skipping verification (no-op)." >&2
+    return 0
+  fi
+  
+  return 0
+}
+
 notion_close_ticket() {
   local page_id="$1" delivered_date="${2:-}"
   local tkt_id="${3:-}" resolution="${4:-}" priority="${5:-}" tkt_type="${6:-}"
@@ -235,16 +324,23 @@ elif [[ "$SUBCOMMAND" == "update" ]]; then
 
 elif [[ "$SUBCOMMAND" == "close" ]]; then
   TKT_ID="${1:-}"
-  [[ -z "$TKT_ID" ]] && die "Usage: ticket.sh close TKT-NNNN --resolution \"...\""
+  [[ -z "$TKT_ID" ]] && die "Usage: ticket.sh close TKT-NNNN --resolution \"...\" [--deliverable-path <path>] [--skip-verify]"
   shift
-  RES=""
+  RES=""; SKIP_VERIFY=false; DELIVERABLE_PATH=""
   while (( $# > 0 )); do
-    case "$1" in --resolution) RES="$2"; shift 2 ;; *) die "Unknown arg: $1" ;; esac
+    case "$1" in --resolution) RES="$2"; shift 2 ;; --skip-verify) SKIP_VERIFY=true; shift ;; --deliverable-path) DELIVERABLE_PATH="$2"; shift 2 ;; *) die "Unknown arg: $1" ;; esac
   done
   [[ -z "$RES" ]] && die "--resolution is required"
 
-  # TKT-0182: State Checking Pattern
+  # TKT-0237 A1 + TKT-0182: State check then DoD Verification Gate
   CURRENT_STATE=$(get_ticket_state "$TKT_ID")
+  
+  # Check if already closed
+  if [[ "$CURRENT_STATE" == "closed" || "$CURRENT_STATE" == "cancelled" ]]; then
+    echo "WARNING: $TKT_ID is already $CURRENT_STATE. Close is a no-op." >&2
+    exit 0
+  fi
+  
   validate_transition "$CURRENT_STATE" "closed" || die "State transition validation failed."
 
   NOW_LOCAL=$(date '+%Y-%m-%dT%H:%M:%S+10:00')
@@ -252,6 +348,14 @@ elif [[ "$SUBCOMMAND" == "close" ]]; then
   [[ -z "$TICKET_JSON" ]] && die "Ticket $TKT_ID not found"
   T_NOTION_ID=$(echo "$TICKET_JSON" | jq -r '.notionPageId // ""')
   T_PRIORITY=$(echo "$TICKET_JSON" | jq -r '.priority')
+  T_TYPE=$(echo "$TICKET_JSON" | jq -r '.type // "task"')
+
+  # TKT-0237 A1: DoD Verification Gate
+  if [[ "$SKIP_VERIFY" != "true" ]]; then
+    verify_before_close "$TKT_ID" "$T_TYPE" "$DELIVERABLE_PATH" || die "DoD Verification FAILED. Use --skip-verify to override (Ken only)."
+  else
+    echo "⚠️  Verification SKIPPED (--skip-verify). Ensure CHANGELOG entry is logged." >&2
+  fi
 
   TMP=$(jq --arg id "$TKT_ID" --arg st "closed" --arg res "$RES" --arg ts "$NOW_LOCAL" '(.tickets[] | select(.id == $id)) |= (.status = $st | .updated = $ts | .resolution = $res)' "$TICKET_FILE")
   atomic_write "$TICKET_FILE" "$TMP"
