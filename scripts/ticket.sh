@@ -140,11 +140,38 @@ print(json.dumps({'properties': props}))" "$n_status" "$n_priority" "$notes" "$s
 
 notion_close_ticket() {
   local page_id="$1" delivered_date="${2:-}"
+  local tkt_id="${3:-}" resolution="${4:-}" priority="${5:-}" tkt_type="${6:-}"
   [[ -z "$page_id" || "$page_id" == "null" || "$page_id" == "NOTION_SKIP" ]] && return
   [[ ! -f "$NOTION_KEY_FILE" ]] && return
   local key; key=$(cat "$NOTION_KEY_FILE")
+  
+  # Step 1: Mark Done in DB A
   local payload=$(jq -n --arg ddt "$delivered_date" '{"properties": {"Status": {"select": {"name": "Done"}}, "Delivered Date": (if $ddt != "" then {"date": {"start": $ddt}} else {} end)}}')
   curl -s -X PATCH "https://api.notion.com/v1/pages/${page_id}" -H "Authorization: Bearer $key" -H "Notion-Version: 2025-09-03" -H "Content-Type: application/json" --data "$payload" > /dev/null 2>&1 || true
+  
+  # Step 2: Copy to DB C (Archive) — CHG-0402 (best-effort, DB C schema may need setup)
+  if [[ -n "$NOTION_DB_ARCHIVE" && "$NOTION_DB_ARCHIVE" != "null" ]]; then
+    local n_title="[${tkt_id}] ${resolution:0:80}"
+    local n_priority; n_priority=$(notion_priority "$priority")
+    local n_type="${tkt_type:-task}"
+    local archive_payload=$(jq -n --arg db "$NOTION_DB_ARCHIVE" --arg ttl "$n_title" --arg pri "$n_priority" --arg typ "$n_type" --arg cdt "$delivered_date" --arg res "$resolution" '{
+      parent: {database_id: $db},
+      properties: {
+        "US Title": {title: [{text: {content: $ttl}}]},
+        "Status": {select: {name: "Archived"}},
+        "Type": {select: {name: ($typ | ascii_upcase)}},
+        "Priority": {select: {name: $pri}},
+        "Created Date": {date: {start: $cdt}},
+        "Resolution": {rich_text: [{text: {content: $res}}]}
+      }
+    }' 2>/dev/null)
+    if [[ -n "$archive_payload" ]]; then
+      curl -s -X POST "https://api.notion.com/v1/pages" -H "Authorization: Bearer $key" -H "Notion-Version: 2025-09-03" -H "Content-Type: application/json" --data "$archive_payload" > /dev/null 2>&1 || true
+    fi
+  fi
+  
+  # Step 3: Archive the original page in DB A (remove from active view) — ALWAYS runs
+  curl -s -X PATCH "https://api.notion.com/v1/pages/${page_id}" -H "Authorization: Bearer $key" -H "Notion-Version: 2025-09-03" -H "Content-Type: application/json" -d '{"archived": true}' > /dev/null 2>&1 || true
 }
 
 SUBCOMMAND="${1:-help}"
@@ -229,7 +256,8 @@ elif [[ "$SUBCOMMAND" == "close" ]]; then
   sprint_sync "$TKT_ID" "closed"
   if [[ -n "$T_NOTION_ID" && "$T_NOTION_ID" != "null" && "$T_NOTION_ID" != "NOTION_SKIP" ]]; then
     T_CREATED=$(echo "$TICKET_JSON" | jq -r '(.created // .createdAt // "2026-01-01")[:10]')
-    notion_close_ticket "$T_NOTION_ID" "$NOW_LOCAL"
+    T_TYPE=$(echo "$TICKET_JSON" | jq -r '.type // "task"')
+    notion_close_ticket "$T_NOTION_ID" "$NOW_LOCAL" "$TKT_ID" "$RES" "$T_PRIORITY" "$T_TYPE"
   fi
   
   verify_state_update "$TKT_ID" "closed" || echo "⚠️  Post-write verification failed"
