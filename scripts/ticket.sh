@@ -118,23 +118,26 @@ notion_create_ticket() {
 }
 
 notion_update_ticket() {
-  local page_id="$1" tkt_status="$2" priority="$3" notes="${4:-}" sprint="${5:-}" planned_date="${6:-}" delivered_date="${7:-}" stream="${8:-}" tkt_type="${9:-}"
+  local page_id="$1" tkt_status="$2" priority="$3" notes="${4:-}" sprint="${5:-}" planned_date="${6:-}" delivered_date="${7:-}" stream="${8:-}" tkt_type="${9:-}" tkt_id="${10:-}"
   [[ -z "$page_id" || "$page_id" == "null" || "$page_id" == "NOTION_SKIP" ]] && return
   [[ ! -f "$NOTION_KEY_FILE" ]] && return
   local key; key=$(cat "$NOTION_KEY_FILE")
   local n_status; n_status=$(notion_status "$tkt_status")
   local n_priority; n_priority=$(notion_priority "$priority")
   notes="${notes:0:2000}"
+  # Build title: [TKT-XXXX] original_title (strip existing prefix if present)
+  local display_title="${tkt_id:+[$tkt_id] }${notes:0:120}"
   local payload=$(/usr/bin/python3 -c "
 import json, sys
-sta=sys.argv[1]; pri=sys.argv[2]; nts=sys.argv[3]; spr=sys.argv[4]; pdt=sys.argv[5]; ddt=sys.argv[6]; stm=sys.argv[7] if len(sys.argv)>7 else ''; typ=sys.argv[8] if len(sys.argv)>8 else ''
+sta=sys.argv[1]; pri=sys.argv[2]; nts=sys.argv[3]; spr=sys.argv[4]; pdt=sys.argv[5]; ddt=sys.argv[6]; stm=sys.argv[7] if len(sys.argv)>7 else ''; typ=sys.argv[8] if len(sys.argv)>8 else ''; ttl=sys.argv[9] if len(sys.argv)>9 else ''
 props = {'Status': {'select': {'name': sta}}, 'Priority': {'select': {'name': pri}}, 'Notes': {'rich_text': [{'text': {'content': nts}}] if nts else []}}
+if ttl: props['US Title'] = {'title': [{'text': {'content': ttl}}]}
 if spr: props['Sprint'] = {'select': {'name': spr}}
 if pdt: props['Planned Date'] = {'date': {'start': pdt}}
 if ddt: props['Delivered Date'] = {'date': {'start': ddt}}
 if stm: props['Stream'] = {'select': {'name': stm}}
 if typ: props['Type'] = {'select': {'name': typ.upper()}}
-print(json.dumps({'properties': props}))" "$n_status" "$n_priority" "$notes" "$sprint" "$planned_date" "$delivered_date" 2>/dev/null)
+print(json.dumps({'properties': props}))" "$n_status" "$n_priority" "$notes" "$sprint" "$planned_date" "$delivered_date" "$stream" "$tkt_type" "$display_title" 2>/dev/null)
   curl -s -X PATCH "https://api.notion.com/v1/pages/${page_id}" -H "Authorization: Bearer $key" -H "Notion-Version: 2025-09-03" -H "Content-Type: application/json" --data "$payload" > /dev/null 2>&1 || true
 }
 
@@ -224,7 +227,7 @@ elif [[ "$SUBCOMMAND" == "update" ]]; then
 
   sprint_sync "$TKT_ID" "$STATUS"
   if [[ -n "$T_NOTION_ID" && "$T_NOTION_ID" != "null" && "$T_NOTION_ID" != "NOTION_SKIP" ]]; then
-    notion_update_ticket "$T_NOTION_ID" "$STATUS" "$T_PRIORITY" "$NOTES" "" "" "" "$T_STREAM" "$T_TYPE"
+    notion_update_ticket "$T_NOTION_ID" "$STATUS" "$T_PRIORITY" "$NOTES" "" "" "" "$T_STREAM" "$T_TYPE" "$TKT_ID"
   fi
   
   verify_state_update "$TKT_ID" "$STATUS" || echo "⚠️  Post-write verification failed"
@@ -304,7 +307,7 @@ elif [[ "$SUBCOMMAND" == "notion-sync" ]]; then
   T_SPRINT_RAW=$(echo "$TICKET_JSON" | jq -r '.sprint // ""')
   if [[ "$T_SPRINT_RAW" =~ ^[0-9]+$ ]]; then T_SPRINT="Sprint $T_SPRINT_RAW"; elif [[ "$T_SPRINT_RAW" == "null" || "$T_SPRINT_RAW" == "None" || -z "$T_SPRINT_RAW" ]]; then T_SPRINT=""; else T_SPRINT="$T_SPRINT_RAW"; fi
   if [[ -n "$T_NOTION_ID" && "$T_NOTION_ID" != "null" && "$T_NOTION_ID" != "NOTION_SKIP" ]]; then
-    notion_update_ticket "$T_NOTION_ID" "$T_STATUS" "$T_PRIORITY" "${T_NOTES:-$T_DESC}" "$T_SPRINT" "" "" "$T_STREAM" "$T_TYPE" 2>/dev/null && echo "✅ $TKT_ID synced (updated)" || echo "⚠️ Notion update failed"
+    notion_update_ticket "$T_NOTION_ID" "$T_STATUS" "$T_PRIORITY" "${T_NOTES:-$T_DESC}" "$T_SPRINT" "" "" "$T_STREAM" "$T_TYPE" "$TKT_ID" 2>/dev/null && echo "✅ $TKT_ID synced (updated)" || echo "⚠️ Notion update failed"
   else
     COMBINED_NOTES="${T_DESC}${T_NOTES:+ | $T_NOTES}"
     NOTION_PAGE_ID=$(notion_create_ticket "$TKT_ID" "$T_TITLE" "$T_STATUS" "$T_PRIORITY" "$T_CREATED" "$COMBINED_NOTES" "$T_SPRINT" "" "" 2>/dev/null || echo "NOTION_SKIP")
