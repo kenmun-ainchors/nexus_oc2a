@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0",
-  "sequence": 251,
+  "sequence": 252,
   "lastUpdated": "2026-05-17T18:45:46.240905",
   "source": "notion-akb-backlog-rebuild",
   "ticketCount": 214,
@@ -1071,14 +1071,15 @@
       "id": "TKT-0128",
       "sequence": 128,
       "title": "[TKT-0128] Aria: expanded marketing orchestration mandate + Brand Code stewardship (P1)",
-      "status": "open",
+      "status": "in-progress",
       "priority": "high",
       "type": "tkt",
       "createdAt": "2026-05-10T00:40:00.000Z",
       "notionPageId": "35cc1829-53ff-8145-b89d-d4a71a2b0811",
       "url": "https://www.notion.so/TKT-0128-Aria-expanded-marketing-orchestration-mandate-Brand-Code-stewardship-P1-35cc182953ff8145b89dd4a71a2b0811",
       "sprint": 5,
-      "notes": " | Parked to Sprint 5 per Ken 2026-05-21. Gated on Angie availability. Coordinate with TKT-0110 + TKT-0127 as business stream sprint. | AC: Produce FINAL branded templates (DOCX/XLSX/PPTX/PDF) using generate-doc.sh pipeline (TKT-0108) when Aria + Angie finalize Brand Code in Sprint 5. Current templates are draft placeholders — replace with official AInchors brand assets (logo, colours, fonts). Added per Ken 2026-05-21."
+      "notes": " | Parked to Sprint 5 per Ken 2026-05-21. Gated on Angie availability. Coordinate with TKT-0110 + TKT-0127 as business stream sprint. | AC: Produce FINAL branded templates (DOCX/XLSX/PPTX/PDF) using generate-doc.sh pipeline (TKT-0108) when Aria + Angie finalize Brand Code in Sprint 5. Current templates are draft placeholders — replace with official AInchors brand assets (logo, colours, fonts). Added per Ken 2026-05-21.\nSprint 5 — Aria expanded marketing orchestration mandate + Brand Code stewardship.\n\nSUB-TICKET: TKT-0251 (CR-002) — Spark Dual-Target LinkedIn for business stream. Ken approved Option B 2026-05-22. Aria drives delivery and AC with Angie. Yoda partners on enablement.\n\nGOVERNANCE PATTERN (Ken directive 2026-05-22): All business-stream specialist agents route through Aria. Agents never engage directly with Angie. Aria governs, manages, approves. Prevents context loss, comms gaps, governance gaps.\n\nAC from TKT-0251: LinkedIn company page OAuth, linkedin-post.sh dual-target, Spark cron templates for company page, Aria approval gate, SPARK_RULES.md updated. Blocked on Angie availability.",
+      "updated": "2026-05-22T15:54:53+10:00"
     },
     {
       "id": "TKT-0129",
@@ -2280,12 +2281,14 @@
       "id": "TKT-0218",
       "sequence": 218,
       "title": "[TKT-0218] [TKT-0128-REPLACEMENT] Aria: expanded marketing orchestration mandate + Brand Code stewardship",
-      "status": "backlog",
+      "status": "closed",
       "priority": "medium",
       "type": "task",
       "createdAt": "2026-05-17T05:45:00.000Z",
       "notionPageId": "363c1829-53ff-810c-8e44-d0e6e7761e6f",
-      "url": "https://www.notion.so/TKT-0218-TKT-0128-REPLACEMENT-Aria-expanded-marketing-orchestration-mandate-Brand-Code-steward-363c182953ff810c8e44d0e6e7761e6f"
+      "url": "https://www.notion.so/TKT-0218-TKT-0128-REPLACEMENT-Aria-expanded-marketing-orchestration-mandate-Brand-Code-steward-363c182953ff810c8e44d0e6e7761e6f",
+      "updated": "2026-05-22T15:55:05+10:00",
+      "notes": "\nSuperseded by TKT-0128. TKT-0251 linked under TKT-0128 as sub-deliverable."
     },
     {
       "id": "TKT-0219",
@@ -2810,13 +2813,13 @@
       "title": "Post-TKT-0237/0228 audit — verify TKT-0196/0197/0198/0182 deliverables before sprint sign-off",
       "type": "task",
       "priority": "high",
-      "status": "open",
+      "status": "closed",
       "requester": "Ken",
       "assignee": "Yoda",
       "created": "2026-05-22T12:38:49+10:00",
-      "updated": "2026-05-22T12:38:49+10:00",
+      "updated": "2026-05-22T19:15:44+10:00",
       "description": "Sprint 4 gate: all 4 'closed' architecture tickets (TKT-0196, 0197, 0198, 0182) must be re-audited after TKT-0237 (DoD Verification Gate) and TKT-0228 (OWL Guard) are complete. This ensures they meet the new verification standard before being accepted as Done for Sprint 4.\\n\\nAC1: Verify TKT-0196 — Three Work Types Rule: check docs/Three-Work-Types-Rule.md exists + RULES.md updated + TKT-0234 raised for Phase 2\\nAC2: Verify TKT-0197 — SoT Register: check docs/Sources-of-Truth-Register.md exists + 10 domains mapped + access matrix complete\\nAC3: Verify TKT-0198 — Postgres Migration: check 5 tables exist in ainchors_nexus + migrate-state-to-postgres.sh is idempotent + backward-compat view exists\\nAC4: Verify TKT-0182 — State Checking Pattern: check docs/State-Checking-Pattern.md exists + RULES.md updated + pattern actually applied in recent agent actions\\n\\nEach AC must PASS the DoD Verification Gate (TKT-0237 AC1) before sign-off. No 'assumed done' — observable verification only.",
-      "resolution": null,
+      "resolution": "All 4 architecture tickets verified through DoD gate. TKT-0196: doc exists (46 lines), RULES updated, TKT-0234 open. TKT-0197: doc exists (88 lines), 15 domains, access matrix. TKT-0198: 5 tables, migration script (87 lines), backward-compat view. TKT-0182: doc exists (57 lines), RULES updated, pattern proven by TKT-0237/0228. All 4 PASS. Sprint 4: 6/6 committed shipped and verified.",
       "linked": {
         "us": [],
         "inc": [],
@@ -3027,6 +3030,28 @@
       },
       "notes": "",
       "notionPageId": "367c1829-53ff-81ef-9c32-eaec2d06f6af"
+    },
+    {
+      "id": "TKT-0251",
+      "title": "[CR-002] Spark Dual-Target LinkedIn — Business Stream (Angie + AInchors Company Page)",
+      "type": "task",
+      "priority": "high",
+      "status": "in-progress",
+      "requester": "Ken",
+      "assignee": "Yoda",
+      "created": "2026-05-22T15:16:07+10:00",
+      "updated": "2026-05-22T15:54:36+10:00",
+      "description": "CR-002 from Aria. Enable Spark to post on AInchors company page in addition to Ken's personal LinkedIn.\n\nSTRATEGY: Option B — Ken approved 2026-05-22. Separate pipelines. Ken personal = consultant POV. Company page = brand/announcements. Aria governs all business-stream agents. Spark reports to Aria for business content. Yoda partners with Aria on enablement.\n\nDeliverables: (1) LinkedIn company page OAuth token (2) linkedin-post.sh --target flag (3) linkedin-campaign.json target field (4) Spark cron templates for company posts (5) Aria approval gate (6) SPARK_RULES.md updated.\n\nGovernance: Angie → Aria (approve) → Spark (execute) → Company Page\n\nBlocker: Angie availability for OAuth. Effort: M (~4-6h).",
+      "resolution": null,
+      "linked": {
+        "us": [],
+        "inc": [],
+        "chg": [
+          "CHG-XXXX"
+        ]
+      },
+      "notes": "\nLinked under TKT-0128 (Aria marketing mandate, Sprint 5). CR-002 from Aria. Enable Spark dual-target LinkedIn for business stream.\n\nSTRATEGY (Ken approved 2026-05-22): Option B — separate pipelines. Ken personal = consultant POV. Company page = brand/announcements. Aria governs all business-stream agents. Specialist agents → Aria → Angie (never direct).\n\nGOVERNANCE CHAIN: Angie → Aria (approve) → Spark (execute) → Company Page\n\nBLOCKER: Angie availability for LinkedIn company page OAuth.\n\nAria drives delivery & AC with Angie. Yoda partners on enablement.",
+      "notionPageId": "367c1829-53ff-819a-af44-ce229836b2ef"
     }
   ],
   "changes": [
