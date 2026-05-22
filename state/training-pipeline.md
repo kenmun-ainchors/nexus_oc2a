@@ -167,6 +167,10 @@ _Maintained by Aria 🔵 + Yoda 🟢 | Status-tracked content for AInchors train
 | TC-153 | The silent zombie bot: diagnosing AI processes that die without reporting any error | 💡 Idea | Yoda Day 26 (Telegram outage — both bots zombie since 06:58, no alerts, no errors, just silence) | Yoda |
 | TC-154 | Lessons that prevent repeat mistakes: how structured registries catch errors before they happen twice | 💡 Idea | Yoda Day 26 (L-043 UTC trap prevented repeat scheduling error today) | Both |
 
+| TC-155 | When 'done' doesn't mean done: self-reported completion blindness in AI systems | 💡 Idea | Yoda Day 28 (CHG-0401/0402 audit) | Aria |
+| TC-156 | The three-day silent failure: monitoring that watches the watcher | 💡 Idea | Yoda Day 28 (Ollama 429 cascade) | Both |
+| TC-157 | Quality governance for AI orchestrators: holding the manager to the same standard | 💡 Idea | Yoda Day 28 (Sprint 4 close + quality contract) | Both |
+
 ## Status Legend
 💡 Idea → 📝 Draft → 🔍 Review (Yoda validates) → ✅ Ready → 📢 Published
 

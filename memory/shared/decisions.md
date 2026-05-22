@@ -39,5 +39,12 @@ _Key decisions made. Dated. Permanent record._
 - **🚨 Critical Config Anti-Drift Rule** — Critical configurations (model strategy, fallback chain, auth keys, workspace path) MUST NOT drift. Trigger: 2026-04-27 07:32 AEST Ken caught silent drift of agent main model from Sonnet to Opus (~3x cost burn). Codified: `state/critical-config-baseline.json` declares 7 guarded items; auto-heal Check #12 validates nightly; ANY drift on critical-severity item files needs-Ken US for standup. Update process locked: Ken decision → baseline update → config change → CHG entry → decision log → verify Check #12 passes. Approved 2026-04-27 07:36 AEST.
 - **Agent main model corrected to Sonnet** — Reverted from Opus (silent drift, root cause unknown) back to Sonnet per US11. Edit applied at 2026-04-27 07:35 AEST. Effective on next session/turn.
 
+## 2026-05-22
+- **TKT-0237 before TKT-0228 — Platform verification gates before AI model drift prevention.** Fix the "done but not done" pattern first, then fix execution discipline. Ken approved 2026-05-22.
+- **Yoda under same quality contract as all agents.** The orchestrator is not exempt from OWL compliance tracking, DoD gates, or quality audits. Ken approved 2026-05-22.
+- **Notion DB C manual setup deferred.** Filter-based view sufficient for archive; standalone database creation not worth the complexity at this stage. Ken approved 2026-05-22.
+- **Ollama Cloud cap pattern confirmed:** kimi + gemma4 share a weekly usage cap; deepseek-pro has a separate one. Long-term: may need to migrate all crons to deepseek-pro.
+- **Quality enforced by platform, not agent promises.** Verification must be observable and automated — structural change to stop trusting self-reported completion.
+
 ## 2026-05-11
 - **Journal format updated** — `Yoda's response (verbatim)` field added to per-entry structure. Captures Yoda's final chat reply per entry (not tool output — the message Ken received). Ken approved 2026-05-11 07:50 AEST. Spec: `Operations/JournalFormat.md`. Journal cron `4d926b2c` updated.
