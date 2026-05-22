@@ -10,23 +10,15 @@
   "items": [
     {
       "ticket": "TKT-0127",
-      "title": "Agentic Marketing Org Design — activate business stream marketing agent",
+      "title": "Agentic Marketing Org Design \u2014 activate business stream marketing agent",
       "status": "planned",
       "owner": "Yoda",
       "type": "architecture",
       "note": "Activate marketing agent for AInchors own marketing. CHG-0369 Sprint 4 commitment."
     },
     {
-      "ticket": "TKT-0158",
-      "title": "Scheduled integrity checks — automated state file validation",
-      "status": "planned",
-      "owner": "Forge",
-      "type": "infra",
-      "note": "Periodic integrity checks for critical state files. CHG-0369 Sprint 4 commitment."
-    },
-    {
       "ticket": "TKT-0196",
-      "title": "Three Work Types Rule — enforce script/governance/LLM separation",
+      "title": "Three Work Types Rule \u2014 enforce script/governance/LLM separation",
       "status": "planned",
       "owner": "Forge",
       "type": "architecture",
@@ -34,39 +26,23 @@
     },
     {
       "ticket": "TKT-0197",
-      "title": "Sources of Truth Register — 10 core data types",
+      "title": "Sources of Truth Register \u2014 10 core data types",
       "status": "planned",
       "owner": "Atlas",
       "type": "architecture",
       "note": "Canonical storage location for each data domain. Foundation for Phase 1."
     },
     {
-      "ticket": "TKT-0178",
-      "title": "Routing Discipline Enforcement — agent task routing guard",
-      "status": "planned",
-      "owner": "Forge",
-      "type": "architecture",
-      "note": "Enforce Yoda-only orchestration, prevent agents from doing specialist work. CHG-0369."
-    },
-    {
       "ticket": "TKT-0198",
-      "title": "JSON to Postgres Migration — Top 5 State Files",
+      "title": "JSON to Postgres Migration \u2014 Top 5 State Files",
       "status": "planned",
       "owner": "Forge",
       "type": "data",
-      "note": "Migrate 5 most-critical JSON state files to Postgres. Was Sprint 6 → pulled forward."
-    },
-    {
-      "ticket": "TKT-0169",
-      "title": "Typed Agent Contracts — 4 Cross-Agent Handoffs",
-      "status": "planned",
-      "owner": "Yoda",
-      "type": "architecture",
-      "note": "Define typed contracts for agent-to-agent communication. CHG-0369."
+      "note": "Migrate 5 most-critical JSON state files to Postgres. Was Sprint 6 \u2192 pulled forward."
     },
     {
       "ticket": "TKT-0182",
-      "title": "Explicit state checking pattern — Thrawn platform rule",
+      "title": "Explicit state checking pattern \u2014 Thrawn platform rule",
       "status": "planned",
       "owner": "Thrawn",
       "type": "architecture",
@@ -81,6 +57,6 @@
       "note": "5 stories: compliance tracking, drift alerts, runbook procedure, audit script, agent training. Added CHG-0366."
     }
   ],
-  "committedCount": 9,
+  "committedCount": 6,
   "notes": "Restored from CHG-0369 (8 items) + CHG-0366 (TKT-0228 added). sprint-current.json was overwritten at 14:28 AEST on 2026-05-17, losing the 8-item scope. Restored 2026-05-18 12:00 AEST per Ken directive."
 }

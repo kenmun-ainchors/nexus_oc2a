@@ -1,6 +1,6 @@
 {
   "schema": "1.0",
-  "nextId": 11,
+  "nextId": 12,
   "queue": [
     {
       "id": 1,
@@ -161,7 +161,7 @@
       "updatedAt": "2026-05-09T23:00:37.601898Z",
       "createdBy": "Spark",
       "notes": "Ken-approved v3. RustDesk Docker failure + Tailscale pivot. Ken manually posted with image.",
-      "draft": "I spent 3 hours today trying to save $20/month. Self-hosted RustDesk. Docker. How hard could it be? RustDesk's own docs recommend Docker as the preferred installation method. I followed them. First mistake...",
+      "draft": "I spent 3 hours today trying to save /month. Self-hosted RustDesk. Docker. How hard could it be? RustDesk's own docs recommend Docker as the preferred installation method. I followed them. First mistake...",
       "postedAt": "2026-05-10T02:25:44.148404+00:00",
       "postedBy": "Ken (manual edit + image)",
       "imageAssetUrn": "urn:li:image:D5610AQETOvgOItuu2w"
@@ -194,10 +194,24 @@
       "imageLocalPath": "/Users/ainchorsangiefpl/.openclaw/workspace/workspace-social/images/linkedin/LI-C1-W2-P3/image.jpg",
       "postedAt": "2026-05-14T07:32:00+10:00",
       "postedBy": "Spark (cron)"
+    },
+    {
+      "id": 11,
+      "contentId": "CONTENT-LI-20260521-v2",
+      "type": "original",
+      "theme": "operations-reality",
+      "status": "queued",
+      "scheduledFor": "2026-05-26T07:30:00+10:00",
+      "label": "Dealing with Model Failures Gracefully",
+      "content": "The \"it works on my machine\" phase of AI development is a dangerous place to live.\n\nWhen you're building a prototype, 85% accuracy feels like a victory. You've got a few clean prompt templates, a handful of curated test cases, and the LLM is behaving. You show it to the board, the demo is flawless, and everyone is thrilled.\n\nThen you hit production.\n\nSuddenly, \"curated test cases\" are replaced by a chaotic flood of real-world user inputs. Your 85% accuracy doesn't mean \"mostly right\"—it means that 15% of the time, your system is hallucinating, timing out, or returning a JSON blob that breaks your front end.\n\nAs a CTO, the realization is this: You cannot build an AI system that never fails. You can only build a system that fails gracefully.\n\nIn the world of production AI, \"graceful failure\" isn't just an error message. It's a deliberate architecture of fallback tiers:\n\n1. The Primary: High-reasoning model, full context.\n2. The Safety Net: Faster, more deterministic model to validate the Primary's output.\n3. The Hard Stop: A set of rigid, non-AI rules that trigger when confidence drops below a threshold.\n4. The Human Escape: A seamless handoff to a person before the user realizes the AI is stuck.\n\nThe goal isn't to eliminate the 15% failure rate—it's to ensure that when that 15% happens, it doesn't result in a catastrophic user experience or a 3 AM emergency page.\n\nIf your AI strategy is based on \"making the model better,\" you're fighting a losing battle against entropy. If your strategy is based on \"making the failure invisible,\" you're actually building a product.\n\nStop optimizing for the happy path. Start designing for the crash.\n\n#ProductionAI #CTOInsights #AgenticAI #SoftwareArchitecture #AIImplementation",
+      "createdAt": "2026-05-21T11:46:00+10:00",
+      "approvedAt": "2026-05-21T11:46:00+10:00",
+      "approvedBy": "Ken Mun",
+      "notes": "Queued for next Tue slot (AEST pattern)."
     }
   ],
   "apiEnabled": true,
   "apiConnectedAt": "2026-05-03T02:52:00Z",
-  "lastUpdated": "2026-05-19T10:32:00+10:00",
+  "lastUpdated": "2026-05-21T11:46:00+10:00",
   "resetNotes": "FULL RESET by Spark 2026-05-19. Removed: AIOps P1 (id:7, approved/unsent), AIOps P2 (id:9, rejected/posted-out-of-order), all SparkNotes referencing broken series. Kept: posted history (seeders, W1P1-P4, RustDesk ad-hoc, AIOps P3 as last-posted). Clean slate for this week."
 }

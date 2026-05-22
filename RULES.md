@@ -1,3 +1,4 @@
+# STATE CHECKING PATTERN — NON-NEGOTIABLE (TKT-0182)n# Effective: 2026-05-21n# Authority: Ken Mun (CTO)nn**ALL stateful operations (Write/Update/Create) MUST follow the State Checking Pattern.**n- **MANDATORY:** Read current state $to$ Validate $to$ Execute $to$ Verify.n- **Reference:** `docs/State-Checking-Pattern.md`n- **Violation:** DoD FAILnn---n
 # KIMI PLATFORM MANDATE — NON-NEGOTIABLE RULE
 # Effective: 2026-05-17 15:17 AEST
 # Authority: Ken Mun (CTO) — mandatory and persistent
@@ -1126,3 +1127,64 @@ On 2026-05-18, a Notion database migration (664 pages) was run as a synchronous 
 
 **Date:** 2026-05-18 21:37 AEST
 **CHG:** CHG-0405
+
+---
+
+## THREE WORK TYPES RULE — NON-NEGOTIABLE (CHG-0369, TKT-0196)
+
+**Effective:** 2026-05-21 | **Authority:** Ken Mun (CTO) | **Scope locked per Ken approval**
+
+All tasks must be routed according to the Three Work Types Rule defined in `docs/Three-Work-Types-Rule.md`.
+
+### Work Currencies
+
+| Currency | Definition | Route to | Model Tier |
+|---|---|---|---|
+| HIGH | Reasoning, judgment, design, architecture | Claude Sonnet (T3) | Paid premium, fallback only |
+| MEDIUM | Content gen, data analysis, code gen, classification | Ollama Cloud (T2) | Flat-rate ($100/mo) |
+| LOW/ZERO | CRUD, system calls, health checks, file ops | Script layer (T1/$0) | bash/python3/jq |
+
+### Escalation Policy
+```
+Tier attempts task → FAILS? → Self-Debug retry once → STILL FAILS? → Escalate UP one tier
+→ T2→T3 escalation: minimal context only (summary + errors + relevant snippets)
+→ STILL FAILS at T3? → HITL gate: STOP, ask Ken
+```
+
+### Phase 2 (Sprint 5+): Dynamic Escalation Pattern
+Local-first → retry → self-debug → minimal-context escalation → cloud.
+Reference: https://www.xda-developers.com/local-llm-call-claude-changed-everything-local-first-setup/
+(TKT for Phase 2 raised)
+
+**Full reference:** `docs/Three-Work-Types-Rule.md`
+**Linked:** TKT-0196, TKT-0162, CHG-0369
+
+---
+
+## SUB-AGENT WORKSPACE DISCIPLINE — NON-NEGOTIABLE (CHG-0421, TKT-0235)
+
+**Effective:** 2026-05-21 | **Authority:** Ken Mun (CTO)
+**Applies to:** ALL agents — current (12) and future (spawned or permanent)
+
+### The Rule
+
+All agents share a single workspace root: `/Users/ainchorsangiefpl/.openclaw/workspace`
+
+Agent-specific subdirectories (`forge/`, `atlas/`, `spark/`, etc.) are **temporary working scratchpads ONLY** — never deployment targets.
+
+### Mandatory Requirements
+
+| # | Requirement | Verification |
+|---|---|---|
+| 1 | **Absolute paths only** — all `read`, `write`, `edit`, `exec` tool calls must use full paths from workspace root. Never `./` or relative paths. | Agent SOUL.md or AGENTS.md must state this explicitly. |
+| 2 | **Output target = workspace root** — `docs/`, `scripts/`, `canvas/`, `state/` are at workspace root level. NOT `agentname/docs/`. | Before task completion, verify files exist at correct paths. |
+| 3 | **Pre-completion verification** — confirm all deliverables at correct workspace paths before reporting done. If files only exist in agent subdirectory, the task is NOT complete. | Yoda verifies on receipt. |
+| 4 | **New agents inherit this rule** — all future agents (spawned sub-agents or permanent) must include workspace discipline in their AGENTS.md at creation. | Added to agent activation DoD. |
+
+### Violation = DoD FAIL
+
+An agent claiming "done" when files are in their subdirectory (not workspace root) has failed Definition of Done. Task must be re-executed or files manually relocated by Yoda.
+
+**Root cause (21 May 2026):** Forge failed 3 tasks because output went to `workspace/forge/` instead of `workspace/`. Atlas and Spark had the same risk pattern. This rule prevents recurrence across all current and future agents.
+
+**Linked:** CHG-0421, TKT-0235

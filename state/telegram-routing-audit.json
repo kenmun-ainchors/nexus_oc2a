@@ -26,12 +26,6 @@
       "accountId": "yoda(default)"
     },
     {
-      "job": "Spark LI Post 1 \u2014 Tue 07:30",
-      "id": "49d2ec7f-1bc3-4b7d-930c-3f8f052b66ae",
-      "to": "8574109706",
-      "accountId": "yoda(default)"
-    },
-    {
       "job": "TKT-0092 Daily Budget Report",
       "id": "3ea986bf-5dfc-4805-a13c-80427b4d29c7",
       "to": "8574109706",
@@ -50,20 +44,14 @@
       "accountId": "yoda(default)"
     },
     {
-      "job": "Spark LI Post 2 \u2014 Wed 12:00",
-      "id": "c21fcb3e-eee9-409a-9850-6ad9739b2f92",
+      "job": "Spark \u2014 LinkedIn Friday Post (W1P4 + recurring)",
+      "id": "243634a7-c7ae-47f2-9a04-b27583217c36",
       "to": "8574109706",
       "accountId": "yoda(default)"
     },
     {
       "job": "Spark LI Post 3 \u2014 Thu 07:30",
-      "id": "cdea7249-0e9e-4afb-9aeb-fa30fdb8d067",
-      "to": "8574109706",
-      "accountId": "yoda(default)"
-    },
-    {
-      "job": "Spark \u2014 LinkedIn Friday Post (W1P4 + recurring)",
-      "id": "243634a7-c7ae-47f2-9a04-b27583217c36",
+      "id": "96f326fd-6581-4dd7-b1af-7a28b22240e6",
       "to": "8574109706",
       "accountId": "yoda(default)"
     },
@@ -99,10 +87,10 @@
     }
   ],
   "warnings": [],
-  "auditAt": "2026-05-19T15:00:08Z",
+  "auditAt": "2026-05-20T15:00:20Z",
   "summary": {
     "violations": 0,
-    "passes": 16,
+    "passes": 14,
     "warnings": 0
   },
   "status": "pass"

@@ -312,30 +312,42 @@ except:
     echo "$POST_URN"
   fi
 
-  # ── Update linkedin-queue.json with activity URN ──────────────────────────
+  # ── Update linkedin-campaign.json with activity URN ──────────────────────
+  # CHG-0362: Updated to write to linkedin-campaign.json (SSOT) instead of old linkedin-queue.json
   if [[ -n "$POST_URN" && -n "$QUEUE_CONTENT_ID" ]]; then
-    python3 - "$WORKSPACE/state/linkedin-queue.json" "$QUEUE_CONTENT_ID" "$POST_URN" << 'PYEOF'
+    python3 - "$WORKSPACE/state/linkedin-campaign.json" "$QUEUE_CONTENT_ID" "$POST_URN" << 'PYEOF'
 import json, sys
-queue_file, content_id, post_urn = sys.argv[1], sys.argv[2], sys.argv[3]
+campaign_file, content_id, post_urn = sys.argv[1], sys.argv[2], sys.argv[3]
 try:
-    with open(queue_file) as f:
-        q = json.load(f)
+    with open(campaign_file) as f:
+        c = json.load(f)
     updated = False
-    for item in q.get('queue', []):
-        if item.get('contentId') == content_id:
+    now = __import__('datetime').datetime.utcnow().isoformat() + 'Z'
+    # Update published entries
+    for item in c.get('published', []):
+        if item.get('id') == content_id:
             item['postUrn'] = post_urn
-            item['postUrl'] = f'https://www.linkedin.com/feed/update/{post_urn}/'
-            item['activityUrnStoredAt'] = __import__('datetime').datetime.utcnow().isoformat() + 'Z'
+            item['postUrl'] = f'https://www.linkedin.com/posts/activity-{post_urn.split(":")[-1]}/'
+            item['urnCapturedAt'] = now
+            updated = True
+            break
+    # Update draft slots too
+    drafts = c.get('drafts', {}).get('thisWeek', {}).get('slots', [])
+    for slot in drafts:
+        if slot.get('id') == content_id:
+            slot['postUrn'] = post_urn
+            slot['urnCapturedAt'] = now
             updated = True
             break
     if updated:
-        with open(queue_file, 'w') as f:
-            json.dump(q, f, indent=2)
-        print(f'  Queue updated: {content_id} → postUrn={post_urn}')
+        c['lastUpdated'] = now
+        with open(campaign_file, 'w') as f:
+            json.dump(c, f, indent=2)
+        print(f'  Campaign updated: {content_id} → postUrn={post_urn}')
     else:
-        print(f'  Queue: contentId {content_id} not found')
+        print(f'  Campaign: contentId {content_id} not found in published or drafts')
 except Exception as e:
-    print(f'  Queue update failed: {e}')
+    print(f'  Campaign update failed: {e}')
 PYEOF
   fi
 else

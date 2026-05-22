@@ -1,18 +1,18 @@
 {
   "schema_version": "1.0",
-  "description": "OWL Compliance State Tracking \u2014 Real-time monitoring of OWL mandate adherence (CHG-0386)",
-  "lastUpdated": "2026-05-18T19:20:43.875712",
+  "description": "OWL Compliance State Tracking — Real-time monitoring of OWL mandate adherence (CHG-0386)",
+  "lastUpdated": "2026-05-21T05:49:00Z",
   "sessionId": "heartbeat",
   "complianceScore": 100,
-  "totalResponses": 1,
+  "totalResponses": 3,
   "driftIncidents": 0,
   "selfCorrections": 0,
   "currentTier": "1",
   "currentResponse": {
-    "startedAt": "2026-05-18T19:20:43.875715",
+    "startedAt": "2026-05-21T05:49:00Z",
     "tier": "1",
-    "thinkingTimeSeconds": 10,
-    "atomCount": 6,
+    "thinkingTimeSeconds": 8,
+    "atomCount": 13,
     "complianceScore": 100,
     "driftFlags": {
       "chainReactionDetected": false,
@@ -24,18 +24,6 @@
   },
   "history": {
     "last10Responses": [
-      {
-        "timestamp": "2026-05-17T18:48:09.904857",
-        "tier": "1",
-        "compliance": 100,
-        "drift": false
-      },
-      {
-        "timestamp": "2026-05-17T18:48:09.928445",
-        "tier": "2",
-        "compliance": 5,
-        "drift": true
-      },
       {
         "timestamp": "2026-05-17T18:48:23.635759",
         "tier": "1",
@@ -53,16 +41,28 @@
         "tier": "1",
         "compliance": 100,
         "drift": false
+      },
+      {
+        "timestamp": "2026-05-20T22:49:00Z",
+        "tier": "1",
+        "compliance": 100,
+        "drift": false
+      },
+      {
+        "timestamp": "2026-05-21T05:49:00Z",
+        "tier": "1",
+        "compliance": 100,
+        "drift": false
       }
     ],
     "dailySummary": {
-      "date": "2026-05-18",
-      "totalResponses": 1,
+      "date": "2026-05-21",
+      "totalResponses": 2,
       "complianceScore": 100,
       "driftIncidents": 0,
       "selfCorrections": 0,
       "tierBreakdown": {
-        "tier1": 1
+        "tier1": 2
       }
     }
   },

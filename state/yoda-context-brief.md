@@ -1,14 +1,14 @@
 # Yoda Telegram Context Brief
-Generated: 2026-05-19 20:01 AEST | Platform Day 24 | Sprint 4 (May 19–25)
+Generated: 2026-05-20 20:00 AEST | Platform Day 26 | Sprint 4 (May 19–25)
 
 ---
 
 ## Platform Status
-- **Day:** 24 (since 2026-04-25)
+- **Day:** 26 (since 2026-04-25)
 - **Phase:** MVP → P1 transition
 - **OC1:** Mac Mini M4 24GB — LIVE Production. PERMANENT.
 - **OC2-A/B:** Mac Mini M4 Pro 48GB ×2 — ETA 6–13 Jul 2026, commission ~27 Jul
-- **Daily Budget:** $150 (CHG-0268). Temp heavy-build $450 ended 2026-05-17.
+- **Daily Budget:** $150 (CHG-0268).
 - **Key Alert:** CONSERVATIVE MODE active (CHG-0349). Claude credits depleted. All agents on kimi/gemma4/deepseek-pro until CLAUDE RESTORE keyword issued.
 
 ---

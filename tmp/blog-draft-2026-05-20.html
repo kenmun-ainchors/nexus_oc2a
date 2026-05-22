@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Day 26 — 2026-05-20 — Parity and Recovery</title>
+    <style>
+        :root {
+            --bg-color: #121212;
+            --text-color: #e0e0e0;
+            --accent-color: #bb86fc;
+            --secondary-text: #a0a0a0;
+            --callout-bg: #1e1e1e;
+            --border-color: #333;
+            --code-bg: #000;
+            --highlight: #f0c36d;
+        }
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            font-family: "Charter", "Georgia", serif;
+            line-height: 1.6;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+        }
+        .container {
+            max-width: 720px;
+            width: 90%;
+            padding: 40px 0;
+        }
+        header {
+            margin-bottom: 40px;
+            border-bottom: 1px solid var(--border-color);
+            padding-bottom: 20px;
+        }
+        .day-number {
+            font-size: 1.2rem;
+            color: var(--accent-color);
+            font-weight: bold;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+        h1 {
+            font-size: 2.5rem;
+            margin: 10px 0;
+            line-height: 1.1;
+        }
+        .subtitle {
+            font-size: 1.2rem;
+            color: var(--secondary-text);
+            font-style: italic;
+        }
+        .byline {
+            margin-top: 20px;
+            font-size: 0.9rem;
+            color: var(--secondary-text);
+        }
+        .hook {
+            font-size: 1.25rem;
+            margin-bottom: 30px;
+            color: var(--text-color);
+        }
+        h2 {
+            font-size: 1.75rem;
+            margin-top: 40px;
+            border-left: 4px solid var(--accent-color);
+            padding-left: 15px;
+        }
+        p {
+            margin-bottom: 20px;
+        }
+        .callout {
+            background-color: var(--callout-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            padding: 20px;
+            margin: 30px 0;
+            font-style: normal;
+        }
+        .callout-label {
+            font-weight: bold;
+            color: var(--accent-color);
+            margin-bottom: 10px;
+            display: block;
+        }
+        code {
+            font-family: "SF Mono", "Menlo", "Monaco", monospace;
+            background-color: var(--code-bg);
+            padding: 2px 4px;
+            border-radius: 4px;
+            font-size: 0.9em;
+        }
+        pre {
+            background-color: var(--code-bg);
+            padding: 15px;
+            overflow-x: auto;
+            border-radius: 8px;
+            border: 1px solid var(--border-color);
+            font-family: "SF Mono", "Menlo", "Monaco", monospace;
+        }
+        .cost-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+        }
+        .cost-table td, .cost-table th {
+            padding: 10px;
+            border: 1px solid var(--border-color);
+            text-align: left;
+        }
+        .cost-table th {
+            background-color: var(--callout-bg);
+        }
+        footer {
+            margin-top: 60px;
+            padding-top: 20px;
+            border-top: 1px solid var(--border-color);
+            text-align: center;
+            font-size: 0.9rem;
+            color: var(--secondary-text);
+        }
+        .nav-links {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 30px;
+        }
+        .nav-links a {
+            color: var(--accent-color);
+            text-decoration: none;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <div class="day-number">Day 26</div>
+            <h1>2026-05-20</h1>
+            <div class="subtitle">Parity and Recovery: The Silent Bot Crisis</div>
+            <div class="byline">Ken Mun (CTO)</div>
+        </header>
+
+        <div class="hook">
+            <p>I came in expecting a quiet evening of verification, but found out the platform had been playing a game of silence since dawn. It was one of those days where the "automation" felt like a liability until the right switch was flipped.</p>
+        </div>
+
+        <h2>The Silence: 06:58 AEST</h2>
+        <p>The day started with a failure I didn't see until the evening. At 06:58 AEST, the Telegram bots went dark. Two auto-restart cycles had already failed, likely triggered by a network flap during one of the Ollama outage windows. For the better part of the day, the platform was essentially a ghost—running, but unreachable via my primary mobile interface.</p>
+        <p>When I finally triggered the Yoda keyword on Telegram in the evening, it was clear the gateway needed a hard reset. A quick restart brought both bots back online, but it highlighted a fragility in the auto-recovery logic: if the failure happens at the network/gateway boundary, the bots can't "self-heal" because they can't talk to the brain.</p>
+
+        <div class="callout">
+            <span class="callout-label">⚠️ Incident: Bot Outage</span>
+            Telegram bots offline from 06:58 AEST until evening. Cause: Network flap + failed auto-restart cycles. Resolution: Gateway restart.
+        </div>
+
+        <h2>The Gap: Telegram vs. Webchat</h2>
+        <p>Once back online, I focused on a fundamental requirement: parity. Telegram shouldn't be a "lite" version of the experience; it should have the exact same rights, routing, and tool access as the webchat. I asked Yoda to audit the differences.</p>
+        <p>The audit revealed a specific gap in the system configuration. While the tools and model access were identical, the subagent spawn allowlist was missing for the Telegram channel. This meant that while I could talk to Yoda, I couldn't spawn specialized agents like Spark via Telegram—they were defaulting to "same agent only."</p>
+        
+        <pre><code>// Fix: Set allowAgents to ["*"] for full parity
+"subagents": {
+  "allowAgents": ["*"]
+}</code></pre>
+
+        <p>I pushed the change, restarted the gateway, and verified that the spawn capabilities were now aligned. That's not nothing—having the full agent roster available on my phone changes how I can manage the system during "away" hours.</p>
+
+        <div class="callout">
+            <span class="callout-label">📊 Decision: Full Parity</span>
+            Standardized <code>subagents.allowAgents</code> across all channels. Result: Telegram now has identical agent-spawning capabilities as webchat.
+        </div>
+
+        <h2>What I Learned</h2>
+        <p><strong>The Danger of Silent Failures:</strong> If the monitoring system is tied to the same gateway as the service, a gateway failure creates a blind spot. We need a more robust external heartbeat that alerts me independently of the bots.</p>
+        <p><strong>Implicit Defaults are Risks:</strong> The <code>allowAgents</code> gap existed because the system had a "safe" default. In a high-velocity build, "safe" defaults often become "invisible" bottlenecks. Explicit configuration is the only way to ensure parity.</p>
+
+        <h2>The Cost of Day 26</h2>
+        <p>Today was an anomaly in spend—essentially zero. Because I was running exclusively on Ollama Cloud models for the recovery and parity checks, the API burn was negligible.</p>
+        <table class="cost-table">
+            <thead>
+                <tr>
+                    <th>Model</th>
+                    <th>Cost (USD)</th>
+                    <th>Turns</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>gemma4:31b-cloud</td>
+                    <td>$0.00</td>
+                    <td>1574</td>
+                </tr>
+                <tr>
+                    <td>deepseek-v4-pro:cloud</td>
+                    <td>$0.00</td>
+                    <td>435</td>
+                </tr>
+                <tr>
+                    <td>kimi-k2.6:cloud</td>
+                    <td>$0.00</td>
+                    <td>294</td>
+                </tr>
+                <tr>
+                    <td><strong>Total</strong></td>
+                    <td><strong>$0.00</strong></td>
+                    <td><strong>2333</strong></td>
+                </tr>
+            </tbody>
+        </table>
+        <p>Value framing: The "cost" today wasn't in dollars, but in the hours of silence between 07:00 and 21:00. The fix was free; the downtime was the price.</p>
+
+        <h2>What's Next</h2>
+        <ul>
+            <li>Audit the auto-restart cycle logs to understand why the two initial attempts failed.</li>
+            <li>Implement a lightweight external heartbeat for the gateway.</li>
+            <li>Resume business stream activity and Aria's daily briefs (currently lagging).</li>
+        </ul>
+
+        <footer>
+            <div class="nav-links">
+                <a href="ainchors-2026-05-19/index.html">← Previous Day</a>
+                <a href="#">Next Day →</a>
+            </div>
+            <p>AInchors · ainchors.com</p>
+        </footer>
+    </div>
+
+<div class="governance-stamp governance-cleared" style="
+  margin: 40px auto 0;
+  padding: 12px 20px;
+  max-width: 720px;
+  border-radius: 6px;
+  font-family: monospace;
+  font-size: 12px;
+  text-align: center;
+  background: #0d2e0d; color: #4caf50; border: 1px solid #4caf50;
+  opacity: 0.85;
+">
+  ✅ Cleared for distribution — Governance triad reviewed 2026-05-21
+</div>
+</body>
+</html>

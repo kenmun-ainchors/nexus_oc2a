@@ -3,7 +3,17 @@
   "agent": "Spark",
   "resetAt": "2026-05-19T10:32:00+10:00",
   "resetNotes": "FULL RESET by Spark 2026-05-19. Cleared AIOps active theme, active series, all scheduled entries, topics table. Fresh week starts Tue 20 May. New theme: operations-reality — what running AI in production actually looks like from the CTO seat.",
-  "topics": [],
+  "topics": [
+    {
+      "id": "CONTENT-LI-20260521-v2",
+      "title": "Dealing with Model Failures Gracefully",
+      "angle": "The transition from 'it works on my machine' to 'it failed in production at 3 AM'. Why graceful degradation is the only real AI stability strategy.",
+      "status": "approved",
+      "theme": "operations-reality",
+      "approvedAt": "2026-05-21T11:46:00+10:00",
+      "approvedBy": "Ken Mun"
+    }
+  ],
   "series": [],
   "activeTheme": "operations-reality",
   "activeCycle": null,
@@ -99,5 +109,5 @@
     }
   ],
   "scheduled": [],
-  "lastUpdated": "2026-05-19T10:32:00+10:00"
+  "lastUpdated": "2026-05-21T11:46:00+10:00"
 }

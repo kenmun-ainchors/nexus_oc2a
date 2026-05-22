@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>AInchors Stand-up — Day 24 | 18 May 2026</title>
+<title>AInchors Stand-up — Day 28 | 22 May 2026</title>
 <style>
   *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
   body { background: #ffffff; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif; font-size: 14px; color: #24292f; line-height: 1.5; }
@@ -28,6 +28,7 @@
   .card-ok { border-left: 3px solid #2da44e; }
   .card-warn { border-left: 3px solid #d4a72c; }
   .card-info { border-left: 3px solid #54aeff; }
+  .card-critical { border-left: 3px solid #cf222e; }
   table { width: 100%; border-collapse: collapse; font-size: 13px; }
   th { text-align: left; padding: 8px 10px; background: #f6f8fa; border: 1px solid #d0d7de; font-size: 11px; text-transform: uppercase; color: #57606a; letter-spacing: 0.5px; }
   td { padding: 8px 10px; border: 1px solid #d0d7de; vertical-align: top; }
@@ -55,13 +56,13 @@
 <div class="page">
 
   <div class="header">
-    <h1>☀️ AInchors Morning Stand-Up — Day 24</h1>
-    <div class="sub">Monday, 18 May 2026 · 8:00 AM AEST</div>
+    <h1>☀️ AInchors Morning Stand-Up — Day 28</h1>
+    <div class="sub">Friday, 22 May 2026 · 8:00 AM AEST</div>
     <div class="meta">
-      <span class="pill pill-yellow">🟡 System OK (kimi interim)</span>
+      <span class="pill pill-green">🟢 System OK</span>
       <span class="pill pill-blue">💰 Balance $203.48</span>
-      <span class="pill pill-yellow">🛡️ Warden 0 Clean</span>
-      <span class="pill pill-blue">📅 Day 24</span>
+      <span class="pill pill-yellow">🛡️ Warden 0 Clean (1 violation)</span>
+      <span class="pill pill-blue">📅 Day 28</span>
     </div>
   </div>
 
@@ -71,27 +72,27 @@
       <div class="card card-ok">
         <div class="card-label">Gateway</div>
         <div class="card-value">🟢 OK</div>
-        <div class="card-sub">All checks passing</div>
+        <div class="card-sub">All checks passing · Last: 21 May</div>
       </div>
-      <div class="card card-ok">
+      <div class="card card-warn">
         <div class="card-label">API Balance</div>
         <div class="card-value">$203.48</div>
-        <div class="card-sub">Confirmed 14 May · Auto-reload ON</div>
+        <div class="card-sub">Confirmed 14 May · $0 intraday</div>
       </div>
-      <div class="card card-ok">
+      <div class="card card-critical">
         <div class="card-label">Backup</div>
-        <div class="card-value">🟢 Fresh</div>
-        <div class="card-sub">07:26 AEST today</div>
+        <div class="card-value">⚠️ Stale</div>
+        <div class="card-sub">Last: 20 May · 38h+ old</div>
       </div>
       <div class="card card-ok">
         <div class="card-label">MEMORY.md</div>
         <div class="card-value">8,008</div>
         <div class="card-sub">chars — under 16k limit</div>
       </div>
-      <div class="card card-warn">
+      <div class="card card-ok">
         <div class="card-label">Obs Events (24h)</div>
-        <div class="card-value">257</div>
-        <div class="card-sub">45 ERR · 45 WARN · 167 INFO</div>
+        <div class="card-value">0</div>
+        <div class="card-sub">No events logged</div>
       </div>
       <div class="card card-ok">
         <div class="card-label">Tasks (24h)</div>
@@ -99,61 +100,62 @@
         <div class="card-sub">0 failed · 0 stalled</div>
       </div>
     </div>
-    <div class="alert-warn">⚠️ 151 fallback_chain_interim + 41 fallback_chain_broken events in obs — kimi interim period (CHG-0362/CHG-0363). Expected noise. Warden shows 0 consecutive clean (was violation at last check 05:07 AEST — 7 pass / 12 fail).</div>
-    <div class="alert-info">ℹ️ Auto-heal (01:00 AEST today) flagged 14 needs-ken items — 10 are expected kimi interim model drift (CHG-0362), 1 is stale backup flag (already fresh), 1 is balance $0 false positive (confirmed $203.48), 1 is MEMORY.md 9,428 chars (auto-heal pre-hygiene, now 8,008), 1 is kimi confidence map mismatch.</div>
+    <div class="alert-critical">🔴 Backup is 38h+ stale — last incremental 20 May 02:05 AEST. No NAS and no cloud backup enabled. Single point of failure.</div>
+    <div class="alert-warn">⚠️ Balance $203.48 confirmed 14 May — now 8 days stale. Auto-reload ON at $50 threshold. Recent daily spend near $0 (Ollama Cloud migration), but Anthropic CSV ground truth only through 15 May. Last 6 days of spend not yet confirmed.</div>
     <h3>API Spend (recent)</h3>
     <table>
       <tr><th>Date</th><th>Daily Cost</th><th>Source</th></tr>
-      <tr><td>May 15</td><td>$103.08</td><td>Anthropic CSV (ground truth)</td></tr>
-      <tr><td>May 16</td><td>$7.63</td><td>Session estimate (kimi shift)</td></tr>
-      <tr><td>May 17</td><td>$0.01</td><td>Session estimate (kimi dominant)</td></tr>
-      <tr><td><strong>Avg 23-day</strong></td><td><strong>$182.05</strong></td><td>All-time tracked</td></tr>
+      <tr><td>May 17</td><td>$0.01</td><td>estimate (Ollama Cloud era)</td></tr>
+      <tr><td>May 18</td><td>$0.00</td><td>estimate</td></tr>
+      <tr><td>May 19</td><td>$0.00</td><td>estimate</td></tr>
+      <tr><td>May 20</td><td>$0.00</td><td>estimate</td></tr>
+      <tr><td>May 21</td><td>$0.00</td><td>estimate</td></tr>
+      <tr><td>May 22</td><td>$0.00</td><td>estimate (partial day)</td></tr>
+      <tr><td><strong>All-time</strong></td><td><strong>$4,187.09</strong></td><td>tracked (28 days)</td></tr>
     </table>
-    <div class="alert-ok" style="margin-top:8px;">💡 Daily cap expired — was $450/day through May 17. Now reverts to $150/day. Actual spend has dropped sharply since kimi shift (~$0-8/day).</div>
     <h3>Backup Detail</h3>
     <ul>
-      <li>Last snap: <strong>workspace-2026-05-18-0726</strong> (incremental rsync)</li>
+      <li>Last snap: <strong>workspace-2026-05-21-0205</strong> — but lastBackup timestamp is 20 May 16:05 UTC</li>
       <li>NAS: <span style="color:#9a6700;font-weight:600;">Not connected</span> · Cloud: <span style="color:#9a6700;font-weight:600;">Disabled</span></li>
+      <li>Schedule: incremental Mon–Sat, full Sun</li>
     </ul>
   </div>
 
   <div class="section">
     <h2>2 · Business Stream (Angie / Aria)</h2>
-    <div class="alert-warn">⚠️ Day 4+ without Angie inbound. Last active: Thu 14 May (voice note requesting Ken meeting). Friday morning check-in delivered with meeting reminder — no response. Weekend passed quietly (expected).</div>
-    <h3>Activity Since Last Stand-up</h3>
+    <div class="alert-ok">📣 Angie ENGAGED today! 11:12 AEST — first inbound contact since ~9 May. Request: "Wake Spark up to set up my LinkedIn for digital marketing." Option C confirmed: both personal profile + AInchors company page.</div>
+    <h3>Today's Activity</h3>
     <ul>
-      <li>Thu 14 May: Angie sent voice note — requested meeting with Ken. Aria scheduled Fri 15 May 4pm (Google Meet: zuc-jcua-hmp).</li>
-      <li>Fri 15 May: Aria delivered morning check-in with meeting reminder. No Angie response.</li>
-      <li>Sat-Sun: Weekend — no contact expected. Aria quiet.</li>
-      <li>Mon 18 May: Week 3 begins. No Angie contact yet today.</li>
+      <li><strong>11:12 AEST</strong> — Angie messaged Aria: LinkedIn Spark setup request</li>
+      <li><strong>11:18 AEST</strong> — Aria raised <span class="chg">CR-002</span> to relay queue for Ken/Yoda: LinkedIn auth setup + Spark configuration for dual-target (personal + company) posting</li>
+      <li>Priority: HIGH. Items: (1) LinkedIn auth for Angie profile + AInchors page, (2) Configure Spark for dual-target, (3) Define posting rules, (4) Brief Angie on approval flow</li>
     </ul>
     <h3>Open Items</h3>
     <ul>
-      <li><strong style="color:#cf222e;">🔴 JotForm API key</strong> — Day 20. HRDF form blocked.</li>
-      <li><strong style="color:#cf222e;">🔴 Onboarding Stuck</strong> — OB-12, OB-14, OB-15 unchecked. Stages 2–6 not started. Ken meeting outcome unknown.</li>
-      <li><strong style="color:#9a6700;">🟡 April 30 class debrief</strong> — 18 days since class. Still missing.</li>
+      <li><strong style="color:#cf222e;">🔴 JotForm API key</strong> — Day 24. HRDF form blocked.</li>
+      <li><strong style="color:#cf222e;">🔴 Onboarding Stage 2</strong> — OB-12, OB-14, OB-15 unchecked. Stages 2–6 not started.</li>
+      <li><strong style="color:#9a6700;">🟡 April 30 class debrief</strong> — 22 days since class.</li>
       <li><strong style="color:#9a6700;">🟡 Meta appeal</strong> — status unknown.</li>
-      <li><strong style="color:#9a6700;">🟡 Lynn Huang fee reply</strong> — awaiting response (email sent May 9).</li>
-      <li><strong style="color:#9a6700;">🟡 Jack Ooi</strong> — meeting outcome unknown.</li>
-      <li><strong style="color:#9a6700;">🟡 Training revenue projection</strong> — $1.065M AUD target delivered. Pending Angie/Ken review.</li>
-      <li><strong style="color:#9a6700;">🟡 Marketing collaterals</strong> — ready, unreviewed.</li>
+      <li><strong style="color:#9a6700;">🟡 Lynn Huang (bookkeeping)</strong> — awaiting fee schedule reply (13 days).</li>
+      <li><strong style="color:#9a6700;">🟡 Jack Ooi (accounting)</strong> — meeting outcome unknown.</li>
+      <li><strong style="color:#1a7f37;">🟢 LinkedIn Spark CR-002</strong> — NEW, raised today. Awaiting Ken/Yoda pickup.</li>
     </ul>
     <h3>Handoff</h3>
-    <p style="font-size:13px;">The Fri 15 May Ken-Angie meeting is the key inflection point — outcome unknown. If productive, Angie may re-engage this week. If no contact by Tue-Wed, a direct Ken nudge may be needed. All business stream assets are structurally complete — unblock requires human engagement.</p>
+    <p style="font-size:13px;">After 13+ days of silence, Angie re-engaged with a clear, actionable business request. This is the first real inbound since ~9 May. The LinkedIn Spark setup is a concrete deliverable that directly advances TOM (business sub-agent activation) and Business ROI (marketing channel). Aria handled it correctly — raised CR, routed to relay queue, briefed Angie on next steps. Ken's action: pick up CR-002, configure Spark for dual LinkedIn targeting.</p>
   </div>
 
   <div class="section">
     <h2>3 · Governance</h2>
     <div class="card-grid">
       <div class="card card-warn">
-        <div class="card-label">Warden Clean</div>
+        <div class="card-label">Warden Consecutive Clean</div>
         <div class="card-value">0</div>
-        <div class="card-sub">Last check 05:07 AEST — 7P/12F</div>
+        <div class="card-sub">1 violation · Last check 21 May</div>
       </div>
       <div class="card card-ok">
         <div class="card-label">Escalations</div>
         <div class="card-value">0</div>
-        <div class="card-sub">All resolved 11 May</div>
+        <div class="card-sub">All resolved (false positive)</div>
       </div>
       <div class="card card-ok">
         <div class="card-label">Open Incidents</div>
@@ -161,35 +163,35 @@
         <div class="card-sub">All 5 resolved</div>
       </div>
     </div>
-    <div class="alert-warn">⚠️ Warden violation at 05:07 AEST — 7 pass / 12 fail. This coincides with the kimi interim period (CHG-0362). Warden's model policy likely checking against Anthropic models when agents are intentionally on kimi. Flagged for Ken awareness — expected during interim.</div>
+    <div class="alert-info">ℹ️ Warden clean streak reset to 0 after 1 violation on 21 May (DRIFT-20260518 resolved as false positive then re-flagged). Total violations: 69 over 58 checks. The 1 violation is likely the config-baseline drift items flagged by auto-heal (interim Ollama Cloud assignments vs Sonnet/Haiku benchmarks). These are intentional interim drifts — model-policy.json approved models include the current config.</div>
     <h3>Incident Log</h3>
     <table>
       <tr><th>ID</th><th>Title</th><th>Sev</th><th>Status</th></tr>
-      <tr><td>INC-20260509-001</td><td>Extended health degradation — API balance zero (26hr)</td><td>P2</td><td style="color:#1a7f37;font-weight:600;">Resolved</td></tr>
-      <tr><td>INC-20260503-001</td><td>Anthropic API key mismatch — keychain stale</td><td>P2</td><td style="color:#1a7f37;font-weight:600;">Resolved</td></tr>
-      <tr><td>INC-20260428-003</td><td>Bonjour/ciao plugin crash-loop → gateway crash</td><td>P1</td><td style="color:#1a7f37;font-weight:600;">Resolved</td></tr>
+      <tr><td class="chg">INC-20260509-001</td><td>API balance $0 — 26hr degradation</td><td>P2</td><td style="color:#1a7f37;font-weight:600;">Resolved</td></tr>
+      <tr><td class="chg">INC-20260503-001</td><td>API key mismatch post-rotation</td><td>P2</td><td style="color:#1a7f37;font-weight:600;">Resolved</td></tr>
+      <tr><td class="chg">INC-20260428-003</td><td>Bonjour/ciao plugin crash-loop → gateway crash</td><td>P1</td><td style="color:#1a7f37;font-weight:600;">Resolved</td></tr>
+      <tr><td class="chg">INC-20260427-002</td><td>Model drift — Opus snuck in x2</td><td>P2</td><td style="color:#1a7f37;font-weight:600;">Resolved</td></tr>
+      <tr><td class="chg">INC-20260426-001</td><td>Night billing/auth outage — balance exhausted</td><td>P1</td><td style="color:#1a7f37;font-weight:600;">Resolved</td></tr>
     </table>
-    <div class="alert-info" style="margin-top:10px;">ℹ️ Warden false-positives during kimi interim are documented (CHG-0362). All 7 escalation violations resolved. Content governance volume near zero — blocked on Angie onboarding.</div>
   </div>
 
   <div class="section">
-    <h2>4 · Auto-Heal (Today — 18 May 2026, 01:00 AEST)</h2>
+    <h2>4 · Auto-Heal (Yesterday — 21 May 2026, 01:00 AEST)</h2>
     <div class="card-grid">
       <div class="card card-ok"><div class="card-label">Checks Run</div><div class="card-value">20</div><div class="card-sub">All executed</div></div>
-      <div class="card card-ok"><div class="card-label">Auto-Fixed</div><div class="card-value">2</div><div class="card-sub">git commits</div></div>
-      <div class="card card-warn"><div class="card-label">Needs-Ken</div><div class="card-value">14</div><div class="card-sub">10 kimi-interim expected</div></div>
+      <div class="card card-ok"><div class="card-label">Auto-Fixed</div><div class="card-value">1</div><div class="card-sub">aria-git-commit</div></div>
+      <div class="card card-critical"><div class="card-label">Needs-Ken</div><div class="card-value">14</div><div class="card-sub">Config drift + backup + balance</div></div>
     </div>
     <h3>Auto-Fixed</h3>
     <ul>
-      <li>✅ git-commit:workspace (15 files)</li>
-      <li>✅ aria-git-commit (1 file)</li>
+      <li>✅ aria-git-commit: 1 file committed</li>
     </ul>
-    <h3>Needs-Ken (triaged)</h3>
-    <div class="alert-info">ℹ️ 10× model drift flags — expected during kimi interim (CHG-0362/CHG-0363). Main on deepseek-v4-pro, agents on gemma4:31b-cloud. Intentional.</div>
-    <div class="alert-ok">✅ Backup stale (59h) — auto-heal ran before 07:26 snap. Now fresh. No action needed.</div>
-    <div class="alert-ok">✅ API balance $0 — false positive. Confirmed balance $203.48. No action needed.</div>
-    <div class="alert-ok">✅ MEMORY.md 9,428 chars — pre-hygiene reading. Now 8,008. Resolved.</div>
-    <div class="alert-warn" style="margin-top:8px;">⚠️ kimi confidence mapping mismatch (95 tickets vs 158 open) — needs re-sync. Non-urgent.</div>
+    <h3>Needs-Ken (14 items — mostly config drift from interim Ollama Cloud migration)</h3>
+    <div class="alert-critical">🔴 Backup 38h stale — last incremental 20 May. Single most critical infrastructure risk.</div>
+    <div class="alert-critical">🔴 API balance $0 intraday — confirmed balance is $203.48 from 14 May but intraday was reported as $0. Check cost-state.json calc.</div>
+    <div class="alert-warn">⚠️ 10 Config baseline drift items — all from CHG-0418 interim reassignment. Main/safety agents on Ollama Cloud models vs expected Anthropic Sonnet/Haiku. These are INTENTIONAL but the baseline hasn't been re-calibrated. Action: either revert to Anthropic or re-baseline config-001 through config-014.</div>
+    <div class="alert-warn">⚠️ MEMORY.md 8,008 chars — nearing 8,000 warn threshold. Trim soon.</div>
+    <div class="alert-warn">⚠️ Kimi confidence mapping — 81 tickets mapped, 228 open. Re-sync needed.</div>
   </div>
 
   <div class="section">
@@ -199,47 +201,49 @@
       <tr><th>Framework</th><th>Maturity</th><th>Label</th><th>Gap</th></tr>
       <tr><td><strong>AGILE</strong></td><td><span class="pill pill-blue" style="font-size:11px;">L3</span></td><td>Defined</td><td>Baseline</td></tr>
       <tr><td><strong>ITSM</strong></td><td><span class="pill pill-blue" style="font-size:11px;">L3</span></td><td>Defined</td><td>Baseline</td></tr>
+      <tr><td><strong>MODEL STRATEGY</strong></td><td><span class="pill pill-green" style="font-size:11px;">L3-L4</span></td><td>Defined / Managed</td><td>Leading</td></tr>
+      <tr><td><strong>COST MANAGEMENT</strong></td><td><span class="pill pill-yellow" style="font-size:11px;">L2-L3</span></td><td>Developing/Defined</td><td>Partial</td></tr>
       <tr><td><strong>GOVERNANCE</strong></td><td><span class="pill pill-yellow" style="font-size:11px;">L2-L3</span></td><td>Defined — not battle-tested</td><td>Partial</td></tr>
       <tr><td><strong>TOM 🎯</strong></td><td><span class="pill pill-yellow" style="font-size:11px;">L2</span></td><td>Developing</td><td><strong>BUD TARGET — High</strong></td></tr>
-      <tr><td><strong>MODEL STRATEGY</strong></td><td><span class="pill pill-green" style="font-size:11px;">L3-L4</span></td><td>Defined / Managed</td><td>Leading</td></tr>
       <tr><td><strong>KNOWLEDGE MGMT</strong></td><td><span class="pill pill-yellow" style="font-size:11px;">L2</span></td><td>Developing</td><td>Lagging</td></tr>
-      <tr><td><strong>COST MANAGEMENT</strong></td><td><span class="pill pill-yellow" style="font-size:11px;">L2-L3</span></td><td>Developing/Defined</td><td>Partial</td></tr>
       <tr><td><strong>BUSINESS ROI</strong></td><td><span class="pill pill-yellow" style="font-size:11px;">L2</span></td><td>Developing</td><td>Lagging — High</td></tr>
     </table>
-    <div class="gate-badge" style="margin-top:10px;display:block;width:fit-content;">🎯 BUD GATE: TOM (L2) is lagging — BUD must target TOM this standup</div>
-    <p style="font-size:12px;color:#57606a;margin-top:8px;">Key unblock: Angie Stage 2 onboarding (Notion command centre). Single 10-min touchpoint advances TOM L2→L3 AND unblocks Governance volume + Business ROI actuals. Ken-Angie meeting outcome (Fri 15 May) may determine trajectory this week.</p>
+    <div class="gate-badge" style="margin-top:10px;display:block;width:fit-content;">🎯 BUD GATE: TOM (L2) — LinkedIn Spark activation is a direct TOM advance. CR-002 unblocks business sub-agent configuration and Angie's marketing capability.</div>
+    <p style="font-size:12px;color:#57606a;margin-top:8px;">Next step: Ken picks up CR-002 (LinkedIn Spark setup). This single action advances TOM (business sub-agent activation), Business ROI (marketing channel opens), and Governance (real content volume). Angie's re-engagement today is the catalyst.</p>
   </div>
 
   <div class="section">
     <h2>6 · Progress (CHGs Since Last Stand-up)</h2>
-    <p style="font-size:12px;color:#57606a;margin-bottom:10px;">Window: 17 May 08:00 AEST → 18 May 08:00 AEST</p>
+    <p style="font-size:12px;color:#57606a;margin-bottom:10px;">Window: 20 May 08:00 AEST → 22 May 08:00 AEST (~48hr, Days 27–28)</p>
     <table>
       <tr><th>CHG</th><th>Time</th><th>Description</th></tr>
-      <tr><td class="chg">CHG-0363</td><td>17 May 10:00 AEST</td><td>Cron Interim Model Batch Update — 16 crons migrated to kimi</td></tr>
-      <tr><td class="chg">CHG-0362</td><td>17 May 09:18 AEST</td><td>Warden intentional model drift documentation — kimi interim declared not drift</td></tr>
-      <tr><td class="chg">CHG-0361</td><td>17 May 01:00 AEST</td><td>AUTO-HEAL nightly sweep 2026-05-17</td></tr>
-      <tr><td class="chg">CHG-0175</td><td>15 May 13:10 AEST</td><td>Calculated cost fallback for ephemeral sessions</td></tr>
+      <tr><td class="chg">CHG-0423</td><td>21 May 20:21 AEST</td><td>Notion resync — 15 tickets + 5 CHGs from Day 27 session</td></tr>
+      <tr><td class="chg">CHG-0422</td><td>21 May 16:01 AEST</td><td>TKT-0228 re-groomed + TKT-0237 Platform Rule Engine — defense-in-depth against agent drift</td></tr>
+      <tr><td class="chg">CHG-0421</td><td>21 May 15:13 AEST</td><td>Forge double-failure on TKT-0198 — agent execution investigation opened</td></tr>
+      <tr><td class="chg">CHG-0420</td><td>21 May 12:08 AEST</td><td>EOD Blog Format Drift Since 18 May — Restore to Approved Template</td></tr>
+      <tr><td class="chg">CHG-0419</td><td>21 May 11:38 AEST</td><td>RTB: auto-heal Check #12 interim-drift exceptions + obs error pattern filter</td></tr>
+      <tr><td class="chg">CHG-0418</td><td>21 May 11:32 AEST</td><td>TRIGGER-06: Critical config baseline re-based to interim-period Ollama Cloud assignments</td></tr>
     </table>
-    <p style="font-size:12px;color:#57606a;margin-top:8px;"><strong>4 CHGs</strong> — 3 from Sunday (model strategy + auto-heal), 1 from Friday (cost calc). Light weekend cadence — expected.</p>
+    <p style="font-size:12px;color:#57606a;margin-top:8px;"><strong>6 CHGs</strong> — infrastructure hardening, drift management, blog format fix, Forge investigation. Healthy cadence. Config drift being addressed systematically (CHG-0418/0419 re-baseline the interim Ollama Cloud assignments).</p>
   </div>
 
   <div class="section">
     <h2>7 · RTB — Rose / Thorn / Bud</h2>
-    <p style="font-size:12px;color:#57606a;margin-bottom:12px;">Framework gate: BUD must target TOM (L2 — highest-priority lagging framework)</p>
+    <p style="font-size:12px;color:#57606a;margin-bottom:12px;">Framework gate: BUD must target TOM (L2 — highest-priority lagging framework). Angie re-engagement + CR-002 = direct TOM catalyst.</p>
 
     <h3>🌹 Rose — What's Working</h3>
     <div class="rtb-row">
       <div class="rtb-card">
         <div class="rtb-icon">🌹</div>
         <div class="rtb-stream">Tech Stream</div>
-        <div class="rtb-text"><strong>Kimi cost breakthrough — $0.01/day.</strong> 16 crons migrated to kimi (CHG-0363). Daily spend dropped from $100-200 to <$8. $203 balance now has weeks of runway vs days. Model strategy pivot paying off massively.</div>
-        <div class="rtb-reason">Reasoning: This is the single biggest operational improvement of the week. Cost was the #1 risk. The kimi interim has neutralized that risk while maintaining operational capability.</div>
+        <div class="rtb-text"><strong>Angie re-engaged with a clear, actionable demand.</strong> After 13+ days of silence, Angie came back at 11:12 AEST today with a concrete request: "Wake Spark up to set up my LinkedIn." Option C (both personal + company). This is the catalyst we've been waiting for.</div>
+        <div class="rtb-reason">Reasoning: The single biggest blocker across TOM, Business ROI, and Governance has been Angie inactivity. Her re-engagement — especially with a direct technical integration request — breaks the deadlock. CR-002 is the first real business stream CR with technical delivery implications.</div>
       </div>
       <div class="rtb-card">
         <div class="rtb-icon">🌹</div>
         <div class="rtb-stream">Business Stream</div>
-        <div class="rtb-text"><strong>Angie initiated Ken meeting via Aria.</strong> Thu 14 May voice note → Aria successfully scheduled Fri 4pm Google Meet. First Angie-initiated coordination through the platform. Even if outcome unknown, the pipeline works.</div>
-        <div class="rtb-reason">Reasoning: Angie using Aria to coordinate with Ken validates the dual-agent model. The platform is being used for its designed purpose — cross-stream coordination.</div>
+        <div class="rtb-text"><strong>Aria handled the LinkedIn request flawlessly.</strong> Identified Spark is already operational, clarified Angie's target (personal + company), raised CR-002 with correct technical scope, set expectations on next steps, and asked Angie to prep credentials. No over-promise, no scope creep.</div>
+        <div class="rtb-reason">Reasoning: Aria's response demonstrates mature agent reasoning: research → clarify → scope → route to correct stream → set expectations. The 5× duplicate REPLY_SKIP suppression from prior weeks shows discipline. Aria is ready for real work — just needs the technical plumbing.</div>
       </div>
     </div>
 
@@ -248,38 +252,74 @@
       <div class="rtb-card">
         <div class="rtb-icon">🌵</div>
         <div class="rtb-stream">Tech Stream</div>
-        <div class="rtb-text"><strong>Warden at 0 clean + 151 fallback_chain events.</strong> Model compliance checking is generating false positives during kimi interim. 45 ERRORs in obs — noise masking any real signal. Needs Warden policy update or acknowledge as expected interim state.</div>
-        <div class="rtb-reason">Reasoning: While documented (CHG-0362), the alert volume is eroding governance confidence. Warden should either be updated for the kimi interim model set or suppressed during the declared interim period to preserve signal integrity.</div>
+        <div class="rtb-text"><strong>Auto-heal: 14 needs-Ken items (record high).</strong> Backup 38h stale. 10 config drift items from interim Ollama Cloud migration. Balance intraday reporting $0 vs confirmed $203.48. MEMORY.md approaching warn threshold. Kimi confidence map out of sync.</div>
+        <div class="rtb-reason">Reasoning: The 10 config drift items are mostly the known CHG-0418 interim re-baseline issue — intentional but not yet reconciled. Backup staleness is the real operational risk (single point of failure). The balance discrepancy needs investigation but is likely a calc issue in the intraday estimator.</div>
       </div>
       <div class="rtb-card">
         <div class="rtb-icon">🌵</div>
         <div class="rtb-stream">Business Stream</div>
-        <div class="rtb-text"><strong>Angie engagement gap — Day 4+.</strong> JotForm Day 20. Onboarding Stages 2-6 stalled. April 30 class debrief 18 days missing. No visibility into Fri 15 May Ken-Angie meeting outcome. TOM, Governance, and Business ROI all stuck at L2.</div>
-        <div class="rtb-reason">Reasoning: The Ken-Angie meeting is the hinge point. If productive, this week could unlock everything. If not, the structural blockage continues. Either way, we need visibility on the meeting outcome before calibrating next steps.</div>
+        <div class="rtb-text"><strong>13-day Angie gap left open items piling up.</strong> JotForm 24 days outstanding. Onboarding Stage 2 still stalled. April 30 class debrief 22 days missing. Lynn Huang no reply in 13 days. These are not blockers for the LinkedIn Spark setup, but they're accumulating.</div>
+        <div class="rtb-reason">Reasoning: LinkedIn Spark is a positive signal but doesn't resolve the underlying onboarding stall. Angie's re-engagement should be leveraged: while waiting for the Spark setup, Aria should gently re-surface 1-2 priority open items (JotForm or Lynn Huang) to maintain momentum.</div>
       </div>
     </div>
 
     <h3>🌱 Bud — What to Grow Next</h3>
-    <div class="rtb-card">
-      <div class="rtb-icon">🌱</div>
-      <div class="rtb-stream">Framework Gate — TOM (L2) Target</div>
-      <div class="rtb-text" style="margin-top:6px;"><strong>[Tech]</strong> Update Warden policy for kimi interim period — either add kimi models to approved list temporarily, or suppress Warden during declared interim. Reduce false-positive noise so real violations are visible. Also: file CHG to re-sync kimi confidence mapping (95 vs 158 mismatch).</div>
-      <div class="rtb-text" style="margin-top:8px;"><strong>[Biz]</strong> Ken: what was the outcome of your Friday meeting with Angie? If productive, Aria should follow up with Stage 2 prompt (Notion command centre, 10 min). If Angie is unavailable this week, we need a pivot strategy for the business stream — TOM, Governance, and ROI can't advance without her.</div>
-      <div class="gate-badge" style="margin-top:8px;">🎯 TOM GATE: Angie Stage 2 = TOM L2→L3 + Governance volume + Business ROI actuals</div>
-      <div class="rtb-reason" style="margin-top:6px;">Reasoning: Week 3 begins. The Fri meeting is the inflection. If Ken and Angie aligned, this is the week to push Stage 2 and generate real business stream momentum. If not, we need a calibrated waiting strategy that doesn't burn platform credibility on automated check-ins.</div>
+    <div class="rtb-row">
+      <div class="rtb-card">
+        <div class="rtb-icon">🌱</div>
+        <div class="rtb-stream">Tech Stream</div>
+        <div class="rtb-text"><strong>[Tech]</strong> Pick up CR-002: LinkedIn Spark dual-target setup. This is a 2-4hr deliverable: LinkedIn auth, Spark config for personal + company page, posting rules, and a brief for Angie on approval flow. Directly advances TOM L2→L3 AND unblocks marketing capability.</div>
+        <div class="rtb-reason">Reasoning: CR-002 is the highest-leverage next action. It satisfies the BUD gate (TOM advancement), gives Angie visible value fast, and creates real governance volume through Spark's content output. Fix backup staleness as parallel task.</div>
+        <span class="gate-badge">🎯 TOM GATE: LinkedIn Spark activation = business sub-agent activation = TOM L2→L3 milestone</span>
+      </div>
+      <div class="rtb-card">
+        <div class="rtb-icon">🌱</div>
+        <div class="rtb-stream">Business Stream</div>
+        <div class="rtb-text"><strong>[Biz]</strong> While Spark setup is in progress, Aria should re-engage Angie on 1-2 priority open items. Suggested: (1) JotForm API key — unblocks HRDF digital form, (2) Lynn Huang fee schedule — bookkeeping setup is a pre-revenue prerequisite. Use the LinkedIn momentum.</div>
+        <div class="rtb-reason">Reasoning: Angie is engaged NOW. The window to progress stalled items is open. Don't overwhelm — pick 2. The LinkedIn Spark setup will take a day or two; use that time to close JotForm and Lynn Huang, which have been open for 13-24 days.</div>
+        <span class="gate-badge">🎯 BUSINESS ROI GATE: JotForm + Lynn Huang = pre-revenue infrastructure unblock</span>
+      </div>
     </div>
   </div>
 
   <div class="section">
-    <h2>8 · New Input</h2>
+    <h2>8 · Sprint Review (Sprint 4 — Week Ending 25 May)</h2>
+    <p style="font-size:12px;color:#57606a;margin-bottom:10px;">Sprint 4: 19–25 May 2026 · 6 items committed · Capacity: 8</p>
+
+    <h3>Sprint 4 Commitments (Mid-Sprint Status)</h3>
+    <table>
+      <tr><th>Ticket</th><th>Title</th><th>Status</th><th>Owner</th></tr>
+      <tr><td class="chg">TKT-0127</td><td>Agentic Marketing Org Design — activate marketing agent</td><td>Planned</td><td>Yoda</td></tr>
+      <tr><td class="chg">TKT-0196</td><td>Three Work Types Rule — script/governance/LLM separation</td><td>Planned</td><td>Forge</td></tr>
+      <tr><td class="chg">TKT-0197</td><td>Sources of Truth Register — 10 core data types</td><td>Planned</td><td>Atlas</td></tr>
+      <tr><td class="chg">TKT-0198</td><td>JSON to Postgres Migration — Top 5 State Files</td><td>Planned ⚠️</td><td>Forge</td></tr>
+      <tr><td class="chg">TKT-0182</td><td>Explicit state checking pattern — Thrawn platform rule</td><td>Planned</td><td>Thrawn</td></tr>
+      <tr><td class="chg">TKT-0228</td><td>OWL Drift Detection and Prevention System</td><td>Planned</td><td>Yoda</td></tr>
+    </table>
+
+    <h3>Mid-Sprint Status</h3>
+    <div class="alert-warn">⚠️ Mid-sprint (Day 4/7): 0 of 6 items shipped. Forge double-failure on TKT-0198 (CHG-0421 — agent execution investigation opened). TKT-0198 at risk.</div>
+    <div class="alert-info">ℹ️ TKT-0127 (Marketing Agent) — CR-002 (LinkedIn Spark setup) is essentially a subset of this ticket. If CR-002 is resolved this sprint, TKT-0127 gets partial credit toward Done.</div>
+
+    <h3>Sprint Health</h3>
+    <ul>
+      <li><strong>Shipped:</strong> 0 / 6</li>
+      <li><strong>At Risk:</strong> TKT-0198 (Forge double-failure)</li>
+      <li><strong>Velocity (est):</strong> 3 days remaining. Need 6 shipped to hit 100%. At current rate, 2-3 likely to complete.</li>
+      <li><strong>Unplanned Work:</strong> CR-002 (LinkedIn Spark) + CHG-0418/0419 (config drift re-baseline) — both consuming capacity</li>
+    </ul>
+  </div>
+
+  <div class="section">
+    <h2>9 · New Input Prompt</h2>
     <div class="new-input">
-      📝 What's on your mind today, Ken?<br>
-      <span style="font-size:12px;display:block;margin-top:4px;">Key questions: (1) How was Friday's meeting with Angie? (2) Do you want Warden suppressed during kimi interim? (3) Any new priorities for Week 3? Reply in Telegram or webchat to set Day 24's direction.</span>
+      📝 What's on your mind today, Ken? Any new input, direction changes, or priorities?<br>
+      <span style="font-size:12px;display:block;margin-top:4px;">CR-002 (LinkedIn Spark) is the top action item. Backup fix is the top infrastructure risk. Reply in Telegram or webchat to set Day 28's direction.</span>
     </div>
   </div>
 
   <div class="footer">
-    🤖 AInchors Morning Stand-Up — Day 24 · Monday 18 May 2026 · Generated by Yoda at 08:00 AEST<br>
+    🤖 AInchors Morning Stand-Up — Day 28 · Friday 22 May 2026 · Generated by Yoda at 08:00 AEST<br>
     OC1 · AInchors's Mac mini · Darwin 25.4.0 (arm64) · Delivered: Telegram flash + Email (kenmun@gmail.com) + Webchat
   </div>
 </div>

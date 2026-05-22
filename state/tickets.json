@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0",
-  "sequence": 232,
+  "sequence": 239,
   "lastUpdated": "2026-05-17T18:45:46.240905",
   "source": "notion-akb-backlog-rebuild",
   "ticketCount": 214,
@@ -659,12 +659,14 @@
       "id": "TKT-0108",
       "sequence": 108,
       "title": "[TKT-0108] Document Generation Pipeline — DOCX/XLSX/PPTX/PDF (Ahsoka Q1 blocker)",
-      "status": "in-progress",
+      "status": "closed",
       "priority": "high",
       "type": "tkt",
       "createdAt": "2026-05-12T00:56:00.000Z",
       "notionPageId": "35ec1829-53ff-8114-a90f-fb2a3aeaf5b0",
-      "url": "https://www.notion.so/TKT-0108-Document-Generation-Pipeline-DOCX-XLSX-PPTX-PDF-Ahsoka-Q1-blocker-35ec182953ff8114a90ffb2a3aeaf5b0"
+      "url": "https://www.notion.so/TKT-0108-Document-Generation-Pipeline-DOCX-XLSX-PPTX-PDF-Ahsoka-Q1-blocker-35ec182953ff8114a90ffb2a3aeaf5b0",
+      "resolution": "UAT signed off by Ken 2026-05-21. First draft templates delivered: DOCX/XLSX/PPTX/PDF via scripts/generate-doc.sh. Marked as draft — final branded templates will be produced under TKT-0128 when Aria + Angie finalize Brand Code (Sprint 5).",
+      "updated": "2026-05-21T14:06:40+10:00"
     },
     {
       "id": "TKT-0109",
@@ -692,12 +694,14 @@
       "id": "TKT-0110",
       "sequence": 110,
       "title": "[TKT-0110] Process Documentation Framework — User Guides for Business Stream and Clients (incl. Angie + KL Team pilot)",
-      "status": "in-progress",
+      "status": "open",
       "priority": "medium",
       "type": "tkt",
       "createdAt": "2026-05-15T02:32:00.000Z",
       "notionPageId": "361c1829-53ff-817b-9fe8-eddcc4f2abd2",
-      "url": "https://www.notion.so/TKT-0110-Process-Documentation-Framework-User-Guides-for-Business-Stream-and-Clients-incl-Angie-361c182953ff817b9fe8eddcc4f2abd2"
+      "url": "https://www.notion.so/TKT-0110-Process-Documentation-Framework-User-Guides-for-Business-Stream-and-Clients-incl-Angie-361c182953ff817b9fe8eddcc4f2abd2",
+      "sprint": 5,
+      "notes": " | Parked to Sprint 5 per Ken 2026-05-21. Gated on Angie availability + Lando assignment."
     },
     {
       "id": "TKT-0111",
@@ -1066,12 +1070,14 @@
       "id": "TKT-0128",
       "sequence": 128,
       "title": "[TKT-0128] Aria: expanded marketing orchestration mandate + Brand Code stewardship (P1)",
-      "status": "in-progress",
+      "status": "open",
       "priority": "high",
       "type": "tkt",
       "createdAt": "2026-05-10T00:40:00.000Z",
       "notionPageId": "35cc1829-53ff-8145-b89d-d4a71a2b0811",
-      "url": "https://www.notion.so/TKT-0128-Aria-expanded-marketing-orchestration-mandate-Brand-Code-stewardship-P1-35cc182953ff8145b89dd4a71a2b0811"
+      "url": "https://www.notion.so/TKT-0128-Aria-expanded-marketing-orchestration-mandate-Brand-Code-stewardship-P1-35cc182953ff8145b89dd4a71a2b0811",
+      "sprint": 5,
+      "notes": " | Parked to Sprint 5 per Ken 2026-05-21. Gated on Angie availability. Coordinate with TKT-0110 + TKT-0127 as business stream sprint. | AC: Produce FINAL branded templates (DOCX/XLSX/PPTX/PDF) using generate-doc.sh pipeline (TKT-0108) when Aria + Angie finalize Brand Code in Sprint 5. Current templates are draft placeholders — replace with official AInchors brand assets (logo, colours, fonts). Added per Ken 2026-05-21."
     },
     {
       "id": "TKT-0129",
@@ -1242,12 +1248,14 @@
       "id": "TKT-0137",
       "sequence": 137,
       "title": "[TKT-0137] AInchors Policy Register — formal policy library derived from Charter and Governance Framework",
-      "status": "in-progress",
+      "status": "open",
       "priority": "high",
       "type": "tkt",
       "createdAt": "2026-05-10T05:13:00.000Z",
       "notionPageId": "35cc1829-53ff-81c3-b9d4-fd24dc91ca02",
-      "url": "https://www.notion.so/TKT-0137-AInchors-Policy-Register-formal-policy-library-derived-from-Charter-and-Governance-Frame-35cc182953ff81c3b9d4fd24dc91ca02"
+      "url": "https://www.notion.so/TKT-0137-AInchors-Policy-Register-formal-policy-library-derived-from-Charter-and-Governance-Frame-35cc182953ff81c3b9d4fd24dc91ca02",
+      "sprint": 5,
+      "notes": " | Parked to Sprint 5 per Ken 2026-05-21. Multi-sprint body of work. Sprint 5 target: complete POL-003 (Access Control), POL-004 (Content Governance), POL-007 (Data Classification) — the 3 with existing source material. Remainder in subsequent sprints. | Folded TKT-0158 (P2 Gate 6 missing gov policies) into scope per Ken 2026-05-21: Data Classification (POL-007 already planned), Privacy/APP (new), Sanctum Invocation (new), Warden Thresholds (new), Client DPA (new), Data Residency Register (new). These become POL-012 through POL-017."
     },
     {
       "id": "TKT-0138",
@@ -1693,23 +1701,28 @@
       "id": "TKT-0158",
       "sequence": 158,
       "title": "[TKT-0158] P2 Gate — 6 Missing Governance Policies (Data Classification, Privacy/APP, Sanctum Invocation, Warden Thresholds, Client DPA, Data Residency Register)",
-      "status": "backlog",
+      "status": "closed",
       "priority": "high",
       "type": "tkt",
       "createdAt": "2026-05-13T10:40:00.000Z",
       "notionPageId": "35fc1829-53ff-8125-a5f7-fc62acd96b5a",
-      "url": "https://www.notion.so/TKT-0158-P2-Gate-6-Missing-Governance-Policies-Data-Classification-Privacy-APP-Sanctum-Invocat-35fc182953ff8125a5f7fc62acd96b5a"
+      "url": "https://www.notion.so/TKT-0158-P2-Gate-6-Missing-Governance-Policies-Data-Classification-Privacy-APP-Sanctum-Invocat-35fc182953ff8125a5f7fc62acd96b5a",
+      "notes": " | Closed 2026-05-21 per Ken: folded into TKT-0137 (Policy Register). Duplicate ID collision resolved — original TKT-0158 (integrity checks) was already done.",
+      "resolution": "Folded into TKT-0137 per Ken 2026-05-21. ID collision resolved — original TKT-0158 (integrity checks) was already done. Active TKT-0158 (P2 gov policies) merged into Policy Register scope.",
+      "updated": "2026-05-21T14:14:26+10:00"
     },
     {
       "id": "TKT-0158",
       "sequence": 158,
       "title": "[ARCHIVED] [TKT-0158] Scheduled integrity checks for cross-agent context files + P1-P4 HIVE design consideration",
-      "status": "done",
+      "status": "closed",
       "priority": "high",
       "type": "tkt",
       "createdAt": "2026-05-12T02:30:00.000Z",
       "notionPageId": "35ec1829-53ff-8151-b184-e97562f7cbff",
-      "url": "https://www.notion.so/ARCHIVED-TKT-0158-Scheduled-integrity-checks-for-cross-agent-context-files-P1-P4-HIVE-design-co-35ec182953ff8151b184e97562f7cbff"
+      "url": "https://www.notion.so/ARCHIVED-TKT-0158-Scheduled-integrity-checks-for-cross-agent-context-files-P1-P4-HIVE-design-co-35ec182953ff8151b184e97562f7cbff",
+      "resolution": "Folded into TKT-0137 per Ken 2026-05-21. ID collision resolved — original TKT-0158 (integrity checks) was already done. Active TKT-0158 (P2 gov policies) merged into Policy Register scope.",
+      "updated": "2026-05-21T14:14:26+10:00"
     },
     {
       "id": "TKT-0159",
@@ -2012,34 +2025,46 @@
       "id": "TKT-0196",
       "sequence": 196,
       "title": "[TKT-0196] Three Work Types Rule + Work Currency Routing Table",
-      "status": "backlog",
+      "status": "closed",
       "priority": "high",
       "type": "tkt",
       "createdAt": "2026-05-17T04:25:00.000Z",
       "notionPageId": "363c1829-53ff-81f0-8595-df189f12c869",
-      "url": "https://www.notion.so/TKT-0196-Three-Work-Types-Rule-Work-Currency-Routing-Table-363c182953ff81f08595df189f12c869"
+      "url": "https://www.notion.so/TKT-0196-Three-Work-Types-Rule-Work-Currency-Routing-Table-363c182953ff81f08595df189f12c869",
+      "sprint": 4,
+      "notes": "SCOPE LOCKED per Ken 2026-05-21. Phase 1 only (Sprint 4): (1) Three Work Types definitions (High=reasoning→Sonnet T3, Medium=content/code→Ollama T2, Low=CRUD→Script T1/0). (2) Work Currency Routing Table with 15+ mapped patterns. (3) Escalation rule: tier-up-on-failure → HITL gate. (4) Raise Phase 2 ticket for dynamic escalation pattern (article: local-first→retry→self-debug→minimal-context escalation→cloud). Phase 2 = Sprint 5+. Owner: Forge (build) + Thrawn (architecture review). Refined from XDA article pattern: https://www.xda-developers.com/local-llm-call-claude-changed-everything-local-first-setup/",
+      "resolution": "Phase 1 complete per Ken-approved scope 2026-05-21. Deliverables: (1) docs/Three-Work-Types-Rule.md — 3 currencies defined, 15-pattern routing table, escalation rule. (2) RULES.md updated with Three Work Types Rule as non-negotiable. (3) TKT-0234 raised for Phase 2 Dynamic Escalation Pattern (Sprint 5+). Forge delivered + Yoda relocated files from forge/ to workspace/ + verified.",
+      "updated": "2026-05-21T14:26:01+10:00"
     },
     {
       "id": "TKT-0197",
       "sequence": 197,
       "title": "[TKT-0197] Sources of Truth Register — 10 Core Data Types",
-      "status": "backlog",
+      "status": "closed",
       "priority": "high",
       "type": "tkt",
       "createdAt": "2026-05-17T04:25:00.000Z",
       "notionPageId": "363c1829-53ff-81fb-95e6-e00137390aec",
-      "url": "https://www.notion.so/TKT-0197-Sources-of-Truth-Register-10-Core-Data-Types-363c182953ff81fb95e6e00137390aec"
+      "url": "https://www.notion.so/TKT-0197-Sources-of-Truth-Register-10-Core-Data-Types-363c182953ff81fb95e6e00137390aec",
+      "sprint": 4,
+      "notes": "SCOPE LOCKED per Ken 2026-05-21. Deliverable: docs/Sources-of-Truth-Register.md — 10 data domains mapped to SSOT (Postgres/JSON/Notion/Gateway), read/write rules, agent access matrix, archive/delete plan (~30 files). Postgres live (TKT-0195), TKT-0198 migrating top 5. Owner: Atlas. Unlocks TKT-0182. | UAT signed off by Ken 2026-05-21. GDrive review approved. Note: agent matrix uses abstract names — update to actual Nexus agent names (Atlas/Forge/Yoda etc.) in next pass. Non-blocking.",
+      "resolution": "Scope locked per Ken 2026-05-21. Atlas delivered docs/Sources-of-Truth-Register.md: 10 domains mapped to SSOT (Postgres/JSON/Notion/Gateway), read/write rules, 12-agent access matrix, archive/delete plan (~30 files), Sprint 4-6 migration roadmap. Note: agent names in matrix use abstract labels (Architect, Ops-Agent etc.) — update to actual Nexus agent names in next pass.",
+      "updated": "2026-05-21T15:04:25+10:00"
     },
     {
       "id": "TKT-0198",
       "sequence": 198,
       "title": "[TKT-0198] JSON to Postgres Migration — Top 5 State Files",
-      "status": "backlog",
+      "status": "closed",
       "priority": "high",
       "type": "tkt",
       "createdAt": "2026-05-17T04:25:00.000Z",
       "notionPageId": "363c1829-53ff-81c9-840b-c26cfcb13fd6",
-      "url": "https://www.notion.so/TKT-0198-JSON-to-Postgres-Migration-Top-5-State-Files-363c182953ff81c9840bc26cfcb13fd6"
+      "url": "https://www.notion.so/TKT-0198-JSON-to-Postgres-Migration-Top-5-State-Files-363c182953ff81c9840bc26cfcb13fd6",
+      "sprint": 4,
+      "notes": " | Blocked on TKT-0195 (Postgres Deploy). Scope: migrate top 5 JSON state files to Postgres tables once 5-tier schema is live. Top 5 TBD from TKT-0197 SoT Register. Ken chose Option B: TKT-0195 first → TKT-0198 next. | TKT-0195 unblocked — Postgres 16.14 live with 5-tier schema. Proceeding per Ken 2026-05-21.",
+      "resolution": "Complete 2026-05-21. 5 critical JSON state files migrated to Postgres (ainchors_nexus): state_tickets (172 unique rows), state_cost, state_model_policy, state_task_queue, state_config_baseline. state_v view schema for backward compat. migrate-state-to-postgres.sh script is idempotent. Forge had 2 failed attempts — Yoda hand-built the migration. Tables: all 5 with tenant_id DEFAULT 'ainchors'.",
+      "updated": "2026-05-21T15:11:56+10:00"
     },
     {
       "id": "TKT-0199",
@@ -2366,11 +2391,11 @@
       "title": "[TKT-0228] OWL Drift Detection and Prevention System",
       "type": "task",
       "priority": "high",
-      "status": "open",
+      "status": "in-progress",
       "createdAt": "2026-05-17T18:42:00+10:00",
       "createdBy": "yoda",
       "description": "Build automated OWL compliance monitoring and drift prevention system after L-039 incident (2026-05-17).\n\nBACKGROUND:\n- OWL mandate (CHG-0386) requires tiered thinking: Tier 1=10-15s, Tier 2=3min/300s, Tier 3=5+min/unlimited\n- During v2026.5.12 upgrade (18:01-18:30 AEST), OWL was not strictly followed\n- Symptoms: rushed atoms, no verification gaps between steps, chain-reacted on errors\n- Ken flagged drift at 18:30 AEST requiring immediate remediation\n- LESSONS.md L-039 logged, HEARTBEAT.md updated with self-check\n\nGOAL: Prevent OWL drift through automated detection, alerting, and self-correction mechanisms.\n\n=== SUB-TASKS (5 Stories) ===\n\nSTORY 1: owl-compliance-state.json — Real-time Tracking [Yoda]\n- Create state/owl-compliance-state.json schema\n- Track per-response: tier level, thinking time (estimate vs actual), atom count, pause between atoms\n- Flag when 3+ atoms chained without pause (>30s gap)\n- Flag when error occurs and immediate fix attempted without assessment (>2 rapid reactions)\n- Daily summary: compliance score (0-100%), drift incidents count, self-corrections count\n- Effort: 4 hours\n- Dependencies: None\n- Acceptance: State file auto-updates every response, metrics accurate within 10%\n\nSTORY 2: owl-drift-alert.json — Automated Alerting [Yoda]\n- Create state/owl-drift-alert.json schema\n- Auto-generate alert when drift detected: timestamp, session ID, atoms executed, pause durations, violation type (no-pause | chain-reaction | insufficient-thinking)\n- Heartbeat checks for unacknowledged alerts (>2h old)\n- Surface to Ken via Telegram if unacknowledged\n- Auto-clear after 24h if acknowledged\n- Effort: 3 hours\n- Dependencies: STORY 1 complete\n- Acceptance: Alerts generate within 5s of drift detection, Ken receives within 2h\n\nSTORY 3: YODA_RUNBOOK.md — OWL Verification Procedure [Yoda]\n- Add Section: \"OWL Compliance Verification\"\n- Document per-atom checkpoint requirements (pause, show thinking, assess risk, verify, stop-on-error)\n- Add self-correction protocol: detect drift → insert thinking block → report to Ken → log to LESSONS.md\n- Add escalation path: self-correct → Ken flag → LESSONS.md → CHG\n- Include examples from L-039 incident\n- Effort: 2 hours\n- Dependencies: None\n- Acceptance: Runbook section reviewed and approved by Ken\n\nSTORY 4: scripts/owl-audit.sh — Weekly Compliance Reporting [Forge]\n- Parse session transcripts from state files\n- Calculate: avg pause between atoms (target: >30s for T2, >5min for T3)\n- Calculate: error chain-reaction rate (target: <10%)\n- Calculate: tier compliance % (target: >90%)\n- Generate weekly HTML report (canvas output)\n- Email to Ken every Monday 09:00 AEST\n- Flag agents with repeated drift patterns (>3 incidents/week)\n- Effort: 6 hours\n- Dependencies: STORY 1 + 2 complete\n- Acceptance: First report generated and sent within 14 days\n\nSTORY 5: Agent Training Material — OWL Mandate Acknowledgment [Yoda]\n- Update all T3 agent SOUL.md files with OWL acknowledgment section\n- Include self-check questions in agent system prompts\n- Add OWL compliance to agent health dashboard\n- Quarterly OWL compliance review (triggered by Warden cron)\n- Effort: 3 hours\n- Dependencies: STORY 3 complete\n- Acceptance: All 12 agents have OWL section in SOUL.md, review scheduled\n\n=== EFFORT SUMMARY ===\nTotal: 18 hours\n- Yoda: 9 hours (Stories 1, 2, 3, 5)\n- Forge: 6 hours (Story 4)\n- Buffer: 3 hours (testing, documentation)\n\n=== TIMELINE / MILESTONES ===\nWeek 1 (S4):\n- Day 1-2: STORY 1 (owl-compliance-state.json)\n- Day 3-4: STORY 2 (owl-drift-alert.json)\n- Day 5: STORY 3 (YODA_RUNBOOK.md update)\n\nWeek 2 (S4/S5):\n- Day 1-3: STORY 4 (owl-audit.sh)\n- Day 4-5: STORY 5 (Agent training)\n- Day 5: Integration testing, first report\n\n=== OWNER ASSIGNMENTS ===\n- Yoda (lead): Stories 1, 2, 3, 5, integration\n- Forge: Story 4 (script development)\n- Ken (reviewer): STORY 3 runbook approval, weekly report review\n\n=== DEPENDENCIES ===\n- STORY 1 → STORY 2 (state tracking needed for alerts)\n- STORY 1 + 2 → STORY 4 (alerts needed for audit)\n- STORY 3 → STORY 5 (runbook needed for training)\n- External: OpenClaw v2026.5.12 stable (✅ achieved)\n\n=== DEFINITION OF DONE ===\n- All 5 stories complete and verified\n- owl-compliance-state.json tracking 7+ days of data\n- owl-drift-alert.json generated >0 alerts (proving detection works)\n- First owl-audit.sh report sent to Ken and reviewed\n- All 12 agent SOUL.md files updated with OWL section\n- YODA_RUNBOOK.md OWL section approved by Ken\n- Zero drift alerts unacknowledged for 7 consecutive days\n- CHG logged for completion\n\n=== RISK ASSESSMENT ===\n| Risk | Probability | Impact | Mitigation |\n|------|-------------|--------|------------|\n| Monitoring overhead adds latency | High | Medium | Calibrate thresholds after 2 weeks |\n| False positives (normal fast work flagged) | Medium | Low | Manual review first week, tune thresholds |\n| Agent resistance to OWL constraints | Low | Medium | Frame as quality improvement, not punishment |\n| Forge capacity for Story 4 | Medium | Medium | Defer to S5 if needed, Yoda can prototype |\n\n=== BLOCKERS ===\n- None currently\n- Potential: Forge workload in S4 (infra focus on OC2 prep)\n- Mitigation: Yoda can prototype owl-audit.sh if Forge unavailable\n\n=== ACCEPTANCE CRITERIA ===\n- [ ] STORY 1: owl-compliance-state.json created and populated within 7 days\n- [ ] STORY 2: owl-drift-alert.json auto-generates on drift detection\n- [ ] STORY 3: YODA_RUNBOOK.md OWL section approved by Ken\n- [ ] STORY 4: Ken receives first weekly OWL audit report within 14 days\n- [ ] STORY 5: All T3 agent SOUL.md files include OWL acknowledgment\n- [ ] INTEGRATION: Zero unacknowledged drift alerts for 30 consecutive days\n",
-      "sprint": "S4",
+      "sprint": 4,
       "linkedChgs": [
         "CHG-0386",
         "CHG-0393"
@@ -2388,7 +2413,8 @@
       "startDate": "2026-05-19",
       "targetDate": "2026-05-30",
       "dodVerified": true,
-      "notes": "5 stories: compliance tracking, drift alerts, runbook, audit script, agent training. CHG-0366."
+      "notes": "RE-GROOMED per Ken 2026-05-21. Narrowed scope: OWL is now a conditional safety mode activated ONLY when agents run on kimi-class models for non-LOW currency work. New deliverables: (1) scripts/owl-guard.sh — pre-flight check, injects OWL constraints only when kimi + MEDIUM/HIGH. (2) Update owl-compliance-state.json with model field. (3) Update RULES.md OWL section. Effort: 2h. Owner: Yoda. Original 18h scope deprecated.",
+      "notionPageId": "363c1829-53ff-81c9-840b-c26cfcb13fd6"
     },
     {
       "id": "TKT-0229",
@@ -2413,23 +2439,28 @@
       "id": "TKT-0178",
       "sequence": 178,
       "title": "[TKT-0178] Routing Discipline Enforcement — enforce Yoda-only orchestration, prevent agents from doing specialist work",
-      "status": "open",
+      "status": "closed",
       "priority": "high",
       "type": "task",
       "createdAt": "2026-05-17T14:21:00+10:00",
       "sprint": "S4",
-      "notes": "CHG-0369 Sprint 4 commitment."
+      "notes": "CHG-0369 Sprint 4 commitment. | Closed per Ken 2026-05-21. Deferred (CHG-0330, May 15). Routing discipline rule already in RULES.md (CHG-0297). Full solution will be delivered under TKT-0141 (Citadel intent router) — general solution for all users, internal + external.",
+      "resolution": "Closed per Ken 2026-05-21. Deferred (CHG-0330, May 15). Full routing solution under TKT-0141 (Citadel intent router). Routing discipline already enforced via RULES.md (CHG-0297).",
+      "updated": "2026-05-21T15:33:48+10:00",
+      "notionPageId": "363c1829-53ff-81c9-840b-c26cfcb13fd6"
     },
     {
       "id": "TKT-0182",
       "sequence": 182,
       "title": "[TKT-0182] Explicit state checking pattern — codify check-before-act across all agents",
-      "status": "open",
+      "status": "closed",
       "priority": "high",
       "type": "task",
       "createdAt": "2026-05-17T14:21:00+10:00",
-      "sprint": "S4",
-      "notes": "CHG-0369 Sprint 4 commitment. Thrawn platform rule."
+      "sprint": 4,
+      "notes": "SCOPE LOCKED per Ken 2026-05-21. Deliverables: (1) docs/State-Checking-Pattern.md — 4-step READ→VALIDATE→EXECUTE→VERIFY cycle. (2) RULES.md non-negotiable rule. (3) SoT Register updated with check-before-act refs. (4) ticket.sh wired to check Postgres before writing. Owner: Thrawn. Prerequisites met: SoT Register (TKT-0197 ✅), Postgres migration (TKT-0198 ✅), Three Work Types (TKT-0196 ✅).",
+      "notionPageId": "367c1829-53ff-81b8-8f32-c223fd98c45b",
+      "resolution": "Complete 2026-05-21. Atlas delivered (to correct workspace path): (1) docs/State-Checking-Pattern.md — 4-step READ->VALIDATE->EXECUTE->VERIFY cycle, error handling matrix, idempotency. (2) RULES.md updated. (3) SoT Register updated. Workspace discipline fix verified — Atlas wrote directly to workspace root."
     },
     {
       "id": "TKT-0230",
@@ -2538,14 +2569,16 @@
     {
       "id": "TKT-0195",
       "title": "[TKT-0195] Postgres Deploy + 5-Tier Schema on OC1",
-      "status": "open",
+      "status": "closed",
       "type": "task",
       "priority": "high",
       "stream": "Technical",
-      "sprint": "Backlog",
+      "sprint": 4,
       "notionPageId": "363c1829-53ff-8145-b4f2-c8311e00833a",
       "created": "2026-05-17T04:56:00Z",
-      "updated": "2026-05-19T07:15:00Z"
+      "updated": "2026-05-21T14:54:42+10:00",
+      "notes": "SCOPE LOCKED per Ken 2026-05-21. Sprint 4 deliverable: (1) brew install postgresql@16 + pgvector. (2) LaunchAgent auto-start. (3) Create ainchors_nexus DB. (4) Run 5-tier DDL from DataMemory_P1P4_Roadmap.md (T1 episodic audit, T2 vector store, T3 session, T4 shared state, T5 history). (5) Add tenant_id DEFAULT \"ainchors\" to all tables. Decisions: Q2=Homebrew, Q3=Redis deferred to P2, Q5=PII deferred to P2 gate, Q8=Shared schema+RLS from P2 day one. NOT IN SCOPE: JSON migration (TKT-0198), SHA-256 pipeline, vector embedding pipeline, agent wiring. Owner: Forge.",
+      "resolution": "Complete 2026-05-21. PostgreSQL 16.14 deployed via Homebrew on OC1. pgvector 0.8.2 built from source for PG16 compatibility. Database: ainchors_nexus. 5-tier schema deployed: T1 (agent_events, agent_decisions, decision_lineage, memory_access_log), T2 (knowledge_documents, knowledge_chunks with vector(768)), T3 (agent_sessions), T4 (agent_shared_state with optimistic locking), T5 (agent_state_history append-only). tenant_id DEFAULT 'ainchors' on all 9 tables. Ken decisions: Q2=Homebrew, Q3=Redis deferred P2, Q5=PII deferred P2, Q8=Shared+RLS from P2 day one."
     },
     {
       "id": "TKT-0232",
@@ -2557,19 +2590,27 @@
       "component": "Journal/Cron",
       "description": "The journal incremental writer determines target file using current date rather than actual message timestamp. After midnight, late-session entries from previous day get filed under wrong date file. Fix: use entry timestamp to determine target date file.",
       "created": "2026-05-18T21:42:49Z",
-      "resolution": "CHG-0412: Updated cron 1b853131 prompt to use entry timestamp date instead of current date for journal file targeting. Multi-date entries now go to correct files."
+      "resolution": "CHG-0412: Updated cron 1b853131 prompt to use entry timestamp date instead of current date for journal file targeting. Multi-date entries now go to correct files.",
+      "notionPageId": "363c1829-53ff-81d9-b637-e84286ef1917"
     },
     {
       "id": "TKT-0233",
       "title": "Fix Backup Health Check — Wrong State Filename + Missing Size Field",
       "type": "bug",
       "priority": "medium",
-      "status": "resolved",
+      "status": "closed",
       "agent": "yoda",
       "component": "Backup/Cron",
       "description": "backup-health-check.sh (cron e08e19ad) was looking for state/backup-status.json but actual file is state/backup-state.json. Also checked a nonexistent 'size' field in JSON. Both caused false 'BACKUP ALERT: State file missing' Telegram to Ken daily at 08:05.",
-      "resolution": "CHG-0415: Fixed filename in backup-health-check.sh (backup-status.json → backup-state.json). Rewrote script to use jq for parsing, du for actual directory size, find for file count. Cron prompt also simplified to delegate to script. Verified: BACKUP healthy — snap workspace-2026-05-19-0206, 293MB, 56,566 files.",
-      "created": "2026-05-19T00:29:48Z"
+      "resolution": "Complete: all 3 drifted blogs (May 18/19/20) regenerated with approved template (accent #c49b5e, 5-7 h2 sections, mandatory What I Learned/Cost/What's Next), all synced to Google Drive. CSS fully restored to CHG-0368 baseline.",
+      "created": "2026-05-19T00:29:48Z",
+      "notionPageId": "366c1829-53ff-81e5-be62-c51029419ec6",
+      "updated": "2026-05-21T12:30:00+10:00",
+      "linked": {
+        "chg": [
+          "CHG-0420"
+        ]
+      }
     },
     {
       "id": "TKT-0234",
@@ -2581,7 +2622,156 @@
       "component": "Backup/Journal",
       "description": "May 18 2026 afternoon webchat session transcripts (approx 12:50-21:00 AEST) were lost due to gateway restart overwriting session files before backup could capture them. Journal incremental writer captured some entries after midnight but source sessions already gone. Neither Drive trash nor any backup contains the data.",
       "created": "2026-05-19T02:01:18Z",
-      "resolution": "Preventive fix deployed (CHG-0416: pre-restart session snapshots). Original May 18 afternoon data unrecoverable — session files overwritten by gateway restart before backup."
+      "resolution": "Preventive fix deployed (CHG-0416: pre-restart session snapshots). Original May 18 afternoon data unrecoverable — session files overwritten by gateway restart before backup.",
+      "notionPageId": "363c1829-53ff-81f0-8595-df189f12c869"
+    },
+    {
+      "id": "TKT-0232",
+      "title": "Spark: LinkedIn metrics ownership — fix URN capture, backfill missing, automate snapshots",
+      "type": "task",
+      "priority": "medium",
+      "status": "open",
+      "requester": "Ken",
+      "assignee": "Yoda",
+      "created": "2026-05-20T21:29:59+10:00",
+      "updated": "2026-05-20T21:29:59+10:00",
+      "description": "Consolidate LinkedIn metrics under Spark ownership. Fix URN capture gap in linkedin-post.sh (writes to old queue file, not linkedin-campaign.json). Backfill 7 missing URNs. Set up automated daily metrics snapshots. CHG-0362 already fixed the broken /v2/reactions endpoint.",
+      "resolution": null,
+      "linked": {
+        "us": [],
+        "inc": [],
+        "chg": []
+      },
+      "notes": "",
+      "notionPageId": "366c1829-53ff-81e5-be62-c51029419ec6",
+      "url": "https://www.notion.so/Spark:-LinkedIn-metrics-ownership-—-fix-URN-capture,-backfill-missing,-automate-snapshots-366c182953ff81e5be62c51029419ec6"
+    },
+    {
+      "id": "TKT-0233",
+      "title": "Fix EOD Blog Format Drift — Restore Approved Template (CHG-0420)",
+      "type": "task",
+      "priority": "medium",
+      "status": "closed",
+      "requester": "Ken",
+      "assignee": "Yoda",
+      "created": "2026-05-21T12:08:57+10:00",
+      "updated": "2026-05-21T12:30:00+10:00",
+      "description": "Blogs since 2026-05-18 drifted from locked template (CHG-0368). Accent #c49b5e→#bb86fc, missing sections, May 18 zero h2s, file size 21KB→9KB. Fix: restore approved CSS, enforce minimum structure, add template validation to cron a027fd60, regenerate May 18-20 from journal.",
+      "resolution": "Complete: all 3 drifted blogs (May 18/19/20) regenerated with approved template (accent #c49b5e, 5-7 h2 sections, mandatory What I Learned/Cost/What's Next), all synced to Google Drive. CSS fully restored to CHG-0368 baseline.",
+      "linked": {
+        "us": [],
+        "inc": [],
+        "chg": [
+          "CHG-0420"
+        ]
+      },
+      "notes": "",
+      "notionPageId": "366c1829-53ff-81e5-be62-c51029419ec6"
+    },
+    {
+      "id": "TKT-0234",
+      "title": "Dynamic Escalation Pattern — Phase 2 (local-first → retry → self-debug → cloud escalation)",
+      "type": "task",
+      "priority": "medium",
+      "status": "open",
+      "requester": "Ken",
+      "assignee": "Yoda",
+      "created": "2026-05-21T14:25:45+10:00",
+      "updated": "2026-05-21T14:25:45+10:00",
+      "description": "Implement dynamic model escalation pattern based on XDA article pattern. Local LLM attempts task → fails → retries with self-debugging → escalates to Claude with minimal context (not full transcript). Phase 2 of TKT-0196 Three Work Types Rule. Sprint 5+. Reference: https://www.xda-developers.com/local-llm-call-claude-changed-everything-local-first-setup/",
+      "resolution": null,
+      "linked": {
+        "us": [],
+        "inc": [],
+        "chg": []
+      },
+      "notes": "",
+      "notionPageId": "363c1829-53ff-81f0-8595-df189f12c869"
+    },
+    {
+      "id": "TKT-0235",
+      "title": "Investigate Forge double-failure on TKT-0198 — isolated or systemic agent execution issue?",
+      "type": "incident",
+      "priority": "high",
+      "status": "closed",
+      "requester": "Ken",
+      "assignee": "Yoda",
+      "created": "2026-05-21T15:13:38+10:00",
+      "updated": "2026-05-21T15:20:31+10:00",
+      "description": "Forge failed twice on TKT-0198 (JSON to Postgres migration). First attempt: only delivered TKT-0195 schema (wrong ticket). Second attempt: no migration output at all — zero tables, zero script, zero views. Yoda had to hand-build the migration. Root cause investigation needed: (1) Is Forge unable to access/modify Postgres? (2) Is Forge getting confused by its own forge/ workspace isolation? (3) Does Forge have the right tool scopes? (4) Is this pattern recurring across other agents? Check TKT-0108 delivery (had forge/ path issue requiring Yoda manual relocation), TKT-0196 (RULES.md overwrite attempt). If systemic, this impacts agent confidence across the entire platform.",
+      "resolution": "Complete 2026-05-21. Root cause: sub-agents spawn with cwd in agent-specific subdirectory, treat it as root. Fixes applied: (1) Forge AGENTS.md updated with absolute path discipline. (2) Atlas + Spark AGENTS.md patched — same risk pattern. (3) RULES.md — new Sub-Agent Workspace Discipline rule (CHG-0421) applies to ALL current + future agents. (4) forge/ and atlas/ duplicate outputs cleaned. (5) Forge verification test spawned. Audit confirmed: forge, atlas, spark had the pattern; remaining 9 agents (Thrawn/Lando/Shield/Lex/Sage/Mon Mothma/Warden/Aria/Krennic) don't have subdirectories in workspace — not affected.",
+      "linked": {
+        "us": [],
+        "inc": [],
+        "chg": [
+          "TKT-0198"
+        ]
+      },
+      "notes": "SCOPE LOCKED per Ken 2026-05-21. AC added: RULES.md workspace discipline applies to ALL future agents (spawned + permanent). Deliverables: (1) Fix Forge AGENTS.md with absolute path discipline. (2) Audit all 12 agents for same pattern. (3) Add sub-agent workspace discipline rule to RULES.md — applies to all current + future agents. (4) Clean forge/ duplicates. (5) Test verify with Forge. Root cause: sub-agents spawn cwd in agent-specific subdir, treat it as root.",
+      "notionPageId": "367c1829-53ff-8154-9689-d44389e3440f",
+      "sprint": 4
+    },
+    {
+      "id": "TKT-0236",
+      "title": "Resurrect Task Queue Processor — Postgres backend + State Checking + reactive cron",
+      "type": "task",
+      "priority": "high",
+      "status": "open",
+      "requester": "Ken",
+      "assignee": "Yoda",
+      "created": "2026-05-21T15:39:38+10:00",
+      "updated": "2026-05-21T15:39:38+10:00",
+      "description": "Task Queue Processor (cron 442ad697) was removed during CHG-0391 Anthropic→kimi migration. Infrastructure still exists: task-queue.sh, claim-task.sh, resume-task.sh, async-worker.sh, state/checkpoints/. 4 test tasks completed May 17 proving the architecture works. Need to: (1) Rebuild cron with kimi model. (2) Migrate backend from task-queue.json to Postgres state_task_queue (already migrated by TKT-0198). (3) Wire in TKT-0182 State Checking Pattern (validate before claim/write). (4) Fix known bug: task-queue.sh add checkpoint creation broken. (5) Run production test with real sub-agent task. Sprint 5.",
+      "resolution": null,
+      "linked": {
+        "us": [],
+        "inc": [],
+        "chg": []
+      },
+      "notes": "Sprint 5. Resurrect Task Queue Processor (cron 442ad697 lost during CHG-0391). Postgres backend (TKT-0198 migrated state_task_queue), State Checking (TKT-0182), fix known checkpoint bug. Linked: CHG-0389, CHG-0390, CHG-0391.",
+      "notionPageId": "367c1829-53ff-81b8-8f32-c223fd98c45b",
+      "sprint": 5
+    },
+    {
+      "id": "TKT-0237",
+      "title": "Platform Rule Engine v1 — T1 Audit Tier (Warden-owned, 10-rule post-execution compliance audit)",
+      "type": "task",
+      "priority": "high",
+      "status": "open",
+      "requester": "Ken",
+      "assignee": "Yoda",
+      "created": "2026-05-21T16:01:19+10:00",
+      "updated": "2026-05-21T16:01:19+10:00",
+      "description": "Build a post-execution compliance audit engine owned by Warden. Audits agent outputs against 10 documented rules and logs violations. R01 Path Discipline, R02 SoT Compliance, R03 Model Routing, R04 Template Adherence, R05 State Checking, R06 ID Uniqueness, R07 Config Drift, R08 Content Governance, R09 Cron Health, R10 MEMORY Limits. Output: state/rule-audit-report.json + weekly HTML report. 30-min cron aligned with heartbeat. Sprint 5. Owner: Warden (build + operate within existing reporting framework).",
+      "resolution": null,
+      "linked": {
+        "us": [],
+        "inc": [],
+        "chg": []
+      },
+      "notes": "Sprint 5. OWNER: Warden. 10-rule post-execution compliance audit engine. R01-R10. Output: rule-audit-report.json + weekly HTML canvas report. 30-min cron aligned with Warden heartbeat. Links: TKT-0228 (OWL Guard), TKT-0182 (State Checking), TKT-0196 (Three Work Types), TKT-0197 (SoT Register), CHG-0421 (Path Discipline). T2 Gate Tier = P2 Citadel requirement.",
+      "notionPageId": "367c1829-53ff-81b8-8f32-c223fd98c45b",
+      "sprint": 5
+    },
+    {
+      "id": "TKT-0238",
+      "title": "Systemic cron date calculation drift — standup/blog/LinkedIn missing deliveries",
+      "type": "bug",
+      "priority": "high",
+      "status": "open",
+      "requester": "Ken (via Yoda)",
+      "assignee": "Yoda",
+      "created": "2026-05-22T11:16:41+10:00",
+      "updated": "2026-05-22T11:16:41+10:00",
+      "description": "Multiple crons showing systemic date calculation errors since Mon 19 May. Standup cron (3c279099) hit 429 rate limit on kimi+gemma4, causing missed deliveries. Blog cron (a027fd60) produced wrong date (re-ran Day 26 instead of Day 28). EOD journal (4d926b2c) silent failure (4ms execution). LinkedIn metrics cron (5d581442) timed out on kimi. Root cause: (1) Ollama Cloud weekly cap exhausted for beautiful_faraday_411 account, (2) crons using kimi→gemma4 fallback chain instead of deepseek-pro which is working. Systemic because multiple independent crons all affected by same rate limit + fallback gap.",
+      "resolution": null,
+      "linked": {
+        "us": [],
+        "inc": [],
+        "chg": []
+      },
+      "notes": "",
+      "notionPageId": "360c1829-53ff-8119-9972-f1c6de2baf51"
     }
   ],
   "changes": [

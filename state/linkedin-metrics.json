@@ -44,6 +44,206 @@
           "comments": 0,
           "shares": 0,
           "impressions": null
+        },
+        {
+          "interval": "manual",
+          "fetchedAt": "2026-05-20T11:24:26Z",
+          "reactions": 0,
+          "comments": 2,
+          "shares": 0,
+          "impressions": null
+        },
+        {
+          "interval": "manual",
+          "fetchedAt": "2026-05-20T11:26:47Z",
+          "reactions": 31,
+          "comments": 2,
+          "shares": 0,
+          "impressions": null
+        },
+        {
+          "interval": "manual",
+          "fetchedAt": "2026-05-20T11:43:00Z",
+          "reactions": 31,
+          "comments": 2,
+          "shares": 0,
+          "impressions": null
+        },
+        {
+          "interval": "24h",
+          "fetchedAt": "2026-05-21T00:00:50Z",
+          "reactions": 31,
+          "comments": 2,
+          "shares": 0,
+          "impressions": null
+        }
+      ]
+    },
+    {
+      "contentId": "LI-W1-P3",
+      "postUrn": "urn:li:activity:7457905291582689281",
+      "snapshots": [
+        {
+          "interval": "manual",
+          "fetchedAt": "2026-05-20T11:24:31Z",
+          "reactions": 0,
+          "comments": 0,
+          "shares": 0,
+          "impressions": null
+        },
+        {
+          "interval": "manual",
+          "fetchedAt": "2026-05-20T11:26:48Z",
+          "reactions": 6,
+          "comments": 0,
+          "shares": 0,
+          "impressions": null
+        },
+        {
+          "interval": "manual",
+          "fetchedAt": "2026-05-20T11:43:01Z",
+          "reactions": 6,
+          "comments": 0,
+          "shares": 0,
+          "impressions": null
+        },
+        {
+          "interval": "24h",
+          "fetchedAt": "2026-05-21T00:01:10Z",
+          "reactions": 6,
+          "comments": 0,
+          "shares": 0,
+          "impressions": null
+        }
+      ]
+    },
+    {
+      "contentId": "LI-C1-W2-P3-BROKEN",
+      "postUrn": "urn:li:activity:7460442069229211648",
+      "snapshots": [
+        {
+          "interval": "manual",
+          "fetchedAt": "2026-05-20T11:42:57Z",
+          "reactions": 5,
+          "comments": 0,
+          "shares": 0,
+          "impressions": null
+        },
+        {
+          "interval": "24h",
+          "fetchedAt": "2026-05-21T00:01:22Z",
+          "reactions": 5,
+          "comments": 0,
+          "shares": 0,
+          "impressions": null
+        }
+      ]
+    },
+    {
+      "contentId": "LI-W3-P1",
+      "postUrn": "urn:li:activity:7462463345594605569",
+      "snapshots": [
+        {
+          "interval": "manual",
+          "fetchedAt": "2026-05-20T11:42:58Z",
+          "reactions": 15,
+          "comments": 0,
+          "shares": 0,
+          "impressions": null
+        }
+      ]
+    },
+    {
+      "contentId": "LI-ADHOC-RUSTDESK",
+      "postUrn": "urn:li:activity:7459014433726681088",
+      "snapshots": [
+        {
+          "interval": "manual",
+          "fetchedAt": "2026-05-20T11:42:59Z",
+          "reactions": 8,
+          "comments": 4,
+          "shares": 0,
+          "impressions": null
+        },
+        {
+          "interval": "24h",
+          "fetchedAt": "2026-05-21T00:01:15Z",
+          "reactions": 8,
+          "comments": 4,
+          "shares": 0,
+          "impressions": null
+        }
+      ]
+    },
+    {
+      "contentId": "LI-W1-P2",
+      "postUrn": "urn:li:activity:7457611088205893632",
+      "snapshots": [
+        {
+          "interval": "manual",
+          "fetchedAt": "2026-05-20T11:43:00Z",
+          "reactions": 9,
+          "comments": 0,
+          "shares": 0,
+          "impressions": null
+        }
+      ]
+    },
+    {
+      "contentId": "LI-C1-W2-P2-BROKEN",
+      "postUrn": "urn:li:activity:7459766116362633216",
+      "snapshots": [
+        {
+          "interval": "manual",
+          "fetchedAt": "2026-05-20T11:43:02Z",
+          "reactions": 20,
+          "comments": 6,
+          "shares": 0,
+          "impressions": null
+        },
+        {
+          "interval": "24h",
+          "fetchedAt": "2026-05-21T00:00:57Z",
+          "reactions": 20,
+          "comments": 6,
+          "shares": 0,
+          "impressions": null
+        }
+      ]
+    },
+    {
+      "contentId": "LI-SEED-1",
+      "postUrn": "urn:li:activity:7456187126636908544",
+      "snapshots": [
+        {
+          "interval": "manual",
+          "fetchedAt": "2026-05-20T11:43:03Z",
+          "reactions": 48,
+          "comments": 0,
+          "shares": 0,
+          "impressions": null
+        },
+        {
+          "interval": "24h",
+          "fetchedAt": "2026-05-21T00:00:35Z",
+          "reactions": 48,
+          "comments": 0,
+          "shares": 0,
+          "impressions": null
+        }
+      ]
+    },
+    {
+      "contentId": "LI-SEED-2",
+      "postUrn": "urn:li:activity:7456521472124014592",
+      "snapshots": [
+        {
+          "interval": "manual",
+          "fetchedAt": "2026-05-20T11:43:04Z",
+          "reactions": 24,
+          "comments": 0,
+          "shares": 0,
+          "impressions": null
         }
       ]
     }
@@ -99,4 +299,4 @@
     }
   },
   "apiUrnNote": "Tracked URN urn:li:activity:7457186904363421696 does not match live posts \u2014 returns 0/0/0. Need correct URNs from LinkedIn API."
-}
+}}

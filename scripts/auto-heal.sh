@@ -235,6 +235,17 @@ fi
 log "CHECK 12: critical config baseline"
 CHECKS_RUN+=("critical_config_baseline")
 BASELINE="$WORKSPACE/state/critical-config-baseline.json"
+
+# CHG-0419: Check if interim period is active — if so, downgrade config drift from CRITICAL to WARN
+INTERIM_ACTIVE=false
+if [[ -f "$BASELINE" ]]; then
+  INTERIM_CHECK=$(jq -r '.interimNote // empty' "$BASELINE" 2>/dev/null)
+  if [[ -n "$INTERIM_CHECK" ]]; then
+    INTERIM_ACTIVE=true
+    log "  NOTE: Interim period active — config drift is expected (CHG-0349/CHG-0418)"
+  fi
+fi
+
 if [[ -f "$BASELINE" ]]; then
   CHECK_COUNT=$(jq '.checks | length' "$BASELINE")
   log "  Validating $CHECK_COUNT critical config items"
@@ -257,7 +268,11 @@ if [[ -f "$BASELINE" ]]; then
       log "  OK ${CHECK_ID}: ${ACTUAL}"
     else
       ISSUES_FOUND+=("config-baseline:${CHECK_ID}:drift")
-      if [[ "$CHECK_SEVERITY" == "critical" ]]; then
+      if [[ "$INTERIM_ACTIVE" == "true" ]]; then
+        # CHG-0419: During interim period, log drift at WARN level only — do NOT escalate to needs-Ken
+        ISSUES_FOUND+=("config-baseline:${CHECK_ID}:interim-drift-expected")
+        log "  ~ ${CHECK_ID} DRIFT (interim-expected): expected '${CHECK_EXPECTED}' got '${ACTUAL}'"
+      elif [[ "$CHECK_SEVERITY" == "critical" ]]; then
         NEEDS_KEN+=("CRITICAL DRIFT: ${CHECK_NAME} | expected '${CHECK_EXPECTED}' | actual '${ACTUAL}' | fix: ${CHECK_FIX}")
       else
         NEEDS_KEN+=("WARN DRIFT: ${CHECK_NAME} | expected '${CHECK_EXPECTED}' | actual '${ACTUAL}' | fix: ${CHECK_FIX}")

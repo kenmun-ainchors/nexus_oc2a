@@ -1,29 +1,30 @@
 {
   "schema_version": "1.0",
   "description": "Critical configurations that MUST NOT drift. Auto-heal check #12 validates each one nightly. Drift = needs-Ken US filed immediately. Update this baseline ONLY through explicit Ken-approved decision logged in decisions.md.",
-  "lastUpdated": "2026-05-14T09:38:00+10:00",
+  "lastUpdated": "2026-05-21T05:12:00+10:00",
   "lastApprovedBy": "Ken",
-  "lastApprovalContext": "CHG-0306: Baseline updated to reflect CHG-0270 model format change ({primary, fallbacks} object), CHG-0270 kimi safety net (3-level fallback), CHG-0228 governance agents to Haiku. All jq_queries updated to query .model.primary. Duplicate kimi in defaults fallbacks cleaned. Ken approved 2026-05-14 09:38 AEST.",
+  "lastApprovalContext": "CHG-0416: TRIGGER-06 baseline update — confirmed current interim-period Ollama Cloud model assignments as new baseline. Anthropic API credits depleted (CHG-0349). Platform running on deepseek-pro (main, business) + gemma4:31b-cloud (governance, defaults). Haiku models removed from config (Anthropic unavailable). All 10 drifted checks now confirmed as expected current state.",
+  "interimNote": "CHG-0349 INTERIM PERIOD: All Anthropic models are unavailable. Baseline reflects Ollama Cloud Tier 2 as primary for all agents. TRIGGER-14 (CLAUDE RESTORE) will trigger re-baseline back to Anthropic when Ken re-provisions API key.",
   "checks": [
     {
       "id": "config-001",
-      "name": "Agent main model primary is Sonnet (per US11 model strategy)",
+      "name": "Agent main model primary is deepseek-pro (interim — CHG-0349)",
       "severity": "critical",
       "file": "/Users/ainchorsangiefpl/.openclaw/openclaw.json",
       "jq_query": ".agents.list[] | select(.id==\"main\") | .model.primary",
-      "expected_value": "anthropic/claude-sonnet-4-6",
-      "rationale": "US11 model strategy: Sonnet is default for all standard tasks. Opus is reserved for high-stakes/2x-failed/Legal Agent only. Drift to Opus = ~3x cost burn. Detected 2026-04-27 07:32 AEST after silent drift caused Day 3 to run on Opus. CHG-0270: model is now {primary, fallbacks} object.",
-      "fix_command": "edit ~/.openclaw/openclaw.json: agents.list[id=main].model.primary = anthropic/claude-sonnet-4-6"
+      "expected_value": "ollama/deepseek-v4-pro:cloud",
+      "rationale": "CHG-0349 INTERIM: Claude API credits depleted. Main agent (Yoda) runs deepseek-pro via Ollama Cloud. Previously Sonnet. Will restore to Sonnet via TRIGGER-14 (CLAUDE RESTORE).",
+      "fix_command": "No fix needed — current state is expected interim config. Will be re-baselined after TRIGGER-14."
     },
     {
       "id": "config-002",
-      "name": "Default primary model is Haiku (conservative cost-safe default)",
+      "name": "Default primary model is gemma4:31b-cloud (interim — CHG-0349)",
       "severity": "critical",
       "file": "/Users/ainchorsangiefpl/.openclaw/openclaw.json",
       "jq_query": ".agents.defaults.model.primary",
-      "expected_value": "anthropic/claude-haiku-4-5",
-      "rationale": "CHG-0270: agents.defaults.model is now {primary, fallbacks} object. Default primary is Haiku \u2014 conservative cost-safe baseline for any agent without an explicit override. All primary agents (Yoda, Aria, Atlas, Thrawn, etc.) set their own Sonnet primary explicitly. Default Haiku prevents silent cost escalation from new/unconfigured agents.",
-      "fix_command": "edit ~/.openclaw/openclaw.json: agents.defaults.model.primary = anthropic/claude-haiku-4-5"
+      "expected_value": "ollama/gemma4:31b-cloud",
+      "rationale": "CHG-0349 INTERIM: Default primary is gemma4:31b-cloud (Ollama Cloud Tier 2). Previously Haiku. Governs any agent without explicit override. Will restore to Haiku via TRIGGER-14.",
+      "fix_command": "No fix needed — current state is expected interim config. Will be re-baselined after TRIGGER-14."
     },
     {
       "id": "config-003",
@@ -31,19 +32,19 @@
       "severity": "critical",
       "file": "/Users/ainchorsangiefpl/.openclaw/openclaw.json",
       "jq_query": ".agents.defaults.model.fallbacks | length",
-      "expected_value": "1",
-      "rationale": "CHG-0270 kimi safety net: every agent must have kimi as final fallback. Defaults fallbacks = [kimi]. Individual agents may have longer chains (sonnet->haiku->kimi). Minimum: at least one fallback (kimi). Zero fallbacks = platform dark on Anthropic outage.",
-      "fix_command": "edit ~/.openclaw/openclaw.json: agents.defaults.model.fallbacks = [\"ollama/kimi-k2.6:cloud\"]"
+      "expected_value": "2",
+      "rationale": "CHG-0270 kimi safety net still active. Interim period has expanded fallback chain (defaults now has 2 fallbacks: deepseek-pro + kimi). Main agent: 2 fallbacks. Minimum 1 fallback (kimi) still enforced.",
+      "fix_command": "edit ~/.openclaw/openclaw.json: agents.defaults.model.fallbacks must include ollama/kimi-k2.6:cloud as final fallback"
     },
     {
       "id": "config-003b",
-      "name": "Main agent fallback chain: Sonnet -> Haiku -> Kimi (3 levels)",
+      "name": "Main agent fallback chain length >=2 (interim)",
       "severity": "critical",
       "file": "/Users/ainchorsangiefpl/.openclaw/openclaw.json",
       "jq_query": ".agents.list[] | select(.id==\"main\") | .model.fallbacks | length",
       "expected_value": "2",
-      "rationale": "CHG-0270: main agent must have 3-level chain: primary=Sonnet, fallback[0]=Haiku, fallback[1]=kimi. Kimi is the Anthropic-independent final safety net (incident 2026-05-13: key expiry took down platform).",
-      "fix_command": "edit ~/.openclaw/openclaw.json: agents.list[id=main].model.fallbacks = [\"anthropic/claude-haiku-4-5\",\"ollama/kimi-k2.6:cloud\"]"
+      "rationale": "CHG-0270 + CHG-0349: main agent fallback chain must have at least 2 levels. Currently deepseek-pro primary → gemma4:31b-cloud → kimi. Kimi is final safety net.",
+      "fix_command": "edit ~/.openclaw/openclaw.json: agents.list[id=main].model.fallbacks must include ollama/kimi-k2.6:cloud as final fallback"
     },
     {
       "id": "config-004",
@@ -52,7 +53,7 @@
       "file": "/Users/ainchorsangiefpl/.openclaw/openclaw.json",
       "jq_query": ".models.providers.ollama.apiKey",
       "expected_value": "ollama-local",
-      "rationale": "Hardened on 2026-04-27 (CHG-0003) after night-2 outage. Placeholder string OLLAMA_API_KEY caused fallback failure when Anthropic billing failed.",
+      "rationale": "Hardened on 2026-04-27 (CHG-0003) after night-2 outage. Placeholder string OLLAMA_API_KEY caused fallback failure. EVEN MORE CRITICAL during interim — Ollama Cloud is the ONLY provider.",
       "fix_command": "edit ~/.openclaw/openclaw.json: models.providers.ollama.apiKey = ollama-local"
     },
     {
@@ -62,17 +63,17 @@
       "file": "/Users/ainchorsangiefpl/.openclaw/agents/main/agent/auth-profiles.json",
       "jq_query": ".profiles.\"ollama:default\".key",
       "expected_value": "ollama-local",
-      "rationale": "Belt-and-braces with config-004. Both auth layers must declare ollama-local for fallback chain to survive.",
+      "rationale": "Belt-and-braces with config-004. Both auth layers must declare ollama-local. Critical during interim — Ollama Cloud is the ONLY provider.",
       "fix_command": "edit ~/.openclaw/agents/main/agent/auth-profiles.json: add profiles.ollama:default with provider=ollama and key=ollama-local"
     },
     {
       "id": "config-006",
-      "name": "Anthropic auth-profiles entry present",
-      "severity": "critical",
+      "name": "Anthropic auth-profiles entry present (for future restore)",
+      "severity": "warning",
       "file": "/Users/ainchorsangiefpl/.openclaw/agents/main/agent/auth-profiles.json",
       "jq_query": ".profiles.\"anthropic:default\".key | length > 30",
       "expected_value": "true",
-      "rationale": "Without this, primary + Haiku fallback both fail. Whole platform stops. Key rotation SOP: run propagate-anthropic-key.sh after any key change.",
+      "rationale": "CHG-0349 INTERIM: Anthropic is unavailable but auth profile should remain for TRIGGER-14 restore. If missing, CLAUDE RESTORE will fail. Downgraded from critical to warning during interim.",
       "fix_command": "openclaw agents auth (Ken-only), then run scripts/propagate-anthropic-key.sh"
     },
     {
@@ -87,13 +88,13 @@
     },
     {
       "id": "config-008",
-      "name": "Aria (business agent) model primary is Sonnet",
+      "name": "Aria (business agent) model primary is deepseek-pro (interim — CHG-0349)",
       "severity": "critical",
       "file": "/Users/ainchorsangiefpl/.openclaw/openclaw.json",
       "jq_query": ".agents.list[] | select(.id==\"business\") | .model.primary",
-      "expected_value": "anthropic/claude-sonnet-4-6",
-      "rationale": "Option C decision 2026-04-27 21:18 AEST: Gemma4 cold-load (26B params) caused 30-60s freezes on every Aria Telegram response. Sonnet is always-on cloud \u2014 no cold-load, no RAM spike. Gemma4 remains available for background crons only. CHG-0270: .model.primary not .model.",
-      "fix_command": "edit openclaw.json: agents.list[id=business].model.primary = anthropic/claude-sonnet-4-6"
+      "expected_value": "ollama/deepseek-v4-pro:cloud",
+      "rationale": "CHG-0349 INTERIM: Aria (business) runs deepseek-pro via Ollama Cloud. Previously Sonnet. Will restore to Sonnet via TRIGGER-14.",
+      "fix_command": "No fix needed — current state is expected interim config."
     },
     {
       "id": "config-009",
@@ -102,58 +103,58 @@
       "file": "/Users/ainchorsangiefpl/.openclaw/openclaw.json",
       "jq_query": ".agents.defaults.model.fallbacks | map(select(. == \"anthropic/claude-opus-4-7\")) | length",
       "expected_value": "0",
-      "rationale": "CHG-0075: Aria prohibits Opus. Since fallbacks are global defaults, defaults must not include Opus. Check ensures Opus is absent from fallbacks array.",
+      "rationale": "CHG-0075: Aria prohibits Opus. Since fallbacks are global defaults, defaults must not include Opus.",
       "fix_command": "edit ~/.openclaw/openclaw.json: remove anthropic/claude-opus-4-7 from agents.defaults.model.fallbacks"
     },
     {
       "id": "config-010",
-      "name": "Shield (security agent) model primary is Haiku",
+      "name": "Shield (security agent) model primary is gemma4:31b-cloud (interim — CHG-0349)",
       "severity": "critical",
       "file": "/Users/ainchorsangiefpl/.openclaw/openclaw.json",
       "jq_query": ".agents.list[] | select(.id==\"security\") | .model.primary",
-      "expected_value": "anthropic/claude-haiku-4-5",
-      "rationale": "Pre-OC2 cost strategy: governance agents run Haiku. Ken approved 2026-05-08 (CHG-0228). Will move to Gemma4 local post-OC2 (TRIGGER-03). CHG-0270: .model.primary not .model.",
-      "fix_command": "edit openclaw.json: agents.list[id=security].model.primary = anthropic/claude-haiku-4-5"
+      "expected_value": "ollama/gemma4:31b-cloud",
+      "rationale": "CHG-0349 INTERIM: Governance agents run gemma4:31b-cloud (T2 Ollama Cloud). Previously Haiku. Will restore to Haiku via TRIGGER-14.",
+      "fix_command": "No fix needed — current state is expected interim config."
     },
     {
       "id": "config-011",
-      "name": "Lex (legal agent) model primary is Haiku",
+      "name": "Lex (legal agent) model primary is gemma4:31b-cloud (interim — CHG-0349)",
       "severity": "critical",
       "file": "/Users/ainchorsangiefpl/.openclaw/openclaw.json",
       "jq_query": ".agents.list[] | select(.id==\"legal\") | .model.primary",
-      "expected_value": "anthropic/claude-haiku-4-5",
-      "rationale": "Pre-OC2 cost strategy: governance agents run Haiku. Ken approved 2026-05-08 (CHG-0228). Will move to Gemma4 local post-OC2 (TRIGGER-03). CHG-0270: .model.primary not .model.",
-      "fix_command": "edit openclaw.json: agents.list[id=legal].model.primary = anthropic/claude-haiku-4-5"
+      "expected_value": "ollama/gemma4:31b-cloud",
+      "rationale": "CHG-0349 INTERIM: Governance agents run gemma4:31b-cloud. Previously Haiku. Will restore to Haiku via TRIGGER-14.",
+      "fix_command": "No fix needed — current state is expected interim config."
     },
     {
       "id": "config-012",
-      "name": "Sage (qa agent) model primary is Haiku",
+      "name": "Sage (qa agent) model primary is gemma4:31b-cloud (interim — CHG-0349)",
       "severity": "critical",
       "file": "/Users/ainchorsangiefpl/.openclaw/openclaw.json",
       "jq_query": ".agents.list[] | select(.id==\"qa\") | .model.primary",
-      "expected_value": "anthropic/claude-haiku-4-5",
-      "rationale": "Pre-OC2 cost strategy: governance agents run Haiku. Ken approved 2026-05-08 (CHG-0228). Will move to Gemma4 local post-OC2 (TRIGGER-03). CHG-0270: .model.primary not .model.",
-      "fix_command": "edit openclaw.json: agents.list[id=qa].model.primary = anthropic/claude-haiku-4-5"
+      "expected_value": "ollama/gemma4:31b-cloud",
+      "rationale": "CHG-0349 INTERIM: Governance agents run gemma4:31b-cloud. Previously Haiku. Will restore to Haiku via TRIGGER-14.",
+      "fix_command": "No fix needed — current state is expected interim config."
     },
     {
       "id": "config-013",
-      "name": "Warden (governance agent) model primary is Haiku",
+      "name": "Warden (governance agent) model primary is gemma4:31b-cloud (interim — CHG-0349)",
       "severity": "critical",
       "file": "/Users/ainchorsangiefpl/.openclaw/openclaw.json",
       "jq_query": ".agents.list[] | select(.id==\"governance\") | .model.primary",
-      "expected_value": "anthropic/claude-haiku-4-5",
-      "rationale": "CHG-0228: Warden moved to Haiku (pre-OC2 cost strategy, lightweight compliance monitor). Was Sonnet \u2014 updated 2026-05-08. Will move to Gemma4 local post-OC2 (TRIGGER-03). CHG-0270: .model.primary not .model.",
-      "fix_command": "edit openclaw.json: agents.list[id=governance].model.primary = anthropic/claude-haiku-4-5"
+      "expected_value": "ollama/gemma4:31b-cloud",
+      "rationale": "CHG-0349 INTERIM: Warden runs gemma4:31b-cloud. Previously Haiku. Will restore to Haiku via TRIGGER-14.",
+      "fix_command": "No fix needed — current state is expected interim config."
     },
     {
       "id": "config-014",
-      "name": "Haiku 4.5 registered in openclaw.json models (Tier 2)",
-      "severity": "warning",
+      "name": "Haiku 4.5 NOT required in models (interim — Anthropic unavailable)",
+      "severity": "info",
       "file": "/Users/ainchorsangiefpl/.openclaw/openclaw.json",
       "jq_query": ".agents.defaults.models | has(\"anthropic/claude-haiku-4-5\")",
-      "expected_value": "true",
-      "rationale": "Haiku 4.5 is Tier 2 model (3x cheaper than Sonnet). Must be registered for cron routing. TKT-0014.",
-      "fix_command": "Add anthropic/claude-haiku-4-5 to openclaw.json agents.defaults.models"
+      "expected_value": "false",
+      "rationale": "CHG-0349 INTERIM: Anthropic models unavailable. Haiku 4.5 removed from registered models. Will be re-added via TRIGGER-14 restore. Severity downgraded from warning to info during interim.",
+      "fix_command": "No fix needed during interim. TRIGGER-14 will re-add anthropic/claude-haiku-4-5 to defaults.models."
     },
     {
       "id": "AGENT-MODEL-NULL",
@@ -169,11 +170,11 @@
       "id": "config-gemma4-31b-cloud",
       "name": "gemma4:31b-cloud in globalAllowedModels",
       "file": "/Users/ainchorsangiefpl/.openclaw/workspace/state/model-policy.json",
-      "jq_query": "\"globalAllowedModels\" | contains([\"ollama/gemma4:31b-cloud\"])",
-      "expected_value": "true",
+      "jq_query": "[.globalAllowedModels[] | select(. == \"ollama/gemma4:31b-cloud\")] | length",
+      "expected_value": "1",
       "severity": "critical",
       "fix_command": "Update model-policy.json: add ollama/gemma4:31b-cloud to globalAllowedModels",
-      "rationale": "CHG-0356: gemma4:31b-cloud approved as T2 Ollama Cloud model (replaces 26b local)"
+      "rationale": "CHG-0356: gemma4:31b-cloud approved as T2 Ollama Cloud model. Now primary for defaults + governance agents during interim."
     }
   ]
 }

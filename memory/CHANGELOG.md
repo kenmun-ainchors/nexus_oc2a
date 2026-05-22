@@ -106,6 +106,88 @@
 **Linked:** CHG-0349, CHG-0350, TKT-0165, TKT-0175
 ---
 
+## 2026-05-21 20:21 AEST — [CHG-0423] Notion resync — 15 tickets + 5 CHGs from Day 27 session
+**Type:** config
+**Change Type:** Normal
+**Source:** manual
+**Trigger:** ken-webchat-2026-05-21-2020
+**What changed:** Ken reported closed/completed tickets not visible in Notion Backlog. Root cause: jq parse errors during ticket.sh close calls caused Notion sync to fail silently. Forced re-sync of all 15 tickets (TKT-0195, 0196, 0197, 0198, 0178, 0182, 0233, 0234, 0235, 0236, 0237, 0228, 0110, 0128, 0137) and verified status alignment. TKT-0228 has jq parse error from description field with newlines — sync succeeded but jq warnings present.
+**Why:** Notion Backlog is the SSOT for ticket status. Sync failures create visibility gaps — Ken sees stale data while local tickets.json has current state.
+**Verification:** All 15 tickets synced and verified in Notion. TKT-0228 jq warnings are cosmetic (sync succeeded). Root cause: ticket.sh close uses jq to update tickets.json, and description fields with unescaped newlines/control chars cause jq parse errors during the sync pipeline.
+**Rollback:** N/A
+**Linked:** TKT-0229 (ticket.sh JSON write bug), L-034 (JSON structure drift)
+**Category:** data
+---
+
+
+## 2026-05-21 16:01 AEST — [CHG-0422] TKT-0228 re-groomed + TKT-0237 Platform Rule Engine — defense-in-depth against agent drift
+**Type:** rule
+**Change Type:** Normal
+**Source:** ken-prompt
+**Trigger:** ken-webchat-2026-05-21-1600
+**What changed:** TKT-0228 RE-GROOMED: OWL narrowed from 18h/5-story full system to 2h conditional safety mode — activated ONLY when agents run on kimi-class models for non-LOW currency work. TKT-0237 RAISED: Platform Rule Engine v1 T1 Audit Tier — Warden-owned 10-rule post-execution compliance audit (R01-R10: Path, SoT, Model, Template, State Check, ID Uniqueness, Config Drift, Content Gov, Cron Health, MEMORY). Output: rule-audit-report.json + weekly HTML report. P2 gate: T2 pre-execution intercept under Citadel. Together these form a defense-in-depth drift prevention layer with TKT-0182 State Checking and TKT-0196 Three Work Types.
+**Why:** Ken identified the fundamental drift problem: agents treat rules as advisory, not mandatory. Markdown rules have no runtime enforcement. P2 clients require auditable compliance. T1 Audit Tier gives us visibility now; T2 Gate Tier prevents violations at P2.
+**Verification:** TKT-0228 re-groomed, TKT-0237 raised and tagged Sprint 5 with Warden owner. Both synced to Notion.
+**Rollback:** N/A
+**Linked:** TKT-0228, TKT-0237, TKT-0182, TKT-0196, TKT-0197, CHG-0421, CHG-0386
+**Category:** data
+---
+
+
+## 2026-05-21 15:13 AEST — [CHG-0421] Forge double-failure on TKT-0198 — agent execution investigation opened
+**Type:** infra
+**Change Type:** Normal
+**Source:** ken-prompt
+**Trigger:** ken-webchat-2026-05-21-1513
+**What changed:** Forge failed twice on TKT-0198 (JSON to Postgres migration). First attempt delivered wrong ticket output (TKT-0195 schema only). Second attempt produced zero deliverables. Yoda had to hand-build migration. TKT-0235 raised to investigate. Pattern: Forge also had path issues on TKT-0108 (wrote to forge/ not workspace/) and TKT-0196 (truncated RULES.md to single section). Could be systemic — needs RCA before further Forge assignments.
+**Why:** Agent execution failures at scale undermine platform reliability. If Forge can't reliably execute build tasks, it impacts Sprint 4 velocity and confidence in sub-agent delegation model. Investigation must determine: isolated (Forge tool scope/config) or systemic (all sub-agents).
+**Verification:** TKT-0235 raised, linked to TKT-0198. Historical pattern documented: TKT-0108 path issue, TKT-0196 RULES.md truncation, TKT-0198 double failure. Investigation pending.
+**Rollback:** N/A
+**Linked:** TKT-0195, TKT-0196, TKT-0198, TKT-0235
+**Category:** data
+---
+
+
+## 2026-05-21 12:08 AEST — [CHG-0420] EOD Blog Format Drift Since 2026-05-18 — Restore to Approved Template
+**Type:** data
+**Change Type:** Normal
+**Source:** ken-prompt
+**Trigger:** ken-webchat-2026-05-21-1208
+**What changed:** Blogs May 18-20 drifted from locked template CHG-0368: accent colour changed (#c49b5e→#bb86fc), mandatory sections missing (What I Learned, Cost, What's Next), May 18 had zero h2 sections, file size collapsed 21-26KB→9-10KB. template-lock.json exists but is not enforced by cron script a027fd60. Root cause: CHG-0363 Ollama transition changed cron agent payload without preserving template enforcement.
+**Why:** After 23 days of iteration, Ken locked all 3 templates on 17 May. Drift defeats template governance and degrades brand consistency. Needs immediate fix: restore approved CSS, enforce minimum section requirements, add template validation to cron.
+**Verification:** state/template-lock.json verified active, approved baseline May-16/17 verified as reference, May-18/19/20 drift documented line-by-line, Forge assigned TKT to fix
+**Rollback:** Revert to pre-fix state. Regenerate May 18-20 from journal source.
+**Linked:** CHG-0368, CHG-0363, CHG-0290
+**Category:** data
+---
+
+
+## 2026-05-21 11:38 AEST — [CHG-0419] RTB: auto-heal Check #12 interim-drift exceptions + obs-collector error pattern filter
+**Type:** config
+**Change Type:** Normal
+**Source:** ken-prompt
+**Trigger:** Ken RTB standup 2026-05-21: 🌵 102 error-level logs for expected state (alert fatigue) + 🌱 File CHG for interim-drift exceptions
+**What changed:** 1) obs-collector.sh: added interim-period awareness for fallback chain (skips validation during interim, logs at INFO). 2) auto-heal.sh Check #12: reads interimNote from critical-config-baseline.json; if interim period active, downgrades all config drift from CRITICAL→WARN and suppresses needs-Ken escalation. Drift still logged but not escalated.
+**Why:** Alert fatigue from expected transient errors (gateway startup UNAVAILABLE, Telegram transport blips) + interim config drift flooding needs-Ken with known-expected items.
+**Verification:** Scripts parse correctly. obs-collector.sh now skips fallback chain alerts during interim. auto-heal.sh Check #12 will WARN but not escalate when interimNote is present in baseline.
+**Rollback:** N/A
+**Linked:** none
+---
+
+
+## 2026-05-21 11:32 AEST — [CHG-0418] TRIGGER-06: Critical config baseline re-based to interim-period Ollama Cloud assignments
+**Type:** config
+**Change Type:** Normal
+**Source:** ken-prompt
+**Trigger:** Ken confirmed all 10 drifted config items as expected current state under CHG-0349
+**What changed:** Updated critical-config-baseline.json to reflect interim Ollama Cloud config
+**Why:** Anthropic API credits depleted. Baseline must reflect current state.
+**Verification:** Auto-heal check #12 will pass with new baseline.
+**Rollback:** N/A
+**Linked:** none
+---
+
+
 ## 2026-05-19 10:47 AEST — [CHG-0417] CHG-0417: Drive Upload Discipline — --parent flag mandatory for all agents
 **Type:** rule
 **Change Type:** Normal

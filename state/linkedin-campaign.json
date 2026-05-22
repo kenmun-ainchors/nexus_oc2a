@@ -4,7 +4,7 @@
   "description": "ONE file for all LinkedIn content state. Replaces linkedin-queue.json, linkedin-content-tracker.json, content-queue.json (social entries only). Blog entries remain in content-queue.json.",
   "createdAt": "2026-05-19T10:39:00+10:00",
   "createdBy": "Yoda (CHG consolidation)",
-  "lastUpdated": "2026-05-19T21:25:21.535205+10:00",
+  "lastUpdated": "2026-05-20T21:42:00+10:00",
   "agent": "Spark",
   "api": {
     "enabled": true,
@@ -36,7 +36,8 @@
       "postedAt": "2026-05-03T11:54:00+10:00",
       "postedBy": "Ken (manual)",
       "type": "seeder",
-      "postUrl": null
+      "postUrl": "https://www.linkedin.com/posts/activity-7456187126636908544/",
+      "postUrn": "urn:li:activity:7456187126636908544"
     },
     {
       "id": "LI-SEED-2",
@@ -44,7 +45,8 @@
       "postedAt": "2026-05-03T11:54:00+10:00",
       "postedBy": "Ken (manual)",
       "type": "seeder",
-      "postUrl": null
+      "postUrl": "https://www.linkedin.com/posts/activity-7456521472124014592/",
+      "postUrn": "urn:li:activity:7456521472124014592"
     },
     {
       "id": "LI-W1-P1",
@@ -54,7 +56,7 @@
       "type": "original",
       "slot": "Tue 07:30",
       "postUrn": "urn:li:activity:7457186904363421696",
-      "postUrl": "https://www.linkedin.com/posts/activity-7457186904363421696-UUyZ/"
+      "postUrl": "https://www.linkedin.com/posts/activity-7457186904363421696/"
     },
     {
       "id": "LI-W1-P2",
@@ -63,7 +65,8 @@
       "postedBy": "Spark (cron)",
       "type": "original",
       "slot": "Wed 12:00",
-      "postUrn": "urn:li:activity:pending-urn-check"
+      "postUrn": "urn:li:activity:7457611088205893632",
+      "postUrl": "https://www.linkedin.com/posts/activity-7457611088205893632/"
     },
     {
       "id": "LI-W1-P3",
@@ -72,7 +75,8 @@
       "postedBy": "Spark (cron, Ken manual edit)",
       "type": "original",
       "slot": "Thu 07:30",
-      "postUrn": "urn:li:activity:7457905291582689281"
+      "postUrn": "urn:li:activity:7457905291582689281",
+      "postUrl": "https://www.linkedin.com/posts/activity-7457905291582689281/"
     },
     {
       "id": "LI-ADHOC-RUSTDESK",
@@ -80,7 +84,8 @@
       "postedAt": "2026-05-10T02:25:44+00:00",
       "postedBy": "Ken (manual edit + image)",
       "type": "ad-hoc",
-      "postUrl": null
+      "postUrl": "https://www.linkedin.com/posts/activity-7459014433726681088/",
+      "postUrn": "urn:li:activity:7459014433726681088"
     },
     {
       "id": "LI-C1-W2-P2-BROKEN",
@@ -89,7 +94,9 @@
       "postedBy": "Spark (API)",
       "type": "original",
       "slot": "out-of-order",
-      "note": "Part of broken AIOps series. P1 was never posted. Series retired 2026-05-19."
+      "note": "Part of broken AIOps series. P1 was never posted. Series retired 2026-05-19.",
+      "postUrn": "urn:li:activity:7459766116362633216",
+      "postUrl": "https://www.linkedin.com/posts/activity-7459766116362633216/"
     },
     {
       "id": "LI-C1-W2-P3-BROKEN",
@@ -98,7 +105,9 @@
       "postedBy": "Spark (cron)",
       "type": "original",
       "slot": "Thu 07:30",
-      "note": "Part of broken AIOps series. P1 never posted, P2 out of order. Series retired 2026-05-19."
+      "note": "Part of broken AIOps series. P1 never posted, P2 out of order. Series retired 2026-05-19.",
+      "postUrn": "urn:li:activity:7460442069229211648",
+      "postUrl": "https://www.linkedin.com/posts/activity-7460442069229211648/"
     },
     {
       "id": "LI-W3-P1",
@@ -107,7 +116,9 @@
       "postedBy": "Yoda (manual \u2014 cron UTC bug)",
       "type": "original",
       "slot": "Tue 07:30 (late \u2014 posted 21:24 AEST)",
-      "imageAssetUrn": "urn:li:image:D4E10AQGC0Qx5FFVyVA"
+      "imageAssetUrn": "urn:li:image:D4E10AQGC0Qx5FFVyVA",
+      "postUrn": "urn:li:activity:7462463345594605569",
+      "postUrl": "https://www.linkedin.com/posts/activity-7462463345594605569/"
     }
   ],
   "skipped": [
@@ -140,27 +151,34 @@
           "imageAssetUrn": "urn:li:image:D4E10AQGC0Qx5FFVyVA",
           "imageMinioUrl": "http://ainchorss-mac-mini.tail5e2567.ts.net:9000/ainchors-generated-media/social/linkedin/LI-W3-P1/image.jpg",
           "imageReceivedAt": "2026-05-19T12:29:40.249846+10:00",
-          "postedAt": "2026-05-19T21:25:21.535205+10:00"
+          "postedAt": "2026-05-19T21:25:21.535205+10:00",
+          "postUrn": "urn:li:activity:7462463345594605569",
+          "urnCapturedAt": "2026-05-20T11:42:00+10:00"
         },
         {
           "id": "LI-W3-P2",
           "slot": "Wed 21 May 12:00 AEST",
           "title": "The model is never the bottleneck",
           "angle": "Data plumbing, failure handling, audit trails, cost management \u2014 not model choice",
-          "status": "approved",
+          "status": "skipped",
           "imageAssetUrn": "urn:li:image:D4E10AQH6HleTChQOLA",
           "imageMinioUrl": "http://ainchorss-mac-mini.tail5e2567.ts.net:9000/ainchors-generated-media/social/linkedin/LI-W3-P2/image.jpg",
-          "imageReceivedAt": "2026-05-19T12:30:29.856350+10:00"
+          "imageReceivedAt": "2026-05-19T12:30:29.856350+10:00",
+          "skippedReason": "Missed Wed 12:00 slot \u2014 Ollama outage. Ken: skip.",
+          "skippedAt": "2026-05-20T15:36:00+10:00"
         },
         {
           "id": "LI-W3-P3",
           "slot": "Thu 22 May 07:30 AEST",
           "title": "The skill that matters most in AI isn't prompting",
           "angle": "System design thinking > prompt engineering",
-          "status": "approved",
+          "status": "approved-scheduled",
           "imageAssetUrn": "urn:li:image:D4E10AQEFkn4GudRhzw",
           "imageMinioUrl": "http://ainchorss-mac-mini.tail5e2567.ts.net:9000/ainchors-generated-media/social/linkedin/LI-W3-P3/image.jpg",
-          "imageReceivedAt": "2026-05-19T12:31:13.292575+10:00"
+          "imageReceivedAt": "2026-05-19T12:31:13.292575+10:00",
+          "note": "Cron created 2026-05-20. Will auto-delete after posting.",
+          "cronId": "96f326fd",
+          "cronAt": "2026-05-22T07:30:00+10:00"
         }
       ],
       "approvedAt": "2026-05-19T12:10:36.726534+10:00",
@@ -187,5 +205,19 @@
       "rejectedAt": "2026-05-19T10:25:00+10:00",
       "reason": "Ken: reject. Choose another topic. Then full campaign reset ordered."
     }
-  ]
+  ],
+  "metricsOwnership": {
+    "agent": "spark",
+    "assignedAt": "2026-05-20T21:29:00+10:00",
+    "assignedBy": "Yoda (per Ken directive)",
+    "ticket": "TKT-0232",
+    "responsibilities": [
+      "Run and manage all LinkedIn metrics",
+      "Fix URN capture in linkedin-post.sh",
+      "Backfill missing URNs for 7 posts",
+      "Schedule automated daily metrics snapshots",
+      "Maintain state/linkedin-metrics.json",
+      "Report campaign stats on request"
+    ]
+  }
 }

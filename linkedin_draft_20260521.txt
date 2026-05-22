@@ -1,0 +1,34 @@
+# LinkedIn Draft: The Cost of "Almost Working" AI
+
+(Hook)
+I spent 16,900 tokens every 15 minutes to run two bash scripts. 
+
+That's not a "cost of doing business" — it's a design failure.
+
+(Body)
+Last week, my platform's monitoring agent (Warden) started failing intermittently. The scripts it was running were passing, but the agent itself was aborting. 
+
+The culprit? Context bloat.
+
+Every time Warden ran, it was injecting the full main-agent bootstrap context: SOUL, AGENTS, and MEMORY. We were feeding a lightweight monitoring task a massive operational manual it didn't need. 
+
+Haiku was hitting its context ceiling and just giving up.
+
+The fix was a "shell-first" pivot:
+1. Moved the logic into a pure shell wrapper (`warden-cron.sh`).
+2. Enabled `lightContext: true` to strip the bulk.
+3. Stopped piping verbose stdout back into the model's brain.
+
+Result: Tokens per run dropped by ~33%, duration halved, and the failure rate went to zero.
+
+(The Practitioner Lesson)
+In AI ops, token efficiency isn't just about the monthly bill. It's a performance constraint. 
+
+When you build "too much" context into your defaults, you don't just pay more — you introduce invisible failure points.
+
+If a task doesn't need reasoning, don't use an LLM. 
+If a cron doesn't need the full platform history, don't give it.
+
+Build lean, or the context will eventually eat your reliability.
+
+#AIOps #BuildInPublic #LLMOps #EngineeringEfficiency #AInchors

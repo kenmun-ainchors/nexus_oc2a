@@ -507,3 +507,69 @@ Avg: ~$101/day. Balance at 2026-04-28 EOD: $58.72 USD.
 - **kimi-k2.6:cloud**: 178 turns | 0 in / 0 out | $0.0000
 - **deepseek-v4-pro:cloud**: 264 turns | 19,394,267 in / 55,730 out | $0.0000
 - **delivery-mirror**: 16 turns | 0 in / 0 out | $0.0000
+
+## 2026-05-20
+
+| Metric | Value |
+|--------|-------|
+| Total Cost | $0.0000 |
+| Turns | 2333 |
+| Input Tokens | 28,288,917 |
+| Output Tokens | 136,238 |
+| Cache Read | 0 |
+| Calculated Cost (ephemeral) | $0.0000 |
+| Calculated Turns | 0 |
+
+### By Stream
+- **technical**: 2145 turns | $0.0000
+- **business**: 188 turns | $0.0000
+
+### By Model
+- **gemma4:31b-cloud**: 1574 turns | 12,599,744 in / 43,730 out | $0.0000
+- **kimi-k2.6:cloud**: 294 turns | 0 in / 0 out | $0.0000
+- **deepseek-v4-flash:cloud**: 18 turns | 391,347 in / 3,301 out | $0.0000
+- **deepseek-v4-pro:cloud**: 435 turns | 15,297,826 in / 89,207 out | $0.0000
+- **glm-5.1:cloud**: 4 turns | 0 in / 0 out | $0.0000
+- **delivery-mirror**: 8 turns | 0 in / 0 out | $0.0000
+
+## 2026-05-21
+
+| Metric | Value |
+|--------|-------|
+| Total Cost | $0.0000 |
+| Turns | 428 |
+| Input Tokens | 8,882,143 |
+| Output Tokens | 54,901 |
+| Cache Read | 0 |
+| Calculated Cost (ephemeral) | $0.0000 |
+| Calculated Turns | 0 |
+
+### By Stream
+- **technical**: 418 turns | $0.0000
+- **business**: 10 turns | $0.0000
+
+### By Model
+- **gemma4:31b-cloud**: 314 turns | 3,119,454 in / 25,296 out | $0.0000
+- **deepseek-v4-pro:cloud**: 97 turns | 5,625,038 in / 27,161 out | $0.0000
+- **delivery-mirror**: 5 turns | 0 in / 0 out | $0.0000
+- **kimi-k2.6:cloud**: 12 turns | 137,651 in / 2,444 out | $0.0000
+
+## 2026-05-22
+
+| Metric | Value |
+|--------|-------|
+| Total Cost | $0.0000 |
+| Turns | 86 |
+| Input Tokens | 3,373,602 |
+| Output Tokens | 21,943 |
+| Cache Read | 0 |
+| Calculated Cost (ephemeral) | $0.0000 |
+| Calculated Turns | 0 |
+
+### By Stream
+- **technical**: 44 turns | $0.0000
+- **business**: 42 turns | $0.0000
+
+### By Model
+- **deepseek-v4-pro:cloud**: 84 turns | 3,373,602 in / 21,943 out | $0.0000
+- **delivery-mirror**: 2 turns | 0 in / 0 out | $0.0000
