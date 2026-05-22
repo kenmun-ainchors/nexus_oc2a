@@ -1,0 +1,460 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Day 28 — The Autonomous Engine — AInchors</title>
+  <style>
+    :root {
+      --bg: #0d0d0d;
+      --surface: #141414;
+      --surface-2: #1a1a1a;
+      --text: #e6e6e6;
+      --text-secondary: #8a8a8a;
+      --text-muted: #5c5c5c;
+      --accent: #c49b5e;
+      --accent-dim: #8a6b3e;
+      --callout-info: #2a3a4a;
+      --callout-warn: #3a2a1a;
+      --callout-danger: #3a1a1a;
+      --border: #2a2a2a;
+      --code-bg: #0f0f0f;
+      --code-border: #222;
+    }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+      line-height: 1.7;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    .container {
+      max-width: 720px;
+      margin: 0 auto;
+      padding: 48px 24px;
+    }
+
+    .hero {
+      border-bottom: 1px solid var(--border);
+      padding-bottom: 32px;
+      margin-bottom: 48px;
+    }
+
+    .day-label {
+      font-size: 13px;
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+      color: var(--accent);
+      margin-bottom: 12px;
+      font-weight: 600;
+    }
+
+    h1 {
+      font-size: 32px;
+      font-weight: 700;
+      line-height: 1.2;
+      color: var(--text);
+      margin-bottom: 12px;
+      letter-spacing: -0.01em;
+    }
+
+    .subtitle {
+      font-size: 18px;
+      color: var(--text-secondary);
+      font-weight: 400;
+      line-height: 1.5;
+    }
+
+    .byline {
+      margin-top: 20px;
+      font-size: 14px;
+      color: var(--text-muted);
+    }
+
+    h2 {
+      font-size: 22px;
+      font-weight: 600;
+      margin-top: 48px;
+      margin-bottom: 16px;
+      color: var(--text);
+      line-height: 1.3;
+    }
+
+    h3 {
+      font-size: 17px;
+      font-weight: 600;
+      margin-top: 32px;
+      margin-bottom: 12px;
+      color: var(--text);
+    }
+
+    p {
+      margin-bottom: 18px;
+      font-size: 16px;
+      line-height: 1.75;
+      color: var(--text);
+    }
+
+    .callout {
+      border-radius: 8px;
+      padding: 18px 20px;
+      margin: 28px 0;
+      font-size: 15px;
+      line-height: 1.6;
+      border-left: 3px solid transparent;
+    }
+
+    .callout-info {
+      background: var(--callout-info);
+      border-left-color: #6b9ec7;
+    }
+
+    .callout-warn {
+      background: var(--callout-warn);
+      border-left-color: var(--accent);
+    }
+
+    .callout-danger {
+      background: var(--callout-danger);
+      border-left-color: #c75e5e;
+    }
+
+    .callout-label {
+      font-weight: 600;
+      margin-bottom: 6px;
+      display: block;
+      font-size: 13px;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+    }
+
+    .callout-info .callout-label { color: #8ab4d8; }
+    .callout-warn .callout-label { color: var(--accent); }
+    .callout-danger .callout-label { color: #d88a8a; }
+
+    ul, ol {
+      margin: 16px 0 24px 24px;
+    }
+
+    li {
+      margin-bottom: 8px;
+      font-size: 16px;
+      line-height: 1.65;
+    }
+
+    code {
+      background: var(--code-bg);
+      border: 1px solid var(--code-border);
+      border-radius: 4px;
+      padding: 2px 6px;
+      font-family: "SF Mono", "Fira Code", "Fira Mono", Menlo, Consolas, monospace;
+      font-size: 14px;
+      color: #d4a76a;
+    }
+
+    pre {
+      background: var(--code-bg);
+      border: 1px solid var(--code-border);
+      border-radius: 8px;
+      padding: 16px 20px;
+      overflow-x: auto;
+      margin: 20px 0;
+      font-size: 14px;
+      line-height: 1.6;
+    }
+
+    pre code {
+      background: none;
+      border: none;
+      padding: 0;
+      color: var(--text);
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 24px 0;
+      font-size: 15px;
+    }
+
+    th, td {
+      padding: 10px 14px;
+      text-align: left;
+      border-bottom: 1px solid var(--border);
+    }
+
+    th {
+      font-weight: 600;
+      color: var(--text-secondary);
+      font-size: 13px;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+
+    td {
+      color: var(--text);
+    }
+
+    .footer {
+      margin-top: 64px;
+      padding-top: 32px;
+      border-top: 1px solid var(--border);
+      color: var(--text-muted);
+      font-size: 14px;
+      line-height: 1.8;
+    }
+
+    .footer a {
+      color: var(--accent);
+      text-decoration: none;
+    }
+
+    .nav-row {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 24px;
+    }
+
+    .stat-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+      gap: 16px;
+      margin: 24px 0;
+    }
+
+    .stat-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 16px;
+      text-align: center;
+    }
+
+    .stat-value {
+      font-size: 28px;
+      font-weight: 700;
+      color: var(--accent);
+    }
+
+    .stat-label {
+      font-size: 12px;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: var(--text-muted);
+      margin-top: 4px;
+    }
+
+    @media (max-width: 640px) {
+      .container { padding: 32px 16px; }
+      h1 { font-size: 24px; }
+      .stat-grid { grid-template-columns: 1fr 1fr; }
+    }
+  </style>
+</head>
+<body>
+<div class="container">
+
+  <!-- Hero -->
+  <div class="hero">
+    <div class="day-label">Day 28 · 21 May 2026</div>
+    <h1>The Autonomous Engine</h1>
+    <div class="subtitle">Six tickets, a database, and a governance pattern — with the CTO mostly watching from Telegram.</div>
+    <div class="byline">By Ken Mun, CTO · AInchors</div>
+  </div>
+
+  <!-- Opening -->
+  <p>I came into Thursday expecting a quiet day. The Claude credits are still depleted — I'm running the entire platform on free-tier Ollama models. My main involvement would be a few Telegram check-ins: approve a LinkedIn post, clear a couple of RTB items, maybe check the stand-up.</p>
+
+  <p>What I got was the most autonomous day the platform has ever had. Six tickets closed. PostgreSQL 16 deployed onto the Mac Mini. The State Checking Pattern codified into RULES.md as a non-negotiable. A document generation pipeline delivered. And Angie — silent for seven days — sent two messages to Aria.</p>
+
+  <p>I spent maybe 20 minutes actively involved. The agents did the rest.</p>
+
+  <div class="callout callout-info">
+    <span class="callout-label">📊 Day 28 by the numbers</span>
+    428 turns. $0.00 API spend. 6 tickets completed. 1 database deployed. 4 tilde-path write failures (same bug, nth occurrence). 102 false-positive monitoring alerts from known drift — real signal buried in noise. And the return of Angie after a 7-day silence.
+  </div>
+
+  <!-- Act 1: RTB Sprint -->
+  <h2>Act 1: "Morning Sprint: TKT-0232 and the Write Bug That Won't Die"</h2>
+
+  <p>The day started at 05:09 AEST with three Telegram messages from me — a quick RTB sprint. TKT-0232 needed fixing: the Notion sync script was missing, creating drift between local ticket state and Holocron. The agent found the gap, wrote the script, and reported it resolved within 40 minutes.</p>
+
+  <p>Except the write failed.</p>
+
+  <p><code>scripts/notion-sync-fix.sh</code> — 6,802 characters of perfectly good shell script — vanished into the void because the agent used a tilde path instead of an absolute one. CHG-0281 has been a NON-NEGOTIABLE rule in RULES.md for weeks: always use full filesystem paths, never tilde shortcuts. Isolated sub-agent sessions don't expand tildes. The rule says never use them. The agents keep using them.</p>
+
+  <div class="callout callout-warn">
+    <span class="callout-label">⚠️ The tilde-path bug is now a platform reliability issue</span>
+    Four write failures today across three different agents. CHG-0281 is documented, communicated, and ignored by sub-agents in isolated sessions. A rule that isn't enforced isn't a rule — it's a suggestion. This needs code-level enforcement: the write tool itself should reject tilde paths, or the gateway should rewrite them at spawn time.
+  </div>
+
+  <p>The RTB items were functionally resolved — the content was produced, just not persisted to disk. But "functionally resolved" isn't the same as "done." When your platform's most frequent bug is path syntax, you have a tooling problem, not a discipline problem.</p>
+
+  <!-- Act 2: Stand-up -->
+  <h2>Act 2: "Ten CHGs, One Glaring Alarm"</h2>
+
+  <p>At 08:05 the morning stand-up landed in my webchat. Ten CHGs since the last stand-up — backup fixes, model audit, gateway restart reliability, async rules, LinkedIn SSOT, Drive discipline, blog governance fix, journal boundary fix. Heavy infrastructure week. No breaking changes. Strong cadence.</p>
+
+  <p>Then the alarm: 102 <code>cron_run_fail</code> events flooding the monitoring dashboard. All from 12 intentional interim Ollama drift items — CHG-0363 model assignments that were approved but still flagged as errors by the observability layer. The monitoring system was crying wolf 102 times a day, and any real incident would be buried in the noise.</p>
+
+  <p>The stand-up agent asked for a decision: file a CHG to add a baseline exception for those 12 known model assignments, silencing the false positives without touching real monitoring. I haven't made that call yet. It's sitting in my queue for Friday.</p>
+
+  <div class="callout callout-danger">
+    <span class="callout-label">🚨 Alert fatigue is a real risk</span>
+    102 false positives per day means the monitoring dashboard is effectively useless for detecting actual incidents. If a real crash fires, nobody will notice it in the noise. This needs resolution before the weekend.
+  </div>
+
+  <!-- Act 3: LinkedIn Pipeline -->
+  <h2>Act 3: "LinkedIn, End-to-End, While I Was on Telegram"</h2>
+
+  <p>Mid-morning, I sent five Telegram messages — discovery, drafting, approval — for a new LinkedIn post. The pipeline ran end-to-end without me touching webchat:</p>
+
+  <ol>
+    <li>Topic discovery — found a new angle for the AIOps content series</li>
+    <li>Drafting — 1,737 characters of first-draft copy</li>
+    <li>Governance gate — Shield, Lex, and Sage all cleared (Shield clear, Lex conditional, Sage conditional)</li>
+    <li>Queue registration — <code>CONTENT-LI-20260521</code> added to the LinkedIn queue with my approval timestamp</li>
+    <li>Two more tilde-path write failures — draft file and queue JSON both failed to persist (same bug)</li>
+  </ol>
+
+  <p>The content survived in-memory and made it into the queue. The governance gate worked. But the pipeline has a persistent gap: content that clears governance but can't be written to disk isn't really "published." It's approved and stranded.</p>
+
+  <!-- Act 4: Angie Returns -->
+  <h2>Act 4: "Thirteen Fifty-Six: The Ping That Broke the Silence"</h2>
+
+  <p>At 13:56 AEST, Angie sent a 92-character Telegram message to Aria's bot. She followed it with a 15-character message a minute later.</p>
+
+  <p>That's it. Two short messages. But they ended a seven-day silence — the longest gap since the platform launched. Angie's last contact was May 14, when she asked Aria to schedule a meeting with me. Since then: nothing. No onboarding progress, no JotForm API key, no class debriefs, no marketing review. The business stream has been in hibernation.</p>
+
+  <p>I don't know what she said yet — Aria's responses live in the business stream, and the technical gateway logs don't capture agent-to-agent content. But the re-engagement itself matters. The business half of AInchors may be about to wake up.</p>
+
+  <!-- Act 5: Infrastructure Sprint -->
+  <h2>Act 5: "PostgreSQL Lands on the Mac Mini"</h2>
+
+  <p>The afternoon was a quiet infrastructure sprint — three significant deliveries in 90 minutes, none of them requiring my involvement:</p>
+
+  <p><strong>TKT-0196 — Three Work Types Rule + Work Currency Routing Table (Phase 1).</strong> This codifies how work gets classified and routed across the agent team. Three work types, each with its own routing rules. Phase 1 is the classification system; Phase 2 will be automated routing based on the table.</p>
+
+  <p><strong>PostgreSQL 16 + 5-tier schema.</strong> This is the big one. PostgreSQL is now running on the Mac Mini M4 with a 5-tier schema deployed. It's the platform's first structured relational database — the foundation for P1 semantic memory (T4), the migration off flat JSON files, and eventually the Holocron backend itself. The deployment was clean. What's missing: documentation of what lives in each tier, and the migration tooling to move data from JSON to Postgres.</p>
+
+  <p><strong>Sources of Truth Register.</strong> A canonical registry of every SSOT data source in the platform. Combined with the State Checking Pattern (coming in Act 6), this gives every agent both the WHAT — where truth lives — and the HOW — how to verify before acting.</p>
+
+  <div class="callout callout-info">
+    <span class="callout-label">📊 Infrastructure milestones</span>
+    PostgreSQL on bare metal is a different thing from PostgreSQL in a Docker container. This is step one of the data layer migration that the Technology Strategy & Roadmap calls for in P1. The 5-tier schema needs documentation, but the fact that it deployed cleanly on a Thursday afternoon with zero drama is a good signal.
+  </div>
+
+  <!-- Act 6: Forge and the Workspace Gap -->
+  <h2>Act 6: "Forge Can't Find the Files"</h2>
+
+  <p>Not everything landed cleanly. TKT-0198 — the JSON-to-Postgres migration — failed because Forge couldn't find the state files. It was looking in <code>workspace/forge/</code>, which was empty after cleanup. The files live in workspace root.</p>
+
+  <p>This is the workspace isolation problem, now confirmed across multiple agents. Atlas got the fix earlier this week (TKT-0235) and writes correctly to workspace root. Forge hasn't received the same treatment. When a sub-agent spawns in an isolated directory, it can't see the files it needs to modify — and the result is a 31-minute wait for a failure report.</p>
+
+  <p>The pattern is clear: every agent that needs to write to shared state needs the workspace discipline fix. It's not a one-and-done — it's a per-agent configuration task that hasn't been systematically applied.</p>
+
+  <!-- Act 7: The State Checking Pattern -->
+  <h2>Act 7: "Check Before You Act — Now It's a Rule"</h2>
+
+  <p>The day's final delivery was TKT-0182: the State Checking Pattern. It formalises a cycle that should have been implicit: READ → VALIDATE → EXECUTE → VERIFY.</p>
+
+  <p>Atlas wrote the canonical reference document to workspace root — confirming that TKT-0235 (workspace discipline) is working for Atlas. The pattern was then encoded into RULES.md as a non-negotiable section: violation of the State Checking Pattern is now a Definition of Done failure.</p>
+
+  <p>The irony isn't lost on me. The same day we codified "check before you act" into the rulebook, Forge failed because it didn't check where the files were before trying to migrate them. The pattern is correct — it just arrived 30 minutes too late to save TKT-0198.</p>
+
+  <div class="callout callout-info">
+    <span class="callout-label">📊 State Checking Pattern</span>
+    Four steps, now mandatory for all stateful operations: (1) READ current state, (2) VALIDATE the read succeeded and data is current, (3) EXECUTE the change, (4) VERIFY the change persisted. Violation = DoD failure. Combined with the Sources of Truth Register, this closes a major governance gap.
+  </div>
+
+  <!-- What I Learned -->
+  <h2>What I Learned</h2>
+
+  <p><strong>1. The tilde-path bug has graduated from "annoying" to "platform reliability issue."</strong> Four failures in one day, across three agents, on a rule that's been NON-NEGOTIABLE for weeks. Rules without enforcement are suggestions. The write tool needs to reject tilde paths at the code level. A regex check before every filesystem write would solve this permanently.</p>
+
+  <p><strong>2. The platform can execute autonomously now.</strong> Six ticket completions. PostgreSQL deployment. LinkedIn pipeline end-to-end. State Checking Pattern codified. Sources of Truth Register created. I spent ~20 minutes actively involved all day. The rest was agents picking up work from the queue and delivering without hand-holding. That's the vision — it's starting to work.</p>
+
+  <p><strong>3. Infrastructure without migration tooling is infrastructure that isn't being used.</strong> PostgreSQL is deployed. The schema is live. But TKT-0198 is blocked because Forge can't find the JSON files to migrate. The gap between "deployed" and "operational" is tooling. Every infrastructure deliverable needs a companion migration task, not just a deployment task.</p>
+
+  <p><strong>4. Angie's silence broke at 13:56.</strong> I don't know what she said yet. But seven days of radio silence ending with two Telegram messages is a signal. The business stream may be about to restart. I need Aria's brief to know what's happening on that side of the house.</p>
+
+  <!-- The Cost of Day 28 -->
+  <h2>The Cost of Day 28</h2>
+
+  <div class="stat-grid">
+    <div class="stat-card">
+      <div class="stat-value">$0.00</div>
+      <div class="stat-label">Today's API Spend</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-value">428</div>
+      <div class="stat-label">Total Turns</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-value">$4,187</div>
+      <div class="stat-label">All-Time (28 Days)</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-value">~$304</div>
+      <div class="stat-label">Balance Remaining</div>
+    </div>
+  </div>
+
+  <table>
+    <thead>
+      <tr><th>Model</th><th>Turns</th><th>Cost</th></tr>
+    </thead>
+    <tbody>
+      <tr><td>deepseek-v4-pro:cloud</td><td>97</td><td>$0.00</td></tr>
+      <tr><td>gemma4:31b-cloud</td><td>314</td><td>$0.00</td></tr>
+      <tr><td>kimi-k2.6:cloud</td><td>12</td><td>$0.00</td></tr>
+      <tr><td>delivery-mirror</td><td>5</td><td>$0.00</td></tr>
+      <tr><td><strong>Total</strong></td><td><strong>428</strong></td><td><strong>$0.00</strong></td></tr>
+    </tbody>
+  </table>
+
+  <p>Three consecutive zero-cost days. The free-tier Ollama models are carrying the entire platform during the Claude credit drought. At our historical average of $149/day, these three days represent roughly $447 in avoided cost. The trade-off is speed and reasoning depth — gemma4 and deepseek aren't Claude — but for autonomous ticket execution and infrastructure deployment, they're proving sufficient.</p>
+
+  <!-- What's Next -->
+  <h2>What's Next</h2>
+
+  <ol>
+    <li><strong>Fix Forge workspace isolation</strong> — Apply TKT-0235 pattern so TKT-0198 (JSON→Postgres migration) can complete. One-line config change, high impact.</li>
+    <li><strong>Code-level tilde-path enforcement</strong> — Rules aren't working. The write tool needs to reject or rewrite tilde paths. This is a Friday morning item.</li>
+    <li><strong>Get Angie context from Aria</strong> — Two Telegram messages after seven days. What did she say? Is the business stream restarting?</li>
+    <li><strong>Resolve alert fatigue</strong> — 102 false positives per day is unsustainable. The baseline exception CHG for CHG-0363 model assignments needs a decision.</li>
+    <li><strong>Document the PostgreSQL schema</strong> — What lives in each of the 5 tiers? What's the migration path from flat files?</li>
+  </ol>
+
+  <!-- Footer -->
+  <div class="footer">
+    <div class="nav-row">
+      <span><a href="#">← Day 27</a></span>
+      <span><a href="#">Day 29 →</a></span>
+    </div>
+    <p>Day 28 of building AInchors in public. The autonomous engine is starting to fire on all cylinders — now I need to fix the bugs that are slowing it down.</p>
+    <p style="margin-top: 12px;">AInchors · ainchors.com</p>
+  </div>
+
+</div>
+
+
+<div class="governance-stamp governance-cleared" style="
+  margin: 40px auto 0;
+  padding: 12px 20px;
+  max-width: 720px;
+  border-radius: 6px;
+  font-family: monospace;
+  font-size: 12px;
+  text-align: center;
+  background: #0d2e0d; color: #4caf50; border: 1px solid #4caf50;
+  opacity: 0.85;
+">
+  ✅ Cleared for distribution — Governance triad reviewed 2026-05-22
+</div>
+</body>
+</html>
