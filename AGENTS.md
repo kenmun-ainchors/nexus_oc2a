@@ -84,7 +84,7 @@ Full rule: `RULES.md` → LESSONS REGISTRY RULE.
 **Before executing ANY MEDIUM+ currency work, verify OWL is active:**
 - Check `state/owl-active.json` → owlActive should be true
 - If not active: source `scripts/owl-guard.sh` to activate
-- OWL applies to ALL agents on ALL models (deepseek, kimi, gemma4, sonnet, haiku, future models)
+- OWL applies to ALL agents on ALL models — including Yoda (webchat and Telegram). Yoda is NOT exempt. The orchestrator is held to the same execution contract as every sub-agent. If OWL is not active, activate it before proceeding with any MEDIUM+ work. (deepseek, kimi, gemma4, sonnet, haiku, future models)
 
 **Execution Discipline (Plan → Breakdown → Sequence → Execute → Verify):**
 1. Output a plan as numbered atoms before executing

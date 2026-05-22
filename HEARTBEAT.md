@@ -204,7 +204,9 @@ Drive sync is owned by cron `c5a3911d` (00:30 AEST — runs after blog). Heartbe
 - State key: `lastChecks.owlCompliance`
 
 **Automatic enforcement:**
-- `scripts/owl-guard.sh` activates OWL at session start for MEDIUM+ work
+- `scripts/owl-guard.sh` activates OWL at session start for MEDIUM+ work — including Yoda's webchat + Telegram sessions
+- Yoda is NOT exempt. The orchestrator is audited by the same rules as every sub-agent.
+- If Yoda's compliance drops below 70%, the same alert fires to Ken
 - `owl-compliance-state.json` tracks every atom with model attribution
 - TKT-0237 R05 (State Checking) audits OWL compliance in rule-audit.sh
 

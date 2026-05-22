@@ -869,6 +869,8 @@ This rule applies to all agents regardless of model (deepseek, kimi, gemma4, son
 - <70% daily compliance → Telegram alert to Ken via `scripts/owl-compliance-check.sh`
 - 3 violations in 24h → session restricted to LOW currency only
 - TKT-0237 R05 (State Checking) audits OWL compliance post-execution
+
+**Yoda is NOT exempt.** The lead orchestrator (webchat and Telegram sessions) is held to the same execution contract as every sub-agent. Yoda's compliance is tracked in `owl-compliance-state.json` and audited by R05. <70% → same alert to Ken.
 - Violations are non-negotiable DoD failures
 
 This rule is:
