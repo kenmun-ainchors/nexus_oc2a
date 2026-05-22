@@ -270,9 +270,9 @@ SUBCOMMAND="${1:-help}"
 shift || true
 
 if [[ "$SUBCOMMAND" == "new" ]]; then
-  TITLE=""; TYPE="task"; PRIORITY="medium"; DESC=""; REQUESTER="Ken"; ASSIGNEE="Yoda"
+  TITLE=""; TYPE="task"; PRIORITY="medium"; DESC=""; REQUESTER="Ken"; ASSIGNEE="Yoda"; AUTO_EXECUTE=false; DELIVERABLE_PATH=""
   while (( $# > 0 )); do
-    case "$1" in --title) TITLE="$2"; shift 2 ;; --type) TYPE="$2"; shift 2 ;; --priority) PRIORITY="$2"; shift 2 ;; --description) DESC="$2"; shift 2 ;; --requester) REQUESTER="$2"; shift 2 ;; --assignee) ASSIGNEE="$2"; shift 2 ;; *) die "Unknown arg: $1" ;; esac
+    case "$1" in --title) TITLE="$2"; shift 2 ;; --type) TYPE="$2"; shift 2 ;; --priority) PRIORITY="$2"; shift 2 ;; --description) DESC="$2"; shift 2 ;; --requester) REQUESTER="$2"; shift 2 ;; --assignee) ASSIGNEE="$2"; shift 2 ;; --auto-execute) AUTO_EXECUTE=true; shift ;; --deliverable-path) DELIVERABLE_PATH="$2"; shift 2 ;; *) die "Unknown arg: $1" ;; esac
   done
   [[ -z "$TITLE" ]] && die "--title is required"
   SEQ=$(jq '.sequence' "$TICKET_FILE")
@@ -286,6 +286,38 @@ if [[ "$SUBCOMMAND" == "new" ]]; then
   if [[ -n "$NOTION_PAGE_ID" && "$NOTION_PAGE_ID" != "NOTION_SKIP" ]]; then
     TMP2=$(jq --arg id "$TKT_ID" --arg npid "$NOTION_PAGE_ID" '(.tickets[] | select(.id == $id)) |= (.notionPageId = $npid)' "$TICKET_FILE")
     atomic_write "$TICKET_FILE" "$TMP2"
+  fi
+
+  # Atom 2.5: --auto-execute queues ticket to TQP
+  if [[ "$AUTO_EXECUTE" == "true" ]]; then
+    QUEUE_FILE="$WORKSPACE_ROOT/state/task-queue.json"
+    if [[ -f "$QUEUE_FILE" ]]; then
+      QUEUE_NOW=$(date '+%Y-%m-%dT%H:%M:%S+10:00')
+      FULL_PATH="${DELIVERABLE_PATH:+$WORKSPACE_ROOT/$DELIVERABLE_PATH}"
+      python3 -c "
+import json
+with open('$QUEUE_FILE', 'r') as f:
+    data = json.load(f)
+data['queue'].append({
+    'taskId': '${TKT_ID}-auto',
+    'ticketId': '${TKT_ID}',
+    'story': 'auto',
+    'type': '${TYPE}',
+    'promptFile': '${WORKSPACE_ROOT}/state/tickets.json',
+    'expectedDeliverable': '${FULL_PATH}',
+    'status': 'queued',
+    'retries': 0,
+    'maxRetries': 3,
+    'assignedModel': 'ollama/deepseek-v4-pro:cloud',
+    'queuedAt': '${QUEUE_NOW}',
+    'startedAt': None,
+    'completedAt': None,
+    'verificationResult': None
+})
+with open('$QUEUE_FILE', 'w') as f:
+    json.dump(data, f, indent=2)
+" 2>/dev/null && echo "📋 Queued for auto-execution: $TKT_ID" || true
+    fi
   fi
 
 elif [[ "$SUBCOMMAND" == "update" ]]; then
