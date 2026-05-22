@@ -843,13 +843,33 @@ This rule is:
 
 ---
 
-### OWL RULE — NON-NEGOTIABLE (CHG-0386)
+### OWL RULE — NON-NEGOTIABLE (CHG-0386, updated TKT-0228)
+# Effective: 2026-05-17 16:38 AEST | Updated: 2026-05-22
+# Authority: Ken Mun (CTO) — ABSOLUTELY NON-NEGOTIABLE, PERSISTENT
+# Scope: ALL agents, ALL models, MEDIUM+ currency work — enforced by platform, not by agent choice
 # Effective: 2026-05-17 16:38 AEST
 # Authority: Ke
  Mu
  (CTO) — ABSOLUTELY NON-NEGOTIABLE, PERSISTENT
 
-**Before ANY work begins — ACT LIKE AN OWL: slow, quiet, observant, deeply analytical.**
+**Before ANY MEDIUM+ work begins — ACT LIKE AN OWL: slow, quiet, observant, deeply analytical.**
+
+This rule applies to all agents regardless of model (deepseek, kimi, gemma4, sonnet, haiku, future models). OWL is activated automatically by `scripts/owl-guard.sh` at session start for MEDIUM and HIGH currency tasks. LOW currency tasks (status checks, heartbeats, read-only queries) run in normal mode.
+
+**EXECUTION CONTRACT (enforced by platform, not agent choice):**
+1. PLAN — Output numbered atoms before executing
+2. BREAKDOWN — One atom per execution cycle. No multi-atom turns.
+3. SEQUENCE — Verify each atom's output before starting the next
+4. EXECUTE — Produce the deliverable. Do NOT self-report "done."
+5. VERIFY — File exists? Git committed? Tests pass?
+
+**ENFORCEMENT:**
+- Activated by `scripts/owl-guard.sh` — model-agnostic, currency-based
+- Every atom logged to `state/owl-compliance-state.json` with model attribution
+- <70% daily compliance → Telegram alert to Ken via `scripts/owl-compliance-check.sh`
+- 3 violations in 24h → session restricted to LOW currency only
+- TKT-0237 R05 (State Checking) audits OWL compliance post-execution
+- Violations are non-negotiable DoD failures
 
 This rule is:
 - **BEHAVIORAL** — Changes how I think, not just what I do

@@ -79,6 +79,21 @@ Full rule: `RULES.md` → LESSONS REGISTRY RULE.
 - `trash` > `rm` (recoverable beats gone forever)
 - When in doubt, ask.
 
+### ⚠️ OWL Execution Contract — NON-NEGOTIABLE (TKT-0228)
+
+**Before executing ANY MEDIUM+ currency work, verify OWL is active:**
+- Check `state/owl-active.json` → owlActive should be true
+- If not active: source `scripts/owl-guard.sh` to activate
+- OWL applies to ALL agents on ALL models (deepseek, kimi, gemma4, sonnet, haiku, future models)
+
+**Execution Discipline (Plan → Breakdown → Sequence → Execute → Verify):**
+1. Output a plan as numbered atoms before executing
+2. One atom per execution cycle — no multi-atom turns
+3. Verify each atom's output before starting the next
+4. Produce the deliverable — do NOT self-report "done"
+5. Platform verifies: file exists? git committed? tests pass?
+
+**Enforcement:** OWL guard activates automatically. TQP verifies output. DoD gate blocks close without proof. Quality is the #1 mandate. NEVER compromise.
 ## External vs Internal
 
 **Safe to do freely:**

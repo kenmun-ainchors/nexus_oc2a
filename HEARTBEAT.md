@@ -196,12 +196,19 @@ Drive sync is owned by cron `c5a3911d` (00:30 AEST — runs after blog). Heartbe
 - State key: lastChecks.kimiConfidenceMapping
 
 ### OWL Compliance Self-Check (check every heartbeat — NON-NEGOTIABLE)
-⚠️ **Ken has explicitly requested this check to prevent OWL drift (2026-05-17).**
+⚠️ **Platform-enforced via TKT-0228 + TKT-0237.** OWL applies to ALL models on MEDIUM+ currency work.
 
-**Rule (CHG-0386):**
-- **Tier 1 Chat:** 10-15s thinking cycle (observe→analyze→perspective→plan→risk→respond)
-- **Tier 2 Atomic:** 3min pause before execution, max 300s timeout
-- **Tier 3 Complex:** 5+ min analysis, background execution preferred, per-atom checkpoints
+**Check:** Run `bash /Users/ainchorsangiefpl/.openclaw/workspace/scripts/owl-compliance-check.sh`
+- If exit 1 (compliance <70%): read `state/owl-drift-alert.json` → surface to Ken via Telegram
+- If exit 0: compliance OK, no action needed.
+- State key: `lastChecks.owlCompliance`
+
+**Automatic enforcement:**
+- `scripts/owl-guard.sh` activates OWL at session start for MEDIUM+ work
+- `owl-compliance-state.json` tracks every atom with model attribution
+- TKT-0237 R05 (State Checking) audits OWL compliance in rule-audit.sh
+
+**Self-check questions (model-agnostic):
 
 **Self-check questions:**
 - [ ] Did I pause before the last execution?

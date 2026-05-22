@@ -69,11 +69,9 @@ if [[ -z "$TASK_JSON" || "$TASK_JSON" == "null" ]]; then
       jq '.metrics.totalProcessed += 1 | .metrics.lastProcessedAt = now' "$QUEUE_FILE" > "${QUEUE_FILE}.tmp" && mv "${QUEUE_FILE}.tmp" "$QUEUE_FILE"
       
       # Atom 2.4: Update rolling avg completion time
-      local start_ts
       start_ts=$(echo "$VERIFY_JSON" | jq -r '.startedAt // empty')
       if [[ -n "$start_ts" ]]; then
-        local start_epoch end_epoch duration
-        start_epoch=$(date -j -f "%Y-%m-%dT%H:%M:%S" "${start_epoch:0:19}" +%s 2>/dev/null || echo 0)
+        start_epoch=$(date -j -f "%Y-%m-%dT%H:%M:%S" "${start_ts:0:19}" +%s 2>/dev/null || echo 0)
         end_epoch=$(date +%s)
         duration=$((end_epoch - start_epoch))
         jq --arg dur "$duration" '.metrics.avgCompletionMs = ((.metrics.avgCompletionMs * (.metrics.totalProcessed - 1) + ($dur | tonumber) * 1000) / .metrics.totalProcessed | floor)' \
@@ -143,6 +141,12 @@ jq --arg tid "$TASK_ID" --arg ts "$NOW" \
 # For cron execution, we use a direct sub-agent approach.
 # The processor itself runs as a cron — it spawns the task as a sub-agent 
 # and waits for completion.
+
+# ATOM 5 (TKT-0228): Activate OWL guard before dispatch
+export OWL_MODEL="$MODEL"
+export OWL_SESSION="$TASK_ID"
+export TASK_CONTEXT="$TASK_PROMPT"
+bash "$WORKSPACE_ROOT/scripts/owl-guard.sh" 2>/dev/null || true
 
 # Build the task prompt
 TASK_PROMPT="ATOMIC TASK: ${TASK_ID}
