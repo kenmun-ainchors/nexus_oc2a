@@ -1,23 +1,24 @@
 {
   "lastChecks": {
-    "heartbeat": "2026-05-22T00:19:00Z",
-    "apiBalance": "2026-05-22T00:19:00Z",
-    "agentHealth": "2026-05-22T00:19:00Z",
-    "cronHealth": "2026-05-22T00:19:00Z",
-    "cronDeadLetter": "2026-05-22T00:19:00Z",
-    "budgetCheck": "2026-05-22T00:19:00Z",
-    "wardenEscalation": "2026-05-22T00:19:00Z",
-    "ahsokaPilot": "2026-05-21T20:19:00Z",
-    "standbyMode": "2026-05-22T00:19:00Z",
-    "taskWatchdog": "2026-05-22T00:19:00Z",
-    "taskVerification": "2026-05-22T00:19:00Z",
-    "allowlistSync": "2026-05-22T00:19:00Z",
-    "email": "2026-05-21T04:49:00Z",
-    "calendar": "2026-05-21T04:49:00Z",
+    "heartbeat": "2026-05-22T08:49:00Z",
+    "apiBalance": "2026-05-22T08:49:00Z",
+    "agentHealth": "2026-05-22T04:53:52Z",
+    "cronHealth": "2026-05-22T08:50:18Z",
+    "cronDeadLetter": "2026-05-22T08:49:00Z",
+    "budgetCheck": "2026-05-22T08:50:15Z",
+    "wardenEscalation": "2026-05-22T08:49:00Z",
+    "ahsokaPilot": "2026-05-22T08:49:00Z",
+    "standbyMode": "2026-05-22T08:49:00Z",
+    "taskWatchdog": "2026-05-22T08:50:14Z",
+    "taskVerification": "2026-05-22T08:49:00Z",
+    "allowlistSync": "2026-05-22T08:49:00Z",
+    "email": "2026-05-22T07:49:00Z",
+    "calendar": "2026-05-22T07:49:00Z",
     "ceremoniesThisWeek": "2026-05-21T04:49:00Z",
-    "doDGates": "2026-05-22T00:19:00Z",
-    "kimiConfidenceMapping": "2026-05-22T00:19:00Z"
+    "doDGates": "2026-05-22T04:53:52Z",
+    "kimiConfidenceMapping": "2026-05-22T04:53:52Z",
+    "owlCompliance": "2026-05-22T19:10:49+10:00"
   },
-  "lastUpdated": "2026-05-22T00:19:00Z",
-  "notes2026-05-22-1019": "10:19 AM AEST Friday. All clear. No standby/banner (Anthropic API reachable). Agent health OK (all gateway+ollama checks passed). Budget all 0% ($0 spend today). Warden resolved (false positive L-040). No dead-letters. No task stalls (watchdog clean). No task verification alerts. Cron health clean (exit 0). Allowlist sync: last changes applied 2026-05-18, stable. OWL compliance 100%. Deepseek-pro active — $0 tracked cost. TRIGGER-04 still fired (OC v2026.5.12 patch pending, 7-day window). Email/calendar due for check (last >24h ago)."
+  "lastUpdated": "2026-05-22T08:50:20Z",
+  "notes2026-05-22-1850": "6:50 PM AEST Friday. Same 3 cron failures (Aria Summary, Budget Report, Backup Health) — already surfaced at 13:25. No new issues. No standby/banner. Warden resolved. Budget 0%. OWL 100%. Ahsoka unchanged. Allowlist stable. API balance stale (last confirmed May 8, $266.76) but no alerts active. Deepseek-pro active."
 }

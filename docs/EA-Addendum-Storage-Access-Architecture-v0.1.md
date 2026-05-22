@@ -766,13 +766,13 @@ any browser, with no VPN client required. Estimated implementation: 30–45 minu
 
 ### Phase Direction Summary
 
-| Phase | Primary Access Pattern | Client-Facing? | Key Build |
-|-------|----------------------|:---:|-----------|
-| **MVP** | Cloudflare Tunnel + Tailscale + Telegram | ❌ Internal only | **cloudflared setup** |
-| **P1** | Cloudflare Tunnel (Workspace SSO) + Tailscale | ❌ Internal only | Extend tunnel routes, KL team access |
-| **P2** | Nexus API + The Citadel + per-client Telegram | ✅ First clients | The Citadel, Nexus API, Holonet v0 |
-| **P3** ⚠️PARKED | Local LAN + Tailscale site-to-site | ✅ On-prem | Installation package |
-| **P4** | On-prem LAN + Tailscale mgmt + SSO/MFA | ✅ Enterprise | FSI compliance, BYOK, APRA gate |
+| Phase           | Primary Access Pattern                        | Client-Facing?  | Key Build                            |
+| --------------- | --------------------------------------------- | :-------------: | ------------------------------------ |
+| **MVP**         | Cloudflare Tunnel + Tailscale + Telegram      | ❌ Internal only | **cloudflared setup**                |
+| **P1**          | Cloudflare Tunnel (Workspace SSO) + Tailscale | ❌ Internal only | Extend tunnel routes, KL team access |
+| **P2**          | Nexus API + The Citadel + per-client Telegram | ✅ First clients | The Citadel, Nexus API, Holonet v0   |
+| **P3** ⚠️PARKED | Local LAN + Tailscale site-to-site            |    ✅ On-prem    | Installation package                 |
+| **P4**          | On-prem LAN + Tailscale mgmt + SSO/MFA        |  ✅ Enterprise   | FSI compliance, BYOK, APRA gate      |
 
 ---
 

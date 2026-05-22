@@ -1,15 +1,32 @@
 {
-  "generatedAt": "2026-05-20T13:49:36.525186+00:00",
+  "generatedAt": "2026-05-22T08:50:16.821397+00:00",
   "failures": [
     {
-      "cronId": "1b853131",
-      "fullCronId": "1b853131-a542-4cec-af09-d1ba27a416b0",
-      "name": "Journal Incremental Writer (every 30 min)",
-      "consecutiveErrors": 4,
+      "cronId": "a7e7a820",
+      "fullCronId": "a7e7a820-32f6-4a2b-bb27-52367ebfa7dc",
+      "name": "Aria Daily Summary (business stream)",
+      "consecutiveErrors": 3,
+      "lastError": "error",
+      "source": "live-cron-state"
+    },
+    {
+      "cronId": "3ea986bf",
+      "fullCronId": "3ea986bf-5dfc-4805-a13c-80427b4d29c7",
+      "name": "TKT-0092 Daily Budget Report",
+      "consecutiveErrors": 3,
+      "lastError": "error",
+      "source": "live-cron-state"
+    },
+    {
+      "cronId": "e08e19ad",
+      "fullCronId": "e08e19ad-2d15-47ff-9ac0-509c05889a0e",
+      "name": "TKT-0093 Backup Health Check",
+      "consecutiveErrors": 3,
       "lastError": "error",
       "source": "live-cron-state"
     }
   ],
   "warnings": [],
-  "acknowledged": true
+  "acknowledged": true,
+  "note": "Acknowledged 2026-05-22 18:50 AEST. Same 3 failures surfaced at 13:25 AEST today. No new failures."
 }

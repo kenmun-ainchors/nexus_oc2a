@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "updatedAt": "2026-05-22T01:19:09.915Z",
+  "updatedAt": "2026-05-22T07:52:30.757Z",
   "entries": {
     "memory:memory/2026-04-26.md:94:122": {
       "key": "memory:memory/2026-04-26.md:94:122",
@@ -226,25 +226,27 @@
       "endLine": 302,
       "source": "memory",
       "snippet": "3. **CR gate** — all technical changes (config, scripts, integrations) require a CHG entry before execution. - `openclaw.json` updated: Aria agent model explicitly set to `gemma4`. - `state/critical-config-baseline.json` updated: `config-008` added to guard Aria's model assignment. ### CHG-0029 — Aria TOM Authority + Gemma4 Extended - Aria granted **Target Operating Model (TOM) authority** for the business stream — can define and evolve business processes within her domain. - Gemma4 extended as default model to **all business stream agents** (Shield, Lex, Sage) with same escalation-ask rule. ### CHG-0030 — Angie Onboarding Journey Created - Two new Operations docs: - `Operations/AngieO",
-      "recallCount": 5,
+      "recallCount": 6,
       "dailyCount": 0,
       "groundedCount": 0,
-      "totalScore": 2.1304659634828567,
+      "totalScore": 2.5387402236461636,
       "maxScore": 0.45639283061027525,
       "firstRecalledAt": "2026-04-27T13:57:07.598Z",
-      "lastRecalledAt": "2026-05-21T05:34:26.508Z",
+      "lastRecalledAt": "2026-05-22T01:49:17.516Z",
       "queryHashes": [
         "2b7b37c03dad",
         "9c49295f2494",
         "266e50ffd2cd",
         "e3ca283e7754",
-        "17229b4cfa0b"
+        "17229b4cfa0b",
+        "0016a900f9bd"
       ],
       "recallDays": [
         "2026-04-27",
         "2026-05-07",
         "2026-05-08",
-        "2026-05-21"
+        "2026-05-21",
+        "2026-05-22"
       ],
       "conceptTags": [
         "openclaw.json",
@@ -505,21 +507,24 @@
       "endLine": 552,
       "source": "memory",
       "snippet": "#### Level 5 (NEW Day 3): CHANGELOG — single audit trail - File: `memory/CHANGELOG.md` - Helper: `scripts/changelog-append.sh` (auto-increments CHG-NNNN) - Every change (ken-prompt, auto-heal, incident-recovery, scheduled) MUST call helper - Schema: type, source, trigger, what changed, why, verification, rollback, linked - Seeded CHG-0001 → CHG-0039 from Day 3 work ### Critical Config Baseline — NEW - File: `state/critical-config-baseline.json` - 7 guarded configs, 6 critical + 1 warning - Guarded: agent main model, default primary, fallback chain, Ollama apiKey, Ollama auth, Anthropic auth, workspace path - Auto-heal Check #12 validates all nightly → drift files needs-Ken US ### Anti-Drif",
-      "recallCount": 3,
+      "recallCount": 5,
       "dailyCount": 0,
       "groundedCount": 0,
-      "totalScore": 1.3292553693056106,
+      "totalScore": 2.2426102608442307,
       "maxScore": 0.47883695662021636,
       "firstRecalledAt": "2026-05-01T01:56:17.685Z",
-      "lastRecalledAt": "2026-05-21T05:42:27.765Z",
+      "lastRecalledAt": "2026-05-22T07:52:30.731Z",
       "queryHashes": [
         "6b8b068eed98",
         "fbb978d665ec",
-        "03ad886011ef"
+        "03ad886011ef",
+        "03ae6c962df9",
+        "3a382798354f"
       ],
       "recallDays": [
         "2026-05-01",
-        "2026-05-21"
+        "2026-05-21",
+        "2026-05-22"
       ],
       "conceptTags": [
         "memory/changelog.md",
@@ -1836,18 +1841,20 @@
       "endLine": 139,
       "source": "memory",
       "snippet": "- CHG-0168: 7 false-positive incidents closed (auto-heal git commits) - CHG-0169: auto-heal fix — git commits excluded from incident log - CHG-0170: Spark W2 AIOps content pipeline - CHG-0171: MEMORY.md trim (in progress) - CHG-0172: Notion backlog cleanup (15 items closed) - CHG-0173: Star Wars naming locked - CHG-0174: Holocron naming reference page created - CHG-0175: Agent roster with SW full names/roles added to Notion - CHG-0176: S4 tool scopes applied - CHG-0177: Architecture orchestration restructured (Atlas + Thrawn) - CHG-0178: Gateway zombie + allowlist fix - CHG-0179: AIOps zombie detection + event loop monitor added ### End-of-Day Additions (20:54 AEST) **Agent Roster Finalise",
-      "recallCount": 1,
+      "recallCount": 2,
       "dailyCount": 0,
       "groundedCount": 0,
-      "totalScore": 0.4439459502696991,
-      "maxScore": 0.4439459502696991,
+      "totalScore": 0.9122565895318984,
+      "maxScore": 0.46831063926219935,
       "firstRecalledAt": "2026-05-15T02:29:40.844Z",
-      "lastRecalledAt": "2026-05-15T02:29:40.844Z",
+      "lastRecalledAt": "2026-05-22T01:49:14.592Z",
       "queryHashes": [
-        "187c48274a49"
+        "187c48274a49",
+        "7f072c52cd59"
       ],
       "recallDays": [
-        "2026-05-15"
+        "2026-05-15",
+        "2026-05-22"
       ],
       "conceptTags": [
         "gateway",
@@ -2658,18 +2665,20 @@
       "endLine": 19,
       "source": "memory",
       "snippet": "## 00:13 AEST — Obs Spike Investigation - delegation_fail: 3761 in 24h (+2450% vs prev) — ALL empty fields (task='', agent='', error=''). Regular hourly cron pattern 02–11Z. **Logging bug, not real failures.** Flag for Ken in morning. - health_failure: 212 — from INC-20260509-001 API outage (resolved). Historical. - Mission Control dashboard regenerated OK. Gateway: ok, Balance: $479.35. ## Mission Control Refresh — 08:38 AEST - Dashboard regenerated OK. Balance $479.35. Gateway OK. Agents idle. - **OBS spike investigated:** 3,761 \"delegation_fail\" entries in obs.db = PHANTOM DUPLICATES. - Root cause: obs-collector re-logging 34 April 28 delegation-log.json fail entries (with status=fai",
-      "recallCount": 1,
+      "recallCount": 2,
       "dailyCount": 0,
       "groundedCount": 0,
-      "totalScore": 0.5185609132051467,
+      "totalScore": 1.0251734137535093,
       "maxScore": 0.5185609132051467,
       "firstRecalledAt": "2026-05-20T09:20:14.139Z",
-      "lastRecalledAt": "2026-05-20T09:20:14.139Z",
+      "lastRecalledAt": "2026-05-22T07:52:25.808Z",
       "queryHashes": [
-        "eb214e688430"
+        "eb214e688430",
+        "95129a8282d5"
       ],
       "recallDays": [
-        "2026-05-20"
+        "2026-05-20",
+        "2026-05-22"
       ],
       "conceptTags": [
         "gateway",
@@ -3000,15 +3009,16 @@
       "endLine": 549,
       "source": "memory",
       "snippet": "### CHG sequence today: CHG-0208 through CHG-0222 (15 CHGs) ### State at EOD - API balance: ~$470 (topped up CHG-0205) - Gateway: running, pid 58244 - Warden: clean - Sprint 1: ready to execute - Next gates: Auralith incorporation (end May) + TKT-0060/0061/0063 (end May) --- ## Evening Session — Thu 2026-05-07 (Day 13, final) # Appended 18:48 AEST | Pre-compaction flush ### MEMORY.md Grooming (TKT-0042 closed) - MEMORY.md was reviewed for stale items — multiple outdated open items found and flagged by Ken - TKT-0042 (Obsidian migration) was still listed as open in MEMORY.md — CLOSED: all 5 phases complete - S4 open item was stale — S4 applied CHG-0176 (2026-05-05). Removed from open item",
-      "recallCount": 1,
+      "recallCount": 2,
       "dailyCount": 0,
       "groundedCount": 0,
-      "totalScore": 0.4702737599611282,
+      "totalScore": 0.9257775723934173,
       "maxScore": 0.4702737599611282,
       "firstRecalledAt": "2026-05-22T01:03:26.677Z",
-      "lastRecalledAt": "2026-05-22T01:03:26.677Z",
+      "lastRecalledAt": "2026-05-22T07:52:30.757Z",
       "queryHashes": [
-        "b0020bd7d6a9"
+        "b0020bd7d6a9",
+        "fdea436bcfe7"
       ],
       "recallDays": [
         "2026-05-22"
@@ -3022,6 +3032,161 @@
         "pre-compaction",
         "memory.md",
         "tkt-0042"
+      ]
+    },
+    "memory:memory/2026-05-12.md:132:159": {
+      "key": "memory:memory/2026-05-12.md:132:159",
+      "path": "memory/2026-05-12.md",
+      "startLine": 132,
+      "endLine": 159,
+      "source": "memory",
+      "snippet": "- Sprint 5: ITSM-US-004/008/020 - Sprint 6: ITSM-US-011/012 (P1 gate) - Sprint 7: ITSM-US-024/026 (P1 gate) - Sprint 9: ITSM-US-009 (P2 gate) - Sprint 10: ITSM-US-023/025 (P2 gate) ### Backlog state EOD - ~57 items closed today across multiple cleanup rounds - 35 valid future sprint items kept - 10 ITSM items scheduled P1/P2 gated - Notion DB query access unlocked (integration reconnect) - AUTO-HEAL tickets now created as Done by default (CHG-0301) ### L-029, L-030 logged - L-029: Check CHANGELOG before declaring decisions open in EA docs - L-030: \"Do it\" means route to Forge, not execute directly ### Agents active overnight - Warden cron (hourly) - Journal incremental cron (every 30min)",
+      "recallCount": 1,
+      "dailyCount": 0,
+      "groundedCount": 0,
+      "totalScore": 0.42966602146625515,
+      "maxScore": 0.42966602146625515,
+      "firstRecalledAt": "2026-05-22T01:49:26.129Z",
+      "lastRecalledAt": "2026-05-22T01:49:26.129Z",
+      "queryHashes": [
+        "a0d94b95138f"
+      ],
+      "recallDays": [
+        "2026-05-22"
+      ],
+      "conceptTags": [
+        "itsm-us-004/008/020",
+        "itsm-us-011/012",
+        "itsm-us-024/026",
+        "itsm-us-009",
+        "itsm-us-023/025",
+        "p1/p2",
+        "auto-heal",
+        "chg-0301"
+      ]
+    },
+    "memory:memory/2026-05-17.md:74:99": {
+      "key": "memory:memory/2026-05-17.md:74:99",
+      "path": "memory/2026-05-17.md",
+      "startLine": 74,
+      "endLine": 99,
+      "source": "memory",
+      "snippet": "- **Action:** Silently logged — Ken already aware from Round 1 ### REPLY_SKIP (duplicate content, new run) - Same empty announce as Rounds 1/2: \"Agent-to-agent announce step\" - **Action:** Silently logged — no content to action ## Aria Relay CR-001 — Duplicate Count - **Round 1 (run 5b9704e8):** CR-001 surfaced to Ken — original request - **Round 2 (run 633c62f9):** CR-001 duplicate relay (×5 times) — same content - **Round 3 (run 530724d3):** Fresh run, same CR-001 + Instagram + TKT-0027 + stale handover — all logged silently - **Duplicate count:** 5 identical CR-001 messages in Round 2 + 1 CR-001 repeat in Round 3 - **Action:** No duplicate notification to Ken — already surfaced in Roun",
+      "recallCount": 1,
+      "dailyCount": 0,
+      "groundedCount": 0,
+      "totalScore": 0.4470931559801101,
+      "maxScore": 0.4470931559801101,
+      "firstRecalledAt": "2026-05-22T02:05:24.119Z",
+      "lastRecalledAt": "2026-05-22T02:05:24.119Z",
+      "queryHashes": [
+        "2b121ba1eac5"
+      ],
+      "recallDays": [
+        "2026-05-22"
+      ],
+      "conceptTags": [
+        "reply-skip",
+        "1/2",
+        "agent-to-agent",
+        "cr-001",
+        "tkt-0027",
+        "action",
+        "silently",
+        "logged"
+      ]
+    },
+    "memory:memory/2026-05-17.md:28:58": {
+      "key": "memory:memory/2026-05-17.md:28:58",
+      "path": "memory/2026-05-17.md",
+      "startLine": 28,
+      "endLine": 58,
+      "source": "memory",
+      "snippet": "### ~10:45 AEST — Instagram Organic Sale (duplicate relay) - Same message as Round 1 — duplicate relay from Aria cron - **Action:** None, already logged in Round 1 ### ~10:45 AEST — Marketing Collaterals (TKT-0027, duplicate relay) - Same delivery notice as Round 1 — duplicate relay from Aria cron - **Action:** None, already logged in Round 1 ## Inter-Session Messages Round 1 (from Aria relay cron 7a28cc83, run 5b9704e8) ### ~10:30 AEST — Instagram Organic Sale (Angie via Aria) - Another sale from Instagram today - Instagram/Meta ads NOT running — pure organic conversion - **Signal:** Organic Instagram is converting without paid spend - **Routing:** Business stream (Aria). Logged for awar",
+      "recallCount": 1,
+      "dailyCount": 0,
+      "groundedCount": 0,
+      "totalScore": 0.4454722911119461,
+      "maxScore": 0.4454722911119461,
+      "firstRecalledAt": "2026-05-22T02:05:24.119Z",
+      "lastRecalledAt": "2026-05-22T02:05:24.119Z",
+      "queryHashes": [
+        "2b121ba1eac5"
+      ],
+      "recallDays": [
+        "2026-05-22"
+      ],
+      "conceptTags": [
+        "tkt-0027",
+        "inter-session",
+        "instagram/meta",
+        "aest",
+        "instagram",
+        "organic",
+        "sale",
+        "duplicate"
+      ]
+    },
+    "memory:memory/2026-05-22.md:86:99": {
+      "key": "memory:memory/2026-05-22.md:86:99",
+      "path": "memory/2026-05-22.md",
+      "startLine": 86,
+      "endLine": 99,
+      "source": "memory",
+      "snippet": "### Tickets Touched - **TKT-0237** — scope expanded with 3 new ACs - **TKT-0238** — created: systemic cron drift investigation (Ollama 429 → silent cron failures) - **CHG-0401/0402** — code fix applied (archive on close), DB cleanup done, DB C manual setup deferred - **TKT-0228** — deprioritized behind TKT-0237 ### Scripts Modified - `scripts/ticket.sh` — `notion_close_ticket()`: Step 1 mark Done, Step 2 copy to DB C (best-effort), Step 3 archive from DB A. `notion_update_ticket()`: now accepts `tkt_id` + `title` params, includes `[TKT-NNNN]` prefix in title property. ### Key Decisions - TKT-0237 before TKT-0228 (Ken approved) - DB C manual setup deferred — filter approach sufficient for n",
+      "recallCount": 1,
+      "dailyCount": 0,
+      "groundedCount": 0,
+      "totalScore": 0.4935427129268646,
+      "maxScore": 0.4935427129268646,
+      "firstRecalledAt": "2026-05-22T07:52:25.808Z",
+      "lastRecalledAt": "2026-05-22T07:52:25.808Z",
+      "queryHashes": [
+        "95129a8282d5"
+      ],
+      "recallDays": [
+        "2026-05-22"
+      ],
+      "conceptTags": [
+        "tkt-0237",
+        "tkt-0238",
+        "chg-0401/0402",
+        "tkt-0228",
+        "scripts/ticket.sh",
+        "notion-close-ticket",
+        "best-effort",
+        "notion-update-ticket"
+      ]
+    },
+    "memory:memory/2026-05-22.md:69:92": {
+      "key": "memory:memory/2026-05-22.md:69:92",
+      "path": "memory/2026-05-22.md",
+      "startLine": 69,
+      "endLine": 92,
+      "source": "memory",
+      "snippet": "4. HEARTBEAT.md corrected — stale DB B/C IDs replaced with actual API-verified IDs 5. DB C manual setup deferred — Ken will use filter approach instead #### 4. TKT-0237 Scope Expanded - Original: 10-rule post-execution audit (R01-R10) - Added AC1: Automated DoD Verification Gate (pre-close validation hook in ticket.sh) - Added AC2: Task Queue Processor (async stateless atomic task execution with verify-before-close) - Added AC3: Post-deliverable validation scheduler (re-check closed tickets within 24h) - Synced to Notion with `[TKT-0237]` title prefix #### 5. Systemic Root Cause Analysis Ken asked why tasks were reported done but never executed. Three reinforcing failures: - **Model (parti",
+      "recallCount": 1,
+      "dailyCount": 0,
+      "groundedCount": 0,
+      "totalScore": 0.45878862142562865,
+      "maxScore": 0.45878862142562865,
+      "firstRecalledAt": "2026-05-22T07:52:30.757Z",
+      "lastRecalledAt": "2026-05-22T07:52:30.757Z",
+      "queryHashes": [
+        "fdea436bcfe7"
+      ],
+      "recallDays": [
+        "2026-05-22"
+      ],
+      "conceptTags": [
+        "heartbeat.md",
+        "b/c",
+        "api-verified",
+        "tkt-0237",
+        "10-rule",
+        "post-execution",
+        "r01-r10",
+        "pre-close"
       ]
     }
   }

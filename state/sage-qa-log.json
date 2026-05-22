@@ -797,11 +797,25 @@
       "issues": [
         "[]"
       ]
+    },
+    {
+      "ts": "2026-05-22T18:04:51+10:00",
+      "assetPath": "/Users/ainchorsangiefpl/.openclaw/workspace/tmp/sprint4-blog-draft.html",
+      "assetType": "blog",
+      "producedBy": "yoda",
+      "intendedFor": "public distribution",
+      "brief": "Content governance review for CONTENT-0062",
+      "verdict": "PASS",
+      "passCount": 7,
+      "failCount": 0,
+      "issues": [
+        "[]"
+      ]
     }
   ],
   "summary": {
-    "total": 57,
-    "pass": 56,
+    "total": 58,
+    "pass": 57,
     "fail": 1
   }
 }

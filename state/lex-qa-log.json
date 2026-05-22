@@ -1615,11 +1615,29 @@
       "verdict": "PASS",
       "pass": 5,
       "fail": 0
+    },
+    {
+      "ts": "2026-05-22T18:04:51+10:00",
+      "asset": "/Users/ainchorsangiefpl/.openclaw/workspace/tmp/sprint4-blog-draft.html",
+      "producedBy": "yoda",
+      "intendedFor": "public distribution",
+      "verdict": "PASS",
+      "pass": 5,
+      "fail": 0
+    },
+    {
+      "ts": "2026-05-22T18:04:51+10:00",
+      "asset": "/Users/ainchorsangiefpl/.openclaw/workspace/tmp/sprint4-blog-draft.html",
+      "producedBy": "yoda",
+      "intendedFor": "public distribution",
+      "verdict": "PASS",
+      "pass": 5,
+      "fail": 0
     }
   ],
   "summary": {
-    "total": 158,
-    "pass": 138,
+    "total": 160,
+    "pass": 140,
     "fail": 19
   }
 }

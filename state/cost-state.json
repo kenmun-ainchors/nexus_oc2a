@@ -1,5 +1,5 @@
 {
-  "lastUpdated": "2026-05-22T01:18:07Z",
+  "lastUpdated": "2026-05-22T02:05:38Z",
   "history": {
     "2026-04-25": {
       "date": "2026-04-25",
@@ -881,9 +881,9 @@
     "2026-05-22": {
       "date": "2026-05-22",
       "totalCost": 0.0,
-      "totalTurns": 86,
-      "totalInputTokens": 3373602,
-      "totalOutputTokens": 21943,
+      "totalTurns": 456,
+      "totalInputTokens": 24014140,
+      "totalOutputTokens": 111418,
       "totalCacheReadTokens": 0,
       "totalCacheWriteTokens": 0,
       "source": "session-log-estimate",
@@ -891,13 +891,33 @@
       "calculatedCost": 0.0,
       "calculatedTurns": 0,
       "byModel": {
-        "deepseek-v4-pro:cloud": {
-          "input": 3373602,
-          "output": 21943,
+        "gemma4:31b-cloud": {
+          "input": 2383338,
+          "output": 19542,
           "cacheRead": 0,
           "cacheWrite": 0,
           "cost": 0.0,
-          "turns": 84,
+          "turns": 159,
+          "calculatedCost": 0.0,
+          "calculatedTurns": 0
+        },
+        "deepseek-v4-flash:cloud": {
+          "input": 12592,
+          "output": 119,
+          "cacheRead": 0,
+          "cacheWrite": 0,
+          "cost": 0.0,
+          "turns": 2,
+          "calculatedCost": 0.0,
+          "calculatedTurns": 0
+        },
+        "deepseek-v4-pro:cloud": {
+          "input": 21618210,
+          "output": 91757,
+          "cacheRead": 0,
+          "cacheWrite": 0,
+          "cost": 0.0,
+          "turns": 288,
           "calculatedCost": 0.0,
           "calculatedTurns": 0
         },
@@ -907,7 +927,7 @@
           "cacheRead": 0,
           "cacheWrite": 0,
           "cost": 0.0,
-          "turns": 2,
+          "turns": 7,
           "calculatedCost": 0.0,
           "calculatedTurns": 0
         }

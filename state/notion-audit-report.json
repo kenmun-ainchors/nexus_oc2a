@@ -1,12 +1,17 @@
 {
-  "auditDate": "2026-05-21 05:49:51 AEST",
+  "auditDate": "2026-05-22 11:40:28 AEST",
   "notionPageCount": 91,
-  "ticketsJsonCount": 231,
+  "ticketsJsonCount": 237,
   "activeTicketCount": 24,
   "issues": {
     "duplicates": [],
-    "missing": [],
+    "missing": [
+      "TKT-0234",
+      "TKT-0236",
+      "TKT-0237",
+      "TKT-0238"
+    ],
     "extra": [],
-    "timestamp": "2026-05-21 05:49:51 AEST"
+    "timestamp": "2026-05-22 11:40:28 AEST"
   }
 }
