@@ -2392,7 +2392,7 @@
       "title": "[TKT-0228] OWL Drift Detection and Prevention System",
       "type": "task",
       "priority": "high",
-      "status": "in-progress",
+      "status": "closed",
       "createdAt": "2026-05-17T18:42:00+10:00",
       "createdBy": "yoda",
       "description": "OWL for ALL models, not just kimi. See notes for re-defined scope.",
@@ -2415,8 +2415,9 @@
       "targetDate": "2026-05-30",
       "dodVerified": true,
       "notes": "RE-GROOMED per Ken 2026-05-21. Narrowed scope: OWL is now a conditional safety mode activated ONLY when agents run on kimi-class models for non-LOW currency work. New deliverables: (1) scripts/owl-guard.sh — pre-flight check, injects OWL constraints only when kimi + MEDIUM/HIGH. (2) Update owl-compliance-state.json with model field. (3) Update RULES.md OWL section. Effort: 2h. Owner: Yoda. Original 18h scope deprecated.\nRE-DEFINED per Ken 2026-05-22: OWL now applies to ALL models, not restricted to kimi-class only.\n\n=== UPDATED SCOPE ===\nOWL guard activates for any agent executing MEDIUM or HIGH currency work, regardless of model (kimi, gemma4, deepseek, sonnet, haiku — all models).\n\nRationale: Today's session demonstrated OWL drift on deepseek-pro (not kimi). Yoda chain-reacted through multiple atoms without verification pauses. The model isn't the variable — the execution pattern is. OWL must be model-agnostic.\n\n=== WHAT CHANGES ===\n- scripts/owl-guard.sh: remove kimi-only check → activate based on currency level (MEDIUM/HIGH), not model\n- RULES.md OWL section: strike 'kimi-class only' → 'all agents executing MEDIUM+ currency work'\n- owl-compliance-state.json: add model field (track which model was in use when drift occurred)\n- HEARTBEAT.md OWL check: model-agnostic self-assessment questions\n\n=== EFFORT ===\nUnchanged: 2h (scope stays same, just broader applicability).",
-      "notionPageId": "35cc1829-53ff-81c3-b9d4-fd24dc91ca02",
-      "updated": "2026-05-22T13:05:06+10:00"
+      "notionPageId": "367c1829-53ff-819a-af44-ce229836b2ef",
+      "updated": "2026-05-22T14:52:10+10:00",
+      "resolution": "6 atoms, 34 ACs verified. Owl-guard.sh: currency detection + model-agnostic OWL activation. Compliance state: per-atom tracking with model attribution. Compliance check: heartbeat integration, <70% alert. RULES.md: model-agnostic mandate with execution contract. Platform integration: HEARTBEAT, AGENTS, TQP, Warden R05. E2E: 5 scenarios all models. Quality is #1 mandate."
     },
     {
       "id": "TKT-0229",
