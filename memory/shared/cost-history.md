@@ -573,3 +573,19 @@ Avg: ~$101/day. Balance at 2026-04-28 EOD: $58.72 USD.
 ### By Model
 - **deepseek-v4-pro:cloud**: 84 turns | 3,373,602 in / 21,943 out | $0.0000
 - **delivery-mirror**: 2 turns | 0 in / 0 out | $0.0000
+
+## --quick
+
+| Metric | Value |
+|--------|-------|
+| Total Cost | $0.0000 |
+| Turns | 0 |
+| Input Tokens | 0 |
+| Output Tokens | 0 |
+| Cache Read | 0 |
+| Calculated Cost (ephemeral) | $0.0000 |
+| Calculated Turns | 0 |
+
+### By Stream
+
+### By Model

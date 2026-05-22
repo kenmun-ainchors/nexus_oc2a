@@ -1,11 +1,11 @@
 {
-  "generatedAt": "2026-05-22T08:50:16.821397+00:00",
+  "generatedAt": "2026-05-22T13:35:15.578152+00:00",
   "failures": [
     {
       "cronId": "a7e7a820",
       "fullCronId": "a7e7a820-32f6-4a2b-bb27-52367ebfa7dc",
       "name": "Aria Daily Summary (business stream)",
-      "consecutiveErrors": 3,
+      "consecutiveErrors": 4,
       "lastError": "error",
       "source": "live-cron-state"
     },
@@ -28,5 +28,6 @@
   ],
   "warnings": [],
   "acknowledged": true,
-  "note": "Acknowledged 2026-05-22 18:50 AEST. Same 3 failures surfaced at 13:25 AEST today. No new failures."
+  "acknowledgedAt": "2026-05-22T13:49:00Z",
+  "note": "Same 3 cron failures as earlier today — already surfaced to Ken at 9:19 PM AEST. Acknowledged, no re-alert at 11:49 PM Friday."
 }

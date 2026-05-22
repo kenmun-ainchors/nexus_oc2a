@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "updatedAt": "2026-05-22T07:52:30.757Z",
+  "updatedAt": "2026-05-22T13:57:22.618Z",
   "entries": {
     "memory:memory/2026-04-26.md:94:122": {
       "key": "memory:memory/2026-04-26.md:94:122",
@@ -716,18 +716,20 @@
       "endLine": 323,
       "source": "memory",
       "snippet": "- Items cover: project intake, brief templates, WBS, risk register, stakeholder comms, and milestone tracking. ### CHG-0032 — 3-Tier Credit Alert System - Tiered API credit alert system implemented, replacing simple percentage thresholds: - **Tier 1 — $50:** One-time alert. Yellow. Continue working. - **Tier 2 — $25:** Alert every 3rd response. Orange. Reduce non-essential tasks. - **Tier 3 — $10:** Pause all work. Red. Ack required from Ken before continuing. - Both **Ken (Telegram `8574109706`)** and **Angie via Aria (Telegram `8141152780`)** receive alerts at all tiers. - `state/cost-alert-state.json` created to track tier state and last-alert counters. ### CHG-0033 — US22 Closed",
-      "recallCount": 1,
+      "recallCount": 2,
       "dailyCount": 0,
       "groundedCount": 0,
-      "totalScore": 0.43894226849079127,
+      "totalScore": 0.8777303487062453,
       "maxScore": 0.43894226849079127,
       "firstRecalledAt": "2026-05-02T13:57:39.504Z",
-      "lastRecalledAt": "2026-05-02T13:57:39.504Z",
+      "lastRecalledAt": "2026-05-22T13:57:22.618Z",
       "queryHashes": [
-        "e927ae3c02c1"
+        "e927ae3c02c1",
+        "ec2964087818"
       ],
       "recallDays": [
-        "2026-05-02"
+        "2026-05-02",
+        "2026-05-22"
       ],
       "conceptTags": [
         "chg-0032",
@@ -3187,6 +3189,37 @@
         "post-execution",
         "r01-r10",
         "pre-close"
+      ]
+    },
+    "memory:memory/2026-04-26.md:277:310": {
+      "key": "memory:memory/2026-04-26.md:277:310",
+      "path": "memory/2026-04-26.md",
+      "startLine": 277,
+      "endLine": 310,
+      "source": "memory",
+      "snippet": "- Day 1 blog: pairing code redacted retroactively - Day 1 journal: Telegram user ID redacted ### Daily Cost Tracking System - scripts/cost-tracker.sh: parses session JSONL logs, sums by model, writes to state + history - state/cost-state.json: running totals, all-time average, daily history - memory/shared/cost-history.md: human-readable daily cost log - Notion: Cost Tracker DB created in CTO Command Centre (ID: 34dc182953ff81b1a587ec39b239e465) - Day 1 seeded: $25.75 USD, 416 turns, all Sonnet (Gemma4 not yet active at session start) - Future: daily cost drop expected as Gemma4 takes over routine delegation - Blog angle: cost vs value delivered over time — valuable for consulting practice",
+      "recallCount": 1,
+      "dailyCount": 0,
+      "groundedCount": 0,
+      "totalScore": 0.44165809750556945,
+      "maxScore": 0.44165809750556945,
+      "firstRecalledAt": "2026-05-22T13:57:22.618Z",
+      "lastRecalledAt": "2026-05-22T13:57:22.618Z",
+      "queryHashes": [
+        "ec2964087818"
+      ],
+      "recallDays": [
+        "2026-05-22"
+      ],
+      "conceptTags": [
+        "scripts/cost-tracker.sh",
+        "state/cost-state.json",
+        "all-time",
+        "memory/shared/cost-history.md",
+        "human-readable",
+        "25.75",
+        "day",
+        "blog"
       ]
     }
   }

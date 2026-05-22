@@ -1,8 +1,8 @@
 {
-  "totalChecksRun": 67,
-  "totalViolationsFound": 80,
+  "totalChecksRun": 71,
+  "totalViolationsFound": 84,
   "consecutiveClean": 0,
-  "lastCheck": "2026-05-22T19:07:03+10:00",
+  "lastCheck": "2026-05-22T23:07:03+10:00",
   "baselineResetAt": "2026-05-18T12:10:00+10:00",
   "approvedModels": [
     "ollama/gemma4:31b-cloud",
@@ -10,7 +10,7 @@
     "ollama/kimi-k2.6:cloud"
   ],
   "lastStatus": "violation",
-  "lastPassCount": 19,
-  "lastFailCount": 2,
-  "lastViolationAt": "2026-05-22T19:07:03+10:00"
+  "lastPassCount": 20,
+  "lastFailCount": 1,
+  "lastViolationAt": "2026-05-22T23:07:03+10:00"
 }
