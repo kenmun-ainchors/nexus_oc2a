@@ -44,6 +44,16 @@
 - When Anthropic recovers, files are auto-cleared by health-check.sh
 - State key: standbyMode
 
+### Post-Deliverable Validation Alerts — TKT-0237 A3 (check every 30 min)
+- Check if state/dod-validation-alert.json exists
+- If it exists AND .alerts[] contains items with acknowledged=false:
+  - Read each alert: ticketId, failedCheck, expectedPath, closedAt, detectedAt
+  - Alert Ken immediately: "⚠️ DoD Validation failed: [ticketId] deliverable [expectedPath] missing. Closed [closedAt]."
+  - Multiple alerts → list all in single Telegram message
+  - Ken can acknowledge: set acknowledged=true to stop pinging (alert stays for record)
+  - Auto-cleared by dod-validator.sh when deliverable restored
+- State key: dodValidation
+
 ### Task Verification Alerts (check every 30 min)
 - Check if state/task-verification-alert.json exists
 - If it exists AND alerts array is non-empty:
