@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0",
-  "sequence": 239,
+  "sequence": 241,
   "lastUpdated": "2026-05-17T18:45:46.240905",
   "source": "notion-akb-backlog-rebuild",
   "ticketCount": 214,
@@ -1064,7 +1064,8 @@
       "type": "tkt",
       "createdAt": "2026-05-10T00:09:00.000Z",
       "notionPageId": "35cc1829-53ff-8150-93cd-ee2d9dd5cd9a",
-      "url": "https://www.notion.so/TKT-0127-Agentic-Marketing-Org-Design-activate-business-stream-marketing-agents-for-Angie-KL-te-35cc182953ff815093cdee2d9dd5cd9a"
+      "url": "https://www.notion.so/TKT-0127-Agentic-Marketing-Org-Design-activate-business-stream-marketing-agents-for-Angie-KL-te-35cc182953ff815093cdee2d9dd5cd9a",
+      "sprint": 5
     },
     {
       "id": "TKT-0128",
@@ -2414,7 +2415,7 @@
       "targetDate": "2026-05-30",
       "dodVerified": true,
       "notes": "RE-GROOMED per Ken 2026-05-21. Narrowed scope: OWL is now a conditional safety mode activated ONLY when agents run on kimi-class models for non-LOW currency work. New deliverables: (1) scripts/owl-guard.sh — pre-flight check, injects OWL constraints only when kimi + MEDIUM/HIGH. (2) Update owl-compliance-state.json with model field. (3) Update RULES.md OWL section. Effort: 2h. Owner: Yoda. Original 18h scope deprecated.",
-      "notionPageId": "363c1829-53ff-81c9-840b-c26cfcb13fd6"
+      "notionPageId": "35cc1829-53ff-8150-93cd-ee2d9dd5cd9a"
     },
     {
       "id": "TKT-0229",
@@ -2686,7 +2687,8 @@
         "chg": []
       },
       "notes": "",
-      "notionPageId": "363c1829-53ff-81f0-8595-df189f12c869"
+      "notionPageId": "368c1829-53ff-8195-ab3c-d394ded3df18",
+      "url": "https://www.notion.so/Dynamic-Escalation-Pattern-—-Phase-2-(local-first-→-retry-→-self-debug-→-cloud-escalation)-368c182953ff8195ab3cd394ded3df18"
     },
     {
       "id": "TKT-0235",
@@ -2729,8 +2731,9 @@
         "chg": []
       },
       "notes": "Sprint 5. Resurrect Task Queue Processor (cron 442ad697 lost during CHG-0391). Postgres backend (TKT-0198 migrated state_task_queue), State Checking (TKT-0182), fix known checkpoint bug. Linked: CHG-0389, CHG-0390, CHG-0391.",
-      "notionPageId": "367c1829-53ff-81b8-8f32-c223fd98c45b",
-      "sprint": 5
+      "notionPageId": "368c1829-53ff-819b-8da9-e516f0fbc489",
+      "sprint": 5,
+      "url": "https://www.notion.so/Resurrect-Task-Queue-Processor-—-Postgres-backend-+-State-Checking-+-reactive-cron-368c182953ff819b8da9e516f0fbc489"
     },
     {
       "id": "TKT-0237",
@@ -2741,7 +2744,7 @@
       "requester": "Ken",
       "assignee": "Yoda",
       "created": "2026-05-21T16:01:19+10:00",
-      "updated": "2026-05-21T16:01:19+10:00",
+      "updated": "2026-05-22T12:42:54+10:00",
       "description": "Build a post-execution compliance audit engine owned by Warden. Audits agent outputs against 10 documented rules and logs violations. R01 Path Discipline, R02 SoT Compliance, R03 Model Routing, R04 Template Adherence, R05 State Checking, R06 ID Uniqueness, R07 Config Drift, R08 Content Governance, R09 Cron Health, R10 MEMORY Limits. Output: state/rule-audit-report.json + weekly HTML report. 30-min cron aligned with heartbeat. Sprint 5. Owner: Warden (build + operate within existing reporting framework).",
       "resolution": null,
       "linked": {
@@ -2749,9 +2752,15 @@
         "inc": [],
         "chg": []
       },
-      "notes": "Sprint 5. OWNER: Warden. 10-rule post-execution compliance audit engine. R01-R10. Output: rule-audit-report.json + weekly HTML canvas report. 30-min cron aligned with Warden heartbeat. Links: TKT-0228 (OWL Guard), TKT-0182 (State Checking), TKT-0196 (Three Work Types), TKT-0197 (SoT Register), CHG-0421 (Path Discipline). T2 Gate Tier = P2 Citadel requirement.",
-      "notionPageId": "367c1829-53ff-81b8-8f32-c223fd98c45b",
-      "sprint": 5
+      "notes": "Sprint 5. OWNER: Warden. 10-rule post-execution compliance audit engine. R01-R10. Output: rule-audit-report.json + weekly HTML canvas report. 30-min cron aligned with Warden heartbeat. Links: TKT-0228 (OWL Guard), TKT-0182 (State Checking), TKT-0196 (Three Work Types), TKT-0197 (SoT Register), CHG-0421 (Path Discipline). T2 Gate Tier = P2 Citadel requirement.\n2026-05-22: Ken directed — fold DoD Verification Gate + Task Queue Processor into scope.\n- AC1: Automated DoD Verification Gate — pre-close validation hook in ticket.sh that checks each ticket type's deliverable exists before allowing close (file exists, DB state matches expected, code change in git). Prevents CHG-0401/0402 pattern of 'verified in changelog but code never shipped'.\n- AC2: Task Queue Processor — async, stateless atomic task execution. Each task: (1) single atomic unit, (2) stateless (no session memory dependency), (3) verify-before-close (read state → validate → execute → verify output → report). Addresses the root cause of kimi/gemma4 agents skipping verification — the processor enforces it at platform level.\n- AC3: Post-deliverable validation scheduler — cron that re-checks recently-closed TKT deliverables (24h window) and fires alerts if missing. Catches 'reported done but not actually done' pattern.\n- Combined with existing R01-R10 rule engine scope. Warden-owned audit tier + automated enforcement.\nTagged Sprint 4 per Ken 2026-05-22 sprint review reprioritization. Scope: DoD Verification Gate + Task Queue Processor + Post-deliverable validation. Priority over TKT-0228.\nGROOMED 2026-05-22. Sprint 4. Owner: Yoda + Warden. 7h total. 5 stories. See ticket for full breakdown.\nGROOMED 2026-05-22. Full spec: docs/TKT-0237-Groomed.md\n\n=== SUMMARY ===\nSprint 4. Owner: Yoda + Warden. 7h total. 5 stories across 2 streams.\n\nSTREAM A — DoD Verification Gate (Yoda, 2.5h):\n- A1: Pre-close validation hook in ticket.sh (1.5h)\n- A2: DoD validation rules registry (1h)\n\nSTREAM B — 10-Rule Audit Engine (Warden, 4.5h):\n- B1: Rule audit engine framework (2h)\n- B2: Weekly audit HTML report (1.5h)\n- A3: Post-deliverable validation cron (1h)\n\nStreams A and B are parallel. A1→A3, B1→B2. First report within 7 days.",
+      "notionPageId": "35cc1829-53ff-81c3-b9d4-fd24dc91ca02",
+      "sprint": 4,
+      "url": "https://www.notion.so/Platform-Rule-Engine-v1-—-T1-Audit-Tier-(Warden-owned,-10-rule-post-execution-compliance-audit)-368c182953ff81e3adf3f017ac4700e0",
+      "groomed": true,
+      "groomedAt": "2026-05-22T12:41:00+10:00",
+      "totalEffort": "7 hours",
+      "stories": 5,
+      "owner": "Yoda+Warden"
     },
     {
       "id": "TKT-0238",
@@ -2771,7 +2780,49 @@
         "chg": []
       },
       "notes": "",
+      "notionPageId": "368c1829-53ff-81da-a3b8-c51bb7324433",
+      "url": "https://www.notion.so/Systemic-cron-date-calculation-drift-—-standup/blog/LinkedIn-missing-deliveries-368c182953ff81daa3b8c51bb7324433"
+    },
+    {
+      "id": "TKT-0239",
+      "title": "TEST: archive-to-DB-C verification (safe to delete)",
+      "type": "task",
+      "priority": "low",
+      "status": "closed",
+      "requester": "Ken",
+      "assignee": "Yoda",
+      "created": "2026-05-22T11:58:17+10:00",
+      "updated": "2026-05-22T11:58:25+10:00",
+      "description": "Temporary test ticket to verify CHG-0402 archive-to-DB-C fix works.",
+      "resolution": "Test successful — archive logic verified. Closing to trigger DB C copy.",
+      "linked": {
+        "us": [],
+        "inc": [],
+        "chg": []
+      },
+      "notes": "",
       "notionPageId": "360c1829-53ff-8119-9972-f1c6de2baf51"
+    },
+    {
+      "id": "TKT-0240",
+      "title": "Post-TKT-0237/0228 audit — verify TKT-0196/0197/0198/0182 deliverables before sprint sign-off",
+      "type": "task",
+      "priority": "high",
+      "status": "open",
+      "requester": "Ken",
+      "assignee": "Yoda",
+      "created": "2026-05-22T12:38:49+10:00",
+      "updated": "2026-05-22T12:38:49+10:00",
+      "description": "Sprint 4 gate: all 4 'closed' architecture tickets (TKT-0196, 0197, 0198, 0182) must be re-audited after TKT-0237 (DoD Verification Gate) and TKT-0228 (OWL Guard) are complete. This ensures they meet the new verification standard before being accepted as Done for Sprint 4.\\n\\nAC1: Verify TKT-0196 — Three Work Types Rule: check docs/Three-Work-Types-Rule.md exists + RULES.md updated + TKT-0234 raised for Phase 2\\nAC2: Verify TKT-0197 — SoT Register: check docs/Sources-of-Truth-Register.md exists + 10 domains mapped + access matrix complete\\nAC3: Verify TKT-0198 — Postgres Migration: check 5 tables exist in ainchors_nexus + migrate-state-to-postgres.sh is idempotent + backward-compat view exists\\nAC4: Verify TKT-0182 — State Checking Pattern: check docs/State-Checking-Pattern.md exists + RULES.md updated + pattern actually applied in recent agent actions\\n\\nEach AC must PASS the DoD Verification Gate (TKT-0237 AC1) before sign-off. No 'assumed done' — observable verification only.",
+      "resolution": null,
+      "linked": {
+        "us": [],
+        "inc": [],
+        "chg": []
+      },
+      "notes": "",
+      "notionPageId": "35cc1829-53ff-81c3-b9d4-fd24dc91ca02",
+      "sprint": 4
     }
   ],
   "changes": [
