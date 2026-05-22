@@ -1,11 +1,16 @@
 # TKT-0237 — Platform Rule Engine v1 (Groomed — Final)
-**Sprint 4 | Owner: Yoda + Warden | Effort: 7h | Status: Open**
+**Sprint 4 | Owner: Yoda + Warden + Forge | Effort: 11h | Status: Open**
 
 ## Why This Exists
 CHG-0401 was "done" — 607 items migrated, 3 databases created, CHANGELOG claimed verification.
 Reality 4 days later: 15 Done + 5 Auto-Heal still in DB A. DB C had no schema. The archive code never shipped.
 Every closed ticket this sprint was vulnerable to the same pattern: agent executes → reports done → no one checks.
-TKT-0237 is the gate that makes this impossible going forward.
+
+TKT-0237 fixes this at TWO levels:
+1. **Ticket level (Stream A):** Pre-close gate — blocks close if deliverable doesn't exist
+2. **Platform level (Stream C):** Task Queue Processor — changes how agents execute work so verification is mandatory, not optional
+
+The gate catches bad closes. The processor prevents them from happening at all.
 
 ---
 
@@ -199,35 +204,89 @@ Score: 87% | 8 PASS · 1 FAIL · 1 WARN
 
 ---
 
+## STREAM C: Task Queue Processor (Forge, 4h)
+
+The DoD Gate (Stream A) catches lies at close time. The Task Queue Processor prevents the lies from being told in the first place.
+
+The root cause of today's incidents is structural: agents (especially kimi/gemma4) execute work in linear sessions with memory context. They execute → write output → report "done" based on tool exit codes — never circling back to verify. The processor changes the execution model so verification is not optional.
+
+### How It Works
+
+```
+TKT created → TQP picks up → Agent picks up atomic task → Agent executes (stateless)
+→ Agent MUST verify output → TQP verifies → PASS (mark done) | FAIL (re-queue, max 3)
+```
+
+### Story C1: Task Queue Processor — async, stateless atomic execution
+**Owner:** Forge | **Effort:** 4h
+
+**Core principles:**
+- **Atomic:** Each task is a single unit. One story = one task. No batch runs.
+- **Stateless:** No session memory. Fresh start every time. Context from files only.
+- **Verify-before-close:** The processor (not the agent) runs final verification via A1's function.
+- **Re-queue on failure:** Max 3 retries, then escalate to Ken.
+
+**Input:** `state/task-queue.json` — each entry: taskId, ticketId, story, type, promptFile, expectedDeliverable, status, retries, maxRetries, assignedModel, timestamps
+
+**Dispatch:** `sessions_spawn` with prompt + "This is an ATOMIC task. Produce the deliverable. The platform will verify."
+
+**Verification:** After sub-agent completes, run `verify_before_close()` from A1.
+- PASS → status=done, verificationResult=passed
+- FAIL → retries++. If < maxRetries: re-queue. If >= maxRetries: status=failed, alert Ken
+
+**Cron:** 5-min interval via `scripts/task-queue-processor.sh`. Max 1 concurrent task.
+
+**Deliverable:** `scripts/task-queue-processor.sh` + `state/task-queue.json` schema + cron
+
+**Acceptance Criteria:**
+- [ ] AC1: Add task to queue → processor picks up within 5 min → spawns → verifies → marks done
+- [ ] AC2: Agent produces broken output → verification fails → re-queued with retries++
+- [ ] AC3: 3 failures → status=failed, Telegram alert: "⚠️ TKT-XXXX failed 3 times. Manual intervention required."
+- [ ] AC4: Two tasks queued → processor runs one at a time (no race conditions)
+- [ ] AC5: Sub-agent timeout → mark as failed (counts as retry)
+- [ ] AC6: `state/task-queue.json` uses atomic writes, valid JSON always
+- [ ] AC7: `ticket.sh new --auto-execute` → auto-queues to task-queue.json
+- [ ] AC8: Processor uses deepseek-v4-pro (no rate limits), fallback gemma4 for non-critical
+- [ ] AC9: Queue metrics: depth, avg time, failure rate → `state/task-queue-metrics.json`
+- [ ] AC10: Manual tasks (Ken→Yoda directly) bypass TQP — TQP only for explicitly queued tasks
+
+---
+
 ## Dependencies
 ```
-A1 (Pre-close hook) ──→ A3 (Post-close validator needs A1's check functions)
-A2 (Rules registry) ──┘ (A3 references A2's path conventions)
+A1 (Pre-close hook) ──→ C1 (TQP uses A1's verify function)
+                      ──→ A3 (Post-close validator uses A1's checks)
+A2 (Rules registry) ──┘
 
 B1 (Audit engine) ────→ B2 (Report needs B1's JSON output)
 
-Stream A ∥ Stream B (no cross-dependency)
+Stream A ∥ Stream B (parallel)
+Stream C depends on A1 (needs verification function)
 ```
 
 ## Execution Order
 1. **A1** (Yoda) + **B1** (Warden) — parallel, Day 1
-2. **A2** (Yoda) + **A3** (Warden) — parallel, Day 2
-3. **B2** (Warden) — last, Day 3
+2. **A2** (Yoda) + **C1** (Forge) — parallel, Day 2 (C1 needs A1 complete)
+3. **A3** (Warden) + **B2** (Warden) — parallel, Day 3
 
 ## Risk: What Could Go Wrong
 | Risk | Impact | Mitigation |
 |------|--------|------------|
 | A1 blocks legitimate closes | Sprint stall | `--skip-verify` flag for Ken override |
-| B1 false positives flood alerts | Alert fatigue | Severity tiers: BLOCKER alerts, WARNING logs only |
-| A3 cron hits Ollama 429 | Silent failure | Use deepseek-v4-pro (confirmed working) |
-| A1 can't determine deliverable path | Close blocked indefinitely | Skip check if no declared path (AC8) |
-| Warden capacity clash with existing cron | Race condition | Warden existing 15-min cron stays; B1 runs inside it |
+| B1 false positives flood alerts | Alert fatigue | BLOCKER alerts, WARNING logs only |
+| A3 cron hits Ollama 429 | Silent failure | Use deepseek-v4-pro |
+| A1 can't determine deliverable path | Close blocked | Skip if no declared path (A1.AC8) |
+| Warden capacity clash | Race condition | B1 runs inside existing 15-min cron |
+| TQP spawns too many sub-agents | Cost spike | Max 1 concurrent, 5-min interval |
+| TQP infinite re-queue loop | Resource drain | Hard cap 3 retries, then escalate |
+| Queue grows faster than processing | Backlog | Alert at >10 items → Telegram to Ken |
 
 ## DoD (Exit criteria for entire ticket)
-- [ ] All 5 stories pass their individual ACs
+- [ ] All 6 stories pass their individual ACs (A1, A2, A3, B1, B2, C1)
 - [ ] `ticket.sh close` blocks when deliverable missing → verified with real test tickets
 - [ ] `dod-validator.sh` fires Telegram alert within 2h of missing deliverable → verified end-to-end
-- [ ] `rule-audit.sh` catches at least 3 real violations on first run (R01 tilde-paths, R03 model drift, R09 cron health)
+- [ ] `task-queue-processor.sh` executes → verifies → marks done for at least 1 real task end-to-end
+- [ ] `rule-audit.sh` catches at least 3 real violations on first run
 - [ ] First weekly report generated and reviewed by Ken
-- [ ] TKT-0240 (audit gate) runs against TKT-0196/0197/0198/0182 using the new DoD gate → all 4 PASS
-- [ ] Zero CHG-0401/0402-class incidents for 14 consecutive days (a ticket closed with broken deliverable)
+- [ ] TKT-0240 runs TKT-0196/0197/0198/0182 through DoD gate + TQP → all 4 PASS
+- [ ] Zero CHG-0401/0402-class incidents for 14 consecutive days
