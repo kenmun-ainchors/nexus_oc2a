@@ -46,5 +46,11 @@ _Key decisions made. Dated. Permanent record._
 - **Ollama Cloud cap pattern confirmed:** kimi + gemma4 share a weekly usage cap; deepseek-pro has a separate one. Long-term: may need to migrate all crons to deepseek-pro.
 - **Quality enforced by platform, not agent promises.** Verification must be observable and automated — structural change to stop trusting self-reported completion.
 
+## 2026-05-23
+- **Postgres as platform SSOT** — Full activation approved by Ken at 10:31 AEST. 28+ scattered JSON files consolidated into 25 Postgres tables with dual-write fallback. Foundation for P2 multi-client capability.
+- **Dual-write migration pattern adopted** — During Postgres cutover, ticket.sh writes to both Postgres and files. Rollback drill confirmed <2 min recovery. Zero data risk.
+- **Warden auto-derivation from model-policy.json** — Replaced hardcoded valid-chains list with dynamic derivation from the platform's SSOT policy file. Eliminates stale false-positives on model changes.
+- **Async LISTEN/NOTIFY over polling** — Switched from 14 queries/sec polling to Postgres persistent connections. Ken's mid-stream catch prevented long-term resource waste.
+
 ## 2026-05-11
 - **Journal format updated** — `Yoda's response (verbatim)` field added to per-entry structure. Captures Yoda's final chat reply per entry (not tool output — the message Ken received). Ken approved 2026-05-11 07:50 AEST. Spec: `Operations/JournalFormat.md`. Journal cron `4d926b2c` updated.

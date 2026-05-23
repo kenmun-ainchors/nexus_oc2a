@@ -171,6 +171,11 @@ _Maintained by Aria 🔵 + Yoda 🟢 | Status-tracked content for AInchors train
 | TC-156 | The three-day silent failure: monitoring that watches the watcher | 💡 Idea | Yoda Day 28 (Ollama 429 cascade) | Both |
 | TC-157 | Quality governance for AI orchestrators: holding the manager to the same standard | 💡 Idea | Yoda Day 28 (Sprint 4 close + quality contract) | Both |
 
+| TC-158 | From files to databases: when your AI platform needs a real SSOT | 💡 Idea | Yoda Day 29 (Postgres master SSOT activation — 28 JSON files → 25 tables, 6-phase migration) | Both |
+| TC-159 | The polling trap: why checking 14 times per second is a design smell | 💡 Idea | Yoda Day 29 (TKT-0265 — async LISTEN/NOTIFY replaced polling, 0 queries/sec with persistent connections) | Yoda |
+| TC-160 | Dual-write migration: how to switch databases without breaking everything | 💡 Idea | Yoda Day 29 (TKT-0263 — Postgres+file dual-write, <2 min rollback drill, zero data loss) | Both |
+| TC-161 | Auto-deriving monitoring policy: making your drift detection stay in sync | 💡 Idea | Yoda Day 29 (CHG-0425 — Warden reads model-policy.json to build valid chains dynamically, no more stale false-positives) | Yoda |
+
 ## Status Legend
 💡 Idea → 📝 Draft → 🔍 Review (Yoda validates) → ✅ Ready → 📢 Published
 

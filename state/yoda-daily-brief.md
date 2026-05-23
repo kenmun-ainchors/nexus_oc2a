@@ -1,57 +1,57 @@
-# 2026-05-22 — Daily Brief for Aria & Angie
+# 2026-05-23 — Daily Brief for Aria & Angie
 
 ## 🟢 What Yoda Built Today
 
-Today was a heavy platform repair and quality enforcement day. Three big problems surfaced, and we fixed them all:
+Today was arguably the most impactful single execution day in platform history. We activated Postgres as our master database — the single source of truth for everything the platform does. 14 tasks completed in about 10 hours.
 
-### 1. Ollama Cloud Weekly Cap — 3 Days of Silent Cron Failures
-Our cloud AI provider hit its weekly usage cap on Monday, and we didn't notice until today. Five automated jobs had been failing silently since Wednesday — the morning standup, the daily journal, the evening blog, LinkedIn posts, and budget reports. No alerts reached Ken because the alerting system itself was on the affected provider. We've now patched all affected crons to use DeepSeek-Pro (which wasn't affected) and backfilled the missing journal and blog entries.
+### The Big Thing: Postgres Master SSOT — Full Platform Activation
 
-**The bigger fix:** TKT-0238 was created to investigate why silent cron failures went undetected for three days. This is a systemic observability gap, not a one-off.
+Until today, the AInchors platform ran on scattered JSON files — one for tickets, one for sprints, one for LinkedIn posts, one for agent configs, and dozens more. Every file was its own little island. If you wanted to answer "how many tickets did Forge close this month?" you'd have to grep 6 different files. If two agents tried to write at the same time, things got messy.
 
-### 2. Notion 3-Database Architecture — Found and Fixed
-Two weeks ago we claimed we'd split our Notion workspace into three databases (Backlog, Auto-Heal, Archive). Today we discovered the work was marked "done" but the code was never actually shipped — 20 old items were still cluttering the main backlog. The "Done" button was just changing a status label, not actually moving anything to the archive.
+Now everything lives in Postgres. One database, 25 tables, all connected.
 
-**Fix:** Rewrote the ticket-closing code so every ticket marked "Done" is automatically archived to the correct database. Cleaned up 20 stale items. One small piece (Database C setup) is deferred — Ken will use a filter view instead.
+**What that means in practice:**
+- Tickets, cost records, changelogs, agent registrations, config entries, sprints, LinkedIn posts, CI/CD metrics, standups, and Notion sync state — all in one place
+- 62 knowledge documents from our shared memory ingested and made searchable (1,695 chunks)
+- Real-time notifications between services (no more polling — the database pushes updates)
+- 28 old JSON files consolidated into 7 clean tables
+- 178 backup files archived (zero deletions — nothing lost)
 
-### 3. Platform Quality Contract — Now Applies to Yoda Too
-Ken and I had a serious reflection about quality. The core issue: agents were reporting work as "done" without any platform verification that the work actually happened. This is how the Notion bug went undetected — self-reported "done" with no automated check.
+**The numbers:** 25 tables (up from 14), 7 notification triggers, 16 state views, 5 core scripts, 14 agents registered with 3 role levels.
 
-**What we built today:**
-- **DoD Gate:** Ticket.sh now validates deliverables exist before allowing a "Done" close
-- **Task Queue Processor:** A pending design for platform-verified task execution (stop trusting agent self-reports)
-- **Post-Close Validator:** Re-checks closed tickets within 2 hours to catch drift
-- **Weekly Quality Report:** Monday 9:00 AM canvas report + Telegram to Ken
+### The Fix That Ken Caught Mid-Stream
 
-And critically: **Yoda is now under the same quality contract as every sub-agent.** The orchestrator is not exempt. If my compliance drops below 70%, the same alert fires to Ken.
+Mid-execution, Ken spotted a performance trap: our notification system was polling the database 14 times per second. Forge found a clean fix using Postgres' built-in LISTEN/NOTIFY — persistent connections, zero polling overhead. This is exactly the kind of thing that wastes resources silently for months if nobody notices.
 
-### 4. Sprint 4 Closed
-- 6 of 6 committed items shipped and verified
-- Sprint planning Sunday
+### What Else Happened
 
-## ⚖️ Key Decisions Made Today
+- Two Warden fixes this morning: cleared 41 false-positive drift alerts (from a stale config list), then replaced the hardcoded approach with auto-derivation from the platform's policy file. Warden now stays in sync automatically.
+- Sprint 5 items raised for agent cutover, backup setup, and progressive disclosure skills
 
-- **TKT-0237 before TKT-0228:** Platform verification gates come before preventing AI model drift. Fix the "done but not done" problem first, then fix execution discipline. (Ken approved)
-- **Notion DB C manual setup deferred:** Filter-based view is sufficient for now — not worth the complexity of creating a standalone database
-- **Ollama Cloud cap pattern discovered:** kimi + gemma4 share a weekly cap; deepseek-pro has a separate one. Long-term: may need to move all crons to deepseek-pro
-- **Quality enforced by platform, not agent promises:** Structural change — verification must be observable and automated, not self-reported
+## ⚖️ Key Decisions Made
+
+- **Postgres as single source of truth:** Ken approved the full activation proposal at 10:31 AM. All platform state now lives in Postgres with file-based fallback. This is the foundation for P2 multi-client capability.
+- **Dual-write pattern for safety:** During the transition, ticket.sh writes to both Postgres and files simultaneously. Rollback drill confirmed we can recover in under 2 minutes if anything goes wrong.
+- **Warden auto-derivation from policy:** Instead of manually updating Warden's valid-chains list every time we change models, it now reads the master policy file and derives the allowlist automatically. No more stale false-positives.
 
 ## 🎓 Training Content Angles (For AI Courses)
 
-Three strong angles from today:
+Four strong angles from today's work:
 
-- **When "Done" Doesn't Mean Done:** How self-reported completion creates blindness in AI systems — and the platform gates that fix it. The Notion migration that was claimed complete but never executed is a perfect case study. (From today's CHG-0401/0402 audit and TKT-0237 DoD Gate)
+- **From Files to Databases — When Your AI Platform Needs a Real SSOT:** How we consolidated 28+ scattered JSON files into one Postgres database. Why file-based state works for a prototype but fails at scale — and how to do the migration without losing data. (From today's Phase 0-4 execution, TKT-0252 through TKT-0264)
 
-- **The Three-Day Silent Failure:** Why your monitoring system can't alert you when the monitoring system itself is broken. Ollama cap exhausted Monday, five critical jobs failing since Wednesday, no alerts until Friday. How to build monitoring that watches the watcher. (From today's Ollama 429 cascade and TKT-0238)
+- **The Polling Trap — Why Checking 14 Times Per Second Is a Design Smell:** Ken's mid-stream catch: our notification system was hammering the database. The fix (LISTEN/NOTIFY with persistent connections) turned a resource leak into a zero-cost event system. A great case study for engineers learning to build AI infrastructure. (From TKT-0265, async NOTIFY fix)
 
-- **Quality Governance for AI Orchestrators:** Why the AI that manages your other AIs needs to be held to the same standard. Ken's call to put Yoda under the same quality contract as every sub-agent — and the structural changes it triggered. (From today's Sprint 4 close and quality contract expansion)
+- **Dual-Write Migration — How to Switch Databases Without Breaking Everything:** The dual-write pattern: write to both old and new systems during transition, verify both match, then cutover. Includes a rollback drill that proved we could recover in under 2 minutes. Real-world migration pattern, not textbook theory. (From TKT-0263 validation + cutover)
+
+- **Auto-Deriving Policy — Making Your Monitoring Stay in Sync:** How we fixed Warden's false-positive drift alerts by making it read the platform's master policy file instead of maintaining a separate hardcoded list. Any model change now automatically flows through to monitoring. (From CHG-0424/0425)
 
 ## ⏳ What's Open / Next
 
-- **TKT-0237:** Platform Rule Engine v1 — partially done (DoD gate live), Task Queue Processor pending
-- **TKT-0238:** Systemic cron drift investigation — Ollama cap monitoring needed
-- **Sprint 5 Planning:** Sunday — TKT-0127 carried forward, new sprint seeded from open items
+- **Stability monitoring:** Hourly sync-check running for 24 hours (TKT-0268)
+- **Backup setup:** Need pg_dump backup cron (TKT-0269)
+- **Agent cutover:** Sprint 5 items for moving agents to Postgres-first reads (TKT-0270/0271)
+- **Progressive disclosure skills:** Yoda + Thrawn assessment + build (TKT-0275)
+- **Sprint 5 Planning:** Sunday — all new tickets ready for seeding
 - **OC2 Hardware:** ETA early July 2026 (no change)
-- **Aevlith Incorporation:** Pending ASIC registration
-- **LinkedIn Campaign:** Week 3 completed (2/3 posts delivered — Wed skipped due to Ollama outage)
-- **Model State:** Still on DeepSeek-Pro. Anthropic API credits depleted.
+- **Model State:** DeepSeek-Pro primary. Anthropic API credits still depleted.
