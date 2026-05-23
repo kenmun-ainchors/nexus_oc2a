@@ -1,0 +1,26 @@
+{
+  "queue": [
+    {
+      "taskId": "UAT-TQP-001",
+      "ticketId": "TKT-TEST-UAT",
+      "story": "uat",
+      "type": "task",
+      "promptFile": "docs/DoD-Validation-Rules.md",
+      "expectedDeliverable": "/Users/ainchorsangiefpl/.openclaw/workspace/docs/DoD-Validation-Rules.md",
+      "status": "done",
+      "retries": 0,
+      "maxRetries": 3,
+      "assignedModel": "ollama/deepseek-v4-pro:cloud",
+      "queuedAt": "2026-05-22T14:20:00+10:00",
+      "startedAt": "2026-05-22T14:27:04+10:00",
+      "completedAt": "2026-05-22T14:29:10+10:00",
+      "verificationResult": "passed"
+    }
+  ],
+  "metrics": {
+    "totalProcessed": 1,
+    "totalFailed": 0,
+    "avgCompletionMs": 1779424150000,
+    "lastProcessedAt": 1779424150.496064
+  }
+}

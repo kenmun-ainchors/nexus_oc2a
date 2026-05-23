@@ -1,19 +1,11 @@
 {
-  "checkedAt": "2026-05-22T13:49:59.020546+00:00",
+  "checkedAt": "2026-05-23T12:19:31.000408+00:00",
   "failures": [
     {
-      "cronId": "3ea986bf",
-      "fullCronId": "3ea986bf-5dfc-4805-a13c-80427b4d29c7",
-      "name": "TKT-0092 Daily Budget Report",
-      "consecutiveErrors": 3,
-      "lastError": "error",
-      "source": "live-cron-state"
-    },
-    {
-      "cronId": "e08e19ad",
-      "fullCronId": "e08e19ad-2d15-47ff-9ac0-509c05889a0e",
-      "name": "TKT-0093 Backup Health Check",
-      "consecutiveErrors": 3,
+      "cronId": "d3b1e203",
+      "fullCronId": "d3b1e203-741b-444a-9852-7bb8839d2c99",
+      "name": "AInchors Observability Collector",
+      "consecutiveErrors": 5,
       "lastError": "error",
       "source": "live-cron-state"
     },

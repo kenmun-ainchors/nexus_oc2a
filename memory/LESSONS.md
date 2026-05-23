@@ -480,3 +480,12 @@ When declaring ANY interim model period (Anthropic outage, kimi substitution, mo
 
 **Source:** Ken: "looks like it's an openclaw thing. i needed to force reload the webpage to un-lock it in the polling mode"
 **Severity:** Low — no data loss, no server issue, client-side only. Workaround is simple.
+
+## L-040 — Warden Valid Chains Must Stay Synced with Model Changes (2026-05-23)
+
+**Incident:** 41 Warden false-positives accumulated over ~10 hours. All identical: `default.fallbacks` reported as VIOLATION with expected == actual.
+**Root Cause:** CHG-0349 switched platform from Haiku to deepseek-pro as primary. The Warden's `valid_chains` list in `model-drift-check.sh` was never updated. The actual production chain `[deepseek-pro, kimi]` was correct, but the Warden only recognized Haiku-era chains. The comparison was against a stale allowlist.
+**Fix:** Added current production chain to `valid_chains`. Single-line edit.
+**Lesson:** The model-policy.json → model-drift-check.sh → warden-cron.sh chain has a dependency — any model change (especially default fallbacks) MUST trigger a Warden valid_chains update. Otherwise Warden becomes a false-positive generator.
+**Fix (CHG-0424):** Added current production chain to valid_chains.
+**Permanent fix (CHG-0425):** Replaced hardcoded valid_chains with auto-derivation from model-policy.json. The SSOT policy file now IS the valid chains source. Any future model change in model-policy.json automatically propagates to Warden — no manual sync needed.

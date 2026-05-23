@@ -1,24 +1,18 @@
 {
   "lastChecks": {
-    "heartbeat": "2026-05-22T13:49:00Z",
-    "apiBalance": "2026-05-22T13:49:00Z",
-    "agentHealth": "2026-05-22T13:49:00Z",
-    "cronHealth": "2026-05-22T13:49:00Z",
-    "cronDeadLetter": "2026-05-22T13:49:00Z",
-    "budgetCheck": "2026-05-22T13:49:00Z",
-    "wardenEscalation": "2026-05-22T13:49:00Z",
-    "ahsokaPilot": "2026-05-22T13:49:00Z",
-    "standbyMode": "2026-05-22T13:49:00Z",
-    "taskWatchdog": "2026-05-22T13:49:00Z",
-    "taskVerification": "2026-05-22T13:49:00Z",
-    "allowlistSync": "2026-05-22T13:49:00Z",
-    "email": "2026-05-22T07:49:00Z",
-    "calendar": "2026-05-22T07:49:00Z",
-    "ceremoniesThisWeek": "2026-05-21T04:49:00Z",
-    "doDGates": "2026-05-22T04:53:52Z",
-    "kimiConfidenceMapping": "2026-05-22T04:53:52Z",
-    "owlCompliance": "2026-05-22T13:49:00Z"
-  },
-  "lastUpdated": "2026-05-22T13:49:00Z",
-  "notes2026-05-22-2349": "11:49 PM AEST Friday. Same 3 cron failures (Aria Daily Summary, Budget Report, Backup Health Check) — already surfaced to Ken earlier. Acknowledged. No other alerts: no standby, no banner, no dead-letter, no task stall, no DoD/task verification, no budget issues. Warden resolved. OWL 100%. All clear. Quiet night."
+    "email": null,
+    "calendar": null,
+    "costAlert": 1766481600,
+    "taskWatchdog": 1766481600,
+    "agentHealth": 1766481600,
+    "standbyMode": 1766481600,
+    "dodValidation": 1766481600,
+    "taskVerification": 1766481600,
+    "budgetCheck": 1766481600,
+    "cronHealth": 1766481600,
+    "cronDeadLetter": 1766481600,
+    "wardenEscalation": 1766481600,
+    "owlCompliance": 1766481600,
+    "ahsokaPilot": 1766481600
+  }
 }

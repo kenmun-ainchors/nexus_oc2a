@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "updatedAt": "2026-05-22T13:57:22.618Z",
+  "updatedAt": "2026-05-23T05:49:42.540Z",
   "entries": {
     "memory:memory/2026-04-26.md:94:122": {
       "key": "memory:memory/2026-04-26.md:94:122",
@@ -226,27 +226,29 @@
       "endLine": 302,
       "source": "memory",
       "snippet": "3. **CR gate** — all technical changes (config, scripts, integrations) require a CHG entry before execution. - `openclaw.json` updated: Aria agent model explicitly set to `gemma4`. - `state/critical-config-baseline.json` updated: `config-008` added to guard Aria's model assignment. ### CHG-0029 — Aria TOM Authority + Gemma4 Extended - Aria granted **Target Operating Model (TOM) authority** for the business stream — can define and evolve business processes within her domain. - Gemma4 extended as default model to **all business stream agents** (Shield, Lex, Sage) with same escalation-ask rule. ### CHG-0030 — Angie Onboarding Journey Created - Two new Operations docs: - `Operations/AngieO",
-      "recallCount": 6,
+      "recallCount": 7,
       "dailyCount": 0,
       "groundedCount": 0,
-      "totalScore": 2.5387402236461636,
+      "totalScore": 2.979525157809257,
       "maxScore": 0.45639283061027525,
       "firstRecalledAt": "2026-04-27T13:57:07.598Z",
-      "lastRecalledAt": "2026-05-22T01:49:17.516Z",
+      "lastRecalledAt": "2026-05-22T21:50:54.907Z",
       "queryHashes": [
         "2b7b37c03dad",
         "9c49295f2494",
         "266e50ffd2cd",
         "e3ca283e7754",
         "17229b4cfa0b",
-        "0016a900f9bd"
+        "0016a900f9bd",
+        "a077fc12c8d5"
       ],
       "recallDays": [
         "2026-04-27",
         "2026-05-07",
         "2026-05-08",
         "2026-05-21",
-        "2026-05-22"
+        "2026-05-22",
+        "2026-05-23"
       ],
       "conceptTags": [
         "openclaw.json",
@@ -336,24 +338,27 @@
       "endLine": 725,
       "source": "memory",
       "snippet": "- Ken's webchat to Yoda also affected - **Decision: Option C — Aria moved to Sonnet permanently. Gemma4 for background crons only.** ### CHG-0037: Aria Model → Sonnet (Permanent) - Aria primary model: Gemma4 → `anthropic/claude-sonnet-4-6` - Gemma4 retained for: backup crons, cost tracker, non-interactive batch work only - Tail message updated: `⚙️ Model: Sonnet` (escalation prompt removed) - `critical-config-baseline.json` updated (config-008) --- ## 21:00–21:55 AEST — Telegram Architecture Overhaul (B1: Dual Bot) ### Problem - Ken's Telegram messages kept routing to Aria despite binding fixes - Root cause: stale session in business agent for Ken's chatId (8574109706) — persisted throug",
-      "recallCount": 5,
+      "recallCount": 7,
       "dailyCount": 0,
       "groundedCount": 0,
-      "totalScore": 2.2090764909982683,
-      "maxScore": 0.45371588766574855,
+      "totalScore": 3.0779061645269397,
+      "maxScore": 0.4560945719480514,
       "firstRecalledAt": "2026-04-29T05:13:49.704Z",
-      "lastRecalledAt": "2026-05-20T17:05:19.735Z",
+      "lastRecalledAt": "2026-05-22T17:05:24.924Z",
       "queryHashes": [
         "ebff508a49a4",
         "f19d93029481",
         "81927d8dbb89",
-        "cf4c77e101bd"
+        "cf4c77e101bd",
+        "aeee5f009fee",
+        "9efe2f060036"
       ],
       "recallDays": [
         "2026-04-29",
         "2026-05-01",
         "2026-05-13",
-        "2026-05-21"
+        "2026-05-21",
+        "2026-05-23"
       ],
       "conceptTags": [
         "backup",
@@ -404,13 +409,13 @@
       "endLine": 12,
       "source": "memory",
       "snippet": "# 2026-04-25 ## Bootstrap - Identity set: Yoda 🟢 — AI business operations lead agent - User: Ken Mun (call him Ken), Melbourne GMT+10 - Primary channel: web chat - Secondary channel: Telegram (urgent/offline only) - Telegram paired and tested — working ## Config notes - Security flag: Telegram group commands have no sender allowlist — low risk (personal use only), revisit later",
-      "recallCount": 8,
+      "recallCount": 9,
       "dailyCount": 0,
       "groundedCount": 0,
-      "totalScore": 3.463532146811485,
+      "totalScore": 3.882634654641151,
       "maxScore": 0.46624842584133147,
       "firstRecalledAt": "2026-04-30T22:06:08.100Z",
-      "lastRecalledAt": "2026-05-22T01:19:09.915Z",
+      "lastRecalledAt": "2026-05-22T17:05:20.703Z",
       "queryHashes": [
         "f19d93029481",
         "763c944a8b88",
@@ -418,14 +423,16 @@
         "cf4c77e101bd",
         "2348523d2060",
         "9fdec7ffea59",
-        "96ac7cd9f964"
+        "96ac7cd9f964",
+        "aeee5f009fee"
       ],
       "recallDays": [
         "2026-05-01",
         "2026-05-12",
         "2026-05-13",
         "2026-05-21",
-        "2026-05-22"
+        "2026-05-22",
+        "2026-05-23"
       ],
       "conceptTags": [
         "urgent/offline",
@@ -1876,18 +1883,20 @@
       "endLine": 118,
       "source": "memory",
       "snippet": "- TKT-0130 QBR Agent Fleet Review (first: Jul 2026) - TKT-0136–0139 Consulting product suite (Ahsoka-owned) - Angie business stream: no activity since 28 April. JotForm API key still outstanding. --- ## Fix: Windows Webchat 1006 WebSocket Disconnect (17:53 AEST) **Issue:** Ken's Windows machine (kenmun-x1) getting WebSocket 1006 error on webchat. **Root cause:** Tailscale serve was proxying `https://ainchorss-mac-mini.tail5e2567.ts.net` → `localhost:9000` (default nginx, not configured). OpenClaw runs on `localhost:18789`. **Fix:** Updated Tailscale serve: `tailscale serve --https=443 --bg http://localhost:18789` **Status:** Resolved ✅ — Ken confirmed working 17:53 AEST. **Note:** Nginx o",
-      "recallCount": 1,
+      "recallCount": 2,
       "dailyCount": 0,
       "groundedCount": 0,
-      "totalScore": 0.38910782933235166,
-      "maxScore": 0.38910782933235166,
+      "totalScore": 0.8203447520732879,
+      "maxScore": 0.4312369227409363,
       "firstRecalledAt": "2026-05-16T02:54:12.385Z",
-      "lastRecalledAt": "2026-05-16T02:54:12.385Z",
+      "lastRecalledAt": "2026-05-22T17:05:24.924Z",
       "queryHashes": [
-        "30b1ca6ccf11"
+        "30b1ca6ccf11",
+        "9efe2f060036"
       ],
       "recallDays": [
-        "2026-05-16"
+        "2026-05-16",
+        "2026-05-23"
       ],
       "conceptTags": [
         "tkt-0130",
@@ -1940,24 +1949,26 @@
       "endLine": 69,
       "source": "memory",
       "snippet": "- Initial confusion: thought MDP was for organic post analytics → actually organic metrics come from Advertising API product - **Re-auth required** — lengthy debugging session: - Client secret was stale (Ken may have viewed/regenerated in portal while checking MDP status) - PKCE had to be removed from linkedin-auth.sh (LinkedIn wasn't accepting the code_challenge) - redirect_uri `http://localhost:8765/callback` confirmed registered correctly - Client secret re-copied without extra chars (was 33 chars ending = suggesting encoding issue) - **Final result:** Token successfully issued - Scopes: `email openid profile r_1st_connections_size r_ads r_ads_reporting r_basicprofile r_organiza",
-      "recallCount": 4,
+      "recallCount": 5,
       "dailyCount": 0,
       "groundedCount": 0,
-      "totalScore": 2.305486967581303,
+      "totalScore": 2.7199311161217996,
       "maxScore": 0.7248254381439354,
       "firstRecalledAt": "2026-05-16T23:17:17.584Z",
-      "lastRecalledAt": "2026-05-20T23:17:13.039Z",
+      "lastRecalledAt": "2026-05-22T17:05:22.762Z",
       "queryHashes": [
         "a8a843104824",
         "8381490e60ea",
         "cea981010963",
-        "ab3b8817a33c"
+        "ab3b8817a33c",
+        "34dde07eac11"
       ],
       "recallDays": [
         "2026-05-17",
         "2026-05-18",
         "2026-05-19",
-        "2026-05-21"
+        "2026-05-21",
+        "2026-05-23"
       ],
       "conceptTags": [
         "re-auth",
@@ -2386,18 +2397,20 @@
       "endLine": 35,
       "source": "memory",
       "snippet": "# 2026-05-17 — Daily Log ## Morning Session (09:18 AEST) ### CHG-0362 Complete — Warden Interim Period Documentation - Ken approved via Telegram: \"Like the wardan fix earlier. Approved\" - Fixed 6 issues in one session: 1. CHG-0362 logged in CHANGELOG.md 2. state/interim-model-period.json created 3. scripts/warden-cron.sh updated with skip logic 4. YODA_RUNBOOK.md updated with Claude Conservative Mode procedure 5. state/model-policy.json updated with interimPeriod block 6. state/channel-state.json fixed (TKT-0141 stale context) 7. Yoda SOUL.md trimmed to 4,198 chars (removed duplicate Channel Discipline section) 8. Weekly SOUL.md audit script created (scripts/check-soul-size",
-      "recallCount": 1,
+      "recallCount": 2,
       "dailyCount": 0,
       "groundedCount": 0,
-      "totalScore": 0.4771033972501754,
-      "maxScore": 0.4771033972501754,
+      "totalScore": 0.9707942068576811,
+      "maxScore": 0.4936908096075058,
       "firstRecalledAt": "2026-05-18T21:09:21.847Z",
-      "lastRecalledAt": "2026-05-18T21:09:21.847Z",
+      "lastRecalledAt": "2026-05-22T21:36:14.176Z",
       "queryHashes": [
-        "911c6c6b69b4"
+        "911c6c6b69b4",
+        "a7133c0e8e4b"
       ],
       "recallDays": [
-        "2026-05-19"
+        "2026-05-19",
+        "2026-05-23"
       ],
       "conceptTags": [
         "chg-0362",
@@ -2417,18 +2430,20 @@
       "endLine": 567,
       "source": "memory",
       "snippet": "- scripts/backup.sh was not writing a state file after runs - Fixed: now writes state/backup-state.json after every backup - Backfilled: last run 2026-05-06 02:05 UTC confirmed ### Cost Optimisation — Governance Triad → Haiku (CHG-0193) - Shield / Lex / Sage switched from Sonnet → Haiku - Warden model-policy.json updated (no false drift alarms) - Driver: May 5 spend $184.56, May 4 spend $358.56 — governance triad on Sonnet was significant contributor - API balance confirmed under $170 by Ken (cost tracker was stale at $293 estimate from 9:50 PM May 5) ### Kimi RTB Trial Live (CHG-0194) - Cron 57105907: every day 8:10 AM AEST — kimi produces RTB in parallel with Sonnet standup - Delivers to",
-      "recallCount": 1,
+      "recallCount": 2,
       "dailyCount": 0,
       "groundedCount": 0,
-      "totalScore": 0.4787297487258911,
+      "totalScore": 0.9384852230548858,
       "maxScore": 0.4787297487258911,
       "firstRecalledAt": "2026-05-18T21:11:03.977Z",
-      "lastRecalledAt": "2026-05-18T21:11:03.977Z",
+      "lastRecalledAt": "2026-05-22T21:49:45.032Z",
       "queryHashes": [
-        "bd0c045dc7b3"
+        "bd0c045dc7b3",
+        "4d534b50a19b"
       ],
       "recallDays": [
-        "2026-05-19"
+        "2026-05-19",
+        "2026-05-23"
       ],
       "conceptTags": [
         "backup",
@@ -2667,20 +2682,23 @@
       "endLine": 19,
       "source": "memory",
       "snippet": "## 00:13 AEST — Obs Spike Investigation - delegation_fail: 3761 in 24h (+2450% vs prev) — ALL empty fields (task='', agent='', error=''). Regular hourly cron pattern 02–11Z. **Logging bug, not real failures.** Flag for Ken in morning. - health_failure: 212 — from INC-20260509-001 API outage (resolved). Historical. - Mission Control dashboard regenerated OK. Gateway: ok, Balance: $479.35. ## Mission Control Refresh — 08:38 AEST - Dashboard regenerated OK. Balance $479.35. Gateway OK. Agents idle. - **OBS spike investigated:** 3,761 \"delegation_fail\" entries in obs.db = PHANTOM DUPLICATES. - Root cause: obs-collector re-logging 34 April 28 delegation-log.json fail entries (with status=fai",
-      "recallCount": 2,
+      "recallCount": 4,
       "dailyCount": 0,
       "groundedCount": 0,
-      "totalScore": 1.0251734137535093,
+      "totalScore": 2.0257118970155714,
       "maxScore": 0.5185609132051467,
       "firstRecalledAt": "2026-05-20T09:20:14.139Z",
-      "lastRecalledAt": "2026-05-22T07:52:25.808Z",
+      "lastRecalledAt": "2026-05-23T05:49:42.540Z",
       "queryHashes": [
         "eb214e688430",
-        "95129a8282d5"
+        "95129a8282d5",
+        "a7133c0e8e4b",
+        "8e94fe9faba9"
       ],
       "recallDays": [
         "2026-05-20",
-        "2026-05-22"
+        "2026-05-22",
+        "2026-05-23"
       ],
       "conceptTags": [
         "gateway",
@@ -3011,19 +3029,21 @@
       "endLine": 549,
       "source": "memory",
       "snippet": "### CHG sequence today: CHG-0208 through CHG-0222 (15 CHGs) ### State at EOD - API balance: ~$470 (topped up CHG-0205) - Gateway: running, pid 58244 - Warden: clean - Sprint 1: ready to execute - Next gates: Auralith incorporation (end May) + TKT-0060/0061/0063 (end May) --- ## Evening Session — Thu 2026-05-07 (Day 13, final) # Appended 18:48 AEST | Pre-compaction flush ### MEMORY.md Grooming (TKT-0042 closed) - MEMORY.md was reviewed for stale items — multiple outdated open items found and flagged by Ken - TKT-0042 (Obsidian migration) was still listed as open in MEMORY.md — CLOSED: all 5 phases complete - S4 open item was stale — S4 applied CHG-0176 (2026-05-05). Removed from open item",
-      "recallCount": 2,
+      "recallCount": 3,
       "dailyCount": 0,
       "groundedCount": 0,
-      "totalScore": 0.9257775723934173,
+      "totalScore": 1.386311811208725,
       "maxScore": 0.4702737599611282,
       "firstRecalledAt": "2026-05-22T01:03:26.677Z",
-      "lastRecalledAt": "2026-05-22T07:52:30.757Z",
+      "lastRecalledAt": "2026-05-22T21:49:45.032Z",
       "queryHashes": [
         "b0020bd7d6a9",
-        "fdea436bcfe7"
+        "fdea436bcfe7",
+        "4d534b50a19b"
       ],
       "recallDays": [
-        "2026-05-22"
+        "2026-05-22",
+        "2026-05-23"
       ],
       "conceptTags": [
         "gateway",
@@ -3220,6 +3240,38 @@
         "25.75",
         "day",
         "blog"
+      ]
+    },
+    "memory:memory/2026-05-21.md:1:33": {
+      "key": "memory:memory/2026-05-21.md:1:33",
+      "path": "memory/2026-05-21.md",
+      "startLine": 1,
+      "endLine": 33,
+      "source": "memory",
+      "snippet": "# Day 27 — Thursday 21 May 2026 ## Session Summary One of the most productive days since bootstrap. 10 tickets moved, 5 architecture foundations built or locked, workspace discipline crisis caught and fixed. ## Architecture Foundations Delivered ### Postgres Live on OC1 - PostgreSQL 16.14 via Homebrew, pgvector 0.8.2 - 5-tier schema deployed (T1 audit, T2 vector, T3 session, T4 shared state, T5 history) - Top 5 JSON state files migrated: tickets (172 unique), cost-state, model-policy, task-queue, config-baseline - `state_v` view schema for backward compatibility - Ken decisions: Q2=Homebrew, Q3=Redis→P2, Q5=PII→P2 gate, Q8=Shared+RLS from P2 day one ### Sources of Truth Register (TKT-01",
+      "recallCount": 2,
+      "dailyCount": 0,
+      "groundedCount": 0,
+      "totalScore": 0.9300311744213103,
+      "maxScore": 0.4650581449270248,
+      "firstRecalledAt": "2026-05-22T21:49:45.032Z",
+      "lastRecalledAt": "2026-05-22T21:50:54.907Z",
+      "queryHashes": [
+        "4d534b50a19b",
+        "a077fc12c8d5"
+      ],
+      "recallDays": [
+        "2026-05-23"
+      ],
+      "conceptTags": [
+        "16.14",
+        "0.8.2",
+        "5-tier",
+        "cost-state",
+        "model-policy",
+        "task-queue",
+        "config-baseline",
+        "state-v"
       ]
     }
   }

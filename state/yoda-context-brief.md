@@ -1,10 +1,10 @@
 # Yoda Telegram Context Brief
-Generated: 2026-05-22 20:00 AEST | Platform Day 28 | Sprint 4 (May 19–25)
+Generated: 2026-05-23 20:00 AEST | Platform Day 29 | Sprint 4 (May 19–25)
 
 ---
 
 ## Platform Status
-- **Day:** 28 (since 2026-04-25)
+- **Day:** 29 (since 2026-04-25)
 - **Phase:** MVP → P1 transition
 - **OC1:** Mac Mini M4 24GB — LIVE Production. PERMANENT.
 - **OC2-A/B:** Mac Mini M4 Pro 48GB ×2 — ETA 6–13 Jul 2026, commission ~27 Jul
@@ -35,7 +35,7 @@ Generated: 2026-05-22 20:00 AEST | Platform Day 28 | Sprint 4 (May 19–25)
 ---
 
 ## Current Sprint (S4: May 19–25)
-Theme: Option B Phase 1 foundation + security hardening
+*Note: sprint-current.json not found; using last known S4 commit.*
 
 | Ticket | Title | Owner | Status |
 |--------|-------|-------|--------|
@@ -45,8 +45,6 @@ Theme: Option B Phase 1 foundation + security hardening
 | TKT-0198 | JSON to Postgres Migration | Forge | planned |
 | TKT-0182 | Explicit state checking pattern | Thrawn | planned |
 | TKT-0228 | OWL Drift Detection System | Yoda | planned |
-
-Committed by: Ken Mun
 
 ---
 
@@ -78,9 +76,7 @@ Full backlog: Notion AKB Backlog (SSOT). tickets.json seq 199.
 ---
 
 ## LinkedIn Queue Status
-- **Queue Status:** FULL RESET by Spark 2026-05-19. Clean slate for this week.
-- **Next Scheduled:** CONTENT-LI-20260521-v2 (Dealing with Model Failures) — 2026-05-26 07:30 ✅ (Queued)
-- **Recently posted:** LI-C1-W2-P3 (Multi-Agent Trust) — 2026-05-14 07:32 ✅
+- **Status:** Queue file not found. Defer to Spark for current state.
 - **API:** Connected, token valid to 2026-07-12
 
 ---

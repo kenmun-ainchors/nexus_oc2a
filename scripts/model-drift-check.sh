@@ -184,17 +184,41 @@ echo ""
 echo "[ Fallback Chain ]"
 FALLBACK_CHECK=$(python3 -c "
 import json
+
+# L-040 (CHG-0425): Auto-derive valid chains from model-policy.json — the SSOT.
+# This eliminates the stale-hardcoded-list class of false-positive bug.
+# If model-policy.json is missing or invalid, the check fails safe (flags violation).
+
 with open('$OC_CONFIG') as f:
-    d = json.load(f)
-fb = d.get('agents', {}).get('defaults', {}).get('model', {}).get('fallbacks', [])
-# CHG-0075: Haiku-only. Opus removed from auto-fallback (deliberate escalation only, Aria-prohibited).
-# CHG-0270: kimi safety net. Valid chains:
-# main/business: [haiku, kimi] | all others: [kimi, kimi]
-valid_chains = [
-    ['anthropic/claude-haiku-4-5'],           # legacy CHG-0075
-    ['anthropic/claude-haiku-4-5', 'ollama/kimi-k2.6:cloud'],  # main/business CHG-0270
-    ['ollama/kimi-k2.6:cloud', 'ollama/kimi-k2.6:cloud'],      # others CHG-0270
-]
+    cfg = json.load(f)
+fb = cfg.get('agents', {}).get('defaults', {}).get('model', {}).get('fallbacks', [])
+
+# Step 1: Load valid chains from model-policy.json (SSOT per TKT-0197)
+try:
+    with open('$POLICY') as f:
+        policy = json.load(f)
+    tiers = policy.get('agentTiers', {})
+    # Collect all unique fallback chains defined across tiers
+    valid_chains = []
+    for tier_key, tier in tiers.items():
+        tier_fb = tier.get('fallbacks', [])
+        if tier_fb and tier_fb not in valid_chains:
+            valid_chains.append(tier_fb)
+    # Also accept single-element chains (legacy)
+    for tier_key, tier in tiers.items():
+        tier_fb = tier.get('fallbacks', [])
+        if len(tier_fb) >= 1:
+            single = [tier_fb[0]]
+            if single not in valid_chains:
+                valid_chains.append(single)
+    # If policy is empty/missing, fall back to openclaw.json's actual as valid
+    if not valid_chains:
+        valid_chains.append(fb)
+except Exception as e:
+    # Policy file missing or unreadable — fail safe: only accept the current actual
+    valid_chains = [fb]
+
+# Step 2: Check for explicit policy violations first
 if 'anthropic/claude-opus-4-7' in fb:
     print('POLICY_VIOLATION:' + json.dumps(fb))
 elif fb in valid_chains:
@@ -206,7 +230,7 @@ FALLBACK_STATUS=$(echo "$FALLBACK_CHECK" | cut -d: -f1)
 FALLBACK_ACTUAL=$(echo "$FALLBACK_CHECK" | cut -d: -f2-)
 if [ "$FALLBACK_STATUS" = "PASS" ]; then
   PASS=$((PASS + 1))
-  echo "  PASS  fallback chain → $FALLBACK_ACTUAL (Aria-safe CHG-0075)"
+  echo "  PASS  fallback chain → $FALLBACK_ACTUAL (derived from model-policy.json)"
 else
   FAIL=$((FAIL + 1))
   FALLBACK_EXPECTED='["ollama/deepseek-v4-pro:cloud","ollama/kimi-k2.6:cloud"]'

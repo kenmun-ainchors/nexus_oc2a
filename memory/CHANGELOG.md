@@ -6139,3 +6139,25 @@ When Ken issues CLAUDE RESTORE:
 8. Verify all agents can reach Anthropic API
 
 **Linked:** CHG-0349, CHG-0373, CHG-0393, TKT-0165
+
+## 2026-05-23 08:14 AEST — [CHG-0424] Fix Warden False-Positive: Stale Fallback Chain Valid List
+**Type:** fix
+**Source:** yoda
+**Trigger:** Ken reported 41 Warden false-positives — all `default.fallbacks` identical violations (expected == actual)
+**What changed:** Added `['ollama/deepseek-v4-pro:cloud', 'ollama/kimi-k2.6:cloud']` to `valid_chains` in model-drift-check.sh as primary entry. Cleared 41 accumulated false-positives from violations.json + warden-escalation-pending.json.
+**Why:** CHG-0349 switched all agents to deepseek-pro as primary. Warden valid_chains was never updated — still had only Haiku-era chains. Every 15-min Warden run flagged the correct chain as invalid because the comparison was against a stale list. Expected == actual but the chain wasn't recognized.
+**Verification:** Ran model-drift-check.sh: 21 PASS, 0 FAIL (was consistently 1 FAIL/run). Violations cleared. Escalation cleared. Next Warden cron will run clean.
+**Rollback:** N/A
+**Linked:** CHG-0349
+**Category:** warden
+
+## 2026-05-23 08:36 AEST — [CHG-0425] Warden: Auto-Derive Valid Fallback Chains from model-policy.json
+**Type:** enhancement
+**Source:** yoda (Ken approved suggestion from CHG-0424)
+**Trigger:** Ken: "That's a great suggestion. Look into implementing it"
+**What changed:** Replaced hardcoded `valid_chains` list in `model-drift-check.sh` with auto-derivation from `model-policy.json` agentTiers fallbacks. Warden now reads the SSOT policy file to build the allowlist dynamically, rather than relying on manually-maintained chains that go stale.
+**Why:** CHG-0424 fixed the immediate bug (stale chains) but the root cause was the hardcoded approach. Any future model change would require a manual Warden update. Auto-derivation from model-policy.json ensures Warden stays in sync with the platform's declared policy — the policy IS the valid chains.
+**Verification:** Ran model-drift-check.sh: 21 PASS 0 FAIL with auto-derived chains. Tested simulated drift: correctly detected. Tested missing policy: fails safe (accepts only current). Unit tests from Python verified.
+**Rollback:** Revert to hardcoded version in git.
+**Linked:** CHG-0424, CHG-0349, L-040, TKT-0197 (SoT Register — model-policy.json is SSOT)
+**Category:** warden

@@ -281,6 +281,8 @@ if [[ "$SUBCOMMAND" == "new" ]]; then
   TODAY=$(date '+%Y-%m-%d')
   TMP=$(jq --arg id "$TKT_ID" --arg title "$TITLE" --arg type "$TYPE" --arg priority "$PRIORITY" --arg status "open" --arg requester "$REQUESTER" --arg assignee "$ASSIGNEE" --arg created "$NOW_LOCAL" --arg updated "$NOW_LOCAL" --arg desc "$DESC" '.sequence += 1 | .tickets += [{id: $id, title: $title, type: $type, priority: $priority, status: $status, requester: $requester, assignee: $assignee, created: $created, updated: $updated, description: $desc, resolution: null, linked: {us: [], inc: [], chg: []}, notes: "", notionPageId: null}]' "$TICKET_FILE")
   atomic_write "$TICKET_FILE" "$TMP"
+  # Dual-write to Postgres
+  bash "$WORKSPACE_ROOT/scripts/db-write.sh" state_tickets "{\"id\":\"$TKT_ID\",\"title\":\"$TITLE\",\"status\":\"open\",\"type\":\"$TYPE\",\"priority\":\"$PRIORITY\"}" "$TKT_ID" 2>/dev/null || true
   echo "✅ Ticket created: $TKT_ID"
   NOTION_PAGE_ID=$(notion_create_ticket "$TKT_ID" "$TITLE" "open" "$PRIORITY" "$TODAY" "$DESC" 2>/dev/null || echo "NOTION_SKIP")
   if [[ -n "$NOTION_PAGE_ID" && "$NOTION_PAGE_ID" != "NOTION_SKIP" ]]; then
@@ -345,6 +347,8 @@ elif [[ "$SUBCOMMAND" == "update" ]]; then
 
   TMP=$(jq --arg id "$TKT_ID" --arg st "$STATUS" --arg nt "$NOTES" --arg ts "$NOW_LOCAL" '(.tickets[] | select(.id == $id)) |= (.status = $st | .updated = $ts | .notes += (if $nt != "" then "\n" + $nt else "" end))' "$TICKET_FILE")
   atomic_write "$TICKET_FILE" "$TMP"
+  # Dual-write to Postgres
+  bash "$WORKSPACE_ROOT/scripts/db-write.sh" state_tickets "{\"id\":\"$TKT_ID\",\"status\":\"$STATUS\"}" "$TKT_ID" 2>/dev/null || true
 
   sprint_sync "$TKT_ID" "$STATUS"
   if [[ -n "$T_NOTION_ID" && "$T_NOTION_ID" != "null" && "$T_NOTION_ID" != "NOTION_SKIP" ]]; then
@@ -391,6 +395,8 @@ elif [[ "$SUBCOMMAND" == "close" ]]; then
 
   TMP=$(jq --arg id "$TKT_ID" --arg st "closed" --arg res "$RES" --arg ts "$NOW_LOCAL" '(.tickets[] | select(.id == $id)) |= (.status = $st | .updated = $ts | .resolution = $res)' "$TICKET_FILE")
   atomic_write "$TICKET_FILE" "$TMP"
+  # Dual-write to Postgres
+  bash "$WORKSPACE_ROOT/scripts/db-write.sh" state_tickets "{\"id\":\"$TKT_ID\",\"status\":\"closed\"}" "$TKT_ID" 2>/dev/null || true
 
   sprint_sync "$TKT_ID" "closed"
   if [[ -n "$T_NOTION_ID" && "$T_NOTION_ID" != "null" && "$T_NOTION_ID" != "NOTION_SKIP" ]]; then
