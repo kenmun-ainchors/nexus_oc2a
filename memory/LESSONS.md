@@ -489,3 +489,25 @@ When declaring ANY interim model period (Anthropic outage, kimi substitution, mo
 **Lesson:** The model-policy.json → model-drift-check.sh → warden-cron.sh chain has a dependency — any model change (especially default fallbacks) MUST trigger a Warden valid_chains update. Otherwise Warden becomes a false-positive generator.
 **Fix (CHG-0424):** Added current production chain to valid_chains.
 **Permanent fix (CHG-0425):** Replaced hardcoded valid_chains with auto-derivation from model-policy.json. The SSOT policy file now IS the valid chains source. Any future model change in model-policy.json automatically propagates to Warden — no manual sync needed.
+
+---
+
+### L-041: Silent Cron Output Failure Detection (2026-05-23)
+**Category:** Platform Operations
+**Severity:** HIGH
+**Incident:** EOD blog missing for 12 days (11-22 May). Blog cron reported OK but produced no output files. Journal incremental writer timing out at 60s.
+**Root causes:**
+1. Both crons had `delivery.mode: "none"` — no visibility into failures
+2. Cron `ok` status = model turn completed, NOT output verified
+3. HEARTBEAT.md had "NEVER TOUCHES EOD" rule preventing safety checks
+4. No file-existence verification as part of cron post-condition
+**Fixes applied:**
+- Journal timeout: 60s → 180s
+- Blog delivery: announce to Telegram
+- HEARTBEAT: added blog existence check (06:00) + journal completeness check (23:00)
+- PIA document: docs/Post-Incident-EOD-Journal-Blog-Failure-2026-05-23.md
+**Prevention rules:**
+1. ALL output-producing crons must have delivery.mode: "announce" (at minimum)
+2. File-existence verification is mandatory for artifact-producing crons
+3. Trust but verify: cron status is not enough — check the output file
+4. HEARTBEAT safety checks override "don't touch" rules when there's a proven failure pattern
