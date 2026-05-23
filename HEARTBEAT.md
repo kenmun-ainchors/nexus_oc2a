@@ -234,3 +234,19 @@ Responses today: 3 | Drifts: 1
 
 **State key:** owl-compliance-state.json
 **Logged in:** LESSONS.md L-039 (OWL drift), TKT-0229 (OWL drift prevention)
+
+### EOD Blog Verification (check every morning at 06:00 AEST)
+🚨 OVERRIDES the "HEARTBEAT NEVER TOUCHES EOD" rule — this is a safety check, not EOD generation.
+- Check: does `/Users/ainchorsangiefpl/.openclaw/workspace/canvas/documents/ainchors-YYYY-MM-DD/index.html` exist for YESTERDAY's date?
+- If MISSING: alert Ken via Telegram: "🚨 Blog missing: no blog file produced for [date]. Blog cron reported OK but no output file."
+- If EXISTS: no action needed. Do NOT read or modify the file — just verify it exists.
+- State key: lastChecks.blogVerification
+- Raised: PIA 2026-05-23 (12-day silent blog failure)
+
+### Journal Completeness Check (check at 23:00 AEST)
+🚨 OVERRIDES the "HEARTBEAT NEVER TOUCHES EOD" rule — this is a safety check, not EOD generation.
+- Check: does `/Users/ainchorsangiefpl/.openclaw/workspace/memory/journal-YYYY-MM-DD.md` exist for TODAY's date and is >500 bytes?
+- If MISSING or EMPTY: alert Ken via Telegram: "⚠️ Journal may be incomplete: today's journal file is [missing/undersized]. Journal incremental writer may be failing."
+- If EXISTS and >500 bytes: no action.
+- State key: lastChecks.journalCompleteness
+- Raised: PIA 2026-05-23 (journal incremental writer timeout)
