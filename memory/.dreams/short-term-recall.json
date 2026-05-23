@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "updatedAt": "2026-05-23T05:49:42.540Z",
+  "updatedAt": "2026-05-23T13:58:22.418Z",
   "entries": {
     "memory:memory/2026-04-26.md:94:122": {
       "key": "memory:memory/2026-04-26.md:94:122",
@@ -1748,23 +1748,25 @@
       "endLine": 81,
       "source": "memory",
       "snippet": "- Marketing Developer Platform (MDP) / Standard Tier: Request #69747 submitted via LinkedIn Developer Support - Inquiry Topic auto-selected as \"Advertiser Transparency API\" (may need re-routing if no response in 3 days) - Approval ETA: 3–14 business days - Next step: Ken to paste Client Secret → Yoda builds OAuth flow + wires Spark ### Posts 2 Manual Post Confirmed - Ken confirmed LinkedIn posts (referred to as \"POSTED 3\", corrected to Post 2) - Logged as manually posted by Ken, 2026-05-03 11:54 AEST --- ## Open Items Carried Forward - TKT-0039: Ken review before EOD (5:00 PM AEST reminder set) - LinkedIn OAuth: waiting on Client Secret from Ken - LinkedIn MDP: Request #69747 open — m",
-      "recallCount": 4,
+      "recallCount": 5,
       "dailyCount": 0,
       "groundedCount": 0,
-      "totalScore": 1.8815043658018111,
+      "totalScore": 2.2985748052597046,
       "maxScore": 0.5164194881916045,
       "firstRecalledAt": "2026-05-13T02:49:43.017Z",
-      "lastRecalledAt": "2026-05-20T05:33:37.484Z",
+      "lastRecalledAt": "2026-05-23T13:58:22.418Z",
       "queryHashes": [
         "d7e4579aa0c9",
         "3011c26dc143",
         "911c6c6b69b4",
-        "a3b10f5bfdbe"
+        "a3b10f5bfdbe",
+        "4a2d0beecff6"
       ],
       "recallDays": [
         "2026-05-13",
         "2026-05-19",
-        "2026-05-20"
+        "2026-05-20",
+        "2026-05-23"
       ],
       "conceptTags": [
         "auto-selected",
@@ -1784,20 +1786,22 @@
       "endLine": 112,
       "source": "memory",
       "snippet": "**Status:** Open **Root cause:** CHG-0139 rotated Anthropic API key in OpenClaw config but DID NOT update macOS Keychain entry `anthropic-api-key`. Gateway/main session: working ✅. All scripts using keychain (outage-detect.sh, health-check.sh) + agent heartbeats (Aria, Shield, Lex, Sage): 401 ❌. **Ken action required:** ``` security add-generic-password -U -s \"anthropic-api-key\" -a \"anthropic\" -w \"<NEW_KEY>\" ``` **Standby-mode.json + system-banner.json:** Active (cannot auto-clear until keychain fixed) **Incident file:** state/incidents/INC-20260503-001.json --- ## Afternoon Session (13:00–21:21 AEST) — Appended at /commit ### Key Decisions & Actions **Notion as single source of truth",
-      "recallCount": 2,
+      "recallCount": 3,
       "dailyCount": 0,
       "groundedCount": 0,
-      "totalScore": 0.8977731138467788,
+      "totalScore": 1.3165802419185637,
       "maxScore": 0.4618096143007278,
       "firstRecalledAt": "2026-05-13T02:49:49.249Z",
-      "lastRecalledAt": "2026-05-20T15:01:08.149Z",
+      "lastRecalledAt": "2026-05-23T13:58:22.418Z",
       "queryHashes": [
         "3011c26dc143",
-        "982e7a7ca2d8"
+        "982e7a7ca2d8",
+        "4a2d0beecff6"
       ],
       "recallDays": [
         "2026-05-13",
-        "2026-05-21"
+        "2026-05-21",
+        "2026-05-23"
       ],
       "conceptTags": [
         "gateway",

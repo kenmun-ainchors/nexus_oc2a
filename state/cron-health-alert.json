@@ -1,11 +1,11 @@
 {
-  "generatedAt": "2026-05-23T12:19:31.000408+00:00",
+  "generatedAt": "2026-05-23T13:49:28.825190+00:00",
   "failures": [
     {
       "cronId": "d3b1e203",
       "fullCronId": "d3b1e203-741b-444a-9852-7bb8839d2c99",
       "name": "AInchors Observability Collector",
-      "consecutiveErrors": 5,
+      "consecutiveErrors": 6,
       "lastError": "error",
       "source": "live-cron-state"
     },
@@ -13,7 +13,7 @@
       "cronId": "a7e7a820",
       "fullCronId": "a7e7a820-32f6-4a2b-bb27-52367ebfa7dc",
       "name": "Aria Daily Summary (business stream)",
-      "consecutiveErrors": 4,
+      "consecutiveErrors": 5,
       "lastError": "error",
       "source": "live-cron-state"
     }
