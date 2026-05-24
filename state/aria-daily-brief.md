@@ -1,3 +1,32 @@
+## 2026-05-24 — Business Stream Summary
+_Written 23:45 AEST by Aria cron_
+
+### Angie interactions today
+No Angie activity today.
+
+### Decisions made
+- None today.
+
+### Governance reviews
+- None triggered today.
+
+### Open items
+- 🔴 **CR-002 (LinkedIn Setup)** — Relay queue now empty (CR may have been processed by Ken/Yoda). Verify Spark LinkedIn configuration for Angie's personal profile + AInchors company page.
+- 🟡 **Onboarding Stage 2** — OB-12, OB-14, OB-15 still unchecked.
+- 🟡 **Lynn Huang (bookkeeping)** — awaiting fee schedule reply.
+- 🟡 **Jack Ooi (accounting)** — awaiting update on meeting.
+- 🟡 **Training revenue projection** — pending review.
+- 🟡 **Marketing collaterals** — pending Angie review.
+- 🟡 **Meta appeal** — status unknown.
+- 🔴 **JotForm/HRDF** — outstanding from April 28.
+- 🟡 **April 30 class debrief** — still missing.
+
+### Handoff to Yoda
+- Quiet Sunday. No new Angie requests. All open items carry forward from prior days.
+- **CR-002 relay queue cleared** — confirm LinkedIn setup was completed; if so, notify Angie that Spark is ready.
+
+---
+
 ## 2026-05-23 — Business Stream Summary
 _Written 23:45 AEST by Aria cron_
 
