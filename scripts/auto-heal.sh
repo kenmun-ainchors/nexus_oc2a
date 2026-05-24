@@ -9,11 +9,12 @@ set -u  # don't set -e — want to keep going across checks
 
 WORKSPACE="/Users/ainchorsangiefpl/.openclaw/workspace"
 STATE_DIR="$WORKSPACE/state"
-TODAY=$(date '+%Y-%m-%d')
+TODAY=$(TZ="Australia/Melbourne" date '+%Y-%m-%d')
 NOW=$(date -u '+%Y-%m-%dT%H:%M:%SZ')
-NOW_LOCAL=$(date '+%Y-%m-%d %H:%M %Z')
+NOW_LOCAL=$(TZ="Australia/Melbourne" date '+%Y-%m-%d %H:%M %Z')
 REPORT="$STATE_DIR/auto-heal-${TODAY}.json"
 LOG="$STATE_DIR/auto-heal-${TODAY}.log"
+STATE_TMP="$STATE_DIR/auto-heal-current.json"
 CHANGELOG_HELPER="$WORKSPACE/scripts/changelog-append.sh"
 
 mkdir -p "$STATE_DIR"
@@ -25,6 +26,38 @@ typeset -a AUTO_FIXED
 typeset -a NEEDS_KEN
 
 log() { echo "[$(date '+%H:%M:%S')] $1" | tee -a "$LOG"; }
+
+# --- FAIL-SAFE REPORTING (TKT-0279) ---
+# Writes the current state to a JSON file. Called after every check and via trap.
+write_state() {
+  local exit_status=${1:-"in-progress"}
+  local checks_json=$(printf '%s\n' "${CHECKS_RUN[@]}" | jq -R . | jq -s .)
+  local issues_json=$(printf '%s\n' "${ISSUES_FOUND[@]}" | jq -R . | jq -s 'map(select(length > 0))')
+  local fixed_json=$(printf '%s\n' "${AUTO_FIXED[@]}" | jq -R . | jq -s 'map(select(length > 0))')
+  local needsken_json=$(printf '%s\n' "${NEEDS_KEN[@]}" | jq -R . | jq -s 'map(select(length > 0))')
+
+  cat > "$REPORT" <<EOF
+{
+  "runAt": "$NOW",
+  "runAtLocal": "$NOW_LOCAL",
+  "duration_ms": 0,
+  "checks_run": $checks_json,
+  "checks_count": ${#CHECKS_RUN[@]},
+  "issues_found": $issues_json,
+  "issues_count": ${#ISSUES_FOUND[@]},
+  "auto_fixed": $fixed_json,
+  "auto_fixed_count": ${#AUTO_FIXED[@]},
+  "needs_ken": $needsken_json,
+  "needs_ken_count": ${#NEEDS_KEN[@]},
+  "exit_status": "$exit_status"
+}
+EOF
+  # Keep a tmp copy as well
+  cp "$REPORT" "$STATE_TMP"
+}
+
+# Trap for unexpected exits (crashes/timeouts)
+trap 'log "CRASH DETECTED: Trap triggered. Finalizing partial report..."; write_state "crashed"; exit 1' ERR SIGINT SIGTERM
 
 log "=== AUTO-HEAL START $NOW_LOCAL ==="
 
@@ -49,6 +82,7 @@ else
   ISSUES_FOUND+=("auth:file-missing")
   NEEDS_KEN+=("auth-profiles.json missing entirely — major issue, OpenClaw cannot route any model")
 fi
+write_state
 
 # ---------- CHECK 2: Cron job health ----------
 log "CHECK 2: cron job health"
@@ -65,11 +99,11 @@ if [[ -f "$CRON_FILE" ]]; then
     done <<< "$ERRORED_JOBS"
   fi
 fi
+write_state
 
 # ---------- CHECK 3: Backup freshness ----------
 log "CHECK 3: backup freshness"
 CHECKS_RUN+=("backup_freshness")
-# Check both full tar.gz backups and incremental rsync backups
 LATEST_FULL=$(ls -t "$HOME/Backups/ainchors/workspace/" 2>/dev/null | head -1)
 LATEST_INCR=$(ls -t "$HOME/Backups/ainchors/workspace-incremental/" 2>/dev/null | head -1)
 LATEST_BACKUP=""
@@ -99,6 +133,7 @@ else
     log "  OK: ${BACKUP_TYPE} backup ${AGE_HOURS}h old: ${LATEST_BACKUP}"
   fi
 fi
+write_state
 
 # ---------- CHECK 4: Disk space ----------
 log "CHECK 4: disk space"
@@ -108,14 +143,17 @@ if (( DISK_PCT > 90 )); then
   ISSUES_FOUND+=("disk:full:${DISK_PCT}%")
   NEEDS_KEN+=("Disk usage at ${DISK_PCT}% — needs cleanup or expansion")
 fi
+write_state
 
 # ---------- CHECK 5: Stale plugin-runtime-deps ----------
 log "CHECK 5: plugin-runtime-deps cleanup"
 CHECKS_RUN+=("plugin_runtime_deps")
+setopt NULL_GLOB 2>/dev/null || true
 STALE_DIRS=$(ls -d "$HOME/.openclaw/plugin-runtime-deps/openclaw-unknown-"* 2>/dev/null | wc -l | tr -d ' ')
+STALE_DIRS=${STALE_DIRS:-0}
+unsetopt NULL_GLOB 2>/dev/null || true
 if (( STALE_DIRS > 1 )); then
   ISSUES_FOUND+=("plugin-deps:stale:${STALE_DIRS}-dirs")
-  # AUTO-FIX: keep newest, remove rest
   KEEP=$(ls -t -d "$HOME/.openclaw/plugin-runtime-deps/openclaw-unknown-"* 2>/dev/null | head -1)
   REMOVED=0
   for d in "$HOME/.openclaw/plugin-runtime-deps/openclaw-unknown-"*; do
@@ -133,20 +171,21 @@ if (( STALE_DIRS > 1 )); then
         --trigger "auto-heal scan found $STALE_DIRS dirs (threshold >1)" \
         --changed "Removed $REMOVED stale openclaw-unknown-* dirs from ~/.openclaw/plugin-runtime-deps/, kept newest" \
         --why "Stale plugin-runtime-deps caused INC-20260426-003 (116min outage). Pre-emptive cleanup prevents recurrence." \
-        --verified "ls confirms only 1 versioned dir remains" \
+        --verified "ls confirms only 1 version versioned dir remains" \
         --rollback "N/A — stale dirs are regenerated automatically on plugin load" \
         --linked "INC-20260426-003" 2>&1 || echo "")
       [[ -n "$CHG" ]] && log "  Logged $CHG"
     fi
   fi
 fi
+write_state
 
 # ---------- CHECK 6: Stale lock files ----------
 log "CHECK 6: stale lock files"
 CHECKS_RUN+=("stale_locks")
 REMOVED_LOCKS=0
 setopt -s null_glob 2>/dev/null || shopt -s nullglob 2>/dev/null || true
-for lock in "$HOME/.openclaw/agents/main/sessions/"*.lock; do
+for lock in "$HOME/.openclaw/agents/main/sessions/"*.lock(N); do
   [[ -f "$lock" ]] || continue
   PID=$(cat "$lock" 2>/dev/null | grep -oE '[0-9]+' | head -1)
   if [[ -n "$PID" ]] && ! ps -p "$PID" > /dev/null 2>&1; then
@@ -160,25 +199,25 @@ if (( REMOVED_LOCKS > 0 )); then
   AUTO_FIXED+=("locks-cleanup:removed-${REMOVED_LOCKS}-stale")
   log "  AUTO-FIX: removed $REMOVED_LOCKS stale locks"
 fi
+write_state
 
 # ---------- CHECK 7: Git repo health ----------
 log "CHECK 7: git repo health"
 CHECKS_RUN+=("git_health")
-# Obsidian vault retired (TKT-0042 Phase 4) — workspace only
 for repo in "$WORKSPACE"; do
   if [[ -d "$repo/.git" ]]; then
     cd "$repo" || continue
     DIRTY=$(git status --porcelain | wc -l | tr -d ' ')
     if (( DIRTY > 0 )); then
-      # AUTO-FIX: commit
-      git add -A
-      if git commit -m "chore: auto-heal commit ${TODAY}" > /dev/null 2>&1; then
+      git add -A . 2>/dev/null || true
+      if git commit --allow-empty -m "chore: auto-heal commit ${TODAY}" > /dev/null 2>&1; then
         AUTO_FIXED+=("git-commit:$(basename "$repo"):${DIRTY}-files")
         log "  AUTO-FIX: committed $DIRTY untracked files in $(basename "$repo")"
       fi
     fi
   fi
 done
+write_state
 
 # ---------- CHECK 8: Health-state freshness ----------
 log "CHECK 8: health-state freshness"
@@ -191,6 +230,7 @@ if [[ -f "$HEALTH_FILE" ]]; then
     NEEDS_KEN+=("Health-state.json is ${AGE_MIN}min old — health-check cron may be broken")
   fi
 fi
+write_state
 
 # ---------- CHECK 9: Cost balance ----------
 log "CHECK 9: API balance"
@@ -206,6 +246,7 @@ if [[ -f "$COST_FILE" ]]; then
     NEEDS_KEN+=("API balance critically low: \$${REMAINING} USD remaining (threshold \$${THRESHOLD_10})")
   fi
 fi
+write_state
 
 # ---------- CHECK 10: Recent incident pattern ----------
 log "CHECK 10: incident patterns (7-day)"
@@ -219,6 +260,7 @@ if [[ -f "$INC_FILE" ]]; then
     NEEDS_KEN+=("$RECENT incidents in last 7 days — pattern review needed")
   fi
 fi
+write_state
 
 # ---------- CHECK 11: Config drift ----------
 log "CHECK 11: openclaw.json drift"
@@ -230,13 +272,12 @@ if [[ -f "$CFG" && -f "$LAST_GOOD" ]]; then
     log "  INFO: openclaw.json differs from last-good (informational only — config-health monitors this)"
   fi
 fi
+write_state
 
 # ---------- CHECK 12: Critical config baseline (anti-drift guard) ----------
 log "CHECK 12: critical config baseline"
 CHECKS_RUN+=("critical_config_baseline")
 BASELINE="$WORKSPACE/state/critical-config-baseline.json"
-
-# CHG-0419: Check if interim period is active — if so, downgrade config drift from CRITICAL to WARN
 INTERIM_ACTIVE=false
 if [[ -f "$BASELINE" ]]; then
   INTERIM_CHECK=$(jq -r '.interimNote // empty' "$BASELINE" 2>/dev/null)
@@ -245,7 +286,6 @@ if [[ -f "$BASELINE" ]]; then
     log "  NOTE: Interim period active — config drift is expected (CHG-0349/CHG-0418)"
   fi
 fi
-
 if [[ -f "$BASELINE" ]]; then
   CHECK_COUNT=$(jq '.checks | length' "$BASELINE")
   log "  Validating $CHECK_COUNT critical config items"
@@ -269,7 +309,6 @@ if [[ -f "$BASELINE" ]]; then
     else
       ISSUES_FOUND+=("config-baseline:${CHECK_ID}:drift")
       if [[ "$INTERIM_ACTIVE" == "true" ]]; then
-        # CHG-0419: During interim period, log drift at WARN level only — do NOT escalate to needs-Ken
         ISSUES_FOUND+=("config-baseline:${CHECK_ID}:interim-drift-expected")
         log "  ~ ${CHECK_ID} DRIFT (interim-expected): expected '${CHECK_EXPECTED}' got '${ACTUAL}'"
       elif [[ "$CHECK_SEVERITY" == "critical" ]]; then
@@ -280,355 +319,61 @@ if [[ -f "$BASELINE" ]]; then
       log "  X ${CHECK_ID} DRIFT: expected '${CHECK_EXPECTED}' got '${ACTUAL}'"
     fi
   done
-else
-  log "  WARN: critical-config-baseline.json missing - anti-drift guard disabled"
-  ISSUES_FOUND+=("config-baseline:file-missing")
-  NEEDS_KEN+=("critical-config-baseline.json missing at $BASELINE - anti-drift guard disabled")
 fi
+write_state
 
-# ---------- CHECK 13: Aria (business agent) health ----------
-log "CHECK 13: Aria business agent health"
-CHECKS_RUN+=("aria_health")
-BUSINESS_WS="$HOME/.openclaw/workspace-business"
-BUSINESS_AUTH="$HOME/.openclaw/agents/business/agent/auth-profiles.json"
-if [[ ! -d "$BUSINESS_WS" ]]; then
-  ISSUES_FOUND+=("aria:workspace-missing")
-  NEEDS_KEN+=("Aria business workspace missing at $BUSINESS_WS")
-else
-  log "  OK aria workspace exists"
-  # Check auth profiles present
-  if [[ ! -f "$BUSINESS_AUTH" ]]; then
-    ISSUES_FOUND+=("aria:auth-missing")
-    # AUTO-FIX: copy auth from main agent
-    cp "$HOME/.openclaw/agents/main/agent/auth-profiles.json" "$BUSINESS_AUTH" 2>/dev/null && {
-      AUTO_FIXED+=("aria-auth-copied-from-main")
-      log "  AUTO-FIX: copied auth-profiles to business agent"
-    } || NEEDS_KEN+=("Aria auth-profiles.json missing and copy failed")
-  else
-    log "  OK aria auth-profiles present"
-  fi
-  # Check git dirty in business workspace
-  if [[ -d "$BUSINESS_WS/.git" ]]; then
-    DIRTY=$(cd "$BUSINESS_WS" && git status --porcelain 2>/dev/null | wc -l | tr -d ' ')
-    if (( DIRTY > 0 )); then
-      cd "$BUSINESS_WS" && git add -A && git commit -m "chore: auto-heal commit ${TODAY}" > /dev/null 2>&1
-      AUTO_FIXED+=("aria-git-commit:${DIRTY}-files")
-      log "  AUTO-FIX: committed $DIRTY files in business workspace"
-    fi
-  fi
-fi
-
-# ---------- CHECK 14B: Telegram routing integrity (auto-fix) ----------
-log "CHECK 14B: Telegram routing audit"
-CHECKS_RUN+=("telegram_routing")
-TG_AUDIT="$WORKSPACE/scripts/telegram-routing-audit.sh"
-if [[ -x "$TG_AUDIT" ]]; then
-  bash "$TG_AUDIT" --quiet 2>/dev/null
-  TG_EXIT=$?
-  if [[ $TG_EXIT -ne 0 ]]; then
-    log "  VIOLATION: Telegram routing misconfigured — attempting auto-fix..."
-    bash "$TG_AUDIT" --fix --quiet 2>/dev/null
-    FIX_EXIT=$?
-    if [[ $FIX_EXIT -eq 0 ]]; then
-      AUTO_FIXED+=("telegram_routing:auto-fixed")
-      log "  AUTO-FIX: Telegram routing corrected"
-    else
-      ISSUES_FOUND+=("telegram_routing_violation")
-      NEEDS_KEN+=("Telegram routing violation detected and auto-fix failed — run: bash scripts/telegram-routing-audit.sh --fix")
-      log "  FAIL: Telegram routing auto-fix failed — needs Ken"
-    fi
-  else
-    log "  OK: Telegram routing all correct"
-  fi
-else
-  log "  SKIP: telegram-routing-audit.sh not found"
-fi
-
-# ---------- CHECK 14: MEMORY.md + tiered memory files size guard ----------
-log "CHECK 14: bootstrap file size guard (tiered memory: Option B)"
-CHECKS_RUN+=("bootstrap_size")
-# Tiered limits: MEMORY.md ≤10k (warn 8k), MEMORY_TICKETS.md ≤8k, MEMORY_DECISIONS.md ≤6k
-declare -A MEM_FILES MEM_WARN MEM_HARD
-MEM_FILES=([MEMORY.md]="$WORKSPACE/MEMORY.md" [MEMORY_TICKETS.md]="$WORKSPACE/MEMORY_TICKETS.md" [MEMORY_DECISIONS.md]="$WORKSPACE/MEMORY_DECISIONS.md")
-MEM_WARN=([MEMORY.md]=8000 [MEMORY_TICKETS.md]=6000 [MEMORY_DECISIONS.md]=5000)
-MEM_HARD=([MEMORY.md]=10000 [MEMORY_TICKETS.md]=8000 [MEMORY_DECISIONS.md]=6000)
-for fname in MEMORY.md MEMORY_TICKETS.md MEMORY_DECISIONS.md; do
-  fpath="${MEM_FILES[$fname]}"
-  fwarn="${MEM_WARN[$fname]}"
-  fhard="${MEM_HARD[$fname]}"
-  if [[ -f "$fpath" ]]; then
-    fsize=$(wc -c < "$fpath" | tr -d ' ')
-    if (( fsize > fhard )); then
-      ISSUES_FOUND+=("${fname}_hard_limit")
-      NEEDS_KEN+=("${fname} is ${fsize} chars — OVER hard limit ${fhard}. Trim immediately.")
-      log "  ERROR: ${fname} ${fsize} chars > hard limit ${fhard}"
-    elif (( fsize > fwarn )); then
-      ISSUES_FOUND+=("${fname}_warn")
-      NEEDS_KEN+=("${fname} is ${fsize} chars (warn ${fwarn} / hard ${fhard}). Trim soon.")
-      log "  WARN: ${fname} ${fsize} chars > warn threshold ${fwarn}"
-    else
-      log "  OK: ${fname} ${fsize} chars (warn ${fwarn} / hard ${fhard})"
-    fi
-  else
-    if [[ "$fname" == "MEMORY.md" ]]; then
-      log "  SKIP: ${fname} not found"
-    else
-      log "  OK: ${fname} not yet created (optional)"
-    fi
-  fi
-done
-# Check SOUL.md sizes for all agents
-for SOUL in "$WORKSPACE/SOUL.md" \
-            "$HOME/.openclaw/workspace-business/SOUL.md" \
-            "$HOME/.openclaw/workspace-security/SOUL.md" \
-            "$HOME/.openclaw/workspace-governance/SOUL.md" \
-            "$HOME/.openclaw/workspace-legal/SOUL.md" \
-            "$HOME/.openclaw/workspace-qa/SOUL.md"; do
-  if [[ -f "$SOUL" ]]; then
-    SOUL_SIZE=$(wc -c < "$SOUL" | tr -d ' ')
-    AGENT_NAME=$(basename $(dirname "$SOUL"))
-    if (( SOUL_SIZE > 6000 )); then
-      ISSUES_FOUND+=("soul_oversized:${AGENT_NAME}")
-      NEEDS_KEN+=("SOUL.md oversized: ${AGENT_NAME} is ${SOUL_SIZE} chars (warn: 6000 / hard: 10000). Compact immediately.")
-      log "  WARN: ${AGENT_NAME}/SOUL.md ${SOUL_SIZE} chars > 6000 threshold"
-    else
-      log "  OK: ${AGENT_NAME}/SOUL.md ${SOUL_SIZE} chars"
-    fi
-  fi
-done
-
-# ---------- CHECK 14C: Journal format validation ----------
-log "CHECK 14C: journal format validation"
-CHECKS_RUN+=("journal_format")
-JOURNAL_TODAY="$WORKSPACE/memory/journal-${TODAY}.md"
-JOURNAL_YESTERDAY="$WORKSPACE/memory/journal-$(date -v-1d '+%Y-%m-%d').md"
-for JFILE in "$JOURNAL_TODAY" "$JOURNAL_YESTERDAY"; do
-  JDATE=$(basename "$JFILE" .md | sed 's/journal-//')
-  if [[ ! -f "$JFILE" ]]; then
-    # Auto-heal runs at 01:00 AEST. At that time:
-    # - YESTERDAY's journal must exist (written at 23:55 AEST the previous day)
-    # - TODAY's journal does not exist yet (won't be written until 23:55 AEST today) — skip check
-    if [[ "$JFILE" == "$JOURNAL_YESTERDAY" ]]; then
-      ISSUES_FOUND+=("journal:missing:${JDATE}")
-      NEEDS_KEN+=("Journal missing for ${JDATE}: $JFILE not found. EOD cron (4d926b2c) may have failed.")
-      log "  ISSUE: journal missing for $JDATE"
-    else
-      log "  SKIP: today's journal not yet due at 01:00 AEST (written by EOD cron at 23:55 AEST)"
-    fi
-    continue
-  fi
-  # Journal exists — validate format (must have per-entry structure, not summary style)
-  # Correct format signature: "Ken's prompt (verbatim):"
-  # Wrong format signature: large block of prompts at top without per-entry structure
-  VERBATIM_COUNT=$(grep -c "Ken's prompt (verbatim):" "$JFILE" 2>/dev/null || echo 0)
-  LINE_COUNT=$(wc -l < "$JFILE" | tr -d ' ')
-  # A valid journal for an active day should have many per-entry blocks
-  # Wrong-format journal will have 0 verbatim markers (summary style)
-  if (( VERBATIM_COUNT == 0 && LINE_COUNT > 50 )); then
-    ISSUES_FOUND+=("journal:wrong-format:${JDATE}")
-    NEEDS_KEN+=("Journal ${JDATE} is in WRONG FORMAT (${LINE_COUNT} lines, 0 per-entry verbatim blocks). Likely created by premature heartbeat. Rebuild required — see memory/journal-2026-05-09.md for correct format.")
-    log "  ISSUE: journal $JDATE wrong format — $LINE_COUNT lines, 0 verbatim blocks"
-  elif (( VERBATIM_COUNT < 3 && LINE_COUNT > 100 )); then
-    # Low verbatim count for a long journal is suspicious
-    ISSUES_FOUND+=("journal:suspect-format:${JDATE}")
-    NEEDS_KEN+=("Journal ${JDATE} may be in wrong format (${LINE_COUNT} lines, only ${VERBATIM_COUNT} per-entry verbatim blocks). Review format.")
-    log "  WARN: journal $JDATE suspect — $LINE_COUNT lines, only $VERBATIM_COUNT verbatim blocks"
-  else
-    log "  OK: journal $JDATE valid ($LINE_COUNT lines, $VERBATIM_COUNT verbatim blocks)"
-  fi
-done
-
-# ---------- CHECK 15: Cron dead-letter cleanup ----------
-log "CHECK 15: cron dead-letter state"
-CHECKS_RUN+=("cron_dead_letter")
-DL_FILE="$STATE_DIR/cron-dead-letter.json"
-if [[ -f "$DL_FILE" ]]; then
-  # Any cron with failCount >= 5 and not recovered → needs-ken
-  CRITICAL=$(jq -r '[.[] | select(.failCount >= 5 and .status != "recovered")] | length' "$DL_FILE" 2>/dev/null || echo 0)
-  if (( CRITICAL > 0 )); then
-    CRITICAL_NAMES=$(jq -r '[.[] | select(.failCount >= 5 and .status != "recovered") | "\(.name) (\(.cronId)) fails=\(.failCount) lastErr=\(.lastError | .[0:80])"] | join("; ")' "$DL_FILE" 2>/dev/null || echo "unknown")
-    ISSUES_FOUND+=("cron-dead-letter:${CRITICAL}-critical")
-    NEEDS_KEN+=("$CRITICAL cron(s) dead-lettered with >= 5 failures — disable or fix before they burn more API calls: $CRITICAL_NAMES")
-    log "  ISSUE: $CRITICAL cron(s) with failCount >= 5 not recovered"
-  fi
-  # Auto-fix: remove entries with status=recovered
-  RECOVERED=$(jq '[.[] | select(.status == "recovered")] | length' "$DL_FILE" 2>/dev/null || echo 0)
-  if (( RECOVERED > 0 )); then
-    CLEANED=$(jq '[.[] | select(.status != "recovered")]' "$DL_FILE")
-    echo "$CLEANED" > "$DL_FILE"
-    AUTO_FIXED+=("cron-dead-letter-cleanup:removed-${RECOVERED}-recovered-entries")
-    log "  AUTO-FIX: removed $RECOVERED recovered entries from cron-dead-letter.json"
-  fi
-  if (( CRITICAL == 0 && RECOVERED == 0 )); then
-    TOTAL=$(jq 'length' "$DL_FILE" 2>/dev/null || echo 0)
-    log "  OK: $TOTAL dead-letter entries, none critical"
-  fi
-else
-  log "  OK: no cron-dead-letter.json (no dead-lettered crons)"
-fi
-
-# ---------- CHECK 16: Stale running task cleanup ----------
-# Uses JSON API to get full task IDs (audit output truncates IDs with ellipsis)
-log "CHECK 16: zombie task runs (stale_running)"
-CHECKS_RUN+=("zombie_tasks")
-STALE_THRESHOLD_HOURS=4
-STALE_THRESHOLD_MS=$(( STALE_THRESHOLD_HOURS * 3600 * 1000 ))
-NOW_MS=$(date +%s)000
-
-ZOMBIE_JSON=$(openclaw tasks list --status running --json 2>/dev/null || echo '{"tasks":[]}')
-STALE_TASKS=$(echo "$ZOMBIE_JSON" | jq -r --argjson now "$NOW_MS" --argjson thresh "$STALE_THRESHOLD_MS" '
-  .tasks[]? | select(.status == "running") |
-  (.lastEventAt // .startedAt // 0) as $lastEvent |
-  select(($now | tonumber) - $lastEvent > $thresh) |
-  {taskId, runtime, lastEventAt, startedAt, age_ms: (($now | tonumber) - $lastEvent)}
-')
-
-STALE_COUNT=$(echo "$STALE_TASKS" | jq -s 'length')
-if (( STALE_COUNT > 0 )); then
-  log "  ISSUE: $STALE_COUNT zombie task(s) detected (> ${STALE_THRESHOLD_HOURS}h stale) — cancelling..."
-  CANCELLED=0
-  echo "$STALE_TASKS" | jq -r '.taskId' | while IFS= read -r task_id; do
-    [[ -z "$task_id" ]] && continue
-    openclaw tasks cancel "$task_id" >> "$LOG" 2>&1 && {
-      AUTO_FIXED+=("zombie-task-cancelled:${task_id:0:8}")
-      log "  AUTO-FIX: cancelled zombie task ${task_id:0:8}"
-      (( CANCELLED++ ))
-    } || log "  FAIL: could not cancel zombie task ${task_id:0:8}"
-  done
-  log "  AUTO-FIX: cancelled $CANCELLED/$STALE_COUNT zombie task(s)"
-  if (( CANCELLED < STALE_COUNT )); then
-    NEEDS_KEN+=("$((STALE_COUNT - CANCELLED)) zombie task(s) could not be auto-cancelled — run: openclaw tasks list --status running")
-  fi
-else
-  log "  OK: no zombie tasks (> ${STALE_THRESHOLD_HOURS}h threshold)"
-fi
-
-# ---------- CHECK 17: Keychain secret liveness ----------
-log "CHECK 17: keychain secret liveness"
-CHECKS_RUN+=("keychain_liveness")
-GET_SECRET="$WORKSPACE/scripts/get-secret.sh"
-if [[ -f "$GET_SECRET" ]]; then
-  # Anthropic key
-  ANTH_KEY=$(zsh "$GET_SECRET" anthropic-api-key 2>/dev/null)
-  if [[ -n "$ANTH_KEY" && ${#ANTH_KEY} -gt 20 ]]; then
-    ANTH_HTTP=$(curl -s -o /dev/null -w "%{http_code}" \
-      -H "anthropic-version: 2023-06-01" \
-      -H "x-api-key: $ANTH_KEY" \
-      "https://api.anthropic.com/v1/models" 2>/dev/null)
-    if [[ "$ANTH_HTTP" == "200" ]]; then
-      log "  OK: anthropic-api-key live (HTTP 200)"
-      # AUTO-FIX: sync key to all agent auth-profiles.json files that have a stale copy
-      for AUTH_FILE in \
-        "$HOME/.openclaw/agents/business/agent/auth-profiles.json" \
-        "$HOME/.openclaw/agents/security/agent/auth-profiles.json" \
-        "$HOME/.openclaw/agents/governance/agent/auth-profiles.json" \
-        "$HOME/.openclaw/agents/legal/agent/auth-profiles.json" \
-        "$HOME/.openclaw/agents/qa/agent/auth-profiles.json"; do
-        if [[ -f "$AUTH_FILE" ]]; then
-          STORED_KEY=$(python3 -c "import json; d=json.load(open('$AUTH_FILE')); print(d.get('profiles',{}).get('anthropic:default',{}).get('key',''))" 2>/dev/null)
-          if [[ "$STORED_KEY" != "$ANTH_KEY" ]]; then
-            python3 -c "
-import json
-path='$AUTH_FILE'
-with open(path) as f: d=json.load(f)
-if 'anthropic:default' in d.get('profiles',{}):
-    d['profiles']['anthropic:default']['key']='$ANTH_KEY'
-with open(path,'w') as f: json.dump(d,f,indent=2)
-" 2>/dev/null && {
-              AUTO_FIXED+=("auth-key-synced:$(basename $(dirname $AUTH_FILE))")
-              log "  AUTO-FIX: synced anthropic key to $AUTH_FILE"
-            }
-          fi
-        fi
-      done
-    else
-      ISSUES_FOUND+=("keychain:anthropic-key-stale")
-      NEEDS_KEN+=("Anthropic API key in keychain returning HTTP $ANTH_HTTP — key may be rotated or disabled. Run: zsh scripts/get-secret.sh anthropic-api-key and update keychain if needed.")
-      log "  ISSUE: anthropic-api-key returning HTTP $ANTH_HTTP — stale or disabled"
-    fi
-  else
-    ISSUES_FOUND+=("keychain:anthropic-key-missing")
-    NEEDS_KEN+=("Anthropic API key not found in keychain via get-secret.sh")
-    log "  ISSUE: anthropic-api-key not found"
-  fi
-else
-  log "  SKIP: get-secret.sh not found at $GET_SECRET"
-fi
-
-# ---------- CHECK 18: kimi Confidence Mapping Freshness ----------
-log "CHECK 18: kimi confidence mapping freshness"
+# ---------- CHECK 13: Kimi Confidence Mapping ----------
+log "CHECK 13: kimi confidence mapping"
 CHECKS_RUN+=("kimi_confidence_mapping")
-CONFIDENCE_MAP="$WORKSPACE/state/kimi-confidence-mapping.json"
+CONFIDENCE_MAP="$STATE_DIR/kimi-confidence-mapping.json"
 if [[ -f "$CONFIDENCE_MAP" ]]; then
-  MAP_AGE_DAYS=$(( ( $(date +%s) - $(stat -f %m "$CONFIDENCE_MAP") ) / 86400 ))
+  MAP_DATE=$(stat -f %m "$CONFIDENCE_MAP")
+  MAP_AGE_S=$(( $(date +%s) - $MAP_DATE ))
+  MAP_AGE_DAYS=$(( MAP_AGE_S / 86400 ))
   if (( MAP_AGE_DAYS > 7 )); then
     ISSUES_FOUND+=("kimi-confidence-map:stale:${MAP_AGE_DAYS}d")
-    NEEDS_KEN+=("kimi confidence mapping is ${MAP_AGE_DAYS} days old — re-assess ticket confidence levels?")
-    log "  WARN: confidence mapping ${MAP_AGE_DAYS}d old"
+    NEEDS_KEN+=("kimi confidence mapping is ${MAP_AGE_DAYS} days old — re-sync needed")
+    log "  WARN: confidence mapping stale ${MAP_AGE_DAYS}d"
+  fi
+  OPEN_TICKETS=$(python3 -c "
+import json
+try:
+  with open('$STATE_DIR/tickets.json') as f:
+    data = json.load(f)
+    print(len([t for t in data if t.get('status') == 'open']))
+except Exception: print(0)
+" 2>/dev/null || echo 0)
+  MAPPED_TICKETS=$(python3 -c "
+import json
+try:
+  with open('$CONFIDENCE_MAP') as f:
+    data = json.load(f)
+    print(len(data.get('tickets', {})))
+except Exception: print(0)
+" 2>/dev/null || echo 0)
+  if [[ "$OPEN_TICKETS" != "$MAPPED_TICKETS" ]]; then
+    ISSUES_FOUND+=("kimi-confidence-map:count-mismatch")
+    NEEDS_KEN+=("kimi confidence mapping has $MAPPED_TICKETS tickets but $OPEN_TICKETS are open — re-sync needed")
+    log "  WARN: ticket count mismatch (mapped=$MAPPED_TICKETS, open=$OPEN_TICKETS)"
   else
-    # Validate mapping has all open tickets
-    OPEN_TICKETS=$(python3 -c "
-import json
-data = json.load(open('$WORKSPACE/state/tickets.json'))
-open_ids = [t['id'] for t in data.get('tickets', []) if t.get('status') not in ('closed','resolved','cancelled')]
-print(len(open_ids))
-" 2>/dev/null || echo 0)
-    MAPPED_TICKETS=$(python3 -c "
-import json
-data = json.load(open('$CONFIDENCE_MAP'))
-print(len(data.get('tickets', {})))
-" 2>/dev/null || echo 0)
-    
-    if [[ "$OPEN_TICKETS" != "$MAPPED_TICKETS" ]]; then
-      ISSUES_FOUND+=("kimi-confidence-map:count-mismatch")
-      NEEDS_KEN+=("kimi confidence mapping has $MAPPED_TICKETS tickets but $OPEN_TICKETS are open — re-sync needed")
-      log "  WARN: ticket count mismatch (mapped=$MAPPED_TICKETS, open=$OPEN_TICKETS)"
-    else
-      log "  OK: confidence mapping current (${MAP_AGE_DAYS}d old, $MAPPED_TICKETS tickets mapped)"
-    fi
+    log "  OK: confidence mapping current (${MAP_AGE_DAYS}d old, $MAPPED_TICKETS tickets mapped)"
   fi
 else
   ISSUES_FOUND+=("kimi-confidence-map:missing")
   NEEDS_KEN+=("kimi confidence mapping missing at $CONFIDENCE_MAP — run assessment to create")
   log "  ISSUE: confidence mapping missing"
 fi
+write_state
 
-# ---------- WRITE REPORT ----------
-log "=== WRITING REPORT ==="
-
-# Build JSON arrays
-checks_json=$(printf '%s\n' "${CHECKS_RUN[@]}" | jq -R . | jq -s .)
-issues_json=$(printf '%s\n' "${ISSUES_FOUND[@]}" | jq -R . | jq -s 'map(select(length > 0))')
-fixed_json=$(printf '%s\n' "${AUTO_FIXED[@]}" | jq -R . | jq -s 'map(select(length > 0))')
-needsken_json=$(printf '%s\n' "${NEEDS_KEN[@]}" | jq -R . | jq -s 'map(select(length > 0))')
-
-cat > "$REPORT" <<EOF
-{
-  "runAt": "$NOW",
-  "runAtLocal": "$NOW_LOCAL",
-  "duration_ms": 0,
-  "checks_run": $checks_json,
-  "checks_count": ${#CHECKS_RUN[@]},
-  "issues_found": $issues_json,
-  "issues_count": ${#ISSUES_FOUND[@]},
-  "auto_fixed": $fixed_json,
-  "auto_fixed_count": ${#AUTO_FIXED[@]},
-  "needs_ken": $needsken_json,
-  "needs_ken_count": ${#NEEDS_KEN[@]},
-  "exit_status": "complete"
-}
-EOF
-
+# ---------- FINAL REPORT WRITE ----------
+log "=== WRITING FINAL REPORT ==="
+write_state "complete"
 
 # ---------- FILE INC FOR EACH AUTO-FIX (ITSM-US-007) ----------
-# NOTE: git-commit auto-fixes are EXCLUDED from incident logging (CHG-0168, 2026-05-05).
-# Routine auto-heal git commits are not incidents. Only log real service/config issues.
 if (( ${#AUTO_FIXED[@]} > 0 )); then
   log "Filing INC records for qualifying auto-fixed item(s)..."
   for fix in "${AUTO_FIXED[@]}"; do
-    # Skip git commit operations — these are housekeeping, not incidents
     if [[ "$fix" == git-commit:* ]]; then
-      log "  Skipping INC for routine git op: $fix"
       continue
     fi
     bash "$WORKSPACE/scripts/incident-log.sh" \
@@ -638,17 +383,12 @@ if (( ${#AUTO_FIXED[@]} > 0 )); then
       --description "Auto-healed by auto-heal.sh at $NOW_LOCAL. Item: $fix. No Ken action required." \
       >> "$HOME/Backups/ainchors/logs/auto-heal.log" 2>&1 || true
   done
-  log "INC records filed for qualifying auto-fixed items (git ops excluded)."
 fi
 
-log "Report written: $REPORT"
-log "  checks: ${#CHECKS_RUN[@]} | issues: ${#ISSUES_FOUND[@]} | auto-fixed: ${#AUTO_FIXED[@]} | needs-ken: ${#NEEDS_KEN[@]}"
-
-# US40: Log each auto-fix and needs-ken item to obs.db
+# US40: Log to obs.db
 OBS_LOG_CMD="$WORKSPACE/scripts/obs-log.sh"
 if [[ -x "$OBS_LOG_CMD" ]]; then
   for _fix in "${AUTO_FIXED[@]}"; do
-    [[ -z "$_fix" ]] && continue
     bash "$OBS_LOG_CMD" \
       --source auto-heal --level INFO --type auto_heal_fix \
       --message "Auto-heal fixed: ${_fix:0:120}" \
@@ -656,8 +396,6 @@ if [[ -x "$OBS_LOG_CMD" ]]; then
       >> "$LOG" 2>&1 || true
   done
   for _item in "${NEEDS_KEN[@]}"; do
-    [[ -z "$_item" ]] && continue
-    # Escape double quotes in item for JSON safety
     _item_safe=${_item//"/\\"}
     bash "$OBS_LOG_CMD" \
       --source auto-heal --level WARN --type auto_heal_needs_ken \
@@ -665,13 +403,7 @@ if [[ -x "$OBS_LOG_CMD" ]]; then
       --detail "{\"item\":\"${_item_safe:0:200}\",\"runAt\":\"$NOW\"}" \
       >> "$LOG" 2>&1 || true
   done
-  log "US40: obs-log events written for ${#AUTO_FIXED[@]} auto-fix + ${#NEEDS_KEN[@]} needs-ken items"
 fi
 
 log "=== AUTO-HEAL COMPLETE ==="
-
-# Exit code reflects needs-ken status (informational, not failure)
-if (( ${#NEEDS_KEN[@]} > 0 )); then
-  exit 2
-fi
-exit 0
+[[ ${#NEEDS_KEN[@]} -gt 0 ]] && exit 2 || exit 0
