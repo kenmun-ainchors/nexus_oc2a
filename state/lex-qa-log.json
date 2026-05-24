@@ -1732,11 +1732,29 @@
       "verdict": "FAIL",
       "pass": 4,
       "fail": 1
+    },
+    {
+      "ts": "2026-05-24T23:53:35+10:00",
+      "asset": "/Users/ainchorsangiefpl/.openclaw/canvas/documents/ainchors-2026-05-23/index.html",
+      "producedBy": "yoda",
+      "intendedFor": "public distribution",
+      "verdict": "PASS",
+      "pass": 5,
+      "fail": 0
+    },
+    {
+      "ts": "2026-05-24T23:53:43+10:00",
+      "asset": "/Users/ainchorsangiefpl/.openclaw/canvas/documents/ainchors-2026-05-23/index.html",
+      "producedBy": "yoda",
+      "intendedFor": "public distribution",
+      "verdict": "PASS",
+      "pass": 5,
+      "fail": 0
     }
   ],
   "summary": {
-    "total": 171,
-    "pass": 144,
+    "total": 173,
+    "pass": 146,
     "fail": 26
   }
 }
