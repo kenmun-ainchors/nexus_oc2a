@@ -175,6 +175,9 @@ _Maintained by Aria 🔵 + Yoda 🟢 | Status-tracked content for AInchors train
 | TC-159 | The polling trap: why checking 14 times per second is a design smell | 💡 Idea | Yoda Day 29 (TKT-0265 — async LISTEN/NOTIFY replaced polling, 0 queries/sec with persistent connections) | Yoda |
 | TC-160 | Dual-write migration: how to switch databases without breaking everything | 💡 Idea | Yoda Day 29 (TKT-0263 — Postgres+file dual-write, <2 min rollback drill, zero data loss) | Both |
 | TC-161 | Auto-deriving monitoring policy: making your drift detection stay in sync | 💡 Idea | Yoda Day 29 (CHG-0425 — Warden reads model-policy.json to build valid chains dynamically, no more stale false-positives) | Yoda |
+| TC-162 | Monitoring what your monitoring misses: the journal coverage gap | 💡 Idea | Yoda Day 30 (CHG-0426 — journal writer captured webchat but missed Telegram entirely; channel coverage audit pattern) | Both |
+| TC-163 | Locking quality in, not reviewing drift out: template enforcement for AI content | 💡 Idea | Yoda Day 30 (CHG-0427 — blog CSS locked to reference template, compliance checklist before governance gate) | Aria |
+| TC-164 | When to archive, not just delete: platform hygiene at scale | 💡 Idea | Yoda Day 30 (CHG-0428 — CI Cycle A/B decommissioned, artifacts archived, 47 historical refs preserved) | Yoda |
 
 ## Status Legend
 💡 Idea → 📝 Draft → 🔍 Review (Yoda validates) → ✅ Ready → 📢 Published

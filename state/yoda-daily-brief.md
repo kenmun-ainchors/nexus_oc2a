@@ -1,57 +1,47 @@
-# 2026-05-23 — Daily Brief for Aria & Angie
+# 2026-05-24 — Daily Brief for Aria & Angie
 
 ## 🟢 What Yoda Built Today
 
-Today was arguably the most impactful single execution day in platform history. We activated Postgres as our master database — the single source of truth for everything the platform does. 14 tasks completed in about 10 hours.
+A lighter Day 30 — maintenance and cleanup after yesterday's massive Postgres activation. Three fixes to improve quality and reliability.
 
-### The Big Thing: Postgres Master SSOT — Full Platform Activation
+### Journal Coverage Fix — Telegram Is Now Tracked
 
-Until today, the AInchors platform ran on scattered JSON files — one for tickets, one for sprints, one for LinkedIn posts, one for agent configs, and dozens more. Every file was its own little island. If you wanted to answer "how many tickets did Forge close this month?" you'd have to grep 6 different files. If two agents tried to write at the same time, things got messy.
+Ken noticed that work done via Telegram was invisible in the daily journal. The journal writer was only capturing webchat sessions. Now it covers both channels — every Telegram interaction with Yoda gets journaled with a `[Telegram]` tag alongside webchat entries. Backfilled yesterday's missing entries too.
 
-Now everything lives in Postgres. One database, 25 tables, all connected.
+**Why this matters:** The journal is our daily record of everything that happens. Missing an entire communication channel meant decisions and work from Telegram were invisible. Now both channels are covered equally.
 
-**What that means in practice:**
-- Tickets, cost records, changelogs, agent registrations, config entries, sprints, LinkedIn posts, CI/CD metrics, standups, and Notion sync state — all in one place
-- 62 knowledge documents from our shared memory ingested and made searchable (1,695 chunks)
-- Real-time notifications between services (no more polling — the database pushes updates)
-- 28 old JSON files consolidated into 7 clean tables
-- 178 backup files archived (zero deletions — nothing lost)
+### Blog Style Locked to Reference Template
 
-**The numbers:** 25 tables (up from 14), 7 notification triggers, 16 state views, 5 core scripts, 14 agents registered with 3 role levels.
+The daily blog's design was drifting — different colors, missing sections, inconsistent layouts. The blog writer (running on a simpler model) was improvising CSS each night. Now the CSS is locked to the approved Day 23 template as the canonical reference. Content changes but the design stays consistent.
 
-### The Fix That Ken Caught Mid-Stream
+**Why this matters:** When your audience sees a consistent brand experience, it builds trust. Style drift is one of those things nobody complains about but everyone notices.
 
-Mid-execution, Ken spotted a performance trap: our notification system was polling the database 14 times per second. Forge found a clean fix using Postgres' built-in LISTEN/NOTIFY — persistent connections, zero polling overhead. This is exactly the kind of thing that wastes resources silently for months if nobody notices.
+### CI Cycle Artifacts Archived
 
-### What Else Happened
+Decommissioned the old CI Cycle A/B framework — a model comparison system designed when we were still evaluating Anthropic models. Since we permanently moved off Claude, we archived the old reports and removed stale references. Model monitoring is now handled by Warden's drift detection and monthly strategy reviews.
 
-- Two Warden fixes this morning: cleared 41 false-positive drift alerts (from a stale config list), then replaced the hardcoded approach with auto-derivation from the platform's policy file. Warden now stays in sync automatically.
-- Sprint 5 items raised for agent cutover, backup setup, and progressive disclosure skills
+**Why this matters:** Platform hygiene. Dead systems that aren't running but still have config files create confusion and bloat. Clean house periodically.
 
 ## ⚖️ Key Decisions Made
 
-- **Postgres as single source of truth:** Ken approved the full activation proposal at 10:31 AM. All platform state now lives in Postgres with file-based fallback. This is the foundation for P2 multi-client capability.
-- **Dual-write pattern for safety:** During the transition, ticket.sh writes to both Postgres and files simultaneously. Rollback drill confirmed we can recover in under 2 minutes if anything goes wrong.
-- **Warden auto-derivation from policy:** Instead of manually updating Warden's valid-chains list every time we change models, it now reads the master policy file and derives the allowlist automatically. No more stale false-positives.
+- **No new decisions today.** All three items were maintenance — no architectural choices required.
 
 ## 🎓 Training Content Angles (For AI Courses)
 
-Four strong angles from today's work:
+Three new angles from today:
 
-- **From Files to Databases — When Your AI Platform Needs a Real SSOT:** How we consolidated 28+ scattered JSON files into one Postgres database. Why file-based state works for a prototype but fails at scale — and how to do the migration without losing data. (From today's Phase 0-4 execution, TKT-0252 through TKT-0264)
+- **Monitoring What Your Monitoring Misses — The Journal Coverage Gap:** A real case study in observability blind spots. The journal writer captured webchat but completely missed Telegram — a primary channel. How to audit your AI platform for invisible coverage gaps. (From CHG-0426, journal Telegram coverage)
 
-- **The Polling Trap — Why Checking 14 Times Per Second Is a Design Smell:** Ken's mid-stream catch: our notification system was hammering the database. The fix (LISTEN/NOTIFY with persistent connections) turned a resource leak into a zero-cost event system. A great case study for engineers learning to build AI infrastructure. (From TKT-0265, async NOTIFY fix)
+- **Locking Quality in, Not Reviewing Drift Out — Template Enforcement for AI Content:** The blog's design was drifting because the simpler model doing the writing had no CSS constraint. The fix: immutable template, compliance checklist before governance gate. Pattern for any AI-generated content where consistency matters. (From CHG-0427, blog template lock)
 
-- **Dual-Write Migration — How to Switch Databases Without Breaking Everything:** The dual-write pattern: write to both old and new systems during transition, verify both match, then cutover. Includes a rollback drill that proved we could recover in under 2 minutes. Real-world migration pattern, not textbook theory. (From TKT-0263 validation + cutover)
-
-- **Auto-Deriving Policy — Making Your Monitoring Stay in Sync:** How we fixed Warden's false-positive drift alerts by making it read the platform's master policy file instead of maintaining a separate hardcoded list. Any model change now automatically flows through to monitoring. (From CHG-0424/0425)
+- **When to Archive, Not Just Delete — Platform Hygiene at Scale:** Decommissioning dead systems without breaking audit trails. CI artifacts archived (not deleted), 47 historical CHANGELOG references preserved. The pattern for removing obsolete components safely. (From CHG-0428, CI Cycle A/B decommission)
 
 ## ⏳ What's Open / Next
 
-- **Stability monitoring:** Hourly sync-check running for 24 hours (TKT-0268)
-- **Backup setup:** Need pg_dump backup cron (TKT-0269)
-- **Agent cutover:** Sprint 5 items for moving agents to Postgres-first reads (TKT-0270/0271)
+- **Stability monitoring:** Hourly sync-check from yesterday's Postgres activation still running (TKT-0268)
+- **Backup setup:** pg_dump backup cron pending (TKT-0269)
+- **Agent cutover:** Sprint 5 — moving agents to Postgres-first reads (TKT-0270/0271)
 - **Progressive disclosure skills:** Yoda + Thrawn assessment + build (TKT-0275)
-- **Sprint 5 Planning:** Sunday — all new tickets ready for seeding
+- **This is Sunday** — Sprint 5 Planning ceremony should run if not already done
 - **OC2 Hardware:** ETA early July 2026 (no change)
-- **Model State:** DeepSeek-Pro primary. Anthropic API credits still depleted.
+- **Model State:** DeepSeek-Pro primary. Anthropic still depleted. Conservative mode active.
