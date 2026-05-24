@@ -1,71 +1,53 @@
 {
-  "generatedAt": "2026-05-23T14:00:37.804164+00:00",
+  "generatedAt": "2026-05-24T08:57:34.642734+00:00",
   "windowDays": 7,
   "note": "Duration = end-to-end cron task time (includes LLM call + tool use). TTFT instrumentation pending gateway-level hooks.",
   "overall": {
-    "sampleCount": 14088,
-    "avgMs": 12305,
-    "peakMs": 525455,
+    "sampleCount": 13815,
+    "avgMs": 12484,
+    "peakMs": 551616,
     "minMs": 2
   },
   "byModel": {
-    "gemma4:e2b": {
-      "sampleCount": 2,
-      "avgMs": 45629,
-      "minMs": 45629,
-      "maxMs": 45629,
-      "p50Ms": 45629,
-      "p95Ms": 45629,
-      "avgTokens": 14335
-    },
     "deepseek-v4-flash:cloud": {
-      "sampleCount": 25,
-      "avgMs": 43054,
+      "sampleCount": 29,
+      "avgMs": 38596,
       "minMs": 6208,
       "maxMs": 153786,
       "p50Ms": 10971,
       "p95Ms": 123874,
-      "avgTokens": 12472
-    },
-    "gemma4:26b": {
-      "sampleCount": 9890,
-      "avgMs": 13058,
-      "minMs": 2562,
-      "maxMs": 525455,
-      "p50Ms": 8857,
-      "p95Ms": 34329,
-      "avgTokens": 9770
+      "avgTokens": 11767
     },
     "kimi-k2.6:cloud": {
-      "sampleCount": 1320,
-      "avgMs": 10985,
-      "minMs": 3042,
+      "sampleCount": 165,
+      "avgMs": 17513,
+      "minMs": 4924,
       "maxMs": 374303,
-      "p50Ms": 6490,
-      "p95Ms": 32631,
-      "avgTokens": 9178
+      "p50Ms": 8196,
+      "p95Ms": 39591,
+      "avgTokens": 10472
+    },
+    "gemma4:26b": {
+      "sampleCount": 10989,
+      "avgMs": 12980,
+      "minMs": 2562,
+      "maxMs": 525455,
+      "p50Ms": 8830,
+      "p95Ms": 34104,
+      "avgTokens": 9804
     },
     "deepseek-v4-pro:cloud": {
-      "sampleCount": 2343,
-      "avgMs": 10315,
+      "sampleCount": 2559,
+      "avgMs": 9925,
       "minMs": 3613,
-      "maxMs": 341394,
-      "p50Ms": 6238,
-      "p95Ms": 25034,
-      "avgTokens": 10715
-    },
-    "claude-haiku-4-5": {
-      "sampleCount": 430,
-      "avgMs": 9152,
-      "minMs": 4457,
-      "maxMs": 86341,
-      "p50Ms": 7214,
-      "p95Ms": 13001,
-      "avgTokens": 13250
+      "maxMs": 551616,
+      "p50Ms": 6190,
+      "p95Ms": 23528,
+      "avgTokens": 10541
     },
     "claude-sonnet-4-6": {
-      "sampleCount": 78,
-      "avgMs": 5564,
+      "sampleCount": 73,
+      "avgMs": 5939,
       "minMs": 2,
       "maxMs": 120144,
       "p50Ms": 4,

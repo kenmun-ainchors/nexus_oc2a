@@ -54,11 +54,66 @@
           "calculatedTurns": 0
         }
       }
+    },
+    "2026-05-24": {
+      "date": "2026-05-24",
+      "totalCost": 0.0,
+      "totalTurns": 530,
+      "totalInputTokens": 8342494,
+      "totalOutputTokens": 41540,
+      "totalCacheReadTokens": 0,
+      "totalCacheWriteTokens": 0,
+      "source": "session-log-estimate",
+      "note": "Session log estimate. usage.cost.total includes cacheWrite charges. CHG-0097: confirmed cost includes cache writes. CHG-0175: calculated fallback for ephemeral sessions.",
+      "calculatedCost": 0.0,
+      "calculatedTurns": 0,
+      "byModel": {
+        "gemma4:31b-cloud": {
+          "input": 6190166,
+          "output": 20958,
+          "cacheRead": 0,
+          "cacheWrite": 0,
+          "cost": 0.0,
+          "turns": 394,
+          "calculatedCost": 0.0,
+          "calculatedTurns": 0
+        },
+        "deepseek-v4-flash:cloud": {
+          "input": 12589,
+          "output": 117,
+          "cacheRead": 0,
+          "cacheWrite": 0,
+          "cost": 0.0,
+          "turns": 2,
+          "calculatedCost": 0.0,
+          "calculatedTurns": 0
+        },
+        "deepseek-v4-pro:cloud": {
+          "input": 1786626,
+          "output": 17937,
+          "cacheRead": 0,
+          "cacheWrite": 0,
+          "cost": 0.0,
+          "turns": 116,
+          "calculatedCost": 0.0,
+          "calculatedTurns": 0
+        },
+        "kimi-k2.6:cloud": {
+          "input": 353113,
+          "output": 2528,
+          "cacheRead": 0,
+          "cacheWrite": 0,
+          "cost": 0.0,
+          "turns": 18,
+          "calculatedCost": 0.0,
+          "calculatedTurns": 0
+        }
+      }
     }
   },
-  "lastUpdated": "2026-05-23T13:57:11Z",
+  "lastUpdated": "2026-05-24T02:30:46Z",
   "allTimeTotalCost": 0.0,
-  "daysTracked": 1,
+  "daysTracked": 2,
   "avgDailyCost": 0.0,
   "apiBalance": {
     "spentSinceTopUp": 0.0,
@@ -67,6 +122,12 @@
   },
   "spendAlerts": {
     "tier3": {
+      "triggered": true
+    },
+    "tier2": {
+      "triggered": true
+    },
+    "tier1": {
       "triggered": true
     }
   }

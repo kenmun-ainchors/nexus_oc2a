@@ -1,0 +1,33 @@
+{
+  "lastStandupAt": "2026-05-23T22:00:30Z",
+  "lastStandupType": "scheduled",
+  "emailSentDate": "2026-05-24",
+  "history": [
+    {
+      "date": "2026-05-24",
+      "dayNumber": 30,
+      "type": "scheduled",
+      "sentAt": "2026-05-23T22:00:30Z",
+      "emailTo": "kenmun@gmail.com",
+      "telegramTo": "8574109706",
+      "chgCount": 4,
+      "systemStatus": "ok",
+      "wardenClean": 0,
+      "balance": "$0.00"
+    }
+  ],
+  "lastSprintPlanning": "2026-05-24T08:24:00Z",
+  "currentSprint": "S5",
+  "sprintStartDate": "2026-05-26",
+  "sprintEndDate": "2026-06-01",
+  "sprintCommitted": 9,
+  "sprintReviewS4": "deferred-by-ken",
+  "lastSprintReview": "2026-05-24T08:28:00Z",
+  "sprint4Review": {
+    "date": "2026-05-24",
+    "closed": 10,
+    "carried": 3,
+    "chgCount": 21,
+    "ceremonyNote": "1 day late — run during S5 planning session"
+  }
+}

@@ -20,7 +20,7 @@ This file gives Aria a curated, accurate view of what the AInchors technical tea
 | Warden 🔍 (Model Compliance) | ✅ LIVE | Haiku 4.5. Every 15 min. Checks all 6 agents for model drift. |
 | Spark ✨ (Social & Digital Marketing Agent) | ✅ LIVE | kimi-k2.6:cloud. **ALL social platforms** (LinkedIn, Instagram, Facebook, X). Ken approves personal content; Angie approves AInchors brand content. 3×/week (Tue/Wed/Thu). LinkedIn API connected (Member ID: FhpPCanUWM). First run: 2026-05-06. (CHG-0130/0137) |
 | Content Governance Triad Gate | ✅ LIVE | scripts/content-governance-review.sh. Shield→Lex→Sage mandatory on ALL public content from ALL agents. TKT-0033, CHG-0129. |
-| CI Framework | ✅ LIVE | Cycle A: 7-day shadow benchmarking (deepseek-v4-pro:cloud). Cycle B from week 2. First report ~9 May. (CHG-0125) |
+| Warden Model Drift Monitoring | ✅ LIVE | 15-min cron. Replaced CI Framework (CHG-0428, deprecated 2026-05-24). Enforces model-policy.json compliance across all agents. |
 | Health monitoring | ✅ LIVE | Checks every 15 min. `scripts/health-check.sh`. Fixed 2026-04-28. |
 | Auto-heal | ✅ LIVE | Nightly 23:30 AEST. 12 checks. Auto-fixes stale state. |
 | Daily journal cron | ✅ LIVE | 23:55 AEST — journal only (split from blog). |
@@ -214,8 +214,8 @@ Spark ✨ isn't "the AI that does LinkedIn". It has a specific persona (Ken's vo
 ### Lesson 18: One Key Rotation = Two Incidents (Day 9)
 When we rotated the Anthropic API key (CHG-0139), we updated the gateway config but forgot the macOS Keychain entry. Result: gateway worked fine, but every script that reads from Keychain hit 401. Standby mode activated. Fix took 19 minutes. New rule: key rotation now triggers auto-heal Check #16 (keychain liveness validation). And all scripts now route through one canonical `get-secret.sh` file — one place to update, everywhere benefits.
 
-### Lesson 17: Continuous Model Improvement Needs a System (Day 8)
-We built a CI Framework that benchmarks AI models against real business tasks every 7 days. No one has to remember to check if there's a better or cheaper model available — the system does it continuously. Ken approves routing changes. The lesson: if you want continuous improvement, build it as a permanent background process, not a quarterly review.
+### Lesson 17: Model Selection Moves to Warden (Day 8 → Day 31)
+Originally we built a CI Framework that benchmarked models against real tasks weekly. With the permanent move off Claude, model evaluation shifted to Warden's 15-min drift monitoring and the monthly model strategy review. The lesson: when the landscape changes, retire systems that no longer serve their purpose — don't let them become zombie processes.
 
 ### Lesson 10: Classify Before You Build (Day 6)
 Before Day 6, every new cron defaulted to an AI model. Now there's a gate: Tier 0 (script only), Tier 1 (minimal AI), Tier 2 (needs reasoning). Three crons reclassified from Tier 2 → Tier 0. Saving ~$1.50/day. Small number, important principle.
@@ -253,8 +253,7 @@ Use the `Training/` directory to draft content. Structure:
 21. "How we cut our AI bill by $1,755/month — and what failed" (Ollama Cloud PoC, three pass, two fail, same-day production)
 22. "Building an AI content governance system: why AI should review AI" (Shield→Lex→Sage triad gate, all agents, all public content)
 23. "From idea to LinkedIn post: how we built a social content agent in one day" (Spark ✨ architecture, model choice, approval flow)
-24. "The CI Framework for AI: data-driven model selection every 7 days" (shadow benchmarking, quality scoring, Ken approves changes)
-25. "One key rotation, two incidents: the hidden fragility of distributed secrets" (CHG-0139, INC-20260503-001, canonical get-secret.sh solution)
+24. "One key rotation, two incidents: the hidden fragility of distributed secrets" (CHG-0139, INC-20260503-001, canonical get-secret.sh solution)
 26. "From LinkedIn agent to Social & Digital Marketing Agent: how scope expands when foundations are solid" (Spark ✨ expansion, Day 9)
 
 ---

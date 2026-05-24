@@ -65,7 +65,7 @@ Nexus=platform|Holocron=AKB|Bridge=cmd-centre|Citadel=client-portal|Holonet=live
 - T0: systemEvent $0 | T1: Gemma4:26b local (OC2) $0 | T2: Ollama Cloud (kimi/deepseek) $100/mo | T3: Claude Sonnet FALLBACK ONLY
 - Client data = T0/T1 local ONLY. NEVER cloud. DS-1 to DS-5.
 - CURRENT (pre-OC2): Sonnet primary + Ollama Cloud T2. Ollama Pro: accounts@ainchors.com. PoC ✅ COMPLETE.
-- gemma4:31b-cloud: REMOVED from all agent allowlists 2026-05-09 (CHG-0250 CI Cycle B cancelled). No longer experimental—deprecated. TKT-0134 deferred post-OC2 commissioning.
+- gemma4:31b-cloud: REMOVED from all agent allowlists 2026-05-09 (CHG-0250). No longer experimental—deprecated. TKT-0134 deferred post-OC2 commissioning.
 
 ## Security Controls (S1–S7)
 - S1: OC ≥ v2026.5.12 (window CHG-0353; current 2026.5.5) | S2-S6: see `RULES.md` | S7: NAS encrypted (post-OC2)
@@ -99,7 +99,8 @@ Nexus=platform|Holocron=AKB|Bridge=cmd-centre|Citadel=client-portal|Holonet=live
 
 ## Config Baseline (Day 20 — CHG-0306)
 → See `state/critical-config-baseline.json` for live drift detection.
-- Defaults primary=Haiku, Warden=Haiku. BYOK+Nexus-first. CI Cycle A/2A running.
+- Defaults primary=Haiku, Warden=Haiku. BYOK+Nexus-first.
+- CI Cycle A/B decommissioned 2026-05-24 (CHG-0428). Replaced by Warden 15-min drift monitoring + monthly model strategy review.
 
 
 ## kimi Policy — LOCKED 2026-05-15

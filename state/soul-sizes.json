@@ -1,8 +1,8 @@
 {
-  "checkedAt": "2026-05-17T00:02:31Z",
+  "checkedAt": "2026-05-23T16:00:08Z",
   "warningLimit": 6000,
   "hardLimit": 10000,
-  "totalAgents": 12,
+  "totalAgents": 16,
   "warnings": 0,
   "hardLimitBreaches": 0,
   "agents": [
@@ -25,16 +25,40 @@
       "path": "/Users/ainchorsangiefpl/.openclaw/workspace-bpm/SOUL.md"
     },
     {
+      "agent": "thrawn",
+      "size": 1806,
+      "status": "OK",
+      "path": "/Users/ainchorsangiefpl/.openclaw/workspace/thrawn/SOUL.md"
+    },
+    {
       "agent": "ahsoka",
       "size": 2736,
       "status": "OK",
       "path": "/Users/ainchorsangiefpl/.openclaw/workspace/agents/ahsoka/SOUL.md"
     },
     {
+      "agent": "forge",
+      "size": 1806,
+      "status": "OK",
+      "path": "/Users/ainchorsangiefpl/.openclaw/workspace/forge/SOUL.md"
+    },
+    {
       "agent": "SOUL.md",
-      "size": 4198,
+      "size": 4534,
       "status": "OK",
       "path": "/Users/ainchorsangiefpl/.openclaw/workspace/SOUL.md"
+    },
+    {
+      "agent": "atlas",
+      "size": 1806,
+      "status": "OK",
+      "path": "/Users/ainchorsangiefpl/.openclaw/workspace/atlas/SOUL.md"
+    },
+    {
+      "agent": "spark",
+      "size": 1806,
+      "status": "OK",
+      "path": "/Users/ainchorsangiefpl/.openclaw/workspace/spark/SOUL.md"
     },
     {
       "agent": "security",

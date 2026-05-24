@@ -2,6 +2,12 @@
   "violations": [],
   "passes": [
     {
+      "job": "SOUL.md Weekly Size Audit",
+      "id": "fab7654e-5c02-42b6-9e3e-c7a51d18acbf",
+      "to": "8574109706",
+      "accountId": "yoda(default)"
+    },
+    {
       "job": "Nightly Gateway Restart Verify (03:05 AEST)",
       "id": "d94ad8bb-513c-4569-8720-f5ed2a73cb04",
       "to": "8574109706",
@@ -44,32 +50,32 @@
       "accountId": "yoda(default)"
     },
     {
-      "job": "Spark \u2014 LinkedIn Friday Post (W1P4 + recurring)",
-      "id": "243634a7-c7ae-47f2-9a04-b27583217c36",
-      "to": "8574109706",
-      "accountId": "yoda(default)"
-    },
-    {
-      "job": "Spark LI Post 3 \u2014 Thu 07:30",
-      "id": "96f326fd-6581-4dd7-b1af-7a28b22240e6",
-      "to": "8574109706",
-      "accountId": "yoda(default)"
-    },
-    {
-      "job": "SOUL.md Weekly Size Audit",
-      "id": "fab7654e-5c02-42b6-9e3e-c7a51d18acbf",
-      "to": "8574109706",
-      "accountId": "yoda(default)"
-    },
-    {
       "job": "Aria \ud83d\udd35 \u2014 Weekly Business ROI Summary",
       "id": "7a4d8381-2384-4719-b8d3-daff97a65b8a",
       "to": "8141152780",
       "accountId": "aria"
     },
     {
+      "job": "AInchors Daily Close \u2014 Blog",
+      "id": "a027fd60-fd23-4c50-a823-81555acfbf84",
+      "to": "8574109706",
+      "accountId": "yoda(default)"
+    },
+    {
+      "job": "AInchors Weekly Compliance Report (Mon 09:00)",
+      "id": "9b190d3e-c320-43f4-a05f-59a8709af451",
+      "to": "8574109706",
+      "accountId": "yoda(default)"
+    },
+    {
       "job": "AInchors Monthly Model Strategy Review",
       "id": "38d77d14-a535-4a62-8352-85f6c1776983",
+      "to": "8574109706",
+      "accountId": "yoda(default)"
+    },
+    {
+      "job": "Spark \u2014 LinkedIn Friday Post (W1P4 + recurring)",
+      "id": "243634a7-c7ae-47f2-9a04-b27583217c36",
       "to": "8574109706",
       "accountId": "yoda(default)"
     },
@@ -87,10 +93,10 @@
     }
   ],
   "warnings": [],
-  "auditAt": "2026-05-20T15:00:20Z",
+  "auditAt": "2026-05-23T15:00:08Z",
   "summary": {
     "violations": 0,
-    "passes": 14,
+    "passes": 15,
     "warnings": 0
   },
   "status": "pass"

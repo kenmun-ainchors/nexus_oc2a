@@ -1,1 +1,18 @@
-{"overall": "ok", "chain": ["ollama/gemma4:31b-cloud", "ollama/deepseek-v4-pro:cloud"], "checks": ["anthropicKey:ok", "anthropicApi:ok", "ollamaRunning:ok", "gemma4Loaded:ok", "gemma4Warm:ok"], "broken": [], "brokenCount": 0, "interimActive": true}
+{
+  "checkedAt": "2026-05-24T08:36:31Z",
+  "overall": "ok",
+  "chain": [
+    "ollama/deepseek-v4-pro:cloud",
+    "ollama/gemma4:31b-cloud"
+  ],
+  "checks": [
+    "anthropicKey:ok",
+    "anthropicApi:ok",
+    "ollamaRunning:ok",
+    "gemma4Loaded:ok",
+    "gemma4Warm:ok",
+    "fallbackChainConfig:ok"
+  ],
+  "broken": [],
+  "brokenCount": 0
+}

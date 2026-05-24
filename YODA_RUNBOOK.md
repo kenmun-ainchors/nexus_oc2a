@@ -300,10 +300,9 @@ _Slash command. Available to Ken. Added 2026-05-03._
 **Sources to read (mandatory — all of them):**
 1. `state/cost-state.json` — daily spend history, model breakdown, balance
 2. `state/cost-alert-state.json` — active tier, alert history
-3. `state/ci-agent-state.json` — CI Framework savings data (when available)
-4. `state/roi-data.json` (when exists) — time-saved metrics, revenue attribution
-5. Recent CHG entries — count of changes delivered (platform value proxy)
-6. `state/tickets.json` — US/TKT delivered count (output proxy)
+3. `state/roi-data.json` (when exists) — time-saved metrics, revenue attribution
+4. Recent CHG entries — count of changes delivered (platform value proxy)
+5. `state/tickets.json` — US/TKT delivered count (output proxy)
 
 **Report structure (in order):**
 
@@ -323,7 +322,7 @@ _Slash command. Available to Ken. Added 2026-05-03._
 
 ### 4. Cost Optimisation Status
 - Each active initiative: status, estimated saving
-- CI Framework: current cycle, first report ETA
+- Model cost efficiency: current routing, monthly trend
 
 ### 5. ROI Section (always include — deepen as TKT-0041 is built out)
 **Current minimum viable ROI (until TKT-0041 delivers deeper data):**
@@ -962,73 +961,6 @@ Any **strategic decision, priority outcome, or replanning result** made in-sessi
 
 All slash triggers are case-insensitive. Never fire on partial matches (e.g. "run diagnostics" text does not trigger `/diagnostics`).
 
-## CI FRAMEWORK — Continuous Model Improvement
-
-_Established 2026-05-02. Managed by Yoda. Runs indefinitely in background. Survives OC2, HIVE, Ollama Max upgrades._
-
-**Purpose:** Continuously identify which T1 (Sonnet) and T2a (Haiku) tasks can be safely moved to T2b (Ollama Cloud) based on real data, and confirm with head-to-head evidence before any routing change.
-
-**Loop structure:**
-
-```
-Week 1:  [ Cycle A only ]
-Week 2+: [ Cycle A (always-on) ] + [ Cycle B (concurrent) ]
-         [ Cycle A (always-on) ] + [ Cycle B (updated tasks) ]
-         ... forever
-```
-
-Cycle A never stops. Zero cost, zero performance impact. It runs every 6h indefinitely.
-Cycle B joins from week 2. Both run concurrently from that point on.
-
----
-
-### Cycle A — Always-On Batch Shadow (perpetual, 7-day reporting windows)
-- Runs every 6h. Never pauses between cycles.
-- Re-runs representative T1/T2a prompts through matched T2b models (no Claude cost)
-- Scores quality + latency. Builds candidateScore per task category.
-- At every 7-day boundary: generates report, selects top 2 candidates, resets window counter
-- Delivers top 2 to Ken via Telegram
-- Immediately starts next 7-day window (no gap, no pause)
-- **Awaits Ken APPROVE to activate/update Cycle B with new top 2**
-
-### Ken Approval Gate (weekly)
-- Ken reviews Cycle A report on Telegram
-- Replies APPROVE → Yoda activates or updates Cycle B with new top 2 tasks
-- Week 1: creates Cycle B cron fresh
-- Week 2+: updates existing Cycle B cron with new approved tasks
-
-### Cycle B — Real-Time Parallel (concurrent with Cycle A, rolling 7-day windows)
-- Runs every 6h alongside Cycle A from week 2
-- Executes approved top 2 tasks on BOTH original (Sonnet/Haiku) AND T2b simultaneously
-- Side-by-side quality + latency delta per run
-- Verdict per run: replace | borderline | keep
-- At every 7-day boundary: final recommendation, delivers report to Ken
-- Immediately starts next window with new approved tasks (updated from latest Cycle A report)
-- **Ken replies APPROVE-ROUTING to commit routing changes for MOVE tasks**
-
-### Routing Change Gate (weekly)
-- Yoda updates model-policy.json only after APPROVE-ROUTING from Ken
-- Each approved routing change = 1 CHG entry + Warden enforces immediately
-- Tasks confirmed as MOVE graduate out of future Cycle B windows (no need to retest)
-
-### State files
-- `state/ci-agent-state.json` — current cycle, phase, active candidates, history
-- `state/ci-agent-metrics.json` — all comparison records across all cycles
-- `state/ci-cycle-[N]A-report.md` — weekly Cycle A reports
-- `state/ci-cycle-[N]B-report.md` — weekly Cycle B reports
-- `state/ci-cycle-b-template.json` — Cycle B cron template
-
-### CI Agent cron IDs
-- Cycle A: 3ec512f3 (every 6h, perpetual, deepseek-v4-pro:cloud)
-- Cycle B: instantiated week 2 (ID saved to ci-agent-state.json.cycleBCronId), updated each week
-
-### Cost rule
-- Cycle A: zero additional Claude cost always (T2b only)
-- Cycle B: small Claude/Haiku cost for 2 approved tasks only (Ken-accepted)
-- Never expand Cycle B beyond 2 concurrent tasks without Ken approval
-
----
-
 ## /eod - End-of-Day Blog Post
 
 **Intent:** Trigger the daily end-of-day blog post. Journal-based. Ken's narrative of what happened today.
@@ -1069,7 +1001,6 @@ Only include posts where `snapshots` exist and `fetchedAt` is within the last 7 
 **Examples:**
 - `/blog ollama cloud poc` → deep-dive on the PoC test, results, findings
 - `/blog model strategy` → AInchors 4-tier model architecture explainer
-- `/blog ci framework` → the continuous improvement CI agent design
 
 **Output:** `canvas/documents/ainchors-blog-<slug>/index.html`
 - Slug = kebab-case of topic (e.g. `ollama-cloud-poc`, `model-strategy`)

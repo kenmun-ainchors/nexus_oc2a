@@ -1,0 +1,92 @@
+{
+  "sprint": "S5",
+  "startDate": "2026-05-26",
+  "endDate": "2026-06-01",
+  "plannedAt": "2026-05-24T08:24:00Z",
+  "plannedBy": "Ken Mun",
+  "facilitatedBy": "Yoda 🟢",
+  "committed": [
+    {
+      "id": "TKT-0229",
+      "title": "Fix ticket.sh JSON write corruption",
+      "priority": "critical",
+      "status": "S4 carry"
+    },
+    {
+      "id": "TKT-0238",
+      "title": "Systemic cron date calculation drift",
+      "priority": "critical",
+      "status": "S4 carry"
+    },
+    {
+      "id": "TKT-0269",
+      "title": "First pg_dump backup to NAS",
+      "priority": "critical",
+      "status": "PG follow-up"
+    },
+    {
+      "id": "TKT-0236",
+      "title": "Resurrect Task Queue Processor — PG backend",
+      "priority": "high",
+      "status": "new"
+    },
+    {
+      "id": "TKT-0270",
+      "title": "Agent SOUL/RULES PG SSOT paths update",
+      "priority": "high",
+      "status": "new"
+    },
+    {
+      "id": "TKT-0271",
+      "title": "Migrate remaining Tier 2 state files to PG",
+      "priority": "high",
+      "status": "new"
+    },
+    {
+      "id": "TKT-0241",
+      "title": "Sonnet Review Tier",
+      "priority": "high",
+      "status": "gated: CLAUDE RESTORE"
+    },
+    {
+      "id": "TKT-0137",
+      "title": "Policy Register",
+      "priority": "medium",
+      "status": "S4 carry"
+    },
+    {
+      "id": "TKT-0278",
+      "title": "Decommission CI Cycle A/B artifacts",
+      "priority": "medium",
+      "status": "closed",
+      "closedAt": "2026-05-24T08:50:00Z"
+    },
+    {
+      "id": "TKT-0268",
+      "title": "PG Dual-Write Stability Monitoring — 24h Observation",
+      "priority": "high",
+      "status": "S4 carry"
+    },
+    {
+      "id": "TKT-0275",
+      "title": "Progressive Disclosure — Skills, Tools & Agent Context",
+      "priority": "medium",
+      "status": "new",
+      "assignee": "Thrawn"
+    }
+  ],
+  "totalCommitted": 11,
+  "capacityLimit": 5,
+  "kenOverride": true,
+  "kenNote": "Locked all 8 (critical, high, medium) + TKT-0278 for Sprint 5",
+  "ceremonyNote": "Sprint 4 Review skipped per Ken deferral. Planning run 2026-05-24 08:24 GMT.",
+  "gatedItems": [
+    "TKT-0241: blocked on CLAUDE RESTORE keyword from Ken"
+  ],
+  "schedule": {
+    "dailyStandup": "09:00 AEST (M-F)",
+    "midSprintCheck": "2026-05-28",
+    "sprintReview": "2026-05-30 (Friday)",
+    "sprintPlanningS6": "2026-06-01 (Sunday)"
+  }
+}

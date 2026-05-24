@@ -1,11 +1,11 @@
 {
-  "checkedAt": "2026-05-23T13:49:28.825190+00:00",
+  "checkedAt": "2026-05-24T08:49:43.121998+00:00",
   "failures": [
     {
-      "cronId": "d3b1e203",
-      "fullCronId": "d3b1e203-741b-444a-9852-7bb8839d2c99",
-      "name": "AInchors Observability Collector",
-      "consecutiveErrors": 6,
+      "cronId": "f7668f6a",
+      "fullCronId": "f7668f6a-1c66-40cf-b9af-d1c09be03916",
+      "name": "PG Sync Check \u2014 Hourly Stability Monitor",
+      "consecutiveErrors": 21,
       "lastError": "error",
       "source": "live-cron-state"
     },

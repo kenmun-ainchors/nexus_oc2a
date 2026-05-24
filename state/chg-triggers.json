@@ -146,9 +146,9 @@
     },
     "TRIGGER-12": {
       "name": "Agent allowlist sync",
-      "condition": "CI Cycle B decision recorded (new models approved/deprecated) OR model-policy.json tierStrategy updated (new models added/removed)",
-      "detection": "automated -- allowlist-detect.sh cron (every 30 min). Compares policy lastUpdated + ci-agent-state.json cycleHistory against allowlist-sync-state.json lastSyncAt.",
-      "action": "Run zsh scripts/allowlist-sync.sh --source <ci-cycle-b|strategy-update>. Log CHG. Alert Ken via Telegram with diff summary.",
+      "condition": "model-policy.json tierStrategy updated (new models added/removed)",
+      "detection": "automated -- allowlist-detect.sh cron (every 30 min). Compares policy lastUpdated against allowlist-sync-state.json lastSyncAt.",
+      "action": "Run zsh scripts/allowlist-sync.sh --source strategy-update. Log CHG. Alert Ken via Telegram with diff summary.",
       "cronId": "6a059e9e-fffb-4651-97cb-19c864d747d6",
       "status": "active",
       "addedDate": "2026-05-03",

@@ -106,6 +106,58 @@
 **Linked:** CHG-0349, CHG-0350, TKT-0165, TKT-0175
 ---
 
+## 2026-05-23 22:39 AEST — [CHG-0429] CHG-0429: Auto-Heal Fail-Safe Reporting
+**Type:** script
+**Change Type:** Normal
+**Source:** ken-prompt
+**Trigger:** TKT-0279 — Auto-heal report missing on May 23 despite obs events
+**What changed:** Implemented incremental state writing in auto-heal.sh. New write_state() function updates the JSON report after every check. Added a shell trap to ensure a partial report is written on crash/timeout (ERR, SIGINT, SIGTERM). Report now reflects progress up to the point of failure.
+**Why:** Auto-heal reported needs-Ken items via obs stream but failed to write the structured JSON report, creating a visibility gap during crashes. Atomic final-write was too risky; incremental write ensures report availability.
+**Verification:** Script updated and tested for report structure. TKT-0279 closed.
+**Rollback:** N/A
+**Linked:** none
+---
+
+
+## 2026-05-24 07:59 AEST — [CHG-0428] CHG-0428: Decommission CI Cycle A/B Artifacts
+**Type:** infra
+**Change Type:** Normal
+**Source:** ken-prompt
+**Trigger:** TKT-0278 — Ken: abandon CI Cycle A and B since fully moved away from Claude
+**What changed:** Archived ci-cycle-1A-report.md, ci-cycle-2A-report.md, ci-cycle-b-template.json to state/archive/ci-decommissioned-2026-05-24/. CI Cycle A/B (CHG-0126, 2026-05-02) was designed for Anthropic model evaluation (Claude vs alternatives). With permanent move off Claude, model evaluation has shifted to Warden's 15-min drift monitoring and the monthly model strategy review (cron 38d77d14). No active CI crons existed — CI was state-file/manual driven. CHANGELOG retains 47 historical references for audit trail.
+**Why:** CI Cycle A/B framework was designed to evaluate Claude models against alternatives in 7-day cycles. Since the platform permanently moved off Claude (CHG-0348/0349 emergency switch + May 18 config baseline), the CI cycle framework is obsolete. Model monitoring is now handled by Warden (drift detection) and monthly strategy reviews.
+**Verification:** 3 state files archived, no active CI crons found, no CI references in model-policy.json, RULES.md, or MEMORY.md
+**Rollback:** N/A
+**Linked:** none
+---
+
+
+## 2026-05-24 07:55 AEST — [CHG-0427] CHG-0427: Blog Writer — Lock HTML/CSS Template to Prevent Style Drift
+**Type:** cron
+**Change Type:** Normal
+**Source:** ken-prompt
+**Trigger:** TKT-0277 — Ken noticed Day 29 blog style drifted from approved Day 23 template (purple vs amber, missing metrics, missing sections)
+**What changed:** Updated blog writer cron (a027fd60) to mandate copying CSS from the locked Day 23 reference template. Added mandatory template compliance checklist (7 items) that must pass BEFORE the triad governance gate. CSS is now immutable — only content between body tags changes.
+**Why:** Blog writer (gemma4) was improvising CSS each run, producing different color schemes, different class structures, missing required sections (metrics grid, cost trend, What Broke). The locked BlogFormat.md describes content rules but doesn't contain the HTML/CSS template. The approved Day 23 blog is now the canonical CSS reference.
+**Verification:** Cron updated with locked CSS reference + compliance checklist. Day 23 template confirmed as approved reference.
+**Rollback:** N/A
+**Linked:** none
+---
+
+
+## 2026-05-24 07:51 AEST — [CHG-0426] CHG-0413: Journal Writer — Add Telegram Coverage
+**Type:** cron
+**Change Type:** Normal
+**Source:** ken-prompt
+**Trigger:** TKT-0276 — Ken noticed morning Telegram work missing from journal
+**What changed:** Updated journal incremental writer (cron 1b853131) and EOD finalizer (cron 4d926b2c) to capture BOTH webchat AND Telegram sessions. Step 2 now discovers both session types, merges pairs by timestamp, includes [Telegram]/[webchat] channel tags in entry titles. Also added Telegram discovery to EOD finalizer's catch-up step 2b.
+**Why:** Journal incremental writer was webchat-only. Ken's Telegram interactions with Yoda were completely invisible, creating journal gaps. Telegram is a primary channel — all interactions regardless of channel must be journaled.
+**Verification:** Cron updated, backfill sub-agent spawned to add yesterday's missing Telegram entries to journal-2026-05-23.md
+**Rollback:** N/A
+**Linked:** none
+---
+
+
 ## 2026-05-21 20:21 AEST — [CHG-0423] Notion resync — 15 tickets + 5 CHGs from Day 27 session
 **Type:** config
 **Change Type:** Normal
