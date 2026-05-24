@@ -1,8 +1,8 @@
 #!/bin/zsh
 # AInchors Fallback Chain Validator
 # Run on gateway start — validates the full fallback chain is healthy.
-# Fallback chain: Sonnet T1 → Haiku T2 (Aria-safe, CHG-0075)
-# Note: Opus removed from auto-fallback — deliberate escalation only, not automatic.
+# CHG-0426: Auto-derives expected chain from model-policy.json (SSOT) instead of hardcoded values.
+# CHG-0394: Permanent baseline is deepseek-v4-pro → gemma4:31b-cloud → kimi.
 #
 # Output: state/fallback-chain-status.json
 # Alert:  /tmp/pvt-alert.txt (appended if any link broken)
@@ -14,6 +14,7 @@ WORKSPACE="$HOME/.openclaw/workspace"
 STATE_FILE="$WORKSPACE/state/fallback-chain-status.json"
 ALERT_FILE="/tmp/pvt-alert.txt"
 OPENCLAW_CFG="$HOME/.openclaw/openclaw.json"
+POLICY_FILE="$WORKSPACE/state/model-policy.json"
 
 mkdir -p "$(dirname "$STATE_FILE")"
 
@@ -113,35 +114,46 @@ else
 fi
 
 
-# ── INTERIM PERIOD CHECK (CHG-0362/0364) ────────────────────────────────────
-# During Conservative Mode interim period, fallback chain intentionally uses
-# interim models (kimi/gemma4/deepseek). Skip LINK 5 validation if active.
-INTERIM_ACTIVE=false
-INTERIM_REASON=""
-if [[ -f "$WORKSPACE/state/interim-model-period.json" ]]; then
-  INTERIM_ACTIVE=$(python3 -c "import json; d=json.load(open('$WORKSPACE/state/interim-model-period.json')); print('true' if d.get('active') else 'false')" 2>/dev/null || echo "false")
-  INTERIM_REASON=$(python3 -c "import json; d=json.load(open('$WORKSPACE/state/interim-model-period.json')); print(d.get('reason',''))" 2>/dev/null || echo "")
-fi
-
-if [[ "$INTERIM_ACTIVE" == "true" ]]; then
-  log "INTERIM PERIOD ACTIVE ($INTERIM_REASON) — skipping fallback chain config validation"
-  if [[ "$INTERIM_ACTIVE" == "true" ]]; then
-  BROKEN+=("Anthropic models unavailable during interim period (CHG-0388)"); log "LINK 5 (Anthropic models): SKIPPED (interim period active)"; RESULTS+=("anthropicModels:interim-skip")
-  ANTHROPIC_MODELS_OK=false
-else
-  log "LINK 5 (fallback chain config): SKIPPED — interim period, using temporary models"
-  RESULTS+=("fallbackChainConfig:interim-skipped")
-  # Skip to end — no chain validation during interim
-else
-
 # ── LINK 5: openclaw.json fallback chain for main (Yoda) agent ───────────────
-# CHG-0270: Yoda+Aria = sonnet→haiku→kimi | Others = haiku→kimi→kimi
-# agents.defaults.model = haiku→kimi→kimi (CORRECT for T4/tier agents)
-# agents.list[id=main].model = sonnet→haiku→kimi (CRITICAL — check this)
-EXPECTED_PRIMARY="anthropic/claude-sonnet-4-6"
-EXPECTED_FALLBACK_1="anthropic/claude-haiku-4-5"
-# Opus removed CHG-0075: deliberate escalation only, never automatic fallback
-# Gemma4 prohibited for Aria (business agent) in interactive sessions
+# CHG-0426: Auto-derives expected chain from model-policy.json (SSOT).
+# Falls back to openclaw.json defaults if model-policy.json is missing.
+# Also validates against globalAllowedModels for policy compliance.
+
+# ── Derive expected chain from model-policy.json ──────────────────────────
+if [[ -f "$POLICY_FILE" ]]; then
+  DERIVED=$(python3 << EOF
+import json
+d = json.load(open('$POLICY_FILE'))
+agent_tier = d.get('agents', {}).get('main', {}).get('tier', 'userFacing')
+tier = d.get('agentTiers', {}).get(agent_tier, {})
+expected_primary = tier.get('primary', '')
+expected_fallbacks = tier.get('fallbacks', [])
+expected_fallback_0 = expected_fallbacks[0] if len(expected_fallbacks) > 0 else ''
+allowed = d.get('globalAllowedModels', [])
+print(f'{expected_primary}|{expected_fallback_0}|{",".join(allowed)}')
+EOF
+  )
+  EXPECTED_PRIMARY="${DERIVED%%|*}"
+  DERIVED="${DERIVED#*|}"
+  EXPECTED_FALLBACK_1="${DERIVED%%|*}"
+  ALLOWED_MODELS="${DERIVED#*|}"
+  log "LINK 5 (policy-derived): expected chain = $EXPECTED_PRIMARY → $EXPECTED_FALLBACK_1 (from model-policy.json)"
+else
+  # Failsafe: if model-policy.json is missing, fall back to config defaults
+  log "LINK 5 (policy-derived): model-policy.json NOT FOUND — falling back to openclaw.json defaults"
+  EXPECTED_PRIMARY=$(python3 -c "
+import json
+d = json.load(open('$OPENCLAW_CFG'))
+print(d.get('agents', {}).get('defaults', {}).get('model', {}).get('primary', ''))
+" 2>/dev/null || echo "")
+  EXPECTED_FALLBACK_1=$(python3 -c "
+import json
+d = json.load(open('$OPENCLAW_CFG'))
+fb = d.get('agents', {}).get('defaults', {}).get('model', {}).get('fallbacks', [])
+print(fb[0] if len(fb) > 0 else '')
+" 2>/dev/null || echo "")
+  ALLOWED_MODELS=""
+fi
 
 if [[ -f "$OPENCLAW_CFG" ]]; then
   PRIMARY=$(python3 -c "
@@ -162,62 +174,51 @@ fb = main_agent.get('model', {}).get('fallbacks', [])
 print(fb[0] if len(fb) > 0 else '')
 " 2>/dev/null || echo "")
 
-  CHAIN_OK=true
-  if [[ "$PRIMARY" != "$EXPECTED_PRIMARY" ]]; then
-    if [[ "$INTERIM_ACTIVE" == "true" ]]; then
-  BROKEN+=("Anthropic models unavailable during interim period (CHG-0388)"); log "LINK 5 (Anthropic models): SKIPPED (interim period active)"; RESULTS+=("anthropicModels:interim-skip")
-  ANTHROPIC_MODELS_OK=false
-else
-  log "LINK 5 (fallback chain): BROKEN — main agent primary is '$PRIMARY', expected '$EXPECTED_PRIMARY'"
-    BROKEN+=("Fallback chain: main agent primary model wrong (got '$PRIMARY')")
-    CHAIN_OK=false
-  fi
-  if [[ "$FALLBACK_0" != "$EXPECTED_FALLBACK_1" ]]; then
-    if [[ "$INTERIM_ACTIVE" == "true" ]]; then
-  BROKEN+=("Anthropic models unavailable during interim period (CHG-0388)"); log "LINK 5 (Anthropic models): SKIPPED (interim period active)"; RESULTS+=("anthropicModels:interim-skip")
-  ANTHROPIC_MODELS_OK=false
-else
-  log "LINK 5 (fallback chain): BROKEN — main agent fallback[0] is '$FALLBACK_0', expected '$EXPECTED_FALLBACK_1'"
-    BROKEN+=("Fallback chain: main agent fallback[0] wrong (got '$FALLBACK_0') — should be haiku-4-5")
-    CHAIN_OK=false
-  fi
-  # Check that Opus is NOT in main agent fallbacks
-  OPUS_IN_CHAIN=$(python3 -c "
+  ALL_FALLBACKS=$(python3 -c "
 import json
 d = json.load(open('$OPENCLAW_CFG'))
 agent_list = d.get('agents', {}).get('list', [])
 main_agent = next((a for a in agent_list if a.get('id') == 'main'), {})
 fb = main_agent.get('model', {}).get('fallbacks', [])
-print('yes' if 'anthropic/claude-opus-4-7' in fb else 'no')
-" 2>/dev/null || echo "no")
-  if [[ "$OPUS_IN_CHAIN" == "yes" ]]; then
-    if [[ "$INTERIM_ACTIVE" == "true" ]]; then
-  BROKEN+=("Anthropic models unavailable during interim period (CHG-0388)"); log "LINK 5 (Anthropic models): SKIPPED (interim period active)"; RESULTS+=("anthropicModels:interim-skip")
-  ANTHROPIC_MODELS_OK=false
-else
-  log "LINK 5 (fallback chain): POLICY VIOLATION — Opus found in main agent fallbacks (CHG-0075)"
-    BROKEN+=("Policy violation: Opus in main agent fallbacks — prohibited (CHG-0075)")
+print(','.join(fb))
+" 2>/dev/null || echo "")
+
+  CHAIN_OK=true
+  if [[ "$PRIMARY" != "$EXPECTED_PRIMARY" ]]; then
+    log "LINK 5 (fallback chain): BROKEN — main agent primary is '$PRIMARY', expected '$EXPECTED_PRIMARY'"
+    BROKEN+=("Fallback chain: main agent primary model wrong (got '$PRIMARY')")
+    CHAIN_OK=false
+  fi
+  if [[ "$FALLBACK_0" != "$EXPECTED_FALLBACK_1" ]]; then
+    log "LINK 5 (fallback chain): BROKEN — main agent fallback[0] is '$FALLBACK_0', expected '$EXPECTED_FALLBACK_1'"
+    BROKEN+=("Fallback chain: main agent fallback[0] wrong (got '$FALLBACK_0') — should be $EXPECTED_FALLBACK_1")
     CHAIN_OK=false
   fi
 
-  if [[ "$CHAIN_OK" == "true" ]]; then
-    if [[ "$INTERIM_ACTIVE" == "true" ]]; then
-  BROKEN+=("Anthropic models unavailable during interim period (CHG-0388)"); log "LINK 5 (Anthropic models): SKIPPED (interim period active)"; RESULTS+=("anthropicModels:interim-skip")
-  ANTHROPIC_MODELS_OK=false
-else
-  log "LINK 5 (fallback chain config): OK — $EXPECTED_PRIMARY → $EXPECTED_FALLBACK_1 → kimi (main agent, CHG-0270)"
-    RESULTS+=("fallbackChainConfig:ok")
+  # ── Policy compliance: verify all models in chain are in globalAllowedModels ──
+  if [[ -n "$ALLOWED_MODELS" ]]; then
+    IFS=',' read -rA ALLOWED_ARR <<< "$ALLOWED_MODELS"
+    IFS=',' read -rA FB_ARR <<< "$ALL_FALLBACKS"
+    CHAIN_MODELS=("$PRIMARY" "${FB_ARR[@]}")
+    for model in "${CHAIN_MODELS[@]}"; do
+      [[ -z "$model" ]] && continue
+      if [[ ! " ${ALLOWED_ARR[@]} " =~ " ${model} " ]]; then
+        log "LINK 5 (policy compliance): WARNING — model '$model' not in globalAllowedModels"
+        # Non-fatal warning — model-policy.json may be stale
+      fi
+    done
   fi
-else
-  if [[ "$INTERIM_ACTIVE" == "true" ]]; then
-  BROKEN+=("Anthropic models unavailable during interim period (CHG-0388)"); log "LINK 5 (Anthropic models): SKIPPED (interim period active)"; RESULTS+=("anthropicModels:interim-skip")
-  ANTHROPIC_MODELS_OK=false
+
+  if [[ "$CHAIN_OK" == "true" ]]; then
+    log "LINK 5 (fallback chain config): OK — $EXPECTED_PRIMARY → $EXPECTED_FALLBACK_1 (from model-policy.json SSOT)"
+    RESULTS+=("fallbackChainConfig:ok")
+  else
+    RESULTS+=("fallbackChainConfig:broken")
+  fi
 else
   log "LINK 5 (fallback chain config): BROKEN — openclaw.json not found at $OPENCLAW_CFG"
   BROKEN+=("openclaw.json not found")
   RESULTS+=("fallbackChainConfig:broken:missing")
-fi
-
 fi
 
 # ── Write state/fallback-chain-status.json ────────────────────────────────────

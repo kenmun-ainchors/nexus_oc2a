@@ -1,23 +1,15 @@
 {
-  "generatedAt": "2026-05-24T08:49:43.121998+00:00",
+  "generatedAt": "2026-05-24T21:19:23.535555+00:00",
   "failures": [
-    {
-      "cronId": "f7668f6a",
-      "fullCronId": "f7668f6a-1c66-40cf-b9af-d1c09be03916",
-      "name": "PG Sync Check \u2014 Hourly Stability Monitor",
-      "consecutiveErrors": 21,
-      "lastError": "error",
-      "source": "live-cron-state"
-    },
     {
       "cronId": "a7e7a820",
       "fullCronId": "a7e7a820-32f6-4a2b-bb27-52367ebfa7dc",
       "name": "Aria Daily Summary (business stream)",
-      "consecutiveErrors": 5,
+      "consecutiveErrors": 6,
       "lastError": "error",
       "source": "live-cron-state"
     }
   ],
   "warnings": [],
-  "acknowledged": false
+  "acknowledged": true
 }

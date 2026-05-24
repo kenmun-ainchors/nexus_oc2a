@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "updatedAt": "2026-05-24T08:51:40.389Z",
+  "updatedAt": "2026-05-24T18:01:59.982Z",
   "entries": {
     "memory:memory/2026-04-26.md:94:122": {
       "key": "memory:memory/2026-04-26.md:94:122",
@@ -340,27 +340,29 @@
       "endLine": 725,
       "source": "memory",
       "snippet": "- Ken's webchat to Yoda also affected - **Decision: Option C — Aria moved to Sonnet permanently. Gemma4 for background crons only.** ### CHG-0037: Aria Model → Sonnet (Permanent) - Aria primary model: Gemma4 → `anthropic/claude-sonnet-4-6` - Gemma4 retained for: backup crons, cost tracker, non-interactive batch work only - Tail message updated: `⚙️ Model: Sonnet` (escalation prompt removed) - `critical-config-baseline.json` updated (config-008) --- ## 21:00–21:55 AEST — Telegram Architecture Overhaul (B1: Dual Bot) ### Problem - Ken's Telegram messages kept routing to Aria despite binding fixes - Root cause: stale session in business agent for Ken's chatId (8574109706) — persisted throug",
-      "recallCount": 7,
+      "recallCount": 9,
       "dailyCount": 0,
       "groundedCount": 0,
-      "totalScore": 3.0779061645269397,
+      "totalScore": 3.9177402645349506,
       "maxScore": 0.4560945719480514,
       "firstRecalledAt": "2026-04-29T05:13:49.704Z",
-      "lastRecalledAt": "2026-05-22T17:05:24.924Z",
+      "lastRecalledAt": "2026-05-24T18:01:21.116Z",
       "queryHashes": [
         "ebff508a49a4",
         "f19d93029481",
         "81927d8dbb89",
         "cf4c77e101bd",
         "aeee5f009fee",
-        "9efe2f060036"
+        "9efe2f060036",
+        "b515bed3ff57"
       ],
       "recallDays": [
         "2026-04-29",
         "2026-05-01",
         "2026-05-13",
         "2026-05-21",
-        "2026-05-23"
+        "2026-05-23",
+        "2026-05-24"
       ],
       "conceptTags": [
         "backup",
@@ -411,13 +413,13 @@
       "endLine": 12,
       "source": "memory",
       "snippet": "# 2026-04-25 ## Bootstrap - Identity set: Yoda 🟢 — AI business operations lead agent - User: Ken Mun (call him Ken), Melbourne GMT+10 - Primary channel: web chat - Secondary channel: Telegram (urgent/offline only) - Telegram paired and tested — working ## Config notes - Security flag: Telegram group commands have no sender allowlist — low risk (personal use only), revisit later",
-      "recallCount": 10,
+      "recallCount": 12,
       "dailyCount": 0,
       "groundedCount": 0,
-      "totalScore": 4.274014377593994,
+      "totalScore": 5.102573937177657,
       "maxScore": 0.46624842584133147,
       "firstRecalledAt": "2026-04-30T22:06:08.100Z",
-      "lastRecalledAt": "2026-05-24T08:39:34.423Z",
+      "lastRecalledAt": "2026-05-24T18:01:21.116Z",
       "queryHashes": [
         "f19d93029481",
         "763c944a8b88",
@@ -427,7 +429,8 @@
         "9fdec7ffea59",
         "96ac7cd9f964",
         "aeee5f009fee",
-        "6d05d0164f94"
+        "6d05d0164f94",
+        "b515bed3ff57"
       ],
       "recallDays": [
         "2026-05-01",
@@ -588,19 +591,20 @@
       "endLine": 27,
       "source": "memory",
       "snippet": "# Daily Memory — 2026-05-02 _Flushed from Day 7 session (2026-05-01 evening). Carry-forward context for next session._ --- ## Session Summary — Day 7 Evening (2026-05-01 18:53–23:51 AEST) ### Key Decisions - **Ollama Cloud PoC:** Option A (Pro upgrade, $20/mo) approved for tomorrow. Option B (qwen3.5:cloud for background crons) implemented tonight as interim. - **qwen3.5 latency mitigation:** `think=False` tested + confirmed positive. Implemented in AKB cron (CHG-0111). Overnight test at 03:00 AEST. - **MEMORY.md truncation fixed:** `bootstrapMaxChars` raised 10k→20k (CHG-0107). MEMORY.md trimmed 12,870→10,225 chars. Auto-heal Check #14 added to guard all SOUL.md + MEMORY.md sizes going",
-      "recallCount": 5,
+      "recallCount": 6,
       "dailyCount": 0,
       "groundedCount": 0,
-      "totalScore": 2.3276979893445966,
+      "totalScore": 2.7806442916393275,
       "maxScore": 0.4825169056653976,
       "firstRecalledAt": "2026-05-01T21:01:21.084Z",
-      "lastRecalledAt": "2026-05-24T08:14:26.751Z",
+      "lastRecalledAt": "2026-05-24T12:50:03.839Z",
       "queryHashes": [
         "8f0bb5249b0a",
         "a98a690ab657",
         "911c6c6b69b4",
         "37b2a701f605",
-        "d88230f243d3"
+        "d88230f243d3",
+        "da3f402f4db7"
       ],
       "recallDays": [
         "2026-05-02",
@@ -1573,13 +1577,13 @@
       "endLine": 178,
       "source": "memory",
       "snippet": "- Strategy-to-Backlog Pipeline (TKT-0125): Roadmap Refinement ceremony formalised - Luthen (Marketing Intelligence agent): name confirmed, P2 spec written - ticket.sh fix: status=done now maps to Notion Done (was falling to Backlog) - ticket.sh fix: Notion status variable was zsh read-only — fixed Infrastructure built today: - telegram-alert.sh: API-independent Telegram fallback (no Anthropic dependency) - hf-generate-image.sh + linkedin-upload-image.sh: LinkedIn image pipeline live - linkedin-post.sh: em dash validator + mktemp collision guard + --image-asset-urn flag - Notion: Sprint, Planned Date, Delivered Date columns added. Sprint 2 backfilled. - Google Drive: \"AInchors Yoda Working F",
-      "recallCount": 20,
+      "recallCount": 21,
       "dailyCount": 0,
       "groundedCount": 0,
-      "totalScore": 8.659203445911405,
+      "totalScore": 9.115729457139967,
       "maxScore": 0.47146608531475065,
       "firstRecalledAt": "2026-05-11T23:27:45.121Z",
-      "lastRecalledAt": "2026-05-24T08:51:35.633Z",
+      "lastRecalledAt": "2026-05-24T12:50:03.839Z",
       "queryHashes": [
         "827bc588f2a3",
         "763c944a8b88",
@@ -1600,7 +1604,8 @@
         "43d95c9440e9",
         "9893e8d72836",
         "c0702f97df7d",
-        "ff46c45ed010"
+        "ff46c45ed010",
+        "da3f402f4db7"
       ],
       "recallDays": [
         "2026-05-12",
@@ -2108,18 +2113,19 @@
       "endLine": 10,
       "source": "memory",
       "snippet": "## 01:00 AEST — Auto-Heal Run (19 checks) - **Auto-fixed:** git committed 14 untracked workspace files + 1 Aria file - **Real issue:** Backup stale 94h (last: workspace-2026-05-11-0205.tar.gz) — Notion US created, Priority High - **MEMORY.md:** Was 11,221 chars (over 10,000 hard limit) — trimmed to 9,571 chars ✅ — Notion US created - **False alarms (investigated + closed):** - Balance $0: stale remainingEstimate field; Ken confirmed $203.48 at 22:34 AEST; auto-reload active daily - Journal missing 2026-05-15: expected at 1am (journal cron runs 23:55 tonight) - Config baseline: all 16 checks OK ✅ | Telegram routing: all 11 crons correct ✅ | Keychain: anthropic key live ✅",
-      "recallCount": 4,
+      "recallCount": 5,
       "dailyCount": 0,
       "groundedCount": 0,
-      "totalScore": 1.7298621267080305,
-      "maxScore": 0.44158232808113096,
+      "totalScore": 2.186794126033783,
+      "maxScore": 0.45693199932575224,
       "firstRecalledAt": "2026-05-17T08:18:53.588Z",
-      "lastRecalledAt": "2026-05-23T21:50:25.642Z",
+      "lastRecalledAt": "2026-05-24T18:01:59.982Z",
       "queryHashes": [
         "c0d8f98b8f00",
         "928104fc1100",
         "7ad0a413040e",
-        "440c9505b7d1"
+        "440c9505b7d1",
+        "618db59f5722"
       ],
       "recallDays": [
         "2026-05-17",
@@ -2618,17 +2624,18 @@
       "endLine": 23,
       "source": "memory",
       "snippet": "## TRIGGER-04: OpenClaw Release Check (6:00 AM) — 2026-05-04 **Status:** New version available - **Latest:** v2026.5.3 (released 2026-05-04 07:01 UTC) - **Current installed:** v2026.5.2 - **Classification:** Regular release (stability/plugin improvements, no critical CVE) **Details:** - Plugin install hardening + externalized plugin robustness - Channel streaming reliability (Discord, WhatsApp, Slack, Teams) - Gateway performance: lazy-load plugin discovery, cron, schema, sessions - Config validation improvements - No explicit security-critical marker or CVE number **Action Taken:** - Updated TRIGGER-04 state: currentVersion → 2026.5.2, availableVersion → 2026.5.3 - lastChecked → 2026-05",
-      "recallCount": 3,
+      "recallCount": 4,
       "dailyCount": 0,
       "groundedCount": 0,
-      "totalScore": 1.4753140568733214,
+      "totalScore": 1.923779636621475,
       "maxScore": 0.5138603508472442,
       "firstRecalledAt": "2026-05-19T12:50:26.728Z",
-      "lastRecalledAt": "2026-05-24T08:14:26.751Z",
+      "lastRecalledAt": "2026-05-24T12:50:03.839Z",
       "queryHashes": [
         "b57f42ec66f7",
         "c0702f97df7d",
-        "d88230f243d3"
+        "d88230f243d3",
+        "da3f402f4db7"
       ],
       "recallDays": [
         "2026-05-19",
@@ -2845,18 +2852,20 @@
       "endLine": 25,
       "source": "memory",
       "snippet": "# 2026-05-19 — Daily Memory ## Key Events ### Notion Sync Audit Script Fix (07:12-07:15 AEST) - Fixed `scripts/notion-sync-audit.sh` — two bugs: 1. Notion API version `2025-09-03` doesn't support `database/query` endpoint → changed to `2022-06-28` 2. Heredoc variable passing bug — quoted `'PYEOF'` delimiter prevented shell variable expansion in Python blocks - Rewrote as single Python script using env vars + file I/O - Ran audit: found 9 duplicates (TKT-TKT-* double prefix), 5 missing from Notion, 8 extra - Cleaned up: archived 9 dupes, renamed 9 pages, created 3 missing, synced 8 to tickets.json - Final result: 0 duplicates, 0 missing, 0 extra across 87 Notion TKT pages ↔ 227 tickets",
-      "recallCount": 1,
+      "recallCount": 2,
       "dailyCount": 0,
       "groundedCount": 0,
-      "totalScore": 0.4718600362539291,
+      "totalScore": 0.9238908678293227,
       "maxScore": 0.4718600362539291,
       "firstRecalledAt": "2026-05-20T19:11:04.238Z",
-      "lastRecalledAt": "2026-05-20T19:11:04.238Z",
+      "lastRecalledAt": "2026-05-24T18:01:59.982Z",
       "queryHashes": [
-        "fbb978d665ec"
+        "fbb978d665ec",
+        "618db59f5722"
       ],
       "recallDays": [
-        "2026-05-21"
+        "2026-05-21",
+        "2026-05-24"
       ],
       "conceptTags": [
         "12-07",
@@ -2970,18 +2979,20 @@
       "endLine": 27,
       "source": "memory",
       "snippet": "## 01:00 AEST — Auto-Heal Run (2026-05-14) - Auto-heal completed: 19 checks, 2 auto-fixes, 11 flagged items - **Auto-fixed:** git commit (16 untracked workspace files) + aria git commit (1 file) - **Real issues → Notion filed:** - US: [AUTO-HEAL] Backup stale 70h (ID: 35fc1829-53ff-81ce-aa96-c3f90a2ef05f) — Priority High - US: [AUTO-HEAL] Config baseline outdated for CHG-0270 (ID: 35fc1829-53ff-8187-9ed5-d78ef75e66e6) — Priority Medium - **False positives dismissed:** - Balance $0: stale tracking, API key live (keychain liveness check passed) - 8x config drift: old baseline expects string format, CHG-0270 uses {primary, fallbacks} object - Journal 2026-05-14 missing: expected at 0",
-      "recallCount": 1,
+      "recallCount": 2,
       "dailyCount": 0,
       "groundedCount": 0,
-      "totalScore": 0.4275488585233688,
-      "maxScore": 0.4275488585233688,
+      "totalScore": 0.8781869888305663,
+      "maxScore": 0.4506381303071975,
       "firstRecalledAt": "2026-05-21T04:23:46.176Z",
-      "lastRecalledAt": "2026-05-21T04:23:46.176Z",
+      "lastRecalledAt": "2026-05-24T18:01:59.982Z",
       "queryHashes": [
-        "7ad0a413040e"
+        "7ad0a413040e",
+        "618db59f5722"
       ],
       "recallDays": [
-        "2026-05-21"
+        "2026-05-21",
+        "2026-05-24"
       ],
       "conceptTags": [
         "backup",
@@ -3620,6 +3631,37 @@
         "57.53",
         "balance-based",
         "confirm"
+      ]
+    },
+    "memory:memory/2026-05-14.md:19:39": {
+      "key": "memory:memory/2026-05-14.md:19:39",
+      "path": "memory/2026-05-14.md",
+      "startLine": 19,
+      "endLine": 39,
+      "source": "memory",
+      "snippet": "- Balance $0: stale tracking, API key live (keychain liveness check passed) - 8x config drift: old baseline expects string format, CHG-0270 uses {primary, fallbacks} object - Journal 2026-05-14 missing: expected at 01:00 — EOD cron runs at 23:55 --- ## 08:00 AEST — Day 20 Morning Session ### Option Paper: TKT-0162 (Ken's brief) - Ken submitted a detailed brief requesting an option paper on Nexus platform architecture direction: data architecture, integration architecture, cost/sustainability - Three options: A (incremental hardening), B (redesign data+integration, keep OpenClaw), C (radical refactor) - Atlas commissioned via sub-agent with full context package (TKT-0104, TKT-0046, I",
+      "recallCount": 1,
+      "dailyCount": 0,
+      "groundedCount": 0,
+      "totalScore": 0.43348976969718933,
+      "maxScore": 0.43348976969718933,
+      "firstRecalledAt": "2026-05-24T18:01:59.982Z",
+      "lastRecalledAt": "2026-05-24T18:01:59.982Z",
+      "queryHashes": [
+        "618db59f5722"
+      ],
+      "recallDays": [
+        "2026-05-24"
+      ],
+      "conceptTags": [
+        "chg-0270",
+        "tkt-0162",
+        "cost/sustainability",
+        "sub-agent",
+        "tkt-0104",
+        "tkt-0046",
+        "balance",
+        "stale"
       ]
     }
   }
