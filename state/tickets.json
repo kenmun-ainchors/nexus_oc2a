@@ -1,7 +1,7 @@
 {
   "schema_version": "1.0",
-  "sequence": 292,
-  "lastUpdated": "2026-05-25T07:51:55.324389+00:00",
+  "sequence": 293,
+  "lastUpdated": "2026-05-25T08:06:53.868734+00:00",
   "source": "notion-akb-backlog-rebuild",
   "ticketCount": 214,
   "changeCount": 250,
@@ -1853,8 +1853,7 @@
         "chg": []
       },
       "notes": "CHG-0369 Sprint 4 commitment. Originally created as TKT-0230 (test), now assigned.",
-      "notionPageId": "360c1829-53ff-816a-b531-e58f65d88481",
-      "sequence": "230"
+      "notionPageId": "360c1829-53ff-816a-b531-e58f65d88481"
     },
     {
       "id": "TKT-0179",
@@ -1866,8 +1865,7 @@
       "sprint": "Backlog",
       "notionPageId": "363c1829-53ff-81a0-99d6-cc06fec28177",
       "created": "2026-05-17T04:56:00Z",
-      "updated": "2026-05-19T07:15:00Z",
-      "sequence": "179"
+      "updated": "2026-05-19T07:15:00Z"
     },
     {
       "id": "TKT-0181",
@@ -1879,8 +1877,7 @@
       "sprint": "Backlog",
       "notionPageId": "363c1829-53ff-8186-bdab-d12c9d101e59",
       "created": "2026-05-17T04:56:00Z",
-      "updated": "2026-05-19T07:15:00Z",
-      "sequence": "181"
+      "updated": "2026-05-19T07:15:00Z"
     },
     {
       "id": "TKT-0186",
@@ -1892,8 +1889,7 @@
       "sprint": "Backlog",
       "notionPageId": "363c1829-53ff-8139-b676-e7b5d8e4153e",
       "created": "2026-05-17T04:56:00Z",
-      "updated": "2026-05-19T07:15:00Z",
-      "sequence": "186"
+      "updated": "2026-05-19T07:15:00Z"
     },
     {
       "id": "TKT-0187",
@@ -1905,8 +1901,7 @@
       "sprint": "Backlog",
       "notionPageId": "363c1829-53ff-81d9-b637-e84286ef1917",
       "created": "2026-05-17T04:56:00Z",
-      "updated": "2026-05-19T07:15:00Z",
-      "sequence": "187"
+      "updated": "2026-05-19T07:15:00Z"
     },
     {
       "id": "TKT-0188",
@@ -1918,8 +1913,7 @@
       "sprint": "Backlog",
       "notionPageId": "363c1829-53ff-81f7-ad4a-cedc327c43c3",
       "created": "2026-05-17T04:56:00Z",
-      "updated": "2026-05-19T07:15:00Z",
-      "sequence": "188"
+      "updated": "2026-05-19T07:15:00Z"
     },
     {
       "id": "TKT-0189",
@@ -1931,8 +1925,7 @@
       "sprint": "Backlog",
       "notionPageId": "363c1829-53ff-811e-8eec-e9b1842dac6d",
       "created": "2026-05-17T04:56:00Z",
-      "updated": "2026-05-19T07:15:00Z",
-      "sequence": "189"
+      "updated": "2026-05-19T07:15:00Z"
     },
     {
       "id": "TKT-0191",
@@ -1944,8 +1937,7 @@
       "sprint": "Backlog",
       "notionPageId": "363c1829-53ff-81be-93d5-ea116bcadfc9",
       "created": "2026-05-17T04:56:00Z",
-      "updated": "2026-05-19T07:15:00Z",
-      "sequence": "191"
+      "updated": "2026-05-19T07:15:00Z"
     },
     {
       "id": "TKT-0195",
@@ -1959,8 +1951,7 @@
       "created": "2026-05-17T04:56:00Z",
       "updated": "2026-05-21T14:54:42+10:00",
       "notes": "SCOPE LOCKED per Ken 2026-05-21. Sprint 4 deliverable: (1) brew install postgresql@16 + pgvector. (2) LaunchAgent auto-start. (3) Create ainchors_nexus DB. (4) Run 5-tier DDL from DataMemory_P1P4_Roadmap.md (T1 episodic audit, T2 vector store, T3 session, T4 shared state, T5 history). (5) Add tenant_id DEFAULT \"ainchors\" to all tables. Decisions: Q2=Homebrew, Q3=Redis deferred to P2, Q5=PII deferred to P2 gate, Q8=Shared schema+RLS from P2 day one. NOT IN SCOPE: JSON migration (TKT-0198), SHA-256 pipeline, vector embedding pipeline, agent wiring. Owner: Forge.",
-      "resolution": "Complete 2026-05-21. PostgreSQL 16.14 deployed via Homebrew on OC1. pgvector 0.8.2 built from source for PG16 compatibility. Database: ainchors_nexus. 5-tier schema deployed: T1 (agent_events, agent_decisions, decision_lineage, memory_access_log), T2 (knowledge_documents, knowledge_chunks with vector(768)), T3 (agent_sessions), T4 (agent_shared_state with optimistic locking), T5 (agent_state_history append-only). tenant_id DEFAULT 'ainchors' on all 9 tables. Ken decisions: Q2=Homebrew, Q3=Redis deferred P2, Q5=PII deferred P2, Q8=Shared+RLS from P2 day one.",
-      "sequence": "195"
+      "resolution": "Complete 2026-05-21. PostgreSQL 16.14 deployed via Homebrew on OC1. pgvector 0.8.2 built from source for PG16 compatibility. Database: ainchors_nexus. 5-tier schema deployed: T1 (agent_events, agent_decisions, decision_lineage, memory_access_log), T2 (knowledge_documents, knowledge_chunks with vector(768)), T3 (agent_sessions), T4 (agent_shared_state with optimistic locking), T5 (agent_state_history append-only). tenant_id DEFAULT 'ainchors' on all 9 tables. Ken decisions: Q2=Homebrew, Q3=Redis deferred P2, Q5=PII deferred P2, Q8=Shared+RLS from P2 day one."
     },
     {
       "id": "TKT-0232",
@@ -1973,8 +1964,7 @@
       "description": "The journal incremental writer determines target file using current date rather than actual message timestamp. After midnight, late-session entries from previous day get filed under wrong date file. Fix: use entry timestamp to determine target date file.",
       "created": "2026-05-18T21:42:49Z",
       "resolution": "CHG-0412: Updated cron 1b853131 prompt to use entry timestamp date instead of current date for journal file targeting. Multi-date entries now go to correct files.",
-      "notionPageId": "363c1829-53ff-81d9-b637-e84286ef1917",
-      "sequence": "232"
+      "notionPageId": "363c1829-53ff-81d9-b637-e84286ef1917"
     },
     {
       "id": "TKT-0233",
@@ -1993,8 +1983,7 @@
         "chg": [
           "CHG-0420"
         ]
-      },
-      "sequence": "233"
+      }
     },
     {
       "id": "TKT-0234",
@@ -2007,9 +1996,7 @@
       "description": "May 18 2026 afternoon webchat session transcripts (approx 12:50-21:00 AEST) were lost due to gateway restart overwriting session files before backup could capture them. Journal incremental writer captured some entries after midnight but source sessions already gone. Neither Drive trash nor any backup contains the data.",
       "created": "2026-05-19T02:01:18Z",
       "resolution": "Preventive fix deployed (CHG-0416: pre-restart session snapshots). Original May 18 afternoon data unrecoverable \u2014 session files overwritten by gateway restart before backup.",
-      "notionPageId": "36bc1829-53ff-8194-b9a9-df7856d0dd63",
-      "sequence": "234",
-      "url": "https://www.notion.so/Session-Transcript-Loss-\u2014-May-18-Afternoon-Unrecoverable-36bc182953ff8194b9a9df7856d0dd63"
+      "notionPageId": "363c1829-53ff-81f0-8595-df189f12c869"
     },
     {
       "id": "TKT-0235",
@@ -2032,8 +2019,7 @@
       },
       "notes": "SCOPE LOCKED per Ken 2026-05-21. AC added: RULES.md workspace discipline applies to ALL future agents (spawned + permanent). Deliverables: (1) Fix Forge AGENTS.md with absolute path discipline. (2) Audit all 12 agents for same pattern. (3) Add sub-agent workspace discipline rule to RULES.md \u2014 applies to all current + future agents. (4) Clean forge/ duplicates. (5) Test verify with Forge. Root cause: sub-agents spawn cwd in agent-specific subdir, treat it as root.",
       "notionPageId": "367c1829-53ff-8154-9689-d44389e3440f",
-      "sprint": 4,
-      "sequence": "235"
+      "sprint": 4
     },
     {
       "id": "TKT-0236",
@@ -2044,9 +2030,9 @@
       "requester": "Ken",
       "assignee": "Yoda",
       "created": "2026-05-21T15:39:38+10:00",
-      "updated": "2026-05-25T04:37:59+10:00",
+      "updated": "2026-05-25T14:38:48.503361+10:00",
       "description": "Task Queue Processor (cron 442ad697) was removed during CHG-0391 Anthropic\u2192kimi migration. Infrastructure still exists: task-queue.sh, claim-task.sh, resume-task.sh, async-worker.sh, state/checkpoints/. 4 test tasks completed May 17 proving the architecture works. Need to: (1) Rebuild cron with kimi model. (2) Migrate backend from task-queue.json to Postgres state_task_queue (already migrated by TKT-0198). (3) Wire in TKT-0182 State Checking Pattern (validate before claim/write). (4) Fix known bug: task-queue.sh add checkpoint creation broken. (5) Run production test with real sub-agent task. Sprint 5.",
-      "resolution": "5 atoms complete: queue key fix, PG dual-write, State Checking, production test, checkpoint fix. TQP cron a89d00ef live. Deliverable: docs/deliverables/TKT-0236-TQP-Resurrection-Report.md ",
+      "resolution": "5 atoms complete. 1) tasks\u2192queue key mismatch fixed (9 locations, 7 files). 2) PG dual-write migration: pg_task_queue.py + all 7 libs wired with pending\u2192queued / claimed\u2192dispatched mapping. 3) State Checking (TKT-0182): 5 sc_* wrappers enforcing READ\u2192VALIDATE\u2192EXECUTE\u2192VERIFY. 4) Production test: 3-atom sub-agent task through full TQP lifecycle verified in PG. 5) Checkpoint bug fixed in complete.py and fail.py. TQP cron a89d00ef live on 5-min cycle. Deliverable: docs/deliverables/TKT-0236-TQP-Resurrection-Report.md",
       "linked": {
         "us": [],
         "inc": [],
@@ -2058,7 +2044,7 @@
       "url": "https://www.notion.so/Resurrect-Task-Queue-Processor-\u2014-Postgres-backend-+-State-Checking-+-reactive-cron-368c182953ff81b5b9cbc2356257f7da",
       "sprintCommittedAt": "2026-05-24T08:24:00Z",
       "sprintCommittedBy": "Ken Mun",
-      "sequence": "236"
+      "closedAt": "2026-05-25T14:38:48.503361+10:00"
     },
     {
       "id": "TKT-0237",
@@ -2378,8 +2364,7 @@
       },
       "notes": "\nLinked under TKT-0128 (Aria marketing mandate, Sprint 5). CR-002 from Aria. Enable Spark dual-target LinkedIn for business stream.\n\nSTRATEGY (Ken approved 2026-05-22): Option B \u2014 separate pipelines. Ken personal = consultant POV. Company page = brand/announcements. Aria governs all business-stream agents. Specialist agents \u2192 Aria \u2192 Angie (never direct).\n\nGOVERNANCE CHAIN: Angie \u2192 Aria (approve) \u2192 Spark (execute) \u2192 Company Page\n\nBLOCKER: Angie availability for LinkedIn company page OAuth.\n\nAria drives delivery & AC with Angie. Yoda partners on enablement.\n@append 2026-05-24: Ken confirmed \u2014 blocker is Angie's company/personal LinkedIn account OAuth, not a technical issue on our side. Leaving with Aria to guide Angie through OAuth when she's available. Yoda supports Aria on enablement. No action until Angie engages.",
       "notionPageId": "368c1829-53ff-81be-986e-d16e8d43f19d",
-      "url": "https://www.notion.so/CR-002-Spark-Dual-Target-LinkedIn-\u2014-Business-Stream-(Angie-+-AInchors-Company-Page)-368c182953ff81be986ed16e8d43f19d",
-      "sequence": "251"
+      "url": "https://www.notion.so/CR-002-Spark-Dual-Target-LinkedIn-\u2014-Business-Stream-(Angie-+-AInchors-Company-Page)-368c182953ff81be986ed16e8d43f19d"
     },
     {
       "id": "TKT-0252",
@@ -2619,8 +2604,7 @@
         "chg": []
       },
       "notes": "\nGroomed 21:02 AEST. 6 atoms planned with OWL enforcement. Highest risk ticket \u2014 modifies agent read/write paths.",
-      "notionPageId": "369c1829-53ff-813f-a9b8-f690a2bf2907",
-      "sequence": "263"
+      "notionPageId": "369c1829-53ff-813f-a9b8-f690a2bf2907"
     },
     {
       "id": "TKT-0264",
@@ -2640,8 +2624,7 @@
         "chg": []
       },
       "notes": "\nGroomed 21:13 AEST. Final ticket. All prior phases complete. Executing via Forge.",
-      "notionPageId": "369c1829-53ff-8164-8204-daecaa8037fc",
-      "sequence": "264"
+      "notionPageId": "369c1829-53ff-8164-8204-daecaa8037fc"
     },
     {
       "id": "TKT-0265",
@@ -2681,8 +2664,8 @@
         "chg": []
       },
       "notes": "",
-      "notionPageId": "36bc1829-53ff-8198-842e-fc8aaa5f547b",
-      "url": "https://www.notion.so/PG-dual-write-test-36ac182953ff81bfb0d9d46b0850d982"
+      "notionPageId": "36bc1829-53ff-81eb-89ef-d8b4df518811",
+      "url": "https://www.notion.so/PG-dual-write-test-36bc182953ff81eb89efd8b4df518811"
     },
     {
       "id": "TKT-0267",
@@ -2725,8 +2708,7 @@
       "notionPageId": "369c1829-53ff-81c4-9b58-c5d00311a5df",
       "sprint": "S5",
       "sprintCommittedAt": "2026-05-24T08:30:00Z",
-      "sprintCommittedBy": "Ken Mun",
-      "sequence": "268"
+      "sprintCommittedBy": "Ken Mun"
     },
     {
       "id": "TKT-0269",
@@ -2749,8 +2731,7 @@
       "notionPageId": "369c1829-53ff-8166-86d5-d4e1c2276c31",
       "sprint": "S5",
       "sprintCommittedAt": "2026-05-24T08:24:00Z",
-      "sprintCommittedBy": "Ken Mun",
-      "sequence": "269"
+      "sprintCommittedBy": "Ken Mun"
     },
     {
       "id": "TKT-0270",
@@ -2773,8 +2754,7 @@
       "notionPageId": "369c1829-53ff-81e7-b63a-c4879cfe62b7",
       "sprint": "S5",
       "sprintCommittedAt": "2026-05-24T08:24:00Z",
-      "sprintCommittedBy": "Ken Mun",
-      "sequence": "270"
+      "sprintCommittedBy": "Ken Mun"
     },
     {
       "id": "TKT-0271",
@@ -2794,12 +2774,11 @@
         "chg": []
       },
       "notes": "\nRefined 21:49 AEST. Full inventory assessment produced. 50 files recommended for migration across 4 new tables + 2 merges. Awaiting Ken review.",
-      "notionPageId": "36bc1829-53ff-813b-8d9c-fc2121100937",
+      "notionPageId": "36bc1829-53ff-81a7-8fff-d13b633ed444",
       "sprint": "S5",
       "sprintCommittedAt": "2026-05-24T08:24:00Z",
       "sprintCommittedBy": "Ken Mun",
-      "url": "https://www.notion.so/Migrate-Remaining-Tier-2-State-Files-\u2014-Postgres-SSOT-Completion-36ac182953ff8141a349ec0de8015da3",
-      "sequence": "271"
+      "url": "https://www.notion.so/Migrate-Remaining-Tier-2-State-Files-\u2014-Postgres-SSOT-Completion-36bc182953ff81a78fffd13b633ed444"
     },
     {
       "id": "TKT-0272",
@@ -2819,8 +2798,7 @@
         "chg": []
       },
       "notes": "",
-      "notionPageId": "369c1829-53ff-8135-b0c2-ed6a8e260e3c",
-      "sequence": "272"
+      "notionPageId": "369c1829-53ff-8135-b0c2-ed6a8e260e3c"
     },
     {
       "id": "TKT-0273",
@@ -2840,8 +2818,7 @@
         "chg": []
       },
       "notes": "",
-      "notionPageId": "369c1829-53ff-81a3-955e-ea5aa34f7afa",
-      "sequence": "273"
+      "notionPageId": "369c1829-53ff-81a3-955e-ea5aa34f7afa"
     },
     {
       "id": "TKT-0274",
@@ -2861,8 +2838,7 @@
         "chg": []
       },
       "notes": "",
-      "notionPageId": "369c1829-53ff-81e5-a7ba-e3dedf5c2984",
-      "sequence": "274"
+      "notionPageId": "369c1829-53ff-81e5-a7ba-e3dedf5c2984"
     },
     {
       "id": "TKT-0275",
@@ -2882,12 +2858,11 @@
         "chg": []
       },
       "notes": "",
-      "notionPageId": "36bc1829-53ff-814b-9a3b-ced73fac0ff2",
+      "notionPageId": "36bc1829-53ff-81e6-a539-edf15105c797",
       "sprint": "S5",
       "sprintCommittedAt": "2026-05-24T08:55:00Z",
       "sprintCommittedBy": "Ken Mun",
-      "url": "https://www.notion.so/Progressive-Disclosure-Architecture-\u2014-Skills,-Tools-&-Agent-Context-Optimization-36ac182953ff81598f70f02ad92c1bfb",
-      "sequence": "275"
+      "url": "https://www.notion.so/Progressive-Disclosure-Architecture-\u2014-Skills,-Tools-&-Agent-Context-Optimization-36bc182953ff81e6a539edf15105c797"
     },
     {
       "id": "TKT-0276",
@@ -2907,8 +2882,7 @@
         "chg": []
       },
       "notes": "",
-      "notionPageId": "369c1829-53ff-81ef-adf5-e0ef2c3738db",
-      "sequence": "276"
+      "notionPageId": "369c1829-53ff-81ef-adf5-e0ef2c3738db"
     },
     {
       "id": "TKT-0277",
@@ -2928,8 +2902,7 @@
         "chg": []
       },
       "notes": "",
-      "notionPageId": "369c1829-53ff-81ef-adf5-e0ef2c3738db",
-      "sequence": "277"
+      "notionPageId": "369c1829-53ff-81ef-adf5-e0ef2c3738db"
     },
     {
       "id": "TKT-0278",
@@ -2952,8 +2925,7 @@
       "notionPageId": "369c1829-53ff-81d2-ade4-d89c108cd561",
       "sprint": "S5",
       "sprintCommittedAt": "2026-05-24T08:24:00Z",
-      "sprintCommittedBy": "Ken Mun",
-      "sequence": "278"
+      "sprintCommittedBy": "Ken Mun"
     },
     {
       "id": "TKT-0279",
@@ -2973,8 +2945,7 @@
         "chg": []
       },
       "notes": "",
-      "notionPageId": "369c1829-53ff-81d2-ade4-d89c108cd561",
-      "sequence": "279"
+      "notionPageId": "369c1829-53ff-81d2-ade4-d89c108cd561"
     },
     {
       "id": "TKT-0280",
@@ -2994,9 +2965,7 @@
         "chg": []
       },
       "notes": "",
-      "notionPageId": "36bc1829-53ff-81fc-b308-ce0b26018561",
-      "sequence": "280",
-      "url": "https://www.notion.so/TKT-0280-Post-TKT-0270-Cleanup-\u2014-Archive-5-remnant-state-files-after-48h-PG-stability-36bc182953ff81fcb308ce0b26018561"
+      "notionPageId": "369c1829-53ff-81c3-8eae-c2fd61b71a56"
     },
     {
       "id": "TKT-0281",
@@ -3016,8 +2985,7 @@
         "chg": []
       },
       "notes": "\nUpdate test with control chars: and 'quotes' and \"escaped\" ",
-      "notionPageId": "369c1829-53ff-81c3-8eae-c2fd61b71a56",
-      "sequence": "281"
+      "notionPageId": "369c1829-53ff-81c3-8eae-c2fd61b71a56"
     },
     {
       "id": "TKT-0282",
@@ -3037,8 +3005,7 @@
         "chg": []
       },
       "notes": "",
-      "notionPageId": "369c1829-53ff-81c3-8eae-c2fd61b71a56",
-      "sequence": "282"
+      "notionPageId": "369c1829-53ff-81c3-8eae-c2fd61b71a56"
     },
     {
       "id": "TKT-0283",
@@ -3058,8 +3025,7 @@
         "chg": []
       },
       "notes": "",
-      "notionPageId": "369c1829-53ff-8164-8204-daecaa8037fc",
-      "sequence": "283"
+      "notionPageId": "369c1829-53ff-8164-8204-daecaa8037fc"
     },
     {
       "id": "TKT-0284",
@@ -3079,8 +3045,7 @@
         "chg": []
       },
       "notes": "",
-      "notionPageId": "369c1829-53ff-8164-8204-daecaa8037fc",
-      "sequence": "284"
+      "notionPageId": "369c1829-53ff-8164-8204-daecaa8037fc"
     },
     {
       "id": "TKT-0285",
@@ -3100,8 +3065,7 @@
         "chg": []
       },
       "notes": "",
-      "notionPageId": "369c1829-53ff-8164-8204-daecaa8037fc",
-      "sequence": "285"
+      "notionPageId": "369c1829-53ff-8164-8204-daecaa8037fc"
     },
     {
       "id": "TKT-0286",
@@ -3121,8 +3085,7 @@
         "chg": []
       },
       "notes": "",
-      "notionPageId": "369c1829-53ff-8164-8204-daecaa8037fc",
-      "sequence": "286"
+      "notionPageId": "369c1829-53ff-8164-8204-daecaa8037fc"
     },
     {
       "id": "TKT-0287",
@@ -3142,8 +3105,7 @@
         "chg": []
       },
       "notes": "",
-      "notionPageId": "369c1829-53ff-8164-8204-daecaa8037fc",
-      "sequence": "287"
+      "notionPageId": "369c1829-53ff-8164-8204-daecaa8037fc"
     },
     {
       "id": "TKT-0288",
@@ -3163,8 +3125,7 @@
         "chg": []
       },
       "notes": "",
-      "notionPageId": "369c1829-53ff-8164-8204-daecaa8037fc",
-      "sequence": "288"
+      "notionPageId": "369c1829-53ff-8164-8204-daecaa8037fc"
     },
     {
       "id": "TKT-0289",
@@ -3184,8 +3145,7 @@
         "chg": []
       },
       "notes": "",
-      "notionPageId": "369c1829-53ff-8164-8204-daecaa8037fc",
-      "sequence": "289"
+      "notionPageId": "369c1829-53ff-8164-8204-daecaa8037fc"
     },
     {
       "id": "TKT-0290",
@@ -3205,8 +3165,7 @@
         "chg": []
       },
       "notes": "",
-      "notionPageId": "369c1829-53ff-8164-8204-daecaa8037fc",
-      "sequence": "290"
+      "notionPageId": "369c1829-53ff-8164-8204-daecaa8037fc"
     },
     {
       "id": "TKT-0291",
@@ -3226,1256 +3185,41 @@
         "chg": []
       },
       "notes": "",
-      "notionPageId": null,
-      "sequence": "291"
+      "notionPageId": null
     },
     {
-      "id": "TKT-0296",
-      "title": "[TKT-0296] Fix Journal Writer \u2014 Real-time append architecture",
-      "type": "bug",
+      "id": "TKT-0292",
+      "title": "REGRESSION TEST \ufffd PG write path ",
+      "type": "task",
+      "priority": "medium",
+      "status": "open",
+      "requester": "Ken",
+      "assignee": "Yoda",
+      "created": "2026-05-25T05:13:35+10:00",
+      "updated": "2026-05-25T05:13:35+10:00",
+      "description": "Phase 2 regression test ticket ",
+      "resolution": null,
+      "linked": {
+        "us": [],
+        "inc": [],
+        "chg": []
+      },
+      "notes": "",
+      "notionPageId": null
+    },
+    {
+      "id": "TKT-0297",
+      "title": "[TKT-0297] Redesign and Redevelop AKB Backlog \u2014 Clean, Reliable PG-to-Notion Sync",
+      "type": "task",
       "priority": "critical",
       "status": "open",
       "sprint": "S5",
       "requester": "Ken",
-      "assignee": "Yoda",
-      "sequence": "296",
-      "createdAt": "2026-05-25T07:34:00Z",
-      "updated": "2026-05-25T07:34:00Z",
-      "description": "Journal broken since May 19 (90% loss). Root cause: sessions_history(limit=50) window too small. Fix: real-time append from main session, EOD finalizer only adds header/cost/business stream.",
-      "notionPageId": "36bc1829-53ff-81fc-93e4-e3fe74d0f459",
-      "url": "https://www.notion.so/TKT-0296-Fix-Journal-Writer-\u2014-Real-time-append-architecture-36bc182953ff81fc93e4e3fe74d0f459"
-    },
-    {
-      "id": "TKT-0238",
-      "sequence": 0,
-      "title": "[TKT-0238] Systemic cron date calculation drift \u2014 standup/blog/LinkedIn missing deliveries",
-      "status": "open",
-      "priority": "medium",
-      "type": "tkt",
-      "createdAt": "2026-05-22T18:00:00.000Z",
-      "notionPageId": "368c1829-53ff-81ae-b28b-e71ea3ecfd88",
-      "url": "https://www.notion.so/TKT-0238-Systemic-cron-date-calculation-drift-\u2014-standup/blog/LinkedIn-missing-deliveries-368c182953ff81aeb28be71ea3ecfd88"
-    },
-    {
-      "id": "TKT-0241",
-      "sequence": 0,
-      "title": "[TKT-0241] Sonnet Review Tier \u2014 quality gate for content correctness verification",
-      "status": "open",
-      "priority": "medium",
-      "type": "tkt",
-      "createdAt": "2026-05-22T18:00:00.000Z",
-      "notionPageId": "368c1829-53ff-814b-bc4d-c363500d2bef",
-      "url": "https://www.notion.so/TKT-0241-Sonnet-Review-Tier-\u2014-quality-gate-for-content-correctness-verification-368c182953ff814bbc4dc363500d2bef"
-    },
-    {
-      "id": "TKT-0252",
-      "sequence": 0,
-      "title": "[TKT-0254] Groomed 19:27 AEST. TKT-0252 + TKT-0253 complete. Executing via Forge.",
-      "status": "done",
-      "priority": "medium",
-      "type": "tkt",
-      "createdAt": "2026-05-23T00:59:00.000Z",
-      "notionPageId": "369c1829-53ff-8147-8e2b-f8cdf4f78433",
-      "url": "https://www.notion.so/TKT-0254-Groomed-19:27-AEST.-TKT-0252-+-TKT-0253-complete.-Executing-via-Forge.-369c182953ff81478e2bf8cdf4f78433"
-    },
-    {
-      "id": "TKT-0253",
-      "sequence": 0,
-      "title": "[TKT-0254] Groomed 19:27 AEST. TKT-0252 + TKT-0253 complete. Executing via Forge.",
-      "status": "done",
-      "priority": "medium",
-      "type": "tkt",
-      "createdAt": "2026-05-23T00:59:00.000Z",
-      "notionPageId": "369c1829-53ff-8147-8e2b-f8cdf4f78433",
-      "url": "https://www.notion.so/TKT-0254-Groomed-19:27-AEST.-TKT-0252-+-TKT-0253-complete.-Executing-via-Forge.-369c182953ff81478e2bf8cdf4f78433"
-    },
-    {
-      "id": "TKT-0254",
-      "sequence": 0,
-      "title": "[TKT-0254] Groomed 19:27 AEST. TKT-0252 + TKT-0253 complete. Executing via Forge.",
-      "status": "done",
-      "priority": "medium",
-      "type": "tkt",
-      "createdAt": "2026-05-23T00:59:00.000Z",
-      "notionPageId": "369c1829-53ff-8147-8e2b-f8cdf4f78433",
-      "url": "https://www.notion.so/TKT-0254-Groomed-19:27-AEST.-TKT-0252-+-TKT-0253-complete.-Executing-via-Forge.-369c182953ff81478e2bf8cdf4f78433"
-    },
-    {
-      "id": "TKT-0255",
-      "sequence": 0,
-      "title": "[TKT-0255] Groomed 19:34 AEST. P1 complete. Executing Phase 2 via Forge.",
-      "status": "done",
-      "priority": "medium",
-      "type": "tkt",
-      "createdAt": "2026-05-23T00:59:00.000Z",
-      "notionPageId": "369c1829-53ff-8190-9da6-c2a434f995c9",
-      "url": "https://www.notion.so/TKT-0255-Groomed-19:34-AEST.-P1-complete.-Executing-Phase-2-via-Forge.-369c182953ff81909da6c2a434f995c9"
-    },
-    {
-      "id": "TKT-0256",
-      "sequence": 0,
-      "title": "[TKT-0256] Groomed 19:42 AEST. Executing via Forge.",
-      "status": "done",
-      "priority": "medium",
-      "type": "tkt",
-      "createdAt": "2026-05-23T00:59:00.000Z",
-      "notionPageId": "369c1829-53ff-813c-820b-e2fa55211a9b",
-      "url": "https://www.notion.so/TKT-0256-Groomed-19:42-AEST.-Executing-via-Forge.-369c182953ff813c820be2fa55211a9b"
-    },
-    {
-      "id": "TKT-0257",
-      "sequence": 0,
-      "title": "[TKT-0257] Groomed 19:47 AEST. Executing via Forge.",
-      "status": "done",
-      "priority": "medium",
-      "type": "tkt",
-      "createdAt": "2026-05-23T00:59:00.000Z",
-      "notionPageId": "369c1829-53ff-8160-9e1b-c1dc2600139f",
-      "url": "https://www.notion.so/TKT-0257-Groomed-19:47-AEST.-Executing-via-Forge.-369c182953ff81609e1bc1dc2600139f"
-    },
-    {
-      "id": "TKT-0258",
-      "sequence": 0,
-      "title": "[TKT-0258] Groomed 19:51 AEST. Executing via Forge.",
-      "status": "done",
-      "priority": "medium",
-      "type": "tkt",
-      "createdAt": "2026-05-23T00:59:00.000Z",
-      "notionPageId": "369c1829-53ff-816f-966f-cab623e5b6d7",
-      "url": "https://www.notion.so/TKT-0258-Groomed-19:51-AEST.-Executing-via-Forge.-369c182953ff816f966fcab623e5b6d7"
-    },
-    {
-      "id": "TKT-0259",
-      "sequence": 0,
-      "title": "[TKT-0259] Groomed 19:54 AEST. Executing via Forge.",
-      "status": "done",
-      "priority": "medium",
-      "type": "tkt",
-      "createdAt": "2026-05-23T00:59:00.000Z",
-      "notionPageId": "369c1829-53ff-81aa-918d-f8406f8192d1",
-      "url": "https://www.notion.so/TKT-0259-Groomed-19:54-AEST.-Executing-via-Forge.-369c182953ff81aa918df8406f8192d1"
-    },
-    {
-      "id": "TKT-0260",
-      "sequence": 0,
-      "title": "[TKT-0260] Groomed 19:57 AEST. Phase 2 complete. Executing Phase 3 via Forge.",
-      "status": "done",
-      "priority": "medium",
-      "type": "tkt",
-      "createdAt": "2026-05-23T01:00:00.000Z",
-      "notionPageId": "369c1829-53ff-81ae-835f-fd1579da155b",
-      "url": "https://www.notion.so/TKT-0260-Groomed-19:57-AEST.-Phase-2-complete.-Executing-Phase-3-via-Forge.-369c182953ff81ae835ffd1579da155b"
-    },
-    {
-      "id": "TKT-0261",
-      "sequence": 0,
-      "title": "[TKT-0261] Groomed 20:09 AEST. Phase 3 complete. OWL reset \u2014 atoms planned, verified atomically. Executing Phase 4 via Forge.",
-      "status": "done",
-      "priority": "medium",
-      "type": "tkt",
-      "createdAt": "2026-05-23T01:00:00.000Z",
-      "notionPageId": "369c1829-53ff-81c1-b20a-dcc1e4d54d01",
-      "url": "https://www.notion.so/TKT-0261-Groomed-20:09-AEST.-Phase-3-complete.-OWL-reset-\u2014-atoms-planned,-verified-atomically.-Executing-Phase-4-via-Forge.-369c182953ff81c1b20adcc1e4d54d01"
-    },
-    {
-      "id": "TKT-0262",
-      "sequence": 0,
-      "title": "[TKT-0262] Groomed 20:16 AEST. OWL enforced \u2014 4 atoms planned, one at a time. Executing via Forge.",
-      "status": "done",
-      "priority": "medium",
-      "type": "tkt",
-      "createdAt": "2026-05-23T01:00:00.000Z",
-      "notionPageId": "369c1829-53ff-81ce-a3ea-f5dafb105c33",
-      "url": "https://www.notion.so/TKT-0262-Groomed-20:16-AEST.-OWL-enforced-\u2014-4-atoms-planned,-one-at-a-time.-Executing-via-Forge.-369c182953ff81cea3eaf5dafb105c33"
-    },
-    {
-      "id": "TKT-0266",
-      "sequence": 0,
-      "title": "[TKT-0266] PG dual-write test",
-      "status": "backlog",
-      "priority": "medium",
-      "type": "tkt",
-      "createdAt": "2026-05-25T03:50:00.000Z",
-      "notionPageId": "36bc1829-53ff-8198-842e-fc8aaa5f547b",
-      "url": "https://www.notion.so/TKT-0266-PG-dual-write-test-36bc182953ff8198842efc8aaa5f547b"
-    },
-    {
-      "id": "TKT-0238",
-      "sequence": 0,
-      "title": "[TKT-0238] Systemic cron date calculation drift \u2014 standup/blog/LinkedIn missing deliveries",
-      "status": "open",
-      "priority": "medium",
-      "type": "tkt",
-      "createdAt": "2026-05-22T18:00:00.000Z",
-      "notionPageId": "368c1829-53ff-81ae-b28b-e71ea3ecfd88",
-      "url": "https://www.notion.so/TKT-0238-Systemic-cron-date-calculation-drift-\u2014-standup/blog/LinkedIn-missing-deliveries-368c182953ff81aeb28be71ea3ecfd88"
-    },
-    {
-      "id": "TKT-0241",
-      "sequence": 0,
-      "title": "[TKT-0241] Sonnet Review Tier \u2014 quality gate for content correctness verification",
-      "status": "open",
-      "priority": "medium",
-      "type": "tkt",
-      "createdAt": "2026-05-22T18:00:00.000Z",
-      "notionPageId": "368c1829-53ff-814b-bc4d-c363500d2bef",
-      "url": "https://www.notion.so/TKT-0241-Sonnet-Review-Tier-\u2014-quality-gate-for-content-correctness-verification-368c182953ff814bbc4dc363500d2bef"
-    },
-    {
-      "id": "TKT-0252",
-      "sequence": 0,
-      "title": "[TKT-0254] Groomed 19:27 AEST. TKT-0252 + TKT-0253 complete. Executing via Forge.",
-      "status": "done",
-      "priority": "medium",
-      "type": "tkt",
-      "createdAt": "2026-05-23T00:59:00.000Z",
-      "notionPageId": "369c1829-53ff-8147-8e2b-f8cdf4f78433",
-      "url": "https://www.notion.so/TKT-0254-Groomed-19:27-AEST.-TKT-0252-+-TKT-0253-complete.-Executing-via-Forge.-369c182953ff81478e2bf8cdf4f78433"
-    },
-    {
-      "id": "TKT-0253",
-      "sequence": 0,
-      "title": "[TKT-0254] Groomed 19:27 AEST. TKT-0252 + TKT-0253 complete. Executing via Forge.",
-      "status": "done",
-      "priority": "medium",
-      "type": "tkt",
-      "createdAt": "2026-05-23T00:59:00.000Z",
-      "notionPageId": "369c1829-53ff-8147-8e2b-f8cdf4f78433",
-      "url": "https://www.notion.so/TKT-0254-Groomed-19:27-AEST.-TKT-0252-+-TKT-0253-complete.-Executing-via-Forge.-369c182953ff81478e2bf8cdf4f78433"
-    },
-    {
-      "id": "TKT-0254",
-      "sequence": 0,
-      "title": "[TKT-0254] Groomed 19:27 AEST. TKT-0252 + TKT-0253 complete. Executing via Forge.",
-      "status": "done",
-      "priority": "medium",
-      "type": "tkt",
-      "createdAt": "2026-05-23T00:59:00.000Z",
-      "notionPageId": "369c1829-53ff-8147-8e2b-f8cdf4f78433",
-      "url": "https://www.notion.so/TKT-0254-Groomed-19:27-AEST.-TKT-0252-+-TKT-0253-complete.-Executing-via-Forge.-369c182953ff81478e2bf8cdf4f78433"
-    },
-    {
-      "id": "TKT-0255",
-      "sequence": 0,
-      "title": "[TKT-0255] Groomed 19:34 AEST. P1 complete. Executing Phase 2 via Forge.",
-      "status": "done",
-      "priority": "medium",
-      "type": "tkt",
-      "createdAt": "2026-05-23T00:59:00.000Z",
-      "notionPageId": "369c1829-53ff-8190-9da6-c2a434f995c9",
-      "url": "https://www.notion.so/TKT-0255-Groomed-19:34-AEST.-P1-complete.-Executing-Phase-2-via-Forge.-369c182953ff81909da6c2a434f995c9"
-    },
-    {
-      "id": "TKT-0256",
-      "sequence": 0,
-      "title": "[TKT-0256] Groomed 19:42 AEST. Executing via Forge.",
-      "status": "done",
-      "priority": "medium",
-      "type": "tkt",
-      "createdAt": "2026-05-23T00:59:00.000Z",
-      "notionPageId": "369c1829-53ff-813c-820b-e2fa55211a9b",
-      "url": "https://www.notion.so/TKT-0256-Groomed-19:42-AEST.-Executing-via-Forge.-369c182953ff813c820be2fa55211a9b"
-    },
-    {
-      "id": "TKT-0257",
-      "sequence": 0,
-      "title": "[TKT-0257] Groomed 19:47 AEST. Executing via Forge.",
-      "status": "done",
-      "priority": "medium",
-      "type": "tkt",
-      "createdAt": "2026-05-23T00:59:00.000Z",
-      "notionPageId": "369c1829-53ff-8160-9e1b-c1dc2600139f",
-      "url": "https://www.notion.so/TKT-0257-Groomed-19:47-AEST.-Executing-via-Forge.-369c182953ff81609e1bc1dc2600139f"
-    },
-    {
-      "id": "TKT-0258",
-      "sequence": 0,
-      "title": "[TKT-0258] Groomed 19:51 AEST. Executing via Forge.",
-      "status": "done",
-      "priority": "medium",
-      "type": "tkt",
-      "createdAt": "2026-05-23T00:59:00.000Z",
-      "notionPageId": "369c1829-53ff-816f-966f-cab623e5b6d7",
-      "url": "https://www.notion.so/TKT-0258-Groomed-19:51-AEST.-Executing-via-Forge.-369c182953ff816f966fcab623e5b6d7"
-    },
-    {
-      "id": "TKT-0259",
-      "sequence": 0,
-      "title": "[TKT-0259] Groomed 19:54 AEST. Executing via Forge.",
-      "status": "done",
-      "priority": "medium",
-      "type": "tkt",
-      "createdAt": "2026-05-23T00:59:00.000Z",
-      "notionPageId": "369c1829-53ff-81aa-918d-f8406f8192d1",
-      "url": "https://www.notion.so/TKT-0259-Groomed-19:54-AEST.-Executing-via-Forge.-369c182953ff81aa918df8406f8192d1"
-    },
-    {
-      "id": "TKT-0260",
-      "sequence": 0,
-      "title": "[TKT-0260] Groomed 19:57 AEST. Phase 2 complete. Executing Phase 3 via Forge.",
-      "status": "done",
-      "priority": "medium",
-      "type": "tkt",
-      "createdAt": "2026-05-23T01:00:00.000Z",
-      "notionPageId": "369c1829-53ff-81ae-835f-fd1579da155b",
-      "url": "https://www.notion.so/TKT-0260-Groomed-19:57-AEST.-Phase-2-complete.-Executing-Phase-3-via-Forge.-369c182953ff81ae835ffd1579da155b"
-    },
-    {
-      "id": "TKT-0261",
-      "sequence": 0,
-      "title": "[TKT-0261] Groomed 20:09 AEST. Phase 3 complete. OWL reset \u2014 atoms planned, verified atomically. Executing Phase 4 via Forge.",
-      "status": "done",
-      "priority": "medium",
-      "type": "tkt",
-      "createdAt": "2026-05-23T01:00:00.000Z",
-      "notionPageId": "369c1829-53ff-81c1-b20a-dcc1e4d54d01",
-      "url": "https://www.notion.so/TKT-0261-Groomed-20:09-AEST.-Phase-3-complete.-OWL-reset-\u2014-atoms-planned,-verified-atomically.-Executing-Phase-4-via-Forge.-369c182953ff81c1b20adcc1e4d54d01"
-    },
-    {
-      "id": "TKT-0262",
-      "sequence": 0,
-      "title": "[TKT-0262] Groomed 20:16 AEST. OWL enforced \u2014 4 atoms planned, one at a time. Executing via Forge.",
-      "status": "done",
-      "priority": "medium",
-      "type": "tkt",
-      "createdAt": "2026-05-23T01:00:00.000Z",
-      "notionPageId": "369c1829-53ff-81ce-a3ea-f5dafb105c33",
-      "url": "https://www.notion.so/TKT-0262-Groomed-20:16-AEST.-OWL-enforced-\u2014-4-atoms-planned,-one-at-a-time.-Executing-via-Forge.-369c182953ff81cea3eaf5dafb105c33"
-    },
-    {
-      "id": "TKT-0266",
-      "sequence": 0,
-      "title": "[TKT-0266] PG dual-write test",
-      "status": "backlog",
-      "priority": "medium",
-      "type": "tkt",
-      "createdAt": "2026-05-25T03:50:00.000Z",
-      "notionPageId": "36bc1829-53ff-8198-842e-fc8aaa5f547b",
-      "url": "https://www.notion.so/TKT-0266-PG-dual-write-test-36bc182953ff8198842efc8aaa5f547b"
-    },
-    {
-      "id": "TKT-0238",
-      "sequence": 0,
-      "title": "[TKT-0238] Systemic cron date calculation drift \u2014 standup/blog/LinkedIn missing deliveries",
-      "status": "open",
-      "priority": "medium",
-      "type": "tkt",
-      "createdAt": "2026-05-22T18:00:00.000Z",
-      "notionPageId": "368c1829-53ff-81ae-b28b-e71ea3ecfd88",
-      "url": "https://www.notion.so/TKT-0238-Systemic-cron-date-calculation-drift-\u2014-standup/blog/LinkedIn-missing-deliveries-368c182953ff81aeb28be71ea3ecfd88"
-    },
-    {
-      "id": "TKT-0241",
-      "sequence": 0,
-      "title": "[TKT-0241] Sonnet Review Tier \u2014 quality gate for content correctness verification",
-      "status": "open",
-      "priority": "medium",
-      "type": "tkt",
-      "createdAt": "2026-05-22T18:00:00.000Z",
-      "notionPageId": "368c1829-53ff-814b-bc4d-c363500d2bef",
-      "url": "https://www.notion.so/TKT-0241-Sonnet-Review-Tier-\u2014-quality-gate-for-content-correctness-verification-368c182953ff814bbc4dc363500d2bef"
-    },
-    {
-      "id": "TKT-0252",
-      "sequence": 0,
-      "title": "[TKT-0254] Groomed 19:27 AEST. TKT-0252 + TKT-0253 complete. Executing via Forge.",
-      "status": "done",
-      "priority": "medium",
-      "type": "tkt",
-      "createdAt": "2026-05-23T00:59:00.000Z",
-      "notionPageId": "369c1829-53ff-8147-8e2b-f8cdf4f78433",
-      "url": "https://www.notion.so/TKT-0254-Groomed-19:27-AEST.-TKT-0252-+-TKT-0253-complete.-Executing-via-Forge.-369c182953ff81478e2bf8cdf4f78433"
-    },
-    {
-      "id": "TKT-0253",
-      "sequence": 0,
-      "title": "[TKT-0254] Groomed 19:27 AEST. TKT-0252 + TKT-0253 complete. Executing via Forge.",
-      "status": "done",
-      "priority": "medium",
-      "type": "tkt",
-      "createdAt": "2026-05-23T00:59:00.000Z",
-      "notionPageId": "369c1829-53ff-8147-8e2b-f8cdf4f78433",
-      "url": "https://www.notion.so/TKT-0254-Groomed-19:27-AEST.-TKT-0252-+-TKT-0253-complete.-Executing-via-Forge.-369c182953ff81478e2bf8cdf4f78433"
-    },
-    {
-      "id": "TKT-0254",
-      "sequence": 0,
-      "title": "[TKT-0254] Groomed 19:27 AEST. TKT-0252 + TKT-0253 complete. Executing via Forge.",
-      "status": "done",
-      "priority": "medium",
-      "type": "tkt",
-      "createdAt": "2026-05-23T00:59:00.000Z",
-      "notionPageId": "369c1829-53ff-8147-8e2b-f8cdf4f78433",
-      "url": "https://www.notion.so/TKT-0254-Groomed-19:27-AEST.-TKT-0252-+-TKT-0253-complete.-Executing-via-Forge.-369c182953ff81478e2bf8cdf4f78433"
-    },
-    {
-      "id": "TKT-0255",
-      "sequence": 0,
-      "title": "[TKT-0255] Groomed 19:34 AEST. P1 complete. Executing Phase 2 via Forge.",
-      "status": "done",
-      "priority": "medium",
-      "type": "tkt",
-      "createdAt": "2026-05-23T00:59:00.000Z",
-      "notionPageId": "369c1829-53ff-8190-9da6-c2a434f995c9",
-      "url": "https://www.notion.so/TKT-0255-Groomed-19:34-AEST.-P1-complete.-Executing-Phase-2-via-Forge.-369c182953ff81909da6c2a434f995c9"
-    },
-    {
-      "id": "TKT-0256",
-      "sequence": 0,
-      "title": "[TKT-0256] Groomed 19:42 AEST. Executing via Forge.",
-      "status": "done",
-      "priority": "medium",
-      "type": "tkt",
-      "createdAt": "2026-05-23T00:59:00.000Z",
-      "notionPageId": "369c1829-53ff-813c-820b-e2fa55211a9b",
-      "url": "https://www.notion.so/TKT-0256-Groomed-19:42-AEST.-Executing-via-Forge.-369c182953ff813c820be2fa55211a9b"
-    },
-    {
-      "id": "TKT-0257",
-      "sequence": 0,
-      "title": "[TKT-0257] Groomed 19:47 AEST. Executing via Forge.",
-      "status": "done",
-      "priority": "medium",
-      "type": "tkt",
-      "createdAt": "2026-05-23T00:59:00.000Z",
-      "notionPageId": "369c1829-53ff-8160-9e1b-c1dc2600139f",
-      "url": "https://www.notion.so/TKT-0257-Groomed-19:47-AEST.-Executing-via-Forge.-369c182953ff81609e1bc1dc2600139f"
-    },
-    {
-      "id": "TKT-0258",
-      "sequence": 0,
-      "title": "[TKT-0258] Groomed 19:51 AEST. Executing via Forge.",
-      "status": "done",
-      "priority": "medium",
-      "type": "tkt",
-      "createdAt": "2026-05-23T00:59:00.000Z",
-      "notionPageId": "369c1829-53ff-816f-966f-cab623e5b6d7",
-      "url": "https://www.notion.so/TKT-0258-Groomed-19:51-AEST.-Executing-via-Forge.-369c182953ff816f966fcab623e5b6d7"
-    },
-    {
-      "id": "TKT-0259",
-      "sequence": 0,
-      "title": "[TKT-0259] Groomed 19:54 AEST. Executing via Forge.",
-      "status": "done",
-      "priority": "medium",
-      "type": "tkt",
-      "createdAt": "2026-05-23T00:59:00.000Z",
-      "notionPageId": "369c1829-53ff-81aa-918d-f8406f8192d1",
-      "url": "https://www.notion.so/TKT-0259-Groomed-19:54-AEST.-Executing-via-Forge.-369c182953ff81aa918df8406f8192d1"
-    },
-    {
-      "id": "TKT-0260",
-      "sequence": 0,
-      "title": "[TKT-0260] Groomed 19:57 AEST. Phase 2 complete. Executing Phase 3 via Forge.",
-      "status": "done",
-      "priority": "medium",
-      "type": "tkt",
-      "createdAt": "2026-05-23T01:00:00.000Z",
-      "notionPageId": "369c1829-53ff-81ae-835f-fd1579da155b",
-      "url": "https://www.notion.so/TKT-0260-Groomed-19:57-AEST.-Phase-2-complete.-Executing-Phase-3-via-Forge.-369c182953ff81ae835ffd1579da155b"
-    },
-    {
-      "id": "TKT-0261",
-      "sequence": 0,
-      "title": "[TKT-0261] Groomed 20:09 AEST. Phase 3 complete. OWL reset \u2014 atoms planned, verified atomically. Executing Phase 4 via Forge.",
-      "status": "done",
-      "priority": "medium",
-      "type": "tkt",
-      "createdAt": "2026-05-23T01:00:00.000Z",
-      "notionPageId": "369c1829-53ff-81c1-b20a-dcc1e4d54d01",
-      "url": "https://www.notion.so/TKT-0261-Groomed-20:09-AEST.-Phase-3-complete.-OWL-reset-\u2014-atoms-planned,-verified-atomically.-Executing-Phase-4-via-Forge.-369c182953ff81c1b20adcc1e4d54d01"
-    },
-    {
-      "id": "TKT-0262",
-      "sequence": 0,
-      "title": "[TKT-0262] Groomed 20:16 AEST. OWL enforced \u2014 4 atoms planned, one at a time. Executing via Forge.",
-      "status": "done",
-      "priority": "medium",
-      "type": "tkt",
-      "createdAt": "2026-05-23T01:00:00.000Z",
-      "notionPageId": "369c1829-53ff-81ce-a3ea-f5dafb105c33",
-      "url": "https://www.notion.so/TKT-0262-Groomed-20:16-AEST.-OWL-enforced-\u2014-4-atoms-planned,-one-at-a-time.-Executing-via-Forge.-369c182953ff81cea3eaf5dafb105c33"
-    },
-    {
-      "id": "TKT-0266",
-      "sequence": 0,
-      "title": "[TKT-0266] PG dual-write test",
-      "status": "backlog",
-      "priority": "medium",
-      "type": "tkt",
-      "createdAt": "2026-05-25T03:50:00.000Z",
-      "notionPageId": "36bc1829-53ff-8198-842e-fc8aaa5f547b",
-      "url": "https://www.notion.so/TKT-0266-PG-dual-write-test-36bc182953ff8198842efc8aaa5f547b"
-    },
-    {
-      "id": "TKT-0238",
-      "sequence": 0,
-      "title": "[TKT-0238] Systemic cron date calculation drift \u2014 standup/blog/LinkedIn missing deliveries",
-      "status": "open",
-      "priority": "medium",
-      "type": "tkt",
-      "createdAt": "2026-05-22T18:00:00.000Z",
-      "notionPageId": "368c1829-53ff-81ae-b28b-e71ea3ecfd88",
-      "url": "https://www.notion.so/TKT-0238-Systemic-cron-date-calculation-drift-\u2014-standup/blog/LinkedIn-missing-deliveries-368c182953ff81aeb28be71ea3ecfd88"
-    },
-    {
-      "id": "TKT-0241",
-      "sequence": 0,
-      "title": "[TKT-0241] Sonnet Review Tier \u2014 quality gate for content correctness verification",
-      "status": "open",
-      "priority": "medium",
-      "type": "tkt",
-      "createdAt": "2026-05-22T18:00:00.000Z",
-      "notionPageId": "368c1829-53ff-814b-bc4d-c363500d2bef",
-      "url": "https://www.notion.so/TKT-0241-Sonnet-Review-Tier-\u2014-quality-gate-for-content-correctness-verification-368c182953ff814bbc4dc363500d2bef"
-    },
-    {
-      "id": "TKT-0252",
-      "sequence": 0,
-      "title": "[TKT-0254] Groomed 19:27 AEST. TKT-0252 + TKT-0253 complete. Executing via Forge.",
-      "status": "done",
-      "priority": "medium",
-      "type": "tkt",
-      "createdAt": "2026-05-23T00:59:00.000Z",
-      "notionPageId": "369c1829-53ff-8147-8e2b-f8cdf4f78433",
-      "url": "https://www.notion.so/TKT-0254-Groomed-19:27-AEST.-TKT-0252-+-TKT-0253-complete.-Executing-via-Forge.-369c182953ff81478e2bf8cdf4f78433"
-    },
-    {
-      "id": "TKT-0253",
-      "sequence": 0,
-      "title": "[TKT-0254] Groomed 19:27 AEST. TKT-0252 + TKT-0253 complete. Executing via Forge.",
-      "status": "done",
-      "priority": "medium",
-      "type": "tkt",
-      "createdAt": "2026-05-23T00:59:00.000Z",
-      "notionPageId": "369c1829-53ff-8147-8e2b-f8cdf4f78433",
-      "url": "https://www.notion.so/TKT-0254-Groomed-19:27-AEST.-TKT-0252-+-TKT-0253-complete.-Executing-via-Forge.-369c182953ff81478e2bf8cdf4f78433"
-    },
-    {
-      "id": "TKT-0254",
-      "sequence": 0,
-      "title": "[TKT-0254] Groomed 19:27 AEST. TKT-0252 + TKT-0253 complete. Executing via Forge.",
-      "status": "done",
-      "priority": "medium",
-      "type": "tkt",
-      "createdAt": "2026-05-23T00:59:00.000Z",
-      "notionPageId": "369c1829-53ff-8147-8e2b-f8cdf4f78433",
-      "url": "https://www.notion.so/TKT-0254-Groomed-19:27-AEST.-TKT-0252-+-TKT-0253-complete.-Executing-via-Forge.-369c182953ff81478e2bf8cdf4f78433"
-    },
-    {
-      "id": "TKT-0255",
-      "sequence": 0,
-      "title": "[TKT-0255] Groomed 19:34 AEST. P1 complete. Executing Phase 2 via Forge.",
-      "status": "done",
-      "priority": "medium",
-      "type": "tkt",
-      "createdAt": "2026-05-23T00:59:00.000Z",
-      "notionPageId": "369c1829-53ff-8190-9da6-c2a434f995c9",
-      "url": "https://www.notion.so/TKT-0255-Groomed-19:34-AEST.-P1-complete.-Executing-Phase-2-via-Forge.-369c182953ff81909da6c2a434f995c9"
-    },
-    {
-      "id": "TKT-0256",
-      "sequence": 0,
-      "title": "[TKT-0256] Groomed 19:42 AEST. Executing via Forge.",
-      "status": "done",
-      "priority": "medium",
-      "type": "tkt",
-      "createdAt": "2026-05-23T00:59:00.000Z",
-      "notionPageId": "369c1829-53ff-813c-820b-e2fa55211a9b",
-      "url": "https://www.notion.so/TKT-0256-Groomed-19:42-AEST.-Executing-via-Forge.-369c182953ff813c820be2fa55211a9b"
-    },
-    {
-      "id": "TKT-0257",
-      "sequence": 0,
-      "title": "[TKT-0257] Groomed 19:47 AEST. Executing via Forge.",
-      "status": "done",
-      "priority": "medium",
-      "type": "tkt",
-      "createdAt": "2026-05-23T00:59:00.000Z",
-      "notionPageId": "369c1829-53ff-8160-9e1b-c1dc2600139f",
-      "url": "https://www.notion.so/TKT-0257-Groomed-19:47-AEST.-Executing-via-Forge.-369c182953ff81609e1bc1dc2600139f"
-    },
-    {
-      "id": "TKT-0258",
-      "sequence": 0,
-      "title": "[TKT-0258] Groomed 19:51 AEST. Executing via Forge.",
-      "status": "done",
-      "priority": "medium",
-      "type": "tkt",
-      "createdAt": "2026-05-23T00:59:00.000Z",
-      "notionPageId": "369c1829-53ff-816f-966f-cab623e5b6d7",
-      "url": "https://www.notion.so/TKT-0258-Groomed-19:51-AEST.-Executing-via-Forge.-369c182953ff816f966fcab623e5b6d7"
-    },
-    {
-      "id": "TKT-0259",
-      "sequence": 0,
-      "title": "[TKT-0259] Groomed 19:54 AEST. Executing via Forge.",
-      "status": "done",
-      "priority": "medium",
-      "type": "tkt",
-      "createdAt": "2026-05-23T00:59:00.000Z",
-      "notionPageId": "369c1829-53ff-81aa-918d-f8406f8192d1",
-      "url": "https://www.notion.so/TKT-0259-Groomed-19:54-AEST.-Executing-via-Forge.-369c182953ff81aa918df8406f8192d1"
-    },
-    {
-      "id": "TKT-0260",
-      "sequence": 0,
-      "title": "[TKT-0260] Groomed 19:57 AEST. Phase 2 complete. Executing Phase 3 via Forge.",
-      "status": "done",
-      "priority": "medium",
-      "type": "tkt",
-      "createdAt": "2026-05-23T01:00:00.000Z",
-      "notionPageId": "369c1829-53ff-81ae-835f-fd1579da155b",
-      "url": "https://www.notion.so/TKT-0260-Groomed-19:57-AEST.-Phase-2-complete.-Executing-Phase-3-via-Forge.-369c182953ff81ae835ffd1579da155b"
-    },
-    {
-      "id": "TKT-0261",
-      "sequence": 0,
-      "title": "[TKT-0261] Groomed 20:09 AEST. Phase 3 complete. OWL reset \u2014 atoms planned, verified atomically. Executing Phase 4 via Forge.",
-      "status": "done",
-      "priority": "medium",
-      "type": "tkt",
-      "createdAt": "2026-05-23T01:00:00.000Z",
-      "notionPageId": "369c1829-53ff-81c1-b20a-dcc1e4d54d01",
-      "url": "https://www.notion.so/TKT-0261-Groomed-20:09-AEST.-Phase-3-complete.-OWL-reset-\u2014-atoms-planned,-verified-atomically.-Executing-Phase-4-via-Forge.-369c182953ff81c1b20adcc1e4d54d01"
-    },
-    {
-      "id": "TKT-0262",
-      "sequence": 0,
-      "title": "[TKT-0262] Groomed 20:16 AEST. OWL enforced \u2014 4 atoms planned, one at a time. Executing via Forge.",
-      "status": "done",
-      "priority": "medium",
-      "type": "tkt",
-      "createdAt": "2026-05-23T01:00:00.000Z",
-      "notionPageId": "369c1829-53ff-81ce-a3ea-f5dafb105c33",
-      "url": "https://www.notion.so/TKT-0262-Groomed-20:16-AEST.-OWL-enforced-\u2014-4-atoms-planned,-one-at-a-time.-Executing-via-Forge.-369c182953ff81cea3eaf5dafb105c33"
-    },
-    {
-      "id": "TKT-0266",
-      "sequence": 0,
-      "title": "[TKT-0266] PG dual-write test",
-      "status": "backlog",
-      "priority": "medium",
-      "type": "tkt",
-      "createdAt": "2026-05-25T03:50:00.000Z",
-      "notionPageId": "36bc1829-53ff-8198-842e-fc8aaa5f547b",
-      "url": "https://www.notion.so/TKT-0266-PG-dual-write-test-36bc182953ff8198842efc8aaa5f547b"
-    },
-    {
-      "id": "TKT-0238",
-      "sequence": 0,
-      "title": "[TKT-0238] Systemic cron date calculation drift \u2014 standup/blog/LinkedIn missing deliveries",
-      "status": "open",
-      "priority": "medium",
-      "type": "tkt",
-      "createdAt": "2026-05-22T18:00:00.000Z",
-      "notionPageId": "368c1829-53ff-81ae-b28b-e71ea3ecfd88",
-      "url": "https://www.notion.so/TKT-0238-Systemic-cron-date-calculation-drift-\u2014-standup/blog/LinkedIn-missing-deliveries-368c182953ff81aeb28be71ea3ecfd88"
-    },
-    {
-      "id": "TKT-0241",
-      "sequence": 0,
-      "title": "[TKT-0241] Sonnet Review Tier \u2014 quality gate for content correctness verification",
-      "status": "open",
-      "priority": "medium",
-      "type": "tkt",
-      "createdAt": "2026-05-22T18:00:00.000Z",
-      "notionPageId": "368c1829-53ff-814b-bc4d-c363500d2bef",
-      "url": "https://www.notion.so/TKT-0241-Sonnet-Review-Tier-\u2014-quality-gate-for-content-correctness-verification-368c182953ff814bbc4dc363500d2bef"
-    },
-    {
-      "id": "TKT-0252",
-      "sequence": 0,
-      "title": "[TKT-0254] Groomed 19:27 AEST. TKT-0252 + TKT-0253 complete. Executing via Forge.",
-      "status": "done",
-      "priority": "medium",
-      "type": "tkt",
-      "createdAt": "2026-05-23T00:59:00.000Z",
-      "notionPageId": "369c1829-53ff-8147-8e2b-f8cdf4f78433",
-      "url": "https://www.notion.so/TKT-0254-Groomed-19:27-AEST.-TKT-0252-+-TKT-0253-complete.-Executing-via-Forge.-369c182953ff81478e2bf8cdf4f78433"
-    },
-    {
-      "id": "TKT-0253",
-      "sequence": 0,
-      "title": "[TKT-0254] Groomed 19:27 AEST. TKT-0252 + TKT-0253 complete. Executing via Forge.",
-      "status": "done",
-      "priority": "medium",
-      "type": "tkt",
-      "createdAt": "2026-05-23T00:59:00.000Z",
-      "notionPageId": "369c1829-53ff-8147-8e2b-f8cdf4f78433",
-      "url": "https://www.notion.so/TKT-0254-Groomed-19:27-AEST.-TKT-0252-+-TKT-0253-complete.-Executing-via-Forge.-369c182953ff81478e2bf8cdf4f78433"
-    },
-    {
-      "id": "TKT-0254",
-      "sequence": 0,
-      "title": "[TKT-0254] Groomed 19:27 AEST. TKT-0252 + TKT-0253 complete. Executing via Forge.",
-      "status": "done",
-      "priority": "medium",
-      "type": "tkt",
-      "createdAt": "2026-05-23T00:59:00.000Z",
-      "notionPageId": "369c1829-53ff-8147-8e2b-f8cdf4f78433",
-      "url": "https://www.notion.so/TKT-0254-Groomed-19:27-AEST.-TKT-0252-+-TKT-0253-complete.-Executing-via-Forge.-369c182953ff81478e2bf8cdf4f78433"
-    },
-    {
-      "id": "TKT-0255",
-      "sequence": 0,
-      "title": "[TKT-0255] Groomed 19:34 AEST. P1 complete. Executing Phase 2 via Forge.",
-      "status": "done",
-      "priority": "medium",
-      "type": "tkt",
-      "createdAt": "2026-05-23T00:59:00.000Z",
-      "notionPageId": "369c1829-53ff-8190-9da6-c2a434f995c9",
-      "url": "https://www.notion.so/TKT-0255-Groomed-19:34-AEST.-P1-complete.-Executing-Phase-2-via-Forge.-369c182953ff81909da6c2a434f995c9"
-    },
-    {
-      "id": "TKT-0256",
-      "sequence": 0,
-      "title": "[TKT-0256] Groomed 19:42 AEST. Executing via Forge.",
-      "status": "done",
-      "priority": "medium",
-      "type": "tkt",
-      "createdAt": "2026-05-23T00:59:00.000Z",
-      "notionPageId": "369c1829-53ff-813c-820b-e2fa55211a9b",
-      "url": "https://www.notion.so/TKT-0256-Groomed-19:42-AEST.-Executing-via-Forge.-369c182953ff813c820be2fa55211a9b"
-    },
-    {
-      "id": "TKT-0257",
-      "sequence": 0,
-      "title": "[TKT-0257] Groomed 19:47 AEST. Executing via Forge.",
-      "status": "done",
-      "priority": "medium",
-      "type": "tkt",
-      "createdAt": "2026-05-23T00:59:00.000Z",
-      "notionPageId": "369c1829-53ff-8160-9e1b-c1dc2600139f",
-      "url": "https://www.notion.so/TKT-0257-Groomed-19:47-AEST.-Executing-via-Forge.-369c182953ff81609e1bc1dc2600139f"
-    },
-    {
-      "id": "TKT-0258",
-      "sequence": 0,
-      "title": "[TKT-0258] Groomed 19:51 AEST. Executing via Forge.",
-      "status": "done",
-      "priority": "medium",
-      "type": "tkt",
-      "createdAt": "2026-05-23T00:59:00.000Z",
-      "notionPageId": "369c1829-53ff-816f-966f-cab623e5b6d7",
-      "url": "https://www.notion.so/TKT-0258-Groomed-19:51-AEST.-Executing-via-Forge.-369c182953ff816f966fcab623e5b6d7"
-    },
-    {
-      "id": "TKT-0259",
-      "sequence": 0,
-      "title": "[TKT-0259] Groomed 19:54 AEST. Executing via Forge.",
-      "status": "done",
-      "priority": "medium",
-      "type": "tkt",
-      "createdAt": "2026-05-23T00:59:00.000Z",
-      "notionPageId": "369c1829-53ff-81aa-918d-f8406f8192d1",
-      "url": "https://www.notion.so/TKT-0259-Groomed-19:54-AEST.-Executing-via-Forge.-369c182953ff81aa918df8406f8192d1"
-    },
-    {
-      "id": "TKT-0260",
-      "sequence": 0,
-      "title": "[TKT-0260] Groomed 19:57 AEST. Phase 2 complete. Executing Phase 3 via Forge.",
-      "status": "done",
-      "priority": "medium",
-      "type": "tkt",
-      "createdAt": "2026-05-23T01:00:00.000Z",
-      "notionPageId": "369c1829-53ff-81ae-835f-fd1579da155b",
-      "url": "https://www.notion.so/TKT-0260-Groomed-19:57-AEST.-Phase-2-complete.-Executing-Phase-3-via-Forge.-369c182953ff81ae835ffd1579da155b"
-    },
-    {
-      "id": "TKT-0261",
-      "sequence": 0,
-      "title": "[TKT-0261] Groomed 20:09 AEST. Phase 3 complete. OWL reset \u2014 atoms planned, verified atomically. Executing Phase 4 via Forge.",
-      "status": "done",
-      "priority": "medium",
-      "type": "tkt",
-      "createdAt": "2026-05-23T01:00:00.000Z",
-      "notionPageId": "369c1829-53ff-81c1-b20a-dcc1e4d54d01",
-      "url": "https://www.notion.so/TKT-0261-Groomed-20:09-AEST.-Phase-3-complete.-OWL-reset-\u2014-atoms-planned,-verified-atomically.-Executing-Phase-4-via-Forge.-369c182953ff81c1b20adcc1e4d54d01"
-    },
-    {
-      "id": "TKT-0262",
-      "sequence": 0,
-      "title": "[TKT-0262] Groomed 20:16 AEST. OWL enforced \u2014 4 atoms planned, one at a time. Executing via Forge.",
-      "status": "done",
-      "priority": "medium",
-      "type": "tkt",
-      "createdAt": "2026-05-23T01:00:00.000Z",
-      "notionPageId": "369c1829-53ff-81ce-a3ea-f5dafb105c33",
-      "url": "https://www.notion.so/TKT-0262-Groomed-20:16-AEST.-OWL-enforced-\u2014-4-atoms-planned,-one-at-a-time.-Executing-via-Forge.-369c182953ff81cea3eaf5dafb105c33"
-    },
-    {
-      "id": "TKT-0266",
-      "sequence": 0,
-      "title": "[TKT-0266] PG dual-write test",
-      "status": "backlog",
-      "priority": "medium",
-      "type": "tkt",
-      "createdAt": "2026-05-25T03:50:00.000Z",
-      "notionPageId": "36bc1829-53ff-8198-842e-fc8aaa5f547b",
-      "url": "https://www.notion.so/TKT-0266-PG-dual-write-test-36bc182953ff8198842efc8aaa5f547b"
-    },
-    {
-      "id": "TKT-0238",
-      "sequence": 0,
-      "title": "[TKT-0238] Systemic cron date calculation drift \u2014 standup/blog/LinkedIn missing deliveries",
-      "status": "open",
-      "priority": "medium",
-      "type": "tkt",
-      "createdAt": "2026-05-22T18:00:00.000Z",
-      "notionPageId": "368c1829-53ff-81ae-b28b-e71ea3ecfd88",
-      "url": "https://www.notion.so/TKT-0238-Systemic-cron-date-calculation-drift-\u2014-standup/blog/LinkedIn-missing-deliveries-368c182953ff81aeb28be71ea3ecfd88"
-    },
-    {
-      "id": "TKT-0241",
-      "sequence": 0,
-      "title": "[TKT-0241] Sonnet Review Tier \u2014 quality gate for content correctness verification",
-      "status": "open",
-      "priority": "medium",
-      "type": "tkt",
-      "createdAt": "2026-05-22T18:00:00.000Z",
-      "notionPageId": "368c1829-53ff-814b-bc4d-c363500d2bef",
-      "url": "https://www.notion.so/TKT-0241-Sonnet-Review-Tier-\u2014-quality-gate-for-content-correctness-verification-368c182953ff814bbc4dc363500d2bef"
-    },
-    {
-      "id": "TKT-0252",
-      "sequence": 0,
-      "title": "[TKT-0254] Groomed 19:27 AEST. TKT-0252 + TKT-0253 complete. Executing via Forge.",
-      "status": "done",
-      "priority": "medium",
-      "type": "tkt",
-      "createdAt": "2026-05-23T00:59:00.000Z",
-      "notionPageId": "369c1829-53ff-8147-8e2b-f8cdf4f78433",
-      "url": "https://www.notion.so/TKT-0254-Groomed-19:27-AEST.-TKT-0252-+-TKT-0253-complete.-Executing-via-Forge.-369c182953ff81478e2bf8cdf4f78433"
-    },
-    {
-      "id": "TKT-0253",
-      "sequence": 0,
-      "title": "[TKT-0254] Groomed 19:27 AEST. TKT-0252 + TKT-0253 complete. Executing via Forge.",
-      "status": "done",
-      "priority": "medium",
-      "type": "tkt",
-      "createdAt": "2026-05-23T00:59:00.000Z",
-      "notionPageId": "369c1829-53ff-8147-8e2b-f8cdf4f78433",
-      "url": "https://www.notion.so/TKT-0254-Groomed-19:27-AEST.-TKT-0252-+-TKT-0253-complete.-Executing-via-Forge.-369c182953ff81478e2bf8cdf4f78433"
-    },
-    {
-      "id": "TKT-0254",
-      "sequence": 0,
-      "title": "[TKT-0254] Groomed 19:27 AEST. TKT-0252 + TKT-0253 complete. Executing via Forge.",
-      "status": "done",
-      "priority": "medium",
-      "type": "tkt",
-      "createdAt": "2026-05-23T00:59:00.000Z",
-      "notionPageId": "369c1829-53ff-8147-8e2b-f8cdf4f78433",
-      "url": "https://www.notion.so/TKT-0254-Groomed-19:27-AEST.-TKT-0252-+-TKT-0253-complete.-Executing-via-Forge.-369c182953ff81478e2bf8cdf4f78433"
-    },
-    {
-      "id": "TKT-0255",
-      "sequence": 0,
-      "title": "[TKT-0255] Groomed 19:34 AEST. P1 complete. Executing Phase 2 via Forge.",
-      "status": "done",
-      "priority": "medium",
-      "type": "tkt",
-      "createdAt": "2026-05-23T00:59:00.000Z",
-      "notionPageId": "369c1829-53ff-8190-9da6-c2a434f995c9",
-      "url": "https://www.notion.so/TKT-0255-Groomed-19:34-AEST.-P1-complete.-Executing-Phase-2-via-Forge.-369c182953ff81909da6c2a434f995c9"
-    },
-    {
-      "id": "TKT-0256",
-      "sequence": 0,
-      "title": "[TKT-0256] Groomed 19:42 AEST. Executing via Forge.",
-      "status": "done",
-      "priority": "medium",
-      "type": "tkt",
-      "createdAt": "2026-05-23T00:59:00.000Z",
-      "notionPageId": "369c1829-53ff-813c-820b-e2fa55211a9b",
-      "url": "https://www.notion.so/TKT-0256-Groomed-19:42-AEST.-Executing-via-Forge.-369c182953ff813c820be2fa55211a9b"
-    },
-    {
-      "id": "TKT-0257",
-      "sequence": 0,
-      "title": "[TKT-0257] Groomed 19:47 AEST. Executing via Forge.",
-      "status": "done",
-      "priority": "medium",
-      "type": "tkt",
-      "createdAt": "2026-05-23T00:59:00.000Z",
-      "notionPageId": "369c1829-53ff-8160-9e1b-c1dc2600139f",
-      "url": "https://www.notion.so/TKT-0257-Groomed-19:47-AEST.-Executing-via-Forge.-369c182953ff81609e1bc1dc2600139f"
-    },
-    {
-      "id": "TKT-0258",
-      "sequence": 0,
-      "title": "[TKT-0258] Groomed 19:51 AEST. Executing via Forge.",
-      "status": "done",
-      "priority": "medium",
-      "type": "tkt",
-      "createdAt": "2026-05-23T00:59:00.000Z",
-      "notionPageId": "369c1829-53ff-816f-966f-cab623e5b6d7",
-      "url": "https://www.notion.so/TKT-0258-Groomed-19:51-AEST.-Executing-via-Forge.-369c182953ff816f966fcab623e5b6d7"
-    },
-    {
-      "id": "TKT-0259",
-      "sequence": 0,
-      "title": "[TKT-0259] Groomed 19:54 AEST. Executing via Forge.",
-      "status": "done",
-      "priority": "medium",
-      "type": "tkt",
-      "createdAt": "2026-05-23T00:59:00.000Z",
-      "notionPageId": "369c1829-53ff-81aa-918d-f8406f8192d1",
-      "url": "https://www.notion.so/TKT-0259-Groomed-19:54-AEST.-Executing-via-Forge.-369c182953ff81aa918df8406f8192d1"
-    },
-    {
-      "id": "TKT-0260",
-      "sequence": 0,
-      "title": "[TKT-0260] Groomed 19:57 AEST. Phase 2 complete. Executing Phase 3 via Forge.",
-      "status": "done",
-      "priority": "medium",
-      "type": "tkt",
-      "createdAt": "2026-05-23T01:00:00.000Z",
-      "notionPageId": "369c1829-53ff-81ae-835f-fd1579da155b",
-      "url": "https://www.notion.so/TKT-0260-Groomed-19:57-AEST.-Phase-2-complete.-Executing-Phase-3-via-Forge.-369c182953ff81ae835ffd1579da155b"
-    },
-    {
-      "id": "TKT-0261",
-      "sequence": 0,
-      "title": "[TKT-0261] Groomed 20:09 AEST. Phase 3 complete. OWL reset \u2014 atoms planned, verified atomically. Executing Phase 4 via Forge.",
-      "status": "done",
-      "priority": "medium",
-      "type": "tkt",
-      "createdAt": "2026-05-23T01:00:00.000Z",
-      "notionPageId": "369c1829-53ff-81c1-b20a-dcc1e4d54d01",
-      "url": "https://www.notion.so/TKT-0261-Groomed-20:09-AEST.-Phase-3-complete.-OWL-reset-\u2014-atoms-planned,-verified-atomically.-Executing-Phase-4-via-Forge.-369c182953ff81c1b20adcc1e4d54d01"
-    },
-    {
-      "id": "TKT-0262",
-      "sequence": 0,
-      "title": "[TKT-0262] Groomed 20:16 AEST. OWL enforced \u2014 4 atoms planned, one at a time. Executing via Forge.",
-      "status": "done",
-      "priority": "medium",
-      "type": "tkt",
-      "createdAt": "2026-05-23T01:00:00.000Z",
-      "notionPageId": "369c1829-53ff-81ce-a3ea-f5dafb105c33",
-      "url": "https://www.notion.so/TKT-0262-Groomed-20:16-AEST.-OWL-enforced-\u2014-4-atoms-planned,-one-at-a-time.-Executing-via-Forge.-369c182953ff81cea3eaf5dafb105c33"
-    },
-    {
-      "id": "TKT-0266",
-      "sequence": 0,
-      "title": "[TKT-0266] PG dual-write test",
-      "status": "backlog",
-      "priority": "medium",
-      "type": "tkt",
-      "createdAt": "2026-05-25T03:50:00.000Z",
-      "notionPageId": "36bc1829-53ff-8198-842e-fc8aaa5f547b",
-      "url": "https://www.notion.so/TKT-0266-PG-dual-write-test-36bc182953ff8198842efc8aaa5f547b"
-    },
-    {
-      "id": "TKT-0238",
-      "sequence": 0,
-      "title": "[TKT-0238] Systemic cron date calculation drift \u2014 standup/blog/LinkedIn missing deliveries",
-      "status": "open",
-      "priority": "medium",
-      "type": "tkt",
-      "createdAt": "2026-05-22T18:00:00.000Z",
-      "notionPageId": "368c1829-53ff-81ae-b28b-e71ea3ecfd88",
-      "url": "https://www.notion.so/TKT-0238-Systemic-cron-date-calculation-drift-\u2014-standup/blog/LinkedIn-missing-deliveries-368c182953ff81aeb28be71ea3ecfd88"
-    },
-    {
-      "id": "TKT-0241",
-      "sequence": 0,
-      "title": "[TKT-0241] Sonnet Review Tier \u2014 quality gate for content correctness verification",
-      "status": "open",
-      "priority": "medium",
-      "type": "tkt",
-      "createdAt": "2026-05-22T18:00:00.000Z",
-      "notionPageId": "368c1829-53ff-814b-bc4d-c363500d2bef",
-      "url": "https://www.notion.so/TKT-0241-Sonnet-Review-Tier-\u2014-quality-gate-for-content-correctness-verification-368c182953ff814bbc4dc363500d2bef"
-    },
-    {
-      "id": "TKT-0252",
-      "sequence": 0,
-      "title": "[TKT-0254] Groomed 19:27 AEST. TKT-0252 + TKT-0253 complete. Executing via Forge.",
-      "status": "done",
-      "priority": "medium",
-      "type": "tkt",
-      "createdAt": "2026-05-23T00:59:00.000Z",
-      "notionPageId": "369c1829-53ff-8147-8e2b-f8cdf4f78433",
-      "url": "https://www.notion.so/TKT-0254-Groomed-19:27-AEST.-TKT-0252-+-TKT-0253-complete.-Executing-via-Forge.-369c182953ff81478e2bf8cdf4f78433"
-    },
-    {
-      "id": "TKT-0253",
-      "sequence": 0,
-      "title": "[TKT-0254] Groomed 19:27 AEST. TKT-0252 + TKT-0253 complete. Executing via Forge.",
-      "status": "done",
-      "priority": "medium",
-      "type": "tkt",
-      "createdAt": "2026-05-23T00:59:00.000Z",
-      "notionPageId": "369c1829-53ff-8147-8e2b-f8cdf4f78433",
-      "url": "https://www.notion.so/TKT-0254-Groomed-19:27-AEST.-TKT-0252-+-TKT-0253-complete.-Executing-via-Forge.-369c182953ff81478e2bf8cdf4f78433"
-    },
-    {
-      "id": "TKT-0254",
-      "sequence": 0,
-      "title": "[TKT-0254] Groomed 19:27 AEST. TKT-0252 + TKT-0253 complete. Executing via Forge.",
-      "status": "done",
-      "priority": "medium",
-      "type": "tkt",
-      "createdAt": "2026-05-23T00:59:00.000Z",
-      "notionPageId": "369c1829-53ff-8147-8e2b-f8cdf4f78433",
-      "url": "https://www.notion.so/TKT-0254-Groomed-19:27-AEST.-TKT-0252-+-TKT-0253-complete.-Executing-via-Forge.-369c182953ff81478e2bf8cdf4f78433"
-    },
-    {
-      "id": "TKT-0255",
-      "sequence": 0,
-      "title": "[TKT-0255] Groomed 19:34 AEST. P1 complete. Executing Phase 2 via Forge.",
-      "status": "done",
-      "priority": "medium",
-      "type": "tkt",
-      "createdAt": "2026-05-23T00:59:00.000Z",
-      "notionPageId": "369c1829-53ff-8190-9da6-c2a434f995c9",
-      "url": "https://www.notion.so/TKT-0255-Groomed-19:34-AEST.-P1-complete.-Executing-Phase-2-via-Forge.-369c182953ff81909da6c2a434f995c9"
-    },
-    {
-      "id": "TKT-0256",
-      "sequence": 0,
-      "title": "[TKT-0256] Groomed 19:42 AEST. Executing via Forge.",
-      "status": "done",
-      "priority": "medium",
-      "type": "tkt",
-      "createdAt": "2026-05-23T00:59:00.000Z",
-      "notionPageId": "369c1829-53ff-813c-820b-e2fa55211a9b",
-      "url": "https://www.notion.so/TKT-0256-Groomed-19:42-AEST.-Executing-via-Forge.-369c182953ff813c820be2fa55211a9b"
-    },
-    {
-      "id": "TKT-0257",
-      "sequence": 0,
-      "title": "[TKT-0257] Groomed 19:47 AEST. Executing via Forge.",
-      "status": "done",
-      "priority": "medium",
-      "type": "tkt",
-      "createdAt": "2026-05-23T00:59:00.000Z",
-      "notionPageId": "369c1829-53ff-8160-9e1b-c1dc2600139f",
-      "url": "https://www.notion.so/TKT-0257-Groomed-19:47-AEST.-Executing-via-Forge.-369c182953ff81609e1bc1dc2600139f"
-    },
-    {
-      "id": "TKT-0258",
-      "sequence": 0,
-      "title": "[TKT-0258] Groomed 19:51 AEST. Executing via Forge.",
-      "status": "done",
-      "priority": "medium",
-      "type": "tkt",
-      "createdAt": "2026-05-23T00:59:00.000Z",
-      "notionPageId": "369c1829-53ff-816f-966f-cab623e5b6d7",
-      "url": "https://www.notion.so/TKT-0258-Groomed-19:51-AEST.-Executing-via-Forge.-369c182953ff816f966fcab623e5b6d7"
-    },
-    {
-      "id": "TKT-0259",
-      "sequence": 0,
-      "title": "[TKT-0259] Groomed 19:54 AEST. Executing via Forge.",
-      "status": "done",
-      "priority": "medium",
-      "type": "tkt",
-      "createdAt": "2026-05-23T00:59:00.000Z",
-      "notionPageId": "369c1829-53ff-81aa-918d-f8406f8192d1",
-      "url": "https://www.notion.so/TKT-0259-Groomed-19:54-AEST.-Executing-via-Forge.-369c182953ff81aa918df8406f8192d1"
-    },
-    {
-      "id": "TKT-0260",
-      "sequence": 0,
-      "title": "[TKT-0260] Groomed 19:57 AEST. Phase 2 complete. Executing Phase 3 via Forge.",
-      "status": "done",
-      "priority": "medium",
-      "type": "tkt",
-      "createdAt": "2026-05-23T01:00:00.000Z",
-      "notionPageId": "369c1829-53ff-81ae-835f-fd1579da155b",
-      "url": "https://www.notion.so/TKT-0260-Groomed-19:57-AEST.-Phase-2-complete.-Executing-Phase-3-via-Forge.-369c182953ff81ae835ffd1579da155b"
-    },
-    {
-      "id": "TKT-0261",
-      "sequence": 0,
-      "title": "[TKT-0261] Groomed 20:09 AEST. Phase 3 complete. OWL reset \u2014 atoms planned, verified atomically. Executing Phase 4 via Forge.",
-      "status": "done",
-      "priority": "medium",
-      "type": "tkt",
-      "createdAt": "2026-05-23T01:00:00.000Z",
-      "notionPageId": "369c1829-53ff-81c1-b20a-dcc1e4d54d01",
-      "url": "https://www.notion.so/TKT-0261-Groomed-20:09-AEST.-Phase-3-complete.-OWL-reset-\u2014-atoms-planned,-verified-atomically.-Executing-Phase-4-via-Forge.-369c182953ff81c1b20adcc1e4d54d01"
-    },
-    {
-      "id": "TKT-0262",
-      "sequence": 0,
-      "title": "[TKT-0262] Groomed 20:16 AEST. OWL enforced \u2014 4 atoms planned, one at a time. Executing via Forge.",
-      "status": "done",
-      "priority": "medium",
-      "type": "tkt",
-      "createdAt": "2026-05-23T01:00:00.000Z",
-      "notionPageId": "369c1829-53ff-81ce-a3ea-f5dafb105c33",
-      "url": "https://www.notion.so/TKT-0262-Groomed-20:16-AEST.-OWL-enforced-\u2014-4-atoms-planned,-one-at-a-time.-Executing-via-Forge.-369c182953ff81cea3eaf5dafb105c33"
-    },
-    {
-      "id": "TKT-0266",
-      "sequence": 0,
-      "title": "[TKT-0266] PG dual-write test",
-      "status": "backlog",
-      "priority": "medium",
-      "type": "tkt",
-      "createdAt": "2026-05-25T03:50:00.000Z",
-      "notionPageId": "36bc1829-53ff-8198-842e-fc8aaa5f547b",
-      "url": "https://www.notion.so/TKT-0266-PG-dual-write-test-36bc182953ff8198842efc8aaa5f547b"
-    },
-    {
-      "id": "TKT-0238",
-      "sequence": 0,
-      "title": "[TKT-0238] Systemic cron date calculation drift \u2014 standup/blog/LinkedIn missing deliveries",
-      "status": "open",
-      "priority": "medium",
-      "type": "tkt",
-      "createdAt": "2026-05-22T18:00:00.000Z",
-      "notionPageId": "368c1829-53ff-81ae-b28b-e71ea3ecfd88",
-      "url": "https://www.notion.so/TKT-0238-Systemic-cron-date-calculation-drift-\u2014-standup/blog/LinkedIn-missing-deliveries-368c182953ff81aeb28be71ea3ecfd88"
-    },
-    {
-      "id": "TKT-0241",
-      "sequence": 0,
-      "title": "[TKT-0241] Sonnet Review Tier \u2014 quality gate for content correctness verification",
-      "status": "open",
-      "priority": "medium",
-      "type": "tkt",
-      "createdAt": "2026-05-22T18:00:00.000Z",
-      "notionPageId": "368c1829-53ff-814b-bc4d-c363500d2bef",
-      "url": "https://www.notion.so/TKT-0241-Sonnet-Review-Tier-\u2014-quality-gate-for-content-correctness-verification-368c182953ff814bbc4dc363500d2bef"
-    },
-    {
-      "id": "TKT-0252",
-      "sequence": 0,
-      "title": "[TKT-0254] Groomed 19:27 AEST. TKT-0252 + TKT-0253 complete. Executing via Forge.",
-      "status": "done",
-      "priority": "medium",
-      "type": "tkt",
-      "createdAt": "2026-05-23T00:59:00.000Z",
-      "notionPageId": "369c1829-53ff-8147-8e2b-f8cdf4f78433",
-      "url": "https://www.notion.so/TKT-0254-Groomed-19:27-AEST.-TKT-0252-+-TKT-0253-complete.-Executing-via-Forge.-369c182953ff81478e2bf8cdf4f78433"
-    },
-    {
-      "id": "TKT-0253",
-      "sequence": 0,
-      "title": "[TKT-0254] Groomed 19:27 AEST. TKT-0252 + TKT-0253 complete. Executing via Forge.",
-      "status": "done",
-      "priority": "medium",
-      "type": "tkt",
-      "createdAt": "2026-05-23T00:59:00.000Z",
-      "notionPageId": "369c1829-53ff-8147-8e2b-f8cdf4f78433",
-      "url": "https://www.notion.so/TKT-0254-Groomed-19:27-AEST.-TKT-0252-+-TKT-0253-complete.-Executing-via-Forge.-369c182953ff81478e2bf8cdf4f78433"
-    },
-    {
-      "id": "TKT-0254",
-      "sequence": 0,
-      "title": "[TKT-0254] Groomed 19:27 AEST. TKT-0252 + TKT-0253 complete. Executing via Forge.",
-      "status": "done",
-      "priority": "medium",
-      "type": "tkt",
-      "createdAt": "2026-05-23T00:59:00.000Z",
-      "notionPageId": "369c1829-53ff-8147-8e2b-f8cdf4f78433",
-      "url": "https://www.notion.so/TKT-0254-Groomed-19:27-AEST.-TKT-0252-+-TKT-0253-complete.-Executing-via-Forge.-369c182953ff81478e2bf8cdf4f78433"
-    },
-    {
-      "id": "TKT-0255",
-      "sequence": 0,
-      "title": "[TKT-0255] Groomed 19:34 AEST. P1 complete. Executing Phase 2 via Forge.",
-      "status": "done",
-      "priority": "medium",
-      "type": "tkt",
-      "createdAt": "2026-05-23T00:59:00.000Z",
-      "notionPageId": "369c1829-53ff-8190-9da6-c2a434f995c9",
-      "url": "https://www.notion.so/TKT-0255-Groomed-19:34-AEST.-P1-complete.-Executing-Phase-2-via-Forge.-369c182953ff81909da6c2a434f995c9"
-    },
-    {
-      "id": "TKT-0256",
-      "sequence": 0,
-      "title": "[TKT-0256] Groomed 19:42 AEST. Executing via Forge.",
-      "status": "done",
-      "priority": "medium",
-      "type": "tkt",
-      "createdAt": "2026-05-23T00:59:00.000Z",
-      "notionPageId": "369c1829-53ff-813c-820b-e2fa55211a9b",
-      "url": "https://www.notion.so/TKT-0256-Groomed-19:42-AEST.-Executing-via-Forge.-369c182953ff813c820be2fa55211a9b"
-    },
-    {
-      "id": "TKT-0257",
-      "sequence": 0,
-      "title": "[TKT-0257] Groomed 19:47 AEST. Executing via Forge.",
-      "status": "done",
-      "priority": "medium",
-      "type": "tkt",
-      "createdAt": "2026-05-23T00:59:00.000Z",
-      "notionPageId": "369c1829-53ff-8160-9e1b-c1dc2600139f",
-      "url": "https://www.notion.so/TKT-0257-Groomed-19:47-AEST.-Executing-via-Forge.-369c182953ff81609e1bc1dc2600139f"
-    },
-    {
-      "id": "TKT-0258",
-      "sequence": 0,
-      "title": "[TKT-0258] Groomed 19:51 AEST. Executing via Forge.",
-      "status": "done",
-      "priority": "medium",
-      "type": "tkt",
-      "createdAt": "2026-05-23T00:59:00.000Z",
-      "notionPageId": "369c1829-53ff-816f-966f-cab623e5b6d7",
-      "url": "https://www.notion.so/TKT-0258-Groomed-19:51-AEST.-Executing-via-Forge.-369c182953ff816f966fcab623e5b6d7"
-    },
-    {
-      "id": "TKT-0259",
-      "sequence": 0,
-      "title": "[TKT-0259] Groomed 19:54 AEST. Executing via Forge.",
-      "status": "done",
-      "priority": "medium",
-      "type": "tkt",
-      "createdAt": "2026-05-23T00:59:00.000Z",
-      "notionPageId": "369c1829-53ff-81aa-918d-f8406f8192d1",
-      "url": "https://www.notion.so/TKT-0259-Groomed-19:54-AEST.-Executing-via-Forge.-369c182953ff81aa918df8406f8192d1"
-    },
-    {
-      "id": "TKT-0260",
-      "sequence": 0,
-      "title": "[TKT-0260] Groomed 19:57 AEST. Phase 2 complete. Executing Phase 3 via Forge.",
-      "status": "done",
-      "priority": "medium",
-      "type": "tkt",
-      "createdAt": "2026-05-23T01:00:00.000Z",
-      "notionPageId": "369c1829-53ff-81ae-835f-fd1579da155b",
-      "url": "https://www.notion.so/TKT-0260-Groomed-19:57-AEST.-Phase-2-complete.-Executing-Phase-3-via-Forge.-369c182953ff81ae835ffd1579da155b"
-    },
-    {
-      "id": "TKT-0261",
-      "sequence": 0,
-      "title": "[TKT-0261] Groomed 20:09 AEST. Phase 3 complete. OWL reset \u2014 atoms planned, verified atomically. Executing Phase 4 via Forge.",
-      "status": "done",
-      "priority": "medium",
-      "type": "tkt",
-      "createdAt": "2026-05-23T01:00:00.000Z",
-      "notionPageId": "369c1829-53ff-81c1-b20a-dcc1e4d54d01",
-      "url": "https://www.notion.so/TKT-0261-Groomed-20:09-AEST.-Phase-3-complete.-OWL-reset-\u2014-atoms-planned,-verified-atomically.-Executing-Phase-4-via-Forge.-369c182953ff81c1b20adcc1e4d54d01"
-    },
-    {
-      "id": "TKT-0262",
-      "sequence": 0,
-      "title": "[TKT-0262] Groomed 20:16 AEST. OWL enforced \u2014 4 atoms planned, one at a time. Executing via Forge.",
-      "status": "done",
-      "priority": "medium",
-      "type": "tkt",
-      "createdAt": "2026-05-23T01:00:00.000Z",
-      "notionPageId": "369c1829-53ff-81ce-a3ea-f5dafb105c33",
-      "url": "https://www.notion.so/TKT-0262-Groomed-20:16-AEST.-OWL-enforced-\u2014-4-atoms-planned,-one-at-a-time.-Executing-via-Forge.-369c182953ff81cea3eaf5dafb105c33"
-    },
-    {
-      "id": "TKT-0266",
-      "sequence": 0,
-      "title": "[TKT-0266] PG dual-write test",
-      "status": "backlog",
-      "priority": "medium",
-      "type": "tkt",
-      "createdAt": "2026-05-25T03:50:00.000Z",
-      "notionPageId": "36bc1829-53ff-8198-842e-fc8aaa5f547b",
-      "url": "https://www.notion.so/TKT-0266-PG-dual-write-test-36bc182953ff8198842efc8aaa5f547b"
+      "assignee": "Thrawn",
+      "sequence": "297",
+      "createdAt": "2026-05-25T08:06:00Z",
+      "updated": "2026-05-25T08:06:00Z",
+      "description": "Redesign the AKB Backlog sync from scratch. Current state: spaghetti logic across notion-sync-audit.sh, notion-sync-fix.sh, ticket.sh \u2014 missing/duplicate pages, constant manual cleanup. Ken's SSOT is unreliable. Need clean architecture: single responsibility, idempotent, atomic, zero-drift."
     }
   ],
   "changes": [
