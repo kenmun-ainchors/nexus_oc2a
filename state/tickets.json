@@ -1,7 +1,7 @@
 {
   "schema_version": "1.0",
   "sequence": 292,
-  "lastUpdated": "2026-05-25T07:12:55.436787+00:00",
+  "lastUpdated": "2026-05-25T07:22:14.472272+00:00",
   "source": "notion-akb-backlog-rebuild",
   "ticketCount": 214,
   "changeCount": 250,
@@ -3230,6 +3230,20 @@
       "updated": "2026-05-25T07:12:55.436674+00:00",
       "description": "db-write.sh fails PG writes when callers send fields not in PG column schema. Fix: query PG schema, separate known/unknown columns, merge unknowns into metadata JSONB.",
       "resolution": "Option B: db-write.sh queries PG schema, merges unknowns into metadata JSONB. All 3 test cases pass."
+    },
+    {
+      "id": "TKT-0295",
+      "title": "[TKT-0295] PG Design-to-Implementation Audit \u2014 Atlas + Thrawn Joint Review",
+      "type": "task",
+      "priority": "high",
+      "status": "open",
+      "sprint": "S5",
+      "requester": "Ken",
+      "assignee": "Atlas",
+      "sequence": "295",
+      "createdAt": "2026-05-25T07:21:00Z",
+      "updated": "2026-05-25T07:21:00Z",
+      "description": "Atlas + Thrawn joint audit: PG strategy vs implementation. Review schema, dual-write, db-read/db-write paths, migrations, TQP backend, state checking, fallback chains, data integrity. Deliverable: audit report with findings, gaps, recommendations."
     }
   ],
   "changes": [
