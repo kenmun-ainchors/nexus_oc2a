@@ -305,6 +305,25 @@ Periodically (every few days), use a heartbeat to:
 
 Think of it like a human reviewing their journal and updating their mental model. Daily files are raw notes; MEMORY.md is curated wisdom.
 
+## Journal Discipline — NON-NEGOTIABLE (TKT-0296)
+
+After every meaningful exchange with Ken where a decision, action, or deliverable occurred, append a journal entry inline using `scripts/journal-append.sh`.
+
+**What to journal:** Any exchange where something was decided, built, closed, or changed. Not heartbeats, status checks, or simple acknowledgments.
+
+**How:**
+```bash
+# After responding to Ken:
+echo "[Ken's exact prompt — verbatim]" > /tmp/j-prompt.txt
+echo "[Yoda's 2-3 sentence summary of what was delivered]" > /tmp/j-response.txt
+bash /Users/ainchorsangiefpl/.openclaw/workspace/scripts/journal-append.sh "YYYY-MM-DD" "HH:MM" "Title" "webchat" /tmp/j-prompt.txt /tmp/j-response.txt
+```
+
+**File:** `memory/journal-YYYY-MM-DD.md` — auto-created if missing.
+**Timing:** Same response turn — do not defer. ~100ms overhead.
+**EOD finalizer (23:55 AEST):** Only adds Session Overview header, cost report, and business stream. No entry reconstruction.
+**Incremental writer cron (1b853131):** DISABLED — no longer needed.
+
 The goal: Be helpful without being annoying. Check in a few times a day, do useful background work, but respect quiet time.
 
 ## Make It Yours

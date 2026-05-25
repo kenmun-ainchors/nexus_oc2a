@@ -1,7 +1,7 @@
 {
   "schema_version": "1.0",
   "sequence": 292,
-  "lastUpdated": "2026-05-25T07:22:14.472272+00:00",
+  "lastUpdated": "2026-05-25T07:34:25.059173+00:00",
   "source": "notion-akb-backlog-rebuild",
   "ticketCount": 214,
   "changeCount": 250,
@@ -2030,9 +2030,9 @@
       "requester": "Ken",
       "assignee": "Yoda",
       "created": "2026-05-21T15:39:38+10:00",
-      "updated": "2026-05-25T14:38:48.503361+10:00",
+      "updated": "2026-05-25T04:37:59+10:00",
       "description": "Task Queue Processor (cron 442ad697) was removed during CHG-0391 Anthropic\u2192kimi migration. Infrastructure still exists: task-queue.sh, claim-task.sh, resume-task.sh, async-worker.sh, state/checkpoints/. 4 test tasks completed May 17 proving the architecture works. Need to: (1) Rebuild cron with kimi model. (2) Migrate backend from task-queue.json to Postgres state_task_queue (already migrated by TKT-0198). (3) Wire in TKT-0182 State Checking Pattern (validate before claim/write). (4) Fix known bug: task-queue.sh add checkpoint creation broken. (5) Run production test with real sub-agent task. Sprint 5.",
-      "resolution": "5 atoms complete. 1) tasks\u2192queue key mismatch fixed (9 locations, 7 files). 2) PG dual-write migration: pg_task_queue.py + all 7 libs wired with pending\u2192queued / claimed\u2192dispatched mapping. 3) State Checking (TKT-0182): 5 sc_* wrappers enforcing READ\u2192VALIDATE\u2192EXECUTE\u2192VERIFY. 4) Production test: 3-atom sub-agent task through full TQP lifecycle verified in PG. 5) Checkpoint bug fixed in complete.py and fail.py. TQP cron a89d00ef live on 5-min cycle. Deliverable: docs/deliverables/TKT-0236-TQP-Resurrection-Report.md",
+      "resolution": "5 atoms complete: queue key fix, PG dual-write, State Checking, production test, checkpoint fix. TQP cron a89d00ef live. Deliverable: docs/deliverables/TKT-0236-TQP-Resurrection-Report.md ",
       "linked": {
         "us": [],
         "inc": [],
@@ -2043,8 +2043,7 @@
       "sprint": "S5",
       "url": "https://www.notion.so/Resurrect-Task-Queue-Processor-\u2014-Postgres-backend-+-State-Checking-+-reactive-cron-368c182953ff81b5b9cbc2356257f7da",
       "sprintCommittedAt": "2026-05-24T08:24:00Z",
-      "sprintCommittedBy": "Ken Mun",
-      "closedAt": "2026-05-25T14:38:48.503361+10:00"
+      "sprintCommittedBy": "Ken Mun"
     },
     {
       "id": "TKT-0237",
@@ -2664,8 +2663,8 @@
         "chg": []
       },
       "notes": "",
-      "notionPageId": "36bc1829-53ff-81eb-89ef-d8b4df518811",
-      "url": "https://www.notion.so/PG-dual-write-test-36bc182953ff81eb89efd8b4df518811"
+      "notionPageId": "36bc1829-53ff-8198-842e-fc8aaa5f547b",
+      "url": "https://www.notion.so/PG-dual-write-test-36ac182953ff81bfb0d9d46b0850d982"
     },
     {
       "id": "TKT-0267",
@@ -2774,11 +2773,11 @@
         "chg": []
       },
       "notes": "\nRefined 21:49 AEST. Full inventory assessment produced. 50 files recommended for migration across 4 new tables + 2 merges. Awaiting Ken review.",
-      "notionPageId": "36bc1829-53ff-81a7-8fff-d13b633ed444",
+      "notionPageId": "36bc1829-53ff-813b-8d9c-fc2121100937",
       "sprint": "S5",
       "sprintCommittedAt": "2026-05-24T08:24:00Z",
       "sprintCommittedBy": "Ken Mun",
-      "url": "https://www.notion.so/Migrate-Remaining-Tier-2-State-Files-\u2014-Postgres-SSOT-Completion-36bc182953ff81a78fffd13b633ed444"
+      "url": "https://www.notion.so/Migrate-Remaining-Tier-2-State-Files-\u2014-Postgres-SSOT-Completion-36ac182953ff8141a349ec0de8015da3"
     },
     {
       "id": "TKT-0272",
@@ -2858,11 +2857,11 @@
         "chg": []
       },
       "notes": "",
-      "notionPageId": "36bc1829-53ff-81e6-a539-edf15105c797",
+      "notionPageId": "36bc1829-53ff-814b-9a3b-ced73fac0ff2",
       "sprint": "S5",
       "sprintCommittedAt": "2026-05-24T08:55:00Z",
       "sprintCommittedBy": "Ken Mun",
-      "url": "https://www.notion.so/Progressive-Disclosure-Architecture-\u2014-Skills,-Tools-&-Agent-Context-Optimization-36bc182953ff81e6a539edf15105c797"
+      "url": "https://www.notion.so/Progressive-Disclosure-Architecture-\u2014-Skills,-Tools-&-Agent-Context-Optimization-36ac182953ff81598f70f02ad92c1bfb"
     },
     {
       "id": "TKT-0276",
@@ -3188,62 +3187,18 @@
       "notionPageId": null
     },
     {
-      "id": "TKT-0292",
-      "title": "[TKT-0292] Establish Formal Regression Testing Framework",
-      "type": "task",
-      "priority": "high",
-      "status": "closed",
-      "sprint": "S5",
-      "requester": "Ken",
-      "assignee": "Yoda",
-      "sequence": "292",
-      "createdAt": "2026-05-25T06:08:00Z",
-      "updated": "2026-05-25T06:50:49.228918+00:00",
-      "description": "Establish a formal, maintainable regression testing framework. Phase 1: Operationalize 44 PG Foundation tests as re-runnable suite. Phase 2: Failure mode tests. Phase 3: Agent/cron integration tests.",
-      "resolution": "Phase 1 complete. 44 test framework with 5 phases. Final: 44/44 pass (100%). PG operationalized. Extensible suite model."
-    },
-    {
-      "id": "TKT-0293",
-      "title": "[TKT-0293] Expand Regression Testing Framework \u2014 Platform-wide Test Coverage",
-      "type": "task",
-      "priority": "high",
-      "status": "open",
-      "sprint": "S5",
-      "requester": "Ken",
-      "assignee": "Forge",
-      "sequence": "293",
-      "createdAt": "2026-05-25T06:57:00Z",
-      "updated": "2026-05-25T06:57:00Z",
-      "description": "Following TKT-0292 (44-test PG Foundation suite, 100% pass), expand regression testing. AC1: Thrawn assessment \u2014 critical functions, test scope, cases, criteria. AC2: Forge owns the framework. AC3: Forge builds and verifies new tests. AC4: Forge creates Holocron page."
-    },
-    {
-      "id": "TKT-0294",
-      "title": "[TKT-0294] Fix db-write.sh PG schema mismatch \u2014 merge extras into metadata JSONB",
+      "id": "TKT-0296",
+      "title": "[TKT-0296] Fix Journal Writer \u2014 Real-time append architecture",
       "type": "bug",
-      "priority": "high",
-      "status": "closed",
-      "sprint": "S5",
-      "requester": "Ken",
-      "assignee": "Yoda",
-      "sequence": "294",
-      "createdAt": "2026-05-25T07:11:00Z",
-      "updated": "2026-05-25T07:12:55.436674+00:00",
-      "description": "db-write.sh fails PG writes when callers send fields not in PG column schema. Fix: query PG schema, separate known/unknown columns, merge unknowns into metadata JSONB.",
-      "resolution": "Option B: db-write.sh queries PG schema, merges unknowns into metadata JSONB. All 3 test cases pass."
-    },
-    {
-      "id": "TKT-0295",
-      "title": "[TKT-0295] PG Design-to-Implementation Audit \u2014 Atlas + Thrawn Joint Review",
-      "type": "task",
-      "priority": "high",
+      "priority": "critical",
       "status": "open",
       "sprint": "S5",
       "requester": "Ken",
-      "assignee": "Atlas",
-      "sequence": "295",
-      "createdAt": "2026-05-25T07:21:00Z",
-      "updated": "2026-05-25T07:21:00Z",
-      "description": "Atlas + Thrawn joint audit: PG strategy vs implementation. Review schema, dual-write, db-read/db-write paths, migrations, TQP backend, state checking, fallback chains, data integrity. Deliverable: audit report with findings, gaps, recommendations."
+      "assignee": "Yoda",
+      "sequence": "296",
+      "createdAt": "2026-05-25T07:34:00Z",
+      "updated": "2026-05-25T07:34:00Z",
+      "description": "Journal broken since May 19 (90% loss). Root cause: sessions_history(limit=50) window too small. Fix: real-time append from main session, EOD finalizer only adds header/cost/business stream."
     }
   ],
   "changes": [
