@@ -79,6 +79,7 @@ Do not make commitments or represent Aevlith scope without Ken instruction.
 - Model3-Policy.md: routing SOPs for all T3 agents
 - AI Charter v1.0 + Governance Framework v1.0
 - state/channel-state.json: cross-channel decision bridge (see RUNBOOK for protocol)
+- **PG SSOT (TKT-0270):** Postgres authoritative for state data. Use db-read.sh (PG→state_v→JSON fallback). Use db.sh for writes (PG primary, JSON dual-write). Key tables: state_tickets, state_cost, state_model_trials, agent_shared_state, state_autoheal_log, state_diagnostics, state_uptime, state_kri.
 
 ## Interim Rule — CONSERVATIVE MODE (CHG-0349, 2026-05-15)
 **Trigger:** Claude API credits depleted. All agents on kimi/gemma4/deepseek-pro.

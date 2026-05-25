@@ -1,0 +1,45 @@
+{
+  "schema": "1.0",
+  "createdAt": "2026-05-25T03:27:00Z",
+  "createdBy": "TKT-0270",
+  "description": "Files to archive/delete once all agents are reliably reading from PG (48h stability period after TKT-0270).",
+  "items": [
+    {
+      "file": "tickets.json",
+      "path": "state/tickets.json",
+      "action": "archive",
+      "trigger": "All agents confirmed reading from state_tickets PG table for 48h without fallback to JSON",
+      "note": "Largest remaining JSON file (~277 records). ticket.sh already writes both."
+    },
+    {
+      "file": "auto-heal-*.json (live)",
+      "path": "state/auto-heal-2026-*.json",
+      "action": "archive",
+      "trigger": "auto-heal.sh updated to write directly to state_autoheal_log PG table",
+      "note": "Currently auto-heal writes JSON files that are also in PG via TKT-0271 migration."
+    },
+    {
+      "file": "channel-state.json",
+      "path": "state/channel-state.json",
+      "action": "archive",
+      "trigger": "Cross-channel bridge reads from agent_shared_state PG table",
+      "note": "Already duplicated in agent_shared_state (key: channel_state)."
+    },
+    {
+      "file": "model-drift-state.json",
+      "path": "state/model-drift-state.json",
+      "action": "archive",
+      "trigger": "Warden reads from state_model_trials PG table",
+      "note": "Already duplicated in state_model_trials (trial: warden:drift_state)."
+    },
+    {
+      "file": "fallback-chain-status.json",
+      "path": "state/fallback-chain-status.json",
+      "action": "archive",
+      "trigger": "Fallback validation reads from state_model_trials PG table",
+      "note": "Already duplicated in state_model_trials (trial: main:fallback_status)."
+    }
+  ],
+  "totalItems": 5,
+  "reviewTrigger": "After 48h PG stability — check all 5 triggers, archive files, update file-inventory.json"
+}
