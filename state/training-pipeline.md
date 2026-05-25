@@ -179,6 +179,10 @@ _Maintained by Aria 🔵 + Yoda 🟢 | Status-tracked content for AInchors train
 | TC-163 | Locking quality in, not reviewing drift out: template enforcement for AI content | 💡 Idea | Yoda Day 30 (CHG-0427 — blog CSS locked to reference template, compliance checklist before governance gate) | Aria |
 | TC-164 | When to archive, not just delete: platform hygiene at scale | 💡 Idea | Yoda Day 30 (CHG-0428 — CI Cycle A/B decommissioned, artifacts archived, 47 historical refs preserved) | Yoda |
 
+| TC-165 | From files to databases: the migration that proves your platform works | 💡 Idea | Yoda Day 31 (TKT-0236 — 28 JSON files → 8 PG tables, dual-write fallback, <2 min rollback, zero data loss, 40/44 tests passed) | Both |
+| TC-166 | State checking: why AI needs to validate before it acts | 💡 Idea | Yoda Day 31 (TKT-0182 — SC wrappers enforce READ→VALIDATE→EXECUTE→VERIFY on all TQP operations; duplicate detection, status transition validity, claim ownership) | Yoda |
+| TC-167 | Self-documenting tests: building QA that survives team changes | 💡 Idea | Yoda Day 31 (TKT-0292 — regression-runner.sh with auto-discovery by file naming convention; run `--suite pg-foundation` to verify platform health instantly) | Both |
+
 ## Status Legend
 💡 Idea → 📝 Draft → 🔍 Review (Yoda validates) → ✅ Ready → 📢 Published
 

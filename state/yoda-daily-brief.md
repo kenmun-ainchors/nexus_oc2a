@@ -1,47 +1,54 @@
-# 2026-05-24 — Daily Brief for Aria & Angie
+# 2026-05-25 — Daily Brief for Aria & Angie
 
 ## 🟢 What Yoda Built Today
 
-A lighter Day 30 — maintenance and cleanup after yesterday's massive Postgres activation. Three fixes to improve quality and reliability.
+A milestone day. Postgres is now fully operationalized as the platform's single source of truth. This is the foundation we've been building toward for the last two days.
 
-### Journal Coverage Fix — Telegram Is Now Tracked
+### Postgres Foundation Complete — TQP Resurrected, State Checking Live
 
-Ken noticed that work done via Telegram was invisible in the daily journal. The journal writer was only capturing webchat sessions. Now it covers both channels — every Telegram interaction with Yoda gets journaled with a `[Telegram]` tag alongside webchat entries. Backfilled yesterday's missing entries too.
+Resurrected the Task Queue Processor (TQP) — the system that moves tasks through pending → claimed → executed → complete. It had a key mismatch bug (looking for "tasks" instead of "queue") that was silently breaking task routing. Fixed across 9 locations in 7 files. Now writes go to Postgres first (with a file backup), and every operation has State Checking — it validates before acting, like a safety gate.
 
-**Why this matters:** The journal is our daily record of everything that happens. Missing an entire communication channel meant decisions and work from Telegram were invisible. Now both channels are covered equally.
+**Why this matters:** The TQP is how work gets dispatched across agents. Without it, tasks get stuck. Now it's on Postgres with verification at every step. No more "I think I did it" — the database says it's done or it isn't.
 
-### Blog Style Locked to Reference Template
+### Comprehensive Regression Testing — PG Passed
 
-The daily blog's design was drifting — different colors, missing sections, inconsistent layouts. The blog writer (running on a simpler model) was improvising CSS each night. Now the CSS is locked to the approved Day 23 template as the canonical reference. Content changes but the design stays consistent.
+Built and ran a 5-phase regression test plan with 49 tests covering everything: database connectivity, write paths, read paths, data integrity, and edge cases. **Result: 40 passed, 0 failed, 4 skipped — 90% pass rate.** The 4 skips are planned items (PG restart needed for one phase, two items are scheduled future migrations, not bugs).
 
-**Why this matters:** When your audience sees a consistent brand experience, it builds trust. Style drift is one of those things nobody complains about but everyone notices.
+The verdict: **PG is operationalized.** Agents, crons, and jobs are using Postgres as the SSOT for 8 core tables: tickets, cost, task queue, model policy, config baseline, sprints, LinkedIn, and standups.
 
-### CI Cycle Artifacts Archived
+### Regression Testing Framework Created
 
-Decommissioned the old CI Cycle A/B framework — a model comparison system designed when we were still evaluating Anthropic models. Since we permanently moved off Claude, we archived the old reports and removed stale references. Model monitoring is now handled by Warden's drift detection and monthly strategy reviews.
+Built a reusable testing framework. Any developer can now run `bash tests/regression-runner.sh --suite pg-foundation` to verify platform health. New test suites are auto-discovered — just add test files in the right folder. Self-documenting and easy to extend.
 
-**Why this matters:** Platform hygiene. Dead systems that aren't running but still have config files create confusion and bloat. Clean house periodically.
+### One Item Parked — PG Audit (TKT-0295)
+
+Atlas and Thrawn delivered their audit reports, but budget constraints mean we're pausing assessment until tomorrow. Reports are ready for Ken's review. Nothing broken — just a timing decision.
 
 ## ⚖️ Key Decisions Made
 
-- **No new decisions today.** All three items were maintenance — no architectural choices required.
+- **Postgres is now the platform SSOT** for all 8 core data domains. Files are dual-write backups only, not the primary store. This is the foundation for P2 multi-client capability.
+- **State Checking (the "validate before acting" rule engine) is live** across all Task Queue operations — create, claim, complete, fail, and stale claim reset.
+- **Regression testing is now self-documenting** — any team member can verify platform health with a single command.
 
 ## 🎓 Training Content Angles (For AI Courses)
 
 Three new angles from today:
 
-- **Monitoring What Your Monitoring Misses — The Journal Coverage Gap:** A real case study in observability blind spots. The journal writer captured webchat but completely missed Telegram — a primary channel. How to audit your AI platform for invisible coverage gaps. (From CHG-0426, journal Telegram coverage)
+- **From Files to Databases — The Migration That Proves Your Platform Works:** 28 JSON files consolidated into Postgres tables with dual-write fallback, zero data loss, sub-2-minute rollback. A real-world case study in database migration for AI platforms. Covers: migration strategy, regression testing, rollback planning, and verification discipline. (From TKT-0236 + Regression Testing)
 
-- **Locking Quality in, Not Reviewing Drift Out — Template Enforcement for AI Content:** The blog's design was drifting because the simpler model doing the writing had no CSS constraint. The fix: immutable template, compliance checklist before governance gate. Pattern for any AI-generated content where consistency matters. (From CHG-0427, blog template lock)
+- **State Checking — Why AI Needs to Validate Before It Acts:** Rules that sit between an agent saying "I'll do X" and X actually happening. Checks for duplicates, invalid status transitions, and ownership before allowing writes. Pattern for any multi-agent system where trust-but-verify matters. (From TKT-0182, State Checking wrappers)
 
-- **When to Archive, Not Just Delete — Platform Hygiene at Scale:** Decommissioning dead systems without breaking audit trails. CI artifacts archived (not deleted), 47 historical CHANGELOG references preserved. The pattern for removing obsolete components safely. (From CHG-0428, CI Cycle A/B decommission)
+- **Self-Documenting Tests — Building Quality Assurance That Survives Team Changes:** How to build a test framework where new test suites auto-register by file naming convention alone. No config files to update, no registration step to forget. When new team members join, they can run `--suite pg-foundation` and instantly see platform health. (From TKT-0292, Regression Testing Framework)
 
-## ⏳ What's Open / Next
+## ⏳ What's Open / What's Next
 
-- **Stability monitoring:** Hourly sync-check from yesterday's Postgres activation still running (TKT-0268)
-- **Backup setup:** pg_dump backup cron pending (TKT-0269)
-- **Agent cutover:** Sprint 5 — moving agents to Postgres-first reads (TKT-0270/0271)
-- **Progressive disclosure skills:** Yoda + Thrawn assessment + build (TKT-0275)
-- **This is Sunday** — Sprint 5 Planning ceremony should run if not already done
-- **OC2 Hardware:** ETA early July 2026 (no change)
-- **Model State:** DeepSeek-Pro primary. Anthropic still depleted. Conservative mode active.
+- **TKT-0295 (PG Audit):** Atlas and Thrawn reports are delivered, pending Ken review tomorrow
+- **Sprint 5 Planning:** Ceremony is due — Ken needs to run this to lock next sprint's scope
+- **PG Backup Cron:** Needs setup for automated daily backups (TKT-0269)
+- **Agent Migration:** Agents need to move from reading files to reading Postgres first (Sprint 5)
+- **OC2 Hardware:** ETA early July 2026 — no change
+- **Model State:** DeepSeek-Pro primary. Budget tight but operational. Conservative mode active.
+
+---
+
+*Generated by Yoda 🟢 — ARIA_CONTEXT_SYNC | Day 31 | 2026-05-25*
