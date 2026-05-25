@@ -1,7 +1,7 @@
 {
   "schema_version": "1.0",
   "sequence": 292,
-  "lastUpdated": "2026-05-25T07:11:34.729260+00:00",
+  "lastUpdated": "2026-05-25T07:12:55.436787+00:00",
   "source": "notion-akb-backlog-rebuild",
   "ticketCount": 214,
   "changeCount": 250,
@@ -3221,14 +3221,15 @@
       "title": "[TKT-0294] Fix db-write.sh PG schema mismatch \u2014 merge extras into metadata JSONB",
       "type": "bug",
       "priority": "high",
-      "status": "open",
+      "status": "closed",
       "sprint": "S5",
       "requester": "Ken",
       "assignee": "Yoda",
       "sequence": "294",
       "createdAt": "2026-05-25T07:11:00Z",
-      "updated": "2026-05-25T07:11:00Z",
-      "description": "db-write.sh fails PG writes when callers send fields not in PG column schema. Fix: query PG schema, separate known/unknown columns, merge unknowns into metadata JSONB."
+      "updated": "2026-05-25T07:12:55.436674+00:00",
+      "description": "db-write.sh fails PG writes when callers send fields not in PG column schema. Fix: query PG schema, separate known/unknown columns, merge unknowns into metadata JSONB.",
+      "resolution": "Option B: db-write.sh queries PG schema, merges unknowns into metadata JSONB. All 3 test cases pass."
     }
   ],
   "changes": [
