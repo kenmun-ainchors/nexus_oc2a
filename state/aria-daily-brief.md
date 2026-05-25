@@ -1,3 +1,32 @@
+## 2026-05-25 — Business Stream Summary
+_Written 23:45 AEST by Aria cron_
+
+### Angie interactions today
+No Angie activity today.
+
+### Decisions made
+- None today.
+
+### Governance reviews
+- None triggered today.
+
+### Open items
+- 🔴 **CR-002 (LinkedIn Setup)** — Still pending Ken/Yoda action. Angie's last engagement was Friday May 22 requesting Spark LinkedIn integration.
+- 🟡 **Onboarding Stage 2** — OB-12, OB-14, OB-15 still unchecked. Last Angie activity Friday May 22 — 3 days quiet as of today. If no contact by Wednesday May 27, nudge threshold triggers.
+- 🟡 **Lynn Huang (bookkeeping)** — awaiting fee schedule reply.
+- 🟡 **Jack Ooi (accounting)** — awaiting update on meeting.
+- 🟡 **Training revenue projection** — pending review.
+- 🟡 **Marketing collaterals** — pending Angie review.
+- 🟡 **Meta appeal** — status unknown.
+- 🔴 **JotForm/HRDF** — outstanding from April 28.
+- 🟡 **April 30 class debrief** — still missing.
+
+### Handoff to Yoda
+- Quiet Monday. No new Angie interactions. All open items carry forward unchanged from Sunday.
+- **CR-002 still outstanding** — Spark LinkedIn integration not yet actioned. Angie is waiting on credentials/auth setup.
+- **Angie quiet streak**: 3 days since last human interaction (Friday May 22). Nudge threshold is Wednesday May 27 if no contact before then.
+- Relay queue is empty — no new Angie-originated items queued.
+
 ## 2026-05-24 — Business Stream Summary
 _Written 23:45 AEST by Aria cron_
 
