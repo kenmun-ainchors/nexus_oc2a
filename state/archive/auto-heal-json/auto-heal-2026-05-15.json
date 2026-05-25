@@ -1,0 +1,47 @@
+{
+  "runAt": "2026-05-14T15:00:04Z",
+  "runAtLocal": "2026-05-15 01:00 AEST",
+  "duration_ms": 0,
+  "checks_run": [
+  "auth_profiles",
+  "cron_health",
+  "backup_freshness",
+  "disk_space",
+  "plugin_runtime_deps",
+  "stale_locks",
+  "git_health",
+  "health_state",
+  "api_balance",
+  "incident_patterns",
+  "config_drift",
+  "critical_config_baseline",
+  "aria_health",
+  "telegram_routing",
+  "bootstrap_size",
+  "journal_format",
+  "cron_dead_letter",
+  "zombie_tasks",
+  "keychain_liveness"
+],
+  "checks_count": 19,
+  "issues_found": [
+  "backup:stale:94h",
+  "balance:critical:$0",
+  "MEMORY.md_hard_limit",
+  "journal:missing:2026-05-15"
+],
+  "issues_count": 4,
+  "auto_fixed": [
+  "git-commit:workspace:14-files",
+  "aria-git-commit:1-files"
+],
+  "auto_fixed_count": 2,
+  "needs_ken": [
+  "Latest backup is 94h old (>26h threshold). File: workspace-2026-05-11-0205.tar.gz",
+  "API balance critically low: $0 USD remaining (threshold $5)",
+  "MEMORY.md is 11221 chars — OVER hard limit 10000. Trim immediately.",
+  "Today's journal missing: /Users/ainchorsangiefpl/.openclaw/workspace/memory/journal-2026-05-15.md. EOD cron (4d926b2c) may have failed. Rebuild required."
+],
+  "needs_ken_count": 4,
+  "exit_status": "complete"
+}

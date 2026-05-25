@@ -1,9 +1,23 @@
 {
-  "json_files_remaining": 125,
-  "md_files_remaining": 28,
-  "log_files_remaining": 38,
-  "archive_files": 52,
-  "backup_archive_files": 150,
-  "pg_tables": 25,
-  "timestamp": "2026-05-23T11:15:08Z"
+  "json_files_remaining": 90,
+  "md_files_remaining": 26,
+  "log_files_remaining": 41,
+  "archive_files": 50,
+  "pg_tables": 19,
+  "phase2_migrated": true,
+  "phase2_completed_at": "2026-05-25T02:48:00Z",
+  "phase2_details": {
+    "new_tables": [
+      "state_autoheal_log",
+      "state_diagnostics",
+      "state_uptime",
+      "state_model_trials",
+      "state_kri"
+    ],
+    "files_migrated": 42,
+    "files_deleted": 4,
+    "files_archived": 44,
+    "uptime_events": 462
+  },
+  "timestamp": "2026-05-25T02:48:00Z"
 }

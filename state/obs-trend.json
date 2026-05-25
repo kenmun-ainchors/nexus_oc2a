@@ -1,16 +1,20 @@
 {
-  "generated_at": "2026-05-24T22:00:49.355449+00:00",
-  "generated_at_aest": "2026-05-25 08:00 AEST",
+  "generated_at": "2026-05-25T02:35:20.213700+00:00",
+  "generated_at_aest": "2026-05-25 12:35 AEST",
   "period_hours": 24,
   "totals": {
-    "ERROR": 437,
+    "ERROR": 403,
     "WARN": 3,
     "INFO": 13
   },
   "top_errors": [
     {
       "type": "cron_run_fail",
-      "count": 437
+      "count": 382
+    },
+    {
+      "type": "credit_critical",
+      "count": 21
     }
   ],
   "top_warnings": [
@@ -21,9 +25,9 @@
   ],
   "trend": {
     "has_prev_data": true,
-    "prev_errors": 379,
+    "prev_errors": 424,
     "prev_warns": 7,
-    "errors_pct_change": 15.3,
+    "errors_pct_change": -5.0,
     "warns_pct_change": -57.1
   },
   "worst_hour": {

@@ -1,0 +1,56 @@
+{
+  "runAt": "2026-05-10T15:00:08Z",
+  "runAtLocal": "2026-05-11 01:00 AEST",
+  "duration_ms": 0,
+  "checks_run": [
+    "auth_profiles",
+    "cron_health",
+    "backup_freshness",
+    "disk_space",
+    "plugin_runtime_deps",
+    "stale_locks",
+    "git_health",
+    "health_state",
+    "api_balance",
+    "incident_patterns",
+    "config_drift",
+    "critical_config_baseline",
+    "aria_health",
+    "telegram_routing",
+    "bootstrap_size",
+    "cron_dead_letter",
+    "zombie_tasks",
+    "keychain_liveness"
+  ],
+  "checks_count": 18,
+  "issues_found": [
+    "balance:critical:$0",
+    "memory_md_oversized"
+  ],
+  "issues_count": 2,
+  "auto_fixed": [
+    "git-commit:workspace:18-files",
+    "aria-git-commit:1-files",
+    "auth-key-synced:agent"
+  ],
+  "auto_fixed_count": 3,
+  "needs_ken": [
+    "API balance critically low: $0 USD remaining (threshold $5)",
+    "MEMORY.md is 17725 chars (limit 15000 warning / 20000 hard). Trim before next session or increase bootstrapMaxChars."
+  ],
+  "needs_ken_count": 2,
+  "exit_status": "complete",
+  "notion_us_filed": [
+    {
+      "item": "API balance critically low: $0 USD remaining (threshold $5)",
+      "us_id": "35cc1829-53ff-81ec-ad33-e4d4a52923b3",
+      "priority": "High"
+    },
+    {
+      "item": "MEMORY.md is 17725 chars (limit 15000 warning / 20000 hard)",
+      "us_id": "35cc1829-53ff-812c-97fb-c230ffeccda4",
+      "priority": "Medium"
+    }
+  ],
+  "notion_us_filed_at": "2026-05-11T01:00 AEST"
+}

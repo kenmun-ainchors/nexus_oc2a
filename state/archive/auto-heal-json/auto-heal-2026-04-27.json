@@ -1,0 +1,37 @@
+{
+  "runAt": "2026-04-27T13:30:29Z",
+  "runAtLocal": "2026-04-27 23:30 AEST",
+  "duration_ms": 0,
+  "checks_run": [
+  "auth_profiles",
+  "cron_health",
+  "backup_freshness",
+  "disk_space",
+  "plugin_runtime_deps",
+  "stale_locks",
+  "git_health",
+  "health_state",
+  "api_balance",
+  "incident_patterns",
+  "config_drift",
+  "critical_config_baseline",
+  "aria_health"
+],
+  "checks_count": 13,
+  "issues_found": [
+  "health-state:stale:924min",
+  "config-baseline:config-009:drift"
+],
+  "issues_count": 2,
+  "auto_fixed": [
+  "git-commit:workspace:5-files",
+  "aria-git-commit:3-files"
+],
+  "auto_fixed_count": 2,
+  "needs_ken": [
+  "Health-state.json is 924min old — health-check cron may be broken",
+  "CRITICAL DRIFT: [DISABLED] Aria fallback chain excludes Opus — superseded by config-008 Sonnet primary | expected '[\"anthropic/claude-sonnet-4-6\"]' | actual 'null' | fix: edit openclaw.json: agents.list[id=business].modelFallbacks = [anthropic/claude-sonnet-4-6]"
+],
+  "needs_ken_count": 2,
+  "exit_status": "complete"
+}

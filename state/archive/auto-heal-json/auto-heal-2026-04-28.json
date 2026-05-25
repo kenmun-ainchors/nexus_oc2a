@@ -1,0 +1,36 @@
+{
+  "runAt": "2026-04-28T11:56:12Z",
+  "runAtLocal": "2026-04-28 21:56 AEST",
+  "duration_ms": 0,
+  "checks_run": [
+  "auth_profiles",
+  "cron_health",
+  "backup_freshness",
+  "disk_space",
+  "plugin_runtime_deps",
+  "stale_locks",
+  "git_health",
+  "health_state",
+  "api_balance",
+  "incident_patterns",
+  "config_drift",
+  "critical_config_baseline",
+  "aria_health"
+],
+  "checks_count": 13,
+  "issues_found": [
+  "config-baseline:config-009:drift"
+],
+  "issues_count": 1,
+  "auto_fixed": [
+  "git-commit:workspace:4-files",
+  "git-commit:AInchors:15-files",
+  "aria-git-commit:15-files"
+],
+  "auto_fixed_count": 3,
+  "needs_ken": [
+  "CRITICAL DRIFT: Aria fallback chain = Haiku then gemma4:e2b (no Opus) | expected '[\"anthropic/claude-haiku-4-5\",\"ollama/gemma4:e2b\"]' | actual 'null' | fix: edit openclaw.json: agents.list[id=business].modelFallbacks = [anthropic/claude-haiku-4-5, ollama/gemma4:e2b]"
+],
+  "needs_ken_count": 1,
+  "exit_status": "complete"
+}

@@ -1,0 +1,34 @@
+{
+  "runAt": "2026-05-02T15:00:07Z",
+  "runAtLocal": "2026-05-03 01:00 AEST",
+  "duration_ms": 0,
+  "checks_run": [
+  "auth_profiles",
+  "cron_health",
+  "backup_freshness",
+  "disk_space",
+  "plugin_runtime_deps",
+  "stale_locks",
+  "git_health",
+  "health_state",
+  "api_balance",
+  "incident_patterns",
+  "config_drift",
+  "critical_config_baseline",
+  "aria_health",
+  "bootstrap_size",
+  "cron_dead_letter"
+],
+  "checks_count": 15,
+  "issues_found": [],
+  "issues_count": 0,
+  "auto_fixed": [
+  "git-commit:workspace:16-files",
+  "git-commit:AInchors:3-files",
+  "aria-git-commit:5-files"
+],
+  "auto_fixed_count": 3,
+  "needs_ken": [],
+  "needs_ken_count": 0,
+  "exit_status": "complete"
+}

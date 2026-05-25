@@ -839,11 +839,25 @@
       "issues": [
         "[]"
       ]
+    },
+    {
+      "ts": "2026-05-24T23:53:43+10:00",
+      "assetPath": "/Users/ainchorsangiefpl/.openclaw/canvas/documents/ainchors-2026-05-23/index.html",
+      "assetType": "blog",
+      "producedBy": "yoda",
+      "intendedFor": "public distribution",
+      "brief": "Day 29 PG SSOT blog",
+      "verdict": "PASS",
+      "passCount": 7,
+      "failCount": 0,
+      "issues": [
+        "[]"
+      ]
     }
   ],
   "summary": {
-    "total": 60,
-    "pass": 59,
+    "total": 61,
+    "pass": 60,
     "fail": 1
   }
 }

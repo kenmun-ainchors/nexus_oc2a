@@ -1,0 +1,21 @@
+{
+  "generatedAt": "2026-05-15T19:37:02.819592+10:00",
+  "scenarios": {
+    "A_best": {
+      "total": 61269.7,
+      "contingency_pct": 0,
+      "assumptions": "Everything goes right"
+    },
+    "B_realistic": {
+      "total": 70460.15,
+      "contingency_pct": 15,
+      "assumptions": "Moderate delays and creep"
+    },
+    "C_worst": {
+      "total": 79650.61,
+      "contingency_pct": 30,
+      "assumptions": "Major delays, Claude down, scope creep"
+    }
+  },
+  "notes": "15% buffer per phase applied to all. Overall contingency varies by scenario."
+}

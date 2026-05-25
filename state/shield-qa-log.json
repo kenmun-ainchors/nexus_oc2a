@@ -2799,11 +2799,31 @@
       "pass": 5,
       "fail": 0,
       "issues": []
+    },
+    {
+      "ts": "2026-05-24T23:53:30+10:00",
+      "asset": "/Users/ainchorsangiefpl/.openclaw/canvas/documents/ainchors-2026-05-23/index.html",
+      "producedBy": "yoda",
+      "intendedFor": "public distribution",
+      "verdict": "PASS",
+      "pass": 5,
+      "fail": 0,
+      "issues": []
+    },
+    {
+      "ts": "2026-05-24T23:53:43+10:00",
+      "asset": "/Users/ainchorsangiefpl/.openclaw/canvas/documents/ainchors-2026-05-23/index.html",
+      "producedBy": "yoda",
+      "intendedFor": "public distribution",
+      "verdict": "PASS",
+      "pass": 5,
+      "fail": 0,
+      "issues": []
     }
   ],
   "summary": {
-    "total": 280,
-    "pass": 190,
+    "total": 282,
+    "pass": 192,
     "fail": 90
   }
 }
