@@ -1,8 +1,9 @@
 import json, datetime, sys, os
 
-# Import atomic write helper
+# Import helpers
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 from atomic_write import atomic_write_json
+from pg_task_queue import pg_upsert_task, sc_add_task
 
 QUEUE_FILE = sys.argv[1]
 CHECKPOINT_DIR = sys.argv[2]
@@ -19,11 +20,8 @@ atoms = []
 for i, desc in enumerate(ATOMS_STR.split(';')):
     atoms.append({"id": i+1, "description": desc.strip(), "status": "pending"})
 
-# Read queue
-with open(QUEUE_FILE) as f:
-    queue = json.load(f)
+now = datetime.datetime.now().isoformat()
 
-# Create task
 task = {
     "id": TASK_ID,
     "title": TITLE,
@@ -33,28 +31,37 @@ task = {
     "source": SOURCE,
     "relatedChg": RELATED_CHG,
     "atoms": atoms,
-    "createdAt": datetime.datetime.now().isoformat(),
-    "updatedAt": datetime.datetime.now().isoformat()
+    "createdAt": now,
+    "updatedAt": now
 }
 
-queue["tasks"].append(task)
-queue["lastUpdated"] = datetime.datetime.now().isoformat()
+# Step 1: State-checked PG write (TKT-0182: READ → VALIDATE → EXECUTE → VERIFY)
+sc_ok, sc_msg = sc_add_task(TASK_ID, task)
+if not sc_ok:
+    print(f"ERROR: {sc_msg}", file=sys.stderr)
+    sys.exit(1)
+print(f"  SC: {sc_msg}")
 
-# Atomic write queue file
+# Step 2: Dual-write to JSON file
+with open(QUEUE_FILE) as f:
+    queue = json.load(f)
+
+queue["queue"].append(task)
+queue["lastUpdated"] = now
+
 if not atomic_write_json(QUEUE_FILE, queue):
     print(f"ERROR: Failed to write queue file", file=sys.stderr)
     sys.exit(1)
 
-# Create checkpoint
+# Step 3: Create checkpoint
 cp = {
     "schema": "checkpoint-v1",
     "taskId": TASK_ID,
     "currentAtom": 1,
     "atoms": atoms,
-    "lastUpdated": task["updatedAt"]
+    "lastUpdated": now
 }
 
-# Atomic write checkpoint file
 cp_path = f"{CHECKPOINT_DIR}/{TASK_ID}.json"
 if not atomic_write_json(cp_path, cp):
     print(f"ERROR: Failed to write checkpoint file", file=sys.stderr)

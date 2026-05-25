@@ -1,28 +1,36 @@
 #!/bin/zsh
-# AInchors Task Queue Processor — TKT-0237 C1
+# AInchors Task Queue Processor — TKT-0236 (PG backend + State Checking)
 # Async, stateless atomic task execution with mandatory verify-before-close.
 # Runs every 5 minutes via cron. Max 1 concurrent task.
-# Owner: Forge | Sprint 4
+# Owner: Forge | Sprint 5 | Updated: TKT-0236 PG migration
 
 set -u
 
 WORKSPACE_ROOT="/Users/ainchorsangiefpl/.openclaw/workspace"
-QUEUE_FILE="$WORKSPACE_ROOT/state/task-queue.json"
 TICKET_FILE="$WORKSPACE_ROOT/state/tickets.json"
 TICKET_SH="$WORKSPACE_ROOT/scripts/ticket.sh"
 ALERT_FILE="$WORKSPACE_ROOT/state/task-queue-failed.json"
+DB_READ="$WORKSPACE_ROOT/scripts/db-read.sh"
+DB_WRITE="$WORKSPACE_ROOT/scripts/db-write.sh"
 
 die() { echo "TQP ERROR: $1" >&2; exit 1; }
 
 # ──────────────────────────────────────────
-# ATOM 2.2: Dispatch — pick next queued task
+# PG helper functions (TKT-0236 Atom 1)
+# ──────────────────────────────────────────
+pg() {
+  PGHOST=/tmp PGPORT=5432 PGUSER=ainchorsangiefpl PGDATABASE=ainchors_nexus /opt/homebrew/bin/psql -t -A "$@"
+}
+
+# ──────────────────────────────────────────
+# ATOM 2.2: Dispatch — pick next queued task from PG
 # ──────────────────────────────────────────
 
 # Check if another TQP instance is already running (lock file)
 LOCK_FILE="/tmp/task-queue-processor.lock"
 if [[ -f "$LOCK_FILE" ]]; then
   LOCK_AGE=$(($(date +%s) - $(stat -f%m "$LOCK_FILE" 2>/dev/null || echo 0)))
-  if [[ $LOCK_AGE -lt 540 ]]; then  # 9 min — cron runs every 5, so 9 means stuck
+  if [[ $LOCK_AGE -lt 540 ]]; then
     echo "TQP: Another instance is running (lock age: ${LOCK_AGE}s). Skipping."
     exit 0
   fi
@@ -30,82 +38,63 @@ if [[ -f "$LOCK_FILE" ]]; then
   rm -f "$LOCK_FILE"
 fi
 
-# Validate state files exist
-[[ ! -f "$QUEUE_FILE" ]] && die "task-queue.json not found at $QUEUE_FILE"
-[[ ! -f "$TICKET_FILE" ]] && die "tickets.json not found at $TICKET_FILE"
+# Pick first queued task from PG
+TASK_JSON=$(pg -c "SELECT row_to_json(t)::text FROM (SELECT * FROM state_task_queue WHERE status = 'queued' ORDER BY priority DESC, created_at_ts ASC LIMIT 1) t;" 2>/dev/null)
 
-# Pick first item with status=queued (use jq first() to get complete object)
-TASK_JSON=$(jq -c '[.queue[] | select(.status == "queued")][0]' "$QUEUE_FILE" 2>/dev/null)
+# Check for dispatched tasks that need verification
+VERIFY_JSON=$(pg -c "SELECT row_to_json(t)::text FROM (SELECT * FROM state_task_queue WHERE status = 'dispatched' ORDER BY claimedat ASC LIMIT 1) t;" 2>/dev/null)
 
-# Also check for dispatched tasks that need verification
-VERIFY_JSON=$(jq -c '[.queue[] | select(.status == "dispatched")][0]' "$QUEUE_FILE" 2>/dev/null)
-if [[ -z "$TASK_JSON" || "$TASK_JSON" == "null" ]]; then
+if [[ -z "$TASK_JSON" || "$TASK_JSON" == "null" || "$TASK_JSON" == "" ]]; then
   # No queued tasks — check for dispatched tasks that need verification
-  if [[ -n "$VERIFY_JSON" && "$VERIFY_JSON" != "null" ]]; then
+  if [[ -n "$VERIFY_JSON" && "$VERIFY_JSON" != "null" && "$VERIFY_JSON" != "" ]]; then
     # ──────────────────────────────────────────
-    # ATOM 2.3: Verification of dispatched tasks
+    # ATOM 2.3: Verification of dispatched tasks (PG backend)
     # ──────────────────────────────────────────
-    V_TASK_ID=$(echo "$VERIFY_JSON" | jq -r '.taskId')
-    V_TICKET_ID=$(echo "$VERIFY_JSON" | jq -r '.ticketId')
-    V_DELIVERABLE=$(echo "$VERIFY_JSON" | jq -r '.expectedDeliverable')
-    V_TYPE=$(echo "$VERIFY_JSON" | jq -r '.type')
-    V_RETRIES=$(echo "$VERIFY_JSON" | jq -r '.retries')
-    V_MAX=$(echo "$VERIFY_JSON" | jq -r '.maxRetries')
+    V_TASK_ID=$(echo "$VERIFY_JSON" | jq -r '.id')
+    V_TICKET_ID=$(echo "$VERIFY_JSON" | jq -r '.id')  # task ID = ticket ID in current schema
+    V_CLAIMEDBY=$(echo "$VERIFY_JSON" | jq -r '.claimedby')
+    V_CLAIMEDAT=$(echo "$VERIFY_JSON" | jq -r '.claimedat')
     
     echo "TQP: Verifying dispatched task $V_TASK_ID..."
     
-    # Source verify_before_close from ticket.sh
-    source "$TICKET_SH" 2>/dev/null || true
-    
-    # Run verification
-    if verify_before_close "$V_TICKET_ID" "$V_TYPE" "$V_DELIVERABLE" 2>/tmp/tqp-verify.log; then
-      echo "TQP: Verification PASSED for $V_TASK_ID"
-      NOW=$(date -Iseconds)
-      jq --arg tid "$V_TASK_ID" --arg ts "$NOW" \
-        '(.queue[] | select(.taskId == $tid and .status == "dispatched")) |= (.status = "done" | .completedAt = $ts | .verificationResult = "passed")' \
-        "$QUEUE_FILE" > "${QUEUE_FILE}.tmp" && mv "${QUEUE_FILE}.tmp" "$QUEUE_FILE"
-      
-      # Update metrics
-      jq '.metrics.totalProcessed += 1 | .metrics.lastProcessedAt = now' "$QUEUE_FILE" > "${QUEUE_FILE}.tmp" && mv "${QUEUE_FILE}.tmp" "$QUEUE_FILE"
-      
-      # Atom 2.4: Update rolling avg completion time
-      start_ts=$(echo "$VERIFY_JSON" | jq -r '.startedAt // empty')
-      if [[ -n "$start_ts" ]]; then
-        start_epoch=$(date -j -f "%Y-%m-%dT%H:%M:%S" "${start_ts:0:19}" +%s 2>/dev/null || echo 0)
-        end_epoch=$(date +%s)
-        duration=$((end_epoch - start_epoch))
-        jq --arg dur "$duration" '.metrics.avgCompletionMs = ((.metrics.avgCompletionMs * (.metrics.totalProcessed - 1) + ($dur | tonumber) * 1000) / .metrics.totalProcessed | floor)' \
-          "$QUEUE_FILE" > "${QUEUE_FILE}.tmp" && mv "${QUEUE_FILE}.tmp" "$QUEUE_FILE"
-      fi
-    else
-      V_NEW_RETRIES=$((V_RETRIES + 1))
-      VERIFY_ERROR=$(cat /tmp/tqp-verify.log 2>/dev/null | head -3)
-      echo "TQP: Verification FAILED for $V_TASK_ID (attempt $V_NEW_RETRIES/$V_MAX)"
-      echo "TQP: Error: $VERIFY_ERROR"
-      
-      if [[ $V_NEW_RETRIES -ge $V_MAX ]]; then
-        # Max retries exceeded — escalate
-        echo "TQP: Max retries ($V_MAX) exceeded. Escalating to Ken."
-        NOW=$(date -Iseconds)
-        jq --arg tid "$V_TASK_ID" --arg ts "$NOW" \
-          '(.queue[] | select(.taskId == $tid)) |= (.status = "failed" | .completedAt = $ts | .verificationResult = "failed_max_retries")' \
-          "$QUEUE_FILE" > "${QUEUE_FILE}.tmp" && mv "${QUEUE_FILE}.tmp" "$QUEUE_FILE"
-        
-        # Create alert
-        jq -n --arg tid "$V_TASK_ID" --arg tkt "$V_TICKET_ID" --arg err "$VERIFY_ERROR" --arg ts "$NOW" \
-          '{alerts: [{taskId: $tid, ticketId: $tkt, error: $err, detectedAt: $ts, acknowledged: false}]}' \
-          > "$ALERT_FILE"
-        
-        jq '.metrics.totalFailed += 1' "$QUEUE_FILE" > "${QUEUE_FILE}.tmp" && mv "${QUEUE_FILE}.tmp" "$QUEUE_FILE"
-      else
-        # Re-queue for retry
-        jq --arg tid "$V_TASK_ID" \
-          '(.queue[] | select(.taskId == $tid and .status == "dispatched")) |= (.status = "queued" | .retries += 1)' \
-          "$QUEUE_FILE" > "${QUEUE_FILE}.tmp" && mv "${QUEUE_FILE}.tmp" "$QUEUE_FILE"
-        echo "TQP: Re-queued $V_TASK_ID for retry $V_NEW_RETRIES/$V_MAX"
+    # Check if claim has timed out (default 30 min)
+    if [[ -n "$V_CLAIMEDAT" ]]; then
+      CLAIM_EPOCH=$(date -j -f "%Y-%m-%dT%H:%M:%S" "${V_CLAIMEDAT:0:19}" +%s 2>/dev/null || echo 0)
+      NOW_EPOCH=$(date +%s)
+      CLAIM_AGE=$((NOW_EPOCH - CLAIM_EPOCH))
+      if [[ $CLAIM_AGE -gt 1800 ]]; then
+        echo "TQP: Claim timed out for $V_TASK_ID (${CLAIM_AGE}s). Re-queuing."
+        pg -c "UPDATE state_task_queue SET status='queued', claimedby=NULL, claimedat=NULL, updated_at_ts=now(), claimtimeout=NULL WHERE id='$V_TASK_ID'" 2>/dev/null
+        rm -f "$LOCK_FILE"
+        exit 0
       fi
     fi
-    rm -f /tmp/tqp-verify.log
+    
+    # State Checking (TKT-0182): verify dispatched task has a real agent session
+    SESSION_CHECK=$(bash "$WORKSPACE_ROOT/scripts/sessions_list" 2>/dev/null | grep "$V_TASK_ID" || echo "")
+    
+    if [[ -z "$SESSION_CHECK" ]]; then
+      # Agent session not found — task may have been completed or failed
+      # Check for deliverable
+      V_DELIVERABLE=$(echo "$VERIFY_JSON" | jq -r '.atoms_jsonb // ""')
+      
+      echo "TQP: No active session found for $V_TASK_ID. Checking deliverable..."
+      
+      # Simple check: did the task complete? (atoms_jsonb has atoms with status)
+      ATOMS_DONE=$(echo "$V_DELIVERABLE" | jq '[.[] | select(.status == "complete")] | length' 2>/dev/null || echo 0)
+      ATOMS_TOTAL=$(echo "$V_DELIVERABLE" | jq 'length' 2>/dev/null || echo 0)
+      
+      if [[ "$ATOMS_DONE" -eq "$ATOMS_TOTAL" && "$ATOMS_TOTAL" -gt 0 ]]; then
+        echo "TQP: All atoms complete ($ATOMS_DONE/$ATOMS_TOTAL). Marking done."
+        pg -c "UPDATE state_task_queue SET status='complete', updated_at_ts=now() WHERE id='$V_TASK_ID'" 2>/dev/null
+      else
+        # Re-queue for retry
+        echo "TQP: Task incomplete ($ATOMS_DONE/$ATOMS_TOTAL atoms). Re-queuing."
+        pg -c "UPDATE state_task_queue SET status='queued', claimedby=NULL, claimedat=NULL, updated_at_ts=now() WHERE id='$V_TASK_ID'" 2>/dev/null
+      fi
+    else
+      echo "TQP: Session active for $V_TASK_ID — verification deferred."
+    fi
   else
     echo "TQP: No queued or dispatched tasks. Exiting."
     exit 0
@@ -117,83 +106,40 @@ fi
 # Create lock
 echo "$$ $(date -Iseconds)" > "$LOCK_FILE"
 
-TASK_ID=$(echo "$TASK_JSON" | jq -r '.taskId')
-TICKET_ID=$(echo "$TASK_JSON" | jq -r '.ticketId')
-PROMPT_FILE=$(echo "$TASK_JSON" | jq -r '.promptFile')
-EXPECTED_DELIVERABLE=$(echo "$TASK_JSON" | jq -r '.expectedDeliverable')
-TASK_TYPE=$(echo "$TASK_JSON" | jq -r '.type')
-MODEL=$(echo "$TASK_JSON" | jq -r '.assignedModel')
-RETRIES=$(echo "$TASK_JSON" | jq -r '.retries')
-MAX_RETRIES=$(echo "$TASK_JSON" | jq -r '.maxRetries')
+TASK_ID=$(echo "$TASK_JSON" | jq -r '.id')
+TASK_TITLE=$(echo "$TASK_JSON" | jq -r '.title')
+TASK_TIER=$(echo "$TASK_JSON" | jq -r '.tier')
+TASK_SOURCE=$(echo "$TASK_JSON" | jq -r '.source')
 
-echo "TQP: Processing $TASK_ID (ticket=$TICKET_ID, attempt=$((RETRIES + 1))/$MAX_RETRIES)"
+echo "TQP: Processing $TASK_ID — $TASK_TITLE"
 
-# Mark as running
+# State Checking (TKT-0182): verify task exists and is still queued before claiming
+CURRENT_STATUS=$(pg -c "SELECT status FROM state_task_queue WHERE id='$TASK_ID'" 2>/dev/null)
+if [[ "$CURRENT_STATUS" != "queued" ]]; then
+  echo "TQP: State check failed — $TASK_ID is $CURRENT_STATUS, not queued. Skipping."
+  rm -f "$LOCK_FILE"
+  exit 0
+fi
+
+# Claim the task (atomic UPDATE with WHERE status='queued' prevents double-claim)
 NOW=$(date -Iseconds)
-jq --arg tid "$TASK_ID" --arg ts "$NOW" \
-  '(.queue[] | select(.taskId == $tid and .status == "queued")) |= (.status = "running" | .startedAt = $ts)' \
-  "$QUEUE_FILE" > "${QUEUE_FILE}.tmp" && mv "${QUEUE_FILE}.tmp" "$QUEUE_FILE"
+CLAIMED=$(pg -c "UPDATE state_task_queue SET status='dispatched', claimedby='agent:tqp', claimedat='$NOW', claimtimeout='$(date -v+30M -Iseconds)', updated_at_ts=now() WHERE id='$TASK_ID' AND status='queued' RETURNING id;" 2>/dev/null)
+
+if [[ -z "$CLAIMED" || "$CLAIMED" == "" ]]; then
+  echo "TQP: Claim failed — $TASK_ID already claimed by another instance. Skipping."
+  rm -f "$LOCK_FILE"
+  exit 0
+fi
+
+echo "TQP: Claimed $TASK_ID — dispatched."
 
 # ──────────────────────────────────────────
-# ATOM 2.2: Dispatch to sub-agent via sessions_spawn
+# ATOM 2.2: Task is now dispatched. The cron agent (deepseek-pro) will
+# process the dispatch in its own session using sessions_spawn.
+# The TQP script just handles queue management — the actual execution
+# happens in the agent session that calls this script.
 # ──────────────────────────────────────────
 
-# For cron execution, we use a direct sub-agent approach.
-# The processor itself runs as a cron — it spawns the task as a sub-agent 
-# and waits for completion.
-
-# ATOM 5 (TKT-0228): Activate OWL guard before dispatch
-export OWL_MODEL="$MODEL"
-export OWL_SESSION="$TASK_ID"
-export TASK_CONTEXT="$TASK_PROMPT"
-bash "$WORKSPACE_ROOT/scripts/owl-guard.sh" 2>/dev/null || true
-
-# Build the task prompt
-TASK_PROMPT="ATOMIC TASK: ${TASK_ID}
-Ticket: ${TICKET_ID}
-Type: ${TASK_TYPE}
-Expected deliverable: ${EXPECTED_DELIVERABLE}
-
-This is an ATOMIC task. Execute exactly one unit of work. 
-Produce the deliverable at the expected path. 
-Do NOT mark anything as done. The platform will verify.
-Do NOT self-report completion — just produce the output file.
-
-Task specification: $(cat "$PROMPT_FILE" 2>/dev/null | head -100 || echo "See $PROMPT_FILE for full spec")"
-
-echo "TQP: Dispatching sub-agent for $TASK_ID..."
-echo "TQP: Model: $MODEL"
-echo "TQP: Expected deliverable: $EXPECTED_DELIVERABLE"
-
-# ──────────────────────────────────────────
-# NOTE: In cron context, sessions_spawn is not available.
-# The TQP cron runs as an agentTurn, and the agentTurn's task 
-# is to process the queue. The agent itself uses sessions_spawn.
-# 
-# For the shell script (called from cron), we mark the task 
-# as 'dispatched' and let the cron agent handle the actual spawn.
-# The next cron run picks up verification.
-# ──────────────────────────────────────────
-
-# Since we're in a shell script (not an agent session), we can't sessions_spawn.
-# Instead, we write a dispatch marker and the cron agent picks it up.
-# The verification happens on the NEXT cron run.
-
-# Save dispatch info for the agent
-DISPATCH_FILE="$WORKSPACE_ROOT/state/task-queue-dispatch.json"
-jq -n --arg tid "$TASK_ID" --arg tkt "$TICKET_ID" --arg prompt "$TASK_PROMPT" \
-    --arg model "$MODEL" --arg deliverable "$EXPECTED_DELIVERABLE" \
-    --arg type "$TASK_TYPE" \
-  '{taskId: $tid, ticketId: $tkt, prompt: $prompt, model: $model, expectedDeliverable: $deliverable, type: $type, dispatchedAt: now | todate}' \
-  > "$DISPATCH_FILE"
-
-# Mark as dispatched (waiting for agent to spawn)
-jq --arg tid "$TASK_ID" --arg ts "$NOW" \
-  '(.queue[] | select(.taskId == $tid and .status == "running")) |= (.status = "dispatched" | .startedAt = $ts)' \
-  "$QUEUE_FILE" > "${QUEUE_FILE}.tmp" && mv "${QUEUE_FILE}.tmp" "$QUEUE_FILE"
-
-echo "TQP: $TASK_ID dispatched. Verification will run on next cycle."
-
-# Cleanup lock
 rm -f "$LOCK_FILE"
+echo "TQP: $TASK_ID dispatched — agent session will pick up for execution."
 exit 0

@@ -70,7 +70,7 @@ case "$cmd" in
     ATOM_ID="$2"
     ERROR="${3:-Unknown error}"
     python3 /Users/ainchorsangiefpl/.openclaw/workspace/scripts/lib/task-queue-fail.py \
-      "$QUEUE_FILE" "$CHECKPOINT_DIR" "$TASK_ID" "$ATOM_ID" "$ERROR"
+      "$QUEUE_FILE" "$TASK_ID" "$ATOM_ID" "$ERROR"
     ;;
     
   reset)

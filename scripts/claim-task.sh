@@ -16,7 +16,7 @@ with open('$QUEUE_FILE') as f:
     queue = json.load(f)
 
 # Find first pending task
-for t in queue.get('tasks', []):
+for t in queue.get('queue', []):
     if t['status'] == 'pending':
         t['status'] = 'claimed'
         t['claimedBy'] = '$AGENT_ID'

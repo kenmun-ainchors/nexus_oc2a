@@ -42,7 +42,7 @@ if resume_atom:
     try:
         with open('$QUEUE_FILE') as f:
             queue = json.load(f)
-        for t in queue.get('tasks', []):
+        for t in queue.get('queue', []):
             if t['id'] == '$TASK_ID':
                 t['status'] = 'claimed'
                 t['claimedBy'] = '$AGENT_ID'
@@ -61,7 +61,7 @@ else:
     try:
         with open('$QUEUE_FILE') as f:
             queue = json.load(f)
-        for t in queue.get('tasks', []):
+        for t in queue.get('queue', []):
             if t['id'] == '$TASK_ID':
                 t['status'] = 'complete'
                 t['updatedAt'] = datetime.datetime.now().isoformat()
