@@ -1,7 +1,7 @@
 {
   "schema_version": "1.0",
   "sequence": 292,
-  "lastUpdated": "2026-05-25T06:58:04.013702+00:00",
+  "lastUpdated": "2026-05-25T07:11:34.729260+00:00",
   "source": "notion-akb-backlog-rebuild",
   "ticketCount": 214,
   "changeCount": 250,
@@ -3215,6 +3215,20 @@
       "createdAt": "2026-05-25T06:57:00Z",
       "updated": "2026-05-25T06:57:00Z",
       "description": "Following TKT-0292 (44-test PG Foundation suite, 100% pass), expand regression testing. AC1: Thrawn assessment \u2014 critical functions, test scope, cases, criteria. AC2: Forge owns the framework. AC3: Forge builds and verifies new tests. AC4: Forge creates Holocron page."
+    },
+    {
+      "id": "TKT-0294",
+      "title": "[TKT-0294] Fix db-write.sh PG schema mismatch \u2014 merge extras into metadata JSONB",
+      "type": "bug",
+      "priority": "high",
+      "status": "open",
+      "sprint": "S5",
+      "requester": "Ken",
+      "assignee": "Yoda",
+      "sequence": "294",
+      "createdAt": "2026-05-25T07:11:00Z",
+      "updated": "2026-05-25T07:11:00Z",
+      "description": "db-write.sh fails PG writes when callers send fields not in PG column schema. Fix: query PG schema, separate known/unknown columns, merge unknowns into metadata JSONB."
     }
   ],
   "changes": [
