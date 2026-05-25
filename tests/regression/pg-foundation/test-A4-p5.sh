@@ -1,5 +1,15 @@
 #!/bin/bash
-# db-read.sh falls back to file when PG is down
-# WARNING: Requires PG to be stopped. Set EXIT 2 (skip) by default.
-echo "REQUIRES PG RESTART — run during maintenance window"
-exit 2
+# A4: db-read.sh falls back to file when PG is down
+if /opt/homebrew/bin/pg_isready -h /tmp -q 2>/dev/null; then
+  echo "PG is still running — stop PG first"
+  exit 2
+fi
+RESULT=$(bash /Users/ainchorsangiefpl/.openclaw/workspace/scripts/db-read.sh state_tickets 2>&1)
+if echo "$RESULT" | /opt/homebrew/bin/jq -e 'length > 0' >/dev/null 2>&1; then
+  COUNT=$(echo "$RESULT" | /opt/homebrew/bin/jq 'length')
+  echo "File fallback returned $COUNT tickets"
+  exit 0
+else
+  echo "File fallback FAILED"
+  exit 1
+fi
