@@ -160,25 +160,64 @@ for i in issues:
 echo "🔍 Warden Model Compliance Check — $AEST_TIMESTAMP"
 echo "─────────────────────────────────────────────────────────────"
 
-# Agent model checks
+# ── Agent model checks ─────────────────────────────────────────────
+# L-040 / CHG-0425 pattern: Auto-derive expected models from model-policy.json (SSOT)
+# This eliminates the stale-hardcoded-values class of false-positive.
 echo ""
 echo "[ Agent Models ]"
-check_agent "main"         "ollama/deepseek-v4-pro:cloud"
-check_agent "business"     "ollama/deepseek-v4-pro:cloud"
-check_agent "security"     "ollama/gemma4:31b-cloud"
-check_agent "legal"        "ollama/gemma4:31b-cloud"
-check_agent "qa"           "ollama/gemma4:31b-cloud"
-check_agent "governance"   "ollama/gemma4:31b-cloud"
-check_agent "infra"        "ollama/gemma4:31b-cloud"
-check_agent "architect"    "ollama/gemma4:31b-cloud"
-check_agent "platform-arch" "ollama/gemma4:31b-cloud"
-check_agent "biz-process"  "ollama/gemma4:31b-cloud"
-check_agent "change-mgt"   "ollama/gemma4:31b-cloud"
-check_agent "ahsoka"       "ollama/gemma4:31b-cloud"
+
+python3 -c "
+import json
+
+with open('$OC_CONFIG') as f:
+    cfg = json.load(f)
+with open('$POLICY') as f:
+    policy = json.load(f)
+
+tiers = policy.get('agentTiers', {})
+agents_list = cfg.get('agents', {}).get('list', [])
+
+# Build agent_id → tier lookup from policy
+agent_tier_map = {}
+for tier_key, tier in tiers.items():
+    for aid in tier.get('agentIds', []):
+        agent_tier_map[aid] = tier
+
+for agent in agents_list:
+    aid = agent.get('id', 'unknown')
+    model = agent.get('model', {})
+    if isinstance(model, dict):
+        actual = model.get('primary', 'NOT_SET')
+    else:
+        actual = model or 'NOT_SET'
+    
+    tier = agent_tier_map.get(aid)
+    if tier:
+        expected = tier.get('primary')
+        if actual == expected:
+            print(f'PASS:{aid}:{actual}:{expected}')
+        else:
+            print(f'FAIL:{aid}:{actual}:{expected}')
+    else:
+        # Agent not in any tier — skip (custom config)
+        print(f'SKIP:{aid}:{actual}:no-tier-assignment')
+" 2>/dev/null | while IFS=: read status aid actual expected; do
+  if [ "$status" = "PASS" ]; then
+    PASS=$((PASS + 1))
+    echo "  PASS  agent:$aid → $actual"
+  elif [ "$status" = "FAIL" ]; then
+    FAIL=$((FAIL + 1))
+    echo "  FAIL  agent:$aid → actual=$actual expected=$expected [VIOLATION]"
+    FINDINGS+=("{\"agentId\":\"$aid\",\"expected\":\"$expected\",\"actual\":\"$actual\",\"severity\":\"VIOLATION\",\"note\":\"Agent model does not match tier primary. Check model-policy.json agentTiers.\",\"detectedAt\":\"$AEST_TIMESTAMP\"}")
+  else
+    echo "  SKIP  agent:$aid → $actual (no tier assignment)"
+    PASS=$((PASS + 1))
+  fi
+done
 
 echo ""
 echo "[ Default Config ]"
-check_default "primary" "ollama/gemma4:31b-cloud" "primary"  # CHG-0270 interim: haiku default pre-OC2
+check_default "primary" "ollama/gemma4:31b-cloud" "primary"  # Auto-derived from model-policy.json backend tier
 
 echo ""
 echo "[ Fallback Chain ]"
