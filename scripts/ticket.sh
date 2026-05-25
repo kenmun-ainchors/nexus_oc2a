@@ -30,6 +30,19 @@ NOTION_KEY_FILE="$HOME/.config/notion/api_key"
 die() { echo "ERROR: $1" >&2; exit 1; }
 
 # ──────────────────────────────────────────
+# SANITIZE FOR JQ (TKT-0229 AC1)
+# Strips control characters (U+0000–U+001F, U+007F–U+009F) from user-supplied
+# strings before passing to jq --arg. These characters break JSON parsing.
+# Replaces with space to preserve readability. Newlines → spaces.
+# ──────────────────────────────────────────
+sanitize_for_jq() {
+  local input="$1"
+  # Replace all control characters (including newlines, tabs, null bytes) with space
+  # Then collapse multiple spaces into one
+  echo "$input" | tr '\000-\037\177-\237' ' ' | tr -s ' '
+}
+
+# ──────────────────────────────────────────
 # STATE CHECKING PATTERN (TKT-0182)
 # ──────────────────────────────────────────
 get_ticket_state() {
@@ -114,6 +127,17 @@ notion_create_ticket() {
   [[ -z "$payload" ]] && echo "NOTION_SKIP" && return
   local resp=$(curl -s -X POST "https://api.notion.com/v1/pages" -H "Authorization: Bearer $key" -H "Notion-Version: 2025-09-03" -H "Content-Type: application/json" --data "$payload" 2>/dev/null)
   local page_id=$(echo "$resp" | jq -r '.id // ""' 2>/dev/null)
+  
+  # TKT-0229 AC2: Verify page is in correct database (DB A Backlog)
+  if [[ -n "$page_id" && "$page_id" != "null" && "$page_id" != "" ]]; then
+    local parent_db=$(echo "$resp" | jq -r '.parent.database_id // ""' 2>/dev/null)
+    if [[ "$parent_db" != "$NOTION_DB_BACKLOG" && "$parent_db" != "$NOTION_DB_ID" ]]; then
+      echo "NOTION_WRONG_DB:$parent_db" >&2
+      echo "NOTION_SKIP"
+      return
+    fi
+  fi
+  
   [[ -n "$page_id" && "$page_id" != "null" && "$page_id" != "" ]] && echo "$page_id" || echo "NOTION_SKIP"
 }
 
@@ -125,8 +149,8 @@ notion_update_ticket() {
   local n_status; n_status=$(notion_status "$tkt_status")
   local n_priority; n_priority=$(notion_priority "$priority")
   notes="${notes:0:2000}"
-  # Build title: [TKT-XXXX] original_title (strip existing prefix if present)
-  local display_title="${tkt_id:+[$tkt_id] }${notes:0:120}"
+  # TKT-0229 AC2: Always prefix with [TKT-NNNN] for searchability
+  local display_title="[${tkt_id}]"
   local payload=$(/usr/bin/python3 -c "
 import json, sys
 sta=sys.argv[1]; pri=sys.argv[2]; nts=sys.argv[3]; spr=sys.argv[4]; pdt=sys.argv[5]; ddt=sys.argv[6]; stm=sys.argv[7] if len(sys.argv)>7 else ''; typ=sys.argv[8] if len(sys.argv)>8 else ''; ttl=sys.argv[9] if len(sys.argv)>9 else ''
@@ -275,6 +299,8 @@ if [[ "$SUBCOMMAND" == "new" ]]; then
     case "$1" in --title) TITLE="$2"; shift 2 ;; --type) TYPE="$2"; shift 2 ;; --priority) PRIORITY="$2"; shift 2 ;; --description) DESC="$2"; shift 2 ;; --requester) REQUESTER="$2"; shift 2 ;; --assignee) ASSIGNEE="$2"; shift 2 ;; --auto-execute) AUTO_EXECUTE=true; shift ;; --deliverable-path) DELIVERABLE_PATH="$2"; shift 2 ;; *) die "Unknown arg: $1" ;; esac
   done
   [[ -z "$TITLE" ]] && die "--title is required"
+  TITLE=$(sanitize_for_jq "$TITLE")
+  DESC=$(sanitize_for_jq "$DESC")
   SEQ=$(jq '.sequence' "$TICKET_FILE")
   TKT_ID=$(printf "TKT-%04d" "$SEQ")
   NOW_LOCAL=$(date '+%Y-%m-%dT%H:%M:%S+10:00')
@@ -331,6 +357,7 @@ elif [[ "$SUBCOMMAND" == "update" ]]; then
     case "$1" in --status) STATUS="$2"; shift 2 ;; --notes) NOTES="$2"; shift 2 ;; *) die "Unknown arg: $1" ;; esac
   done
   [[ -z "$STATUS" ]] && die "--status is required"
+  NOTES=$(sanitize_for_jq "$NOTES")
 
   # TKT-0182: State Checking Pattern
   CURRENT_STATE=$(get_ticket_state "$TKT_ID")
@@ -367,6 +394,7 @@ elif [[ "$SUBCOMMAND" == "close" ]]; then
     case "$1" in --resolution) RES="$2"; shift 2 ;; --skip-verify) SKIP_VERIFY=true; shift ;; --deliverable-path) DELIVERABLE_PATH="$2"; shift 2 ;; *) die "Unknown arg: $1" ;; esac
   done
   [[ -z "$RES" ]] && die "--resolution is required"
+  RES=$(sanitize_for_jq "$RES")
 
   # TKT-0237 A1 + TKT-0182: State check then DoD Verification Gate
   CURRENT_STATE=$(get_ticket_state "$TKT_ID")
