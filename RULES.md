@@ -1,8 +1,19 @@
+# PG WRITE DISCIPLINE — NON-NEGOTIABLE (TKT-0297)
+# Effective: 2026-05-25
+# Authority: Ken Mun (CTO)
+
+**NEVER write raw SQL in exec/shell calls. ALWAYS use `db-write.sh` or `psql -v` variables.**
+- **MANDATORY:** All PG inserts/updates go through `scripts/db-write.sh` (handles escaping, column mapping, metadata JSONB merge, file fallback).
+- **VIOLATION:** Raw SQL in exec → single quotes, special chars cause silent failures (see TKT-0297 insert failure 08:06).
+- **BACKUP:** If `db-write.sh` doesn't fit, use `psql -v var="value"` (psql variables escape automatically).
+- **Never:** bash string interpolation into SQL strings — `"...'$VAR'..."` will break on any value containing a single quote.
+- **DoD:** Any ticket closed that added PG data via raw SQL → DoD FAIL.
+
+---
+
 # STATE CHECKING PATTERN — NON-NEGOTIABLE (TKT-0182)
 # Effective: 2026-05-21
-# Authority: Ke
- Mu
- (CTO)n
+# Authority: Ken Mun (CTO)
 **ALL stateful operations (Write/Update/Create) MUST follow the State Checking Patter
 .**
 - **MANDATORY:** Read current state $to$ Validate $to$ Execute $to$ Verify.
