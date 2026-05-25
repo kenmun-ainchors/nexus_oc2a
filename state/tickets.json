@@ -1,7 +1,7 @@
 {
   "schema_version": "1.0",
   "sequence": 292,
-  "lastUpdated": "2026-05-25T07:41:51.102949+00:00",
+  "lastUpdated": "2026-05-25T07:47:32.724958+00:00",
   "source": "notion-akb-backlog-rebuild",
   "ticketCount": 214,
   "changeCount": 250,
@@ -2007,8 +2007,9 @@
       "description": "May 18 2026 afternoon webchat session transcripts (approx 12:50-21:00 AEST) were lost due to gateway restart overwriting session files before backup could capture them. Journal incremental writer captured some entries after midnight but source sessions already gone. Neither Drive trash nor any backup contains the data.",
       "created": "2026-05-19T02:01:18Z",
       "resolution": "Preventive fix deployed (CHG-0416: pre-restart session snapshots). Original May 18 afternoon data unrecoverable \u2014 session files overwritten by gateway restart before backup.",
-      "notionPageId": "363c1829-53ff-81f0-8595-df189f12c869",
-      "sequence": "234"
+      "notionPageId": "36bc1829-53ff-813a-b06a-e07a359e146a",
+      "sequence": "234",
+      "url": "https://www.notion.so/Session-Transcript-Loss-\u2014-May-18-Afternoon-Unrecoverable-36bc182953ff813ab06ae07a359e146a"
     },
     {
       "id": "TKT-0235",
@@ -2993,8 +2994,9 @@
         "chg": []
       },
       "notes": "",
-      "notionPageId": "369c1829-53ff-81c3-8eae-c2fd61b71a56",
-      "sequence": "280"
+      "notionPageId": "36bc1829-53ff-81e9-adb4-cbf8a869f676",
+      "sequence": "280",
+      "url": "https://www.notion.so/TKT-0280-Post-TKT-0270-Cleanup-\u2014-Archive-5-remnant-state-files-after-48h-PG-stability-36bc182953ff81e9adb4cbf8a869f676"
     },
     {
       "id": "TKT-0281",
@@ -3239,7 +3241,219 @@
       "sequence": "296",
       "createdAt": "2026-05-25T07:34:00Z",
       "updated": "2026-05-25T07:34:00Z",
-      "description": "Journal broken since May 19 (90% loss). Root cause: sessions_history(limit=50) window too small. Fix: real-time append from main session, EOD finalizer only adds header/cost/business stream."
+      "description": "Journal broken since May 19 (90% loss). Root cause: sessions_history(limit=50) window too small. Fix: real-time append from main session, EOD finalizer only adds header/cost/business stream.",
+      "notionPageId": "36bc1829-53ff-8177-ad4a-f784b5bc986b",
+      "url": "https://www.notion.so/TKT-0296-Fix-Journal-Writer-\u2014-Real-time-append-architecture-36bc182953ff8177ad4af784b5bc986b"
+    },
+    {
+      "id": "TKT-0238",
+      "sequence": 0,
+      "title": "[TKT-0238] Systemic cron date calculation drift \u2014 standup/blog/LinkedIn missing deliveries",
+      "status": "open",
+      "priority": "medium",
+      "type": "tkt",
+      "createdAt": "2026-05-22T18:00:00.000Z",
+      "notionPageId": "368c1829-53ff-81ae-b28b-e71ea3ecfd88",
+      "url": "https://www.notion.so/TKT-0238-Systemic-cron-date-calculation-drift-\u2014-standup/blog/LinkedIn-missing-deliveries-368c182953ff81aeb28be71ea3ecfd88"
+    },
+    {
+      "id": "TKT-0241",
+      "sequence": 0,
+      "title": "[TKT-0241] Sonnet Review Tier \u2014 quality gate for content correctness verification",
+      "status": "open",
+      "priority": "medium",
+      "type": "tkt",
+      "createdAt": "2026-05-22T18:00:00.000Z",
+      "notionPageId": "368c1829-53ff-814b-bc4d-c363500d2bef",
+      "url": "https://www.notion.so/TKT-0241-Sonnet-Review-Tier-\u2014-quality-gate-for-content-correctness-verification-368c182953ff814bbc4dc363500d2bef"
+    },
+    {
+      "id": "TKT-0252",
+      "sequence": 0,
+      "title": "[TKT-0254] Groomed 19:27 AEST. TKT-0252 + TKT-0253 complete. Executing via Forge.",
+      "status": "done",
+      "priority": "medium",
+      "type": "tkt",
+      "createdAt": "2026-05-23T00:59:00.000Z",
+      "notionPageId": "369c1829-53ff-8147-8e2b-f8cdf4f78433",
+      "url": "https://www.notion.so/TKT-0254-Groomed-19:27-AEST.-TKT-0252-+-TKT-0253-complete.-Executing-via-Forge.-369c182953ff81478e2bf8cdf4f78433"
+    },
+    {
+      "id": "TKT-0253",
+      "sequence": 0,
+      "title": "[TKT-0254] Groomed 19:27 AEST. TKT-0252 + TKT-0253 complete. Executing via Forge.",
+      "status": "done",
+      "priority": "medium",
+      "type": "tkt",
+      "createdAt": "2026-05-23T00:59:00.000Z",
+      "notionPageId": "369c1829-53ff-8147-8e2b-f8cdf4f78433",
+      "url": "https://www.notion.so/TKT-0254-Groomed-19:27-AEST.-TKT-0252-+-TKT-0253-complete.-Executing-via-Forge.-369c182953ff81478e2bf8cdf4f78433"
+    },
+    {
+      "id": "TKT-0254",
+      "sequence": 0,
+      "title": "[TKT-0254] Groomed 19:27 AEST. TKT-0252 + TKT-0253 complete. Executing via Forge.",
+      "status": "done",
+      "priority": "medium",
+      "type": "tkt",
+      "createdAt": "2026-05-23T00:59:00.000Z",
+      "notionPageId": "369c1829-53ff-8147-8e2b-f8cdf4f78433",
+      "url": "https://www.notion.so/TKT-0254-Groomed-19:27-AEST.-TKT-0252-+-TKT-0253-complete.-Executing-via-Forge.-369c182953ff81478e2bf8cdf4f78433"
+    },
+    {
+      "id": "TKT-0255",
+      "sequence": 0,
+      "title": "[TKT-0255] Groomed 19:34 AEST. P1 complete. Executing Phase 2 via Forge.",
+      "status": "done",
+      "priority": "medium",
+      "type": "tkt",
+      "createdAt": "2026-05-23T00:59:00.000Z",
+      "notionPageId": "369c1829-53ff-8190-9da6-c2a434f995c9",
+      "url": "https://www.notion.so/TKT-0255-Groomed-19:34-AEST.-P1-complete.-Executing-Phase-2-via-Forge.-369c182953ff81909da6c2a434f995c9"
+    },
+    {
+      "id": "TKT-0256",
+      "sequence": 0,
+      "title": "[TKT-0256] Groomed 19:42 AEST. Executing via Forge.",
+      "status": "done",
+      "priority": "medium",
+      "type": "tkt",
+      "createdAt": "2026-05-23T00:59:00.000Z",
+      "notionPageId": "369c1829-53ff-813c-820b-e2fa55211a9b",
+      "url": "https://www.notion.so/TKT-0256-Groomed-19:42-AEST.-Executing-via-Forge.-369c182953ff813c820be2fa55211a9b"
+    },
+    {
+      "id": "TKT-0257",
+      "sequence": 0,
+      "title": "[TKT-0257] Groomed 19:47 AEST. Executing via Forge.",
+      "status": "done",
+      "priority": "medium",
+      "type": "tkt",
+      "createdAt": "2026-05-23T00:59:00.000Z",
+      "notionPageId": "369c1829-53ff-8160-9e1b-c1dc2600139f",
+      "url": "https://www.notion.so/TKT-0257-Groomed-19:47-AEST.-Executing-via-Forge.-369c182953ff81609e1bc1dc2600139f"
+    },
+    {
+      "id": "TKT-0258",
+      "sequence": 0,
+      "title": "[TKT-0258] Groomed 19:51 AEST. Executing via Forge.",
+      "status": "done",
+      "priority": "medium",
+      "type": "tkt",
+      "createdAt": "2026-05-23T00:59:00.000Z",
+      "notionPageId": "369c1829-53ff-816f-966f-cab623e5b6d7",
+      "url": "https://www.notion.so/TKT-0258-Groomed-19:51-AEST.-Executing-via-Forge.-369c182953ff816f966fcab623e5b6d7"
+    },
+    {
+      "id": "TKT-0259",
+      "sequence": 0,
+      "title": "[TKT-0259] Groomed 19:54 AEST. Executing via Forge.",
+      "status": "done",
+      "priority": "medium",
+      "type": "tkt",
+      "createdAt": "2026-05-23T00:59:00.000Z",
+      "notionPageId": "369c1829-53ff-81aa-918d-f8406f8192d1",
+      "url": "https://www.notion.so/TKT-0259-Groomed-19:54-AEST.-Executing-via-Forge.-369c182953ff81aa918df8406f8192d1"
+    },
+    {
+      "id": "TKT-0260",
+      "sequence": 0,
+      "title": "[TKT-0260] Groomed 19:57 AEST. Phase 2 complete. Executing Phase 3 via Forge.",
+      "status": "done",
+      "priority": "medium",
+      "type": "tkt",
+      "createdAt": "2026-05-23T01:00:00.000Z",
+      "notionPageId": "369c1829-53ff-81ae-835f-fd1579da155b",
+      "url": "https://www.notion.so/TKT-0260-Groomed-19:57-AEST.-Phase-2-complete.-Executing-Phase-3-via-Forge.-369c182953ff81ae835ffd1579da155b"
+    },
+    {
+      "id": "TKT-0261",
+      "sequence": 0,
+      "title": "[TKT-0261] Groomed 20:09 AEST. Phase 3 complete. OWL reset \u2014 atoms planned, verified atomically. Executing Phase 4 via Forge.",
+      "status": "done",
+      "priority": "medium",
+      "type": "tkt",
+      "createdAt": "2026-05-23T01:00:00.000Z",
+      "notionPageId": "369c1829-53ff-81c1-b20a-dcc1e4d54d01",
+      "url": "https://www.notion.so/TKT-0261-Groomed-20:09-AEST.-Phase-3-complete.-OWL-reset-\u2014-atoms-planned,-verified-atomically.-Executing-Phase-4-via-Forge.-369c182953ff81c1b20adcc1e4d54d01"
+    },
+    {
+      "id": "TKT-0262",
+      "sequence": 0,
+      "title": "[TKT-0262] Groomed 20:16 AEST. OWL enforced \u2014 4 atoms planned, one at a time. Executing via Forge.",
+      "status": "done",
+      "priority": "medium",
+      "type": "tkt",
+      "createdAt": "2026-05-23T01:00:00.000Z",
+      "notionPageId": "369c1829-53ff-81ce-a3ea-f5dafb105c33",
+      "url": "https://www.notion.so/TKT-0262-Groomed-20:16-AEST.-OWL-enforced-\u2014-4-atoms-planned,-one-at-a-time.-Executing-via-Forge.-369c182953ff81cea3eaf5dafb105c33"
+    },
+    {
+      "id": "TKT-0266",
+      "sequence": 0,
+      "title": "[TKT-0266] PG dual-write test",
+      "status": "backlog",
+      "priority": "medium",
+      "type": "tkt",
+      "createdAt": "2026-05-25T03:50:00.000Z",
+      "notionPageId": "36bc1829-53ff-8198-842e-fc8aaa5f547b",
+      "url": "https://www.notion.so/TKT-0266-PG-dual-write-test-36bc182953ff8198842efc8aaa5f547b"
+    },
+    {
+      "id": "TKT-0292",
+      "title": "[TKT-0292] Establish Formal Regression Testing Framework",
+      "type": "task",
+      "status": "closed",
+      "priority": "high",
+      "sequence": "292",
+      "sprint": "S5",
+      "requester": "Ken",
+      "assignee": "Yoda",
+      "description": "Establish a formal, maintainable regression testing framework for the AInchors Nexus platform. Phase 1: Operationalize the 44 tests from the PG Foundation Regression Test Plan (Phase 2 tests) as a re-runnable test suite with pass/fail reporting. Design for extensibility \u2014 new test categories are modular additions. Phase 2: Add failure mode tests (PG down/recovery). Phase 3: Add agent/cron integration tests, Notion sync tests, and state transition tests.",
+      "createdAt": "2026-05-25T06:09:30Z",
+      "updated": "2026-05-25T06:09:30Z"
+    },
+    {
+      "id": "TKT-0293",
+      "title": "[TKT-0293] Expand Regression Testing Framework \u2014 Platform-wide Test Coverage",
+      "type": "task",
+      "status": "open",
+      "priority": "high",
+      "sequence": "293",
+      "sprint": "S5",
+      "requester": "Ken",
+      "assignee": "Forge",
+      "description": "Following TKT-0292 (44-test PG Foundation suite, 100% pass), expand the regression testing framework to cover all critical platform functions.\n\nAC1: Thrawn to assess the platform and identify critical functions for regression coverage. Deliverable: assessment doc with test scope, test cases, and test criteria for each function.\nAC2: Forge assigned as owner of the Regression Testing Framework \u2014 build, maintain, operate.\nAC3: Forge to build, test, and verify the new test cases identified in AC1.\nAC4: Forge to create a dedicated Holocron page for the Regression Testing Framework \u2014 live document updated on any framework changes.",
+      "createdAt": "2026-05-25T06:58:03Z",
+      "updated": "2026-05-25T06:58:03Z"
+    },
+    {
+      "id": "TKT-0294",
+      "title": "[TKT-0294] Fix db-write.sh PG schema mismatch \u2014 merge extras into metadata JSONB",
+      "type": "bug",
+      "status": "closed",
+      "priority": "high",
+      "sequence": "294",
+      "sprint": "S5",
+      "requester": "Ken",
+      "assignee": "Yoda",
+      "description": "db-write.sh fails PG writes when callers send fields not matching the PG column schema (e.g. sprint, description, resolution). The script generates INSERT with all fields as columns, but PG only has a subset. Unknown columns must be merged into the metadata JSONB column. Fix: modify db-write.sh to query PG schema, separate known columns from unknown, and pack unknowns into metadata.",
+      "createdAt": "2026-05-25T07:11:34Z",
+      "updated": "2026-05-25T07:11:34Z"
+    },
+    {
+      "id": "TKT-0295",
+      "title": "[TKT-0295] PG Design-to-Implementation Audit \u2014 Atlas + Thrawn Joint Review",
+      "type": "task",
+      "status": "open",
+      "priority": "high",
+      "sequence": "295",
+      "sprint": "S5",
+      "requester": "Ken",
+      "assignee": "Atlas",
+      "description": "Joint audit by Atlas (Enterprise Architecture) and Thrawn (Platform Architecture). Review the Postgres implementation against the original PG strategy, design, and target architecture. Scope: PG schema design, dual-write pattern, db-read.sh/db-write.sh paths, TKT-0270/0271 migration, TKT-0236 TQP backend, state checking compliance, fallback chains, data integrity. Deliverable: audit report with findings, gaps, and recommendations.",
+      "createdAt": "2026-05-25T07:22:14Z",
+      "updated": "2026-05-25T07:22:14Z"
     }
   ],
   "changes": [

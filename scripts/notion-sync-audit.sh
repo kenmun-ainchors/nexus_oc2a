@@ -1,15 +1,14 @@
 #!/bin/zsh
 # AInchors Notion Sync Audit — Daily drift detection
-# CHG-0371/L-035: Detects drift between tickets.json and Notion AKB Backlog
+# CHG-0371/L-035: Detects drift between PG state_tickets (SSOT) and Notion AKB Backlog
+# Updated: TKT-0296 — Switch data source from tickets.json to PG state_tickets
 # Output: state/notion-audit-report.json
 # Alert: Telegram if drift detected
-# FIXED: 2026-05-19 — heredoc variable passing, DB-filtered search, absolute paths
 
 set -uo pipefail
 
 WORKSPACE="/Users/ainchorsangiefpl/.openclaw/workspace"
 STATE="$WORKSPACE/state"
-TICKET_FILE="$STATE/tickets.json"
 AUDIT_FILE="$STATE/notion-audit-report.json"
 ALERT_FILE="/tmp/pvt-alert.txt"
 NOTION_KEY_FILE="/Users/ainchorsangiefpl/.config/notion/api_key"
@@ -20,21 +19,32 @@ AEST_TIMESTAMP=$(TZ=Australia/Melbourne date '+%Y-%m-%d %H:%M:%S %Z')
 log() { echo "[$(date '+%Y-%m-%d %H:%M:%S')] $1"; }
 
 # ── Validate inputs ────────────────────────────────────────────────────────
-if [[ ! -f "$TICKET_FILE" ]]; then
-  log "ERROR: $TICKET_FILE not found"
-  exit 1
-fi
-
 if [[ ! -f "$NOTION_KEY_FILE" ]]; then
   log "ERROR: $NOTION_KEY_FILE not found"
   exit 1
 fi
 
+# ── Load tickets from PG (SSOT) ───────────────────────────────────────────
+log "Loading tickets from PG state_tickets..."
+TICKETS_JSON=$(bash "$WORKSPACE/scripts/db-read.sh" state_tickets 2>&1)
+
+if [[ -z "$TICKETS_JSON" || "$TICKETS_JSON" == "null" ]]; then
+  log "PG read failed — falling back to tickets.json"
+  TICKETS_JSON=$(/opt/homebrew/bin/jq -c '.tickets' "$STATE/tickets.json" 2>/dev/null)
+  if [[ -z "$TICKETS_JSON" || "$TICKETS_JSON" == "null" ]]; then
+    log "ERROR: Cannot read tickets from PG or JSON file"
+    exit 1
+  fi
+fi
+
+# Write to temp file for Python to read
+TICKET_TMP="$STATE/.notion-audit-tickets-tmp.json"
+echo "$TICKETS_JSON" > "$TICKET_TMP"
+
 # ── Single Python script: fetch Notion + analyze drift ─────────────────────
-# Pass data via files (tickets.json) and env vars to avoid heredoc interpolation bugs
 log "Fetching Notion pages and analyzing drift..."
 
-export NOTION_KEY_FILE NOTION_DB_ID TICKET_FILE AUDIT_FILE AEST_TIMESTAMP
+export NOTION_KEY_FILE NOTION_DB_ID AUDIT_FILE AEST_TIMESTAMP TICKET_TMP
 
 /opt/homebrew/bin/python3 - << 'PYEOF'
 import json, os, sys, time, urllib.request
@@ -51,26 +61,43 @@ headers = {
 }
 
 db_id = os.environ['NOTION_DB_ID']
-ticket_file = os.environ['TICKET_FILE']
+ticket_tmp = os.environ['TICKET_TMP']
 audit_file = os.environ['AUDIT_FILE']
 aest_ts = os.environ['AEST_TIMESTAMP']
 
-# ── Load tickets.json ──────────────────────────────────────────────────────
-with open(ticket_file) as f:
-    tickets = json.load(f)
+# ── Load tickets from PG-sourced temp file ─────────────────────────────────
+with open(ticket_tmp) as f:
+    ticket_list = json.load(f)
 
-ticket_list = tickets.get('tickets', [])
-ticket_ids = {t['id'] for t in ticket_list}
-active_ticket_ids = {t['id'] for t in ticket_list if t.get('status') in ('open', 'in-progress', 'pending')}
+# PG returns array directly, but db-read.sh might wrap it
+if isinstance(ticket_list, dict):
+    ticket_list = ticket_list.get('tickets', ticket_list.get('data', []))
+
+if isinstance(ticket_list, str):
+    ticket_list = json.loads(ticket_list)
+
+# PG columns use different keys — normalize
+ticket_ids = set()
+active_ticket_ids = set()
+for t in ticket_list:
+    tid = t.get('id')
+    if not tid:
+        continue
+    ticket_ids.add(tid)
+    # PG status values
+    status = t.get('status', '')
+    if status in ('open', 'in-progress', 'pending'):
+        active_ticket_ids.add(tid)
+
+print(f"[{time.strftime('%H:%M:%S')}] Loaded {len(ticket_ids)} tickets from PG (SSOT), {len(active_ticket_ids)} active", file=sys.stderr)
 
 # ── Fetch all pages from Backlog DB ────────────────────────────────────────
-# Use database query to filter to the correct DB, paginated
 notion_pages = {}
 has_more = True
 start_cursor = None
 
 while has_more:
-    time.sleep(0.35)  # rate limit courtesy
+    time.sleep(0.35)
     body = {"page_size": 100}
     if start_cursor:
         body["start_cursor"] = start_cursor
@@ -87,7 +114,6 @@ while has_more:
             data = json.loads(r.read())
             for page in data.get('results', []):
                 props = page.get('properties', {})
-                # US Title is the title property in AKB Backlog
                 title = ''
                 if props.get('US Title') and props['US Title'].get('title'):
                     title_parts = props['US Title']['title']
@@ -122,7 +148,6 @@ issues = {
     'timestamp': aest_ts
 }
 
-# Duplicates: same TKT appears multiple times in Notion
 for tkt_id, pages in notion_pages.items():
     if len(pages) > 1:
         issues['duplicates'].append({
@@ -131,12 +156,10 @@ for tkt_id, pages in notion_pages.items():
             'pages': [p['page_id'] for p in pages]
         })
 
-# Missing: active tickets in JSON but not in Notion
 for tkt_id in sorted(active_ticket_ids):
     if tkt_id not in notion_pages:
         issues['missing'].append(tkt_id)
 
-# Extra: in Notion but not in tickets.json
 for tkt_id in sorted(notion_pages.keys()):
     if tkt_id not in ticket_ids:
         issues['extra'].append(tkt_id)
@@ -144,8 +167,9 @@ for tkt_id in sorted(notion_pages.keys()):
 # ── Write audit report ─────────────────────────────────────────────────────
 report = {
     'auditDate': aest_ts,
+    'dataSource': 'PG state_tickets (SSOT)',
     'notionPageCount': len(notion_pages),
-    'ticketsJsonCount': len(ticket_list),
+    'pgTicketCount': len(ticket_ids),
     'activeTicketCount': len(active_ticket_ids),
     'issues': issues
 }
@@ -153,14 +177,13 @@ report = {
 with open(audit_file, 'w') as f:
     json.dump(report, f, indent=2)
 
-# ── Output summary for shell ───────────────────────────────────────────────
+# ── Output summary ─────────────────────────────────────────────────────────
 drift_count = len(issues['duplicates']) + len(issues['missing']) + len(issues['extra'])
 print(f"DRIFT_COUNT={drift_count}")
 print(f"DUPLICATES={len(issues['duplicates'])}")
 print(f"MISSING={len(issues['missing'])}")
 print(f"EXTRA={len(issues['extra'])}")
 
-# Print details to stderr for logging
 if drift_count > 0:
     print(f"DRIFT DETECTED: {drift_count} issues", file=sys.stderr)
     if issues['duplicates']:
@@ -177,9 +200,11 @@ PYEOF
 
 EXIT_CODE=$?
 
+# Cleanup temp file
+rm -f "$TICKET_TMP"
+
 # ── Alert if drift detected ────────────────────────────────────────────────
 if [[ $EXIT_CODE -ne 0 ]]; then
-  # Parse the audit file for alert
   if [[ -f "$AUDIT_FILE" ]]; then
     ISSUES=$(/opt/homebrew/bin/python3 -c "
 import json
@@ -201,9 +226,15 @@ print(f'Duplicates: {dup}, Missing: {miss}, Extra: {extra}')
       echo ""
     } >> "$ALERT_FILE"
     log "ALERT: Drift detected — $ISSUES"
+
+    # Auto-fix: run notion-sync-fix.sh for missing pages
+    if [[ -f "$WORKSPACE/scripts/notion-sync-fix.sh" ]]; then
+      log "Running auto-fix via notion-sync-fix.sh..."
+      bash "$WORKSPACE/scripts/notion-sync-fix.sh" 2>&1 || log "Auto-fix completed with non-zero exit"
+    fi
   fi
   exit 1
 else
-  log "All clear — no drift detected"
+  log "All clear — no drift detected (PG SSOT vs Notion)"
   exit 0
 fi
