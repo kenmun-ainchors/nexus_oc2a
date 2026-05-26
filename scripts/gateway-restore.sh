@@ -79,6 +79,7 @@ if $SNAPSHOT_MODE; then
     "$HOME/.openclaw/agents/qa/agent/auth-profiles.json"
     "$HOME/Library/LaunchAgents/ai.openclaw.gateway.plist"
     "$HOME/.openclaw/workspace/state/critical-config-baseline.json"
+    # Note: baseline is also in PG (state_config_baseline) — file is the restore target
   )
 
   python3 - "$SNAP_DIR" "${SOURCES[@]}" <<'PYEOF'

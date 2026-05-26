@@ -1,0 +1,36 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://ainchors.com/schema/metadata-v1",
+  "title": "AInchors Metadata JSONB Schema",
+  "description": "Validates metadata JSONB columns across PG tables. P1: warn mode. P2: strict mode.",
+  "version": "1.0.0",
+  "tables": {
+    "state_tickets": {
+      "mode": "warn",
+      "description": "Ticket extended metadata — resolution, parent, owner, etc.",
+      "properties": {
+        "description": { "type": "string", "maxLength": 2000 },
+        "parent": { "type": "string", "pattern": "^TKT-\\d{4}$" },
+        "owner": { "type": "string", "enum": ["Forge", "Atlas", "Thrawn", "Lando", "Spark", "Shield", "Lex", "Sage", "Warden", "Krennic", "Mon Mothma", "Aria", "Yoda", "Ahsoka"] },
+        "requester": { "type": "string", "enum": ["Ken", "Angie", "Yoda", "Aria"] },
+        "sprint": { "type": "string", "pattern": "^S\\d+$" },
+        "assignee": { "type": "string" },
+        "resolution": { "type": "string", "maxLength": 500 },
+        "closedAt": { "type": "string", "format": "date-time" }
+      },
+      "required": [],
+      "additionalProperties": "warn"
+    },
+    "changelog": {
+      "mode": "warn",
+      "description": "CHG log extended metadata — free-form for now.",
+      "properties": {
+        "trigger": { "type": "string" },
+        "source": { "type": "string" },
+        "rollback": { "type": "string" }
+      },
+      "required": [],
+      "additionalProperties": "warn"
+    }
+  }
+}

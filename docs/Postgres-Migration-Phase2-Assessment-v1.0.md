@@ -56,8 +56,8 @@ These files have clear Postgres destinations and provide operational value when 
 |------|------------|-----------|
 | `gemma4-rtb-trial.json` | `state_model_trials` (NEW) | Model trial results. Query: "Which model had lowest latency in May?" |
 | `gemma4-shadow.json` | `state_model_trials` | Shadow deployment results. |
-| `kimi-rtb-trial.json` | `state_model_trials` | Kimi trial data. |
-| `kimi-confidence-mapping.json` | `state_model_trials` | Confidence scoring per task type. |
+| `kimi-rtb-trial.json` | `state_model_trials` | Kimi trial data (decommissioned). |
+| ~~`kimi-confidence-mapping.json`~~ | REMOVED (2026-05-26) | DeepSeek is permanent primary model. |
 | `interim-model-period.json` | `state_model_trials` | Interim model period tracking. |
 | `model-drift-state.json` | `state_model_trials` | Warden drift detection state. |
 | `model-drift-violations.json` | `state_model_trials` | Drift violation history. |

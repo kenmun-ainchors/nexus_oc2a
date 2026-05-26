@@ -1,20 +1,7 @@
 {
-  "activeTier": "3",
-  "balance": 0,
-  "checkedAt": "2026-05-24T23:49:00+00:00",
-  "tier1": {
-    "triggered": true,
-    "triggeredAt": "2026-05-24T22:49:00+00:00",
-    "acknowledged": true
-  },
-  "tier2": {
-    "triggered": true,
-    "triggeredAt": "2026-05-24T22:49:00+00:00",
-    "acknowledged": true
-  },
-  "tier3": {
-    "triggered": true,
-    "triggeredAt": "2026-05-24T22:49:00+00:00",
-    "acknowledged": true
-  }
+  "mode": "silent",
+  "balance": "tracking_only",
+  "note": "Ollama Cloud = fixed subscription. No alerts. Token/credit tracking only. Decommissioned from 3-tier alert system 2026-05-26 per Ken.",
+  "lastChecked": "2026-05-26T03:11:52Z",
+  "updatedAt": "2026-05-26T03:11:52Z"
 }

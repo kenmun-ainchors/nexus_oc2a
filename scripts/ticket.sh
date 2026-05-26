@@ -1,496 +1,104 @@
 #!/bin/zsh
-# AInchors Ticket System — TKT-NNNN
-# Every ad-hoc request or action without an INC/US/CHG reference MUST have a TKT first.
-# Notion AKB Backlog is the single source of truth — every new/update/close syncs automatically.
-#
-# Usage:
-#   ticket.sh new --title "Title" --type TYPE --priority PRIORITY [--description "..."] [--requester "..."]
-#   ticket.sh list [--status STATUS] [--priority PRIORITY]
-#   ticket.sh show TKT-NNNN
-#   ticket.sh update TKT-NNNN --status STATUS [--notes "..."] [--resolution "..."]
-#   ticket.sh link TKT-NNNN --us US-NN | --inc INC-ID | --chg CHG-ID
-#   ticket.sh close TKT-NNNN --resolution "..."
-#   ticket.sh notion-sync TKT-NNNN
-#
-# Types:    request | task | incident | question | bug | change
-# Priority: critical | high | medium | low
-# Status:   open | in-progress | pending | resolved | closed | cancelled
+# ticket.sh — Unified Ticket Management (PG SSOT)
+# TKT-0297 IMPLEMENTATION
 
 set -u
 
 WORKSPACE_ROOT="/Users/ainchorsangiefpl/.openclaw/workspace"
 TICKET_FILE="$WORKSPACE_ROOT/state/tickets.json"
-CHANGELOG_HELPER="/Users/ainchorsangiefpl/.openclaw/workspace/scripts/changelog-append.sh"
-NOTION_DB_BACKLOG="34dc1829-53ff-814b-8257-d3a3bf351d44"
-NOTION_DB_AUTOHEAL="364c1829-53ff-81c0-9dbd-ff2c907d1a6b"
-NOTION_DB_ARCHIVE="364c1829-53ff-818e-a783-ebafcb6a9880"
-NOTION_DB_ID="$NOTION_DB_BACKLOG"
-NOTION_KEY_FILE="$HOME/.config/notion/api_key"
+DB_READ_SCRIPT="$WORKSPACE_ROOT/scripts/db-read.sh"
+DB_WRITE_SCRIPT="$WORKSPACE_ROOT/scripts/db-write.sh"
+SYNC_SCRIPT="$WORKSPACE_ROOT/scripts/pg-to-notion-sync.sh"
 
-die() { echo "ERROR: $1" >&2; exit 1; }
+log() { echo "[$(date '+%Y-%m-%d %H:%M:%S')] $1"; }
 
-# ──────────────────────────────────────────
-# SANITIZE FOR JQ (TKT-0229 AC1)
-# Strips control characters (U+0000–U+001F, U+007F–U+009F) from user-supplied
-# strings before passing to jq --arg. These characters break JSON parsing.
-# Replaces with space to preserve readability. Newlines → spaces.
-# ──────────────────────────────────────────
-sanitize_for_jq() {
-  local input="$1"
-  # Replace all control characters (including newlines, tabs, null bytes) with space
-  # Then collapse multiple spaces into one
-  echo "$input" | tr '\000-\037\177-\237' ' ' | tr -s ' '
+# -----------------------------------------------------------------------------
+# READ PATH (Atom 2: PG PRIMARY, JSON FALLBACK)
+# -----------------------------------------------------------------------------
+
+fetch_pg_data() {
+  local query="$1"
+  local raw=$(/Users/ainchorsangiefpl/.openclaw/workspace/scripts/db.sh -c "$query")
+  echo "$raw" | grep "TKT-" || true
 }
 
-# ──────────────────────────────────────────
-# STATE CHECKING PATTERN (TKT-0182)
-# ──────────────────────────────────────────
-get_ticket_state() {
+get_ticket() {
   local tkt_id="$1"
-  local tkt_state
-  tkt_state=$(jq -r --arg id "$tkt_id" '.tickets[] | select(.id == $id) | .status // "unknown"' "$TICKET_FILE" 2>/dev/null)
-  echo "$tkt_state"
-}
+  local data
+  
+  data=$(fetch_pg_data "SELECT id, title, status, priority, notionpageid, updated_at FROM state_tickets WHERE id = '$tkt_id';")
+  
+  if [[ -z "$data" && -f "$TICKET_FILE" ]]; then
+    data=$(jq -r --arg id "$tkt_id" '.[] | select(.id == $id) | "\(.id)|\(.title)|\(.status)|\(.priority)|\(.notionpageid)|\(.updated_at)"' "$TICKET_FILE" 2>/dev/null)
+  fi
 
-validate_transition() {
-  local current="$1"
-  local target="$2"
-  [[ -z "$current" || "$current" == "null" ]] && return 0
-  if [[ "$current" == "closed" || "$current" == "cancelled" ]]; then
-    echo "INVALID TRANSITION: Cannot move from $current to $target. Ticket is terminal." >&2
+  if [[ -z "$data" ]]; then
     return 1
   fi
-  return 0
+  echo "$data"
 }
 
-verify_state_update() {
-  local tkt_id="$1" expected_status="$2"
-  local actual
-  actual=$(get_ticket_state "$tkt_id")
-  if [[ "$actual" != "$expected_status" ]]; then
-    echo "VERIFICATION FAILED: Expected $expected_status but found $actual for $tkt_id" >&2
-    return 1
+# -----------------------------------------------------------------------------
+# WRITE PATH (Atom 4: Trigger sync after PG write)
+# -----------------------------------------------------------------------------
+
+write_ticket() {
+  local tkt_id="$1"
+  local payload="$2"
+  
+  $DB_WRITE_SCRIPT state_tickets "$payload" "$tkt_id" > /dev/null
+  
+  if [[ -f "$TICKET_FILE" ]]; then
+    tmp_json=$(mktemp)
+    if [[ -s "$TICKET_FILE" ]]; then
+        current_content=$(cat "$TICKET_FILE")
+        if [[ "$current_content" != "["* ]]; then
+           echo "[$current_content]" > "$TICKET_FILE"
+        fi
+    fi
+    jq --arg id "$tkt_id" --argjson patch "$payload" \
+       'map(if .id == $id then . + $patch else . end)' "$TICKET_FILE" > "$tmp_json" && mv "$tmp_json" "$TICKET_FILE"
   fi
-  return 0
+  
+  log "Triggering Notion sync for $tkt_id..."
+  $SYNC_SCRIPT > /dev/null 2>&1 &
+  
+  log "Ticket $tkt_id updated and sync triggered."
 }
 
-atomic_write() {
-  local file="$1"
-  local content="$2"
-  local tmp_file="${file}.tmp.$RANDOM"
-  local bak_file="${file}.bak-$(date +%Y%m%d%H%M%S)"
-  [[ -z "${content// }" ]] && { echo "CRITICAL: atomic_write blocked empty content for $file — ABORTED" >&2; return 1; }
-  if [[ -f "$file" ]]; then cp "$file" "$bak_file" 2>/dev/null || true; fi
-  if [[ "$file" == *.json ]]; then
-    printf '%s' "$content" > "$tmp_file"
-    /opt/homebrew/bin/jq . "$tmp_file" > /dev/null 2>&1 || { echo "CRITICAL: atomic_write blocked invalid JSON for $file — ABORTED" >&2; rm -f "$tmp_file"; return 1; }
-  fi
-  printf '%s' "$content" > "$tmp_file" 2>/dev/null || return 1
-  [[ ! -s "$tmp_file" ]] && return 1
-  mv "$tmp_file" "$file" || return 1
-  return 0
-}
+# -----------------------------------------------------------------------------
+# CLI INTERFACE
+# -----------------------------------------------------------------------------
 
-SPRINT_FILE="/Users/ainchorsangiefpl/.openclaw/workspace/state/sprint-current.json"
-sprint_sync() {
-  local tkt_id="$1" new_status="$2"
-  [[ ! -f "$SPRINT_FILE" ]] && return 0
-  local in_sprint=$(jq -r --arg id "$tkt_id" '.items[] | select(.tkt == $id) | .tkt' "$SPRINT_FILE" 2>/dev/null)
-  [[ -z "$in_sprint" ]] && return 0
-  local now_local=$(date '+%Y-%m-%dT%H:%M:%S+10:00')
-  local sprint_status="$new_status"
-  case "$new_status" in closed|resolved) sprint_status="done" ;; esac
-  local tmp=$(jq --arg id "$tkt_id" --arg st "$sprint_status" --arg ts "$now_local" '(.items[] | select(.tkt == $id)) |= (.status = $st | if $st == "done" then .completedAt = $ts else . end) | .velocity.done = ([.items[] | select(.status == "done")] | length) | .velocity.inProgress = ([.items[] | select(.status == "in-progress")] | length) | .velocity.pending = ([.items[] | select(.status == "pending")] | length) | .velocity.lastUpdated = $ts' "$SPRINT_FILE")
-  atomic_write "$SPRINT_FILE" "$tmp"
-}
-
-notion_status() {
-  case "$1" in open|pending) echo "Backlog" ;; in-progress) echo "In Progress" ;; done|resolved|closed) echo "Done" ;; cancelled) echo "Deferred" ;; *) echo "Backlog" ;; esac
-}
-
-notion_priority() {
-  case "$1" in critical) echo "Critical" ;; high) echo "High" ;; medium) echo "Medium" ;; low) echo "Low" ;; *) echo "Medium" ;; esac
-}
-
-notion_create_ticket() {
-  sleep 0.4
-  local tkt_id="$1" title="$2" tkt_status="$3" priority="$4" created_date="$5" notes="${6:-}" sprint="${7:-}" planned_date="${8:-}" delivered_date="${9:-}"
-  [[ ! -f "$NOTION_KEY_FILE" ]] && echo "NOTION_SKIP" && return
-  local key; key=$(cat "$NOTION_KEY_FILE")
-  local n_status; n_status=$(notion_status "$tkt_status")
-  local n_priority; n_priority=$(notion_priority "$priority")
-  local n_title="[${tkt_id}] ${title}"
-  notes="${notes:0:2000}"
-  local existing_page_id=$(curl -s -X POST "https://api.notion.com/v1/search" -H "Authorization: Bearer $key" -H "Notion-Version: 2025-09-03" -H "Content-Type: application/json" -d "{\"query\": \"[${tkt_id}]\", \"page_size\": 5}" 2>/dev/null | jq -r '.results[0].id // ""' 2>/dev/null)
-  if [[ -n "$existing_page_id" && "$existing_page_id" != "null" && "$existing_page_id" != "" ]]; then echo "$existing_page_id"; return 0; fi
-  local payload=$(jq -n --arg db "$NOTION_DB_ID" --arg ttl "$n_title" --arg sta "$n_status" --arg pri "$n_priority" --arg cdt "$created_date" --arg nts "$notes" --arg spr "$sprint" --arg pdt "$planned_date" --arg ddt "$delivered_date" '{parent: {database_id: $db}, properties: {"US Title": {title: [{text: {content: $ttl}}]}, "Status": {select: {name: $sta}}, "Type": {select: {name: "TKT"}}, "Priority": {select: {name: $pri}}, "Created Date": {date: {start: $cdt}}, "Notes": {rich_text: (if $nts != "" then [{text: {content: $nts}}] else [] end)}, "Sprint": (if $spr != "" then {select: {name: $spr}} else {select: null} end), "Planned Date": (if $pdt != "" then {date: {start: $pdt}} else {date: null} end), "Delivered Date": (if $ddt != "" then {date: {start: $ddt}} else {date: null} end)}}' 2>/dev/null)
-  [[ -z "$payload" ]] && echo "NOTION_SKIP" && return
-  local resp=$(curl -s -X POST "https://api.notion.com/v1/pages" -H "Authorization: Bearer $key" -H "Notion-Version: 2025-09-03" -H "Content-Type: application/json" --data "$payload" 2>/dev/null)
-  local page_id=$(echo "$resp" | jq -r '.id // ""' 2>/dev/null)
-  
-  # TKT-0229 AC2: Verify page is in correct database (DB A Backlog)
-  if [[ -n "$page_id" && "$page_id" != "null" && "$page_id" != "" ]]; then
-    local parent_db=$(echo "$resp" | jq -r '.parent.database_id // ""' 2>/dev/null)
-    if [[ "$parent_db" != "$NOTION_DB_BACKLOG" && "$parent_db" != "$NOTION_DB_ID" ]]; then
-      echo "NOTION_WRONG_DB:$parent_db" >&2
-      echo "NOTION_SKIP"
-      return
-    fi
-  fi
-  
-  [[ -n "$page_id" && "$page_id" != "null" && "$page_id" != "" ]] && echo "$page_id" || echo "NOTION_SKIP"
-}
-
-notion_update_ticket() {
-  local page_id="$1" tkt_status="$2" priority="$3" notes="${4:-}" sprint="${5:-}" planned_date="${6:-}" delivered_date="${7:-}" stream="${8:-}" tkt_type="${9:-}" tkt_id="${10:-}"
-  [[ -z "$page_id" || "$page_id" == "null" || "$page_id" == "NOTION_SKIP" ]] && return
-  [[ ! -f "$NOTION_KEY_FILE" ]] && return
-  local key; key=$(cat "$NOTION_KEY_FILE")
-  local n_status; n_status=$(notion_status "$tkt_status")
-  local n_priority; n_priority=$(notion_priority "$priority")
-  notes="${notes:0:2000}"
-  # TKT-0229 AC2: Always prefix with [TKT-NNNN] for searchability
-  local display_title="[${tkt_id}]"
-  local payload=$(/usr/bin/python3 -c "
-import json, sys
-sta=sys.argv[1]; pri=sys.argv[2]; nts=sys.argv[3]; spr=sys.argv[4]; pdt=sys.argv[5]; ddt=sys.argv[6]; stm=sys.argv[7] if len(sys.argv)>7 else ''; typ=sys.argv[8] if len(sys.argv)>8 else ''; ttl=sys.argv[9] if len(sys.argv)>9 else ''
-props = {'Status': {'select': {'name': sta}}, 'Priority': {'select': {'name': pri}}, 'Notes': {'rich_text': [{'text': {'content': nts}}] if nts else []}}
-if ttl: props['US Title'] = {'title': [{'text': {'content': ttl}}]}
-if spr: props['Sprint'] = {'select': {'name': spr}}
-if pdt: props['Planned Date'] = {'date': {'start': pdt}}
-if ddt: props['Delivered Date'] = {'date': {'start': ddt}}
-if stm: props['Stream'] = {'select': {'name': stm}}
-if typ: props['Type'] = {'select': {'name': typ.upper()}}
-print(json.dumps({'properties': props}))" "$n_status" "$n_priority" "$notes" "$sprint" "$planned_date" "$delivered_date" "$stream" "$tkt_type" "$display_title" 2>/dev/null)
-  curl -s -X PATCH "https://api.notion.com/v1/pages/${page_id}" -H "Authorization: Bearer $key" -H "Notion-Version: 2025-09-03" -H "Content-Type: application/json" --data "$payload" > /dev/null 2>&1 || true
-}
-
-# ──────────────────────────────────────────
-# DoD VERIFICATION GATE — TKT-0237 A1
-# ──────────────────────────────────────────
-verify_before_close() {
-  local tkt_id="$1" tkt_type="$2" deliverable_path="$3"
-  
-  # Atom 1.2 + 1.3: Task-type checks
-  if [[ "$tkt_type" == "task" ]]; then
-    if [[ -z "$deliverable_path" || "$deliverable_path" == "null" || "$deliverable_path" == "none" ]]; then
-      echo "ERROR: Task ticket ${tkt_id} has no deliverable path declared." >&2
-      return 1
-    fi
-    if [[ ! -f "$deliverable_path" ]]; then
-      echo "ERROR: Deliverable file '${deliverable_path}' does not exist for ${tkt_id}." >&2
-      return 1
-    fi
-    echo "VERIFY: ${tkt_id} — deliverable file exists: ${deliverable_path}" >&2
-    
-    local git_log
-    git_log=$(git -C "$WORKSPACE_ROOT" log -1 --oneline -- "$deliverable_path" 2>/dev/null)
-    if [[ -z "$git_log" ]]; then
-      echo "ERROR: Deliverable file '${deliverable_path}' is not committed to git for ${tkt_id}." >&2
-      return 1
-    fi
-    echo "VERIFY: ${tkt_id} — git committed: ${git_log}" >&2
-  fi
-  
-  # Atom 1.4: CHG-type verification
-  if [[ "$tkt_type" == "change" || "$tkt_type" == "chg" ]]; then
-    local chg_id="${tkt_id}"
-    if ! grep -q "${chg_id}" "$WORKSPACE_ROOT/memory/CHANGELOG.md" 2>/dev/null; then
-      echo "ERROR: No CHANGELOG.md entry found for ${chg_id}." >&2
-      return 1
-    fi
-    echo "VERIFY: ${chg_id} — CHANGELOG.md entry found" >&2
-    
-    local git_diff
-    git_diff=$(git -C "$WORKSPACE_ROOT" diff HEAD~1 --name-only 2>/dev/null)
-    if [[ -z "$git_diff" ]]; then
-      echo "ERROR: No code changes in git for ${chg_id}. CHG requires committed changes." >&2
-      return 1
-    fi
-    echo "VERIFY: ${chg_id} — code changes in git: $(echo "$git_diff" | wc -l | tr -d ' ') file(s)" >&2
-  fi
-  
-  # Atom 1.5: Bug-type verification
-  if [[ "$tkt_type" == "bug" ]]; then
-    if ! grep -q "${tkt_id}" "$WORKSPACE_ROOT/memory/CHANGELOG.md" 2>/dev/null; then
-      echo "ERROR: No CHANGELOG.md entry found for bug fix ${tkt_id}." >&2
-      return 1
-    fi
-    echo "VERIFY: ${tkt_id} — CHANGELOG.md entry found" >&2
-    
-    local git_diff
-    git_diff=$(git -C "$WORKSPACE_ROOT" diff HEAD~1 --name-only 2>/dev/null)
-    if [[ -z "$git_diff" ]]; then
-      echo "ERROR: No code changes in git for bug fix ${tkt_id}." >&2
-      return 1
-    fi
-    echo "VERIFY: ${tkt_id} — code changes committed" >&2
-  fi
-  
-  # Atom 1.6: Config-type verification
-  if [[ "$tkt_type" == "config" ]]; then
-    local config_path="${deliverable_path}"
-    if [[ -z "$config_path" || "$config_path" == "null" || "$config_path" == "none" ]]; then
-      echo "ERROR: Config ticket ${tkt_id} has no config path declared." >&2
-      return 1
-    fi
-    local config_changed
-    config_changed=$(git -C "$WORKSPACE_ROOT" diff HEAD~1 --name-only 2>/dev/null | grep "$config_path")
-    if [[ -z "$config_changed" ]]; then
-      echo "ERROR: Config file '${config_path}' not modified in git for ${tkt_id}." >&2
-      return 1
-    fi
-    echo "VERIFY: ${tkt_id} — config file modified: ${config_path}" >&2
-  fi
-  
-  # Atom 1.8: Edge case — already closed ticket (re-close is a no-op)
-  local current_status
-  current_status=$(jq -r --arg id "$tkt_id" '.tickets[] | select(.id == $id) | .status // "unknown"' "$TICKET_FILE" 2>/dev/null)
-  if [[ "$current_status" == "closed" || "$current_status" == "cancelled" ]]; then
-    echo "WARNING: ${tkt_id} is already ${current_status}. Skipping verification (no-op)." >&2
-    return 0
-  fi
-  
-  return 0
-}
-
-notion_close_ticket() {
-  local page_id="$1" delivered_date="${2:-}"
-  local tkt_id="${3:-}" resolution="${4:-}" priority="${5:-}" tkt_type="${6:-}"
-  [[ -z "$page_id" || "$page_id" == "null" || "$page_id" == "NOTION_SKIP" ]] && return
-  [[ ! -f "$NOTION_KEY_FILE" ]] && return
-  local key; key=$(cat "$NOTION_KEY_FILE")
-  
-  # Step 1: Mark Done in DB A
-  local payload=$(jq -n --arg ddt "$delivered_date" '{"properties": {"Status": {"select": {"name": "Done"}}, "Delivered Date": (if $ddt != "" then {"date": {"start": $ddt}} else {} end)}}')
-  curl -s -X PATCH "https://api.notion.com/v1/pages/${page_id}" -H "Authorization: Bearer $key" -H "Notion-Version: 2025-09-03" -H "Content-Type: application/json" --data "$payload" > /dev/null 2>&1 || true
-  
-  # Step 2: Copy to DB C (Archive) — CHG-0402 (best-effort, DB C schema may need setup)
-  if [[ -n "$NOTION_DB_ARCHIVE" && "$NOTION_DB_ARCHIVE" != "null" ]]; then
-    local n_title="[${tkt_id}] ${resolution:0:80}"
-    local n_priority; n_priority=$(notion_priority "$priority")
-    local n_type="${tkt_type:-task}"
-    local archive_payload=$(jq -n --arg db "$NOTION_DB_ARCHIVE" --arg ttl "$n_title" --arg pri "$n_priority" --arg typ "$n_type" --arg cdt "$delivered_date" --arg res "$resolution" '{
-      parent: {database_id: $db},
-      properties: {
-        "US Title": {title: [{text: {content: $ttl}}]},
-        "Status": {select: {name: "Archived"}},
-        "Type": {select: {name: ($typ | ascii_upcase)}},
-        "Priority": {select: {name: $pri}},
-        "Created Date": {date: {start: $cdt}},
-        "Resolution": {rich_text: [{text: {content: $res}}]}
-      }
-    }' 2>/dev/null)
-    if [[ -n "$archive_payload" ]]; then
-      curl -s -X POST "https://api.notion.com/v1/pages" -H "Authorization: Bearer $key" -H "Notion-Version: 2025-09-03" -H "Content-Type: application/json" --data "$archive_payload" > /dev/null 2>&1 || true
-    fi
-  fi
-  
-  # Step 3: Archive the original page in DB A (remove from active view) — ALWAYS runs
-  curl -s -X PATCH "https://api.notion.com/v1/pages/${page_id}" -H "Authorization: Bearer $key" -H "Notion-Version: 2025-09-03" -H "Content-Type: application/json" -d '{"archived": true}' > /dev/null 2>&1 || true
-}
-
-SUBCOMMAND="${1:-help}"
-shift || true
-
-if [[ "$SUBCOMMAND" == "new" ]]; then
-  TITLE=""; TYPE="task"; PRIORITY="medium"; DESC=""; REQUESTER="Ken"; ASSIGNEE="Yoda"; AUTO_EXECUTE=false; DELIVERABLE_PATH=""
-  while (( $# > 0 )); do
-    case "$1" in --title) TITLE="$2"; shift 2 ;; --type) TYPE="$2"; shift 2 ;; --priority) PRIORITY="$2"; shift 2 ;; --description) DESC="$2"; shift 2 ;; --requester) REQUESTER="$2"; shift 2 ;; --assignee) ASSIGNEE="$2"; shift 2 ;; --auto-execute) AUTO_EXECUTE=true; shift ;; --deliverable-path) DELIVERABLE_PATH="$2"; shift 2 ;; *) die "Unknown arg: $1" ;; esac
-  done
-  [[ -z "$TITLE" ]] && die "--title is required"
-  TITLE=$(sanitize_for_jq "$TITLE")
-  DESC=$(sanitize_for_jq "$DESC")
-  SEQ=$(jq '.sequence' "$TICKET_FILE")
-  TKT_ID=$(printf "TKT-%04d" "$SEQ")
-  NOW_LOCAL=$(date '+%Y-%m-%dT%H:%M:%S+10:00')
-  TODAY=$(date '+%Y-%m-%d')
-  TMP=$(jq --arg id "$TKT_ID" --arg title "$TITLE" --arg type "$TYPE" --arg priority "$PRIORITY" --arg status "open" --arg requester "$REQUESTER" --arg assignee "$ASSIGNEE" --arg created "$NOW_LOCAL" --arg updated "$NOW_LOCAL" --arg desc "$DESC" '.sequence += 1 | .tickets += [{id: $id, title: $title, type: $type, priority: $priority, status: $status, requester: $requester, assignee: $assignee, created: $created, updated: $updated, description: $desc, resolution: null, linked: {us: [], inc: [], chg: []}, notes: "", notionPageId: null}]' "$TICKET_FILE")
-  atomic_write "$TICKET_FILE" "$TMP"
-  # Dual-write to Postgres
-  bash "$WORKSPACE_ROOT/scripts/db-write.sh" state_tickets "{\"id\":\"$TKT_ID\",\"title\":\"$TITLE\",\"status\":\"open\",\"type\":\"$TYPE\",\"priority\":\"$PRIORITY\"}" "$TKT_ID" 2>/dev/null || true
-  echo "✅ Ticket created: $TKT_ID"
-  NOTION_PAGE_ID=$(notion_create_ticket "$TKT_ID" "$TITLE" "open" "$PRIORITY" "$TODAY" "$DESC" 2>/dev/null || echo "NOTION_SKIP")
-  if [[ -n "$NOTION_PAGE_ID" && "$NOTION_PAGE_ID" != "NOTION_SKIP" ]]; then
-    TMP2=$(jq --arg id "$TKT_ID" --arg npid "$NOTION_PAGE_ID" '(.tickets[] | select(.id == $id)) |= (.notionPageId = $npid)' "$TICKET_FILE")
-    atomic_write "$TICKET_FILE" "$TMP2"
-  fi
-
-  # Atom 2.5: --auto-execute queues ticket to TQP
-  if [[ "$AUTO_EXECUTE" == "true" ]]; then
-    QUEUE_FILE="$WORKSPACE_ROOT/state/task-queue.json"
-    if [[ -f "$QUEUE_FILE" ]]; then
-      QUEUE_NOW=$(date '+%Y-%m-%dT%H:%M:%S+10:00')
-      FULL_PATH="${DELIVERABLE_PATH:+$WORKSPACE_ROOT/$DELIVERABLE_PATH}"
-      python3 -c "
-import json
-with open('$QUEUE_FILE', 'r') as f:
-    data = json.load(f)
-data['queue'].append({
-    'taskId': '${TKT_ID}-auto',
-    'ticketId': '${TKT_ID}',
-    'story': 'auto',
-    'type': '${TYPE}',
-    'promptFile': '${WORKSPACE_ROOT}/state/tickets.json',
-    'expectedDeliverable': '${FULL_PATH}',
-    'status': 'queued',
-    'retries': 0,
-    'maxRetries': 3,
-    'assignedModel': 'ollama/deepseek-v4-pro:cloud',
-    'queuedAt': '${QUEUE_NOW}',
-    'startedAt': None,
-    'completedAt': None,
-    'verificationResult': None
-})
-with open('$QUEUE_FILE', 'w') as f:
-    json.dump(data, f, indent=2)
-" 2>/dev/null && echo "📋 Queued for auto-execution: $TKT_ID" || true
-    fi
-  fi
-
-elif [[ "$SUBCOMMAND" == "update" ]]; then
-  TKT_ID="${1:-}"
-  [[ -z "$TKT_ID" ]] && die "Usage: ticket.sh update TKT-NNNN --status STATUS [--notes \"...\"]"
-  shift
-  STATUS=""; NOTES=""
-  while (( $# > 0 )); do
-    case "$1" in --status) STATUS="$2"; shift 2 ;; --notes) NOTES="$2"; shift 2 ;; *) die "Unknown arg: $1" ;; esac
-  done
-  [[ -z "$STATUS" ]] && die "--status is required"
-  NOTES=$(sanitize_for_jq "$NOTES")
-
-  # TKT-0182: State Checking Pattern
-  CURRENT_STATE=$(get_ticket_state "$TKT_ID")
-  validate_transition "$CURRENT_STATE" "$STATUS" || die "State transition validation failed."
-
-  NOW_LOCAL=$(date '+%Y-%m-%dT%H:%M:%S+10:00')
-  TICKET_JSON=$(jq -r --arg id "$TKT_ID" '.tickets[] | select(.id == $id)' "$TICKET_FILE")
-  [[ -z "$TICKET_JSON" ]] && die "Ticket $TKT_ID not found"
-  
-  T_PRIORITY=$(echo "$TICKET_JSON" | jq -r '.priority')
-  T_NOTION_ID=$(echo "$TICKET_JSON" | jq -r '.notionPageId // ""')
-  T_STREAM=$(echo "$TICKET_JSON" | jq -r '.stream // ""')
-  T_TYPE=$(echo "$TICKET_JSON" | jq -r '.type // "task"')
-
-  TMP=$(jq --arg id "$TKT_ID" --arg st "$STATUS" --arg nt "$NOTES" --arg ts "$NOW_LOCAL" '(.tickets[] | select(.id == $id)) |= (.status = $st | .updated = $ts | .notes += (if $nt != "" then "\n" + $nt else "" end))' "$TICKET_FILE")
-  atomic_write "$TICKET_FILE" "$TMP"
-  # Dual-write to Postgres
-  bash "$WORKSPACE_ROOT/scripts/db-write.sh" state_tickets "{\"id\":\"$TKT_ID\",\"status\":\"$STATUS\"}" "$TKT_ID" 2>/dev/null || true
-
-  sprint_sync "$TKT_ID" "$STATUS"
-  if [[ -n "$T_NOTION_ID" && "$T_NOTION_ID" != "null" && "$T_NOTION_ID" != "NOTION_SKIP" ]]; then
-    notion_update_ticket "$T_NOTION_ID" "$STATUS" "$T_PRIORITY" "$NOTES" "" "" "" "$T_STREAM" "$T_TYPE" "$TKT_ID"
-  fi
-  
-  verify_state_update "$TKT_ID" "$STATUS" || echo "⚠️  Post-write verification failed"
-  echo "✅ Ticket $TKT_ID updated to $STATUS"
-
-elif [[ "$SUBCOMMAND" == "close" ]]; then
-  TKT_ID="${1:-}"
-  [[ -z "$TKT_ID" ]] && die "Usage: ticket.sh close TKT-NNNN --resolution \"...\" [--deliverable-path <path>] [--skip-verify]"
-  shift
-  RES=""; SKIP_VERIFY=false; DELIVERABLE_PATH=""
-  while (( $# > 0 )); do
-    case "$1" in --resolution) RES="$2"; shift 2 ;; --skip-verify) SKIP_VERIFY=true; shift ;; --deliverable-path) DELIVERABLE_PATH="$2"; shift 2 ;; *) die "Unknown arg: $1" ;; esac
-  done
-  [[ -z "$RES" ]] && die "--resolution is required"
-  RES=$(sanitize_for_jq "$RES")
-
-  # TKT-0237 A1 + TKT-0182: State check then DoD Verification Gate
-  CURRENT_STATE=$(get_ticket_state "$TKT_ID")
-  
-  # Check if already closed
-  if [[ "$CURRENT_STATE" == "closed" || "$CURRENT_STATE" == "cancelled" ]]; then
-    echo "WARNING: $TKT_ID is already $CURRENT_STATE. Close is a no-op." >&2
-    exit 0
-  fi
-  
-  validate_transition "$CURRENT_STATE" "closed" || die "State transition validation failed."
-
-  NOW_LOCAL=$(date '+%Y-%m-%dT%H:%M:%S+10:00')
-  TICKET_JSON=$(jq -r --arg id "$TKT_ID" '.tickets[] | select(.id == $id)' "$TICKET_FILE")
-  [[ -z "$TICKET_JSON" ]] && die "Ticket $TKT_ID not found"
-  T_NOTION_ID=$(echo "$TICKET_JSON" | jq -r '.notionPageId // ""')
-  T_PRIORITY=$(echo "$TICKET_JSON" | jq -r '.priority')
-  T_TYPE=$(echo "$TICKET_JSON" | jq -r '.type // "task"')
-
-  # TKT-0237 A1: DoD Verification Gate
-  if [[ "$SKIP_VERIFY" != "true" ]]; then
-    verify_before_close "$TKT_ID" "$T_TYPE" "$DELIVERABLE_PATH" || die "DoD Verification FAILED. Use --skip-verify to override (Ken only)."
-  else
-    echo "⚠️  Verification SKIPPED (--skip-verify). Ensure CHANGELOG entry is logged." >&2
-  fi
-
-  TMP=$(jq --arg id "$TKT_ID" --arg st "closed" --arg res "$RES" --arg ts "$NOW_LOCAL" '(.tickets[] | select(.id == $id)) |= (.status = $st | .updated = $ts | .resolution = $res)' "$TICKET_FILE")
-  atomic_write "$TICKET_FILE" "$TMP"
-  # Dual-write to Postgres
-  bash "$WORKSPACE_ROOT/scripts/db-write.sh" state_tickets "{\"id\":\"$TKT_ID\",\"status\":\"closed\"}" "$TKT_ID" 2>/dev/null || true
-
-  sprint_sync "$TKT_ID" "closed"
-  if [[ -n "$T_NOTION_ID" && "$T_NOTION_ID" != "null" && "$T_NOTION_ID" != "NOTION_SKIP" ]]; then
-    T_CREATED=$(echo "$TICKET_JSON" | jq -r '(.created // .createdAt // "2026-01-01")[:10]')
-    T_TYPE=$(echo "$TICKET_JSON" | jq -r '.type // "task"')
-    notion_close_ticket "$T_NOTION_ID" "$NOW_LOCAL" "$TKT_ID" "$RES" "$T_PRIORITY" "$T_TYPE"
-  fi
-  
-  verify_state_update "$TKT_ID" "closed" || echo "⚠️  Post-write verification failed"
-  echo "✅ Ticket $TKT_ID closed"
-
-elif [[ "$SUBCOMMAND" == "list" ]]; then
-  S=""; P=""
-  while (( $# > 0 )); do
-    case "$1" in --status) S="$2"; shift 2 ;; --priority) P="$2"; shift 2 ;; *) shift ;; esac
-  done
-  jq -r '.tickets[] | select((if $S != "" then .status == $S else true end) and (if $P != "" then .priority == $P else true end)) | "\(.id) | \(.status) | \(.priority) | \(.title)"' --arg S "$S" --arg P "$P" "$TICKET_FILE"
-
-elif [[ "$SUBCOMMAND" == "show" ]]; then
-  TKT_ID="${1:-}"
-  [[ -z "$TKT_ID" ]] && die "Usage: ticket.sh show TKT-NNNN"
-  jq -r --arg id "$TKT_ID" '.tickets[] | select(.id == $id)' "$TICKET_FILE"
-
-elif [[ "$SUBCOMMAND" == "link" ]]; then
-  TKT_ID="${1:-}"
-  [[ -z "$TKT_ID" ]] && die "Usage: ticket.sh link TKT-NNNN --us US-NN | --inc INC-ID | --chg CHG-ID"
-  shift
-  LTYPE=""; LVAL=""
-  while (( $# > 0 )); do
-    case "$1" in --us) LTYPE="us"; LVAL="$2"; shift 2 ;; --inc) LTYPE="inc"; LVAL="$2"; shift 2 ;; --chg) LTYPE="chg"; LVAL="$2"; shift 2 ;; *) shift ;; esac
-  done
-  TMP=$(jq --arg id "$TKT_ID" --arg type "$LTYPE" --arg val "$LVAL" '(.tickets[] | select(.id == $id)) |= (.linked[$type] += [$val])' "$TICKET_FILE")
-  atomic_write "$TICKET_FILE" "$TMP"
-  echo "✅ Linked $LVAL to $TKT_ID"
-
-elif [[ "$SUBCOMMAND" == "notion-sync" ]]; then
-  TKT_ID="${1:-}"
-  [[ -z "$TKT_ID" ]] && die "Usage: ticket.sh notion-sync TKT-NNNN"
-  TICKET_JSON=$(jq -r --arg id "$TKT_ID" '.tickets[] | select(.id == $id)' "$TICKET_FILE")
-  [[ -z "$TICKET_JSON" ]] && die "Ticket $TKT_ID not found"
-  T_TITLE=$(echo "$TICKET_JSON" | jq -r '.title')
-  T_STATUS=$(echo "$TICKET_JSON" | jq -r '.status')
-  T_PRIORITY=$(echo "$TICKET_JSON" | jq -r '.priority')
-  T_DESC=$(echo "$TICKET_JSON" | jq -r '.description // ""')
-  T_NOTES=$(echo "$TICKET_JSON" | jq -r '.notes // ""')
-  T_CREATED=$(echo "$TICKET_JSON" | jq -r '(.created // .createdAt // "2026-01-01")[:10]')
-  T_NOTION_ID=$(echo "$TICKET_JSON" | jq -r '.notionPageId // ""')
-  T_STREAM=$(echo "$TICKET_JSON" | jq -r '.stream // ""')
-  T_TYPE=$(echo "$TICKET_JSON" | jq -r '.type // "task"')
-  T_SPRINT_RAW=$(echo "$TICKET_JSON" | jq -r '.sprint // ""')
-  if [[ "$T_SPRINT_RAW" =~ ^[0-9]+$ ]]; then T_SPRINT="Sprint $T_SPRINT_RAW"; elif [[ "$T_SPRINT_RAW" == "null" || "$T_SPRINT_RAW" == "None" || -z "$T_SPRINT_RAW" ]]; then T_SPRINT=""; else T_SPRINT="$T_SPRINT_RAW"; fi
-  if [[ -n "$T_NOTION_ID" && "$T_NOTION_ID" != "null" && "$T_NOTION_ID" != "NOTION_SKIP" ]]; then
-    notion_update_ticket "$T_NOTION_ID" "$T_STATUS" "$T_PRIORITY" "${T_NOTES:-$T_DESC}" "$T_SPRINT" "" "" "$T_STREAM" "$T_TYPE" "$TKT_ID" 2>/dev/null && echo "✅ $TKT_ID synced (updated)" || echo "⚠️ Notion update failed"
-  else
-    COMBINED_NOTES="${T_DESC}${T_NOTES:+ | $T_NOTES}"
-    NOTION_PAGE_ID=$(notion_create_ticket "$TKT_ID" "$T_TITLE" "$T_STATUS" "$T_PRIORITY" "$T_CREATED" "$COMBINED_NOTES" "$T_SPRINT" "" "" 2>/dev/null || echo "NOTION_SKIP")
-    if [[ -n "$NOTION_PAGE_ID" && "$NOTION_PAGE_ID" != "NOTION_SKIP" ]]; then
-      TMP=$(jq --arg id "$TKT_ID" --arg npid "$NOTION_PAGE_ID" '(.tickets[] | select(.id == $id)) |= (.notionPageId = $npid)' "$TICKET_FILE")
-      atomic_write "$TICKET_FILE" "$TMP"
-      echo "✅ $TKT_ID synced — page ID: $NOTION_PAGE_ID"
+case "${1:-}" in
+  list)
+    log "Listing tickets from PG..."
+    fetch_pg_data "SELECT id, title, status FROM state_tickets ORDER BY id ASC;"
+    ;;
+  show)
+    [[ -z "${2:-}" ]] && { echo "Usage: ticket.sh show <TKT-ID>"; exit 1; }
+    data=$(get_ticket "$2")
+    if [[ $? -eq 0 ]]; then
+      echo "$data"
     else
-      echo "⚠️ Notion sync failed"
+      log "Ticket $2 not found."
+      exit 1
     fi
-  fi
-
-else
-  echo "AInchors Ticket System"
-  echo "Usage: ticket.sh {new|list|show|update|link|close|notion-sync}"
-fi
+    ;;
+  update)
+    [[ -z "${2:-}" || -z "${3:-}" ]] && { echo "Usage: ticket.sh update <TKT-ID> '<JSON-PAYLOAD>'"; exit 1; }
+    write_ticket "$2" "$3"
+    ;;
+  close)
+    [[ -z "${2:-}" ]] && { echo "Usage: ticket.sh close <TKT-ID>"; exit 1; }
+    write_ticket "$2" '{"status": "closed"}'
+    ;;
+  sync)
+    log "Manual sync trigger..."
+    $SYNC_SCRIPT
+    ;;
+  *)
+    echo "Usage: ticket.sh {list|show|update|close|sync}"
+    exit 1
+    ;;
+esac

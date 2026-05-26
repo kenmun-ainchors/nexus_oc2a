@@ -59,3 +59,6 @@ Business Case | Proposal Deck | Comparison Analysis | Change Management Annex
 ## Full Role Definition
 Extended knowledge base, deliverable templates, discovery toolkit, and positioning
 scripts: /Users/ainchorsangiefpl/.openclaw/workspace/agents/ahsoka/ahsoka_role.md
+
+## PG SSOT (TKT-0270)
+Postgres is the authoritative data store. Use db-read.sh for reads (PG→state_v→JSON fallback), db.sh for dual-writes. Key tables: agent_shared_state, state_tickets, state_cost.

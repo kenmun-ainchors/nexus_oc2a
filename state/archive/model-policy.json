@@ -56,7 +56,7 @@
   },
   "agents": {
     "main": {
-      "description": "Yoda 🟢 — Lead Orchestrator (user-facing)",
+      "description": "Yoda \ud83d\udfe2 \u2014 Lead Orchestrator (user-facing)",
       "tier": "userFacing",
       "requiredPrimary": "ollama/deepseek-v4-pro:cloud",
       "requiredFallbacks": [
@@ -72,7 +72,7 @@
       ]
     },
     "business": {
-      "description": "Aria 🔵 — Business Lead Agent (user-facing)",
+      "description": "Aria \ud83d\udd35 \u2014 Business Lead Agent (user-facing)",
       "tier": "userFacing",
       "requiredPrimary": "ollama/deepseek-v4-pro:cloud",
       "requiredFallbacks": [
@@ -87,7 +87,7 @@
       ]
     },
     "security": {
-      "description": "Shield 🛡️ — Security Governance Agent",
+      "description": "Shield \ud83d\udee1\ufe0f \u2014 Security Governance Agent",
       "tier": "backend",
       "requiredPrimary": "ollama/gemma4:31b-cloud",
       "requiredFallbacks": [
@@ -100,7 +100,7 @@
       ]
     },
     "legal": {
-      "description": "Lex ⚖️ — Legal Governance Agent",
+      "description": "Lex \u2696\ufe0f \u2014 Legal Governance Agent",
       "tier": "backend",
       "requiredPrimary": "ollama/gemma4:31b-cloud",
       "requiredFallbacks": [
@@ -113,7 +113,7 @@
       ]
     },
     "qa": {
-      "description": "Sage 🧪 — QA Governance Agent",
+      "description": "Sage \ud83e\uddea \u2014 QA Governance Agent",
       "tier": "backend",
       "requiredPrimary": "ollama/gemma4:31b-cloud",
       "requiredFallbacks": [
@@ -126,7 +126,7 @@
       ]
     },
     "governance": {
-      "description": "Warden 🔍 — Model Compliance Officer",
+      "description": "Warden \ud83d\udd0d \u2014 Model Compliance Officer",
       "tier": "backend",
       "requiredPrimary": "ollama/gemma4:31b-cloud",
       "requiredFallbacks": [
@@ -139,7 +139,7 @@
       ]
     },
     "infra": {
-      "description": "Forge 🏗️ — Infra/Ops Agent",
+      "description": "Forge \ud83c\udfd7\ufe0f \u2014 Infra/Ops Agent",
       "tier": "backend",
       "requiredPrimary": "ollama/gemma4:31b-cloud",
       "requiredFallbacks": [
@@ -148,7 +148,7 @@
       ]
     },
     "architect": {
-      "description": "Atlas 🏛️ — Enterprise Architect",
+      "description": "Atlas \ud83c\udfdb\ufe0f \u2014 Enterprise Architect",
       "tier": "backend",
       "requiredPrimary": "ollama/gemma4:31b-cloud",
       "requiredFallbacks": [
@@ -157,7 +157,7 @@
       ]
     },
     "platform-arch": {
-      "description": "Thrawn — AI Platform Architect",
+      "description": "Thrawn \u2014 AI Platform Architect",
       "tier": "backend",
       "requiredPrimary": "ollama/gemma4:31b-cloud",
       "requiredFallbacks": [
@@ -166,7 +166,7 @@
       ]
     },
     "biz-process": {
-      "description": "Lando 🟡 — Business Process Specialist",
+      "description": "Lando \ud83d\udfe1 \u2014 Business Process Specialist",
       "tier": "backend",
       "requiredPrimary": "ollama/gemma4:31b-cloud",
       "requiredFallbacks": [
@@ -175,7 +175,7 @@
       ]
     },
     "change-mgt": {
-      "description": "Mon Mothma 🌟 — Digital Transformation CM Specialist",
+      "description": "Mon Mothma \ud83c\udf1f \u2014 Digital Transformation CM Specialist",
       "tier": "backend",
       "requiredPrimary": "ollama/gemma4:31b-cloud",
       "requiredFallbacks": [
@@ -184,13 +184,37 @@
       ]
     },
     "ahsoka": {
-      "description": "Ahsoka 🤍 — AI Transformation Consultant",
+      "description": "Ahsoka \ud83e\udd0d \u2014 AI Transformation Consultant",
       "tier": "backend",
       "requiredPrimary": "ollama/gemma4:31b-cloud",
       "requiredFallbacks": [
         "ollama/deepseek-v4-pro:cloud",
         "ollama/kimi-k2.6:cloud"
       ]
+    },
+    "luthen": {
+      "requiredPrimary": "ollama/gemma4:31b-cloud",
+      "allowed": [
+        "ollama/gemma4:31b-cloud",
+        "ollama/deepseek-v4-pro:cloud",
+        "ollama/kimi-k2.6:cloud"
+      ],
+      "tier": 3,
+      "role": "Marketing Intelligence Agent",
+      "stream": "business",
+      "reportsTo": "aria"
+    },
+    "social": {
+      "requiredPrimary": "ollama/kimi-k2.6:cloud",
+      "allowed": [
+        "ollama/kimi-k2.6:cloud",
+        "ollama/gemma4:31b-cloud",
+        "ollama/deepseek-v4-pro:cloud"
+      ],
+      "tier": 3,
+      "role": "Social & Content Marketing Agent",
+      "stream": "business",
+      "reportsTo": "aria"
     }
   },
   "cronModelPolicy": {
@@ -208,7 +232,7 @@
     }
   },
   "kimiPolicy": {
-    "description": "kimi usage policy — PERMANENT, Ken-approved",
+    "description": "kimi usage policy \u2014 PERMANENT, Ken-approved",
     "permanent": true,
     "approvedBy": "Ken Mun",
     "approvedAt": "2026-05-18T09:04:00+10:00",

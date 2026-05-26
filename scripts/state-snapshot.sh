@@ -17,13 +17,25 @@ mkdir -p "$SNAPSHOT"
 echo "📸 State snapshot: ${TKT}-${TIMESTAMP}"
 echo "  Description: $DESC"
 
-# Core state files
+# Core state files — use db-read.sh for PG-migrated tables, direct copy for operational files
+DB_READ="$WORKSPACE/scripts/db-read.sh"
+
+# PG-migrated state (read from Postgres SSOT)
+echo "  PGs: state_tickets"
+"$DB_READ" state_tickets > "$SNAPSHOT/state_tickets.json" 2>/dev/null || echo "  ⚠️  state_tickets — PG read failed"
+
+echo "  PGs: state_cost"
+"$DB_READ" state_cost > "$SNAPSHOT/state_cost.json" 2>/dev/null || echo "  ⚠️  state_cost — PG read failed"
+
+echo "  PGs: state_config_baseline"
+"$DB_READ" state_config_baseline > "$SNAPSHOT/state_config_baseline.json" 2>/dev/null || echo "  ⚠️  state_config_baseline — PG read failed"
+
+echo "  PGs: state_linkedin"
+"$DB_READ" state_linkedin > "$SNAPSHOT/state_linkedin.json" 2>/dev/null || echo "  ⚠️  state_linkedin — PG read failed"
+
+# Operational state files (not yet in PG — copy directly)
 for file in \
   "state/health-state.json" \
-  "state/cost-state.json" \
-  "state/tickets.json" \
-  "state/sprint-current.json" \
-  "state/critical-config-baseline.json" \
   "state/allowlist-sync-state.json" \
   "state/warden-escalation-pending.json" \
   "state/model-drift-state.json" \

@@ -413,3 +413,203 @@ def sc_reset_stale_claims():
             verified_count += 1
     
     return True, f"State check OK: {verified_count}/{len(stale)} stale claims reset to queued", verified_count
+
+
+def sc_read_task(task_id):
+    """
+    State-checked task read: READ → VALIDATE → EXECUTE → VERIFY.
+    Ensures data integrity on every read — no silent None returns.
+    Returns (success: bool, task: dict|None, message: str)
+    """
+    # READ
+    task = pg_read_task(task_id)
+
+    # VALIDATE
+    if task is None:
+        return False, None, f"State check FAILED: Task {task_id} not found in PG"
+    if not isinstance(task, dict):
+        return False, None, f"State check FAILED: Task {task_id} returned non-dict type {type(task).__name__}"
+
+    # Validate required fields
+    required = ['id', 'status']
+    for field in required:
+        if field not in task or task[field] is None:
+            return False, None, f"State check FAILED: Task {task_id} missing required field '{field}'"
+
+    if task['id'] != task_id:
+        return False, None, f"State check FAILED: Task id mismatch — requested {task_id}, got {task['id']}"
+
+    # Validate status is a recognized value
+    valid_statuses = {'queued', 'dispatched', 'complete', 'failed', 'cancelled', 'pending'}
+    status = task.get('status', '')
+    if status not in valid_statuses:
+        return False, None, f"State check FAILED: Task {task_id} has invalid status '{status}'"
+
+    # Validate atoms structure
+    atoms = task.get('atoms', [])
+    if atoms is None:
+        task['atoms'] = []  # Auto-correct
+    elif isinstance(atoms, str):
+        import json
+        try:
+            task['atoms'] = json.loads(atoms)
+        except (json.JSONDecodeError, TypeError):
+            return False, None, f"State check FAILED: Task {task_id} atoms field is unparseable string"
+    elif not isinstance(atoms, list):
+        return False, None, f"State check FAILED: Task {task_id} atoms is not a list (got {type(atoms).__name__})"
+    else:
+        for i, a in enumerate(atoms):
+            if not isinstance(a, dict):
+                return False, None, f"State check FAILED: Task {task_id} atom[{i}] is not a dict"
+            if 'id' not in a:
+                return False, None, f"State check FAILED: Task {task_id} atom[{i}] missing 'id'"
+            if 'status' not in a:
+                return False, None, f"State check FAILED: Task {task_id} atom[{i}] missing 'status'"
+
+    # EXECUTE + VERIFY (pass-through — data already read and validated)
+    atom_count = len(task.get('atoms', []))
+    return True, task, f"State check OK: Task {task_id} verified ({status}, {atom_count} atoms)"
+
+
+def sc_read_all_tasks():
+    """
+    State-checked bulk task read: READ → VALIDATE → EXECUTE → VERIFY.
+    Returns (success: bool, tasks: list|None, message: str)
+    """
+    # READ
+    tasks = pg_read_all_tasks()
+
+    # VALIDATE
+    if tasks is None:
+        return False, None, "State check FAILED: PG read returned None (PG may be unavailable)"
+    if not isinstance(tasks, list):
+        return False, None, f"State check FAILED: Expected list, got {type(tasks).__name__}"
+
+    # Validate each task structurally
+    invalid_count = 0
+    for i, task in enumerate(tasks):
+        if not isinstance(task, dict):
+            invalid_count += 1
+            continue
+        tid = task.get('id', f'unknown-{i}')
+        if 'id' not in task or task['id'] is None:
+            invalid_count += 1
+            continue
+        if 'status' not in task:
+            invalid_count += 1
+            continue
+
+        # Auto-fix atoms structure if needed
+        atoms = task.get('atoms', [])
+        if atoms is None:
+            task['atoms'] = []
+        elif isinstance(atoms, str):
+            import json
+            try:
+                task['atoms'] = json.loads(atoms)
+            except (json.JSONDecodeError, TypeError):
+                invalid_count += 1
+                continue
+
+    # EXECUTE + VERIFY
+    if invalid_count > 0:
+        return False, tasks, f"State check WARN: {len(tasks)} tasks read, {invalid_count} with structural issues"
+
+    return True, tasks, f"State check OK: {len(tasks)} tasks verified, all structurally valid"
+
+
+def sc_persist_atom(task_id, atom_index, state_payload, execution_context=None, persistence_type='INLINE_ATOM', parent_task_id=None):
+    """
+    TKT-0309: Execution Gate — persist atom progress to PG.
+    Atom CANNOT advance until this write succeeds.
+    READ → VALIDATE → EXECUTE (PG write) → VERIFY.
+    Returns (success: bool, message: str)
+    """
+    import datetime
+    now = datetime.datetime.now().isoformat()
+
+    # READ
+    task = pg_read_task(task_id)
+
+    # VALIDATE
+    if task is None:
+        return False, f"State check FAILED: Task {task_id} not found in PG"
+    if atom_index < 0:
+        return False, f"State check FAILED: Invalid atom_index {atom_index}"
+
+    # EXECUTE — update TQP row with atom progress
+    context_json = json.dumps(execution_context) if execution_context else '{}'
+    payload_json = json.dumps(state_payload) if state_payload else '{}'
+
+    query = f"""
+    UPDATE state_task_queue SET
+        atom_index = {atom_index},
+        state_payload = '{payload_json}',
+        execution_context = '{context_json}',
+        persistence_type = {_escape_sql(persistence_type)},
+        updatedat = {_escape_sql(now)},
+        updated_at_ts = now()
+    WHERE id = {_escape_sql(task_id)}
+    """
+    if parent_task_id:
+        query = query.rstrip()[:-1] + f", parent_task_id = {_escape_sql(parent_task_id)} WHERE id = {_escape_sql(task_id)}"
+
+    result = _pg(query)
+    if result == "ERROR":
+        return False, f"State check FAILED: PG write failed for {task_id}, atom_index={atom_index}. Atom does NOT advance."
+
+    # VERIFY
+    verified = pg_read_task(task_id)
+    if verified is None:
+        return False, f"State check FAILED: Post-write verification — {task_id} not found in PG"
+    if verified.get('atom_index') != atom_index:
+        return False, f"State check FAILED: atom_index mismatch — expected {atom_index}, got {verified.get('atom_index')}"
+
+    return True, f"State check OK: {task_id} atom {atom_index} persisted. Gate passed — atom may advance."
+
+
+def sc_resume_context(task_id):
+    """
+    TKT-0309: Auto-Resume Protocol — read last stable state for context recovery.
+    Returns (success: bool, resume_data: dict|None, message: str)
+    resume_data contains: last_atom_index, state_payload, execution_context, persistence_type
+    """
+    # READ
+    ok, task, msg = sc_read_task(task_id)
+    if not ok or task is None:
+        return False, None, f"Cannot resume: {msg}"
+
+    # EXTRACT resume context
+    last_index = task.get('atom_index')
+    state_payload = task.get('state_payload')
+    execution_context = task.get('execution_context')
+    persistence_type = task.get('persistence_type', 'unknown')
+
+    # Parse JSONB fields
+    if isinstance(state_payload, str):
+        try:
+            state_payload = json.loads(state_payload)
+        except (json.JSONDecodeError, TypeError):
+            state_payload = {}
+    if isinstance(execution_context, str):
+        try:
+            execution_context = json.loads(execution_context)
+        except (json.JSONDecodeError, TypeError):
+            execution_context = {}
+
+    if last_index is None:
+        return True, {'next_atom': 0, 'state_payload': {}, 'execution_context': {}, 'persistence_type': persistence_type}, \
+               f"Resume context OK: {task_id} has no prior atoms. Starting from Atom 0."
+
+    resume_data = {
+        'last_atom_index': last_index,
+        'next_atom': last_index + 1,
+        'state_payload': state_payload or {},
+        'execution_context': execution_context or {},
+        'persistence_type': persistence_type,
+        'task_id': task_id,
+        'task_status': task.get('status', 'unknown')
+    }
+
+    return True, resume_data, \
+           f"Resume context OK: {task_id} last completed Atom {last_index}. Next: Atom {last_index + 1}. Status: {task.get('status')}."

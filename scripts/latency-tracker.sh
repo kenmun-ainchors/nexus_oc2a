@@ -195,4 +195,16 @@ state['lastTracked'] = last_tracked
 state['lastRun'] = datetime.now(timezone.utc).isoformat()
 json.dump(state, open(STATE_FILE, 'w'), indent=2)
 
+# Dual-write lastTracked timestamps to PG (TKT-0304)
+import subprocess as _sp
+_pge = os.environ.copy()
+_pge.update({'PGHOST': '/tmp', 'PGPORT': '5432', 'PGUSER': 'ainchorsangiefpl', 'PGDATABASE': 'ainchors_nexus'})
+for _jid, _ts in last_tracked.items():
+    _dt = datetime.fromtimestamp(_ts, tz=timezone.utc)
+    _sp.run(['/opt/homebrew/bin/psql', '-c',
+        "INSERT INTO state_latency (cron_id, duration_ms, status, recorded_at, metadata) VALUES ("
+        + "'" + _jid + "', 0, 'tracked', '" + _dt.isoformat() + "', "
+        + "'{\"source\": \"latency-tracker.sh\", \"epoch\": " + str(_ts) + "}')"],
+        env=_pge, capture_output=True)
+
 print(f"LATENCY: {new_samples} new samples logged | summary → state/latency-summary.json")

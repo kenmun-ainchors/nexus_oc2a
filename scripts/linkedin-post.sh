@@ -18,7 +18,9 @@
 set -euo pipefail
 
 WORKSPACE="/Users/ainchorsangiefpl/.openclaw/workspace"
-AUTH_STATE_FILE="$WORKSPACE/state/linkedin-auth.json"
+# LinkedIn auth state lives in PG state_linkedin table — use db-read.sh as SSOT
+DB_READ="$WORKSPACE/scripts/db-read.sh"
+AUTH_STATE_FILE="$WORKSPACE/state/linkedin-auth.json"  # kept as file cache for compatibility
 POSTS_ENDPOINT="https://api.linkedin.com/rest/posts"
 
 # ── Defaults ──────────────────────────────────────────────────────────────────
@@ -258,7 +260,9 @@ fi
 
 echo "  Posting to LinkedIn..."
 
-HTTP_RESPONSE=$(curl -s -w "\n__HTTP_STATUS__%{http_code}" \
+HEADER_FILE=$(mktemp /tmp/li_headers_XXXXXX.txt)
+
+HTTP_RESPONSE=$(curl -s -D "$HEADER_FILE" -w "\n__HTTP_STATUS__%{http_code}" \
   -X POST "$POSTS_ENDPOINT" \
   -H "Authorization: Bearer $ACCESS_TOKEN" \
   -H "Content-Type: application/json" \
@@ -274,26 +278,29 @@ RESPONSE_BODY=$(echo "$HTTP_RESPONSE" | grep -v "__HTTP_STATUS__")
 # ── Handle response ───────────────────────────────────────────────────────────
 
 if [[ "$HTTP_STATUS" == "401" ]]; then
+  rm -f "$HEADER_FILE"
   echo "❌ Token expired — re-run linkedin-auth.sh" >&2
   exit 1
 fi
 
 if [[ "$HTTP_STATUS" == "201" || "$HTTP_STATUS" == "200" ]]; then
-  # Extract post URN from X-RestLi-Id header or response body
-  # LinkedIn REST API returns the post URN in the response body or header
-  POST_URN=$(echo "$RESPONSE_BODY" | python3 -c "
+  # Extract post URN from X-RestLi-Id header (primary) or response body (fallback)
+  # LinkedIn REST API returns the post URN in the x-restli-id response header
+  POST_URN=$(grep -i "^x-restli-id:" "$HEADER_FILE" | sed 's/.*: //' | tr -d '\r')
+  if [[ -z "$POST_URN" ]]; then
+    POST_URN=$(echo "$RESPONSE_BODY" | python3 -c "
 import sys, json
 try:
     d = json.load(sys.stdin)
-    # Newer API returns 'id' field
     urn = d.get('id', '')
     if not urn:
-        # Try to extract URN from various response shapes
         urn = d.get('postUrn', d.get('urn', ''))
     print(urn)
 except:
     print('')
 " 2>/dev/null)
+  fi
+  rm -f "$HEADER_FILE"
 
   echo ""
   echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
@@ -316,11 +323,16 @@ except:
   # CHG-0362: Updated to write to linkedin-campaign.json (SSOT) instead of old linkedin-queue.json
   if [[ -n "$POST_URN" && -n "$QUEUE_CONTENT_ID" ]]; then
     python3 - "$WORKSPACE/state/linkedin-campaign.json" "$QUEUE_CONTENT_ID" "$POST_URN" << 'PYEOF'
-import json, sys
-campaign_file, content_id, post_urn = sys.argv[1], sys.argv[2], sys.argv[3]
+import json, sys, os
 try:
-    with open(campaign_file) as f:
-        c = json.load(f)
+    sys.path.insert(0, os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), 'lib'))
+    from atomic_write import atomic_write_json as aw
+    campaign_file, content_id, post_urn = sys.argv[1], sys.argv[2], sys.argv[3]
+    try:
+        with open(campaign_file) as f:
+            c = json.load(f)
+    except:
+        c = {'published': [], 'drafts': {}}
     updated = False
     now = __import__('datetime').datetime.utcnow().isoformat() + 'Z'
     # Update published entries
@@ -341,9 +353,8 @@ try:
             break
     if updated:
         c['lastUpdated'] = now
-        with open(campaign_file, 'w') as f:
-            json.dump(c, f, indent=2)
-        print(f'  Campaign updated: {content_id} → postUrn={post_urn}')
+        ok = aw(campaign_file, c)
+        print(f'  Campaign updated: {content_id} → postUrn={post_urn}' if ok else f'  Campaign atomic write FAILED')
     else:
         print(f'  Campaign: contentId {content_id} not found in published or drafts')
 except Exception as e:

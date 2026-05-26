@@ -511,3 +511,50 @@ When declaring ANY interim model period (Anthropic outage, kimi substitution, mo
 2. File-existence verification is mandatory for artifact-producing crons
 3. Trust but verify: cron status is not enough — check the output file
 4. HEARTBEAT safety checks override "don't touch" rules when there's a proven failure pattern
+
+## L-043 — Agent Sandbox Identity Drift (2026-05-26)
+
+**Incident:** Spark operated for 3+ weeks without its actual SOUL.md/RULES.md because commissioned identity files lived in `workspace-social/` while Spark's sandbox was `workspace/spark/`. Sandbox enforcement (CHG-0421, May 20) made files outside the sandbox unreachable via tool calls. Spark ran on vanilla template — no voice, no content standards, no governance awareness.
+
+**Root Cause Chain:**
+1. May 2 (CHG-0130): Spark commissioned — SOUL.md + SPARK_RULES.md placed in `workspace-social/` (pre-sandbox architecture)
+2. May 20: Sub-agent sandboxing introduced — each agent gets own directory with vanilla bootstrap files
+3. May 21 (CHG-0421): Workspace discipline enforced for Forge's path issues, but no cross-agent audit was done
+4. Result: Spark's actual identity (78-line SOUL, 23k rules) sat in unreachable `workspace-social/` while Spark's sandbox had only the 42-line generic template
+
+**Impact:** 
+- Content quality degradation (generic consulting voice vs practitioner/builder)
+- No access to governance gate procedures
+- No awareness of LinkedIn persona rules, em dash rules, image workflow rules
+- All 3 W4 posts affected
+
+**Fix Applied:**
+- Copied `workspace-social/SOUL.md` → `workspace/spark/SOUL.md`
+- Copied `workspace-social/SPARK_RULES.md` → `workspace/spark/RULES.md`
+- Agent-level SOUL/RULES audit initiated (see below)
+
+**Permanent Guard:** (to be implemented)
+1. `scripts/agent-identity-audit.sh` — validates every agent's SOUL.md is non-vanilla and RULES.md exists
+2. Agent commissioning checklist — identity files go INTO sandbox, not external directories
+3. CHG gate — any sandbox/workspace change must include cross-agent identity verification
+
+---
+
+## L-044: Agent Commissioning Gap — RULES.md + Dedicated Workspace (2026-05-26)
+
+**Incident:** Agent identity audit (TKT-0307) revealed 11 of 12 agents had no RULES.md accessible. Root cause: [AGENT]_RULES.md files existed but under wrong names — platform only loads `RULES.md`. Additionally, Forge and Ahsoka shared Yoda's workspace — their SOUL/RULES in subdirectories never loaded.
+
+**RCA:**
+1. CHG-0421 sandbox migration (May 21) moved agents to isolated workspaces but never renamed RULES files
+2. No commissioning checklist existed — agents declared LIVE without verifying RULES.md loaded
+3. Agent design specs existed (Luthen v1.0 spec approved May 10) but agent was never built
+4. No automated check for RULES.md presence — gap undetected for 16 days
+
+**Prevention (implemented TKT-0307 + TKT-0308):**
+1. agent-rules-audit.sh — automated check runs nightly via auto-heal CHECK 14
+2. RULES.md commissioning checklist (5 gates: Workspace, Identity, Model, Verification, Registration)
+3. No agent declared LIVE until agent-rules-audit.sh PASS + spawn-verification PASS
+4. Agent design spec must exist before build begins (spec-before-build gate)
+5. All agent RULES files use RULES.md naming (symlink from [AGENT]_RULES.md accepted)
+
+**Reference:** TKT-0307, TKT-0308

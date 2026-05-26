@@ -103,9 +103,30 @@ Nexus=platform|Holocron=AKB|Bridge=cmd-centre|Citadel=client-portal|Holonet=live
 - CI Cycle A/B decommissioned 2026-05-24 (CHG-0428). Replaced by Warden 15-min drift monitoring + monthly model strategy review.
 
 
-## kimi Policy — LOCKED 2026-05-15
+## kimi Policy — DECOMMISSIONED 2026-05-26 (preserved for historical record)
+DeepSeek is now permanent primary model. kimi remains as fallback only.
+- **Original policy (2026-05-15):** kimi = standup only (telegram + email cron)
+- **Original restriction:** NEVER use kimi for complex orchestration, multi-ticket routing, state tracking, CHG decisions
+- **INCIDENT CONTEXT (2026-05-15):** Claude API credits depleted unexpectedly (CHG-0348/0349). Emergency: all 12 agents switched to kimi→deepseek-pro fallback 17:19 AEST. Reverted 14:47 AEST (CHG-0336) after Sonnet restored. kimi confined to standup only going forward. Root cause investigation: TKT-0165 (cost tracking gaps), TKT-0175 (ephemeral session capture). Cost balance recovered via auto-reload.
 - **kimi = standup only** (telegram + email cron)
 - **Webchat + Telegram = Sonnet**
 - **NEVER use kimi for:** complex orchestration, multi-ticket routing, state tracking, CHG decisions
 - **kimi tasks:** routine, single-thread, background, non-interactive
 - **INCIDENT CONTEXT (2026-05-15):** Claude API credits depleted unexpectedly (CHG-0348/0349). Emergency: all 12 agents switched to kimi→deepseek-pro fallback 17:19 AEST. Reverted 14:47 AEST (CHG-0336) after Sonnet restored. kimi confined to standup only going forward. Root cause investigation: TKT-0165 (cost tracking gaps), TKT-0175 (ephemeral session capture). Cost balance recovered via auto-reload.
+
+- 2026-05-25: TKT-0295 (PG Audit) parked due to Tier 3 budget breach. Reports from Atlas and Thrawn are delivered but pending final review. Resume tomorrow with DeepSeek.
+---
+
+## Day 32 End-of-Day (2026-05-26)
+
+**TKT-0295 PG Audit chain:** ALL 7 tickets closed. PG now has 18 state tables. Cron payloads migrated to PG reads. JSONB schema contract published. sc_read wrappers live.
+
+**TKT-0307 Agent RULES.md Foundation Repair:** 10 of 12 agents now have RULES.md accessible via symlinks. Shield + Warden RULES.md created (3.7KB + 3.8KB). Agent-rules-audit.sh + auto-heal CHECK 14 for permanent prevention. RULES.md commissioning checklist (5 gates) added. L-044 logged.
+
+**TKT-0308 Agent Workspace Separation:** Forge → workspace-infra, Ahsoka → workspace-ahsoka. Luthen 🔍 first activation from spec v1.0 (workspace-luthen). Spark ✨ registered in agents.list (was ephemeral). Krennic parked until OC2. 14 agents in openclaw.json, 14/14 RULES.md, 14/14 model-policy.
+
+**TKT-0297 PG→Notion Sync Redesign:** Thrawn approved architecture. Forge built pg-to-notion-sync.sh (idempotent, file-locked, timestamp-filtered). ticket.sh reads PG primary via db.sh. Closed.
+
+**TKT-0309 Context Retention — TQP Execution Gate:** Atlas assessed 4-layer stack → "hydration void" identified. Thrawn designed Option E (TQP as gate, not hook). Ken approved. Phase 1 built: 5 new schema columns + sc_persist_atom + sc_resume_context. Phase 2 (Yoda inline adoption) parked for tomorrow.
+
+**Platform state:** 14 agents registered. 18 PG tables. 235 tickets. TOM operational. Sprint 5 planning, not committed. LinkedIn paused until Sunday. 2 criticals open: TKT-0296 (monitoring), TKT-0309 (Phase 2 pending).

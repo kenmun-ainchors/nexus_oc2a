@@ -322,46 +322,21 @@ if [[ -f "$BASELINE" ]]; then
 fi
 write_state
 
-# ---------- CHECK 13: Kimi Confidence Mapping ----------
-log "CHECK 13: kimi confidence mapping"
-CHECKS_RUN+=("kimi_confidence_mapping")
-CONFIDENCE_MAP="$STATE_DIR/kimi-confidence-mapping.json"
-if [[ -f "$CONFIDENCE_MAP" ]]; then
-  MAP_DATE=$(stat -f %m "$CONFIDENCE_MAP")
-  MAP_AGE_S=$(( $(date +%s) - $MAP_DATE ))
-  MAP_AGE_DAYS=$(( MAP_AGE_S / 86400 ))
-  if (( MAP_AGE_DAYS > 7 )); then
-    ISSUES_FOUND+=("kimi-confidence-map:stale:${MAP_AGE_DAYS}d")
-    NEEDS_KEN+=("kimi confidence mapping is ${MAP_AGE_DAYS} days old — re-sync needed")
-    log "  WARN: confidence mapping stale ${MAP_AGE_DAYS}d"
-  fi
-  OPEN_TICKETS=$(python3 -c "
-import json
-try:
-  with open('$STATE_DIR/tickets.json') as f:
-    data = json.load(f)
-    print(len([t for t in data if t.get('status') == 'open']))
-except Exception: print(0)
-" 2>/dev/null || echo 0)
-  MAPPED_TICKETS=$(python3 -c "
-import json
-try:
-  with open('$CONFIDENCE_MAP') as f:
-    data = json.load(f)
-    print(len(data.get('tickets', {})))
-except Exception: print(0)
-" 2>/dev/null || echo 0)
-  if [[ "$OPEN_TICKETS" != "$MAPPED_TICKETS" ]]; then
-    ISSUES_FOUND+=("kimi-confidence-map:count-mismatch")
-    NEEDS_KEN+=("kimi confidence mapping has $MAPPED_TICKETS tickets but $OPEN_TICKETS are open — re-sync needed")
-    log "  WARN: ticket count mismatch (mapped=$MAPPED_TICKETS, open=$OPEN_TICKETS)"
+# ---------- CHECK 13: Agent Identity Integrity (L-043) ----------
+CHECKS_RUN+=("agent_identity")
+IDENTITY_AUDIT="$WORKSPACE/scripts/agent-identity-audit.sh"
+if [[ -x "$IDENTITY_AUDIT" ]]; then
+  if bash "$IDENTITY_AUDIT" >> "$LOG" 2>&1; then
+    log "  OK agent-identity: all agents have commissioned SOUL.md"
   else
-    log "  OK: confidence mapping current (${MAP_AGE_DAYS}d old, $MAPPED_TICKETS tickets mapped)"
+    ISSUES_FOUND+=("agent-identity:vanilla-soul-detected")
+    NEEDS_KEN+=("CRITICAL: Agent identity drift — one or more agents have vanilla SOUL.md. Run agent-identity-audit.sh for details.")
+    log "  X agent-identity: VANILLA SOUL detected — needs commissioning"
   fi
 else
-  ISSUES_FOUND+=("kimi-confidence-map:missing")
-  NEEDS_KEN+=("kimi confidence mapping missing at $CONFIDENCE_MAP — run assessment to create")
-  log "  ISSUE: confidence mapping missing"
+  ISSUES_FOUND+=("agent-identity:audit-script-missing")
+  NEEDS_KEN+=("WARN: agent-identity-audit.sh not found — cannot verify agent identities")
+  log "  X agent-identity: audit script missing"
 fi
 write_state
 
@@ -404,6 +379,16 @@ if [[ -x "$OBS_LOG_CMD" ]]; then
       >> "$LOG" 2>&1 || true
   done
 fi
+
+# ---------- CHECK 14: Agent RULES.md presence (TKT-0307) ----------
+log "CHECK 14: agent RULES.md audit"
+if zsh "$WORKSPACE/scripts/agent-rules-audit.sh" >> "$LOG" 2>&1; then
+  log "  OK: All agents have RULES.md"
+else
+  log "  X: Agents missing RULES.md — see state/agent-rules-audit.json"
+  NEEDS_KEN+=("RULES.md missing for agent(s) — run agent-rules-audit.sh for details. See TKT-0307.")
+fi
+CHECKS_RUN+=("agent_rules")
 
 log "=== AUTO-HEAL COMPLETE ==="
 [[ ${#NEEDS_KEN[@]} -gt 0 ]] && exit 2 || exit 0

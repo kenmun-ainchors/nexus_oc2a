@@ -113,9 +113,9 @@
     "2026-05-25": {
       "date": "2026-05-25",
       "totalCost": 0.0,
-      "totalTurns": 627,
-      "totalInputTokens": 32741717,
-      "totalOutputTokens": 61832,
+      "totalTurns": 3245,
+      "totalInputTokens": 99391497,
+      "totalOutputTokens": 346237,
       "totalCacheReadTokens": 0,
       "totalCacheWriteTokens": 0,
       "source": "session-log-estimate",
@@ -124,22 +124,22 @@
       "calculatedTurns": 0,
       "byModel": {
         "gemma4:31b-cloud": {
-          "input": 3845842,
-          "output": 15799,
+          "input": 22502921,
+          "output": 78103,
           "cacheRead": 0,
           "cacheWrite": 0,
           "cost": 0.0,
-          "turns": 391,
+          "turns": 2128,
           "calculatedCost": 0.0,
           "calculatedTurns": 0
         },
         "deepseek-v4-pro:cloud": {
-          "input": 28843397,
-          "output": 44651,
+          "input": 76836098,
+          "output": 266752,
           "cacheRead": 0,
           "cacheWrite": 0,
           "cost": 0.0,
-          "turns": 231,
+          "turns": 1110,
           "calculatedCost": 0.0,
           "calculatedTurns": 0
         },
@@ -149,16 +149,81 @@
           "cacheRead": 0,
           "cacheWrite": 0,
           "cost": 0.0,
-          "turns": 5,
+          "turns": 6,
+          "calculatedCost": 0.0,
+          "calculatedTurns": 0
+        },
+        "gateway-injected": {
+          "input": 0,
+          "output": 0,
+          "cacheRead": 0,
+          "cacheWrite": 0,
+          "cost": 0.0,
+          "turns": 1,
+          "calculatedCost": 0.0,
+          "calculatedTurns": 0
+        }
+      }
+    },
+    "2026-05-26": {
+      "date": "2026-05-26",
+      "totalCost": 0.0,
+      "totalTurns": 3673,
+      "totalInputTokens": 157718334,
+      "totalOutputTokens": 402808,
+      "totalCacheReadTokens": 0,
+      "totalCacheWriteTokens": 0,
+      "source": "session-log-estimate",
+      "note": "Session log estimate. usage.cost.total includes cacheWrite charges. CHG-0097: confirmed cost includes cache writes. CHG-0175: calculated fallback for ephemeral sessions.",
+      "calculatedCost": 0.0,
+      "calculatedTurns": 0,
+      "byModel": {
+        "gemma4:31b-cloud": {
+          "input": 54307116,
+          "output": 126569,
+          "cacheRead": 0,
+          "cacheWrite": 0,
+          "cost": 0.0,
+          "turns": 2238,
+          "calculatedCost": 0.0,
+          "calculatedTurns": 0
+        },
+        "deepseek-v4-pro:cloud": {
+          "input": 102903567,
+          "output": 270470,
+          "cacheRead": 0,
+          "cacheWrite": 0,
+          "cost": 0.0,
+          "turns": 1384,
+          "calculatedCost": 0.0,
+          "calculatedTurns": 0
+        },
+        "kimi-k2.6:cloud": {
+          "input": 507651,
+          "output": 5769,
+          "cacheRead": 0,
+          "cacheWrite": 0,
+          "cost": 0.0,
+          "turns": 36,
+          "calculatedCost": 0.0,
+          "calculatedTurns": 0
+        },
+        "delivery-mirror": {
+          "input": 0,
+          "output": 0,
+          "cacheRead": 0,
+          "cacheWrite": 0,
+          "cost": 0.0,
+          "turns": 15,
           "calculatedCost": 0.0,
           "calculatedTurns": 0
         }
       }
     }
   },
-  "lastUpdated": "2026-05-25T02:30:31Z",
+  "lastUpdated": "2026-05-26T13:55:38Z",
   "allTimeTotalCost": 0.0,
-  "daysTracked": 3,
+  "daysTracked": 4,
   "avgDailyCost": 0.0,
   "apiBalance": {
     "spentSinceTopUp": 0.0,

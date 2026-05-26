@@ -10,7 +10,7 @@ FILE="${1:-}"
 
 if [[ -z "$FILE" ]]; then
   echo "Usage: json-inspector.sh <json-file>"
-  echo "Example: json-inspector.sh state/kimi-confidence-mapping.json"
+  echo "Example: json-inspector.sh state/tickets.json"
   exit 1
 fi
 

@@ -6,8 +6,10 @@
 # Exit codes: 0=OK, 1=warning (alert threshold), 2=exceeded (budget breached)
 
 WORKSPACE="$HOME/.openclaw/workspace"
-COST_STATE="$WORKSPACE/state/cost-state.json"
-BUDGET_STATE="$WORKSPACE/state/agent-budgets.json"
+DB_READ="$WORKSPACE/scripts/db-read.sh"
+# PG SSOT for cost/ticket data, file fallback for agent budgets
+COST_STATE="$WORKSPACE/state/cost-state.json"  # fallback cache for db-read output
+BUDGET_STATE="$WORKSPACE/state/agent-budgets.json"  # not yet in PG
 ALERT_STATE="$WORKSPACE/state/budget-alert-state.json"
 JQ="/opt/homebrew/bin/jq"
 DATE="$(date +%Y-%m-%d)"
@@ -33,9 +35,16 @@ if [[ ! -f "$JQ" ]]; then
   exit 1
 fi
 
-if [[ ! -f "$COST_STATE" ]]; then
-  echo "ERROR: cost-state.json not found at $COST_STATE"
-  exit 1
+# Read cost state from PG (SSOT) with file fallback
+COST_STATE_DATA="$("$DB_READ" state_cost 2>/dev/null)"
+if [[ -z "$COST_STATE_DATA" || "$COST_STATE_DATA" == "null" ]]; then
+  # PG failed — fallback to file
+  if [[ -f "$COST_STATE" ]]; then
+    COST_STATE_DATA="$(cat "$COST_STATE")"
+  else
+    echo "ERROR: Cannot read cost state from PG or file"
+    exit 1
+  fi
 fi
 
 if [[ ! -f "$BUDGET_STATE" ]]; then
@@ -44,12 +53,11 @@ if [[ ! -f "$BUDGET_STATE" ]]; then
 fi
 
 # ---------------------------------------------------------------------------
-# Extract today's total platform cost from cost-state.json
+# Extract today's total platform cost (from PG SSOT)
 # Note: per-agent cost is not yet tracked separately. We use total cost and
 # allocate proportionally to detect platform-level breaches.
-# Per-agent cost will be available once US-XXXX (per-agent session cost tagging) ships.
 # ---------------------------------------------------------------------------
-PLATFORM_SPEND_TODAY="$($JQ -r --arg d "$DATE" '.history[$d].totalCost // 0' "$COST_STATE")"
+PLATFORM_SPEND_TODAY="$(echo "$COST_STATE_DATA" | $JQ -r ".history[\"$DATE\"].totalCost // 0" 2>/dev/null || echo 0)"
 PLATFORM_CAP="$($JQ -r '.dailyPlatformCap' "$BUDGET_STATE")"
 
 # Read existing alert state (or init)
@@ -192,15 +200,19 @@ if [[ "$MODE" == "report" || "$MODE" == "check" ]]; then
 
   echo ""
   echo "  Platform cap: \$$PLATFORM_CAP/day"
-  echo "  Avg daily (14d): \$$($JQ -r '.avgDailyCost // "N/A"' "$COST_STATE")"
+  echo "  Avg daily (14d): \$$(echo "$COST_STATE_DATA" | $JQ -r '.avgDailyCost // "N/A"' 2>/dev/null || echo "N/A")"
   echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
   echo ""
 
-  # Write alert state
-  $JQ -n \
-    --arg now "$NOW" \
-    --argjson alerts "$ALERT_ENTRIES" \
-    '{"lastChecked": $now, "alerts": $alerts}' > "$ALERT_STATE"
+  # Write alert state — atomic write via Python
+  python3 -c "
+import sys, os, json
+try:
+    sys.path.insert(0, os.path.join(os.path.dirname('$0'), 'lib'))
+    from atomic_write import atomic_write_json as atw
+    data = {'lastChecked': '$NOW', 'alerts': json.loads('''$ALERT_ENTRIES''')}
+    atw('$ALERT_STATE', data)
+" 2>/dev/null || echo '{"lastChecked": "$NOW", "alerts": $ALERT_ENTRIES}' > "$ALERT_STATE"
 
   if [[ $EXIT_CODE -eq 2 ]]; then
     echo "🚨 BUDGET EXCEEDED — at least one agent or platform cap breached."
@@ -264,6 +276,7 @@ if [[ "$MODE" == "workflow" ]]; then
     # Call the estimator inline
     python3 << PYEOF
 import json, os
+# Read cost data from PG via the already-loaded data
 state_file = os.path.expanduser("$COST_STATE")
 workflow = "$TARGET_WORKFLOW"
 cap = float("$cap")

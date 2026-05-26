@@ -6,27 +6,29 @@
 set -u
 
 WORKSPACE_ROOT="/Users/ainchorsangiefpl/.openclaw/workspace"
-TICKET_FILE="$WORKSPACE_ROOT/state/tickets.json"
+DB_READ="$WORKSPACE_ROOT/scripts/db-read.sh"
 ALERT_FILE="$WORKSPACE_ROOT/state/dod-validation-alert.json"
-TICKET_SH="$WORKSPACE_ROOT/scripts/ticket.sh"
 CUTOFF_HOURS=24
 
 die() { echo "DOD-VALIDATOR ERROR: $1" >&2; exit 1; }
-
-[[ ! -f "$TICKET_FILE" ]] && die "tickets.json not found at $TICKET_FILE"
-source "$TICKET_SH" 2>/dev/null || true
 
 echo "DoD Validator: Scanning tickets closed in last ${CUTOFF_HOURS}h..."
 
 NOW_EPOCH=$(date +%s)
 CUTOFF_MS=$((NOW_EPOCH - CUTOFF_HOURS * 3600))
 
-# Get recently closed tickets (handle +10:00 timezone in dates)
-CLOSED_TICKETS=$(jq --argjson cutoff "$CUTOFF_MS" '
-  [.tickets[] | 
+# Read closed tickets from PG (SSOT) via db-read.sh
+TICKETS_JSON=$("$DB_READ" state_tickets 2>/dev/null)
+if [[ -z "$TICKETS_JSON" || "$TICKETS_JSON" == "null" ]]; then
+  die "Failed to read state_tickets from PG"
+fi
+
+# Get recently closed tickets from PG data
+CLOSED_TICKETS=$(echo "$TICKETS_JSON" | jq --argjson cutoff "$CUTOFF_MS" '
+  [.[] | 
    select(.status == "closed" or .status == "resolved") |
    select(
-     ((.updated // .created // "2026-01-01T00:00:00+00:00") 
+     ((.updated_at // .updated // "2026-01-01T00:00:00+00:00") 
       | tostring 
       | if test("Z$") then .[:19] + "Z"
         elif test("\\+") then (split("+")[0] + "Z")
@@ -34,7 +36,7 @@ CLOSED_TICKETS=$(jq --argjson cutoff "$CUTOFF_MS" '
         end
       | fromdate) > $cutoff
    )] |
-   sort_by(.updated) | reverse' "$TICKET_FILE" 2>/dev/null)
+   sort_by(.updated_at // .updated) | reverse' 2>/dev/null)
 
 if [[ -z "$CLOSED_TICKETS" || "$CLOSED_TICKETS" == "[]" ]]; then
   echo "DoD Validator: No recently closed tickets to check."

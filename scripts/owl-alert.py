@@ -6,8 +6,12 @@ Usage: python3 owl-alert.py [--check-only | --ack ID | --list]
 """
 import json
 import sys
+import os
 import argparse
 from datetime import datetime, timedelta
+
+sys.path.insert(0, os.path.join(os.path.dirname(__file__), 'lib'))
+from atomic_write import atomic_write_json as atomic_write
 
 COMPLIANCE_FILE = "/Users/ainchorsangiefpl/.openclaw/workspace/state/owl-compliance-state.json"
 ALERT_FILE = "/Users/ainchorsangiefpl/.openclaw/workspace/state/owl-drift-alert.json"
@@ -21,8 +25,7 @@ def load_json(path):
         return None
 
 def save_json(path, data):
-    with open(path, 'w') as f:
-        json.dump(data, f, indent=2)
+    return atomic_write(path, data)
 
 def generate_alert_id():
     now = datetime.now()

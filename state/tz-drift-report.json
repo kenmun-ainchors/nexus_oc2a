@@ -1,10 +1,10 @@
 {
-  "timestamp": "2026-05-25T02:48:31Z",
-  "host_time": "Mon May 25 02:48:31 GMT 2026",
-  "target_time": "Mon May 25 12:48:31 AEST 2026",
-  "drifts_detected": 1,
+  "timestamp": "2026-05-26T13:54:08Z",
+  "host_time": "Tue May 26 23:54:08 AEST 2026",
+  "target_time": "Tue May 26 23:54:08 AEST 2026",
+  "drifts_detected": 0,
   "drifts": [
-  "autoheal_date_mismatch: expected 2026-05-25 file missing, latest is "
+  ""
 ],
-  "status": "DRIFT_DETECTED"
+  "status": "OK"
 }

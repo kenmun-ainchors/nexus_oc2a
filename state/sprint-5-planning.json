@@ -10,7 +10,8 @@
       "id": "TKT-0229",
       "title": "Fix ticket.sh JSON write corruption",
       "priority": "critical",
-      "status": "S4 carry"
+      "status": "closed",
+      "closedAt": "2026-05-25T03:53:00Z"
     },
     {
       "id": "TKT-0238",
@@ -34,13 +35,15 @@
       "id": "TKT-0270",
       "title": "Agent SOUL/RULES PG SSOT paths update",
       "priority": "high",
-      "status": "new"
+      "status": "closed",
+      "closedAt": "2026-05-25T03:27:00Z"
     },
     {
       "id": "TKT-0271",
       "title": "Migrate remaining Tier 2 state files to PG",
       "priority": "high",
-      "status": "new"
+      "status": "closed",
+      "closedAt": "2026-05-25T02:53:00Z"
     },
     {
       "id": "TKT-0241",

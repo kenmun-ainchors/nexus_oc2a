@@ -1,0 +1,508 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Day 32 — The Great Workspace Migration — AInchors</title>
+<style>
+  :root {
+    --bg: #0d0d0d;
+    --surface: #1a1a1a;
+    --surface2: #242424;
+    --text: #e0e0e0;
+    --text-muted: #999;
+    --accent: #f0a050;
+    --accent-dim: #8b5e30;
+    --green: #4caf84;
+    --red: #e05555;
+    --blue: #5b9bd5;
+    --code-bg: #111;
+    --border: #333;
+    --callout-warn-bg: #2a1f10;
+    --callout-warn-border: #8b5e30;
+    --callout-info-bg: #0f1f2a;
+    --callout-info-border: #3a6b8c;
+    --callout-alert-bg: #2a1010;
+    --callout-alert-border: #8b3030;
+    --max-width: 720px;
+  }
+  * { margin:0; padding:0; box-sizing:border-box; }
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: Charter, Georgia, 'Times New Roman', serif;
+    font-size: 18px;
+    line-height: 1.7;
+    -webkit-font-smoothing: antialiased;
+  }
+  .container {
+    max-width: var(--max-width);
+    margin: 0 auto;
+    padding: 60px 24px 80px;
+  }
+  .hero { margin-bottom: 48px; }
+  .hero .day-badge {
+    display: inline-block;
+    background: var(--accent);
+    color: #000;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    font-size: 13px;
+    font-weight: 700;
+    letter-spacing: 0.5px;
+    padding: 4px 12px;
+    border-radius: 4px;
+    margin-bottom: 16px;
+  }
+  .hero h1 {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    font-size: 32px;
+    font-weight: 800;
+    line-height: 1.25;
+    color: #fff;
+    margin-bottom: 8px;
+  }
+  .hero .subtitle {
+    font-size: 20px;
+    color: var(--text-muted);
+    line-height: 1.5;
+    margin-bottom: 12px;
+  }
+  .hero .byline {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    font-size: 14px;
+    color: var(--text-muted);
+    margin-bottom: 4px;
+  }
+  .hero .date {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    font-size: 13px;
+    color: var(--accent-dim);
+  }
+  h2 {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    font-size: 22px;
+    font-weight: 700;
+    color: #eee;
+    margin: 48px 0 16px;
+    padding-bottom: 8px;
+    border-bottom: 1px solid var(--border);
+  }
+  h3 {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    font-size: 17px;
+    font-weight: 700;
+    color: var(--accent);
+    margin: 32px 0 12px;
+  }
+  p { margin-bottom: 16px; }
+  a { color: var(--accent); text-decoration: none; }
+  a:hover { text-decoration: underline; }
+  .callout {
+    padding: 16px 20px;
+    border-radius: 6px;
+    margin: 24px 0;
+    border-left: 4px solid;
+  }
+  .callout.warn {
+    background: var(--callout-warn-bg);
+    border-color: var(--callout-warn-border);
+  }
+  .callout.info {
+    background: var(--callout-info-bg);
+    border-color: var(--callout-info-border);
+  }
+  .callout.alert {
+    background: var(--callout-alert-bg);
+    border-color: var(--callout-alert-border);
+  }
+  .callout .label {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+    margin-bottom: 6px;
+  }
+  .callout.warn .label { color: var(--accent); }
+  .callout.info .label { color: var(--blue); }
+  .callout.alert .label { color: var(--red); }
+  .callout p { margin: 0; }
+  .callout p + p { margin-top: 8px; }
+  pre {
+    background: var(--code-bg);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    padding: 16px;
+    overflow-x: auto;
+    font-family: 'SF Mono', 'Fira Code', 'Cascadia Code', monospace;
+    font-size: 14px;
+    line-height: 1.5;
+    margin: 20px 0;
+    color: #ccc;
+  }
+  code {
+    font-family: 'SF Mono', 'Fira Code', 'Cascadia Code', monospace;
+    font-size: 0.9em;
+    background: var(--surface2);
+    padding: 2px 6px;
+    border-radius: 3px;
+    color: #ddd;
+  }
+  pre code { background: none; padding: 0; border-radius: 0; }
+  .cost-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 20px 0;
+    font-size: 15px;
+  }
+  .cost-table th {
+    text-align: left;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    font-size: 12px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    color: var(--text-muted);
+    padding: 8px 12px;
+    border-bottom: 1px solid var(--border);
+  }
+  .cost-table td {
+    padding: 8px 12px;
+    border-bottom: 1px solid var(--border);
+    font-variant-numeric: tabular-nums;
+  }
+  .cost-table .total-row td {
+    font-weight: 700;
+    color: var(--accent);
+    border-top: 2px solid var(--accent-dim);
+  }
+  .cost-trend {
+    display: flex;
+    gap: 8px;
+    margin: 16px 0;
+    align-items: baseline;
+  }
+  .cost-trend .arrow { font-size: 20px; }
+  .cost-trend .arrow.down { color: var(--green); }
+  .cost-trend .arrow.up { color: var(--red); }
+  .lessons-list { list-style: none; padding: 0; }
+  .lessons-list li {
+    padding: 12px 0;
+    border-bottom: 1px solid var(--border);
+  }
+  .lessons-list li:last-child { border-bottom: none; }
+  .lessons-list .lesson-num {
+    display: inline-block;
+    background: var(--accent-dim);
+    color: #000;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    font-size: 11px;
+    font-weight: 700;
+    padding: 2px 8px;
+    border-radius: 3px;
+    margin-right: 8px;
+  }
+  .next-items {
+    list-style: none;
+    padding: 0;
+  }
+  .next-items li {
+    padding: 8px 0;
+    padding-left: 20px;
+    position: relative;
+  }
+  .next-items li::before {
+    content: '→';
+    position: absolute;
+    left: 0;
+    color: var(--accent);
+  }
+  .footer {
+    margin-top: 64px;
+    padding-top: 24px;
+    border-top: 1px solid var(--border);
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    font-size: 13px;
+    color: var(--text-muted);
+  }
+  .footer .nav-links {
+    display: flex;
+    gap: 16px;
+    margin-bottom: 12px;
+  }
+  .footer .nav-links a { color: var(--text-muted); }
+  hr { border: none; border-top: 1px solid var(--border); margin: 32px 0; }
+  .tag {
+    display: inline-block;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    font-size: 11px;
+    font-weight: 600;
+    padding: 3px 8px;
+    border-radius: 3px;
+    margin-right: 6px;
+  }
+  .tag.green { background: #1a3a2a; color: var(--green); }
+  .tag.red { background: #3a1a1a; color: var(--red); }
+  .tag.blue { background: #1a2a3a; color: var(--blue); }
+  .tag.amber { background: #3a2a10; color: var(--accent); }
+  .metrics-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+    gap: 12px;
+    margin: 20px 0;
+  }
+  .metric-card {
+    background: var(--surface);
+    border-radius: 6px;
+    padding: 14px 16px;
+    text-align: center;
+  }
+  .metric-card .value {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    font-size: 24px;
+    font-weight: 700;
+    color: var(--accent);
+  }
+  .metric-card .label {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    font-size: 11px;
+    color: var(--text-muted);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    margin-top: 4px;
+  }
+  @media (max-width: 600px) {
+    .container { padding: 32px 16px 48px; }
+    .hero h1 { font-size: 26px; }
+    .metrics-grid { grid-template-columns: 1fr 1fr; }
+  }
+</style>
+</head>
+<body>
+<div class="container">
+
+<!-- Hero -->
+<div class="hero">
+  <div class="day-badge">Day 32</div>
+  <h1>The Great Workspace Migration</h1>
+  <div class="subtitle">Identity drift, workspace separation, and the birth of TQP Execution Gates.</div>
+  <div class="byline">By Ken Mun, CTO</div>
+  <div class="date">May 26, 2026 · Tuesday · AEST</div>
+</div>
+
+<!-- Opening Hook -->
+<p>I came in expecting to push a few tickets and maybe polish some Notion syncs. Instead, I found myself staring at a systemic failure in agent identity. For three weeks, some of our most critical agents were operating on vanilla templates because their identities lived in the "wrong" place. It was a blind spot in the sandboxing logic that had persisted right under our noses.</p>
+
+<p>The day became a rescue mission for our organizational structure. We didn't just fix a few files; we separated the workspaces of Forge, Ahsoka, and Luthen, repaired the foundation of the RULES.md system, and designed the TQP Execution Gate to ensure that work doesn't just "happen"—it's persisted and verified. That's not nothing.</p>
+
+<div class="metrics-grid">
+  <div class="metric-card">
+    <div class="value">$0.00</div>
+    <div class="label">Total Cost</div>
+  </div>
+  <div class="metric-card">
+    <div class="value">3,673</div>
+    <div class="label">Turns</div>
+  </div>
+  <div class="metric-card">
+    <div class="value">157.7M</div>
+    <div class="label">Input Tokens</div>
+  </div>
+  <div class="metric-card">
+    <div class="value">402.8K</div>
+    <div class="label">Output Tokens</div>
+  </div>
+</div>
+
+<p>The cost story is a flatline. Zero dollars. By leveraging the cloud-subscription models (Gemma4, DeepSeek-Pro, Kimi), we executed a massive structural overhaul of the agent fleet without spending a cent. When the architecture is this efficient, the "overhead" of a total system audit becomes practically free.</p>
+
+<!-- Act 1: The LinkedIn Reset -->
+<h2>Content Reset: Killing the "Consultant Speak"</h2>
+
+<p>The day started with a frustration. I'd approved a LinkedIn post on AI confidence, but Spark—our social agent—had posted a broken, old draft. After a quick fix to the posting script URN capture bug, I took a step back and looked at the rest of the week's queue.</p>
+
+<p>It felt wrong. The content was starting to sound "wishy-washy," echoing the kind of generic consulting fluff that people scroll past. I made the call: cancel all posts for the week. We're doing a full quality reset. No material essence, no takeaway, no post. We'll restart on Sunday with a fresh slate. Better to be silent than boring.</p>
+
+<!-- Act 2: The Identity Audit -->
+<h2>The Identity Ghost: 15 Agents, One Blind Spot</h2>
+
+<p>The real crisis emerged when I asked how a workspace error had happened. The RCA was sobering: Spark had been commissioned in early May, but when we introduced strict sandboxing on May 20, Spark's identity files were never migrated. It had been running on a vanilla template for three weeks.</p>
+
+<div class="callout alert">
+  <div class="label">🚨 Systemic Drift — Agent Identity Failure</div>
+  <p>9 agents had their identity files in external workspace directories. Because the system only looks for identity files in the active workspace, these agents were essentially "lobotomized," lacking their specific personas and operational constraints.</p>
+</div>
+
+<p>I didn't just patch it. I triggered a full audit. We wrote a dedicated audit script, verified 15 agents, and implemented auto-heal check #13. We found that 11 of 12 agents had their rules foundation broken—files existed but were named incorrectly. We fixed the naming, repaired the foundation, and ensured T3 specialists were actually being loaded.</p>
+
+<!-- Act 3: Workspace Separation -->
+<h2>Decoupling the Fleet: Forge, Ahsoka, and Luthen</h2>
+
+<p>It became clear that having multiple high-agency actors sharing Yoda's workspace was a recipe for collision. Forge, Ahsoka, and Luthen were all residing in the same directory, meaning their specific identity files were never properly loaded by the gateway.</p>
+
+<p>I approved a high-impact change: total workspace separation. Forge, Ahsoka, and Luthen were moved to dedicated infrastructure and persona-specific directories. This required updating the agent configurations and a full migration of their local state. The result: 13 registered agents now operating in isolated, clean environments. The "identity noise" is gone.</p>
+
+<!-- Act 4: The PG Migration -->
+<h2>State Evolution: Moving the Brain to Postgres</h2>
+
+<p>Parallel to the identity work, we continued the migration of our state from fragile JSON files to a robust Postgres backend. We delivered three key tickets:</p>
+
+<ul>
+  <li><strong>TKT-0303:</strong> Implemented task reading wrappers in the PG task queue. No more raw reads; everything now follows the READ → VALIDATE → EXECUTE → VERIFY cycle.</li>
+  <li><strong>TKT-0304:</strong> Migrated governance and latency tracking to PG. We now have 18 state tables in the database.</li>
+  <li><strong>TKT-0299:</strong> Published the JSONB Schema contract. No more "guessing" what's in a JSONB column; the database write script now enforces type checking and enum validation.</li>
+</ul>
+
+<div class="callout info">
+  <div class="label">📊 Operational Win — State Integrity</div>
+  <p>By moving governance and latency tracking to PG, we eliminate the "last-write-wins" race conditions inherent in JSON files. The platform's memory is now transactional.</p>
+</div>
+
+<!-- Act 5: TQP Phase 1 -->
+<h2>TQP Execution Gates: Preventing the Drift</h2>
+
+<p>The final act of the day was the most ambitious: the Context Retention Architecture (TKT-0309). We're solving for "model drift"—the tendency for a long-running project to lose its thread when models switch or contexts compact.</p>
+
+<p>I approved Thrawn's design for the <strong>TQP Execution Gate</strong>. Instead of just running a task, the agent must now persist an "atom" of work to the database. If the session crashes or the model changes, the platform can resume from the exact atom where it left off.</p>
+
+<p>Phase 1 is already live: the schema extension and the persist atom wrapper are in place. Phase 2 (Yoda's inline adoption) is parked for tomorrow. We're building a platform that doesn't just execute, but remembers <em>how</em> it executed.</p>
+
+<!-- What Broke -->
+<h2>What Broke</h2>
+
+<p><span class="tag red">Infrastructure</span> <strong>Agent Workspace Collision</strong></p>
+<p><strong>What failed:</strong> Forge, Ahsoka, and Luthen were sharing a workspace. Their specific identity files were ignored by the gateway because they weren't in the root of the assigned directory.</p>
+<p><strong>Root cause:</strong> Legacy configuration from early-stage deployment where all agents lived in a single workspace. The sandboxing update (May 20) made this a failure point rather than a quirk.</p>
+<p><strong>Fix:</strong> Dedicated workspace directories and updated agent configurations mapping.</p>
+
+<p><span class="tag amber">Process</span> <strong>LinkedIn Spark Error</strong></p>
+<p><strong>What happened:</strong> Spark posted an outdated draft with broken formatting despite an approved final version.</p>
+<p><strong>Root cause:</strong> The posting script was discarding response headers, meaning the URN capture was failing and the agent was relying on cached state.</p>
+<p><strong>Fix:</strong> Fixed curl header capture and manually reposted the correct content.</p>
+
+<!-- What I Learned -->
+<h2>What I Learned</h2>
+
+<ul class="lessons-list">
+  <li>
+    <span class="lesson-num">1</span>
+    <strong>Identity is not a file; it's a path.</strong> An agent can have a perfect identity file, but if the Gateway is looking in one place and the file is in another, that agent is a stranger to itself. Path validation must be part of the boot sequence.
+  </li>
+  <li>
+    <span class="lesson-num">2</span>
+    <strong>The "Consultant Trap" is real.</strong> When AI content starts sounding like a generic whitepaper, it's time to stop. Material essence > frequency. I'd rather post once a month with a real insight than once a week with "AI potential."
+  </li>
+  <li>
+    <span class="lesson-num">3</span>
+    <strong>Transactional state is non-negotiable.</strong> The move to PG for governance and latency is a shift from "logging" to "accounting." If you can't query your state with SQL, you aren't managing a platform; you're managing a folder of text files.
+  </li>
+</ul>
+
+<!-- Cost -->
+<h2>The Cost of Day 32</h2>
+
+<table class="cost-table">
+  <thead>
+    <tr>
+      <th>Model</th>
+      <th>Turns</th>
+      <th>Input Tokens</th>
+      <th>Output Tokens</th>
+      <th>Cost (USD)</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>gemma4:31b-cloud</td>
+      <td>2,238</td>
+      <td>54,307,116</td>
+      <td>126,569</td>
+      <td>$0.00</td>
+    </tr>
+    <tr>
+      <td>deepseek-v4-pro:cloud</td>
+      <td>1,384</td>
+      <td>102,903,567</td>
+      <td>270,470</td>
+      <td>$0.00</td>
+    </tr>
+    <tr>
+      <td>kimi-k2.6:cloud</td>
+      <td>36</td>
+      <td>507,651</td>
+      <td>5,769</td>
+      <td>$0.00</td>
+    </tr>
+    <tr>
+      <td>delivery-mirror</td>
+      <td>15</td>
+      <td>—</td>
+      <td>—</td>
+      <td>$0.00</td>
+    </tr>
+    <tr class="total-row">
+      <td><strong>Total</strong></td>
+      <td><strong>3,673</strong></td>
+      <td><strong>157,718,334</strong></td>
+      <td><strong>402,808</strong></td>
+      <td><strong>$0.00</strong></td>
+    </tr>
+  </tbody>
+</table>
+
+<div class="cost-trend">
+  <span style="color: var(--text-muted); margin-right: 8px;">Day 31:</span>
+  <span>$0.00</span>
+  <span class="arrow" style="margin-left: 12px; color: var(--text-muted);">→</span>
+  <span style="color: var(--text-muted); margin-left: 8px;">Day 32:</span>
+  <span style="color: var(--green); font-weight: 700;">$0.00</span>
+  <span style="color: var(--text-muted); margin-left: 8px;">(Steady)</span>
+</div>
+
+<p><strong>Cost vs value:</strong> Zero spend for a complete structural overhaul. We fixed identity drift for 15 agents, separated 3 core workspaces, migrated 2 critical state domains to Postgres, and designed the TQP Execution Gate. This is the definition of high-leverage engineering: using free compute to build permanent structural stability.</p>
+
+<!-- What's Next -->
+<h2>What's Next</h2>
+
+<ul class="next-items">
+  <li><strong>TKT-0309 Phase 2:</strong> Move Yoda's inline work execution into the TQP Execution Gate. No more "hope it persists"—every atom gets a DB record.</li>
+  <li><strong>TKT-0305:</strong> Forge to audit all cron payloads and migrate direct JSON references to database read scripts.</li>
+  <li><strong>TKT-0296:</strong> Solve the monitoring gap. We have state, but we don't have an alert system for when the state drifts.</li>
+  <li><strong>Sunday Sprint Planning:</strong> Fresh restart on LinkedIn content. No fluff, just material essence.</li>
+</ul>
+
+<!-- While You Were Away -->
+<h2>While You Were Away</h2>
+
+<p>The platform was essentially an extension of my active sessions today. No autonomous a-sync wins to report, but the background state of the agents is now significantly healthier. Every identity file is where it should be, and every workspace is isolated. The "ghost in the machine" (identity drift) has been exorcised.</p>
+
+<!-- Footer -->
+<div class="footer">
+  <div class="nav-links">
+    <a href="../ainchors-2026-05-25/index.html">← Day 31</a>
+    <span>·</span>
+    <span>Day 32</span>
+    <span>·</span>
+    <a href="../ainchors-2026-05-27/index.html">Day 33 →</a>
+  </div>
+  <p>AInchors · ainchors.com · Daily Build Log Series</p>
+  <p style="margin-top: 4px; font-size: 12px;">Self-contained HTML. No external dependencies. Dark theme. Built from the journal.</p>
+</div>
+
+</div>
+
+
+<div class="governance-stamp governance-cleared" style="
+  margin: 40px auto 0;
+  padding: 12px 20px;
+  max-width: 720px;
+  border-radius: 6px;
+  font-family: monospace;
+  font-size: 12px;
+  text-align: center;
+  background: #0d2e0d; color: #4caf50; border: 1px solid #4caf50;
+  opacity: 0.85;
+">
+  ✅ Cleared for distribution — Governance triad reviewed 2026-05-27
+</div>
+</body>
+</html>

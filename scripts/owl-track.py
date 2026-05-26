@@ -6,8 +6,13 @@ Usage: python3 owl-track.py --tier [1|2|3] --atoms N --thinking N --paused [true
 """
 import json
 import sys
+import os
 import argparse
 from datetime import datetime
+
+# Add lib to path for atomic_write import
+sys.path.insert(0, os.path.join(os.path.dirname(__file__), 'lib'))
+from atomic_write import atomic_write_json as atomic_write
 
 STATE_FILE = "/Users/ainchorsangiefpl/.openclaw/workspace/state/owl-compliance-state.json"
 
@@ -19,8 +24,7 @@ def load_state():
         return None
 
 def save_state(state):
-    with open(STATE_FILE, 'w') as f:
-        json.dump(state, f, indent=2)
+    return atomic_write(STATE_FILE, state)
 
 def calculate_compliance(response):
     """Calculate compliance score 0-100 for a single response."""

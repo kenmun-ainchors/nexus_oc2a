@@ -12,7 +12,7 @@ FILE = sys.argv[1] if len(sys.argv) > 1 else None
 
 if not FILE:
     print("Usage: python3 json-inspector.py <json-file>")
-    print("Example: python3 json-inspector.py state/kimi-confidence-mapping.json")
+    print("Example: python3 json-inspector.py state/tickets.json")
     sys.exit(1)
 
 try:

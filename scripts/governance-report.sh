@@ -242,6 +242,35 @@ GREOF
 python3 "$_GR_TMP" "$_SP" "$_LP" "$_SgP" "$_OV" "$AEST" "$ASSET_PATH" "$ASSET_TYPE" "$BRIEF" "$INTENDED_FOR" "$PRODUCED_BY"
 rm -f "$_GR_TMP"
 
+# ── Dual-write to PG (TKT-0304) ────────────────────────────────────────────
+python3 << 'PGEOF'
+import os, subprocess, json
+env = os.environ.copy()
+env.update({'PGHOST': '/tmp', 'PGPORT': '5432', 'PGUSER': 'ainchorsangiefpl', 'PGDATABASE': 'ainchors_nexus'})
+results_file = os.path.expanduser('~/.openclaw/workspace/state/governance-results.json')
+if os.path.exists(results_file):
+    with open(results_file) as f:
+        gr = json.load(f)
+    asset = gr.get('asset','').replace("'", "''")
+    brief = gr.get('brief','').replace("'", "''")
+    intended = gr.get('intendedFor','').replace("'", "''")
+    pby = gr.get('producedBy','').replace("'", "''")
+    ts = gr.get('timestamp','now')
+    for agent_key, agent_label in [('shield','shield'), ('lex','lex'), ('sage','sage'), ('overall','overall')]:
+        if agent_key == 'overall':
+            verdict = gr.get('overall','PASS')
+            details_str = '{}'
+        else:
+            agent_data = gr.get(agent_key, {})
+            verdict = agent_data.get('verdict', 'PASS') if isinstance(agent_data, dict) else 'PASS'
+            details_str = json.dumps(agent_data).replace("'", "''")
+        subprocess.run(
+            ['/opt/homebrew/bin/psql', '-c',
+             f"INSERT INTO state_governance (review_type, asset_ref, asset_type, brief, intended_for, produced_by, verdict, timestamp, details) "
+             f"VALUES ('{agent_label}', '{asset}', '{gr.get('assetType','')}', '{brief}', '{intended}', '{pby}', '{verdict}', '{ts}', '{details_str}')"],
+            env=env, capture_output=True)
+PGEOF
+
 # Log to delegation log
 bash "$WORKSPACE/scripts/log-delegation.sh" \
   --tier T2 --task-type governance-check --model ollama/deepseek-v4-pro:cloud \

@@ -187,6 +187,50 @@ bash -
 # git log --oneline -1
 ```
 
+
+# AGENT COMMISSIONING CHECKLIST — NON-NEGOTIABLE (TKT-0307)
+# Effective: 2026-05-26
+# Authority: Ken Mun (CTO)
+# Applies to: ALL new agent activation or existing agent workspace migration
+
+## Gate: Before any agent is declared COMMISSIONED or LIVE, verify ALL items:
+
+### 1. Workspace
+- [ ] Agent has dedicated workspace directory (not shared subdirectory)
+- [ ] Workspace path matches openclaw.json agents.list entry
+- [ ] No overlap with another agent's workspace (exception: sub-agents)
+
+### 2. Identity Files
+- [ ] SOUL.md present in workspace root (100-5000 chars, compact standard)
+- [ ] RULES.md present in workspace root (named RULES.md, not [AGENT]_RULES.md)
+- [ ] RULES.md content > 100 bytes (not stub/empty)
+- [ ] Symlink OK if agent-specific filename (e.g., RULES.md -> ATLAS_RULES.md)
+
+### 3. Model Config
+- [ ] Model primary + fallbacks in openclaw.json matches model-policy.json
+- [ ] Tier assignment confirmed (T0-T4)
+- [ ] Kimi safety net: kimi-k2.6:cloud in fallback chain
+
+### 4. Verification
+- [ ] Run: zsh scripts/agent-rules-audit.sh — must PASS
+- [ ] Spawn agent with domain-specific test task — verify procedures load
+- [ ] Agent output references its specialist RULES.md content (not generic)
+- [ ] Auto-heal CHECK 14 passes on next nightly run
+
+### 5. Registration
+- [ ] Agent registered in Holocron Agent Registry (Notion)
+- [ ] CHG record created with commissioning details
+- [ ] Warden model-policy.json updated with new agent entry
+
+## Enforcement
+
+- agent-rules-audit.sh runs nightly via auto-heal CHECK 14
+- Missing RULES.md -> NEEDS_KEN escalation
+- New agent activation blocked until checklist complete
+- Retrospective: any agent found without RULES.md -> TKT-0307 remediation
+- **L-044 Gate:** Agent design spec must exist and be APPROVED before build begins. No spec = no commission. (TKT-0308)
+- **L-044 Gate:** Agent workspace must be DEDICATED (not shared subdirectory of Yoda's workspace). Exception: sub-agents spawned with explicit task context.
+
 ## Enforcement
 
 ### Warde

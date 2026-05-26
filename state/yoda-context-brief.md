@@ -1,15 +1,15 @@
 # Yoda Telegram Context Brief
-Generated: 2026-05-24 10:00 UTC | Platform Day 29 | Sprint 4 (May 19–25)
+Generated: 2026-05-26 20:00 AEST | Platform Day 31 | Sprint 4/5 Transition
 
 ---
 
 ## Platform Status
-- **Day:** 29 (since 2026-04-25)
+- **Day:** 31 (since 2026-04-25)
 - **Phase:** MVP → P1 transition
 - **OC1:** Mac Mini M4 24GB — LIVE Production. PERMANENT.
 - **OC2-A/B:** Mac Mini M4 Pro 48GB ×2 — ETA 6–13 Jul 2026, commission ~27 Jul
 - **Daily Budget:** $150 (CHG-0268).
-- **Key Alert:** CONSERVATIVE MODE active (CHG-0349). Claude credits depleted. All agents on kimi/gemma4/deepseek-pro until CLAUDE RESTORE keyword issued.
+- **Key Alert:** CONSERVATIVE MODE active (CHG-0349). All agents on kimi/gemma4/deepseek-pro until CLAUDE RESTORE keyword issued.
 
 ---
 
@@ -25,7 +25,7 @@ Generated: 2026-05-24 10:00 UTC | Platform Day 29 | Sprint 4 (May 19–25)
 ## Infrastructure
 - **OpenClaw** on OC1, Tailscale mesh
 - **MinIO** LIVE on OC1 (TKT-0124 ✅, CHG-0265)
-- **Model:** kimi/gemma4/deepseek-pro (interim, CHG-0349). Sonnet FALLBACK ONLY.
+- **Model:** DeepSeek is now permanent primary model. kimi remains as fallback only. (Update 2026-05-26)
 - **kimi policy:** standup + email cron ONLY. NEVER for orchestration/routing/CHG/state.
 - **Tailscale URL:** `https://ainchorss-mac-mini.tail5e2567.ts.net`
 - **RustDesk:** public relay (primary). Self-hosted CLOSED (TKT-0120, DEC-20260516-1256).
@@ -34,17 +34,9 @@ Generated: 2026-05-24 10:00 UTC | Platform Day 29 | Sprint 4 (May 19–25)
 
 ---
 
-## Current Sprint (S4: May 19–25)
-*Note: sprint-current.json not found; using last known S4 commit.*
-
-| Ticket | Title | Owner | Status |
-|--------|-------|-------|--------|
-| TKT-0127 | Agentic Marketing Org Design | Yoda | planned |
-| TKT-0196 | Three Work Types Rule | Forge | planned |
-| TKT-0197 | Sources of Truth Register | Atlas | planned |
-| TKT-0198 | JSON to Postgres Migration | Forge | planned |
-| TKT-0182 | Explicit state checking pattern | Thrawn | planned |
-| TKT-0228 | OWL Drift Detection System | Yoda | planned |
+## Current Sprint
+- **Focus:** P2 hard gates, Policy Register (TKT-0137), and Model Strategy Review.
+- **Active Work:** TKT-0295 (PG Audit) currently parked due to budget breach.
 
 ---
 
@@ -53,7 +45,6 @@ Generated: 2026-05-24 10:00 UTC | Platform Day 29 | Sprint 4 (May 19–25)
 - **Aevlith:** Technology holding entity, owns Nexus. Domain: aevlith.ai.
 - **L-026:** Build/scripts → Forge ONLY. Atlas=EA assess. Thrawn=arch design.
 - **LinkedIn Rule:** Missed post → push to next slot. Never post late.
-- **Kimi Policy:** Standup/email only. NO complex orchestration/routing/CHG/state.
 - **S-SOP:** All external/client outputs pass Shield → Lex → Sage.
 - **Nexus Naming:** Nexus=platform | Holocron=AKB | Bridge=cmd-centre | Citadel=client-portal.
 
@@ -69,14 +60,14 @@ Generated: 2026-05-24 10:00 UTC | Platform Day 29 | Sprint 4 (May 19–25)
 7. **TKT-0135** — AInchors Sandbox (HIGH, Forge)
 8. **TKT-0136** — Consulting Playbook (HIGH)
 9. **TKT-0138** — Business Jumpstart pathway (HIGH, Ahsoka)
-10. **TKT-0127** — Agentic Marketing Org Design (S4, Yoda)
+10. **TKT-0127** — Agentic Marketing Org Design (HIGH, Yoda)
 
 Full backlog: Notion AKB Backlog (SSOT). tickets.json seq 199.
 
 ---
 
 ## LinkedIn Queue Status
-- **Status:** linkedin-queue.json not found. Defer to Spark for current state.
+- **Status:** state/linkedin-queue.json not found. Defer to Spark for current state.
 - **API:** Connected, token valid to 2026-07-12
 
 ---
@@ -99,7 +90,7 @@ _Last synced to webchat: 2026-05-15 13:47 AEST_
 2. **Accept & execute immediately** — NEVER say "go to WebChat"
 3. **Write EVERY decision** to `state/channel-state.json` with `syncedToWebchat: false`
 4. **No relay loop** — state file is the ONLY bridge
-5. **kimi = standup + email cron ONLY.** Webchat+Telegram = Sonnet. NEVER use kimi for orchestration/routing/CHG
+5. **kimi = standup + email cron ONLY.** Webchat+Telegram = Sonnet/DeepSeek. NEVER use kimi for orchestration/routing/CHG
 6. **Credit alerts:** T3 ($15) → alert Ken + Angie immediately via both bots
 7. **Private data stays private.** Ask before external action.
 8. **Emergency keyword:** "YODA THIS IS KEN" → immediate escalation

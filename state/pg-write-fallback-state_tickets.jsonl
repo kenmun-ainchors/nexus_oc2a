@@ -1,0 +1,18 @@
+{"id":"TKT-0283","title":"Regression #1: !@#$%^&*()_+-=[]{}|;:,.<>?/~`"'\ Ã©moji â ð « ð Ã± ä¸­æ ","status":"open","type":"bug","priority":"low"}
+{"id":"TKT-0284","title":"Regression #2: !@#$%^&*()_+-=[]{}|;:,.<>?/~`"'\ Ã©moji â ð « ð Ã± ä¸­æ ","status":"open","type":"bug","priority":"low"}
+{"id":"TKT-0285","title":"Regression #3: !@#$%^&*()_+-=[]{}|;:,.<>?/~`"'\ Ã©moji â ð « ð Ã± ä¸­æ ","status":"open","type":"bug","priority":"low"}
+{"id":"TKT-0286","title":"Regression #4: !@#$%^&*()_+-=[]{}|;:,.<>?/~`"'\ Ã©moji â ð « ð Ã± ä¸­æ ","status":"open","type":"bug","priority":"low"}
+{"id":"TKT-0287","title":"Regression #5: !@#$%^&*()_+-=[]{}|;:,.<>?/~`"'\ Ã©moji â ð « ð Ã± ä¸­æ ","status":"open","type":"bug","priority":"low"}
+{"id":"TKT-0288","title":"Regression #6: !@#$%^&*()_+-=[]{}|;:,.<>?/~`"'\ Ã©moji â ð « ð Ã± ä¸­æ ","status":"open","type":"bug","priority":"low"}
+{"id":"TKT-0289","title":"Regression #7: !@#$%^&*()_+-=[]{}|;:,.<>?/~`"'\ Ã©moji â ð « ð Ã± ä¸­æ ","status":"open","type":"bug","priority":"low"}
+{"id":"TKT-0290","title":"Regression #8: !@#$%^&*()_+-=[]{}|;:,.<>?/~`"'\ Ã©moji â ð « ð Ã± ä¸­æ ","status":"open","type":"bug","priority":"low"}
+{"id":"TKT-0291","title":"Regression #9: !@#$%^&*()_+-=[]{}|;:,.<>?/~`"'\ Ã©moji â ð « ð Ã± ä¸­æ ","status":"open","type":"bug","priority":"low"}
+{"title":"[TKT-REGRESS-B1] Regression Test â€” PG write path","type":"task","status":"open","priority":"medium","sequence":999,"sprint":"S5","createdat":"2026-05-25T05:14:33Z"}
+{"title":"REGRESSION ðŸ§ª TEST â€” spÃ©cial chars (brackets)","type":"task","status":"open","priority":"low","sequence":998,"sprint":"S5","description":"Line 1 ðŸŽ¯
+Line 2 with 'single' and "double" quotes
+Line 3: backslash \ and slash /","createdat":"2026-05-25T05:14:33Z"}
+{"title":"[TKT-REGRESS-B1] Regression Test â€” PG write path","status":"closed","resolution":"B4 test close","metadata":{"closedAt":"2026-05-25T05:14:33Z","resolution":"B4 test close"}}
+{"title": "CONTROL CHAR TEST \u0000\u0001\u0002 END", "type": "task", "status": "open", "priority": "low", "sequence": 997, "description": "Has null bytes \u0000 and \u001f separators", "sprint": "S5"}
+{"id":"TKT-A5-TEST","title":"A5 fallback test","status":"open","type":"task","priority":"low","sequence":"99998"}
+{"id":"TKT-PHASE5-TEST","title":"Phase 5 fallback test","status":"open","type":"task","priority":"low","sequence":"99999"}
+{"id":"TKT-DIAG-4","title":"Metadata test","status":"open","type":"task","priority":"medium","sprint":"S5","description":"Has metadata fields","resolution":"test"}

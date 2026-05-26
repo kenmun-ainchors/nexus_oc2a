@@ -1,10 +1,10 @@
 {
   "schema": "2.0",
-  "title": "Spark LinkedIn Campaign — Single Source of Truth",
+  "title": "Spark LinkedIn Campaign \u2014 Single Source of Truth",
   "description": "ONE file for all LinkedIn content state. Replaces linkedin-queue.json, linkedin-content-tracker.json, content-queue.json (social entries only). Blog entries remain in content-queue.json.",
   "createdAt": "2026-05-19T10:39:00+10:00",
   "createdBy": "Yoda (CHG consolidation)",
-  "lastUpdated": "2026-05-22T12:05:00+10:00",
+  "lastUpdated": "2026-05-26T13:32:00+10:00",
   "agent": "Spark",
   "api": {
     "enabled": true,
@@ -23,16 +23,16 @@
     "name": "What AI Agents in Production Actually Look Like",
     "startedAt": "2026-05-19T10:32:00+10:00",
     "type": "standalone",
-    "note": "Standalone posts — no numbered series. Each post is self-contained. Prevents series breakage from reschedules/rejects."
+    "note": "Standalone posts \u2014 no numbered series. Each post is self-contained. Prevents series breakage from reschedules/rejects."
   },
   "voice": {
-    "persona": "Ken Mun, CTO — first-person, direct, no fluff, practical wisdom",
+    "persona": "Ken Mun, CTO \u2014 first-person, direct, no fluff, practical wisdom",
     "rule": "External-facing only. NO mentions of AInchors, Yoda, Nexus, agent names, or platform internals."
   },
   "published": [
     {
       "id": "LI-SEED-1",
-      "title": "Seeder Post 1 — The Opening Tease",
+      "title": "Seeder Post 1 \u2014 The Opening Tease",
       "postedAt": "2026-05-03T11:54:00+10:00",
       "postedBy": "Ken (manual)",
       "type": "seeder",
@@ -41,7 +41,7 @@
     },
     {
       "id": "LI-SEED-2",
-      "title": "Seeder Post 2 — The Hint",
+      "title": "Seeder Post 2 \u2014 The Hint",
       "postedAt": "2026-05-03T11:54:00+10:00",
       "postedBy": "Ken (manual)",
       "type": "seeder",
@@ -50,7 +50,7 @@
     },
     {
       "id": "LI-W1-P1",
-      "title": "W1P1 — Practitioner Intro",
+      "title": "W1P1 \u2014 Practitioner Intro",
       "postedAt": "2026-05-05T07:52:00+10:00",
       "postedBy": "Yoda (API fix + manual retry)",
       "type": "original",
@@ -60,7 +60,7 @@
     },
     {
       "id": "LI-W1-P2",
-      "title": "W1P2 — Problem Education (Paying for AI they can't use)",
+      "title": "W1P2 \u2014 Problem Education (Paying for AI they can't use)",
       "postedAt": "2026-05-06T02:04:04+10:00",
       "postedBy": "Spark (cron)",
       "type": "original",
@@ -70,7 +70,7 @@
     },
     {
       "id": "LI-W1-P3",
-      "title": "W1P3 — Consultant POV (First 24 hours of an engagement)",
+      "title": "W1P3 \u2014 Consultant POV (First 24 hours of an engagement)",
       "postedAt": "2026-05-07T07:32:00+10:00",
       "postedBy": "Spark (cron, Ken manual edit)",
       "type": "original",
@@ -89,7 +89,7 @@
     },
     {
       "id": "LI-C1-W2-P2-BROKEN",
-      "title": "AIOps P2 — The Cost of Getting It Wrong (posted out of order)",
+      "title": "AIOps P2 \u2014 The Cost of Getting It Wrong (posted out of order)",
       "postedAt": "2026-05-12T00:43:59+00:00",
       "postedBy": "Spark (API)",
       "type": "original",
@@ -100,7 +100,7 @@
     },
     {
       "id": "LI-C1-W2-P3-BROKEN",
-      "title": "AIOps P3 — Multi-Agent Trust",
+      "title": "AIOps P3 \u2014 Multi-Agent Trust",
       "postedAt": "2026-05-14T07:32:00+10:00",
       "postedBy": "Spark (cron)",
       "type": "original",
@@ -113,9 +113,9 @@
       "id": "LI-W3-P1",
       "title": "What I learned taking AI from demo to production",
       "postedAt": "2026-05-19T21:25:21.535205+10:00",
-      "postedBy": "Yoda (manual — cron UTC bug)",
+      "postedBy": "Yoda (manual \u2014 cron UTC bug)",
       "type": "original",
-      "slot": "Tue 07:30 (late — posted 21:24 AEST)",
+      "slot": "Tue 07:30 (late \u2014 posted 21:24 AEST)",
       "imageAssetUrn": "urn:li:image:D4E10AQGC0Qx5FFVyVA",
       "postUrn": "urn:li:activity:7462463345594605569",
       "postUrl": "https://www.linkedin.com/posts/activity-7462463345594605569/"
@@ -130,19 +130,19 @@
       "imageAssetUrn": "urn:li:image:D4E10AQEFkn4GudRhzw",
       "postUrn": "urn:li:share:7463404594140905473",
       "postUrl": "https://www.linkedin.com/posts/activity-7463404594140905473/",
-      "note": "URN is share format — LinkedIn may have changed API response. Duplicate post error on retry indicates successful first post."
+      "note": "URN is share format \u2014 LinkedIn may have changed API response. Duplicate post error on retry indicates successful first post."
     }
   ],
   "skipped": [
     {
       "id": "LI-W1-P4",
-      "title": "W1P4 — Help (3 questions before buying an AI tool)",
+      "title": "W1P4 \u2014 Help (3 questions before buying an AI tool)",
       "skippedAt": "2026-05-08T07:31:00+10:00",
       "reason": "No draft content. Friday outside locked campaign schedule."
     },
     {
       "id": "LI-C1-W2-P1-BROKEN",
-      "title": "AIOps P1 — Who watches the agents?",
+      "title": "AIOps P1 \u2014 Who watches the agents?",
       "skippedAt": "2026-05-13T13:10:16+10:00",
       "reason": "Missed Tue slot due to Anthropic outage. Ken decision: skip (P2 already posted out of order). Series retired."
     }
@@ -152,69 +152,52 @@
       "file": "/Users/ainchorsangiefpl/.openclaw/workspace/workspace-social/drafts/this-week-posts.md",
       "createdAt": "2026-05-19T10:32:00+10:00",
       "theme": "What AI Agents in Production Actually Look Like",
-      "status": "approved",
+      "status": "cancelled",
       "slots": [
         {
-          "id": "LI-W3-P1",
-          "slot": "Tue 20 May 07:30 AEST",
-          "title": "Your AI demo lied to you. Here's why.",
-          "angle": "Demo-to-production gap is 100x bigger than people think",
+          "id": "LI-W4-P1-Confidence",
+          "slot": "Wed 27 May 12:00 AEST",
+          "title": "AI Model Confidence & The Safe Zone",
+          "angle": "insights",
           "status": "posted",
-          "imageAssetUrn": "urn:li:image:D4E10AQGC0Qx5FFVyVA",
-          "imageMinioUrl": "http://ainchorss-mac-mini.tail5e2567.ts.net:9000/ainchors-generated-media/social/linkedin/LI-W3-P1/image.jpg",
-          "imageReceivedAt": "2026-05-19T12:29:40.249846+10:00",
-          "postedAt": "2026-05-19T21:25:21.535205+10:00",
-          "postUrn": "urn:li:activity:7462463345594605569",
-          "urnCapturedAt": "2026-05-20T11:42:00+10:00"
-        },
-        {
-          "id": "LI-W3-P2",
-          "slot": "Wed 21 May 12:00 AEST",
-          "title": "The model is never the bottleneck",
-          "angle": "Data plumbing, failure handling, audit trails, cost management — not model choice",
-          "status": "skipped",
-          "imageAssetUrn": "urn:li:image:D4E10AQH6HleTChQOLA",
-          "imageMinioUrl": "http://ainchorss-mac-mini.tail5e2567.ts.net:9000/ainchors-generated-media/social/linkedin/LI-W3-P2/image.jpg",
-          "imageReceivedAt": "2026-05-19T12:30:29.856350+10:00",
-          "skippedReason": "Missed Wed 12:00 slot — Ollama outage. Ken: skip.",
-          "skippedAt": "2026-05-20T15:36:00+10:00"
-        },
-        {
-          "id": "LI-W3-P3",
-          "slot": "Thu 22 May 07:30 AEST",
-          "title": "The skill that matters most in AI isn't prompting",
-          "angle": "System design thinking > prompt engineering",
-          "status": "posted",
-          "imageAssetUrn": "urn:li:image:D4E10AQEFkn4GudRhzw",
-          "imageMinioUrl": "http://ainchorss-mac-mini.tail5e2567.ts.net:9000/ainchors-generated-media/social/linkedin/LI-W3-P3/image.jpg",
-          "imageReceivedAt": "2026-05-19T12:31:13.292575+10:00",
-          "note": "Posted by cron 96f326fd. Duplicate post error on retry indicates successful first post. URN is share format.",
-          "cronId": "96f326fd",
-          "postedAt": "2026-05-22T07:30:00+10:00",
-          "postUrn": "urn:li:share:7463404594140905473"
+          "createdAt": "2026-05-26T07:35:39.817811+10:00",
+          "imageAssetUrn": "urn:li:image:D5610AQFSf-hlh3m_Zg",
+          "imageMinioUrl": "http://ainchorss-mac-mini.tail5e2567.ts.net:9000/ainchors-generated-media/social/linkedin/LI-W4-P1/image.jpg",
+          "imageLocalPath": "/Users/ainchorsangiefpl/.openclaw/workspace/workspace-social/images/linkedin/LI-W4-P1/image.jpg",
+          "imageReceivedAt": "2026-05-26T12:57:00+10:00",
+          "approvedAt": "2026-05-26T12:57:00+10:00",
+          "approvedBy": "Ken Mun (Telegram image approval)",
+          "slotNote": "Pushed from Tue 07:30 (missed) \u2192 Wed 12:00 per missed-slot rule",
+          "postedAt": "2026-05-26T13:10:00+10:00",
+          "postedBy": "Yoda (manual fix \u2014 Spark posted wrong content+broken formatting, deleted, reposted correctly)",
+          "note": "Broken post (old draft + literal \\n escapes) deleted via UGC API. Correct draft (social-drafts/LI-W4-P1-Confidence.md) reposted with correct image. URN capture failed \u2014 linkedin-post.sh bug (headers not captured). Script fixed in this same session.",
+          "cancelledAt": "2026-05-26T13:32:00+10:00",
+          "cancelledBy": "Ken Mun",
+          "cancelReason": "Full week cancellation \u2014 content quality reset. Contents feeling wishy-washy/no material essence. Fresh restart at Sunday sprint planning."
         }
       ],
       "approvedAt": "2026-05-19T12:10:36.726534+10:00",
-      "approvedBy": "Ken Mun (Telegram)"
+      "approvedBy": "Ken Mun (Telegram)",
+      "cancelNote": "Ken: Contents starting to feel wishy-washy and consulting-like, no material essence or takeaway. Taking a break this week. Fresh restart at Sunday sprint planning."
     }
   },
   "usedTopics": [],
   "rejectionLog": [
     {
       "id": "LI-C1-W2-P2",
-      "title": "AIOps P2 v1 — Agent routing discipline",
+      "title": "AIOps P2 v1 \u2014 Agent routing discipline",
       "rejectedAt": "2026-05-12T09:17:00+10:00",
-      "reason": "Too internal — agent names, platform architecture"
+      "reason": "Too internal \u2014 agent names, platform architecture"
     },
     {
       "id": "LI-C1-W2-P2-v2",
-      "title": "AIOps P2 v2 — Token efficiency / cost transparency",
+      "title": "AIOps P2 v2 \u2014 Token efficiency / cost transparency",
       "rejectedAt": "2026-05-14T16:55:00+10:00",
       "reason": "Ken: killed. Do not reschedule."
     },
     {
       "id": "LI-C1-W2-P2-v4",
-      "title": "AIOps P2 v4 — Latest attempt",
+      "title": "AIOps P2 v4 \u2014 Latest attempt",
       "rejectedAt": "2026-05-19T10:25:00+10:00",
       "reason": "Ken: reject. Choose another topic. Then full campaign reset ordered."
     }

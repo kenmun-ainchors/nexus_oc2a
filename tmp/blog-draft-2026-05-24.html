@@ -1,0 +1,493 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Day 30 — The Warden's Wake-Up Call — AInchors</title>
+<style>
+  :root {
+    --bg: #0d0d0d;
+    --surface: #1a1a1a;
+    --surface2: #242424;
+    --text: #e0e0e0;
+    --text-muted: #999;
+    --accent: #f0a050;
+    --accent-dim: #8b5e30;
+    --green: #4caf84;
+    --red: #e05555;
+    --blue: #5b9bd5;
+    --code-bg: #111;
+    --border: #333;
+    --callout-warn-bg: #2a1f10;
+    --callout-warn-border: #8b5e30;
+    --callout-info-bg: #0f1f2a;
+    --callout-info-border: #3a6b8c;
+    --callout-alert-bg: #2a1010;
+    --callout-alert-border: #8b3030;
+    --max-width: 720px;
+  }
+  * { margin:0; padding:0; box-sizing:border-box; }
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: Charter, Georgia, 'Times New Roman', serif;
+    font-size: 18px;
+    line-height: 1.7;
+    -webkit-font-smoothing: antialiased;
+  }
+  .container {
+    max-width: var(--max-width);
+    margin: 0 auto;
+    padding: 60px 24px 80px;
+  }
+  .hero { margin-bottom: 48px; }
+  .hero .day-badge {
+    display: inline-block;
+    background: var(--accent);
+    color: #000;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    font-size: 13px;
+    font-weight: 700;
+    letter-spacing: 0.5px;
+    padding: 4px 12px;
+    border-radius: 4px;
+    margin-bottom: 16px;
+  }
+  .hero h1 {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    font-size: 32px;
+    font-weight: 800;
+    line-height: 1.25;
+    color: #fff;
+    margin-bottom: 8px;
+  }
+  .hero .subtitle {
+    font-size: 20px;
+    color: var(--text-muted);
+    line-height: 1.5;
+    margin-bottom: 12px;
+  }
+  .hero .byline {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    font-size: 14px;
+    color: var(--text-muted);
+    margin-bottom: 4px;
+  }
+  .hero .date {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    font-size: 13px;
+    color: var(--accent-dim);
+  }
+  h2 {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    font-size: 22px;
+    font-weight: 700;
+    color: #eee;
+    margin: 48px 0 16px;
+    padding-bottom: 8px;
+    border-bottom: 1px solid var(--border);
+  }
+  h3 {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    font-size: 17px;
+    font-weight: 700;
+    color: var(--accent);
+    margin: 32px 0 12px;
+  }
+  p { margin-bottom: 16px; }
+  a { color: var(--accent); text-decoration: none; }
+  a:hover { text-decoration: underline; }
+  .callout {
+    padding: 16px 20px;
+    border-radius: 6px;
+    margin: 24px 0;
+    border-left: 4px solid;
+  }
+  .callout.warn {
+    background: var(--callout-warn-bg);
+    border-color: var(--callout-warn-border);
+  }
+  .callout.info {
+    background: var(--callout-info-bg);
+    border-color: var(--callout-info-border);
+  }
+  .callout.alert {
+    background: var(--callout-alert-bg);
+    border-color: var(--callout-alert-border);
+  }
+  .callout .label {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+    margin-bottom: 6px;
+  }
+  .callout.warn .label { color: var(--accent); }
+  .callout.info .label { color: var(--blue); }
+  .callout.alert .label { color: var(--red); }
+  .callout p { margin: 0; }
+  .callout p + p { margin-top: 8px; }
+  pre {
+    background: var(--code-bg);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    padding: 16px;
+    overflow-x: auto;
+    font-family: 'SF Mono', 'Fira Code', 'Cascadia Code', monospace;
+    font-size: 14px;
+    line-height: 1.5;
+    margin: 20px 0;
+    color: #ccc;
+  }
+  code {
+    font-family: 'SF Mono', 'Fira Code', 'Cascadia Code', monospace;
+    font-size: 0.9em;
+    background: var(--surface2);
+    padding: 2px 6px;
+    border-radius: 3px;
+    color: #ddd;
+  }
+  pre code { background: none; padding: 0; border-radius: 0; }
+  .cost-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 20px 0;
+    font-size: 15px;
+  }
+  .cost-table th {
+    text-align: left;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    font-size: 12px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    color: var(--text-muted);
+    padding: 8px 12px;
+    border-bottom: 1px solid var(--border);
+  }
+  .cost-table td {
+    padding: 8px 12px;
+    border-bottom: 1px solid var(--border);
+    font-variant-numeric: tabular-nums;
+  }
+  .cost-table .total-row td {
+    font-weight: 700;
+    color: var(--accent);
+    border-top: 2px solid var(--accent-dim);
+  }
+  .cost-trend {
+    display: flex;
+    gap: 8px;
+    margin: 16px 0;
+    align-items: baseline;
+  }
+  .cost-trend .arrow { font-size: 20px; }
+  .cost-trend .arrow.down { color: var(--green); }
+  .cost-trend .arrow.up { color: var(--red); }
+  .lessons-list { list-style: none; padding: 0; }
+  .lessons-list li {
+    padding: 12px 0;
+    border-bottom: 1px solid var(--border);
+  }
+  .lessons-list li:last-child { border-bottom: none; }
+  .lessons-list .lesson-num {
+    display: inline-block;
+    background: var(--accent-dim);
+    color: #000;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    font-size: 11px;
+    font-weight: 700;
+    padding: 2px 8px;
+    border-radius: 3px;
+    margin-right: 8px;
+  }
+  .next-items {
+    list-style: none;
+    padding: 0;
+  }
+  .next-items li {
+    padding: 8px 0;
+    padding-left: 20px;
+    position: relative;
+  }
+  .next-items li::before {
+    content: '→';
+    position: absolute;
+    left: 0;
+    color: var(--accent);
+  }
+  .footer {
+    margin-top: 64px;
+    padding-top: 24px;
+    border-top: 1px solid var(--border);
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    font-size: 13px;
+    color: var(--text-muted);
+  }
+  .footer .nav-links {
+    display: flex;
+    gap: 16px;
+    margin-bottom: 12px;
+  }
+  .footer .nav-links a { color: var(--text-muted); }
+  hr { border: none; border-top: 1px solid var(--border); margin: 32px 0; }
+  .tag {
+    display: inline-block;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    font-size: 11px;
+    font-weight: 600;
+    padding: 3px 8px;
+    border-radius: 3px;
+    margin-right: 6px;
+  }
+  .tag.green { background: #1a3a2a; color: var(--green); }
+  .tag.red { background: #3a1a1a; color: var(--red); }
+  .tag.blue { background: #1a2a3a; color: var(--blue); }
+  .tag.amber { background: #3a2a10; color: var(--accent); }
+  .metrics-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+    gap: 12px;
+    margin: 20px 0;
+  }
+  .metric-card {
+    background: var(--surface);
+    border-radius: 6px;
+    padding: 14px 16px;
+    text-align: center;
+  }
+  .metric-card .value {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    font-size: 24px;
+    font-weight: 700;
+    color: var(--accent);
+  }
+  .metric-card .label {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    font-size: 11px;
+    color: var(--text-muted);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    margin-top: 4px;
+  }
+  @media (max-width: 600px) {
+    .container { padding: 32px 16px 48px; }
+    .hero h1 { font-size: 26px; }
+    .metrics-grid { grid-template-columns: 1fr 1fr; }
+  }
+</style>
+</head>
+<body>
+<div class="container">
+
+<!-- Hero -->
+<div class="hero">
+  <div class="day-badge">Day 30</div>
+  <h1>The Warden's Wake-Up Call</h1>
+  <div class="subtitle">133 violations, one stale list, and the final shift toward an auto-derived policy.</div>
+  <div class="byline">By Ken Mun, CTO</div>
+  <div class="date">May 24, 2026 · Saturday · AEST</div>
+</div>
+
+<!-- Opening Hook -->
+<p>I came in expecting a clean operational slate. Instead, I was greeted by a standup email reporting 133 Warden violations. On a platform where we obsess over drift, 133 is not a "glitch"—it's a systemic disconnect. The irony was that the platform was working exactly as told; it was just being told the wrong things.</p>
+
+<p>None of those violations were genuine drifts. They were ghosts of a stale configuration, triggered by a CI cycle that had outpaced its own approved list. It was a reminder that in a complex system, the "Source of Truth" is only true if it's the <em>only</em> truth.</p>
+
+<div class="metrics-grid">
+  <div class="metric-card">
+    <div class="value">$0.00</div>
+    <div class="label">Total Cost</div>
+  </div>
+  <div class="metric-card">
+    <div class="value">3,051</div>
+    <div class="label">Turns</div>
+  </div>
+  <div class="metric-card">
+    <div class="value">52.4M</div>
+    <div class="label">Input Tokens</div>
+  </div>
+  <div class="metric-card">
+    <div class="value">248K</div>
+    <div class="label">Output Tokens</div>
+  </div>
+</div>
+
+<!-- Act 1: The Violation Storm -->
+<h2>Midnight Audit: 133 Ghosts in the Machine</h2>
+
+<p>The investigation started at 00:21. The evidence was in <code class="code">model-drift-state.json</code>. Warden was flagging every request from CI Cycle A because it was using a flash model—a model that was perfectly valid according to our global <code class="code">model-policy.json</code>, but missing from Warden's internal <code class="code">approvedModels</code> list.</p>
+
+<div class="callout alert">
+  <div class="label">🚨 Drift Divergence — SSOT Failure</div>
+  <p>We had two competing lists of "approved models." The global policy said 6 models were okay; Warden's local list only knew about 3. Every 15 minutes, the cron would fire, and Warden would scream. This is the exact kind of operational noise that leads to "alert fatigue" and causes real crises to be ignored.</p>
+</div>
+
+<p>The immediate fix was a manual sync—forcing Warden's list to match the policy. But a manual fix is just a timer until the next failure. The real goal wasn't to fix the list, but to kill the list entirely.</p>
+
+<!-- Act 2: The Auto-Derivation Shift -->
+<h2>Architectural Pivot: Killing the Hardcoded List</h2>
+
+<p>By 00:37, the direction was clear: Warden should not have its own list. It should derive its expectations directly from the agent tiers defined in <code class="code">model-policy.json</code>. If a model is approved for a specific tier in the policy, Warden should implicitly trust it.</p>
+
+<p>I modified <code class="code">model-drift-check.sh</code> to implement this auto-derivation. This follows the SSOT (Single Source of Truth) pattern we've been baking into the platform since CHG-0425. No more manual updates, no more sync-errors, and zero chance of 133 phantom violations returning.</p>
+
+<div class="callout info">
+  <div class="label">📊 Policy Sync — 100% Alignment</div>
+  <p>By removing the hardcoded approved list, we've collapsed the drift-detection logic into a single point of failure: the policy file itself. Result: Warden violations now only trigger on genuine, unplanned model drift.</p>
+</div>
+
+<!-- Act 3: The PG Migration Closeout -->
+<h2>The Great Migration: TKT-0271 Finality</h2>
+
+<p>While the Warden situation was being stabilized, we hit a major milestone in the database architecture. TKT-0271—the Phase 2 PG Migration—officially closed at 02:53. This wasn't just "moving data"; it was a structural cleanup. 42 disparate files were condensed into 5 high-performance PG tables, and 44 legacy files were archived into the void.</p>
+
+<p>Sprint 5 progress: 2/11 closed. The platform is becoming leaner, the state is becoming more centralized, and the "file-system-as-a-database" era is officially ending.</p>
+
+<!-- Act 4: The Backlog Scrub -->
+<h2>Restoring Integrity: TKT-0229 and the Atom 6</h2>
+
+<p>The day ended with the closure of TKT-0229. This was a grueling a 6-point verification process (Atom 6) to restore backlog integrity. We weren't just counting tickets; we were sanitizing the entire pipeline.</p>
+
+<pre><code class="code">AC1: sanitize_for_jq() implemented to strip control chars
+AC2: Notion DB prefix [TKT-NNNN] enforced
+AC3: Stress test (10 creates/9 closes) — zero corruption
+AC4: De-duplication: 55 duplicates removed, 229 unique tickets remain
+AC5: Phantom-DB tickets relocated to DB A
+AC6: 6-point verification — PASS</code></pre>
+
+<p>Closing this ticket wasn't about a feature; it was about confidence. I can now look at the backlog and know that every ticket corresponds to a real Notion page and that no "phantom" data is lurking in the corners of our state files.</p>
+
+<!-- What Broke -->
+<h2>What Broke</h2>
+
+<p><span class="tag red">Warden</span> <strong>Approved Models List Sync</strong></p>
+<p><strong>What failed:</strong> Warden's internal list of approved models diverged from the global <code class="code">model-policy.json</code>, leading to 133 false-positive violations.</p>
+<p><strong>Impact:</strong> High noise in standup reports, misleading drift metrics.</p>
+<p><strong>Root cause:</strong> Hardcoded list in Warden logic instead of dynamic derivation from the policy file.</p>
+<p><strong>Prevention:</strong> Logic changed to auto-derive approved models from <code class="code">model-policy.json</code> agent tiers. The hardcoded list is deleted.</p>
+
+<!-- What I Learned -->
+<h2>What I Learned</h2>
+
+<ul class="lessons-list">
+  <li>
+    <span class="lesson-num">1</span>
+    <strong>Duplication is the enemy of truth.</strong> Any time you have two lists that "should" be the same, you have a bug waiting to happen. The only way to solve a sync issue is to remove the need for synchronization entirely.
+  </li>
+  <li>
+    <span class="lesson-num">2</span>
+    <strong>Operational noise masks operational risk.</strong> 133 false positives don't just waste time; they create a psychological environment where "Warden alerts" are ignored. Correcting the signal-to-noise ratio is a security requirement, not just a convenience.
+  </li>
+  <li>
+    <span class="lesson-num">3</span>
+    <strong>The "Atom" approach to verification works.</strong> The 6-point check for TKT-0229 proves that breaking a "cleanup" task into binary, verifiable atoms prevents the "I think it's fixed" trap.
+  </li>
+</ul>
+
+<!-- Cost -->
+<h2>The Cost of Day 30</h2>
+
+<table class="cost-table">
+  <thead>
+    <tr>
+      <th>Model</th>
+      <th>Turns</th>
+      <th>Input Tokens</th>
+      <th>Output Tokens</th>
+      <th>Cost (USD)</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>gemma4:31b-cloud</td>
+      <td>2,180</td>
+      <td>21,750,584</td>
+      <td>98,378</td>
+      <td>$0.00</td>
+    </tr>
+    <tr>
+      <td>deepseek-v4-pro:cloud</td>
+      <td>840</td>
+      <td>30,166,712</td>
+      <td>144,899</td>
+      <td>$0.00</td>
+    </tr>
+    <tr>
+      <td>kimi-k2.6:cloud</td>
+      <td>18</td>
+      <td>353,113</td>
+      <td>2,528</td>
+      <td>$0.00</td>
+    </tr>
+    <tr>
+      <td>deepseek-v4-flash:cloud</td>
+      <td>13</td>
+      <td>147,185</td>
+      <td>2,775</td>
+      <td>$0.00</td>
+    </tr>
+    <tr class="total-row">
+      <td><strong>Total</strong></td>
+      <td><strong>3,051</strong></td>
+      <td><strong>52,417,594</strong></td>
+      <td><strong>248,580</strong></td>
+      <td><strong>$0.00</strong></td>
+    </tr>
+  </tbody>
+</table>
+
+<div class="cost-trend">
+  <span style="color: var(--text-muted); margin-right: 8px;">Day 29:</span>
+  <span>$0.01</span>
+  <span class="arrow down" style="margin-left: 12px;">↓</span>
+  <span style="color: var(--text-muted); margin-left: 8px;">Day 30:</span>
+  <span style="color: var(--green); font-weight: 700;">$0.00</span>
+  <span style="color: var(--text-muted); margin-left: 8px;">(−100%)</span>
+</div>
+
+<p><strong>Cost vs value:</strong> Total spend: $0.00. Value delivered: Warden drift detection completely overhauled to an auto-derived model, Phase 2 PG migration finished, and the backlog restored to 100% integrity. The efficiency of the free-tier model orchestration continues to provide an incredible ROI. (Note: These figures represent platform operational costs and are not intended as financial advice.)</p>
+
+<!-- What's Next -->
+<h2>What's Next</h2>
+
+<ul class="next-items">
+  <li><strong>Execute TKT-0280:</strong> Post-TKT-0270 Cleanup — Archive remnant state files after 48h stability (Trigger: May 27).</li>
+  <li><strong>Sprint 5 Push:</strong> With 4/11 tickets closed, focus shifts to the remaining structural items in the pipeline.</li>
+  <li><strong>Warden Baseline Monitoring:</strong> Confirm that the 133 violations have dropped to zero and stay there.</li>
+  <li><strong>PG Stability Check:</strong> Run <code>sync-check.sh</code> to ensure no regression after the Phase 2 migration.</li>
+</ul>
+
+<!-- Footer -->
+<div class="footer">
+  <div class="nav-links">
+    <a href="../ainchors-2026-05-23/index.html">← Day 29</a>
+    <span>·</span>
+    <span>Day 30</span>
+    <span>·</span>
+    <a href="../ainchors-2026-05-26/index.html">Day 31 →</a>
+  </div>
+  <p>AInchors · ainchors.com · Daily Build Log Series</p>
+  <p style="margin-top: 4px; font-size: 12px;">Self-contained HTML. No external dependencies. Dark theme. Built from the journal.</p>
+</div>
+
+</div>
+
+
+
+
+<div class="governance-stamp governance-blocked" style="
+  margin: 40px auto 0;
+  padding: 12px 20px;
+  max-width: 720px;
+  border-radius: 6px;
+  font-family: monospace;
+  font-size: 12px;
+  text-align: center;
+  background: #2e0000; color: #f44336; border: 1px solid #f44336;
+  opacity: 0.85;
+">
+  🚫 BLOCKED — Do not distribute. Governance issues pending resolution.
+</div>
+</body>
+</html>

@@ -14,15 +14,11 @@
 - Alert Ken if event starts in < 30 minutes with no prior notice
 - State key: lastChecks.calendar
 
-### API Balance — 3-Tier Alert System (check every 30 min)
+### Ollama Cloud Credit Tracking (check every 2 hours)
 - Read state/cost-state.json → apiBalance.remainingEstimate
-- Read state/cost-alert-state.json → activeTier, tier states
-- **Auto-reload policy:** Triggers at <$50 → reloads to $500. Effectively continuous runway unless billing fails.
-- **Tier 1 ($60):** If balance <= $60 AND tier1.triggered=false → alert Ken once. Reload imminent but not yet fired. ONCE.
-- **Tier 2 ($55):** Pre-reload heads-up only. Alert Ken: "Auto-reload imminent — verify billing card active."
-- **Tier 3 ($15):** Auto-reload FAILED. PAUSE before every request. Alert Ken + Angie urgently. Real emergency only.
-- Alert format and message templates in RULES.md Credit Alert Rules section.
-- State key: cost-alert-state.json
+- Track usage as informational only — Ollama Cloud is a fixed subscription, not a pay-as-you-go balance
+- No alerts, no tiers — silent tracking only
+- State key: lastChecks.costState
 
 ### Async Task Watchdog (check every 30 min)
 - Run `scripts/task-watchdog.sh`
@@ -187,13 +183,6 @@ State file: state/heartbeat-state.json
 ### Google Drive EOD Sync
 🚫 **HEARTBEAT NEVER TOUCHES DRIVE SYNC.**
 Drive sync is owned by cron `c5a3911d` (00:30 AEST — runs after blog). Heartbeat must not run or duplicate it.
-
-### kimi Confidence Mapping Check (once per day)
-- Read `state/kimi-confidence-mapping.json` → check `createdAt` age
-- If > 7 days old: alert Ken — "kimi confidence mapping is [N] days old. Re-assess ticket confidence levels?"
-- Check that mapped ticket count matches open ticket count in `state/tickets.json`
-- If mismatch: alert Ken — "kimi confidence mapping has [N] mapped but [M] open tickets. Re-sync needed."
-- State key: lastChecks.kimiConfidenceMapping
 
 ### OWL Compliance Self-Check (check every heartbeat — NON-NEGOTIABLE)
 ⚠️ **Platform-enforced via TKT-0228 + TKT-0237.** OWL applies to ALL models on MEDIUM+ currency work.
