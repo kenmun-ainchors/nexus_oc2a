@@ -183,6 +183,12 @@ _Maintained by Aria 🔵 + Yoda 🟢 | Status-tracked content for AInchors train
 | TC-166 | State checking: why AI needs to validate before it acts | 💡 Idea | Yoda Day 31 (TKT-0182 — SC wrappers enforce READ→VALIDATE→EXECUTE→VERIFY on all TQP operations; duplicate detection, status transition validity, claim ownership) | Yoda |
 | TC-167 | Self-documenting tests: building QA that survives team changes | 💡 Idea | Yoda Day 31 (TKT-0292 — regression-runner.sh with auto-discovery by file naming convention; run `--suite pg-foundation` to verify platform health instantly) | Both |
 
+| TC-168 | The hidden rule book problem: why 11 of your 12 AI agents aren't reading their instructions | 💡 Idea | Yoda Day 32 (TKT-0307 — RULES.md naming mismatch, agents ran on blanks for weeks) | Both |
+| TC-169 | Workspace separation for AI agents: why sharing a desk breaks everything | 💡 Idea | Yoda Day 32 (TKT-0308 — 3 agents moved to dedicated workspaces, identity audit) | Yoda |
+| TC-170 | How to resume interrupted AI work: context retention that survives model changes | 💡 Idea | Yoda Day 32 (TKT-0309 — TQP Execution Gate, work checkpointing to database) | Both |
+| TC-171 | When your AI content strategy needs a hard reset: the founder's course correction | 💡 Idea | Yoda Day 32 (W4 LinkedIn cancelled, Ken's quality reset: "wishy-washy, no material essence") | Aria |
+| TC-172 | Database migration for AI platforms: the audit-to-completion pipeline | 💡 Idea | Yoda Day 32 (TKT-0295 chain — 7 tickets, 18 PG tables, JSONB schema contracts) | Both |
+
 ## Status Legend
 💡 Idea → 📝 Draft → 🔍 Review (Yoda validates) → ✅ Ready → 📢 Published
 
