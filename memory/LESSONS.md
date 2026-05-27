@@ -558,3 +558,45 @@ When declaring ANY interim model period (Anthropic outage, kimi substitution, mo
 5. All agent RULES files use RULES.md naming (symlink from [AGENT]_RULES.md accepted)
 
 **Reference:** TKT-0307, TKT-0308
+
+## L-045 — TZ Drift Monitor: Grace Windows for Midnight Date-Flip Files (2026-05-27)
+
+**Lesson:** Date-based file existence checks must account for the file's actual generation schedule. Checking if `journal-YYYY-MM-DD.md` exists at 00:54 AEST for "today" will always fail — the EOD finalizer only touches yesterday's file, and today's journal hasn't started yet. This creates a false-positive "drift" alert every 30 minutes until the first journal entry is written.
+
+**Fix applied:**
+- **Journal:** Grace window until 10:00 AEST. Today's journal is not expected to exist earlier.
+- **Auto-Heal:** Grace window until 01:30 AEST. Auto-heal runs at 01:00.
+
+**Principle:** Any file-existence check for a date-stamped file must include a grace window aligned with the generating process's schedule. Midnight is not the creation moment — the creation moment is when the generating cron/process runs.
+
+**Source:** TZ Drift Monitor false positive alert, May 27 00:54 AEST.
+**Severity:** Low — false positive alert. No data loss. Governance noise.
+
+## L-046 — Stand-Up Cron: Tilde Path Failure is Recurring, Needs Inline Path Reinforcement (2026-05-27)
+
+**Lesson:** The stand-up cron prompt has an ALL-CAPS warning about absolute paths, but the model (deepseek-v4-pro) still writes `~/.openclaw/canvas/...` 5 times now (Days 13, 20×2, 33). A top-of-prompt warning alone is insufficient — the model's attention drifts across ~1.5K tokens of instructions.
+
+**Fix applied:** Added inline ⚠️ WRITE PATH + ⛔ DO NOT use ~ guards directly at Phase 2 (canvas write) and Phase 6 (standup-state write) — the exact points where the files are written. The path is repeated inline so the model cannot drift to `~` shorthand.
+
+**Principle:** For mission-critical write operations in long prompts, embed the absolute path inline at the write point — not just in a preamble warning that scrolls out of the model's attention window.
+
+**Source:** Stand-up cron failure 2026-05-27 08:00 AEST. 5th occurrence since Day 13.
+**Severity:** Medium — file was recovered (exists at correct path despite the error), but the error floods the cron failure alert channel.
+
+## L-047 — Agent Task Scope vs Model Capability: Smaller Atoms Beat Big Batches (2026-05-27)
+
+**Lesson:** A 6-atom task dispatched to gemma4-31b-cloud as a single Forge run failed catastrophically — 80+ tool calls, 5 minutes of metadata key fishing, zero progress. The same task re-dispatched with precise SQL (zero discovery needed) completed in 1m44s with all 6 atoms done.
+
+**Root cause analysis:**
+1. **Scope exceeded model reasoning depth.** 6 atoms × complex problem space = gemma4 defaulted to trial-and-error (query one key, fail, query next variant, fail) instead of strategic reasoning ("what are ALL the keys?")
+2. **Discovery overhead killed momentum.** The task asked Forge to both DISCOVER the problem AND fix it. Gemma4 can execute known patterns well but struggles with open-ended discovery.
+3. **The orchestrator (Yoda) should do discovery, not the executor.** I should have inspected the metadata JSONB structure first, then sent exact SQL to Forge.
+
+**Key insight for platform design:** There's an optimal task-size-to-model-capability ratio. Sonnet could handle 6-atom discovery+execution. Gemma4 handled 6-atom execution-only in 1m44s. The difference is 3x efficiency when you remove discovery from the agent's scope.
+
+**Opportunity:** Implement a **2-pass architecture** — Yoda (deepseek-pro) does discovery/diagnosis/planning, then dispatches precise execution atoms to specialist agents on cheaper models. This is literally TQP (Task Queue Processor) — we have the infrastructure but aren't using it optimally yet.
+
+**Action:** Backlog ticket for formalizing the 2-pass dispatch pattern — discovery pass (Yoda/DeepSeek) → atom breakdown → execution pass (specialist/cheaper model).
+
+**Source:** TKT-0312 first dispatch (gemma4, failed) vs second dispatch (gemma4, succeeded with precise SQL).
+**Severity:** Medium — no data loss, but wasted ~10 minutes of platform time and Ken's attention.

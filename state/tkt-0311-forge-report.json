@@ -1,0 +1,31 @@
+{
+  "ticket": "TKT-0311",
+  "status": "completed",
+  "fixes": {
+    "db_write_sh": {
+      "python_exit_check": "Added PY_EXIT=$? and validation for non-zero exit codes to prevent silent failures on Python crashes.",
+      "empty_sql_guard": "Added [ -z \"$SQL\" ] check to prevent executing empty strings via psql.",
+      "post_write_verification": "Implemented a SELECT query after INSERT to verify the row actually exists in PG before returning ok.",
+      "fallback_enhancement": "Ensured that failures in SQL generation or verification trigger the atomic file fallback to prevent data loss."
+    }
+  },
+  "audit": {
+    "column_name_mismatch": {
+      "finding": "Confirmed discrepancy between 'created_at' (used in state_tickets) and 'created_at' (used in many other scripts like task-collector.sh and task-query.sh).",
+      "impact": "Scripts using 'created_at' against 'state_tickets' will fail or route data to metadata JSONB.",
+      "action": "Documented the mismatch. While db-write.sh now handles these by routing them to metadata, the schema inconsistency remains a platform-level issue."
+    },
+    "callers_audit": [
+      "scripts/ticket.sh",
+      "scripts/task-queue-processor.sh",
+      "scripts/pg-to-notion-sync.sh"
+    ]
+  },
+  "test_results": {
+    "regression_test_script": "/Users/ainchorsangiefpl/.openclaw/workspace/scripts/test-db-write.sh",
+    "results": "All tests passed, including normal insert, metadata routing, upsert, invalid JSON handling, and empty SQL prevention."
+  },
+  "data_gaps": {
+    "missing_data": "Found 42 rows in state_tickets where 'created_at' is NULL, likely due to previous silent write failures or mismatched column names (created_at vs created_at)."
+  }
+}

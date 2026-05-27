@@ -138,3 +138,4 @@ PYEOF
 [2026-05-23 02:05] WARNING: Daily backup script returned non-zero exit code. Error: 'atlas/' does not have a commit checked out; fatal: adding files failed.
 [2026-05-24 02:05] SEVERITY: warning | MESSAGE: Backup script reported git error: 'atlas/' does not have a commit checked out, though snapshot completed.
 [2026-05-24 16:05] SEVERITY:warning MESSAGE:Backup script failed with non-zero exit code. Error: 'atlas/' does not have a commit checked out
+[2026-05-27 02:05:13] SEVERITY=WARNING MSG='Backup failed due to git error: atlas/ does not have a commit checked out' 

@@ -1,7 +1,7 @@
 {
-  "memberId": "FhpPCanUWM",
+  "memberId": "urn:li:person:unknown",
   "displayName": "Ken Mun",
-  "authorizedAt": "2026-05-13T23:11:55Z",
+  "authorizedAt": "2026-05-20T21:26:00Z",
   "scopes": [
     "openid",
     "profile",
@@ -14,18 +14,5 @@
     "r_ads_reporting",
     "r_ads"
   ],
-  "tokenExpiry": "2026-07-12T23:11:54Z",
-  "pendingReauth": false,
-  "mdpApproved": true,
-  "mdpActivatedAt": "2026-05-14",
-  "analyticsEnabled": true,
-  "analyticsScopes": [
-    "r_basicprofile",
-    "r_1st_connections_size",
-    "r_organization_social",
-    "r_organization_admin",
-    "r_ads_reporting",
-    "r_ads"
-  ],
-  "notes": "MDP approved under Advertising API product. PKCE removed from auth flow (incompatible with this app type). Token refreshed 2026-05-14. Company page onboarding deferred \u2014 Ken testing personal profile first."
+  "tokenExpiry": "2026-07-19T21:26:00Z"
 }

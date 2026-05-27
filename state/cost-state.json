@@ -1,5 +1,882 @@
 {
   "history": {
+    "2026-04-25": {
+      "date": "2026-04-25",
+      "source": "anthropic_csv_ground_truth",
+      "byModel": {
+        "claude-opus-4-7": {
+          "cost": 1.25,
+          "turns": 0
+        },
+        "claude-sonnet-4-6": {
+          "cost": 48.69,
+          "turns": 0
+        }
+      },
+      "totalCost": 49.94
+    },
+    "2026-04-26": {
+      "date": "2026-04-26",
+      "source": "anthropic_csv_ground_truth",
+      "byModel": {
+        "claude-opus-4-7": {
+          "cost": 17,
+          "turns": 0
+        },
+        "claude-sonnet-4-6": {
+          "cost": 65.84,
+          "turns": 0
+        }
+      },
+      "totalCost": 82.84
+    },
+    "2026-04-27": {
+      "date": "2026-04-27",
+      "source": "anthropic_csv_ground_truth",
+      "byModel": {
+        "claude-opus-4-7": {
+          "cost": 4.74,
+          "turns": 0
+        },
+        "claude-sonnet-4-6": {
+          "cost": 116.52,
+          "turns": 0
+        }
+      },
+      "totalCost": 121.26
+    },
+    "2026-04-28": {
+      "date": "2026-04-28",
+      "byModel": {
+        "claude-opus-4-7": {
+          "cost": 0.7563,
+          "input": 14,
+          "turns": 4,
+          "output": 868,
+          "cacheRead": 108243,
+          "cacheWrite": 108858
+        },
+        "delivery-mirror": {
+          "cost": 0,
+          "input": 0,
+          "turns": 1,
+          "output": 0,
+          "cacheRead": 0,
+          "cacheWrite": 0
+        },
+        "claude-haiku-4-5": {
+          "cost": 2.4032,
+          "input": 5062,
+          "turns": 452,
+          "output": 73005,
+          "cacheRead": 6093612,
+          "cacheWrite": 1138978
+        },
+        "gateway-injected": {
+          "cost": 0,
+          "input": 0,
+          "turns": 2,
+          "output": 0,
+          "cacheRead": 0,
+          "cacheWrite": 0
+        },
+        "claude-sonnet-4-6": {
+          "cost": 335.6011,
+          "input": 2561,
+          "turns": 1732,
+          "output": 977075,
+          "cacheRead": 307514273,
+          "cacheWrite": 60982143
+        }
+      },
+      "totalCost": 338.7606,
+      "totalTurns": 2191,
+      "totalInputTokens": 7637,
+      "totalOutputTokens": 1050948,
+      "totalCacheReadTokens": 313716128,
+      "totalCacheWriteTokens": 62229979
+    },
+    "2026-04-29": {
+      "date": "2026-04-29",
+      "byModel": {
+        "claude-haiku-4-5": {
+          "cost": 2.5926,
+          "input": 4721,
+          "turns": 421,
+          "output": 71282,
+          "cacheRead": 5417580,
+          "cacheWrite": 1351779
+        },
+        "claude-sonnet-4-6": {
+          "cost": 41.1898,
+          "input": 1377,
+          "turns": 873,
+          "output": 384913,
+          "cacheRead": 40007531,
+          "cacheWrite": 6242602
+        }
+      },
+      "totalCost": 43.7825,
+      "totalTurns": 1294,
+      "totalInputTokens": 6098,
+      "totalOutputTokens": 456195,
+      "totalCacheReadTokens": 45425111,
+      "totalCacheWriteTokens": 7594381
+    },
+    "2026-04-30": {
+      "date": "2026-04-30",
+      "note": "Session log estimate \u2014 excludes input_cache_write_5m charges billed separately by Anthropic. Actual cost is higher. See US38 for Anthropic Billing API integration.",
+      "source": "session-log-estimate",
+      "byModel": {
+        "delivery-mirror": {
+          "cost": 0,
+          "input": 0,
+          "turns": 4,
+          "output": 0,
+          "cacheRead": 0,
+          "cacheWrite": 0
+        },
+        "claude-haiku-4-5": {
+          "cost": 2.1853,
+          "input": 7454,
+          "turns": 680,
+          "output": 103697,
+          "cacheRead": 10351859,
+          "cacheWrite": 499308
+        },
+        "claude-sonnet-4-6": {
+          "cost": 163.9148,
+          "input": 4020,
+          "turns": 2422,
+          "output": 691820,
+          "cacheRead": 156313934,
+          "cacheWrite": 28434996
+        }
+      },
+      "totalCost": 166.1,
+      "totalTurns": 3106,
+      "totalInputTokens": 11474,
+      "totalOutputTokens": 795517,
+      "totalCacheReadTokens": 166665793,
+      "totalCacheWriteTokens": 28934304
+    },
+    "2026-05-01": {
+      "date": "2026-05-01",
+      "note": "Session log estimate. usage.cost.total includes cacheWrite charges. CHG-0097: confirmed cost includes cache writes.",
+      "source": "session-log-estimate",
+      "byModel": {
+        "gemma4:e2b": {
+          "cost": 0,
+          "input": 2933501,
+          "turns": 215,
+          "output": 15747,
+          "cacheRead": 0,
+          "cacheWrite": 0
+        },
+        "delivery-mirror": {
+          "cost": 0,
+          "input": 0,
+          "turns": 1,
+          "output": 0,
+          "cacheRead": 0,
+          "cacheWrite": 0
+        },
+        "claude-haiku-4-5": {
+          "cost": 1.4023,
+          "input": 4277,
+          "turns": 394,
+          "output": 62467,
+          "cacheRead": 5846972,
+          "cacheWrite": 400813
+        },
+        "claude-sonnet-4-6": {
+          "cost": 60.0592,
+          "input": 4402,
+          "turns": 2624,
+          "output": 468848,
+          "cacheRead": 78939304,
+          "cacheWrite": 7821718
+        }
+      },
+      "totalCost": 61.4615,
+      "totalTurns": 3234,
+      "totalInputTokens": 2942180,
+      "totalOutputTokens": 547062,
+      "totalCacheReadTokens": 84786276,
+      "totalCacheWriteTokens": 8222531
+    },
+    "2026-05-02": {
+      "date": "2026-05-02",
+      "note": "Session log estimate. usage.cost.total includes cacheWrite charges. CHG-0097: confirmed cost includes cache writes.",
+      "source": "session-log-estimate",
+      "byModel": {
+        "delivery-mirror": {
+          "cost": 0,
+          "input": 0,
+          "turns": 3,
+          "output": 0,
+          "cacheRead": 0,
+          "cacheWrite": 0
+        },
+        "claude-haiku-4-5": {
+          "cost": 2.2252,
+          "input": 6952,
+          "turns": 633,
+          "output": 114995,
+          "cacheRead": 9760022,
+          "cacheWrite": 533777
+        },
+        "gateway-injected": {
+          "cost": 0,
+          "input": 0,
+          "turns": 2,
+          "output": 0,
+          "cacheRead": 0,
+          "cacheWrite": 0
+        },
+        "claude-sonnet-4-6": {
+          "cost": 85.0754,
+          "input": 4100,
+          "turns": 2484,
+          "output": 621045,
+          "cacheRead": 85304901,
+          "cacheWrite": 13374912
+        }
+      },
+      "totalCost": 87.3005,
+      "totalTurns": 3122,
+      "totalInputTokens": 11052,
+      "totalOutputTokens": 736040,
+      "totalCacheReadTokens": 95064923,
+      "totalCacheWriteTokens": 13908689
+    },
+    "2026-05-03": {
+      "date": "2026-05-03",
+      "note": "Updated from Claude CSV email 2026-05-15. Includes cache_write_5m and all line items.",
+      "source": "anthropic_csv_ground_truth_2026_05_15",
+      "byModel": {
+        "Claude Haiku 4.5": {
+          "cost": 2.45,
+          "turns": 0
+        },
+        "Claude Sonnet 4.6": {
+          "cost": 190.43,
+          "turns": 0
+        }
+      },
+      "totalCost": 192.88,
+      "totalTurns": 0
+    },
+    "2026-05-04": {
+      "date": "2026-05-04",
+      "note": "Updated from Claude CSV email 2026-05-15. Includes cache_write_5m and all line items.",
+      "source": "anthropic_csv_ground_truth_2026_05_15",
+      "byModel": {
+        "Claude Haiku 4.5": {
+          "cost": 4.79,
+          "turns": 0
+        },
+        "Claude Sonnet 4.6": {
+          "cost": 353.77,
+          "turns": 0
+        }
+      },
+      "totalCost": 358.56,
+      "totalTurns": 0
+    },
+    "2026-05-05": {
+      "date": "2026-05-05",
+      "note": "Updated from Claude CSV email 2026-05-15. Includes cache_write_5m and all line items.",
+      "source": "anthropic_csv_ground_truth_2026_05_15",
+      "byModel": {
+        "Claude Haiku 4.5": {
+          "cost": 4.93,
+          "turns": 0
+        },
+        "Claude Sonnet 4.6": {
+          "cost": 242.87,
+          "turns": 0
+        }
+      },
+      "totalCost": 247.8,
+      "totalTurns": 0
+    },
+    "2026-05-06": {
+      "date": "2026-05-06",
+      "note": "Updated from Claude CSV email 2026-05-15. Includes cache_write_5m and all line items.",
+      "source": "anthropic_csv_ground_truth_2026_05_15",
+      "byModel": {
+        "Claude Haiku 4.5": {
+          "cost": 11.29,
+          "turns": 0
+        },
+        "Claude Sonnet 4.6": {
+          "cost": 217.45,
+          "turns": 0
+        }
+      },
+      "totalCost": 228.74,
+      "totalTurns": 0
+    },
+    "2026-05-07": {
+      "date": "2026-05-07",
+      "note": "Updated from Claude CSV email 2026-05-15. Includes cache_write_5m and all line items.",
+      "source": "anthropic_csv_ground_truth_2026_05_15",
+      "byModel": {
+        "Claude Haiku 4.5": {
+          "cost": 12.05,
+          "turns": 0
+        },
+        "Claude Sonnet 4.6": {
+          "cost": 233.78,
+          "turns": 0
+        }
+      },
+      "totalCost": 245.83,
+      "totalTurns": 0
+    },
+    "2026-05-08": {
+      "date": "2026-05-08",
+      "note": "Updated from Claude CSV email 2026-05-15. Includes cache_write_5m and all line items.",
+      "source": "anthropic_csv_ground_truth_2026_05_15",
+      "byModel": {
+        "Claude Haiku 4.5": {
+          "cost": 11.57,
+          "turns": 0
+        },
+        "Claude Sonnet 4.6": {
+          "cost": 233.48,
+          "turns": 0
+        }
+      },
+      "totalCost": 245.05,
+      "totalTurns": 0
+    },
+    "2026-05-09": {
+      "date": "2026-05-09",
+      "note": "Updated from Claude CSV email 2026-05-15. Includes cache_write_5m and all line items.",
+      "source": "anthropic_csv_ground_truth_2026_05_15",
+      "byModel": {
+        "Claude Opus 4.7": {
+          "cost": 0.0,
+          "turns": 0
+        },
+        "Claude Haiku 4.5": {
+          "cost": 11.66,
+          "turns": 0
+        },
+        "Claude Sonnet 4.6": {
+          "cost": 280.29,
+          "turns": 0
+        }
+      },
+      "totalCost": 291.95,
+      "totalTurns": 0
+    },
+    "2026-05-10": {
+      "date": "2026-05-10",
+      "note": "Updated from Claude CSV email 2026-05-15. Includes cache_write_5m and all line items.",
+      "source": "anthropic_csv_ground_truth_2026_05_15",
+      "byModel": {
+        "Claude Haiku 4.5": {
+          "cost": 11.94,
+          "turns": 0
+        },
+        "Claude Sonnet 4.6": {
+          "cost": 364.15,
+          "turns": 0
+        }
+      },
+      "totalCost": 376.09,
+      "totalTurns": 0
+    },
+    "2026-05-11": {
+      "date": "2026-05-11",
+      "note": "Updated from Claude CSV email 2026-05-15. Includes cache_write_5m and all line items.",
+      "source": "anthropic_csv_ground_truth_2026_05_15",
+      "byModel": {
+        "Claude Haiku 4.5": {
+          "cost": 7.51,
+          "turns": 0
+        },
+        "Claude Sonnet 4.5": {
+          "cost": 0.0,
+          "turns": 0
+        },
+        "Claude Sonnet 4.6": {
+          "cost": 257.46,
+          "turns": 0
+        }
+      },
+      "totalCost": 264.97,
+      "totalTurns": 0
+    },
+    "2026-05-12": {
+      "date": "2026-05-12",
+      "note": "Updated from Claude CSV email 2026-05-15. Includes cache_write_5m and all line items.",
+      "source": "anthropic_csv_ground_truth_2026_05_15",
+      "byModel": {
+        "Claude Opus 4.7": {
+          "cost": 0.02,
+          "turns": 0
+        },
+        "Claude Haiku 4.5": {
+          "cost": 7.44,
+          "turns": 0
+        },
+        "Claude Sonnet 4.6": {
+          "cost": 316.09,
+          "turns": 0
+        }
+      },
+      "totalCost": 323.55,
+      "totalTurns": 0
+    },
+    "2026-05-13": {
+      "date": "2026-05-13",
+      "note": "Updated from Claude CSV email 2026-05-15. Includes cache_write_5m and all line items.",
+      "source": "anthropic_csv_ground_truth_2026_05_15",
+      "byModel": {
+        "Claude Opus 4.7": {
+          "cost": 0.03,
+          "turns": 0
+        },
+        "Claude Haiku 4.5": {
+          "cost": 9.66,
+          "turns": 0
+        },
+        "Claude Sonnet 4.6": {
+          "cost": 139.66,
+          "turns": 0
+        }
+      },
+      "totalCost": 149.35,
+      "totalTurns": 0
+    },
+    "2026-05-14": {
+      "date": "2026-05-14",
+      "note": "Updated from Claude CSV email 2026-05-15. Includes cache_write_5m and all line items.",
+      "source": "anthropic_csv_ground_truth_2026_05_15",
+      "byModel": {
+        "Claude Haiku 4.5": {
+          "cost": 10.34,
+          "turns": 0
+        },
+        "Claude Sonnet 4.6": {
+          "cost": 189.82,
+          "turns": 0
+        }
+      },
+      "totalCost": 200.16,
+      "totalTurns": 0
+    },
+    "2026-05-15": {
+      "date": "2026-05-15",
+      "note": "Updated from Claude CSV email 2026-05-15. Includes cache_write_5m and all line items.",
+      "source": "anthropic_csv_ground_truth_2026_05_15",
+      "byModel": {
+        "Claude Haiku 4.5": {
+          "cost": 4.49,
+          "turns": 0
+        },
+        "Claude Sonnet 4.6": {
+          "cost": 98.59,
+          "turns": 0
+        }
+      },
+      "totalCost": 103.08,
+      "totalTurns": 0
+    },
+    "2026-05-16": {
+      "date": "2026-05-16",
+      "note": "Session log estimate. usage.cost.total includes cacheWrite charges. CHG-0097: confirmed cost includes cache writes. CHG-0175: calculated fallback for ephemeral sessions.",
+      "source": "session-log-estimate",
+      "byModel": {
+        "kimi-k2.6:cloud": {
+          "cost": 0.0,
+          "input": 42843569,
+          "turns": 900,
+          "output": 120348,
+          "cacheRead": 0,
+          "cacheWrite": 0,
+          "calculatedCost": 0.0,
+          "calculatedTurns": 0
+        },
+        "claude-haiku-4-5": {
+          "cost": 7.6272,
+          "input": 19579,
+          "turns": 1716,
+          "output": 407867,
+          "cacheRead": 20668609,
+          "cacheWrite": 2801150,
+          "calculatedCost": 0.0,
+          "calculatedTurns": 0
+        },
+        "deepseek-v4-pro:cloud": {
+          "cost": 0.0,
+          "input": 3673587,
+          "turns": 52,
+          "output": 16123,
+          "cacheRead": 0,
+          "cacheWrite": 0,
+          "calculatedCost": 0.0,
+          "calculatedTurns": 0
+        }
+      },
+      "totalCost": 7.6272,
+      "totalTurns": 2668,
+      "calculatedCost": 0.0,
+      "calculatedTurns": 0,
+      "totalInputTokens": 46536735,
+      "totalOutputTokens": 544338,
+      "totalCacheReadTokens": 20668609,
+      "totalCacheWriteTokens": 2801150
+    },
+    "2026-05-17": {
+      "date": "2026-05-17",
+      "note": "Session log estimate. usage.cost.total includes cacheWrite charges. CHG-0097: confirmed cost includes cache writes. CHG-0175: calculated fallback for ephemeral sessions.",
+      "source": "session-log-estimate",
+      "byModel": {
+        "gemma4:26b": {
+          "cost": 0.0,
+          "input": 36864,
+          "turns": 36,
+          "output": 474,
+          "cacheRead": 0,
+          "cacheWrite": 0,
+          "calculatedCost": 0.0,
+          "calculatedTurns": 0
+        },
+        "gemma4:e2b": {
+          "cost": 0.0,
+          "input": 26760,
+          "turns": 2,
+          "output": 250,
+          "cacheRead": 0,
+          "cacheWrite": 0,
+          "calculatedCost": 0.0,
+          "calculatedTurns": 0
+        },
+        "delivery-mirror": {
+          "cost": 0.0,
+          "input": 0,
+          "turns": 15,
+          "output": 0,
+          "cacheRead": 0,
+          "cacheWrite": 0,
+          "calculatedCost": 0.0,
+          "calculatedTurns": 0
+        },
+        "kimi-k2.6:cloud": {
+          "cost": 0.0,
+          "input": 345877718,
+          "turns": 2997,
+          "output": 1627867,
+          "cacheRead": 0,
+          "cacheWrite": 0,
+          "calculatedCost": 0.0,
+          "calculatedTurns": 0
+        },
+        "claude-haiku-4-5": {
+          "cost": 0.0083,
+          "input": 0,
+          "turns": 1,
+          "output": 0,
+          "cacheRead": 0,
+          "cacheWrite": 0,
+          "calculatedCost": 0.0083,
+          "calculatedTurns": 1
+        },
+        "gateway-injected": {
+          "cost": 0.0,
+          "input": 0,
+          "turns": 8,
+          "output": 0,
+          "cacheRead": 0,
+          "cacheWrite": 0,
+          "calculatedCost": 0.0,
+          "calculatedTurns": 0
+        },
+        "gemma4:31b-cloud": {
+          "cost": 0.0,
+          "input": 5855685,
+          "turns": 158,
+          "output": 14558,
+          "cacheRead": 0,
+          "cacheWrite": 0,
+          "calculatedCost": 0.0,
+          "calculatedTurns": 0
+        },
+        "deepseek-v4-pro:cloud": {
+          "cost": 0.0,
+          "input": 23953728,
+          "turns": 519,
+          "output": 75639,
+          "cacheRead": 0,
+          "cacheWrite": 0,
+          "calculatedCost": 0.0,
+          "calculatedTurns": 0
+        }
+      },
+      "totalCost": 0.0083,
+      "totalTurns": 3736,
+      "calculatedCost": 0.0083,
+      "calculatedTurns": 1,
+      "totalInputTokens": 375750755,
+      "totalOutputTokens": 1718788,
+      "totalCacheReadTokens": 0,
+      "totalCacheWriteTokens": 0
+    },
+    "2026-05-18": {
+      "date": "2026-05-18",
+      "note": "Session log estimate. usage.cost.total includes cacheWrite charges. CHG-0097: confirmed cost includes cache writes. CHG-0175: calculated fallback for ephemeral sessions.",
+      "source": "session-log-estimate",
+      "byModel": {
+        "delivery-mirror": {
+          "cost": 0.0,
+          "input": 0,
+          "turns": 14,
+          "output": 0,
+          "cacheRead": 0,
+          "cacheWrite": 0,
+          "calculatedCost": 0.0,
+          "calculatedTurns": 0
+        },
+        "kimi-k2.6:cloud": {
+          "cost": 0.0,
+          "input": 0,
+          "turns": 306,
+          "output": 0,
+          "cacheRead": 0,
+          "cacheWrite": 0,
+          "calculatedCost": 0.0,
+          "calculatedTurns": 0
+        },
+        "gemma4:31b-cloud": {
+          "cost": 0.0,
+          "input": 13535913,
+          "turns": 1613,
+          "output": 62711,
+          "cacheRead": 0,
+          "cacheWrite": 0,
+          "calculatedCost": 0.0,
+          "calculatedTurns": 0
+        },
+        "deepseek-v4-pro:cloud": {
+          "cost": 0.0,
+          "input": 77548937,
+          "turns": 903,
+          "output": 221109,
+          "cacheRead": 0,
+          "cacheWrite": 0,
+          "calculatedCost": 0.0,
+          "calculatedTurns": 0
+        }
+      },
+      "totalCost": 0.0,
+      "totalTurns": 2836,
+      "calculatedCost": 0.0,
+      "calculatedTurns": 0,
+      "totalInputTokens": 91084850,
+      "totalOutputTokens": 283820,
+      "totalCacheReadTokens": 0,
+      "totalCacheWriteTokens": 0
+    },
+    "2026-05-19": {
+      "date": "2026-05-19",
+      "note": "Session log estimate. usage.cost.total includes cacheWrite charges. CHG-0097: confirmed cost includes cache writes. CHG-0175: calculated fallback for ephemeral sessions.",
+      "source": "session-log-estimate",
+      "byModel": {
+        "delivery-mirror": {
+          "cost": 0.0,
+          "input": 0,
+          "turns": 24,
+          "output": 0,
+          "cacheRead": 0,
+          "cacheWrite": 0,
+          "calculatedCost": 0.0,
+          "calculatedTurns": 0
+        },
+        "kimi-k2.6:cloud": {
+          "cost": 0.0,
+          "input": 0,
+          "turns": 178,
+          "output": 0,
+          "cacheRead": 0,
+          "cacheWrite": 0,
+          "calculatedCost": 0.0,
+          "calculatedTurns": 0
+        },
+        "gemma4:31b-cloud": {
+          "cost": 0.0,
+          "input": 17518087,
+          "turns": 1966,
+          "output": 62071,
+          "cacheRead": 0,
+          "cacheWrite": 0,
+          "calculatedCost": 0.0,
+          "calculatedTurns": 0
+        },
+        "deepseek-v4-pro:cloud": {
+          "cost": 0.0,
+          "input": 43774361,
+          "turns": 614,
+          "output": 143625,
+          "cacheRead": 0,
+          "cacheWrite": 0,
+          "calculatedCost": 0.0,
+          "calculatedTurns": 0
+        },
+        "deepseek-v4-flash:cloud": {
+          "cost": 0.0,
+          "input": 331328,
+          "turns": 29,
+          "output": 4127,
+          "cacheRead": 0,
+          "cacheWrite": 0,
+          "calculatedCost": 0.0,
+          "calculatedTurns": 0
+        }
+      },
+      "totalCost": 0.0,
+      "totalTurns": 2811,
+      "calculatedCost": 0.0,
+      "calculatedTurns": 0,
+      "totalInputTokens": 61623776,
+      "totalOutputTokens": 209823,
+      "totalCacheReadTokens": 0,
+      "totalCacheWriteTokens": 0
+    },
+    "2026-05-20": {
+      "date": "2026-05-20",
+      "note": "Session log estimate. usage.cost.total includes cacheWrite charges. CHG-0097: confirmed cost includes cache writes. CHG-0175: calculated fallback for ephemeral sessions.",
+      "source": "session-log-estimate",
+      "byModel": {
+        "glm-5.1:cloud": {
+          "cost": 0.0,
+          "input": 0,
+          "turns": 4,
+          "output": 0,
+          "cacheRead": 0,
+          "cacheWrite": 0,
+          "calculatedCost": 0.0,
+          "calculatedTurns": 0
+        },
+        "delivery-mirror": {
+          "cost": 0.0,
+          "input": 0,
+          "turns": 8,
+          "output": 0,
+          "cacheRead": 0,
+          "cacheWrite": 0,
+          "calculatedCost": 0.0,
+          "calculatedTurns": 0
+        },
+        "kimi-k2.6:cloud": {
+          "cost": 0.0,
+          "input": 0,
+          "turns": 294,
+          "output": 0,
+          "cacheRead": 0,
+          "cacheWrite": 0,
+          "calculatedCost": 0.0,
+          "calculatedTurns": 0
+        },
+        "gemma4:31b-cloud": {
+          "cost": 0.0,
+          "input": 12599744,
+          "turns": 1574,
+          "output": 43730,
+          "cacheRead": 0,
+          "cacheWrite": 0,
+          "calculatedCost": 0.0,
+          "calculatedTurns": 0
+        },
+        "deepseek-v4-pro:cloud": {
+          "cost": 0.0,
+          "input": 15297826,
+          "turns": 435,
+          "output": 89207,
+          "cacheRead": 0,
+          "cacheWrite": 0,
+          "calculatedCost": 0.0,
+          "calculatedTurns": 0
+        },
+        "deepseek-v4-flash:cloud": {
+          "cost": 0.0,
+          "input": 391347,
+          "turns": 18,
+          "output": 3301,
+          "cacheRead": 0,
+          "cacheWrite": 0,
+          "calculatedCost": 0.0,
+          "calculatedTurns": 0
+        }
+      },
+      "totalCost": 0.0,
+      "totalTurns": 2333,
+      "calculatedCost": 0.0,
+      "calculatedTurns": 0,
+      "totalInputTokens": 28288917,
+      "totalOutputTokens": 136238,
+      "totalCacheReadTokens": 0,
+      "totalCacheWriteTokens": 0
+    },
+    "2026-05-21": {
+      "date": "2026-05-21",
+      "note": "Session log estimate. usage.cost.total includes cacheWrite charges. CHG-0097: confirmed cost includes cache writes. CHG-0175: calculated fallback for ephemeral sessions.",
+      "source": "session-log-estimate",
+      "byModel": {
+        "delivery-mirror": {
+          "cost": 0.0,
+          "input": 0,
+          "turns": 5,
+          "output": 0,
+          "cacheRead": 0,
+          "cacheWrite": 0,
+          "calculatedCost": 0.0,
+          "calculatedTurns": 0
+        },
+        "kimi-k2.6:cloud": {
+          "cost": 0.0,
+          "input": 137651,
+          "turns": 12,
+          "output": 2444,
+          "cacheRead": 0,
+          "cacheWrite": 0,
+          "calculatedCost": 0.0,
+          "calculatedTurns": 0
+        },
+        "gemma4:31b-cloud": {
+          "cost": 0.0,
+          "input": 3119454,
+          "turns": 314,
+          "output": 25296,
+          "cacheRead": 0,
+          "cacheWrite": 0,
+          "calculatedCost": 0.0,
+          "calculatedTurns": 0
+        },
+        "deepseek-v4-pro:cloud": {
+          "cost": 0.0,
+          "input": 5625038,
+          "turns": 97,
+          "output": 27161,
+          "cacheRead": 0,
+          "cacheWrite": 0,
+          "calculatedCost": 0.0,
+          "calculatedTurns": 0
+        }
+      },
+      "totalCost": 0.0,
+      "totalTurns": 428,
+      "calculatedCost": 0.0,
+      "calculatedTurns": 0,
+      "totalInputTokens": 8882143,
+      "totalOutputTokens": 54901,
+      "totalCacheReadTokens": 0,
+      "totalCacheWriteTokens": 0
+    },
     "2026-05-23": {
       "date": "2026-05-23",
       "totalCost": 0.0,
@@ -219,26 +1096,170 @@
           "calculatedTurns": 0
         }
       }
+    },
+    "2026-05-27": {
+      "date": "2026-05-27",
+      "totalCost": 0.0,
+      "totalTurns": 3571,
+      "totalInputTokens": 121189675,
+      "totalOutputTokens": 373694,
+      "totalCacheReadTokens": 0,
+      "totalCacheWriteTokens": 0,
+      "source": "session-log-estimate",
+      "note": "Session log estimate. usage.cost.total includes cacheWrite charges. CHG-0097: confirmed cost includes cache writes. CHG-0175: calculated fallback for ephemeral sessions.",
+      "calculatedCost": 0.0,
+      "calculatedTurns": 0,
+      "byModel": {
+        "gemma4:31b-cloud": {
+          "input": 47084983,
+          "output": 140075,
+          "cacheRead": 0,
+          "cacheWrite": 0,
+          "cost": 0.0,
+          "turns": 1949,
+          "calculatedCost": 0.0,
+          "calculatedTurns": 0
+        },
+        "deepseek-v4-pro:cloud": {
+          "input": 73863415,
+          "output": 228744,
+          "cacheRead": 0,
+          "cacheWrite": 0,
+          "cost": 0.0,
+          "turns": 1599,
+          "calculatedCost": 0.0,
+          "calculatedTurns": 0
+        },
+        "kimi-k2.6:cloud": {
+          "input": 241277,
+          "output": 4875,
+          "cacheRead": 0,
+          "cacheWrite": 0,
+          "cost": 0.0,
+          "turns": 16,
+          "calculatedCost": 0.0,
+          "calculatedTurns": 0
+        },
+        "delivery-mirror": {
+          "input": 0,
+          "output": 0,
+          "cacheRead": 0,
+          "cacheWrite": 0,
+          "cost": 0.0,
+          "turns": 7,
+          "calculatedCost": 0.0,
+          "calculatedTurns": 0
+        }
+      }
     }
   },
-  "lastUpdated": "2026-05-26T13:55:38Z",
-  "allTimeTotalCost": 0.0,
-  "daysTracked": 4,
-  "avgDailyCost": 0.0,
+  "lastUpdated": "2026-05-27T13:56:51Z",
+  "allTimeTotalCost": 4187.0906,
+  "daysTracked": 32,
+  "avgDailyCost": 130.8466,
   "apiBalance": {
-    "spentSinceTopUp": 0.0,
-    "remainingEstimate": 0,
-    "remainingNote": "confirmedBalance=None at 1970-01-01; spentAfter=0.0"
+    "note": "Auto-reload triggered 2026-05-10. Balance $425.12 post-reload spend.",
+    "confirmedAt": "2026-05-08T11:32:26Z",
+    "lastUpdated": "2026-05-10T15:25:58.923445+10:00",
+    "lastConfirmed": "2026-05-14T22:34:00+10:00",
+    "remainingNote": "confirmedBalance=None at 2026-05-08; spentAfter=4187.0906",
+    "lastConfirmedBy": "Ken",
+    "spentSinceTopUp": 4187.0906,
+    "remainingEstimate": 0
   },
+  "autoReload": {
+    "active": true,
+    "enabled": true,
+    "lastTopUp": "2026-05-10",
+    "triggerAt": 50,
+    "reloadAmount": 450,
+    "topUpHistory": [
+      {
+        "date": "2026-05-10",
+        "amount": 450,
+        "trigger": "auto-reload <$50"
+      },
+      {
+        "date": "2026-05-11",
+        "amount": 450,
+        "trigger": "auto-reload <$50"
+      },
+      {
+        "date": "2026-05-12",
+        "amount": 450,
+        "trigger": "auto-reload <$50"
+      },
+      {
+        "date": "2026-05-13",
+        "amount": 450,
+        "trigger": "auto-reload <$50"
+      },
+      {
+        "date": "2026-05-14",
+        "amount": 450,
+        "trigger": "auto-reload <$50"
+      }
+    ],
+    "triggerThreshold": 50
+  },
+  "confirmedAt": "2026-05-14T22:34:00+10:00",
+  "confirmedBy": "Ken (manual)",
+  "lastTopUpAt": "2026-05-08T11:32:26Z",
   "spendAlerts": {
-    "tier3": {
-      "triggered": true
+    "note": "Thresholds recalibrated 2026-04-28. Actual burn $101/day from Anthropic CSV. T1=$80, T2=$40, T3=$15.",
+    "tier1": {
+      "note": "Updated 2026-04-28 from $50 to $80 \u2014 actual burn $101/day from CSV",
+      "label": "Tier 1 \u2014 $80 remaining",
+      "action": "Alert Ken + Angie ONCE. ~19hrs runway at current burn. Top up soon.",
+      "frequency": "once",
+      "threshold": 80,
+      "triggered": false,
+      "triggeredAt": null
     },
     "tier2": {
-      "triggered": true
+      "label": "Tier 2 \u2014 $40 remaining",
+      "action": "Alert Ken + Angie every 3rd response. ~9hrs runway. Top up urgently.",
+      "frequency": "every-3rd-response",
+      "threshold": 40,
+      "triggered": true,
+      "triggeredAt": null,
+      "responseCounter": 0
     },
-    "tier1": {
-      "triggered": true
+    "tier3": {
+      "label": "Tier 3 \u2014 $15 remaining \u2014 CRITICAL",
+      "action": "PAUSE before every request. Alert Ken + Angie. Require acknowledgement.",
+      "frequency": "every-request-and-response",
+      "threshold": 15,
+      "triggered": true,
+      "triggeredAt": null
+    },
+    "status": "monitoring",
+    "recipients": {
+      "ken": {
+        "id": "8574109706",
+        "bot": "@AInchorsOC1Bot",
+        "name": "Ken",
+        "note": "Send directly via Yoda's bot",
+        "channel": "telegram"
+      },
+      "angie": {
+        "id": "8141152780",
+        "bot": "@AInchorsAriaBot",
+        "via": "Aria",
+        "name": "Angie",
+        "note": "Must route via Aria's bot \u2014 NOT Yoda's bot. Use sessions_send to Aria session.",
+        "channel": "telegram"
+      }
     }
-  }
+  },
+  "costDataNote": "Reconciled from Anthropic CSV sent by Ken 2026-05-15 17:20 AEST. All dates 1-15 May updated with ground truth.",
+  "dailyCapNote": "Temporary raise to $450/day for heavy build phase. Reverts to $150 after 2026-05-17 (Sun). CHG-0312.",
+  "confirmedNote": "Manual top-up 2026-05-08 21:32 AEST. Balance $479.35. Auto-reload policy corrected: triggers at <$50, reloads $450 (not $500). From $50 + $450 = $500 total.",
+  "costDataSource": "anthropic_csv_ground_truth_2026_05_15",
+  "dailyCapExpiry": "2026-05-17",
+  "lastTopUpAmount": 450,
+  "confirmedBalance": 203.48,
+  "dailyCapPrevious": 150,
+  "dailyCapUpdatedAt": "2026-05-14T11:32:00+10:00",
+  "dailyCapUpdatedBy": "Ken"
 }

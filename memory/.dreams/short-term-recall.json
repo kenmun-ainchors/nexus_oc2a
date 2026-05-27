@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "updatedAt": "2026-05-26T13:00:27.535Z",
+  "updatedAt": "2026-05-27T09:45:57.596Z",
   "entries": {
     "memory:memory/2026-04-26.md:94:122": {
       "key": "memory:memory/2026-04-26.md:94:122",
@@ -231,13 +231,13 @@
       "endLine": 302,
       "source": "memory",
       "snippet": "3. **CR gate** — all technical changes (config, scripts, integrations) require a CHG entry before execution. - `openclaw.json` updated: Aria agent model explicitly set to `gemma4`. - `state/critical-config-baseline.json` updated: `config-008` added to guard Aria's model assignment. ### CHG-0029 — Aria TOM Authority + Gemma4 Extended - Aria granted **Target Operating Model (TOM) authority** for the business stream — can define and evolve business processes within her domain. - Gemma4 extended as default model to **all business stream agents** (Shield, Lex, Sage) with same escalation-ask rule. ### CHG-0030 — Angie Onboarding Journey Created - Two new Operations docs: - `Operations/AngieO",
-      "recallCount": 7,
+      "recallCount": 8,
       "dailyCount": 0,
       "groundedCount": 0,
-      "totalScore": 2.979525157809257,
-      "maxScore": 0.45639283061027525,
+      "totalScore": 3.441418761014938,
+      "maxScore": 0.4618936032056808,
       "firstRecalledAt": "2026-04-27T13:57:07.598Z",
-      "lastRecalledAt": "2026-05-22T21:50:54.907Z",
+      "lastRecalledAt": "2026-05-27T08:57:36.146Z",
       "queryHashes": [
         "2b7b37c03dad",
         "9c49295f2494",
@@ -245,7 +245,8 @@
         "e3ca283e7754",
         "17229b4cfa0b",
         "0016a900f9bd",
-        "a077fc12c8d5"
+        "a077fc12c8d5",
+        "4600a386efbf"
       ],
       "recallDays": [
         "2026-04-27",
@@ -253,7 +254,8 @@
         "2026-05-08",
         "2026-05-21",
         "2026-05-22",
-        "2026-05-23"
+        "2026-05-23",
+        "2026-05-27"
       ],
       "conceptTags": [
         "openclaw.json",
@@ -343,13 +345,13 @@
       "endLine": 725,
       "source": "memory",
       "snippet": "- Ken's webchat to Yoda also affected - **Decision: Option C — Aria moved to Sonnet permanently. Gemma4 for background crons only.** ### CHG-0037: Aria Model → Sonnet (Permanent) - Aria primary model: Gemma4 → `anthropic/claude-sonnet-4-6` - Gemma4 retained for: backup crons, cost tracker, non-interactive batch work only - Tail message updated: `⚙️ Model: Sonnet` (escalation prompt removed) - `critical-config-baseline.json` updated (config-008) --- ## 21:00–21:55 AEST — Telegram Architecture Overhaul (B1: Dual Bot) ### Problem - Ken's Telegram messages kept routing to Aria despite binding fixes - Root cause: stale session in business agent for Ken's chatId (8574109706) — persisted throug",
-      "recallCount": 12,
+      "recallCount": 15,
       "dailyCount": 0,
       "groundedCount": 0,
-      "totalScore": 5.228448688983917,
+      "totalScore": 6.452038088440895,
       "maxScore": 0.4560945719480514,
       "firstRecalledAt": "2026-04-29T05:13:49.704Z",
-      "lastRecalledAt": "2026-05-26T10:52:19.142Z",
+      "lastRecalledAt": "2026-05-27T01:01:12.320Z",
       "queryHashes": [
         "ebff508a49a4",
         "f19d93029481",
@@ -359,7 +361,8 @@
         "9efe2f060036",
         "b515bed3ff57",
         "9b81481f84c4",
-        "c43320e90092"
+        "c43320e90092",
+        "b8fe2bd53137"
       ],
       "recallDays": [
         "2026-04-29",
@@ -369,7 +372,8 @@
         "2026-05-23",
         "2026-05-24",
         "2026-05-25",
-        "2026-05-26"
+        "2026-05-26",
+        "2026-05-27"
       ],
       "conceptTags": [
         "backup",
@@ -422,13 +426,13 @@
       "endLine": 12,
       "source": "memory",
       "snippet": "# 2026-04-25 ## Bootstrap - Identity set: Yoda 🟢 — AI business operations lead agent - User: Ken Mun (call him Ken), Melbourne GMT+10 - Primary channel: web chat - Secondary channel: Telegram (urgent/offline only) - Telegram paired and tested — working ## Config notes - Security flag: Telegram group commands have no sender allowlist — low risk (personal use only), revisit later",
-      "recallCount": 15,
+      "recallCount": 19,
       "dailyCount": 0,
       "groundedCount": 0,
-      "totalScore": 6.384388363361357,
+      "totalScore": 8.045912915468215,
       "maxScore": 0.46624842584133147,
       "firstRecalledAt": "2026-04-30T22:06:08.100Z",
-      "lastRecalledAt": "2026-05-25T17:05:19.728Z",
+      "lastRecalledAt": "2026-05-27T01:01:12.320Z",
       "queryHashes": [
         "f19d93029481",
         "763c944a8b88",
@@ -441,7 +445,9 @@
         "6d05d0164f94",
         "b515bed3ff57",
         "ede920ea8241",
-        "9b81481f84c4"
+        "9b81481f84c4",
+        "66bf565b9387",
+        "b8fe2bd53137"
       ],
       "recallDays": [
         "2026-05-01",
@@ -451,7 +457,8 @@
         "2026-05-22",
         "2026-05-23",
         "2026-05-24",
-        "2026-05-25"
+        "2026-05-25",
+        "2026-05-27"
       ],
       "conceptTags": [
         "urgent/offline",
@@ -570,20 +577,22 @@
       "endLine": 51,
       "source": "memory",
       "snippet": "### Warden 🔍 — Model Governance Agent (TKT-0013) - New agent `governance` created in `openclaw.json` - Workspace: `workspace-governance/` with `SOUL.md`, `IDENTITY.md` - **`state/model-policy.json`** — authoritative per-agent model policy registry - Defines requiredModel, allowedModels, prohibitedModels, escalation rules per agent - All agents: Sonnet required. Lex exception (Opus) initially filed, then removed — see below. - **`scripts/model-drift-check.sh`** — 9-check compliance script - Checks: all 6 agent models, default config, fallback chain, Ollama key, cron models - Outputs: `state/model-drift-state.json`, `state/model-drift-violations.json` - Exit 0 = clean, Exit 2 = viol",
-      "recallCount": 2,
+      "recallCount": 3,
       "dailyCount": 0,
       "groundedCount": 0,
-      "totalScore": 1.1723839923934993,
+      "totalScore": 1.6449065521555004,
       "maxScore": 0.7526637926893293,
       "firstRecalledAt": "2026-05-01T16:07:29.412Z",
-      "lastRecalledAt": "2026-05-21T04:15:18.447Z",
+      "lastRecalledAt": "2026-05-27T08:57:36.146Z",
       "queryHashes": [
         "14bdbaf74e4f",
-        "9fdec7ffea59"
+        "9fdec7ffea59",
+        "4600a386efbf"
       ],
       "recallDays": [
         "2026-05-02",
-        "2026-05-21"
+        "2026-05-21",
+        "2026-05-27"
       ],
       "conceptTags": [
         "tkt-0013",
@@ -1597,13 +1606,13 @@
       "endLine": 178,
       "source": "memory",
       "snippet": "- Strategy-to-Backlog Pipeline (TKT-0125): Roadmap Refinement ceremony formalised - Luthen (Marketing Intelligence agent): name confirmed, P2 spec written - ticket.sh fix: status=done now maps to Notion Done (was falling to Backlog) - ticket.sh fix: Notion status variable was zsh read-only — fixed Infrastructure built today: - telegram-alert.sh: API-independent Telegram fallback (no Anthropic dependency) - hf-generate-image.sh + linkedin-upload-image.sh: LinkedIn image pipeline live - linkedin-post.sh: em dash validator + mktemp collision guard + --image-asset-urn flag - Notion: Sprint, Planned Date, Delivered Date columns added. Sprint 2 backfilled. - Google Drive: \"AInchors Yoda Working F",
-      "recallCount": 26,
+      "recallCount": 28,
       "dailyCount": 0,
       "groundedCount": 0,
-      "totalScore": 11.29138318300247,
+      "totalScore": 12.166686928272245,
       "maxScore": 0.47146608531475065,
       "firstRecalledAt": "2026-05-11T23:27:45.121Z",
-      "lastRecalledAt": "2026-05-26T04:03:08.597Z",
+      "lastRecalledAt": "2026-05-27T01:39:23.573Z",
       "queryHashes": [
         "827bc588f2a3",
         "763c944a8b88",
@@ -1629,7 +1638,9 @@
         "a394d6223507",
         "de54ff81abc6",
         "bbf60bef9c0d",
-        "40538f287124"
+        "40538f287124",
+        "522c23c64be5",
+        "2314ac4444eb"
       ],
       "recallDays": [
         "2026-05-12",
@@ -1643,7 +1654,8 @@
         "2026-05-22",
         "2026-05-24",
         "2026-05-25",
-        "2026-05-26"
+        "2026-05-26",
+        "2026-05-27"
       ],
       "conceptTags": [
         "strategy-to-backlog",
@@ -1946,22 +1958,24 @@
       "endLine": 118,
       "source": "memory",
       "snippet": "- TKT-0130 QBR Agent Fleet Review (first: Jul 2026) - TKT-0136–0139 Consulting product suite (Ahsoka-owned) - Angie business stream: no activity since 28 April. JotForm API key still outstanding. --- ## Fix: Windows Webchat 1006 WebSocket Disconnect (17:53 AEST) **Issue:** Ken's Windows machine (kenmun-x1) getting WebSocket 1006 error on webchat. **Root cause:** Tailscale serve was proxying `https://ainchorss-mac-mini.tail5e2567.ts.net` → `localhost:9000` (default nginx, not configured). OpenClaw runs on `localhost:18789`. **Fix:** Updated Tailscale serve: `tailscale serve --https=443 --bg http://localhost:18789` **Status:** Resolved ✅ — Ken confirmed working 17:53 AEST. **Note:** Nginx o",
-      "recallCount": 3,
+      "recallCount": 4,
       "dailyCount": 0,
       "groundedCount": 0,
-      "totalScore": 1.2340670466423034,
+      "totalScore": 1.6486312121152877,
       "maxScore": 0.4312369227409363,
       "firstRecalledAt": "2026-05-16T02:54:12.385Z",
-      "lastRecalledAt": "2026-05-25T17:05:17.366Z",
+      "lastRecalledAt": "2026-05-26T23:01:02.089Z",
       "queryHashes": [
         "30b1ca6ccf11",
         "9efe2f060036",
-        "ede920ea8241"
+        "ede920ea8241",
+        "66bf565b9387"
       ],
       "recallDays": [
         "2026-05-16",
         "2026-05-23",
-        "2026-05-25"
+        "2026-05-25",
+        "2026-05-27"
       ],
       "conceptTags": [
         "tkt-0130",
@@ -2830,18 +2844,20 @@
       "endLine": 214,
       "source": "memory",
       "snippet": "- Compliance/checks: target <2,000 tokens/run - Reporting/summaries: target <5,000 tokens/run - Content generation: target <10,000 tokens/run **P6 — Perpetual CI activity:** Monthly audit of all crons. Track avg tokens/run. Any cron >2x its category target → investigate and optimise. This is a never-ending CI loop, not a one-off fix. **Rule added to RULES.md:** \"CRON TOKEN EFFICIENCY RULE — Before creating any cron: (1) Does this need an LLM? If no, use systemEvent. (2) Set lightContext:true unless context is genuinely needed. (3) Scripts write to state files — no large stdout back to model. (4) Model tier: use lowest tier that meets quality bar.\"",
-      "recallCount": 1,
+      "recallCount": 2,
       "dailyCount": 0,
       "groundedCount": 0,
-      "totalScore": 0.49393616318702693,
+      "totalScore": 0.8964170664548874,
       "maxScore": 0.49393616318702693,
       "firstRecalledAt": "2026-05-20T11:30:31.093Z",
-      "lastRecalledAt": "2026-05-20T11:30:31.093Z",
+      "lastRecalledAt": "2026-05-27T01:01:12.320Z",
       "queryHashes": [
-        "c44917349bd1"
+        "c44917349bd1",
+        "b8fe2bd53137"
       ],
       "recallDays": [
-        "2026-05-20"
+        "2026-05-20",
+        "2026-05-27"
       ],
       "conceptTags": [
         "compliance/checks",
@@ -2892,20 +2908,22 @@
       "endLine": 25,
       "source": "memory",
       "snippet": "# 2026-05-19 — Daily Memory ## Key Events ### Notion Sync Audit Script Fix (07:12-07:15 AEST) - Fixed `scripts/notion-sync-audit.sh` — two bugs: 1. Notion API version `2025-09-03` doesn't support `database/query` endpoint → changed to `2022-06-28` 2. Heredoc variable passing bug — quoted `'PYEOF'` delimiter prevented shell variable expansion in Python blocks - Rewrote as single Python script using env vars + file I/O - Ran audit: found 9 duplicates (TKT-TKT-* double prefix), 5 missing from Notion, 8 extra - Cleaned up: archived 9 dupes, renamed 9 pages, created 3 missing, synced 8 to tickets.json - Final result: 0 duplicates, 0 missing, 0 extra across 87 Notion TKT pages ↔ 227 tickets",
-      "recallCount": 2,
+      "recallCount": 3,
       "dailyCount": 0,
       "groundedCount": 0,
-      "totalScore": 0.9238908678293227,
-      "maxScore": 0.4718600362539291,
+      "totalScore": 1.404543974995613,
+      "maxScore": 0.4806531071662902,
       "firstRecalledAt": "2026-05-20T19:11:04.238Z",
-      "lastRecalledAt": "2026-05-24T18:01:59.982Z",
+      "lastRecalledAt": "2026-05-26T21:59:13.479Z",
       "queryHashes": [
         "fbb978d665ec",
-        "618db59f5722"
+        "618db59f5722",
+        "23c9ea5395ba"
       ],
       "recallDays": [
         "2026-05-21",
-        "2026-05-24"
+        "2026-05-24",
+        "2026-05-27"
       ],
       "conceptTags": [
         "12-07",
@@ -3052,18 +3070,20 @@
       "endLine": 44,
       "source": "memory",
       "snippet": "- Warm nudge delivery changed to reply-in-session (auto-routes via Aria's bot) - State file: `state/telegram-routing-audit.json` ### TKT-0077 — Persistent Agent Configuration (Stateless Bootstrap) - **Raised:** All rules and configs agents need must be persistent and stateless — written to files, bootstrapped on load - **7 ACs locked** covering: routing policies in files, bootstrap manifest, PVT validation, auto-heal drift detection, new agent/bot/client onboarding gate, git-versioned configs, RULES.md templates - **AC8–AC11 added** after Holocron audit (systemic gap confirmed): - AC8: `state/agent-registry.json` as SSOT for all agents - AC9: Holocron daily cron reads from agent-regis",
-      "recallCount": 1,
+      "recallCount": 2,
       "dailyCount": 0,
       "groundedCount": 0,
-      "totalScore": 0.4763376504182815,
+      "totalScore": 0.9373751133680344,
       "maxScore": 0.4763376504182815,
       "firstRecalledAt": "2026-05-21T05:21:28.385Z",
-      "lastRecalledAt": "2026-05-21T05:21:28.385Z",
+      "lastRecalledAt": "2026-05-27T09:26:17.805Z",
       "queryHashes": [
-        "e3ca283e7754"
+        "e3ca283e7754",
+        "58eccb1e2b50"
       ],
       "recallDays": [
-        "2026-05-21"
+        "2026-05-21",
+        "2026-05-27"
       ],
       "conceptTags": [
         "reply-in-session",
@@ -3083,18 +3103,20 @@
       "endLine": 261,
       "source": "memory",
       "snippet": "- Gap: Integration instructions (Section 9) never executed — Y1–Y3 not in YODA_RULES.md, Ahsoka/Atlas/Sanctum integration not verified - Action: TKT-0156 — Two-tier platform guardrails restructure (universal principles + agent-specific sections, new agent DoD gate) - **DOC-AUDIT-008** (`governance-guardrails-2026-05.md`) — SUPERSEDED - Status: Duplicate extract of G1–G2 and W1–W2 from DOC-AUDIT-007 - Decision: Archive, no separate approval needed - **DOC-AUDIT-009** (`nexus-client-isolation-policy-v1.md`) — APPROVED - Status: Comprehensive client isolation policy (config, data, communication, governance, infrastructure isolation) - P1 isolation floor (achievable now) vs P2 Do",
-      "recallCount": 1,
+      "recallCount": 2,
       "dailyCount": 0,
       "groundedCount": 0,
-      "totalScore": 0.45266060233116145,
-      "maxScore": 0.45266060233116145,
+      "totalScore": 0.9212759464979171,
+      "maxScore": 0.46861534416675565,
       "firstRecalledAt": "2026-05-21T05:34:26.508Z",
-      "lastRecalledAt": "2026-05-21T05:34:26.508Z",
+      "lastRecalledAt": "2026-05-27T09:45:57.596Z",
       "queryHashes": [
-        "17229b4cfa0b"
+        "17229b4cfa0b",
+        "f186599f20a3"
       ],
       "recallDays": [
-        "2026-05-21"
+        "2026-05-21",
+        "2026-05-27"
       ],
       "conceptTags": [
         "yoda-rules.md",
@@ -3114,13 +3136,13 @@
       "endLine": 549,
       "source": "memory",
       "snippet": "### CHG sequence today: CHG-0208 through CHG-0222 (15 CHGs) ### State at EOD - API balance: ~$470 (topped up CHG-0205) - Gateway: running, pid 58244 - Warden: clean - Sprint 1: ready to execute - Next gates: Auralith incorporation (end May) + TKT-0060/0061/0063 (end May) --- ## Evening Session — Thu 2026-05-07 (Day 13, final) # Appended 18:48 AEST | Pre-compaction flush ### MEMORY.md Grooming (TKT-0042 closed) - MEMORY.md was reviewed for stale items — multiple outdated open items found and flagged by Ken - TKT-0042 (Obsidian migration) was still listed as open in MEMORY.md — CLOSED: all 5 phases complete - S4 open item was stale — S4 applied CHG-0176 (2026-05-05). Removed from open item",
-      "recallCount": 10,
+      "recallCount": 11,
       "dailyCount": 0,
       "groundedCount": 0,
-      "totalScore": 4.311296772956848,
+      "totalScore": 4.732156184315682,
       "maxScore": 0.4702737599611282,
       "firstRecalledAt": "2026-05-22T01:03:26.677Z",
-      "lastRecalledAt": "2026-05-26T04:04:15.708Z",
+      "lastRecalledAt": "2026-05-27T00:41:05.325Z",
       "queryHashes": [
         "b0020bd7d6a9",
         "fdea436bcfe7",
@@ -3131,14 +3153,16 @@
         "bbf60bef9c0d",
         "8cd423364453",
         "40538f287124",
-        "af1b54324e1f"
+        "af1b54324e1f",
+        "522c23c64be5"
       ],
       "recallDays": [
         "2026-05-22",
         "2026-05-23",
         "2026-05-24",
         "2026-05-25",
-        "2026-05-26"
+        "2026-05-26",
+        "2026-05-27"
       ],
       "conceptTags": [
         "gateway",
@@ -3881,18 +3905,21 @@
       "endLine": 401,
       "source": "memory",
       "snippet": "- Activation script received: `ACTIVATE_AI_Transformation_Consultant_v3` (v2.1.0) - Companion role definition file (`AI_Transformation_Consultant_v2.0.0.md`) pending — Ken will upload next prompt - This is the **first consulting stream agent** (new stream, P2 onwards) - Hard gate at Step 9: Ken explicit `APPROVED` required before business release — Angie does NOT interact until then - Name decision pending Ken input. Yoda recommendation: **Ahsoka** (independent advisor, earns trust through results) - Script saved to: `/Users/ainchorsangiefpl/.openclaw/media/inbound/ACTIVATE_AI_Transformation_Consultant_v3---57297648-804b-4707-b071-5c6715ae2614.md` - **DO NOT proceed with activation until rol",
-      "recallCount": 1,
+      "recallCount": 3,
       "dailyCount": 0,
       "groundedCount": 0,
-      "totalScore": 0.4593195706605911,
+      "totalScore": 1.3131527185440062,
       "maxScore": 0.4593195706605911,
       "firstRecalledAt": "2026-05-26T03:38:17.792Z",
-      "lastRecalledAt": "2026-05-26T03:38:17.792Z",
+      "lastRecalledAt": "2026-05-27T01:52:43.759Z",
       "queryHashes": [
-        "73ccb9828744"
+        "73ccb9828744",
+        "522c23c64be5",
+        "245f22230cbb"
       ],
       "recallDays": [
-        "2026-05-26"
+        "2026-05-26",
+        "2026-05-27"
       ],
       "conceptTags": [
         "v2.1.0",
@@ -3996,6 +4023,68 @@
         "contract",
         "meeting",
         "flagged"
+      ]
+    },
+    "memory:memory/2026-05-13.md:190:211": {
+      "key": "memory:memory/2026-05-13.md:190:211",
+      "path": "memory/2026-05-13.md",
+      "startLine": 190,
+      "endLine": 211,
+      "source": "memory",
+      "snippet": "- LI-C1-W2-P3 — Pushed to Thu 14 May 07:30 AEST. APPROVED by Ken. - LI-C1-W2-P3 image received from Ken via Telegram, uploaded to LinkedIn → `urn:li:image:D4E10AQFaOFkuxvNOzA`. Saved to workspace-social/images/linkedin/LI-C1-W2-P3/image.jpg ## Spark Rules Added (2026-05-13) 1. Never use em dash \"—\". Use hyphen \"-\" only when absolutely necessary. 2. Never reveal product or agent names — use generic references/labels only. ## Crons Re-triggered After Key Recovery All 6 failed crons manually re-triggered at ~13:04 AEST. All recovered successfully. ## Stand-Up Issues — CHG-0281 / CHG-0282 / L-029 - **Root cause:** Write tool does not expand `~` in isolated sessions. Canvas write silently f",
+      "recallCount": 1,
+      "dailyCount": 0,
+      "groundedCount": 0,
+      "totalScore": 0.4247567594051361,
+      "maxScore": 0.4247567594051361,
+      "firstRecalledAt": "2026-05-27T01:52:43.759Z",
+      "lastRecalledAt": "2026-05-27T01:52:43.759Z",
+      "queryHashes": [
+        "245f22230cbb"
+      ],
+      "recallDays": [
+        "2026-05-27"
+      ],
+      "conceptTags": [
+        "li-c1-w2-p3",
+        "references/labels",
+        "re-triggered",
+        "stand-up",
+        "chg-0281",
+        "chg-0282",
+        "l-029",
+        "pushed"
+      ]
+    },
+    "memory:memory/2026-05-13.md:101:122": {
+      "key": "memory:memory/2026-05-13.md:101:122",
+      "path": "memory/2026-05-13.md",
+      "startLine": 101,
+      "endLine": 122,
+      "source": "memory",
+      "snippet": "- LI-C1-W2-P3 — Pushed to Thu 14 May 07:30 AEST. APPROVED by Ken. - LI-C1-W2-P3 image received from Ken via Telegram, uploaded to LinkedIn → `urn:li:image:D4E10AQFaOFkuxvNOzA`. Saved to workspace-social/images/linkedin/LI-C1-W2-P3/image.jpg ## Spark Rules Added (2026-05-13) 1. Never use em dash \"—\". Use hyphen \"-\" only when absolutely necessary. 2. Never reveal product or agent names — use generic references/labels only. ## Crons Re-triggered After Key Recovery All 6 failed crons manually re-triggered at ~13:04 AEST. All recovered successfully. ## Stand-Up Issues — CHG-0281 / CHG-0282 / L-029 - **Root cause:** Write tool does not expand `~` in isolated sessions. Canvas write silently f",
+      "recallCount": 1,
+      "dailyCount": 0,
+      "groundedCount": 0,
+      "totalScore": 0.4247567594051361,
+      "maxScore": 0.4247567594051361,
+      "firstRecalledAt": "2026-05-27T01:52:43.759Z",
+      "lastRecalledAt": "2026-05-27T01:52:43.759Z",
+      "queryHashes": [
+        "245f22230cbb"
+      ],
+      "recallDays": [
+        "2026-05-27"
+      ],
+      "conceptTags": [
+        "li-c1-w2-p3",
+        "references/labels",
+        "re-triggered",
+        "stand-up",
+        "chg-0281",
+        "chg-0282",
+        "l-029",
+        "pushed"
       ]
     }
   }

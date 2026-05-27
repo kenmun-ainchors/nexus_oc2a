@@ -1867,11 +1867,65 @@
       "verdict": "PASS",
       "pass": 5,
       "fail": 0
+    },
+    {
+      "ts": "2026-05-27T11:20:36+10:00",
+      "asset": "/Users/ainchorsangiefpl/.openclaw/workspace/tmp/blog-draft-2026-05-26.html",
+      "producedBy": "yoda",
+      "intendedFor": "public distribution",
+      "verdict": "FAIL",
+      "pass": 4,
+      "fail": 1
+    },
+    {
+      "ts": "2026-05-27T11:20:43+10:00",
+      "asset": "/Users/ainchorsangiefpl/.openclaw/workspace/tmp/blog-draft-2026-05-26.html",
+      "producedBy": "yoda",
+      "intendedFor": "public distribution",
+      "verdict": "FAIL",
+      "pass": 4,
+      "fail": 1
+    },
+    {
+      "ts": "2026-05-27T11:22:10+10:00",
+      "asset": "/Users/ainchorsangiefpl/.openclaw/workspace/tmp/blog-draft-2026-05-26.html",
+      "producedBy": "yoda",
+      "intendedFor": "public distribution",
+      "verdict": "FAIL",
+      "pass": 4,
+      "fail": 1
+    },
+    {
+      "ts": "2026-05-27T11:22:11+10:00",
+      "asset": "/Users/ainchorsangiefpl/.openclaw/workspace/tmp/blog-draft-2026-05-26.html",
+      "producedBy": "yoda",
+      "intendedFor": "public distribution",
+      "verdict": "FAIL",
+      "pass": 4,
+      "fail": 1
+    },
+    {
+      "ts": "2026-05-28T00:07:43+10:00",
+      "asset": "/Users/ainchorsangiefpl/.openclaw/workspace/tmp/blog-draft-2026-05-27.html",
+      "producedBy": "yoda",
+      "intendedFor": "public distribution",
+      "verdict": "PASS",
+      "pass": 5,
+      "fail": 0
+    },
+    {
+      "ts": "2026-05-28T00:07:43+10:00",
+      "asset": "/Users/ainchorsangiefpl/.openclaw/workspace/tmp/blog-draft-2026-05-27.html",
+      "producedBy": "yoda",
+      "intendedFor": "public distribution",
+      "verdict": "PASS",
+      "pass": 5,
+      "fail": 0
     }
   ],
   "summary": {
-    "total": 186,
-    "pass": 155,
-    "fail": 30
+    "total": 192,
+    "pass": 157,
+    "fail": 34
   }
 }

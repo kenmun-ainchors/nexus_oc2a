@@ -187,7 +187,7 @@ if extra_tickets:
             created = page.get('created_time', '2026-01-01T00:00:00Z')
             subprocess.run(
                 ["/opt/homebrew/bin/psql", "-t", "-A", "-c",
-                 f"INSERT INTO state_tickets (id, title, status, type, priority, sequence, createdat, notionpageid, url) VALUES ('{tkt_id}', '{title.replace(chr(39), chr(39)+chr(39))}', '{status}', 'task', 'medium', '{seq}', '{created}', '{pid}', 'https://www.notion.so/{title[:50].replace(chr(39), chr(39)+chr(39))}-{pid[:8]}') ON CONFLICT (id) DO UPDATE SET notionpageid=EXCLUDED.notionpageid, url=EXCLUDED.url"],
+                 f"INSERT INTO state_tickets (id, title, status, type, priority, sequence, created_at, notionpageid, url) VALUES ('{tkt_id}', '{title.replace(chr(39), chr(39)+chr(39))}', '{status}', 'task', 'medium', '{seq}', '{created}', '{pid}', 'https://www.notion.so/{title[:50].replace(chr(39), chr(39)+chr(39))}-{pid[:8]}') ON CONFLICT (id) DO UPDATE SET notionpageid=EXCLUDED.notionpageid, url=EXCLUDED.url"],
                 capture_output=True, env=env
             )
             print(f"  ✅ Added {tkt_id} to PG", file=sys.stderr)

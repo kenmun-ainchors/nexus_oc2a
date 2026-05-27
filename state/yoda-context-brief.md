@@ -1,15 +1,15 @@
 # Yoda Telegram Context Brief
-Generated: 2026-05-26 20:00 AEST | Platform Day 31 | Sprint 4/5 Transition
+Generated: 2026-05-27 20:00 AEST | Platform Day 33 | Sprint 6 Queued
 
 ---
 
 ## Platform Status
-- **Day:** 31 (since 2026-04-25)
+- **Day:** 33 (since 2026-04-25)
 - **Phase:** MVP → P1 transition
 - **OC1:** Mac Mini M4 24GB — LIVE Production. PERMANENT.
 - **OC2-A/B:** Mac Mini M4 Pro 48GB ×2 — ETA 6–13 Jul 2026, commission ~27 Jul
 - **Daily Budget:** $150 (CHG-0268).
-- **Key Alert:** CONSERVATIVE MODE active (CHG-0349). All agents on kimi/gemma4/deepseek-pro until CLAUDE RESTORE keyword issued.
+- **Key Alert:** CONSERVATIVE MODE active (CHG-0349). No risky state manipulation without explicit Ken approval.
 
 ---
 
@@ -25,18 +25,23 @@ Generated: 2026-05-26 20:00 AEST | Platform Day 31 | Sprint 4/5 Transition
 ## Infrastructure
 - **OpenClaw** on OC1, Tailscale mesh
 - **MinIO** LIVE on OC1 (TKT-0124 ✅, CHG-0265)
-- **Model:** DeepSeek is now permanent primary model. kimi remains as fallback only. (Update 2026-05-26)
-- **kimi policy:** standup + email cron ONLY. NEVER for orchestration/routing/CHG/state.
+- **Model:** DeepSeek is permanent primary. kimi = fallback only.
 - **Tailscale URL:** `https://ainchorss-mac-mini.tail5e2567.ts.net`
-- **RustDesk:** public relay (primary). Self-hosted CLOSED (TKT-0120, DEC-20260516-1256).
-- **Colima:** auto-starts, replaces Docker Desktop
-- **Docker socket:** `unix:///Users/ainchorsangiefpl/.colima/default/docker.sock`
+- **RustDesk:** public relay (primary).
+- **Colima:** auto-starts, replaces Docker Desktop.
+- **TQP Execution Gate:** LIVE for Yoda (TKT-0309 ✅).
 
 ---
 
 ## Current Sprint
-- **Focus:** P2 hard gates, Policy Register (TKT-0137), and Model Strategy Review.
-- **Active Work:** TKT-0295 (PG Audit) currently parked due to budget breach.
+- **Status:** Sprint 5 Clean / Sprint 6 Queued.
+- **Sprint 6 Queue:**
+  - TKT-0310 (Platform Constraints)
+  - TKT-0317 (Context Epic + 4 sub)
+  - TKT-0268 (PG Stability)
+  - TKT-0269 (PG Backup)
+  - TKT-0293 (Regression)
+  - TKT-0321-0322 (Dispatch)
 
 ---
 
@@ -51,37 +56,29 @@ Generated: 2026-05-26 20:00 AEST | Platform Day 31 | Sprint 4/5 Transition
 ---
 
 ## Open Tickets (Top 10 by Priority)
-1. **TKT-0114** — AInchors–Aevlith partnership (HIGH, gates 0115–0117)
-2. **TKT-0115** — Register Aevlith ASIC (HIGH, blocked on 0114)
-3. **TKT-0116** — aevlith.ai domain (HIGH, blocked on 0115)
-4. **TKT-0141** — CLI-Anything supply chain audit (HIGH)
-5. **TKT-0142** — SKILL.md poisoning review (HIGH, 63 skills clean)
-6. **TKT-0137** — Policy Register (HIGH, Lex, S4 assigned)
-7. **TKT-0135** — AInchors Sandbox (HIGH, Forge)
-8. **TKT-0136** — Consulting Playbook (HIGH)
-9. **TKT-0138** — Business Jumpstart pathway (HIGH, Ahsoka)
-10. **TKT-0127** — Agentic Marketing Org Design (HIGH, Yoda)
+1. **TKT-0317** — Context Epic (S6 High)
+2. **TKT-0114** — AInchors–Aevlith partnership (HIGH, gates 0115–0117)
+3. **TKT-0115** — Register Aevlith ASIC (HIGH, blocked on 0114)
+4. **TKT-0116** — aevlith.ai domain (HIGH, blocked on 0115)
+5. **TKT-0141** — CLI-Anything supply chain audit (HIGH)
+6. **TKT-0142** — SKILL.md poisoning review (HIGH, 63 skills clean)
+7. **TKT-0137** — Policy Register (HIGH, Lex)
+8. **TKT-0135** — AInchors Sandbox (HIGH, Forge)
+9. **TKT-0136** — Consulting Playbook (HIGH)
+10. **TKT-0138** — Business Jumpstart pathway (HIGH, Ahsoka)
 
-Full backlog: Notion AKB Backlog (SSOT). tickets.json seq 199.
+Full backlog: Notion AKB Backlog (SSOT). tickets.json seq 251.
 
 ---
 
 ## LinkedIn Queue Status
-- **Status:** state/linkedin-queue.json not found. Defer to Spark for current state.
-- **API:** Connected, token valid to 2026-07-12
+- **Status:** `state/linkedin-queue.json` missing. Defer to Spark.
+- **API:** Connected, token valid to 2026-07-12.
 
 ---
 
 ## Recent Telegram Decisions (syncedToWebchat=false)
-| Decision | Summary | Ticket | Action |
-|----------|---------|--------|--------|
-| DEC-20260517-0918 | CHG-0362 APPROVED: Warden drift docs + Conservative Mode runbook | — | approved |
-| DEC-20260516-1244 | TKT-0178 Routing Enforcement approved, sprint-assigned | TKT-0178 | approved |
-| DEC-20260516-1252 | LI-C1-W2-P1 v3 APPROVED + TKT-0179 Option B confirmed | LI-C1-W2-P1, TKT-0179 | approved |
-| DEC-20260516-1256 | TKT-0120 RustDesk self-hosted CLOSED — sufficient | TKT-0120 | closed |
-| DEC-20260516-1304 | TKT-0137 + subs tagged to Sprint 4 | TKT-0137 | sprint-assigned |
-
-_Last synced to webchat: 2026-05-15 13:47 AEST_
+*No data available in state/channel-state.json (file missing).*
 
 ---
 
@@ -90,7 +87,7 @@ _Last synced to webchat: 2026-05-15 13:47 AEST_
 2. **Accept & execute immediately** — NEVER say "go to WebChat"
 3. **Write EVERY decision** to `state/channel-state.json` with `syncedToWebchat: false`
 4. **No relay loop** — state file is the ONLY bridge
-5. **kimi = standup + email cron ONLY.** Webchat+Telegram = Sonnet/DeepSeek. NEVER use kimi for orchestration/routing/CHG
+5. **kimi = standup + email cron ONLY.** Webchat+Telegram = Sonnet/DeepSeek.
 6. **Credit alerts:** T3 ($15) → alert Ken + Angie immediately via both bots
 7. **Private data stays private.** Ask before external action.
 8. **Emergency keyword:** "YODA THIS IS KEN" → immediate escalation
@@ -98,5 +95,5 @@ _Last synced to webchat: 2026-05-15 13:47 AEST_
 10. **All architecture/strategy docs = DRAFT FOR REVIEW** until Ken says approved
 11. **CHG discipline:** Every structural change has a CHG record before execution
 12. **Strategy-gate:** If task depends on DRAFT FOR REVIEW doc → STOP, surface to Ken
-13. **CONSERVATIVE MODE (CHG-0349):** No risky state manipulation without explicit Ken approval. Read-only ops safe.
-14. **Interim Session Handling (kimi):** Control UI sessions bypass normal routing — always defer to webchat for execution
+13. **CONSERVATIVE MODE (CHG-0349):** No risky state manipulation without explicit Ken approval.
+14. **Interim Session Handling (kimi):** Control UI sessions bypass normal routing — defer to webchat for execution
