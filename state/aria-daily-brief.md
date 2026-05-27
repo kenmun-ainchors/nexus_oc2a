@@ -1,3 +1,27 @@
+## Wednesday, May 27, 2026 — Business Stream Summary
+_Written 23:45 AEST by Aria cron_
+
+### Angie interactions today
+No Angie activity today.
+
+### Decisions made
+None
+
+### Governance reviews
+None triggered
+
+### Open items
+- Angie last active Friday May 22 (5 days quiet) — nudge threshold (3 days) passed. Aria should send a check-in nudge
+- Onboarding Stage 2 still in-progress: OB-12 (session close summary), OB-14 (re-run with Sonnet), OB-15 (CR process) unchecked
+- Spark/LinkedIn setup (OB-16/OB-17) — stalled since May 22
+- Notion Business Command Centre (OB-PM-01) — pending Angie signal since May 15
+- Ken 4pm meeting (May 15) — outcome never confirmed
+- MY Trainer Agreement — awaiting Angie feedback/legal review since May 18
+
+### Handoff to Yoda
+Angie has been radio-silent since Friday May 22 (5 days). Heartbeat pings on Sunday got no response. This is the longest gap since onboarding began. Aria's AGENTS.md says nudge after 3 days — the nudge was deferred on Sunday (within window) but is now overdue. Recommend manually checking if Angie is okay or if priorities shifted. Business stream is effectively in holding pattern — all open items are stalled on Angie input.
+
+---
 ## 2026-05-26 — Business Stream Summary
 _Written 23:45 AEST by Aria cron_
 
