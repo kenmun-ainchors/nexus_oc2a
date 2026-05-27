@@ -4,6 +4,7 @@
 #   db-write.sh state_tickets '{"id":"TKT-0001","status":"closed"}' TKT-0001
 #
 # TKT-0294: Unknown columns merged into metadata JSONB instead of failing.
+# TKT-0311: Fix silent failures when Python crashes and verify writes.
 
 DB="/Users/ainchorsangiefpl/.openclaw/workspace/scripts/db.sh"
 WORKSPACE="/Users/ainchorsangiefpl/.openclaw/workspace"
@@ -18,9 +19,29 @@ fi
 SQL=$(python3 << PYEOF
 import json, subprocess, os, sys
 
-data = json.loads('''$DATA''')
+try:
+    data = json.loads('''$DATA''')
+except Exception as e:
+    print(f"JSON_LOAD_ERROR: {e}", file=sys.stderr)
+    sys.exit(1)
+
 table = "$TABLE"
 task_id = "$ID"
+
+# Alias map provided via shell environment/script (handled in Python via mapping)
+column_aliases = {
+    "createdat": "created_at",
+    "updatedat": "updated_at"
+}
+
+# Normalize input data using aliases
+normalized_data = {}
+for k, v in data.items():
+    canonical_k = column_aliases.get(k, k)
+    if canonical_k != k:
+        # Note: In a real scenario we might log the warning here
+        pass
+    normalized_data[canonical_k] = v
 
 # Query valid columns from PG
 env = os.environ.copy()
@@ -44,7 +65,7 @@ if not valid_cols:
 # Separate known columns from unknowns
 known_fields = {}
 unknown_fields = {}
-for k, v in data.items():
+for k, v in normalized_data.items():
     if k == 'id':
         continue
     if k in valid_cols:
@@ -135,17 +156,33 @@ for k in cols:
         escaped = str(v).replace("'", "''")
         vals.append(f"'{escaped}'")
 
-# Build ON CONFLICT SET clause
-updates = [f"{k}=EXCLUDED.{k}" for k in cols]
+# Build ON CONFLICT clause — SAFE mode uses DO NOTHING (never overwrite existing)
+# Normal mode uses DO UPDATE for upserts
+safe_mode = os.environ.get('DBWRITE_SAFE_MODE', '0') == '1'
+
+if safe_mode:
+    conflict_clause = "ON CONFLICT (id) DO NOTHING"
+else:
+    updates = [f"{k}=EXCLUDED.{k}" for k in cols]
+    set_str = ','.join(updates)
+    conflict_clause = f"ON CONFLICT (id) DO UPDATE SET {set_str}"
 
 col_str = ','.join(cols)
 val_str = ','.join(vals)
-set_str = ','.join(updates)
 
-sql = f"INSERT INTO {table} (id, {col_str}) VALUES ('{task_id}', {val_str}) ON CONFLICT (id) DO UPDATE SET {set_str}"
+sql = f"INSERT INTO {table} (id, {col_str}) VALUES ('{task_id}', {val_str}) {conflict_clause}"
 print(sql)
 PYEOF
 )
+PY_EXIT=$?
+
+# TKT-0311: Check if Python crashed or returned empty
+if [ $PY_EXIT -ne 0 ] || [ -z "$SQL" ]; then
+  echo '{"status":"error","error":"SQL generation failed (Python crash or empty output)"}' 1>&2
+  # Still fallback to file to prevent data loss
+  echo "$DATA" >> "$WORKSPACE/state/pg-write-fallback-$TABLE.jsonl"
+  exit 1
+fi
 
 if [ "$SQL" = "PG_QUERY_FAILED" ]; then
   # PG is down — fallback to file
@@ -158,13 +195,31 @@ fi
 PG_RESULT=$(bash "$DB" -c "$SQL" 2>/dev/null && echo "PG_WRITE_OK" || echo "PG_WRITE_FAIL")
 
 if echo "$PG_RESULT" | grep -q "PG_WRITE_OK"; then
-  echo '{"status":"ok","backend":"postgres","id":"'$ID'"}'
-  exit 0
+  # TKT-0311: Post-write verification
+  # Verify the row actually exists with the ID we just wrote
+  VERIFY=$(bash "$DB" -c "SELECT id FROM $TABLE WHERE id='$ID'" 2>/dev/null)
+  if [[ "$VERIFY" == *"$ID"* ]]; then
+    # TKT-0313: Check if this was a collision (row existed before our write)
+    if [ "${DBWRITE_SAFE_MODE:-0}" = "1" ]; then
+      # In safe mode, check if title metadata matches what we tried to write
+      EXISTING_TITLE=$(bash "$DB" -c "SELECT title FROM $TABLE WHERE id='$ID'" 2>/dev/null | tail -1)
+      NEW_TITLE=$(echo "$DATA" | python3 -c "import json,sys; d=json.load(sys.stdin); print(d.get('title',''))" 2>/dev/null)
+      if [ -n "$NEW_TITLE" ] && [ -n "$EXISTING_TITLE" ] && [ "$EXISTING_TITLE" != "$NEW_TITLE" ]; then
+        echo '{"status":"collision","backend":"postgres","id":"'$ID'","error":"Ticket ID already exists with different title","existing_title":"'"$EXISTING_TITLE"'","new_title":"'"$NEW_TITLE"'"}' 1>&2
+        exit 3
+      fi
+    fi
+    echo '{"status":"ok","backend":"postgres","id":"'$ID'"}'
+    exit 0
+  else
+    echo '{"status":"error","error":"PG write reported success but row not found during verification"}' 1>&2
+    # Fallthrough to fallback
+  fi
 fi
 
 # Step 3: Fallback — atomic write to file with locking
 FALLBACK_FILE="$WORKSPACE/state/pg-write-fallback-$TABLE.jsonl"
-echo '{"status":"degraded","backend":"file","id":"'$ID'","error":"PG write failed"}' 1>&2
+echo '{"status":"degraded","backend":"file","id":"'$ID'","error":"PG write failed or verification failed"}' 1>&2
 
 python3 << PYFALLBACK
 import sys, os, json, fcntl, tempfile

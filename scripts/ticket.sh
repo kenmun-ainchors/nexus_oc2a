@@ -93,12 +93,31 @@ case "${1:-}" in
     [[ -z "${2:-}" ]] && { echo "Usage: ticket.sh close <TKT-ID>"; exit 1; }
     write_ticket "$2" '{"status": "closed"}'
     ;;
+  create)
+    # TKT-0313: Safe create — prevents overwriting existing tickets
+    [[ -z "${2:-}" || -z "${3:-}" ]] && { echo "Usage: ticket.sh create <TKT-ID> <TITLE> [PRIORITY] [TYPE]"; exit 1; }
+    TKT_ID="$2"
+    TKT_TITLE="$3"
+    TKT_PRIORITY="${4:-medium}"
+    TKT_TYPE="${5:-task}"
+    TKT_TS=$(date -u '+%Y-%m-%dT%H:%M:%S+10:00')
+    log "Creating $TKT_ID: $TKT_TITLE"
+    DBWRITE_SAFE_MODE=1 $DB_WRITE_SCRIPT state_tickets "{\"id\":\"$TKT_ID\",\"title\":\"$TKT_TITLE\",\"status\":\"open\",\"priority\":\"$TKT_PRIORITY\",\"type\":\"$TKT_TYPE\",\"created_at\":\"$TKT_TS\",\"notionSynced\":false}" "$TKT_ID"
+    RET=$?
+    if [ $RET -eq 3 ]; then
+      log "COLLISION: $TKT_ID already exists. Use ticket.sh update instead."
+      exit 3
+    elif [ $RET -eq 0 ]; then
+      $SYNC_SCRIPT > /dev/null 2>&1 &
+      log "$TKT_ID created and sync triggered."
+    fi
+    ;;
   sync)
     log "Manual sync trigger..."
     $SYNC_SCRIPT
     ;;
   *)
-    echo "Usage: ticket.sh {list|show|update|close|sync}"
+    echo "Usage: ticket.sh {list|show|update|close|create|sync}"
     exit 1
     ;;
 esac
