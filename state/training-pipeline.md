@@ -189,6 +189,11 @@ _Maintained by Aria 🔵 + Yoda 🟢 | Status-tracked content for AInchors train
 | TC-171 | When your AI content strategy needs a hard reset: the founder's course correction | 💡 Idea | Yoda Day 32 (W4 LinkedIn cancelled, Ken's quality reset: "wishy-washy, no material essence") | Aria |
 | TC-172 | Database migration for AI platforms: the audit-to-completion pipeline | 💡 Idea | Yoda Day 32 (TKT-0295 chain — 7 tickets, 18 PG tables, JSONB schema contracts) | Both |
 
+| TC-173 | Checkpointing AI work: how to build autosave for AI agents with Postgres persistence | 💡 Idea | Yoda Day 33 (TKT-0309 Phase 2 — TQP gate, 5 atoms, 5 bugs found+fixed during implementation) | Yoda |
+| TC-174 | The 92% duplication trap: why your AI agents are reading the same rules 14 times | 💡 Idea | Yoda Day 33 (Atlas context audit — 123.8KB Yoda context, 92% rule duplication, 55-64% savings) | Both |
+| TC-175 | Sprint cleanup as a discipline: how we went from 17 to 8 open tickets in one day | 💡 Idea | Yoda Day 33 (Sprint 5 closure — 9 tickets processed, 5 folded, 3 deferred, 53% reduction) | Aria |
+| TC-176 | Five bugs found while building autosave: shell scripting traps in AI automation | 💡 Idea | Yoda Day 33 (TQP gate bugs — JSON quoting, brace expansion, column name mismatch, error detection) | Yoda |
+
 ## Status Legend
 💡 Idea → 📝 Draft → 🔍 Review (Yoda validates) → ✅ Ready → 📢 Published
 

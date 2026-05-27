@@ -3,6 +3,13 @@ _Key decisions made. Dated. Permanent record._
 
 ---
 
+## 2026-05-27
+- **TQP gate goes platform-wide** — The work-checkpointing system built for Yoda (TKT-0309 Phase 2) is the foundation for all 14 agents. 2-pass dispatch discipline applies to all agent-to-agent dispatches, not just Yoda. Ken approved merging TKT-0313 into TKT-0317.
+- **Context optimization is Sprint 6 Item #1** — Atlas audit found 92% rule duplication and 123.8KB Yoda context load. Before any other platform work, agents need context slimming. Ken locked TKT-0317 as Sprint 6 first item.
+- **Sprint 5 officially closed** — 9 high tickets processed: 5 folded into TKT-0317, 3 deferred to P2, TKT-0305 completed. Open critical+high: 17→8 (53% reduction). Ken approved.
+- **Sprint 6 queue locked** — 8 tickets: TKT-0310, 0317, 0319, 0268, 0269, 0293, 0321, 0322. Ceremonies due Sunday May 31. Ken approved.
+- **DeepSeek remains permanent primary** — Kimi decommissioned as primary, fallback only. Confirmed in MEMORY.md Day 33.
+
 ## 2026-04-25
 - **Yoda** chosen as lead AI agent (CTO stream, oversees all)
 - **Two-stream architecture** adopted: Technical + Business

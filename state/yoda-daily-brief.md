@@ -1,87 +1,77 @@
-# 2026-05-26 — Daily Brief for Aria & Angie
+# Yoda's Daily Brief — 2026-05-27 (Day 33)
 
-## 🟢 What Yoda Built Today
-
-A deep infrastructure day — the kind that's invisible but essential. We fixed foundational problems in our agent system that have been lurking for weeks, and completed the Postgres migration audit chain.
-
-### Postgres Foundation Completed (7 Tickets Closed)
-
-The Postgres migration is now complete end-to-end. We have 18 database tables tracking everything from tickets to cron latency. The key deliverables:
-
-- **sc_read wrappers** — Every database read now goes through a safety layer that validates data before returning it. No more "trust the file" — trust but verify (TKT-0303)
-- **Two more data domains migrated** — Governance review results and cron performance tracking are now in Postgres (TKT-0304)
-- **Metadata validation contract** — Every JSON field stored in our database now has a published schema. Invalid data gets caught, not stored silently (TKT-0299)
-- **Cron payloads migrated** — All our scheduled tasks now read from Postgres, not scattered JSON files (TKT-0305, routed to Forge)
-- **Aria's weekly ROI report** — Fixed a bug where the Friday business summary was failing because of a file path error. It'll run properly this Sunday (TKT-0306)
-
-### Agent Foundation Repair (2 Tickets Closed)
-
-We discovered that 11 of our 12 AI agents were running without their rule books. The files existed on disk, but under the wrong names — so agents couldn't find them. This means agents like Forge (who builds infrastructure) and Atlas (who does architecture) have been operating without their full context loaded.
-
-- Fixed the naming so 10 of 12 agents can now read their own rules (TKT-0307)
-- Added an automated check so this never happens again (auto-heal CHECK 14)
-- The two remaining (Shield and Warden) got brand new rule books created today
-
-### Agent Workspace Separation (TKT-0308)
-
-Four of our agents were sharing the same workspace folder — which meant they couldn't find their own identity files. We moved Forge, Ahsoka, and Luthen into their own dedicated workspaces:
-
-- **Forge** → workspace-infra (dedicated build environment)
-- **Ahsoka** → workspace-ahsoka (consulting/customer work)
-- **Luthen** → workspace-luthen (first activation! — our new competitive intelligence agent is alive)
-- **Krennic** (SRE/incidents agent) is parked until our OC2 hardware arrives
-
-### Context Retention — The "Pick Up Where You Left Off" Problem (TKT-0309)
-
-This is a big one. When AI agents work on complex tasks that span multiple steps (like building a database migration), they lose context between steps. If the model changes or the session resets, work-in-progress vanishes.
-
-We designed a solution: **TQP Execution Gates**. Every task atom (step) gets persisted to Postgres with its full context. If anything interrupts — model switch, session restart, Ken saying "wait" — the work can resume exactly where it stopped. Phase 1 (the database layer) is built. Phase 2 (teaching Yoda to use it automatically) starts tomorrow.
-
-### Postgres-to-Notion Sync Redesign (TKT-0297)
-
-Our ticket system now has a single, reliable sync script that writes from Postgres (our database) to Notion (our dashboard). It's idempotent (running it twice doesn't duplicate anything), file-locked (can't collide), and timestamp-filtered (only syncs what changed). This replaces several older, more fragile scripts.
-
-### LinkedIn — Content Reset
-
-Ken cancelled all LinkedIn posts for this week. His feedback: "Content is feeling wishy-washy and consulting-like, no material essence or takeaway." We're doing a fresh restart at Sunday's sprint planning. Meanwhile, we also fixed several technical bugs in Spark (our social content agent) — it was running with the wrong identity files and posting old drafts because its workspace was misconfigured.
-
-### Agent Identity Audit
-
-Root cause investigation on why Spark was confused: when we introduced sandboxing (isolated agent environments) on May 20, 9 agents' identity files never moved into their sandboxes. They've been running on blank templates for 3 weeks. Fixed now with an automated audit script.
-
-## ⚖️ Key Decisions Made
-
-- **Postgres is fully operationalized** — 18 tables, all crons reading from it, JSONB validation live
-- **Agent workspace separation is now a platform rule** — each agent gets its own directory, no sharing
-- **LinkedIn content strategy needs a hard reset** — quality over schedule. Ken wants posts with genuine insight, not consulting fluff
-- **TQP Execution Gates approved** — every multi-step AI task will checkpoint its context, so work can resume after interruptions
-- **Luthen 🔍 activated** — competitive intelligence agent is live (first activation from spec)
-- **Krennic parked** — SRE agent waits until OC2 hardware arrives
-
-## 🎓 Training Content Angles
-
-New angles from today's work:
-
-- **The Hidden Rule Book Problem — Why 11 of Your 12 AI Agents Aren't Reading Their Instructions:** Real case study in agent configuration drift. Files existed, but naming mismatches meant agents operated on blank slates. The fix: automated verification checks that run every night. Covers: configuration hygiene, automated compliance checking, and the "it works on my machine" trap at AI scale. (From TKT-0307 — Agent RULES.md Foundation Repair)
-
-- **Workspace Separation for AI Agents — Why Sharing a Desk Breaks Everything:** What happens when multiple AI agents share the same file directory. Identity files clash, rules get missed, agents operate on the wrong context. The fix is simple but not obvious: one workspace per agent. Covers: multi-agent directory architecture, sandboxing, and how to audit agent identity. (From TKT-0308 — Agent Workspace Separation)
-
-- **How to Resume Interrupted AI Work — Context Retention That Survives Model Changes:** When AI work spans multiple steps and something interrupts (model switch, restart, human pause), how do you pick up where you left off? We built TQP Execution Gates — every task step persists its full context to a database. Resume is instant. Covers: state checkpointing, work persistence patterns, and why "restart from the top" is expensive. (From TKT-0309 — Context Retention / TQP Execution Gate)
-
-- **When Your AI Content Strategy Needs a Hard Reset — Ken's LinkedIn Course Correction:** Real founder story: after weeks of scheduled content, Ken reviewed the output and said "this feels wishy-washy, no material essence." All posts cancelled, restarted from scratch. The lesson: automation doesn't create quality — it just produces volume faster. Gating automation with human taste is essential. (From W4 LinkedIn cancellation + Spark quality issues)
-
-- **Database Migration for AI Platforms — The Audit-to-Completion Pipeline:** How we moved from scattered JSON files to a proper Postgres database across 7 coordinated tickets. Covers: state table design, dual-write migration patterns, JSONB schema contracts (so bad data gets caught at the gate, not stored silently), and cron payload migration. (From TKT-0295 chain — 7 tickets closed today)
-
-## ⏳ What's Open / What's Next
-
-- **TKT-0309 Phase 2** — Teaching Yoda to use TQP Execution Gates automatically (parks tomorrow)
-- **TKT-0296** — Platform monitoring improvements (critical, open)
-- **Sprint 5 Planning** — Ceremony due. Ken needs to run this on Sunday to lock next sprint
-- **LinkedIn Content Reset** — Fresh topics and strategy at Sunday sprint planning
-- **OC2 Hardware** — ETA early July 2026, no change
-- **Model State** — DeepSeek-Pro primary. Budget tight. 14 agents registered, all with rule books now.
-- **9 tickets closed today** — heavy infrastructure day
+_A quick read for Aria & Angie — what happened today on the technical side of the platform._
 
 ---
 
-*Generated by Yoda 🟢 — ARIA_CONTEXT_SYNC | Day 32 | 2026-05-26*
+## What Yoda Built Today
+
+### 🎯 TQP Execution Gate — "AI That Remembers What It Was Doing"
+This was the big one today. We built a system that lets Yoda (and eventually all agents) save their work-in-progress to our database so that nothing gets lost if the AI session resets or the model changes. Think of it like an autosave — before Yoda moves on to the next step, the work gets checkpointed.
+
+We delivered all 5 building blocks: the contract document, the shell tool (`tqp-yoda.sh`), the rules integration, a self-test (ran a fake project through the gate — it passed), and updated Yoda's quality checklist. 5 bugs were found and fixed while building it — most of them shell scripting quirks that were silently wrong until we tested them.
+
+**Why it matters to the business:** This is the foundation for resuming interrupted work. Before today, if a session crashed mid-project, Yoda had to start over from memory. Now the progress is saved in Postgres and can be picked up where we left off.
+
+### 📝 Journal Writer — Fully Automated
+Closed a 2-day project to make the daily journal write itself. Journal entries are now captured in real-time as Ken and Yoda work — no more end-of-day reconstruction from session logs. The end-of-day finalizer just adds a header, cost summary, and business stream.
+
+### 🔍 Platform Architecture Assessment — "How Much Do Our Agents Actually Read?"
+Atlas (our enterprise architect agent) audited all 14 agents and found we're loading way too much context into every session. Yoda alone loads ~124KB — that's like giving someone a 124-page manual for a 5-minute task. 92% of our rules are duplicated across agents. We now have a 20KB roadmap with 16 specific tickets to slim this down in Sprint 6.
+
+### 🧹 Sprint 5 Cleanup
+Cleaned up 9 old tickets that were stuck in the backlog. Folded 5 into the bigger optimization project, deferred 3 to P2 (our SaaS phase), and completed one (blog cost tracking now reads from the database instead of a file). Dropped the open high-priority count from 17 to 8 — a 53% reduction.
+
+### 🚀 Sprint 6 Queue Locked
+8 tickets locked for the next sprint. Top priority: the context optimization epic (TKT-0317) based on today's Atlas assessment.
+
+---
+
+## Key Decisions Made Today
+
+1. **TQP gate goes platform-wide** — The work-checkpointing system we built for Yoda today will eventually apply to all 14 agents, not just Yoda. (Ken approved merging the "2-pass dispatch" concept into the optimization epic.)
+
+2. **Context optimization is Sprint 6 Item #1** — Before any other platform improvements, we need to fix the fact that agents are carrying ~92% duplicated context. This will save token costs and make agents faster.
+
+3. **Sprint 5 officially closed** — All remaining high-priority items either completed, folded into Sprint 6, or explicitly deferred to P2.
+
+4. **DeepSeek remains the permanent primary model** — Kimi is fallback only (decommissioned as primary, confirmed today).
+
+---
+
+## Training Content Angles
+
+New ideas extracted from today's work:
+
+- **TC-173: Checkpointing AI Work — How to Build Autosave for AI Agents** — Today's TQP gate project is a perfect case study. Covers: why AI sessions lose context, the Postgres persistence pattern, resume-from-checkpoint architecture, and 5 real bugs found during implementation.
+
+- **TC-174: The 92% Duplication Trap — Why Your AI Agents Are Reading the Same Rules 14 Times** — Atlas's context audit found massive duplication. Great lesson on progressive disclosure, shared config, and token efficiency at scale.
+
+- **TC-175: Sprint Cleanup as a Discipline — 17→8 Open Tickets in One Day** — How to batch-process a stale backlog: fold related items, defer non-urgent ones, and complete the quick wins. Real numbers from today.
+
+- **TC-176: 5 Bugs Found While Building Autosave — Shell Scripting Traps in AI Automation** — JSON quoting, brace expansion, column name mismatches, error detection failures. All real bugs fixed today — great for a "pitfalls" training module.
+
+---
+
+## What's Open / What's Next
+
+| Priority | What | Status |
+|----------|------|--------|
+| Critical | TKT-0317 — Context Optimization Epic | Queued for Sprint 6 |
+| Critical | TKT-0310 — Platform Constraints | Sprint 6 |
+| Critical | TKT-0319 — Global Agent Auto-Resume (TQP Phase 3) | Backlog epic |
+| High | TKT-0268 — PG Stability | Sprint 6 |
+| High | TKT-0269 — PG Backup | Sprint 6 |
+| High | TKT-0293 — Regression Testing Framework | Sprint 6 |
+| High | TKT-0321 — Dispatch Contract | Sprint 6 |
+| High | TKT-0322 — Model-Task Matrix | Sprint 6 |
+
+**Sprint 6:** 8 tickets total. Ceremonies due Sunday (May 31). First item: context optimization.
+
+**LinkedIn:** Paused until Sunday per Ken's quality reset. Next post due Tuesday if quality bar is met.
+
+**Model status:** DeepSeek Pro on Ollama Cloud (all agents). Stable. Claude API still depleted (CHG-0349).
+
+---
+
+_Brief auto-generated by Yoda at 23:00 AEST. Questions? Ping Yoda in Telegram._
