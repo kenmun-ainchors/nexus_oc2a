@@ -1,0 +1,464 @@
+{
+  "discovered_at": "2026-05-27T09:12:36.371906+00:00",
+  "agents": [
+    {
+      "workspace": "workspace-ahsoka",
+      "agent_name": "Ahsoka 🤍",
+      "role": "AI Transformation Consultant — Client Discovery & Proposals",
+      "model": "ollama/gemma4:31b-cloud",
+      "soul_bytes": 912,
+      "rules_bytes": 3294,
+      "total_bytes": 4206,
+      "overlaps_with": [
+        "Atlas"
+      ],
+      "shared_rules_count": 2
+    },
+    {
+      "workspace": "workspace-architect",
+      "agent_name": "Atlas 🏛️",
+      "role": "Enterprise Architect – Nexus & Enterprise Landscape",
+      "model": "ollama/gemma4:31b-cloud",
+      "soul_bytes": 2850,
+      "rules_bytes": 7263,
+      "total_bytes": 10113,
+      "overlaps_with": [
+        "Lando",
+        "Thrawn",
+        "Mon Mothma",
+        "Ahsoka"
+      ],
+      "shared_rules_count": 2
+    },
+    {
+      "workspace": "workspace-bpm",
+      "agent_name": "Lando 🟡",
+      "role": "Business Process Specialist Agent",
+      "model": "ollama/gemma4:31b-cloud",
+      "soul_bytes": 2929,
+      "rules_bytes": 6103,
+      "total_bytes": 9032,
+      "overlaps_with": [
+        "Thrawn",
+        "Mon Mothma",
+        "Atlas"
+      ],
+      "shared_rules_count": 4
+    },
+    {
+      "workspace": "workspace-business",
+      "agent_name": "Aria 🔵",
+      "role": "AI Business Operations Lead Agent for Angie Foong (CEO)",
+      "model": "ollama/gemma4:31b-cloud",
+      "soul_bytes": 4830,
+      "rules_bytes": 12443,
+      "total_bytes": 17273,
+      "overlaps_with": [
+        "Luthen",
+        "Spark"
+      ],
+      "shared_rules_count": 2
+    },
+    {
+      "workspace": "workspace-dtcm",
+      "agent_name": "Mon Mothma 🌟",
+      "role": "Digital Transformation Change Management Specialist Agent",
+      "model": "ollama/gemma4:31b-cloud",
+      "soul_bytes": 3523,
+      "rules_bytes": 6464,
+      "total_bytes": 9987,
+      "overlaps_with": [],
+      "shared_rules_count": 0
+    },
+    {
+      "workspace": "workspace-governance",
+      "agent_name": "Warden 🔍",
+      "role": "Model Governance & Compliance Officer",
+      "model": "ollama/gemma4:31b-cloud",
+      "soul_bytes": 1538,
+      "rules_bytes": 3853,
+      "total_bytes": 5391,
+      "overlaps_with": [
+        "Shield",
+        "Forge"
+      ],
+      "shared_rules_count": 2
+    },
+    {
+      "workspace": "workspace-infra",
+      "agent_name": "Forge 🏗️",
+      "role": "Infrastructure, SRE, and Build Agent — AInchors Nexus Platform",
+      "model": "ollama/gemma4:31b-cloud",
+      "soul_bytes": 1256,
+      "rules_bytes": 5771,
+      "total_bytes": 7027,
+      "overlaps_with": [
+        "Warden"
+      ],
+      "shared_rules_count": 2
+    },
+    {
+      "workspace": "workspace-legal",
+      "agent_name": "Lex ⚖️",
+      "role": "Legal Governance Agent",
+      "model": "ollama/gemma4:31b-cloud",
+      "soul_bytes": 2526,
+      "rules_bytes": 8410,
+      "total_bytes": 10936,
+      "overlaps_with": [
+        "Sage"
+      ],
+      "shared_rules_count": 2
+    },
+    {
+      "workspace": "workspace-luthen",
+      "agent_name": "Luthen 🔍",
+      "role": "Marketing Intelligence Agent",
+      "model": "ollama/gemma4:31b-cloud",
+      "soul_bytes": 2038,
+      "rules_bytes": 3905,
+      "total_bytes": 5943,
+      "overlaps_with": [
+        "Aria",
+        "Spark"
+      ],
+      "shared_rules_count": 2
+    },
+    {
+      "workspace": "workspace-platform-arch",
+      "agent_name": "Thrawn 🔵",
+      "role": "AI Platform Architect – Nexus Core",
+      "model": "ollama/gemma4:31b-cloud",
+      "soul_bytes": 3411,
+      "rules_bytes": 5553,
+      "total_bytes": 8964,
+      "overlaps_with": [
+        "Lando",
+        "Mon Mothma",
+        "Atlas"
+      ],
+      "shared_rules_count": 4
+    },
+    {
+      "workspace": "workspace-qa",
+      "agent_name": "Sage 🧪",
+      "role": "Quality Assurance Agent",
+      "model": "ollama/gemma4:31b-cloud",
+      "soul_bytes": 2034,
+      "rules_bytes": 6941,
+      "total_bytes": 8975,
+      "overlaps_with": [
+        "Lex"
+      ],
+      "shared_rules_count": 2
+    },
+    {
+      "workspace": "workspace-security",
+      "agent_name": "Shield 🔐",
+      "role": "Security Governance Agent",
+      "model": "ollama/gemma4:31b-cloud",
+      "soul_bytes": 4061,
+      "rules_bytes": 3724,
+      "total_bytes": 7785,
+      "overlaps_with": [
+        "Warden"
+      ],
+      "shared_rules_count": 2
+    },
+    {
+      "workspace": "workspace-social",
+      "agent_name": "Spark ✨",
+      "role": "Full Social and Digital Marketing Agent",
+      "model": "ollama/gemma4:31b-cloud",
+      "soul_bytes": 4524,
+      "rules_bytes": 23174,
+      "total_bytes": 27698,
+      "overlaps_with": [
+        "Luthen",
+        "Aria"
+      ],
+      "shared_rules_count": 2
+    }
+  ],
+  "yoda_context": {
+    "files": [
+      {
+        "name": "AGENTS.md",
+        "bytes": 18374,
+        "sections_count": 14,
+        "summary": "Main workspace instructions — heartbeat, memory, red lines, external/internal rules, group chat conduct"
+      },
+      {
+        "name": "SOUL.md",
+        "bytes": 4790,
+        "sections_count": 9,
+        "summary": "Yoda — Lead Orchestrator, AInchors Nexus Platform v2.2.0"
+      },
+      {
+        "name": "MEMORY.md",
+        "bytes": 9246,
+        "sections_count": 26,
+        "summary": "Yoda's long-term memory — identity, decisions, project context, agent fleet"
+      },
+      {
+        "name": "HEARTBEAT.md",
+        "bytes": 13898,
+        "sections_count": 2,
+        "summary": "Heartbeat tasks — runs every 30min, maintenance checks, proactive work"
+      },
+      {
+        "name": "RULES.md",
+        "bytes": 47586,
+        "sections_count": 34,
+        "summary": "Yoda's master rules — PG write discipline, ticket management, agent coordination, governance"
+      },
+      {
+        "name": "YODA_RULES.md",
+        "bytes": 25058,
+        "sections_count": 14,
+        "summary": "Yoda-specific rules v2.2.0 — orchestration, routing, escalation, platform operations"
+      },
+      {
+        "name": "SHARED_CONTEXT.md",
+        "bytes": 4822,
+        "sections_count": 10,
+        "summary": "Cross-agent shared context — read by every agent every session"
+      }
+    ],
+    "total_bytes": 123774,
+    "total_sections": 109
+  },
+  "model_assignments": [
+    {
+      "agent": "main (Yoda)",
+      "model": "ollama/deepseek-v4-pro:cloud",
+      "fallbacks": [
+        "ollama/gemma4:31b-cloud",
+        "ollama/kimi-k2.6:cloud"
+      ]
+    },
+    {
+      "agent": "business (Aria)",
+      "model": "ollama/deepseek-v4-pro:cloud",
+      "fallbacks": [
+        "ollama/gemma4:31b-cloud",
+        "ollama/kimi-k2.6:cloud"
+      ]
+    },
+    {
+      "agent": "security (Shield)",
+      "model": "ollama/gemma4:31b-cloud",
+      "fallbacks": [
+        "ollama/deepseek-v4-pro:cloud",
+        "ollama/kimi-k2.6:cloud"
+      ]
+    },
+    {
+      "agent": "legal (Lex)",
+      "model": "ollama/gemma4:31b-cloud",
+      "fallbacks": [
+        "ollama/deepseek-v4-pro:cloud",
+        "ollama/kimi-k2.6:cloud"
+      ]
+    },
+    {
+      "agent": "qa (Sage)",
+      "model": "ollama/gemma4:31b-cloud",
+      "fallbacks": [
+        "ollama/deepseek-v4-pro:cloud",
+        "ollama/kimi-k2.6:cloud"
+      ]
+    },
+    {
+      "agent": "governance (Warden)",
+      "model": "ollama/gemma4:31b-cloud",
+      "fallbacks": [
+        "ollama/deepseek-v4-pro:cloud",
+        "ollama/kimi-k2.6:cloud"
+      ]
+    },
+    {
+      "agent": "infra (Forge)",
+      "model": "ollama/gemma4:31b-cloud",
+      "fallbacks": [
+        "ollama/deepseek-v4-pro:cloud",
+        "ollama/kimi-k2.6:cloud"
+      ]
+    },
+    {
+      "agent": "architect (Atlas)",
+      "model": "ollama/gemma4:31b-cloud",
+      "fallbacks": [
+        "ollama/deepseek-v4-pro:cloud",
+        "ollama/kimi-k2.6:cloud"
+      ]
+    },
+    {
+      "agent": "platform-arch (Thrawn)",
+      "model": "ollama/gemma4:31b-cloud",
+      "fallbacks": [
+        "ollama/deepseek-v4-pro:cloud",
+        "ollama/kimi-k2.6:cloud"
+      ]
+    },
+    {
+      "agent": "biz-process (Lando)",
+      "model": "ollama/gemma4:31b-cloud",
+      "fallbacks": [
+        "ollama/deepseek-v4-pro:cloud",
+        "ollama/kimi-k2.6:cloud"
+      ]
+    },
+    {
+      "agent": "change-mgt (Mon Mothma)",
+      "model": "ollama/gemma4:31b-cloud",
+      "fallbacks": [
+        "ollama/deepseek-v4-pro:cloud",
+        "ollama/kimi-k2.6:cloud"
+      ]
+    },
+    {
+      "agent": "ahsoka",
+      "model": "ollama/gemma4:31b-cloud",
+      "fallbacks": [
+        "ollama/deepseek-v4-pro:cloud",
+        "ollama/kimi-k2.6:cloud"
+      ]
+    },
+    {
+      "agent": "luthen",
+      "model": "ollama/gemma4:31b-cloud",
+      "fallbacks": [
+        "ollama/deepseek-v4-pro:cloud",
+        "ollama/kimi-k2.6:cloud"
+      ]
+    },
+    {
+      "agent": "social (Spark)",
+      "model": "ollama/kimi-k2.6:cloud",
+      "fallbacks": [
+        "ollama/gemma4:31b-cloud",
+        "ollama/deepseek-v4-pro:cloud"
+      ]
+    }
+  ],
+  "model_defaults": {
+    "primary": "ollama/gemma4:31b-cloud",
+    "fallbacks": [
+      "ollama/deepseek-v4-pro:cloud",
+      "ollama/kimi-k2.6:cloud"
+    ]
+  },
+  "model3_policy_summary": {
+    "version": "1.0",
+    "date": "2026-05-10",
+    "status": "APPROVED",
+    "routing_tree": "Yoda routes: Spark (social/marketing), Atlas (enterprise arch), Thrawn (platform arch), Lando (BPM), Mon Mothma (change mgt, after Lando+Atlas), Krennic (SRE, post-OC2), Luthen (market intel, P2)",
+    "fallback_chain": "3-level: sonnet → haiku → kimi (T3), haiku → kimi (T4, upgrade to 3-level pending Gemma4 validation)",
+    "cross_cutting_rules": [
+      "Ticket-first",
+      "No direct Ken/Angie contact",
+      "No scope expansion",
+      "DRAFT by default",
+      "Warden model drift compliance (19 checks, hourly)",
+      "QBR fleet review"
+    ],
+    "atlas_assurance_role": "Option B — reviews Thrawn/Lando/Mon Mothma outputs with enterprise implications. Verdict: ALIGNED | NEEDS-REVISION | FLAG-TO-YODA. SLA: 24h. Quality gate only."
+  },
+  "overlap_analysis": {
+    "common_rules": [
+      "Non-Negotiable Rules (12 agents)",
+      "Ken approval required (12 agents)",
+      "db-read.sh for state reads (11 agents)",
+      "state_tickets reference (10 agents)",
+      "Postgres as SSOT (9 agents)",
+      "DRAFT FOR REVIEW (9 agents)",
+      "Ticket Discipline (9 agents)",
+      "Holocron template (9 agents)",
+      "agent_shared_state reference (8 agents)",
+      "Model3-Policy section (5 agents — T3 specialists)",
+      "Scope expansion requires new TKT (5 agents)",
+      "Warden compliance hourly (5 agents)",
+      "Clarification round (4 agents — design agents)",
+      "always via Yoda (4 agents — T3 specialists)",
+      "ONE clarifying question (3 agents — design agents)",
+      "Brand Code (3 agents — marketing stream)",
+      "Tail rule (3 agents — review agents)",
+      "Governance gate (3 agents — Aria/Spark/Thrawn)"
+    ],
+    "unique_per_agent": {
+      "Atlas": [
+        "TOGAF methodology"
+      ],
+      "Lando": [
+        "BPMN",
+        "Lean Six Sigma"
+      ],
+      "Mon Mothma": [
+        "ADKAR",
+        "Kotter",
+        "Prosci"
+      ],
+      "Aria": [
+        "CR RULE",
+        "KEN ID RULE",
+        "RELAY RULE",
+        "Sonnet default"
+      ],
+      "Ahsoka": [
+        "Sanctum Protocol"
+      ],
+      "Forge": [
+        "ITIL/ITSM"
+      ],
+      "Sage": [
+        "AInchors brand voice"
+      ],
+      "Warden": [
+        "model drift detection"
+      ],
+      "Spark": [
+        "LinkedIn API integration"
+      ],
+      "Thrawn": [
+        "Trade-off analysis (unique phrasing)"
+      ],
+      "Lex": [],
+      "Luthen": [],
+      "Shield": []
+    },
+    "duplication_ratio": 0.92,
+    "note": "92% of rule instances are duplicates across agents. Only 8% are domain-specific unique rules."
+  },
+  "estimated_token_burn_per_session": {
+    "yoda_per_session": 30943,
+    "yoda_inject_bytes": 123774,
+    "yoda_inject_files": [
+      "AGENTS.md",
+      "SOUL.md",
+      "MEMORY.md",
+      "HEARTBEAT.md",
+      "RULES.md",
+      "YODA_RULES.md",
+      "SHARED_CONTEXT.md"
+    ],
+    "specialist_per_session": {
+      "Ahsoka": 2257,
+      "Atlas": 3733,
+      "Lando": 3463,
+      "Aria": 5523,
+      "Mon": 3702,
+      "Warden": 2553,
+      "Forge": 2962,
+      "Lex": 3939,
+      "Luthen": 2691,
+      "Thrawn": 3446,
+      "Sage": 3449,
+      "Shield": 3151,
+      "Spark": 8130
+    },
+    "specialist_shared_inject": "SHARED_CONTEXT.md (4822 bytes)",
+    "platform_total_per_day_estimate": 79942,
+    "methodology": "Estimated at 0.25 tokens per byte of injected context. Does not include conversation history, tool output, or model thinking tokens."
+  }
+}

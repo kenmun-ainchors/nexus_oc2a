@@ -45,7 +45,13 @@ get_ticket() {
 write_ticket() {
   local tkt_id="$1"
   local payload="$2"
-  
+
+  # Validate payload is valid JSON before writing
+  if ! echo "$payload" | /opt/homebrew/bin/jq empty 2>/dev/null; then
+    log "ERROR: Invalid JSON payload. Use: ticket.sh update <TKT-ID> '{\"field\":\"value\"}'"
+    return 1
+  fi
+
   $DB_WRITE_SCRIPT state_tickets "$payload" "$tkt_id" > /dev/null
   
   if [[ -f "$TICKET_FILE" ]]; then

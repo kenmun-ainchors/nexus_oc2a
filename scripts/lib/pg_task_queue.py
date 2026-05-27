@@ -67,7 +67,7 @@ def _pg_upsert(task_id, task_dict):
 
     query = f"""
     INSERT INTO state_task_queue (id, title, tier, status, priority, source, relatedchg,
-        claimedby, claimedat, claimtimeout, createdat, updatedat, atoms, tenant_id)
+        claimedby, claimedat, claimtimeout, created_at, updatedat, atoms, tenant_id)
     VALUES ({_escape_sql(task_id)}, {title}, {tier}, {pg_status_esc}, {priority}, {source}, {related_chg},
         {claimed_by}, {claimed_at}, {claim_timeout}, {created_at}, {updated_at}, {atoms_json}, 'ainchors')
     ON CONFLICT (id) DO UPDATE SET
@@ -440,7 +440,7 @@ def sc_read_task(task_id):
         return False, None, f"State check FAILED: Task id mismatch — requested {task_id}, got {task['id']}"
 
     # Validate status is a recognized value
-    valid_statuses = {'queued', 'dispatched', 'complete', 'failed', 'cancelled', 'pending'}
+    valid_statuses = {'queued', 'dispatched', 'complete', 'failed', 'cancelled', 'pending', 'open', 'in_progress', 'backlog', 'closed'}
     status = task.get('status', '')
     if status not in valid_statuses:
         return False, None, f"State check FAILED: Task {task_id} has invalid status '{status}'"
@@ -544,10 +544,10 @@ def sc_persist_atom(task_id, atom_index, state_payload, execution_context=None, 
     query = f"""
     UPDATE state_task_queue SET
         atom_index = {atom_index},
-        state_payload = '{payload_json}',
-        execution_context = '{context_json}',
+        state_payload = {_escape_sql(payload_json)}::jsonb,
+        execution_context = {_escape_sql(context_json)}::jsonb,
         persistence_type = {_escape_sql(persistence_type)},
-        updatedat = {_escape_sql(now)},
+        updated_at = {_escape_sql(now)},
         updated_at_ts = now()
     WHERE id = {_escape_sql(task_id)}
     """
@@ -555,8 +555,8 @@ def sc_persist_atom(task_id, atom_index, state_payload, execution_context=None, 
         query = query.rstrip()[:-1] + f", parent_task_id = {_escape_sql(parent_task_id)} WHERE id = {_escape_sql(task_id)}"
 
     result = _pg(query)
-    if result == "ERROR":
-        return False, f"State check FAILED: PG write failed for {task_id}, atom_index={atom_index}. Atom does NOT advance."
+    if not result or "ERROR" in result.upper():
+        return False, f"State check FAILED: PG write failed for {task_id}, atom_index={atom_index}. Result: {result[:100] if result else 'EMPTY'}. Atom does NOT advance."
 
     # VERIFY
     verified = pg_read_task(task_id)

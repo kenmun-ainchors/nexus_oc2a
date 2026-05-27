@@ -1,0 +1,27 @@
+# TKT-0317 Epic Scope — Locked 2026-05-27 19:30 AEST
+# Merged: TKT-0313 (2-Pass Dispatch Architecture) into Phase 1
+# Assessment: docs/deliverables/TKT-0317-Context-Optimization-Assessment-v1.0.md
+
+## Three Themes
+1. Progressive Disclosure — tiered context loading (Essential/Situational/Never-Needed)
+2. Model-Task Fit — match model capability to task complexity  
+3. Path Safety — scope-restrict agent filesystem access
+
+## 2-Pass Dispatch Discipline (merged from TKT-0313)
+Platform-wide rule: No executor receives undiscovered work.
+Any agent dispatching to any agent MUST separate discovery from execution.
+NOT Yoda-only — applies to Aria→Spark, Forge→self, Cron→agent, etc.
+
+## Phase 1 Sub-Tickets (Sprint 6)
+- TKT-0321: Dispatch contract + rules update (A1+A2 from TKT-0313)
+- TKT-0322: Model-task routing matrix (A3 from TKT-0313)
+- TKT-0323: Pre-dispatch validator dispatch-validate.sh (A4 from TKT-0313, Forge)
+- TKT-0324: TQP integration + rollout test (A5+A6 from TKT-0313)
+
+## Originating
+- TKT-0313 (merged into this epic)
+- L-047 (Agent Task Scope vs Model Capability)
+
+## Estimated Savings
+- 55-64% Yoda context reduction
+- 3x efficiency on specialist dispatches

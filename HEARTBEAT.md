@@ -235,7 +235,8 @@ Responses today: 3 | Drifts: 1
 ### Journal Completeness Check (check at 23:00 AEST)
 🚨 OVERRIDES the "HEARTBEAT NEVER TOUCHES EOD" rule — this is a safety check, not EOD generation.
 - Check: does `/Users/ainchorsangiefpl/.openclaw/workspace/memory/journal-YYYY-MM-DD.md` exist for TODAY's date and is >500 bytes?
-- If MISSING or EMPTY: alert Ken via Telegram: "⚠️ Journal may be incomplete: today's journal file is [missing/undersized]. Journal incremental writer may be failing."
+- If MISSING or EMPTY: alert Ken via Telegram: "⚠️ Journal may be incomplete: today's journal file is [missing/undersized]. Journal inline writes may be failing."
 - If EXISTS and >500 bytes: no action.
 - State key: lastChecks.journalCompleteness
 - Raised: PIA 2026-05-23 (journal incremental writer timeout)
+- Note: journal-append.sh writes inline now (TKT-0296). No separate incremental writer exists.

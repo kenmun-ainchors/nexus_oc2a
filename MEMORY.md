@@ -102,17 +102,8 @@ Nexus=platform|Holocron=AKB|Bridge=cmd-centre|Citadel=client-portal|Holonet=live
 - Defaults primary=Haiku, Warden=Haiku. BYOK+Nexus-first.
 - CI Cycle A/B decommissioned 2026-05-24 (CHG-0428). Replaced by Warden 15-min drift monitoring + monthly model strategy review.
 
-
-## kimi Policy — DECOMMISSIONED 2026-05-26 (preserved for historical record)
-DeepSeek is now permanent primary model. kimi remains as fallback only.
-- **Original policy (2026-05-15):** kimi = standup only (telegram + email cron)
-- **Original restriction:** NEVER use kimi for complex orchestration, multi-ticket routing, state tracking, CHG decisions
-- **INCIDENT CONTEXT (2026-05-15):** Claude API credits depleted unexpectedly (CHG-0348/0349). Emergency: all 12 agents switched to kimi→deepseek-pro fallback 17:19 AEST. Reverted 14:47 AEST (CHG-0336) after Sonnet restored. kimi confined to standup only going forward. Root cause investigation: TKT-0165 (cost tracking gaps), TKT-0175 (ephemeral session capture). Cost balance recovered via auto-reload.
-- **kimi = standup only** (telegram + email cron)
-- **Webchat + Telegram = Sonnet**
-- **NEVER use kimi for:** complex orchestration, multi-ticket routing, state tracking, CHG decisions
-- **kimi tasks:** routine, single-thread, background, non-interactive
-- **INCIDENT CONTEXT (2026-05-15):** Claude API credits depleted unexpectedly (CHG-0348/0349). Emergency: all 12 agents switched to kimi→deepseek-pro fallback 17:19 AEST. Reverted 14:47 AEST (CHG-0336) after Sonnet restored. kimi confined to standup only going forward. Root cause investigation: TKT-0165 (cost tracking gaps), TKT-0175 (ephemeral session capture). Cost balance recovered via auto-reload.
+## kimi Policy — DECOMMISSIONED 2026-05-26
+DeepSeek = permanent primary. kimi = fallback only. Full history: `memory/MEMORY-archive-2026-05-27.md`.
 
 - 2026-05-25: TKT-0295 (PG Audit) parked due to Tier 3 budget breach. Reports from Atlas and Thrawn are delivered but pending final review. Resume tomorrow with DeepSeek.
 ---
@@ -130,3 +121,23 @@ DeepSeek is now permanent primary model. kimi remains as fallback only.
 **TKT-0309 Context Retention — TQP Execution Gate:** Atlas assessed 4-layer stack → "hydration void" identified. Thrawn designed Option E (TQP as gate, not hook). Ken approved. Phase 1 built: 5 new schema columns + sc_persist_atom + sc_resume_context. Phase 2 (Yoda inline adoption) parked for tomorrow.
 
 **Platform state:** 14 agents registered. 18 PG tables. 235 tickets. TOM operational. Sprint 5 planning, not committed. LinkedIn paused until Sunday. 2 criticals open: TKT-0296 (monitoring), TKT-0309 (Phase 2 pending).
+
+---
+
+## Day 33 End-of-Day (2026-05-27) — Sprint 5 Cleanup + Sprint 6 Queued
+
+**TKT-0309 Phase 2 — COMPLETE:** 5 atoms delivered (contract, tqp-yoda.sh wrapper, AGENTS.md integration, self-test, DoD gate). 5 bugs found+fixed during implementation. TQP gate now operational. TKT-0309 closed. Aria + Global phases raised as TKT-0318 + TKT-0319.
+
+**TKT-0296 Journal Writer — COMPLETE:** EOD finalizer cron simplified. HEARTBEAT.md stale refs fixed. 2-day observation passed. Journal fully inline via journal-append.sh.
+
+**TKT-0313 2-Pass Dispatch — MERGED into TKT-0317:** Ken corrected scope: discipline is platform-wide, NOT Yoda-only. "No executor receives undiscovered work." 4 sub-tickets raised (TKT-0321-0324).
+
+**TKT-0317 Epic Groomed:** Atlas delivered 20KB assessment via 2-pass execution (discovery JSON → assessment doc in 3m38s). Findings: 92% rule duplication, Yoda 123.8KB context, 5 over-privileges, 16 proposed tickets. Sprint 6 first item.
+
+**Sprint 5 Cleanup:** 9 high tickets processed. 5 folded into TKT-0317 (0178, 0182, 0188, 0228, 0230). 3 deferred to P2 (0128, 0137, 0318). TKT-0305 completed. Open critical+high: 17 → 8 (53% reduction).
+
+**CHGs:** CHG-0430 through CHG-0442 (13 today)
+
+**Sprint 6 queue (locked):** TKT-0310 (Platform Constraints), TKT-0317 (Context Epic + 4 sub), TKT-0268 (PG Stability), TKT-0269 (PG Backup), TKT-0293 (Regression), TKT-0321-0322 (Dispatch)
+
+**Platform state:** 14 agents. 18 PG tables. 251 tickets. TQP execution gate live for Yoda. Journal inline writes stable. Sprint 5 clean. Sprint 6 queued.

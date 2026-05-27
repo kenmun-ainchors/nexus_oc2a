@@ -93,6 +93,28 @@ Full rule: `RULES.md` → LESSONS REGISTRY RULE.
 4. Produce the deliverable — do NOT self-report "done"
 5. Platform verifies: file exists? git committed? tests pass?
 
+**TQP EXECUTION GATE (TKT-0309 — Phase 2):**
+To eliminate ephemeral state loss, Yoda now operates under a mandatory persistence discipline:
+- **Persistence Requirement:** No atom is considered complete until its state is committed to the TQP ledger.
+- **The Sequence:** `Execute Atom` → `Call tqp-yoda.sh persist (commit to PG)` → `Announce Completion`.
+- **No Skipping:** Never announce "Done" or "Completed" before the persist call returns `{"ok": true}`.
+- **Auto-Resume:** On session restart or model switch, run `tqp-yoda.sh resume <TKT>` to reconstitute the last stable state before proceeding.
+
+**Usage:**
+```bash
+# After executing an atom:
+bash /Users/ainchorsangiefpl/.openclaw/workspace/scripts/tqp-yoda.sh persist TKT-NNNN <atom_index> '<state_payload_json>' '<execution_context_json>'
+
+# On session start or after sessions_yield:
+bash /Users/ainchorsangiefpl/.openclaw/workspace/scripts/tqp-yoda.sh resume TKT-NNNN
+# → Returns last_atom_index, next_atom, state_payload, execution_context
+
+# Quick status check:
+bash /Users/ainchorsangiefpl/.openclaw/workspace/scripts/tqp-yoda.sh check TKT-NNNN
+```
+
+**Schema contract:** `docs/deliverables/TKT-0309-Yoda-Inline-TQP-Contract-v1.0.md`
+
 **Enforcement:** OWL guard activates automatically. TQP verifies output. DoD gate blocks close without proof. Quality is the #1 mandate. NEVER compromise.
 ## External vs Internal
 

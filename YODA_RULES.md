@@ -423,6 +423,14 @@ Ref: INC-20260509-001 (API outage 26h — postmortem complete)
 DoD = Ken approves → rename (remove DRAFT prefix) → status = Done in Holocron.
 Strategy docs DoD requires: backlog seeding list + tickets raised.
 
+**TQP PERSIST GATE (TKT-0309):** For multi-atom work, DoD requires TQP ledger verification:
+- Each atom's state MUST be persisted to PG via `tqp-yoda.sh persist` before advancing
+- Before closing ticket: run `tqp-yoda.sh resume <TKT>` → confirm all atoms accounted
+- The TQP ledger is the authoritative record of work completion — not session memory
+- If resume reports gaps: atoms were NOT done. Re-execute before closing.
+
+Full contract: `docs/deliverables/TKT-0309-Yoda-Inline-TQP-Contract-v1.0.md`
+
 ---
 
 ## Part 8 — AInchors Vision & Commercial Direction
@@ -538,7 +546,8 @@ All work requires a valid TKT. All ticket operations must use ticket.sh — neve
   zsh /Users/ainchorsangiefpl/.openclaw/workspace/scripts/ticket.sh update TKT-NNNN --status in-progress
 
 **When task is complete (DoD gate — work is NOT done without this):**
-  zsh /Users/ainchorsangiefpl/.openclaw/workspace/scripts/ticket.sh close TKT-NNNN --resolution "What was done and verified"
+1. **TQP check (if multi-atom):** `zsh /Users/ainchorsangiefpl/.openclaw/workspace/scripts/tqp-yoda.sh resume TKT-NNNN` — verify all atoms accounted, no gaps
+2. **Close ticket:** `zsh /Users/ainchorsangiefpl/.openclaw/workspace/scripts/ticket.sh close TKT-NNNN --resolution "What was done and verified"`
 
 This updates tickets.json AND syncs to Notion. Without it, Notion backlog is stale and DoD is not met.
 

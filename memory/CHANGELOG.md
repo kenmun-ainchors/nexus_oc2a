@@ -106,6 +106,175 @@
 **Linked:** CHG-0349, CHG-0350, TKT-0165, TKT-0175
 ---
 
+## 2026-05-27 19:53 AEST — [CHG-0442] Sprint 5: 9 open highs processed — 5 folded, 3 deferred, TKT-0305 completed
+**Type:** config
+**Change Type:** Normal
+**Source:** manual
+**Trigger:** Ken Sprint 5 review — batch decision on 9 open high tickets
+**What changed:** TKT-0305 completed: blog cron migrated from cost-state.json file → db-read.sh state_cost (PG SSOT). 5 tickets folded into TKT-0317: TKT-0178, 0182, 0188, 0228, 0230 — all addressed by context optimization epic sub-tickets TKT-0321-0324. 3 tickets deferred to P2: TKT-0128 (Aria mandate), TKT-0137 (Policy Register), TKT-0318 (Aria TQP). TKT-0268 + 0269 locked to Sprint 6. Open critical+high reduced from 17 to 8.
+**Why:** Cleanup reduces open high count by 53%. TKT-0317 epic absorbs related work. Remaining tickets are well-scoped Sprint 6 items.
+**Verification:** 8 open: 3 critical (TKT-0310, 0317, 0319) + 5 high (TKT-0268, 0269, 0293, 0321, 0322). All have Sprint 6 or P2 assignments.
+**Rollback:** N/A
+**Linked:** TKT-0178,TKT-0182,TKT-0188,TKT-0228,TKT-0230,TKT-0128,TKT-0137,TKT-0318,TKT-0268,TKT-0269,TKT-0305
+---
+
+
+## 2026-05-27 19:38 AEST — [CHG-0441] TKT-0316 folded into TKT-0317 + TKT-0310/0293 locked to Sprint 6
+**Type:** config
+**Change Type:** Normal
+**Source:** manual
+**Trigger:** Ken Sprint 5 review decisions
+**What changed:** 1) TKT-0316 closed — DeepSeek ~ bug folded into TKT-0317 Path Safety theme. Pre-dispatch validator (TKT-0323) will catch absolute path violations before dispatch. 2) TKT-0310 (Platform Constraints) locked to Sprint 6 as critical. 3) TKT-0293 (Regression Testing) locked to Sprint 6 as high.
+**Why:** TKT-0316 is solved by TKT-0317 architecture — systematic fix beats one-off. TKT-0310 + 0293 are the next operational priorities after context optimization.
+**Verification:** TKT-0316 closed. TKT-0310/0293 notes updated with Sprint 6 assignment.
+**Rollback:** N/A
+**Linked:** TKT-0316,TKT-0317,TKT-0310,TKT-0293
+---
+
+
+## 2026-05-27 19:31 AEST — [CHG-0440] TKT-0313 merged into TKT-0317 Phase 1 + 4 sub-tickets raised
+**Type:** config
+**Change Type:** Normal
+**Source:** manual
+**Trigger:** Ken approved Option C: merge 2-pass dispatch into context optimization epic
+**What changed:** TKT-0313 closed (merged). TKT-0317 epic scope locked with 3 themes + 2-pass discipline. Phase 1 sub-tickets: TKT-0321 (contract+rules), TKT-0322 (model-task matrix), TKT-0323 (pre-dispatch validator), TKT-0324 (TQP+rollout). Key design change: 2-pass discipline is platform-wide, NOT Yoda-only — applies to all agent-to-agent dispatches. Scope doc: state/tkt-0317-scope.json.
+**Why:** 2-pass dispatch and context optimization share the same architectural foundation. Merging eliminates false dependency and keeps one epic, one plan.
+**Verification:** 6 tickets confirmed: TKT-0313 closed, TKT-0317 critical+open, TKT-0321-0324 all open with correct priorities. Scope doc written.
+**Rollback:** N/A
+**Linked:** TKT-0313,TKT-0317,TKT-0321,TKT-0322,TKT-0323,TKT-0324
+---
+
+
+## 2026-05-27 19:17 AEST — [CHG-0439] TKT-0320 complete: Atlas 2-Pass Assessment for TKT-0317 Epic
+**Type:** doc
+**Change Type:** Normal
+**Source:** manual
+**Trigger:** TKT-0320 Atlas spawn + 2-pass execution
+**What changed:** Atlas delivered Context Optimization Assessment: docs/deliverables/TKT-0317-Context-Optimization-Assessment-v1.0.md (20KB, 8 sections). Pass 1: discovery JSON (12.7KB, all 14 agents audited). Pass 2: assessment doc written from structured data in 3m38s. Key findings: 92% rule duplication, Yoda 123.8KB context, 5 over-privilege findings, 16 proposed tickets across 3 phases, 55-64% estimated Yoda savings.
+**Why:** TKT-0317 epic needed architectural assessment before Sprint 6 planning. 2-pass pattern (discovery + execution) validated L-047 lesson — separate discovery from execution.
+**Verification:** File exists (20,199 bytes). All 8 sections present: Executive Summary, Audit, Progressive Disclosure, Model-Task Fit, Path Safety, Roadmap, Recommendations, Approval Gates. DRAFT FOR REVIEW.
+**Rollback:** N/A
+**Linked:** TKT-0317,TKT-0320,TKT-0313
+---
+
+
+## 2026-05-27 19:01 AEST — [CHG-0438] TKT-0317 groomed — deferred to Atlas+Thrawn assessment (TKT-0320)
+**Type:** config
+**Change Type:** Normal
+**Source:** manual
+**Trigger:** Ken approved Option A: defer to Sprint 6 with Atlas+Thrawn pre-work
+**What changed:** TKT-0317 (Agent Context Optimization epic) groomed: 3 themes identified (Progressive Disclosure, Model-Task Fit, Path Safety). Yoda loads ~124KB context per session, agents load 4-28KB each. TKT-0320 raised (Atlas+Thrawn joint assessment) as pre-work for Sprint 6. Assessment spawned as sub-agent (Atlas, deepseek-v4-pro).
+**Why:** Epic too broad for single groom — needs architectural assessment before breaking into sprint tickets
+**Verification:** TKT-0320 created with 5-section scope. TKT-0317 notes updated with deferral rationale. Atlas sub-agent running.
+**Rollback:** N/A
+**Linked:** TKT-0317,TKT-0320
+---
+
+
+## 2026-05-27 18:55 AEST — [CHG-0437] TKT-0296: Journal Writer fixed — EOD finalizer simplified + HEARTBEAT cleaned
+**Type:** script
+**Change Type:** Normal
+**Source:** manual
+**Trigger:** TKT-0296 2-day observation checkpoint passed
+**What changed:** Three atoms: (1) EOD finalizer cron 4d926b2c payload simplified — removed session_history catch-up, incremental writer references, complex reconstruction. Now 4 steps: header + cost + business stream + git commit. (2) HEARTBEAT.md journal check alert text updated from 'incremental writer may be failing' to 'inline writes may be failing' + added TKT-0296 note. (3) End-to-end verification: journal-append.sh active, 10 entries today, AGENTS.md discipline locked.
+**Why:** Design doc approved 2 days ago with 2-day observation period. Observation passed. Remaining work was stale payload + stale refs.
+**Verification:** journal-append.sh writes inline. EOD finalizer no longer does reconstruction. HEARTBEAT clean. 10 entries today (5.4KB).
+**Rollback:** N/A
+**Linked:** TKT-0296
+---
+
+
+## 2026-05-27 18:49 AEST — [CHG-0436] ticket.sh: add JSON payload validation to write_ticket
+**Type:** script
+**Change Type:** Normal
+**Source:** manual
+**Trigger:** TKT-0309 close — ticket.sh update --notes silently passed bad JSON to db-write.sh
+**What changed:** Added jq empty validation to write_ticket() in scripts/ticket.sh. Non-JSON payload (like --notes flags) now caught before PG write with clear error message showing correct usage.
+**Why:** ticket.sh update accepts raw JSON as $3 with no validation. Bad input (like --notes flag) passes through to db-write.sh which fails with cryptic 'SQL generation failed'. Guard prevents silent failures and gives actionable error.
+**Verification:** Bad input: 'ERROR: Invalid JSON payload'. Good input: update + Notion sync succeeds.
+**Rollback:** N/A
+**Linked:** TKT-0309
+---
+
+
+## 2026-05-27 18:46 AEST — [CHG-0435] TKT-0309 closed + TKT-0318/0319 raised for Phase 2 Aria + Phase 3 Global
+**Type:** config
+**Change Type:** Normal
+**Source:** manual
+**Trigger:** TKT-0309 Phase 2 delivery complete
+**What changed:** TKT-0309 closed (Phase 2 Yoda: 5 atoms). TKT-0318 raised: Aria Business Task TQP Integration (high, backlog). TKT-0319 raised: TQP Phase 3 Global Agent Auto-Resume Protocol (critical, epic). Aria and global agent phases now have dedicated tickets — clean separation from the closed Yoda phase.
+**Why:** Approved design has 3 phases. Yoda done. Aria + Global need their own tickets for Sprint planning.
+**Verification:** TKT-0309 status=closed in PG. TKT-0318 + TKT-0319 exist in state_tickets with correct priority+status.
+**Rollback:** N/A
+**Linked:** TKT-0309,TKT-0318,TKT-0319
+---
+
+
+## 2026-05-27 18:43 AEST — [CHG-0434] DoD Gate updated with TQP persist requirement
+**Type:** doc
+**Change Type:** Normal
+**Source:** manual
+**Trigger:** TKT-0309 Atom A5 — Phase 2 complete
+**What changed:** YODA_RULES.md R25 DoD Gate: added TQP PERSIST GATE subsection (4 requirements: persist each atom, resume before close, TQP = authoritative, gaps = re-execute). Ticket Discipline DoD Gate: now 2-step close — (1) tqp-yoda.sh resume to verify all atoms, (2) ticket.sh close. Both reference TKT-0309 contract doc.
+**Why:** DoD gate must enforce TQP persistence — without it, the gate is incomplete and atoms can still be lost to session compaction
+**Verification:** Resume shows all 5 atoms (A1-A5) accounted, last_atom_index=5. Contract doc linked in both sections.
+**Rollback:** N/A
+**Linked:** TKT-0309
+---
+
+
+## 2026-05-27 18:42 AEST — [CHG-0433] TQP self-test: 3-atom gate validation passed
+**Type:** script
+**Change Type:** Normal
+**Source:** manual
+**Trigger:** TKT-0309 Atom A4
+**What changed:** Executed TKT-TEST-TQP: 3 atoms (create file → modify → resume+cleanup) all gated through tqp-yoda.sh persist. All 3 returned ok=true. Resume correctly reported last_atom_index=1, next_atom=2. PG verified all 3 atom records complete.
+**Why:** Self-test validates the full TQP gate pipeline: persist → verify → resume → continue. Proves the gate actually works end-to-end.
+**Verification:** PG shows TKT-TEST-TQP with atom_index=2, all 3 atoms complete. Resume protocol correctly identified next atom.
+**Rollback:** N/A
+**Linked:** TKT-0309
+---
+
+
+## 2026-05-27 18:39 AEST — [CHG-0432] AGENTS.md TQP Execution Gate updated with concrete invocation paths
+**Type:** doc
+**Change Type:** Normal
+**Source:** manual
+**Trigger:** TKT-0309 Atom A3
+**What changed:** Replaced abstract sc_persist_atom/sc_read references in AGENTS.md OWL Execution Contract with concrete tqp-yoda.sh invocations: persist (with JSON payload args), resume (returns last/next atom), check. Added schema contract doc link.
+**Why:** Yoda needs actionable commands in AGENTS.md, not abstract function names — the contract must be executable on session load
+**Verification:** Section reads correctly with bash commands, absolute paths, and contract doc reference
+**Rollback:** N/A
+**Linked:** TKT-0309
+---
+
+
+## 2026-05-27 18:36 AEST — [CHG-0431] tqp-yoda.sh wrapper created for TKT-0309 Phase 2
+**Type:** script
+**Change Type:** Normal
+**Source:** manual
+**Trigger:** TKT-0309 Atom A2
+**What changed:** Created scripts/tqp-yoda.sh — 3 modes (persist/resume/check) wrapping sc_persist_atom + sc_resume_context + pg_read_task via env vars. Fixed 2 bugs: sc_read_task valid_statuses missing 'open'/'in_progress'/'backlog'/'closed', and zsh setopt localoptions causing brace expansion on JSON default values.
+**Why:** Yoda needs lightweight shell wrapper to persist atoms inline without Python boilerplate every time
+**Verification:** All 7 test cases pass. persist atom_index=2 written to PG. Resume correctly reports last atom 1, next atom 2.
+**Rollback:** N/A
+**Linked:** TKT-0309
+---
+
+
+## 2026-05-27 18:30 AEST — [CHG-0430] sc_persist_atom fixes for A1 gate pass
+**Type:** script
+**Change Type:** Normal
+**Source:** manual
+**Trigger:** TKT-0309 Phase 2 Atom A1
+**What changed:** Fixed 3 bugs in sc_persist_atom
+**Why:** TQP execution gate must actually persist
+**Verification:** PG confirms all fields correct
+**Rollback:** N/A
+**Linked:** TKT-0309
+---
+
+
 ## 2026-05-23 22:39 AEST — [CHG-0429] CHG-0429: Auto-Heal Fail-Safe Reporting
 **Type:** script
 **Change Type:** Normal
