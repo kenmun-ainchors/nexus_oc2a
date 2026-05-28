@@ -1,57 +1,57 @@
 {
-  "generatedAt": "2026-05-27T14:02:33.085687+00:00",
+  "generatedAt": "2026-05-28T14:15:26.512301+00:00",
   "windowDays": 7,
   "note": "Duration = end-to-end cron task time (includes LLM call + tool use). TTFT instrumentation pending gateway-level hooks.",
   "overall": {
-    "sampleCount": 12831,
-    "avgMs": 11066,
+    "sampleCount": 13166,
+    "avgMs": 10503,
     "peakMs": 552642,
     "minMs": 1
   },
   "byModel": {
     "kimi-k2.6:cloud": {
-      "sampleCount": 6,
-      "avgMs": 176346,
+      "sampleCount": 5,
+      "avgMs": 75670,
       "minMs": 47377,
-      "maxMs": 374303,
-      "p50Ms": 73870,
-      "p95Ms": 374303,
-      "avgTokens": 40685
+      "maxMs": 114351,
+      "p50Ms": 68881,
+      "p95Ms": 73870,
+      "avgTokens": 19973
     },
     "deepseek-v4-flash:cloud": {
-      "sampleCount": 25,
-      "avgMs": 20713,
-      "minMs": 6208,
+      "sampleCount": 19,
+      "avgMs": 21805,
+      "minMs": 6623,
       "maxMs": 78429,
       "p50Ms": 9976,
-      "p95Ms": 57407,
-      "avgTokens": 8500
+      "p95Ms": 65923,
+      "avgTokens": 8353
     },
     "gemma4:26b": {
-      "sampleCount": 10447,
-      "avgMs": 11435,
+      "sampleCount": 10207,
+      "avgMs": 11048,
       "minMs": 2562,
       "maxMs": 552642,
-      "p50Ms": 7669,
-      "p95Ms": 30066,
-      "avgTokens": 9832
+      "p50Ms": 7464,
+      "p95Ms": 29184,
+      "avgTokens": 9891
     },
     "deepseek-v4-pro:cloud": {
-      "sampleCount": 1965,
-      "avgMs": 9397,
+      "sampleCount": 2266,
+      "avgMs": 9615,
       "minMs": 4237,
       "maxMs": 551616,
-      "p50Ms": 5877,
-      "p95Ms": 20509,
-      "avgTokens": 9975
+      "p50Ms": 5989,
+      "p95Ms": 22504,
+      "avgTokens": 10030
     },
     "claude-sonnet-4-6": {
-      "sampleCount": 388,
-      "avgMs": 6390,
+      "sampleCount": 669,
+      "avgMs": 4378,
       "minMs": 1,
-      "maxMs": 120144,
+      "maxMs": 120186,
       "p50Ms": 3,
-      "p95Ms": 58473,
+      "p95Ms": 28678,
       "avgTokens": 0
     }
   }

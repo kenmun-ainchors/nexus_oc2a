@@ -38,7 +38,7 @@ run_task() {
   start_ms=$(python3 -c "import time; print(int(time.time()*1000))")
 
   local output
-  output=$(ollama run "$MODEL" "$prompt" --nowordwrap 2>/dev/null | head -c 2000 || echo "ERROR: model failed")
+  output=$( /usr/local/bin/ollama run "$MODEL" "$prompt" --nowordwrap 2>/dev/null | head -c 2000 || echo "ERROR: model failed")
 
   end_ms=$(python3 -c "import time; print(int(time.time()*1000))")
   duration_ms=$((end_ms - start_ms))
@@ -70,11 +70,11 @@ run_task() {
 }
 
 # ── Check model is available ─────────────────────────────────────────────────
-if ! ollama list 2>/dev/null | grep -q "${MODEL}"; then
+MODEL_FOUND=$(/usr/local/bin/ollama list 2>/dev/null | grep -cF "$MODEL" || true)
+if [ "$MODEL_FOUND" -eq 0 ]; then
   echo "❌ Model $MODEL not found. Run: ollama pull $MODEL"
   exit 1
 fi
-
 echo ""
 echo "Model loaded. Running tasks..."
 

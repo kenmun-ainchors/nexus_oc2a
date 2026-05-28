@@ -38,15 +38,24 @@ TURN_RATES = {
     "claude-opus-4-7": 25000,
 }
 
-# Per-token rates ($/token) — Anthropic API pricing
+# Per-token rates ($/token) — Anthropic API + Ollama Cloud fair-value
+# Ollama Cloud: subscription-aligned rates derived from market comparables,
+# scaled to $100 USD/month at current usage. See cost-state.json for methodology.
+# Approved by Ken 2026-05-28. CHG-0443.
 MODEL_RATES = {
+    # Anthropic API — actual per-token costs
     "claude-sonnet-4-6": 0.000003,   # blended input/output/cache rate
     "claude-haiku-4-5": 0.0000008,
     "claude-opus-4-7": 0.000015,
-    "kimi-k2.6:cloud": 0.0,
-    "deepseek-v4-pro:cloud": 0.0,
-    "gemma4:31b-cloud": 0.0,
-    "gemma4:e2b": 0.0,
+    # Ollama Cloud — subscription-aligned fair-value (per 1M tokens: see cost-state.json)
+    # Rates are per single token here (cost-state.json stores per 1M for readability)
+    "deepseek-v4-pro:cloud": 0.0000000425,
+    "kimi-k2.6:cloud": 0.0000000309,
+    "gemma4:31b-cloud": 0.0000000155,
+    "deepseek-v4-flash:cloud": 0.0000000108,
+    "gemma4:26b": 0.0000000093,
+    "gemma4:e2b": 0.0000000046,
+    # Non-billable
     "gateway-injected": 0.0,
     "delivery-mirror": 0.0,
 }
@@ -412,13 +421,17 @@ TURN_RATES = {
 }
 
 MODEL_RATES = {
+    # Anthropic API — actual per-token costs
     "claude-sonnet-4-6": 0.000003,
     "claude-haiku-4-5": 0.0000008,
     "claude-opus-4-7": 0.000015,
-    "kimi-k2.6:cloud": 0.0,
-    "deepseek-v4-pro:cloud": 0.0,
-    "gemma4:31b-cloud": 0.0,
-    "gemma4:e2b": 0.0,
+    # Ollama Cloud — subscription-aligned fair-value
+    "deepseek-v4-pro:cloud": 0.0000000425,
+    "kimi-k2.6:cloud": 0.0000000309,
+    "gemma4:31b-cloud": 0.0000000155,
+    "deepseek-v4-flash:cloud": 0.0000000108,
+    "gemma4:26b": 0.0000000093,
+    "gemma4:e2b": 0.0000000046,
 }
 
 total_cost = 0.0

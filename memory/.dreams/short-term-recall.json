@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "updatedAt": "2026-05-27T09:45:57.596Z",
+  "updatedAt": "2026-05-28T13:55:07.315Z",
   "entries": {
     "memory:memory/2026-04-26.md:94:122": {
       "key": "memory:memory/2026-04-26.md:94:122",
@@ -345,13 +345,13 @@
       "endLine": 725,
       "source": "memory",
       "snippet": "- Ken's webchat to Yoda also affected - **Decision: Option C — Aria moved to Sonnet permanently. Gemma4 for background crons only.** ### CHG-0037: Aria Model → Sonnet (Permanent) - Aria primary model: Gemma4 → `anthropic/claude-sonnet-4-6` - Gemma4 retained for: backup crons, cost tracker, non-interactive batch work only - Tail message updated: `⚙️ Model: Sonnet` (escalation prompt removed) - `critical-config-baseline.json` updated (config-008) --- ## 21:00–21:55 AEST — Telegram Architecture Overhaul (B1: Dual Bot) ### Problem - Ken's Telegram messages kept routing to Aria despite binding fixes - Root cause: stale session in business agent for Ken's chatId (8574109706) — persisted throug",
-      "recallCount": 15,
+      "recallCount": 18,
       "dailyCount": 0,
       "groundedCount": 0,
-      "totalScore": 6.452038088440895,
+      "totalScore": 7.668239635229111,
       "maxScore": 0.4560945719480514,
       "firstRecalledAt": "2026-04-29T05:13:49.704Z",
-      "lastRecalledAt": "2026-05-27T01:01:12.320Z",
+      "lastRecalledAt": "2026-05-28T03:01:04.242Z",
       "queryHashes": [
         "ebff508a49a4",
         "f19d93029481",
@@ -362,7 +362,8 @@
         "b515bed3ff57",
         "9b81481f84c4",
         "c43320e90092",
-        "b8fe2bd53137"
+        "b8fe2bd53137",
+        "8b77f4446696"
       ],
       "recallDays": [
         "2026-04-29",
@@ -373,7 +374,8 @@
         "2026-05-24",
         "2026-05-25",
         "2026-05-26",
-        "2026-05-27"
+        "2026-05-27",
+        "2026-05-28"
       ],
       "conceptTags": [
         "backup",
@@ -426,13 +428,13 @@
       "endLine": 12,
       "source": "memory",
       "snippet": "# 2026-04-25 ## Bootstrap - Identity set: Yoda 🟢 — AI business operations lead agent - User: Ken Mun (call him Ken), Melbourne GMT+10 - Primary channel: web chat - Secondary channel: Telegram (urgent/offline only) - Telegram paired and tested — working ## Config notes - Security flag: Telegram group commands have no sender allowlist — low risk (personal use only), revisit later",
-      "recallCount": 19,
+      "recallCount": 22,
       "dailyCount": 0,
       "groundedCount": 0,
-      "totalScore": 8.045912915468215,
+      "totalScore": 9.290047928690909,
       "maxScore": 0.46624842584133147,
       "firstRecalledAt": "2026-04-30T22:06:08.100Z",
-      "lastRecalledAt": "2026-05-27T01:01:12.320Z",
+      "lastRecalledAt": "2026-05-28T03:01:04.242Z",
       "queryHashes": [
         "f19d93029481",
         "763c944a8b88",
@@ -447,7 +449,8 @@
         "ede920ea8241",
         "9b81481f84c4",
         "66bf565b9387",
-        "b8fe2bd53137"
+        "b8fe2bd53137",
+        "8b77f4446696"
       ],
       "recallDays": [
         "2026-05-01",
@@ -458,7 +461,8 @@
         "2026-05-23",
         "2026-05-24",
         "2026-05-25",
-        "2026-05-27"
+        "2026-05-27",
+        "2026-05-28"
       ],
       "conceptTags": [
         "urgent/offline",
@@ -1606,13 +1610,13 @@
       "endLine": 178,
       "source": "memory",
       "snippet": "- Strategy-to-Backlog Pipeline (TKT-0125): Roadmap Refinement ceremony formalised - Luthen (Marketing Intelligence agent): name confirmed, P2 spec written - ticket.sh fix: status=done now maps to Notion Done (was falling to Backlog) - ticket.sh fix: Notion status variable was zsh read-only — fixed Infrastructure built today: - telegram-alert.sh: API-independent Telegram fallback (no Anthropic dependency) - hf-generate-image.sh + linkedin-upload-image.sh: LinkedIn image pipeline live - linkedin-post.sh: em dash validator + mktemp collision guard + --image-asset-urn flag - Notion: Sprint, Planned Date, Delivered Date columns added. Sprint 2 backfilled. - Google Drive: \"AInchors Yoda Working F",
-      "recallCount": 28,
+      "recallCount": 30,
       "dailyCount": 0,
       "groundedCount": 0,
-      "totalScore": 12.166686928272245,
+      "totalScore": 13.036078509688375,
       "maxScore": 0.47146608531475065,
       "firstRecalledAt": "2026-05-11T23:27:45.121Z",
-      "lastRecalledAt": "2026-05-27T01:39:23.573Z",
+      "lastRecalledAt": "2026-05-28T01:39:29.653Z",
       "queryHashes": [
         "827bc588f2a3",
         "763c944a8b88",
@@ -1640,7 +1644,9 @@
         "bbf60bef9c0d",
         "40538f287124",
         "522c23c64be5",
-        "2314ac4444eb"
+        "2314ac4444eb",
+        "43c0e1e7b564",
+        "1c11f815e7f8"
       ],
       "recallDays": [
         "2026-05-12",
@@ -1655,7 +1661,8 @@
         "2026-05-24",
         "2026-05-25",
         "2026-05-26",
-        "2026-05-27"
+        "2026-05-27",
+        "2026-05-28"
       ],
       "conceptTags": [
         "strategy-to-backlog",
@@ -2030,19 +2037,21 @@
       "endLine": 69,
       "source": "memory",
       "snippet": "- Initial confusion: thought MDP was for organic post analytics → actually organic metrics come from Advertising API product - **Re-auth required** — lengthy debugging session: - Client secret was stale (Ken may have viewed/regenerated in portal while checking MDP status) - PKCE had to be removed from linkedin-auth.sh (LinkedIn wasn't accepting the code_challenge) - redirect_uri `http://localhost:8765/callback` confirmed registered correctly - Client secret re-copied without extra chars (was 33 chars ending = suggesting encoding issue) - **Final result:** Token successfully issued - Scopes: `email openid profile r_1st_connections_size r_ads r_ads_reporting r_basicprofile r_organiza",
-      "recallCount": 6,
+      "recallCount": 8,
       "dailyCount": 0,
       "groundedCount": 0,
-      "totalScore": 3.4354553280308524,
-      "maxScore": 0.7248254381439354,
+      "totalScore": 4.586966967320845,
+      "maxScore": 0.7248716174889975,
       "firstRecalledAt": "2026-05-16T23:17:17.584Z",
-      "lastRecalledAt": "2026-05-26T01:39:25.907Z",
+      "lastRecalledAt": "2026-05-28T01:39:29.653Z",
       "queryHashes": [
         "a8a843104824",
         "8381490e60ea",
         "cea981010963",
         "ab3b8817a33c",
-        "34dde07eac11"
+        "34dde07eac11",
+        "43c0e1e7b564",
+        "1c11f815e7f8"
       ],
       "recallDays": [
         "2026-05-17",
@@ -2050,7 +2059,8 @@
         "2026-05-19",
         "2026-05-21",
         "2026-05-23",
-        "2026-05-26"
+        "2026-05-26",
+        "2026-05-28"
       ],
       "conceptTags": [
         "re-auth",
@@ -2550,18 +2560,20 @@
       "endLine": 143,
       "source": "memory",
       "snippet": "- SOUL.md: non-negotiable daily close rule — journal + blog + cost report every night - Nightly cron set: 23:55 Melbourne, main session - Two journal lenses: active day (verbatim prompts) vs quiet day (platform/autonomous activity) - Blog: \"While You Were Away\" section added for autonomous activity days - Day 1 blog updated with the autonomous activity section ### PII & Sensitive Data Scrub Rule - Triggered by: pairing code (B8QTVBBU) found in published blog post - Rule added to: SOUL.md, SHARED_CONTEXT.md, Operations/Standards.md - Scope: all public content scrubbed of tokens, pairing codes, user IDs, API keys, IPs - Format: replace with <PLACEHOLDER> or [REDACTED] - Journal (private): kee",
-      "recallCount": 1,
+      "recallCount": 2,
       "dailyCount": 0,
       "groundedCount": 0,
-      "totalScore": 0.4819201588630676,
+      "totalScore": 0.9209831535816192,
       "maxScore": 0.4819201588630676,
       "firstRecalledAt": "2026-05-18T21:47:29.766Z",
-      "lastRecalledAt": "2026-05-18T21:47:29.766Z",
+      "lastRecalledAt": "2026-05-28T00:58:10.298Z",
       "queryHashes": [
-        "eabe4ac68873"
+        "eabe4ac68873",
+        "85a6aee80b65"
       ],
       "recallDays": [
-        "2026-05-19"
+        "2026-05-19",
+        "2026-05-28"
       ],
       "conceptTags": [
         "soul.md",
@@ -2844,20 +2856,21 @@
       "endLine": 214,
       "source": "memory",
       "snippet": "- Compliance/checks: target <2,000 tokens/run - Reporting/summaries: target <5,000 tokens/run - Content generation: target <10,000 tokens/run **P6 — Perpetual CI activity:** Monthly audit of all crons. Track avg tokens/run. Any cron >2x its category target → investigate and optimise. This is a never-ending CI loop, not a one-off fix. **Rule added to RULES.md:** \"CRON TOKEN EFFICIENCY RULE — Before creating any cron: (1) Does this need an LLM? If no, use systemEvent. (2) Set lightContext:true unless context is genuinely needed. (3) Scripts write to state files — no large stdout back to model. (4) Model tier: use lowest tier that meets quality bar.\"",
-      "recallCount": 2,
+      "recallCount": 3,
       "dailyCount": 0,
       "groundedCount": 0,
-      "totalScore": 0.8964170664548874,
+      "totalScore": 1.2988979697227478,
       "maxScore": 0.49393616318702693,
       "firstRecalledAt": "2026-05-20T11:30:31.093Z",
-      "lastRecalledAt": "2026-05-27T01:01:12.320Z",
+      "lastRecalledAt": "2026-05-28T02:02:34.549Z",
       "queryHashes": [
         "c44917349bd1",
         "b8fe2bd53137"
       ],
       "recallDays": [
         "2026-05-20",
-        "2026-05-27"
+        "2026-05-27",
+        "2026-05-28"
       ],
       "conceptTags": [
         "compliance/checks",
@@ -4085,6 +4098,100 @@
         "chg-0282",
         "l-029",
         "pushed"
+      ]
+    },
+    "memory:memory/2026-05-25.md:75:84": {
+      "key": "memory:memory/2026-05-25.md:75:84",
+      "path": "memory/2026-05-25.md",
+      "startLine": 75,
+      "endLine": 84,
+      "source": "memory",
+      "snippet": "- PG is now platform SSOT for: tickets, cost, task_queue, model_policy, config_baseline, sprints, linkedin, standups - TQP fully operational via PG; CLI writes PG primary with JSON dual-write - State Checking (TKT-0182) is live across all TQP operations - Regression framework is self-documenting — run `bash tests/regression-runner.sh --suite pg-foundation` to verify platform health [09:48 GMT] TKT-0295 (PG Audit) PARKED. Reason: Budget breach (Tier 3). All high-tier models offline. Current state: Atlas and Thrawn have delivered DRAFT reports. Next step: Resume assessment of TKT-0295 reports tomorrow once DeepSeek/High-tier models are restored. Current Model: ollama/gemma4:31b-cloud",
+      "recallCount": 2,
+      "dailyCount": 0,
+      "groundedCount": 0,
+      "totalScore": 0.8620429277420043,
+      "maxScore": 0.43861651420593256,
+      "firstRecalledAt": "2026-05-28T00:37:51.734Z",
+      "lastRecalledAt": "2026-05-28T13:55:07.315Z",
+      "queryHashes": [
+        "ef53cae4c6d9",
+        "8c3aa2ee0ab0"
+      ],
+      "recallDays": [
+        "2026-05-28"
+      ],
+      "conceptTags": [
+        "task-queue",
+        "model-policy",
+        "config-baseline",
+        "dual-write",
+        "tkt-0182",
+        "self-documenting",
+        "tests/regression-runner.sh",
+        "pg-foundation"
+      ]
+    },
+    "memory:memory/2026-05-08.md:90:102": {
+      "key": "memory:memory/2026-05-08.md:90:102",
+      "path": "memory/2026-05-08.md",
+      "startLine": 90,
+      "endLine": 102,
+      "source": "memory",
+      "snippet": "- Early warning: <4 items delivered in any sprint = flag P2 slip. - TKT-0109 raised: Agile PM/Scrum Master/Agile Coach agent (Cassian Andor proposal, Tier 3). Review: July QBR. No build before then. - TKT-0110 raised: Process Documentation Framework — Lando to own user guides for business/clients ahead of releases. Definition of Done must include user doc. - TKT-0111 raised: Angie Agile + Nexus Working Guide — Lando produces, Aria delivers at Angie's pace. Dependency: TKT-0110. ## Open at End of Session - TKT-0104: Data+Memory Architecture — Atlas groomed, awaiting Ken to fire - TKT-0105: Model3-Policy SOPs — not started - TKT-0106: Apply Model3-Policy to Tier 3 agents — blocked on TKT-0105",
+      "recallCount": 1,
+      "dailyCount": 0,
+      "groundedCount": 0,
+      "totalScore": 0.38751128911972044,
+      "maxScore": 0.38751128911972044,
+      "firstRecalledAt": "2026-05-28T00:37:57.586Z",
+      "lastRecalledAt": "2026-05-28T00:37:57.586Z",
+      "queryHashes": [
+        "2c82a87b41cc"
+      ],
+      "recallDays": [
+        "2026-05-28"
+      ],
+      "conceptTags": [
+        "tkt-0109",
+        "pm/scrum",
+        "master/agile",
+        "tkt-0110",
+        "business/clients",
+        "tkt-0111",
+        "tkt-0104",
+        "tkt-0105"
+      ]
+    },
+    "memory:memory/2026-05-23.md:1:22": {
+      "key": "memory:memory/2026-05-23.md:1:22",
+      "path": "memory/2026-05-23.md",
+      "startLine": 1,
+      "endLine": 22,
+      "source": "memory",
+      "snippet": "# Day 29 — Friday 23 May 2026 ## Session Summary Arguably the most impactful single-day execution in platform history. Full Postgres Master SSOT activation — 14 tickets executed across 6 phases in ~10 hours. Platform transformed from fragmented file-based state to a relational SSOT with cross-domain query, real-time sync, and P2-ready architecture. ## Morning: Proposal & Planning (10:00-10:57) - Ken directive (07:49 via Telegram): \"Full activation — identify, consolidate, migrate, operationalize Postgres as master repo and SSOT\" - Spawned Atlas + Thrawn in parallel for enterprise and platform architecture assessments - Atlas produced 739-line EA assessment (state/atlas-postgres-ssot-assess",
+      "recallCount": 1,
+      "dailyCount": 0,
+      "groundedCount": 0,
+      "totalScore": 0.44354446828365324,
+      "maxScore": 0.44354446828365324,
+      "firstRecalledAt": "2026-05-28T13:55:07.315Z",
+      "lastRecalledAt": "2026-05-28T13:55:07.315Z",
+      "queryHashes": [
+        "8c3aa2ee0ab0"
+      ],
+      "recallDays": [
+        "2026-05-28"
+      ],
+      "conceptTags": [
+        "single-day",
+        "file-based",
+        "cross-domain",
+        "real-time",
+        "p2-ready",
+        "00-10",
+        "739-line",
+        "state/atlas-postgres-ssot-assess"
       ]
     }
   }

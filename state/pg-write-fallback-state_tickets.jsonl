@@ -13,3 +13,12 @@
 {"metadata":{"acceptanceCriteria":["AC-1: No agent loads more than 3 relevant skills per task (Progressive Disclosure)","AC-2: Yoda performs discovery atom breakdown before specialist dispatch (2-Pass Dispatch)","AC-3: All cron-generated files use absolute paths — zero ~ bugs across any model (Path Safety)","AC-4: Model-Task la Fit Matrix implemented: Right model assigned to right task based on Ollama Cloud library capabilities","AC-5: TQP routing enforced based on Model-Task Fit Matrix","AC-6: TQP Trinity Implemented: (1) Tactical: Gatekeeper Tool enforces PG persistence before tool execution, (2) Structural: 2-Pass Dispatch eliminates instruction decay, (3) Architectural: Progressive Disclosure optimizes prompt context"],"tacticalFix":"Option B: The Gatekeeper Tool — replace standard write/exec tools with wrappers that require a TQP index to run, forcing persistence as a prerequisite for execution."}}
 --notes
 --notes
+{"id":"TKT-0325","title":"Monthly Model Review Remediation — Benchmarks, Budget, Violations Audit","status":"open","priority":"high","type":"Monthly model review (May 2026) surfaced 4 action items:
+1. Run fresh benchmarks (gemma4:26b completed 7/8 PASS 87.5%, T06 structured JSON failed)
+2. Fix drift violation (incident-log.json missing — ITIL-1 breach, RESOLVED)
+3. Create violations audit log (model-drift-violations.json — RESOLVED)
+4. Recalibrate budget cap from A$500/mo Claude-era to A$150/mo Ollama Cloud reality (A$100 Ollama fixed + A$50 Claude buffer) — PENDING KEN APPROVAL
+
+Also: gemma4-benchmark.sh had a syntax bug on line 74 (dangling fi) — FIXED.
+
+Ken approval needed: monthly budget cap recalibration to A$150/mo effective June 2026.","created_at":"2026-05-28T00:49:30+10:00","notionSynced":false}

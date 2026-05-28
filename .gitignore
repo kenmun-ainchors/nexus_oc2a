@@ -1,4 +1,104 @@
-.openclaw/
-*.log
+# =============================================================================
+# Aevlith Nexus Platform — .gitignore
+# Created 2026-05-29. Protects sensitive data while keeping platform code public-ready.
+# =============================================================================
+
+# ── Secrets & Credentials (NEVER commit) ─────────────────────────────────────
+*.pem
+*.key
+*.crt
+*.cer
+*.p12
+*.pfx
+.env
+.env.*
+credentials.json
+credentials.*.json
+*_credentials.*
+secrets/
+secret*/
+**/secret*/
+
+# ── 1Password / Keychain references ──────────────────────────────────────────
+1password*/
+
+# ── Auth tokens & session data ───────────────────────────────────────────────
+*.token
+*_token.*
+auth-state.json
+
+# ── API keys in configs (whitelist allowed patterns) ─────────────────────────
+# Block raw openclaw.json (contains API keys)
+openclaw.json
+# Exception: the canonical template
+!openclaw.json.example
+
+# ── Runtime state (contains transient data, PII, session logs) ───────────────
+# Agent session logs (may contain client data)
+agents/*/sessions/
+# Ephemeral state
+state/heartbeat-state.json
+state/health-state.json
+state/standup-state.json
+state/backup-state.json
+state/cron-health-state.json
+state/allowlist-sync-state.json
+state/chg-triggers.json
+state/daily-note.json
+state/obs-collector-state.json
+state/cost-state.json
+state/model-drift-state.json
+state/model-drift-violations.json
+state/warden-escalation-pending.json
+state/budget-alert-state.json
+state/budget-alert-history.json
+state/task-stall-alert.json
+state/task-verification-alert.json
+state/cron-dead-letter-alert.json
+state/dod-validation-alert.json
+state/owl-compliance-state.json
+state/owl-drift-alert.json
+state/incident-log.json
+state/lex-qa-log.json
+state/content-queue.json
+state/open-decisions.json
+state/draft-docs.json
+state/tickets.json
+state/sprint-current.json
+state/cost-history.md.bak
+state/*.log
+
+# ── Temporary & build artifacts ──────────────────────────────────────────────
+*.pyc
+__pycache__/
+*.pyo
+.DS_Store
+*.swp
+*.swo
+*~
+*.bak
 *.tmp
-handoff/archive/
+tmp/
+temp/
+*.pid
+*.lock
+
+# ── Canvas documents (generated HTML) ────────────────────────────────────────
+canvas/documents/
+
+# ── Large binary bundles ─────────────────────────────────────────────────────
+*.bundle
+*.bundle.ots
+
+# ── OS & editor ──────────────────────────────────────────────────────────────
+Thumbs.db
+.idea/
+.vscode/
+*.sublime-*
+
+# ── Docker volumes ───────────────────────────────────────────────────────────
+infra/rustdesk/data/
+
+# ── Node / npm (if introduced later) ─────────────────────────────────────────
+node_modules/
+npm-debug.log*

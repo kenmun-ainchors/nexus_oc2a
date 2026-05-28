@@ -1,10 +1,10 @@
 # Yoda Telegram Context Brief
-Generated: 2026-05-27 20:00 AEST | Platform Day 33 | Sprint 6 Queued
+Generated: 2026-05-28 20:00 AEST | Platform Day 34 | Sprint 6 Queued
 
 ---
 
 ## Platform Status
-- **Day:** 33 (since 2026-04-25)
+- **Day:** 34 (since 2026-04-25)
 - **Phase:** MVP → P1 transition
 - **OC1:** Mac Mini M4 24GB — LIVE Production. PERMANENT.
 - **OC2-A/B:** Mac Mini M4 Pro 48GB ×2 — ETA 6–13 Jul 2026, commission ~27 Jul
