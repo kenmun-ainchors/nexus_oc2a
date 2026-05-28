@@ -1,3 +1,62 @@
+## Thursday, May 28, 2026 — Business Stream Summary
+_Written 23:45 AEST by Aria cron_
+
+### Angie interactions today
+- **[14:42 AEST]** Angie sent a voice note (~10 sec OGG) via Telegram — Aria installed `openai-whisper` via Homebrew to transcribe, then macOS Swift STT failed → settled on whisper transcription.
+- **[14:42–14:48 AEST]** Angie asked (voice + text): "Set up a CTO contract Google Meet meeting with Ken tomorrow at 10am." Aria created the calendar invite (Fri May 29, 10:00–11:00 AM AEST, Google Meet), wrote relay queue entry for Ken, then Angie said "Ignore that" / "Stop this." Aria cancelled/deleted the meeting, then Angie re-issued the same request.
+- **[14:48 AEST]** Angie confirmed: "1 hr at 10am Sydney time" — Aria re-created: 📅 CTO Contract Meeting, Fri May 29 10:00–11:00 AM AEST, Google Meet, Ken invited. ✅ Done.
+- **[14:49 AEST]** Session ended. No further Angie messages today.
+
+### Decisions made
+- **Meeting confirmed**: CTO Contract Meeting — Angie & Ken, Friday May 29, 10:00–11:00 AM AEST via Google Meet.
+- **Whisper installed**: Aria installed `openai-whisper` via Homebrew to handle voice note transcription (no prior STT capability).
+
+### Governance reviews
+- None triggered — internal calendar invite, no external comms.
+
+### Open items
+- 🔴 **CR-002 (LinkedIn Setup)** — Still pending Ken/Yoda action.
+- 🟡 **Onboarding Stage 2** — OB-12, OB-14, OB-15 still unchecked.
+- 🟡 **Lynn Huang (bookkeeping)** — awaiting fee schedule reply.
+- 🟡 **Jack Ooi (accounting)** — awaiting update on meeting.
+- 🟡 **Training revenue projection** — pending review.
+- 🟡 **Marketing collaterals** — pending Angie review.
+- 🟡 **Meta appeal** — status unknown.
+- 🔴 **JotForm/HRDF** — outstanding from April 28.
+- 🟡 **April 30 class debrief** — still missing.
+
+### Handoff to Yoda
+- Angie re-engaged after 6-day quiet streak! First interaction since Friday May 22. She's active and pushing forward.
+- **CTO Contract Meeting** tomorrow (Fri May 29, 10 AM) — Angie & Ken. Aria set up via Google Calendar and dropped relay queue heads-up. This is a significant meeting (CTO contract = hiring/finalizing Ken's CTO role).
+- Voice note handling was a learning curve — Aria now has `openai-whisper` available for future transcription. Initial process was clunky (tried Swift STT, failed, had to brew-install whisper). Worth noting if this is recurring comms format from Angie.
+- Angie's "Ignore that / Stop this / redo" pattern suggests she was testing or changed her mind mid-stream — Aria handled the undo/redo correctly.
+
+---
+## Wednesday, May 27, 2026 — Business Stream Summary
+_Written 23:45 AEST by Aria cron_
+
+### Angie interactions today
+No Angie activity today.
+- **23:45**: Heartbeat nudge sent to Angie via Telegram — 5 days since last activity (May 22)
+
+### Decisions made
+None
+
+### Governance reviews
+None triggered
+
+### Open items
+- Angie last active Friday May 22 (5 days quiet) — nudge threshold (3 days) passed. Aria should send a check-in nudge
+- Onboarding Stage 2 still in-progress: OB-12 (session close summary), OB-14 (re-run with Sonnet), OB-15 (CR process) unchecked
+- Spark/LinkedIn setup (OB-16/OB-17) — stalled since May 22
+- Notion Business Command Centre (OB-PM-01) — pending Angie signal since May 15
+- Ken 4pm meeting (May 15) — outcome never confirmed
+- MY Trainer Agreement — awaiting Angie feedback/legal review since May 18
+
+### Handoff to Yoda
+Angie has been radio-silent since Friday May 22 (5 days). Heartbeat pings on Sunday got no response. This is the longest gap since onboarding began. Aria's AGENTS.md says nudge after 3 days — the nudge was deferred on Sunday (within window) but is now overdue. Recommend manually checking if Angie is okay or if priorities shifted. Business stream is effectively in holding pattern — all open items are stalled on Angie input.
+
+---
 ## Wednesday, May 27, 2026 — Business Stream Summary
 _Written 23:45 AEST by Aria cron_
 
