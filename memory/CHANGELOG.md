@@ -106,6 +106,32 @@
 **Linked:** CHG-0349, CHG-0350, TKT-0165, TKT-0175
 ---
 
+## 2026-05-28 11:42 AEST — [CHG-0444] Budget Cap Recalibration + Ollama Cloud Model Rates
+**Type:** config
+**Change Type:** Normal
+**Source:** ken-prompt
+**Trigger:** Ken approved monthly model review recommendations
+**What changed:** cost-state.json: budget cap corrected to  USD/month ( Ollama Max +  Claude buffer). Added ollamaCloudModelRates (Set A subscription-aligned + Set B market-equivalent). cost-tracker.sh: MODEL_RATES updated with Ollama Cloud fair-value per-token rates in both main and ephemeral sections.
+**Why:** Previous cap was A from Claude era. Ollama Cloud =  USD flat. Derived fair-value per-token rates from market comparables (OpenRouter/API pricing), scaled to match subscription.
+**Verification:** Warden 9/9 PASS. cost-state.json valid JSON. cost-tracker.sh syntax valid. Both MODEL_RATE blocks updated.
+**Rollback:** N/A
+**Linked:** none
+---
+
+
+## 2026-05-28 10:50 AEST — [CHG-0443] May 2026 Model Review Remediation
+**Type:** config
+**Change Type:** Normal
+**Source:** manual
+**Trigger:** Monthly model review cron timed out
+**What changed:** Benchmark fix+run, ITIL-1 drift resolved, budget cap recalibrated
+**Why:** Review surfaced 3 issues
+**Verification:** Drift 9/9 PASS, benchmark 7/8 PASS
+**Rollback:** N/A
+**Linked:** none
+---
+
+
 ## 2026-05-27 19:53 AEST — [CHG-0442] Sprint 5: 9 open highs processed — 5 folded, 3 deferred, TKT-0305 completed
 **Type:** config
 **Change Type:** Normal

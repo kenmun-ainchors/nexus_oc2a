@@ -194,6 +194,10 @@ _Maintained by Aria 🔵 + Yoda 🟢 | Status-tracked content for AInchors train
 | TC-175 | Sprint cleanup as a discipline: how we went from 17 to 8 open tickets in one day | 💡 Idea | Yoda Day 33 (Sprint 5 closure — 9 tickets processed, 5 folded, 3 deferred, 53% reduction) | Aria |
 | TC-176 | Five bugs found while building autosave: shell scripting traps in AI automation | 💡 Idea | Yoda Day 33 (TQP gate bugs — JSON quoting, brace expansion, column name mismatch, error detection) | Yoda |
 
+| TC-177 | What to do when a scheduled review times out: recovering failed automated AI operations | 💡 Idea | Yoda Day 34 (monthly model review timeout recovery, 3 issues surfaced, benchmark fix, drift resolved) | Both |
+| TC-178 | Cost accounting for fixed-subscription AI: fair-value rates when you leave pay-as-you-go | 💡 Idea | Yoda Day 34 (CHG-0444 — budget cap recalibration, Set A/B Ollama Cloud rates, cost tracker update) | Aria |
+| TC-179 | Template enforcement for AI-generated reports: locking format to stop daily drift | 💡 Idea | Yoda Day 34 (standup template lock-down, 8-section non-negotiable format, model prompt hardening) | Aria |
+
 ## Status Legend
 💡 Idea → 📝 Draft → 🔍 Review (Yoda validates) → ✅ Ready → 📢 Published
 
