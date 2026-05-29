@@ -152,4 +152,6 @@ DeepSeek = permanent primary. kimi = fallback only. Full history: `memory/MEMORY
 
 **Sprint 6 queue (locked — 14 items):** TKT-0310 (Platform Constraints), TKT-0317 (Context Epic + 4 sub), TKT-0268 (PG Stability), TKT-0269 (PG Backup), TKT-0293 (Regression), TKT-0321 (Yoda Dispatch), TKT-0322 (Thrawn/Atlas Dispatch), TKT-0326 (NAS Writable Backup), TKT-0327 (Tilde-Path Normalization), TKT-0318 (Aria TQP), TKT-0319 (Global TQP), TKT-0137 (Policy Register), TKT-0275 (Progressive Disclosure), + Platform Separation Phase 0 prep.
 
-**Platform state:** 14 agents. 18 PG tables. 251+ tickets. TQP gate live. Journal inline writes stable. Sprint 5 closed. Sprint 6 queued. Platform Separation go.
+**Platform state:** 14 agents. 32 PG tables. 251+ tickets. TQP gate live. Journal inline writes stable. Sprint 5 closed. Sprint 6 queued. Platform Separation go.
+
+**OpenClaw:** v2026.5.27 (upgraded from 5.12, 2026-05-29). 59 crons, all integrations healthy. Config slimmed (crons in Gateway internal state). CHG-0445.
