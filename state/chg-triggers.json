@@ -1,289 +1,240 @@
 {
-  "schema": "1.0",
-  "description": "CHG Trigger Rules from YODA_OC1_OC2_OPERATIONAL_BRIEF.md v1.0. Yoda monitors these and raises CHG+Telegram alert when triggered.",
-  "lastUpdated": "2026-05-11",
+  "schema": "2.0",
+  "description": "CHG Trigger Rules — Yoda monitors these and raises CHG+Telegram alert when triggered.",
+  "lastUpdated": "2026-05-29T22:10:00+10:00",
+  "lastUpdatedBy": "Ken Mun (CTO)",
+  "changeNote": "TRIGGER-14 (Claude Restore) + Platform Separation folded into TRIGGER-01 as sub-actions. TRIGGER-10 retired. TRIGGER-14 renumbered for Phase 3 Event Sourcing. Version bumped to 2.0.",
   "triggers": {
     "TRIGGER-01": {
-      "name": "OC2 arrival",
-      "condition": "OC2-A or OC2-B physically arrives",
-      "detection": "manual \u2014 Ken notifies Yoda",
-      "action": "10-step setup sequence: Ollama config, Gemma4 install, Tailscale mesh, OpenClaw config update, HA validation",
-      "eta": "July 2026",
+      "name": "OC2 Arrival — Master Gate",
+      "condition": "OC2-A and OC2-B physically arrive",
+      "detection": "manual — Ken notifies Yoda",
+      "eta": "6–13 Jul 2026",
       "status": "pending",
       "firedAt": null,
-      "additionalActions": [
+      "description": "OC2 arrival is now the master gate. All OC2-era actions are sequenced as sub-actions under TRIGGER-01, executed in priority order after hardware is online.",
+      "subActions": [
         {
-          "id": "TRIGGER-01-A",
-          "name": "qwen3.5:cloud reassessment",
-          "action": "Re-benchmark qwen3.5:cloud on OC2. Latency failure (42.3s avg) driven by thinking mode on tool/coding tasks. Re-test with think:false on all 5 benchmark tasks. If avg latency <=20s -> approve for async/batch Tier 2. If still fails -> close out permanently.",
-          "addedDate": "2026-05-02",
-          "addedBy": "Ken",
-          "priority": "low"
+          "id": "01-PHYSICAL",
+          "name": "Hardware Setup",
+          "priority": "critical",
+          "action": "Unbox OC2-A + OC2-B. Connect power, network, Tailscale. Verify both nodes reachable on tailnet."
         },
         {
-          "id": "TRIGGER-01-B",
-          "name": "Orchestrator MD version bump",
-          "action": "Version bump SOUL.md + YODA_RULES.md + ORCHESTRATOR.md to reflect OC2 architecture, HA state, Gemma4:26b local inference.",
-          "addedDate": "2026-05-10",
-          "addedBy": "Ken",
-          "priority": "high"
+          "id": "01-OPENCLAW",
+          "name": "OpenClaw Install on OC2-A/B",
+          "priority": "critical",
+          "action": "Install OpenClaw v2026.5.27+ on OC2-A (primary) and OC2-B (standby). Configure HIVE HA pair. Deploy tech agent fleet (~10 agents: Yoda, Atlas, Thrawn, Forge, Lando, Mon Mothma, Warden, Ahsoka, Luthen; Shield/Lex/Sage stay here). Krennic parked."
         },
         {
-          "id": "TRIGGER-01-C",
+          "id": "01-CLAUDE-RESTORE",
+          "name": "CLAUDE RESTORE — Anthropic API Key Re-provisioning",
+          "priority": "high",
+          "action": "Ken provides new Anthropic API key. Execute SOP: (1) Store in Keychain as 'ainchors-anthropic-api-key', (2) Add auth.profiles.anthropic:default to openclaw.json, (3) Add anthropic model aliases, (4) Update model-policy.json whitelist, (5) Run validate-fallback-chain.sh, (6) Restore agent primary models from claude-restore-config.json.",
+          "linkedChgs": ["CHG-0349", "CHG-0373", "CHG-0393"],
+          "linkedTkts": ["TKT-0165", "TKT-0241"],
+          "note": "Folded from standalone TRIGGER-14 per Ken directive 2026-05-29. Claude Restore now gates on OC2 arrival — no point restoring on OC1 when platform is about to migrate."
+        },
+        {
+          "id": "01-PLATFORM-SEPARATION",
+          "name": "Platform Separation — OC1 Business Standalone",
+          "priority": "high",
+          "action": "Execute Platform Separation per approved option paper. Phase 1: Wipe OC1, fresh OpenClaw install, deploy 6 business agents (Aria lead + Shield/Lex/Sage duplicated + Spark + Forge-ops). Phase 2: OC2 tech platform validated ≥1 week before OC1 wipe. Phase 3: Cutover Angie/KL team to OC1 business node. Phase 4: Stabilisation.",
+          "linkedDocs": [
+            "docs/options/Platform-Separation-Business-Stream-Option-Paper-v1.0.md",
+            "docs/options/Platform-Separation-Business-Stream-Feasibility-Assessment-v1.0.md"
+          ],
+          "kenDecisions": ["C1: Second OpenClaw license ✅", "C2: Separate Ollama Cloud sub ✅", "C3: New Google Workspace for tech ✅"],
+          "acceptedRisks": ["No SRE on business node", "Governance Triad divergence", "Double maintenance overhead"],
+          "note": "Platform Separation approved 2026-05-29. Phase 0 prep can start now. Full migration gated on OC2 arrival + validation."
+        },
+        {
+          "id": "01-PG-MIGRATION",
+          "name": "PostgreSQL Migration OC1 → OC2",
+          "priority": "high",
+          "action": "Restore PG from OC1 backup to OC2-A. Configure HA replication to OC2-B. Validate all 32 tables, ticket state, cost history. Slim PG on OC1 (business-only tables or PG-free)."
+        },
+        {
+          "id": "01-A",
+          "name": "qwen3.5:cloud Reassessment",
+          "priority": "low",
+          "action": "Re-benchmark qwen3.5:cloud on OC2. Re-test with think:false on all 5 benchmark tasks. If avg latency ≤20s → approve for async/batch Tier 2. If still fails → close out permanently."
+        },
+        {
+          "id": "01-B",
+          "name": "Orchestrator MD Version Bump",
+          "priority": "high",
+          "action": "Version bump SOUL.md + YODA_RULES.md + ORCHESTRATOR.md to reflect OC2 architecture, HA state, Gemma4:26b local inference, Platform Separation."
+        },
+        {
+          "id": "01-C",
           "name": "SecretRefs Keychain Integration",
-          "action": "Implement SecretRefs with macOS Keychain integration (TKT-0228). Migrate all API keys from hardcoded config to structured SecretRefs. Dependencies: OC2 commissioning complete, stable OpenClaw v2026.5.12+, Anthropic key re-provisioned.",
-          "ticket": "TKT-0228",
           "priority": "medium",
-          "addedDate": "2026-05-17",
-          "addedBy": "Ken"
+          "action": "Implement SecretRefs with macOS Keychain integration (TKT-0228). Migrate all API keys from hardcoded config to structured SecretRefs.",
+          "ticket": "TKT-0228"
+        },
+        {
+          "id": "01-NEW-WORKSPACE",
+          "name": "Tech Stream Google Workspace",
+          "priority": "high",
+          "action": "Create new Google Workspace for tech stream (C3). Migrate Yoda/tech agent auth from kenmun@ainchors.com to new account. Aria keeps kenmun@ on OC1 business node."
         }
       ]
     },
     "TRIGGER-02": {
-      "name": "Both OC2 nodes live",
-      "condition": "OC2-A and OC2-B both online and validated",
-      "detection": "manual \u2014 validated after TRIGGER-01 complete for both nodes",
-      "action": "Activate HA architecture. Configure NAS shared state.",
+      "name": "OC2 HA Live",
+      "condition": "OC2-A and OC2-B both online, validated, HA failover tested",
+      "detection": "manual — validated after TRIGGER-01 sub-actions complete",
+      "action": "Activate HA architecture. Configure NAS shared state. Run full failover drill.",
       "status": "pending",
-      "firedAt": null
+      "firedAt": null,
+      "dependencies": ["TRIGGER-01"]
     },
     "TRIGGER-03": {
-      "name": "Gemma4 validated on OC2",
+      "name": "Gemma4 Validated on OC2",
       "condition": "Gemma4:26b confirmed running on OC2 at acceptable performance",
-      "detection": "auto \u2014 check after TRIGGER-01 completes",
-      "action": "Switch Shield/Lex/Sage/Warden from Haiku to Gemma4:26b local (Tier 1)",
+      "detection": "auto — check after TRIGGER-01 completes",
+      "action": "Benchmark gemma4:26b + gemma4:31b-coding-mtp-bf16 on OC2. If pass rate ≥75%, swap governance agents (Shield/Lex/Sage/Warden) from gemma4:31b-cloud to local gemma4:26b (Tier 1). Update model-policy.json.",
       "status": "pending",
-      "firedAt": null
+      "firedAt": null,
+      "dependencies": ["TRIGGER-01", "TRIGGER-02"],
+      "modelsToEvaluate": ["ollama/gemma4:26b", "ollama/gemma4:31b-coding-mtp-bf16"],
+      "note": "OC2 48GB has headroom for BF16 variant. Evaluate alongside :26b."
     },
     "TRIGGER-04": {
-      "name": "OpenClaw security patch",
+      "name": "OpenClaw Security Patch",
       "condition": "New OpenClaw version released with security fix",
-      "detection": "automated \u2014 daily cron checks github.com/openclaw/openclaw/releases",
-      "action": "Critical CVE: update within 48h. High: within 7 days. Raise CHG. Freeze client onboarding if P1.",
+      "detection": "automated — daily cron checks github.com/openclaw/openclaw/releases",
+      "action": "Critical CVE: update within 48h. High: within 7 days.",
       "cronId": "6bd53c89-c208-45a9-b77a-47157443c1ef",
-      "currentVersion": "2026.5.12",
-      "availableVersion": "v2026.5.12",
-      "lastChecked": "2026-05-15T20:00:13Z",
-      "status": "fired",
-      "firedAt": "2026-05-15T20:00:13Z",
-      "lastReleaseDate": "2026-05-14T18:28:04Z",
-      "classification": "High Security",
-      "securityLevel": "high",
-      "details": "v2026.5.12: Released 2026-05-14. SECURITY RELEASE: Broad security/provenance hardening pass across gateway, browser, Slack, node pairing, sandbox, and transcript paths. Key security fixes: (1) Windows sandbox USERPROFILE isolation (credential-bearing binds denied), (2) Provider config/auth hardening (CVE mitigation: env-var credential inference protection via structured SecretRefs), (3) macOS TLS trust enforcement for gateway certificates, (4) Media response body optimization. Bedrock/Slack/OpenShell/Vertex plugins externalized. 100+ stability fixes included.",
-      "upgradeWindow": "7-days",
-      "notes": "FIRED 2026-05-15T20:00:13Z. Security release v2026.5.12 detected. Installed: 2026.5.5 \u2192 Available: 2026.5.12. HIGH PRIORITY (7-day window). Security hardening improvements including env-var credential inference mitigation and sandbox isolation enhancements. Telegram alert sent to Ken. CHG pending."
+      "currentVersion": "2026.5.27",
+      "status": "monitoring",
+      "lastChecked": "2026-05-29T22:00:00+10:00",
+      "firedAt": null
     },
     "TRIGGER-05": {
       "name": "Ollama Cloud PoC PASS",
       "condition": "PoC Phase 5 returns PASS or PARTIAL PASS",
-      "detection": "sub-agent PoC currently running",
       "action": "Implement 4-tier model strategy. Ken decision gate required before Phase 6.",
       "status": "passed-phase6-implemented",
-      "pocSubAgent": "agent:main:subagent:f93145b9-5f9b-43e3-abca-3dca35f19918",
       "firedAt": "2026-05-02T10:13:00+10:00",
-      "note": "Full PoC PASS (CHG-0120). kimi-k2.6:cloud: Q=4.6/5, L=6.8s avg \u2014 implemented as Tier 2. glm-5.1: FAIL (thinking mode, 221s+). qwen3.5:cloud: FAIL (42.3s avg with /no_think). Phase 6 implemented. Monthly glm-5.1 no-think check cron active.",
-      "qwen35Findings": "Quality 4.6/5 OK. Latency 42.3s FAIL (/no_think helped text tasks, not code/tool). Reassessment queued for TRIGGER-01-A (OC2 arrival)."
+      "note": "Full PoC PASS. kimi: Q=4.6/5, L=6.8s avg. glm-5.1: FAIL (221s+). qwen3.5: FAIL (42.3s). Phase 6 implemented."
     },
     "TRIGGER-06": {
-      "name": "OpenClaw v4.0 ships",
+      "name": "OpenClaw v4.0 Ships",
       "condition": "OpenClaw v4.x release detected",
-      "detection": "automated \u2014 same daily release check cron as TRIGGER-04",
+      "detection": "automated — daily release check cron",
       "action": "P3 gate assessment. Present Ken with native multi-agent vs CrewAI evaluation within 24h.",
       "status": "monitoring",
       "firedAt": null
     },
     "TRIGGER-07": {
-      "name": "First P2 client",
+      "name": "First P2 Client",
       "condition": "First paying client onboarded to P2 platform",
-      "detection": "manual \u2014 Angie/Ken notifies Yoda",
-      "action": "Execute onboarding checklist. Run S1-S7 compliance audit. Ensure Tier 0/1 only for client data.",
+      "detection": "manual — Angie/Ken notifies Yoda",
+      "action": "Execute onboarding checklist. Run S1-S7 compliance audit. Tier 0/1 only for client data.",
       "status": "pending",
       "firedAt": null
     },
     "TRIGGER-08": {
-      "name": "Daily API cost threshold",
-      "condition": "Daily API spend exceeds $60 / $80 / $100 USD",
-      "detection": "automated \u2014 cost-tracker.sh daily run",
-      "action": "T1 ($60): alert Ken. T2 ($80): escalate. T3 ($100): pause and alert.",
-      "thresholds": {
-        "t1": 60,
-        "t2": 80,
-        "t3": 100
-      },
+      "name": "Daily API Cost Threshold",
+      "condition": "Daily API spend exceeds thresholds",
+      "detection": "automated — cost-tracker.sh daily",
+      "thresholds": { "t1": 60, "t2": 80, "t3": 100 },
+      "action": "T1: alert Ken. T2: escalate. T3: pause and alert.",
       "status": "monitoring",
-      "lastFired": "2026-05-15T02:00:54Z",
-      "lastFiredDate": "2026-05-15",
-      "lastFiredLevel": "T3"
+      "lastFired": "2026-05-15T02:00:54Z"
     },
     "TRIGGER-09": {
-      "name": "Warden model drift",
+      "name": "Warden Model Drift",
       "condition": "Model drift detected by Warden",
-      "detection": "automated \u2014 Warden cron every 15min, escalation via warden-escalation-pending.json",
+      "detection": "automated — Warden cron 15min (83accf7b)",
       "action": "Yoda remediates within 1 heartbeat. Log CHG. Alert Ken.",
-      "status": "active",
-      "notes": "Already implemented. Warden cron id: 83accf7b"
+      "status": "active"
     },
     "TRIGGER-10": {
-      "name": "Business stream migration OC1 to OC2",
-      "condition": "OC2 live, Aria + business agents ready to migrate",
-      "detection": "manual \u2014 conditional on TRIGGER-02 complete",
-      "action": "Migrate Aria + specialist agents from OC1 to OC2. Update routing. Validate.",
-      "status": "pending",
-      "firedAt": null
+      "name": "RETIRED — Business Stream Migration OC1→OC2",
+      "status": "retired",
+      "retiredAt": "2026-05-29T22:10:00+10:00",
+      "retiredBy": "Ken Mun",
+      "replacedBy": "TRIGGER-01 sub-action 01-PLATFORM-SEPARATION",
+      "note": "Original plan: migrate Aria from OC1 to OC2. Superseded by Platform Separation — OC1 becomes standalone business node, OC2 is tech-only. No migration needed."
     },
     "TRIGGER-11": {
-      "name": "glm-5.1 no-think mode availability",
-      "condition": "Monthly check: has Ollama released a no-think/non-reasoning variant of glm-5.1:cloud?",
-      "detection": "automated \u2014 monthly cron checks Ollama model library",
-      "action": "If no-think mode confirmed available: re-run B2 (coding) and B4 (tool-use) benchmarks with it. If avg latency <=20s and quality >=3.5 -> raise CHG to add as Tier 2 alongside kimi-k2.6. If still fails -> skip month, check again next month.",
-      "status": "monitoring",
-      "addedDate": "2026-05-02",
-      "addedBy": "Ken",
-      "cronId": "bb47c6de-4521-4cc0-bdf9-563a8c84d664",
-      "lastChecked": null,
-      "firedAt": null,
-      "note": "glm-5.1 PoC failure: 221s+ latency (thinking mode). Model quality potential is unknown. Worth revisiting if no-think mode ships."
+      "name": "glm-5.1 No-Think Mode Availability",
+      "condition": "Monthly check: Ollama releases no-think glm-5.1 variant",
+      "detection": "automated — monthly cron (bb47c6de)",
+      "action": "Re-benchmark B2+B4. If latency ≤20s and quality ≥3.5 → add as Tier 2.",
+      "status": "monitoring"
     },
     "TRIGGER-12": {
-      "name": "Agent allowlist sync",
-      "condition": "model-policy.json tierStrategy updated (new models added/removed)",
-      "detection": "automated -- allowlist-detect.sh cron (every 30 min). Compares policy lastUpdated against allowlist-sync-state.json lastSyncAt.",
-      "action": "Run zsh scripts/allowlist-sync.sh --source strategy-update. Log CHG. Alert Ken via Telegram with diff summary.",
-      "cronId": "6a059e9e-fffb-4651-97cb-19c864d747d6",
-      "status": "active",
-      "addedDate": "2026-05-03",
-      "addedBy": "Ken",
-      "firedAt": null,
-      "notes": "Idempotent -- safe to run on every strategy change. Script exits 0 if already current, 1 if changes applied."
-    },
-    "TRIGGER-QBR": {
-      "name": "Quarterly QBR \u2014 Agent Fleet Review + Orchestrator MD version bump",
-      "condition": "Every Jan/Apr/Jul/Oct",
-      "detection": "calendar \u2014 recurring ceremony",
-      "action": "Run Agent Fleet Review (TKT-0130). Version bump SOUL.md + YODA_RULES.md + ORCHESTRATOR.md. Run Roadmap Refinement ceremony (TKT-0125). Review Cassian Andor (TKT-0109).",
-      "status": "recurring",
-      "firedAt": null,
-      "firstDue": "2026-07-01",
-      "approvedBy": "Ken",
-      "approvedAt": "2026-05-10"
+      "name": "Agent Allowlist Sync",
+      "condition": "model-policy.json tierStrategy updated",
+      "detection": "automated — cron 30min (6a059e9e)",
+      "action": "Run allowlist-sync.sh. Log CHG. Alert Ken with diff.",
+      "status": "active"
     },
     "TRIGGER-13": {
       "name": "Semantic Memory Store Go-Live",
-      "description": "OC2 stable + MinIO proven in prod for 2 sprints \u2192 activate TKT-0153 semantic memory store. Deprecates MEMORY_TICKETS.md + MEMORY_DECISIONS.md (Option B).",
+      "condition": "OC2 stable + MinIO in prod 2+ sprints",
+      "action": "Activate TKT-0153 semantic memory. Deprecate Option B tiered split.",
       "status": "pending",
-      "gate": "OC2 commissioned + MinIO in prod 2+ sprints",
       "tkt": "TKT-0153",
-      "detectionMethod": "manual \u2014 Yoda flags when gate conditions met",
-      "actions": [
-        "Build memory_store.sh + memory_search.sh",
-        "Migrate MEMORY_TICKETS.md + MEMORY_DECISIONS.md to store",
-        "Update session bootstrap to fetch-on-demand",
-        "Deprecate Option B tiered split"
-      ]
+      "dependencies": ["TRIGGER-01", "TRIGGER-02"]
     },
     "TRIGGER-14": {
-      "name": "CLAUDE RESTORE \u2014 Anthropic API Key Re-provisioning",
-      "condition": "Ken issues CLAUDE RESTORE keyword or Anthropic API credits restored",
-      "detection": "manual \u2014 Ken signals readiness to exit interim period",
-      "action": "Prompt Ken to provide new Anthropic API key, then: (1) Store in Keychain as 'ainchors-anthropic-api-key', (2) Add auth.profiles.anthropic:default to openclaw.json, (3) Add anthropic model aliases to agents.defaults.models, (4) Update model-policy.json whitelist to include Anthropic models, (5) Run validate-fallback-chain.sh, (6) Restore agent primary models from claude-restore-config.json",
+      "name": "Phase 3: Event Sourcing Design",
+      "condition": "P2 stable: ≥2 SME clients live, uptime >99% for 30-day rolling window",
+      "action": "Atlas designs event sourcing migration from optimistic locking. Preserve TKT-0104 agent_state_history schema as seed.",
       "status": "pending",
-      "firedAt": null,
-      "notes": "Created during CHG-0393 cleanup. All Anthropic config removed during interim period. Re-provisioning required before agents can use Claude models again.",
-      "linkedChgs": [
-        "CHG-0349",
-        "CHG-0373",
-        "CHG-0393"
-      ],
-      "linkedTkts": [
-        "TKT-0165"
-      ]
+      "approvedBy": "Ken Mun",
+      "approvedAt": "2026-05-14",
+      "linkedCHG": "CHG-0308"
+    },
+    "TRIGGER-15": {
+      "name": "P1→P2 Checkpoint: Golden Blueprint Review",
+      "condition": "P2 launches — first SME client onboarded (target Aug 2026)",
+      "action": "Atlas: full refresh of both golden blueprints. Architecture Delta Summary for Ken. Requires APPROVED before P2 ops begin.",
+      "status": "pending",
+      "approvedBy": "Ken Mun",
+      "approvedAt": "2026-05-14",
+      "linkedCHG": "CHG-0318"
+    },
+    "TRIGGER-16": {
+      "name": "P2→P4 Checkpoint: Golden Blueprint Review",
+      "condition": "TRIGGER-14 fires (post-P2 stable, event sourcing design begins)",
+      "action": "Atlas: full refresh of both golden blueprints. Add Phase 3 event sourcing architecture. FSI trajectory detail.",
+      "status": "pending",
+      "approvedBy": "Ken Mun",
+      "approvedAt": "2026-05-14",
+      "linkedCHG": "CHG-0318"
+    },
+    "TRIGGER-17": {
+      "name": "Annual Review: Golden Blueprints (May each year)",
+      "condition": "May annually — platform anniversary month",
+      "action": "Atlas: full review against live platform state. Prune outdated. Revalidate OKRs/KRIs. Ken approval.",
+      "status": "pending",
+      "approvedBy": "Ken Mun",
+      "approvedAt": "2026-05-14",
+      "linkedCHG": "CHG-0318"
+    },
+    "TRIGGER-18": {
+      "name": "Spark: LinkedIn Stability Arc Post",
+      "condition": "TKT-0177 closed",
+      "action": "Spark writes LinkedIn post on building production agentic AI platform — gateway stability, event loop saturation, diagnostic process.",
+      "status": "pending",
+      "linkedTKT": "TKT-0177",
+      "approvedBy": "Ken Mun",
+      "approvedAt": "2026-05-15"
+    },
+    "TRIGGER-QBR": {
+      "name": "Quarterly QBR — Agent Fleet Review",
+      "condition": "Every Jan/Apr/Jul/Oct",
+      "action": "Agent Fleet Review (TKT-0130). Orchestrator MD version bump. Roadmap Refinement (TKT-0125).",
+      "status": "recurring",
+      "firstDue": "2026-07-01",
+      "approvedBy": "Ken",
+      "approvedAt": "2026-05-10"
     }
-  },
-  "TRIGGER-14": {
-    "name": "Phase 3: Event Sourcing Design",
-    "condition": "P2 stable \u2014 defined as: P2 launched, at least 2 SME clients live, platform uptime >99% for 30-day rolling window",
-    "action": "Initiate Phase 3 event sourcing design. Raise TKT for Atlas to design event sourcing migration from optimistic locking. Preserve TKT-0104 agent_state_history schema as seed.",
-    "status": "pending",
-    "approvedBy": "Ken Mun",
-    "approvedAt": "2026-05-14",
-    "linkedDecision": "TKT-0162 D5",
-    "linkedCHG": "CHG-0308"
-  },
-  "TRIGGER-15": {
-    "name": "P1\u2192P2 Checkpoint: Golden Blueprint Review",
-    "condition": "P2 launches \u2014 first SME client onboarded (target Aug 2026)",
-    "action": "Atlas: (1) refresh Nexus-System-Architecture-v1.0.md \u2014 full delta review, update Section 9 gap map, update agent roster, confirm locked decisions. (2) Revise Aevlith-Technology-Strategy-Roadmap-v1.0-Internal.md \u2014 update current state to P2 reality, revise P3/P4 sections. (3) Produce Architecture Delta Summary for Ken. (4) Deliver via webchat + Telegram. Ken replies APPROVED before P2 ops begin.",
-    "status": "pending",
-    "approvedBy": "Ken Mun",
-    "approvedAt": "2026-05-14",
-    "linkedDocs": [
-      "docs/Nexus-System-Architecture-v1.0.md",
-      "docs/Aevlith-Technology-Strategy-Roadmap-v1.0-Internal.md"
-    ],
-    "linkedCHG": "CHG-0318"
-  },
-  "TRIGGER-16": {
-    "name": "P2\u2192P4 Checkpoint: Golden Blueprint Review",
-    "condition": "TRIGGER-14 fires (post-P2 stable, event sourcing design begins)",
-    "action": "Atlas: (1) Full refresh of both golden blueprint documents. (2) Add Phase 3 event sourcing architecture to System Architecture doc. (3) Update strategy doc with FSI trajectory detail. (4) Architecture Delta Summary for Ken review.",
-    "status": "pending",
-    "approvedBy": "Ken Mun",
-    "approvedAt": "2026-05-14",
-    "linkedCHG": "CHG-0318"
-  },
-  "TRIGGER-17": {
-    "name": "Annual Review: Golden Blueprints (May each year)",
-    "condition": "May annually \u2014 platform anniversary month",
-    "action": "Atlas: (1) Full review of both golden blueprints against live platform state. (2) Prune outdated content. (3) Revalidate OKRs and KRIs. (4) Confirm locked decisions still hold. (5) Update current state sections. (6) Ken approval before next year.",
-    "status": "pending",
-    "approvedBy": "Ken Mun",
-    "approvedAt": "2026-05-14",
-    "linkedCHG": "CHG-0318"
-  },
-  "TRIGGER-18": {
-    "name": "Spark: LinkedIn stability arc post \u2014 Gateway event loop investigation complete",
-    "condition": "TKT-0177 closed (Telegram startup hang + memory leak root causes resolved)",
-    "action": "Brief Spark to write a LinkedIn post/article under the AIOps authority arc. Topic: building a production agentic AI platform \u2014 gateway stability, event loop saturation, how we diagnosed and fixed it. External-facing, no internal refs. Key angles: (1) what event loop saturation looks like in production AI platforms, (2) the diagnostic process (logs, P99 vs MAX delay), (3) the fix (nightly restart as mitigation, root cause investigation), (4) lessons for teams building always-on AI operations. Must be genuinely educational for AI practitioners/CTOs. No vanity metrics. Length: substantial post or short article format.",
-    "linkedTKT": "TKT-0177",
-    "status": "pending",
-    "approvedBy": "Ken Mun",
-    "approvedAt": "2026-05-15",
-    "linkedCHG": "CHG-0325-pending"
-  },
-  "CHG-0331": {
-    "id": "CHG-0331",
-    "type": "policy-creation",
-    "title": "POL-011 Skill Installation and Security Review Policy \u2014 formal policy production",
-    "description": "Produced POL-011 as part of TKT-0137 AC2 batch. Derived from approved Skill-Installation-Policy-v1.0.md. Status: APPROVED. Effective 2026-05-15. Owner: Yoda + Shield. Saved to docs/POL-011-Skill-Installation-Policy.md. Uploaded to Google Drive (Docs folder). policy-register.json created.",
-    "status": "completed",
-    "approvedBy": "Ken Mun",
-    "approvedAt": "2026-05-15",
-    "executedAt": "2026-05-15",
-    "executedBy": "Lex",
-    "linkedTKT": "TKT-0137",
-    "driveLink": "https://drive.google.com/file/d/17GaIr_cA12ElKIzWNj65U6xKvexAELfb/view?usp=drivesdk"
-  },
-  "TRIGGER-03": {
-    "status": "pending",
-    "description": "OC2 Gemma4 swap-out: Replace Haiku (T1 governance) with gemma4:26b local. Validate gemma4:31b-coding-mtp-bf16 as T1 candidate for OC2 48GB.",
-    "triggerCondition": "OC2 commissioned + MinIO validated",
-    "dependencies": [
-      "TRIGGER-01",
-      "TRIGGER-02",
-      "TRIGGER-13"
-    ],
-    "actions": [
-      "1. Benchmark gemma4:26b on OC2 vs Haiku accuracy",
-      "2. Test gemma4:31b-coding-mtp-bf16 local inference on OC2 (MTP-BF16 variant)",
-      "3. Validate 2x speed claim from Ollama May 8 email",
-      "4. If pass rate >=75%, swap Haiku \u2192 gemma4 for T1 governance agents",
-      "5. Update model-policy.json T1 tier"
-    ],
-    "modelsToEvaluate": [
-      "ollama/gemma4:26b",
-      "ollama/gemma4:31b-coding-mtp-bf16"
-    ],
-    "note": "ENHANCED 2026-05-17: Added gemma4:31b-coding-mtp-bf16 per Ollama May 8 email (2x speed, MTP support on macOS MLX). OC2 48GB has headroom for BF16. Evaluate alongside :26b.",
-    "updatedAt": "2026-05-17T11:16:24.734868+10:00"
   }
 }
