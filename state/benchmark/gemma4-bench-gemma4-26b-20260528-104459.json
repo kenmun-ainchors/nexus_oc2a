@@ -1,0 +1,65 @@
+{
+  "model": "gemma4:26b",
+  "timestamp": "2026-05-28T10:44:59+10:00",
+  "passCount": 7,
+  "failCount": 1,
+  "passRate": 87.5,
+  "tasks": [
+    {
+      "id": "T01",
+      "name": "Cost summary formatting",
+      "status": "PASS",
+      "latencyMs": 39212,
+      "model": "gemma4:26b"
+    },
+    {
+      "id": "T02",
+      "name": "Health check interpretation",
+      "status": "PASS",
+      "latencyMs": 10690,
+      "model": "gemma4:26b"
+    },
+    {
+      "id": "T03",
+      "name": "CHANGELOG entry formatting",
+      "status": "PASS",
+      "latencyMs": 15923,
+      "model": "gemma4:26b"
+    },
+    {
+      "id": "T04",
+      "name": "Structured JSON extraction",
+      "status": "PASS",
+      "latencyMs": 12440,
+      "model": "gemma4:26b"
+    },
+    {
+      "id": "T05",
+      "name": "Task routing classification",
+      "status": "PASS",
+      "latencyMs": 10371,
+      "model": "gemma4:26b"
+    },
+    {
+      "id": "T06",
+      "name": "Ticket status update (structured)",
+      "status": "FAIL",
+      "latencyMs": 19364,
+      "model": "gemma4:26b"
+    },
+    {
+      "id": "T07",
+      "name": "Backlog priority summary",
+      "status": "PASS",
+      "latencyMs": 10166,
+      "model": "gemma4:26b"
+    },
+    {
+      "id": "T08",
+      "name": "Warm response latency (repeat T01)",
+      "status": "PASS",
+      "latencyMs": 34788,
+      "model": "gemma4:26b"
+    }
+  ]
+}
