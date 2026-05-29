@@ -197,6 +197,11 @@ _Maintained by Aria 🔵 + Yoda 🟢 | Status-tracked content for AInchors train
 | TC-177 | What to do when a scheduled review times out: recovering failed automated AI operations | 💡 Idea | Yoda Day 34 (monthly model review timeout recovery, 3 issues surfaced, benchmark fix, drift resolved) | Both |
 | TC-178 | Cost accounting for fixed-subscription AI: fair-value rates when you leave pay-as-you-go | 💡 Idea | Yoda Day 34 (CHG-0444 — budget cap recalibration, Set A/B Ollama Cloud rates, cost tracker update) | Aria |
 | TC-179 | Template enforcement for AI-generated reports: locking format to stop daily drift | 💡 Idea | Yoda Day 34 (standup template lock-down, 8-section non-negotiable format, model prompt hardening) | Aria |
+| TC-180 | Upgrading your AI platform without downtime: from version lag to current release with zero incidents | 💡 Idea | Yoda Day 35 (OpenClaw v2026.5.12→v2026.5.27, 16 days behind, 5 security fixes, 14 agents+59 crons verified) | Both |
+| TC-181 | One trigger to rule them all: consolidating scattered platform gates into a single master trigger | 💡 Idea | Yoda Day 35 (TRIGGER-01 Master Gate, 11 ordered sub-actions, Claude Restore+Platform Separation folded in) | Yoda |
+| TC-182 | The tilde trap: why ~/ breaks in AI automation and how to catch it before production | 💡 Idea | Yoda Day 35 (3 cron failures from ~ in isolated sessions, safe-path.sh guard, platform-level fix TKT-0327) | Yoda |
+| TC-183 | False-positive alerts in AI monitoring: tuning thresholds and fixing regex to stop crying wolf | 💡 Idea | Yoda Day 35 (backup checker regex matching own output, 26h→30h threshold relaxation, Anthropic balance suppression) | Both |
+| TC-184 | Building a platform restore runbook: the document that proves your AI platform is recoverable | 💡 Idea | Yoda Day 35 (BASE1 restore runbook, dual-path backup+GitHub, 14 agents, verification checklist, Drive+GitHub deliverable) | Aria |
 
 ## Status Legend
 💡 Idea → 📝 Draft → 🔍 Review (Yoda validates) → ✅ Ready → 📢 Published
