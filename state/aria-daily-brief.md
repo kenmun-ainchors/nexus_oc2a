@@ -1,3 +1,68 @@
+## Friday, May 29, 2026 — Business Stream Summary
+_Written 23:45 AEST by Aria cron_
+
+### Angie interactions today
+No Angie activity today.
+
+### Decisions made
+- None today. CTO Contract Meeting (scheduled yesterday for today 10 AM) — no post-meeting debrief or follow-up received from Angie.
+
+### Governance reviews
+- None triggered.
+
+### Open items
+- 🔴 **CR-002 (LinkedIn Setup / Spark)** — Still pending Ken/Yoda action since May 22.
+- 🟡 **Onboarding Stage 2** — OB-12, OB-14, OB-15 still unchecked.
+- 🟡 **Lynn Huang (bookkeeping)** — awaiting fee schedule reply.
+- 🟡 **Jack Ooi (accounting)** — awaiting update on meeting.
+- 🟡 **Training revenue projection** — pending review.
+- 🟡 **Marketing collaterals** — pending Angie review.
+- 🟡 **Meta appeal** — status unknown.
+- 🔴 **JotForm/HRDF** — outstanding from April 28.
+- 🟡 **April 30 class debrief** — still missing.
+- 🆕 **CTO Contract Meeting outcome** — Meeting was today at 10 AM (Angie & Ken). No debrief or next steps shared by Angie yet.
+
+### Handoff to Yoda
+- Quiet Friday. Angie was active yesterday (Thu May 28) for the first time in 6 days — she re-engaged with a voice note, had Aria set up the CTO Contract Meeting (with a false start: "Ignore that / Stop this / redo"), then went quiet again today.
+- **CTO Contract Meeting happened today at 10 AM** — Angie & Ken met via Google Meet. No outcome or follow-up shared. This could be a major milestone (Ken's CTO contract finalization). Worth asking Angie how it went.
+- **Voice note handling**: Aria installed `openai-whisper` via Homebrew yesterday to transcribe Angie's voice note. Initial process was clunky (tried Swift STT, failed). If voice notes are Angie's preferred format going forward, the pipeline should be smoothed out.
+- **Relay queue**: No new items from Angie today. CR-002 (LinkedIn/Spark) still the only open CR — 7 days old.
+
+---
+## Thursday, May 28, 2026 — Business Stream Summary
+_Written 23:45 AEST by Aria cron_
+
+### Angie interactions today
+- **[14:42 AEST]** Angie sent a voice note (~10 sec OGG) via Telegram — Aria installed `openai-whisper` via Homebrew to transcribe, then macOS Swift STT failed → settled on whisper transcription.
+- **[14:42–14:48 AEST]** Angie asked (voice + text): "Set up a CTO contract Google Meet meeting with Ken tomorrow at 10am." Aria created the calendar invite (Fri May 29, 10:00–11:00 AM AEST, Google Meet), wrote relay queue entry for Ken, then Angie said "Ignore that" / "Stop this." Aria cancelled/deleted the meeting, then Angie re-issued the same request.
+- **[14:48 AEST]** Angie confirmed: "1 hr at 10am Sydney time" — Aria re-created: 📅 CTO Contract Meeting, Fri May 29 10:00–11:00 AM AEST, Google Meet, Ken invited. ✅ Done.
+- **[14:49 AEST]** Session ended. No further Angie messages today.
+
+### Decisions made
+- **Meeting confirmed**: CTO Contract Meeting — Angie & Ken, Friday May 29, 10:00–11:00 AM AEST via Google Meet.
+- **Whisper installed**: Aria installed `openai-whisper` via Homebrew to handle voice note transcription (no prior STT capability).
+
+### Governance reviews
+- None triggered — internal calendar invite, no external comms.
+
+### Open items
+- 🔴 **CR-002 (LinkedIn Setup)** — Still pending Ken/Yoda action.
+- 🟡 **Onboarding Stage 2** — OB-12, OB-14, OB-15 still unchecked.
+- 🟡 **Lynn Huang (bookkeeping)** — awaiting fee schedule reply.
+- 🟡 **Jack Ooi (accounting)** — awaiting update on meeting.
+- 🟡 **Training revenue projection** — pending review.
+- 🟡 **Marketing collaterals** — pending Angie review.
+- 🟡 **Meta appeal** — status unknown.
+- 🔴 **JotForm/HRDF** — outstanding from April 28.
+- 🟡 **April 30 class debrief** — still missing.
+
+### Handoff to Yoda
+- Angie re-engaged after 6-day quiet streak! First interaction since Friday May 22. She's active and pushing forward.
+- **CTO Contract Meeting** tomorrow (Fri May 29, 10 AM) — Angie & Ken. Aria set up via Google Calendar and dropped relay queue heads-up. This is a significant meeting (CTO contract = hiring/finalizing Ken's CTO role).
+- Voice note handling was a learning curve — Aria now has `openai-whisper` available for future transcription. Initial process was clunky (tried Swift STT, failed, had to brew-install whisper). Worth noting if this is recurring comms format from Angie.
+- Angie's "Ignore that / Stop this / redo" pattern suggests she was testing or changed her mind mid-stream — Aria handled the undo/redo correctly.
+
+---
 ## Thursday, May 28, 2026 — Business Stream Summary
 _Written 23:45 AEST by Aria cron_
 
