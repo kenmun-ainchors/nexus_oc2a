@@ -138,6 +138,18 @@ DeepSeek = permanent primary. kimi = fallback only. Full history: `memory/MEMORY
 
 **CHGs:** CHG-0430 through CHG-0442 (13 today)
 
-**Sprint 6 queue (locked):** TKT-0310 (Platform Constraints), TKT-0317 (Context Epic + 4 sub), TKT-0268 (PG Stability), TKT-0269 (PG Backup), TKT-0293 (Regression), TKT-0321-0322 (Dispatch)
+---
 
-**Platform state:** 14 agents. 18 PG tables. 251 tickets. TQP execution gate live for Yoda. Journal inline writes stable. Sprint 5 clean. Sprint 6 queued.
+## Day 36 End-of-Day (2026-05-29) — Sprint 5 Closed + Platform Separation Approved
+
+**Sprint 5 Review (Fri May 29):** 7 committed closed, 11 bonus delivered, 18 items total. 4 carried to S6 (TKT-0268, TKT-0269, TKT-0137, TKT-0275). TKT-0236 confirmed closed (was incorrectly listed as not started). TKT-0241 blocked (Claude Restore). TKT-0238 folded into TKT-0327. TKT-0313 merged into TKT-0317. 15 CHGs (0430-0444). Open critical+high: 17→8 (53% reduction).
+
+**Platform Separation — APPROVED:** OC1 repurposed as standalone business node (Aria + 6 agents). OC2-A/B remains tech HIVE HA pair. No cross-node. Ken approved C1 (second license), C2 (separate Ollama sub), C3 (new Google Workspace for tech). All 3 risks accepted. Atlas option paper + Thrawn feasibility delivered to Drive. Phase 0 prep can start now.
+
+**Budget Recalibration:** Monthly cap A$500→$150 USD (effective Jun 1). Ollama Cloud Max $100/mo fixed + $50 Claude buffer. Model rates locked (subscription-aligned + market-equivalent). TKT-0325 closed.
+
+**Infra fixes:** BASE1 restore runbook + NAS backup delivered. 3 cron prompts patched (tilde-path bug, safe-path.sh guard). Auto-heal confirmed running (PG write gap folded into TKT-0327). Backup obs false positives fixed (regex).
+
+**Sprint 6 queue (locked — 14 items):** TKT-0310 (Platform Constraints), TKT-0317 (Context Epic + 4 sub), TKT-0268 (PG Stability), TKT-0269 (PG Backup), TKT-0293 (Regression), TKT-0321 (Yoda Dispatch), TKT-0322 (Thrawn/Atlas Dispatch), TKT-0326 (NAS Writable Backup), TKT-0327 (Tilde-Path Normalization), TKT-0318 (Aria TQP), TKT-0319 (Global TQP), TKT-0137 (Policy Register), TKT-0275 (Progressive Disclosure), + Platform Separation Phase 0 prep.
+
+**Platform state:** 14 agents. 18 PG tables. 251+ tickets. TQP gate live. Journal inline writes stable. Sprint 5 closed. Sprint 6 queued. Platform Separation go.
