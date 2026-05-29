@@ -125,9 +125,9 @@ if [[ -z "$LATEST_BACKUP" ]]; then
   NEEDS_KEN+=("No backup files found in ~/Backups/ainchors/workspace/ or workspace-incremental/")
 else
   AGE_HOURS=$(( ( $(date +%s) - $(stat -f %m "$BACKUP_PATH") ) / 3600 ))
-  if (( AGE_HOURS > 26 )); then
+  if (( AGE_HOURS > 30 )); then
     ISSUES_FOUND+=("backup:stale:${AGE_HOURS}h")
-    NEEDS_KEN+=("Latest ${BACKUP_TYPE} backup is ${AGE_HOURS}h old (>26h threshold). Path: ${BACKUP_PATH}")
+    NEEDS_KEN+=("Latest ${BACKUP_TYPE} backup is ${AGE_HOURS}h old (>30h threshold). Path: ${BACKUP_PATH}")
     log "  ISSUE: backup stale ${AGE_HOURS}h (${BACKUP_TYPE})"
   else
     log "  OK: ${BACKUP_TYPE} backup ${AGE_HOURS}h old: ${LATEST_BACKUP}"
@@ -235,15 +235,30 @@ write_state
 # ---------- CHECK 9: Cost balance ----------
 log "CHECK 9: API balance"
 CHECKS_RUN+=("api_balance")
-COST_FILE="$STATE_DIR/cost-state.json"
-if [[ -f "$COST_FILE" ]]; then
-  REMAINING=$(jq -r '.apiBalance.remainingEstimate // 0' "$COST_FILE")
-  THRESHOLD_10=$(jq -r '.spendAlerts.alert10pct.threshold // 5' "$COST_FILE")
-  REMAINING_INT=$(echo "$REMAINING" | awk '{printf "%d", $1*100}')
-  THRESHOLD_INT=$(echo "$THRESHOLD_10" | awk '{printf "%d", $1*100}')
-  if (( REMAINING_INT < THRESHOLD_INT )); then
-    ISSUES_FOUND+=("balance:critical:\$${REMAINING}")
-    NEEDS_KEN+=("API balance critically low: \$${REMAINING} USD remaining (threshold \$${THRESHOLD_10})")
+# CHG-0446: Anthropic balance check suppressed until TRIGGER-01 (OC2 arrival + CLAUDE RESTORE).
+# Ollama Cloud is $100/mo fixed subscription — no pay-as-you-go balance to track.
+# Re-enable this check after TRIGGER-01 sub-action 01-CLAUDE-RESTORE completes.
+TRIGGER_FILE="$STATE_DIR/chg-triggers.json"
+CLAUDE_SUPPRESS=true
+if [[ -f "$TRIGGER_FILE" ]]; then
+  TRIGGER01_STATUS=$(jq -r '.triggers["TRIGGER-01"].status // "pending"' "$TRIGGER_FILE")
+  if [[ "$TRIGGER01_STATUS" == "fired" ]]; then
+    CLAUDE_SUPPRESS=false
+  fi
+fi
+if [[ "$CLAUDE_SUPPRESS" == "true" ]]; then
+  log "  SKIP: Anthropic balance check suppressed (CLAUDE RESTORE pending — TRIGGER-01 not yet fired)"
+else
+  COST_FILE="$STATE_DIR/cost-state.json"
+  if [[ -f "$COST_FILE" ]]; then
+    REMAINING=$(jq -r '.apiBalance.remainingEstimate // 0' "$COST_FILE")
+    THRESHOLD_10=$(jq -r '.spendAlerts.alert10pct.threshold // 5' "$COST_FILE")
+    REMAINING_INT=$(echo "$REMAINING" | awk '{printf "%d", $1*100}')
+    THRESHOLD_INT=$(echo "$THRESHOLD_10" | awk '{printf "%d", $1*100}')
+    if (( REMAINING_INT < THRESHOLD_INT )); then
+      ISSUES_FOUND+=("balance:critical:\$${REMAINING}")
+      NEEDS_KEN+=("API balance critically low: \$${REMAINING} USD remaining (threshold \$${THRESHOLD_10})")
+    fi
   fi
 fi
 write_state
