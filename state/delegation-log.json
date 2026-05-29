@@ -1382,10 +1382,140 @@
       "status": "pass",
       "latencyMs": 0,
       "notes": "warden check (permanent baseline CHG-0394)"
+    },
+    {
+      "ts": "2026-05-29T11:07:04+10:00",
+      "date": "2026-05-29",
+      "tier": "T2",
+      "taskType": "warden-check",
+      "model": "ollama/gemma4:31b-cloud",
+      "status": "pass",
+      "latencyMs": 0,
+      "notes": "warden check (permanent baseline CHG-0394)"
+    },
+    {
+      "ts": "2026-05-29T12:07:04+10:00",
+      "date": "2026-05-29",
+      "tier": "T2",
+      "taskType": "warden-check",
+      "model": "ollama/gemma4:31b-cloud",
+      "status": "pass",
+      "latencyMs": 0,
+      "notes": "warden check (permanent baseline CHG-0394)"
+    },
+    {
+      "ts": "2026-05-29T13:07:03+10:00",
+      "date": "2026-05-29",
+      "tier": "T2",
+      "taskType": "warden-check",
+      "model": "ollama/gemma4:31b-cloud",
+      "status": "pass",
+      "latencyMs": 0,
+      "notes": "warden check (permanent baseline CHG-0394)"
+    },
+    {
+      "ts": "2026-05-29T14:07:03+10:00",
+      "date": "2026-05-29",
+      "tier": "T2",
+      "taskType": "warden-check",
+      "model": "ollama/gemma4:31b-cloud",
+      "status": "pass",
+      "latencyMs": 0,
+      "notes": "warden check (permanent baseline CHG-0394)"
+    },
+    {
+      "ts": "2026-05-29T15:07:03+10:00",
+      "date": "2026-05-29",
+      "tier": "T2",
+      "taskType": "warden-check",
+      "model": "ollama/gemma4:31b-cloud",
+      "status": "pass",
+      "latencyMs": 0,
+      "notes": "warden check (permanent baseline CHG-0394)"
+    },
+    {
+      "ts": "2026-05-29T16:07:04+10:00",
+      "date": "2026-05-29",
+      "tier": "T2",
+      "taskType": "warden-check",
+      "model": "ollama/gemma4:31b-cloud",
+      "status": "pass",
+      "latencyMs": 0,
+      "notes": "warden check (permanent baseline CHG-0394)"
+    },
+    {
+      "ts": "2026-05-29T17:07:03+10:00",
+      "date": "2026-05-29",
+      "tier": "T2",
+      "taskType": "warden-check",
+      "model": "ollama/gemma4:31b-cloud",
+      "status": "pass",
+      "latencyMs": 0,
+      "notes": "warden check (permanent baseline CHG-0394)"
+    },
+    {
+      "ts": "2026-05-29T18:07:04+10:00",
+      "date": "2026-05-29",
+      "tier": "T2",
+      "taskType": "warden-check",
+      "model": "ollama/gemma4:31b-cloud",
+      "status": "pass",
+      "latencyMs": 0,
+      "notes": "warden check (permanent baseline CHG-0394)"
+    },
+    {
+      "ts": "2026-05-29T19:07:06+10:00",
+      "date": "2026-05-29",
+      "tier": "T2",
+      "taskType": "warden-check",
+      "model": "ollama/gemma4:31b-cloud",
+      "status": "pass",
+      "latencyMs": 0,
+      "notes": "warden check (permanent baseline CHG-0394)"
+    },
+    {
+      "ts": "2026-05-29T20:00:16+10:00",
+      "date": "2026-05-29",
+      "tier": "T2",
+      "taskType": "burn-check",
+      "model": "anthropic/claude-haiku-4-5",
+      "status": "pass",
+      "latencyMs": 0,
+      "notes": "Burn check: /bin/zsh.351 today"
+    },
+    {
+      "ts": "2026-05-29T20:07:03+10:00",
+      "date": "2026-05-29",
+      "tier": "T2",
+      "taskType": "warden-check",
+      "model": "ollama/gemma4:31b-cloud",
+      "status": "pass",
+      "latencyMs": 0,
+      "notes": "warden check (permanent baseline CHG-0394)"
+    },
+    {
+      "ts": "2026-05-29T21:07:04+10:00",
+      "date": "2026-05-29",
+      "tier": "T2",
+      "taskType": "warden-check",
+      "model": "ollama/gemma4:31b-cloud",
+      "status": "pass",
+      "latencyMs": 0,
+      "notes": "warden check (permanent baseline CHG-0394)"
+    },
+    {
+      "ts": "2026-05-29T22:07:04+10:00",
+      "date": "2026-05-29",
+      "tier": "T2",
+      "taskType": "warden-check",
+      "model": "ollama/gemma4:31b-cloud",
+      "status": "pass",
+      "latencyMs": 0,
+      "notes": "warden check (permanent baseline CHG-0394)"
     }
   ],
   "summary": {
-    "total": 138,
+    "total": 151,
     "byTier": {
       "T1": {
         "pass": 0,
@@ -1393,7 +1523,7 @@
         "timeout": 0
       },
       "T2": {
-        "pass": 28,
+        "pass": 41,
         "fail": 110,
         "timeout": 0
       },
@@ -1405,18 +1535,18 @@
     },
     "byTaskType": {
       "warden-check": {
-        "pass": 23,
+        "pass": 35,
         "fail": 110,
         "timeout": 0,
         "tier": "T2"
       },
       "burn-check": {
-        "pass": 5,
+        "pass": 6,
         "fail": 0,
         "timeout": 0,
         "tier": "T2"
       }
     },
-    "estimatedSavingsUSD": 0.14
+    "estimatedSavingsUSD": 0.205
   }
 }

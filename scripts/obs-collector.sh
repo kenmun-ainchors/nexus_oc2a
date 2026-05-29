@@ -375,7 +375,11 @@ for line in open('$BACKUP_LOG'):
     if m:
         try: current_epoch = int(datetime.strptime(m.group(1),'%Y-%m-%d %H:%M:%S').replace(tzinfo=timezone.utc).timestamp())
         except: pass
-    if current_epoch > last_run and re.search(r'error|fail', line, re.IGNORECASE):
+    # L-045: Only match actual error lines, not filenames in rsync output
+    # rsync errors start with 'rsync:' or 'rsync error:' — filenames are indented with tabs
+    is_rsync_file = line.startswith('\t') or line.startswith('        ')
+    is_error_line = re.search(r'(^rsync:.*error|^\[.*\].*error|^error[:\s]|^fatal[:\s])', line, re.IGNORECASE)
+    if current_epoch > last_run and not is_rsync_file and is_error_line:
         print('FAIL|' + line.strip()[:120])
         sys.exit(0)
 print('OK')

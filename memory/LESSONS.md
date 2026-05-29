@@ -600,3 +600,36 @@ When declaring ANY interim model period (Anthropic outage, kimi substitution, mo
 
 **Source:** TKT-0312 first dispatch (gemma4, failed) vs second dispatch (gemma4, succeeded with precise SQL).
 **Severity:** Medium — no data loss, but wasted ~10 minutes of platform time and Ken's attention.
+
+---
+
+## L-045: Agent Models Systematically Ignore Absolute-Path Warnings in Isolated Cron Sessions
+
+**Date:** 2026-05-29
+**Category:** Platform Reliability / Cron Execution
+**Severity:** High — causes silent data loss (3 crons affected, one 22-day stale)
+
+### What Happened
+Three crons (Morning Stand-Up, Daily Blog, Aria ROI) failed because agent models (DeepSeek, Gemma4) used `~/.openclaw/...` paths in `write` tool calls despite prominent ⛔ absolute-path warnings in the prompts. Isolated cron sessions don't expand `~`, so writes silently failed with no error surfaced to the agent.
+
+### Root Cause
+1. **Model behavior:** Both DeepSeek and Gemma4 revert to `~` as the default path prefix even when instructed to use absolute paths.
+2. **Warning fatigue:** Even with ⛔ blocks at the top of prompts and explicit "SILENTLY FAILS" warnings, models ignore text-level path instructions.
+3. **No platform enforcement:** OpenClaw's write tool in isolated sessions doesn't normalize `~` to absolute paths. No validation at the tool level.
+
+### Fix Applied (2026-05-29)
+- Added `safe-path.sh` execution mandate: agent must run the script and use its literal output
+- Restructured all 3 cron prompts with ⛔ block as the FIRST instruction
+- Added per-write-point safe-path.sh calls instead of general warnings
+- Blog timeout extended 600→900s to handle full triad gate
+
+### Unresolved
+- This is a model-reliability fix, not a structural fix
+- Structural fix: OpenClaw should normalize `~` → absolute path in isolated sessions at the platform level
+- Or: add a pre-write hook that intercepts `~` paths and rejects them with a clear error
+
+### Prevention
+- All new cron prompts with file writes must include the safe-path.sh mandate pattern
+- Monitor: verify all 3 crons succeed on their next scheduled run
+
+**Source:** Cron failure report from Ken 2026-05-29. Stand-Up 22 days stale (May 7–29).

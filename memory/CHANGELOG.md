@@ -106,6 +106,45 @@
 **Linked:** CHG-0349, CHG-0350, TKT-0165, TKT-0175
 ---
 
+## 2026-05-29 22:12 AEST — [CHG-0447] CHG-0447: Auto-Heal — backup threshold relaxed 26h→30h + Anthropic balance suppressed until TRIGGER-01
+**Type:** script
+**Change Type:** Normal
+**Source:** ken-prompt
+**Trigger:** Ken acknowledged both auto-heal needs_ken items 2026-05-29 22:12
+**What changed:** auto-heal.sh CHECK 3: backup freshness threshold relaxed from 26h→30h to allow for cron drift. CHECK 9: Anthropic API balance check suppressed while TRIGGER-01 status=pending — re-enables automatically when TRIGGER-01 fires (OC2 arrival → CLAUDE RESTORE). Ollama Cloud is /mo fixed sub, not pay-as-you-go.
+**Why:** Item 1: 26h threshold too tight, 3h overage on 29h-old backup. TKT-0326 covers real fix. Item 2: Anthropic balance is intentionally /bin/zsh until OC2 arrival — suppressing eliminates false-positive alert until then.
+**Verification:** grep confirms 30h threshold applied. CLAUDE_SUPPRESS gate reads TRIGGER-01 status from chg-triggers.json. auto-heal-current.json acknowledged with resolution notes.
+**Rollback:** N/A
+**Linked:** none
+---
+
+
+## 2026-05-29 22:09 AEST — [CHG-0446] CHG-0446: TRIGGER-14 + Platform Separation folded into TRIGGER-01 Master Gate
+**Type:** config
+**Change Type:** Normal
+**Source:** ken-prompt
+**Trigger:** Ken directive 2026-05-29 22:07: fold TRIGGER-14 (Claude Restore) and Platform Separation into OC2 trigger
+**What changed:** chg-triggers.json v1.0→v2.0. TRIGGER-01 expanded to Master Gate with 11 sub-actions: hardware setup, OpenClaw install, Claude Restore, Platform Separation, PG migration, qwen3.5 reassessment, MD version bump, SecretRefs, new Google Workspace. TRIGGER-10 retired (business migration replaced by Platform Separation). TRIGGER-14 cleaned up (Claude Restore moved, Phase 3 Event Sourcing preserved). Duplicate TRIGGER-03/TRIGGER-14 root-level entries removed. All triggers re-sequenced.
+**Why:** OC2 arrival is the natural gate for all OC2-era actions. No point doing Claude Restore or Platform Separation on OC1 when hardware is about to change. Single master trigger with ordered sub-actions eliminates sequencing ambiguity.
+**Verification:** JSON syntax valid. All 18 triggers preserved (plus QBR). TRIGGER-01 sub-actions in priority order. Retired trigger explicitly documented with replacement pointer.
+**Rollback:** N/A
+**Linked:** none
+---
+
+
+## 2026-05-29 22:03 AEST — [CHG-0445] CHG-0445: OpenClaw v2026.5.12 → v2026.5.27 Upgrade
+**Type:** infra
+**Change Type:** Normal
+**Source:** ken-prompt
+**Trigger:** Ken approved upgrade after sprint review
+**What changed:** OpenClaw upgraded from 2026.5.12 to 2026.5.27. Gateway restarted via doctor recovery. Config slimmed (crons moved from openclaw.json to Gateway internal state).
+**Why:** 16 days behind. 5 security fixes gap, Telegram durable delivery, session lock/timeout fixes, gateway perf improvements.
+**Verification:** Full shakedown: 14 agents ✅, 59 crons ✅, 32 PG tables ✅, Telegram ✅, Notion ✅, Gmail ✅, Calendar ✅. No new issues.
+**Rollback:** N/A
+**Linked:** none
+---
+
+
 ## 2026-05-28 11:42 AEST — [CHG-0444] Budget Cap Recalibration + Ollama Cloud Model Rates
 **Type:** config
 **Change Type:** Normal
