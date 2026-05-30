@@ -116,6 +116,8 @@ DeepSeek = permanent primary. kimi = fallback only. Full history: `memory/MEMORY
 
 **TKT-0308 Agent Workspace Separation:** Forge → workspace-infra, Ahsoka → workspace-ahsoka. Luthen 🔍 first activation from spec v1.0 (workspace-luthen). Spark ✨ registered in agents.list (was ephemeral). Krennic parked until OC2. 14 agents in openclaw.json, 14/14 RULES.md, 14/14 model-policy.
 
+**TKT-0329 Thrawn Assessment — Workspace Sandbox vs Delivery Gap:** Raised 2026-05-30. TKT-0308 introduced workspace separation but didn't define cross-workspace delivery paths. Forge built TKT-0328 script in workspace-infra/ but couldn't deliver to workspace/scripts/ — Yoda bridged manually. Thrawn assigned: map all cross-workspace deps, evaluate symlink bridge + delivery-map.json + auto-heal CHECK 16. Sprint 6 locked.
+
 **TKT-0297 PG→Notion Sync Redesign:** Thrawn approved architecture. Forge built pg-to-notion-sync.sh (idempotent, file-locked, timestamp-filtered). ticket.sh reads PG primary via db.sh. Closed.
 
 **TKT-0309 Context Retention — TQP Execution Gate:** Atlas assessed 4-layer stack → "hydration void" identified. Thrawn designed Option E (TQP as gate, not hook). Ken approved. Phase 1 built: 5 new schema columns + sc_persist_atom + sc_resume_context. Phase 2 (Yoda inline adoption) parked for tomorrow.

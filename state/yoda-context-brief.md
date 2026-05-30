@@ -1,5 +1,5 @@
 # Yoda Telegram Context Brief
-Generated: 2026-05-30 14:00 AEST | Platform Day 36 | Sprint 6 Queued
+Generated: 2026-05-30 20:00 AEST | Platform Day 36 | Sprint 6 Queued
 
 ---
 
@@ -79,7 +79,7 @@ Full backlog: Notion AKB Backlog (SSOT). tickets.json seq 251.
 ---
 
 ## LinkedIn Queue Status
-- **Status:** `state/linkedin-queue.json` missing. Defer to Spark.
+- **Status:** Data missing in `state/linkedin-queue.json`. Defer to Spark.
 - **API:** Connected, token valid to 2026-07-12.
 
 ---
