@@ -1,3 +1,35 @@
+## Saturday, May 30, 2026 — Business Stream Summary
+_Written 23:45 AEST by Aria cron_
+
+### Angie interactions today
+No Angie activity today.
+
+### Decisions made
+- None today. Angie last active Thursday May 28 — 2 days quiet.
+
+### Governance reviews
+- None triggered.
+
+### Open items
+- 🔴 **CTO Contract Meeting outcome** — Meeting happened Friday May 29 at 10 AM (Angie & Ken). No debrief or next steps shared by either Angie or Ken. This is likely a major milestone (CTO contract finalization).
+- 🔴 **CR-002 (LinkedIn Setup / Spark)** — Still pending Ken/Yoda action since May 22. 8 days old.
+- 🟡 **Onboarding Stage 2** — OB-12, OB-14, OB-15 still unchecked.
+- 🟡 **Lynn Huang (bookkeeping)** — awaiting fee schedule reply.
+- 🟡 **Jack Ooi (accounting)** — awaiting update on meeting.
+- 🟡 **Training revenue projection** — pending review.
+- 🟡 **Marketing collaterals** — pending Angie review.
+- 🟡 **Meta appeal** — status unknown.
+- 🔴 **JotForm/HRDF** — outstanding from April 28.
+- 🟡 **April 30 class debrief** — still missing.
+
+### Handoff to Yoda
+- Quiet Saturday. Angie was last active Thursday May 28 (CTO Contract Meeting setup + voice note). Friday was the meeting day — no post-meeting follow-up from Angie. Saturday completely silent.
+- **CTO Contract Meeting (Fri May 29, 10AM)**: No outcome known. Could be a breakthrough (contract signed?) or a non-event. Worth asking Angie directly.
+- **Angie quiet streak**: 2 days now (Friday + Saturday). Within normal range — weekends are expected downtime.
+- **Voice note pipeline**: Aria now has `openai-whisper` installed for transcription. Process was clunky on first use (Swift STT attempt → failed → pip-blocked → brew install). Worth smoothing this out if voice notes become Angie's preferred format.
+- **Relay queue**: Empty. No new Angie-originated items.
+- **CR-002**: Now 8 days old — LinkedIn/Spark setup still not actioned. This is the longest-standing open action item.
+
 ## Friday, May 29, 2026 — Business Stream Summary
 _Written 23:45 AEST by Aria cron_
 
