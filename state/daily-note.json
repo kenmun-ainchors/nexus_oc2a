@@ -1,31 +1,22 @@
 {
-  "date": "2026-05-29",
-  "dayNumber": 35,
-  "dayOfWeek": "Friday",
+  "date": "2026-05-30",
+  "dayNumber": 36,
+  "dayOfWeek": "Saturday",
+  "standupCompleted": true,
   "systemStatus": "ok",
-  "backupFresh": true,
-  "backupLastSnap": "workspace-2026-05-29-0205",
-  "obsEvents24h": 56,
-  "obsErrors": 49,
-  "obsWarnings": 3,
-  "tasksFailed": 0,
-  "tasksStalled": 0,
-  "apiBalance": 203.48,
-  "memoryChars": 10813,
-  "wardenClean": true,
-  "wardenEscalationPending": false,
-  "openIncidents": 0,
-  "sprint": "S5",
-  "sprintEndDate": "2026-06-01",
-  "sprintDaysRemaining": 3,
-  "angieActive": true,
-  "angieLastInteraction": "2026-05-28T14:48:00+10:00",
-  "ctoMeeting": {
-    "title": "CTO Contract Meeting — Angie & Ken",
-    "when": "2026-05-29T10:00:00+10:00",
-    "duration": "1 hour",
-    "via": "Google Meet"
-  },
-  "recentChgs": ["CHG-0444", "CHG-0443", "CHG-0442", "CHG-0441"],
-  "chgCount": 4
+  "balance": "$203.48",
+  "highlights": [
+    "CTO Contract Meeting was yesterday (Fri May 29) — outcome unknown, no debrief",
+    "Aria now has voice transcription via openai-whisper",
+    "Ollama Cloud transition continues — near-zero API cost era",
+    "OpenClaw upgraded to v2026.5.27 (CHG-0445)",
+    "4 CHGs: infrastructure consolidation + trigger architecture"
+  ],
+  "concerns": [
+    "CTO Contract outcome unknown — critical milestone",
+    "16 backup_failure obs events — NAS + cloud still not connected",
+    "DB gaps post-upgrade (state_frameworks, state_model_drift empty)",
+    "CR-002 (LinkedIn/Spark) Day 8 pending",
+    "Sprint S5 ends Monday Jun 1 — 2 days remaining"
+  ]
 }

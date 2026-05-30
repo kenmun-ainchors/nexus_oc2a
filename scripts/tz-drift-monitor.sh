@@ -36,7 +36,7 @@ TODAY_JOURNAL="$WORKSPACE/memory/journal-$EXPECTED_DATE.md"
 TODAY_AH="$STATE_DIR/auto-heal-$EXPECTED_DATE.json"
 
 # Grace thresholds in minutes since midnight AEST
-JOURNAL_GRACE_MIN=$((10 * 60))      # 10:00 AEST — journal entries start accumulating
+JOURNAL_GRACE_MIN=$((23 * 60))      # 23:00 AEST — journal built inline throughout day; only missing if absent by EOD
 AUTOHEAL_GRACE_MIN=$((1 * 60 + 30)) # 01:30 AEST — auto-heal runs at 01:00
 
 typeset -a DRIFTS

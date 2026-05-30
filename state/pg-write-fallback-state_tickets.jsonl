@@ -24,3 +24,34 @@ Also: gemma4-benchmark.sh had a syntax bug on line 74 (dangling fi) — FIXED.
 Ken approval needed: monthly budget cap recalibration to A$150/mo effective June 2026.","created_at":"2026-05-28T00:49:30+10:00","notionSynced":false}
 {"description": "L-045: Agent models systematically ignore absolute-path warnings in isolated cron sessions. 6 crons affected across 2 failure modes.\n\nFAILURE MODE 1 — Tilde-Path (patched 2026-05-29):\n- Morning Stand-Up (3c279099): ~ path — 22 days stale\n- Daily Blog (a027fd60): timeout 600s + path risk — bumped to 900s\n- Aria ROI (7a4d8381): ~ path in workspace-business\n\nFAILURE MODE 2 — Timeout (folded into this ticket):\n- PG Sync Check (f7668f6a): 4 consecutive 30s timeouts — too short for PG queries\n- Monthly Model Strategy Review (38d77d14): 300s timeout — complex multi-model task\n- Aria Daily Summary (a7e7a820): 6 consecutive errors — stale alert from May 25\n\nRoot cause: No platform-level ~ normalization in isolated sessions. Write tool silently fails on ~ paths. No timeout calibration against actual execution durations.\n\nWorkaround: safe-path.sh mandate in all 3 agent-write cron prompts. Timeouts bumped where possible.\n\nStructural fix needed: OpenClaw auto-expand ~ in isolated sessions, OR reject with clear error. Audit all cron timeouts against 7-day execution history."}
 {"description": "L-045: Agent models ignore absolute-path warnings in isolated cron sessions. 6 crons affected across 2 failure modes.\n\nFAILURE MODE 1 - Tilde-Path (patched 2026-05-29):\n- Morning Stand-Up (3c279099): tilde path, 22 days stale\n- Daily Blog (a027fd60): timeout 600s + path risk, bumped to 900s\n- Aria ROI (7a4d8381): tilde path in workspace-business\n\nFAILURE MODE 2 - Timeout (folded into this ticket):\n- PG Sync Check (f7668f6a): 4 consecutive 30s timeouts, too short\n- Monthly Model Strategy Review (38d77d14): 300s timeout, complex task\n- Aria Daily Summary (a7e7a820): 6 consecutive errors, May 25 alert\n\nRoot cause: No platform-level tilde normalization in isolated sessions. Write tool silently fails on tilde paths. No timeout calibration against actual execution durations.\n\nWorkaround: safe-path.sh mandate in all 3 agent-write cron prompts. Timeouts bumped.\n\nStructural fix: OpenClaw auto-expand tilde in isolated sessions, OR reject with clear error. Audit all cron timeouts against 7-day execution history.\n"}
+{"id":"Thrawn Assessment: Workspace Sandbox vs Delivery Gap — Agent Cross-Workspace Artifact Delivery Architecture","title":"assessment","status":"open","priority":"high","type":"## Origin
+TKT-0308 (Agent Workspace Separation) isolated Forge to `workspace-infra/`, Ahsoka to `workspace-ahsoka/`, Luthen to `workspace-luthen/`, Spark to `workspace-social/`. 14 agents now have separate workspaces. The design prevents agents from trampling each other's files.
+
+## Problem Discovered (2026-05-30)
+Forge (workspace-infra) was assigned TKT-0328 (build journal-generate.sh for main workspace). Forge built the script in `workspace-infra/scripts/` but it needed to land in `workspace/scripts/` for the platform to use it. Forge cannot write to Yoda's main workspace — sandbox isolation creates a delivery gap.
+
+Additional complications:
+- Forge sub-agent spawned twice, timed out both times (gemma4 model, 5+ min each)
+- gemma4:31b-cloud proved unreliable for build work — swapped to deepseek-v4-pro:cloud same day
+- Yoda had to manually bridge the gap (build script in main workspace directly)
+
+## Root Cause
+Workspace separation (TKT-0308) didn't account for cross-workspace delivery. Agents that produce platform artifacts (scripts, docs, configs) have no defined delivery path to the main workspace where those artifacts are consumed.
+
+## Scope for Thrawn Assessment
+1. **Map ALL cross-workspace dependencies:** Which agents produce artifacts consumed by other workspaces?
+2. **Delivery patterns needed:** scripts/ → main, docs/ → main, templates/ → main, config/ → main
+3. **Symlink bridge proposal (Option E2):** Symlink `workspace-infra/scripts → workspace/scripts`, `workspace-infra/docs → workspace/docs`. Non-intrusive, zero-cron. Agent works in its own workspace but writes land in shared paths.
+4. **Delivery map registry:** `state/agent-delivery-map.json` — registered symlinks + auto-heal CHECK to ensure integrity
+5. **Future-proofing:** What happens when new delivery paths emerge (templates/, config/, state/)? How to catch before failure?
+6. **Gemma4 unreliability factor:** Forge primary was gemma4:31b-cloud (now deepseek). Model reliability impacts sub-agent delivery success rate.
+7. **Sub-agent memory/context gap:** Spawned sub-agents are ephemeral — no persistent memory between runs. Parent (Yoda) must journal, log CHGs, close tickets. Workspace isolation amplifies this because sub-agents can't even write to their own persistent state in main workspace.
+
+## Proposed Solution (for assessment, not binding)
+Option E2: Symlink delivery bridge + delivery-map.json + auto-heal integrity check. Keep workspace separation intact, add disciplined delivery paths only where needed.
+
+## Related
+- TKT-0308 (original workspace separation)
+- TKT-0328 (journal post-processor — first victim of delivery gap)
+- gemma4 deprecation (Forge model swap today)
+- TKT-0307 (RULES.md foundation — agent identity in isolated workspaces)","created_at":"2026-05-30T04:14:53+10:00","notionSynced":false}

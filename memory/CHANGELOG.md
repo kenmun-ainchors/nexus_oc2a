@@ -1,3 +1,17 @@
+---
+## CHG-0446 — TZ Drift: Journal grace window extended to 23:00 AEST
+- **Date:** 2026-05-30 13:27 AEST
+- **Type:** Fix
+- **Source:** yoda (Ken-reported)
+- **Trigger:** Ken reported TZ Drift alert on journal_date_mismatch (05:28 UTC / 15:28 AEST). Drift report flagged missing journal-2026-05-30.md.
+- **Changed:** `scripts/tz-drift-monitor.sh` — `JOURNAL_GRACE_MIN` changed from `10*60` (10:00 AEST) to `23*60` (23:00 AEST). Stale drift report cleared to OK status.
+- **Why:** Journal is built inline throughout the day via `journal-append.sh` (TKT-0296). The file doesn't exist until the first entry is written. On quiet mornings (weekends, low activity), the 10:00 grace window was too early and triggered false positives. The journal is only truly "missing" if absent by 23:55 EOD finalizer.
+- **Verified:** grep confirmed edit. Drift report cleared (status=OK, drifts=0). Journal append confirmed working (this entry).
+- **Rollback:** Revert `JOURNAL_GRACE_MIN` to `10*60` if early-morning drift detection is preferred again.
+- **Linked:** TKT-0296 (Journal inline writes)
+- **Framework Docs:** N/A
+- **Category:** Platform | **Change Type:** Normal
+---
 ## 2026-05-19 12:05 AEST — [CHG-0416] Session Transcript Safety Snapshot — Pre-Restart Backup
 **Type:** enhancement
 **Change Type:** Normal

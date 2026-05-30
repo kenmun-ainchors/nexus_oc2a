@@ -1,8 +1,20 @@
 {
-  "lastStandupAt": "2026-05-28T22:00:00Z",
-  "lastStandupType": "regenerated",
-  "emailSentDate": "2026-05-29",
+  "lastStandupAt": "2026-05-29T22:00:00Z",
+  "lastStandupType": "scheduled",
+  "emailSentDate": "2026-05-30",
   "history": [
+    {
+      "date": "2026-05-30",
+      "dayNumber": 36,
+      "type": "scheduled",
+      "sentAt": "2026-05-29T22:00:00Z",
+      "emailTo": "kenmun@gmail.com",
+      "telegramTo": "8574109706",
+      "chgCount": 4,
+      "systemStatus": "ok",
+      "wardenClean": 1,
+      "balance": "$203.48"
+    },
     {
       "date": "2026-05-29",
       "dayNumber": 35,
@@ -26,54 +38,6 @@
       "systemStatus": "ok",
       "wardenClean": 1,
       "balance": "$203.48"
-    },
-    {
-      "date": "2026-05-27",
-      "dayNumber": 33,
-      "type": "scheduled",
-      "sentAt": "2026-05-26T22:00:00Z",
-      "emailTo": "kenmun@gmail.com",
-      "telegramTo": "8574109706",
-      "chgCount": 4,
-      "systemStatus": "ok",
-      "wardenClean": 1,
-      "balance": "$203.48"
-    },
-    {
-      "date": "2026-05-26",
-      "dayNumber": 32,
-      "type": "scheduled",
-      "sentAt": "2026-05-25T22:00:00Z",
-      "emailTo": "kenmun@gmail.com",
-      "telegramTo": "8574109706",
-      "chgCount": 4,
-      "systemStatus": "ok",
-      "wardenClean": 0,
-      "balance": "$0.00"
-    },
-    {
-      "date": "2026-05-25",
-      "dayNumber": 31,
-      "type": "scheduled",
-      "sentAt": "2026-05-24T22:00:00Z",
-      "emailTo": "kenmun@gmail.com",
-      "telegramTo": "8574109706",
-      "chgCount": 4,
-      "systemStatus": "ok",
-      "wardenClean": 0,
-      "balance": "$0.00"
-    },
-    {
-      "date": "2026-05-24",
-      "dayNumber": 30,
-      "type": "scheduled",
-      "sentAt": "2026-05-23T22:00:30Z",
-      "emailTo": "kenmun@gmail.com",
-      "telegramTo": "8574109706",
-      "chgCount": 4,
-      "systemStatus": "ok",
-      "wardenClean": 0,
-      "balance": "$0.00"
     }
   ],
   "lastSprintPlanning": "2026-05-24T08:24:00Z",
@@ -82,20 +46,5 @@
   "sprintEndDate": "2026-06-01",
   "sprintCommitted": 9,
   "sprintReviewS4": "deferred-by-ken",
-  "lastSprintReview": "2026-05-24T08:28:00Z",
-  "sprint4Review": {
-    "date": "2026-05-24",
-    "closed": 10,
-    "carried": 3,
-    "chgCount": 21,
-    "ceremonyNote": "1 day late \u2014 run during S5 planning session"
-  },
-  "sprint5Grooming": {
-    "date": "2026-05-27",
-    "processed": 9,
-    "folded": 5,
-    "deferred": 3,
-    "completed": 1,
-    "note": "5 folded into TKT-0317 epic. 3 deferred to P2/Sprint 6. TKT-0305 completed."
-  }
+  "lastSprintReview": "2026-05-24T08:28:00Z"
 }

@@ -1,0 +1,36 @@
+{
+  "runAt": "2026-05-29T15:00:09Z",
+  "runAtLocal": "2026-05-30 01:00 AEST",
+  "duration_ms": 0,
+  "checks_run": [
+  "auth_profiles",
+  "cron_health",
+  "backup_freshness",
+  "disk_space",
+  "plugin_runtime_deps",
+  "stale_locks",
+  "git_health",
+  "health_state",
+  "api_balance",
+  "incident_patterns",
+  "config_drift",
+  "critical_config_baseline",
+  "agent_identity"
+],
+  "checks_count": 13,
+  "issues_found": [
+  "config-baseline:null:file-missing",
+  "config-baseline:null:file-missing"
+],
+  "issues_count": 2,
+  "auto_fixed": [
+  "git-commit:workspace:24-files"
+],
+  "auto_fixed_count": 1,
+  "needs_ken": [
+  "CRITICAL: null - file missing: null. Fix: null",
+  "CRITICAL: null - file missing: null. Fix: null"
+],
+  "needs_ken_count": 2,
+  "exit_status": "complete"
+}

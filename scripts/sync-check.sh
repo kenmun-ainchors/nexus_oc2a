@@ -17,15 +17,21 @@ check_table() {
 import json
 with open('$file') as f:
     data = json.load(f)
-if isinstance(data, list):
-    print(len(data))
-elif isinstance(data, dict):
-    for k in ['tickets','tasks','checks','history','items']:
-        if k in data and isinstance(data[k], list):
-            print(len(data[k]))
-            break
-    else:
-        print(1)
+def count_records(d):
+    if isinstance(d, list):
+        # If single-element list containing dict with known keys, unwrap
+        if len(d) == 1 and isinstance(d[0], dict):
+            for k in ['tickets','tasks','checks','history','items']:
+                if k in d[0] and isinstance(d[0][k], list):
+                    return len(d[0][k])
+        return len(d)
+    elif isinstance(d, dict):
+        for k in ['tickets','tasks','checks','history','items']:
+            if k in d and isinstance(d[k], list):
+                return len(d[k])
+        return 1
+    return 0
+print(count_records(data))
 " 2>/dev/null | tr -d '[:space:]')
     file_count=${file_count:-0}
     if [[ "$pg_count" != "$file_count" ]]; then

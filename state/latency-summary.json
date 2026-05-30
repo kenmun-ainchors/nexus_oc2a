@@ -1,57 +1,57 @@
 {
-  "generatedAt": "2026-05-29T12:13:49.585363+00:00",
+  "generatedAt": "2026-05-30T08:21:34.550133+00:00",
   "windowDays": 7,
   "note": "Duration = end-to-end cron task time (includes LLM call + tool use). TTFT instrumentation pending gateway-level hooks.",
   "overall": {
-    "sampleCount": 13348,
-    "avgMs": 10144,
+    "sampleCount": 11987,
+    "avgMs": 9926,
     "peakMs": 552642,
     "minMs": 1
   },
   "byModel": {
     "kimi-k2.6:cloud": {
-      "sampleCount": 6,
-      "avgMs": 72706,
-      "minMs": 47377,
+      "sampleCount": 10,
+      "avgMs": 37522,
+      "minMs": 11794,
       "maxMs": 114351,
-      "p50Ms": 68881,
-      "p95Ms": 73870,
-      "avgTokens": 18897
+      "p50Ms": 14826,
+      "p95Ms": 68881,
+      "avgTokens": 12571
     },
     "deepseek-v4-flash:cloud": {
-      "sampleCount": 17,
-      "avgMs": 23079,
-      "minMs": 6623,
+      "sampleCount": 7,
+      "avgMs": 34957,
+      "minMs": 6777,
       "maxMs": 78429,
-      "p50Ms": 9976,
+      "p50Ms": 9502,
       "p95Ms": 65923,
-      "avgTokens": 8574
+      "avgTokens": 8635
     },
     "gemma4:26b": {
-      "sampleCount": 10057,
-      "avgMs": 10735,
-      "minMs": 2562,
+      "sampleCount": 8699,
+      "avgMs": 10708,
+      "minMs": 2630,
       "maxMs": 552642,
-      "p50Ms": 7261,
-      "p95Ms": 28976,
-      "avgTokens": 9942
+      "p50Ms": 7304,
+      "p95Ms": 28606,
+      "avgTokens": 10133
     },
     "deepseek-v4-pro:cloud": {
-      "sampleCount": 2337,
-      "avgMs": 9792,
-      "minMs": 4237,
+      "sampleCount": 2106,
+      "avgMs": 10099,
+      "minMs": 4262,
       "maxMs": 551616,
-      "p50Ms": 5982,
-      "p95Ms": 24254,
-      "avgTokens": 10041
+      "p50Ms": 6306,
+      "p95Ms": 25175,
+      "avgTokens": 10238
     },
     "claude-sonnet-4-6": {
-      "sampleCount": 931,
-      "avgMs": 4009,
+      "sampleCount": 1165,
+      "avgMs": 3387,
       "minMs": 1,
       "maxMs": 120186,
       "p50Ms": 3,
-      "p95Ms": 18158,
+      "p95Ms": 7903,
       "avgTokens": 0
     }
   }

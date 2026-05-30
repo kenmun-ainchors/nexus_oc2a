@@ -1,6 +1,6 @@
-=== PG vs File Sync Check Mon May 25 02:49:27 GMT 2026 ===
-❌ state_tickets: PG=189 FILE=277 — MISMATCH
-❌ state_linkedin: PG=14 FILE=1 — MISMATCH
+=== PG vs File Sync Check Sat May 30 13:34:30 AEST 2026 ===
+❌ state_tickets: PG=254 FILE=236 — MISMATCH
+⚠️  state_linkedin: PG=14 FILE=NOT_FOUND
 ⚠️  state_sprints: PG=2 FILE=NOT_FOUND
-❌ state_standups: PG=7 FILE=25 — MISMATCH
+⚠️  state_standups: PG=7 FILE=NOT_FOUND
 ISSUES DETECTED ❌

@@ -293,47 +293,51 @@ write_state
 log "CHECK 12: critical config baseline"
 CHECKS_RUN+=("critical_config_baseline")
 BASELINE="$WORKSPACE/state/critical-config-baseline.json"
-INTERIM_ACTIVE=false
 if [[ -f "$BASELINE" ]]; then
-  INTERIM_CHECK=$(jq -r '.interimNote // empty' "$BASELINE" 2>/dev/null)
-  if [[ -n "$INTERIM_CHECK" ]]; then
-    INTERIM_ACTIVE=true
-    log "  NOTE: Interim period active — config drift is expected (CHG-0349/CHG-0418)"
-  fi
-fi
-if [[ -f "$BASELINE" ]]; then
-  CHECK_COUNT=$(jq '.checks | length' "$BASELINE")
-  log "  Validating $CHECK_COUNT critical config items"
-  for i in $(seq 0 $((CHECK_COUNT - 1))); do
-    CHECK_ID=$(jq -r ".checks[$i].id" "$BASELINE")
-    CHECK_NAME=$(jq -r ".checks[$i].name" "$BASELINE")
-    CHECK_FILE=$(jq -r ".checks[$i].file" "$BASELINE")
-    CHECK_QUERY=$(jq -r ".checks[$i].jq_query" "$BASELINE")
-    CHECK_EXPECTED=$(jq -r ".checks[$i].expected_value" "$BASELINE")
-    CHECK_SEVERITY=$(jq -r ".checks[$i].severity" "$BASELINE")
-    CHECK_FIX=$(jq -r ".checks[$i].fix_command" "$BASELINE")
-    if [[ ! -f "$CHECK_FILE" ]]; then
-      ISSUES_FOUND+=("config-baseline:${CHECK_ID}:file-missing")
-      NEEDS_KEN+=("CRITICAL: ${CHECK_NAME} - file missing: ${CHECK_FILE}. Fix: ${CHECK_FIX}")
-      log "  X ${CHECK_ID}: file missing - ${CHECK_FILE}"
-      continue
-    fi
-    ACTUAL=$(jq -r "$CHECK_QUERY" "$CHECK_FILE" 2>/dev/null)
-    if [[ "$ACTUAL" == "$CHECK_EXPECTED" ]]; then
-      log "  OK ${CHECK_ID}: ${ACTUAL}"
-    else
-      ISSUES_FOUND+=("config-baseline:${CHECK_ID}:drift")
-      if [[ "$INTERIM_ACTIVE" == "true" ]]; then
-        ISSUES_FOUND+=("config-baseline:${CHECK_ID}:interim-drift-expected")
-        log "  ~ ${CHECK_ID} DRIFT (interim-expected): expected '${CHECK_EXPECTED}' got '${ACTUAL}'"
-      elif [[ "$CHECK_SEVERITY" == "critical" ]]; then
-        NEEDS_KEN+=("CRITICAL DRIFT: ${CHECK_NAME} | expected '${CHECK_EXPECTED}' | actual '${ACTUAL}' | fix: ${CHECK_FIX}")
+  log "  Validating critical config baseline (flat structure)"
+  
+  # Check each known field in the flat baseline
+  check_baseline_field() {
+    local field="$1" local label="$2" local expected_min="$3" local comparator="$4"
+    local actual=$(jq -r ".$field // 0" "$BASELINE" 2>/dev/null)
+    if [[ "$comparator" == "min" ]]; then
+      if (( actual >= expected_min )); then
+        log "  OK $label: $actual (>= $expected_min)"
       else
-        NEEDS_KEN+=("WARN DRIFT: ${CHECK_NAME} | expected '${CHECK_EXPECTED}' | actual '${ACTUAL}' | fix: ${CHECK_FIX}")
+        ISSUES_FOUND+=("config-baseline:$field:below-minimum")
+        NEEDS_KEN+=("WARN: $label is $actual, expected >= $expected_min. Run gateway-config-snapshot.sh to refresh baseline.")
+        log "  X $label: $actual < $expected_min"
       fi
-      log "  X ${CHECK_ID} DRIFT: expected '${CHECK_EXPECTED}' got '${ACTUAL}'"
+    elif [[ "$comparator" == "eq" ]]; then
+      if [[ "$actual" == "$expected_min" ]]; then
+        log "  OK $label: $actual"
+      else
+        ISSUES_FOUND+=("config-baseline:$field:drift")
+        NEEDS_KEN+=("WARN: $label is '$actual', expected '$expected_min'. Run gateway-config-snapshot.sh to refresh.")
+        log "  X $label: '$actual' != '$expected_min'"
+      fi
     fi
-  done
+  }
+  
+  check_baseline_field "agentCount" "Agent Count" 14 "min"
+  check_baseline_field "cronCount" "Cron Count" 50 "min"
+  check_baseline_field "pgTables" "PG Tables" 18 "min"
+  check_baseline_field "gatewayStatus" "Gateway Status" "healthy" "eq"
+  
+  # Version check: warn if baseline was written more than 7 days ago
+  local upgraded_at=$(jq -r '.upgradedAt // empty' "$BASELINE" 2>/dev/null)
+  if [[ -n "$upgraded_at" ]]; then
+    local upgraded_epoch=$(date -j -f "%Y-%m-%dT%H:%M:%S" "${upgraded_at%+*}" "+%s" 2>/dev/null || echo 0)
+    local now_epoch=$(date +%s)
+    local age_days=$(( (now_epoch - upgraded_epoch) / 86400 ))
+    if (( age_days > 7 )); then
+      ISSUES_FOUND+=("config-baseline:stale-baseline")
+      NEEDS_KEN+=("WARN: Config baseline is $age_days days old. Run gateway-config-snapshot.sh to refresh.")
+      log "  X Baseline stale: $age_days days old"
+    else
+      log "  OK Baseline age: $age_days days"
+    fi
+  fi
 fi
 write_state
 

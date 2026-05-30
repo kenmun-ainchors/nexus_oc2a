@@ -1,10 +1,10 @@
 # Yoda Telegram Context Brief
-Generated: 2026-05-29 20:00 AEST | Platform Day 35 | Sprint 6 Queued
+Generated: 2026-05-30 14:00 AEST | Platform Day 36 | Sprint 6 Queued
 
 ---
 
 ## Platform Status
-- **Day:** 35 (since 2026-04-25)
+- **Day:** 36 (since 2026-04-25)
 - **Phase:** MVP → P1 transition
 - **OC1:** Mac Mini M4 24GB — LIVE Production. PERMANENT.
 - **OC2-A/B:** Mac Mini M4 Pro 48GB ×2 — ETA 6–13 Jul 2026, commission ~27 Jul
@@ -34,14 +34,20 @@ Generated: 2026-05-29 20:00 AEST | Platform Day 35 | Sprint 6 Queued
 ---
 
 ## Current Sprint
-- **Status:** Sprint 5 Clean / Sprint 6 Queued.
-- **Sprint 6 Queue:**
+- **Status:** Sprint 5 Closed / Sprint 6 Queued.
+- **Sprint 6 Queue (Locked - 14 items):**
   - TKT-0310 (Platform Constraints)
   - TKT-0317 (Context Epic + 4 sub)
   - TKT-0268 (PG Stability)
   - TKT-0269 (PG Backup)
   - TKT-0293 (Regression)
   - TKT-0321-0322 (Dispatch)
+  - TKT-0326 (NAS Writable Backup)
+  - TKT-0327 (Tilde-Path Normalization)
+  - TKT-0318/0319 (Aria/Global TQP)
+  - TKT-0137 (Policy Register)
+  - TKT-0275 (Progressive Disclosure)
+  - Platform Separation Phase 0 prep
 
 ---
 
@@ -52,6 +58,7 @@ Generated: 2026-05-29 20:00 AEST | Platform Day 35 | Sprint 6 Queued
 - **LinkedIn Rule:** Missed post → push to next slot. Never post late.
 - **S-SOP:** All external/client outputs pass Shield → Lex → Sage.
 - **Nexus Naming:** Nexus=platform | Holocron=AKB | Bridge=cmd-centre | Citadel=client-portal.
+- **Platform Separation:** APPROVED. OC1 = Business node (Aria+6), OC2-A/B = Tech HIVE HA.
 
 ---
 
@@ -72,7 +79,7 @@ Full backlog: Notion AKB Backlog (SSOT). tickets.json seq 251.
 ---
 
 ## LinkedIn Queue Status
-- **Status:** `state/linkedin-queue.json` not found. Defer to Spark.
+- **Status:** `state/linkedin-queue.json` missing. Defer to Spark.
 - **API:** Connected, token valid to 2026-07-12.
 
 ---
