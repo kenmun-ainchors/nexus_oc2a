@@ -951,11 +951,25 @@
       "issues": [
         "[]"
       ]
+    },
+    {
+      "ts": "2026-06-01T15:12:05+10:00",
+      "assetPath": "/Users/ainchorsangiefpl/.openclaw/workspace/tmp/blog-draft-2026-05-31.html",
+      "assetType": "blog",
+      "producedBy": "yoda",
+      "intendedFor": "public distribution",
+      "brief": "Content governance review for CONTENT-TBD",
+      "verdict": "PASS",
+      "passCount": 7,
+      "failCount": 0,
+      "issues": [
+        "[]"
+      ]
     }
   ],
   "summary": {
-    "total": 68,
-    "pass": 67,
+    "total": 69,
+    "pass": 68,
     "fail": 1
   }
 }

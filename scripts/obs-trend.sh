@@ -138,7 +138,12 @@ if top_warns:
 if has_prev_data:
     ep = trend['errors_pct_change']
     wp = trend['warns_pct_change']
-    print(f"[obs-trend] Trend vs prev 24h — errors {ep:+.1f}%, warns {wp:+.1f}%")
+    if ep is not None and wp is not None:
+        print(f"[obs-trend] Trend vs prev 24h — errors {ep:+.1f}%, warns {wp:+.1f}%")
+    elif ep is not None:
+        print(f"[obs-trend] Trend vs prev 24h — errors {ep:+.1f}%, warns N/A")
+    elif wp is not None:
+        print(f"[obs-trend] Trend vs prev 24h — errors N/A, warns {wp:+.1f}%")
 if worst_hour:
     print(f"[obs-trend] Worst hour: {worst_hour['hour']} ({worst_hour['cnt']} errors)")
 PYEOF

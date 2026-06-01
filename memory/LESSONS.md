@@ -661,3 +661,21 @@ Three crons (Morning Stand-Up, Daily Blog, Aria ROI) failed because agent models
 
 **Priority:** Medium — causes duplicate Telegram messages to Ken. Not critical (no data loss) but annoying.
 **Ticket:** TKT-TBD
+
+## L-046 — LLM-Wrapping Shell Scripts in Crons is Anti-Pattern (2026-06-01)
+**Lesson:** Crontabs that only run a shell script and parrot its exit code do not need an LLM agent. Using gemma4:31b-cloud (or any model) for these adds cold-start latency (4-18s), burns quota, and creates 429 rate-limit blast radius from unrelated crons. The model adds zero reasoning value.
+
+**Scope found:** 12 of 14 gemma4:31b-cloud crons were shell-wrappers — ~85% waste rate.
+**Fix:** Convert shell-wrapper crons to `systemEvent` (exec inline, no model) or exec-only `agentTurn` where Telegram delivery is needed. Only keep LLM for crons that perform content synthesis or reasoning (Context Brief, Shield, Lex, Sage).
+**Result:** 70% reduction in Ollama Cloud invocations per cycle.
+**Linked:** TKT-0335, CHG-0450
+
+### L-046 Extension — deepseek-pro/full-model crons also affected (2026-06-01)
+**Found:** After gemma4 pass, 3 more crons using deepseek-pro were also pure shell-wrappers:
+- Nightly Restart Verify (runs verify.sh, forwards output — no reasoning)
+- TQP Processor (runs task-queue-processor.sh — no reasoning, 288 invocations/day!)
+- Blog (borderline — does content synthesis but locked template)
+
+**Converted:** Nightly Verify + TQP → systemEvent. Blog flagged for Ken decision.
+**Impact added:** TQP was burning deepseek-pro every 5 min (288×/day). Now zero cloud cost.
+**Total L-046 impact:** 14 crons converted (12 gemma4 + 2 deepseek). ~95% reduction in cron cloud model calls.

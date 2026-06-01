@@ -6489,3 +6489,17 @@ When Ken issues CLAUDE RESTORE:
 **Rollback:** Revert to hardcoded version in git.
 **Linked:** CHG-0424, CHG-0349, L-040, TKT-0197 (SoT Register — model-policy.json is SSOT)
 **Category:** warden
+
+## CHG-0450 — 2026-06-01 16:55 AEST
+**Type:** CHG | **Source:** platform | **Category:** Infrastructure
+**Title:** Audit: 12/14 gemma4:31b-cloud crons are shell-wrappers — decommission to systemEvent/exec-only
+**Trigger:** Ken-directed audit of cron model usage
+**Changed:** Identified 14 crons using gemma4:31b-cloud. 12 are pure shell-script wrappers (no LLM reasoning). Converted to systemEvent (no model) or exec-only agentTurn. 4 retained with LLM: Context Brief, Shield, Lex, Sage.
+**Why:** L-046: LLM-wrapping shell scripts adds 4-18s cold-start, burns quota, creates 429 blast radius. ~70% cloud reduction per cycle.
+**Rollback:** Revert to gemma4:31b-cloud per cron if needed.
+**Linked:** TKT-0335, L-046
+
+### CHG-0450 Update — 2026-06-01 17:01 AEST
+**Extended to deepseek-pro crons:** Nightly Restart Verify + TQP Processor (also shell-wrappers). Converted both to systemEvent.
+**Final tally:** 14 crons converted (12 gemma4:31b-cloud + 2 deepseek-v4-pro). 4 retain LLM: Shield, Lex, Sage, Context Brief. Blog flagged for Ken decision (borderline content synthesis).
+**Peak saving:** TQP alone = 288 deepseek-pro calls/day eliminated.
