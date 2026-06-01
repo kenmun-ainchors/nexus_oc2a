@@ -3,10 +3,23 @@
 # Usage: db-read.sh <table> [key] [value]
 #   db-read.sh state_tickets          => all rows
 #   db-read.sh state_tickets id TKT-0001 => single row
+# SQL pass-through: if $1 starts with SELECT, execute as raw SQL directly
+#   db-read.sh "SELECT 1 AS test"
 
 DB="/Users/ainchorsangiefpl/.openclaw/workspace/scripts/db.sh"
 WORKSPACE="/Users/ainchorsangiefpl/.openclaw/workspace"
 TABLE="$1"; KEY="${2:-}"; VALUE="${3:-}"
+
+# SQL pass-through mode: raw SQL if $TABLE starts with SELECT (case-insensitive)
+if [[ "${TABLE:0:6}" == "SELECT" || "${TABLE:0:6}" == "select" ]]; then
+  RESULT=$(bash "$DB" -c "$TABLE" 2>/dev/null)
+  if [[ -n "$RESULT" ]]; then
+    echo "$RESULT"
+    exit 0
+  fi
+  echo '{"error":"no data from any source","table":"'$TABLE'"}' 1>&2
+  exit 1
+fi
 
 # Step 1: Try Postgres (PRIMARY)
 if [[ -n "$KEY" && -n "$VALUE" ]]; then

@@ -1,106 +1,63 @@
-# Yoda Telegram Context Brief
-Generated: 2026-05-30 20:00 AEST | Platform Day 36 | Sprint 6 Queued
+ # YODA TELEGRAM CONTEXT BRIEF
+# Last Updated: 2026-05-31 14:00 AEST
 
----
+## 📊 PLATFORM STATUS
+- Day Count: 37 (since 2026-04-25)
+- State: MVP / Pre-OC2
+- Health: Healthy (OC v2026.5.27)
+- Budget: $150/mo cap active (Jun 1), Ollama Cloud $100/mo fixed, Claude buffer $50.
 
-## Platform Status
-- **Day:** 36 (since 2026-04-25)
-- **Phase:** MVP → P1 transition
-- **OC1:** Mac Mini M4 24GB — LIVE Production. PERMANENT.
-- **OC2-A/B:** Mac Mini M4 Pro 48GB ×2 — ETA 6–13 Jul 2026, commission ~27 Jul
-- **Daily Budget:** $150 (CHG-0268).
-- **Key Alert:** CONSERVATIVE MODE active (CHG-0349). No risky state manipulation without explicit Ken approval.
+## 👥 KEY PEOPLE
+- Ken Mun (CTO): @AInchorsOC1Bot
+- Angie Foong (CEO): @AInchorsAriaBot
 
----
+## 🏗️ INFRASTRUCTURE
+- OC1: Mac Mini M4 24GB (Production)
+- OC2-A/B: Mac Mini M4 Pro 48GB x2 (ETA 6-13 Jul, Commission ~27 Jul)
+- Storage: MinIO live on OC1; NAS backups pending automation.
+- Connectivity: Tailscale mesh active.
 
-## Key People
-- **Ken Mun** (CTO) — Platform, tech, P1–P4, all approvals
-  - Telegram: @AInchorsOC1Bot → Yoda | chatId: 8574109706
-  - Emergency keyword: **"YODA THIS IS KEN"**
-- **Angie Foong** (CEO) — Business stream, Aria
-  - Telegram: @AInchorsAriaBot (strict allowlist) | chatId: 8141152780
+## 🚀 CURRENT SPRINT (S6)
+- Period: 2026-06-02 $ightarrow$ 2026-06-08
+- Committed (5/5):
+  - TKT-0268: PG Dual-Write Stability (S5 carry)
+  - TKT-0269: First Scheduled pg_dump to NAS (Critical/S5 carry)
+  - TKT-0327: Tilde-Path Normalization (In-Progress)
+  - TKT-0317: Agent Context Optimization - Atlas assessment
+  - TKT-0321: 2-Pass Dispatch Contract + Rules
+- Gated: TKT-0241 (blocked on CLAUDE RESTORE)
 
----
+## ✅ APPROVED DECISIONS
+- PG SSOT: Postgres is authoritative for state data.
+- TQP Gate: mandatory persistence discipline for atomic execution.
+- Platform Separation: OC1 as business node, OC2-A/B as tech HIVE HA pair.
+- Model Strategy: DeepSeek permanent primary, kimi fallback only.
+- 2-Pass Dispatch: No executor receives undiscovered work.
 
-## Infrastructure
-- **OpenClaw** on OC1, Tailscale mesh
-- **MinIO** LIVE on OC1 (TKT-0124 ✅, CHG-0265)
-- **Model:** DeepSeek is permanent primary. kimi = fallback only.
-- **Tailscale URL:** `https://ainchorss-mac-mini.tail5e2567.ts.net`
-- **RustDesk:** public relay (primary).
-- **Colima:** auto-starts, replaces Docker Desktop.
-- **TQP Execution Gate:** LIVE for Yoda (TKT-0309 ✅).
+## 🎫 TOP OPEN TICKETS (Priority)
+- TKT-0269: NAS pg_dump automation (Critical)
+- TKT-0268: PG Stability reconciliation (High)
+- TKT-0317: Context Optimization Epic (High)
+- TKT-0321: 2-Pass Dispatch Rules (High)
+- TKT-0327: Tilde-Path Normalization (High)
+- TKT-0114: Aevlith Partnership (High)
+- TKT-0136: Consulting Playbook (High)
+- TKT-0137: Policy Register (High)
+- TKT-0138: Business Jumpstart pathway (High)
+- TKT-0139: Consulting Product Portfolio (High)
 
----
+## 📱 LINKEDIN QUEUE
+- Status: 5 items registered.
+- Recent: CONTENT-0005 (triad-cleared 2026-05-31).
+- Blocked: TKT-0121 (Ken HF API key needed in Keychain).
 
-## Current Sprint
-- **Status:** Sprint 5 Closed / Sprint 6 Queued.
-- **Sprint 6 Queue (Locked - 14 items):**
-  - TKT-0310 (Platform Constraints)
-  - TKT-0317 (Context Epic + 4 sub)
-  - TKT-0268 (PG Stability)
-  - TKT-0269 (PG Backup)
-  - TKT-0293 (Regression)
-  - TKT-0321-0322 (Dispatch)
-  - TKT-0326 (NAS Writable Backup)
-  - TKT-0327 (Tilde-Path Normalization)
-  - TKT-0318/0319 (Aria/Global TQP)
-  - TKT-0137 (Policy Register)
-  - TKT-0275 (Progressive Disclosure)
-  - Platform Separation Phase 0 prep
+## ⚡ RECENT TELEGRAM DECISIONS
+- (No unsynced decisions found in state)
 
----
-
-## Approved Decisions (from MEMORY.md)
-- **Model Strategy:** T0 (Local) → T1 (Gemma4 OC2) → T2 (Cloud kimi/DS) → T3 (Sonnet fallback).
-- **Aevlith:** Technology holding entity, owns Nexus. Domain: aevlith.ai.
-- **L-026:** Build/scripts → Forge ONLY. Atlas=EA assess. Thrawn=arch design.
-- **LinkedIn Rule:** Missed post → push to next slot. Never post late.
-- **S-SOP:** All external/client outputs pass Shield → Lex → Sage.
-- **Nexus Naming:** Nexus=platform | Holocron=AKB | Bridge=cmd-centre | Citadel=client-portal.
-- **Platform Separation:** APPROVED. OC1 = Business node (Aria+6), OC2-A/B = Tech HIVE HA.
-
----
-
-## Open Tickets (Top 10 by Priority)
-1. **TKT-0317** — Context Epic (S6 High)
-2. **TKT-0114** — AInchors–Aevlith partnership (HIGH, gates 0115–0117)
-3. **TKT-0115** — Register Aevlith ASIC (HIGH, blocked on 0114)
-4. **TKT-0116** — aevlith.ai domain (HIGH, blocked on 0115)
-5. **TKT-0141** — CLI-Anything supply chain audit (HIGH)
-6. **TKT-0142** — SKILL.md poisoning review (HIGH, 63 skills clean)
-7. **TKT-0137** — Policy Register (HIGH, Lex)
-8. **TKT-0135** — AInchors Sandbox (HIGH, Forge)
-9. **TKT-0136** — Consulting Playbook (HIGH)
-10. **TKT-0138** — Business Jumpstart pathway (HIGH, Ahsoka)
-
-Full backlog: Notion AKB Backlog (SSOT). tickets.json seq 251.
-
----
-
-## LinkedIn Queue Status
-- **Status:** Data missing in `state/linkedin-queue.json`. Defer to Spark.
-- **API:** Connected, token valid to 2026-07-12.
-
----
-
-## Recent Telegram Decisions (syncedToWebchat=false)
-*No data available in state/channel-state.json (file missing).*
-
----
-
-## Mandatory Rules for Telegram Sessions
-1. **Read this brief BEFORE every response.**
-2. **Accept & execute immediately** — NEVER say "go to WebChat"
-3. **Write EVERY decision** to `state/channel-state.json` with `syncedToWebchat: false`
-4. **No relay loop** — state file is the ONLY bridge
-5. **kimi = standup + email cron ONLY.** Webchat+Telegram = Sonnet/DeepSeek.
-6. **Credit alerts:** T3 ($15) → alert Ken + Angie immediately via both bots
-7. **Private data stays private.** Ask before external action.
-8. **Emergency keyword:** "YODA THIS IS KEN" → immediate escalation
-9. **Do NOT use `[embed ...]` tags** — full local path only
-10. **All architecture/strategy docs = DRAFT FOR REVIEW** until Ken says approved
-11. **CHG discipline:** Every structural change has a CHG record before execution
-12. **Strategy-gate:** If task depends on DRAFT FOR REVIEW doc → STOP, surface to Ken
-13. **CONSERVATIVE MODE (CHG-0349):** No risky state manipulation without explicit Ken approval.
-14. **Interim Session Handling (kimi):** Control UI sessions bypass normal routing — defer to webchat for execution
+## ⚠️ MANDATORY TELEGRAM RULES
+- CHG-0397: Chunk messages > 3,800 chars [1/N].
+- CHG-0405: Tasks > 30s $ightarrow$ sessions_spawn (No blocking webchat).
+- TKT-0309: Execute $ightarrow$ persist $ightarrow$ announce.
+- CHG-0281: Absolute paths ONLY (No  or ).
+- CHG-0297: PG primary reads via db.sh.
+- CONSERVATIVE MODE: No risky state manipulation without explicit Ken approval.

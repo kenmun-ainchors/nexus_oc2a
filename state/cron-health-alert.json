@@ -1,15 +1,15 @@
 {
-  "generatedAt": "2026-05-25T03:49:26.905162+00:00",
+  "generatedAt": "2026-06-01T03:19:37.490500+00:00",
   "failures": [
     {
-      "cronId": "a7e7a820",
-      "fullCronId": "a7e7a820-32f6-4a2b-bb27-52367ebfa7dc",
-      "name": "Aria Daily Summary (business stream)",
-      "consecutiveErrors": 6,
+      "cronId": "3c279099",
+      "fullCronId": "3c279099-bddb-4ef3-bfea-fc22f342abd8",
+      "name": "AInchors Morning Stand-Up",
+      "consecutiveErrors": 4,
       "lastError": "error",
       "source": "live-cron-state"
     }
   ],
   "warnings": [],
-  "acknowledged": true
+  "acknowledged": false
 }

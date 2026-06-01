@@ -12,6 +12,34 @@
 - **Framework Docs:** N/A
 - **Category:** Platform | **Change Type:** Normal
 ---
+
+## 2026-06-01 11:35 AEST — [CHG-0449] CHG-0449: Post-CrewAI Crash Platform Shakedown — Findings, Fixes & Regression Learnings
+**Type:** infra
+**Change Type:** Normal
+**Source:** incident-recovery
+**Trigger:** CrewAI setup on 2026-05-31 crashed OpenClaw, corrupted Homebrew (node, llhttp). Ken updated/upgraded/reinstalled to restore. Full shakedown initiated.
+**What changed:** Platform shakedown performed: Gateway OK, PG intact (31 tables/258 tickets), Colima/Docker OK, MinIO OK, Tailscale OK, Telegram OK, Notion OK. 3 issues found: (1) 2 crons failed (9ce7f295 TZ Drift Monitor + 3c279099 Morning Stand-Up) due to Homebrew path breakage, (2) docker+tailscale unlinked in Brew, (3) backup stale 47h. Docker CLI symlink manually recreated. TKT-0332 raised for fixes. TKT-0333 raised to package learnings into regression suite.
+**Why:** CrewAI venv installation pulled in incompatible dependencies that collided with Homebrew-managed node/llhttp. Recovery required brew update/upgrade/reinstall. Shakedown verifies no platform data was lost.
+**Verification:** All 14 agents intact, all RULES.md present, PG fully queryable, 527 sessions no orphans, all integrations responding. Diagnostics script ran (crashed mid-run but core phases completed).
+**Rollback:** N/A — no config changes made. Docker symlink fix is reversible.
+**Linked:** TKT-0332, TKT-0333
+**Category:** Platform/Recovery
+---
+
+
+## 2026-05-31 13:15 AEST — [CHG-0448] TKT-0327 Option B: cron-write.sh wrapper for tilde-path bug
+**Type:** script
+**Change Type:** Normal
+**Source:** ken-prompt
+**Trigger:** Standup cron 3 consecutive failures, Aria ROI cron 1 failure — both ~ write failures
+**What changed:** Created scripts/cron-write.sh. Patched 4 crons: standup blog Aria-ROI context-brief to use exec+pipe instead of write tool.
+**Why:** Models ignore absolute-path instructions. write tool uses ~ which fails in isolated sessions.
+**Verification:** All 4 modes tested. Cron payloads updated and verified.
+**Rollback:** Revert each cron payload.message to previous version
+**Linked:** TKT-0327
+**Category:** infra
+---
+
 ## 2026-05-19 12:05 AEST — [CHG-0416] Session Transcript Safety Snapshot — Pre-Restart Backup
 **Type:** enhancement
 **Change Type:** Normal

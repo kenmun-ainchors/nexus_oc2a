@@ -633,3 +633,31 @@ Three crons (Morning Stand-Up, Daily Blog, Aria ROI) failed because agent models
 - Monitor: verify all 3 crons succeed on their next scheduled run
 
 **Source:** Cron failure report from Ken 2026-05-29. Stand-Up 22 days stale (May 7–29).
+
+---
+
+## L-045: Relay Queue Poller Duplicate Delivery Bug (2026-06-01)
+
+**Symptom:** Relay queue cron (7a28cc83) re-delivers already-delivered messages on subsequent runs. Same Aria→Ken message sent 6+ times over ~2 hours (every 5 min).
+
+**Root causes (compound):**
+1. **Skip logic field mismatch:** Checks `sent: false` but queue items use `sent: true/false` inconsistently. The skip condition doesn't correctly identify delivered items.
+2. **Deprecated model:** Cron was running `gemma4:31b-cloud` which is deprecated. Model degradation caused unreliable skip logic execution.
+3. **Race condition:** Manual queue cleanup was overwritten by cron's write-back on next run — the cron writes the full pending array back even if you cleaned it between runs.
+4. **No delivered guard:** Even when `sent: true` exists, the prompt doesn't check it before re-processing.
+
+**Fix applied (2026-06-01):**
+- Cron `7a28cc83` **disabled and deleted** pending proper fix
+- Queue `relay-to-ken.json` cleaned — only 1 item with `sent: true` + `deliveredAt` timestamp
+- Message was successfully delivered on first run (~10:36 AM), subsequent 5+ were duplicates
+
+**Fix needed before re-enabling:**
+1. Use a current model (deepseek-pro or kimi) — NOT gemma4:31b-cloud (deprecated)
+2. Fix skip logic: check `sent === true` AND `deliveredAt` exists → skip entirely
+3. Add queue statistics: log "RELAY: [N] pending, [S] skipped (sent), [D] delivered" each run
+4. Consider switching to `systemEvent` instead of `agentTurn` if no AI processing needed
+
+**Ken action required:** Approve re-creation of relay cron with corrected prompt before re-enabling.
+
+**Priority:** Medium — causes duplicate Telegram messages to Ken. Not critical (no data loss) but annoying.
+**Ticket:** TKT-TBD

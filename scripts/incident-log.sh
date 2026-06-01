@@ -142,3 +142,4 @@ PYEOF
 [2026-05-28 02:05] SEVERITY:WARNING MSG:Backup script reported 'error: atlas/ does not have a commit checked out' but continued to completion.
 [2026-05-29 02:05] WARNING: Daily backup completed with errors. Output: error: 'atlas/' does not have a commit checked out; fatal: adding files failed
 [2026-05-30 02:05] WARNING: Backup encountered git error: 'atlas/' does not have a commit checked out, but completed snapshot.
+[2026-05-31 02:05:13] [warning] Daily backup encountered git error: 'atlas/' does not have a commit checked out, but proceeded to create full snapshot.
