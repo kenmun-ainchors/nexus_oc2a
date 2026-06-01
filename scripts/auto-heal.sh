@@ -409,5 +409,76 @@ else
 fi
 CHECKS_RUN+=("agent_rules")
 
+# ---------- CHECK 15: Injected File Size Guard (TKT-0310) ----------
+log "CHECK 15: injected file size limits"
+CHECKS_RUN+=("file_size_guard")
+WORKSPACE_ROOT="/Users/ainchorsangiefpl/.openclaw/workspace"
+SOFT_LIMIT=8000
+HARD_LIMIT=10000
+VIOLATIONS=()
+
+check_file_size() {
+  local file="$1"
+  local label="$2"
+  if [[ -f "$file" ]]; then
+    local size=$(wc -c < "$file" 2>/dev/null | tr -d ' ')
+    if [[ "$size" -gt "$HARD_LIMIT" ]]; then
+      VIOLATIONS+=("$label: ${size} chars (HARD LIMIT ${HARD_LIMIT} — SILENT TRUNCATION RISK)")
+    elif [[ "$size" -gt "$SOFT_LIMIT" ]]; then
+      log "  WARN: $label at ${size} chars (soft limit ${SOFT_LIMIT})"
+    fi
+  fi
+}
+
+check_file_size "$WORKSPACE_ROOT/SOUL.md" "SOUL.md"
+check_file_size "$WORKSPACE_ROOT/AGENTS.md" "AGENTS.md (hard limit 12K per TKT-0310)"
+check_file_size "$WORKSPACE_ROOT/MEMORY.md" "MEMORY.md (hard limit 15K per TKT-0310)"
+check_file_size "$WORKSPACE_ROOT/HEARTBEAT.md" "HEARTBEAT.md (hard limit 15K per TKT-0310)"
+check_file_size "$WORKSPACE_ROOT/RULES.md" "RULES.md (reference-only, no limit)"
+
+if [[ ${#VIOLATIONS[@]} -gt 0 ]]; then
+  for v in "${VIOLATIONS[@]}"; do
+    log "  X: $v"
+    NEEDS_KEN+=("$v")
+  done
+else
+  log "  OK: All injected files within limits"
+fi
+
+# ---------- CHECK 16: Bootstrap Total Injection Size (TKT-0310) ----------
+log "CHECK 16: bootstrap injection total size"
+CHECKS_RUN+=("bootstrap_size")
+
+TOTAL_INJECTION=0
+INJECTION_FILES=(
+  "$WORKSPACE_ROOT/SOUL.md"
+  "$WORKSPACE_ROOT/IDENTITY.md"
+  "$WORKSPACE_ROOT/USER.md"
+  "$WORKSPACE_ROOT/AGENTS.md"
+  "$WORKSPACE_ROOT/MEMORY.md"
+  "$WORKSPACE_ROOT/MEMORY_TICKETS.md"
+  "$WORKSPACE_ROOT/HEARTBEAT.md"
+)
+# RULES.md excluded — reference doc, not injected
+
+for f in "${INJECTION_FILES[@]}"; do
+  if [[ -f "$f" ]]; then
+    size=$(wc -c < "$f" 2>/dev/null | tr -d ' ')
+    TOTAL_INJECTION=$((TOTAL_INJECTION + size))
+  fi
+done
+
+INJECTION_LIMIT=120000  # ~30K tokens at 4 chars/token — leaves 98K for session history
+INJECTION_WARN=80000
+
+if [[ "$TOTAL_INJECTION" -gt "$INJECTION_LIMIT" ]]; then
+  log "  X: Bootstrap injection ${TOTAL_INJECTION} chars — OVER LIMIT (${INJECTION_LIMIT})"
+  NEEDS_KEN+=("Bootstrap injection at ${TOTAL_INJECTION} chars — risks context window overflow. Reduce injected files.")
+elif [[ "$TOTAL_INJECTION" -gt "$INJECTION_WARN" ]]; then
+  log "  WARN: Bootstrap injection ${TOTAL_INJECTION} chars (warn threshold ${INJECTION_WARN})"
+else
+  log "  OK: Bootstrap injection ${TOTAL_INJECTION} chars (limit ${INJECTION_LIMIT})"
+fi
+
 log "=== AUTO-HEAL COMPLETE ==="
 [[ ${#NEEDS_KEN[@]} -gt 0 ]] && exit 2 || exit 0

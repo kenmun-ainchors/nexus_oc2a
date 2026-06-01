@@ -679,3 +679,26 @@ Three crons (Morning Stand-Up, Daily Blog, Aria ROI) failed because agent models
 **Converted:** Nightly Verify + TQP → systemEvent. Blog flagged for Ken decision.
 **Impact added:** TQP was burning deepseek-pro every 5 min (288×/day). Now zero cloud cost.
 **Total L-046 impact:** 14 crons converted (12 gemma4 + 2 deepseek). ~95% reduction in cron cloud model calls.
+
+## L-047 — All Tickets MUST Have Descriptive Body, Not Just Title (2026-06-01)
+**Lesson:** A ticket raised with only a title and no description/AC/brief is a context black hole. When TKT-0310 was groomed weeks after creation, nobody (including Yoda) could remember what the original problem statement was. Thrawn's assessment was lost to session history. Result: wasted grooming time trying to reverse-engineer the intent.
+
+**Rule (NON-NEGOTIABLE):**
+- Every ticket MUST include a `description` field with at minimum: problem statement, scope, and expected outcome
+- If raised from a Ken prompt, include the verbatim prompt or a paraphrase
+- If an agent does scoping/assessment, link it in `metadata.assessment_ref`
+- Ticket creation gate: `ticket.sh create` must not succeed without non-empty description
+**Linked:** TKT-0310 (the exhibit), CHG-0453
+
+### L-048 — Ticket Bodies Are Non-Negotiable (TKT-0317 Example)
+**Date:** 2026-06-01 | **Severity:** Critical | **Status:** Closed (corrected same day)
+
+**What happened:** TKT-0317 was groomed based on memory/CHANGELOG context alone. Ken sent a screenshot of detailed notes showing 5 additional tickets (TKT-0178, 0182, 0188, 0228, 0230) that had been assessed and recommended for folding into TKT-0317 — plus TKT-0313 which was already merged. Neither the ticket body nor metadata contained this context. The groom was incomplete because the full picture existed only in Ken's notes, not in the ticket.
+
+**Root cause:** Same as L-047 — ticket had NO description body. Context existed in scattered places (CHANGELOG, Ken's notes, Atlas assessment doc, Sprint 5 cleanup session) but was never consolidated into the ticket itself.
+
+**What we did:** Re-groomed TKT-0317 with 3,945-char description capturing: all 4 themes, all 7 folded tickets with rationale, all 6 child tickets, 3-phase implementation plan, estimated impact metrics, and Ken's verbatim brief.
+
+**Prevention:** L-047 already covers this. This incident reinforces it — ANY ticket touching an epic or cross-cutting concern MUST have the full context in the ticket body before grooming begins.
+
+**Ken's words:** "Again, highlighting we did not add the brief or notes to the ticket and relied on memory which gets lost. Reinforcing the problem and our learning."

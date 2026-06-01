@@ -31,6 +31,7 @@
 
 ## Agent SOUL.md Compact Standard (NON-NEGOTIABLE)
 - SOUL.md: hard limit 10,000 (warn 6,000). identity+traits+rules+cadences. Details in [AGENT]_RULES.md. Aria OOM cause (2026-04-30). All agents ✅ compliant 2026-05-08.
+- MEMORY.md: hard limit 15,000 (warn 12,000). TKT-0310/CHG-0454. Archive overflow at 12K, trim to 10K.
 
 ## Governance Agents
 - **Shield🛡️/Lex⚖️/Sage🧪** — Haiku (CHG-0230). Move to Gemma4 at TRIGGER-03.

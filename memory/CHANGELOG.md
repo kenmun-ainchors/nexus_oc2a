@@ -6503,3 +6503,69 @@ When Ken issues CLAUDE RESTORE:
 **Extended to deepseek-pro crons:** Nightly Restart Verify + TQP Processor (also shell-wrappers). Converted both to systemEvent.
 **Final tally:** 14 crons converted (12 gemma4:31b-cloud + 2 deepseek-v4-pro). 4 retain LLM: Shield, Lex, Sage, Context Brief. Blog flagged for Ken decision (borderline content synthesis).
 **Peak saving:** TQP alone = 288 deepseek-pro calls/day eliminated.
+
+## CHG-0451 — 2026-06-01 18:56 AEST
+**Type:** CHG | **Source:** platform | **Category:** Infrastructure
+**Title:** TKT-0268 closed — PG Dual-Write stability validated, JSON deprecated
+**Trigger:** Ken-approved closure of 24h+ observation period
+**Changed:** ticket.sh JSON dual-write removed (PG sole SSOT). sync-check.sh rewritten as PG health check (no more JSON comparison). 32 tables, 263 tickets, zero corruption confirmed.
+**Why:** JSON was always stale post-cutover. Dual-write was ghost code. Removing it simplifies write path and eliminates false sync-check failures.
+**Rollback:** Restore ticket.sh from git (commit 96736876) if JSON fallback needed.
+**Linked:** TKT-0268, Sprint 6 #1
+
+## CHG-0452 — 2026-06-01 19:27 AEST
+**Type:** CHG | **Source:** platform | **Category:** Infrastructure
+**Title:** TKT-0269 closed — PG backup added to daily backup pipeline
+**Trigger:** Ken-approved grooming + implementation
+**Changed:** backup.sh Step 0 now runs pg_dump (custom format, -Fc -Z 9) before workspace backup. 2.2MB compressed. pg_restore verified (32 tables, 263 tickets). Retention: 7 daily on local + iCloud offsite on Sundays. NAS target deferred to TKT-0326.
+**Why:** PG had zero backup prior to this. 32 tables with all platform state at risk of single SSD failure.
+**Rollback:** Revert backup.sh from git if pg_dump causes issues. PG data dir at /opt/homebrew/var/postgresql@16 remains intact.
+**Linked:** TKT-0269, TKT-0326, Sprint 6 #2
+
+## CHG-0453 — 2026-06-01 20:07 AEST
+**Type:** rule | **Source:** ken-prompt | **Category:** Platform Governance
+**Title:** Ticket Body Mandate — all tickets must have description/AC, not just title
+**Trigger:** Ken called out TKT-0310 being groomed with no context — title only, no brief, no Thrawn assessment link
+**Changed:** L-047 logged as NON-NEGOTIABLE. All future tickets must include description field at minimum (problem statement, scope, expected outcome). Ken verbatim prompt or paraphrase if Ken-raised. Agent assessments linked in metadata.assessment_ref.
+**Why:** Tickets with only titles are context black holes. Wastes grooming time reverse-engineering intent.
+**Rollback:** N/A
+**Linked:** L-047, TKT-0310
+
+## CHG-0454 — 2026-06-01 21:00 AEST
+**Type:** CHG | **Source:** platform | **Category:** Platform Governance
+**Title:** TKT-0310 closed — Platform Constraints Audit + 5-atom implementation
+**Trigger:** Thrawn audit delivered. Ken approved 5-atom plan.
+**Changed:**
+1. MEMORY.md hard limit bumped 10K→15K (soft limit 12K). Archive overflow at 12K.
+2. AGENTS.md: 18.4K→11.6K. NON-NEGOTIABLE rules consolidated to reference table. RULES.md is authoritative source.
+3. RULES.md: header added — declared as REFERENCE DOCUMENT, not injected. No size limit applies.
+4. auto-heal CHECK 15: Injected file size guard — alerts if SOUL/AGENTS/MEMORY/HEARTBEAT exceed per-file limits.
+5. auto-heal CHECK 16: Bootstrap total injection size — alerts if combined injection > 120K chars (~30K tokens).
+**Files added:** docs/platform-constraints-audit-v1.0.md (Thrawn audit), state/thrawn-tkt0310-summary.json
+**Why:** AGENTS.md was 83% over 10K injection limit, RULES.md 375% over — both silently truncating. MEMORY.md already exceeded old limit. Agents operating with truncated guardrails for weeks unnoticed.
+**Verification:** AGENTS.md 18,374→11,645 chars (36% reduction). Bootstrap total 46,839 chars (under 120K limit). All 5 atoms verified.
+**Rollback:** Revert AGENTS.md and MEMORY.md from git. Remove CHECK 15/16 from auto-heal.
+**Linked:** TKT-0310, L-047, Sprint 6 #3
+
+## CHG-0455 — 2026-06-01 21:22 AEST
+**Type:** CHG | **Source:** platform | **Category:** Ticket Governance
+**Title:** TKT-0317 Fully Re-Groomed — All Context Consolidated
+**Trigger:** Ken provided screenshot of detailed assessment notes showing 5 additional tickets (TKT-0178, 0182, 0188, 0228, 0230) recommended to fold into TKT-0317, plus TKT-0313 already merged. Groom was incomplete.
+**Changed:** TKT-0317 description expanded from zero to 3,945 chars. Now captures: 4 themes (Progressive Disclosure, Model-Task Fit, Path Safety, 2-Pass Dispatch), 7 folded tickets with rationale, 6 child tickets, 3-phase implementation, estimated impact. L-048 logged.
+**Why:** TKT-0317 had NO description body. Context existed only in Ken's notes, CHANGELOG, and Atlas assessment — never consolidated. L-047 violation in practice. This is the exact problem L-047 was meant to prevent.
+**Verification:** PG metadata confirmed: description=3945 chars, folded_tickets=7, child_tickets=6, phase=3 levels, ken_brief=verbatim.
+**Linked:** TKT-0317, L-047, L-048
+
+## CHG-0456 — 2026-06-01 21:42 AEST
+**Type:** CHG | **Source:** platform | **Category:** Ticket Governance
+**Title:** Fold SOP Defined — 5-Gate Ticket Folding Standard Operating Procedure
+**Trigger:** Ken asked "when you fold, what is it that you do?" Retrospective on TKT-0275 fold revealed knowledge loss — child scope not migrated to parent.
+**Changed:**
+1. Retrospective audit: 7 tickets folded into TKT-0317 on May 27. ALL 7 had NO description/AC. ALL 7 had generic close note: "folded into TKT-0317 — addressed by sub-tickets." Scope was not migrated.
+2. 2 gaps found: TKT-0188 (New Agent Activation DoD Gate) and TKT-0230 (Full Tool-Scope Matrix) were NOT covered by any TKT-0317 child ticket. Both added as AC5 and AC6.
+3. New doc: docs/Fold-SOP-v1.0.md — 5-gate procedure: Gate 1 (Scope Extraction), Gate 2 (Scope Migration → parent metadata.folded_scope as structured JSON), Gate 3 (Parent Update — ACs + description), Gate 4 (Child Close — verbatim resolution), Gate 5 (State Sync + Journal).
+4. AGENTS.md: Fold SOP added to Platform Rules table.
+5. TKT-0317: metadata.folded_scope written with structured mapping of all 7 folded tickets → ACs/child-tickets. ACs expanded from 6 to 7.
+**Why:** Folded tickets were losing scope. "Folded into X" close note + no migration = knowledge evaporates. The Fold SOP ensures scope is always extracted, mapped, and migrated before the child closes.
+**Verification:** Fold-SOP-v1.0.md saved (3125 bytes). All 7 folded tickets mapped in TKT-0317 metadata.folded_scope. 2 gaps closed with new ACs.
+**Linked:** TKT-0317, L-047, L-048

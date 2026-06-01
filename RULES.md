@@ -1,3 +1,10 @@
+# AInchors Platform Rules — Authoritative Reference
+# ⚠️ This file is the SSOT for all platform rules. It is a REFERENCE DOCUMENT —
+#    NOT injected into agent sessions. Agents read specific rules on-demand.
+#    Quick-reference summaries are in AGENTS.md (injected at session start).
+# Size: 47K+ chars (reference only, no injection limit applies).
+# TKT-0310/CHG-0454 — Platform Constraints Audit.
+
 # PG WRITE DISCIPLINE — NON-NEGOTIABLE (TKT-0297)
 # Effective: 2026-05-25
 # Authority: Ken Mun (CTO)
