@@ -1,3 +1,39 @@
+## Monday, June 1, 2026 — Business Stream Summary
+_Written 23:45 AEST by Aria cron_
+
+### Angie interactions today
+- **[09:48 AEST]** Angie asked Aria to "get Ken to verify this" (referring to a prior relay message) — Aria hit a rate limit (429) on deepseek-v4-pro before responding, fell back to delivery-mirror with "try again in a few minutes" message.
+- **[09:51 AEST]** Angie followed up with a longer message: Thank Ken for his one-month effort supporting AInchors, and ask if he's still interested in helping deliver training in Australia over the coming months. If yes, Angie will send a formal training contract. — Aria again hit rate limit (429), then a parallel session (heartbeat) picked up the message and relayed it.
+- **[16:49 AEST]** Relay delivered: Yoda sent the message to Ken via Telegram (MSG-20260601-001). Message: thanking Ken, asking about training interest + contract offer. Ken has not yet confirmed receipt/response.
+
+### Decisions made
+- **Training outreach to Ken**: Angie is planning training delivery in Australia over the next few months and wants Ken as a potential trainer. Formal contract offer pending Ken's interest confirmation.
+- **Relay protocol worked**: Despite rate-limit failures on deepseek-v4-pro, the inter-session relay (heartbeat → business session → Yoda dashboard) successfully delivered Angie's message to Ken.
+
+### Governance reviews
+- None triggered.
+
+### Open items
+- 🔴 **Ken training confirmation** — Awaiting Ken's response on whether he wants to train in Australia. Angie is waiting for "verification" that Ken received the message.
+- 🔴 **CR-002 (LinkedIn Setup / Spark)** — Still pending Ken/Yoda action since May 22. Now 10 days old. Longest-standing open action item.
+- 🔴 **CTO Contract Meeting outcome** — Meeting happened Friday May 29 at 10 AM (Angie & Ken). Still no debrief or next steps shared by Angie. 3 days post-meeting with no update.
+- 🟡 **Onboarding Stage 2** — OB-12, OB-14, OB-15 still unchecked.
+- 🟡 **Lynn Huang (bookkeeping)** — awaiting fee schedule reply.
+- 🟡 **Jack Ooi (accounting)** — awaiting update on meeting.
+- 🟡 **Training revenue projection** — pending review.
+- 🟡 **Marketing collaterals** — pending Angie review.
+- 🟡 **Meta appeal** — status unknown.
+- 🔴 **JotForm/HRDF** — outstanding from April 28.
+- 🟡 **April 30 class debrief** — still missing.
+
+### Handoff to Yoda
+- **Angie re-engaged today** after 2 quiet days (Sat May 30 + Sun May 31). Message count: 2 inbound from Angie today.
+- **Ken training offer**: Angie is actively planning training expansion and wants Ken onboard. This is a new initiative. MSG-20260601-001 was delivered to Ken via Telegram at 16:49. Yoda should follow up if Ken doesn't respond within ~24 hours — Angie specifically asked to "get Ken to verify this."
+- **Rate limit issue**: deepseek-v4-pro hit 429 errors on both of Angie's messages today. The business agent is now on delivery-mirror fallback for Angie's session. This means Angie got "try again" messages instead of real responses. The heartbeat session eventually picked up and relayed, but Angie's direct experience was degraded.
+- **CTO Contract Meeting (Fri May 29)**: Still no outcome shared by Angie. This is now 3 days post-meeting with radio silence on the result. Worth a gentle probe if Angie re-engages.
+- **Relay queue**: MSG-20260601-001 delivered. No other pending items.
+
+---
 ## Saturday, May 30, 2026 — Business Stream Summary
 _Written 23:45 AEST by Aria cron_
 
