@@ -203,6 +203,13 @@ _Maintained by Aria 🔵 + Yoda 🟢 | Status-tracked content for AInchors train
 | TC-183 | False-positive alerts in AI monitoring: tuning thresholds and fixing regex to stop crying wolf | 💡 Idea | Yoda Day 35 (backup checker regex matching own output, 26h→30h threshold relaxation, Anthropic balance suppression) | Both |
 | TC-184 | Building a platform restore runbook: the document that proves your AI platform is recoverable | 💡 Idea | Yoda Day 35 (BASE1 restore runbook, dual-path backup+GitHub, 14 agents, verification checklist, Drive+GitHub deliverable) | Aria |
 
+| TC-185 | When your experiment crashes the whole platform: surviving and learning from a failed AI framework install | 💡 Idea | Yoda Day 37 (CrewAI crashed Homebrew+node — 31 tables, 263 tickets, 14 agents all survived; shakedown + regression learnings) | Yoda |
+| TC-186 | The shell-wrapper trap: why wrapping scripts in AI models burns money for nothing | 💡 Idea | Yoda Day 37 (12/14 gemma4 crons were just wrapping shell scripts — converted to zero-model, ~70% reduction in cloud calls) | Both |
+| TC-187 | From files to database: the real migration story (not the tutorial version) | 💡 Idea | Yoda Day 37 (PG sole SSOT — dual-write retired, backup verified with pg_restore, 263/263 match, 2.2MB compressed) | Both |
+| TC-188 | Know your limits: platform constraint auditing as an operational discipline | 💡 Idea | Yoda Day 37 (Thrawn mapped every hard/soft limit — file sizes, context, memory, timeouts; auto-checks enforce nightly) | Yoda |
+| TC-189 | The Fold SOP: how to combine work items without losing knowledge | 💡 Idea | Yoda Day 37 (5-gate procedure: extract→migrate→update→close→sync; 7 audited tickets, 2 scope gaps closed) | Aria |
+| TC-190 | Context discipline 401: why ticket bodies matter more than ticket titles | 💡 Idea | Yoda Day 37 (L-047/L-048 — title-only tickets = knowledge debt; mandatory description rule; real example within minutes) | Both |
+
 ## Status Legend
 💡 Idea → 📝 Draft → 🔍 Review (Yoda validates) → ✅ Ready → 📢 Published
 
