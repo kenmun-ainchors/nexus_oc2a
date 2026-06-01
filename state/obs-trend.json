@@ -1,16 +1,16 @@
 {
-  "generated_at": "2026-06-01T03:13:06.216033+00:00",
-  "generated_at_aest": "2026-06-01 13:13 AEST",
+  "generated_at": "2026-06-01T03:28:40.572597+00:00",
+  "generated_at_aest": "2026-06-01 13:28 AEST",
   "period_hours": 24,
   "totals": {
-    "ERROR": 44,
+    "ERROR": 48,
     "WARN": 0,
     "INFO": 0
   },
   "top_errors": [
     {
       "type": "cron_run_fail",
-      "count": 42
+      "count": 46
     },
     {
       "type": "health_failure",
