@@ -153,7 +153,11 @@ DeepSeek = permanent primary. kimi = fallback only. Full history: `memory/MEMORY
 
 **Infra fixes:** BASE1 restore runbook + NAS backup delivered. 3 cron prompts patched (tilde-path bug, safe-path.sh guard). Auto-heal confirmed running (PG write gap folded into TKT-0327). Backup obs false positives fixed (regex).
 
-**Sprint 6 queue (locked — 14 items):** TKT-0310 (Platform Constraints), TKT-0317 (Context Epic + 4 sub), TKT-0268 (PG Stability), TKT-0269 (PG Backup), TKT-0293 (Regression), TKT-0321 (Yoda Dispatch), TKT-0322 (Thrawn/Atlas Dispatch), TKT-0326 (NAS Writable Backup), TKT-0327 (Tilde-Path Normalization), TKT-0318 (Aria TQP), TKT-0319 (Global TQP), TKT-0137 (Policy Register), TKT-0275 (Progressive Disclosure), + Platform Separation Phase 0 prep.
+**Sprint 6 (2026-06-02 to 2026-06-08) — IN PROGRESS:** 3/14 done (TKT-0268, TKT-0269, TKT-0310). Remaining: TKT-0317 (Context Epic), TKT-0293 (Regression), TKT-0321 (Yoda Dispatch), TKT-0322 (Routing Matrix), TKT-0326 (NAS Writable), TKT-0327 (Tilde-Path), TKT-0318 (Aria TQP), TKT-0319 (Global TQP), TKT-0137 (Policy Register), + Platform Separation Phase 0 prep.
+
+**TKT-0310:** APPROVED Ken 2026-06-02 18:44. Thrawn option paper → docs/deliverables/TKT-0310-Platform-Constraint-Enforcement-Option-Paper-v1.0.md. GDrive: https://drive.google.com/file/d/1FaodSS0GeV8iaYEL-PFhXmO96gUVy0Nm
+
+**Sprint 7 (2026-06-02 to 2026-06-08) — COMMITTED — Platform Constraint Enforcement:** 5 tickets, all Forge. Parent: TKT-0310. Seq: P0 (safe-path.sh, XS), P1-A (context budget guards, M), P1-B (file size enforcement, M), P1-C (cron timeout auto-scaling, M), P2 (hardening + dashboard, M). P3 (prompt truncation) = backlog, trigger-gated. Sprint file: state/sprint-7.json.
 
 **Platform state:** 14 agents. 32 PG tables. 251+ tickets. TQP gate live. Journal inline writes stable. Sprint 5 closed. Sprint 6 queued. Platform Separation go.
 

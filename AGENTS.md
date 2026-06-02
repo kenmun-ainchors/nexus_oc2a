@@ -97,6 +97,39 @@ Full rule: `RULES.md` → LESSONS REGISTRY RULE.
 
 **When in doubt:** `RULES.md` is the authoritative source. These summaries are non-binding quick-ref.
 
+## Dispatch Rules — NON-NEGOTIABLE (TKT-0321, ratified 2026-05-27)
+
+### The 2-Pass Contract
+
+**"No executor receives undiscovered work."**
+
+All agent-to-agent dispatches follow a 2-pass pattern:
+
+1. **Pass 1 (Discovery):** The orchestrator analyzes the task, breaks it into concrete atoms, maps dependencies, assigns models per TKT-0322 matrix. No execution.
+2. **Pass 2 (Execution):** The specialist receives pre-discovered atoms and executes them via RVEV (READ → VALIDATE → EXECUTE → VERIFY). No discovery.
+
+**If you are an orchestrator dispatching work:** Complete Pass 1 fully before dispatching. Ambiguous atoms will be rejected by `dispatch-validate.sh` (TKT-0323).
+
+**If you are an executor receiving work:** If the dispatch is ambiguous or requires discovery, REJECT IT. Demand a proper Pass 1 breakdown.
+
+### RVEV Cycle
+
+Every atom execution follows: **READ → VALIDATE → EXECUTE → VERIFY**
+
+- **READ:** Load the atom and its target
+- **VALIDATE:** Check pre-conditions
+- **EXECUTE:** Perform the verb
+- **VERIFY:** Confirm post-conditions
+
+Report per-atom RVEV traces. Partial execution is not permitted.
+
+### Dispatch Boundaries
+
+- When dispatching to another agent, complete discovery (Pass 1) first
+- When receiving a dispatch, execute only (Pass 2) — no discovery
+- Cross-agent dispatches MUST pass `dispatch-validate.sh` (TKT-0323)
+- Violations are logged, alerted, and escalate per enforcement policy
+
 ## 💓 Heartbeats - Be Proactive!
 
 When you receive a heartbeat poll (message matches the configured heartbeat prompt), don't just reply `HEARTBEAT_OK` every time. Use heartbeats productively!

@@ -1,0 +1,86 @@
+{
+    "sprint": 7,
+    "dates": "2026-06-02 to 2026-06-08",
+    "status": "committed",
+    "theme": "Platform Constraint Enforcement + Model-Task Routing",
+    "locked_at": "2026-06-02T20:12:00+10:00",
+    "locked_by": "Ken Mun",
+    "updated_at": "2026-06-02T20:12:00+10:00",
+    "sequence": [
+        {
+            "seq": 1,
+            "tkt": "TKT-0336",
+            "title": "P0: Tilde-Path Normalization (safe-path.sh)",
+            "epic": "TKT-0310",
+            "phase": "P0",
+            "agent": "forge",
+            "effort": "XS (1-2d)",
+            "priority": "critical",
+            "status": "pending"
+        },
+        {
+            "seq": 2,
+            "tkt": "TKT-0337",
+            "title": "P1-A: Context Budget Guards (Token Counting + Injection Gates)",
+            "epic": "TKT-0310",
+            "phase": "P1-A",
+            "agent": "forge",
+            "effort": "M (3-5d)",
+            "priority": "critical",
+            "status": "pending"
+        },
+        {
+            "seq": 3,
+            "tkt": "TKT-0338",
+            "title": "P1-B: File Size Enforcement (Write-Time + Pre-Injection)",
+            "epic": "TKT-0310",
+            "phase": "P1-B",
+            "agent": "forge",
+            "effort": "M (3-5d)",
+            "priority": "critical",
+            "status": "pending"
+        },
+        {
+            "seq": 4,
+            "tkt": "TKT-0339",
+            "title": "P1-C: Cron Timeout Auto-Scaling (Adaptive + Retry + Reaping)",
+            "epic": "TKT-0310",
+            "phase": "P1-C",
+            "agent": "forge",
+            "effort": "M (3-4d)",
+            "priority": "critical",
+            "status": "pending"
+        },
+        {
+            "seq": 5,
+            "tkt": "TKT-0340",
+            "title": "P2: Constraint Hardening (Enforce + Auto-Summarization + Dashboard)",
+            "epic": "TKT-0310",
+            "phase": "P2",
+            "agent": "forge",
+            "effort": "M (3-5d)",
+            "priority": "high",
+            "status": "pending"
+        },
+        {
+            "seq": 6,
+            "tkt": "TKT-0323",
+            "title": "Pre-Dispatch Validator + Agent Config Migration (FOLDED: TKT-0322 implementation)",
+            "epic": "TKT-0317",
+            "agent": "forge",
+            "effort": "L (5-7d)",
+            "priority": "critical",
+            "status": "pending",
+            "ac": ["AC1: Gates all dispatches", "AC2: 14 configs updated", "AC3: Tier 3 lock active", "AC4: JSON contract validated", "AC5: Token budgets enforced", "AC6: 79K→≤40K tokens/day"]
+        }
+    ],
+    "backlog": [
+        {
+            "tkt": "TKT-0341",
+            "title": "P3: Prompt Truncation at Gateway",
+            "trigger": ">=10% injections hit 80% warn threshold",
+            "status": "backlog"
+        }
+    ],
+    "notes": "Sprint 7 spans two epics: TKT-0310 (constraint enforcement, seq 1-5) + TKT-0317 (routing dispatch, seq 6). TKT-0323 folded in TKT-0322 implementation scope — 3 parts: dispatch-validate.sh, 14-agent config migration, cost monitoring. All Forge."
+}

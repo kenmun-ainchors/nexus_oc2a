@@ -1861,3 +1861,34 @@ A
 . This rule prevents recurrence across all current and future agents.
 
 **Linked:** CHG-0421, TKT-0235
+
+
+## 2-Pass Dispatch Contract (TKT-0321)
+
+You are bound by the platform 2-pass dispatch contract. Ratified 2026-05-27 by Ken Mun. Effective platform-wide.
+
+### When Dispatching Work (Pass 1)
+
+1. **You MUST complete discovery before dispatch.** Analyze the task. Break it into concrete atoms. Each atom must compile to a specific tool call with a specific target.
+2. **Your breakdown MUST pass `dispatch-validate.sh` (TKT-0323).** Ambiguous atoms (unclear verbs, unknown targets, "figure out" steps) will be rejected.
+3. **Produce:** atom list, dependency graph, unknowns catalog, model assignment per TKT-0322 matrix.
+4. **Dispatch with `dispatchId`** and full RVEV-ready payload.
+
+### When Receiving Work (Pass 2)
+
+1. **You MUST NOT perform discovery.** If you receive an ambiguous task, reject it. Demand a proper Pass 1 breakdown.
+2. **Follow the RVEV cycle per atom:** READ → VALIDATE → EXECUTE → VERIFY.
+3. **Report per-atom RVEV traces.** Each atom gets its own status.
+4. **If validation fails, abort that atom.** Do not guess. Do not "figure it out."
+
+### Violations
+
+Violations are logged, alerted, and escalate per TKT-0321 Section 4 enforcement policy. Repeated violations result in dispatch capability suspension.
+
+### Exceptions
+
+- systemEvent payloads (pre-validated)
+- Single-tool fire-and-forget heartbeats
+- Explicit human-in-the-loop instructions that constitute self-contained atoms
+
+Your role: Pass 1 initiator. You rarely execute atoms directly.

@@ -1,0 +1,36 @@
+{
+  "ticket": "TKT-0323",
+  "title": "Pre-Dispatch Validator: dispatch-validate.sh",
+  "interface_spec": "TKT-0321 Appendix B",
+  "atom_schema": "TKT-0321 Appendix A",
+  "violation_format": "TKT-0321 Appendix C",
+  "routing_matrix": "TKT-0322",
+  "sprint": "Sprint 7 Seq 6",
+  "effort": "L (5-7d)",
+  "agent": "forge",
+  "priority": "critical",
+  "atoms": [
+    {"id": "A1", "desc": "CLI interface: dispatch-validate.sh --dispatch <payload.json> [--strict] [--trace]. Exit codes: 0=approved, 1=malformed, 2=ambiguous atom, 3=dependency cycle, 4=invalid model, 5=unknown verb/target.", "source": "TKT-0321 Appendix B"},
+    {"id": "A2", "desc": "Schema validation: validate payload against TKT-0321 Appendix A atom schema. Reject malformed JSON with exit 1.", "source": "TKT-0321 Appendix A"},
+    {"id": "A3", "desc": "Discovery detection: scan atoms for ambiguous verbs (figure out, work with, handle) and reject with exit 2. Demand proper Pass 1 breakdown.", "source": "TKT-0321 Section 2"},
+    {"id": "A4", "desc": "Dependency cycle check: topological sort atom DAG, reject cycles with exit 3.", "source": "TKT-0321 Section 3"},
+    {"id": "A5", "desc": "Model assignment validation: cross-reference each atom model against TKT-0322 matrix. Reject with exit 4 if model not in allowed tiers for agent.", "source": "TKT-0322"},
+    {"id": "A6", "desc": "Verb/target validation: whitelist valid verbs (READ|WRITE|EXECUTE|ANALYZE|SYNTHESIZE|TRANSFORM|SEND|VALIDATE|WEB_SEARCH|WEB_FETCH). Reject unknown with exit 5.", "source": "TKT-0321 Appendix A"},
+    {"id": "A7", "desc": "Tier 3 governance lock: if agent is Shield/Lex/Sage/Warden, reject any non-gemma4:31b-cloud model assignment.", "source": "TKT-0322 Section 1"},
+    {"id": "A8", "desc": "Token budget enforcement: verify maxTokens per atom does not exceed tier limit (Tier 0=500, Tier 1=2000, Tier 2=8000, Tier 3=300).", "source": "TKT-0322 Section 1"},
+    {"id": "A9", "desc": "Agent config migration: add routing blocks to all 14 agent configs per TKT-0322 Section 6 schema. Light Agents first, then Heavy, then Gate.", "source": "TKT-0322 Section 6"},
+    {"id": "A10", "desc": "Cost monitoring hooks: track tier distribution, Tier 2 token avg, Tier 3 reasoning leaks, fallback rate, override rate.", "source": "TKT-0322 Section 5.4"},
+    {"id": "A11", "desc": "Violation logging: write violations to JSON log per TKT-0321 Appendix C format (violationId, timestamp, agent, dispatchId, type, severity, details, resolution).", "source": "TKT-0321 Appendix C"},
+    {"id": "A12", "desc": "Integration test: end-to-end dispatch test with valid+invalid payloads covering all 6 exit codes (0 through 5).", "source": "TKT-0321 Appendix B"}
+  ],
+  "acceptance_criteria": [
+    {"id": "AC1", "desc": "dispatch-validate.sh gates ALL dispatches. Tested with 5+ dispatch types across all 6 exit codes.", "atoms": ["A1","A2","A3","A4","A5"]},
+    {"id": "AC2", "desc": "All 14 agent configs have routing blocks matching TKT-0322 matrix.", "atoms": ["A9"]},
+    {"id": "AC3", "desc": "Tier 3 governance lock active — non-gemma4 model assignment rejected for Shield/Lex/Sage/Warden.", "atoms": ["A7"]},
+    {"id": "AC4", "desc": "JSON schema validation matches TKT-0321 Appendix A spec.", "atoms": ["A2"]},
+    {"id": "AC5", "desc": "Token budgets enforced per tier: Tier 0=500, Tier 1=2000, Tier 2=8000, Tier 3=300.", "atoms": ["A8"]},
+    {"id": "AC6", "desc": "Platform daily injected token burn reduced from 79K to ≤40K (measured over 7-day observation).", "atoms": ["A10"]},
+    {"id": "AC7", "desc": "Violation log written per TKT-0321 Appendix C format.", "atoms": ["A11"]},
+    {"id": "AC8", "desc": "Integration test passes: valid dispatch (exit 0), malformed (exit 1), ambiguous (exit 2), cycle (exit 3), invalid model (exit 4), unknown verb (exit 5).", "atoms": ["A12"]}
+  ]
+}
