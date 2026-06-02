@@ -1,3 +1,36 @@
+## Tuesday, June 2, 2026 — Business Stream Summary
+_Written 23:45 AEST by Aria cron_
+
+### Angie interactions today
+No Angie activity today.
+
+### Decisions made
+- None today. Business stream quiet.
+
+### Governance reviews
+- None triggered.
+
+### Open items
+- 🔴 **Ken training confirmation (MSG-20260601-001)** — Delivered to Ken via Yoda/Telegram yesterday (Mon Jun 1, 16:49 AEST). Ken has not confirmed receipt or responded. Angie specifically asked to "get Ken to verify this." Now >24 hours since delivery.
+- 🔴 **CR-002 (LinkedIn Setup / Spark)** — Still pending Ken/Yoda action since May 22. Now 11 days old. Longest-standing open action item.
+- 🔴 **CTO Contract Meeting outcome** — Meeting happened Friday May 29 at 10 AM (Angie & Ken). Still no debrief or next steps shared by Angie. 4 days post-meeting with no update.
+- 🟡 **Onboarding Stage 2** — OB-12, OB-14, OB-15 still unchecked.
+- 🟡 **Lynn Huang (bookkeeping)** — awaiting fee schedule reply.
+- 🟡 **Jack Ooi (accounting)** — awaiting update on meeting.
+- 🟡 **Training revenue projection** — pending review.
+- 🟡 **Marketing collaterals** — pending Angie review.
+- 🟡 **Meta appeal** — status unknown.
+- 🔴 **JotForm/HRDF** — outstanding from April 28.
+- 🟡 **April 30 class debrief** — still missing.
+
+### Handoff to Yoda
+- **Quiet Tuesday**. No Angie interactions today. This follows yesterday's (Mon Jun 1) single burst of activity where Angie re-engaged to relay Ken's training offer.
+- **Ken training offer follow-up**: MSG-20260601-001 was delivered to Ken via Telegram yesterday at 16:49 AEST. No response yet. Angie asked to "get Ken to verify this" — she wants confirmation. If Ken doesn't respond by end of Wednesday, consider a gentle nudge.
+- **CTO Contract Meeting (Fri May 29)**: Now 4 days post-meeting with zero follow-up from either Angie or Ken. This is becoming conspicuous — either the contract was signed (and Angie hasn't shared), or it hit an obstacle. Worth probing when Angie re-engages.
+- **Rate limit issue yesterday**: deepseek-v4-pro hit 429 errors on both of Angie's messages. Business agent fell back to delivery-mirror ("try again" messages). The heartbeat session eventually picked up the relay, but Angie's direct experience was degraded. Monitor whether the rate limit clears for future Angie sessions.
+- **Relay queue**: MSG-20260601-001 marked delivered. No other pending items.
+
+---
 ## Monday, June 1, 2026 — Business Stream Summary
 _Written 23:45 AEST by Aria cron_
 
