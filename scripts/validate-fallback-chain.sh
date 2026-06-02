@@ -88,30 +88,10 @@ else
   RESULTS+=("gemma4Loaded:skipped")
 fi
 
-# ── LINK 4b: Gemma4 warm and responsive (actual completion probe) ─────────────
-if [[ "$GEMMA4_FOUND" == "yes" ]]; then
-  log "LINK 4b (Gemma4 warmup): Sending test completion — may take up to 90s on cold start..."
-  WARMUP_RESPONSE=$(curl -s \
-    --connect-timeout 10 \
-    --max-time 90 \
-    -X POST "http://localhost:11434/api/generate" \
-    -H "Content-Type: application/json" \
-    -d '{"model":"gemma4:26b","prompt":"hi","stream":false,"options":{"num_predict":1}}' \
-    2>/dev/null)
-  WARMUP_OK=$(echo "$WARMUP_RESPONSE" | python3 -c \
-    "import json,sys; d=json.load(sys.stdin); print('yes' if d.get('response') is not None else 'no')" \
-    2>/dev/null || echo "no")
-  if [[ "$WARMUP_OK" == "yes" ]]; then
-    log "LINK 4b (Gemma4 warmup): OK — model responded"
-    RESULTS+=("gemma4Warm:ok")
-  else
-    log "LINK 4b (Gemma4 warmup): BROKEN — no response within 90s (cold-load timeout or auth issue)"
-    RESULTS+=("gemma4Warm:broken")
-    BROKEN+=("Gemma4 warmup probe failed — not responsive within 90s")
-  fi
-else
-  RESULTS+=("gemma4Warm:skipped")
-fi
+# ── LINK 4b: Gemma4 warmup probe — DISABLED (Ken, 2026-06-02) ──────────────
+# OC1 cannot load gemma4:26b within 90s (M4 24GB RAM pressure).
+# Revisit at OC2 (TRIGGER-03) when 48GB M4 Pro arrives.
+RESULTS+=("gemma4Warm:skipped")
 
 
 # ── LINK 5: openclaw.json fallback chain for main (Yoda) agent ───────────────

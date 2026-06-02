@@ -1,9 +1,9 @@
 {
   "schema": "2.0",
   "description": "CHG Trigger Rules \u2014 Yoda monitors these and raises CHG+Telegram alert when triggered.",
-  "lastUpdated": "2026-05-29T22:10:00+10:00",
-  "lastUpdatedBy": "Ken Mun (CTO)",
-  "changeNote": "TRIGGER-14 (Claude Restore) + Platform Separation folded into TRIGGER-01 as sub-actions. TRIGGER-10 retired. TRIGGER-14 renumbered for Phase 3 Event Sourcing. Version bumped to 2.0.",
+  "lastUpdated": "2026-06-02T10:15:00+10:00",
+  "lastUpdatedBy": "Yoda",
+  "changeNote": "Ken reviewed all cron model assignments. No changes. Gemma4 strategy frozen until OC2 (TRIGGER-03).",
   "triggers": {
     "TRIGGER-01": {
       "name": "OC2 Arrival \u2014 Master Gate",
@@ -119,10 +119,12 @@
         "TRIGGER-02"
       ],
       "modelsToEvaluate": [
-        "ollama/gemma4:26b",
-        "ollama/gemma4:31b-coding-mtp-bf16"
+        "ollama/gemma4:26b (local \u2014 OC2 48GB)",
+        "ollama/gemma4:31b-coding-mtp-bf16 (local \u2014 OC2 48GB)",
+        "ollama/gemma4:31b-cloud (cloud \u2014 keep/replace/upgrade decision)"
       ],
-      "note": "OC2 48GB has headroom for BF16 variant. Evaluate alongside :26b."
+      "note": "Gemma4 cloud model assignments frozen until OC2. No changes to gemma4:31b-cloud cron assignments now. Full gemma4 model strategy review (local + cloud) at OC2 gate. Ken decision: 2026-06-02.",
+      "kenDecision": "Reviewed all cron model assignments 2026-06-02. No changes. Gemma4 cloud models (gemma4:31b-cloud) remain as-is. 429 quota exhaustion is a billing issue, not an architecture issue. Full review deferred to OC2 when local gemma4:26b becomes viable."
     },
     "TRIGGER-04": {
       "name": "OpenClaw Security Patch",
@@ -192,7 +194,8 @@
       "condition": "Monthly check: Ollama releases no-think glm-5.1 variant",
       "detection": "automated \u2014 monthly cron (bb47c6de)",
       "action": "Re-benchmark B2+B4. If latency \u226420s and quality \u22653.5 \u2192 add as Tier 2.",
-      "status": "monitoring"
+      "status": "monitoring",
+      "lastChecked": "2026-06-02T09:00:00+10:00"
     },
     "TRIGGER-12": {
       "name": "Agent Allowlist Sync",
@@ -222,7 +225,7 @@
       "linkedCHG": "CHG-0308"
     },
     "TRIGGER-15": {
-      "name": "P1\u2192P2 Checkpoint: Golden Blueprint Review",
+      "name": "P1\u2019P2 Checkpoint: Golden Blueprint Review",
       "condition": "P2 launches \u2014 first SME client onboarded (target Aug 2026)",
       "action": "Atlas: full refresh of both golden blueprints. Architecture Delta Summary for Ken. Requires APPROVED before P2 ops begin.",
       "status": "pending",
@@ -231,7 +234,7 @@
       "linkedCHG": "CHG-0318"
     },
     "TRIGGER-16": {
-      "name": "P2\u2192P4 Checkpoint: Golden Blueprint Review",
+      "name": "P2\u2019P4 Checkpoint: Golden Blueprint Review",
       "condition": "TRIGGER-14 fires (post-P2 stable, event sourcing design begins)",
       "action": "Atlas: full refresh of both golden blueprints. Add Phase 3 event sourcing architecture. FSI trajectory detail.",
       "status": "pending",

@@ -1,15 +1,6 @@
 {
-  "checkedAt": "2026-06-01T07:59:09.422681+00:00",
-  "failures": [
-    {
-      "cronId": "3c279099",
-      "fullCronId": "3c279099-bddb-4ef3-bfea-fc22f342abd8",
-      "name": "AInchors Morning Stand-Up",
-      "consecutiveErrors": 4,
-      "lastError": "error",
-      "source": "live-cron-state"
-    }
-  ],
+  "checkedAt": "2026-06-02T12:07:20.591251+00:00",
+  "failures": [],
   "warnings": [],
-  "healthy": false
+  "healthy": true
 }

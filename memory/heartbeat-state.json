@@ -1,0 +1,28 @@
+{
+  "lastChecks": {
+    "mission_control": 1769486040,
+    "task_monitor": 1780396218,
+    "cronHealth": 1769468760,
+    "budgetCheck": 1769438500,
+    "owlCompliance": 1769438500,
+    "blogVerification": 1769468760,
+    "dodValidation": 1769438500,
+    "wardenEscalation": 1769468760,
+    "taskWatchdog": 1769468760,
+    "standbyMode": 1769468760,
+    "cronDeadLetter": 1769438500,
+    "taskVerificationAlerts": 1769438500
+  },
+  "notes": {
+    "2026-06-02T00:01": "MC refresh: 156 errs/24h (128 cron_run_fail, 26 fallback_chain_broken). Flag for morning review.",
+    "2026-06-02T08:41": "Task monitor: 0 stalls, all queue tasks complete/closed/cancelled. No alerts.",
+    "2026-06-02T11:34": "Full heartbeat: all clear. TZ drift OK (grace window). Cron health clean. Budget $0/$100. Blog 06-01 exists. No active alerts. OWL state missing (non-critical).",
+    "2026-06-02T12:04": "Task monitor: 0 stalls, 0 verified, 0 failed. Queue: 10 tasks all complete/closed/cancelled. No alerts.",
+    "2026-06-02T12:26": "Task monitor (cron): 0 stalls, 0 verified, 0 failed. Queue clean. No Telegram alert needed.",
+    "2026-06-02T13:45": "MC refresh: 331 errs/24h (+549%). 200 cron_run_fail, 124 fallback_chain_broken. Flag for Ken review — possible model/fallback issue. Agents idle. Task queue clean.",
+    "2026-06-02T14:54": "Task monitor: 0 stalls. All 35 crons green except: Backup Health Check (2 consecutive timeouts, 30s limit may be too tight), Weekly Compliance Report (1 Ollama rate-limit error from Mon), Monthly Model Review (1 timeout from May 28). Blog 06-01 generated. KRI sparse. autoheal_log clean (0 entries in 24h). No Telegram alerts needed.",
+    "2026-06-02T15:06": "Heartbeat: all clear. TQP no queued/dispatched. Cron health OK. Blog dir empty (no 06-02 post yet). DB shows 263 active tickets (non-Done/Closed/Cancelled/Backlog). MC errors trending high (331/24h noted earlier). No warden escalations. No immediate alerts. Ken aware of MC spike from 13:45 note.",
+    "2026-06-02T20:30": "Heartbeat: TQP run — no queued or dispatched tasks. Queue clean. 20:30 AEST. Nothing to flag.",
+    "2026-06-02T23:54": "MC refresh: 226 errs/24h (down from 331). cron_run_fail=122, fallback_chain_broken=99. Trend still +46.8% vs prev 24h but improving. Agents idle. Gateway ok. Late night, nothing actionable."
+  }
+}

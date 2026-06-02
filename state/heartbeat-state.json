@@ -1,22 +1,32 @@
 {
   "lastChecks": {
+    "standbyMode": 1719398880,
+    "taskWatchdog": 1719398880,
+    "cronHealth": 1719398880,
+    "wardenEscalation": 1719398880,
+    "cronDeadLetter": 1719398880,
+    "dodValidation": 1719398880,
+    "budgetCheck": 1717252320,
+    "owlCompliance": 1717283700,
     "email": null,
     "calendar": null,
     "costState": null,
-    "taskWatchdog": 1759305489,
-    "healthCheck": 1759305489,
-    "standbyMode": 1759305489,
-    "dodValidation": 1759305489,
-    "wardenEscalation": 1759305489,
-    "budgetCheck": 1759305489,
-    "cronHealth": 1759305549,
-    "cronDeadLetter": 1759305489,
-    "owlCompliance": 1759305489,
-    "blogVerification": null,
-    "journalCompleteness": null,
+    "taskVerificationAlerts": 1719398880,
     "ceremoniesThisWeek": null,
     "doDGates": null,
-    "allowlistSync": 1759305489
+    "ahsokaPilot": 1717252320,
+    "journalCompleteness": 1719398880,
+    "blogVerification": 1719398880,
+    "allowlistSync": 1717252320,
+    "chgTriggers": 1717252320,
+    "agentHealth": null
   },
-  "updatedAt": "2026-06-01T07:59:30Z"
+  "updatedAt": "2026-06-01T20:48Z",
+  "notes": {
+    "standbyMode": "Anthropic API standby active since 2026-06-02 06:46 AEST. Fallback chain working — deepseek-v4-pro:cloud serving. Already flagged from prior checks.",
+    "cronHealth": "3c279099 Morning Stand-Up has 4 consecutive errors — Ollama Cloud weekly rate limit (429). Acknowledged. No new failures.",
+    "blogVerification": "2026-06-01 blog exists ✅",
+    "journalCompleteness": "2026-06-01 journal exists (14KB) ✅",
+    "obsCollector": "Ran successfully — mission control refreshed at 06:48 AEST."
+  }
 }

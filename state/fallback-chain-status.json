@@ -1,6 +1,6 @@
 {
-  "checkedAt": "2026-06-01T07:45:24Z",
-  "overall": "broken",
+  "checkedAt": "2026-06-02T13:46:29Z",
+  "overall": "ok",
   "chain": [
     "ollama/deepseek-v4-pro:cloud",
     "ollama/gemma4:31b-cloud"
@@ -10,11 +10,9 @@
     "anthropicApi:ok",
     "ollamaRunning:ok",
     "gemma4Loaded:ok",
-    "gemma4Warm:broken",
+    "gemma4Warm:skipped",
     "fallbackChainConfig:ok"
   ],
-  "broken": [
-    "Gemma4 warmup probe failed \u2014 not responsive within 90s"
-  ],
-  "brokenCount": 1
+  "broken": [],
+  "brokenCount": 0
 }
