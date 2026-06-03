@@ -1,3 +1,42 @@
+## Wednesday, June 3, 2026 — Business Stream Summary
+_Written 23:45 AEST by Aria cron_
+
+### Angie interactions today
+- **[~11:33 AEST]** Angie asked Aria to arrange a meeting with Ken tomorrow (Thu Jun 4) at 11am Sydney time, 1 hour, Google Meet. Aria attempted to create it via Google Calendar but the `gog` auth token for angie.foong@ainchors.com had expired. Aria prepared the meeting details (Title: "Angie & Ken — Catch Up", Thu Jun 4 11AM–12PM AEST, Google Meet, Ken Mun invited) but could not finalize — needs Angie to re-auth with `gog auth add angie.foong@ainchors.com --services calendar`.
+- **[~11:34 AEST]** Angie said "Nudge ken" — Aria queued relay message `relay-20260603-001` to Ken via relay-to-ken.json: meeting request + heads-up that Google Calendar auth needs refreshing on Angie's machine. Relay marked unsent (pending Yoda pickup).
+
+### Decisions made
+- **Meeting scheduled (pending creation):** Angie & Ken catch-up, Thu Jun 4 11AM–12PM Sydney, Google Meet. Blocked on Google Calendar auth re-authorization by Angie.
+- **Ken nudged:** Angie explicitly requested Aria nudge Ken about the meeting + auth issue.
+
+### Governance reviews
+- None triggered.
+
+### Open items
+- 🆕 **Meeting creation blocked** — Angie needs to re-auth Google Calendar (`gog auth add angie.foong@ainchors.com --services calendar`) before Aria can create events. Ken may create the meeting from his end as fallback.
+- 🆕 **Relay relay-20260603-001** — Queued for Ken (meeting invite + auth heads-up). Marked unsent. Yoda needs to pick up and deliver.
+- 🔴 **Ken training confirmation (MSG-20260601-001)** — Delivered Mon Jun 1. Now 2+ days with no response from Ken. Angie specifically asked to "get Ken to verify this."
+- 🔴 **CR-002 (LinkedIn Setup / Spark)** — Still pending Ken/Yoda action since May 22. Now 12 days old.
+- 🔴 **CTO Contract Meeting outcome** — Meeting happened Friday May 29. Now 5 days post-meeting with zero follow-up from either Angie or Ken.
+- 🟡 **Onboarding Stage 2** — OB-12, OB-14, OB-15 still unchecked.
+- 🟡 **Lynn Huang (bookkeeping)** — awaiting fee schedule reply.
+- 🟡 **Jack Ooi (accounting)** — awaiting update on meeting.
+- 🟡 **Training revenue projection** — pending review.
+- 🟡 **Marketing collaterals** — pending Angie review.
+- 🟡 **Meta appeal** — status unknown.
+- 🔴 **JotForm/HRDF** — outstanding from April 28.
+- 🟡 **April 30 class debrief** — still missing.
+
+### Handoff to Yoda
+- **Angie was active today** after a quiet Tuesday. Two messages: meeting request + nudge to Ken.
+- **Google Calendar auth broken**: Aria cannot create calendar events for Angie until she re-auths. This blocked today's meeting creation. Ken was nudged as fallback — he can create the meeting from his end. The relay message (`relay-20260603-001`) is queued and marked unsent — Yoda needs to pick up and deliver to Ken.
+- **Meeting tomorrow (Thu Jun 4, 11AM Sydney):** Angie & Ken catch-up. Whether it happens depends on Ken creating it or Angie re-authing in time. Flag to Yoda: if relay isn't delivered tonight, Ken won't know about the meeting.
+- **Ken training offer (MSG-20260601-001):** Still no response from Ken after 2+ days. Angie wanted verification he received it. Yoda should check if Ken saw/read the message.
+- **CTO Contract Meeting (May 29):** 5 days post-meeting, still no debrief. This is now the most conspicuous gap in the stream — either contract signed (good) or stalled (bad). Worth probing when Angie re-engages.
+- **CR-002 (LinkedIn/Spark):** 12 days old. Angie's interest in Spark/LinkedIn was strong on May 23 but nothing has moved since.
+
+---
+
 ## Tuesday, June 2, 2026 — Business Stream Summary
 _Written 23:45 AEST by Aria cron_
 
