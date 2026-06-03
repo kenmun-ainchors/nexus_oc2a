@@ -1,67 +1,60 @@
-# YODA TELEGRAM CONTEXT BRIEF
-Generated: Tuesday, June 2nd, 2026 - 8:00 PM AEST
-Platform Day: 39 (Since 2026-04-25)
+### 🟢 YODA TELEGRAM CONTEXT BRIEF
+**Last Refresh:** 2026-06-03 20:00 AEST
+**Platform Day:** 40 (Since 2026-04-25)
 
-## 🚀 Platform Status
-- **State:** MVP (OC1-only) $ightarrow$ Transitioning to P1 (OC2 Era)
-- **Current Focus:** Sprint 6 (Context Optimization & Platform Separation Phase 0)
-- **Budget:** Monthly cap A$500 $ightarrow$ $150 USD (effective Jun 1)
-- **OpenClaw:** v2026.5.27 | 59 crons | TQP Gate Live
+#### 📊 Platform Status
+- **Phase:** MVP (OC1-only, core platform live)
+- **Runtime:** OC1 (Mac Mini M4 24GB) | v2026.5.27
+- **Health:** 59 crons active, integrations healthy.
+- **Budget:** Monthly cap A$500 $ightarrow$ $150 USD (eff. Jun 1).
 
-## 👥 Key People
-- **Ken Mun (CTO):** Lead Authority. Bot: @AInchorsOC1Bot
-- **Angie Foong (CEO):** Highest Authority. Bot: @AInchorsAriaBot
+#### 👥 Key People
+- **Ken Mun (CTO):** Principal Authority. Telegram: 8574109706
+- **Angie Foong (CEO):** Highest Authority. Telegram: 8141152780
 
-## 🏗️ Infrastructure
-- **OC1:** Mac Mini M4 24GB (LIVE Production)
-- **OC2-A/B:** Mac Mini M4 Pro 48GB $	imes (ETA 6–13 Jul 2026)
-- **Network:** Tailscale mesh | NAS
-- **Data:** Postgres (18-32 tables) SSOT for state | MinIO on OC1 ✅ LIVE
+#### 🏗️ Infrastructure
+- **OC1:** Production Node (Permanent).
+- **OC2-A/B:** Incoming (ETA 6-13 Jul), HA Pair.
+- **Connectivity:** Tailscale Mesh.
+- **Storage:** NAS (Encrypted post-OC2).
 
-## 📅 Current Sprint (S6: 2026-06-02 to 2026-06-08)
-- **Status:** Committed
-- **Done:** 
+#### 🏃 Current Sprint (S6: 2026-06-02 to 2026-06-08)
+- **Status:** In Progress.
+- **Completed:** 
   - TKT-0268: PG Dual-Write Stability ✅
-  - TKT-0269: PG pg_dump Backup to NAS ✅
+  - TKT-0269: PG pg_dump to NAS ✅
   - TKT-0310: Platform Constraint Enforcement ✅
-- **Pending/In-Progress:**
-  - TKT-0317: Context Optimization Epic (XL)
-  - TKT-0293: Regression Testing Framework (L)
-  - TKT-0321: 2-Pass Dispatch Discipline (M)
-  - TKT-0322: Model-Task Routing Matrix (S-M)
-  - TKT-0326: NAS Writable Backup Target (M)
-  - TKT-0327: Tilde-Path Normalization (Monitoring)
-  - TKT-0318/0319: Aria/Global TQP Phase 2/3 (M/L)
-  - TKT-0137: Policy Register (M)
+  - TKT-0322: Model-Task Routing Matrix ✅
+  - TKT-0321: 2-Pass Dispatch Discipline ✅
+- **Pending/High:** TKT-0317 (Context Epic), TKT-0293 (Regression), TKT-0319 (Global TQP), TKT-0318 (Aria TQP).
 
-## ✅ Approved Decisions (Key)
-- **Platform Separation:** OC1 $ightarrow$ Business Node (Aria + 6); OC2-A/B $ightarrow$ Tech HIVE HA Pair.
-- **TQP Gate:** TQP as execution gate (Option E) approved and live.
-- **Budget:** Shift to $150 USD/mo cap with fixed $100 Ollama Cloud + $50 Claude buffer.
-- **Governance:** T0-T4 Model approved (Yoda lead $ightarrow$ Warden $ightarrow$ Specialist $ightarrow$ Verdict).
-- **TKT-0310:** Platform Constraint Enforcement Option Paper approved.
+#### ⚖️ Approved Decisions (Key)
+- **Platform Separation:** OC1 as business node (Aria+6 agents), OC2-A/B as tech HIVE HA pair.
+- **2-Pass Contract:** "No executor receives undiscovered work." (Discovery $ightarrow$ Execution).
+- **TQP Gate:** TQP as a hard gate for context retention, not just a hook.
+- **Model Strategy:** Client data = T0/T1 local ONLY. DeepSeek permanent primary, Kimi fallback.
 
-## 🎫 Top Open Tickets (Priority)
-1. **TKT-0317:** Context Optimization Epic (XL)
-2. **TKT-0319:** Global TQP Phase 3 (L)
-3. **TKT-0293:** Regression Testing Framework (L)
-4. **TKT-0114:** Aevlith Partnership Gate (HIGH)
-5. **TKT-0120:** RustDesk self-hosted OC1 (HIGH)
-6. **TKT-0127:** Agentic Marketing Org Design (HIGH)
-7. **TKT-0130:** QBR Fleet Review (HIGH)
-8. **TKT-0135:** AInchors Sandbox (HIGH)
-9. **TKT-0141:** CLI-Anything Supply Chain Audit (HIGH)
-10. **TKT-0142:** SKILL.md Poisoning Review (HIGH)
+#### 🎫 Top Open Tickets (Priority)
+1. TKT-0317: Context Optimization Epic (XL)
+2. TKT-0319: Global TQP Phase 3 (L)
+3. TKT-0318: Aria TQP Phase 2 (M)
+4. TKT-0293: Regression Testing Framework (L)
+5. TKT-0326: NAS Writable Backup Target (M)
+6. TKT-0137: Policy Register (M)
+7. TKT-0114: AInchors–Aevlith Partnership (High/Gate)
+8. TKT-0115: Register Aevlith ASIC (High)
+9. TKT-0120: RustDesk self-hosted OC1 (High)
+10. TKT-0135: AInchors Sandbox (High)
 
-## 📱 Social Queue
-- **LinkedIn:** Paused until Sunday.
-- **Rule:** Missed slots push to next available (Tue 07:30 $ightarrow$ Wed 12:00 $ightarrow$ Thu 07:30 $ightarrow$ next Tue). Never post late.
+#### 📱 LinkedIn Queue
+- **Status:** Paused until Sunday.
 
-## ⚠️ Mandatory Telegram Rules
-- **Chunking:** All messages $>$ 3,800 chars MUST be split [1/N].
-- **Async:** Tasks $>$ 30s $ightarrow$ . Never block webchat.
-- **TQP:** Persist state to PG before announcing completion.
-- **Kimi:** Atomic tasks only + HITL for risky items.
-- **Conservative Mode:** No risky state manipulation without Ken approval.
-- **Routing:** Yoda orchestrates $ightarrow$ Specialist executes. No build work for Atlas/Thrawn.
-- **Paths:** Always absolute paths (/Users/...). No ~ in tool calls.
+#### 🛰️ Recent Telegram Decisions
+- *No pending unsynced decisions found in current state.*
+
+#### ⚠️ Mandatory Telegram Rules
+- **Chunking:** Messages $> 3,800$ chars MUST be split [1/N].
+- **Async:** Tasks $> 30	ext{s}$ MUST run via `sessions_spawn`.
+- **Tilde-Path:** NEVER use `~` in tool calls; use absolute `/Users/...` paths.
+- **RVEV:** Every atom: READ $ightarrow$ VALIDATE $ightarrow$ EXECUTE $ightarrow$ VERIFY.
+- **Kimi Rule:** Atomic tasks ONLY + HITL for risky items.

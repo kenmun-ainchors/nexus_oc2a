@@ -28,8 +28,10 @@ log "Target Time (AEST): $SENS_TZ"
 #   EOD finalizer runs at 23:55 AEST for YESTERDAY's journal. Today's starts empty.
 # - Auto-Heal: not expected until after 01:00 AEST run. Grace until 01:30.
 EXPECTED_DATE=$(TZ="Australia/Melbourne" date '+%Y-%m-%d')
-AEST_HOUR=$(TZ="Australia/Melbourne" date '+%H')
-AEST_MIN=$(TZ="Australia/Melbourne" date '+%M')
+AEST_HOUR=$(TZ="Australia/Melbourne" date '+%H' | sed 's/^0*//')
+AEST_MIN=$(TZ="Australia/Melbourne" date '+%M' | sed 's/^0*//')
+AEST_HOUR=${AEST_HOUR:-0}
+AEST_MIN=${AEST_MIN:-0}
 AEST_TOTAL_MIN=$((AEST_HOUR * 60 + AEST_MIN))
 
 TODAY_JOURNAL="$WORKSPACE/memory/journal-$EXPECTED_DATE.md"

@@ -1,8 +1,8 @@
 {
-  "totalChecksRun": 327,
-  "totalViolationsFound": 214,
-  "consecutiveClean": 7,
-  "lastCheck": "2026-06-02T23:07:11+10:00",
+  "totalChecksRun": 351,
+  "totalViolationsFound": 215,
+  "consecutiveClean": 20,
+  "lastCheck": "2026-06-03T23:07:06+10:00",
   "baselineResetAt": "2026-05-25T00:21:00+10:00",
   "approvedModels": [
     "ollama/gemma4:31b-cloud",
@@ -15,5 +15,5 @@
   "lastStatus": "clean",
   "lastPassCount": 9,
   "lastFailCount": 0,
-  "lastViolationAt": "2026-06-02T16:07:13+10:00"
+  "lastViolationAt": "2026-06-03T03:07:05+10:00"
 }

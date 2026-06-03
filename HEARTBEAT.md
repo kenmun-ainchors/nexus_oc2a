@@ -226,7 +226,8 @@ Responses today: 3 | Drifts: 1
 
 ### EOD Blog Verification (check every morning at 06:00 AEST)
 🚨 OVERRIDES the "HEARTBEAT NEVER TOUCHES EOD" rule — this is a safety check, not EOD generation.
-- Check: does `/Users/ainchorsangiefpl/.openclaw/workspace/canvas/documents/ainchors-YYYY-MM-DD/index.html` exist for YESTERDAY's date?
+- Check: does `/Users/ainchorsangiefpl/.openclaw/canvas/documents/ainchors-YYYY-MM-DD/index.html` exist for YESTERDAY's date?
+- CORRECT PATH: Blog cron writes to profile canvas (`~/.openclaw/canvas/`), NOT workspace canvas (`~/.openclaw/workspace/canvas/`). CHG-0199 fixed this 2026-05-07 — blog path was permanently moved. Heartbeat check updated 2026-06-02 to match.
 - If MISSING: alert Ken via Telegram: "🚨 Blog missing: no blog file produced for [date]. Blog cron reported OK but no output file."
 - If EXISTS: no action needed. Do NOT read or modify the file — just verify it exists.
 - State key: lastChecks.blogVerification
