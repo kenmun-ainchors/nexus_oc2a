@@ -3,49 +3,49 @@ _For Aria + Angie | AInchors Nexus Platform | Plain language summary_
 
 ---
 
-## Monday, 1 June 2026
+## Wednesday, 3 June 2026
 
 ### What Yoda Built Today
 
-Today was a heavy platform operation day — Sprint 6 fired up, and Ken drove a series of decisive infrastructure moves that turned the platform from "working" to "battle-hardened."
+Today was a quiet platform operations day — no Ken sessions, no new builds. The platform ran smoothly on autopilot.
 
-**CrewAI Crash Recovery → Platform Shakedown:** Yesterday's experiment with CrewAI (a multi-agent framework) crashed the whole platform — it corrupted Homebrew packages and took node offline. Ken restored everything manually, then commissioned a full health check. Result: all data survived — 31 database tables, 263 tickets, all 14 agents, all integrations (Telegram, Notion, Gmail, Calendar, file storage) confirmed healthy. Three repair items found and fixed. The crash was expensive in time but zero data was lost — a real testament to our backup and resilience design.
+**Overnight maintenance ran clean:**
+- The daily auto-heal sweep completed at 01:00 AEST with no issues to fix
+- Day 39 (yesterday's) blog post was published — governance cleared by Shield, Lex, and Sage
+- Day 39 journal was finalized and archived
 
-**Cloud Cost Kill-Switch — 14 Crons Flipped to Zero-Cost:** Ken identified that 12 of 14 automated cron jobs using the "gemma4" model were just wrapping shell scripts — burning AI tokens to do things a script can do directly. Converted all 12 to run without any AI model at all. Also converted 2 more using "deepseek-pro" (the expensive model) — one of those was firing 288 times a day and burning tokens on every call. Net impact: ~70% drop in cloud AI calls per cycle, substantial cost reduction without losing any functionality.
+**The platform is in a healthy holding pattern.** All 14 agents are operational, all crons (governance sweeps, cost alerts, infrastructure monitoring) are running on schedule. No incidents, no alerts, no anomalies.
 
-**Postgres Becomes the Single Source of Truth:** Completed the migration from JSON files to Postgres database as the platform's one-and-only source of truth. The old dual-write system (write to both file and database) has been retired. All 263 tickets now live exclusively in Postgres, with daily compressed backups that are automatically verified. We can now prove that every backup restores perfectly.
-
-**Sprint 6 Locked and Started:** The next 2-week sprint is locked — 13 items (down from 14 after consolidation), already 3 completed on Day 1. The sprint covers: database hardening, backup improvements, crash-recovery patterns, the big context-optimization project (making agents use less memory), work checkpointing, and platform constraints documentation.
-
-**Platform Constraint Limits Documented:** Thrawn (our infrastructure architect agent) completed a full audit of every limit in the platform — file sizes, context windows, memory caps, everything. This means we now have concrete numbers: we know exactly when files are getting too large, when memory is at risk, and where growth could cause problems. Automated checks now enforce these limits nightly.
-
-**Fold SOP Created:** Ken identified that when we "fold" (combine) tickets together, we were losing knowledge. Worked through it live — now there's a strict 5-gate procedure: extract scope, migrate it, update the parent, close properly, sync to Notion. No more lost work on ticket consolidation.
+**Rate limit watch:** Yesterday's Ollama Cloud 429 (rate limit) spike resolved — today's overnight crons all ran successfully. The weekly quota reset pattern (hits Sunday/Monday, recovers Tuesday) held true this week. Ken is aware of the pattern and considering an Ollama Cloud tier upgrade.
 
 ### Key Decisions Made
 
-- **Cloud AI model usage reduced by ~70%** — 14 crons converted from AI-model to direct script execution. Shell-wrapping AI models for script execution is now a documented anti-pattern to avoid.
-- **Postgres is now the sole source of truth** — JSON dual-write retired. All tickets, state, and backups verified. Backup+restore tested and proven.
-- **Sprint 6 locked with 13 items** — focused on hardening, optimization, and crash resilience
-- **CrewAI experiment parked until new hardware arrives** — the AI model needed for it (23GB) won't fit on current machine (24GB shared), so parked until the new 48GB OC2 machine arrives (est. 6-13 July)
-- **All tickets must now have full descriptions, not just titles** — no more empty ticket bodies. This is now enforced.
-- **Fold operations now follow a 5-gate procedure** — scope must be preserved in the parent ticket, not lost. Documented and locked into platform rules.
-- **AGENTS.md slimmed from 18.4KB to 11.6KB** — stays within platform file size limits, reducing context waste
-- **File size limits now enforced automatically** — nightly checks catch oversized files before they cause problems
+_(None — no Ken interactions or platform changes today.)_
+
+The last set of active decisions were yesterday (Day 39, June 2):
+- **TKT-0310 closed** — Ken approved Thrawn's file-size limit option paper. Sprint 7 locked with 6 child tickets assigned to Forge.
+- **TKT-0323 scope expanded** — The 2-Pass dispatch validation implementation (originally TKT-0322) was folded into TKT-0323 for a cleaner single-ticket delivery. 6 acceptance criteria defined.
+- **TKT-0321 (2-Pass Dispatch Contract) went live** — The "no executor receives undiscovered work" rule is now coded into all 14 agent rulebooks plus the platform's AGENTS.md. Every cross-agent dispatch must pass through a discovery pass first.
 
 ### Training Content Ideas from Today
 
-- **TC-185: When your experiment crashes the whole platform — how to survive and learn from a failed AI framework installation** — CrewAI crashed Homebrew, corrupted node, and took the platform down. But 31 database tables, 263 tickets, and all 14 agents survived intact because of backup discipline. The shakedown and recovery process, plus packaging the learnings into regression tests.
-- **TC-186: The shell-wrapper trap — why wrapping scripts in AI models burns money for nothing** — 12 of 14 cron jobs were running a Gemini-class AI model just to execute shell commands. Converting them saved ~70% of cloud AI calls. How to audit your automation for this pattern and kill it.
-- **TC-187: From files to database — the real migration story (not the tutorial version)** — Postgres migration completed: dual-write retirement, backup verification, backup tested against live database. The practical steps, the rollback drill, and why "the backup worked" is the most important sentence in any migration.
-- **TC-188: Know your limits — platform constraint auditing as an operational discipline** — Thrawn mapped every hard and soft limit in the platform (file sizes, context windows, memory, timeouts). Without this, you're guessing when things will break. With it, you have a dashboard.
-- **TC-189: The Fold SOP — how to combine work items without losing knowledge** — 5 gates (extract → migrate → update → close → sync) turned a knowledge-loss pattern into a documented, repeatable procedure. All 7 folded tickets audited: scope gaps found and closed.
-- **TC-190: Context discipline 401 — why ticket bodies matter more than ticket titles** — Ken's "every ticket must have description" rule, reinforced minutes later when a ticket re-groom revealed none of the folded tickets had descriptions. The pattern of "title-only" tickets and why they're a knowledge debt time-bomb.
+_(No new ideas from today — it was a quiet ops day. Yesterday's ideas from Day 39 carry forward.)_
 
 ### What's Open / What's Next
 
-- **Sprint 6 is active** — 3 items done (PG sole SSOT, PG backup, platform constraints), 10 remaining. Ceremonies (review + planning) due Sunday 14 June.
-- **TKT-0317 (Context Optimization Epic)** is the big one — consolidating agent rules, reducing the 92% duplication found in the audit. 6 child tickets, multi-phase rollout.
-- **TKT-0322 (Model-Task Routing Matrix)** is pre-groomed and ready — which agents should use cheaper models vs premium ones
-- **OC2 hardware arrival** (est. 6-13 July) is the next major platform event — triggers Claude restore, platform separation, Postgres migration to dedicated machine, and CrewAI PoC restart
-- **429 rate limit monitoring** — Ollama Cloud rate limiting means the tilde-path fix (TKT-0327) is parked until capacity frees up
-- **Platform is in steady-state ops** — all crons healthy, all integrations live, no active incidents
+- **Sprint 7 is active** — 6 tickets locked, all assigned to Forge. Covers: file-size enforcement, context budget guards, cron timeout auto-scaling, platform hardening. Ceremonies due Sunday June 14.
+- **2-Pass Dispatch Contract (TKT-0321)** went live yesterday — the first real test will be the next cross-agent dispatch. Monitor for enforcement.
+- **Ken training confirmation (MSG-20260601-001)** — Delivered Monday. 48+ hours without response. Angie wants verification Ken received it. If no response by end of Thursday, consider a gentle nudge.
+- **CTO Contract Meeting (Fri May 29)** — Now 5 days post-meeting with no outcome shared. This has become conspicuous.
+- **CR-002 (LinkedIn/Spark setup)** — Now 12 days old. Longest-standing open action item.
+- **Ollama Cloud weekly quota** — Pattern is stable (hits Sunday/Monday, recovers Tuesday). Ken considering tier upgrade.
+- **OC2 hardware** still targeting July 6-13 window
+
+### Business Stream Handoff (from Aria, yesterday)
+
+Aria reported a quiet Tuesday. Key items carrying forward:
+- 🔴 Ken training confirmation pending (48h+)
+- 🔴 CTO Contract Meeting still no debrief
+- 🔴 CR-002 (LinkedIn/Spark) — 12 days
+- 🟡 Onboarding Stage 2, Lynn Huang, Jack Ooi, training revenue, marketing collaterals — all carry forward unchanged
+- 🟡 Rate limit issues noted yesterday — monitor whether deepseek-v4-pro stays healthy for Angie's next session
