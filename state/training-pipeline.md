@@ -210,6 +210,9 @@ _Maintained by Aria 🔵 + Yoda 🟢 | Status-tracked content for AInchors train
 | TC-189 | The Fold SOP: how to combine work items without losing knowledge | 💡 Idea | Yoda Day 37 (5-gate procedure: extract→migrate→update→close→sync; 7 audited tickets, 2 scope gaps closed) | Aria |
 | TC-190 | Context discipline 401: why ticket bodies matter more than ticket titles | 💡 Idea | Yoda Day 37 (L-047/L-048 — title-only tickets = knowledge debt; mandatory description rule; real example within minutes) | Both |
 
+| TC-191 | Brand Code: why your AI needs your voice before it writes anything | 💡 Idea | Yoda Day 38 (Brand Code seeding guide — 5-part structure from foundation to approval) | Aria |
+| TC-192 | Wiring your business AI stack: from consulting agent to content agent to intelligence agent | 💡 Idea | Yoda Day 38 (Ahsoka/Spark/Luthen activation — 3-agent business pipeline) | Aria |
+
 ## Status Legend
 💡 Idea → 📝 Draft → 🔍 Review (Yoda validates) → ✅ Ready → 📢 Published
 

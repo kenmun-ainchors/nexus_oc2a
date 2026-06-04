@@ -13,6 +13,45 @@
 - **Category:** Platform | **Change Type:** Normal
 ---
 
+## 2026-06-04 12:36 AEST — [CHG-0459] Ahsoka Activated, Spark Dual-Stream, Luthen Operational, Brand Code Seeding Guide
+**Type:** agent
+**Change Type:** Normal
+**Source:** manual
+**Trigger:** Ken approved Angie's SMM-Meta campaign kick-off. 4 pre-requisites: activate Ahsoka, wire Spark to business stream, activate Luthen (remove P2 gate), refine Brand Code seeding as first campaign task.
+**What changed:** (1) Ahsoka SOUL.md: APPROVED, ACTIVE — consulting operations live. (2) Spark SOUL.md: Dual-stream operational (tech + business), business stream workflow documented, IG/FB marked ACTIVE for campaigns. (3) Luthen SOUL.md: Fully Operational, P2 gate removed. (4) brand-code-seeding-v1.md created — structured 5-part conversation guide for Aria→Angie Brand Code seeding conversation. Covers Brand Foundation, Campaign-Specific, Content Guidelines, Approval Workflow, and Conversation Script.
+**Why:** Angie wants to run SMM-Meta training marketing through Aria. The pipeline needs all agents active: Aria (front-end), Ahsoka (consulting structure), Luthen (intelligence), Spark (content). Brand Code seeding is the first task when Angie triggers the kick-off.
+**Verification:** All 3 SOUL.md files updated and syntax-checked. Brand Code guide reviewed — covers all dimensions (voice, audience, visual, campaign details, content guidelines, approval workflow). MinIO bucket structure confirmed ready.
+**Rollback:** N/A
+**Linked:** TKT-0308
+---
+
+
+## 2026-06-04 10:50 AEST — [CHG-0458] Auto-Heal: Fix JSON Report Truncation + CHECK 15 Per-File Limits + Delegated Auth Pre-flight (TKT-0336)
+**Type:** script
+**Change Type:** Normal
+**Source:** manual
+**Trigger:** Blog reported 2nd Angie gog auth expiry in two weeks. Auto-heal also reported as quiet in standup. Root cause: CHECK 14/15/16 ran after write_state, never appeared in JSON. CHECK 15 had blanket 10K limit instead of per-file limits. No delegated auth token check existed.
+**What changed:** (1) Moved CHECK 14/15/16 before FINAL REPORT. (2) Per-file hard limits: SOUL=10K, AGENTS=12K, MEMORY=15K, HEARTBEAT=15K. RULES.md excluded. (3) New check-delegated-auth.sh — pre-flight gog auth check for kenmun + angie.foong accounts. (4) Integrated into auto-heal CHECK 1a. (5) Integrated into Yoda→Aria context sync (23:00). (6) Added HEARTBEAT.md 4-hour delegated auth check.
+**Why:** Proactive detection beats reactive queuing. Angie hit auth failure twice — the fix isn't re-auth, it's pre-flight detection before she encounters the failure.
+**Verification:** zsh -n clean on both scripts. Dry-run confirms correct per-file limits. Delegated auth check writes delegated-auth-status.json with account-level status.
+**Rollback:** N/A
+**Linked:** TKT-0336
+---
+
+
+## 2026-06-04 10:45 AEST — [CHG-0457] Auto-Heal JSON Report Truncation + CHECK 15 Per-File Limits
+**Type:** script
+**Change Type:** Normal
+**Source:** manual
+**Trigger:** Standup reported auto-heal quiet. Found CHECK 14/15/16 ran after write_state, never appeared in JSON. CHECK 15 also had blanket 10K hard limit instead of per-file limits from TKT-0310.
+**What changed:** Moved CHECK 14/15/16 before FINAL REPORT. Per-file hard limits: SOUL=10K, AGENTS=12K, MEMORY=15K, HEARTBEAT=15K. RULES.md excluded. Removed duplicate block.
+**Why:** Standup showed 13/16 checks. 4 nightly false positives buried the real AGENTS.md violation.
+**Verification:** zsh -n clean. Dry-run confirms only AGENTS.md flagged. TKT-0336.
+**Rollback:** N/A
+**Linked:** TKT-0336
+---
+
+
 ## 2026-06-01 11:35 AEST — [CHG-0449] CHG-0449: Post-CrewAI Crash Platform Shakedown — Findings, Fixes & Regression Learnings
 **Type:** infra
 **Change Type:** Normal
