@@ -130,103 +130,13 @@ Report per-atom RVEV traces. Partial execution is not permitted.
 - Cross-agent dispatches MUST pass `dispatch-validate.sh` (TKT-0323)
 - Violations are logged, alerted, and escalate per enforcement policy
 
-## 💓 Heartbeats - Be Proactive!
+## 💓 Heartbeats
 
-When you receive a heartbeat poll (message matches the configured heartbeat prompt), don't just reply `HEARTBEAT_OK` every time. Use heartbeats productively!
-
-You are free to edit `HEARTBEAT.md` with a short checklist or reminders. Keep it small to limit token burn.
-
-### Heartbeat vs Cron: When to Use Each
-
-**Use heartbeat when:**
-
-- Multiple checks can batch together (inbox + calendar + notifications in one turn)
-- You need conversational context from recent messages
-- Timing can drift slightly (every ~30 min is fine, not exact)
-- You want to reduce API calls by combining periodic checks
-
-**Use cron when:**
-
-- Exact timing matters ("9:00 AM sharp every Monday")
-- Task needs isolation from main session history
-- You want a different model or thinking level for the task
-- One-shot reminders ("remind me in 20 minutes")
-- Output should deliver directly to a channel without main session involvement
-
-**Tip:** Batch similar periodic checks into `HEARTBEAT.md` instead of creating multiple cron jobs. Use cron for precise schedules and standalone tasks.
-
-**Things to check (rotate through these, 2-4 times per day):**
-
-- **Emails** - Any urgent unread messages?
-- **Calendar** - Upcoming events in next 24-48h?
-- **Mentions** - Twitter/social notifications?
-- **Weather** - Relevant if your human might go out?
-
-**Track your checks** in `memory/heartbeat-state.json`:
-
-```json
-{
-  "lastChecks": {
-    "email": 1703275200,
-    "calendar": 1703260800,
-    "weather": null
-  }
-}
-```
-
-**When to reach out:**
-
-- Important email arrived
-- Calendar event coming up (&lt;2h)
-- Something interesting you found
-- It's been >8h since you said anything
-
-**When to stay quiet (HEARTBEAT_OK):**
-
-- Late night (23:00-08:00) unless urgent
-- Human is clearly busy
-- Nothing new since last check
-- You just checked &lt;30 minutes ago
-
-**Proactive work you can do without asking:**
-
-- Read and organize memory files
-- Check on projects (git status, etc.)
-- Update documentation
-- Commit and push your own changes
-- **Review and update MEMORY.md** (see below)
-
-### 🔄 Memory Maintenance (During Heartbeats)
-
-Periodically (every few days), use a heartbeat to:
-
-1. Read through recent `memory/YYYY-MM-DD.md` files
-2. Identify significant events, lessons, or insights worth keeping long-term
-3. Update `MEMORY.md` with distilled learnings
-4. Remove outdated info from MEMORY.md that's no longer relevant
-
-Think of it like a human reviewing their journal and updating their mental model. Daily files are raw notes; MEMORY.md is curated wisdom.
+Use heartbeats productively — don't just reply HEARTBEAT_OK. Batch checks (email/calendar/mentions/weather), use cron for precise schedules. Full heartbeat protocol in `HEARTBEAT.md`. Track state in `memory/heartbeat-state.json`. Stay quiet 23:00-08:00 unless urgent. Periodically maintain MEMORY.md during slow heartbeats.
 
 ## Journal Discipline — NON-NEGOTIABLE (TKT-0296)
 
-After every meaningful exchange with Ken where a decision, action, or deliverable occurred, append a journal entry inline using `scripts/journal-append.sh`.
-
-**What to journal:** Any exchange where something was decided, built, closed, or changed. Not heartbeats, status checks, or simple acknowledgments.
-
-**How:**
-```bash
-# After responding to Ken:
-echo "[Ken's exact prompt — verbatim]" > /tmp/j-prompt.txt
-echo "[Yoda's 2-3 sentence summary of what was delivered]" > /tmp/j-response.txt
-bash /Users/ainchorsangiefpl/.openclaw/workspace/scripts/journal-append.sh "YYYY-MM-DD" "HH:MM" "Title" "webchat" /tmp/j-prompt.txt /tmp/j-response.txt
-```
-
-**File:** `memory/journal-YYYY-MM-DD.md` — auto-created if missing.
-**Timing:** Same response turn — do not defer. ~100ms overhead.
-**EOD finalizer (23:55 AEST):** Only adds Session Overview header, cost report, and business stream. No entry reconstruction.
-**Incremental writer cron (1b853131):** DISABLED — no longer needed.
-
-The goal: Be helpful without being annoying. Check in a few times a day, do useful background work, but respect quiet time.
+After every meaningful exchange with Ken (decisions, actions, deliverables): append via `scripts/journal-append.sh`. Same turn, ~100ms. File: `memory/journal-YYYY-MM-DD.md`. EOD finalizer (23:55 AEST) adds header+cost+business stream only. Full syntax in RULES.md.
 
 ## File Size Limits (TKT-0310/CHG-0454)
 
@@ -244,7 +154,7 @@ Injected files are subject to OpenClaw truncation thresholds. These limits are e
 
 ## Make It Yours
 
-This is a starting point. Add your own conventions, style, and rules as you figure out what works.
+Add conventions, style, and rules as you figure out what works.
 
 
 ## Interim Rule — CONSERVATIVE MODE (CHG-0349, 2026-05-15)
@@ -253,52 +163,4 @@ This is a starting point. Add your own conventions, style, and rules as you figu
 
 ## KIMI ATOMIC TASK RULE — NON-NEGOTIABLE (CHG-0383)
 
-**Effective:** 2026-05-17 16:21 AEST
-**Applies to:** ALL agents using kimi model
-**Enforcement:** Immediate, persistent, no exceptions
-
-### The Rule
-
-**kimi = ATOMIC TASKS ONLY + HITL for risky items**
-
-### What This Means
-
-| Before (Wrong) | After (Correct) |
-|----------------|-----------------|
-| "Create 5 tickets and sync to Notion" | "Create ticket 1" → verify → "Create ticket 2" → verify... |
-| "Update Registry with all missing lessons" | "Add L-029" → verify on page → "Add L-030" → verify... |
-| "Fix all dates in batch" | "Update 1 date" → verify → "Update next date" → verify... |
-| "Run full audit and fix all issues" | "Check 1 item" → report → Ken approves fix → "Fix 1 item" → verify... |
-
-### HITL Checkpoints
-
-**STOP and ask Ken before:**
-- Closing any ticket
-- Deleting any file or page
-- Modifying any cron
-- Changing any model config
-- Bulk updates (>1 item at once)
-- Any status change to Done/Closed
-
-### Verification After Each Atom
-
-**Every single step MUST be verified:**
-```
-1. Execute step
-2. Read back what was changed
-3. Confirm syntax/validity
-4. Report to Ken: "Step N: [description] ✅ verified"
-5. Ask: "Continue to step N+1?"
-```
-
-### Violation = DoD FAIL
-
-Claiming completion without:
-- Verifying EACH atomic step
-- Getting HITL approval for risky items
-- Confirming observable output
-- Is a **Definition of Done FAILURE**
-
-### Reference
-
-Full rule: `RULES.md` → "KIMI ATOMIC TASK RULE — NON-NEGOTIABLE (CHG-0383)"
+kimi = ONE ATOM PER TURN + VERIFY EACH STEP + HITL for risky (close/delete/cron/model/bulk/Done). Full rule with examples: `RULES.md` → CHG-0383.
