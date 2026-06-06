@@ -1,0 +1,30 @@
+{
+  "checkedAt": "2026-06-06T13:00:09Z",
+  "checkedDate": "2026-06-06",
+  "okCount": 2,
+  "expiredCount": 0
+0,
+  "missingCount": 0
+0,
+  "warnCount": 0
+0,
+  "allValid": true,
+  "accounts": [
+    {
+      "email": "kenmun@ainchors.com",
+      "label": "Ken Mun (CTO)",
+      "services": "gmail,calendar,drive,contacts,sheets,docs — token valid",
+      "status": "OK",
+      "detail": ""
+    }
+,
+    {
+      "email": "angie.foong@ainchors.com",
+      "label": "Angie Foong (CEO)",
+      "services": "calendar,gmail — token valid",
+      "status": "OK",
+      "detail": ""
+    }
+
+  ]
+}

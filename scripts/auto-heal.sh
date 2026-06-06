@@ -31,10 +31,10 @@ log() { echo "[$(date '+%H:%M:%S')] $1" | tee -a "$LOG"; }
 # Writes the current state to a JSON file. Called after every check and via trap.
 write_state() {
   local exit_status=${1:-"in-progress"}
-  local checks_json=$(printf '%s\n' "${CHECKS_RUN[@]}" | jq -R . | jq -s .)
-  local issues_json=$(printf '%s\n' "${ISSUES_FOUND[@]}" | jq -R . | jq -s 'map(select(length > 0))')
-  local fixed_json=$(printf '%s\n' "${AUTO_FIXED[@]}" | jq -R . | jq -s 'map(select(length > 0))')
-  local needsken_json=$(printf '%s\n' "${NEEDS_KEN[@]}" | jq -R . | jq -s 'map(select(length > 0))')
+  local checks_json=$(printf '%s\n' "${CHECKS_RUN[@]:-}" | jq -R . | jq -s .)
+  local issues_json=$(printf '%s\n' "${ISSUES_FOUND[@]:-}" | jq -R . | jq -s 'map(select(length > 0))')
+  local fixed_json=$(printf '%s\n' "${AUTO_FIXED[@]:-}" | jq -R . | jq -s 'map(select(length > 0))')
+  local needsken_json=$(printf '%s\n' "${NEEDS_KEN[@]:-}" | jq -R . | jq -s 'map(select(length > 0))')
 
   cat > "$REPORT" <<EOF
 {
@@ -61,8 +61,8 @@ trap 'log "CRASH DETECTED: Trap triggered. Finalizing partial report..."; write_
 
 log "=== AUTO-HEAL START $NOW_LOCAL ==="
 
-# ---------- CHECK 1: Auth profiles present ----------
-log "CHECK 1: auth profiles"
+# ---------- CHECK 1: Auth profiles + delegated tokens ----------
+log "CHECK 1: auth profiles + delegated tokens"
 CHECKS_RUN+=("auth_profiles")
 AUTH_FILE="$HOME/.openclaw/agents/main/agent/auth-profiles.json"
 if [[ -f "$AUTH_FILE" ]]; then
@@ -81,6 +81,39 @@ if [[ -f "$AUTH_FILE" ]]; then
 else
   ISSUES_FOUND+=("auth:file-missing")
   NEEDS_KEN+=("auth-profiles.json missing entirely — major issue, OpenClaw cannot route any model")
+fi
+
+# CHECK 1a: Delegated gog auth tokens (TKT-0336)
+log "CHECK 1a: delegated gog auth tokens"
+CHECKS_RUN+=("delegated_auth")
+DELEG_AUTH_SCRIPT="$WORKSPACE/scripts/check-delegated-auth.sh"
+if [[ -x "$DELEG_AUTH_SCRIPT" ]]; then
+  zsh "$DELEG_AUTH_SCRIPT" --json >> "$LOG" 2>&1
+  DELEG_EXIT=$?
+  if [[ $DELEG_EXIT -eq 1 ]]; then
+    ISSUES_FOUND+=("delegated-auth:expired")
+    # Extract expired accounts from the JSON for the needs_ken summary
+    DELEG_JSON="$STATE_DIR/delegated-auth-status.json"
+    if [[ -f "$DELEG_JSON" ]]; then
+      EXPIRED_ACCOUNTS=$(python3 -c "
+import json
+try:
+  d=json.load(open('$DELEG_JSON'))
+  expired=[a['email'] for a in d.get('accounts',[]) if a['status'] in ('EXPIRED','MISSING')]
+  print(', '.join(expired) if expired else '')
+except: pass
+" 2>/dev/null)
+      [[ -n "$EXPIRED_ACCOUNTS" ]] && NEEDS_KEN+=("Delegated auth tokens expired/missing: $EXPIRED_ACCOUNTS — re-auth needed with 'gog auth add <email> --services <services>'")
+    fi
+    log "  X: delegated auth tokens expired/missing"
+  elif [[ $DELEG_EXIT -eq 2 ]]; then
+    # gog not available — non-critical if gog not set up yet
+    log "  WARN: gog not available — delegated auth check skipped"
+  else
+    log "  OK: all delegated auth tokens valid"
+  fi
+else
+  log "  WARN: check-delegated-auth.sh not found — delegated auth check skipped"
 fi
 write_state
 
@@ -185,7 +218,7 @@ log "CHECK 6: stale lock files"
 CHECKS_RUN+=("stale_locks")
 REMOVED_LOCKS=0
 setopt -s null_glob 2>/dev/null || shopt -s nullglob 2>/dev/null || true
-for lock in "$HOME/.openclaw/agents/main/sessions/"*.lock(N); do
+for lock in "$HOME/.openclaw/agents/main/sessions/"*.lock; do
   [[ -f "$lock" ]] || continue
   PID=$(cat "$lock" 2>/dev/null | grep -oE '[0-9]+' | head -1)
   if [[ -n "$PID" ]] && ! ps -p "$PID" > /dev/null 2>&1; then
@@ -325,11 +358,11 @@ if [[ -f "$BASELINE" ]]; then
   check_baseline_field "gatewayStatus" "Gateway Status" "healthy" "eq"
   
   # Version check: warn if baseline was written more than 7 days ago
-  local upgraded_at=$(jq -r '.upgradedAt // empty' "$BASELINE" 2>/dev/null)
+  upgraded_at=$(jq -r '.upgradedAt // empty' "$BASELINE" 2>/dev/null)
   if [[ -n "$upgraded_at" ]]; then
-    local upgraded_epoch=$(date -j -f "%Y-%m-%dT%H:%M:%S" "${upgraded_at%+*}" "+%s" 2>/dev/null || echo 0)
-    local now_epoch=$(date +%s)
-    local age_days=$(( (now_epoch - upgraded_epoch) / 86400 ))
+    upgraded_epoch=$(date -j -f "%Y-%m-%dT%H:%M:%S" "${upgraded_at%+*}" "+%s" 2>/dev/null || echo 0)
+    now_epoch=$(date +%s)
+    age_days=$(( (now_epoch - upgraded_epoch) / 86400 ))
     if (( age_days > 7 )); then
       ISSUES_FOUND+=("config-baseline:stale-baseline")
       NEEDS_KEN+=("WARN: Config baseline is $age_days days old. Run gateway-config-snapshot.sh to refresh.")
@@ -357,7 +390,87 @@ else
   NEEDS_KEN+=("WARN: agent-identity-audit.sh not found — cannot verify agent identities")
   log "  X agent-identity: audit script missing"
 fi
-write_state
+# ---------- CHECK 14: Agent RULES.md presence (TKT-0307) ----------
+log "CHECK 14: agent RULES.md audit"
+if zsh "$WORKSPACE/scripts/agent-rules-audit.sh" >> "$LOG" 2>&1; then
+  log "  OK: All agents have RULES.md"
+else
+  log "  X: Agents missing RULES.md — see state/agent-rules-audit.json"
+  NEEDS_KEN+=("RULES.md missing for agent(s) — run agent-rules-audit.sh for details. See TKT-0307.")
+fi
+CHECKS_RUN+=("agent_rules")
+
+# ---------- CHECK 15: Injected File Size Guard (TKT-0310) ----------
+log "CHECK 15: injected file size limits"
+CHECKS_RUN+=("file_size_guard")
+WORKSPACE_ROOT="/Users/ainchorsangiefpl/.openclaw/workspace"
+
+# Per-file hard limits from TKT-0310 (TKT-0336 fix: were all 10000; now per-document)
+# SOUL.md: 10000 | AGENTS.md: 12000 | MEMORY.md: 15000 | HEARTBEAT.md: 15000
+# RULES.md: reference-only, not injected — excluded from size check
+SOFT_LIMIT=8000
+VIOLATIONS=()
+
+_check_file() {
+  local file="$1" label="$2" hard="$3"
+  [[ -f "$file" ]] || return
+  local size=$(wc -c < "$file" 2>/dev/null | tr -d ' ')
+  if [[ "$size" -gt "$hard" ]]; then
+    VIOLATIONS+=("$label: ${size} chars (HARD LIMIT ${hard} — SILENT TRUNCATION RISK)")
+  elif [[ "$size" -gt "$SOFT_LIMIT" ]]; then
+    log "  WARN: $label at ${size} chars (soft limit ${SOFT_LIMIT})"
+  fi
+}
+
+_check_file "$WORKSPACE_ROOT/SOUL.md" "SOUL.md" 10000
+_check_file "$WORKSPACE_ROOT/AGENTS.md" "AGENTS.md" 12000
+_check_file "$WORKSPACE_ROOT/MEMORY.md" "MEMORY.md" 15000
+_check_file "$WORKSPACE_ROOT/HEARTBEAT.md" "HEARTBEAT.md" 15000
+# RULES.md intentionally excluded — reference-only, not injected
+
+if [[ ${#VIOLATIONS[@]} -gt 0 ]]; then
+  for v in "${VIOLATIONS[@]}"; do
+    log "  X: $v"
+    NEEDS_KEN+=("$v")
+  done
+else
+  log "  OK: All injected files within limits"
+fi
+
+# ---------- CHECK 16: Bootstrap Total Injection Size (TKT-0310) ----------
+log "CHECK 16: bootstrap injection total size"
+CHECKS_RUN+=("bootstrap_size")
+
+TOTAL_INJECTION=0
+INJECTION_FILES=(
+  "$WORKSPACE_ROOT/SOUL.md"
+  "$WORKSPACE_ROOT/IDENTITY.md"
+  "$WORKSPACE_ROOT/USER.md"
+  "$WORKSPACE_ROOT/AGENTS.md"
+  "$WORKSPACE_ROOT/MEMORY.md"
+  "$WORKSPACE_ROOT/MEMORY_TICKETS.md"
+  "$WORKSPACE_ROOT/HEARTBEAT.md"
+)
+# RULES.md excluded — reference doc, not injected
+
+for f in "${INJECTION_FILES[@]}"; do
+  if [[ -f "$f" ]]; then
+    size=$(wc -c < "$f" 2>/dev/null | tr -d ' ')
+    TOTAL_INJECTION=$((TOTAL_INJECTION + size))
+  fi
+done
+
+INJECTION_LIMIT=120000
+INJECTION_WARN=80000
+
+if [[ "$TOTAL_INJECTION" -gt "$INJECTION_LIMIT" ]]; then
+  log "  X: Bootstrap injection ${TOTAL_INJECTION} chars — OVER LIMIT (${INJECTION_LIMIT})"
+  NEEDS_KEN+=("Bootstrap injection at ${TOTAL_INJECTION} chars — risks context window overflow. Reduce injected files.")
+elif [[ "$TOTAL_INJECTION" -gt "$INJECTION_WARN" ]]; then
+  log "  WARN: Bootstrap injection ${TOTAL_INJECTION} chars (warn threshold ${INJECTION_WARN})"
+else
+  log "  OK: Bootstrap injection ${TOTAL_INJECTION} chars (limit ${INJECTION_LIMIT})"
+fi
 
 # ---------- FINAL REPORT WRITE ----------
 log "=== WRITING FINAL REPORT ==="
@@ -399,86 +512,49 @@ if [[ -x "$OBS_LOG_CMD" ]]; then
   done
 fi
 
-# ---------- CHECK 14: Agent RULES.md presence (TKT-0307) ----------
-log "CHECK 14: agent RULES.md audit"
-if zsh "$WORKSPACE/scripts/agent-rules-audit.sh" >> "$LOG" 2>&1; then
-  log "  OK: All agents have RULES.md"
-else
-  log "  X: Agents missing RULES.md — see state/agent-rules-audit.json"
-  NEEDS_KEN+=("RULES.md missing for agent(s) — run agent-rules-audit.sh for details. See TKT-0307.")
-fi
-CHECKS_RUN+=("agent_rules")
-
-# ---------- CHECK 15: Injected File Size Guard (TKT-0310) ----------
-log "CHECK 15: injected file size limits"
-CHECKS_RUN+=("file_size_guard")
-WORKSPACE_ROOT="/Users/ainchorsangiefpl/.openclaw/workspace"
-SOFT_LIMIT=8000
-HARD_LIMIT=10000
-VIOLATIONS=()
-
-check_file_size() {
-  local file="$1"
-  local label="$2"
-  if [[ -f "$file" ]]; then
-    local size=$(wc -c < "$file" 2>/dev/null | tr -d ' ')
-    if [[ "$size" -gt "$HARD_LIMIT" ]]; then
-      VIOLATIONS+=("$label: ${size} chars (HARD LIMIT ${HARD_LIMIT} — SILENT TRUNCATION RISK)")
-    elif [[ "$size" -gt "$SOFT_LIMIT" ]]; then
-      log "  WARN: $label at ${size} chars (soft limit ${SOFT_LIMIT})"
-    fi
-  fi
-}
-
-check_file_size "$WORKSPACE_ROOT/SOUL.md" "SOUL.md"
-check_file_size "$WORKSPACE_ROOT/AGENTS.md" "AGENTS.md (hard limit 12K per TKT-0310)"
-check_file_size "$WORKSPACE_ROOT/MEMORY.md" "MEMORY.md (hard limit 15K per TKT-0310)"
-check_file_size "$WORKSPACE_ROOT/HEARTBEAT.md" "HEARTBEAT.md (hard limit 15K per TKT-0310)"
-check_file_size "$WORKSPACE_ROOT/RULES.md" "RULES.md (reference-only, no limit)"
-
-if [[ ${#VIOLATIONS[@]} -gt 0 ]]; then
-  for v in "${VIOLATIONS[@]}"; do
-    log "  X: $v"
-    NEEDS_KEN+=("$v")
-  done
-else
-  log "  OK: All injected files within limits"
-fi
-
-# ---------- CHECK 16: Bootstrap Total Injection Size (TKT-0310) ----------
-log "CHECK 16: bootstrap injection total size"
-CHECKS_RUN+=("bootstrap_size")
-
-TOTAL_INJECTION=0
-INJECTION_FILES=(
-  "$WORKSPACE_ROOT/SOUL.md"
-  "$WORKSPACE_ROOT/IDENTITY.md"
-  "$WORKSPACE_ROOT/USER.md"
-  "$WORKSPACE_ROOT/AGENTS.md"
-  "$WORKSPACE_ROOT/MEMORY.md"
-  "$WORKSPACE_ROOT/MEMORY_TICKETS.md"
-  "$WORKSPACE_ROOT/HEARTBEAT.md"
-)
-# RULES.md excluded — reference doc, not injected
-
-for f in "${INJECTION_FILES[@]}"; do
-  if [[ -f "$f" ]]; then
-    size=$(wc -c < "$f" 2>/dev/null | tr -d ' ')
-    TOTAL_INJECTION=$((TOTAL_INJECTION + size))
+# ── PG WRITE: state_autoheal_log (TKT-XXXX — live sync) ──────────────────
+# Mirrors the JSON report to PG for standup/dashboard queries
+_PG_PASSED=$(( ${#CHECKS_RUN[@]} - ${#ISSUES_FOUND[@]} ))
+_NEEDS_KEN_ARR=""
+for _nk in "${NEEDS_KEN[@]}"; do
+  _nk_escaped="${_nk//\'/''}"
+  if [[ -z "$_NEEDS_KEN_ARR" ]]; then
+    _NEEDS_KEN_ARR="'${_nk_escaped}'"
+  else
+    _NEEDS_KEN_ARR="${_NEEDS_KEN_ARR},'${_nk_escaped}'"
   fi
 done
-
-INJECTION_LIMIT=120000  # ~30K tokens at 4 chars/token — leaves 98K for session history
-INJECTION_WARN=80000
-
-if [[ "$TOTAL_INJECTION" -gt "$INJECTION_LIMIT" ]]; then
-  log "  X: Bootstrap injection ${TOTAL_INJECTION} chars — OVER LIMIT (${INJECTION_LIMIT})"
-  NEEDS_KEN+=("Bootstrap injection at ${TOTAL_INJECTION} chars — risks context window overflow. Reduce injected files.")
-elif [[ "$TOTAL_INJECTION" -gt "$INJECTION_WARN" ]]; then
-  log "  WARN: Bootstrap injection ${TOTAL_INJECTION} chars (warn threshold ${INJECTION_WARN})"
-else
-  log "  OK: Bootstrap injection ${TOTAL_INJECTION} chars (limit ${INJECTION_LIMIT})"
-fi
+_CHECKS_JSON=$(python3 -c "
+import json
+checks = '${(j:,:)CHECKS_RUN}'.split(',')
+issues = '${(j:;;:)ISSUES_FOUND}'.split(';;;') if '${(j:;;:)ISSUES_FOUND}' else []
+auto_fixed = '${(j:;;:)AUTO_FIXED}'.split(';;;') if '${(j:;;:)AUTO_FIXED}' else []
+print(json.dumps({'checks_run': checks, 'issues': issues, 'auto_fixed': auto_fixed, 'auto_fixed_count': len(auto_fixed)}).replace(\"'\", \"''''\"))
+" 2>/dev/null || echo '{}')
+_STATUS="complete"
+[[ ${#NEEDS_KEN[@]} -gt 0 ]] && _STATUS="complete_with_needs_ken"
+bash "$WORKSPACE/scripts/db.sh" -c "
+INSERT INTO state_autoheal_log (run_date, status, total_checks, passed, failed, warnings, needs_ken, needs_ken_count, checks_detail)
+VALUES (
+    '$TODAY',
+    '$_STATUS',
+    ${#CHECKS_RUN[@]},
+    $_PG_PASSED,
+    ${#ISSUES_FOUND[@]},
+    0,
+    ARRAY[$_NEEDS_KEN_ARR]::text[],
+    ${#NEEDS_KEN[@]},
+    '$_CHECKS_JSON'::jsonb
+)
+ON CONFLICT (run_date) DO UPDATE SET
+    status = EXCLUDED.status,
+    total_checks = EXCLUDED.total_checks,
+    passed = EXCLUDED.passed,
+    failed = EXCLUDED.failed,
+    needs_ken = EXCLUDED.needs_ken,
+    needs_ken_count = EXCLUDED.needs_ken_count,
+    checks_detail = EXCLUDED.checks_detail;
+" >> "$LOG" 2>&1 || log "WARN: PG write for state_autoheal_log failed"
 
 log "=== AUTO-HEAL COMPLETE ==="
 [[ ${#NEEDS_KEN[@]} -gt 0 ]] && exit 2 || exit 0

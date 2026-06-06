@@ -28,6 +28,40 @@ bash scripts/log-delegation.sh \
   --status "$STATUS" \
   --notes "$NOTES" > /dev/null 2>&1 || true
 
+# Step 2b: PG write — state_model_drift (live sync for standup dashboard)
+python3 << 'PYEOF'
+import json, subprocess, os
+from datetime import datetime, timezone
+
+ws = "/Users/ainchorsangiefpl/.openclaw/workspace"
+db_sh = os.path.join(ws, "scripts", "db.sh")
+state_file = os.path.join(ws, "state", "model-drift-state.json")
+
+if os.path.exists(state_file):
+    with open(state_file) as f:
+        s = json.load(f)
+    
+    models_arr = "ARRAY[" + ",".join(f"'{m}'" for m in s.get("approvedModels", [])) + "]::text[]"
+    last_viol = s.get("lastViolationAt")
+    baseline = s.get("baselineResetAt")
+    
+    sql = f"""INSERT INTO state_model_drift (
+        check_type, checked_at, status, pass_count, fail_count,
+        consecutive_clean, approved_models, last_violation_at, baseline_reset_at
+    ) VALUES (
+        'warden-hourly',
+        '{s["lastCheck"]}'::timestamptz,
+        '{s["lastStatus"]}',
+        {s["lastPassCount"]},
+        {s["lastFailCount"]},
+        {s["consecutiveClean"]},
+        {models_arr},
+        {'NULL' if not last_viol else f"'{last_viol}'::timestamptz"},
+        {'NULL' if not baseline else f"'{baseline}'::timestamptz"}
+    );"""
+    subprocess.run(["bash", db_sh, "-c", sql], capture_output=True)
+PYEOF
+
 # Step 3: On violations (exit 2), write escalation file
 if [[ $EXIT_CODE -eq 2 ]]; then
   /usr/bin/python3 << 'PYEOF'

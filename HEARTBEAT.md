@@ -14,6 +14,16 @@
 - Alert Ken if event starts in < 30 minutes with no prior notice
 - State key: lastChecks.calendar
 
+### Delegated Auth Health (check every 4 hours — TKT-0336)
+- Run: zsh /Users/ainchorsangiefpl/.openclaw/workspace/scripts/check-delegated-auth.sh --json
+- Read /Users/ainchorsangiefpl/.openclaw/workspace/state/delegated-auth-status.json
+- If allValid=false: surface to Ken via Telegram immediately:
+  > ⚠️ **Delegated Auth Expired:** [N] accounts need re-auth.
+  > [List each: email — re-auth command]
+  > Proactive detection — prevents Angie/Aria runtime failures.
+- If allValid=true: silent.
+- State key: lastChecks.delegatedAuth
+
 ### Ollama Cloud Credit Tracking (check every 2 hours)
 - Read state/cost-state.json → apiBalance.remainingEstimate
 - Track usage as informational only — Ollama Cloud is a fixed subscription, not a pay-as-you-go balance

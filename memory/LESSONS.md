@@ -702,3 +702,15 @@ Three crons (Morning Stand-Up, Daily Blog, Aria ROI) failed because agent models
 **Prevention:** L-047 already covers this. This incident reinforces it — ANY ticket touching an epic or cross-cutting concern MUST have the full context in the ticket body before grooming begins.
 
 **Ken's words:** "Again, highlighting we did not add the brief or notes to the ticket and relied on memory which gets lost. Reinforcing the problem and our learning."
+
+### L-049 — State File Schema Drift Breaks Health Scripts Silently
+**Date:** 2026-06-06 | **Severity:** Medium | **Status:** Open
+
+**What happened:** backup-health-check.sh reported "BACKUP: stale — age 494638h" via Telegram. Backup was actually healthy (6h old). Script queried `.lastBackup` and `.lastSnap` (camelCase) but `backup-state.json` stored them as `.last_backup` and `.workspace_snapshot` (snake_case). jq returned "unknown" for both, epoch calc fell to 0, producing a bogus 56-year age. **Second time this script broke from field-name mismatch** — CHG-0415 fixed wrong filename + nonexistent field `size` 18 days ago.
+
+**Root cause:** No schema contract between state-file producers and consumers. When the backup script (or the thing writing backup-state.json) changes its field naming convention, no consumer scripts are checked. The health check script relies on jq field names that silently return null/unknown on mismatch.
+
+**Fix applied:** jq queries now use snake_case primary with camelCase fallback: `.last_backup // .lastBackup`.
+
+**Prevention ideas:** (1) auto-heal could compare jq field references in health scripts against actual state file keys and flag mismatches. (2) State file producers should document their schema in a registry. (3) Health scripts should validate jq output != "unknown" before computing age.
+**Linked:** CHG-0415, CHG-0460

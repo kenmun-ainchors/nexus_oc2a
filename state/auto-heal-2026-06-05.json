@@ -1,0 +1,36 @@
+{
+  "runAt": "2026-06-04T19:10:01Z",
+  "runAtLocal": "2026-06-05 05:10 AEST",
+  "duration_ms": 0,
+  "checks_run": [
+  "auth_profiles",
+  "delegated_auth",
+  "cron_health",
+  "backup_freshness",
+  "disk_space",
+  "plugin_runtime_deps",
+  "stale_locks",
+  "git_health",
+  "health_state",
+  "api_balance",
+  "incident_patterns",
+  "config_drift",
+  "critical_config_baseline",
+  "agent_identity",
+  "agent_rules",
+  "file_size_guard",
+  "bootstrap_size"
+],
+  "checks_count": 17,
+  "issues_found": [],
+  "issues_count": 0,
+  "auto_fixed": [
+  "git-commit:workspace:50-files"
+],
+  "auto_fixed_count": 1,
+  "needs_ken": [
+  "AGENTS.md: 13196 chars (HARD LIMIT 12000 — SILENT TRUNCATION RISK)"
+],
+  "needs_ken_count": 1,
+  "exit_status": "complete"
+}

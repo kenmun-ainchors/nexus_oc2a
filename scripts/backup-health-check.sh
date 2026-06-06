@@ -14,8 +14,8 @@ if [[ ! -f "$BACKUP_STATE" ]]; then
     exit 2
 fi
 
-LAST_BACKUP=$(/opt/homebrew/bin/jq -r '.lastBackup // "unknown"' "$BACKUP_STATE")
-LAST_SNAP=$(/opt/homebrew/bin/jq -r '.lastSnap // "unknown"' "$BACKUP_STATE")
+LAST_BACKUP=$(/opt/homebrew/bin/jq -r '.last_backup // .lastBackup // "unknown"' "$BACKUP_STATE")
+LAST_SNAP=$(/opt/homebrew/bin/jq -r '.workspace_snapshot // .lastSnap // "unknown"' "$BACKUP_STATE")
 STATUS=$(/opt/homebrew/bin/jq -r '.status // "unknown"' "$BACKUP_STATE")
 
 # Check if backup directory actually has content

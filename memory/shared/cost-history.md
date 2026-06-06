@@ -873,3 +873,67 @@ Avg: ~$101/day. Balance at 2026-04-28 EOD: $58.72 USD.
 - **kimi-k2.6:cloud**: 10 turns | 146,543 in / 1,802 out | $0.0167 (calc: 10 turns @ $0.0167)
 - **gemma4:31b-cloud**: 16 turns | 98,142 in / 444 out | $0.0035 (calc: 16 turns @ $0.0035)
 - **delivery-mirror**: 2 turns | 0 in / 0 out | $0.0000
+
+## 2026-06-04
+
+| Metric | Value |
+|--------|-------|
+| Total Cost | $0.5194 |
+| Turns | 374 |
+| Input Tokens | 12,396,308 |
+| Output Tokens | 50,225 |
+| Cache Read | 0 |
+| Calculated Cost (ephemeral) | $0.5194 |
+| Calculated Turns | 374 |
+
+### By Stream
+- **technical**: 364 turns | $0.5050
+- **business**: 10 turns | $0.0144
+
+### By Model
+- **deepseek-v4-pro:cloud**: 354 turns | 12,255,495 in / 48,052 out | $0.5092 (calc: 354 turns @ $0.5092)
+- **kimi-k2.6:cloud**: 4 turns | 42,671 in / 1,729 out | $0.0067 (calc: 4 turns @ $0.0067)
+- **gemma4:31b-cloud**: 16 turns | 98,142 in / 444 out | $0.0035 (calc: 16 turns @ $0.0035)
+
+## 2026-06-05
+
+| Metric | Value |
+|--------|-------|
+| Total Cost | $0.5013 |
+| Turns | 360 |
+| Input Tokens | 9,137,975 |
+| Output Tokens | 46,453 |
+| Cache Read | 0 |
+| Calculated Cost (ephemeral) | $0.5013 |
+| Calculated Turns | 360 |
+
+### By Stream
+- **technical**: 343 turns | $0.4769
+- **business**: 17 turns | $0.0245
+
+### By Model
+- **deepseek-v4-pro:cloud**: 331 turns | 8,843,871 in / 43,814 out | $0.4761 (calc: 331 turns @ $0.4761)
+- **kimi-k2.6:cloud**: 13 turns | 195,962 in / 2,195 out | $0.0217 (calc: 13 turns @ $0.0217)
+- **gemma4:31b-cloud**: 16 turns | 98,142 in / 444 out | $0.0035 (calc: 16 turns @ $0.0035)
+
+## 2026-06-06
+
+| Metric | Value |
+|--------|-------|
+| Total Cost | $0.4441 |
+| Turns | 322 |
+| Input Tokens | 4,990,818 |
+| Output Tokens | 27,788 |
+| Cache Read | 0 |
+| Calculated Cost (ephemeral) | $0.4441 |
+| Calculated Turns | 321 |
+
+### By Stream
+- **technical**: 286 turns | $0.3923
+- **business**: 36 turns | $0.0518
+
+### By Model
+- **deepseek-v4-pro:cloud**: 297 turns | 4,769,605 in / 25,504 out | $0.4272 (calc: 297 turns @ $0.4272)
+- **kimi-k2.6:cloud**: 8 turns | 123,071 in / 1,840 out | $0.0133 (calc: 8 turns @ $0.0133)
+- **gemma4:31b-cloud**: 16 turns | 98,142 in / 444 out | $0.0035 (calc: 16 turns @ $0.0035)
+- **delivery-mirror**: 1 turns | 0 in / 0 out | $0.0000

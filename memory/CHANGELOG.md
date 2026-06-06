@@ -13,6 +13,19 @@
 - **Category:** Platform | **Change Type:** Normal
 ---
 
+## 2026-06-06 08:06 AEST — [CHG-0460] CHG-0457: Fix Backup Health Check Field-Name Mismatch
+**Type:** script
+**Change Type:** Normal
+**Source:** incident-recovery
+**Trigger:** Telegram BACKUP_HEALTH FAILURE alert
+**What changed:** backup-health-check.sh jq queries: .lastBackup → .last_backup (with snake_case fallback). .lastSnap → .workspace_snapshot. Backup was actually healthy (6h old, 1.7GB) but script read unknown for both fields due to camelCase/snake_case mismatch
+**Why:** State file schema changed from camelCase to snake_case but script queries were never updated
+**Verification:** Re-ran script: now reports BACKUP: healthy (snap: workspace-2026-06-06-0205, age: 6h, size: 1.7G, files: 220773)
+**Rollback:** N/A
+**Linked:** none
+---
+
+
 ## 2026-06-04 12:36 AEST — [CHG-0459] Ahsoka Activated, Spark Dual-Stream, Luthen Operational, Brand Code Seeding Guide
 **Type:** agent
 **Change Type:** Normal

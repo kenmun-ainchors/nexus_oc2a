@@ -134,8 +134,15 @@
       "cronId": "6bd53c89-c208-45a9-b77a-47157443c1ef",
       "currentVersion": "2026.5.27",
       "status": "monitoring",
-      "lastChecked": "2026-05-29T22:00:00+10:00",
-      "firedAt": null
+      "lastChecked": "2026-06-04T06:01:00+10:00",
+      "firedAt": null,
+      "lastDecision": {
+        "version": "2026.5.28",
+        "decision": "defer",
+        "reason": "Feature + hardening release. No security urgency. Defer to fresh install on OC2 (~Jul 2026). OC1 is weeks from decommission per Platform Separation. Ken approved.",
+        "decidedBy": "Ken Mun",
+        "decidedAt": "2026-06-04T06:01:00+10:00"
+      }
     },
     "TRIGGER-05": {
       "name": "Ollama Cloud PoC PASS",
