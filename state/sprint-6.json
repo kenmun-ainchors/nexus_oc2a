@@ -1,0 +1,42 @@
+{
+  "sprint": 6,
+  "dates": "2026-06-02 to 2026-06-08",
+  "status": "closed",
+  "locked_at": "2026-06-01T18:46:00+10:00",
+  "locked_by": "Ken Mun",
+  "closed_at": "2026-06-07T10:13:00+10:00",
+  "closed_by": "Ken Mun",
+  "reviewed": true,
+  "committed": 5,
+  "done": 5,
+  "bonus": 3,
+  "total_delivered": 8,
+  "folded": 2,
+  "carried": 8,
+  "budget": {
+    "spent": 10.10,
+    "daily_avg": 2.02,
+    "weekly_run_rate": 60
+  },
+  "completed": [
+    { "seq": 1, "tkt": "TKT-0268", "title": "PG Dual-Write Stability — 24h Observation", "effort": "S", "status": "done" },
+    { "seq": 2, "tkt": "TKT-0269", "title": "PG pg_dump Backup to NAS", "effort": "M", "status": "done" },
+    { "seq": 3, "tkt": "TKT-0310", "title": "Platform Constraint Enforcement — Option Paper", "effort": "M-L", "status": "done", "note": "bonus" },
+    { "seq": 4, "tkt": "TKT-0322", "title": "Model-Task Routing Matrix", "effort": "S-M", "status": "done", "note": "bonus" },
+    { "seq": 5, "tkt": "TKT-0321", "title": "2-Pass Dispatch Contract — All 14 Agents", "effort": "M", "status": "done", "note": "bonus" }
+  ],
+  "folded": [
+    { "tkt": "TKT-0334", "title": "CrewAI + Qwen3.6 PoC → TRIGGER-03 (OC2)" },
+    { "tkt": "TKT-0275", "title": "Progressive Disclosure → TKT-0317" }
+  ],
+  "carries": [
+    { "tkt": "TKT-0327", "title": "Tilde-Path Normalization — monitoring/unverified (429)" },
+    { "tkt": "TKT-0317", "title": "Context Optimization Epic — GROOMED: 6 child tickets" },
+    { "tkt": "TKT-0293", "title": "Regression Testing Framework" },
+    { "tkt": "TKT-0319", "title": "Global TQP Phase 3" },
+    { "tkt": "TKT-0318", "title": "Aria TQP Phase 2" },
+    { "tkt": "TKT-0326", "title": "NAS Writable Backup Target" },
+    { "tkt": "TKT-0137", "title": "Policy Register" }
+  ],
+  "notes": "Sprint 6 review completed Sun Jun 7. 5/5 committed delivered + 3 bonus. 2 folded. 8 carried to S7. Budget $10.10 at $2.02/day — runs ~$60/week against $150/month cap."
+}

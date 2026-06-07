@@ -1,1 +1,11 @@
-{"openclawVersion": "2026.5.27", "upgradedAt": "2026-05-29T22:00:00+10:00", "upgradedFrom": "2026.5.12", "agentCount": 14, "cronCount": 59, "pgTables": 32, "gatewayStatus": "healthy"}
+{
+  "openclawVersion": "2026.5.27",
+  "upgradedAt": "2026-05-29T22:00:00+10:00",
+  "upgradedFrom": "2026.5.12",
+  "agentCount": 14,
+  "cronCount": 59,
+  "pgTables": 32,
+  "gatewayStatus": "healthy",
+  "lastUpdated": "2026-06-07T07:55:58+10:00",
+  "lastApprovalContext": "Auto-Refresh: Config baseline 8 days stale. Re-captured at 2026-06-07T07:55:58+10:00. No structural changes since CHG-0416 baseline. Agent configs verified: 14 agents, all with explicit models. 59 crons, 32 PG tables."
+}

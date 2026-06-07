@@ -1,115 +1,22 @@
 {
+  "sprint": 7,
+  "dates": "2026-06-08 to 2026-06-14",
+  "status": "committed",
+  "theme": "Sprint 6 Carries — Close Out",
+  "updated_at": "2026-06-07T10:13:00+10:00",
+  "updated_by": "Ken Mun",
+  "previous_sprint": {
     "sprint": 6,
-    "dates": "2026-06-02 to 2026-06-08",
-    "status": "committed",
-    "locked_at": "2026-06-01T18:46:00+10:00",
-    "locked_by": "Ken Mun",
-    "updated_at": "2026-06-02T20:18:00+10:00",
-    "sequence": [
-        {
-            "seq": 1,
-            "tkt": "TKT-0268",
-            "title": "PG Dual-Write Stability \u2014 24h Observation",
-            "effort": "S",
-            "status": "done"
-        },
-        {
-            "seq": 2,
-            "tkt": "TKT-0269",
-            "title": "PG pg_dump Backup to NAS",
-            "effort": "M",
-            "status": "done"
-        },
-        {
-            "seq": 3,
-            "tkt": "TKT-0310",
-            "title": "Platform Constraint Enforcement",
-            "effort": "M-L",
-            "status": "done",
-            "deliverable": "docs/deliverables/TKT-0310-Platform-Constraint-Enforcement-Option-Paper-v1.0.md",
-            "completed_at": "2026-06-02T18:38:00+10:00"
-        },
-        {
-            "seq": 4,
-            "tkt": "TKT-0334",
-            "title": "CrewAI + Qwen3.6 PoC \u2014 folded into TRIGGER-03 (OC2)",
-            "effort": "S",
-            "status": "folded"
-        },
-        {
-            "seq": 5,
-            "tkt": "TKT-0322",
-            "title": "Model-Task Routing Matrix [child of TKT-0317]",
-            "effort": "S-M",
-            "status": "done",
-            "deliverable": "docs/deliverables/TKT-0322-Model-Task-Routing-Matrix-v1.0.md",
-            "completed_at": "2026-06-02T20:06:00+10:00"
-        },
-        {
-            "seq": 6,
-            "tkt": "TKT-0321",
-            "title": "2-Pass Dispatch Discipline Platform-Wide [child of TKT-0317]",
-            "effort": "M",
-            "status": "done",
-            "deliverable": "docs/deliverables/TKT-0321-2-Pass-Dispatch-Contract-v1.0.md",
-            "completed_at": "2026-06-02T20:18:00+10:00"
-        },
-        {
-            "seq": 7,
-            "tkt": "TKT-0293",
-            "title": "Regression Testing Framework (incl. TKT-0333 folded)",
-            "effort": "L",
-            "status": "pending"
-        },
-        {
-            "seq": 8,
-            "tkt": "TKT-0317",
-            "title": "Context Optimization Epic \u2014 GROOMED: TKT-0275 folded, 6 child tickets, 6 ACs",
-            "effort": "XL",
-            "status": "pending"
-        },
-        {
-            "seq": 9,
-            "tkt": "TKT-0319",
-            "title": "Global TQP Phase 3",
-            "effort": "L",
-            "status": "pending"
-        },
-        {
-            "seq": 10,
-            "tkt": "TKT-0275",
-            "title": "Progressive Disclosure Architecture \u2014 folded into TKT-0317",
-            "effort": "M",
-            "status": "folded"
-        },
-        {
-            "seq": 11,
-            "tkt": "TKT-0318",
-            "title": "Aria TQP Phase 2",
-            "effort": "M",
-            "status": "pending"
-        },
-        {
-            "seq": 12,
-            "tkt": "TKT-0326",
-            "title": "NAS Writable Backup Target",
-            "effort": "M",
-            "status": "pending"
-        },
-        {
-            "seq": 13,
-            "tkt": "TKT-0137",
-            "title": "Policy Register",
-            "effort": "M",
-            "status": "pending"
-        },
-        {
-            "seq": 14,
-            "tkt": "TKT-0327",
-            "title": "Tilde-Path Normalization \u2014 monitoring/unverified (429)",
-            "effort": "S",
-            "status": "monitoring"
-        }
-    ],
-    "notes": "Sequenced by urgency\u2192impact\u2192effort. TKT-0327 moved to bottom due to 429 rate limit \u2014 unverified, L-046 already mitigated."
+    "status": "closed",
+    "committed": 5,
+    "done": 5,
+    "bonus": 3,
+    "total": 8
+  },
+  "next_sprint": {
+    "sprint": 8,
+    "dates": "2026-06-15 to 2026-06-21",
+    "theme": "Platform Constraint Enforcement + PG SSOT Remediation",
+    "tickets": 21
+  }
 }

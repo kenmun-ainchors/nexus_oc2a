@@ -1,14 +1,14 @@
 {
   "schema": "1.0",
-  "snapshotDate": "2026-06-06",
+  "snapshotDate": "2026-06-07",
   "agent": "spark",
   "errors": [
     {
       "contentId": "LI-W3-P3",
       "postUrn": "urn:li:share:7463404594140905473",
       "error": "404",
-      "detail": "Post not found — URN may be invalid. Post was manually deleted and reposted on 2026-05-26; original URN stale.",
-      "fetchedAt": "2026-06-06T00:00:17Z"
+      "detail": "Post not found — URN may be invalid. Post was manually deleted and reposted on 2026-05-26; original URN stale. Still 404 on 2026-06-07.",
+      "fetchedAt": "2026-06-07T00:00:14Z"
     }
   ]
 }

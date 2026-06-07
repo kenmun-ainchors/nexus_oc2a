@@ -472,6 +472,43 @@ else
   log "  OK: Bootstrap injection ${TOTAL_INJECTION} chars (limit ${INJECTION_LIMIT})"
 fi
 
+# ---------- CHECK 17: PG Sequence Health (TKT-0367) ----------
+log "CHECK 17: PG sequence health (last_value vs MAX(id))"
+CHECKS_RUN+=("pg_sequence_health")
+
+# Validate all state table sequences are in sync. If sequence < MAX(id), INSERTs will
+# hit duplicate key violations silently. Auto-heal fixes by calling setval().
+SEQUENCE_DRIFT=()
+for table in state_config_baseline state_cost state_linkedin state_autoheal_log \
+             state_diagnostics state_uptime state_model_trials state_kri \
+             state_governance state_latency state_model_drift state_frameworks; do
+  seq_name="${table}_id_seq"
+  seq_val=$(bash "$WORKSPACE/scripts/db.sh" -c "SELECT last_value FROM $seq_name" 2>/dev/null | tr -d ' ')
+  max_id=$(bash "$WORKSPACE/scripts/db.sh" -c "SELECT COALESCE(MAX(id),0) FROM $table" 2>/dev/null | tr -d ' ')
+  if [[ -n "$seq_val" && -n "$max_id" ]]; then
+    if [[ "$seq_val" -lt "$max_id" ]]; then
+      # Auto-fix: resync sequence
+      new_val=$((max_id + 1))
+      bash "$WORKSPACE/scripts/db.sh" -c "SELECT setval('$seq_name', $new_val)" >> "$LOG" 2>&1 && \
+        log "  FIXED: $seq_name was $seq_val, reset to $new_val (table max=$max_id)" && \
+        AUTO_FIXED+=("pg-sequence:$seq_name:$seq_val→$new_val")
+      SEQUENCE_DRIFT+=("$seq_name desynced: seq=$seq_val max=$max_id")
+    else
+      log "  OK: $seq_name = $seq_val"
+    fi
+  else
+    log "  WARN: Could not read $seq_name or $table"
+  fi
+done
+
+if [[ ${#SEQUENCE_DRIFT[@]} -gt 0 ]]; then
+  log "  X: ${#SEQUENCE_DRIFT[@]} sequences desynced"
+  # Auto-fixed above — only log for awareness, don't escalate to needs-Ken
+  # (unless fix failed, which would show in NEEDS_KEN via PG write failure)
+else
+  log "  OK: All 12 state sequences in sync"
+fi
+
 # ---------- FINAL REPORT WRITE ----------
 log "=== WRITING FINAL REPORT ==="
 write_state "complete"

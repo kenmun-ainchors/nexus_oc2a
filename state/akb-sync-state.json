@@ -1,13 +1,13 @@
 {
-  "lastSync": "2026-06-05T17:20:06.000Z",
+  "lastSync": "2026-06-06T17:20:06.000Z",
   "lastCursor": null,
   "dataSourceId": "34dc1829-53ff-812d-8e43-000b83eb0e7e",
   "outputDir": "state/akb-pages",
   "stats": {
-    "totalSynced": 339,
+    "totalSynced": 347,
     "lastRunPages": 50,
-    "lastRunNew": 21,
-    "lastRunUpdated": 29
+    "lastRunNew": 4,
+    "lastRunUpdated": 0
   },
-  "lastSyncSummary": "2026-06-06 03:20 AEST: 50 pages synced (21 new, 29 updated). Major batch: PG-first write tickets TKT-0348 through TKT-0366, auto-heal items (backup stale, AGENTS.md limit), plus CHG updates."
+  "lastSyncSummary": "2026-06-07 03:20 AEST: 4 new items synced. CHG-0460 (Backup Health Check fix - Done), 3x AUTO-HEAL: config baseline stale (8d), PG write failure (auto-heal log not persisted), MEMORY.md/HEARTBEAT.md above soft limits."
 }

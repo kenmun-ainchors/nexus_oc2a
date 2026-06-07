@@ -1,0 +1,39 @@
+{
+  "run_date": "2026-06-07",
+  "time": "01:00 AEST",
+  "total_checks": 17,
+  "passed": 15,
+  "failed": 0,
+  "warnings": 4,
+  "status": "complete",
+  "needs_ken": [
+    "MEMORY.md at 13552 chars (soft limit 8000, hard limit 15000) — trim recommended",
+    "HEARTBEAT.md at 14676 chars (soft limit 8000, hard limit 15000) — trim recommended",
+    "AGENTS.md at 8764 chars (soft limit 8000) — approaching soft limit",
+    "Critical config baseline 8 days old — recapture recommended"
+  ],
+  "needs_ken_count": 4,
+  "checks_detail": {
+    "issues": [
+      "file-size:MEMORY.md:13552",
+      "file-size:HEARTBEAT.md:14676",
+      "file-size:AGENTS.md:8764",
+      "baseline:stale:8d"
+    ],
+    "auto_fixed": ["git-commit:workspace:23-files"],
+    "checks_run": [
+      "auth_profiles", "delegated_auth", "cron_health", "backup_freshness",
+      "disk_space", "plugin_runtime_deps", "stale_locks", "git_health",
+      "health_state", "api_balance", "incident_patterns", "config_drift",
+      "critical_config_baseline", "agent_identity", "agent_rules",
+      "file_size_guard", "bootstrap_size"
+    ],
+    "auto_fixed_count": 1
+  },
+  "notion_items_created": [
+    {"id": "377c1829-53ff-8197-a431-cabaca37ae03", "title": "[AUTO-HEAL] MEMORY.md & HEARTBEAT.md above soft limits — trim needed"},
+    {"id": "377c1829-53ff-8155-be58-dcba91f98d31", "title": "[AUTO-HEAL] Critical config baseline stale — 8 days old"},
+    {"id": "377c1829-53ff-81e3-b4f6-dd73433149b6", "title": "[AUTO-HEAL] PG write failure — auto-heal log not persisted"}
+  ],
+  "pg_write_error": true
+}

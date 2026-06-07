@@ -13,6 +13,58 @@
 - **Category:** Platform | **Change Type:** Normal
 ---
 
+## 2026-06-07 20:28 AEST — [CHG-0465] Nexus Foundational Architecture Challenges Assessment v1.0 — CHG-0457
+**Type:** doc
+**Change Type:** Normal
+**Source:** ken-prompt
+**Trigger:** Ken commissioned comprehensive assessment of 3 foundational problem areas for Claude research context handover
+**What changed:** Produced NFA Assessment v1.0 (33KB) covering: (1) Agentic workflow execution decay with 5-layer discipline stack analysis and decay incident log, (2) Model and token economics with 123.8KB Yoda hydration analysis and 92% rule duplication quantification, (3) Agentic memory management with 5-tier implementation gap map. Raised TKT-0368 backlog ticket with full metadata. Uploaded to GDrive.
+**Why:** Ken is researching VMAO/POLARIS multi-step progression execution models to design a better foundational architecture addressing execution quality and cost economy
+**Verification:** Assessment doc written and validated. GDrive upload confirmed. TKT-0368 created in PG.
+**Rollback:** N/A
+**Linked:** TKT-0368, TKT-0317, TKT-0321, TKT-0309, TKT-0322
+---
+
+
+## 2026-06-07 08:01 AEST — [CHG-0464] CHG-0464: Add PG sequence-health check to auto-heal (CHECK #17, TKT-0367)
+**Type:** script
+**Change Type:** Normal
+**Source:** auto-heal
+**Trigger:** CHG-0463: PG write failure traced to sequence desync. TKT-0367 raised for permanent prevention.
+**What changed:** Added CHECK 17 to auto-heal.sh: validates last_value vs MAX(id) for all 12 state table sequences. Auto-fixes by calling setval() when drift detected. Inserted between CHECK 16 (bootstrap_size) and final report write.
+**Why:** Silent PG write failures went undetected for 2 days. ON CONFLICT (run_date) doesn't protect against identity-column collisions. Sequence-health check catches and auto-fixes drift before next INSERT fails.
+**Verification:** Test run confirmed: all 12 sequences show OK, check passes cleanly in ~1s. No false positives. AUTO_FIXED array captures any fixed drift for reporting.
+**Rollback:** N/A
+**Linked:** none
+---
+
+
+## 2026-06-07 07:58 AEST — [CHG-0463] CHG-0462: Fix auto-heal PG write failure — sequence desync
+**Type:** infra
+**Change Type:** Normal
+**Source:** auto-heal
+**Trigger:** Auto-heal CHECK #3 — PG write failure reported. Root cause: sequence state_autoheal_log_id_seq was at 30 but table max id was 41.
+**What changed:** Reset sequence to 43 via setval(). Manually inserted missed 2026-06-06 auto-heal row. Verified all 12 state sequences now in sync. Identified gap: no sequence-health check exists in auto-heal.sh.
+**Why:** Duplicate key violation on INSERT. Sequence had desynced, likely from restore or manual insertion bypassing DEFAULT.
+**Verification:** All 12 sequences validated. Insert confirmed id=43.
+**Rollback:** N/A
+**Linked:** none
+---
+
+
+## 2026-06-07 07:56 AEST — [CHG-0461] CHG-0462: Config baseline refresh — 7 days stale
+**Type:** config
+**Change Type:** Normal
+**Source:** auto-heal
+**Trigger:** Auto-heal CHECK #12 — baseline 8 days old
+**What changed:** Refreshed critical-config-baseline.json + PG state_config_baseline to current state. 14 agents, 59 crons, 32 PG tables verified. All agent model assignments unchanged from CHG-0416 interim config.
+**Why:** Drift detection relies on <=7 day baseline freshness. 8 days = unreliable alerts.
+**Verification:** PG write confirmed (UPDATE 1). JSON fallback updated. All checks validated against live agent configs.
+**Rollback:** N/A
+**Linked:** none
+---
+
+
 ## 2026-06-06 08:06 AEST — [CHG-0460] CHG-0457: Fix Backup Health Check Field-Name Mismatch
 **Type:** script
 **Change Type:** Normal

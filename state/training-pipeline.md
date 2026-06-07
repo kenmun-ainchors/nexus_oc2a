@@ -212,6 +212,8 @@ _Maintained by Aria 🔵 + Yoda 🟢 | Status-tracked content for AInchors train
 
 | TC-191 | Brand Code: why your AI needs your voice before it writes anything | 💡 Idea | Yoda Day 38 (Brand Code seeding guide — 5-part structure from foundation to approval) | Aria |
 | TC-192 | Wiring your business AI stack: from consulting agent to content agent to intelligence agent | 💡 Idea | Yoda Day 38 (Ahsoka/Spark/Luthen activation — 3-agent business pipeline) | Aria |
+| TC-193 | The database sequence that broke silently: silent infrastructure failures in AI platforms | 💡 Idea | Yoda Day 39 (CHG-0463 — PG sequence desync went undetected 2 days, auto-heal CHECK 17 added) | Yoda |
+| TC-194 | Closing a sprint with an AI team: ceremony discipline for automated operations | 💡 Idea | Yoda Day 39 (Sprint 6 close — 8 delivered, Sprint 7/8 re-sequence, cost tracking) | Aria |
 
 ## Status Legend
 💡 Idea → 📝 Draft → 🔍 Review (Yoda validates) → ✅ Ready → 📢 Published
