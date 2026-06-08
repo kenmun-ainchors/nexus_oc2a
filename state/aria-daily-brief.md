@@ -1,3 +1,40 @@
+## Monday, June 8, 2026 — Business Stream Summary
+_Written 23:45 AEST by Aria cron_
+
+### Angie interactions today
+No Angie activity today.
+- **Heartbeat nudge sent**: Inter-session message delivered from Aria to Angie's Telegram ("Hey Angie! 😊 We were working through a few things — want to pick up where we left off?"). Angie has not responded yet.
+
+### Decisions made
+- None today. Business stream in holding pattern. Monday with no Angie re-engagement.
+
+### Governance reviews
+- None triggered.
+
+### Open items
+- 🔴 **Ken training confirmation (MSG-20260601-001)** — Delivered Mon Jun 1. Now 7 days with no response from Ken. Angie specifically asked to "get Ken to verify this."
+- 🔴 **Meeting relay (relay-20260603-001)** — Queued Wed Jun 3 for Ken (Angie meeting request for Thu Jun 4, 11am Sydney). Still marked unsent. Meeting date (Jun 4) has now passed — relay may be moot unless Ken needs historical context.
+- 🔴 **CTO Contract Meeting outcome** — Meeting was Fri May 29. Now 10 days post-meeting with zero follow-up from either Angie or Ken. This is the single biggest unknown in the business stream.
+- 🔴 **CR-002 (LinkedIn Setup / Spark)** — Pending Ken/Yoda action since May 22. Now 17 days old. Longest-standing open action item.
+- 🟡 **Onboarding Stage 2** — OB-12, OB-14, OB-15 still unchecked.
+- 🟡 **Lynn Huang (bookkeeping)** — awaiting fee schedule reply.
+- 🟡 **Jack Ooi (accounting)** — awaiting update on meeting.
+- 🟡 **Training revenue projection** — pending review.
+- 🟡 **Marketing collaterals** — pending Angie review.
+- 🟡 **Meta appeal** — status unknown.
+- 🔴 **JotForm/HRDF** — outstanding from April 28. Now 41 days.
+- 🟡 **April 30 class debrief** — still missing.
+- 🟡 **Google Calendar auth** — broken since Jun 3. Aria cannot create calendar events for Angie until she re-auths (`gog auth add angie.foong@ainchors.com --services calendar`).
+
+### Handoff to Yoda
+- **Quiet Monday**. No Angie interactions today. Angie last messaged Wednesday June 3 — now 5 days quiet. The heartbeat nudge was delivered but Angie hasn't responded.
+- **Angie quiet streak at 5 days** — now beyond normal weekend range (Mon-Sun). This is the second-longest silence since onboarding (after the 6-day May gap). If no contact by Wednesday (7 days), escalate concern level.
+- **Relay relay-20260603-001 still unsent**: Ken meeting request from June 3 (Thu Jun 4, 11am Sydney) was never delivered. Meeting date has passed. Yoda decides: deliver for historical context or drop it.
+- **Ken training offer**: 7 days with no response from Ken. Angie wanted verification he received it. No follow-up either direction.
+- **CTO Contract Meeting (May 29)**: Now 10 days post-meeting. Either contract signed (good, quiet progress) or something stalled. Still the most important unknown.
+- **Sunday June 7 daily brief was skipped** — cron may not have run. No Angie activity expected on Sunday regardless.
+- **Overall pattern**: Business stream is effectively paused. All open items require either Angie re-engagement or Ken action. No new initiatives since June 3.
+
 ## Saturday, June 6, 2026 — Business Stream Summary
 _Written 23:45 AEST by Aria cron_
 
