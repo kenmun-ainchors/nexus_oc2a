@@ -1,4 +1,41 @@
+## 2026-06-08 13:42 AEST — [CHG-0471] Port Convention Formalization + Shadow Reserve (38789)
+- **Date:** 2026-06-08 13:42 AEST
+- **Type:** rule
+- **Source:** ken-prompt
+- **Trigger:** INC-20260608-001 post-mortem — sandbox config-write side-effect crashed production gateway for 30 minutes. Post-incident sync with Ken formalized: "one environment per port. we'll do 2xxxx for sandbox and then if we ever need CI mirror shadow, we'll do 3xxxx"
+- **Changed:** (1) TOOLS.md: 4-port convention table (18789 PROD / 18791 browser / 28789 SANDBOX / 38789 SHADOW). (2) RULES.md: Port-Per-Environment Isolation as non-negotiable platform rule with enforcement chain (CHECK 18/19/20, LaunchAgent isolation, Forge workspace boundary). (3) LESSONS.md: L-051 logged (logical isolation ≠ port isolation). (4) Shadow environment (38789) reserved for CI/staging read-only mirror. (5) Auto-heal CHECK 20 added for shadow gateway liveness.
+- **Why:** Production gateway crashed for 30 minutes when sandbox write side-effect triggered config validation on shared port. Logical isolation (separate directories) was insufficient — port-level isolation is the only guarantee. Formal port-per-environment convention prevents any future cross-contamination. Shadow reserve enables staging validation without touching production.
+- **Verified:** Auto-heal syntax check passed. Port convention locked in 3 governance artifacts (TOOLS.md, RULES.md, LESSONS.md). 3 LaunchAgent plists planned (prod/sandbox/shadow).
+- **Rollback:** Revert RULES.md section, TOOLS.md table, auto-heal CHECK 20.
+- **Linked:** INC-20260608-001, L-050, L-051, TKT-0332, TKT-0333, CHG-0470
 ---
+---
+
+## 2026-06-08 22:29 AEST — [CHG-0473] CHG-0473: C1 STALE Definition Drift Corrected — Harness v2.2
+**Type:** config
+**Change Type:** Normal
+**Source:** ken-prompt
+**Trigger:** Ken Mun identified: harness STALE was '>7 days no update' (dormancy), but C1 §5 defines STALE as mirror lag > 5 min after live change — different semantics
+**What changed:** divergence-harness.py v2.0→v2.2: STALE now checks mirror updated_at vs live updated_at with 5-min bound. Dormant tickets (>7d) moved to info.dormant_tickets (informational only, not a C1 class). status-map.json v1.0→v1.1: separated plan_map and atom_map. T4-Divergence-Contract v0.1→v1.1: amendment documenting correction.
+**Why:** The old STALE definition conflated ticket dormancy with replication lag. C1's STALE is the metric that proves the mirror keeps up — it must measure replication freshness, not whether upstream data is stale. Without this fix, the mirror could be 6 min behind with zero alert.
+**Verification:** Re-run with v2.2: STALE=0, Match=616, Unexplained=0. Mirror lag check operational. Contract v1.1 published.
+**Rollback:** N/A
+**Linked:** none
+---
+
+
+## 2026-06-08 22:01 AEST — [CHG-0472] CHG-0472: Sage Primary Model Changed — gemma4:31b-cloud → deepseek-v4-pro:cloud
+**Type:** agent
+**Change Type:** Normal
+**Source:** ken-prompt
+**Trigger:** Ken Mun instruction — Sage gemma4 context-overflow failures (4 failed QA reviews in 18 min), 1.4M token exhaustion
+**What changed:** openclaw.json qa agent: primary=ollama/deepseek-v4-pro:cloud, fallbacks=[gemma4:31b-cloud, kimi-k2.6:cloud]
+**Why:** gemma4:31b-cloud exceeded context window on mirror writer review (10 files, 1122 lines). deepseek-v4-pro has larger context and completes QA reviews reliably
+**Verification:** openclaw.json qa agent model confirmed; Warden 15-min drift check will detect on next cycle; config backup taken
+**Rollback:** N/A
+**Linked:** none
+---
+
 ## CHG-0446 — TZ Drift: Journal grace window extended to 23:00 AEST
 - **Date:** 2026-05-30 13:27 AEST
 - **Type:** Fix
