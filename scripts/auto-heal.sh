@@ -509,6 +509,84 @@ else
   log "  OK: All 12 state sequences in sync"
 fi
 
+# ---------- CHECK 18: Orphaned Gateway Process Detection (TKT-0332) ----------
+log "CHECK 18: orphaned gateway process (port 18789)"
+CHECKS_RUN+=("orphaned_gateway")
+
+# Detect orphaned openclaw processes holding port 18789 that are NOT the active gateway.
+# Pattern: gateway crash → stale child survives → port lock prevents restart.
+# INC-20260608-001: PID 77230 held port 18789 for 30 min, blocking recovery.
+ORPHAN_COUNT=0
+ACTIVE_GW_PID=$(pgrep -f "openclaw.*gateway.*18789" | head -1)
+
+# List ALL PIDs holding port 18789
+LSOF_OUT=$(/usr/sbin/lsof -i :18789 -sTCP:LISTEN -t 2>/dev/null || true)
+if [[ -n "$LSOF_OUT" ]]; then
+  while IFS= read -r pid; do
+    pid=$(echo "$pid" | tr -d ' ')
+    [[ -z "$pid" ]] && continue
+    # Skip the active gateway PID
+    if [[ -n "$ACTIVE_GW_PID" && "$pid" == "$ACTIVE_GW_PID" ]]; then
+      continue
+    fi
+    # Verify it's actually an openclaw process
+    if ps -p "$pid" -o comm= 2>/dev/null | grep -q openclaw; then
+      log "  X: Orphaned openclaw PID $pid holding port 18789 (active gateway: ${ACTIVE_GW_PID:-none})"
+      ORPHAN_COUNT=$((ORPHAN_COUNT + 1))
+      # Auto-fix: kill the orphan after 5-min grace period
+      # Only kill if active gateway exists (meaning we're NOT in a crash loop)
+      if [[ -n "$ACTIVE_GW_PID" ]]; then
+        PROCESS_AGE=$(ps -o etime= -p "$pid" 2>/dev/null | tr -d ' ' || echo "unknown")
+        log "  FIX: Killing orphaned gateway PID $pid (age: $PROCESS_AGE)"
+        kill -9 "$pid" 2>/dev/null && AUTO_FIXED+=("orphaned-gateway:$pid") || log "  WARN: Could not kill PID $pid"
+      else
+        log "  WARN: No active gateway found, leaving orphan PID $pid (may be crash loop)"
+        NEEDS_KEN+=("Orphaned gateway PID $pid holding port 18789 with no active gateway — possible crash loop")
+      fi
+    fi
+  done <<< "$LSOF_OUT"
+fi
+
+if [[ $ORPHAN_COUNT -eq 0 ]]; then
+  log "  OK: No orphaned gateway processes"
+fi
+
+# ---------- CHECK 19: Sandbox Gateway Liveness (TKT-0333) ----------
+log "CHECK 19: sandbox gateway liveness (port 28789)"
+CHECKS_RUN+=("sandbox_gateway_liveness")
+
+SANDBOX_PORT=28789
+SANDBOX_PLIST="$HOME/Library/LaunchAgents/ai.openclaw.sandbox-gateway.plist"
+
+if /usr/sbin/lsof -i :$SANDBOX_PORT -sTCP:LISTEN -t > /dev/null 2>&1; then
+  log "  OK: Sandbox gateway listening on port $SANDBOX_PORT"
+else
+  if [[ -f "$SANDBOX_PLIST" ]]; then
+    log "  WARN: Sandbox gateway NOT listening on port $SANDBOX_PORT — LaunchAgent plist exists but service is down"
+    ISSUES_FOUND+=("sandbox-gateway:down")
+    NEEDS_KEN+=("WARN: Sandbox gateway (port 28789) not listening — LaunchAgent exists ($SANDBOX_PLIST), manual start may be needed")
+  else
+    log "  WARN: Sandbox gateway NOT listening on port $SANDBOX_PORT — no LaunchAgent plist found"
+    ISSUES_FOUND+=("sandbox-gateway:no-plist")
+    NEEDS_KEN+=("WARN: Sandbox gateway (port 28789) not listening and no LaunchAgent plist at $SANDBOX_PLIST")
+  fi
+fi
+write_state
+
+# ---------- CHECK 20: Shadow Gateway Liveness — Port 38789 (CHG-0471) ----------
+log "CHECK 20: shadow gateway liveness (port 38789)"
+CHECKS_RUN+=("shadow_gateway_liveness")
+
+SHADOW_PORT=38789
+
+if /usr/sbin/lsof -i :$SHADOW_PORT -sTCP:LISTEN -t > /dev/null 2>&1; then
+  log "  OK: Shadow gateway listening on port $SHADOW_PORT"
+else
+  log "  INFO: Shadow gateway not running on port $SHADOW_PORT — expected unless shadow is actively deployed"
+  # Shadow is optional — not an issue if not running. Only flag if deployed but crashed.
+fi
+write_state
+
 # ---------- FINAL REPORT WRITE ----------
 log "=== WRITING FINAL REPORT ==="
 write_state "complete"

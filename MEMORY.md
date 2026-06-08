@@ -162,3 +162,19 @@ DeepSeek = permanent primary. kimi = fallback only. Full history: `memory/MEMORY
 **Platform state:** 14 agents. 32 PG tables. 251+ tickets. TQP gate live. Journal inline writes stable. Sprint 5 closed. Sprint 6 queued. Platform Separation go.
 
 **OpenClaw:** v2026.5.27 (upgraded from 5.12, 2026-05-29). 59 crons, all integrations healthy. Config slimmed (crons in Gateway internal state). CHG-0445.
+
+---
+
+## Day 36 End-of-Day (2026-06-08) — CP3/P0 Mirror Writer Deployed + 7-Day Gate Started
+
+**CP3/P0 Nexus Controller (Forge):** PR #1 (core DDL) + PR #2 (mirror writer) merged and deployed. 311 loop_plan + 311 plan_atom rows live in shadow PG. Divergence harness v2.4 running with C1-correct STALE (mirror lag > 5 min). Status: 616 match, 2 missing (TQP data quality), 6 extra (CI artifacts), 0 field mismatch, 0 STALE, 0 unexplained.
+
+**Sage model migration (CHG-0472):** qa agent primary changed from gemma4:31b-cloud → ollama/deepseek-v4-pro:cloud. Root cause: 4 consecutive gemma4 context-overflow failures on mirror writer review. deepseek-pro completed same review in 2m40s.
+
+**C1 STALE drift corrected (CHG-0473):** Harness v2.0 had STALE = ">7 days no update" (ticket dormancy). C1 §5 defines STALE = mirror lag > 5 min after live change. Corrected in v2.4. Old definition preserved as info.dormant_tickets (informational only). T4-Divergence-Contract v1.1 published.
+
+**7-day divergence gate:** Daily cron 53c94ce7 (9am AEST, isolated deepseek-pro). Day 1 = 2026-06-08, target = 2026-06-15. W2-8 (Sage validation) scheduled for end of window. Any unexplained divergence → Telegram alert to Ken. P0 closes when 7 consecutive clean runs + Sage PASS + Ken sign-off.
+
+**Platform state:** 14 agents. Sage primary now deepseek-pro. Warden drift check monitoring. OpenClaw v2026.5.27 stable. Shadow env healthy on 38789.
+
+**Pending:** W2-8 (Jun 15), P1 pilot loop (post P0 close).

@@ -714,3 +714,45 @@ Three crons (Morning Stand-Up, Daily Blog, Aria ROI) failed because agent models
 
 **Prevention ideas:** (1) auto-heal could compare jq field references in health scripts against actual state file keys and flag mismatches. (2) State file producers should document their schema in a registry. (3) Health scripts should validate jq output != "unknown" before computing age.
 **Linked:** CHG-0415, CHG-0460
+
+### L-050 — Failed Sandbox Writes Trigger Side-Effect Gateway Outages
+**Date:** 2026-06-08 | **Severity:** High | **Status:** Closed (TKT-0332)
+
+**What happened:** Forge attempted to write to `/Users/ainchorsangiefpl/.openclaw/nexus-sandbox/openclaw.json` from its sandbox (`workspace-infra`). The sandbox escape guard correctly blocked the write. However, the failed attempt still triggered OpenClaw's config validation path, which detected a service definition version mismatch (5.12 installed, 5.27 CLI), regenerated the gateway token, and initiated a restart — which got stuck in a SIGTERM reboot loop for 30 minutes (11:31–12:06 AEST). Gateway was completely unavailable: all crons, Telegram, webchat, agents offline.
+
+**Root cause:** The sandbox escape guard prevents the file write but does NOT prevent the side-effect of the write attempt propagating through OpenClaw's internal config validation/sync paths. The 5.12→5.27 LaunchAgent version mismatch made the restart loop possible. The stale PID holding port 18789 made recovery require manual intervention (`openclaw doctor --fix`).
+
+**Previous occurrence:** INC-20260511-001 — Forge wrote directly to `openclaw.json` and corrupted the agents array. Same pattern: agent write → config corruption → gateway crash.
+
+**Mitigations applied:**
+1. Forge RULES.md: Hard boundary rule — never write outside `workspace-infra/` under `~/.openclaw/`. Forbidden paths listed explicitly.
+2. LaunchAgent plist regenerated (v2026.5.27) by `openclaw doctor --fix` — version mismatch resolved.
+3. Auto-heal CHECK 18: Detects and auto-kills orphaned openclaw processes holding port 18789. Escalates to Ken if no active gateway found (crash loop detection).
+4. Forge SOUL.md to be updated with sandbox boundary reference.
+
+**Prevention:** Sandbox escape guards need to also suppress config-side-effect-triggering operations, not just block the file write. This is an OpenClaw platform-level fix — raised awareness. For now, the human boundary rule (Forge RULES.md) + auto-heal orphan kill provides defense in depth.
+
+**Ken's words:** "check what happened. gateway crashed and I ran openclaw doctor --fix. could be due to Forge work order - spinning up new sandbox on same port 19789 that conflicted"
+
+**Linked:** INC-20260608-001, TKT-0332, INC-20260511-001, TKT-0135, CHG-0470
+
+
+### L-051 — Logical Isolation ≠ Port Isolation — Environments Need Hard Boundaries
+**Date:** 2026-06-08 | **Severity:** High | **Status:** Closed (TKT-0333)
+
+**What happened:** The INC-20260608-001 crash revealed that even with separate directories (prod config vs sandbox config), a single port collision can cascade into a full production outage. Logical isolation (separate files) was insufficient — the gateway restart process binds to the same port regardless of which config directory triggered it.
+
+**Root cause:** Pre-INC, we had no formal environment-per-port convention. Sandbox was planned for port 28789 but the LaunchAgent hadn't been created yet. The gap between "planned" and "enforced" allowed the incident.
+
+**Lesson:** Each environment MUST have a hard port assignment that is: (1) documented in RULES.md + TOOLS.md, (2) enforced by LaunchAgent configs, (3) monitored by auto-heal, (4) non-overlapping with any other environment.
+
+**Solution applied:**
+1. Port convention formalized: 1xxxx=PROD, 2xxxx=SANDBOX, 3xxxx=SHADOW
+2. Each environment has its own LaunchAgent plist with explicit port
+3. Auto-heal CHECK 18 (orphan detection), CHECK 19 (sandbox liveness), CHECK 20 (shadow liveness)
+4. Forge RULES.md sandbox boundary prevents cross-contamination at file level
+5. RULES.md Port-Per-Environment Isolation as non-negotiable platform rule
+
+**Ken's words:** "one environment per port. we'll do 2xxxx for sandbox and then if we ever need CI mirror shadow, we'll do 3xxxx"
+
+**Linked:** INC-20260608-001, TKT-0333, CHG-0471 (port convention formalization), CHG-0470

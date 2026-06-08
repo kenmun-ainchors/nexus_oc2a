@@ -66,3 +66,13 @@ Add whatever helps you do your job. This is your cheat sheet.
 - **Workaround for lock screen:** RustDesk → unlock OC1 → CRD takes over. Accepted pattern, no further VNC work planned.
 - **Tailscale IP (OC1):** `100.91.60.36`
 - **VNC:** attempted 2026-05-11, abandoned — macOS RFB 003.889 + Tailscale utun4 TCP_NODELAY incompatibility. Not worth the complexity.
+
+## Port Convention (LOCKED 2026-06-08 — Ken Mun)
+| Port | Environment | Purpose |
+|------|------------|---------|
+| 18789 | Production | Main gateway (Nexus platform) |
+| 18791 | Production | Browser control sidecar |
+| 28789 | Sandbox | Isolated Forge/build/infra gateway |
+| 38789 | Shadow | Read-only production mirror for CI/staging validation |
+
+**Rule:** Production = 1xxxx series. Sandbox = 2xxxx series. Shadow = 3xxxx series. Never cross.

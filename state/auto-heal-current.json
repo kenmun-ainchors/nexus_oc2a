@@ -1,6 +1,6 @@
 {
-  "runAt": "2026-06-06T22:00:51Z",
-  "runAtLocal": "2026-06-07 08:00 AEST",
+  "runAt": "2026-06-07T15:00:09Z",
+  "runAtLocal": "2026-06-08 01:00 AEST",
   "duration_ms": 0,
   "checks_run": [
   "auth_profiles",
@@ -24,16 +24,18 @@
 ],
   "checks_count": 18,
   "issues_found": [
+  "backup:stale:47h",
   "config-baseline:stale-baseline"
 ],
-  "issues_count": 1,
+  "issues_count": 2,
   "auto_fixed": [
-  "git-commit:workspace:42-files"
+  "git-commit:workspace:23-files"
 ],
   "auto_fixed_count": 1,
   "needs_ken": [
-  "WARN: Config baseline is 8 days old. Run gateway-config-snapshot.sh to refresh."
+  "Latest incremental backup is 47h old (>30h threshold). Path: /Users/ainchorsangiefpl/Backups/ainchors/workspace-incremental/workspace-2026-06-06-0205",
+  "WARN: Config baseline is 9 days old. Run gateway-config-snapshot.sh to refresh."
 ],
-  "needs_ken_count": 1,
+  "needs_ken_count": 2,
   "exit_status": "complete"
 }

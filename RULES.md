@@ -1863,6 +1863,46 @@ A
 **Linked:** CHG-0421, TKT-0235
 
 
+## Port-Per-Environment Isolation — NON-NEGOTIABLE (CHG-0471)
+# Effective: 2026-06-08
+# Authority: Ken Mun (CTO)
+# Trigger: INC-20260608-001 — sandbox writes caused production gateway crash (30-min SIGTERM loop)
+
+### Rule
+
+**Each environment SHALL use a dedicated, non-overlapping port range.** No environment may share a port with another, even temporarily.
+
+| Port | Environment | Purpose | Network Binding |
+|------|------------|---------|-----------------|
+| 18789 | Production | Main gateway (Nexus platform) | localhost |
+| 18791 | Production | Browser control sidecar | localhost |
+| 28789 | Sandbox | Isolated Forge/build/infra gateway | localhost |
+| 38789 | Shadow | Read-only production mirror for CI/staging validation | localhost |
+
+### Rules
+
+1. **PRODUCTION:** 1xxxx series. Never routed to sandbox. Never shadowed without explicit Ken approval.
+2. **SANDBOX:** 2xxxx series. Forge's only gateway. Never shares config with production. Write-scoped to `workspace-infra/` ONLY.
+3. **SHADOW:** 3xxxx series. Read-only mirror of production config. Used for CI/staging validation. Changes to shadow must not affect production.
+4. **Never cross environments.** A crash in sandbox or shadow MUST NOT take down production.
+
+### Enforcement
+
+- **Auto-heal CHECK 18:** Orphaned gateway process detection (SIGTERM loop guard)
+- **Auto-heal CHECK 19:** Sandbox gateway liveness (port 28789)
+- **Auto-heal CHECK 20:** Shadow gateway liveness (port 38789) — CHG-0471
+- **LaunchAgent isolation:** Sandbox uses `ai.openclaw.sandbox-gateway.plist` (RunAtLoad=false). Production uses separate plist.
+- **RULES.md workspace boundary:** Forge's RULES.md hard-blocks 7 workspace paths under `~/.openclaw/`
+
+### Root Cause (INC-20260608-001)
+
+Forge executed a sandbox `run.sh` that wrote `openclaw.json` to the production profile path. This caused the production gateway to try loading a sandbox config → mismatch → crash → SIGTERM loop. The gateway rebooted ~12 times over 30 minutes before auto-heal killed the orphaned process.
+
+**Lesson:** Logical isolation (different directories) is not sufficient. Port-level isolation prevents one crashed gateway from affecting another, but config-level protection (workspace boundary) is what truly prevents cross-contamination.
+
+**Linked:** INC-20260608-001, L-050, L-051, CHG-0470, CHG-0471, TKT-0332, TKT-0333
+
+
 ## 2-Pass Dispatch Contract (TKT-0321)
 
 You are bound by the platform 2-pass dispatch contract. Ratified 2026-05-27 by Ken Mun. Effective platform-wide.
