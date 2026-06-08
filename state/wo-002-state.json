@@ -1,0 +1,20 @@
+# WO-002 Task State
+# Divergence Harness + Shadow Run — P0 Close-Out
+# Created: 2026-06-08
+# Forge (infra agent) | Validator: Sage (qa agent)
+{
+  "wo_id": "WO-002",
+  "status": "in_progress",
+  "started": "2026-06-08T20:46:00+10:00",
+  "tasks": {
+    "W2-1": {"status": "pending", "title": "Deploy P0 migration to shadow PG"},
+    "W2-2": {"status": "pending", "title": "Smoke invariants on shadow"},
+    "W2-3": {"status": "pending", "title": "Confirm mirror writer running"},
+    "W2-4": {"status": "pending", "title": "Build divergence harness"},
+    "W2-5": {"status": "pending", "title": "Seed status map + allowlist"},
+    "W2-6": {"status": "pending", "title": "Wire reporting"},
+    "W2-7": {"status": "pending", "title": "Daily comparison cycles"},
+    "W2-8": {"status": "pending", "title": "Handle divergence"}
+  },
+  "artifacts": {}
+}
