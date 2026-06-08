@@ -5,6 +5,11 @@
 #   post-restart verification cron (03:05) checks marker + gateway and sends Telegram.
 # Updated 2026-05-19 (CHG-0416) — snapshot sessions before restart to prevent loss
 #   (TKT-0234: May 18 afternoon session transcripts lost when gateway overwrote files)
+# Updated 2026-06-09 (CHG-0474) — guard against dual-bind: check gateway is alive before
+#   restarting. Prevents LaunchAgent + cron from spawning competing instances when
+#   gateway is zombie/unresponsive (e.g. OOM — process alive but GC-crippled).
+#   Root cause: Jun 9 OOM crash → LaunchAgent auto-restarted successfully at 07:29,
+#   then this script's delayed restart fired at 07:36, creating a second instance.
 #
 # Design: this script will be killed by the gateway restart it triggers.
 # The cron will report "interrupted by gateway restart" — that's EXPECTED.
@@ -18,6 +23,30 @@ SESSION_BACKUP_DIR="/Users/ainchorsangiefpl/Backups/ainchors/sessions-pre-restar
 WORKSPACE="/Users/ainchorsangiefpl/.openclaw/workspace"
 
 mkdir -p "$(dirname "$MARKER")" "$(dirname "$LOG")" "$SESSION_BACKUP_DIR"
+
+# ── Step 0a: Lock — prevent concurrent execution ─────────────────────────
+# CHG-0474: If weekly cron (Sun 02:55) and nightly cron (daily 03:00) both fire,
+# the lock prevents a race. First to acquire lock wins; second exits silently.
+LOCKFILE="/tmp/openclaw-restart.lock"
+exec 200>"$LOCKFILE"
+if ! flock -n 200; then
+    echo "[$(date -Iseconds)] ABORTING: Another restart is already in progress (lock held)." | tee -a "$LOG"
+    exit 0
+fi
+
+# ── Step 0b: Guard — only restart if gateway is alive and responsive ────
+# CHG-0474: Prevent dual-bind when LaunchAgent auto-restarts before this delayed cron.
+# Check that gateway PID is healthy (not zombied) and responding on its health endpoint.
+PORT=18789
+HEALTH_URL="http://127.0.0.1:${PORT}/health"
+
+if curl -s --max-time 5 "$HEALTH_URL" > /dev/null 2>&1; then
+    echo "[$(date -Iseconds)] Gateway health check passed. Proceeding with restart..." | tee -a "$LOG"
+else
+    echo "[$(date -Iseconds)] ABORTING: Gateway not responding on port $PORT. " \
+         "Likely already restarted by LaunchAgent or crashed. Nothing to do." | tee -a "$LOG"
+    exit 0
+fi
 
 # ── Step 1: Snapshot all session transcripts before restart ──────────────
 # CHG-0416: Prevents loss from gateway restart overwriting sessions
@@ -68,7 +97,9 @@ echo "[$(date -Iseconds)] Marker written. Restarting gateway..." | tee -a "$LOG"
 # (verify script already checks marker exists + gateway health)
 
 # ── Step 4: Restart (this kills this process) ───────────────────────────
+echo "[$(date -Iseconds)] Gateway confirmed alive at $HEALTH_URL — now restarting..." | tee -a "$LOG"
 openclaw gateway restart 2>&1 | tee -a "$LOG" || true
 
 # We will never reach here. The follow-up cron handles verification.
 echo "[$(date -Iseconds)] WARNING: Script reached post-restart — restart may have been a no-op?" | tee -a "$LOG"
+

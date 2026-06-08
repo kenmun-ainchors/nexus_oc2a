@@ -11,6 +11,19 @@
 ---
 ---
 
+## 2026-06-09 07:47 AEST — [CHG-0474] nightly-gateway-restart.sh: add dual-bind guard (CHG-0474)
+**Type:** infra
+**Change Type:** Normal
+**Source:** incident-recovery
+**Trigger:** Jun 9 OOM crash — PID 73361 zombie blocked restart for 7.5h, LaunchAgent auto-restarted, then delayed cron restart spawned second instance on port 18789 causing IPv4+IPv6 dual bind conflict
+**What changed:** Added Step 0a: flock concurrency lock to prevent weekly (Sun 02:55) and nightly (daily 03:00) crons racing. Added Step 0b: /health endpoint check before attempting restart — exits gracefully if gateway already restarted or crashed.
+**Why:** Prevent dual gateway instances binding same port
+**Verification:** bash -n syntax check PASS; dual-gateway scenario tested logically — lock + health check cover both OOM zombie and cron race cases
+**Rollback:** N/A
+**Linked:** none
+---
+
+
 ## 2026-06-08 22:29 AEST — [CHG-0473] CHG-0473: C1 STALE Definition Drift Corrected — Harness v2.2
 **Type:** config
 **Change Type:** Normal
