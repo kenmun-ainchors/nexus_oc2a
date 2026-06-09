@@ -1,57 +1,55 @@
-# YODA TELEGRAM CONTEXT BRIEF
-Generated: 2026-06-08 20:00 AEST
-
+ # NEXUS PLATFORM CONTEXT BRIEF
 ## 📊 Platform Status
-- **Day Count:** 44 (from 2026-04-25)
-- **Phase:** MVP (OC1-only) $\rightarrow$ P1 (OC2 Transition)
+- **Current Date:** Tuesday, June 9, 2026
+- **Platform Day:** Day 46 (since 2026-04-25)
 - **OpenClaw Version:** v2026.5.27
-- **Current Mode:** CONSERVATIVE MODE (CHG-0349) — No risky state manipulation without Ken approval.
+- **Environment:** OC1 (Production) | Shadow (38789)
 
 ## 👥 Key People
-- **Ken Mun (CTO):** Final Authority. Focus: Tech, Infra, Strategy.
-- **Angie Foong (CEO):** Final Authority. Focus: Business, Brand, Growth.
+- **Ken Mun (CTO):** Primary authority. Emergency: "YODA THIS IS KEN"
+- **Angie Foong (CEO):** Highest authority.
 
 ## 🏗️ Infrastructure
-- **HIVE:** OC1 (Mac Mini M4 24GB) — LIVE Production.
-- **Incoming:** OC2-A/B (M4 Pro 48GB $\times$ 2) — ETA 6–13 Jul 2026.
-- **Connectivity:** Tailscale Mesh (S2 Compliant).
-- **Storage:** MinIO LIVE on OC1.
+- **OC1:** Mac Mini M4 24GB (LIVE Production)
+- **OC2-A/B:** Mac Mini M4 Pro 48GB ×2 (ETA Jul 6–13, 2026)
+- **Networking:** Tailscale mesh, Cloudflare Tunnel
+- **Storage:** MinIO (native macOS binary)
 
-## 🚀 Current Sprint (Sprint 7)
+## 🎯 Current Sprint (S7)
 - **Dates:** 2026-06-08 to 2026-06-14
-- **Status:** Committed
 - **Theme:** Sprint 6 Carries — Close Out
-- **Recent:** Sprint 6 closed (8/8 delivered).
+- **Status:** Committed
+- **Next Sprint (S8):** Platform Constraint Enforcement + PG SSOT Remediation
 
-## ✅ Approved Decisions (Key)
-- **Platform Separation:** OC1 $\rightarrow$ Business Node; OC2-A/B $\rightarrow$ Tech HIVE HA pair. Approved.
-- **Budget:** Monthly cap A$500 $\rightarrow$ $150 USD (effective Jun 1).
+## ✅ Approved Decisions (from MEMORY.md)
+- **Platform Separation:** OC1 repurposed as standalone business node; OC2-A/B as tech HIVE HA pair.
+- **Budget:** Monthly cap A$500 → $150 USD (eff. Jun 1).
 - **Model Strategy:** DeepSeek = permanent primary; kimi = fallback only.
-- **2-Pass Dispatch:** "No executor receives undiscovered work." (TKT-0321-0324).
-- **TQP Gate:** Operational for context retention.
+- **Governance:** 2-Pass Dispatch ("No executor receives undiscovered work") and RVEV Cycle.
+- **C1 Divergence Gate:** 7-day window (Jun 8 → Jun 15) for Shadow PG validation.
 
-## 🎫 Open Tickets (Top Priority)
-1. **TKT-0114:** AInchor–Aevlith partnership (HIGH)
-2. **TKT-0115:** Register Aevlith ASIC (HIGH)
-3. **TKT-0116:** aevlith.ai domain (HIGH)
-4. **TKT-0120:** RustDesk self-hosted OC1 (HIGH)
-5. **TKT-0127:** Agentic Marketing Org Design (HIGH)
-6. **TKT-0130:** QBR Fleet Review (HIGH)
-7. **TKT-0135:** AInchor Sandbox (HIGH)
-8. **TKT-0136:** Consulting Playbook (HIGH)
-9. **TKT-0137:** Policy Register (HIGH)
-10. **TKT-0138:** Business Jumpstart pathway (HIGH)
+## 🎫 Open Tickets (Top 10 Priority)
+- **TKT-0114:** AInchors–Aevlith partnership agreement (HIGH)
+- **TKT-0127:** Agentic Marketing Org Design (HIGH)
+- **TKT-0136:** AInchors Consulting Playbook (HIGH)
+- **TKT-0137:** AInchors Policy Register (HIGH)
+- **TKT-0138:** Business Jumpstart pathway (HIGH)
+- **TKT-0139:** Consulting Product Portfolio (HIGH)
+- **TKT-0141:** CLI-Anything supply chain risk (HIGH)
+- **TKT-0142:** SKILL.md poisoning review (HIGH)
+- **TKT-0169:** Typed Agent Contracts (HIGH)
+- **TKT-0170:** PII Scanner on Document Ingestion Pipeline (HIGH)
 
-## 📱 LinkedIn Queue
-- **Status:** Data unavailable (state/linkedin-queue.json missing).
-- **Rule:** Missed posts $\rightarrow$ push to next slot. Never post late.
+## 📱 Content Queue
+- **LinkedIn Queue:** Active (SSOT: linkedin-campaign.json). Theme: "What AI Agents in Production Actually Look Like". Last posted: LI-W3-P3 (2026-05-22). Current status: Drafts cancelled by Ken; awaiting fresh restart at Sunday planning.
+- **Content Queue:** active.
 
-## 🛰️ Recent Telegram Decisions
-- *No unsynced decisions found in channel-state.json (file missing).*
+## 🔄 Recent Telegram Decisions
+- *No entries with syncedToWebchat=false found in current state files.*
 
 ## ⚠️ Mandatory Rules for Telegram
-1. **Chunking:** Messages > 3,800 chars MUST be split [1/N]. (CHG-0397).
-2. **Async:** Tasks > 30s $\rightarrow$ sessions_spawn. Never block webchat. (CHG-0405).
-3. **Conservative Mode:** NO RISKY STATE MANIPULATION without explicit Ken approval.
-4. **RVEV Cycle:** READ $\rightarrow$ VALIDATE $\rightarrow$ EXECUTE $\rightarrow$ VERIFY for every atom.
-5. **2-Pass Contract:** Discovery first $\rightarrow$ Execution second.
+1. **Telegram Chunking:** All messages > 3,800 chars MUST be split at paragraph boundaries, numbered [1/N], and sent sequentially (CHG-0397).
+2. **Async Background:** Tasks > 30s must use sessions_spawn. Never block webchat (CHG-0405).
+3. **Conservative Mode:** No risky state manipulation without explicit Ken approval (CHG-0349).
+4. **Routing Discipline:** Yoda orchestrates. No specialist work executed directly by the orchestrator (CHG-0297).
+5. **RVEV Cycle:** READ → VALIDATE → EXECUTE → VERIFY for every atom.

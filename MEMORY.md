@@ -33,7 +33,20 @@
 - SOUL.md: hard limit 10,000 (warn 6,000). identity+traits+rules+cadences. Details in [AGENT]_RULES.md. Aria OOM cause (2026-04-30). All agents ✅ compliant 2026-05-08.
 - MEMORY.md: hard limit 15,000 (warn 12,000). TKT-0310/CHG-0454. Archive overflow at 12K, trim to 10K.
 
-## Governance Agents
+#
+## CREST Loop — Cognitive Routing & Execution Sandwich Topology (LOCKED 2026-06-09)
+- **Keyword:** CREST — Ken's reference word for the orchestration execution model
+- **Phases:** Plan (strong) → Execute (cheap) → Verify (strong) → Replan (strong) → Synthesize (cheap) → Done (terminal)
+- **Strong-tier:** Yoda, Atlas, Thrawn — cognitive work (plan, verify, replan). Expensive models.
+- **Cheap-tier:** Forge, infra, specialist executors — mechanical work (execute, synthesize). Efficient models.
+- **Replan Gate:** Critical decision hub. Gap found → iterate back to Execute (n++). Stop met → advance to Synthesize.
+- **Routing:** Yoda plans typed DAG → queues atoms via TQP → cheap-tier executes → Yoda binary-judges 0–1 per atom → Replan → Synthesize → Done emits audit.
+- **Cross-strong-tier:** Yoda ↔ Atlas/Thrawn coordination deferred to design stage.
+- **Adoption:** Discipline-process now, structural-process later (TKT-0368 monitoring phase).
+- **Sprint 7:** TKT-0340+ all use CREST. Previous items (TKT-0339 and earlier) used direct dispatch.
+- **Reference:** docs/CREST-v1.0.md (to be created at structural phase)
+
+# Governance Agents
 - **Shield🛡️/Lex⚖️/Sage🧪** — Haiku (CHG-0230). Move to Gemma4 at TRIGGER-03.
 - **Warden 🔍** Model Compliance, 15-min cron:83accf7b. State: model-drift-state.json/violations.json. Escalation → warden-escalation-pending.json → Yoda.
 

@@ -1,0 +1,13 @@
+{
+  "suite": "Platform Constraint Enforcement",
+  "suiteId": "platform-constraint",
+  "date": "2026-06-09",
+  "timestamp": "2026-06-09T07:57:49Z",
+  "totalTests": 3,
+  "passed": 3,
+  "failed": 0,
+  "skipped": 0,
+  "passRate": 100,
+  "go": true,
+  "phases": [{"phase":"1","passed":1,"failed":0,"skipped":0,"tests":[{"id":"tilde-normalization-p1","result":"PASS","duration_ms":31}]},{"phase":"2","passed":1,"failed":0,"skipped":0,"tests":[{"id":"context-budget-p2","result":"PASS","duration_ms":144}]},{"phase":"3","passed":1,"failed":0,"skipped":0,"tests":[{"id":"file-size-p3","result":"PASS","duration_ms":97}]}]
+}

@@ -84,6 +84,8 @@ check_one() {
 # --- Main ---
 MODE="check"
 TARGET=""
+ENFORCE=false
+DRY_RUN=false
 
 while [[ $# -gt 0 ]]; do
   case "$1" in
@@ -91,6 +93,8 @@ while [[ $# -gt 0 ]]; do
     --all)   MODE="all"; shift ;;
     --root)  MODE="root"; shift ;;
     --json)  MODE="json"; shift ;;
+    --enforce) ENFORCE=true; shift ;;
+    --dry-run) DRY_RUN=true; shift ;;
     -*) echo "Unknown: $1"; exit 1 ;;
     *) TARGET="$1"; shift ;;
   esac
@@ -124,6 +128,24 @@ elif [[ "$MODE" == "all" ]]; then
     [[ $rc -gt $worst ]] && worst=$rc
   done
   echo ""
+  # ENFORCE/DRY-RUN logic
+  if [[ "$ENFORCE" == "true" ]]; then
+    if [[ "$DRY_RUN" == "true" ]]; then
+      echo ""
+      echo "ENFORCE: Dry-run mode — violations LOGGED but NOT blocked."
+      if [[ $worst -eq 2 ]]; then
+        echo "DRY-RUN: Would BLOCK oversized file(s) if enforcement was live."
+      elif [[ $worst -eq 1 ]]; then
+        echo "DRY-RUN: Would WARN on files approaching limits if enforcement was live."
+      fi
+      exit 0
+    else
+      # Real enforce mode: exit non-zero to block
+      echo ""
+      echo "ENFORCE: Active enforcement — oversized files BLOCKED."
+      exit $worst
+    fi
+  fi
   case $worst in
     0) echo "VERDICT: All files within limits ✅";;
     1) echo "VERDICT: Warnings — files approaching limits ⚠️";;
@@ -176,6 +198,23 @@ elif [[ "$MODE" == "root" ]]; then
   if (( total_root_md > ROOT_MD_CAP )); then
     echo "BLOCKED: Injectable root .md total exceeds ${ROOT_MD_CAP} cap ❌"
     rc=2
+  fi
+  # ENFORCE/DRY-RUN logic for root mode
+  if [[ "$ENFORCE" == "true" ]]; then
+    if [[ "$DRY_RUN" == "true" ]]; then
+      echo ""
+      echo "ENFORCE: Dry-run mode — violations LOGGED but NOT blocked."
+      if [[ $rc -eq 2 ]]; then
+        echo "DRY-RUN: Would BLOCK oversize root .md cap if enforcement was live."
+      elif [[ $rc -eq 1 ]]; then
+        echo "DRY-RUN: Would WARN on untracked files if enforcement was live."
+      fi
+      exit 0
+    else
+      echo ""
+      echo "ENFORCE: Active enforcement — root .md cap enforced."
+      exit $rc
+    fi
   fi
   exit $rc
 elif [[ "$MODE" == "json" ]]; then

@@ -19,6 +19,19 @@ CHANGELOG_HELPER="$WORKSPACE/scripts/changelog-append.sh"
 
 mkdir -p "$STATE_DIR"
 
+# --- ARGUMENT PARSING (TKT-0340 A1: --enforce framework) ---
+ENFORCE_MODE=false
+DRY_RUN=false
+
+for arg in "$@"; do
+  case "$arg" in
+    --enforce) ENFORCE_MODE=true ;;
+    --dry-run) DRY_RUN=true ;;
+  esac
+done
+
+export ENFORCE_MODE DRY_RUN
+
 # State arrays
 typeset -a CHECKS_RUN
 typeset -a ISSUES_FOUND
@@ -59,6 +72,56 @@ EOF
 # Trap for unexpected exits (crashes/timeouts)
 trap 'log "CRASH DETECTED: Trap triggered. Finalizing partial report..."; write_state "crashed"; exit 1' ERR SIGINT SIGTERM
 
+# --- DRY-RUN SAFETY: 24h grace period before real enforcement (TKT-0340 A1) ---
+# Must be AFTER log() is defined but BEFORE any CHECKs run
+ENFORCE_DRY_RUN=false
+if [[ "$ENFORCE_MODE" == "true" ]]; then
+  GRACE_FILE="$STATE_DIR/enforce-dry-run-until.json"
+  NOW_EPOCH=$(date +%s)
+
+  if [[ -f "$GRACE_FILE" ]]; then
+    GRACE_EXPIRES=$(jq -r '.enforceAfterEpoch // 0' "$GRACE_FILE" 2>/dev/null || echo 0)
+    if (( NOW_EPOCH >= GRACE_EXPIRES )); then
+      log "ENFORCE: Dry-run grace period EXPIRED. Real enforcement ACTIVE."
+      ENFORCE_DRY_RUN=false
+    else
+      REMAINING=$(( (GRACE_EXPIRES - NOW_EPOCH) / 3600 ))
+      log "ENFORCE: Dry-run grace period active (~${REMAINING}h remaining). Will LOG only, no blocking."
+      ENFORCE_DRY_RUN=true
+    fi
+  else
+    # First --enforce invocation: seed the 24h grace period
+    GRACE_EXPIRES=$((NOW_EPOCH + 86400))
+    GRACE_EXPIRES_ISO=$(python3 -c "import datetime; print(datetime.datetime.utcfromtimestamp($GRACE_EXPIRES).strftime('%Y-%m-%dT%H:%M:%SZ'))" 2>/dev/null || echo "unknown")
+    mkdir -p "$STATE_DIR"
+    cat > "$GRACE_FILE" <<EOGRACE
+{
+  "seededAt": "$NOW",
+  "enforceAfterEpoch": $GRACE_EXPIRES,
+  "enforceAfterISO": "$GRACE_EXPIRES_ISO",
+  "note": "Enforcement blocked until this timestamp. Delete this file to bypass grace period."
+}
+EOGRACE
+    log "ENFORCE: First --enforce invocation. Seeded 24h dry-run grace period (expires $GRACE_EXPIRES_ISO)."
+    ENFORCE_DRY_RUN=true
+  fi
+fi
+
+# --dry-run flag overrides: force dry-run regardless
+if [[ "$DRY_RUN" == "true" ]]; then
+  ENFORCE_DRY_RUN=true
+  log "DRY-RUN: --dry-run flag set. Enforcement is simulated only (no blocking)."
+fi
+
+# --- ENFORCE MODE ANNOUNCEMENT ---
+if [[ "$ENFORCE_MODE" == "true" ]]; then
+  if [[ "$ENFORCE_DRY_RUN" == "true" ]]; then
+    log "ENFORCE MODE: ON (dry-run — logging only, no blocking)"
+  else
+    log "ENFORCE MODE: ON (live — will actively block/reject violations)"
+  fi
+fi
+
 log "=== AUTO-HEAL START $NOW_LOCAL ==="
 
 # ---------- CHECK 1: Auth profiles + delegated tokens ----------
@@ -88,7 +151,16 @@ log "CHECK 1a: delegated gog auth tokens"
 CHECKS_RUN+=("delegated_auth")
 DELEG_AUTH_SCRIPT="$WORKSPACE/scripts/check-delegated-auth.sh"
 if [[ -x "$DELEG_AUTH_SCRIPT" ]]; then
-  zsh "$DELEG_AUTH_SCRIPT" --json >> "$LOG" 2>&1
+  # TKT-0340 A1: Pass --enforce when ENFORCE_MODE is true
+  DELEG_ARGS="--json"
+  if [[ "$ENFORCE_MODE" == "true" ]]; then
+    if [[ "$ENFORCE_DRY_RUN" == "true" ]]; then
+      DELEG_ARGS="$DELEG_ARGS --enforce --dry-run"
+    else
+      DELEG_ARGS="$DELEG_ARGS --enforce"
+    fi
+  fi
+  zsh "$DELEG_AUTH_SCRIPT" $=DELEG_ARGS >> "$LOG" 2>&1
   DELEG_EXIT=$?
   if [[ $DELEG_EXIT -eq 1 ]]; then
     ISSUES_FOUND+=("delegated-auth:expired")
@@ -378,7 +450,16 @@ write_state
 CHECKS_RUN+=("agent_identity")
 IDENTITY_AUDIT="$WORKSPACE/scripts/agent-identity-audit.sh"
 if [[ -x "$IDENTITY_AUDIT" ]]; then
-  if bash "$IDENTITY_AUDIT" >> "$LOG" 2>&1; then
+  # TKT-0340 A1: Pass --enforce when ENFORCE_MODE is true
+  AUDIT_ARGS=""
+  if [[ "$ENFORCE_MODE" == "true" ]]; then
+    if [[ "$ENFORCE_DRY_RUN" == "true" ]]; then
+      AUDIT_ARGS="--enforce --dry-run"
+    else
+      AUDIT_ARGS="--enforce"
+    fi
+  fi
+  if bash "$IDENTITY_AUDIT" $=AUDIT_ARGS >> "$LOG" 2>&1; then
     log "  OK agent-identity: all agents have commissioned SOUL.md"
   else
     ISSUES_FOUND+=("agent-identity:vanilla-soul-detected")
@@ -392,7 +473,16 @@ else
 fi
 # ---------- CHECK 14: Agent RULES.md presence (TKT-0307) ----------
 log "CHECK 14: agent RULES.md audit"
-if zsh "$WORKSPACE/scripts/agent-rules-audit.sh" >> "$LOG" 2>&1; then
+# TKT-0340 A1: Pass --enforce when ENFORCE_MODE is true
+RULES_ARGS=""
+if [[ "$ENFORCE_MODE" == "true" ]]; then
+  if [[ "$ENFORCE_DRY_RUN" == "true" ]]; then
+    RULES_ARGS="--enforce --dry-run"
+  else
+    RULES_ARGS="--enforce"
+  fi
+fi
+if zsh "$WORKSPACE/scripts/agent-rules-audit.sh" $=RULES_ARGS >> "$LOG" 2>&1; then
   log "  OK: All agents have RULES.md"
 else
   log "  X: Agents missing RULES.md — see state/agent-rules-audit.json"
@@ -584,16 +674,25 @@ else
   log "  INFO: Shadow gateway not running on port $SHADOW_PORT — expected unless shadow is actively deployed"
   # Shadow is optional — not an issue if not running. Only flag if deployed but crashed.
 fi
-# ---------- CHECK 20: Tilde Path in Cron Payloads (TKT-0336) ----------
-log "CHECK 20: tilde paths in cron payloads"
+# ---------- CHECK 20: Tilde Path Enforcement (TKT-0336, TKT-0340 A2) ----------
+log "CHECK 20: tilde path enforcement via safe-path.sh"
+CHECKS_RUN+=("tilde_path_enforcement")
 
-# Scan all active cron jobs' payloads for ~ tilde patterns
-# This detects if any agent/cron is using ~ in tool call paths
-TILDE_FOUND=0
-CRON_JOBS=$(/opt/homebrew/bin/openclaw cron list --json 2>/dev/null || echo '[]')
+SAFE_PATH_SCRIPT="$WORKSPACE/scripts/safe-path.sh"
+if [[ ! -x "$SAFE_PATH_SCRIPT" ]]; then
+  ISSUES_FOUND+=("tilde-path:safe-path-script-missing")
+  NEEDS_KEN+=("CRITICAL: safe-path.sh not found or not executable — cannot enforce tilde path policy")
+  log "  X: safe-path.sh missing — tilde enforcement disabled"
+  write_state
+else
+  # Scan all active cron jobs' payloads for ~ tilde patterns
+  TILDE_FOUND=0
+  TILDE_BLOCKED=0
+  TILDE_DRY_RUN_BLOCKED=0
+  CRON_JOBS=$(/opt/homebrew/bin/openclaw cron list --json 2>/dev/null || echo '[]')
 
-# Extract payload text fields and check for tilde patterns
-TILDE_PATTERNS=$(echo "$CRON_JOBS" | python3 -c "
+  # Extract payload text fields and check for tilde patterns
+  TILDE_PATTERNS=$(echo "$CRON_JOBS" | python3 -c "
 import json, sys
 try:
     data = json.load(sys.stdin)
@@ -604,57 +703,489 @@ if isinstance(data, list):
     for job in data:
         payload = job.get('payload', {})
         text = payload.get('text', '') + payload.get('message', '')
-        if '~/' in text or '~\\\\/' in text:
-            print(f\"CRON: {job.get('name','?')} ({job.get('id','?')[:8]}) — tilde in payload\")
+        if '~/' in text or '~\\\\\\\\/' in text:
+            print(f\"CRON:{job.get('name','?')}:{job.get('id','?')[:8]}:tilde_in_payload\")
 " 2>&1)
 
-if [[ -n "$TILDE_PATTERNS" ]]; then
-  echo "$TILDE_PATTERNS" | while read line; do
-    issues+="\n  ⚠️ [$line]"
-    TILDE_FOUND=$((TILDE_FOUND+1))
-  done
-  log "  WARNING: $TILDE_FOUND cron payload(s) contain tilde paths"
-else
-  log "  OK: no tilde paths in cron payloads"
-fi
+  if [[ -n "$TILDE_PATTERNS" ]]; then
+    echo "$TILDE_PATTERNS" | while IFS=: read -r source name id detail; do
+      [[ -z "$source" ]] && continue
+      TILDE_FOUND=$((TILDE_FOUND+1))
+      ISSUES_FOUND+=("tilde-path:cron:${name}:${id}")
 
-# Also check common agent config files for tilde in path references
-if grep -rq '~/' "$WORKSPACE/state/" --include='*.json' 2>/dev/null; then
-  tilde_files=$(grep -rl '~/' "$WORKSPACE/state/" --include='*.json' 2>/dev/null | head -5 | tr '\n' ' ')
-  issues+="\n  ⚠️ Tilde in state files: $tilde_files"
-  TILDE_FOUND=$((TILDE_FOUND+1))
-  log "  WARNING: tilde paths found in state JSON files"
-fi
+      # Extract the specific tilde paths from the payload for enforcement
+      tilde_paths=$(echo "$CRON_JOBS" | python3 -c "
+import json, sys, re
+try:
+    data = json.load(sys.stdin)
+    for job in data:
+        if job.get('id','')[:8] == '${id}':
+            payload = job.get('payload', {})
+            text = payload.get('text', '') + payload.get('message', '')
+            for match in re.finditer(r'~/\\S+', text):
+                print(match.group(0))
+except: pass
+" 2>/dev/null)
 
-if (( TILDE_FOUND > 0 )); then
-  needs_ken+="\n  [TKT-0336] Tilde paths detected in $TILDE_FOUND location(s) — review crons and state files"
-else
-  log "  OK: no tilde paths anywhere"
+      # ENFORCE: Call safe-path.sh --enforce for each detected tilde path
+      if [[ "$ENFORCE_MODE" == "true" ]]; then
+        while IFS= read -r tp; do
+          [[ -z "$tp" ]] && continue
+          if [[ "$ENFORCE_DRY_RUN" == "true" ]]; then
+            ENFORCE_OUT=$(zsh "$SAFE_PATH_SCRIPT" --enforce --dry-run "$tp" 2>&1) || true
+            log "  ENFORCE(dry-run): $ENFORCE_OUT"
+            TILDE_DRY_RUN_BLOCKED=$((TILDE_DRY_RUN_BLOCKED+1))
+          else
+            ENFORCE_OUT=$(zsh "$SAFE_PATH_SCRIPT" --enforce "$tp" 2>&1) || true
+            ENFORCE_RC=$?
+            if [[ $ENFORCE_RC -ne 0 ]]; then
+              log "  ENFORCE: BLOCKED tilde path: $tp"
+              TILDE_BLOCKED=$((TILDE_BLOCKED+1))
+            fi
+          fi
+        done <<< "$tilde_paths"
+      else
+        log "  WARNING: cron '${name}' (${id}) has tilde path in payload (ENFORCE_MODE off — scan only)"
+      fi
+    done
+  fi
+
+  # Also check state JSON files for tilde path references
+  if grep -rq '~/' "$WORKSPACE/state/" --include='*.json' 2>/dev/null; then
+    tilde_files=$(grep -rl '~/' "$WORKSPACE/state/" --include='*.json' 2>/dev/null | head -5)
+    while IFS= read -r tf; do
+      [[ -z "$tf" ]] && continue
+      TILDE_FOUND=$((TILDE_FOUND+1))
+      ISSUES_FOUND+=("tilde-path:state-file:$(basename "$tf")")
+
+      # Extract tilde paths from each file
+      tilde_paths_in_file=$(grep -oE '~/?[^"'"'"' ]+' "$tf" 2>/dev/null | head -5)
+
+      if [[ "$ENFORCE_MODE" == "true" ]]; then
+        while IFS= read -r tp; do
+          [[ -z "$tp" ]] && continue
+          if [[ "$ENFORCE_DRY_RUN" == "true" ]]; then
+            ENFORCE_OUT=$(zsh "$SAFE_PATH_SCRIPT" --enforce --dry-run "$tp" 2>&1) || true
+            log "  ENFORCE(dry-run): $ENFORCE_OUT (in $(basename "$tf"))"
+            TILDE_DRY_RUN_BLOCKED=$((TILDE_DRY_RUN_BLOCKED+1))
+          else
+            ENFORCE_OUT=$(zsh "$SAFE_PATH_SCRIPT" --enforce "$tp" 2>&1) || true
+            ENFORCE_RC=$?
+            if [[ $ENFORCE_RC -ne 0 ]]; then
+              log "  ENFORCE: BLOCKED tilde path '$tp' in $(basename "$tf")"
+              TILDE_BLOCKED=$((TILDE_BLOCKED+1))
+            fi
+          fi
+        done <<< "$tilde_paths_in_file"
+      else
+        log "  WARNING: tilde path in state file: $(basename "$tf") (ENFORCE_MODE off — scan only)"
+      fi
+    done <<< "$tilde_files"
+  fi
+
+  # Summary
+  if (( TILDE_FOUND > 0 )); then
+    if [[ "$ENFORCE_MODE" == "true" ]]; then
+      if [[ "$ENFORCE_DRY_RUN" == "true" ]]; then
+        log "  X: $TILDE_FOUND tilde path violations detected — ${TILDE_DRY_RUN_BLOCKED} WOULD be blocked (dry-run)"
+        NEEDS_KEN+=("TKT-0336/TKT-0340: $TILDE_FOUND tilde path violations found. ENFORCE dry-run: ${TILDE_DRY_RUN_BLOCKED} would be blocked. Run without --dry-run to enforce.")
+      else
+        log "  X: $TILDE_FOUND tilde path violations — $TILDE_BLOCKED blocked by safe-path.sh --enforce"
+        AUTO_FIXED+=("tilde-path-enforcement:blocked-${TILDE_BLOCKED}")
+        if (( TILDE_BLOCKED < TILDE_FOUND )); then
+          NEEDS_KEN+=("TKT-0336/TKT-0340: $TILDE_FOUND tilde violations found, only $TILDE_BLOCKED blocked. $(($TILDE_FOUND - $TILDE_BLOCKED)) items could not be enforced — manual review needed.")
+        fi
+      fi
+    else
+      log "  X: $TILDE_FOUND tilde path violations detected (ENFORCE_MODE off — not blocking)"
+      NEEDS_KEN+=("TKT-0336: $TILDE_FOUND tilde path violations detected in cron payloads or state files. Run with --enforce to block.")
+    fi
+  else
+    log "  OK: no tilde paths detected in cron payloads or state files"
+  fi
 fi
 
 write_state
 
-# ---------- CHECK 21: Workspace File Contract Audit (TKT-0341) ----------
-log "CHECK 21: workspace file contract audit"
+# ---------- CHECK 21: Workspace File Contract / File Size Guard Audit (TKT-0341, TKT-0340 A3) ----------
+log "CHECK 21: workspace file contract + size guard audit"
+CHECKS_RUN+=("file_contract_size_guard")
 if [[ -x "$WORKSPACE/scripts/file-size-guard.sh" ]]; then
-  ROOT_OUTPUT=$("$WORKSPACE/scripts/file-size-guard.sh" --root 2>&1) || true
+  # TKT-0340 A3: Pass --enforce when ENFORCE_MODE is true
+  GUARD_ARGS="--root"
+  if [[ "$ENFORCE_MODE" == "true" ]]; then
+    if [[ "$ENFORCE_DRY_RUN" == "true" ]]; then
+      GUARD_ARGS="$GUARD_ARGS --enforce --dry-run"
+    else
+      GUARD_ARGS="$GUARD_ARGS --enforce"
+    fi
+  fi
+  
+  # Capture full output for logging (always run, even with || true)
+  ROOT_OUTPUT=$("$WORKSPACE/scripts/file-size-guard.sh" $=GUARD_ARGS 2>&1) || true
   ROOT_RC=$?
-  if [[ "$ROOT_OUTPUT" == *"UNTRACKED FILES"* ]]; then
-    _untracked=$(echo "$ROOT_OUTPUT" | grep "UNTRACKED FILES:" | sed 's/.*UNTRACKED FILES: //')
-    issues+="\n  [TKT-0341] Untracked .md files in workspace root: $_untracked"
-    needs_ken+="\n  [TKT-0341] Untracked .md files in root — move to docs/archive/agents or register contract"
-    log "  WARNING: untracked files: $_untracked"
-  elif [[ $ROOT_RC -eq 2 ]]; then
-    needs_ken+="\n  [TKT-0341] Workspace root .md total exceeds 60K cap — trim injected files"
-    log "  WARNING: root .md cap exceeded"
+  
+  # Log the full guard output to the auto-heal log
+  echo "$ROOT_OUTPUT" >> "$LOG"
+  
+  if [[ "$ENFORCE_MODE" == "true" && "$ENFORCE_DRY_RUN" == "true" ]]; then
+    # Dry-run enforcement: file-size-guard.sh exits 0, we check output for violations
+    if [[ "$ROOT_OUTPUT" == *"DRY-RUN: Would BLOCK"* ]]; then
+      log "  ENFORCE(dry-run): WOULD block oversized root .md files — logging only"
+      ISSUES_FOUND+=("file-size-guard:would-block")
+      AUTO_FIXED+=("file-size-guard:dry-run-blocked")
+    fi
+    if [[ "$ROOT_OUTPUT" == *"UNTRACKED FILES"* ]]; then
+      _untracked=$(echo "$ROOT_OUTPUT" | grep "UNTRACKED FILES:" | sed 's/.*UNTRACKED FILES: //')
+      log "  ENFORCE(dry-run): Untracked .md files detected: $_untracked"
+      ISSUES_FOUND+=("file-size-guard:untracked-files")
+      NEEDS_KEN+=("TKT-0341: Untracked .md files in workspace root: $_untracked — move to docs/archive/ or register contract")
+    else
+      log "  ENFORCE(dry-run): No violations logged"
+    fi
+  elif [[ "$ENFORCE_MODE" == "true" ]]; then
+    # Real enforcement: file-size-guard.sh exits non-zero on violations (blocking)
+    if [[ $ROOT_RC -eq 2 ]]; then
+      log "  ENFORCE: Oversized root .md files BLOCKED (exit code 2)"
+      ISSUES_FOUND+=("file-size-guard:blocked")
+      AUTO_FIXED+=("file-size-guard:enforce-blocked")
+    elif [[ $ROOT_RC -eq 1 ]]; then
+      log "  ENFORCE: File size warnings (exit code 1)"
+    fi
+    if [[ "$ROOT_OUTPUT" == *"UNTRACKED FILES"* ]]; then
+      _untracked=$(echo "$ROOT_OUTPUT" | grep "UNTRACKED FILES:" | sed 's/.*UNTRACKED FILES: //')
+      log "  ENFORCE: Untracked .md files detected: $_untracked"
+      ISSUES_FOUND+=("file-size-guard:untracked-files")
+      NEEDS_KEN+=("TKT-0341: Untracked .md files in workspace root: $_untracked — move to docs/archive/ or register contract")
+    fi
   else
-    log "  OK: all root .md files tracked and within limits"
+    # Passive/check-only mode
+    if [[ "$ROOT_OUTPUT" == *"UNTRACKED FILES"* ]]; then
+      _untracked=$(echo "$ROOT_OUTPUT" | grep "UNTRACKED FILES:" | sed 's/.*UNTRACKED FILES: //')
+      log "  WARNING: untracked files: $_untracked"
+      ISSUES_FOUND+=("file-size-guard:untracked-files")
+      NEEDS_KEN+=("TKT-0341: Untracked .md files in workspace root: $_untracked — move to docs/archive/ or register contract")
+    elif [[ $ROOT_RC -eq 2 ]]; then
+      log "  WARNING: root .md cap exceeded"
+      ISSUES_FOUND+=("file-size-guard:cap-exceeded")
+      NEEDS_KEN+=("TKT-0341: Workspace root .md total exceeds 60K cap — trim injected files")
+    else
+      log "  OK: all root .md files tracked and within limits"
+    fi
   fi
 else
   log "  SKIP: file-size-guard.sh not found"
 fi
 
 write_state "complete"
+
+
+# ---------- CHECK 22: Cron Timeout Baseline Audit (TKT-0339 / TKT-0340 A4) ----------
+# Scaler is FLAG/RECOMMEND ONLY (per Ken decision TKT-0339).
+# Enforcement means the ALERT is escalated — timeouts are NEVER auto-applied.
+# ENFORCE_MODE=true + drift deviations → blocking alert (state/cron-drift-alert.json + exit non-zero).
+# ENFORCE_DRY_RUN=true → log drift but don't escalate/block.
+log "CHECK 22: cron timeout baseline audit"
+CHECKS_RUN+=("cron_timeout_baseline")
+
+declare -a CRON_DRIFT_ITEMS=()
+CHECK22_EXIT=0
+
+BASELINE_FILE="$STATE_DIR/cron-timeout-baseline.json"
+if [[ -f "$BASELINE_FILE" ]]; then
+  TIMEOUT_ALERTS=$(python3 - "$BASELINE_FILE" << 'PYEOF'
+import json, sys
+with open(sys.argv[1]) as f:
+    b = json.load(f)
+alerts = []
+for r in b['crons']:
+    rec = r.get('recommendation', '')
+    if rec == 'SET':
+        alerts.append('SET:' + r['cronId'] + ':' + str(r['computedTimeoutSec']) + 's:' + r['name'][:40])
+    elif rec == 'INCREASE':
+        alerts.append('INCREASE:' + r['cronId'] + ':' + str(r['currentTimeoutSec']) + 's->' + str(r['computedTimeoutSec']) + 's:' + r['name'][:40])
+    elif rec == 'DECREASE':
+        alerts.append('DECREASE:' + r['cronId'] + ':' + str(r['currentTimeoutSec']) + 's->' + str(r['computedTimeoutSec']) + 's:' + r['name'][:40])
+print('TOTAL_RECOMMENDATIONS:' + str(len(alerts)))
+for a in alerts:
+    print(a)
+PYEOF
+)
+
+  REC_COUNT=$(echo "$TIMEOUT_ALERTS" | grep 'TOTAL_RECOMMENDATIONS:' | cut -d: -f2)
+  SET_COUNT=$(echo "$TIMEOUT_ALERTS" | grep -c '^SET:' || true)
+  INC_COUNT=$(echo "$TIMEOUT_ALERTS" | grep -c '^INCREASE:' || true)
+  DEC_COUNT=$(echo "$TIMEOUT_ALERTS" | grep -c '^DECREASE:' || true)
+
+  if [[ -n "$REC_COUNT" && "$REC_COUNT" -gt 0 ]]; then
+    ISSUES_FOUND+=("cron-timeout:${REC_COUNT}-recommendations")
+
+    # --- Build drift detail items (for alert JSON and logging) ---
+    while IFS= read -r line; do
+      [[ "$line" == SET:* || "$line" == INCREASE:* || "$line" == DECREASE:* ]] && CRON_DRIFT_ITEMS+=("$line")
+    done <<< "$TIMEOUT_ALERTS"
+
+    # --- Scaler: FLAG/RECOMMEND ONLY (never auto-apply timeouts) ---
+    # Even in enforce mode, the scaler only FLAGS. Enforcement escalates the alert.
+    CRON_FLAG_MSG="TKT-0339: ${REC_COUNT} cron timeout recommendation(s) in baseline — SCALER FLAG ONLY (CONSERVATIVE MODE"
+    if [[ "$SET_COUNT" -gt 0 ]]; then
+      CRON_FLAG_MSG="${CRON_FLAG_MSG}: ${SET_COUNT} SET"
+    fi
+    if [[ "$INC_COUNT" -gt 0 ]]; then
+      CRON_FLAG_MSG="${CRON_FLAG_MSG}, ${INC_COUNT} INCREASE"
+    fi
+    if [[ "$DEC_COUNT" -gt 0 ]]; then
+      CRON_FLAG_MSG="${CRON_FLAG_MSG}, ${DEC_COUNT} DECREASE"
+    fi
+    CRON_FLAG_MSG="${CRON_FLAG_MSG}). Manual review before any timeout changes. Baseline: ${BASELINE_FILE}"
+    NEEDS_KEN+=("$CRON_FLAG_MSG")
+
+    # --- Enforcement: alert escalation (TKT-0340 A4) ---
+    if [[ "$ENFORCE_MODE" == "true" ]]; then
+      if [[ "$ENFORCE_DRY_RUN" == "true" ]]; then
+        log "  ENFORCE(dry-run): WOULD escalate drift alert for ${REC_COUNT} cron timeout deviations — not blocking"
+        log "  ENFORCE(dry-run): drift items: ${SET_COUNT} SET, ${INC_COUNT} INCREASE, ${DEC_COUNT} DECREASE"
+      else
+        # Real enforcement: write blocking alert JSON, mark CHECK22 non-zero exit
+        log "  ENFORCE: Cron timeout drift detected — escalating as BLOCKING alert"
+        CRON_DRIFT_ALERT="$STATE_DIR/cron-drift-alert.json"
+        # Build drift items for JSON (one per line, shell-safe)
+        # Write drift alert via python (stdin carries drift items)
+        printf '%s\n' "${CRON_DRIFT_ITEMS[@]:-}" | python3 - "$CRON_DRIFT_ALERT" "$NOW" "$NOW_LOCAL" "$REC_COUNT" "$SET_COUNT" "$INC_COUNT" "$DEC_COUNT" <<'PYEOF'
+import json, sys, datetime
+alert_file = sys.argv[1]
+now = sys.argv[2]
+now_local = sys.argv[3]
+rec_count = int(sys.argv[4])
+set_count = int(sys.argv[5])
+inc_count = int(sys.argv[6])
+dec_count = int(sys.argv[7])
+drift_items = [l.strip() for l in sys.stdin if l.strip()]
+
+alert = {
+    "alertId": "cron-drift-" + datetime.datetime.utcnow().strftime("%Y%m%dT%H%M%SZ"),
+    "severity": "BLOCKING",
+    "source": "CHECK22-cron-timeout-baseline",
+    "ticket": "TKT-0340-A4",
+    "runAt": now,
+    "runAtLocal": now_local,
+    "enforceMode": True,
+    "summary": f"{rec_count} cron timeout drift deviations detected",
+    "breakdown": {"SET": set_count, "INCREASE": inc_count, "DECREASE": dec_count},
+    "driftItems": drift_items,
+    "resolution": "SCALER FLAG ONLY — manual review required before any timeout changes. See cron-timeout-baseline.json for recommendations.",
+    "action": "Review baseline recommendations and apply timeout changes via manual process (NOT auto-applied)."
+}
+with open(alert_file, 'w') as f:
+    json.dump(alert, f, indent=2)
+PYEOF
+        NEEDS_KEN+=("TKT-0340-A4: BLOCKING — ${REC_COUNT} cron timeout drift deviations (${SET_COUNT} SET, ${INC_COUNT} INCREASE, ${DEC_COUNT} DECREASE). Alert written to ${CRON_DRIFT_ALERT}. Manual review required.")
+        CHECK22_EXIT=1
+        log "  ENFORCE: Drift alert written to $CRON_DRIFT_ALERT (CHECK 22 will exit non-zero)"
+      fi
+    fi
+
+    log "  X: $REC_COUNT cron timeout recommendations ($SET_COUNT SET, $INC_COUNT INCREASE, $DEC_COUNT DECREASE)"
+  else
+    # No drift — clear any stale alert
+    CRON_DRIFT_ALERT="$STATE_DIR/cron-drift-alert.json"
+    [[ -f "$CRON_DRIFT_ALERT" ]] && rm -f "$CRON_DRIFT_ALERT" && log "  OK: Cleared stale cron-drift-alert.json"
+    log "  OK: All cron timeouts within recommended range"
+  fi
+else
+  log "  SKIP: cron-timeout-baseline.json not found — run cron-timeout-scaler.sh first"
+fi
+
+write_state
+
+
+# ---------- CHECK 23: Context Injection Budget Audit (TKT-0340 A5) ----------
+# Daily audit of bootstrap injection levels against model context window.
+# Runs context-budget.sh --check to scan current injection budget status.
+# ENFORCE_MODE=true: if any injection exceeds 80% warn threshold, escalate as blocking alert.
+# ENFORCE_DRY_RUN=true: log warnings but don't block.
+log "CHECK 23: context injection budget audit"
+CHECKS_RUN+=("context_budget")
+
+# Context budget thresholds (match context-budget.sh defaults)
+CB_WARN_PCT=80
+CB_BLOCK_PCT=95
+
+CONTEXT_BUDGET_SCRIPT="$WORKSPACE/scripts/context-budget.sh"
+CONTEXT_SUMMARIZE="$WORKSPACE/scripts/context-summarize.sh"
+if [[ -x "$CONTEXT_BUDGET_SCRIPT" ]]; then
+  # Run context-budget.sh --check to get injection budget status
+  BUDGET_OUTPUT=$(zsh "$CONTEXT_BUDGET_SCRIPT" --check 2>&1) || true
+  BUDGET_RC=${PIPESTATUS[0]:-$?}
+  echo "$BUDGET_OUTPUT" >> "$LOG"
+
+  # Also capture JSON output for detailed reporting
+  BUDGET_JSON=$(zsh "$CONTEXT_BUDGET_SCRIPT" --json 2>/dev/null || echo '{}')
+
+  # Extract key metrics from JSON
+  BUDGET_STATUS=$(echo "$BUDGET_JSON" | jq -r '.status // "UNKNOWN"' 2>/dev/null)
+  BUDGET_TOKENS=$(echo "$BUDGET_JSON" | jq -r '.totalTokens // 0' 2>/dev/null)
+  BUDGET_PCT=$(echo "$BUDGET_JSON" | jq -r '.usagePercent // 0' 2>/dev/null)
+  BUDGET_WINDOW=$(echo "$BUDGET_JSON" | jq -r '.window // 0' 2>/dev/null)
+  BUDGET_WARN=$(echo "$BUDGET_JSON" | jq -r '.warnThreshold // 0' 2>/dev/null)
+  BUDGET_BLOCK=$(echo "$BUDGET_JSON" | jq -r '.blockThreshold // 0' 2>/dev/null)
+
+  case "$BUDGET_STATUS" in
+    OK)
+      log "  OK: context injection budget ${BUDGET_TOKENS} tokens (${BUDGET_PCT}% of ${BUDGET_WINDOW} window)"
+      log "  OK: warn threshold ${BUDGET_WARN} tokens (80%), block threshold ${BUDGET_BLOCK} tokens (95%)"
+      # Clear any stale budget alert
+      BUDGET_ALERT="$STATE_DIR/context-budget-alert.json"
+      [[ -f "$BUDGET_ALERT" ]] && rm -f "$BUDGET_ALERT" && log "  OK: Cleared stale context-budget-alert.json"
+      ;;
+    WARN)
+      log "  WARN: context injection budget ${BUDGET_TOKENS} tokens — ${BUDGET_PCT}% of ${BUDGET_WINDOW} window (warn threshold: ${BUDGET_WARN} / ${CB_WARN_PCT}%)"
+      ISSUES_FOUND+=("context-budget:warn-${BUDGET_PCT}pct")
+
+      # ENFORCE escalation (TKT-0340 A5/A7): >80% warn threshold triggers enforcement
+      if [[ "$ENFORCE_MODE" == "true" ]]; then
+        if [[ "$ENFORCE_DRY_RUN" == "true" ]]; then
+          log "  ENFORCE(dry-run): WOULD escalate context budget warning (${BUDGET_PCT}% > ${CB_WARN_PCT}%) — not blocking"
+          log "  ENFORCE(dry-run): recommendation: auto-summarize oversized injected files via context-summarize.sh"
+          # TKT-0340 A7: Dry-run — log what would be summarized
+          if [[ -x "$CONTEXT_SUMMARIZE" ]]; then
+            log "  SUMMARIZE(dry-run): WOULD trigger context-summarize.sh for files exceeding threshold"
+          fi
+        else
+          # TKT-0340 A7: Auto-summarize oversized files before escalating
+          if [[ -x "$CONTEXT_SUMMARIZE" ]]; then
+            log "  SUMMARIZE: Auto-summarizing oversized context files via context-summarize.sh..."
+            # Identify oversized files from budget JSON
+            FILES_JSON=$(echo "$BUDGET_JSON" | jq -r '.files // []' 2>/dev/null)
+            if [[ "$FILES_JSON" != "[]" ]] && [[ -n "$FILES_JSON" ]]; then
+              echo "$BUDGET_JSON" | jq -r '.files[] | "\(.path) \(.estimatedTokens)"' 2>/dev/null | while read -r FPATH FTOKENS; do
+                if [[ -f "$FPATH" ]] && [[ "$FTOKENS" -gt 0 ]]; then
+                  FILE_BUDGET=$(echo "$BUDGET_JSON" | jq -r --arg fp "$FPATH" '.files[] | select(.path==$fp) | .pctOfBudget // 0' 2>/dev/null)
+                  if [[ "$FILE_BUDGET" -gt 20 ]]; then
+                    log "  SUMMARIZE: Summarizing $FPATH (${FTOKENS} tokens, ${FILE_BUDGET}% of budget)..."
+                    cp "$FPATH" "${FPATH}.pre-summary.bak"
+                    if cat "$FPATH" | "$CONTEXT_SUMMARIZE" --enforce > "${FPATH}.tmp" 2>/dev/null; then
+                      mv "${FPATH}.tmp" "$FPATH"
+                      BUDGET_REDUCTION=$((BUDGET_REDUCTION + FTOKENS / 2))
+                      log "  SUMMARIZE: $FPATH summarized — original preserved as ${FPATH}.pre-summary.bak"
+                    else
+                      log "  SUMMARIZE: FAILED to summarize $FPATH — restoring original"
+                      mv "${FPATH}.pre-summary.bak" "$FPATH" 2>/dev/null
+                    fi
+                  fi
+                fi
+              done
+            else
+              log "  SUMMARIZE: No per-file budget data available — summarizing all injected files"
+              for f in /Users/ainchorsangiefpl/.openclaw/workspace/SOUL.md /Users/ainchorsangiefpl/.openclaw/workspace/AGENTS.md /Users/ainchorsangiefpl/.openclaw/workspace/MEMORY.md /Users/ainchorsangiefpl/.openclaw/workspace/HEARTBEAT.md; do
+                if [[ -f "$f" ]]; then
+                  cp "$f" "${f}.pre-summary.bak"
+                  cat "$f" | "$CONTEXT_SUMMARIZE" --enforce > "${f}.tmp" 2>/dev/null && mv "${f}.tmp" "$f"
+                  log "  SUMMARIZE: $f summarized"
+                fi
+              done
+            fi
+            # Re-check budget after summarization
+            BUDGET_POST=$(zsh "$CONTEXT_BUDGET_SCRIPT" --json 2>/dev/null | jq -r '.totalTokens // 0' 2>/dev/null)
+            log "  SUMMARIZE: Budget re-check: ${BUDGET_POST} tokens (was ${BUDGET_TOKENS}) — reduction: $((BUDGET_TOKENS - BUDGET_POST)) tokens"
+          fi
+          # If still over threshold after summarization, escalate
+          BUDGET_POST_NUM=${BUDGET_POST:-0}
+          BUDGET_WARN_NUM=${BUDGET_WARN:-999999}
+          if [[ "$BUDGET_POST_NUM" -gt "$BUDGET_WARN_NUM" ]]; then
+            # Real enforcement: escalate as blocking alert
+            log "  ENFORCE: Context injection budget at ${BUDGET_PCT}% — ESCALATING as BLOCKING alert (summarization insufficient)"
+          BUDGET_ALERT="$STATE_DIR/context-budget-alert.json"
+          cat > "$BUDGET_ALERT" <<BOJ
+{
+  "alertId": "context-budget-$(date -u +%Y%m%dT%H%M%SZ)",
+  "severity": "BLOCKING",
+  "source": "CHECK23-context-budget-audit",
+  "ticket": "TKT-0340-A5",
+  "runAt": "$NOW",
+  "runAtLocal": "$NOW_LOCAL",
+  "enforceMode": true,
+  "summary": "Context injection budget at ${BUDGET_PCT}% (${BUDGET_TOKENS} / ${BUDGET_WINDOW} tokens) — exceeds ${CB_WARN_PCT}% warn threshold",
+  "metrics": {
+    "totalTokens": $BUDGET_TOKENS,
+    "window": $BUDGET_WINDOW,
+    "usagePercent": $BUDGET_PCT,
+    "warnThreshold": $BUDGET_WARN,
+    "warnThresholdPct": $CB_WARN_PCT,
+    "blockThreshold": $BUDGET_BLOCK,
+    "blockThresholdPct": $CB_BLOCK_PCT,
+    "status": "WARN"
+  },
+  "resolution": "Reduce bootstrap injection tokens by trimming injected files (SOUL.md, AGENTS.md, MEMORY.md, HEARTBEAT.md). Target: bring total below ${CB_WARN_PCT}% of ${BUDGET_WINDOW} window.",
+  "action": "Manual review of injected file sizes required. Consider archiving stale content."
+}
+BOJ
+          NEEDS_KEN+=("TKT-0340-A5: BLOCKING — Context injection budget at ${BUDGET_PCT}% (${BUDGET_TOKENS}/${BUDGET_WINDOW} tokens) exceeds ${CB_WARN_PCT}% warn threshold. Alert written to ${BUDGET_ALERT}. Trim injected files.")
+          log "  ENFORCE: Budget alert written to $BUDGET_ALERT"
+          else
+            log "  SUMMARIZE: Budget now below warn threshold — summarization resolved the alert"
+            # Clear any stale budget alert
+            [[ -f "$BUDGET_ALERT" ]] && rm -f "$BUDGET_ALERT"
+          fi
+          log "  ENFORCE: Budget alert written to $BUDGET_ALERT"
+        fi
+      else
+        NEEDS_KEN+=("TKT-0340-A5: Context injection budget at ${BUDGET_PCT}% (${BUDGET_TOKENS}/${BUDGET_WINDOW} tokens) — warn threshold ${CB_WARN_PCT}% exceeded. Review injected file sizes.")
+      fi
+      ;;
+    CRITICAL)
+      log "  X: context injection budget ${BUDGET_TOKENS} tokens — ${BUDGET_PCT}% of ${BUDGET_WINDOW} window (BLOCK threshold: ${BUDGET_BLOCK} / ${CB_BLOCK_PCT}%)"
+      ISSUES_FOUND+=("context-budget:critical-${BUDGET_PCT}pct")
+
+      # CRITICAL (>95%) always escalates regardless of enforce mode
+      if [[ "$ENFORCE_MODE" == "true" ]]; then
+        if [[ "$ENFORCE_DRY_RUN" == "true" ]]; then
+          log "  ENFORCE(dry-run): WOULD escalate context budget CRITICAL (${BUDGET_PCT}% > ${CB_BLOCK_PCT}%) — not blocking"
+          log "  ENFORCE(dry-run): URGENT: bootstrap injection approaching context window limit"
+        else
+          log "  ENFORCE: Context injection budget CRITICAL at ${BUDGET_PCT}% — ESCALATING as BLOCKING alert"
+          BUDGET_ALERT="$STATE_DIR/context-budget-alert.json"
+          cat > "$BUDGET_ALERT" <<BOJ
+{
+  "alertId": "context-budget-$(date -u +%Y%m%dT%H%M%SZ)",
+  "severity": "CRITICAL",
+  "source": "CHECK23-context-budget-audit",
+  "ticket": "TKT-0340-A5",
+  "runAt": "$NOW",
+  "runAtLocal": "$NOW_LOCAL",
+  "enforceMode": true,
+  "summary": "Context injection budget at ${BUDGET_PCT}% (${BUDGET_TOKENS} / ${BUDGET_WINDOW} tokens) — EXCEEDS ${CB_BLOCK_PCT}% block threshold. RISK OF SILENT TRUNCATION.",
+  "metrics": {
+    "totalTokens": $BUDGET_TOKENS,
+    "window": $BUDGET_WINDOW,
+    "usagePercent": $BUDGET_PCT,
+    "warnThreshold": $BUDGET_WARN,
+    "warnThresholdPct": $CB_WARN_PCT,
+    "blockThreshold": $BUDGET_BLOCK,
+    "blockThresholdPct": $CB_BLOCK_PCT,
+    "status": "CRITICAL"
+  },
+  "resolution": "IMMEDIATE: Reduce bootstrap injection tokens. Files exceeding context window cause silent truncation. Trim injected files (SOUL.md, AGENTS.md, MEMORY.md, HEARTBEAT.md) to bring total below ${CB_WARN_PCT}%.",
+  "action": "URGENT manual review required. Consider: (1) archiving stale content from injected files, (2) removing deprecated sections, (3) splitting MEMORY.md into short-term/summary."
+}
+BOJ
+          NEEDS_KEN+=("TKT-0340-A5: CRITICAL — Context injection budget at ${BUDGET_PCT}% (${BUDGET_TOKENS}/${BUDGET_WINDOW} tokens) EXCEEDS ${CB_BLOCK_PCT}% block threshold. RISK OF SILENT TRUNCATION. Alert written to ${BUDGET_ALERT}. Immediate action required.")
+          log "  ENFORCE: CRITICAL budget alert written to $BUDGET_ALERT"
+        fi
+      else
+        NEEDS_KEN+=("TKT-0340-A5: CRITICAL — Context injection budget at ${BUDGET_PCT}% (${BUDGET_TOKENS}/${BUDGET_WINDOW} tokens) EXCEEDS ${CB_BLOCK_PCT}% block threshold. Immediate review required.")
+      fi
+      ;;
+    *)
+      log "  WARN: context-budget.sh returned unknown status: $BUDGET_STATUS"
+      log "  Output: $BUDGET_OUTPUT"
+      ;;
+  esac
+else
+  log "  SKIP: context-budget.sh not found at $CONTEXT_BUDGET_SCRIPT — context budget audit skipped"
+fi
+
+write_state
 
 # ---------- FILE INC FOR EACH AUTO-FIX (ITSM-US-007) ----------
 if (( ${#AUTO_FIXED[@]} > 0 )); then
@@ -737,4 +1268,3 @@ ON CONFLICT (run_date) DO UPDATE SET
 " >> "$LOG" 2>&1 || log "WARN: PG write for state_autoheal_log failed"
 
 log "=== AUTO-HEAL COMPLETE ==="
-[[ ${#NEEDS_KEN[@]} -gt 0 ]] && exit 2 || exit 0

@@ -332,6 +332,28 @@ if tip_date != TODAY_AEST:
 # ── 8c. Obs Error Trend widget ───────────────────────────────────────────────
 obs_trend = safe_read_json(WORKSPACE / "state" / "obs-trend.json", None)
 
+# ── 8d. Cron Health (TKT-0340) ────────────────────────────────────────────────
+cron_baseline = safe_read_json(WORKSPACE / "state" / "cron-timeout-baseline.json", {})
+crons_raw = cron_baseline.get("crons", [])
+cron_summary = cron_baseline.get("summary", {})
+
+# Compute cron health counts
+cron_total = len(crons_raw)
+cron_healthy = 0
+cron_degraded = 0
+cron_failed = 0
+for c in crons_raw:
+    status = (c.get("lastStatus") or "unknown").lower()
+    if status == "ok":
+        cron_healthy += 1
+    elif status in ("error", "failure", "timeout"):
+        cron_failed += 1
+    elif status in ("warn", "deviated"):
+        cron_degraded += 1
+    else:
+        # unknown or other status → neutral (count as degraded for visibility)
+        cron_degraded += 1
+
 data = {
     "generatedAt": NOW_UTC.isoformat(),
     "generatedAtAEST": NOW_AEST.strftime("%Y-%m-%d %H:%M AEST"),
@@ -348,6 +370,14 @@ data = {
     "recentActivity": recent_activity,
     "tip": tip_text,
     "obsTrend": obs_trend,
+    "cronHealth": {
+        "total": cron_total,
+        "healthy": cron_healthy,
+        "degraded": cron_degraded,
+        "failed": cron_failed,
+        "crons": crons_raw,
+        "summary": cron_summary,
+    },
 }
 
 with open(DATA_FILE, "w") as f:
@@ -543,6 +573,131 @@ def obs_trend_section_html(obs_trend):
       </div>
     </div>"""
 
+# ── Cron Health section (TKT-0340) ───────────────────────────────────────────
+def cron_health_section_html(cron_health):
+    if not cron_health or not cron_health.get("crons"):
+        return ""
+    total   = cron_health["total"]
+    healthy = cron_health["healthy"]
+    degraded = cron_health["degraded"]
+    failed  = cron_health["failed"]
+    crons   = cron_health["crons"]
+
+    # Helper: human-readable duration
+    def fmt_duration(ms):
+        if ms is None:
+            return "—"
+        ms = int(ms)
+        if ms < 1000:
+            return f"{ms}ms"
+        elif ms < 60000:
+            return f"{ms/1000:.1f}s"
+        else:
+            mins = ms / 60000
+            if mins < 60:
+                return f"{mins:.1f}min"
+            else:
+                return f"{mins/60:.1f}h"
+
+    # Truncate long names
+    def trunc_name(name, max_len=50):
+        if len(name) <= max_len:
+            return esc(name)
+        return esc(name[:max_len-3]) + "..."
+
+    def class_badge(tc):
+        colours = {
+            "shell": "#3182ce",
+            "light-agent": "#805ad5",
+            "heavy-agent": "#dd6b20",
+            "blog-standup": "#38a169",
+        }
+        c = colours.get(tc, "#718096")
+        return f'<span class="cron-class-badge" style="background:{c}22;color:{c};border-color:{c}44">{esc(tc)}</span>'
+
+    def row_bg(status, consec_errors):
+        s = (status or "").lower()
+        if s in ("error", "failure", "timeout"):
+            return "cron-row-failed"
+        if consec_errors and consec_errors > 0:
+            return "cron-row-failed"
+        if s in ("warn", "deviated"):
+            return "cron-row-degraded"
+        if s == "ok":
+            return "cron-row-ok"
+        return "cron-row-unknown"
+
+    def status_badge(status):
+        s = (status or "").lower()
+        if s == "ok":
+            return '<span class="cron-status-badge cron-status-ok">✅ OK</span>'
+        elif s in ("error", "failure", "timeout"):
+            return '<span class="cron-status-badge cron-status-failed">🚨 ' + esc(status) + '</span>'
+        elif s in ("warn", "deviated"):
+            return '<span class="cron-status-badge cron-status-warn">⚠️ ' + esc(status) + '</span>'
+        else:
+            return '<span class="cron-status-badge cron-status-unknown">❓ ' + esc(status) + '</span>'
+
+    rows_html = []
+    for c in crons:
+        name     = trunc_name(c.get("name", ""), 55)
+        tclass   = class_badge(c.get("taskClass", "?"))
+        timeout  = c.get("computedTimeoutSec", "—")
+        status   = status_badge(c.get("lastStatus", "unknown"))
+        dur_ms   = c.get("lastDurationMs") or c.get("avgDurationMs")
+        dur_fmt  = fmt_duration(dur_ms)
+        err_count = c.get("consecutiveErrors", 0)
+        row_cls   = row_bg(c.get("lastStatus"), err_count)
+        rows_html.append(
+            f'<tr class="{row_cls}">'
+            f'<td class="cron-name" title="{esc(c.get("name",""))}">{name}</td>'
+            f'<td class="cron-class">{tclass}</td>'
+            f'<td class="cron-timeout">{timeout}s</td>'
+            f'<td class="cron-status">{status}</td>'
+            f'<td class="cron-duration">{dur_fmt}</td>'
+            f'</tr>'
+        )
+    rows_str = "\n".join(rows_html)
+
+    return f"""
+    <div class="cron-health-section">
+      <div class="cron-health-title">&#9201; Cron Health</div>
+      <div class="cron-summary-cards">
+        <div class="cron-summary-card cron-card-total">
+          <div class="cron-summary-num">{total}</div>
+          <div class="cron-summary-label">Total Crons</div>
+        </div>
+        <div class="cron-summary-card cron-card-ok">
+          <div class="cron-summary-num">{healthy}</div>
+          <div class="cron-summary-label">Healthy</div>
+        </div>
+        <div class="cron-summary-card cron-card-warn">
+          <div class="cron-summary-num">{degraded}</div>
+          <div class="cron-summary-label">Degraded</div>
+        </div>
+        <div class="cron-summary-card cron-card-failed">
+          <div class="cron-summary-num">{failed}</div>
+          <div class="cron-summary-label">Failed</div>
+        </div>
+      </div>
+      <div class="cron-table-wrapper">
+        <table class="cron-table">
+          <thead>
+            <tr>
+              <th class="cron-th-name">Name</th>
+              <th class="cron-th-class">Class</th>
+              <th class="cron-th-timeout">Timeout</th>
+              <th class="cron-th-status">Status</th>
+              <th class="cron-th-duration">Duration</th>
+            </tr>
+          </thead>
+          <tbody>
+            {rows_str}
+          </tbody>
+        </table>
+      </div>
+    </div>"""
+
 # ── Tip banner ───────────────────────────────────────────────────────────────
 def tip_banner_html(tip):
     if not tip:
@@ -551,6 +706,7 @@ def tip_banner_html(tip):
 
 tip_html     = tip_banner_html(data.get("tip"))
 obs_html     = obs_trend_section_html(data.get("obsTrend"))
+cron_html    = cron_health_section_html(data.get("cronHealth"))
 yoda_card = agent_card_html(data["agents"][0], "#00d4ff")
 aria_card  = agent_card_html(data["agents"][1], "#ff6b9d")
 gov_html   = (
@@ -953,13 +1109,146 @@ html = f"""<!DOCTYPE html>
     font-size: 11px;
   }}
 
+  /* ── Cron Health (TKT-0340) ── */
+  .cron-health-section {{
+    grid-column: 1 / -1;
+    padding: 14px 16px;
+    border-top: 1px solid #1e2a4a;
+    background: #0a0e1a;
+  }}
+  .cron-health-title {{
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 1.2px;
+    text-transform: uppercase;
+    color: #718096;
+    margin-bottom: 12px;
+  }}
+
+  /* ── Cron Summary Cards ── */
+  .cron-summary-cards {{
+    display: flex;
+    gap: 10px;
+    margin-bottom: 14px;
+    flex-wrap: wrap;
+  }}
+  .cron-summary-card {{
+    background: #0d1224;
+    border: 1px solid #1e2a4a;
+    border-radius: 8px;
+    padding: 10px 16px;
+    flex: 1;
+    min-width: 90px;
+    text-align: center;
+  }}
+  .cron-card-total {{ border-left: 3px solid #4299e1; }}
+  .cron-card-ok    {{ border-left: 3px solid #48bb78; }}
+  .cron-card-warn  {{ border-left: 3px solid #ecc94b; }}
+  .cron-card-failed {{ border-left: 3px solid #fc8181; }}
+  .cron-summary-num {{
+    font-size: 22px;
+    font-weight: 700;
+    color: #e2e8f0;
+  }}
+  .cron-summary-label {{
+    font-size: 10px;
+    font-weight: 600;
+    color: #718096;
+    text-transform: uppercase;
+    letter-spacing: 0.8px;
+    margin-top: 2px;
+  }}
+
+  /* ── Cron Table ── */
+  .cron-table-wrapper {{
+    max-height: 460px;
+    overflow-y: auto;
+    border: 1px solid #1e2a4a;
+    border-radius: 6px;
+  }}
+  .cron-table {{
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 11px;
+  }}
+  .cron-table thead {{
+    position: sticky;
+    top: 0;
+    z-index: 1;
+  }}
+  .cron-table th {{
+    background: #0d1224;
+    color: #718096;
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 0.8px;
+    text-transform: uppercase;
+    padding: 8px 10px;
+    text-align: left;
+    border-bottom: 2px solid #1e2a4a;
+  }}
+  .cron-table td {{
+    padding: 5px 10px;
+    border-bottom: 1px solid #12193a;
+    color: #cbd5e0;
+    vertical-align: middle;
+  }}
+  .cron-table tbody tr:hover {{
+    background: #12193a;
+  }}
+  .cron-th-name    {{ min-width: 220px; }}
+  .cron-th-class   {{ width: 100px; }}
+  .cron-th-timeout {{ width: 70px; }}
+  .cron-th-status  {{ width: 80px; }}
+  .cron-th-duration {{ width: 75px; }}
+  .cron-name {{
+    max-width: 300px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }}
+
+  /* ── Cron row colour coding ── */
+  .cron-row-ok      {{ background: #0d1224; }}
+  .cron-row-degraded {{ background: #1a1a10; border-left: 3px solid #ecc94b; }}
+  .cron-row-failed  {{ background: #1a1010; border-left: 3px solid #fc8181; }}
+  .cron-row-unknown {{ background: #0d1224; }}
+
+  /* ── Cron badges ── */
+  .cron-class-badge {{
+    font-size: 9px;
+    padding: 2px 6px;
+    border-radius: 3px;
+    font-weight: 700;
+    border: 1px solid;
+    white-space: nowrap;
+  }}
+  .cron-status-badge {{
+    font-size: 10px;
+    font-weight: 600;
+    white-space: nowrap;
+  }}
+  .cron-status-ok      {{ color: #48bb78; }}
+  .cron-status-failed  {{ color: #fc8181; }}
+  .cron-status-warn    {{ color: #ecc94b; }}
+  .cron-status-unknown {{ color: #718096; }}
+
+  .cron-duration, .cron-timeout {{
+    font-variant-numeric: tabular-nums;
+    white-space: nowrap;
+    color: #a0aec0;
+  }}
+
   /* ── Mobile responsive ── */
   @media (max-width: 700px) {{
     .main-grid {{ grid-template-columns: 1fr; }}
     .stream-col {{ border-right: none; border-bottom: 1px solid #1e2a4a; }}
     .activity-section {{ grid-column: 1; }}
     .obs-trend-section {{ grid-column: 1; }}
+    .cron-health-section {{ grid-column: 1; }}
     .obs-cols {{ grid-template-columns: 1fr; }}
+    .cron-summary-cards {{ flex-direction: column; }}
+    .cron-table-wrapper {{ max-height: 350px; }}
     .header-meta {{ font-size: 11px; gap: 8px; }}
   }}
 </style>
@@ -1007,6 +1296,9 @@ html = f"""<!DOCTYPE html>
   <!-- ── Obs Error Trend (full-width) ── -->
   {obs_html}
 
+  <!-- ── Cron Health (full-width, TKT-0340) ── -->
+  {cron_html}
+
   <!-- ── Recent Activity (full-width) ── -->
   <div class="activity-section">
     <div class="activity-title">📋 Recent Activity</div>
@@ -1030,6 +1322,7 @@ print(f"[ok] Tech tasks — backlog:{len(tech_bl)} wip:{len(tech_wi)} done:{len(
 print(f"[ok] Biz tasks  — backlog:{len(biz_bl)} wip:{len(biz_wi)} done:{len(biz_dn)}")
 print(f"[ok] Governance — shield:{gov['shield']['totalToday']} lex:{gov['lex']['totalToday']} sage:{gov['sage']['totalToday']}")
 print(f"[ok] Activity entries: {len(recent_activity)}")
+print(f"[ok] Cron Health — total:{cron_total} healthy:{cron_healthy} degraded:{cron_degraded} failed:{cron_failed}")
 
 PYEOF
 

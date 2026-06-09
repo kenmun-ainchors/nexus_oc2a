@@ -1,6 +1,6 @@
 {
-  "runAt": "2026-06-08T23:58:54Z",
-  "runAtLocal": "2026-06-09 09:58 AEST",
+  "runAt": "2026-06-09T12:12:03Z",
+  "runAtLocal": "2026-06-09 22:12 AEST",
   "duration_ms": 0,
   "checks_run": [
   "auth_profiles",
@@ -23,21 +23,33 @@
   "pg_sequence_health",
   "orphaned_gateway",
   "sandbox_gateway_liveness",
-  "shadow_gateway_liveness"
+  "shadow_gateway_liveness",
+  "tilde_path_enforcement",
+  "file_contract_size_guard",
+  "cron_timeout_baseline",
+  "context_budget"
 ],
-  "checks_count": 21,
+  "checks_count": 25,
   "issues_found": [
-  "sandbox-gateway:down"
+  "backup:stale:32h",
+  "sandbox-gateway:down",
+  "tilde-path:state-file:tickets-20260531-130601.json",
+  "tilde-path:state-file:tickets-20260602-043003.json",
+  "tilde-path:state-file:tickets-20260531-130605.json",
+  "tilde-path:state-file:tickets.json",
+  "cron-timeout:48-recommendations"
 ],
-  "issues_count": 1,
+  "issues_count": 7,
   "auto_fixed": [
-  "git-commit:workspace:40-files"
+  "git-commit:workspace:77-files"
 ],
   "auto_fixed_count": 1,
   "needs_ken": [
-  "MEMORY.md: 15045 chars (HARD LIMIT 15000 — SILENT TRUNCATION RISK)",
-  "WARN: Sandbox gateway (port 28789) not listening — LaunchAgent exists (/Users/ainchorsangiefpl/Library/LaunchAgents/ai.openclaw.sandbox-gateway.plist), manual start may be needed"
+  "Latest incremental backup is 32h old (>30h threshold). Path: /Users/ainchorsangiefpl/Backups/ainchors/workspace-incremental/workspace-2026-06-09-0205",
+  "WARN: Sandbox gateway (port 28789) not listening — LaunchAgent exists (/Users/ainchorsangiefpl/Library/LaunchAgents/ai.openclaw.sandbox-gateway.plist), manual start may be needed",
+  "TKT-0336/TKT-0340: 4 tilde path violations found. ENFORCE dry-run: 20 would be blocked. Run without --dry-run to enforce.",
+  "TKT-0339: 48 cron timeout recommendation(s) in baseline — SCALER FLAG ONLY (CONSERVATIVE MODE: 48 SET). Manual review before any timeout changes. Baseline: /Users/ainchorsangiefpl/.openclaw/workspace/state/cron-timeout-baseline.json"
 ],
-  "needs_ken_count": 2,
-  "exit_status": "complete"
+  "needs_ken_count": 4,
+  "exit_status": "crashed"
 }

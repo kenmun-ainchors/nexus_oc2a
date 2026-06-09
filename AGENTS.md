@@ -87,6 +87,7 @@ Full rule: `RULES.md` → LESSONS REGISTRY RULE.
 | Absolute File Path | CHG-0281 | Never ~ in tool calls. Always absolute /Users/... paths. |
 | Telegram Chunking | CHG-0397 | Split > 3,800 chars. [1/N] numbering. |
 | Async Background | CHG-0405 | Tasks > 30s → sessions_spawn. Never block webchat. |
+| CREST Execution Loop | TKT-0368/CHG-0478 | Plan→Execute→Verify→Replan→Synthesize→Done. Strong-tier plans/judges, cheap-tier executes. TQP-queued atoms. Gap→iterate(n++). |
 | MinIO URL | CHG-0284 | Always Tailscale FQDN for MinIO URLs. |
 | Holocron Registry | CHG-0299 | All docs registered in Holocron as part of DoD. |
 | Canvas Embed | — | No [embed] tags. Full local path only for Ken. |

@@ -11,6 +11,32 @@
 ---
 ---
 
+## 2026-06-09 21:10 AEST — [CHG-0478] CHG-0478: CREST Execution Loop locked
+**Type:** rule
+**Change Type:** Normal
+**Source:** ken-prompt
+**Trigger:** Ken approved CREST as orchestration execution model keyword
+**What changed:** CREST 6-phase loop. Strong-tier plans+judges. Cheap-tier executes+synthesizes. Replan gate. TQP-queued atoms.
+**Why:** Structural execution model needed for orchestration layer
+**Verification:** MEMORY.md + AGENTS.md updated. Journal entry complete.
+**Rollback:** N/A
+**Linked:** TKT-0368
+---
+
+
+## 2026-06-09 20:26 AEST — [CHG-0477] TKT-0339: Cron Timeout Auto-Scaling — Adaptive Timeout + Retry + Reaping
+**Type:** script
+**Change Type:** Normal
+**Source:** ken-prompt
+**Trigger:** TKT-0339 (Sprint 7 Seq 4): All crons have no timeout configured, known victims (Aria ROI 481s, Model Review 300s) timeout silently
+**What changed:** Created cron-timeout-scaler.sh (AC1) — computes adaptive timeouts using formula max(avg*1.5, floor). Classifies into 4 task classes. Writes state/cron-timeout-baseline.json. Created cron-timeout-report.sh (AC4) — CSV/JSON/summary report of all crons with computed timeouts. Added CHECK 22 to auto-heal.sh — audits baseline against active timeouts. Enhanced cron-health-check.sh with retry state tracking (AC2) — 2-retry exponential backoff + dead-letter alert after 3 failures. Added process group reaping (AC3) — detects stale cron sessions > 2x computed timeout, kills pg, logs to state/cron-reap-log.json.
+**Why:** 48 crons have 0 configured timeouts. CONSERVATIVE MODE — scaler flags/recommends only, never auto-applies. Ken decisions: 2 retries with 2x/4x backoff, flag-only enforcement.
+**Verification:** cron-timeout-scaler.sh → 48 crons classified, baseline JSON valid. cron-timeout-report.sh → CSV/JSON/summary output valid. auto-heal.sh CHECK 22 → reads baseline, flags 48 SET recommendations. cron-health-check.sh retry logic → writes state/cron-retry-state.json on failures. Reaping loop → detects stale sessions using ps -eo, kills pg on breach.
+**Rollback:** Remove CHECK 22 from auto-heal.sh. Revert cron-health-check.sh to pre-patch version. Delete state/cron-timeout-baseline.json, state/cron-retry-state.json, state/cron-reap-log.json.
+**Linked:** TKT-0339 TKT-0337 TKT-0338 TKT-0310
+---
+
+
 ## 2026-06-09 13:08 AEST — [CHG-0475] CHG-0475: journal-append.sh v2.0 — simplified inline journal writer
 **Type:** infra
 **Change Type:** Normal

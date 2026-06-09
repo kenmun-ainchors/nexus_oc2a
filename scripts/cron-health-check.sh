@@ -149,5 +149,209 @@ else:
     sys.exit(0)
 PYEOF
 
+
+# ── Retry State Tracking (TKT-0339 AC2) ────────────────────────────────────
+# Track timeout failures per cron — 2 retries with 2x/4x backoff
+RETRY_STATE_FILE="$WORKSPACE/state/cron-retry-state.json"
+python3 - "$STATE_FILE" "$RETRY_STATE_FILE" << 'RETRY_PYEOF'
+import json, sys, os
+from datetime import datetime, timezone
+
+health_file = sys.argv[1]
+retry_file = sys.argv[2]
+now = datetime.now(timezone.utc).isoformat()
+
+# Load current failures from health state
+failures = []
+try:
+    with open(health_file) as f:
+        hs = json.load(f)
+    failures = hs.get('failures', [])
+except:
+    pass
+
+# Load existing retry state
+retry_state = {'updatedAt': now, 'crons': {}}
+try:
+    with open(retry_file) as f:
+        retry_state = json.load(f)
+except:
+    pass
+
+retry_crons = retry_state.get('crons', {})
+
+# Process each failed cron
+for f_item in failures:
+    cid = f_item.get('cronId', '')
+    if not cid:
+        continue
+    
+    entry = retry_crons.get(cid, {
+        'cronId': cid,
+        'name': f_item.get('name', ''),
+        'consecutiveTimeouts': 0,
+        'totalTimeouts': 0,
+        'retriesUsed': 0,
+        'lastTimeoutAt': None,
+        'nextRetryBackoffMs': 0,
+        'deadLetter': False
+    })
+    
+    # Increment counters
+    entry['consecutiveTimeouts'] = entry.get('consecutiveTimeouts', 0) + 1
+    entry['totalTimeouts'] = entry.get('totalTimeouts', 0) + 1
+    entry['lastTimeoutAt'] = now
+    
+    # Compute backoff
+    con = entry['consecutiveTimeouts']
+    retries_used = min(con, 2)  # cap at 2 retries
+    entry['retriesUsed'] = retries_used
+    
+    if retries_used == 1:
+        entry['nextRetryBackoffMs'] = 2 * 60 * 1000  # 2x = 2 min
+    elif retries_used == 2:
+        entry['nextRetryBackoffMs'] = 4 * 60 * 1000  # 4x = 4 min
+    elif con >= 3:
+        entry['deadLetter'] = True
+        entry['nextRetryBackoffMs'] = 0  # dead — no more retries
+    
+    retry_crons[cid] = entry
+
+retry_state['crons'] = retry_crons
+
+os.makedirs(os.path.dirname(retry_file), exist_ok=True)
+with open(retry_file, 'w') as f:
+    json.dump(retry_state, f, indent=2, default=str)
+
+dead_letters = [e for e in retry_crons.values() if e.get('deadLetter')]
+if dead_letters:
+    print("DEAD_LETTER_ALERT: {} cron(s) have 3+ consecutive failures:".format(len(dead_letters)))
+    for dl in dead_letters:
+        print("  DEAD: [{}] {} — {} timeouts total".format(dl['cronId'], dl.get('name', '?')[:50], dl['totalTimeouts']))
+RETRY_PYEOF
+
+# ── Process Group Reaping (TKT-0339 AC3) ───────────────────────────────────
+# Detect running-but-stale cron sessions (> 2x computed timeout)
+REAP_LOG_FILE="$WORKSPACE/state/cron-reap-log.json"
+BASELINE_FILE="$WORKSPACE/state/cron-timeout-baseline.json"
+
+if [[ -f "$BASELINE_FILE" ]]; then
+  python3 - "$BASELINE_FILE" "$REAP_LOG_FILE" << 'REAP_PYEOF'
+import json, sys, os, subprocess, time
+from datetime import datetime, timezone
+
+baseline_file = sys.argv[1]
+reap_file = sys.argv[2]
+now = datetime.now(timezone.utc).isoformat()
+
+# Load baseline
+try:
+    with open(baseline_file) as f:
+        baseline = json.load(f)
+except:
+    sys.exit(0)
+
+# Build computed timeout map
+timeout_map = {}
+for r in baseline.get('crons', []):
+    timeout_map[r['cronId']] = r['computedTimeoutSec']
+
+# Load existing reap log
+reap_log = {'updatedAt': now, 'entries': []}
+try:
+    with open(reap_file) as f:
+        reap_log = json.load(f)
+except:
+    pass
+
+# Find stale cron processes
+# Look for processes that appear to be cron runs (openclaw tasks with cron patterns)
+# and have been running longer than 2x computed timeout
+try:
+    ps_out = subprocess.run(['ps', '-eo', 'pid,ppid,etime,command'], 
+                           capture_output=True, text=True, timeout=5).stdout
+except:
+    ps_out = ''
+
+stale_found = []
+for line in ps_out.strip().split('\n'):
+    if 'openclaw' not in line or 'cron' not in line.lower():
+        continue
+    parts = line.split(None, 3)
+    if len(parts) < 4:
+        continue
+    pid = parts[0]
+    etime = parts[2]  # format: DD-HH:MM:SS or HH:MM:SS
+    
+    # Parse elapsed time to seconds
+    elapsed_s = 0
+    try:
+        if '-' in etime:
+            days, rest = etime.split('-')
+            h, m, s = rest.split(':')
+            elapsed_s = int(days)*86400 + int(h)*3600 + int(m)*60 + int(s)
+        else:
+            parts_t = etime.split(':')
+            if len(parts_t) == 3:
+                h, m, s = parts_t
+                elapsed_s = int(h)*3600 + int(m)*60 + int(s)
+            elif len(parts_t) == 2:
+                m, s = parts_t
+                elapsed_s = int(m)*60 + int(s)
+    except:
+        continue
+    
+    if elapsed_s <= 0:
+        continue
+    
+    # Check against all crons — if any cron has computed timeout, and elapsed > 2x, reap
+    for cron_id, computed_s in timeout_map.items():
+        if computed_s <= 0:
+            continue
+        if elapsed_s > (computed_s * 2):
+            stale_found.append({
+                'pid': int(pid),
+                'cronId': cron_id,
+                'elapsedSec': elapsed_s,
+                'computedTimeoutSec': computed_s,
+                'thresholdSec': computed_s * 2,
+                'command': parts[3][:120],
+                'reapedAt': now
+            })
+            break  # one cron match is enough
+
+if stale_found:
+    # Kill each stale process + its process group
+    for entry in stale_found:
+        pid = entry['pid']
+        try:
+            # Kill process group (negative PID)
+            os.killpg(pid, 9)
+            entry['reaped'] = True
+            print('REAPED: PID {} (cron {}) — elapsed {}s > threshold {}s (2x computed {})'.format(
+                pid, entry['cronId'], entry['elapsedSec'], entry['thresholdSec'], entry['computedTimeoutSec']))
+        except Exception as e:
+            entry['reaped'] = False
+            entry['reapError'] = str(e)
+            print('REAP_FAILED: PID {} — {}'.format(pid, e))
+    
+    # Log to reap file
+    for entry in stale_found:
+        if entry.get('reaped'):
+            reap_log['entries'].append(entry)
+    
+    # Keep last 100 reap entries
+    if len(reap_log['entries']) > 100:
+        reap_log['entries'] = reap_log['entries'][-100:]
+    
+    os.makedirs(os.path.dirname(reap_file), exist_ok=True)
+    with open(reap_file, 'w') as f:
+        json.dump(reap_log, f, indent=2, default=str)
+else:
+    print('REAP: No stale cron processes detected')
+REAP_PYEOF
+else
+  echo "REAP: SKIP — cron-timeout-baseline.json not found" >&2
+fi
 # Cleanup temp file
 [ -f "$CRON_STATE_TMP" ] && rm -f "$CRON_STATE_TMP"
