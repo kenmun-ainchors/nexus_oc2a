@@ -756,3 +756,23 @@ Three crons (Morning Stand-Up, Daily Blog, Aria ROI) failed because agent models
 **Ken's words:** "one environment per port. we'll do 2xxxx for sandbox and then if we ever need CI mirror shadow, we'll do 3xxxx"
 
 **Linked:** INC-20260608-001, TKT-0333, CHG-0471 (port convention formalization), CHG-0470
+
+## L-051 — 2026-06-09 | Sprint Execution / Process Discipline
+**Lesson:** Sprint items MUST be groomed and reviewed with Ken BEFORE execution — even when the direction seems clear. Jumping straight to implementation skips the approval gate and risks wasted work if the scope or approach is wrong.
+**Root cause:** Yoda interpreted "close TKT-0337" as "execute now" without first presenting the groom for Ken's review. Previous sprint items (TKT-0336) were groomed first, setting the correct pattern. TKT-0337 was executed without a groom step.
+**Rule:** 
+- Every Sprint 7 item: GROOM → PRESENT TO KEN → APPROVED → EXECUTE → CLOSE
+- "Close X" means "let's review what it takes to close X" — NOT "go do it now"
+- Never skip the groom gate, even for seemingly straightforward items
+**Source:** Sprint 7 execution 2026-06-09. Ken correction.
+
+## L-052 — 2026-06-09 | Model Policy / OC1 Capacity
+**Lesson:** No local LLM models (ollama local, not cloud) may be used for ANY operational tasks until OC2 is commissioned. Local models on OC1 (Mac Mini M4 24GB) have cold-load latency and memory pressure issues that degrade system reliability. The only exception is models explicitly approved by Ken for specific, documented assignments.
+**Rule:**
+- All agent heartbeats, crons, and operational workflows MUST use ollama cloud models (fixed subscription, no incremental cost).
+- Preferred heartbeat/cron model: `ollama/deepseek-v4-flash:cloud` (smaller, faster, cheaper than pro).
+- Acceptable alternatives: `ollama/deepseek-v4-pro:cloud`, `ollama/kimi-k2.6:cloud`.
+- Local models (`gemma4:26b`, `qwen3.6:35b-a3b`, `gemma4:e2b`) are STRICTLY for testing/development only — never production workflows.
+- This rule remains in effect until TRIGGER-03 (OC2 commissioned, Gemma4 validated on OC2-A 48GB).
+- Exception: `nomic-embed-text` (local embedding model) is approved for memory_search — it's lightweight and not an operational task.
+**Source:** Ken correction 2026-06-09. Yoda attempted to assign `ollama/gemma4:26b` as heartbeat model. Rejected.
