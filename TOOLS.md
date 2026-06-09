@@ -76,3 +76,8 @@ Add whatever helps you do your job. This is your cheat sheet.
 | 38789 | Shadow | Read-only production mirror for CI/staging validation |
 
 **Rule:** Production = 1xxxx series. Sandbox = 2xxxx series. Shadow = 3xxxx series. Never cross.
+
+## Notion DB IDs (CHG-0401 3-DB architecture)
+- DB A (Backlog): 34dc1829-53ff-814b-8257-d3a3bf351d44
+- DB B (Auto-Heal): 364c1829-53ff-81c0-9dbd-ff2c907d1a6b
+- DB C (Archive): 364c1829-53ff-818e-a783-ebafcb6a9880
