@@ -6736,3 +6736,23 @@ When Ken issues CLAUDE RESTORE:
 **Why:** Folded tickets were losing scope. "Folded into X" close note + no migration = knowledge evaporates. The Fold SOP ensures scope is always extracted, mapped, and migrated before the child closes.
 **Verification:** Fold-SOP-v1.0.md saved (3125 bytes). All 7 folded tickets mapped in TKT-0317 metadata.folded_scope. 2 gaps closed with new ACs.
 **Linked:** TKT-0317, L-047, L-048
+
+## CHG-0476 — 2026-06-09 | Schema Hardening | Yoda (manual cleanup)
+**Trigger:** 18 corrupted rows found during sprint status query — CLI argument bleed into columns (`--title`, `--id`, `--type` leaked as column values)
+**Changed:** Added 5 CHECK constraints to `state_tickets` table:
+- `chk_title_not_priority` — title cannot be a priority value (critical/high/medium/low/backlog)
+- `chk_title_not_dash_prefix` — title cannot start with `--`
+- `chk_id_not_dash_prefix` — id cannot start with `--`
+- `chk_priority_not_cli_flag` — priority cannot start with `--`
+- `chk_title_not_empty` — title must be non-null, non-empty, non-blank
+
+Cleaned 18 dirty rows:
+- 4 `--prefix` CLI-arg-bleed rows (3 duplicate rows deleted, 1 TKT-0367 fixed)
+- 13 priority-in-title rows — swapped priority from title column to correct priority column
+- 1 `SCHEMA-TEST` artifact deleted
+- 17 empty-title rows backfilled from id column
+
+Row count: 310 → 306
+**Why:** `ticket.sh`/`db-write.sh` CLI argument values (`--title`, `--id`, `--type`, `--priority`) leaked into column data when positional args were misparsed into INSERT statements. No guard constraint existed to prevent this.
+**Verified:** PSQL queries confirm 0 corrupted, 0 empty titles, 0 priority-in-title, 0 CLI artifacts. All 5 CHECK constraints active.
+**Rollback:** `ALTER TABLE state_tickets DROP CONSTRAINT <name>` for each constraint. Deleted rows can be restored from archive if needed.
