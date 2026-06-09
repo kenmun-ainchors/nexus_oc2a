@@ -106,75 +106,8 @@ Nexus=platform|Holocron=AKB|Bridge=cmd-centre|Citadel=client-portal|Holonet=live
 ## kimi Policy — DECOMMISSIONED 2026-05-26
 DeepSeek = permanent primary. kimi = fallback only. Full history: `memory/MEMORY-archive-2026-05-27.md`.
 
-- 2026-05-25: TKT-0295 (PG Audit) parked due to Tier 3 budget breach. Reports from Atlas and Thrawn are delivered but pending final review. Resume tomorrow with DeepSeek.
+- 2026-05-25: TKT-0295 (PG Audit) parked due to Tier 3 budget breach.
 ---
 
-## Day 32 End-of-Day (2026-05-26)
+_Historical EOD sections archived to `memory/MEMORY-archive-2026-06-09.md`._
 
-**TKT-0295 PG Audit chain:** ALL 7 tickets closed. PG now has 18 state tables. Cron payloads migrated to PG reads. JSONB schema contract published. sc_read wrappers live.
-
-**TKT-0307 Agent RULES.md Foundation Repair:** 10 of 12 agents now have RULES.md accessible via symlinks. Shield + Warden RULES.md created (3.7KB + 3.8KB). Agent-rules-audit.sh + auto-heal CHECK 14 for permanent prevention. RULES.md commissioning checklist (5 gates) added. L-044 logged.
-
-**TKT-0308 Agent Workspace Separation:** Forge → workspace-infra, Ahsoka → workspace-ahsoka. Luthen 🔍 first activation from spec v1.0 (workspace-luthen). Spark ✨ registered in agents.list (was ephemeral). Krennic parked until OC2. 14 agents in openclaw.json, 14/14 RULES.md, 14/14 model-policy.
-
-**TKT-0329 Thrawn Assessment — Workspace Sandbox vs Delivery Gap:** Raised 2026-05-30. TKT-0308 introduced workspace separation but didn't define cross-workspace delivery paths. Forge built TKT-0328 script in workspace-infra/ but couldn't deliver to workspace/scripts/ — Yoda bridged manually. Thrawn assigned: map all cross-workspace deps, evaluate symlink bridge + delivery-map.json + auto-heal CHECK 16. Sprint 6 locked.
-
-**TKT-0297 PG→Notion Sync Redesign:** Thrawn approved architecture. Forge built pg-to-notion-sync.sh (idempotent, file-locked, timestamp-filtered). ticket.sh reads PG primary via db.sh. Closed.
-
-**TKT-0309 Context Retention — TQP Execution Gate:** Atlas assessed 4-layer stack → "hydration void" identified. Thrawn designed Option E (TQP as gate, not hook). Ken approved. Phase 1 built: 5 new schema columns + sc_persist_atom + sc_resume_context. Phase 2 (Yoda inline adoption) parked for tomorrow.
-
-**Platform state:** 14 agents registered. 18 PG tables. 235 tickets. TOM operational. Sprint 5 planning, not committed. LinkedIn paused until Sunday. 2 criticals open: TKT-0296 (monitoring), TKT-0309 (Phase 2 pending).
-
----
-
-## Day 33 End-of-Day (2026-05-27) — Sprint 5 Cleanup + Sprint 6 Queued
-
-**TKT-0309 Phase 2 — COMPLETE:** 5 atoms delivered (contract, tqp-yoda.sh wrapper, AGENTS.md integration, self-test, DoD gate). 5 bugs found+fixed during implementation. TQP gate now operational. TKT-0309 closed. Aria + Global phases raised as TKT-0318 + TKT-0319.
-
-**TKT-0296 Journal Writer — COMPLETE:** EOD finalizer cron simplified. HEARTBEAT.md stale refs fixed. 2-day observation passed. Journal fully inline via journal-append.sh.
-
-**TKT-0313 2-Pass Dispatch — MERGED into TKT-0317:** Ken corrected scope: discipline is platform-wide, NOT Yoda-only. "No executor receives undiscovered work." 4 sub-tickets raised (TKT-0321-0324).
-
-**TKT-0317 Epic Groomed:** Atlas delivered 20KB assessment via 2-pass execution (discovery JSON → assessment doc in 3m38s). Findings: 92% rule duplication, Yoda 123.8KB context, 5 over-privileges, 16 proposed tickets. Sprint 6 first item.
-
-**Sprint 5 Cleanup:** 9 high tickets processed. 5 folded into TKT-0317 (0178, 0182, 0188, 0228, 0230). 3 deferred to P2 (0128, 0137, 0318). TKT-0305 completed. Open critical+high: 17 → 8 (53% reduction).
-
-**CHGs:** CHG-0430 through CHG-0442 (13 today)
-
----
-
-## Day 36 End-of-Day (2026-05-29) — Sprint 5 Closed + Platform Separation Approved
-
-**Sprint 5 Review (Fri May 29):** 7 committed closed, 11 bonus delivered, 18 items total. 4 carried to S6 (TKT-0268, TKT-0269, TKT-0137, TKT-0275). TKT-0236 confirmed closed (was incorrectly listed as not started). TKT-0241 blocked (Claude Restore). TKT-0238 folded into TKT-0327. TKT-0313 merged into TKT-0317. 15 CHGs (0430-0444). Open critical+high: 17→8 (53% reduction).
-
-**Platform Separation — APPROVED:** OC1 repurposed as standalone business node (Aria + 6 agents). OC2-A/B remains tech HIVE HA pair. No cross-node. Ken approved C1 (second license), C2 (separate Ollama sub), C3 (new Google Workspace for tech). All 3 risks accepted. Atlas option paper + Thrawn feasibility delivered to Drive. Phase 0 prep can start now.
-
-**Budget Recalibration:** Monthly cap A$500→$150 USD (effective Jun 1). Ollama Cloud Max $100/mo fixed + $50 Claude buffer. Model rates locked (subscription-aligned + market-equivalent). TKT-0325 closed.
-
-**Infra fixes:** BASE1 restore runbook + NAS backup delivered. 3 cron prompts patched (tilde-path bug, safe-path.sh guard). Auto-heal confirmed running (PG write gap folded into TKT-0327). Backup obs false positives fixed (regex).
-
-**Sprint 6 (2026-06-02 to 2026-06-08) — IN PROGRESS:** 3/14 done (TKT-0268, TKT-0269, TKT-0310). Remaining: TKT-0317 (Context Epic), TKT-0293 (Regression), TKT-0321 (Yoda Dispatch), TKT-0322 (Routing Matrix), TKT-0326 (NAS Writable), TKT-0327 (Tilde-Path), TKT-0318 (Aria TQP), TKT-0319 (Global TQP), TKT-0137 (Policy Register), + Platform Separation Phase 0 prep.
-
-**TKT-0310:** APPROVED Ken 2026-06-02 18:44. Thrawn option paper → docs/deliverables/TKT-0310-Platform-Constraint-Enforcement-Option-Paper-v1.0.md. GDrive: https://drive.google.com/file/d/1FaodSS0GeV8iaYEL-PFhXmO96gUVy0Nm
-
-**Sprint 7 (2026-06-02 to 2026-06-08) — COMMITTED — Platform Constraint Enforcement:** 5 tickets, all Forge. Parent: TKT-0310. Seq: P0 (safe-path.sh, XS), P1-A (context budget guards, M), P1-B (file size enforcement, M), P1-C (cron timeout auto-scaling, M), P2 (hardening + dashboard, M). P3 (prompt truncation) = backlog, trigger-gated. Sprint file: state/sprint-7.json.
-
-**Platform state:** 14 agents. 32 PG tables. 251+ tickets. TQP gate live. Journal inline writes stable. Sprint 5 closed. Sprint 6 queued. Platform Separation go.
-
-**OpenClaw:** v2026.5.27 (upgraded from 5.12, 2026-05-29). 59 crons, all integrations healthy. Config slimmed (crons in Gateway internal state). CHG-0445.
-
----
-
-## Day 36 End-of-Day (2026-06-08) — CP3/P0 Mirror Writer Deployed + 7-Day Gate Started
-
-**CP3/P0 Nexus Controller (Forge):** PR #1 (core DDL) + PR #2 (mirror writer) merged and deployed. 311 loop_plan + 311 plan_atom rows live in shadow PG. Divergence harness v2.4 running with C1-correct STALE (mirror lag > 5 min). Status: 616 match, 2 missing (TQP data quality), 6 extra (CI artifacts), 0 field mismatch, 0 STALE, 0 unexplained.
-
-**Sage model migration (CHG-0472):** qa agent primary changed from gemma4:31b-cloud → ollama/deepseek-v4-pro:cloud. Root cause: 4 consecutive gemma4 context-overflow failures on mirror writer review. deepseek-pro completed same review in 2m40s.
-
-**C1 STALE drift corrected (CHG-0473):** Harness v2.0 had STALE = ">7 days no update" (ticket dormancy). C1 §5 defines STALE = mirror lag > 5 min after live change. Corrected in v2.4. Old definition preserved as info.dormant_tickets (informational only). T4-Divergence-Contract v1.1 published.
-
-**7-day divergence gate:** Daily cron 53c94ce7 (9am AEST, isolated deepseek-pro). Day 1 = 2026-06-08, target = 2026-06-15. W2-8 (Sage validation) scheduled for end of window. Any unexplained divergence → Telegram alert to Ken. P0 closes when 7 consecutive clean runs + Sage PASS + Ken sign-off.
-
-**Platform state:** 14 agents. Sage primary now deepseek-pro. Warden drift check monitoring. OpenClaw v2026.5.27 stable. Shadow env healthy on 38789.
-
-**Pending:** W2-8 (Jun 15), P1 pilot loop (post P0 close).
