@@ -1,0 +1,13 @@
+{
+  "name": "Platform Constraint Enforcement",
+  "id": "platform-constraint",
+  "ticket": "TKT-0310",
+  "description": "Regression tests for platform constraint enforcement: tilde-path normalization (P0), context budget guards (P1-A), file size enforcement (P1-B), cron timeout auto-scaling (P1-C), constraint hardening (P2)",
+  "phases": {
+    "1": "P0: Tilde-Path Normalization (TKT-0336)",
+    "2": "P1-A: Context Budget Guards (TKT-0337)",
+    "3": "P1-B: File Size Enforcement (TKT-0338)",
+    "4": "P1-C: Cron Timeout Auto-Scaling (TKT-0339)",
+    "5": "P2: Constraint Hardening (TKT-0340)"
+  }
+}
