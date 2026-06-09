@@ -5,21 +5,123 @@
   "locked_at": "2026-06-07T10:13:00+10:00",
   "locked_by": "Ken Mun",
   "theme": "Sprint 6 Carries — Close Out",
-  "note": "Sprint 7 = Sprint 6 carried items ONLY. Former Sprint 7 (21 tickets) → re-numbered to Sprint 8.",
-  "capacity": { "committed": 7, "folded_carries": 1, "note": "TKT-0317 epic has 6 child tickets — count as 1 committed item" },
-  "budget": { "cap_monthly": 150, "estimated_sprint": 10 },
+  "note": "Sprint 7 = Sprint 6 carried items ONLY. Former Sprint 7 (21 tickets) → re-numbered to Sprint 8. 
+TKT-0323 is L effort (NOT M) — 16 atoms + 8 ACs across Part A (validator), Part B (14-agent config migration), Part C (cost monitoring). Full spec: state/tkt-0323-atoms.json.
+All 7 sequence items are Forge work. TKT-0327 (tilde-path) merged into TKT-0336 (P0 safe-path.sh).
+TKT-0317 children TKT-0321/0322 done in S6. Remaining TKT-0323+0324 → TKT-0323 is now the committed item.
+TKT-0326 independent. TKT-0293, TKT-0318, TKT-0319, TKT-0137 → backlog/carried.",
+  "capacity": {
+    "committed": 7,
+    "total_forge_hours_est": "17-19h",
+    "days_remaining": 4.5,
+    "reactive_absorbed": "1.5 days (OOM, launchd, journal v2.0, MEMORY trim, PG schema hardening, dupe cleanup)"
+  },
+  "budget": {
+    "cap_monthly": 150,
+    "estimated_sprint": 10
+  },
   "sequence": [
-    { "seq": 1, "tkt": "TKT-0327", "title": "Tilde-Path Normalization — Option B: wrapper script", "effort": "S", "agent": "forge", "priority": "high", "status": "pending", "note": "429 rate limit unverified — verify first, then complete if safe" },
-    { "seq": 2, "tkt": "TKT-0317", "title": "Context Optimization Epic — GROOMED: 4 child tickets, 6 ACs", "effort": "XL", "agent": "atlas+forge", "priority": "high", "status": "pending", "note": "TKT-0275 folded in. 4 child: TKT-0321 ✅, TKT-0322 ✅, TKT-0323, TKT-0324. Remaining atoms: implementation dispatch-validate.sh + agent config migration." },
-    { "seq": 3, "tkt": "TKT-0293", "title": "Regression Testing Framework", "effort": "L", "agent": "forge", "priority": "high", "status": "pending", "note": "TKT-0333 folded in" },
-    { "seq": 4, "tkt": "TKT-0319", "title": "Global TQP Phase 3", "effort": "L", "agent": "atlas+forge", "priority": "medium", "status": "pending", "note": "Aria TQP (TKT-0318) is prerequisite" },
-    { "seq": 5, "tkt": "TKT-0318", "title": "Aria TQP Phase 2", "effort": "M", "agent": "yoda+aria", "priority": "medium", "status": "pending" },
-    { "seq": 6, "tkt": "TKT-0326", "title": "NAS Writable Backup Target", "effort": "M", "agent": "forge", "priority": "high", "status": "pending" },
-    { "seq": 7, "tkt": "TKT-0137", "title": "Policy Register", "effort": "M", "agent": "thrawn", "priority": "medium", "status": "pending" }
+    {
+      "seq": 1,
+      "tkt": "TKT-0336",
+      "title": "P0: Tilde-Path Normalization — safe-path.sh Utility",
+      "effort": "XS",
+      "agent": "forge",
+      "priority": "high",
+      "status": "in-progress",
+      "note": "Inherits TKT-0327 scope. Path normalisation wrapper. Quick deliverable."
+    },
+    {
+      "seq": 2,
+      "tkt": "TKT-0337",
+      "title": "P1-A: Context Budget Guards — Token Counting + Injection Gates",
+      "effort": "M",
+      "agent": "forge",
+      "priority": "high",
+      "status": "pending",
+      "note": "TKT-0310 child. AC: per-agent token budget enforcement (500/2000/8000/300 tiers). Block injection if over."
+    },
+    {
+      "seq": 3,
+      "tkt": "TKT-0338",
+      "title": "P1-B: File Size Enforcement — Write-Time + Pre-Injection Validation",
+      "effort": "M",
+      "agent": "forge",
+      "priority": "high",
+      "status": "pending",
+      "note": "TKT-0310 child. AC: validate file size before write, reject if > threshold, auto-truncate prompt injection."
+    },
+    {
+      "seq": 4,
+      "tkt": "TKT-0339",
+      "title": "P1-C: Cron Timeout Auto-Scaling — Adaptive Timeout + Retry + Process Group Reaping",
+      "effort": "M",
+      "agent": "forge",
+      "priority": "high",
+      "status": "pending",
+      "note": "TKT-0310 child. AC: cron timeouts scale by task complexity, retry with backoff, zombie process reaping."
+    },
+    {
+      "seq": 5,
+      "tkt": "TKT-0340",
+      "title": "P2: Constraint Hardening — Enforce Guards + Auto-Summarization + Cron Dashboard",
+      "effort": "M",
+      "agent": "forge",
+      "priority": "high",
+      "status": "pending",
+      "note": "TKT-0310 child. AC: integrate P0/P1 guards into auto-heal, auto-summarize oversized context, cron dashboard."
+    },
+    {
+      "seq": 6,
+      "tkt": "TKT-0323",
+      "title": "dispatch-validate.sh — Pre-Dispatch Validator + 14-Agent Config Migration + Cost Monitoring",
+      "effort": "L",
+      "agent": "forge",
+      "priority": "high",
+      "status": "pending",
+      "note": "TKT-0317 child. 16 atoms (A1-A12) + 8 ACs. L effort 5-7h. Full spec: state/tkt-0323-atoms.json. Part A: validator gates. Part B: 14-agent config migration. Part C: cost monitoring."
+    },
+    {
+      "seq": 7,
+      "tkt": "TKT-0326",
+      "title": "NAS Writable Backup Target — End-to-end Backup Verification",
+      "effort": "M",
+      "agent": "forge",
+      "priority": "high",
+      "status": "pending",
+      "note": "Independent. Test NAS mount writable, verify pg_dump target, run backup, add auto-heal CHECK."
+    }
   ],
-  "folded_carries": [
+  "backlog": [
+    {
+      "tkt": "TKT-0324",
+      "title": "TQP Integration + Rollout Test for 2-Pass Dispatch",
+      "note": "TKT-0317 child. Depends on TKT-0323. Not in Sprint 7 commit — TKT-0323's Part C (cost monitoring) may subsume or cover this. Revisit after TKT-0323 complete."
+    },
+    {
+      "tkt": "TKT-0293",
+      "title": "Regression Testing Framework — Platform-wide Coverage",
+      "note": "Sprint 6 carry. TKT-0333 (CrewAI crash learnings) folded in. L effort. Carried to S8 — Forge overloaded."
+    },
+    {
+      "tkt": "TKT-0319",
+      "title": "Global TQP Phase 3 — Agent Auto-Resume Protocol",
+      "note": "Blocked by TKT-0318 (deferred to P2). Fold. Re-scope in S8."
+    },
+    {
+      "tkt": "TKT-0318",
+      "title": "Aria TQP Phase 2",
+      "note": "Deferred to P2 per Ken 2026-05-27. Keep deferred."
+    },
+    {
+      "tkt": "TKT-0137",
+      "title": "Policy Register — Formal policy library from Charter + Governance Framework",
+      "note": "Backlog. Never started in 2 sprints. P2 gate (Aug). Carry to S8."
+    }
+  ],
+  "folded": [
     { "tkt": "TKT-0334", "title": "CrewAI + Qwen3.6 PoC → TRIGGER-03 (OC2)" },
-    { "tkt": "TKT-0275", "title": "Progressive Disclosure → folded into TKT-0317" }
-  ],
-  "notes": "All 8 carries from Sprint 6 (including TKT-0334 folded). Capacity warning: TKT-0317 is XL epic with remaining implementation atoms. TKT-0319 gated on TKT-0318. May need to split or carry further."
+    { "tkt": "TKT-0275", "title": "Progressive Disclosure → folded into TKT-0317" },
+    { "tkt": "TKT-0327", "title": "Tilde-Path Normalization → merged into TKT-0336 (P0)" }
+  ]
 }

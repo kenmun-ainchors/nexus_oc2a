@@ -1,0 +1,200 @@
+{
+  "sprint": 7,
+  "dates": "2026-06-08 to 2026-06-14",
+  "status": "committed",
+  "reassessed_at": "2026-06-09T15:15:00+10:00",
+  "reassessed_by": "Yoda",
+  "reassessed_reason": "PG duplicates (colon-suffixed IDs from CLI-arg-bleed) masked true ticket status. TKT-0321/0322 were done in S6 but PG had open+done dupes. Fixed 4 duplicate rows. Now reflects actual Sprint 7 commit.",
+  "days_remaining": 4.5,
+  "days_elapsed": 1.5,
+  "reactive_work_absorbed_s7": [
+    "OOM crash investigation + heap snapshot config",
+    "Nightly gateway restart cron (Sun 02:55)",
+    "WO-002 divergence cron: gemma4→deepseek-pro fix",
+    "Dual-bind guard in nightly-gateway-restart.sh (CHG-0474)",
+    "Launchd death loop: stale com.ainchors.nexus-sandbox plist disabled",
+    "Drive sync: bash→zsh fix + Day 44 manual upload",
+    "Journal v2.0 rewrite: 6-arg→2-arg inline (CHG-0475)",
+    "MEMORY.md trim: 15,045→7,800 chars",
+    "PG schema hardening: 5 CHECK constraints + 22-row cleanup (CHG-0476)",
+    "PG duplicate row consolidation: TKT-0321/0322/0323/0327 colon-suffixed dupes merged"
+  ],
+  "priority_queue": [
+    {
+      "seq": 1,
+      "tkt": "TKT-0323",
+      "title": "Pre-Dispatch Validator — dispatch-validate.sh",
+      "current_status": "OPEN — Sprint 6 child of TKT-0317. 2-pass contract spec (TKT-0321) and model-task matrix (TKT-0322) are DONE.",
+      "effort": "M",
+      "impact": "CRITICAL — gates all agent-to-agent dispatches. 'No executor receives undiscovered work.'",
+      "urgency_rating": "P0-critical",
+      "agent": "forge",
+      "remaining_atoms": [
+        "Build dispatch-validate.sh: validate dispatch payload against routing matrix + agent scope",
+        "Test: reject ambiguous dispatch, pass properly-formed dispatch",
+        "Integrate with TQP gate"
+      ],
+      "rationale": "The 2-pass contract (TKT-0321) and routing matrix (TKT-0322) are already done. dispatch-validate.sh is the enforcement mechanism — the last piece. Without it, the 2-pass discipline is words, not code.",
+      "est_hours": 2
+    },
+    {
+      "seq": 2,
+      "tkt": "TKT-0324",
+      "title": "TQP Integration + Rollout Test for 2-Pass Dispatch",
+      "current_status": "OPEN — Sprint 6 child of TKT-0317. Depends on TKT-0323.",
+      "effort": "S-M",
+      "impact": "HIGH — connects validator to TQP persistence layer so dispatch decisions survive restarts",
+      "urgency_rating": "P1-high",
+      "agent": "forge+yoda",
+      "remaining_atoms": [
+        "Wire dispatch-validate.sh into TQP sc_persist_atom",
+        "E2E test: sub-agent dispatch with validator gate",
+        "Rollout to Aria+Forge first, then fleet"
+      ],
+      "rationale": "Sibling of TKT-0323. Small effort, high leverage. Should be done back-to-back with TKT-0323.",
+      "est_hours": 1
+    },
+    {
+      "seq": 3,
+      "tkt": "TKT-0327",
+      "title": "Tilde-Path Normalization — Verify + Close",
+      "current_status": "PG=closed. Sprint file=pending (429 unverified). TKT-0327 notes say mitigations applied via L-046 + systemEvent conversion.",
+      "effort": "XS",
+      "impact": "HIGH — structural fix for all isolated cron sessions. Already mitigated.",
+      "urgency_rating": "P1-high",
+      "agent": "yoda",
+      "remaining_atoms": [
+        "Verify 429 rate limit no longer blocking",
+        "Confirm safe-path.sh operational in isolated sessions",
+        "Resolve PG vs sprint-file status discrepancy → mark DONE"
+      ],
+      "rationale": "Probably already done — just needs verification and status alignment. PG says closed, L-046 band-aids applied, crons converted. 5-minute task.",
+      "est_hours": 0.25
+    },
+    {
+      "seq": 4,
+      "tkt": "TKT-0326",
+      "title": "NAS Writable Backup Target",
+      "current_status": "OPEN — no work done. Sprint 6 carry.",
+      "effort": "M",
+      "impact": "HIGH — pg_dump runs but destination may not be writable. Backup integrity risk.",
+      "urgency_rating": "P1-high",
+      "agent": "forge",
+      "remaining_atoms": [
+        "Test NAS mount writable from OC1",
+        "Verify pg_dump target path exists + writable",
+        "Run one end-to-end backup",
+        "Add auto-heal CHECK for NAS writable state"
+      ],
+      "rationale": "Existential. Two sprints old. Medium effort, clear deliverable.",
+      "est_hours": 2
+    },
+    {
+      "seq": 5,
+      "tkt": "TKT-0317",
+      "title": "Context Optimization Epic — Agent Config Migration (remaining Phase 1)",
+      "current_status": "OPEN. 4 children: TKT-0321 ✅, TKT-0322 ✅, TKT-0323 (seq-1 above), TKT-0324 (seq-2 above). 2 folded children: TKT-0330 (PG sequences), TKT-0331 (Skill encapsulation).",
+      "effort": "M (remaining)",
+      "impact": "HIGH — 50% token reduction. 55-64% Yoda context savings.",
+      "urgency_rating": "P1-high",
+      "agent": "yoda+forge",
+      "remaining_atoms": [
+        "After TKT-0323+0324 done: update remaining agent configs per model-task matrix",
+        "Verify SHARED_CONTEXT.md consolidation complete",
+        "Verify token burn reduction targets",
+        "Close epic Phase 1"
+      ],
+      "rationale": "TKT-0323+0324 ARE the remaining implementation atoms for TKT-0317 Phase 1. The config migration is cleanup. Delivering TKT-0323+0324 effectively closes TKT-0317 Phase 1.",
+      "est_hours": 1
+    },
+    {
+      "seq": 6,
+      "tkt": "TKT-0293",
+      "title": "Regression Testing Framework — Platform-wide Coverage",
+      "current_status": "OPEN. TKT-0333 (CrewAI crash learnings: 4 ACs) folded in. Sprint 6 carry.",
+      "effort": "L",
+      "impact": "HIGH — prevents repeat incidents. Expands TKT-0292 baseline.",
+      "urgency_rating": "P1-high",
+      "agent": "forge",
+      "remaining_atoms": [
+        "TKT-0333 ACs: homebrew health check, venv isolation, crash recovery shakedown, cron resilience",
+        "Expand test coverage beyond baseline",
+        "Integrate regression into auto-heal CHECK",
+        "Test suite for gateway, cron, backup paths"
+      ],
+      "rationale": "Important but L effort with 4.5 days left and 1.5 days reactive. Risk of partial delivery. Could split: deliver TKT-0333 (folded child) this sprint, carry full expansion to S8.",
+      "est_hours": 6,
+      "risk": "HIGH — likely partial (TKT-0333 only)"
+    },
+    {
+      "seq": 7,
+      "tkt": "TKT-0319",
+      "title": "Global TQP Phase 3 — Agent Auto-Resume Protocol",
+      "current_status": "BLOCKED — prerequisite TKT-0318 (Aria TQP Phase 2) deferred to P2 per Ken 2026-05-27",
+      "effort": "L",
+      "impact": "MEDIUM — cannot start without Aria TQP baseline",
+      "urgency_rating": "P2-BLOCKED",
+      "agent": "atlas+forge",
+      "rationale": "Structurally blocked. Aria TQP Phase 2 is prerequisite and that's deferred. Either re-scope to skip Aria dependency, or fold.",
+      "recommendation": "FOLD — blocked. Re-scope in S8."
+    },
+    {
+      "seq": 8,
+      "tkt": "TKT-0318",
+      "title": "Aria TQP Phase 2",
+      "current_status": "DEFERRED to P2 per Ken. Not active.",
+      "effort": "M",
+      "impact": "LOW (for now)",
+      "urgency_rating": "P3-deferred",
+      "agent": "yoda+aria",
+      "rationale": "Ken's explicit decision. Keep deferred.",
+      "recommendation": "KEEP DEFERRED"
+    },
+    {
+      "seq": 9,
+      "tkt": "TKT-0137",
+      "title": "Policy Register — Formal policy library from Charter + Governance Framework",
+      "current_status": "BACKLOG. Never started. Sprint 6 carry.",
+      "effort": "M",
+      "impact": "MEDIUM — P2 gate item (Aug). No sprint urgency.",
+      "urgency_rating": "P2-medium",
+      "agent": "thrawn",
+      "rationale": "Important for P2 (Aug) but zero sprint urgency. Never started in 2 sprints. Carrying is honest.",
+      "recommendation": "CARRY → S8"
+    }
+  ],
+  "recommitted_plan": {
+    "firm_deliver": [
+      "TKT-0323 — dispatch-validate.sh (M, 2h)",
+      "TKT-0324 — TQP Integration + Rollout (S-M, 1h)",
+      "TKT-0327 — Tilde-Path verify + close (XS, 0.25h)",
+      "TKT-0326 — NAS Writable Backup (M, 2h)",
+      "TKT-0317 — Phase 1 close-out (M, 1h)"
+    ],
+    "stretch": [
+      "TKT-0293 — partial: TKT-0333 (CrewAI crash learnings, 4 ACs) only (M, 2h)"
+    ],
+    "fold": [
+      "TKT-0319 — blocked by TKT-0318 deferral"
+    ],
+    "keep_deferred": [
+      "TKT-0318 — Ken's decision"
+    ],
+    "carry_to_s8": [
+      "TKT-0137 — Policy Register",
+      "TKT-0293 — full expansion (if partial only delivered)"
+    ],
+    "total_committed": 5,
+    "estimated_hours": 6.25,
+    "stretch_hours": 2
+  },
+  "notes": [
+    "TKT-0323 is THE critical path item — dispatch-validate.sh is the enforcement mechanism for the 2-pass contract Ken approved",
+    "TKT-0323 + TKT-0324 done together = TKT-0317 Phase 1 effectively closed",
+    "TKT-0327 is probably already done in reality — just needs verification",
+    "TKT-0326 is existential backup integrity — two sprints old, clear deliverable",
+    "TKT-0293 is important but L effort. Honest assessment: partial delivery only",
+    "TKT-0319 must be folded — it's blocked and pretending otherwise wastes planning cycles",
+    "5 firm items = matches S6 delivery pace (5 committed). Feasible with 4.5 days."
+  ]
+}
