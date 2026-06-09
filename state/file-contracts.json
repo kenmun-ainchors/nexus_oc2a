@@ -1,0 +1,79 @@
+{
+  "version": "1.0",
+  "created": "2026-06-09",
+  "created_by": "TKT-0341",
+  "description": "File purpose contracts for all .md files in workspace root. Each file declares: purpose, audience, hard limit, review cadence. Auto-heal CHECK 21 audits against this registry.",
+  "files": {
+    "SOUL.md": {
+      "purpose": "Agent identity, traits, non-negotiable rules, routing dispatch, cadences",
+      "audience": "Agent session context (injected)",
+      "hard_limit": 10000,
+      "soft_limit": 6000,
+      "review_cadence": "per sprint",
+      "rule": "Must NOT contain operational procedures, alert templates, or reference docs. Identity + rules only."
+    },
+    "AGENTS.md": {
+      "purpose": "Workspace conventions, dispatch rules, quick-reference rule table, file structure guide",
+      "audience": "Agent session context (injected)",
+      "hard_limit": 12000,
+      "soft_limit": 8000,
+      "review_cadence": "per sprint",
+      "rule": "Rules belong in RULES.md. AGENTS.md = summary + conventions + workspace structure. Details → RULES.md."
+    },
+    "MEMORY.md": {
+      "purpose": "Long-term memory — durable user preferences, decisions, platform facts, behavior guidance",
+      "audience": "Yoda main session only (injected)",
+      "hard_limit": 15000,
+      "soft_limit": 10000,
+      "review_cadence": "daily (memory maintenance heartbeat)",
+      "rule": "Trim EOD sections to archive at 12K. Archive overflow: memory/MEMORY-archive-YYYY-MM-DD.md."
+    },
+    "HEARTBEAT.md": {
+      "purpose": "Periodic check checklist — state keys + conditions + actions only",
+      "audience": "Heartbeat runs only (lightContext=true)",
+      "hard_limit": 15000,
+      "soft_limit": 5000,
+      "review_cadence": "monthly",
+      "rule": "NO procedural prose, alert templates, or execution logs. One line per check: name, key, condition, action. Procedures live in referenced scripts."
+    },
+    "USER.md": {
+      "purpose": "Human identity — name, contact, timezone, primary channel",
+      "audience": "Agent session context (injected)",
+      "hard_limit": 2000,
+      "soft_limit": 1000,
+      "review_cadence": "on change only",
+      "rule": "Minimal. Name, email, mobile, timezone, channel. Nothing else."
+    },
+    "IDENTITY.md": {
+      "purpose": "Agent name, role, vibe, emoji",
+      "audience": "Agent session context (injected)",
+      "hard_limit": 2000,
+      "soft_limit": 1000,
+      "review_cadence": "on change only",
+      "rule": "~5 lines max. Name, creature, vibe, emoji."
+    },
+    "TOOLS.md": {
+      "purpose": "Device-specific config, local notes, SSH hosts, Notion DB IDs",
+      "audience": "Agent session context (injected)",
+      "hard_limit": 5000,
+      "soft_limit": 3000,
+      "review_cadence": "per sprint",
+      "rule": "Device-specific config ONLY. General usage in SKILL.md files."
+    },
+    "RULES.md": {
+      "purpose": "Platform rules reference — full rule text, CHG references, rollback procedures",
+      "audience": "On-demand read (NOT injected)",
+      "hard_limit": "unlimited",
+      "soft_limit": "none",
+      "review_cadence": "per sprint + per CHG",
+      "rule": "NOT injected into sessions. Read via memory_search or read on-demand. Reference only."
+    }
+  },
+  "workspace_root_policy": {
+    "max_total_chars": 60000,
+    "allowed_files": ["SOUL.md", "AGENTS.md", "MEMORY.md", "HEARTBEAT.md", "USER.md", "IDENTITY.md", "TOOLS.md", "RULES.md"],
+    "new_file_rule": "Any new .md file in workspace root requires: (1) purpose contract registered here, (2) Ken approval, (3) file-size-guard updated. No auto-create without contract.",
+    "subdirectory_rule": "Reference docs → docs/, Agent-specific → agents/<id>/, Completed/stale → archive/, State → state/, Scripts → scripts/"
+  },
+  "audit_check": "CHECK 21 (auto-heal)"
+}

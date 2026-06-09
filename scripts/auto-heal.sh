@@ -448,7 +448,6 @@ INJECTION_FILES=(
   "$WORKSPACE_ROOT/USER.md"
   "$WORKSPACE_ROOT/AGENTS.md"
   "$WORKSPACE_ROOT/MEMORY.md"
-  "$WORKSPACE_ROOT/MEMORY_TICKETS.md"
   "$WORKSPACE_ROOT/HEARTBEAT.md"
 )
 # RULES.md excluded — reference doc, not injected
@@ -634,7 +633,27 @@ else
 fi
 
 write_state
-log "=== WRITING FINAL REPORT ==="
+
+# ---------- CHECK 21: Workspace File Contract Audit (TKT-0341) ----------
+log "CHECK 21: workspace file contract audit"
+if [[ -x "$WORKSPACE/scripts/file-size-guard.sh" ]]; then
+  ROOT_OUTPUT=$("$WORKSPACE/scripts/file-size-guard.sh" --root 2>&1) || true
+  ROOT_RC=$?
+  if [[ "$ROOT_OUTPUT" == *"UNTRACKED FILES"* ]]; then
+    _untracked=$(echo "$ROOT_OUTPUT" | grep "UNTRACKED FILES:" | sed 's/.*UNTRACKED FILES: //')
+    issues+="\n  [TKT-0341] Untracked .md files in workspace root: $_untracked"
+    needs_ken+="\n  [TKT-0341] Untracked .md files in root — move to docs/archive/agents or register contract"
+    log "  WARNING: untracked files: $_untracked"
+  elif [[ $ROOT_RC -eq 2 ]]; then
+    needs_ken+="\n  [TKT-0341] Workspace root .md total exceeds 60K cap — trim injected files"
+    log "  WARNING: root .md cap exceeded"
+  else
+    log "  OK: all root .md files tracked and within limits"
+  fi
+else
+  log "  SKIP: file-size-guard.sh not found"
+fi
+
 write_state "complete"
 
 # ---------- FILE INC FOR EACH AUTO-FIX (ITSM-US-007) ----------

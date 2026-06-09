@@ -6,6 +6,8 @@ export PATH="/usr/bin:/bin:/opt/homebrew/bin:$PATH"
 set -euo pipefail
 
 WORKSPACE="${WORKSPACE:-/Users/ainchorsangiefpl/.openclaw/workspace}"
+ROOT_MD_CAP=60000  # TKT-0341: total chars across all root .md files
+CONTRACT_REGISTRY="$WORKSPACE/state/file-contracts.json"
 
 LIMITS_DATA=(
   "SOUL.md|10000|6000|Trim non-essential sections. Target: identity + traits + rules + cadences only."
@@ -87,6 +89,7 @@ while [[ $# -gt 0 ]]; do
   case "$1" in
     --check) MODE="check"; TARGET="$2"; shift 2 ;;
     --all)   MODE="all"; shift ;;
+    --root)  MODE="root"; shift ;;
     --json)  MODE="json"; shift ;;
     -*) echo "Unknown: $1"; exit 1 ;;
     *) TARGET="$1"; shift ;;
@@ -127,6 +130,54 @@ elif [[ "$MODE" == "all" ]]; then
     2) echo "VERDICT: BLOCKED — file(s) exceed hard limits ❌";;
   esac
   exit $worst
+elif [[ "$MODE" == "root" ]]; then
+  # TKT-0341: workspace-root total cap check
+  echo "=== Workspace Root .md Total Cap Check ==="
+  echo ""
+  total=0
+  total_root_md=0
+  untracked=""
+  for f in "$WORKSPACE"/*.md; do
+    [[ -f "$f" ]] || continue
+    bname="${f##*/}"
+    size=$(/usr/bin/wc -c < "$f" 2>/dev/null)
+    size=${size// /}
+    total=$((total + size))
+    # Check if file has a contract
+    tracked=0
+    for t in "${CRITICAL_FILES[@]}"; do
+      [[ "$f" == "$t" ]] && tracked=1 && break
+    done
+    [[ "$bname" == "RULES.md" ]] && tracked=2  # explicitly exempted — not injected, doesn't count toward cap
+    if [[ $tracked -eq 0 ]]; then
+      [[ -n "$untracked" ]] && untracked+=", "
+      untracked+="$bname"
+    fi
+    # RULES.md is exempt from cap (not injected, on-demand reference)
+    if [[ $tracked -ne 2 ]]; then
+      total_root_md=$((total_root_md + size))
+    fi
+    echo "  $( [[ $tracked -ne 0 ]] && echo '✅' || echo '⚠️' ) $bname: $size chars$( [[ $tracked -eq 2 ]] && echo ' [exempt — not injected]' || echo '')"
+  done
+  echo ""
+  total_pct=$(( total_root_md * 100 / ROOT_MD_CAP ))
+  echo "Injectable total: $total_root_md chars / $ROOT_MD_CAP cap (${total_pct}%)"
+  echo "With RULES.md (reference only): $total chars"
+  if [[ -n "$untracked" ]]; then
+    echo ""
+    echo "⚠️ UNTRACKED FILES: $untracked"
+    echo "   These files have no contract in state/file-contracts.json."
+    echo "   Add contract or move to appropriate subdirectory (docs/, archive/, agents/<id>/)."
+    rc=1
+  else
+    echo "All files tracked ✅"
+    rc=0
+  fi
+  if (( total_root_md > ROOT_MD_CAP )); then
+    echo "BLOCKED: Injectable root .md total exceeds ${ROOT_MD_CAP} cap ❌"
+    rc=2
+  fi
+  exit $rc
 elif [[ "$MODE" == "json" ]]; then
   # Build JSON silently — no check_one stdout
   worst=0

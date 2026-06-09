@@ -93,7 +93,7 @@ Nexus=platform|Holocron=AKB|Bridge=cmd-centre|Citadel=client-portal|Holonet=live
 - Pre-OC2: 5/sprint | OC2 setup: 2–3 | Post-OC2: 5. 30% headroom. P2 target: end-Aug 2026 (contingency mid-Sep). **Daily budget cap: $150** (CHG-0268) | **TEMPORARY: $450 until 2026-05-17** (CHG-0312, heavy build phase).
 
 ## Pending Tickets
-→ See **MEMORY_TICKETS.md** (auto-managed, ≤8k). tickets.json seq 199 (updated through 2026-05-15). Notion AKB Backlog = SSOT.
+→ See Notion AKB Backlog (SSOT) or `memory_search` for ticket history.
 
 ## Anthropic API Key Rotation — SOP
 - Trigger: key expires/revoked. Ken: `openclaw models auth`. Yoda: `python3 scripts/propagate-anthropic-key.sh` → all 12 agents. Run immediately. (CHG-0142 + 2026-05-13)

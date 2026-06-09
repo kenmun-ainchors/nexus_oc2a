@@ -19,7 +19,7 @@ echo "=== CI Cycle A — $(date -u '+%Y-%m-%d %H:%M UTC') ==="
 # --------------------------------------------------
 echo -n "[1/8] Workspace meta files present ... "
 MISSING=()
-for f in "IDENTITY.md" "AGENTS.md" "RULES.md" "HEARTBEAT.md" "YODA_RUNBOOK.md"; do
+for f in "IDENTITY.md" "AGENTS.md" "RULES.md" "HEARTBEAT.md" "docs/YODA_RUNBOOK.md"; do
   [[ -f "$WORKSPACE/$f" ]] || MISSING+=("$f")
 done
 if [[ ${#MISSING[@]} -eq 0 ]]; then

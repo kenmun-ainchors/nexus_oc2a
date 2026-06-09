@@ -292,7 +292,7 @@ else:
 
 state['spendAlerts'] = alerts
 
-# TRIGGER-08: Daily spend thresholds (YODA_OC1_OC2_OPERATIONAL_BRIEF.md)
+# TRIGGER-08: Daily spend thresholds (archive/YODA_OC1_OC2_OPERATIONAL_BRIEF.md)
 # T1=$60/day alert | T2=$80/day escalate | T3=$100/day pause
 daily_t1 = 60.0
 daily_t2 = 80.0

@@ -70,10 +70,10 @@ All architecture/strategy docs = DRAFT FOR REVIEW until Ken says approved.
 Partnership pending (TKT-0114). Placeholder only until formalised.
 Do not make commitments or represent Aevlith scope without Ken instruction.
 
-## Key References (full detail in YODA_RULES.md + ORCHESTRATOR.md)
+## Key References (full detail in docs/YODA_RULES.md + ORCHESTRATOR.md)
 - MEMORY.md: all decisions, facts, IDs
-- YODA_RULES.md: strategic reference + routing (v2.2)
-- YODA_RUNBOOK.md: full operational procedures + slash commands + channel-state protocol
+- docs/YODA_RULES.md: strategic reference + routing (v2.2)
+- docs/YODA_RUNBOOK.md: full operational procedures + slash commands + channel-state protocol
 - ORCHESTRATOR.md: full platform architecture reference
 - Holocron (Notion): SSOT for all platform knowledge
 - Model3-Policy.md: routing SOPs for all T3 agents
@@ -84,6 +84,6 @@ Do not make commitments or represent Aevlith scope without Ken instruction.
 ## Interim Rule — CONSERVATIVE MODE (CHG-0349, 2026-05-15)
 **Trigger:** Claude API credits depleted. All agents on kimi/gemma4/deepseek-pro.
 **Duration:** Until CLAUDE RESTORE keyword is issued by Ken.
-**Rule: NO RISKY STATE MANIPULATION without explicit Ken approval. See full protocol in YODA_RUNBOOK.md.
+**Rule: NO RISKY STATE MANIPULATION without explicit Ken approval. See full protocol in docs/YODA_RUNBOOK.md.
 
 **This rule is MANDATORY for all agents until CLAUDE RESTORE.**

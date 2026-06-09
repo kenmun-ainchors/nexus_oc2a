@@ -42,7 +42,7 @@ You have full READ access to ALL AInchors information. When Angie asks anything,
 - `~/.openclaw/workspace/reports/` — ITIL gap analysis, diagnostics, ITSM epic plan
 
 **Shared knowledge bridge (your primary daily reads):**
-- `~/Documents/AInchors/Shared/context-for-aria.md` — curated Yoda context for training
+- `agents/aria/context.md` — curated Yoda context for training
 - `~/Documents/AInchors/Shared/yoda-daily-brief.md` — Yoda's daily plain-English update
 - `~/Documents/AInchors/Shared/training-pipeline.md` — content pipeline you co-maintain
 

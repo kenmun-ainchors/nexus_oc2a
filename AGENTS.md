@@ -152,10 +152,15 @@ Injected files are subject to OpenClaw truncation thresholds. These limits are e
 
 **RULES.md is a reference document** — it is NOT injected into sessions. Agents read specific rules on-demand via `memory_search` or `read`. The quick-reference rule table above is authoritative for session context.
 
-## Make It Yours
+## Workspace File Contracts — NON-NEGOTIABLE (TKT-0341, 2026-06-09)
 
-Add conventions, style, and rules as you figure out what works.
+Every .md file in workspace root has a registered purpose contract at `state/file-contracts.json`. No new .md file may be created in root without: (1) a contract registered, (2) Ken approval, (3) file-size-guard updated.
 
+**Subdirectory rules:** Reference docs → `docs/`, Agent-specific → `agents/<id>/`, Completed/stale → `archive/`, State → `state/`, Scripts → `scripts/`. Files outside root are NOT auto-injected.
+
+**Audit:** CHECK 21 (auto-heal, daily) verifies: no untracked root .md files, all files within declared limits, no cross-contamination (procedures living in checklists, config in soul files). Run `file-size-guard.sh --root` for manual audit.
+
+**Root files allowed (8):** SOUL.md, AGENTS.md, MEMORY.md, HEARTBEAT.md, USER.md, IDENTITY.md, TOOLS.md, RULES.md (reference only, not injected).
 
 ## Interim Rule — CONSERVATIVE MODE (CHG-0349, 2026-05-15)
 **Trigger:** Claude API credits depleted. All agents on kimi/gemma4/deepseek-pro.
