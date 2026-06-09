@@ -585,9 +585,55 @@ else
   log "  INFO: Shadow gateway not running on port $SHADOW_PORT — expected unless shadow is actively deployed"
   # Shadow is optional — not an issue if not running. Only flag if deployed but crashed.
 fi
-write_state
+# ---------- CHECK 20: Tilde Path in Cron Payloads (TKT-0336) ----------
+log "CHECK 20: tilde paths in cron payloads"
 
-# ---------- FINAL REPORT WRITE ----------
+# Scan all active cron jobs' payloads for ~ tilde patterns
+# This detects if any agent/cron is using ~ in tool call paths
+TILDE_FOUND=0
+CRON_JOBS=$(/opt/homebrew/bin/openclaw cron list --json 2>/dev/null || echo '[]')
+
+# Extract payload text fields and check for tilde patterns
+TILDE_PATTERNS=$(echo "$CRON_JOBS" | python3 -c "
+import json, sys
+try:
+    data = json.load(sys.stdin)
+except:
+    sys.exit(0)
+
+if isinstance(data, list):
+    for job in data:
+        payload = job.get('payload', {})
+        text = payload.get('text', '') + payload.get('message', '')
+        if '~/' in text or '~\\\\/' in text:
+            print(f\"CRON: {job.get('name','?')} ({job.get('id','?')[:8]}) — tilde in payload\")
+" 2>&1)
+
+if [[ -n "$TILDE_PATTERNS" ]]; then
+  echo "$TILDE_PATTERNS" | while read line; do
+    issues+="\n  ⚠️ [$line]"
+    TILDE_FOUND=$((TILDE_FOUND+1))
+  done
+  log "  WARNING: $TILDE_FOUND cron payload(s) contain tilde paths"
+else
+  log "  OK: no tilde paths in cron payloads"
+fi
+
+# Also check common agent config files for tilde in path references
+if grep -rq '~/' "$WORKSPACE/state/" --include='*.json' 2>/dev/null; then
+  tilde_files=$(grep -rl '~/' "$WORKSPACE/state/" --include='*.json' 2>/dev/null | head -5 | tr '\n' ' ')
+  issues+="\n  ⚠️ Tilde in state files: $tilde_files"
+  TILDE_FOUND=$((TILDE_FOUND+1))
+  log "  WARNING: tilde paths found in state JSON files"
+fi
+
+if (( TILDE_FOUND > 0 )); then
+  needs_ken+="\n  [TKT-0336] Tilde paths detected in $TILDE_FOUND location(s) — review crons and state files"
+else
+  log "  OK: no tilde paths anywhere"
+fi
+
+write_state
 log "=== WRITING FINAL REPORT ==="
 write_state "complete"
 
