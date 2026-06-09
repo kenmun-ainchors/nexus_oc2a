@@ -40,6 +40,13 @@ EXPECTED_ERROR_CRONS = [
     '20f59555',  # Nightly Gateway Restart — "interrupted by gateway restart" is expected
 ]
 
+# CHG-0458: Errors caused by gateway restart are transient — skip if lastError contains this pattern
+# Any cron can be interrupted by the 03:00 restart; it recovers on next run.
+EXPECTED_ERROR_PATTERNS = [
+    'interrupted by gateway restart',
+    'job interrupted by gateway restart',
+]
+
 # --- Live consecutiveErrors check (Fix 1: CHG-0152 followup) ---
 try:
     cron_data = json.loads(cron_state_raw)
@@ -47,6 +54,9 @@ try:
         job_id = job.get('id', '')
         if any(job_id.startswith(prefix) for prefix in EXPECTED_ERROR_CRONS):
             continue  # CHG-0411: expected error, skip
+        last_error = job.get('state', {}).get('lastError', '')
+        if any(pattern in last_error for pattern in EXPECTED_ERROR_PATTERNS):
+            continue  # CHG-0458: transient gateway restart error, skip
         consecutive = job.get('state', {}).get('consecutiveErrors', 0)
         if consecutive >= 3:
             last_status = job.get('state', {}).get('lastStatus', '')

@@ -1,13 +1,13 @@
 {
-  "lastSync": "2026-06-07T17:20:38.000Z",
+  "lastSync": "2026-06-09T17:20:06.000Z",
   "lastCursor": null,
   "dataSourceId": "34dc1829-53ff-812d-8e43-000b83eb0e7e",
   "outputDir": "state/akb-pages",
   "stats": {
-    "totalSynced": 365,
-    "lastRunPages": 50,
-    "lastRunNew": 9,
-    "lastRunUpdated": 0
+    "totalSynced": 375,
+    "lastRunPages": 5,
+    "lastRunNew": 4,
+    "lastRunUpdated": 1
   },
-  "lastSyncSummary": "2026-06-08 03:20 AEST: 9 new items synced. 4x Done (CHG-0461 config baseline refresh, CHG-0463 PG write fix, CHG-0464 PG sequence-health check #17, TKT-0367, CHG-0465 Nexus Arch Challenges, TKT-NFA-001 3-Area Solution). 2x AUTO-HEAL Backlog (config baseline 9d stale, incremental backup 47h stale). 2x Backlog (TKT-0368 3-Area Solution Design, 3x old AUTO-HEAL still Backlog)."
+  "lastSyncSummary": "2026-06-09 03:20 AEST: 5 changes synced (4 new, 1 updated). 3x Done: CHG-0472 Sage model change to deepseek-v4-pro, CHG-0473 C1 STALE definition drift corrected (Harness v2.2), TKT-0333 Nexus Controller scaffolding. 1x Backlog: TKT-0368 3-Area Solution. 1x TKT-0332 (Backlog)."
 }

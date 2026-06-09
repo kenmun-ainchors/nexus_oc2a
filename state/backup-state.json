@@ -1,8 +1,8 @@
 {
-  "last_backup": "2026-06-08T02:05:42+10:00",
+  "lastBackup": "2026-06-09T02:05:25+10:00",
   "type": "incremental",
-  "status": "success",
-  "workspace_snapshot": "workspace-2026-06-08-0205",
-  "config_backup": "openclaw-2026-06-08-0205.json",
-  "iclod_backup": "skipped (incremental day)"
+  "status": "ok",
+  "exitCode": 0,
+  "path": "/Users/ainchorsangiefpl/Backups/ainchors/workspace-incremental/workspace-2026-06-09-0205",
+  "note": "Incremental (Tue). Git submodule 'atlas' warning is cosmetic — no checkout present."
 }

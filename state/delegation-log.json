@@ -3842,10 +3842,130 @@
       "status": "pass",
       "latencyMs": 0,
       "notes": "warden check (permanent baseline CHG-0394)"
+    },
+    {
+      "ts": "2026-06-08T23:07:06+10:00",
+      "date": "2026-06-08",
+      "tier": "T2",
+      "taskType": "warden-check",
+      "model": "ollama/gemma4:31b-cloud",
+      "status": "pass",
+      "latencyMs": 0,
+      "notes": "warden check (permanent baseline CHG-0394)"
+    },
+    {
+      "ts": "2026-06-09T00:15:48+10:00",
+      "date": "2026-06-09",
+      "tier": "T2",
+      "taskType": "warden-check",
+      "model": "ollama/gemma4:31b-cloud",
+      "status": "fail",
+      "latencyMs": 0,
+      "notes": "warden check: violations detected (exit 1)"
+    },
+    {
+      "ts": "2026-06-09T01:07:05+10:00",
+      "date": "2026-06-09",
+      "tier": "T2",
+      "taskType": "warden-check",
+      "model": "ollama/gemma4:31b-cloud",
+      "status": "pass",
+      "latencyMs": 0,
+      "notes": "warden check (permanent baseline CHG-0394)"
+    },
+    {
+      "ts": "2026-06-09T02:07:06+10:00",
+      "date": "2026-06-09",
+      "tier": "T2",
+      "taskType": "warden-check",
+      "model": "ollama/gemma4:31b-cloud",
+      "status": "pass",
+      "latencyMs": 0,
+      "notes": "warden check (permanent baseline CHG-0394)"
+    },
+    {
+      "ts": "2026-06-09T03:07:06+10:00",
+      "date": "2026-06-09",
+      "tier": "T2",
+      "taskType": "warden-check",
+      "model": "ollama/gemma4:31b-cloud",
+      "status": "pass",
+      "latencyMs": 0,
+      "notes": "warden check (permanent baseline CHG-0394)"
+    },
+    {
+      "ts": "2026-06-09T04:07:07+10:00",
+      "date": "2026-06-09",
+      "tier": "T2",
+      "taskType": "warden-check",
+      "model": "ollama/gemma4:31b-cloud",
+      "status": "pass",
+      "latencyMs": 0,
+      "notes": "warden check (permanent baseline CHG-0394)"
+    },
+    {
+      "ts": "2026-06-09T08:23:13+10:00",
+      "date": "2026-06-09",
+      "tier": "T2",
+      "taskType": "warden-check",
+      "model": "ollama/gemma4:31b-cloud",
+      "status": "fail",
+      "latencyMs": 0,
+      "notes": "warden check: violations detected (exit 1)"
+    },
+    {
+      "ts": "2026-06-09T09:27:27+10:00",
+      "date": "2026-06-09",
+      "tier": "T2",
+      "taskType": "warden-check",
+      "model": "ollama/gemma4:31b-cloud",
+      "status": "fail",
+      "latencyMs": 0,
+      "notes": "warden check: violations detected (exit 1)"
+    },
+    {
+      "ts": "2026-06-09T09:27:32+10:00",
+      "date": "2026-06-09",
+      "tier": "T2",
+      "taskType": "warden-check",
+      "model": "ollama/gemma4:31b-cloud",
+      "status": "fail",
+      "latencyMs": 0,
+      "notes": "warden check: violations detected (exit 1)"
+    },
+    {
+      "ts": "2026-06-09T10:07:04+10:00",
+      "date": "2026-06-09",
+      "tier": "T2",
+      "taskType": "warden-check",
+      "model": "ollama/gemma4:31b-cloud",
+      "status": "pass",
+      "latencyMs": 0,
+      "notes": "warden check (permanent baseline CHG-0394)"
+    },
+    {
+      "ts": "2026-06-09T11:07:04+10:00",
+      "date": "2026-06-09",
+      "tier": "T2",
+      "taskType": "warden-check",
+      "model": "ollama/gemma4:31b-cloud",
+      "status": "pass",
+      "latencyMs": 0,
+      "notes": "warden check (permanent baseline CHG-0394)"
+    },
+    {
+      "ts": "2026-06-09T12:07:05+10:00",
+      "date": "2026-06-09",
+      "tier": "T2",
+      "taskType": "warden-check",
+      "model": "ollama/gemma4:31b-cloud",
+      "status": "pass",
+      "latencyMs": 0,
+      "notes": "warden check (permanent baseline CHG-0394)"
     }
   ],
   "summary": {
-    "total": 384,
+    "total": 396,
     "byTier": {
       "T1": {
         "pass": 0,
@@ -3853,8 +3973,8 @@
         "timeout": 0
       },
       "T2": {
-        "pass": 267,
-        "fail": 117,
+        "pass": 275,
+        "fail": 121,
         "timeout": 0
       },
       "T3": {
@@ -3865,8 +3985,8 @@
     },
     "byTaskType": {
       "warden-check": {
-        "pass": 253,
-        "fail": 117,
+        "pass": 261,
+        "fail": 121,
         "timeout": 0,
         "tier": "T2"
       },
@@ -3877,6 +3997,6 @@
         "tier": "T2"
       }
     },
-    "estimatedSavingsUSD": 1.335
+    "estimatedSavingsUSD": 1.375
   }
 }

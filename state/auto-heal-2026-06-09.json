@@ -1,0 +1,43 @@
+{
+  "runAt": "2026-06-08T23:58:54Z",
+  "runAtLocal": "2026-06-09 09:58 AEST",
+  "duration_ms": 0,
+  "checks_run": [
+  "auth_profiles",
+  "delegated_auth",
+  "cron_health",
+  "backup_freshness",
+  "disk_space",
+  "plugin_runtime_deps",
+  "stale_locks",
+  "git_health",
+  "health_state",
+  "api_balance",
+  "incident_patterns",
+  "config_drift",
+  "critical_config_baseline",
+  "agent_identity",
+  "agent_rules",
+  "file_size_guard",
+  "bootstrap_size",
+  "pg_sequence_health",
+  "orphaned_gateway",
+  "sandbox_gateway_liveness",
+  "shadow_gateway_liveness"
+],
+  "checks_count": 21,
+  "issues_found": [
+  "sandbox-gateway:down"
+],
+  "issues_count": 1,
+  "auto_fixed": [
+  "git-commit:workspace:40-files"
+],
+  "auto_fixed_count": 1,
+  "needs_ken": [
+  "MEMORY.md: 15045 chars (HARD LIMIT 15000 — SILENT TRUNCATION RISK)",
+  "WARN: Sandbox gateway (port 28789) not listening — LaunchAgent exists (/Users/ainchorsangiefpl/Library/LaunchAgents/ai.openclaw.sandbox-gateway.plist), manual start may be needed"
+],
+  "needs_ken_count": 2,
+  "exit_status": "complete"
+}

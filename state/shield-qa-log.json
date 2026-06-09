@@ -3669,11 +3669,71 @@
       "pass": 5,
       "fail": 0,
       "issues": []
+    },
+    {
+      "ts": "2026-06-09T00:08:43+10:00",
+      "asset": "/Users/ainchorsangiefpl/.openclaw/workspace/tmp/blog-draft-2026-06-08.html",
+      "producedBy": "yoda",
+      "intendedFor": "public distribution",
+      "verdict": "FAIL",
+      "pass": 4,
+      "fail": 1,
+      "issues": []
+    },
+    {
+      "ts": "2026-06-09T00:08:43+10:00",
+      "asset": "/Users/ainchorsangiefpl/.openclaw/workspace/tmp/blog-draft-2026-06-08.html",
+      "producedBy": "yoda",
+      "intendedFor": "public distribution",
+      "verdict": "FAIL",
+      "pass": 4,
+      "fail": 1,
+      "issues": []
+    },
+    {
+      "ts": "2026-06-09T00:08:43+10:00",
+      "asset": "/Users/ainchorsangiefpl/.openclaw/workspace/tmp/blog-draft-2026-06-08.html",
+      "producedBy": "yoda",
+      "intendedFor": "public distribution",
+      "verdict": "FAIL",
+      "pass": 4,
+      "fail": 1,
+      "issues": []
+    },
+    {
+      "ts": "2026-06-09T00:12:03+10:00",
+      "asset": "/Users/ainchorsangiefpl/.openclaw/workspace/tmp/blog-draft-2026-06-08.html",
+      "producedBy": "yoda",
+      "intendedFor": "public distribution",
+      "verdict": "PASS",
+      "pass": 5,
+      "fail": 0,
+      "issues": []
+    },
+    {
+      "ts": "2026-06-09T00:12:03+10:00",
+      "asset": "/Users/ainchorsangiefpl/.openclaw/workspace/tmp/blog-draft-2026-06-08.html",
+      "producedBy": "yoda",
+      "intendedFor": "public distribution",
+      "verdict": "PASS",
+      "pass": 5,
+      "fail": 0,
+      "issues": []
+    },
+    {
+      "ts": "2026-06-09T00:12:04+10:00",
+      "asset": "/Users/ainchorsangiefpl/.openclaw/workspace/tmp/blog-draft-2026-06-08.html",
+      "producedBy": "yoda",
+      "intendedFor": "public distribution",
+      "verdict": "PASS",
+      "pass": 5,
+      "fail": 0,
+      "issues": []
     }
   ],
   "summary": {
-    "total": 367,
-    "pass": 241,
-    "fail": 126
+    "total": 373,
+    "pass": 244,
+    "fail": 129
   }
 }
