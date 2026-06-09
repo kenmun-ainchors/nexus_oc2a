@@ -11,6 +11,19 @@
 ---
 ---
 
+## 2026-06-09 13:08 AEST — [CHG-0475] CHG-0475: journal-append.sh v2.0 — simplified inline journal writer
+**Type:** infra
+**Change Type:** Normal
+**Source:** manual
+**Trigger:** Day 44 journal missing granular entries. Root cause: v1.0 required 6 args + temp files, was never being called during sessions. EOD finalizer read compacted session summaries, losing detail.
+**What changed:** Rewrote journal-append.sh from 6-arg temp-file model to 2-arg inline model (title + summary). Date/time auto-derived. mkdir atomic locking. Updated AGENTS.md with new usage. Tested clean.
+**Why:** Journal must capture every decision/deliverable in real-time, not wait for EOD transcript scraping
+**Verification:** bash -n OK; test entry appended and verified; AGENTS.md instruction updated
+**Rollback:** N/A
+**Linked:** none
+---
+
+
 ## 2026-06-09 07:47 AEST — [CHG-0474] nightly-gateway-restart.sh: add dual-bind guard (CHG-0474)
 **Type:** infra
 **Change Type:** Normal

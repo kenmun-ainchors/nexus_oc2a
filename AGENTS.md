@@ -136,7 +136,7 @@ Use heartbeats productively — don't just reply HEARTBEAT_OK. Batch checks (ema
 
 ## Journal Discipline — NON-NEGOTIABLE (TKT-0296)
 
-After every meaningful exchange with Ken (decisions, actions, deliverables): append via `scripts/journal-append.sh`. Same turn, ~100ms. File: `memory/journal-YYYY-MM-DD.md`. EOD finalizer (23:55 AEST) adds header+cost+business stream only. Full syntax in RULES.md.
+After every meaningful exchange with Ken (decisions, actions, deliverables): append via `bash scripts/journal-append.sh "<title>" "<multiline-summary>"`. Same turn, ~30ms. File: `memory/journal-YYYY-MM-DD.md`. Simple 2-arg model — no temp files. EOD finalizer (23:55 AEST) adds header+cost+business stream only. NON-NEGOTIABLE — if you made a decision or delivered something, write it to journal NOW.
 
 ## File Size Limits (TKT-0310/CHG-0454)
 
