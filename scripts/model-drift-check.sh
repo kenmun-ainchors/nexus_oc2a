@@ -193,7 +193,12 @@ for agent in agents_list:
     
     tier = agent_tier_map.get(aid)
     if tier:
-        expected = tier.get('primary')
+        # Support per-agent exceptions in tier config
+        exceptions = tier.get('exceptions', {})
+        if aid in exceptions:
+            expected = exceptions[aid]
+        else:
+            expected = tier.get('primary')
         if actual == expected:
             print(f'PASS:{aid}:{actual}:{expected}')
         else:
@@ -213,6 +218,87 @@ for agent in agents_list:
     echo "  SKIP  agent:$aid → $actual (no tier assignment)"
     PASS=$((PASS + 1))
   fi
+done
+
+echo ""
+echo "[ CREST Phase-Aware Validation (TKT-0383) ]"
+
+# Check that crestPhaseModelMap exists and validates correctly
+python3 -c "
+import json
+
+with open('$POLICY') as f:
+    policy = json.load(f)
+
+crest = policy.get('crestPhaseModelMap')
+if not crest:
+    print('SKIP:crestPhaseModelMap:not-present')
+else:
+    phases = crest.get('phaseModels', {})
+    agents = crest.get('agentPhaseAssignments', {})
+    
+    # Validate all phase models reference approved models
+    approved = set(policy.get('globalAllowedModels', []))
+    ok = True
+    for phase_key, phase in phases.items():
+        primary = phase.get('primary')
+        fallbacks = phase.get('fallback', [])
+        if primary not in approved:
+            print(f'FAIL:phase:{phase_key}:primary \${primary} not in approved models')
+            ok = False
+        for fb in fallbacks:
+            if fb not in approved:
+                print(f'FAIL:phase:{phase_key}:fallback \${fb} not in approved models')
+                ok = False
+    
+    if ok:
+        print('PASS:phase-models:all approved')
+    
+    # Validate each agent phase assignment references valid phase keys
+    valid_phases = set(phases.keys())
+    for agent_id, assignment in agents.items():
+        if isinstance(assignment, dict):
+            for phase_name, phase_ref in assignment.items():
+                if phase_name.startswith('_'):
+                    continue  # skip metadata keys
+                if phase_ref is None:
+                    continue  # Yoda Execute=N/A
+                if phase_ref not in valid_phases:
+                    print(f'FAIL:agent:{agent_id}:phase \${phase_name} references unknown phase \${phase_ref}')
+                    ok = False
+    
+    if ok:
+        print('PASS:agent-assignments:all valid phase references')
+    
+    # Log Forge exception for visibility
+    forge = agents.get('forge', {})
+    if forge.get('plan') == 'flash':
+        forge_note = forge.get('_note', 'no note')
+        print(f'INFO:forge-exception:Plan uses flash (intentional). Note: {forge_note}')
+    
+    if not ok:
+        print('FAIL:crest-validation:errors-found')
+    else:
+        print('PASS:crest-validation:all-checks-passed')
+" 2>/dev/null | while IFS=: read status detail msg; do
+  case "$status" in
+    PASS)
+      PASS=$((PASS + 1))
+      echo "  PASS  ${detail} → ${msg}"
+      ;;
+    INFO)
+      echo "  INFO  ${detail}: ${msg}"
+      PASS=$((PASS + 1))
+      ;;
+    FAIL)
+      FAIL=$((FAIL + 1))
+      echo "  FAIL  ${detail} → ${msg} [CREST_PHASE_VIOLATION]"
+      FINDINGS+=("{\"agentId\":\"crest.${detail}\",\"expected\":\"valid-phase-config\",\"actual\":\"${msg}\",\"severity\":\"CREST_PHASE_VIOLATION\",\"note\":\"CREST phase model map inconsistency. Check model-policy.json crestPhaseModelMap.\",\"detectedAt\":\"$AEST_TIMESTAMP\"}")
+      ;;
+    SKIP)
+      echo "  SKIP  ${detail}"
+      ;;
+  esac
 done
 
 echo ""
@@ -257,8 +343,8 @@ except Exception as e:
     # Policy file missing or unreadable — fail safe: only accept the current actual
     valid_chains = [fb]
 
-# Step 2: Check for explicit policy violations first
-if 'anthropic/claude-opus-4-7' in fb:
+# Step 2: Check for explicit policy violations first (Anthropic models are prohibited post-CHG-0349)
+if any(m.startswith('anthropic/') for m in fb):
     print('POLICY_VIOLATION:' + json.dumps(fb))
 elif fb in valid_chains:
     print('PASS:' + json.dumps(fb))

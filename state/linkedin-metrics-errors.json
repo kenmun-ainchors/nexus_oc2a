@@ -1,23 +1,15 @@
 {
   "schema": "1.0",
-  "description": "Errors encountered during LinkedIn metrics snapshot runs",
+  "lastUpdated": "2026-06-10T00:00:00Z",
   "errors": [
     {
+      "timestamp": "2026-06-10T00:00:00Z",
       "contentId": "LI-W3-P3",
       "postUrn": "urn:li:share:7463404594140905473",
-      "error": "404 Not Found",
-      "message": "Post not found \u2014 URN may be invalid or post deleted",
-      "occurredAt": "2026-06-08T00:00:00Z",
+      "errorCode": 404,
+      "errorMessage": "Post not found (404) — URN may be invalid: urn:li:share:7463404594140905473",
       "script": "linkedin-metrics.sh",
-      "note": "This was a share-format URN. LinkedIn may have changed API response format. Duplicate post error on retry indicates successful first post, but the post may have been deleted by Yoda during manual fix (2026-05-26)."
-    },
-    {
-      "contentId": "LI-W3-P3",
-      "postUrn": "urn:li:share:7463404594140905473",
-      "error": "404 Not Found",
-      "message": "Post not found (404) \u2014 URN may be invalid",
-      "occurredAt": "2026-06-09T00:00:00Z",
-      "script": "linkedin-metrics.sh"
+      "note": "Share-format URN. LinkedIn may have changed API response. Duplicate post error on retry indicates successful first post."
     }
   ]
 }

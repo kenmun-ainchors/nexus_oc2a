@@ -1,0 +1,63 @@
+{
+  "lastAssessed": "2026-06-10",
+  "assessedBy": "yoda",
+  "note": "Framework maturity assessed against CMMI-style L1-L4 scale. Updated from May 7 baseline. Source: CHANGELOG.md, RULES.md, MEMORY.md, PG state_frameworks document inventory. CREST v1.2 locked Jun 10 (CHG-0481) advances agile maturity.",
+  "frameworks": [
+    {
+      "name": "AGILE",
+      "maturity": "L4",
+      "label": "Managed",
+      "gap": "Leading",
+      "evidence": "CREST locked v1.2 (CHG-0481). Sprint cadence established. Retro/fwd-plan in sprint-review.sh. TQP processor live. 2-pass dispatch contract ratified. Sprint 7 complete, Sprint 8 in planning."
+    },
+    {
+      "name": "ITSM",
+      "maturity": "L3",
+      "label": "Defined",
+      "gap": "Baseline",
+      "evidence": "ticket.sh fully operational. PG-backed. Notion sync. Auto-heal → INC logging. Incident management pattern established. Fold SOP locked (CHG-0456)."
+    },
+    {
+      "name": "GOVERNANCE",
+      "maturity": "L3",
+      "label": "Defined",
+      "gap": "Partial",
+      "evidence": "Shield/Lex/Sage triad nightly. Warden 15-min model compliance. Skill audit gate. Content governance gate. AI Charter + Governance Framework v1.0 approved. Not yet battle-tested with client data."
+    },
+    {
+      "name": "TOM",
+      "maturity": "L2",
+      "label": "Developing",
+      "gap": "BUD TARGET — High",
+      "note": "Angie onboarding Stage 2 (Notion command centre) directly advances TOM L2→L3. Business stream blocked on Angie availability."
+    },
+    {
+      "name": "MODEL STRATEGY",
+      "maturity": "L3",
+      "label": "Defined / Managed",
+      "gap": "Leading",
+      "evidence": "4-tier model strategy locked. Ollama Cloud PoC complete. OC2 local inference planned. Model3-Policy active. Fallback chains verified. Monthly review cadence. Cost tracking live."
+    },
+    {
+      "name": "KNOWLEDGE MGMT",
+      "maturity": "L2",
+      "label": "Developing",
+      "gap": "Lagging",
+      "evidence": "MEMORY.md + daily notes + journal pattern established. PG SSOT live. Holocron (Notion) active. Semantic memory (P1) deferred post-OC2. MEMORY.md archiving manual."
+    },
+    {
+      "name": "COST MANAGEMENT",
+      "maturity": "L3",
+      "label": "Defined",
+      "gap": "Partial",
+      "evidence": "cost-tracker.sh live. Daily budget reports. Ollama Cloud $100/mo fixed. PG state_cost SSOT. Midday cost tracker. Per-agent budget alerts. Missing: automated optimization recommendations."
+    },
+    {
+      "name": "BUSINESS ROI",
+      "maturity": "L2",
+      "label": "Developing",
+      "gap": "Lagging — High",
+      "note": "Aria weekly business ROI summaries active. Business value tracked via business-roi.json. Linked to cost data. Missing: client-facing reporting, automated value attribution."
+    }
+  ]
+}

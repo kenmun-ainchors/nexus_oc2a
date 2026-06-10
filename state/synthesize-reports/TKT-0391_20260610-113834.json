@@ -1,0 +1,28 @@
+{
+  "parent_ticket_id": "TKT-0391",
+  "checked_at": "2026-06-10T01:38:34+10:00",
+  "automated_checks": {
+    "interface_consistency": {
+      "status": "pass",
+      "matches": [],
+      "mismatches": [],
+      "unreferenced": []
+    },
+    "assumption_alignment": {
+      "matches": [],
+      "conflicts": [],
+      "status": "pass"
+    }
+  },
+  "manual_checks": {
+    "gap_detection": {
+      "status": "pending_yoda",
+      "note": "Requires full scope understanding"
+    },
+    "narrative_coherence": {
+      "status": "pending_yoda",
+      "note": "Requires editorial judgment"
+    }
+  },
+  "overall": "AUTOMATED_CHECKS_PASS"
+}

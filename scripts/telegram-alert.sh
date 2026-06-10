@@ -5,6 +5,10 @@
 # Usage:
 #   telegram-alert.sh --message "text" [--chat-id CHAT_ID] [--silent]
 #
+# SKILL GATE: telegram skill MUST be loaded before use.
+SCRIPT_DIR_TG="$(cd "$(dirname "$0")" && pwd)"
+source "${SCRIPT_DIR_TG}/skill-gate.sh" "telegram" || exit $?
+#
 # Requirements:
 #   - Telegram bot token in Keychain: telegram-bot-token
 #   - curl available at /usr/bin/curl

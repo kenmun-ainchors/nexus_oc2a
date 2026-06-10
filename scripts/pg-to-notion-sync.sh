@@ -1,13 +1,17 @@
 #!/bin/zsh
 # pg-to-notion-sync.sh — Idempotent Sync from Postgres (SSOT) to Notion Backlog
 # TKT-0297 IMPLEMENTATION
+#
+# SKILL GATE: pg-sprint-backlog skill MUST be loaded before use.
+SCRIPT_DIR_PG="$(cd "$(dirname "$0")" && pwd)"
+source "${SCRIPT_DIR_PG}/skill-gate.sh" "pg-sprint-backlog" || exit $?
 
 set -u
 
 # --- CONFIGURATION ---
 WORKSPACE_ROOT="/Users/ainchorsangiefpl/.openclaw/workspace"
 DB_READ_SCRIPT="$WORKSPACE_ROOT/scripts/db-read.sh"
-DB_WRITE_SCRIPT="$WORKSPACE_ROOT/scripts/db-write.sh"
+# Note: notionpageid write-back uses direct db.sh -c UPDATE (not db-write.sh — CHG-0488 fix)
 NOTION_KEY_FILE="$HOME/.config/notion/api_key"
 LOCK_FILE="/tmp/pg-notion-sync.lock"
 
@@ -106,7 +110,7 @@ while IFS='|' read -r id title t_status priority notionid updated_at; do
     page_id=$(echo "$resp" | jq -r '.id // empty')
     
     if [[ -n "$page_id" ]]; then
-      $DB_WRITE_SCRIPT state_tickets "{\"notionpageid\":\"$page_id\"}" "$id" > /dev/null
+      bash "$WORKSPACE_ROOT/scripts/db.sh" -c "UPDATE state_tickets SET notionpageid = '$page_id', updated_at = NOW() WHERE id = '$id';" > /dev/null 2>&1
       log "Created Notion page for $id: $page_id"
       ((CREATED++))
     else

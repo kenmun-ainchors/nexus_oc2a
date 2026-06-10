@@ -3497,5 +3497,16 @@
         }
       }
     ]
+  },
+  {
+    "id": "TKT-0396",
+    "title": "Pre-OC2 Mirror Isolation — Separate nexus_mirror from nexus_sandbox",
+    "status": "open",
+    "priority": "P1",
+    "type": "task",
+    "created_at": "2026-06-10T12:10:15+10:00",
+    "metadata": {
+      "description": "## Context\nMirror-writer polls live ainchors_nexus and upserts into shadow DB. Currently both mirror target AND test harness target are the SAME database (nexus_sandbox). Every test run writes test rows into shadow tables -> mirror-writer sees them as Extra noise -> WO-002 harness keeps flagging them. Co-location = signal permanently polluted.\n\n## Decision (Ken + Atlas, 2026-06-10)\nOption A: ISOLATE. Create nexus_mirror database on same PG instance (pre-OC2). At OC2, move to dedicated instance. Rejected Option B (filter test rows with _test_row flag) — compounding technical debt across every query/migration/report.\n\n## Three Atlas Plan Corrections (Ken, 2026-06-10)\n1. LONG-TERM = WAL STREAMING IS WRONG: Mirror is a LOGICAL PROJECTION through status_map to loop_plan/plan_atom, not byte-identical replication. WAL replica gives you state_tickets copy, not the transformed output the T4 harness needs. Poll-and-upsert stays. WAL/basebackup only when controller IS system of record for loop_plan.\n2. RPO/RTO MISAPPLIED: Mirror is derived disposable state — reconcile-on-start rebuilds it in <1 interval. Formal DR targets for reconstructible data is over-engineering. Push to OC2 controller-of-record era.\n3. THREE CONNECTION STRINGS IS CONFIG MUDDLE: Writer needs exactly 2 DSNs (live source + mirror target). Today NEXUS_DB_URL IS the mirror target. Isolation just repoints that one DSN from nexus_sandbox -> nexus_mirror. Do NOT add MIRROR_DB_URL.\n\n## Implementation (4 steps, pre-OC2 only)\n1. CREATE DATABASE nexus_mirror + run p0c001-p0c005 migrations against it\n2. Repoint NEXUS_DB_URL in plist from nexus_sandbox -> nexus_mirror\n3. Deploy daemon directly at nexus_mirror — first full sweep populates ~326 rows fresh from live\n4. Add mirror_lag_seconds metric + document topology in ARCHITECTURE.md\n\n## Why Before Clock Reset\nDeploy against nexus_sandbox -> reset clock -> migrate to nexus_mirror later = reset twice, clock takes test-noise between. Isolation-first = one deploy, one target, clock starts clean and stays clean. Phase 3.1 (hand-delete 20 Extra test rows) becomes UNNECESSARY — test rows stay abandoned in nexus_sandbox where they belong.\n\n## NOT IN SCOPE (pushed to OC2 epic)\n- Dedicated OC2 instance for nexus_mirror\n- Physical relocation to OC2\n- WAL streaming / pg_basebackup\n- RPO/RTO formalisation\n\n## Acceptance Criteria\n1. nexus_mirror DB exists with full shadow schema (p0c001-p0c005)\n2. Mirror-writer daemon runs pointed at nexus_mirror, first sweep completed (~326 rows)\n3. Test runs against nexus_sandbox produce ZERO Extra entries in WO-002 mismatch report\n4. Topology documented in ARCHITECTURE.md with mirror_lag_seconds metric\n\n## Sequencing\nTKT-0395 (merge heartbeat PR) -> TKT-0396 (isolation) -> Phase 4 reconcile (clean) -> Phase 5 propagation -> reset clock -> Yoda bookkeeping\n\nLINKED: TKT-0395, WO-002, TRIGGER-03 (OC2 — for future dedicated instance)\n"
+    }
   }
 ]

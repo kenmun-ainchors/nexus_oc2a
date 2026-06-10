@@ -4,1044 +4,6 @@
   "sloTarget": 0.995,
   "events": [
     {
-      "ts": "2026-06-06T17:38:42.844261+00:00",
-      "status": "ok",
-      "consecutiveFailures": 0,
-      "issues": []
-    },
-    {
-      "ts": "2026-06-06T17:43:43.033269+00:00",
-      "status": "ok",
-      "consecutiveFailures": 0,
-      "issues": []
-    },
-    {
-      "ts": "2026-06-06T17:48:43.000589+00:00",
-      "status": "ok",
-      "consecutiveFailures": 0,
-      "issues": []
-    },
-    {
-      "ts": "2026-06-06T17:53:43.128315+00:00",
-      "status": "ok",
-      "consecutiveFailures": 0,
-      "issues": []
-    },
-    {
-      "ts": "2026-06-06T17:58:43.166921+00:00",
-      "status": "ok",
-      "consecutiveFailures": 0,
-      "issues": []
-    },
-    {
-      "ts": "2026-06-06T18:03:44.111637+00:00",
-      "status": "ok",
-      "consecutiveFailures": 0,
-      "issues": []
-    },
-    {
-      "ts": "2026-06-06T18:08:43.965684+00:00",
-      "status": "ok",
-      "consecutiveFailures": 0,
-      "issues": []
-    },
-    {
-      "ts": "2026-06-06T18:13:45.841234+00:00",
-      "status": "ok",
-      "consecutiveFailures": 0,
-      "issues": []
-    },
-    {
-      "ts": "2026-06-06T18:18:44.416688+00:00",
-      "status": "ok",
-      "consecutiveFailures": 0,
-      "issues": []
-    },
-    {
-      "ts": "2026-06-06T18:23:43.846167+00:00",
-      "status": "ok",
-      "consecutiveFailures": 0,
-      "issues": []
-    },
-    {
-      "ts": "2026-06-06T18:28:47.571094+00:00",
-      "status": "ok",
-      "consecutiveFailures": 0,
-      "issues": []
-    },
-    {
-      "ts": "2026-06-06T18:33:43.692704+00:00",
-      "status": "ok",
-      "consecutiveFailures": 0,
-      "issues": []
-    },
-    {
-      "ts": "2026-06-06T18:38:44.096883+00:00",
-      "status": "ok",
-      "consecutiveFailures": 0,
-      "issues": []
-    },
-    {
-      "ts": "2026-06-06T18:43:44.054854+00:00",
-      "status": "ok",
-      "consecutiveFailures": 0,
-      "issues": []
-    },
-    {
-      "ts": "2026-06-06T18:48:43.866284+00:00",
-      "status": "ok",
-      "consecutiveFailures": 0,
-      "issues": []
-    },
-    {
-      "ts": "2026-06-06T18:53:43.105269+00:00",
-      "status": "ok",
-      "consecutiveFailures": 0,
-      "issues": []
-    },
-    {
-      "ts": "2026-06-06T18:58:43.022632+00:00",
-      "status": "ok",
-      "consecutiveFailures": 0,
-      "issues": []
-    },
-    {
-      "ts": "2026-06-06T19:03:43.546118+00:00",
-      "status": "ok",
-      "consecutiveFailures": 0,
-      "issues": []
-    },
-    {
-      "ts": "2026-06-06T19:08:50.861694+00:00",
-      "status": "ok",
-      "consecutiveFailures": 0,
-      "issues": []
-    },
-    {
-      "ts": "2026-06-06T19:13:43.746710+00:00",
-      "status": "ok",
-      "consecutiveFailures": 0,
-      "issues": []
-    },
-    {
-      "ts": "2026-06-06T19:18:44.076795+00:00",
-      "status": "ok",
-      "consecutiveFailures": 0,
-      "issues": []
-    },
-    {
-      "ts": "2026-06-06T19:23:46.971576+00:00",
-      "status": "ok",
-      "consecutiveFailures": 0,
-      "issues": []
-    },
-    {
-      "ts": "2026-06-06T19:28:44.250752+00:00",
-      "status": "ok",
-      "consecutiveFailures": 0,
-      "issues": []
-    },
-    {
-      "ts": "2026-06-06T19:33:44.157387+00:00",
-      "status": "ok",
-      "consecutiveFailures": 0,
-      "issues": []
-    },
-    {
-      "ts": "2026-06-06T19:39:10.297658+00:00",
-      "status": "ok",
-      "consecutiveFailures": 0,
-      "issues": []
-    },
-    {
-      "ts": "2026-06-06T19:43:43.749867+00:00",
-      "status": "ok",
-      "consecutiveFailures": 0,
-      "issues": []
-    },
-    {
-      "ts": "2026-06-06T19:48:45.927867+00:00",
-      "status": "ok",
-      "consecutiveFailures": 0,
-      "issues": []
-    },
-    {
-      "ts": "2026-06-06T19:53:43.906902+00:00",
-      "status": "ok",
-      "consecutiveFailures": 0,
-      "issues": []
-    },
-    {
-      "ts": "2026-06-06T19:58:43.955637+00:00",
-      "status": "ok",
-      "consecutiveFailures": 0,
-      "issues": []
-    },
-    {
-      "ts": "2026-06-06T20:03:46.861231+00:00",
-      "status": "ok",
-      "consecutiveFailures": 0,
-      "issues": []
-    },
-    {
-      "ts": "2026-06-06T20:08:43.708869+00:00",
-      "status": "ok",
-      "consecutiveFailures": 0,
-      "issues": []
-    },
-    {
-      "ts": "2026-06-06T20:13:44.246161+00:00",
-      "status": "ok",
-      "consecutiveFailures": 0,
-      "issues": []
-    },
-    {
-      "ts": "2026-06-06T20:18:44.861215+00:00",
-      "status": "ok",
-      "consecutiveFailures": 0,
-      "issues": []
-    },
-    {
-      "ts": "2026-06-06T20:23:45.099921+00:00",
-      "status": "ok",
-      "consecutiveFailures": 0,
-      "issues": []
-    },
-    {
-      "ts": "2026-06-06T20:28:44.304594+00:00",
-      "status": "ok",
-      "consecutiveFailures": 0,
-      "issues": []
-    },
-    {
-      "ts": "2026-06-06T20:33:43.725021+00:00",
-      "status": "ok",
-      "consecutiveFailures": 0,
-      "issues": []
-    },
-    {
-      "ts": "2026-06-06T20:38:44.172185+00:00",
-      "status": "ok",
-      "consecutiveFailures": 0,
-      "issues": []
-    },
-    {
-      "ts": "2026-06-06T20:43:44.401744+00:00",
-      "status": "ok",
-      "consecutiveFailures": 0,
-      "issues": []
-    },
-    {
-      "ts": "2026-06-06T20:48:43.730665+00:00",
-      "status": "ok",
-      "consecutiveFailures": 0,
-      "issues": []
-    },
-    {
-      "ts": "2026-06-06T20:53:44.049257+00:00",
-      "status": "ok",
-      "consecutiveFailures": 0,
-      "issues": []
-    },
-    {
-      "ts": "2026-06-06T20:58:43.832552+00:00",
-      "status": "ok",
-      "consecutiveFailures": 0,
-      "issues": []
-    },
-    {
-      "ts": "2026-06-06T21:03:44.022813+00:00",
-      "status": "ok",
-      "consecutiveFailures": 0,
-      "issues": []
-    },
-    {
-      "ts": "2026-06-06T21:08:44.818719+00:00",
-      "status": "ok",
-      "consecutiveFailures": 0,
-      "issues": []
-    },
-    {
-      "ts": "2026-06-06T21:13:43.704644+00:00",
-      "status": "ok",
-      "consecutiveFailures": 0,
-      "issues": []
-    },
-    {
-      "ts": "2026-06-06T21:18:43.936679+00:00",
-      "status": "ok",
-      "consecutiveFailures": 0,
-      "issues": []
-    },
-    {
-      "ts": "2026-06-06T21:23:44.418514+00:00",
-      "status": "ok",
-      "consecutiveFailures": 0,
-      "issues": []
-    },
-    {
-      "ts": "2026-06-06T21:28:43.910070+00:00",
-      "status": "ok",
-      "consecutiveFailures": 0,
-      "issues": []
-    },
-    {
-      "ts": "2026-06-06T21:33:44.729330+00:00",
-      "status": "ok",
-      "consecutiveFailures": 0,
-      "issues": []
-    },
-    {
-      "ts": "2026-06-06T21:40:37.715179+00:00",
-      "status": "ok",
-      "consecutiveFailures": 0,
-      "issues": []
-    },
-    {
-      "ts": "2026-06-06T21:43:44.010930+00:00",
-      "status": "ok",
-      "consecutiveFailures": 0,
-      "issues": []
-    },
-    {
-      "ts": "2026-06-06T21:48:44.166349+00:00",
-      "status": "ok",
-      "consecutiveFailures": 0,
-      "issues": []
-    },
-    {
-      "ts": "2026-06-06T21:53:44.781187+00:00",
-      "status": "ok",
-      "consecutiveFailures": 0,
-      "issues": []
-    },
-    {
-      "ts": "2026-06-06T21:58:46.040033+00:00",
-      "status": "ok",
-      "consecutiveFailures": 0,
-      "issues": []
-    },
-    {
-      "ts": "2026-06-06T22:03:44.670820+00:00",
-      "status": "ok",
-      "consecutiveFailures": 0,
-      "issues": []
-    },
-    {
-      "ts": "2026-06-06T22:08:45.441782+00:00",
-      "status": "ok",
-      "consecutiveFailures": 0,
-      "issues": []
-    },
-    {
-      "ts": "2026-06-06T22:13:44.867261+00:00",
-      "status": "ok",
-      "consecutiveFailures": 0,
-      "issues": []
-    },
-    {
-      "ts": "2026-06-06T22:18:44.270012+00:00",
-      "status": "ok",
-      "consecutiveFailures": 0,
-      "issues": []
-    },
-    {
-      "ts": "2026-06-06T22:23:44.208217+00:00",
-      "status": "ok",
-      "consecutiveFailures": 0,
-      "issues": []
-    },
-    {
-      "ts": "2026-06-06T22:28:44.329325+00:00",
-      "status": "ok",
-      "consecutiveFailures": 0,
-      "issues": []
-    },
-    {
-      "ts": "2026-06-06T22:33:44.282257+00:00",
-      "status": "ok",
-      "consecutiveFailures": 0,
-      "issues": []
-    },
-    {
-      "ts": "2026-06-06T22:38:45.822466+00:00",
-      "status": "ok",
-      "consecutiveFailures": 0,
-      "issues": []
-    },
-    {
-      "ts": "2026-06-06T22:43:44.744589+00:00",
-      "status": "ok",
-      "consecutiveFailures": 0,
-      "issues": []
-    },
-    {
-      "ts": "2026-06-06T22:48:45.962911+00:00",
-      "status": "ok",
-      "consecutiveFailures": 0,
-      "issues": []
-    },
-    {
-      "ts": "2026-06-06T22:53:44.363475+00:00",
-      "status": "ok",
-      "consecutiveFailures": 0,
-      "issues": []
-    },
-    {
-      "ts": "2026-06-06T22:58:44.457244+00:00",
-      "status": "ok",
-      "consecutiveFailures": 0,
-      "issues": []
-    },
-    {
-      "ts": "2026-06-06T23:03:43.866429+00:00",
-      "status": "ok",
-      "consecutiveFailures": 0,
-      "issues": []
-    },
-    {
-      "ts": "2026-06-06T23:08:44.173257+00:00",
-      "status": "ok",
-      "consecutiveFailures": 0,
-      "issues": []
-    },
-    {
-      "ts": "2026-06-06T23:14:02.450387+00:00",
-      "status": "ok",
-      "consecutiveFailures": 0,
-      "issues": []
-    },
-    {
-      "ts": "2026-06-06T23:18:44.870271+00:00",
-      "status": "ok",
-      "consecutiveFailures": 0,
-      "issues": []
-    },
-    {
-      "ts": "2026-06-06T23:23:45.455665+00:00",
-      "status": "ok",
-      "consecutiveFailures": 0,
-      "issues": []
-    },
-    {
-      "ts": "2026-06-06T23:28:47.116468+00:00",
-      "status": "ok",
-      "consecutiveFailures": 0,
-      "issues": []
-    },
-    {
-      "ts": "2026-06-06T23:33:47.855503+00:00",
-      "status": "ok",
-      "consecutiveFailures": 0,
-      "issues": []
-    },
-    {
-      "ts": "2026-06-06T23:38:49.815234+00:00",
-      "status": "ok",
-      "consecutiveFailures": 0,
-      "issues": []
-    },
-    {
-      "ts": "2026-06-06T23:43:44.563538+00:00",
-      "status": "ok",
-      "consecutiveFailures": 0,
-      "issues": []
-    },
-    {
-      "ts": "2026-06-06T23:48:44.988568+00:00",
-      "status": "ok",
-      "consecutiveFailures": 0,
-      "issues": []
-    },
-    {
-      "ts": "2026-06-06T23:53:45.930943+00:00",
-      "status": "ok",
-      "consecutiveFailures": 0,
-      "issues": []
-    },
-    {
-      "ts": "2026-06-06T23:58:44.969137+00:00",
-      "status": "ok",
-      "consecutiveFailures": 0,
-      "issues": []
-    },
-    {
-      "ts": "2026-06-07T00:03:53.486549+00:00",
-      "status": "ok",
-      "consecutiveFailures": 0,
-      "issues": []
-    },
-    {
-      "ts": "2026-06-07T00:08:44.575626+00:00",
-      "status": "ok",
-      "consecutiveFailures": 0,
-      "issues": []
-    },
-    {
-      "ts": "2026-06-07T00:15:50.672945+00:00",
-      "status": "ok",
-      "consecutiveFailures": 0,
-      "issues": []
-    },
-    {
-      "ts": "2026-06-07T00:18:44.570810+00:00",
-      "status": "ok",
-      "consecutiveFailures": 0,
-      "issues": []
-    },
-    {
-      "ts": "2026-06-07T00:23:45.335731+00:00",
-      "status": "ok",
-      "consecutiveFailures": 0,
-      "issues": []
-    },
-    {
-      "ts": "2026-06-07T00:28:45.011024+00:00",
-      "status": "ok",
-      "consecutiveFailures": 0,
-      "issues": []
-    },
-    {
-      "ts": "2026-06-07T00:33:45.293418+00:00",
-      "status": "ok",
-      "consecutiveFailures": 0,
-      "issues": []
-    },
-    {
-      "ts": "2026-06-07T00:38:44.706404+00:00",
-      "status": "ok",
-      "consecutiveFailures": 0,
-      "issues": []
-    },
-    {
-      "ts": "2026-06-07T00:43:44.729648+00:00",
-      "status": "ok",
-      "consecutiveFailures": 0,
-      "issues": []
-    },
-    {
-      "ts": "2026-06-07T00:48:44.852064+00:00",
-      "status": "ok",
-      "consecutiveFailures": 0,
-      "issues": []
-    },
-    {
-      "ts": "2026-06-07T00:53:44.870493+00:00",
-      "status": "ok",
-      "consecutiveFailures": 0,
-      "issues": []
-    },
-    {
-      "ts": "2026-06-07T00:58:45.221614+00:00",
-      "status": "ok",
-      "consecutiveFailures": 0,
-      "issues": []
-    },
-    {
-      "ts": "2026-06-07T01:03:45.490155+00:00",
-      "status": "ok",
-      "consecutiveFailures": 0,
-      "issues": []
-    },
-    {
-      "ts": "2026-06-07T01:08:45.741675+00:00",
-      "status": "ok",
-      "consecutiveFailures": 0,
-      "issues": []
-    },
-    {
-      "ts": "2026-06-07T01:13:45.774234+00:00",
-      "status": "ok",
-      "consecutiveFailures": 0,
-      "issues": []
-    },
-    {
-      "ts": "2026-06-07T01:18:45.704906+00:00",
-      "status": "ok",
-      "consecutiveFailures": 0,
-      "issues": []
-    },
-    {
-      "ts": "2026-06-07T01:23:45.718302+00:00",
-      "status": "ok",
-      "consecutiveFailures": 0,
-      "issues": []
-    },
-    {
-      "ts": "2026-06-07T01:28:45.551364+00:00",
-      "status": "ok",
-      "consecutiveFailures": 0,
-      "issues": []
-    },
-    {
-      "ts": "2026-06-07T01:33:46.916606+00:00",
-      "status": "ok",
-      "consecutiveFailures": 0,
-      "issues": []
-    },
-    {
-      "ts": "2026-06-07T01:38:50.343405+00:00",
-      "status": "ok",
-      "consecutiveFailures": 0,
-      "issues": []
-    },
-    {
-      "ts": "2026-06-07T01:43:45.678808+00:00",
-      "status": "ok",
-      "consecutiveFailures": 0,
-      "issues": []
-    },
-    {
-      "ts": "2026-06-07T01:48:45.788301+00:00",
-      "status": "ok",
-      "consecutiveFailures": 0,
-      "issues": []
-    },
-    {
-      "ts": "2026-06-07T01:53:46.433526+00:00",
-      "status": "ok",
-      "consecutiveFailures": 0,
-      "issues": []
-    },
-    {
-      "ts": "2026-06-07T01:58:46.691239+00:00",
-      "status": "ok",
-      "consecutiveFailures": 0,
-      "issues": []
-    },
-    {
-      "ts": "2026-06-07T02:03:46.386420+00:00",
-      "status": "ok",
-      "consecutiveFailures": 0,
-      "issues": []
-    },
-    {
-      "ts": "2026-06-07T02:08:47.520812+00:00",
-      "status": "ok",
-      "consecutiveFailures": 0,
-      "issues": []
-    },
-    {
-      "ts": "2026-06-07T02:13:48.279067+00:00",
-      "status": "ok",
-      "consecutiveFailures": 0,
-      "issues": []
-    },
-    {
-      "ts": "2026-06-07T02:18:55.153413+00:00",
-      "status": "ok",
-      "consecutiveFailures": 0,
-      "issues": []
-    },
-    {
-      "ts": "2026-06-07T02:23:50.111475+00:00",
-      "status": "ok",
-      "consecutiveFailures": 0,
-      "issues": []
-    },
-    {
-      "ts": "2026-06-07T02:28:45.901856+00:00",
-      "status": "ok",
-      "consecutiveFailures": 0,
-      "issues": []
-    },
-    {
-      "ts": "2026-06-07T02:33:46.457035+00:00",
-      "status": "ok",
-      "consecutiveFailures": 0,
-      "issues": []
-    },
-    {
-      "ts": "2026-06-07T02:39:04.101983+00:00",
-      "status": "ok",
-      "consecutiveFailures": 0,
-      "issues": []
-    },
-    {
-      "ts": "2026-06-07T02:43:45.603858+00:00",
-      "status": "ok",
-      "consecutiveFailures": 0,
-      "issues": []
-    },
-    {
-      "ts": "2026-06-07T02:48:47.056370+00:00",
-      "status": "ok",
-      "consecutiveFailures": 0,
-      "issues": []
-    },
-    {
-      "ts": "2026-06-07T02:53:45.969239+00:00",
-      "status": "ok",
-      "consecutiveFailures": 0,
-      "issues": []
-    },
-    {
-      "ts": "2026-06-07T02:58:46.299471+00:00",
-      "status": "ok",
-      "consecutiveFailures": 0,
-      "issues": []
-    },
-    {
-      "ts": "2026-06-07T03:03:47.741278+00:00",
-      "status": "ok",
-      "consecutiveFailures": 0,
-      "issues": []
-    },
-    {
-      "ts": "2026-06-07T03:08:46.346836+00:00",
-      "status": "ok",
-      "consecutiveFailures": 0,
-      "issues": []
-    },
-    {
-      "ts": "2026-06-07T03:13:46.176996+00:00",
-      "status": "ok",
-      "consecutiveFailures": 0,
-      "issues": []
-    },
-    {
-      "ts": "2026-06-07T03:18:46.204713+00:00",
-      "status": "ok",
-      "consecutiveFailures": 0,
-      "issues": []
-    },
-    {
-      "ts": "2026-06-07T03:23:46.027523+00:00",
-      "status": "ok",
-      "consecutiveFailures": 0,
-      "issues": []
-    },
-    {
-      "ts": "2026-06-07T03:28:52.815396+00:00",
-      "status": "ok",
-      "consecutiveFailures": 0,
-      "issues": []
-    },
-    {
-      "ts": "2026-06-07T03:33:57.044266+00:00",
-      "status": "ok",
-      "consecutiveFailures": 0,
-      "issues": []
-    },
-    {
-      "ts": "2026-06-07T03:38:47.037279+00:00",
-      "status": "ok",
-      "consecutiveFailures": 0,
-      "issues": []
-    },
-    {
-      "ts": "2026-06-07T03:44:07.152566+00:00",
-      "status": "ok",
-      "consecutiveFailures": 0,
-      "issues": []
-    },
-    {
-      "ts": "2026-06-07T03:48:46.971249+00:00",
-      "status": "ok",
-      "consecutiveFailures": 0,
-      "issues": []
-    },
-    {
-      "ts": "2026-06-07T03:53:46.726542+00:00",
-      "status": "ok",
-      "consecutiveFailures": 0,
-      "issues": []
-    },
-    {
-      "ts": "2026-06-07T03:58:47.376654+00:00",
-      "status": "ok",
-      "consecutiveFailures": 0,
-      "issues": []
-    },
-    {
-      "ts": "2026-06-07T04:03:46.994680+00:00",
-      "status": "ok",
-      "consecutiveFailures": 0,
-      "issues": []
-    },
-    {
-      "ts": "2026-06-07T04:08:46.125307+00:00",
-      "status": "ok",
-      "consecutiveFailures": 0,
-      "issues": []
-    },
-    {
-      "ts": "2026-06-07T04:13:46.438435+00:00",
-      "status": "ok",
-      "consecutiveFailures": 0,
-      "issues": []
-    },
-    {
-      "ts": "2026-06-07T04:18:46.362490+00:00",
-      "status": "ok",
-      "consecutiveFailures": 0,
-      "issues": []
-    },
-    {
-      "ts": "2026-06-07T04:23:46.600229+00:00",
-      "status": "ok",
-      "consecutiveFailures": 0,
-      "issues": []
-    },
-    {
-      "ts": "2026-06-07T04:28:46.747779+00:00",
-      "status": "ok",
-      "consecutiveFailures": 0,
-      "issues": []
-    },
-    {
-      "ts": "2026-06-07T04:33:47.500590+00:00",
-      "status": "ok",
-      "consecutiveFailures": 0,
-      "issues": []
-    },
-    {
-      "ts": "2026-06-07T04:38:46.420777+00:00",
-      "status": "ok",
-      "consecutiveFailures": 0,
-      "issues": []
-    },
-    {
-      "ts": "2026-06-07T04:43:47.642703+00:00",
-      "status": "ok",
-      "consecutiveFailures": 0,
-      "issues": []
-    },
-    {
-      "ts": "2026-06-07T04:48:46.275161+00:00",
-      "status": "ok",
-      "consecutiveFailures": 0,
-      "issues": []
-    },
-    {
-      "ts": "2026-06-07T04:53:46.629295+00:00",
-      "status": "ok",
-      "consecutiveFailures": 0,
-      "issues": []
-    },
-    {
-      "ts": "2026-06-07T04:58:46.336106+00:00",
-      "status": "ok",
-      "consecutiveFailures": 0,
-      "issues": []
-    },
-    {
-      "ts": "2026-06-07T05:03:47.827299+00:00",
-      "status": "ok",
-      "consecutiveFailures": 0,
-      "issues": []
-    },
-    {
-      "ts": "2026-06-07T05:08:46.265632+00:00",
-      "status": "ok",
-      "consecutiveFailures": 0,
-      "issues": []
-    },
-    {
-      "ts": "2026-06-07T05:13:46.468699+00:00",
-      "status": "ok",
-      "consecutiveFailures": 0,
-      "issues": []
-    },
-    {
-      "ts": "2026-06-07T05:18:46.500064+00:00",
-      "status": "ok",
-      "consecutiveFailures": 0,
-      "issues": []
-    },
-    {
-      "ts": "2026-06-07T05:23:46.764751+00:00",
-      "status": "ok",
-      "consecutiveFailures": 0,
-      "issues": []
-    },
-    {
-      "ts": "2026-06-07T05:28:46.671295+00:00",
-      "status": "ok",
-      "consecutiveFailures": 0,
-      "issues": []
-    },
-    {
-      "ts": "2026-06-07T05:33:47.426629+00:00",
-      "status": "ok",
-      "consecutiveFailures": 0,
-      "issues": []
-    },
-    {
-      "ts": "2026-06-07T05:38:46.436946+00:00",
-      "status": "ok",
-      "consecutiveFailures": 0,
-      "issues": []
-    },
-    {
-      "ts": "2026-06-07T05:43:46.811430+00:00",
-      "status": "ok",
-      "consecutiveFailures": 0,
-      "issues": []
-    },
-    {
-      "ts": "2026-06-07T05:48:46.657077+00:00",
-      "status": "ok",
-      "consecutiveFailures": 0,
-      "issues": []
-    },
-    {
-      "ts": "2026-06-07T05:53:46.702434+00:00",
-      "status": "ok",
-      "consecutiveFailures": 0,
-      "issues": []
-    },
-    {
-      "ts": "2026-06-07T05:58:46.628567+00:00",
-      "status": "ok",
-      "consecutiveFailures": 0,
-      "issues": []
-    },
-    {
-      "ts": "2026-06-07T06:03:47.056840+00:00",
-      "status": "ok",
-      "consecutiveFailures": 0,
-      "issues": []
-    },
-    {
-      "ts": "2026-06-07T06:13:46.965364+00:00",
-      "status": "ok",
-      "consecutiveFailures": 0,
-      "issues": []
-    },
-    {
-      "ts": "2026-06-07T06:18:48.737563+00:00",
-      "status": "ok",
-      "consecutiveFailures": 0,
-      "issues": []
-    },
-    {
-      "ts": "2026-06-07T06:23:47.431013+00:00",
-      "status": "ok",
-      "consecutiveFailures": 0,
-      "issues": []
-    },
-    {
-      "ts": "2026-06-07T06:28:47.267455+00:00",
-      "status": "ok",
-      "consecutiveFailures": 0,
-      "issues": []
-    },
-    {
-      "ts": "2026-06-07T06:33:47.304196+00:00",
-      "status": "ok",
-      "consecutiveFailures": 0,
-      "issues": []
-    },
-    {
-      "ts": "2026-06-07T06:38:47.239063+00:00",
-      "status": "ok",
-      "consecutiveFailures": 0,
-      "issues": []
-    },
-    {
-      "ts": "2026-06-07T06:43:47.458985+00:00",
-      "status": "ok",
-      "consecutiveFailures": 0,
-      "issues": []
-    },
-    {
-      "ts": "2026-06-07T06:48:46.774841+00:00",
-      "status": "ok",
-      "consecutiveFailures": 0,
-      "issues": []
-    },
-    {
-      "ts": "2026-06-07T06:53:47.427046+00:00",
-      "status": "ok",
-      "consecutiveFailures": 0,
-      "issues": []
-    },
-    {
-      "ts": "2026-06-07T06:58:47.161883+00:00",
-      "status": "ok",
-      "consecutiveFailures": 0,
-      "issues": []
-    },
-    {
-      "ts": "2026-06-07T07:03:47.537514+00:00",
-      "status": "ok",
-      "consecutiveFailures": 0,
-      "issues": []
-    },
-    {
-      "ts": "2026-06-07T07:08:47.079936+00:00",
-      "status": "ok",
-      "consecutiveFailures": 0,
-      "issues": []
-    },
-    {
-      "ts": "2026-06-07T07:13:47.178596+00:00",
-      "status": "ok",
-      "consecutiveFailures": 0,
-      "issues": []
-    },
-    {
-      "ts": "2026-06-07T07:18:47.282483+00:00",
-      "status": "ok",
-      "consecutiveFailures": 0,
-      "issues": []
-    },
-    {
-      "ts": "2026-06-07T07:23:47.623981+00:00",
-      "status": "ok",
-      "consecutiveFailures": 0,
-      "issues": []
-    },
-    {
-      "ts": "2026-06-07T07:28:47.434906+00:00",
-      "status": "ok",
-      "consecutiveFailures": 0,
-      "issues": []
-    },
-    {
-      "ts": "2026-06-07T07:33:47.256810+00:00",
-      "status": "ok",
-      "consecutiveFailures": 0,
-      "issues": []
-    },
-    {
-      "ts": "2026-06-07T07:38:47.171391+00:00",
-      "status": "ok",
-      "consecutiveFailures": 0,
-      "issues": []
-    },
-    {
-      "ts": "2026-06-07T07:43:46.305663+00:00",
-      "status": "ok",
-      "consecutiveFailures": 0,
-      "issues": []
-    },
-    {
-      "ts": "2026-06-07T07:48:47.576665+00:00",
-      "status": "ok",
-      "consecutiveFailures": 0,
-      "issues": []
-    },
-    {
-      "ts": "2026-06-07T07:55:19.522523+00:00",
-      "status": "ok",
-      "consecutiveFailures": 0,
-      "issues": []
-    },
-    {
-      "ts": "2026-06-07T08:00:02.489883+00:00",
-      "status": "ok",
-      "consecutiveFailures": 0,
-      "issues": []
-    },
-    {
-      "ts": "2026-06-07T08:08:11.135974+00:00",
-      "status": "ok",
-      "consecutiveFailures": 0,
-      "issues": []
-    },
-    {
       "ts": "2026-06-07T08:13:10.870565+00:00",
       "status": "ok",
       "consecutiveFailures": 0,
@@ -4322,14 +3284,1052 @@
       "status": "ok",
       "consecutiveFailures": 0,
       "issues": []
+    },
+    {
+      "ts": "2026-06-09T22:04:15.795722+00:00",
+      "status": "ok",
+      "consecutiveFailures": 0,
+      "issues": []
+    },
+    {
+      "ts": "2026-06-09T22:08:48.851063+00:00",
+      "status": "ok",
+      "consecutiveFailures": 0,
+      "issues": []
+    },
+    {
+      "ts": "2026-06-09T22:13:48.545365+00:00",
+      "status": "ok",
+      "consecutiveFailures": 0,
+      "issues": []
+    },
+    {
+      "ts": "2026-06-09T22:18:49.181236+00:00",
+      "status": "ok",
+      "consecutiveFailures": 0,
+      "issues": []
+    },
+    {
+      "ts": "2026-06-09T22:23:49.078968+00:00",
+      "status": "ok",
+      "consecutiveFailures": 0,
+      "issues": []
+    },
+    {
+      "ts": "2026-06-09T22:29:36.792416+00:00",
+      "status": "ok",
+      "consecutiveFailures": 0,
+      "issues": []
+    },
+    {
+      "ts": "2026-06-09T22:34:14.118695+00:00",
+      "status": "ok",
+      "consecutiveFailures": 0,
+      "issues": []
+    },
+    {
+      "ts": "2026-06-09T22:38:49.020296+00:00",
+      "status": "ok",
+      "consecutiveFailures": 0,
+      "issues": []
+    },
+    {
+      "ts": "2026-06-09T22:43:50.379976+00:00",
+      "status": "ok",
+      "consecutiveFailures": 0,
+      "issues": []
+    },
+    {
+      "ts": "2026-06-09T22:48:48.788218+00:00",
+      "status": "ok",
+      "consecutiveFailures": 0,
+      "issues": []
+    },
+    {
+      "ts": "2026-06-09T22:53:49.358025+00:00",
+      "status": "ok",
+      "consecutiveFailures": 0,
+      "issues": []
+    },
+    {
+      "ts": "2026-06-09T22:58:49.750705+00:00",
+      "status": "ok",
+      "consecutiveFailures": 0,
+      "issues": []
+    },
+    {
+      "ts": "2026-06-09T23:03:51.688935+00:00",
+      "status": "ok",
+      "consecutiveFailures": 0,
+      "issues": []
+    },
+    {
+      "ts": "2026-06-09T23:08:49.263009+00:00",
+      "status": "ok",
+      "consecutiveFailures": 0,
+      "issues": []
+    },
+    {
+      "ts": "2026-06-09T23:13:49.673575+00:00",
+      "status": "ok",
+      "consecutiveFailures": 0,
+      "issues": []
+    },
+    {
+      "ts": "2026-06-09T23:18:50.372952+00:00",
+      "status": "ok",
+      "consecutiveFailures": 0,
+      "issues": []
+    },
+    {
+      "ts": "2026-06-09T23:23:49.966873+00:00",
+      "status": "ok",
+      "consecutiveFailures": 0,
+      "issues": []
+    },
+    {
+      "ts": "2026-06-09T23:31:51.682367+00:00",
+      "status": "ok",
+      "consecutiveFailures": 0,
+      "issues": []
+    },
+    {
+      "ts": "2026-06-09T23:34:03.825361+00:00",
+      "status": "ok",
+      "consecutiveFailures": 0,
+      "issues": []
+    },
+    {
+      "ts": "2026-06-09T23:38:57.352725+00:00",
+      "status": "ok",
+      "consecutiveFailures": 0,
+      "issues": []
+    },
+    {
+      "ts": "2026-06-09T23:43:57.279042+00:00",
+      "status": "ok",
+      "consecutiveFailures": 0,
+      "issues": []
+    },
+    {
+      "ts": "2026-06-09T23:48:57.199151+00:00",
+      "status": "ok",
+      "consecutiveFailures": 0,
+      "issues": []
+    },
+    {
+      "ts": "2026-06-09T23:53:56.696279+00:00",
+      "status": "ok",
+      "consecutiveFailures": 0,
+      "issues": []
+    },
+    {
+      "ts": "2026-06-09T23:59:19.722341+00:00",
+      "status": "ok",
+      "consecutiveFailures": 0,
+      "issues": []
+    },
+    {
+      "ts": "2026-06-10T00:04:00.539043+00:00",
+      "status": "ok",
+      "consecutiveFailures": 0,
+      "issues": []
+    },
+    {
+      "ts": "2026-06-10T00:11:32.099678+00:00",
+      "status": "ok",
+      "consecutiveFailures": 0,
+      "issues": []
+    },
+    {
+      "ts": "2026-06-10T00:17:12.068924+00:00",
+      "status": "ok",
+      "consecutiveFailures": 0,
+      "issues": []
+    },
+    {
+      "ts": "2026-06-10T00:19:07.942654+00:00",
+      "status": "ok",
+      "consecutiveFailures": 0,
+      "issues": []
+    },
+    {
+      "ts": "2026-06-10T00:24:00.198713+00:00",
+      "status": "ok",
+      "consecutiveFailures": 0,
+      "issues": []
+    },
+    {
+      "ts": "2026-06-10T00:29:10.925065+00:00",
+      "status": "ok",
+      "consecutiveFailures": 0,
+      "issues": []
+    },
+    {
+      "ts": "2026-06-10T00:34:57.214454+00:00",
+      "status": "ok",
+      "consecutiveFailures": 0,
+      "issues": []
+    },
+    {
+      "ts": "2026-06-10T00:39:50.816465+00:00",
+      "status": "ok",
+      "consecutiveFailures": 0,
+      "issues": []
+    },
+    {
+      "ts": "2026-06-10T00:44:50.414558+00:00",
+      "status": "ok",
+      "consecutiveFailures": 0,
+      "issues": []
+    },
+    {
+      "ts": "2026-06-10T00:49:52.190463+00:00",
+      "status": "ok",
+      "consecutiveFailures": 0,
+      "issues": []
+    },
+    {
+      "ts": "2026-06-10T00:54:54.915804+00:00",
+      "status": "ok",
+      "consecutiveFailures": 0,
+      "issues": []
+    },
+    {
+      "ts": "2026-06-10T00:59:53.402891+00:00",
+      "status": "ok",
+      "consecutiveFailures": 0,
+      "issues": []
+    },
+    {
+      "ts": "2026-06-10T01:04:54.466125+00:00",
+      "status": "ok",
+      "consecutiveFailures": 0,
+      "issues": []
+    },
+    {
+      "ts": "2026-06-10T01:09:50.973118+00:00",
+      "status": "ok",
+      "consecutiveFailures": 0,
+      "issues": []
+    },
+    {
+      "ts": "2026-06-10T01:14:50.404940+00:00",
+      "status": "ok",
+      "consecutiveFailures": 0,
+      "issues": []
+    },
+    {
+      "ts": "2026-06-10T01:23:44.383157+00:00",
+      "status": "ok",
+      "consecutiveFailures": 0,
+      "issues": []
+    },
+    {
+      "ts": "2026-06-10T01:24:50.480631+00:00",
+      "status": "ok",
+      "consecutiveFailures": 0,
+      "issues": []
+    },
+    {
+      "ts": "2026-06-10T01:30:21.386646+00:00",
+      "status": "ok",
+      "consecutiveFailures": 0,
+      "issues": []
+    },
+    {
+      "ts": "2026-06-10T01:34:50.000888+00:00",
+      "status": "ok",
+      "consecutiveFailures": 0,
+      "issues": []
+    },
+    {
+      "ts": "2026-06-10T01:40:25.661982+00:00",
+      "status": "ok",
+      "consecutiveFailures": 0,
+      "issues": []
+    },
+    {
+      "ts": "2026-06-10T01:46:21.034864+00:00",
+      "status": "ok",
+      "consecutiveFailures": 0,
+      "issues": []
+    },
+    {
+      "ts": "2026-06-10T01:52:40.953465+00:00",
+      "status": "ok",
+      "consecutiveFailures": 0,
+      "issues": []
+    },
+    {
+      "ts": "2026-06-10T01:55:56.908473+00:00",
+      "status": "ok",
+      "consecutiveFailures": 0,
+      "issues": []
+    },
+    {
+      "ts": "2026-06-10T02:00:57.407206+00:00",
+      "status": "ok",
+      "consecutiveFailures": 0,
+      "issues": []
+    },
+    {
+      "ts": "2026-06-10T02:08:16.562281+00:00",
+      "status": "ok",
+      "consecutiveFailures": 0,
+      "issues": []
+    },
+    {
+      "ts": "2026-06-10T02:11:38.900355+00:00",
+      "status": "ok",
+      "consecutiveFailures": 0,
+      "issues": []
+    },
+    {
+      "ts": "2026-06-10T02:16:38.604562+00:00",
+      "status": "ok",
+      "consecutiveFailures": 0,
+      "issues": []
+    },
+    {
+      "ts": "2026-06-10T02:21:39.125997+00:00",
+      "status": "ok",
+      "consecutiveFailures": 0,
+      "issues": []
+    },
+    {
+      "ts": "2026-06-10T02:26:39.556096+00:00",
+      "status": "ok",
+      "consecutiveFailures": 0,
+      "issues": []
+    },
+    {
+      "ts": "2026-06-10T02:47:07.174133+00:00",
+      "status": "ok",
+      "consecutiveFailures": 0,
+      "issues": []
+    },
+    {
+      "ts": "2026-06-10T02:48:52.768335+00:00",
+      "status": "ok",
+      "consecutiveFailures": 0,
+      "issues": []
+    },
+    {
+      "ts": "2026-06-10T02:53:53.728447+00:00",
+      "status": "ok",
+      "consecutiveFailures": 0,
+      "issues": []
+    },
+    {
+      "ts": "2026-06-10T02:58:54.732932+00:00",
+      "status": "ok",
+      "consecutiveFailures": 0,
+      "issues": []
+    },
+    {
+      "ts": "2026-06-10T03:03:54.583258+00:00",
+      "status": "ok",
+      "consecutiveFailures": 0,
+      "issues": []
+    },
+    {
+      "ts": "2026-06-10T03:08:54.557277+00:00",
+      "status": "ok",
+      "consecutiveFailures": 0,
+      "issues": []
+    },
+    {
+      "ts": "2026-06-10T03:13:53.199674+00:00",
+      "status": "ok",
+      "consecutiveFailures": 0,
+      "issues": []
+    },
+    {
+      "ts": "2026-06-10T03:18:53.712200+00:00",
+      "status": "ok",
+      "consecutiveFailures": 0,
+      "issues": []
+    },
+    {
+      "ts": "2026-06-10T03:23:52.664170+00:00",
+      "status": "ok",
+      "consecutiveFailures": 0,
+      "issues": []
+    },
+    {
+      "ts": "2026-06-10T03:28:53.431669+00:00",
+      "status": "ok",
+      "consecutiveFailures": 0,
+      "issues": []
+    },
+    {
+      "ts": "2026-06-10T03:33:54.065650+00:00",
+      "status": "ok",
+      "consecutiveFailures": 0,
+      "issues": []
+    },
+    {
+      "ts": "2026-06-10T03:38:53.118984+00:00",
+      "status": "ok",
+      "consecutiveFailures": 0,
+      "issues": []
+    },
+    {
+      "ts": "2026-06-10T03:43:55.378202+00:00",
+      "status": "ok",
+      "consecutiveFailures": 0,
+      "issues": []
+    },
+    {
+      "ts": "2026-06-10T03:48:52.654228+00:00",
+      "status": "ok",
+      "consecutiveFailures": 0,
+      "issues": []
+    },
+    {
+      "ts": "2026-06-10T03:53:53.100448+00:00",
+      "status": "ok",
+      "consecutiveFailures": 0,
+      "issues": []
+    },
+    {
+      "ts": "2026-06-10T03:58:53.363110+00:00",
+      "status": "ok",
+      "consecutiveFailures": 0,
+      "issues": []
+    },
+    {
+      "ts": "2026-06-10T04:03:52.986036+00:00",
+      "status": "ok",
+      "consecutiveFailures": 0,
+      "issues": []
+    },
+    {
+      "ts": "2026-06-10T04:08:52.760771+00:00",
+      "status": "ok",
+      "consecutiveFailures": 0,
+      "issues": []
+    },
+    {
+      "ts": "2026-06-10T04:13:52.890789+00:00",
+      "status": "ok",
+      "consecutiveFailures": 0,
+      "issues": []
+    },
+    {
+      "ts": "2026-06-10T04:18:52.793177+00:00",
+      "status": "ok",
+      "consecutiveFailures": 0,
+      "issues": []
+    },
+    {
+      "ts": "2026-06-10T04:23:52.778617+00:00",
+      "status": "ok",
+      "consecutiveFailures": 0,
+      "issues": []
+    },
+    {
+      "ts": "2026-06-10T04:28:52.712218+00:00",
+      "status": "ok",
+      "consecutiveFailures": 0,
+      "issues": []
+    },
+    {
+      "ts": "2026-06-10T04:33:53.510890+00:00",
+      "status": "ok",
+      "consecutiveFailures": 0,
+      "issues": []
+    },
+    {
+      "ts": "2026-06-10T04:38:53.916616+00:00",
+      "status": "ok",
+      "consecutiveFailures": 0,
+      "issues": []
+    },
+    {
+      "ts": "2026-06-10T04:43:53.390991+00:00",
+      "status": "ok",
+      "consecutiveFailures": 0,
+      "issues": []
+    },
+    {
+      "ts": "2026-06-10T04:48:53.219303+00:00",
+      "status": "ok",
+      "consecutiveFailures": 0,
+      "issues": []
+    },
+    {
+      "ts": "2026-06-10T04:54:51.110009+00:00",
+      "status": "ok",
+      "consecutiveFailures": 0,
+      "issues": []
+    },
+    {
+      "ts": "2026-06-10T04:59:41.910702+00:00",
+      "status": "ok",
+      "consecutiveFailures": 0,
+      "issues": []
+    },
+    {
+      "ts": "2026-06-10T05:04:30.025539+00:00",
+      "status": "ok",
+      "consecutiveFailures": 0,
+      "issues": []
+    },
+    {
+      "ts": "2026-06-10T05:09:30.709070+00:00",
+      "status": "ok",
+      "consecutiveFailures": 0,
+      "issues": []
+    },
+    {
+      "ts": "2026-06-10T05:14:53.622958+00:00",
+      "status": "ok",
+      "consecutiveFailures": 0,
+      "issues": []
+    },
+    {
+      "ts": "2026-06-10T05:19:45.031193+00:00",
+      "status": "ok",
+      "consecutiveFailures": 0,
+      "issues": []
+    },
+    {
+      "ts": "2026-06-10T05:24:45.161839+00:00",
+      "status": "ok",
+      "consecutiveFailures": 0,
+      "issues": []
+    },
+    {
+      "ts": "2026-06-10T05:29:45.112645+00:00",
+      "status": "ok",
+      "consecutiveFailures": 0,
+      "issues": []
+    },
+    {
+      "ts": "2026-06-10T05:34:47.088409+00:00",
+      "status": "ok",
+      "consecutiveFailures": 0,
+      "issues": []
+    },
+    {
+      "ts": "2026-06-10T05:39:45.695582+00:00",
+      "status": "ok",
+      "consecutiveFailures": 0,
+      "issues": []
+    },
+    {
+      "ts": "2026-06-10T05:44:45.420233+00:00",
+      "status": "ok",
+      "consecutiveFailures": 0,
+      "issues": []
+    },
+    {
+      "ts": "2026-06-10T05:49:45.577681+00:00",
+      "status": "ok",
+      "consecutiveFailures": 0,
+      "issues": []
+    },
+    {
+      "ts": "2026-06-10T05:54:45.073893+00:00",
+      "status": "ok",
+      "consecutiveFailures": 0,
+      "issues": []
+    },
+    {
+      "ts": "2026-06-10T05:59:45.153696+00:00",
+      "status": "ok",
+      "consecutiveFailures": 0,
+      "issues": []
+    },
+    {
+      "ts": "2026-06-10T06:06:05.605632+00:00",
+      "status": "ok",
+      "consecutiveFailures": 0,
+      "issues": []
+    },
+    {
+      "ts": "2026-06-10T06:12:08.599915+00:00",
+      "status": "ok",
+      "consecutiveFailures": 0,
+      "issues": []
+    },
+    {
+      "ts": "2026-06-10T06:14:48.603993+00:00",
+      "status": "ok",
+      "consecutiveFailures": 0,
+      "issues": []
+    },
+    {
+      "ts": "2026-06-10T06:19:48.394209+00:00",
+      "status": "ok",
+      "consecutiveFailures": 0,
+      "issues": []
+    },
+    {
+      "ts": "2026-06-10T06:25:57.144689+00:00",
+      "status": "ok",
+      "consecutiveFailures": 0,
+      "issues": []
+    },
+    {
+      "ts": "2026-06-10T06:29:48.907017+00:00",
+      "status": "ok",
+      "consecutiveFailures": 0,
+      "issues": []
+    },
+    {
+      "ts": "2026-06-10T06:35:23.696703+00:00",
+      "status": "ok",
+      "consecutiveFailures": 0,
+      "issues": []
+    },
+    {
+      "ts": "2026-06-10T06:40:16.282247+00:00",
+      "status": "ok",
+      "consecutiveFailures": 0,
+      "issues": []
+    },
+    {
+      "ts": "2026-06-10T06:45:56.357956+00:00",
+      "status": "ok",
+      "consecutiveFailures": 0,
+      "issues": []
+    },
+    {
+      "ts": "2026-06-10T06:50:16.143454+00:00",
+      "status": "ok",
+      "consecutiveFailures": 0,
+      "issues": []
+    },
+    {
+      "ts": "2026-06-10T06:55:16.153693+00:00",
+      "status": "ok",
+      "consecutiveFailures": 0,
+      "issues": []
+    },
+    {
+      "ts": "2026-06-10T07:00:16.503955+00:00",
+      "status": "ok",
+      "consecutiveFailures": 0,
+      "issues": []
+    },
+    {
+      "ts": "2026-06-10T07:05:16.690112+00:00",
+      "status": "ok",
+      "consecutiveFailures": 0,
+      "issues": []
+    },
+    {
+      "ts": "2026-06-10T07:10:16.161435+00:00",
+      "status": "ok",
+      "consecutiveFailures": 0,
+      "issues": []
+    },
+    {
+      "ts": "2026-06-10T07:15:16.931859+00:00",
+      "status": "ok",
+      "consecutiveFailures": 0,
+      "issues": []
+    },
+    {
+      "ts": "2026-06-10T07:20:16.461226+00:00",
+      "status": "ok",
+      "consecutiveFailures": 0,
+      "issues": []
+    },
+    {
+      "ts": "2026-06-10T07:25:16.396926+00:00",
+      "status": "ok",
+      "consecutiveFailures": 0,
+      "issues": []
+    },
+    {
+      "ts": "2026-06-10T07:30:16.415621+00:00",
+      "status": "ok",
+      "consecutiveFailures": 0,
+      "issues": []
+    },
+    {
+      "ts": "2026-06-10T07:35:16.296611+00:00",
+      "status": "ok",
+      "consecutiveFailures": 0,
+      "issues": []
+    },
+    {
+      "ts": "2026-06-10T07:40:16.479430+00:00",
+      "status": "ok",
+      "consecutiveFailures": 0,
+      "issues": []
+    },
+    {
+      "ts": "2026-06-10T07:45:16.521245+00:00",
+      "status": "ok",
+      "consecutiveFailures": 0,
+      "issues": []
+    },
+    {
+      "ts": "2026-06-10T07:50:16.666217+00:00",
+      "status": "ok",
+      "consecutiveFailures": 0,
+      "issues": []
+    },
+    {
+      "ts": "2026-06-10T07:55:16.569298+00:00",
+      "status": "ok",
+      "consecutiveFailures": 0,
+      "issues": []
+    },
+    {
+      "ts": "2026-06-10T08:00:16.827956+00:00",
+      "status": "ok",
+      "consecutiveFailures": 0,
+      "issues": []
+    },
+    {
+      "ts": "2026-06-10T08:05:16.799679+00:00",
+      "status": "ok",
+      "consecutiveFailures": 0,
+      "issues": []
+    },
+    {
+      "ts": "2026-06-10T08:10:16.433203+00:00",
+      "status": "ok",
+      "consecutiveFailures": 0,
+      "issues": []
+    },
+    {
+      "ts": "2026-06-10T08:15:20.794783+00:00",
+      "status": "ok",
+      "consecutiveFailures": 0,
+      "issues": []
+    },
+    {
+      "ts": "2026-06-10T08:20:16.534416+00:00",
+      "status": "ok",
+      "consecutiveFailures": 0,
+      "issues": []
+    },
+    {
+      "ts": "2026-06-10T08:25:16.708020+00:00",
+      "status": "ok",
+      "consecutiveFailures": 0,
+      "issues": []
+    },
+    {
+      "ts": "2026-06-10T08:30:16.620813+00:00",
+      "status": "ok",
+      "consecutiveFailures": 0,
+      "issues": []
+    },
+    {
+      "ts": "2026-06-10T08:35:16.632908+00:00",
+      "status": "ok",
+      "consecutiveFailures": 0,
+      "issues": []
+    },
+    {
+      "ts": "2026-06-10T08:40:16.924766+00:00",
+      "status": "ok",
+      "consecutiveFailures": 0,
+      "issues": []
+    },
+    {
+      "ts": "2026-06-10T08:45:18.142703+00:00",
+      "status": "ok",
+      "consecutiveFailures": 0,
+      "issues": []
+    },
+    {
+      "ts": "2026-06-10T08:50:16.985182+00:00",
+      "status": "ok",
+      "consecutiveFailures": 0,
+      "issues": []
+    },
+    {
+      "ts": "2026-06-10T08:55:17.577362+00:00",
+      "status": "ok",
+      "consecutiveFailures": 0,
+      "issues": []
+    },
+    {
+      "ts": "2026-06-10T09:00:17.983070+00:00",
+      "status": "ok",
+      "consecutiveFailures": 0,
+      "issues": []
+    },
+    {
+      "ts": "2026-06-10T09:05:16.917143+00:00",
+      "status": "ok",
+      "consecutiveFailures": 0,
+      "issues": []
+    },
+    {
+      "ts": "2026-06-10T09:10:17.464099+00:00",
+      "status": "ok",
+      "consecutiveFailures": 0,
+      "issues": []
+    },
+    {
+      "ts": "2026-06-10T09:15:19.510540+00:00",
+      "status": "ok",
+      "consecutiveFailures": 0,
+      "issues": []
+    },
+    {
+      "ts": "2026-06-10T09:20:19.291958+00:00",
+      "status": "ok",
+      "consecutiveFailures": 0,
+      "issues": []
+    },
+    {
+      "ts": "2026-06-10T09:25:20.513234+00:00",
+      "status": "ok",
+      "consecutiveFailures": 0,
+      "issues": []
+    },
+    {
+      "ts": "2026-06-10T09:30:20.323871+00:00",
+      "status": "ok",
+      "consecutiveFailures": 0,
+      "issues": []
+    },
+    {
+      "ts": "2026-06-10T09:35:19.071028+00:00",
+      "status": "ok",
+      "consecutiveFailures": 0,
+      "issues": []
+    },
+    {
+      "ts": "2026-06-10T09:40:20.622353+00:00",
+      "status": "ok",
+      "consecutiveFailures": 0,
+      "issues": []
+    },
+    {
+      "ts": "2026-06-10T09:45:19.532502+00:00",
+      "status": "ok",
+      "consecutiveFailures": 0,
+      "issues": []
+    },
+    {
+      "ts": "2026-06-10T09:50:19.482270+00:00",
+      "status": "ok",
+      "consecutiveFailures": 0,
+      "issues": []
+    },
+    {
+      "ts": "2026-06-10T09:55:21.311655+00:00",
+      "status": "ok",
+      "consecutiveFailures": 0,
+      "issues": []
+    },
+    {
+      "ts": "2026-06-10T10:00:50.531396+00:00",
+      "status": "ok",
+      "consecutiveFailures": 0,
+      "issues": []
+    },
+    {
+      "ts": "2026-06-10T10:05:50.764960+00:00",
+      "status": "ok",
+      "consecutiveFailures": 0,
+      "issues": []
+    },
+    {
+      "ts": "2026-06-10T10:10:50.259261+00:00",
+      "status": "ok",
+      "consecutiveFailures": 0,
+      "issues": []
+    },
+    {
+      "ts": "2026-06-10T10:16:10.917145+00:00",
+      "status": "ok",
+      "consecutiveFailures": 0,
+      "issues": []
+    },
+    {
+      "ts": "2026-06-10T10:20:51.526201+00:00",
+      "status": "ok",
+      "consecutiveFailures": 0,
+      "issues": []
+    },
+    {
+      "ts": "2026-06-10T10:25:53.108880+00:00",
+      "status": "ok",
+      "consecutiveFailures": 0,
+      "issues": []
+    },
+    {
+      "ts": "2026-06-10T10:31:14.134877+00:00",
+      "status": "ok",
+      "consecutiveFailures": 0,
+      "issues": []
+    },
+    {
+      "ts": "2026-06-10T10:35:49.356721+00:00",
+      "status": "ok",
+      "consecutiveFailures": 0,
+      "issues": []
+    },
+    {
+      "ts": "2026-06-10T10:40:49.906246+00:00",
+      "status": "ok",
+      "consecutiveFailures": 0,
+      "issues": []
+    },
+    {
+      "ts": "2026-06-10T10:46:59.225425+00:00",
+      "status": "ok",
+      "consecutiveFailures": 0,
+      "issues": []
+    },
+    {
+      "ts": "2026-06-10T10:50:49.032318+00:00",
+      "status": "ok",
+      "consecutiveFailures": 0,
+      "issues": []
+    },
+    {
+      "ts": "2026-06-10T11:03:00.558446+00:00",
+      "status": "ok",
+      "consecutiveFailures": 0,
+      "issues": []
+    },
+    {
+      "ts": "2026-06-10T11:07:32.778886+00:00",
+      "status": "ok",
+      "consecutiveFailures": 0,
+      "issues": []
+    },
+    {
+      "ts": "2026-06-10T11:13:03.391157+00:00",
+      "status": "ok",
+      "consecutiveFailures": 0,
+      "issues": []
+    },
+    {
+      "ts": "2026-06-10T11:17:30.726065+00:00",
+      "status": "ok",
+      "consecutiveFailures": 0,
+      "issues": []
+    },
+    {
+      "ts": "2026-06-10T11:22:28.452968+00:00",
+      "status": "ok",
+      "consecutiveFailures": 0,
+      "issues": []
+    },
+    {
+      "ts": "2026-06-10T11:27:58.019490+00:00",
+      "status": "ok",
+      "consecutiveFailures": 0,
+      "issues": []
+    },
+    {
+      "ts": "2026-06-10T11:33:04.229689+00:00",
+      "status": "ok",
+      "consecutiveFailures": 0,
+      "issues": []
+    },
+    {
+      "ts": "2026-06-10T11:37:28.490097+00:00",
+      "status": "ok",
+      "consecutiveFailures": 0,
+      "issues": []
+    },
+    {
+      "ts": "2026-06-10T11:42:28.875186+00:00",
+      "status": "ok",
+      "consecutiveFailures": 0,
+      "issues": []
+    },
+    {
+      "ts": "2026-06-10T11:47:29.428907+00:00",
+      "status": "ok",
+      "consecutiveFailures": 0,
+      "issues": []
+    },
+    {
+      "ts": "2026-06-10T11:52:29.028053+00:00",
+      "status": "ok",
+      "consecutiveFailures": 0,
+      "issues": []
+    },
+    {
+      "ts": "2026-06-10T11:57:28.906826+00:00",
+      "status": "ok",
+      "consecutiveFailures": 0,
+      "issues": []
+    },
+    {
+      "ts": "2026-06-10T12:02:28.969362+00:00",
+      "status": "ok",
+      "consecutiveFailures": 0,
+      "issues": []
+    },
+    {
+      "ts": "2026-06-10T12:11:44.130420+00:00",
+      "status": "ok",
+      "consecutiveFailures": 0,
+      "issues": []
+    },
+    {
+      "ts": "2026-06-10T12:17:28.975631+00:00",
+      "status": "ok",
+      "consecutiveFailures": 0,
+      "issues": []
+    },
+    {
+      "ts": "2026-06-10T12:22:29.240960+00:00",
+      "status": "ok",
+      "consecutiveFailures": 0,
+      "issues": []
+    },
+    {
+      "ts": "2026-06-10T12:27:48.646876+00:00",
+      "status": "ok",
+      "consecutiveFailures": 0,
+      "issues": []
+    },
+    {
+      "ts": "2026-06-10T12:34:33.845917+00:00",
+      "status": "ok",
+      "consecutiveFailures": 0,
+      "issues": []
+    },
+    {
+      "ts": "2026-06-10T12:39:07.771404+00:00",
+      "status": "ok",
+      "consecutiveFailures": 0,
+      "issues": []
+    },
+    {
+      "ts": "2026-06-10T12:43:36.266811+00:00",
+      "status": "ok",
+      "consecutiveFailures": 0,
+      "issues": []
+    },
+    {
+      "ts": "2026-06-10T12:48:36.278099+00:00",
+      "status": "ok",
+      "consecutiveFailures": 0,
+      "issues": []
+    },
+    {
+      "ts": "2026-06-10T12:58:06.750765+00:00",
+      "status": "ok",
+      "consecutiveFailures": 0,
+      "issues": []
     }
   ],
   "summary": {
-    "totalChecks": 3882,
-    "upChecks": 3879,
+    "totalChecks": 4055,
+    "upChecks": 4052,
     "downtimeMinutes": 15,
-    "uptimePct": 99.923,
-    "lastCheck": "2026-06-09T12:57:49.521394+00:00",
+    "uptimePct": 99.926,
+    "lastCheck": "2026-06-10T12:58:06.750765+00:00",
     "lastStatus": "ok"
   }
 }

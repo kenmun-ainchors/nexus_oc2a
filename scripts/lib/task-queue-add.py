@@ -14,6 +14,7 @@ ATOMS_STR = sys.argv[6]
 PRIORITY = sys.argv[7]
 SOURCE = sys.argv[8]
 RELATED_CHG = sys.argv[9]
+PARENT_TASK_ID = sys.argv[10] if len(sys.argv) > 10 else ""
 
 # Parse atoms
 atoms = []
@@ -34,6 +35,10 @@ task = {
     "createdAt": now,
     "updatedAt": now
 }
+
+# Add parent_task_id if provided (TKT-0382)
+if PARENT_TASK_ID:
+    task["parentTaskId"] = PARENT_TASK_ID
 
 # Step 1: State-checked PG write (TKT-0182: READ → VALIDATE → EXECUTE → VERIFY)
 sc_ok, sc_msg = sc_add_task(TASK_ID, task)

@@ -1,0 +1,12 @@
+{
+  "gate": "crest-done-gate",
+  "ticket_id": "TKT-0403",
+  "checked_at": "2026-06-10T10:58:35+10:00",
+  "passed": true,
+  "failures": [],
+  "checks": {
+    "synthesize_ran": true,
+    "sub_crests_done": true,
+    "no_unresolved_escalations": true
+  }
+}

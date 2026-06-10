@@ -1,0 +1,20 @@
+{
+"atom_id": "A5F420C6-B255-4DED-8D29-41904E897365",
+"sub_crest_id": "TKT-0381-TEST",
+"atom_index": 0,
+"verb": "create",
+"target": "scripts/flash-dispatcher.sh",
+"model": "deepseek-v4-flash:cloud",
+"rvev_trace": {
+"read": null,
+"validate": null,
+"execute": null,
+"verify": null,
+"phase": "execute",
+"atom_desc": "Build and test flash-dispatcher.sh"
+},
+"status": "pending",
+"created_at": "2026-06-09T22:39:48Z",
+"updated_at": "2026-06-09T22:39:48Z"
+}
+{"atom_id":"09b5aea2-ceb0-4ef9-a917-f8ebad83b42e","sub_crest_id":"682e6652-8754-4d6b-9855-e05e50e17a90","atom_index":0,"verb":"validate","target":"atom-validate.sh","model":"ollama/deepseek-v4-flash:cloud","rvev_trace":null,"status":"pending","created_at":"2026-06-10T09:55:00+10:00","updated_at":"2026-06-10T09:55:00+10:00"}

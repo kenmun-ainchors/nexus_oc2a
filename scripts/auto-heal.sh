@@ -641,24 +641,17 @@ if [[ $ORPHAN_COUNT -eq 0 ]]; then
 fi
 
 # ---------- CHECK 19: Sandbox Gateway Liveness (TKT-0333) ----------
+# Sandbox (port 28789) is ON-DEMAND — only spin up when required for Forge/build/infra work.
+# Not expected to be running continuously. Log status but do NOT flag as issue.
 log "CHECK 19: sandbox gateway liveness (port 28789)"
 CHECKS_RUN+=("sandbox_gateway_liveness")
 
 SANDBOX_PORT=28789
-SANDBOX_PLIST="$HOME/Library/LaunchAgents/ai.openclaw.sandbox-gateway.plist"
 
 if /usr/sbin/lsof -i :$SANDBOX_PORT -sTCP:LISTEN -t > /dev/null 2>&1; then
   log "  OK: Sandbox gateway listening on port $SANDBOX_PORT"
 else
-  if [[ -f "$SANDBOX_PLIST" ]]; then
-    log "  WARN: Sandbox gateway NOT listening on port $SANDBOX_PORT — LaunchAgent plist exists but service is down"
-    ISSUES_FOUND+=("sandbox-gateway:down")
-    NEEDS_KEN+=("WARN: Sandbox gateway (port 28789) not listening — LaunchAgent exists ($SANDBOX_PLIST), manual start may be needed")
-  else
-    log "  WARN: Sandbox gateway NOT listening on port $SANDBOX_PORT — no LaunchAgent plist found"
-    ISSUES_FOUND+=("sandbox-gateway:no-plist")
-    NEEDS_KEN+=("WARN: Sandbox gateway (port 28789) not listening and no LaunchAgent plist at $SANDBOX_PLIST")
-  fi
+  log "  INFO: Sandbox gateway not running on port $SANDBOX_PORT — expected (on-demand, not always-on)"
 fi
 write_state
 

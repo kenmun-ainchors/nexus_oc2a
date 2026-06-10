@@ -776,3 +776,47 @@ Three crons (Morning Stand-Up, Daily Blog, Aria ROI) failed because agent models
 - This rule remains in effect until TRIGGER-03 (OC2 commissioned, Gemma4 validated on OC2-A 48GB).
 - Exception: `nomic-embed-text` (local embedding model) is approved for memory_search — it's lightweight and not an operational task.
 **Source:** Ken correction 2026-06-09. Yoda attempted to assign `ollama/gemma4:26b` as heartbeat model. Rejected.
+
+## L-054 — 2026-06-09 | CREST Loop — First Execution Learnings
+**Lesson:** The CREST sandwich loop (Plan→Execute→Verify→Replan→Synthesize→Done) proved essential on its first run. Three gaps were caught by the Verify/Judge phase that sub-agents reported as "complete": (1) A6 wrote to wrong path (workspace-infra/ vs workspace/), (2) A7 n=2 claimed wiring existed when zero grep hits proved otherwise, (3) context-summarize.sh was missing --enforce and --dry-run flags despite sub-agent documentation claiming they existed. Without binary 0–1 judging, all three would have shipped broken.
+**Root cause:** Sub-agents report task intent as completion — they describe what they *intended* to build, not what was actually delivered. The Verify phase must independently confirm (grep, execute, test) — never trust the self-report.
+**Rules:**
+- CREST Verify MUST be independent — Yoda greps, executes, tests. Never accept sub-agent self-report as proof.
+- When a gap is found at Verify, Replan MUST iterate (n++) back to Execute. Never forward-fix in the Replan phase — send it back to the executor.
+- Synthesize (A10 e2e test) MUST test ALL atoms together, not just individual atoms. The integration gaps only surfaced when all pieces ran together.
+- The Replan gate (stop? / decide) is the most critical decision point. Premature "stop met" skips gap detection.
+**Linked:** TKT-0340, L-051 (groom-before-execute), L-053 (TQP routing discipline)
+**Source:** Ken review 2026-06-10. First CREST execution — 11 atoms, 3 gaps caught, all closed before Done.
+
+## L-062 — 2026-06-10 | Process | Execute atoms MUST use flash model, not pro
+**Lesson:** Yoda dispatched Forge Execute atoms using deepseek-v4-pro:cloud rather than deepseek-v4-flash:cloud per CREST v1.2 §4 Model Assignment Matrix. TKT-0369 sub-tickets A/B/C were all planned correctly but executed on pro instead of flash. Root cause: Yoda didn't explicitly set model=flash when spawning Forge sessions — defaulted to the session's current model (pro).
+**Prevention:** When dispatching Execute-phase atoms to any specialist, Yoda MUST explicitly override the model to `ollama/deepseek-v4-flash:cloud`. The Flash Dispatcher (TKT-0386) should be invoked as the dispatch mechanism rather than direct sessions_spawn — this enforces phase-aware model routing automatically.
+**Linked:** TKT-0386, CREST v1.2 §4, TKT-0369
+**Source:** Self-audit 2026-06-10. CREST compliance review of TKT-0369 execution.
+
+## L-063 — 2026-06-10 | Process | Master Synthesize MUST run before closing parent ticket
+**Lesson:** Yoda closed TKT-0369 (parent) without running master-synthesize.sh across the 3 sub-tickets. Only ran it retroactively when Ken called it out. The automated checks (interface consistency, assumption alignment) passed, and manual checks (gap detection, narrative coherence) were done verbally — but the gate should fire before Done, not after.
+**Prevention:** CREST Done gate checklist: (1) all sub-tickets verified, (2) master-synthesize.sh run with all sub-ticket IDs, (3) automated checks pass, (4) manual checks completed by Yoda, (5) THEN close parent. Never close parent before Synthesize.
+**Linked:** TKT-0388, CREST v1.2 §7.2, TKT-0369
+**Source:** Ken catch 2026-06-10. CREST compliance audit of TKT-0369 close-out.
+
+## L-064 — 2026-06-10 | Execution | changelog-append.sh is zsh-only; shell + enum pitfalls
+**Lesson:** changelog-append.sh uses `${(P)var}` (zsh parameter-expansion flag) but `exec` tool runs commands through default shell (bash). Invoking `bash scripts/changelog-append.sh` fails with `bad substitution`. Must explicitly invoke `zsh scripts/changelog-append.sh`. Also: `--type` has strict enum (not `build` — use `script`), and `--source` must be one of 5 enumerated values (not a TKT-ID — use `ken-prompt`).
+**Prevention:** changelog SKILL.md now documents: zsh invocation required, allowed enums listed, common pitfalls with error messages.
+**Linked:** TKT-0393, CHG-0488
+**Source:** Yoda self-caught 2026-06-10. 3 invocation failures before getting it right.
+
+## L-066 | 2026-06-10 | Discipline | Load skills before operations; never use tribal memory
+**Severity: Repeat Offence (same session).** Yoda performed PG ticket/sprint operations from memory — manual jq/python3 mutations of `state/tickets.json` — instead of loading the `pg-sprint-backlog` skill which explicitly bans raw file writes. Ken flagged it. This happened immediately after writing the tribal-knowledge-to-skills principle into memory earlier the same day. The skill documents the interface; I ignored it.
+- **Prevention:** Before any ticket, sprint, changelog, model-routing, or telegram operation, LOAD the corresponding skill. Progressive disclosure is mandatory, not optional.
+- **Check:** If you're about to use `jq` or `python3 -c` on `tickets.json` — stop. Load the skill.
+- **Linked:** TKT-0393, TKT-0394, TKT-0396.
+
+## L-067 | 2026-06-10 | Architecture | Structural enforcement beats discipline every time
+**Severity: High.**
+**Lesson:** L-066 (skill loading discipline) was violated within the same session it was codified. Ken asked "how do we make this structural?" The answer: domain scripts must BLOCK execution until the required skill is registered as loaded. Discipline + memory = unreliable. Gate + error = reliable.
+**Fix applied:** Built `skill-gate.sh` (87 lines) — preamble sourced by all domain scripts. Checks `state/skill-load-registry.json`. Blocks with clear ASCII error if required skill not loaded. `skill-load.sh` (34 lines) — called after each skill read to register the load. All 6 domain scripts retrofitted (db-ticket.sh, db-sprint.sh, changelog-append.sh, dispatch-validate.sh, telegram-alert.sh, pg-to-notion-sync.sh). Bypass for cron/auto-heal via SKILL_GATE_BYPASS=1 or launchd parent detection.
+**Tested:** 4/4 scenarios pass (no registry → BLOCKED, correct skill → PASS, wrong skill → BLOCKED with context, cross-shell compat).
+**Principle:** Any rule that requires agent self-discipline will be violated. Make it structural — gate at the script level, not the memory level.
+**Linked:** L-066, TKT-0396, CHG-0492
+**Source:** Ken directive 2026-06-10. Skill-loading failure within hours of progressive-disclosure codification.

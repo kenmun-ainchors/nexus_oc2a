@@ -1,0 +1,20 @@
+{
+  "parent_ticket_id": "TKT-0393",
+  "synthesized_at": "2026-06-10T16:33:00+10:00",
+  "synthesized_by": "yoda",
+  "atoms": [
+    {"id": "TKT-0393-A", "name": "model-routing skill", "status": "complete", "output": "SKILL.md 2867 bytes"},
+    {"id": "TKT-0393-B", "name": "changelog skill", "status": "complete", "output": "SKILL.md 1497 bytes"},
+    {"id": "TKT-0393-C", "name": "telegram skill", "status": "complete", "output": "SKILL.md 1768 bytes"}
+  ],
+  "automated_checks": "PASS",
+  "gap_detection": {
+    "decision": "NO_GAPS",
+    "note": "All 3 atoms delivered. All 3 skill files exist. Source files cleaned. Tribal keywords show only skill references. Net reduction ~4.3KB across working memory."
+  },
+  "narrative_coherence": {
+    "decision": "COHERENT",
+    "note": "All 3 skills follow TKT-0369 pattern (progressive disclosure). Working memory files now WHAT (rules) not HOW (procedures). Consistent with established principle."
+  },
+  "recommendation": "CLOSE"
+}

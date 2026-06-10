@@ -1,9 +1,9 @@
 {
   "schema_version": "2.0",
   "description": "PERMANENT model policy for all AInchors agents. Warden enforces this. Changes require Ken approval + CHG entry + baseline update.",
-  "lastUpdated": "2026-05-18T11:47:13+10:00",
+  "lastUpdated": "2026-06-10T15:20:00+10:00",
   "lastApprovedBy": "Ken Mun",
-  "approvalContext": "allowlist-sync.sh auto-sync (source: strategy-update) -- 2026-05-18T11:47:13+10:00",
+  "approvalContext": "TKT-0383: CREST v1.2 \u00a75.8 \u2014 deepseek-primary phase-aware model assignments + Forge flash exception",
   "permanent": true,
   "interimPeriod": false,
   "globalAllowedModels": [
@@ -30,7 +30,7 @@
         "ollama/gemma4:31b-cloud",
         "ollama/kimi-k2.6:cloud"
       ],
-      "rationale": "deepseek-v4-pro for quality interactive responses. gemma4:31b first fallback for cost. kimi final safety net."
+      "rationale": "TKT-0383: deepseek-v4-pro for quality interactive responses. deepseek-flash first fallback for cost. kimi final safety net."
     },
     "backend": {
       "description": "All specialist/backend agents invoked via sub-agent or cron",
@@ -51,7 +51,13 @@
         "ollama/deepseek-v4-pro:cloud",
         "ollama/kimi-k2.6:cloud"
       ],
-      "rationale": "gemma4:31b for cost-efficient backend work. deepseek-v4-pro fallback for complex tasks. kimi safety net."
+      "rationale": "TKT-0383: deepseek-v4-pro for backend agents (CHG-0349 era). deepseek-flash first fallback for cost. kimi final safety net. Forge (infra) overrides to flash-primary per crestPhaseModelMap.",
+      "exceptions": {
+        "qa": "ollama/deepseek-v4-pro:cloud",
+        "infra": "ollama/deepseek-v4-pro:cloud",
+        "ahsoka": "ollama/deepseek-v4-pro:cloud"
+      },
+      "exceptionNote": "These agents use a different primary than the tier default. Drift check should verify against individual assignment."
     }
   },
   "agents": {
@@ -60,7 +66,7 @@
       "tier": "userFacing",
       "requiredPrimary": "ollama/deepseek-v4-pro:cloud",
       "requiredFallbacks": [
-        "ollama/gemma4:31b-cloud",
+        "ollama/deepseek-v4-flash:cloud",
         "ollama/kimi-k2.6:cloud"
       ],
       "configPath": "/Users/ainchorsangiefpl/.openclaw/openclaw.json",
@@ -76,7 +82,7 @@
       "tier": "userFacing",
       "requiredPrimary": "ollama/deepseek-v4-pro:cloud",
       "requiredFallbacks": [
-        "ollama/gemma4:31b-cloud",
+        "ollama/deepseek-v4-flash:cloud",
         "ollama/kimi-k2.6:cloud"
       ],
       "configPath": "/Users/ainchorsangiefpl/.openclaw/openclaw.json",
@@ -89,9 +95,9 @@
     "security": {
       "description": "Shield \ud83d\udee1\ufe0f \u2014 Security Governance Agent",
       "tier": "backend",
-      "requiredPrimary": "ollama/gemma4:31b-cloud",
+      "requiredPrimary": "ollama/deepseek-v4-pro:cloud",
       "requiredFallbacks": [
-        "ollama/deepseek-v4-pro:cloud",
+        "ollama/deepseek-v4-flash:cloud",
         "ollama/kimi-k2.6:cloud"
       ],
       "allowedInCrons": [
@@ -102,9 +108,9 @@
     "legal": {
       "description": "Lex \u2696\ufe0f \u2014 Legal Governance Agent",
       "tier": "backend",
-      "requiredPrimary": "ollama/gemma4:31b-cloud",
+      "requiredPrimary": "ollama/deepseek-v4-pro:cloud",
       "requiredFallbacks": [
-        "ollama/deepseek-v4-pro:cloud",
+        "ollama/deepseek-v4-flash:cloud",
         "ollama/kimi-k2.6:cloud"
       ],
       "allowedInCrons": [
@@ -115,9 +121,9 @@
     "qa": {
       "description": "Sage \ud83e\uddea \u2014 QA Governance Agent",
       "tier": "backend",
-      "requiredPrimary": "ollama/gemma4:31b-cloud",
+      "requiredPrimary": "ollama/deepseek-v4-pro:cloud",
       "requiredFallbacks": [
-        "ollama/deepseek-v4-pro:cloud",
+        "ollama/deepseek-v4-flash:cloud",
         "ollama/kimi-k2.6:cloud"
       ],
       "allowedInCrons": [
@@ -128,9 +134,9 @@
     "governance": {
       "description": "Warden \ud83d\udd0d \u2014 Model Compliance Officer",
       "tier": "backend",
-      "requiredPrimary": "ollama/gemma4:31b-cloud",
+      "requiredPrimary": "ollama/deepseek-v4-pro:cloud",
       "requiredFallbacks": [
-        "ollama/deepseek-v4-pro:cloud",
+        "ollama/deepseek-v4-flash:cloud",
         "ollama/kimi-k2.6:cloud"
       ],
       "allowedInCrons": [
@@ -141,54 +147,55 @@
     "infra": {
       "description": "Forge \ud83c\udfd7\ufe0f \u2014 Infra/Ops Agent",
       "tier": "backend",
-      "requiredPrimary": "ollama/gemma4:31b-cloud",
+      "requiredPrimary": "ollama/deepseek-v4-flash:cloud",
       "requiredFallbacks": [
         "ollama/deepseek-v4-pro:cloud",
         "ollama/kimi-k2.6:cloud"
-      ]
+      ],
+      "_crestNote": "TKT-0383: Forge uses flash for Plan+Execute+Synthesize. Pro for Verify+Replan only. Flash-as-primary is intentional."
     },
     "architect": {
       "description": "Atlas \ud83c\udfdb\ufe0f \u2014 Enterprise Architect",
       "tier": "backend",
-      "requiredPrimary": "ollama/gemma4:31b-cloud",
+      "requiredPrimary": "ollama/deepseek-v4-pro:cloud",
       "requiredFallbacks": [
-        "ollama/deepseek-v4-pro:cloud",
+        "ollama/deepseek-v4-flash:cloud",
         "ollama/kimi-k2.6:cloud"
       ]
     },
     "platform-arch": {
       "description": "Thrawn \u2014 AI Platform Architect",
       "tier": "backend",
-      "requiredPrimary": "ollama/gemma4:31b-cloud",
+      "requiredPrimary": "ollama/deepseek-v4-pro:cloud",
       "requiredFallbacks": [
-        "ollama/deepseek-v4-pro:cloud",
+        "ollama/deepseek-v4-flash:cloud",
         "ollama/kimi-k2.6:cloud"
       ]
     },
     "biz-process": {
       "description": "Lando \ud83d\udfe1 \u2014 Business Process Specialist",
       "tier": "backend",
-      "requiredPrimary": "ollama/gemma4:31b-cloud",
+      "requiredPrimary": "ollama/deepseek-v4-pro:cloud",
       "requiredFallbacks": [
-        "ollama/deepseek-v4-pro:cloud",
+        "ollama/deepseek-v4-flash:cloud",
         "ollama/kimi-k2.6:cloud"
       ]
     },
     "change-mgt": {
       "description": "Mon Mothma \ud83c\udf1f \u2014 Digital Transformation CM Specialist",
       "tier": "backend",
-      "requiredPrimary": "ollama/gemma4:31b-cloud",
+      "requiredPrimary": "ollama/deepseek-v4-pro:cloud",
       "requiredFallbacks": [
-        "ollama/deepseek-v4-pro:cloud",
+        "ollama/deepseek-v4-flash:cloud",
         "ollama/kimi-k2.6:cloud"
       ]
     },
     "ahsoka": {
       "description": "Ahsoka \ud83e\udd0d \u2014 AI Transformation Consultant",
       "tier": "backend",
-      "requiredPrimary": "ollama/gemma4:31b-cloud",
+      "requiredPrimary": "ollama/deepseek-v4-pro:cloud",
       "requiredFallbacks": [
-        "ollama/deepseek-v4-pro:cloud",
+        "ollama/deepseek-v4-flash:cloud",
         "ollama/kimi-k2.6:cloud"
       ]
     },
@@ -245,5 +252,82 @@
   },
   "baselineTimestamp": "2026-05-18T01:37:00+10:00",
   "baselineCHG": "CHG-0394",
-  "_note": "This is a clean v2.0 rebuild. All interim flags, Anthropic model references, and stale policy fields removed. Anthropic models (sonnet, haiku, opus) are NOT currently approved or expected on any agent."
+  "crestPhaseModelMap": {
+    "description": "CREST v1.2 \u00a75.8 \u2014 Per-agent, per-phase model assignments. Warden uses this for phase-aware compliance (TKT-0383).",
+    "phaseModels": {
+      "pro": {
+        "label": "Plan / Verify / Replan",
+        "primary": "ollama/deepseek-v4-pro:cloud",
+        "fallback": [
+          "ollama/deepseek-v4-pro:cloud",
+          "ollama/kimi-k2.6:cloud"
+        ],
+        "fallbackRule": "Retry pro \u2192 kimi. Never degrade pro \u2192 flash."
+      },
+      "flash": {
+        "label": "Execute / Synthesize",
+        "primary": "ollama/deepseek-v4-flash:cloud",
+        "fallback": [
+          "ollama/deepseek-v4-flash:cloud",
+          "ollama/deepseek-v4-pro:cloud"
+        ],
+        "fallbackRule": "Flash \u2192 pro escalation. Cheap \u2192 expensive, not cheap \u2192 cheaper."
+      }
+    },
+    "agentPhaseAssignments": {
+      "yoda": {
+        "plan": "pro",
+        "execute": null,
+        "verify": "pro",
+        "replan": "pro",
+        "synthesize": "pro"
+      },
+      "atlas": {
+        "plan": "pro",
+        "execute": "flash",
+        "verify": "pro",
+        "replan": "pro",
+        "synthesize": "flash"
+      },
+      "thrawn": {
+        "plan": "pro",
+        "execute": "flash",
+        "verify": "pro",
+        "replan": "pro",
+        "synthesize": "flash"
+      },
+      "forge": {
+        "plan": "flash",
+        "execute": "flash",
+        "verify": "pro",
+        "replan": "pro",
+        "synthesize": "flash",
+        "_note": "EXCEPTION: Plan uses flash, not pro. Infra/SRE planning is bounded and deterministic. Pro reserved for Verify/Replan only."
+      },
+      "spark": {
+        "plan": "pro",
+        "execute": "flash",
+        "verify": "pro",
+        "replan": "pro",
+        "synthesize": "flash"
+      },
+      "lando": {
+        "plan": "pro",
+        "execute": "flash",
+        "verify": "pro",
+        "replan": "pro",
+        "synthesize": "flash"
+      },
+      "monMothma": {
+        "plan": "pro",
+        "execute": "flash",
+        "verify": "pro",
+        "replan": "pro",
+        "synthesize": "flash"
+      }
+    }
+  },
+  "_note": "CREST phase model assignments added per TKT-0383. Forge flash-for-Plan is intentional \u2014 do not flag as violation.",
+  "_note_previous": "This is a clean v2.0 rebuild. All interim flags, Anthropic model references, and stale policy fields removed. Anthropic models (sonnet, haiku, opus) are NOT currently approved or expected on any agent.",
+  "note": "Resynced agentTiers to match actual openclaw.json agent configs. Per-agent exceptions documented. Allowed fallback chain = [deepseek-v4-pro, kimi-k2.6] or [gemma4:31b-cloud, deepseek-v4-pro, kimi-k2.6] depending on agent primary."
 }

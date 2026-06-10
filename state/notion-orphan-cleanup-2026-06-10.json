@@ -1,0 +1,48 @@
+{
+  "date": "2026-06-10",
+  "ticket": "TKT-0392-D",
+  "operation": "Notion orphans archive + CHG cleanup",
+  "stats": {
+    "total_backlog_pages_before": 720,
+    "total_backlog_pages_after": 529,
+    "chg_records_archived": 162,
+    "orphan_pages_archived": 29,
+    "orphan_details": {
+      "TKT-FOLD-CHILD": 12,
+      "TKT-FOLD-PARENT": 12,
+      "TKT-TEST-006": 1,
+      "TKT-DBG3": 1,
+      "TKT-TEST-004": 1,
+      "TKT-TEST-003": 1,
+      "TKT-9999": 1,
+      "archived_duplicate_mangled_titles": 0
+    },
+    "chg_archived_details": {
+      "count": 162,
+      "range": "CHG-0136 to CHG-0487",
+      "action": "Archived from Backlog DB (DB A) to remove from active board"
+    },
+    "errors": 0
+  },
+  "shared_page_fix": {
+    "page_id": "366c1829-53ff-81e5-be62-c51029419ec6",
+    "conflict": "TKT-0232 and TKT-0233 shared the same Notion page",
+    "resolution": {
+      "TKT_0232": "notionpageid preserved (366c1829-53ff-81e5-be62-c51029419ec6)",
+      "TKT_0233": "notionpageid set to NULL (cleared via PG UPDATE)"
+    },
+    "next_steps": "TKT-0233 needs db-ticket.sh sync or create-missing to get a new Notion page"
+  },
+  "changelog_append_fix": {
+    "root_cause": "changelog-append.sh wrote CHG records to Backlog DB (DB A: 34dc1829-53ff-814b-8257-d3a3bf351d44)",
+    "expected_destination": "Archive DB (DB C: 364c1829-53ff-818e-a783-ebafcb6a9880)",
+    "schema_mismatch": true,
+    "fix_applied": "Updated changelog-append.sh: NOTION_DB_ID changed to 364c1829..., property names changed from Backlog schema (US Title, Created Date, Notes) to Archive schema (Title, Completed Date, Description)",
+    "fix_verified": true
+  },
+  "verification": {
+    "chg_in_backlog_after": 0,
+    "orphans_in_backlog_after": 0,
+    "status": "PASS"
+  }
+}

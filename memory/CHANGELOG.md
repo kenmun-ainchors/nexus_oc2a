@@ -11,6 +11,214 @@
 ---
 ---
 
+## 2026-06-10 23:58 AEST — [CHG-0494] TKT-0395 Closed — Mirror-Writer Operationalised + WO-002 Clock Reset
+**Type:** infra
+**Change Type:** Normal
+**Source:** ken-prompt
+**Trigger:** Ken directive 2026-06-10 — operationalise existing mirror-writer, not build new. Split into TKT-0395 (operationalise) and TKT-0403 (checkout freshness)
+**What changed:** Phase 1: Atlas+Sage dual-gate PASS against fresh clone at 3a559ea. Sage re-review (Ken rejected assertion-based) — 6/6 demonstrated with code evidence. Ken merged feature branch (cce88f7) + metadata coercion hotfix (0a580b5). Phase 2: Deployed daemon — migration p0c005, launchd plist, daemon PID 90838 (later 5976 after restart). Phase 3: Isolated mirror into nexus_mirror (TKT-0396). Phase 4: Claude Code status_map fix (171a435) extended to grooming + case normalise. Forge fixed divergence harness (grooming→planning valid per status_map design) + deleted 2 orphan shadow rows. Phase 5: Propagation proof — 108+ cycles continuous sync, 330/330/330 rows, zero field mismatches. Phase 6: Clock reset to Day 1, Day0 baseline archived, alert cleared (explained note). 2 pre-existing artifacts (empty-ID + shadow-only test ticket) remain as known noise.
+**Why:** WO-002 divergence alert (36 unexplained divergences) exposed mirror-writer was only scaffold. Live system and shadow tables diverging. Root cause traced: writer code existed at origin/main HEAD (99fe8475) but Yoda cp -r stale checkout (13caa628 scaffold-only) causing 3 cascading misreports (L-065). TKT-0395 operationalised the existing writer — no build required — and TKT-0403 fixed the systemic checkout defect.
+**Verification:** 6-phase verification: (1) Dual-gate PASS (Atlas+Sage), (2) Daemon running 30s sweep, (3) Nexus_mirror isolated (2 DSNs only), (4) Status_map proven (grooming→planning), (5) Continuous sync 108+ cycles zero field mismatches, (6) Clock reset Day 1, alert cleared
+**Rollback:** N/A
+**Linked:** TKT-0395, TKT-0396, TKT-0403, WO-002
+---
+
+
+## 2026-06-10 23:19 AEST — [CHG-0493] TKT-0396 Closed — Mirror Isolated to nexus_mirror
+**Type:** infra
+**Change Type:** Normal
+**Source:** ken-prompt
+**Trigger:** Ken directive 2026-06-10 — pre-OC2 mirror isolation, sequenced before clock reset
+**What changed:** Created nexus_mirror DB + p0c001-p0c005 schema + role grants. Repointed launchd plist com.ainchors.mirror-writer NEXUS_DB_URL nexus_sandbox->nexus_mirror. Daemon restarted (PID 4387, 326 rows/sweep, 30s interval). Divergence harness (divergence-harness.py:46) already reads nexus_mirror — verified. Divergence cron metadata repointed. Divergence cron schedule (53c94ce7, 09:00 daily) invokes divergence-harness.sh -> python -> nexus_mirror — complete signal path verified. Two DSNs only (no MIRROR_DB_URL). WAL/RPO/RTO deferred to OC2. Sandbox schema preserved for test harness. Phase 3.1 manual cleanup subsumed by isolation.
+**Why:** Mirror was writing to nexus_sandbox (shared with test harness) — signal permanently polluted. Co-located test and production data in same DB caused every test run to pollute divergence reports. Isolation before clock reset means Phase 3.1 hand-delete is unnecessary — isolation subsumes it.
+**Verification:** 6 verification checks: (1) nexus_mirror DB exists with 8 tables, (2) plist DSN = nexus_mirror, (3) daemon PID 4387 syncing 326 rows/cycle, (4) mirror writes to nexus_mirror (max updated 23:05), sandbox untouched (23:01 stale), (5) Python harness line 46 = nexus_mirror, (6) cron shell wrapper -> python chain verified
+**Rollback:** N/A
+**Linked:** TKT-0396, TKT-0395, WO-002
+---
+
+
+## 2026-06-10 22:56 AEST — [CHG-0492] Structural Skill-Gate Enforcement — Domain Scripts Block Without Skill Load
+**Type:** script
+**Change Type:** Normal
+**Source:** ken-prompt
+**Trigger:** Ken directive 2026-06-10 — prevent tribal knowledge regression
+**What changed:** scripts/skill-gate.sh (87L preamble gate), scripts/skill-load.sh (34L registry writer), state/skill-load-registry.json (session state), retrofitted 6 domain scripts (db-ticket.sh, db-sprint.sh, changelog-append.sh, dispatch-validate.sh, telegram-alert.sh, pg-to-notion-sync.sh), AGENTS.md (skill-gate row + dispatch boundaries updated)
+**Why:** Yoda repeatedly reverted to tribal knowledge (manual jq/python3 on state files) instead of loading skills. Discipline failed. Structural gate now blocks any domain script execution unless the required skill is registered as loaded for that session. Session-scoped registry at state/skill-load-registry.json.
+**Verification:** 4 test scenarios: no-registry BLOCKED exit 2, skill-loaded PASS exit 0, wrong-skill BLOCKED exit 2 with context, correct-skill-load PASS. Cross-shell compat (bash/zsh). Cron/auto-heal bypass via SKILL_GATE_BYPASS=1 or launchd parent detection.
+**Rollback:** N/A
+**Linked:** TKT-0396, L-066, TKT-0393, TKT-0394
+---
+
+
+## 2026-06-10 21:32 AEST — [CHG-0491] feature/cp3-p0-observer-daemon merged to main at cce88f7
+**Type:** script
+**Change Type:** Normal
+**Source:** ken-prompt
+**Trigger:** WO-002 Phase 1 gate complete
+**What changed:** Merge: 99fe847→cce88f7, fast-forward, +464L across 5 files. Adds: __main__.py (61L), writer.py updated (67L), heartbeat migration p0c005 (35L), integration tests (146L), unit tests (179L). Sage re-review PASS on demonstrated evidence (6/6).
+**Why:** Phase 1 gate: Sage demonstrated-evidence re-review verified kill/restart full-sweep is inherent code path, not assertion. Ken merged via Claude Code.
+**Verification:** main HEAD cce88f7, 56 files, fast-forward merge. Sage verdict: PASS demonstrated, zero deferred items.
+**Rollback:** N/A
+**Linked:** TKT-0395,TKT-0403,L-065,WO-002
+---
+
+
+## 2026-06-10 20:59 AEST — [CHG-0490] Checkout-Freshness Gate TKT-0403 Closed
+**Type:** script
+**Change Type:** Normal
+**Source:** ken-prompt
+**Trigger:** WO-002 cascading misreports
+**What changed:** Built checkout-freshness.sh 6-gate verification. Integrated into dispatch-validate.sh Section 3. Added dispatch-discipline rule to RULES.md AGENTS.md. E2E validation 14/14 PASS.
+**Why:** Ken directive: agents never review cp -r. Each review at exact SHA with verified manifest.
+**Verification:** E2E: dispatch-validate.sh with review_sha+review_target: 14/14 PASS. Stale SHA rejection confirmed. Missing review_sha blocked.
+**Rollback:** N/A
+**Linked:** TKT-0403,TKT-0395,WO-002,L-065
+---
+
+
+## 2026-06-10 16:45 AEST — [CHG-0489] TKT-0394 — Quarterly Tribal Knowledge Audit anchored to QBR cadence
+**Type:** rule
+**Change Type:** Normal
+**Source:** ken-prompt
+**Trigger:** Ken directive: run tribal knowledge→skills exercise quarterly as mandatory CI task anchored to QBR
+**What changed:** Created TKT-0394 (Sprint 8, P1, M). Updated TRIGGER-QBR in chg-triggers.json with 4-step QBR workflow including tribal knowledge audit as step 2. Updated LESSONS.md with L-064 (changelog-append.sh zsh-only + enum pitfalls). Updated changelog SKILL.md with execution notes.
+**Why:** Prevent skill reference decay. Without quarterly audits, tribal knowledge creeps back into working memory files (WHAT files accumulate HOW content). QBR alignment ensures it happens on a regular business cadence.
+**Verification:** TKT-0394 in PG + Notion. TRIGGER-QBR updated with linkedTkts. First run Jul 2026.
+**Rollback:** N/A
+**Linked:** TKT-0393
+---
+
+
+## 2026-06-10 16:34 AEST — [CHG-0488] Skills Extraction — 3 progressive-disclosure skills (TKT-0393)
+**Type:** script
+**Change Type:** Normal
+**Source:** ken-prompt
+**Trigger:** Ken approved top 3 tribal knowledge candidates
+**What changed:** Created model-routing 2867B, changelog 1497B, telegram 1768B skills. Cleaned AGENTS.md/MEMORY.md/RULES.md/SOUL.md. Net ~4.3KB reduction
+**Why:** Working memory: WHAT not HOW. Progressive disclosure via skill loading reduces injected context
+**Verification:** All 3 SKILL.md files exist. Tribal keyword grep shows only skill references
+**Rollback:** N/A
+**Linked:** none
+---
+
+
+## 2026-06-10 11:39 AEST — [CHG-0487] TKT-0391 Closed — PG Sprint Column Gap
+**Type:** infra
+**Change Type:** Normal
+**Source:** ken-prompt
+**Trigger:** Ken (telegram): state_tickets missing sprint column caused false negative — PG returned nothing for Sprint 8 query but sprint-8.json had 22 tickets. Pattern A from TKT-0342 audit.
+**What changed:** 4 atoms delivered via CREST on flash: A) Added sprint/sprint_seq/epic columns to state_tickets + GIN index + B-tree index + CHECK constraint (chk_sprint_seq_positive). B) Backfilled 23 tickets from metadata.sprint_target + metadata.sprint JSONB fields. C) Updated db-ticket.sh: cmd_create populates sprint column on ticket creation, cmd_update writes sprint cols from metadata payload, cmd_list uses column with old JSONB fallback, SPRINT column in display. D) Updated db-sprint.sh: cmd_commit populates sprint column alongside metadata, cmd_migrate writes to column during JSON→PG migration, status/plan queries use column-first with JSONB fallback.
+**Why:** metadata.sprint_target JSONB workaround was functional but invisible to native PG schema queries. Proper columns enable indexes, foreign keys (future state_sprints.sprint → state_tickets.sprint FK), and direct SQL queries without JSONB extraction. Fixes the false negative that Ken caught in Telegram — next Sprint 8 PG query will return real results.
+**Verification:** All 4 atoms independently verified: columns+indexes+constraint exist, 23 tickets backfilled, db-ticket.sh list --sprint 'Sprint 8' returns 7 tickets, db-sprint.sh status works with column-first query. Master Synthesize: AUTOMATED_CHECKS_PASS.
+**Rollback:** N/A
+**Linked:** TKT-0391,TKT-0391-A,TKT-0391-B,TKT-0391-C,TKT-0391-D,TKT-0342,TKT-0369
+---
+
+
+## 2026-06-10 11:23 AEST — [CHG-0486] CREST Done Gate — Structural enforcement at ticket close
+**Type:** script
+**Change Type:** Normal
+**Source:** ken-prompt
+**Trigger:** Ken: CREST is still discipline-based and you will still drift — there's no way to ensure it is mandatory and non-negotiable
+**What changed:** Built crest-done-gate.sh: CREST Master Done Gate that blocks ticket close unless CREST trail is complete. Three checks: (1) Master Synthesize must have run with persisted report, (2) All sub-crest phases must be sub_crest_done with verify_verdict=pass, (3) No unresolved escalations. Wired into db-ticket.sh as pre-close hook via the update subcommand — any status=closed on a parent ticket triggers the gate. Leaf tickets (no sub-tickets) bypass the gate. master-synthesize.sh now persists reports to state/synthesize-reports/ and writes reference to ticket metadata. AGENTS.md updated: CREST rule now includes 'Parent ticket close BLOCKED unless crest-done-gate.sh passes'.
+**Why:** CREST compliance was enforced for specialists (state machine blocks invalid transitions) but not for Yoda. The orchestrator could close a parent ticket without running Master Synthesize or verifying sub-crest completion. crest-done-gate.sh closes this gap — it is structural, automatic, and triggers on every parent ticket close attempt.
+**Verification:** Three-way test: leaf ticket (no sub-tickets) → GATE PASSED. Parent with sub-tickets but no sub-crest entries → GATE FAILED with exact reason. Parent with Synthesize report → would pass. db-ticket.sh integration verified: pre-close hook fires correctly.
+**Rollback:** N/A
+**Linked:** TKT-0369,L-062,L-063,CHG-0485
+---
+
+
+## 2026-06-10 11:12 AEST — [CHG-0485] TKT-0369 Closed — PG Sprint-Backlog Interface Skill
+**Type:** infra
+**Change Type:** Normal
+**Source:** ken-prompt
+**Trigger:** Ken: reprioritize Sprint 7, TKT-0369 as primary. Full scope — 9 ACs, 3 sub-tickets.
+**What changed:** TKT-0369 COMPLETE. 3 sub-tickets delivered: TKT-0369-A: db-ticket.sh (1034 lines, 8 subcommands: read/create/update/groom/fold/list/sync/validate, flag rejection closes Failure #5 permanently). TKT-0369-B: db-sprint.sh (898 lines, 8 subcommands: current/commit/status/plan/create/defer/migrate, real Sprint 7 data, dependency-aware). TKT-0369-C: SKILL.md (513 lines, full lifecycle documentation, 5 failure registry) + AGENTS.md updated (rule row + contract section). Sprint 7 reprioritized: 5 items deferred to Sprint 8. TKT-0323 closed.
+**Why:** 5 documented failures in 24h from agents rediscovering PG ticket interface each session. No structural skill existed. db-ticket.sh/db-sprint.sh replace ad-hoc db.sh -c INSERT/UPDATE with canonical interfaces. SKILL.md ensures no agent ever rediscovers the interface again.
+**Verification:** All scripts tested against real Sprint 7 data. db-ticket.sh read/write/list/groom/fold all verified. db-sprint.sh current/plan/status with 6 real tickets, 66% completion. SKILL.md 513 lines covering all 6 lifecycle areas + 5 failures. AGENTS.md contract section present.
+**Rollback:** N/A
+**Linked:** TKT-0369,TKT-0369-A,TKT-0369-B,TKT-0369-C,CHG-0482,CHG-0483,CHG-0484
+---
+
+
+## 2026-06-10 10:34 AEST — [CHG-0484] TKT-0369 Failure #5 logged + dispatch-validate.sh parent ticket gate
+**Type:** script
+**Change Type:** Normal
+**Source:** ken-prompt
+**Trigger:** Ken: log Failure #5 to TKT-0369, then fix dispatch-validate gate
+**What changed:** Two actions: (1) Failure #5 logged to TKT-0369 PG metadata — ticket.sh --flags silently ignored in batch creation loop, 8 tickets degraded to file-only, discovered 3h21m later by Yoda Verify. Root cause: ticket.sh no flag validation + agent guessed wrong invocation. (2) dispatch-validate.sh extended with parent_ticket_id PG existence check (section 1a) — blocks CREST dispatches when parent ticket doesn't exist in PG. Backward compatible with non-CREST dispatches.
+**Why:** The CREST Plan phase had a gap: tickets created incorrectly (silent failure) were not caught before Execute dispatches. The new gate catches this at dispatch-validate time. Failure #5 is the 5th instance of TKT-0369's core problem — agents rediscover PG/ticket interfaces each session.
+**Verification:** dispatch-validate.sh tested: valid parent ticket (TKT-0369) → PASS, fake ticket (TKT-FAKE-99999) → FAIL, non-CREST backward compat → PASS. TKT-0369 PG body confirmed updated with Failure #5 + structured failures array.
+**Rollback:** N/A
+**Linked:** TKT-0369,TKT-0385,CHG-0482
+---
+
+
+## 2026-06-10 10:16 AEST — [CHG-0483] Aria CREST Guardrails — Layer 3 Proactive Drift Detection
+**Type:** agent
+**Change Type:** Normal
+**Source:** ken-prompt
+**Trigger:** Ken question: how do we ensure Aria adopts CREST and catch drift when working with Angie?
+**What changed:** Three-layer Aria CREST enforcement: L1 structural gates (atom-validate.sh + state machine) already live. L2 Warden 15-min phase-aware scan already live (TKT-0383). L3 new: (a) Aria AGENTS.md CREST contract — 6-point discipline section injected into every Aria session, (b) aria-crest-check.sh — 4-check compliance scan (skipped Verify, missing RVEV, stuck sub-crests, pro overuse), wired to HEARTBEAT.md every 4h, (c) alert path via state/aria-crest-alert.json → heartbeat pickup.
+**Why:** Angie is CEO, not a CREST monitor. Aria works independently with Angie — we need automated detection of CREST drift without Angie needing to know CREST exists.
+**Verification:** aria-crest-check.sh runs clean (exit 0) against current PG state. AGENTS.md contract section verified present. alert path tested: state/aria-crest-alert.json → heartbeat pickup confirmed.
+**Rollback:** N/A
+**Linked:** TKT-0383,TKT-0385,TKT-0386,CHG-0482
+---
+
+
+## 2026-06-10 08:55 AEST — [CHG-0482] CREST v1.2 Structural Foundation — 8 sub-tickets complete
+**Type:** infra
+**Change Type:** Normal
+**Source:** ken-prompt
+**Trigger:** Ken directive: implement CREST across agents
+**What changed:** 8 sub-tickets delivered: PG schema (TKT-0381), TQP state machine (TKT-0382), Model3-Policy update (TKT-0383), atom-validate.sh (TKT-0384), dispatch-validate.sh CREST ext (TKT-0385), Flash Dispatcher (TKT-0386), Escalation Protocol (TKT-0387), Master Synthesize (TKT-0388). ~1500 lines of CREST infrastructure.
+**Why:** Platform graduates from discipline-process CREST to structural-process CREST.
+**Verification:** All scripts exist and tested. PG tables confirmed. TQP state machine extended. Model3-Policy with crestPhaseModelMap.
+**Rollback:** N/A
+**Linked:** TKT-0368,TKT-0370,TKT-0381-TKT-0388
+---
+
+
+## 2026-06-10 04:57 AEST — [CHG-0481] CREST v1.2 LOCKED — Dual PASS from Atlas + Thrawn
+**Type:** doc
+**Change Type:** Normal
+**Source:** ken-prompt
+**Trigger:** Ken decision: Option B — full green from both architects
+**What changed:** CREST v1.2 LOCKED with dual PASS from Atlas (EA) and Thrawn (Platform Architect). Two review cycles: v1.1 (13 findings) → v1.2 (all resolved) → v1.2 re-review (6 observations, all fixed). Final v1.2 additions: ECU priority field + tie-break rules, ECU discovery mechanism (state/enterprise-constraints.json PG-backed), §5.3-5.8 renumbered, Model3-Policy.md in build order, Forge monitoring owner (Yoda+Warden). Document: 42.6KB, 13 sections + appendices, LOCKED status.
+**Why:** Atlas+Thrawn v1.2 re-reviews both returned PASS — all 13 v1.1 findings confirmed closed, 3 minor observations per reviewer all addressed in final edits.
+**Verification:** Dual PASS confirmed: Atlas (04:56 AEST) + Thrawn (04:57 AEST). All 16 findings/observations closed. GDrive: https://drive.google.com/file/d/1l3psdlghMgKREIWoMTOAjRJo64Zkwv8N. CREST v1.2 is the authoritative recursive topology document.
+**Rollback:** N/A
+**Linked:** TKT-0368,TKT-0370,TKT-0321,TKT-0322,TKT-0323
+---
+
+
+## 2026-06-10 04:52 AEST — [CHG-0480] CREST v1.2 — All 13 Atlas+Thrawn review findings resolved
+**Type:** doc
+**Change Type:** Normal
+**Source:** ken-prompt
+**Trigger:** Ken decision: Option B — close HIGH findings before lock
+**What changed:** CREST v1.2 resolves all 13 findings from Atlas (5) + Thrawn (8) v1.1 reviews. HIGH: ECU constraint propagation section added, governance gates repositioned to Master Synthesize Done, L2 atom pre-flight gate (scripts/atom-validate.sh) spec, TQP state machine extended with sub-CREST phases, PG state_sub_crest + state_sub_crest_atoms schema designed (prerequisite, not target). MEDIUM: TOGAF BA gap acknowledged (Ken=de facto BA for P1), Spark model governance via Warden, model routing phase-aware update spec, parallel execution DAG with shared-state guard, escalation TQP integration. LOW: Forge loop monitoring threshold (30%), Master Synthesize automation classification (2 automatable, 2 human-judgment). Document: docs/CREST-v1.2-Recursive-Model-C.md (41KB). Pending Atlas+Thrawn v1.2 re-review.
+**Why:** Atlas+Thrawn v1.1 reviews returned PASS WITH FINDINGS — 13 findings across both reviews. Ken chose Option B: close findings before lock, get full green from both before implementation.
+**Verification:** All 13 findings addressed in v1.2. GDrive: https://drive.google.com/file/d/1xLX-D547YsqHF4MmQIU9xVAFrjPfe3QT. File renamed to v1.2.
+**Rollback:** N/A
+**Linked:** TKT-0368,TKT-0370,TKT-0321,TKT-0322,TKT-0323
+---
+
+
+## 2026-06-10 04:36 AEST — [CHG-0479] CREST v1.1 — Recursive Topology (Model C) Locked
+**Type:** doc
+**Change Type:** Normal
+**Source:** ken-prompt
+**Trigger:** Ken decision 2026-06-10 04:34 AEST: Model C
+**What changed:** CREST upgraded from flat to recursive (fractal) topology. Same 6-phase sandwich applies at two levels: Master CREST (Yoda) + Sub-CREST (specialists). All specialists use pro for cognitive phases, flash for mechanical. Forge exception: Plan+Synthesize=flash. Escalation protocol: iterate OR escalate. Two-level Synthesize. Document: docs/CREST-v1.1-Recursive-Model-C.md.
+**Why:** Flat CREST had Yoda planning all atoms for all domains — cognitive ceiling. Model C places domain experts at their own Plan/Verify/Replan gates.
+**Verification:** Document created 26KB. 6 specialists mapped. 4 risks resolved. Atlas + Thrawn review pending.
+**Rollback:** N/A
+**Linked:** TKT-0368,TKT-0370,TKT-0321,TKT-0322,TKT-0323
+---
+
+
 ## 2026-06-09 21:10 AEST — [CHG-0478] CHG-0478: CREST Execution Loop locked
 **Type:** rule
 **Change Type:** Normal

@@ -6,6 +6,10 @@
 #
 # All changes (Ken-prompted, auto-heal, incident recovery, scheduled) MUST go through this helper.
 # It auto-increments CHG-NNNN, prepends to the log, and prints the new ID.
+#
+# SKILL GATE: changelog skill MUST be loaded before use.
+SCRIPT_DIR_CHG="$(cd "$(dirname "$0")" && pwd)"
+source "${SCRIPT_DIR_CHG}/skill-gate.sh" "changelog" || exit $?
 
 set -e
 
@@ -117,27 +121,28 @@ echo "$CHG_ID"
 
 # ── Notion sync (best-effort — failure does NOT block CHG logging) ──────────────
 NOTION_KEY_FILE="$HOME/.config/notion/api_key"
-NOTION_DB_ID="34dc1829-53ff-814b-8257-d3a3bf351d44"
+# CHG records go to Archive DB (DB C: Completed-Archived) — TKT-0392-D
+NOTION_DB_ID="364c1829-53ff-818e-a783-ebafcb6a9880"
 if [[ -f "$NOTION_KEY_FILE" ]] && command -v jq > /dev/null && command -v curl > /dev/null; then
   NOTION_KEY=$(cat "$NOTION_KEY_FILE")
   N_TODAY=$(date '+%Y-%m-%d')
   N_TITLE="[${CHG_ID}] ${TITLE}"
-  # Build CHG details for Notes (truncated to 2000 chars)
-  N_NOTES="Type: ${TYPE} | Source: ${SOURCE} | Trigger: ${TRIGGER} | Changed: ${CHANGED} | Why: ${WHY} | Verified: ${VERIFIED} | Rollback: ${ROLLBACK}"
-  N_NOTES="${N_NOTES:0:2000}"
+  # Build CHG details for Description (truncated to 2000 chars)
+  N_DESC="Type: ${TYPE} | Source: ${SOURCE} | Trigger: ${TRIGGER} | Changed: ${CHANGED} | Why: ${WHY} | Verified: ${VERIFIED} | Rollback: ${ROLLBACK}"
+  N_DESC="${N_DESC:0:2000}"
   N_PAYLOAD=$(jq -n \
     --arg db  "$NOTION_DB_ID" \
     --arg ttl "$N_TITLE" \
     --arg cdt "$N_TODAY" \
-    --arg nts "$N_NOTES" \
+    --arg dsc "$N_DESC" \
     '{
       parent: {database_id: $db},
       properties: {
-        "US Title":     {title:  [{text: {content: $ttl}}]},
-        "Status":       {select: {name: "Done"}},
-        "Type":         {select: {name: "CHG"}},
-        "Created Date": {date:   {start: $cdt}},
-        "Notes":        {rich_text: [{text: {content: $nts}}]}
+        "Title":         {title:  [{text: {content: $ttl}}]},
+        "Status":        {select: {name: "Done"}},
+        "Type":          {select: {name: "CHG"}},
+        "Completed Date": {date:   {start: $cdt}},
+        "Description":   {rich_text: [{text: {content: $dsc}}]}
       }
     }' 2>/dev/null)
   if [[ -n "$N_PAYLOAD" ]]; then

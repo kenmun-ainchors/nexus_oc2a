@@ -79,22 +79,24 @@ Full rule: `RULES.md` → LESSONS REGISTRY RULE.
 |------|--------|---------|
 | OWL Execution Contract | TKT-0228 | Plan→Breakdown→Sequence→Execute→Verify. One atom per cycle. |
 | TQP Execution Gate | TKT-0309 | Persist state to PG before announcing completion. |
-| KIMI Atomic Task | CHG-0383 | One item per turn. Verify each step. HITL for risky. |
-| Conservative Mode | CHG-0349 | No risky state manipulation without Ken approval. |
-| Routing Discipline | CHG-0297 | Yoda orchestrates. Never execute specialist work directly. |
-| Strategy-Gate | CHG-0291 | Block on DRAFT FOR REVIEW or open DEC decisions. |
-| Ticket Discipline | CHG-0289 | All work needs TKT. ticket.sh only. Never write tickets.json. |
-| Absolute File Path | CHG-0281 | Never ~ in tool calls. Always absolute /Users/... paths. |
-| Telegram Chunking | CHG-0397 | Split > 3,800 chars. [1/N] numbering. |
-| Async Background | CHG-0405 | Tasks > 30s → sessions_spawn. Never block webchat. |
-| CREST Execution Loop | TKT-0368/CHG-0478 | Plan→Execute→Verify→Replan→Synthesize→Done. Strong-tier plans/judges, cheap-tier executes. TQP-queued atoms. Gap→iterate(n++). |
-| MinIO URL | CHG-0284 | Always Tailscale FQDN for MinIO URLs. |
-| Holocron Registry | CHG-0299 | All docs registered in Holocron as part of DoD. |
+| KIMI Atomic Task | RULES.md | See skill at `infra/sandbox/seed/skills/model-routing/SKILL.md`. One atom/turn, verify each, HITL for risky. |
+| Conservative Mode | RULES.md | See skill at `infra/sandbox/seed/skills/model-routing/SKILL.md`. No risky state changes without Ken approval. |
+| Routing Discipline | RULES.md | Yoda orchestrates. Never execute specialist work directly. |
+| Strategy-Gate | RULES.md | Block on DRAFT FOR REVIEW or open DEC decisions. |
+| Ticket Discipline | RULES.md | All work needs TKT. ticket.sh only. Never write tickets.json. |
+| Absolute File Path | RULES.md | Never ~ in tool calls. Always absolute /Users/... paths. |
+| Telegram Chunking | RULES.md | Split > 3,800 chars. See `infra/sandbox/seed/skills/telegram/SKILL.md`. |
+| Async Background | RULES.md | Tasks > 30s → sessions_spawn. Never block webchat. |
+| CREST Execution Loop | RULES.md | Plan→Execute→Verify→Replan→Synthesize→Done. Strong-tier plans/judges, cheap-tier executes. TQP-queued atoms. Gap→iterate(n++). Parent ticket close BLOCKED unless crest-done-gate.sh passes. |
+| MinIO URL | RULES.md | Always Tailscale FQDN for MinIO URLs. |
+| Holocron Registry | RULES.md | All docs registered in Holocron as part of DoD. |
 | Canvas Embed | — | No [embed] tags. Full local path only for Ken. |
 | Exec Binary Paths | — | Always /opt/homebrew/bin/ for brew tools. |
 | Ticket Body Mandate | L-047 | Every ticket MUST have description, not just title. |
-| Fold SOP | CHG-0456 | 5-gate fold: extract→migrate→update→close→sync. Scope must be preserved in parent. |
+| Fold SOP | RULES.md | 5-gate fold: extract→migrate→update→close→sync. Scope must be preserved in parent. |
 | Lessons Registry | — | Search LESSONS.md before work. Log lesson immediately after. |
+| PG Sprint-Backlog Skill | — | Load skill at `infra/sandbox/seed/skills/pg-sprint-backlog/SKILL.md` for TKT/sprint ops. |
+| Skill-Gate Enforcement | TKT-0396 | Domain scripts BLOCK if required skill not loaded. Run `bash scripts/skill-load.sh <name>` after reading each skill. Registry: `state/skill-load-registry.json`. |
 
 **When in doubt:** `RULES.md` is the authoritative source. These summaries are non-binding quick-ref.
 
@@ -129,6 +131,8 @@ Report per-atom RVEV traces. Partial execution is not permitted.
 - When dispatching to another agent, complete discovery (Pass 1) first
 - When receiving a dispatch, execute only (Pass 2) — no discovery
 - Cross-agent dispatches MUST pass `dispatch-validate.sh` (TKT-0323)
+- **Review dispatch (TKT-0403):** NO `cp -r` of working copy. Each review runs against FRESH `git fetch/clone` at exact SHA with verified manifest. Missing `review_sha` → BLOCKED by dispatch-validate.
+- **Skill Loading (TKT-0396):** Before executing any domain operation, load the corresponding skill and register it: `bash scripts/skill-load.sh <skill-name>`. Domain scripts are gated — they BLOCK if the required skill is not in the session's load registry. Skills vs domains: pg-sprint-backlog → db-ticket.sh/db-sprint.sh/pg-to-notion-sync.sh, changelog → changelog-append.sh, telegram → telegram-alert.sh, model-routing → dispatch decisions.
 - Violations are logged, alerted, and escalate per enforcement policy
 
 ## 💓 Heartbeats
@@ -139,7 +143,7 @@ Use heartbeats productively — don't just reply HEARTBEAT_OK. Batch checks (ema
 
 After every meaningful exchange with Ken (decisions, actions, deliverables): append via `bash scripts/journal-append.sh "<title>" "<multiline-summary>"`. Same turn, ~30ms. File: `memory/journal-YYYY-MM-DD.md`. Simple 2-arg model — no temp files. EOD finalizer (23:55 AEST) adds header+cost+business stream only. NON-NEGOTIABLE — if you made a decision or delivered something, write it to journal NOW.
 
-## File Size Limits (TKT-0310/CHG-0454)
+## File Size Limits (TKT-0310)
 
 Injected files are subject to OpenClaw truncation thresholds. These limits are enforced by auto-heal CHECK 15:
 
@@ -163,10 +167,10 @@ Every .md file in workspace root has a registered purpose contract at `state/fil
 
 **Root files allowed (8):** SOUL.md, AGENTS.md, MEMORY.md, HEARTBEAT.md, USER.md, IDENTITY.md, TOOLS.md, RULES.md (reference only, not injected).
 
-## Interim Rule — CONSERVATIVE MODE (CHG-0349, 2026-05-15)
+## Interim Rule — CONSERVATIVE MODE
 **Trigger:** Claude API credits depleted. All agents on kimi/gemma4/deepseek-pro.
 **Rule: NO RISKY STATE MANIPULATION without explicit Ken approval.**
 
-## KIMI ATOMIC TASK RULE — NON-NEGOTIABLE (CHG-0383)
+## KIMI ATOMIC TASK RULE — NON-NEGOTIABLE
 
-kimi = ONE ATOM PER TURN + VERIFY EACH STEP + HITL for risky (close/delete/cron/model/bulk/Done). Full rule with examples: `RULES.md` → CHG-0383.
+kimi = ONE ATOM PER TURN + VERIFY EACH STEP + HITL for risky (close/delete/cron/model/bulk/Done). Full rule with examples in `RULES.md`.

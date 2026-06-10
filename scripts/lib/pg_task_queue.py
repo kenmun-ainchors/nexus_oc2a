@@ -64,12 +64,13 @@ def _pg_upsert(task_id, task_dict):
     created_at = _escape_sql(task_dict.get("createdAt"))
     updated_at = _escape_sql(task_dict.get("updatedAt"))
     atoms_json = _escape_sql(json.dumps(task_dict.get("atoms", [])))
+    parent_task_id = _escape_sql(task_dict.get("parentTaskId"))
 
     query = f"""
     INSERT INTO state_task_queue (id, title, tier, status, priority, source, relatedchg,
-        claimedby, claimedat, claimtimeout, created_at, updatedat, atoms, tenant_id)
+        claimedby, claimedat, claimtimeout, created_at, updated_at, atoms, tenant_id, parent_task_id)
     VALUES ({_escape_sql(task_id)}, {title}, {tier}, {pg_status_esc}, {priority}, {source}, {related_chg},
-        {claimed_by}, {claimed_at}, {claim_timeout}, {created_at}, {updated_at}, {atoms_json}, 'ainchors')
+        {claimed_by}, {claimed_at}, {claim_timeout}, {created_at}, {updated_at}, {atoms_json}, 'ainchors', {parent_task_id})
     ON CONFLICT (id) DO UPDATE SET
         title = EXCLUDED.title,
         tier = EXCLUDED.tier,
@@ -80,8 +81,9 @@ def _pg_upsert(task_id, task_dict):
         claimedby = EXCLUDED.claimedby,
         claimedat = EXCLUDED.claimedat,
         claimtimeout = EXCLUDED.claimtimeout,
-        updatedat = EXCLUDED.updatedat,
+        updated_at = EXCLUDED.updated_at,
         atoms = EXCLUDED.atoms,
+        parent_task_id = EXCLUDED.parent_task_id,
         updated_at_ts = now()
     """
     result = _pg(query)
@@ -167,7 +169,7 @@ def pg_claim_task(task_id, agent_id):
         claimedby = {_escape_sql(agent_id)},
         claimedat = {_escape_sql(now)},
         claimtimeout = {_escape_sql(timeout)},
-        updatedat = {_escape_sql(now)},
+        updated_at = {_escape_sql(now)},
         updated_at_ts = now()
     WHERE id = {_escape_sql(task_id)} AND status = 'queued'
     RETURNING id
@@ -189,7 +191,7 @@ def pg_update_task_status(task_id, status, extra_fields=None):
     
     set_clauses = [
         f"status = {_escape_sql(pg_status)}",
-        f"updatedat = {_escape_sql(now)}",
+        f"updated_at = {_escape_sql(now)}",
         "updated_at_ts = now()"
     ]
     if extra_fields:
@@ -239,7 +241,7 @@ def pg_update_atom(task_id, atom_id, atom_status, result_data=None, error=None):
     UPDATE state_task_queue SET
         atoms = {atoms_json},
         status = {_escape_sql(new_status)},
-        updatedat = {_escape_sql(now)},
+        updated_at = {_escape_sql(now)},
         updated_at_ts = now()
     WHERE id = {_escape_sql(task_id)}
     """
@@ -440,7 +442,19 @@ def sc_read_task(task_id):
         return False, None, f"State check FAILED: Task id mismatch — requested {task_id}, got {task['id']}"
 
     # Validate status is a recognized value
-    valid_statuses = {'queued', 'dispatched', 'complete', 'failed', 'cancelled', 'pending', 'open', 'in_progress', 'backlog', 'closed'}
+    valid_statuses = {
+        # Legacy / flat-CREST
+        'queued', 'dispatched', 'complete', 'failed', 'cancelled',
+        'pending', 'open', 'in_progress', 'backlog', 'closed',
+        # Master-level CREST (TKT-0382)
+        'master_planning', 'sub_tickets_dispatched', 'master_verifying',
+        'master_replanning', 'master_synthesizing', 'done',
+        # Sub-CREST phase states (TKT-0382)
+        'sub_crest_planning', 'sub_crest_executing', 'sub_crest_verifying',
+        'sub_crest_replanning', 'sub_crest_synthesizing', 'sub_crest_done',
+        # Terminal sub-state (TKT-0382)
+        'escalated',
+    }
     status = task.get('status', '')
     if status not in valid_statuses:
         return False, None, f"State check FAILED: Task {task_id} has invalid status '{status}'"
@@ -516,6 +530,385 @@ def sc_read_all_tasks():
         return False, tasks, f"State check WARN: {len(tasks)} tasks read, {invalid_count} with structural issues"
 
     return True, tasks, f"State check OK: {len(tasks)} tasks verified, all structurally valid"
+
+
+# ════════════════════════════════════════════════════════════════
+# SUB-CREST PHASE STATE MACHINE EXTENSIONS (TKT-0382)
+# These functions support recursive CREST execution:
+#   Master-level: master_planning → sub_tickets_dispatched → master_verifying
+#                 → master_replanning → master_synthesizing → done
+#   Sub-CREST:    sub_crest_planning → sub_crest_executing → sub_crest_verifying
+#                 → sub_crest_replanning → sub_crest_synthesizing → sub_crest_done
+#   Terminal:     escalated (triggers master_replanning)
+# ════════════════════════════════════════════════════════════════
+
+# Valid state transitions for the sub-CREST state machine
+SUB_CREST_TRANSITIONS = {
+    # Master-level transitions
+    'queued': {'master_planning', 'sub_crest_planning'},
+    'master_planning': {'sub_tickets_dispatched', 'escalated'},
+    'sub_tickets_dispatched': {'master_verifying', 'escalated'},
+    'master_verifying': {'master_synthesizing', 'master_replanning', 'escalated'},
+    'master_replanning': {'sub_tickets_dispatched', 'escalated'},
+    'master_synthesizing': {'done', 'master_replanning', 'escalated'},
+    # Sub-CREST transitions (sub-ticket level)
+    'sub_crest_planning': {'sub_crest_executing', 'escalated'},
+    'sub_crest_executing': {'sub_crest_verifying', 'escalated'},
+    'sub_crest_verifying': {'sub_crest_synthesizing', 'sub_crest_replanning', 'sub_crest_executing', 'escalated'},
+    'sub_crest_replanning': {'sub_crest_executing', 'escalated'},
+    'sub_crest_synthesizing': {'sub_crest_done', 'sub_crest_replanning', 'sub_crest_executing', 'escalated'},
+    # Terminal states
+    'done': set(),
+    'sub_crest_done': set(),
+    'escalated': set(),
+    # Legacy/flat transitions (kept for backward compatibility)
+    'dispatched': {'complete', 'failed', 'cancelled', 'master_planning', 'sub_crest_planning'},
+    'complete': set(),
+    'failed': {'queued', 'cancelled'},
+    'cancelled': set(),
+    'pending': {'queued', 'master_planning', 'sub_crest_planning'},
+    'open': {'in_progress', 'master_planning', 'sub_crest_planning'},
+    'in_progress': {'complete', 'failed', 'master_planning', 'sub_crest_planning'},
+    'backlog': {'open', 'master_planning', 'sub_crest_planning'},
+    'closed': set(),
+}
+
+
+def validate_state_transition(current_status, new_status):
+    """
+    TKT-0382: Validate that a state transition is allowed by the CREST state machine.
+    Returns (valid: bool, message: str)
+    """
+    allowed = SUB_CREST_TRANSITIONS.get(current_status, set())
+    if new_status in allowed:
+        return True, f"Transition {current_status} -> {new_status} allowed"
+    return False, f"Transition {current_status} -> {new_status} NOT allowed (valid: {sorted(allowed)})"
+
+
+def pg_set_task_status(task_id, new_status, extra_fields=None):
+    """
+    TKT-0382: Set a task's status in PG with transition validation.
+    extra_fields: optional dict of additional columns to set (e.g. parent_task_id, iteration_count)
+    Returns (success: bool, message: str)
+    """
+    now = __import__('datetime').datetime.now().isoformat()
+
+    # READ current state
+    task = pg_read_task(task_id)
+    if task is None:
+        return False, f"Task {task_id} not found in PG"
+
+    current_status = task.get('status', 'unknown')
+
+    # VALIDATE transition
+    valid, msg = validate_state_transition(current_status, new_status)
+    if not valid:
+        return False, msg
+
+    # EXECUTE
+    set_clauses = [
+        f"status = {_escape_sql(new_status)}",
+        f"updated_at = {_escape_sql(now)}",
+        "updated_at_ts = now()"
+    ]
+    if extra_fields:
+        for k, v in extra_fields.items():
+            if v is None:
+                set_clauses.append(f"{k} = NULL")
+            else:
+                set_clauses.append(f"{k} = {_escape_sql(v)}")
+
+    query = f"""
+    UPDATE state_task_queue SET {', '.join(set_clauses)}
+    WHERE id = {_escape_sql(task_id)}
+    """
+    _pg(query)
+
+    # VERIFY
+    verified = pg_read_task(task_id)
+    if verified is None:
+        return False, f"Post-update verification: {task_id} not found in PG"
+    if verified.get('status') != new_status:
+        return False, f"Post-update status is {verified.get('status')}, expected {new_status}"
+
+    return True, f"State transition OK: {current_status} -> {new_status} for {task_id}"
+
+
+def sc_persist_sub_crest_phase(task_id, phase, payload=None, iteration_count=None):
+    """
+    TKT-0382: Persist sub-CREST phase transition for a specialist task.
+    Valid phases: sub_crest_planning, sub_crest_executing, sub_crest_verifying,
+                  sub_crest_replanning, sub_crest_synthesizing, sub_crest_done, escalated
+    READ -> VALIDATE -> EXECUTE -> VERIFY.
+    Returns (success: bool, message: str)
+    """
+    import json
+    now = __import__('datetime').datetime.now().isoformat()
+
+    # READ
+    task = pg_read_task(task_id)
+
+    # VALIDATE
+    if task is None:
+        return False, f"State check FAILED: Task {task_id} not found in PG"
+
+    current_status = task.get('status', 'unknown')
+    valid, msg = validate_state_transition(current_status, phase)
+    if not valid:
+        return False, f"State check FAILED: {msg}"
+
+    # EXECUTE
+    payload_json = json.dumps(payload) if payload else '{}'
+    iter_clause = f", iteration_count = {iteration_count}" if iteration_count is not None else ""
+
+    query = f"""
+    UPDATE state_task_queue SET
+        status = {_escape_sql(phase)},
+        updated_at = {_escape_sql(now)},
+        updated_at_ts = now(),
+        state_payload = {_escape_sql(payload_json)}::jsonb{iter_clause}
+    WHERE id = {_escape_sql(task_id)}
+    """
+    _pg(query)
+
+    # VERIFY
+    verified = pg_read_task(task_id)
+    if verified is None:
+        return False, f"State check FAILED: Post-write verification - {task_id} not found in PG"
+    if verified.get('status') != phase:
+        return False, f"State check FAILED: Status is {verified.get('status')}, expected {phase}"
+
+    return True, f"State check OK: {task_id} phase {current_status} -> {phase}"
+
+
+def sc_resume_sub_crest(task_id):
+    """
+    TKT-0382: Resume sub-CREST context for a specialist task.
+    Reads sub-CREST state: phase, iteration_count, atoms_jsonb, state_payload, execution_context.
+    Returns (success: bool, resume_data: dict|None, message: str)
+    """
+    import json
+
+    # READ
+    ok, task, msg = sc_read_task(task_id)
+    if not ok or task is None:
+        return False, None, f"Cannot resume sub-CREST: {msg}"
+
+    # Extract sub-CREST specific fields
+    status = task.get('status', 'unknown')
+    iteration_count = task.get('iteration_count', 0)
+    state_payload = task.get('state_payload')
+    execution_context = task.get('execution_context')
+    parent_task_id = task.get('parent_task_id')
+    atoms_jsonb = task.get('atoms_jsonb')
+
+    # Parse JSONB fields
+    if isinstance(state_payload, str):
+        try:
+            state_payload = json.loads(state_payload)
+        except (json.JSONDecodeError, TypeError):
+            state_payload = {}
+    if isinstance(execution_context, str):
+        try:
+            execution_context = json.loads(execution_context)
+        except (json.JSONDecodeError, TypeError):
+            execution_context = {}
+    if isinstance(atoms_jsonb, str):
+        try:
+            atoms_jsonb = json.loads(atoms_jsonb)
+        except (json.JSONDecodeError, TypeError):
+            atoms_jsonb = None
+
+    resume_data = {
+        'task_id': task_id,
+        'current_phase': status,
+        'iteration_count': iteration_count or 0,
+        'state_payload': state_payload or {},
+        'execution_context': execution_context or {},
+        'parent_task_id': parent_task_id,
+        'atoms': atoms_jsonb,
+        'is_sub_crest': status.startswith('sub_crest_') if status else False,
+        'is_escalated': status == 'escalated',
+    }
+
+    return True, resume_data, f"Sub-CREST resume OK: {task_id} phase={status}, iteration={resume_data['iteration_count']}, parent={parent_task_id}"
+
+
+def sc_escalate_task(sub_task_id, reason):
+    """
+    TKT-0382: Escalate a sub-CREST task - terminal sub-state that triggers master_replanning.
+    Sets sub-task to 'escalated', sets parent_task to 'master_replanning'.
+    READ -> VALIDATE -> EXECUTE -> VERIFY.
+    Returns (success: bool, message: str)
+    """
+    import json
+    now = __import__('datetime').datetime.now().isoformat()
+
+    # READ
+    sub_task = pg_read_task(sub_task_id)
+    if sub_task is None:
+        return False, f"State check FAILED: Sub-task {sub_task_id} not found in PG"
+
+    parent_task_id = sub_task.get('parent_task_id')
+    if not parent_task_id:
+        return False, f"State check FAILED: Sub-task {sub_task_id} has no parent_task_id"
+
+    parent_task = pg_read_task(parent_task_id)
+    if parent_task is None:
+        return False, f"State check FAILED: Parent task {parent_task_id} not found in PG"
+
+    current_status = sub_task.get('status', 'unknown')
+
+    # VALIDATE
+    valid, msg = validate_state_transition(current_status, 'escalated')
+    if not valid:
+        return False, f"State check FAILED: {msg}"
+
+    # EXECUTE: Set sub-task to escalated
+    escalation_payload = json.dumps({
+        'escalated_at': now,
+        'escalated_from_phase': current_status,
+        'reason': reason,
+    })
+
+    query_sub = f"""
+    UPDATE state_task_queue SET
+        status = 'escalated',
+        updated_at = {_escape_sql(now)},
+        updated_at_ts = now(),
+        state_payload = {_escape_sql(escalation_payload)}::jsonb
+    WHERE id = {_escape_sql(sub_task_id)}
+    """
+    _pg(query_sub)
+
+    # EXECUTE: Trigger master_replanning on parent
+    query_parent = f"""
+    UPDATE state_task_queue SET
+        status = 'master_replanning',
+        updated_at = {_escape_sql(now)},
+        updated_at_ts = now(),
+        state_payload = jsonb_set(
+            COALESCE(state_payload, '{{}}'),
+            '{{escalated_from}}',
+            {_escape_sql(json.dumps(sub_task_id))}::jsonb
+        )
+    WHERE id = {_escape_sql(parent_task_id)}
+    """
+    _pg(query_parent)
+
+    # VERIFY
+    v_sub = pg_read_task(sub_task_id)
+    v_parent = pg_read_task(parent_task_id)
+    sub_ok = v_sub and v_sub.get('status') == 'escalated'
+    parent_ok = v_parent and v_parent.get('status') == 'master_replanning'
+
+    if not sub_ok:
+        return False, f"State check FAILED: Sub-task {sub_task_id} verification failed"
+    if not parent_ok:
+        return False, f"State check FAILED: Parent task {parent_task_id} verification failed"
+
+    return True, f"State check OK: {sub_task_id} escalated -> parent {parent_task_id} set to master_replanning"
+
+
+def sc_replan_iterate(task_id):
+    """
+    TKT-0382: Replan iterate - increment iteration_count and transition back to sub_crest_executing.
+    Used when a sub-CREST specialist needs another iteration after verification found gaps.
+    READ -> VALIDATE -> EXECUTE -> VERIFY.
+    Returns (success: bool, message: str)
+    """
+    now = __import__('datetime').datetime.now().isoformat()
+
+    # READ
+    task = pg_read_task(task_id)
+    if task is None:
+        return False, f"State check FAILED: Task {task_id} not found in PG"
+
+    current_status = task.get('status', 'unknown')
+    current_iteration = task.get('iteration_count', 0) or 0
+    new_iteration = current_iteration + 1
+
+    # VALIDATE
+    valid, msg = validate_state_transition(current_status, 'sub_crest_executing')
+    if not valid:
+        return False, f"State check FAILED: {msg}"
+
+    # EXECUTE
+    query = f"""
+    UPDATE state_task_queue SET
+        status = 'sub_crest_executing',
+        iteration_count = {new_iteration},
+        updated_at = {_escape_sql(now)},
+        updated_at_ts = now()
+    WHERE id = {_escape_sql(task_id)}
+    """
+    _pg(query)
+
+    # VERIFY
+    verified = pg_read_task(task_id)
+    if verified is None:
+        return False, f"State check FAILED: Post-write verification - {task_id} not found in PG"
+    if verified.get('status') != 'sub_crest_executing':
+        return False, f"State check FAILED: Status is {verified.get('status')}, expected sub_crest_executing"
+    if verified.get('iteration_count') != new_iteration:
+        return False, f"State check FAILED: iteration_count is {verified.get('iteration_count')}, expected {new_iteration}"
+
+    return True, f"State check OK: {task_id} replan iterate #{new_iteration} - back to sub_crest_executing"
+
+
+def sc_sub_crest_complete(task_id, result_data=None):
+    """
+    TKT-0382: Mark a sub-CREST task as complete (sub_crest_done).
+    READ -> VALIDATE -> EXECUTE -> VERIFY.
+    Returns (success: bool, message: str)
+    """
+    import json
+    now = __import__('datetime').datetime.now().isoformat()
+
+    # READ
+    task = pg_read_task(task_id)
+    if task is None:
+        return False, f"State check FAILED: Task {task_id} not found in PG"
+
+    current_status = task.get('status', 'unknown')
+    parent_task_id = task.get('parent_task_id')
+
+    # VALIDATE
+    valid, msg = validate_state_transition(current_status, 'sub_crest_done')
+    if not valid:
+        return False, f"State check FAILED: {msg}"
+
+    # EXECUTE
+    payload_json = json.dumps(result_data) if result_data else '{}'
+
+    query = f"""
+    UPDATE state_task_queue SET
+        status = 'sub_crest_done',
+        state_payload = {_escape_sql(payload_json)}::jsonb,
+        updated_at = {_escape_sql(now)},
+        updated_at_ts = now()
+    WHERE id = {_escape_sql(task_id)}
+    """
+    _pg(query)
+
+    # VERIFY
+    verified = pg_read_task(task_id)
+    if verified is None:
+        return False, f"State check FAILED: Post-write verification - {task_id} not found in PG"
+    if verified.get('status') != 'sub_crest_done':
+        return False, f"State check FAILED: Status is {verified.get('status')}, expected sub_crest_done"
+
+    # If part of a parent task, also check if all sub-tickets are done
+    parent_info = ""
+    if parent_task_id:
+        all_subs_done = _pg(f"""
+            SELECT bool_and(status IN ('sub_crest_done', 'done', 'complete', 'escalated'))
+            FROM state_task_queue
+            WHERE parent_task_id = {_escape_sql(parent_task_id)}
+        """)
+        parent_info = f" | parent {parent_task_id} all-subs-done: {all_subs_done}"
+
+    return True, f"State check OK: {task_id} sub_crest_done{parent_info}"
 
 
 def sc_persist_atom(task_id, atom_index, state_payload, execution_context=None, persistence_type='INLINE_ATOM', parent_task_id=None):

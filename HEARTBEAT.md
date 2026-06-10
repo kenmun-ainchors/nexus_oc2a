@@ -2,6 +2,7 @@
 # Runs every 30 minutes in the main session.
 # Keep this lean — state keys + conditions + actions only.
 # Procedures live in the scripts they reference, not here.
+# Alert routing: see skill at `infra/sandbox/seed/skills/telegram/SKILL.md`
 
 ## Checks
 
@@ -21,6 +22,7 @@
 ### Ollama Cloud Credit Tracking (every 2h)
 - Read state/cost-state.json → apiBalance.remainingEstimate
 - Informational only — fixed subscription. No alerts.
+- Cost model: see skill at `infra/sandbox/seed/skills/model-routing/SKILL.md`
 - State key: lastChecks.costState
 
 ### Async Task Watchdog (every 30 min)
@@ -31,6 +33,13 @@
 ### Agent Health (every 30 min)
 - Read state/health-state.json, state/agent-status.json
 - Alert if gateway degraded or any agent in failed state
+
+### Aria CREST Compliance Checkpoint (every 4h — TKT-0383 L3)
+- Run: `bash scripts/aria-crest-check.sh`
+- If state/aria-crest-alert.json exists → alert Ken with violation details
+- State key: lastChecks.ariaCrest
+- Catches: skipped Verify phases, missing RVEV traces, abandoned sub-crests, pro model overuse
+  - Pro model policy: see skill at `infra/sandbox/seed/skills/model-routing/SKILL.md`
 
 ### Standby Mode & Outage Banner (every heartbeat)
 - If state/standby-mode.json exists → include standby banner in next response to Ken

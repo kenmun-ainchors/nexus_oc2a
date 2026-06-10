@@ -1,7 +1,7 @@
 # Model3-Policy — Tier 3 Agent SOPs and Domain Boundaries
-**Version:** 1.0 | **Status:** APPROVED | **Date:** 2026-05-10
-**Author:** Yoda 🟢 | **Approved by:** Ken Mun (CTO)
-**TKT:** TKT-0105 | **Framework ref:** Agent_Governance_Framework_v1.md (Tier 3 definition)
+**Version:** 1.1 | **Status:** APPROVED | **Date:** 2026-06-10
+**Author:** Forge 🏗️ | **Approved by:** Ken Mun (CTO)
+**TKT:** TKT-0383 | **CREST ref:** CREST v1.2 §5.8
 
 ---
 
@@ -388,26 +388,60 @@ Market intelligence and testing for AInchors marketing. Will own:
 
 ---
 
-## Model Fallback Chain — NON-NEGOTIABLE Platform Design Rule (CHG-0270, 2026-05-13)
+## Model Primary & Fallback — CHG-0349 Era (deepseek-primary)
 
-Every agent — current and future — MUST have a **3-level model fallback chain**:
+**Context:** CHG-0349 (2026-05-15): Anthropic API credits depleted. All agents on deepseek/kimi/gemma4.
 
-| Level | Role | Current Model |
-|---|---|---|
-| Primary | Best capability for the tier | e.g. `claude-sonnet-4-6` |
-| Secondary | Degraded but functional | e.g. `claude-haiku-4-5` |
-| Safety Net | Provider-independent last resort | `ollama/kimi-k2.6:cloud` (always) |
+### Current Primary Model
+- **deepseek-v4-pro:cloud** — primary for all interactive and complex agent work
+- **deepseek-v4-flash:cloud** — cost-efficient for bounded sub-tasks, CREST Execute/Synthesize phases
+- **ollama/kimi-k2.6:cloud** — fallback/safety net only. Never primary for T3 agents.
+
+### Fallback Chains (2-level, CHG-0349 era)
+
+| Tier | Primary | Fallback (Safety Net) |
+|------|---------|----------------------|
+| T3 Orchestrators (Yoda, Aria) | `ollama/deepseek-v4-pro:cloud` | `ollama/kimi-k2.6:cloud` |
+| T3 Specialists (Atlas, Thrawn, Lando, Mon Mothma, Spark, Forge) | `ollama/deepseek-v4-pro:cloud` | `ollama/kimi-k2.6:cloud` |
+| T4 Background (Warden, crons) | `ollama/gemma4:31b-cloud` | `ollama/kimi-k2.6:cloud` |
 
 **Rules:**
-- No agent may go live with fewer than 3 levels
+- No agent goes live without documented primary + fallback
 - `ollama/kimi-k2.6:cloud` is always the safety net — no substitutions without Ken approval
 - Chains verified by Warden on every compliance check
-- After any API key rotation: verify all 3 levels are intact before closing the incident
-- New agent activation checklist: Primary ✅ | Secondary ✅ | Safety net (kimi) ✅
+- After any API key rotation: verify all fallback levels are intact before closing the incident
+- New agent activation checklist: Primary ✅ | Fallback (kimi) ✅
 
-**Locked chains as of 2026-05-13:**
-- T3 agents (sonnet-primary): `sonnet → haiku → kimi`
-- T4 agents (haiku-primary): `haiku → kimi` *(2-level — upgrade to 3-level at TRIGGER-03 when Gemma4 validated)*
+## CREST Phase Model Assignments (v1.2 §5.8)
+
+Per CREST execution loop (TKT-0368/CHG-0478), agents use different models per phase:
+- **Plan, Verify, Replan** → `deepseek-v4-pro:cloud` (pro tier — requires reasoning quality)
+- **Execute, Synthesize** → `deepseek-v4-flash:cloud` (flash tier — cost-efficient for bounded work)
+
+### Phase-Aware Agent Model Map
+
+| Agent | Plan | Execute | Verify | Replan | Synthesize |
+|-------|------|---------|--------|--------|------------|
+| Yoda | deepseek-pro | N/A | deepseek-pro | deepseek-pro | deepseek-pro |
+| Atlas | deepseek-pro | deepseek-flash | deepseek-pro | deepseek-pro | deepseek-flash |
+| Thrawn | deepseek-pro | deepseek-flash | deepseek-pro | deepseek-pro | deepseek-flash |
+| **Forge** | **deepseek-flash** | **deepseek-flash** | **deepseek-pro** | **deepseek-pro** | **deepseek-flash** |
+| Spark | deepseek-pro | deepseek-flash | deepseek-pro | deepseek-pro | deepseek-flash |
+| Lando | deepseek-pro | deepseek-flash | deepseek-pro | deepseek-pro | deepseek-flash |
+| Mon Mothma | deepseek-pro | deepseek-flash | deepseek-pro | deepseek-pro | deepseek-flash |
+
+**Forge exception:** Forge uses flash for Plan (not pro) — infra/SRE planning is predominantly bounded and deterministic. Pro reserved for Verify/Replan phases only.
+
+### Phase-Aware Fallback Chains
+
+Fallback behavior depends on which CREST phase the agent is in:
+
+| Phase Group | Primary Model | Fallback Order | Rationale |
+|-------------|--------------|----------------|-----------|
+| **Pro phases** (Plan, Verify, Replan) | `deepseek-v4-pro:cloud` | retry deepseek-pro → `kimi-k2.6:cloud` | Never degrade pro→flash. Quality must stay at pro tier or fall to kimi safety net. |
+| **Flash phases** (Execute, Synthesize) | `deepseek-v4-flash:cloud` | deepseek-flash → `deepseek-v4-pro:cloud` | Cheap→expensive escalation. Flash failure escalates to pro, not a cheaper model. |
+
+**Rule:** Fallback within a phase group never crosses to a lower tier than the phase demands. Pro phases stay at pro or go to safety net. Flash phases escalate to pro (more capable), not down.
 
 ---
 
@@ -425,4 +459,5 @@ Every agent — current and future — MUST have a **3-level model fallback chai
 ## Version History
 | Version | Date | Change |
 |---------|------|--------|
+| v1.1 | 2026-06-10 | CREST v1.2 §5.8: deepseek-primary (CHG-0349), phase-aware model assignments + fallback chains, Forge flash exception. TKT-0383. |
 | v1.0 | 2026-05-10 | Initial policy — Ken approved. All 7 T3 agents. Atlas assurance role (Option B). |

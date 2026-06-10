@@ -111,6 +111,8 @@ TASK_TITLE=$(echo "$TASK_JSON" | jq -r '.title')
 TASK_TIER=$(echo "$TASK_JSON" | jq -r '.tier')
 TASK_SOURCE=$(echo "$TASK_JSON" | jq -r '.source')
 
+TASK_PARENT=$(echo "$TASK_JSON" | jq -r '.parent_task_id // empty')
+
 echo "TQP: Processing $TASK_ID — $TASK_TITLE"
 
 # State Checking (TKT-0182): verify task exists and is still queued before claiming
@@ -140,6 +142,46 @@ echo "TQP: Claimed $TASK_ID — dispatched."
 # happens in the agent session that calls this script.
 # ──────────────────────────────────────────
 
-rm -f "$LOCK_FILE"
 echo "TQP: $TASK_ID dispatched — agent session will pick up for execution."
+
+# ──────────────────────────────────────────
+# TKT-0382: Sub-CREST escalated state handling
+# If a sub-task is in 'escalated' state, the processor detects it
+# and ensures the parent is in master_replanning
+# ──────────────────────────────────────────
+ESCALATED_JSON=$(pg -c "SELECT row_to_json(t)::text FROM (SELECT * FROM state_task_queue WHERE status = 'escalated' AND parent_task_id IS NOT NULL ORDER BY updated_at_ts DESC LIMIT 1) t;" 2>/dev/null)
+
+if [[ -n "$ESCALATED_JSON" && "$ESCALATED_JSON" != "null" && "$ESCALATED_JSON" != "" ]]; then
+  E_TASK_ID=$(echo "$ESCALATED_JSON" | jq -r '.id')
+  E_PARENT=$(echo "$ESCALATED_JSON" | jq -r '.parent_task_id')
+  echo "TQP: Escalated sub-task detected: $E_TASK_ID (parent: $E_PARENT)"
+  
+  # Ensure parent is in master_replanning
+  PARENT_STATUS=$(pg -c "SELECT status FROM state_task_queue WHERE id='$E_PARENT'" 2>/dev/null)
+  if [[ "$PARENT_STATUS" != "master_replanning" ]]; then
+    echo "TQP: Setting parent $E_PARENT to master_replanning"
+    pg -c "UPDATE state_task_queue SET status='master_replanning', updated_at_ts=now() WHERE id='$E_PARENT'" 2>/dev/null
+  fi
+  
+  # Verify escalation linkage
+  pg -c "UPDATE state_task_queue SET state_payload = jsonb_set(COALESCE(state_payload, '{}'), '{escalated_from}', to_jsonb('$E_TASK_ID'::text)) WHERE id='$E_PARENT'" 2>/dev/null
+fi
+
+# ──────────────────────────────────────────
+# TKT-0382: Replan iterate detection
+# Check for sub_crest_replanning tasks that need to be iterated
+# ──────────────────────────────────────────
+REPLAN_JSON=$(pg -c "SELECT row_to_json(t)::text FROM (SELECT * FROM state_task_queue WHERE status = 'sub_crest_replanning' ORDER BY updated_at_ts DESC LIMIT 1) t;" 2>/dev/null)
+
+if [[ -n "$REPLAN_JSON" && "$REPLAN_JSON" != "null" && "$REPLAN_JSON" != "" ]]; then
+  R_TASK_ID=$(echo "$REPLAN_JSON" | jq -r '.id')
+  R_ITERATION=$(echo "$REPLAN_JSON" | jq -r '.iteration_count // 0')
+  R_NEW_ITER=$((R_ITERATION + 1))
+  echo "TQP: Replan iterate detected: $R_TASK_ID (iteration $R_ITERATION -> $R_NEW_ITER)"
+  
+  pg -c "UPDATE state_task_queue SET status='sub_crest_executing', iteration_count=$R_NEW_ITER, updated_at_ts=now() WHERE id='$R_TASK_ID'" 2>/dev/null
+  echo "TQP: $R_TASK_ID transitioned to sub_crest_executing (iteration #$R_NEW_ITER)"
+fi
+
+rm -f "$LOCK_FILE"
 exit 0

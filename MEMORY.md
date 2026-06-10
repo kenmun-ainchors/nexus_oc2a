@@ -4,14 +4,13 @@
 - Name: Yoda 🟢 | Role: AI business operations lead agent for Ken Mun (CTO), AInchors
 
 ## The People
-- **Ken Mun** — Co-founder, CTO. Email: kenmun@ainchors.com | Mobile: +61403650578 | Telegram chatId: 8574109706
-  - Bot: @AInchorsOC1Bot → Yoda. Emergency keyword: **"YODA THIS IS KEN"**
-- **Angie Foong** — Co-founder, CEO. Email: angie.foong@ainchors.com | Mobile: +61430928371 | Telegram chatId: 8141152780
-  - Bot: @AInchorsAriaBot → Aria (strict allowlist). CEO = highest authority. Aria has full read access to all AInchors data.
+- **Ken Mun** — Co-founder, CTO. Email: kenmun@ainchors.com | Mobile: +61403650578
+- **Angie Foong** — Co-founder, CEO. Email: angie.foong@ainchors.com | Mobile: +61430928371
+- Telegram contacts: see `infra/sandbox/seed/skills/telegram/SKILL.md`
 
 ## The Company
 - **AInchor Solutions Pty Ltd** | ainchors.com | Sydney + Melbourne. Day 1: 2026-04-25. Focus: AI courses/training, consulting, solutions/products.
-- **Aevlith Technologies Pty Ltd** — Technology holding entity, owns Nexus platform. AInchors = market-facing brand. Domain: aevlith.ai (AYV-lith, confirmed CHG-0248). ASIC registration to proceed. P1–P3: silent. P4: surfaces as product brand.
+- **Aevlith Technologies Pty Ltd** — Technology holding entity, owns Nexus platform. AInchors = market-facing brand. Domain: aevlith.ai (AYV-lith, confirmed). ASIC registration to proceed. P1–P3: silent. P4: surfaces as product brand.
 - Emails: kenmun@ ✅ gog | info@ | accounts@ | Gmail (Google Workspace). Tech: Ken+Yoda. Business: Angie+Aria.
 
 ## Infrastructure — HIVE Architecture (confirmed May 2026)
@@ -23,15 +22,12 @@
 
 ### Governance Tier Model (approved Ken 2026-05-08, TKT-0103)
 - T0: Yoda (lead) | T1: Aria (dual-principal: CEO+Yoda) | T2: Warden (Yoda-Govern) | T3: Spark, Atlas, Thrawn, Lando, Forge, Mon Mothma, Krennic (Yoda-Manage-Passthrough); Luthen queued P2 | T4: Shield, Lex, Sage (reactive verdict-only)
-- **Yoda 🟢** lead | **Aria 🔵** Business Lead (OC1→OC2 at T10, Sonnet, Angie pace) | **Spark ✨** Social/Marketing (kimi)
-- **Atlas 🏛️** Enterprise Arch, TOGAF, P1–P4 | **Thrawn** (platform-arch) Nexus/model/S1-S7 | Atlas=enterprise-facing; Thrawn=platform-internal
 - **⚠️ L-026:** Build/scripts → **Forge ONLY**. Atlas=EA assess. Thrawn=arch design. NEVER route build to Thrawn/Atlas.
-- **Lando 🟡** (biz-process) BPM/BPMN | **Forge 🏗️** (infra) Infra/SRE/CI/backups | **Krennic 🔵** SRE/incidents, TKT-0074 | **Mon Mothma 🌟** (change-mgt) ADKAR
-- **Gemma4 policy: background/non-interactive crons ONLY** — cold-load causes system-wide slowdown.
+- Model routing: see skill at `infra/sandbox/seed/skills/model-routing/SKILL.md` and `docs/Model3-Policy.md`
 
 ## Agent SOUL.md Compact Standard (NON-NEGOTIABLE)
 - SOUL.md: hard limit 10,000 (warn 6,000). identity+traits+rules+cadences. Details in [AGENT]_RULES.md. Aria OOM cause (2026-04-30). All agents ✅ compliant 2026-05-08.
-- MEMORY.md: hard limit 15,000 (warn 12,000). TKT-0310/CHG-0454. Archive overflow at 12K, trim to 10K.
+- MEMORY.md: hard limit 15,000 (warn 12,000). See `infra/sandbox/seed/skills/changelog/SKILL.md`. Archive overflow at 12K, trim to 10K.
 
 #
 ## CREST Loop — Cognitive Routing & Execution Sandwich Topology (LOCKED 2026-06-09)
@@ -42,16 +38,15 @@
 - **Replan Gate:** Critical decision hub. Gap found → iterate back to Execute (n++). Stop met → advance to Synthesize.
 - **Routing:** Yoda plans typed DAG → queues atoms via TQP → cheap-tier executes → Yoda binary-judges 0–1 per atom → Replan → Synthesize → Done emits audit.
 - **Cross-strong-tier:** Yoda ↔ Atlas/Thrawn coordination deferred to design stage.
-- **Adoption:** Discipline-process now, structural-process later (TKT-0368 monitoring phase).
-- **Sprint 7:** TKT-0340+ all use CREST. Previous items (TKT-0339 and earlier) used direct dispatch.
-- **Reference:** docs/CREST-v1.0.md (to be created at structural phase)
+- **CREST Loop:** see docs/CREST-v1.2-Recursive-Model-C.md (LOCKED, dual PASS)
 
 # Governance Agents
-- **Shield🛡️/Lex⚖️/Sage🧪** — Haiku (CHG-0230). Move to Gemma4 at TRIGGER-03.
+- **Shield🛡️/Lex⚖️/Sage🧪** — Haiku. Move to Gemma4 at TRIGGER-03.
 - **Warden 🔍** Model Compliance, 15-min cron:83accf7b. State: model-drift-state.json/violations.json. Escalation → warden-escalation-pending.json → Yoda.
 
 ## Key Scripts & Infrastructure
-- `auto-heal.sh` (01:00 AEST, 19 checks) | `run-diagnostics.sh` (/diagnostics, 7 phases) | `ticket.sh` (ITSM+Notion) | `changelog-append.sh` (CHG+Notion) | `gateway-config-snapshot.sh`/`gateway-restore.sh` | `cost-tracker.sh` | `audit-skill.sh` | `telegram-alert.sh` (CHG-0262)
+- `auto-heal.sh` (01:00 AEST, 19 checks) | `run-diagnostics.sh` (/diagnostics, 7 phases) | `changelog-append.sh` (CHG+Notion) | `gateway-config-snapshot.sh`/`gateway-restore.sh` | `cost-tracker.sh` | `audit-skill.sh` | `telegram-alert.sh`
+- Ticket/sprint: see `infra/sandbox/seed/skills/pg-sprint-backlog/SKILL.md` (progressive disclosure)
 
 ## Operations Docs (locked)
 - Journal: Notion+`memory/journal-YYYY-MM-DD.md` | Blog: Notion+`canvas/documents/ainchors-YYYY-MM-DD/index.html`
@@ -67,28 +62,23 @@ Nexus=platform|Holocron=AKB|Bridge=cmd-centre|Citadel=client-portal|Holonet=live
 - Missed post → push to next slot (Tue 07:30→Wed 12:00→Thu 07:30→next Tue 07:30). Never post late. If slot taken, skip entirely. All Spark crons.
 
 ## Open Items
-- **Notion AKB Backlog** = SSOT. DB ID (create): `34dc1829-53ff-814b-8257-d3a3bf351d44`. DB ID (query): `34dc182953ff812d8e43000b83eb0e7e`.
-- LinkedIn ✅ connected. Instagram/Facebook/X not yet connected. Spark scope: IG/LI/FB/YT (CHG-0160).
-- ⚠️ TKT-0121: Ken to add HF API key to Keychain (LinkedIn FLUX image gen, CHG-0254).
+- Notion DB architecture: see TOOLS.md (CHG-0401 3-DB setup)
+- LinkedIn ✅ connected. Instagram/Facebook/X not yet connected. Spark scope: IG/LI/FB/YT.
+- ⚠️ TKT-0121: Ken to add HF API key to Keychain (LinkedIn FLUX image gen).
 
-## Kimi Safety Net — NON-NEGOTIABLE (CHG-0270)
-- Every agent: 3-level fallback → Primary→Secondary→`ollama/kimi-k2.6:cloud`. (Cause: 2026-05-13 key expiry, platform went dark.)
-- Chains: Yoda+Aria `sonnet→haiku→kimi` | Others `haiku→kimi→kimi`. New agents: kimi final fallback. Verify after key rotation.
+## Kimi Safety Net
+Model routing: see skill at `infra/sandbox/seed/skills/model-routing/SKILL.md` and `docs/Model3-Policy.md`
 
-## 4-Tier Model Strategy (Target — post OC2)
-- T0: systemEvent $0 | T1: Gemma4:26b local (OC2) $0 | T2: Ollama Cloud (kimi/deepseek) $100/mo | T3: Claude Sonnet FALLBACK ONLY
-- Client data = T0/T1 local ONLY. NEVER cloud. DS-1 to DS-5.
-- CURRENT (pre-OC2): Sonnet primary + Ollama Cloud T2. Ollama Pro: accounts@ainchors.com. PoC ✅ COMPLETE.
-- gemma4:31b-cloud: REMOVED from all agent allowlists 2026-05-09 (CHG-0250). No longer experimental—deprecated. TKT-0134 deferred post-OC2 commissioning.
+## 4-Tier Model Strategy
+Model routing: see skill at `infra/sandbox/seed/skills/model-routing/SKILL.md` and `docs/Model3-Policy.md`
 
 ## Security Controls (S1–S7)
-- S1: OC ≥ v2026.5.12 (window CHG-0353; current 2026.5.5) | S2-S6: see `RULES.md` | S7: NAS encrypted (post-OC2)
+- S1: OC ≥ v2026.5.12 | S2-S6: see `RULES.md` | S7: NAS encrypted (post-OC2)
 
 ## CHG Trigger Rules
-- T01: OC2→setup | T02: Both OC2→HA+NAS | T03: Gemma4→swap Haiku | T04: OC patch | T05: ✅ kimi T2 | T06: OC v4.0→P3+CrewAI | T07: P2 client→onboarding | T08: ✅ Auto-reload (CHG-0232)
-- T09: Warden drift→Yoda | T10: Aria→OC2 | T11: monthly model check | T12: ✅ Allowlist sync (CHG-0144) | T13: OC2+MinIO validated→TKT-0153 semantic memory.
+Model routing: see skill at `infra/sandbox/seed/skills/model-routing/SKILL.md` and `docs/Model3-Policy.md`
 
-## Tailscale (CHG-0227/228)
+## Tailscale
 - OC1 serve, `allowTailscale: true`, URL: `https://ainchorss-mac-mini.tail5e2567.ts.net`. S2 compliant.
 
 ## Platform Phase Definitions (LOCKED 2026-05-12 — Ken Mun)
@@ -102,19 +92,17 @@ Nexus=platform|Holocron=AKB|Bridge=cmd-centre|Citadel=client-portal|Holonet=live
 - KL, Malaysia. 4–5 headcount (Marketing/Dev/Support/Admin). Laptop+mobile, external network.
 - Access: Cloudflare Access (P1). Role-scoped IAM.
 
-## Sprint Capacity (CHG-0241)
-- Pre-OC2: 5/sprint | OC2 setup: 2–3 | Post-OC2: 5. 30% headroom. P2 target: end-Aug 2026 (contingency mid-Sep). **Daily budget cap: $150** (CHG-0268) | **TEMPORARY: $450 until 2026-05-17** (CHG-0312, heavy build phase).
+## Sprint Capacity
+- Pre-OC2: 5/sprint | OC2 setup: 2–3 | Post-OC2: 5. 30% headroom. P2 target: end-Aug 2026 (contingency mid-Sep). **Daily budget cap: $150** | **TEMPORARY: $450 until 2026-05-17** (heavy build phase). See changelog skill for CHG records.
 
 ## Pending Tickets
-→ See Notion AKB Backlog (SSOT) or `memory_search` for ticket history.
+→ Run `bash scripts/db-sprint.sh status` for current sprint. See `infra/sandbox/seed/skills/pg-sprint-backlog/SKILL.md` for full interface.
 
-## Anthropic API Key Rotation — SOP
-- Trigger: key expires/revoked. Ken: `openclaw models auth`. Yoda: `python3 scripts/propagate-anthropic-key.sh` → all 12 agents. Run immediately. (CHG-0142 + 2026-05-13)
+## Anthropic API Key Rotation
+Model routing: see skill at `infra/sandbox/seed/skills/model-routing/SKILL.md` and `docs/Model3-Policy.md`
 
-## Config Baseline (Day 20 — CHG-0306)
+## Config Baseline (Day 20)
 → See `state/critical-config-baseline.json` for live drift detection.
-- Defaults primary=Haiku, Warden=Haiku. BYOK+Nexus-first.
-- CI Cycle A/B decommissioned 2026-05-24 (CHG-0428). Replaced by Warden 15-min drift monitoring + monthly model strategy review.
 
 ## kimi Policy — DECOMMISSIONED 2026-05-26
 DeepSeek = permanent primary. kimi = fallback only. Full history: `memory/MEMORY-archive-2026-05-27.md`.
