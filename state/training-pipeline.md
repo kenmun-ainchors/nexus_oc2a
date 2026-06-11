@@ -215,6 +215,13 @@ _Maintained by Aria 🔵 + Yoda 🟢 | Status-tracked content for AInchors train
 | TC-193 | The database sequence that broke silently: silent infrastructure failures in AI platforms | 💡 Idea | Yoda Day 39 (CHG-0463 — PG sequence desync went undetected 2 days, auto-heal CHECK 17 added) | Yoda |
 | TC-194 | Closing a sprint with an AI team: ceremony discipline for automated operations | 💡 Idea | Yoda Day 39 (Sprint 6 close — 8 delivered, Sprint 7/8 re-sequence, cost tracking) | Aria |
 
+| TC-195 | The 7-layer defense chain: protecting your AI backlog from data drift | 💡 Idea | Yoda Day 40 (TKT-0406 — skill-gate → event hooks → batch cron → audit cron → one-way contract → auto-generated ceremony records → ceremony SSOT in PG) | Both |
+| TC-196 | "Done but not done": closing tickets when the work is already shipped | 💡 Idea | Yoda Day 40 (4 CREST §11.2 items built but never closed — administrative trail discipline) | Both |
+| TC-197 | The infinite backfill: fixing 3 bugs across 4 iterations to get data sync right | 💡 Idea | Yoda Day 40 (pg-to-notion-sync v2.0 — empty dates → null byte corruption → zsh keyword collision) | Yoda |
+| TC-198 | Your quiet hours are killing your cron jobs: the hidden heartbeat trap | 💡 Idea | Yoda Day 40 (CHG-0495 — activeHours blocking all overnight crons for 2 days silently) | Both |
+| TC-199 | Surviving a model swap: how we swapped 14 agents to minimax-m3 with a revert safety net | 💡 Idea | Yoda Day 40 (MiniMax M3 trial — 7 primaries + 7 fallback chains swapped, revert cron scheduled) | Both |
+| TC-200 | The skill gate pattern: turning discipline into code that blocks you from shortcuts | 💡 Idea | Yoda Day 40 (db.sh skill-gate — structural backstop preventing direct PG access without skill-load) | Yoda |
+
 ## Status Legend
 💡 Idea → 📝 Draft → 🔍 Review (Yoda validates) → ✅ Ready → 📢 Published
 
