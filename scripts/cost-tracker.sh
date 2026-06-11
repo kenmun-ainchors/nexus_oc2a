@@ -33,6 +33,8 @@ TURN_RATES = {
     "claude-haiku-4-5": 10409,
     "kimi-k2.6:cloud": 54000,
     "deepseek-v4-pro:cloud": 33847,
+    "minimax-m3:cloud": 30000,
+    "minimax-m3:cloud": 30000,
     "gemma4:31b-cloud": 14146,
     "gemma4:e2b": 11164,
     "claude-opus-4-7": 25000,
@@ -50,6 +52,8 @@ MODEL_RATES = {
     # Ollama Cloud — subscription-aligned fair-value (per 1M tokens: see cost-state.json)
     # Rates are per single token here (cost-state.json stores per 1M for readability)
     "deepseek-v4-pro:cloud": 0.0000000425,
+    "minimax-m3:cloud": 0.0000000380,
+    "minimax-m3:cloud": 0.0000000380,
     "kimi-k2.6:cloud": 0.0000000309,
     "gemma4:31b-cloud": 0.0000000155,
     "deepseek-v4-flash:cloud": 0.0000000108,
@@ -415,6 +419,8 @@ TURN_RATES = {
     "claude-haiku-4-5": 10409,
     "kimi-k2.6:cloud": 54000,
     "deepseek-v4-pro:cloud": 33847,
+    "minimax-m3:cloud": 30000,
+    "minimax-m3:cloud": 30000,
     "gemma4:31b-cloud": 14146,
     "gemma4:e2b": 11164,
     "claude-opus-4-7": 25000,
@@ -427,6 +433,8 @@ MODEL_RATES = {
     "claude-opus-4-7": 0.000015,
     # Ollama Cloud — subscription-aligned fair-value
     "deepseek-v4-pro:cloud": 0.0000000425,
+    "minimax-m3:cloud": 0.0000000380,
+    "minimax-m3:cloud": 0.0000000380,
     "kimi-k2.6:cloud": 0.0000000309,
     "gemma4:31b-cloud": 0.0000000155,
     "deepseek-v4-flash:cloud": 0.0000000108,

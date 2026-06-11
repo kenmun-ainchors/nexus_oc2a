@@ -4372,10 +4372,20 @@
       "status": "pass",
       "latencyMs": 0,
       "notes": "warden check (permanent baseline CHG-0394)"
+    },
+    {
+      "ts": "2026-06-11T23:07:04+10:00",
+      "date": "2026-06-11",
+      "tier": "T2",
+      "taskType": "warden-check",
+      "model": "ollama/gemma4:31b-cloud",
+      "status": "fail",
+      "latencyMs": 0,
+      "notes": "warden check: violations detected (exit 1)"
     }
   ],
   "summary": {
-    "total": 437,
+    "total": 438,
     "byTier": {
       "T1": {
         "pass": 0,
@@ -4384,7 +4394,7 @@
       },
       "T2": {
         "pass": 310,
-        "fail": 127,
+        "fail": 128,
         "timeout": 0
       },
       "T3": {
@@ -4396,7 +4406,7 @@
     "byTaskType": {
       "warden-check": {
         "pass": 293,
-        "fail": 127,
+        "fail": 128,
         "timeout": 0,
         "tier": "T2"
       },

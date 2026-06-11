@@ -21,7 +21,7 @@ NOTES="${3:-}"
 
 # ── Validate route-model.sh exists ───────────────────────────────────────────
 if [[ ! -f "$ROUTE_SCRIPT" ]]; then
-  echo "ollama/deepseek-v4-pro:cloud"  # conservative fallback (CHG-0413: Anthropic unavailable)
+  echo "ollama/minimax-m3:cloud"  # conservative fallback (CHG-0413: Anthropic unavailable)
   exit 0
 fi
 

@@ -30,9 +30,9 @@ while (( $# > 0 )); do
 done
 
 # ── Route governance sub-agents via tier routing engine (TKT-0039) ───────────
-SHIELD_MODEL=$(bash "$SCRIPTS_DIR/spawn-with-routing.sh" "shield-review" "content-governance-review.sh" "content-id=$CONTENT_ID" 2>/dev/null || echo "ollama/deepseek-v4-pro:cloud")
-LEX_MODEL=$(bash "$SCRIPTS_DIR/spawn-with-routing.sh" "lex-review" "content-governance-review.sh" "content-id=$CONTENT_ID" 2>/dev/null || echo "ollama/deepseek-v4-pro:cloud")
-SAGE_MODEL=$(bash "$SCRIPTS_DIR/spawn-with-routing.sh" "sage-review" "content-governance-review.sh" "content-id=$CONTENT_ID" 2>/dev/null || echo "ollama/deepseek-v4-pro:cloud")
+SHIELD_MODEL=$(bash "$SCRIPTS_DIR/spawn-with-routing.sh" "shield-review" "content-governance-review.sh" "content-id=$CONTENT_ID" 2>/dev/null || echo "ollama/minimax-m3:cloud")
+LEX_MODEL=$(bash "$SCRIPTS_DIR/spawn-with-routing.sh" "lex-review" "content-governance-review.sh" "content-id=$CONTENT_ID" 2>/dev/null || echo "ollama/minimax-m3:cloud")
+SAGE_MODEL=$(bash "$SCRIPTS_DIR/spawn-with-routing.sh" "sage-review" "content-governance-review.sh" "content-id=$CONTENT_ID" 2>/dev/null || echo "ollama/minimax-m3:cloud")
 
 [[ -z "$CONTENT_ID" ]] && { echo "ERROR: --content-id required (e.g. CONTENT-0001)" >&2; exit 1; }
 [[ -z "$FILE" ]]       && { echo "ERROR: --file required" >&2; exit 1; }

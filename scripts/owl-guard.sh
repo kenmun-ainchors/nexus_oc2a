@@ -162,14 +162,14 @@ log_atom() {
 
 # If called to log an atom, do that directly (bypasses currency detection)
 if [[ "${1:-}" == "--log-atom" ]]; then
-  OWL_MODEL="${OWL_MODEL:-ollama/deepseek-v4-pro:cloud}"
+  OWL_MODEL="${OWL_MODEL:-ollama/minimax-m3:cloud}"
   OWL_SESSION="${OWL_SESSION:-$(date +%s)}"
   log_atom "${2:-unknown}" "${3:-no description}" "${4:-}" "${5:-false}" "${6:-0}"
   echo "OWL: Atom logged — ${2:-unknown}" >&2
   exit 0
 fi
 
-OWL_MODEL="${OWL_MODEL:-ollama/deepseek-v4-pro:cloud}"
+OWL_MODEL="${OWL_MODEL:-ollama/minimax-m3:cloud}"
 OWL_SESSION="${OWL_SESSION:-$(date +%s)}"
 
 # Check for emergency override

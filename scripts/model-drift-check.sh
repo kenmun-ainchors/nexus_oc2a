@@ -358,7 +358,7 @@ if [ "$FALLBACK_STATUS" = "PASS" ]; then
   echo "  PASS  fallback chain → $FALLBACK_ACTUAL (derived from model-policy.json)"
 else
   FAIL=$((FAIL + 1))
-  FALLBACK_EXPECTED='["ollama/deepseek-v4-pro:cloud","ollama/kimi-k2.6:cloud"]'
+  FALLBACK_EXPECTED='["ollama/minimax-m3:cloud","ollama/kimi-k2.6:cloud"]'
   echo "  FAIL  fallback chain → actual=$FALLBACK_ACTUAL expected=$FALLBACK_EXPECTED [VIOLATION]"
   FINDINGS+=("{\"agentId\":\"default.fallbacks\",\"expected\":$FALLBACK_EXPECTED,\"actual\":$FALLBACK_ACTUAL,\"severity\":\"VIOLATION\",\"note\":\"Fallback chain drift breaks resilient outage handling.\",\"detectedAt\":\"$AEST_TIMESTAMP\"}")
 fi

@@ -136,7 +136,7 @@ fi
 echo "TQP: Claimed $TASK_ID — dispatched."
 
 # ──────────────────────────────────────────
-# ATOM 2.2: Task is now dispatched. The cron agent (deepseek-pro) will
+# ATOM 2.2: Task is now dispatched. The cron agent (minimax-m3) will
 # process the dispatch in its own session using sessions_spawn.
 # The TQP script just handles queue management — the actual execution
 # happens in the agent session that calls this script.

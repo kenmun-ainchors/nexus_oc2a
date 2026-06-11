@@ -6,8 +6,8 @@
 # TKT-0014 / CHG-0049
 
 # ── Tier Definitions ──────────────────────────────────────────────────────────
-TIER1="ollama/deepseek-v4-pro:cloud"   # Orchestration — Ken-facing, complex, multi-step (was Sonnet, CHG-0413: Anthropic unavailable)
-TIER2="ollama/deepseek-v4-pro:cloud"   # Sub-tasks — bounded, structured, governance (was Haiku, CHG-0413: Anthropic unavailable)
+TIER1="ollama/minimax-m3:cloud"   # Orchestration — Ken-facing, complex, multi-step (was Sonnet, CHG-0413: Anthropic unavailable)
+TIER2="ollama/minimax-m3:cloud"   # Sub-tasks — bounded, structured, governance (was Haiku, CHG-0413: Anthropic unavailable)
 TIER2B="ollama/kimi-k2.6:cloud"       # Descriptive/summary — RTB, reports, read+summarise (no complex tool chains)
 TIER3="ollama/gemma4:e2b"             # Background — offline crons, zero-cost batch
 FALLBACK="ollama/gemma4:26b"          # Emergency — offline when Anthropic API down

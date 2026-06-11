@@ -110,7 +110,7 @@ echo ""
 echo "✅ Cron specs generated. Agent should create each cron using the cron tool with:"
 echo "   - type: agentTurn"
 echo "   - deleteAfterRun: true"
-echo "   - model: ollama/deepseek-v4-pro:cloud"
+echo "   - model: ollama/minimax-m3:cloud"
 echo ""
 echo "   OR run the following openclaw cron add commands:"
 echo ""
@@ -135,6 +135,6 @@ for label, delta in intervals:
     fire_time = posted_at + delta
     fire_iso  = fire_time.strftime("%Y-%m-%dT%H:%M:%SZ")
     payload   = f"Run: zsh {snapshot_script} --content-id {content_id} --post-urn {post_urn} --interval {label} then confirm done."
-    print(f'openclaw cron add --type agentTurn --fire-at "{fire_iso}" --model "ollama/deepseek-v4-pro:cloud" --delete-after-run --label "{content_id}-snapshot-{label}" --payload "{payload}"')
+    print(f'openclaw cron add --type agentTurn --fire-at "{fire_iso}" --model "ollama/minimax-m3:cloud" --delete-after-run --label "{content_id}-snapshot-{label}" --payload "{payload}"')
     print()
 PYEOF
