@@ -6,7 +6,7 @@
 # TKT-0294: Unknown columns merged into metadata JSONB instead of failing.
 # TKT-0311: Fix silent failures when Python crashes and verify writes.
 
-DB="/Users/ainchorsangiefpl/.openclaw/workspace/scripts/db.sh"
+DB="/Users/ainchorsangiefpl/.openclaw/workspace/scripts/db-raw.sh"
 WORKSPACE="/Users/ainchorsangiefpl/.openclaw/workspace"
 TABLE="$1"; DATA="$2"; ID="${3:-}"
 

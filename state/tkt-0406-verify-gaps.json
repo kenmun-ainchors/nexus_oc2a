@@ -1,0 +1,67 @@
+{
+  "verify_run": "2026-06-11T13:05:00+10:00",
+  "verifier": "Yoda",
+  "document": "docs/TKT-0406-Agile-Sprint-Working-Model-Design-v1.0.md",
+  "author": "Lando",
+  "gaps_found": 7,
+  "gaps": [
+    {
+      "id": "GAP-01",
+      "severity": "MEDIUM",
+      "area": "Field Mapping",
+      "finding": "Field mapping table lists 13 PG→Notion mappings, but Notion DB A has 15 properties. Missing: 'Impact' (select) and 'Category' (select) are conflated under 'Stream/Category' but are separate Notion properties. Agent mapping to Stream vs Category needs explicit resolution.",
+      "requirement": "All 14+ Notion properties must have a defined PG source or explicit 'not applicable' designation",
+      "fix": "Add explicit rows for Impact and Category. Resolve Stream vs Category — likely metadata.agent → Stream, ticket type → Category"
+    },
+    {
+      "id": "GAP-02",
+      "severity": "HIGH",
+      "area": "Implementation Detail",
+      "finding": "Event-driven sync (Section 3) says 'call pg-to-notion-sync.sh' from db-ticket.sh — but db-ticket.sh already has a 'sync' subcommand. Ambiguous: does db-ticket.sh call the batch script (which processes ALL changed tickets), or does single-ticket sync need its own path? Calling the batch script for every create/update would be wasteful.",
+      "requirement": "Single-ticket sync must be fast and targeted. Batch sync is separate.",
+      "fix": "Clarify: db-ticket.sh sync subcommand handles single-ticket sync directly via Notion API. pg-to-notion-sync.sh is the batch reconciliation tool. Event hooks call db-ticket.sh sync for the specific ticket, not the batch script."
+    },
+    {
+      "id": "GAP-03",
+      "severity": "MEDIUM",
+      "area": "Edge Cases",
+      "finding": "No handling for the 'In Sprint' status mapping edge case. If sprint_target changes (ticket moved to different sprint), Notion Status should reflect the new sprint context. If ticket is open but NOT in any sprint, it should be 'Backlog' not 'In Sprint'.",
+      "requirement": "Status mapping must handle sprint transitions: open+sprint→In Sprint, open+no_sprint→Backlog, open+sprint but sprint is completed→?",
+      "fix": "Add pseudocode for status derivation: if status=open AND metadata.sprint_target IS NOT NULL AND sprint is active → 'In Sprint'. If status=open AND no sprint → 'Backlog'. If status=open but sprint is completed → 'Backlog'."
+    },
+    {
+      "id": "GAP-04",
+      "severity": "HIGH",
+      "area": "Create Flow",
+      "finding": "No mention that the current 'db-ticket.sh create' flow writes tickets with minimal metadata (we just saw TKT-0406 created with only 'notionSynced: false'). The design assumes create triggers a full sync, but if PG metadata is incomplete at create time, the Notion page will be sparse.",
+      "requirement": "Ticket creation must populate sufficient metadata (effort, agent, brief, sprint_target if known) to support a meaningful Notion sync. Or the create sync must be deferred until grooming is done.",
+      "fix": "Two options: (A) create only writes to PG, sync is triggered by first groom/update — prevents sparse Notion pages. (B) create flow is enhanced to collect effort, agent, brief, sprint_target upfront. Recommend (A) — create→PG only, first groom→Notion sync."
+    },
+    {
+      "id": "GAP-05",
+      "severity": "MEDIUM",
+      "area": "Backfill",
+      "finding": "Phase 4 backfill mentions 'batches of 50' but Notion API rate limit is 3 requests/second. 331 tickets × 1 read (query-before) + 1 write = ~662 API calls minimum. At 3/sec that's ~220 seconds. Batches of 50 would hit rate limits within each batch unless sleep is added.",
+      "requirement": "Backfill must include explicit rate-limiting: sleep 350ms between API calls, max 3 requests/second",
+      "fix": "Add to Phase 4: rate limiting of 350ms sleep between API calls. Batch size of 50 with ~17 second pause between batches. Total backfill runtime: ~4 minutes."
+    },
+    {
+      "id": "GAP-06",
+      "severity": "HIGH",
+      "area": "Sprint Assignment",
+      "finding": "No design for how tickets get assigned to sprints in the first place. The original problem: 300/331 tickets have no sprint. The design covers syncing sprint data TO Notion, but doesn't address the upstream problem that tickets are created without sprint assignment.",
+      "requirement": "Ticket creation flow must include sprint assignment, or there must be a sprint triage process that ensures tickets get sprint assignments.",
+      "fix": "Add to Section 1 (Ticket Lifecycle): after 'Create', add 'Sprint Triage' step — all open tickets without sprint are reviewed during sprint planning and batch-assigned. Or: db-ticket.sh create flow asks 'Assign to current sprint? [Y/n]' and sets sprint_target on creation."
+    },
+    {
+      "id": "GAP-07",
+      "severity": "LOW",
+      "area": "Testing",
+      "finding": "No mention of testing strategy. No dry-run mode, no staging validation before production backfill.",
+      "requirement": "All sync operations need a --dry-run flag. Backfill must be tested on a small batch (5 tickets) before full run.",
+      "fix": "Add to Phase 4: backfill.sh must have --dry-run flag. Run on 5 tickets first, verify in Notion, then full run."
+    }
+  ],
+  "verdict": "NOT_READY_FOR_REVIEW",
+  "verdict_reason": "7 gaps found (2 HIGH, 4 MEDIUM, 1 LOW). GAP-02 and GAP-04 are blocking — they affect core architecture decisions. GAP-06 is the root cause of the original problem. Document needs revision before Atlas/Thrawn review."
+}

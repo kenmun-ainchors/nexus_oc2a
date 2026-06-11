@@ -258,7 +258,7 @@ if [[ "$HAS_SUB_CREST" == "yes" ]]; then
   # and atoms execute against non-existent or degraded tickets.
   PARENT_TICKET_ID=$(echo "$JSON_INPUT" | "$JQ" -r '.parent_ticket_id // empty' 2>/dev/null)
   if [[ -n "$PARENT_TICKET_ID" ]]; then
-    if RESULT=$("$SCRIPT_DIR/db.sh" -c "SELECT id FROM state_tickets WHERE id = '$PARENT_TICKET_ID';" 2>/dev/null); then
+    if RESULT=$("$SCRIPT_DIR/db-raw.sh" -c "SELECT id FROM state_tickets WHERE id = '$PARENT_TICKET_ID';" 2>/dev/null); then
       if echo "$RESULT" | grep -q "$PARENT_TICKET_ID"; then
         if $VERBOSE; then
           echo "$($JQ -n --arg f "parent_ticket_id" '{"field":$f,"status":"ok","note":"ticket exists in PG"}')"

@@ -1,0 +1,133 @@
+{
+  "id": "360c1829-53ff-8105-941f-d46f7a022a9a",
+  "properties": {
+    "Notes": {
+      "id": "%3AQXQ",
+      "type": "rich_text",
+      "rich_text": [
+        {
+          "type": "text",
+          "text": {
+            "content": "Implement PII scanner as a mandatory gate on all document ingestion before chunking or embedding. This is an APP 11 (Privacy Act 1988) compliance control and a prerequisite for the RAG pipeline (TKT-0170). Scope: (1) Install spaCy with en_core_web_lg model on OC1 (lightweight, local, no data residency risk). Note: evaluate Microsoft Presidio as alternative — Ken to confirm preference (Presidio = heavier but better entity detection for structured data). (2) Build PII scanner script: scripts/pii-scan.sh <document_path> — returns JSON: {pii_present: bool, entities_found: [], risk_level: [low|medium|high]}. (3) Wire into document ingestion path: before any document is chunked or embedded, must pass scanner. (4) Set pii_present flag on knowledge_documents table record. (5) Block embedding when pii_present=TRUE without explicit Compliance Agent (Lex) approval. (6) Wire pii_detected event to agent_events table — triggers Lex review queue. (7) Build deletion capability: scripts/purge-document.sh <document_id> — removes all chunks and embeddings for a document (data subject deletion right, APP 12). Dependencies: TKT-0164 (Postgres for event logging). Precondition for TKT-0170 (RAG pipeline). Owner: Forge (build), Lex (policy approval). DoD: scanner live, pii_present flag on schema, block gate enforced, deletion script working.",
+            "link": null
+          },
+          "annotations": {
+            "bold": false,
+            "italic": false,
+            "strikethrough": false,
+            "underline": false,
+            "code": false,
+            "color": "default"
+          },
+          "plain_text": "Implement PII scanner as a mandatory gate on all document ingestion before chunking or embedding. This is an APP 11 (Privacy Act 1988) compliance control and a prerequisite for the RAG pipeline (TKT-0170). Scope: (1) Install spaCy with en_core_web_lg model on OC1 (lightweight, local, no data residency risk). Note: evaluate Microsoft Presidio as alternative — Ken to confirm preference (Presidio = heavier but better entity detection for structured data). (2) Build PII scanner script: scripts/pii-scan.sh <document_path> — returns JSON: {pii_present: bool, entities_found: [], risk_level: [low|medium|high]}. (3) Wire into document ingestion path: before any document is chunked or embedded, must pass scanner. (4) Set pii_present flag on knowledge_documents table record. (5) Block embedding when pii_present=TRUE without explicit Compliance Agent (Lex) approval. (6) Wire pii_detected event to agent_events table — triggers Lex review queue. (7) Build deletion capability: scripts/purge-document.sh <document_id> — removes all chunks and embeddings for a document (data subject deletion right, APP 12). Dependencies: TKT-0164 (Postgres for event logging). Precondition for TKT-0170 (RAG pipeline). Owner: Forge (build), Lex (policy approval). DoD: scanner live, pii_present flag on schema, block gate enforced, deletion script working.",
+          "href": null
+        }
+      ]
+    },
+    "Created Date": {
+      "id": "%3A%7BT%3E",
+      "type": "date",
+      "date": {
+        "start": "2026-05-14",
+        "end": null,
+        "time_zone": null
+      }
+    },
+    "Priority": {
+      "id": "Eqzw",
+      "type": "select",
+      "select": {
+        "id": "086c57f9-00f7-4c6a-a24a-d614885a73ea",
+        "name": "High",
+        "color": "orange"
+      }
+    },
+    "Category": {
+      "id": "GLXS",
+      "type": "select",
+      "select": null
+    },
+    "Effort": {
+      "id": "Hn%60N",
+      "type": "select",
+      "select": null
+    },
+    "Sprint Date": {
+      "id": "In%7DH",
+      "type": "date",
+      "date": null
+    },
+    "Stream": {
+      "id": "O%7B%3D%7C",
+      "type": "select",
+      "select": null
+    },
+    "Impact": {
+      "id": "Pl~b",
+      "type": "select",
+      "select": null
+    },
+    "Sprint": {
+      "id": "%5BqSX",
+      "type": "select",
+      "select": null
+    },
+    "Type": {
+      "id": "%5Clgh",
+      "type": "select",
+      "select": {
+        "id": "c5a1c08e-f13b-4ec2-bd09-a9b7e3fb021a",
+        "name": "TKT",
+        "color": "yellow"
+      }
+    },
+    "Delivered Date": {
+      "id": "diV%3C",
+      "type": "date",
+      "date": null
+    },
+    "Status": {
+      "id": "gzuH",
+      "type": "select",
+      "select": {
+        "id": "421dc0b2-dd20-43dc-a617-102656e706e8",
+        "name": "Backlog",
+        "color": "gray"
+      }
+    },
+    "Yoda Assessment": {
+      "id": "p_og",
+      "type": "rich_text",
+      "rich_text": []
+    },
+    "Planned Date": {
+      "id": "%7BqbQ",
+      "type": "date",
+      "date": null
+    },
+    "US Title": {
+      "id": "title",
+      "type": "title",
+      "title": [
+        {
+          "type": "text",
+          "text": {
+            "content": "[TKT-0170] [TKT-0170] PII Scanner on Document Ingestion Pipeline (TKT-0162 Phase 1, WP7)",
+            "link": null
+          },
+          "annotations": {
+            "bold": false,
+            "italic": false,
+            "strikethrough": false,
+            "underline": false,
+            "code": false,
+            "color": "default"
+          },
+          "plain_text": "[TKT-0170] [TKT-0170] PII Scanner on Document Ingestion Pipeline (TKT-0162 Phase 1, WP7)",
+          "href": null
+        }
+      ]
+    }
+  },
+  "last_edited_time": "2026-05-26T11:00:00.000Z"
+}

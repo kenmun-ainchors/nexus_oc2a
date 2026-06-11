@@ -37,8 +37,20 @@
 - **Cheap-tier:** Forge, infra, specialist executors — mechanical work (execute, synthesize). Efficient models.
 - **Replan Gate:** Critical decision hub. Gap found → iterate back to Execute (n++). Stop met → advance to Synthesize.
 - **Routing:** Yoda plans typed DAG → queues atoms via TQP → cheap-tier executes → Yoda binary-judges 0–1 per atom → Replan → Synthesize → Done emits audit.
-- **Cross-strong-tier:** Yoda ↔ Atlas/Thrawn coordination deferred to design stage.
+- **Cross-strong-tier:** Yoda ↔ Atlas/Thrown coordination deferred to design stage.
 - **CREST Loop:** see docs/CREST-v1.2-Recursive-Model-C.md (LOCKED, dual PASS)
+
+### CREST Enforcement Rules — NON-NEGOTIABLE (LOCKED 2026-06-11)
+**Trigger:** ANY state change, ticket operation, config mutation, or platform operation — regardless of perceived size.
+
+1. **No silent execution.** Before touching any tool for an operational task, output the Plan phase explicitly. Even single-atom tasks get a 1-line plan.
+2. **Skill-gate always.** Before calling any domain script (db-ticket.sh, db-sprint.sh, changelog-append.sh, dispatch-validate.sh, telegram-alert.sh, pg-to-notion-sync.sh), run `bash scripts/skill-load.sh <name>` after reading the SKILL.md. Domain scripts now BLOCK if skill not in session registry (TKT-0396).
+3. **No tribal knowledge.** Skills (pg-sprint-backlog, changelog, telegram, model-routing) were extracted from MEMORY.md/AGENTS.md into progressive-disclosure SKILL.md files on 2026-06-10. Reference the skill, not inline memory. Working memory = WHAT (rules), skills = HOW (procedures).
+4. **Model tier discipline.** Plan/Verify/Replan = strong models. Execute/Synthesize = cheap models. Yoda never does specialist Execute work directly — dispatch to Forge or the appropriate specialist agent.
+5. **Triage mode is not an exemption.** Processing a queue of Ken alerts does not suspend CREST. Each alert that requires operational action starts a new CREST loop.
+6. **Self-check:** If Ken has to ask "did you use CREST?" or "did you load the skill?" — that's a violation. Log it immediately to LESSONS.md.
+
+**Violations:** 3 strikes on Jun 11 (tilde fix, timeout batch-apply, ticket update) — all bypassed CREST + skill-gate. Root cause: triage-mode momentum treating operational tasks as chat replies. Fix: structural rule above.
 
 # Governance Agents
 - **Shield🛡️/Lex⚖️/Sage🧪** — Haiku. Move to Gemma4 at TRIGGER-03.

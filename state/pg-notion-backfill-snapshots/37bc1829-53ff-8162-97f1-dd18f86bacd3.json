@@ -1,0 +1,111 @@
+{
+  "id": "37bc1829-53ff-8162-97f1-dd18f86bacd3",
+  "properties": {
+    "Notes": {
+      "id": "%3AQXQ",
+      "type": "rich_text",
+      "rich_text": []
+    },
+    "Created Date": {
+      "id": "%3A%7BT%3E",
+      "type": "date",
+      "date": null
+    },
+    "Priority": {
+      "id": "Eqzw",
+      "type": "select",
+      "select": {
+        "id": "efb65466-b9ef-43f0-bcd9-0616de8ec5e7",
+        "name": "Medium",
+        "color": "yellow"
+      }
+    },
+    "Category": {
+      "id": "GLXS",
+      "type": "select",
+      "select": null
+    },
+    "Effort": {
+      "id": "Hn%60N",
+      "type": "select",
+      "select": null
+    },
+    "Sprint Date": {
+      "id": "In%7DH",
+      "type": "date",
+      "date": null
+    },
+    "Stream": {
+      "id": "O%7B%3D%7C",
+      "type": "select",
+      "select": null
+    },
+    "Impact": {
+      "id": "Pl~b",
+      "type": "select",
+      "select": null
+    },
+    "Sprint": {
+      "id": "%5BqSX",
+      "type": "select",
+      "select": null
+    },
+    "Type": {
+      "id": "%5Clgh",
+      "type": "select",
+      "select": {
+        "id": "c5a1c08e-f13b-4ec2-bd09-a9b7e3fb021a",
+        "name": "TKT",
+        "color": "yellow"
+      }
+    },
+    "Delivered Date": {
+      "id": "diV%3C",
+      "type": "date",
+      "date": null
+    },
+    "Status": {
+      "id": "gzuH",
+      "type": "select",
+      "select": {
+        "id": "5255e93b-eb41-4478-ad5d-1fc775fcffe0",
+        "name": "Done",
+        "color": "green"
+      }
+    },
+    "Yoda Assessment": {
+      "id": "p_og",
+      "type": "rich_text",
+      "rich_text": []
+    },
+    "Planned Date": {
+      "id": "%7BqbQ",
+      "type": "date",
+      "date": null
+    },
+    "US Title": {
+      "id": "title",
+      "type": "title",
+      "title": [
+        {
+          "type": "text",
+          "text": {
+            "content": "[TKT-0395] Mirror-Writer Operationalisation — Verify/Merge Heartbeat PR + Deploy Existing Writer",
+            "link": null
+          },
+          "annotations": {
+            "bold": false,
+            "italic": false,
+            "strikethrough": false,
+            "underline": false,
+            "code": false,
+            "color": "default"
+          },
+          "plain_text": "[TKT-0395] Mirror-Writer Operationalisation — Verify/Merge Heartbeat PR + Deploy Existing Writer",
+          "href": null
+        }
+      ]
+    }
+  },
+  "last_edited_time": "2026-06-11T03:35:00.000Z"
+}

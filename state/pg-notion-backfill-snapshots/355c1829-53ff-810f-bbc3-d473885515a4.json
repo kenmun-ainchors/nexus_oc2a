@@ -1,0 +1,137 @@
+{
+  "id": "355c1829-53ff-810f-bbc3-d473885515a4",
+  "properties": {
+    "Notes": {
+      "id": "%3AQXQ",
+      "type": "rich_text",
+      "rich_text": [
+        {
+          "type": "text",
+          "text": {
+            "content": "AInchors is moving toward delivering AI consulting services. Platform must eventually support multiple clients without cross-contamination. Explore containerised OpenClaw as the path to SaaS delivery. Key questions to answer: (1) Container model — Docker/Podman per-client container? Shared gateway, isolated agent workspaces? What does OpenClaw's container support actually provide today? (2) OC2 architecture — how do OC2-A and OC2-B (48GB M4 Pro, July 2026) fit into a containerised deployment? Can OC2 run per-client containers with local model inference? (3) Client isolation — data isolation (client data never crosses agent boundaries), access isolation (client can only see their own data), agent isolation (client agents run in separate containers/namespaces). (4) Interim architecture — what can be done on OC1 now before OC2 arrives? Namespace-based isolation? Separate agent workspaces per client? (5) Target architecture — what does a production SaaS deployment look like at 10 clients? 50 clients? (6) Security implications — S4 (least privilege), data sovereignty, AU compliance per client. Deliverable: architecture proposal with interim (OC1 now) and target (OC2 + containers) states. Ken decision gate before any implementation.",
+            "link": null
+          },
+          "annotations": {
+            "bold": false,
+            "italic": false,
+            "strikethrough": false,
+            "underline": false,
+            "code": false,
+            "color": "default"
+          },
+          "plain_text": "AInchors is moving toward delivering AI consulting services. Platform must eventually support multiple clients without cross-contamination. Explore containerised OpenClaw as the path to SaaS delivery. Key questions to answer: (1) Container model — Docker/Podman per-client container? Shared gateway, isolated agent workspaces? What does OpenClaw's container support actually provide today? (2) OC2 architecture — how do OC2-A and OC2-B (48GB M4 Pro, July 2026) fit into a containerised deployment? Can OC2 run per-client containers with local model inference? (3) Client isolation — data isolation (client data never crosses agent boundaries), access isolation (client can only see their own data), agent isolation (client agents run in separate containers/namespaces). (4) Interim architecture — what can be done on OC1 now before OC2 arrives? Namespace-based isolation? Separate agent workspaces per client? (5) Target architecture — what does a production SaaS deployment look like at 10 clients? 50 clients? (6) Security implications — S4 (least privilege), data sovereignty, AU compliance per client. Deliverable: architecture proposal with interim (OC1 now) and target (OC2 + containers) states. Ken decision gate before any implementation.",
+          "href": null
+        }
+      ]
+    },
+    "Created Date": {
+      "id": "%3A%7BT%3E",
+      "type": "date",
+      "date": {
+        "start": "2026-05-03",
+        "end": null,
+        "time_zone": null
+      }
+    },
+    "Priority": {
+      "id": "Eqzw",
+      "type": "select",
+      "select": {
+        "id": "086c57f9-00f7-4c6a-a24a-d614885a73ea",
+        "name": "High",
+        "color": "orange"
+      }
+    },
+    "Category": {
+      "id": "GLXS",
+      "type": "select",
+      "select": null
+    },
+    "Effort": {
+      "id": "Hn%60N",
+      "type": "select",
+      "select": null
+    },
+    "Sprint Date": {
+      "id": "In%7DH",
+      "type": "date",
+      "date": null
+    },
+    "Stream": {
+      "id": "O%7B%3D%7C",
+      "type": "select",
+      "select": null
+    },
+    "Impact": {
+      "id": "Pl~b",
+      "type": "select",
+      "select": null
+    },
+    "Sprint": {
+      "id": "%5BqSX",
+      "type": "select",
+      "select": null
+    },
+    "Type": {
+      "id": "%5Clgh",
+      "type": "select",
+      "select": {
+        "id": "c5a1c08e-f13b-4ec2-bd09-a9b7e3fb021a",
+        "name": "TKT",
+        "color": "yellow"
+      }
+    },
+    "Delivered Date": {
+      "id": "diV%3C",
+      "type": "date",
+      "date": {
+        "start": "2026-05-17",
+        "end": null,
+        "time_zone": null
+      }
+    },
+    "Status": {
+      "id": "gzuH",
+      "type": "select",
+      "select": {
+        "id": "5255e93b-eb41-4478-ad5d-1fc775fcffe0",
+        "name": "Done",
+        "color": "green"
+      }
+    },
+    "Yoda Assessment": {
+      "id": "p_og",
+      "type": "rich_text",
+      "rich_text": []
+    },
+    "Planned Date": {
+      "id": "%7BqbQ",
+      "type": "date",
+      "date": null
+    },
+    "US Title": {
+      "id": "title",
+      "type": "title",
+      "title": [
+        {
+          "type": "text",
+          "text": {
+            "content": "[TKT-0045] [ORPHAN] [TKT-0045] US-ARCH: Explore containerised OpenClaw — SaaS architecture with client, data and agent isolation",
+            "link": null
+          },
+          "annotations": {
+            "bold": false,
+            "italic": false,
+            "strikethrough": false,
+            "underline": false,
+            "code": false,
+            "color": "default"
+          },
+          "plain_text": "[TKT-0045] [ORPHAN] [TKT-0045] US-ARCH: Explore containerised OpenClaw — SaaS architecture with client, data and agent isolation",
+          "href": null
+        }
+      ]
+    }
+  },
+  "last_edited_time": "2026-05-26T10:58:00.000Z"
+}

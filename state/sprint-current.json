@@ -1,22 +1,13 @@
 {
   "sprint": 7,
+  "name": "Sprint 7",
   "dates": "2026-06-08 to 2026-06-14",
   "status": "committed",
-  "theme": "Sprint 6 Carries — Close Out",
-  "updated_at": "2026-06-07T10:13:00+10:00",
-  "updated_by": "Ken Mun",
-  "previous_sprint": {
-    "sprint": 6,
-    "status": "closed",
-    "committed": 5,
-    "done": 5,
-    "bonus": 3,
-    "total": 8
+  "ceremoniesCompleted": {
+    "sprint7Review": "2026-06-11T12:00:01+10:00",
+    "sprint7Planning": "2026-06-11T11:59:54+10:00"
   },
-  "next_sprint": {
-    "sprint": 8,
-    "dates": "2026-06-15 to 2026-06-21",
-    "theme": "Platform Constraint Enforcement + PG SSOT Remediation",
-    "tickets": 21
-  }
+  "auto_generated": true,
+  "source": "PG state_sprints",
+  "generated_at": "2026-06-11T12:00:01+10:00"
 }

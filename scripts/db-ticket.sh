@@ -423,9 +423,9 @@ cmd_create() {
         '. + [$new]' "$TICKET_FILE" > "$tmp_json" 2>/dev/null && mv "$tmp_json" "$TICKET_FILE"
     fi
     
-    # Trigger Notion sync
-    bash "$SYNC_SCRIPT" > /dev/null 2>&1 &
-    log "Notion sync triggered in background."
+    # TKT-0406: Defer Notion sync to first groom (no sparse pages)
+    # Sync is triggered by db-ticket.sh groom or update instead
+    log "Ticket created in PG. Notion sync deferred to first groom."
   else
     # Check if write actually succeeded despite non-zero
     if ticket_exists "$tkt_id"; then
@@ -524,6 +524,9 @@ cmd_update() {
     
     log "Ticket $tkt_id updated."
     
+    # TKT-0406: Trigger single-ticket Notion sync in background
+    bash "$0" sync "$tkt_id" > /dev/null 2>&1 &
+    
     # Update tickets.json fallback
     if [[ -f "$TICKET_FILE" ]]; then
       local tmp_json
@@ -538,6 +541,9 @@ cmd_update() {
       log "WARNING: PG write degraded ($write_result). Ticket may only exist in file fallback."
     else
       log "Ticket $tkt_id updated."
+      
+      # TKT-0406: Trigger single-ticket Notion sync in background
+      bash "$0" sync "$tkt_id" > /dev/null 2>&1 &
       
       # Update tickets.json fallback
       if [[ -f "$TICKET_FILE" ]]; then
@@ -617,6 +623,9 @@ cmd_groom() {
   
   write_metadata "$tkt_id" "$updated_meta"
   log "Grooming entry appended to $tkt_id"
+  
+  # TKT-0406: First groom triggers initial Notion sync (deferred from create)
+  bash "$0" sync "$tkt_id" > /dev/null 2>&1 &
 }
 
 # ──────────────────────────────────────────────

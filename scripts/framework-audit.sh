@@ -143,7 +143,7 @@ json.dump(state, open(audit_state_path, "w"), indent=2)
 
 # ── PG WRITE: state_frameworks — update last_audited for each checked doc ──
 import subprocess as _sp
-db_sh = os.path.join(os.environ.get("WORKSPACE", str(Path.home() / ".openclaw/workspace")), "scripts", "db.sh")
+db_sh = os.path.join(os.environ.get("WORKSPACE", str(Path.home() / ".openclaw/workspace")), "scripts", "db-raw.sh")
 for entry in checked:
     rel_path = str(Path(entry["path"]).relative_to(Path.home() / ".openclaw/workspace")) if str(Path.home() / ".openclaw/workspace") in entry["path"] else entry["path"]
     result = "current" if entry["updatedToday"] else "stale"

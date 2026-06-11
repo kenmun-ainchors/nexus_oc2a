@@ -1,7 +1,7 @@
 #!/bin/bash
 # sync-check.sh — Compare Postgres row counts vs JSON file record counts
 # Usage: bash scripts/sync-check.sh
-DB="/Users/ainchorsangiefpl/.openclaw/workspace/scripts/db.sh"
+DB="/Users/ainchorsangiefpl/.openclaw/workspace/scripts/db-raw.sh"
 WORKSPACE="/Users/ainchorsangiefpl/.openclaw/workspace"
 
 echo "=== PG vs File Sync Check $(date) ==="

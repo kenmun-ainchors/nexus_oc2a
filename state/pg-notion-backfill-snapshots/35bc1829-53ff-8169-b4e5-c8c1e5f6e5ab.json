@@ -1,0 +1,133 @@
+{
+  "id": "35bc1829-53ff-8169-b4e5-c8c1e5f6e5ab",
+  "properties": {
+    "Notes": {
+      "id": "%3AQXQ",
+      "type": "rich_text",
+      "rich_text": [
+        {
+          "type": "text",
+          "text": {
+            "content": "2026-05-10: Elevated to sprint item. Phantom delegation_fail alerts firing repeatedly (3,761 entries, all empty task/agent/error). Fix: exclude empty-field entries from delegation_fail check in obs-collector. | COMPLETE 2026-05-10. Two fixes in obs-collector.sh: (1) delegation_fail phantom guard: skip entries where task+agent+error all empty (latency tracking records, not real failures). (2) CHECK Q cron_run_fail deduplication: added lastRunEpoch check to prevent re-logging same cron failures on every 5-min collector run. Test: 3761 phantom entries -> 0 logged. Collector run: 0 new events (correct). CHG-0266.",
+            "link": null
+          },
+          "annotations": {
+            "bold": false,
+            "italic": false,
+            "strikethrough": false,
+            "underline": false,
+            "code": false,
+            "color": "default"
+          },
+          "plain_text": "2026-05-10: Elevated to sprint item. Phantom delegation_fail alerts firing repeatedly (3,761 entries, all empty task/agent/error). Fix: exclude empty-field entries from delegation_fail check in obs-collector. | COMPLETE 2026-05-10. Two fixes in obs-collector.sh: (1) delegation_fail phantom guard: skip entries where task+agent+error all empty (latency tracking records, not real failures). (2) CHECK Q cron_run_fail deduplication: added lastRunEpoch check to prevent re-logging same cron failures on every 5-min collector run. Test: 3761 phantom entries -> 0 logged. Collector run: 0 new events (correct). CHG-0266.",
+          "href": null
+        }
+      ]
+    },
+    "Created Date": {
+      "id": "%3A%7BT%3E",
+      "type": "date",
+      "date": {
+        "start": "2026-05-09",
+        "end": null,
+        "time_zone": null
+      }
+    },
+    "Priority": {
+      "id": "Eqzw",
+      "type": "select",
+      "select": {
+        "id": "efb65466-b9ef-43f0-bcd9-0616de8ec5e7",
+        "name": "Medium",
+        "color": "yellow"
+      }
+    },
+    "Category": {
+      "id": "GLXS",
+      "type": "select",
+      "select": null
+    },
+    "Effort": {
+      "id": "Hn%60N",
+      "type": "select",
+      "select": null
+    },
+    "Sprint Date": {
+      "id": "In%7DH",
+      "type": "date",
+      "date": null
+    },
+    "Stream": {
+      "id": "O%7B%3D%7C",
+      "type": "select",
+      "select": null
+    },
+    "Impact": {
+      "id": "Pl~b",
+      "type": "select",
+      "select": null
+    },
+    "Sprint": {
+      "id": "%5BqSX",
+      "type": "select",
+      "select": null
+    },
+    "Type": {
+      "id": "%5Clgh",
+      "type": "select",
+      "select": {
+        "id": "c5a1c08e-f13b-4ec2-bd09-a9b7e3fb021a",
+        "name": "TKT",
+        "color": "yellow"
+      }
+    },
+    "Delivered Date": {
+      "id": "diV%3C",
+      "type": "date",
+      "date": null
+    },
+    "Status": {
+      "id": "gzuH",
+      "type": "select",
+      "select": {
+        "id": "5255e93b-eb41-4478-ad5d-1fc775fcffe0",
+        "name": "Done",
+        "color": "green"
+      }
+    },
+    "Yoda Assessment": {
+      "id": "p_og",
+      "type": "rich_text",
+      "rich_text": []
+    },
+    "Planned Date": {
+      "id": "%7BqbQ",
+      "type": "date",
+      "date": null
+    },
+    "US Title": {
+      "id": "title",
+      "type": "title",
+      "title": [
+        {
+          "type": "text",
+          "text": {
+            "content": "[TKT-0112] [ARCHIVED] [TKT-0112] obs-collector: cron run failures not captured in obs.db",
+            "link": null
+          },
+          "annotations": {
+            "bold": false,
+            "italic": false,
+            "strikethrough": false,
+            "underline": false,
+            "code": false,
+            "color": "default"
+          },
+          "plain_text": "[TKT-0112] [ARCHIVED] [TKT-0112] obs-collector: cron run failures not captured in obs.db",
+          "href": null
+        }
+      ]
+    }
+  },
+  "last_edited_time": "2026-05-26T10:59:00.000Z"
+}

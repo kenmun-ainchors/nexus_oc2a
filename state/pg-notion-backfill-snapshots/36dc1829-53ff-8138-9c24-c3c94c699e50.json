@@ -1,0 +1,111 @@
+{
+  "id": "36dc1829-53ff-8138-9c24-c3c94c699e50",
+  "properties": {
+    "Notes": {
+      "id": "%3AQXQ",
+      "type": "rich_text",
+      "rich_text": []
+    },
+    "Created Date": {
+      "id": "%3A%7BT%3E",
+      "type": "date",
+      "date": null
+    },
+    "Priority": {
+      "id": "Eqzw",
+      "type": "select",
+      "select": {
+        "id": "086c57f9-00f7-4c6a-a24a-d614885a73ea",
+        "name": "High",
+        "color": "orange"
+      }
+    },
+    "Category": {
+      "id": "GLXS",
+      "type": "select",
+      "select": null
+    },
+    "Effort": {
+      "id": "Hn%60N",
+      "type": "select",
+      "select": null
+    },
+    "Sprint Date": {
+      "id": "In%7DH",
+      "type": "date",
+      "date": null
+    },
+    "Stream": {
+      "id": "O%7B%3D%7C",
+      "type": "select",
+      "select": null
+    },
+    "Impact": {
+      "id": "Pl~b",
+      "type": "select",
+      "select": null
+    },
+    "Sprint": {
+      "id": "%5BqSX",
+      "type": "select",
+      "select": null
+    },
+    "Type": {
+      "id": "%5Clgh",
+      "type": "select",
+      "select": {
+        "id": "c5a1c08e-f13b-4ec2-bd09-a9b7e3fb021a",
+        "name": "TKT",
+        "color": "yellow"
+      }
+    },
+    "Delivered Date": {
+      "id": "diV%3C",
+      "type": "date",
+      "date": null
+    },
+    "Status": {
+      "id": "gzuH",
+      "type": "select",
+      "select": {
+        "id": "7295b935-7a78-4942-84d2-0535c8c78e86",
+        "name": "Closed",
+        "color": "gray"
+      }
+    },
+    "Yoda Assessment": {
+      "id": "p_og",
+      "type": "rich_text",
+      "rich_text": []
+    },
+    "Planned Date": {
+      "id": "%7BqbQ",
+      "type": "date",
+      "date": null
+    },
+    "US Title": {
+      "id": "title",
+      "type": "title",
+      "title": [
+        {
+          "type": "text",
+          "text": {
+            "content": "[TKT-0314] Fix Cost Tracking Gap — Restore cost-state.json from PG",
+            "link": null
+          },
+          "annotations": {
+            "bold": false,
+            "italic": false,
+            "strikethrough": false,
+            "underline": false,
+            "code": false,
+            "color": "default"
+          },
+          "plain_text": "[TKT-0314] Fix Cost Tracking Gap — Restore cost-state.json from PG",
+          "href": null
+        }
+      ]
+    }
+  },
+  "last_edited_time": "2026-06-10T01:58:00.000Z"
+}

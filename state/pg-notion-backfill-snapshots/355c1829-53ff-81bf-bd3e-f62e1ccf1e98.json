@@ -1,0 +1,137 @@
+{
+  "id": "355c1829-53ff-81bf-bd3e-f62e1ccf1e98",
+  "properties": {
+    "Notes": {
+      "id": "%3AQXQ",
+      "type": "rich_text",
+      "rich_text": [
+        {
+          "type": "text",
+          "text": {
+            "content": "Shield, Lex, and Sage were stood up quickly as part of the foundation build. Their current SOUL.md, RULES.md, and skill files are functional but shallow. Need a deep review of: (1) Scope — what each agent is actually responsible for, what falls through the cracks, overlap between the three. (2) Skills — what tools, scripts, and capabilities each agent should have. (3) Rules — are the current rules comprehensive enough for a production consulting platform? (4) Coverage gaps — content governance, client data handling, IP protection, AU compliance specifics. (5) Integration with Spark, Aria, and future agents — governance triad should gate ALL outbound content and client-facing work, not just ad-hoc requests. Outcome: hardened, production-grade governance with clear accountability and no gaps.",
+            "link": null
+          },
+          "annotations": {
+            "bold": false,
+            "italic": false,
+            "strikethrough": false,
+            "underline": false,
+            "code": false,
+            "color": "default"
+          },
+          "plain_text": "Shield, Lex, and Sage were stood up quickly as part of the foundation build. Their current SOUL.md, RULES.md, and skill files are functional but shallow. Need a deep review of: (1) Scope — what each agent is actually responsible for, what falls through the cracks, overlap between the three. (2) Skills — what tools, scripts, and capabilities each agent should have. (3) Rules — are the current rules comprehensive enough for a production consulting platform? (4) Coverage gaps — content governance, client data handling, IP protection, AU compliance specifics. (5) Integration with Spark, Aria, and future agents — governance triad should gate ALL outbound content and client-facing work, not just ad-hoc requests. Outcome: hardened, production-grade governance with clear accountability and no gaps.",
+          "href": null
+        }
+      ]
+    },
+    "Created Date": {
+      "id": "%3A%7BT%3E",
+      "type": "date",
+      "date": {
+        "start": "2026-05-03",
+        "end": null,
+        "time_zone": null
+      }
+    },
+    "Priority": {
+      "id": "Eqzw",
+      "type": "select",
+      "select": {
+        "id": "efb65466-b9ef-43f0-bcd9-0616de8ec5e7",
+        "name": "Medium",
+        "color": "yellow"
+      }
+    },
+    "Category": {
+      "id": "GLXS",
+      "type": "select",
+      "select": null
+    },
+    "Effort": {
+      "id": "Hn%60N",
+      "type": "select",
+      "select": null
+    },
+    "Sprint Date": {
+      "id": "In%7DH",
+      "type": "date",
+      "date": null
+    },
+    "Stream": {
+      "id": "O%7B%3D%7C",
+      "type": "select",
+      "select": null
+    },
+    "Impact": {
+      "id": "Pl~b",
+      "type": "select",
+      "select": null
+    },
+    "Sprint": {
+      "id": "%5BqSX",
+      "type": "select",
+      "select": null
+    },
+    "Type": {
+      "id": "%5Clgh",
+      "type": "select",
+      "select": {
+        "id": "c5a1c08e-f13b-4ec2-bd09-a9b7e3fb021a",
+        "name": "TKT",
+        "color": "yellow"
+      }
+    },
+    "Delivered Date": {
+      "id": "diV%3C",
+      "type": "date",
+      "date": {
+        "start": "2026-05-17",
+        "end": null,
+        "time_zone": null
+      }
+    },
+    "Status": {
+      "id": "gzuH",
+      "type": "select",
+      "select": {
+        "id": "5255e93b-eb41-4478-ad5d-1fc775fcffe0",
+        "name": "Done",
+        "color": "green"
+      }
+    },
+    "Yoda Assessment": {
+      "id": "p_og",
+      "type": "rich_text",
+      "rich_text": []
+    },
+    "Planned Date": {
+      "id": "%7BqbQ",
+      "type": "date",
+      "date": null
+    },
+    "US Title": {
+      "id": "title",
+      "type": "title",
+      "title": [
+        {
+          "type": "text",
+          "text": {
+            "content": "[TKT-0043] [ORPHAN] [TKT-0043] US-GOV: Deep review and strengthening of governance triad scope, skills and rules",
+            "link": null
+          },
+          "annotations": {
+            "bold": false,
+            "italic": false,
+            "strikethrough": false,
+            "underline": false,
+            "code": false,
+            "color": "default"
+          },
+          "plain_text": "[TKT-0043] [ORPHAN] [TKT-0043] US-GOV: Deep review and strengthening of governance triad scope, skills and rules",
+          "href": null
+        }
+      ]
+    }
+  },
+  "last_edited_time": "2026-05-26T10:58:00.000Z"
+}

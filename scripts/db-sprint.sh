@@ -14,6 +14,7 @@ source "${SCRIPT_DIR:-$(dirname "$0")}/skill-gate.sh" "pg-sprint-backlog" || exi
 #   create "<Sprint X>" "<dates>"  — Create a new sprint in PG
 #   defer <TKT-ID> --to <Sprint X> --reason "..." — Defer ticket to another sprint
 #   migrate [--sprint Sprint7]     — Migrate sprint JSON data to PG
+#   ceremony complete <review|planning> [--sprint Sprint7] — Log ceremony completion to PG
 
 set -u
 
@@ -22,6 +23,7 @@ WORKSPACE_ROOT="/Users/ainchorsangiefpl/.openclaw/workspace"
 DB_SCRIPT="$WORKSPACE_ROOT/scripts/db.sh"
 JQ="/opt/homebrew/bin/jq"
 TICKET_TABLE="state_tickets"
+TICKET_SCRIPT="$WORKSPACE_ROOT/scripts/db-ticket.sh"
 SPRINT_TABLE="state_sprints"
 TICKET_FILE="$WORKSPACE_ROOT/state/tickets.json"
 
@@ -41,6 +43,7 @@ Subcommands:
   create "<Sprint X>" "<dates>"        — Create a new sprint in PG
   defer <TKT-ID> --to <Sprint X> --reason "..." — Defer ticket to another sprint
   migrate [--sprint <name>]            — Migrate sprint JSON → PG metadata
+  ceremony complete <review|planning> [--sprint <name>] — Log ceremony to PG + auto-gen sprint-current.json
   help                                 — Show this usage
 USAGE
   exit 0
@@ -263,6 +266,10 @@ cmd_commit() {
   fi
   
   log "✓ $tkt_id committed to $sprint_name (seq $seq)"
+  
+  # TKT-0406: Trigger Notion sync for sprint assignment
+  bash "$TICKET_SCRIPT" sync "$tkt_id" > /dev/null 2>&1 &
+  
   echo "{\"tkt\":\"$tkt_id\",\"sprint\":\"$sprint_name\",\"seq\":$seq,\"effort\":\"$effort\",\"agent\":\"$agent\",\"status\":\"committed\"}"
 }
 
@@ -616,6 +623,10 @@ cmd_defer() {
   pg_query "UPDATE $TICKET_TABLE SET sprint='$target_sprint', sprint_seq=NULL, updated_at=NOW() WHERE id='$tkt_id';" > /dev/null 2>&1 || true
   
   log "✓ $tkt_id deferred $from_sprint → $target_sprint"
+  
+  # TKT-0406: Trigger Notion sync for sprint reassignment
+  bash "$TICKET_SCRIPT" sync "$tkt_id" > /dev/null 2>&1 &
+  
   echo "{\"tkt\":\"$tkt_id\",\"from\":\"$from_sprint\",\"to\":\"$target_sprint\",\"reason\":\"$reason\",\"status\":\"deferred\"}"
 }
 
@@ -853,6 +864,140 @@ cmd_migrate() {
 }
 
 # ──────────────────────────────────────────────
+# FUNCTION: auto-generate sprint-current.json from PG
+# Called after every ceremony completion to keep the cache fresh.
+# ──────────────────────────────────────────────
+generate_sprint_current_json() {
+  local sprint_num="${1:-}"
+  [[ -z "$sprint_num" ]] && sprint_num=$(get_current_sprint_name | sed 's/[^0-9]//g')
+  
+  local sprint_json
+  sprint_json=$(pg_query "SELECT row_to_json(s)::text FROM $SPRINT_TABLE s WHERE sprint_number=$sprint_num ORDER BY updated_at DESC LIMIT 1;" 2>/dev/null)
+  
+  if [[ -z "$sprint_json" || "$sprint_json" == "null" ]]; then
+    log "No PG sprint row for sprint $sprint_num — cannot generate sprint-current.json"
+    return 1
+  fi
+  
+  # Build the cache file from PG data
+  python3 -c "
+import json, sys
+
+pg = json.loads(sys.stdin.read())
+
+# Extract fields
+sprint_num = pg.get('sprint_number', 0)
+sprint_name = pg.get('sprint_name', f'Sprint {sprint_num}')
+status = pg.get('status', 'planning')
+start = pg.get('start_date', '')
+end = pg.get('end_date', '')
+ceremonies = pg.get('ceremonies', {})
+
+# Build previous sprint summary (query is caller's responsibility)
+# Build next sprint summary
+
+cache = {
+    'sprint': sprint_num,
+    'name': sprint_name,
+    'dates': f'{start} to {end}' if start and end else 'TBD',
+    'status': status,
+    'ceremoniesCompleted': ceremonies,
+    'auto_generated': True,
+    'source': 'PG state_sprints',
+    'generated_at': '$(date -u '+%Y-%m-%dT%H:%M:%S+10:00')'
+}
+
+print(json.dumps(cache, indent=2))
+" <<< "$sprint_json" > "$WORKSPACE_ROOT/state/sprint-current.json"
+  
+  log "✓ sprint-current.json auto-generated from PG"
+  return 0
+}
+
+# ──────────────────────────────────────────────
+# SUBCOMMAND: ceremony complete <review|planning> [--sprint <name>]
+# Logs ceremony completion to PG and auto-generates sprint-current.json
+# ──────────────────────────────────────────────
+cmd_ceremony() {
+  local action="${1:-}"
+  shift 2>/dev/null || true
+  
+  if [[ "$action" != "complete" ]]; then
+    die "Usage: db-sprint.sh ceremony complete <review|planning> [--sprint <name>]"
+  fi
+  
+  local ceremony_type="${1:-}"
+  shift 2>/dev/null || true
+  
+  if [[ "$ceremony_type" != "review" && "$ceremony_type" != "planning" ]]; then
+    die "Ceremony type must be 'review' or 'planning'. Got: '$ceremony_type'"
+  fi
+  
+  local sprint_name=""
+  while [[ $# -gt 0 ]]; do
+    case "$1" in
+      --sprint)
+        sprint_name="$2"
+        shift 2
+        ;;
+      *)
+        die "Unknown flag: $1. Use --sprint <name>"
+        ;;
+    esac
+  done
+  
+  [[ -z "$sprint_name" ]] && sprint_name=$(get_current_sprint_name)
+  
+  local sprint_num
+  sprint_num=$(sprint_name_to_number "$sprint_name")
+  
+  # Get current ceremonies from PG
+  local current_ceremonies
+  current_ceremonies=$(pg_query "SELECT ceremonies::text FROM $SPRINT_TABLE WHERE sprint_number=$sprint_num ORDER BY updated_at DESC LIMIT 1;" 2>/dev/null)
+  
+  if [[ -z "$current_ceremonies" || "$current_ceremonies" == "null" || "$current_ceremonies" == "{}" ]]; then
+    current_ceremonies='{}'
+  fi
+  
+  # Build ceremony key: sprintReview or sprintPlanning
+  local ceremony_key=""
+  if [[ "$ceremony_type" == "review" ]]; then
+    ceremony_key="sprint${sprint_num}Review"
+  else
+    ceremony_key="sprint${sprint_num}Planning"
+  fi
+  
+  log "Logging $ceremony_key to PG state_sprints.ceremonies"
+  
+  local ts
+  ts=$(date -u '+%Y-%m-%dT%H:%M:%S+10:00')
+  
+  # Update ceremonies JSONB in PG
+  local updated_ceremonies
+  updated_ceremonies=$(echo "$current_ceremonies" | $JQ --arg key "$ceremony_key" --arg ts "$ts" '. + {($key): $ts}' 2>/dev/null)
+  
+  if [[ -z "$updated_ceremonies" ]]; then
+    die "Failed to build updated ceremonies JSON"
+  fi
+  
+  local escaped
+  escaped=$(echo "$updated_ceremonies" | sed "s/'/''/g")
+  pg_query "UPDATE $SPRINT_TABLE SET ceremonies='$escaped'::jsonb, updated_at=NOW() WHERE sprint_number=$sprint_num;" > /dev/null 2>&1
+  local ret=$?
+  
+  if [[ $ret -ne 0 ]]; then
+    die "Failed to write ceremonies to PG"
+  fi
+  
+  log "✓ $ceremony_key logged at $ts"
+  
+  # Auto-generate sprint-current.json cache
+  generate_sprint_current_json "$sprint_num"
+  
+  echo "{\"ceremony\":\"$ceremony_key\",\"sprint\":\"$sprint_name\",\"completed_at\":\"$ts\",\"status\":\"logged\",\"cache\":\"sprint-current.json auto-generated\"}"
+}
+
+# ──────────────────────────────────────────────
 # MAIN DISPATCH
 # ──────────────────────────────────────────────
 
@@ -885,6 +1030,9 @@ main() {
     migrate)
       cmd_migrate "$@"
       ;;
+    ceremony)
+      cmd_ceremony "$@"
+      ;;
     help|--help|-h)
       usage
       ;;
@@ -901,6 +1049,7 @@ Subcommands:
   create "<Sprint X>" "<dates>"        — Create new sprint in PG
   defer <TKT-ID> --to <Sprint X> --reason "..." — Defer ticket
   migrate [--sprint <name>]            — Migrate sprint JSON → PG
+  ceremony complete <review|planning> [--sprint <name>] — Log ceremony to PG
   help                                 — Show this usage
 USAGE_ERR
       exit 1

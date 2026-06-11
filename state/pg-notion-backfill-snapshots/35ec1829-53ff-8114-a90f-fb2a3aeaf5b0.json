@@ -1,0 +1,137 @@
+{
+  "id": "35ec1829-53ff-8114-a90f-fb2a3aeaf5b0",
+  "properties": {
+    "Notes": {
+      "id": "%3AQXQ",
+      "type": "rich_text",
+      "rich_text": [
+        {
+          "type": "text",
+          "text": {
+            "content": "Groomed 2026-05-14 Sprint 4 candidate. Decisions: (1) Placeholder templates now — brand assets (logo, colours, fonts) to be supplied by Ken/Angie later as a follow-up update. (2) Pilot scope: Ahsoka + Yoda + Atlas. Future: all agents producing client deliverables. office-docs skill already installed — covers all 4 formats (PDF/DOCX/XLSX/PPTX). Work: pip install on OC1, generate-doc.sh wrapper, 4 placeholder branded templates, test output per format. Route to Forge for build. Atlas to define template structure/schema for consulting proposals + EA deliverables. Size: M. | Sprint 4 committed. Routed to Forge for build. Atlas to define template schema as first step (can run in parallel). No brand assets needed to start — placeholders first.",
+            "link": null
+          },
+          "annotations": {
+            "bold": false,
+            "italic": false,
+            "strikethrough": false,
+            "underline": false,
+            "code": false,
+            "color": "default"
+          },
+          "plain_text": "Groomed 2026-05-14 Sprint 4 candidate. Decisions: (1) Placeholder templates now — brand assets (logo, colours, fonts) to be supplied by Ken/Angie later as a follow-up update. (2) Pilot scope: Ahsoka + Yoda + Atlas. Future: all agents producing client deliverables. office-docs skill already installed — covers all 4 formats (PDF/DOCX/XLSX/PPTX). Work: pip install on OC1, generate-doc.sh wrapper, 4 placeholder branded templates, test output per format. Route to Forge for build. Atlas to define template structure/schema for consulting proposals + EA deliverables. Size: M. | Sprint 4 committed. Routed to Forge for build. Atlas to define template schema as first step (can run in parallel). No brand assets needed to start — placeholders first.",
+          "href": null
+        }
+      ]
+    },
+    "Created Date": {
+      "id": "%3A%7BT%3E",
+      "type": "date",
+      "date": {
+        "start": "2026-05-08",
+        "end": null,
+        "time_zone": null
+      }
+    },
+    "Priority": {
+      "id": "Eqzw",
+      "type": "select",
+      "select": {
+        "id": "086c57f9-00f7-4c6a-a24a-d614885a73ea",
+        "name": "High",
+        "color": "orange"
+      }
+    },
+    "Category": {
+      "id": "GLXS",
+      "type": "select",
+      "select": null
+    },
+    "Effort": {
+      "id": "Hn%60N",
+      "type": "select",
+      "select": null
+    },
+    "Sprint Date": {
+      "id": "In%7DH",
+      "type": "date",
+      "date": null
+    },
+    "Stream": {
+      "id": "O%7B%3D%7C",
+      "type": "select",
+      "select": null
+    },
+    "Impact": {
+      "id": "Pl~b",
+      "type": "select",
+      "select": null
+    },
+    "Sprint": {
+      "id": "%5BqSX",
+      "type": "select",
+      "select": {
+        "id": "c7eb6411-4c97-4b70-af08-a9c2a0e50c11",
+        "name": "Sprint 4",
+        "color": "orange"
+      }
+    },
+    "Type": {
+      "id": "%5Clgh",
+      "type": "select",
+      "select": {
+        "id": "c5a1c08e-f13b-4ec2-bd09-a9b7e3fb021a",
+        "name": "TKT",
+        "color": "yellow"
+      }
+    },
+    "Delivered Date": {
+      "id": "diV%3C",
+      "type": "date",
+      "date": null
+    },
+    "Status": {
+      "id": "gzuH",
+      "type": "select",
+      "select": {
+        "id": "7295b935-7a78-4942-84d2-0535c8c78e86",
+        "name": "Closed",
+        "color": "gray"
+      }
+    },
+    "Yoda Assessment": {
+      "id": "p_og",
+      "type": "rich_text",
+      "rich_text": []
+    },
+    "Planned Date": {
+      "id": "%7BqbQ",
+      "type": "date",
+      "date": null
+    },
+    "US Title": {
+      "id": "title",
+      "type": "title",
+      "title": [
+        {
+          "type": "text",
+          "text": {
+            "content": "[TKT-0108] [TKT-0108] Document Generation Pipeline — DOCX/XLSX/PPTX/PDF (Ahsoka Q1 blocker)",
+            "link": null
+          },
+          "annotations": {
+            "bold": false,
+            "italic": false,
+            "strikethrough": false,
+            "underline": false,
+            "code": false,
+            "color": "default"
+          },
+          "plain_text": "[TKT-0108] [TKT-0108] Document Generation Pipeline — DOCX/XLSX/PPTX/PDF (Ahsoka Q1 blocker)",
+          "href": null
+        }
+      ]
+    }
+  },
+  "last_edited_time": "2026-06-10T01:56:00.000Z"
+}

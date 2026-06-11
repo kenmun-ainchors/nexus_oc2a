@@ -1,0 +1,137 @@
+{
+  "id": "355c1829-53ff-814c-909b-f56985d89ecc",
+  "properties": {
+    "Notes": {
+      "id": "%3AQXQ",
+      "type": "rich_text",
+      "rich_text": [
+        {
+          "type": "text",
+          "text": {
+            "content": "Build a developer sub-agent capability for AInchors. Not a single dev agent — a framework for spinning up, training, and cloning coding agents as a team. Key design goals: (1) Containerised — each dev agent runs in an isolated container. Code changes, dependencies, and side effects are sandboxed. No risk to production platform. Links to TKT-0045 (containerised OpenClaw architecture). (2) Trained — agents are pre-loaded with AInchors codebase context, conventions, RULES.md, relevant skill files, and project-specific instructions. Not generic coding agents — trained on our stack. (3) Cloneable — a base dev agent image that can be cloned per task/project. Spin up as many as needed, dispose after task. (4) Team delivery framework — orchestration layer (Yoda as lead) that assigns tasks to dev agents, tracks progress, reviews output, and merges. Modelled on a human dev team: lead + specialists. (5) Model exploration — evaluate qwen3.x (coding variant), Qwen2.5-Coder, deepseek-v3-coder, or other high-performance coding models. Target: best code quality at lowest cost, ideally local on OC2 for data sovereignty. Deliverables: (a) Model evaluation report (T2 research), (b) Base dev agent design (SOUL.md + RULES.md), (c) Container spec, (d) Team orchestration workflow, (e) First task end-to-end proof of concept.",
+            "link": null
+          },
+          "annotations": {
+            "bold": false,
+            "italic": false,
+            "strikethrough": false,
+            "underline": false,
+            "code": false,
+            "color": "default"
+          },
+          "plain_text": "Build a developer sub-agent capability for AInchors. Not a single dev agent — a framework for spinning up, training, and cloning coding agents as a team. Key design goals: (1) Containerised — each dev agent runs in an isolated container. Code changes, dependencies, and side effects are sandboxed. No risk to production platform. Links to TKT-0045 (containerised OpenClaw architecture). (2) Trained — agents are pre-loaded with AInchors codebase context, conventions, RULES.md, relevant skill files, and project-specific instructions. Not generic coding agents — trained on our stack. (3) Cloneable — a base dev agent image that can be cloned per task/project. Spin up as many as needed, dispose after task. (4) Team delivery framework — orchestration layer (Yoda as lead) that assigns tasks to dev agents, tracks progress, reviews output, and merges. Modelled on a human dev team: lead + specialists. (5) Model exploration — evaluate qwen3.x (coding variant), Qwen2.5-Coder, deepseek-v3-coder, or other high-performance coding models. Target: best code quality at lowest cost, ideally local on OC2 for data sovereignty. Deliverables: (a) Model evaluation report (T2 research), (b) Base dev agent design (SOUL.md + RULES.md), (c) Container spec, (d) Team orchestration workflow, (e) First task end-to-end proof of concept.",
+          "href": null
+        }
+      ]
+    },
+    "Created Date": {
+      "id": "%3A%7BT%3E",
+      "type": "date",
+      "date": {
+        "start": "2026-05-03",
+        "end": null,
+        "time_zone": null
+      }
+    },
+    "Priority": {
+      "id": "Eqzw",
+      "type": "select",
+      "select": {
+        "id": "086c57f9-00f7-4c6a-a24a-d614885a73ea",
+        "name": "High",
+        "color": "orange"
+      }
+    },
+    "Category": {
+      "id": "GLXS",
+      "type": "select",
+      "select": null
+    },
+    "Effort": {
+      "id": "Hn%60N",
+      "type": "select",
+      "select": null
+    },
+    "Sprint Date": {
+      "id": "In%7DH",
+      "type": "date",
+      "date": null
+    },
+    "Stream": {
+      "id": "O%7B%3D%7C",
+      "type": "select",
+      "select": null
+    },
+    "Impact": {
+      "id": "Pl~b",
+      "type": "select",
+      "select": null
+    },
+    "Sprint": {
+      "id": "%5BqSX",
+      "type": "select",
+      "select": null
+    },
+    "Type": {
+      "id": "%5Clgh",
+      "type": "select",
+      "select": {
+        "id": "c5a1c08e-f13b-4ec2-bd09-a9b7e3fb021a",
+        "name": "TKT",
+        "color": "yellow"
+      }
+    },
+    "Delivered Date": {
+      "id": "diV%3C",
+      "type": "date",
+      "date": {
+        "start": "2026-05-17",
+        "end": null,
+        "time_zone": null
+      }
+    },
+    "Status": {
+      "id": "gzuH",
+      "type": "select",
+      "select": {
+        "id": "5255e93b-eb41-4478-ad5d-1fc775fcffe0",
+        "name": "Done",
+        "color": "green"
+      }
+    },
+    "Yoda Assessment": {
+      "id": "p_og",
+      "type": "rich_text",
+      "rich_text": []
+    },
+    "Planned Date": {
+      "id": "%7BqbQ",
+      "type": "date",
+      "date": null
+    },
+    "US Title": {
+      "id": "title",
+      "type": "title",
+      "title": [
+        {
+          "type": "text",
+          "text": {
+            "content": "[TKT-0048] [ORPHAN] [TKT-0048] US-DEV: Developer sub-agent(s) — containerised, trained, cloneable, team delivery framework",
+            "link": null
+          },
+          "annotations": {
+            "bold": false,
+            "italic": false,
+            "strikethrough": false,
+            "underline": false,
+            "code": false,
+            "color": "default"
+          },
+          "plain_text": "[TKT-0048] [ORPHAN] [TKT-0048] US-DEV: Developer sub-agent(s) — containerised, trained, cloneable, team delivery framework",
+          "href": null
+        }
+      ]
+    }
+  },
+  "last_edited_time": "2026-05-26T10:58:00.000Z"
+}

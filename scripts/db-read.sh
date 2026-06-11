@@ -6,7 +6,7 @@
 # SQL pass-through: if $1 starts with SELECT, execute as raw SQL directly
 #   db-read.sh "SELECT 1 AS test"
 
-DB="/Users/ainchorsangiefpl/.openclaw/workspace/scripts/db.sh"
+DB="/Users/ainchorsangiefpl/.openclaw/workspace/scripts/db-raw.sh"
 WORKSPACE="/Users/ainchorsangiefpl/.openclaw/workspace"
 TABLE="$1"; KEY="${2:-}"; VALUE="${3:-}"
 

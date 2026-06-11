@@ -1,0 +1,1502 @@
+{
+  "last_processed": "TKT-SMOKE-001",
+  "processed_count": 323,
+  "total": 323,
+  "errors": [
+    {
+      "ticket": "TKT-0001",
+      "error": "[2026-06-11 20:21:40] Checking Notion schema...",
+      "timestamp": "2026-06-11T10:21:41Z"
+    },
+    {
+      "ticket": "TKT-0025",
+      "error": "[2026-06-11 20:21:41] Checking Notion schema...",
+      "timestamp": "2026-06-11T10:21:41Z"
+    },
+    {
+      "ticket": "TKT-0026",
+      "error": "[2026-06-11 20:21:41] Checking Notion schema...",
+      "timestamp": "2026-06-11T10:21:42Z"
+    },
+    {
+      "ticket": "TKT-0027",
+      "error": "[2026-06-11 20:21:42] Checking Notion schema...",
+      "timestamp": "2026-06-11T10:21:42Z"
+    },
+    {
+      "ticket": "TKT-0031",
+      "error": "[2026-06-11 20:21:42] Checking Notion schema...",
+      "timestamp": "2026-06-11T10:21:43Z"
+    },
+    {
+      "ticket": "TKT-0032",
+      "error": "[2026-06-11 20:21:43] Checking Notion schema...",
+      "timestamp": "2026-06-11T10:21:43Z"
+    },
+    {
+      "ticket": "TKT-0038",
+      "error": "[2026-06-11 20:21:43] Checking Notion schema...",
+      "timestamp": "2026-06-11T10:21:44Z"
+    },
+    {
+      "ticket": "TKT-0039",
+      "error": "[2026-06-11 20:21:44] Checking Notion schema...",
+      "timestamp": "2026-06-11T10:21:44Z"
+    },
+    {
+      "ticket": "TKT-0041",
+      "error": "[2026-06-11 20:21:44] Checking Notion schema...",
+      "timestamp": "2026-06-11T10:21:45Z"
+    },
+    {
+      "ticket": "TKT-0042",
+      "error": "[2026-06-11 20:21:45] Checking Notion schema...",
+      "timestamp": "2026-06-11T10:21:45Z"
+    },
+    {
+      "ticket": "TKT-0043",
+      "error": "[2026-06-11 20:21:45] Checking Notion schema...",
+      "timestamp": "2026-06-11T10:21:46Z"
+    },
+    {
+      "ticket": "TKT-0044",
+      "error": "[2026-06-11 20:21:46] Checking Notion schema...",
+      "timestamp": "2026-06-11T10:21:46Z"
+    },
+    {
+      "ticket": "TKT-0045",
+      "error": "[2026-06-11 20:21:46] Checking Notion schema...",
+      "timestamp": "2026-06-11T10:21:47Z"
+    },
+    {
+      "ticket": "TKT-0046",
+      "error": "[2026-06-11 20:21:47] Checking Notion schema...",
+      "timestamp": "2026-06-11T10:21:47Z"
+    },
+    {
+      "ticket": "TKT-0048",
+      "error": "[2026-06-11 20:21:47] Checking Notion schema...",
+      "timestamp": "2026-06-11T10:21:48Z"
+    },
+    {
+      "ticket": "TKT-0049",
+      "error": "[2026-06-11 20:21:48] Checking Notion schema...",
+      "timestamp": "2026-06-11T10:21:49Z"
+    },
+    {
+      "ticket": "TKT-0050",
+      "error": "[2026-06-11 20:21:49] Checking Notion schema...",
+      "timestamp": "2026-06-11T10:21:49Z"
+    },
+    {
+      "ticket": "TKT-0051",
+      "error": "[2026-06-11 20:21:49] Checking Notion schema...",
+      "timestamp": "2026-06-11T10:21:50Z"
+    },
+    {
+      "ticket": "TKT-0052",
+      "error": "[2026-06-11 20:21:50] Checking Notion schema...",
+      "timestamp": "2026-06-11T10:21:51Z"
+    },
+    {
+      "ticket": "TKT-0054",
+      "error": "[2026-06-11 20:21:51] Checking Notion schema...",
+      "timestamp": "2026-06-11T10:21:51Z"
+    },
+    {
+      "ticket": "TKT-0055",
+      "error": "[2026-06-11 20:21:51] Checking Notion schema...",
+      "timestamp": "2026-06-11T10:21:52Z"
+    },
+    {
+      "ticket": "TKT-0056",
+      "error": "[2026-06-11 20:21:52] Checking Notion schema...",
+      "timestamp": "2026-06-11T10:21:52Z"
+    },
+    {
+      "ticket": "TKT-0057",
+      "error": "[2026-06-11 20:21:52] Checking Notion schema...",
+      "timestamp": "2026-06-11T10:21:53Z"
+    },
+    {
+      "ticket": "TKT-0058",
+      "error": "[2026-06-11 20:21:53] Checking Notion schema...",
+      "timestamp": "2026-06-11T10:21:53Z"
+    },
+    {
+      "ticket": "TKT-0059",
+      "error": "[2026-06-11 20:21:53] Checking Notion schema...",
+      "timestamp": "2026-06-11T10:21:54Z"
+    },
+    {
+      "ticket": "TKT-0064",
+      "error": "[2026-06-11 20:21:54] Checking Notion schema...",
+      "timestamp": "2026-06-11T10:21:54Z"
+    },
+    {
+      "ticket": "TKT-0065",
+      "error": "[2026-06-11 20:21:54] Checking Notion schema...",
+      "timestamp": "2026-06-11T10:21:55Z"
+    },
+    {
+      "ticket": "TKT-0067",
+      "error": "[2026-06-11 20:21:55] Checking Notion schema...",
+      "timestamp": "2026-06-11T10:21:55Z"
+    },
+    {
+      "ticket": "TKT-0068",
+      "error": "[2026-06-11 20:21:55] Checking Notion schema...",
+      "timestamp": "2026-06-11T10:21:55Z"
+    },
+    {
+      "ticket": "TKT-0069",
+      "error": "[2026-06-11 20:21:55] Checking Notion schema...",
+      "timestamp": "2026-06-11T10:21:56Z"
+    },
+    {
+      "ticket": "TKT-0070",
+      "error": "[2026-06-11 20:21:56] Checking Notion schema...",
+      "timestamp": "2026-06-11T10:21:57Z"
+    },
+    {
+      "ticket": "TKT-0071",
+      "error": "[2026-06-11 20:21:57] Checking Notion schema...",
+      "timestamp": "2026-06-11T10:21:57Z"
+    },
+    {
+      "ticket": "TKT-0072",
+      "error": "[2026-06-11 20:21:57] Checking Notion schema...",
+      "timestamp": "2026-06-11T10:21:57Z"
+    },
+    {
+      "ticket": "TKT-0075",
+      "error": "[2026-06-11 20:21:57] Checking Notion schema...",
+      "timestamp": "2026-06-11T10:21:58Z"
+    },
+    {
+      "ticket": "TKT-0076",
+      "error": "[2026-06-11 20:21:58] Checking Notion schema...",
+      "timestamp": "2026-06-11T10:21:59Z"
+    },
+    {
+      "ticket": "TKT-0077",
+      "error": "[2026-06-11 20:21:59] Checking Notion schema...",
+      "timestamp": "2026-06-11T10:21:59Z"
+    },
+    {
+      "ticket": "TKT-0078",
+      "error": "[2026-06-11 20:21:59] Checking Notion schema...",
+      "timestamp": "2026-06-11T10:22:00Z"
+    },
+    {
+      "ticket": "TKT-0079",
+      "error": "[2026-06-11 20:22:00] Checking Notion schema...",
+      "timestamp": "2026-06-11T10:22:00Z"
+    },
+    {
+      "ticket": "TKT-0080",
+      "error": "[2026-06-11 20:22:00] Checking Notion schema...",
+      "timestamp": "2026-06-11T10:22:01Z"
+    },
+    {
+      "ticket": "TKT-0081",
+      "error": "[2026-06-11 20:22:01] Checking Notion schema...",
+      "timestamp": "2026-06-11T10:22:01Z"
+    },
+    {
+      "ticket": "TKT-0082",
+      "error": "[2026-06-11 20:22:01] Checking Notion schema...",
+      "timestamp": "2026-06-11T10:22:02Z"
+    },
+    {
+      "ticket": "TKT-0083",
+      "error": "[2026-06-11 20:22:02] Checking Notion schema...",
+      "timestamp": "2026-06-11T10:22:02Z"
+    },
+    {
+      "ticket": "TKT-0084",
+      "error": "[2026-06-11 20:22:02] Checking Notion schema...",
+      "timestamp": "2026-06-11T10:22:03Z"
+    },
+    {
+      "ticket": "TKT-0085",
+      "error": "[2026-06-11 20:22:03] Checking Notion schema...",
+      "timestamp": "2026-06-11T10:22:03Z"
+    },
+    {
+      "ticket": "TKT-0087",
+      "error": "[2026-06-11 20:22:03] Checking Notion schema...",
+      "timestamp": "2026-06-11T10:22:04Z"
+    },
+    {
+      "ticket": "TKT-0094",
+      "error": "[2026-06-11 20:22:04] Checking Notion schema...",
+      "timestamp": "2026-06-11T10:22:04Z"
+    },
+    {
+      "ticket": "TKT-0097",
+      "error": "[2026-06-11 20:22:04] Checking Notion schema...",
+      "timestamp": "2026-06-11T10:22:05Z"
+    },
+    {
+      "ticket": "TKT-0098",
+      "error": "[2026-06-11 20:22:05] Checking Notion schema...",
+      "timestamp": "2026-06-11T10:22:07Z"
+    },
+    {
+      "ticket": "TKT-0101",
+      "error": "[2026-06-11 20:22:07] Checking Notion schema...",
+      "timestamp": "2026-06-11T10:22:07Z"
+    },
+    {
+      "ticket": "TKT-0102",
+      "error": "[2026-06-11 20:22:07] Checking Notion schema...",
+      "timestamp": "2026-06-11T10:22:08Z"
+    },
+    {
+      "ticket": "TKT-0104",
+      "error": "[2026-06-11 20:22:13] Checking Notion schema...",
+      "timestamp": "2026-06-11T10:22:13Z"
+    },
+    {
+      "ticket": "TKT-0105",
+      "error": "[2026-06-11 20:22:13] Checking Notion schema...",
+      "timestamp": "2026-06-11T10:22:14Z"
+    },
+    {
+      "ticket": "TKT-0106",
+      "error": "[2026-06-11 20:22:14] Checking Notion schema...",
+      "timestamp": "2026-06-11T10:22:14Z"
+    },
+    {
+      "ticket": "TKT-0107",
+      "error": "[2026-06-11 20:22:14] Checking Notion schema...",
+      "timestamp": "2026-06-11T10:22:15Z"
+    },
+    {
+      "ticket": "TKT-0108",
+      "error": "[2026-06-11 20:22:15] Checking Notion schema...",
+      "timestamp": "2026-06-11T10:22:15Z"
+    },
+    {
+      "ticket": "TKT-0109",
+      "error": "[2026-06-11 20:22:15] Checking Notion schema...",
+      "timestamp": "2026-06-11T10:22:16Z"
+    },
+    {
+      "ticket": "TKT-0110",
+      "error": "[2026-06-11 20:22:16] Checking Notion schema...",
+      "timestamp": "2026-06-11T10:22:16Z"
+    },
+    {
+      "ticket": "TKT-0111",
+      "error": "[2026-06-11 20:22:16] Checking Notion schema...",
+      "timestamp": "2026-06-11T10:22:16Z"
+    },
+    {
+      "ticket": "TKT-0112",
+      "error": "[2026-06-11 20:22:17] Checking Notion schema...",
+      "timestamp": "2026-06-11T10:22:17Z"
+    },
+    {
+      "ticket": "TKT-0113",
+      "error": "[2026-06-11 20:22:17] Checking Notion schema...",
+      "timestamp": "2026-06-11T10:22:18Z"
+    },
+    {
+      "ticket": "TKT-0114",
+      "error": "[2026-06-11 20:22:18] Checking Notion schema...",
+      "timestamp": "2026-06-11T10:22:18Z"
+    },
+    {
+      "ticket": "TKT-0115",
+      "error": "[2026-06-11 20:22:18] Checking Notion schema...",
+      "timestamp": "2026-06-11T10:22:19Z"
+    },
+    {
+      "ticket": "TKT-0116",
+      "error": "[2026-06-11 20:22:19] Checking Notion schema...",
+      "timestamp": "2026-06-11T10:22:19Z"
+    },
+    {
+      "ticket": "TKT-0117",
+      "error": "[2026-06-11 20:22:19] Checking Notion schema...",
+      "timestamp": "2026-06-11T10:22:20Z"
+    },
+    {
+      "ticket": "TKT-0118",
+      "error": "[2026-06-11 20:22:20] Checking Notion schema...",
+      "timestamp": "2026-06-11T10:22:20Z"
+    },
+    {
+      "ticket": "TKT-0119",
+      "error": "[2026-06-11 20:22:20] Checking Notion schema...",
+      "timestamp": "2026-06-11T10:22:21Z"
+    },
+    {
+      "ticket": "TKT-0120",
+      "error": "[2026-06-11 20:22:21] Checking Notion schema...",
+      "timestamp": "2026-06-11T10:22:21Z"
+    },
+    {
+      "ticket": "TKT-0121",
+      "error": "[2026-06-11 20:22:21] Checking Notion schema...",
+      "timestamp": "2026-06-11T10:22:22Z"
+    },
+    {
+      "ticket": "TKT-0122",
+      "error": "[2026-06-11 20:22:22] Checking Notion schema...",
+      "timestamp": "2026-06-11T10:22:22Z"
+    },
+    {
+      "ticket": "TKT-0123",
+      "error": "[2026-06-11 20:22:22] Checking Notion schema...",
+      "timestamp": "2026-06-11T10:22:23Z"
+    },
+    {
+      "ticket": "TKT-0124",
+      "error": "[2026-06-11 20:22:23] Checking Notion schema...",
+      "timestamp": "2026-06-11T10:22:23Z"
+    },
+    {
+      "ticket": "TKT-0125",
+      "error": "[2026-06-11 20:22:23] Checking Notion schema...",
+      "timestamp": "2026-06-11T10:22:24Z"
+    },
+    {
+      "ticket": "TKT-0126",
+      "error": "[2026-06-11 20:22:24] Checking Notion schema...",
+      "timestamp": "2026-06-11T10:22:24Z"
+    },
+    {
+      "ticket": "TKT-0127",
+      "error": "[2026-06-11 20:22:24] Checking Notion schema...",
+      "timestamp": "2026-06-11T10:22:25Z"
+    },
+    {
+      "ticket": "TKT-0128",
+      "error": "[2026-06-11 20:22:25] Checking Notion schema...",
+      "timestamp": "2026-06-11T10:22:25Z"
+    },
+    {
+      "ticket": "TKT-0129",
+      "error": "[2026-06-11 20:22:25] Checking Notion schema...",
+      "timestamp": "2026-06-11T10:22:25Z"
+    },
+    {
+      "ticket": "TKT-0130",
+      "error": "[2026-06-11 20:22:26] Checking Notion schema...",
+      "timestamp": "2026-06-11T10:22:26Z"
+    },
+    {
+      "ticket": "TKT-0131",
+      "error": "[2026-06-11 20:22:26] Checking Notion schema...",
+      "timestamp": "2026-06-11T10:22:27Z"
+    },
+    {
+      "ticket": "TKT-0132",
+      "error": "[2026-06-11 20:22:27] Checking Notion schema...",
+      "timestamp": "2026-06-11T10:22:27Z"
+    },
+    {
+      "ticket": "TKT-0133",
+      "error": "[2026-06-11 20:22:27] Checking Notion schema...",
+      "timestamp": "2026-06-11T10:22:28Z"
+    },
+    {
+      "ticket": "TKT-0134",
+      "error": "[2026-06-11 20:22:28] Checking Notion schema...",
+      "timestamp": "2026-06-11T10:22:28Z"
+    },
+    {
+      "ticket": "TKT-0135",
+      "error": "[2026-06-11 20:22:28] Checking Notion schema...",
+      "timestamp": "2026-06-11T10:22:29Z"
+    },
+    {
+      "ticket": "TKT-0136",
+      "error": "[2026-06-11 20:22:29] Checking Notion schema...",
+      "timestamp": "2026-06-11T10:22:29Z"
+    },
+    {
+      "ticket": "TKT-0138",
+      "error": "[2026-06-11 20:22:31] Checking Notion schema...",
+      "timestamp": "2026-06-11T10:22:31Z"
+    },
+    {
+      "ticket": "TKT-0139",
+      "error": "[2026-06-11 20:22:31] Checking Notion schema...",
+      "timestamp": "2026-06-11T10:22:33Z"
+    },
+    {
+      "ticket": "TKT-0140",
+      "error": "[2026-06-11 20:22:33] Checking Notion schema...",
+      "timestamp": "2026-06-11T10:22:33Z"
+    },
+    {
+      "ticket": "TKT-0141",
+      "error": "[2026-06-11 20:22:33] Checking Notion schema...",
+      "timestamp": "2026-06-11T10:22:34Z"
+    },
+    {
+      "ticket": "TKT-0142",
+      "error": "[2026-06-11 20:22:34] Checking Notion schema...",
+      "timestamp": "2026-06-11T10:22:34Z"
+    },
+    {
+      "ticket": "TKT-0143",
+      "error": "[2026-06-11 20:22:34] Checking Notion schema...",
+      "timestamp": "2026-06-11T10:22:35Z"
+    },
+    {
+      "ticket": "TKT-0144",
+      "error": "[2026-06-11 20:22:35] Checking Notion schema...",
+      "timestamp": "2026-06-11T10:22:35Z"
+    },
+    {
+      "ticket": "TKT-0145",
+      "error": "[2026-06-11 20:22:35] Checking Notion schema...",
+      "timestamp": "2026-06-11T10:22:36Z"
+    },
+    {
+      "ticket": "TKT-0146",
+      "error": "[2026-06-11 20:22:36] Checking Notion schema...",
+      "timestamp": "2026-06-11T10:22:37Z"
+    },
+    {
+      "ticket": "TKT-0147",
+      "error": "[2026-06-11 20:22:37] Checking Notion schema...",
+      "timestamp": "2026-06-11T10:22:38Z"
+    },
+    {
+      "ticket": "TKT-0148",
+      "error": "[2026-06-11 20:22:38] Checking Notion schema...",
+      "timestamp": "2026-06-11T10:22:39Z"
+    },
+    {
+      "ticket": "TKT-0149",
+      "error": "[2026-06-11 20:22:39] Checking Notion schema...",
+      "timestamp": "2026-06-11T10:22:39Z"
+    },
+    {
+      "ticket": "TKT-0150",
+      "error": "[2026-06-11 20:22:39] Checking Notion schema...",
+      "timestamp": "2026-06-11T10:22:40Z"
+    },
+    {
+      "ticket": "TKT-0151",
+      "error": "[2026-06-11 20:22:40] Checking Notion schema...",
+      "timestamp": "2026-06-11T10:22:40Z"
+    },
+    {
+      "ticket": "TKT-0152",
+      "error": "[2026-06-11 20:22:40] Checking Notion schema...",
+      "timestamp": "2026-06-11T10:22:41Z"
+    },
+    {
+      "ticket": "TKT-0153",
+      "error": "[2026-06-11 20:22:41] Checking Notion schema...",
+      "timestamp": "2026-06-11T10:22:41Z"
+    },
+    {
+      "ticket": "TKT-0154",
+      "error": "[2026-06-11 20:22:46] Checking Notion schema...",
+      "timestamp": "2026-06-11T10:22:47Z"
+    },
+    {
+      "ticket": "TKT-0155",
+      "error": "[2026-06-11 20:22:47] Checking Notion schema...",
+      "timestamp": "2026-06-11T10:22:47Z"
+    },
+    {
+      "ticket": "TKT-0156",
+      "error": "[2026-06-11 20:22:47] Checking Notion schema...",
+      "timestamp": "2026-06-11T10:22:48Z"
+    },
+    {
+      "ticket": "TKT-0157",
+      "error": "[2026-06-11 20:22:48] Checking Notion schema...",
+      "timestamp": "2026-06-11T10:22:48Z"
+    },
+    {
+      "ticket": "TKT-0158",
+      "error": "[2026-06-11 20:22:48] Checking Notion schema...",
+      "timestamp": "2026-06-11T10:22:49Z"
+    },
+    {
+      "ticket": "TKT-0159",
+      "error": "[2026-06-11 20:22:49] Checking Notion schema...",
+      "timestamp": "2026-06-11T10:22:50Z"
+    },
+    {
+      "ticket": "TKT-0160",
+      "error": "[2026-06-11 20:22:50] Checking Notion schema...",
+      "timestamp": "2026-06-11T10:22:50Z"
+    },
+    {
+      "ticket": "TKT-0161",
+      "error": "[2026-06-11 20:22:50] Checking Notion schema...",
+      "timestamp": "2026-06-11T10:22:50Z"
+    },
+    {
+      "ticket": "TKT-0162",
+      "error": "[2026-06-11 20:22:51] Checking Notion schema...",
+      "timestamp": "2026-06-11T10:22:51Z"
+    },
+    {
+      "ticket": "TKT-0163",
+      "error": "[2026-06-11 20:22:51] Checking Notion schema...",
+      "timestamp": "2026-06-11T10:22:51Z"
+    },
+    {
+      "ticket": "TKT-0164",
+      "error": "[2026-06-11 20:22:51] Checking Notion schema...",
+      "timestamp": "2026-06-11T10:22:52Z"
+    },
+    {
+      "ticket": "TKT-0165",
+      "error": "[2026-06-11 20:22:52] Checking Notion schema...",
+      "timestamp": "2026-06-11T10:22:52Z"
+    },
+    {
+      "ticket": "TKT-0166",
+      "error": "[2026-06-11 20:22:52] Checking Notion schema...",
+      "timestamp": "2026-06-11T10:22:53Z"
+    },
+    {
+      "ticket": "TKT-0167",
+      "error": "[2026-06-11 20:22:53] Checking Notion schema...",
+      "timestamp": "2026-06-11T10:22:53Z"
+    },
+    {
+      "ticket": "TKT-0168",
+      "error": "[2026-06-11 20:22:53] Checking Notion schema...",
+      "timestamp": "2026-06-11T10:22:54Z"
+    },
+    {
+      "ticket": "TKT-0169",
+      "error": "[2026-06-11 20:22:54] Checking Notion schema...",
+      "timestamp": "2026-06-11T10:22:54Z"
+    },
+    {
+      "ticket": "TKT-0170",
+      "error": "[2026-06-11 20:22:54] Checking Notion schema...",
+      "timestamp": "2026-06-11T10:22:55Z"
+    },
+    {
+      "ticket": "TKT-0171",
+      "error": "[2026-06-11 20:22:55] Checking Notion schema...",
+      "timestamp": "2026-06-11T10:22:55Z"
+    },
+    {
+      "ticket": "TKT-0175",
+      "error": "[2026-06-11 20:22:55] Checking Notion schema...",
+      "timestamp": "2026-06-11T10:22:56Z"
+    },
+    {
+      "ticket": "TKT-0176",
+      "error": "[2026-06-11 20:22:56] Checking Notion schema...",
+      "timestamp": "2026-06-11T10:22:57Z"
+    },
+    {
+      "ticket": "TKT-0177",
+      "error": "[2026-06-11 20:22:57] Checking Notion schema...",
+      "timestamp": "2026-06-11T10:22:57Z"
+    },
+    {
+      "ticket": "TKT-0178",
+      "error": "[2026-06-11 20:22:57] Checking Notion schema...",
+      "timestamp": "2026-06-11T10:22:57Z"
+    },
+    {
+      "ticket": "TKT-0179",
+      "error": "[2026-06-11 20:22:57] Checking Notion schema...",
+      "timestamp": "2026-06-11T10:22:58Z"
+    },
+    {
+      "ticket": "TKT-0181",
+      "error": "[2026-06-11 20:22:58] Checking Notion schema...",
+      "timestamp": "2026-06-11T10:22:58Z"
+    },
+    {
+      "ticket": "TKT-0182",
+      "error": "[2026-06-11 20:22:58] Checking Notion schema...",
+      "timestamp": "2026-06-11T10:22:59Z"
+    },
+    {
+      "ticket": "TKT-0185",
+      "error": "[2026-06-11 20:22:59] Checking Notion schema...",
+      "timestamp": "2026-06-11T10:22:59Z"
+    },
+    {
+      "ticket": "TKT-0186",
+      "error": "[2026-06-11 20:22:59] Checking Notion schema...",
+      "timestamp": "2026-06-11T10:23:00Z"
+    },
+    {
+      "ticket": "TKT-0187",
+      "error": "[2026-06-11 20:23:00] Checking Notion schema...",
+      "timestamp": "2026-06-11T10:23:00Z"
+    },
+    {
+      "ticket": "TKT-0188",
+      "error": "[2026-06-11 20:23:00] Checking Notion schema...",
+      "timestamp": "2026-06-11T10:23:01Z"
+    },
+    {
+      "ticket": "TKT-0189",
+      "error": "[2026-06-11 20:23:01] Checking Notion schema...",
+      "timestamp": "2026-06-11T10:23:01Z"
+    },
+    {
+      "ticket": "TKT-0190",
+      "error": "[2026-06-11 20:23:01] Checking Notion schema...",
+      "timestamp": "2026-06-11T10:23:02Z"
+    },
+    {
+      "ticket": "TKT-0191",
+      "error": "[2026-06-11 20:23:02] Checking Notion schema...",
+      "timestamp": "2026-06-11T10:23:02Z"
+    },
+    {
+      "ticket": "TKT-0194",
+      "error": "[2026-06-11 20:23:02] Checking Notion schema...",
+      "timestamp": "2026-06-11T10:23:03Z"
+    },
+    {
+      "ticket": "TKT-0195",
+      "error": "[2026-06-11 20:23:03] Checking Notion schema...",
+      "timestamp": "2026-06-11T10:23:04Z"
+    },
+    {
+      "ticket": "TKT-0196",
+      "error": "[2026-06-11 20:23:04] Checking Notion schema...",
+      "timestamp": "2026-06-11T10:23:05Z"
+    },
+    {
+      "ticket": "TKT-0197",
+      "error": "[2026-06-11 20:23:05] Checking Notion schema...",
+      "timestamp": "2026-06-11T10:23:06Z"
+    },
+    {
+      "ticket": "TKT-0198",
+      "error": "[2026-06-11 20:23:06] Checking Notion schema...",
+      "timestamp": "2026-06-11T10:23:06Z"
+    },
+    {
+      "ticket": "TKT-0199",
+      "error": "[2026-06-11 20:23:06] Checking Notion schema...",
+      "timestamp": "2026-06-11T10:23:07Z"
+    },
+    {
+      "ticket": "TKT-0200",
+      "error": "[2026-06-11 20:23:07] Checking Notion schema...",
+      "timestamp": "2026-06-11T10:23:07Z"
+    },
+    {
+      "ticket": "TKT-0201",
+      "error": "[2026-06-11 20:23:07] Checking Notion schema...",
+      "timestamp": "2026-06-11T10:23:08Z"
+    },
+    {
+      "ticket": "TKT-0202",
+      "error": "[2026-06-11 20:23:08] Checking Notion schema...",
+      "timestamp": "2026-06-11T10:23:08Z"
+    },
+    {
+      "ticket": "TKT-0203",
+      "error": "[2026-06-11 20:23:08] Checking Notion schema...",
+      "timestamp": "2026-06-11T10:23:09Z"
+    },
+    {
+      "ticket": "TKT-0204",
+      "error": "[2026-06-11 20:23:09] Checking Notion schema...",
+      "timestamp": "2026-06-11T10:23:11Z"
+    },
+    {
+      "ticket": "TKT-0205",
+      "error": "[2026-06-11 20:23:11] Checking Notion schema...",
+      "timestamp": "2026-06-11T10:23:11Z"
+    },
+    {
+      "ticket": "TKT-0206",
+      "error": "[2026-06-11 20:23:11] Checking Notion schema...",
+      "timestamp": "2026-06-11T10:23:12Z"
+    },
+    {
+      "ticket": "TKT-0207",
+      "error": "[2026-06-11 20:23:12] Checking Notion schema...",
+      "timestamp": "2026-06-11T10:23:12Z"
+    },
+    {
+      "ticket": "TKT-0208",
+      "error": "[2026-06-11 20:23:12] Checking Notion schema...",
+      "timestamp": "2026-06-11T10:23:13Z"
+    },
+    {
+      "ticket": "TKT-0209",
+      "error": "[2026-06-11 20:23:13] Checking Notion schema...",
+      "timestamp": "2026-06-11T10:23:13Z"
+    },
+    {
+      "ticket": "TKT-0210",
+      "error": "[2026-06-11 20:23:13] Checking Notion schema...",
+      "timestamp": "2026-06-11T10:23:14Z"
+    },
+    {
+      "ticket": "TKT-0211",
+      "error": "[2026-06-11 20:23:14] Checking Notion schema...",
+      "timestamp": "2026-06-11T10:23:14Z"
+    },
+    {
+      "ticket": "TKT-0212",
+      "error": "[2026-06-11 20:23:19] Checking Notion schema...",
+      "timestamp": "2026-06-11T10:23:20Z"
+    },
+    {
+      "ticket": "TKT-0213",
+      "error": "[2026-06-11 20:23:20] Checking Notion schema...",
+      "timestamp": "2026-06-11T10:23:20Z"
+    },
+    {
+      "ticket": "TKT-0214",
+      "error": "[2026-06-11 20:23:20] Checking Notion schema...",
+      "timestamp": "2026-06-11T10:23:20Z"
+    },
+    {
+      "ticket": "TKT-0215",
+      "error": "[2026-06-11 20:23:21] Checking Notion schema...",
+      "timestamp": "2026-06-11T10:23:21Z"
+    },
+    {
+      "ticket": "TKT-0216",
+      "error": "[2026-06-11 20:23:21] Checking Notion schema...",
+      "timestamp": "2026-06-11T10:23:21Z"
+    },
+    {
+      "ticket": "TKT-0217",
+      "error": "[2026-06-11 20:23:22] Checking Notion schema...",
+      "timestamp": "2026-06-11T10:23:22Z"
+    },
+    {
+      "ticket": "TKT-0218",
+      "error": "[2026-06-11 20:23:22] Checking Notion schema...",
+      "timestamp": "2026-06-11T10:23:23Z"
+    },
+    {
+      "ticket": "TKT-0219",
+      "error": "[2026-06-11 20:23:23] Checking Notion schema...",
+      "timestamp": "2026-06-11T10:23:23Z"
+    },
+    {
+      "ticket": "TKT-0220",
+      "error": "[2026-06-11 20:23:23] Checking Notion schema...",
+      "timestamp": "2026-06-11T10:23:24Z"
+    },
+    {
+      "ticket": "TKT-0221",
+      "error": "[2026-06-11 20:23:24] Checking Notion schema...",
+      "timestamp": "2026-06-11T10:23:24Z"
+    },
+    {
+      "ticket": "TKT-0222",
+      "error": "[2026-06-11 20:23:24] Checking Notion schema...",
+      "timestamp": "2026-06-11T10:23:25Z"
+    },
+    {
+      "ticket": "TKT-0223",
+      "error": "[2026-06-11 20:23:25] Checking Notion schema...",
+      "timestamp": "2026-06-11T10:23:25Z"
+    },
+    {
+      "ticket": "TKT-0224",
+      "error": "[2026-06-11 20:23:25] Checking Notion schema...",
+      "timestamp": "2026-06-11T10:23:27Z"
+    },
+    {
+      "ticket": "TKT-0225",
+      "error": "[2026-06-11 20:23:27] Checking Notion schema...",
+      "timestamp": "2026-06-11T10:23:27Z"
+    },
+    {
+      "ticket": "TKT-0226",
+      "error": "[2026-06-11 20:23:27] Checking Notion schema...",
+      "timestamp": "2026-06-11T10:23:28Z"
+    },
+    {
+      "ticket": "TKT-0227",
+      "error": "[2026-06-11 20:23:28] Checking Notion schema...",
+      "timestamp": "2026-06-11T10:23:28Z"
+    },
+    {
+      "ticket": "TKT-0228",
+      "error": "[2026-06-11 20:23:28] Checking Notion schema...",
+      "timestamp": "2026-06-11T10:23:29Z"
+    },
+    {
+      "ticket": "TKT-0229",
+      "error": "[2026-06-11 20:23:29] Checking Notion schema...",
+      "timestamp": "2026-06-11T10:23:29Z"
+    },
+    {
+      "ticket": "TKT-0230",
+      "error": "[2026-06-11 20:23:29] Checking Notion schema...",
+      "timestamp": "2026-06-11T10:23:30Z"
+    },
+    {
+      "ticket": "TKT-0232",
+      "error": "[2026-06-11 20:23:30] Checking Notion schema...",
+      "timestamp": "2026-06-11T10:23:30Z"
+    },
+    {
+      "ticket": "TKT-0233",
+      "error": "[2026-06-11 20:23:30] Checking Notion schema...",
+      "timestamp": "2026-06-11T10:23:31Z"
+    },
+    {
+      "ticket": "TKT-0234",
+      "error": "[2026-06-11 20:23:31] Checking Notion schema...",
+      "timestamp": "2026-06-11T10:23:32Z"
+    },
+    {
+      "ticket": "TKT-0235",
+      "error": "[2026-06-11 20:23:32] Checking Notion schema...",
+      "timestamp": "2026-06-11T10:23:32Z"
+    },
+    {
+      "ticket": "TKT-0236",
+      "error": "[2026-06-11 20:23:32] Checking Notion schema...",
+      "timestamp": "2026-06-11T10:23:33Z"
+    },
+    {
+      "ticket": "TKT-0238",
+      "error": "[2026-06-11 20:23:33] Checking Notion schema...",
+      "timestamp": "2026-06-11T10:23:33Z"
+    },
+    {
+      "ticket": "TKT-0241",
+      "error": "[2026-06-11 20:23:33] Checking Notion schema...",
+      "timestamp": "2026-06-11T10:23:34Z"
+    },
+    {
+      "ticket": "TKT-0251",
+      "error": "[2026-06-11 20:23:34] Checking Notion schema...",
+      "timestamp": "2026-06-11T10:23:34Z"
+    },
+    {
+      "ticket": "TKT-0252",
+      "error": "[2026-06-11 20:23:34] Checking Notion schema...",
+      "timestamp": "2026-06-11T10:23:35Z"
+    },
+    {
+      "ticket": "TKT-0253",
+      "error": "[2026-06-11 20:23:35] Checking Notion schema...",
+      "timestamp": "2026-06-11T10:23:35Z"
+    },
+    {
+      "ticket": "TKT-0254",
+      "error": "[2026-06-11 20:23:35] Checking Notion schema...",
+      "timestamp": "2026-06-11T10:23:36Z"
+    },
+    {
+      "ticket": "TKT-0255",
+      "error": "[2026-06-11 20:23:36] Checking Notion schema...",
+      "timestamp": "2026-06-11T10:23:36Z"
+    },
+    {
+      "ticket": "TKT-0256",
+      "error": "[2026-06-11 20:23:36] Checking Notion schema...",
+      "timestamp": "2026-06-11T10:23:37Z"
+    },
+    {
+      "ticket": "TKT-0257",
+      "error": "[2026-06-11 20:23:37] Checking Notion schema...",
+      "timestamp": "2026-06-11T10:23:37Z"
+    },
+    {
+      "ticket": "TKT-0258",
+      "error": "[2026-06-11 20:23:37] Checking Notion schema...",
+      "timestamp": "2026-06-11T10:23:38Z"
+    },
+    {
+      "ticket": "TKT-0259",
+      "error": "[2026-06-11 20:23:38] Checking Notion schema...",
+      "timestamp": "2026-06-11T10:23:38Z"
+    },
+    {
+      "ticket": "TKT-0260",
+      "error": "[2026-06-11 20:23:38] Checking Notion schema...",
+      "timestamp": "2026-06-11T10:23:39Z"
+    },
+    {
+      "ticket": "TKT-0261",
+      "error": "[2026-06-11 20:23:39] Checking Notion schema...",
+      "timestamp": "2026-06-11T10:23:39Z"
+    },
+    {
+      "ticket": "TKT-0262",
+      "error": "[2026-06-11 20:23:40] Checking Notion schema...",
+      "timestamp": "2026-06-11T10:23:40Z"
+    },
+    {
+      "ticket": "TKT-0263",
+      "error": "[2026-06-11 20:23:40] Checking Notion schema...",
+      "timestamp": "2026-06-11T10:23:41Z"
+    },
+    {
+      "ticket": "TKT-0264",
+      "error": "[2026-06-11 20:23:41] Checking Notion schema...",
+      "timestamp": "2026-06-11T10:23:41Z"
+    },
+    {
+      "ticket": "TKT-0266",
+      "error": "[2026-06-11 20:23:41] Checking Notion schema...",
+      "timestamp": "2026-06-11T10:23:42Z"
+    },
+    {
+      "ticket": "TKT-0268",
+      "error": "[2026-06-11 20:23:42] Checking Notion schema...",
+      "timestamp": "2026-06-11T10:23:43Z"
+    },
+    {
+      "ticket": "TKT-0269",
+      "error": "[2026-06-11 20:23:43] Checking Notion schema...",
+      "timestamp": "2026-06-11T10:23:43Z"
+    },
+    {
+      "ticket": "TKT-0270",
+      "error": "[2026-06-11 20:23:43] Checking Notion schema...",
+      "timestamp": "2026-06-11T10:23:44Z"
+    },
+    {
+      "ticket": "TKT-0271",
+      "error": "[2026-06-11 20:23:44] Checking Notion schema...",
+      "timestamp": "2026-06-11T10:23:44Z"
+    },
+    {
+      "ticket": "TKT-0272",
+      "error": "[2026-06-11 20:23:44] Checking Notion schema...",
+      "timestamp": "2026-06-11T10:23:45Z"
+    },
+    {
+      "ticket": "TKT-0273",
+      "error": "[2026-06-11 20:23:45] Checking Notion schema...",
+      "timestamp": "2026-06-11T10:23:45Z"
+    },
+    {
+      "ticket": "TKT-0274",
+      "error": "[2026-06-11 20:23:45] Checking Notion schema...",
+      "timestamp": "2026-06-11T10:23:46Z"
+    },
+    {
+      "ticket": "TKT-0276",
+      "error": "[2026-06-11 20:23:47] Checking Notion schema...",
+      "timestamp": "2026-06-11T10:23:48Z"
+    },
+    {
+      "ticket": "TKT-0277",
+      "error": "[2026-06-11 20:23:53] Checking Notion schema...",
+      "timestamp": "2026-06-11T10:23:53Z"
+    },
+    {
+      "ticket": "TKT-0278",
+      "error": "[2026-06-11 20:23:54] Checking Notion schema...",
+      "timestamp": "2026-06-11T10:23:54Z"
+    },
+    {
+      "ticket": "TKT-0279",
+      "error": "[2026-06-11 20:23:54] Checking Notion schema...",
+      "timestamp": "2026-06-11T10:23:55Z"
+    },
+    {
+      "ticket": "TKT-0280",
+      "error": "[2026-06-11 20:23:55] Checking Notion schema...",
+      "timestamp": "2026-06-11T10:23:55Z"
+    },
+    {
+      "ticket": "TKT-0281",
+      "error": "[2026-06-11 20:23:55] Checking Notion schema...",
+      "timestamp": "2026-06-11T10:23:55Z"
+    },
+    {
+      "ticket": "TKT-0282",
+      "error": "[2026-06-11 20:23:55] Checking Notion schema...",
+      "timestamp": "2026-06-11T10:23:56Z"
+    },
+    {
+      "ticket": "TKT-0283",
+      "error": "[2026-06-11 20:23:56] Checking Notion schema...",
+      "timestamp": "2026-06-11T10:23:56Z"
+    },
+    {
+      "ticket": "TKT-0284",
+      "error": "[2026-06-11 20:23:56] Checking Notion schema...",
+      "timestamp": "2026-06-11T10:23:57Z"
+    },
+    {
+      "ticket": "TKT-0285",
+      "error": "[2026-06-11 20:23:57] Checking Notion schema...",
+      "timestamp": "2026-06-11T10:23:57Z"
+    },
+    {
+      "ticket": "TKT-0286",
+      "error": "[2026-06-11 20:23:57] Checking Notion schema...",
+      "timestamp": "2026-06-11T10:23:58Z"
+    },
+    {
+      "ticket": "TKT-0287",
+      "error": "[2026-06-11 20:23:58] Checking Notion schema...",
+      "timestamp": "2026-06-11T10:23:58Z"
+    },
+    {
+      "ticket": "TKT-0288",
+      "error": "[2026-06-11 20:23:58] Checking Notion schema...",
+      "timestamp": "2026-06-11T10:23:59Z"
+    },
+    {
+      "ticket": "TKT-0289",
+      "error": "[2026-06-11 20:23:59] Checking Notion schema...",
+      "timestamp": "2026-06-11T10:23:59Z"
+    },
+    {
+      "ticket": "TKT-0290",
+      "error": "[2026-06-11 20:23:59] Checking Notion schema...",
+      "timestamp": "2026-06-11T10:24:00Z"
+    },
+    {
+      "ticket": "TKT-0291",
+      "error": "[2026-06-11 20:24:00] Checking Notion schema...",
+      "timestamp": "2026-06-11T10:24:00Z"
+    },
+    {
+      "ticket": "TKT-0295",
+      "error": "[2026-06-11 20:24:06] Checking Notion schema...",
+      "timestamp": "2026-06-11T10:24:07Z"
+    },
+    {
+      "ticket": "TKT-0297",
+      "error": "[2026-06-11 20:24:09] Checking Notion schema...",
+      "timestamp": "2026-06-11T10:24:09Z"
+    },
+    {
+      "ticket": "TKT-0298",
+      "error": "[2026-06-11 20:24:09] Checking Notion schema...",
+      "timestamp": "2026-06-11T10:24:10Z"
+    },
+    {
+      "ticket": "TKT-0299",
+      "error": "[2026-06-11 20:24:10] Checking Notion schema...",
+      "timestamp": "2026-06-11T10:24:10Z"
+    },
+    {
+      "ticket": "TKT-0300",
+      "error": "[2026-06-11 20:24:10] Checking Notion schema...",
+      "timestamp": "2026-06-11T10:24:11Z"
+    },
+    {
+      "ticket": "TKT-0301",
+      "error": "[2026-06-11 20:24:11] Checking Notion schema...",
+      "timestamp": "2026-06-11T10:24:11Z"
+    },
+    {
+      "ticket": "TKT-0302",
+      "error": "[2026-06-11 20:24:11] Checking Notion schema...",
+      "timestamp": "2026-06-11T10:24:12Z"
+    },
+    {
+      "ticket": "TKT-0303",
+      "error": "[2026-06-11 20:24:12] Checking Notion schema...",
+      "timestamp": "2026-06-11T10:24:12Z"
+    },
+    {
+      "ticket": "TKT-0304",
+      "error": "[2026-06-11 20:24:12] Checking Notion schema...",
+      "timestamp": "2026-06-11T10:24:14Z"
+    },
+    {
+      "ticket": "TKT-0305",
+      "error": "[2026-06-11 20:24:14] Checking Notion schema...",
+      "timestamp": "2026-06-11T10:24:14Z"
+    },
+    {
+      "ticket": "TKT-0306",
+      "error": "[2026-06-11 20:24:14] Checking Notion schema...",
+      "timestamp": "2026-06-11T10:24:15Z"
+    },
+    {
+      "ticket": "TKT-0307",
+      "error": "[2026-06-11 20:24:15] Checking Notion schema...",
+      "timestamp": "2026-06-11T10:24:15Z"
+    },
+    {
+      "ticket": "TKT-0308",
+      "error": "[2026-06-11 20:24:15] Checking Notion schema...",
+      "timestamp": "2026-06-11T10:24:16Z"
+    },
+    {
+      "ticket": "TKT-0309",
+      "error": "[2026-06-11 20:24:16] Checking Notion schema...",
+      "timestamp": "2026-06-11T10:24:16Z"
+    },
+    {
+      "ticket": "TKT-0310",
+      "error": "[2026-06-11 20:24:16] Checking Notion schema...",
+      "timestamp": "2026-06-11T10:24:17Z"
+    },
+    {
+      "ticket": "TKT-0311",
+      "error": "[2026-06-11 20:24:17] Checking Notion schema...",
+      "timestamp": "2026-06-11T10:24:17Z"
+    },
+    {
+      "ticket": "TKT-0312",
+      "error": "[2026-06-11 20:24:17] Checking Notion schema...",
+      "timestamp": "2026-06-11T10:24:18Z"
+    },
+    {
+      "ticket": "TKT-0313",
+      "error": "[2026-06-11 20:24:18] Checking Notion schema...",
+      "timestamp": "2026-06-11T10:24:19Z"
+    },
+    {
+      "ticket": "TKT-0314",
+      "error": "[2026-06-11 20:24:19] Checking Notion schema...",
+      "timestamp": "2026-06-11T10:24:19Z"
+    },
+    {
+      "ticket": "TKT-0316",
+      "error": "[2026-06-11 20:24:21] Checking Notion schema...",
+      "timestamp": "2026-06-11T10:24:21Z"
+    },
+    {
+      "ticket": "TKT-0320",
+      "error": "[2026-06-11 20:24:26] Checking Notion schema...",
+      "timestamp": "2026-06-11T10:24:26Z"
+    },
+    {
+      "ticket": "TKT-0321",
+      "error": "[2026-06-11 20:24:26] Checking Notion schema...",
+      "timestamp": "2026-06-11T10:24:27Z"
+    },
+    {
+      "ticket": "TKT-0322",
+      "error": "[2026-06-11 20:24:27] Checking Notion schema...",
+      "timestamp": "2026-06-11T10:24:27Z"
+    },
+    {
+      "ticket": "TKT-0325",
+      "error": "[2026-06-11 20:24:31] Checking Notion schema...",
+      "timestamp": "2026-06-11T10:24:32Z"
+    },
+    {
+      "ticket": "TKT-0328",
+      "error": "[2026-06-11 20:24:40] Checking Notion schema...",
+      "timestamp": "2026-06-11T10:24:41Z"
+    },
+    {
+      "ticket": "TKT-0329",
+      "error": "[2026-06-11 20:24:41] Checking Notion schema...",
+      "timestamp": "2026-06-11T10:24:41Z"
+    },
+    {
+      "ticket": "TKT-0330",
+      "error": "[2026-06-11 20:24:41] Checking Notion schema...",
+      "timestamp": "2026-06-11T10:24:42Z"
+    },
+    {
+      "ticket": "TKT-0331",
+      "error": "[2026-06-11 20:24:42] Checking Notion schema...",
+      "timestamp": "2026-06-11T10:24:42Z"
+    },
+    {
+      "ticket": "TKT-0332",
+      "error": "[2026-06-11 20:24:42] Checking Notion schema...",
+      "timestamp": "2026-06-11T10:24:43Z"
+    },
+    {
+      "ticket": "TKT-0333",
+      "error": "[2026-06-11 20:24:43] Checking Notion schema...",
+      "timestamp": "2026-06-11T10:24:43Z"
+    },
+    {
+      "ticket": "TKT-0334",
+      "error": "[2026-06-11 20:24:43] Checking Notion schema...",
+      "timestamp": "2026-06-11T10:24:44Z"
+    },
+    {
+      "ticket": "TKT-0335",
+      "error": "[2026-06-11 20:24:44] Checking Notion schema...",
+      "timestamp": "2026-06-11T10:24:44Z"
+    },
+    {
+      "ticket": "TKT-0336-P0",
+      "error": "[2026-06-11 20:24:46] Checking Notion schema...",
+      "timestamp": "2026-06-11T10:24:46Z"
+    },
+    {
+      "ticket": "TKT-0337:P1-AContextBudgetGuards(TokenCounting+InjectionGates)",
+      "error": "[2026-06-11 20:24:47] Checking Notion schema...",
+      "timestamp": "2026-06-11T10:24:47Z"
+    },
+    {
+      "ticket": "TKT-0338:P1-BFileSizeEnforcement(Write-Time+Pre-InjectionValidation)",
+      "error": "[2026-06-11 20:24:47] Checking Notion schema...",
+      "timestamp": "2026-06-11T10:24:47Z"
+    },
+    {
+      "ticket": "TKT-0339",
+      "error": "[2026-06-11 20:24:47] Checking Notion schema...",
+      "timestamp": "2026-06-11T10:24:48Z"
+    },
+    {
+      "ticket": "TKT-0339:P1-CCronTimeoutAuto-Scaling(Adaptive+Retry+Reaping)",
+      "error": "[2026-06-11 20:24:48] Checking Notion schema...",
+      "timestamp": "2026-06-11T10:24:48Z"
+    },
+    {
+      "ticket": "TKT-0340",
+      "error": "[2026-06-11 20:24:48] Checking Notion schema...",
+      "timestamp": "2026-06-11T10:24:49Z"
+    },
+    {
+      "ticket": "TKT-0340:P2ConstraintHardening(Enforce+Auto-Summarization+Dashboard)",
+      "error": "[2026-06-11 20:24:49] Checking Notion schema...",
+      "timestamp": "2026-06-11T10:24:49Z"
+    },
+    {
+      "ticket": "TKT-0341",
+      "error": "[2026-06-11 20:24:49] Checking Notion schema...",
+      "timestamp": "2026-06-11T10:24:50Z"
+    },
+    {
+      "ticket": "TKT-0341:P3PromptTruncationatGateway(IntelligentContextReduction)",
+      "error": "[2026-06-11 20:24:50] Checking Notion schema...",
+      "timestamp": "2026-06-11T10:24:50Z"
+    },
+    {
+      "ticket": "TKT-0342",
+      "error": "[2026-06-11 20:24:50] Checking Notion schema...",
+      "timestamp": "2026-06-11T10:24:51Z"
+    },
+    {
+      "ticket": "TKT-0343",
+      "error": "[2026-06-11 20:24:51] Checking Notion schema...",
+      "timestamp": "2026-06-11T10:24:51Z"
+    },
+    {
+      "ticket": "TKT-0344",
+      "error": "[2026-06-11 20:24:51] Checking Notion schema...",
+      "timestamp": "2026-06-11T10:24:52Z"
+    },
+    {
+      "ticket": "TKT-0345",
+      "error": "[2026-06-11 20:24:52] Checking Notion schema...",
+      "timestamp": "2026-06-11T10:24:52Z"
+    },
+    {
+      "ticket": "TKT-0346",
+      "error": "[2026-06-11 20:24:52] Checking Notion schema...",
+      "timestamp": "2026-06-11T10:24:53Z"
+    },
+    {
+      "ticket": "TKT-0347",
+      "error": "[2026-06-11 20:24:53] Checking Notion schema...",
+      "timestamp": "2026-06-11T10:24:54Z"
+    },
+    {
+      "ticket": "TKT-0348",
+      "error": "[2026-06-11 20:24:54] Checking Notion schema...",
+      "timestamp": "2026-06-11T10:24:54Z"
+    },
+    {
+      "ticket": "TKT-0349",
+      "error": "[2026-06-11 20:24:54] Checking Notion schema...",
+      "timestamp": "2026-06-11T10:24:55Z"
+    },
+    {
+      "ticket": "TKT-0350",
+      "error": "[2026-06-11 20:24:55] Checking Notion schema...",
+      "timestamp": "2026-06-11T10:24:55Z"
+    },
+    {
+      "ticket": "TKT-0351",
+      "error": "[2026-06-11 20:24:55] Checking Notion schema...",
+      "timestamp": "2026-06-11T10:24:56Z"
+    },
+    {
+      "ticket": "TKT-0352",
+      "error": "[2026-06-11 20:24:56] Checking Notion schema...",
+      "timestamp": "2026-06-11T10:24:56Z"
+    },
+    {
+      "ticket": "TKT-0353",
+      "error": "[2026-06-11 20:24:56] Checking Notion schema...",
+      "timestamp": "2026-06-11T10:24:56Z"
+    },
+    {
+      "ticket": "TKT-0354",
+      "error": "[2026-06-11 20:24:56] Checking Notion schema...",
+      "timestamp": "2026-06-11T10:24:57Z"
+    },
+    {
+      "ticket": "TKT-0355",
+      "error": "[2026-06-11 20:24:57] Checking Notion schema...",
+      "timestamp": "2026-06-11T10:24:57Z"
+    },
+    {
+      "ticket": "TKT-0356",
+      "error": "[2026-06-11 20:24:57] Checking Notion schema...",
+      "timestamp": "2026-06-11T10:24:58Z"
+    },
+    {
+      "ticket": "TKT-0357",
+      "error": "[2026-06-11 20:24:58] Checking Notion schema...",
+      "timestamp": "2026-06-11T10:24:58Z"
+    },
+    {
+      "ticket": "TKT-0358",
+      "error": "[2026-06-11 20:24:58] Checking Notion schema...",
+      "timestamp": "2026-06-11T10:24:59Z"
+    },
+    {
+      "ticket": "TKT-0359",
+      "error": "[2026-06-11 20:24:59] Checking Notion schema...",
+      "timestamp": "2026-06-11T10:24:59Z"
+    },
+    {
+      "ticket": "TKT-0360",
+      "error": "[2026-06-11 20:24:59] Checking Notion schema...",
+      "timestamp": "2026-06-11T10:25:00Z"
+    },
+    {
+      "ticket": "TKT-0361",
+      "error": "[2026-06-11 20:25:00] Checking Notion schema...",
+      "timestamp": "2026-06-11T10:25:00Z"
+    },
+    {
+      "ticket": "TKT-0362",
+      "error": "[2026-06-11 20:25:00] Checking Notion schema...",
+      "timestamp": "2026-06-11T10:25:01Z"
+    },
+    {
+      "ticket": "TKT-0363",
+      "error": "[2026-06-11 20:25:01] Checking Notion schema...",
+      "timestamp": "2026-06-11T10:25:01Z"
+    },
+    {
+      "ticket": "TKT-0364",
+      "error": "[2026-06-11 20:25:01] Checking Notion schema...",
+      "timestamp": "2026-06-11T10:25:01Z"
+    },
+    {
+      "ticket": "TKT-0365",
+      "error": "[2026-06-11 20:25:01] Checking Notion schema...",
+      "timestamp": "2026-06-11T10:25:02Z"
+    },
+    {
+      "ticket": "TKT-0366",
+      "error": "[2026-06-11 20:25:02] Checking Notion schema...",
+      "timestamp": "2026-06-11T10:25:02Z"
+    },
+    {
+      "ticket": "TKT-0367",
+      "error": "[2026-06-11 20:25:03] Checking Notion schema...",
+      "timestamp": "2026-06-11T10:25:03Z"
+    },
+    {
+      "ticket": "TKT-0368",
+      "error": "[2026-06-11 20:25:03] Checking Notion schema...",
+      "timestamp": "2026-06-11T10:25:03Z"
+    },
+    {
+      "ticket": "TKT-0369",
+      "error": "[2026-06-11 20:25:03] Checking Notion schema...",
+      "timestamp": "2026-06-11T10:25:04Z"
+    },
+    {
+      "ticket": "TKT-0369-A",
+      "error": "[2026-06-11 20:25:04] Checking Notion schema...",
+      "timestamp": "2026-06-11T10:25:04Z"
+    },
+    {
+      "ticket": "TKT-0369-B",
+      "error": "[2026-06-11 20:25:04] Checking Notion schema...",
+      "timestamp": "2026-06-11T10:25:05Z"
+    },
+    {
+      "ticket": "TKT-0369-C",
+      "error": "[2026-06-11 20:25:05] Checking Notion schema...",
+      "timestamp": "2026-06-11T10:25:05Z"
+    },
+    {
+      "ticket": "TKT-0381",
+      "error": "[2026-06-11 20:25:12] Checking Notion schema...",
+      "timestamp": "2026-06-11T10:25:12Z"
+    },
+    {
+      "ticket": "TKT-0382",
+      "error": "[2026-06-11 20:25:12] Checking Notion schema...",
+      "timestamp": "2026-06-11T10:25:13Z"
+    },
+    {
+      "ticket": "TKT-0383",
+      "error": "[2026-06-11 20:25:13] Checking Notion schema...",
+      "timestamp": "2026-06-11T10:25:13Z"
+    },
+    {
+      "ticket": "TKT-0384",
+      "error": "[2026-06-11 20:25:13] Checking Notion schema...",
+      "timestamp": "2026-06-11T10:25:14Z"
+    },
+    {
+      "ticket": "TKT-0385",
+      "error": "[2026-06-11 20:25:14] Checking Notion schema...",
+      "timestamp": "2026-06-11T10:25:14Z"
+    },
+    {
+      "ticket": "TKT-0386",
+      "error": "[2026-06-11 20:25:14] Checking Notion schema...",
+      "timestamp": "2026-06-11T10:25:15Z"
+    },
+    {
+      "ticket": "TKT-0387",
+      "error": "[2026-06-11 20:25:15] Checking Notion schema...",
+      "timestamp": "2026-06-11T10:25:15Z"
+    },
+    {
+      "ticket": "TKT-0388",
+      "error": "[2026-06-11 20:25:15] Checking Notion schema...",
+      "timestamp": "2026-06-11T10:25:16Z"
+    },
+    {
+      "ticket": "TKT-0389",
+      "error": "[2026-06-11 20:25:16] Checking Notion schema...",
+      "timestamp": "2026-06-11T10:25:16Z"
+    },
+    {
+      "ticket": "TKT-0390",
+      "error": "[2026-06-11 20:25:16] Checking Notion schema...",
+      "timestamp": "2026-06-11T10:25:17Z"
+    },
+    {
+      "ticket": "TKT-0391",
+      "error": "[2026-06-11 20:25:17] Checking Notion schema...",
+      "timestamp": "2026-06-11T10:25:17Z"
+    },
+    {
+      "ticket": "TKT-0401",
+      "error": "[2026-06-11 20:25:27] Checking Notion schema...",
+      "timestamp": "2026-06-11T10:25:27Z"
+    },
+    {
+      "ticket": "TKT-NFA-001",
+      "error": "[2026-06-11 20:25:32] Checking Notion schema...",
+      "timestamp": "2026-06-11T10:25:33Z"
+    },
+    {
+      "ticket": "TKT-SMOKE-001",
+      "error": "[2026-06-11 20:25:33] Checking Notion schema...",
+      "timestamp": "2026-06-11T10:25:34Z"
+    }
+  ]
+}

@@ -34,7 +34,7 @@ import json, subprocess, os
 from datetime import datetime, timezone
 
 ws = "/Users/ainchorsangiefpl/.openclaw/workspace"
-db_sh = os.path.join(ws, "scripts", "db.sh")
+db_sh = os.path.join(ws, "scripts", "db-raw.sh")
 state_file = os.path.join(ws, "state", "model-drift-state.json")
 
 if os.path.exists(state_file):

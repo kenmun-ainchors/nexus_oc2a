@@ -1,0 +1,133 @@
+{
+  "id": "35bc1829-53ff-81cc-b687-ccc176014178",
+  "properties": {
+    "Notes": {
+      "id": "%3AQXQ",
+      "type": "rich_text",
+      "rich_text": [
+        {
+          "type": "text",
+          "text": {
+            "content": "Run Flux.1-schnell locally on OC1 (M4 24GB) via ComfyUI for unlimited free image generation. Setup: install ComfyUI + Flux.1-schnell weights (~6GB). Spark calls ComfyUI API locally. No rate limits, best quality, full control. Dependency on TKT-0120 (HF option) — do this only if HF limits become an issue or Ken prefers full local ownership. OC1 M4 24GB handles Flux.1-schnell well on MPS (Metal).",
+            "link": null
+          },
+          "annotations": {
+            "bold": false,
+            "italic": false,
+            "strikethrough": false,
+            "underline": false,
+            "code": false,
+            "color": "default"
+          },
+          "plain_text": "Run Flux.1-schnell locally on OC1 (M4 24GB) via ComfyUI for unlimited free image generation. Setup: install ComfyUI + Flux.1-schnell weights (~6GB). Spark calls ComfyUI API locally. No rate limits, best quality, full control. Dependency on TKT-0120 (HF option) — do this only if HF limits become an issue or Ken prefers full local ownership. OC1 M4 24GB handles Flux.1-schnell well on MPS (Metal).",
+          "href": null
+        }
+      ]
+    },
+    "Created Date": {
+      "id": "%3A%7BT%3E",
+      "type": "date",
+      "date": {
+        "start": "2026-05-09",
+        "end": null,
+        "time_zone": null
+      }
+    },
+    "Priority": {
+      "id": "Eqzw",
+      "type": "select",
+      "select": {
+        "id": "61947d34-848d-4ebd-8016-1d70d076f110",
+        "name": "Low",
+        "color": "gray"
+      }
+    },
+    "Category": {
+      "id": "GLXS",
+      "type": "select",
+      "select": null
+    },
+    "Effort": {
+      "id": "Hn%60N",
+      "type": "select",
+      "select": null
+    },
+    "Sprint Date": {
+      "id": "In%7DH",
+      "type": "date",
+      "date": null
+    },
+    "Stream": {
+      "id": "O%7B%3D%7C",
+      "type": "select",
+      "select": null
+    },
+    "Impact": {
+      "id": "Pl~b",
+      "type": "select",
+      "select": null
+    },
+    "Sprint": {
+      "id": "%5BqSX",
+      "type": "select",
+      "select": null
+    },
+    "Type": {
+      "id": "%5Clgh",
+      "type": "select",
+      "select": {
+        "id": "c5a1c08e-f13b-4ec2-bd09-a9b7e3fb021a",
+        "name": "TKT",
+        "color": "yellow"
+      }
+    },
+    "Delivered Date": {
+      "id": "diV%3C",
+      "type": "date",
+      "date": null
+    },
+    "Status": {
+      "id": "gzuH",
+      "type": "select",
+      "select": {
+        "id": "5255e93b-eb41-4478-ad5d-1fc775fcffe0",
+        "name": "Done",
+        "color": "green"
+      }
+    },
+    "Yoda Assessment": {
+      "id": "p_og",
+      "type": "rich_text",
+      "rich_text": []
+    },
+    "Planned Date": {
+      "id": "%7BqbQ",
+      "type": "date",
+      "date": null
+    },
+    "US Title": {
+      "id": "title",
+      "type": "title",
+      "title": [
+        {
+          "type": "text",
+          "text": {
+            "content": "[TKT-0122] [ARCHIVED] [TKT-0122] Spark: LinkedIn image generation via ComfyUI + Flux.1-schnell local on OC1 (fallback/upgrade)",
+            "link": null
+          },
+          "annotations": {
+            "bold": false,
+            "italic": false,
+            "strikethrough": false,
+            "underline": false,
+            "code": false,
+            "color": "default"
+          },
+          "plain_text": "[TKT-0122] [ARCHIVED] [TKT-0122] Spark: LinkedIn image generation via ComfyUI + Flux.1-schnell local on OC1 (fallback/upgrade)",
+          "href": null
+        }
+      ]
+    }
+  },
+  "last_edited_time": "2026-05-26T10:59:00.000Z"
+}

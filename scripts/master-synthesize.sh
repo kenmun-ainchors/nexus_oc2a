@@ -114,7 +114,7 @@ get_direction() {
 # ── Assumption Extraction ────────────────────────────────────────────
 KNOWN_ASSUMPTION_PATTERNS=(
   "PG running"
-  "db.sh available"
+  "db-raw.sh available"
   "db-read.sh available"
   "db-write.sh available"
   "file exists"
@@ -386,7 +386,7 @@ $JQ -n \
 # Save reference in ticket metadata
 TICKET_TABLE="state_tickets"
 update_sql="UPDATE $TICKET_TABLE SET metadata = jsonb_set(metadata, '{synthesize_report}', '\"$REPORT_FILE\"') WHERE id='$PARENT_TICKET';"
-bash "$SCRIPT_DIR/db.sh" -c "$update_sql" > /dev/null 2>&1 || true
+bash "$SCRIPT_DIR/db-raw.sh" -c "$update_sql" > /dev/null 2>&1 || true
 
 # ── Output ───────────────────────────────────────────────────────────
 if [[ "$OUTPUT_FORMAT" == "json" ]]; then

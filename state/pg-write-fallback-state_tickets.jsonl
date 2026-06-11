@@ -432,3 +432,22 @@ Ken will return with a solution paper from Claude research. Yoda + Atlas + Thraw
 }}
 {"status":"closed","resolution":"Completed 2026-06-10. Mirror isolated to nexus_mirror database. Created DB + schema (p0c001-p0c005) + role grants. Repointed launchd plist DSN to nexus_mirror. Daemon restarted (PID 4387, 326 rows/sweep). Python harness already reads from nexus_mirror. Divergence cron metadata corrected. Sandbox preserved for test harness. Two DSNs only. WAL/RPO/RTO deferred to OC2."}
 {"status":"closed","resolution":"Phase 1-6 complete 2026-06-10. Phase 1: Atlas+Sage dual-gate PASS, Ken merged feature branch (cce88f7). Phase 2: Deployed mirror-writer daemon, metadata coercion fix (0a580b5), daemon restarted. Phase 3: Mirror isolated to nexus_mirror (TKT-0396). Phase 4: Status_map fix (171a435), divergence harness updated (grooming→planning valid), 2 orphan shadow rows deleted. Phase 5: Continuous sync proven — 108+ cycles, zero field mismatches, 330/330/330. Phase 6: Clock reset to Day 1, alert cleared, baseline archived. 2 pre-existing artifacts (empty-ID + shadow-only test ticket) remain as known noise."}
+{"status":"in-progress","priority":"critical"}
+{
+"status": "in-progress",
+"priority": "critical"
+}
+{"status":"closed"}
+{
+"status": "closed"
+}
+{
+"status": "closed"
+}
+{
+"status": "closed"
+}
+{
+"status": "closed"
+}
+{"status":"done"}

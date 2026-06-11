@@ -1,0 +1,127 @@
+{
+  "id": "37bc1829-53ff-8143-9305-c2ee30ac1ffd",
+  "properties": {
+    "Notes": {
+      "id": "%3AQXQ",
+      "type": "rich_text",
+      "rich_text": []
+    },
+    "Created Date": {
+      "id": "%3A%7BT%3E",
+      "type": "date",
+      "date": null
+    },
+    "Priority": {
+      "id": "Eqzw",
+      "type": "select",
+      "select": {
+        "id": "efb65466-b9ef-43f0-bcd9-0616de8ec5e7",
+        "name": "Medium",
+        "color": "yellow"
+      }
+    },
+    "Category": {
+      "id": "GLXS",
+      "type": "select",
+      "select": {
+        "id": "68b2358c-2eee-4234-bd28-7860c6973f56",
+        "name": "Platform",
+        "color": "pink"
+      }
+    },
+    "Effort": {
+      "id": "Hn%60N",
+      "type": "select",
+      "select": {
+        "id": "2da0bb5a-0781-4229-9d07-be58bcb4816a",
+        "name": "M — Half day",
+        "color": "yellow"
+      }
+    },
+    "Sprint Date": {
+      "id": "In%7DH",
+      "type": "date",
+      "date": null
+    },
+    "Stream": {
+      "id": "O%7B%3D%7C",
+      "type": "select",
+      "select": {
+        "id": "9268575a-1bb6-464f-b6cc-14b35ba8b7dc",
+        "name": "Technical",
+        "color": "blue"
+      }
+    },
+    "Impact": {
+      "id": "Pl~b",
+      "type": "select",
+      "select": null
+    },
+    "Sprint": {
+      "id": "%5BqSX",
+      "type": "select",
+      "select": {
+        "id": "d08147b0-c5e5-424f-a14b-3ab278d96b61",
+        "name": "Sprint 8",
+        "color": "blue"
+      }
+    },
+    "Type": {
+      "id": "%5Clgh",
+      "type": "select",
+      "select": {
+        "id": "c5a1c08e-f13b-4ec2-bd09-a9b7e3fb021a",
+        "name": "TKT",
+        "color": "yellow"
+      }
+    },
+    "Delivered Date": {
+      "id": "diV%3C",
+      "type": "date",
+      "date": null
+    },
+    "Status": {
+      "id": "gzuH",
+      "type": "select",
+      "select": {
+        "id": "421dc0b2-dd20-43dc-a617-102656e706e8",
+        "name": "Backlog",
+        "color": "gray"
+      }
+    },
+    "Yoda Assessment": {
+      "id": "p_og",
+      "type": "rich_text",
+      "rich_text": []
+    },
+    "Planned Date": {
+      "id": "%7BqbQ",
+      "type": "date",
+      "date": null
+    },
+    "US Title": {
+      "id": "title",
+      "type": "title",
+      "title": [
+        {
+          "type": "text",
+          "text": {
+            "content": "[TKT-0394] Quarterly Tribal Knowledge Audit — QBR Mandatory CI Task",
+            "link": null
+          },
+          "annotations": {
+            "bold": false,
+            "italic": false,
+            "strikethrough": false,
+            "underline": false,
+            "code": false,
+            "color": "default"
+          },
+          "plain_text": "[TKT-0394] Quarterly Tribal Knowledge Audit — QBR Mandatory CI Task",
+          "href": null
+        }
+      ]
+    }
+  },
+  "last_edited_time": "2026-06-10T12:38:00.000Z"
+}

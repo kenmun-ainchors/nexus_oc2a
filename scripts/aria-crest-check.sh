@@ -18,7 +18,7 @@ set -euo pipefail
 GREP=grep
 
 WORKSPACE="/Users/ainchorsangiefpl/.openclaw/workspace"
-DB_SCRIPT="$WORKSPACE/scripts/db.sh"
+DB_SCRIPT="/scripts/db-raw.sh""
 REPORT_FILE="$WORKSPACE/state/aria-crest-compliance.json"
 ALERT_FILE="$WORKSPACE/state/aria-crest-alert.json"
 NOW=$(date -u '+%Y-%m-%dT%H:%M:%S+10:00')

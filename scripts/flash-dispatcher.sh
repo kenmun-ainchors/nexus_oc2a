@@ -26,7 +26,7 @@ MODEL_POLICY="$WORKSPACE/state/model-policy.json"
 DB_WRITE="$SCRIPTS/db-write.sh"
 DB_READ="$SCRIPTS/db-read.sh"
 ATOM_VALIDATE="$SCRIPTS/atom-validate.sh"
-DB="$SCRIPTS/db.sh"
+DB="$SCRIPTS/db-raw.sh"
 
 # ─── Colours ──────────────────────────────────────────────────
 RED='\033[0;31m'

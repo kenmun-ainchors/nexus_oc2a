@@ -1,0 +1,145 @@
+{
+  "id": "369c1829-53ff-8190-9da6-c2a434f995c9",
+  "properties": {
+    "Notes": {
+      "id": "%3AQXQ",
+      "type": "rich_text",
+      "rich_text": [
+        {
+          "type": "text",
+          "text": {
+            "content": "Groomed 19:34 AEST. P1 complete. Executing Phase 2 via Forge.",
+            "link": null
+          },
+          "annotations": {
+            "bold": false,
+            "italic": false,
+            "strikethrough": false,
+            "underline": false,
+            "code": false,
+            "color": "default"
+          },
+          "plain_text": "Groomed 19:34 AEST. P1 complete. Executing Phase 2 via Forge.",
+          "href": null
+        }
+      ]
+    },
+    "Created Date": {
+      "id": "%3A%7BT%3E",
+      "type": "date",
+      "date": {
+        "start": "2026-05-23",
+        "end": null,
+        "time_zone": null
+      }
+    },
+    "Priority": {
+      "id": "Eqzw",
+      "type": "select",
+      "select": {
+        "id": "efb65466-b9ef-43f0-bcd9-0616de8ec5e7",
+        "name": "Medium",
+        "color": "yellow"
+      }
+    },
+    "Category": {
+      "id": "GLXS",
+      "type": "select",
+      "select": null
+    },
+    "Effort": {
+      "id": "Hn%60N",
+      "type": "select",
+      "select": null
+    },
+    "Sprint Date": {
+      "id": "In%7DH",
+      "type": "date",
+      "date": null
+    },
+    "Stream": {
+      "id": "O%7B%3D%7C",
+      "type": "select",
+      "select": {
+        "id": "aded286d-bea3-47a8-9b4c-3155e3829138",
+        "name": "Business",
+        "color": "purple"
+      }
+    },
+    "Impact": {
+      "id": "Pl~b",
+      "type": "select",
+      "select": null
+    },
+    "Sprint": {
+      "id": "%5BqSX",
+      "type": "select",
+      "select": {
+        "id": "c7eb6411-4c97-4b70-af08-a9c2a0e50c11",
+        "name": "Sprint 4",
+        "color": "orange"
+      }
+    },
+    "Type": {
+      "id": "%5Clgh",
+      "type": "select",
+      "select": {
+        "id": "cd0f0954-12ea-4cc3-9035-ef0e4b048cbd",
+        "name": "task",
+        "color": "red"
+      }
+    },
+    "Delivered Date": {
+      "id": "diV%3C",
+      "type": "date",
+      "date": {
+        "start": "2026-05-23",
+        "end": null,
+        "time_zone": null
+      }
+    },
+    "Status": {
+      "id": "gzuH",
+      "type": "select",
+      "select": {
+        "id": "5255e93b-eb41-4478-ad5d-1fc775fcffe0",
+        "name": "Done",
+        "color": "green"
+      }
+    },
+    "Yoda Assessment": {
+      "id": "p_og",
+      "type": "rich_text",
+      "rich_text": []
+    },
+    "Planned Date": {
+      "id": "%7BqbQ",
+      "type": "date",
+      "date": null
+    },
+    "US Title": {
+      "id": "title",
+      "type": "title",
+      "title": [
+        {
+          "type": "text",
+          "text": {
+            "content": "[TKT-0255] [TKT-0255] Groomed 19:34 AEST. P1 complete. Executing Phase 2 via Forge.",
+            "link": null
+          },
+          "annotations": {
+            "bold": false,
+            "italic": false,
+            "strikethrough": false,
+            "underline": false,
+            "code": false,
+            "color": "default"
+          },
+          "plain_text": "[TKT-0255] [TKT-0255] Groomed 19:34 AEST. P1 complete. Executing Phase 2 via Forge.",
+          "href": null
+        }
+      ]
+    }
+  },
+  "last_edited_time": "2026-05-26T11:01:00.000Z"
+}

@@ -11,6 +11,32 @@
 ---
 ---
 
+## 2026-06-11 13:32 AEST — [CHG-0496] CHG-0496: Batch-apply TKT-0339 cron timeoutSeconds — 27 agentTurn crons
+**Type:** cron
+**Change Type:** Normal
+**Source:** manual
+**Trigger:** TKT-0339 baseline flagged 48 crons with SET recommendations. Ken approved batch apply.
+**What changed:** Applied timeoutSeconds to 27 agentTurn payload crons via openclaw cron edit --timeout-seconds. 3 high-priority: Aria ROI (722s), Monthly Model (452s), Daily Blog (831s). 24 remaining: class-based floors (shell 30-131s, light-agent 120-180s, heavy-agent 300-452s, blog-standup 600-831s).
+**Why:** All 48 crons had no timeout configured. 27 agentTurn crons now have protection against runaway model calls. 21 systemEvent crons cannot receive timeoutSeconds — server-cron code only checks payload.kind==='agentTurn'.
+**Verification:** 3 high-priority crons confirmed via openclaw cron get — timeoutSeconds present. Remaining 24 agentTurn crons applied via CLI batch.
+**Rollback:** N/A
+**Linked:** none
+---
+
+
+## 2026-06-11 12:55 AEST — [CHG-0495] CHG-0462: Remove activeHours from heartbeat to unblock overnight crons
+**Type:** config
+**Change Type:** Normal
+**Source:** manual
+**Trigger:** Ken reported drive sync stopped since Jun 9
+**What changed:** Removed activeHours (08:00-23:00) from both main agent and agent defaults heartbeat config
+**Why:** Crons with wakeMode=now call runHeartbeatOnce which checks isWithinActiveHours. activeHours was blocking all overnight crons.
+**Verification:** Manual drive sync caught up Jun 9-11. Config verified. Next cron run at 00:30 AEST.
+**Rollback:** N/A
+**Linked:** none
+---
+
+
 ## 2026-06-10 23:58 AEST — [CHG-0494] TKT-0395 Closed — Mirror-Writer Operationalised + WO-002 Clock Reset
 **Type:** infra
 **Change Type:** Normal

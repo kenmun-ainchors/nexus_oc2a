@@ -5,7 +5,7 @@
 # Searches knowledge_chunks.content using PostgreSQL full-text search.
 # Returns matching chunks with document info and relevance ranking.
 
-DB="/Users/ainchorsangiefpl/.openclaw/workspace/scripts/db.sh"
+DB="/Users/ainchorsangiefpl/.openclaw/workspace/scripts/db-raw.sh"
 QUERY="$1"
 LIMIT="${2:-10}"
 

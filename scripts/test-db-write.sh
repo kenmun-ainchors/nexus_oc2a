@@ -10,7 +10,7 @@ echo "--- Starting db-write.sh Regression Tests ---"
 cleanup() {
     local tid=$1
     echo "Cleaning up $tid..."
-    bash /Users/ainchorsangiefpl/.openclaw/workspace/scripts/db.sh -c "DELETE FROM state_tickets WHERE id='$tid';" 2>/dev/null
+    bash /Users/ainchorsangiefpl/.openclaw/workspace/scripts/db-raw.sh -c "DELETE FROM state_tickets WHERE id='$tid';" 2>/dev/null
 }
 
 # Test 1: Normal insert with known columns

@@ -4,7 +4,7 @@
 #   bash scripts/pg-poll.sh state_tickets "2026-05-23T19:00:00+10:00"
 
 TABLE="$1"; SINCE="${2:-}"
-DB="/Users/ainchorsangiefpl/.openclaw/workspace/scripts/db.sh"
+DB="/Users/ainchorsangiefpl/.openclaw/workspace/scripts/db-raw.sh"
 
 if [[ -z "$TABLE" ]]; then
   echo '{"error": "usage: pg-poll.sh <table> [since_timestamp]"}' >&2

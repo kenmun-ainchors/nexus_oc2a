@@ -19,7 +19,7 @@
 set -euo pipefail
 
 WORKSPACE="/Users/ainchorsangiefpl/.openclaw/workspace"
-DB_SCRIPT="$WORKSPACE/scripts/db.sh"
+DB_SCRIPT="/scripts/db-raw.sh""
 SYNTHESIZE_REPORT="$WORKSPACE/state/synthesize-reports"
 GATE_LOG="$WORKSPACE/state/crest-gate-state.json"
 

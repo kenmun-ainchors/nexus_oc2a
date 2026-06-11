@@ -572,13 +572,13 @@ for table in state_config_baseline state_cost state_linkedin state_autoheal_log 
              state_diagnostics state_uptime state_model_trials state_kri \
              state_governance state_latency state_model_drift state_frameworks; do
   seq_name="${table}_id_seq"
-  seq_val=$(bash "$WORKSPACE/scripts/db.sh" -c "SELECT last_value FROM $seq_name" 2>/dev/null | tr -d ' ')
-  max_id=$(bash "$WORKSPACE/scripts/db.sh" -c "SELECT COALESCE(MAX(id),0) FROM $table" 2>/dev/null | tr -d ' ')
+  seq_val=$(bash "$WORKSPACE/scripts/db-raw.sh" -c "SELECT last_value FROM $seq_name" 2>/dev/null | tr -d ' ')
+  max_id=$(bash "$WORKSPACE/scripts/db-raw.sh" -c "SELECT COALESCE(MAX(id),0) FROM $table" 2>/dev/null | tr -d ' ')
   if [[ -n "$seq_val" && -n "$max_id" ]]; then
     if [[ "$seq_val" -lt "$max_id" ]]; then
       # Auto-fix: resync sequence
       new_val=$((max_id + 1))
-      bash "$WORKSPACE/scripts/db.sh" -c "SELECT setval('$seq_name', $new_val)" >> "$LOG" 2>&1 && \
+      bash "$WORKSPACE/scripts/db-raw.sh" -c "SELECT setval('$seq_name', $new_val)" >> "$LOG" 2>&1 && \
         log "  FIXED: $seq_name was $seq_val, reset to $new_val (table max=$max_id)" && \
         AUTO_FIXED+=("pg-sequence:$seq_name:$seq_val→$new_val")
       SEQUENCE_DRIFT+=("$seq_name desynced: seq=$seq_val max=$max_id")
@@ -1237,7 +1237,7 @@ print(json.dumps({'checks_run': checks, 'issues': issues, 'auto_fixed': auto_fix
 " 2>/dev/null || echo '{}')
 _STATUS="complete"
 [[ ${#NEEDS_KEN[@]} -gt 0 ]] && _STATUS="complete_with_needs_ken"
-bash "$WORKSPACE/scripts/db.sh" -c "
+bash "$WORKSPACE/scripts/db-raw.sh" -c "
 INSERT INTO state_autoheal_log (run_date, status, total_checks, passed, failed, warnings, needs_ken, needs_ken_count, checks_detail)
 VALUES (
     '$TODAY',

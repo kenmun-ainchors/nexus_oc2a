@@ -1,46 +1,42 @@
-# YODA TELEGRAM CONTEXT BRIEF
-Last Updated: 2026-06-10 20:00 AEST
+### 🟢 YODA CONTEXT BRIEF — 2026-06-11 20:00 AEST
 
-## 📊 PLATFORM STATUS
-- **Day Count:** 46 (from 2026-04-25)
-- **Phase:** MVP (OC1 Production)
-- **Status:** Stable / Sprint 7 (87% Complete)
+**PLATFORM STATUS**
+- **Day Count:** Day 48 (since 2026-04-25)
+- **Phase:** MVP (OC1-only)
+- **Health:** Green (S1-S7 active)
+- **HIVE:** OC1 LIVE. OC2-A/B ETA 6-13 Jul.
 
-## 👥 KEY PEOPLE
-- **Ken Mun:** Co-founder, CTO (Lead)
-- **Angie Foong:** Co-founder, CEO
-- **KL Team:** 4–5 headcount (Marketing/Dev/Support/Admin) - P1 Target
+**KEY PEOPLE**
+- **Ken Mun (CTO):** Primary Authority.
+- **Angie Foong (CEO):** Business/CEO lead.
+- **KL Team:** Incoming P1 (Marketing/Dev/Support/Admin).
 
-## 🏗️ INFRASTRUCTURE
-- **OC1:** Mac Mini M4 24GB (LIVE Production)
-- **OC2-A/B:** Incoming ETA 6–13 Jul 2026 (HA Primary/Standby)
-- **Network:** Tailscale Mesh / NAS
-- **Platform:** OpenClaw / Postgres SSOT
+**INFRASTRUCTURE**
+- **OC1:** Mac Mini M4 24GB (Production).
+- **Connectivity:** Tailscale mesh.
+- **SOPs:** CREST Loop (Plan → Execute → Verify → Replan → Synthesize → Done).
+- **Skill-Gate:** Domain scripts BLOCK unless skill loaded via bash scripts/skill-load.sh.
 
-## 🏃 CURRENT SPRINT (S7)
-- **Theme:** Sprint 6 Carries — Close Out
-- **Dates:** 2026-06-08 to 2026-06-14
-- **Progress:** 7/8 Complete (87%)
-- **Key Done:** Auto-Heal Fixes, PG Interface Skill, Tilde Normalization, Cron Scaling, Dispatch Validator.
+**CURRENT SPRINT**
+- **Sprint 7:** "Sprint 6 Carries — Close Out" (2026-06-08 to 2026-06-14)
+- **Status:** Committed.
+- **Next Sprint (S8):** "Platform Constraint Enforcement + PG SSOT Remediation" (Starts 2026-06-15).
 
-## ✅ APPROVED DECISIONS
-- **Sprints:** Sprint 7 theme locked; Sprint 8 focus on PG SSOT Remediation.
-- **CREST Loop:** Locked 2026-06-09 (Plan → Execute → Verify → Replan → Synthesize → Done).
-- **Nexus Naming:** Locked (Holocron, Bridge, Citadel, Holonet, Beacon, Sanctum, Datapad).
-- **LinkedIn Rule:** Missed posts push to next available slot; no late posts.
-- **Model Routing:** DeepSeek permanent primary; kimi fallback only.
+**APPROVED DECISIONS**
+- **CREST Loop:** Locked 2026-06-09. Strong-tier plans/verifies, cheap-tier executes.
+- **Nexus Naming:** Locked. Holocron (AKB), Bridge (Cmd), Citadel (Portal), etc.
+- **Governance:** T0: Yoda → T1: Aria → T2: Warden → T3: Specialists → T4: Verdict agents.
+- **Builds:** Forge ONLY. No routing to Atlas/Thrawn.
 
-## 🎫 TOP OPEN TICKETS
-1. TKT-0137: AInchors Policy Register — formal policy definition (Backlog/M)
-*(Note: Sprint 7 is nearly cleared; Sprint 8 queue contains 21 tickets)*
+**LINKEDIN QUEUE**
+- Status: Connected (Data source unavailable in current state read).
 
-## 📱 CHANNEL STATE
-- **LinkedIn Queue:** No active state file found; check Spark logs.
-- **Recent Telegram Decisions:** No pending syncs (syncedToWebchat=false) found in state.
+**TELEGRAM DECISIONS**
+- No pending decisions (syncedToWebchat=false) found in available state.
 
-## ⚠️ TELEGRAM MANDATORY RULES
-- **Sovereignty:** Client data = Tier 0/1 local ONLY.
-- **Chunking:** All messages MUST be split at 3,800 characters.
-- **Async:** Tasks > 30s must use .
-- **RVEV:** All atom executions must follow READ → VALIDATE → EXECUTE → VERIFY.
-- **Conservative Mode:** NO RISKY STATE MANIPULATION without explicit Ken approval.
+**MANDATORY TELEGRAM RULES**
+1. **Chunking:** All messages MUST be split at 3,800 characters.
+2. **Async:** Tasks > 30s must use sessions_spawn. No blocking webchat.
+3. **Conservative Mode:** NO risky state manipulation without Ken approval.
+4. **Skill-Gate:** Always load the skill before executing domain scripts.
+5. **Identity:** Direct, concise, resourceful. No fluff.

@@ -1,0 +1,137 @@
+{
+  "id": "356c1829-53ff-81ca-ac5c-d2e1e01e2042",
+  "properties": {
+    "Notes": {
+      "id": "%3AQXQ",
+      "type": "rich_text",
+      "rich_text": [
+        {
+          "type": "text",
+          "text": {
+            "content": "S5 control (no hardcoded creds). Findings: (1) RESOLVED: Old rotated Anthropic key in backups/gateway-config/2026-04-27/ sanitised (CHG pending). (2) OPEN: All agent auth-profiles.json store API keys as plaintext JSON. Need: chmod 600 on all agentDir/, verify OpenClaw SecretRef support, update backup-exclusion policy. (3) OPEN: Ollama Cloud models not configured as OpenClaw provider. kimi/deepseek only work via ollama CLI, not OpenClaw model routing. CI Cycle A workaround applied (haiku). Full provider setup needed. Acceptance: a) auth-profiles chmod 600, b) backup excludes auth files, c) Ollama Cloud provider configured, d) CI Cycle A reverted to deepseek-pro.",
+            "link": null
+          },
+          "annotations": {
+            "bold": false,
+            "italic": false,
+            "strikethrough": false,
+            "underline": false,
+            "code": false,
+            "color": "default"
+          },
+          "plain_text": "S5 control (no hardcoded creds). Findings: (1) RESOLVED: Old rotated Anthropic key in backups/gateway-config/2026-04-27/ sanitised (CHG pending). (2) OPEN: All agent auth-profiles.json store API keys as plaintext JSON. Need: chmod 600 on all agentDir/, verify OpenClaw SecretRef support, update backup-exclusion policy. (3) OPEN: Ollama Cloud models not configured as OpenClaw provider. kimi/deepseek only work via ollama CLI, not OpenClaw model routing. CI Cycle A workaround applied (haiku). Full provider setup needed. Acceptance: a) auth-profiles chmod 600, b) backup excludes auth files, c) Ollama Cloud provider configured, d) CI Cycle A reverted to deepseek-pro.",
+          "href": null
+        }
+      ]
+    },
+    "Created Date": {
+      "id": "%3A%7BT%3E",
+      "type": "date",
+      "date": {
+        "start": "2026-05-04",
+        "end": null,
+        "time_zone": null
+      }
+    },
+    "Priority": {
+      "id": "Eqzw",
+      "type": "select",
+      "select": {
+        "id": "086c57f9-00f7-4c6a-a24a-d614885a73ea",
+        "name": "High",
+        "color": "orange"
+      }
+    },
+    "Category": {
+      "id": "GLXS",
+      "type": "select",
+      "select": null
+    },
+    "Effort": {
+      "id": "Hn%60N",
+      "type": "select",
+      "select": null
+    },
+    "Sprint Date": {
+      "id": "In%7DH",
+      "type": "date",
+      "date": null
+    },
+    "Stream": {
+      "id": "O%7B%3D%7C",
+      "type": "select",
+      "select": null
+    },
+    "Impact": {
+      "id": "Pl~b",
+      "type": "select",
+      "select": null
+    },
+    "Sprint": {
+      "id": "%5BqSX",
+      "type": "select",
+      "select": null
+    },
+    "Type": {
+      "id": "%5Clgh",
+      "type": "select",
+      "select": {
+        "id": "c5a1c08e-f13b-4ec2-bd09-a9b7e3fb021a",
+        "name": "TKT",
+        "color": "yellow"
+      }
+    },
+    "Delivered Date": {
+      "id": "diV%3C",
+      "type": "date",
+      "date": {
+        "start": "2026-05-17",
+        "end": null,
+        "time_zone": null
+      }
+    },
+    "Status": {
+      "id": "gzuH",
+      "type": "select",
+      "select": {
+        "id": "5255e93b-eb41-4478-ad5d-1fc775fcffe0",
+        "name": "Done",
+        "color": "green"
+      }
+    },
+    "Yoda Assessment": {
+      "id": "p_og",
+      "type": "rich_text",
+      "rich_text": []
+    },
+    "Planned Date": {
+      "id": "%7BqbQ",
+      "type": "date",
+      "date": null
+    },
+    "US Title": {
+      "id": "title",
+      "type": "title",
+      "title": [
+        {
+          "type": "text",
+          "text": {
+            "content": "[TKT-0049] [ORPHAN] [TKT-0049] S5 Audit: Credentials in auth-profiles.json + Ollama Cloud provider config",
+            "link": null
+          },
+          "annotations": {
+            "bold": false,
+            "italic": false,
+            "strikethrough": false,
+            "underline": false,
+            "code": false,
+            "color": "default"
+          },
+          "plain_text": "[TKT-0049] [ORPHAN] [TKT-0049] S5 Audit: Credentials in auth-profiles.json + Ollama Cloud provider config",
+          "href": null
+        }
+      ]
+    }
+  },
+  "last_edited_time": "2026-05-26T10:58:00.000Z"
+}

@@ -3060,7 +3060,7 @@
         "metadata": {
           "owner": "Aria",
           "parent": "TKT-0305",
-          "description": "Arias Weekly Business ROI Summary cron (7a4d8381) failed May 24 with: Write ~/.openclaw/workspace-business/state/business-roi.json failed. Root cause: tilde (~) not expanded in isolated cron session. Fix: replace ~ with full path /Users/ainchorsangiefpl, and migrate business-roi.json write to PG via db-write.sh."
+          "description": "Arias Weekly Business ROI Summary cron (7a4d8381) failed May 24 with: Write /Users/ainchorsangiefpl/.openclaw/workspace-business/state/business-roi.json failed. Root cause: tilde (~) not expanded in isolated cron session. Fix: replace ~ with full path /Users/ainchorsangiefpl, and migrate business-roi.json write to PG via db-write.sh."
         }
       },
       {
