@@ -1012,3 +1012,19 @@ Three crons (Morning Stand-Up, Daily Blog, Aria ROI) failed because agent models
 **Verified:** Day 22 file now 8,068 bytes (was 41,737). All operational facts preserved. No data loss.
 
 **Linked:** L-084 (fabrication lesson), L-085 (file size detection), TKT-0310 (file size limits), CHG-0519 (Day 22 close), L-082 (stream cap also hits on bloated replies)
+
+## L-088 — 2026-06-13 | TRIGGER-04 alert rerouted from Telegram to webchat
+**Lesson:** When a cron wakes the `main` agent session while a human is actively chatting on webchat, OpenClaw routes the cron reply into the active webchat lane, NOT the cron's nominal target channel. Session key `agent:main:telegram:direct:8574109706` ended up with `lastChannel: webchat` because the Telegram lane was unoccupied when the cron reply came back. The Telegram bot was never notified. Ken found the alert by manually inspecting `sessions_list`, not by Telegram. This is a **silence failure on a time-sensitive alert** — exactly the class of failure L-001 (use direct Bot API, not sessions_send) and L-040 (verify ALL signal paths) were meant to prevent.
+
+**Root cause:** Main session's "last delivery context" collapses to whichever channel has a live listener. The cron reply inherits that. Sovereign alerts must NOT share the main session lane — they need isolated delivery with explicit channel+to, or direct `telegram-alert.sh` calls that bypass the session layer.
+
+**Trigger:** TRIGGER-04 v2026.6.6 release detected 2026-06-13 06:00 AEST. Cron 6bd53c89 ran in isolated mode, drafted alert correctly, but delivery lane got hijacked because main session was busy on webchat.
+
+**Action:**
+1. Audit all Sovereign Alert crons (Budget, Health, TRIGGERs, Warden, Auto-Heal NEEDS_KEN) — confirm `sessionTarget: "isolated"` + `delivery: {mode: "announce", channel: "telegram", to: "8574109706"}` OR `telegram-alert.sh` direct call. (TKT-0501)
+2. For any cron that lands in the main session (`sessionTarget: "main"`), it is by definition subject to this failure mode — must be migrated to isolated+explicit-announce.
+3. Add `lastChannel: webchat` check in auto-heal: if any session with `origin.provider: telegram` ends up with `lastChannel != telegram`, that's an alert routing anomaly worth flagging.
+
+**Verified:** CHG-0521 + TKT-0501 + TKT-0502 created. TKT-0501 P0 (alert routing). TKT-0502 P1 (sandbox validation, also verifies the fix end-to-end).
+
+**Linked:** L-001 (cron must use direct Bot API), L-040 (verify ALL signal paths), TKT-0501, TKT-0502, CHG-0521, TRIGGER-04.

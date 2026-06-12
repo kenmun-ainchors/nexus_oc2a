@@ -11,6 +11,20 @@
 ---
 ---
 
+## 2026-06-13 07:53 AEST — [CHG-0521] TRIGGER-04: OpenClaw v2026.5.27 → v2026.6.6 — DEFER + SANDBOX
+**Type:** rule
+**Change Type:** Normal
+**Source:** ken-prompt
+**Trigger:** TRIGGER-04 fired by cron 6bd53c89 (2026-06-13 06:00 AEST) — v2026.6.6 release detected with substantial security hardening
+**What changed:** Decision: defer production update; sandbox validation on port 28789 in parallel. v2026.6.6 NOT applied to OC1 prod (18789).
+**Why:** OC1 is weeks from decommission per Platform Separation. Sandbox validation de-risks OC2 cutover. Security scope closer to High than feature-only (security boundary tightening across transcripts, sandbox binds, MCP stdio, Telegram DM cache fix, fail-closed exec approvals).
+**Verification:** TKT-0501: spin up 2026.6.6 on sandbox port 28789, 2h smoke-test core flows, bake validated build into OC2 fresh install (TRIGGER-01). Ken approved DEFER + SANDBOX 2026-06-13 07:53 AEST.
+**Rollback:** N/A — defer means no change to OC1 production. Sandbox install is reversible (rm -rf + port cleanup).
+**Linked:** TKT-0501, TRIGGER-01, TRIGGER-04, CHG-0500, CHG-0502, state/parks/anthropic.json
+**Category:** OpenClaw
+---
+
+
 ## 2026-06-13 00:04 AEST — [CHG-0520] Day 22 memory file rebuilt + L-086 logged (memory hygiene)
 **Type:** data
 **Change Type:** Normal
