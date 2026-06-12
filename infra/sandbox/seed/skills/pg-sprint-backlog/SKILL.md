@@ -556,6 +556,51 @@ bash scripts/db.sh -c "INSERT INTO state_tickets VALUES (...);"
 ```
 → **NEVER do this.** Direct DB writes bypass metadata validation, grooming history, and Notion sync. Violations are detectable by missing `grooming_history[]` entries.
 
+### ⚠️ CRITICAL — L-095: TQP queue writes go to PG, NOT to `state/task-queue.json` (2026-06-13)
+
+**`state/task-queue.json` is a write-only audit trail.** TQP (`scripts/task-queue-processor.sh`, cron `a89d00ef`) reads **exclusively from PG `state_task_queue` table**, never from the JSON file. The JSON file is only consumed by `scripts/task-watchdog.sh` for **divergence detection** (it generates the alert when JSON says `queued` but PG says `done`, or vice versa).
+
+**WRONG — TQP will NEVER see this:**
+```bash
+python3 -c "import json; d=json.load(open('state/task-queue.json')); d['queue'].append(atom); ..."
+```
+→ Atom is filed in JSON. TQP cron runs every 5 min, finds nothing, logs "TQP: No queued or dispatched tasks. Exiting." — silent failure (L-095).
+
+**CORRECT — INSERT directly into PG `state_task_queue`:**
+```bash
+bash scripts/db-raw.sh -c "INSERT INTO state_task_queue (id, title, status, priority, source, atoms_jsonb, atoms, created_at, updated_at, created_at_ts, updated_at_ts, atom_index, tenant_id, iteration_count, persistence_type)
+VALUES ('TKT-NNNN-A1', 'Atom title', 'queued', 8, 'agent:tqp',
+        '{\"ac\":\"AC1\",\"tkt\":\"TKT-NNNN\",\"task\":\"...\",\"agent\":\"forge\",\"effort\":\"S\",\"atom_seq\":1,\"depends_on\":[],\"pass_condition\":\"...\",\"model\":\"flash\"}'::jsonb,
+        'auto-queued description', '2026-06-13T10:00:00+10:00', '2026-06-13T10:00:00+10:00', '2026-06-13 10:00:00+10:00', '2026-06-13 10:00:00+10:00',
+        1, 'ainchors', 0, 'INLINE_ATOM')
+ON CONFLICT (id) DO UPDATE SET status='queued', atoms_jsonb=EXCLUDED.atoms_jsonb, updated_at=EXCLUDED.updated_at;"
+```
+
+**Schema reference for `state_task_queue`:**
+- `id` TEXT PRIMARY KEY — format: `TKT-NNNN-A{N}` or `task-YYYY-MM-DD-{uuid}`
+- `title` TEXT — short title (≤80 chars preferred)
+- `status` TEXT — `queued` | `dispatched` | `running` | `complete` | `done` | `closed` | `cancelled` | `pending-approval`
+- `priority` INTEGER — 0-10 (10 = P0/critical, 8 = P1/high, 5 = P2/medium)
+- `source` TEXT — typically `agent:tqp` (matches existing pattern)
+- `atoms_jsonb` JSONB — full atom spec: `{ac, tkt, task, agent, effort, atom_seq, depends_on, pass_condition, model}`
+- `atoms` TEXT — human-readable description (visible in PG psql output)
+- `created_at` / `updated_at` TEXT — ISO-8601 with timezone
+- `created_at_ts` / `updated_at_ts` TIMESTAMPTZ — for sort/filter
+- `atom_index` INTEGER — sequence number within parent ticket (1, 2, 3…)
+- `tenant_id` TEXT — always `'ainchors'`
+- `iteration_count` INTEGER — default 0
+- `persistence_type` TEXT — `INLINE_ATOM` for normal TQP work
+
+**Verify your queue write will be picked up:**
+```bash
+bash scripts/task-queue-processor.sh    # should immediately say "Processing TKT-NNNN-A1 — Claimed"
+bash scripts/db-raw.sh -c "SELECT id, status, claimedby, claimedat FROM state_task_queue WHERE id='TKT-NNNN-A1';"
+```
+
+**If you must also write to the JSON file (for audit trail — recommended):** append to the `queue` array of `state/task-queue.json` AND insert into PG. The watchdog cron will generate a divergence alert if they disagree, which is the intended safety net. Never expect TQP to read the JSON.
+
+**Detection of orphan JSON writes:** auto-heal CHECK 28f (added L-095) scans PG for `state_task_queue` rows with `status='queued'` and compares to the `state/task-queue.json` queue array; alerts Ken via `NEEDS_KEN` if JSON has entries that PG doesn't. Existing `task-watchdog.sh` handles the opposite direction (PG→JSON).
+
 ---
 
 ## Agent Contract (NON-NEGOTIABLE)

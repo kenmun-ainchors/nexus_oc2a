@@ -1092,3 +1092,21 @@ Three crons (Morning Stand-Up, Daily Blog, Aria ROI) failed because agent models
 **Verified:** `bash -n` passes. Gate runs: TKT-0501 PASSED, TKT-0407 PASSED, TKT-9999 PASSED. Gate state file written correctly. CHG-0526.
 
 **Linked:** L-089 (sibling — recovery after rejection), L-090 (sibling — silence failure), TKT-0406 (root commit that introduced the bug), TKT-0501 (the ticket whose close triggered discovery), CHG-0526, scripts/crest-done-gate.sh, scripts/auto-heal.sh.
+
+## L-095 — 2026-06-13 | task-queue-processor reads from PG state_task_queue, NOT state/task-queue.json — JSON file is write-only orphan
+**Lesson:** Ken asked at 09:52 AEST "still waiting on A1-A5 to complete?" — I had queued 5 atoms to `state/task-queue.json` 35 min earlier. Ran `bash scripts/task-queue-processor.sh` manually → "TQP: No queued or dispatched tasks. Exiting." Traced: TQP reads PG `state_task_queue` table via `pg()`. The JSON file is **only used by `task-watchdog.sh` for divergence detection** (which is how the 2026-06-12 alert got generated — TKT-0340-A1 was already 'done' in PG but still 'queued' in JSON).
+
+**Root cause:** The skill `pg-sprint-backlog` does not document that TQP queues go to PG, not the JSON file. The JSON file is read by `task-watchdog.sh` and is the source of the divergence alert, but TQP itself never reads it. This is the inverse of L-091 (broken syntax in crest-done-gate.sh): there the tool looked correct; here the write path looked correct.
+
+**Why it took 35 min to discover:** TQP cron `a89d00ef` runs every 5 min. Each run finds nothing. Each run is `succeeded` in OpenClaw's task view. No error, no alert, no NEEDS_KEN. Silent failure — exactly the L-088/L-089/L-090/L-091 family.
+
+**Action (structural):**
+1. **Cancelled 7 atoms in `state/task-queue.json` queue array** (status updated to 'cancelled-orphaned').
+2. **Insert 5 atoms directly into PG `state_task_queue`** with correct schema (id, title, atoms_jsonb, status='queued', priority, source).
+3. **Update pg-sprint-backlog SKILL.md** with explicit TQP queue write path section: "TQP is PG-only. The JSON file `state/task-queue.json` is a watchdog-divergence audit trail only. NEVER queue atoms there expecting TQP to pick them up."
+4. **Added auto-heal CHECK 28f**: scan PG for status='queued' rows in state_task_queue, compare to `state/task-queue.json` queue array, alert Ken if JSON has entries that PG doesn't (orphaned JSON writes).
+5. **Update task-watchdog.sh** to also flag PG→orphan (PG has 'queued' but no entry in JSON for that atom_id) — currently only flags JSON→PG divergence.
+
+**Verified:** TQP picks up atoms within 5 min of PG insert. PG row for TKT-0503-A1 visible to TQP dispatch query.
+
+**Linked:** L-091 (sibling — broken-pre-existing-infrastructure), TKT-0409 (task-watchdog cron owner), state/task-queue.json (orphaned write path), state_task_queue PG table (canonical), CHG-0531.

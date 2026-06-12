@@ -1455,6 +1455,66 @@ if [[ $CREST_SYNTAX_FAILS -gt 0 ]]; then
   NEEDS_KEN+=("L-091: $CREST_SYNTAX_FAILS CREST infrastructure script(s) have syntax errors. Run: bash -n <script>. See state/crest-script-syntax.json")
 fi
 
+# ---------- CHECK 28f: Orphaned TQP Queue Writes — JSON-only entries (L-095) ----------
+# L-095: TQP reads PG state_task_queue, NOT state/task-queue.json. Atoms queued to
+# JSON only are silent failures — TQP cron 'a89d00ef' runs every 5 min, finds nothing,
+# logs 'TQP: No queued or dispatched tasks. Exiting.' — no error, no alert.
+# Existing task-watchdog.sh handles PG->JSON divergence; this check handles JSON->PG.
+log "CHECK 28f: TQP queue write-path consistency (L-095)"
+CHECKS_RUN+=("tqp_queue_consistency_check")
+
+TQP_ORPHAN_REPORT="$STATE_DIR/tqp-orphan-writes.json"
+
+python3 <<PYEOF
+import json, os, subprocess
+from pathlib import Path
+
+json_path = Path("$STATE_DIR/../task-queue.json")
+pg_out = subprocess.run(
+    ["bash", "$WORKSPACE/scripts/db-raw.sh", "-c",
+     "SELECT id FROM state_task_queue WHERE status IN ('queued','dispatched','running')"],
+    capture_output=True, text=True
+)
+
+orphans = []
+if json_path.exists():
+    try:
+        d = json.load(open(json_path))
+        json_ids = set()
+        for a in d.get('queue', []):
+            aid = a.get('atom_id', '')
+            status = a.get('status', '')
+            if aid and status == 'queued':
+                json_ids.add(aid)
+        pg_ids = set()
+        for line in (pg_out.stdout or '').strip().split('\n'):
+            line = line.strip()
+            if line and not line.startswith('---') and not line.startswith('id') and not line.startswith('('):
+                pg_ids.add(line)
+        missing_in_pg = sorted(json_ids - pg_ids)
+        orphans = missing_in_pg
+    except Exception as e:
+        pass
+
+result = {
+    "check": "tqp_queue_consistency_check",
+    "ran_at": "$(date -u '+%Y-%m-%dT%H:%M:%S+00:00')",
+    "json_queued_count": len(json_ids) if 'json_ids' in dir() else 0,
+    "pg_active_count": len(pg_ids) if 'pg_ids' in dir() else 0,
+    "orphans_json_not_in_pg": orphans,
+    "orphan_count": len(orphans),
+    "verdict": "PASS" if len(orphans) == 0 else f"FAIL: {len(orphans)} JSON-queued atom(s) have no PG counterpart — TQP cannot see them (L-095)"
+}
+Path("$TQP_ORPHAN_REPORT").write_text(json.dumps(result, indent=2))
+print(f"CHECK 28f: {result['verdict']}")
+PYEOF
+
+ORPHAN_COUNT=$(python3 -c "import json; d=json.load(open('$TQP_ORPHAN_REPORT')); print(d.get('orphan_count', 0))" 2>/dev/null || echo 0)
+if [[ "$ORPHAN_COUNT" -gt 0 ]]; then
+  log "CHECK 28f: Found $ORPHAN_COUNT orphan JSON-queued atom(s) — see $TQP_ORPHAN_REPORT"
+  NEEDS_KEN+=("L-095: $ORPHAN_COUNT atom(s) queued to state/task-queue.json only (not PG). TQP cannot see them. Re-queue to PG state_task_queue. See state/tqp-orphan-writes.json")
+fi
+
 # ---------- FILE INC FOR EACH AUTO-FIX (ITSM-US-007) ----------
 if (( ${#AUTO_FIXED[@]} > 0 )); then
   log "Filing INC records for qualifying auto-fixed item(s)..."

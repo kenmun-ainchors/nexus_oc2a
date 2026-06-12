@@ -11,6 +11,20 @@
 ---
 ---
 
+## 2026-06-13 09:55 AEST — [CHG-0530] L-095: TQP queue write path is PG, not state/task-queue.json (CRITICAL — silent failure class)
+**Type:** rule
+**Change Type:** Normal
+**Source:** manual
+**Trigger:** Ken asked at 09:52 AEST 'still waiting on A1-A5 to complete?' — 35 min after I queued 5 atoms. TQP ran every 5 min, found nothing, exited cleanly. TQP reads PG state_task_queue, NOT state/task-queue.json. JSON file is watchdog-divergence audit trail only.
+**What changed:** Three structural fixes: (1) Inserted 5 TKT-0503 atoms directly into PG state_task_queue with correct schema (id, title, status, priority, source=agent:tqp, atoms_jsonb). TKT-0503-A1 already dispatched at 09:54:30 AEST. (2) Marked JSON file's 5 queue entries as 'cancelled-orphaned' and 2 historical TKT-0340 entries as 'historical-orphan' with L-095 traceability. (3) Added auto-heal CHECK 28f — scans JSON for status=queued entries not present in PG, alerts Ken via NEEDS_KEN. Detected future divergence class: PG source of truth, JSON is watchdog trail. (4) Updated infra/sandbox/seed/skills/pg-sprint-backlog/SKILL.md with 'L-095: TQP queue writes go to PG, NOT to state/task-queue.json' section, including full schema reference and example INSERT statement.
+**Why:** 5th silence-failure in L-088/L-089/L-090/L-091/L-095 lineage. TQP cron succeeded, exit 0, no error — but did nothing. Skill documentation did not distinguish PG from JSON. TQP design is intentional (PG = SSOT per TKT-0270) but the write path was not documented. Future Yoda runs (and any other agent) will hit the same trap without the SKILL.md update.
+**Verification:** TKT-0503-A1 dispatched at 09:54:30 AEST with claim timeout 10:24:30 AEST. A2-A5 queued, will be picked up by TQP's next runs (1-at-a-time design). CHECK 28f in scripts/auto-heal.sh: SYNTAX OK. Isolation test: 0 orphans after cleanup. Both pre-existing 2026-06-12 divergence orphans (TKT-0340-A1, TKT-0340-A8) marked historical-orphan with traceability.
+**Rollback:** Revoke CHECK 28f (sed delete from auto-heal.sh). Revert SKILL.md section. TKT-0503-A2 through A5 still queued in PG, will be picked up normally.
+**Linked:** L-095, TKT-0503, TKT-0409, TKT-0270, scripts/task-queue-processor.sh, scripts/task-watchdog.sh, scripts/auto-heal.sh, infra/sandbox/seed/skills/pg-sprint-backlog/SKILL.md, state/task-queue.json, state_task_queue PG table
+**Category:** infra
+---
+
+
 ## 2026-06-13 09:20 AEST — [CHG-0527] TKT-0503 dispatched: 7-atom obs.db noise reduction (87% target)
 **Type:** rule
 **Change Type:** Normal
