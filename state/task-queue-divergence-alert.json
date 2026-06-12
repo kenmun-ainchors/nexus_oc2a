@@ -1,0 +1,7 @@
+{
+  "alertAt": "2026-06-12T06:19:17.057900+00:00",
+  "alertType": "json_pg_divergence",
+  "source": "task-watchdog.sh",
+  "tkt": "TKT-0409 D3",
+  "raw": "DIVERGENCE|mismatches=TKT-0340-A1:json=queued->pg=done;TKT-0340-A8:json=queued->pg=done|missing_in_pg=task-2026-06-10-074258ca,task-2026-06-10-dedb4699|missing_in_json=task-2026-05-17-2e43e59d,task-2026-05-17-7d03d6d3,task-2026-05-17-a6c148a4,task-2026-05-17-3c40a62a,UAT-TQP-001,task-TKT-0236-test,TKT-0296,TKT-0309,TKT-TEST-TQP,TKT-0313"
+}

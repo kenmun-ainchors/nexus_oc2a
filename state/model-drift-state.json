@@ -1,10 +1,13 @@
 {
-  "totalChecksRun": 528,
-  "totalViolationsFound": 233,
-  "consecutiveClean": 0,
-  "lastCheck": "2026-06-11T23:07:04+10:00",
+  "totalChecksRun": 579,
+  "totalViolationsFound": 247,
+  "consecutiveClean": 36,
+  "lastCheck": "2026-06-12T23:08:43+10:00",
   "baselineResetAt": "2026-05-25T00:21:00+10:00",
   "approvedModels": [
+    "anthropic/claude-opus-4-7",
+    "anthropic/claude-sonnet-4-6",
+    "anthropic/claude-haiku-4-5",
     "ollama/gemma4:31b-cloud",
     "ollama/deepseek-v4-pro:cloud",
     "ollama/kimi-k2.6:cloud",
@@ -12,8 +15,10 @@
     "ollama/gemma4:e2b",
     "ollama/gemma4:26b"
   ],
-  "lastStatus": "violation",
-  "lastPassCount": 8,
-  "lastFailCount": 1,
-  "lastViolationAt": "2026-06-11T23:07:04+10:00"
+  "lastStatus": "clean",
+  "lastPassCount": 9,
+  "lastFailCount": 0,
+  "lastViolationAt": "2026-06-12T07:52:36+10:00",
+  "lastUpdated": "2026-06-12T08:05:00+10:00",
+  "lastUpdatedBy": "Yoda via CLAUDE RECONFIGURE (CHG-0500)"
 }

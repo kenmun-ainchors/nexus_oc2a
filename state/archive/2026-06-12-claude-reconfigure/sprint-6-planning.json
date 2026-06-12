@@ -1,0 +1,67 @@
+{
+  "sprint": "S6",
+  "startDate": "2026-06-02",
+  "endDate": "2026-06-08",
+  "plannedAt": "2026-05-31T03:10:00Z",
+  "plannedBy": "Ken Mun",
+  "facilitatedBy": "Yoda 🟢",
+  "committed": [
+    {
+      "id": "TKT-0268",
+      "title": "PG Dual-Write Stability — close or formalize reconciliation",
+      "priority": "high",
+      "status": "S5 carry",
+      "note": "PG=SSOT confirmed. Gap is architectural (20 tickets). Close or create periodic reconciliation job."
+    },
+    {
+      "id": "TKT-0269",
+      "title": "First Scheduled pg_dump Backup to NAS",
+      "priority": "critical",
+      "status": "S5 carry",
+      "note": "pg_dump to NAS still not automated. Critical path for DR."
+    },
+    {
+      "id": "TKT-0327",
+      "title": "Tilde-Path Normalization — Option B: wrapper script",
+      "priority": "high",
+      "status": "in_progress",
+      "note": "cron-write.sh deployed. 4 crons patched (standup, blog, Aria ROI, context-brief). Needs 48h observation."
+    },
+    {
+      "id": "TKT-0317",
+      "title": "Epic: Agent Context Optimization — Atlas assessment atom",
+      "priority": "high",
+      "status": "new",
+      "note": "First atom only — Atlas assessment. Unblocks TKT-0321-0324 chain."
+    },
+    {
+      "id": "TKT-0321",
+      "title": "2-Pass Dispatch Contract + Rules",
+      "priority": "high",
+      "status": "new",
+      "note": "Foundation for dispatch discipline. Unblocks routing matrix."
+    }
+  ],
+  "totalCommitted": 5,
+  "capacityLimit": 5,
+  "kenOverride": false,
+  "deferredToS7": [
+    "TKT-0332 — Platform Separation Phase 0 Prep (new TKT, create in S6)",
+    "TKT-0310 — Platform Constraint Enforcement",
+    "TKT-0293 — Regression Testing Framework",
+    "TKT-0326 — NAS Writable Backup Target",
+    "TKT-0319 — Global TQP Phase 3",
+    "TKT-0318 — Aria TQP (backlog)",
+    "TKT-0137 — Policy Register (backlog)",
+    "TKT-0275 — Progressive Disclosure (S5 carry, folded into TKT-0317)"
+  ],
+  "gatedItems": [
+    "TKT-0241: blocked on CLAUDE RESTORE keyword from Ken"
+  ],
+  "budgetNote": "$150/month cap active from Jun 1. DeepSeek primary, Claude buffer $50. Ollama Cloud $100/mo fixed.",
+  "schedule": {
+    "dailyStandup": "09:00 AEST (M-F)",
+    "midSprintCheck": "2026-06-05",
+    "sprintReview": "2026-06-07 (Sunday — shifted from Friday per Ken's week)"
+  }
+}

@@ -1,11 +1,17 @@
 # WO-002 Task State
 # Divergence Harness + Shadow Run — P0 Close-Out
 # Created: 2026-06-08
+# Last verified clean: 2026-06-12 20:55 AEST
 # Forge (infra agent) | Validator: Sage (qa agent)
 {
   "wo_id": "WO-002",
   "status": "in_progress",
   "started": "2026-06-08T20:46:00+10:00",
+  "last_divergence_check": "2026-06-12T20:55:00+10:00",
+  "divergence_status": "GREEN",
+  "last_alert": "2026-06-12T09:00:00+10:00",
+  "last_alert_summary": "12 extras (test loops + atoms) + 1 missing (CrewAI) + 2 mismatches (TKT-0241 status)",
+  "last_alert_resolution": "Resolved by 20:55: all extras cleaned, all missing back in sync, TKT-0241 = parked in both. WO-002 has caught up via continuous mirror-writer polling.",
   "tasks": {
     "W2-1": {"status": "pending", "title": "Deploy P0 migration to shadow PG"},
     "W2-2": {"status": "pending", "title": "Smoke invariants on shadow"},
@@ -13,8 +19,10 @@
     "W2-4": {"status": "pending", "title": "Build divergence harness"},
     "W2-5": {"status": "pending", "title": "Seed status map + allowlist"},
     "W2-6": {"status": "pending", "title": "Wire reporting"},
-    "W2-7": {"status": "pending", "title": "Daily comparison cycles"},
-    "W2-8": {"status": "pending", "title": "Handle divergence"}
+    "W2-7": {"status": "in_progress", "title": "Daily comparison cycles — 7-day monitoring per TKT-0368 phase gate"},
+    "W2-8": {"status": "in_progress", "title": "Handle divergence — last divergence alert 2026-06-12 09:00, resolved 20:55"}
   },
-  "artifacts": {}
+  "artifacts": {
+    "divergence_report_2026_06_12_20_55": "state/divergence-report-2026-06-12.json"
+  }
 }

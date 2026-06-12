@@ -1,0 +1,45 @@
+{
+  "schema_version": "1.0",
+  "description": "Permanent park on all Anthropic-related work per Ken Mun 2026-06-12 08:12. Active until Ken explicitly unparks with future instruction.",
+  "park_id": "anthropic-permanent-park-20260612",
+  "parked_at": "2026-06-12T08:12:00+10:00",
+  "parked_by": "Yoda via CHG-0502 (Ken Mun directive)",
+  "ken_directive_verbatim": "Anthropic credits and model enablement - Permanently park until I provide future instruction and update",
+  "scope": {
+    "parked": [
+      "Anthropic API key rotation (propagate-anthropic-key.sh)",
+      "Anthropic credits balance monitoring (auto-heal CHECK 9 — but this is still active as a normal cost check, not a parked work item)",
+      "Higher-quality tier activation (state/model-policy.json agentTiers.higherQuality)",
+      "Anthropic model enablement in any agent primary or fallback chain",
+      "TKT-0241 Sonnet Review Tier (was ungated from CLAUDE RESTORE per CHG-0500, now parked again)",
+      "Anthropic tier assignment in any agent",
+      "Updates to globalAllowedModels that add new Anthropic variants",
+      "Any model swap that includes anthropic/* as primary or fallback"
+    ],
+    "not_parked": [
+      "Anthropic models staying in globalAllowedModels (documented as an option, just not active)",
+      "The higherQuality tier existence in model-policy.json (inactive, agentIds=[])",
+      "Historical CHG records (CHG-0349, CHG-0500) — they are immutable audit trail",
+      "Documentation that references Anthropic as an option in the future state",
+      "Auto-heal CHECK 9 running normally — it's a cost-balance check, not a parked work item"
+    ]
+  },
+  "unblocking": {
+    "keyword_required": "Ken must explicitly say 'CLAUDE ACTIVATE' or provide specific instruction",
+    "what_unblocks": "Anthropic key rotation, higherQuality tier activation, model enablement, TKT-0241",
+    "what_still_needs_chg": "Any Anthropic enablement needs a new CHG record and Ken approval (per CREST v1.3 risk framework post CHG-0500)"
+  },
+  "monitoring": {
+    "alerts": "NONE. No cron or heartbeat will alert about Anthropic work being unstarted or pending.",
+    "reminders": "NONE. No auto-reminders. This park is by-design permanent until Ken unparks.",
+    "review_cadence": "None. By design."
+  },
+  "related_artifacts": {
+    "chg_records": ["CHG-0349 (Conservative Mode activation)", "CHG-0500 (CLAUDE RECONFIGURE — Conservative Mode LIFTED)", "CHG-0502 (this park)"],
+    "tickets_parked": ["TKT-0241 (Sonnet Review Tier)"],
+    "policy_files": ["state/model-policy.json (higherQuality tier inactive)"],
+    "runbook_section": "docs/YODA_RUNBOOK.md — CLAUDE RECONFIGURE (CHG-0500) section, plus this park"
+  },
+  "last_updated": "2026-06-12T08:12:00+10:00",
+  "last_updated_by": "Yoda via CHG-0502"
+}

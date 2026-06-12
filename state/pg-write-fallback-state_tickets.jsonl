@@ -451,3 +451,242 @@ Ken will return with a solution paper from Claude research. Yoda + Atlas + Thraw
 "status": "closed"
 }
 {"status":"done"}
+{
+"status": "in-progress"
+}
+{"id":"TKT-0407","title":"Hygiene sweep: close/fold 40+ empty-metadata tickets","status":"open","priority":"medium","type":"infra","created_at":"2026-06-11T21:22:05+10:00","metadata":{
+"brief": "Identifies all open tickets with missing brief/grooming_history/notion_sync and either closes (with rationale) or folds them into a single parent. Restores validate gate to green.",
+"effort": "M",
+"agent": "forge",
+"ac_count": 2,
+"sprint": "Sprint 7",
+"depends_on": [
+"TKT-0401"
+],
+"blocks": [],
+"grooming_history": [
+{
+"date": "2026-06-11T21:22:05+10:00",
+"decisions": "Ticket created via db-ticket.sh interactive create",
+"ac_count": 2,
+"ken_approved": false
+}
+],
+"folded_from": [],
+"folded_scope": [],
+"notion_sync": {
+"last_synced": null,
+"status": "pending"
+}
+}}
+{"id":"TKT-0407","title":"Hygiene sweep: close/fold 40+ empty-metadata tickets","status":"open","priority":"medium","type":"infra","created_at":"2026-06-11T21:23:36+10:00","metadata":{
+"brief": "Identifies all open tickets with missing brief/grooming_history/notion_sync and either closes (with rationale) or folds them into a single parent. Restores db-ticket.sh validate gate to green.",
+"effort": "M",
+"agent": "forge",
+"ac_count": 2,
+"sprint": "Sprint 7",
+"depends_on": [
+"TKT-0401"
+],
+"blocks": [],
+"grooming_history": [
+{
+"date": "2026-06-11T21:23:36+10:00",
+"decisions": "Ticket created via db-ticket.sh interactive create",
+"ac_count": 2,
+"ken_approved": false
+}
+],
+"folded_from": [],
+"folded_scope": [],
+"notion_sync": {
+"last_synced": null,
+"status": "pending"
+}
+}}
+{"id":"TKT-0407","title":"Hygiene sweep: close/fold 40+ empty-metadata tickets","status":"open","priority":"medium","type":"infra","created_at":"2026-06-11T21:23:48+10:00","metadata":{
+"brief": "Identifies all open tickets with missing brief/grooming_history/notion_sync and either closes (with rationale) or folds them into a single parent. Restores db-ticket.sh validate gate to green.",
+"effort": "M",
+"agent": "forge",
+"ac_count": 2,
+"sprint": "Sprint 7",
+"depends_on": [
+"TKT-0401"
+],
+"blocks": [],
+"grooming_history": [
+{
+"date": "2026-06-11T21:23:48+10:00",
+"decisions": "Ticket created via db-ticket.sh interactive create",
+"ac_count": 2,
+"ken_approved": false
+}
+],
+"folded_from": [],
+"folded_scope": [],
+"notion_sync": {
+"last_synced": null,
+"status": "pending"
+}
+}}
+{"id":"TKT-0407","title":"Hygiene sweep test","status":"open","priority":"medium","type":"infra","metadata":{"brief":"test brief"}}
+{"id":"TKT-0407","title":"Hygiene sweep: close/fold 40+ empty-metadata tickets","status":"open","priority":"medium","type":"infra","metadata":{"description":"Hygiene sweep: close/fold 40+ empty-metadata tickets. Batch-2 of Ken review 2026-06-12. Sequenced after TKT-0401. Owner: Forge. Effort: M. AC: (1) db-ticket.sh validate returns exit 0; (2) hygiene backlog = 0 or all closed-with-rationale."}}
+{"id":"TKT-0407","title":"Hygiene sweep test","status":"open","priority":"medium","type":"infra","metadata":{"description":"simple test"}}
+{"id":"TKT-TEST-1","title":"r1","status":"open","priority":"low"}
+{"id":"TKT-TEST-2","title":"r2","status":"open","metadata":{"brief":"hello","agent":"forge"}}
+{"id":"TKT-TEST-2","title":"r2","status":"open","metadata":{"brief":"hello","agent":"forge"}}
+{"id":"TKT-TEST-5","title":"r5","metadata":{"brief":"line1\nline2 \"quoted\" and {braced}"}}
+{"id":"TKT-TEST-5","title":"r5","metadata":{"brief":"line1\nline2 \"quoted\" and {braced}"}}
+{"id":"TKT-TEST-6","title":"r6","metadata":{"brief":"line1\nline2 \"quoted\" and {braced}"}}
+{"id": "TKT-0409", "title": "Audit: Delivered-But-Not-Closed Tickets + State-Machine + Watchdog Bugs", "status": "open", "priority": "high", "type": "audit", "created_at": "2026-06-12T08:08:00+10:00", "notionpageid": null, "url": null, "updated_at": "2026-06-12T08:08:00+10:00", "tags": ["audit", "crest", "state-machine", "watchdog"], "metadata": {"type": "audit", "origin": "Yoda CREST gate violation 2026-06-12 \u2014 task-2026-06-10-f9504783 stall handling", "sprint": "Sprint 7", "created": "2026-06-12T08:08:00+10:00", "assignedTo": "Yoda", "description": "Three related defects surfaced during task-2026-06-10-f9504783 stall handling. All need triage and fix.\n\n**DEFECT 1 \u2014 Delivered-but-not-closed tickets (7 of 8 CREST v1.2 sub-tickets still PG-open):**\nTKT-0381 was closed 2026-06-10 08:55 with resolution '8 sub-tickets completed'. TKT-0382, TKT-0383, TKT-0384, TKT-0385, TKT-0386, TKT-0387, TKT-0388 remain `open` in PG. Code artifacts verified on disk: atom-validate.sh (189L), dispatch-validate.sh (512L), flash-dispatcher.sh (882L), master-synthesize.sh (435L). Escalation lives in dispatch-validate.sh + pg_task_queue.py. Action: batch-update 7 tickets to `done` or `verified` with CHG reference.\n\n**DEFECT 2 \u2014 `sc_fail_atom()` does not pre-validate state transition:**\nCalling sc_fail_atom on a `verified` (terminal) task returns True and writes the failure anyway. validate_state_transition() would block it. The bypass caused Yoda to damage task-2026-06-10-f9504783 atom 1 status during stall handling (now manually restored via direct SQL \u2014 R1). Action: add pre-validate call inside sc_fail_atom(), raise on invalid transition.\n\n**DEFECT 3 \u2014 `task-watchdog.sh` reads `state/async-tasks.json` which does not exist:**\nActual queue lives in `state/task-queue.json` (PG state_task_queue + JSON dual-write). Stall alerts (like the one prompting this work) trigger on a different store and miss the real queue. Action: align watchdog source to state_task_queue / state/task-queue.json.\n\n**Linkage:**\n- L-055 (CREST VALIDATE-skip on this task \u2014 gate violation)\n- L-026 (no script writes without bash db-write.sh \u2014 same class)\n- TKT-0315 (related: empty-tables audit, separate scope)\n- TKT-0407 (hygiene sweep, may absorb DEFECT 1)\n- CHG-0482 (original CREST v1.2 delivery umbrella)\n", "relatedChg": "CHG-0482", "linkedTickets": ["TKT-0381", "TKT-0382", "TKT-0383", "TKT-0384", "TKT-0385", "TKT-0386", "TKT-0387", "TKT-0388", "TKT-0315", "TKT-0407"], "relatedTasks": ["task-2026-06-10-f9504783"], "relatedLessons": ["L-055"]}, "tenant_id2": "ainchors", "sprint": "Sprint 7", "sprint_seq": null, "epic": "governance"}
+{"id": "TKT-0409", "title": "Audit: Delivered-But-Not-Closed Tickets + State-Machine + Watchdog Bugs", "status": "open", "priority": "high", "type": "audit", "created_at": "2026-06-12T08:08:00+10:00", "notionpageid": null, "url": null, "updated_at": "2026-06-12T08:08:00+10:00", "tags": ["audit", "crest", "state-machine", "watchdog"], "metadata": {"type": "audit", "origin": "Yoda CREST gate violation 2026-06-12", "sprint": "Sprint 7", "created": "2026-06-12T08:08:00+10:00", "assignedTo": "Yoda", "description": "Defect audit \u2014 see journal 2026-06-12 08:08 for full context. 3 defects: delivered-but-not-closed tickets, sc_fail_atom no-pre-validate, watchdog reads wrong file."}, "tenant_id2": "ainchors", "sprint": "Sprint 7", "sprint_seq": null, "epic": "governance"}
+{"status":"closed"}
+{
+"status": "closed"
+}
+{"status": "closed"}
+{"status": "closed"}
+{"status":"closed"}
+{
+"status": "closed"
+}
+{
+"status": "closed"
+}
+{
+"status": "closed"
+}
+{
+"status": "closed"
+}
+{
+"status": "closed"
+}
+{
+"status": "closed"
+}
+{
+"status": "closed"
+}
+{
+"status": "closed"
+}
+{
+"status": "closed"
+}
+{
+"status": "closed"
+}
+{
+"status": "closed"
+}
+{
+"status": "closed"
+}
+{
+"status": "closed"
+}
+{
+"status": "closed"
+}
+{
+"status": "closed"
+}
+{
+"status": "closed"
+}
+{
+"status": "closed"
+}
+{
+"status": "closed"
+}
+{
+"status": "closed"
+}
+{
+"status": "closed"
+}
+{
+"status": "closed"
+}
+{
+"status": "closed"
+}
+{
+"status": "closed"
+}
+{
+"status": "closed"
+}
+{
+"status": "closed"
+}
+{
+"status": "closed"
+}
+{
+"status": "closed"
+}
+{
+"status": "closed"
+}
+{
+"status": "closed"
+}
+{
+"status": "closed"
+}
+{
+"status": "closed"
+}
+{
+"status": "closed"
+}
+{
+"status": "closed"
+}
+{
+"status": "closed"
+}
+{
+"status": "closed"
+}
+{
+"status": "closed"
+}
+{
+"status": "closed"
+}
+{
+"status": "closed"
+}
+{
+"status": "closed"
+}
+{
+"status": "closed"
+}
+{
+"status": "closed"
+}
+{
+"status": "closed"
+}
+{
+"status": "closed"
+}
+{
+"status": "closed"
+}
+{
+"status": "closed"
+}
+{
+"status": "closed"
+}
+{
+"status": "closed"
+}
+{"id": "TKT-0232", "metadata": {"agent": "yoda", "brief": "Spark: LinkedIn metrics ownership. Co-groomed 2026-06-12 21:57 AEST with Ken.\n\nSCOPE (Phase 1, immediate):\n  1. Fix URN capture in scripts/linkedin-post.sh (known bug \u2014 1 post still ERR: LI-W3-P3)\n  2. Backfill missing URN for 1 affected post (LI-W3-P3) via LinkedIn post URL lookup\n  3. Verify cron 5d581442 (Spark LinkedIn Daily Metrics Snapshot) is reporting daily \u2014 currently ok\n  4. Produce 1 weekly SMM report template (Monday morning, summary of prior week)\n\nSCOPE (Phase 2, post-reactivation 2026-06-16):\n  5. Wire weekly metrics review into Mon Mothma workflow (change-mgt governance)\n  6. Dashboard wireframe \u2014 deferred to P2 (needs OC2 + multi-tenant context)\n\nLINKED:\n  - state/parks/anthropic.json (model routing for Spark = minimax-m3 trial, reverts Sun 14 Jun 23:55)\n  - TKT-0332 (sandbox hardening \u2014 Spark reactivation parent)\n  - CHG-0515 (campaign reset)\n\nACCEPTANCE CRITERIA (Phase 1):\n  - [ ] linkedin-post.sh captures URN on first post attempt (no broken URN escapes)\n  - [ ] LI-W3-P3 URN resolved (manual lookup via activity URL)\n  - [ ] 1 weekly report template at state/smm-weekly-report-template.md (or similar)\n  - [ ] All 10 historical posts have valid URNs in state/linkedin-campaign.json\n", "notion_sync": {"status": "synced", "last_synced": "2026-06-12T10:06:36Z"}, "sprint_target": "Sprint 8 (candidate)", "grooming_history": [{"date": "2026-06-12", "ac_count": 0, "decisions": "TKT-0407 hygiene sweep: Ken provided per-ticket brief refinement in Excel col P. Captured as metadata.brief. Risk 4 update: Aria-scope tickets (TKT-0110, 0136, 0138, 0211, 0232) owner \u2192 Yoda per Ken 20:00 instruction (\"no, keep with Yoda. I will develop the materials with you\").", "ken_approved": true}, {"date": "2026-06-12", "time": "21:57 AEST", "agent": "yoda", "ken_approved": true, "decisions": "Co-groomed with Ken. Scope split: Phase 1 (URN fix + backfill + weekly template) immediate; Phase 2 (Mon Mothma wire-up + dashboard) post-reactivation. No Aria (per Ken 20:00 directive). Agent stays yoda. Linked to TKT-0332 sandbox fix + CHG-0515 campaign reset.", "ac_count": 4, "ac_phase": "Phase 1"}]}}
+{"id": "TKT-0232", "metadata": {"agent": "yoda", "brief": "Spark: LinkedIn metrics ownership. Co-groomed 2026-06-12 21:57 AEST with Ken.\n\nSCOPE Phase 1 (immediate):\n  1. Fix URN capture in scripts/linkedin-post.sh (known bug \u2014 1 post still ERR: LI-W3-P3)\n  2. Backfill missing URN for 1 affected post (LI-W3-P3) via LinkedIn post URL lookup\n  3. Verify cron 5d581442 (Spark LinkedIn Daily Metrics Snapshot) is reporting daily\n  4. Produce 1 weekly SMM report template (Monday morning, summary of prior week)\n\nSCOPE Phase 2 (post-reactivation 2026-06-16):\n  5. Wire weekly metrics review into Mon Mothma workflow (change-mgt governance)\n  6. Dashboard wireframe \u2014 deferred to P2 (needs OC2 + multi-tenant context)\n\nLINKED:\n  - state/parks/anthropic.json (model routing for Spark = minimax-m3 trial, reverts Sun 14 Jun 23:55)\n  - TKT-0332 (sandbox hardening \u2014 Spark reactivation parent)\n  - CHG-0515 (campaign reset)\n\nACCEPTANCE CRITERIA (Phase 1):\n  - [ ] linkedin-post.sh captures URN on first post attempt (no broken URN escapes)\n  - [ ] LI-W3-P3 URN resolved (manual lookup via activity URL)\n  - [ ] 1 weekly report template at state/smm-weekly-report-template.md (or similar)\n  - [ ] All 10 historical posts have valid URNs in state/linkedin-campaign.json", "notion_sync": {"status": "synced", "last_synced": "2026-06-12T10:06:36Z"}, "sprint_target": "Sprint 8 (candidate)", "grooming_history": [{"date": "2026-06-12", "ac_count": 0, "decisions": "TKT-0407 hygiene sweep: Ken provided per-ticket brief refinement in Excel col P. Captured as metadata.brief. Risk 4 update: Aria-scope tickets (TKT-0110, 0136, 0138, 0211, 0232) owner \u2192 Yoda per Ken 20:00 instruction (\"no, keep with Yoda. I will develop the materials with you\").", "ken_approved": true}, {"date": "2026-06-12", "time": "21:57 AEST", "agent": "yoda", "ken_approved": true, "decisions": "Co-groomed with Ken for Spark reactivation. Scope split: Phase 1 (URN fix + LI-W3-P3 backfill + weekly SMM template) immediate; Phase 2 (Mon Mothma wire-up + dashboard wireframe) deferred post-reactivation 2026-06-16. No Aria per Ken 20:00 directive. Agent stays yoda. Linked to TKT-0332 sandbox + CHG-0515 campaign reset.", "ac_count": 4, "ac_phase": "Phase 1"}]}}

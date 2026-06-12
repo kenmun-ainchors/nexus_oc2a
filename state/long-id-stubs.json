@@ -1,0 +1,8 @@
+{
+  "check": "L-085 long-id stub detection",
+  "run_at": "2026-06-12T10:50:10Z",
+  "age_threshold_days": 7,
+  "count": 0,
+  "findings": [],
+  "recommendation": "Long-ID stubs older than 7 days may be L-077 duplicates of the short-ID ticket. Review each finding. If short_id_exists matches an open or done ticket, close the long stub with resolution=\"superseded by <short_id>\". Do NOT auto-close (non-destructive per L-085 decision)."
+}

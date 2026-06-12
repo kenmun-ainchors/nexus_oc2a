@@ -1,8 +1,8 @@
 {
-  "checkedAt": "2026-06-11T13:42:42Z",
-  "overall": "broken",
+  "checkedAt": "2026-06-12T13:43:51Z",
+  "overall": "ok",
   "chain": [
-    "ollama/deepseek-v4-pro:cloud",
+    "ollama/minimax-m3:cloud",
     "ollama/gemma4:31b-cloud"
   ],
   "checks": [
@@ -11,10 +11,8 @@
     "ollamaRunning:ok",
     "gemma4Loaded:ok",
     "gemma4Warm:skipped",
-    "fallbackChainConfig:broken"
+    "fallbackChainConfig:ok"
   ],
-  "broken": [
-    "Fallback chain: main agent primary model wrong (got 'ollama/minimax-m3:cloud')"
-  ],
-  "brokenCount": 1
+  "broken": [],
+  "brokenCount": 0
 }

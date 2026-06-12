@@ -1,0 +1,54 @@
+{
+  "schema_version": "1.0",
+  "description": "CREST v1.3 transition state — replaces interim-model-period.json post CLAUDE RECONFIGURE (CHG-0500)",
+  "replaces": "state/interim-model-period.json (archived 2026-06-12)",
+  "chgRecord": "CHG-0500",
+  "riskFramework": {
+    "name": "CREST v1.3 + TKT-0368",
+    "currentDoc": "docs/CREST-v1.2-Recursive-Model-C.md (v1.2 locked; v1.3 target)",
+    "implementationTicket": "TKT-0368",
+    "structuralGuards": [
+      "Plan→Verify→Replan gates (replaces manual Ken-approves)",
+      "RVEV cycle: READ→VALIDATE→EXECUTE→VERIFY (per atom)",
+      "2-Pass Contract (TKT-0321): orchestrator discovers, specialist executes",
+      "Dispatch validator (TKT-0323): blocks ambiguous dispatches",
+      "Model-task matrix (TKT-0322): per-phase model selection",
+      "Skill-gate (TKT-0396): domain scripts block if skill not loaded",
+      "TQP (TKT-0309): persists state to PG before announcing completion"
+    ]
+  },
+  "replacesMode": {
+    "name": "Conservative Mode (CHG-0349)",
+    "trigger": "Anthropic API credit depletion (2026-05-15 18:18)",
+    "behavior": "NO risky state manipulation without explicit Ken approval",
+    "liftedAt": "2026-06-12T08:02:00+10:00",
+    "liftedBy": "Ken Mun via CLAUDE RECONFIGURE keyword",
+    "liftReason": "CREST v1.3 + TKT-0368 provide structural risk framework; manual ceremony redundant",
+    "archivedAt": "state/archive/2026-06-12-claude-reconfigure/interim-model-period.json (if existed)"
+  },
+  "currentPhase": "phase1_complete",
+  "phases": {
+    "phase1_doc_policy_sync": {
+      "status": "complete",
+      "completedAt": "2026-06-12T08:05:00+10:00",
+      "deliverables": [
+        "CHG-0500 logged",
+        "model-policy.json updated (Anthropic in allowed, CREST v1.3 transition block)",
+        "model-drift-state.json approved models updated",
+        "auto-heal CHECK 9 re-enabled",
+        "MEMORY.md, SOUL.md, runbook, skill: Conservative Mode references updated"
+      ]
+    },
+    "phase2_crest_v13_implementation": {
+      "status": "pending",
+      "ticket": "TKT-0368",
+      "description": "3-area: execution, token economics, memory. CREST v1.3 implementation."
+    },
+    "phase3_crest_v13_doc_lock": {
+      "status": "pending",
+      "description": "CREST v1.3 doc draft → Atlas + Thrawn review → Ken approval → lock"
+    }
+  },
+  "lastUpdated": "2026-06-12T08:05:00+10:00",
+  "lastUpdatedBy": "Yoda via CLAUDE RECONFIGURE (CHG-0500)"
+}

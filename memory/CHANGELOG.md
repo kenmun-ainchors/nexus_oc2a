@@ -11,6 +11,45 @@
 ---
 ---
 
+## 2026-06-12 23:58 AEST — [CHG-0519] Spark reactivation teaser post scheduled — Sat 13 Jun 09:00 AEST
+**Type:** cron
+**Change Type:** Normal
+**Source:** ken-prompt
+**Trigger:** Ken approved teaser post + image (Telegram, 2026-06-12 23:50 AEST). CONTENT-0001 'The Silence Was the Build', 220 words, governance-cleared 7/7. Proposed ANZ window Sat 13 Jun 09:00 AEST (33h lead before Tue 16 Jun 07:30 first arc post).
+**What changed:** 1. New cron a129f70c-2af9-45d7-8956-0ab120c1aa55: one-shot at 2026-06-12T23:00:00Z, agentId=social, isolated session, model=ollama/minimax-m3:cloud, timeout=600s, delivery=telegram kenmun@ainchors.com, failureAlert after=1 cooldown 300s. Executes: image upload (linkedin-upload-image.sh) → post (linkedin-post.sh with image-asset-urn) → SSOT update (state/linkedin-campaign.json published[] entry) → Telegram report to Ken. 2. New file social-drafts/LI-TEASER-REACTIVATION-POST.md (1,333 bytes, post-only body with --- delimiters, governance-stripped). 3. Image copied from /Users/ainchorsangiefpl/.openclaw/media/inbound/ to social-drafts/images/LI-TEASER-2026-06-13.png (1254x1254 PNG, 2.4MB). 4. state/linkedin-campaign.json reactivation.teaser block added with status=scheduled, full post + cron + image + governance metadata.
+**Why:** Pre-arc teaser to reinvigorate profile and signal return. ANZ weekend window (Sat 09:00 AEST) gives 33h anticipation buffer before Movement I opens Tue 16 Jun 07:30 AEST. Does not conflict with Tue/Wed/Thu Spark draft crons or first arc post. Voice rules + image rule pre-verified. Ken approved inline (image attached to APPROVE message).
+**Verification:** 1. linkedin-post.sh --dry-run: payload well-formed, body is FINAL version, visibility=PUBLIC. 2. linkedin-upload-image.sh --dry-run: 2.4MB under 5MB limit, 1254x1254 above 552x552 min. 3. SSOT JSON valid (python3 json.load). 4. Cron created with kind=at, exact UTC timestamp 2026-06-12T23:00:00Z (= Sat 13 Jun 09:00 AEST). 5. Voice checks: 0 em-dashes, 0 co-founder, 0 internal mentions, 0 finite time, 0 consulting-speak. 6. Governance: CONTENT-0001 cleared 7/7 Shield+Lex+Sage.
+**Rollback:** Cron a129f70c is deleteAfterRun=true (one-shot). If post fires and Ken wants to retract, use linkedin-delete-post.sh (TKT-0232 AC scope) or manually delete via LinkedIn. To unschedule pre-fire: cron update with enabled=false, or cron remove.
+**Linked:** CHG-0515 (Spark reactivation Phase 1), CHG-0518 (v3 FINAL arc), TKT-0232 (LinkedIn metrics), TKT-0332 (Spark sandbox hardening), arc brief .openclaw/tmp/spark-reactivation-4week-arc.md
+---
+
+
+## 2026-06-12 23:24 AEST — [CHG-0518] Spark arc v3 FINAL — time-reference scrub + workflow confirmation
+**Type:** agent
+**Change Type:** Normal
+**Source:** ken-prompt
+**Trigger:** Ken 23:23 AEST: approve all 12 with adjustment. Strip finite time references (6 months, 3 weeks, 14 days) → use relative references (since I started, through time, eventually). Confirmed workflow: angle brief (this file) → Spark drafts full post + ChatGPT image prompt → Ken reviews/approves → image gen → post.
+**What changed:** v3 (21,656 bytes) → v3 FINAL (26,995 bytes). All 12 post bodies scrubbed of finite time references. New language: 'since I started', 'through time', 'eventually', 'over the build', 'in the early days', 'recently', 'over a focused stretch', 'a long time', 'for too long', 'some time back'. Added explicit 'Workflow (confirmed)' section: angle brief → Spark cron reads brief → produces full post + ChatGPT image prompt → saves to social-drafts/ → runs governance triad → Telegram Ken → review/approve/edit/reject → on approval: image gen via FLUX/ChatGPT per spark/RULES.md → MinIO upload → linkedin-post.sh + linkedin-upload-image.sh. Each post now has a ChatGPT image prompt suggestion.
+**Why:** Ken's correction 2026-06-12 23:23 AEST: posts must be evergreen, not anchored to specific dates that age the content. Workflow confirmation: angle brief is the strategy document, Spark produces the tactical draft. Each post gets a ChatGPT image prompt (per spark/RULES.md 'every post gets an image, no exceptions').
+**Verification:** v3 FINAL file at .openclaw/tmp/spark-reactivation-4week-arc.md (26,995 bytes). All 12 post bodies scrubbed (grep for finite time matches only in meta-headers, not in post bodies). 12 ChatGPT image prompts added, one per post. Workflow section explicit. Ken approval: 'approve all 12 with slight adjustment on time framing and label.'
+**Rollback:** Revert to v3 (pre-time-scrub) at .openclaw/tmp/spark-reactivation-4week-arc.md.bak-pre-chg-0518 (if created).
+**Linked:** CHG-0515 (initial reactivation), CHG-0516 (v2 arc, rejected), CHG-0517 (v3 arc, time-scrub pending), TKT-0232 (LinkedIn metrics), TKT-0332 (sandbox), TKT-0368 (CREST v2.0)
+---
+
+
+## 2026-06-12 23:07 AEST — [CHG-0517] Spark reactivation angles v3 — 4-week foundation arc (post v2 rejection: foundation beneath the symptom)
+**Type:** agent
+**Change Type:** Normal
+**Source:** ken-prompt
+**Trigger:** Ken 23:03 AEST Telegram: v2 angles also rejected. v2 framed LinkedIn campaign as the subject. That's just the symptom. The real story is the foundation cascade underneath: token/cost went through roof, model change expedited hydration/exhaustion/decay/drift, broke execution quality, sandbox caused agents to lose design specs and stop everything. Foundation challenged, held together by strong model at price. Rearchitected and rebuilt from foundation: memory, TQP, PG, model/token/context optimization, process, controls, rules, disciplines. After 14 days, foundation not only patched but rebuilt stronger. Disciplined failed → skills + CREST v1.2 (discipline to structural). 2 weeks of 6 posts may not be enough.
+**What changed:** v2 (12,237 bytes, 2-week arc) replaced by v3 (21,656 bytes, 4-week foundation arc, 12 posts). Story grounded in actual events from journals + LESSONS: cost cascade (CHG-0348, 2026-05-15 Anthropic credit depletion → kimi swap), model change, hydration/exhaustion/decay/drift (L-075 area), sandbox vanilla spec loss (L-043, 2026-05-26), 14-day foundation rebuild, CREST v1.2 (CHG-0479, 2026-06-10). 4 movements: I. The Cracks (Wk 1), II. The Audit (Wk 2), III. The Rebuild (Wk 3), IV. The Shift (Wk 4). No consulting POV for 4 weeks (Tue 16 Jun → Thu 9 Jul). Voice: practitioner-first, no internal mentions, no em-dashes, no co-founder, no fake clients. Length 250-450 words per post. Real numbers (3x cost, 14 days, 234 rules, 19 unique, 92% duplication, 88% context utilisation, 14 agents).
+**Why:** v2 was framed at the LinkedIn campaign layer (the symptom that triggered the pause). Ken's correction: the campaign symptom is downstream of a 6-week foundation cascade. Real story = cost model cascade → model swap → context/hydration/exhaustion/decay/drift → execution quality broken → sandbox/vanilla spec loss → foundation rebuild (memory, queue, db, model, context, process, controls, rules, disciplines) → CREST v1.2 (discipline to structural). 6 weeks of events needs 12 posts / 4 weeks. Each post grounded in a real event from the build.
+**Verification:** v3 file exists at .openclaw/tmp/spark-reactivation-4week-arc.md (21,656 bytes). 12 post angles drafted with hook + body + insight + takeaway + hashtags. Each grounded in real event (e.g., post 1 = CHG-0348 cost cascade, post 6 = documented-but-not-done anti-pattern, post 12 = CREST v1.2). Cron schedule unchanged: 13b0aa89 (Tue), 833ee0c7 (Wed), 869502c9 (Thu) — 12 posts at 3/week = Tue 16 Jun → Thu 9 Jul. Will re-upload to GDrive after Ken approval.
+**Rollback:** Revert to v2 angles in .openclaw/tmp/spark-reactivation-2week-arc.md. (Note: v2 was rejected. Rollback = paused state.)
+**Linked:** CHG-0515 (initial reactivation), CHG-0516 (v2 arc, also rejected), TKT-0232 (LinkedIn metrics), TKT-0332 (sandbox), TKT-0368 (CREST v2.0 umbrella), CHG-0348 (kimi swap), CHG-0479 (CREST v1.1), CHG-0486 (CREST Done Gate), L-043 (sandbox vanilla), L-068 (documented-but-not-done), L-076 (Anthropic park)
+---
+
+
 ## 2026-06-12 22:36 AEST — [CHG-0516] Spark reactivation angles v2 — 2-week build-in-public narrative arc (post 3 rejections)
 **Type:** agent
 **Change Type:** Normal

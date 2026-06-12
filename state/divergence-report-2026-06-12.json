@@ -1,0 +1,14 @@
+{
+  "generated_at": "2026-06-12T20:55:00+10:00",
+  "live_db": "ainchors_nexus",
+  "shadow_db": "nexus_mirror",
+  "tables_checked": 10,
+  "total_live_rows": 698,
+  "total_shadow_rows": 698,
+  "divergent_tables": [],
+  "tkt_0241_check": {
+    "live": "TKT-0241|parked",
+    "shadow": "TKT-0241|parked"
+  },
+  "note": "Kens alert from 09:00 showed 12 extras + 1 missing + 2 mismatches. Current 20:55 state: all 0. WO-002 system has caught up over the day."
+}

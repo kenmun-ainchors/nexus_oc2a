@@ -49,7 +49,7 @@
       "id": "TKT-0241",
       "title": "Sonnet Review Tier",
       "priority": "high",
-      "status": "gated: CLAUDE RESTORE"
+      "status": "ungated: CREST v1.3 + TKT-0368 structural guards"
     },
     {
       "id": "TKT-0137",
@@ -91,5 +91,6 @@
     "midSprintCheck": "2026-05-28",
     "sprintReview": "2026-05-30 (Friday)",
     "sprintPlanningS6": "2026-06-01 (Sunday)"
-  }
+  },
+  "crestReconfigureNote": "2026-06-12: CLAUDE RESTORE requirement lifted per CHG-0500. Risk framework now CREST v1.3 + TKT-0368."
 }

@@ -1,14 +1,19 @@
 {
   "schema": "1.0",
-  "updatedAt": "2026-06-11T00:00:30Z",
+  "runAt": "2026-06-12T00:00:00Z",
+  "localTime": "2026-06-12T10:00:00+10:00",
+  "agent": "spark",
   "errors": [
     {
       "contentId": "LI-W3-P3",
       "postUrn": "urn:li:share:7463404594140905473",
-      "errorAt": "2026-06-11T00:00:30Z",
-      "status": 404,
-      "message": "Post not found (404) — URN may be invalid: urn:li:share:7463404594140905473",
-      "note": "urn:li:share: format not supported by socialActions endpoint. Need to resolve to urn:li:activity: or fetch via posts API."
+      "error": "404 Post Not Found",
+      "detail": "LinkedIn API returned 404 for URN urn:li:share:7463404594140905473. URN may be malformed (share vs activity format) or post was deleted/revoked.",
+      "note": "From campaign state: 'Duplicate post error on retry indicates successful first post.' URN capture failed during linkedin-post.sh bug.",
+      "ticket": "TKT-0232",
+      "action": "Requires manual URN lookup via LinkedIn post URL: https://www.linkedin.com/posts/activity-7463404594140905473/"
     }
-  ]
+  ],
+  "totalErrors": 1,
+  "previousErrors": 0
 }

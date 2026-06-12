@@ -1,0 +1,131 @@
+{
+  "audit_id": "crest-v12-audit-2026-06-12",
+  "tkt": "TKT-0409",
+  "tkt_ref": "TKT-0409 AC1",
+  "chg_ref": "CHG-0482",
+  "audit_date": "2026-06-12T12:34:00+10:00",
+  "auditor": "Forge (subagent, depth 1/1)",
+  "audit_scope": "TKT-0381 through TKT-0388 (8 CREST v1.2 sub-tickets, parent CHG-0482)",
+  "method": "Read PG state_tickets.status for each ticket; cross-check evidence in scripts/, state/, docs/, and journal-2026-06-10/11; produce per-ticket verdict. NO status changes made — audit only.",
+  "summary": {
+    "total_tickets": 8,
+    "closed_with_evidence": 8,
+    "open_with_plan": 0,
+    "needs_investigation": 0,
+    "already_closed_in_pg": 1,
+    "delivered_but_pg_open": 7
+  },
+  "verdicts": [
+    {
+      "ticket": "TKT-0381",
+      "title": "PG Schema - state_sub_crest + state_sub_crest_atoms tables",
+      "current_pg_status": "closed",
+      "verdict": "closed-with-evidence",
+      "evidence": [
+        "PG state_sub_crest and state_sub_crest_atoms tables exist (pg_tables query returned 1 row for each)",
+        "Closed 2026-06-11 17:19 per journal — resolution metadata + closed_at timestamp set",
+        "Reused by scripts/aria-crest-check.sh, scripts/crest-done-gate.sh, scripts/flash-dispatcher.sh, scripts/master-synthesize.sh"
+      ],
+      "action": "No action — already closed correctly"
+    },
+    {
+      "ticket": "TKT-0382",
+      "title": "TQP State Machine Extension - sub-CREST phase states",
+      "current_pg_status": "open",
+      "verdict": "closed-with-evidence",
+      "evidence": [
+        "scripts/lib/pg_task_queue.py contains SUB_CREST_TRANSITIONS dict (38 references) with 13+ source states (master_planning, sub_crest_planning, sub_crest_executing, sub_crest_verifying, sub_crest_replanning, sub_crest_synthesizing, sub_crest_done, etc.)",
+        "validate_state_transition() function implemented (line ~700 in pg_task_queue.py)",
+        "sc_persist_sub_crest_phase(), sc_replan_iterate(), sc_sub_crest_complete(), sc_escalate_task(), sc_resume_sub_crest() all exist",
+        "TKT-0409 D2 fix: validate_state_transition() now called in pg_claim_task, pg_update_task_status, pg_update_atom, sc_complete_atom, sc_fail_atom, sc_reset_stale_claims"
+      ],
+      "action": "Yoda verify + close (status update only; no code change needed)"
+    },
+    {
+      "ticket": "TKT-0383",
+      "title": "Model3-Policy.md Update - deepseek-primary + phase-aware assignments",
+      "current_pg_status": "open",
+      "verdict": "closed-with-evidence",
+      "evidence": [
+        "state/model-policy.json contains deepseek-primary (2 phaseModels) + 7 agent assignments (90 references to deepseek/phase-aware/pro)",
+        "docs/Model3-Policy.md updated with deepseek-primary + phase-aware content (2 references)",
+        "crestPhaseModelMap in state/model-policy.json",
+        "TKT-0407 also touched model-policy.json (2026-06-12 07:45 for the minimax-m3 trial)"
+      ],
+      "action": "Yoda verify + close"
+    },
+    {
+      "ticket": "TKT-0384",
+      "title": "atom-validate.sh - Level 2 Atom Pre-Flight Gate",
+      "current_pg_status": "open",
+      "verdict": "closed-with-evidence",
+      "evidence": [
+        "scripts/atom-validate.sh exists, 189 lines, mtime 2026-06-10 08:30",
+        "6-check pre-flight gate per journal-2026-06-10",
+        "Integrated into flash-dispatcher.sh (L2 dispatch)",
+        "Committed in 7a204bc5 (CREST v1.2 lock commit)"
+      ],
+      "action": "Yoda verify + close"
+    },
+    {
+      "ticket": "TKT-0385",
+      "title": "dispatch-validate.sh CREST Extension",
+      "current_pg_status": "open",
+      "verdict": "closed-with-evidence",
+      "evidence": [
+        "scripts/dispatch-validate.sh contains 42 CREST/crest references",
+        "Committed in 2b85f118 (TKT-0406 closed + PG SSOT structural hardening)",
+        "Backwards-compatible per journal-2026-06-10"
+      ],
+      "action": "Yoda verify + close"
+    },
+    {
+      "ticket": "TKT-0386",
+      "title": "Flash Dispatcher - TKT-0370 Implementation",
+      "current_pg_status": "open",
+      "verdict": "closed-with-evidence",
+      "evidence": [
+        "scripts/flash-dispatcher.sh exists, 882 lines, mtime 2026-06-11 22:09",
+        "Level 1+2 dispatch, phase-aware routing, escalate command per journal-2026-06-10/11",
+        "Used by TKT-0369 sub-tickets (dispatched to Forge) per journal-2026-06-10 entry"
+      ],
+      "action": "Yoda verify + close"
+    },
+    {
+      "ticket": "TKT-0387",
+      "title": "Escalation Protocol TQP Integration",
+      "current_pg_status": "open",
+      "verdict": "closed-with-evidence",
+      "evidence": [
+        "scripts/lib/pg_task_queue.py contains sc_escalate_task() (29 escalat references)",
+        "Handshake + escalate + resolve per journal-2026-06-10",
+        "Integrated with master_replanning transition in SUB_CREST_TRANSITIONS"
+      ],
+      "action": "Yoda verify + close"
+    },
+    {
+      "ticket": "TKT-0388",
+      "title": "Master Synthesize Integration Checks",
+      "current_pg_status": "open",
+      "verdict": "closed-with-evidence",
+      "evidence": [
+        "scripts/master-synthesize.sh exists, 435 lines, mtime recent",
+        "2 automated checks per journal-2026-06-10",
+        "crest-done-gate.sh enforces Master Synthesize phase (referenced in commit 7a204bc5 message)"
+      ],
+      "action": "Yoda verify + close"
+    }
+  ],
+  "root_cause": "CREST VALIDATE phase was skipped/not enforced on the original delivery — work was committed and deployed (CHG-0482 'CREST v1.2 locked') but PG state_tickets.status was not moved to 'closed' for 7 of the 8 sub-tickets. TKT-0409 was raised to formally audit the gap and add structural enforcement so it cannot recur.",
+  "next_steps": [
+    "Yoda: review this report, verify each piece of evidence independently",
+    "Yoda: close TKT-0382/383/384/385/386/387/388 (status update only, no code change)",
+    "Yoda: close TKT-0409 once 7 sub-tickets are confirmed closed",
+    "TKT-0407 (Hygiene sweep) can then proceed — it depends on this audit's verdicts to know which tickets to keep vs fold"
+  ],
+  "regression_checks_observed": {
+    "model_drift_check": "NOT RUN BY AUDIT (out of scope for AC1, run in regression phase)",
+    "db_sprint_status": "NOT RUN BY AUDIT (out of scope for AC1, run in regression phase)",
+    "lessons_staleness": "NOT RUN BY AUDIT (out of scope for AC1, run in regression phase)"
+  }
+}

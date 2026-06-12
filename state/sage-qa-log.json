@@ -1119,11 +1119,25 @@
       "issues": [
         "[]"
       ]
+    },
+    {
+      "ts": "2026-06-12T23:44:18+10:00",
+      "assetPath": "/Users/ainchorsangiefpl/.openclaw/workspace/social-drafts/LI-TEASER-REACTIVATION.md",
+      "assetType": "social",
+      "producedBy": "yoda",
+      "intendedFor": "public distribution",
+      "brief": "Content governance review for CONTENT-0001",
+      "verdict": "PASS",
+      "passCount": 7,
+      "failCount": 0,
+      "issues": [
+        "[]"
+      ]
     }
   ],
   "summary": {
-    "total": 80,
-    "pass": 79,
+    "total": 81,
+    "pass": 80,
     "fail": 1
   }
 }

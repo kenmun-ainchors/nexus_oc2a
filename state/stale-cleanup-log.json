@@ -1,0 +1,20 @@
+{
+  "timestamp": "2026-06-12T03:10:00+10:00",
+  "action": "stale-cleanup",
+  "status": "completed",
+  "directories_checked": [
+    ".openclaw/tmp/",
+    "state/cache/"
+  ],
+  "items_cleaned": [
+    {"file": "cp3-ci-patch.yml", "size_bytes": 776, "age_hours": 79},
+    {"file": "brief_content.txt", "size_bytes": 2581, "age_hours": 79},
+    {"file": "tkt-payload.json", "size_bytes": 4501, "age_hours": 87},
+    {"file": "tkt-description.txt", "size_bytes": 3426, "age_hours": 87},
+    {"file": "uat-atom2-branch-protection.sh", "size_bytes": 4517, "age_hours": 79},
+    {"file": "cp3-ci-313.yml", "size_bytes": 749, "age_hours": 79}
+  ],
+  "total_bytes_reclaimed": 16550,
+  "state_cache": "already clean (0 items)",
+  "note": "Script scripts/stale-task-cleanup.sh not found; cleanup performed inline"
+}

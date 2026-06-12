@@ -1,42 +1,51 @@
-### 🟢 YODA CONTEXT BRIEF — 2026-06-11 20:00 AEST
+# 🟢 Yoda Context Brief - Regenerated 2026-06-12 20:00 AEST
 
-**PLATFORM STATUS**
-- **Day Count:** Day 48 (since 2026-04-25)
-- **Phase:** MVP (OC1-only)
-- **Health:** Green (S1-S7 active)
-- **HIVE:** OC1 LIVE. OC2-A/B ETA 6-13 Jul.
+## 🚀 Platform Status
+- **Day Count:** 48 days (since 2026-04-25)
+- **Phase:** MVP (OC1-only) → P1 (OC2 era, HA cluster, NAS, KL team) target ~Jul 2026.
+- **Health:** Stable. OC1 Production Live.
 
-**KEY PEOPLE**
-- **Ken Mun (CTO):** Primary Authority.
-- **Angie Foong (CEO):** Business/CEO lead.
-- **KL Team:** Incoming P1 (Marketing/Dev/Support/Admin).
+## 👥 Key People
+- **Ken Mun (CTO):** Co-founder. Primary decision maker.
+- **Angie Foong (CEO):** Co-founder. Business lead.
 
-**INFRASTRUCTURE**
-- **OC1:** Mac Mini M4 24GB (Production).
-- **Connectivity:** Tailscale mesh.
-- **SOPs:** CREST Loop (Plan → Execute → Verify → Replan → Synthesize → Done).
-- **Skill-Gate:** Domain scripts BLOCK unless skill loaded via bash scripts/skill-load.sh.
+## 🏗️ Infrastructure
+- **Current:** OC1 (Mac Mini M4 24GB) - Production.
+- **Incoming:** OC2-A/B (Mac Mini M4 Pro 48GB x2) - ETA 6-13 Jul 2026. Commission ~27 Jul.
+- **Network:** Tailscale mesh, NAS.
+- **Core:** OpenClaw platform.
 
-**CURRENT SPRINT**
-- **Sprint 7:** "Sprint 6 Carries — Close Out" (2026-06-08 to 2026-06-14)
-- **Status:** Committed.
-- **Next Sprint (S8):** "Platform Constraint Enforcement + PG SSOT Remediation" (Starts 2026-06-15).
+## 📅 Current Sprint (Sprint 7)
+- **Dates:** 2026-06-08 to 2026-06-14
+- **Status:** Committed (87% Complete: 14/16)
+- **Open Tickets:**
+  - TKT-0407: Hygiene sweep: triage 105 stub-victim tickets (Forge)
+  - TKT-0410: Fix SUB_CREST_TRANSITIONS: add 'verified' → terminal (Forge)
 
-**APPROVED DECISIONS**
-- **CREST Loop:** Locked 2026-06-09. Strong-tier plans/verifies, cheap-tier executes.
-- **Nexus Naming:** Locked. Holocron (AKB), Bridge (Cmd), Citadel (Portal), etc.
-- **Governance:** T0: Yoda → T1: Aria → T2: Warden → T3: Specialists → T4: Verdict agents.
-- **Builds:** Forge ONLY. No routing to Atlas/Thrawn.
+## ✅ Approved Decisions
+- **CREST Loop Locked:** Plan → Execute → Verify → Replan → Synthesize → Done.
+- **Model Routing:** Strong (Plan/Verify/Replan) vs Cheap (Execute/Synthesize).
+- **Skill-Gate:** Mandatory  before domain scripts.
+- **Anthropic Parked:** Permanently parked as of 2026-06-12. No activity until 'CLAUDE ACTIVATE'.
+- **3 Strikes Principle:** Automated enforcement via PASS  lessons.md (most recent: L-084 2026-06-12, age: 0 days).
+- **Postgres SSOT:** Authoritative for state data (TKT-0270).
 
-**LINKEDIN QUEUE**
-- Status: Connected (Data source unavailable in current state read).
+## 🎫 Top Open Tickets
+1. TKT-0407: Hygiene sweep: triage 105 stub-victim tickets
+2. TKT-0410: Fix SUB_CREST_TRANSITIONS: add 'verified' → terminal
+(Sprint nearly complete; others closed/done).
 
-**TELEGRAM DECISIONS**
-- No pending decisions (syncedToWebchat=false) found in available state.
+## 📱 LinkedIn Queue
+- **Status:** Queue state file () missing from workspace root/state; refer to  or  for current status.
 
-**MANDATORY TELEGRAM RULES**
-1. **Chunking:** All messages MUST be split at 3,800 characters.
-2. **Async:** Tasks > 30s must use sessions_spawn. No blocking webchat.
-3. **Conservative Mode:** NO risky state manipulation without Ken approval.
-4. **Skill-Gate:** Always load the skill before executing domain scripts.
-5. **Identity:** Direct, concise, resourceful. No fluff.
+## 💬 Recent Telegram Decisions
+- (No recent  entries found in provided state fragments).
+
+## ⚠️ Mandatory Rules (Telegram Sessions)
+1. **No a-priori execution:** Plan phase MUST be explicit.
+2. **Skill-Gate:** Always load domain skills before script execution.
+3. **CREST Discipline:** Use appropriate model tiers (Strong vs Cheap).
+4. **No Tribal Knowledge:** Reference SKILL.md files, not memory.
+5. **Chunking:** All messages > 3,800 chars MUST be chunked.
+6. **Async:** Tasks > 30s MUST use .
+7. **Conservative Mode:** No risky state changes without Ken approval.

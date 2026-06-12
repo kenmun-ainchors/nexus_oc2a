@@ -1,22 +1,70 @@
 {
   "lastChecks": {
-    "taskWatchdog": 1749107220,
-    "cronHealth": 1749107220,
-    "budgetCheck": 1749107220,
-    "owlCompliance": "2026-06-11T02:57:14+10:00",
-    "standbyMode": 1749107220,
-    "taskStall": 1749107220,
-    "dodValidation": 1749107220,
-    "taskVerificationAlerts": 1749107220,
-    "wardenEscalation": 1749107220,
-    "cronDeadLetter": 1749107220,
-    "ahsokaPilot": 1749107220,
-    "chgTriggers": 1749107220,
+    "taskWatchdog": "2026-06-12T18:12:17.946060+10:00",
+    "cronHealth": 1749723600,
+    "budgetCheck": 1749723600,
+    "owlCompliance": "2026-06-12T16:19:16+10:00",
+    "standbyMode": 1749723600,
+    "taskStall": 1749723600,
+    "dodValidation": 1749723600,
+    "taskVerificationAlerts": 1749723600,
+    "wardenEscalation": 1749723600,
+    "cronDeadLetter": 1749723600,
+    "ahsokaPilot": 1749723600,
+    "chgTriggers": 1749723600,
     "blogVerification": 1752326820,
-    "warden": 1749107220,
-    "delegatedAuth": 1749107220,
-    "costState": 1749107220
+    "warden": 1749723600,
+    "delegatedAuth": 1749723600,
+    "costState": 1749723600,
+    "qbr": "2026-06-12T09:57:00+10:00 \u2014 locked TKT-0410, 19d to QBR"
   },
-  "lastUpdated": "2026-06-11T12:56:00+10:00",
-  "lastHeartbeat": "2026-06-11T02:56:00Z"
+  "lastUpdated": "2026-06-12T18:12:17.946060+10:00",
+  "lastHeartbeat": "2026-06-12T06:19:00Z",
+  "qbr": {
+    "next_qbr": {
+      "date": "2026-07-01",
+      "tickets": [
+        "TKT-0410",
+        "TKT-0130",
+        "TKT-0394",
+        "TKT-0125"
+      ],
+      "chg_ref": "CHG-0505",
+      "trigger_id": "TRIGGER-QBR",
+      "pre_reminders": [
+        {
+          "date": "2026-06-16",
+          "offset_days": -15,
+          "action": "start TKT-0394 tribal knowledge audit"
+        },
+        {
+          "date": "2026-06-22",
+          "offset_days": -9,
+          "action": "re-open TKT-0130 + TKT-0125"
+        },
+        {
+          "date": "2026-06-28",
+          "offset_days": -3,
+          "action": "pre-flight check \u2014 all 4 sub-tickets groomed"
+        },
+        {
+          "date": "2026-06-30",
+          "offset_days": -1,
+          "action": "final brief to Ken"
+        },
+        {
+          "date": "2026-07-01",
+          "offset_days": 0,
+          "action": "QBR fires"
+        }
+      ]
+    },
+    "last_checked": "2026-06-12T09:57:00+10:00"
+  },
+  "notes": [
+    {
+      "ts": "2026-06-12T18:12:17.946060+10:00",
+      "note": "Recovered task-2026-06-10-f9504783: verified \u2192 complete (direct PG). L-084 + TKT-0410 + CHG-0507 logged."
+    }
+  ]
 }
