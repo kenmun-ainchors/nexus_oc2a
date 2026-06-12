@@ -11,6 +11,20 @@
 ---
 ---
 
+## 2026-06-13 08:05 AEST — [CHG-0522] Sovereign Alert Pipeline: 7 critical crons migrated to direct Bot API (TKT-0501)
+**Type:** cron
+**Change Type:** Normal
+**Source:** ken-prompt
+**Trigger:** L-088 silence failure on TRIGGER-04 v2026.6.6 alert; alert intended for Telegram rerouted to active webchat lane
+**What changed:** Added scripts/sovereign-alert.sh wrapper. Migrated 7 main-session systemEvent crons from sessions_send (session-layer, hijackable) to sovereign-alert.sh (direct Bot API, L-001 compliant). Crons: Warden (83accf7b), Task Monitor (637ecb12), Gateway Health (c65ace85), TQP (a89d00ef), TZ Drift (9ce7f295), DoD Validation (065bd5a9), Nightly Restart Verify (d94ad8bb).
+**Why:** Main session's 'last delivery context' collapses to whichever channel has a live listener (webchat, since user was chatting). Telegram lane was unoccupied → alert rerouted to webchat. Sovereign alerts must NOT share the main session lane — they need direct Bot API, bypassing the session layer entirely. L-001 sibling + L-040 sibling = L-088 (third silence-failure lesson in lineage).
+**Verification:** Test send via sovereign-alert.sh → Telegram Bot API HTTP 200. Logged to state/sovereign-alert.log. 7 crons updated. Patch verified via cron get (each payload now references sovereign-alert.sh instead of sessions_send). Ken approved MIGRATE NOW 2026-06-13 08:00 AEST.
+**Rollback:** Revert payload text of 7 crons via cron update (revert patches documented in TKT-0501 comments). Remove scripts/sovereign-alert.sh (revert CHG-0522).
+**Linked:** TKT-0501, TKT-0502, CHG-0521, L-088, L-001, L-040, TRIGGER-04
+**Category:** Alert-Routing
+---
+
+
 ## 2026-06-13 07:53 AEST — [CHG-0521] TRIGGER-04: OpenClaw v2026.5.27 → v2026.6.6 — DEFER + SANDBOX
 **Type:** rule
 **Change Type:** Normal
