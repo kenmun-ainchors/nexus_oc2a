@@ -515,6 +515,31 @@ TKT-0323 (`dispatch-validate.sh`) remains at Level 1 (Yoda → Specialist). Addi
 - `scripts/atom-validate.sh` created and integrated into specialist dispatch flow
 - Level 2 pre-flight gate blocks invalid atom dispatches (exit 1 → no execution)
 
+### 8.4 Tool-Call Rejection Recovery (L-089 — New)
+
+**Failure mode (L-089, 2026-06-13):** A batched tool call returned a schema-rejection error (`invalid cron.update params: at /patch: unexpected property '$text'`). The agent (Yoda) emitted architectural commentary *instead of* retrying the corrected call in the same turn, and waited for the user to manually nudge with "update." A human should never have to nudge a tool-rejection recovery.
+
+**Root causes (compound):**
+1. **Tool-call hygiene** — batched N>2 tool calls of the same type were not independently validated before the next was issued. One contained a copy-paste artifact (leaked tool-call template syntax) that contaminated the `patch` payload.
+2. **Stall-on-rejection pattern** — the rejected result was treated as a stop condition rather than a signal to retry. Architectural explanation was emitted *instead of* the corrected retry, not *before* it.
+
+**Structural enforcement rules (NON-NEGOTIABLE — same status as 8.1–8.3):**
+
+1. **Reject-on-failure, do not stop.** When a tool call returns a non-success result (schema rejection, validation error, network failure), the next action in the same turn is to **retry the corrected call alone**. Do not pivot to architecture, summary, or commentary. Do not wait for user input.
+2. **Batch validation gate.** When batching N>2 tool calls of the same type, after each call check the result. On any non-success result, **stop the batch, retry the failed call alone, then continue with the remaining batch**. Do not assume remaining batched calls will succeed.
+3. **Same-turn completion test.** Before yielding the turn, run a self-check: "If this tool call had failed on the next turn, would the user need to nudge me?" If yes, finish the retry loop in this turn. A user nudge is a S1-grade signal that the loop was broken.
+4. **Copy-paste hygiene.** When constructing N similar tool calls, the Nth call's JSON payload must be a fresh composition, not a paste of the (N-1)th. Validate each call's `params` shape before issuing — particularly `patch` and `metadata` objects that have nested required fields.
+5. **Rejection classification.** Distinguish three rejection types:
+   - **Schema/format error** (e.g., `unexpected property '$text'`) → my fault, retry with corrected payload, same turn.
+   - **Validation/business error** (e.g., `ticket not found`, `permission denied`) → fix and retry, same turn.
+   - **External/environment error** (e.g., Telegram HTTP 500, PG connection refused) → escalate to user, do not loop.
+
+**Detection hook:** The Lesson Registry (`memory/LESSONS.md`) already captures each occurrence. The `scripts/crest-done-gate.sh` is the natural enforcement point — add a check: "if any tool call in the past N turns returned a non-success result and the agent emitted an explanatory block without a follow-up tool call, the gate FAILS with a CREST-rejection-stall error."
+
+**Verified:** L-089 logged 2026-06-13. This section added 2026-06-13 same day. CHG-0523 to be filed by Atlas (not Yoda, per routing rules — the lesson is about Yoda's stall, so the change should be reviewed by a non-Yoda agent).
+
+**Linked:** L-089, TKT-0501, CHG-0522, scripts/crest-done-gate.sh (enforcement point).
+
 ---
 
 ## 9. 2-Pass Contract Alignment
@@ -715,3 +740,4 @@ ATOM LEVEL (Executor):
 | v1.0 | 2026-06-09 | Yoda | Initial CREST topology (flat) — MEMORY.md locked |
 | v1.1 | 2026-06-10 | Yoda | Recursive topology (Model C) — initial DRAFT FOR REVIEW |
 | v1.2 | 2026-06-10 | Yoda | Atlas (5) + Thrawn (8) findings resolved + 3 v1.2 observations fixed. LOCKED with dual PASS. |
+| v1.2.1 | 2026-06-13 | Yoda | §8.4 Tool-Call Rejection Recovery added (L-089). 5 structural rules: reject-on-failure-no-stop, batch validation gate, same-turn completion test, copy-paste hygiene, rejection classification. Enforcement point: scripts/crest-done-gate.sh. DRAFT FOR REVIEW (Ken). |

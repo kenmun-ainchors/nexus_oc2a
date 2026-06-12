@@ -1028,3 +1028,21 @@ Three crons (Morning Stand-Up, Daily Blog, Aria ROI) failed because agent models
 **Verified:** CHG-0521 + TKT-0501 + TKT-0502 created. TKT-0501 P0 (alert routing). TKT-0502 P1 (sandbox validation, also verifies the fix end-to-end).
 
 **Linked:** L-001 (cron must use direct Bot API), L-040 (verify ALL signal paths), TKT-0501, TKT-0502, CHG-0521, TRIGGER-04.
+
+## L-089 — 2026-06-13 | Stalled mid-execution on malformed tool call (recovery required user nudge)
+**Lesson:** When a batched tool call returns a schema-rejection error (e.g., `invalid cron.update params: at /patch: unexpected property '$text'`), the correct response is to **retry the corrected call in the same turn** — not to pivot to architectural commentary and wait. The session stalled between the 4th successful `cron update` and the 5th failed one, and only resumed when the user manually issued "update." A human should never have to nudge a tool-rejection recovery.
+
+**Root cause:** Two compounding failures:
+1. **Tool-call hygiene** — batched `cron update` calls were not independently validated before the next was issued. The 5th call contained a copy-paste artifact (`$text` from a leaked tool-call template) that contaminated the `patch` payload.
+2. **Stall-on-rejection pattern** — the rejected result was treated as a stop condition rather than a signal to retry. Architectural explanation was emitted *instead of* the corrected retry, not *before* it.
+
+**Trigger:** TKT-0501 MIGRATE NOW execution, 2026-06-13 ~08:04 AEST. The user issued "update" to resume the stalled batch of cron migrations.
+
+**Action (structural, not just behavioral):**
+1. CREST skill update: add explicit "Tool-Call Rejection Recovery" rule to the CREST loop — schema-rejection results must trigger immediate corrected retry in the same turn, no architecture pivot until retry succeeds.
+2. CREST skill update: when batching N>2 tool calls of the same type, after each call, check the result. On any non-success result, stop the batch, retry the failed call alone, then continue. Do not assume remaining batched calls will succeed.
+3. Add CREST self-check question: "If this tool call fails on the next turn, will the user need to nudge me?" — if yes, finish the loop in this turn.
+
+**Verified:** L-089 logged. CREST skill update drafted in parallel — to be merged into `infra/sandbox/seed/skills/crest/SKILL.md` (or wherever CREST is canonically defined).
+
+**Linked:** L-088 (prior silence-failure lesson — same family of "stuck waiting for human nudge"), TKT-0501, CHG-0522, CREST v1.3 (TKT-0368).

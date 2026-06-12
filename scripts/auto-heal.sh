@@ -1192,6 +1192,125 @@ if [[ -x "$LONG_ID_STUB_SCRIPT" ]]; then
   fi
 fi
 
+# ---------- CHECK 25: CREST Tool-Call Rejection Recovery (L-089) ----------
+# Detects L-089 stall pattern: an agent emitted an explanatory block after a
+# rejected tool call without retrying in the same turn. Scans recent session
+# transcripts (last 7 days) for the pattern. NON-DESTRUCTIVE — writes findings
+# to state/crest-rejection-stalls.json. Alerts Ken via NEEDS_KEN if >0 stalls
+# detected in last 24h.
+log "CHECK 25: CREST tool-call rejection recovery (L-089)"
+CHECKS_RUN+=("crest_rejection_stall_check")
+
+L089_FINDINGS="$STATE_DIR/crest-rejection-stalls.json"
+L089_THRESHOLD_HOURS=24
+
+python3 <<PYEOF
+import json, os, re, glob, datetime
+from pathlib import Path
+
+ws = "$WORKSPACE"
+threshold_hours = $L089_THRESHOLD_HOURS
+findings_path = "$L089_FINDINGS"
+now = datetime.datetime.now(datetime.timezone.utc)
+cutoff_ms = int((now - datetime.timedelta(hours=threshold_hours)).timestamp() * 1000)
+
+# Scan last 7 days of session JSONL files
+sessions_root = Path(ws) / "agents"
+pattern_paths = list(sessions_root.glob("*/sessions/*.jsonl"))
+pattern_paths = [p for p in pattern_paths if (now - datetime.datetime.fromtimestamp(p.stat().st_mtime, tz=datetime.timezone.utc)).days <= 7]
+
+stall_findings = []
+schema_err_markers = [
+    r"invalid cron\.update params",
+    r"unexpected property",
+    r"missing required",
+    r"schema validation failed",
+    r"TypeError: .* is not",
+    r"KeyError:",
+    r"AttributeError:",
+    r"ValueError:.*expected",
+    r"OutboundDeliveryError",
+]
+
+for p in pattern_paths:
+    try:
+        lines = p.read_text(errors="ignore").splitlines()
+    except Exception:
+        continue
+    for i, line in enumerate(lines):
+        try:
+            rec = json.loads(line)
+        except Exception:
+            continue
+        ts = rec.get("__openclaw", {}).get("recordTimestampMs") or rec.get("timestamp")
+        if not ts or ts < cutoff_ms:
+            continue
+        # Look at tool result messages with error status
+        content = rec.get("content")
+        if isinstance(content, list):
+            for c in content:
+                text = c.get("text", "") if isinstance(c, dict) else ""
+                for marker in schema_err_markers:
+                    if re.search(marker, text):
+                        # Check the next 1-5 messages: did the same session retry the tool call?
+                        next_assistant = []
+                        for j in range(i+1, min(i+6, len(lines))):
+                            try:
+                                r2 = json.loads(lines[j])
+                            except Exception:
+                                continue
+                            if r2.get("role") == "assistant":
+                                next_assistant.append(r2)
+                                if len(next_assistant) >= 2:
+                                    break
+                        # Stall = the rejected result was followed by an assistant message
+                        # that does NOT contain a tool_use block within the next 2 assistant turns
+                        has_retry = False
+                        for na in next_assistant:
+                            nac = na.get("content", [])
+                            if isinstance(nac, list):
+                                for nc in nac:
+                                    if isinstance(nc, dict) and nc.get("type") == "tool_use":
+                                        has_retry = True
+                                        break
+                            if has_retry:
+                                break
+                        if next_assistant and not has_retry:
+                            stall_findings.append({
+                                "session": p.parent.parent.name + "/" + p.stem,
+                                "sessionFile": str(p),
+                                "timestamp": ts,
+                                "marker": marker,
+                                "excerpt": text[:200],
+                                "agentName": rec.get("__openclaw", {}).get("agentId", "unknown"),
+                            })
+                        break
+    except Exception as e:
+        continue
+
+result = {
+    "check": "crest_rejection_stall_check",
+    "ran_at": now.isoformat(),
+    "threshold_hours": threshold_hours,
+    "stalls_found": len(stall_findings),
+    "findings": stall_findings[:20],  # cap to 20 most recent
+    "verdict": "PASS" if len(stall_findings) == 0 else f"NEEDS_REVIEW: {len(stall_findings)} stall pattern(s) in last {threshold_hours}h"
+}
+Path(findings_path).write_text(json.dumps(result, indent=2))
+print(f"CHECK 25: {result['verdict']}")
+if stall_findings:
+    for f in stall_findings[:5]:
+        print(f"  - {f['session']} @ {f['timestamp']}: {f['excerpt'][:100]}")
+PYEOF
+
+if [[ -f "$L089_FINDINGS" ]]; then
+  L089_COUNT=$(python3 -c "import json; d=json.load(open('$L089_FINDINGS')); print(d.get('stalls_found', 0))" 2>/dev/null || echo 0)
+  if [[ "$L089_COUNT" -gt 0 ]]; then
+    log "CHECK 25: Found $L089_COUNT CREST rejection-stall pattern(s) in last ${L089_THRESHOLD_HOURS}h — see $L089_FINDINGS"
+    NEEDS_KEN+=("L-089: $L089_COUNT CREST tool-call rejection-stall pattern(s) detected. Review state/crest-rejection-stalls.json. CREST v1.2 §8.4 enforcement: agent emitted commentary after rejection without retrying.")
+  fi
+fi
+
 # ---------- FILE INC FOR EACH AUTO-FIX (ITSM-US-007) ----------
 if (( ${#AUTO_FIXED[@]} > 0 )); then
   log "Filing INC records for qualifying auto-fixed item(s)..."

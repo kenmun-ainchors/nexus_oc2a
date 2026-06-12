@@ -11,6 +11,20 @@
 ---
 ---
 
+## 2026-06-13 08:12 AEST — [CHG-0523] CREST v1.2.1 — §8.4 Tool-Call Rejection Recovery (L-089 structural enforcement)
+**Type:** rule
+**Change Type:** Normal
+**Source:** ken-prompt
+**Trigger:** L-089: Yoda stalled mid-execution on malformed cron.update batch; user issued manual 'update' nudge. Recovery should have happened in same turn.
+**What changed:** Added CREST v1.2 §8.4 — Tool-Call Rejection Recovery (5 structural rules): reject-on-failure-no-stop, batch validation gate, same-turn completion test, copy-paste hygiene, rejection classification. Added auto-heal CHECK 25: scans last 7d of session JSONL for stall pattern (rejected tool result followed by assistant message without tool_use retry); alerts Ken via NEEDS_KEN if >0 in last 24h. Findings written to state/crest-rejection-stalls.json.
+**Why:** Tool-call rejections are recoverable. Letting the user nudge a recovery is a S1-grade signal. The structural rules + auto-heal CHECK 25 surface future stalls before they ship.
+**Verification:** Bash syntax check passed. CHECK 25 path validated. CREST v1.2 §8.4 text added. Change history updated (v1.2.1). L-089 logged. Auto-heal will run tonight at 01:00 AEST — first run will validate CHECK 25 end-to-end.
+**Rollback:** Revert docs/CREST-v1.2-Recursive-Model-C.md (remove §8.4, revert change history). Revert scripts/auto-heal.sh (remove CHECK 25 block). L-089 stays in LESSONS.md as historical record.
+**Linked:** L-089, TKT-0501, CHG-0522, CREST v1.2 (TKT-0368), scripts/crest-done-gate.sh, scripts/auto-heal.sh
+**Category:** CREST
+---
+
+
 ## 2026-06-13 08:05 AEST — [CHG-0522] Sovereign Alert Pipeline: 7 critical crons migrated to direct Bot API (TKT-0501)
 **Type:** cron
 **Change Type:** Normal
