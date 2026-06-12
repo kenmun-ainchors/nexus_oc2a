@@ -985,3 +985,30 @@ Three crons (Morning Stand-Up, Daily Blog, Aria ROI) failed because agent models
 **Verified:** 7/7 unit tests pass. Regression: validate gate 106/106 GREEN, model-drift 9/9 PASS, strike-3 PASS. CHG-0514 logged.
 
 **Linked:** L-077 (root cause), L-084 (fabrication lesson), L-085, TKT-0407, CHG-0503 (L-077 fix), CHG-0506 (TKT-0409 dispatch), CHG-0510 (TKT-0407 Phase-1 close)
+
+## L-086 — memory file bloat via full-file write instead of append
+
+**Symptom (Day 22 EOD):**
+- `memory/2026-06-12.md` bloated to 41,737 bytes (well over 15K hard limit) by repeated `write` calls that re-emitted the full file, not appending
+- File had 3 full copies of Day-22 content (lines 1-148, 149-373, 374-712) by the time EOD hit
+
+**Root cause:**
+- I used `write` (overwrite) when I should have used `edit` (targeted) or shell append (`>>`) for incremental updates
+- Each "flush" wrote the full prior content + new sections, duplicating the entire file
+- Pre-compaction memory flushes compounded: 4 such flushes over the day = ~4× the file size
+
+**Fix (00:03 AEST 13 Jun):**
+- Rebuilt file cleanly: 8,068 bytes, single copy, operational essentials only
+- Verbose tables (files modified, GDrive uploads, AIOps chain history) → archive in `memory/MEMORY-archive-2026-06-13.md` on demand
+- Now use `edit` (single targeted change) for in-place updates
+- Use shell `cat >>` only when appending small new sections
+
+**Why this matters:**
+- Workspace file size limits: SOUL 10K, MEMORY 12K soft / 15K hard (per AGENTS.md, TKT-0310)
+- Auto-heal CHECK 15 monitors file size; bloated files trigger alerts
+- Injected context with bloated memory → wasted tokens, slower inference
+- Pattern is L-084 sibling: fabrication of "complete" state without verifying
+
+**Verified:** Day 22 file now 8,068 bytes (was 41,737). All operational facts preserved. No data loss.
+
+**Linked:** L-084 (fabrication lesson), L-085 (file size detection), TKT-0310 (file size limits), CHG-0519 (Day 22 close), L-082 (stream cap also hits on bloated replies)
