@@ -11,6 +11,19 @@
 ---
 ---
 
+## 2026-06-13 00:04 AEST — [CHG-0520] Day 22 memory file rebuilt + L-086 logged (memory hygiene)
+**Type:** data
+**Change Type:** Normal
+**Source:** manual
+**Trigger:** Day 22 EOD commit revealed memory/2026-06-12.md had bloated to 41,737 bytes (over 15K hard limit) due to repeated full-file write calls during pre-compaction flushes. Three full copies of day content stacked.
+**What changed:** 1. memory/2026-06-12.md rebuilt cleanly: 8,068 bytes (was 41,737). Single copy, operational essentials only. 2. memory/LESSONS.md: L-086 appended (memory file bloat via full-file write). 3. memory/2026-06-12.md updated to note memory hygiene issue (now L-086).
+**Why:** Workspace file size limits (AGENTS.md, TKT-0310): SOUL 10K, MEMORY 12K soft / 15K hard. Bloated memory = wasted injected tokens, slower inference, auto-heal CHECK 15 alert. Pattern is L-084 sibling: claiming 'complete' state without verification.
+**Verification:** 1. wc -c memory/2026-06-12.md: 8,068 bytes (was 41,737). 2. All Day 22 facts preserved (verified by content comparison: 14/15 Sprint 7, 22 CHG, 18 lessons, 3 directives, WO-002 resolved, Spark reactivation chain, teaser cron, all 14 crons). 3. Verbose tables (files modified, GDrive, AIOps chain) flagged for archive on demand. 4. L-086 logged with full fix rationale. 5. Pattern: 'use edit for in-place updates, cat >> for small appends, never full-file write for incremental memory'.
+**Rollback:** If a clean Day 22 memory is needed: read from CHANGELOG.md (CHG-0497-0519) and journal-2026-06-12.md. If user wants the full bloat restored: git log shows commit eaf74e45 had the 41K version. Current 8K version committed in this CHG.
+**Linked:** L-084 (fabrication), L-085 (file size detection), TKT-0310 (file size limits), CHG-0519 (Day 22 close), L-082 (stream cap), L-077 (memory hygiene precursor)
+---
+
+
 ## 2026-06-12 23:58 AEST — [CHG-0519] Spark reactivation teaser post scheduled — Sat 13 Jun 09:00 AEST
 **Type:** cron
 **Change Type:** Normal
