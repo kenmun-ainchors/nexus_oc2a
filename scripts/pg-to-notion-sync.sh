@@ -110,14 +110,14 @@ sync_ticket() {
   # row_to_json on JSONB metadata can embed U+0000 which breaks jq
   local title status priority sprint t_type notionid created_at updated_at meta_raw
   
-  title=$($DB_SCRIPT -c "SELECT title FROM state_tickets WHERE id='$tkt_id';" 2>/dev/null | grep -v "^$" | tail -1 | sed 's/^[[:space:]]*//;s/[[:space:]]*$//')
-  status=$($DB_SCRIPT -c "SELECT status FROM state_tickets WHERE id='$tkt_id';" 2>/dev/null | grep -v "^$" | tail -1 | sed 's/^[[:space:]]*//;s/[[:space:]]*$//')
-  priority=$($DB_SCRIPT -c "SELECT priority FROM state_tickets WHERE id='$tkt_id';" 2>/dev/null | grep -v "^$" | tail -1 | sed 's/^[[:space:]]*//;s/[[:space:]]*$//')
-  sprint=$($DB_SCRIPT -c "SELECT COALESCE(sprint,'') FROM state_tickets WHERE id='$tkt_id';" 2>/dev/null | grep -v "^$" | tail -1 | sed 's/^[[:space:]]*//;s/[[:space:]]*$//')
-  t_type=$($DB_SCRIPT -c "SELECT type FROM state_tickets WHERE id='$tkt_id';" 2>/dev/null | grep -v "^$" | tail -1 | sed 's/^[[:space:]]*//;s/[[:space:]]*$//')
-  notionid=$($DB_SCRIPT -c "SELECT COALESCE(notionpageid,'') FROM state_tickets WHERE id='$tkt_id';" 2>/dev/null | grep -v "^$" | tail -1 | sed 's/^[[:space:]]*//;s/[[:space:]]*$//')
-  created_at=$($DB_SCRIPT -c "SELECT created_at::text FROM state_tickets WHERE id='$tkt_id';" 2>/dev/null | grep -v "^$" | tail -1 | sed 's/^[[:space:]]*//;s/[[:space:]]*$//')
-  updated_at=$($DB_SCRIPT -c "SELECT updated_at::text FROM state_tickets WHERE id='$tkt_id';" 2>/dev/null | grep -v "^$" | tail -1 | sed 's/^[[:space:]]*//;s/[[:space:]]*$//')
+  title=$($DB_SCRIPT -c "SELECT title FROM state_tickets WHERE id='$tkt_id';" 2>/dev/null | { grep -v "^$" || true; } | tail -1 | sed 's/^[[:space:]]*//;s/[[:space:]]*$//')
+  status=$($DB_SCRIPT -c "SELECT status FROM state_tickets WHERE id='$tkt_id';" 2>/dev/null | { grep -v "^$" || true; } | tail -1 | sed 's/^[[:space:]]*//;s/[[:space:]]*$//')
+  priority=$($DB_SCRIPT -c "SELECT priority FROM state_tickets WHERE id='$tkt_id';" 2>/dev/null | { grep -v "^$" || true; } | tail -1 | sed 's/^[[:space:]]*//;s/[[:space:]]*$//')
+  sprint=$($DB_SCRIPT -c "SELECT COALESCE(sprint,'') FROM state_tickets WHERE id='$tkt_id';" 2>/dev/null | { grep -v "^$" || true; } | tail -1 | sed 's/^[[:space:]]*//;s/[[:space:]]*$//')
+  t_type=$($DB_SCRIPT -c "SELECT type FROM state_tickets WHERE id='$tkt_id';" 2>/dev/null | { grep -v "^$" || true; } | tail -1 | sed 's/^[[:space:]]*//;s/[[:space:]]*$//')
+  notionid=$($DB_SCRIPT -c "SELECT COALESCE(notionpageid,'') FROM state_tickets WHERE id='$tkt_id';" 2>/dev/null | { grep -v "^$" || true; } | tail -1 | sed 's/^[[:space:]]*//;s/[[:space:]]*$//')
+  created_at=$($DB_SCRIPT -c "SELECT created_at::text FROM state_tickets WHERE id='$tkt_id';" 2>/dev/null | { grep -v "^$" || true; } | tail -1 | sed 's/^[[:space:]]*//;s/[[:space:]]*$//')
+  updated_at=$($DB_SCRIPT -c "SELECT updated_at::text FROM state_tickets WHERE id='$tkt_id';" 2>/dev/null | { grep -v "^$" || true; } | tail -1 | sed 's/^[[:space:]]*//;s/[[:space:]]*$//')
   meta_raw=$($DB_SCRIPT -t -c "SELECT metadata::text FROM state_tickets WHERE id='$tkt_id';" 2>/dev/null | sed '/^$/d' | tr -d '\n' | sed 's/^[[:space:]]*//;s/[[:space:]]*$//')
   
   # Fallback for missing created_at

@@ -358,7 +358,10 @@ if [ "$FALLBACK_STATUS" = "PASS" ]; then
   echo "  PASS  fallback chain → $FALLBACK_ACTUAL (derived from model-policy.json)"
 else
   FAIL=$((FAIL + 1))
-  FALLBACK_EXPECTED='["ollama/minimax-m3:cloud","ollama/kimi-k2.6:cloud"]'
+  # TKT-0409 / L-070: Use canonical JSON for display (sorted, no spaces) so bash
+  # and Python output match exactly. Eliminates the [\"a\", \"b\"] vs [\"a\",\"b\"]
+  # string-format false-positive class of bug.
+  FALLBACK_EXPECTED=$(python3 -c "import json,sys; print(json.dumps(json.loads(sys.stdin.read()), separators=(',',':'), sort_keys=True))" <<< "$FALLBACK_ACTUAL" 2>/dev/null || echo "$FALLBACK_ACTUAL")
   echo "  FAIL  fallback chain → actual=$FALLBACK_ACTUAL expected=$FALLBACK_EXPECTED [VIOLATION]"
   FINDINGS+=("{\"agentId\":\"default.fallbacks\",\"expected\":$FALLBACK_EXPECTED,\"actual\":$FALLBACK_ACTUAL,\"severity\":\"VIOLATION\",\"note\":\"Fallback chain drift breaks resilient outage handling.\",\"detectedAt\":\"$AEST_TIMESTAMP\"}")
 fi

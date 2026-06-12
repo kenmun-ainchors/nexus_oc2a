@@ -340,30 +340,20 @@ write_state
 # ---------- CHECK 9: Cost balance ----------
 log "CHECK 9: API balance"
 CHECKS_RUN+=("api_balance")
-# CHG-0446: Anthropic balance check suppressed until TRIGGER-01 (OC2 arrival + CLAUDE RESTORE).
-# Ollama Cloud is $100/mo fixed subscription — no pay-as-you-go balance to track.
-# Re-enable this check after TRIGGER-01 sub-action 01-CLAUDE-RESTORE completes.
-TRIGGER_FILE="$STATE_DIR/chg-triggers.json"
-CLAUDE_SUPPRESS=true
-if [[ -f "$TRIGGER_FILE" ]]; then
-  TRIGGER01_STATUS=$(jq -r '.triggers["TRIGGER-01"].status // "pending"' "$TRIGGER_FILE")
-  if [[ "$TRIGGER01_STATUS" == "fired" ]]; then
-    CLAUDE_SUPPRESS=false
-  fi
-fi
-if [[ "$CLAUDE_SUPPRESS" == "true" ]]; then
-  log "  SKIP: Anthropic balance check suppressed (CLAUDE RESTORE pending — TRIGGER-01 not yet fired)"
-else
-  COST_FILE="$STATE_DIR/cost-state.json"
-  if [[ -f "$COST_FILE" ]]; then
-    REMAINING=$(jq -r '.apiBalance.remainingEstimate // 0' "$COST_FILE")
-    THRESHOLD_10=$(jq -r '.spendAlerts.alert10pct.threshold // 5' "$COST_FILE")
-    REMAINING_INT=$(echo "$REMAINING" | awk '{printf "%d", $1*100}')
-    THRESHOLD_INT=$(echo "$THRESHOLD_10" | awk '{printf "%d", $1*100}')
-    if (( REMAINING_INT < THRESHOLD_INT )); then
-      ISSUES_FOUND+=("balance:critical:\$${REMAINING}")
-      NEEDS_KEN+=("API balance critically low: \$${REMAINING} USD remaining (threshold \$${THRESHOLD_10})")
-    fi
+# CHG-0500: CLAUDE RECONFIGURE lifted the Anthropic-balance suppression. Anthropic
+# is now just another approved model in the model-task matrix (CREST v1.3). The
+# Ollama Cloud $100/mo flat subscription has no pay-as-you-go balance to track,
+# but Anthropic is pay-as-you-go and DOES need monitoring when used. This check
+# runs against whichever balance source is currently active.
+COST_FILE="$STATE_DIR/cost-state.json"
+if [[ -f "$COST_FILE" ]]; then
+  REMAINING=$(jq -r '.apiBalance.remainingEstimate // 0' "$COST_FILE")
+  THRESHOLD_10=$(jq -r '.spendAlerts.alert10pct.threshold // 5' "$COST_FILE")
+  REMAINING_INT=$(echo "$REMAINING" | awk '{printf "%d", $1*100}')
+  THRESHOLD_INT=$(echo "$THRESHOLD_10" | awk '{printf "%d", $1*100}')
+  if (( REMAINING_INT < THRESHOLD_INT )); then
+    ISSUES_FOUND+=("balance:critical:\$${REMAINING}")
+    NEEDS_KEN+=("API balance critically low: \$${REMAINING} USD remaining (threshold \$${THRESHOLD_10})")
   fi
 fi
 write_state
@@ -1179,6 +1169,28 @@ else
 fi
 
 write_state
+
+# ---------- CHECK 24: Long-ID Stub Detection (L-085) ----------
+# Detects PG tickets with long-ID format (TKT-NNNN: <text>) that may be
+# L-077 stub-victim duplicates of the short-ID (TKT-NNNN) ticket.
+# Age threshold: 7 days. NON-DESTRUCTIVE — writes findings to state/long-id-stubs.json,
+# does NOT auto-close. Surface for Ken review via auto-heal report.
+log "CHECK 24: L-085 long-ID stub detection"
+CHECKS_RUN+=("long_id_stub_check")
+
+LONG_ID_STUB_SCRIPT="$WORKSPACE/scripts/long-id-stub-check.sh"
+LONG_ID_STUB_FILE="$STATE_DIR/long-id-stubs.json"
+if [[ -x "$LONG_ID_STUB_SCRIPT" ]]; then
+  bash "$LONG_ID_STUB_SCRIPT" >> "$LOG" 2>&1 || true
+  if [[ -f "$LONG_ID_STUB_FILE" ]]; then
+    STUB_COUNT=$(python3 -c "import json; d=json.load(open('$LONG_ID_STUB_FILE')); print(d.get('count', 0))" 2>/dev/null || echo 0)
+    if [[ "$STUB_COUNT" -gt 0 ]]; then
+      log "CHECK 24: Found $STUB_COUNT long-ID stub(s) — see $LONG_ID_STUB_FILE"
+      # Non-destructive: add to NEEDS_KEN so Ken sees it in the auto-heal report
+      NEEDS_KEN+=("L-085: $STUB_COUNT long-ID stub(s) found — review state/long-id-stubs.json")
+    fi
+  fi
+fi
 
 # ---------- FILE INC FOR EACH AUTO-FIX (ITSM-US-007) ----------
 if (( ${#AUTO_FIXED[@]} > 0 )); then

@@ -356,6 +356,10 @@ cmd_status() {
   
   while IFS=$'\t' read -r seq id title status dep_count effort agent; do
     [[ -z "$id" ]] && continue
+    # TKT-0409 / L-069: Initialize all counters defensively. `set -u` + uninitialized
+    # local in arithmetic context errors out. Also guard dep_count (TSV may produce empty).
+    : "${total:=0}"; : "${open:=0}"; : "${in_prog:=0}"; : "${done_ct:=0}"; : "${pending:=0}"
+    : "${dep_count:=0}"
     ((total++))
     
     case "$status" in

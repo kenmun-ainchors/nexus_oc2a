@@ -57,7 +57,8 @@
 - **Warden 🔍** Model Compliance, 15-min cron:83accf7b. State: model-drift-state.json/violations.json. Escalation → warden-escalation-pending.json → Yoda.
 
 ## Key Scripts & Infrastructure
-- `auto-heal.sh` (01:00 AEST, 19 checks) | `run-diagnostics.sh` (/diagnostics, 7 phases) | `changelog-append.sh` (CHG+Notion) | `gateway-config-snapshot.sh`/`gateway-restore.sh` | `cost-tracker.sh` | `audit-skill.sh` | `telegram-alert.sh`
+- `auto-heal.sh` (01:00 AEST, 24 checks including CHECK 24 L-085 long-ID stub detection) | `run-diagnostics.sh` (/diagnostics, 7 phases) | `changelog-append.sh` (CHG+Notion) | `gateway-config-snapshot.sh`/`gateway-restore.sh` | `cost-tracker.sh` | `audit-skill.sh` | `telegram-alert.sh` | `long-id-stub-check.sh` (L-085)
+- L-085: Long-ID stub detector — flags TKT-NNNN: <text> duplicates of TKT-NNNN short IDs. Auto-heal CHECK 24, non-destructive. 7/7 tests pass.
 - Ticket/sprint: see `infra/sandbox/seed/skills/pg-sprint-backlog/SKILL.md` (progressive disclosure)
 
 ## Operations Docs (locked)
@@ -110,8 +111,14 @@ Model routing: see skill at `infra/sandbox/seed/skills/model-routing/SKILL.md` a
 ## Pending Tickets
 → Run `bash scripts/db-sprint.sh status` for current sprint. See `infra/sandbox/seed/skills/pg-sprint-backlog/SKILL.md` for full interface.
 
-## Anthropic API Key Rotation
-Model routing: see skill at `infra/sandbox/seed/skills/model-routing/SKILL.md` and `docs/Model3-Policy.md`
+## Anthropic — PERMANENTLY PARKED (2026-06-12 08:12)
+- **Directive (Ken verbatim):** "Anthropic credits and model enablement - Permanently park until I provide future instruction and update"
+- **What this means:** NO Anthropic API key rotation, NO higherQuality tier activation, NO agent assignment to Anthropic models, NO TKT-0241 work, NO `globalAllowedModels` additions of new Anthropic variants. Anthropic stays as a documented option in policy but is **not active**.
+- **Unblock keyword:** Ken must explicitly say "CLAUDE ACTIVATE" (or similar) to unblock. Until then, all Anthropic work is parked.
+- **Monitoring:** NONE. No alerts, no reminders, no review cadence. This is a permanent park by design.
+- **Reference:** `state/parks/anthropic.json` (full scope, unblock conditions, related artifacts). CHG-0502.
+- **Linked:** TKT-0241 (now status=parked, was ungated by CHG-0500, re-parked by CHG-0502 per this directive), CHG-0500 (CLAUDE RECONFIGURE — risk framework is CREST v1.3, not Anthropic), CHG-0502 (this park), state/parks/anthropic.json.
+- **Anti-regression:** TKT-0241 status changed from "open (ungated)" to "parked". The `higherQuality` tier in model-policy.json has `agentIds: []` and `active: false` — must stay that way. If any future work proposes Anthropic enablement, check this section + state/parks/anthropic.json first.
 
 ## Config Baseline (Day 20)
 → See `state/critical-config-baseline.json` for live drift detection.

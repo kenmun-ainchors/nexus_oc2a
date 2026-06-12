@@ -1910,19 +1910,60 @@ Any cron exceeding 2x its category target → flag in monthly CI audit.
 
 ---
 
-## CLAUDE CONSERVATIVE MODE PROCEDURE (CHG-0362)
+## CLAUDE RECONFIGURE — Risk Framework (CHG-0500)
 
-**Trigger:** Claude API credits depleted or any condition requiring all agents to run on non-Claude models (kimi/gemma4/deepseek-pro).
-**Duration:** Until Ken issues `CLAUDE RESTORE` keyword.
-**Authority:** Ken Mun (CTO) — explicit approval required to activate/deactivate.
+**LIFTED 2026-06-12 08:02 AEST** by Ken Mun (CLAUDE RECONFIGURE keyword).
 
-### What Changes
-1. **All agents** switch primary model to `ollama/kimi-k2.6:cloud` (or designated interim model).
-2. **Warden** stops flagging model drift for interim models — drift is intentional, not a violation.
-3. **Fallback chain validator** skips LINK 5 (config validation) — interim models are intentional.
-4. **Conservative mode rule (CHG-0350)** activates: NO risky state manipulation without explicit Ken approval.
+**Supersedes:** Conservative Mode (CHG-0349/0350/0362/0367/0373) and the entire "Interim period" framework below. The procedural Ken-approves-every-thing ceremony has been replaced by **structural guards in CREST v1.3 + TKT-0368**.
 
-### Activation Steps (Yoda)
+### What changed
+1. **Anthropic models** are now just another option in the model-task matrix (CHG-0500 added to `globalAllowedModels`). Not a special trigger, not a fallback-only status.
+2. **Conservative mode rule** (CHG-0350 — "NO risky state manipulation without explicit Ken approval") is **replaced** by the CREST v1.3 + TKT-0368 structural framework:
+   - **Plan→Verify→Replan gates** (replaces manual ceremony)
+   - **RVEV cycle:** READ→VALIDATE→EXECUTE→VERIFY (per atom)
+   - **2-Pass Contract** (TKT-0321): orchestrator discovers, specialist executes
+   - **Dispatch validator** (TKT-0323): blocks ambiguous dispatches
+   - **Model-task matrix** (TKT-0322): per-phase model selection
+   - **Skill-gate** (TKT-0396): domain scripts block if skill not loaded
+   - **TQP** (TKT-0309): persists state to PG before announcing completion
+3. **Auto-heal CHECK 9** (Anthropic balance) re-enabled — runs as a normal cost check, not a suppressed interim-period artifact.
+4. **Phase tracking** moved to `state/crest-transition-state.json` (replaces `state/interim-model-period.json`).
+5. **Warden** runs full drift checks; no interim-period skip logic.
+6. **Fallback chain validator** runs full chain validation; no LINK 5 skip.
+
+### Phase tracking
+See `state/crest-transition-state.json` for the v1.3 transition tracker (3 phases: doc/policy sync, CREST v1.3 implementation per TKT-0368, doc lock).
+
+### Backout (if ever needed)
+1. Restore `state/model-policy.json` from `state/archive/2026-06-12-claude-reconfigure/model-policy.json`
+2. Re-add `state/interim-model-period.json` (script: `scripts/lib/conservative-mode.sh` provides `validate_interim_state` and related)
+3. Re-suppress auto-heal CHECK 9 (revert `scripts/auto-heal.sh`)
+4. Restore SOUL.md, model-routing skill, and this runbook section from the archive
+
+### Reference
+- **CHG-0500** — the lift record
+- **TKT-0368** — CREST v1.3 implementation (3-area: execution, token economics, memory)
+- **docs/CREST-v1.2-Recursive-Model-C.md** — current locked CREST (v1.2); v1.3 in flight
+- **MEMORY.md** — `## CREST v1.3 + TKT-0368 — Risk Framework` section (replaces the old Interim Rule)
+- **SOUL.md** — Non-negotiable #3 (data sovereignty), #5 (CHG discipline) remain structural
+
+---
+
+## ~~CLAUDE CONSERVATIVE MODE PROCEDURE (CHG-0362)~~ — SUPERSEDED, RETAINED FOR ARCHIVE
+
+> ⚠️ **SUPERSEDED 2026-06-12 by CHG-0500 (CLAUDE RECONFIGURE).** Section retained for historical reference only. The procedure below is no longer in effect. See the CLAUDE RECONFIGURE section above for the current operating state.
+
+**Trigger (historical):** Claude API credits depleted or any condition requiring all agents to run on non-Claude models (kimi/gemma4/deepseek-pro).
+**Duration (historical):** 2026-05-15 18:18 AEST → 2026-06-12 08:02 AEST (28 days).
+**Authority:** Ken Mun (CTO) — explicit approval required to activate/deactivate (was).
+
+### What changed during Conservative Mode (HISTORICAL)
+1. **All agents** switched primary model to `ollama/kimi-k2.6:cloud` (or designated interim model).
+2. **Warden** stopped flagging model drift for interim models — drift was intentional.
+3. **Fallback chain validator** skipped LINK 5 (config validation) — interim models were intentional.
+4. **Conservative mode rule (CHG-0350)** activated: NO risky state manipulation without explicit Ken approval.
+
+### Activation Steps (HISTORICAL — for archival only)
 1. Save current openclaw.json config snapshot: `state/claude-restore-config.json`
 2. Update all agents in openclaw.json: primary → `ollama/kimi-k2.6:cloud`, fallbacks → `[gemma4, deepseek-pro]`
 3. Write `state/interim-model-period.json`: `{ "active": true, "reason": "...", "revertKeyword": "CLAUDE RESTORE", "startedAt": "...", "approvedBy": "Ken" }`
@@ -1932,19 +1973,22 @@ Any cron exceeding 2x its category target → flag in monthly CI audit.
 7. Log CHG entry (reference CHG-0349/0362 pattern)
 8. Notify all agents via AGENTS.md / SOUL.md update: conservative mode active
 
-### Deactivation Steps (Yoda, upon Ken saying "CLAUDE RESTORE")
-1. Restore openclaw.json from `state/claude-restore-config.json`
-2. Delete `state/interim-model-period.json`
-3. Update model-policy.json: remove or set `interimPeriod.active = false`
-4. Revert Warden cron to full drift checking
-5. Revert fallback chain validator to full chain validation (remove interim skip)
-6. Remove conservative mode rule from SOUL.md / AGENTS.md
-7. Restart gateway to apply restored config
-8. Run PVT (9/9) to verify all agents on correct models
-9. Log CHG entry marking end of interim period
+### Deactivation Steps (HISTORICAL — completed 2026-06-12)
+1. ✅ Restore openclaw.json from `state/claude-restore-config.json` — N/A, gateway config was updated incrementally during trial
+2. ✅ Delete `state/interim-model-period.json` — replaced by `state/crest-transition-state.json`
+3. ✅ Update model-policy.json: remove or set `interimPeriod.active = false` — set to false, replaced by `crestV13Transition` block
+4. ✅ Revert Warden cron to full drift checking — auto-heal CHECK 9 re-enabled
+5. ✅ Revert fallback chain validator to full chain validation — model-drift-check.sh now runs full validation
+6. ✅ Remove conservative mode rule from SOUL.md / AGENTS.md — replaced by CREST v1.3 + TKT-0368 section
+7. ✅ Restart gateway to apply restored config — N/A
+8. ✅ Run PVT (9/9) to verify all agents on correct models — model-drift-check.sh passes 9/9
+9. ✅ Log CHG entry marking end of interim period — CHG-0500
 
-### Shared Conservative Mode Library (CHG-0367)
-**File:** `scripts/lib/conservative-mode.sh`
+### Shared Conservative Mode Library (CHG-0367) — RETAINED
+**File:** `scripts/lib/conservative-mode.sh` — kept for any future interim period. Not currently sourced by any active script (since CHG-0500).
+
+### Warden Behaviour During Interim (HISTORICAL)
+- **Drift checks:** SKIPPED entirely. Warden logged "INTERIM_PERIOD_ACTIVE" and exited clean.
 **Purpose:** Single source of truth for all scripts that need interim period awareness.
 **Sourced by:**
 - `warden-cron.sh` — drift check skip

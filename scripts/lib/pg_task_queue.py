@@ -159,10 +159,22 @@ def pg_claim_task(task_id, agent_id):
     Atomically claim a task in PG. Uses WHERE status='queued' to prevent double-claim.
     Maps CLI 'claimed' → PG 'dispatched' for TQP compatibility.
     Returns True if claim succeeded, False otherwise.
+    TKT-0409 D2: validates state transition queued -> dispatched first.
     """
     now = __import__('datetime').datetime.now().isoformat()
     timeout = (__import__('datetime').datetime.now() + __import__('datetime').timedelta(minutes=30)).isoformat()
-    
+
+    # TKT-0409 D2: validate state transition before claiming
+    current = pg_read_task(task_id)
+    if current is None:
+        return False
+    current_status = current.get('status', 'unknown')
+    valid, vmsg = validate_state_transition(current_status, 'dispatched')
+    if not valid:
+        # queued -> dispatched is the only valid path; if task is in any other state
+        # (e.g. complete, failed, escalated), reject the claim
+        raise StateCheckError(f"Cannot claim {task_id}: {vmsg}")
+
     query = f"""
     UPDATE state_task_queue SET
         status = 'dispatched',
@@ -183,12 +195,21 @@ def pg_update_task_status(task_id, status, extra_fields=None):
     Update task status in PG. extra_fields is optional dict of additional columns to set.
     Maps CLI status → PG status: pending→queued, claimed→dispatched.
     Returns True on success.
+    TKT-0409 D2: validates state transition before writing.
     """
     now = __import__('datetime').datetime.now().isoformat()
     # Map CLI status to PG status for TQP compatibility
     pg_status_map = {"pending": "queued", "claimed": "dispatched"}
     pg_status = pg_status_map.get(status, status)
-    
+
+    # TKT-0409 D2: validate state transition before writing
+    current = pg_read_task(task_id)
+    if current is not None:
+        current_status = current.get('status', 'unknown')
+        valid, vmsg = validate_state_transition(current_status, pg_status)
+        if not valid:
+            raise StateCheckError(f"Cannot update {task_id} status {current_status} -> {pg_status}: {vmsg}")
+
     set_clauses = [
         f"status = {_escape_sql(pg_status)}",
         f"updated_at = {_escape_sql(now)}",
@@ -197,7 +218,7 @@ def pg_update_task_status(task_id, status, extra_fields=None):
     if extra_fields:
         for k, v in extra_fields.items():
             set_clauses.append(f"{k} = {_escape_sql(v)}")
-    
+
     query = f"""
     UPDATE state_task_queue SET {', '.join(set_clauses)}
     WHERE id = {_escape_sql(task_id)}
@@ -211,13 +232,15 @@ def pg_update_atom(task_id, atom_id, atom_status, result_data=None, error=None):
     Update a specific atom's status in PG.
     Reads current atoms, updates the target atom, writes back.
     Returns True on success.
+    TKT-0409 D2: validates state transition on task-level status mutation
+    (task status changes to 'complete' when all atoms done; or stays at current).
     """
     now = __import__('datetime').datetime.now().isoformat()
-    
+
     task = pg_read_task(task_id)
     if not task:
         return False
-    
+
     atoms = task.get("atoms", [])
     for a in atoms:
         if str(a.get("id")) == str(atom_id):
@@ -230,13 +253,23 @@ def pg_update_atom(task_id, atom_id, atom_status, result_data=None, error=None):
                 a["failedAt"] = now
                 a["error"] = error
                 a["retryCount"] = a.get("retryCount", 0) + 1
-    
+
     atoms_json = _escape_sql(json.dumps(atoms))
-    
+
     # Check if all atoms complete
     all_done = all(a.get("status") == "complete" for a in atoms)
     new_status = "complete" if all_done else task.get("status", "claimed")
-    
+
+    # TKT-0409 D2: validate task-level state transition before writing
+    current_status = task.get("status", "unknown")
+    if new_status != current_status:
+        valid, vmsg = validate_state_transition(current_status, new_status)
+        if not valid:
+            raise StateCheckError(
+                f"Cannot update atom {atom_id} of {task_id}: task-level transition "
+                f"{current_status} -> {new_status} blocked. {vmsg}"
+            )
+
     query = f"""
     UPDATE state_task_queue SET
         atoms = {atoms_json},
@@ -310,37 +343,46 @@ def sc_complete_atom(task_id, atom_id, result_data=None):
     """
     State-checked atom completion: READ → VALIDATE → EXECUTE → VERIFY.
     Returns (success: bool, message: str)
+    TKT-0409 D2: validates task-level state transition to 'complete' before writing.
     """
     task = pg_read_task(task_id)
     if task is None:
         return False, f"State check FAILED: Task {task_id} not found in PG"
-    
+
     atoms = task.get('atoms', [])
     target_atom = None
     for a in atoms:
         if str(a.get('id')) == str(atom_id):
             target_atom = a
             break
-    
+
     if target_atom is None:
         return False, f"State check FAILED: Atom {atom_id} not found in task {task_id}"
     if target_atom.get('status') not in ('pending', 'failed'):
         return False, f"State check FAILED: Atom {atom_id} is {target_atom.get('status')}, cannot complete"
-    
+
+    # TKT-0409 D2: validate state transition before atomic write
+    all_done = all(a.get('status') == 'complete' for a in atoms) and \
+               target_atom.get('status') in ('pending', 'failed')
+    if all_done:
+        valid, vmsg = validate_state_transition(task.get('status', 'unknown'), 'complete')
+        if not valid:
+            return False, f"State check FAILED: {vmsg}"
+
     if not pg_update_atom(task_id, atom_id, 'complete', result_data=result_data):
         return False, f"State check FAILED: Atom update failed for {task_id}/{atom_id}"
-    
+
     verified = pg_read_task(task_id)
     if verified is None:
         return False, f"State check FAILED: Post-update verification — {task_id} not found in PG"
-    
+
     verified_atoms = verified.get('atoms', [])
     for a in verified_atoms:
         if str(a.get('id')) == str(atom_id):
             if a.get('status') != 'complete':
                 return False, f"State check FAILED: Atom {atom_id} status is {a.get('status')}, expected complete"
             break
-    
+
     atom_count_after = sum(1 for a in verified_atoms if a.get('status') == 'complete')
     return True, f"State check OK: Atom {atom_id} verified complete ({atom_count_after}/{len(verified_atoms)} atoms done)"
 
@@ -349,34 +391,51 @@ def sc_fail_atom(task_id, atom_id, error_msg):
     """
     State-checked atom failure: READ → VALIDATE → EXECUTE → VERIFY.
     Returns (success: bool, message: str)
+    TKT-0409 D2: validates state transition. The L-075 case was: task in
+    terminal state (verified) and sc_fail_atom was called — must now reject.
     """
     task = pg_read_task(task_id)
     if task is None:
         return False, f"State check FAILED: Task {task_id} not found in PG"
-    
+
     atoms = task.get('atoms', [])
     target_atom = None
     for a in atoms:
         if str(a.get('id')) == str(atom_id):
             target_atom = a
             break
-    
+
     if target_atom is None:
         return False, f"State check FAILED: Atom {atom_id} not found in task {task_id}"
-    
+
+    # TKT-0409 D2: validate task-level state transition before writing.
+    # Failure must only be allowed from active states (dispatched/claimed/in_progress/
+    # sub_crest_executing/verifying). Terminal states (complete, done, sub_crest_done,
+    # closed, cancelled) MUST reject — that's the L-075 fix.
+    current_status = task.get('status', 'unknown')
+    # The atom's failure is being recorded, but the task status itself may not
+    # change here — pg_update_atom keeps the task status. However we still validate
+    # the source state: failure is not valid from a terminal task state.
+    if current_status in ('complete', 'done', 'sub_crest_done', 'closed', 'cancelled'):
+        return False, (
+            f"State check FAILED: Cannot fail atom {atom_id} — task {task_id} is in "
+            f"terminal state '{current_status}' (L-075 fix). "
+            f"Transition {current_status} -> failed NOT allowed."
+        )
+
     if not pg_update_atom(task_id, atom_id, 'failed', error=error_msg):
         return False, f"State check FAILED: Atom failure update failed for {task_id}/{atom_id}"
-    
+
     verified = pg_read_task(task_id)
     if verified is None:
         return False, f"State check FAILED: Post-update verification — {task_id} not found in PG"
-    
+
     for a in verified.get('atoms', []):
         if str(a.get('id')) == str(atom_id):
             if a.get('status') != 'failed':
                 return False, f"State check FAILED: Atom {atom_id} status is {a.get('status')}, expected failed"
             break
-    
+
     return True, f"State check OK: Atom {atom_id} verified failed (retry #{target_atom.get('retryCount', 0) + 1})"
 
 
@@ -384,11 +443,12 @@ def sc_reset_stale_claims():
     """
     State-checked stale claim reset: READ → VALIDATE → EXECUTE → VERIFY.
     Returns (success: bool, message: str, reset_count: int)
+    TKT-0409 D2: validates state transition dispatched -> queued before resetting.
     """
     tasks = pg_read_all_tasks()
     if tasks is None:
         return False, "State check FAILED: Cannot read PG tasks", 0
-    
+
     from datetime import datetime
     now = datetime.now().isoformat()
     stale = []
@@ -397,23 +457,28 @@ def sc_reset_stale_claims():
             timeout = t.get('claimtimeout', '1970-01-01')
             if timeout and timeout < now:
                 stale.append(t['id'])
-    
+
     if not stale:
         return True, "State check OK: No stale claims found", 0
-    
+
+    # TKT-0409 D2: validate state transition before reset (defensive — all are dispatched)
+    valid, vmsg = validate_state_transition('dispatched', 'queued')
+    if not valid:
+        return False, f"State check FAILED: Reset not allowed — {vmsg}", 0
+
     for task_id in stale:
         pg_update_task_status(task_id, 'queued', {
             'claimedby': None,
             'claimedat': None,
             'claimtimeout': None,
         })
-    
+
     verified_count = 0
     for task_id in stale:
         v = pg_read_task(task_id)
         if v and v.get('status') == 'queued':
             verified_count += 1
-    
+
     return True, f"State check OK: {verified_count}/{len(stale)} stale claims reset to queued", verified_count
 
 

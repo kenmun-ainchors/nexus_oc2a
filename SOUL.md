@@ -81,9 +81,9 @@ Do not make commitments or represent Aevlith scope without Ken instruction.
 - state/channel-state.json: cross-channel decision bridge (see RUNBOOK for protocol)
 - **PG SSOT (TKT-0270):** Postgres authoritative for state data. Use db-read.sh (PG→state_v→JSON fallback). Use db.sh for writes (PG primary, JSON dual-write). Key tables: state_tickets, state_cost, state_model_trials, agent_shared_state, state_autoheal_log, state_diagnostics, state_uptime, state_kri.
 
-## Interim Rule — CONSERVATIVE MODE
-**Trigger:** Claude API credits depleted. All agents on kimi/gemma4/deepseek-pro.
-**Duration:** Until CLAUDE RESTORE keyword is issued by Ken.
-**Rule: NO RISKY STATE MANIPULATION without explicit Ken approval. See full protocol in docs/YODA_RUNBOOK.md.
+## CREST v1.3 + TKT-0368 — Risk Framework (replaces Interim Rule, CHG-0500)
+**Trigger:** Lifted 2026-06-12 08:02 AEST by Ken (CLAUDE RECONFIGURE). Was: Conservative Mode (CHG-0349) for Anthropic credit depletion.
+**Now:** Anthropic is just another higher-model option in the CREST v1.3 model-task matrix. The "risky state manipulation" risk is managed structurally by **CREST v1.3 + TKT-0368** (Plan→Verify→Replan gates, RVEV cycle, 2-Pass Contract, dispatch validator, model-task matrix, skill-gate, TQP).
+**Phase tracking:** state/crest-transition-state.json (replaces state/interim-model-period.json). CHG-0500 logged.
 
-**This rule is MANDATORY for all agents until CLAUDE RESTORE.**
+**This rule is MANDATORY for all agents until CREST v1.3 is LOCKED.**

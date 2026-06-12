@@ -88,22 +88,21 @@ ticket_exists() {
 
 get_ticket_json() {
   # Return full ticket as JSON including metadata
+  # L-077 / CHG-0503: PG-only. The state/tickets.json stub (3 entries) was misleading
+  # read operations into returning false data. Option B (Ken-approved 2026-06-12 08:25):
+  # make read PG-only, fail loud when ticket not in PG. This applies to all read paths:
+  # read, update, groom, fold, list — all use this function.
+  # Note: we return empty stdout on miss instead of `return 1` to avoid set -euo pipefail
+  # (sourced from skill-gate.sh) killing the script before the caller's error message.
   local tkt_id="$1"
   local result
-  
+
   result=$(pg_query "SELECT row_to_json(t)::text FROM $TICKET_TABLE t WHERE id='$tkt_id' LIMIT 1;" 2>/dev/null)
-  
+
   if [[ -z "$result" || "$result" == "null" ]]; then
-    # Fallback to tickets.json
-    if [[ -f "$TICKET_FILE" ]]; then
-      result=$($JQ -r --arg id "$tkt_id" '.[] | select(.id == $id)' "$TICKET_FILE" 2>/dev/null)
-    fi
+    return 0  # empty stdout signals "not found"
   fi
-  
-  if [[ -z "$result" || "$result" == "null" ]]; then
-    return 1
-  fi
-  
+
   echo "$result"
 }
 
@@ -237,8 +236,8 @@ cmd_read() {
   
   local ticket
   ticket=$(get_ticket_json "$tkt_id")
-  if [[ $? -ne 0 || -z "$ticket" ]]; then
-    die "Ticket $tkt_id not found in PG or fallback file"
+  if [[ -z "$ticket" ]]; then
+    die "Ticket $tkt_id not found in PG (L-077/CHG-0503: read is PG-only, no file fallback)"
   fi
   
   # Pretty-print with metadata expanded

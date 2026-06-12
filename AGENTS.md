@@ -100,6 +100,16 @@ Full rule: `RULES.md` → LESSONS REGISTRY RULE.
 
 **When in doubt:** `RULES.md` is the authoritative source. These summaries are non-binding quick-ref.
 
+## 3 Strikes Principle — CREST Phase Enforcement (TKT-0401, CHG-0503)
+
+The 3 Strikes Principle (codified 2026-06-11, RULES.md §0.3) maps onto the CREST Execution Loop as structural enforcement, not a separate process. Each strike is gated by an existing CREST phase check.
+
+- **Strike-1 — Don't waste Ken's time** (plan before execute) = **CREST Plan gate**. Dispatch manifests must declare the Plan atom; `dispatch-validate.sh` rejects ambiguous dispatches. (L-066/067, skill-gate structural form.)
+- **Strike-2 — Don't waste Ken's money** (flash by default, pro only when flagged) = **CREST Phase model map** (TKT-0322). Execute atoms blocked unless model tier is `flash` or explicitly Ken-flagged for `pro`. (CHG-0500.)
+- **Strike-3 — Don't repeat mistakes** (check LESSONS.md before acting) = **CREST Verify phase memory check**. `scripts/lessons-staleness-check.sh` (this ticket) detects stale LESSONS.md and emits PASS/WARN/ALERT/CRITICAL; `scripts/lessons-staleness-wrapper.sh` writes findings to `state/warden-findings.jsonl` for Warden pickup.
+
+Run before any implementation: `bash scripts/lessons-staleness-check.sh`. Threshold: ≤7d PASS, ≤14d WARN, ≤30d ALERT, >30d CRITICAL, missing file exit 4.
+
 ## Dispatch Rules — NON-NEGOTIABLE (TKT-0321, ratified 2026-05-27)
 
 ### The 2-Pass Contract

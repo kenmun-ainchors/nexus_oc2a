@@ -1,28 +1,148 @@
 #!/bin/bash
 # task-watchdog.sh — Detect stalled, stuck, and spawn-queued async tasks
-# Run by heartbeat every 30 min. 
+# Run by heartbeat every 30 min.
 #
 # Checks:
 #   1. Tasks stalled (no update in >30 min) — existing check
 #   2. Tasks created but no checkpoint within 15 min (spawn-but-not-started) — NEW
 #   3. Tasks with status "pending" older than 15 min — NEW
+#   4. JSON ↔ PG cross-check (L-075 fix, TKT-0409 D3) — NEW
 #
 # Writes state/task-stall-alert.json with all issues found.
-# Exit code 2 = issues found, 0 = all healthy.
+# Exit codes:
+#   0 = all healthy
+#   1 = JSON/PG divergence detected (TKT-0409 D3 cross-check)
+#   2 = stall/spawn/pending issues found
 
 set -euo pipefail
 
 WORKSPACE="/Users/ainchorsangiefpl/.openclaw/workspace"
-STATE="$WORKSPACE/state/async-tasks.json"
+# TKT-0409 D3: was state/async-tasks.json — that file does not exist.
+# Real queue is state/task-queue.json (JSON) ↔ state_task_queue (PG table).
+STATE="$WORKSPACE/state/task-queue.json"
 STALL_THRESHOLD_MINUTES="${1:-30}"
-SPAWN_THRESHOLD_MINUTES=15   # New: detect spawn-queue delays
-PENDING_THRESHOLD_MINUTES=15 # New: detect stuck-pending tasks
+SPAWN_THRESHOLD_MINUTES=15
+PENDING_THRESHOLD_MINUTES=15
 
 if [[ ! -f "$STATE" ]]; then
-  echo "No async-tasks.json — nothing to watch"
+  echo "No task-queue.json — nothing to watch"
   exit 0
 fi
 
+# ── Cross-check: JSON vs PG (L-075 fix, TKT-0409 D3) ───────────────────────
+# If divergence is detected, emit a clear alert and exit 1 BEFORE the
+# stall checks (because stall checks against stale JSON is the L-075 bug).
+DIVERGENCE_OUT=$(python3 - <<'PYDIVERGE'
+import json, os, subprocess, sys
+
+ws = "/Users/ainchorsangiefpl/.openclaw/workspace"
+json_path = os.path.join(ws, "state", "task-queue.json")
+
+try:
+    with open(json_path) as f:
+        jdata = json.load(f)
+except Exception as e:
+    print(f"DIVERGENCE|json_unreadable|{e}")
+    sys.exit(0)  # handled in shell, exit code controlled there
+
+json_entries = jdata.get("queue", [])
+# Build JSON view: {id: status}
+json_view = {}
+for e in json_entries:
+    eid = e.get("atom_id") or e.get("id")
+    if eid:
+        json_view[eid] = e.get("status", "unknown")
+
+# Read PG state_task_queue
+env = os.environ.copy()
+env.update({
+    "PGHOST": "/tmp",
+    "PGPORT": "5432",
+    "PGUSER": "ainchorsangiefpl",
+    "PGDATABASE": "ainchors_nexus",
+})
+
+try:
+    r = subprocess.run(
+        ["/opt/homebrew/bin/psql", "-t", "-A", "-F", "|", "-c",
+         "SELECT id, status FROM state_task_queue"],
+        capture_output=True, text=True, timeout=10, env=env
+    )
+    pg_lines = [ln for ln in r.stdout.splitlines() if "|" in ln]
+except Exception as e:
+    # PG unavailable — not a divergence, just skip
+    print(f"OK|pg_unavailable|{e}")
+    sys.exit(0)
+
+pg_view = {}
+for ln in pg_lines:
+    parts = ln.split("|", 1)
+    if len(parts) == 2:
+        pg_view[parts[0]] = parts[1]
+
+# Compare
+mismatches = []
+missing_in_pg = []
+missing_in_json = []
+
+# Normalize status mapping: JSON uses 'verified' as terminal, PG uses 'complete'/'done'
+# Map: verified → complete, pending → queued
+norm = {"verified": "complete", "pending": "queued", "claimed": "dispatched"}
+
+for jid, jstatus in json_view.items():
+    jnorm = norm.get(jstatus, jstatus)
+    if jid not in pg_view:
+        missing_in_pg.append(jid)
+    else:
+        pgstatus = pg_view[jid]
+        pgnorm = norm.get(pgstatus, pgstatus)
+        # Mismatch only if normalized statuses differ AND neither side is 'unknown'
+        if jnorm != pgnorm and "unknown" not in (jnorm, pgnorm):
+            mismatches.append(f"{jid}:json={jstatus}->pg={pgstatus}")
+
+for pgid in pg_view:
+    if pgid not in json_view:
+        missing_in_json.append(pgid)
+
+if mismatches or missing_in_pg or missing_in_json:
+    parts = []
+    if mismatches:
+        parts.append(f"mismatches={';'.join(mismatches)}")
+    if missing_in_pg:
+        parts.append(f"missing_in_pg={','.join(missing_in_pg[:10])}")
+    if missing_in_json:
+        parts.append(f"missing_in_json={','.join(missing_in_json[:10])}")
+    print("DIVERGENCE|" + "|".join(parts))
+    sys.exit(0)
+
+print("OK|cross_check_passed")
+PYDIVERGE
+)
+
+DIVERGENCE_STATUS=$?
+
+if [[ "$DIVERGENCE_OUT" == DIVERGENCE* ]]; then
+  echo "WATCHDOG DIVERGENCE (L-075 / TKT-0409 D3): $DIVERGENCE_OUT"
+  # Write divergence alert file (separate from stall alert for clarity)
+  divergence_file="$WORKSPACE/state/task-queue-divergence-alert.json"
+  python3 -c "
+import json
+from datetime import datetime, timezone
+alert = {
+    'alertAt': datetime.now(timezone.utc).isoformat(),
+    'alertType': 'json_pg_divergence',
+    'source': 'task-watchdog.sh',
+    'tkt': 'TKT-0409 D3',
+    'raw': '''$DIVERGENCE_OUT'''
+}
+with open('$divergence_file', 'w') as f:
+    json.dump(alert, f, indent=2)
+"
+  echo "WATCHDOG EXIT 1: JSON/PG divergence — see $divergence_file"
+  exit 1
+fi
+
+# ── Stall / spawn / pending checks (original logic) ───────────────────────
 python3 - << PYEOF
 import json, os, sys
 from datetime import datetime, timezone, timedelta
@@ -33,10 +153,19 @@ spawn_threshold_min = int("$SPAWN_THRESHOLD_MINUTES")
 pending_threshold_min = int("$PENDING_THRESHOLD_MINUTES")
 
 with open(state_file) as f:
-    tasks = json.load(f)
+    data = json.load(f)
 
-active = tasks.get("activeTasks", {})
-if not active:
+# TKT-0409 D3: real queue is data['queue'] (list of entries), not data['activeTasks']
+# Backward-compat: support both shapes.
+if "queue" in data and isinstance(data["queue"], list):
+    entries = {e.get("atom_id") or e.get("id"): e for e in data["queue"]}
+elif "activeTasks" in data and isinstance(data["activeTasks"], dict):
+    entries = data["activeTasks"]
+else:
+    print("No active tasks.")
+    sys.exit(0)
+
+if not entries:
     print("No active tasks.")
     sys.exit(0)
 
@@ -45,14 +174,15 @@ stalled = []       # >30 min no update
 spawn_queued = []  # created but no checkpoint after 15 min
 stuck_pending = [] # status=pending for >15 min
 
-for task_id, t in active.items():
-    last_updated_str = t.get("lastUpdatedAt", "")
-    created_at_str   = t.get("createdAt", "")
+for task_id, t in entries.items():
+    last_updated_str = t.get("lastUpdatedAt", t.get("updated_at", t.get("queued_at", "")))
+    created_at_str   = t.get("createdAt", t.get("queued_at", t.get("created_at", "")))
     last_checkpoint  = t.get("lastCheckpoint", "")
     status           = t.get("status", "unknown")
-    
-    # Skip tasks that are intentionally paused
-    if status in ("waiting_ken", "waiting_approval", "cancelled", "completed"):
+
+    # Skip tasks that are intentionally paused or terminal
+    if status in ("waiting_ken", "waiting_approval", "cancelled", "completed",
+                  "verified", "complete", "done", "closed", "sub_crest_done"):
         continue
 
     # ── Check 1: Stalled tasks (no update in >30 min) ────────────────────────
@@ -63,7 +193,7 @@ for task_id, t in active.items():
             if age_min > stall_threshold_min:
                 stalled.append({
                     "id": task_id,
-                    "goal": t.get("goal", "?"),
+                    "goal": t.get("title", t.get("task", "?"))[:60],
                     "currentStep": t.get("currentStep", "?"),
                     "status": status,
                     "agent": t.get("agent", "?"),
@@ -74,17 +204,14 @@ for task_id, t in active.items():
         except Exception as e:
             stalled.append({
                 "id": task_id,
-                "goal": t.get("goal", "?"),
-                "currentStep": t.get("currentStep", "?"),
+                "goal": t.get("title", "?"),
                 "status": status,
                 "agent": t.get("agent", "?"),
                 "reason": f"bad lastUpdatedAt timestamp: {e}",
                 "checkType": "stalled",
-                "taskFile": t.get("taskFile", "")
             })
 
     # ── Check 2: Spawn-but-not-started (created >15 min ago, no checkpoint) ──
-    # This detects the sub-agent spawn queue delay pattern (power trip incident)
     if created_at_str and not last_checkpoint:
         try:
             created_at = datetime.fromisoformat(created_at_str.replace("Z", "+00:00"))
@@ -92,15 +219,14 @@ for task_id, t in active.items():
             if age_min > spawn_threshold_min:
                 spawn_queued.append({
                     "id": task_id,
-                    "goal": t.get("goal", "?"),
+                    "goal": t.get("title", t.get("task", "?"))[:60],
                     "status": status,
                     "agent": t.get("agent", "?"),
                     "reason": f"Created {int(age_min)} min ago — no checkpoint yet (threshold: {spawn_threshold_min} min)",
                     "checkType": "spawn_not_started",
                     "createdAt": created_at_str,
-                    "taskFile": t.get("taskFile", "")
                 })
-        except Exception as e:
+        except Exception:
             pass
 
     # ── Check 3: Stuck pending (status=pending for >15 min) ──────────────────
@@ -111,22 +237,21 @@ for task_id, t in active.items():
             if pending_age_min > pending_threshold_min:
                 stuck_pending.append({
                     "id": task_id,
-                    "goal": t.get("goal", "?"),
+                    "goal": t.get("title", "?"),
                     "status": "pending",
                     "agent": t.get("agent", "?"),
                     "reason": f"Status=pending for {int(pending_age_min)} min (threshold: {pending_threshold_min} min) — may be stuck in spawn queue",
                     "checkType": "stuck_pending",
                     "createdAt": created_at_str,
-                    "taskFile": t.get("taskFile", "")
                 })
-        except Exception as e:
+        except Exception:
             pass
 
 # Combine all issues
 all_issues = stalled + spawn_queued + stuck_pending
 
 if not all_issues:
-    print(f"All {len(active)} task(s) healthy — no stalls, no spawn delays, no stuck pending.")
+    print(f"All {len(entries)} task(s) healthy — no stalls, no spawn delays, no stuck pending.")
     sys.exit(0)
 
 # Build alert
@@ -138,9 +263,7 @@ alert = {
     "stuckPendingCount": len(stuck_pending),
     "issues": all_issues
 }
-
-# Maintain backward compat field
-alert["stalledTasks"] = all_issues
+alert["stalledTasks"] = all_issues  # backward compat
 
 alert_file = "$WORKSPACE/state/task-stall-alert.json"
 with open(alert_file, "w") as f:
