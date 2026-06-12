@@ -14,7 +14,8 @@ Load this skill **before any ticket or sprint operation**. Mandatory for all age
 | Operation | Subcommand | Example |
 |-----------|-----------|---------|
 | Read a ticket | `db-ticket.sh read <ID>` | `bash scripts/db-ticket.sh read TKT-0369` |
-| Create a ticket | `db-ticket.sh create` | `bash scripts/db-ticket.sh create` (interactive!) |
+| Create a ticket (interactive) | `db-ticket.sh create` | `bash scripts/db-ticket.sh create` (interactive only — needs TTY) |
+| **Create a ticket (non-interactive — preferred for agents/CI)** | **`db-ticket.sh create-from-json <ID> '<json>'`** | **`bash scripts/db-ticket.sh create-from-json TKT-0500 '{...}'`** |
 | Update a ticket | `db-ticket.sh update <ID> '<json>'` | `bash scripts/db-ticket.sh update TKT-0400 '{"status":"in-progress"}'` |
 | Groom a ticket | `db-ticket.sh groom <ID>` | `bash scripts/db-ticket.sh groom TKT-0400` (interactive) |
 | Fold a ticket | `db-ticket.sh fold <ID> --into <PARENT>` | `bash scripts/db-ticket.sh fold TKT-0381 --into TKT-0369` |
@@ -32,6 +33,34 @@ Load this skill **before any ticket or sprint operation**. Mandatory for all age
 | Migrate sprint | `db-sprint.sh migrate [--dry-run]` | `bash scripts/db-sprint.sh migrate --sprint "Sprint 7"` |
 
 **Absolute path:** `scripts/db-ticket.sh` and `scripts/db-sprint.sh` at `/Users/ainchorsangiefpl/.openclaw/workspace/scripts/`.
+
+---
+
+## ⚠️ SHELL COMPATIBILITY — L-090 FIX (2026-06-13)
+
+`db-ticket.sh` uses **bash-only** constructs: `read -p`, `[[ ... ]]`, `local`, `$'...'` quoting, `declare -A`. When invoked under **zsh**, the script's interactive prompts fail with:
+
+```
+cmd_create:read:13: -p: no coprocess
+```
+
+zsh's `read -p` requires a coprocess (zpty) that is not set up by default. This bug tripped Yoda twice in one day (L-090), causing a S1-grade silence-failure pattern: the agent emitted architectural commentary and bypassed ticket creation, requiring a manual nudge.
+
+**Two structural fixes are in place (CHG-0524):**
+
+1. **Auto-reexec to bash** — the script detects `$ZSH_VERSION` at startup and re-execs to `/bin/bash` with the same arguments. This makes the script work under any caller shell. Override with `DB_TICKET_FORCE_BASH=0` (escape hatch for testing).
+
+2. **`create-from-json` subcommand** — the proper fix. Accepts a complete JSON payload on the command line. Idempotent, scriptable, works under bash and zsh. **Agents and CI MUST prefer `create-from-json` over interactive `create`.**
+
+**When to use which:**
+
+| Path | Use this |
+|------|----------|
+| Human at TTY, wants prompts | `bash scripts/db-ticket.sh create` (interactive) |
+| Agent writing a ticket, CI, no TTY | **`bash scripts/db-ticket.sh create-from-json TKT-NNNN '<json>'`** (NON-NEGOTIABLE) |
+| Cron / auto-heal | **`bash scripts/db-ticket.sh create-from-json ...`** (NEVER interactive) |
+
+**Do NOT invoke with `zsh scripts/db-ticket.sh`** — even though the auto-reexec handles it, the `changelog` skill says "use zsh" for that script (because of `${(P)var}`). The two skills have different shell requirements — do not generalize.
 
 ---
 
@@ -75,6 +104,56 @@ bash scripts/db-ticket.sh create
 ```
 
 **If you pass flags, it will reject them with an error.** This is intentional — ticket.sh flag-silence was Failure #5.
+
+#### `create-from-json <TKT-ID> '<json-payload>'` — L-090 NON-INTERACTIVE (PREFERRED FOR AGENTS)
+**The right way to create tickets programmatically.** Accepts a complete JSON payload on the command line. Idempotent, scriptable, works under bash AND zsh (auto-reexec handles it). No TTY required. **Agents, CI, and crons MUST use this — not `create`.**
+
+**Required JSON fields:**
+- `title` (string)
+- `status` (open|backlog|pending|monitoring|fold|done|...)
+- `priority` (critical|high|medium|low) — normalizes p0/p1/p2/p3
+- `type` (task|bug|build|epic|story|chg|feature|infra)
+- `metadata` (object) — see Update schema below
+
+**Optional JSON fields:**
+- `id` (TKT-NNNN) — must match CLI arg if present, auto-injected if absent
+- `created_at` (ISO 8601) — auto-set if absent
+- `notionpageid`, `url` — read-only, ignored
+
+**Example (full payload):**
+
+```bash
+bash scripts/db-ticket.sh create-from-json TKT-0503 '{
+  "title": "Sandbox install OpenClaw v2026.6.6 on port 28789",
+  "status": "open",
+  "priority": "high",
+  "type": "task",
+  "metadata": {
+    "brief": "Per CHG-0521: DEFER + SANDBOX on TRIGGER-04 v2026.6.6. Clone v2026.6.6, install on port 28789, smoke-test core flows incl. Telegram delivery, 2h observation, bake validated build into OC2 fresh install.",
+    "effort": "M",
+    "agent": "Yoda",
+    "ac_count": 4,
+    "sprint": "Sprint8",
+    "depends_on": [],
+    "blocks": ["TKT-0501"],
+    "grooming_history": [{
+      "date": "2026-06-13T08:00:00+10:00",
+      "decisions": "Ken approved DEFER + SANDBOX 2026-06-13 07:53 AEST",
+      "ac_count": 4,
+      "ken_approved": true
+    }],
+    "folded_from": [],
+    "folded_scope": [],
+    "notion_sync": { "last_synced": null, "status": "pending" }
+  }
+}'
+```
+
+**Returns:** the created ticket JSON on success (same shape as `read`). Exit 0 on success, 1 on validation failure, 3 on collision.
+
+**When `create-from-json` is the wrong choice:** never. If you have all the data up-front (which any agent should), use it. The interactive `create` is kept for humans at a TTY.
+
+**Verification:** first run on 2026-06-13 08:20 AEST — TKT-9999 created via zsh invocation, auto-reexec to bash succeeded, read-back confirmed. TKT-9998 created via bash interactive (regression — still works). Test tickets cleaned up. CHG-0524.
 
 #### `update <TKT-ID> '<json-payload>'`
 Validates and writes JSON to PG. The payload is validated against a schema:

@@ -11,6 +11,20 @@
 ---
 ---
 
+## 2026-06-13 08:22 AEST — [CHG-0524] L-090 fix: db-ticket.sh shell auto-reexec + create-from-json subcommand
+**Type:** rule
+**Change Type:** Normal
+**Source:** ken-prompt
+**Trigger:** L-090: Yoda hit zsh 'read -p: no coprocess' bug on db-ticket.sh create twice in one day. Ken flagged recurring S1-grade silence failure.
+**What changed:** Three structural fixes: (1) scripts/db-ticket.sh: zsh auto-detection at top — if $ZSH_VERSION set, re-exec to /bin/bash with same args. Override via DB_TICKET_FORCE_BASH=0. (2) scripts/db-ticket.sh: new cmd_create_from_json subcommand — non-interactive, accepts full JSON payload on CLI, runs validate_ticket_payload (with id/created_at stripped for the update-style check), writes via DBWRITE_SAFE_MODE=1. (3) infra/sandbox/seed/skills/pg-sprint-backlog/SKILL.md: new 'SHELL COMPATIBILITY — L-090 FIX' section + create-from-json subcommand doc + Quick Reference row marked PREFERRED FOR AGENTS. (4) scripts/auto-heal.sh: new CHECK 26 — scans last 7d of JSONL for 'no coprocess' / FORBIDDEN_FIELD / 'PG write degraded on create' markers, alerts Ken via NEEDS_KEN if >0 in last 24h.
+**Why:** db-ticket.sh is bash-only (uses read -p, [[ ]], local) but zsh doesn't share bash's read -p implementation. When agents invoke via 'zsh scripts/db-ticket.sh' (over-generalizing from changelog skill's zsh requirement), the script fails with a coprocess error and the agent silently bypasses ticket creation via db-write.sh direct path. This breaks the validation layer and creates tickets without normalization. Auto-reexec makes the bug invisible. create-from-json is the proper fix — it removes the interactive path as the only option for agents and CI.
+**Verification:** TKT-9999 created via 'zsh scripts/db-ticket.sh create-from-json TKT-9999 {json}' — auto-reexec to bash succeeded, validation passed, PG write succeeded, read-back confirmed. TKT-9998 created via 'bash scripts/db-ticket.sh create' (interactive regression) — still works. Both test tickets cancelled. Bash syntax check on db-ticket.sh + auto-heal.sh both pass.
+**Rollback:** Revert scripts/db-ticket.sh (remove zsh auto-reexec block + cmd_create_from_json function). Revert infra/sandbox/seed/skills/pg-sprint-backlog/SKILL.md (remove SHELL COMPATIBILITY section + create-from-json doc row). Revert scripts/auto-heal.sh (remove CHECK 26 block). L-090 stays in LESSONS.md as historical record.
+**Linked:** L-090, TKT-0501, CHG-0523, L-088, L-089, scripts/db-ticket.sh, scripts/auto-heal.sh, pg-sprint-backlog/SKILL.md, changelog/SKILL.md
+**Category:** PG-Sprint-Backlog
+---
+
+
 ## 2026-06-13 08:12 AEST — [CHG-0523] CREST v1.2.1 — §8.4 Tool-Call Rejection Recovery (L-089 structural enforcement)
 **Type:** rule
 **Change Type:** Normal

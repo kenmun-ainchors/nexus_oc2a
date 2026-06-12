@@ -1311,6 +1311,98 @@ if [[ -f "$L089_FINDINGS" ]]; then
   fi
 fi
 
+# ---------- CHECK 26: db-ticket.sh Shell-Compatibility Failure (L-090) ----------
+# Detects L-090 silence-failure pattern: db-ticket.sh create invoked under
+# zsh with the read -p coprocess bug, or other failed db-ticket.sh invocations.
+# Scans last 7d of session JSONL for: "no coprocess" markers, TKT-XXXX JSON
+# payloads passed via stdin (heredoc), or direct db-write.sh bypass calls
+# (indicating the script was bypassed). NON-DESTRUCTIVE — writes findings to
+# state/db-ticket-shell-failures.json. Alerts Ken via NEEDS_KEN if >0 in last 24h.
+log "CHECK 26: db-ticket.sh shell-compat failure (L-090)"
+CHECKS_RUN+=("db_ticket_shell_compat_check")
+
+L090_FINDINGS="$STATE_DIR/db-ticket-shell-failures.json"
+L090_THRESHOLD_HOURS=24
+
+python3 <<PYEOF
+import json, os, re, glob, datetime
+from pathlib import Path
+
+ws = "$WORKSPACE"
+threshold_hours = $L090_THRESHOLD_HOURS
+findings_path = "$L090_FINDINGS"
+now = datetime.datetime.now(datetime.timezone.utc)
+cutoff_ms = int((now - datetime.timedelta(hours=threshold_hours)).timestamp() * 1000)
+
+sessions_root = Path(ws) / "agents"
+pattern_paths = list(sessions_root.glob("*/sessions/*.jsonl"))
+pattern_paths = [p for p in pattern_paths if (now - datetime.datetime.fromtimestamp(p.stat().st_mtime, tz=datetime.timezone.utc)).days <= 7]
+
+l090_findings = []
+markers = [
+    (r"cmd_create:read:\d+: -p: no coprocess", "zsh_read_p_coprocess_bug"),
+    (r"FORBIDDEN_FIELD: id-is-readonly", "create_from_json_validator_reject"),
+    (r"db-ticket\.sh.*uses interactive prompts, not flags", "flag_rejected_on_create"),
+    (r"db-write\.sh.*direct path.*zsh", "agent_db_write_bypass"),
+    (r"PG write degraded.*tkt_id.*TKT-", "pg_write_degraded_on_create"),
+]
+
+for p in pattern_paths:
+    try:
+        lines = p.read_text(errors="ignore").splitlines()
+    except Exception:
+        continue
+    for line in lines:
+        try:
+            rec = json.loads(line)
+        except Exception:
+            continue
+        ts = rec.get("__openclaw", {}).get("recordTimestampMs") or rec.get("timestamp")
+        if not ts or ts < cutoff_ms:
+            continue
+        content = rec.get("content")
+        if isinstance(content, list):
+            for c in content:
+                text = c.get("text", "") if isinstance(c, dict) else ""
+                for marker_pattern, marker_label in markers:
+                    if re.search(marker_pattern, text):
+                        l090_findings.append({
+                            "session": p.parent.parent.name + "/" + p.stem,
+                            "sessionFile": str(p),
+                            "timestamp": ts,
+                            "marker": marker_label,
+                            "pattern": marker_pattern,
+                            "excerpt": text[:200],
+                            "agentName": rec.get("__openclaw", {}).get("agentId", "unknown"),
+                        })
+                        break
+                else:
+                    continue
+                break
+
+result = {
+    "check": "db_ticket_shell_compat_check",
+    "ran_at": now.isoformat(),
+    "threshold_hours": threshold_hours,
+    "failures_found": len(l090_findings),
+    "findings": l090_findings[:20],
+    "verdict": "PASS" if len(l090_findings) == 0 else f"NEEDS_REVIEW: {len(l090_findings)} db-ticket.sh shell-compat failure(s) in last {threshold_hours}h"
+}
+Path(findings_path).write_text(json.dumps(result, indent=2))
+print(f"CHECK 26: {result['verdict']}")
+if l090_findings:
+    for f in l090_findings[:5]:
+        print(f"  - {f['session']} @ {f['timestamp']}: {f['marker']} :: {f['excerpt'][:100]}")
+PYEOF
+
+if [[ -f "$L090_FINDINGS" ]]; then
+  L090_COUNT=$(python3 -c "import json; d=json.load(open('$L090_FINDINGS')); print(d.get('failures_found', 0))" 2>/dev/null || echo 0)
+  if [[ "$L090_COUNT" -gt 0 ]]; then
+    log "CHECK 26: Found $L090_COUNT db-ticket.sh shell-compat failure(s) in last ${L090_THRESHOLD_HOURS}h — see $L090_FINDINGS"
+    NEEDS_KEN+=("L-090: $L090_COUNT db-ticket.sh shell-compat failure(s) detected. Review state/db-ticket-shell-failures.json. CHG-0524 fix: use create-from-json for non-interactive creation. Auto-reexec to bash is in place for legacy create path.")
+  fi
+fi
+
 # ---------- FILE INC FOR EACH AUTO-FIX (ITSM-US-007) ----------
 if (( ${#AUTO_FIXED[@]} > 0 )); then
   log "Filing INC records for qualifying auto-fixed item(s)..."

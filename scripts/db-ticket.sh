@@ -7,6 +7,25 @@
 # SKILL GATE: pg-sprint-backlog skill MUST be loaded before use.
 # See scripts/skill-gate.sh and infra/sandbox/seed/skills/pg-sprint-backlog/SKILL.md
 source "${SCRIPT_DIR:-$(dirname "$0")}/skill-gate.sh" "pg-sprint-backlog" || exit $?
+
+# ── ZSH AUTO-REEXEC (L-090) ─────────────────────────────────────────────────────────
+# This script uses bash-only constructs: `read -p`, `[[ ... ]]`, `local`,
+# `$'...'` quoting, and the bash `declare` semantics. When invoked under zsh
+# (e.g. via `zsh scripts/db-ticket.sh create`), zsh's `read -p` requires a
+# coprocess (zpty) and fails with "no coprocess" on macOS — a S1-grade
+# silence-failure pattern that has tripped Yoda twice (2026-06-13, twice).
+#
+# If we detect we are running under zsh, re-exec to /bin/bash with the
+# original arguments. This makes the script work correctly regardless of
+# which shell the caller used. The user can also force bash by setting
+# DB_TICKET_FORCE_BASH=1.
+if [[ -n "${ZSH_VERSION:-}" && "${DB_TICKET_FORCE_BASH:-}" != "0" ]]; then
+  if [[ -x "/bin/bash" ]]; then
+    exec /bin/bash "$0" "$@"
+  elif [[ -x "/usr/bin/bash" ]]; then
+    exec /usr/bin/bash "$0" "$@"
+  fi
+fi
 #
 # Subcommands:
 #   read <TKT-ID>          — Full JSON with metadata
@@ -40,6 +59,7 @@ Usage: db-ticket.sh <subcommand> [args...]
 Subcommands:
   read <TKT-ID>                        — Return full ticket as JSON (id, title, status, priority, metadata)
   create                                 — Interactive guided ticket creation (no flags!)
+  create-from-json <TKT-ID> '<json>'     — Non-interactive create (L-090 fix: works under any shell)
   update <TKT-ID> '<json-payload>'        — Validate and write JSON to PG
   groom <TKT-ID>                         — Append grooming entry to metadata.grooming_history[]
   fold <TKT-ID> --into <PARENT-ID>       — CHG-0456 5-gate fold: extract→migrate→close→sync
@@ -49,6 +69,11 @@ Subcommands:
   help                                   — Show this usage
 
 Flags are NOT accepted. Unknown subcommands print this usage and exit 1.
+
+Shell: This script uses bash-only constructs (read -p, [[ ]], local, etc.).
+If invoked under zsh, it auto-reexecs to /bin/bash. If you need to bypass
+the auto-reexec (e.g. for testing), set DB_TICKET_FORCE_BASH=0. For non-
+interactive use, prefer `create-from-json` over `create`.
 USAGE
   exit 0
 }
@@ -431,6 +456,116 @@ cmd_create() {
       log "Ticket $tkt_id created (verified post-write)."
     else
       die "Failed to create ticket $tkt_id"
+    fi
+  fi
+}
+
+# ──────────────────────────────────────────────
+# SUBCOMMAND: create-from-json <TKT-ID> '<json-payload>' (L-090 — non-interactive)
+# ──────────────────────────────────────────────
+# Structural fix for the L-090 zsh `read -p` coprocess bug. Instead of going
+# through 9 interactive prompts (which fail under zsh and require a TTY), accept
+# a complete JSON payload on the command line. Idempotent + scriptable.
+#
+# Required JSON fields: id, title, status, priority, type, metadata
+# Optional JSON fields: created_at, notionpageid, url
+#
+# This is the *right* fix for the silent-failure pattern: agent and CI paths
+# can create tickets deterministically without ever invoking the interactive
+# read -p path. The interactive `create` is kept for human use only.
+cmd_create_from_json() {
+  local tkt_id="$1"
+  local json_payload="$2"
+  
+  # Reject flags after tkt_id
+  flag_reject "create-from-json" "$@"
+  
+  if [[ -z "$tkt_id" || -z "$json_payload" ]]; then
+    die "Usage: db-ticket.sh create-from-json <TKT-ID> '<json-payload>'"
+  fi
+  
+  # Validate TKT-ID format
+  if [[ ! "$tkt_id" =~ ^TKT-[0-9]+[A-Za-z]?(-[A-Za-z0-9]+)?$ ]]; then
+    die "Invalid TKT-ID format: $tkt_id. Must be TKT-NNNN or TKT-NNNN-X"
+  fi
+  
+  # Validate JSON parses
+  if ! echo "$json_payload" | $JQ empty 2>/dev/null; then
+    die "Invalid JSON payload — jq parse failed. Tip: wrap in single quotes and escape inner double-quotes."
+  fi
+  
+  # Check the JSON's id field matches the CLI arg (or auto-inject if missing)
+  local json_id
+  json_id=$(echo "$json_payload" | $JQ -r '.id // empty' 2>/dev/null)
+  if [[ -n "$json_id" && "$json_id" != "$tkt_id" ]]; then
+    die "JSON id ($json_id) does not match CLI arg ($tkt_id). Use one or the other."
+  fi
+  if [[ -z "$json_id" ]]; then
+    json_payload=$(echo "$json_payload" | $JQ --arg id "$tkt_id" '. + {id: $id}')
+  fi
+  
+  # Validate required fields
+  for field in title status priority type metadata; do
+    if ! echo "$json_payload" | $JQ -e "has(\"$field\")" >/dev/null 2>&1; then
+      die "JSON payload missing required field: $field"
+    fi
+  done
+  
+  # Validate ticket does not exist (SAFE_MODE check)
+  if ticket_exists "$tkt_id"; then
+    die "Ticket $tkt_id already exists. Use 'db-ticket.sh update' to modify."
+  fi
+  
+  # Validate the payload against schema. For create-from-json, the id and
+  # created_at fields ARE legitimate inputs (we're creating, not updating),
+  # so we strip them before running the update-style validator. The validator
+  # is reused to check structure (required fields, type enums, metadata shape).
+  local validation_payload
+  validation_payload=$(echo "$json_payload" | $JQ 'del(.id, .created_at, .notionpageid, .url)' 2>/dev/null)
+  validate_ticket_payload "$validation_payload" || die "Payload validation failed"
+  
+  # Set created_at if not present
+  if ! echo "$json_payload" | $JQ -e 'has("created_at")' >/dev/null 2>&1; then
+    local ts
+    ts=$(date -u '+%Y-%m-%dT%H:%M:%S+10:00')
+    json_payload=$(echo "$json_payload" | $JQ --arg ts "$ts" '. + {created_at: $ts}')
+  fi
+  
+  # PG write with SAFE MODE (no overwrite)
+  DBWRITE_SAFE_MODE=1 bash "$DB_WRITE" "$TICKET_TABLE" "$json_payload" "$tkt_id" > /dev/null 2>&1
+  local ret=$?
+  
+  if [[ $ret -eq 3 ]]; then
+    die "COLLISION: $tkt_id was created between check and write. Use db-ticket.sh update instead."
+  elif [[ $ret -eq 0 ]]; then
+    log "Ticket $tkt_id created via create-from-json (non-interactive)."
+    
+    # Populate sprint column if present in metadata
+    local sprint
+    sprint=$(echo "$json_payload" | $JQ -r '.metadata.sprint // empty')
+    if [[ -n "$sprint" && "$sprint" != "null" ]]; then
+      bash "$DB_SCRIPT" -c "UPDATE state_tickets SET sprint = '$(echo "$sprint" | sed "s/'/''/g")', updated_at = NOW() WHERE id = '$tkt_id';" > /dev/null 2>&1 || true
+    fi
+    
+    # Mirror to tickets.json for backward compat
+    if [[ -f "$TICKET_FILE" ]]; then
+      local tmp_json
+      tmp_json=$(mktemp)
+      $JQ --argjson new "$(echo "$json_payload" | $JQ '{id, title, status, priority, type, created_at}' 2>/dev/null)" \
+        '. + [$new]' "$TICKET_FILE" > "$tmp_json" 2>/dev/null && mv "$tmp_json" "$TICKET_FILE"
+    fi
+    
+    # TKT-0406: Defer Notion sync to first groom (no sparse pages)
+    log "Ticket created in PG. Notion sync deferred to first groom."
+    
+    # Echo the created ticket for verification
+    cmd_read "$tkt_id"
+  else
+    if ticket_exists "$tkt_id"; then
+      log "Ticket $tkt_id created (verified post-write)."
+      cmd_read "$tkt_id"
+    else
+      die "Failed to create ticket $tkt_id (db-write exit $ret)"
     fi
   fi
 }
@@ -1031,6 +1166,10 @@ main() {
       ;;
     create)
       cmd_create "$@"
+      ;;
+    create-from-json)
+      [[ -z "${1:-}" || -z "${2:-}" ]] && die "Usage: db-ticket.sh create-from-json <TKT-ID> '<json-payload>'"
+      cmd_create_from_json "$@"
       ;;
     update)
       [[ -z "${1:-}" || -z "${2:-}" ]] && die "Usage: db-ticket.sh update <TKT-ID> '<json-payload>'"

@@ -1046,3 +1046,25 @@ Three crons (Morning Stand-Up, Daily Blog, Aria ROI) failed because agent models
 **Verified:** L-089 logged. CREST skill update drafted in parallel — to be merged into `infra/sandbox/seed/skills/crest/SKILL.md` (or wherever CREST is canonically defined).
 
 **Linked:** L-088 (prior silence-failure lesson — same family of "stuck waiting for human nudge"), TKT-0501, CHG-0522, CREST v1.3 (TKT-0368).
+
+## L-090 — 2026-06-13 | `db-ticket.sh create` zsh `read -p` coprocess bug (silence failure on ticket creation)
+**Lesson:** When `db-ticket.sh create` is invoked under zsh (e.g. via `zsh scripts/db-ticket.sh create`), the script fails with `cmd_create:read:13: -p: no coprocess`. zsh's `read -p` requires a coprocess (zpty) that is not set up by default on macOS. The script is bash-only (`#!/bin/bash`, uses `[[ ]]`, `local`, `read -p`), but the user/agent may invoke it under zsh because the `changelog` skill says "use zsh" for that script. Generalizing "use zsh" across skills triggers this bug. Yoda hit it twice in one day (TKT-0501 + verification test), requiring manual workarounds via `db-write.sh` direct path. Ken flagged it as a recurring S1-grade silence failure.
+
+**Root cause (compound):**
+1. **Skill documentation drift** — `changelog` skill says "use zsh explicitly" (because of `${(P)var}` parameter expansion). `pg-sprint-backlog` skill says "use bash" (because of `read -p`). Agents that generalize "use zsh" across both trigger this bug.
+2. **No non-interactive create path** — `db-ticket.sh create` is interactive-only (Failure #5 fix from earlier). There's no scriptable alternative. Agents had to bypass via `db-write.sh` direct call, which skips the validation/normalization layer.
+3. **No shell auto-detection** — the script's shebang is `#!/bin/bash` but zsh ignores shebangs when invoked as `zsh script.sh`. No self-healing.
+
+**Action (structural, not behavioral — see CREST §8.4 sibling pattern):**
+1. **Auto-reexec to bash** — `db-ticket.sh` detects `$ZSH_VERSION` and re-execs to `/bin/bash` with the same args. Override with `DB_TICKET_FORCE_BASH=0` for testing. (Implemented in CHG-0524.)
+2. **Add `create-from-json` subcommand** — non-interactive, accepts full JSON payload on CLI, calls the same safe-mode write path. Idempotent, scriptable, works under any shell. **Agents and CI MUST prefer this over `create`.** (Implemented in CHG-0524.)
+3. **Skill doc update** — added "⚠️ SHELL COMPATIBILITY — L-090 FIX" section to `pg-sprint-backlog/SKILL.md` with explicit shell requirements, the auto-reexec contract, and the `create-from-json` reference.
+4. **Auto-heal CHECK 26** — scans last 7d of session JSONL for `no coprocess` errors and failed `db-ticket.sh` invocations. Alerts Ken via NEEDS_KEN if pattern recurs.
+5. **CREST cross-link** — L-088, L-089, L-090 form a silence-failure lineage. All three are about "the right thing didn't happen and the user had to notice manually." Consider a CREST section on silence-failure patterns.
+
+**Verified:**
+- TKT-9999 created via `zsh scripts/db-ticket.sh create-from-json TKT-9999 '{...}'` — auto-reexec to bash succeeded, PG write succeeded, read-back confirmed.
+- TKT-9998 created via `bash scripts/db-ticket.sh create` (interactive regression) — still works.
+- Test tickets cancelled. PG state clean.
+
+**Linked:** L-088 (sibling — Telegram alert rerouted to webchat), L-089 (sibling — stalled mid-execution on rejection), TKT-0501, CHG-0524, scripts/db-ticket.sh, scripts/auto-heal.sh, infra/sandbox/seed/skills/pg-sprint-backlog/SKILL.md.
