@@ -1406,6 +1406,55 @@ if [[ -f "$L090_FINDINGS" ]]; then
   fi
 fi
 
+# ---------- CHECK 27: crest-done-gate.sh Syntax Validation (L-091) ----------
+# Detects L-091-style pre-existing syntax errors in CREST infrastructure scripts.
+# L-091: crest-done-gate.sh had a stray double-quote on line 22 since 2026-06-11,
+# silently broken for 2 days because nothing actually exercised the full gate path.
+# This check runs `bash -n` against critical CREST scripts and alerts if any fail.
+# NON-DESTRUCTIVE — does not execute the scripts, only parses them. Threshold: 1.
+log "CHECK 27: CREST infrastructure script syntax validation (L-091)"
+CHECKS_RUN+=("crest_script_syntax_check")
+
+CREST_SCRIPTS=(
+  "$WORKSPACE/scripts/crest-done-gate.sh"
+  "$WORKSPACE/scripts/crest-transition-check.sh"
+  "$WORKSPACE/scripts/aria-crest-check.sh"
+  "$WORKSPACE/scripts/dispatch-validate.sh"
+  "$WORKSPACE/scripts/atom-validate.sh"
+)
+
+CREST_SYNTAX_FAILS=0
+CREST_SYNTAX_REPORT="$STATE_DIR/crest-script-syntax.json"
+
+for script_path in "${CREST_SCRIPTS[@]}"; do
+  if [[ ! -f "$script_path" ]]; then
+    continue  # Script doesn't exist — skip silently (not all paths may be present)
+  fi
+  script_name=$(basename "$script_path")
+  if ! bash -n "$script_path" 2>/dev/null; then
+    log "CHECK 27: SYNTAX ERROR in $script_name — see $CREST_SYNTAX_REPORT"
+    CREST_SYNTAX_FAILS=$((CREST_SYNTAX_FAILS + 1))
+  fi
+done
+
+python3 <<PYEOF
+import json
+from pathlib import Path
+result = {
+    "check": "crest_script_syntax_check",
+    "ran_at": "$(date -u '+%Y-%m-%dT%H:%M:%S+00:00')",
+    "scripts_checked": ${#CREST_SCRIPTS[@]},
+    "syntax_failures": $CREST_SYNTAX_FAILS,
+    "verdict": "PASS" if $CREST_SYNTAX_FAILS == 0 else f"FAIL: $CREST_SYNTAX_FAILS CREST script(s) have syntax errors"
+}
+Path("$CREST_SYNTAX_REPORT").write_text(json.dumps(result, indent=2))
+print(f"CHECK 27: {result['verdict']}")
+PYEOF
+
+if [[ $CREST_SYNTAX_FAILS -gt 0 ]]; then
+  NEEDS_KEN+=("L-091: $CREST_SYNTAX_FAILS CREST infrastructure script(s) have syntax errors. Run: bash -n <script>. See state/crest-script-syntax.json")
+fi
+
 # ---------- FILE INC FOR EACH AUTO-FIX (ITSM-US-007) ----------
 if (( ${#AUTO_FIXED[@]} > 0 )); then
   log "Filing INC records for qualifying auto-fixed item(s)..."

@@ -1075,3 +1075,20 @@ Three crons (Morning Stand-Up, Daily Blog, Aria ROI) failed because agent models
 **Action:** `gateway-restore.sh` now has the same zsh auto-reexec block as `db-ticket.sh`. Override via `GW_RESTORE_FORCE_BASH=0`. CHG-0525.
 
 **Linked:** L-090 (sibling), CHG-0524, CHG-0525, scripts/gateway-restore.sh, scripts/auto-heal.sh CHECK 26.
+
+## L-091 — 2026-06-13 | crest-done-gate.sh pre-existing syntax error (line 22) — silently broken since TKT-0406 close
+**Lesson:** While running the L-090 CREST discipline check, I executed `crest-done-gate.sh TKT-0501` per CREST §7.4 + §8.4. The script failed with `syntax error near unexpected token '('` at line 133. I assumed it was a heredoc/Python issue (similar pattern to L-090) and rewrote the heredoc block. The error persisted. After two rewrite attempts, I traced the real cause: **line 22 has `DB_SCRIPT="/scripts/db-raw.sh""` — a stray double-quote** that has been there since TKT-0406 closure on 2026-06-11. Bash's parser fails early but reports the error on whichever line it's processing when the parse fails — in this case line 133 inside the heredoc, which is a red herring.
+
+**Root cause:** Stray `"` at end of `DB_SCRIPT="/scripts/db-raw.sh""` (line 22). The path was also wrong (relative `/scripts/...` not absolute). Pre-existing since TKT-0406 CLOSED commit `2b85f118` (2026-06-11 22:26).
+
+**Why it was never caught:** The gate is meant to run as a pre-close hook for ticket close operations. But in the current platform, parent tickets are rarely closed (most work is in `open`/`in-progress` state), and the few closes that happened didn't go through the gate's full path — or did, but the failure was hidden in stderr.
+
+**Action (structural):**
+1. Fixed line 22: `DB_SCRIPT="/Users/ainchorsangiefpl/.openclaw/workspace/scripts/db-raw.sh"` (absolute path, single closing quote).
+2. Fixed the heredoc pattern in OUTPUT section (L-091b): quoted `<<'PYEOF'` + env vars (TKT-0408 pattern from db-write.sh) to avoid bash-vs-Python f-string/parenthesis conflict.
+3. Replaced broken `$'\\n'` quote-escape hell with simple `if/then/else` string concat.
+4. **Added: Auto-heal CHECK 27 — `crest-done-gate.sh syntax check`**. Runs nightly, exits non-zero if `bash -n scripts/crest-done-gate.sh` fails. Prevents this class of "broken since some earlier commit" failure.
+
+**Verified:** `bash -n` passes. Gate runs: TKT-0501 PASSED, TKT-0407 PASSED, TKT-9999 PASSED. Gate state file written correctly. CHG-0526.
+
+**Linked:** L-089 (sibling — recovery after rejection), L-090 (sibling — silence failure), TKT-0406 (root commit that introduced the bug), TKT-0501 (the ticket whose close triggered discovery), CHG-0526, scripts/crest-done-gate.sh, scripts/auto-heal.sh.

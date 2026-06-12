@@ -11,6 +11,20 @@
 ---
 ---
 
+## 2026-06-13 08:55 AEST — [CHG-0526] L-091 fix: crest-done-gate.sh pre-existing syntax error + CHECK 27
+**Type:** rule
+**Change Type:** Normal
+**Source:** manual
+**Trigger:** L-091: crest-done-gate.sh had stray double-quote on line 22 since TKT-0406 close (2026-06-11). Discovered while running CREST discipline check on L-090 fix.
+**What changed:** Three fixes to scripts/crest-done-gate.sh: (1) Line 22: DB_SCRIPT absolute path + removed stray double-quote. (2) Heredoc in OUTPUT section: switched from unquoted <<PYEOF to quoted <<'PYEOF' + env vars (TKT-0408 pattern, like db-write.sh). (3) Replaced broken $'\n' quote-escape hell with simple if/then/else string concat. Plus: scripts/auto-heal.sh new CHECK 27 — bash -n validation on 5 critical CREST scripts (crest-done-gate.sh, crest-transition-check.sh, aria-crest-check.sh, dispatch-validate.sh, atom-validate.sh). Alerts Ken via NEEDS_KEN if any have syntax errors.
+**Why:** L-091 lesson: when running CREST discipline checks, the gate itself must work. The pre-existing syntax error had been silently broken for 2 days because nothing actually exercised the full close-ticket path. Auto-heal CHECK 27 prevents this class of 'broken since some commit' failure. CREST v1.2 §8.4 sibling — another silence failure discovered by applying discipline.
+**Verification:** bash -n passes on crest-done-gate.sh. Gate runs: TKT-0501 PASSED, TKT-0407 PASSED, TKT-9999 PASSED. Gate state file written. bash -n passes on auto-heal.sh. CHECK 27 ready to fire on next nightly run (01:00 AEST).
+**Rollback:** Revert scripts/crest-done-gate.sh (3 sub-fixes). Revert scripts/auto-heal.sh CHECK 27. L-091 stays in LESSONS.md as historical record.
+**Linked:** L-091, TKT-0406, TKT-0501, CHG-0524, CHG-0525, scripts/crest-done-gate.sh, scripts/auto-heal.sh
+**Category:** CREST
+---
+
+
 ## 2026-06-13 08:43 AEST — [CHG-0525] L-090 sibling fix: gateway-restore.sh zsh auto-reexec + CHECK 26 expanded
 **Type:** rule
 **Change Type:** Normal

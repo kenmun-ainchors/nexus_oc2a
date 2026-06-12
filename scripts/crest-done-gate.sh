@@ -19,7 +19,7 @@
 set -euo pipefail
 
 WORKSPACE="/Users/ainchorsangiefpl/.openclaw/workspace"
-DB_SCRIPT="/scripts/db-raw.sh""
+DB_SCRIPT="/Users/ainchorsangiefpl/.openclaw/workspace/scripts/db-raw.sh"
 SYNTHESIZE_REPORT="$WORKSPACE/state/synthesize-reports"
 GATE_LOG="$WORKSPACE/state/crest-gate-state.json"
 
@@ -78,15 +78,42 @@ else
 fi
 
 # ─── OUTPUT ──────────────────────────────────────────────────────────
-python3 <<PYEOF
-import json, sys
-failures_raw = """${FAILURES[@]:-}""".strip()
-failures_list = [f for f in failures_raw.split('\n') if f.strip()] if failures_raw else []
+# TKT-0408-pattern + L-091 fix: write Python to a temp file with NO bash
+# expansion inside the heredoc (delimiter is 'PYEOF' quoted). Pass
+# substitutions via environment variables to keep the Python body pristine.
+# Avoids the bash-vs-Python f-string/parenthesis conflict that broke
+# line 106/122 of the previous versions.
+PY_SCRIPT=$(mktemp -t crest_gate_XXXXXX.py) || { echo "GATE: ERROR — mktemp failed" >&2; exit 1; }
+trap 'rm -f "$PY_SCRIPT" /tmp/crest-gate-$$.tmp' EXIT
+# Pre-build the failures string (one failure per line). Use a literal \n as
+# a line separator; the Python heredoc will split on it.
+FAILURES_STR=""
+for f in "${FAILURES[@]:-}"; do
+  if [[ -n "$f" ]]; then
+    if [[ -n "$FAILURES_STR" ]]; then
+      FAILURES_STR="${FAILURES_STR}\n${f}"
+    else
+      FAILURES_STR="${f}"
+    fi
+  fi
+done
+
+# Pass values via env (no shell expansion inside the heredoc body)
+export CREST_FAILURES_STR="$FAILURES_STR"
+export CREST_TICKET_ID="${TKT_ID}"
+export CREST_CHECKED_AT="${NOW}"
+export CREST_GATE_LOG="${GATE_LOG}"
+
+cat > "$PY_SCRIPT" <<'PYEOF'
+import json, os, sys
+
+failures_raw = os.environ.get("CREST_FAILURES_STR", "").strip()
+failures_list = [line for line in failures_raw.split("\n") if line.strip()] if failures_raw else []
 
 result = {
     "gate": "crest-done-gate",
-    "ticket_id": "${TKT_ID}",
-    "checked_at": "${NOW}",
+    "ticket_id": os.environ["CREST_TICKET_ID"],
+    "checked_at": os.environ["CREST_CHECKED_AT"],
     "passed": len(failures_list) == 0,
     "failures": failures_list,
     "checks": {
@@ -96,15 +123,17 @@ result = {
     }
 }
 
-with open("${GATE_LOG}", "w") as f:
-    json.dump(result, f, indent=2)
+with open(os.environ["CREST_GATE_LOG"], "w") as f_obj:
+    json.dump(result, f_obj, indent=2)
 
 if result["passed"]:
-    print(f"GATE PASSED: All CREST checks satisfied — safe to close ${TKT_ID}")
+    print("GATE PASSED: All CREST checks satisfied — safe to close " + os.environ["CREST_TICKET_ID"])
     sys.exit(0)
 else:
-    print(f"GATE FAILED: {len(failures_list)} check(s) block closing ${TKT_ID}:")
-    for f in failures_list:
-        print(f"  - {f}")
+    print("GATE FAILED: " + str(len(failures_list)) + " check(s) block closing " + os.environ["CREST_TICKET_ID"] + ":")
+    for failure in failures_list:
+        print("  - " + failure)
     sys.exit(1)
 PYEOF
+
+python3 "$PY_SCRIPT"
