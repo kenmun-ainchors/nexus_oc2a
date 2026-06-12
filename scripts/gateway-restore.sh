@@ -3,6 +3,19 @@
 # Usage:
 #   bash scripts/gateway-restore.sh              # restore latest snapshot
 #   bash scripts/gateway-restore.sh --date YYYY-MM-DD  # specific date
+
+# ── ZSH AUTO-REEXEC (L-090 — sibling fix to db-ticket.sh) ────────────────────
+# This script has a confirmation prompt (`read -r -p "Proceed..."`) that
+# fails under zsh with "no coprocess" (same root cause as L-090 in db-ticket.sh).
+# If invoked under zsh, re-exec to /bin/bash with the same args. This script
+# already has a non-interactive path (`--yes`), so prefer that for agents/CI.
+if [[ -n "${ZSH_VERSION:-}" && "${GW_RESTORE_FORCE_BASH:-}" != "0" ]]; then
+  if [[ -x "/bin/bash" ]]; then
+    exec /bin/bash "$0" "$@"
+  elif [[ -x "/usr/bin/bash" ]]; then
+    exec /usr/bin/bash "$0" "$@"
+  fi
+fi
 #   bash scripts/gateway-restore.sh --yes        # skip confirmation
 #   bash scripts/gateway-restore.sh --list       # list available snapshots
 #   bash scripts/gateway-restore.sh --snapshot   # take a new snapshot of current config

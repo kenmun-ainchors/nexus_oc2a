@@ -1345,6 +1345,9 @@ markers = [
     (r"db-ticket\.sh.*uses interactive prompts, not flags", "flag_rejected_on_create"),
     (r"db-write\.sh.*direct path.*zsh", "agent_db_write_bypass"),
     (r"PG write degraded.*tkt_id.*TKT-", "pg_write_degraded_on_create"),
+    (r"gateway-restore\.sh.*Proceed.*-p: no coprocess", "gateway_restore_zsh_coprocess_bug"),
+    (r"read -r -p.*no coprocess", "generic_read_p_zsh_coprocess"),
+    (r"zsh.*read -p.*coprocess", "zsh_read_p_generic"),
 ]
 
 for p in pattern_paths:

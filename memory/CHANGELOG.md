@@ -11,6 +11,20 @@
 ---
 ---
 
+## 2026-06-13 08:43 AEST — [CHG-0525] L-090 sibling fix: gateway-restore.sh zsh auto-reexec + CHECK 26 expanded
+**Type:** rule
+**Change Type:** Normal
+**Source:** manual
+**Trigger:** L-090 audit found gateway-restore.sh has same read -p coprocess vulnerability
+**What changed:** (1) scripts/gateway-restore.sh: zsh auto-reexec block added (override GW_RESTORE_FORCE_BASH=0). (2) scripts/auto-heal.sh CHECK 26: marker list extended with gateway-restore.sh + generic read -p zsh coprocess patterns.
+**Why:** L-090 audit revealed gateway-restore.sh also uses read -r -p. Same vulnerability, same fix. Defense-in-depth — fix the class, not just one instance.
+**Verification:** Bash syntax check on both files passes. L-090a logged. CHECK 26 marker list reviewed — now covers 8 patterns (was 5).
+**Rollback:** Revert scripts/gateway-restore.sh (remove zsh auto-reexec block). Revert scripts/auto-heal.sh CHECK 26 marker list (remove 3 added patterns).
+**Linked:** L-090, L-090a, CHG-0524, TKT-0501, scripts/gateway-restore.sh
+**Category:** PG-Sprint-Backlog
+---
+
+
 ## 2026-06-13 08:22 AEST — [CHG-0524] L-090 fix: db-ticket.sh shell auto-reexec + create-from-json subcommand
 **Type:** rule
 **Change Type:** Normal

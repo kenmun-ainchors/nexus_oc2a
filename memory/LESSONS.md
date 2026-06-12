@@ -1068,3 +1068,10 @@ Three crons (Morning Stand-Up, Daily Blog, Aria ROI) failed because agent models
 - Test tickets cancelled. PG state clean.
 
 **Linked:** L-088 (sibling — Telegram alert rerouted to webchat), L-089 (sibling — stalled mid-execution on rejection), TKT-0501, CHG-0524, scripts/db-ticket.sh, scripts/auto-heal.sh, infra/sandbox/seed/skills/pg-sprint-backlog/SKILL.md.
+
+## L-090a — 2026-06-13 | gateway-restore.sh has the same zsh coprocess vulnerability (sibling to L-090)
+**Lesson:** When auditing for L-090, I found a second script (`gateway-restore.sh`) with the same `read -r -p "Proceed..."` vulnerability. The audit caught it before it tripped in production. Lesson: **when fixing a class of bug, scan the entire class — don't fix one instance and stop.** The CHECK 26 detector was extended to cover `gateway-restore.sh` patterns + a generic `read -p` zsh coprocess marker.
+
+**Action:** `gateway-restore.sh` now has the same zsh auto-reexec block as `db-ticket.sh`. Override via `GW_RESTORE_FORCE_BASH=0`. CHG-0525.
+
+**Linked:** L-090 (sibling), CHG-0524, CHG-0525, scripts/gateway-restore.sh, scripts/auto-heal.sh CHECK 26.
