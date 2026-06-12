@@ -104,7 +104,182 @@
       ],
       "createdAt": "2026-06-10T09:55:18.200258",
       "updatedAt": "2026-06-10T09:55:18.200258"
+    },
+    {
+      "atom_id": "TKT-0503-A1",
+      "tkt": "TKT-0503",
+      "seq": 1,
+      "ac": "AC1",
+      "title": "Fix tilde self-detection bug in auto-heal.sh (L-092)",
+      "type": "infra-script",
+      "depends_on": [],
+      "status": "queued",
+      "agent": "forge",
+      "model": "flash",
+      "effort": "S",
+      "pass_condition": "auto-heal.sh tilde detector (around line 689) no longer flags its own log messages at lines 230, 277, 457. Re-running detector on its own output returns 0 false positives. Obs.db unhandled_rejection count from tilde self-match drops to 0 within 24h.",
+      "queued_at": "2026-06-13T09:19:24+10:00",
+      "task": "## TKT-0503 Atom A1: Fix tilde self-detection bug in auto-heal.sh\n\n**Dependencies:** None\n**Pass condition:** Detector no longer flags its own log messages; obs.db tilde-related NEEDS_KEN drops to 0 within 24h\n\n### Root cause\nscripts/auto-heal.sh contains 3 `~/` literals in its own NEEDS_KEN messages and changelog templates (lines 230, 277, 457). The tilde detector (around line 689) scans `state/*.json` AND auto-heal's own log output, producing 30+14 false-positive NEEDS_KEN events that re-fire daily.\n\n### Changes (in scripts/auto-heal.sh):\n1. Detector scope: only scan `state/*.json` (exclude scripts/ and run-diagnostics output)\n2. Exclude self-match: when detector reads auto-heal.log, skip lines containing 'NEEDS_KEN' marker\n3. Refactor log message templates: change `~/Backups/...` to use `$HOME/Backups/...` (works in bash without `~`)\n4. Add unit test: detector should return 0 false positives on its own output\n\n### Verify:\n- bash -n scripts/auto-heal.sh passes\n- Run detector on its own log output \u2192 0 false positives\n- Obs.db: count of NEEDS_KEN with 'tilde' substring in last 24h = 0\n- L-092 logged + CHG-0528\n\nWrite scope: scripts/auto-heal.sh only + L-092 in LESSONS.md. Use cron-write.sh for any state writes.\n"
+    },
+    {
+      "atom_id": "TKT-0503-A2",
+      "tkt": "TKT-0503",
+      "seq": 2,
+      "ac": "AC2",
+      "title": "obs-collector CHECK K dedup + auto-resolve (L-093)",
+      "type": "infra-script",
+      "depends_on": [],
+      "status": "queued",
+      "agent": "forge",
+      "model": "flash",
+      "effort": "S",
+      "pass_condition": "fallback_chain_broken events in obs.db stop accumulating once overall=ok. CHECK K skips logging if overall hasn't changed since last run. Old unresolved rows are marked resolved=1 when overall returns to ok.",
+      "queued_at": "2026-06-13T09:19:24+10:00",
+      "task": "## TKT-0503 Atom A2: obs-collector CHECK K dedup + auto-resolve\n\n**Dependencies:** None\n**Pass condition:** No new fallback_chain_broken events when overall=ok. Stale rows marked resolved=1.\n\n### Root cause (L-093)\nscripts/obs-collector.sh CHECK K reads state/fallback-chain-status.json and logs ERROR if overall != 'ok'. After CHG-0520 lifted Conservative Mode (2026-06-12 08:12), the file returned to overall=ok but the obs.db table has 127 historical entries that the collector KEPT re-logging on every 5-min run because there's no \"last-observed-overall\" dedup.\n\n### Changes (in scripts/obs-collector.sh, CHECK K section):\n1. Add `lastObservedOverall` field to `state/obs-collector-state.json` initialized to null\n2. Before logging fallback_chain_broken: read current overall; if unchanged from lastObservedOverall, skip\n3. Update lastObservedOverall after every CHECK K run\n4. On transition ok\u2192broken: log ERROR\n5. On transition broken\u2192ok: (a) mark all obs_log rows for event_type='fallback_chain_broken' where resolved=0 as resolved=1, (b) emit single INFO 'fallback_chain_recovered' event\n\n### Verify:\n- bash -n scripts/obs-collector.sh passes\n- Force state/fallback-chain-status.json to overall=broken \u2192 collector logs 1 ERROR\n- Restore to overall=ok \u2192 next collector run logs 1 INFO 'fallback_chain_recovered', all old ERROR rows get resolved=1\n- Subsequent runs (overall=ok) \u2192 0 new fallback_chain events\n- L-093 logged + CHG-0529\n\nWrite scope: scripts/obs-collector.sh + state/obs-collector-state.json schema. Use sqlite3 for resolved=1 updates.\n"
+    },
+    {
+      "atom_id": "TKT-0503-A3",
+      "tkt": "TKT-0503",
+      "seq": 3,
+      "ac": "AC3",
+      "title": "CHECK 28d: auto-move untracked .md from workspace root (TKT-0341 contract)",
+      "type": "infra-script",
+      "depends_on": [],
+      "status": "queued",
+      "agent": "forge",
+      "model": "flash",
+      "effort": "S",
+      "pass_condition": "yoda-daily-brief.md moved from workspace root to state/daily-briefs/ with corresponding AKB page entry. Auto-heal CHECK 28d prevents recurrence.",
+      "queued_at": "2026-06-13T09:19:24+10:00",
+      "task": "## TKT-0503 Atom A3: Auto-move untracked .md from workspace root (CHECK 28d)\n\n**Dependencies:** None\n**Pass condition:** yoda-daily-brief.md moved; CHECK 28d prevents future violations\n\n### Root cause\nTKT-0341 contract (file-contracts.json) requires all .md files in workspace root to be on the 8-allowlist (SOUL/AGENTS/MEMORY/HEARTBEAT/USER/IDENTITY/TOOLS/RULES). yoda-daily-brief.md has been in root since 2026-06-12 23:01 with no AKB page. Auto-heal CHECK 18 (or whichever) reports it but doesn't fix.\n\n### Changes:\n1. ONE-TIME cleanup (this atom):\n   - Move /Users/ainchorsangiefpl/.openclaw/workspace/yoda-daily-brief.md \u2192 /Users/ainchorsangiefpl/.openclaw/workspace/state/daily-briefs/2026-06-12.md\n   - Create AKB page entry in Notion (DB A or D)\n2. STRUCTURAL fix (CHECK 28d in scripts/auto-heal.sh):\n   - Scan workspace root for *.md files NOT in allowlist\n   - For each: log NEEDS_KEN with explicit auto-move suggestion\n   - Add file-contracts.json validation as pre-move check\n3. Register CHECK 28d in auto-heal CHECKS_RUN list\n4. Add file-size-guard.sh whitelist update if needed (TKT-0338 contract)\n\n### Verify:\n- ls /Users/ainchorsangiefpl/.openclaw/workspace/*.md shows only the 8 allowlisted files\n- bash scripts/auto-heal.sh runs CHECK 28d without errors\n- File moved: state/daily-briefs/2026-06-12.md exists with correct content\n- L-094-NOTE logged if any new finding (do NOT bundle with L-092/L-093)\n\nWrite scope: scripts/auto-heal.sh (CHECK 28d), one-time move via mv, AKB page creation.\n"
+    },
+    {
+      "atom_id": "TKT-0503-A4",
+      "tkt": "TKT-0503",
+      "seq": 4,
+      "ac": "AC4",
+      "title": "CHECK 28e: auto-refresh critical-config-baseline.json if stale",
+      "type": "infra-script",
+      "depends_on": [],
+      "status": "queued",
+      "agent": "forge",
+      "model": "flash",
+      "effort": "S",
+      "pass_condition": "state/critical-config-baseline.json mtime < 7 days after auto-heal runs CHECK 28e. Auto-executes gateway-config-snapshot.sh when stale.",
+      "queued_at": "2026-06-13T09:19:24+10:00",
+      "task": "## TKT-0503 Atom A4: CHECK 28e \u2014 auto-refresh config baseline if stale\n\n**Dependencies:** None\n**Pass condition:** Baseline refreshes automatically when > 7 days old. No more 'config baseline 8 days old' NEEDS_KEN.\n\n### Root cause\nstate/critical-config-baseline.json is currently 5+ days old. Auto-heal reports NEEDS_KEN but doesn't act. TKT-0338 has the file-size-guard; config baseline drift needs its own check.\n\n### Changes (in scripts/auto-heal.sh):\n1. New CHECK 28e: compare state/critical-config-baseline.json mtime to (now - 7 days)\n2. If stale: execute `bash scripts/gateway-config-snapshot.sh` (existing script, verified to work)\n3. Verify exit code 0; on success log INFO 'config_baseline_refreshed'\n4. On failure: log ERROR with stderr capture\n5. Register CHECK 28e in CHECKS_RUN list\n\n### Verify:\n- Touch state/critical-config-baseline.json to be 8 days old\n- Run bash scripts/auto-heal.sh \u2192 CHECK 28e fires, baseline refreshes\n- File mtime updates to < 1 minute old\n- Subsequent runs (baseline fresh) \u2192 CHECK 28e is no-op (skips)\n\nWrite scope: scripts/auto-heal.sh only. Use existing scripts/gateway-config-snapshot.sh.\n"
+    },
+    {
+      "atom_id": "TKT-0503-A5",
+      "tkt": "TKT-0503",
+      "seq": 5,
+      "ac": "AC5",
+      "title": "CHECK 28c: sandbox gateway LaunchAgent 24h auto-unload if port 28789 not listening",
+      "type": "infra-script",
+      "depends_on": [],
+      "status": "queued",
+      "agent": "forge",
+      "model": "flash",
+      "effort": "S",
+      "pass_condition": "CHECK 28c detects dead LaunchAgent, alerts at 1h, auto-unloads at 24h. Sandbox port 28789 LaunchAgent no longer falsely reported as 'running' when nothing is listening.",
+      "queued_at": "2026-06-13T09:19:24+10:00",
+      "task": "## TKT-0503 Atom A5: CHECK 28c \u2014 sandbox gateway LaunchAgent 24h auto-unload\n\n**Dependencies:** None\n**Pass condition:** Dead LaunchAgent auto-cleaned up. No more 46x 'sandbox gateway not listening' alerts.\n\n### Root cause\nai.openclaw.sandbox-gateway.plist exists (loaded) since 2026-06-08 but nothing listens on port 28789. Auto-heal detects the failure but doesn't act. Sandbox gateway is parked until v2026.6.6 install (TKT-0502).\n\n### Changes (in scripts/auto-heal.sh, new CHECK 28c):\n1. Detect: `launchctl list | grep -q ai.openclaw.sandbox-gateway` AND `! lsof -nP -iTCP:28789 -sTCP:LISTEN`\n2. Track dead-since timestamp in state/sandbox-gateway-state.json\n3. If dead for > 1h: emit WARN NEEDS_KEN with 'consider launchctl load' suggestion\n4. If dead for > 24h: auto-execute `launchctl bootout gui/$(id -u)/ai.openclaw.sandbox-gateway` (does not require sudo since it's user LaunchAgent)\n5. Log INFO 'sandbox_gateway_auto_unloaded' + register CHG\n\n### Verify:\n- Confirm current state: launchctl shows loaded, port 28789 not listening\n- Set state/sandbox-gateway-state.json deadSince to 25h ago\n- Run auto-heal \u2192 CHECK 28c fires, unloads LaunchAgent\n- launchctl list | grep sandbox \u2192 not present\n- Port 28789 \u2192 confirmed not listening (still)\n- A7 (sandbox install) can later `launchctl bootstrap` cleanly\n\n### Safety:\n- Only unloads `ai.openclaw.sandbox-gateway`, NOT `ai.openclaw.gateway` (production)\n- Only acts if no listener AND dead > 24h (gives Ken time to intervene)\n- Logs to state/sandbox-gateway-state.json with full audit trail\n- Rollback: `launchctl bootstrap gui/$(id -u) ~/Library/LaunchAgents/ai.openclaw.sandbox-gateway.plist`\n\nWrite scope: scripts/auto-heal.sh (CHECK 28c), state/sandbox-gateway-state.json.\n"
+    },
+    {
+      "atom_id": "TKT-0503-A6",
+      "tkt": "TKT-0503",
+      "seq": 6,
+      "ac": "AC6",
+      "title": "CHECK 28b: TKT-0339 SCALER FLAG auto-apply if open > 7d [PENDING APPROVAL]",
+      "type": "infra-script",
+      "depends_on": [
+        "TKT-0503-A1",
+        "TKT-0503-A2",
+        "TKT-0503-A3",
+        "TKT-0503-A4",
+        "TKT-0503-A5"
+      ],
+      "status": "pending-approval",
+      "agent": "forge",
+      "model": "flash",
+      "effort": "M",
+      "pass_condition": "TKT-0339 has 48 cron timeout recommendations in state/cron-timeout-baseline.json. After 7 days un-actioned, CHECK 28b auto-applies them via cron-update.sh. Obs.db cron_run_fail count from timeout-baseline recommendations drops to 0.",
+      "queued_at": "2026-06-13T09:19:24+10:00",
+      "task": "## TKT-0503 Atom A6: CHECK 28b \u2014 TKT-0339 SCALER FLAG auto-apply\n\n**Dependencies:** TKT-0503-A1 through A5 (Phase 1 must complete first for noise floor)\n**Pass condition:** TKT-0339 timeout recommendations auto-applied after 7d no-action\n**Status:** pending-approval (Ken directive required \u2014 mutates cron timeouts)\n\n### Root cause\nTKT-0339 has been open since 2026-06-09 with 48 cron timeout recommendations in state/cron-timeout-baseline.json. Flagged as 'SCALER FLAG ONLY' meaning no human decision needed \u2014 just apply when safe. But never actioned. 53 NEEDS_KEN events over 7 days.\n\n### Changes (in scripts/auto-heal.sh, new CHECK 28b):\n1. Read state/cron-timeout-baseline.json \u2014 extract 48 taskClasses recommendations\n2. Check TKT-0339 status in PG: if status NOT IN ('closed', 'done') for > 7 days\n3. Auto-execute: for each taskClass, run `bash scripts/cron-update.sh <jobId> --timeout <newValue>` (existing script, verified)\n4. Verify each timeout change took effect\n5. Mark TKT-0339 as 'done' with resolution: 'Auto-applied per CHECK 28b (CHG-XXXX)'\n6. Emit INFO event 'tkt_0339_auto_applied' with 48 cron IDs\n7. Notify Ken via sovereign-alert.sh (Telegram): 'TKT-0339 auto-applied \u2014 review via obs.db or Notion'\n\n### Safety:\n- Only fires if TKT-0339 still open AND > 7d old\n- Backs up current cron config to state/cron-timeout-baseline.backup-$(date).json BEFORE applying\n- Dry-run mode (env CRON_DRY_RUN=1) shows what would change without applying\n- Rollback: `bash scripts/cron-update.sh <jobId> --timeout <oldValue>` for each\n- Telegram notification BEFORE mutation (so Ken can intervene)\n\n### Verify (after approval):\n- Set TKT-0339 createdAt to 8 days ago (test fixture)\n- Set CRON_DRY_RUN=1, run auto-heal \u2192 shows 48 changes\n- Unset CRON_DRY_RUN, run auto-heal \u2192 48 cron timeouts updated\n- TKT-0339 status=closed with resolution\n- Telegram alert received\n\nWrite scope: scripts/auto-heal.sh (CHECK 28b), state/cron-timeout-baseline.json backup, PG update on TKT-0339.\n\n**Ken approval required before execution.** This atom is queued as 'pending-approval' and will not execute until you say 'approve A6' (or similar).\n"
+    },
+    {
+      "atom_id": "TKT-0503-A7",
+      "tkt": "TKT-0503",
+      "seq": 7,
+      "ac": "AC7",
+      "title": "NODE_OPTIONS=6144 in gateway LaunchAgent + threshold ratchet [PENDING APPROVAL]",
+      "type": "infra-script",
+      "depends_on": [
+        "TKT-0503-A1",
+        "TKT-0503-A2",
+        "TKT-0503-A3",
+        "TKT-0503-A4",
+        "TKT-0503-A5"
+      ],
+      "status": "pending-approval",
+      "agent": "forge",
+      "model": "pro",
+      "effort": "S",
+      "pass_condition": "gateway LaunchAgent has NODE_OPTIONS=--max-old-space-size=6144. Obs collector memory threshold ratcheted to 5GB warn / 6GB critical for 24GB OC1. unhandled_rejection count drops from 384/week to < 10/week.",
+      "queued_at": "2026-06-13T09:19:24+10:00",
+      "task": "## TKT-0503 Atom A7: NODE_OPTIONS + threshold ratchet\n\n**Dependencies:** Phase 1 (A1-A5) for noise floor\n**Pass condition:** Memory pressure events drop by > 95%\n**Status:** pending-approval (Ken directive required \u2014 gateway restart)\n**Model:** pro (gateway restart is prod-mutating, use strong model for judgment)\n\n### Root cause\nOpenClaw gateway runs Node.js 26 with default heap limit ~4GB. OC1 has 24GB RAM, safe to allocate 6GB. Currently: 384 unhandled_rejection events in 7 days (55/day) due to RSS exceeding hardcoded 3GB threshold in obs-collector CHECK E.\n\n### Changes:\n1. EDIT /Users/ainchorsangiefpl/Library/LaunchAgents/ai.openclaw.gateway.plist:\n   - Add EnvironmentVariables dict: { NODE_OPTIONS: '--max-old-space-size=6144' }\n   - Backup original to ai.openclaw.gateway.plist.bak-$(date)\n2. RELOAD LaunchAgent:\n   - launchctl bootout gui/$(id -u)/ai.openclaw.gateway (or unload)\n   - launchctl bootstrap gui/$(id -u) ~/Library/LaunchAgents/ai.openclaw.gateway.plist (or load)\n   - Wait 30s for restart\n   - Verify: curl http://127.0.0.1:18789/ returns 200\n3. RATCHET obs-collector CHECK E threshold (scripts/obs-collector.sh around line 215):\n   - Current: `rss > 3221225472` (3GB)\n   - New: rss > 5368709120 (5GB) = WARN, rss > 6442450944 (6GB) = CRITICAL\n   - Log CRITICAL events as ERROR (not WARN) so they page Ken\n4. Verify with sample stability file: should no longer trigger\n\n### Safety:\n- Pre-check: confirm OC1 has >= 8GB free RAM (`vm_stat | awk '/free/ {print $3}'`)\n- Atomic swap: use launchctl bootout/bootstrap to avoid restart gap > 30s\n- Rollback plan: cp ai.openclaw.gateway.plist.bak-* ai.openclaw.gateway.plist && launchctl bootstrap\n- Telegram flash to Ken: 'Gateway restart beginning' \u2192 'Gateway back up, memory fix live'\n- Schedule during low-traffic: 22:00 AEST if Ken approves evening, else 09:00 AEST next day\n\n### Verify (after approval):\n- launchctl list | grep gateway shows loaded\n- ps aux | grep openclaw shows NODE_OPTIONS env var\n- Tail gateway.err.log for 1h: no new 'memory.pressure.critical' lines\n- Obs.db unhandled_rejection in 24h < 5 (was 55-118/day)\n\nWrite scope: ~/Library/LaunchAgents/ai.openclaw.gateway.plist, scripts/obs-collector.sh (CHECK E threshold).\n\n**Ken approval required before execution.** This atom is queued as 'pending-approval' and will not execute until you say 'approve A7' (or similar). Recommend running during low-traffic window.\n"
     }
   ],
-  "lastUpdated": "2026-06-12T07:56:42.460450"
+  "lastUpdated": "2026-06-12T07:56:42.460450",
+  "_tkt_0503_dispatch": {
+    "dispatched_at": "2026-06-13T09:18:00+10:00",
+    "dispatched_by": "Yoda",
+    "ken_approved_at": "2026-06-13T09:17:00+10:00",
+    "total_atoms": 7,
+    "queued_atoms": 5,
+    "pending_approval_atoms": 2,
+    "atoms": {
+      "A1": {
+        "status": "queued",
+        "model": "flash",
+        "title": "Tilde self-detection fix"
+      },
+      "A2": {
+        "status": "queued",
+        "model": "flash",
+        "title": "obs-collector CHECK K dedup"
+      },
+      "A3": {
+        "status": "queued",
+        "model": "flash",
+        "title": "CHECK 28d auto-move .md"
+      },
+      "A4": {
+        "status": "queued",
+        "model": "flash",
+        "title": "CHECK 28e config baseline refresh"
+      },
+      "A5": {
+        "status": "queued",
+        "model": "flash",
+        "title": "CHECK 28c sandbox auto-unload"
+      },
+      "A6": {
+        "status": "pending-approval",
+        "model": "flash",
+        "title": "CHECK 28b TKT-0339 auto-apply",
+        "reason": "Mutates cron timeouts"
+      },
+      "A7": {
+        "status": "pending-approval",
+        "model": "pro",
+        "title": "NODE_OPTIONS + threshold ratchet",
+        "reason": "Gateway restart (prod-mutating)"
+      }
+    },
+    "expected_kill_count": 720,
+    "expected_kill_pct": 87,
+    "verify_window_hours": 24,
+    "verify_target": "obs.db 24h event count < 100 (was 118 peak)"
+  }
 }

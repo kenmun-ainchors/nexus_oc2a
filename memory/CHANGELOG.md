@@ -11,6 +11,20 @@
 ---
 ---
 
+## 2026-06-13 09:20 AEST — [CHG-0527] TKT-0503 dispatched: 7-atom obs.db noise reduction (87% target)
+**Type:** rule
+**Change Type:** Normal
+**Source:** manual
+**Trigger:** obs.db scan 2026-06-13: 827 events in 7d, 720 (87%) from 3 known-repeat patterns with structural fixes. Ken approved full 7-atom plan at 09:17 AEST.
+**What changed:** state/task-queue.json: 7 new atoms (TKT-0503-A1 through A7) appended. A1-A5 status=queued, model=flash, parallel-safe. A6 status=pending-approval (cron timeout mutation). A7 status=pending-approval (gateway restart, model=pro). PG: TKT-0503 metadata updated with dispatch record. _tkt_0503_dispatch summary in queue file. Expected kill: 720 events (384 unhandled_rejection + 209 needs_ken + 127 fallback_chain_broken).
+**Why:** obs.db noise drowns real signals. Auto-heal NEEDS_KEN alerts lose credibility when 555 of 209 events are false positives or stale. 7 structural fixes with no tribal knowledge — each atom's verify is binary and objective.
+**Verification:** Pending execute + verify. Phase 1 verify window: 24h post-A1-A5 completion (A1 kills 44, A2 kills 127, A3 kills 4, A4 kills 4, A5 kills 46 = 225 events killed by Phase 1). Phase 2 (A6 + A7) verifies separately after Ken approval.
+**Rollback:** Remove 7 atoms from state/task-queue.json queue array. Revert PG metadata update on TKT-0503. TKT-0503 itself stays open until verify.
+**Linked:** TKT-0503, L-092, L-093, L-094-NOTE, CHG-0524, CHG-0528, CHG-0529, state/task-queue.json
+**Category:** infra
+---
+
+
 ## 2026-06-13 08:55 AEST — [CHG-0526] L-091 fix: crest-done-gate.sh pre-existing syntax error + CHECK 27
 **Type:** rule
 **Change Type:** Normal
