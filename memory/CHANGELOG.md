@@ -11,6 +11,19 @@
 ---
 ---
 
+## 2026-06-13 13:15 AEST — [CHG-0542] MiniMax M3 trial verdict: engineering YES, engagement/planning NO — Yoda thin-orchestrator only
+**Type:** config
+**Change Type:** Normal
+**Source:** manual
+**Trigger:** Ken 2026-06-13 13:13: 'minimax trial have proven that it's good for engineering but not reliable for any engagement, interactive or planning work'
+**What changed:** state/trials/minimax-m3.json created (6,783 bytes) — formal trial log with verdict_emerging_2026_06_13, good_for/not_good_for lists, structural fixes, evidence trail. state/archive/model-policy.json trialMiniMaxM3 block updated with verdict + good_for/not_good_for + structural_fix_during_trial (Yoda thin-orchestrator role). L-109 added to policy.lessons. scripts/crest-execute-gate.sh (TKT-0506, CHG-0540) is the structural enforcement.
+**Why:** Two confabulation incidents in <1 hour (L-106 + Sonnet fabrication). Both minimax-tier failures. Pattern matches L-082 (reliability ceiling) and L-084 (prior fabrication, 31 CHG records claimed but not written). Per Ken: 'minimax trial have proven that it's good for engineering but not reliable for any engagement, interactive or planning work.' Trial continues per cron 3305681f Sun 14 Jun 23:55 AEST, but Yoda (minimax) restricted to thin-orchestrator role: Plan + dispatch + verify only. NO direct Execute work. Other minimax agents (Aria/Sage/Forge/Ahsoka/Luthen/Spark) unchanged unless Ken directs.
+**Verification:** scripts/crest-execute-gate.sh: 10/10 test cases pass (Yoda-plan allow, Yoda-execute block, Forge-execute allow, Yoda-self-read allow, Ken-override allow, Yoda-verify allow, Yoda-synthesize block, triage exempt, Yoda-on-cheap-tier block, Lando-on-strong-tier block). auto-heal CHECK 28h: live, audits crest-execute-gate-log.json weekly. Gate is wired into dispatch-validate.sh (TKT-0506 A3, verified by Forge deepseek-v4-flash 1m47s). state/trials/minimax-m3.json created. model-policy.json trialMiniMaxM3 block updated.
+**Rollback:** N/A
+**Linked:** TKT-0506, CHG-0540, CHG-0498, L-082, L-084, L-106, L-107, L-108, L-109 (new), state/trials/minimax-m3.json, state/parks/anthropic.json, cron 3305681f, scripts/crest-execute-gate.sh
+---
+
+
 ## 2026-06-13 12:58 AEST — [CHG-0541] TKT-0504 raised to Sprint 7 backlog: TQP wait-and-silence (L-108, A0 quick-fix)
 **Type:** doc
 **Change Type:** Normal
