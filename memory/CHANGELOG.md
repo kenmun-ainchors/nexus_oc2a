@@ -11,6 +11,19 @@
 ---
 ---
 
+## 2026-06-13 10:53 AEST — [CHG-0533] TKT-0503-A6: cron scaler filters systemEvent + 7d auto-apply for stable DECREASE
+**Type:** script
+**Change Type:** Normal
+**Source:** ken-prompt
+**Trigger:** Ken: ok, A6 - implement
+**What changed:** cron-timeout-scaler.sh: read payload.timeoutSeconds, only emit recs for agentTurn. auto-heal.sh CHECK 22: use actionableRecommended (10 vs 48). New state/cron-timeout-applied.json ledger with 7d stability. Live apply via openclaw cron edit --timeout-seconds N, gated by CHECK22_AUTO_APPLY=true.
+**Why:** 48 false-positive SETs/day were generating 53 obs.db noise events. Root cause: scaler emitted SET for systemEvent jobs that don't consume timeoutSeconds, and read from job root not payload.
+**Verification:** Test: 2c855a3e (PG-Notion Batch Sync) 300s->120s applied live, idempotent on re-run. L-098 logged.
+**Rollback:** N/A
+**Linked:** TKT-0503-A6, L-098
+---
+
+
 ## 2026-06-13 10:35 AEST — [CHG-0532] TKT-0503 Phase 1 complete: A1-A5 executed, 5 structural fixes shipped
 **Type:** rule
 **Change Type:** Normal
