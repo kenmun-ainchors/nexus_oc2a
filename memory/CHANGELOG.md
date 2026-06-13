@@ -11,6 +11,58 @@
 ---
 ---
 
+## 2026-06-13 12:24 AEST — [CHG-0539] TKT-0505 executed: 5 structural fixes for v2026.6.6 sandbox install prep (CHG-0539)
+**Type:** script
+**Change Type:** Normal
+**Source:** manual
+**Trigger:** Ken: CREST plan
+**What changed:** A4 done: state/sandbox-gateway-state.json created (920 bytes, port:28789, status:not_loaded). A5 done: auto-heal.sh CHECK 25b added (3280 bytes) — detects env-wrapper inert on CLI-launched gateways. Writes state/gateway-launch-state.json. L-105 logged (ps eww env extraction). A3 no-op: TRIGGER-04 cron 6bd53c89 healthy. A1+A2 atomic: nexus-sandbox/node_modules/ created, sandbox plist rewritten to point at sandbox path (was prod path), sandbox env-wrapper + sandbox.env created, plutil -lint OK, backup at .bak-20260613-122500. launchctl state=not running (RunAtLoad=false, won't auto-load).
+**Why:** Pre-flight failures from cancelled TKT-0502 (CHG-0536). All 5 findings now structurally fixed or verified-no-op. Sandbox plist is prepped and ready for v2026.6.6 build (TKT-0502 retry path).
+**Verification:** A4: state file exists, schema valid. A5: syntax check OK (bash + zsh), live test showed launchdMatch=true on prod gateway (no false alert), NEEDS_KEN would fire on real mismatch. A3: cron get returned full schedule + payload, status ok. A1: dir created. A2: plutil -lint OK, defaults read confirms new ProgramArguments, env-wrapper syntax OK, launchctl state=not running.
+**Rollback:** N/A
+**Linked:** TKT-0505, TKT-0502, L-102, L-103, L-104, L-105, CHG-0536
+---
+
+
+## 2026-06-13 12:19 AEST — [CHG-0538] TKT-0505 groomed: sequencing + 30-45min estimate, ready for dispatch
+**Type:** data
+**Change Type:** Normal
+**Source:** manual
+**Trigger:** Ken: groom
+**What changed:** TKT-0505 grooming_history[2] appended. Sequencing: A4 (state bootstrap) → A5 (CHECK 25b) → A3 (cron restore) → A1+A2 (atomic plist+node_modules). 30-45min total, all flash. No blockers. Independent of v2026.6.6 build — works against current 5.27.
+**Why:** Grooming requested 12:18 AEST. All 5 atoms reviewed. A4+A5 are read-only/safe first, A1+A2 are atomic together to avoid referencing missing paths mid-fix.
+**Verification:** grooming_history[2] in PG state_tickets, Notion synced.
+**Rollback:** N/A
+**Linked:** TKT-0505, TKT-0502, L-102, L-103, L-094
+---
+
+
+## 2026-06-13 12:18 AEST — [CHG-0537] TKT-0505 raised: sandbox retry prep, 5 structural fixes
+**Type:** data
+**Change Type:** Normal
+**Source:** ken-prompt
+**Trigger:** Ken: Raise a TKT to fix the following findings (5 pre-flight issues from cancelled TKT-0502)
+**What changed:** TKT-0505 created (Sprint7, high, 5 atoms, flash-model). Atoms: A1 separate node_modules, A2 repair sandbox plist module path, A3 restore/replace TRIGGER-04 cron 6bd53c89, A4 bootstrap sandbox-gateway-state.json, A5 add CHECK 25b for env-wrapper inert on CLI launches. Linked L-102, L-103, L-094, TKT-0502 deferral.
+**Why:** TKT-0502 cancelled 12:09 AEST (CHG-0536) — v2026.6.6 is raw source release, deferred. These 5 structural fixes are the residual pre-flight gaps that would block any future install attempt regardless of build approach (pnpm/Docker/OC2).
+**Verification:** Created via db-ticket.sh create-from-json (L-090 fix). PG-verified via psql. Synced to Notion via pg-to-notion-sync.sh --single TKT-0505.
+**Rollback:** N/A
+**Linked:** TKT-0505, TKT-0502, L-102, L-103, L-094, CHG-0536
+---
+
+
+## 2026-06-13 12:11 AEST — [CHG-0536] TKT-0502 cancelled: v2026.6.6 raw source release, deferred to later (CHG-0536)
+**Type:** data
+**Change Type:** Normal
+**Source:** ken-prompt
+**Trigger:** Ken: cancel TKT-0502. defer to later
+**What changed:** TKT-0502 status=open → deferred. Pre-flight artifacts: tarball retained at /Users/ainchorsangiefpl/.openclaw/nexus-sandbox/downloads/openclaw-2026.6.6.tar.gz (50MB, SHA-256 verified). nexus-sandbox/ openclaw-2026.6.6/ removed (was empty). When retried: use OC2 48GB, or Docker test:docker:e2e-build, or 02:00-04:00 AEST low-cron window on OC1 with global pnpm install.
+**Why:** v2026.6.6 ships as 8816 TypeScript source files (not pre-built dist/). Requires pnpm@11.2.2 + 5-10min build + 8GB heap peak (plugin-sdk dts generation: node --max-old-space-size=8192). Build would conflict with prod gateway's 6GB NODE_OPTIONS ceiling on OC1 (24GB total).
+**Verification:** A1-A3 of TKT-0502 plan executed: tarball downloaded (50MB), SHA-256=968cbbe6..., inspected (8,816 TS files, openclaw.mjs entry, packageManager=pnpm@11.2.2, bin=openclaw.mjs). Decision: defer. Production gateway remains healthy (PID 51649, HTTP 200, NODE_OPTIONS=--max-old-space-size=6144 verified).
+**Rollback:** N/A
+**Linked:** TKT-0502, L-104, L-103, CHG-0521
+---
+
+
 ## 2026-06-13 11:19 AEST — [CHG-0535] TKT-0503-A7 partial: obs-collector CHECK E dedup by signature (L-100)
 **Type:** script
 **Change Type:** Normal

@@ -1448,6 +1448,80 @@ if [[ -f "$L089_FINDINGS" ]]; then
   fi
 fi
 
+# ---------- 
+# ---------- CHECK 25b: Gateway Env-Wrapper Inert Detection (L-102) ----------
+# TKT-0505-A5: structural detection of L-102 (env-wrapper inert for CLI-launched gateways).
+# Without this check, the only way to know the wrapper is inert is manual ps eww inspection.
+# Detects: gateway process parented to a shell/CLI (PPID != 1 on darwin) AND env vars
+# set by the wrapper (e.g. NODE_OPTIONS=--max-old-space-size=6144) differ from what
+# the wrapper expects. Non-destructive: writes state/gateway-launch-state.json + NEEDS_KEN.
+log "CHECK 25b: gateway env-wrapper inert detect (L-102)"
+CHECKS_RUN+=("gateway_env_wrapper_inert")
+GATEWAY_LAUNCH_STATE="$WORKSPACE/state/gateway-launch-state.json"
+PROD_PORT="${OPENCLAW_GATEWAY_PORT:-18789}"
+
+if [[ "$(uname -s)" == "Darwin" ]]; then
+  _GW_PID=$(lsof -nP -iTCP:${PROD_PORT} -sTCP:LISTEN 2>/dev/null | grep -v COMMAND | head -1 | awk '{print $2}')
+  if [[ -n "$_GW_PID" ]]; then
+    _GW_PPID=$(ps -o ppid= -p "$_GW_PID" 2>/dev/null | tr -d ' ')
+    _GW_PARENT_NAME=""
+    if [[ -n "$_GW_PPID" && "$_GW_PPID" != "1" ]]; then
+      _GW_PARENT_NAME=$(ps -o command= -p "$_GW_PPID" 2>/dev/null | awk '{print $1}')
+    fi
+    # Extract full NODE_OPTIONS value (may contain spaces, e.g. " --max-old-space-size=6144")
+    # Use python to parse ps eww reliably (handles multi-space env values)
+    _GW_NODE_OPTS=$(ps eww -p "$_GW_PID" 2>/dev/null | tr '\0' '\n' | python3 -c "
+import sys, re
+text = sys.stdin.read()
+# ps eww separates args+env with spaces, but env values can have spaces too
+# Look for NODE_OPTIONS= followed by any chars until next known env var pattern
+m = re.search(r'NODE_OPTIONS=([^A-Z]*?)(?:[A-Z_][A-Z_0-9]*=|\Z)', text)
+if m:
+    print(m.group(1).strip())
+" 2>/dev/null)
+    _GW_HAS_NODE_OPTS="no"
+    if echo "$_GW_NODE_OPTS" | grep -q "max-old-space-size"; then
+      _GW_HAS_NODE_OPTS="yes"
+    fi
+    _WRAPPER_PARENTED="no"
+    if [[ "$_GW_PPID" == "1" ]]; then
+      _WRAPPER_PARENTED="yes"
+    fi
+    _GW_NOW_ISO=$(date -u +"%Y-%m-%dT%H:%M:%SZ")
+    python3 << PYEOF_INNER
+import json, os
+p = '$GATEWAY_LAUNCH_STATE'
+d = {}
+if os.path.exists(p):
+    try: d = json.load(open(p))
+    except: d = {}
+d['lastChecked'] = '$_GW_NOW_ISO'
+d['prodPID'] = int('$_GW_PID')
+d['prodPPID'] = int('$_GW_PPID') if '$_GW_PPID' else None
+d['prodParentName'] = '$_GW_PARENT_NAME'
+d['wrapperParentedToLaunchd'] = '$_WRAPPER_PARENTED' == 'yes'
+d['envWrapperExpected'] = 'NODE_OPTIONS contains --max-old-space-size=6144'
+d['envWrapperActual'] = '$_GW_NODE_OPTS'
+d['envWrapperApplied'] = '$_GW_HAS_NODE_OPTS' == 'yes'
+d['launchdMatch'] = ('$_WRAPPER_PARENTED' == 'yes') and ('$_GW_HAS_NODE_OPTS' == 'yes')
+d['alertIfMismatch'] = not (('$_WRAPPER_PARENTED' == 'yes') and ('$_GW_HAS_NODE_OPTS' == 'yes'))
+with open(p, 'w') as f: json.dump(d, f, indent=2)
+PYEOF_INNER
+    if [[ "$_WRAPPER_PARENTED" != "yes" || "$_GW_HAS_NODE_OPTS" != "yes" ]]; then
+      REASON_PARENT=""
+      if [[ "$_WRAPPER_PARENTED" != "yes" ]]; then
+        REASON_PARENT="gateway PPID=$_GW_PPID (parent: $_GW_PARENT_NAME) - NOT parented to launchd. Env-wrapper changes are INERT for CLI-launched gateways (L-102). "
+      fi
+      REASON_ENV=""
+      if [[ "$_GW_HAS_NODE_OPTS" != "yes" ]]; then
+        REASON_ENV="env-wrapper expects NODE_OPTIONS=--max-old-space-size=6144 but process env shows: ${_GW_NODE_OPTS:-empty}. "
+      fi
+      log "CHECK 25b: gateway env-wrapper MISMATCH - ${REASON_PARENT}${REASON_ENV}action: launchctl bootout + bootstrap (NOT openclaw gateway CLI). See state/gateway-launch-state.json."
+      NEEDS_KEN+=("L-102: Gateway (PID $_GW_PID) env-wrapper INERT. ${REASON_PARENT}${REASON_ENV}Fix: ensure gateway is launchd-spawned. State: state/gateway-launch-state.json. (TKT-0505-A5.)")
+    fi
+  fi
+fi
+
 # ---------- CHECK 26: db-ticket.sh Shell-Compatibility Failure (L-090) ----------
 # Detects L-090 silence-failure pattern: db-ticket.sh create invoked under
 # zsh with the read -p coprocess bug, or other failed db-ticket.sh invocations.

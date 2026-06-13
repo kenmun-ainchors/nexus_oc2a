@@ -1,0 +1,20 @@
+{
+  "version": 1,
+  "generatedBy": "TKT-0505-A4",
+  "generatedAt": "2026-06-13T02:20:16Z",
+  "reason": "Bootstrap state file for CHECK 28c (auto-heal.sh). Was missing because sandbox never started. Now in place so future CHECK 28c runs can track lifecycle.",
+  "label": "ai.openclaw.sandbox-gateway",
+  "port": 28789,
+  "plistPath": "/Users/ainchorsangiefpl/Library/LaunchAgents/ai.openclaw.sandbox-gateway.plist",
+  "status": "not_loaded",
+  "lastChecked": null,
+  "lastLoadAttempt": null,
+  "lastError": null,
+  "deadSince": null,
+  "linkedTicket": "TKT-0505",
+  "context": {
+    "triggeringTicket": "TKT-0502 (deferred 2026-06-13 12:09 AEST)",
+    "tarballRetained": "/Users/ainchorsangiefpl/.openclaw/nexus-sandbox/downloads/openclaw-2026.6.6.tar.gz",
+    "retryStrategy": "OC2 (48GB) when it arrives 6-13 Jul 2026, OR Docker test:docker:e2e-build, OR low-cron window 02:00-04:00 AEST on OC1 with global pnpm"
+  }
+}

@@ -1241,3 +1241,66 @@ Three crons (Morning Stand-Up, Daily Blog, Aria ROI) failed because agent models
 **Net effect:** 384 events/week → estimated 1-3 events/week (1 per actual signature transition). A7's `NODE_OPTIONS=--max-old-space-size=6144` is the other half (still pending Ken's approval for gateway restart).
 
 **Linked:** TKT-0503-A7, L-100, server-cron/DiagnosticMemoryThresholds (always-default). Foundation for future: signature-based dedup pattern.
+
+## L-102 — 2026-06-13 | Env-wrapper swap is INERT for CLI-launched gateways
+**Lesson:** When `openclaw gateway` is run directly (not via the LaunchAgent), the process is parented to the terminal shell, not launchd. The new env-wrapper script (with `NODE_OPTIONS=--max-old-space-size=6144`) was correctly written to disk, but the running process still had the old env because it was started via the CLI, not via the plist. Restoring the plist-based launchd start was the only way the new env took effect.
+
+**Detection:** `ps eww -p $PID` showed `NODE_OPTIONS=` (empty) on the CLI-launched process. On the launchd-launched process, `ps eww` showed `NODE_OPTIONS= --max-old-space-size=6144`.
+
+**Rule:** Gateway config/env changes are only live for processes spawned through the plist. If you start the gateway manually, you must do `launchctl bootout` + `launchctl bootstrap` (or use the new env-var directly via `openclaw gateway --env NODE_OPTIONS=...` if supported). The structural fix: write env to a file that node reads at startup, not just the wrapper script.
+
+**Linked:** TKT-0503-A7, CHG-0535, env-wrapper.sh, plist structure.
+
+## L-103 — 2026-06-13 | v2026.6.6 sandbox install requires separate node_modules, not shared prod
+**Lesson:** The Jun 8 sandbox install attempt (now visible in `/Users/ainchorsangiefpl/.openclaw/nexus-sandbox/sandbox-stderr.log`) failed in a loop because the sandbox plist's `ProgramArguments` pointed at `/opt/homebrew/lib/node_modules/openclaw/dist/index.js` — the SAME module path as production 2026.5.27. The OpenClaw binary does a port-detection pre-flight ("port 18789 is still busy before LaunchAgent restart") and rejects the launch, which then looped forever.
+
+**Root cause:** The original Jun 8 plist was written assuming `openclaw install --sandbox` would set up the module path automatically. It didn't. The plist needs to point at a v2026.6.6-specific install, not the shared brew path.
+
+**Fix for TKT-0502 (when Ken approves):**
+1. Download v2026.6.6 tarball to `/Users/ainchorsangiefpl/.openclaw/nexus-sandbox/openclaw-2026.6.6/`
+2. `npm install` into a sandbox-specific `node_modules/` (NOT `/opt/homebrew/lib/node_modules`)
+3. Plist: `ProgramArguments` → `[node, <sandbox>/openclaw-2026.6.6/dist/index.js, gateway, --port, 28789]`
+4. `WorkingDirectory` → `<sandbox>/` (already correct)
+5. `OPENCLAW_CONFIG` → `<sandbox>/openclaw.json` (already correct)
+6. Optional: env-wrapper for sandbox to set `NODE_OPTIONS` separately
+
+**Linked:** TKT-0502, sandbox-stderr.log, CHG-0521 (DEFER+SANDBOX), L-094 (dead-sandbox plist).
+
+
+## L-104 — 2026-06-13 | Raw source release ≠ drop-in install
+**Lesson:** v2026.6.6 ships as TypeScript source (8,816 files), not as a pre-built `dist/`. The package.json declares `packageManager: pnpm@11.2.2` and `engines: { node: ">=22.19.0" }`. Building requires `pnpm install` + `pnpm build:docker` (or `pnpm build`) — 8 sub-builds, 5-10 min, 8GB heap peak (per `plugin-sdk:api:gen` script: `node --max-old-space-size=8192`). The entry point is `openclaw.mjs` which uses `node --experimental-strip-types` for direct source execution.
+
+**Original Jun 8 install attempt (visible in `nexus-sandbox/sandbox-stderr.log`) was a misconfigure, not a real test:**
+- Plist pointed at `/opt/homebrew/lib/node_modules/openclaw/dist/index.js` (production 5.27)
+- That module path doesn't exist in 6.6 (no `dist/` in tarball)
+- Even if it did, using prod module on port 28789 would conflict with prod on 18789
+
+**Why we deferred TKT-0502:** The 5-10 min pnpm build on OC1 has 8GB heap peak during plugin-sdk generation. With prod gateway's NODE_OPTIONS=--max-old-space-size=6144 (6GB ceiling) already using ~1GB, the build would push the system into memory pressure. Ken decision 2026-06-13 12:09 AEST: "looks like it's still raw release. cancel TKT-0502. defer to later."
+
+**Tarball retained** at `/Users/ainchorsangiefpl/.openclaw/nexus-sandbox/downloads/openclaw-2026.6.6.tar.gz` (50MB, SHA-256 `968cbbe6d6cfe1e46d8dcd44b3f1e4945f728116cb15c9e418e78083b65b1283`) for future attempts. When we retry:
+1. Use OC2 (incoming 6-13 Jul 2026, 48GB RAM) for the build, not OC1
+2. OR use Docker build (test:docker:e2e-build) for clean isolation
+3. OR install pnpm globally and schedule build for 02:00-04:00 AEST low-cron window
+
+**Rule:** Always check `package.json#packageManager` and `package.json#bin` before assuming a "drop-in" install. Source releases need build tooling (pnpm/yarn/bun) that may not be on the host. The 6.6.6 release date (2026-06-12) is 1 day before our attempt — likely too fresh to have pre-built artifacts distributed via brew.
+
+**Linked:** TKT-0502 (deferred), CHG-0521 (DEFER+SANDBOX), v2026.6.6 tarball, nexus-sandbox/, L-103 (separate node_modules needed).
+
+
+## L-105 — 2026-06-13 | ps eww splits env vars at every space; use Python regex for multi-space values
+**Lesson:** When detecting env vars from `ps eww -p <pid>` output, `tr ' ' '\n' | grep "^VAR="` only captures the prefix (e.g. `NODE_OPTIONS=`) and breaks if the value contains spaces. OpenClaw's env-wrapper sets `NODE_OPTIONS="${NODE_OPTIONS:-} --max-old-space-size=6144"`, which means the value is ` --max-old-space-size=6144` (with leading space) and `ps eww` outputs it as `NODE_OPTIONS= --max-old-space-size=6144` with the value flowing across what `tr` treats as multiple fields.
+
+**Detection (the false positive this caused):** First run of CHECK 25b reported `envWrapperApplied: false` when in fact the env was correctly applied. Looked like the wrapper was inert, but it was actually a detection bug.
+
+**Fix:** Use Python with regex to extract the full value:
+```python
+import re
+m = re.search(r'NODE_OPTIONS=([^A-Z]*?)(?:[A-Z_][A-Z_0-9]*=|\Z)', text)
+if m:
+    print(m.group(1).strip())
+```
+The `[^A-Z]*?` is "any chars not uppercase" — env var names are uppercase, so this matches everything up to the next env var. `\Z` matches end of text for the last var.
+
+**Rule:** When checking env vars that may contain spaces (NODE_OPTIONS, LD_PRELOAD, BASH_ENV, etc.), use Python regex against `ps eww` output, not shell `tr`/`grep`. Always validate detection with a known-true state (we ran it against prod gateway which was launchd-spawned with NODE_OPTIONS set — both `wrapperParentedToLaunchd` AND `envWrapperApplied` should be true; the false-negative on `envWrapperApplied` exposed the bug).
+
+**Linked:** TKT-0505-A5, L-102, CHECK 25b, scripts/auto-heal.sh.
