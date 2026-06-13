@@ -18,7 +18,7 @@
     "costState": 1749723600,
     "qbr": "2026-06-12T09:57:00+10:00 \u2014 locked TKT-0410, 19d to QBR"
   },
-  "lastUpdated": "2026-06-12T18:12:17.946060+10:00",
+  "lastUpdated": "2026-06-13T15:18:00+10:00",
   "lastHeartbeat": "2026-06-12T06:19:00Z",
   "qbr": {
     "next_qbr": {
@@ -66,5 +66,35 @@
       "ts": "2026-06-12T18:12:17.946060+10:00",
       "note": "Recovered task-2026-06-10-f9504783: verified \u2192 complete (direct PG). L-084 + TKT-0410 + CHG-0507 logged."
     }
-  ]
+  ],
+  "lastSessionClose": {
+    "date": "2026-06-13",
+    "closed_at": "15:18:00+10:00",
+    "actor": "Yoda",
+    "commits": [
+      "37162317",
+      "6ee70c61"
+    ],
+    "tickets_closed": [
+      "TKT-0504"
+    ],
+    "chgs_logged": [
+      "CHG-0547",
+      "CHG-0548",
+      "CHG-0549",
+      "CHG-0550",
+      "CHG-0551",
+      "CHG-0553",
+      "CHG-0555",
+      "CHG-0556",
+      "CHG-0552",
+      "CHG-0554"
+    ],
+    "crons_registered": [
+      "dc88affb-2e25-44de-be94-ccb208043a43"
+    ],
+    "tickets_open_for_review": [
+      "TKT-0503 (24h review window closes 14:17 AEST 2026-06-14)"
+    ]
+  }
 }
