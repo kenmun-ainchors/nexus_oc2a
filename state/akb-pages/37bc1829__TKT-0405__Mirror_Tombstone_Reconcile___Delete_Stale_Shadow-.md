@@ -5,6 +5,10 @@
 - **Type:** enhancement
 - **Priority:** Medium
 - **Category:** Technical
-- **Sprint:** Sprint 8
+- **Sprint:** 8
 - **Created:** 2026-06-11T00:13:00.000+10:00
-- **Last Edited:** 2026-06-11T11:10:00.000Z
+- **Last Edited:** 2026-06-12T10:29:00.000Z
+
+## Notes
+
+20260612-Ken Hygiene reviewed. No longer applicable.

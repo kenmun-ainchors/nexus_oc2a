@@ -1,51 +1,43 @@
-# 🟢 Yoda Context Brief - Regenerated 2026-06-12 20:00 AEST
+# Yoda Telegram Context Brief
+Generated: 2026-06-13 14:00 AEST
 
-## 🚀 Platform Status
-- **Day Count:** 48 days (since 2026-04-25)
-- **Phase:** MVP (OC1-only) → P1 (OC2 era, HA cluster, NAS, KL team) target ~Jul 2026.
-- **Health:** Stable. OC1 Production Live.
+## 🌍 Platform Status
+- **Current Day:** Day 49 (from 2026-04-25)
+- **Phase:** MVP (OC1-only)
+- **Infrastructure:** OC1 (Mac Mini M4 24GB) - LIVE Production.
+- **Incoming:** OC2-A/B ETA 6–13 Jul 2026.
 
 ## 👥 Key People
-- **Ken Mun (CTO):** Co-founder. Primary decision maker.
+- **Ken Mun (CTO):** Co-founder. Primary lead.
 - **Angie Foong (CEO):** Co-founder. Business lead.
 
-## 🏗️ Infrastructure
-- **Current:** OC1 (Mac Mini M4 24GB) - Production.
-- **Incoming:** OC2-A/B (Mac Mini M4 Pro 48GB x2) - ETA 6-13 Jul 2026. Commission ~27 Jul.
-- **Network:** Tailscale mesh, NAS.
-- **Core:** OpenClaw platform.
+## 🛠 Infrastructure & Routing
+- **Network:** Tailscale Mesh | OC1 URL: https://ainchorss-mac-mini.tail5e2567.ts.net
+- **Governance:** Yoda (Lead) → Aria (CEO+Yoda) → Warden (Yoda-Govern)
+- **Specialists:** Forge (Build/Infra), Atlas (Enterprise Arch), Thrawn (Arch Design), Lando (BPM/Workflows), Mon Mothma (Change Mgmt), Spark (Content).
+- **Guardians:** Shield (Security), Lex (Legal), Sage (QA).
 
-## 📅 Current Sprint (Sprint 7)
+## 🏃 Current Sprint (Sprint 7)
 - **Dates:** 2026-06-08 to 2026-06-14
-- **Status:** Committed (87% Complete: 14/16)
-- **Open Tickets:**
-  - TKT-0407: Hygiene sweep: triage 105 stub-victim tickets (Forge)
-  - TKT-0410: Fix SUB_CREST_TRANSITIONS: add 'verified' → terminal (Forge)
+- **Status:** Committed | 87% Completion (14/16)
+- **Top Open Tickets:**
+  - TKT-0410: Fix SUB_CREST_TRANSITIONS: add 'verified' → terminal (S, Forge)
+  - TKT-0525: CHG-0525: Fix pg-to-notion-sync.sh — JSONB Path (?, ?)
 
-## ✅ Approved Decisions
-- **CREST Loop Locked:** Plan → Execute → Verify → Replan → Synthesize → Done.
-- **Model Routing:** Strong (Plan/Verify/Replan) vs Cheap (Execute/Synthesize).
-- **Skill-Gate:** Mandatory  before domain scripts.
-- **Anthropic Parked:** Permanently parked as of 2026-06-12. No activity until 'CLAUDE ACTIVATE'.
-- **3 Strikes Principle:** Automated enforcement via PASS  lessons.md (most recent: L-084 2026-06-12, age: 0 days).
-- **Postgres SSOT:** Authoritative for state data (TKT-0270).
+## ✅ Approved Decisions (Recent)
+- **CHG-0545 (2026-06-13):** Locked 4 rules into SOUL.md (No fabrication, Evidence-only, CREST mandatory, Orchestrator-only).
+- **CREST Loop (2026-06-09):** Locked Plan→Execute→Verify→Replan→Synthesize→Done.
+- **Anthropic (2026-06-12):** PERMANENTLY PARKED per Ken directive.
 
-## 🎫 Top Open Tickets
-1. TKT-0407: Hygiene sweep: triage 105 stub-victim tickets
-2. TKT-0410: Fix SUB_CREST_TRANSITIONS: add 'verified' → terminal
-(Sprint nearly complete; others closed/done).
+## 📢 Content & Social
+- **LinkedIn Queue:** No current state found in workspace.
+- **Posting Rule:** Missed post → push to next slot. Never post late.
 
-## 📱 LinkedIn Queue
-- **Status:** Queue state file () missing from workspace root/state; refer to  or  for current status.
-
-## 💬 Recent Telegram Decisions
-- (No recent  entries found in provided state fragments).
-
-## ⚠️ Mandatory Rules (Telegram Sessions)
-1. **No a-priori execution:** Plan phase MUST be explicit.
-2. **Skill-Gate:** Always load domain skills before script execution.
-3. **CREST Discipline:** Use appropriate model tiers (Strong vs Cheap).
-4. **No Tribal Knowledge:** Reference SKILL.md files, not memory.
-5. **Chunking:** All messages > 3,800 chars MUST be chunked.
-6. **Async:** Tasks > 30s MUST use .
-7. **Conservative Mode:** No risky state changes without Ken approval.
+## ⚠️ Telegram Session Mandates
+- **CREST Mandatory:** Every operational task must follow Plan→Execute→Verify→Replan→Synthesize→Done.
+- **Skill-Gate:** `bash scripts/skill-load.sh <name>` must be run before any domain script call.
+- **No Silent Execution:** Output Plan phase explicitly before tool use.
+- **Model Discipline:** Plan/Verify/Replan (Strong) | Execute/Synthesize (Cheap).
+- **Chunking:** All messages MUST be chunked at 3,800 chars.
+- **Async:** Tasks > 30s MUST run via `sessions_spawn`.
+- **Fabrication:** ZERO tolerance. Say "I don't know" if unsure.

@@ -4,7 +4,7 @@
   "description": "ONE file for all LinkedIn content state. Replaces linkedin-queue.json, linkedin-content-tracker.json, content-queue.json (social entries only). Blog entries remain in content-queue.json.",
   "createdAt": "2026-05-19T10:39:00+10:00",
   "createdBy": "Yoda (CHG consolidation)",
-  "lastUpdated": "2026-06-12T23:58:00+10:00",
+  "lastUpdated": "2026-06-13T04:27:35.280881+00:00",
   "agent": "Spark",
   "api": {
     "enabled": true,
@@ -44,6 +44,20 @@
     "rule": "External-facing only. NO mentions of AInchors, Yoda, Nexus, agent names, or platform internals."
   },
   "published": [
+    {
+      "id": "LI-TEASER-2026-06-13",
+      "title": "The Silence Was the Build",
+      "postedAt": "2026-06-13T14:24:00+10:00",
+      "postedBy": "Spark (cron ce29e1e5, Ken-approved rerun after auth fix)",
+      "type": "teaser",
+      "slot": "pre-arc teaser (Sat 13 Jun 14:24 AEST)",
+      "imageAssetUrn": "urn:li:image:D5610AQFbmgSvRFZL4w",
+      "postUrn": "urn:li:share:7471417286260596736",
+      "postUrl": "https://www.linkedin.com/posts/activity-7471417286260596736/",
+      "contentId": "CONTENT-0001",
+      "arc": "pre-arc teaser (4-week Foundation Arc starting Tue 16 Jun)",
+      "note": "Reactivation teaser. Original cron a129f70c failed (memberId=urn:li:person:unknown). Root cause fixed 2026-06-13: memberId corrected to FhpPCanUWM in linkedin-auth.json."
+    },
     {
       "id": "LI-SEED-1",
       "title": "Seeder Post 1 \u2014 The Opening Tease",
@@ -299,33 +313,38 @@
       "TKT-0232"
     ],
     "chgRecord": "CHG-0515",
-  "teaser": {
-    "id": "LI-TEASER-2026-06-13",
-    "contentId": "CONTENT-0001",
-    "title": "The Silence Was the Build",
-    "status": "scheduled",
-    "scheduledFor": "2026-06-13T09:00:00+10:00",
-    "scheduledCron": "a129f70c-2af9-45d7-8956-0ab120c1aa55",
-    "scheduledCronType": "at",
-    "scheduledCronUTCTimestamp": "2026-06-12T23:00:00Z",
-    "type": "teaser",
-    "arc": "pre-arc teaser (4-week Foundation Arc starting Tue 16 Jun)",
-    "imagePath": "social-drafts/images/LI-TEASER-2026-06-13.png",
-    "imageDims": "1254x1254 PNG, 2.4MB",
-    "postBodyFile": "social-drafts/LI-TEASER-REACTIVATION-POST.md",
-    "draftFile": "social-drafts/LI-TEASER-REACTIVATION.md",
-    "wordCount": 220,
-    "voiceChecks": {
-      "emDashes": 0,
-      "coFounder": 0,
-      "internalMentions": 0,
-      "finiteTime": 0,
-      "consultingSpeak": 0
-    },
-    "governanceStatus": "cleared (Shield+Lex+Sage 7/7)",
-    "approvedBy": "Ken (Telegram, 2026-06-12 23:50 AEST)",
-    "approvedAt": "2026-06-12T23:50:00+10:00",
-    "approvalMethod": "Inline image attached with APPROVE message"
-  }
+    "teaser": {
+      "id": "LI-TEASER-2026-06-13",
+      "contentId": "CONTENT-0001",
+      "title": "The Silence Was the Build",
+      "status": "posted",
+      "scheduledFor": "2026-06-13T09:00:00+10:00",
+      "scheduledCron": "a129f70c-2af9-45d7-8956-0ab120c1aa55",
+      "scheduledCronType": "at",
+      "scheduledCronUTCTimestamp": "2026-06-12T23:00:00Z",
+      "type": "teaser",
+      "arc": "pre-arc teaser (4-week Foundation Arc starting Tue 16 Jun)",
+      "imagePath": "social-drafts/images/LI-TEASER-2026-06-13.png",
+      "imageDims": "1254x1254 PNG, 2.4MB",
+      "postBodyFile": "social-drafts/LI-TEASER-REACTIVATION-POST.md",
+      "draftFile": "social-drafts/LI-TEASER-REACTIVATION.md",
+      "wordCount": 220,
+      "voiceChecks": {
+        "emDashes": 0,
+        "coFounder": 0,
+        "internalMentions": 0,
+        "finiteTime": 0,
+        "consultingSpeak": 0
+      },
+      "governanceStatus": "posted",
+      "approvedBy": "Ken (Telegram, 2026-06-12 23:50 AEST)",
+      "approvedAt": "2026-06-12T23:50:00+10:00",
+      "postedAt": "2026-06-13T14:24:00+10:00",
+      "postedBy": "Spark (cron ce29e1e5)",
+      "postUrl": "https://www.linkedin.com/posts/activity-7471417286260596736/",
+      "postUrn": "urn:li:share:7471417286260596736",
+      "imageUrn": "urn:li:image:D5610AQFbmgSvRFZL4w",
+      "approvalMethod": "Inline image attached with APPROVE message"
+    }
   }
 }

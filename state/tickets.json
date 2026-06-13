@@ -3568,5 +3568,276 @@
         }
       ]
     }
+  },
+  {
+    "id": "TKT-9999",
+    "title": "L-090 test ticket",
+    "status": "open",
+    "priority": "low",
+    "type": "task",
+    "created_at": "2026-06-12T22:19:26+10:00"
+  },
+  {
+    "id": "TKT-9998",
+    "title": "L-090 regression test",
+    "status": "open",
+    "priority": "low",
+    "type": "task",
+    "created_at": "2026-06-12T22:19:45+10:00"
+  },
+  {
+    "id": "TKT-0503",
+    "title": "Obs.db noise reduction — 7 structural fixes (kills 87% of high-repeat alerts)",
+    "status": "open",
+    "priority": "P1",
+    "type": "task",
+    "created_at": "2026-06-12T23:15:41+10:00",
+    "metadata": {
+      "brief": "Eliminate 720 of 827 obs.db events (87%) via 7 structural fixes. 7/7 atoms shipped (A1-A5 original + A6 cron scaler + A7 obs CHECK E). Kept open 24h obs.db window per Ken 14:12 AEST, review tomorrow 14:17 AEST.",
+      "owner": "Yoda",
+      "agent": "Yoda (plan) → Forge (execute) → Atlas/Thrawn (verify)",
+      "deps": [
+        "L-088 lineage (alert routing discipline)"
+      ],
+      "why_now": "obs.db noise drowns real signals. 87% of all events are 3 known-repeat patterns with structural fixes. Auto-heal NEEDS_KEN alerts lose credibility when 555 of 209 are false positives or stale.",
+      "verify": "After all 7 fixes: re-run obs-collector 1h, query obs.db, total events in 24h < 100 (was 118 on Jun 11, peak day). Each top-3 event_type count reduced by >= 90%.",
+      "ac_count": 7,
+      "chg_count": 7,
+      "model_tier": "mixed: 5x flash + 2x pending-approval(pro/flash)",
+      "sprint": "Sprint 8 (current)",
+      "sprint_target": "Sprint 8",
+      "sprint_target_rationale": "TKT-0503 was committed to Sprint 8 at creation. Ken 14:12 AEST 2026-06-13 directed 24h obs.db window before close; review scheduled 14:17 AEST 2026-06-14.",
+      "effort": "M",
+      "depends_on": [
+        "TKT-0503-A0 (none — self-contained)"
+      ],
+      "blocks": [
+        "TKT-0504 (tqp-executor.sh bridge — TKT-0504 depends on TKT-0503 close-review per metadata)"
+      ],
+      "linked_lessons": [
+        "L-092",
+        "L-093",
+        "L-094",
+        "L-095",
+        "L-096",
+        "L-098",
+        "L-099",
+        "L-100",
+        "L-113",
+        "L-114",
+        "L-115"
+      ],
+      "queued_atoms": 5,
+      "dispatched_at": "2026-06-13T09:18:00+10:00",
+      "pending_approval_atoms": 2,
+      "atom_status": {
+        "TKT-0503-A1": "shipped (line 230 + line 277 tilde refactor complete after v1+v2 fixup; CHG-0528)",
+        "TKT-0503-A2": "shipped (CHECK K dedup; CHG-0529; L-093)",
+        "TKT-0503-A3": "shipped (CHECK 28d + daily-brief move; CHG-0530)",
+        "TKT-0503-A4": "shipped (CHECK 28e baseline refresh; CHG-0531)",
+        "TKT-0503-A5": "shipped (CHECK 28c sandbox auto-unload; CHG-0531; L-094)",
+        "TKT-0503-A6": "shipped (cron scaler + one-shot apply; CHG-0533/0534; L-098/L-099). Note: A7 brief said 'ratchet to 5GB/6GB' not doable on 2026.5.27 — threshold ratchet parked; dedup landed.",
+        "TKT-0503-A7": "shipped partial (CHECK E signature dedup; CHG-0535; L-100). Node.js RSS ratchet parked until v2026.6.6 (TKT-0502)."
+      },
+      "re_verify_findings": {
+        "A1_v1_issue": "Forge v1 used \\$HOME escape in line 230 (regular NEEDS_KEN string array). \\$HOME stays literal in that context, so user would see raw ${HOME}/... in alerts. Caught by Yoda via zsh runtime test. v2 dispatched and verified — line 230 now uses bare $HOME (correct for that context), line 277 keeps \\$HOME (correct for $(...) sub).",
+        "A1_v2_result": "bash -n clean. Zsh render: 'RENDER: No backup files found in /Users/ainchorsangiefpl/Backups/ainchors/workspace/ or workspace-incremental/'. grep ~/: 5 matches remaining, all in detector heredoc (lines 689, 708, 738, 739, 751) — correct.",
+        "A6_re_verify": "cron-timeout-scaler.sh reads payload.timeoutSeconds (line 100 of scaler) + filters to agentTurn (line 99); systemEvent excluded. cron-timeout-apply.sh is one-shot with --yes gate, exit codes 0/2/3/4/5. CHECK 22 in auto-heal.sh uses actionableRecommended (line 893). Ledger state/cron-timeout-applied.json present (2,845 bytes).",
+        "A7_re_verify": "obs-collector CHECK E computes signature LEVEL|REASON|KIND (lines 188-189 + 220), tracks lastStabilitySignature in state.obs-collector-state.json, only logs on transition (line 235 _STAB_DIFFERS=='YES'). Threshold ratchet is correctly parked to TKT-0502/v2026.6.6.",
+        "obs_db_24h_baseline": "123 events (target <100). unhandled_rejection=83 (A7 dedup working but signature transitions still log). auto_heal_needs_ken=20 (A1+A3 working). routing-decision=15 (out of TKT-0503 scope)."
+      },
+      "close_decision": "OPEN — per Ken 2026-06-13 14:12 AEST. Keep status=open for 24h obs.db window. Review tomorrow 2026-06-14 ~14:12 AEST with evidence: total events/24h, top-3 count vs target >= 90% reduction. Only then close via CREST Synthesize.",
+      "review_window_start": "2026-06-13T14:17:00+10:00",
+      "review_window_end": "2026-06-14T14:17:00+10:00",
+      "executor_compliance": "All atoms in PG state_task_queue show claimedby='yoda-direct-exec' — this is a pre-CHG-0545 pattern (atoms claimed 09:55 / 10:35 AEST, ~3h before rule locked at 13:54). Going forward: A1-fixup v1 and A1-fixup v2 correctly dispatched to Forge (subagent). Yoda = Plan/Verify/Synthesize only.",
+      "last_resume_at": "2026-06-13T14:17:00+10:00",
+      "last_resume_by": "Yoda (Plan/Verify/Synthesize) + Forge (Execute A1-fixup v1+v2)",
+      "resume_decision": "Ken 2026-06-13 14:12 AEST: (1) fix A1, (2) full re-verify, (3) keep open 24h window — review tomorrow with evidence. A6+A7 were the 'pending_approval_atoms: 2' pair — both already shipped via CHG-0533/0534/0535.",
+      "metadata_rebuild_note": "2026-06-13 14:32 AEST: 10 fields from 14:17 update were clobbered by a partial-payload `db-ticket.sh update` (L-115). This payload is the complete reconstruction from journal + CHANGELOG + LESSONS evidence. Going forward (L-115): every `db-ticket.sh update` payload includes the FULL metadata block, sourced from prior read + edits, never a subset.",
+      "grooming_history": [
+        {
+          "date": "2026-06-13T14:17:00+10:00",
+          "decisions": "CREST resume complete per Ken 14:12 AEST approval. 7/7 atoms shipped (A1 fixup v1+v2, A2-A5, A6, A7). 24h obs.db window baseline=123 events (target <100). A1 fixup v1 regression caught (line 230 $HOME escape in wrong context), v2 dispatched and verified. A6 + A7 re-verified against CHG-0533/0534/0535. Pre-CHG-0545 executor pattern (claimedby='yoda-direct-exec' at 09:55/10:35) documented in metadata.executor_compliance; going forward A1-fixup v1+v2 correctly dispatched to Forge. KEEP OPEN for 24h review tomorrow.",
+          "ac_count": 7,
+          "ken_approved": true
+        },
+        {
+          "date": "2026-06-13T14:32:00+10:00",
+          "decisions": "Rebuilt metadata after L-115 clobber. Complete metadata block sourced from journal + CHANGELOG + LESSONS evidence. Ken approved: (1) log L-115 now, (2) approve rebuild, (3) caught-in-verify exempted from L-113 strike count.",
+          "ac_count": 7,
+          "ken_approved": true
+        }
+      ],
+      "notion_sync": {
+        "status": "pending",
+        "last_synced": "2026-06-13T03:26:23Z"
+      }
+    }
+  },
+  {
+    "id": "TKT-0504",
+    "title": "tqp-executor.sh — bridge script for non-CREST TQP atoms (L-096)",
+    "status": "closed",
+    "priority": "P1",
+    "type": "task",
+    "created_at": "2026-06-13T00:39:33+10:00",
+    "metadata": {
+      "agent": "Yoda (plan) → Forge (execute) → Atlas (verify)",
+      "brief": "Build tqp-executor.sh bridge so non-CREST TQP atoms (source=agent:tqp, no parent_ticket) actually execute instead of re-claiming every 5 min. Splits into TKT-0504-A0 (Sprint 7 quick-fix: signal-only) + TKT-0504-A1..A5 (Sprint 9 full bridge: tqp-executor.sh). L-096 silence-class failure.",
+      "blocks": [
+        "silence-class-pattern-L088-L089-L090-L096-L100-L105"
+      ],
+      "ac_count": 8,
+      "atomCount": 6,
+      "depends_on": [
+        "TKT-0503"
+      ],
+      "sprint_target": "Sprint 7 (A0) + Sprint 9 (A1-A5)",
+      "sprint_target_rationale": "Ken 2026-06-13 14:24 AEST approved the A0/A1-A5 split during groom. A0 unblocks the 24h silent-claim pattern; A1-A5 lands the proper bridge.",
+      "ken_approved_for_split": true,
+      "gate_chg_0545_applied": true,
+      "links_to_l_class": [
+        "L-088",
+        "L-089",
+        "L-090",
+        "L-096",
+        "L-100",
+        "L-105"
+      ],
+      "grooming_history": [
+        {
+          "timestamp": "2026-06-13T14:24:00+10:00",
+          "actor": "Yoda",
+          "action": "groom — split into A0 (signal) + A1-A5 (full bridge), Sprint 7 + Sprint 9 target, 8 ACs total"
+        },
+        {
+          "timestamp": "2026-06-13T14:32:00+10:00",
+          "actor": "Yoda",
+          "action": "metadata rebuild after L-115 (db-ticket update replace-not-merge) — full block restored, 11 fields, 31/31 keys"
+        },
+        {
+          "timestamp": "2026-06-13T15:13:00+10:00",
+          "actor": "Yoda",
+          "action": "close — A0-A6 all done (CHG-0547, 0548, 0549, 0550, 0551, 0553, 0555), TQP cron dc88affb registered, Notion CrewAI page archived"
+        }
+      ],
+      "atom_status": {
+        "A0": {
+          "status": "done",
+          "chg": "CHG-0547",
+          "completed_at": "2026-06-13T14:42:00+10:00",
+          "claimedby": "forge",
+          "note": "3-line CRITICAL→WARN demotion in auto-heal.sh CHECK 28g"
+        },
+        "A1": {
+          "status": "done",
+          "chg": "CHG-0548",
+          "completed_at": "2026-06-13T15:00:00+10:00",
+          "claimedby": "forge",
+          "note": "tqp-executor.sh skeleton + poll/claim logic"
+        },
+        "A2": {
+          "status": "done",
+          "chg": "CHG-0549",
+          "completed_at": "2026-06-13T15:00:00+10:00",
+          "claimedby": "forge",
+          "note": "sessions_spawn integration + state_payload gating"
+        },
+        "A3": {
+          "status": "done",
+          "chg": "CHG-0550",
+          "completed_at": "2026-06-13T15:00:00+10:00",
+          "claimedby": "forge",
+          "note": "TQP cron handoff to tqp-executor.sh + L-096 verification command"
+        },
+        "A4": {
+          "status": "done",
+          "chg": "CHG-0551",
+          "completed_at": "2026-06-13T15:00:00+10:00",
+          "claimedby": "forge",
+          "note": "TQP dogfood test (claim → executor → exec-atom → done)"
+        },
+        "A5": {
+          "status": "done",
+          "chg": "CHG-0553",
+          "completed_at": "2026-06-13T15:00:00+10:00",
+          "claimedby": "forge",
+          "note": "pg-sprint-backlog SKILL.md — TQP Execution Path section"
+        },
+        "A6": {
+          "status": "done",
+          "chg": "CHG-0555",
+          "completed_at": "2026-06-13T15:11:00+10:00",
+          "claimedby": "forge",
+          "note": "TQP cron dc88affb registered via gateway cron tool, every 5 min, isolated agentTurn; Notion CrewAI page archived"
+        }
+      },
+      "deliverables": {
+        "scripts": [
+          "scripts/tqp-executor.sh (10084 bytes, live, --dry-run works)"
+        ],
+        "skill_updates": [
+          "infra/sandbox/seed/skills/pg-sprint-backlog/SKILL.md — TQP Execution Path section appended"
+        ],
+        "lesson_updates": [
+          "L-096 — verification command appended"
+        ],
+        "cron_jobs": [
+          "dc88affb-2e25-44de-be94-ccb208043a43 — TQP executor poll (every 5 min)"
+        ],
+        "chg_records": [
+          "CHG-0547",
+          "CHG-0548",
+          "CHG-0549",
+          "CHG-0550",
+          "CHG-0551",
+          "CHG-0553",
+          "CHG-0555"
+        ]
+      },
+      "close_decision": {
+        "decided_by": "Yoda (per Ken 15:07 AEST 'close TKT-0504' approval)",
+        "decided_at": "2026-06-13T15:13:00+10:00",
+        "rationale": "All 6 atoms (A0-A5 + A6 cron) shipped, executor live + tested (dry-run returns 0 atoms), TQP cron registered, L-096 verification command appended, SKILL.md updated. Per CHG-0545: Yoda Close activity approved scope.",
+        "doD_checks": {
+          "atoms_done": "6/6",
+          "executor_live": "✅ scripts/tqp-executor.sh exists, --dry-run works",
+          "executor_scheduled": "✅ cron dc88affb registered every 5 min",
+          "skill_updated": "✅ TQP Execution Path section in pg-sprint-backlog SKILL.md",
+          "lesson_logged": "✅ L-096 verification command appended",
+          "anti_regression": "✅ TKT-0501 cron a89d00ef untouched"
+        }
+      },
+      "linked_lessons": [
+        "L-088",
+        "L-089",
+        "L-090",
+        "L-096",
+        "L-100",
+        "L-105"
+      ]
+    }
+  },
+  {
+    "id": "TKT-0505",
+    "title": "Sandbox retry prep: 5 structural fixes for v2026.6.6 install (deps on TKT-0502 deferral)",
+    "status": "closed",
+    "priority": "high",
+    "type": "task",
+    "created_at": "2026-06-13T02:17:47+10:00",
+    "metadata": {
+      "close_reason": "All 5 atoms completed. A4, A5, A1, A2 done. A3 no-op (cron healthy).",
+      "closed_at": "2026-06-13T12:27:00+10:00",
+      "closed_by": "Ken Mun",
+      "close_decision": "Ken: close TKT-0505"
+    }
+  },
+  {
+    "id": "TKT-0525",
+    "title": "CHG-0525: Fix pg-to-notion-sync.sh — JSONB Path + zsh Reserved Variable Bugs",
+    "status": "open",
+    "priority": "high",
+    "type": "chg",
+    "created_at": "2026-06-13T03:26:51+10:00"
   }
 ]
