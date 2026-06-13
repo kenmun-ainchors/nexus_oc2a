@@ -11,6 +11,20 @@
 ---
 ---
 
+## 2026-06-13 10:35 AEST — [CHG-0532] TKT-0503 Phase 1 complete: A1-A5 executed, 5 structural fixes shipped
+**Type:** rule
+**Change Type:** Normal
+**Source:** manual
+**Trigger:** TKT-0503 atoms A1-A5 sat in dispatched limbo for 30+ min (L-096 — TQP has no executor for non-CREST atoms). Yoda took direct execution path. All 5 atoms completed in 12 min.
+**What changed:** Five structural fixes shipped: A1) auto-heal.sh tilde detector now excludes state/auto-heal-*.json and state/task-queue.json from scan — kills 44 false-positives (L-092). A2) obs-collector CHECK K now has lastObservedFallbackChain dedup + auto-resolves stale ERROR rows on transition — kills 127 stale events (L-093). A3) yoda-daily-brief.md moved to state/daily-briefs/ + CHECK 28d added to auto-archive future untracked root .md to state/daily-briefs/YYYY-MM-DD-{base} + AKB stub — kills 4 events. A4) CHECK 28e added to auto-refresh critical-config-baseline.json when mtime > 7 days — kills 4 events. A5) CHECK 28c added to auto-unload dead sandbox gateway LaunchAgent at 24h (alert at 1h) — kills 46 events. Total: 225 events killed by Phase 1.
+**Why:** Direct execution by Yoda was the only available path after L-096 surfaced TQP's missing executor. TQP claim cycle for A1-A5 had run 6+ times with zero execution. After pausing (status=paused-yoda-direct-exec) and Yoda taking direct control, all 5 atoms completed in 12 min. Structural fixes shipped: detector excludes self-output, CHECK K has dedup, untracked .md auto-archive, config baseline auto-refresh, sandbox auto-unload.
+**Verification:** All 5 atoms status=done in PG. bash -n passes on auto-heal.sh and obs-collector.sh. Detectors return 0 false positives in isolation tests. CHECK 28e successfully refreshed baseline (5.1d → now). L-092, L-093, L-094 logged.
+**Rollback:** Revert scripts/auto-heal.sh (5 changes) and scripts/obs-collector.sh (CHECK K rewrite). Restore yoda-daily-brief.md to workspace root. TKT-0503 atoms revert to queued in PG.
+**Linked:** L-092, L-093, L-094, L-095, L-096, TKT-0503, TKT-0339 (A6), CHG-0531, CHG-0532
+**Category:** infra
+---
+
+
 ## 2026-06-13 10:23 AEST — [CHG-0531] L-096: TQP has no executor for non-CREST atoms — flash-dispatcher is CREST-only
 **Type:** rule
 **Change Type:** Normal

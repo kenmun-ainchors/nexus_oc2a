@@ -300,35 +300,76 @@ else:
   fi
 fi
 
-# ── CHECK K: fallback-chain-status.json ────────────────────────────────────
+# ── CHECK K: fallback-chain-status.json (L-093 dedup fix) ──────────────
 # CHG-0362/0364: During interim period, fallback chain uses temporary models.
-# Only report as broken if NOT interim-skipped and overall != ok.
+# L-093: dedup — only log on transition. Track lastObservedFallbackChain in
+# state/obs-collector-state.json. Auto-mark stale ERROR rows as resolved on
+# transition broken→ok.
 FB_STATUS="$STATE/fallback-chain-status.json"
 if [[ -f "$FB_STATUS" ]]; then
   _FBS=$(python3 -c "
 import json
 d=json.load(open('$FB_STATUS'))
-# Skip alert if interim period skipped the chain validation
 checks = d.get('checks', [])
 if 'fallbackChainConfig:interim-skipped' in checks:
     print('INTERIM-SKIPPED')
-elif d.get('overall') != 'ok':
-    broken=d.get('brokenLinks',[])
-    import json as j
-    print('BROKEN|Fallback chain broken: ' + str(broken)[:80] + '|' + j.dumps({'overall':d.get('overall'),'broken':broken}))
 else:
-    print('OK')
-" 2>/dev/null || echo 'OK')
+    overall = d.get('overall', 'unknown')
+    broken = d.get('brokenLinks', [])
+    if overall != 'ok':
+        import json as j
+        print('BROKEN|' + overall + '|Fallback chain broken: ' + str(broken)[:80] + '|' + j.dumps({'overall': overall, 'broken': broken}))
+    else:
+        print('OK|' + overall)
+" 2>/dev/null || echo 'OK|unknown')
+
+  _CUR_OVERALL=$(echo "$_FBS" | cut -d'|' -f2 2>/dev/null)
+  [[ -z "$_CUR_OVERALL" || "$_CUR_OVERALL" == "INTERIM-SKIPPED" ]] && _CUR_OVERALL="interim-skipped"
+  _LAST_OVERALL=$(python3 -c "
+import json
+p = '$STATE/obs-collector-state.json'
+try: print(json.load(open(p)).get('lastObservedFallbackChain', 'none'))
+except: print('none')
+" 2>/dev/null || echo "none")
+
   if [[ "$_FBS" == "INTERIM-SKIPPED" ]]; then
-    _obs_log --source platform --level INFO --type fallback_chain_interim \
-      --message "Fallback chain: interim period active, validation skipped" \
-      --detail "{\"note\":\"Conservative Mode interim period, chain uses temporary models\"}"
+    if [[ "$_LAST_OVERALL" != "interim-skipped" ]]; then
+      _obs_log --source platform --level INFO --type fallback_chain_interim \
+        --message "Fallback chain: interim period active, validation skipped" \
+        --detail '{"note":"Conservative Mode interim period, chain uses temporary models"}'
+    fi
   elif [[ "$_FBS" == BROKEN* ]]; then
-    _MSG=$(echo "$_FBS" | cut -d'|' -f2)
-    _DET=$(echo "$_FBS" | cut -d'|' -f3-)
-    _obs_log --source platform --level ERROR --type fallback_chain_broken \
-      --message "$_MSG" --detail "$_DET"
+    # Only log ERROR on transition FROM non-broken TO broken
+    if [[ "$_LAST_OVERALL" != "broken" ]]; then
+      _MSG=$(echo "$_FBS" | cut -d'|' -f3)
+      _DET=$(echo "$_FBS" | cut -d'|' -f4-)
+      _obs_log --source platform --level ERROR --type fallback_chain_broken \
+        --message "$_MSG" --detail "$_DET"
+    fi
+  elif [[ "$_FBS" == OK* ]]; then
+    # Transition broken→ok: emit INFO recovered, mark stale ERROR rows resolved
+    if [[ "$_LAST_OVERALL" == "broken" ]]; then
+      _obs_log --source platform --level INFO --type fallback_chain_recovered \
+        --message "Fallback chain recovered: overall=ok" \
+        --detail '{}'
+      python3 -c "
+import sqlite3
+con = sqlite3.connect('$OBS_DB')
+con.execute(\"UPDATE obs_log SET resolved=1 WHERE event_type='fallback_chain_broken' AND resolved=0\")
+con.commit(); con.close()
+" 2>/dev/null || true
+    fi
   fi
+
+  # Update last-observed
+  python3 -c "
+import json
+p = '$STATE/obs-collector-state.json'
+try: d = json.load(open(p))
+except: d = {}
+d['lastObservedFallbackChain'] = '$_CUR_OVERALL'
+with open(p, 'w') as f: json.dump(d, f, indent=2)
+" 2>/dev/null || true
 fi
 
 # ── CHECK L: cost-alert-state.json — Tier 3 emergency ──────────────────────

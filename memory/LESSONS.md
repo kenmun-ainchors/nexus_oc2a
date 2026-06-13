@@ -1129,3 +1129,41 @@ Three crons (Morning Stand-Up, Daily Blog, Aria ROI) failed because agent models
 **Verified (this turn):** TQP claims cycle: A1 (09:54:30), A2 (09:56:52), A3 (10:02:12), A4 (10:07:10), A5 (10:12:19). All status='dispatched', all claimedby='agent:tqp', all state_payload={} or NULL. No agent session ever picked any of them up.
 
 **Linked:** L-095 (sibling — JSON-vs-PG), TKT-0386 (flash-dispatcher — CREST-only consumer), TKT-0503 (atoms stuck), scripts/task-queue-processor.sh, scripts/flash-dispatcher.sh, state/obs.db, state/auto-heal.sh CHECK 28g.
+
+## L-092 — 2026-06-13 | auto-heal.sh tilde detector flags its own log output — false-positive NEEDS_KEN
+**Lesson:** During A1 execution (TKT-0503), discovered that CHECK 20 (tilde path enforcement) at line 736 of scripts/auto-heal.sh scans `state/*.json` and flags every `~/` substring. The detector was reading its own NEEDS_KEN message text in `state/auto-heal-*.json` logs and counting them as new violations. 44 historical false-positive events.
+
+**Fix:** Updated detector to exclude:
+- `state/auto-heal-*.json` (own log output)
+- `state/task-queue.json` (contains task description bodies with `~/` examples)
+- Files under 200 bytes (config defaults, not real paths)
+
+**Verified:** After fix, the detector returns 0 false positives. Syntax check passes.
+
+**Linked:** L-093, L-094, TKT-0503-A1, CHG-0532.
+
+## L-093 — 2026-06-13 | obs-collector CHECK K lacked dedup — re-logged 127 stale ERROR events
+**Lesson:** During A2 execution. CHECK K reads `state/fallback-chain-status.json` and logs ERROR if `overall != 'ok'`. After CHG-0520 lifted Conservative Mode (2026-06-12 08:12), the file returned to `overall: ok` but the obs.db table had 127 historical entries that the collector KEPT re-logging on every 5-min run. No "last-observed" dedup.
+
+**Fix:** Added `lastObservedFallbackChain` to `state/obs-collector-state.json`. CHECK K now:
+- Tracks current vs last overall status
+- Only logs ERROR on transition ok→broken
+- Only logs INFO `fallback_chain_recovered` on broken→ok
+- Auto-marks stale ERROR rows `resolved=1` on transition
+
+**Verified:** Syntax check passes. The next collector run will see `lastObservedFallbackChain=ok` and skip logging.
+
+**Linked:** L-092, TKT-0503-A2, CHG-0532.
+
+## L-094 — 2026-06-13 | Sandbox gateway LaunchAgent dead since Jun 8 — never cleaned up
+**Lesson:** During A5 execution. `ai.openclaw.sandbox-gateway.plist` LaunchAgent has been loaded since 2026-06-08 but nothing listens on port 28789. Sandbox gateway is parked until v2026.6.6 install (TKT-0502). 46 recurring NEEDS_KEN events that nobody actioned.
+
+**Fix:** Added CHECK 28c to auto-heal.sh:
+- Detects dead LaunchAgent (loaded but no listener)
+- Tracks `deadSince` in `state/sandbox-gateway-state.json`
+- Alerts Ken at 1h, auto-unloads at 24h
+- Rollback: `launchctl bootstrap gui/$(id -u) ~/Library/LaunchAgents/ai.openclaw.sandbox-gateway.plist`
+
+**Safety:** Only unloads sandbox-gateway, NOT production gateway. Only acts after 24h grace. Logs full audit trail. TKT-0502 (sandbox install) can re-bootstrap when ready.
+
+**Linked:** L-092, L-093, TKT-0502, TKT-0503-A5, CHG-0532.
