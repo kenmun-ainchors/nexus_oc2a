@@ -886,37 +886,65 @@ if [[ -f "$BASELINE_FILE" ]]; then
 import json, sys
 with open(sys.argv[1]) as f:
     b = json.load(f)
+# FIX A6 (L-098): use actionableRecommended when present (scaler vA6+),
+# else fall back to timeoutsRecommended for back-compat with v1.0.0.
+summary = b.get('summary', {})
+scaler_version = summary.get('scalerVersion', 'pre-A6')
+if 'actionableRecommended' in summary:
+    actionable = summary['actionableRecommended']
+else:
+    actionable = summary.get('timeoutsRecommended', 0)
 alerts = []
+actionable_alerts = []
+# FIX A6: only emit per-cron alert strings for ACTIONABLE (agentTurn) recs
 for r in b['crons']:
     rec = r.get('recommendation', '')
+    payload_kind = r.get('payloadKind', '?')
+    cid = r['cronId']
     if rec == 'SET':
-        alerts.append('SET:' + r['cronId'] + ':' + str(r['computedTimeoutSec']) + 's:' + r['name'][:40])
+        line = 'SET:' + cid + ':' + str(r['computedTimeoutSec']) + 's:' + r['name'][:40]
     elif rec == 'INCREASE':
-        alerts.append('INCREASE:' + r['cronId'] + ':' + str(r['currentTimeoutSec']) + 's->' + str(r['computedTimeoutSec']) + 's:' + r['name'][:40])
+        line = 'INCREASE:' + cid + ':' + str(r['currentTimeoutSec']) + 's->' + str(r['computedTimeoutSec']) + 's:' + r['name'][:40]
     elif rec == 'DECREASE':
-        alerts.append('DECREASE:' + r['cronId'] + ':' + str(r['currentTimeoutSec']) + 's->' + str(r['computedTimeoutSec']) + 's:' + r['name'][:40])
+        line = 'DECREASE:' + cid + ':' + str(r['currentTimeoutSec']) + 's->' + str(r['computedTimeoutSec']) + 's:' + r['name'][:40]
+    else:
+        continue
+    alerts.append(line)
+    if payload_kind == 'agentTurn':
+        actionable_alerts.append(line + '|PK=' + payload_kind)
+print('SCALER_VERSION:' + scaler_version)
 print('TOTAL_RECOMMENDATIONS:' + str(len(alerts)))
-for a in alerts:
+print('ACTIONABLE_RECOMMENDATIONS:' + str(len(actionable_alerts)))
+for a in actionable_alerts:
     print(a)
 PYEOF
 )
 
   REC_COUNT=$(echo "$TIMEOUT_ALERTS" | grep 'TOTAL_RECOMMENDATIONS:' | cut -d: -f2)
+  ACT_COUNT=$(echo "$TIMEOUT_ALERTS" | grep 'ACTIONABLE_RECOMMENDATIONS:' | cut -d: -f2)
+  SCALER_V=$(echo "$TIMEOUT_ALERTS" | grep 'SCALER_VERSION:' | cut -d: -f2)
   SET_COUNT=$(echo "$TIMEOUT_ALERTS" | grep -c '^SET:' || true)
   INC_COUNT=$(echo "$TIMEOUT_ALERTS" | grep -c '^INCREASE:' || true)
   DEC_COUNT=$(echo "$TIMEOUT_ALERTS" | grep -c '^DECREASE:' || true)
 
-  if [[ -n "$REC_COUNT" && "$REC_COUNT" -gt 0 ]]; then
-    ISSUES_FOUND+=("cron-timeout:${REC_COUNT}-recommendations")
+  # FIX A6: alert-count uses actionable (agentTurn only) — the SCALER FLAG ONLY
+  # alert was firing on 48 systemEvent jobs that don't consume timeoutSeconds.
+  # Actionable count is what Ken actually needs to see / what auto-apply handles.
+  EFFECTIVE_REC_COUNT="${ACT_COUNT:-$REC_COUNT}"
+
+  if [[ -n "$EFFECTIVE_REC_COUNT" && "$EFFECTIVE_REC_COUNT" -gt 0 ]]; then
+    ISSUES_FOUND+=("cron-timeout:${EFFECTIVE_REC_COUNT}-actionable")
 
     # --- Build drift detail items (for alert JSON and logging) ---
+    # FIX A6: actionable (agentTurn) items only — systemEvent already filtered by scaler
     while IFS= read -r line; do
       [[ "$line" == SET:* || "$line" == INCREASE:* || "$line" == DECREASE:* ]] && CRON_DRIFT_ITEMS+=("$line")
     done <<< "$TIMEOUT_ALERTS"
 
-    # --- Scaler: FLAG/RECOMMEND ONLY (never auto-apply timeouts) ---
-    # Even in enforce mode, the scaler only FLAGS. Enforcement escalates the alert.
-    CRON_FLAG_MSG="TKT-0339: ${REC_COUNT} cron timeout recommendation(s) in baseline — SCALER FLAG ONLY (CONSERVATIVE MODE"
+    # --- Scaler: FLAG/RECOMMEND ONLY (never auto-apply timeouts unless stable) ---
+    # FIX A6 (L-098): Effective count is now actionable (agentTurn) only.
+    # systemEvent jobs no longer pollute the alert.
+    CRON_FLAG_MSG="TKT-0339: ${EFFECTIVE_REC_COUNT} actionable cron timeout recommendation(s) (agentTurn only, scaler v${SCALER_V:-pre-A6} — SCALER FLAG ONLY"
     if [[ "$SET_COUNT" -gt 0 ]]; then
       CRON_FLAG_MSG="${CRON_FLAG_MSG}: ${SET_COUNT} SET"
     fi
@@ -932,23 +960,23 @@ PYEOF
     # --- Enforcement: alert escalation (TKT-0340 A4) ---
     if [[ "$ENFORCE_MODE" == "true" ]]; then
       if [[ "$ENFORCE_DRY_RUN" == "true" ]]; then
-        log "  ENFORCE(dry-run): WOULD escalate drift alert for ${REC_COUNT} cron timeout deviations — not blocking"
+        log "  ENFORCE(dry-run): WOULD escalate drift alert for ${EFFECTIVE_REC_COUNT} actionable cron timeout deviations (agentTurn only) — not blocking"
         log "  ENFORCE(dry-run): drift items: ${SET_COUNT} SET, ${INC_COUNT} INCREASE, ${DEC_COUNT} DECREASE"
       else
         # Real enforcement: write blocking alert JSON, mark CHECK22 non-zero exit
         log "  ENFORCE: Cron timeout drift detected — escalating as BLOCKING alert"
         CRON_DRIFT_ALERT="$STATE_DIR/cron-drift-alert.json"
-        # Build drift items for JSON (one per line, shell-safe)
-        # Write drift alert via python (stdin carries drift items)
-        printf '%s\n' "${CRON_DRIFT_ITEMS[@]:-}" | python3 - "$CRON_DRIFT_ALERT" "$NOW" "$NOW_LOCAL" "$REC_COUNT" "$SET_COUNT" "$INC_COUNT" "$DEC_COUNT" <<'PYEOF'
+        # FIX A6: pass effective (actionable) count + scaler version
+        printf '%s\n' "${CRON_DRIFT_ITEMS[@]:-}" | python3 - "$CRON_DRIFT_ALERT" "$NOW" "$NOW_LOCAL" "$EFFECTIVE_REC_COUNT" "$SET_COUNT" "$INC_COUNT" "$DEC_COUNT" "$SCALER_V" <<'PYEOF'
 import json, sys, datetime
 alert_file = sys.argv[1]
 now = sys.argv[2]
 now_local = sys.argv[3]
-rec_count = int(sys.argv[4])
+eff_count = int(sys.argv[4])
 set_count = int(sys.argv[5])
 inc_count = int(sys.argv[6])
 dec_count = int(sys.argv[7])
+scaler_v = sys.argv[8]
 drift_items = [l.strip() for l in sys.stdin if l.strip()]
 
 alert = {
@@ -959,22 +987,164 @@ alert = {
     "runAt": now,
     "runAtLocal": now_local,
     "enforceMode": True,
-    "summary": f"{rec_count} cron timeout drift deviations detected",
+    "scalerVersion": scaler_v,  # FIX A6
+    "summary": f"{eff_count} actionable (agentTurn) cron timeout drift deviations detected",
     "breakdown": {"SET": set_count, "INCREASE": inc_count, "DECREASE": dec_count},
     "driftItems": drift_items,
-    "resolution": "SCALER FLAG ONLY — manual review required before any timeout changes. See cron-timeout-baseline.json for recommendations.",
+    "resolution": "SCALER FLAG ONLY — manual review required before any timeout changes. TKT-0503-A6: agentTurn-only; systemEvent jobs excluded (don't consume timeoutSeconds).",
     "action": "Review baseline recommendations and apply timeout changes via manual process (NOT auto-applied)."
 }
 with open(alert_file, 'w') as f:
     json.dump(alert, f, indent=2)
 PYEOF
-        NEEDS_KEN+=("TKT-0340-A4: BLOCKING — ${REC_COUNT} cron timeout drift deviations (${SET_COUNT} SET, ${INC_COUNT} INCREASE, ${DEC_COUNT} DECREASE). Alert written to ${CRON_DRIFT_ALERT}. Manual review required.")
+        NEEDS_KEN+=("TKT-0340-A4: BLOCKING — ${EFFECTIVE_REC_COUNT} actionable cron timeout drift deviations (${SET_COUNT} SET, ${INC_COUNT} INCREASE, ${DEC_COUNT} DECREASE). Alert written to ${CRON_DRIFT_ALERT}. Manual review required.")
         CHECK22_EXIT=1
         log "  ENFORCE: Drift alert written to $CRON_DRIFT_ALERT (CHECK 22 will exit non-zero)"
       fi
     fi
 
-    log "  X: $REC_COUNT cron timeout recommendations ($SET_COUNT SET, $INC_COUNT INCREASE, $DEC_COUNT DECREASE)"
+    log "  X: $EFFECTIVE_REC_COUNT actionable cron timeout recommendations (scaler v${SCALER_V:-pre-A6}, $SET_COUNT SET, $INC_COUNT INCREASE, $DEC_COUNT DECREASE)"
+
+    # ── A6 AUTO-APPLY (TKT-0503-A6 / L-098) ──────────────────────────────
+    # Auto-apply stable DECREASE on agentTurn jobs.
+    # Stability gate: same (cronId, recommendation) observed for 7+ consecutive days.
+    # Safety: only DECREASE is auto-applied (timeout is going down, never up — no failure risk).
+    # INCREASE and SET remain FLAG/RECOMMEND ONLY (could mask real timeouts).
+    # Dry-run by default: set CHECK22_AUTO_APPLY=true in env to enable live apply.
+    APPLIED_LEDGER="$STATE_DIR/cron-timeout-applied.json"
+    APPLY_TMP=$(mktemp -t cron-timeout-apply)
+    python3 - "$BASELINE_FILE" "$APPLIED_LEDGER" "$NOW" "${CHECK22_AUTO_APPLY:-false}" > "$APPLY_TMP" <<'PYEOF'
+import json, sys, os, datetime
+baseline_file = sys.argv[1]
+ledger_file = sys.argv[2]
+now = sys.argv[3]
+auto_apply = sys.argv[4].lower() == 'true'
+
+with open(baseline_file) as f:
+    b = json.load(f)
+
+# Load existing ledger
+ledger = {}
+if os.path.exists(ledger_file):
+    try:
+        with open(ledger_file) as f:
+            ledger = json.load(f)
+    except Exception:
+        ledger = {}
+
+# Track actionable DECREASE recs on agentTurn
+recommendations = b.get('crons', [])
+today = now[:10]  # YYYY-MM-DD
+applied = []
+skipped = []
+flagged_for_review = []
+
+for r in recommendations:
+    cid = r.get('cronId', '')
+    if r.get('payloadKind') != 'agentTurn':
+        continue
+    rec = r.get('recommendation', '')
+    if rec != 'DECREASE':
+        continue  # Only DECREASE is auto-apply eligible
+    cur = r.get('currentTimeoutSec')
+    new = r.get('computedTimeoutSec')
+    if cur is None or new is None or new >= cur:
+        continue
+    # FIX: same-day-skip only skips day-bump, not the apply check.
+    # First time we see today (entry.lastSeen != today): bump day count
+    # Then check if eligible for apply (regardless of whether we just bumped)
+    entry = ledger.get(cid, {'firstSeen': today, 'lastSeen': None, 'daysCount': 0, 'recommendation': rec, 'currentTo': cur, 'computedTo': new, 'appliedAt': None, 'appliedTo': None})
+    is_first_observation_today = (entry.get('lastSeen') != today)
+    if is_first_observation_today:
+        last_date = entry.get('lastSeen', '')
+        if last_date:
+            try:
+                last_dt = datetime.datetime.strptime(last_date, '%Y-%m-%d').date()
+                today_dt = datetime.datetime.strptime(today, '%Y-%m-%d').date()
+                if (today_dt - last_dt).days == 1:
+                    entry['daysCount'] = entry.get('daysCount', 0) + 1
+                else:
+                    # Gap — reset
+                    entry['firstSeen'] = today
+                    entry['daysCount'] = 1
+            except Exception:
+                entry['firstSeen'] = today
+                entry['daysCount'] = 1
+        else:
+            entry['daysCount'] = entry.get('daysCount', 0) + 1
+        entry['lastSeen'] = today
+    entry['recommendation'] = rec
+    entry['currentTo'] = cur
+    entry['computedTo'] = new
+
+    if entry['daysCount'] >= 7:
+        # 7+ days stable — eligible for auto-apply
+        if not entry.get('appliedAt') or entry.get('appliedTo') != new:
+            # Either not yet applied, or value drifted (re-apply with new value)
+            if auto_apply:
+                # Live apply via openclaw cron edit
+                full_id = r.get('fullCronId', '')
+                try:
+                    # Use subprocess for proper capture + return code
+                    import subprocess
+                    proc = subprocess.run(
+                        ['/opt/homebrew/bin/openclaw', 'cron', 'edit', full_id, '--timeout-seconds', str(new)],
+                        capture_output=True, text=True, timeout=10
+                    )
+                    if proc.returncode == 0:
+                        entry['appliedAt'] = now
+                        entry['appliedTo'] = new
+                        entry['applyMethod'] = 'openclaw-cli'
+                        entry['applyResult'] = (proc.stdout or '')[:200]
+                        applied.append({'cronId': cid, 'name': r.get('name','')[:40], 'from': cur, 'to': new, 'days': entry['daysCount']})
+                    else:
+                        skipped.append({'cronId': cid, 'reason': f'cli-rc={proc.returncode}', 'output': (proc.stderr or proc.stdout or '')[:200]})
+                except subprocess.TimeoutExpired:
+                    skipped.append({'cronId': cid, 'reason': 'cli-timeout', 'output': ''})
+                except Exception as e:
+                    skipped.append({'cronId': cid, 'reason': f'cli-exception:{type(e).__name__}', 'output': str(e)[:200]})
+            else:
+                # Dry-run — flag for review
+                flagged_for_review.append({'cronId': cid, 'name': r.get('name','')[:40], 'from': cur, 'to': new, 'days': entry['daysCount']})
+    ledger[cid] = entry
+
+# Write ledger
+with open(ledger_file, 'w') as f:
+    json.dump(ledger, f, indent=2, ensure_ascii=False)
+
+# Print result as JSON for shell consumption
+result = {
+    'dryRun': not auto_apply,
+    'appliedCount': len(applied),
+    'skippedCount': len(skipped),
+    'flaggedCount': len(flagged_for_review),
+    'applied': applied,
+    'skipped': skipped,
+    'flagged': flagged_for_review,
+    'ledgerFile': ledger_file,
+}
+print(json.dumps(result, indent=2))
+PYEOF
+    APPLY_RESULT=$(cat "$APPLY_TMP")
+    APPLY_DRY=$(echo "$APPLY_RESULT" | python3 -c "import json, sys; print(json.loads(sys.stdin.read())['dryRun'])")
+    APPLY_N=$(echo "$APPLY_RESULT" | python3 -c "import json, sys; print(json.loads(sys.stdin.read())['appliedCount'])")
+    APPLY_FLAG_N=$(echo "$APPLY_RESULT" | python3 -c "import json, sys; print(json.loads(sys.stdin.read())['flaggedCount'])")
+    APPLY_SKIP_N=$(echo "$APPLY_RESULT" | python3 -c "import json, sys; print(json.loads(sys.stdin.read())['skippedCount'])")
+    rm -f "$APPLY_TMP"
+    if [[ "$APPLY_DRY" == "True" ]]; then
+      log "  A6 auto-apply (DRY-RUN, gate=7d stable): flagged=$APPLY_FLAG_N eligible (not applied), skipped=$APPLY_SKIP_N. Set CHECK22_AUTO_APPLY=true to enable live apply."
+      if [[ "$APPLY_FLAG_N" -gt 0 ]]; then
+        # Surface to Ken once per day via NEEDS_KEN, but only if there are NEW eligible items
+        APPLY_FLAG_JSON="$STATE_DIR/cron-timeout-apply-pending.json"
+        if [[ ! -f "$APPLY_FLAG_JSON" ]] || [[ $(find "$APPLY_FLAG_JSON" -mmin +720 2>/dev/null) ]]; then
+          echo "$APPLY_RESULT" | python3 -c "import json, sys; r=json.loads(sys.stdin.read()); r['notedAt']='$NOW'; print(json.dumps(r, indent=2))" > "$APPLY_FLAG_JSON"
+          NEEDS_KEN+=("CHECK 22 A6 auto-apply (DRY-RUN): $APPLY_FLAG_N stable DECREASE on agentTurn ready to apply (7d+ stable). Review $APPLY_FLAG_JSON and set CHECK22_AUTO_APPLY=true to enable live apply.")
+        fi
+      fi
+    else
+      log "  A6 auto-apply (LIVE): applied=$APPLY_N, skipped=$APPLY_SKIP_N. Ledger: $APPLIED_LEDGER"
+      [[ "$APPLY_N" -gt 0 ]] && log "  A6 APPLIED: $APPLY_N cron timeout(s) decreased via openclaw cron edit"
+    fi
   else
     # No drift — clear any stale alert
     CRON_DRIFT_ALERT="$STATE_DIR/cron-drift-alert.json"

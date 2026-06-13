@@ -1183,3 +1183,22 @@ Three crons (Morning Stand-Up, Daily Blog, Aria ROI) failed because agent models
 - The visible "in" is the activity-entry renderer, not a path error
 
 **Linked:** Observed by Ken, TKT-0503-A2 execution context, A1 tilde self-detect discussion.
+
+## L-098 — 2026-06-13 | Cron scaler: 48 false-positive SETs on systemEvent jobs (TKT-0503-A6)
+**Lesson:** `scripts/cron-timeout-scaler.sh` was emitting 48 "SET" recommendations for cron jobs that don't consume `timeoutSeconds`. Investigation found:
+- 22 `systemEvent` payload jobs (don't have `timeoutSeconds` field at all)
+- 26 `agentTurn` jobs that already had `timeoutSeconds` set but were misclassified as needing SET (scaler was reading from job root, not `payload`)
+
+**Root cause:** `timeout_set = job.get('timeoutSeconds', None)` — should be `payload.get('timeoutSeconds', None)` for `agentTurn` only. For `systemEvent`, the field doesn't exist and is never consumed (see `server-cron-i5IplaUe.js:376` — `payload.kind === "agentTurn"` is a hard requirement for `timeoutSeconds`).
+
+**Fix (A6):**
+1. `cron-timeout-scaler.sh`: read from `payload.timeoutSeconds`, only emit SET/INCREASE/DECREASE for `agentTurn`. New `payloadKind` field, `scalerVersion: "A6"`, `actionableRecommended` count.
+2. `auto-heal.sh CHECK 22`: use `actionableRecommended` for the noise-relevant count. New `effectively` alert message: "10 actionable (scaler vA6)" instead of "48 — SCALER FLAG ONLY (CONSERVATIVE MODE)".
+3. New auto-apply logic in CHECK 22: `state/cron-timeout-applied.json` ledger tracks (cronId, firstSeen, lastSeen, daysCount, appliedTo). 7-day stability gate, only DECREASE on agentTurn is auto-applied. Live `openclaw cron edit --timeout-seconds N` via subprocess. `CHECK22_AUTO_APPLY=true` env var gates live apply (default: dry-run with NEEDS_KEN once per day).
+
+**Verification:**
+- Pre-fix: 48 false-positive SETs/day → 53 obs.db events
+- Post-fix: 10 actionable DECREASEs (all real, all light-agent class) → 0 false positives
+- Live apply tested: 2c855a3e (PG-Notion Batch Sync) 300s → 120s, idempotent on second run
+
+**Linked:** TKT-0503-A6, CHG-0533, server-cron-i5IplaUe.js:376, mktemp(1) BSD template (no `.json` extension on XXXXXX).

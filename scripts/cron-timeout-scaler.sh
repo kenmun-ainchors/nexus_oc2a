@@ -84,12 +84,22 @@ def classify_cron(name, full_id):
 
 results = []
 
+# TKT-0503-A6 (L-098): read timeout from payload, not job root.
+# timeoutSeconds is consumed only when payload.kind === "agentTurn"
+# (see server-cron-i5IplaUe.js:376). For systemEvent jobs, there is no
+# applicable timeoutSeconds field, so skip them from recommendations.
 for job in jobs:
     job_id = job.get('id', '')
     name = sanitize_name(job.get('name', 'unknown'))
     state = job.get('state', {})
     enabled = state.get('enabled', True)
-    timeout_set = job.get('timeoutSeconds', None)
+    payload = job.get('payload', {}) or {}
+    payload_kind = payload.get('kind', '')
+    # FIX A6: read from payload (not job root) and only consider agentTurn
+    if payload_kind == 'agentTurn':
+        timeout_set = payload.get('timeoutSeconds', None)
+    else:
+        timeout_set = None  # systemEvent and others don't consume timeoutSeconds
     last_dur_ms = state.get('lastDurationMs', None)
     consecutive_errors = state.get('consecutiveErrors', 0)
     last_status = state.get('lastStatus', 'unknown')
@@ -115,6 +125,8 @@ for job in jobs:
     deviation = None
     recommendation = None
 
+    # FIX A6: only emit SET/INCREASE/DECREASE/REVIEW for agentTurn jobs.
+    # systemEvent jobs have no applicable timeoutSeconds field.
     if cur_to > 0:
         deviation_pct = abs(computed_sec - cur_to) / max(computed_sec, 1) * 100
         deviation = round(deviation_pct, 1)
@@ -122,8 +134,10 @@ for job in jobs:
             recommendation = "INCREASE" if computed_sec > cur_to else "DECREASE"
         elif computed_sec > cur_to:
             recommendation = "REVIEW"
-    else:
+    elif payload_kind == 'agentTurn':
+        # Only suggest SET for agentTurn (systemEvent cannot accept it)
         recommendation = "SET"
+    # else: payload_kind in (systemEvent, ?) and cur_to is 0 → no recommendation
 
     is_victim = False
     victim_detail = None
@@ -138,6 +152,7 @@ for job in jobs:
         'fullCronId': job_id,
         'name': name,
         'enabled': enabled,
+        'payloadKind': payload_kind,  # FIX A6: track payload kind for audit
         'taskClass': class_name,
         'floorTimeoutSec': floor_ms // 1000,
         'avgDurationMs': round(avg_duration_ms),
@@ -163,6 +178,15 @@ for cls in FLOORS:
             'maxComputedTimeoutSec': max((r['computedTimeoutSec'] for r in crons_in_class), default=0)
         }
 
+# FIX A6: payload-kind breakdown — for A6 audit trail
+by_payload_kind = {}
+for r in results:
+    pk = r.get('payloadKind', '?')
+    by_payload_kind[pk] = by_payload_kind.get(pk, 0) + 1
+
+# FIX A6: actionable (agentTurn) vs non-actionable (systemEvent) split
+actionable_recs = [r for r in results if r.get('payloadKind') == 'agentTurn' and r.get('recommendation') in ('SET', 'INCREASE', 'DECREASE', 'REVIEW')]
+
 baseline = {
     'generatedAt': now_ts,
     'version': '1.0.0',
@@ -184,12 +208,15 @@ baseline = {
         'enabledCrons': sum(1 for r in results if r['enabled']),
         'timeoutsSet': sum(1 for r in results if r['currentTimeoutSec'] is not None),
         'timeoutsRecommended': sum(1 for r in results if r['recommendation'] in ('SET', 'INCREASE', 'DECREASE', 'REVIEW')),
+        'actionableRecommended': len(actionable_recs),  # FIX A6: agentTurn-only actionable count
         'needsIncrease': sum(1 for r in results if r['recommendation'] == 'INCREASE'),
         'needsSet': sum(1 for r in results if r['recommendation'] == 'SET'),
         'needsDecrease': sum(1 for r in results if r['recommendation'] == 'DECREASE'),
         'needsReview': sum(1 for r in results if r['recommendation'] == 'REVIEW'),
         'timeoutVictims': sum(1 for r in results if r['isTimeoutVictim']),
-        'byClass': by_class
+        'byClass': by_class,
+        'byPayloadKind': by_payload_kind,  # FIX A6
+        'scalerVersion': 'A6'  # FIX A6: scaler version marker
     },
     'crons': results
 }
@@ -204,22 +231,22 @@ with open(baseline_file, 'w') as f:
 s = baseline['summary']
 print("OK: {} bytes -> {}".format(len(output), baseline_file))
 print("")
-print("=== cron-timeout-scaler.sh complete ===")
+print("=== cron-timeout-scaler.sh complete (scaler v{}) ===".format(s.get('scalerVersion', 'pre-A6')))
 print("Crons scanned: {} (enabled: {})".format(s['totalCrons'], s['enabledCrons']))
 print("Timeouts currently set: {}".format(s['timeoutsSet']))
-print("Recommended actions: {} total".format(s['timeoutsRecommended']))
-print("  SET (no timeout): {}".format(s['needsSet']))
+print("Recommended actions: {} total (actionable on agentTurn: {})".format(
+    s['timeoutsRecommended'], s.get('actionableRecommended', s['timeoutsRecommended'])))
+print("  SET (no timeout, agentTurn only): {}".format(s['needsSet']))
 print("  INCREASE (>50% deviation): {}".format(s['needsIncrease']))
 print("  DECREASE (>50% deviation): {}".format(s['needsDecrease']))
 print("  REVIEW (minor deviation): {}".format(s['needsReview']))
 print("Timeout victims (last run exceeded set timeout): {}".format(s['timeoutVictims']))
+print("By payload kind: {}".format(s.get('byPayloadKind', {})))
 print("")
-print("By class:")
-for cls, info in sorted(s['byClass'].items()):
-    print("  {}: {} crons, avg computed={}s, max={}s".format(cls, info['count'], info['avgComputedTimeoutSec'], info['maxComputedTimeoutSec']))
-print("")
-print("Top recommendations (by computed timeout):")
-needs_action = [r for r in results if r['recommendation'] in ('SET', 'INCREASE', 'DECREASE')]
+
+# FIX A6: print only actionable (agentTurn) recommendations.
+# systemEvent jobs are skipped — they don't consume timeoutSeconds.
+needs_action = [r for r in results if r.get('payloadKind') == 'agentTurn' and r.get('recommendation') in ('SET', 'INCREASE', 'DECREASE')]
 needs_action.sort(key=lambda x: x['computedTimeoutSec'], reverse=True)
 for r in needs_action[:12]:
     cur = r['currentTimeoutSec'] if r['currentTimeoutSec'] else 'NONE'
