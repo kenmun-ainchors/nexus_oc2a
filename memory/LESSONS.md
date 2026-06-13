@@ -1202,3 +1202,20 @@ Three crons (Morning Stand-Up, Daily Blog, Aria ROI) failed because agent models
 - Live apply tested: 2c855a3e (PG-Notion Batch Sync) 300s → 120s, idempotent on second run
 
 **Linked:** TKT-0503-A6, CHG-0533, server-cron-i5IplaUe.js:376, mktemp(1) BSD template (no `.json` extension on XXXXXX).
+
+## L-099 — 2026-06-13 | Gateway config mutation must be explicit one-shot, never implicit on auto-heal
+**Lesson:** TKT-0503-A6 was first implemented with `CHECK22_AUTO_APPLY=true` env var to enable live apply inside auto-heal.sh. Ken pushed back: "is `CHECK22_AUTO_APPLY=true` something you want as a Ken-toggle on auto-heal runs, or should the live apply path require a separate one-shot invocation? I lean toward the latter for a `state/cron-config-mutation` S-grade control."
+
+**Why this matters:** env-var gates inside scheduled jobs are still implicit. Even with the gate, the mechanism is "set the var and walk away" — no human-in-the-loop at the moment of mutation. The structural right answer is **separate the read path (auto-heal: ledger + NEEDS_KEN surface) from the write path (one-shot script requiring explicit `--yes` and scope)**.
+
+**Fix (CHG-0534):**
+- New `scripts/cron-timeout-apply.sh` — one-shot, requires `--yes` + scope (`--cron <id>` or `--all`). Without `--yes`, dry-run only. Without scope, exits 2.
+- Stripped live-apply code from `auto-heal.sh CHECK 22` entirely. auto-heal only:
+  - Updates ledger (daysCount, lastSeen tracking)
+  - Reconciles stale entries (cron no longer in baseline → drop)
+  - Writes `state/cron-timeout-apply-pending.json` with eligible items + the exact apply command
+  - Surfaces in `NEEDS_KEN` once per 12h (mtime check)
+- Tested: 4 modes (dry-run, --verbose, --cron --yes, --all --yes), idempotent on re-run, exit codes 0/2/3/4/5 documented.
+- New exit code 2 = `--yes required`, exit code 3 = not eligible, exit code 4 = cli failed, exit code 5 = ledger write failed.
+
+**Linked:** TKT-0503-A6, CHG-0534, L-098 (scaler filtering). Sets precedent: any future "auto-apply X to gateway config" should follow this pattern (one-shot, --yes-gated, never embedded in scheduled jobs).

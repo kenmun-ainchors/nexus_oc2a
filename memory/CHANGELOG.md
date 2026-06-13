@@ -11,6 +11,19 @@
 ---
 ---
 
+## 2026-06-13 11:04 AEST — [CHG-0534] TKT-0503-A6 follow-up: separate apply from auto-heal via one-shot script
+**Type:** script
+**Change Type:** Normal
+**Source:** ken-prompt
+**Trigger:** Ken: yes, agreed. implement the latter
+**What changed:** New scripts/cron-timeout-apply.sh: one-shot, requires --yes + scope (--cron <id> or --all). Without --yes, dry-run only. Without scope, exits 2. auto-heal.sh CHECK 22 stripped of live-apply code path; now only updates ledger, reconciles stale entries, writes pending JSON with apply commands, surfaces in NEEDS_KEN once per 12h.
+**Why:** L-099: env-var gates inside scheduled jobs are still implicit. Ken-flagged that the right structural answer is separating read path (auto-heal: surface eligible) from write path (one-shot, --yes-gated, explicit). Sets precedent for future 'auto-apply X to gateway config' patterns.
+**Verification:** Tested 4 modes: dry-run, --verbose, --cron 2c855a3e --yes, --all --yes. Idempotent on re-run. Exit codes 0/2/3/4/5 documented. Live apply on 2c855a3e 300s->120s and 53e6447c 300s->180s, both reverted post-test.
+**Rollback:** N/A
+**Linked:** TKT-0503-A6, L-099, L-098
+---
+
+
 ## 2026-06-13 10:53 AEST — [CHG-0533] TKT-0503-A6: cron scaler filters systemEvent + 7d auto-apply for stable DECREASE
 **Type:** script
 **Change Type:** Normal

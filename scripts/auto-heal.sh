@@ -1005,25 +1005,24 @@ PYEOF
 
     log "  X: $EFFECTIVE_REC_COUNT actionable cron timeout recommendations (scaler v${SCALER_V:-pre-A6}, $SET_COUNT SET, $INC_COUNT INCREASE, $DEC_COUNT DECREASE)"
 
-    # ── A6 AUTO-APPLY (TKT-0503-A6 / L-098) ──────────────────────────────
-    # Auto-apply stable DECREASE on agentTurn jobs.
-    # Stability gate: same (cronId, recommendation) observed for 7+ consecutive days.
-    # Safety: only DECREASE is auto-applied (timeout is going down, never up — no failure risk).
-    # INCREASE and SET remain FLAG/RECOMMEND ONLY (could mask real timeouts).
-    # Dry-run by default: set CHECK22_AUTO_APPLY=true in env to enable live apply.
+    # ── A6 LEDGER + DRY-RUN SURFACE (TKT-0503-A6 / L-098) ──────────────────
+    # auto-heal.sh ONLY updates the ledger and surfaces eligible items in
+    # NEEDS_KEN. Live apply is the responsibility of:
+    #   scripts/cron-timeout-apply.sh --cron <id> --yes
+    #   scripts/cron-timeout-apply.sh --all --yes
+    # This separation (CHG-0534, L-099) makes gateway config mutation an
+    # explicit, one-shot, Ken-triggered action — never implicit on auto-heal.
     APPLIED_LEDGER="$STATE_DIR/cron-timeout-applied.json"
-    APPLY_TMP=$(mktemp -t cron-timeout-apply)
-    python3 - "$BASELINE_FILE" "$APPLIED_LEDGER" "$NOW" "${CHECK22_AUTO_APPLY:-false}" > "$APPLY_TMP" <<'PYEOF'
+    APPLY_TMP=$(mktemp -t cron-timeout-ledger)
+    python3 - "$BASELINE_FILE" "$APPLIED_LEDGER" "$NOW" > "$APPLY_TMP" <<'PYEOF'
 import json, sys, os, datetime
 baseline_file = sys.argv[1]
 ledger_file = sys.argv[2]
 now = sys.argv[3]
-auto_apply = sys.argv[4].lower() == 'true'
 
 with open(baseline_file) as f:
     b = json.load(f)
 
-# Load existing ledger
 ledger = {}
 if os.path.exists(ledger_file):
     try:
@@ -1032,28 +1031,20 @@ if os.path.exists(ledger_file):
     except Exception:
         ledger = {}
 
-# Track actionable DECREASE recs on agentTurn
-recommendations = b.get('crons', [])
-today = now[:10]  # YYYY-MM-DD
-applied = []
-skipped = []
-flagged_for_review = []
+today = now[:10]
+eligible_for_apply = []
 
-for r in recommendations:
+for r in b.get('crons', []):
     cid = r.get('cronId', '')
     if r.get('payloadKind') != 'agentTurn':
         continue
-    rec = r.get('recommendation', '')
-    if rec != 'DECREASE':
-        continue  # Only DECREASE is auto-apply eligible
+    if r.get('recommendation') != 'DECREASE':
+        continue
     cur = r.get('currentTimeoutSec')
     new = r.get('computedTimeoutSec')
     if cur is None or new is None or new >= cur:
         continue
-    # FIX: same-day-skip only skips day-bump, not the apply check.
-    # First time we see today (entry.lastSeen != today): bump day count
-    # Then check if eligible for apply (regardless of whether we just bumped)
-    entry = ledger.get(cid, {'firstSeen': today, 'lastSeen': None, 'daysCount': 0, 'recommendation': rec, 'currentTo': cur, 'computedTo': new, 'appliedAt': None, 'appliedTo': None})
+    entry = ledger.get(cid, {'firstSeen': today, 'lastSeen': None, 'daysCount': 0, 'recommendation': 'DECREASE', 'currentTo': cur, 'computedTo': new, 'appliedAt': None, 'appliedTo': None})
     is_first_observation_today = (entry.get('lastSeen') != today)
     if is_first_observation_today:
         last_date = entry.get('lastSeen', '')
@@ -1064,7 +1055,6 @@ for r in recommendations:
                 if (today_dt - last_dt).days == 1:
                     entry['daysCount'] = entry.get('daysCount', 0) + 1
                 else:
-                    # Gap — reset
                     entry['firstSeen'] = today
                     entry['daysCount'] = 1
             except Exception:
@@ -1073,77 +1063,48 @@ for r in recommendations:
         else:
             entry['daysCount'] = entry.get('daysCount', 0) + 1
         entry['lastSeen'] = today
-    entry['recommendation'] = rec
+    entry['recommendation'] = 'DECREASE'
     entry['currentTo'] = cur
     entry['computedTo'] = new
-
-    if entry['daysCount'] >= 7:
-        # 7+ days stable — eligible for auto-apply
-        if not entry.get('appliedAt') or entry.get('appliedTo') != new:
-            # Either not yet applied, or value drifted (re-apply with new value)
-            if auto_apply:
-                # Live apply via openclaw cron edit
-                full_id = r.get('fullCronId', '')
-                try:
-                    # Use subprocess for proper capture + return code
-                    import subprocess
-                    proc = subprocess.run(
-                        ['/opt/homebrew/bin/openclaw', 'cron', 'edit', full_id, '--timeout-seconds', str(new)],
-                        capture_output=True, text=True, timeout=10
-                    )
-                    if proc.returncode == 0:
-                        entry['appliedAt'] = now
-                        entry['appliedTo'] = new
-                        entry['applyMethod'] = 'openclaw-cli'
-                        entry['applyResult'] = (proc.stdout or '')[:200]
-                        applied.append({'cronId': cid, 'name': r.get('name','')[:40], 'from': cur, 'to': new, 'days': entry['daysCount']})
-                    else:
-                        skipped.append({'cronId': cid, 'reason': f'cli-rc={proc.returncode}', 'output': (proc.stderr or proc.stdout or '')[:200]})
-                except subprocess.TimeoutExpired:
-                    skipped.append({'cronId': cid, 'reason': 'cli-timeout', 'output': ''})
-                except Exception as e:
-                    skipped.append({'cronId': cid, 'reason': f'cli-exception:{type(e).__name__}', 'output': str(e)[:200]})
-            else:
-                # Dry-run — flag for review
-                flagged_for_review.append({'cronId': cid, 'name': r.get('name','')[:40], 'from': cur, 'to': new, 'days': entry['daysCount']})
     ledger[cid] = entry
+    # Eligible if 7d+ stable, not yet applied at computed value
+    if entry['daysCount'] >= 7 and (not entry.get('appliedAt') or entry.get('appliedTo') != new):
+        eligible_for_apply.append({'cronId': cid, 'name': r.get('name','')[:40], 'from': cur, 'to': new, 'days': entry['daysCount']})
+
+# Reconciliation: prune ledger entries whose cron is no longer in the
+# baseline (scaler re-ran, recompute cleared the recommendation). The cron
+# is now considered 'in sync' — no need to surface an apply prompt.
+cid_set = {r.get('cronId', '') for r in b.get('crons', [])}
+stale_cids = [cid for cid in list(ledger.keys()) if cid not in cid_set]
+for cid in stale_cids:
+    del ledger[cid]
 
 # Write ledger
 with open(ledger_file, 'w') as f:
     json.dump(ledger, f, indent=2, ensure_ascii=False)
 
-# Print result as JSON for shell consumption
-result = {
-    'dryRun': not auto_apply,
-    'appliedCount': len(applied),
-    'skippedCount': len(skipped),
-    'flaggedCount': len(flagged_for_review),
-    'applied': applied,
-    'skipped': skipped,
-    'flagged': flagged_for_review,
-    'ledgerFile': ledger_file,
-}
+result = {'eligibleCount': len(eligible_for_apply), 'eligible': eligible_for_apply, 'ledgerFile': ledger_file}
 print(json.dumps(result, indent=2))
 PYEOF
     APPLY_RESULT=$(cat "$APPLY_TMP")
-    APPLY_DRY=$(echo "$APPLY_RESULT" | python3 -c "import json, sys; print(json.loads(sys.stdin.read())['dryRun'])")
-    APPLY_N=$(echo "$APPLY_RESULT" | python3 -c "import json, sys; print(json.loads(sys.stdin.read())['appliedCount'])")
-    APPLY_FLAG_N=$(echo "$APPLY_RESULT" | python3 -c "import json, sys; print(json.loads(sys.stdin.read())['flaggedCount'])")
-    APPLY_SKIP_N=$(echo "$APPLY_RESULT" | python3 -c "import json, sys; print(json.loads(sys.stdin.read())['skippedCount'])")
+    APPLY_ELIG_N=$(echo "$APPLY_RESULT" | python3 -c "import json, sys; print(json.loads(sys.stdin.read())['eligibleCount'])")
     rm -f "$APPLY_TMP"
-    if [[ "$APPLY_DRY" == "True" ]]; then
-      log "  A6 auto-apply (DRY-RUN, gate=7d stable): flagged=$APPLY_FLAG_N eligible (not applied), skipped=$APPLY_SKIP_N. Set CHECK22_AUTO_APPLY=true to enable live apply."
-      if [[ "$APPLY_FLAG_N" -gt 0 ]]; then
-        # Surface to Ken once per day via NEEDS_KEN, but only if there are NEW eligible items
-        APPLY_FLAG_JSON="$STATE_DIR/cron-timeout-apply-pending.json"
-        if [[ ! -f "$APPLY_FLAG_JSON" ]] || [[ $(find "$APPLY_FLAG_JSON" -mmin +720 2>/dev/null) ]]; then
-          echo "$APPLY_RESULT" | python3 -c "import json, sys; r=json.loads(sys.stdin.read()); r['notedAt']='$NOW'; print(json.dumps(r, indent=2))" > "$APPLY_FLAG_JSON"
-          NEEDS_KEN+=("CHECK 22 A6 auto-apply (DRY-RUN): $APPLY_FLAG_N stable DECREASE on agentTurn ready to apply (7d+ stable). Review $APPLY_FLAG_JSON and set CHECK22_AUTO_APPLY=true to enable live apply.")
-        fi
+    log "  A6 ledger updated: $APPLY_ELIG_N item(s) eligible for apply (7d+ stable, not yet applied)."
+    if [[ "$APPLY_ELIG_N" -gt 0 ]]; then
+      # Surface eligible items in NEEDS_KEN with the one-shot command
+      # Throttle: only emit once per day via cron-timeout-apply-pending.json mtime
+      APPLY_FLAG_JSON="$STATE_DIR/cron-timeout-apply-pending.json"
+      SHOULD_EMIT=0
+      if [[ ! -f "$APPLY_FLAG_JSON" ]]; then
+        SHOULD_EMIT=1
+      elif [[ $(find "$APPLY_FLAG_JSON" -mmin +720 2>/dev/null) ]]; then
+        # File exists but is older than 12h (720 min) — re-emit
+        SHOULD_EMIT=1
       fi
-    else
-      log "  A6 auto-apply (LIVE): applied=$APPLY_N, skipped=$APPLY_SKIP_N. Ledger: $APPLIED_LEDGER"
-      [[ "$APPLY_N" -gt 0 ]] && log "  A6 APPLIED: $APPLY_N cron timeout(s) decreased via openclaw cron edit"
+      if [[ $SHOULD_EMIT -eq 1 ]]; then
+        echo "$APPLY_RESULT" | python3 -c "import json, sys; r=json.loads(sys.stdin.read()); r['notedAt']='$NOW'; r['applyCommand']='bash scripts/cron-timeout-apply.sh --all --yes'; r['applyCommandOne']='bash scripts/cron-timeout-apply.sh --cron <8-char-id> --yes'; print(json.dumps(r, indent=2))" > "$APPLY_FLAG_JSON"
+        NEEDS_KEN+=("CHECK 22 A6: $APPLY_ELIG_N stable DECREASE on agentTurn eligible (7d+). Review $APPLY_FLAG_JSON. To apply all: bash scripts/cron-timeout-apply.sh --all --yes  (or one-by-one with --cron <id> --yes).")
+      fi
     fi
   else
     # No drift — clear any stale alert
