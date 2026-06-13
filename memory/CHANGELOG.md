@@ -11,6 +11,19 @@
 ---
 ---
 
+## 2026-06-13 15:22 AEST — [CHG-0557] Sprint 7 close: 8/8 real items complete, retro filed
+**Type:** data
+**Change Type:** Normal
+**Source:** manual
+**Trigger:** Sprint 7 review + retro 2026-06-13 15:20 AEST. Yoda per CHG-0545 Close activity scope.
+**What changed:** Sprint 7 (Jun 8 → Jun 14) closed. 5 closed + 3 done = 8/8 real items (100%). TKT-0410 (state-machine gap) carried forward to Sprint 8 as HIGH priority. TKT-0137 (Policy Register) was already deferred to Sprint 8 per Ken 2026-06-12. Retro doc: docs/sprints/sprint-7-retro.md.
+**Why:** Sprint 7 capacity was 5/sprint pre-OC2; actual commit was 8 (oversubscribed by Forge test artifacts). All 8 real items shipped. TKT-0410 is a known high-priority fix that was identified mid-sprint (L-084) and the recovery pattern was applied; the structural fix is properly carried forward rather than rushed.
+**Verification:** docs/sprints/sprint-7-retro.md written. TKT-0410 sprint column updated to 'Sprint 8' via db-sprint.sh defer. TKT-0137 sprint column already 'Sprint 8'. PG state_sprints ceremonies for sprint 7 = {sprint7Review: 2026-06-13T05:20:16+10:00, sprint7Planning: 2026-06-11T11:59:54+10:00}.
+**Rollback:** Re-open sprint 7 by re-running db-sprint.sh ceremony complete review --sprint 7 (idempotent). TKT-0410 carry-forward is reversible: db-sprint.sh commit TKT-0410 <seq> <effort> <agent> --sprint 7.
+**Linked:** TKT-0336, TKT-0337, TKT-0338, TKT-0393, TKT-0401, TKT-0403, TKT-0406, TKT-0408, TKT-0410, TKT-0137, L-084, L-113, L-114, L-115, CHG-0545, CHG-0500, docs/sprints/sprint-7-retro.md
+---
+
+
 ## 2026-06-13 15:14 AEST — [CHG-0556] TKT-0504 closed: full TQP bridge shipped + scheduled
 **Type:** data
 **Change Type:** Normal

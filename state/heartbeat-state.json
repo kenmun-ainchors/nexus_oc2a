@@ -18,7 +18,7 @@
     "costState": 1749723600,
     "qbr": "2026-06-12T09:57:00+10:00 \u2014 locked TKT-0410, 19d to QBR"
   },
-  "lastUpdated": "2026-06-13T15:18:00+10:00",
+  "lastUpdated": "2026-06-13T15:22:00+10:00",
   "lastHeartbeat": "2026-06-12T06:19:00Z",
   "qbr": {
     "next_qbr": {
@@ -96,5 +96,19 @@
     "tickets_open_for_review": [
       "TKT-0503 (24h review window closes 14:17 AEST 2026-06-14)"
     ]
+  },
+  "sprint7Close": {
+    "closed_at": "2026-06-13T15:22:00+10:00",
+    "actor": "Yoda (per CHG-0545 Close activity)",
+    "completion": "8/8 real items (100%)",
+    "carry_forward_to_sprint_8": [
+      "TKT-0410 (HIGH priority - state-machine gap)"
+    ],
+    "already_in_sprint_8": [
+      "TKT-0137 (deferred 2026-06-12)"
+    ],
+    "retro_doc": "docs/sprints/sprint-7-retro.md",
+    "chg": "CHG-0557",
+    "notion_page": "37ec1829-53ff-81b5-9a47-d845ea111857"
   }
 }
