@@ -2,7 +2,9 @@
 # obs-log.sh — Insert one observability event into obs.db
 # Usage: obs-log.sh --source SOURCE --level LEVEL --type TYPE --message "MSG" \
 #                   [--agent AGENT] [--job-id ID] [--detail JSON]
-# level must be: ERROR | WARN | INFO
+# level must be: ERROR | WARN | INFO | CRITICAL | WARNING
+# L-100: CRITICAL/WARNING added so OpenClaw diagnostic events can be logged
+# with native severity levels (was downgraded to ERROR/WARN with info loss).
 set -euo pipefail
 
 WORKSPACE="${WORKSPACE:-$HOME/.openclaw/workspace}"
@@ -38,8 +40,8 @@ if [[ -z "$OBS_TYPE" ]];    then echo "[obs-log] ERROR: --type is required"    >
 if [[ -z "$OBS_MESSAGE" ]]; then echo "[obs-log] ERROR: --message is required" >&2; exit 1; fi
 
 case "$OBS_LEVEL" in
-  ERROR|WARN|INFO) ;;
-  *) echo "[obs-log] ERROR: --level must be ERROR|WARN|INFO (got: $OBS_LEVEL)" >&2; exit 1 ;;
+  ERROR|WARN|INFO|CRITICAL|WARNING) ;;
+  *) echo "[obs-log] ERROR: --level must be ERROR|WARN|INFO|CRITICAL|WARNING (got: $OBS_LEVEL)" >&2; exit 1 ;;
 esac
 
 # ── Init DB if missing ────────────────────────────────────────────────────────

@@ -11,6 +11,19 @@
 ---
 ---
 
+## 2026-06-13 11:19 AEST — [CHG-0535] TKT-0503-A7 partial: obs-collector CHECK E dedup by signature (L-100)
+**Type:** script
+**Change Type:** Normal
+**Source:** ken-prompt
+**Trigger:** Ken: approve A7. proceed
+**What changed:** scripts/obs-collector.sh CHECK E rewritten: parse stability file (evidence.memoryPressure.{level,reason}); compute signature 'LEVEL|REASON|KIND'; track in state.obs-collector-state.json:lastStabilitySignature; only log on signature transition. scripts/obs-log.sh: added CRITICAL|WARNING to valid levels. obs-collector normalizes 'critical'/'warning' (lowercase) to CRITICAL/WARN before calling _obs_log. A7 scope revised: OpenClaw v2026.5.27 hardcodes RSS thresholds (1.5GB/3GB), so 'ratchet to 5GB/6GB' is not doable on 2026.5.27. Revisit when gateway moves to v2026.6.6.
+**Why:** 384 obs.db events/week from re-logging the same unhandled_rejection signature. L-100 dedup kills 99% of the noise at the source. Signature-based dedup is the structural fix (was relying on count-based dedup in _obs_log which only suppresses within 5 min, not across signature transitions).
+**Verification:** Tested: Run 1 logs 1 event (new signature), Run 2 dedups (same signature), simulated transition logs 1 event (new signature). Idempotent on re-run. Pattern mirrors L-093 (CHECK K fallback chain dedup) but for stability events.
+**Rollback:** N/A
+**Linked:** TKT-0503-A7, L-100, L-093
+---
+
+
 ## 2026-06-13 11:04 AEST — [CHG-0534] TKT-0503-A6 follow-up: separate apply from auto-heal via one-shot script
 **Type:** script
 **Change Type:** Normal

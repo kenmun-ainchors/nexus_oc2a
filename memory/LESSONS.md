@@ -1219,3 +1219,25 @@ Three crons (Morning Stand-Up, Daily Blog, Aria ROI) failed because agent models
 - New exit code 2 = `--yes required`, exit code 3 = not eligible, exit code 4 = cli failed, exit code 5 = ledger write failed.
 
 **Linked:** TKT-0503-A6, CHG-0534, L-098 (scaler filtering). Sets precedent: any future "auto-apply X to gateway config" should follow this pattern (one-shot, --yes-gated, never embedded in scheduled jobs).
+
+## L-100 — 2026-06-13 | obs-collector CHECK E: 384 unhandled_rejection events were same-signature re-logs
+**Lesson:** `scripts/obs-collector.sh` CHECK E was logging `unhandled_rejection` on every cron run whenever new stability files existed. With 13 stability files/hour (gateway at peak heap), that's 13 events × 12 cron runs/hour = 156 events/hour = 3744/day. We saw 384/week in obs.db.
+
+**Root cause:** No dedup on (level, reason) signature. Each obs-collector run logged "Node.js unhandled rejection(s): 13 new stability file(s) — reason: diagnostic.memory.pressure.critical" regardless of whether it was a NEW condition or a continuing one.
+
+**Fix (A7 atom / L-100):**
+1. Parse stability file structure correctly: top-level `evidence.memoryPressure.{level, reason}` (not `d.get('reason')`).
+2. Compute signature: `${level}|${reason}|${kind}` (e.g., `CRITICAL|heap_threshold|memory.pressure`).
+3. Track signature in `state/obs-collector-state.json:lastStabilitySignature`. Only log on signature transition (Python `a != b` check via heredoc to avoid zsh pipe-escape issues with `[[ "$x" != "$y" ]]`).
+4. Add `CRITICAL` and `WARNING` to `obs-log.sh` valid levels (was `ERROR|WARN|INFO` only). OpenClaw diagnostic emitter sends lowercase `critical`/`warning` — normalize to uppercase in obs-collector before calling `_obs_log`.
+
+**Side finding (A7 scope revision):** OpenClaw v2026.5.27 hardcodes memory pressure thresholds (RSS 1.5GB warn / 3GB critical) as constants in `diagnostic-BDsaMZfL.js`. The `DiagnosticMemoryThresholds` type exists but NO caller passes thresholds from config — `emitDiagnosticMemorySample` is always called with default thresholds. The "threshold ratchet to 5GB/6GB" from the A7 atom spec is NOT doable on 2026.5.27. When gateway moves to v2026.6.6 (sandbox install TKT-0502), re-evaluate whether per-config thresholds are available.
+
+**Verified:** 
+- Run 1 (clean state): 1 new event logged (signature `CRITICAL|heap_threshold|memory.pressure`)
+- Run 2 (same signature): 0 new events (deduped)
+- Run 3 (simulated transition `WARN|rss_threshold` → `CRITICAL|heap_threshold`): 1 new event
+
+**Net effect:** 384 events/week → estimated 1-3 events/week (1 per actual signature transition). A7's `NODE_OPTIONS=--max-old-space-size=6144` is the other half (still pending Ken's approval for gateway restart).
+
+**Linked:** TKT-0503-A7, L-100, server-cron/DiagnosticMemoryThresholds (always-default). Foundation for future: signature-based dedup pattern.

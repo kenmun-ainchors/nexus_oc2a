@@ -185,15 +185,86 @@ except Exception:
 fi
 
 # ── CHECK E: stability/ — unhandled Node.js rejections ──────────────────
+# L-100: dedup by (level,reason,kind) signature. Only log when a NEW
+# signature appears. 1 long-running operation can produce 18 stability
+# files; we report it once per (level,reason,kind) transition, not 18x.
+# A7 atom context: OpenClaw v2026.5.27 hardcodes thresholds (RSS 1.5GB warn
+# / 3GB critical). Threshold ratchet via config is NOT available in 2026.5.27
+# (DiagnosticMemoryThresholds type exists but no caller passes it from config).
+# TKT-0503-A7 follow-up: when gateway moves to v2026.6.6 (sandbox install
+# TKT-0502), re-evaluate whether per-config thresholds are available.
 STABILITY_DIR="$HOME/.openclaw/logs/stability"
 if [[ -d "$STABILITY_DIR" ]]; then
-  _STAB_NEW=$(find "$STABILITY_DIR" -name '*.json' -newer "$COLLECTOR_STATE" 2>/dev/null | wc -l | tr -d ' ')
-  if [[ "$_STAB_NEW" -gt 0 ]]; then
-    _STAB_SAMPLE=$(find "$STABILITY_DIR" -name '*.json' -newer "$COLLECTOR_STATE" 2>/dev/null | head -1)
-    _STAB_REASON=$(python3 -c "import json; d=json.load(open('$_STAB_SAMPLE')); print(d.get('reason','unknown'))" 2>/dev/null || echo "unknown")
-    _obs_log --source gateway --level WARN --type unhandled_rejection \
-      --message "Node.js unhandled rejection(s): ${_STAB_NEW} new stability file(s) — reason: ${_STAB_REASON}" \
-      --detail "{\"count\":${_STAB_NEW},\"reason\":\"${_STAB_REASON}\"}"
+  # Find the most recent stability file (by mtime) — not -newer based,
+  # so we always see the latest one regardless of state mtime drift.
+  _STAB_SAMPLE=$(ls -t "$STABILITY_DIR"/*.json 2>/dev/null | head -1)
+  if [[ -n "$_STAB_SAMPLE" && -f "$_STAB_SAMPLE" ]]; then
+    _STAB_INFO=$(python3 - "$_STAB_SAMPLE" << 'PYEOF' 2>/dev/null || echo "unknown|unknown|unknown"
+import json, sys
+try:
+    d = json.load(open(sys.argv[1]))
+    # Stability file (v1) is a top-level object with:
+    #   reason: "diagnostic.memory.pressure.critical" (top-level)
+    #   evidence.memoryPressure.{level,reason,thresholdBytes}
+    mp = d.get('evidence', {}).get('memoryPressure', {})
+    if mp:
+        level = mp.get('level', 'unknown')
+        rsn = mp.get('reason', 'unknown')
+        kind = 'memory.pressure'
+    else:
+        # Fallback: parse top-level reason
+        level = d.get('severity', 'unknown')
+        rsn = d.get('reason', 'unknown')
+        kind = rsn.split('.')[0] if '.' in rsn else 'unknown'
+    print(level + '|' + rsn + '|' + kind)
+except Exception as e:
+    print('unknown|unknown|unknown')
+PYEOF
+)
+    _STAB_LEVEL=$(echo "$_STAB_INFO" | cut -d'|' -f1)
+    _STAB_REASON=$(echo "$_STAB_INFO" | cut -d'|' -f2)
+    _STAB_KIND=$(echo "$_STAB_INFO" | cut -d'|' -f3)
+    # L-100: normalize level to uppercase for obs-log.sh validation
+    case "$_STAB_LEVEL" in
+      critical) _STAB_LEVEL=CRITICAL ;;
+      warning)  _STAB_LEVEL=WARN ;;
+      info)     _STAB_LEVEL=INFO ;;
+    esac
+    # Count how many stability files exist in the last hour (mtime-based)
+    _STAB_NEW=$(find "$STABILITY_DIR" -name '*.json' -mmin -60 2>/dev/null | wc -l | tr -d ' ')
+    # L-100 dedup: only log if signature is a NEW transition
+    _STAB_LAST=$(python3 -c "
+import json
+try:
+    d = json.load(open('$COLLECTOR_STATE'))
+    s = d.get('lastStabilitySignature', '')
+    print(s)
+except Exception:
+    print('')
+" 2>/dev/null)
+    _STAB_CUR="${_STAB_LEVEL}|${_STAB_REASON}|${_STAB_KIND}"
+    # Use unquoted comparison + python eval to avoid zsh escaping issues with pipes in strings
+    _STAB_DIFFERS=$(python3 -c "
+a = '''$_STAB_CUR'''
+b = '''$_STAB_LAST'''
+print('YES' if a != b and a != '' else 'NO')
+" 2>/dev/null || echo "YES")
+    if [[ -n "$_STAB_CUR" ]] && [[ "$_STAB_DIFFERS" == "YES" ]]; then
+      # New transition — log it
+      _obs_log --source gateway --level "$_STAB_LEVEL" --type unhandled_rejection \
+        --message "Node.js stability event (${_STAB_KIND}): level=${_STAB_LEVEL} reason=${_STAB_REASON} (${_STAB_NEW} file(s) in last 60min)" \
+        --detail "{\"count\":${_STAB_NEW},\"level\":\"${_STAB_LEVEL}\",\"reason\":\"${_STAB_REASON}\",\"kind\":\"${_STAB_KIND}\"}"
+      # Update state
+      python3 -c "
+import json
+p = '$COLLECTOR_STATE'
+try: d = json.load(open(p))
+except: d = {}
+d['lastStabilitySignature'] = '${_STAB_CUR}'
+d['lastStabilityAt'] = '$NOW_UTC'
+with open(p, 'w') as f: json.dump(d, f, indent=2)
+" 2>/dev/null || true
+    fi
   fi
 fi
 
