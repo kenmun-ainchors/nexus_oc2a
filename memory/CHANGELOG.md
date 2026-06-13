@@ -11,6 +11,20 @@
 ---
 ---
 
+## 2026-06-13 10:23 AEST — [CHG-0531] L-096: TQP has no executor for non-CREST atoms — flash-dispatcher is CREST-only
+**Type:** rule
+**Change Type:** Normal
+**Source:** manual
+**Trigger:** Ken asked at 10:18 AEST 'TQP running? A5 timeout?' — 23 min after re-queue. All 5 atoms in PG with status='dispatched', claimedby='agent:tqp', state_payload={} or NULL. TQP claim cycle ran 6+ times, no execution.
+**What changed:** Five fixes: (1) TKT-0503-A1..A5 status changed to 'paused-yoda-direct-exec' to stop TQP claim cycle. (2) L-096 logged. (3) Added auto-heal CHECK 28g: detect state_task_queue rows with status='dispatched' AND claimedby='agent:tqp' AND claimedat > 5 min ago with empty state_payload — emit CRITICAL alert. (4) TKT-0503-A1..A5 will be executed by Yoda directly in this session (5 flash-model atoms, no agent:main session available to route to). (5) Future fix: bridge script tqp-executor.sh needed to route non-CREST TQP atoms to specialist agents (separate ticket to be raised). Flash-dispatcher.sh (TKT-0386) reads state_sub_crest and state_sub_crest_atoms only — by design CREST-sub-ticket-only.
+**Why:** 6th silence-failure in L-088/L-089/L-090/L-091/L-095/L-096 lineage. TQP design assumed an external consumer would execute claimed work; flash-dispatcher exists for CREST sub-tickets only. No TQP-execution-bridge for plain atoms. CHECK 28g ensures this class surfaces loudly next time.
+**Verification:** TQP claim cycle stopped (all 5 atoms in 'paused-yoda-direct-exec' state). CHECK 28g added to auto-heal.sh, syntax OK. Yoda direct execution of A1-A5 starting now (will be reflected in next 5-min check).
+**Rollback:** To restore TQP claim cycle: UPDATE state_task_queue SET status='queued' WHERE status='paused-yoda-direct-exec'. To remove CHECK 28g: revert scripts/auto-heal.sh.
+**Linked:** L-096, TKT-0503, TKT-0386, scripts/task-queue-processor.sh, scripts/flash-dispatcher.sh, scripts/auto-heal.sh CHECK 28g
+**Category:** infra
+---
+
+
 ## 2026-06-13 09:55 AEST — [CHG-0530] L-095: TQP queue write path is PG, not state/task-queue.json (CRITICAL — silent failure class)
 **Type:** rule
 **Change Type:** Normal

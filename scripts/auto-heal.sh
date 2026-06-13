@@ -1515,6 +1515,65 @@ if [[ "$ORPHAN_COUNT" -gt 0 ]]; then
   NEEDS_KEN+=("L-095: $ORPHAN_COUNT atom(s) queued to state/task-queue.json only (not PG). TQP cannot see them. Re-queue to PG state_task_queue. See state/tqp-orphan-writes.json")
 fi
 
+# ---------- CHECK 28g: TQP Claimed-But-Not-Executing Detection (L-096) ----------
+# L-096: TQP claims atoms (status='dispatched', claimedby='agent:tqp') but the only
+# existing executor (flash-dispatcher.sh) handles CREST sub-tickets only. Plain TQP
+# atoms fall through — claim succeeds, no execution, timeout fires, re-queue.
+# This check detects rows claimed > 5 min ago with no state_payload update.
+log "CHECK 28g: TQP claimed-but-not-executing detection (L-096)"
+CHECKS_RUN+=("tqp_claim_execution_check")
+
+TQP_STUCK_REPORT="$STATE_DIR/tqp-stuck-claims.json"
+
+python3 <<PYEOF
+import json, subprocess
+from pathlib import Path
+from datetime import datetime, timezone, timedelta
+
+# Threshold: 5 min — any claim older than this without state_payload update is suspicious
+STUCK_THRESHOLD_MIN = 5
+now = datetime.now(timezone.utc).astimezone()
+cutoff = (now - timedelta(minutes=STUCK_THRESHOLD_MIN)).isoformat(timespec='seconds')
+
+r = subprocess.run(
+    ["bash", "$WORKSPACE/scripts/db-raw.sh", "-c",
+     f"SELECT id, title, claimedby, claimedat, claimtimeout, state_payload FROM state_task_queue WHERE status='dispatched' AND claimedby='agent:tqp' AND claimedat < '{cutoff}'"],
+    capture_output=True, text=True
+)
+
+stuck = []
+for line in (r.stdout or '').strip().split('\n'):
+    line = line.strip()
+    if not line or line.startswith('id') or line.startswith('---') or line.startswith('('):
+        continue
+    parts = line.split('|', 5)
+    if len(parts) < 6: continue
+    aid, title, claimedby, claimedat, claimtimeout, payload = parts
+    # state_payload is empty (NULL) means no execution
+    if not payload or payload in ('null', '', '{}'):
+        stuck.append({
+            "id": aid, "title": title, "claimedat": claimedat,
+            "claimtimeout": claimtimeout, "minutes_claimed": round((now - datetime.fromisoformat(claimedat.replace('Z', '+00:00') if claimedat.endswith('Z') else claimedat)).total_seconds() / 60, 1)
+        })
+
+result = {
+    "check": "tqp_claim_execution_check",
+    "ran_at": now.isoformat(timespec='seconds'),
+    "stuck_threshold_min": STUCK_THRESHOLD_MIN,
+    "stuck_count": len(stuck),
+    "stuck_atoms": stuck,
+    "verdict": "PASS" if len(stuck) == 0 else f"CRITICAL: {len(stuck)} atom(s) claimed > 5 min ago with no execution. TQP claims but no executor (L-096)."
+}
+Path("$TQP_STUCK_REPORT").write_text(json.dumps(result, indent=2))
+print(f"CHECK 28g: {result['verdict']}")
+PYEOF
+
+STUCK_COUNT=$(python3 -c "import json; d=json.load(open('$TQP_STUCK_REPORT')); print(d.get('stuck_count', 0))" 2>/dev/null || echo 0)
+if [[ "$STUCK_COUNT" -gt 0 ]]; then
+  log "CHECK 28g: CRITICAL: $STUCK_COUNT atom(s) claimed but not executing — see $TQP_STUCK_REPORT"
+  NEEDS_KEN+=("L-096 CRITICAL: $STUCK_COUNT TQP atom(s) claimed by agent:tqp with no execution. TQP has no executor for non-CREST atoms. See state/tqp-stuck-claims.json")
+fi
+
 # ---------- FILE INC FOR EACH AUTO-FIX (ITSM-US-007) ----------
 if (( ${#AUTO_FIXED[@]} > 0 )); then
   log "Filing INC records for qualifying auto-fixed item(s)..."

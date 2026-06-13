@@ -1110,3 +1110,22 @@ Three crons (Morning Stand-Up, Daily Blog, Aria ROI) failed because agent models
 **Verified:** TQP picks up atoms within 5 min of PG insert. PG row for TKT-0503-A1 visible to TQP dispatch query.
 
 **Linked:** L-091 (sibling — broken-pre-existing-infrastructure), TKT-0409 (task-watchdog cron owner), state/task-queue.json (orphaned write path), state_task_queue PG table (canonical), CHG-0531.
+
+## L-096 — 2026-06-13 | TQP claims atoms but no executor consumes non-CREST atoms — flash-dispatcher.sh is CREST-sub-ticket-only
+**Lesson:** Ken asked at 10:18 AEST: "TQP running? I only got the telegram on kick-off... A5 timeout?" 23 min after I re-queued TKT-0503-A1..A5 to PG. PG showed all 5 atoms `dispatched` with `claimedby=agent:tqp` but **none had any state_payload update or status='done'/'complete'**. TQP claim cycle was running (every 5 min) but execution was 0%.
+
+**Root cause:** TQP (`scripts/task-queue-processor.sh`) is a queue manager, not an executor. It claims an atom (status='queued' → 'dispatched', sets claimedby, claimedat, claimtimeout) and **expects an external process to actually do the work**. The only consumer that exists is `scripts/flash-dispatcher.sh` (TKT-0386), but it reads `state_sub_crest` and `state_sub_crest_atoms` — it only handles CREST sub-tickets. Plain TQP atoms (like TKT-0503-A1..A5) have no consumer.
+
+**Why it took 23 min to discover:** TQP cron `a89d00ef` was succeeding. OpenClaw task view showed "succeeded". The "Stalled task alert" Ken got was a framework-level monitor noticing A1's claim window (30 min) was about to expire, not because any agent was actually working on it. Silent-failure class: claim succeeds, no execution happens, timeout fires, re-queue, repeat.
+
+**Action (structural, this turn):**
+1. **L-096 logged** with full root cause analysis.
+2. **Decide on execution model for TKT-0503-A1..A5:**
+   - (a) Wrap each atom as a CREST sub-ticket under TKT-0503, then flash-dispatcher will pick them up
+   - (b) Write a new bridge script `tqp-executor.sh` that consumes non-CREST TQP atoms and routes them to the right specialist agent
+   - (c) Direct execution by Yoda in this session (since I'm the available executor right now, I can run the 5 atoms myself using the flash model per task-queue model mapping)
+3. **Add auto-heal CHECK 28g**: detect state_task_queue rows with status='dispatched' AND claimedby='agent:tqp' AND claimedat > 5 min ago with no state_payload update → emit CRITICAL alert. Catches this class: TQP claimed but never executed.
+
+**Verified (this turn):** TQP claims cycle: A1 (09:54:30), A2 (09:56:52), A3 (10:02:12), A4 (10:07:10), A5 (10:12:19). All status='dispatched', all claimedby='agent:tqp', all state_payload={} or NULL. No agent session ever picked any of them up.
+
+**Linked:** L-095 (sibling — JSON-vs-PG), TKT-0386 (flash-dispatcher — CREST-only consumer), TKT-0503 (atoms stuck), scripts/task-queue-processor.sh, scripts/flash-dispatcher.sh, state/obs.db, state/auto-heal.sh CHECK 28g.
