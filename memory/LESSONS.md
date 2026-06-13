@@ -1167,3 +1167,19 @@ Three crons (Morning Stand-Up, Daily Blog, Aria ROI) failed because agent models
 **Safety:** Only unloads sandbox-gateway, NOT production gateway. Only acts after 24h grace. Logs full audit trail. TKT-0502 (sandbox install) can re-bootstrap when ready.
 
 **Linked:** L-092, L-093, TKT-0502, TKT-0503-A5, CHG-0532.
+
+## L-097 — 2026-06-13 | OpenClaw edit tool: tilde in path produces malformed activity entry message
+**Lesson:** Ken observed an alert: "⚠️ 📝 Edit: `in ~/.openclaw/workspace/scripts/obs-collector.sh` failed". Investigation found:
+
+1. The `edit` tool's `argumentSummary` renders path arg via `pathDisplay` template: `${tool} ${pathDisplay}` where `pathDisplay` is the result of `getCwdRelativePath(absolutePath, cwd)` — returns the path **relative to cwd** if it's a child, otherwise `undefined` (then falls through to absolute).
+2. The preposition "in" is NOT in the tool formatter — it's the **inbound-meta prefix** prepended by `buildInboundUserContextPrefix` for tool-call activity entries: each tool-call gets a per-line prefix like `<session> in <filepath>` that flows into the activity stream summary.
+3. When the model uses a `~/` literal, the runtime path validator (runner.entries-B7esF0QJ.js:345) does NOT block it — `resolveToCwd` expands `~` to `$HOME` and then the formatter tries `getCwdRelativePath` and either returns relative or absolute path. The "in" is the inbound-meta wrapper, NOT the edit tool.
+
+**Why it matters:** The alert text "Edit: `in <path>` failed" looks like a path-injection or tilde-validation rejection, but it's actually a routine inbound-meta rendering quirk. The `Edit:` prefix and the final `failed` come from the edit tool's `formatEditResult`; the "in" between is the inbound-meta activity prefix.
+
+**Mitigation (no fix needed at this time):** The edit tool already expands `~` correctly. The misleading-looking message is harmless. If we ever see "Edit: `in ...` failed" in production, it means:
+- The path expansion succeeded
+- The actual edit failed for some other reason (file not found, ENOSPC, bad oldText, etc.)
+- The visible "in" is the activity-entry renderer, not a path error
+
+**Linked:** Observed by Ken, TKT-0503-A2 execution context, A1 tilde self-detect discussion.
