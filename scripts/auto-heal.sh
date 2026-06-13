@@ -1785,6 +1785,61 @@ if [[ "$STUCK_COUNT" -gt 0 ]]; then
   NEEDS_KEN+=("L-096 CRITICAL: $STUCK_COUNT TQP atom(s) claimed by agent:tqp with no execution. TQP has no executor for non-CREST atoms. See state/tqp-stuck-claims.json")
 fi
 
+# ---------- CHECK 28h: CREST Executor Routing Audit (L-107) ----------
+# TKT-0506: weekly audit of recent TKT atoms for executor:model drift.
+# Detects: Yoda (or other strong-tier agent) doing Execute work directly with
+# strong-tier model, when it should have dispatched to a specialist with
+# flash model. Reads state/crest-execute-gate-log.json for the last 7d of
+# gate decisions and reports violations. Structural enforcement for
+# CREST v1.2 §6 ("Yoda never does specialist Execute work directly").
+log "CHECK 28h: CREST executor routing audit (L-107)"
+CHECKS_RUN+=("crest_executor_routing_audit")
+CREST_GATE_LOG="$WORKSPACE/state/crest-execute-gate-log.json"
+
+if [[ -f "$CREST_GATE_LOG" ]]; then
+  CREST_VIOLATIONS=$(python3 - <<PYEOF_INNER
+import json, datetime
+from pathlib import Path
+p = Path("$CREST_GATE_LOG")
+try: d = json.load(open(p))
+except: d = {}
+hist = d.get("history", [])
+now = datetime.datetime.now(datetime.timezone.utc)
+violations = []
+strong_tier_keywords = ["minimax-m3", "deepseek-v4-pro", "anthropic/claude"]
+for entry in hist[-200:]:
+    if entry.get("decision") != "block":
+        continue
+    ts = entry.get("ts", "")
+    if not ts: continue
+    try: et = datetime.datetime.fromisoformat(ts.replace("Z", "+00:00"))
+    except: continue
+    age_days = (now - et).days
+    if age_days > 7: continue
+    operator = entry.get("operator", "")
+    model = entry.get("model", "")
+    phase = entry.get("phase", "")
+    if "yoda" in operator.lower() and any(k in model for k in strong_tier_keywords):
+        violations.append({
+            "ts": ts, "operator": operator, "model": model, "phase": phase,
+            "atom": entry.get("atomDesc", "")[:80]
+        })
+print(len(violations))
+for v in violations[:5]:
+    print(f"  {v['ts']}: {v['operator']} on {v['phase']} ({v['model']}) — {v['atom']}")
+PYEOF_INNER
+  )
+  CREST_VIOLATION_COUNT=$(echo "$CREST_VIOLATIONS" | head -1)
+  if [[ "${CREST_VIOLATION_COUNT:-0}" -gt 0 ]]; then
+    log "CHECK 28h: $CREST_VIOLATION_COUNT CREST routing violation(s) in last 7d"
+    NEEDS_KEN+=("L-107: $CREST_VIOLATION_COUNT Yoda direct Execute work detected in last 7d (CREST v1.2 §6 violation). Yoda using strong-tier model on cheap-tier phase. See state/crest-execute-gate-log.json. TKT-0506.")
+  else
+    log "CHECK 28h: PASS (no CREST routing violations in last 7d)"
+  fi
+else
+  log "CHECK 28h: SKIP (no crest-execute-gate-log.json yet)"
+fi
+
 # ---------- CHECK 28d: Auto-archive untracked root .md files (TKT-0341) ----------
 # TKT-0341 contract: all .md in workspace root must be on the 8-allowlist
 # (SOUL/AGENTS/MEMORY/HEARTBEAT/USER/IDENTITY/TOOLS/RULES). This check auto-archives

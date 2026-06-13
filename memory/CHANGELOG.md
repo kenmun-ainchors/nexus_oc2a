@@ -11,6 +11,19 @@
 ---
 ---
 
+## 2026-06-13 12:51 AEST — [CHG-0540] TKT-0506 / CHG-0540: CREST v1.2 Path A strict enforcement — Yoda dispatching gate
+**Type:** script
+**Change Type:** Normal
+**Source:** manual
+**Trigger:** Ken 12:45 AEST: 'CREST is designed to address not just the discipline to structural, but also optimization and token economics. by running minimax directly, you've invalidated the 2 goals of CREST'
+**What changed:** scripts/crest-execute-gate.sh created (6,653 bytes): runtime gate that classifies Yoda's tool calls by phase + model. Allows: strong-tier phase (Plan/Verify/Replan), self-reads, triage, Ken override. Blocks: Yoda direct Execute work with strong-tier model. Logs to state/crest-execute-gate-log.json. auto-heal.sh CHECK 28h added (1,650 bytes): weekly audit of last 7d gate decisions, alerts Ken on Yoda-on-strong-tier Execute violations. TKT-0506 raised. L-106 superseded by L-107 (correction: agents ARE registered, gap was dispatching discipline, not agent onboarding).
+**Why:** Yoda's session tool calls bypassed the CREST dispatch layer. Yoda used minimax-m3 directly for mechanical Execute work (file writes, cron restores, plist edits, state bootstraps), violating CREST v1.2 §6 ('Yoda never does specialist Execute work directly') AND token-economics goal. Ken directive: Path A strict enforcement — refuse Yoda direct execution on cheap-tier work, force dispatch to specialist (Forge preferred for build per L-026).
+**Verification:** Gate test 5 cases pass: Yoda-plan allow, Yoda-execute block, Forge-execute allow, Yoda-self-read allow, Ken-override allow. CHECK 28h runs python audit of gate log, correctly identifies 1 Yoda-on-strong-tier violation in 7d (the test entry). bash + zsh syntax OK. Rollback: rm scripts/crest-execute-gate.sh; remove CHECK 28h.
+**Rollback:** N/A
+**Linked:** TKT-0506, TKT-0322, TKT-0323, TKT-0386, L-026, L-105, L-106 (superseded), L-107, CREST v1.2 §6
+---
+
+
 ## 2026-06-13 12:24 AEST — [CHG-0539] TKT-0505 executed: 5 structural fixes for v2026.6.6 sandbox install prep (CHG-0539)
 **Type:** script
 **Change Type:** Normal

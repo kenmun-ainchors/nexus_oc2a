@@ -1,0 +1,59 @@
+{
+  "history": [
+    {
+      "ts": "2026-06-13T02:48:31.246445+00:00",
+      "operator": "yoda",
+      "phase": "plan",
+      "model": "ollama/minimax-m3:cloud",
+      "atomDesc": "Plan the v2026.6.6 install",
+      "target": "",
+      "decision": "allow",
+      "reason": "strong-tier phase (plan) - Yoda direct OK"
+    },
+    {
+      "ts": "2026-06-13T02:48:31.267382+00:00",
+      "operator": "yoda",
+      "phase": "execute",
+      "model": "ollama/minimax-m3:cloud",
+      "atomDesc": "Restore cron 6bd53c89",
+      "target": "state/cron-timeout-applied.json",
+      "decision": "block",
+      "reason": "Yoda (model=ollama/minimax-m3:cloud) on cheap-tier phase (execute) - cost+CREST violation. Dispatch to specialist with flash model."
+    },
+    {
+      "ts": "2026-06-13T02:48:31.289404+00:00",
+      "operator": "forge",
+      "phase": "execute",
+      "model": "ollama/deepseek-v4-flash:cloud",
+      "atomDesc": "Apply timeout update",
+      "target": "state/cron-timeout-applied.json",
+      "decision": "allow",
+      "reason": "cheap-tier operator on cheap-tier phase"
+    },
+    {
+      "ts": "2026-06-13T02:48:31.310183+00:00",
+      "operator": "yoda",
+      "phase": "read",
+      "model": "ollama/minimax-m3:cloud",
+      "atomDesc": "Check own heartbeat",
+      "target": "state/heartbeat-state.json",
+      "decision": "allow",
+      "reason": "self-read / diagnostic exempt"
+    },
+    {
+      "ts": "2026-06-13T02:48:31.328807+00:00",
+      "operator": "yoda",
+      "phase": "execute",
+      "model": "ollama/minimax-m3:cloud",
+      "atomDesc": "Manual override",
+      "target": "",
+      "decision": "allow",
+      "reason": "CREST_OVERRIDE=1 explicit Ken approval"
+    }
+  ],
+  "lastDecision": {
+    "ts": "2026-06-13T02:48:31.328807+00:00",
+    "decision": "allow",
+    "reason": "CREST_OVERRIDE=1 explicit Ken approval"
+  }
+}
