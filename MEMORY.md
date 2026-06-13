@@ -30,6 +30,15 @@
 - MEMORY.md: hard limit 15,000 (warn 12,000). See `infra/sandbox/seed/skills/changelog/SKILL.md`. Archive overflow at 12K, trim to 10K.
 
 #
+## Ken's Governance Mandate — 2026-06-13 13:54 AEST (CHG-0545)
+Four rules locked into SOUL.md Non-Negotiables (#13–16) and confirmed by Ken:
+1. **No fabrication.** Say "I don't know" and find out.
+2. **Evidence-only.** Done/verified = validated + backed by artifacts. Vibe ≠ fact.
+3. **CREST mandatory.** Every plan with execution work runs Plan→Execute→Verify→Replan→Synthesize→Done. No skip phases.
+4. **Orchestrator only.** Yoda's CREST activities = Plan, Verify, Replan, Synthesize, Close. Execute is NEVER mine. Per-instance Ken approval required for any exception.
+
+Triggered by: TKT-0501 "CREST synthesize and close" prompt where Yoda correctly observed ticket was already closed but could be misread as over-claiming. Ken used it to lock the boundary. CHG-0545.
+
 ## CREST Loop — Cognitive Routing & Execution Sandwich Topology (LOCKED 2026-06-09)
 - **Keyword:** CREST — Ken's reference word for the orchestration execution model
 - **Phases:** Plan (strong) → Execute (cheap) → Verify (strong) → Replan (strong) → Synthesize (cheap) → Done (terminal)

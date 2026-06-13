@@ -31,6 +31,29 @@ description: Model tier definitions, agent→model mapping, fallback chains, CRE
 | Shield, Lex, Sage, Warden | `minimax-m3` (Ollama Cloud) | T2 Primary |
 | All agents | kimi fallback chain ends with `ollama/kimi-k2.6:cloud` | Safety net |
 
+## Executor Tracking Schema
+
+Every executor dispatch logged by the CREST execution gate records the following fields in `state/crest-execute-gate-log.json` for audit and drift detection.
+
+### Fields
+
+| Field | Type | Description | Source |
+|-------|------|-------------|--------|
+| `executor` | string | The agent that _actually_ performed the work | Gate runtime `CREST_OPERATOR` |
+| `modelUsed` | string | The model that _actually_ executed | Gate runtime `CREST_MODEL` |
+| `intendedRoute` | string | The agent that should have performed the work per CREST routing | Dispatch atom `target_agent` |
+| `costTier` | string | T0–T3 cost classification | Derived from model-policy.json |
+| `gateVerdict` | string | `allow` / `block` / `warn` | Gate decision |
+| `gateReason` | string | Human-readable justification | Gate decision |
+
+### Why They Exist (L-107, TKT-0506)
+
+When CREST-phase dispatches bypass the intended executor (e.g., Yoda executes a mechanical file write that should have gone to Forge), the cost tier drifts from the plan. The `intendedRoute` vs `executor` comparison enables auto-heal drift checks and ensures the 2-Pass Contract (TKT-0321) is being followed.
+
+### Log Location
+
+`state/crest-execute-gate-log.json` — JSON array `history` with last 200 entries, plus a `lastDecision` summary. Appended via `log_decision()` in `scripts/crest-execute-gate.sh`.
+
 ## Tiers & Fallbacks
 
 | Tier | Model | Cost | Notes |
@@ -47,6 +70,20 @@ description: Model tier definitions, agent→model mapping, fallback chains, CRE
 - **Strong-tier (Plan / Verify / Replan):** Yoda, Atlas, Thrawn → `minimax-m3`
 - **Cheap-tier (Execute / Synthesize):** Forge, infra executors → `deepseek-v4-flash`
 - **Replan Gate:** Gap found → iterate back to Execute (n++). Stop met → Synthesize → Done.
+
+### Dispatch Discipline Audit
+
+A cross-check between intended route and actual execution, surfaced by two mechanisms:
+
+1. **`scripts/crest-execute-gate.sh`** — the execution gate (Path A). At dispatch time, it checks whether the operator matches the intended phase-model assignment. Blocks Yoda→direct-execute and logs the verdict.
+2. **Auto-heal CHECK 28h** — periodic audit that reads `state/crest-execute-gate-log.json`, compares `executor` vs `intendedRoute`, and flags any drift where a strong-tier agent performed cheap-tier work. Alerts via `scripts/telegram-alert.sh`.
+
+**Drift check pattern:**
+- `executor` must match `intendedRoute` OR have a valid Ken-approved override (`CREST_OVERRIDE=1`)
+- `modelUsed` must match the phase's expected tier per `model-policy.json`
+- Blocked dispatches are not a failure — they are a sign the gate is working correctly
+
+> **When to dispatch to Forge (infra executor):** For mechanical atoms — file write, cron restore, plist edit, state bootstrap, or any repetitive script-level task — route to Forge, not Yoda direct. Per L-026 ("Build/scripts → Forge ONLY").
 
 ## OC2 & Gemma4 Policy
 

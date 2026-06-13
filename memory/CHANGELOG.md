@@ -11,6 +11,164 @@
 ---
 ---
 
+## 2026-06-13 15:14 AEST — [CHG-0556] TKT-0504 closed: full TQP bridge shipped + scheduled
+**Type:** data
+**Change Type:** Normal
+**Source:** manual
+**Trigger:** TKT-0504 A0-A6 all done (CHG-0547, 0548, 0549, 0550, 0551, 0553, 0555). Ken 15:07 AEST approved close. Yoda 15:13 AEST executed close.
+**What changed:** TKT-0504 status: open → closed. PG state_tickets row updated. metadata.atom_status now has 7 entries (A0-A6 all done). metadata.close_decision documents DoD evidence. scripts/tqp-executor.sh (10084 bytes) is the live executor. cron dc88affb (every 5 min, isolated agentTurn) is the scheduled poll.
+**Why:** TKT-0504 A0 (Sprint 7) + A1-A5 (Sprint 9) + A6 (cron) all shipped. DoD: 6/6 atoms done, executor live + dry-run works, executor scheduled, L-096 verification command appended, SKILL.md TQP Execution Path section added.
+**Verification:** db-raw.sh SELECT status='closed' for TKT-0504. atom_status all 7 entries have status='done' and chg ID. close_decision.decided_by present. CREST DONE GATE passed (GATE PASSED via crest-done-gate.sh). No structural changes; only state transition.
+**Rollback:** UPDATE state_tickets SET status='open' WHERE id='TKT-0504' (reopens ticket). Note: tqp-executor.sh + cron dc88affb remain live; re-opening is for tracking purposes only.
+**Linked:** TKT-0504, TKT-0504-A0..A6, CHG-0547, CHG-0548, CHG-0549, CHG-0550, CHG-0551, CHG-0553, CHG-0555, TKT-0503, L-088, L-089, L-090, L-096, L-100, L-105
+---
+
+
+## 2026-06-13 15:11 AEST — [CHG-0555] TKT-0504 A6 + WO-002 Notion archive: register TQP cron, archive orphaned CrewAI Notion page
+**Type:** infra
+**Change Type:** Normal
+**Source:** manual
+**Trigger:** TKT-0504 A0-A5 done (CHG-0547, 0548, 0549, 0550, 0551, 0553). WO-002 cleanup done (CHG-0552, 0554). Ken 15:07 AEST approved: (1) register TQP cron, (2) archive Notion page 37bc1829-53ff-81b4-a4bd-f0ac61fdfa34, (3) close TKT-0504. This CHG covers the first two.
+**What changed:** Gateway cron: registered 'TQP executor poll (every 5 min)' (jobId dc88affb-2e25-44de-be94-ccb208043a43 — note: spec referenced 'a89d00ef' but that is the prefix of the pre-existing TKT-0501 Task Queue Processor job, a different TQP; system assigned a fresh UUID) with isolated agentTurn payload pointing at scripts/tqp-executor.sh --poll-once, every 300000ms, model deepseek-v4-flash, timeout 240s, delivery=none. Notion: PATCH page 37bc1829-53ff-81b4-a4bd-f0ac61fdfa34 archived: true (also in_trash: true). Note: the live PG row + shadow loop + shadow atom for this ticket were already deleted in CHG-0554.
+**Why:** TKT-0504 A3 spec called for cron registration; A1-A5 shipped but cron was not registered. WO-002 cleanup deleted the PG/shadow side of the CrewAI ticket but left the Notion page orphaned.
+**Verification:** cron action=list shows new job with name 'TQP executor poll (every 5 min)' and everyMs=300000, sessionTarget=isolated, payload.kind=agentTurn, delivery.mode=none. Notion GET-before-PATCH confirmed page was live (archived=false, in_trash=false); PATCH response archived=true, in_trash=true. After 5 min, cron should fire once and tqp-executor should report '0 atoms ready' (no queued work).
+**Rollback:** cron action=rm dc88affb-2e25-44de-be94-ccb208043a43 to deregister. Notion: re-PATCH with archived: false to restore.
+**Linked:** TKT-0504, TKT-0504-A6, CHG-0547, CHG-0548, CHG-0549, CHG-0550, CHG-0551, CHG-0553, CHG-0552, CHG-0554, WO-002, ALLOW-MIRROR-002
+---
+
+
+## 2026-06-13 15:01 AEST — [CHG-0554] WO-002 cleanup: delete 6 shadow test artifacts + delete CrewAI ticket (live+shadow)
+**Type:** data
+**Change Type:** Normal
+**Source:** manual
+**Trigger:** WO-002 divergence report 2026-06-13 09:00 AEST flagged 12 extras + 1 missing + 2 mismatches. Ken triage 14:56 AEST: delete test artifacts, delete CrewAI ticket (no longer applicable). Action 1 (status_map fix) already done by Yoda at 14:57 AEST (CHG-0552).
+**What changed:** DELETED from nexus_mirror.nexus_controller.loop_plan: 5 test artifact rows (TKT-TEST-1, TKT-TEST-2, TKT-TEST-7, TKT-TEST-001, TKT-TEST-003 — matched regex '^(TKT-TEST-|r[0-9]+)'). DELETED from nexus_mirror.nexus_controller.plan_atom: 5 corresponding atom children (via ON DELETE CASCADE FK plan_atom_loop_id_fkey). 0 orphan plan_atom rows. 0 rows matched extra patterns (id LIKE %test%, test_loop, forge/wo-002-test). DELETED from ainchors_nexus.state_tickets: 1 CrewAI ticket (notionpageid=37bc1829-53ff-81b4-a4bd-f0ac61fdfa34, title='Package CrewAI Crash Learnings into Regression Suite Enhancement', id=empty, status=open). DELETED from nexus_mirror.nexus_controller.loop_plan: 1 shadow mirror of that CrewAI ticket (id=736ffb83-ecbf-4670-9467-c90092b9ed22, source_tkt='', task_spec.title='Package CrewAI Crash Learnings into Regression Suite Enhancement'). DELETED from nexus_mirror.nexus_controller.plan_atom: 1 cascade child. NOT DELETED: Notion page 37bc1829-53ff-81b4-a4bd-f0ac61fdfa34 still exists (follow-up for Yoda — requires Notion API call from primary session). NOT DELETED: shadow loop_plan row ddd5974a-dcd6-4f17-ad7a-280bdfc4a442 (source_tkt='TKT-0334' — real CrewAI+Qwen3.6 PoC Parked ticket, anti-regression rule). NOT DELETED: any ticket with real TKT-NNNN id. Pre-counts: loop_plan=350, plan_atom=350. Post-counts: loop_plan=344, plan_atom=344. Net delta: -6 each.
+**Why:** Test pollution and orphaned test data. Ken 14:56 AEST: 'delete. it's no longer applicable.'
+**Verification:** SELECT COUNT on loop_plan where source_tkt ~ '^(TKT-TEST-|r[0-9]+)' returns 0. SELECT COUNT on orphan plan_atom returns 0. SELECT COUNT on ainchors_nexus.state_tickets where notionpageid='37bc1829-53ff-81b4-a4bd-f0ac61fdfa34' returns 0. SELECT COUNT on shadow loop_plan where source_tkt='' AND title ILIKE '%Package CrewAI Crash Learnings%' returns 0. Anti-regression: SELECT COUNT on shadow loop_plan where source_tkt='TKT-0334' returns 1 (intact). Re-run divergence-harness.py (requires asyncpg in env): expected match ~676, missing=0, extra=0 (down from 12), field_mismatch=0, stale=0.
+**Rollback:** Restore from nexus_mirror backup if available (check for state/divergence-report-2026-06-13.json pre-deletion snapshot). If no backup: re-create test artifacts via the original test scripts (forge/wo-002-test); re-create CrewAI ticket via db-ticket.sh create-from-json (will need a new TKT-NNNN).
+**Linked:** WO-002, CHG-0552 (status_map fix), TKT-0241 (related parked status), ALLOW-MIRROR-002 (shadow CrewAI allowlist — now points at deleted row, harmless to leave)
+---
+
+
+## 2026-06-13 14:57 AEST — [CHG-0553] TKT-0504-A5: pg-sprint-backlog SKILL.md — TQP Execution Path section
+**Type:** doc
+**Change Type:** Normal
+**Source:** manual
+**Trigger:** TKT-0504-A5 atom spec, dispatched by Yoda 2026-06-13 14:48 AEST
+**What changed:** infra/sandbox/seed/skills/pg-sprint-backlog/SKILL.md: appended top-level 'TQP Execution Path (TKT-0504)' section with architecture diagram, when-to-use, pitfalls (L-096/L-095/role boundary/cron registration/header parsing), verification command, and linked tickets.
+**Why:** Knowledge capture: TQP bridge was the lesson; without the doc, future agents will rediscover the silence class. Cross-linked to L-096 for L-Registry continuity.
+**Verification:** grep -c 'TQP Execution Path' = 1; grep -c 'L-096' = 2; SKILL.md not in file-contracts.json (out-of-root), no contract update needed
+**Rollback:** git checkout infra/sandbox/seed/skills/pg-sprint-backlog/SKILL.md
+**Linked:** TKT-0504, L-096, TKT-0503, CHG-0551
+---
+
+
+## 2026-06-13 14:57 AEST — [CHG-0552] WO-002 status-map: add 'parked' mapping for TKT-0241
+**Type:** config
+**Change Type:** Normal
+**Source:** manual
+**Trigger:** TKT-0241 shadow mismatch surfaced via WO-002 divergence report 2026-06-13 09:00. Ken triage 14:56 AEST approved fix.
+**What changed:** workspace-infra/state/status-map.json: plan_map['parked']='planning', atom_map['parked']='skipped'. TKT-0241 (parked per CHG-0502) now maps correctly: shadow loop should be 'planning', shadow atom should be 'skipped'.
+**Why:** WO-002 field_mismatch=2 on TKT-0241 (loop+atom) because status-map.json had no 'parked' entry. Harness fell back to live_status as expected, but shadow was seeded as 'planning' (from when ticket was 'open') and never re-mapped. Adding 'parked' makes the expected value deterministic.
+**Verification:** Re-run /Users/ainchorsangiefpl/.openclaw/workspace-infra/scripts/divergence-harness.py 2026-06-13 — TKT-0241 field_mismatch should drop to 0. status-map.json re-read confirms parked key present in both plan_map and atom_map.
+**Rollback:** Remove 'parked' lines from plan_map and atom_map in status-map.json. Re-run harness to confirm TKT-0241 returns to field_mismatch (acceptable; it's a known item).
+**Linked:** TKT-0241, CHG-0502, WO-002, TKT-0504 (groom)
+---
+
+
+## 2026-06-13 14:56 AEST — [CHG-0551] TKT-0504-A4: TQP dogfood test (claim → executor → exec-atom → done)
+**Type:** script
+**Change Type:** Normal
+**Source:** manual
+**Trigger:** TKT-0504-A4 atom spec, dispatched by Yoda 2026-06-13 14:48 AEST
+**What changed:** End-to-end TQP chain proven: TKT-0504-A4-TEST atom went queued→dispatched→running→done; exec-atom (parent_task_id=TKT-0504-A4-TEST) went queued→done; test file state/tqp-executor-test.txt written with expected content. Fixed bug discovered during dogfood: tqp-executor.sh used sed -n '2p' to skip psql header, but db-raw.sh uses psql -t -A (no header), so data was on line 1 — fixed to sed -n '1p'. Cleanup confirmed (test rows + file removed).
+**Why:** L-096 dogfood: TQP claim → tqp-executor → exec-atom handoff must work end-to-end. A4 also surfaced a real bug (header assumption) that A2's isolated test had not caught.
+**Verification:** Test atom: queued→dispatched→running→done. exec-atom: queued→done. test file content matches. Bug found and fixed. Cleanup confirmed.
+**Rollback:** git checkout scripts/tqp-executor.sh (revert sed fix)
+**Linked:** TKT-0504, L-096, TKT-0503, CHG-0550
+---
+
+
+## 2026-06-13 14:54 AEST — [CHG-0550] TKT-0504-A3: TQP cron handoff to tqp-executor.sh + L-096 verification command
+**Type:** infra
+**Change Type:** Normal
+**Source:** manual
+**Trigger:** TKT-0504-A3 atom spec, dispatched by Yoda 2026-06-13 14:48 AEST
+**What changed:** scripts/task-queue-processor.sh: after TQP claim, if no parent_task_id (non-CREST), call tqp-executor.sh --limit 1 --dry-run=false. L-096 LESSONS entry appended with verification command. TQP cron a89d00ef registration deferred to Yoda (no crons table in PG; gateway-managed).
+**Why:** Bridge gap: TQP claims but needs to hand off to tqp-executor for non-CREST atoms. Without this, the chain is broken at the consumer step even with tqp-executor live.
+**Verification:** bash -n clean on both scripts, L-096 verification command line appended (grep -c=1), no crontab mutation (Yoda will register cron a89d00ef)
+**Rollback:** git checkout scripts/task-queue-processor.sh; revert L-096 LESSONS append
+**Linked:** TKT-0504, L-096, TKT-0503, CHG-0549
+---
+
+
+## 2026-06-13 14:52 AEST — [CHG-0549] TKT-0504-A2: tqp-executor.sh sessions_spawn integration
+**Type:** script
+**Change Type:** Normal
+**Source:** manual
+**Trigger:** TKT-0504-A2 atom spec, dispatched by Yoda 2026-06-13 14:48 AEST
+**What changed:** scripts/tqp-executor.sh: fetch atoms_jsonb, atomic UPDATE state_payload.executor (idempotency guard), INSERT in-band exec-atom with parent_task_id, --dry-run and --limit flags
+**Why:** L-096 silence class: TQP claims but no executor. A1 added the skeleton; A2 makes it actually dispatch work via in-band exec-atom (TQP cron consumer picks it up).
+**Verification:** bash -n clean, --dry-run prints would-claim, test atom queued->dispatched->running, exec-atom inserted with parent_task_id, idempotency gate skips re-runs, cleanup confirmed
+**Rollback:** git checkout scripts/tqp-executor.sh (revert to A1 skeleton)
+**Linked:** TKT-0504, L-096, TKT-0503, CHG-0548
+---
+
+
+## 2026-06-13 14:50 AEST — [CHG-0548] TKT-0504-A1: tqp-executor.sh skeleton
+**Type:** script
+**Change Type:** Normal
+**Source:** manual
+**Trigger:** TKT-0504-A1 atom spec, dispatched by Yoda 2026-06-13 14:48 AEST
+**What changed:** New scripts/tqp-executor.sh with poll loop, lock file, state file, idempotency gate
+**Why:** L-096 silence class: TQP claims but no executor. This script is the executor.
+**Verification:** bash -n clean, manual poll cycle runs, state file created
+**Rollback:** rm scripts/tqp-executor.sh; rm state/tqp-executor-state.json
+**Linked:** TKT-0504, L-096, TKT-0503, CHG-0547
+---
+
+
+## 2026-06-13 14:41 AEST — [CHG-0547] Demote CHECK 28g severity CRITICAL→WARN: TQP claimed-but-not-executing signal is live
+**Type:** rule
+**Change Type:** Normal
+**Source:** manual
+**Trigger:** TKT-0504-A0 Sprint 7 quickfix per Ken 14:24 AEST groom approval. Signal layer (auto-heal CHECK 28g) was already implemented; only severity demotion remained.
+**What changed:** scripts/auto-heal.sh lines 1776, 1784, 1785: CRITICAL→WARN in verdict string, log message, and NEEDS_KEN. Report path (state/tqp-stuck-claims.json) unchanged.
+**Why:** L-096 silence class: signal layer live since 2026-06-13. CRITICAL severity is too noisy once a signal exists — demote to WARN. Re-promote to CRITICAL only after TKT-0504-A1..A5 (Sprint 9 full bridge) lands and the executor is verified.
+**Verification:** bash -n clean. awk 'NR>=1729 && NR<=1790' shows 0 CRITICAL, 3 WARN in CHECK 28g block. L-096 LESSONS follow-up appended. Atom TKT-0504-A0 marked done in PG.
+**Rollback:** Revert 3 line changes in auto-heal.sh (CRITICAL back). Revert L-096 LESSONS follow-up. No new file created.
+**Linked:** TKT-0504, L-096, TKT-0504-A0, TKT-0504-A1..A5, CHG-0545
+---
+
+
+## 2026-06-13 14:29 AEST — [CHG-0546] LinkedIn Teaser cron root-cause fix + 3 Spark draft cron delivery target patch
+**Type:** cron
+**Change Type:** Standard
+**Source:** ken-prompt
+**Trigger:** Operational - Ken request 14:13 AEST (Telegram direct)
+**What changed:** state/linkedin-auth.json memberId fix; cron a129f70c deleted; cron ce29e1e5 created; crons 13b0aa89/833ee0c7/869502c9 delivery.to patched; state/linkedin-campaign.json SSOT updated; social-drafts image uploaded to LinkedIn CDN
+**Why:** Teaser missed 09:00 AEST slot. Two root causes: (1) state/linkedin-auth.json memberId=urn:li:person:unknown invalid; (2) cron delivery.to=kenmun@ainchors.com (email) instead of numeric chat_id - L-001 violation. Same bug found on 3 Spark draft crons (Tue/Wed/Thu) that would have failed silently when fired.
+**Verification:** Teaser LIVE: https://www.linkedin.com/posts/activity-7471417286260596736/ (urn:li:share:7471417286260596736, image urn:li:image:D5610AQFbmgSvRFZL4w). SSOT updated (published 10 to 11). 3 draft crons verified delivery.to=8574109706. Cron self-deleted after success.
+**Rollback:** Revert state/linkedin-auth.json memberId (re-add original via git). The 3 patched crons can be reverted with cron edit --to kenmun@ainchors.com (NOT recommended).
+**Linked:** L-111 L-001 CHG-0515 CHG-0518 CHG-0519 TKT-0232
+**Category:** operations
+**Framework docs:** docs/Operations-Runbook.md memory/LESSONS.md spark/RULES.md
+---
+
+
+## 2026-06-13 13:55 AEST — [CHG-0545] Lock Yoda role boundary: orchestrator-only CREST, evidence-only, no fabrication
+**Type:** rule
+**Change Type:** Normal
+**Source:** ken-prompt
+**Trigger:** Ken Mun mandate 2026-06-13 13:54 AEST after TKT-0501 'CREST synthesize and close' prompt. Ken observed Yoda could be misread as over-claiming and used the moment to lock the 4-point governance directive.
+**What changed:** SOUL.md: added Non-Negotiables #13-16 (No fabrication, Evidence-only, CREST mandatory, Orchestrator only). Trimmed Key References section to keep SOUL.md under 5,000 char hard limit. MEMORY.md: added 'Ken's Governance Mandate' section linking the 4 rules. memory/LESSONS.md: added L-113 codifying the boundary + triggering rules.
+**Why:** Ken's explicit directive: lock the role boundary so Yoda cannot drift into execution under any framing (vibe, urgency, 'I know how', CREST-skip shortcuts). All 3 strikes on Jun 11 were triage-mode momentum treating ops as chat replies. Make the rule structural.
+**Verification:** wc -c SOUL.md = 4,758 (under 5,000 limit ✓). grep -c '^1[3-6]\.' SOUL.md = 4 (rules 13-16 present ✓). grep -c 'CHG-0545' SOUL.md MEMORY.md memory/LESSONS.md = 5 (cross-referenced ✓). LESSONS.md tail confirms L-113 entry. All 3 file writes confirmed by direct read after edit.
+**Rollback:** Revert SOUL.md edits (restore rules 13-16 and Key References section). Revert MEMORY.md (delete 'Ken's Governance Mandate' block). Revert LESSONS.md (delete L-113 entry). Log a new CHG recording the rollback. Requires Ken approval.
+**Linked:** TKT-0501, TKT-0321 (2-Pass Contract), TKT-0322 (model-task matrix), TKT-0368 (CREST risk framework), TKT-0396 (skill-gate)
+---
+
+
 ## 2026-06-13 13:37 AEST — [CHG-0544] TKT-0501 closed: 11 crons audited, 10 routed, 1 false positive. L-110 + L-111 + L-112
 **Type:** config
 **Change Type:** Normal

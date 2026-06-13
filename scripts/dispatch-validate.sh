@@ -156,6 +156,56 @@ else
   FAILURES+=("$RESULT")
 fi
 
+# ── CREST EXECUTION GATE (TKT-0506, CHG-0540) ────────────────
+# Pre-flight check before any Yoda→specialist dispatch.
+# If source_agent=yoda and the first atom has a mutating verb,
+# invoke crest-execute-gate.sh to verify the dispatch is legitimate.
+
+CREST_GATE="${SCRIPT_DIR}/crest-execute-gate.sh"
+
+SOURCE_AGENT=$(echo "$JSON_INPUT" | "$JQ" -r '.source_agent // empty' 2>/dev/null)
+FIRST_VERB=$(echo "$JSON_INPUT" | "$JQ" -r '.discovery_atoms[0].verb // .sub_crest_plan[0].verb // empty' 2>/dev/null)
+FIRST_TARGET=$(echo "$JSON_INPUT" | "$JQ" -r '.discovery_atoms[0].target // .sub_crest_plan[0].target // empty' 2>/dev/null)
+FIRST_DESC=$(echo "$JSON_INPUT" | "$JQ" -r '.discovery_atoms[0].desc // .sub_crest_plan[0].desc // empty' 2>/dev/null)
+
+MUTATING_VERBS="create|write|delete|edit|exec"
+
+if [[ "$SOURCE_AGENT" == "yoda" ]] && echo "$FIRST_VERB" | grep -qE "^($MUTATING_VERBS)$"; then
+  if [[ -x "$CREST_GATE" ]]; then
+    GATE_RESULT=$(CREST_PHASE=execute \
+      CREST_OPERATOR=yoda \
+      CREST_MODEL=ollama/minimax-m3:cloud \
+      CREST_ATOM_DESC="$FIRST_DESC" \
+      CREST_TARGET="$FIRST_TARGET" \
+      bash "$CREST_GATE" 2>/dev/null) || true
+
+    GATE_STATUS=$(echo "$GATE_RESULT" | "$JQ" -r '.status // "unknown"' 2>/dev/null)
+    GATE_REASON=$(echo "$GATE_RESULT" | "$JQ" -r '.reason // "no reason given"' 2>/dev/null)
+
+    if [[ "$GATE_STATUS" == "block" ]]; then
+      FAILURES+=("$(fail_atom "crest_execution_gate" "CREST execution gate BLOCKED: ${GATE_REASON}")")
+    elif [[ "$GATE_STATUS" == "warn" ]]; then
+      # Warn but don't block — unknown phase passed through
+      if $VERBOSE; then
+        echo "WARN: CREST gate returned warn: ${GATE_REASON}" >&2
+      fi
+    else
+      ((PASSES++))
+      if $VERBOSE; then
+        echo "PASS: CREST execution gate ($GATE_STATUS)" >&2
+      fi
+    fi
+  else
+    if $VERBOSE; then
+      echo "WARN: crest-execute-gate.sh not found at ${CREST_GATE}; skipping execution gate" >&2
+    fi
+  fi
+else
+  if $VERBOSE; then
+    echo "SKIP: CREST execution gate (source=$SOURCE_AGENT, verb=$FIRST_VERB)" >&2
+  fi
+fi
+
 # 2. target_agent: present and non-empty
 if RESULT=$(check "target_agent" \
   'if .target_agent and (.target_agent | type == "string") and ((.target_agent | length) > 0) then "pass" else "fail" end' \

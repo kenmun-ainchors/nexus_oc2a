@@ -108,10 +108,10 @@ sync_ticket() {
   
   # 1. Read PG Data — query columns individually to avoid JSONB null-byte corruption
   # row_to_json on JSONB metadata can embed U+0000 which breaks jq
-  local title status priority sprint t_type notionid created_at updated_at meta_raw
+  local title t_status priority sprint t_type notionid created_at updated_at meta_raw
   
   title=$($DB_SCRIPT -c "SELECT title FROM state_tickets WHERE id='$tkt_id';" 2>/dev/null | { grep -v "^$" || true; } | tail -1 | sed 's/^[[:space:]]*//;s/[[:space:]]*$//')
-  status=$($DB_SCRIPT -c "SELECT status FROM state_tickets WHERE id='$tkt_id';" 2>/dev/null | { grep -v "^$" || true; } | tail -1 | sed 's/^[[:space:]]*//;s/[[:space:]]*$//')
+  t_status=$($DB_SCRIPT -c "SELECT status FROM state_tickets WHERE id='$tkt_id';" 2>/dev/null | { grep -v "^$" || true; } | tail -1 | sed 's/^[[:space:]]*//;s/[[:space:]]*$//')
   priority=$($DB_SCRIPT -c "SELECT priority FROM state_tickets WHERE id='$tkt_id';" 2>/dev/null | { grep -v "^$" || true; } | tail -1 | sed 's/^[[:space:]]*//;s/[[:space:]]*$//')
   sprint=$($DB_SCRIPT -c "SELECT COALESCE(sprint,'') FROM state_tickets WHERE id='$tkt_id';" 2>/dev/null | { grep -v "^$" || true; } | tail -1 | sed 's/^[[:space:]]*//;s/[[:space:]]*$//')
   t_type=$($DB_SCRIPT -c "SELECT type FROM state_tickets WHERE id='$tkt_id';" 2>/dev/null | { grep -v "^$" || true; } | tail -1 | sed 's/^[[:space:]]*//;s/[[:space:]]*$//')
@@ -144,7 +144,7 @@ sync_ticket() {
 
   # Transforms
   local n_title="[$tkt_id] $title"
-  local n_status=$(map_status "$status")
+  local n_status=$(map_status "$t_status")
   local n_priority=$(map_priority "$priority")
   local n_type=$(map_category "$t_type")
   local n_stream=$(map_stream "$agent")
@@ -197,7 +197,7 @@ sync_ticket() {
   fi
 
   # Handle Delivered Date (Only set on done/closed)
-  if [[ "$status" != "done" && "$status" != "closed" && "$status" != "folded" ]]; then
+  if [[ "$t_status" != "done" && "$t_status" != "closed" && "$t_status" != "folded" ]]; then
     payload=$(echo "$payload" | jq '.properties["Delivered Date"] = {date: null}')
   fi
 
@@ -274,24 +274,24 @@ do_audit() {
 
 do_batch() {
   log "Running Batch Reconciliation..."
-  local tickets=$($DB_SCRIPT -c "SELECT id FROM state_tickets WHERE metadata->>'notion_sync.status' != 'synced' ORDER BY updated_at;" | grep "TKT-")
+  local tickets=$($DB_SCRIPT -c "SELECT id FROM state_tickets WHERE (metadata->'notion_sync'->>'status' IS NULL OR metadata->'notion_sync'->>'status' != 'synced') ORDER BY updated_at;" | grep "TKT-")
   
   if [[ -z "$tickets" ]]; then
     log "All tickets synced. Nothing to do."
     return 0
   fi
   
-  for t in ${(f)tickets}; do
-    sync_ticket "$t" "false" || true
-  done
+  while IFS= read -r t; do
+    [[ -n "$t" ]] && sync_ticket "$t" "false" || true
+  done <<< "$tickets"
 }
 
 do_sprint() {
   local sprint_name="$1"
   log "Syncing all tickets in sprint: $sprint_name"
   local tickets=$($DB_SCRIPT -c "SELECT id FROM state_tickets WHERE sprint = '$sprint_name';" | grep "TKT-")
-  for t in ${(f)tickets}; do
-    sync_ticket "$t" "false" || true
+  while IFS= read -r t; do
+    [[ -n "$t" ]] && sync_ticket "$t" "false" || true
   done
 }
 

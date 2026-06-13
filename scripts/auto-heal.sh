@@ -227,7 +227,7 @@ fi
 
 if [[ -z "$LATEST_BACKUP" ]]; then
   ISSUES_FOUND+=("backup:none-found")
-  NEEDS_KEN+=("No backup files found in ~/Backups/ainchors/workspace/ or workspace-incremental/")
+  NEEDS_KEN+=("No backup files found in ${HOME}/Backups/ainchors/workspace/ or workspace-incremental/")
 else
   AGE_HOURS=$(( ( $(date +%s) - $(stat -f %m "$BACKUP_PATH") ) / 3600 ))
   if (( AGE_HOURS > 30 )); then
@@ -274,7 +274,7 @@ if (( STALE_DIRS > 1 )); then
         --type infra --source auto-heal \
         --title "Cleaned $REMOVED stale plugin-runtime-deps dirs" \
         --trigger "auto-heal scan found $STALE_DIRS dirs (threshold >1)" \
-        --changed "Removed $REMOVED stale openclaw-unknown-* dirs from ~/.openclaw/plugin-runtime-deps/, kept newest" \
+        --changed "Removed $REMOVED stale openclaw-unknown-* dirs from \${HOME}/.openclaw/plugin-runtime-deps/, kept newest" \
         --why "Stale plugin-runtime-deps caused INC-20260426-003 (116min outage). Pre-emptive cleanup prevents recurrence." \
         --verified "ls confirms only 1 version versioned dir remains" \
         --rollback "N/A — stale dirs are regenerated automatically on plugin load" \
@@ -1773,7 +1773,7 @@ result = {
     "stuck_threshold_min": STUCK_THRESHOLD_MIN,
     "stuck_count": len(stuck),
     "stuck_atoms": stuck,
-    "verdict": "PASS" if len(stuck) == 0 else f"CRITICAL: {len(stuck)} atom(s) claimed > 5 min ago with no execution. TQP claims but no executor (L-096)."
+    "verdict": "PASS" if len(stuck) == 0 else f"WARN: {len(stuck)} atom(s) claimed > 5 min ago with no execution. TQP claims but no executor (L-096). Signal live since 2026-06-13 — see state/tqp-stuck-claims.json."
 }
 Path("$TQP_STUCK_REPORT").write_text(json.dumps(result, indent=2))
 print(f"CHECK 28g: {result['verdict']}")
@@ -1781,8 +1781,8 @@ PYEOF
 
 STUCK_COUNT=$(python3 -c "import json; d=json.load(open('$TQP_STUCK_REPORT')); print(d.get('stuck_count', 0))" 2>/dev/null || echo 0)
 if [[ "$STUCK_COUNT" -gt 0 ]]; then
-  log "CHECK 28g: CRITICAL: $STUCK_COUNT atom(s) claimed but not executing — see $TQP_STUCK_REPORT"
-  NEEDS_KEN+=("L-096 CRITICAL: $STUCK_COUNT TQP atom(s) claimed by agent:tqp with no execution. TQP has no executor for non-CREST atoms. See state/tqp-stuck-claims.json")
+  log "CHECK 28g: WARN: $STUCK_COUNT atom(s) claimed but not executing — see $TQP_STUCK_REPORT"
+  NEEDS_KEN+=("L-096 WARN: $STUCK_COUNT TQP atom(s) claimed by agent:tqp with no execution. Signal live since 2026-06-13. Full bridge TKT-0504-A1..A5 in Sprint 9. See state/tqp-stuck-claims.json")
 fi
 
 # ---------- CHECK 28h: CREST Executor Routing Audit (L-107) ----------

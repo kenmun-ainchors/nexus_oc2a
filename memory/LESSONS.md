@@ -1130,6 +1130,8 @@ Three crons (Morning Stand-Up, Daily Blog, Aria ROI) failed because agent models
 
 **Linked:** L-095 (sibling — JSON-vs-PG), TKT-0386 (flash-dispatcher — CREST-only consumer), TKT-0503 (atoms stuck), scripts/task-queue-processor.sh, scripts/flash-dispatcher.sh, state/obs.db, state/auto-heal.sh CHECK 28g.
 
+**Verification command (post-TKT-0504-A3):** `bash scripts/tqp-executor.sh --dry-run` — should show 0+ queued TQP atoms ready for spawn (whereas pre-fix it would have shown 0 always, since the executor didn't exist). End-to-end check: insert TQP atom, claim via task-queue-processor, verify tqp-executor creates the in-band exec-atom and atomically gates the source atom (state_payload.executor='tqp-executor', status='running'). Idempotency: re-run with executor set → "0 atoms ready" (idempotency gate tripped).
+
 ## L-092 — 2026-06-13 | auto-heal.sh tilde detector flags its own log output — false-positive NEEDS_KEN
 **Lesson:** During A1 execution (TKT-0503), discovered that CHECK 20 (tilde path enforcement) at line 736 of scripts/auto-heal.sh scans `state/*.json` and flags every `~/` substring. The detector was reading its own NEEDS_KEN message text in `state/auto-heal-*.json` logs and counting them as new violations. 44 historical false-positive events.
 
@@ -1304,3 +1306,67 @@ The `[^A-Z]*?` is "any chars not uppercase" — env var names are uppercase, so 
 **Rule:** When checking env vars that may contain spaces (NODE_OPTIONS, LD_PRELOAD, BASH_ENV, etc.), use Python regex against `ps eww` output, not shell `tr`/`grep`. Always validate detection with a known-true state (we ran it against prod gateway which was launchd-spawned with NODE_OPTIONS set — both `wrapperParentedToLaunchd` AND `envWrapperApplied` should be true; the false-negative on `envWrapperApplied` exposed the bug).
 
 **Linked:** TKT-0505-A5, L-102, CHECK 25b, scripts/auto-heal.sh.
+
+## L-096: pg-to-notion-sync.sh — Two Silent-Failure Bugs (2026-06-13)
+
+**Context:** 30-min cron `pg-to-notion-sync.sh --batch` reported "All tickets synced. Nothing to do." but PG showed 37 tickets with non-synced status.
+
+**Bug 1 — JSONB dot-notation doesn't work for nested paths:**
+- Wrong: `metadata->>'notion_sync.status'` — returns NULL for all rows
+- Right: `metadata->'notion_sync'->>'status'` — proper nested JSONB access
+- Impact: `!= 'synced'` matched nothing (NULL != 'synced' is NULL/false in SQL), script silently skipped all pending tickets
+
+**Bug 2 — zsh `status` is a read-only variable:**
+- `local status` and `status=...` assignment fails under zsh with "read-only variable: status"
+- Fix: rename to `t_status` throughout sync_ticket()
+- Also: script shebang is `#!/bin/zsh` but uses `${(f)var}` zsh-specific syntax — must be invoked with `zsh`, not `bash`
+
+**Detection:** Cron run was silent-success for unknown duration (both bugs masked each other — Bug 1 made the query return empty, so Bug 2's zsh variable issue was never reached until Bug 1 was fixed).
+
+**Fix applied:** CHG-0525 (pending). Both bugs fixed in pg-to-notion-sync.sh. 30 tickets synced on re-run.
+
+## L-113 — 2026-06-13 | Yoda Role Boundary / CREST Discipline
+**Lesson:** Yoda is orchestrator, never executor. The only CREST activities that belong to Yoda are: Plan, Verify, Replan, Synthesize, Close. **Execute is NEVER Yoda's** — even for trivially mechanical tasks. Any execution atom must be dispatched to a specialist (Forge for infra/build, etc.) via the 2-Pass Contract (TKT-0321).
+**Trigger:** Ken Mun 2026-06-13 13:54 AEST, after TKT-0501 "CREST synthesize and close" prompt — Yoda correctly declined to re-close an already-closed ticket, and Ken locked the boundary into SOUL.md Non-Negotiables #13–16.
+**Compounding rules (also from same mandate):**
+- **No fabrication.** "I don't know" + find out. Never invent, guess, or paper over.
+- **Evidence-only.** Done/closed/verified = validated + backed by artifacts (PG state, logs, tool output, file content). Vibe ≠ fact.
+- **CREST mandatory.** Every plan involving execution work runs Plan→Execute→Verify→Replan→Synthesize→Done. No skip phases.
+**Rule:** 
+- If a task requires touching tools that produce side effects (file writes, cron changes, config mutations, dispatches), and the agent is Yoda → STOP. Dispatch to specialist or ask Ken for explicit per-instance exception.
+- "I already know how to do it" is not justification — it's a violation risk.
+- 3-strike principle applies: re-occurrence escalates per CREST enforcement policy.
+**Source:** Ken Mun mandate 2026-06-13 13:54 AEST, CHG-0545. SOUL.md rules 13–16. MEMORY.md "Ken's Governance Mandate" section.
+
+## L-114 — 2026-06-13 | Dispatch Quoting-Context Awareness
+**Lesson:** When dispatching an executor (Forge) to apply multi-line edits to a shell script, the dispatch spec MUST call out per-line quoting context — not a blanket rule. A single "use `\${HOME}`" instruction applied to two similar-looking lines can produce correct output on one and a literal-string regression on the other.
+**Why it's tricky:** The two contexts in auto-heal.sh behave differently:
+- `NEEDS_KEN+=("...")` (regular string array): bare `$HOME` expands correctly at runtime. `\${HOME}` stays as literal `${HOME}` — **regression**.
+- `$( ... )` (command substitution): `\${HOME}` works because `\$` defers the `$` until the subshell evaluates the inner string. Bare `$HOME` would also work here.
+**Real example from TKT-0503-A1-fixup v1 (2026-06-13 14:14):** Forge applied `\${HOME}` to both line 230 (NEEDS_KEN) and line 277 (CHG invocation). Yoda's verify phase caught the regression via a zsh runtime test mimicking line 230's context. Required a v2 follow-up dispatch.
+**Rule for Yoda dispatch specs (not for Forge — for me):**
+- When writing a `sessions_spawn` task that includes shell edits, **explicitly call out the quoting context per line** ("line 230 = `NEEDS_KEN+=("...")` — use bare `$HOME`; line 277 = inside `$( ... )` substitution — use `\${HOME}`").
+- When verifying executor work on shell scripts, **always run a zsh runtime test that mimics the actual context** — `bash -n` alone won't catch quoting escapes that stay literal at runtime.
+- The lesson is not "don't use escapes" — it's "the dispatch must specify the escape per context, not in blanket form".
+**Detection:** Re-render any string that contains `\$` or `${...}` in a verification block that mimics the original quoting context. If the rendered output contains `\$` or `${...}` literally, the escape was wrong for that context.
+**Source:** TKT-0503-A1-fixup v1 regression 2026-06-13 14:14–14:16 AEST, caught by Yoda verify phase. CHG-0545 (Yoda role boundary) — Yoda dispatched v2 to Forge per the locked role boundary, didn't fix it directly.
+
+## L-111 — 2026-06-13 | Telegram Cron Delivery: chat_id Numeric, NOT Email
+**Lesson:** Cron `delivery.to` for Telegram channel MUST be a numeric chat_id (e.g. `"8574109706"`), NEVER an email address (e.g. `"kenmun@ainchors.com"`). Violation fails silently as `OutboundDeliveryError: Telegram recipient must be a numeric chat ID` and the agentTurn output is masked by the delivery error in cron state.
+**Source:** LinkedIn teaser cron `a129f70c` (2026-06-13 09:00 AEST) + Spark Tue/Wed/Thu draft crons (`13b0aa89`, `833ee0c7`, `869502c9`) — all had `delivery.to: "kenmun@ainchors.com"`. L-001 was already logged for this rule but violated when CHG-0515/0518/0519 crons were created.
+**Rule:** When creating ANY cron with `delivery.channel: "telegram"`, the `delivery.to` field MUST be the numeric chat_id. Validation step before cron creation: confirm `to` is digits-only (or starts with `-` for groups). Audit all existing crons quarterly for this pattern.
+**Related:** L-001 (sessions_send vs Bot API for delivery), CHG-0515, CHG-0518, CHG-0519, CHG-0546.
+
+## L-115 — 2026-06-13 | db-ticket.sh update does full-metadata-replace, not JSONB merge
+**Lesson:** `db-ticket.sh update <TKT> '{"metadata":{...}}'` does a **full replacement** of the `metadata` JSONB column with whatever object you send. It does NOT merge with existing fields. A partial-payload update will silently clobber all fields you didn't include.
+**Why it's dangerous:** Tempting to think "I'll just send the 2 fields I want to add" — but if the script wrote a full SET, every other metadata key (atom_status, re_verify_findings, review_window_end, executor_compliance, linked_lessons, etc.) is gone in a single call. Both PG and the `state/tickets.json` fallback are overwritten; no diff, no warning, exit 0.
+**Real example from TKT-0503 resume (2026-06-13 14:17 → 14:32):** Yoda's 14:17 update added ~10 fields (atom_status, re_verify_findings, review_window_end, executor_compliance, etc.). Yoda's 14:27 "fix-up" sent a 2-field payload (brief + grooming_history) thinking it would merge. **It replaced the whole metadata column with just those 2 fields.** All 10 prior fields lost from both PG and fallback. Caught immediately by Yoda's verify phase via `db-ticket.sh read` + check of preserved fields.
+**Rule for Yoda (strict, no exceptions):**
+- Every `db-ticket.sh update` payload MUST include the **complete** `metadata` block, sourced from `db-ticket.sh read` + edits, never a subset.
+- After every `db-ticket.sh update`, **always re-read the ticket and diff the metadata keys** against the intended set. If any are missing, you have a clobber.
+- If a field would be tedious to reconstruct: the facts are usually in journal + CHANGELOG + LESSONS. Rebuild from evidence, not from memory.
+- The fallback file `state/tickets.json` is NOT a safety net — it gets overwritten in the same call.
+**Detection pattern:** `python3 -c "import json; d=json.load(open('state/tickets.json')); m=d.get('TKT-XXXX',{}).get('metadata',{}); expected_keys=[...]; print('MISSING:', set(expected_keys)-set(m.keys()))"`
+**Source:** TKT-0503 metadata clobber 2026-06-13 14:27 AEST, caught in same turn by Yoda verify phase. Ken Mun directive 14:32 AEST: log L-115 now, approve rebuild, caught-in-verify exempted from L-113 strike count. CHG-0545 (Yoda role boundary) — no execution by Yoda, but the dispatch discipline lesson (always send complete payload) applies to me directly when calling domain scripts.
+
+**Follow-up 2026-06-13 14:40 AEST — Severity demoted CRITICAL→WARN (TKT-0504-A0, CHG-PENDING):** Signal layer (CHECK 28g in auto-heal.sh) was implemented 2026-06-13; severity was CRITICAL. Demoted to WARN per TKT-0504 groom (Ken 14:24 AEST). The signal is live, so CRITICAL is too noisy. Re-promote to CRITICAL only after TKT-0504-A1..A5 (Sprint 9 full bridge: tqp-executor.sh) ships and the executor is verified. **Verification command:** `bash scripts/auto-heal.sh 2>&1 | grep -A 1 "CHECK 28g"` — verdict should read `WARN: N atom(s)...` not `CRITICAL: N atom(s)...`. **Rollback:** revert 3 lines in auto-heal.sh (CRITICAL back), revert this LESSONS entry. **Linked:** TKT-0504-A0, CHG-PENDING.

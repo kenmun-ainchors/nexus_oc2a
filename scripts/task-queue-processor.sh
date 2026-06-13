@@ -135,6 +135,14 @@ fi
 
 echo "TQP: Claimed $TASK_ID — dispatched."
 
+# TKT-0504-A3: hand off non-CREST TQP atoms to tqp-executor.
+# If the claimed atom has no parent_task_id, it's a TQP-queued atom (not a CREST
+# sub-atom). tqp-executor.sh spawns the work via the in-band exec-atom path.
+# Errors here are non-fatal: TQP has already claimed, the dispatch is the contract.
+if [[ -z "$TASK_PARENT" ]]; then
+  bash scripts/tqp-executor.sh --limit 1 --dry-run=false 2>&1 || echo "TQP: tqp-executor handoff failed for $TASK_ID (non-fatal)"
+fi
+
 # ──────────────────────────────────────────
 # ATOM 2.2: Task is now dispatched. The cron agent (minimax-m3) will
 # process the dispatch in its own session using sessions_spawn.

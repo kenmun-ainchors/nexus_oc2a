@@ -635,3 +635,74 @@ This skill and the underlying scripts were created in response to **5 failures i
 | 5 | ticket.sh --flags silently ignored — 8 tickets degraded to file-only | ticket.sh no flag validation, agent guessed wrong invocation |
 
 **Prevention:** This skill is loaded by all agents before TKT/sprint operations. The scripts reject bad patterns structurally. The lifecycle is documented once, not rediscovered per-session.
+
+---
+
+## TQP Execution Path (TKT-0504)
+
+The TQP (Task Queue Processor) is the cron-driven dispatch loop for `state_task_queue` rows. It is **not** just a queue manager — it has a 2-stage hand-off chain that downstream consumers (CREST and non-CREST) plug into.
+
+### Architecture
+
+```
+cron a89d00ef (every 5 min)
+  └─→ scripts/task-queue-processor.sh   # TQP claim loop (queue manager)
+        ├─ atomic claim: status='queued' → 'dispatched', claimedby='agent:tqp'
+        ├─ if parent_task_id IS NULL (non-CREST TQP atom):
+        │     └─→ scripts/tqp-executor.sh --limit 1 --dry-run=false   # (A3 handoff)
+        │           ├─ query: dispatched + claimedby='agent:tqp' + no parent + executor empty
+        │           ├─ atomic UPDATE: state_payload.executor='tqp-executor', status='running'
+        │           ├─ idempotency gate: WHERE state_payload->>'executor' IS NULL
+        │           └─ INSERT in-band exec-atom: source='agent:tqp-queued',
+        │              parent_task_id=original, atoms_jsonb={task,model,agent,...}
+        └─ (CREST sub-atom with parent_task_id): flash-dispatcher.sh handles via state_sub_crest
+   exec-atom → sessions_spawn (parent runtime) → execute → status='done'
+```
+
+### When to Use
+
+The TQP execution path is for **non-CREST TQP-queued atoms** (atoms in `state_task_queue` with `source='agent:tqp'`, `parent_task_id IS NULL`). CREST sub-atoms (with `parent_task_id` set) take a different path via `flash-dispatcher.sh` (TKT-0386) and `state_sub_crest` / `state_sub_crest_atoms`.
+
+**Idempotency contract:** the executor is safe to re-run. Rows with `state_payload.executor` non-null are skipped by the WHERE clause. `tqp-executor.sh --dry-run` is the safe inspection mode.
+
+### Pitfalls
+
+- **L-096 silence class.** TQP claim succeeded but no executor consumed the atom. TKT-0504 ships `tqp-executor.sh` (A1–A2) plus the A3 handoff in `task-queue-processor.sh` to close this gap. CHECK 28g in auto-heal.sh (severity WARN post-A0) detects the class. See `memory/LESSONS.md` L-096.
+- **L-095 PG-vs-JSON divergence.** TQP reads/writes PG (the canonical store). The `state/task-queue.json` path is orphaned. Do not use it.
+- **Role boundary (CHG-0545).** tqp-executor.sh does not call `sessions_spawn` directly. It produces an exec-atom row; the parent runtime (Yoda) consumes the exec-atom and calls `sessions_spawn`. This keeps executor execution context-free and the parent in the dispatch-control seat.
+- **Cron registration.** The TQP cron `a89d00ef` is OpenClaw gateway-managed (no `crons` table in PG). Forge/Yoda isolated contexts cannot add it via DB. Yoda registers via gateway API; from Forge, only the script chain is verifiable.
+- **Idempotency gate.** The atomic UPDATE is the safety net. Re-running `tqp-executor.sh` on an already-claimed atom (executor set) is a no-op. Do not remove the WHERE clause.
+- **Header parsing.** `db-raw.sh` uses `psql -t -A` (tuples-only, unaligned) — NO header in output. Use `sed -n '1p'` to grab the data line, not `'2p'`. (A4 dogfood caught this bug; A2's isolated test did not.)
+
+### Verification Command
+
+```bash
+bash scripts/tqp-executor.sh --dry-run
+```
+
+Should show 0+ queued TQP atoms ready for spawn. Pre-TKT-0504 this always returned 0 because the executor did not exist. Post-fix:
+- 0 ready → healthy idle (no TQP-queued work pending)
+- N ready → a downstream consumer (cron or operator) needs to run `bash scripts/tqp-executor.sh` without `--dry-run` to dispatch
+
+End-to-end smoke test:
+```bash
+# 1. Insert a TQP-queued atom
+bash scripts/db-raw.sh -c "INSERT INTO state_task_queue (id,title,tier,status,priority,source,atoms_jsonb,created_at,updated_at,created_at_ts,updated_at_ts) VALUES ('TKT-SMOKE','smoke','S','queued','normal','agent:tqp','{\"task\":\"echo ok\",\"agent\":\"forge\",\"model\":\"flash\"}'::jsonb,now()::text,now()::text,now(),now());"
+# 2. Claim + handoff (A3 fires tqp-executor automatically)
+bash scripts/task-queue-processor.sh
+# 3. Verify exec-atom exists with parent_task_id=TKT-SMOKE
+bash scripts/db-raw.sh -c "SELECT id,status,parent_task_id,source FROM state_task_queue WHERE parent_task_id='TKT-SMOKE';"
+# 4. Cleanup
+bash scripts/db-raw.sh -c "DELETE FROM state_task_queue WHERE id='TKT-SMOKE' OR parent_task_id='TKT-SMOKE';"
+```
+
+### Linked
+
+- **L-096** — TQP claims but no executor (the silence class this section fixes)
+- **TKT-0504** — TQP bridge (5 atoms: A0 demote CHECK 28g; A1 skeleton; A2 sessions_spawn integration; A3 cron handoff; A4 dogfood; A5 this doc)
+- **TKT-0386** — flash-dispatcher.sh (CREST consumer, separate path; do not modify from TQP work)
+- **TKT-0503** — original 5 TQP atoms stuck (the failure that motivated TKT-0504)
+- **CHG-0547..0552** — one per TKT-0504 atom
+- **scripts/tqp-executor.sh** — the executor (TKT-0504 A1+A2)
+- **scripts/task-queue-processor.sh** — TQP claim loop with A3 handoff
+- **scripts/auto-heal.sh CHECK 28g** — silence-class detector (severity WARN post-A0)
