@@ -11,6 +11,19 @@
 ---
 ---
 
+## 2026-06-13 12:58 AEST — [CHG-0541] TKT-0504 raised to Sprint 7 backlog: TQP wait-and-silence (L-108, A0 quick-fix)
+**Type:** doc
+**Change Type:** Normal
+**Source:** manual
+**Trigger:** Ken 12:55 AEST: 'now raise a backlog TKT. to address what I noticed earlier - TQP is not running for non-CREST TQP atoms. resulting in the handoff, expectation/assumption - wait and silence'
+**What changed:** TKT-0504 metadata updated: added ken_directive_2026_06_13 (verbatim + framing), sprint_target=Sprint7, sprint_target_rationale, proposed_split (A0 quick-fix in Sprint 7, A1-A5 in Sprint 9). TKT-0504 was already created earlier with full problem statement, atoms, DoD, acceptance criteria. New: A0 (Sprint 7 quick-fix) — modify task-queue-processor.sh to emit NEEDS_KEN when atom claimed > 5 min with no state_payload update. 30min, flash, Forge. L-108 logged: TQP gap is a silence-failure class issue, not just a missing executor.
+**Why:** Ken flagged that TQP non-CREST gap is a 'wait and silence' issue (operator expects work, observes nothing). Original TKT-0504 was Sprint 9 deferred, but the user-facing symptom is active now. Split into (a) Sprint 7 quick-fix (A0: 30min NEEDS_KEN signal) and (b) Sprint 9 full bridge (A1-A5: 2h tqp-executor.sh). Signal must be live before executor so we can measure improvement.
+**Verification:** TKT-0504 metadata.ken_directive_2026_06_13 is set. sprint_target=Sprint7. proposed_split has 2 atoms. Original 5 atoms (A1-A5) preserved. No code changes yet — A0 is the next action item.
+**Rollback:** N/A
+**Linked:** TKT-0504, TKT-0506, L-088, L-089, L-090, L-096, L-100, L-105, L-108
+---
+
+
 ## 2026-06-13 12:51 AEST — [CHG-0540] TKT-0506 / CHG-0540: CREST v1.2 Path A strict enforcement — Yoda dispatching gate
 **Type:** script
 **Change Type:** Normal
