@@ -11,6 +11,32 @@
 ---
 ---
 
+## 2026-06-13 13:37 AEST — [CHG-0544] TKT-0501 closed: 11 crons audited, 10 routed, 1 false positive. L-110 + L-111 + L-112
+**Type:** config
+**Change Type:** Normal
+**Source:** manual
+**Trigger:** Ken 2026-06-13 12:58 'CREST resume and execute TKT-0501' — discovered CHG-0522 claim was false; re-scanned, found 11 hijackable crons not 7
+**What changed:** 11 originally-hijackable crons audited. 5 patched to delivery=announce (6a059e9e, 35c8cd08, c69615bb, ca5d5e50, a7e7a820). 5 patched to sovereign-alert.sh in payload (6bd53c89, 6a88375e, c5a3911d, 516135b9, dce1ada4). 1 false positive (4d926b2c — Telegram mention in journal template, not routing instruction). Test telegram HTTP 200. Yoda re-verified independently post-Forge. L-110 (CHG-0522 scope underestimate), L-111 (systemEvent kind can't accept delivery config), L-112 (scan algorithm needs to distinguish routing instructions from contextual mentions).
+**Why:** TKT-0501 was 'in-progress, awaiting final close-out' since 2026-06-13 08:05. CHG-0522 claimed 7 crons patched; reality was 11 still hijackable. Forge dispatched to actually do the work; 4 of 9 A1 attempts failed due to systemEvent-kind restriction on main-session crons. Adapted: 4 recovered via Option B (sovereign-alert.sh in payload). Yoda independently re-ran the scan script to verify Forge's report (L-110, L-109 rule).
+**Verification:** Yoda re-scan: 1 at_risk (4d926b2c false positive, confirmed by reading payload + journal-append.sh has 0 telegram calls). 28 ok_routed. 30 no-Telegram. Test telegram HTTP 200. All 10 of 11 target crons confirmed properly routed. Rollback: cron update commands are reversible via openclaw cron get + revert.
+**Rollback:** N/A
+**Linked:** TKT-0501, CHG-0522 (the false claim), L-088, L-109, L-110, L-111, L-112, TKT-0506 (gate framework), scripts/sovereign-alert.sh, scripts/crest-execute-gate.sh, state/crest-execute-gate-log.json
+---
+
+
+## 2026-06-13 13:27 AEST — [CHG-0543] Fix pg-to-notion-sync.sh — JSONB Path + zsh Reserved Variable Bugs
+**Type:** script
+**Change Type:** Normal
+**Source:** incident-recovery
+**Trigger:** 30-min cron batch sync reported All synced but 37 tickets pending
+**What changed:** pg-to-notion-sync.sh: (1) Fixed JSONB path from dot-notation to proper nested access. (2) Renamed zsh reserved status variable to t_status.
+**Why:** L-096: Two silent-failure bugs masked each other. Bug 1 made query return empty, Bug 2 never triggered until Bug 1 fixed.
+**Verification:** Re-run synced 30 tickets. 336 total now synced. 8 legacy non-TKT items remain (acceptable).
+**Rollback:** N/A
+**Linked:** TKT-0525
+---
+
+
 ## 2026-06-13 13:15 AEST — [CHG-0542] MiniMax M3 trial verdict: engineering YES, engagement/planning NO — Yoda thin-orchestrator only
 **Type:** config
 **Change Type:** Normal
