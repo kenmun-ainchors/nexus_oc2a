@@ -11,6 +11,19 @@
 ---
 ---
 
+## 2026-06-13 15:31 AEST — [CHG-0558] Sprint 8 planning: 4 hygiene status syncs + TKT-0137 fold + Sprint 7 carry-forward to Sprint 8
+**Type:** data
+**Change Type:** Normal
+**Source:** manual
+**Trigger:** Sprint 8 planning 2026-06-13 15:30 AEST. Ken 15:28 AEST: approve 5-item scope, fold TKT-0137 into TKT-0221, lock TKT-0319/0324/0340 into S8, defer 3 stubs to S9. Yoda discovered TKT-0221 also hygiene-closed (per Ken 2026-06-12); both Policy Register tickets retired.
+**What changed:** 1. TKT-0317 (CRITICAL) status: open → closed (hygiene sync, scope replaced by skills extraction + CREST v1.3). 2. TKT-0405 (P3) status: open → closed (hygiene sync, no longer applicable, work shipped via CHG-0554). 3. TKT-0318 (high) status: backlog → closed (hygiene sync, scope superseded by CREST v1.3). 4. TKT-0221 (replacement) status: backlog → closed (hygiene sync, no longer applicable). 5. TKT-0137 (original Policy Register) status: open → closed (folded into TKT-0221 per Ken 15:28 AEST; both retired). 6. TKT-0410 committed to Sprint 7 by default-active-sprint rule, deferred to Sprint 8 per Ken planning. 7. TKT-0293, TKT-0326, TKT-0394 deferred to Sprint 9 (stub briefs, awaiting groom with Ken). 8. Sprint 8 plan doc + Sprint 9 plan doc written. 9. Sprint 7 retro + close committed in earlier session.
+**Why:** Sprint 7 closed retro 15:20 AEST. Sprint 8 planning per Ken 15:28 AEST decisions. Hygiene status syncs needed because Ken 2026-06-12 sweep closed tickets in brief but PG status didn't update. Workaround: direct PG UPDATE for status field when db-ticket.sh update silently drops it (bug in script). Found 5 tickets affected: 0317, 0405, 0318, 0221, 0137.
+**Verification:** Direct PG queries show all 5 tickets now status=closed. docs/sprints/sprint-8-plan.md + sprint-9-plan.md written. Sprint 7 retro in docs/sprints/sprint-7-retro.md. CHANGELOG.md has CHG-0558 entry. Notion page ID 37ec1829-53ff-XXXX (auto-assigned).
+**Rollback:** UPDATE state_tickets SET status='open' WHERE id IN ('TKT-0317', 'TKT-0405', 'TKT-0318', 'TKT-0221', 'TKT-0137') — reopens all 5. db-sprint.sh defer ... --to <prev_sprint> reverses the Sprint 8/9 commitments.
+**Linked:** TKT-0317, TKT-0405, TKT-0318, TKT-0221, TKT-0137, TKT-0410, TKT-0293, TKT-0326, TKT-0394, TKT-0319, TKT-0324, TKT-0340, TKT-0503, TKT-0504, CHG-0557, CHG-0556, CHG-0554, docs/sprints/sprint-7-retro.md, docs/sprints/sprint-8-plan.md, docs/sprints/sprint-9-plan.md
+---
+
+
 ## 2026-06-13 15:22 AEST — [CHG-0557] Sprint 7 close: 8/8 real items complete, retro filed
 **Type:** data
 **Change Type:** Normal
