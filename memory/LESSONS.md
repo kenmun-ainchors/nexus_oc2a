@@ -1973,3 +1973,14 @@ fi
 **Anti-pattern to avoid:** subagent writes tests against its own implementation. They always pass.
 **Fix:** L-138 v3 — Yoda applied regex fixes + toggle tracking + multi-line joining directly, no subagent. 11/11 PASS, real code clean. CHG-0586.
 **L-113 evidence-only verify is the only thing keeping static-checker work honest.** 5th time today this class fired.
+
+## L-139 — Subagent "PASS 9/9" reports are not evidence (Ken directive 2026-06-15, 17:11 AEST)
+**Trigger:** Same model (deepseek-v4-flash:cloud), same task class (static checker), 4 subagent dispatches in one day: L-137, L-138 v1, L-138 v2, L-138 v3. Three of the four reported "PASS" but the implementation was broken in ways the subagent's own tests didn't catch. Yoda L-113 verify caught all three.
+**Root cause:** Subagent writes its own tests against its own implementation. They always pass. The model is not the problem — the test-rigour is. The same model delivered a working L-137 and a broken L-138 v1 within hours of each other.
+**Rule (Ken directive A+B):**
+- **A.** Yoda authors the test corpus BEFORE dispatch for any execute/verify atom. Verifier corpus is passed in the dispatch via the `verifier_corpus` field (string or array of paths).
+- **B.** Subagent spec MUST include: "Run the verifier at <path>. Report raw totals. MUST NOT modify the verifier, the corpus, or the system under test. MUST NOT add new tests not in the corpus."
+**Enforcement:** `scripts/dispatch-validate.sh` (CHG-0498) now rejects dispatches with `execute` or `verify` atoms but no `verifier_corpus`. Missing field, non-existent file, or empty array → FAIL.
+**Cost:** ~1-2 min of Yoda-side test authoring per execute/verify atom.
+**Payoff:** Caught 4 subagent-bugs today. Pays for itself after 1 caught bug.
+**Doc:** `docs/SUBAGENT-DISPATCH-PATTERN.md` (v1.0, locked).

@@ -61,6 +61,17 @@ CHECKS:
     Escalation (if set)  Must have reason (non-empty string), source_phase (valid CREST phase)
                          Optional: proposed_remedy (string), severity (low|medium|high|critical)
 
+  ANTI-SUBAGENT-TRAP (Ken directive 2026-06-15, L-138):
+    verifier_corpus      Required when ANY atom has phase=execute or phase=verify.
+                         Yoda authors the test corpus BEFORE dispatch (string file
+                         path or array of file paths). Subagent runs the verifier
+                         and reports totals; MUST NOT modify the corpus or verifier.
+                         Subagent-written tests always pass — they validate the
+                         subagent's own (potentially broken) implementation. The
+                         Yoda-side corpus + verifier (L-113 evidence-only) is the
+                         catch-all. Cost: ~1-2 min of Yoda-side test authoring per
+                         execute/verify atom. Pays for itself after 1 caught bug.
+
 EXIT CODES:
   0  All checks passed → {"status":"ok"}
   1  One or more failures → {"status":"fail","failures":[...]}
@@ -370,6 +381,58 @@ if [[ "$HAS_SUB_CREST" == "yes" ]]; then
 
   if [[ -r "$MODEL_POLICY" ]]; then
     TARGET_AGENT=$(echo "$JSON_INPUT" | "$JQ" -r '.target_agent' 2>/dev/null)
+
+    # ─── 2a. Verifier Corpus Required (Ken directive 2026-06-15, A+B) ───
+    # L-138 lesson: subagent writes its own tests against its own implementation.
+    # They always pass. The Yoda-side verifier (L-113) is the only way to catch this.
+    # RULE: any dispatch with ≥1 phase=execute or phase=verify atom MUST have
+    # a verifier_corpus field — a non-empty string or array of test file paths
+    # authored by Yoda (not the subagent). The subagent runs the verifier and
+    # reports totals; it MUST NOT modify the verifier or the corpus.
+    HAS_EXECUTE_OR_VERIFY=$(echo "$JSON_INPUT" | "$JQ" -r \
+      '[.sub_crest_plan[] | select(.phase == "execute" or .phase == "verify")] | length' 2>/dev/null)
+
+    if [[ "${HAS_EXECUTE_OR_VERIFY:-0}" -gt 0 ]]; then
+      VERIFIER_CORPUS=$(echo "$JSON_INPUT" | "$JQ" -r '.verifier_corpus // empty' 2>/dev/null)
+      VERIFIER_CORPUS_TYPE=$(echo "$JSON_INPUT" | "$JQ" -r '.verifier_corpus | type // "null"' 2>/dev/null)
+
+      if [[ -z "$VERIFIER_CORPUS" || "$VERIFIER_CORPUS" == "null" ]]; then
+        FAILURES+=("$(fail_atom "verifier_corpus" "missing — required for any execute/verify atom (L-138 anti-subagent-trap rule). Yoda must author test corpus BEFORE dispatch; subagent runs and reports only." "")")
+      elif [[ "$VERIFIER_CORPUS_TYPE" == "string" ]]; then
+        # Single file path — verify it exists
+        if [[ ! -e "$VERIFIER_CORPUS" ]]; then
+          FAILURES+=("$(fail_atom "verifier_corpus" "file not found: ${VERIFIER_CORPUS} — Yoda must create the test corpus before dispatch." "")")
+        else
+          ((PASSES++))
+          if $VERBOSE; then
+            echo "$($JQ -n --arg f "verifier_corpus" --arg p "$VERIFIER_CORPUS" '{"field":$f,"status":"ok","path":$p}')"
+          fi
+        fi
+      elif [[ "$VERIFIER_CORPUS_TYPE" == "array" ]]; then
+        CORPUS_COUNT=$(echo "$JSON_INPUT" | "$JQ" -r '.verifier_corpus | length' 2>/dev/null)
+        if [[ "${CORPUS_COUNT:-0}" -eq 0 ]]; then
+          FAILURES+=("$(fail_atom "verifier_corpus" "empty array — Yoda must populate test corpus before dispatch." "")")
+        else
+          MISSING_FILES=0
+          while IFS= read -r corpus_file; do
+            [[ -z "$corpus_file" ]] && continue
+            if [[ ! -e "$corpus_file" ]]; then
+              MISSING_FILES=$((MISSING_FILES+1))
+              FAILURES+=("$(fail_atom "verifier_corpus[${corpus_file}]" "file not found — Yoda must create the test corpus before dispatch." "")")
+            fi
+          done < <(echo "$JSON_INPUT" | "$JQ" -r '.verifier_corpus[]' 2>/dev/null)
+          if [[ $MISSING_FILES -eq 0 ]]; then
+            ((PASSES++))
+            if $VERBOSE; then
+              echo "$($JQ -n --arg f "verifier_corpus" --argjson c "$CORPUS_COUNT" '{"field":$f,"status":"ok","count":$c}')"
+            fi
+          fi
+        fi
+      else
+        FAILURES+=("$(fail_atom "verifier_corpus" "invalid type (${VERIFIER_CORPUS_TYPE}) — must be string (file path) or array of file paths." "")")
+      fi
+    fi
+    # if no execute/verify atoms, verifier_corpus is optional (plan/synthesize only)
 
     for ((i=0; i<ATOM_COUNT; i++)); do
       idx_label="atom[$i]"

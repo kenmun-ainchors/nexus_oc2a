@@ -11,6 +11,61 @@
 ---
 ---
 
+## 2026-06-15 17:15 AEST — [CHG-0590] L-139 anti-subagent-trap: verifier_corpus required for execute/verify atoms
+**Type:** rule
+**Change Type:** Standard
+**Source:** ken-prompt
+**Trigger:** 4 subagent dispatches today (L-137, L-138 v1, L-138 v2, L-138 v3) with 3 false-PASS reports. Same model, same task class. Root cause: subagent writes its own tests, always passes.
+**What changed:** scripts/dispatch-validate.sh: added verifier_corpus check inside CREST sub_crest_plan block. Any dispatch with phase=execute or phase=verify atom MUST have verifier_corpus field (string or array of existing file paths). Rejects: missing, non-existent, empty array. docs/SUBAGENT-DISPATCH-PATTERN.md: new doc, locked v1.0. memory/LESSONS.md: L-139 appended.
+**Why:** Yoda-side test authoring is the only defense against subagent writing tests that match its own (potentially broken) implementation. Same model, different subagent reliability — the test rigour is the variable, not the model.
+**Verification:** 6/6 dispatch-validate.sh unit tests pass: (1) execute+no corpus=FAIL, (2) execute+valid=ok, (3) execute+missing file=FAIL, (4) plan-only+no corpus=ok, (5) verify+array corpus=ok, (6) execute+empty array=FAIL. bash -n + zsh -n both OK. Pre-commit hook would catch syntax regressions.
+**Rollback:** git revert <commit>
+**Linked:** L-138,L-137,L-089,L-113
+---
+
+
+## 2026-06-15 17:07 AEST — [CHG-0589] Mark LI-W3-P3 closed in linkedin-campaign.json (deprecated old-campaign post)
+**Type:** data
+**Change Type:** Normal
+**Source:** ken-prompt
+**Trigger:** Ken msg 4904 'just mark it closed' at 17:08 AEST
+**What changed:** state/linkedin-campaign.json: (1) LI-W3-P3 entry in published[] got status=closed, closedAt=2026-06-15T17:08, closedBy=Ken, closedReason. (2) New top-level closed[] array added with explicit closure record. (3) lastUpdated + lastUpdatedBy updated. Campaign-stats.md snapshot untouched (historical record).
+**Why:** LI-W3-P3 URN 404 (urn:li:share:7463404594140905473) was a pre-Foundation-Arc post (22 May). Ken directed: deprecated, mark closed, no further action. Removes stale 404 from active campaign-state view. New 4-week Foundation Arc starting Tue 16 Jun 07:30 AEST unaffected.
+**Verification:** JSON parses. published[] still has 11 entries (LI-W3-P3 retained for historical record with status=closed). closed[] has 1 entry. lastUpdated=2026-06-15T17:08.
+**Rollback:** Revert state/linkedin-campaign.json to prior; git checkout the file
+**Linked:** TKT-0232 (LinkedIn metrics), CHG-0515, CHG-0518, CHG-0587
+**Category:** Marketing
+---
+
+
+## 2026-06-15 17:04 AEST — [CHG-0588] Spark Tue Draft cron: update stale minimax revert comment
+**Type:** cron
+**Change Type:** Normal
+**Source:** ken-prompt
+**Trigger:** CHG-0587 trial extension revealed stale 'reverts Sun 14 Jun 23:55' in cron 13b0aa89-0185-43cd-864f-8cc1767382a2 message
+**What changed:** cron 13b0aa89 message line: 'reverts Sun 14 Jun 23:55' → 'trial extended to Sun 21 Jun 23:55 per CHG-0587; model permanently in globalAllowedModels (cron 3305681f superseded at CHG-0500)'. Model + timeout (180s) + delivery + schedule unchanged.
+**Why:** Documentation drift. Cron message still said model reverts Sun 14 Jun, but cron 3305681f was superseded at CHG-0500 (CREST v1.3) and model is permanently allowed. Trial extension (CHG-0587) made the stale comment actively misleading.
+**Verification:** openclaw cron list confirms payload.model=minimax-m3:cloud, timeoutSeconds=180, message length 2696 chars (matches snapshot). New revert line found in message body.
+**Rollback:** openclaw cron edit 13b0aa89 --message <original 2696-char string with old revert line>
+**Linked:** CHG-0587, CHG-0500, CHG-0515, CHG-0518
+**Category:** Operations
+---
+
+
+## 2026-06-15 17:02 AEST — [CHG-0587] Extend MiniMax M3 trial evaluation window to Sun 21 Jun 23:55 AEST
+**Type:** rule
+**Change Type:** Normal
+**Source:** ken-prompt
+**Trigger:** Ken msg 4879 'Token cap limit hit on Sat. Minimax trial couldn't proceed. Continue trial for this Sprint. Extend until this Sun, end of sprint and week' at 17:00 AEST
+**What changed:** state/trials/minimax-m3.json: trial_revert_at 2026-06-14T23:55 → 2026-06-21T23:55. trial_status → extended-pending-ken-verdict. extension_history[1] logged with reason. Description + verdict_final_pending_revert strings updated to reflect new deadline. Note: original trial revert cron 3305681f was superseded at CHG-0500 (CREST v1.3 transition) — model is permanently in globalAllowedModels. Extension is an evaluation-window decision, not a model-removal deadline.
+**Why:** Token cap limit hit on Sat 2026-06-13 blocked trial completion on its original Sun 14 Jun 23:55 deadline. Ken elected to continue trial through end of Sprint 8 (Sun 21 Jun 23:55 AEST) for proper verdict collection. Trial still subject to: (1) quality ceiling observation (L-082, L-106), (2) Yoda restricted to thin-orchestrator role (Plan/dispatch/verify only — no direct Execute) per CHG-0540, (3) structural enforcement via scripts/crest-execute-gate.sh + TKT-0506.
+**Verification:** Trial state file updated. trial_revert_at now 2026-06-21T23:55:00+10:00. extension_history[0] captures Ken msg 4879 verbatim. status=extended-pending-ken-verdict. Model remains in globalAllowedModels (no functional change to model selection).
+**Rollback:** Revert state/trials/minimax-m3.json to prior; update MEMORY/CHANGELOG cross-references if needed
+**Linked:** CHG-0498 (original trial setup), CHG-0500 (CREST v1.3 supersede), CHG-0540 (Yoda thin-orchestrator restriction), L-082 (reliability ceiling), L-106 (confabulation incident), TKT-0506 (Execute gate), cron 3305681f (superseded)
+**Category:** Operations
+---
+
+
 ## 2026-06-15 16:59 AEST — [CHG-0586] L-138 anti-regression: pipefail+ERR+child-return-1 static checker
 **Type:** script
 **Change Type:** Standard

@@ -83,6 +83,9 @@ All platform rules: see `RULES.md` for full text + CHG references + rollback pro
 
 **2-Pass Contract:** orchestrator plans (Pass 1), executor executes (Pass 2). `dispatch-validate.sh` (TKT-0323) rejects ambiguous dispatches. **RVEV:** READ → VALIDATE → EXECUTE → VERIFY per atom. **Skill-Gate (TKT-0396):** load skill via `bash scripts/skill-load.sh <name>` before domain scripts. **Review (TKT-0403):** NO `cp -r` of working copy; fresh `git fetch/clone` at exact SHA.
 
+### Anti-Subagent-Trap (L-139, Ken directive 2026-06-15)
+**verifier_corpus is MANDATORY for any dispatch with `execute` or `verify` atom.** Yoda authors the test corpus BEFORE dispatch (passed in dispatch JSON as string or array of file paths). Subagent runs the verifier and reports raw totals; subagent MUST NOT modify the verifier, the corpus, or the system under test. Subagent-written tests always pass — they validate the subagent's own (potentially broken) implementation. The Yoda-side corpus + L-113 evidence-only verify is the catch-all. Doc: `docs/SUBAGENT-DISPATCH-PATTERN.md`.
+
 ## 💓 Heartbeats
 
 Use heartbeats productively — don't just reply HEARTBEAT_OK. Batch checks (email/calendar/mentions/weather), use cron for precise schedules. Full heartbeat protocol in `HEARTBEAT.md`. Track state in `memory/heartbeat-state.json`. Stay quiet 23:00-08:00 unless urgent. Periodically maintain MEMORY.md during slow heartbeats.
