@@ -1938,7 +1938,7 @@ C30_COUNT=$(echo "$C30_RATE_LIMITED" | grep -c "^[0-9a-f]" || echo 0)
 
 if [[ "$C30_COUNT" -eq 0 ]]; then
   log "CHECK 30: PASS (no ollama/* crons currently rate-limited)"
-  exit 0 2>/dev/null
+  :  # script continues (matches CHECK 29 SKIP pattern at line 1903)
 fi
 
 # Cooldown check
@@ -1957,7 +1957,7 @@ fi
 
 if [[ "$SHOULD_FIRE" != "true" ]]; then
   log "CHECK 30: SKIP (cooldown active, last fire <12h ago)"
-  exit 0 2>/dev/null
+  :  # script continues (matches CHECK 29 SKIP pattern at line 1903)
 fi
 
 # Build shed recommendation: low-priority crons to disable if total failures climb
@@ -2136,7 +2136,7 @@ NOW_ISO=$(date -u '+%Y-%m-%dT%H:%M:%SZ')
 if [[ $SANDBOX_LOADED -eq 1 && $SANDBOX_LISTENING -eq 0 ]]; then
   # Dead: track or update deadSince
   if [[ -f "$SANDBOX_STATE" ]]; then
-    DEAD_SINCE=$(python3 -c "import json; print(json.load(open('$SANDBOX_STATE')).get('deadSince',''))" 2>/dev/null)
+    DEAD_SINCE=$(python3 -c "import json; print(json.load(open('$SANDBOX_STATE')).get('deadSince') or '')" 2>/dev/null)
   else
     DEAD_SINCE=""
   fi

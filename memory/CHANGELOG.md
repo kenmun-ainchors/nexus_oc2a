@@ -11,6 +11,19 @@
 ---
 ---
 
+## 2026-06-15 12:11 AEST — [CHG-0568] auto-heal.sh CHECK 28c crash: 2 bugs fixed (Pre-existing #2, L-126)
+**Type:** script
+**Change Type:** Standard
+**Source:** incident-recovery
+**Trigger:** 2026-06-15 12:00 AEST Ken approved Pre-existing #2 from outage shakedown
+**What changed:** scripts/auto-heal.sh — 3 single-line edits. Line 1941: exit 0 2>/dev/null → : (no-op). Line 1960: exit 0 2>/dev/null → : (no-op). Line 2139: .get('deadSince','') → .get('deadSince') or '' (None-safe). All in CHECK 30 SKIP path and CHECK 28c deadSince parser. Diff: 3 insertions, 3 deletions, 1 file.
+**Why:** CHECK 28c has been 'crashing' since CHECK 30 was added 2026-06-15. Two layers of bugs: (1) CHECK 30 SKIP path calls exit 0 which terminates the entire auto-heal.sh script, never reaching CHECK 28d/28e/28c. (2) After fix #1, CHECK 28c itself crashes because state file has 'deadSince': null, and Python's .get(key, default) returns default only for missing keys, not for null values. Subagent verification during Rec #9 found both. Fix #1: replace exit 0 with no-op : comment (matches CHECK 29 pattern). Fix #2: use 'or' to coerce None to empty string.
+**Verification:** Real zsh run at 12:11 AEST 2026-06-15: CHECK 28c reaches 'Sandbox gateway dead for 0.1h — within 1h grace period' (no ValueError, no crash). '=== AUTO-HEAL COMPLETE ===' logged. Exit 0. All checks reached: 30 → 28d → 28e → 28c. Diff: 3 lines, +/- 6 chars. bash -n clean. Note: cron uses zsh (per message), so this is the production environment; bash invocations expose a separate pre-existing issue (zsh-only parameter expansion at line 2256) that's not in scope.
+**Rollback:** git checkout scripts/auto-heal.sh
+**Linked:** L-126, L-094, TKT-PREEXIST-2, TKT-0505-A4 (state file bootstrap)
+---
+
+
 ## 2026-06-15 11:54 AEST — [CHG-0567] aria-crest-check.sh line 21 syntax fix (Pre-existing #1, L-125) — CHECK 27 PASS
 **Type:** script
 **Change Type:** Standard

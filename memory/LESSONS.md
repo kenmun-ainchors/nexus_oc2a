@@ -1541,3 +1541,42 @@ Wired into 3 EOD crons (Journal 4d926b2c, Blog a027fd60, Drive c5a3911d) as Step
 **Anti-regression:** Add a "bash -n before commit" pre-commit hook for all scripts in `scripts/`. The hook should reject any script that doesn't pass bash -n. The original bug shipped because nothing was running bash -n at commit time. L-125 is the 16th in the silence-failure family but the first syntax-error type.
 
 **Tied to:** L-088+ (silence-failure family, all categories), the file-size-guard CHECK 15 (which checks size, not syntax), the per-script run-on-edit discipline.
+
+## L-126 | 2026-06-15 | Infra | auto-heal.sh CHECK 28c crash: 3 bugs in 1
+
+**Severity: High (P1 platform reliability).** CHECK 28c (sandbox gateway 24h auto-unload, L-094) has been "crashing" — but the actual crash was 2 layers of bugs upstream that masked the real one. Subagent verification during Rec #9 found all 3.
+
+**The 3 bugs (in discovery order):**
+
+1. **Line 1941, 1960 — `exit 0 2>/dev/null` in CHECK 30 SKIP path** (the primary symptom)
+   - When CHECK 30 hits its cooldown SKIP, the code calls `exit 0` — which terminates the ENTIRE auto-heal.sh script, not just the CHECK 30 block
+   - Result: CHECK 28d, 28e, 28c never run, final report never written
+   - This was the "crash" the user saw
+   - Fix: replaced with `:` no-op + comment. CHECK 29 has the correct pattern (`log SKIP; fi`)
+
+2. **Line 2139 — `datetime.fromisoformat('None')` ValueError in CHECK 28c** (the secondary symptom, exposed by fix #1)
+   - State file `state/sandbox-gateway-state.json` (TKT-0505-A4 bootstrap) has `"deadSince": null`
+   - Python's `.get('deadSince', '')` returns None (not '') because the key EXISTS with value null — default is only used for MISSING keys
+   - Bash then sets `DEAD_SINCE="None"`, downstream python does `datetime.fromisoformat('None')` → ValueError
+   - Trap catches it → `write_state "crashed"` → exit 1
+   - Fix: `.get('deadSince') or ''` to coerce None to empty string
+
+3. **Line 2256 — zsh-only `${(j:,:)CHECKS_RUN}` in a python heredoc** (a follow-up observation, NOT fixed here)
+   - The final PG write uses zsh parameter expansion inside a python3 heredoc
+   - This works under `#!/bin/zsh` (which the script is) but fails with "bad substitution" if run under bash
+   - The cron uses zsh, so this is fine in production — but anyone running `bash auto-heal.sh` (e.g., for testing) hits it
+   - This is a separate pre-existing issue. Not in scope for this fix.
+
+**Verified (real zsh run, 12:11 AEST 2026-06-15):**
+- CHECK 28c reaches "Sandbox gateway dead for 0.1h — within 1h grace period" (no crash)
+- `=== AUTO-HEAL COMPLETE ===` logged
+- Exit 0
+- All checks reached: 30 → 28d → 28e → 28c
+
+**Fix pattern:** When a subagent reports "found another bug while verifying the original", keep going — bugs cluster. Each layer of "this should work but doesn't" often has another beneath. The defensive `.get(key) or ''` pattern is a better default than `.get(key, '')` for any value that could be null in the source JSON.
+
+**Lesson:** Defensive JSON parsing. The `dict.get(key, default)` Python pattern is well-known but has a subtle gotcha: it only applies the default when the KEY is missing, not when the value is null. For state files that may have nulls, use `dict.get(key) or default` to handle both cases. Apply this to all auto-heal CHECK 30+ scripts that read state files.
+
+**Anti-regression:** Add a "null-safe JSON access" linter or pattern check. For new state file fields, write `field: ""` (empty string) not `field: null` in bootstrap. For existing state files, the `.get(key) or ''` pattern is the right fix.
+
+**Pre-existing #2 task complete.** Followup: TKT-XXXX — add final `write_state` call at end of auto-heal.sh (currently write_state at line 1308 runs before CHECK 28c, so the report's `checks_count` is always 25 even after all checks run). Also: refactor the line 2256 zsh-specific python heredoc to be shell-agnostic.
