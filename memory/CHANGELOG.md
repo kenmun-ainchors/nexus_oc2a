@@ -11,6 +11,19 @@
 ---
 ---
 
+## 2026-06-15 11:21 AEST — [CHG-0562] EOD health-assert gate (L-120, Rec #5) — block EOD on degraded state
+**Type:** script
+**Change Type:** Normal
+**Source:** incident-recovery
+**Trigger:** 2026-06-15 11:10 AEST Ken approved Recommendation #5 from outage shakedown
+**What changed:** scripts/state-health-assert.sh (new, 215 lines, 5 checks). openclaw cron 4d926b2c (Journal) systemEvent: Step 0.a HEALTH ASSERT GATE inserted. openclaw cron a027fd60 (Blog) message: ## 0. EOD BLOCK CHECK prepended. openclaw cron c5a3911d (Drive) systemEvent: ## 0. EOD BLOCK CHECK prepended.
+**Why:** EOD finalizer ran Journal + Blog + Cost close WITHOUT asserting system health. If a cloud cron was failing or cost-state was stale, EOD wrote a green journal entry for a broken system, masking overnight outages. New assert runs as Step 0.a of EOD: 5 health checks (cron health, cost-state freshness, warden, critical crons alive, check30 quiet). On FAIL: writes state/eod-blocked-{date}.json + sends sovereign-alert + aborts EOD. Blog and Drive crons read block file and skip. The block file pattern is a clean interlock across 3 separate crons.
+**Verification:** Real production run 11:18 AEST 2026-06-15: 4 of 5 checks pass, CHECK30_QUIET fails (18 crons still rate-limited). Exit 1, block file written, Telegram HTTP 200. Idempotent re-runs. EOD for 2026-06-15 is currently BLOCKED — Ken will get Telegram at 23:53 AEST. 3 EOD crons confirmed have gate text in payload (systemEvent/message).
+**Rollback:** revert scripts/state-health-assert.sh; openclaw cron edit 4d926b2c/a027fd60/c5a3911d to remove gate text
+**Linked:** L-120, L-119, L-118, L-117, L-116, TKT-REC5
+---
+
+
 ## 2026-06-15 11:09 AEST — [CHG-0561] Critical crons → kimi-k2.6:cloud (Rec #3 multi-vendor) — L-119
 **Type:** cron
 **Change Type:** Normal

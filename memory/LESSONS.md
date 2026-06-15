@@ -1430,3 +1430,29 @@ The `[^A-Z]*?` is "any chars not uppercase" — env var names are uppercase, so 
 **Lesson:** When your escape pod is on the same ship as the fire, you don't have an escape pod. Multi-vendor model assignment for critical paths is structural resilience, not nice-to-have. The kimi "fallback only" policy was correct for general use but should have a documented exception process for critical-path crons. Suggest adding to model-policy.json: "criticalPathOverride: { tier: 'backend', primaryOverride: ['TQP', 'Auto-Heal', 'Warden'] → kimi-k2.6:cloud }".
 
 **Anti-regression:** TKT-XXXX (raise): per-cron health score based on last 7-day uptime. If a critical cron drops below 95%, auto-suggest multi-vendor migration.
+
+## L-120 | 2026-06-15 | Infra | EOD health-assert gate: BLOCK on degraded state
+
+**Severity: Medium (P1 platform reliability).** EOD finalizer (Journal 23:55, Blog 00:05, Drive 00:30) ran without asserting system health. If a cloud cron was failing or cost-state was stale, EOD wrote a green journal entry for a broken system, masking overnight outages.
+
+**Fix pattern (TKT-REC5):** New `scripts/state-health-assert.sh` (215 lines, 5 checks):
+1. CRON_HEALTH: any ollama/* cron with >=3 consecutive errors + reason
+2. COST_STATE_FRESH: state/cost-state.json modified within 2h
+3. WARDEN: state/warden-violations.json empty or last alert acked
+4. CRITICAL_CRONS_ALIVE: TQP, Auto-Heal, Task Monitor all lastStatus=ok
+5. CHECK30_QUIET: state/check30-last-fire.json >6h old AND no current rate_limit crons
+
+Wired into 3 EOD crons (Journal 4d926b2c, Blog a027fd60, Drive c5a3911d) as Step 0.a gate. On FAIL: writes state/eod-blocked-{date}.json, sends Telegram, aborts EOD. Blog + Drive check block file and skip if present.
+
+**Verified in production (real run 11:18 AEST 2026-06-15):**
+- 4 of 5 checks pass: CRON_HEALTH (2 crons have >=3 errs with reason; CHECK 29 would have caught these), COST_STATE_FRESH (51s old), WARDEN (no violations file), CRITICAL_CRONS_ALIVE (TQP/Auto-Heal/Task-Monitor all ok)
+- 1 check fails: CHECK30_QUIET (18 crons currently rate-limited)
+- Exit code 1, block file written, Telegram HTTP 200
+- EOD for 2026-06-15 is currently BLOCKED — will alert Ken at 23:53 AEST
+- Idempotent: re-runs produce consistent exit 1
+
+**Tied to:** L-116 (CHECK 29), L-118 (CHECK 30), L-119 (multi-vendor migration). The complete outage prevention layer now has 4 components: predictive canary, reactive escalation, multi-vendor survival, EOD hold gate.
+
+**Lesson:** Finalizers must assert state health before declaring success. A green journal entry should mean the system is healthy, not just that the journal script ran. The block file pattern (state/eod-blocked-{date}.json) is a clean way to chain 3 separate crons: producer (Journal) writes the block, consumers (Blog, Drive) read it.
+
+**Anti-regression:** If a critical cron is moved or renamed, the CRITICAL_CRONS_ALIVE check will silently skip. Add a comment in the script listing the cron IDs and a test for "all 3 cron IDs exist before checking state". Followup: TKT-XXXX — auto-create the cron ID list at script startup by querying a tag/label.
