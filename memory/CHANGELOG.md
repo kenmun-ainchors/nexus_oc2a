@@ -11,6 +11,19 @@
 ---
 ---
 
+## 2026-06-15 17:27 AEST — [CHG-0593] Sprint 7 review + Sprint 8 planning ceremony (recovered from Sat 2026-06-13 outage)
+**Type:** rule
+**Change Type:** Standard
+**Source:** manual
+**Trigger:** Saturday outage (Ollama Cloud weekly cap) + weekend resume Monday. Sprint 8 planning was overdue per HEARTBEAT.md Agile Ceremony Gate.
+**What changed:** state_sprints.sprint_name=7 status=completed (sprint7Review+sprint7Planning logged). state_sprints.sprint_name=8 status=committed (sprint8Planning logged). TKT-0525 moved Sprint 7→Sprint 8 (XS, 1 day). TKT-0527 + TKT-0528 deferred Sprint 8→Sprint 9. Sprint 8 plan: 5 items [TKT-0529, TKT-0319, TKT-0410, TKT-0324, TKT-0525].
+**Why:** Per TKT-0406 Permanent Agile-Sprint Working Model. Saturday outage delayed ceremony; recovery mode = run both ceremonies in single Yoda session. Capacity check: 5 items, ~5 days effort, fits pre-OC2 budget of 5/sprint.
+**Verification:** Sprint 7 status=completed. Sprint 8 status=committed. sprint7Review, sprint7Planning, sprint8Planning all logged in state_sprints.ceremonies. db-sprint.sh plan --sprint Sprint 8 shows the 5 committed items. TKT-0525 sprint column updated. TKT-0527/0528 deferred to Sprint 9 with reason logged.
+**Rollback:** UPDATE state_sprints SET status='planning' WHERE sprint_name='Sprint 8'; revert sprint column changes
+**Linked:** TKT-0406,TKT-0529,TKT-0319,TKT-0410,TKT-0324,TKT-0525,CHG-0592,CHG-0590,L-139
+---
+
+
 ## 2026-06-15 17:23 AEST — [CHG-0592] TKT-OLD-CODE-AUDIT split into 3 sub-TKTs (TKT-0529, TKT-0530, TKT-0531) for Sprints 8/9/10
 **Type:** rule
 **Change Type:** Standard
