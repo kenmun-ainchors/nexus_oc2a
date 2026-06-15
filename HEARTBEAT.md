@@ -19,11 +19,15 @@
 - If allValid=false: alert Ken with list of accounts needing re-auth
 - State key: lastChecks.delegatedAuth
 
-### Ollama Cloud Credit Tracking (every 2h)
-- Read state/cost-state.json → apiBalance.remainingEstimate
-- Informational only — fixed subscription. No alerts.
+### Ollama Cloud Credit Tracking (every 2h) — DEPRECATED 2026-06-15
+- **Billing model change (Ken 13:23 AEST):** Monthly turns-limit, NOT API credit.
+- Old tracking: read `state/cost-state.json → apiBalance.remainingEstimate` (informational only — fixed subscription).
+- New tracking: `state/cost-state.json → turnsLimit` (pending Ken input on monthly budget number).
+- Spend alerts switched from USD tiers to turns-based (provisional).
+- Auto-reload deactivated.
 - Cost model: see skill at `infra/sandbox/seed/skills/model-routing/SKILL.md`
 - State key: lastChecks.costState
+- CHG ref: see billingModelHistory in cost-state.json
 
 ### Async Task Watchdog (every 30 min)
 - Run: `scripts/task-watchdog.sh`

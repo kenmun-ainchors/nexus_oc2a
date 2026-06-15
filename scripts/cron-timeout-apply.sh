@@ -46,8 +46,14 @@ Usage:
   cron-timeout-apply.sh --all --yes         apply all eligible (requires --yes)
   cron-timeout-apply.sh --cron <p> --yes    apply one cron
   cron-timeout-apply.sh --verbose           show ledger + eligibility reasoning
+  cron-timeout-apply.sh --cron <p> --yes --ken-bypass  apply one cron bypassing 7d stability
+  cron-timeout-apply.sh --all --yes --ken-bypass       apply all eligible bypassing 7d stability
 
 Without --yes, this is a dry-run. Live apply requires explicit --yes.
+--ken-bypass bypasses the 7d stability check (L-099 safety net) for items
+Ken has explicitly approved out-of-band (e.g. scaler vA6 backfill). Bypasses
+are recorded in the ledger for audit. CHG-0578.
+
 USAGE
   exit 0
 }
@@ -57,11 +63,22 @@ while [[ $# -gt 0 ]]; do
     --cron)  CRON_FILTER="$2"; shift 2 ;;
     --all)   APPLY_ALL=1; shift ;;
     --yes)   YES_FLAG=1; shift ;;
+    --ken-bypass) KEN_BYPASS=1; shift ;;
     --verbose|-v) VERBOSE=1; shift ;;
     -h|--help) usage ;;
     *) echo "Unknown arg: $1" >&2; exit 1 ;;
   esac
 done
+
+# KEN_BYPASS requires LIVE mode
+if [[ "$KEN_BYPASS" -eq 1 ]] && [[ "$YES_FLAG" -ne 1 ]]; then
+  echo "ERROR: --ken-bypass requires --yes (must be in live mode)" >&2
+  exit 1
+fi
+if [[ "$KEN_BYPASS" -eq 1 ]] && [[ -z "$CRON_FILTER" ]] && [[ "$APPLY_ALL" -ne 1 ]]; then
+  echo "ERROR: --ken-bypass requires --cron <prefix> or --all" >&2
+  exit 2
+fi
 
 # Sanity: baseline + ledger
 [[ ! -f "$BASELINE_FILE" ]] && { echo "ERROR: $BASELINE_FILE not found. Run cron-timeout-scaler.sh first." >&2; exit 1; }
@@ -83,7 +100,7 @@ fi
 
 # Compute eligibility in a single Python pass (no shell escaping pain)
 APPLY_TMP=$(mktemp -t cta-apply)
-python3 - "$BASELINE_FILE" "$LEDGER_FILE" "$NOW" "$CRON_FILTER" "$APPLY_ALL" "$LIVE" > "$APPLY_TMP" 2>&1 <<'PYEOF'
+python3 - "$BASELINE_FILE" "$LEDGER_FILE" "$NOW" "$CRON_FILTER" "$APPLY_ALL" "$LIVE" "$KEN_BYPASS" > "$APPLY_TMP" 2>&1 <<'PYEOF'
 import json, sys, os, datetime, subprocess
 
 baseline_file = sys.argv[1]
@@ -92,6 +109,7 @@ now = sys.argv[3]
 cron_filter = sys.argv[4]
 apply_all = sys.argv[5] == '1'
 live = sys.argv[6] == '1'
+ken_bypass = sys.argv[7] == '1'
 
 with open(baseline_file) as f:
     b = json.load(f)
@@ -115,8 +133,12 @@ results = {
     'errors': [],
 }
 
-def is_eligible(r, ledger, today):
-    """Check 7d stable DECREASE on agentTurn, not yet applied at computed value."""
+def is_eligible(r, ledger, today, ken_bypass=False):
+    """Check DECREASE on agentTurn, not yet applied at computed value.
+
+    7d stability check is the default (L-099 safety net).
+    ken_bypass=True bypasses the 7d check (Ken explicit approval required).
+    """
     cid = r.get('cronId', '')
     if r.get('payloadKind') != 'agentTurn':
         return False, 'not-agentTurn'
@@ -128,12 +150,13 @@ def is_eligible(r, ledger, today):
         return False, 'no-positive-DECREASE'
     entry = ledger.get(cid, {})
     days = entry.get('daysCount', 0)
-    if days < 7:
+    if days < 7 and not ken_bypass:
         return False, f'stability-{days}d'
     applied_to = entry.get('appliedTo')
     if applied_to == new and entry.get('appliedAt'):
         return False, 'already-applied'
-    return True, f'OK-{days}d-stable'
+    bypass_note = '' if days >= 7 else f' [ken-bypass:{days}d]'
+    return True, f'OK-{days}d-stable{bypass_note}'
 
 # First pass: update ledger (same logic as auto-heal)
 for r in b.get('crons', []):
@@ -182,7 +205,7 @@ for r in b.get('crons', []):
     cid = r.get('cronId', '')
     if cron_filter and not cid.startswith(cron_filter):
         continue
-    eligible, reason = is_eligible(r, ledger, today)
+    eligible, reason = is_eligible(r, ledger, today, ken_bypass=ken_bypass)
     base = {
         'cronId': cid,
         'name': r.get('name', '')[:50],
@@ -213,6 +236,10 @@ for r in b.get('crons', []):
                 ledger[cid]['appliedTo'] = new
                 ledger[cid]['applyMethod'] = 'cron-timeout-apply.sh'
                 ledger[cid]['applyResult'] = (proc.stdout or '')[:200]
+                if ken_bypass:
+                    ledger[cid]['kenBypass'] = True
+                    ledger[cid]['kenBypassAt'] = now
+                    ledger[cid]['kenBypassReason'] = 'Ken explicit approval for scaler vA6 backfill (CHG-0578)'
                 results['applied'].append({**base, 'appliedAt': now})
             else:
                 results['failed'].append({**base, 'reason': f'rc={proc.returncode}', 'stderr': (proc.stderr or '')[:200]})

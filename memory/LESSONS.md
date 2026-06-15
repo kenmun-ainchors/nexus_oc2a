@@ -1801,3 +1801,58 @@ print(json.dumps({'checks_run': checks, ...}))
 **Anti-regression:** Could add a CHECK that compares file-size-guard.sh LIMITS_DATA to a hardcoded reference in AGENTS.md. Not done in this turn (out of scope for P2 #5), but candidate for future hardening.
 
 **Tied to:** L-121 (L-121 AGENTS.md trim, where the misalignment would have mattered most), L-131, L-132 (the broader hardening arc of the week).
+
+## L-134 | 2026-06-15 | Infra | TKT-0336 tilde-path fix + detector tightening
+
+**Severity: Low (clean-up).** Two live cron jobs (`AInchors Weekly Asset Review` e8b17c79, `AInchors Quarterly Asset Registry Review` 2e235063) had `~/.openclaw/workspace/...` paths in their `message` payload. Tilde doesn't expand in isolated cron sessions, causing the write/read to fail. Both jobs had `lastError: Write to ~/.openclaw/workspace/state/chg-triggers.json failed`.
+
+**Fix:**
+- Removed both jobs via `openclaw cron rm` (no `cron edit --message` flag exists)
+- Re-added with `/Users/ainchorsangiefpl/.openclaw/workspace/...` (absolute path)
+- Per-job `fallbacks` not exposed in `cron add` — but agent-level fallback (infra → minimax + kimi) is inherited, so net behavior preserved
+- Detector regex (auto-heal CHECK 20) was catching approximations like `~May 19`, `~40kB/day`, `~240 lines` as false-positives. Tightened to `~(/[A-Za-z0-9._-]+|/[A-Za-z0-9._/-]+)` (requires `~/path` form)
+
+**Verified (13:31 AEST 2026-06-15):**
+- Active cron jobs with `~/` paths: **0** (was 2)
+- `openclaw cron list` confirms both new jobs created with full path
+- New snapshot regenerated: `state/cron-list-snapshot.json`
+- Auto-heal CHECK 20: now flags 1 violation (was 2)
+  - Remaining: `cron-list-snapshot.json` line 2389+ — 7× `~/.openclaw/workspace/state/chg-triggers.json` in `lastError` strings of a DIFFERENT cron job (TRIGGER-12 Allowlist Sync Detector, which has its own tilde in payload — different scope, separate fix)
+- Detector now correctly ignores `~May 19`, `~240`, `~3-4 hours`, etc.
+
+**Why rm + add instead of edit:** OpenClaw `cron edit` doesn't expose a `--message` flag. Workaround: rm + re-add. Risk: cron history lost (lastRunAtMs, consecutiveErrors reset to 0). Mitigation: backups saved to `/tmp/cron-job1-backup.json` and `/tmp/cron-job2-backup.json` for rollback. New IDs (`e8d960b4...`, `e48f847a...`) replace the old (`e8b17c79...`, `2e235063...`).
+
+**Anti-regression:** The tightened detector regex will catch any new cron payload tildes going forward, with no false positives from prose approximations. Next L-13x candidate: also fix the TRIGGER-12 Allowlist Sync Detector tilde (separate job, not in Ken's "fix" scope today).
+
+**Tied to:** L-092 (original L-092 detector), L-126/L-130/L-131/L-132/L-133 (the broader hardening arc of the week).
+
+## L-135 | 2026-06-15 | Infra | TKT-0339 timeout apply complete (3 of 3 remaining) + Ken-bypass mechanism
+
+**Severity: Low (governance gap closed).** The L-124 commit (c2b044f8, 11:46 AEST today) applied 10 of 13 timeout DECREASE recommendations from scaler vA6. The remaining 3 (`dc88affb`, `c69615bb`, `85595417`) had `daysCount=1` and were blocked by L-099's 7d stability check — the script's safety net did its job.
+
+Ken 13:23 AEST explicit "TKT-0339 - recommendations confirmed. proceed" is the documented Ken-triggered bypass per L-099. But the script had **no bypass mechanism** — Ken's approval was implicit ("proceed") but couldn't be expressed via the CLI.
+
+**Fix (CHG-0578):**
+- Added `--ken-bypass` flag to `scripts/cron-timeout-apply.sh`
+- Flag requires `--yes` (live mode) AND `--cron <prefix>` or `--all` (explicit scope)
+- When used, bypasses the 7d stability check but records `kenBypass: true`, `kenBypassAt: <ISO>`, `kenBypassReason: <chg-ref>` in the ledger
+- Ledger write happens atomically with the apply (same path as the regular flow)
+- L-099 safety net intact for default flow; bypass is opt-in, audited, requires explicit dual flags
+
+**Applied (13:34 AEST 2026-06-15, with Ken-bypass):**
+- `dc88affb` TQP executor poll (every 5 min): 240s → 120s
+- `c69615bb` yoda-context-brief-refresh (2pm + 8pm AEST): 131s → 30s
+- `85595417` PG-Notion Integrity Audit (daily): 300s → 120s
+
+**Final state: 13/13 applied.** All recorded in `state/cron-timeout-applied.json` with `kenBypass` flag for the 3.
+
+**Verified (13:34 AEST 2026-06-15):**
+- Live cron list: all 3 jobs now have updated `timeoutSeconds`
+- Ledger: 13 entries, 3 with `kenBypass: true` and `kenBypassReason: 'Ken explicit approval for scaler vA6 backfill (CHG-0578)'`
+- `bash -n` / `zsh -n` clean
+- Default flow still blocks <7d (tested with `zsh cron-timeout-apply.sh --all` → "No eligible items")
+- L-099 safety net intact
+
+**Lesson:** The structural right answer was a separate one-shot script (L-099). Adding the bypass flag to that script (not a different mechanism) keeps the write path narrow and auditable. The bypass flag is **additive** — it doesn't weaken the default, it just lets the operator override it explicitly when needed.
+
+**Tied to:** L-099 (one-shot apply safety net), L-124 (TKT-0339 scaler vA6 first batch), CHG-0534 (one-shot apply design).

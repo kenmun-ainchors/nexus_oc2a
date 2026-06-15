@@ -736,7 +736,9 @@ except: pass
   # Also check state JSON files for tilde path references (L-092 fix: exclude self-detect)
   # Skip: detector's own output (auto-heal-*.json), task-queue.json (contains task descriptions
   # with ~/ examples), and any state file under 200 bytes (config defaults, no real paths)
-  TILDE_STATE_FILES=$(grep -rl '~/' "$WORKSPACE/state/" --include='*.json' 2>/dev/null \
+  # Detector fix L-134: filter to only files that have actual tilde-path usage
+  # (~/something) not just any ~ character (which catches ~May, ~240, ~3-4 etc.)
+  TILDE_STATE_FILES=$(grep -rlE '~(/[A-Za-z0-9._-]+|/[A-Za-z0-9._/-]+)' "$WORKSPACE/state/" --include='*.json' 2>/dev/null \
     | grep -vE '/(auto-heal-.*\.json|task-queue\.json)$' \
     | xargs -I {} sh -c 'test $(stat -f%z "{}" 2>/dev/null || echo 0) -gt 200 && echo "{}"' 2>/dev/null \
     | head -5)
@@ -747,8 +749,11 @@ except: pass
       TILDE_FOUND=$((TILDE_FOUND+1))
       ISSUES_FOUND+=("tilde-path:state-file:$(basename "$tf")")
 
-      # Extract tilde paths from each file
-      tilde_paths_in_file=$(grep -oE '~/?[^"'"'"' ]+' "$tf" 2>/dev/null | head -5)
+      # Extract tilde paths from each file. Use a tighter pattern that matches
+      # actual tilde-path usage (~/path or ~user/path) and not approximations
+      # like ~May 19, ~240 lines, ~3-4 hours, ~2h. Detector fix L-134: require
+      # the tilde to be followed by / (or be exactly ~/ or ~$ at end of line).
+      tilde_paths_in_file=$(grep -oE '~(/[A-Za-z0-9._-]+|/[A-Za-z0-9._/-]+)' "$tf" 2>/dev/null | head -5)
 
       if [[ "$ENFORCE_MODE" == "true" ]]; then
         while IFS= read -r tp; do

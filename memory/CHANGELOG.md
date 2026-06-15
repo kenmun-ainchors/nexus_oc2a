@@ -11,6 +11,45 @@
 ---
 ---
 
+## 2026-06-15 13:35 AEST — [CHG-0578] TKT-0339 timeout apply complete (13/13) + Ken-bypass mechanism (L-135)
+**Type:** script
+**Change Type:** Standard
+**Source:** ken-prompt
+**Trigger:** 2026-06-15 13:23 AEST Ken: 'TKT-0339 - recommendations confirmed. proceed'. 3 of 13 recommendations remained pending (dc88affb, c69615bb, 85595417) blocked by L-099 7d stability check.
+**What changed:** 1 file. EDIT: scripts/cron-timeout-apply.sh — added --ken-bypass flag (requires --yes + --cron/--all). Bypasses 7d stability check, records kenBypass/kenBypassAt/kenBypassReason in ledger for audit. Updated is_eligible() signature to accept ken_bypass param. Updated Python subprocess call signature (added 7th arg). Updated usage docstring. 3 live cron timeouts applied: dc88affb 240→120s, c69615bb 131→30s, 85595417 300→120s.
+**Why:** L-124 applied 10/13 in batch, 3 left at daysCount=1. L-099 safety net blocked them correctly. Ken 13:23 explicit 'proceed' is the documented bypass, but the script had no flag to express it. Without the flag, the operator either has to wait 7 days (which is wrong when Ken has approved) or apply out-of-band (which skips the audit trail). The bypass flag keeps the write path narrow and auditable while letting Ken override the safety net when warranted.
+**Verification:** Live cron list: all 3 jobs now have updated timeoutSeconds (120/30/120). Ledger: 13 entries, 3 with kenBypass=true and kenBypassReason. bash -n/zsh -n clean. Default flow still blocks <7d (tested: cron-timeout-apply.sh --all returns 'No eligible items'). L-099 safety net intact for default path.
+**Rollback:** git checkout scripts/cron-timeout-apply.sh; then revert live timeouts via /opt/homebrew/bin/openclaw cron edit <id> --timeout-seconds <orig>
+**Linked:** L-135, L-099, L-124, TKT-0339, CHG-0534 (one-shot apply design)
+---
+
+
+## 2026-06-15 13:31 AEST — [CHG-0577] TKT-0336 tilde paths fixed (L-134) — 2 active cron jobs, detector tightened
+**Type:** script
+**Change Type:** Standard
+**Source:** manual
+**Trigger:** 2026-06-15 13:23 AEST Ken: 'TKT-0336 -fix'. Initial survey found 2 live cron jobs with active ~ paths in payload: AInchors Weekly Asset Review (e8b17c79) and AInchors Quarterly Asset Registry Review (2e235063). Detector also producing false-positives on ~approximations like ~May 19, ~240 lines.
+**What changed:** 2 files. EDIT: scripts/auto-heal.sh — CHECK 20 state-file scan regex tightened from '~/' to '~(/[A-Za-z0-9._-]+|/[A-Za-z0-9._/-]+)' (both file discovery AND path extraction). EDIT (LIVE, not git): 2 cron jobs rm'd and re-added via openclaw cron rm + cron add with absolute paths /Users/ainchorsangiefpl/.openclaw/workspace/... New IDs: e8d960b4-556d-49af-b182-7e009b44e554 (Weekly), e48f847a-c6be-44f4-aedf-76bba8deb7e4 (Quarterly). State file state/cron-list-snapshot.json regenerated.
+**Why:** Tilde paths in isolated cron sessions don't expand to /Users/ainchorsangiefpl/, causing write/read failures. The asset-review cron had been silently failing for weeks (lastError=Write to ~/.openclaw/workspace/state/chg-triggers.json failed). Detector was producing false-positives on approximation ~ characters in prose, devaluing the warning system.
+**Verification:** openclaw cron list: 0 active jobs with ~/ paths (was 2). Auto-heal CHECK 20: 1 violation (was 2). The remaining 1 is legitimate historical lastError evidence in snapshot L2389+ from a DIFFERENT cron (TRIGGER-12 Allowlist Sync Detector) — separate scope, not in today's fix. Detector ignores ~May, ~240, ~3-4 hours approximations. bash -n / zsh -n clean. Rollback: /tmp/cron-job1-backup.json + /tmp/cron-job2-backup.json + git checkout scripts/auto-heal.sh
+**Rollback:** /opt/homebrew/bin/openclaw cron add --message '$(cat /tmp/cron-job1-old.txt)' ... (full restore from /tmp backups); git checkout scripts/auto-heal.sh
+**Linked:** L-134, L-092, TKT-0336, TKT-0340-A2, TKT-0140 (follow-up: fix TRIGGER-12 tilde)
+---
+
+
+## 2026-06-15 13:25 AEST — [CHG-0576] Billing model: API credit → monthly turns-limit (Ken ack 13:23 AEST)
+**Type:** config
+**Change Type:** Standard
+**Source:** ken-prompt
+**Trigger:** 2026-06-15 13:23 AEST Ken: 'we are now on cap monthly spend, no longer by API credit. it's managed by turns limit and not credit'
+**What changed:** 1 file. EDIT: state/cost-state.json — apiBalance switched to model=monthly_turns_limit, previousModel=api_credit_with_auto_reload. spendAlerts switched from USD tiers to turns-limit tiers (PROVISIONAL — awaiting monthly turns budget number from Ken). autoReload deactivated (active=false, enabled=false). New top-level field: turnsLimit (monthlyTurnsBudget=null pending Ken input). dailyCapNote updated. confirmedNote updated. Added billingModelHistory array with first entry recording this change. EDIT: HEARTBEAT.md 'Ollama Cloud Credit Tracking' section marked DEPRECATED 2026-06-15, replaced with new model description.
+**Why:** Ken explicit policy change 13:23 AEST webchat: Ollama Cloud = monthly turns-limit cap, not credit balance. Old model: apiBalance.remainingEstimate tracked dollar balance, auto-reload triggered at <$50 reloading $450. New model: monthly turns count, no auto-reload needed. The pre-existing cost-state.json had stale values (apiBalance.remainingEstimate=0, old spend alert thresholds) that no longer reflect reality. Provisional alert thresholds (80%/90%/95% of monthly budget) need Ken's monthly budget number to finalize.
+**Verification:** state/cost-state.json: apiBalance.model=monthly_turns_limit ✓, autoReload.active=False ✓, spendAlerts.currentModel=turns_limit ✓, turnsLimit.pendingKenInput=True ✓, billingModelHistory=1 entry ✓. HEARTBEAT.md updated with DEPRECATED marker. Awaiting Ken's monthly turns budget number to finalize alert thresholds.
+**Rollback:** git checkout state/cost-state.json HEARTBEAT.md
+**Linked:** TKT-0092 (daily budget report), state/cost-state.json, HEARTBEAT.md, infra/sandbox/seed/skills/model-routing/SKILL.md (TO UPDATE), CHECK 29/30/31 (TO RECONFIGURE for turns-based)
+---
+
+
 ## 2026-06-15 13:12 AEST — [CHG-0575] File-size-guard thresholds realigned to documented policy (L-133, P2 #5)
 **Type:** config
 **Change Type:** Standard
