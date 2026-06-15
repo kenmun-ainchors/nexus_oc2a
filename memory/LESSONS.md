@@ -1414,3 +1414,19 @@ The `[^A-Z]*?` is "any chars not uppercase" — env var names are uppercase, so 
 **Lesson:** When an external API doesn't expose the data you need, the canary is in the OBSERVABLE side-effects. The 429 error message is the canary. The cluster-failure pattern is the cliff. Build your pre-warning from what's already visible.
 
 **Followup:** Build a daily digest of CHECK 30 fires (count of canary events per week) so we can measure cap proximity over time. Also: shed-recommendation should be enforced (auto-disable crons when total >25) — currently advisory only.
+
+## L-119 | 2026-06-15 | Infra | Critical-cron multi-vendor migration: kimi primary for TQP + Auto-Heal
+
+**Severity: High (P0 platform reliability).** During the 2026-06-13/15 outage, the 2 most critical crons died with the cluster: TQP bridge (every 5min, dispatches Forge atoms) and Auto-Heal (nightly, runs the 27-check sweep). Both were on models with shared Ollama caps that hit all at once.
+
+**Live state analysis (2026-06-15 11:05 AEST):** gemma4:31b-cloud 13 rate-limited, deepseek-v4-pro:cloud 6 rate-limited, kimi-k2.6:cloud 0 rate-limited, minimax-m3:cloud 0 rate-limited. The cap is on the account `beautiful_faraday_411`, not per-model — but kimi and minimax-m3 happened to be on different rate-limit windows this week.
+
+**Fix pattern (per-cron exception, not policy change):** Switched TQP (dc88affb) and Auto-Heal (e269d620) primary model from `ollama/gemma4:31b-cloud` (Auto-Heal) / `ollama/deepseek-v4-flash:cloud` (TQP) to `ollama/kimi-k2.6:cloud`. Backend tier fallback chain (gemma4 → deepseek-pro → kimi) at the model-policy.json tier level still covers them if kimi also fails.
+
+**Verified:** Both crons now show `lastStatus=ok`, `consecutiveErrors=0` (was 48 for TQP, 2 for Auto-Heal), `lastDurationMs=9.9s` (TQP) and `15.2s` (Auto-Heal). Schedules intact (TQP every 5min, Auto-Heal cron 0 1 daily AEST). Both enabled.
+
+**Tied to:** L-116 (CHECK 29 reactive), L-117 (CHECK 25 silent crash), L-118 (CHECK 30 predictive canary). The complete outage prevention layer: 30 (canary 24-72h) → 29 (reactive escalation) → 119 (multi-vendor critical crons).
+
+**Lesson:** When your escape pod is on the same ship as the fire, you don't have an escape pod. Multi-vendor model assignment for critical paths is structural resilience, not nice-to-have. The kimi "fallback only" policy was correct for general use but should have a documented exception process for critical-path crons. Suggest adding to model-policy.json: "criticalPathOverride: { tier: 'backend', primaryOverride: ['TQP', 'Auto-Heal', 'Warden'] → kimi-k2.6:cloud }".
+
+**Anti-regression:** TKT-XXXX (raise): per-cron health score based on last 7-day uptime. If a critical cron drops below 95%, auto-suggest multi-vendor migration.

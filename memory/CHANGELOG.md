@@ -11,6 +11,19 @@
 ---
 ---
 
+## 2026-06-15 11:09 AEST — [CHG-0561] Critical crons → kimi-k2.6:cloud (Rec #3 multi-vendor) — L-119
+**Type:** cron
+**Change Type:** Normal
+**Source:** incident-recovery
+**Trigger:** 2026-06-15 11:04 AEST Ken approved Recommendation #3 from outage shakedown
+**What changed:** openclaw cron dc88affb-2e25-44de-be94-ccb208043a43 (TQP executor poll): payload.model changed deepseek-v4-flash:cloud → ollama/kimi-k2.6:cloud. openclaw cron e269d620-bf99-4515-b1a8-93ef8c0579b1 (Auto-Heal nightly): payload.model changed ollama/gemma4:31b-cloud → ollama/kimi-k2.6:cloud. Both schedules intact, both enabled, both dry-run lastStatus=ok.
+**Why:** TQP bridge (every 5min) and Auto-Heal (nightly) are the most critical crons. Both were on models with rate-limit caps that hit during 2026-06-13/15 outage. Live state analysis: gemma4 (13 crons rate-limited) and deepseek-pro (6 crons rate-limited) were both failing; kimi (0 crons rate-limited) and minimax-m3 (0 crons rate-limited) were clean. Switching these 2 critical crons to kimi primary gives them an independent cap. Backend tier fallback chain (gemma4 → deepseek-pro → kimi) at model-policy.json level still covers them if kimi also fails. This is a per-cron exception to MEMORY.md kimi policy, justified by outage prevention.
+**Verification:** Both crons: lastStatus=ok, lastErrorReason=none, consecutiveErrors=0 (was 48 for TQP, 2 for Auto-Heal). TQP duration 9.9s, Auto-Heal 15.2s. Live state improved: gemma4 rate-limited count 13→12, kimi 0 errors with 3 crons now (was 1).
+**Rollback:** openclaw cron edit dc88affb-2e25-44de-be94-ccb208043a43 --model 'ollama/deepseek-v4-flash:cloud'; openclaw cron edit e269d620-bf99-4515-b1a8-93ef8c0579b1 --model 'ollama/gemma4:31b-cloud'
+**Linked:** TKT-0504 (TQP bridge), TKT-0503, L-119, L-118, L-117, L-116
+---
+
+
 ## 2026-06-15 11:03 AEST — [CHG-0560] CHECK 30: Ollama Quota Canary (L-118) — 24-72h pre-cliff detection
 **Type:** script
 **Change Type:** Normal
