@@ -1739,3 +1739,32 @@ print(json.dumps({'checks_run': checks, ...}))
 **Anti-regression:** Could add a CHECK 33 that greps for `${(j:` or other zsh-specific flags and ALERTs. Not done in this turn (out of scope for P2 #3), but candidate for P2 #4 / future hardening.
 
 **Tied to:** L-115, L-126 (string-quoting bug class), L-129 (pre-commit hook, but only catches syntax, not shell-specificity), the broader hardening theme of making infra scripts shell-agnostic.
+
+## L-132 | 2026-06-15 | Infra | Null-safe JSON access static check (P2 #4)
+
+**Severity: Low (defensive tooling), high leverage.** L-126 was one instance of a class of bugs: `.get('KEY', N)` returns Python None for null JSON values, which prints as "None" in bash, which fails arithmetic with "integer expression expected". A grep + survey found **9 such vulnerable lines** in auto-heal.sh (8 originally identified, 1 bonus caught by the new checker).
+
+**Files:**
+- `scripts/check-null-safe-json.sh` (NEW, 67 lines, bash) — static analyzer. Greps scripts/*.sh for `.get('KEY', N)` patterns that flow into bash arithmetic (-lt/-gt/-le/-ge/-eq), with a defensive 'if not X' check exemption. Writes state/null-safe-json-findings.json. Exit 0 if clean, 1 if findings.
+- `scripts/auto-heal.sh` (9 line fixes + CHECK 33 block, ~40 lines)
+  - Lines 1323/1444/1613/1729/1788/2030/2031/2032/2098: changed `.get('KEY', N)` → `.get('KEY') or N`
+  - CHECK 33 added: runs checker, logs PASS/WARN, escalates high-severity to NEEDS_KEN
+
+**Verified (13:06 AEST 2026-06-15):**
+- bash -n / zsh -n clean on both files
+- Real run: `NULL_SAFE_FINDINGS: 0, HIGH: 0, MEDIUM: 0`, checker exit 0
+- Auto-heal final: `exit_status=complete_with_needs_ken, checks_count=44` (was 43, +1 for CHECK 33)
+- CHECK 33: `PASS (0 null-unsafe .get() patterns in scripts/)`
+- **Live null-injection test** (13:06 AEST): injected `{"count": null, "summary": {"critical": null, ...}}` into /tmp/test_null.json. With the new pattern: bash gets `0` (was `None` before — would have crashed). With old pattern: bash would have gotten `None` and `(( None -lt 5 ))` would have failed. **The L-126 class is now structurally prevented.**
+
+**Defense-in-depth stack (now 4 layers):**
+1. L-129 pre-commit hook — catches syntax errors at write time
+2. CHECK 27 (L-091) — catches syntax errors in nightly audit
+3. CHECK 33 (L-132) — catches L-126 null-safety class in nightly audit
+4. The 9 individual fixes in this commit
+
+**Lesson:** Once you have 2+ instances of a bug class (L-126, L-130, L-131, now L-132), the right move is a static checker + systematic fix, not one-off patches. The checker's value is in *finding future regressions* — any new script that introduces the pattern will be flagged at nightly auto-heal.
+
+**Anti-regression:** CHECK 33 in auto-heal catches future instances. The 9 fixes ship with this commit.
+
+**Tied to:** L-126 (the original CHECK 28c crash), L-115, L-130, L-131 (the broader shell-pitfall hardening arc).

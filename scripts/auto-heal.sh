@@ -1320,7 +1320,7 @@ LONG_ID_STUB_FILE="$STATE_DIR/long-id-stubs.json"
 if [[ -x "$LONG_ID_STUB_SCRIPT" ]]; then
   bash "$LONG_ID_STUB_SCRIPT" >> "$LOG" 2>&1 || true
   if [[ -f "$LONG_ID_STUB_FILE" ]]; then
-    STUB_COUNT=$(python3 -c "import json; d=json.load(open('$LONG_ID_STUB_FILE')); print(d.get('count', 0))" 2>/dev/null || echo 0)
+    STUB_COUNT=$(python3 -c "import json; d=json.load(open('$LONG_ID_STUB_FILE')); print(d.get('count') or 0)" 2>/dev/null || echo 0)
     if [[ "$STUB_COUNT" -gt 0 ]]; then
       log "CHECK 24: Found $STUB_COUNT long-ID stub(s) — see $LONG_ID_STUB_FILE"
       # Non-destructive: add to NEEDS_KEN so Ken sees it in the auto-heal report
@@ -1441,7 +1441,7 @@ if stall_findings:
 PYEOF
 
 if [[ -f "$L089_FINDINGS" ]]; then
-  L089_COUNT=$(python3 -c "import json; d=json.load(open('$L089_FINDINGS')); print(d.get('stalls_found', 0))" 2>/dev/null || echo 0)
+  L089_COUNT=$(python3 -c "import json; d=json.load(open('$L089_FINDINGS')); print(d.get('stalls_found') or 0)" 2>/dev/null || echo 0)
   if [[ "$L089_COUNT" -gt 0 ]]; then
     log "CHECK 25: Found $L089_COUNT CREST rejection-stall pattern(s) in last ${L089_THRESHOLD_HOURS}h — see $L089_FINDINGS"
     NEEDS_KEN+=("L-089: $L089_COUNT CREST tool-call rejection-stall pattern(s) detected. Review state/crest-rejection-stalls.json. CREST v1.2 §8.4 enforcement: agent emitted commentary after rejection without retrying.")
@@ -1610,7 +1610,7 @@ if l090_findings:
 PYEOF
 
 if [[ -f "$L090_FINDINGS" ]]; then
-  L090_COUNT=$(python3 -c "import json; d=json.load(open('$L090_FINDINGS')); print(d.get('failures_found', 0))" 2>/dev/null || echo 0)
+  L090_COUNT=$(python3 -c "import json; d=json.load(open('$L090_FINDINGS')); print(d.get('failures_found') or 0)" 2>/dev/null || echo 0)
   if [[ "$L090_COUNT" -gt 0 ]]; then
     log "CHECK 26: Found $L090_COUNT db-ticket.sh shell-compat failure(s) in last ${L090_THRESHOLD_HOURS}h — see $L090_FINDINGS"
     NEEDS_KEN+=("L-090: $L090_COUNT db-ticket.sh shell-compat failure(s) detected. Review state/db-ticket-shell-failures.json. CHG-0524 fix: use create-from-json for non-interactive creation. Auto-reexec to bash is in place for legacy create path.")
@@ -1726,7 +1726,7 @@ Path("$TQP_ORPHAN_REPORT").write_text(json.dumps(result, indent=2))
 print(f"CHECK 28f: {result['verdict']}")
 PYEOF
 
-ORPHAN_COUNT=$(python3 -c "import json; d=json.load(open('$TQP_ORPHAN_REPORT')); print(d.get('orphan_count', 0))" 2>/dev/null || echo 0)
+ORPHAN_COUNT=$(python3 -c "import json; d=json.load(open('$TQP_ORPHAN_REPORT')); print(d.get('orphan_count') or 0)" 2>/dev/null || echo 0)
 if [[ "$ORPHAN_COUNT" -gt 0 ]]; then
   log "CHECK 28f: Found $ORPHAN_COUNT orphan JSON-queued atom(s) — see $TQP_ORPHAN_REPORT"
   NEEDS_KEN+=("L-095: $ORPHAN_COUNT atom(s) queued to state/task-queue.json only (not PG). TQP cannot see them. Re-queue to PG state_task_queue. See state/tqp-orphan-writes.json")
@@ -1785,7 +1785,7 @@ Path("$TQP_STUCK_REPORT").write_text(json.dumps(result, indent=2))
 print(f"CHECK 28g: {result['verdict']}")
 PYEOF
 
-STUCK_COUNT=$(python3 -c "import json; d=json.load(open('$TQP_STUCK_REPORT')); print(d.get('stuck_count', 0))" 2>/dev/null || echo 0)
+STUCK_COUNT=$(python3 -c "import json; d=json.load(open('$TQP_STUCK_REPORT')); print(d.get('stuck_count') or 0)" 2>/dev/null || echo 0)
 if [[ "$STUCK_COUNT" -gt 0 ]]; then
   log "CHECK 28g: WARN: $STUCK_COUNT atom(s) claimed but not executing — see $TQP_STUCK_REPORT"
   NEEDS_KEN+=("L-096 WARN: $STUCK_COUNT TQP atom(s) claimed by agent:tqp with no execution. Signal live since 2026-06-13. Full bridge TKT-0504-A1..A5 in Sprint 9. See state/tqp-stuck-claims.json")
@@ -2027,9 +2027,9 @@ else
       
       # If state file exists, get critical count
       if [[ -f "$QUOTA_TRACK_OUT" ]]; then
-        C31_CRITICAL=$(python3 -c "import json; d=json.load(open('$QUOTA_TRACK_OUT')); print(d.get('summary', {}).get('critical', 0))" 2>/dev/null || echo 0)
-        C31_WARNING=$(python3 -c "import json; d=json.load(open('$QUOTA_TRACK_OUT')); print(d.get('summary', {}).get('warning', 0))" 2>/dev/null || echo 0)
-        C31_RATE_LIMITED=$(python3 -c "import json; d=json.load(open('$QUOTA_TRACK_OUT')); print(d.get('summary', {}).get('rate_limited', 0))" 2>/dev/null || echo 0)
+        C31_CRITICAL=$(python3 -c "import json; d=json.load(open('$QUOTA_TRACK_OUT')); print(d.get('summary', {}).get('critical') or 0)" 2>/dev/null || echo 0)
+        C31_WARNING=$(python3 -c "import json; d=json.load(open('$QUOTA_TRACK_OUT')); print(d.get('summary', {}).get('warning') or 0)" 2>/dev/null || echo 0)
+        C31_RATE_LIMITED=$(python3 -c "import json; d=json.load(open('$QUOTA_TRACK_OUT')); print(d.get('summary', {}).get('rate_limited') or 0)" 2>/dev/null || echo 0)
         
         if [[ "$C31_CRITICAL" -gt 0 ]]; then
           log "CHECK 31: ALERT — ${C31_CRITICAL} cron(s) at critical cliff risk (>=0.7)"
@@ -2095,7 +2095,7 @@ else
       fi
       
       if [[ -f "$MIGRATION_OUT" ]]; then
-        C32_TIER1=$(python3 -c "import json; d=json.load(open('$MIGRATION_OUT')); print(d.get('summary', {}).get('tier_1_migrate_now', 0))" 2>/dev/null || echo 0)
+        C32_TIER1=$(python3 -c "import json; d=json.load(open('$MIGRATION_OUT')); print(d.get('summary', {}).get('tier_1_migrate_now') or 0)" 2>/dev/null || echo 0)
         
         if [[ "$C32_TIER1" -ge 5 ]]; then
           log "CHECK 32: ALERT — ${C32_TIER1} cron(s) at tier 1 (migrate now). Top 3: see state/cron-migration-suggestions.json"
@@ -2119,6 +2119,37 @@ json.dump({'ts': ts, 'tier1': $C32_TIER1}, open('$CHECK32_LAST_FIRE', 'w'), inde
   fi
 fi
 
+
+# ---------- CHECK 33: Null-safe JSON access static check (L-132, P2 #4) ----------
+# Defense-in-depth against L-126 bug class: catches .get(KEY, N) patterns that
+# flow into bash arithmetic. Sibling of CHECK 27 (L-091, script syntax) and
+# CHECK 32 (L-130, migration advisor). 24h cooldown — static analysis, not state.
+log "CHECK 33: null-safe JSON access static check (L-132)"
+CHECKS_RUN+=("null_safe_json_access")
+
+NULL_OUT="$WORKSPACE/state/null-safe-json-findings.json"
+NULL_FINDINGS=0
+NULL_HIGH=0
+if [[ -x "$WORKSPACE/scripts/check-null-safe-json.sh" ]]; then
+  NULL_OUT_RAW=$(bash "$WORKSPACE/scripts/check-null-safe-json.sh" 2>&1)
+  NULL_EXIT=$?
+  NULL_FINDINGS=$(echo "$NULL_OUT_RAW" | grep -E "^NULL_SAFE_FINDINGS:" | awk "{print $2}" | head -1)
+  NULL_FINDINGS=${NULL_FINDINGS:-0}
+  NULL_HIGH=$(echo "$NULL_OUT_RAW" | grep -E "^HIGH:" | awk "{print $2}" | head -1)
+  NULL_HIGH=${NULL_HIGH:-0}
+  
+  if [[ "$NULL_FINDINGS" -gt 0 ]]; then
+    log "CHECK 33: WARN — $NULL_FINDINGS null-unsafe .get() pattern(s) in scripts/, $NULL_HIGH high-severity (L-126 bug class)"
+    # Only NEEDS_KEN for high-severity (those that flow into arithmetic)
+    if [[ "$NULL_HIGH" -gt 0 ]]; then
+      NEEDS_KEN+=("Null-safe JSON: $NULL_HIGH high-severity .get() pattern(s) flowing into bash arithmetic — review state/null-safe-json-findings.json")
+    fi
+  else
+    log "CHECK 33: PASS (0 null-unsafe .get() patterns in scripts/)"
+  fi
+else
+  log "CHECK 33: SKIP (check-null-safe-json.sh not found)"
+fi
 # ---------- CHECK 28d: Auto-archive untracked root .md files (TKT-0341) ----------
 # TKT-0341 contract: all .md in workspace root must be on the 8-allowlist
 # (SOUL/AGENTS/MEMORY/HEARTBEAT/USER/IDENTITY/TOOLS/RULES). This check auto-archives

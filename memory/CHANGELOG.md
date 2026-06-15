@@ -11,6 +11,19 @@
 ---
 ---
 
+## 2026-06-15 13:06 AEST — [CHG-0574] Null-safe JSON access static checker (L-132, P2 #4) — prevents L-126 bug class
+**Type:** script
+**Change Type:** Standard
+**Source:** incident-recovery
+**Trigger:** 2026-06-15 13:04 AEST Ken approved P2 #4 from followup list. Initial survey of auto-heal.sh found 8 vulnerable .get('KEY', N) patterns flowing into bash arithmetic; subagent's static checker identified a 9th (.get('rate_limited', 0) at line 2032).
+**What changed:** 2 files. NEW: scripts/check-null-safe-json.sh (67 lines, bash) — static analyzer for L-126 bug class. Greps scripts/*.sh for .get('KEY', N) patterns flowing into bash arithmetic, writes state/null-safe-json-findings.json, exit 0/1. EDIT: scripts/auto-heal.sh — 9 line fixes converting .get('KEY', N) to .get('KEY') or N (L-126 L-126 L-126 L-126 L-126 L-126 L-126 L-126 L-126), and CHECK 33 block (~40 lines) wired with NEEDS_KEN escalation for high-severity findings.
+**Why:** L-126 was one instance of a class. A grep survey found 9 vulnerable lines in auto-heal.sh alone, all could silently crash auto-heal if the source JSON had null values. The structural fix is: (1) a static checker to catch this pattern across all scripts, (2) systematic fix of all known instances, (3) nightly auto-heal CHECK to flag future regressions. Same defense-in-depth pattern as L-129 (pre-commit hook) + CHECK 27 (L-091 nightly syntax audit).
+**Verification:** bash -n / zsh -n clean on both files. Real run: NULL_SAFE_FINDINGS: 0, HIGH: 0, MEDIUM: 0, checker exit 0. Auto-heal final: exit_status=complete_with_needs_ken, checks_count=44 (was 43). Live null-injection test: {'count': null} → bash gets 0 (was None before). Real data still works: warning=5 evaluates as 5. CHECK 33: PASS (0 patterns).
+**Rollback:** rm scripts/check-null-safe-json.sh; git checkout scripts/auto-heal.sh
+**Linked:** L-132, L-126, L-115, L-130, L-131, L-129, L-091, TKT-NULL-SAFE-JSON
+---
+
+
 ## 2026-06-15 13:00 AEST — [CHG-0573] Auto-heal shell-agnostic refactor (L-131, P2 #3) — removed zsh-only parameter expansion
 **Type:** script
 **Change Type:** Standard
