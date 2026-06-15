@@ -1768,3 +1768,36 @@ print(json.dumps({'checks_run': checks, ...}))
 **Anti-regression:** CHECK 33 in auto-heal catches future instances. The 9 fixes ship with this commit.
 
 **Tied to:** L-126 (the original CHECK 28c crash), L-115, L-130, L-131 (the broader shell-pitfall hardening arc).
+
+## L-133 | 2026-06-15 | Infra | File-size-guard thresholds realigned to documented policy (P2 #5)
+
+**Severity: Low (config drift, false-positive warnings).** The file-size-guard.sh script had soft thresholds that didn't match the documented policy in AGENTS.md and MEMORY.md. Specifically:
+- MEMORY.md: script said soft=10000, but AGENTS.md line 54 says "Archive overflow at 12,000 chars" and MEMORY.md line 30 says "warn 12,000". Off by 2K.
+- AGENTS.md: script said soft=8000, no documented warn number. Conservative but arbitrary.
+- HEARTBEAT.md: script said soft=10000, no documented warn number.
+- TOOLS.md: script said soft=3000, no documented warn number.
+
+**Why it matters:** MEMORY.md was at 10,905 chars and getting a "WARN" — but per documented policy, it should be OK until 12,000. False-positive warnings train humans to ignore the system. The 2K misalignment is the kind of drift that only gets caught when the system is used.
+
+**Fix:** Realigned to match documented policy + proportional patterns:
+- SOUL.md: hard=10000, soft=6000 (no change — matches MEMORY.md line 29)
+- AGENTS.md: hard=12000, **soft=11000** (was 8000, 1K buffer before hard)
+- MEMORY.md: hard=15000, **soft=12000** (was 10000, matches documented policy)
+- HEARTBEAT.md: hard=15000, **soft=12000** (was 10000, matches MEMORY.md pattern)
+- USER.md: hard=2000, soft=1000 (no change)
+- IDENTITY.md: hard=2000, soft=1000 (no change)
+- TOOLS.md: hard=5000, **soft=4000** (was 3000, 1K buffer before hard)
+
+**Verified (13:11 AEST 2026-06-15):**
+- bash -n / zsh -n clean
+- Run: all 7 files OK (was 2 WARN before: MEMORY.md and TOOLS.md)
+- MEMORY.md: 10905 chars → OK (72% of hard, under soft=12000) ✅
+- AGENTS.md: 7351 chars → OK (61% of hard, under soft=11000) ✅
+- TOOLS.md: 3057 chars → OK (61% of hard, under soft=4000) ✅
+- Severity: OK (was WARN before)
+
+**Lesson:** When you have a system that warns humans, the threshold value is a policy decision, not a config value. Drift between the script and the documented policy causes false positives, which train humans to ignore real warnings. The fix is to make the script read its policy from the same source as the documentation, OR to keep the two in sync via this kind of periodic audit.
+
+**Anti-regression:** Could add a CHECK that compares file-size-guard.sh LIMITS_DATA to a hardcoded reference in AGENTS.md. Not done in this turn (out of scope for P2 #5), but candidate for future hardening.
+
+**Tied to:** L-121 (L-121 AGENTS.md trim, where the misalignment would have mattered most), L-131, L-132 (the broader hardening arc of the week).

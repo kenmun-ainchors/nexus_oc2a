@@ -11,6 +11,19 @@
 ---
 ---
 
+## 2026-06-15 13:12 AEST — [CHG-0575] File-size-guard thresholds realigned to documented policy (L-133, P2 #5)
+**Type:** config
+**Change Type:** Standard
+**Source:** manual
+**Trigger:** 2026-06-15 13:11 AEST Ken approved P2 #5 from followup list. Survey found script's soft thresholds (10000 for MEMORY.md, 8000 for AGENTS.md, 3000 for TOOLS.md) didn't match the documented policy in AGENTS.md line 54 ('Archive overflow at 12,000 chars') and MEMORY.md line 30 ('warn 12,000'). 2K off — causing false-positive WARN on MEMORY.md at 10905 chars.
+**What changed:** 1 file. EDIT: scripts/file-size-guard.sh — LIMITS_DATA realigned: AGENTS.md soft 8000→11000 (1K buffer before hard 12K), MEMORY.md soft 10000→12000 (matches documented policy), HEARTBEAT.md soft 10000→12000 (matches MEMORY.md pattern), TOOLS.md soft 3000→4000 (1K buffer before hard 5K). SOUL.md, USER.md, IDENTITY.md unchanged. Added policy comment block at top of LIMITS_DATA explaining the rationale and tying to AGENTS.md/MEMORY.md line numbers.
+**Why:** MEMORY.md was at 10905 chars and getting WARN, but per documented policy it's OK until 12000. False-positive warnings train humans to ignore the system. The 2K misalignment is the kind of drift that only gets caught when the system is used. Realigned to match the policy actually written down, plus 1K buffer pattern for the rest.
+**Verification:** bash -n / zsh -n clean. Run: all 7 files OK (was 2 WARN before). MEMORY.md 10905 → OK (72% of hard, under soft=12000). AGENTS.md 7351 → OK (61% of hard, under soft=11000). TOOLS.md 3057 → OK (61% of hard, under soft=4000). Severity: OK (was WARN). No regressions on the other 4 files.
+**Rollback:** git checkout scripts/file-size-guard.sh
+**Linked:** L-133, L-121, L-131, L-132, TKT-FILE-SIZE-GUARD-THRESHOLD-ALIGN
+---
+
+
 ## 2026-06-15 13:06 AEST — [CHG-0574] Null-safe JSON access static checker (L-132, P2 #4) — prevents L-126 bug class
 **Type:** script
 **Change Type:** Standard

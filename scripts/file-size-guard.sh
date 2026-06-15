@@ -9,14 +9,26 @@ WORKSPACE="${WORKSPACE:-/Users/ainchorsangiefpl/.openclaw/workspace}"
 ROOT_MD_CAP=60000  # TKT-0341: total chars across all root .md files
 CONTRACT_REGISTRY="$WORKSPACE/state/file-contracts.json"
 
+# File size limits: hard|soft|bname|remedy
+# Policy: hard limits per TKT-0310 (uninjected-context threshold). Soft limits
+# match the documented policies in AGENTS.md and MEMORY.md:
+#   - MEMORY.md: hard 15000, soft 12000 ("warn 12,000" — AGENTS.md line 54 + MEMORY.md line 30)
+#   - AGENTS.md: hard 12000, soft 11000 (1K buffer, "catch at 11K" per P2 #5)
+#   - HEARTBEAT.md: hard 15000, soft 12000 (matches MEMORY.md)
+#   - SOUL.md: hard 10000, soft 6000 (no change — matches MEMORY.md line 29)
+#   - TOOLS.md: hard 5000, soft 4000 (1K buffer, matches proportional pattern)
+#   - USER.md / IDENTITY.md: no change
+# Why: the previous MEMORY.md soft=10000 was 2K too early per documented policy,
+# causing false-positive warnings that devalued the warning system. This aligns
+# the script to the policy actually written down. L-133.
 LIMITS_DATA=(
   "SOUL.md|10000|6000|Trim non-essential sections. Target: identity + traits + rules + cadences only."
-  "AGENTS.md|12000|8000|Archive old procedural sections. Details belong in RULES.md (not injected)."
-  "MEMORY.md|15000|10000|Archive EOD sections to memory/MEMORY-archive-YYYY-MM-DD.md. Trim to ~10K."
-  "HEARTBEAT.md|15000|10000|Consolidate duplicate check descriptions. Keep names + state keys + thresholds only."
+  "AGENTS.md|12000|11000|Archive old procedural sections. Details belong in RULES.md (not injected). Soft at 11K = 1K buffer before hard 12K (P2 #5, L-133)."
+  "MEMORY.md|15000|12000|Archive EOD sections to memory/MEMORY-archive-YYYY-MM-DD.md. Trim to ~10K. Soft 12K matches AGENTS.md line 54 + MEMORY.md line 30 (P2 #5, L-133)."
+  "HEARTBEAT.md|15000|12000|Consolidate duplicate check descriptions. Keep names + state keys + thresholds only. Soft 12K matches MEMORY.md pattern (P2 #5, L-133)."
   "USER.md|2000|1000|Keep minimal — name, email, timezone, primary channel only."
   "IDENTITY.md|2000|1000|Keep to ~5 lines — name, role, vibe, emoji."
-  "TOOLS.md|5000|3000|Device-specific config only. General usage in SKILL.md files."
+  "TOOLS.md|5000|4000|Device-specific config only. General usage in SKILL.md files. Soft 4K = 1K buffer before hard 5K (P2 #5, L-133)."
 )
 
 get_limits() {
