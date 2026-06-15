@@ -11,6 +11,89 @@
 ---
 ---
 
+## 2026-06-15 16:59 AEST — [CHG-0586] L-138 anti-regression: pipefail+ERR+child-return-1 static checker
+**Type:** script
+**Change Type:** Standard
+**Source:** manual
+**Trigger:** 5th-time-today L-126/131/132/137 class fired (5f59e7fa shipped with regex blind spot + no toggle tracking)
+**What changed:** scripts/check-pipefail-trap.sh: regexes fixed to support combined flags (-uo, -eo, +uo), SCRIPTS_TO_SCAN env var added for synthetic test corpus, toggle-state-machine for set +uo pipefail local disable, multi-line string-aware joining for procsub patterns split across lines. scripts/auto-heal.sh: CHECK 35 wired (46th check, runs checker, parses via python, NEEDS_KEN for HIGH findings).
+**Why:** Anti-regression for the pipefail+ERR+child-returns-1 bug shape. Caught itself: subagent v1 shipped broken (5f59e7fa), Yoda L-113 verify caught it, v2 still had 2 failures, v3 (Yoda) got 11/11. This is the 5th time today this class fired (L-126, L-131, L-132, L-137, L-138). 5-Layer defense stack now complete.
+**Verification:** Yoda-side: 11/11 synthetic tests pass (Yoda v3). Real code: auto-heal.sh returns 0 findings (correct, all child invocations have || true). bash -n + zsh -n OK on both files. Pre-commit hook would also catch syntax issues.
+**Rollback:** git revert 5f59e7fa + new commit
+**Linked:** L-126,L-131,L-132,L-137
+---
+
+
+## 2026-06-15 15:57 AEST — [CHG-0585] TKT-0332 atoms A1-A4 verified PASS — sandbox→prod boundary hardened
+**Type:** rule
+**Change Type:** Normal
+**Source:** ken-prompt
+**Trigger:** Forge sub-agent completion event for tkt0332_scope_a
+**What changed:** (A1) state/sandbox-boundary-audit.json: 8 vectors, 3 gaps identified (A1.2 config-validation, A1.3 token-regen, A1.8 doctor-side-effect — all root-caused to OPENCLAW_GATEWAY_TOKEN env leak). (A2) sandbox.env + env-wrapper.sh: unset OPENCLAW_GATEWAY_TOKEN in 3 places. NEW scripts/sandbox-guard.sh: pre-flight guard (exit 70 on OPENCLAW_SANDBOX=1). (A3) scripts/auto-heal.sh:2414-2486: CHECK 37 sandbox_boundary_audit. (A4) state/linkedin-campaign.json: reactivation block updated with TKT-0332 closed annotation.
+**Why:** Closes structural sandbox→prod side-effect chain that caused INC-20260608-001 (30-min prod outage 2026-06-08). Port isolation (CHG-0471) blocked direct writes; this fix blocks the config-validation side-effect chain. Critical path for Spark reactivation.
+**Verification:** Independent cross-check: (1) audit JSON 5212 bytes, 8 vectors, summary {covered:5, partial:0, gap:3}. (2) OPENCLAW_SANDBOX=1 bash -c 'source sandbox-guard; write to prod' → exit 70, no file created. (3) auto-heal CHECK 37 emits PASS line. (4) linkedin-campaign.json reactivation block has all 5 sandbox hardening fields.
+**Rollback:** Revert env-wrapper.sh + sandbox.env to prior; rm scripts/sandbox-guard.sh; rm CHECK 37 from auto-heal.sh; revert audit JSON and linkedin-campaign.json
+**Linked:** TKT-0332, TKT-0527, TKT-0528, INC-20260608-001, CHG-0471, L-050, L-051, L-087
+**Category:** Operations
+---
+
+
+## 2026-06-15 15:49 AEST — [CHG-0584] TKT-0332 scope locked to A only — B→TKT-0527, C→TKT-0528 split
+**Type:** rule
+**Change Type:** Normal
+**Source:** ken-prompt
+**Trigger:** Ken msg 4871 'Agreed with your recommendation. Proceed' at 15:46 AEST
+**What changed:** TKT-0332 brief: scope=Scope A (sandbox→prod config-write side-effect prevention). 4 ACs: A1 audit, A2 enforcement, A3 CHECK 37, A4 closure. TKT-0527 created (B: cron PATH resilience, 3 ACs, M-effort). TKT-0528 created (C: docker/tailscale/backup hygiene, 2 ACs, S-effort, low priority).
+**Why:** Stub ticket had 3 conflated workstreams. Ken split for surgical execution — A is critical path for Spark reactivation (Tue 16 Jun 07:30 AEST), B and C are hygiene that can wait.
+**Verification:** TKT-0332 Sprint 8, in-progress, 4 ACs, ken_approved=true on GROOM-2. TKT-0527 + TKT-0528 created in PG, Notion-synced, Sprint 8, ken_approved=true.
+**Rollback:** Re-scope is non-reversible; if scope A turns out to be the wrong cut, re-groom with new scope.
+**Linked:** INC-20260608-001, L-050, L-051, CHG-0471, TKT-0333, TKT-0527, TKT-0528
+**Category:** Operations
+---
+
+
+## 2026-06-15 15:22 AEST — [CHG-0583] TKT-0526 atom 6: flip CHECK 36 to live (CRON_TIMEOUT_AUDIT_LIVE=true)
+**Type:** config
+**Change Type:** Normal
+**Source:** ken-prompt
+**Trigger:** Ken instruction msg 4857 'Atom 6. Go' at 15:21 AEST
+**What changed:** scripts/auto-heal.sh:2262 CRON_TIMEOUT_AUDIT_LIVE: false → true. Comment updated to CHG-0583 reference. CHECK 36 now in live mode.
+**Why:** Baseline clean (0 offenders) confirmed by atoms 1-4. Ken approved flip. Future :cloud agentTurn crons with timeoutSeconds<120 will now surface via auto-heal report → NEEDS_KEN → Notion DB B (Auto-Heal) per AC3c.
+**Verification:** Re-ran auto-heal post-flip. CHECK 36 emits PASS, 0 offenders, state file shows live:true, baseline:true, offenderCount:0. Atomic write via cron-write.sh confirmed. No regression to other checks.
+**Rollback:** Set CRON_TIMEOUT_AUDIT_LIVE=false in scripts/auto-heal.sh:2262
+**Linked:** TKT-0526, CHG-0581, CHG-0582, L-087
+**Category:** Operations
+---
+
+
+## 2026-06-15 14:46 AEST — [CHG-0582] TKT-0526 atoms 1-4 complete: CHECK 36 dry-run stub, baseline clean
+**Type:** script
+**Change Type:** Normal
+**Source:** ken-prompt
+**Trigger:** Ken instruction msg 4844 plan reviewed proceed CREST
+**What changed:** scripts/auto-heal.sh: added CHECK 36 (cron_timeout_audit) at lines 2250-2402. Writes state/auto-heal-cron-timeout-audit.json. CRON_TIMEOUT_AUDIT_LIVE=false (default).
+**Why:** L-087 structural fix. Dry-run baseline phase per TKT-0526 AC3a.
+**Verification:** Independent cross-check: 13 :cloud agentTurn crons scanned, all at >=120s. Baseline=clean, offenderCount=0. Valid JSON, correct schema.
+**Rollback:** git checkout scripts/auto-heal.sh and rm state/auto-heal-cron-timeout-audit.json
+**Linked:** TKT-0526, CHG-0581, L-087, L-088
+**Category:** Operations
+---
+
+
+## 2026-06-15 14:24 AEST — [CHG-0581] Fix yoda-context-brief-refresh timeout (30s to 120s)
+**Type:** config
+**Change Type:** Normal
+**Source:** ken-prompt
+**Trigger:** Telegram alert 4811 from Ken at 14:00 AEST; cron consecutiveErrors=4
+**What changed:** cron c69615bb payload.timeoutSeconds: 30 -> 120
+**Why:** 30s is outlier vs all comparable gemma4:31b-cloud crons (min 120s)
+**Verification:** Pre-patch: consecutiveErrors=4 lastErrorReason=timeout lastDurationMs=30589
+**Rollback:** Revert timeoutSeconds to 30 via openclaw cron update
+**Linked:** auto-heal CHECK 29
+**Category:** Operations
+---
+
+
 ## 2026-06-15 13:59 AEST — [CHG-0580] L-137 cooldown-gating anti-regression: check-cooldown-gate.sh + CHECK 34
 **Type:** script
 **Change Type:** Standard

@@ -2204,6 +2204,288 @@ print(findings.group(1) if findings else 0, high.group(1) if high else 0, medium
 else
   log "CHECK 34: SKIP (check-cooldown-gate.sh not found)"
 fi
+# ---------- CHECK 35: Pipefail+trap static check (L-138, anti-regression for L-126/131/132/137) ----------
+# Defense-in-depth against the L-138 bug class: catches `set -o pipefail` + `trap ... ERR`
+# + ungated `$(...)` checker invocations, `awk | head` SIGPIPE patterns, `tr '\n' ' '` in
+# process substitution, and `read -r ... < <(cmd)` with multi-line pipelines.
+# L-126, L-131, L-132, L-137 all hit this. Anti-regression checker.
+# Sibling of CHECK 27 (L-091, syntax), CHECK 33 (L-132, null-safety), and
+# CHECK 34 (L-137, cooldown-gating). 24h cooldown — static analysis.
+log "CHECK 35: pipefail+trap static check (L-138, anti-regression for L-126/131/132/137)"
+CHECKS_RUN+=("pipefail_trap_static_check")
+
+PIPE_OUT="$WORKSPACE/state/pipefail-trap-findings.json"
+PIPE_FINDINGS=0
+PIPE_HIGH=0
+if [[ -x "$WORKSPACE/scripts/check-pipefail-trap.sh" ]]; then
+  # `|| true` masks the exit code from `set -uo pipefail` + ERR trap (zsh behavior).
+  # The checker's own exit code is irrelevant — we read stdout and parse it.
+  PIPE_OUT_RAW=$(bash "$WORKSPACE/scripts/check-pipefail-trap.sh" 2>&1 || true)
+  # Parse findings + high count via python (avoids head/awk SIGPIPE with pipefail).
+  # Python prints all 3 values space-separated on one line, then IFS=' ' read splits them.
+  IFS=" " read -r PIPE_FINDINGS PIPE_HIGH PIPE_MEDIUM < <(echo "$PIPE_OUT_RAW" | python3 -c "
+import sys, re
+out = sys.stdin.read()
+findings = re.search(r'^PIPEFAIL_TRAP_FINDINGS:\s*(\d+)', out, re.M)
+high = re.search(r'^HIGH:\s*(\d+)', out, re.M)
+medium = re.search(r'^MEDIUM:\s*(\d+)', out, re.M)
+print(findings.group(1) if findings else 0, high.group(1) if high else 0, medium.group(1) if medium else 0)
+")
+  PIPE_FINDINGS=${PIPE_FINDINGS:-0}
+  PIPE_HIGH=${PIPE_HIGH:-0}
+  
+  if [[ "$PIPE_FINDINGS" -gt 0 ]]; then
+    log "CHECK 35: WARN — $PIPE_FINDINGS pipefail+trap anti-pattern(s) in scripts/, $PIPE_HIGH high-severity (L-138 bug class)"
+    # Only NEEDS_KEN for high-severity (those that crash under pipefail+ERR trap)
+    if [[ "$PIPE_HIGH" -gt 0 ]]; then
+      NEEDS_KEN+=("Pipefail+trap: $PIPE_HIGH high-severity anti-pattern(s) (L-138 bug class) — review state/pipefail-trap-findings.json")
+    fi
+  else
+    log "CHECK 35: PASS (0 pipefail+trap anti-patterns in scripts/)"
+  fi
+else
+  log "CHECK 35: SKIP (check-pipefail-trap.sh not found)"
+fi
+
+# ---------- CHECK 36: Cron Timeout Audit (<120s on :cloud agentTurn) — TKT-0526 ----------
+# Detects agentTurn crons with :cloud models whose timeoutSeconds < 120 (the L-087
+# root-cause minimum). Suggested timeout tiers: 120s default, 300s for sweeps/audits,
+# 600–831s for blog/summary/complex-gen. Writes findings to state/auto-heal-cron-timeout-audit.json.
+# This check is a sub-agent dispatch from TKT-0526; it stays DRY-RUN until Ken
+# reviews the baseline and authorises flip-to-live.
+log "CHECK 36: cron timeout audit (<120s on :cloud agentTurn crons) — TKT-0526"
+CHECKS_RUN+=("cron_timeout_audit")
+
+# ── Live flag — stays false until Ken flips after baseline review ──
+# CHG-0583 (2026-06-15): Ken approved flip-to-live (Atom 6 of TKT-0526).
+# Now live: future offenders surface in NEEDS_KEN with full Notion routing via auto-heal report.
+CRON_TIMEOUT_AUDIT_LIVE=true
+
+AUDIT_OUTFILE="/Users/ainchorsangiefpl/.openclaw/workspace/state/auto-heal-cron-timeout-audit.json"
+
+# Run the audit logic inline (no separate function — matches CHECK 29/30 pattern)
+cron_timeout_audit_logic() {
+  local live_flag="${1:-false}"
+  local outfile="${2:-$AUDIT_OUTFILE}"
+  local workspace="${3:-$WORKSPACE}"
+
+  # Snapshot cron state
+  local cron_json
+  cron_json=$(cd "$workspace" && openclaw cron list --json 2>/dev/null || echo '{"jobs":[]}')
+
+  # Use python3 for clean filtering — same EXPECTED_ERROR_CRONS as cron-health-check.sh (the source)
+  # Gateway-restart pattern matches any cron whose lastError contains "interrupted by gateway restart"
+  python3 - "$cron_json" "$outfile" "$live_flag" "$NOW" << 'PYEOF'
+import json, sys, os, datetime
+
+cron_json_raw = sys.argv[1]
+outfile = sys.argv[2]
+live_flag = sys.argv[3] == 'true'
+now = sys.argv[4]
+
+cron_data = json.loads(cron_json_raw) if cron_json_raw.strip() else {'jobs': []}
+
+# Same skip prefixes as cron-health-check.sh
+EXPECTED_ERROR_CRONS = [
+    '20f59555',  # Nightly Gateway Restart
+]
+
+# Gateway-restart transient error patterns (CHG-0458)
+GATEWAY_RESTART_PATTERNS = [
+    'interrupted by gateway restart',
+    'job interrupted by gateway restart',
+]
+
+offenders = []
+
+for job in cron_data.get('jobs', []):
+    jid = job.get('id', '')
+    if not jid:
+        continue
+    
+    # Only enabled crons
+    enabled = job.get('enabled', True)
+    if not enabled:
+        continue
+    
+    # Skip EXPECTED_ERROR_CRONS prefixes
+    if any(jid.startswith(prefix) for prefix in EXPECTED_ERROR_CRONS):
+        continue
+    
+    # Skip gateway-restart transient errors
+    last_error = job.get('state', {}).get('lastError', '')
+    if any(pattern in last_error for pattern in GATEWAY_RESTART_PATTERNS):
+        continue
+    
+    payload = job.get('payload', {})
+    
+    # Only agentTurn crons — systemEvent have no model/timeoutSeconds
+    kind = payload.get('kind', '')
+    if kind != 'agentTurn':
+        continue
+    
+    model = payload.get('model', '')
+    # Only :cloud models
+    if not model.endswith(':cloud'):
+        continue
+    
+    timeout = payload.get('timeoutSeconds', 0)
+    if timeout is None:
+        timeout = 0
+    
+    # Offender: timeout < 120
+    if timeout < 120:
+        name = job.get('name', '(unnamed)')[:80]
+        # Tiered suggested timeout
+        suggested = 120  # default
+        name_lower = name.lower()
+        if any(kw in name_lower for kw in ('sweep', 'audit')):
+            suggested = 300
+        elif any(kw in name_lower for kw in ('blog', 'summary')):
+            suggested = 600
+        
+        offenders.append({
+            'cronId': jid,
+            'name': name,
+            'currentTimeout': timeout,
+            'model': model,
+            'suggestedTimeout': suggested,
+        })
+
+# Baseline detection: file doesn't exist yet → first run
+baseline = not os.path.exists(outfile)
+
+result = {
+    'checkedAt': now,
+    'offenders': offenders,
+    'offenderCount': len(offenders),
+    'live': live_flag,
+    'baseline': baseline,
+}
+
+os.makedirs(os.path.dirname(outfile), exist_ok=True)
+with open(outfile, 'w') as f:
+    json.dump(result, f, indent=2)
+
+if offenders:
+    print(f"OFFENDERS:{len(offenders)}")
+    for o in offenders:
+        print(f"  {o['cronId'][:8]} {o['name'][:50]} current={o['currentTimeout']}s model={o['model']} suggested={o['suggestedTimeout']}s")
+else:
+    print("OFFENDERS:0")
+
+print(f"BASELINE:{'true' if baseline else 'false'}")
+print(f"LIVE:{'true' if live_flag else 'false'}")
+PYEOF
+}
+
+# Execute the logic
+cron_timeout_audit_logic "$CRON_TIMEOUT_AUDIT_LIVE" "$AUDIT_OUTFILE" "$WORKSPACE"
+
+# Wire the JSON into cron-write.sh (atomic write pattern)
+if [[ -f "$AUDIT_OUTFILE" ]]; then
+  # Verify JSON is well-formed
+  if python3 -c "import json; json.load(open('$AUDIT_OUTFILE')); print('OK')" 2>/dev/null; then
+    # Pipe through cron-write.sh for atomicity
+    cat "$AUDIT_OUTFILE" | bash /Users/ainchorsangiefpl/.openclaw/workspace/scripts/cron-write.sh /Users/ainchorsangiefpl/.openclaw/workspace/state/auto-heal-cron-timeout-audit.json 2>/dev/null || true
+    log "CHECK 36: Audit complete — $(python3 -c "import json; d=json.load(open('$AUDIT_OUTFILE')); print(f'{d[\"offenderCount\"]} offender(s), baseline={d[\"baseline\"]}, live={d[\"live\"]}')" 2>/dev/null || echo 'parse-failed')"
+
+    # Surface offenders in NEEDS_KEN for the auto-heal report
+    OFFENDER_COUNT=$(python3 -c "import json; d=json.load(open('$AUDIT_OUTFILE')); print(d.get('offenderCount') or 0)" 2>/dev/null || echo 0)
+    if [[ "$OFFENDER_COUNT" -gt 0 ]]; then
+      OFFENDER_SUMMARY=$(python3 -c "
+import json
+d = json.load(open('$AUDIT_OUTFILE'))
+for o in d.get('offenders', []):
+    print(f'{o[\"cronId\"][:8]} {o[\"name\"][:50]} current={o[\"currentTimeout\"]}s model={o[\"model\"]} suggested={o[\"suggestedTimeout\"]}s')
+" 2>/dev/null)
+      NEEDS_KEN+=("TKT-0526: $OFFENDER_COUNT cron(s) with :cloud model have timeoutSeconds < 120. See $AUDIT_OUTFILE. $(echo $OFFENDER_SUMMARY | tr '\n' ' ')")
+    else
+      log "CHECK 36: PASS — no :cloud agentTurn crons with timeoutSeconds < 120"
+    fi
+  else
+    log "CHECK 36: ERROR — $AUDIT_OUTFILE is not valid JSON"
+    ISSUES_FOUND+=("cron-timeout-audit:json-invalid")
+  fi
+else
+  log "CHECK 36: WARN — audit file not written"
+fi
+
+
+# ---------- CHECK 37: Sandbox Boundary Audit (TKT-0332, INC-20260608-001) ----------
+# TKT-0332 AC3: Verifies sandbox→prod config-write side-effect prevention.
+# Re-reads sandbox state and attempts a guarded dry-run write through sandbox-guard.sh.
+# If OPENCLAW_SANDBOX=1 is set and the write succeeds → CRITICAL NEEDS_KEN.
+# This mirrors CHECK 19/20 pattern for sandbox gateway liveness.
+# No cooldown — runs every auto-heal cycle. The dry-run write is harmless;
+# it only succeeds if a real boundary breach exists.
+log "CHECK 37: sandbox boundary audit (TKT-0332, INC-20260608-001)"
+CHECKS_RUN+=("sandbox_boundary_audit")
+
+AUDIT_JSON="$WORKSPACE/state/sandbox-boundary-audit.json"
+GUARD_SCRIPT="$WORKSPACE/scripts/sandbox-guard.sh"
+BOUNDARY_TESTFILE="/Users/ainchorsangiefpl/.openclaw/test-boundary-write"
+
+# Step 1: Verify audit JSON exists and is current (<7d old)
+if [[ -f "$AUDIT_JSON" ]]; then
+  AUDIT_AGE=$(python3 -c "
+import json, os, time
+try:
+  d = json.load(open('$AUDIT_JSON'))
+  checked = d.get('checkedAt', '')
+  if checked:
+    from datetime import datetime, timezone, timedelta
+    dt = datetime.fromisoformat(checked)
+    age_hours = (datetime.now(timezone.utc) - dt).total_seconds() / 3600
+    print(int(age_hours))
+  else:
+    print(-1)
+except:
+  print(-1)
+" 2>/dev/null || echo -1)
+  if [[ "$AUDIT_AGE" -gt 168 ]]; then  # 7 days
+    log "  CHECK 37: WARN — audit JSON is ${AUDIT_AGE}h old (stale >7d). Needs re-run."
+    NEEDS_KEN+=("TKT-0332: sandbox boundary audit stale (${AUDIT_AGE}h), needs re-run")
+  else
+    GAP_COUNT=$(python3 -c "import json; d=json.load(open('$AUDIT_JSON')); print(d['summary']['gap'])" 2>/dev/null || echo -1)
+    log "  CHECK 37: Audit JSON OK — ${AUDIT_AGE}h old, ${GAP_COUNT} gap(s)"
+  fi
+else
+  log "  CHECK 37: WARN — audit JSON not found at $AUDIT_JSON"
+  NEEDS_KEN+=("TKT-0332: sandbox boundary audit JSON missing — run A1 audit")
+fi
+
+# Step 2: Dry-run boundary write test through sandbox-guard.sh
+# This tests: if OPENCLAW_SANDBOX=1 set and sandbox-guard.sh is bypassed,
+# can any script write to prod paths?
+if [[ -x "$GUARD_SCRIPT" ]]; then
+  # Clean up any leftover test file first
+  rm -f "$BOUNDARY_TESTFILE" 2>/dev/null
+  
+  DRYRUN_OUT=$(OPENCLAW_SANDBOX=1 bash -c "
+    source "$GUARD_SCRIPT"
+    echo 'TKT-0332-boundary-test' >> "$BOUNDARY_TESTFILE"
+    echo 'WRITE_SUCCEEDED'
+  " 2>&1)
+  DRYRUN_EXIT=$?
+  
+  # Check if the test file was created (should NOT exist if guard worked)
+  if [[ -f "$BOUNDARY_TESTFILE" ]]; then
+    log "  CHECK 37: CRITICAL — Sandbox boundary BREACHED! Write to $BOUNDARY_TESTFILE succeeded."
+    NEEDS_KEN+=("CRITICAL TKT-0332: sandbox→prod boundary BREACH — OPENCLAW_SANDBOX=1 write to prod path succeeded. Investigate immediately.")
+    # Clean up
+    rm -f "$BOUNDARY_TESTFILE" 2>/dev/null
+  elif [[ "$DRYRUN_EXIT" -eq 70 ]]; then
+    log "  CHECK 37: PASS — sandbox-guard.sh blocked sandbox→prod write (exit 70 as expected)"
+  else
+    log "  CHECK 37: PASS — no boundary write occurred (exit=$DRYRUN_EXIT, test file absent)"
+  fi
+else
+  log "  CHECK 37: WARN — sandbox-guard.sh not found at $GUARD_SCRIPT"
+  ISSUES_FOUND+=("sandbox-boundary-audit:guard-missing")
+fi
+
+
 # ---------- CHECK 28d: Auto-archive untracked root .md files (TKT-0341) ----------
 # TKT-0341 contract: all .md in workspace root must be on the 8-allowlist
 # (SOUL/AGENTS/MEMORY/HEARTBEAT/USER/IDENTITY/TOOLS/RULES). This check auto-archives

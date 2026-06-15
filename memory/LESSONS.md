@@ -1938,3 +1938,38 @@ fi
 **Why this is the right lesson to log NOW:** Today I logged 21 lessons. The fatigue of "yet another bug class" is real. Future-Yoda reading LESSONS.md needs to see that **logging the lesson is half the work — the structural anti-regression is the other half**. L-137 closes the loop on L-136 by saying: "this is the pattern, this is the static check that catches it, this is the position in the defense stack."
 
 **Tied to:** L-136 (the bug that triggered this), L-126 (CHECK 28c crash — same "logic quirk" shape), L-130 (CHECK 32 quoting bug — same "logic quirk" shape), L-113 (evidence-only verify), L-129 (pre-commit hook), L-132 (null-safety checker), L-099 (cooldown discipline), L-088+ (silence-failure family).
+
+## L-087 — Cron timeoutSeconds:30 is below floor for cloud model tasks (2026-06-15)
+**Trigger:** yoda-context-brief-refresh (c69615bb) ran 30.6s on gemma4:31b-cloud, hit 30s timeout, consecutiveErrors climbed to 4.
+**Root cause:** 30s timeout was an outlier — all comparable crons at gemma4:31b-cloud use ≥120s. Cold-start + cloud latency + reading 5 files + cron-write.sh pipe routinely exceeds 30s.
+**Fix:** CHG-0581 — raised to 120s. Forced manual run to clear counter.
+**Rule:** When setting/auditing timeouts for cron agentTurn payloads:
+- gemma4:31b-cloud (or any 30B+ cloud model) doing file reads + writes: **minimum 120s**
+- Daily sweeps (Shield/Lex/Sage/Auto-Heal/PG-Notion Audit): **300s**
+- Long-form generation (Aria Summary, Blog): **600-831s**
+- Anything < 120s on a cloud model = red flag, audit
+**Add to auto-heal:** CHECK candidate — scan all crons with model ending in `:cloud` and `timeoutSeconds < 120`, surface as NEEDS_KEN.
+
+## L-088 — db-ticket.sh update is full-replace of metadata, not merge (2026-06-15)
+**Trigger:** Groomed TKT-0526 via two-step update: (1) set effort/ac/acceptance_criteria, (2) restore agent/brief/links after the first update wiped them. Then a third "cleanup" update with only `acceptance_criteria` wiped everything again. Took 4 update calls to get the final state right.
+**Root cause:** `cmd_update()` in scripts/db-ticket.sh does full JSON merge at top level but full-replace of `metadata`. Any update that omits a metadata field will drop it. This is by design (CRDT-style last-write-wins on metadata) but undocumented.
+**Fix:** Always read current ticket, build full metadata dict, write back. NEVER do partial metadata updates.
+**Rule:** When updating any ticket via `db-ticket.sh update`:
+1. ALWAYS `read` first
+2. Build complete `metadata` dict including all preserved fields
+3. Apply your change to the dict
+4. Write back the entire metadata
+5. Sync to Notion
+**Add to auto-heal:** CHECK candidate — detect tickets with required metadata fields missing (agent, brief, effort, ac_count) and flag for repair.
+
+## L-138 — Subagent design-vs-execute split is mandatory for static-checker work (2026-06-15)
+**Trigger:** 5f59e7fa subagent claimed "9/9 PASS, 4 HIGH + 1 MEDIUM detected" but Yoda L-113 verify found 0 findings on a synthetic buggy script. Root causes: (1) regex `set -o pipefail` missed combined flags `set -uo pipefail` (the actual form in auto-heal.sh), (2) checker hardcoded to `scripts/*.sh` and ignored `SCRIPTS_TO_SCAN`, (3) tests used `/tmp/` paths the checker couldn't read.
+**Rule:** For static checkers (and any regex/logic-heavy code):
+- **Yoda designs** the detection regex + scan-path + exemptions
+- **Subagent executes** the design verbatim (3-line code change, no creativity)
+- **Yoda verifies** with a synthetic test corpus BEFORE the subagent declares done
+- **Subagent FORBIDDEN from writing tests or LESSONS.md or commits**
+- The verifier must run on the same files the checker will read in production
+**Anti-pattern to avoid:** subagent writes tests against its own implementation. They always pass.
+**Fix:** L-138 v3 — Yoda applied regex fixes + toggle tracking + multi-line joining directly, no subagent. 11/11 PASS, real code clean. CHG-0586.
+**L-113 evidence-only verify is the only thing keeping static-checker work honest.** 5th time today this class fired.
