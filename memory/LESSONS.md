@@ -1856,3 +1856,31 @@ Ken 13:23 AEST explicit "TKT-0339 - recommendations confirmed. proceed" is the d
 **Lesson:** The structural right answer was a separate one-shot script (L-099). Adding the bypass flag to that script (not a different mechanism) keeps the write path narrow and auditable. The bypass flag is **additive** — it doesn't weaken the default, it just lets the operator override it explicitly when needed.
 
 **Tied to:** L-099 (one-shot apply safety net), L-124 (TKT-0339 scaler vA6 first batch), CHG-0534 (one-shot apply design).
+
+## L-136 | 2026-06-15 | Infra | CHECK 30 cooldown bug — alerts fired 10x in 45min instead of 1x per 12h
+
+**Severity: High (alert spam — 10 duplicate alerts in 45 min).** User feedback 13:36 AEST: "i'm still getting telegram alert on the QUOTA-CANARY. why is it still triggering?" Investigated CHECK 30 (Ollama Quota Canary, L-118).
+
+**Root cause:** The cooldown check in CHECK 30 set `SHOULD_FIRE=false` but did NOT gate the alert call. The script fell through and called `sovereign-alert.sh` on every auto-heal run (every 3-5 min) regardless of cooldown. The colon `:` was a placeholder no-op, not a return.
+
+Evidence: state/sovereign-alert.log shows 10 QUOTA-CANARY dispatches between 12:46 and 13:31 (45 min). Cooldown was supposed to be 12h.
+
+**Compare to CHECK 29 (which works correctly):**
+- CHECK 29 wraps the entire alert block in `if [[ "$SHOULD_FIRE" == "true" ]] ... else log "SKIP" ... fi`
+- CHECK 30 had the cooldown check BEFORE the alert call, but DIDN'T gate the alert call — it just set SHOULD_FIRE=false and continued
+
+**Fix (CHG-0579):**
+- Restructured CHECK 30 to nest the entire alert-and-ledger-write inside `if [[ "$SHOULD_FIRE" == "true" ]]`
+- Added nested `if [[ "$C30_COUNT" -eq 0 ]] ... else <cooldown + alert> ... fi` so PASS skips both the cooldown and the alert
+- Verified end-to-end:
+  - Run with last fire 428s ago: SKIP (delta=0) ✅
+  - Run with last fire 13h ago (cooldown expired): FIRE 1 alert (delta=1) ✅
+  - Run immediately after fire: SKIP (delta=0) ✅
+
+**Pattern lesson:** The same script file has two cooldown implementations (CHECK 29 and CHECK 30) that look similar but behave differently. The right pattern is "the cooldown must gate the actual side effect" — the alert call and the ledger write. Setting a SHOULD_FIRE flag without using it is a code smell.
+
+**Lesson for future:** When reviewing the L-126/L-130/L-131/L-132 series of bug fixes, look for **structural symmetry violations** — same code structure across multiple checks but with subtle differences. CHECK 30 was modeled on CHECK 29's design but missed the wrap. The L-129 pre-commit hook catches syntax, not logic. The L-132 null-safety checker doesn't catch this either. The L-113 evidence-only verification is the only thing that catches "the script runs but does the wrong thing" — and that didn't run on the original L-118 ship.
+
+**Anti-regression:** Could add a static check that greps for `SHOULD_FIRE=false` followed by a sovereign-alert call within 30 lines. Not done in this turn (out of scope), but candidate for L-13x.
+
+**Tied to:** L-099 (cooldown discipline), L-118 (CHECK 30 original ship), L-113 (L-113 evidence-only verify), L-129 (pre-commit syntax check), L-132 (null-safety check — neither caught this).

@@ -11,6 +11,19 @@
 ---
 ---
 
+## 2026-06-15 13:39 AEST — [CHG-0579] CHECK 30 cooldown bug fix (L-136) — alerts no longer spam 10x/45min
+**Type:** script
+**Change Type:** Standard
+**Source:** ken-prompt
+**Trigger:** 2026-06-15 13:36 AEST Ken: 'i'm still getting telegram alert on the QUOTA-CANARY. why is it still triggering?' Investigation found cooldown check set SHOULD_FIRE=false but did not gate the alert call.
+**What changed:** 1 file. EDIT: scripts/auto-heal.sh — CHECK 30 restructured: cooldown check now nests the entire alert-and-ledger-write inside 'if [[ $SHOULD_FIRE == "true" ]]'. Added outer 'if [[ $C30_COUNT -gt 0 ]] ... else PASS ... fi' so cooldown check is only evaluated when there's something to alert on. Replaced 'log + : no-op' placeholder pattern with structural 'if/else/fi' pattern matching CHECK 29's working design.
+**Why:** User reported alert spam: 10 QUOTA-CANARY dispatches in 45 min when cooldown is 12h. Root cause: cooldown check set SHOULD_FIRE=false but did not gate the alert call. The alert fired on every auto-heal run regardless of cooldown. This is the same class of bug as L-115/L-126/L-130 (silent logic error) but with a different failure surface — code looks correct, runs without error, does the wrong thing.
+**Verification:** End-to-end: (1) Run with last fire 428s ago → SKIP delta=0 ✅. (2) Run with last fire 13h ago → FIRE delta=1 ✅. (3) Run immediately after fire → SKIP delta=0 ✅. bash -n / zsh -n clean. Sovereign log confirms no duplicate dispatches after fix.
+**Rollback:** git checkout scripts/auto-heal.sh
+**Linked:** L-136, L-118, L-099, L-115, L-126, L-130, L-113, L-129, L-132, TKT-QUOTA-CANARY-COOLDOWN
+---
+
+
 ## 2026-06-15 13:35 AEST — [CHG-0578] TKT-0339 timeout apply complete (13/13) + Ken-bypass mechanism (L-135)
 **Type:** script
 **Change Type:** Standard

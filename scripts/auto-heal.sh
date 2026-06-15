@@ -1949,37 +1949,32 @@ C30_COUNT=$(echo "$C30_RATE_LIMITED" | grep -c "^[0-9a-f]" || echo 0)
 
 if [[ "$C30_COUNT" -eq 0 ]]; then
   log "CHECK 30: PASS (no ollama/* crons currently rate-limited)"
-  :  # script continues (matches CHECK 29 SKIP pattern at line 1903)
-fi
-
-# Cooldown check
-SHOULD_FIRE=true
-if [[ -f "$CHECK30_LAST_FIRE" ]]; then
-  LAST_FIRE_TS=$(python3 -c "import json,sys; print(json.load(open(sys.argv[1])).get('ts',''))" "$CHECK30_LAST_FIRE" 2>/dev/null || echo "")
-  if [[ -n "$LAST_FIRE_TS" ]]; then
-    LAST_FIRE_EPOCH=$(date -j -f "%Y-%m-%dT%H:%M:%S" "$LAST_FIRE_TS" "+%s" 2>/dev/null || echo 0)
-    NOW_EPOCH=$(date "+%s")
-    ELAPSED=$(( NOW_EPOCH - LAST_FIRE_EPOCH ))
-    if (( ELAPSED < CHECK30_COOLDOWN_S )); then
-      SHOULD_FIRE=false
+else
+  # Cooldown check (12h)
+  SHOULD_FIRE=true
+  if [[ -f "$CHECK30_LAST_FIRE" ]]; then
+    LAST_FIRE_TS=$(python3 -c "import json,sys; print(json.load(open(sys.argv[1])).get('ts',''))" "$CHECK30_LAST_FIRE" 2>/dev/null || echo "")
+    if [[ -n "$LAST_FIRE_TS" ]]; then
+      LAST_FIRE_EPOCH=$(date -j -f "%Y-%m-%dT%H:%M:%S" "$LAST_FIRE_TS" "+%s" 2>/dev/null || echo 0)
+      NOW_EPOCH=$(date "+%s")
+      ELAPSED=$(( NOW_EPOCH - LAST_FIRE_EPOCH ))
+      if (( ELAPSED < CHECK30_COOLDOWN_S )); then
+        SHOULD_FIRE=false
+        log "CHECK 30: SKIP (cooldown active, last fire ${ELAPSED}s ago, <${CHECK30_COOLDOWN_S}s)"
+      fi
     fi
   fi
-fi
 
-if [[ "$SHOULD_FIRE" != "true" ]]; then
-  log "CHECK 30: SKIP (cooldown active, last fire <12h ago)"
-  :  # script continues (matches CHECK 29 SKIP pattern at line 1903)
-fi
+  if [[ "$SHOULD_FIRE" == "true" ]]; then
+    # Build shed recommendation: low-priority crons to disable if total failures climb
+    # Priority tiers: governance/daily-brief = shed first; TQP/auto-heal = critical, keep
+    SHED_CANDIDATES="AInchors Midday Cost Tracker, AInchors Daily Burn Alert, Daily Memory Hygiene, SOUL.md Weekly Size Audit, AInchors Weekly Asset Review, Aria Weekly Business ROI Summary, AInchors Weekly Compliance Report, Shield/Lex/Sage nightly sweeps, Aria Daily Summary (business), AInchors Daily Close (Blog)"
 
-# Build shed recommendation: low-priority crons to disable if total failures climb
-# Priority tiers: governance/daily-brief = shed first; TQP/auto-heal = critical, keep
-SHED_CANDIDATES="AInchors Midday Cost Tracker, AInchors Daily Burn Alert, Daily Memory Hygiene, SOUL.md Weekly Size Audit, AInchors Weekly Asset Review, Aria Weekly Business ROI Summary, AInchors Weekly Compliance Report, Shield/Lex/Sage nightly sweeps, Aria Daily Summary (business), AInchors Daily Close (Blog)"
+    MSG="🚨 Ollama quota canary — ${C30_COUNT} cron(s) flipped to lastErrorReason=rate_limit. This is the 24-72h pre-cliff signal (pattern: hits Sun/Mon, recovers Tue).\n\nCurrently rate-limited (top 15 by consecutive errors):\n$(echo "$C30_RATE_LIMITED" | awk -F'\t' '{printf "  • %s (%s errs)\n", $2, $3}')\n\nRecommended shed order (if total climbs >25):\n  ${SHED_CANDIDATES}\n\nCheck: openclaw cron list --json | jq '.jobs[] | select(.state.lastErrorReason==\"rate_limit\") | {name, consecutiveErrors}'\nDaily cap: \$100 USD Ollama Cloud. Fixed subscription, weekly usage cap on account beautiful_faraday_411."
 
-MSG="🚨 Ollama quota canary — ${C30_COUNT} cron(s) flipped to lastErrorReason=rate_limit. This is the 24-72h pre-cliff signal (pattern: hits Sun/Mon, recovers Tue).\n\nCurrently rate-limited (top 15 by consecutive errors):\n$(echo "$C30_RATE_LIMITED" | awk -F'\t' '{printf "  • %s (%s errs)\n", $2, $3}')\n\nRecommended shed order (if total climbs >25):\n  ${SHED_CANDIDATES}\n\nCheck: openclaw cron list --json | jq '.jobs[] | select(.state.lastErrorReason==\"rate_limit\") | {name, consecutiveErrors}'\nDaily cap: \$100 USD Ollama Cloud. Fixed subscription, weekly usage cap on account beautiful_faraday_411."
+    bash "${WORKSPACE}/scripts/sovereign-alert.sh" --source QUOTA-CANARY --message "$MSG" || log "CHECK 30: WARN — sovereign-alert.sh returned non-zero"
 
-bash "${WORKSPACE}/scripts/sovereign-alert.sh" --source QUOTA-CANARY --message "$MSG" || log "CHECK 30: WARN — sovereign-alert.sh returned non-zero"
-
-python3 -c "
+    python3 -c "
 import json, datetime
 ts = datetime.datetime.now().strftime('%Y-%m-%dT%H:%M:%S')
 crons = []
@@ -1990,7 +1985,9 @@ for line in '''$C30_RATE_LIMITED'''.strip().split(chr(10)):
 json.dump({'ts': ts, 'count': $C30_COUNT, 'crons': crons}, open('$CHECK30_LAST_FIRE','w'), indent=2)
 "
 
-log "CHECK 30: ESCALATED ${C30_COUNT} rate-limited cron(s) via sovereign-alert (canary fired)"
+    log "CHECK 30: ESCALATED ${C30_COUNT} rate-limited cron(s) via sovereign-alert (canary fired)"
+  fi
+fi
 # ---------- CHECK 31: Per-cron Ollama quota tracking (L-128, Rec #1) ----------
 # Pairs with CHECK 30 (aggregate) for full predictive power: per-cron attribution
 # + cliff risk score. Computes estimated weekly token usage per cron, identifies
