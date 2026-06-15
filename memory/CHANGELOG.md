@@ -11,6 +11,47 @@
 ---
 ---
 
+## 2026-06-15 17:51 AEST — [CHG-0596] Sprint 8 plan reconciled to match Jun 10 capture + lineage preserved (L-140)
+**Type:** rule
+**Change Type:** Standard
+**Source:** ken-prompt
+**Trigger:** Ken directive 2026-06-15 17:49 AEST: 'your 5 items doesn't seem to align with what I captured. Review the screen captured notes on Sprint 8 from our working session in Sprint 7 earlier.'
+**What changed:** state/sprint-8-plan-lineage.json: new file with full lineage (base_plan, additions, deferred, capacity_note). state_sprints.sprint_name=8 ceremonies JSONB: migrated from flat timestamp to structured object {ts, lineage_ref, base_plan_source, base_plan_tkts, exceptions, additions_after_base, deferred_to_s9, total_items_committed, capacity_note}. memory/LESSONS.md: L-140 appended (Sprint plan is build-on, no silent drops/relocations, spillover is the formal mechanism, lineage must be traceable).
+**Why:** Ceremony record had 5 items that did not match Ken's Jun 10 10:44 AEST working-session capture (4 items: TKT-0324/0326/0317/0293). The 5-item commit silently dropped 3 of Ken's items and added 4 items Yoda derived from PG state. Per L-140: build-on not replace; no silent drops; preserve lineage.
+**Verification:** Sprint 8 ceremonies JSONB now contains: base_plan_source=2026-06-10 10:44 AEST, base_plan_tkts=[0324,0326,0317,0293], exceptions=[0369 promoted to S7], additions_after_base=[0529,0319,0410,0525], deferred_to_s9=[0527,0528], total_items_committed=8, capacity_note='8>5, recommend mid-sprint re-eval'. Lineage file at state/sprint-8-plan-lineage.json readable. Sprint 7 ceremonies also updated with retro_summary.
+**Rollback:** git revert <commit>; restore ceremonies JSONB to flat timestamp format
+**Linked:** L-140,CHG-0593,CHG-0592,L-138,L-139,TKT-0529,TKT-0319,TKT-0410,TKT-0324,TKT-0326,TKT-0317,TKT-0293,TKT-0525
+---
+
+
+## 2026-06-15 17:41 AEST — [CHG-0595] Yoda confabulated Posts 2+3 in 4-week arc summary (L-106 trigger)
+**Type:** doc
+**Change Type:** Normal
+**Source:** incident-recovery
+**Trigger:** Ken msg 4936 (17:40 AEST) 'something is not right. your post 2 and 3 is NOT aligned with the full 4 week arc MD i approved. Attached. Find out where is the gap, bug and root cause.'
+**What changed:** Nothing changed in any source file. Bug was in Yoda's mid-CR synthesis: paraphrased Posts 2 and 3 from .openclaw/tmp/spark-reactivation-4week-arc.md into a clean narrative form, fabricating Post 2 title ('The day my AI assistant was less reliable than my morning coffee') and Post 3 title ('The day I realised the model was the least of my problems') with body content that does not exist in the file. Post 1 was correct. .openclaw/tmp/spark-reactivation-4week-arc.md is unchanged and remains the v3.0 LOCKED-IN canonical (CHG-0594).
+**Why:** L-106 lesson: when a model is streaming content under a tight token budget (3-min cap, L-082), paraphrase/synthesis of canonical source text is high-risk. The correct behavior is to copy the source text verbatim (or near-verbatim) via read-file output. Mid-CR synthesis pressure + minimax-m3:cloud trial = compounding risk. The file itself is correct; only my summary was wrong.
+**Verification:** (1) Read-file on .openclaw/tmp/spark-reactivation-4week-arc.md lines 66-156 confirms Posts 2 and 3 are: Post 2 'What happens to your AI when the model underneath you disappears' (model deprecation, fallback patching, model portability); Post 3 'The four things that quietly broke when everything was loud' (hydration drift, context exhaustion, execution decay, drift). (2) Spark cron 13b0aa89 will read the file directly tomorrow 07:30 AEST — unaffected by the synthesis error. (3) No CHG-state change. (4) Ken's attached file matches what's on disk, byte for byte (per his msg 4936 attachment).
+**Rollback:** n/a — no source mutation
+**Linked:** L-106 (confabulation incident), L-082 (3-min stream cap), CHG-0540 (Yoda thin-orchestrator restriction), CHG-0594 (v3.0 LOCKED-IN)
+**Category:** Operations
+---
+
+
+## 2026-06-15 17:29 AEST — [CHG-0594] Lock in canonical 4-week Foundation Arc; archive deprecated arc drafts
+**Type:** data
+**Change Type:** Normal
+**Source:** ken-prompt
+**Trigger:** Ken msg 4921 'clean-up and remove all redundant and deprecated info. it's causing confusion. once that is done, retrieve the full arc draft - the one in lock in memory for my review and confirmation' at 17:28 AEST
+**What changed:** (1) Archived: .openclaw/tmp/spark-reactivation-2week-arc.md and .openclaw/tmp/spark-reactivation-week-1-angles.md → archive/linkedin-stale/2026-06-15/ (non-destructive, both superseded by 4-week arc on 12 Jun 23:24 AEST). (2) Locked-in header added to .openclaw/tmp/spark-reactivation-4week-arc.md: version v3.0, lock date 2026-06-15 17:29, CHG-0592, supersession chain, edit-discipline rules. (3) Cron SSOT unchanged: all 3 Spark crons (Tue 13b0aa89, Wed 833ee0c7, Thu 869502c9) continue to reference the 4-week arc file by absolute path.
+**Why:** Stale angle briefs in .openclaw/tmp/ caused Yoda to surface deprecated v1 angles for Ken approval at 17:19 AEST (msg 4918) when the canonical v3/v4 arc had been Ken-approved on 12 Jun 23:23 AEST. Documentation drift between 22:04/22:36 drafts and the 23:24 lock-in created the contradiction. Locking the canonical file + archiving the deprecated drafts prevents the same confusion recurring.
+**Verification:** (1) deprecated files moved, archive/linkedin-stale/2026-06-15/ now contains 2 files (12 Jun 22:04 + 22:36), zero references to deprecated filenames in live code/SSOT. (2) Canonical file now has lock-in header (8 lines) referencing CHG-0592 + supersession chain. (3) File mtime updated to 17:29. (4) Spark cron prompt paths unchanged — no live SSOT breakage.
+**Rollback:** git checkout .openclaw/tmp/spark-reactivation-4week-arc.md; mv archive/linkedin-stale/2026-06-15/spark-reactivation-2week-arc.md .openclaw/tmp/; mv archive/linkedin-stale/2026-06-15/spark-reactivation-week-1-angles.md .openclaw/tmp/
+**Linked:** CHG-0515, CHG-0518, TKT-0232, TKT-0332, msg 4921
+**Category:** Marketing
+---
+
+
 ## 2026-06-15 17:27 AEST — [CHG-0593] Sprint 7 review + Sprint 8 planning ceremony (recovered from Sat 2026-06-13 outage)
 **Type:** rule
 **Change Type:** Standard

@@ -1984,3 +1984,28 @@ fi
 **Cost:** ~1-2 min of Yoda-side test authoring per execute/verify atom.
 **Payoff:** Caught 4 subagent-bugs today. Pays for itself after 1 caught bug.
 **Doc:** `docs/SUBAGENT-DISPATCH-PATTERN.md` (v1.0, locked).
+
+## L-140 — Sprint assignment is locked once committed; only add, never silently drop/relocate (Ken directive 2026-06-15 17:49 AEST)
+**Trigger:** Today at 17:25, Yoda did the Sprint 7 review + Sprint 8 planning ceremony. Yoda saw TKT-0319, TKT-0410, TKT-0525 already in Sprint 8 column (auto-populated earlier) and TKT-0527/TKT-0528 as carry-overs, and added TKT-0529 (today's L-138 audit). Yoda committed a 5-item Sprint 8 that did NOT match Ken's Jun 10 working-session plan (which specified TKT-0324, TKT-0326, TKT-0317, TKT-0293). Ken flagged: "your 5 items doesn't seem to align with what I captured."
+
+**Rule (Ken directive, formalized):**
+- **Sprint plan is a build-on, not a replace.** When earlier-confirmed work exists in a Sprint, NEW commitments are ADD-ONS, not substitutions.
+- **No silent drops/relocations.** If an item is in Sprint N (confirmed, committed, locked), it stays in Sprint N unless Ken explicitly approves removal. Same for moving items between sprints.
+- **Spill-over is the formal mechanism.** If Sprint N ends with unfinished work, it becomes intact spill-over to Sprint N+1, reviewed+confirmed at the next ceremony.
+- **Lineage must be traceable.** Every TKT must have a clear `added_to_sprint_N` event with reason; every move must have `moved_from_N_to_M` event with reason; nothing disappears without a paper trail.
+- **Continuously review and prioritize** as the sprint progresses — that is GOOD, and Yoda can recommend changes, but Ken explicitly approves them.
+- **The damage pattern:** silent drops/relocations = Ken can't track = Ken has zero confidence = data is changing without lineage. Don't do this.
+
+**Operational implications:**
+- Before Yoda moves/drops any committed TKT in a sprint plan, Yoda MUST surface the proposed change to Ken for explicit approval, with reason.
+- "Already in the column" or "auto-populated by fall-back logic" is NOT sufficient reason to commit to a sprint ceremony.
+- When Yoda discovers a divergence between current PG state and Ken's captured intent, Yoda surfaces the divergence FIRST, asks for direction, then acts. Does NOT pick a side and proceed.
+- Ceremony records must include the full lineage: what was originally planned + what was added + what was deferred + why each decision was made.
+
+**Anti-pattern (today's mistake):** "Sprint 8 column has TKT-0319/0410/0525 — must mean they're planned for S8" → Yoda added 3 unconfirmed items to the ceremony record without Ken's approval. Should have surfaced: "I see 4 items you explicitly planned (0324, 0326, 0317, 0293) + 4 items that auto-populated into the S8 column (0319, 0410, 0525, 0527/0528 carry-overs). Should I commit all 8, or only your 4?"
+
+**Self-check before any sprint ceremony action:**
+1. Read Ken's most recent capture/decision on this sprint
+2. Diff against current PG state
+3. Surface divergence + ask before acting
+4. If approved, log the change with lineage
