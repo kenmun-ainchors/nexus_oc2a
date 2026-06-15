@@ -1580,3 +1580,33 @@ Wired into 3 EOD crons (Journal 4d926b2c, Blog a027fd60, Drive c5a3911d) as Step
 **Anti-regression:** Add a "null-safe JSON access" linter or pattern check. For new state file fields, write `field: ""` (empty string) not `field: null` in bootstrap. For existing state files, the `.get(key) or ''` pattern is the right fix.
 
 **Pre-existing #2 task complete.** Followup: TKT-XXXX — add final `write_state` call at end of auto-heal.sh (currently write_state at line 1308 runs before CHECK 28c, so the report's `checks_count` is always 25 even after all checks run). Also: refactor the line 2256 zsh-specific python heredoc to be shell-agnostic.
+
+## L-127 | 2026-06-15 | Infra | auto-heal.sh: final write_state at script end
+
+**Severity: Low (P2 report accuracy).** The auto-heal report (`state/auto-heal-YYYY-MM-DD.json`) was stuck at `exit_status: in-progress` and `checks_count: 25` because the last `write_state` call was at line 1308 (CHECK 22). The L-126 fix made the script complete without crashing, but the report never reflected the final state.
+
+**Fix pattern (TKT-FINAL-WS):** Added a 7-line if/then/else/fi block at the end of the script (after `log "=== AUTO-HEAL COMPLETE ==="`):
+```bash
+if (( ${#NEEDS_KEN[@]} > 0 )); then
+  write_state "complete_with_needs_ken"
+else
+  write_state "complete"
+fi
+```
+
+Mirrors the same pattern at line 869 (CHECK 21 file-size-guard). XS effort.
+
+**Verified (zsh run, 12:15 AEST 2026-06-15):**
+- exit_status: `complete_with_needs_ken` (was `in-progress`)
+- checks_count: `41` (was 25)
+- issues_count: 5, auto_fixed_count: 1, needs_ken_count: 5 (all populated)
+- Exit 0
+- Diff: 7 insertions, 0 deletions
+
+**Tied to:** L-126 (which made the script complete), the write_state function at line 44, the report contract at state/auto-heal-YYYY-MM-DD.json.
+
+**Lesson:** When a script has multiple `write_state` calls, the LAST one should be at the END of the script, not in the middle. The "write_state after every check" pattern is good for streaming, but it leaves the report stale if no final write happens. The fix: always have a final write_state at the script's terminal point that writes the COMPLETED state, with the conditional pattern (complete vs complete_with_needs_ken) so Ken can tell at a glance whether there are action items.
+
+**Anti-regression:** Add a structural rule: every long-running script that writes a state file should have a final write_state at the END. The pattern is `if/then/else/fi` with `complete` or `complete_with_needs_ken`. Add to RULES.md under "Script Hygiene".
+
+**Tied to:** the broader silence-failure family — 18th member. The original bug (in-progress state, stale report) was a *visibility* failure: the script worked, the report didn't reflect it. The fix makes the report match reality.

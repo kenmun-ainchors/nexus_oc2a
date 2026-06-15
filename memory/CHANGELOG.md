@@ -11,6 +11,19 @@
 ---
 ---
 
+## 2026-06-15 12:15 AEST — [CHG-0569] auto-heal.sh: final write_state at script end (L-127 followup) — report now reflects completed runs
+**Type:** script
+**Change Type:** Standard
+**Source:** incident-recovery
+**Trigger:** 2026-06-15 12:13 AEST Ken approved L-127 followup from L-126
+**What changed:** scripts/auto-heal.sh — 7 lines added at end. New if/then/else/fi block: 'if (( 0 > 0 )); then write_state "complete_with_needs_ken"; else write_state "complete"; fi'. Placed AFTER 'log === AUTO-HEAL COMPLETE ===' at line 2282. Mirrors the same pattern at line 869. Diff: 7 insertions, 0 deletions, 1 file.
+**Why:** The auto-heal report at state/auto-heal-YYYY-MM-DD.json was stuck at 'in-progress' and checks_count=25 because the last write_state call was at line 1308 (CHECK 22). The L-126 fix made the script complete without crashing, but the report never reflected the final state. Add a final write_state so the report matches the actual completed state. Conditional pattern (complete vs complete_with_needs_ken) so Ken can tell at a glance whether there are action items.
+**Verification:** Real zsh run at 12:15 AEST 2026-06-15: exit_status=complete_with_needs_ken (was in-progress), checks_count=41 (was 25), issues_count=5, auto_fixed_count=1, needs_ken_count=5 (all populated). Exit 0. bash -n clean. Diff: 7 insertions, 0 deletions. All DO met.
+**Rollback:** git checkout scripts/auto-heal.sh
+**Linked:** L-127, L-126, TKT-FINAL-WS
+---
+
+
 ## 2026-06-15 12:11 AEST — [CHG-0568] auto-heal.sh CHECK 28c crash: 2 bugs fixed (Pre-existing #2, L-126)
 **Type:** script
 **Change Type:** Standard

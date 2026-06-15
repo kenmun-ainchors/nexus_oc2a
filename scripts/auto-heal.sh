@@ -2280,3 +2280,10 @@ ON CONFLICT (run_date) DO UPDATE SET
 " >> "$LOG" 2>&1 || log "WARN: PG write for state_autoheal_log failed"
 
 log "=== AUTO-HEAL COMPLETE ==="
+
+# Final state write — ensures report reflects completed run (L-127 followup)
+if (( ${#NEEDS_KEN[@]} > 0 )); then
+  write_state "complete_with_needs_ken"
+else
+  write_state "complete"
+fi
