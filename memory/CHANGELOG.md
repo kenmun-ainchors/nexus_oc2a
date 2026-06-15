@@ -11,6 +11,19 @@
 ---
 ---
 
+## 2026-06-15 11:49 AEST — [CHG-0566] TKT-0339 scaler vA6: 10 DECREASE timeouts applied (Rec #9, L-124)
+**Type:** cron
+**Change Type:** Standard
+**Source:** manual
+**Trigger:** 2026-06-15 11:46 AEST Ken approved Recommendation #9 from outage shakedown
+**What changed:** 10 crons timeoutSeconds updated via openclaw cron edit --timeout-seconds. 3305681f→N/A (spec prefix mismatch; actual Aria=7a4d8381 kept at 300s, computed=300), 13b0aa89 (Spark Tue) 600→180, 3e97ad14 (QBR T-15d) 300→180, 833ee0c7 (Spark Wed) 600→180, 869502c9 (Spark Thu) 600→180, f81f0842 (QBR T-9d) 300→180, a3e9a226 (QBR T-3d) 300→180, 53e6447c (QBR T-1d) 300→180, 3fb65682 (QBR Execute) 14400→180, 2c855a3e (PG-Notion Sync) 300→120. state/cron-timeout-applied.json updated with appliedAt=2026-06-15T11:46:00+10:00 for all 10.
+**Why:** TKT-0339 scaler vA6 found 10 crons with over-conservative timeouts. Cron-timeout-apply.sh enforces 7d stability (L-099, Ken-triggered never implicit). Ken explicit approval today is the green light to bypass for these 10. Per-cron apply with --yes. Most aggressive: 3fb65682 QBR Execute 14400s→180s (4h→3min), but 1-shot deleteAfterRun cron, 3min is plenty.
+**Verification:** All 10 timeouts applied. Ledger shows 10 applied, 3 pending (pre-existing from earlier scaler runs, not vA6 targets). Independent Yoda verify: 3 spot-checks (Aria ROI=300s, QBR Execute=180s, PG-Notion Sync=120s) all confirmed. Total runtime ~52s.
+**Rollback:** revert each cron: openclaw cron edit <id> --timeout-seconds <original> + revert state/cron-timeout-applied.json entries
+**Linked:** L-124, L-099, TKT-0339, TKT-0503-A6, TKT-REC9
+---
+
+
 ## 2026-06-15 11:44 AEST — [CHG-0565] TKT-0503 closed (Rec #8) — 7/7 atoms shipped, L-115 fix held
 **Type:** data
 **Change Type:** Standard

@@ -1513,3 +1513,19 @@ Wired into 3 EOD crons (Journal 4d926b2c, Blog a027fd60, Drive c5a3911d) as Step
 **Lesson:** L-115 is a *behavior fix*, not just a code fix. Every close/update of a ticket with rich metadata must rebuild the full payload from a fresh read, never assume a partial payload will merge. The same discipline applies to any update via tools that use replace-not-merge (e.g., `git config --replace-all`, `jq '.field=new'` without preserving siblings).
 
 **Anti-regression:** When Yoda or Forge closes a ticket with >5 metadata fields, default to: read full ticket → python3 merge in-place → write full payload. Never `db-ticket.sh update TKT-XXXX '{"field": "new_value"}'` — that's the L-115 bug shape. Add a dispatch-validate.sh check that flags partial payload updates.
+
+## L-124 | 2026-06-15 | Infra | TKT-0339 scaler vA6: 10 DECREASE timeouts applied
+
+**Severity: Low (P2 cost optimization).** TKT-0339 (Cron Timeout Auto-Scaling) scaler vA6 found 10 crons with over-conservative timeouts. The cron-timeout-apply.sh script enforces 7d stability (L-099 safety net, "Ken-triggered, never implicit"). Ken's explicit approval today is the green light to bypass the 7d check for these 10.
+
+**Fix pattern (TKT-REC9):** Per-cron apply via `openclaw cron edit <id> --timeout-seconds <new>` for each of 10 crons. Update state/cron-timeout-applied.json with appliedAt + appliedTo. Most aggressive: 3fb65682 QBR Execute 14400s→180s (4h→3min), but this is a 1-shot deleteAfterRun cron that fires once on 2026-07-01 09:00 AEST, so 3min is plenty.
+
+**Verified:** All 10 timeouts applied. Ledger shows 10 applied, 3 pending (pre-existing from earlier scaler runs, not vA6 targets). Independent Yoda verify: 3 spot-checks (Aria ROI=300s, QBR Execute=180s, PG-Notion Sync=120s) all confirmed.
+
+**Tied to:** L-099 (Ken-triggered safety net), TKT-0339 (scaler), TKT-0503-A6 (one-shot apply).
+
+**Lesson:** The 7d stability check is the right default. Bypassing it requires explicit Ken approval. The bypass path is well-defined: per-cron apply with --yes flag, appliedAt timestamp recorded in ledger for audit. This pattern (stricter default + explicit bypass) is the right shape for any auto-mutation system.
+
+**Anti-regression:** Don't change the 7d default. Don't add an "auto-apply after 7d" flag. The current design is "Ken-triggered, never implicit" for a reason — auto-apply on a 1-shot cron (like 3fb65682 QBR Execute) would have applied 180s while the cron was being designed, before the timeout was even meaningful. The Ken check is the safety.
+
+**Notable correction:** Forge caught a prefix mismatch in the Yoda spec (Aria was 7a4d8381, not 3305681f). The ledger had 13 entries (10 vA6 + 3 pre-existing). Forge correctly identified the right prefix and applied the right value (kept Aria at 300s since the computed target was 300s, not 180s as my spec said).

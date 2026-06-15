@@ -1,106 +1,136 @@
 {
-  "3305681f": {
-    "firstSeen": "2026-06-13",
-    "lastSeen": "2026-06-13",
-    "daysCount": 1,
-    "recommendation": "DECREASE",
-    "currentTo": 300,
-    "computedTo": 180,
-    "appliedAt": null,
-    "appliedTo": null
-  },
   "13b0aa89": {
-    "firstSeen": "2026-06-13",
-    "lastSeen": "2026-06-13",
+    "firstSeen": "2026-06-15",
+    "lastSeen": "2026-06-15",
     "daysCount": 1,
     "recommendation": "DECREASE",
     "currentTo": 600,
     "computedTo": 180,
-    "appliedAt": null,
-    "appliedTo": null
+    "appliedAt": "2026-06-15T11:46:00+10:00",
+    "appliedTo": 180
   },
   "3e97ad14": {
-    "firstSeen": "2026-06-13",
-    "lastSeen": "2026-06-13",
+    "firstSeen": "2026-06-15",
+    "lastSeen": "2026-06-15",
     "daysCount": 1,
     "recommendation": "DECREASE",
     "currentTo": 300,
     "computedTo": 180,
-    "appliedAt": null,
-    "appliedTo": null
+    "appliedAt": "2026-06-15T11:46:00+10:00",
+    "appliedTo": 180
   },
   "833ee0c7": {
-    "firstSeen": "2026-06-13",
-    "lastSeen": "2026-06-13",
+    "firstSeen": "2026-06-15",
+    "lastSeen": "2026-06-15",
     "daysCount": 1,
     "recommendation": "DECREASE",
     "currentTo": 600,
     "computedTo": 180,
-    "appliedAt": null,
-    "appliedTo": null
+    "appliedAt": "2026-06-15T11:46:00+10:00",
+    "appliedTo": 180
   },
   "869502c9": {
-    "firstSeen": "2026-06-13",
-    "lastSeen": "2026-06-13",
+    "firstSeen": "2026-06-15",
+    "lastSeen": "2026-06-15",
     "daysCount": 1,
     "recommendation": "DECREASE",
     "currentTo": 600,
     "computedTo": 180,
-    "appliedAt": null,
-    "appliedTo": null
+    "appliedAt": "2026-06-15T11:46:00+10:00",
+    "appliedTo": 180
   },
   "f81f0842": {
-    "firstSeen": "2026-06-13",
-    "lastSeen": "2026-06-13",
+    "firstSeen": "2026-06-15",
+    "lastSeen": "2026-06-15",
     "daysCount": 1,
     "recommendation": "DECREASE",
     "currentTo": 300,
     "computedTo": 180,
-    "appliedAt": null,
-    "appliedTo": null
+    "appliedAt": "2026-06-15T11:46:00+10:00",
+    "appliedTo": 180
   },
   "a3e9a226": {
-    "firstSeen": "2026-06-13",
-    "lastSeen": "2026-06-13",
+    "firstSeen": "2026-06-15",
+    "lastSeen": "2026-06-15",
     "daysCount": 1,
     "recommendation": "DECREASE",
     "currentTo": 300,
     "computedTo": 180,
-    "appliedAt": null,
-    "appliedTo": null
+    "appliedAt": "2026-06-15T11:46:00+10:00",
+    "appliedTo": 180
   },
   "53e6447c": {
-    "firstSeen": "2026-06-13",
-    "lastSeen": "2026-06-13",
+    "firstSeen": "2026-06-15",
+    "lastSeen": "2026-06-15",
     "daysCount": 1,
     "recommendation": "DECREASE",
     "currentTo": 300,
     "computedTo": 180,
-    "appliedAt": null,
-    "appliedTo": null,
+    "appliedAt": "2026-06-15T11:46:00+10:00",
+    "appliedTo": 180,
     "applyResult": "{\n  \"id\": \"53e6447c-1519-4c4c-97d2-ff7378b30db0\",\n  \"agentId\": \"main\",\n  \"name\": \"QBR-PREP T-1d: Final brief to Ken\",\n  \"description\": \"QBR 2026-Q3 prep T-1d: Final brief to Ken. CHG-0505, parent TKT-"
   },
   "3fb65682": {
-    "firstSeen": "2026-06-13",
-    "lastSeen": "2026-06-13",
+    "firstSeen": "2026-06-15",
+    "lastSeen": "2026-06-15",
     "daysCount": 1,
     "recommendation": "DECREASE",
     "currentTo": 14400,
     "computedTo": 180,
+    "appliedAt": "2026-06-15T11:46:00+10:00",
+    "appliedTo": 180
+  },
+  "2c855a3e": {
+    "firstSeen": "2026-06-15",
+    "lastSeen": "2026-06-15",
+    "daysCount": 1,
+    "recommendation": "DECREASE",
+    "currentTo": 300,
+    "computedTo": 120,
+    "appliedAt": "2026-06-15T11:46:00+10:00",
+    "appliedTo": 120,
+    "applyResult": "{\n  \"id\": \"2c855a3e-6b66-43f5-98a1-2a9293f7a527\",\n  \"agentId\": \"main\",\n  \"name\": \"PG-Notion Batch Sync (30-min)\",\n  \"description\": \"TKT-0406: Batch reconciliation \u2014 sync all tickets with notion_sync.s",
+    "revertedForTest": "2026-06-13T10:53:00Z",
+    "revertedForTest2": "2026-06-13T11:00:00Z"
+  },
+  "dc88affb": {
+    "firstSeen": "2026-06-15",
+    "lastSeen": "2026-06-15",
+    "daysCount": 1,
+    "recommendation": "DECREASE",
+    "currentTo": 240,
+    "computedTo": 120,
     "appliedAt": null,
     "appliedTo": null
   },
-  "2c855a3e": {
-    "firstSeen": "2026-06-13",
-    "lastSeen": "2026-06-13",
+  "c69615bb": {
+    "firstSeen": "2026-06-15",
+    "lastSeen": "2026-06-15",
+    "daysCount": 1,
+    "recommendation": "DECREASE",
+    "currentTo": 131,
+    "computedTo": 30,
+    "appliedAt": null,
+    "appliedTo": null
+  },
+  "85595417": {
+    "firstSeen": "2026-06-15",
+    "lastSeen": "2026-06-15",
     "daysCount": 1,
     "recommendation": "DECREASE",
     "currentTo": 300,
     "computedTo": 120,
     "appliedAt": null,
-    "appliedTo": null,
-    "applyResult": "{\n  \"id\": \"2c855a3e-6b66-43f5-98a1-2a9293f7a527\",\n  \"agentId\": \"main\",\n  \"name\": \"PG-Notion Batch Sync (30-min)\",\n  \"description\": \"TKT-0406: Batch reconciliation — sync all tickets with notion_sync.s",
-    "revertedForTest": "2026-06-13T10:53:00Z",
-    "revertedForTest2": "2026-06-13T11:00:00Z"
+    "appliedTo": null
+  },
+  "7a4d8381": {
+    "firstSeen": "2026-06-15",
+    "lastSeen": "2026-06-15",
+    "daysCount": 1,
+    "recommendation": "DECREASE",
+    "currentTo": 722,
+    "computedTo": 300,
+    "appliedAt": "2026-06-15T11:46:00+10:00",
+    "appliedTo": 300
   }
 }
