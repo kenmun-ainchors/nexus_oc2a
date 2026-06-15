@@ -11,6 +11,19 @@
 ---
 ---
 
+## 2026-06-15 11:03 AEST — [CHG-0560] CHECK 30: Ollama Quota Canary (L-118) — 24-72h pre-cliff detection
+**Type:** script
+**Change Type:** Normal
+**Source:** incident-recovery
+**Trigger:** 2026-06-15 10:58 AEST Ken approved Recommendation #4 from outage shakedown; pivot from API-quota design (no public Ollama endpoint) to cron-state canary mechanism
+**What changed:** scripts/auto-heal.sh CHECK 30 (Ollama Quota Canary, L-118) + CHECKS_RUN entry. Detects first cron flip to lastErrorReason=rate_limit, escalates via sovereign-alert with shed recommendations. 12h cooldown via state/check30-last-fire.json. Pairs with CHECK 29 for complete outage prevention.
+**Why:** Ollama outage 2026-06-13 15:31 to 2026-06-15 10:04 AEST (42.5h) was undetected for 30+ min. CHECK 30 is the 24-72h pre-cliff canary: the FIRST cron to flip to rate_limit is the canary signal. Historical pattern (4 occurrences: 2026-04-26, 2026-05-22, 2026-06-02, 2026-06-13) shows rate_limit hits start 24-72h before full cluster failure. Pivoted from API-quota design because Ollama Cloud has no public quota endpoint (404 on all tested paths).
+**Verification:** bash -n clean; real auto-heal run at 11:02:45 AEST: CHECK 30 ESCALATED 15 rate-limited cron(s) via sovereign-alert HTTP 200; check30-last-fire.json written with ts/count=15/crons; idempotent re-run shows SKIP (cooldown active, <12h)
+**Rollback:** revert scripts/auto-heal.sh to prior commit; delete state/check30-last-fire.json and state/cron-list-snapshot.json
+**Linked:** TKT-0503, L-118, L-116, L-088/L089/L090/L091/L095/L096/L100/L105/L107/L117
+---
+
+
 ## 2026-06-15 10:55 AEST — [CHG-0559] CHECK 29: Cloud-Cron Escalation + L-116 (L-117 co-fix)
 **Type:** script
 **Change Type:** Normal

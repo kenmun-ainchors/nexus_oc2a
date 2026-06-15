@@ -1398,3 +1398,19 @@ The `[^A-Z]*?` is "any chars not uppercase" — env var names are uppercase, so 
 **Lesson:** auto-heal.sh should validate its own embedded Python heredocs at build time. Suggested future CHECK 30: `bash -n` and `python3 -c "compile(open('auto-heal.sh').read(), '<test>', 'exec')"` on the embedded Python blocks. Until then, any new Python heredoc is a regression risk.
 
 **Anti-regression:** Add a pre-commit hook that runs `python3 -c "compile(open('scripts/auto-heal.sh').read().split('python3 <<PYEOF')[1].split('PYEOF')[0], '<heredoc>', 'exec')"` on each embedded Python block.
+
+## L-118 | 2026-06-15 | Infra | Ollama Quota Canary: 24-72h pre-cliff prediction
+
+**Severity: High (P0 platform reliability).** Ollama Cloud has no public quota API (404 on /api/usage, /api/account, /api/me, /api/settings). Cannot predict cap exhaustion from a balance endpoint. But the 24-72h pre-cliff canary signal IS available: when a cron first flips to `state.lastErrorReason == "rate_limit"`, that's the canary. Historical pattern (2026-04-26, 2026-05-22, 2026-06-02, 2026-06-13) shows rate_limit hits start 24-72h before the full cluster failure. CHECK 30 watches this signal.
+
+**Fix pattern (CHECK 30 in auto-heal.sh):** Snapshot `openclaw cron list --json` (cached for 30min). Filter jobs where `state.lastErrorReason == "rate_limit"`. If count > 0 and 12h cooldown clear, fire sovereign-alert with: (a) list of rate-limited crons (top 15 by consecutiveErrors), (b) recommended shed order (governance/daily-brief crons to disable first if total climbs >25), (c) context on the cap pattern (Sun/Mon hits, Tue recovers).
+
+**Verified:** 2026-06-15 11:02:45 AEST — real auto-heal run, CHECK 30 detected 15 rate-limited crons (live state, count was 20 earlier in this session), sent Telegram alert HTTP 200, state/check30-last-fire.json written with ts/count/crons (15 cron entries with names and consecutiveErrors). Idempotent re-run within 12h: SKIP cooldown.
+
+**Pairs with:** CHECK 29 (L-116, reactive 3+ consecutive errs). Together: complete outage prevention. CHECK 30 = canary 24-72h before cliff. CHECK 29 = response during cliff.
+
+**Tied to:** L-088/L089/L090/L091/L095/L096/L100/L105/L107/L116/L117 (silence-failure family). 9th member.
+
+**Lesson:** When an external API doesn't expose the data you need, the canary is in the OBSERVABLE side-effects. The 429 error message is the canary. The cluster-failure pattern is the cliff. Build your pre-warning from what's already visible.
+
+**Followup:** Build a daily digest of CHECK 30 fires (count of canary events per week) so we can measure cap proximity over time. Also: shed-recommendation should be enforced (auto-disable crons when total >25) — currently advisory only.

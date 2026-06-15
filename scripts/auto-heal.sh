@@ -1338,6 +1338,7 @@ fi
 log "CHECK 25: CREST tool-call rejection recovery (L-089)"
 CHECKS_RUN+=("crest_rejection_stall_check")
 CHECKS_RUN+=("cloud_cron_escalation")
+CHECKS_RUN+=("ollama_quota_canary")
 
 L089_FINDINGS="$STATE_DIR/crest-rejection-stalls.json"
 L089_THRESHOLD_HOURS=24
@@ -1844,6 +1845,7 @@ fi
 # Idempotent: 6h rate limit via state/check29-last-fire.json.
 log "CHECK 29: cloud-cron escalation (L-116)"
 CHECKS_RUN+=("cloud_cron_escalation")
+CHECKS_RUN+=("ollama_quota_canary")
 
 CRON_ALERT="${STATE_DIR}/cron-health-alert.json"
 CRON_MODELS="${STATE_DIR}/cron-models.json"
@@ -1902,6 +1904,82 @@ json.dump({'ts': datetime.datetime.now().strftime('%Y-%m-%dT%H:%M:%S'), 'count':
   fi
 fi
 
+# ---------- CHECK 30: Ollama Quota Canary (L-118) ----------
+# Detects first cron to flip to lastErrorReason=rate_limit (the 24-72h pre-cliff
+# canary) and escalates via sovereign-alert with concrete shed recommendations.
+# Pairs with CHECK 29 (reactive 3+ errs) for full outage prevention.
+# Idempotent: 12h cooldown via state/check30-last-fire.json.
+log "CHECK 30: ollama quota canary (L-118)"
+CHECKS_RUN+=("ollama_quota_canary")
+
+CRON_LIST_JSON="$WORKSPACE/state/cron-list-snapshot.json"
+CHECK30_LAST_FIRE="$WORKSPACE/state/check30-last-fire.json"
+CHECK30_COOLDOWN_S=43200  # 12h
+
+# Snapshot cron states if we don't have one fresh
+if [[ ! -f "$CRON_LIST_JSON" ]] || [[ $(find "$CRON_LIST_JSON" -mmin +30 2>/dev/null) ]]; then
+  openclaw cron list --json > "$CRON_LIST_JSON" 2>/dev/null || {
+    log "CHECK 30: SKIP (openclaw cron list failed)"
+    return 0 2>/dev/null || exit 0
+  }
+fi
+
+C30_RATE_LIMITED=$(python3 -c "
+import json
+d = json.load(open('$CRON_LIST_JSON'))
+rl = [j for j in d.get('jobs', []) if j.get('state', {}).get('lastErrorReason') == 'rate_limit']
+rl_sorted = sorted(rl, key=lambda x: x.get('state', {}).get('consecutiveErrors', 0), reverse=True)
+for j in rl_sorted[:15]:
+    s = j.get('state', {})
+    print(f\"{j.get('id','')[:8]}\t{j.get('name','')}\t{s.get('consecutiveErrors',0)}\")
+" 2>/dev/null)
+
+C30_COUNT=$(echo "$C30_RATE_LIMITED" | grep -c "^[0-9a-f]" || echo 0)
+
+if [[ "$C30_COUNT" -eq 0 ]]; then
+  log "CHECK 30: PASS (no ollama/* crons currently rate-limited)"
+  exit 0 2>/dev/null
+fi
+
+# Cooldown check
+SHOULD_FIRE=true
+if [[ -f "$CHECK30_LAST_FIRE" ]]; then
+  LAST_FIRE_TS=$(python3 -c "import json,sys; print(json.load(open(sys.argv[1])).get('ts',''))" "$CHECK30_LAST_FIRE" 2>/dev/null || echo "")
+  if [[ -n "$LAST_FIRE_TS" ]]; then
+    LAST_FIRE_EPOCH=$(date -j -f "%Y-%m-%dT%H:%M:%S" "$LAST_FIRE_TS" "+%s" 2>/dev/null || echo 0)
+    NOW_EPOCH=$(date "+%s")
+    ELAPSED=$(( NOW_EPOCH - LAST_FIRE_EPOCH ))
+    if (( ELAPSED < CHECK30_COOLDOWN_S )); then
+      SHOULD_FIRE=false
+    fi
+  fi
+fi
+
+if [[ "$SHOULD_FIRE" != "true" ]]; then
+  log "CHECK 30: SKIP (cooldown active, last fire <12h ago)"
+  exit 0 2>/dev/null
+fi
+
+# Build shed recommendation: low-priority crons to disable if total failures climb
+# Priority tiers: governance/daily-brief = shed first; TQP/auto-heal = critical, keep
+SHED_CANDIDATES="AInchors Midday Cost Tracker, AInchors Daily Burn Alert, Daily Memory Hygiene, SOUL.md Weekly Size Audit, AInchors Weekly Asset Review, Aria Weekly Business ROI Summary, AInchors Weekly Compliance Report, Shield/Lex/Sage nightly sweeps, Aria Daily Summary (business), AInchors Daily Close (Blog)"
+
+MSG="🚨 Ollama quota canary — ${C30_COUNT} cron(s) flipped to lastErrorReason=rate_limit. This is the 24-72h pre-cliff signal (pattern: hits Sun/Mon, recovers Tue).\n\nCurrently rate-limited (top 15 by consecutive errors):\n$(echo "$C30_RATE_LIMITED" | awk -F'\t' '{printf "  • %s (%s errs)\n", $2, $3}')\n\nRecommended shed order (if total climbs >25):\n  ${SHED_CANDIDATES}\n\nCheck: openclaw cron list --json | jq '.jobs[] | select(.state.lastErrorReason==\"rate_limit\") | {name, consecutiveErrors}'\nDaily cap: \$100 USD Ollama Cloud. Fixed subscription, weekly usage cap on account beautiful_faraday_411."
+
+bash "${WORKSPACE}/scripts/sovereign-alert.sh" --source QUOTA-CANARY --message "$MSG" || log "CHECK 30: WARN — sovereign-alert.sh returned non-zero"
+
+python3 -c "
+import json, datetime
+ts = datetime.datetime.now().strftime('%Y-%m-%dT%H:%M:%S')
+crons = []
+for line in '''$C30_RATE_LIMITED'''.strip().split(chr(10)):
+    if line:
+        parts = line.split(chr(9))
+        crons.append({'id': parts[0], 'name': parts[1], 'consecutiveErrors': int(parts[2])})
+json.dump({'ts': ts, 'count': $C30_COUNT, 'crons': crons}, open('$CHECK30_LAST_FIRE','w'), indent=2)
+"
+
+log "CHECK 30: ESCALATED ${C30_COUNT} rate-limited cron(s) via sovereign-alert (canary fired)"
 # ---------- CHECK 28d: Auto-archive untracked root .md files (TKT-0341) ----------
 # TKT-0341 contract: all .md in workspace root must be on the 8-allowlist
 # (SOUL/AGENTS/MEMORY/HEARTBEAT/USER/IDENTITY/TOOLS/RULES). This check auto-archives
