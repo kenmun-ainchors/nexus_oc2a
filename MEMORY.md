@@ -80,6 +80,20 @@ Triggered by: TKT-0501 "CREST synthesize and close" prompt where Yoda correctly 
 ## Nexus — Star Wars Naming (LOCKED ✅)
 Nexus=platform|Holocron=AKB|Bridge=cmd-centre|Citadel=client-portal|Holonet=live-data|Beacon=monitoring|Sanctum=governance|Datapad=reporting. New: Star Wars themes, Ken approves.
 
+## LinkedIn Campaign — Canonical 4-Week Foundation Arc (LOCKED-IN v3.0, CHG-0594, 2026-06-15)
+- **Canonical angle brief:** `/Users/ainchorsangiefpl/.openclaw/workspace/.openclaw/tmp/spark-reactivation-4week-arc.md` (LOCKED-IN header at top; do not edit content without Ken approval + new CHG)
+- **Reactivation approved:** Ken Mun, 2026-06-12 23:23 AEST (v3 brief); cron SSOT updated 12 Jun 23:24
+- **Schedule:** Tue 07:30, Wed 12:00, Thu 07:30 AEST — 12 posts / 4 weeks / 4 movements
+  - Week 1 (16-18 Jun): Movement I — The Cracks (cost, model deprecation, drift)
+  - Week 2 (23-25 Jun): Movement II — The Audit (rules, gates, divergence)
+  - Week 3 (30 Jun-2 Jul): Movement III — The Rebuild (memory, queue, db, governance)
+  - Week 4 (7-9 Jul): Movement IV — The Shift (habits, discipline, meta)
+- **Theme rotation:** Theme A (AI agents in production) and Theme B (building in public) alternate weeks. Week 1 = Theme A.
+- **Voice rules (NON-NEGOTIABLE):** no AInchors, no Yoda, no Nexus, no agent names, no platform internals, no em-dashes, no "co-founder", no finite time references (use relative framing), no consulting-speak, no fake clients.
+- **Crons:** Tue 13b0aa89, Wed 833ee0c7, Thu 869502c9 (all use `ollama/minimax-m3:cloud`, timeout 180-600s)
+- **Deprecated drafts (DO NOT use):** archived 2026-06-15 17:29 to `archive/linkedin-stale/2026-06-15/`: `spark-reactivation-2week-arc.md` (12 Jun 22:36), `spark-reactivation-week-1-angles.md` (12 Jun 22:04). If you read these, STOP — they are stale.
+- **First post:** Tue 16 Jun 07:30 AEST — "The day my AI bill became the loudest thing in the room" (Movement I, Post 1)
+
 ## LinkedIn Posting Rule — Missed Schedule (locked 2026-05-13)
 - Missed post → push to next slot (Tue 07:30→Wed 12:00→Thu 07:30→next Tue 07:30). Never post late. If slot taken, skip entirely. All Spark crons.
 
@@ -87,6 +101,16 @@ Nexus=platform|Holocron=AKB|Bridge=cmd-centre|Citadel=client-portal|Holonet=live
 - Notion DB architecture: see TOOLS.md (CHG-0401 3-DB setup)
 - LinkedIn ✅ connected. Instagram/Facebook/X not yet connected. Spark scope: IG/LI/FB/YT.
 - ⚠️ TKT-0121: Ken to add HF API key to Keychain (LinkedIn FLUX image gen).
+
+## Model Routing — Permanent Structure (LOCKED 2026-06-15, CHG-0596)
+- **Yoda (main) + Aria (business):** `ollama/deepseek-v4-pro:cloud` (tier-1 cognitive, NO fabrication)
+- **T3 Specialists (Sage/Forge/Ahsoka/Luthen/Spark):** `ollama/minimax-m3:cloud` (tier-2 engineering)
+- **Backend (Shield/Lex/Warden/Atlas/Thrawn/Lando/Mon Mothma):** `ollama/gemma4:31b-cloud`
+- **Yoda-on-deepseek verifies all T3-on-minimax outputs** as structural guardrail per CREST v1.3
+- **Minimax trial TERMINATED** 2026-06-15 17:57 AEST (CHG-0596). Verdict: PARTIAL — good for engineering, NOT for engagement/planning.
+- **NO-FABRICATION directive** (Ken 17:57 AEST): Yoda absolute NO fabrication of data. New additional directive.
+- Model routing skill: `infra/sandbox/seed/skills/model-routing/SKILL.md`
+- Model policy SSOT: `state/model-policy.json`
 
 ## Kimi Safety Net
 Model routing: see skill at `infra/sandbox/seed/skills/model-routing/SKILL.md` and `docs/Model3-Policy.md`

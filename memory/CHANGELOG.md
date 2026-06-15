@@ -11,6 +11,20 @@
 ---
 ---
 
+## 2026-06-15 18:22 AEST — [CHG-0598] Terminate minimax-m3 trial; Yoda+Aria → deepseek; minimax → T3 specialists
+**Type:** config
+**Change Type:** Normal
+**Source:** ken-prompt
+**Trigger:** Ken msg 4945 (17:57 AEST) 'i can't work with a Yoda that fabricate data. i'm done with minimax. it's good for tier-2 engineering details and workflow work. but the hallucination that causes you to rush, skip and fabricate data is not acceptable. new directive on minimax trial and model assignment before we proceed next.'
+**What changed:** (1) openclaw.json: main (Yoda) + business (Aria) model primary minimax-m3:cloud → deepseek-v4-pro:cloud, fallbacks deepseek-v4-flash + kimi-k2.6. T3 specialists (qa=Sage, infra=Forge, ahsoka, luthen, social=Spark) KEEP minimax-m3:cloud. (2) state/model-policy.json: userFacing tier primary → deepseek-v4-pro; new t3Specialists tier created (minimax primary, Yoda-on-deepseek verification guardrail); trialMiniMaxM3 tier agentIds → [] (terminated). (3) state/trials/minimax-m3.json: trial_status → TERMINATED-BY-KEN-2026-06-15-17:57; agentIds_in_trial → []; termination_history[0] logged with Ken's verbatim directive; no_fabrication_directive block added. (4) Gateway restarted (launchctl bootout + bootstrap + openclaw gateway restart). Dashboard session now on deepseek-v4-pro:cloud. Telegram session will switch on next cycle.
+**Why:** L-106 second trigger: Yoda confabulated Posts 2+3 of 4-week Foundation Arc (msg 4930 17:31 AEST) instead of relaying file content verbatim. Ken's verdict: minimax hallucination causing rush/skip/fabrication is not acceptable for Yoda's tier-1 cognitive work. New structure: Yoda+Aria on deepseek (tier-1 cognitive), minimax on T3 specialists (tier-2 engineering), Yoda-on-deepseek verifies all T3-on-minimax outputs as structural guardrail.
+**Verification:** (1) openclaw.json: main=deepseek-v4-pro, business=deepseek-v4-pro, qa/infra/ahsoka/luthen/social=minimax-m3. (2) model-policy.json: userFacing primary=deepseek-v4-pro, t3Specialists primary=minimax-m3, trialMiniMaxM3 agentIds=[]. (3) trial state: TERMINATED, agentIds_in_trial=[], termination_history[0] captured. (4) Gateway restarted: dashboard session on deepseek-v4-pro:cloud. (5) Spark crons 13b0aa89/833ee0c7/869502c9 unchanged (minimax-m3:cloud, 180s timeout) — Spark is T3 specialist per directive.
+**Rollback:** Restore openclaw.json from .bak-20260615-175850-preminimaxrevert; revert model-policy.json to pre-CHG-0596 state; revert trial state to extended-pending-ken-verdict; restart gateway
+**Linked:** CHG-0498 (original trial), CHG-0540 (thin-orchestrator), CHG-0587 (trial extension), CHG-0594 (4-week arc lock-in), CHG-0595 (L-106 second trigger incident), L-106, L-082, TKT-0506
+**Category:** Operations
+---
+
+
 ## 2026-06-15 17:59 AEST — [CHG-0597] Sprint 8 plan locked: 8 items stay, capacity override
 **Type:** rule
 **Change Type:** Standard

@@ -79,7 +79,10 @@ TRAP_ERR_RE = re.compile(r'^\s*trap\s+.*\bERR\b')
 # FIX: support combined flags (e.g., 'set +uo pipefail')
 PIPEFAIL_OFF_RE = re.compile(r'^\s*set\s+[+][a-z]*o\s+pipefail\b')
 # 4. $(...) checker invocation — matches $(bash "$WORKSPACE/scripts/check-*.sh" ...)
-CHECKER_INVOKE_RE = re.compile(r'\$\(bash\s+"\$WORKSPACE/scripts/check-[^"]+\.sh"')
+# 1. $() of any bash invocation (not just check-*.sh) — L-138 v4 broadened
+# Matches: $()bash, $()bash -c, $()OPENCLAW_SANDBOX=1 bash -c, $()bash "$WORKSPACE/..."
+# Real-world bug pattern: any $() that calls a script/command and exits non-zero
+CHECKER_INVOKE_RE = re.compile(r'\$\([^)]*\bbash\b[^)]*\)')
 # 5. awk | head pattern
 AWK_HEAD_RE = re.compile(r'\bawk\b.*\|.*\bhead\s+-[0-9]')
 # 6. tr '\n' 'X' in process substitution
@@ -98,6 +101,9 @@ IF_X_GUARD_RE = re.compile(r'\bif\s+\[\[\s*-x\s+\$')
 # FIX: support combined flags (e.g., 'set -uo pipefail')
 LOCAL_TOGGLE_RE = re.compile(r'^\s*set\s+[+-][a-z]*o\s+pipefail\b')
 
+# L-138 v4: detect `set -u` (alone or combined, e.g. 'set -uo') — also fires ERR on $() in zsh
+SET_U_RE = re.compile(r'^\s*set\s+[-+][a-z]*u[a-z]*\s*(?:#.*)?$')
+
 findings = []
 
 for script in script_names:
@@ -108,11 +114,15 @@ for script in script_names:
         content = f.read()
     lines = content.split('\n')
 
-    # Phase 1: Determine if this script has set -o pipefail AND trap ... ERR
-    # L-138 v2 FIX: track pipefail toggle state (set -uo pipefail / set +uo pipefail)
+    # Phase 1: Determine if this script has the L-138 bug shape.
+    # Shape: has trap ERR + (has set -o pipefail OR has set -u) — both fire ERR on $() failure
+    # L-138 v2: track pipefail toggle state (set -uo pipefail / set +uo pipefail)
+    # L-138 v4: also include set -u without pipefail (zsh propagates $() exit to ERR trap)
     has_pipefail = False
+    has_set_u = False
     has_trap_err = False
     pipefail_active = False  # current effective state
+    set_u_active = False  # set -u is non-toggleable in bash, but track for clarity
 
     for i, line in enumerate(lines, 1):
         stripped = line.lstrip()
@@ -125,11 +135,14 @@ for script in script_names:
         if PIPEFAIL_RE.search(line):
             has_pipefail = True
             pipefail_active = True
+        if SET_U_RE.search(line):
+            has_set_u = True
+            set_u_active = True
         if TRAP_ERR_RE.search(line):
             has_trap_err = True
 
-    # If the script doesn't have both, skip it (different bug shape)
-    if not (has_pipefail and has_trap_err):
+    # The bug fires if has_trap_err AND (has_pipefail OR has_set_u)
+    if not (has_trap_err and (has_pipefail or has_set_u)):
         continue
 
     # Phase 2: Scan for violations — only flag while pipefail is currently active
@@ -176,8 +189,9 @@ for script in script_names:
             pipefail_active_line = i
             continue
 
-        # Skip if pipefail is not currently active (toggled off)
-        if not pipefail_active:
+        # Skip if neither pipefail NOR set -u is currently active (no trap fire possible)
+        # L-138 v4: bug fires under set -u alone (zsh propagates $() exit to ERR trap)
+        if not (pipefail_active or set_u_active):
             continue
 
         # --- Rule 1: HIGH — $(bash "$WORKSPACE/scripts/check-*.sh" ...) without || true ---

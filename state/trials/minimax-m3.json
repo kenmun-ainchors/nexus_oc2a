@@ -1,65 +1,27 @@
 {
   "schema_version": "1.0",
-  "description": "Active trial of MiniMax M3 (ollama/minimax-m3:cloud) as primary model for 7 agents. Trial started 2026-06-11 22:38 AEST (CHG-0498). Revert cron 3305681f scheduled for Sun 14 Jun 23:55 AEST. Trial verdict emerging 2026-06-13 13:13 AEST: suitable for engineering work, NOT suitable for engagement/interactive/planning work.",
+  "description": "TERMINATED. Original trial of MiniMax M3 as primary model for 7 agents (CHG-0498, started 2026-06-11 22:38 AEST). Ken directive 2026-06-15 17:57 AEST: terminate trial early. New structure: Yoda (main) + Aria (business) on deepseek-v4-pro; T3 specialists (Sage/Forge/Ahsoka/Luthen/Spark) stay on minimax. See state/model-policy.json agentTiers.t3Specialists for new tier. CHG-0596.",
   "trial_id": "minimax-m3-2026-06-11",
   "trial_started_at": "2026-06-11T22:38:00+10:00",
   "trial_started_by": "Yoda via CHG-0498 (Ken Mun approved)",
   "trial_revert_cron": "3305681f",
-  "trial_revert_at": "2026-06-14T23:55:00+10:00",
-  "trial_status": "active",
+  "trial_revert_at": "2026-06-15T17:58:50+10:00",
+  "trial_status": "TERMINATED-BY-KEN-2026-06-15-17:57",
   "trial_scope": {
-    "models_in_trial": [
-      "ollama/minimax-m3:cloud (primary for 7 agents)"
-    ],
-    "agentIds_in_trial": [
-      "main (Yoda)",
-      "business (Aria)",
-      "qa (Sage)",
-      "infra (Forge)",
-      "ahsoka",
-      "luthen",
-      "social (Spark)"
-    ],
+    "models_in_trial": [],
+    "agentIds_in_trial": [],
     "agentIds_NOT_in_trial": [
-      "security (Shield) — gemma4:31b-cloud",
-      "legal (Lex) — gemma4:31b-cloud",
-      "governance (Warden) — gemma4:31b-cloud",
-      "architect (Atlas) — gemma4:31b-cloud",
-      "platform-arch (Thrawn) — gemma4:31b-cloud",
-      "biz-process (Lando) — gemma4:31b-cloud",
-      "change-mgt (Mon Mothma) — gemma4:31b-cloud"
-    ]
-  },
-  "verdict_emerging_2026_06_13": {
-    "ts": "2026-06-13T13:13:00+10:00",
-    "ken_directive_verbatim": "minimax trial have proven that it's good for engineering but not reliable for any engagement, interactive or planning work",
-    "verdict": "PARTIAL — engineering work YES, engagement/interactive/planning NO",
-    "decision": "Continue trial as planned (revert Sun 14 Jun 23:55 AEST). Yoda (minimax) restricted to thin-orchestrator role: Plan + dispatch + verify. NO direct Execute work. Structural enforcement via scripts/crest-execute-gate.sh + TKT-0506 (CHG-0540).",
-    "evidence": [
-      {
-        "ts": "2026-06-12T08:12:00+10:00",
-        "ken_directive": "Anthropic credits and model enablement - Permanently park until I provide future instruction and update",
-        "context": "Permanent park. NOT a minimax verdict — independent of trial."
-      },
-      {
-        "ts": "2026-06-13T11:00:00+10:00",
-        "incident": "L-106 fabrication",
-        "summary": "Confidently claimed 7 specialist agents (Forge/Atlas/Thrawn/etc.) don't exist, based on a category error — checked the role-doc archive `agents/` instead of the runtime registry `openclaw agents list`. Reality: all 14 agents registered and operational. L-107 logged as correction.",
-        "minimax_specific": "yes — minimax-tier confabulation. Did not verify before stating."
-      },
-      {
-        "ts": "2026-06-13T13:11:00+10:00",
-        "incident": "Sonnet fabrication",
-        "summary": "Stated that Yoda was on claude-sonnet-4.6 yesterday (yesterday's discipline was the model). Reality: Yoda was on minimax-m3:cloud yesterday AND today, same model. Confabulated model-switch narrative. SOUL.md says 'claude-sonnet-4.6' (stale documentation, since 2026-05-13). model-policy.json is SSOT and has said 'minimax-m3:cloud' since 2026-06-12.",
-        "minimax_specific": "yes — minimax-tier confabulation. Plausible-sounding but false claim. Second offence in <1 hour."
-      },
-      {
-        "ts": "2026-06-12 (whole day)",
-        "incident": "L-082 stream cap + engineering work successful",
-        "summary": "monster session, 106/106 validate gate GREEN, TKT-0409 7min 1.6M tokens, L-083 TIGHT build spec pattern proven. 14/15 sprint tickets closed. Big engineering day.",
-        "minimax_specific": "yes — minimax-tier succeeded on mechanical/scripting work"
-      }
-    ]
+      "main (Yoda) \u2014 now on deepseek-v4-pro per CHG-0596",
+      "business (Aria) \u2014 now on deepseek-v4-pro per CHG-0596",
+      "qa (Sage) \u2014 minimax OK per T3 specialist tier, not in this trial",
+      "infra (Forge) \u2014 minimax OK per T3 specialist tier, not in this trial",
+      "ahsoka \u2014 minimax OK per T3 specialist tier, not in this trial",
+      "luthen \u2014 minimax OK per T3 specialist tier, not in this trial",
+      "social (Spark) \u2014 minimax OK per T3 specialist tier, not in this trial",
+      "security (Shield), legal (Lex), governance (Warden) \u2014 deepseek-v4-pro",
+      "architect (Atlas), platform-arch (Thrawn), biz-process (Lando), change-mgt (Mon Mothma) \u2014 gemma4:31b-cloud"
+    ],
+    "note": "Trial terminated 2026-06-15 17:57 AEST per Ken directive (CHG-0596). minimax retained as primary for T3 specialist tier only (see state/model-policy.json agentTiers.t3Specialists)."
   },
   "good_for": [
     "Mechanical scripting work (auto-heal CHECK additions, gate scripts, file bootstraps)",
@@ -72,14 +34,14 @@
     "Engagement work (interactive conversations with Ken/Angie where context-faithful responses matter)",
     "Planning work (where confabulation of 'facts' about model/state/agent identity is possible)",
     "Long multi-step execution chains without gate enforcement (compounds small errors)",
-    "Anything that requires 'what was the model yesterday' or 'what did the runtime do last week' — minimax will confabulate a plausible-sounding answer"
+    "Anything that requires 'what was the model yesterday' or 'what did the runtime do last week' \u2014 minimax will confabulate a plausible-sounding answer"
   ],
   "structural_fixes_for_remaining_trial": [
     {
       "fix": "scripts/crest-execute-gate.sh (TKT-0506, CHG-0540)",
       "rule": "Yoda (minimax) cannot directly Execute work. Plan + dispatch + verify only.",
       "status": "live, verified",
-      "evidence": "10/10 test cases pass. Yoda→Forge mutate BLOCKED. Yoda→Yoda plan PASSED. Warden→Forge SKIPS gate."
+      "evidence": "10/10 test cases pass. Yoda\u2192Forge mutate BLOCKED. Yoda\u2192Yoda plan PASSED. Warden\u2192Forge SKIPS gate."
     },
     {
       "fix": "auto-heal.sh CHECK 28h (L-107)",
@@ -88,24 +50,65 @@
     },
     {
       "fix": "TKT-0504 A0 quick-fix (planned for Sprint 7)",
-      "rule": "TQP claim-without-execution NEEDS_KEN signal — closes the wait-and-silence feedback loop that confabulation-prone models don't catch on their own"
+      "rule": "TQP claim-without-execution NEEDS_KEN signal \u2014 closes the wait-and-silence feedback loop that confabulation-prone models don't catch on their own"
     },
     {
-      "fix": "model-routing skill — Executor Tracking Schema (TKT-0506 A4)",
+      "fix": "model-routing skill \u2014 Executor Tracking Schema (TKT-0506 A4)",
       "rule": "Every dispatch packet records executor, modelUsed, intendedRoute. Drift = auditable."
     }
   ],
   "remaining_lessons": [
     "L-082 (3-min stream cap, reliability ceiling)",
-    "L-084 (CRITICAL fabrication, prior incident — same class as L-106 + Sonnet fabrication)",
-    "L-107 (L-106 correction — agents ARE registered, gap was dispatch discipline)",
+    "L-084 (CRITICAL fabrication, prior incident \u2014 same class as L-106 + Sonnet fabrication)",
+    "L-107 (L-106 correction \u2014 agents ARE registered, gap was dispatch discipline)",
     "L-108 (TQP wait-and-silence, parallel to fabrication class)",
     "L-109 (pending: do not confabulate explanations for behavior changes; if you don't know, say so; always check SSOT before stating model/agent/cost claims)"
   ],
   "revert_plan": {
     "trigger": "cron 3305681f Sun 14 Jun 23:55 AEST (or Ken earlier stop)",
     "effect": "trialMiniMaxM3.agentIds becomes empty. userFacing primary reverts to ollama/deepseek-v4-pro:cloud. backend primary reverts to ollama/gemma4:31b-cloud (no swap during trial).",
-    "rollback": "If revert cron fails, manual update to state/model-policy.json trialMiniMaxM3 block — set agentIds to [] and primary to deepseek-v4-pro:cloud."
+    "rollback": "If revert cron fails, manual update to state/model-policy.json trialMiniMaxM3 block \u2014 set agentIds to [] and primary to deepseek-v4-pro:cloud."
   },
-  "verdict_final_pending_revert": "PENDING. Trial continues until Sun 14 Jun 23:55 AEST per cron 3305681f. Yoda restricted to thin-orchestrator role during remaining trial window. If minimax continues to confabulate, Ken can stop trial early."
+  "verdict_final_pending_revert": "PENDING. Trial continues until Sun 21 Jun 23:55 AEST (extended from 14 Jun per CHG-0586) per cron 3305681f. Yoda restricted to thin-orchestrator role during remaining trial window. If minimax continues to confabulate, Ken can stop trial early.",
+  "extension_history": [
+    {
+      "date": "2026-06-15T17:00:00+10:00",
+      "extended_by": "Ken Mun (Telegram msg 4879)",
+      "reason": "Token cap limit hit on Sat 2026-06-13; trial could not complete. Continue trial for Sprint 8. Extend until end of sprint + week (Sun 21 Jun 23:55 AEST).",
+      "new_revert_at": "2026-06-21T23:55:00+10:00",
+      "CHG": "CHG-0587"
+    }
+  ],
+  "termination_history": [
+    {
+      "date": "2026-06-15T17:57:00+10:00",
+      "terminated_by": "Ken Mun (Telegram msg 4945)",
+      "directive_verbatim": "i can't work with a Yoda that fabricate data. i'm done with minimax. it's good for tier-2 engineering details and workflow work. but the hallucination that causes you to rush, skip and fabricate data is not acceptable. new directive on minimax trial and model assignment before we proceed next. - Yoda is CREST orchestrator that does the tier-1 complex cognitive work, absolute 'NO' fabrication of data - that's the new additional directive. previous mandate and directive rules holds valid and in-tact. - Yoda and Aria to use deepseek. Minimax assignment to T3 specialists. Yoda will plan, verify, judge, design test and verify the work done by T3 specialists on minimax.",
+      "reason": "L-106 second trigger: Yoda confabulated Posts 2+3 of 4-week Foundation Arc (msg 4930 17:31 AEST) instead of relaying file content verbatim. Replaces 1st trigger (L-106 2026-06-13 11:00 \u2014 agents-don't-exist category error) and Sonnet fabrication (2026-06-13 13:11).",
+      "new_structure": "Yoda (main) + Aria (business) on deepseek-v4-pro. T3 specialists (qa=Sage, infra=Forge, ahsoka, luthen, social=Spark) on minimax. Yoda-on-deepseek is the structural verification guardrail for T3-on-minimax outputs.",
+      "CHG": "CHG-0596"
+    }
+  ],
+  "no_fabrication_directive": {
+    "issued_by": "Ken Mun",
+    "issued_at": "2026-06-15T17:57:00+10:00",
+    "directive_verbatim": "Yoda is CREST orchestrator that does the tier-1 complex cognitive work, absolute 'NO' fabrication of data - that's the new additional directive. previous mandate and directive rules holds valid and in-tact.",
+    "scope": "All Yoda (main) work, all interactions with Ken/Angie, all canonical-content relay, all plans, all verifications",
+    "enforcement": [
+      "CHG-0540 thin-orchestrator role (already in place)",
+      "scripts/crest-execute-gate.sh (already in place)",
+      "NEW: read-back verify pattern for canonical content (Forge task to implement)",
+      "L-106 escalation on any fabrication-class incident"
+    ]
+  },
+  "spark_cron_model_decision": {
+    "crons_affected": [
+      "13b0aa89 (Tue 07:30)",
+      "833ee0c7 (Wed 12:00)",
+      "869502c9 (Thu 07:30)"
+    ],
+    "model_after_swap": "ollama/minimax-m3:cloud (UNCHANGED)",
+    "reason": "Spark is classified as T3 specialist per Ken directive. Yoda-on-deepseek verifies every Spark draft before Ken sees it. The 4-week arc (CHG-0594) is the canonical angle brief \u2014 Spark drafts from it, Yoda verifies draft-vs-brief match."
+  },
+  "verdict_final": "TERMINATED EARLY. 2026-06-13 13:13 verdict (PARTIAL) was directionally correct: minimax good for engineering, NOT for engagement. Ken's 2026-06-15 17:57 directive codifies that by routing minimax to T3 specialists only."
 }

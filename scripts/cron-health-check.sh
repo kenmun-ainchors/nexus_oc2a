@@ -126,12 +126,30 @@ if failures or warnings:
     except:
         pass
 
+    # CHG-0591 (2026-06-15): Preserve acknowledged flag from prior alert
+    # - If new alert has NO failures: keep existing ack (sticky)
+    # - If new alert has failures: reset acknowledged=False (new failure invalidates prior ack)
+    # - If no existing file: default acknowledged=False
+    ack = False
+    ack_at = None
+    ack_reason = None
+    if not failures:
+        # No new failures — preserve prior ack if it exists
+        ack = existing.get('acknowledged', False)
+        ack_at = existing.get('acknowledgedAt')
+        ack_reason = existing.get('acknowledgedReason')
+    # else: failures exist → reset to False (default)
+
     alert = {
         'generatedAt': now.isoformat(),
         'failures': failures,
         'warnings': warnings,
-        'acknowledged': False
+        'acknowledged': ack
     }
+    if ack_at:
+        alert['acknowledgedAt'] = ack_at
+    if ack_reason:
+        alert['acknowledgedReason'] = ack_reason
     with open(alert_path, 'w') as f:
         json.dump(alert, f, indent=2)
 

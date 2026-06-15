@@ -1854,23 +1854,70 @@ fi
 # Detects cron failures on ollama/* modelled jobs and escalates via
 # sovereign-alert immediately, bypassing the 30-min heartbeat cycle.
 # Idempotent: 6h rate limit via state/check29-last-fire.json.
+# CHG-0591 (2026-06-15): PRIMARY source is live openclaw cron list --json.
+# FALLBACK: state/cron-health-alert.json (only if live source fails).
+# Also: if last fire was for the SAME crons AND they're now healthy (cons=0),
+# DON'T fire even after cooldown expires (cooldown is "don't spam", not "must fire").
 log "CHECK 29: cloud-cron escalation (L-116)"
 CHECKS_RUN+=("cloud_cron_escalation")
 CHECKS_RUN+=("ollama_quota_canary")
 
 CRON_ALERT="${STATE_DIR}/cron-health-alert.json"
-CRON_MODELS="${STATE_DIR}/cron-models.json"
 CHECK29_LAST_FIRE="${STATE_DIR}/check29-last-fire.json"
 CHECK29_COOLDOWN_S=21600  # 6h
 
 CLOUD_ESCALATED=0
 CLOUD_ESCALATED_LIST=""
 
-if [[ ! -f "$CRON_ALERT" ]]; then
-  log "CHECK 29: SKIP (no $CRON_ALERT)"
-elif [[ ! -f "$CRON_MODELS" ]]; then
-  log "CHECK 29: SKIP (no $CRON_MODELS — populated by Forge on 2026-06-15)"
+# ── Live cron state (primary source) ──
+CRON_LIVE_JSON=$(cd "$WORKSPACE" && openclaw cron list --json 2>/dev/null || echo "")
+CRON_SOURCE="live"
+
+if [[ -z "$CRON_LIVE_JSON" ]]; then
+  # Fallback: stale heartbeat file
+  if [[ -f "$CRON_ALERT" ]]; then
+    CRON_LIVE_JSON=$(python3 -c "
+import json, datetime, os, sys
+d = json.load(open('$CRON_ALERT'))
+gen_at = d.get('generatedAt', 'unknown')
+try:
+    gen_dt = datetime.datetime.fromisoformat(gen_at)
+    age = (datetime.datetime.now(datetime.timezone.utc) - gen_dt).total_seconds()
+    age_h = int(age / 3600)
+    print(f'WARN — using stale fallback data, age {age_h}h (generated {gen_at})', file=sys.stderr)
+except:
+    print('WARN — using stale fallback data, age unknown', file=sys.stderr)
+# Emit a synthetic live-like structure from the alert file
+failures = d.get('failures', [])
+jobs = []
+for f in failures:
+    jobs.append({
+        'id': f.get('cronId', f.get('fullCronId', '')),
+        'name': f.get('name', ''),
+        'enabled': True,
+        'payload': {'kind': 'agentTurn', 'model': ''},
+        'state': {
+            'consecutiveErrors': f.get('consecutiveErrors', 0),
+            'lastError': f.get('lastError', ''),
+        }
+    })
+print(json.dumps({'jobs': jobs}))
+" 2>/dev/null || echo '{"jobs":[]}')
+    CRON_SOURCE="stale-fallback"
+    log "CHECK 29: WARN — openclaw cron list failed, using stale $CRON_ALERT fallback"
+  else
+    log "CHECK 29: SKIP (openclaw cron list failed and no $CRON_ALERT fallback)"
+    CRON_LIVE_JSON='{"jobs":[]}'
+    CRON_SOURCE="none"
+  fi
+fi
+
+if [[ "$CRON_SOURCE" == "none" ]]; then
+  : # already logged skip above
 else
+  # ── Same skip prefixes as cron-health-check.sh ──
+  # CHG-0411: Crons where error is expected
+  # CHG-0458: Gateway-restart transient errors
   SHOULD_FIRE=true
   if [[ -f "$CHECK29_LAST_FIRE" ]]; then
     LAST_FIRE_TS=$(python3 -c "import json,sys; print(json.load(open(sys.argv[1])).get('ts',''))" "$CHECK29_LAST_FIRE" 2>/dev/null || echo "")
@@ -1885,30 +1932,117 @@ else
   fi
 
   if [[ "$SHOULD_FIRE" == "true" ]]; then
-    while IFS=$'\t' read -r CRON_ID CRON_NAME CRON_ERRS; do
+    # ── Filter live cron state through python3 (same logic as cron-health-check.sh lines 45-50) ──
+    while IFS=$'\t' read -r CRON_ID CRON_NAME CRON_ERRS CRON_MODEL; do
       [[ -z "$CRON_ID" ]] && continue
       (( CRON_ERRS >= 3 )) || continue
-      CRON_MODEL=$(python3 -c "import json,sys; print(json.load(open(sys.argv[1])).get(sys.argv[2],''))" "$CRON_MODELS" "$CRON_ID" 2>/dev/null || echo "")
       [[ "$CRON_MODEL" == ollama/* ]] || continue
       CLOUD_ESCALATED=$(( CLOUD_ESCALATED + 1 ))
       CLOUD_ESCALATED_LIST="${CLOUD_ESCALATED_LIST}  • ${CRON_NAME} (${CRON_ERRS} errs, ${CRON_MODEL})\n"
     done < <(python3 -c "
-import json
-d = json.load(open('$CRON_ALERT'))
-for f in d.get('failures', []):
-    print(f\"{f.get('cronId','')}\t{f.get('name','')}\t{f.get('consecutiveErrors',0)}\")
-")
+import json, sys
 
-    if (( CLOUD_ESCALATED > 0 )); then
-      MSG="🚨 Cloud-cron cluster failure — ${CLOUD_ESCALATED} ollama/* job(s) at >=3 consecutive errors (likely Ollama Cloud weekly cap or auth outage):\n${CLOUD_ESCALATED_LIST}Check: openclaw cron list | state/cron-health-alert.json"
-      bash "${WORKSPACE}/scripts/sovereign-alert.sh" --source CLOUD-CRON --message "$MSG" || log "CHECK 29: WARN — sovereign-alert.sh returned non-zero (Telegram send failed)"
-      python3 -c "
+cron_raw = '''$CRON_LIVE_JSON'''
+cron_data = json.loads(cron_raw) if cron_raw.strip() else {'jobs': []}
+
+# Same skip prefixes as cron-health-check.sh (CHG-0411)
+EXPECTED_ERROR_CRONS = [
+    '20f59555',  # Nightly Gateway Restart
+]
+
+# Gateway-restart transient error patterns (CHG-0458)
+GATEWAY_RESTART_PATTERNS = [
+    'interrupted by gateway restart',
+    'job interrupted by gateway restart',
+]
+
+total_checked = 0
+total_at_risk = 0
+
+for job in cron_data.get('jobs', []):
+    jid = job.get('id', '')
+    if not jid:
+        continue
+
+    # Only enabled crons
+    if not job.get('enabled', True):
+        continue
+
+    # Skip EXPECTED_ERROR_CRONS prefixes
+    if any(jid.startswith(prefix) for prefix in EXPECTED_ERROR_CRONS):
+        continue
+
+    # Skip gateway-restart transient errors
+    last_error = job.get('state', {}).get('lastError', '')
+    if any(pattern in last_error for pattern in GATEWAY_RESTART_PATTERNS):
+        continue
+
+    payload = job.get('payload', {})
+    kind = payload.get('kind', '')
+    model = payload.get('model', '')
+
+    # Only agentTurn crons with ollama/* model
+    if kind != 'agentTurn':
+        continue
+    if not model.startswith('ollama/'):
+        continue
+
+    total_checked += 1
+    cons = job.get('state', {}).get('consecutiveErrors', 0)
+    name = job.get('name', '(unnamed)')[:60]
+
+    if cons >= 3:
+        total_at_risk += 1
+
+    # Always emit — the bash while loop filters cons>=3 and ollama/*
+    print(f'{jid}\t{name}\t{cons}\t{model}')
+
+# Log summary to stderr for the bash log line
+print(f'live state — {total_checked} ollama/* agentTurn crons checked, {total_at_risk} at cons>=3', file=sys.stderr)
+" 2>&1)
+
+    # ── CHG-0591: If last fire was for the SAME crons AND they're now healthy, don't re-fire ──
+    if (( CLOUD_ESCALATED == 0 )) && [[ -f "$CHECK29_LAST_FIRE" ]]; then
+      # Check if all ollama/* agentTurn crons are now healthy (cons=0)
+      LAST_FIRE_CRONS_HEALTHY=$(python3 -c "
+import json
+
+cron_raw = '''$CRON_LIVE_JSON'''
+cron_data = json.loads(cron_raw) if cron_raw.strip() else {'jobs': []}
+
+all_healthy = True
+for job in cron_data.get('jobs', []):
+    payload = job.get('payload', {})
+    if payload.get('kind') != 'agentTurn':
+        continue
+    model = payload.get('model', '')
+    if not model.startswith('ollama/'):
+        continue
+    if job.get('state', {}).get('consecutiveErrors', 0) > 0:
+        all_healthy = False
+        break
+
+print('true' if all_healthy else 'false')
+" 2>/dev/null || echo "false")
+
+      if [[ "$LAST_FIRE_CRONS_HEALTHY" == "true" ]]; then
+        log "CHECK 29: SKIP (cooldown expired but previously-fired crons now healthy — cons=0 across all ollama/* agentTurn jobs)"
+        SHOULD_FIRE=false
+      fi
+    fi
+
+    if [[ "$SHOULD_FIRE" == "true" ]]; then
+      if (( CLOUD_ESCALATED > 0 )); then
+        MSG="🚨 Cloud-cron cluster failure — ${CLOUD_ESCALATED} ollama/* job(s) at >=3 consecutive errors (likely Ollama Cloud weekly cap or auth outage):\n${CLOUD_ESCALATED_LIST}Check: openclaw cron list | state/cron-health-alert.json"
+        bash "${WORKSPACE}/scripts/sovereign-alert.sh" --source CLOUD-CRON --message "$MSG" || log "CHECK 29: WARN — sovereign-alert.sh returned non-zero (Telegram send failed)"
+        python3 -c "
 import json, datetime
 json.dump({'ts': datetime.datetime.now().strftime('%Y-%m-%dT%H:%M:%S'), 'count': $CLOUD_ESCALATED, 'crons': '''$CLOUD_ESCALATED_LIST'''}, open('$CHECK29_LAST_FIRE','w'), indent=2)
 "
-      log "CHECK 29: ESCALATED ${CLOUD_ESCALATED} cloud cron failure(s) via sovereign-alert"
-    else
-      log "CHECK 29: PASS (no ollama/* crons at >=3 consecutive errors)"
+        log "CHECK 29: ESCALATED ${CLOUD_ESCALATED} cloud cron failure(s) via sovereign-alert"
+      else
+        log "CHECK 29: PASS (no ollama/* crons at >=3 consecutive errors)"
+      fi
     fi
   else
     log "CHECK 29: SKIP (cooldown active, last fire <6h ago)"
@@ -2462,11 +2596,12 @@ if [[ -x "$GUARD_SCRIPT" ]]; then
   # Clean up any leftover test file first
   rm -f "$BOUNDARY_TESTFILE" 2>/dev/null
   
+  # L-138: mask non-zero exit with `|| true` (zsh ERR trap fires on $() with non-zero even under set -u)
   DRYRUN_OUT=$(OPENCLAW_SANDBOX=1 bash -c "
     source "$GUARD_SCRIPT"
     echo 'TKT-0332-boundary-test' >> "$BOUNDARY_TESTFILE"
     echo 'WRITE_SUCCEEDED'
-  " 2>&1)
+  " 2>&1 || true)
   DRYRUN_EXIT=$?
   
   # Check if the test file was created (should NOT exist if guard worked)
