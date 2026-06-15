@@ -7,42 +7,213 @@
   "lineage": {
     "base_plan_source": "Ken working session 2026-06-10 10:44 AEST (Sprint 7 planning)",
     "base_plan_tkts": [
-      {"id": "TKT-0324", "title": "TQP integration test — 2-pass discipline", "priority": "medium", "effort": "M", "agent": "yoda", "reason": "TQP integration test, deferred from Sprint 7 to make room for critical-path work"},
-      {"id": "TKT-0326", "title": "NAS backup — writable platform backup target", "priority": "medium", "effort": "M", "agent": "forge", "reason": "OC2-gated anyway; defer to S8 to lock in S7 critical path"},
-      {"id": "TKT-0317", "title": "Epic: Agent Context Optimization (children 0321/0322 done, 0323 closing)", "priority": "critical-but-large", "effort": "XL", "agent": "yoda", "reason": "Large epic, deferred to S8 to make room for S7 critical path. Children TKT-0321, TKT-0322, TKT-0323 (dispatch-validate.sh) done/closing in S7."},
-      {"id": "TKT-0293", "title": "Expand Regression Testing Framework — platform-wide coverage", "priority": "high-but-not-blocking", "effort": "M", "agent": "forge", "reason": "High but not blocking; defer to S8 to make room for S7 critical path"}
+      {
+        "id": "TKT-0324",
+        "title": "TQP integration test — 2-pass discipline",
+        "priority": "medium",
+        "effort": "M",
+        "agent": "yoda",
+        "reason": "TQP integration test, deferred from Sprint 7 to make room for critical-path work"
+      },
+      {
+        "id": "TKT-0326",
+        "title": "NAS backup — writable platform backup target",
+        "priority": "medium",
+        "effort": "M",
+        "agent": "forge",
+        "reason": "OC2-gated anyway; defer to S8 to lock in S7 critical path"
+      },
+      {
+        "id": "TKT-0317",
+        "title": "Epic: Agent Context Optimization (children 0321/0322 done, 0323 closing)",
+        "priority": "critical-but-large",
+        "effort": "XL",
+        "agent": "yoda",
+        "reason": "Large epic, deferred to S8 to make room for S7 critical path. Children TKT-0321, TKT-0322, TKT-0323 (dispatch-validate.sh) done/closing in S7."
+      },
+      {
+        "id": "TKT-0293",
+        "title": "Expand Regression Testing Framework — platform-wide coverage",
+        "priority": "high-but-not-blocking",
+        "effort": "M",
+        "agent": "forge",
+        "reason": "High but not blocking; defer to S8 to make room for S7 critical path"
+      }
     ],
     "exceptions_in_s7": [
-      {"id": "TKT-0369", "reason": "Promoted to Sprint 7 primary (NOT deferred to S8). The 'everything except TKT-0369' exception."}
+      {
+        "id": "TKT-0369",
+        "reason": "Promoted to Sprint 7 primary (NOT deferred to S8). The 'everything except TKT-0369' exception."
+      }
     ],
     "additions_after_s7_working_session": [
-      {"id": "TKT-0529", "title": "Old-Code Audit P0 (Sprint 8): high-risk live scripts", "priority": "P0", "effort": "M", "agent": "yoda", "reason": "Added 2026-06-15 17:18 AEST per L-138 subagent-trap exposure + Ken directive 17:18 AEST 'add old-code-audit spec into scope, split into 3 sub-TKTs (one per sprint), lock into Sprint 8'. First of 3-part audit (P0/P1/P2 = S8/S9/S10).", "added_via": "Ken directive 2026-06-15 17:18 AEST"},
-      {"id": "TKT-0319", "title": "TQP Phase 3 — Global Agent Auto-Resume Protocol", "priority": "critical", "effort": "M", "agent": "yoda", "reason": "Was in Sprint 8 column (auto-populated). Yoda confirmed in scope for S8 as TQP is the OC2-gating workstream. NOTE: Ken said 'Defer' on Jun 10 — to be re-confirmed at retro/planning end of S8.", "status_note": "Pre-existing in Sprint 8; needs Ken re-confirmation at next ceremony"},
-      {"id": "TKT-0410", "title": "Fix SUB_CREST_TRANSITIONS: add 'verified' → terminal edge", "priority": "high", "effort": "S", "agent": "forge", "reason": "Was in Sprint 8 column (auto-populated, originally committed by accident via db-sprint.sh commit default-active-sprint). Carry-over into S8.", "carry_over_from_s7": true, "status_note": "Carry-over, was in S7 items by accident; kept in S8 per Ken planning 2026-06-13 15:30 AEST"},
-      {"id": "TKT-0525", "title": "Fix pg-to-notion-sync.sh — JSONB Path + zsh Reserved Variable Bugs", "priority": "?", "effort": "XS", "agent": "yoda", "reason": "Was open from Sprint 7 (pg-to-notion-sync.sh was ungated by CHG-0500, now blocked on L-0408 fix). Defer to S8 as 1-day work, lowest effort.", "carry_over_from_s7": true}
+      {
+        "id": "TKT-0529",
+        "title": "Old-Code Audit P0 (Sprint 8): high-risk live scripts",
+        "priority": "P0",
+        "effort": "M",
+        "agent": "yoda",
+        "reason": "Added 2026-06-15 17:18 AEST per L-138 subagent-trap exposure + Ken directive 17:18 AEST 'add old-code-audit spec into scope, split into 3 sub-TKTs (one per sprint), lock into Sprint 8'. First of 3-part audit (P0/P1/P2 = S8/S9/S10).",
+        "added_via": "Ken directive 2026-06-15 17:18 AEST"
+      },
+      {
+        "id": "TKT-0319",
+        "title": "TQP Phase 3 — Global Agent Auto-Resume Protocol",
+        "priority": "critical",
+        "effort": "M",
+        "agent": "yoda",
+        "reason": "Was in Sprint 8 column (auto-populated). Yoda confirmed in scope for S8 as TQP is the OC2-gating workstream. NOTE: Ken said 'Defer' on Jun 10 — to be re-confirmed at retro/planning end of S8.",
+        "status_note": "Pre-existing in Sprint 8; needs Ken re-confirmation at next ceremony"
+      },
+      {
+        "id": "TKT-0410",
+        "title": "Fix SUB_CREST_TRANSITIONS: add 'verified' → terminal edge",
+        "priority": "high",
+        "effort": "S",
+        "agent": "forge",
+        "reason": "Was in Sprint 8 column (auto-populated, originally committed by accident via db-sprint.sh commit default-active-sprint). Carry-over into S8.",
+        "carry_over_from_s7": true,
+        "status_note": "Carry-over, was in S7 items by accident; kept in S8 per Ken planning 2026-06-13 15:30 AEST"
+      },
+      {
+        "id": "TKT-0525",
+        "title": "Fix pg-to-notion-sync.sh — JSONB Path + zsh Reserved Variable Bugs",
+        "priority": "?",
+        "effort": "XS",
+        "agent": "yoda",
+        "reason": "Was open from Sprint 7 (pg-to-notion-sync.sh was ungated by CHG-0500, now blocked on L-0408 fix). Defer to S8 as 1-day work, lowest effort.",
+        "carry_over_from_s7": true
+      }
     ],
     "deferred_to_sprint_9": [
-      {"id": "TKT-0527", "title": "Cron Homebrew PATH resilience", "priority": "medium", "effort": "S", "agent": "forge", "reason": "Sprint 8 capacity tight (10 items in candidate set, 5 fit). Cron PATH resilience is followup, not blocking."},
-      {"id": "TKT-0528", "title": "Operational hygiene — Docker/Tailscale Brew link + backup staleness", "priority": "low", "effort": "S", "agent": "forge", "reason": "Sprint 8 capacity tight. Operational hygiene is low-risk followup, not blocking."}
+      {
+        "id": "TKT-0527",
+        "title": "Cron Homebrew PATH resilience",
+        "priority": "medium",
+        "effort": "S",
+        "agent": "forge",
+        "reason": "Sprint 8 capacity tight (10 items in candidate set, 5 fit). Cron PATH resilience is followup, not blocking."
+      },
+      {
+        "id": "TKT-0528",
+        "title": "Operational hygiene — Docker/Tailscale Brew link + backup staleness",
+        "priority": "low",
+        "effort": "S",
+        "agent": "forge",
+        "reason": "Sprint 8 capacity tight. Operational hygiene is low-risk followup, not blocking."
+      }
     ],
     "deferred_to_sprint_10": [
-      {"id": "TKT-0530", "title": "Old-Code Audit P1 (Sprint 9)", "note": "Originally planned for S9; re-evaluated in this lineage to S10 since S9 capacity also tight"},
-      {"id": "TKT-0531", "title": "Old-Code Audit P2 (Sprint 10)", "note": "Per master spec, S9/P1 + S10/P2 are the next two audit tickets"}
+      {
+        "id": "TKT-0530",
+        "title": "Old-Code Audit P1 (Sprint 9)",
+        "note": "Originally planned for S9; re-evaluated in this lineage to S10 since S9 capacity also tight"
+      },
+      {
+        "id": "TKT-0531",
+        "title": "Old-Code Audit P2 (Sprint 10)",
+        "note": "Per master spec, S9/P1 + S10/P2 are the next two audit tickets"
+      }
     ]
   },
   "current_sprint_8_commitment": [
-    {"seq": 1, "tkt": "TKT-0529", "priority": "P0", "effort": "M", "agent": "yoda", "source": "addition_after_s7 (Ken directive 17:18 AEST)"},
-    {"seq": 2, "tkt": "TKT-0324", "priority": "medium", "effort": "M", "agent": "yoda", "source": "base_plan (Ken Jun 10 10:44)"},
-    {"seq": 3, "tkt": "TKT-0326", "priority": "medium", "effort": "M", "agent": "forge", "source": "base_plan (Ken Jun 10 10:44)"},
-    {"seq": 4, "tkt": "TKT-0317", "priority": "critical-but-large", "effort": "XL", "agent": "yoda", "source": "base_plan (Ken Jun 10 10:44)"},
-    {"seq": 5, "tkt": "TKT-0293", "priority": "high-but-not-blocking", "effort": "M", "agent": "forge", "source": "base_plan (Ken Jun 10 10:44)"},
-    {"seq": 6, "tkt": "TKT-0319", "priority": "critical", "effort": "M", "agent": "yoda", "source": "pre-existing in S8 column (auto-populated)"},
-    {"seq": 7, "tkt": "TKT-0410", "priority": "high", "effort": "S", "agent": "forge", "source": "pre-existing in S8 column (carry-over)"},
-    {"seq": 8, "tkt": "TKT-0525", "priority": "?", "effort": "XS", "agent": "yoda", "source": "carry-over from S7 (1-day pg-to-notion fix)"}
+    {
+      "seq": 1,
+      "tkt": "TKT-0529",
+      "priority": "P0",
+      "effort": "M",
+      "agent": "yoda",
+      "source": "addition_after_s7 (Ken directive 17:18 AEST)"
+    },
+    {
+      "seq": 2,
+      "tkt": "TKT-0324",
+      "priority": "medium",
+      "effort": "M",
+      "agent": "yoda",
+      "source": "base_plan (Ken Jun 10 10:44)"
+    },
+    {
+      "seq": 3,
+      "tkt": "TKT-0326",
+      "priority": "medium",
+      "effort": "M",
+      "agent": "forge",
+      "source": "base_plan (Ken Jun 10 10:44)"
+    },
+    {
+      "seq": 4,
+      "tkt": "TKT-0317",
+      "priority": "critical-but-large",
+      "effort": "XL",
+      "agent": "yoda",
+      "source": "base_plan (Ken Jun 10 10:44)"
+    },
+    {
+      "seq": 5,
+      "tkt": "TKT-0293",
+      "priority": "high-but-not-blocking",
+      "effort": "M",
+      "agent": "forge",
+      "source": "base_plan (Ken Jun 10 10:44)"
+    },
+    {
+      "seq": 6,
+      "tkt": "TKT-0319",
+      "priority": "critical",
+      "effort": "M",
+      "agent": "yoda",
+      "source": "pre-existing in S8 column (auto-populated)"
+    },
+    {
+      "seq": 7,
+      "tkt": "TKT-0410",
+      "priority": "high",
+      "effort": "S",
+      "agent": "forge",
+      "source": "pre-existing in S8 column (carry-over)"
+    },
+    {
+      "seq": 8,
+      "tkt": "TKT-0525",
+      "priority": "?",
+      "effort": "XS",
+      "agent": "yoda",
+      "source": "carry-over from S7 (1-day pg-to-notion fix)"
+    }
   ],
   "capacity_audit": {
     "sprint_capacity_pre_oc2": 5,
     "items_in_commitment": 8,
-    "headroom_note": "8 items > 5 capacity. Items 1-5 are highest priority. Items 6-8 (TKT-0319, TKT-0410, TKT-0525) are 'spillover' that pre-existed in the column. If 5-item cap is strict, TKT-0319 and TKT-0410 may be deferred to S9 retro. Yoda recommends re-evaluating at the EOD/sprint-mid check-in per the 'continuously review and prioritize' rule."
+    "headroom_note": "8 items > 5 capacity. Items 1-5 are highest priority. Items 6-8 (TKT-0319, TKT-0410, TKT-0525) are 'spillover' that pre-existed in the column. If 5-item cap is strict, TKT-0319 and TKT-0410 may be deferred to S9 retro. Yoda recommends re-evaluating at the EOD/sprint-mid check-in per the 'continuously review and prioritize' rule.",
+    "lock_decision": {
+      "ts": "2026-06-15T17:57:00+10:00",
+      "by": "Ken Mun (CTO)",
+      "decision": "8 items stays. Lock it in. Capacity 5/sprint cap is overridden for Sprint 8 — Yoda + Forge will balance load as work progresses per the continuous-review rule (L-140).",
+      "implications": [
+        "No TKT moved out of Sprint 8 unless Yoda surfaces a blocker and Ken approves (L-140 rule).",
+        "Continuous prioritization per L-140: as the sprint progresses, Yoda can recommend re-ordering but not dropping.",
+        "End-of-sprint retro will triage 8 items: which done, which intact spillover, which deferred with Ken's explicit approval."
+      ]
+    },
+    "effective_items_open": 7,
+    "capacity_after_t0317_close": "7 open items > 5 pre-OC2 capacity. Continues to require continuous review per L-140."
+  },
+  "locked": true,
+  "locked_at": "2026-06-15T17:57:00+10:00",
+  "locked_by": "Ken Mun (CTO)",
+  "lock_reality": {
+    "locked_at": "2026-06-15T17:57:00+10:00",
+    "items_locked": 8,
+    "items_already_closed_at_lock": [
+      {
+        "id": "TKT-0317",
+        "closed_at": "2026-06-13 15:30 AEST (hygiene sweep, Ken 2026-06-12 review confirmed scope superseded)",
+        "effective_work_remaining": 0,
+        "kept_in_lineage": "yes — preserve Linage per L-140, no silent drop"
+      }
+    ],
+    "items_open_at_lock": 7,
+    "interpretation": "Ken said '8 items stays' meaning 8 items stay in the ceremony record (no silent drops). Of those 8, 1 (TKT-0317) is already closed in PG. Effective working list is 7 items."
   }
 }

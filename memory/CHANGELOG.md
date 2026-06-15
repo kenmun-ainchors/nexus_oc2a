@@ -11,6 +11,19 @@
 ---
 ---
 
+## 2026-06-15 17:59 AEST — [CHG-0597] Sprint 8 plan locked: 8 items stay, capacity override
+**Type:** rule
+**Change Type:** Standard
+**Source:** ken-prompt
+**Trigger:** Ken directive 2026-06-15 17:57 GMT+10: '8 items stays. lock it in.' Capacity 5/sprint cap overridden for Sprint 8.
+**What changed:** state/sprint-8-plan-lineage.json: locked=true, locked_at, locked_by, lock_decision, lock_reality fields added. state_sprints.sprint_name=8 ceremonies JSONB: lock_at, locked_by, lock_decision, lock_reality appended. state_tickets: TKT-0326, TKT-0293 sprint column updated 9→8. state_sprints.sprint_name=8 items: added TKT-0326/0317/0293 to items jsonb (seq 6/7/8).
+**Why:** L-140 lineage-preservation: 8 items stay in the ceremony record as Ken confirmed. TKT-0317 is already closed in PG (2026-06-13 15:30 AEST) — preserved in lineage, not silently dropped. Effective working list is 7 open items. Capacity 5/sprint cap overridden — Yoda + Forge will balance load via continuous-review rule.
+**Verification:** Lineage file: locked=true, locked_by=Ken Mun, lock_reality populated. ceremonies JSONB has lock_at + lock_decision + lock_reality. TKT-0326 and TKT-0293 sprint column now Sprint 8 (was Sprint 9). Sprint 8 items jsonb has 8 entries (seq 1-8). TKT-0317 shows status=closed in PG but stays in ceremony record per L-140.
+**Rollback:** Revert the lineage file changes + remove the locked_* fields from ceremonies JSONB + revert TKT-0326/0293 sprint column to Sprint 9 + remove TKT-0326/0317/0293 from Sprint 8 items jsonb
+**Linked:** L-140,CHG-0596,CHG-0593,CHG-0592,TKT-0529,TKT-0319,TKT-0410,TKT-0324,TKT-0326,TKT-0317,TKT-0293,TKT-0525
+---
+
+
 ## 2026-06-15 17:51 AEST — [CHG-0596] Sprint 8 plan reconciled to match Jun 10 capture + lineage preserved (L-140)
 **Type:** rule
 **Change Type:** Standard
