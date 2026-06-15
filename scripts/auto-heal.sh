@@ -2055,6 +2055,70 @@ json.dump({'ts': ts, 'critical': $C31_CRITICAL, 'warning': $C31_WARNING, 'rate_l
   fi
 fi
 
+# ---------- CHECK 32: Per-cron migration advisor (L-130, P2 #2) ----------
+# Pairs with CHECK 31 (L-128, per-cron quota) and L-119 (multi-vendor primary).
+# Uses state/cron-migration-suggestions.json to identify crons that should be
+# considered for multi-vendor migration. Tier 1 = migrate now, Tier 2 = monitor.
+# 6h cooldown.
+log "CHECK 32: per-cron migration advisor (L-130)"
+CHECKS_RUN+=("per_cron_migration_advisor")
+
+MIGRATION_OUT="$WORKSPACE/state/cron-migration-suggestions.json"
+CHECK32_LAST_FIRE="$WORKSPACE/state/check32-last-fire.json"
+CHECK32_COOLDOWN_S=21600  # 6h
+
+# Cooldown check
+SHOULD_FIRE_32=true
+if [[ -f "$CHECK32_LAST_FIRE" ]]; then
+  LAST_FIRE_TS_32=$(python3 -c "import json,sys; print(json.load(open(sys.argv[1])).get('ts',''))" "$CHECK32_LAST_FIRE" 2>/dev/null || echo "")
+  if [[ -n "$LAST_FIRE_TS_32" ]]; then
+    LAST_FIRE_EPOCH_32=$(date -j -f "%Y-%m-%dT%H:%M:%S" "$LAST_FIRE_TS_32" "+%s" 2>/dev/null || echo 0)
+    NOW_EPOCH_32=$(date "+%s")
+    if (( NOW_EPOCH_32 - LAST_FIRE_EPOCH_32 < CHECK32_COOLDOWN_S )); then
+      SHOULD_FIRE_32=false
+    fi
+  fi
+fi
+
+if [[ "$SHOULD_FIRE_32" != "true" ]]; then
+  log "CHECK 32: SKIP (cooldown active, last fire <6h ago)"
+  :  # script continues
+else
+  if [[ -x "$WORKSPACE/scripts/cron-migration-advisor.sh" ]]; then
+    MIGRATION_OUTPUT=$(bash "$WORKSPACE/scripts/cron-migration-advisor.sh" 2>&1)
+    MIGRATION_EXIT=$?
+    C32_TIER1=0
+    if [[ $MIGRATION_EXIT -eq 0 ]]; then
+      MIGRATION_STATS=$(echo "$MIGRATION_OUTPUT" | grep -E "^(EVALUATED|TIER_1|TIER_2|TIER_3|TOP_CANDIDATE):" || echo "")
+      if [[ -n "$MIGRATION_STATS" ]]; then
+        log "CHECK 32: $MIGRATION_STATS"
+      fi
+      
+      if [[ -f "$MIGRATION_OUT" ]]; then
+        C32_TIER1=$(python3 -c "import json; d=json.load(open('$MIGRATION_OUT')); print(d.get('summary', {}).get('tier_1_migrate_now', 0))" 2>/dev/null || echo 0)
+        
+        if [[ "$C32_TIER1" -ge 5 ]]; then
+          log "CHECK 32: ALERT — ${C32_TIER1} cron(s) at tier 1 (migrate now). Top 3: see state/cron-migration-suggestions.json"
+          NEEDS_KEN+=("Migration advisor: ${C32_TIER1} cron(s) recommended for multi-vendor migration — review tier 1 candidates")
+        else
+          log "CHECK 32: PASS (${C32_TIER1} tier 1 candidate(s) — under threshold of 5)"
+        fi
+      fi
+      
+      # Update last fire
+      python3 -c "
+import json, datetime
+ts = datetime.datetime.now().strftime('%Y-%m-%dT%H:%M:%S')
+json.dump({'ts': ts, 'tier1': $C32_TIER1}, open('$CHECK32_LAST_FIRE', 'w'), indent=2)
+" 2>/dev/null
+    else
+      log "CHECK 32: WARN — cron-migration-advisor.sh exited non-zero: $MIGRATION_OUTPUT"
+    fi
+  else
+    log "CHECK 32: SKIP (cron-migration-advisor.sh not found)"
+  fi
+fi
+
 # ---------- CHECK 28d: Auto-archive untracked root .md files (TKT-0341) ----------
 # TKT-0341 contract: all .md in workspace root must be on the 8-allowlist
 # (SOUL/AGENTS/MEMORY/HEARTBEAT/USER/IDENTITY/TOOLS/RULES). This check auto-archives
