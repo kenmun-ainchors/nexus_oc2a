@@ -3,7 +3,7 @@
     "taskWatchdog": "2026-06-12T18:12:17.946060+10:00",
     "cronHealth": 1749723600,
     "budgetCheck": 1749723600,
-    "owlCompliance": "2026-06-12T16:19:16+10:00",
+    "owlCompliance": "2026-06-15T10:19:34+10:00",
     "standbyMode": 1749723600,
     "taskStall": 1749723600,
     "dodValidation": 1749723600,
@@ -12,13 +12,15 @@
     "cronDeadLetter": 1749723600,
     "ahsokaPilot": 1749723600,
     "chgTriggers": 1749723600,
-    "blogVerification": 1752326820,
+    "blogVerification": 1781487435,
     "warden": 1749723600,
     "delegatedAuth": 1749723600,
     "costState": 1749723600,
-    "qbr": "2026-06-12T09:57:00+10:00 \u2014 locked TKT-0410, 19d to QBR"
+    "qbr": "2026-06-12T09:57:00+10:00 \u2014 locked TKT-0410, 19d to QBR",
+    "journalCompleteness": 1781487435,
+    "eodBackfill": 1781487435
   },
-  "lastUpdated": "2026-06-13T15:22:00+10:00",
+  "lastUpdated": "2026-06-15T11:37:15.244509+10:00",
   "lastHeartbeat": "2026-06-12T06:19:00Z",
   "qbr": {
     "next_qbr": {

@@ -1479,3 +1479,23 @@ Wired into 3 EOD crons (Journal 4d926b2c, Blog a027fd60, Drive c5a3911d) as Step
 **Lesson:** When a workspace file breaches its hard limit, the right move is progressive disclosure: keep the rule names in the high-traffic file (AGENTS.md, injected), relocate the full text to the reference file (RULES.md, on-demand). Same content, two different access patterns. Skills already follow this pattern (SKILL.md files are progressive-disclosure from MEMORY.md/AGENTS.md).
 
 **Anti-regression:** file-size-guard.sh should be re-run nightly and alert Ken if AGENTS.md approaches 11,000 (1,000-char buffer). Currently CHECK 15 is daily; the threshold should be tightened. Followup: TKT-XXXX — adjust file-size-guard warning threshold.
+
+## L-122 | 2026-06-15 | Infra | Honest backfill framing for silent days
+
+**Severity: Low (P2 documentation hygiene).** During the 42.5h outage, the platform wrote nothing. When Yoda woke up on 2026-06-15 and reviewed state, three files were missing: journal-2026-06-14.md (heartbeat completeness fires on this), ainchors-2026-06-13/index.html, ainchors-2026-06-14/index.html (blog verification at 06:00 AEST fires on this).
+
+**Decision: do NOT fabricate.** The temptation is to write plausible-looking entries that match the date. The discipline is: write what actually happened. The 06-14 journal is a single post-mortem entry that records the silence. The 06-14 blog is "The Silent Day" — same post-mortem, more reflective. The 06-13 journal gets a 15:35 entry appended that records the outage start with explicit "backfilled 36h after the fact" disclosure.
+
+**Fix pattern (TKT-REC7):**
+1. Identify what actually happened on the silent day by reading: cron state, auto-heal logs (if any), incident-log.json, recovery-day journal (06-15), state files.
+2. Write post-mortem doc with: (a) 0 entries / 0 sessions in Session Overview, (b) explicit "no agent activity" framing, (c) outage timeline, (d) what was alive vs what was dead, (e) reference to the structural fixes that prevent the next occurrence.
+3. Use LOCKED templates (CSS, journal header format) verbatim.
+4. Append outage-start entry to the day-before journal with explicit backfill disclosure.
+
+**Verified:** 4 files written, all using 06-12 templates verbatim (CSS diff = 0 lines). 06-14 journal = 3,698 bytes. 06-13 journal grew to 30,069 bytes (+1,130). 06-13 blog = 22,181 bytes. 06-14 blog = 20,149 bytes. Auto-heal blog verification check (06:00 AEST) will now pass.
+
+**Tied to:** All silence-failure family lessons. The pattern of writing-what-actually-happened is the same discipline as L-113 (evidence-only) and SOUL.md #13 (no fabrication) and #14 (evidence-only).
+
+**Lesson:** When reconstructing history, resist the urge to fill the gap with plausible content. The gap itself is information. A "platform silent" day in the journal is a real record. A fabricated busy day would be a lie that compounds over time.
+
+**Anti-regression:** If a day is missing journal/blog in the future, default to post-mortem. Don't ask "what should I write?" — ask "what actually happened?" The answer is usually: nothing. That's the truth, and it's the right entry.

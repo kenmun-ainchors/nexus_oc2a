@@ -11,6 +11,19 @@
 ---
 ---
 
+## 2026-06-15 11:36 AEST — [CHG-0564] Honest backfill of 06-14 journal + 06-13/14 blogs (L-122, Rec #7)
+**Type:** doc
+**Change Type:** Normal
+**Source:** incident-recovery
+**Trigger:** 2026-06-15 11:30 AEST Ken approved Recommendation #7 from outage shakedown
+**What changed:** memory/journal-2026-06-14.md (new, 3,698 bytes, post-mortem). memory/journal-2026-06-13.md (+1,130 bytes, ## 15:35 outage-start section appended). ~/.openclaw/canvas/documents/ainchors-2026-06-13/index.html (new, 22,181 bytes, TQP bridge narrative). ~/.openclaw/canvas/documents/ainchors-2026-06-14/index.html (new, 20,149 bytes, 'The Silent Day' narrative).
+**Why:** During the 42.5h Ollama cap outage (2026-06-13 15:31 → 2026-06-15 10:04 AEST), the platform could not run EOD finalizer. 3 files went missing: journal-2026-06-14, ainchors-2026-06-13 blog, ainchors-2026-06-14 blog. Auto-heal blog verification at 06:00 AEST 06-15 would have flagged both blog files; heartbeat completeness at 23:00 AEST would have flagged the missing journal. CRITICAL DECISION: do NOT fabricate 06-14 activity. The honest framing is post-mortem — record the silence, don't invent sessions. This preserves auditability and is the same discipline as L-113 (evidence-only) and SOUL.md #13 (no fabrication).
+**Verification:** 4 files written, all using 06-12 templates verbatim (CSS diff = 0 lines for both blog files vs 06-12). Journal 06-14: 3,698 bytes, 2 sections (Session Overview + 23:55 Silent Day post-mortem). Journal 06-13: 30,069 bytes total, new ## 15:35 section appended. Blog 06-13: 22,181 bytes, title 'Day 49 — The TQP Bridge Lands, Sprint 7 Closes, and a Quiet Outage Begins — AInchors'. Blog 06-14: 20,149 bytes, title 'Day 50 — The Silent Day — AInchors'. Independent Yoda verify: wc -c + diff + grep all pass.
+**Rollback:** rm memory/journal-2026-06-14.md; revert memory/journal-2026-06-13.md to prior commit; rm -rf ~/.openclaw/canvas/documents/ainchors-2026-06-13 ~/.openclaw/canvas/documents/ainchors-2026-06-14
+**Linked:** L-122, L-121, L-120, L-119, L-118, L-117, L-116, L-088+ silence-failure family, TKT-REC7
+---
+
+
 ## 2026-06-15 11:27 AEST — [CHG-0563] AGENTS.md trim (L-121, Rec #6) — 12,252 → 7,351 chars
 **Type:** doc
 **Change Type:** Standard
