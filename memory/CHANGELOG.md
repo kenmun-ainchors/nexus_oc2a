@@ -11,6 +11,19 @@
 ---
 ---
 
+## 2026-06-15 11:54 AEST — [CHG-0567] aria-crest-check.sh line 21 syntax fix (Pre-existing #1, L-125) — CHECK 27 PASS
+**Type:** script
+**Change Type:** Standard
+**Source:** incident-recovery
+**Trigger:** 2026-06-15 11:50 AEST Ken approved Pre-existing #1 from outage shakedown
+**What changed:** scripts/aria-crest-check.sh line 21: removed trailing double-quote. Changed 'DB_SCRIPT="/scripts/db-raw.sh""' to 'DB_SCRIPT="/scripts/db-raw.sh"'. Single-character deletion, 1 line, no other changes.
+**Why:** CHECK 27 has been FAIL in every auto-heal run since 2026-06-13 due to bash syntax error in aria-crest-check.sh. Root cause: line 21 had 'DB_SCRIPT="/scripts/db-raw.sh""' — the trailing double-quote confused bash's parser. Bash reported the error at line 136 (the next location that would close the spurious string). Em-dashes on lines 78/136 are UTF-8 and were NOT the bug (confirmed by isolated test). Single-character fix restores bash -n to exit 0 and the live script to print 'CLEAN: Aria CREST compliant'.
+**Verification:** Bash -n exit 0. Live run: 'CLEAN: Aria CREST compliant' with 0 violations, 0 warnings. Aria is COMPLIANT. Diff: 1 file, 1 insertion, 1 deletion (1 char removed). Em-dashes preserved on lines 78, 136. No other lines touched.
+**Rollback:** git checkout scripts/aria-crest-check.sh
+**Linked:** L-125, TKT-PREEXIST-1, CHECK 27
+---
+
+
 ## 2026-06-15 11:49 AEST — [CHG-0566] TKT-0339 scaler vA6: 10 DECREASE timeouts applied (Rec #9, L-124)
 **Type:** cron
 **Change Type:** Standard

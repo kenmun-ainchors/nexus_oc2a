@@ -1529,3 +1529,15 @@ Wired into 3 EOD crons (Journal 4d926b2c, Blog a027fd60, Drive c5a3911d) as Step
 **Anti-regression:** Don't change the 7d default. Don't add an "auto-apply after 7d" flag. The current design is "Ken-triggered, never implicit" for a reason — auto-apply on a 1-shot cron (like 3fb65682 QBR Execute) would have applied 180s while the cron was being designed, before the timeout was even meaningful. The Ken check is the safety.
 
 **Notable correction:** Forge caught a prefix mismatch in the Yoda spec (Aria was 7a4d8381, not 3305681f). The ledger had 13 entries (10 vA6 + 3 pre-existing). Forge correctly identified the right prefix and applied the right value (kept Aria at 300s since the computed target was 300s, not 180s as my spec said).
+
+## L-125 | 2026-06-15 | Process | aria-crest-check.sh: trailing double-quote on line 21
+
+**Severity: Low (P2 process verification).** `scripts/aria-crest-check.sh` line 21 had `DB_SCRIPT="/scripts/db-raw.sh""` — an extra trailing double-quote from a paste-o or merge artifact. Bash parser got confused, reported the syntax error at line 136 ("unexpected EOF while looking for matching `''`") because that's the next location that would close the spurious string. CHECK 27 has been FAIL in every auto-heal run since 2026-06-13 (12+ runs).
+
+**Fix pattern (TKT-PREEXIST-1):** Single-character deletion — remove the trailing `"` on line 21. Verified with bash -n (exit 0) + live run (`CLEAN: Aria CREST compliant`, 0 violations, 0 warnings).
+
+**Lesson:** When bash reports a syntax error at a line far from the actual bug, the real cause is almost always on an earlier line. In this case, line 21's `""` opened a string that wasn't closed until the next opportunity (the `f"` Python f-string at line 136). When a heredoc body's syntax error points to a line inside the body, check the lines BEFORE the heredoc for unbalanced quotes.
+
+**Anti-regression:** Add a "bash -n before commit" pre-commit hook for all scripts in `scripts/`. The hook should reject any script that doesn't pass bash -n. The original bug shipped because nothing was running bash -n at commit time. L-125 is the 16th in the silence-failure family but the first syntax-error type.
+
+**Tied to:** L-088+ (silence-failure family, all categories), the file-size-guard CHECK 15 (which checks size, not syntax), the per-script run-on-edit discipline.
