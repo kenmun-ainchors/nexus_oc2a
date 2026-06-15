@@ -1702,3 +1702,40 @@ This is the L-115/L-126 class: string-quoting bug in shell→python interpolatio
 **Anti-regression:** Next L-13x task should add a hook/check that catches "open('')" or empty-filename patterns in any new CHECK block. Could be a regex check in CHECK 27 itself.
 
 **Tied to:** L-128 (input data), L-119 (multi-vendor primary, the pattern), L-115/L-126 (string-quoting bug class), L-089 (same-turn recovery pattern), L-129 (pre-commit hook, but doesn't catch logic).
+
+## L-131 | 2026-06-15 | Infra | Zsh-only parameter expansion removed from auto-heal (P2 #3)
+
+**Severity: Medium (silent compatibility break).** Auto-heal.sh line 2393 had `checks = '${(j:,:)CHECKS_RUN}'.split(',')` — a **zsh-specific parameter expansion flag** that joins array elements on `,`. Same pattern for ISSUES_FOUND and AUTO_FIXED. Also had `.replace("'", "''''")` — a fragile 4-single-quote escape hack for SQL safety.
+
+The script shebang is `#!/bin/zsh` so it works in production. But the production cron in some environments, or any future execution via bash subprocess, would have hit `bad substitution` and crashed auto-heal completely (similar to the L-115/L-126 string-quoting bug class, but with shell-specific syntax).
+
+**Discovery:** Tried `bash scripts/auto-heal.sh` to verify shell-agnosticism. Got `: bad substitution` at offset 101 of the log, then the script terminated with bash exit 1 (would have been the same silent crash that hit us with L-115/L-126).
+
+**Fix:** Build JSON arrays in shell using `printf + python3 json.dumps` (POSIX-safe), then pass them as env vars to the python that constructs the final JSON. No more `${(j:sep:)VAR}` flags, no more `.replace("'", "''''")` escape hack.
+
+```bash
+# Before (zsh-only):
+checks = '${(j:,:)CHECKS_RUN}'.split(',')
+print(json.dumps({...}).replace("'", "''''"))
+
+# After (shell-agnostic):
+CHECKS_RUN_JSON="$(printf '%s\n' "${CHECKS_RUN[@]}" | python3 -c "import json,sys; print(json.dumps([l for l in sys.stdin.read().splitlines() if l]))")" \
+&& _CHECKS_JSON=$(CHECKS_RUN_JSON="$CHECKS_RUN_JSON" ... python3 -c "
+import json, os
+checks = json.loads(os.environ.get('CHECKS_RUN_JSON', '[]'))
+print(json.dumps({'checks_run': checks, ...}))
+")
+```
+
+**Verified (12:59 AEST 2026-06-15):**
+- `bash -n scripts/auto-heal.sh` clean
+- `zsh -n scripts/auto-heal.sh` clean
+- `bash scripts/auto-heal.sh` exit 0, exit_status=complete_with_needs_ken, checks_count=43
+- `zsh scripts/auto-heal.sh` exit 0, exit_status=complete_with_needs_ken, checks_count=43
+- PG write to state_autoheal_log succeeded (id_seq advanced to 71)
+- CHECK 32 alive in both runs
+- 0 zsh-only constructs remaining in auto-heal.sh
+
+**Anti-regression:** Could add a CHECK 33 that greps for `${(j:` or other zsh-specific flags and ALERTs. Not done in this turn (out of scope for P2 #3), but candidate for P2 #4 / future hardening.
+
+**Tied to:** L-115, L-126 (string-quoting bug class), L-129 (pre-commit hook, but only catches syntax, not shell-specificity), the broader hardening theme of making infra scripts shell-agnostic.

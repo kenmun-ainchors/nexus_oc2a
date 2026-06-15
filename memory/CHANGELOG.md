@@ -11,6 +11,19 @@
 ---
 ---
 
+## 2026-06-15 13:00 AEST — [CHG-0573] Auto-heal shell-agnostic refactor (L-131, P2 #3) — removed zsh-only parameter expansion
+**Type:** script
+**Change Type:** Standard
+**Source:** incident-recovery
+**Trigger:** 2026-06-15 12:54 AEST Ken approved P2 #3 from followup list. Initial investigation found no zsh-only constructs, but a follow-up bash run revealed ': bad substitution' at line 2393.
+**What changed:** 1 file. EDIT: scripts/auto-heal.sh — removed ${(j:,:)CHECKS_RUN} and ${(j:;;;)ISSUES_FOUND/AUTO_FIXED} zsh-specific parameter expansion flags. Also removed .replace("', "''''") fragile SQL escape hack. Replaced with shell-agnostic pattern: build JSON arrays via printf + python json.dumps, pass via env vars to python that constructs the final JSON.
+**Why:** Auto-heal.sh shebang is #!/bin/zsh, so it works in production. But any execution via bash subprocess (e.g. from a hook, a future test, or a different host) would have hit ': bad substitution' and crashed the entire auto-heal run. Same L-115/L-126 class (silent shell-specific bug), different bug surface. Defense-in-depth: production code should not depend on a specific shell where avoidable.
+**Verification:** bash -n clean, zsh -n clean. bash scripts/auto-heal.sh exit 0 (was bash exit 1 with bad substitution). zsh scripts/auto-heal.sh exit 0. Both runs: exit_status=complete_with_needs_ken, checks_count=43, CHECK 32 alive. PG write to state_autoheal_log succeeded. 0 zsh-only constructs remaining.
+**Rollback:** git checkout scripts/auto-heal.sh
+**Linked:** L-131, L-115, L-126, L-129, TKT-REFACTOR-AUTO-HEAL-SHELL-AGNOSTIC
+---
+
+
 ## 2026-06-15 12:47 AEST — [CHG-0572] Per-cron migration advisor (L-130, P2 #2) — systemizes L-119 manual multi-vendor pattern
 **Type:** script
 **Change Type:** Standard

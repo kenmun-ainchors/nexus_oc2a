@@ -2386,12 +2386,15 @@ for _nk in "${NEEDS_KEN[@]}"; do
     _NEEDS_KEN_ARR="${_NEEDS_KEN_ARR},'${_nk_escaped}'"
   fi
 done
+CHECKS_RUN_JSON="$(printf '%s\n' "${CHECKS_RUN[@]}" | python3 -c "import json,sys; print(json.dumps([l for l in sys.stdin.read().splitlines() if l]))")" \
+ISSUES_FOUND_JSON="$(printf '%s\n' "${ISSUES_FOUND[@]}" | python3 -c "import json,sys; print(json.dumps([l for l in sys.stdin.read().splitlines() if l]))")" \
+AUTO_FIXED_JSON="$(printf '%s\n' "${AUTO_FIXED[@]}" | python3 -c "import json,sys; print(json.dumps([l for l in sys.stdin.read().splitlines() if l]))")" \
 _CHECKS_JSON=$(python3 -c "
 import json
-checks = '${(j:,:)CHECKS_RUN}'.split(',')
-issues = '${(j:;;:)ISSUES_FOUND}'.split(';;;') if '${(j:;;:)ISSUES_FOUND}' else []
-auto_fixed = '${(j:;;:)AUTO_FIXED}'.split(';;;') if '${(j:;;:)AUTO_FIXED}' else []
-print(json.dumps({'checks_run': checks, 'issues': issues, 'auto_fixed': auto_fixed, 'auto_fixed_count': len(auto_fixed)}).replace(\"'\", \"''''\"))
+checks = json.loads(os.environ.get('CHECKS_RUN_JSON', '[]'))
+issues = json.loads(os.environ.get('ISSUES_FOUND_JSON', '[]'))
+auto_fixed = json.loads(os.environ.get('AUTO_FIXED_JSON', '[]'))
+print(json.dumps({'checks_run': checks, 'issues': issues, 'auto_fixed': auto_fixed, 'auto_fixed_count': len(auto_fixed)}))
 " 2>/dev/null || echo '{}')
 _STATUS="complete"
 [[ ${#NEEDS_KEN[@]} -gt 0 ]] && _STATUS="complete_with_needs_ken"
