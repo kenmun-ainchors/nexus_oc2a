@@ -11,6 +11,33 @@
 ---
 ---
 
+## 2026-06-15 17:23 AEST — [CHG-0592] TKT-OLD-CODE-AUDIT split into 3 sub-TKTs (TKT-0529, TKT-0530, TKT-0531) for Sprints 8/9/10
+**Type:** rule
+**Change Type:** Standard
+**Source:** ken-prompt
+**Trigger:** Ken directive 2026-06-15 17:18 AEST: add the old-code-audit spec to scope, split into 3 sub-TKTs (one per sprint) to ship partial value, lock into Sprint 8
+**What changed:** state/audit-tickets/TKT-OLD-CODE-AUDIT-MASTER.md: new spec doc. 3 sub-TKTs created: TKT-0529 (P0/Sprint 8, 5 high-risk live scripts), TKT-0530 (P1/Sprint 9, 4 infrastructure scripts), TKT-0531 (P2/Sprint 10, 4 state-DB + cron scripts). All 3 have 3 ACs (static + functional + e2e), assigned Yoda, depends_on chain P0→P1→P2. Sprints 9 and 10 created in PG (2026-06-22→28 and 2026-06-29→07-05). All 3 tickets synced to Notion.
+**Why:** L-138 proved that organic defense-in-depth stack has uncaught gaps. 1 sub-TKT per sprint is the right granularity: ~5-7 days of Yoda work each, ship partial value, independent rollback. P0 first (high-risk live, multiple L- lessons), P1 next (infrastructure checkers), P2 last (state-DB).
+**Verification:** All 3 tickets readable in PG (db-ticket.sh read TKT-0529/0530/0531 returns full JSON). sprint column set to Sprint 8/9/10. db-sprint.sh plan --sprint Sprint 8/9/10 shows the new tickets. Sprints 9 and 10 created with correct dates. Notion sync confirmed (sync output for each). Master spec at state/audit-tickets/TKT-OLD-CODE-AUDIT-MASTER.md (104 lines) covers scope, methodology, DoD, success criteria, rollback.
+**Rollback:** Drop the 3 tickets + delete the 2 new sprints (cascade) + delete the master spec file
+**Linked:** L-138,L-137,L-139,L-122,L-113,CHG-0586,CHG-0590
+---
+
+
+## 2026-06-15 17:17 AEST — [CHG-0591] CHECK 29 live-state refactor + cron-health ack preservation (atoms 2+3)
+**Type:** script
+**Change Type:** Normal
+**Source:** ken-prompt
+**Trigger:** Stale CLOUD-CRON re-fire at 17:09 AEST (TRIGGER-12 + PG-Notion, both cons=0 in live state). Ken msg 4910 'go with your recommended. atoms 2+3. go' at 17:11 AEST
+**What changed:** (Atom 2) scripts/auto-heal.sh CHECK 29 (lines 1853-2050): PRIMARY source now live openclaw cron list --json; FALLBACK to state/cron-health-alert.json with age warning if live fails; cron-models.json dependency removed; healthy-recovery skip added (if cooldown expired but all previously-fired ollama/* crons are cons=0, don't re-fire). (Atom 3) scripts/cron-health-check.sh alert write block: preserve acknowledged/acknowledgedAt/acknowledgedReason from prior alert when new failures list is empty; reset to False when new failures appear; default to False when no prior file. Three-scenario logic verified by Forge.
+**Why:** CHECK 29 was reading state/cron-health-alert.json (a heartbeat file only refreshed by CI cycle runs) instead of live consecutiveErrors. At 17:00 today it re-fired the 10:55 alert for TRIGGER-12 + PG-Notion (both cons=0 by then) because the heartbeat file was stale. Secondary bug: cron-health-check.sh hardcoded acknowledged=False on every write, breaking the ack workflow.
+**Verification:** Independent cross-check: (1) ran auto-heal, CHECK 29 emitted 'SKIP (cooldown active)' at 17:16, confirming cooldown logic intact. (2) Live cron state shows WO-002 at cons=5 as only cons>=3 offender — when cooldown expires at 23:00, CHECK 29 will fire for WO-002 only (not stale TRIGGER-12/PG-Notion). (3) Atom 3 logic: read-merge-write pattern in python heredoc, 3 scenarios covered (no failures / with failures / no prior file).
+**Rollback:** git checkout scripts/auto-heal.sh scripts/cron-health-check.sh (and restore state/check29-last-fire.json if it changed)
+**Linked:** L-116, CHG-0411, CHG-0458, TKT-0332 (sandbox boundary check pattern), state/check29-last-fire.json
+**Category:** Operations
+---
+
+
 ## 2026-06-15 17:15 AEST — [CHG-0590] L-139 anti-subagent-trap: verifier_corpus required for execute/verify atoms
 **Type:** rule
 **Change Type:** Standard
