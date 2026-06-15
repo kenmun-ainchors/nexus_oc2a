@@ -1669,3 +1669,36 @@ Mirrors the same pattern at line 869 (CHECK 21 file-size-guard). XS effort.
 **Anti-regression:** CHECK 27 (auto-heal, L-091) now re-runs the installer if the hook is missing. This is the failsafe: if a future agent deletes the symlink, nightly auto-heal reinstalls it. Belt + suspenders.
 
 **Tied to:** L-125 (the original bug), L-091 (CHECK 27, the nightly audit that would have caught it without a hook), the L-088+ silence-failure lineage (20th member).
+
+## L-130 | 2026-06-15 | Infra | Per-cron migration advisor + CHECK 32 (P2 #2)
+
+**Severity: Low (P2 feature, S effort), high leverage.** L-119 (multi-vendor primary) was a manual fix. This systemizes future migrations by reading L-128 data and computing a migration score per cron: 40% cliff_risk + 30% model_load + 20% (1-criticality) + 10% rate_limited_streak. Tier 1 (>=0.5) = migrate now, Tier 2 (0.3-0.5) = monitor, Tier 3 (<0.3) = keep.
+
+**Files:**
+- `scripts/cron-migration-advisor.sh` (NEW, ~115 lines, zsh) — reads state/cron-ollama-usage.json + state/cron-list-snapshot.json, computes scores, writes state/cron-migration-suggestions.json
+- `scripts/auto-heal.sh` (+64 lines) — CHECK 32 with 6h cooldown, calls advisor, ALERTs at 5+ tier-1 candidates
+
+**First live fire (12:46 AEST 2026-06-15):**
+- 37 ollama/* crons evaluated
+- 11 tier-1 (migrate now) — above the 5-threshold
+- Top candidate: WO-002 Divergence Daily Check (score=0.608, deepseek-v4-pro → kimi)
+- Other tier-1: yoda-context-brief-refresh, AInchors Daily Burn Alert, Shield 🛡️ Security Review, Lex ⚖️ Legal Review
+- System ALERTed correctly: "11 cron(s) at tier 1 (migrate now)"
+
+**Bug found & fixed during live verify (L-130 same-turn recovery, L-089 pattern):**
+The subagent shipped a CHECK 32 with `open('')` — empty filename in the python json.load call. Single-quoted python strings don't get bash variable expansion. Result: CHECK 32 read 0 tier-1 (regardless of actual file), reported "PASS (0 candidates)", and the `2>/dev/null` swallowed the FileNotFoundError, but a `trap ERR` still caught the python exit code and crashed the entire auto-heal script (`exit_status=crashed, checks_count=40` instead of 42+).
+
+This is the L-115/L-126 class: string-quoting bug in shell→python interpolation. Fix was 1-line: replace `open('')` with `open('$MIGRATION_OUT')` in two places. Same pattern as CHECK 31 which uses `open('$QUOTA_TRACK_OUT')` correctly.
+
+**Lesson reinforced:** When subagent ships CHECK-style code, always do an independent run BEFORE committing. The bash -n check (L-129) catches syntax, but not logic/quoting bugs. Yoda verify phase (L-113) is non-negotiable — this bug would have shipped and the next auto-heal would have crashed.
+
+**Verified post-fix (12:46 AEST 2026-06-15):**
+- bash -n clean on auto-heal.sh
+- exit_status: complete_with_needs_ken (was crashed)
+- checks_count: 43 (was 40, +3 because CHECK 32 ran successfully)
+- CHECK 32: ALERT — 11 cron(s) at tier 1
+- Total lines: 115 (advisor) + 64 (auto-heal) = 179 lines
+
+**Anti-regression:** Next L-13x task should add a hook/check that catches "open('')" or empty-filename patterns in any new CHECK block. Could be a regex check in CHECK 27 itself.
+
+**Tied to:** L-128 (input data), L-119 (multi-vendor primary, the pattern), L-115/L-126 (string-quoting bug class), L-089 (same-turn recovery pattern), L-129 (pre-commit hook, but doesn't catch logic).

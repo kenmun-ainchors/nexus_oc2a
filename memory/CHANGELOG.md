@@ -11,6 +11,19 @@
 ---
 ---
 
+## 2026-06-15 12:47 AEST — [CHG-0572] Per-cron migration advisor (L-130, P2 #2) — systemizes L-119 manual multi-vendor pattern
+**Type:** script
+**Change Type:** Standard
+**Source:** incident-recovery
+**Trigger:** 2026-06-15 12:42 AEST Ken approved P2 #2 from followup list
+**What changed:** 2 files. NEW: scripts/cron-migration-advisor.sh (~115 lines, zsh) — reads L-128 data, computes migration score (40% cliff_risk + 30% model_load + 20% (1-criticality) + 10% rate_limited_streak), tier 1/2/3 classification, writes state/cron-migration-suggestions.json. EDIT: scripts/auto-heal.sh (+64 lines) — CHECK 32 with 6h cooldown, ALERTs at 5+ tier-1 candidates.
+**Why:** L-119 was a manual fix (moved TQP + Auto-Heal to kimi by hand). This systemizes future multi-vendor migrations by reading L-128 per-cron data and computing migration scores. Tier 1 (>=0.5) means migrate now, Tier 2 (0.3-0.5) monitor, Tier 3 (<0.3) keep. Criticality penalty ensures we don't migrate critical crons (TQP/Auto-Heal/sovereign-alert) unless last resort.
+**Verification:** First live fire at 12:46 AEST 2026-06-15. EVALUATED: 37 ollama/* crons. TIER_1: 11 (migrate now), TIER_2: 20 (monitor), TIER_3: 6 (keep). Top candidate: WO-002 Divergence Daily Check (score=0.608, deepseek-v4-pro → kimi). Other tier-1: yoda-context-brief-refresh, AInchors Daily Burn Alert, Shield, Lex. CHECK 32: ALERT — 11 cron(s) at tier 1. Auto-heal final: exit_status=complete_with_needs_ken, checks_count=43.
+**Rollback:** rm scripts/cron-migration-advisor.sh; git checkout scripts/auto-heal.sh
+**Linked:** L-130, L-128, L-119, L-115, L-126, L-089, TKT-CRON-MIGRATION-ADVISOR
+---
+
+
 ## 2026-06-15 12:42 AEST — [CHG-0571] Pre-commit bash -n hook (L-129) — prevents L-125-style syntax bugs at write time
 **Type:** script
 **Change Type:** Standard
