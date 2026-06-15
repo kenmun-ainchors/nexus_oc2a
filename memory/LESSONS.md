@@ -1499,3 +1499,17 @@ Wired into 3 EOD crons (Journal 4d926b2c, Blog a027fd60, Drive c5a3911d) as Step
 **Lesson:** When reconstructing history, resist the urge to fill the gap with plausible content. The gap itself is information. A "platform silent" day in the journal is a real record. A fabricated busy day would be a lie that compounds over time.
 
 **Anti-regression:** If a day is missing journal/blog in the future, default to post-mortem. Don't ask "what should I write?" — ask "what actually happened?" The answer is usually: nothing. That's the truth, and it's the right entry.
+
+## L-123 | 2026-06-15 | Process | TKT-0503 close: L-115 fix held, full payload worked
+
+**Severity: Low (P2 process verification).** TKT-0503 close required updating metadata with 3rd grooming_history entry. Per L-115 (db-ticket.sh update replace-not-merge, 06-13 14:32 incident), the update payload MUST include the FULL metadata block, never a subset.
+
+**Fix pattern (TKT-REC8):** Forge spawned, read TKT-0503 fully (7047 bytes), built the full update payload in python3 by reading JSON, modifying status + appending grooming entry + updating close_decision + adding closed_at, then sent the FULL JSON via `db-ticket.sh update TKT-0503 "$(cat update.json)"`. Removed read-only fields (id, created_at) per script's allowlist.
+
+**Verified:** TKT-0503 final state — status=closed, 3 grooming_history entries (was 2, now 3), 11 linked_lessons preserved, 7 atom_status preserved, 5 re_verify_findings preserved, closed_at=2026-06-15T11:38:00+10:00, notion_sync.status=synced.
+
+**Tied to:** L-115 (the bug this fix prevents), L-113 (evidence-only), SOUL.md #14 (evidence-only).
+
+**Lesson:** L-115 is a *behavior fix*, not just a code fix. Every close/update of a ticket with rich metadata must rebuild the full payload from a fresh read, never assume a partial payload will merge. The same discipline applies to any update via tools that use replace-not-merge (e.g., `git config --replace-all`, `jq '.field=new'` without preserving siblings).
+
+**Anti-regression:** When Yoda or Forge closes a ticket with >5 metadata fields, default to: read full ticket → python3 merge in-place → write full payload. Never `db-ticket.sh update TKT-XXXX '{"field": "new_value"}'` — that's the L-115 bug shape. Add a dispatch-validate.sh check that flags partial payload updates.

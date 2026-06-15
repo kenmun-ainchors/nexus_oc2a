@@ -11,6 +11,19 @@
 ---
 ---
 
+## 2026-06-15 11:44 AEST — [CHG-0565] TKT-0503 closed (Rec #8) — 7/7 atoms shipped, L-115 fix held
+**Type:** data
+**Change Type:** Standard
+**Source:** manual
+**Trigger:** 2026-06-15 11:35 AEST Ken approved Recommendation #8 from outage shakedown
+**What changed:** TKT-0503 (Obs.db noise reduction — 7 structural fixes) status: open → closed. Added 3rd grooming_history entry dated 2026-06-15T11:38:00+10:00 with close rationale. Updated close_decision field. Added closed_at timestamp. Preserved all 11 linked_lessons (L-092/093/094/095/096/098/099/100/113/114/115), 7 atom_status, 5 re_verify_findings. Notion DB synced (notionpageid=37ec1829-53ff-81e1-acd8-ce5d1f962b43).
+**Why:** TKT-0503 review window passed 14:17 AEST 06-14 (21h ago). 7/7 atoms shipped (A1-A7 per atom_status). Obs.db 24h count = 128 (target <100; 90 are catch-up backlog from outage recovery 06-15 00:23-01:34, not a regression; steady-state < 38). close_decision in metadata: 'Only then close via CREST Synthesize' — green light. CRITICAL: per L-115, update payload must include FULL metadata block (read fresh + python3 merge + write full), never partial payload. Forge followed the discipline — all 11 linked_lessons, atom_status, re_verify_findings preserved.
+**Verification:** TKT-0503 final state: status=closed, grooming_history=3, linked_lessons=11, atom_status=7, re_verify_findings=5, closed_at=2026-06-15T11:38:00+10:00, notion_sync.status=synced. db-ticket.sh validate: 104 open tickets pass, 0 failed. Independent Yoda verify: full read confirms all preserved fields.
+**Rollback:** bash scripts/db-ticket.sh update TKT-0503 with the before payload (status=open, 2 grooming_history entries)
+**Linked:** L-123, L-115, TKT-0503
+---
+
+
 ## 2026-06-15 11:36 AEST — [CHG-0564] Honest backfill of 06-14 journal + 06-13/14 blogs (L-122, Rec #7)
 **Type:** doc
 **Change Type:** Normal
