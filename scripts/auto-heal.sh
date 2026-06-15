@@ -2133,11 +2133,20 @@ NULL_OUT="$WORKSPACE/state/null-safe-json-findings.json"
 NULL_FINDINGS=0
 NULL_HIGH=0
 if [[ -x "$WORKSPACE/scripts/check-null-safe-json.sh" ]]; then
-  NULL_OUT_RAW=$(bash "$WORKSPACE/scripts/check-null-safe-json.sh" 2>&1)
-  NULL_EXIT=$?
-  NULL_FINDINGS=$(echo "$NULL_OUT_RAW" | grep -E "^NULL_SAFE_FINDINGS:" | awk "{print $2}" | head -1)
+  # `|| true` masks the exit code from `set -uo pipefail` + ERR trap (zsh behavior).
+  # The checker's own exit code is irrelevant — we read stdout and parse it.
+  NULL_OUT_RAW=$(bash "$WORKSPACE/scripts/check-null-safe-json.sh" 2>&1 || true)
+  # Parse findings + high count via python (avoids head/awk SIGPIPE with pipefail).
+  # Python prints all 3 values space-separated on one line, then IFS=' ' read splits them.
+  IFS=" " read -r NULL_FINDINGS NULL_HIGH NULL_MEDIUM < <(echo "$NULL_OUT_RAW" | python3 -c "
+import sys, re
+out = sys.stdin.read()
+findings = re.search(r'^NULL_SAFE_FINDINGS:\s*(\d+)', out, re.M)
+high = re.search(r'^HIGH:\s*(\d+)', out, re.M)
+medium = re.search(r'^MEDIUM:\s*(\d+)', out, re.M)
+print(findings.group(1) if findings else 0, high.group(1) if high else 0, medium.group(1) if medium else 0)
+")
   NULL_FINDINGS=${NULL_FINDINGS:-0}
-  NULL_HIGH=$(echo "$NULL_OUT_RAW" | grep -E "^HIGH:" | awk "{print $2}" | head -1)
   NULL_HIGH=${NULL_HIGH:-0}
   
   if [[ "$NULL_FINDINGS" -gt 0 ]]; then
@@ -2151,6 +2160,49 @@ if [[ -x "$WORKSPACE/scripts/check-null-safe-json.sh" ]]; then
   fi
 else
   log "CHECK 33: SKIP (check-null-safe-json.sh not found)"
+fi
+
+# ---------- CHECK 34: Cooldown-gating static check (L-137, anti-regression for L-136) ----------
+# Defense-in-depth against the L-136 bug class: catches SHOULD_FIRE[_NN]=false
+# patterns that are NOT followed by an if-block gating the side-effect call.
+# Without this check, L-136-style bugs ship silently — the script runs without
+# error and does the wrong thing (10 alerts in 45 min instead of 1 per 12h).
+# Sibling of CHECK 27 (L-091, syntax), CHECK 33 (L-132, null-safety), and
+# CHECK 34 (L-137, cooldown-gating). 24h cooldown — static analysis.
+log "CHECK 34: cooldown-gating static check (L-137, anti-regression for L-136)"
+CHECKS_RUN+=("cooldown_gating_static_check")
+
+GATE_OUT="$WORKSPACE/state/cooldown-gate-findings.json"
+GATE_FINDINGS=0
+GATE_HIGH=0
+if [[ -x "$WORKSPACE/scripts/check-cooldown-gate.sh" ]]; then
+  # `|| true` masks the exit code from `set -uo pipefail` + ERR trap (zsh behavior).
+  # The checker's own exit code is irrelevant — we read stdout and parse it.
+  GATE_OUT_RAW=$(bash "$WORKSPACE/scripts/check-cooldown-gate.sh" 2>&1 || true)
+  # Parse findings + high count via python (avoids head/awk SIGPIPE with pipefail).
+  # Python prints all 3 values space-separated on one line, then IFS=' ' read splits them.
+  IFS=" " read -r GATE_FINDINGS GATE_HIGH GATE_MEDIUM < <(echo "$GATE_OUT_RAW" | python3 -c "
+import sys, re
+out = sys.stdin.read()
+findings = re.search(r'^COOLDOWN_GATE_FINDINGS:\s*(\d+)', out, re.M)
+high = re.search(r'^HIGH:\s*(\d+)', out, re.M)
+medium = re.search(r'^MEDIUM:\s*(\d+)', out, re.M)
+print(findings.group(1) if findings else 0, high.group(1) if high else 0, medium.group(1) if medium else 0)
+")
+  GATE_FINDINGS=${GATE_FINDINGS:-0}
+  GATE_HIGH=${GATE_HIGH:-0}
+  
+  if [[ "$GATE_FINDINGS" -gt 0 ]]; then
+    log "CHECK 34: WARN — $GATE_FINDINGS cooldown-gating pattern(s) in scripts/, $GATE_HIGH high-severity (L-136 bug class)"
+    # Only NEEDS_KEN for high-severity (SHOULD_FIRE=false + ungated side-effect)
+    if [[ "$GATE_HIGH" -gt 0 ]]; then
+      NEEDS_KEN+=("Cooldown-gating: $GATE_HIGH high-severity SHOULD_FIRE=false with ungated side-effect call (L-136 bug class) — review state/cooldown-gate-findings.json")
+    fi
+  else
+    log "CHECK 34: PASS (0 cooldown-gating anti-patterns in scripts/)"
+  fi
+else
+  log "CHECK 34: SKIP (check-cooldown-gate.sh not found)"
 fi
 # ---------- CHECK 28d: Auto-archive untracked root .md files (TKT-0341) ----------
 # TKT-0341 contract: all .md in workspace root must be on the 8-allowlist

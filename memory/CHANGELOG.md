@@ -11,6 +11,19 @@
 ---
 ---
 
+## 2026-06-15 13:59 AEST — [CHG-0580] L-137 cooldown-gating anti-regression: check-cooldown-gate.sh + CHECK 34
+**Type:** script
+**Change Type:** Standard
+**Source:** manual
+**Trigger:** 2026-06-15 13:44 AEST Ken: 'yes, draft the anti-regression lesson. proceed' (L-137, anti-regression for L-136 cooldown bug)
+**What changed:** 3 files. NEW: scripts/check-cooldown-gate.sh (173 lines, bash) — static analyzer for L-136 bug class. Detects SHOULD_FIRE[_NN]=false patterns with ungated side-effect call within 30 lines. Python heredoc uses bracket-balanced parser to track if/fi blocks (handles if/else, elif, while, for, case/esac). Writes state/cooldown-gate-findings.json. EDIT: scripts/auto-heal.sh — added CHECK 34 (anti-regression for L-136). EDIT: scripts/check-null-safe-json.sh — split 'HIGH: N, MEDIUM: M' on one line to separate lines (avoids awk extracting 'N,' with comma). EDIT: scripts/auto-heal.sh — fixed CHECK 33 + CHECK 34 to use IFS=' ' read with python's space-separated print (avoids SIGPIPE + ERR trap on zsh). Added '|| true' to mask exit code from checkers (zsh pipefail propagates subshell exits). Fixed L-132 bug where awk was extracting '1,' from 'HIGH: 1, MEDIUM: 0' line.
+**Why:** L-136 (CHECK 30 cooldown bug, 10 alerts in 45 min) was the symptom. L-137 closes the loop with a static check that catches the pattern. Defense-in-depth: L-129 catches syntax, L-132 catches null-safety, L-137 catches cooldown-gating. Three patterns, three checkers, all run nightly + on commit (for L-129). The same-class bug (logic-quirk, runs-without-error, does-the-wrong-thing) is now structurally prevented.
+**Verification:** End-to-end test: (1) Add _test-buggy.sh with SHOULD_FIRE=false + ungated sovereign-alert call → CHECK 34 WARN with 1 high-severity finding, NEEDS_KEN entry populated, exit_status=complete_with_needs_ken. (2) Remove _test-buggy.sh → CHECK 34 PASS with 0 findings. (3) bash -n / zsh -n clean on all files. (4) Checker correctly does NOT flag the if/else pattern in CHECK 31/32 (where SHOULD_FIRE_31=true / SHOULD_FIRE_32=true is checked with '!= true' before the side effect). False-positive rate: 0/4 in the live code.
+**Rollback:** rm scripts/check-cooldown-gate.sh; git checkout scripts/auto-heal.sh scripts/check-null-safe-json.sh
+**Linked:** L-137, L-136, L-132, L-129, L-130, L-126, L-113, TKT-COOLDOWN-GATE-ANTI-REGRESSION
+---
+
+
 ## 2026-06-15 13:39 AEST — [CHG-0579] CHECK 30 cooldown bug fix (L-136) — alerts no longer spam 10x/45min
 **Type:** script
 **Change Type:** Standard

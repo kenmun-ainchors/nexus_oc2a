@@ -103,7 +103,8 @@ output = {
 with open(output_path, 'w') as f:
     json.dump(output, f, indent=2)
 print("NULL_SAFE_FINDINGS: {}".format(len(findings)))
-print("HIGH: {}, MEDIUM: {}".format(output['summary']['high_severity'], output['summary']['medium_severity']))
+print("HIGH: {}".format(output['summary']['high_severity']))
+print("MEDIUM: {}".format(output['summary']['medium_severity']))
 for ff in findings[:10]:
     print("  {}:{} var={} key={} default={} severity={}".format(
         ff['script'], ff['line'], ff.get('var_name','?'), ff['key'], ff['default'], ff['severity']))

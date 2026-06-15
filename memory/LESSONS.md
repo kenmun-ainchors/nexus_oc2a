@@ -1884,3 +1884,57 @@ Evidence: state/sovereign-alert.log shows 10 QUOTA-CANARY dispatches between 12:
 **Anti-regression:** Could add a static check that greps for `SHOULD_FIRE=false` followed by a sovereign-alert call within 30 lines. Not done in this turn (out of scope), but candidate for L-13x.
 
 **Tied to:** L-099 (cooldown discipline), L-118 (CHECK 30 original ship), L-113 (L-113 evidence-only verify), L-129 (pre-commit syntax check), L-132 (null-safety check — neither caught this).
+
+## L-137 | 2026-06-15 | Infra | Anti-regression: cooldown-gating static check (CHECK 34)
+
+**Severity: Process / design lesson (no bug shipped today — applies to future work).** L-136 (CHECK 30 cooldown bug, 10 alerts in 45 min) was the symptom. The pattern: `SHOULD_FIRE=false` is set, but the alert/side-effect call is **not gated** by an `if [[ "$SHOULD_FIRE" == "true" ]]` block — the script falls through and fires anyway. The colon `:` placeholder no-op was the smoking gun.
+
+**Why a static check (not just a code review lesson):**
+- L-126 / L-130 / L-136 are all the same shape: a bug class that runs without error and does the wrong thing.
+- L-129 (pre-commit hook) catches **syntax** — doesn't catch this.
+- L-132 (null-safe JSON checker) catches **null-handling** — doesn't catch this.
+- L-113 (evidence-only verify) catches it **IF Yoda runs the script end-to-end** — but Yoda is the orchestrator, not the executor. When the executor is a flash subagent that ships the code and the orchestrator only reads the diff, the pattern slips through.
+- The structural right answer: a static checker that **catches the anti-pattern at commit time**, so neither Yoda nor the subagent has to remember to do it.
+
+**Pattern signature (the "shape" of the bug):**
+```bash
+SHOULD_FIRE=false       # or SHOULD_FIRE_NN=false, should_fire=false, etc.
+# ... 0-30 lines later ...
+bash "sovereign-alert.sh" --source X --message Y    # NOT inside if SHOULD_FIRE
+```
+
+**Pattern anti-signature (the "safe" shape, from CHECK 29 / 31 / 32):**
+```bash
+SHOULD_FIRE=false
+if [[ "$SHOULD_FIRE" == "true" ]]; then    # or != "true", or -eq 1
+  bash "sovereign-alert.sh" --source X --message Y
+fi
+```
+
+**Design of the static checker (scripts/check-cooldown-gate.sh):**
+- Greps all *.sh in scripts/ for: `SHOULD_FIRE[_A-Z0-9]*=(true|false)` or `should_fire[_a-z0-9]*=(true|false)`
+- For each match, looks at the next 30 lines
+- Counts how many `if [[ ... SHOULD_FIRE ... (true|1) ]]` (or `if [[ ... SHOULD_FIRE ... == true ]]`) blocks span the alert call
+- Counts the side-effect calls (sovereign-alert.sh, telegram-alert.sh, openclaw cron edit/rm/add, write to state/*-last-fire.json)
+- Reports findings where: SHOULD_FIRE is set to false anywhere, AND a side-effect call appears in the next 30 lines that is NOT inside an if-gate for that SHOULD_FIRE variable
+- Output: state/cooldown-gate-findings.json (schemaVersion 1)
+- Exit 0 if 0 findings, 1 if any
+
+**Why Python parser, not pure grep:** Comments can match `SHOULD_FIRE` in plain regex. A real `if [[ $SHOULD_FIRE == "true" ]]` test could be on a different variable name (`SHOULD_FIRE_31` vs `SHOULD_FIRE_32`) and a naive grep would conflate them. Python AST-style tracking of `if` blocks is the only way to be reliable.
+
+**Wired as CHECK 34 in auto-heal.sh:**
+- 24h cooldown (static analysis, not state-driven)
+- Cooldown file: state/check34-last-fire.json
+- Log: "CHECK 34: PASS (N cooldown-gated blocks verified)" or "CHECK 34: WARN — N ungated side-effect(s) after SHOULD_FIRE=false"
+- Findings → NEEDS_KEN if any (high severity)
+
+**Defense-in-depth stack (5 layers now, +1 with L-137):**
+1. L-129 pre-commit hook — syntax at write time
+2. CHECK 27 (L-091) — syntax in nightly audit
+3. CHECK 33 (L-132) — null-safety in nightly audit
+4. **CHECK 34 (L-137) — cooldown-gating in nightly audit** ← NEW
+5. The pattern fix itself (gating if-block)
+
+**Why this is the right lesson to log NOW:** Today I logged 21 lessons. The fatigue of "yet another bug class" is real. Future-Yoda reading LESSONS.md needs to see that **logging the lesson is half the work — the structural anti-regression is the other half**. L-137 closes the loop on L-136 by saying: "this is the pattern, this is the static check that catches it, this is the position in the defense stack."
+
+**Tied to:** L-136 (the bug that triggered this), L-126 (CHECK 28c crash — same "logic quirk" shape), L-130 (CHECK 32 quoting bug — same "logic quirk" shape), L-113 (evidence-only verify), L-129 (pre-commit hook), L-132 (null-safety checker), L-099 (cooldown discipline), L-088+ (silence-failure family).
