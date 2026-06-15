@@ -71,79 +71,17 @@ Capture what matters. Decisions, context, things to remember. Skip the secrets u
 
 Full rule: `RULES.md` → LESSONS REGISTRY RULE.
 
-## Platform Rules — ALL NON-NEGOTIABLE
+## Platform Rules — Summary (full text in RULES.md)
 
-⚠️ The following rules are mandatory for ALL agents on ALL models. They are summarized here for quick reference — full details, CHG references, and rollback procedures are in `RULES.md`.
+All platform rules: see `RULES.md` for full text + CHG references + rollback procedures. Quick-reference: rules belong in RULES.md; this file is summary + conventions + workspace structure. CHANGELOG.md is the authoritative source of record for what rules have changed.
 
-| Rule | Source | Summary |
-|------|--------|---------|
-| OWL Execution Contract | TKT-0228 | Plan→Breakdown→Sequence→Execute→Verify. One atom per cycle. |
-| TQP Execution Gate | TKT-0309 | Persist state to PG before announcing completion. |
-| KIMI Atomic Task | RULES.md | See skill at `infra/sandbox/seed/skills/model-routing/SKILL.md`. One atom/turn, verify each, HITL for risky. |
-| Conservative Mode | RULES.md | See skill at `infra/sandbox/seed/skills/model-routing/SKILL.md`. No risky state changes without Ken approval. |
-| Routing Discipline | RULES.md | Yoda orchestrates. Never execute specialist work directly. |
-| Strategy-Gate | RULES.md | Block on DRAFT FOR REVIEW or open DEC decisions. |
-| Ticket Discipline | RULES.md | All work needs TKT. ticket.sh only. Never write tickets.json. |
-| Absolute File Path | RULES.md | Never ~ in tool calls. Always absolute /Users/... paths. |
-| Telegram Chunking | RULES.md | Split > 3,800 chars. See `infra/sandbox/seed/skills/telegram/SKILL.md`. |
-| Async Background | RULES.md | Tasks > 30s → sessions_spawn. Never block webchat. |
-| CREST Execution Loop | RULES.md | Plan→Execute→Verify→Replan→Synthesize→Done. Strong-tier plans/judges, cheap-tier executes. TQP-queued atoms. Gap→iterate(n++). Parent ticket close BLOCKED unless crest-done-gate.sh passes. |
-| MinIO URL | RULES.md | Always Tailscale FQDN for MinIO URLs. |
-| Holocron Registry | RULES.md | All docs registered in Holocron as part of DoD. |
-| Canvas Embed | — | No [embed] tags. Full local path only for Ken. |
-| Exec Binary Paths | — | Always /opt/homebrew/bin/ for brew tools. |
-| Ticket Body Mandate | L-047 | Every ticket MUST have description, not just title. |
-| Fold SOP | RULES.md | 5-gate fold: extract→migrate→update→close→sync. Scope must be preserved in parent. |
-| Lessons Registry | — | Search LESSONS.md before work. Log lesson immediately after. |
-| PG Sprint-Backlog Skill | — | Load skill at `infra/sandbox/seed/skills/pg-sprint-backlog/SKILL.md` for TKT/sprint ops. |
-| Skill-Gate Enforcement | TKT-0396 | Domain scripts BLOCK if required skill not loaded. Run `bash scripts/skill-load.sh <name>` after reading each skill. Registry: `state/skill-load-registry.json`. |
+## 3 Strikes Principle — Summary (TKT-0401, CHG-0503; full text in RULES.md)
 
-**When in doubt:** `RULES.md` is the authoritative source. These summaries are non-binding quick-ref.
+**Strike-1** plan before execute (CREST Plan gate). **Strike-2** flash by default, pro only when flagged (model-task matrix TKT-0322). **Strike-3** check LESSONS.md before acting (`scripts/lessons-staleness-check.sh`).
 
-## 3 Strikes Principle — CREST Phase Enforcement (TKT-0401, CHG-0503)
+## Dispatch Rules — Summary (TKT-0321; full text in RULES.md §Dispatch)
 
-The 3 Strikes Principle (codified 2026-06-11, RULES.md §0.3) maps onto the CREST Execution Loop as structural enforcement, not a separate process. Each strike is gated by an existing CREST phase check.
-
-- **Strike-1 — Don't waste Ken's time** (plan before execute) = **CREST Plan gate**. Dispatch manifests must declare the Plan atom; `dispatch-validate.sh` rejects ambiguous dispatches. (L-066/067, skill-gate structural form.)
-- **Strike-2 — Don't waste Ken's money** (flash by default, pro only when flagged) = **CREST Phase model map** (TKT-0322). Execute atoms blocked unless model tier is `flash` or explicitly Ken-flagged for `pro`. (CHG-0500.)
-- **Strike-3 — Don't repeat mistakes** (check LESSONS.md before acting) = **CREST Verify phase memory check**. `scripts/lessons-staleness-check.sh` (this ticket) detects stale LESSONS.md and emits PASS/WARN/ALERT/CRITICAL; `scripts/lessons-staleness-wrapper.sh` writes findings to `state/warden-findings.jsonl` for Warden pickup.
-
-Run before any implementation: `bash scripts/lessons-staleness-check.sh`. Threshold: ≤7d PASS, ≤14d WARN, ≤30d ALERT, >30d CRITICAL, missing file exit 4.
-
-## Dispatch Rules — NON-NEGOTIABLE (TKT-0321, ratified 2026-05-27)
-
-### The 2-Pass Contract
-
-**"No executor receives undiscovered work."**
-
-All agent-to-agent dispatches follow a 2-pass pattern:
-
-1. **Pass 1 (Discovery):** The orchestrator analyzes the task, breaks it into concrete atoms, maps dependencies, assigns models per TKT-0322 matrix. No execution.
-2. **Pass 2 (Execution):** The specialist receives pre-discovered atoms and executes them via RVEV (READ → VALIDATE → EXECUTE → VERIFY). No discovery.
-
-**If you are an orchestrator dispatching work:** Complete Pass 1 fully before dispatching. Ambiguous atoms will be rejected by `dispatch-validate.sh` (TKT-0323).
-
-**If you are an executor receiving work:** If the dispatch is ambiguous or requires discovery, REJECT IT. Demand a proper Pass 1 breakdown.
-
-### RVEV Cycle
-
-Every atom execution follows: **READ → VALIDATE → EXECUTE → VERIFY**
-
-- **READ:** Load the atom and its target
-- **VALIDATE:** Check pre-conditions
-- **EXECUTE:** Perform the verb
-- **VERIFY:** Confirm post-conditions
-
-Report per-atom RVEV traces. Partial execution is not permitted.
-
-### Dispatch Boundaries
-
-- When dispatching to another agent, complete discovery (Pass 1) first
-- When receiving a dispatch, execute only (Pass 2) — no discovery
-- Cross-agent dispatches MUST pass `dispatch-validate.sh` (TKT-0323)
-- **Review dispatch (TKT-0403):** NO `cp -r` of working copy. Each review runs against FRESH `git fetch/clone` at exact SHA with verified manifest. Missing `review_sha` → BLOCKED by dispatch-validate.
-- **Skill Loading (TKT-0396):** Before executing any domain operation, load the corresponding skill and register it: `bash scripts/skill-load.sh <skill-name>`. Domain scripts are gated — they BLOCK if the required skill is not in the session's load registry. Skills vs domains: pg-sprint-backlog → db-ticket.sh/db-sprint.sh/pg-to-notion-sync.sh, changelog → changelog-append.sh, telegram → telegram-alert.sh, model-routing → dispatch decisions.
-- Violations are logged, alerted, and escalate per enforcement policy
+**2-Pass Contract:** orchestrator plans (Pass 1), executor executes (Pass 2). `dispatch-validate.sh` (TKT-0323) rejects ambiguous dispatches. **RVEV:** READ → VALIDATE → EXECUTE → VERIFY per atom. **Skill-Gate (TKT-0396):** load skill via `bash scripts/skill-load.sh <name>` before domain scripts. **Review (TKT-0403):** NO `cp -r` of working copy; fresh `git fetch/clone` at exact SHA.
 
 ## 💓 Heartbeats
 
@@ -177,10 +115,6 @@ Every .md file in workspace root has a registered purpose contract at `state/fil
 
 **Root files allowed (8):** SOUL.md, AGENTS.md, MEMORY.md, HEARTBEAT.md, USER.md, IDENTITY.md, TOOLS.md, RULES.md (reference only, not injected).
 
-## Interim Rule — CONSERVATIVE MODE
-**Trigger:** Claude API credits depleted. All agents on kimi/gemma4/deepseek-pro.
-**Rule: NO RISKY STATE MANIPULATION without explicit Ken approval.**
+## KIMI Atomic Task Rule — Summary (full text in RULES.md §KIMI)
 
-## KIMI ATOMIC TASK RULE — NON-NEGOTIABLE
-
-kimi = ONE ATOM PER TURN + VERIFY EACH STEP + HITL for risky (close/delete/cron/model/bulk/Done). Full rule with examples in `RULES.md`.
+kimi = ONE ATOM PER TURN + VERIFY EACH STEP + HITL for risky ops (close/delete/cron/model/bulk/Done). Conservative Mode decommissioned 2026-06-12 08:02 AEST by CHG-0500 (CREST v1.3 + TKT-0368 risk framework).

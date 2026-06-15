@@ -1456,3 +1456,26 @@ Wired into 3 EOD crons (Journal 4d926b2c, Blog a027fd60, Drive c5a3911d) as Step
 **Lesson:** Finalizers must assert state health before declaring success. A green journal entry should mean the system is healthy, not just that the journal script ran. The block file pattern (state/eod-blocked-{date}.json) is a clean way to chain 3 separate crons: producer (Journal) writes the block, consumers (Blog, Drive) read it.
 
 **Anti-regression:** If a critical cron is moved or renamed, the CRITICAL_CRONS_ALIVE check will silently skip. Add a comment in the script listing the cron IDs and a test for "all 3 cron IDs exist before checking state". Followup: TKT-XXXX — auto-create the cron ID list at script startup by querying a tag/label.
+
+## L-121 | 2026-06-15 | Infra | AGENTS.md trim: 12,252 → 7,351 chars (40% reduction)
+
+**Severity: Low (P2 file hygiene).** AGENTS.md breached HARD LIMIT 12,000 per TKT-0310 file-size-guard. Auto-heal CHECK 15 would flag it. Injected files over the limit cost session context bloat.
+
+**Fix pattern (TKT-REC6):** Compressed 4 heavy rule sections to 1-line summaries pointing to RULES.md:
+- Platform Rules table (28 lines, ~2500 chars) → 3-line summary
+- 3 Strikes Principle (9 lines, ~700 chars) → 3-line summary
+- Dispatch Rules (35 lines, ~2500 chars) → 4-line summary
+- Interim Rule + KIMI (6 lines, ~500 chars) → merged 3-line KIMI summary
+
+**Verified (real file edit, 11:25 AEST 2026-06-15):**
+- BEFORE: 12,252 chars (BREACHING 12,000 hard limit)
+- AFTER: 7,351 chars (well under 11,500 target, 4,901 char reduction = 40%)
+- 13 ## section headers preserved (1 fewer than before due to Interim/KIMI merge — both kept in KIMI summary)
+- 9 RULES.md references in the new file (preserved discoverability)
+- All 14 key terms still present: 2-Pass Contract, RVEV, CREST, Plan gate, Strike-1/2/3, KIMI, Conservative Mode, CHG-0500, TKT-0396, dispatch-validate, CHANGELOG.md, file-size-guard
+
+**Tied to:** TKT-0310 (file-size-guard), TKT-0341 (workspace file contracts), MEMORY.md trim EOD sections pattern. The contract is: "AGENTS.md = summary + conventions + workspace structure. Details → RULES.md." This trim is the first application of that contract since TKT-0341 was ratified.
+
+**Lesson:** When a workspace file breaches its hard limit, the right move is progressive disclosure: keep the rule names in the high-traffic file (AGENTS.md, injected), relocate the full text to the reference file (RULES.md, on-demand). Same content, two different access patterns. Skills already follow this pattern (SKILL.md files are progressive-disclosure from MEMORY.md/AGENTS.md).
+
+**Anti-regression:** file-size-guard.sh should be re-run nightly and alert Ken if AGENTS.md approaches 11,000 (1,000-char buffer). Currently CHECK 15 is daily; the threshold should be tightened. Followup: TKT-XXXX — adjust file-size-guard warning threshold.

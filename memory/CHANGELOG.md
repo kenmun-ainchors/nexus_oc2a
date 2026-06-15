@@ -11,6 +11,19 @@
 ---
 ---
 
+## 2026-06-15 11:27 AEST — [CHG-0563] AGENTS.md trim (L-121, Rec #6) — 12,252 → 7,351 chars
+**Type:** doc
+**Change Type:** Standard
+**Source:** manual
+**Trigger:** 2026-06-15 11:25 AEST Ken approved Recommendation #6 from outage shakedown
+**What changed:** AGENTS.md — 4 heavy rule sections (Platform Rules, 3 Strikes, Dispatch Rules, Interim/KIMI) compressed to 1-line summaries pointing to RULES.md. Total: 4,901 char reduction (40%). No content lost; full text remains in RULES.md as on-demand reference.
+**Why:** AGENTS.md breached HARD LIMIT 12,000 chars per TKT-0310. File-size-guard CHECK 15 would flag it. Injected files over the limit cause session context bloat. Per file-contract.json rule: 'AGENTS.md = summary + conventions + workspace structure. Details → RULES.md.' Compressed 4 sections to 1-line summaries pointing to RULES.md (reference-only, on-demand read). RULES.md is reference-only, not injected, so no session context bloat.
+**Verification:** BEFORE: 12,252 chars (BREACHING 12,000 hard limit). AFTER: 7,351 chars (4,901 char reduction, 40%). 13 ## section headers preserved. 9 RULES.md references in the new file. All 14 key terms (2-Pass Contract, RVEV, CREST, Strike-1/2/3, KIMI, CHG-0500, TKT-0396, etc.) still present. Independent Yoda verify: grep + wc -c both confirm.
+**Rollback:** git checkout AGENTS.md to prior commit
+**Linked:** L-121, TKT-0310, TKT-0341, TKT-REC6
+---
+
+
 ## 2026-06-15 11:21 AEST — [CHG-0562] EOD health-assert gate (L-120, Rec #5) — block EOD on degraded state
 **Type:** script
 **Change Type:** Normal
