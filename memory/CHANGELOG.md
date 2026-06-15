@@ -11,6 +11,19 @@
 ---
 ---
 
+## 2026-06-15 12:31 AEST — [CHG-0570] Per-cron Ollama-quota tracking (Rec #1, L-128) — biggest remaining fix
+**Type:** script
+**Change Type:** Standard
+**Source:** incident-recovery
+**Trigger:** 2026-06-15 12:24 AEST Ken approved Rec #1 from outage shakedown
+**What changed:** scripts/ollama-quota-track.sh (NEW, 152 lines) + scripts/auto-heal.sh (+69 lines for CHECK 31). New auto-heal CHECK 31 calls ollama-quota-track.sh with 6h cooldown. Output: state/cron-ollama-usage.json with per_cron dict (37 crons) + summary (rate_limited/warning/critical counts, top consumers list). Pairs with CHECK 30 (L-118) for full predictive power: aggregate + per-cron attribution.
+**Why:** CHECK 30 (L-118) tracks aggregate ollama/* rate-limiting but not per-cron attribution. We knew 18 crons rate-limited but not which models / which crons were biggest offenders. This made it impossible to: (a) predict the cliff with precision, (b) prioritize multi-vendor migration, (c) recommend which crons are SAFE to shed. Rec #1 fix: add per-cron attribution with cliff risk score. Closes the biggest remaining gap in outage prevention. M effort.
+**Verification:** Real zsh run at 12:31 AEST 2026-06-15: 37 ollama/* crons tracked, 18 rate-limited, 1 warning, 0 critical. Top consumer: 'AInchors Monthly Model Strategy Review' (gemma4, 252588 tok/wk, risk=0.125). CHECK 31 status: WARN — 1 cron(s) at warning cliff risk (>=0.4). Final exit_status: complete_with_needs_ken. checks_count: 42 (was 41, +1 for CHECK 31). bash -n clean on both files. Discovered 1 live warning — system working as designed.
+**Rollback:** rm scripts/ollama-quota-track.sh; git checkout scripts/auto-heal.sh
+**Linked:** L-128, L-118, L-119, L-116, TKT-REC-1, Rec #1
+---
+
+
 ## 2026-06-15 12:15 AEST — [CHG-0569] auto-heal.sh: final write_state at script end (L-127 followup) — report now reflects completed runs
 **Type:** script
 **Change Type:** Standard

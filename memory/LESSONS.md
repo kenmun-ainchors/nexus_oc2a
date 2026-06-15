@@ -1610,3 +1610,37 @@ Mirrors the same pattern at line 869 (CHECK 21 file-size-guard). XS effort.
 **Anti-regression:** Add a structural rule: every long-running script that writes a state file should have a final write_state at the END. The pattern is `if/then/else/fi` with `complete` or `complete_with_needs_ken`. Add to RULES.md under "Script Hygiene".
 
 **Tied to:** the broader silence-failure family — 18th member. The original bug (in-progress state, stale report) was a *visibility* failure: the script worked, the report didn't reflect it. The fix makes the report match reality.
+
+## L-128 | 2026-06-15 | Infra | Per-cron Ollama-quota tracking (Rec #1) — biggest remaining fix
+
+**Severity: High (P1 outage prevention).** CHECK 30 (L-118) tracks AGGREGATE ollama/* rate-limiting but not per-cron attribution. We knew "18 crons rate-limited" but not which models / which crons were biggest offenders, and couldn't predict the cliff with precision.
+
+**Fix:** New script `scripts/ollama-quota-track.sh` (152 lines, zsh) computes per-cron estimated weekly token usage + cliff risk score. New auto-heal CHECK 31 (~69 lines added) calls it with 6h cooldown. Output: `state/cron-ollama-usage.json` with 37 ollama/* crons tracked, summary with rate_limited/warning/critical counts, top consumers list.
+
+**Cliff risk score (0-1):**
+- 50% weight: rate-limit hits (consecutive_errors / 5, capped at 1)
+- 50% weight: estimated % of weekly cap per cron (week_estimated / 5M tokens)
+- Status: 0.7+ = critical, 0.4-0.7 = warning, <0.4 = safe
+
+**Verified (zsh run, 12:31 AEST 2026-06-15):**
+- 37 ollama/* crons tracked
+- 18 rate-limited, 1 warning, 0 critical
+- Top consumer: "AInchors Monthly Model Strategy Review" (gemma4, 252,588 tok/wk, risk=0.125, status=safe — no errors)
+- CHECK 31 status: WARN — 1 cron(s) at warning cliff risk
+- Final exit_status: complete_with_needs_ken
+- checks_count: 42 (was 41, +1 for CHECK 31)
+- bash -n clean on both files
+- Total: 221 lines (152 script + 69 auto-heal.sh)
+
+**Discovered finding (live):** 1 cron at warning cliff risk. The system worked as designed — found the warning, logged it, added to NEEDS_KEN. This is the first time the new CHECK 31 has fired.
+
+**Pairs with CHECK 30 (L-118, aggregate) for full predictive power:**
+- CHECK 30 = "are crons rate-limited right now?" (reactive, aggregate)
+- CHECK 31 = "which crons are heading toward the cliff?" (predictive, per-cron)
+- Together: 24-72h canary at cron level
+
+**Lesson:** Per-cron attribution is the difference between "something is wrong" and "this specific thing is wrong". Aggregate alerting is good for dashboard visibility; per-cron alerting is good for action. Apply this pattern to other aggregate canaries: model health, disk usage, network latency. The cliff risk formula (50% hits + 50% usage%) is generic — adapt for other resources.
+
+**Anti-regression:** Add a structural rule: any aggregate canary (CHECK 29, CHECK 30, future checks) should have a per-resource-attribution companion. The cliff prediction becomes more accurate as attribution granularity increases. Rec #1 = CHECK 31 = per-cron attribution companion to CHECK 30's aggregate.
+
+**Tied to:** L-118 (CHECK 30 aggregate), L-119 (multi-vendor primary — CHECK 31 will tell us which crons to migrate first), L-116 (CHECK 29 reactive). All 4 layers of outage prevention now in place.

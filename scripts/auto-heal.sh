@@ -1980,6 +1980,75 @@ json.dump({'ts': ts, 'count': $C30_COUNT, 'crons': crons}, open('$CHECK30_LAST_F
 "
 
 log "CHECK 30: ESCALATED ${C30_COUNT} rate-limited cron(s) via sovereign-alert (canary fired)"
+# ---------- CHECK 31: Per-cron Ollama quota tracking (L-128, Rec #1) ----------
+# Pairs with CHECK 30 (aggregate) for full predictive power: per-cron attribution
+# + cliff risk score. Computes estimated weekly token usage per cron, identifies
+# top consumers, flags critical/warning crons. Used by multi-vendor auto-suggest
+# and shed recommendations. 6h cooldown.
+log "CHECK 31: per-cron ollama quota tracking (L-128)"
+CHECKS_RUN+=("per_cron_ollama_quota")
+
+QUOTA_TRACK_OUT="$WORKSPACE/state/cron-ollama-usage.json"
+CHECK31_LAST_FIRE="$WORKSPACE/state/check31-last-fire.json"
+CHECK31_COOLDOWN_S=21600  # 6h
+
+# Cooldown check
+SHOULD_FIRE_31=true
+if [[ -f "$CHECK31_LAST_FIRE" ]]; then
+  LAST_FIRE_TS_31=$(python3 -c "import json,sys; print(json.load(open(sys.argv[1])).get('ts',''))" "$CHECK31_LAST_FIRE" 2>/dev/null || echo "")
+  if [[ -n "$LAST_FIRE_TS_31" ]]; then
+    LAST_FIRE_EPOCH_31=$(date -j -f "%Y-%m-%dT%H:%M:%S" "$LAST_FIRE_TS_31" "+%s" 2>/dev/null || echo 0)
+    NOW_EPOCH_31=$(date "+%s")
+    if (( NOW_EPOCH_31 - LAST_FIRE_EPOCH_31 < CHECK31_COOLDOWN_S )); then
+      SHOULD_FIRE_31=false
+    fi
+  fi
+fi
+
+if [[ "$SHOULD_FIRE_31" != "true" ]]; then
+  log "CHECK 31: SKIP (cooldown active, last fire <6h ago)"
+  :  # script continues (matches CHECK 30 SKIP pattern)
+else
+  if [[ -x "$WORKSPACE/scripts/ollama-quota-track.sh" ]]; then
+    TRACK_OUT=$(bash "$WORKSPACE/scripts/ollama-quota-track.sh" 2>&1)
+    TRACK_EXIT=$?
+    if [[ $TRACK_EXIT -eq 0 ]]; then
+      # Parse summary
+      TRACK_STATS=$(echo "$TRACK_OUT" | grep -E "^(TRACKED|RATE_LIMITED|WARNING|CRITICAL|TOP_CONSUMER):" || echo "")
+      if [[ -n "$TRACK_STATS" ]]; then
+        log "CHECK 31: $TRACK_STATS"
+      fi
+      
+      # If state file exists, get critical count
+      if [[ -f "$QUOTA_TRACK_OUT" ]]; then
+        C31_CRITICAL=$(python3 -c "import json; d=json.load(open('$QUOTA_TRACK_OUT')); print(d.get('summary', {}).get('critical', 0))" 2>/dev/null || echo 0)
+        C31_WARNING=$(python3 -c "import json; d=json.load(open('$QUOTA_TRACK_OUT')); print(d.get('summary', {}).get('warning', 0))" 2>/dev/null || echo 0)
+        C31_RATE_LIMITED=$(python3 -c "import json; d=json.load(open('$QUOTA_TRACK_OUT')); print(d.get('summary', {}).get('rate_limited', 0))" 2>/dev/null || echo 0)
+        
+        if [[ "$C31_CRITICAL" -gt 0 ]]; then
+          log "CHECK 31: ALERT — ${C31_CRITICAL} cron(s) at critical cliff risk (>=0.7)"
+          NEEDS_KEN+=("Per-cron quota: ${C31_CRITICAL} cron(s) at critical cliff risk — review state/cron-ollama-usage.json top_consumers")
+        elif [[ "$C31_WARNING" -gt 0 ]]; then
+          log "CHECK 31: WARN — ${C31_WARNING} cron(s) at warning cliff risk (>=0.4)"
+        else
+          log "CHECK 31: PASS (no per-cron cliff risk detected)"
+        fi
+      fi
+      
+      # Update last fire
+      python3 -c "
+import json, datetime
+ts = datetime.datetime.now().strftime('%Y-%m-%dT%H:%M:%S')
+json.dump({'ts': ts, 'critical': $C31_CRITICAL, 'warning': $C31_WARNING, 'rate_limited': $C31_RATE_LIMITED}, open('$CHECK31_LAST_FIRE', 'w'), indent=2)
+" 2>/dev/null
+    else
+      log "CHECK 31: WARN — ollama-quota-track.sh exited non-zero: $TRACK_OUT"
+    fi
+  else
+    log "CHECK 31: SKIP (ollama-quota-track.sh not found at $WORKSPACE/scripts/)"
+  fi
+fi
+
 # ---------- CHECK 28d: Auto-archive untracked root .md files (TKT-0341) ----------
 # TKT-0341 contract: all .md in workspace root must be on the 8-allowlist
 # (SOUL/AGENTS/MEMORY/HEARTBEAT/USER/IDENTITY/TOOLS/RULES). This check auto-archives
