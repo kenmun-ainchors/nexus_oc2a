@@ -1618,6 +1618,7 @@ if [[ -f "$L090_FINDINGS" ]]; then
 fi
 
 # ---------- CHECK 27: crest-done-gate.sh Syntax Validation (L-091) ----------
+# Pairs with scripts/hooks/pre-commit-bash-n.sh (L-129) for defense-in-depth (catches at write time, CHECK 27 catches in nightly audit).
 # Detects L-091-style pre-existing syntax errors in CREST infrastructure scripts.
 # L-091: crest-done-gate.sh had a stray double-quote on line 22 since 2026-06-11,
 # silently broken for 2 days because nothing actually exercised the full gate path.
@@ -1648,6 +1649,11 @@ for script_path in "${CREST_SCRIPTS[@]}"; do
   fi
 done
 
+# Defense-in-depth: ensure pre-commit hook is installed (L-129)
+if [[ ! -L "$WORKSPACE/.git/hooks/pre-commit" ]] && [[ ! -f "$WORKSPACE/.git/hooks/pre-commit" ]]; then
+  log "  WARN: pre-commit hook not installed, running installer (L-129)"
+  bash "$WORKSPACE/scripts/install-pre-commit-hooks.sh" 2>&1 | while read -r line; do log "    $line"; done
+fi
 python3 <<PYEOF
 import json
 from pathlib import Path

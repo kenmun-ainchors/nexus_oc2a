@@ -1644,3 +1644,28 @@ Mirrors the same pattern at line 869 (CHECK 21 file-size-guard). XS effort.
 **Anti-regression:** Add a structural rule: any aggregate canary (CHECK 29, CHECK 30, future checks) should have a per-resource-attribution companion. The cliff prediction becomes more accurate as attribution granularity increases. Rec #1 = CHECK 31 = per-cron attribution companion to CHECK 30's aggregate.
 
 **Tied to:** L-118 (CHECK 30 aggregate), L-119 (multi-vendor primary — CHECK 31 will tell us which crons to migrate first), L-116 (CHECK 29 reactive). All 4 layers of outage prevention now in place.
+
+## L-129 | 2026-06-15 | Infra | Pre-commit bash -n hook (P2 #1)
+
+**Severity: Low (P2 hygiene), high leverage.** L-125 (1-char syntax error in aria-crest-check.sh) shipped to production because there was no pre-commit syntax check. Recurrence prevention: a git pre-commit hook that runs `bash -n` on every staged `.sh` file. Pairs with CHECK 27 (L-091, nightly audit) for defense-in-depth.
+
+**Files:**
+- `scripts/hooks/pre-commit` (60 lines) — runs bash -n on staged .sh files, blocks on syntax error
+- `scripts/install-pre-commit-hooks.sh` (44 lines) — one-time installer, symlinks into `.git/hooks/`, with safety guard for non-symlink existing files
+- `scripts/auto-heal.sh` (+6 lines) — CHECK 27 header + defense-in-depth installer call (re-runs installer if hook missing)
+
+**Verified (12:41 AEST 2026-06-15):**
+- Positive test (valid .sh): hook exit 0, "bash -n: 1 file(s) checked, OK"
+- Negative test (`echo ((`): hook exit 1, "PRE-COMMIT BLOCKED: bash syntax error" + clear error message
+- bash -n clean on all 3 files
+- Symlink: `.git/hooks/pre-commit -> ../../scripts/hooks/pre-commit`
+- Submodule filter: skips thrawn/, forge/, atlas/, spark/, infra/, gitlab/
+- AUTOGEN skip: checks first 5 lines for `AUTOGEN` or `AUTO-GENERATED` markers
+
+**Bug caught & fixed during testing (Forge):** Original hook had `set -e` causing silent abort on `BASH_N_OUT=$(bash -n "$f" 2>&1)` when bash -n failed. Subagent caught this and removed the `set -e` from the assignment path. Good catch — this is exactly the kind of "doesn't fire when it should" failure that L-088+ is about.
+
+**Lesson:** When a L-088+ lineage bug surfaces, the fix should be a *structural prevention* (e.g., pre-commit hook), not just a one-off patch. L-125 was a 1-char fix, but the *real* fix is preventing the class of bug from shipping. Apply this pattern: any single-occurrence silent bug → ask "what's the structural fix?" not just "what's the line fix?"
+
+**Anti-regression:** CHECK 27 (auto-heal, L-091) now re-runs the installer if the hook is missing. This is the failsafe: if a future agent deletes the symlink, nightly auto-heal reinstalls it. Belt + suspenders.
+
+**Tied to:** L-125 (the original bug), L-091 (CHECK 27, the nightly audit that would have caught it without a hook), the L-088+ silence-failure lineage (20th member).

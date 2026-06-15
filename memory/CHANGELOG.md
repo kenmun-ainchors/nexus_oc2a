@@ -11,6 +11,19 @@
 ---
 ---
 
+## 2026-06-15 12:42 AEST — [CHG-0571] Pre-commit bash -n hook (L-129) — prevents L-125-style syntax bugs at write time
+**Type:** script
+**Change Type:** Standard
+**Source:** incident-recovery
+**Trigger:** 2026-06-15 12:37 AEST Ken approved P2 #1 from followup list
+**What changed:** 3 files. NEW: scripts/hooks/pre-commit (60 lines, runs bash -n on staged .sh files, blocks on syntax error). NEW: scripts/install-pre-commit-hooks.sh (44 lines, one-time installer with safety guard). EDIT: scripts/auto-heal.sh (+6 lines) — CHECK 27 header + defense-in-depth installer call. Submodule filter (thrawn/forge/atlas/spark/infra/gitlab), AUTOGEN skip marker support.
+**Why:** L-125 was a 1-char syntax error (extra quote on line 21 of aria-crest-check.sh) that shipped to production because there was no pre-commit syntax check. The fix: a git pre-commit hook that runs bash -n on every staged .sh file. Pairs with CHECK 27 (L-091, nightly audit) for defense-in-depth — hook catches at write time, CHECK 27 catches in nightly audit. Subagent testing caught a set -e bug in the original draft that would have caused silent aborts.
+**Verification:** Real test at 12:41 AEST 2026-06-15. Positive test (valid .sh): hook exit 0, 'bash -n: 1 file(s) checked, OK'. Negative test (echo ((): hook exit 1, 'PRE-COMMIT BLOCKED: bash syntax error' + clear line/error message. bash -n clean on all 3 files. Symlink verified: .git/hooks/pre-commit -> ../../scripts/hooks/pre-commit. CHECK 27 updated with header + 6-line installer call.
+**Rollback:** rm .git/hooks/pre-commit; git checkout scripts/auto-heal.sh
+**Linked:** L-129, L-125, L-091, TKT-PRE-COMMIT-HOOK-BASH-N
+---
+
+
 ## 2026-06-15 12:31 AEST — [CHG-0570] Per-cron Ollama-quota tracking (Rec #1, L-128) — biggest remaining fix
 **Type:** script
 **Change Type:** Standard

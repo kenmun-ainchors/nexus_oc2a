@@ -1,0 +1,57 @@
+#!/bin/bash
+# pre-commit-bash-n.sh — L-129, blocks commits with bash syntax errors.
+# Defense-in-depth: catches syntax errors at write time. CHECK 27 (L-091)
+# catches them in the nightly auto-heal audit.
+# Skips submodules (thrawn/, forge/, atlas/, spark/, infra/) — they have
+# their own .git directories and their own hooks.
+# Skips auto-generated files (first 5 lines contain AUTOGEN or AUTO-GENERATED).
+set -e
+
+WORKSPACE="$(cd "$(dirname "$0")/../.." && pwd)"
+cd "$WORKSPACE"
+
+# Get staged .sh files, exclude submodules
+STAGED_SH=$(git diff --cached --name-only --diff-filter=ACM 2>/dev/null | \
+  grep -E '\.sh$' | \
+  grep -vE '^(thrawn|forge|atlas|spark|infra|gitlab)/' || true)
+
+if [[ -z "$STAGED_SH" ]]; then
+  exit 0  # no .sh files staged
+fi
+
+ERRORS=0
+CHECKED=0
+for f in $STAGED_SH; do
+  # Skip if file doesn't exist (deleted in worktree)
+  [[ ! -f "$f" ]] && continue
+  
+  # Skip auto-generated files
+  if head -5 "$f" 2>/dev/null | grep -qE 'AUTOGEN|AUTO-GENERATED'; then
+    continue
+  fi
+  
+  CHECKED=$((CHECKED + 1))
+  
+  # Run bash -n, capture stderr (|| avoids set -e abort on failure)
+  BASH_N_OUT=$(bash -n "$f" 2>&1) && BASH_N_EXIT=0 || BASH_N_EXIT=$?
+  
+  if [[ $BASH_N_EXIT -ne 0 ]]; then
+    echo "PRE-COMMIT BLOCKED: bash syntax error in $f:" >&2
+    echo "$BASH_N_OUT" >&2
+    echo "" >&2
+    ERRORS=$((ERRORS + 1))
+  fi
+done
+
+if [[ $ERRORS -gt 0 ]]; then
+  echo "" >&2
+  echo "  $ERRORS file(s) failed bash -n. Fix syntax errors or add # AUTOGEN marker." >&2
+  echo "  Bypass (NOT recommended): git commit --no-verify" >&2
+  exit 1
+fi
+
+if [[ $CHECKED -gt 0 ]]; then
+  echo "bash -n: $CHECKED file(s) checked, OK" >&2
+fi
+
+exit 0
