@@ -2344,11 +2344,20 @@
       "verdict": "PASS",
       "pass": 5,
       "fail": 0
+    },
+    {
+      "ts": "2026-06-15T18:42:03+10:00",
+      "asset": "/Users/ainchorsangiefpl/.openclaw/workspace/social-drafts/LI-W1-P3-four-things-broke.md",
+      "producedBy": "yoda",
+      "intendedFor": "public distribution",
+      "verdict": "PASS",
+      "pass": 5,
+      "fail": 0
     }
   ],
   "summary": {
-    "total": 239,
-    "pass": 200,
+    "total": 240,
+    "pass": 201,
     "fail": 38
   }
-}
+}}

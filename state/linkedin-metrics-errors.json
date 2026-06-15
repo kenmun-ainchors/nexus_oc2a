@@ -1,19 +1,14 @@
-{
-  "schema": "1.0",
-  "runAt": "2026-06-13T00:00:00Z",
-  "localTime": "2026-06-13T10:00:00+10:00",
-  "agent": "spark",
-  "errors": [
-    {
+[
+  {
+    "timestamp": "2026-06-15T00:00:00Z",
+    "runId": "spark-daily-snapshot-5d581442",
+    "error": {
+      "code": 404,
+      "message": "Post not found — URN may be invalid",
       "contentId": "LI-W3-P3",
       "postUrn": "urn:li:share:7463404594140905473",
-      "error": "404 Post Not Found",
-      "detail": "LinkedIn API returned 404 for URN urn:li:share:7463404594140905473. URN may be malformed (share vs activity format) or post was deleted/revoked.",
-      "note": "From campaign state: 'Duplicate post error on retry indicates successful first post.' URN capture failed during linkedin-post.sh bug.",
-      "ticket": "TKT-0232",
-      "action": "Requires manual URN lookup via LinkedIn post URL: https://www.linkedin.com/posts/activity-7463404594140905473/"
+      "postUrl": "https://www.linkedin.com/posts/activity-7463404594140905473/",
+      "note": "Same URN also used by LI-W4-P1-Confidence (cancelled). Duplicate post error on retry indicates successful first post, but correct URN was never captured. Script bug at the time (headers not captured). Needs manual backfill or URL-based resolution."
     }
-  ],
-  "totalErrors": 1,
-  "previousErrors": 1
-}
+  }
+]

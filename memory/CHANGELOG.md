@@ -11,6 +11,88 @@
 ---
 ---
 
+## 2026-06-15 19:27 AEST — [CHG-0604] CHG-0604: Request Budget Check Script — Ollama Weekly Tracking
+**Type:** config
+**Change Type:** Normal
+**Source:** ken-prompt
+**Trigger:** Ken directive 2026-06-16 19:20 AEST — add request-count tracking alongside USD tracking, don't replace
+**What changed:** NEW: scripts/request-budget-check.sh — Ollama weekly request-count budget checker. Mirrors budget-check.sh CLI (--report/--agent/--workflow). Reads cost-state.json turnsLimit. Writes state/request-budget-alert-state.json. PRESERVED: budget-check.sh untouched for Anthropic/Claude USD tracking. HEARTBEAT.md updated to run both.
+**Why:** Ollama uses flat request counting (30k/week), not API credits. Need separate tracking from Anthropic USD model. Both must coexist for multi-model future.
+**Verification:** request-budget-check.sh --report: clean output, exit 0. --agent/--workflow: placeholder messages, exit 0. budget-check.sh: untouched (11,589 bytes, USD-based). Alert state written correctly.
+**Rollback:** N/A
+**Linked:** none
+---
+
+
+## 2026-06-15 19:16 AEST — [CHG-0603] CHG-0603: Ollama Weekly Request Tracking Formula Confirmed
+**Type:** config
+**Change Type:** Normal
+**Source:** ken-prompt
+**Trigger:** Ken provided Ollama dashboard data 2026-06-16 19:14 AEST — 4,065 requests = 13.1% of weekly limit
+**What changed:** cost-state.json: turnsLimit confirmed — 30,000 requests/week flat count, window Mon 10am AEST. spendAlerts converted from USD to request-count thresholds (50/70/85/95%). Daily Burn Alert cron updated to request-count logic. HEARTBEAT.md updated.
+**Why:** Ollama billing model is flat request counting, not API credits. All models count equally (1 request = 1 request). Much simpler than Anthropic credit model.
+**Verification:** Math confirmed: 4065/30000 = 13.55% ≈ 13.1% displayed. Flat count matches Ollama dashboard exactly. Burn rate: 439 req/hr. Sustainable daily budget: ~4,285 req/day.
+**Rollback:** N/A
+**Linked:** none
+---
+
+
+## 2026-06-15 19:02 AEST — [CHG-0602] CHG-0602: Batch Cron Downgrade — 14 Script-Wrappers to deepseek-v4-flash
+**Type:** config
+**Change Type:** Normal
+**Source:** ken-prompt
+**Trigger:** Ken directive 2026-06-15 19:01 AEST — approved full audit: all script-wrapper crons to flash
+**What changed:** 14 crons → deepseek-v4-flash: TRIGGER-12 Allowlist Sync, Forge Fallback Chain Validation, Daily Burn Alert, TRIGGER-04/06 Release Monitor, Daily Memory Hygiene, TKT-0092 Budget Report, TKT-0093 Backup Health Check, GCP Free Trial Expiry, GCP Post-Expiry, SOUL.md Weekly Size Audit, Weekly Asset Review, Weekly Compliance Report (was deepseek-v4-pro), Quarterly Asset Registry Review, glm-5.1 no-think check. All are script-first wrappers — LLM runs shell script + relays structured output. Zero cognitive load.
+**Why:** Audit found 14 crons burning gemma4:31b or deepseek-v4-pro for tasks that are purely 'run script, read output, relay'. Flash is cheapest model that reliably handles structured data relay.
+**Verification:** Cron health: clean. Warden model-drift-check: 14/14 agents PASS, 9/9 governance checks PASS.
+**Rollback:** N/A
+**Linked:** none
+---
+
+
+## 2026-06-15 18:59 AEST — [CHG-0601] CHG-0601: Cron Model Tiering — Wrappers to deepseek-v4-flash
+**Type:** config
+**Change Type:** Normal
+**Source:** ken-prompt
+**Trigger:** Ken directive 2026-06-15 18:59 AEST — script-wrapper crons don't need cognitive models
+**What changed:** 5 crons → deepseek-v4-flash: WO-002 Divergence, PG-Notion Batch Sync, PG-Notion Integrity Audit, TQP Executor, Auto-Heal. All are shell-script-first wrappers where LLM only runs script + relays structured output. Zero cognitive load.
+**Why:** These crons were on deepseek-v4-pro (tier-1 cognitive) or minimax (T3 specialist) but the LLM's actual job is 'run this script and tell me what happened'. Flash is the cheapest model that reliably handles structured data relay.
+**Verification:** Cron health: clean. Warden model-drift-check: 14/14 agents PASS, 9/9 governance checks PASS.
+**Rollback:** N/A
+**Linked:** none
+---
+
+
+## 2026-06-15 18:49 AEST — [CHG-0600] CHG-0597: T3 Specialist Model Stream Split
+**Type:** config
+**Change Type:** Normal
+**Source:** ken-prompt
+**Trigger:** Ken directive 2026-06-15 18:48 AEST
+**What changed:** model-policy.json split t3Specialists into t3Technical(minimax) + t3Business(kimi), removed qa/infra from backend. gateway: added minimax to allowlist, social agent minimax→kimi. crons: TQP executor + Auto-Heal → minimax.
+**Why:** Minimax missing from gateway allowlist causing cron rejections. Ken formalized stream split.
+**Verification:** Warden 14/14 PASS. Cron health clean. Gateway allowlist updated.
+**Rollback:** N/A
+**Linked:** none
+---
+
+
+## 2026-06-15 18:45 AEST — [CHG-0599] LinkedIn campaign pipeline rework v2.0 — draft/publish separation
+**Type:** process
+**Change Type:** Normal
+**Source:** ken-prompt
+**Trigger:** Ken 18:35-18:38 AEST — identified root cause of missed slots: crons were drafting at publish time instead of ahead. Approved batch-draft + fallback design.
+**What changed:**
+- 3 existing Spark crons (13b0aa89 Tue, 833ee0c7 Wed, 869502c9 Thu) repurposed from draft→publish-only. They now check for approved+imaged content and post it. They do NOT draft.
+- 1 new batch draft cron (1cb0c7ff) created: Sat 12:00 AEST, drafts all 3 posts for the week ahead, delivers to Ken for weekend review (~2.5 day window)
+- 3 new fallback draft crons created: Mon 12:00 (573d34e4, Tue post), Tue 12:00 (070e093f, Wed post), Wed 12:00 (123f8375, Thu post). Each checks if batch already drafted; skips if so.
+- Week 1 batch draft triggered manually (Sat 14 Jun slot missed) — Spark drafting Posts 1-3 now for Ken review tonight
+- state/linkedin-campaign.json updated with pipelineDesign v2.0 block + queued[] array for Week 1
+**Why:** Root cause of all missed-slot cascades. Draft-at-publish-time meant posts were late the moment the cron fired. New design: draft on weekend → review → approve → publish at slot.
+**Verification:** All 7 crons confirmed created/updated. Batch draft run enqueued. SSOT updated.
+**Rollback:** Revert 3 publish crons to original draft payloads. Delete 4 new crons. Remove pipelineDesign + queued blocks from SSOT.
+**Linked:** CHG-0515 (Spark reactivation), CHG-0518 (v3 FINAL arc), CHG-0594 (4-week arc lock-in)
+---
+
 ## 2026-06-15 18:22 AEST — [CHG-0598] Terminate minimax-m3 trial; Yoda+Aria → deepseek; minimax → T3 specialists
 **Type:** config
 **Change Type:** Normal

@@ -89,7 +89,7 @@
     "computedTo": 120,
     "appliedAt": "2026-06-15T11:46:00+10:00",
     "appliedTo": 120,
-    "applyResult": "{\n  \"id\": \"2c855a3e-6b66-43f5-98a1-2a9293f7a527\",\n  \"agentId\": \"main\",\n  \"name\": \"PG-Notion Batch Sync (30-min)\",\n  \"description\": \"TKT-0406: Batch reconciliation \u2014 sync all tickets with notion_sync.s",
+    "applyResult": "{\n  \"id\": \"2c855a3e-6b66-43f5-98a1-2a9293f7a527\",\n  \"agentId\": \"main\",\n  \"name\": \"PG-Notion Batch Sync (30-min)\",\n  \"description\": \"TKT-0406: Batch reconciliation — sync all tickets with notion_sync.s",
     "revertedForTest": "2026-06-13T10:53:00Z",
     "revertedForTest2": "2026-06-13T11:00:00Z"
   },
@@ -100,8 +100,13 @@
     "recommendation": "DECREASE",
     "currentTo": 240,
     "computedTo": 120,
-    "appliedAt": null,
-    "appliedTo": null
+    "appliedAt": "2026-06-15T03:34:58Z",
+    "appliedTo": 120,
+    "applyMethod": "cron-timeout-apply.sh",
+    "applyResult": "{\n  \"id\": \"dc88affb-2e25-44de-be94-ccb208043a43\",\n  \"name\": \"TQP executor poll (every 5 min)\",\n  \"description\": \"TKT-0504 A6: poll TQP queue, claim ready atoms, dispatch to Forge via sessions_spawn\",\n",
+    "kenBypass": true,
+    "kenBypassAt": "2026-06-15T03:34:58Z",
+    "kenBypassReason": "Ken explicit approval for scaler vA6 backfill (CHG-0578)"
   },
   "c69615bb": {
     "firstSeen": "2026-06-15",
@@ -110,8 +115,13 @@
     "recommendation": "DECREASE",
     "currentTo": 131,
     "computedTo": 30,
-    "appliedAt": null,
-    "appliedTo": null
+    "appliedAt": "2026-06-15T03:34:59Z",
+    "appliedTo": 30,
+    "applyMethod": "cron-timeout-apply.sh",
+    "applyResult": "{\n  \"id\": \"c69615bb-e8cb-4456-8b78-a9ec2ec89195\",\n  \"agentId\": \"main\",\n  \"name\": \"yoda-context-brief-refresh (2pm + 8pm AEST)\",\n  \"description\": \"Refresh yoda-context-brief.md every 30 min for Telegra",
+    "kenBypass": true,
+    "kenBypassAt": "2026-06-15T03:34:59Z",
+    "kenBypassReason": "Ken explicit approval for scaler vA6 backfill (CHG-0578)"
   },
   "85595417": {
     "firstSeen": "2026-06-15",
@@ -120,8 +130,13 @@
     "recommendation": "DECREASE",
     "currentTo": 300,
     "computedTo": 120,
-    "appliedAt": null,
-    "appliedTo": null
+    "appliedAt": "2026-06-15T03:35:00Z",
+    "appliedTo": 120,
+    "applyMethod": "cron-timeout-apply.sh",
+    "applyResult": "{\n  \"id\": \"85595417-73d0-416d-b6ff-d5b6578762a7\",\n  \"agentId\": \"main\",\n  \"name\": \"PG-Notion Integrity Audit (daily)\",\n  \"description\": \"TKT-0406: Daily integrity audit — 7 checks (count, duplicates, f",
+    "kenBypass": true,
+    "kenBypassAt": "2026-06-15T03:35:00Z",
+    "kenBypassReason": "Ken explicit approval for scaler vA6 backfill (CHG-0578)"
   },
   "7a4d8381": {
     "firstSeen": "2026-06-15",

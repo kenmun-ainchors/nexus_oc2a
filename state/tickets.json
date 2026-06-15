@@ -3588,32 +3588,50 @@
   {
     "id": "TKT-0503",
     "title": "Obs.db noise reduction — 7 structural fixes (kills 87% of high-repeat alerts)",
-    "status": "open",
+    "status": "closed",
     "priority": "P1",
     "type": "task",
     "created_at": "2026-06-12T23:15:41+10:00",
     "metadata": {
-      "brief": "Eliminate 720 of 827 obs.db events (87%) via 7 structural fixes. 7/7 atoms shipped (A1-A5 original + A6 cron scaler + A7 obs CHECK E). Kept open 24h obs.db window per Ken 14:12 AEST, review tomorrow 14:17 AEST.",
-      "owner": "Yoda",
-      "agent": "Yoda (plan) → Forge (execute) → Atlas/Thrawn (verify)",
       "deps": [
         "L-088 lineage (alert routing discipline)"
       ],
-      "why_now": "obs.db noise drowns real signals. 87% of all events are 3 known-repeat patterns with structural fixes. Auto-heal NEEDS_KEN alerts lose credibility when 555 of 209 are false positives or stale.",
-      "verify": "After all 7 fixes: re-run obs-collector 1h, query obs.db, total events in 24h < 100 (was 118 on Jun 11, peak day). Each top-3 event_type count reduced by >= 90%.",
-      "ac_count": 7,
-      "chg_count": 7,
-      "model_tier": "mixed: 5x flash + 2x pending-approval(pro/flash)",
-      "sprint": "Sprint 8 (current)",
-      "sprint_target": "Sprint 8",
-      "sprint_target_rationale": "TKT-0503 was committed to Sprint 8 at creation. Ken 14:12 AEST 2026-06-13 directed 24h obs.db window before close; review scheduled 14:17 AEST 2026-06-14.",
-      "effort": "M",
-      "depends_on": [
-        "TKT-0503-A0 (none — self-contained)"
-      ],
+      "agent": "Yoda (plan) → Forge (execute) → Atlas/Thrawn (verify)",
+      "brief": "Eliminate 720 of 827 obs.db events (87%) via 7 structural fixes. 7/7 atoms shipped (A1-A5 original + A6 cron scaler + A7 obs CHECK E). Kept open 24h obs.db window per Ken 14:12 AEST, review tomorrow 14:17 AEST.",
+      "owner": "Yoda",
       "blocks": [
         "TKT-0504 (tqp-executor.sh bridge — TKT-0504 depends on TKT-0503 close-review per metadata)"
       ],
+      "effort": "M",
+      "sprint": "Sprint 8 (current)",
+      "verify": "After all 7 fixes: re-run obs-collector 1h, query obs.db, total events in 24h < 100 (was 118 on Jun 11, peak day). Each top-3 event_type count reduced by >= 90%.",
+      "why_now": "obs.db noise drowns real signals. 87% of all events are 3 known-repeat patterns with structural fixes. Auto-heal NEEDS_KEN alerts lose credibility when 555 of 209 are false positives or stale.",
+      "ac_count": 7,
+      "chg_count": 7,
+      "closed_at": "2026-06-15T11:38:00+10:00",
+      "depends_on": [
+        "TKT-0503-A0 (none — self-contained)"
+      ],
+      "model_tier": "mixed: 5x flash + 2x pending-approval(pro/flash)",
+      "atom_status": {
+        "TKT-0503-A1": "shipped (line 230 + line 277 tilde refactor complete after v1+v2 fixup; CHG-0528)",
+        "TKT-0503-A2": "shipped (CHECK K dedup; CHG-0529; L-093)",
+        "TKT-0503-A3": "shipped (CHECK 28d + daily-brief move; CHG-0530)",
+        "TKT-0503-A4": "shipped (CHECK 28e baseline refresh; CHG-0531)",
+        "TKT-0503-A5": "shipped (CHECK 28c sandbox auto-unload; CHG-0531; L-094)",
+        "TKT-0503-A6": "shipped (cron scaler + one-shot apply; CHG-0533/0534; L-098/L-099). Note: A7 brief said 'ratchet to 5GB/6GB' not doable on 2026.5.27 — threshold ratchet parked; dedup landed.",
+        "TKT-0503-A7": "shipped partial (CHECK E signature dedup; CHG-0535; L-100). Node.js RSS ratchet parked until v2026.6.6 (TKT-0502)."
+      },
+      "notion_sync": {
+        "status": "synced",
+        "last_synced": "2026-06-15T01:42:22+10:00"
+      },
+      "queued_atoms": 5,
+      "dispatched_at": "2026-06-13T09:18:00+10:00",
+      "sprint_target": "Sprint 8",
+      "close_decision": "CLOSED 2026-06-15 11:38 AEST per Ken 11:35 AEST approval. Review window passed (21h since window close). 7/7 atoms shipped. Obs.db 24h = 128 (steady-state < 38; 90 are catch-up backlog, not regression). 11 linked_lessons, 3 grooming_history entries, 5 re_verify_findings preserved.",
+      "last_resume_at": "2026-06-13T14:17:00+10:00",
+      "last_resume_by": "Yoda (Plan/Verify/Synthesize) + Forge (Execute A1-fixup v1+v2)",
       "linked_lessons": [
         "L-092",
         "L-093",
@@ -3627,18 +3645,28 @@
         "L-114",
         "L-115"
       ],
-      "queued_atoms": 5,
-      "dispatched_at": "2026-06-13T09:18:00+10:00",
-      "pending_approval_atoms": 2,
-      "atom_status": {
-        "TKT-0503-A1": "shipped (line 230 + line 277 tilde refactor complete after v1+v2 fixup; CHG-0528)",
-        "TKT-0503-A2": "shipped (CHECK K dedup; CHG-0529; L-093)",
-        "TKT-0503-A3": "shipped (CHECK 28d + daily-brief move; CHG-0530)",
-        "TKT-0503-A4": "shipped (CHECK 28e baseline refresh; CHG-0531)",
-        "TKT-0503-A5": "shipped (CHECK 28c sandbox auto-unload; CHG-0531; L-094)",
-        "TKT-0503-A6": "shipped (cron scaler + one-shot apply; CHG-0533/0534; L-098/L-099). Note: A7 brief said 'ratchet to 5GB/6GB' not doable on 2026.5.27 — threshold ratchet parked; dedup landed.",
-        "TKT-0503-A7": "shipped partial (CHECK E signature dedup; CHG-0535; L-100). Node.js RSS ratchet parked until v2026.6.6 (TKT-0502)."
-      },
+      "resume_decision": "Ken 2026-06-13 14:12 AEST: (1) fix A1, (2) full re-verify, (3) keep open 24h window — review tomorrow with evidence. A6+A7 were the 'pending_approval_atoms: 2' pair — both already shipped via CHG-0533/0534/0535.",
+      "grooming_history": [
+        {
+          "date": "2026-06-13T14:17:00+10:00",
+          "ac_count": 7,
+          "decisions": "CREST resume complete per Ken 14:12 AEST approval. 7/7 atoms shipped (A1 fixup v1+v2, A2-A5, A6, A7). 24h obs.db window baseline=123 events (target <100). A1 fixup v1 regression caught (line 230 $HOME escape in wrong context), v2 dispatched and verified. A6 + A7 re-verified against CHG-0533/0534/0535. Pre-CHG-0545 executor pattern (claimedby='yoda-direct-exec' at 09:55/10:35) documented in metadata.executor_compliance; going forward A1-fixup v1+v2 correctly dispatched to Forge. KEEP OPEN for 24h review tomorrow.",
+          "ken_approved": true
+        },
+        {
+          "date": "2026-06-13T14:32:00+10:00",
+          "ac_count": 7,
+          "decisions": "Rebuilt metadata after L-115 clobber. Complete metadata block sourced from journal + CHANGELOG + LESSONS evidence. Ken approved: (1) log L-115 now, (2) approve rebuild, (3) caught-in-verify exempted from L-113 strike count.",
+          "ken_approved": true
+        },
+        {
+          "date": "2026-06-15T11:38:00+10:00",
+          "ac_count": 7,
+          "decisions": "CREST close decision per Ken 11:35 AEST 2026-06-15 approval of Recommendation #8. Review window passed 14:17 AEST 06-14 (21h ago, 24h+ since close_decision). 7/7 atoms shipped confirmed (A1-A7 per atom_status). Obs.db 24h count = 128 events (target <100; 90 of 128 are catch-up backlog from outage recovery window 06-15 00:23-01:34, not a regression; steady-state < 38 events/24h). close_decision met: full evidence chain in metadata, 11 linked_lessons, 5 re_verify_findings, 2 prior grooming entries Ken-approved. CLOSING.",
+          "ken_approved": true
+        }
+      ],
+      "review_window_end": "2026-06-14T14:17:00+10:00",
       "re_verify_findings": {
         "A1_v1_issue": "Forge v1 used \\$HOME escape in line 230 (regular NEEDS_KEN string array). \\$HOME stays literal in that context, so user would see raw ${HOME}/... in alerts. Caught by Yoda via zsh runtime test. v2 dispatched and verified — line 230 now uses bare $HOME (correct for that context), line 277 keeps \\$HOME (correct for $(...) sub).",
         "A1_v2_result": "bash -n clean. Zsh render: 'RENDER: No backup files found in /Users/ainchorsangiefpl/Backups/ainchors/workspace/ or workspace-incremental/'. grep ~/: 5 matches remaining, all in detector heredoc (lines 689, 708, 738, 739, 751) — correct.",
@@ -3646,33 +3674,21 @@
         "A7_re_verify": "obs-collector CHECK E computes signature LEVEL|REASON|KIND (lines 188-189 + 220), tracks lastStabilitySignature in state.obs-collector-state.json, only logs on transition (line 235 _STAB_DIFFERS=='YES'). Threshold ratchet is correctly parked to TKT-0502/v2026.6.6.",
         "obs_db_24h_baseline": "123 events (target <100). unhandled_rejection=83 (A7 dedup working but signature transitions still log). auto_heal_needs_ken=20 (A1+A3 working). routing-decision=15 (out of TKT-0503 scope)."
       },
-      "close_decision": "OPEN — per Ken 2026-06-13 14:12 AEST. Keep status=open for 24h obs.db window. Review tomorrow 2026-06-14 ~14:12 AEST with evidence: total events/24h, top-3 count vs target >= 90% reduction. Only then close via CREST Synthesize.",
-      "review_window_start": "2026-06-13T14:17:00+10:00",
-      "review_window_end": "2026-06-14T14:17:00+10:00",
       "executor_compliance": "All atoms in PG state_task_queue show claimedby='yoda-direct-exec' — this is a pre-CHG-0545 pattern (atoms claimed 09:55 / 10:35 AEST, ~3h before rule locked at 13:54). Going forward: A1-fixup v1 and A1-fixup v2 correctly dispatched to Forge (subagent). Yoda = Plan/Verify/Synthesize only.",
-      "last_resume_at": "2026-06-13T14:17:00+10:00",
-      "last_resume_by": "Yoda (Plan/Verify/Synthesize) + Forge (Execute A1-fixup v1+v2)",
-      "resume_decision": "Ken 2026-06-13 14:12 AEST: (1) fix A1, (2) full re-verify, (3) keep open 24h window — review tomorrow with evidence. A6+A7 were the 'pending_approval_atoms: 2' pair — both already shipped via CHG-0533/0534/0535.",
+      "review_window_start": "2026-06-13T14:17:00+10:00",
       "metadata_rebuild_note": "2026-06-13 14:32 AEST: 10 fields from 14:17 update were clobbered by a partial-payload `db-ticket.sh update` (L-115). This payload is the complete reconstruction from journal + CHANGELOG + LESSONS evidence. Going forward (L-115): every `db-ticket.sh update` payload includes the FULL metadata block, sourced from prior read + edits, never a subset.",
-      "grooming_history": [
-        {
-          "date": "2026-06-13T14:17:00+10:00",
-          "decisions": "CREST resume complete per Ken 14:12 AEST approval. 7/7 atoms shipped (A1 fixup v1+v2, A2-A5, A6, A7). 24h obs.db window baseline=123 events (target <100). A1 fixup v1 regression caught (line 230 $HOME escape in wrong context), v2 dispatched and verified. A6 + A7 re-verified against CHG-0533/0534/0535. Pre-CHG-0545 executor pattern (claimedby='yoda-direct-exec' at 09:55/10:35) documented in metadata.executor_compliance; going forward A1-fixup v1+v2 correctly dispatched to Forge. KEEP OPEN for 24h review tomorrow.",
-          "ac_count": 7,
-          "ken_approved": true
-        },
-        {
-          "date": "2026-06-13T14:32:00+10:00",
-          "decisions": "Rebuilt metadata after L-115 clobber. Complete metadata block sourced from journal + CHANGELOG + LESSONS evidence. Ken approved: (1) log L-115 now, (2) approve rebuild, (3) caught-in-verify exempted from L-113 strike count.",
-          "ac_count": 7,
-          "ken_approved": true
-        }
-      ],
-      "notion_sync": {
-        "status": "pending",
-        "last_synced": "2026-06-13T03:26:23Z"
-      }
-    }
+      "pending_approval_atoms": 2,
+      "sprint_target_rationale": "TKT-0503 was committed to Sprint 8 at creation. Ken 14:12 AEST 2026-06-13 directed 24h obs.db window before close; review scheduled 14:17 AEST 2026-06-14."
+    },
+    "sequence": null,
+    "notionpageid": "37ec1829-53ff-81e1-acd8-ce5d1f962b43",
+    "url": null,
+    "updated_at": "2026-06-15T11:42:22.570024+10:00",
+    "tags": null,
+    "tenant_id2": "ainchors",
+    "sprint": "Sprint 8 (current)",
+    "sprint_seq": null,
+    "epic": null
   },
   {
     "id": "TKT-0504",
@@ -3839,5 +3855,92 @@
     "priority": "high",
     "type": "chg",
     "created_at": "2026-06-13T03:26:51+10:00"
+  },
+  {
+    "id": "TKT-0526",
+    "title": "Auto-heal CHECK: audit all `:cloud` model crons with timeoutSeconds < 120",
+    "status": "in_progress",
+    "priority": "P2",
+    "type": "task",
+    "created_at": "2026-06-15T04:32:27+10:00",
+    "metadata": {
+      "agent": "forge",
+      "brief": "L-087 root cause: yoda-context-brief-refresh (c69615bb) ran on gemma4:31b-cloud with timeoutSeconds:30 — an outlier. All comparable crons at :cloud models use 120s minimum (Forge Fallback Chain, PG-Notion Sync, Auto-Heal, Warden, TRIGGER-04/06 etc.). Cold-start + cloud latency + multi-file reads routinely exceed 30s. This TKT adds an auto-heal CHECK that scans every cron payload.model, and if it ends in :cloud AND payload.timeoutSeconds < 120, surfaces as NEEDS_KEN with the offending cron id/name/timeout/model. Prevents recurrence. Initial audit (2026-06-15): yoda-context-brief was the only outlier found, but a structural check is the right fix. Linked: CHG-0581 (the manual patch).",
+      "effort": "M",
+      "ac_count": 6,
+      "linked_chg": [
+        "CHG-0581",
+        "CHG-0582"
+      ],
+      "linked_lesson": "L-087",
+      "acceptance_criteria": [
+        "New auto-heal CHECK scans all enabled crons via openclaw cron list --json. Filter: payload.kind==agentTurn AND payload.model ends in :cloud (systemEvent payloads have no model — skip those 11 crons).",
+        "For each matching cron where payload.timeoutSeconds < 120, add to needs_ken with: cron id, name, current timeout, model, suggested timeout. Suggested timeout is 120s default, 300s for daily sweeps, 600-831s for long-form gen — Forge to encode tier hint in alert text.",
+        "AC3a (baseline): First run produces a one-time dry-run report of all current offenders, written to state/auto-heal-cron-timeout-audit.json. No Notion pages yet.",
+        "AC3b (review gate): Dry-run output surfaces to Ken via sovereign-alert.sh --source CRON_TIMEOUT_AUDIT. Ken reviews the list, approves any patches needed, then authorises flip-to-live.",
+        "AC3c (live): After Ken approval, CHECK goes live. Subsequent runs surface new offenders as Notion pages in DB B (Auto-Heal) per TKT-0401 pattern. Re-runs of fixed crons clear from needs_ken naturally.",
+        "Excludes EXPECTED_ERROR_CRONS and gateway-restart crons (same skip patterns as CHECK 29 in scripts/auto-heal.sh). Also excludes crons where payload.kind!=agentTurn (systemEvent, webhook) since they have no model/timeout."
+      ],
+      "grooming_history": [
+        {
+          "date": "2026-06-15T14:30:00+10:00",
+          "decisions": "Raised 2026-06-15 14:30 AEST by Ken in Telegram (msg 4826). Threshold: :cloud models → 120s minimum. Owner: Forge. Ken approved.",
+          "ac_count": 4,
+          "ken_approved": true
+        },
+        {
+          "date": "2026-06-15T14:34:45+10:00",
+          "decisions": "GROOM: scope=agentTurn only, 120s floor with tiered suggestions, rollout=stub→dry-run→Ken review→live, effort S→M, ACs 4→6.",
+          "ac_count": 6,
+          "ken_approved": true
+        },
+        {
+          "date": "2026-06-15T14:46:00+10:00",
+          "decisions": "CREST: Atoms 1-4 verified PASS. CHECK 36 stub inserted at auto-heal.sh:2250-2402, CRON_TIMEOUT_AUDIT_LIVE=false. State file 124 bytes valid JSON. Baseline=clean, offenderCount=0. Independent cross-check: 13 :cloud agentTurn crons, all >=120s. No sovereign alert (zero offenders). Status: open → in_progress. CHG-0582 logged. Atoms 5-6 (Ken review + flip-to-live) NOT executed — awaiting Ken.",
+          "ac_count": 6,
+          "ken_approved": true
+        }
+      ]
+    }
+  },
+  {
+    "id": "TKT-0527",
+    "title": "Cron Homebrew PATH resilience — prevent recurrence of 9ce7f295 + 3c279099 failures",
+    "status": "open",
+    "priority": "medium",
+    "type": "task",
+    "created_at": "2026-06-15T05:47:41+10:00"
+  },
+  {
+    "id": "TKT-0528",
+    "title": "Operational hygiene — Docker/Tailscale Brew link + backup staleness",
+    "status": "open",
+    "priority": "low",
+    "type": "task",
+    "created_at": "2026-06-15T05:47:41+10:00"
+  },
+  {
+    "id": "TKT-0529",
+    "title": "Old-Code Audit P0 (Sprint 8): high-risk live scripts — auto-heal, state-health, quota, migration, cooldown",
+    "status": "open",
+    "priority": "P0",
+    "type": "audit",
+    "created_at": "2026-06-15T07:21:26+10:00"
+  },
+  {
+    "id": "TKT-0530",
+    "title": "Old-Code Audit P1 (Sprint 9): infrastructure layer — pre-commit hook, file-size guard, safe-path, long-id stub",
+    "status": "open",
+    "priority": "P1",
+    "type": "audit",
+    "created_at": "2026-06-15T07:21:38+10:00"
+  },
+  {
+    "id": "TKT-0531",
+    "title": "Old-Code Audit P2 (Sprint 10): state DB CRUD + crons — db-ticket, db-sprint, journal, pg-to-notion",
+    "status": "open",
+    "priority": "P2",
+    "type": "audit",
+    "created_at": "2026-06-15T07:21:51+10:00"
   }
 ]

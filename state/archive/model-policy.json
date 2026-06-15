@@ -1,9 +1,9 @@
 {
   "schema_version": "2.0",
   "description": "PERMANENT model policy for all AInchors agents. Warden enforces this. Changes require Ken approval + CHG entry + baseline update.",
-  "lastUpdated": "2026-06-12T08:05:00+10:00",
-  "lastApprovedBy": "Ken Mun",
-  "approvalContext": "TKT-0383: CREST v1.2 \u00a75.8 \u2014 deepseek-primary phase-aware model assignments + Forge flash exception",
+  "lastUpdated": "2026-06-15T18:48:45+10:00",
+  "lastApprovedBy": "Ken Mun (webchat, 2026-06-15 18:48 AEST)",
+  "approvalContext": "CHG-0597: Ken directive \u2014 T3 technical stream (Sage/Forge/Ahsoka/Luthen) \u2192 minimax, T3 business stream (Spark) \u2192 kimi.",
   "permanent": true,
   "interimPeriod": false,
   "globalAllowedModels": [
@@ -29,21 +29,19 @@
         "main",
         "business"
       ],
-      "primary": "ollama/minimax-m3:cloud",
+      "primary": "ollama/deepseek-v4-pro:cloud",
       "fallbacks": [
-        "ollama/gemma4:31b-cloud",
+        "ollama/deepseek-v4-flash:cloud",
         "ollama/kimi-k2.6:cloud"
       ],
-      "rationale": "CHG-0498: MiniMax M3 trial (Ken-approved 2026-06-11 22:38, revert Sun 23:55). minimax-m3 is primary for userFacing during trial. Reverts to deepseek-v4-pro post-trial."
+      "rationale": "CHG-0596 (2026-06-15 17:57 AEST): Ken directive \u2014 Yoda + Aria (user-facing) swap to deepseek-v4-pro. minimax restricted to T3 specialists. Replaces CHG-0498 trial primary. Reason: L-106 second trigger (msg 4930 confabulation of Posts 2+3 from canonical 4-week arc). Previous trial verdict (PARTIAL, 13 Jun 13:13) confirmed: minimax NOT suitable for engagement/interactive/planning work."
     },
     "backend": {
-      "description": "All specialist/backend agents invoked via sub-agent or cron",
+      "description": "Backend governance/architecture agents (Shield, Lex, Warden, Atlas, Thrawn, Lando, Mon Mothma). NOT T3 specialists.",
       "agentIds": [
         "security",
         "legal",
-        "qa",
         "governance",
-        "infra",
         "architect",
         "platform-arch",
         "biz-process",
@@ -54,57 +52,20 @@
         "ollama/deepseek-v4-pro:cloud",
         "ollama/kimi-k2.6:cloud"
       ],
-      "rationale": "CHG-0498: gemma4:31b-cloud as primary for backend (no swap). deepseek-v4-pro retained as first fallback for post-trial revert path. kimi final safety net.",
+      "rationale": "CHG-0596 + CHG-0597: qa/infra moved to t3Technical tier. Backend stays on gemma4:31b-cloud.",
       "exceptions": {},
       "exceptionNote": "These agents use a different primary than the tier default. Drift check should verify against individual assignment."
     },
     "trialMiniMaxM3": {
-      "description": "CHG-0498: Agents on MiniMax M3 during Ken trial (Thu 2026-06-11 22:38 to Sun 23:55 AEST). Reverts to deepseek-v4-pro post-trial via cron 3305681f. [revert via cron 3305681f Sun 23:55 AEST]",
-      "agentIds": [
-        "main",
-        "business",
-        "qa",
-        "infra",
-        "ahsoka",
-        "luthen",
-        "social"
-      ],
+      "description": "CHG-0498: TERMINATED 2026-06-15 17:57 (CHG-0596). Agents moved to t3Technical (minimax) or t3Business (kimi).",
+      "agentIds": [],
       "primary": "ollama/minimax-m3:cloud",
       "fallbacks": [
         "ollama/minimax-m3:cloud",
         "ollama/kimi-k2.6:cloud"
       ],
-      "rationale": "CHG-0498: MiniMax M3 quality trial. Revert cron 3305681f scheduled for Sun 23:55 AEST. After revert, this tier should be empty and can be removed.",
-      "verdict_emerging_2026_06_13": {
-        "ts": "2026-06-13T13:13:00+10:00",
-        "ken_directive_verbatim": "minimax trial have proven that it's good for engineering but not reliable for any engagement, interactive or planning work",
-        "verdict": "PARTIAL \u2014 engineering work YES, engagement/interactive/planning NO",
-        "evidence": [
-          "L-106 (2026-06-13 11:00): confabulated 'agents don't exist' \u2014 category error, didn't check runtime registry",
-          "Sonnet fabrication (2026-06-13 13:11): confabulated model switch, stated as fact. 2nd offence in <1 hour.",
-          "L-082 (3-min stream cap, reliability ceiling)",
-          "L-084 (CRITICAL fabrication, prior incident, same class)"
-        ],
-        "good_for": [
-          "Mechanical scripting",
-          "Multi-token throughput on engineering tasks",
-          "Routine synthesis with explicit source data",
-          "Dispatching + verifying work that other agents execute"
-        ],
-        "not_good_for": [
-          "Engagement work (interactive conversations, context-faithful responses)",
-          "Planning work (model confabulation of facts about state/agent identity)",
-          "Long multi-step execution chains without gate enforcement",
-          "Anything requiring memory of 'what was the model yesterday' or 'what did the runtime do last week'"
-        ],
-        "structural_fix_during_trial": {
-          "name": "Yoda thin-orchestrator role",
-          "rule": "Plan + dispatch + verify only. NO direct Execute work.",
-          "enforcement": "scripts/crest-execute-gate.sh (TKT-0506, CHG-0540) \u2014 verified live, 10/10 test cases pass",
-          "scope": "Yoda (minimax) only. Other minimax agents (Aria, Sage, Forge, Ahsoka, Luthen, Spark) unchanged unless Ken directs."
-        },
-        "decision": "Continue trial as planned. Revert Sun 14 Jun 23:55 AEST per cron 3305681f. Yoda restricted to thin-orchestrator role during remaining window. Ken can stop early if minimax continues to confabulate."
-      }
+      "rationale": "CHG-0596 (2026-06-15 17:57 AEST): Trial terminated early by Ken. Replaced by permanent T3 specialist tier (see agentTiers.t3Specialists). Trial verdict (PARTIAL 2026-06-13 13:13) confirmed: minimax suitable for engineering/dominant work, NOT for user-facing engagement/planning.",
+      "status": "TERMINATED \u2014 not a trial anymore; minimax assigned to T3 specialists per CHG-0596"
     },
     "higherQuality": {
       "description": "CHG-0500: Higher-quality tier for tasks needing best-in-class reasoning. Opt-in per CREST phase model map. Anthropic Sonnet/Opus when available; falls back to Ollama Cloud T2. Default tier for new cognitive work post-OC2.",
@@ -119,15 +80,44 @@
       "crestPhaseAlignment": "Strong-tier: Plan / Verify / Replan",
       "active": false,
       "activationGate": "Anthropic API key rotation + CHG-record + Ken approval (per CHG-0500 + CREST v1.3 phase map)"
+    },
+    "t3Technical": {
+      "description": "CHG-0597 (Ken 2026-06-15 18:48 AEST): T3 technical specialist agents (Sage, Forge, Ahsoka, Luthen) on minimax-m3:cloud. Yoda-on-deepseek verifies all outputs.",
+      "agentIds": [
+        "qa",
+        "infra",
+        "ahsoka",
+        "luthen"
+      ],
+      "primary": "ollama/minimax-m3:cloud",
+      "fallbacks": [
+        "ollama/gemma4:31b-cloud",
+        "ollama/kimi-k2.6:cloud"
+      ],
+      "rationale": "CHG-0597: Ken directive \u2014 technical stream T3 specialists use minimax. Engineering/scripting/dispatch work.",
+      "monitoredBy": "Yoda (deepseek-v4-pro) per CREST v1.3 plan/verify/replan cycle"
+    },
+    "t3Business": {
+      "description": "CHG-0597 (Ken 2026-06-15 18:48 AEST): T3 business specialist agent (Spark) on kimi-k2.6:cloud. Content/engagement/social work.",
+      "agentIds": [
+        "social"
+      ],
+      "primary": "ollama/kimi-k2.6:cloud",
+      "fallbacks": [
+        "ollama/gemma4:31b-cloud",
+        "ollama/deepseek-v4-pro:cloud"
+      ],
+      "rationale": "CHG-0597: Ken directive \u2014 business stream T3 specialist uses kimi. Content generation/engagement work where minimax was found unsuitable (L-106).",
+      "monitoredBy": "Yoda (deepseek-v4-pro) per CREST v1.3 plan/verify/replan cycle"
     }
   },
   "agents": {
     "main": {
       "description": "Yoda \ud83d\udfe2 \u2014 Lead Orchestrator (user-facing)",
       "tier": "userFacing",
-      "requiredPrimary": "ollama/minimax-m3:cloud",
+      "requiredPrimary": "ollama/deepseek-v4-pro:cloud",
       "requiredFallbacks": [
-        "ollama/gemma4:31b-cloud",
+        "ollama/deepseek-v4-flash:cloud",
         "ollama/kimi-k2.6:cloud"
       ],
       "configPath": "/Users/ainchorsangiefpl/.openclaw/openclaw.json",
@@ -136,14 +126,15 @@
         "anthropic/claude-haiku-4-5",
         "anthropic/claude-sonnet-4-6",
         "ollama/gemma4:e2b"
-      ]
+      ],
+      "modelChangeNote": "CHG-0596: minimax \u2192 deepseek-v4-pro (Ken directive, L-106 second trigger)"
     },
     "business": {
       "description": "Aria \ud83d\udd35 \u2014 Business Lead Agent (user-facing)",
       "tier": "userFacing",
-      "requiredPrimary": "ollama/minimax-m3:cloud",
+      "requiredPrimary": "ollama/deepseek-v4-pro:cloud",
       "requiredFallbacks": [
-        "ollama/gemma4:31b-cloud",
+        "ollama/deepseek-v4-flash:cloud",
         "ollama/kimi-k2.6:cloud"
       ],
       "configPath": "/Users/ainchorsangiefpl/.openclaw/openclaw.json",
@@ -151,7 +142,8 @@
       "allowedInCrons": [
         "anthropic/claude-haiku-4-5",
         "anthropic/claude-sonnet-4-6"
-      ]
+      ],
+      "modelChangeNote": "CHG-0596: minimax \u2192 deepseek-v4-pro (Ken directive, L-106 second trigger)"
     },
     "security": {
       "description": "Shield \ud83d\udee1\ufe0f \u2014 Security Governance Agent",
@@ -181,7 +173,7 @@
     },
     "qa": {
       "description": "Sage \ud83e\uddea \u2014 QA Governance Agent",
-      "tier": "backend",
+      "tier": "t3Specialists",
       "requiredPrimary": "ollama/minimax-m3:cloud",
       "requiredFallbacks": [
         "ollama/gemma4:31b-cloud",
@@ -190,7 +182,8 @@
       "allowedInCrons": [
         "anthropic/claude-haiku-4-5",
         "anthropic/claude-sonnet-4-6"
-      ]
+      ],
+      "modelChangeNote": "CHG-0596: stays on minimax (T3 specialist tier per Ken directive)"
     },
     "governance": {
       "description": "Warden \ud83d\udd0d \u2014 Model Compliance Officer",
@@ -207,13 +200,14 @@
     },
     "infra": {
       "description": "Forge \ud83c\udfd7\ufe0f \u2014 Infra/Ops Agent",
-      "tier": "backend",
+      "tier": "t3Specialists",
       "requiredPrimary": "ollama/minimax-m3:cloud",
       "requiredFallbacks": [
         "ollama/gemma4:31b-cloud",
         "ollama/kimi-k2.6:cloud"
       ],
-      "_crestNote": "TKT-0383: Forge uses flash for Plan+Execute+Synthesize. Pro for Verify+Replan only. Flash-as-primary is intentional."
+      "_crestNote": "TKT-0383: Forge uses flash for Plan+Execute+Synthesize. Pro for Verify+Replan only. Flash-as-primary is intentional.",
+      "modelChangeNote": "CHG-0596: stays on minimax (T3 specialist tier per Ken directive)"
     },
     "architect": {
       "description": "Atlas \ud83c\udfdb\ufe0f \u2014 Enterprise Architect",
@@ -253,12 +247,13 @@
     },
     "ahsoka": {
       "description": "Ahsoka \ud83e\udd0d \u2014 AI Transformation Consultant",
-      "tier": "backend",
+      "tier": "t3Specialists",
       "requiredPrimary": "ollama/minimax-m3:cloud",
       "requiredFallbacks": [
         "ollama/gemma4:31b-cloud",
         "ollama/kimi-k2.6:cloud"
-      ]
+      ],
+      "modelChangeNote": "CHG-0596: stays on minimax (T3 specialist tier per Ken directive)"
     },
     "luthen": {
       "requiredPrimary": "ollama/minimax-m3:cloud",
@@ -267,14 +262,15 @@
         "ollama/deepseek-v4-pro:cloud",
         "ollama/kimi-k2.6:cloud"
       ],
-      "tier": 3,
+      "tier": "t3Specialists",
       "role": "Marketing Intelligence Agent",
       "stream": "business",
       "reportsTo": "aria",
       "requiredFallbacks": [
         "ollama/gemma4:31b-cloud",
         "ollama/kimi-k2.6:cloud"
-      ]
+      ],
+      "modelChangeNote": "CHG-0596: stays on minimax (T3 specialist tier per Ken directive)"
     },
     "social": {
       "requiredPrimary": "ollama/minimax-m3:cloud",
@@ -283,14 +279,15 @@
         "ollama/gemma4:31b-cloud",
         "ollama/deepseek-v4-pro:cloud"
       ],
-      "tier": 3,
+      "tier": "t3Specialists",
       "role": "Social & Content Marketing Agent",
       "stream": "business",
       "reportsTo": "aria",
       "requiredFallbacks": [
         "ollama/gemma4:31b-cloud",
         "ollama/kimi-k2.6:cloud"
-      ]
+      ],
+      "modelChangeNote": "CHG-0596: stays on minimax (T3 specialist tier per Ken directive)"
     }
   },
   "cronModelPolicy": {

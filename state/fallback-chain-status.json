@@ -1,9 +1,9 @@
 {
-  "checkedAt": "2026-06-13T04:48:03Z",
+  "checkedAt": "2026-06-15T12:54:35Z",
   "overall": "ok",
   "chain": [
-    "ollama/minimax-m3:cloud",
-    "ollama/gemma4:31b-cloud"
+    "ollama/deepseek-v4-pro:cloud",
+    "ollama/deepseek-v4-flash:cloud"
   ],
   "checks": [
     "anthropicKey:ok",

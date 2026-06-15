@@ -222,6 +222,12 @@ _Maintained by Aria 🔵 + Yoda 🟢 | Status-tracked content for AInchors train
 | TC-199 | Surviving a model swap: how we swapped 14 agents to minimax-m3 with a revert safety net | 💡 Idea | Yoda Day 40 (MiniMax M3 trial — 7 primaries + 7 fallback chains swapped, revert cron scheduled) | Both |
 | TC-200 | The skill gate pattern: turning discipline into code that blocks you from shortcuts | 💡 Idea | Yoda Day 40 (db.sh skill-gate — structural backstop preventing direct PG access without skill-load) | Yoda |
 
+| TC-201 | The 5-layer anti-regression stack: building defense-in-depth for AI automation | 💡 Idea | Yoda Day 40+ (L-137 defense stack — syntax + wiring + null-safety + cooldown-gating + pipefail-trap + evidence verify) | Yoda |
+| TC-202 | 'SHOULD_FIRE=false' is not enough: gate the side effect not the flag | 💡 Idea | Yoda Day 40+ (L-136 cooldown-gating bug, 10x alert blast radius) | Yoda |
+| TC-203 | The sprint build-on rule: additive planning that prevents knowledge loss | 💡 Idea | Yoda Day 40+ (L-140 Sprint plan discipline, Sprint 8 ceremony, Ken directive) | Both |
+| TC-204 | When subagents lie about their own tests: the verifier_corpus pattern | 💡 Idea | Yoda Day 40+ (L-139 anti-subagent-trap, CHG-0590, 3 false-PASS reports) | Yoda |
+| TC-205 | Script wrappers don't need AI models: 14 cron conversions saved 70% cloud calls | 💡 Idea | Yoda Day 40+ (CHG-0601/0602 batch cron downgrade to deepseek-v4-flash) | Both |
+
 ## Status Legend
 💡 Idea → 📝 Draft → 🔍 Review (Yoda validates) → ✅ Ready → 📢 Published
 

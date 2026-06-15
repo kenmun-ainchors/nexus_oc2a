@@ -1,4 +1,65 @@
 {
   "updatedAt": "2026-06-09T10:26:56.786292+00:00",
-  "crons": {}
+  "crons": {
+    "6a059e9e": {
+      "cronId": "6a059e9e",
+      "name": "TRIGGER-12 \u2014 Allowlist Sync Detector",
+      "consecutiveTimeouts": 2,
+      "totalTimeouts": 2,
+      "retriesUsed": 2,
+      "lastTimeoutAt": "2026-06-15T00:44:15.957899+00:00",
+      "nextRetryBackoffMs": 240000,
+      "deadLetter": false
+    },
+    "dc88affb": {
+      "cronId": "dc88affb",
+      "name": "TQP executor poll (every 5 min)",
+      "consecutiveTimeouts": 2,
+      "totalTimeouts": 2,
+      "retriesUsed": 2,
+      "lastTimeoutAt": "2026-06-15T00:44:15.957899+00:00",
+      "nextRetryBackoffMs": 240000,
+      "deadLetter": false
+    },
+    "35c8cd08": {
+      "cronId": "35c8cd08",
+      "name": "Forge \ud83c\udfd7\ufe0f \u2014 Fallback Chain Validation (hourly)",
+      "consecutiveTimeouts": 2,
+      "totalTimeouts": 2,
+      "retriesUsed": 2,
+      "lastTimeoutAt": "2026-06-15T00:44:15.957899+00:00",
+      "nextRetryBackoffMs": 240000,
+      "deadLetter": false
+    },
+    "2c855a3e": {
+      "cronId": "2c855a3e",
+      "name": "PG-Notion Batch Sync (30-min)",
+      "consecutiveTimeouts": 2,
+      "totalTimeouts": 2,
+      "retriesUsed": 2,
+      "lastTimeoutAt": "2026-06-15T00:44:15.957899+00:00",
+      "nextRetryBackoffMs": 240000,
+      "deadLetter": false
+    },
+    "c69615bb": {
+      "cronId": "c69615bb",
+      "name": "yoda-context-brief-refresh (2pm + 8pm AEST)",
+      "consecutiveTimeouts": 2,
+      "totalTimeouts": 2,
+      "retriesUsed": 2,
+      "lastTimeoutAt": "2026-06-15T00:44:15.957899+00:00",
+      "nextRetryBackoffMs": 240000,
+      "deadLetter": false
+    },
+    "53c94ce7": {
+      "cronId": "53c94ce7",
+      "name": "WO-002 Divergence Daily Check",
+      "consecutiveTimeouts": 7,
+      "totalTimeouts": 7,
+      "retriesUsed": 2,
+      "lastTimeoutAt": "2026-06-15T08:40:56.490444+00:00",
+      "nextRetryBackoffMs": 240000,
+      "deadLetter": false
+    }
+  }
 }

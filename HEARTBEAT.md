@@ -19,15 +19,14 @@
 - If allValid=false: alert Ken with list of accounts needing re-auth
 - State key: lastChecks.delegatedAuth
 
-### Ollama Cloud Credit Tracking (every 2h) — DEPRECATED 2026-06-15
-- **Billing model change (Ken 13:23 AEST):** Monthly turns-limit, NOT API credit.
-- Old tracking: read `state/cost-state.json → apiBalance.remainingEstimate` (informational only — fixed subscription).
-- New tracking: `state/cost-state.json → turnsLimit` (pending Ken input on monthly budget number).
-- Spend alerts switched from USD tiers to turns-based (provisional).
-- Auto-reload deactivated.
-- Cost model: see skill at `infra/sandbox/seed/skills/model-routing/SKILL.md`
+### Ollama Weekly Request Tracking (every 2h) — ACTIVE 2026-06-16
+- **Formula confirmed (Ken 19:14 AEST):** 30,000 requests/week flat count, all models equal weight.
+- **Window:** Monday 10:00 AEST → next Monday 10:00 AEST.
+- Read: `state/cost-state.json → turnsLimit` (currentPct, requestsRemaining, burnRate).
+- Alert thresholds: 50% WARN (surface next interaction), 70% ALERT (Telegram), 85% CRITICAL (Telegram), 95% EMERGENCY (Telegram).
+- Daily Burn Alert cron (ca5d5e50, 20:00 AEST) handles threshold Telegram alerts.
 - State key: lastChecks.costState
-- CHG ref: see billingModelHistory in cost-state.json
+- CHG ref: CHG-0603 (2026-06-16 19:14 AEST)
 
 ### Async Task Watchdog (every 30 min)
 - Run: `scripts/task-watchdog.sh`
@@ -65,9 +64,10 @@
 - TRIGGER-04/06/08/09 = automated crons — no heartbeat check needed
 
 ### Budget Check — TKT-0092 (every 30 min)
-- Run: `zsh scripts/budget-check.sh --report`
+- Run USD-based: `zsh scripts/budget-check.sh --report` (preserved for Anthropic/Claude day)
+- Run request-based: `zsh scripts/request-budget-check.sh --report` (Ollama weekly request tracking)
 - WARN (≥alertAt): surface at next natural interaction. EXCEEDED: Telegram immediately
-- State key: lastChecks.budgetCheck
+- State keys: lastChecks.budgetCheck, lastChecks.requestBudgetCheck
 
 ### Agile Ceremony Gate — NON-NEGOTIABLE (every Monday morning)
 - Check: Friday Sprint Review + Sunday Sprint Planning completed last week?

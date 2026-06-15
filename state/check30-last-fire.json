@@ -1,5 +1,5 @@
 {
-  "ts": "2026-06-15T11:02:47",
+  "ts": "2026-06-15T13:38:56",
   "count": 15,
   "crons": [
     {
@@ -48,11 +48,6 @@
       "consecutiveErrors": 2
     },
     {
-      "id": "e269d620",
-      "name": "AInchors Auto-Heal (nightly)",
-      "consecutiveErrors": 2
-    },
-    {
       "id": "6bd53c89",
       "name": "TRIGGER-04/06: OpenClaw Release Monitor",
       "consecutiveErrors": 2
@@ -75,6 +70,11 @@
     {
       "id": "e08e19ad",
       "name": "TKT-0093 Backup Health Check",
+      "consecutiveErrors": 2
+    },
+    {
+      "id": "7a4d8381",
+      "name": "Aria \ud83d\udd35 \u2014 Weekly Business ROI Summary",
       "consecutiveErrors": 2
     }
   ]

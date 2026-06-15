@@ -18,6 +18,12 @@ _For Aria 🔵 & the Spark content engine | Ideas from daily platform work that 
 | TC-201 | The build-in-public redemption arc: why 3 content angles got rejected and the 4th stuck | 💡 idea | 2026-06-12 | Spark v1→v2 reactivation |
 | TC-202 | Stub-victim pattern: when duplicate ticket IDs silently break your data integrity | 💡 idea | 2026-06-12 | L-077 + L-085, TKT-0339 duplicates |
 | TC-203 | QBR defense in depth: 5 layers so no single failure drops the quarter | 💡 idea | 2026-06-12 | CHG-0505 QBR lock-in |
+| TC-204 | The 5-layer anti-regression stack: building defense-in-depth for AI automation | 💡 idea | 2026-06-15 | L-137 defense stack (syntax + wiring + null-safety + cooldown-gating + pipefail-trap) |
+| TC-205 | 'SHOULD_FIRE=false' is not enough: why you must gate the side effect, not the flag | 💡 idea | 2026-06-15 | L-136 cooldown-gating bug |
+| TC-206 | The sprint build-on rule: additive planning that prevents knowledge loss | 💡 idea | 2026-06-15 | L-140 Sprint plan discipline, Sprint 8 ceremony |
+| TC-207 | When subagents lie about their own tests: the verifier_corpus pattern | 💡 idea | 2026-06-15 | L-139 anti-subagent-trap, CHG-0590 |
+| TC-208 | Script wrappers don't need AI models: 14 cron conversions saved 70% cloud calls | 💡 idea | 2026-06-15 | CHG-0601/0602 batch cron downgrade |
+| TC-209 | 24 lessons in one day: the silence-failure family and why automation bugs stay hidden | 💡 idea | 2026-06-15 | L-116 through L-140, 33 CHGs in one day |
 
 _Statuses: 💡 idea → ✍️ draft → ✅ scheduled → 📤 published_
 

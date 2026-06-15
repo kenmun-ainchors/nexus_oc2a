@@ -1,32 +1,15 @@
 {
-  "generatedAt": "2026-06-08T22:23:45.682716+00:00",
+  "generatedAt": "2026-06-15T08:40:56.472972+00:00",
   "failures": [
     {
-      "cronId": "a89d00ef",
-      "fullCronId": "a89d00ef-6d96-4aaf-8759-504c4ac72a3c",
-      "name": "AInchors Task Queue Processor (5-min \u2014 systemEvent)",
-      "consecutiveErrors": 3,
-      "lastError": "error",
-      "source": "live-cron-state"
-    },
-    {
-      "cronId": "637ecb12",
-      "fullCronId": "637ecb12-eae2-4c16-b174-8acdaa2729cc",
-      "name": "AInchors Task Monitor (systemEvent)",
-      "consecutiveErrors": 3,
-      "lastError": "error",
-      "source": "live-cron-state"
-    },
-    {
-      "cronId": "d3b1e203",
-      "fullCronId": "d3b1e203-741b-444a-9852-7bb8839d2c99",
-      "name": "AInchors Observability Collector (systemEvent)",
-      "consecutiveErrors": 3,
+      "cronId": "53c94ce7",
+      "fullCronId": "53c94ce7-5a87-42b7-8a68-ff2f865b7337",
+      "name": "WO-002 Divergence Daily Check",
+      "consecutiveErrors": 5,
       "lastError": "error",
       "source": "live-cron-state"
     }
   ],
   "warnings": [],
-  "acknowledged": true,
-  "note": "False positive \u2014 all 3 crons had \"interrupted by gateway restart\" lastError, transient after 03:00 restart. Fixed by CHG-0458 (EXPECTED_ERROR_PATTERNS in cron-health-check.sh)."
+  "acknowledged": true
 }
