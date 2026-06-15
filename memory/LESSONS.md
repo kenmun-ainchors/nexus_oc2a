@@ -1370,3 +1370,31 @@ The `[^A-Z]*?` is "any chars not uppercase" — env var names are uppercase, so 
 **Source:** TKT-0503 metadata clobber 2026-06-13 14:27 AEST, caught in same turn by Yoda verify phase. Ken Mun directive 14:32 AEST: log L-115 now, approve rebuild, caught-in-verify exempted from L-113 strike count. CHG-0545 (Yoda role boundary) — no execution by Yoda, but the dispatch discipline lesson (always send complete payload) applies to me directly when calling domain scripts.
 
 **Follow-up 2026-06-13 14:40 AEST — Severity demoted CRITICAL→WARN (TKT-0504-A0, CHG-PENDING):** Signal layer (CHECK 28g in auto-heal.sh) was implemented 2026-06-13; severity was CRITICAL. Demoted to WARN per TKT-0504 groom (Ken 14:24 AEST). The signal is live, so CRITICAL is too noisy. Re-promote to CRITICAL only after TKT-0504-A1..A5 (Sprint 9 full bridge: tqp-executor.sh) ships and the executor is verified. **Verification command:** `bash scripts/auto-heal.sh 2>&1 | grep -A 1 "CHECK 28g"` — verdict should read `WARN: N atom(s)...` not `CRITICAL: N atom(s)...`. **Rollback:** revert 3 lines in auto-heal.sh (CRITICAL back), revert this LESSONS entry. **Linked:** TKT-0504-A0, CHG-PENDING.
+
+## L-116 | 2026-06-15 | Infra | Cloud-Cron Escalation: 7th silence-failure in lineage
+
+**Severity: High (P0 platform reliability).** Ollama outage 2026-06-13 15:31 to 2026-06-15 10:04 AEST (42.5h) went undetected for 30+ minutes because the only check that surfaces cron failures is the 30-min heartbeat. The 6 cloud-modelled crons that failed (TQP, PG-Notion Sync, Allowlist Sync TRIGGER-12, Forge Fallback Chain, WO-002 Divergence, Yoda context-brief-refresh) all had 3-47 consecutive errors before Ken manually noticed.
+
+**Root cause:** All cloud-modelled crons share a single Ollama Cloud weekly budget under the `beautiful_faraday_411` account. When the cap hits (every ~Sun/Mon), every ollama/* job fails simultaneously. The 30-min heartbeat cycle was too slow to surface this as a cluster failure.
+
+**Fix pattern (CHECK 29 in auto-heal.sh):** Filter cron-health-alert.json failures to those with consecutiveErrors >= 3 AND model starts with `ollama/*` (cross-referenced against state/cron-models.json, a static map derived from `openclaw cron list --json`). Escalate via sovereign-alert.sh with 6h cooldown via state/check29-last-fire.json. Idempotent (re-runs within 6h show SKIP).
+
+**Verified:** 2026-06-15 10:54:08 AEST — full auto-heal run, CHECK 29 detected synthetic alert with 2 cloud cron failures (50 and 48 consecutiveErrors), sent Telegram alert HTTP 200, state/check29-last-fire.json written with ts/count/crons. Re-run: SKIP (cooldown active).
+
+**Tied to:** L-088 (main session lane hijack), L-089 (CREST tool rejection), L-090 (zsh read -p), L-091 (crest-done-gate.sh syntax), L-095 (TQP queue JSON/PG divergence), L-096 (TQP claimed-but-not-executing), L-100 (obs.db signature dedup), L-105, L-107 (CREST routing). All 8 in same silence-failure family.
+
+**Follow-up:** Recommendations #1 (per-cron quota tracking), #3 (kimi+deepseek combo for critical crons), #4 (state/ollama-quota-state.json with 24h-pre-exhaustion alert), #5 (EOD health-assert gate) all queued for Ken approval.
+
+## L-117 | 2026-06-15 | Infra | auto-heal CHECK 25 silent crash: orphan try/except in Python heredoc
+
+**Severity: Critical (P0 hidden infrastructure bug).** auto-heal.sh CHECK 25 (CREST Tool-Call Rejection Recovery, L-089) had a Python SyntaxError on every run from 2026-06-13 14:14 to 2026-06-15 10:54. The orphan `except Exception as e: continue` block at lines 1426-1427 was at 4-space indent, which Python interpreted as matching a try that had already closed (the try on line 1347 had only one statement in its body, closed by except on line 1349). Result: `SyntaxError: invalid syntax` at `<stdin>` line 81. The `set -u` and `trap 'CRASH DETECTED'` in auto-heal.sh silently absorbed the crash and wrote `exit_status=crashed` to state/auto-heal-current.json, but no Telegram alert fired.
+
+**Effect:** CHECK 26, 27, 28f, 28g, 28h, AND the new CHECK 29 (Cloud-Cron Escalation, L-116) NEVER ran in production for 2 days. The CHECK 25 bug was hiding every other check downstream.
+
+**Discovery:** During the 2026-06-15 outage shakedown, while independently verifying CHECK 29, the auto-heal crashed at CHECK 25. Investigation revealed the orphan except/continue. Fix: 2-line delete. Re-verified: CHECK 25 PASS, all downstream checks now run.
+
+**Tied to:** L-091 (crest-done-gate.sh syntax), L-089 (CREST tool rejection), L-116 (this lineage). All 3 are "script crashed but no alert fired" — same root cause family.
+
+**Lesson:** auto-heal.sh should validate its own embedded Python heredocs at build time. Suggested future CHECK 30: `bash -n` and `python3 -c "compile(open('auto-heal.sh').read(), '<test>', 'exec')"` on the embedded Python blocks. Until then, any new Python heredoc is a regression risk.
+
+**Anti-regression:** Add a pre-commit hook that runs `python3 -c "compile(open('scripts/auto-heal.sh').read().split('python3 <<PYEOF')[1].split('PYEOF')[0], '<heredoc>', 'exec')"` on each embedded Python block.

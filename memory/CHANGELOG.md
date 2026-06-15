@@ -11,6 +11,19 @@
 ---
 ---
 
+## 2026-06-15 10:55 AEST — [CHG-0559] CHECK 29: Cloud-Cron Escalation + L-116 (L-117 co-fix)
+**Type:** script
+**Change Type:** Normal
+**Source:** incident-recovery
+**Trigger:** 2026-06-15 10:04 AEST Ollama Cloud weekly cap reset; Ken 10:33 AEST approved Recommendation #2 from outage shakedown
+**What changed:** scripts/auto-heal.sh CHECK 29 (Cloud-Cron Escalation, L-116) + CHECKS_RUN entry; state/cron-models.json (58 cron->model map); CHECK 25 (L-089) orphan except/continue fix that had been silently crashing the script since 2026-06-13
+**Why:** Ollama outage 06-13 15:31 to 06-15 10:04 AEST (42.5h) was undetected for the first 30+ min because cron failures are only surfaced by the 30-min heartbeat. CHECK 29 escalates cloud-modelled cron cluster failures immediately. Co-discovery: CHECK 25's orphan try/except was preventing CHECK 26-29 from ever running in production, so this fix unlocks the entire CHECK 25-29 chain.
+**Verification:** bash -n clean; zsh auto-heal --status shows CHECK 25 PASS, CHECK 26 PASS, CHECK 27 FAIL (pre-existing aria-crest-check.sh), CHECK 28f/28g/28h PASS, CHECK 29 ESCALATED 2 cloud cron failures; sovereign-alert.log 10:54:08 OK CLOUD-CRON -> telegram; check29-last-fire.json written; idempotent re-run shows SKIP cooldown
+**Rollback:** revert scripts/auto-heal.sh to prior commit; delete state/cron-models.json and state/check29-last-fire.json
+**Linked:** TKT-0503, L-116, L-117, L-088/L089/L090/L091/L095/L096/L100/L105/L107
+---
+
+
 ## 2026-06-13 15:31 AEST — [CHG-0558] Sprint 8 planning: 4 hygiene status syncs + TKT-0137 fold + Sprint 7 carry-forward to Sprint 8
 **Type:** data
 **Change Type:** Normal

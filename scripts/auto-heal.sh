@@ -1337,6 +1337,7 @@ fi
 # detected in last 24h.
 log "CHECK 25: CREST tool-call rejection recovery (L-089)"
 CHECKS_RUN+=("crest_rejection_stall_check")
+CHECKS_RUN+=("cloud_cron_escalation")
 
 L089_FINDINGS="$STATE_DIR/crest-rejection-stalls.json"
 L089_THRESHOLD_HOURS=24
@@ -1422,8 +1423,6 @@ for p in pattern_paths:
                                 "agentName": rec.get("__openclaw", {}).get("agentId", "unknown"),
                             })
                         break
-    except Exception as e:
-        continue
 
 result = {
     "check": "crest_rejection_stall_check",
@@ -1838,6 +1837,69 @@ PYEOF_INNER
   fi
 else
   log "CHECK 28h: SKIP (no crest-execute-gate-log.json yet)"
+fi
+# ---------- CHECK 29: Cloud-Cron Escalation (L-116) ----------
+# Detects cron failures on ollama/* modelled jobs and escalates via
+# sovereign-alert immediately, bypassing the 30-min heartbeat cycle.
+# Idempotent: 6h rate limit via state/check29-last-fire.json.
+log "CHECK 29: cloud-cron escalation (L-116)"
+CHECKS_RUN+=("cloud_cron_escalation")
+
+CRON_ALERT="${STATE_DIR}/cron-health-alert.json"
+CRON_MODELS="${STATE_DIR}/cron-models.json"
+CHECK29_LAST_FIRE="${STATE_DIR}/check29-last-fire.json"
+CHECK29_COOLDOWN_S=21600  # 6h
+
+CLOUD_ESCALATED=0
+CLOUD_ESCALATED_LIST=""
+
+if [[ ! -f "$CRON_ALERT" ]]; then
+  log "CHECK 29: SKIP (no $CRON_ALERT)"
+elif [[ ! -f "$CRON_MODELS" ]]; then
+  log "CHECK 29: SKIP (no $CRON_MODELS — populated by Forge on 2026-06-15)"
+else
+  SHOULD_FIRE=true
+  if [[ -f "$CHECK29_LAST_FIRE" ]]; then
+    LAST_FIRE_TS=$(python3 -c "import json,sys; print(json.load(open(sys.argv[1])).get('ts',''))" "$CHECK29_LAST_FIRE" 2>/dev/null || echo "")
+    if [[ -n "$LAST_FIRE_TS" ]]; then
+      LAST_FIRE_EPOCH=$(date -j -f "%Y-%m-%dT%H:%M:%S" "$LAST_FIRE_TS" "+%s" 2>/dev/null || echo 0)
+      NOW_EPOCH=$(date "+%s")
+      ELAPSED=$(( NOW_EPOCH - LAST_FIRE_EPOCH ))
+      if (( ELAPSED < CHECK29_COOLDOWN_S )); then
+        SHOULD_FIRE=false
+      fi
+    fi
+  fi
+
+  if [[ "$SHOULD_FIRE" == "true" ]]; then
+    while IFS=$'\t' read -r CRON_ID CRON_NAME CRON_ERRS; do
+      [[ -z "$CRON_ID" ]] && continue
+      (( CRON_ERRS >= 3 )) || continue
+      CRON_MODEL=$(python3 -c "import json,sys; print(json.load(open(sys.argv[1])).get(sys.argv[2],''))" "$CRON_MODELS" "$CRON_ID" 2>/dev/null || echo "")
+      [[ "$CRON_MODEL" == ollama/* ]] || continue
+      CLOUD_ESCALATED=$(( CLOUD_ESCALATED + 1 ))
+      CLOUD_ESCALATED_LIST="${CLOUD_ESCALATED_LIST}  • ${CRON_NAME} (${CRON_ERRS} errs, ${CRON_MODEL})\n"
+    done < <(python3 -c "
+import json
+d = json.load(open('$CRON_ALERT'))
+for f in d.get('failures', []):
+    print(f\"{f.get('cronId','')}\t{f.get('name','')}\t{f.get('consecutiveErrors',0)}\")
+")
+
+    if (( CLOUD_ESCALATED > 0 )); then
+      MSG="🚨 Cloud-cron cluster failure — ${CLOUD_ESCALATED} ollama/* job(s) at >=3 consecutive errors (likely Ollama Cloud weekly cap or auth outage):\n${CLOUD_ESCALATED_LIST}Check: openclaw cron list | state/cron-health-alert.json"
+      bash "${WORKSPACE}/scripts/sovereign-alert.sh" --source CLOUD-CRON --message "$MSG" || log "CHECK 29: WARN — sovereign-alert.sh returned non-zero (Telegram send failed)"
+      python3 -c "
+import json, datetime
+json.dump({'ts': datetime.datetime.now().strftime('%Y-%m-%dT%H:%M:%S'), 'count': $CLOUD_ESCALATED, 'crons': '''$CLOUD_ESCALATED_LIST'''}, open('$CHECK29_LAST_FIRE','w'), indent=2)
+"
+      log "CHECK 29: ESCALATED ${CLOUD_ESCALATED} cloud cron failure(s) via sovereign-alert"
+    else
+      log "CHECK 29: PASS (no ollama/* crons at >=3 consecutive errors)"
+    fi
+  else
+    log "CHECK 29: SKIP (cooldown active, last fire <6h ago)"
+  fi
 fi
 
 # ---------- CHECK 28d: Auto-archive untracked root .md files (TKT-0341) ----------
