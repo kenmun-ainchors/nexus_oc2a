@@ -1,6 +1,6 @@
 {
-  "runAt": "2026-06-15T15:00:04Z",
-  "runAtLocal": "2026-06-16 01:00 AEST",
+  "runAt": "2026-06-16T15:00:04Z",
+  "runAtLocal": "2026-06-17 01:00 AEST",
   "duration_ms": 0,
   "checks_run": [
   "auth_profiles",
@@ -54,29 +54,28 @@
 ],
   "checks_count": 48,
   "issues_found": [
-  "backup:stale:59h",
   "balance:critical:$0",
+  "config-baseline:stale-baseline",
   "tilde-path:state-file:sandbox-boundary-audit.json",
   "tilde-path:state-file:cron-list-snapshot.json",
   "cron-timeout:13-actionable"
 ],
   "issues_count": 5,
   "auto_fixed": [
-  "git-commit:workspace:57-files"
+  "git-commit:workspace:19-files",
+  "sandbox-gateway-auto-unload:28c"
 ],
-  "auto_fixed_count": 1,
+  "auto_fixed_count": 2,
   "needs_ken": [
-  "Latest incremental backup is 59h old (>30h threshold). Path: /Users/ainchorsangiefpl/Backups/ainchors/workspace-incremental/workspace-2026-06-15-1324",
   "API balance critically low: $0 USD remaining (threshold $5)",
+  "WARN: Config baseline is 8 days old. Run gateway-config-snapshot.sh to refresh.",
   "TKT-0336: 2 tilde path violations detected in cron payloads or state files. Run with --enforce to block.",
   "TKT-0339: 13 actionable cron timeout recommendation(s) (agentTurn only, scaler vA6 — SCALER FLAG ONLY, 13 DECREASE). Manual review before any timeout changes. Baseline: /Users/ainchorsangiefpl/.openclaw/workspace/state/cron-timeout-baseline.json",
-  "L-102: Gateway (PID 94216) env-wrapper INERT. env-wrapper expects NODE_OPTIONS=--max-old-space-size=6144 but process env shows: empty. Fix: ensure gateway is launchd-spawned. State: state/gateway-launch-state.json. (TKT-0505-A5.)",
+  "L-102: Gateway (PID 46999) env-wrapper INERT. env-wrapper expects NODE_OPTIONS=--max-old-space-size=6144 but process env shows: empty. Fix: ensure gateway is launchd-spawned. State: state/gateway-launch-state.json. (TKT-0505-A5.)",
   "L-107: 8 Yoda direct Execute work detected in last 7d (CREST v1.2 §6 violation). Yoda using strong-tier model on cheap-tier phase. See state/crest-execute-gate-log.json. TKT-0506.",
-  "Migration advisor: 5 cron(s) recommended for multi-vendor migration — review tier 1 candidates",
   "Pipefail+trap: 5 high-severity anti-pattern(s) (L-138 bug class) — review state/pipefail-trap-findings.json",
-  "TKT-0526: 1 cron(s) with :cloud model have timeoutSeconds < 120. See /Users/ainchorsangiefpl/.openclaw/workspace/state/auto-heal-cron-timeout-audit.json. e08e19ad TKT-0093 Backup Health Check current=30s model=ollama/deepseek-v4-flash:cloud suggested=120s ",
-  "CHECK 28c: Sandbox gateway LaunchAgent loaded but port 28789 not listening (dead 12.9h). Auto-unload at 24h. Manual: launchctl bootout gui/$(id -u)/ai.openclaw.sandbox-gateway"
+  "TKT-0526: 1 cron(s) with :cloud model have timeoutSeconds < 120. See /Users/ainchorsangiefpl/.openclaw/workspace/state/auto-heal-cron-timeout-audit.json. e08e19ad TKT-0093 Backup Health Check current=30s model=ollama/deepseek-v4-flash:cloud suggested=120s "
 ],
-  "needs_ken_count": 10,
+  "needs_ken_count": 8,
   "exit_status": "complete_with_needs_ken"
 }
