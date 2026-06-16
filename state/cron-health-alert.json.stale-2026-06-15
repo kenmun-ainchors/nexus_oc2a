@@ -1,0 +1,19 @@
+{
+  "generatedAt": "2026-06-15T10:55:00+10:00",
+  "failures": [
+    {
+      "cronId": "6a059e9e-fffb-4651-97cb-19c864d747d6",
+      "name": "TRIGGER-12 \u2014 Allowlist Sync Detector",
+      "consecutiveErrors": 50,
+      "lastError": "error",
+      "source": "live-cron-state"
+    },
+    {
+      "cronId": "2c855a3e-6b66-43f5-98a1-2a9293f7a527",
+      "name": "PG-Notion Batch Sync (30-min)",
+      "consecutiveErrors": 48,
+      "lastError": "error",
+      "source": "live-cron-state"
+    }
+  ]
+}

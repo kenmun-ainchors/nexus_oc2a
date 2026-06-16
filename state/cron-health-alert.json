@@ -1,15 +1,15 @@
 {
-  "generatedAt": "2026-06-15T08:40:56.472972+00:00",
+  "generatedAt": "2026-06-16T02:49:22.489337+00:00",
   "failures": [
     {
-      "cronId": "53c94ce7",
-      "fullCronId": "53c94ce7-5a87-42b7-8a68-ff2f865b7337",
-      "name": "WO-002 Divergence Daily Check",
-      "consecutiveErrors": 5,
+      "cronId": "85595417",
+      "fullCronId": "85595417-73d0-416d-b6ff-d5b6578762a7",
+      "name": "PG-Notion Integrity Audit (daily)",
+      "consecutiveErrors": 3,
       "lastError": "error",
       "source": "live-cron-state"
     }
   ],
   "warnings": [],
-  "acknowledged": true
+  "acknowledged": false
 }

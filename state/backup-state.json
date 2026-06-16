@@ -1,10 +1,8 @@
 {
-  "lastBackup": "2026-06-15T03:24:16Z",
-  "status": "ok",
-  "backupType": "incremental",
-  "location": "/Users/ainchorsangiefpl/Backups/ainchors",
-  "lastSnap": "workspace-2026-06-15-1324",
-  "nasConnected": false,
-  "cloudBackupEnabled": false,
-  "schedule": "incremental Mon-Sat (rsync --link-dest), full Sun (tar.gz)"
+  "timestamp": "2026-06-16-0805",
+  "type": "incremental",
+  "exitCode": 0,
+  "date": "2026-06-16",
+  "dow": 2,
+  "notes": "atlas/ dir has no checked-out commit (non-fatal, skipped)"
 }

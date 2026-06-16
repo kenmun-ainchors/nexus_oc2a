@@ -1,16 +1,16 @@
 # Spark LinkedIn Campaign — Daily Metrics Snapshot
 
-**Snapshot:** 2026-06-15 00:00 UTC (Mon 10:00 AEST)  
+**Snapshot:** 2026-06-16 00:00 UTC (Tue 10:00 AEST)  
 **Run by:** Spark (cron `5d581442-ca2e-48d0-a5a1-e1ffe2b418a0`)  
 **Interval:** 24h  
 **Posts checked:** 11  
-**Errors:** 1 (404 — LI-W3-P3 bad URN, needs backfill)
+**Errors:** 1 (404 — LI-W3-P3 bad URN, already closed)
 
 ---
 
 | Post ID | Title | Type | Reactions | Comments | Shares | Status |
 |---------|-------|------|-----------|----------|--------|--------|
-| LI-TEASER-2026-06-13 | The Silence Was the Build | teaser | 29 | 0 | 0 | ✅ |
+| LI-TEASER-2026-06-13 | The Silence Was the Build | teaser | 31 | 0 | 0 | ✅ |
 | LI-SEED-1 | Seeder Post 1 — The Opening Tease | seeder | 48 | 0 | 0 | ✅ |
 | LI-SEED-2 | Seeder Post 2 — The Hint | seeder | 24 | 0 | 0 | ✅ |
 | LI-W1-P1 | W1P1 — Practitioner Intro | original | 32 | 2 | 0 | ✅ |
@@ -28,7 +28,7 @@
 
 | Metric | Count |
 |--------|-------|
-| **Reactions** | **219** |
+| **Reactions** | **221** |
 | **Comments** | **14** |
 | **Shares** | **0** |
 
@@ -37,5 +37,5 @@
 ## Notes
 
 - Impressions/reach are `null` — org page not onboarded to MDP.
-- **LI-W3-P3** URN `urn:li:share:7463404594140905473` returns 404. Likely the URN belongs to a different post (duplicate-post error on retry at the time). Needs manual backfill or URL-based resolution.
-- No new posts in last 24h (campaign resumes Tue 16 Jun 2026 07:30 AEST).
+- **LI-W3-P3** URN `urn:li:share:7463404594140905473` returns 404. Post was already closed 2026-06-15 by Ken Mun. No action required.
+- New post published since last snapshot: **LI-W1-P1** (Foundation Arc I. The Cracks) — posted Tue 16 Jun 07:30 AEST. Will appear in next 24h snapshot.

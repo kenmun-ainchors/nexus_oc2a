@@ -1,0 +1,84 @@
+{
+  "checkedAt": "2026-06-15T15:49:00+10:00",
+  "incident": "INC-20260608-001",
+  "vectors": [
+    {
+      "id": "A1.1",
+      "vector": "direct-config-write",
+      "source": "sandbox (workspace-infra)",
+      "target": "prod config (~/.openclaw/openclaw.json)",
+      "current_prevention": "OPENCLAW_SANDBOX=1 env var in sandbox plist + tools.fs.workspaceOnly=true on infra agent. Sandbox config OPENCLAW_CONFIG points to ~/.openclaw/nexus-sandbox/openclaw.json — NOT prod config. Direct write from sandbox agent to prod config path is blocked by workspaceOnly guard.",
+      "gap_status": "covered",
+      "fix_recommendation": "None needed — workspaceOnly guard prevents direct write. Keep."
+    },
+    {
+      "id": "A1.2",
+      "vector": "config-validation-side-effect",
+      "source": "sandbox (workspace-infra)",
+      "target": "prod gateway config/token via openclaw doctor --fix",
+      "current_prevention": "None. openclaw doctor --fix reads config pointed by OPENCLAW_CONFIG (sandbox openclaw.json) — it does NOT read prod config by default. BUT the sandbox plist sets HOME=/Users/ainchorsangiefpl, so doctor could discover ~/.openclaw/openclaw.json if it falls back to default config discovery. The 2026-06-08 incident showed doctor triggered token regeneration as side-effect.",
+      "gap_status": "gap",
+      "fix_recommendation": "1) Add 'unset OPENCLAW_GATEWAY_TOKEN' in sandbox.env so sandbox doctor cannot regenerate prod token. 2) Add OPENCLAW_SANDBOX=1 guard in any script that calls openclaw doctor."
+    },
+    {
+      "id": "A1.3",
+      "vector": "token-regeneration",
+      "source": "sandbox process via openclaw doctor --fix",
+      "target": "production gateway token",
+      "current_prevention": "Sandbox plist sets OPENCLAW_CONFIG to nexus-sandbox/openclaw.json. However sandbox.env does NOT explicitly unset OPENCLAW_GATEWAY_TOKEN. If inherited from shell/launchd environment, sandbox doctor could regenerate the prod token.",
+      "gap_status": "gap",
+      "fix_recommendation": "Add 'unset OPENCLAW_GATEWAY_TOKEN' to sandbox.env. This prevents the exact side-effect chain from INC-20260608-001."
+    },
+    {
+      "id": "A1.4",
+      "vector": "workspace-boundary",
+      "source": "sandbox workspace-infra",
+      "target": "production workspace",
+      "current_prevention": "Separate directories (~/.openclaw/workspace-infra vs ~/.openclaw/workspace). Same filesystem, no mount isolation. No cross-boundary symlinks found. Risk is low because workspaceOnly guard limits file writes to workspace-infra only.",
+      "gap_status": "covered",
+      "fix_recommendation": "None needed currently. WorkspaceOnly guard is sufficient for filesystem isolation."
+    },
+    {
+      "id": "A1.5",
+      "vector": "launchagent-plist",
+      "source": "sandbox LaunchAgent plist",
+      "target": "production config/env",
+      "current_prevention": "Sandbox plist properly isolated: OPENCLAW_CONFIG → nexus-sandbox/openclaw.json, OPENCLAW_SANDBOX=1, WorkingDirectory → nexus-sandbox, StandardOutPath/StandardErrorPath → sandbox-specific logs. Port 28789 (sandbox convention per CHG-0471).",
+      "gap_status": "covered",
+      "fix_recommendation": "Minor hardening: add 'unset OPENCLAW_GATEWAY_TOKEN' to EnvironmentVariables dict in plist (belt-and-suspenders)."
+    },
+    {
+      "id": "A1.6",
+      "vector": "cron-payloads",
+      "source": "sandbox-context agentTurn crons",
+      "target": "production filesystem or config",
+      "current_prevention": "Cron payloads are managed by production gateway (port 18789). Sandbox gateway (port 28789) runs its own infra agent. No sandbox agentTurn crons exist. Subagent spawns inherit parent workspace restriction.",
+      "gap_status": "covered",
+      "fix_recommendation": "None needed. Audit confirmed no crons run through sandbox context."
+    },
+    {
+      "id": "A1.7",
+      "vector": "db-dsn",
+      "source": "sandbox env (DB connection)",
+      "target": "production state_tickets table",
+      "current_prevention": "No OPENCLAW_DB, PGHOST, PGPASSWORD, or postgres connection params found in nexus-sandbox/ env. The sandbox has no DB access path. Prod auto-heal writes to state_autoheal_log via db-raw.sh on port 18789 — sandbox has no equivalent.",
+      "gap_status": "covered",
+      "fix_recommendation": "None needed. If sandbox ever needs DB access, use a read-only mirror or dedicated sandbox schema per TKT-0396."
+    },
+    {
+      "id": "A1.8",
+      "vector": "openclaw-doctor-token-side-effect",
+      "source": "Any openclaw doctor --fix invocation from sandbox context",
+      "target": "Production gateway SIGTERM via token mismatch",
+      "current_prevention": "Sandbox plist points OPENCLAW_CONFIG to nexus-sandbox/openclaw.json. BUT the doctor command discovers gateway token via OPENCLAW_GATEWAY_TOKEN env var. If this env var leaks from user's shell (common on macOS via launchctl setenv), sandbox process could regenerate the prod token.",
+      "gap_status": "gap",
+      "fix_recommendation": "Same fix as A1.2/A1.3 — explicitly unset OPENCLAW_GATEWAY_TOKEN in sandbox.env."
+    }
+  ],
+  "summary": {
+    "total": 8,
+    "covered": 5,
+    "partial": 0,
+    "gap": 3
+  }
+}

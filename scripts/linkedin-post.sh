@@ -45,7 +45,7 @@ while [[ $# -gt 0 ]]; do
       shift 2
       ;;
     --visibility)
-      VISIBILITY="${2:u}"   # uppercase
+      VISIBILITY="$(echo "$2" | tr '[:lower:]' '[:upper:]')"   # uppercase
       shift 2
       ;;
     --image-asset-urn)

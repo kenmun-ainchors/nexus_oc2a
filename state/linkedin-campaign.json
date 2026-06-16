@@ -4,7 +4,7 @@
   "description": "ONE file for all LinkedIn content state. Replaces linkedin-queue.json, linkedin-content-tracker.json, content-queue.json (social entries only). Blog entries remain in content-queue.json.",
   "createdAt": "2026-05-19T10:39:00+10:00",
   "createdBy": "Yoda (CHG consolidation)",
-  "lastUpdated": "2026-06-15T18:42:08.562909+10:00",
+  "lastUpdated": "2026-06-16T17:32:00+10:00",
   "lastUpdatedBy": "Spark (batch draft cron)",
   "agent": "Spark",
   "api": {
@@ -98,24 +98,6 @@
   },
   "queued": [
     {
-      "id": "LI-W1-P1",
-      "title": "The day my AI bill became the loudest thing in the room",
-      "slot": "Tue 16 Jun 07:30 AEST",
-      "week": 1,
-      "movement": "I. The Cracks",
-      "postNumber": 1,
-      "status": "approved",
-      "draftTriggeredAt": "2026-06-15T18:45:00+10:00",
-      "draftTriggeredBy": "manual batch run (Sat 14 Jun slot missed)",
-      "approvedAt": "2026-06-15T19:58:00+10:00",
-      "approvedBy": "Ken Mun (Telegram, image attached)",
-      "draftFile": "social-drafts/LI-W1-P1-bill-loudest-thing.md",
-      "imageFile": "social-drafts/images/LI-W1-P1.jpg",
-      "imageReady": true,
-      "imagePrompt": "Abstract overhead view of a foundation blueprint drawn in pencil on a rough concrete floor, with one corner slightly lifted and cracking, soft natural light from one side, muted blue-grey tones with a single warm accent line tracing where the crack runs, editorial photography style, shallow depth of field, calm but tense mood. Square 1:1 format, no text, no logos, professional quality.",
-      "governanceVerdict": "CLEARED (Shield: clear, Lex: conditional, Sage: conditional)"
-    },
-    {
       "id": "LI-W1-P2",
       "title": "What happens to your AI when the model underneath you disappears",
       "slot": "Wed 17 Jun 12:00 AEST",
@@ -131,7 +113,8 @@
       "imageFile": "social-drafts/images/LI-W1-P2.jpg",
       "imageReady": true,
       "imagePrompt": "A row of identical engine blocks on a workshop bench, one engine block slightly different from the others, side-by-side comparison photo, soft industrial light, warm neutral palette with one block highlighted in cooler steel-blue, editorial product photography, calm but disquieting mood. Square 1:1 format, no text, no logos, professional quality.",
-      "governanceVerdict": "CLEARED (Shield: clear, Lex: clear, Sage: clear)"
+      "governanceVerdict": "CLEARED (Shield: clear, Lex: clear, Sage: clear)",
+      "imageAssetUrn": "urn:li:image:D5610AQHUNlcDxu1LGw"
     },
     {
       "id": "LI-W1-P3",
@@ -149,7 +132,8 @@
       "imageFile": "social-drafts/images/LI-W1-P3.jpg",
       "imageReady": true,
       "imagePrompt": "A row of four drinking glasses on a dark wood table, three of them cracked in nearly-invisible places and leaking a single drop each, the fourth one intact, single warm light source from one side, muted earth tones, editorial still-life photography, contemplative and slightly melancholic mood. Square 1:1 format, no text, no logos, professional quality.",
-      "governanceVerdict": "CLEARED (Shield: clear, Lex: conditional, Sage: conditional)"
+      "governanceVerdict": "CLEARED (Shield: clear, Lex: conditional, Sage: conditional)",
+      "imageAssetUrn": "urn:li:image:D5610AQFUniXpPlIN2Q"
     }
   ],
   "published": [
@@ -272,6 +256,31 @@
       "closedAt": "2026-06-15T17:08:00+10:00",
       "closedBy": "Ken Mun (Telegram msg 4904)",
       "closedReason": "Deprecated post from old campaign. URN 404 (urn:li:share:7463404594140905473) \u2014 post URL not resolvable. Not applicable to new 4-week Foundation Arc starting Tue 16 Jun. Manually marked closed per Ken directive."
+    },
+    {
+      "id": "LI-W1-P1",
+      "title": "The day my AI bill became the loudest thing in the room",
+      "slot": "Tue 16 Jun 07:30 AEST",
+      "week": 1,
+      "movement": "I. The Cracks",
+      "postNumber": 1,
+      "status": "posted",
+      "draftTriggeredAt": "2026-06-15T18:45:00+10:00",
+      "draftTriggeredBy": "manual batch run (Sat 14 Jun slot missed)",
+      "approvedAt": "2026-06-15T19:58:00+10:00",
+      "approvedBy": "Ken Mun (Telegram, image attached)",
+      "draftFile": "social-drafts/LI-W1-P1-bill-loudest-thing.md",
+      "imageFile": "social-drafts/images/LI-W1-P1.jpg",
+      "imageReady": true,
+      "imagePrompt": "Abstract overhead view of a foundation blueprint drawn in pencil on a rough concrete floor, with one corner slightly lifted and cracking, soft natural light from one side, muted blue-grey tones with a single warm accent line tracing where the crack runs, editorial photography style, shallow depth of field, calm but tense mood. Square 1:1 format, no text, no logos, professional quality.",
+      "governanceVerdict": "CLEARED (Shield: clear, Lex: conditional, Sage: conditional)",
+      "postedAt": "2026-06-16T17:27:00+10:00",
+      "postedBy": "Yoda (repost v3 \u2014 correct body + fresh image upload)",
+      "postUrn": "urn:li:share:7472550094261637120",
+      "postUrl": "https://www.linkedin.com/posts/activity-7472550094261637120/",
+      "imageAssetUrn": "urn:li:image:D5610AQGy87YrIBOT-w",
+      "type": "original",
+      "note": "v3 repost. Original cron (13b0aa89) posted image prompt instead of body (missing --- delimiters). v1 repost had dead image URN. v2 text-only went live without image. v3: fresh image upload + correct body with --- delimiters."
     }
   ],
   "skipped": [

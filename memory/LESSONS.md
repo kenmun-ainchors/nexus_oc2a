@@ -1986,6 +1986,28 @@ fi
 **Doc:** `docs/SUBAGENT-DISPATCH-PATTERN.md` (v1.0, locked).
 
 ## L-140 — Sprint assignment is locked once committed; only add, never silently drop/relocate (Ken directive 2026-06-15 17:49 AEST)
+
+## L-141 — LinkedIn draft format contract: --- delimiters are mandatory (2026-06-16)
+**Category:** Content pipeline / Script contract
+**Lesson:** The `linkedin-post.sh` Python extractor requires `---` delimiter lines around the post body to toggle `in_body` mode. A single trailing `---` after hashtags (without an opening `---` after `## Draft`) causes the extractor to capture everything AFTER the hashtags — including Image Prompt and Governance sections — as the post body.
+**Incident:** LI-W1-P1 (Tue 16 Jun 07:30) posted the image generation prompt + "CLEARED" instead of the actual post body. All 3 W1 drafts were missing the opening `---` delimiter. The Spark cron (kimi model) bypassed the script error and posted wrong content directly.
+**Fix:** Draft format must be:
+```
+## Draft
+
+---
+
+[post body]
+
+#Hashtags
+
+---
+
+## Image Prompt
+```
+**Guard:** Draft generation (Spark batch/fallback crons) must validate `---` delimiters before marking draft as ready. Publish crons must fail loudly if script exits non-zero — never bypass.
+**Additional finding (v3 repost):** Image URNs tied to deleted posts become invalid. Batch-generated images must have their URNs persisted in `linkedin-campaign.json` as `imageAssetUrn`. Publish crons must check for missing/stale URNs and re-upload if needed. The `imageReady=true` flag alone is insufficient — the actual URN must be present and valid.
+**Source:** Ken Telegram 2026-06-16 16:54 AEST (screenshot of wrong post). Reposted correctly v3 at 17:27 AEST with fresh image upload.
 **Trigger:** Today at 17:25, Yoda did the Sprint 7 review + Sprint 8 planning ceremony. Yoda saw TKT-0319, TKT-0410, TKT-0525 already in Sprint 8 column (auto-populated earlier) and TKT-0527/TKT-0528 as carry-overs, and added TKT-0529 (today's L-138 audit). Yoda committed a 5-item Sprint 8 that did NOT match Ken's Jun 10 working-session plan (which specified TKT-0324, TKT-0326, TKT-0317, TKT-0293). Ken flagged: "your 5 items doesn't seem to align with what I captured."
 
 **Rule (Ken directive, formalized):**

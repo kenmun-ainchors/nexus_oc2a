@@ -24,6 +24,7 @@ _For Aria 🔵 & the Spark content engine | Ideas from daily platform work that 
 | TC-207 | When subagents lie about their own tests: the verifier_corpus pattern | 💡 idea | 2026-06-15 | L-139 anti-subagent-trap, CHG-0590 |
 | TC-208 | Script wrappers don't need AI models: 14 cron conversions saved 70% cloud calls | 💡 idea | 2026-06-15 | CHG-0601/0602 batch cron downgrade |
 | TC-209 | 24 lessons in one day: the silence-failure family and why automation bugs stay hidden | 💡 idea | 2026-06-15 | L-116 through L-140, 33 CHGs in one day |
+| TC-210 | The day my AI bill became the loudest thing in the room | 💡 idea | 2026-06-16 | LI-W1-P1 — first post of the 4-week Foundation Arc |
 
 _Statuses: 💡 idea → ✍️ draft → ✅ scheduled → 📤 published_
 

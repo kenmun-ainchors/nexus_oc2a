@@ -1,0 +1,13 @@
+{
+  "generatedAt": "2026-06-16T01:00:14",
+  "schemaVersion": 1,
+  "scope": "scripts/*.sh (excluding .bak/.backup)",
+  "pattern": "SHOULD_FIRE[_NN]=false followed by ungated side-effect call within 30 lines",
+  "findings": [],
+  "summary": {
+    "total_findings": 0,
+    "high_severity": 0,
+    "medium_severity": 0,
+    "scripts_affected": []
+  }
+}

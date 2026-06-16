@@ -1,0 +1,23 @@
+{
+  "checkTimestamp": "2026-06-16T20:00:00+10:00",
+  "source": "cron-burn-alert",
+  "turnsLimit": {
+    "weeklyLimit": 30000,
+    "currentRequests": 1000,
+    "currentPct": 3.3,
+    "requestsRemaining": 29000,
+    "windowStart": "2026-06-15T10:00:00+10:00",
+    "windowEnd": "2026-06-22T10:00:00+10:00",
+    "daysRemaining": 5.58
+  },
+  "thresholds": {
+    "50pct": 15000,
+    "70pct": 21000,
+    "85pct": 25500,
+    "95pct": 28500
+  },
+  "alertTriggered": "none",
+  "alertLevel": null,
+  "action": "silent — below 50% WARN threshold",
+  "notes": "~3.3% used (est. ~950-1050 requests) with ~5.6 days remaining in weekly window. Well under thresholds. No alert."
+}

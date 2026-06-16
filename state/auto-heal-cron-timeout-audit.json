@@ -1,0 +1,15 @@
+{
+  "checkedAt": "2026-06-15T15:00:04Z",
+  "offenders": [
+    {
+      "cronId": "e08e19ad-2d15-47ff-9ac0-509c05889a0e",
+      "name": "TKT-0093 Backup Health Check",
+      "currentTimeout": 30,
+      "model": "ollama/deepseek-v4-flash:cloud",
+      "suggestedTimeout": 120
+    }
+  ],
+  "offenderCount": 1,
+  "live": true,
+  "baseline": false
+}

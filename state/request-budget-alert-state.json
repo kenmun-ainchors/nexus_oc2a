@@ -1,0 +1,25 @@
+{
+  "lastChecked": "2026-06-15T09:27:22Z",
+  "status": "ok",
+  "currentPct": 13.1,
+  "requestsUsed": 4065,
+  "requestsRemaining": 25935,
+  "thresholds": {
+    "warn": {
+      "pct": 50,
+      "requests": 15000
+    },
+    "alert": {
+      "pct": 70,
+      "requests": 21000
+    },
+    "critical": {
+      "pct": 85,
+      "requests": 25500
+    },
+    "emergency": {
+      "pct": 95,
+      "requests": 28500
+    }
+  }
+}
