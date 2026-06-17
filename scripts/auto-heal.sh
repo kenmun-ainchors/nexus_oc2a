@@ -2173,9 +2173,13 @@ for j in rl_sorted[:15]:
     print(f\"{j.get('id','')[:8]}\t{j.get('name','')}\t{s.get('consecutiveErrors',0)}\")
 " 2>/dev/null)
 
-C30_COUNT=$(echo "$C30_RATE_LIMITED" | grep -c "^[0-9a-f]" || echo 0)
+# Robust count: count non-empty lines only (avoid '0\n0' syntax error when grep returns multiple zeros)
+C30_COUNT=$(echo "$C30_RATE_LIMITED" | grep -c "^[0-9a-f]" 2>/dev/null || true)
+C30_COUNT=${C30_COUNT:-0}
+C30_COUNT=$(echo "$C30_COUNT" | head -1 | tr -d -c '0-9')
+C30_COUNT=${C30_COUNT:-0}
 
-if [[ "$C30_COUNT" -eq 0 ]]; then
+if [[ "${C30_COUNT}" -eq 0 ]]; then
   log "CHECK 30: PASS (no ollama/* crons currently rate-limited)"
 else
   # Cooldown check (12h)
@@ -2721,6 +2725,41 @@ if [[ -x "$GUARD_SCRIPT" ]]; then
 else
   log "  CHECK 37: WARN — sandbox-guard.sh not found at $GUARD_SCRIPT"
   ISSUES_FOUND+=("sandbox-boundary-audit:guard-missing")
+fi
+
+
+# ---------- CHECK 38: Ollama Usage Scraper (TKT-0533) ----------
+# Scrapes ollama.com/settings via browser automation for real request counts.
+# Updates cost-state.json with live data from Ollama's own dashboard.
+# Requires: browser running + signed into ollama.com.
+# Window: Monday 10:00 AEST → next Monday 10:00 AEST.
+log "CHECK 38: ollama usage scraper (TKT-0533)"
+CHECKS_RUN+=("ollama_usage_scraper")
+
+SCRAPER_SCRIPT="$WORKSPACE/scripts/ollama-usage-scraper.py"
+if [[ -x "$SCRAPER_SCRIPT" ]]; then
+  SCRAPER_OUT=$(python3 "$SCRAPER_SCRIPT" 2>&1) || true
+  SCRAPER_EXIT=$?
+  if [[ $SCRAPER_EXIT -eq 0 ]]; then
+    log "  CHECK 38: OK — $(echo "$SCRAPER_OUT" | head -1)"
+    # Extract pct for threshold alerting (against Ollama's actual weekly limit)
+    SCRAPER_PCT=$(echo "$SCRAPER_OUT" | grep -oE 'weekly=[0-9]+/[0-9]+ \([0-9.]+\)' | grep -oE '[0-9.]+(?=\))' | head -1 || echo "0")
+    if (( $(echo "$SCRAPER_PCT > 70" | bc -l 2>/dev/null || echo 0) )); then
+      NEEDS_KEN+=("URGENT TKT-0533: Ollama weekly usage at ${SCRAPER_PCT}% of limit. Projected exhaustion imminent.")
+    fi
+  elif [[ $SCRAPER_EXIT -eq 1 ]]; then
+    log "  CHECK 38: WARN — not signed into ollama.com. Skipping scrape."
+    ISSUES_FOUND+=("ollama-usage-scraper:not-signed-in")
+  elif [[ $SCRAPER_EXIT -eq 2 ]]; then
+    log "  CHECK 38: WARN — browser not running. Skipping scrape."
+    ISSUES_FOUND+=("ollama-usage-scraper:browser-not-running")
+  else
+    log "  CHECK 38: ERROR — scraper failed (exit=$SCRAPER_EXIT): $(echo "$SCRAPER_OUT" | head -1)"
+    ISSUES_FOUND+=("ollama-usage-scraper:error")
+  fi
+else
+  log "  CHECK 38: WARN — ollama-usage-scraper.py not found or not executable"
+  ISSUES_FOUND+=("ollama-usage-scraper:missing")
 fi
 
 
