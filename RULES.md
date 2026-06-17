@@ -34,6 +34,7 @@
 # Authority: Ken Mun (CTO)
 
 **NO ticket may be closed without passing the DoD Verification Gate.**
+- Load skill for full gate rules: `bash scripts/skill-load.sh crest`
 - Ticket close: `bash scripts/db-ticket.sh update <ID> '{"status":"closed"}'`. Gate enforced by `scripts/crest-done-gate.sh` pre-close hook.
 - **Reference:** `docs/DoD-Validation-Rules.md`
 - **Override:** Ken only, via `--skip-verify` flag. Every override MUST be logged to CHANGELOG.md.

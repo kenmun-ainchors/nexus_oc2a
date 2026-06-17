@@ -77,7 +77,7 @@ All platform rules: see `RULES.md` for full text + CHG references + rollback pro
 
 ## 3 Strikes Principle — Summary (TKT-0401, CHG-0503; full text in RULES.md)
 
-**Strike-1** plan before execute (CREST Plan gate). **Strike-2** flash by default, pro only when flagged (model-task matrix TKT-0322). **Strike-3** check LESSONS.md before acting (`scripts/lessons-staleness-check.sh`).
+**Strike-1** plan before execute (load `crest` skill: `bash scripts/skill-load.sh crest`). **Strike-2** flash by default, pro only when flagged (model routing: `bash scripts/skill-load.sh model-routing`). **Strike-3** check LESSONS.md before acting (`scripts/lessons-staleness-check.sh`).
 
 ## Dispatch Rules — Summary (TKT-0321; full text in RULES.md §Dispatch)
 

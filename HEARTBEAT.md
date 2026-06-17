@@ -70,11 +70,13 @@
 - State keys: lastChecks.budgetCheck, lastChecks.requestBudgetCheck
 
 ### Agile Ceremony Gate — NON-NEGOTIABLE (every Monday morning)
+- Load skill: `bash scripts/skill-load.sh agile`
 - Check: Friday Sprint Review + Sunday Sprint Planning completed last week?
 - If missed: flag Ken. Do not start sprint work until Ken confirms or defers.
 - State key: lastChecks.ceremoniesThisWeek
 
 ### Open Decisions + Draft Docs — DoD Gate Check (sprint planning + sprint review)
+- Load skill: `bash scripts/skill-load.sh crest`
 - Read state/open-decisions.json + state/draft-docs.json
 - Surface open items at planning. Escalate if P2-gate decision within 3 sprints of P2 build.
 - State key: lastChecks.doDGates

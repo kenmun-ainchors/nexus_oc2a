@@ -1,3 +1,26 @@
+## 2026-06-17 18:38 AEST — [CHG-0610] Clean tribal Agile/CREST knowledge from agent files
+**Type:** docs
+**Change Type:** Normal
+**Source:** TKT-0534 follow-up
+**Trigger:** Ken requested cleanup of tribal knowledge instructions from agent files after Agile + CREST skills were approved.
+**What changed:** Removed inline CREST and Agile details from injected agent context files. Replaced with skill-load pointers:
+  - SOUL.md: trimmed CREST v1.3 risk framework block; replaced with `bash scripts/skill-load.sh crest` and `bash scripts/skill-load.sh model-routing` pointers.
+  - MEMORY.md: removed CREST Loop + Enforcement Rules blocks; replaced with `bash scripts/skill-load.sh crest` and `bash scripts/skill-load.sh agile` pointers.
+  - AGENTS.md: replaced inline CREST/Strike-1 and model-task matrix references with skill-load pointers.
+  - HEARTBEAT.md: added `bash scripts/skill-load.sh agile` and `bash scripts/skill-load.sh crest` pointers to Agile Ceremony Gate + DoD Gate Check.
+  - RULES.md: added `bash scripts/skill-load.sh crest` pointer to DoD Verification Gate.
+**Why:** Prevent inline memory drift. Centralise Agile and CREST rules in their skills (SSOT). Reduces SOUL.md and MEMORY.md size and keeps agent files as pointers, not rule repositories.
+**Verified:**
+  - SOUL.md: 4,210 chars (limit 5K)
+  - MEMORY.md: 8,463 chars (limit 15K)
+  - HEARTBEAT.md: 5,527 chars
+  - AGENTS.md: 8,014 chars
+  - `bash scripts/skill-load.sh agile` → registered OK
+  - `bash scripts/skill-load.sh crest` → registered OK
+**Rollback:** Restore previous inline blocks from git history.
+**Linked:** TKT-0534, CHG-0609, CHG-0604–CHG-0608
+
+
 ## 2026-06-17 17:31 AEST — [CHG-0609] New skills: Agile + CREST (TKT-0534)
 **Type:** skill
 **Change Type:** Normal

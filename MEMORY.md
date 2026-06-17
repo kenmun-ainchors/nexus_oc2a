@@ -33,28 +33,17 @@
 Four rules locked into SOUL.md Non-Negotiables (#13–16) and confirmed by Ken:
 1. **No fabrication.** Say "I don't know" and find out.
 2. **Evidence-only.** Done/verified = validated + backed by artifacts. Vibe ≠ fact.
-3. **CREST mandatory.** Every plan with execution work runs Plan→Execute→Verify→Replan→Synthesize→Done. No skip phases.
+3. **CREST mandatory.** Load the skill: `bash scripts/skill-load.sh crest`.
 4. **Orchestrator only.** Yoda's CREST activities = Plan, Verify, Replan, Synthesize, Close. Execute is NEVER mine. Per-instance Ken approval required for any exception.
 
-Triggered by: TKT-0501 "CREST synthesize and close" prompt where Yoda correctly observed ticket was already closed but could be misread as over-claiming. Ken used it to lock the boundary. CHG-0545.
+Triggered by: TKT-0501 "CREST synthesize and close" prompt where Yoda correctly observed ticket was already closed but could be misread as over-claiming. CHG-0545.
 
-## CREST Loop — Cognitive Routing & Execution Sandwich Topology (LOCKED 2026-06-09)
-- **Keyword:** CREST — Ken's reference word for the orchestration execution model
-- **Phases:** Plan (strong) → Execute (cheap) → Verify (strong) → Replan (strong) → Synthesize (cheap) → Done (terminal)
-- **Strong-tier:** Yoda, Atlas, Thrawn — cognitive work (plan, verify, replan). Expensive models.
-- **Cheap-tier:** Forge, infra, specialist executors — mechanical work (execute, synthesize). Efficient models.
-- **Replan Gate:** Critical decision hub. Gap found → iterate back to Execute (n++). Stop met → advance to Synthesize.
-- **Routing:** Yoda plans typed DAG → queues atoms via TQP → cheap-tier executes → Yoda binary-judges 0–1 per atom → Replan → Synthesize → Done emits audit.
-- **Cross-strong-tier:** Yoda ↔ Atlas/Thrown coordination deferred to design stage.
-- **CREST Loop:** see docs/CREST-v1.2-Recursive-Model-C.md (LOCKED, dual PASS)
+## CREST + Agile Skills
+- CREST execution topology: `bash scripts/skill-load.sh crest`
+- Agile delivery framework: `bash scripts/skill-load.sh agile`
+- Sprint/ticket ops: `infra/sandbox/seed/skills/pg-sprint-backlog/SKILL.md`
 
-### CREST Enforcement Rules — NON-NEGOTIABLE (LOCKED 2026-06-11)
-1. No silent execution — Plan phase explicit even for single-atom tasks.
-2. Skill-gate always — `bash scripts/skill-load.sh <name>` before domain scripts (TKT-0396).
-3. No tribal knowledge — reference skills, not inline memory.
-4. Model tier discipline — Plan/Verify/Replan=strong, Execute/Synthesize=cheap.
-5. Triage mode is not an exemption — each operational action starts a new CREST loop.
-6. Self-check — if Ken asks "did you use CREST?" that's a violation → LESSONS.md.
+**Rule:** No tribal knowledge — reference skills, not inline memory.
 
 # Governance Agents
 - **Shield🛡️/Lex⚖️/Sage🧪** — reactive verdict-only (T4).
