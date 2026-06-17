@@ -1,3 +1,48 @@
+## 2026-06-17 17:31 AEST — [CHG-0609] New skills: Agile + CREST (TKT-0534)
+**Type:** skill
+**Change Type:** Normal
+**Source:** strategic-roadmap
+**Trigger:** TKT-0534 — Create Agile and CREST skill packages from governance documents, Sprint 8
+**What changed:** Added two new AgentSkills:
+  - `infra/sandbox/seed/skills/agile/SKILL.md`
+  - `infra/sandbox/seed/skills/crest/SKILL.md`
+Both reference canonical docs in `references/` and load via `scripts/skill-load.sh`. Key content:
+  - Agile: framework maturity, ceremonies, sprint capacity, work-item types, ticket-first rule, decision capture, P1–P5 priority, universal DoD gates, ad-hoc sprint status query, sprint planning carry-forward rule.
+  - CREST: 6-phase sandwich, Master/Sub-CREST topology, model matrix, 2-Pass Contract, escalation protocol, governance placement, enforcement rules, TQP mandatory atom queue, evidence-only verification rule.
+**Why:** Centralise Agile and CREST governance as loadable skills so every agent uses the same approved definitions without inline memory drift.
+**Verified:**
+  - `bash scripts/skill-load.sh agile` → registered OK
+  - `bash scripts/skill-load.sh crest` → registered OK
+  - Reference files copied and matched canonical source docs
+  - Working memory tidy complete: removed 8 stale .bak files, committed 0af622bb
+**Rollback:** Delete the two skill directories; remove references from `state/skill-load-registry.json`.
+**Linked:** TKT-0534, CHG-0580, CHG-0604–CHG-0608
+
+
+## 2026-06-17 14:03 AEST — [CHG-0608] PG-Notion Audit + Spark Metrics Snapshot: timeout 120s→300s
+**Type:** cron
+**Change Type:** Normal
+**Source:** incident-recovery
+**Trigger:** Cron timeout sweep — both crons at the cliff (last_dur ≥ timeout)
+**What changed:** PG-Notion Integrity Audit (85595417): timeoutSeconds 120→300, 4 errs reset. Spark LinkedIn Daily Metrics Snapshot (5d581442): timeoutSeconds 120→300, 1 err reset.
+**Why:** PG-Notion Audit last successful run took 121.2s against 120s timeout — 4 consecutive failures. Spark Metrics Snapshot last run 120.7s against 120s timeout — 1 failure. Both use model-call payloads that need more headroom. 300s matches similar-complexity crons.
+**Verified:** Both crons updated, errors reset. Next runs: PG-Notion Audit 01:00 tonight, Spark Metrics 10:00 tomorrow.
+**Rollback:** Revert both to 120s.
+**Linked:** CHG-0605, CHG-0607 (same pattern)
+
+
+## 2026-06-17 14:01 AEST — [CHG-0607] yoda-context-brief-refresh: timeout 30s→300s
+**Type:** cron
+**Change Type:** Normal
+**Source:** incident-recovery
+**Trigger:** Cron failure alert — timed out at 14:00 AEST (model-call-started, 31s)
+**What changed:** yoda-context-brief-refresh cron (c69615bb): timeoutSeconds 30→300, consecutiveErrors reset to 0
+**Why:** 30s timeout far too tight for a kimi-k2.6 model call that reads 5 files and generates a 300-line context brief. Last successful run took 67s. 300s matches the task complexity.
+**Verified:** Cron updated. Next run 20:00 AEST tonight.
+**Rollback:** Revert timeout to 30.
+**Linked:** CHG-0605 (same pattern — backup health check)
+
+
 ## 2026-06-17 11:43 AEST — [CHG-0606] Quota canary (CHECK 30): force fresh cron fetch, drop 30-min cache
 **Type:** script
 **Change Type:** Normal
@@ -46,6 +91,71 @@
 - **Linked:** INC-20260608-001, L-050, L-051, TKT-0332, TKT-0333, CHG-0470
 ---
 ---
+
+## 2026-06-17 14:22 AEST — [CHG-0621] CHG-0621: Yoda + Aria model swap — deepseek-v4-pro → kimi-k2.7-code (trial until Sun 22 Jun)
+**Type:** config
+**Change Type:** Normal
+**Source:** manual
+**Trigger:** Ollama dashboard flagged deepseek-v4-pro as 'extra high' usage (level 4) dominating session usage. kimi-k2.7-code is level 3 (high) — one tier cheaper on GPU time. Ken approved trial swap for Yoda (main) and Aria (business) only. All other agents already optimized. Trial period: now → Sun 22 Jun 10:00 AEST (weekly reset).
+**What changed:** PENDING IMPLEMENTATION: (1) model-policy.json — add kimi-k2.7-code to tier-1 cognitive, set Yoda + Aria model, keep pro as fallback. (2) Agent configs — patch Yoda + Aria: model → ollama/kimi-k2.7-code:cloud, add to fallbacks. (3) globalAllowedModels — add kimi-k2.7-code, propagate to agent allowlists. (4) Fallback chain — add kimi-k2.7-code to validate-fallback-chain.sh. (5) Config baseline — refresh post-change. (6) Verify — confirm agents respond, Warden silent, dashboard usage level drops.
+**Why:** deepseek-v4-pro is Ollama usage level 4 (extra high). Each pro request costs ~4-8x the GPU time of a level 2 (medium) request. 1,846 pro requests/week may consume more budget than 12,246 flash requests. kimi-k2.7-code is level 3 (high) — one tier cheaper, code-optimized (suits Yoda's orchestration/planning + Aria's business ops). Same model family as kimi-k2.6 (already in fallback chain).
+**Verification:** Pre-implementation: model usage levels confirmed via ollama.com/library pages. deepseek-v4-pro=extra high(4), kimi-k2.7-code=high(3), deepseek-v4-flash=medium(2), minimax-m3=high(3), kimi-k2.6=high(3), gemma4:31b-cloud=medium(2). CREST plan approved by Ken 2026-06-17 14:22 AEST.
+**Rollback:** If kimi-k2.7-code quality unacceptable: revert model-policy.json + agent configs to deepseek-v4-pro. 5-minute rollback. Trial ends Sun 22 Jun 10:00 AEST — either lock or revert.
+**Linked:** none
+---
+
+
+## 2026-06-17 14:13 AEST — [CHG-0620] CHG-0620: Track Ollama's actual limits — session + weekly windows (replaces 30k estimate)
+**Type:** script
+**Change Type:** Normal
+**Source:** manual
+**Trigger:** Ken corrected: 53.55% was against our wrong 30k estimate. Must track Ollama's actual two-window limits: session (~3,500) and weekly (~51,000). Dashboard shows real percentages.
+**What changed:** MODIFIED: ollama-usage-scraper.py — now derives Ollama's actual limits from usage/pct (session limit = usage/pct, weekly limit = usage/pct). Tracks both windows: session (requests, limit, pct, remaining, resetTime) and weekly (requests, limit, pct, remaining, burnRate, projectedExhaustion, windowStart/End, resetTime). MODIFIED: auto-heal.sh CHECK 38 — threshold alert now checks against Ollama's actual weekly pct. MODIFIED: cost-state.json turnsLimit — added session + weekly sub-objects, weeklyLimit field for backward compat.
+**Why:** Our 30k estimate was off by ~21k (actual ~51k). Tracking against wrong limit produced false WARNING (53.55% vs actual 31.6%). Ollama has two independent windows: session resets every ~6h, weekly resets Mon 00:00 UTC. Both matter — session exhaustion blocks immediately, weekly exhaustion blocks for rest of window.
+**Verification:** Dry-run: session 67% (~2h to reset), weekly 31.5% (healthy, exhausts Mon 22 Jun 07:46 — right before reset). Live run: cost-state.json updated. request-budget-check.sh --report shows 31.6% OK. Burn alert cron reads correct limits.
+**Rollback:** N/A
+**Linked:** none
+---
+
+
+## 2026-06-17 14:09 AEST — [CHG-0619] CHG-0619: Ollama dashboard scraper — real request tracking (replaces CHG-0618 log counter)
+**Type:** script
+**Change Type:** Normal
+**Source:** manual
+**Trigger:** TKT-0533: CHG-0618 gateway log counter found 28 requests. Ken provided Ollama Cloud dashboard screenshot showing 15,932 actual requests. Gateway logs undercount by ~570x. Real data only available via authenticated ollama.com/settings dashboard.
+**What changed:** NEW: scripts/ollama-usage-scraper.py (Python, 180 lines). Scrapes ollama.com/settings via OpenClaw browser automation. Extracts data-usage-segment attributes (model + requests), percentages, reset times, balance. Updates cost-state.json → turnsLimit with real request counts. MODIFIED: auto-heal.sh CHECK 38 — replaced log counter with dashboard scraper. Adds threshold alerting (NEEDS_KEN at >70% of 30k). DEPRECATED: scripts/ollama-request-counter.sh (gateway log approach — undercounts by ~570x, kept for reference).
+**Why:** Ollama Cloud has no public usage API. The dashboard at ollama.com/settings is server-rendered HTML with data-usage-segment attributes. Browser automation is the only programmatic path. Requires: browser running + valid login session. Accuracy: source of truth (Ollama's own numbers).
+**Verification:** Dry-run: 16,063 weekly requests (53.54% of 30k), projected exhaustion Fri 19 Jun 11:24 AEST. Live run: cost-state.json updated. request-budget-check.sh --report returns WARNING (53.55%). Burn alert cron ca5d5e50 will read real data tonight at 20:00. Model breakdown matches dashboard exactly.
+**Rollback:** N/A
+**Linked:** none
+---
+
+
+## 2026-06-17 13:56 AEST — [CHG-0618] CHG-0618: Ollama live request counter — TKT-0533 implemented
+**Type:** script
+**Change Type:** Normal
+**Source:** manual
+**Trigger:** TKT-0533: cost-state.json turnsLimit.currentRequests was stale (Jun 15 snapshot). No script counted actual Ollama API requests. Weekly 30k budget tracking was non-functional. Ken approved CREST plan 2026-06-17 13:51 AEST.
+**What changed:** NEW: scripts/ollama-request-counter.sh (200 lines, 3 modes: update/report/dry-run). Counts model invocations from gateway logs (agent model: events + embedded_run_agent_end events, deduplicated by runId). Updates cost-state.json → turnsLimit with currentRequests, currentPct, requestsRemaining, burnRateRequestsPerHour, projectedExhaustion, byModel, modelBreakdown, lastUpdated. Window: Monday 10:00 AEST → next Monday 10:00 AEST (CHG-0603). MODIFIED: auto-heal.sh — added CHECK 38 (ollama request counter, runs with auto-heal at 01:00 AEST).
+**Why:** Gateway logs are the only durable source of model invocation data. Cron state (lastRunAtMs) is not persisted to disk. OpenClaw does not expose a metrics endpoint. The agent model: + embedded_run_agent_end patterns are the best available signal — documented limitation: may undercount. True per-request counter requires OpenClaw metrics endpoint (future).
+**Verification:** AC1: counter script built, dry-run tested, live run updates cost-state.json. AC2: CHECK 38 wired into auto-heal.sh. AC3: request-budget-check.sh --report returns live data (28 requests, 0.09%, lastUpdated 2026-06-17T13:56). Burn alert cron ca5d5e50 reads all required fields. Model breakdown matches counter output.
+**Rollback:** N/A
+**Linked:** none
+---
+
+
+## 2026-06-17 13:41 AEST — [CHG-0617] CHG-0617: Cross-workspace cron sandbox fix — 8 agent reassignments
+**Type:** cron
+**Change Type:** Normal
+**Source:** manual
+**Trigger:** WO-002 divergence check missed 09:00 Telegram update. Investigation: cron 53c94ce7 failing with sandbox path escape (workspace-infra paths blocked for main agent) + Telegram delivery error (non-numeric chat ID). Expanded to full cross-workspace audit. Ken approved 2026-06-17 13:40 AEST.
+**What changed:** 8 cron agentId reassignments: (Class A) 53c94ce7 WO-002 Divergence: main→infra + Telegram recipient fixed to 8574109706. Harness scripts + venv + metadata all live in workspace-infra — infra agent is the correct runtime. (Class B) 7 crons infra→main: ca5d5e50 Daily Burn Alert, 35c8cd08 Fallback Chain Validation, 6bd53c89 TRIGGER-04/06 Release Monitor, c3211271 GCP Post-Expiry Check, 6a059e9e TRIGGER-12 Allowlist Sync, e8d960b4 Weekly Asset Review, e48f847a Quarterly Asset Registry. These crons reference main workspace scripts/state — were incorrectly assigned to infra agent. 3 disabled infra crons left as-is (no runtime impact). Result: 0 cross-workspace sandbox violations across all active crons.
+**Why:** Root cause: crons were assigned to wrong agent workspace. Agent sandbox (tools.fs.workspaceOnly) blocks cross-workspace file access. Pattern: assign cron to the agent whose workspace contains the scripts/data it needs. WO-002 had 5 consecutive errors from this + Telegram delivery failure.
+**Verification:** Post-fix audit: 1 infra cron with workspace-infra refs (WO-002, correct), 0 infra crons with main workspace refs, 0 main crons with workspace-infra refs. WO-002 next run: 2026-06-18 09:00 AEST. Telegram recipient: 8574109706 (numeric).
+**Rollback:** N/A
+**Linked:** none
+---
+
 
 ## 2026-06-17 13:32 AEST — [CHG-0616] CHG-0616: TKT-0339 — Apply remaining 4 cron timeout decreases (Ken approved)
 **Type:** cron
