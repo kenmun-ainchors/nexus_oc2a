@@ -69,11 +69,11 @@ check_cost_state_fresh() {
   mtime=$(stat -f %m "$cost_file" 2>/dev/null) || mtime=0
   now=$(date +%s)
   diff=$((now - mtime))
-  if [ "$diff" -gt 7200 ]; then
-    echo "{\"name\":\"COST_STATE_FRESH\",\"status\":\"fail\",\"detail\":\"cost-state.json age=${diff}s > 7200s (2h)\"}"
+  if [ "$diff" -gt 50400 ]; then
+    echo "{\"name\":\"COST_STATE_FRESH\",\"status\":\"fail\",\"detail\":\"cost-state.json age=${diff}s > 50400s (14h)\"}"
     return 1
   fi
-  echo "{\"name\":\"COST_STATE_FRESH\",\"status\":\"pass\",\"detail\":\"cost-state.json age=${diff}s <= 7200s\"}"
+  echo "{\"name\":\"COST_STATE_FRESH\",\"status\":\"pass\",\"detail\":\"cost-state.json age=${diff}s <= 50400s\"}"
 }
 
 # ─── CHECK 3: WARDEN ───

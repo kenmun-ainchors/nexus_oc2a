@@ -337,23 +337,30 @@ if [[ -f "$HEALTH_FILE" ]]; then
 fi
 write_state
 
-# ---------- CHECK 9: Cost balance ----------
-log "CHECK 9: API balance"
-CHECKS_RUN+=("api_balance")
-# CHG-0500: CLAUDE RECONFIGURE lifted the Anthropic-balance suppression. Anthropic
-# is now just another approved model in the model-task matrix (CREST v1.3). The
-# Ollama Cloud $100/mo flat subscription has no pay-as-you-go balance to track,
-# but Anthropic is pay-as-you-go and DOES need monitoring when used. This check
-# runs against whichever balance source is currently active.
+# ---------- CHECK 9: Ollama weekly request budget ----------
+# CHG-0500 + cost-state billing-model change 2026-06-15: tracking moved from
+# `apiBalance.remainingEstimate` (USD credit, decommissioned) to `turnsLimit`
+# (Ollama Cloud weekly request cap, 30,000/week flat count). Thresholds live
+# in `spendAlerts.tier1-4` (50/70/85/95% of weekly limit). auto-heal flags at
+# tier3 (85%, CRITICAL → NEEDS_KEN); tier2 (70%, ALERT) is surfaced via the
+# heartbeat instead of NEEDS_KEN.
+log "CHECK 9: Ollama weekly request budget"
+CHECKS_RUN+=("request_budget")
 COST_FILE="$STATE_DIR/cost-state.json"
 if [[ -f "$COST_FILE" ]]; then
-  REMAINING=$(jq -r '.apiBalance.remainingEstimate // 0' "$COST_FILE")
-  THRESHOLD_10=$(jq -r '.spendAlerts.alert10pct.threshold // 5' "$COST_FILE")
-  REMAINING_INT=$(echo "$REMAINING" | awk '{printf "%d", $1*100}')
-  THRESHOLD_INT=$(echo "$THRESHOLD_10" | awk '{printf "%d", $1*100}')
-  if (( REMAINING_INT < THRESHOLD_INT )); then
-    ISSUES_FOUND+=("balance:critical:\$${REMAINING}")
-    NEEDS_KEN+=("API balance critically low: \$${REMAINING} USD remaining (threshold \$${THRESHOLD_10})")
+  CURRENT_PCT=$(jq -r '.turnsLimit.currentPct // 0' "$COST_FILE")
+  REQUESTS_REMAINING=$(jq -r '.turnsLimit.requestsRemaining // 0' "$COST_FILE")
+  TIER2_PCT=$(jq -r '.spendAlerts.tier2.thresholdPct // 70' "$COST_FILE")
+  TIER3_PCT=$(jq -r '.spendAlerts.tier3.thresholdPct // 85' "$COST_FILE")
+  CURRENT_PCT_INT=$(echo "$CURRENT_PCT" | awk '{printf "%d", $1*100}')
+  TIER2_INT=$(echo "$TIER2_PCT" | awk '{printf "%d", $1*100}')
+  TIER3_INT=$(echo "$TIER3_PCT" | awk '{printf "%d", $1*100}')
+  if (( CURRENT_PCT_INT >= TIER3_INT )); then
+    ISSUES_FOUND+=("request-budget:critical:${CURRENT_PCT}pct")
+    NEEDS_KEN+=("Ollama weekly request budget CRITICAL: ${CURRENT_PCT}% used (${REQUESTS_REMAINING} requests remaining, tier3 threshold ${TIER3_PCT}%)")
+  elif (( CURRENT_PCT_INT >= TIER2_INT )); then
+    ISSUES_FOUND+=("request-budget:warn:${CURRENT_PCT}pct")
+    log "  WARN: Ollama weekly request budget at ${CURRENT_PCT}% (${REQUESTS_REMAINING} remaining) — tier2 threshold ${TIER2_PCT}% reached; heartbeat will surface"
   fi
 fi
 write_state
@@ -389,51 +396,138 @@ log "CHECK 12: critical config baseline"
 CHECKS_RUN+=("critical_config_baseline")
 BASELINE="$WORKSPACE/state/critical-config-baseline.json"
 if [[ -f "$BASELINE" ]]; then
-  log "  Validating critical config baseline (flat structure)"
-  
-  # Check each known field in the flat baseline
-  check_baseline_field() {
-    local field="$1" local label="$2" local expected_min="$3" local comparator="$4"
-    local actual=$(jq -r ".$field // 0" "$BASELINE" 2>/dev/null)
-    if [[ "$comparator" == "min" ]]; then
-      if (( actual >= expected_min )); then
-        log "  OK $label: $actual (>= $expected_min)"
-      else
-        ISSUES_FOUND+=("config-baseline:$field:below-minimum")
-        NEEDS_KEN+=("WARN: $label is $actual, expected >= $expected_min. Run gateway-config-snapshot.sh to refresh baseline.")
-        log "  X $label: $actual < $expected_min"
-      fi
-    elif [[ "$comparator" == "eq" ]]; then
-      if [[ "$actual" == "$expected_min" ]]; then
-        log "  OK $label: $actual"
-      else
-        ISSUES_FOUND+=("config-baseline:$field:drift")
-        NEEDS_KEN+=("WARN: $label is '$actual', expected '$expected_min'. Run gateway-config-snapshot.sh to refresh.")
-        log "  X $label: '$actual' != '$expected_min'"
-      fi
-    fi
-  }
-  
-  check_baseline_field "agentCount" "Agent Count" 14 "min"
-  check_baseline_field "cronCount" "Cron Count" 50 "min"
-  check_baseline_field "pgTables" "PG Tables" 18 "min"
-  check_baseline_field "gatewayStatus" "Gateway Status" "healthy" "eq"
-  
-  # Version check: warn if baseline was written more than 7 days ago
-  upgraded_at=$(jq -r '.upgradedAt // empty' "$BASELINE" 2>/dev/null)
-  if [[ -n "$upgraded_at" ]]; then
-    upgraded_epoch=$(date -j -f "%Y-%m-%dT%H:%M:%S" "${upgraded_at%+*}" "+%s" 2>/dev/null || echo 0)
-    now_epoch=$(date +%s)
-    age_days=$(( (now_epoch - upgraded_epoch) / 86400 ))
-    if (( age_days > 7 )); then
-      ISSUES_FOUND+=("config-baseline:stale-baseline")
-      NEEDS_KEN+=("WARN: Config baseline is $age_days days old. Run gateway-config-snapshot.sh to refresh.")
-      log "  X Baseline stale: $age_days days old"
+  SCHEMA_VER=$(jq -r '.schemaVersion // 0' "$BASELINE" 2>/dev/null)
+  log "  Baseline schema v${SCHEMA_VER}"
+
+  # ── Schema v2 (CHG-0613): config hash + structured fields ──
+  if [[ "$SCHEMA_VER" == "2" ]]; then
+    # Config hash drift (primary check)
+    CURRENT_HASH=$(shasum -a 256 "$HOME/.openclaw/openclaw.json" 2>/dev/null | cut -d' ' -f1 || echo "unknown")
+    STORED_HASH=$(jq -r '.configHash // "unknown"' "$BASELINE" 2>/dev/null)
+    if [[ "$CURRENT_HASH" != "$STORED_HASH" ]]; then
+      ISSUES_FOUND+=("config-baseline:hash-drift")
+      NEEDS_KEN+=("WARN: Gateway config hash changed — possible unlogged config mutation. Run gateway-config-snapshot.sh to refresh and review diff.")
+      log "  X Config hash drift: $STORED_HASH → $CURRENT_HASH"
     else
-      log "  OK Baseline age: $age_days days"
+      log "  OK Config hash matches"
+    fi
+
+    # Key field checks
+    check_baseline_field() {
+      local field="$1" local label="$2" local expected_min="$3" local comparator="$4"
+      local actual=$(jq -r ".$field // \"0\"" "$BASELINE" 2>/dev/null)
+      if [[ "$comparator" == "min" ]]; then
+        if (( actual >= expected_min )); then
+          log "  OK $label: $actual (>= $expected_min)"
+        else
+          ISSUES_FOUND+=("config-baseline:$field:below-minimum")
+          NEEDS_KEN+=("WARN: $label is $actual, expected >= $expected_min. Run gateway-config-snapshot.sh to refresh.")
+          log "  X $label: $actual < $expected_min"
+        fi
+      elif [[ "$comparator" == "eq" ]]; then
+        if [[ "$actual" == "$expected_min" ]]; then
+          log "  OK $label: $actual"
+        else
+          ISSUES_FOUND+=("config-baseline:$field:drift")
+          NEEDS_KEN+=("WARN: $label is '$actual', expected '$expected_min'. Run gateway-config-snapshot.sh to refresh.")
+          log "  X $label: '$actual' != '$expected_min'"
+        fi
+      fi
+    }
+
+    check_baseline_field "agentCount" "Agent Count" 14 "min"
+    check_baseline_field "pgTables" "PG Tables" 18 "min"
+    check_baseline_field "gatewayStatus" "Gateway Status" "live" "eq"
+
+    # Sandbox mode guard (TKT-0532)
+    SANDBOX_MODE=$(jq -r '.sandboxMode // "unknown"' "$BASELINE" 2>/dev/null)
+    if [[ "$SANDBOX_MODE" != "off" ]]; then
+      ISSUES_FOUND+=("config-baseline:sandbox-mode-on")
+      NEEDS_KEN+=("WARN: Sandbox mode is '$SANDBOX_MODE' — subagents may lack exec capability. Expected 'off' per TKT-0532 resolution.")
+      log "  X Sandbox mode: $SANDBOX_MODE (expected off)"
+    else
+      log "  OK Sandbox mode: off"
+    fi
+
+    # NODE_OPTIONS guard (L-102)
+    NODE_OPTS=$(jq -r '.nodeOptions // "not-set"' "$BASELINE" 2>/dev/null)
+    if [[ "$NODE_OPTS" != *"max-old-space-size=6144"* ]]; then
+      ISSUES_FOUND+=("config-baseline:node-options-missing")
+      NEEDS_KEN+=("WARN: NODE_OPTIONS missing --max-old-space-size=6144 (L-102). Current: $NODE_OPTS")
+      log "  X NODE_OPTIONS: $NODE_OPTS"
+    else
+      log "  OK NODE_OPTIONS: $NODE_OPTS"
+    fi
+
+    # Yoda tools.deny guard (CHG-0608 — should be empty after revert)
+    YODA_DENY=$(jq -r '.yodaToolsDeny | join(",") // "none"' "$BASELINE" 2>/dev/null)
+    if [[ "$YODA_DENY" != "" && "$YODA_DENY" != "none" && "$YODA_DENY" != "[]" ]]; then
+      ISSUES_FOUND+=("config-baseline:yoda-tools-deny-active")
+      NEEDS_KEN+=("WARN: Yoda tools.deny is active: $YODA_DENY. CHG-0608 was reverted — this should be empty.")
+      log "  X Yoda tools.deny: $YODA_DENY"
+    else
+      log "  OK Yoda tools.deny: none"
+    fi
+
+    # Age check: warn if snapshot > 7 days old
+    last_snapshot=$(jq -r '.lastSnapshot // empty' "$BASELINE" 2>/dev/null)
+    if [[ -n "$last_snapshot" ]]; then
+      snap_epoch=$(date -j -f "%Y-%m-%dT%H:%M:%SZ" "$last_snapshot" "+%s" 2>/dev/null || echo 0)
+      now_epoch=$(date +%s)
+      age_days=$(( (now_epoch - snap_epoch) / 86400 ))
+      if (( age_days > 7 )); then
+        ISSUES_FOUND+=("config-baseline:stale-baseline")
+        NEEDS_KEN+=("WARN: Config baseline is $age_days days old. Run gateway-config-snapshot.sh to refresh.")
+        log "  X Baseline stale: $age_days days old"
+      else
+        log "  OK Baseline age: $age_days days"
+      fi
     fi
   fi
-fi
+
+  # ── Schema v1 (legacy flat structure) ──
+  else
+    log "  Validating legacy baseline (flat structure)"
+    check_baseline_field() {
+      local field="$1" local label="$2" local expected_min="$3" local comparator="$4"
+      local actual=$(jq -r ".$field // 0" "$BASELINE" 2>/dev/null)
+      if [[ "$comparator" == "min" ]]; then
+        if (( actual >= expected_min )); then
+          log "  OK $label: $actual (>= $expected_min)"
+        else
+          ISSUES_FOUND+=("config-baseline:$field:below-minimum")
+          NEEDS_KEN+=("WARN: $label is $actual, expected >= $expected_min. Run gateway-config-snapshot.sh to refresh baseline.")
+          log "  X $label: $actual < $expected_min"
+        fi
+      elif [[ "$comparator" == "eq" ]]; then
+        if [[ "$actual" == "$expected_min" ]]; then
+          log "  OK $label: $actual"
+        else
+          ISSUES_FOUND+=("config-baseline:$field:drift")
+          NEEDS_KEN+=("WARN: $label is '$actual', expected '$expected_min'. Run gateway-config-snapshot.sh to refresh.")
+          log "  X $label: '$actual' != '$expected_min'"
+        fi
+      fi
+    }
+    check_baseline_field "agentCount" "Agent Count" 14 "min"
+    check_baseline_field "cronCount" "Cron Count" 50 "min"
+    check_baseline_field "pgTables" "PG Tables" 18 "min"
+    check_baseline_field "gatewayStatus" "Gateway Status" "healthy" "eq"
+
+    upgraded_at=$(jq -r '.upgradedAt // empty' "$BASELINE" 2>/dev/null)
+    if [[ -n "$upgraded_at" ]]; then
+      upgraded_epoch=$(date -j -f "%Y-%m-%dT%H:%M:%S" "${upgraded_at%+*}" "+%s" 2>/dev/null || echo 0)
+      now_epoch=$(date +%s)
+      age_days=$(( (now_epoch - upgraded_epoch) / 86400 ))
+      if (( age_days > 7 )); then
+        ISSUES_FOUND+=("config-baseline:stale-baseline")
+        NEEDS_KEN+=("WARN: Config baseline is $age_days days old. Run gateway-config-snapshot.sh to refresh.")
+        log "  X Baseline stale: $age_days days old"
+      else
+        log "  OK Baseline age: $age_days days"
+      fi
+    fi
+  fi
 write_state
 
 # ---------- CHECK 13: Agent Identity Integrity (L-043) ----------
@@ -562,8 +656,8 @@ for table in state_config_baseline state_cost state_linkedin state_autoheal_log 
              state_diagnostics state_uptime state_model_trials state_kri \
              state_governance state_latency state_model_drift state_frameworks; do
   seq_name="${table}_id_seq"
-  seq_val=$(bash "$WORKSPACE/scripts/db-raw.sh" -c "SELECT last_value FROM $seq_name" 2>/dev/null | tr -d ' ')
-  max_id=$(bash "$WORKSPACE/scripts/db-raw.sh" -c "SELECT COALESCE(MAX(id),0) FROM $table" 2>/dev/null | tr -d ' ')
+  seq_val=$(bash "$WORKSPACE/scripts/db-raw.sh" -c "SELECT last_value FROM $seq_name" 2>/dev/null | tr -d ' ' || true)
+  max_id=$(bash "$WORKSPACE/scripts/db-raw.sh" -c "SELECT COALESCE(MAX(id),0) FROM $table" 2>/dev/null | tr -d ' ' || true)
   if [[ -n "$seq_val" && -n "$max_id" ]]; then
     if [[ "$seq_val" -lt "$max_id" ]]; then
       # Auto-fix: resync sequence
@@ -739,7 +833,7 @@ except: pass
   # Detector fix L-134: filter to only files that have actual tilde-path usage
   # (~/something) not just any ~ character (which catches ~May, ~240, ~3-4 etc.)
   TILDE_STATE_FILES=$(grep -rlE '~(/[A-Za-z0-9._-]+|/[A-Za-z0-9._/-]+)' "$WORKSPACE/state/" --include='*.json' 2>/dev/null \
-    | grep -vE '/(auto-heal-.*\.json|task-queue\.json)$' \
+    | grep -vE '/(auto-heal-.*\.json|task-queue\.json|sandbox-boundary-audit\.json)$' \
     | xargs -I {} sh -c 'test $(stat -f%z "{}" 2>/dev/null || echo 0) -gt 200 && echo "{}"' 2>/dev/null \
     | head -5)
   if [[ -n "$TILDE_STATE_FILES" ]]; then
@@ -1819,7 +1913,7 @@ now = datetime.datetime.now(datetime.timezone.utc)
 violations = []
 strong_tier_keywords = ["minimax-m3", "deepseek-v4-pro", "anthropic/claude"]
 for entry in hist[-200:]:
-    if entry.get("decision") != "block":
+    if entry.get("decision") == "block":
         continue
     ts = entry.get("ts", "")
     if not ts: continue
@@ -2061,13 +2155,13 @@ CRON_LIST_JSON="$WORKSPACE/state/cron-list-snapshot.json"
 CHECK30_LAST_FIRE="$WORKSPACE/state/check30-last-fire.json"
 CHECK30_COOLDOWN_S=43200  # 12h
 
-# Snapshot cron states if we don't have one fresh
-if [[ ! -f "$CRON_LIST_JSON" ]] || [[ $(find "$CRON_LIST_JSON" -mmin +30 2>/dev/null) ]]; then
-  openclaw cron list --json > "$CRON_LIST_JSON" 2>/dev/null || {
-    log "CHECK 30: SKIP (openclaw cron list failed)"
-    return 0 2>/dev/null || exit 0
-  }
-fi
+# Force fresh fetch every run — rate_limit flags can be cleared between runs
+# (e.g. Yoda resets stale errors). A 30-min cached snapshot would re-alert on
+# already-fixed crons. CHG-0606.
+openclaw cron list --json > "$CRON_LIST_JSON" 2>/dev/null || {
+  log "CHECK 30: SKIP (openclaw cron list failed)"
+  return 0 2>/dev/null || exit 0
+}
 
 C30_RATE_LIMITED=$(python3 -c "
 import json
@@ -2152,7 +2246,7 @@ if [[ "$SHOULD_FIRE_31" != "true" ]]; then
   :  # script continues (matches CHECK 30 SKIP pattern)
 else
   if [[ -x "$WORKSPACE/scripts/ollama-quota-track.sh" ]]; then
-    TRACK_OUT=$(bash "$WORKSPACE/scripts/ollama-quota-track.sh" 2>&1)
+    TRACK_OUT=$(bash "$WORKSPACE/scripts/ollama-quota-track.sh" 2>&1 || true)
     TRACK_EXIT=$?
     if [[ $TRACK_EXIT -eq 0 ]]; then
       # Parse summary
@@ -2221,7 +2315,7 @@ if [[ "$SHOULD_FIRE_32" != "true" ]]; then
   :  # script continues
 else
   if [[ -x "$WORKSPACE/scripts/cron-migration-advisor.sh" ]]; then
-    MIGRATION_OUTPUT=$(bash "$WORKSPACE/scripts/cron-migration-advisor.sh" 2>&1)
+    MIGRATION_OUTPUT=$(bash "$WORKSPACE/scripts/cron-migration-advisor.sh" 2>&1 || true)
     MIGRATION_EXIT=$?
     C32_TIER1=0
     if [[ $MIGRATION_EXIT -eq 0 ]]; then
@@ -2272,14 +2366,17 @@ if [[ -x "$WORKSPACE/scripts/check-null-safe-json.sh" ]]; then
   NULL_OUT_RAW=$(bash "$WORKSPACE/scripts/check-null-safe-json.sh" 2>&1 || true)
   # Parse findings + high count via python (avoids head/awk SIGPIPE with pipefail).
   # Python prints all 3 values space-separated on one line, then IFS=' ' read splits them.
-  IFS=" " read -r NULL_FINDINGS NULL_HIGH NULL_MEDIUM < <(echo "$NULL_OUT_RAW" | python3 -c "
+  # Parse findings via python (avoids head/awk SIGPIPE with pipefail).
+  # Use temp var + || true to guard procsub pipeline from ERR trap.
+  NULL_PARSED=$(echo "$NULL_OUT_RAW" | python3 -c "
 import sys, re
 out = sys.stdin.read()
 findings = re.search(r'^NULL_SAFE_FINDINGS:\s*(\d+)', out, re.M)
 high = re.search(r'^HIGH:\s*(\d+)', out, re.M)
 medium = re.search(r'^MEDIUM:\s*(\d+)', out, re.M)
 print(findings.group(1) if findings else 0, high.group(1) if high else 0, medium.group(1) if medium else 0)
-")
+" || true)
+  IFS=" " read -r NULL_FINDINGS NULL_HIGH NULL_MEDIUM <<< "$NULL_PARSED"
   NULL_FINDINGS=${NULL_FINDINGS:-0}
   NULL_HIGH=${NULL_HIGH:-0}
   
@@ -2315,14 +2412,17 @@ if [[ -x "$WORKSPACE/scripts/check-cooldown-gate.sh" ]]; then
   GATE_OUT_RAW=$(bash "$WORKSPACE/scripts/check-cooldown-gate.sh" 2>&1 || true)
   # Parse findings + high count via python (avoids head/awk SIGPIPE with pipefail).
   # Python prints all 3 values space-separated on one line, then IFS=' ' read splits them.
-  IFS=" " read -r GATE_FINDINGS GATE_HIGH GATE_MEDIUM < <(echo "$GATE_OUT_RAW" | python3 -c "
+  # Parse findings via python (avoids head/awk SIGPIPE with pipefail).
+  # Use temp var + || true to guard procsub pipeline from ERR trap.
+  GATE_PARSED=$(echo "$GATE_OUT_RAW" | python3 -c "
 import sys, re
 out = sys.stdin.read()
 findings = re.search(r'^COOLDOWN_GATE_FINDINGS:\s*(\d+)', out, re.M)
 high = re.search(r'^HIGH:\s*(\d+)', out, re.M)
 medium = re.search(r'^MEDIUM:\s*(\d+)', out, re.M)
 print(findings.group(1) if findings else 0, high.group(1) if high else 0, medium.group(1) if medium else 0)
-")
+" || true)
+  IFS=" " read -r GATE_FINDINGS GATE_HIGH GATE_MEDIUM <<< "$GATE_PARSED"
   GATE_FINDINGS=${GATE_FINDINGS:-0}
   GATE_HIGH=${GATE_HIGH:-0}
   
@@ -2357,14 +2457,17 @@ if [[ -x "$WORKSPACE/scripts/check-pipefail-trap.sh" ]]; then
   PIPE_OUT_RAW=$(bash "$WORKSPACE/scripts/check-pipefail-trap.sh" 2>&1 || true)
   # Parse findings + high count via python (avoids head/awk SIGPIPE with pipefail).
   # Python prints all 3 values space-separated on one line, then IFS=' ' read splits them.
-  IFS=" " read -r PIPE_FINDINGS PIPE_HIGH PIPE_MEDIUM < <(echo "$PIPE_OUT_RAW" | python3 -c "
+  # Parse findings via python (avoids head/awk SIGPIPE with pipefail).
+  # Use temp var + || true to guard procsub pipeline from ERR trap.
+  PIPE_PARSED=$(echo "$PIPE_OUT_RAW" | python3 -c "
 import sys, re
 out = sys.stdin.read()
 findings = re.search(r'^PIPEFAIL_TRAP_FINDINGS:\s*(\d+)', out, re.M)
 high = re.search(r'^HIGH:\s*(\d+)', out, re.M)
 medium = re.search(r'^MEDIUM:\s*(\d+)', out, re.M)
 print(findings.group(1) if findings else 0, high.group(1) if high else 0, medium.group(1) if medium else 0)
-")
+" || true)
+  IFS=" " read -r PIPE_FINDINGS PIPE_HIGH PIPE_MEDIUM <<< "$PIPE_PARSED"
   PIPE_FINDINGS=${PIPE_FINDINGS:-0}
   PIPE_HIGH=${PIPE_HIGH:-0}
   

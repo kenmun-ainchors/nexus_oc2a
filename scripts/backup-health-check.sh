@@ -28,12 +28,17 @@ else
 fi
 
 # Check freshness: backup must be within 25 hours
-# Parse ISO timestamp — handle +HH:MM timezone (strip colon for BSD date) and Z suffix
+# Parse timestamp — try ISO 8601 with timezone, then ISO 8601 Z, then YYYY-MM-DD-HHMM format
+BACKUP_EPOCH=0
 if [[ "$LAST_BACKUP" == *"+10:00"* ]] || [[ "$LAST_BACKUP" == *"+11:00"* ]]; then
     CLEAN_TS=$(echo "$LAST_BACKUP" | sed 's/\([+-][0-9][0-9]\):\([0-9][0-9]\)$/\1\2/')
     BACKUP_EPOCH=$(date -j -f "%Y-%m-%dT%H:%M:%S%z" "$CLEAN_TS" +%s 2>/dev/null || echo "0")
-else
+elif [[ "$LAST_BACKUP" == *"Z" ]]; then
     BACKUP_EPOCH=$(date -j -f "%Y-%m-%dT%H:%M:%SZ" "${LAST_BACKUP}" +%s 2>/dev/null || echo "0")
+elif [[ "$LAST_BACKUP" =~ ^[0-9]{4}-[0-9]{2}-[0-9]{2}-[0-9]{4}$ ]]; then
+    # Format: YYYY-MM-DD-HHMM (e.g. 2026-06-17-0805)
+    PARSED=$(echo "$LAST_BACKUP" | sed 's/-\([0-9][0-9]\)\([0-9][0-9]\)$/ \1:\2/')
+    BACKUP_EPOCH=$(date -j -f "%Y-%m-%d %H:%M" "$PARSED" +%s 2>/dev/null || echo "0")
 fi
 NOW_EPOCH=$(date +%s)
 AGE_HOURS=$(( (NOW_EPOCH - BACKUP_EPOCH) / 3600 ))

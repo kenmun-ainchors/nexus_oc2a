@@ -26,8 +26,7 @@
 - Model routing: see skill at `infra/sandbox/seed/skills/model-routing/SKILL.md` and `docs/Model3-Policy.md`
 
 ## Agent SOUL.md Compact Standard (NON-NEGOTIABLE)
-- SOUL.md: hard limit 10,000 (warn 6,000). identity+traits+rules+cadences. Details in [AGENT]_RULES.md. Aria OOM cause (2026-04-30). All agents ✅ compliant 2026-05-08.
-- MEMORY.md: hard limit 15,000 (warn 12,000). See `infra/sandbox/seed/skills/changelog/SKILL.md`. Archive overflow at 12K, trim to 10K.
+- SOUL.md: hard limit 10,000 (warn 6,000). MEMORY.md: hard limit 15,000 (warn 12,000). Archive overflow at 12K, trim to 10K.
 
 #
 ## Ken's Governance Mandate — 2026-06-13 13:54 AEST (CHG-0545)
@@ -50,25 +49,21 @@ Triggered by: TKT-0501 "CREST synthesize and close" prompt where Yoda correctly 
 - **CREST Loop:** see docs/CREST-v1.2-Recursive-Model-C.md (LOCKED, dual PASS)
 
 ### CREST Enforcement Rules — NON-NEGOTIABLE (LOCKED 2026-06-11)
-**Trigger:** ANY state change, ticket operation, config mutation, or platform operation — regardless of perceived size.
-
-1. **No silent execution.** Before touching any tool for an operational task, output the Plan phase explicitly. Even single-atom tasks get a 1-line plan.
-2. **Skill-gate always.** Before calling any domain script (db-ticket.sh, db-sprint.sh, changelog-append.sh, dispatch-validate.sh, telegram-alert.sh, pg-to-notion-sync.sh), run `bash scripts/skill-load.sh <name>` after reading the SKILL.md. Domain scripts now BLOCK if skill not in session registry (TKT-0396).
-3. **No tribal knowledge.** Skills (pg-sprint-backlog, changelog, telegram, model-routing) were extracted from MEMORY.md/AGENTS.md into progressive-disclosure SKILL.md files on 2026-06-10. Reference the skill, not inline memory. Working memory = WHAT (rules), skills = HOW (procedures).
-4. **Model tier discipline.** Plan/Verify/Replan = strong models. Execute/Synthesize = cheap models. Yoda never does specialist Execute work directly — dispatch to Forge or the appropriate specialist agent.
-5. **Triage mode is not an exemption.** Processing a queue of Ken alerts does not suspend CREST. Each alert that requires operational action starts a new CREST loop.
-6. **Self-check:** If Ken has to ask "did you use CREST?" or "did you load the skill?" — that's a violation. Log it immediately to LESSONS.md.
-
-**Violations:** 3 strikes on Jun 11 (tilde fix, timeout batch-apply, ticket update) — all bypassed CREST + skill-gate. Root cause: triage-mode momentum treating operational tasks as chat replies. Fix: structural rule above.
+1. No silent execution — Plan phase explicit even for single-atom tasks.
+2. Skill-gate always — `bash scripts/skill-load.sh <name>` before domain scripts (TKT-0396).
+3. No tribal knowledge — reference skills, not inline memory.
+4. Model tier discipline — Plan/Verify/Replan=strong, Execute/Synthesize=cheap.
+5. Triage mode is not an exemption — each operational action starts a new CREST loop.
+6. Self-check — if Ken asks "did you use CREST?" that's a violation → LESSONS.md.
 
 # Governance Agents
-- **Shield🛡️/Lex⚖️/Sage🧪** — Haiku. Move to Gemma4 at TRIGGER-03.
-- **Warden 🔍** Model Compliance, 15-min cron:83accf7b. State: model-drift-state.json/violations.json. Escalation → warden-escalation-pending.json → Yoda.
+- **Shield🛡️/Lex⚖️/Sage🧪** — reactive verdict-only (T4).
+- **Warden 🔍** Model Compliance, 15-min cron:83accf7b. Escalation → warden-escalation-pending.json → Yoda.
 
 ## Key Scripts & Infrastructure
-- `auto-heal.sh` (01:00 AEST, 24 checks including CHECK 24 L-085 long-ID stub detection) | `run-diagnostics.sh` (/diagnostics, 7 phases) | `changelog-append.sh` (CHG+Notion) | `gateway-config-snapshot.sh`/`gateway-restore.sh` | `cost-tracker.sh` | `audit-skill.sh` | `telegram-alert.sh` | `long-id-stub-check.sh` (L-085)
-- L-085: Long-ID stub detector — flags TKT-NNNN: <text> duplicates of TKT-NNNN short IDs. Auto-heal CHECK 24, non-destructive. 7/7 tests pass.
-- Ticket/sprint: see `infra/sandbox/seed/skills/pg-sprint-backlog/SKILL.md` (progressive disclosure)
+- `auto-heal.sh` (01:00 AEST, 24 checks) | `changelog-append.sh` (CHG+Notion) | `gateway-config-snapshot.sh`/`gateway-restore.sh`
+- L-085: Long-ID stub detector — auto-heal CHECK 24, non-destructive. 7/7 tests pass.
+- Ticket/sprint: see `infra/sandbox/seed/skills/pg-sprint-backlog/SKILL.md`
 
 ## Operations Docs (locked)
 - Journal: Notion+`memory/journal-YYYY-MM-DD.md` | Blog: Notion+`canvas/documents/ainchors-YYYY-MM-DD/index.html`
@@ -81,26 +76,18 @@ Triggered by: TKT-0501 "CREST synthesize and close" prompt where Yoda correctly 
 Nexus=platform|Holocron=AKB|Bridge=cmd-centre|Citadel=client-portal|Holonet=live-data|Beacon=monitoring|Sanctum=governance|Datapad=reporting. New: Star Wars themes, Ken approves.
 
 ## LinkedIn Campaign — Canonical 4-Week Foundation Arc (LOCKED-IN v3.0, CHG-0594, 2026-06-15)
-- **Canonical angle brief:** `/Users/ainchorsangiefpl/.openclaw/workspace/.openclaw/tmp/spark-reactivation-4week-arc.md` (LOCKED-IN header at top; do not edit content without Ken approval + new CHG)
-- **Reactivation approved:** Ken Mun, 2026-06-12 23:23 AEST (v3 brief); cron SSOT updated 12 Jun 23:24
 - **Schedule:** Tue 07:30, Wed 12:00, Thu 07:30 AEST — 12 posts / 4 weeks / 4 movements
-  - Week 1 (16-18 Jun): Movement I — The Cracks (cost, model deprecation, drift)
-  - Week 2 (23-25 Jun): Movement II — The Audit (rules, gates, divergence)
-  - Week 3 (30 Jun-2 Jul): Movement III — The Rebuild (memory, queue, db, governance)
-  - Week 4 (7-9 Jul): Movement IV — The Shift (habits, discipline, meta)
-- **Theme rotation:** Theme A (AI agents in production) and Theme B (building in public) alternate weeks. Week 1 = Theme A.
-- **Voice rules (NON-NEGOTIABLE):** no AInchors, no Yoda, no Nexus, no agent names, no platform internals, no em-dashes, no "co-founder", no finite time references (use relative framing), no consulting-speak, no fake clients.
-- **Crons:** Tue 13b0aa89, Wed 833ee0c7, Thu 869502c9 (all use `ollama/minimax-m3:cloud`, timeout 180-600s)
-- **Deprecated drafts (DO NOT use):** archived 2026-06-15 17:29 to `archive/linkedin-stale/2026-06-15/`: `spark-reactivation-2week-arc.md` (12 Jun 22:36), `spark-reactivation-week-1-angles.md` (12 Jun 22:04). If you read these, STOP — they are stale.
-- **First post:** Tue 16 Jun 07:30 AEST — "The day my AI bill became the loudest thing in the room" (Movement I, Post 1)
+- **Voice rules (NON-NEGOTIABLE):** no AInchors, no Yoda, no Nexus, no agent names, no platform internals, no em-dashes, no "co-founder", no finite time references, no consulting-speak, no fake clients.
+- **Crons:** Tue 13b0aa89, Wed 833ee0c7, Thu 869502c9 (`ollama/minimax-m3:cloud`)
+- **Deprecated drafts:** archived `archive/linkedin-stale/2026-06-15/` — DO NOT use.
+- Full angle brief + movement details: `.openclaw/tmp/spark-reactivation-4week-arc.md` (LOCKED-IN, do not edit without Ken approval)
 
 ## LinkedIn Posting Rule — Missed Schedule (locked 2026-05-13)
 - Missed post → push to next slot (Tue 07:30→Wed 12:00→Thu 07:30→next Tue 07:30). Never post late. If slot taken, skip entirely. All Spark crons.
 
 ## Open Items
 - Notion DB architecture: see TOOLS.md (CHG-0401 3-DB setup)
-- LinkedIn ✅ connected. Instagram/Facebook/X not yet connected. Spark scope: IG/LI/FB/YT.
-- ⚠️ TKT-0121: Ken to add HF API key to Keychain (LinkedIn FLUX image gen).
+- LinkedIn ✅ connected. Instagram/Facebook/X not yet connected.
 
 ## Model Routing — Permanent Structure (LOCKED 2026-06-15, CHG-0596)
 - **Yoda (main) + Aria (business):** `ollama/deepseek-v4-pro:cloud` (tier-1 cognitive, NO fabrication)
@@ -112,20 +99,8 @@ Nexus=platform|Holocron=AKB|Bridge=cmd-centre|Citadel=client-portal|Holonet=live
 - Model routing skill: `infra/sandbox/seed/skills/model-routing/SKILL.md`
 - Model policy SSOT: `state/model-policy.json`
 
-## Kimi Safety Net
-Model routing: see skill at `infra/sandbox/seed/skills/model-routing/SKILL.md` and `docs/Model3-Policy.md`
-
-## 4-Tier Model Strategy
-Model routing: see skill at `infra/sandbox/seed/skills/model-routing/SKILL.md` and `docs/Model3-Policy.md`
-
-## Security Controls (S1–S7)
-- S1: OC ≥ v2026.5.12 | S2-S6: see `RULES.md` | S7: NAS encrypted (post-OC2)
-
-## CHG Trigger Rules
-Model routing: see skill at `infra/sandbox/seed/skills/model-routing/SKILL.md` and `docs/Model3-Policy.md`
-
-## Tailscale
-- OC1 serve, `allowTailscale: true`, URL: `https://ainchorss-mac-mini.tail5e2567.ts.net`. S2 compliant.
+## Security & Network
+- S1–S7: see `RULES.md`. Tailscale: OC1 serve, S2 compliant. CHG triggers: see changelog skill.
 
 ## Platform Phase Definitions (LOCKED 2026-05-12 — Ken Mun)
 - **MVP** — OC1-only, two founders, core platform live (now).
@@ -134,15 +109,9 @@ Model routing: see skill at `infra/sandbox/seed/skills/model-routing/SKILL.md` a
 - **P3** — SME onsite install ⚠️ PARKED
 - **P4** — Enterprise: multi-tenant, BYOK, Holonet
 
-## KL Team (confirmed 2026-05-12)
-- KL, Malaysia. 4–5 headcount (Marketing/Dev/Support/Admin). Laptop+mobile, external network.
-- Access: Cloudflare Access (P1). Role-scoped IAM.
-
-## Sprint Capacity
-- Pre-OC2: 5/sprint | OC2 setup: 2–3 | Post-OC2: 5. 30% headroom. P2 target: end-Aug 2026 (contingency mid-Sep). **Daily budget cap: $150** | **TEMPORARY: $450 until 2026-05-17** (heavy build phase). See changelog skill for CHG records.
-
-## Pending Tickets
-→ Run `bash scripts/db-sprint.sh status` for current sprint. See `infra/sandbox/seed/skills/pg-sprint-backlog/SKILL.md` for full interface.
+## KL Team & Sprint Capacity
+- KL, Malaysia. 4–5 headcount. P1: Cloudflare Access, role-scoped IAM.
+- Sprint capacity + pending tickets: see `infra/sandbox/seed/skills/pg-sprint-backlog/SKILL.md`.
 
 ## Anthropic — PERMANENTLY PARKED (2026-06-12 08:12)
 - **Directive (Ken verbatim):** "Anthropic credits and model enablement - Permanently park until I provide future instruction and update"

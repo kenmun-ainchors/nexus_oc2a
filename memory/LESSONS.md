@@ -2031,3 +2031,15 @@ fi
 2. Diff against current PG state
 3. Surface divergence + ask before acting
 4. If approved, log the change with lineage
+
+## L-144 — 2026-06-17 | openclaw gateway restart regenerates plist+wrapper+env, wiping manual edits
+**Lesson:** `openclaw gateway restart` (and likely `openclaw gateway install`) regenerates three files from hardcoded templates:
+1. `~/Library/LaunchAgents/ai.openclaw.gateway.plist` — from `buildLaunchAgentPlist()`
+2. `service-env/ai.openclaw.gateway-env-wrapper.sh` — from `buildLaunchAgentEnvironmentWrapper()` (3-line generic pass-through)
+3. `service-env/ai.openclaw.gateway.env` — from `buildLaunchAgentEnvironmentFile()` which wraps every value in `shellSingleQuote()`
+
+**Impact:** Any manual edit to these files is wiped on restart. The plist `EnvironmentVariables` key, wrapper `NODE_OPTIONS` line, and env file additions all get clobbered. The env file is the only semi-viable injection point — values survive `shellSingleQuote()` mangling if they're static strings (no variable expansion).
+
+**Rule:** Never manually edit gateway service files. For env vars that must survive restarts, add them to the env file as static values (no `${VAR:-}` expansion). The `shellSingleQuote()` wrapper will mangle the quoting but the shell still parses static values correctly.
+
+**Linked:** L-102, TKT-0505-A7, CHG-0607, stand-up item #2 (appeared in two consecutive stand-ups before proper fix).

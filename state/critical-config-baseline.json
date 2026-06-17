@@ -1,11 +1,37 @@
 {
+  "schemaVersion": 2,
+  "lastSnapshot": "2026-06-17T03:24:59Z",
+  "lastSnapshotAEST": "2026-06-17T13:24:59+1000",
   "openclawVersion": "2026.5.27",
-  "upgradedAt": "2026-06-08T08:33:00+10:00",
-  "upgradedFrom": "2026.5.12",
+  "configHash": "8241024cc56e332e26f7281ccb47ce80d3d4fb1d35ddf849a9ae600459633985",
   "agentCount": 14,
-  "cronCount": 59,
-  "pgTables": 36,
-  "gatewayStatus": "healthy",
-  "lastUpdated": "2026-06-13T10:34:06+10:00",
-  "lastApprovalContext": "Auto-refreshed by auto-heal CHECK 28e (was 2026-06-13T10:34:06+10:00)"
+  "cronCount": "60",
+  "pgTables": "36",
+  "gatewayStatus": "live",
+  "sandboxMode": "off",
+  "sandboxTools": [
+    "group:runtime",
+    "group:fs"
+  ],
+  "toolsProfile": "coding",
+  "toolsDeny": [],
+  "globalModelCount": "n/a",
+  "nodeOptions": "--max-old-space-size=6144",
+  "yodaToolsDeny": [],
+  "agentModels": {
+    "main": "ollama/deepseek-v4-pro:cloud",
+    "business": "ollama/deepseek-v4-pro:cloud",
+    "security": "ollama/gemma4:31b-cloud",
+    "legal": "ollama/gemma4:31b-cloud",
+    "qa": "ollama/minimax-m3:cloud",
+    "governance": "ollama/gemma4:31b-cloud",
+    "infra": "ollama/minimax-m3:cloud",
+    "architect": "ollama/gemma4:31b-cloud",
+    "platform-arch": "ollama/gemma4:31b-cloud",
+    "biz-process": "ollama/gemma4:31b-cloud",
+    "change-mgt": "ollama/gemma4:31b-cloud",
+    "ahsoka": "ollama/minimax-m3:cloud",
+    "luthen": "ollama/minimax-m3:cloud",
+    "social": "ollama/kimi-k2.6:cloud"
+  }
 }

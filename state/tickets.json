@@ -3942,5 +3942,33 @@
     "priority": "P2",
     "type": "audit",
     "created_at": "2026-06-15T07:21:51+10:00"
+  },
+  {
+    "id": "TKT-0532",
+    "title": "TKT-0532: Investigate subagent toolsAllow inheritance — Forge spawns not executing file mutations",
+    "status": "open",
+    "priority": "P1",
+    "type": "bug",
+    "created_at": "2026-06-17T12:37:00+10:00",
+    "metadata": {
+      "brief": "INVESTIGATION COMPLETE 2026-06-17. Root cause: OpenClaw v2026.5.27 subagents are hardcoded to capabilities=none — exec primitive not available regardless of sandbox mode, alsoAllow, or toolsAllow config. Three approaches tested: (1) tools.sandbox.tools.alsoAllow [group:runtime, group:fs] — no effect, (2) agents.defaults.sandbox.mode off — no effect, (3) toolsAllow on spawn — tool names granted but no runtime capability. CHG-0608 (Yoda tools.deny) reverted as workaround. Permanent fix: CREST v2.0 or OpenClaw upstream change to allow subagent exec capability.",
+      "effort": "L",
+      "agent": "Thrawn",
+      "ac_count": 3,
+      "grooming_history": [
+        {
+          "date": "2026-06-17T12:53:00+10:00",
+          "decisions": "Investigation complete. Root cause confirmed: subagent capabilities=none is hardcoded. Upgraded to P1 — blocks CREST dispatch model. Reassigned to Thrawn for CREST v2.0 design. ACs updated: (1) Design CREST v2.0 with viable executor dispatch path, (2) Evaluate OpenClaw upstream issue for subagent exec capability, (3) Document interim discipline-based enforcement rules.",
+          "ac_count": 3,
+          "ken_approved": true
+        }
+      ],
+      "linked": [
+        "CHG-0608 (reverted)",
+        "CHG-0609 (revert record)",
+        "L-107",
+        "CREST v2.0"
+      ]
+    }
   }
 ]

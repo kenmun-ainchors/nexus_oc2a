@@ -4,8 +4,8 @@
   "description": "ONE file for all LinkedIn content state. Replaces linkedin-queue.json, linkedin-content-tracker.json, content-queue.json (social entries only). Blog entries remain in content-queue.json.",
   "createdAt": "2026-05-19T10:39:00+10:00",
   "createdBy": "Yoda (CHG consolidation)",
-  "lastUpdated": "2026-06-16T17:32:00+10:00",
-  "lastUpdatedBy": "Spark (batch draft cron)",
+  "lastUpdated": "2026-06-17T12:05:15+10:00",
+  "lastUpdatedBy": "Yoda (manual publish after gateway restart interrupted cron)",
   "agent": "Spark",
   "api": {
     "enabled": true,
@@ -97,25 +97,6 @@
     "rule": "External-facing only. NO mentions of AInchors, Yoda, Nexus, agent names, or platform internals."
   },
   "queued": [
-    {
-      "id": "LI-W1-P2",
-      "title": "What happens to your AI when the model underneath you disappears",
-      "slot": "Wed 17 Jun 12:00 AEST",
-      "week": 1,
-      "movement": "I. The Cracks",
-      "postNumber": 2,
-      "status": "approved",
-      "draftTriggeredAt": "2026-06-15T18:45:00+10:00",
-      "draftTriggeredBy": "manual batch run (Sat 14 Jun slot missed)",
-      "approvedAt": "2026-06-15T19:59:00+10:00",
-      "approvedBy": "Ken Mun (Telegram, image attached)",
-      "draftFile": "social-drafts/LI-W1-P2-model-disappears.md",
-      "imageFile": "social-drafts/images/LI-W1-P2.jpg",
-      "imageReady": true,
-      "imagePrompt": "A row of identical engine blocks on a workshop bench, one engine block slightly different from the others, side-by-side comparison photo, soft industrial light, warm neutral palette with one block highlighted in cooler steel-blue, editorial product photography, calm but disquieting mood. Square 1:1 format, no text, no logos, professional quality.",
-      "governanceVerdict": "CLEARED (Shield: clear, Lex: clear, Sage: clear)",
-      "imageAssetUrn": "urn:li:image:D5610AQHUNlcDxu1LGw"
-    },
     {
       "id": "LI-W1-P3",
       "title": "The four things that quietly broke when everything was loud",
@@ -281,6 +262,29 @@
       "imageAssetUrn": "urn:li:image:D5610AQGy87YrIBOT-w",
       "type": "original",
       "note": "v3 repost. Original cron (13b0aa89) posted image prompt instead of body (missing --- delimiters). v1 repost had dead image URN. v2 text-only went live without image. v3: fresh image upload + correct body with --- delimiters."
+    },
+    {
+      "id": "LI-W1-P2",
+      "title": "What happens to your AI when the model underneath you disappears",
+      "slot": "Wed 17 Jun 12:00 AEST",
+      "week": 1,
+      "movement": "I. The Cracks",
+      "postNumber": 2,
+      "status": "approved",
+      "draftTriggeredAt": "2026-06-15T18:45:00+10:00",
+      "draftTriggeredBy": "manual batch run (Sat 14 Jun slot missed)",
+      "approvedAt": "2026-06-15T19:59:00+10:00",
+      "approvedBy": "Ken Mun (Telegram, image attached)",
+      "draftFile": "social-drafts/LI-W1-P2-model-disappears.md",
+      "imageFile": "social-drafts/images/LI-W1-P2.jpg",
+      "imageReady": true,
+      "imagePrompt": "A row of identical engine blocks on a workshop bench, one engine block slightly different from the others, side-by-side comparison photo, soft industrial light, warm neutral palette with one block highlighted in cooler steel-blue, editorial product photography, calm but disquieting mood. Square 1:1 format, no text, no logos, professional quality.",
+      "governanceVerdict": "CLEARED (Shield: clear, Lex: clear, Sage: clear)",
+      "imageAssetUrn": "urn:li:image:D5610AQHUNlcDxu1LGw",
+      "postedAt": "2026-06-17T12:05:15+10:00",
+      "postedBy": "Yoda (manual \u2014 cron interrupted by gateway restart)",
+      "postUrn": "urn:li:share:7472831677170409472",
+      "postUrl": "https://www.linkedin.com/posts/activity-7472831677170409472"
     }
   ],
   "skipped": [
