@@ -1,3 +1,11 @@
+## L-150 — 2026-06-18 | Script Hardening
+**Lesson:** Adding `set -euo pipefail` to legacy scripts can trigger the ERR trap on command substitutions that legitimately return no matches (e.g. `pgrep ... | head -1` when no process is found). Even though the pipeline ends with a successful command, `pgrep` exiting 1 fires the trap.
+**Rule:** When hardening old code with `set -euo pipefail`, audit every command substitution for no-match / empty-result failures. Add `|| true` where a non-zero result is expected and safe to ignore. Test the full script end-to-end with real (or dry-run) inputs, not just `bash -n`.
+**Scope of fix:** `scripts/auto-heal.sh` TKT-0529 A7 Bundle 1 — `ACTIVE_GW_PID=$(pgrep -f "openclaw.*gateway.*18789" | head -1 || true)`.
+**Source:** TKT-0529 old-code audit remediation, Bundle 1 dry-run test.
+
+---
+
 # LESSONS.md — Yoda Lessons Learned Log
 # AInchors Nexus Platform
 # Format: L-NNN | Date | Category | Lesson | Source incident/CHG
