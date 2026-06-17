@@ -220,9 +220,9 @@ Only when all open decisions are closed AND all drafts are accepted is the item 
 
 ## Related Skills & Scripts
 
-- **Sprint/Ticket DB ops:** `infra/sandbox/seed/skills/pg-sprint-backlog/SKILL.md`
-- **CREST execution:** `infra/sandbox/seed/skills/crest/SKILL.md` (DoD close gate enforces universal gates above)
-- **CHG records:** `infra/sandbox/seed/skills/changelog/SKILL.md`
+- **Sprint/Ticket DB ops:** `agent-skills/pg-sprint-backlog/SKILL.md`
+- **CREST execution:** `agent-skills/crest/SKILL.md` (DoD close gate enforces universal gates above)
+- **CHG records:** `agent-skills/changelog/SKILL.md`
 - **Scripts:** `scripts/ticket.sh`, `scripts/db-ticket.sh`, `scripts/db-sprint.sh`, `scripts/incident-log.sh`, `scripts/pvt.sh`, `scripts/changelog-append.sh`
 
 ---

@@ -44,7 +44,17 @@ esac
 
 # Validate required
 for var in TYPE SOURCE TITLE TRIGGER CHANGED WHY VERIFIED; do
-  if [[ -z "${(P)var}" ]]; then
+  val=""
+  case "$var" in
+    TYPE) val="$TYPE" ;;
+    SOURCE) val="$SOURCE" ;;
+    TITLE) val="$TITLE" ;;
+    TRIGGER) val="$TRIGGER" ;;
+    CHANGED) val="$CHANGED" ;;
+    WHY) val="$WHY" ;;
+    VERIFIED) val="$VERIFIED" ;;
+  esac
+  if [[ -z "$val" ]]; then
     echo "ERROR: --${var:l} is required" >&2
     exit 2
   fi

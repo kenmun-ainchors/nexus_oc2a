@@ -1,0 +1,67 @@
+{
+  "schema": "ainchors.skill-index.v1",
+  "updated_at": "2026-06-18T04:57:00+10:00",
+  "source_of_truth": "agent-skills/",
+  "description": "Canonical registry of approved agent skill packages. Agents must discover skills via this index and load via scripts/skill-load.sh.",
+  "skills": [
+    {
+      "name": "agile",
+      "path": "agent-skills/agile",
+      "skill_file": "SKILL.md",
+      "category": "delivery",
+      "description": "AInchors Agile delivery framework — sprint cadence, ceremonies, work-item rules, priority, and Definition of Done.",
+      "approved": true
+    },
+    {
+      "name": "changelog",
+      "path": "agent-skills/changelog",
+      "skill_file": "SKILL.md",
+      "canonical_script": "scripts/changelog-append.sh",
+      "category": "governance",
+      "description": "Create and manage CHG records for every structural platform change.",
+      "approved": true
+    },
+    {
+      "name": "crest",
+      "path": "agent-skills/crest",
+      "skill_file": "SKILL.md",
+      "category": "execution",
+      "description": "CREST execution framework for planning, verification, and delivery.",
+      "approved": true
+    },
+    {
+      "name": "model-routing",
+      "path": "agent-skills/model-routing",
+      "skill_file": "SKILL.md",
+      "category": "execution",
+      "description": "Model tier assignments and cost routing policy.",
+      "approved": true
+    },
+    {
+      "name": "pg-sprint-backlog",
+      "path": "agent-skills/pg-sprint-backlog",
+      "skill_file": "SKILL.md",
+      "canonical_scripts": ["scripts/db-ticket.sh", "scripts/db-sprint.sh"],
+      "category": "delivery",
+      "description": "PostgreSQL-first sprint and ticket operations.",
+      "approved": true
+    },
+    {
+      "name": "subagent-dispatch",
+      "path": "agent-skills/subagent-dispatch",
+      "skill_file": "SKILL.md",
+      "category": "execution",
+      "description": "Safe OpenClaw subagent dispatch rules: workspace access, timeout enforcement, tool budgets, kill policies.",
+      "approved": true
+    },
+    {
+      "name": "telegram",
+      "path": "agent-skills/telegram",
+      "skill_file": "SKILL.md",
+      "canonical_script": "scripts/telegram-alert.sh",
+      "category": "messaging",
+      "description": "Telegram chunking and alert routing rules.",
+      "approved": true
+    }
+  ]
+}

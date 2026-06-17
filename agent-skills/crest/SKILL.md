@@ -294,9 +294,9 @@ This is the machine-enforced CREST Done gate for ticket lifecycle.
 
 ## Related Skills & Scripts
 
-- **Model routing / phase tier assignments:** `infra/sandbox/seed/skills/model-routing/SKILL.md`
-- **Sprint/ticket workflow (CREST Plan input):** `infra/sandbox/seed/skills/pg-sprint-backlog/SKILL.md`
-- **CHG records (for any CREST-driven config change):** `infra/sandbox/seed/skills/changelog/SKILL.md`
+- **Model routing / phase tier assignments:** `agent-skills/model-routing/SKILL.md`
+- **Sprint/ticket workflow (CREST Plan input):** `agent-skills/pg-sprint-backlog/SKILL.md`
+- **CHG records (for any CREST-driven config change):** `agent-skills/changelog/SKILL.md`
 - **Scripts:** `scripts/atom-validate.sh` (Level 2 pre-flight), `scripts/dispatch-validate.sh` (Level 1), `scripts/crest-done-gate.sh` (close hook), `scripts/crest-execute-gate.sh` (dispatch discipline audit)
 
 ---

@@ -45,6 +45,12 @@ Triggered by: TKT-0501 "CREST synthesize and close" prompt where Yoda correctly 
 
 **Rule:** No tribal knowledge — reference skills, not inline memory.
 
+## Skills Loader — Canonical Path (TKT-0535, CHG-0623)
+- `scripts/skill-load.sh` is the **only** supported way to load a platform skill.
+- It validates against `infra/sandbox/seed/skills/.index.json` and fails closed for unknown/unapproved skills.
+- Skill packages live at `infra/sandbox/seed/skills/<name>/SKILL.md` — SSOT.
+- `scripts/ticket.sh` is deprecated; use `db-ticket.sh` after loading `pg-sprint-backlog`.
+
 # Governance Agents
 - **Shield🛡️/Lex⚖️/Sage🧪** — reactive verdict-only (T4).
 - **Warden 🔍** Model Compliance, 15-min cron:83accf7b. Escalation → warden-escalation-pending.json → Yoda.

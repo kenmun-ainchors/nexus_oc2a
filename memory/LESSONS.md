@@ -1043,7 +1043,7 @@ Three crons (Morning Stand-Up, Daily Blog, Aria ROI) failed because agent models
 2. CREST skill update: when batching N>2 tool calls of the same type, after each call, check the result. On any non-success result, stop the batch, retry the failed call alone, then continue. Do not assume remaining batched calls will succeed.
 3. Add CREST self-check question: "If this tool call fails on the next turn, will the user need to nudge me?" — if yes, finish the loop in this turn.
 
-**Verified:** L-089 logged. CREST skill update drafted in parallel — to be merged into `infra/sandbox/seed/skills/crest/SKILL.md` (or wherever CREST is canonically defined).
+**Verified:** L-089 logged. CREST skill update drafted in parallel — to be merged into `agent-skills/crest/SKILL.md` (or wherever CREST is canonically defined).
 
 **Linked:** L-088 (prior silence-failure lesson — same family of "stuck waiting for human nudge"), TKT-0501, CHG-0522, CREST v1.3 (TKT-0368).
 
@@ -1067,7 +1067,7 @@ Three crons (Morning Stand-Up, Daily Blog, Aria ROI) failed because agent models
 - TKT-9998 created via `bash scripts/db-ticket.sh create` (interactive regression) — still works.
 - Test tickets cancelled. PG state clean.
 
-**Linked:** L-088 (sibling — Telegram alert rerouted to webchat), L-089 (sibling — stalled mid-execution on rejection), TKT-0501, CHG-0524, scripts/db-ticket.sh, scripts/auto-heal.sh, infra/sandbox/seed/skills/pg-sprint-backlog/SKILL.md.
+**Linked:** L-088 (sibling — Telegram alert rerouted to webchat), L-089 (sibling — stalled mid-execution on rejection), TKT-0501, CHG-0524, scripts/db-ticket.sh, scripts/auto-heal.sh, agent-skills/pg-sprint-backlog/SKILL.md.
 
 ## L-090a — 2026-06-13 | gateway-restore.sh has the same zsh coprocess vulnerability (sibling to L-090)
 **Lesson:** When auditing for L-090, I found a second script (`gateway-restore.sh`) with the same `read -r -p "Proceed..."` vulnerability. The audit caught it before it tripped in production. Lesson: **when fixing a class of bug, scan the entire class — don't fix one instance and stop.** The CHECK 26 detector was extended to cover `gateway-restore.sh` patterns + a generic `read -p` zsh coprocess marker.
@@ -2031,6 +2031,58 @@ fi
 2. Diff against current PG state
 3. Surface divergence + ask before acting
 4. If approved, log the change with lineage
+
+## L-149 — 2026-06-18 | OpenClaw runtime agent init hook = workspace bootstrap files, not a separate config
+**Lesson:** OpenClaw does not expose a "run command at session init" hook or a safe per-agent system-prompt prepend. The available `agents.defaults.systemPromptOverride` replaces the entire system prompt, which would discard `SOUL.md`, `AGENTS.md`, `MEMORY.md`, and other workspace context. The actual runtime init hook is the workspace bootstrap-file injection that OpenClaw already performs: files like `SOUL.md` are injected into the system prompt for every fresh session.
+
+**Implication:** If we want a rule to be present at every new agent session, the correct place to put it is in that agent's `SOUL.md` (or another injected workspace bootstrap file), not in gateway config.
+
+**Rule:**
+- Add agent-level rules to the agent's `SOUL.md`.
+- Do not use `systemPromptOverride` unless you intend to replace the entire prompt and manage context manually.
+- Treat workspace bootstrap files as the structural, per-session init mechanism.
+
+**Linked:** TKT-0534, TKT-0535, agent SOUL.md updates 2026-06-18, OpenClaw docs/gateway/config-agents.md.
+
+
+## L-148 — 2026-06-18 | Do not yield the session while waiting for a short subagent timeout
+**Lesson:** `sessions_yield` should only be used when the parent has no further work and genuinely needs to wait for a child. For a subagent with `timeoutSeconds=30` that completed in 3s, yielding caused an unnecessary 30-second delay and a false "still waiting" state. The completion event arrived immediately; the parent should have continued processing.
+
+**Rule:**
+- Only use `sessions_yield` if the next user-facing response depends on the child result AND there is no independent work the parent can do.
+- For short verification subagents, let the completion event arrive normally while continuing with other work.
+- Never yield if the child timeout is short and the parent has remaining tasks to perform.
+
+**Linked:** L-146, L-147, TKT-0536 A4, Ken directive 2026-06-18 06:22 AEST.
+
+
+## L-147 — 2026-06-18 | Do not kill the gateway to terminate a runaway subagent
+**Lesson:** Killing the OpenClaw gateway process (`kill -9 <pid>`) to stop a looping subagent is destructive and wrong. It terminates all active sessions, crons, and state, and requires a full gateway restart. The correct response to a runaway subagent is to wait for it to hit its own timeout or use the documented control channel — not to nuke the runtime.
+
+**Root cause:** Frustration with `.stop` / `.abort` / `process kill` failing led to an escalation of force. This violated the principle that diagnostics should never harm the production runtime.
+
+**Rule:**
+- `process kill` and `.stop` / `.abort` are the only allowed termination attempts.
+- If they fail, the subagent is treated as a known limitation, not a reason to restart the gateway.
+- Runaway subagents are a **design problem to fix** (tool-loop limits, max turns), not an operational problem to fight with OS signals.
+
+**Linked:** L-146, TKT-0536, CHG-0624 (gateway restart), Ken directive 2026-06-18 06:09 AEST.
+
+
+## L-146 — 2026-06-18 | Session Boundary / Subagent Workspace Access Blocker
+**Lesson:** Work and context do **not** carry across sessions automatically, even on the same host. A `/new` command starts fresh with no memory of the prior turn. Additionally, isolated subagents spawned via `sessions_spawn` cannot access parent workspace files unless explicitly attached — `fork` context only works for the same agent as the requester, and attachments were disabled.
+
+**Impact:** TKT-0535 was initially dispatched to a Thrawn/platform-arch subagent with a verifier corpus at `.openclaw/tmp/TKT-0535-verifier-corpus.md` and references to `agent-skills/`. The subagent completed but reported missing files, because isolated sessions cannot read the parent workspace. Re-spawn attempts failed. This blocked delegated execution and required Ken to explicitly approve Yoda executing directly in the main session.
+
+**Rule:**
+- Treat every `/new` as a cold start. Explicitly commit or summarize state before ending a session if it must resume.
+- For delegated build/cleanup work that requires workspace file access, either:
+  1. Execute in the main session with Ken approval, or
+  2. Ensure the subagent is launched with workspace attachments / same-agent fork context enabled.
+- Never assume a subagent can see files the parent can see.
+
+**Linked:** TKT-0535, CHG-0623, TKT-0534, L-139 (Anti-Subagent-Trap), Ken directive 2026-06-18 05:13 AEST.
+
 
 ## L-145 — 2026-06-17 | Skill-Gate / Ticket Creation
 **Lesson:** Never bypass the skill gate for domain operations. Always run `bash scripts/skill-load.sh <name>` before any domain script. For ticket creation, always use `db-ticket.sh create-from-json` — never `db-raw.sh` (raw SQL).

@@ -63,7 +63,7 @@ Subcommands:
   update <TKT-ID> '<json-payload>'        — Validate and write JSON to PG
   groom <TKT-ID>                         — Append grooming entry to metadata.grooming_history[]
   fold <TKT-ID> --into <PARENT-ID>       — CHG-0456 5-gate fold: extract→migrate→close→sync
-  list [--status <s>] [--blocked-by <T>] [--sprint <S>] [--open] [--blocked] — Query tickets
+  list [--status <s>] [--blocked-by <T>] [--sprint <S>] [--sprint-current] [--open] [--blocked] — Query tickets
   sync <TKT-ID>                          — One-shot PG→Notion sync for single ticket
   validate                               — Validate all open tickets have required metadata fields
   help                                   — Show this usage
@@ -936,6 +936,17 @@ cmd_list() {
         filter_sprint="$2"
         shift 2
         ;;
+      --sprint-current)
+        # Resolve the active sprint from state_sprints and filter tickets by it
+        filter_sprint=$(pg_query "SELECT sprint_name FROM state_sprints WHERE status = 'in_progress' ORDER BY updated_at DESC LIMIT 1;" 2>/dev/null | head -1 || true)
+        if [[ -z "$filter_sprint" ]]; then
+          filter_sprint=$(pg_query "SELECT sprint_name FROM state_sprints ORDER BY end_date DESC LIMIT 1;" 2>/dev/null | head -1 || true)
+        fi
+        if [[ -z "$filter_sprint" ]]; then
+          die "No active or recent sprint found in state_sprints."
+        fi
+        shift
+        ;;
       --open)
         filter_open="true"
         shift
@@ -945,11 +956,11 @@ cmd_list() {
         shift
         ;;
       --help)
-        echo "Usage: db-ticket.sh list [--status <s>] [--blocked-by <TKT>] [--sprint <S>] [--open] [--blocked]"
+        echo "Usage: db-ticket.sh list [--status <s>] [--blocked-by <TKT>] [--sprint <S>] [--sprint-current] [--open] [--blocked]"
         return 0
         ;;
       *)
-        die "Unknown filter: $1. Use --status, --blocked-by, --sprint, --open, --blocked"
+        die "Unknown filter: $1. Use --status, --blocked-by, --sprint, --sprint-current, --open, --blocked"
         ;;
     esac
   done
@@ -1215,10 +1226,15 @@ Subcommands:
   update <TKT-ID> '<json-payload>'        — Validate and write JSON to PG
   groom <TKT-ID>                         — Append grooming entry to metadata
   fold <TKT-ID> --into <PARENT-ID>       — CHG-0456 5-gate fold SOP
-  list [--status <s>] [--blocked-by <T>] [--sprint <S>] [--open] [--blocked]
+  list [--status <s>] [--blocked-by <T>] [--sprint <S>] [--sprint-current] [--open] [--blocked]
   sync <TKT-ID>                          — One-shot PG→Notion sync
   validate                               — Validate all open tickets
   help                                   — Show this usage
+
+Examples:
+  db-ticket.sh list --sprint-current
+  db-ticket.sh list --sprint "Sprint 8" --open
+  db-ticket.sh read TKT-0535
 
 Flags are NOT accepted. Unknown subcommands print this usage and exit 1.
 USAGE_ERR

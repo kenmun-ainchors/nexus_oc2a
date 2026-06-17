@@ -17,7 +17,7 @@
 **Change Type:** Normal
 **Source:** TKT-0534 follow-up
 **Trigger:** Ken requested all skill packages use progressive disclosure; no tribal knowledge in agent files.
-**What changed:** Audited all 6 seed skills (agile, changelog, crest, model-routing, pg-sprint-backlog, telegram) for inline references in SOUL.md, MEMORY.md, AGENTS.md, HEARTBEAT.md, RULES.md. Replaced every `infra/sandbox/seed/skills/X/SKILL.md` path with `bash scripts/skill-load.sh X` pointer. Key edits:
+**What changed:** Audited all 6 seed skills (agile, changelog, crest, model-routing, pg-sprint-backlog, telegram) for inline references in SOUL.md, MEMORY.md, AGENTS.md, HEARTBEAT.md, RULES.md. Replaced every `agent-skills/X/SKILL.md` path with `bash scripts/skill-load.sh X` pointer. Key edits:
   - SOUL.md: normalised changelog, telegram, model-routing pointers.
   - MEMORY.md: removed inline model-routing tier assignments; normalised pg-sprint-backlog, changelog, model-routing pointers.
   - HEARTBEAT.md: normalised telegram, model-routing pointers; moved alert thresholds into skill pointer.
@@ -25,7 +25,7 @@
   - RULES.md: normalised pg-sprint-backlog, changelog, telegram pointers.
 **Why:** Ensure every skill package is loaded on demand through the single skill-load interface. No agent file carries duplicated skill instructions.
 **Verified:**
-  - No inline `infra/sandbox/seed/skills/*` paths remain in agent files.
+  - No inline `agent-skills/*` paths remain in agent files.
   - All 6 seed skills load successfully via skill-load.sh.
   - SOUL.md: 4,175 chars (limit 5K)
   - MEMORY.md: 7,993 chars (limit 15K)
@@ -81,8 +81,8 @@
 **Source:** strategic-roadmap
 **Trigger:** TKT-0534 — Create Agile and CREST skill packages from governance documents, Sprint 8
 **What changed:** Added two new AgentSkills:
-  - `infra/sandbox/seed/skills/agile/SKILL.md`
-  - `infra/sandbox/seed/skills/crest/SKILL.md`
+  - `agent-skills/agile/SKILL.md`
+  - `agent-skills/crest/SKILL.md`
 Both reference canonical docs in `references/` and load via `scripts/skill-load.sh`. Key content:
   - Agile: framework maturity, ceremonies, sprint capacity, work-item types, ticket-first rule, decision capture, P1–P5 priority, universal DoD gates, ad-hoc sprint status query, sprint planning carry-forward rule.
   - CREST: 6-phase sandwich, Master/Sub-CREST topology, model matrix, 2-Pass Contract, escalation protocol, governance placement, enforcement rules, TQP mandatory atom queue, evidence-only verification rule.
@@ -168,6 +168,90 @@ Both reference canonical docs in `references/` and load via `scripts/skill-load.
 - **Linked:** INC-20260608-001, L-050, L-051, TKT-0332, TKT-0333, CHG-0470
 ---
 ---
+
+## 2026-06-18 07:18 AEST — [CHG-0628] wrapper test
+**Type:** rule
+**Change Type:** Normal
+**Source:** ken-prompt
+**Trigger:** TKT-0535 regression
+**What changed:** Verified run-changelog wrapper auto-loads skill.
+**Why:** Regression test
+**Verification:** Test
+**Rollback:** N/A
+**Linked:** none
+---
+
+
+## 2026-06-18 07:18 AEST — [CHG-0627] gate test pass
+**Type:** rule
+**Change Type:** Normal
+**Source:** ken-prompt
+**Trigger:** TKT-0535 regression
+**What changed:** Verified gate passes after skill-load.
+**Why:** Regression test
+**Verification:** Test
+**Rollback:** N/A
+**Linked:** none
+---
+
+
+## 2026-06-18 06:57 AEST — [CHG-0626] wrapper test
+**Type:** rule
+**Change Type:** Normal
+**Source:** ken-prompt
+**Trigger:** TKT-0535 regression
+**What changed:** Verified run-changelog wrapper auto-loads skill.
+**Why:** Regression test
+**Verification:** Test
+**Rollback:** N/A
+**Linked:** none
+---
+
+
+## 2026-06-18 06:57 AEST — [CHG-0625] gate test pass
+**Type:** rule
+**Change Type:** Normal
+**Source:** ken-prompt
+**Trigger:** TKT-0535 regression
+**What changed:** Verified gate passes after skill-load.
+**Why:** Regression test
+**Verification:** Test
+**Rollback:** N/A
+**Linked:** none
+---
+
+
+
+
+
+
+
+
+## 2026-06-18 06:26 AEST — [CHG-0624] Subagent dispatch governance: workspace access, timeout enforcement, and kill policies
+**Type:** rule
+**Change Type:** Normal
+**Source:** ken-prompt
+**Trigger:** TKT-0536 — L-146 subagent workspace access and termination failures during TKT-0535 dispatch
+**What changed:** Added agent-skills/subagent-dispatch/SKILL.md canonical rules; created scripts/subagent-dispatch.sh helper enforcing cwd, timeoutSeconds, tool budget, and read-only default; registered skill in agent-skills/.index.json; updated SOUL.md async-background rule to require skill-load.
+**Why:** Cross-agent subagents default to their own workspace and cannot access parent files without cwd. process kill / .stop / .abort do not terminate LLM tool loops. Workspace-mutating work delegated to subagents risks data loss and zombie sessions.
+**Verification:** tests/regression/subagent-dispatch/test-subagent-dispatch.sh: 9/9 PASS. Live subagent with cwd=/Users/ainchorsangiefpl/.openclaw/workspace and timeoutSeconds=30 read parent file and completed cleanly.
+**Rollback:** Remove agent-skills/subagent-dispatch/, revert agent-skills/.index.json, remove scripts/subagent-dispatch.sh, revert SOUL.md rule.
+**Linked:** L-146, L-147, L-148, TKT-0536, TKT-0535
+---
+
+
+## 2026-06-18 04:59 AEST — [CHG-0623] TKT-0535: Canonical skills-package loader + legacy script cleanup
+**Type:** script
+**Change Type:** Normal
+**Source:** ken-prompt
+**Trigger:** Ken directed fix after Yoda reproduced 'sprint status' bug — used legacy db-sprint.sh from memory instead of loading agile skills package from seed path.
+**What changed:** Created canonical skill index at agent-skills/.index.json listing 6 approved platform skills (agile, changelog, crest, model-routing, pg-sprint-backlog, telegram). Upgraded scripts/skill-load.sh to validate skills against the index, track canonical path in state/skill-load-registry.json, and fail closed on unknown/unapproved skills. Deprecated scripts/ticket.sh (renamed to .deprecated-TKT-0535, replaced with stub redirecting to pg-sprint-backlog skill + db-ticket.sh). Added --sprint-current flag to db-ticket.sh to align with agile skill doc. Cleaned skill-load registry (removed garbage X entry, normalized legacy entries). Added regression test tests/regression/skills/test-skills-canonical.sh (15/15 PASS).
+**Why:** Agents were defaulting to legacy scripts and hard-coded paths rather than the canonical seed skills packages completed yesterday. This caused drift between skill docs and script reality and allowed tribal knowledge to re-enter after skills package work.
+**Verification:** Ran tests/regression/skills/test-skills-canonical.sh: 15/15 PASS. Confirmed scripts/skill-load.sh agile registers canonical path; scripts/ticket.sh errors with redirect; db-ticket.sh read TKT-0535 succeeds.
+**Rollback:** Restore scripts/ticket.sh.deprecated-TKT-0535 to scripts/ticket.sh. Revert scripts/skill-load.sh and agent-skills/.index.json from git.
+**Linked:** TKT-0535, TKT-0534, L-139, CHG-0545
+---
+
 
 ## 2026-06-17 14:22 AEST — [CHG-0621] CHG-0621: Yoda + Aria model swap — deepseek-v4-pro → kimi-k2.7-code (trial until Sun 22 Jun)
 **Type:** config
@@ -753,7 +837,7 @@ Both reference canonical docs in `references/` and load via `scripts/skill-load.
 **Why:** Ken explicit policy change 13:23 AEST webchat: Ollama Cloud = monthly turns-limit cap, not credit balance. Old model: apiBalance.remainingEstimate tracked dollar balance, auto-reload triggered at <$50 reloading $450. New model: monthly turns count, no auto-reload needed. The pre-existing cost-state.json had stale values (apiBalance.remainingEstimate=0, old spend alert thresholds) that no longer reflect reality. Provisional alert thresholds (80%/90%/95% of monthly budget) need Ken's monthly budget number to finalize.
 **Verification:** state/cost-state.json: apiBalance.model=monthly_turns_limit ✓, autoReload.active=False ✓, spendAlerts.currentModel=turns_limit ✓, turnsLimit.pendingKenInput=True ✓, billingModelHistory=1 entry ✓. HEARTBEAT.md updated with DEPRECATED marker. Awaiting Ken's monthly turns budget number to finalize alert thresholds.
 **Rollback:** git checkout state/cost-state.json HEARTBEAT.md
-**Linked:** TKT-0092 (daily budget report), state/cost-state.json, HEARTBEAT.md, infra/sandbox/seed/skills/model-routing/SKILL.md (TO UPDATE), CHECK 29/30/31 (TO RECONFIGURE for turns-based)
+**Linked:** TKT-0092 (daily budget report), state/cost-state.json, HEARTBEAT.md, agent-skills/model-routing/SKILL.md (TO UPDATE), CHECK 29/30/31 (TO RECONFIGURE for turns-based)
 ---
 
 
@@ -1048,10 +1132,10 @@ Both reference canonical docs in `references/` and load via `scripts/skill-load.
 **Change Type:** Normal
 **Source:** manual
 **Trigger:** TKT-0504-A5 atom spec, dispatched by Yoda 2026-06-13 14:48 AEST
-**What changed:** infra/sandbox/seed/skills/pg-sprint-backlog/SKILL.md: appended top-level 'TQP Execution Path (TKT-0504)' section with architecture diagram, when-to-use, pitfalls (L-096/L-095/role boundary/cron registration/header parsing), verification command, and linked tickets.
+**What changed:** agent-skills/pg-sprint-backlog/SKILL.md: appended top-level 'TQP Execution Path (TKT-0504)' section with architecture diagram, when-to-use, pitfalls (L-096/L-095/role boundary/cron registration/header parsing), verification command, and linked tickets.
 **Why:** Knowledge capture: TQP bridge was the lesson; without the doc, future agents will rediscover the silence class. Cross-linked to L-096 for L-Registry continuity.
 **Verification:** grep -c 'TQP Execution Path' = 1; grep -c 'L-096' = 2; SKILL.md not in file-contracts.json (out-of-root), no contract update needed
-**Rollback:** git checkout infra/sandbox/seed/skills/pg-sprint-backlog/SKILL.md
+**Rollback:** git checkout agent-skills/pg-sprint-backlog/SKILL.md
 **Linked:** TKT-0504, L-096, TKT-0503, CHG-0551
 ---
 
@@ -1351,11 +1435,11 @@ Both reference canonical docs in `references/` and load via `scripts/skill-load.
 **Change Type:** Normal
 **Source:** manual
 **Trigger:** Ken asked at 09:52 AEST 'still waiting on A1-A5 to complete?' — 35 min after I queued 5 atoms. TQP ran every 5 min, found nothing, exited cleanly. TQP reads PG state_task_queue, NOT state/task-queue.json. JSON file is watchdog-divergence audit trail only.
-**What changed:** Three structural fixes: (1) Inserted 5 TKT-0503 atoms directly into PG state_task_queue with correct schema (id, title, status, priority, source=agent:tqp, atoms_jsonb). TKT-0503-A1 already dispatched at 09:54:30 AEST. (2) Marked JSON file's 5 queue entries as 'cancelled-orphaned' and 2 historical TKT-0340 entries as 'historical-orphan' with L-095 traceability. (3) Added auto-heal CHECK 28f — scans JSON for status=queued entries not present in PG, alerts Ken via NEEDS_KEN. Detected future divergence class: PG source of truth, JSON is watchdog trail. (4) Updated infra/sandbox/seed/skills/pg-sprint-backlog/SKILL.md with 'L-095: TQP queue writes go to PG, NOT to state/task-queue.json' section, including full schema reference and example INSERT statement.
+**What changed:** Three structural fixes: (1) Inserted 5 TKT-0503 atoms directly into PG state_task_queue with correct schema (id, title, status, priority, source=agent:tqp, atoms_jsonb). TKT-0503-A1 already dispatched at 09:54:30 AEST. (2) Marked JSON file's 5 queue entries as 'cancelled-orphaned' and 2 historical TKT-0340 entries as 'historical-orphan' with L-095 traceability. (3) Added auto-heal CHECK 28f — scans JSON for status=queued entries not present in PG, alerts Ken via NEEDS_KEN. Detected future divergence class: PG source of truth, JSON is watchdog trail. (4) Updated agent-skills/pg-sprint-backlog/SKILL.md with 'L-095: TQP queue writes go to PG, NOT to state/task-queue.json' section, including full schema reference and example INSERT statement.
 **Why:** 5th silence-failure in L-088/L-089/L-090/L-091/L-095 lineage. TQP cron succeeded, exit 0, no error — but did nothing. Skill documentation did not distinguish PG from JSON. TQP design is intentional (PG = SSOT per TKT-0270) but the write path was not documented. Future Yoda runs (and any other agent) will hit the same trap without the SKILL.md update.
 **Verification:** TKT-0503-A1 dispatched at 09:54:30 AEST with claim timeout 10:24:30 AEST. A2-A5 queued, will be picked up by TQP's next runs (1-at-a-time design). CHECK 28f in scripts/auto-heal.sh: SYNTAX OK. Isolation test: 0 orphans after cleanup. Both pre-existing 2026-06-12 divergence orphans (TKT-0340-A1, TKT-0340-A8) marked historical-orphan with traceability.
 **Rollback:** Revoke CHECK 28f (sed delete from auto-heal.sh). Revert SKILL.md section. TKT-0503-A2 through A5 still queued in PG, will be picked up normally.
-**Linked:** L-095, TKT-0503, TKT-0409, TKT-0270, scripts/task-queue-processor.sh, scripts/task-watchdog.sh, scripts/auto-heal.sh, infra/sandbox/seed/skills/pg-sprint-backlog/SKILL.md, state/task-queue.json, state_task_queue PG table
+**Linked:** L-095, TKT-0503, TKT-0409, TKT-0270, scripts/task-queue-processor.sh, scripts/task-watchdog.sh, scripts/auto-heal.sh, agent-skills/pg-sprint-backlog/SKILL.md, state/task-queue.json, state_task_queue PG table
 **Category:** infra
 ---
 
@@ -1407,10 +1491,10 @@ Both reference canonical docs in `references/` and load via `scripts/skill-load.
 **Change Type:** Normal
 **Source:** ken-prompt
 **Trigger:** L-090: Yoda hit zsh 'read -p: no coprocess' bug on db-ticket.sh create twice in one day. Ken flagged recurring S1-grade silence failure.
-**What changed:** Three structural fixes: (1) scripts/db-ticket.sh: zsh auto-detection at top — if $ZSH_VERSION set, re-exec to /bin/bash with same args. Override via DB_TICKET_FORCE_BASH=0. (2) scripts/db-ticket.sh: new cmd_create_from_json subcommand — non-interactive, accepts full JSON payload on CLI, runs validate_ticket_payload (with id/created_at stripped for the update-style check), writes via DBWRITE_SAFE_MODE=1. (3) infra/sandbox/seed/skills/pg-sprint-backlog/SKILL.md: new 'SHELL COMPATIBILITY — L-090 FIX' section + create-from-json subcommand doc + Quick Reference row marked PREFERRED FOR AGENTS. (4) scripts/auto-heal.sh: new CHECK 26 — scans last 7d of JSONL for 'no coprocess' / FORBIDDEN_FIELD / 'PG write degraded on create' markers, alerts Ken via NEEDS_KEN if >0 in last 24h.
+**What changed:** Three structural fixes: (1) scripts/db-ticket.sh: zsh auto-detection at top — if $ZSH_VERSION set, re-exec to /bin/bash with same args. Override via DB_TICKET_FORCE_BASH=0. (2) scripts/db-ticket.sh: new cmd_create_from_json subcommand — non-interactive, accepts full JSON payload on CLI, runs validate_ticket_payload (with id/created_at stripped for the update-style check), writes via DBWRITE_SAFE_MODE=1. (3) agent-skills/pg-sprint-backlog/SKILL.md: new 'SHELL COMPATIBILITY — L-090 FIX' section + create-from-json subcommand doc + Quick Reference row marked PREFERRED FOR AGENTS. (4) scripts/auto-heal.sh: new CHECK 26 — scans last 7d of JSONL for 'no coprocess' / FORBIDDEN_FIELD / 'PG write degraded on create' markers, alerts Ken via NEEDS_KEN if >0 in last 24h.
 **Why:** db-ticket.sh is bash-only (uses read -p, [[ ]], local) but zsh doesn't share bash's read -p implementation. When agents invoke via 'zsh scripts/db-ticket.sh' (over-generalizing from changelog skill's zsh requirement), the script fails with a coprocess error and the agent silently bypasses ticket creation via db-write.sh direct path. This breaks the validation layer and creates tickets without normalization. Auto-reexec makes the bug invisible. create-from-json is the proper fix — it removes the interactive path as the only option for agents and CI.
 **Verification:** TKT-9999 created via 'zsh scripts/db-ticket.sh create-from-json TKT-9999 {json}' — auto-reexec to bash succeeded, validation passed, PG write succeeded, read-back confirmed. TKT-9998 created via 'bash scripts/db-ticket.sh create' (interactive regression) — still works. Both test tickets cancelled. Bash syntax check on db-ticket.sh + auto-heal.sh both pass.
-**Rollback:** Revert scripts/db-ticket.sh (remove zsh auto-reexec block + cmd_create_from_json function). Revert infra/sandbox/seed/skills/pg-sprint-backlog/SKILL.md (remove SHELL COMPATIBILITY section + create-from-json doc row). Revert scripts/auto-heal.sh (remove CHECK 26 block). L-090 stays in LESSONS.md as historical record.
+**Rollback:** Revert scripts/db-ticket.sh (remove zsh auto-reexec block + cmd_create_from_json function). Revert agent-skills/pg-sprint-backlog/SKILL.md (remove SHELL COMPATIBILITY section + create-from-json doc row). Revert scripts/auto-heal.sh (remove CHECK 26 block). L-090 stays in LESSONS.md as historical record.
 **Linked:** L-090, TKT-0501, CHG-0523, L-088, L-089, scripts/db-ticket.sh, scripts/auto-heal.sh, pg-sprint-backlog/SKILL.md, changelog/SKILL.md
 **Category:** PG-Sprint-Backlog
 ---
