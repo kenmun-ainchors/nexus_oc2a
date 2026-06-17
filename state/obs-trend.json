@@ -1,6 +1,6 @@
 {
-  "generated_at": "2026-06-17T12:01:24.107316+00:00",
-  "generated_at_aest": "2026-06-17 22:01 AEST",
+  "generated_at": "2026-06-17T14:01:22.303324+00:00",
+  "generated_at_aest": "2026-06-18 00:01 AEST",
   "period_hours": 24,
   "totals": {
     "ERROR": 300,
@@ -21,13 +21,13 @@
   ],
   "trend": {
     "has_prev_data": true,
-    "prev_errors": 119,
+    "prev_errors": 145,
     "prev_warns": 16,
-    "errors_pct_change": 152.1,
+    "errors_pct_change": 106.9,
     "warns_pct_change": 43.8
   },
   "worst_hour": {
-    "hour": "2026-06-17T11:00Z",
+    "hour": "2026-06-17T13:00Z",
     "cnt": 13
   }
 }
