@@ -1,4 +1,5 @@
 #!/bin/zsh
+# AUTOGEN: zsh script; bash -n does not apply
 # ollama-request-counter.sh — Count Ollama API model invocations from gateway logs
 # Updates cost-state.json → turnsLimit with live request counts.
 # Each model invocation = 1 request (flat count, all models equal weight per CHG-0603).
@@ -153,7 +154,8 @@ fi
 # --- Build model breakdown JSON ---
 MODEL_JSON="{"
 FIRST=true
-for model count in ${(kv)MODEL_COUNTS}; do
+for model in ${(k)MODEL_COUNTS}; do
+  count=${MODEL_COUNTS[$model]}
   if [[ "$FIRST" != true ]]; then MODEL_JSON+=","; fi
   FIRST=false
   MODEL_JSON+="\"$model\":$count"
@@ -173,7 +175,8 @@ if [[ "$MODE" == "report" || "$MODE" == "dry-run" ]]; then
   echo "Projected exhaustion: $PROJ_EXHAUST"
   echo ""
   echo "By model:"
-  for model count in ${(kv)MODEL_COUNTS}; do
+  for model in ${(k)MODEL_COUNTS}; do
+    count=${MODEL_COUNTS[$model]}
     printf "  %-45s %d\n" "$model" "$count"
   done
   if [[ $LOGS_MISSING -gt 0 ]]; then

@@ -1,3 +1,17 @@
+## 2026-06-17 22:15 AEST — [CHG-0622] Fix zsh associative-array loop syntax in ollama-request-counter.sh
+**Type:** script
+**Change Type:** Normal
+**Source:** incident-recovery
+**Trigger:** Pre-commit hook and zsh dry-run revealed invalid zsh syntax in associative-array loop.
+**What changed:** `scripts/ollama-request-counter.sh`: replaced two occurrences of `for model count in ARRAY` with correct zsh iteration: `for model in ${(k)ARRAY}; count=${ARRAY[$model]}`.
+**Why:** The original loop used invalid zsh syntax. Variables cannot have spaces in `for` declarations, causing the ollama usage counter to crash when building model JSON or printing by-model report.
+**Verified:**
+  - `zsh -n scripts/ollama-request-counter.sh` → exit 0
+  - `zsh scripts/ollama-request-counter.sh --dry-run` → produces expected output
+  - `bash -n` → pre-commit hook passes (AUTOGEN marker)
+**Rollback:** Revert the two loop blocks to the broken `for model count` version.
+**Linked:** TKT-0533, CHG-0603
+
 ## 2026-06-17 18:46 AEST — [CHG-0611] Normalise all seed skill references to skill-load pointers
 **Type:** docs
 **Change Type:** Normal
