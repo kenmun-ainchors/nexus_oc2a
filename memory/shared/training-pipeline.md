@@ -25,6 +25,12 @@ _For Aria 🔵 & the Spark content engine | Ideas from daily platform work that 
 | TC-208 | Script wrappers don't need AI models: 14 cron conversions saved 70% cloud calls | 💡 idea | 2026-06-15 | CHG-0601/0602 batch cron downgrade |
 | TC-209 | 24 lessons in one day: the silence-failure family and why automation bugs stay hidden | 💡 idea | 2026-06-15 | L-116 through L-140, 33 CHGs in one day |
 | TC-210 | The day my AI bill became the loudest thing in the room | 💡 idea | 2026-06-16 | LI-W1-P1 — first post of the 4-week Foundation Arc |
+| TC-211 | 572× undercount: your gateway logs are not a billing system | 💡 idea | 2026-06-17 | CHG-0618/0619 — Ollama dashboard scraper vs log counter (28 vs 15,932 requests) |
+| TC-212 | When the cron cache lies: fresh data beats cached snapshots for alerting | 💡 idea | 2026-06-17 | CHG-0606 — 30-min cache false alert fix, quota canary |
+| TC-213 | Wrong workspace, no error: 8 silent cron failures discovered by audit | 💡 idea | 2026-06-17 | CHG-0617 — WO-002 cross-workspace sandbox fix |
+| TC-214 | I tried to jail my AI. The guard didn't exist. | 💡 idea | 2026-06-17 | CHG-0608/0609 — CREST §6 tools.deny experiment, discipline-based governance |
+| TC-215 | 37 files, 3,647 lines removed: git commit as progress, not mess | 💡 idea | 2026-06-17 | CHG-0611 — tribal knowledge evicted from agent files, skill-load pointers installed |
+| TC-216 | Model swap: 1 GPU tier down, same output | 💡 idea | 2026-06-17 | CHG-0621 — deepseek-v4-pro → kimi-k2.7-code trial, cost vs capability matching |
 
 _Statuses: 💡 idea → ✍️ draft → ✅ scheduled → 📤 published_
 
