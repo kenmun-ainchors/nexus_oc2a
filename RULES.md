@@ -13,7 +13,7 @@
 - `db-write.sh` is DEPRECATED for PG writes — it only writes JSON files, causing PG-vs-file drift (see TKT-0392, 306 gaps).
 - All PG inserts/updates: `scripts/db.sh -c "SQL"` for simple statements; `psql -v var="value"` for complex escaping.
 - **Never:** bash string interpolation into SQL strings — `"...'$VAR'..."` will break on any value containing a single quote.
-- Ticket/sprint ops: use `db-ticket.sh` / `db-sprint.sh` (see skill at `infra/sandbox/seed/skills/pg-sprint-backlog/SKILL.md`)
+- Ticket/sprint ops: load skill `bash scripts/skill-load.sh pg-sprint-backlog`
 
 ---
 
@@ -96,7 +96,7 @@ This rule is:
 - Create: `bash scripts/db-ticket.sh create` (interactive)
 - Update: `bash scripts/db-ticket.sh update <ID> '<json>'`
 - Close: status='closed' via update subcommand
-- Full interface: `infra/sandbox/seed/skills/pg-sprint-backlog/SKILL.md`
+- Full interface: load skill `bash scripts/skill-load.sh pg-sprint-backlog`
 - PG is SSOT. Notion is downstream — synced automatically via `pg-to-notion-sync.sh`.
 - **Failure to sync PG → Notion = DoD NOT MET.**
 
@@ -112,7 +112,7 @@ This rule is:
 - `changelog-append.sh` handles creation + Notion sync automatically.
 - CHG records: title `[CHG-NNNN] Description`, Status: Done, Type: change.
 - Archive DB: see TOOLS.md (CHG-0401 3-DB architecture).
-- Full workflow: see `infra/sandbox/seed/skills/changelog/SKILL.md`.
+- Full workflow: load skill `bash scripts/skill-load.sh changelog`
 
 
 ## Pla
@@ -677,7 +677,7 @@ Any agent ca
 
 ## Telegram Message Chunking — CHG-0397
 
-Telegram message chunking: see skill at `infra/sandbox/seed/skills/telegram/SKILL.md`. CHG-0397.
+Telegram message chunking: load skill `bash scripts/skill-load.sh telegram`. CHG-0397.
 
 ---
 

@@ -2,7 +2,7 @@
 # Runs every 30 minutes in the main session.
 # Keep this lean — state keys + conditions + actions only.
 # Procedures live in the scripts they reference, not here.
-# Alert routing: see skill at `infra/sandbox/seed/skills/telegram/SKILL.md`
+# Alert routing: load skill `bash scripts/skill-load.sh telegram`
 
 ## Checks
 
@@ -23,8 +23,8 @@
 - **Formula confirmed (Ken 19:14 AEST):** 30,000 requests/week flat count, all models equal weight.
 - **Window:** Monday 10:00 AEST → next Monday 10:00 AEST.
 - Read: `state/cost-state.json → turnsLimit` (currentPct, requestsRemaining, burnRate).
-- Alert thresholds: 50% WARN (surface next interaction), 70% ALERT (Telegram), 85% CRITICAL (Telegram), 95% EMERGENCY (Telegram).
-- Daily Burn Alert cron (ca5d5e50, 20:00 AEST) handles threshold Telegram alerts.
+- Alert thresholds and routing: load skill `bash scripts/skill-load.sh telegram`.
+- Daily Burn Alert cron (ca5d5e50, 20:00 AEST) handles threshold alerts.
 - State key: lastChecks.costState
 - CHG ref: CHG-0603 (2026-06-16 19:14 AEST)
 
@@ -42,7 +42,7 @@
 - If state/aria-crest-alert.json exists → alert Ken with violation details
 - State key: lastChecks.ariaCrest
 - Catches: skipped Verify phases, missing RVEV traces, abandoned sub-crests, pro model overuse
-  - Pro model policy: see skill at `infra/sandbox/seed/skills/model-routing/SKILL.md`
+  - Pro model policy: load skill `bash scripts/skill-load.sh model-routing`
 
 ### Standby Mode & Outage Banner (every heartbeat)
 - If state/standby-mode.json exists → include standby banner in next response to Ken
@@ -66,7 +66,7 @@
 ### Budget Check — TKT-0092 (every 30 min)
 - Run USD-based: `zsh scripts/budget-check.sh --report` (preserved for Anthropic/Claude day)
 - Run request-based: `zsh scripts/request-budget-check.sh --report` (Ollama weekly request tracking)
-- WARN (≥alertAt): surface at next natural interaction. EXCEEDED: Telegram immediately
+- Alert routing: load skill `bash scripts/skill-load.sh telegram`
 - State keys: lastChecks.budgetCheck, lastChecks.requestBudgetCheck
 
 ### Agile Ceremony Gate — NON-NEGOTIABLE (every Monday morning)
@@ -93,7 +93,7 @@
 
 ### Auto-Heal NEEDS_KEN → Notion (every morning after auto-heal)
 - Read state/auto-heal-[YESTERDAY].json → needs_ken array
-- Raise each item to Notion DB B (Auto-Heal). Telegram alert for urgent items.
+- Raise each item to Notion DB B (Auto-Heal). Alert routing: load skill `bash scripts/skill-load.sh telegram`.
 - State key: needsKenNotion
 
 ### Memory Maintenance (once per day, low-traffic hours)

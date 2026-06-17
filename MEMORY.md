@@ -6,7 +6,7 @@
 ## The People
 - **Ken Mun** — Co-founder, CTO. Email: kenmun@ainchors.com | Mobile: +61403650578
 - **Angie Foong** — Co-founder, CEO. Email: angie.foong@ainchors.com | Mobile: +61430928371
-- Telegram contacts: see `infra/sandbox/seed/skills/telegram/SKILL.md`
+- Telegram contacts: load skill `bash scripts/skill-load.sh telegram`
 
 ## The Company
 - **AInchor Solutions Pty Ltd** | ainchors.com | Sydney + Melbourne. Day 1: 2026-04-25. Focus: AI courses/training, consulting, solutions/products.
@@ -23,7 +23,7 @@
 ### Governance Tier Model (approved Ken 2026-05-08, TKT-0103)
 - T0: Yoda (lead) | T1: Aria (dual-principal: CEO+Yoda) | T2: Warden (Yoda-Govern) | T3: Spark, Atlas, Thrawn, Lando, Forge, Mon Mothma, Krennic (Yoda-Manage-Passthrough); Luthen queued P2 | T4: Shield, Lex, Sage (reactive verdict-only)
 - **⚠️ L-026:** Build/scripts → **Forge ONLY**. Atlas=EA assess. Thrawn=arch design. NEVER route build to Thrawn/Atlas.
-- Model routing: see skill at `infra/sandbox/seed/skills/model-routing/SKILL.md` and `docs/Model3-Policy.md`
+- Model routing: load skill `bash scripts/skill-load.sh model-routing` and `docs/Model3-Policy.md`
 
 ## Agent SOUL.md Compact Standard (NON-NEGOTIABLE)
 - SOUL.md: hard limit 10,000 (warn 6,000). MEMORY.md: hard limit 15,000 (warn 12,000). Archive overflow at 12K, trim to 10K.
@@ -41,7 +41,7 @@ Triggered by: TKT-0501 "CREST synthesize and close" prompt where Yoda correctly 
 ## CREST + Agile Skills
 - CREST execution topology: `bash scripts/skill-load.sh crest`
 - Agile delivery framework: `bash scripts/skill-load.sh agile`
-- Sprint/ticket ops: `infra/sandbox/seed/skills/pg-sprint-backlog/SKILL.md`
+- Sprint/ticket ops: load skill `bash scripts/skill-load.sh pg-sprint-backlog`
 
 **Rule:** No tribal knowledge — reference skills, not inline memory.
 
@@ -52,7 +52,7 @@ Triggered by: TKT-0501 "CREST synthesize and close" prompt where Yoda correctly 
 ## Key Scripts & Infrastructure
 - `auto-heal.sh` (01:00 AEST, 24 checks) | `changelog-append.sh` (CHG+Notion) | `gateway-config-snapshot.sh`/`gateway-restore.sh`
 - L-085: Long-ID stub detector — auto-heal CHECK 24, non-destructive. 7/7 tests pass.
-- Ticket/sprint: see `infra/sandbox/seed/skills/pg-sprint-backlog/SKILL.md`
+- Ticket/sprint: load skill `bash scripts/skill-load.sh pg-sprint-backlog`
 
 ## Operations Docs (locked)
 - Journal: Notion+`memory/journal-YYYY-MM-DD.md` | Blog: Notion+`canvas/documents/ainchors-YYYY-MM-DD/index.html`
@@ -79,17 +79,13 @@ Nexus=platform|Holocron=AKB|Bridge=cmd-centre|Citadel=client-portal|Holonet=live
 - LinkedIn ✅ connected. Instagram/Facebook/X not yet connected.
 
 ## Model Routing — Permanent Structure (LOCKED 2026-06-15, CHG-0596)
-- **Yoda (main) + Aria (business):** `ollama/deepseek-v4-pro:cloud` (tier-1 cognitive, NO fabrication)
-- **T3 Specialists (Sage/Forge/Ahsoka/Luthen/Spark):** `ollama/minimax-m3:cloud` (tier-2 engineering)
-- **Backend (Shield/Lex/Warden/Atlas/Thrawn/Lando/Mon Mothma):** `ollama/gemma4:31b-cloud`
-- **Yoda-on-deepseek verifies all T3-on-minimax outputs** as structural guardrail per CREST v1.3
-- **Minimax trial TERMINATED** 2026-06-15 17:57 AEST (CHG-0596). Verdict: PARTIAL — good for engineering, NOT for engagement/planning.
-- **NO-FABRICATION directive** (Ken 17:57 AEST): Yoda absolute NO fabrication of data. New additional directive.
-- Model routing skill: `infra/sandbox/seed/skills/model-routing/SKILL.md`
+- Load skill: `bash scripts/skill-load.sh model-routing`
 - Model policy SSOT: `state/model-policy.json`
+- **NO-FABRICATION directive** (Ken 17:57 AEST): Yoda absolute NO fabrication of data.
+- **Minimax trial TERMINATED** 2026-06-15 17:57 AEST (CHG-0596). Verdict: PARTIAL.
 
 ## Security & Network
-- S1–S7: see `RULES.md`. Tailscale: OC1 serve, S2 compliant. CHG triggers: see changelog skill.
+- S1–S7: see `RULES.md`. Tailscale: OC1 serve, S2 compliant. CHG triggers: load skill `bash scripts/skill-load.sh changelog`.
 
 ## Platform Phase Definitions (LOCKED 2026-05-12 — Ken Mun)
 - **MVP** — OC1-only, two founders, core platform live (now).
@@ -100,7 +96,7 @@ Nexus=platform|Holocron=AKB|Bridge=cmd-centre|Citadel=client-portal|Holonet=live
 
 ## KL Team & Sprint Capacity
 - KL, Malaysia. 4–5 headcount. P1: Cloudflare Access, role-scoped IAM.
-- Sprint capacity + pending tickets: see `infra/sandbox/seed/skills/pg-sprint-backlog/SKILL.md`.
+- Sprint capacity + pending tickets: load skill `bash scripts/skill-load.sh pg-sprint-backlog`.
 
 ## Anthropic — PERMANENTLY PARKED (2026-06-12 08:12)
 - **Directive (Ken verbatim):** "Anthropic credits and model enablement - Permanently park until I provide future instruction and update"
