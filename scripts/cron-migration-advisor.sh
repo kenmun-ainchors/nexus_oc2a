@@ -8,7 +8,7 @@
 
 set -euo pipefail
 
-WORKSPACE="${WORKSPACE:-/Users/ainchorsangiefpl/.openclaw/workspace}"
+WORKSPACE="${WORKSPACE_ROOT:-$HOME/.openclaw/workspace}"
 USAGE_FILE="$WORKSPACE/state/cron-ollama-usage.json"
 CRON_LIST="$WORKSPACE/state/cron-list-snapshot.json"
 OUTPUT="$WORKSPACE/state/cron-migration-suggestions.json"

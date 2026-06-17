@@ -17,8 +17,9 @@
 # Pattern: see LESSONS.md L-136, L-137.
 # Sibling of: scripts/check-null-safe-json.sh (L-132).
 
-set -u
-WORKSPACE="${WORKSPACE:-/Users/ainchorsangiefpl/.openclaw/workspace}"
+set -euo pipefail
+
+WORKSPACE="${WORKSPACE_ROOT:-$HOME/.openclaw/workspace}"
 SCRIPTS_DIR="$WORKSPACE/scripts"
 OUTPUT="$WORKSPACE/state/cooldown-gate-findings.json"
 

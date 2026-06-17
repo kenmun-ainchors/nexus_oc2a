@@ -7,7 +7,7 @@
 
 set -euo pipefail
 
-WORKSPACE="${WORKSPACE:-/Users/ainchorsangiefpl/.openclaw/workspace}"
+WORKSPACE="${WORKSPACE_ROOT:-$HOME/.openclaw/workspace}"
 CRON_LIST="$WORKSPACE/state/cron-list-snapshot.json"
 OUTPUT="$WORKSPACE/state/cron-ollama-usage.json"
 COOLDOWN_FILE="$WORKSPACE/state/ollama-quota-track-last-run.json"

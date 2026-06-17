@@ -2,9 +2,9 @@
 # state-health-assert.sh — EOD Health Assert Gate (TKT-REC5)
 # Runs 5 health checks before EOD finalizer proceeds.
 # exit 0 = pass, exit 1 = fail (block file + Telegram alert written)
-set -u
+set -euo pipefail
 
-WORKSPACE="/Users/ainchorsangiefpl/.openclaw/workspace"
+WORKSPACE="${WORKSPACE_ROOT:-$HOME/.openclaw/workspace}"
 DATE=$(date +%Y-%m-%d)
 ASSERT_FILE="${WORKSPACE}/state/eod-assert-${DATE}.json"
 BLOCK_FILE="${WORKSPACE}/state/eod-blocked-${DATE}.json"

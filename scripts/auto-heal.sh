@@ -5,9 +5,13 @@
 #
 # Exit codes: 0 = clean run; 1 = scan errors; 2 = needs-Ken items present (informational)
 
-set -u  # don't set -e — want to keep going across checks
+set -euo pipefail
 
-WORKSPACE="/Users/ainchorsangiefpl/.openclaw/workspace"
+# Preserve legacy keep-going semantics inside individual checks using explicit || true.
+# TKT-0529 A7 Bundle 1: upgraded from set -u only.
+
+# Resolve workspace root dynamically; fall back to known path only when unset.
+WORKSPACE="${WORKSPACE_ROOT:-$HOME/.openclaw/workspace}"
 STATE_DIR="$WORKSPACE/state"
 TODAY=$(TZ="Australia/Melbourne" date '+%Y-%m-%d')
 NOW=$(date -u '+%Y-%m-%dT%H:%M:%SZ')
@@ -254,7 +258,7 @@ write_state
 log "CHECK 5: plugin-runtime-deps cleanup"
 CHECKS_RUN+=("plugin_runtime_deps")
 setopt NULL_GLOB 2>/dev/null || true
-STALE_DIRS=$(ls -d "$HOME/.openclaw/plugin-runtime-deps/openclaw-unknown-"* 2>/dev/null | wc -l | tr -d ' ')
+STALE_DIRS=$(ls -d "$HOME/.openclaw/plugin-runtime-deps/openclaw-unknown-"* 2>/dev/null | wc -l | tr -d ' ' || echo 0)
 STALE_DIRS=${STALE_DIRS:-0}
 unsetopt NULL_GLOB 2>/dev/null || true
 if (( STALE_DIRS > 1 )); then
@@ -577,7 +581,8 @@ CHECKS_RUN+=("agent_rules")
 # ---------- CHECK 15: Injected File Size Guard (TKT-0310) ----------
 log "CHECK 15: injected file size limits"
 CHECKS_RUN+=("file_size_guard")
-WORKSPACE_ROOT="/Users/ainchorsangiefpl/.openclaw/workspace"
+# Use the script-level $WORKSPACE; avoid shadowing WORKSPACE_ROOT.
+WORKSPACE_ROOT_INTERNAL="${WORKSPACE}"
 
 # Per-file hard limits from TKT-0310 (TKT-0336 fix: were all 10000; now per-document)
 # SOUL.md: 10000 | AGENTS.md: 12000 | MEMORY.md: 15000 | HEARTBEAT.md: 15000
@@ -596,10 +601,10 @@ _check_file() {
   fi
 }
 
-_check_file "$WORKSPACE_ROOT/SOUL.md" "SOUL.md" 10000
-_check_file "$WORKSPACE_ROOT/AGENTS.md" "AGENTS.md" 12000
-_check_file "$WORKSPACE_ROOT/MEMORY.md" "MEMORY.md" 15000
-_check_file "$WORKSPACE_ROOT/HEARTBEAT.md" "HEARTBEAT.md" 15000
+_check_file "$WORKSPACE/SOUL.md" "SOUL.md" 10000
+_check_file "$WORKSPACE/AGENTS.md" "AGENTS.md" 12000
+_check_file "$WORKSPACE/MEMORY.md" "MEMORY.md" 15000
+_check_file "$WORKSPACE/HEARTBEAT.md" "HEARTBEAT.md" 15000
 # RULES.md intentionally excluded — reference-only, not injected
 
 if [[ ${#VIOLATIONS[@]} -gt 0 ]]; then
@@ -617,12 +622,12 @@ CHECKS_RUN+=("bootstrap_size")
 
 TOTAL_INJECTION=0
 INJECTION_FILES=(
-  "$WORKSPACE_ROOT/SOUL.md"
-  "$WORKSPACE_ROOT/IDENTITY.md"
-  "$WORKSPACE_ROOT/USER.md"
-  "$WORKSPACE_ROOT/AGENTS.md"
-  "$WORKSPACE_ROOT/MEMORY.md"
-  "$WORKSPACE_ROOT/HEARTBEAT.md"
+  "$WORKSPACE/SOUL.md"
+  "$WORKSPACE/IDENTITY.md"
+  "$WORKSPACE/USER.md"
+  "$WORKSPACE/AGENTS.md"
+  "$WORKSPACE/MEMORY.md"
+  "$WORKSPACE/HEARTBEAT.md"
 )
 # RULES.md excluded — reference doc, not injected
 
@@ -690,7 +695,7 @@ CHECKS_RUN+=("orphaned_gateway")
 # Pattern: gateway crash → stale child survives → port lock prevents restart.
 # INC-20260608-001: PID 77230 held port 18789 for 30 min, blocking recovery.
 ORPHAN_COUNT=0
-ACTIVE_GW_PID=$(pgrep -f "openclaw.*gateway.*18789" | head -1)
+ACTIVE_GW_PID=$(pgrep -f "openclaw.*gateway.*18789" | head -1 || true)
 
 # List ALL PIDs holding port 18789
 LSOF_OUT=$(/usr/sbin/lsof -i :18789 -sTCP:LISTEN -t 2>/dev/null || true)
@@ -1296,7 +1301,7 @@ if [[ -x "$CONTEXT_BUDGET_SCRIPT" ]]; then
               done
             else
               log "  SUMMARIZE: No per-file budget data available — summarizing all injected files"
-              for f in /Users/ainchorsangiefpl/.openclaw/workspace/SOUL.md /Users/ainchorsangiefpl/.openclaw/workspace/AGENTS.md /Users/ainchorsangiefpl/.openclaw/workspace/MEMORY.md /Users/ainchorsangiefpl/.openclaw/workspace/HEARTBEAT.md; do
+              for f in ${WORKSPACE}/SOUL.md ${WORKSPACE}/AGENTS.md ${WORKSPACE}/MEMORY.md ${WORKSPACE}/HEARTBEAT.md; do
                 if [[ -f "$f" ]]; then
                   cp "$f" "${f}.pre-summary.bak"
                   cat "$f" | "$CONTEXT_SUMMARIZE" --enforce > "${f}.tmp" 2>/dev/null && mv "${f}.tmp" "$f"
@@ -2502,7 +2507,7 @@ CHECKS_RUN+=("cron_timeout_audit")
 # Now live: future offenders surface in NEEDS_KEN with full Notion routing via auto-heal report.
 CRON_TIMEOUT_AUDIT_LIVE=true
 
-AUDIT_OUTFILE="/Users/ainchorsangiefpl/.openclaw/workspace/state/auto-heal-cron-timeout-audit.json"
+AUDIT_OUTFILE="${WORKSPACE}/state/auto-heal-cron-timeout-audit.json"
 
 # Run the audit logic inline (no separate function — matches CHECK 29/30 pattern)
 cron_timeout_audit_logic() {
@@ -2628,7 +2633,7 @@ if [[ -f "$AUDIT_OUTFILE" ]]; then
   # Verify JSON is well-formed
   if python3 -c "import json; json.load(open('$AUDIT_OUTFILE')); print('OK')" 2>/dev/null; then
     # Pipe through cron-write.sh for atomicity
-    cat "$AUDIT_OUTFILE" | bash /Users/ainchorsangiefpl/.openclaw/workspace/scripts/cron-write.sh /Users/ainchorsangiefpl/.openclaw/workspace/state/auto-heal-cron-timeout-audit.json 2>/dev/null || true
+    cat "$AUDIT_OUTFILE" | bash ${WORKSPACE}/scripts/cron-write.sh ${WORKSPACE}/state/auto-heal-cron-timeout-audit.json 2>/dev/null || true
     log "CHECK 36: Audit complete — $(python3 -c "import json; d=json.load(open('$AUDIT_OUTFILE')); print(f'{d[\"offenderCount\"]} offender(s), baseline={d[\"baseline\"]}, live={d[\"live\"]}')" 2>/dev/null || echo 'parse-failed')"
 
     # Surface offenders in NEEDS_KEN for the auto-heal report
@@ -2665,7 +2670,7 @@ CHECKS_RUN+=("sandbox_boundary_audit")
 
 AUDIT_JSON="$WORKSPACE/state/sandbox-boundary-audit.json"
 GUARD_SCRIPT="$WORKSPACE/scripts/sandbox-guard.sh"
-BOUNDARY_TESTFILE="/Users/ainchorsangiefpl/.openclaw/test-boundary-write"
+BOUNDARY_TESTFILE="${HOME}/.openclaw/test-boundary-write"
 
 # Step 1: Verify audit JSON exists and is current (<7d old)
 if [[ -f "$AUDIT_JSON" ]]; then
@@ -2897,7 +2902,7 @@ log "CHECK 28c: sandbox gateway 24h auto-unload (L-094)"
 CHECKS_RUN+=("sandbox_gateway_auto_unload")
 
 SANDBOX_STATE="$WORKSPACE/state/sandbox-gateway-state.json"
-SANDBOX_PLIST="/Users/ainchorsangiefpl/Library/LaunchAgents/ai.openclaw.sandbox-gateway.plist"
+SANDBOX_PLIST="${HOME}/Library/LaunchAgents/ai.openclaw.sandbox-gateway.plist"
 
 # Detect: LaunchAgent loaded AND nothing on port 28789
 SANDBOX_LOADED=0
