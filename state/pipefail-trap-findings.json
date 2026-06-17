@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-06-17T13:16:38",
+  "generatedAt": "2026-06-17T18:56:46",
   "schemaVersion": 1,
   "scope": "scripts/*.sh (excluding .bak/.backup)",
   "pattern": "set -o pipefail + trap ERR + ungated $(...) / awk|head / tr|procsub / read|procsub",
@@ -249,25 +249,70 @@
     },
     {
       "script": "auto-heal.sh",
-      "line": 393,
+      "line": 388,
       "severity": "medium",
       "rule": 5,
       "pattern": "dollar_paren_no_fallback",
-      "snippet": "local actual=$(jq -r \".$field // 0\" \"$BASELINE\" 2>/dev/null)",
+      "snippet": "SCHEMA_VER=$(jq -r '.schemaVersion // 0' \"$BASELINE\" 2>/dev/null)",
       "fix": "Add || true after $(...) or wrap in if/then"
     },
     {
       "script": "auto-heal.sh",
-      "line": 419,
+      "line": 395,
       "severity": "medium",
       "rule": 5,
       "pattern": "dollar_paren_no_fallback",
-      "snippet": "upgraded_at=$(jq -r '.upgradedAt // empty' \"$BASELINE\" 2>/dev/null)",
+      "snippet": "STORED_HASH=$(jq -r '.configHash // \"unknown\"' \"$BASELINE\" 2>/dev/null)",
       "fix": "Add || true after $(...) or wrap in if/then"
     },
     {
       "script": "auto-heal.sh",
-      "line": 422,
+      "line": 407,
+      "severity": "medium",
+      "rule": 5,
+      "pattern": "dollar_paren_no_fallback",
+      "snippet": "local actual=$(jq -r \".$field // \\\"0\\\"\" \"$BASELINE\" 2>/dev/null)",
+      "fix": "Add || true after $(...) or wrap in if/then"
+    },
+    {
+      "script": "auto-heal.sh",
+      "line": 432,
+      "severity": "medium",
+      "rule": 5,
+      "pattern": "dollar_paren_no_fallback",
+      "snippet": "SANDBOX_MODE=$(jq -r '.sandboxMode // \"unknown\"' \"$BASELINE\" 2>/dev/null)",
+      "fix": "Add || true after $(...) or wrap in if/then"
+    },
+    {
+      "script": "auto-heal.sh",
+      "line": 442,
+      "severity": "medium",
+      "rule": 5,
+      "pattern": "dollar_paren_no_fallback",
+      "snippet": "NODE_OPTS=$(jq -r '.nodeOptions // \"not-set\"' \"$BASELINE\" 2>/dev/null)",
+      "fix": "Add || true after $(...) or wrap in if/then"
+    },
+    {
+      "script": "auto-heal.sh",
+      "line": 452,
+      "severity": "medium",
+      "rule": 5,
+      "pattern": "dollar_paren_no_fallback",
+      "snippet": "YODA_DENY=$(jq -r '.yodaToolsDeny | join(\",\") // \"none\"' \"$BASELINE\" 2>/dev/null)",
+      "fix": "Add || true after $(...) or wrap in if/then"
+    },
+    {
+      "script": "auto-heal.sh",
+      "line": 462,
+      "severity": "medium",
+      "rule": 5,
+      "pattern": "dollar_paren_no_fallback",
+      "snippet": "last_snapshot=$(jq -r '.lastSnapshot // empty' \"$BASELINE\" 2>/dev/null)",
+      "fix": "Add || true after $(...) or wrap in if/then"
+    },
+    {
+      "script": "auto-heal.sh",
+      "line": 465,
       "severity": "medium",
       "rule": 5,
       "pattern": "dollar_paren_no_fallback",
@@ -276,7 +321,43 @@
     },
     {
       "script": "auto-heal.sh",
-      "line": 423,
+      "line": 466,
+      "severity": "medium",
+      "rule": 5,
+      "pattern": "dollar_paren_no_fallback",
+      "snippet": "age_days=$(( (now_epoch - snap_epoch) / 86400 ))",
+      "fix": "Add || true after $(...) or wrap in if/then"
+    },
+    {
+      "script": "auto-heal.sh",
+      "line": 482,
+      "severity": "medium",
+      "rule": 5,
+      "pattern": "dollar_paren_no_fallback",
+      "snippet": "local actual=$(jq -r \".$field // 0\" \"$BASELINE\" 2>/dev/null)",
+      "fix": "Add || true after $(...) or wrap in if/then"
+    },
+    {
+      "script": "auto-heal.sh",
+      "line": 506,
+      "severity": "medium",
+      "rule": 5,
+      "pattern": "dollar_paren_no_fallback",
+      "snippet": "upgraded_at=$(jq -r '.upgradedAt // empty' \"$BASELINE\" 2>/dev/null)",
+      "fix": "Add || true after $(...) or wrap in if/then"
+    },
+    {
+      "script": "auto-heal.sh",
+      "line": 509,
+      "severity": "medium",
+      "rule": 5,
+      "pattern": "dollar_paren_no_fallback",
+      "snippet": "now_epoch=$(date +%s)",
+      "fix": "Add || true after $(...) or wrap in if/then"
+    },
+    {
+      "script": "auto-heal.sh",
+      "line": 510,
       "severity": "medium",
       "rule": 5,
       "pattern": "dollar_paren_no_fallback",
@@ -285,7 +366,7 @@
     },
     {
       "script": "auto-heal.sh",
-      "line": 493,
+      "line": 580,
       "severity": "medium",
       "rule": 5,
       "pattern": "dollar_paren_no_fallback",
@@ -294,7 +375,7 @@
     },
     {
       "script": "auto-heal.sh",
-      "line": 533,
+      "line": 620,
       "severity": "medium",
       "rule": 5,
       "pattern": "dollar_paren_no_fallback",
@@ -303,7 +384,7 @@
     },
     {
       "script": "auto-heal.sh",
-      "line": 534,
+      "line": 621,
       "severity": "medium",
       "rule": 5,
       "pattern": "dollar_paren_no_fallback",
@@ -312,7 +393,7 @@
     },
     {
       "script": "auto-heal.sh",
-      "line": 566,
+      "line": 653,
       "severity": "medium",
       "rule": 5,
       "pattern": "dollar_paren_no_fallback",
@@ -321,7 +402,7 @@
     },
     {
       "script": "auto-heal.sh",
-      "line": 585,
+      "line": 672,
       "severity": "medium",
       "rule": 5,
       "pattern": "dollar_paren_no_fallback",
@@ -330,7 +411,7 @@
     },
     {
       "script": "auto-heal.sh",
-      "line": 601,
+      "line": 688,
       "severity": "medium",
       "rule": 5,
       "pattern": "dollar_paren_no_fallback",
@@ -339,7 +420,7 @@
     },
     {
       "script": "auto-heal.sh",
-      "line": 615,
+      "line": 702,
       "severity": "medium",
       "rule": 5,
       "pattern": "dollar_paren_no_fallback",
@@ -348,7 +429,7 @@
     },
     {
       "script": "auto-heal.sh",
-      "line": 621,
+      "line": 708,
       "severity": "medium",
       "rule": 5,
       "pattern": "dollar_paren_no_fallback",
@@ -357,7 +438,7 @@
     },
     {
       "script": "auto-heal.sh",
-      "line": 872,
+      "line": 972,
       "severity": "medium",
       "rule": 5,
       "pattern": "dollar_paren_no_fallback",
@@ -366,7 +447,7 @@
     },
     {
       "script": "auto-heal.sh",
-      "line": 883,
+      "line": 983,
       "severity": "medium",
       "rule": 5,
       "pattern": "dollar_paren_no_fallback",
@@ -375,7 +456,7 @@
     },
     {
       "script": "auto-heal.sh",
-      "line": 888,
+      "line": 988,
       "severity": "medium",
       "rule": 5,
       "pattern": "dollar_paren_no_fallback",
@@ -384,7 +465,7 @@
     },
     {
       "script": "auto-heal.sh",
-      "line": 906,
+      "line": 1006,
       "severity": "medium",
       "rule": 5,
       "pattern": "dollar_paren_no_fallback",
@@ -393,7 +474,7 @@
     },
     {
       "script": "auto-heal.sh",
-      "line": 911,
+      "line": 1011,
       "severity": "medium",
       "rule": 5,
       "pattern": "dollar_paren_no_fallback",
@@ -402,7 +483,7 @@
     },
     {
       "script": "auto-heal.sh",
-      "line": 976,
+      "line": 1076,
       "severity": "medium",
       "rule": 5,
       "pattern": "dollar_paren_no_fallback",
@@ -411,7 +492,7 @@
     },
     {
       "script": "auto-heal.sh",
-      "line": 989,
+      "line": 1089,
       "severity": "medium",
       "rule": 5,
       "pattern": "dollar_paren_no_fallback",
@@ -420,9 +501,9 @@
     }
   ],
   "summary": {
-    "total_findings": 46,
+    "total_findings": 55,
     "high_severity": 0,
-    "medium_severity": 46,
+    "medium_severity": 55,
     "scripts_affected": [
       "auto-heal.sh"
     ]

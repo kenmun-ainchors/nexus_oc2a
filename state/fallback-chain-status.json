@@ -1,9 +1,9 @@
 {
-  "checkedAt": "2026-06-17T03:01:23Z",
+  "checkedAt": "2026-06-17T12:01:45Z",
   "overall": "ok",
   "chain": [
-    "ollama/deepseek-v4-pro:cloud",
-    "ollama/deepseek-v4-flash:cloud"
+    "ollama/kimi-k2.7-code:cloud",
+    "ollama/deepseek-v4-pro:cloud"
   ],
   "checks": [
     "anthropicKey:ok",

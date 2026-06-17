@@ -2,7 +2,7 @@
 # AInchors Nexus Platform
 # Format: L-NNN | Date | Category | Lesson | Source incident/CHG
 # SSOT for all platform learnings. Updated as new lessons are logged.
-# Last updated: 2026-05-13
+# Last updated: 2026-06-17
 
 ## L-030 — 2026-05-13 | Key Management / Diagnostics
 **Lesson:** macOS Keychain entries for the Anthropic API key diverge from the gateway's actual key after rotation. The gateway uses `agents/main/agent/auth-profiles.json` — NOT the keychain. Diagnostic scripts using keychain directly will return 401 false alarms after every key rotation.
@@ -2031,6 +2031,15 @@ fi
 2. Diff against current PG state
 3. Surface divergence + ask before acting
 4. If approved, log the change with lineage
+
+## L-145 — 2026-06-17 | Skill-Gate / Ticket Creation
+**Lesson:** Never bypass the skill gate for domain operations. Always run `bash scripts/skill-load.sh <name>` before any domain script. For ticket creation, always use `db-ticket.sh create-from-json` — never `db-raw.sh` (raw SQL).
+**Root cause:** Tribal knowledge shortcut. Yoda knew the PG path from prior work and skipped the skill gate, using `db-raw.sh` directly. The skill (`pg-sprint-backlog`) explicitly mandates `create-from-json` for agents/CI — `db-raw.sh` bypasses all validation, Notion sync, and schema guards.
+**Rule:**
+- CREST §Skill-Gate (TKT-0396): `skill-load.sh` before every domain script invocation.
+- Ticket creation: `db-ticket.sh create-from-json` ONLY. Never `db-raw.sh` for ticket writes.
+- The ticket was structurally correct (verified post-hoc) but the process was non-compliant.
+**Source:** TKT-0533 creation 2026-06-17 13:48. Ken caught the violation.
 
 ## L-144 — 2026-06-17 | openclaw gateway restart regenerates plist+wrapper+env, wiping manual edits
 **Lesson:** `openclaw gateway restart` (and likely `openclaw gateway install`) regenerates three files from hardcoded templates:

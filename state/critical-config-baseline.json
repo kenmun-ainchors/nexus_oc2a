@@ -1,9 +1,9 @@
 {
   "schemaVersion": 2,
-  "lastSnapshot": "2026-06-17T03:24:59Z",
-  "lastSnapshotAEST": "2026-06-17T13:24:59+1000",
+  "lastSnapshot": "2026-06-17T04:27:02Z",
+  "lastSnapshotAEST": "2026-06-17T14:27:02+1000",
   "openclawVersion": "2026.5.27",
-  "configHash": "8241024cc56e332e26f7281ccb47ce80d3d4fb1d35ddf849a9ae600459633985",
+  "configHash": "e64539bf4a7aaa2c478e625143fad856fa1914af1d4b7644a27366dc119129ef",
   "agentCount": 14,
   "cronCount": "60",
   "pgTables": "36",
@@ -19,8 +19,8 @@
   "nodeOptions": "--max-old-space-size=6144",
   "yodaToolsDeny": [],
   "agentModels": {
-    "main": "ollama/deepseek-v4-pro:cloud",
-    "business": "ollama/deepseek-v4-pro:cloud",
+    "main": "ollama/kimi-k2.7-code:cloud",
+    "business": "ollama/kimi-k2.7-code:cloud",
     "security": "ollama/gemma4:31b-cloud",
     "legal": "ollama/gemma4:31b-cloud",
     "qa": "ollama/minimax-m3:cloud",

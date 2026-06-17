@@ -1,9 +1,9 @@
 {
   "schema_version": "2.0",
   "description": "PERMANENT model policy for all AInchors agents. Warden enforces this. Changes require Ken approval + CHG entry + baseline update.",
-  "lastUpdated": "2026-06-15T18:48:45+10:00",
+  "lastUpdated": "2026-06-17T14:26:27+1000",
   "lastApprovedBy": "Ken Mun (webchat, 2026-06-15 18:48 AEST)",
-  "approvalContext": "CHG-0597: Ken directive \u2014 T3 technical stream (Sage/Forge/Ahsoka/Luthen) \u2192 minimax, T3 business stream (Spark) \u2192 kimi.",
+  "approvalContext": "CHG-0621: Yoda+Aria trial swap to kimi-k2.7-code. Trial until Sun 22 Jun 10:00 AEST.",
   "permanent": true,
   "interimPeriod": false,
   "globalAllowedModels": [
@@ -16,7 +16,8 @@
     "ollama/kimi-k2.6:cloud",
     "ollama/deepseek-v4-flash:cloud",
     "ollama/gemma4:e2b",
-    "ollama/gemma4:26b"
+    "ollama/gemma4:26b",
+    "ollama/kimi-k2.7-code:cloud"
   ],
   "globalProhibitedInInteractive": [
     "ollama/gemma4:e2b",
@@ -29,8 +30,9 @@
         "main",
         "business"
       ],
-      "primary": "ollama/deepseek-v4-pro:cloud",
+      "primary": "ollama/kimi-k2.7-code:cloud",
       "fallbacks": [
+        "ollama/deepseek-v4-pro:cloud",
         "ollama/deepseek-v4-flash:cloud",
         "ollama/kimi-k2.6:cloud"
       ],
@@ -115,8 +117,9 @@
     "main": {
       "description": "Yoda \ud83d\udfe2 \u2014 Lead Orchestrator (user-facing)",
       "tier": "userFacing",
-      "requiredPrimary": "ollama/deepseek-v4-pro:cloud",
+      "requiredPrimary": "ollama/kimi-k2.7-code:cloud",
       "requiredFallbacks": [
+        "ollama/deepseek-v4-pro:cloud",
         "ollama/deepseek-v4-flash:cloud",
         "ollama/kimi-k2.6:cloud"
       ],
@@ -127,13 +130,18 @@
         "anthropic/claude-sonnet-4-6",
         "ollama/gemma4:e2b"
       ],
-      "modelChangeNote": "CHG-0596: minimax \u2192 deepseek-v4-pro (Ken directive, L-106 second trigger)"
+      "modelChangeNote": "CHG-0621: deepseek-v4-pro \u2192 kimi-k2.7-code trial (Sun 22 Jun 10:00 AEST). Pro retained as first fallback.",
+      "model": "ollama/kimi-k2.7-code:cloud",
+      "fallbacks": [
+        "ollama/deepseek-v4-pro:cloud"
+      ]
     },
     "business": {
       "description": "Aria \ud83d\udd35 \u2014 Business Lead Agent (user-facing)",
       "tier": "userFacing",
-      "requiredPrimary": "ollama/deepseek-v4-pro:cloud",
+      "requiredPrimary": "ollama/kimi-k2.7-code:cloud",
       "requiredFallbacks": [
+        "ollama/deepseek-v4-pro:cloud",
         "ollama/deepseek-v4-flash:cloud",
         "ollama/kimi-k2.6:cloud"
       ],
@@ -143,7 +151,11 @@
         "anthropic/claude-haiku-4-5",
         "anthropic/claude-sonnet-4-6"
       ],
-      "modelChangeNote": "CHG-0596: minimax \u2192 deepseek-v4-pro (Ken directive, L-106 second trigger)"
+      "modelChangeNote": "CHG-0621: deepseek-v4-pro \u2192 kimi-k2.7-code trial (Sun 22 Jun 10:00 AEST). Pro retained as first fallback.",
+      "model": "ollama/kimi-k2.7-code:cloud",
+      "fallbacks": [
+        "ollama/deepseek-v4-pro:cloud"
+      ]
     },
     "security": {
       "description": "Shield \ud83d\udee1\ufe0f \u2014 Security Governance Agent",
@@ -316,8 +328,8 @@
     "process": "1. Ken approval in webchat/Telegram. 2. Update this file. 3. Update critical-config-baseline.json. 4. Log CHG entry. 5. Update MEMORY.md.",
     "approvalKeyword": "POLICY CHANGE APPROVED"
   },
-  "baselineTimestamp": "2026-05-18T01:37:00+10:00",
-  "baselineCHG": "CHG-0394",
+  "baselineTimestamp": "2026-06-17T14:23:22+1000",
+  "baselineCHG": "CHG-0621",
   "crestPhaseModelMap": {
     "description": "CREST v1.2 \u00a75.8 \u2014 Per-agent, per-phase model assignments. Warden uses this for phase-aware compliance (TKT-0383).",
     "phaseModels": {
@@ -396,7 +408,7 @@
   "_note": "CREST phase model assignments added per TKT-0383. Forge flash-for-Plan is intentional \u2014 do not flag as violation.",
   "_note_previous": "This is a clean v2.0 rebuild. All interim flags, Anthropic model references, and stale policy fields removed. Anthropic models (sonnet, haiku, opus) are NOT currently approved or expected on any agent.",
   "note": "Resynced agentTiers to match actual openclaw.json agent configs. Per-agent exceptions documented. Allowed fallback chain = [deepseek-v4-pro, kimi-k2.6] or [gemma4:31b-cloud, deepseek-v4-pro, kimi-k2.6] depending on agent primary.",
-  "lastUpdatedBy": "Yoda via CLAUDE RECONFIGURE (CHG-0500)",
+  "lastUpdatedBy": "Yoda (CHG-0621)",
   "crestV13Transition": {
     "replaces": "CHG-0349 Conservative Mode (Claude-depletion-driven)",
     "rationale": "CHG-0500: CREST v1.3 + TKT-0368 provide structural guards for risky state manipulation. Anthropic models are no longer a special trigger \u2014 they are one option in the model-task matrix alongside Ollama Cloud models. Ken issues CLAUDE RECONFIGURE keyword; Conservative Mode flag lifted.",
