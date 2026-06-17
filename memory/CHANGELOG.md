@@ -3,7 +3,7 @@
 **Change Type:** Normal
 **Source:** TKT-0534 follow-up
 **Trigger:** Ken requested all skill packages use progressive disclosure; no tribal knowledge in agent files.
-**What changed:** Audited all 6 seed skills (agile, changelog, crest, model-routing, pg-sprint-backlog, telegram) for inline references in SOUL.md, MEMORY.md, AGENTS.md, HEARTBEAT.md, RULES.md. Replaced every  path with SKILL-LOAD: X registered at 2026-06-17T08:46:18Z pointer. Key edits:
+**What changed:** Audited all 6 seed skills (agile, changelog, crest, model-routing, pg-sprint-backlog, telegram) for inline references in SOUL.md, MEMORY.md, AGENTS.md, HEARTBEAT.md, RULES.md. Replaced every `infra/sandbox/seed/skills/X/SKILL.md` path with `bash scripts/skill-load.sh X` pointer. Key edits:
   - SOUL.md: normalised changelog, telegram, model-routing pointers.
   - MEMORY.md: removed inline model-routing tier assignments; normalised pg-sprint-backlog, changelog, model-routing pointers.
   - HEARTBEAT.md: normalised telegram, model-routing pointers; moved alert thresholds into skill pointer.
@@ -11,7 +11,7 @@
   - RULES.md: normalised pg-sprint-backlog, changelog, telegram pointers.
 **Why:** Ensure every skill package is loaded on demand through the single skill-load interface. No agent file carries duplicated skill instructions.
 **Verified:**
-  - No inline  paths remain in agent files.
+  - No inline `infra/sandbox/seed/skills/*` paths remain in agent files.
   - All 6 seed skills load successfully via skill-load.sh.
   - SOUL.md: 4,175 chars (limit 5K)
   - MEMORY.md: 7,993 chars (limit 15K)
@@ -19,6 +19,24 @@
   - AGENTS.md: 8,014 chars
 **Rollback:** Replace skill-load pointers with inline paths from git history.
 **Linked:** TKT-0534, CHG-0609, CHG-0610
+
+## 2026-06-17 22:07 AEST — [CHG-0614] yoda-context-brief-refresh cron: update stale source file references
+**Type:** cron
+**Change Type:** Normal
+**Source:** incident-recovery
+**Trigger:** Cron reported missing files: MEMORY_TICKETS.md, state/channel-state.json, state/linkedin-queue.json.
+**What changed:** Updated cron `c69615bb` payload to reference correct current sources:
+  - `MEMORY_TICKETS.md` → `archive/MEMORY_TICKETS.md` (historical)
+  - `state/linkedin-queue.json` → `state/linkedin-campaign.json`
+  - `state/channel-state.json` removed (does not exist)
+  - Added `state/ollama-usage.json` for burn status
+  - Added `bash scripts/db-ticket.sh list --open` for live top-10 open tickets
+**Why:** The old file references were stale after workspace reorganisation. The cron was regenerating placeholders instead of live data. This keeps the Telegram context brief accurate.
+**Verified:** Cron payload updated; next run 14:00 AEST tomorrow. No placeholder files created.
+**Rollback:** Restore previous payload from cron history.
+**Linked:** CHG-0607 (timeout fix for same cron)
+
+
 
 ## 2026-06-17 18:38 AEST — [CHG-0610] Clean tribal Agile/CREST knowledge from agent files
 **Type:** docs
