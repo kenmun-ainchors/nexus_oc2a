@@ -4,6 +4,11 @@
 # Full from Day 3 (2026-04-27) — auto-fixes safe items, files US for needs-Ken items
 #
 # Exit codes: 0 = clean run; 1 = scan errors; 2 = needs-Ken items present (informational)
+#
+# DRY-RUN CONTRACT (TKT-0529 B3.3):
+# ENFORCE_DRY_RUN=true → log-only, no blocking/mutation.
+# Retained auto-destructive hygiene ops (stale plugin dirs, stale locks, orphan gateways,
+# PG sequence fix) run regardless because they are health/housekeeping with proven safety history.
 
 set -euo pipefail
 
@@ -22,6 +27,64 @@ STATE_TMP="$STATE_DIR/auto-heal-current.json"
 CHANGELOG_HELPER="$WORKSPACE/scripts/changelog-append.sh"
 
 mkdir -p "$STATE_DIR"
+
+# --- SELF LOCKFILE (TKT-0529 B3.2) ---
+# Prevents concurrent auto-heal.sh runs (cron overlap + manual). If lockfile exists
+# and the recorded PID is alive and is an auto-heal.sh process, exit 0 (single instance).
+# Stale locks (dead PID or non-auto-heal PID) are removed and recreated.
+LOCKFILE="$STATE_DIR/auto-heal.lock"
+
+acquire_autoheal_lock() {
+  # If lockfile does not exist → create it
+  if [[ ! -f "$LOCKFILE" ]]; then
+    echo "pid=$$ started=$(date -u '+%Y-%m-%dT%H:%M:%SZ')" > "$LOCKFILE" 2>/dev/null || true
+    return 0
+  fi
+  # Lockfile exists → read PID
+  local lock_pid
+  lock_pid=$(grep -oE 'pid=[0-9]+' "$LOCKFILE" 2>/dev/null | head -1 | sed 's/pid=//' || true)
+  if [[ -z "$lock_pid" ]]; then
+    # Corrupt/empty lock — treat as stale
+    # Note: log() may not be defined yet at this point; use plain echo as fallback
+    if type log >/dev/null 2>&1; then
+      log "  LOCK: removing corrupt auto-heal lock"
+    else
+      echo "[$(date '+%H:%M:%S')] LOCK: removing corrupt auto-heal lock"
+    fi
+    rm -f "$LOCKFILE" 2>/dev/null || true
+    echo "pid=$$ started=$(date -u '+%Y-%m-%dT%H:%M:%SZ')" > "$LOCKFILE" 2>/dev/null || true
+    return 0
+  fi
+  # Check if process is alive AND is auto-heal.sh
+  if ps -p "$lock_pid" -o comm= 2>/dev/null | grep -q auto-heal; then
+    if type log >/dev/null 2>&1; then
+      log "auto-heal already running (PID $lock_pid)"
+    else
+      echo "[$(date '+%H:%M:%S')] auto-heal already running (PID $lock_pid)"
+    fi
+    return 1
+  fi
+  # PID is dead or not auto-heal → stale
+  if type log >/dev/null 2>&1; then
+    log "removing stale auto-heal lock (pid=$lock_pid not running)"
+  else
+    echo "[$(date '+%H:%M:%S')] removing stale auto-heal lock (pid=$lock_pid not running)"
+  fi
+  rm -f "$LOCKFILE" 2>/dev/null || true
+  echo "pid=$$ started=$(date -u '+%Y-%m-%dT%H:%M:%SZ')" > "$LOCKFILE" 2>/dev/null || true
+  return 0
+}
+
+release_autoheal_lock() {
+  if [[ -f "$LOCKFILE" ]]; then
+    # Only remove if it still matches our PID
+    local lock_pid
+    lock_pid=$(grep -oE 'pid=[0-9]+' "$LOCKFILE" 2>/dev/null | head -1 | sed 's/pid=//' || true)
+    if [[ "$lock_pid" == "$$" ]] || [[ -z "$lock_pid" ]]; then
+      rm -f "$LOCKFILE" 2>/dev/null || true
+    fi
+  fi
+}
 
 # --- ATOMIC WRITE HELPER (TKT-0529 A7 Bundle 2) ---
 # Source the shared atomic-write lib. The base atomic_write() in the helper
@@ -44,11 +107,14 @@ safe_atomic_write() {
 # --- ARGUMENT PARSING (TKT-0340 A1: --enforce framework) ---
 ENFORCE_MODE=false
 DRY_RUN=false
+ALLOW_CONTEXT_SUMMARY=false
 
 for arg in "$@"; do
   case "$arg" in
     --enforce) ENFORCE_MODE=true ;;
     --dry-run) DRY_RUN=true ;;
+    # TKT-0529 B3.1: opt-in flag for context-file auto-summarization (HITL gate)
+    --allow-context-summary) ALLOW_CONTEXT_SUMMARY=true ;;
   esac
 done
 
@@ -61,6 +127,45 @@ typeset -a AUTO_FIXED
 typeset -a NEEDS_KEN
 
 log() { echo "[$(date '+%H:%M:%S')] $1" | tee -a "$LOG"; }
+
+# --- CONTEXT SUMMARY HITL GATE (TKT-0529 B3.1) ---
+# Ken decision 2026-06-18: context-file auto-summarization is gated to NEEDS_KEN
+# by default. Auto-heal must NOT rewrite SOUL.md / AGENTS.md / MEMORY.md / HEARTBEAT.md
+# unless explicitly approved via:
+#   (a) --allow-context-summary CLI flag, OR
+#   (b) state/allow-context-summary.json with { "allowed": true, "expires": "ISO" } (future or empty)
+ALLOW_CONTEXT_SUMMARY_FILE="$STATE_DIR/allow-context-summary.json"
+
+context_summary_allowed() {
+  # CLI flag overrides
+  if [[ "${ALLOW_CONTEXT_SUMMARY:-false}" == "true" ]]; then
+    return 0
+  fi
+  # State-file opt-in
+  if [[ ! -f "$ALLOW_CONTEXT_SUMMARY_FILE" ]]; then
+    return 1
+  fi
+  local allowed expires_epoch now_epoch
+  allowed=$(jq -r '.allowed // false' "$ALLOW_CONTEXT_SUMMARY_FILE" 2>/dev/null || echo "false")
+  expires_epoch=$(jq -r '.expiresEpoch // empty' "$ALLOW_CONTEXT_SUMMARY_FILE" 2>/dev/null || true)
+  if [[ "$allowed" != "true" ]]; then
+    return 1
+  fi
+  # If expiresEpoch is set, check it
+  if [[ -n "$expires_epoch" ]]; then
+    now_epoch=$(date +%s)
+    if (( now_epoch >= expires_epoch )); then
+      return 1
+    fi
+  fi
+  return 0
+}
+
+# TKT-0529 B3.2: Acquire self lockfile here (after log() is defined) to prevent
+# concurrent runs. exit 0 if another auto-heal is in progress.
+if ! acquire_autoheal_lock; then
+  exit 0
+fi
 
 # --- FAIL-SAFE REPORTING (TKT-0279) ---
 # Writes the current state to a JSON file. Called after every check and via trap.
@@ -92,7 +197,9 @@ EOF
 }
 
 # Trap for unexpected exits (crashes/timeouts)
-trap 'log "CRASH DETECTED: Trap triggered. Finalizing partial report..."; write_state "crashed"; exit 1' ERR SIGINT SIGTERM
+# TKT-0529 B3.2: also releases the self lockfile on EXIT so a normal completion cleans up.
+trap 'release_autoheal_lock' EXIT
+trap 'log "CRASH DETECTED: Trap triggered. Finalizing partial report..."; write_state "crashed"; release_autoheal_lock; exit 1' ERR SIGINT SIGTERM
 
 # --- DRY-RUN SAFETY: 24h grace period before real enforcement (TKT-0340 A1) ---
 # Must be AFTER log() is defined but BEFORE any CHECKs run
@@ -1134,6 +1241,9 @@ PYEOF
     #   scripts/cron-timeout-apply.sh --all --yes
     # This separation (CHG-0534, L-099) makes gateway config mutation an
     # explicit, one-shot, Ken-triggered action — never implicit on auto-heal.
+    # TKT-0529 B3.3: ledger write is tracking-only (firstSeen/lastSeen/daysCount).
+    # No destructive impact. Retained in dry-run to keep eligibility calculation
+    # accurate across runs (otherwise apply-pending detection would be wrong).
     APPLIED_LEDGER="$STATE_DIR/cron-timeout-applied.json"
     APPLY_TMP=$(mktemp -t cron-timeout-ledger)
     python3 - "$BASELINE_FILE" "$APPLIED_LEDGER" "$NOW" > "$APPLY_TMP" <<'PYEOF'
@@ -1224,7 +1334,13 @@ PYEOF
         SHOULD_EMIT=1
       fi
       if [[ $SHOULD_EMIT -eq 1 ]]; then
-        echo "$APPLY_RESULT" | python3 -c "import json, sys; r=json.loads(sys.stdin.read()); r['notedAt']='$NOW'; r['applyCommand']='bash scripts/cron-timeout-apply.sh --all --yes'; r['applyCommandOne']='bash scripts/cron-timeout-apply.sh --cron <8-char-id> --yes'; print(json.dumps(r, indent=2))" > "$APPLY_FLAG_JSON"
+        # TKT-0529 B3.3: dry-run hardening — signal/flag file is informational
+        # only, but still gated to log-only in dry-run to keep the contract tight.
+        if [[ "${ENFORCE_DRY_RUN:-false}" == "true" ]]; then
+          log "  DRY-RUN: would write $APPLY_FLAG_JSON (apply-pending signal)"
+        else
+          echo "$APPLY_RESULT" | python3 -c "import json, sys; r=json.loads(sys.stdin.read()); r['notedAt']='$NOW'; r['applyCommand']='bash scripts/cron-timeout-apply.sh --all --yes'; r['applyCommandOne']='bash scripts/cron-timeout-apply.sh --cron <8-char-id> --yes'; print(json.dumps(r, indent=2))" > "$APPLY_FLAG_JSON"
+        fi
         NEEDS_KEN+=("CHECK 22 A6: $APPLY_ELIG_N stable DECREASE on agentTurn eligible (7d+). Review $APPLY_FLAG_JSON. To apply all: bash scripts/cron-timeout-apply.sh --all --yes  (or one-by-one with --cron <id> --yes).")
       fi
     fi
@@ -1289,13 +1405,22 @@ if [[ -x "$CONTEXT_BUDGET_SCRIPT" ]]; then
         if [[ "$ENFORCE_DRY_RUN" == "true" ]]; then
           log "  ENFORCE(dry-run): WOULD escalate context budget warning (${BUDGET_PCT}% > ${CB_WARN_PCT}%) — not blocking"
           log "  ENFORCE(dry-run): recommendation: auto-summarize oversized injected files via context-summarize.sh"
-          # TKT-0340 A7: Dry-run — log what would be summarized
+          # TKT-0529 B3.1: Dry-run — log what *would* be summarized. Always log even if
+          # the gate would block summarization, so Ken can see the candidate files.
           if [[ -x "$CONTEXT_SUMMARIZE" ]]; then
-            log "  SUMMARIZE(dry-run): WOULD trigger context-summarize.sh for files exceeding threshold"
+            DRY_FILES=$(echo "$BUDGET_JSON" | jq -r '.files[]? | select(.pctOfBudget // 0 > 20) | .path' 2>/dev/null | tr '\n' ' ' || true)
+            if [[ -z "$DRY_FILES" ]]; then
+              for f in ${WORKSPACE}/SOUL.md ${WORKSPACE}/AGENTS.md ${WORKSPACE}/MEMORY.md ${WORKSPACE}/HEARTBEAT.md; do
+                [[ -f "$f" ]] && DRY_FILES="$DRY_FILES $f"
+              done
+            fi
+            log "  SUMMARIZE(dry-run): WOULD summarize $DRY_FILES"
           fi
         else
-          # TKT-0340 A7: Auto-summarize oversized files before escalating
-          if [[ -x "$CONTEXT_SUMMARIZE" ]]; then
+          # TKT-0529 B3.1: HITL gate for context-summarize.sh invocation.
+          # By default, summarization is gated to NEEDS_KEN. Only proceed if
+          # context_summary_allowed() returns true (CLI flag or state-file opt-in).
+          if [[ -x "$CONTEXT_SUMMARIZE" ]] && context_summary_allowed; then
             log "  SUMMARIZE: Auto-summarizing oversized context files via context-summarize.sh..."
             # Identify oversized files from budget JSON
             FILES_JSON=$(echo "$BUDGET_JSON" | jq -r '.files // []' 2>/dev/null)
@@ -1330,6 +1455,14 @@ if [[ -x "$CONTEXT_BUDGET_SCRIPT" ]]; then
             # Re-check budget after summarization
             BUDGET_POST=$(zsh "$CONTEXT_BUDGET_SCRIPT" --json 2>/dev/null | jq -r '.totalTokens // 0' 2>/dev/null)
             log "  SUMMARIZE: Budget re-check: ${BUDGET_POST} tokens (was ${BUDGET_TOKENS}) — reduction: $((BUDGET_TOKENS - BUDGET_POST)) tokens"
+          elif [[ -x "$CONTEXT_SUMMARIZE" ]]; then
+            # TKT-0529 B3.1: Gate blocked summarization. Log, NEEDS_KEN, and continue
+            # with alert/escalation as before.
+            log "  SUMMARIZE: SKIPPED — context summarization gated to NEEDS_KEN. Create state/allow-context-summary.json or pass --allow-context-summary to enable."
+            NEEDS_KEN+=("Context injection budget at ${BUDGET_PCT}% — auto-summarization is gated. Approve via state/allow-context-summary.json or --allow-context-summary.")
+            BUDGET_POST="$BUDGET_TOKENS"
+          else
+            BUDGET_POST="$BUDGET_TOKENS"
           fi
           # If still over threshold after summarization, escalate
           BUDGET_POST_NUM=${BUDGET_POST:-0}
@@ -2817,8 +2950,8 @@ for md_file in "$WORKSPACE"/*.md; do
       mv "$md_file" "$STATE_DIR/daily-briefs/$archive_name"
       log "  AUTO-ARCHIVED: $base → state/daily-briefs/$archive_name"
       AUTO_FIXED+=("auto-archive-md:$base")
-      # Register AKB stub
-      cat > "$STATE_DIR/daily-briefs/${archive_name}.akb-stub.json" <<AKBEOF
+      # Register AKB stub (TKT-0529 B3.7: atomic write — durable state file)
+      safe_atomic_write "$STATE_DIR/daily-briefs/${archive_name}.akb-stub.json" <<AKBEOF
 {
   "type": "akb-stub",
   "source_file": "$base",
@@ -2846,6 +2979,10 @@ fi
 log "CHECK 28e: auto-refresh critical-config-baseline.json if stale (7d)"
 CHECKS_RUN+=("config_baseline_auto_refresh")
 
+# TKT-0529 B3.3: baseline refresh is housekeeping — backup is taken first
+# (.bak-YYYYMMDD-HHMMSS), only lastUpdated + pgTables fields are touched, and
+# the change is non-destructive (revertable from backup). Retained in dry-run.
+
 BASELINE_FILE="$WORKSPACE/state/critical-config-baseline.json"
 BASELINE_STALE_DAYS=7
 BASELINE_REFRESHED=0
@@ -2861,10 +2998,12 @@ print(round((time.time() - mt) / 86400, 1))
     # Backup current baseline
     cp "$BASELINE_FILE" "${BASELINE_FILE}.bak-$(date '+%Y%m%d-%H%M%S')"
     # Write Python to temp file (TKT-0408 pattern — avoids bash-vs-Python escape hell)
+    # TKT-0529 B3.7: this cat > writes a TRANSIENT temp file (deleted via EXIT trap),
+    # not a durable state file. Not a candidate for safe_atomic_write.
     REFRESH_SCRIPT=$(mktemp -t baseline_refresh_XXXXXX.py) || { log "  ERROR: mktemp failed"; }
     trap "rm -f $REFRESH_SCRIPT 2>/dev/null" EXIT
     cat > "$REFRESH_SCRIPT" <<'PYEOF'
-import json, os, subprocess
+import json, os, subprocess, tempfile
 from datetime import datetime, timezone
 p = os.environ['BASELINE_FILE']
 workspace = os.environ['WORKSPACE']
@@ -2879,7 +3018,13 @@ try:
         d['pgTables'] = int(out.stdout.strip())
 except Exception: pass
 d['lastApprovalContext'] = f'Auto-refreshed by auto-heal CHECK 28e (was {d.get("lastUpdated","?")})'
-json.dump(d, open(p, 'w'), indent=2)
+# TKT-0529 B3.7: atomic write — temp + fsync + os.replace, same pattern as atomic_write()
+tmp_fd, tmp_path = tempfile.mkstemp(dir=os.path.dirname(p), suffix='.tmp')
+with os.fdopen(tmp_fd, 'w') as f:
+    json.dump(d, f, indent=2)
+    f.flush()
+    os.fsync(f.fileno())
+os.replace(tmp_path, p)
 print('OK: baseline refreshed')
 PYEOF
     BASELINE_FILE="$BASELINE_FILE" WORKSPACE="$WORKSPACE" python3 "$REFRESH_SCRIPT"
@@ -2890,7 +3035,8 @@ PYEOF
   fi
 else
   log "  WARNING: critical-config-baseline.json missing — creating skeleton"
-  cat > "$BASELINE_FILE" <<BASELINEEOF
+  # TKT-0529 B3.7: atomic write — durable state file
+  safe_atomic_write "$BASELINE_FILE" <<BASELINEEOF
 {
   "openclawVersion": "2026.5.27",
   "upgradedAt": "$(date -u '+%Y-%m-%dT%H:%M:%SZ')",
@@ -2948,7 +3094,8 @@ if [[ $SANDBOX_LOADED -eq 1 && $SANDBOX_LISTENING -eq 0 ]]; then
   fi
   if [[ -z "$DEAD_SINCE" ]]; then
     DEAD_SINCE="$NOW_ISO"
-    cat > "$SANDBOX_STATE" <<SANDEOF
+    # TKT-0529 B3.7: atomic write — durable state file
+    safe_atomic_write "$SANDBOX_STATE" <<SANDEOF
 {
   "plist": "$SANDBOX_PLIST",
   "port": 28789,

@@ -23,6 +23,9 @@ WORKSPACE="${WORKSPACE_ROOT:-$HOME/.openclaw/workspace}"
 SCRIPTS_DIR="$WORKSPACE/scripts"
 OUTPUT="$WORKSPACE/state/cooldown-gate-findings.json"
 
+# TKT-0529 B3.4: source shared atomic-write helper (consistent with auto-heal.sh)
+source "${WORKSPACE}/scripts/lib/atomic-write.sh"
+
 # Scope: only .sh in scripts/, exclude backups
 # Note: macOS ships bash 3.2 which lacks `mapfile`. Use a while-read loop for portability.
 TARGETS=()
@@ -33,12 +36,15 @@ done < <(find "$SCRIPTS_DIR" -maxdepth 1 -name "*.sh" -type f ! -name "*.bak" ! 
 # Build a list of script basenames for the Python parser
 SCRIPT_LIST=$(printf "%s\n" "${TARGETS[@]}" | xargs -I {} basename {} | tr '\n' ':' | sed 's/:$//')
 
-python3 - "$SCRIPTS_DIR" "$OUTPUT" "$SCRIPT_LIST" <<'PYEOF'
-import json, os, re, sys, datetime
+# TKT-0529 B3.4: pipe Python output to atomic_write so the JSON dump is durable.
+# Python writes to stdout; atomic_write handles the temp-file + mv pattern.
+# We also capture Python's exit code so the bash wrapper exits with it.
+set +e
+python3 - "$SCRIPTS_DIR" "$SCRIPT_LIST" <<'PYEOF' | atomic_write "$OUTPUT"
+import json, os, re, sys, datetime, tempfile
 
 scripts_dir = sys.argv[1]
-output_path = sys.argv[2]
-script_list_str = sys.argv[3]
+script_list_str = sys.argv[2]
 script_names = [s for s in script_list_str.split(':') if s]
 
 # Patterns
@@ -173,14 +179,22 @@ output = {
         'scripts_affected': sorted(set(f['script'] for f in findings))
     }
 }
-with open(output_path, 'w') as f:
-    json.dump(output, f, indent=2)
-print(f"COOLDOWN_GATE_FINDINGS: {len(findings)}")
-print(f"HIGH: {output['summary']['high_severity']}")
-print(f"MEDIUM: {output['summary']['medium_severity']}")
+# TKT-0529 B3.4: write JSON to stdout; bash wrapper pipes to atomic_write.
+# This makes the dump atomic (temp file + mv) and the bash wrapper propagates
+# Python's exit code. Human-readable summary lines are still printed (those go
+# to the terminal, not into the file).
+print(json.dumps(output, indent=2))
+print(f"COOLDOWN_GATE_FINDINGS: {len(findings)}", file=sys.stderr)
+print(f"HIGH: {output['summary']['high_severity']}", file=sys.stderr)
+print(f"MEDIUM: {output['summary']['medium_severity']}", file=sys.stderr)
 for ff in findings[:5]:
-    print(f"  {ff['script']}:{ff['sideEffectLine']} gate={ff['gateVar']}={ff['gateValue']} (set L{ff['gateLine']}) gap={ff['gap']} severity={ff['severity']}")
+    print(f"  {ff['script']}:{ff['sideEffectLine']} gate={ff['gateVar']}={ff['gateValue']} (set L{ff['gateLine']}) gap={ff['gap']} severity={ff['severity']}", file=sys.stderr)
 if len(findings) > 5:
-    print(f"  ... and {len(findings) - 5} more (see {os.path.basename(output_path)})")
+    print(f"  ... and {len(findings) - 5} more (see cooldown-gate-findings.json)", file=sys.stderr)
 sys.exit(1 if findings else 0)
 PYEOF
+PY_RC=${PIPESTATUS[0]}
+set -e
+
+# TKT-0529 B3.4: propagate Python exit code to caller
+exit $PY_RC
