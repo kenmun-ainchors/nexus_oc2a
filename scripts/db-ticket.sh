@@ -1062,8 +1062,8 @@ cmd_sync() {
   
   write_metadata "$tkt_id" "$updated_meta"
   
-  # Run full sync
-  bash "$SYNC_SCRIPT"
+  # Run single-ticket sync (TKT-0529 side-finding: was running full batch sync)
+  bash "$SYNC_SCRIPT" --single "$tkt_id"
   local ret=$?
   
   # Update sync status after sync
