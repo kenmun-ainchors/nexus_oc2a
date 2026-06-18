@@ -13,6 +13,9 @@ OUTPUT="$WORKSPACE/state/cron-ollama-usage.json"
 COOLDOWN_FILE="$WORKSPACE/state/ollama-quota-track-last-run.json"
 COOLDOWN_S=21600  # 6h
 
+# TKT-0529 B2.4: shared atomic-write helper
+source "${WORKSPACE}/scripts/lib/atomic-write.sh"
+
 # Cooldown check
 if [[ -f "$COOLDOWN_FILE" ]]; then
   LAST_RUN_EPOCH=$(python3 -c "import json,sys; d=json.load(open(sys.argv[1])); print(d.get('epoch',0))" "$COOLDOWN_FILE" 2>/dev/null || echo 0)
@@ -32,7 +35,7 @@ if [[ ! -f "$CRON_LIST" ]] || [[ $(find "$CRON_LIST" -mmin +30 2>/dev/null) ]]; 
 fi
 
 python3 <<'PYEOF'
-import json, datetime, sys
+import json, datetime, sys, os, tempfile
 
 d = json.load(open('/Users/ainchorsangiefpl/.openclaw/workspace/state/cron-list-snapshot.json'))
 now = datetime.datetime.now(datetime.timezone.utc).astimezone(datetime.timezone(datetime.timedelta(hours=10)))
@@ -133,8 +136,26 @@ output = {
     }
 }
 
-with open('/Users/ainchorsangiefpl/.openclaw/workspace/state/cron-ollama-usage.json', 'w') as f:
-    json.dump(output, f, indent=2)
+# TKT-0529 B2.4: atomic write via tempfile + os.replace
+_target = '/Users/ainchorsangiefpl/.openclaw/workspace/state/cron-ollama-usage.json'
+_dir = os.path.dirname(_target)
+_tmp = tempfile.NamedTemporaryFile('w', dir=_dir, prefix='.cron-ollama-usage.', suffix='.json.tmp', delete=False)
+try:
+    json.dump(output, _tmp, indent=2)
+    _tmp.flush()
+    os.fsync(_tmp.fileno())
+    _tmp.close()
+    os.replace(_tmp.name, _target)
+except Exception:
+    try:
+        _tmp.close()
+    except Exception:
+        pass
+    try:
+        os.unlink(_tmp.name)
+    except Exception:
+        pass
+    raise
 
 print(f'TRACKED: {ollama_count} ollama/* crons')
 print(f'RATE_LIMITED: {rate_limited_count}')
@@ -145,8 +166,26 @@ PYEOF
 
 # Update cooldown
 python3 -c "
-import json, time
-json.dump({'epoch': int(time.time())}, open('$COOLDOWN_FILE', 'w'))
+import json, time, os, tempfile
+_target = '$COOLDOWN_FILE'
+_dir = os.path.dirname(_target) or '.'
+_tmp = tempfile.NamedTemporaryFile('w', dir=_dir, prefix='.ollama-quota-track-last-run.', suffix='.json.tmp', delete=False)
+try:
+    json.dump({'epoch': int(time.time())}, _tmp)
+    _tmp.flush()
+    os.fsync(_tmp.fileno())
+    _tmp.close()
+    os.replace(_tmp.name, _target)
+except Exception:
+    try:
+        _tmp.close()
+    except Exception:
+        pass
+    try:
+        os.unlink(_tmp.name)
+    except Exception:
+        pass
+    raise
 "
 
 exit 0

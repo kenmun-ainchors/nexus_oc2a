@@ -23,6 +23,24 @@ CHANGELOG_HELPER="$WORKSPACE/scripts/changelog-append.sh"
 
 mkdir -p "$STATE_DIR"
 
+# --- ATOMIC WRITE HELPER (TKT-0529 A7 Bundle 2) ---
+# Source the shared atomic-write lib. The base atomic_write() in the helper
+# installs a transient EXIT/INT/TERM trap that ends with `trap - EXIT INT TERM`,
+# which clobbers the auto-heal crash trap (set on ERR/SIGINT/SIGTERM) for
+# INT/TERM. We wrap it locally with safe_atomic_write() that snapshots the
+# trap table to a tmp file, invokes atomic_write(), and restores the snapshot
+# so the crash trap is preserved across every state-file write.
+source "${WORKSPACE}/scripts/lib/atomic-write.sh"
+safe_atomic_write() {
+  local target="$1"
+  local _sw_trapfile
+  _sw_trapfile=$(mktemp "${WORKSPACE}/.tmp.auto-heal.safeatomic.XXXXXX")
+  trap > "$_sw_trapfile"
+  atomic_write "$target"
+  source "$_sw_trapfile"
+  rm -f "$_sw_trapfile"
+}
+
 # --- ARGUMENT PARSING (TKT-0340 A1: --enforce framework) ---
 ENFORCE_MODE=false
 DRY_RUN=false
@@ -53,7 +71,7 @@ write_state() {
   local fixed_json=$(printf '%s\n' "${AUTO_FIXED[@]:-}" | jq -R . | jq -s 'map(select(length > 0))')
   local needsken_json=$(printf '%s\n' "${NEEDS_KEN[@]:-}" | jq -R . | jq -s 'map(select(length > 0))')
 
-  cat > "$REPORT" <<EOF
+  safe_atomic_write "$REPORT" <<EOF
 {
   "runAt": "$NOW",
   "runAtLocal": "$NOW_LOCAL",
@@ -98,7 +116,7 @@ if [[ "$ENFORCE_MODE" == "true" ]]; then
     GRACE_EXPIRES=$((NOW_EPOCH + 86400))
     GRACE_EXPIRES_ISO=$(python3 -c "import datetime; print(datetime.datetime.utcfromtimestamp($GRACE_EXPIRES).strftime('%Y-%m-%dT%H:%M:%SZ'))" 2>/dev/null || echo "unknown")
     mkdir -p "$STATE_DIR"
-    cat > "$GRACE_FILE" <<EOGRACE
+    safe_atomic_write "$GRACE_FILE" <<EOGRACE
 {
   "seededAt": "$NOW",
   "enforceAfterEpoch": $GRACE_EXPIRES,
@@ -1320,7 +1338,7 @@ if [[ -x "$CONTEXT_BUDGET_SCRIPT" ]]; then
             # Real enforcement: escalate as blocking alert
             log "  ENFORCE: Context injection budget at ${BUDGET_PCT}% — ESCALATING as BLOCKING alert (summarization insufficient)"
           BUDGET_ALERT="$STATE_DIR/context-budget-alert.json"
-          cat > "$BUDGET_ALERT" <<BOJ
+          safe_atomic_write "$BUDGET_ALERT" <<BOJ
 {
   "alertId": "context-budget-$(date -u +%Y%m%dT%H%M%SZ)",
   "severity": "BLOCKING",
@@ -1369,7 +1387,7 @@ BOJ
         else
           log "  ENFORCE: Context injection budget CRITICAL at ${BUDGET_PCT}% — ESCALATING as BLOCKING alert"
           BUDGET_ALERT="$STATE_DIR/context-budget-alert.json"
-          cat > "$BUDGET_ALERT" <<BOJ
+          safe_atomic_write "$BUDGET_ALERT" <<BOJ
 {
   "alertId": "context-budget-$(date -u +%Y%m%dT%H%M%SZ)",
   "severity": "CRITICAL",

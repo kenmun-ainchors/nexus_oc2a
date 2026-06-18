@@ -5,6 +5,7 @@
 set -euo pipefail
 
 WORKSPACE="${WORKSPACE_ROOT:-$HOME/.openclaw/workspace}"
+source "${WORKSPACE}/scripts/lib/atomic-write.sh"
 DATE=$(date +%Y-%m-%d)
 ASSERT_FILE="${WORKSPACE}/state/eod-assert-${DATE}.json"
 BLOCK_FILE="${WORKSPACE}/state/eod-blocked-${DATE}.json"
@@ -198,7 +199,7 @@ CHECKS_LIST="${CHECKS_LIST}]"
 if [ -n "$FAILED_NAMES" ]; then
   # Build JSON array of failed check names
   FAILED_JSON=$(echo "$FAILED_NAMES" | python3 -c "import json,sys; items=[x.strip() for x in sys.stdin.read().split(',') if x.strip()]; print(json.dumps(items))" 2>/dev/null || echo "[]")
-  cat > "$BLOCK_FILE" <<EOF
+  atomic_write "$BLOCK_FILE" <<EOF
 {"date":"${DATE}","checks":${CHECKS_LIST},"status":"fail","failedChecks":${FAILED_JSON}}
 EOF
   log "Wrote block file: ${BLOCK_FILE}"
@@ -207,7 +208,7 @@ EOF
   exit 1
 fi
 
-cat > "$ASSERT_FILE" <<EOF
+atomic_write "$ASSERT_FILE" <<EOF
 {"date":"${DATE}","checks":${CHECKS_LIST},"status":"pass","failedChecks":[]}
 EOF
 log "Wrote assert file: ${ASSERT_FILE}"

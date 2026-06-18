@@ -15,6 +15,9 @@ OUTPUT="$WORKSPACE/state/cron-migration-suggestions.json"
 COOLDOWN_FILE="$WORKSPACE/state/cron-migration-advisor-last-run.json"
 COOLDOWN_S=21600  # 6h
 
+# Shared atomic-write helper (TKT-0529 B2.5)
+source "${WORKSPACE}/scripts/lib/atomic-write.sh"
+
 # Cooldown check
 if [[ -f "$COOLDOWN_FILE" ]]; then
   LAST_RUN_EPOCH=$(python3 -c "import json,sys; d=json.load(open(sys.argv[1])); print(d.get('epoch',0))" "$COOLDOWN_FILE" 2>/dev/null || echo 0)
@@ -36,7 +39,7 @@ if [[ ! -f "$CRON_LIST" ]]; then
 fi
 
 python3 <<'PYEOF'
-import json, datetime
+import json, datetime, os, tempfile
 
 # Load L-128 data
 usage = json.load(open('/Users/ainchorsangiefpl/.openclaw/workspace/state/cron-ollama-usage.json'))
@@ -136,8 +139,22 @@ output = {
     }
 }
 
-with open('/Users/ainchorsangiefpl/.openclaw/workspace/state/cron-migration-suggestions.json', 'w') as f:
-    json.dump(output, f, indent=2)
+# Atomic write (TKT-0529 B2.5): write to temp file in same dir, then os.replace
+_target = '/Users/ainchorsangiefpl/.openclaw/workspace/state/cron-migration-suggestions.json'
+_target_dir = os.path.dirname(_target)
+_fd, _tmp = tempfile.mkstemp(prefix='.cron-migration-suggestions.', suffix='.json.tmp', dir=_target_dir)
+try:
+    with os.fdopen(_fd, 'w') as _f:
+        json.dump(output, _f, indent=2)
+        _f.flush()
+        os.fsync(_f.fileno())
+    os.replace(_tmp, _target)
+except Exception:
+    try:
+        os.unlink(_tmp)
+    except OSError:
+        pass
+    raise
 
 print(f'EVALUATED: {len(suggestions)} ollama/* crons')
 print(f'TIER_1: {len(tier_1)} (migrate now)')
@@ -148,10 +165,24 @@ if suggestions:
     print(f'TOP_CANDIDATE: {top["name"]} (score={top["migrationScore"]}, current={top["currentModel"]}, suggested={top["suggestedTargetModel"]})')
 PYEOF
 
-# Update cooldown
+# Update cooldown — atomic write (TKT-0529 B2.5)
 python3 -c "
-import json, time
-json.dump({'epoch': int(time.time())}, open('$COOLDOWN_FILE', 'w'))
+import json, time, os, tempfile
+_target = '$COOLDOWN_FILE'
+_dir = os.path.dirname(_target) or '.'
+_fd, _tmp = tempfile.mkstemp(prefix='.cron-migration-advisor-last-run.', suffix='.json.tmp', dir=_dir)
+try:
+    with os.fdopen(_fd, 'w') as _f:
+        json.dump({'epoch': int(time.time())}, _f)
+        _f.flush()
+        os.fsync(_f.fileno())
+    os.replace(_tmp, _target)
+except Exception:
+    try:
+        os.unlink(_tmp)
+    except OSError:
+        pass
+    raise
 "
 
 exit 0
