@@ -1,3 +1,11 @@
+## L-151 — 2026-06-18 | Subagent Verification / DoD
+**Lesson:** Completion events and subagent claims are not evidence. During TKT-0529 Bundle 2, B2.3–B2.5 were reported as done but the working tree showed no changes. `subagents list` confirmed only B2.2 had actually run. The false progression was caught only by independent `git diff` verification.
+**Rule:** Every subagent deliverable must be verified with tool-backed evidence (`git diff`, `grep`, test output, logs) before being marked complete. Do not rely on completion-event summaries or subagent self-reports as DoD proof. Yoda Verify atom is mandatory and must inspect actual file state, not echo claims.
+**Scope of fix:** Re-ran B2.3–B2.5 with stricter task specs requiring `git diff` in the response. All three now verified by `git diff`, `grep`, and `zsh -n`.
+**Source:** TKT-0529 A7 Bundle 2 verification failure, 2026-06-18.
+
+---
+
 ## L-150 — 2026-06-18 | Script Hardening
 **Lesson:** Adding `set -euo pipefail` to legacy scripts can trigger the ERR trap on command substitutions that legitimately return no matches (e.g. `pgrep ... | head -1` when no process is found). Even though the pipeline ends with a successful command, `pgrep` exiting 1 fires the trap.
 **Rule:** When hardening old code with `set -euo pipefail`, audit every command substitution for no-match / empty-result failures. Add `|| true` where a non-zero result is expected and safe to ignore. Test the full script end-to-end with real (or dry-run) inputs, not just `bash -n`.
