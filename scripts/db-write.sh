@@ -8,9 +8,13 @@
 # TKT-0408: Pipe JSON via stdin (temp file script) — shell interpolation of
 #           $DATA in heredoc mangles nested objects. Add JSON parse-error gate
 #           (exit 1, NO file fallback for parse errors). Consolidate SQL-gen.
+# TKT-0538: Detect existing rows. For existing rows emit plain UPDATE so that
+#           PG check constraints (e.g. chk_title_not_empty) are not evaluated
+#           on the attempted insert row. New rows use plain INSERT.
 
-DB="/Users/ainchorsangiefpl/.openclaw/workspace/scripts/db-raw.sh"
-WORKSPACE="/Users/ainchorsangiefpl/.openclaw/workspace"
+SCRIPT_DIR="$(cd "$(dirname "$0")" && pwd)"
+WORKSPACE="$(cd "$SCRIPT_DIR/.." && pwd)"
+DB="$WORKSPACE/scripts/db-raw.sh"
 TABLE="$1"; DATA="$2"; ID="${3:-}"
 
 if [[ -z "$TABLE" || -z "$DATA" ]]; then
@@ -67,6 +71,19 @@ if not valid_cols:
     print("PG_QUERY_FAILED")
     sys.exit(0)
 
+# TKT-0538: Check if row already exists BEFORE deciding INSERT vs UPDATE.
+row_exists = False
+try:
+    exists_result = subprocess.run(
+        ["/opt/homebrew/bin/psql", "-t", "-A", "-c",
+         f"SELECT 1 FROM {table} WHERE id='{task_id}' LIMIT 1"],
+        capture_output=True, text=True, timeout=5, env=env
+    )
+    if exists_result.stdout.strip() == '1':
+        row_exists = True
+except Exception:
+    pass
+
 # Separate known columns from unknowns (TKT-0294: unknowns → metadata JSONB)
 known_fields = {}
 unknown_fields = {}
@@ -117,8 +134,54 @@ if unknown_fields:
     known_fields['metadata'] = json.dumps(existing_meta)
 
 cols = list(known_fields.keys())
+safe_mode = os.environ.get('DBWRITE_SAFE_MODE', '0') == '1'
+
+# TKT-0538: Branches based on row existence + SAFE_MODE
+if row_exists and not safe_mode:
+    # Existing row + normal mode → plain UPDATE (avoids check-constraint re-eval on insert row)
+    update_cols = list(cols)
+    # TKT-0538: include updated_at=NOW() if updated_at is a valid column and not already present
+    if 'updated_at' in valid_cols and 'updated_at' not in update_cols:
+        update_cols.append('updated_at')
+    if not update_cols:
+        # Nothing to update — emit no-op that still touches updated_at
+        if 'updated_at' in valid_cols:
+            print(f"UPDATE {table} SET updated_at=NOW() WHERE id='{task_id}'")
+        else:
+            print(f"UPDATE {table} SET id='{task_id}' WHERE id='{task_id}'")
+        sys.exit(0)
+    sets = []
+    for k in update_cols:
+        if k == 'updated_at':
+            sets.append('updated_at=NOW()')
+            continue
+        v = known_fields[k]
+        col_type = col_types.get(k, '')
+        if v is None:
+            sets.append(f"{k}=NULL")
+        elif col_type in ('json', 'jsonb'):
+            if isinstance(v, str):
+                try: obj = json.loads(v)
+                except (json.JSONDecodeError, TypeError): obj = v
+            else:
+                obj = v
+            sql_safe = json.dumps(obj).replace("'", "''")
+            sets.append(f"{k}='{sql_safe}'::{col_type}")
+        elif isinstance(v, bool):
+            sets.append(f"{k}={str(v).upper()}")
+        elif isinstance(v, (int, float)):
+            sets.append(f"{k}={v}")
+        else:
+            sets.append(f"{k}='{str(v).replace(chr(39), chr(39)*2)}'")
+    print(f"UPDATE {table} SET {','.join(sets)} WHERE id='{task_id}'")
+    sys.exit(0)
+
+# New row (or SAFE_MODE on existing row) → INSERT, optionally with conflict clause
 if not cols:
-    print(f"INSERT INTO {table} (id) VALUES ('{task_id}') ON CONFLICT (id) DO NOTHING")
+    if safe_mode:
+        print(f"INSERT INTO {table} (id) VALUES ('{task_id}') ON CONFLICT (id) DO NOTHING")
+    else:
+        print(f"INSERT INTO {table} (id) VALUES ('{task_id}')")
     sys.exit(0)
 
 vals = []
@@ -141,15 +204,12 @@ for k in cols:
     elif isinstance(v, (int, float)): vals.append(str(v))
     else: vals.append(f"'{str(v).replace(chr(39), chr(39)*2)}'")
 
-# TKT-0311: SAFE mode = DO NOTHING. Normal = upsert.
-safe_mode = os.environ.get('DBWRITE_SAFE_MODE', '0') == '1'
+# TKT-0538: SAFE mode = DO NOTHING. Normal new-row mode = plain INSERT (no ON CONFLICT).
 if safe_mode:
     conflict_clause = "ON CONFLICT (id) DO NOTHING"
+    print(f"INSERT INTO {table} (id, {','.join(cols)}) VALUES ('{task_id}', {','.join(vals)}) {conflict_clause}")
 else:
-    updates = [f"{k}=EXCLUDED.{k}" for k in cols]
-    conflict_clause = f"ON CONFLICT (id) DO UPDATE SET {','.join(updates)}"
-
-print(f"INSERT INTO {table} (id, {','.join(cols)}) VALUES ('{task_id}', {','.join(vals)}) {conflict_clause}")
+    print(f"INSERT INTO {table} (id, {','.join(cols)}) VALUES ('{task_id}', {','.join(vals)})")
 PYEOF
 
 export TABLE ID

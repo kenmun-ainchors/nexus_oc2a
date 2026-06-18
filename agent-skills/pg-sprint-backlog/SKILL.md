@@ -169,6 +169,16 @@ bash scripts/db-ticket.sh update TKT-0369 '{"status":"in-progress","metadata":{"
 
 **No flags accepted after payload.** Rejects `--force`, `--dry-run`, etc.
 
+##### TKT-0538 Fix — top-level column updates now land in PG
+
+Before TKT-0538, `db-ticket.sh update TKT-NNNN '{"status":"..."}'` could silently degrade to file fallback because `db-write.sh` used `INSERT ... ON CONFLICT` and PG check constraints on the attempted insert row rejected the operation.
+
+After TKT-0538, `db-write.sh` detects existing rows and emits a plain `UPDATE`, so `status`, `priority`, `sprint`, `sprint_seq`, `epic`, and other top-level column changes are written to PG reliably.
+
+Unknown keys are still merged into `metadata` JSONB as before.
+
+Always verify with `bash scripts/db-ticket.sh read <ID>` after an update.
+
 #### `groom <TKT-ID>`
 Appends a grooming entry to `metadata.grooming_history[]`. Interactive prompts for:
 - Grooming decisions (what was decided, changed, or clarified)
