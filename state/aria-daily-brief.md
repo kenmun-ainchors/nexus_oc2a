@@ -1,3 +1,51 @@
+## Thursday, June 18, 2026 — Business Stream Summary
+_Written 23:45 AEST by Aria cron_
+
+### Angie interactions today
+- **16:42 AEST**: Angie sent an Instagram Reel link (https://www.instagram.com/reel/DZXvtCTDF7f/) — first message in 15 days. Aria responded with her intro/welcome message.
+- **16:42 AEST**: Angie asked: "How can I make AInchors brand noticed to the market and build a strong brand internationally using digital marketing?"
+- **16:42–16:43 AEST**: Aria researched current state (Brand Code, Spark config, campaign proposals, memory files, workspace-social) and delivered a comprehensive 3-phase international marketing plan:
+  - Phase 1 (Weeks 1–2): Foundation — finalise Brand Code, audit social accounts, lock in bios/visual identity
+  - Phase 2 (Weeks 3–6): Organic presence — Instagram 5–7 posts/week, Facebook Page + Group, LinkedIn 2×/week, repurpose Ken's content
+  - Phase 3 (Weeks 7–12): Targeted international growth — paid Meta campaigns for MY and GCC, lead magnet + booking flow, weekly metrics
+- **16:43 AEST**: Aria asked 3 clarifying questions to Angie: (1) Confirm brand voice direction, (2) International priority — Malaysia vs GCC vs both, (3) Is Instagram account already set up? Awaiting Angie's response.
+
+### Decisions made
+- **International marketing strategy direction set**: "Own your home market first, then scale" — Australia first, then MY/GCC. 12-week phased plan with organic before paid.
+- **Brand Code is the unblock**: Aria confirmed Brand Code is still DRAFT and needs Angie's final review before agents can execute. This is the first action item.
+- **Instagram/Facebook API access (TKT-0034) still pending** — campaigns will run in "draft + approval" mode until connected.
+
+### Governance reviews
+- None triggered.
+
+### Open items
+- 🆕 **Angie's 3 brand questions** — Awaiting Angie's response on brand voice, international priority, and Instagram account status. This is the active conversation.
+- 🆕 **Brand Code finalisation** — Angie needs to review/approve the Brand Code (brand strategy, voice, content rules, product catalogue). Currently DRAFT.
+- 🔴 **Ken training confirmation (MSG-20260601-001)** — Delivered Mon Jun 1. Now 17 days with no response from Ken.
+- 🔴 **Escalation MSG-004** — Sent to Ken via relay queue on June 9. Now 9 days old with no reply.
+- 🔴 **Meeting relay (relay-20260603-001)** — Queued Jun 3 for Ken (meeting request for Thu Jun 4). Still unsent. Meeting date 14 days past. Stale — should be dropped.
+- 🔴 **CTO Contract Meeting outcome** — Meeting was Fri May 29. Now 21 days post-meeting with zero follow-up.
+- 🔴 **CR-002 (LinkedIn Setup / Spark)** — Pending Ken/Yoda action since May 22. Now 27 days old.
+- 🟡 **Onboarding Stage 2** — OB-14, OB-15 still unchecked.
+- 🟡 **Lynn Huang (bookkeeping)** — awaiting fee schedule reply.
+- 🟡 **Jack Ooi (accounting)** — awaiting update on meeting.
+- 🟡 **Training revenue projection** — pending review.
+- 🟡 **Marketing collaterals** — pending Angie review.
+- 🟡 **Meta appeal** — status unknown.
+- 🔴 **JotForm/HRDF** — outstanding from April 28. Now 51 days.
+- 🟡 **April 30 class debrief** — still missing.
+- 🟡 **Google Calendar auth** — broken since Jun 3. Aria cannot create calendar events for Angie.
+
+### Handoff to Yoda
+- **🚨 BREAKTHROUGH: Angie re-engaged after 15 days of silence!** She messaged at 16:42 AEST today — first contact since June 3. She's focused on international digital marketing strategy for AInchors. This is a significant positive signal — she's thinking strategically about growth, not disengaged.
+- **Aria delivered a solid 3-phase plan** within the same session. Angie now has a clear roadmap: Foundation → Organic → Paid International. The ball is in Angie's court to answer 3 clarifying questions.
+- **The 15-day silence is broken** — the CRITICAL escalation pattern from prior briefs is partially resolved. Angie is alive, engaged, and thinking about AInchors growth. The silence was likely just a busy period, not abandonment.
+- **However**: Ken remains unresponsive (9 days on escalation, 17 days on training offer). The Angie-Ken disconnect is still real — Angie is moving forward on marketing while Ken-side actions (CR-002, training contract, CTO meeting) remain stalled.
+- **Escalation MSG-004 is now 9 days old** with no Ken response. The "both contacts unresponsive" concern is now half-resolved (Angie is back) but Ken's silence continues.
+- **Relay relay-20260603-001 is 14 days stale** — meeting date long past. Recommend Yoda drop this item.
+- **CR-002 (LinkedIn/Spark)**: 27 days old. With Angie back and focused on marketing, this becomes more urgent — Spark needs LinkedIn API access to execute the social plan Aria just proposed.
+- **Positive trajectory**: If Angie answers the 3 questions and approves the Brand Code, the business stream could unlock rapidly — Brand Code → Spark briefing → campaign drafts → execution. This is the first real forward motion since June 3.
+- **Recommendation**: Yoda should focus on the Ken side — training contract response, CR-002 (LinkedIn auth), and CTO contract outcome. Angie is back and moving; Ken is the remaining bottleneck.
 ## Wednesday, June 17, 2026 — Business Stream Summary
 _Written 23:45 AEST by Aria cron_
 
