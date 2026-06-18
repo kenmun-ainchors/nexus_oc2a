@@ -169,6 +169,45 @@ Both reference canonical docs in `references/` and load via `scripts/skill-load.
 ---
 ---
 
+## 2026-06-18 08:13 AEST — [CHG-0631] Old-code audit remediation policy locked into CREST and Agile skills
+**Type:** rule
+**Change Type:** Normal
+**Source:** ken-prompt
+**Trigger:** Ken approved A7 policy decisions 2026-06-18 08:11 AEST
+**What changed:** Updated agent-skills/crest/SKILL.md and agent-skills/agile/SKILL.md; added Old-Code Audit Rule and Remediation Policy sections; logged policy to MEMORY.md
+**Why:** Prevent scope drift and preserve tribal knowledge for future old-code audits
+**Verification:** Deep-groomed audit report tests/regression/tkt0529/audit-report-deep.md; skills reloaded successfully
+**Rollback:** N/A
+**Linked:** TKT-0529, tests/regression/tkt0529/audit-report-deep.md, MEMORY.md §Old-Code Audit Policy
+---
+
+
+## 2026-06-18 07:37 AEST — [CHG-0630] wrapper test
+**Type:** rule
+**Change Type:** Normal
+**Source:** ken-prompt
+**Trigger:** TKT-0535 regression
+**What changed:** Verified run-changelog wrapper auto-loads skill.
+**Why:** Regression test
+**Verification:** Test
+**Rollback:** N/A
+**Linked:** none
+---
+
+
+## 2026-06-18 07:37 AEST — [CHG-0629] gate test pass
+**Type:** rule
+**Change Type:** Normal
+**Source:** ken-prompt
+**Trigger:** TKT-0535 regression
+**What changed:** Verified gate passes after skill-load.
+**Why:** Regression test
+**Verification:** Test
+**Rollback:** N/A
+**Linked:** none
+---
+
+
 ## 2026-06-18 07:18 AEST — [CHG-0628] wrapper test
 **Type:** rule
 **Change Type:** Normal

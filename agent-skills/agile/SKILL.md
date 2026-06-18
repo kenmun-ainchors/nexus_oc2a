@@ -19,6 +19,18 @@ If you're about to invoke `scripts/ticket.sh`, `scripts/db-ticket.sh`, `scripts/
 
 ---
 
+## Old-Code Audit Rule (TKT-0529, LOCKED 2026-06-18)
+
+When a sprint contains a **P0 old-code audit TKT**:
+1. **Plan phase must produce a verifier corpus** in `tests/regression/<ticket>/verifier-corpus.md` before any static analysis.
+2. **Static analysis atoms are read-only** and dispatched through the `subagent-dispatch` skill with explicit tool budgets and timeouts.
+3. **Deep-groom phase** follows subagent reports: Yoda re-reads the scripts, verifies line numbers, and produces a consolidated `audit-report-deep.md` with options and policy questions.
+4. **Execution options** must be presented with trade-offs; no A7 work starts until Ken approves an option and answers policy questions.
+5. **Remediation policy defaults** (Ken 2026-06-18):
+   - Auto-destructive hygiene/health housekeeping in `auto-heal.sh` retained.
+   - Context-file rewrites (SOUL.md, AGENTS.md, MEMORY.md, HEARTBEAT.md) gated to `NEEDS_KEN`.
+   - Atomic state writes use shared lib `scripts/lib/atomic-write.sh`.
+
 ## Quick Reference
 
 ### Framework Maturity (where we are)
@@ -109,14 +121,15 @@ Ken or Yoda may request: **"What is the current sprint status?"**
 
 On that request:
 1. Run `bash scripts/db-sprint.sh current` to fetch the active sprint.
-2. Run `bash scripts/db-ticket.sh list --sprint-current` to list all items in the sprint with statuses.
-3. Summarise in a concise Telegram/webchat message:
+2. **Cross-check:** Verify the returned sprint has `status: in_progress` (or `active`) and that its dates include today. If the command returns a `completed` sprint or a stale sprint, immediately run `bash scripts/db-sprint.sh plan --sprint "Sprint N"` (with the sprint you believe is active) and report the discrepancy to Ken.
+3. Run `bash scripts/db-ticket.sh list --sprint-current` to list all items in the sprint with statuses.
+4. Summarise in a concise Telegram/webchat message:
    - **Sprint name + dates**
    - **Velocity snapshot:** planned / completed / in-progress / blocked / not-started
    - **Critical blockers** (P1/P2, health, security)
    - **Items needing Ken input** (open decisions, draft reviews, approval gates)
    - **Next 24h focus** (top 3 priorities by order of execution)
-4. Do not wait for a ceremony. This is ad-hoc status-on-demand.
+5. Do not wait for a ceremony. This is ad-hoc status-on-demand.
 
 ### Sprint Planning Carry-Forward Rule
 
@@ -128,9 +141,24 @@ When planning the next sprint (Sunday evening or any ad-hoc planning request):
 3. On Ken's confirmation:
    - Run `bash scripts/db-sprint.sh create --week-start <date>` to create the next sprint.
    - Run `bash scripts/db-ticket.sh bulk-update --sprint-new <sprint-id> --ids <id1,id2,...>` to move carried items.
-   - Run `bash scripts/db-sprint.sh update <new-sprint-id> --status in_progress` to mark the new sprint as active.
+   - Run `bash scripts/db-sprint.sh update <new-sprint-id> --status in_progress` to mark the new sprint as active (canonical state).
    - Run `bash scripts/db-sprint.sh update <old-sprint-id> --status closed` to close the old sprint.
 4. **Auto-mark next sprint in-progress** only after Ken confirms carry-forward. Never pre-create a sprint without approval.
+
+### Ken Says "Groom TKT-XXXX" — Groom Format
+
+When Ken says "groom TKT-XXXX", produce a concise groom summary in this order. This is **pre-execution shaping**, not the mechanical `db-ticket.sh groom` helper.
+
+1. **What it is** — one-sentence identity of the ticket.
+2. **Problem statement** — why it matters; the pain or risk being addressed.
+3. **Context** — relevant history, dependencies, related tickets/CHG/lessons, current state.
+4. **What we should do** — the possible approaches or options (labelled A, B, C…).
+5. **Considerations** — constraints, assumptions, trade-offs, known unknowns.
+6. **Risks** — what could go wrong with each option.
+7. **Recommendation** — which option you favour and why.
+8. **Ask for decision** — stop here. Do not begin execution, CREST planning, or tool work until Ken confirms the approach.
+
+Use evidence from PG, CHANGELOG, LESSONS, and memory. If data is missing, say so. Do not fabricate options or context. After Ken confirms the approach, then proceed to CREST Plan phase (load `crest` skill) and execution.
 
 ### Backlog Grooming Requirements (every PBI needs all of these before Sprint start)
 

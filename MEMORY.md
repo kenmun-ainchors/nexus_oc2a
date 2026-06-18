@@ -116,6 +116,13 @@ Nexus=platform|Holocron=AKB|Bridge=cmd-centre|Citadel=client-portal|Holonet=live
 ## Config Baseline (Day 20)
 → See `state/critical-config-baseline.json` for live drift detection.
 
+## Old-Code Audit Policy — TKT-0529 (Ken decisions 2026-06-18 08:11 AEST)
+When remediating high-risk legacy scripts:
+1. **Auto-destructive hygiene ops in `auto-heal.sh` are retained** (rm stale plugin dirs, rm stale locks, kill orphan gateways, PG sequence fix) — these are health/housekeeping and have proven safety history.
+2. **Exception:** auto-summarize oversized context files (rewrites SOUL.md/AGENTS.md/MEMORY.md/HEARTBEAT.md) must be gated → `NEEDS_KEN`, not auto-executed.
+3. **Atomic state writes** use a new shared lib at `scripts/lib/atomic-write.sh` (not inlined per script).
+4. Every production script gets `set -euo pipefail` and replaces hardcoded `/Users/ainchorsangiefpl/` paths with `${WORKSPACE_ROOT}`.
+
 ## kimi Policy — DECOMMISSIONED 2026-05-26
 DeepSeek = permanent primary. kimi = fallback only. Full history: `memory/MEMORY-archive-2026-05-27.md`.
 

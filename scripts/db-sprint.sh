@@ -105,22 +105,26 @@ write_metadata() {
 # committed_by (text), items (jsonb), notes (text), created_at, updated_at, tenant_id
 
 get_current_sprint_name() {
-  # Find current sprint: check state_sprints for active, or latest by number.
-  # If no PG row, check tickets for most common sprint_target in open tickets.
+  # Find current sprint using the following precedence:
+  # 1. Sprint with status='in_progress' (canonical active state)
+  # 2. Sprint with status='active' or status='committed' (legacy states)
+  # 3. Most recent sprint by number
+  # 4. Most common sprint_target in open tickets
+  # 5. Hard fallback: Sprint 7
   local name
-  # First: active sprint in PG
-  name=$(pg_query "SELECT sprint_name FROM $SPRINT_TABLE WHERE status='active' OR status='committed' ORDER BY sprint_number DESC LIMIT 1;" 2>/dev/null | head -1)
+  name=$(pg_query "SELECT sprint_name FROM $SPRINT_TABLE WHERE status='in_progress' OR status='active' ORDER BY sprint_number DESC LIMIT 1;" 2>/dev/null | head -1)
   if [[ -z "$name" ]]; then
-    # Second: most recent sprint by number
+    name=$(pg_query "SELECT sprint_name FROM $SPRINT_TABLE WHERE status='committed' ORDER BY sprint_number DESC LIMIT 1;" 2>/dev/null | head -1)
+  fi
+  if [[ -z "$name" ]]; then
     name=$(pg_query "SELECT sprint_name FROM $SPRINT_TABLE ORDER BY sprint_number DESC LIMIT 1;" 2>/dev/null | head -1)
   fi
   if [[ -z "$name" ]]; then
-    # Third: most common sprint_target in open tickets
     name=$(pg_query "SELECT metadata->>'sprint_target' FROM $TICKET_TABLE WHERE status IN ('open','in-progress','pending','backlog','grooming') AND metadata->>'sprint_target' IS NOT NULL GROUP BY metadata->>'sprint_target' ORDER BY COUNT(*) DESC LIMIT 1;" 2>/dev/null | head -1)
   fi
   # Normalize: extract just "Sprint N" from potentially longer names like "Sprint 7 — ..."
   if [[ -n "$name" ]]; then
-    name=$(echo "$name" | sed -n 's/.*\([Ss]print *[0-9]\+\).*/\1/p')
+    name=$(echo "$name" | grep -oEi '[Ss][Pp][Rr][Ii][Nn][Tt][[:space:]]*[0-9]+' | head -1)
     [[ -z "$name" ]] && echo "Sprint 7" || echo "$name"
   else
     echo "Sprint 7"

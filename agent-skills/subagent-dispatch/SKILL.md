@@ -20,6 +20,27 @@ Isolated subagents are for:
 - Tasks that do not need parent workspace files
 - Tasks where the verifier corpus can be fully embedded in the prompt
 
+# Agent Name → Agent ID Reference
+
+Use the exact `agentId` value when calling `sessions_spawn`:
+
+| Name | Agent ID |
+|---|---|
+| Yoda | `main` |
+| Aria | `business` |
+| Atlas | `atlas/architect` |
+| Thrawn | `platform-arch` |
+| Forge | `infra` |
+| Ahsoka | `ahsoka` |
+| Spark | `spark/social` |
+| Lando | `biz-process` |
+| Mon Mothma | `change-mgt` |
+| Shield | `security` |
+| Lex | `legal` |
+| Sage | `qa` |
+| Warden | `governance` |
+| Krennic | `sre` |
+
 # Subagent Dispatch Checklist
 
 Before calling `sessions_spawn`, confirm:

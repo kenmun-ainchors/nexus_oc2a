@@ -215,7 +215,14 @@ Master Synthesize is an **active integration test** across sub-ticket deliverabl
 | **Spark creative pro override** | High-stakes Execute atoms | Per-atom `model_override: "pro"` + `override_reason`; Warden 15-min cron audits; alert if > 20% pro-rate per sprint |
 | **Forge Plan/Synthesize flash** | Forge only | Agreed by Ken 2026-06-10; rationale: Forge domain is execution-heavy (Plan/Synthesize are mechanical); Verify/Replan remain pro. Monitor > 30% Replan rate. |
 | **Yoda Execute** | Yoda only | Per-instance Ken approval, logged to CHANGELOG.md, before dispatch |
+| **Old-code audit remediation policy** | TKT-0529 and future old-code audits | Auto-destructive hygiene/health housekeeping retained; context-file rewrites gated to NEEDS_KEN; new shared lib `scripts/lib/atomic-write.sh` for atomic state writes (Ken 2026-06-18) |
 
+## Old-Code Audit Remediation Policy (TKT-0529, Ken 2026-06-18)
+When remediating legacy scripts discovered through CREST old-code audits:
+1. **Auto-destructive hygiene/health housekeeping ops are retained** (e.g. stale plugin dir cleanup, stale lock cleanup, orphan gateway kill, PG sequence resync) when they have proven safety history and are bounded to platform health.
+2. **Exception:** any auto-rewrite of injected context files (SOUL.md, AGENTS.md, MEMORY.md, HEARTBEAT.md) MUST be gated to `NEEDS_KEN`, not auto-executed.
+3. **Atomic state writes** MUST use the shared helper at `scripts/lib/atomic-write.sh` rather than being inlined per script.
+4. **Baseline hygiene** applies to all audited scripts: `set -euo pipefail`; replace hardcoded user paths with `${WORKSPACE_ROOT}`; prefer PG SSOT over JSON where canonical.
 ---
 
 ## Governance Agents Placement (Shield 🛡️ / Lex ⚖️ / Sage 🧪 / Warden 🔍)
