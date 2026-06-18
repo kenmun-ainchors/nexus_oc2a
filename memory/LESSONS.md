@@ -1,3 +1,11 @@
+## L-156 — 2026-06-18 | State Maps and Intermediate Success States
+**Lesson:** A state-transition map that marks `'verified'` as a pre-terminal success state must also list `'verified'` as a source for terminal transitions (`complete`, `done`, `sub_crest_done`). Without that edge, typed completion mutators and auto-resume logic cannot move a fully-verified task to terminal, so it stalls in `'verified'` indefinitely. The missing edge is easy to overlook because `'verified'` is an atom-level state, but at task level it is also a valid source.
+**Rule:** Whenever a new non-terminal success state is introduced in a state machine, immediately add it as a source to all terminal transitions. Add a regression test that exercises each new edge and asserts both allowed and rejected targets.
+**Scope of fix:** `scripts/lib/pg_task_queue.py` `SUB_CREST_TRANSITIONS` now includes `'verified': {'complete', 'sub_crest_done', 'done'}` and `scripts/lib/test_pg_task_queue_validation.py` has `TestVerifiedToTerminalTransitions`.
+**Source:** TKT-0410, 2026-06-18.
+
+---
+
 ## L-155 — 2026-06-18 | UPSERT vs Check Constraints
 **Lesson:** `INSERT ... ON CONFLICT DO UPDATE` still evaluates table check constraints on the row that would be inserted before the conflict is resolved. If an existing row lacks a not-null constrained column (e.g. `title` under `chk_title_not_empty`), an update that supplies only other columns fails because the attempted insert row violates the constraint. The failure is silent when the writer falls back to a file-only backend.
 **Rule:** For updates to existing rows, detect row existence first and emit a plain `UPDATE` statement. Reserve `INSERT ... ON CONFLICT` for inserts or for blind upserts where all not-null constrained columns are always present. After any write, verify with a PG read, not the writer's exit code.
