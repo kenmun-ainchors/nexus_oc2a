@@ -632,6 +632,11 @@ SUB_CREST_TRANSITIONS = {
     'failed': {'queued', 'cancelled'},
     'cancelled': set(),
     'pending': {'queued', 'master_planning', 'sub_crest_planning'},
+    # TKT-0410: 'verified' source edge — tasks with all atoms verified but
+    # parent done must be able to transition to a terminal state via the
+    # typed completion mutators (sc_sub_crest_complete, sc_complete_atom,
+    # pg_set_task_status).
+    'verified': {'complete', 'sub_crest_done', 'done'},
     'open': {'in_progress', 'master_planning', 'sub_crest_planning'},
     'in_progress': {'complete', 'failed', 'master_planning', 'sub_crest_planning'},
     'backlog': {'open', 'master_planning', 'sub_crest_planning'},

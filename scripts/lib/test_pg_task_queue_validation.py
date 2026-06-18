@@ -130,6 +130,50 @@ class TestValidateStateTransition(unittest.TestCase):
                           "SUB_CREST_TRANSITIONS must define at least one source state")
 
 
+class TestVerifiedToTerminalTransitions(unittest.TestCase):
+    """TKT-0410: 'verified' source edge must allow transitions to terminal states.
+
+    Tasks with all atoms verified but parent done were getting stuck in 'verified'
+    because SUB_CREST_TRANSITIONS lacked a 'verified' source edge. These tests
+    pin the fix.
+    """
+
+    def test_verified_key_present_with_expected_targets(self):
+        # 'verified' must exist as a source state
+        self.assertIn(
+            'verified', SUB_CREST_TRANSITIONS,
+            "TKT-0410: 'verified' must be a source state in SUB_CREST_TRANSITIONS"
+        )
+        # Target set must match the spec exactly
+        self.assertEqual(
+            SUB_CREST_TRANSITIONS['verified'],
+            {'complete', 'sub_crest_done', 'done'},
+            f"TKT-0410: 'verified' targets must be {{'complete', 'sub_crest_done', 'done'}}. "
+            f"Got: {sorted(SUB_CREST_TRANSITIONS['verified'])}"
+        )
+
+    def test_verified_to_complete_allowed(self):
+        valid, msg = validate_state_transition('verified', 'complete')
+        self.assertTrue(
+            valid,
+            f"TKT-0410: verified->complete MUST be allowed. Got: {msg}"
+        )
+
+    def test_verified_to_done_allowed(self):
+        valid, msg = validate_state_transition('verified', 'done')
+        self.assertTrue(
+            valid,
+            f"TKT-0410: verified->done MUST be allowed. Got: {msg}"
+        )
+
+    def test_verified_to_sub_crest_done_allowed(self):
+        valid, msg = validate_state_transition('verified', 'sub_crest_done')
+        self.assertTrue(
+            valid,
+            f"TKT-0410: verified->sub_crest_done MUST be allowed. Got: {msg}"
+        )
+
+
 class TestTerminalStateLockdown(unittest.TestCase):
     """Bonus: ensure all terminal states reject all outbound transitions."""
 
