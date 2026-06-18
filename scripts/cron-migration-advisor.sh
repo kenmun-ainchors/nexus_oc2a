@@ -38,12 +38,15 @@ if [[ ! -f "$CRON_LIST" ]]; then
   exit 1
 fi
 
-python3 <<'PYEOF'
-import json, datetime, os, tempfile
+python3 - "$USAGE_FILE" "$CRON_LIST" "$OUTPUT" <<'PYEOF'
+import json, datetime, sys, os, tempfile
 
 # Load L-128 data
-usage = json.load(open('/Users/ainchorsangiefpl/.openclaw/workspace/state/cron-ollama-usage.json'))
-crons_list = json.load(open('/Users/ainchorsangiefpl/.openclaw/workspace/state/cron-list-snapshot.json'))
+usage_path = sys.argv[1]
+cron_list_path = sys.argv[2]
+output_path = sys.argv[3]
+usage = json.load(open(usage_path))
+crons_list = json.load(open(cron_list_path))
 now = datetime.datetime.now(datetime.timezone.utc).astimezone(datetime.timezone(datetime.timedelta(hours=10)))
 
 # Critical cron patterns (should NOT migrate unless last resort)
@@ -140,7 +143,7 @@ output = {
 }
 
 # Atomic write (TKT-0529 B2.5): write to temp file in same dir, then os.replace
-_target = '/Users/ainchorsangiefpl/.openclaw/workspace/state/cron-migration-suggestions.json'
+_target = output_path
 _target_dir = os.path.dirname(_target)
 _fd, _tmp = tempfile.mkstemp(prefix='.cron-migration-suggestions.', suffix='.json.tmp', dir=_target_dir)
 try:

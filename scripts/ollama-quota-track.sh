@@ -34,10 +34,12 @@ if [[ ! -f "$CRON_LIST" ]] || [[ $(find "$CRON_LIST" -mmin +30 2>/dev/null) ]]; 
   }
 fi
 
-python3 <<'PYEOF'
+python3 - "$CRON_LIST" "$OUTPUT" <<'PYEOF'
 import json, datetime, sys, os, tempfile
 
-d = json.load(open('/Users/ainchorsangiefpl/.openclaw/workspace/state/cron-list-snapshot.json'))
+cron_list_path = sys.argv[1]
+output_path = sys.argv[2]
+d = json.load(open(cron_list_path))
 now = datetime.datetime.now(datetime.timezone.utc).astimezone(datetime.timezone(datetime.timedelta(hours=10)))
 
 # Per-model rate estimates (tokens/sec, rough heuristic)
@@ -137,7 +139,7 @@ output = {
 }
 
 # TKT-0529 B2.4: atomic write via tempfile + os.replace
-_target = '/Users/ainchorsangiefpl/.openclaw/workspace/state/cron-ollama-usage.json'
+_target = output_path
 _dir = os.path.dirname(_target)
 _tmp = tempfile.NamedTemporaryFile('w', dir=_dir, prefix='.cron-ollama-usage.', suffix='.json.tmp', delete=False)
 try:
