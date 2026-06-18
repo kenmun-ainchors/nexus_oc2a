@@ -51,7 +51,7 @@ function atomic_write_file() {
   trap - EXIT INT TERM
 }
 
-# If sourced, functions are available. If executed directly, print version.
-if [[ "${ZSH_SCRIPT:-$0}" == "$0" ]]; then
+# If executed directly, print version. If sourced, stay silent.
+if [[ -n "${ZSH_SCRIPT:-}" ]]; then
   echo "atomic-write.sh v${ATOMIC_WRITE_LIB_VERSION}"
 fi
