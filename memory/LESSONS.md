@@ -1,3 +1,11 @@
+## L-155 — 2026-06-18 | UPSERT vs Check Constraints
+**Lesson:** `INSERT ... ON CONFLICT DO UPDATE` still evaluates table check constraints on the row that would be inserted before the conflict is resolved. If an existing row lacks a not-null constrained column (e.g. `title` under `chk_title_not_empty`), an update that supplies only other columns fails because the attempted insert row violates the constraint. The failure is silent when the writer falls back to a file-only backend.
+**Rule:** For updates to existing rows, detect row existence first and emit a plain `UPDATE` statement. Reserve `INSERT ... ON CONFLICT` for inserts or for blind upserts where all not-null constrained columns are always present. After any write, verify with a PG read, not the writer's exit code.
+**Scope of fix:** `scripts/db-write.sh` now checks `SELECT 1 FROM table WHERE id='...'` and generates `UPDATE ... WHERE id='...'` for existing rows; `INSERT` is used only when the row is absent. Safe-mode collision detection preserved for inserts.
+**Source:** TKT-0538, discovered while closing TKT-0525 via `db-ticket.sh update`, 2026-06-18.
+
+---
+
 ## L-151 — 2026-06-18 | Subagent Verification / DoD
 **Lesson:** Completion events and subagent claims are not evidence. During TKT-0529 Bundle 2, B2.3–B2.5 were reported as done but the working tree showed no changes. `subagents list` confirmed only B2.2 had actually run. The false progression was caught only by independent `git diff` verification.
 **Rule:** Every subagent deliverable must be verified with tool-backed evidence (`git diff`, `grep`, test output, logs) before being marked complete. Do not rely on completion-event summaries or subagent self-reports as DoD proof. Yoda Verify atom is mandatory and must inspect actual file state, not echo claims.
@@ -2128,3 +2136,20 @@ fi
 **Rule:** Never manually edit gateway service files. For env vars that must survive restarts, add them to the env file as static values (no `${VAR:-}` expansion). The `shellSingleQuote()` wrapper will mangle the quoting but the shell still parses static values correctly.
 
 **Linked:** L-102, TKT-0505-A7, CHG-0607, stand-up item #2 (appeared in two consecutive stand-ups before proper fix).
+
+## L-153 — db-ticket.sh sync subcommand ignored ticket ID
+**Date:** 2026-06-18
+**Source:** TKT-0529 close-out side-finding
+**Lesson:** Subcommand usage claimed single-ticket sync, but implementation called pg-to-notion-sync.sh without arguments, triggering a full batch sync of all unsynced tickets. Affects create/update/groom/fold paths that spawn db-ticket.sh sync <TKT-ID>.
+**Fix:** Pass --single "$tkt_id" in cmd_sync().
+**Evidence:** Commit d7367efd, scripts/db-ticket.sh line 1066.
+**Prevention:** When reviewing subcommands that delegate to another script, verify the script receives the intended positional/flag arguments. Do not trust subcommand names alone.
+
+
+## L-154 — Never overwrite memory files; always append or read-modify-write
+**Date:** 2026-06-18
+**Source:** operator error while updating memory/2026-06-18.md
+**Lesson:** Used write tool to overwrite memory/2026-06-18.md instead of appending, losing the prior TKT-0529 entry. Recovered content from turn history. Memory files are append-only or require full read-modify-write cycles.
+**Fix:** Reconstructed file with both entries intact.
+**Prevention:** For memory/* writes, use exec append (printf >> file) or read first, then write full combined content. Never use write tool blindly on memory files.
+
