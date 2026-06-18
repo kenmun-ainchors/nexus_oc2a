@@ -188,6 +188,14 @@
           "comments": 0,
           "shares": 0,
           "impressions": null
+        },
+        {
+          "interval": "24h",
+          "fetchedAt": "2026-06-18T00:00:17Z",
+          "reactions": 48,
+          "comments": 0,
+          "shares": 0,
+          "impressions": null
         }
       ]
     },
@@ -754,6 +762,14 @@
         {
           "interval": "24h",
           "fetchedAt": "2026-06-17T00:00:35Z",
+          "reactions": 24,
+          "comments": 0,
+          "shares": 0,
+          "impressions": null
+        },
+        {
+          "interval": "24h",
+          "fetchedAt": "2026-06-18T00:00:22Z",
           "reactions": 24,
           "comments": 0,
           "shares": 0,
@@ -1328,6 +1344,14 @@
           "comments": 4,
           "shares": 0,
           "impressions": null
+        },
+        {
+          "interval": "24h",
+          "fetchedAt": "2026-06-18T00:00:26Z",
+          "reactions": 10,
+          "comments": 4,
+          "shares": 0,
+          "impressions": null
         }
       ]
     },
@@ -1506,6 +1530,14 @@
         {
           "interval": "24h",
           "fetchedAt": "2026-06-17T00:00:26Z",
+          "reactions": 31,
+          "comments": 2,
+          "shares": 0,
+          "impressions": null
+        },
+        {
+          "interval": "24h",
+          "fetchedAt": "2026-06-18T00:00:40Z",
           "reactions": 31,
           "comments": 2,
           "shares": 0,
@@ -1706,6 +1738,14 @@
           "comments": 0,
           "shares": 0,
           "impressions": null
+        },
+        {
+          "interval": "24h",
+          "fetchedAt": "2026-06-18T00:00:17Z",
+          "reactions": 36,
+          "comments": 0,
+          "shares": 0,
+          "impressions": null
         }
       ]
     },
@@ -1717,6 +1757,56 @@
           "interval": "24h",
           "fetchedAt": "2026-06-17T00:00:30Z",
           "reactions": 1,
+          "comments": 0,
+          "shares": 0,
+          "impressions": null
+        },
+        {
+          "interval": "24h",
+          "fetchedAt": "2026-06-18T00:00:44Z",
+          "reactions": 4,
+          "comments": 0,
+          "shares": 0,
+          "impressions": null
+        }
+      ]
+    },
+    {
+      "contentId": "LI-W1-P3-new",
+      "postUrn": "urn:li:share:7473124870118211584",
+      "snapshots": [
+        {
+          "interval": "24h",
+          "fetchedAt": "2026-06-18T00:00:17Z",
+          "reactions": 2,
+          "comments": 0,
+          "shares": 0,
+          "impressions": null
+        }
+      ]
+    },
+    {
+      "contentId": "LI-W1-P1-old",
+      "postUrn": "urn:li:activity:7457186904363421696",
+      "snapshots": [
+        {
+          "interval": "24h",
+          "fetchedAt": "2026-06-18T00:00:22Z",
+          "reactions": 32,
+          "comments": 2,
+          "shares": 0,
+          "impressions": null
+        }
+      ]
+    },
+    {
+      "contentId": "LI-W1-P2-new",
+      "postUrn": "urn:li:share:7472831677170409472",
+      "snapshots": [
+        {
+          "interval": "24h",
+          "fetchedAt": "2026-06-18T00:00:44Z",
+          "reactions": 0,
           "comments": 0,
           "shares": 0,
           "impressions": null

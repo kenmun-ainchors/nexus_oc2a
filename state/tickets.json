@@ -3572,18 +3572,30 @@
   {
     "id": "TKT-9999",
     "title": "L-090 test ticket",
-    "status": "open",
+    "status": "closed",
     "priority": "low",
     "type": "task",
-    "created_at": "2026-06-12T22:19:26+10:00"
+    "created_at": "2026-06-12T22:19:26+10:00",
+    "metadata": {
+      "close_reason": "test ticket cleanup — TKT-0535",
+      "notion_sync": {
+        "status": "pending"
+      }
+    }
   },
   {
     "id": "TKT-9998",
     "title": "L-090 regression test",
-    "status": "open",
+    "status": "closed",
     "priority": "low",
     "type": "task",
-    "created_at": "2026-06-12T22:19:45+10:00"
+    "created_at": "2026-06-12T22:19:45+10:00",
+    "metadata": {
+      "close_reason": "test ticket cleanup — TKT-0535",
+      "notion_sync": {
+        "status": "pending"
+      }
+    }
   },
   {
     "id": "TKT-0503",
@@ -3633,10 +3645,44 @@
   {
     "id": "TKT-0525",
     "title": "CHG-0525: Fix pg-to-notion-sync.sh — JSONB Path + zsh Reserved Variable Bugs",
-    "status": "open",
+    "status": "closed",
     "priority": "high",
     "type": "chg",
-    "created_at": "2026-06-13T03:26:51+10:00"
+    "created_at": "2026-06-13T03:26:51+10:00",
+    "metadata": {
+      "atom_status": [
+        {
+          "id": "A1",
+          "title": "Fix JSONB dot-notation query",
+          "status": "done",
+          "ac_pass": true
+        },
+        {
+          "id": "A2",
+          "title": "Fix zsh reserved variable 'status'",
+          "status": "done",
+          "ac_pass": true
+        },
+        {
+          "id": "A3",
+          "title": "Re-run batch sync and verify 30 tickets",
+          "status": "done",
+          "ac_pass": true
+        },
+        {
+          "id": "A4",
+          "title": "Fix db-ticket.sh sync to pass --single <TKT-ID>",
+          "status": "done",
+          "ac_pass": true,
+          "note": "Commit d7367efd. Verified: only db-ticket.sh changed, zsh -n OK."
+        }
+      ],
+      "notion_sync": {
+        "status": "synced",
+        "last_synced": "2026-06-18T06:49:55+10:00"
+      }
+    },
+    "resolution": "completed"
   },
   {
     "id": "TKT-0526",
@@ -3704,10 +3750,69 @@
   {
     "id": "TKT-0529",
     "title": "Old-Code Audit P0 (Sprint 8): high-risk live scripts — auto-heal, state-health, quota, migration, cooldown",
-    "status": "open",
+    "status": "closed",
     "priority": "P0",
     "type": "audit",
-    "created_at": "2026-06-15T07:21:26+10:00"
+    "created_at": "2026-06-15T07:21:26+10:00",
+    "metadata": {
+      "atom_status": [
+        {
+          "id": "A0",
+          "status": "done",
+          "ac_pass": true
+        },
+        {
+          "id": "A1",
+          "status": "done",
+          "ac_pass": true
+        },
+        {
+          "id": "A2",
+          "status": "done",
+          "ac_pass": true
+        },
+        {
+          "id": "A3",
+          "status": "done",
+          "ac_pass": true
+        },
+        {
+          "id": "A4",
+          "status": "done",
+          "ac_pass": true
+        },
+        {
+          "id": "A5",
+          "status": "done",
+          "ac_pass": true
+        },
+        {
+          "id": "A6",
+          "status": "done",
+          "ac_pass": true
+        },
+        {
+          "id": "A7",
+          "note": "Bundle 1–4 complete. All hardcoded paths removed.",
+          "agent": "yoda/forge",
+          "status": "done",
+          "ac_pass": true
+        },
+        {
+          "id": "A8",
+          "note": "Final integration sweep passed. All 5 target scripts zsh -n OK; all regression suites pass; 0 hardcoded /Users/ paths remain.",
+          "agent": "yoda/sage",
+          "status": "done",
+          "ac_pass": true
+        }
+      ],
+      "status": "closed",
+      "resolution": "completed",
+      "notion_sync": {
+        "status": "pending",
+        "last_synced": "2026-06-18T06:40:22Z"
+      }
+    }
   },
   {
     "id": "TKT-0530",
@@ -3756,15 +3861,114 @@
   {
     "id": "TKT-0534",
     "title": "Create Agile and CREST skill packages from governance documents",
-    "status": "open",
+    "status": "closed",
     "priority": "high",
     "type": "task",
     "created_at": "2026-06-17T04:49:28+10:00",
     "metadata": {
+      "close_reason": "TKT-0534 original scope (package skills into agent-skills/) completed earlier. Operationalization gap acknowledged and delivered via TKT-0535. Ken 07:02 AEST 2026-06-18 approved close of both TKT-0534 and TKT-0535. L-149 logged: OpenClaw runtime init hook = workspace bootstrap files (SOUL.md), not systemPromptOverride.",
+      "linked_follow_up": "TKT-0535 (closed)",
+      "acknowledges_gap": "TKT-0535 canonical loader + operationalization",
       "notion_sync": {
-        "status": "syncing",
-        "last_synced": null
+        "status": "pending"
       }
+    },
+    "grooming_history": [
+      {
+        "at": "2026-06-18T05:13:00+10:00",
+        "note": "Ken confirmed: work/context does not carry across sessions; explicit commit required. TKT-0535 created as follow-up to close canonical-loader gap. TKT-0534 now acks gap and links to TKT-0535."
+      }
+    ]
+  },
+  {
+    "id": "TKT-0535",
+    "title": "Agents loading skills packages from tribal paths instead of canonical seed packages",
+    "status": "closed",
+    "priority": "critical",
+    "type": "task",
+    "created_at": "2026-06-17T18:52:53+10:00",
+    "metadata": {
+      "close_reason": "Ken 07:02 AEST 2026-06-18: closed alongside TKT-0534. All work done and verified. L-149 logged re runtime init hook.",
+      "notion_sync": {
+        "status": "pending"
+      }
+    },
+    "notion_sync": {
+      "status": "pending"
+    }
+  },
+  {
+    "id": "TKT-0535",
+    "title": "Agents loading skills packages from tribal paths instead of canonical seed packages",
+    "status": "closed",
+    "priority": "critical",
+    "type": "task",
+    "created_at": "2026-06-17T18:53:27+10:00",
+    "metadata": {
+      "close_reason": "Ken 07:02 AEST 2026-06-18: closed alongside TKT-0534. All work done and verified. L-149 logged re runtime init hook.",
+      "notion_sync": {
+        "status": "pending"
+      }
+    },
+    "notion_sync": {
+      "status": "pending"
+    }
+  },
+  {
+    "id": "TKT-0536",
+    "title": "Fix subagent dispatch, workspace access, and termination reliability (L-146)",
+    "status": "done",
+    "priority": "critical",
+    "type": "task",
+    "created_at": "2026-06-18T05:48:30+10:00",
+    "metadata": {
+      "close_reason": "A1-A4 all AC pass; CHG-0624 logged; TKT-0535 blocker removed",
+      "chg_id": "CHG-0624",
+      "verification_summary": "tests/regression/subagent-dispatch/test-subagent-dispatch.sh: 9/9 PASS. Live subagent with cwd + timeoutSeconds=30 read parent workspace file and completed cleanly. Design: timeoutSeconds on all subagents, workspace-mutating work in main session with HITL, max-tool-call prompt guard.",
+      "lessons_added": "L-146, L-147, L-148",
+      "notion_sync": {
+        "status": "pending"
+      }
+    }
+  },
+  {
+    "id": "TKT-0538",
+    "title": "db-ticket.sh update fails to change top-level columns due to chk_title_not_empty constraint in db-write.sh upsert",
+    "status": "closed",
+    "priority": "high",
+    "type": "bug",
+    "created_at": "2026-06-18T06:55:43+10:00",
+    "metadata": {
+      "atom_status": [
+        {
+          "id": "A1",
+          "title": "Document exact reproduction and affected columns",
+          "status": "done",
+          "ac_pass": true,
+          "note": "Reproduced with status=open on TKT-0525. ERROR: new row violates check constraint chk_title_not_empty."
+        },
+        {
+          "id": "A2",
+          "title": "Fix db-write.sh or db-ticket.sh update to update existing rows without triggering insert constraints",
+          "status": "done",
+          "ac_pass": true,
+          "note": "db-write.sh now detects existing rows and emits UPDATE; INSERT only for new rows."
+        },
+        {
+          "id": "A3",
+          "title": "Update pg-sprint-backlog SKILL.md with known behavior, workaround, and correct usage",
+          "status": "done",
+          "ac_pass": true,
+          "note": "Added TKT-0538 Fix subsection to SKILL.md."
+        },
+        {
+          "id": "A4",
+          "title": "Verify status/priority/sprint updates work via db-ticket.sh update and sync to Notion",
+          "status": "done",
+          "ac_pass": true,
+          "note": "Verified status update on TKT-0538; sync performed."
+        }
+      ]
     }
   }
 ]

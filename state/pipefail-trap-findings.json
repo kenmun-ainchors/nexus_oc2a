@@ -1,417 +1,21 @@
 {
-  "generatedAt": "2026-06-17T18:56:46",
+  "generatedAt": "2026-06-18T19:00:16",
   "schemaVersion": 1,
   "scope": "scripts/*.sh (excluding .bak/.backup)",
   "pattern": "set -o pipefail + trap ERR + ungated $(...) / awk|head / tr|procsub / read|procsub",
   "findings": [
     {
       "script": "auto-heal.sh",
-      "line": 8,
+      "line": 90,
       "severity": "medium",
       "rule": 5,
       "pattern": "dollar_paren_no_fallback",
-      "snippet": "NOW=$(date -u '+%Y-%m-%dT%H:%M:%SZ')",
+      "snippet": "TILDE_STATE_FILES=$(grep -rlE '~(/[A-Za-z0-9._-]+|/[A-Za-z0-9._/-]+)' \"$WORKSPACE/state/\" --include='*.json' 2>/dev/null \\",
       "fix": "Add || true after $(...) or wrap in if/then"
     },
     {
       "script": "auto-heal.sh",
-      "line": 75,
-      "severity": "medium",
-      "rule": 5,
-      "pattern": "dollar_paren_no_fallback",
-      "snippet": "NOW_EPOCH=$(date +%s)",
-      "fix": "Add || true after $(...) or wrap in if/then"
-    },
-    {
-      "script": "auto-heal.sh",
-      "line": 83,
-      "severity": "medium",
-      "rule": 5,
-      "pattern": "dollar_paren_no_fallback",
-      "snippet": "REMAINING=$(( (GRACE_EXPIRES - NOW_EPOCH) / 3600 ))",
-      "fix": "Add || true after $(...) or wrap in if/then"
-    },
-    {
-      "script": "auto-heal.sh",
-      "line": 89,
-      "severity": "medium",
-      "rule": 5,
-      "pattern": "dollar_paren_no_fallback",
-      "snippet": "GRACE_EXPIRES=$((NOW_EPOCH + 86400))",
-      "fix": "Add || true after $(...) or wrap in if/then"
-    },
-    {
-      "script": "auto-heal.sh",
-      "line": 127,
-      "severity": "medium",
-      "rule": 5,
-      "pattern": "dollar_paren_no_fallback",
-      "snippet": "HAS_ANTHROPIC=$(jq -r '.profiles.\"anthropic:default\".key // empty' \"$AUTH_FILE\" 2>/dev/null)",
-      "fix": "Add || true after $(...) or wrap in if/then"
-    },
-    {
-      "script": "auto-heal.sh",
-      "line": 128,
-      "severity": "medium",
-      "rule": 5,
-      "pattern": "dollar_paren_no_fallback",
-      "snippet": "HAS_OLLAMA=$(jq -r '.profiles.\"ollama:default\".key // empty' \"$AUTH_FILE\" 2>/dev/null)",
-      "fix": "Add || true after $(...) or wrap in if/then"
-    },
-    {
-      "script": "auto-heal.sh",
-      "line": 165,
-      "severity": "medium",
-      "rule": 5,
-      "pattern": "dollar_paren_no_fallback",
-      "snippet": "EXPIRED_ACCOUNTS=$(python3 -c \"\nimport json\ntry:\n  d=json.load(open('$DELEG_JSON'))\n  expired=[a['email'] for a in d.get('accounts',[]) if a['status'] in ('EXPIRED','MISSING')]\n  print(', '.join(expir",
-      "fix": "Add || true after $(...) or wrap in if/then"
-    },
-    {
-      "script": "auto-heal.sh",
-      "line": 186,
-      "severity": "medium",
-      "rule": 5,
-      "pattern": "dollar_paren_no_fallback",
-      "snippet": "ERRORED_JOBS=$(jq -r '.jobs[]? | select(.state.consecutiveErrors > 0) | \"\\(.name) [\\(.id)] consecutiveErrors=\\(.state.consecutiveErrors) lastError=\\(.state.lastError // \"?\")\"' \"$CRON_FILE\" 2>/dev/null",
-      "fix": "Add || true after $(...) or wrap in if/then"
-    },
-    {
-      "script": "auto-heal.sh",
-      "line": 201,
-      "severity": "medium",
-      "rule": 5,
-      "pattern": "dollar_paren_no_fallback",
-      "snippet": "LATEST_FULL=$(ls -t \"$HOME/Backups/ainchors/workspace/\" 2>/dev/null | head -1)",
-      "fix": "Add || true after $(...) or wrap in if/then"
-    },
-    {
-      "script": "auto-heal.sh",
-      "line": 202,
-      "severity": "medium",
-      "rule": 5,
-      "pattern": "dollar_paren_no_fallback",
-      "snippet": "LATEST_INCR=$(ls -t \"$HOME/Backups/ainchors/workspace-incremental/\" 2>/dev/null | head -1)",
-      "fix": "Add || true after $(...) or wrap in if/then"
-    },
-    {
-      "script": "auto-heal.sh",
-      "line": 221,
-      "severity": "medium",
-      "rule": 5,
-      "pattern": "dollar_paren_no_fallback",
-      "snippet": "AGE_HOURS=$(( ( $(date +%s) - $(stat -f %m \"$BACKUP_PATH\") ) / 3600 ))",
-      "fix": "Add || true after $(...) or wrap in if/then"
-    },
-    {
-      "script": "auto-heal.sh",
-      "line": 221,
-      "severity": "medium",
-      "rule": 5,
-      "pattern": "dollar_paren_no_fallback",
-      "snippet": "AGE_HOURS=$(( ( $(date +%s) - $(stat -f %m \"$BACKUP_PATH\") ) / 3600 ))",
-      "fix": "Add || true after $(...) or wrap in if/then"
-    },
-    {
-      "script": "auto-heal.sh",
-      "line": 235,
-      "severity": "medium",
-      "rule": 5,
-      "pattern": "dollar_paren_no_fallback",
-      "snippet": "DISK_PCT=$(df -h \"$HOME\" | awk 'NR==2 {gsub(\"%\",\"\"); print $5}')",
-      "fix": "Add || true after $(...) or wrap in if/then"
-    },
-    {
-      "script": "auto-heal.sh",
-      "line": 246,
-      "severity": "medium",
-      "rule": 5,
-      "pattern": "dollar_paren_no_fallback",
-      "snippet": "STALE_DIRS=$(ls -d \"$HOME/.openclaw/plugin-runtime-deps/openclaw-unknown-\"* 2>/dev/null | wc -l | tr -d ' ')",
-      "fix": "Add || true after $(...) or wrap in if/then"
-    },
-    {
-      "script": "auto-heal.sh",
-      "line": 251,
-      "severity": "medium",
-      "rule": 5,
-      "pattern": "dollar_paren_no_fallback",
-      "snippet": "KEEP=$(ls -t -d \"$HOME/.openclaw/plugin-runtime-deps/openclaw-unknown-\"* 2>/dev/null | head -1)",
-      "fix": "Add || true after $(...) or wrap in if/then"
-    },
-    {
-      "script": "auto-heal.sh",
-      "line": 284,
-      "severity": "medium",
-      "rule": 5,
-      "pattern": "dollar_paren_no_fallback",
-      "snippet": "PID=$(cat \"$lock\" 2>/dev/null | grep -oE '[0-9]+' | head -1)",
-      "fix": "Add || true after $(...) or wrap in if/then"
-    },
-    {
-      "script": "auto-heal.sh",
-      "line": 286,
-      "severity": "medium",
-      "rule": 5,
-      "pattern": "dollar_paren_no_fallback",
-      "snippet": "AGE_S=$(( $(date +%s) - $(stat -f %m \"$lock\") ))",
-      "fix": "Add || true after $(...) or wrap in if/then"
-    },
-    {
-      "script": "auto-heal.sh",
-      "line": 286,
-      "severity": "medium",
-      "rule": 5,
-      "pattern": "dollar_paren_no_fallback",
-      "snippet": "AGE_S=$(( $(date +%s) - $(stat -f %m \"$lock\") ))",
-      "fix": "Add || true after $(...) or wrap in if/then"
-    },
-    {
-      "script": "auto-heal.sh",
-      "line": 288,
-      "severity": "medium",
-      "rule": 5,
-      "pattern": "dollar_paren_no_fallback",
-      "snippet": "rm -f \"$lock\" && REMOVED_LOCKS=$((REMOVED_LOCKS+1))",
-      "fix": "Add || true after $(...) or wrap in if/then"
-    },
-    {
-      "script": "auto-heal.sh",
-      "line": 304,
-      "severity": "medium",
-      "rule": 5,
-      "pattern": "dollar_paren_no_fallback",
-      "snippet": "DIRTY=$(git status --porcelain | wc -l | tr -d ' ')",
-      "fix": "Add || true after $(...) or wrap in if/then"
-    },
-    {
-      "script": "auto-heal.sh",
-      "line": 321,
-      "severity": "medium",
-      "rule": 5,
-      "pattern": "dollar_paren_no_fallback",
-      "snippet": "AGE_MIN=$(( ( $(date +%s) - $(stat -f %m \"$HEALTH_FILE\") ) / 60 ))",
-      "fix": "Add || true after $(...) or wrap in if/then"
-    },
-    {
-      "script": "auto-heal.sh",
-      "line": 321,
-      "severity": "medium",
-      "rule": 5,
-      "pattern": "dollar_paren_no_fallback",
-      "snippet": "AGE_MIN=$(( ( $(date +%s) - $(stat -f %m \"$HEALTH_FILE\") ) / 60 ))",
-      "fix": "Add || true after $(...) or wrap in if/then"
-    },
-    {
-      "script": "auto-heal.sh",
-      "line": 340,
-      "severity": "medium",
-      "rule": 5,
-      "pattern": "dollar_paren_no_fallback",
-      "snippet": "CURRENT_PCT=$(jq -r '.turnsLimit.currentPct // 0' \"$COST_FILE\")",
-      "fix": "Add || true after $(...) or wrap in if/then"
-    },
-    {
-      "script": "auto-heal.sh",
-      "line": 341,
-      "severity": "medium",
-      "rule": 5,
-      "pattern": "dollar_paren_no_fallback",
-      "snippet": "REQUESTS_REMAINING=$(jq -r '.turnsLimit.requestsRemaining // 0' \"$COST_FILE\")",
-      "fix": "Add || true after $(...) or wrap in if/then"
-    },
-    {
-      "script": "auto-heal.sh",
-      "line": 342,
-      "severity": "medium",
-      "rule": 5,
-      "pattern": "dollar_paren_no_fallback",
-      "snippet": "TIER2_PCT=$(jq -r '.spendAlerts.tier2.thresholdPct // 70' \"$COST_FILE\")",
-      "fix": "Add || true after $(...) or wrap in if/then"
-    },
-    {
-      "script": "auto-heal.sh",
-      "line": 343,
-      "severity": "medium",
-      "rule": 5,
-      "pattern": "dollar_paren_no_fallback",
-      "snippet": "TIER3_PCT=$(jq -r '.spendAlerts.tier3.thresholdPct // 85' \"$COST_FILE\")",
-      "fix": "Add || true after $(...) or wrap in if/then"
-    },
-    {
-      "script": "auto-heal.sh",
-      "line": 362,
-      "severity": "medium",
-      "rule": 5,
-      "pattern": "dollar_paren_no_fallback",
-      "snippet": "CUTOFF_MS=$(( ($(date +%s) - 7*86400) * 1000 ))",
-      "fix": "Add || true after $(...) or wrap in if/then"
-    },
-    {
-      "script": "auto-heal.sh",
-      "line": 388,
-      "severity": "medium",
-      "rule": 5,
-      "pattern": "dollar_paren_no_fallback",
-      "snippet": "SCHEMA_VER=$(jq -r '.schemaVersion // 0' \"$BASELINE\" 2>/dev/null)",
-      "fix": "Add || true after $(...) or wrap in if/then"
-    },
-    {
-      "script": "auto-heal.sh",
-      "line": 395,
-      "severity": "medium",
-      "rule": 5,
-      "pattern": "dollar_paren_no_fallback",
-      "snippet": "STORED_HASH=$(jq -r '.configHash // \"unknown\"' \"$BASELINE\" 2>/dev/null)",
-      "fix": "Add || true after $(...) or wrap in if/then"
-    },
-    {
-      "script": "auto-heal.sh",
-      "line": 407,
-      "severity": "medium",
-      "rule": 5,
-      "pattern": "dollar_paren_no_fallback",
-      "snippet": "local actual=$(jq -r \".$field // \\\"0\\\"\" \"$BASELINE\" 2>/dev/null)",
-      "fix": "Add || true after $(...) or wrap in if/then"
-    },
-    {
-      "script": "auto-heal.sh",
-      "line": 432,
-      "severity": "medium",
-      "rule": 5,
-      "pattern": "dollar_paren_no_fallback",
-      "snippet": "SANDBOX_MODE=$(jq -r '.sandboxMode // \"unknown\"' \"$BASELINE\" 2>/dev/null)",
-      "fix": "Add || true after $(...) or wrap in if/then"
-    },
-    {
-      "script": "auto-heal.sh",
-      "line": 442,
-      "severity": "medium",
-      "rule": 5,
-      "pattern": "dollar_paren_no_fallback",
-      "snippet": "NODE_OPTS=$(jq -r '.nodeOptions // \"not-set\"' \"$BASELINE\" 2>/dev/null)",
-      "fix": "Add || true after $(...) or wrap in if/then"
-    },
-    {
-      "script": "auto-heal.sh",
-      "line": 452,
-      "severity": "medium",
-      "rule": 5,
-      "pattern": "dollar_paren_no_fallback",
-      "snippet": "YODA_DENY=$(jq -r '.yodaToolsDeny | join(\",\") // \"none\"' \"$BASELINE\" 2>/dev/null)",
-      "fix": "Add || true after $(...) or wrap in if/then"
-    },
-    {
-      "script": "auto-heal.sh",
-      "line": 462,
-      "severity": "medium",
-      "rule": 5,
-      "pattern": "dollar_paren_no_fallback",
-      "snippet": "last_snapshot=$(jq -r '.lastSnapshot // empty' \"$BASELINE\" 2>/dev/null)",
-      "fix": "Add || true after $(...) or wrap in if/then"
-    },
-    {
-      "script": "auto-heal.sh",
-      "line": 465,
-      "severity": "medium",
-      "rule": 5,
-      "pattern": "dollar_paren_no_fallback",
-      "snippet": "now_epoch=$(date +%s)",
-      "fix": "Add || true after $(...) or wrap in if/then"
-    },
-    {
-      "script": "auto-heal.sh",
-      "line": 466,
-      "severity": "medium",
-      "rule": 5,
-      "pattern": "dollar_paren_no_fallback",
-      "snippet": "age_days=$(( (now_epoch - snap_epoch) / 86400 ))",
-      "fix": "Add || true after $(...) or wrap in if/then"
-    },
-    {
-      "script": "auto-heal.sh",
-      "line": 482,
-      "severity": "medium",
-      "rule": 5,
-      "pattern": "dollar_paren_no_fallback",
-      "snippet": "local actual=$(jq -r \".$field // 0\" \"$BASELINE\" 2>/dev/null)",
-      "fix": "Add || true after $(...) or wrap in if/then"
-    },
-    {
-      "script": "auto-heal.sh",
-      "line": 506,
-      "severity": "medium",
-      "rule": 5,
-      "pattern": "dollar_paren_no_fallback",
-      "snippet": "upgraded_at=$(jq -r '.upgradedAt // empty' \"$BASELINE\" 2>/dev/null)",
-      "fix": "Add || true after $(...) or wrap in if/then"
-    },
-    {
-      "script": "auto-heal.sh",
-      "line": 509,
-      "severity": "medium",
-      "rule": 5,
-      "pattern": "dollar_paren_no_fallback",
-      "snippet": "now_epoch=$(date +%s)",
-      "fix": "Add || true after $(...) or wrap in if/then"
-    },
-    {
-      "script": "auto-heal.sh",
-      "line": 510,
-      "severity": "medium",
-      "rule": 5,
-      "pattern": "dollar_paren_no_fallback",
-      "snippet": "age_days=$(( (now_epoch - upgraded_epoch) / 86400 ))",
-      "fix": "Add || true after $(...) or wrap in if/then"
-    },
-    {
-      "script": "auto-heal.sh",
-      "line": 580,
-      "severity": "medium",
-      "rule": 5,
-      "pattern": "dollar_paren_no_fallback",
-      "snippet": "local size=$(wc -c < \"$file\" 2>/dev/null | tr -d ' ')",
-      "fix": "Add || true after $(...) or wrap in if/then"
-    },
-    {
-      "script": "auto-heal.sh",
-      "line": 620,
-      "severity": "medium",
-      "rule": 5,
-      "pattern": "dollar_paren_no_fallback",
-      "snippet": "size=$(wc -c < \"$f\" 2>/dev/null | tr -d ' ')",
-      "fix": "Add || true after $(...) or wrap in if/then"
-    },
-    {
-      "script": "auto-heal.sh",
-      "line": 621,
-      "severity": "medium",
-      "rule": 5,
-      "pattern": "dollar_paren_no_fallback",
-      "snippet": "TOTAL_INJECTION=$((TOTAL_INJECTION + size))",
-      "fix": "Add || true after $(...) or wrap in if/then"
-    },
-    {
-      "script": "auto-heal.sh",
-      "line": 653,
-      "severity": "medium",
-      "rule": 5,
-      "pattern": "dollar_paren_no_fallback",
-      "snippet": "new_val=$((max_id + 1))",
-      "fix": "Add || true after $(...) or wrap in if/then"
-    },
-    {
-      "script": "auto-heal.sh",
-      "line": 672,
-      "severity": "medium",
-      "rule": 5,
-      "pattern": "dollar_paren_no_fallback",
-      "snippet": "ORPHAN_COUNT=$((ORPHAN_COUNT + 1))",
-      "fix": "Add || true after $(...) or wrap in if/then"
-    },
-    {
-      "script": "auto-heal.sh",
-      "line": 688,
+      "line": 98,
       "severity": "medium",
       "rule": 5,
       "pattern": "dollar_paren_no_fallback",
@@ -420,7 +24,16 @@
     },
     {
       "script": "auto-heal.sh",
-      "line": 702,
+      "line": 105,
+      "severity": "medium",
+      "rule": 5,
+      "pattern": "dollar_paren_no_fallback",
+      "snippet": "tilde_paths_in_file=$(grep -oE '~(/[A-Za-z0-9._-]+|/[A-Za-z0-9._/-]+)' \"$tf\" 2>/dev/null | head -5)",
+      "fix": "Add || true after $(...) or wrap in if/then"
+    },
+    {
+      "script": "auto-heal.sh",
+      "line": 113,
       "severity": "medium",
       "rule": 5,
       "pattern": "dollar_paren_no_fallback",
@@ -429,7 +42,7 @@
     },
     {
       "script": "auto-heal.sh",
-      "line": 708,
+      "line": 119,
       "severity": "medium",
       "rule": 5,
       "pattern": "dollar_paren_no_fallback",
@@ -438,72 +51,189 @@
     },
     {
       "script": "auto-heal.sh",
-      "line": 972,
+      "line": 319,
       "severity": "medium",
       "rule": 5,
       "pattern": "dollar_paren_no_fallback",
-      "snippet": "UNTRACKED_COUNT=$((UNTRACKED_COUNT + 1))",
+      "snippet": "APPLY_TMP=$(mktemp -t cron-timeout-ledger)",
       "fix": "Add || true after $(...) or wrap in if/then"
     },
     {
       "script": "auto-heal.sh",
-      "line": 983,
+      "line": 392,
       "severity": "medium",
       "rule": 5,
       "pattern": "dollar_paren_no_fallback",
-      "snippet": "NOW_ISO=$(date -u '+%Y-%m-%dT%H:%M:%SZ')",
+      "snippet": "APPLY_RESULT=$(cat \"$APPLY_TMP\")",
       "fix": "Add || true after $(...) or wrap in if/then"
     },
     {
       "script": "auto-heal.sh",
-      "line": 988,
+      "line": 403,
       "severity": "medium",
       "rule": 5,
       "pattern": "dollar_paren_no_fallback",
-      "snippet": "DEAD_SINCE=$(python3 -c \"import json; print(json.load(open('$SANDBOX_STATE')).get('deadSince') or '')\" 2>/dev/null)",
+      "snippet": "elif [[ $(find \"$APPLY_FLAG_JSON\" -mmin +720 2>/dev/null) ]]; then",
       "fix": "Add || true after $(...) or wrap in if/then"
     },
     {
       "script": "auto-heal.sh",
-      "line": 1006,
+      "line": 438,
       "severity": "medium",
       "rule": 5,
       "pattern": "dollar_paren_no_fallback",
-      "snippet": "DEAD_HOURS=$(python3 -c \"\nfrom datetime import datetime, timezone\nds = '$DEAD_SINCE'\nif ds.endswith('Z'): ds = ds.replace('Z', '+00:00')\ndead = datetime.fromisoformat(ds)\nnow = datetime.now(timezone.u",
+      "snippet": "script_name=$(basename \"$script_path\")",
       "fix": "Add || true after $(...) or wrap in if/then"
     },
     {
       "script": "auto-heal.sh",
-      "line": 1011,
+      "line": 441,
       "severity": "medium",
       "rule": 5,
       "pattern": "dollar_paren_no_fallback",
-      "snippet": "UID_NUM=$(id -u)",
+      "snippet": "CREST_SYNTAX_FAILS=$((CREST_SYNTAX_FAILS + 1))",
       "fix": "Add || true after $(...) or wrap in if/then"
     },
     {
       "script": "auto-heal.sh",
-      "line": 1076,
+      "line": 667,
       "severity": "medium",
       "rule": 5,
       "pattern": "dollar_paren_no_fallback",
-      "snippet": "_PG_PASSED=$(( ${#CHECKS_RUN[@]} - ${#ISSUES_FOUND[@]} ))",
+      "snippet": "CRON_LIVE_JSON=$(python3 -c \"\nimport json, datetime, os, sys\nd = json.load(open('$CRON_ALERT'))\ngen_at = d.get('generatedAt', 'unknown')\ntry:\n    gen_dt = datetime.datetime.fromisoformat(gen_at)\n    a",
       "fix": "Add || true after $(...) or wrap in if/then"
     },
     {
       "script": "auto-heal.sh",
-      "line": 1089,
+      "line": 689,
       "severity": "medium",
       "rule": 5,
       "pattern": "dollar_paren_no_fallback",
-      "snippet": "_CHECKS_JSON=$(python3 -c \"\nimport json\nchecks = json.loads(os.environ.get('CHECKS_RUN_JSON', '[]'))\nissues = json.loads(os.environ.get('ISSUES_FOUND_JSON', '[]'))\nauto_fixed = json.loads(os.environ.g",
+      "snippet": "NOW_EPOCH=$(date \"+%s\")",
+      "fix": "Add || true after $(...) or wrap in if/then"
+    },
+    {
+      "script": "auto-heal.sh",
+      "line": 690,
+      "severity": "medium",
+      "rule": 5,
+      "pattern": "dollar_paren_no_fallback",
+      "snippet": "ELAPSED=$(( NOW_EPOCH - LAST_FIRE_EPOCH ))",
+      "fix": "Add || true after $(...) or wrap in if/then"
+    },
+    {
+      "script": "auto-heal.sh",
+      "line": 703,
+      "severity": "medium",
+      "rule": 5,
+      "pattern": "dollar_paren_no_fallback",
+      "snippet": "CLOUD_ESCALATED=$(( CLOUD_ESCALATED + 1 ))",
+      "fix": "Add || true after $(...) or wrap in if/then"
+    },
+    {
+      "script": "auto-heal.sh",
+      "line": 711,
+      "severity": "medium",
+      "rule": 5,
+      "pattern": "dollar_paren_no_fallback",
+      "snippet": "LAST_FIRE_CRONS_HEALTHY=$(python3 -c \"\nimport json\n\ncron_raw = '''$CRON_LIVE_JSON'''\ncron_data = json.loads(cron_raw) if cron_raw.strip() else {'jobs': []}\n\nall_healthy = True\nfor job in cron_data.get",
+      "fix": "Add || true after $(...) or wrap in if/then"
+    },
+    {
+      "script": "auto-heal.sh",
+      "line": 756,
+      "severity": "medium",
+      "rule": 5,
+      "pattern": "dollar_paren_no_fallback",
+      "snippet": "C30_RATE_LIMITED=$(python3 -c \"\nimport json\nd = json.load(open('$CRON_LIST_JSON'))\nrl = [j for j in d.get('jobs', []) if j.get('state', {}).get('lastErrorReason') == 'rate_limit']\nrl_sorted = sorted(r",
+      "fix": "Add || true after $(...) or wrap in if/then"
+    },
+    {
+      "script": "auto-heal.sh",
+      "line": 774,
+      "severity": "medium",
+      "rule": 5,
+      "pattern": "dollar_paren_no_fallback",
+      "snippet": "NOW_EPOCH=$(date \"+%s\")",
+      "fix": "Add || true after $(...) or wrap in if/then"
+    },
+    {
+      "script": "auto-heal.sh",
+      "line": 775,
+      "severity": "medium",
+      "rule": 5,
+      "pattern": "dollar_paren_no_fallback",
+      "snippet": "ELAPSED=$(( NOW_EPOCH - LAST_FIRE_EPOCH ))",
+      "fix": "Add || true after $(...) or wrap in if/then"
+    },
+    {
+      "script": "auto-heal.sh",
+      "line": 816,
+      "severity": "medium",
+      "rule": 5,
+      "pattern": "dollar_paren_no_fallback",
+      "snippet": "NOW_EPOCH_31=$(date \"+%s\")",
+      "fix": "Add || true after $(...) or wrap in if/then"
+    },
+    {
+      "script": "auto-heal.sh",
+      "line": 882,
+      "severity": "medium",
+      "rule": 5,
+      "pattern": "dollar_paren_no_fallback",
+      "snippet": "NOW_EPOCH_32=$(date \"+%s\")",
+      "fix": "Add || true after $(...) or wrap in if/then"
+    },
+    {
+      "script": "auto-heal.sh",
+      "line": 1020,
+      "severity": "medium",
+      "rule": 5,
+      "pattern": "dollar_paren_no_fallback",
+      "snippet": "OFFENDER_SUMMARY=$(python3 -c \"\nimport json\nd = json.load(open('$AUDIT_OUTFILE'))\nfor o in d.get('offenders', []):\n    print(f'{o[\\\"cronId\\\"][:8]} {o[\\\"name\\\"][:50]} current={o[\\\"currentTimeout\\\"]}s m",
+      "fix": "Add || true after $(...) or wrap in if/then"
+    },
+    {
+      "script": "auto-heal.sh",
+      "line": 1051,
+      "severity": "medium",
+      "rule": 5,
+      "pattern": "dollar_paren_no_fallback",
+      "snippet": "AUDIT_AGE=$(python3 -c \"\nimport json, os, time\ntry:\n  d = json.load(open('$AUDIT_JSON'))\n  checked = d.get('checkedAt', '')\n  if checked:\n    from datetime import datetime, timezone, timedelta\n    dt ",
+      "fix": "Add || true after $(...) or wrap in if/then"
+    },
+    {
+      "script": "auto-heal.sh",
+      "line": 1132,
+      "severity": "medium",
+      "rule": 5,
+      "pattern": "dollar_paren_no_fallback",
+      "snippet": "base=$(basename \"$md_file\")",
+      "fix": "Add || true after $(...) or wrap in if/then"
+    },
+    {
+      "script": "auto-heal.sh",
+      "line": 1185,
+      "severity": "medium",
+      "rule": 5,
+      "pattern": "dollar_paren_no_fallback",
+      "snippet": "BASELINE_AGE_DAYS=$(python3 -c \"\nimport os, time\nmt = os.path.getmtime('$BASELINE_FILE')\nprint(round((time.time() - mt) / 86400, 1))",
+      "fix": "Add || true after $(...) or wrap in if/then"
+    },
+    {
+      "script": "auto-heal.sh",
+      "line": 1194,
+      "severity": "medium",
+      "rule": 5,
+      "pattern": "dollar_paren_no_fallback",
+      "snippet": "REFRESH_SCRIPT=$(mktemp -t baseline_refresh_XXXXXX.py) || { log \"  ERROR: mktemp failed\"; }",
       "fix": "Add || true after $(...) or wrap in if/then"
     }
   ],
   "summary": {
-    "total_findings": 55,
+    "total_findings": 25,
     "high_severity": 0,
-    "medium_severity": 55,
+    "medium_severity": 25,
     "scripts_affected": [
       "auto-heal.sh"
     ]

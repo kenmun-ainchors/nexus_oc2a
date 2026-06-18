@@ -1,24 +1,30 @@
 {
-    "lastUpdated": "2026-06-17T08:56:58Z",
-    "lastHeartbeat": "2026-06-17T08:56:58Z",
-    "lastChecks": {
-        "taskWatchdog": "2026-06-17T08:56:58Z",
-        "cronHealth": 1781686618,
-        "budgetCheck": "2026-06-17T08:56:58Z",
-        "owlCompliance": "2026-06-17T08:56:58Z",
-        "standbyMode": "2026-06-17T08:56:58Z",
-        "dodValidation": "2026-06-17T08:56:58Z",
-        "taskVerificationAlerts": "2026-06-17T08:56:58Z",
-        "cronDeadLetter": "2026-06-17T08:56:58Z",
-        "chgTriggers": "2026-06-17T08:56:58Z",
-        "costState": "2026-06-17T08:56:58Z",
-        "delegatedAuth": 1781686618,
-        "ariaCrest": 1781686618,
-        "ogm": 1781686618
-    },
-    "notes": [
-        "2026-06-17T08:56:58Z: Heartbeat maintenance \u2014 state refreshed after auto-heal run. Old PG-Notion error cleared via CHG-0608 timeout bump.",
-        "2026-06-17T08:56:58Z: All seed skills normalised to skill-load pointers (CHG-0611).",
-        "2026-06-17T08:56:58Z: Agile + CREST skills approved and live (CHG-0609)."
-    ]
+  "lastUpdated": "2026-06-17T08:56:58Z",
+  "lastHeartbeat": "2026-06-17T08:56:58Z",
+  "lastChecks": {
+    "taskWatchdog": "2026-06-17T08:56:58Z",
+    "cronHealth": 1781686618,
+    "budgetCheck": "2026-06-17T08:56:58Z",
+    "owlCompliance": "2026-06-17T08:56:58Z",
+    "standbyMode": "2026-06-17T08:56:58Z",
+    "dodValidation": "2026-06-17T08:56:58Z",
+    "taskVerificationAlerts": "2026-06-17T08:56:58Z",
+    "cronDeadLetter": "2026-06-17T08:56:58Z",
+    "chgTriggers": "2026-06-17T08:56:58Z",
+    "costState": "2026-06-17T08:56:58Z",
+    "delegatedAuth": 1781686618,
+    "ariaCrest": 1781686618,
+    "ogm": 1781686618,
+    "taskMonitor": {
+      "checked_at": "2026-06-18T18:29:00+10:00",
+      "task_collector": "ok",
+      "stalled_tasks": 0,
+      "alert_sent": false
+    }
+  },
+  "notes": [
+    "2026-06-17T08:56:58Z: Heartbeat maintenance \u2014 state refreshed after auto-heal run. Old PG-Notion error cleared via CHG-0608 timeout bump.",
+    "2026-06-17T08:56:58Z: All seed skills normalised to skill-load pointers (CHG-0611).",
+    "2026-06-17T08:56:58Z: Agile + CREST skills approved and live (CHG-0609)."
+  ]
 }

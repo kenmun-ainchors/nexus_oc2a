@@ -752,3 +752,85 @@ Ken will return with a solution paper from Claude research. Yoda + Atlas + Thraw
 }
 {"status":"closed","closed_at":"2026-06-17T17:31:00+10:00","closed_by":"Yoda","closure_note":"Skill packages approved by Ken. Agile + CREST SKILL.md built, validated, committed, tidy complete. CHG-0609."}
 {"status":"closed","closed_at":"2026-06-17T17:31:00+10:00","closed_by":"Yoda","closure_note":"Skill packages approved by Ken. Agile + CREST SKILL.md built, validated, committed, tidy complete. CHG-0609, CHG-0610, CHG-0611."}
+{
+"title": "Agents loading skills packages from tribal paths instead of canonical seed packages",
+"description": "Gap: agents default to legacy scripts like db-sprint.sh and hard-coded skill paths from MEMORY.md/AGENTS.md rather than the canonical skills packages in infra/sandbox/seed/skills/ (agile, crest, pg-sprint-backlog, changelog, etc.). This causes stale invocations, drift between skill docs and script implementations, and re-introduction of tribal knowledge after skills package work is completed. Need Thrawn to design a permanent agent-facing mechanism to discover, load, and execute skills packages as the SSOT. Also clean up old conflicting code/paths.",
+"status": "open",
+"priority": "critical",
+"type": "task",
+"agent": "thrawn",
+"tags": [
+"skills",
+"tribal-knowledge",
+"pg-sprint-backlog",
+"agile",
+"crest"
+],
+"metadata": {
+"created_by": "yoda",
+"reason": "Ken requested permanent fix after observing Yoda used legacy db-sprint.sh instead of agile skills package"
+},
+"id": "TKT-0535",
+"created_at": "2026-06-17T18:52:53+10:00"
+}
+{
+"status": "done"
+}
+{"status":"done"}
+{
+"grooming_history": [
+{
+"at": "2026-06-18T05:13:00+10:00",
+"note": "Ken confirmed: work/context does not carry across sessions; explicit commit required. TKT-0535 created as follow-up to close canonical-loader gap. TKT-0534 now acks gap and links to TKT-0535."
+}
+]
+}
+{
+"grooming_history": [
+{
+"at": "2026-06-18T05:13:00+10:00",
+"note": "Ken confirmed: work/context does not carry across sessions; explicit commit required. TKT-0535 created as follow-up to close canonical-loader gap. TKT-0534 now acks gap and links to TKT-0535."
+}
+]
+}
+{
+"status": "closed"
+}
+{
+"status": "closed"
+}
+{
+"status": "closed"
+}
+{
+"status": "closed"
+}
+{
+"status": "done"
+}
+{
+"notion_sync": {
+"status": "pending"
+}
+}
+{
+"status": "done"
+}
+{
+"status": "closed"
+}
+{
+"status": "closed"
+}
+{
+"status": "closed"
+}
+{
+"status": "closed"
+}
+{
+"status": "closed",
+"resolution": "completed"
+}
+{"status":"open"}
+{"status":"open"}

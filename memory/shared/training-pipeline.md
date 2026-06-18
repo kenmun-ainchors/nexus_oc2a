@@ -31,6 +31,11 @@ _For Aria 🔵 & the Spark content engine | Ideas from daily platform work that 
 | TC-214 | I tried to jail my AI. The guard didn't exist. | 💡 idea | 2026-06-17 | CHG-0608/0609 — CREST §6 tools.deny experiment, discipline-based governance |
 | TC-215 | 37 files, 3,647 lines removed: git commit as progress, not mess | 💡 idea | 2026-06-17 | CHG-0611 — tribal knowledge evicted from agent files, skill-load pointers installed |
 | TC-216 | Model swap: 1 GPU tier down, same output | 💡 idea | 2026-06-17 | CHG-0621 — deepseek-v4-pro → kimi-k2.7-code trial, cost vs capability matching |
+| TC-217 | Your subagent said it's done. The git log says otherwise. | 💡 idea | 2026-06-18 | L-151 — subagent verification trap, completion events ≠ evidence |
+| TC-218 | The UPSERT that wasn't: Postgres check constraints silently swallow your update | 💡 idea | 2026-06-18 | L-155 — db-write.sh UPSERT fix, INSERT ON CONFLICT check constraint trap |
+| TC-219 | The missing edge: why verified tasks stalled at 99% complete | 💡 idea | 2026-06-18 | L-156 — SUB_CREST_TRANSITIONS verified→terminal edge fix |
+| TC-220 | Don't yield the session: why waiting for a 3-second subagent cost 30 seconds | 💡 idea | 2026-06-18 | L-148 — sessions_yield anti-pattern for short subagent timeouts |
+| TC-221 | The old-code audit that found 0 hardcoded paths | 💡 idea | 2026-06-18 | TKT-0529 A7 Bundle 4 — systematic hardcoded path removal, 4 regression suites |
 
 _Statuses: 💡 idea → ✍️ draft → ✅ scheduled → 📤 published_
 

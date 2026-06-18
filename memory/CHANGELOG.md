@@ -169,6 +169,110 @@ Both reference canonical docs in `references/` and load via `scripts/skill-load.
 ---
 ---
 
+## 2026-06-18 16:40 AEST — [CHG-0639] wrapper test
+**Type:** rule
+**Change Type:** Normal
+**Source:** ken-prompt
+**Trigger:** TKT-0535 regression
+**What changed:** Verified run-changelog wrapper auto-loads skill.
+**Why:** Regression test
+**Verification:** Test
+**Rollback:** N/A
+**Linked:** none
+---
+
+
+## 2026-06-18 16:40 AEST — [CHG-0638] gate test pass
+**Type:** rule
+**Change Type:** Normal
+**Source:** ken-prompt
+**Trigger:** TKT-0535 regression
+**What changed:** Verified gate passes after skill-load.
+**Why:** Regression test
+**Verification:** Test
+**Rollback:** N/A
+**Linked:** none
+---
+
+
+## 2026-06-18 14:53 AEST — [CHG-0637] wrapper test
+**Type:** rule
+**Change Type:** Normal
+**Source:** ken-prompt
+**Trigger:** TKT-0535 regression
+**What changed:** Verified run-changelog wrapper auto-loads skill.
+**Why:** Regression test
+**Verification:** Test
+**Rollback:** N/A
+**Linked:** none
+---
+
+
+## 2026-06-18 14:53 AEST — [CHG-0636] gate test pass
+**Type:** rule
+**Change Type:** Normal
+**Source:** ken-prompt
+**Trigger:** TKT-0535 regression
+**What changed:** Verified gate passes after skill-load.
+**Why:** Regression test
+**Verification:** Test
+**Rollback:** N/A
+**Linked:** none
+---
+
+
+## 2026-06-18 14:49 AEST — [CHG-0635] wrapper test
+**Type:** rule
+**Change Type:** Normal
+**Source:** ken-prompt
+**Trigger:** TKT-0535 regression
+**What changed:** Verified run-changelog wrapper auto-loads skill.
+**Why:** Regression test
+**Verification:** Test
+**Rollback:** N/A
+**Linked:** none
+---
+
+
+## 2026-06-18 14:49 AEST — [CHG-0634] gate test pass
+**Type:** rule
+**Change Type:** Normal
+**Source:** ken-prompt
+**Trigger:** TKT-0535 regression
+**What changed:** Verified gate passes after skill-load.
+**Why:** Regression test
+**Verification:** Test
+**Rollback:** N/A
+**Linked:** none
+---
+
+
+## 2026-06-18 14:45 AEST — [CHG-0633] wrapper test
+**Type:** rule
+**Change Type:** Normal
+**Source:** ken-prompt
+**Trigger:** TKT-0535 regression
+**What changed:** Verified run-changelog wrapper auto-loads skill.
+**Why:** Regression test
+**Verification:** Test
+**Rollback:** N/A
+**Linked:** none
+---
+
+
+## 2026-06-18 14:45 AEST — [CHG-0632] gate test pass
+**Type:** rule
+**Change Type:** Normal
+**Source:** ken-prompt
+**Trigger:** TKT-0535 regression
+**What changed:** Verified gate passes after skill-load.
+**Why:** Regression test
+**Verification:** Test
+**Rollback:** N/A
+**Linked:** none
+---
+
+
 ## 2026-06-18 08:13 AEST — [CHG-0631] Old-code audit remediation policy locked into CREST and Agile skills
 **Type:** rule
 **Change Type:** Normal
