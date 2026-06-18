@@ -14,11 +14,19 @@
 
 ---
 
+## L-152 — 2026-06-18 | Subagent Completion Events
+**Lesson:** A subagent completion event can arrive with an empty or truncated `child result` (0 tokens out, no meaningful content). This happened during TKT-0529 Bundle 3 B3.7 — the announcement provided no actionable evidence. Relying on the event alone would have falsely marked the atom complete.
+**Rule:** Always treat completion-event text as a notification, not proof. The parent agent must run independent `git status`, `git diff`, and verification commands before accepting any subatom. If the completion event is empty, still verify; if the workspace does not match expectations, re-dispatch.
+**Scope of fix:** Re-verified B3.7 by running `git status --short`, `git diff --stat`, `zsh -n`, and `bash scripts/auto-heal.sh --dry-run` directly in the main session. Found the changes were present and correct.
+**Source:** TKT-0529 A7 Bundle 3 B3.7 subagent completion event, 2026-06-18.
+
+---
+
 # LESSONS.md — Yoda Lessons Learned Log
 # AInchors Nexus Platform
 # Format: L-NNN | Date | Category | Lesson | Source incident/CHG
 # SSOT for all platform learnings. Updated as new lessons are logged.
-# Last updated: 2026-06-17
+# Last updated: 2026-06-18
 
 ## L-030 — 2026-05-13 | Key Management / Diagnostics
 **Lesson:** macOS Keychain entries for the Anthropic API key diverge from the gateway's actual key after rotation. The gateway uses `agents/main/agent/auth-profiles.json` — NOT the keychain. Diagnostic scripts using keychain directly will return 401 false alarms after every key rotation.
