@@ -35,63 +35,6 @@
       "marked_at": "2026-06-13T09:55:00+10:00"
     },
     {
-      "id": "task-2026-06-10-074258ca",
-      "title": "CREST Test Master",
-      "tier": 1,
-      "status": "pending",
-      "priority": "medium",
-      "source": "",
-      "relatedChg": "",
-      "atoms": [
-        {
-          "id": 1,
-          "description": "Plan",
-          "status": "pending"
-        },
-        {
-          "id": 2,
-          "description": "Dispatch",
-          "status": "pending"
-        },
-        {
-          "id": 3,
-          "description": "Verify",
-          "status": "pending"
-        },
-        {
-          "id": 4,
-          "description": "Synthesize",
-          "status": "pending"
-        }
-      ],
-      "createdAt": "2026-06-10T05:23:19.184848",
-      "updatedAt": "2026-06-10T05:23:19.184848"
-    },
-    {
-      "id": "task-2026-06-10-dedb4699",
-      "title": "Sub-CREST Child",
-      "tier": 2,
-      "status": "pending",
-      "priority": "medium",
-      "source": "",
-      "relatedChg": "",
-      "atoms": [
-        {
-          "id": 1,
-          "description": "Execute",
-          "status": "pending"
-        },
-        {
-          "id": 2,
-          "description": "Verify",
-          "status": "pending"
-        }
-      ],
-      "createdAt": "2026-06-10T05:23:23.089748",
-      "updatedAt": "2026-06-10T05:23:23.089748",
-      "parentTaskId": "task-2026-06-10-074258ca"
-    },
-    {
       "id": "task-2026-06-10-f9504783",
       "title": "CREST Smoke Test: Verify atom-validate.sh integration",
       "tier": 1,
@@ -203,53 +146,9 @@
       "cancelled_reason": "L-095: queued to JSON only; TQP reads PG. Re-queued to PG state_task_queue.",
       "cancelled_at": "2026-06-13T09:55:00+10:00",
       "pg_task_id": "TKT-0503-A5"
-    },
-    {
-      "atom_id": "TKT-0503-A6",
-      "tkt": "TKT-0503",
-      "seq": 6,
-      "ac": "AC6",
-      "title": "CHECK 28b: TKT-0339 SCALER FLAG auto-apply if open > 7d [PENDING APPROVAL]",
-      "type": "infra-script",
-      "depends_on": [
-        "TKT-0503-A1",
-        "TKT-0503-A2",
-        "TKT-0503-A3",
-        "TKT-0503-A4",
-        "TKT-0503-A5"
-      ],
-      "status": "pending-approval",
-      "agent": "forge",
-      "model": "flash",
-      "effort": "M",
-      "pass_condition": "TKT-0339 has 48 cron timeout recommendations in state/cron-timeout-baseline.json. After 7 days un-actioned, CHECK 28b auto-applies them via cron-update.sh. Obs.db cron_run_fail count from timeout-baseline recommendations drops to 0.",
-      "queued_at": "2026-06-13T09:19:24+10:00",
-      "task": "## TKT-0503 Atom A6: CHECK 28b \u2014 TKT-0339 SCALER FLAG auto-apply\n\n**Dependencies:** TKT-0503-A1 through A5 (Phase 1 must complete first for noise floor)\n**Pass condition:** TKT-0339 timeout recommendations auto-applied after 7d no-action\n**Status:** pending-approval (Ken directive required \u2014 mutates cron timeouts)\n\n### Root cause\nTKT-0339 has been open since 2026-06-09 with 48 cron timeout recommendations in state/cron-timeout-baseline.json. Flagged as 'SCALER FLAG ONLY' meaning no human decision needed \u2014 just apply when safe. But never actioned. 53 NEEDS_KEN events over 7 days.\n\n### Changes (in scripts/auto-heal.sh, new CHECK 28b):\n1. Read state/cron-timeout-baseline.json \u2014 extract 48 taskClasses recommendations\n2. Check TKT-0339 status in PG: if status NOT IN ('closed', 'done') for > 7 days\n3. Auto-execute: for each taskClass, run `bash scripts/cron-update.sh <jobId> --timeout <newValue>` (existing script, verified)\n4. Verify each timeout change took effect\n5. Mark TKT-0339 as 'done' with resolution: 'Auto-applied per CHECK 28b (CHG-XXXX)'\n6. Emit INFO event 'tkt_0339_auto_applied' with 48 cron IDs\n7. Notify Ken via sovereign-alert.sh (Telegram): 'TKT-0339 auto-applied \u2014 review via obs.db or Notion'\n\n### Safety:\n- Only fires if TKT-0339 still open AND > 7d old\n- Backs up current cron config to state/cron-timeout-baseline.backup-$(date).json BEFORE applying\n- Dry-run mode (env CRON_DRY_RUN=1) shows what would change without applying\n- Rollback: `bash scripts/cron-update.sh <jobId> --timeout <oldValue>` for each\n- Telegram notification BEFORE mutation (so Ken can intervene)\n\n### Verify (after approval):\n- Set TKT-0339 createdAt to 8 days ago (test fixture)\n- Set CRON_DRY_RUN=1, run auto-heal \u2192 shows 48 changes\n- Unset CRON_DRY_RUN, run auto-heal \u2192 48 cron timeouts updated\n- TKT-0339 status=closed with resolution\n- Telegram alert received\n\nWrite scope: scripts/auto-heal.sh (CHECK 28b), state/cron-timeout-baseline.json backup, PG update on TKT-0339.\n\n**Ken approval required before execution.** This atom is queued as 'pending-approval' and will not execute until you say 'approve A6' (or similar).\n"
-    },
-    {
-      "atom_id": "TKT-0503-A7",
-      "tkt": "TKT-0503",
-      "seq": 7,
-      "ac": "AC7",
-      "title": "NODE_OPTIONS=6144 in gateway LaunchAgent + threshold ratchet [PENDING APPROVAL]",
-      "type": "infra-script",
-      "depends_on": [
-        "TKT-0503-A1",
-        "TKT-0503-A2",
-        "TKT-0503-A3",
-        "TKT-0503-A4",
-        "TKT-0503-A5"
-      ],
-      "status": "pending-approval",
-      "agent": "forge",
-      "model": "pro",
-      "effort": "S",
-      "pass_condition": "gateway LaunchAgent has NODE_OPTIONS=--max-old-space-size=6144. Obs collector memory threshold ratcheted to 5GB warn / 6GB critical for 24GB OC1. unhandled_rejection count drops from 384/week to < 10/week.",
-      "queued_at": "2026-06-13T09:19:24+10:00",
-      "task": "## TKT-0503 Atom A7: NODE_OPTIONS + threshold ratchet\n\n**Dependencies:** Phase 1 (A1-A5) for noise floor\n**Pass condition:** Memory pressure events drop by > 95%\n**Status:** pending-approval (Ken directive required \u2014 gateway restart)\n**Model:** pro (gateway restart is prod-mutating, use strong model for judgment)\n\n### Root cause\nOpenClaw gateway runs Node.js 26 with default heap limit ~4GB. OC1 has 24GB RAM, safe to allocate 6GB. Currently: 384 unhandled_rejection events in 7 days (55/day) due to RSS exceeding hardcoded 3GB threshold in obs-collector CHECK E.\n\n### Changes:\n1. EDIT /Users/ainchorsangiefpl/Library/LaunchAgents/ai.openclaw.gateway.plist:\n   - Add EnvironmentVariables dict: { NODE_OPTIONS: '--max-old-space-size=6144' }\n   - Backup original to ai.openclaw.gateway.plist.bak-$(date)\n2. RELOAD LaunchAgent:\n   - launchctl bootout gui/$(id -u)/ai.openclaw.gateway (or unload)\n   - launchctl bootstrap gui/$(id -u) ~/Library/LaunchAgents/ai.openclaw.gateway.plist (or load)\n   - Wait 30s for restart\n   - Verify: curl http://127.0.0.1:18789/ returns 200\n3. RATCHET obs-collector CHECK E threshold (scripts/obs-collector.sh around line 215):\n   - Current: `rss > 3221225472` (3GB)\n   - New: rss > 5368709120 (5GB) = WARN, rss > 6442450944 (6GB) = CRITICAL\n   - Log CRITICAL events as ERROR (not WARN) so they page Ken\n4. Verify with sample stability file: should no longer trigger\n\n### Safety:\n- Pre-check: confirm OC1 has >= 8GB free RAM (`vm_stat | awk '/free/ {print $3}'`)\n- Atomic swap: use launchctl bootout/bootstrap to avoid restart gap > 30s\n- Rollback plan: cp ai.openclaw.gateway.plist.bak-* ai.openclaw.gateway.plist && launchctl bootstrap\n- Telegram flash to Ken: 'Gateway restart beginning' \u2192 'Gateway back up, memory fix live'\n- Schedule during low-traffic: 22:00 AEST if Ken approves evening, else 09:00 AEST next day\n\n### Verify (after approval):\n- launchctl list | grep gateway shows loaded\n- ps aux | grep openclaw shows NODE_OPTIONS env var\n- Tail gateway.err.log for 1h: no new 'memory.pressure.critical' lines\n- Obs.db unhandled_rejection in 24h < 5 (was 55-118/day)\n\nWrite scope: ~/Library/LaunchAgents/ai.openclaw.gateway.plist, scripts/obs-collector.sh (CHECK E threshold).\n\n**Ken approval required before execution.** This atom is queued as 'pending-approval' and will not execute until you say 'approve A7' (or similar). Recommend running during low-traffic window.\n"
     }
   ],
-  "lastUpdated": "2026-06-12T07:56:42.460450",
+  "lastUpdated": "2026-06-19T11:33:27.860057+00:00",
   "_tkt_0503_dispatch": {
     "dispatched_at": "2026-06-13T09:18:00+10:00",
     "dispatched_by": "Yoda",

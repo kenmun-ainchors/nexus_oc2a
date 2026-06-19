@@ -169,6 +169,19 @@ Both reference canonical docs in `references/` and load via `scripts/skill-load.
 ---
 ---
 
+## 2026-06-19 21:33 AEST — [CHG-0657] TKT-0409 D3: Fix state/task-queue.json ↔ PG divergence blocking watchdog
+**Type:** script
+**Change Type:** Normal
+**Source:** ken-prompt
+**Trigger:** TKT-0319 Atom 6 complete. Ken asked at 2026-06-19 21:31 AEST to fix the pre-existing divergence that caused task-watchdog.sh to exit before JSON stall checks.
+**What changed:** Updated scripts/task-watchdog.sh divergence checker to follow CHG-0530 semantics: state/task-queue.json is audit-trail only; PG is source of truth. The checker now treats JSON-only rows with statuses historical-orphan / cancelled-orphaned / legacy as expected legacy drift, ignores PG rows missing from JSON, and only fails on active-status mismatches or active JSON-only rows missing in PG. Also updated the JSON stall checks to skip historical-orphan, cancelled-orphaned, and legacy statuses. Created scripts/clean-task-queue-json-legacy.sh to move JSON-only rows with no PG counterpart into state/task-queue-legacy-archive.json and mark them historical-orphan. Ran it: 4 rows archived, 8 rows kept.
+**Why:** After moving the resume detector before the divergence check in TKT-0319 Atom 3, the divergence still caused task-watchdog.sh to exit 1 and never run the JSON stall checks. The drift was mostly expected legacy traceability from CHG-0530, not a live failure. Making the checker aware of that semantics unblocks the stall checks while preserving alerts for real active-status mismatches.
+**Verification:** task-watchdog.sh now exits 0: 'All 8 task(s) healthy'. The 14 legacy stall alerts disappeared. Resume-detector, TQP resume-executor, and main-session resume regression tests still pass (5/5, 11/11, 6/6).
+**Rollback:** Revert scripts/task-watchdog.sh divergence and stall-check blocks to pre-fix versions, restore the original state/task-queue.json from backup, and delete scripts/clean-task-queue-json-legacy.sh + state/task-queue-legacy-archive.json.
+**Linked:** TKT-0409, TKT-0319, CHG-0530
+---
+
+
 ## 2026-06-19 21:29 AEST — [CHG-0656] TKT-0319 Atom 6: End-to-end resume simulation
 **Type:** script
 **Change Type:** Normal

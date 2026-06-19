@@ -188,39 +188,56 @@ for ln in pg_lines:
     if len(parts) == 2:
         pg_view[parts[0]] = parts[1]
 
-# Compare
-mismatches = []
-missing_in_pg = []
-missing_in_json = []
-
 # Normalize status mapping: JSON uses 'verified' as terminal, PG uses 'complete'/'done'
 # Map: verified → complete, pending → queued
 norm = {"verified": "complete", "pending": "queued", "claimed": "dispatched"}
 
+# Compare JSON view to PG view.
+# CHG-0530: state/task-queue.json is audit-trail only; PG is source of truth.
+# Therefore:
+#   - JSON rows with status 'historical-orphan' or 'cancelled-orphaned' are
+#     expected to have no PG counterpart. They are legacy traceability, not divergence.
+#   - PG rows missing from JSON are expected (JSON is not a full mirror).
+#   - Fatal divergence = active-status mismatch for an ID present in both, or
+#     a JSON row with an active status that is absent from PG.
+HISTORICAL_STATUSES = {"historical-orphan", "cancelled-orphaned", "legacy"}
+
+mismatches = []
+json_only_active = []
+legacy_only = []
+
 for jid, jstatus in json_view.items():
-    jnorm = norm.get(jstatus, jstatus)
+    if jstatus in HISTORICAL_STATUSES:
+        legacy_only.append(f"{jid}:json={jstatus}")
+        continue
     if jid not in pg_view:
-        missing_in_pg.append(jid)
+        json_only_active.append(f"{jid}:json={jstatus}")
     else:
         pgstatus = pg_view[jid]
+        jnorm = norm.get(jstatus, jstatus)
         pgnorm = norm.get(pgstatus, pgstatus)
-        # Mismatch only if normalized statuses differ AND neither side is 'unknown'
         if jnorm != pgnorm and "unknown" not in (jnorm, pgnorm):
             mismatches.append(f"{jid}:json={jstatus}->pg={pgstatus}")
 
-for pgid in pg_view:
-    if pgid not in json_view:
-        missing_in_json.append(pgid)
+# missing_in_json is expected for an audit trail; track for info only
+missing_in_json = [pgid for pgid in pg_view if pgid not in json_view]
 
-if mismatches or missing_in_pg or missing_in_json:
+if mismatches or json_only_active:
     parts = []
     if mismatches:
         parts.append(f"mismatches={';'.join(mismatches)}")
-    if missing_in_pg:
-        parts.append(f"missing_in_pg={','.join(missing_in_pg[:10])}")
+    if json_only_active:
+        parts.append(f"json_only_active={','.join(json_only_active[:10])}")
+    if legacy_only:
+        parts.append(f"legacy_only={len(legacy_only)}")
     if missing_in_json:
-        parts.append(f"missing_in_json={','.join(missing_in_json[:10])}")
+        parts.append(f"missing_in_json={len(missing_in_json)}")
     print("DIVERGENCE|" + "|".join(parts))
+    sys.exit(1)
+
+if legacy_only or missing_in_json:
+    # Non-fatal expected drift. Report it but allow stall checks to run.
+    print(f"OK|expected_drift|legacy_only={len(legacy_only)}|missing_in_json={len(missing_in_json)}")
     sys.exit(0)
 
 print("OK|cross_check_passed")
@@ -288,9 +305,10 @@ for task_id, t in entries.items():
     last_checkpoint  = t.get("lastCheckpoint", "")
     status           = t.get("status", "unknown")
 
-    # Skip tasks that are intentionally paused or terminal
+    # Skip tasks that are intentionally paused, terminal, or audit-trail legacy
     if status in ("waiting_ken", "waiting_approval", "cancelled", "completed",
-                  "verified", "complete", "done", "closed", "sub_crest_done"):
+                  "verified", "complete", "done", "closed", "sub_crest_done",
+                  "historical-orphan", "cancelled-orphaned", "legacy"):
         continue
 
     # ── Check 1: Stalled tasks (no update in >30 min) ────────────────────────
