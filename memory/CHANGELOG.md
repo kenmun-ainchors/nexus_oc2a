@@ -169,6 +169,19 @@ Both reference canonical docs in `references/` and load via `scripts/skill-load.
 ---
 ---
 
+## 2026-06-19 23:07 AEST — [CHG-0674] CHG-0674: Raise TKT-0541 and lock SOUL/AGENTS hygiene review into Sprint Review + QBR
+**Type:** rule
+**Change Type:** Normal
+**Source:** ken-prompt
+**Trigger:** Ken directive 2026-06-19 23:07 AEST: raise a ticket for the three SOUL/AGENTS hygiene actions and lock the review work to sprint review and QBR triggers.
+**What changed:** Created TKT-0541 in Sprint 10 under EPIC TKT-0342 with tags pg-ssot/docs-hygiene/crest-debt. Added acceptance criteria: semantic review pass on Yoda/Aria/Spark/Ahsoka; resolve duplicate agent directories; add auto-heal / file-size-guard hygiene check. Updated HEARTBEAT.md with new 'SOUL / AGENTS Hygiene Gate (sprint review + QBR)' check referencing TKT-0541. Synced TKT-0541 to Notion.
+**Why:** Without a scheduled trigger, the SOUL/AGENTS boundary will drift and rule creep will re-enter SOUL.md. Anchoring the review to Sprint Review and QBR makes it a recurring governance gate.
+**Verification:** PG query: TKT-0541 exists with sprint='Sprint 10', epic='TKT-0342', tags populated, notionpageid set. HEARTBEAT.md updated with new gate.
+**Rollback:** DELETE TKT-0541 from state_tickets; revert HEARTBEAT.md edit.
+**Linked:** TKT-0541, TKT-0342, CHG-0673, HEARTBEAT.md
+---
+
+
 ## 2026-06-19 22:57 AEST — [CHG-0673] CHG-0673: Refactor all agent SOUL.md / AGENTS.md — rules out of SOUL, identity + hard limits in SOUL
 **Type:** rule
 **Change Type:** Normal

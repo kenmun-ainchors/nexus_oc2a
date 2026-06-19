@@ -104,6 +104,13 @@
 ### Memory Maintenance (once per day, low-traffic hours)
 - Review daily memory files, update MEMORY.md, git commit
 
+### SOUL / AGENTS Hygiene Gate (sprint review + QBR) — TKT-0541
+- Run: `bash scripts/soul-agents-hygiene-check.sh` (script to be delivered under TKT-0541).
+- Check: every agent `SOUL.md` ≤ 5K chars; every active agent has a corresponding `AGENTS.md`; flag rule-creep moved back into SOUL.
+- Gate: blocked if any SOUL > 5K or missing AGENTS.md for an active runtime agent.
+- Runs automatically at Sprint Review and QBR ceremonies.
+- State key: lastChecks.soulAgentsHygiene
+
 ### End-of-Day Close
 🚫 HEARTBEAT NEVER TOUCHES EOD. Journal (4d926b2c), Blog (a027fd60), Drive (c5a3911d) — all cron-owned.
 
