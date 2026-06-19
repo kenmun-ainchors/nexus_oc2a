@@ -21,7 +21,7 @@ agent_to_role() {
   local agent="$1"
   case "$agent" in
     main)            echo "yoda_master" ;;
-    business)        echo "yoda_master" ;;  # Aria uses yoda_master for now
+    business)        echo "business" ;;  # Aria — business role (CREST v1.3)
     architect)       echo "design_backend" ;;
     platform-arch)   echo "design_backend" ;;
     biz-process)     echo "design_backend" ;;
