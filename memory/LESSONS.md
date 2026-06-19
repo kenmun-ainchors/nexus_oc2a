@@ -1,3 +1,13 @@
+## L-158 — Live status values can contain underscores; status maps must list every canonical variant
+**Date:** 2026-06-19
+**Source:** WO-002 divergence alert (TKT-0536 missing in shadow).
+**Lesson:** A status map that maps `in-progress` (hyphen) but not `in_progress` (underscore) will silently skip every live ticket with the underscore form. Lower-casing is not enough — the map must enumerate the actual canonical values used in the source of truth (PG `state_tickets.status`). Live data always wins over the map; when they disagree, the mirror falls behind and divergence alerts fire.
+**Fix:** Added `in_progress` alias to `plan_map` and `atom_map` in `workspace-infra/state/status-map.json`, plus `_PLAN_STATUS_MAP` and `_ATOM_STATUS_MAP` in `controller/observer/status_map.py`. Restarted `com.ainchors.mirror-writer` LaunchAgent. TKT-0536 synced on next cycle.
+**Evidence:** Mirror writer log changed from `upserted=336 skipped=1` to `upserted=337 skipped=0` after restart. CHG-0645.
+**Prevention:** Whenever a new status value is introduced in PG, add it to the mirror status map before any ticket uses it. Include both hyphen and underscore variants if either could exist. Treat unmapped statuses as hard failures in the writer so they surface immediately, not as silent skips.
+
+---
+
 ## L-157 — Derived state snapshots are policy sources, not policy targets
 **Date:** 2026-06-19
 **Source:** BUDS [Tech] re-surfaced TKT-0336 (tilde-path violation) and TKT-0339 (13 stale cron timeout recommendations).

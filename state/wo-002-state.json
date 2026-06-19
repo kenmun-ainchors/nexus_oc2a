@@ -2,11 +2,11 @@
   "wo_id": "WO-002",
   "status": "in_progress",
   "started": "2026-06-08T20:46:00+10:00",
-  "last_divergence_check": "2026-06-15T18:40:29+10:00",
-  "divergence_status": "GREEN",
-  "last_alert": null,
-  "last_alert_summary": "2026-06-15 18:40 AEST \u2014 CLEAN: 700/700 match, 0 unexplained.",
-  "last_alert_resolution": "Resolved by Yoda 2026-06-15 18:40 AEST: (1) status_map.py patched with deferred+parked, (2) mirror writer plist DSN fixed nexus_sandbox\u2192nexus_mirror, (3) status-map.json patched with deferred. Mirror writer now syncing to correct DB, 0 skipped.",
+  "last_divergence_check": "2026-06-19T12:20:00+10:00",
+  "divergence_status": "AMBER",
+  "last_alert": "2026-06-19T09:00:00+10:00",
+  "last_alert_summary": "2026-06-19 09:00 AEST \u2014 1 unexplained (TKT-0536 missing in shadow). Root cause: status map lacked in_progress (underscore).",
+  "last_alert_resolution": "Resolved 2026-06-19 12:18 AEST: added in_progress alias to status-map.json and status_map.py, restarted mirror writer. TKT-0536 now synced (mirror writer upserted=337 skipped=0). Re-run then revealed 40 extra shadow rows from historical seed artifacts not in live DB (mirror writer does not delete removed tickets).",
   "tasks": {
     "W2-1": {
       "status": "done",
@@ -49,5 +49,8 @@
   },
   "artifacts": {
     "divergence_report_2026_06_15": "state/divergence-report-2026-06-15.json"
+  },
+  "fixes_applied_2026_06_19": {
+    "in_progress_status_map": "Added in_progress keys to plan_map and atom_map; patched status_map.py in both locations; restarted mirror writer"
   }
 }

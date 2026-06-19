@@ -169,6 +169,33 @@ Both reference canonical docs in `references/` and load via `scripts/skill-load.
 ---
 ---
 
+## 2026-06-19 12:18 AEST — [CHG-0645] WO-002: add in_progress underscore variant to mirror status maps
+**Type:** config
+**Change Type:** Normal
+**Source:** ken-prompt
+**Trigger:** Ken approved 2026-06-19 12:15 AEST. WO-002 divergence alert reported 1 unexplained (TKT-0536 missing in shadow). Root cause: mirror writer skipped TKT-0536 because live PG status is in_progress (underscore) but status maps only defined in-progress (hyphen).
+**What changed:** EDIT workspace-infra/state/status-map.json: added in_progress keys to plan_map (executing) and atom_map (running). EDIT workspace-infra/.openclaw/tmp/nexus-controller/controller/observer/status_map.py and nexus-controller-runner/_work/.../status_map.py: added in_progress aliases to _PLAN_STATUS_MAP and _ATOM_STATUS_MAP. Restarted com.ainchors.mirror-writer LaunchAgent.
+**Why:** The mirror writer treats any unmapped live status as C1 FIELD_MISMATCH and skips the ticket. in_progress is a valid live status used by TKT-0536. Without the alias, the shadow mirror fell behind live by one ticket, breaking the WO-002 7-day divergence clock.
+**Verification:** Mirror writer log after restart: upserted=337 skipped=0. Divergence harness re-run: missing=0 for TKT-0536. However, the harness now reports 40 extra shadow rows from historical seed artifacts (separate issue).
+**Rollback:** Remove in_progress keys from status-map.json and status_map.py; restart mirror writer.
+**Linked:** WO-002, TKT-0536, CHG-0614
+---
+
+
+## 2026-06-19 11:21 AEST — [CHG-0644] PG-Notion integrity cleanup: malformed ticket IDs
+**Type:** data
+**Change Type:** Normal
+**Source:** ken-prompt
+**Trigger:** WO-002 divergence alert: 5 recommended actions flagged duplicate/orphan/missing pages
+**What changed:** Deleted 20 malformed state_tickets.id rows (8 PG-only deletions preserving shared Notion pages, 12 PG deletions + 9 Notion page archives; 3 pages already archived). Canonical TKT-0336/0339/0340/0341/0369 Notion pages preserved. Ran pg-to-notion-sync.sh --batch: nothing to do.
+**Why:** Malformed IDs prevented sync, created false orphan/missing/duplicate signals, and corrupted SSOT
+**Verification:** Post-cleanup malformed count = 0; canonical pages preserved; batch sync reports all tickets synced; integrity audit pass with PG=337, Notion active=100
+**Rollback:** Restore from PG backup if available; otherwise manual re-insertion from .openclaw/tmp/chg-0644-cleanup-result.json
+**Linked:** WO-002, TKT-0406
+**State:** Completed
+---
+
+
 ## 2026-06-19 11:19 AEST — [CHG-0643] TKT-0339: apply 9 timeout DECREASEs and raise 2 REVIEW crons to 450s
 **Type:** cron
 **Change Type:** Normal
