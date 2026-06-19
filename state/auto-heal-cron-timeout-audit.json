@@ -1,18 +1,11 @@
 {
-  "checkedAt": "2026-06-19T02:53:30Z",
+  "checkedAt": "2026-06-19T08:10:20Z",
   "offenders": [
     {
       "cronId": "c69615bb-e8cb-4456-8b78-a9ec2ec89195",
       "name": "yoda-context-brief-refresh (2pm + 8pm AEST)",
       "currentTimeout": 52,
       "model": "ollama/kimi-k2.6:cloud",
-      "suggestedTimeout": 120
-    },
-    {
-      "cronId": "f71f75af-dac7-4b6a-9b6e-9f43626b19a5",
-      "name": "Daily Workspace Backup",
-      "currentTimeout": 47,
-      "model": "ollama/minimax-m3:cloud",
       "suggestedTimeout": 120
     },
     {
@@ -23,7 +16,7 @@
       "suggestedTimeout": 120
     }
   ],
-  "offenderCount": 3,
+  "offenderCount": 2,
   "live": true,
   "baseline": false
 }
