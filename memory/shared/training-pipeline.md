@@ -36,6 +36,11 @@ _For Aria 🔵 & the Spark content engine | Ideas from daily platform work that 
 | TC-219 | The missing edge: why verified tasks stalled at 99% complete | 💡 idea | 2026-06-18 | L-156 — SUB_CREST_TRANSITIONS verified→terminal edge fix |
 | TC-220 | Don't yield the session: why waiting for a 3-second subagent cost 30 seconds | 💡 idea | 2026-06-18 | L-148 — sessions_yield anti-pattern for short subagent timeouts |
 | TC-221 | The old-code audit that found 0 hardcoded paths | 💡 idea | 2026-06-18 | TKT-0529 A7 Bundle 4 — systematic hardcoded path removal, 4 regression suites |
+| TC-222 | Your AI's identity crisis: when SOUL.md is 5KB of rules and 0KB of personality | 💡 idea | 2026-06-19 | CHG-0673 — 17-agent SOUL.md refactor, rules→AGENTS.md migration |
+| TC-223 | 32 tickets, 3 waves, 1 EPIC: organising a platform migration without losing your mind | 💡 idea | 2026-06-19 | CHG-0672 — PG SSOT EPIC TKT-0342, Sprint 9-11 wave planning |
+| TC-224 | The test ticket that cost $50 in tokens: test data lifecycle management | 💡 idea | 2026-06-19 | CHG-0669 — TKT-9999/9998 deletion, production context pollution |
+| TC-225 | 100% sprint completion is a choice: deferring vs forcing work into closing sprints | 💡 idea | 2026-06-19 | CHG-0671 — Sprint 8 15/15 close, TKT-0293/0326 deferred to Sprint 10 |
+| TC-226 | Model drift is real: 3 files disagreed on what model Atlas should use | 💡 idea | 2026-06-19 | Thrawn dispatch review — SKILL.md vs model-policy vs CREST mismatch |
 
 _Statuses: 💡 idea → ✍️ draft → ✅ scheduled → 📤 published_
 

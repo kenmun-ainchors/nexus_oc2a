@@ -4,24 +4,6 @@
   "sloTarget": 0.995,
   "events": [
     {
-      "ts": "2026-06-16T23:07:12.819034+00:00",
-      "status": "ok",
-      "consecutiveFailures": 0,
-      "issues": []
-    },
-    {
-      "ts": "2026-06-16T23:12:11.967084+00:00",
-      "status": "ok",
-      "consecutiveFailures": 0,
-      "issues": []
-    },
-    {
-      "ts": "2026-06-16T23:17:16.326185+00:00",
-      "status": "ok",
-      "consecutiveFailures": 0,
-      "issues": []
-    },
-    {
       "ts": "2026-06-16T23:22:13.020474+00:00",
       "status": "ok",
       "consecutiveFailures": 0,
@@ -4322,14 +4304,32 @@
       "status": "ok",
       "consecutiveFailures": 0,
       "issues": []
+    },
+    {
+      "ts": "2026-06-19T12:50:40.666143+00:00",
+      "status": "ok",
+      "consecutiveFailures": 0,
+      "issues": []
+    },
+    {
+      "ts": "2026-06-19T12:58:23.465779+00:00",
+      "status": "ok",
+      "consecutiveFailures": 0,
+      "issues": []
+    },
+    {
+      "ts": "2026-06-19T12:58:50.075905+00:00",
+      "status": "ok",
+      "consecutiveFailures": 0,
+      "issues": []
     }
   ],
   "summary": {
-    "totalChecks": 5970,
-    "upChecks": 5964,
+    "totalChecks": 5973,
+    "upChecks": 5967,
     "downtimeMinutes": 30,
-    "uptimePct": 99.899,
-    "lastCheck": "2026-06-19T12:43:13.658839+00:00",
+    "uptimePct": 99.9,
+    "lastCheck": "2026-06-19T12:58:50.075905+00:00",
     "lastStatus": "ok"
   }
 }

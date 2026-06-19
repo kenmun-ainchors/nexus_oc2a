@@ -1,76 +1,93 @@
-# Yoda Daily Brief — 2026-06-17
+# Yoda Daily Brief — 2026-06-19 (Friday)
 
 ## What Yoda Built Today
 
-**Big day — 17 CHG entries, massive Ollama cost tracking upgrade, Yoda+Aria model swap trial started, and WooCommerce-002 cross-workspace cron sandbox fixed.**
+**End-of-week ops sweep + model-routing sync + PG SSOT EPIC lock-in + SOUL.md refactor. A big Friday cleanup before the weekend.**
 
-The day split into three phases: morning stand-up Thrawn items (8 blocking infrastructure fixes), afternoon WooCommerce + Ollama work, and evening model swap with CHG integrity cleanup.
+### Morning: End-of-Week Ops Hygiene
 
-### Morning: Stand-up Thrawn Items (08:29-11:43 AEST)
+Yoda closed out the week's operational items:
+- **BUDS Tech alerts closed** — all clear.
+- **WO-002 divergence GREEN** — confirmed clean after yesterday's shadow row cleanup.
+- **Backup cron healthy** — no issues.
+- **Embedded git repos cleaned** — stale submodules tidied.
+- **TKT-0319 closed end-to-end** — 7 CHG entries (CHG-0650–0656) across the full lifecycle.
+- **Fixed stale state files** — `state/cron-health-alert.json` and `state/budget-alert-state.json` were broken. Parked the Anthropic budget cron (it's no longer relevant since we moved off Anthropic).
 
-Yoda cleared all 8 items from Ken's morning stand-up:
+### Afternoon: Model-Routing Sync (Thrawn Dispatch Review)
 
-1. **API balance $0 false alarm fixed (CHG-0606):** CHECK 9 was using stale 30-min cached snapshots, causing false QUOTA-CANARY alerts on already-fixed crons. Rewired to fresh `cron list --json` every run.
+Yoda reviewed the Thrawn dispatch model-choice conflict and found:
+- **`agent-skills/model-routing/SKILL.md` is stale** — still maps Atlas/Thrawn to minimax-m3, but `state/archive/model-policy.json` moved them to `backend` tier (gemma4:31b-cloud primary).
+- **CREST matrix says Atlas/Thrawn Execute/Synthesize = flash (cheap)** — but the backend tier has no cheap model. `deepseek-v4-flash` was chosen as a phase override.
+- **Forge also has a CREST exception** — Plan/Synthesize = flash, but this isn't codified in model-policy.
 
-2. **Gateway env-wrapper fixed (CHG-0607):** The yoda-context-brief-refresh cron had a 30s timeout that was way too tight for a model-call generating a 300-line context brief (last successful run took 67s). Bumped to 300s.
+Ken approved a sync plan (queued for next turn):
+1. Update `agent-skills/model-routing/SKILL.md` with current tier mapping + phase overrides.
+2. Update `agent-skills/crest/SKILL.md` matrix with explicit model names per policy.
+3. Update `state/archive/model-policy.json` — add `deepseek-v4-flash` to backend fallbacks and add `crestPhaseOverrides` block.
+4. Run `scripts/dispatch-validate.sh` validation.
+5. Log CHG-0659 and commit.
 
-3. **Yoda CREST §6 tools.deny experiment (CHG-0608/0609):** Yoda tried using `tools.deny` on subagent exec per CREST §6. It didn't work — exec is not agent-configurable. Reverted and resumed discipline-based CREST.
+### Evening: PG SSOT EPIC Lock-In + SOUL.md Refactor
 
-4. **Pipefail+trap anti-patterns fixed (CHG-0610):** auto-heal.sh had broken pipefail and trap patterns. Fixed the shell anti-patterns directly.
+**PG SSOT EPIC TKT-0342 organised across Sprints 9–11 (CHG-0672):**
+- Created Sprint 11 (2026-07-06 to 2026-07-12).
+- Linked 32 open PG/SSOT tickets under EPIC TKT-0342.
+- Tagged all with `pg-ssot` and `wave-1/2/3`.
+- Assigned wave-1 (11 tickets) to Sprint 9, wave-2 (11 tickets) to Sprint 10, wave-3 (10 tickets) to Sprint 11.
+- Synced all 32 tickets to Notion.
 
-5. **Backup 33h stale fixed (CHG-0611):** New cron for backup health check. Timeout 30→120s, rescheduled 08:05→08:10 to avoid standup traffic jam.
+**Sprint 8 closed at 100% (CHG-0671):**
+- Moved TKT-0293 and TKT-0326 from Sprint 8 to Sprint 10.
+- Sprint 8 now 15/15 complete.
 
-6. **MEMORY.md trimmed (CHG-0612):** 13,387 → 9,785 chars. Below the 15K hard limit.
+**WO-002 divergence restored to GREEN (CHG-0670):**
+- Deleted 4 orphan shadow rows from nexus_mirror (leftovers from TKT-9999/9998 deletion).
+- Re-ran divergence harness: unexplained=0, extra=40 (all historical-seed allowlisted).
 
-7. **Config baseline 8 days stale fixed (CHG-0613):** New gateway-config-snapshot.sh + CHECK 12 wiring so config baseline auto-updates nightly.
+**Test tickets TKT-9999 and TKT-9998 deleted (CHG-0669):**
+- Ken approved removal — they were generating unnecessary rounds/tokens during new ticket creation.
+- Removed from both PG and `state/tickets.json`.
 
-8. **TKT-0336 tilde path violations fixed (CHG-0614):** 13 stale source file references in yoda-context-brief-refresh cron updated to current workspace paths.
+**TKT-0540 A11–A16 aligned and re-closed (CHG-0668):**
+- Fixed model-drift-check.sh pipeline-subshell bug.
+- Updated all 14 agent configs in `openclaw.json` to match model-policy v3.0.
+- Expanded auto-heal CHECK 28h keywords to include kimi-k2.7-code, kimi-k2.6, gemma4:31b-cloud.
+- Updated model-drift-check.sh cron model check.
+- Updated Warden cron model check.
+- Updated allowlist-detect.sh to use current model names.
 
-### Afternoon: WooCommerce-002 + Ollama Cost Tracking (13:31-14:22 AEST)
-
-1. **WO-002 cross-workspace cron fix (CHG-0617):** The WooCommerce-002 divergence check had been silently failing because 8 crons were assigned to the wrong agent workspace. 7 main-workspace crons were incorrectly assigned to infra agent, and 1 infra-workspace cron (WO-002 itself) was on main agent. All 8 reassigned correctly. WO-002 also had a Telegram recipient fixed (non-numeric chat ID).
-
-2. **Ollama live request tracking — TKT-0533 (CHG-0618→CHG-0620):** This was a big one. Yoda built a gateway-log counter script that found 28 requests in the current window. Then Ken shared the Ollama Cloud dashboard screenshot — showing **15,932 actual requests**. The gateway log approach undercounted by ~570x. Yoda pivoted and built `ollama-usage-scraper.py` — a Python script that uses browser automation to scrape the ollama.com/settings dashboard for real usage data. Now tracking both session (~3,500 limit) and weekly (~51,000 limit) windows with burn rate projections. CHECK 38 rewired from log counter to dashboard scraper.
-
-### Evening: Model Swap Trial + CHG Integrity (14:22-22:15 AEST)
-
-1. **Model swap approved by Ken:** Ollama dashboard data confirmed deepseek-v4-pro is usage level 4 (extra high), while kimi-k2.7-code is level 3 (high) — one tier cheaper. Yoda+Aria swapped to kimi-k2.7-code for a trial until Sunday 22 June 10:00 AEST. 6-atom CREST plan implemented: model-policy.json, agent configs, allowlists, fallback chain, config baseline, gateway restart. Current session confirmed on `ollama/kimi-k2.7-code:cloud`.
-
-2. **Agile + CREST skill packages (CHG-0609/0610/0611):** TKT-0534 delivered — two new AgentSkills created for Agile framework and CREST governance. All tribal knowledge removed from agent files (SOUL.md, MEMORY.md, AGENTS.md, HEARTBEAT.md, RULES.md) and replaced with `skill-load.sh` pointers. 37 files committed.
-
-3. **TRIGGER-04 release monitor + PG-Notion audit + Spark metrics timeouts fixed (CHG-0608):** 3 cron timeouts bumped from 120s→300s.
-
-4. **Bash syntax fix: ollama-request-counter.sh (CHG-0622):** Pre-commit hook caught invalid zsh associative-array loop syntax. Fixed before it could crash.
+**SOUL.md refactor across all 17 agents (CHG-0673):**
+- Ken directive: keep behavioral rules in AGENTS.md, SOUL.md strictly for core personality, values, and hard limits.
+- Moved Non-Negotiables, rules, procedures, Model3-Policy, PG SSOT notes, review processes, escalation, tail rules, cadences, continuity, shared context, authority/access, marketing orchestration, and routing into each agent's AGENTS.md.
+- Created AGENTS.md for agents/ahsoka, ahsoka, and infra where missing.
+- All 17 SOUL.md files now under the 5K hard limit.
 
 ## Key Decisions Made Today
 
-- **TKT-0533 (Ollama usage tracking): Gateway logs are useless for request counting.** Only the authenticated Ollama dashboard has real numbers. Browser automation (ollama-usage-scraper.py) is now the SSOT.
-- **Yoda+Aria model swap: deepseek-v4-pro → kimi-k2.7-code** for a trial until Sun 22 Jun 10:00 AEST. Pro is level 4 (extra high GPU cost), kimi is level 3 (high). If quality holds, this saves significant weekly budget.
-- **WO-002 cross-workspace rule:** Assign cron to the agent whose workspace contains its scripts/data. Main crons operate in `workspace`. Infra crons operate in `workspace-infra`. No exceptions.
-- **TKT-0339 cron timeouts all resolved:** 13 recommendations applied — 8 safe batch, 4 Ken-approved, 1 deleted.
-- **30-min cache stale data was causing periodic false alerts:** Fresh fetch > cached snapshot for canary checks.
-- **CREST §6 `tools.deny` on subagent exec is structurally impossible** — exec is not agent-configurable. Reverted. Discipline-based CREST continues.
-- **Agile + CREST skill packages approved as SSOT:** All inline governance references removed from agent files. Skill-load pointers are the only way in.
-- **CHG-0606 quota false alerts fixed:** Fresh cron list every run instead of 30-min cache.
+- **SOUL.md is identity + hard limits only.** All behavioral rules, procedures, escalation, and operational instructions move to AGENTS.md. This reduces context clutter and keeps the agent's core self visible.
+- **PG SSOT EPIC TKT-0342 locked into Sprints 9–11.** 32 tickets organised in 3 waves. No more "candidate, blocked" placeholder metadata — concrete sprint assignments.
+- **Sprint 8 closed at 100%.** TKT-0293 and TKT-0326 deferred to Sprint 10.
+- **Test tickets TKT-9999/9998 deleted.** They were polluting ticket creation context and causing extra LLM rounds.
+- **Model-routing sync plan approved.** Three files need updating to resolve the Thrawn dispatch model-choice conflict.
+- **TKT-0540 A11–A16 all aligned and re-closed.** Runtime config, Warden, auto-heal, and crons all updated to match model-policy v3.0.
 
 ## Training Content Angles from Today
 
-From today's work, these are ready for the training pipeline:
+New ideas for the training pipeline:
 
-- **"Your AI's cost tracking is lying to you"** — The day Yoda counted 28 API requests and Ken's dashboard showed 15,932. Why gateway logs don't work for usage tracking, and how browser-automated dashboard scraping fixed it. Real numbers matter.
-- **"I tried to put my AI in handcuffs. The handcuffs didn't work."** — When CREST §6 (structural `tools.deny` on subagent exec) hit the reality that exec isn't agent-configurable. Discipline-based governance > structural enforcement when the structure doesn't exist yet. Real lesson in building AI guardrails.
-- **"8 crons, wrong workspaces, 0 errors reported"** — The WO-002 cron sandbox fix story. Cross-workspace assignment bugs that silently fail for weeks. How one agent's cron failing because it couldn't reach the right scripts uncovered 7 more mis-assignments.
-- **"The 30-minute stale cache that broke my Monday"** — A 30-min cron list cache kept false-alerting on already-fixed crons. Fresh fetch every time eliminated the false alarm window entirely.
-- **"Model swap: 1 tier down, same output"** — deepseek-v4-pro → kimi-k2.7-code trial. If code-specialist model delivers same quality at lower GPU cost, that's a real lesson in matching model capability to task complexity, not just picking the biggest one.
-- **"Git commit with 37 files is not a bug — it's progress"** — b30b2999: +1,544 / −3,647 lines. The day tribal knowledge got evicted from agent files and replaced with skill-load pointers. Clean codebase, same intelligence.
+- **"Your AI's identity crisis: when SOUL.md is 5KB of rules and 0KB of personality"** — The day Yoda refactored 17 agent SOUL.md files to strip out behavioral rules and keep only identity + hard limits. Why context clutter buries your AI's core self, and how the AGENTS.md/SOUL.md split fixes it.
+- **"32 tickets, 3 waves, 1 EPIC: how to organise a platform migration without losing your mind"** — The PG SSOT EPIC TKT-0342 story. Wave planning, sprint assignment, Notion sync — turning a sprawling remediation into concrete, ordered work.
+- **"The test ticket that cost $50 in tokens"** — TKT-9999/9998 deletion story. Test data polluting production context, generating unnecessary LLM rounds. Why test tickets need lifecycle management.
+- **"100% sprint completion is a choice, not an accident"** — Sprint 8 closed at 15/15 by deferring 2 items to Sprint 10. The discipline of knowing when to move work forward instead of forcing it into a closing sprint.
+- **"Model drift is real: 3 files disagreed on what model Atlas should use"** — The Thrawn dispatch review. SKILL.md said minimax-m3, model-policy said gemma4:31b-cloud, CREST said flash. Three sources of truth = zero sources of truth.
 
 ## What's Open / What's Next
 
-- **Model swap trial running:** Monitor next Ollama dashboard scrape to validate deepseek-v4-pro usage drops. If kimi-k2.7-code quality is unacceptable, 5-minute rollback to pro. Trial ends Sun 22 Jun 10:00 AEST — either lock or revert.
-- **CREST v2.0 design for structural executor dispatch** remains pending.
-- **TKT-0533 (Ollama tracker):** Live in production. Next step: monitor burn alert at 70% weekly threshold.
-- **Business agent (Aria)** has no active session — will pick up new kimi-k2.7-code model on next activation.
-- **Sometimes-asynchronous request tracking** in Ollama dashboard — some requests show `—` as percentage. Non-blocking, noted for CHG-0622 follow-up.
+- **Model-routing sync plan** — 3 files to update (SKILL.md, crest/SKILL.md, model-policy.json), then dispatch-validate.sh, then CHG-0659 commit. Queued for next turn.
+- **PG SSOT EPIC TKT-0342** — 32 tickets across Sprints 9–11. Wave-1 starts Sprint 9.
+- **SOUL.md refactor complete** — all 17 agents under 5K hard limit. Monitor for any behavioural issues from the rule migration.
+- **Weekend mode** — crons continue running. Yoda available for any issues that arise.
 
 ## ✅ Auth Status
 - All delegated auth tokens valid (Ken Mun ✅, Angie Foong ✅). No alerts.
