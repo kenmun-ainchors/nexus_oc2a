@@ -27,7 +27,7 @@ log "--- Backup started: $TIMESTAMP (DOW=$DOW) ---"
 # ── Step 1: Git commit workspace ──────────────────────────────────────────────
 cd "$WORKSPACE"
 if [[ -n $(git status --porcelain) ]]; then
-  git add -A
+  git add -A >> "$LOG" 2>&1
   git commit -m "chore: auto-backup $TIMESTAMP" >> "$LOG" 2>&1
   log "Workspace: new changes committed"
 else
