@@ -169,6 +169,19 @@ Both reference canonical docs in `references/` and load via `scripts/skill-load.
 ---
 ---
 
+## 2026-06-19 22:50 AEST — [CHG-0672] CHG-0671: Organize PG SSOT EPIC TKT-0342 across Sprints 9–11
+**Type:** rule
+**Change Type:** Normal
+**Source:** ken-prompt
+**Trigger:** Ken directive 2026-06-19 22:47 AEST: link and tag all open PG/SSOT tickets under TKT-0342, prioritize, and lock into next 3 sprints.
+**What changed:** Created Sprint 11 (2026-07-06 to 2026-07-12). Linked 32 open PG/SSOT tickets under EPIC TKT-0342 by setting epic column and metadata.epic=TKT-0342. Tagged all with pg-ssot and wave-1/2/3. Assigned wave-1 (11 tickets) to Sprint 9, wave-2 (11 tickets) to Sprint 10, wave-3 (10 tickets) to Sprint 11. Set sprint_seq ordering and metadata.wave_rank. Populated TKT-0342 metadata.children with all 31 child IDs and depends_on TKT-0368. Synced all 32 tickets to Notion.
+**Why:** Prevents the PG SSOT remediation from staying as 'candidate, blocked' placeholder metadata and being lost. Locks work into concrete sprints with ordering.
+**Verification:** PG query: 32 open tickets have epic=TKT-0342, sprint populated, tags pg-ssot + wave. db-sprint.sh status --sprint 'Sprint 9' shows 11 EPIC children + 1 existing. Sprint 10 shows 11 children. Sprint 11 shows 10 children. Notion sync spawned for all 32.
+**Rollback:** Direct SQL UPDATE state_tickets SET sprint=NULL, sprint_seq=NULL, epic=NULL, tags=NULL WHERE epic='TKT-0342' AND id != 'TKT-0342'; restore metadata from backups.
+**Linked:** TKT-0342, Sprint 9, Sprint 10, Sprint 11, CHG-0671
+---
+
+
 ## 2026-06-19 22:32 AEST — [CHG-0671] CHG-0671: Move TKT-0293 and TKT-0326 from Sprint 8 to Sprint 10
 **Type:** rule
 **Change Type:** Normal
