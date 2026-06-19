@@ -166,6 +166,44 @@ done <<< "$POLL_OUTPUT"
 
 LAST_POLL_AT=$(now_iso)
 
+# ── TKT-0319 Atom 4 finalizer: copy child exec-atom status back to parent ──
+# Any parent atom that we marked 'running' and spawned an exec-atom for should
+# reflect the child's terminal status. This is idempotent: it only updates
+# parents that are still 'running' and whose child is in a terminal state.
+# Runs before the no-atoms early exit so it executes on every poll.
+FINALIZER_SQL="
+WITH terminal_children AS (
+  SELECT parent_task_id AS parent_id,
+         status         AS child_status,
+         updated_at_ts  AS child_updated_at
+  FROM state_task_queue
+  WHERE parent_task_id IS NOT NULL
+    AND status IN ('done', 'complete', 'failed', 'cancelled')
+),
+parents_to_update AS (
+  SELECT c.parent_id, c.child_status, c.child_updated_at
+  FROM terminal_children c
+  JOIN state_task_queue p ON p.id = c.parent_id
+  WHERE p.status = 'running'
+    AND p.state_payload->>'executor' = 'tqp-executor'
+)
+UPDATE state_task_queue p
+SET status = u.child_status,
+    previous_status = 'running',
+    updated_at_ts = now()
+FROM parents_to_update u
+WHERE p.id = u.parent_id;
+"
+
+FINALIZER_OUT=$("$DB_RAW" -c "$FINALIZER_SQL" 2>&1) || {
+  echo "[tqp-executor] finalizer query failed: $FINALIZER_OUT" >&2
+}
+
+FINALIZED_COUNT=$(echo "$FINALIZER_OUT" | grep -oE 'UPDATE [0-9]+' | awk '{s+=$2} END {print s+0}')
+if [[ "$FINALIZED_COUNT" -gt 0 ]]; then
+  echo "[tqp-executor] finalizer: $FINALIZED_COUNT parent(s) updated from child exec-atom status"
+fi
+
 if [[ ${#CLAIMED_IDS[@]} -eq 0 ]]; then
   if [[ "$DRY_RUN" == "true" ]]; then
     echo "[tqp-executor] dry-run: 0 atoms ready for spawn (poll at $LAST_POLL_AT)"
@@ -197,27 +235,57 @@ for id in "${CLAIMED_IDS[@]}"; do
     continue
   fi
 
-  # Fetch model + task + agent (and ac, parent_ticket for exec-atom payload)
-  DETAIL_QUERY="SELECT atoms_jsonb->>'model' AS model,
+  # Fetch model + task + agent + checkpoint from the parent atom.
+  # We use row_to_json so embedded JSON (state_payload, last_checkpoint)
+  # does not break a pipe-delimited parse.
+  DETAIL_QUERY="SELECT row_to_json(t)::text FROM (SELECT
+                       atoms_jsonb->>'model' AS model,
                        atoms_jsonb->>'task' AS task,
                        atoms_jsonb->>'agent' AS agent,
                        atoms_jsonb->>'parent_ticket' AS parent_ticket,
-                       atoms_jsonb->>'ac' AS ac
-                FROM state_task_queue WHERE id='$id';"
+                       atoms_jsonb->>'ac' AS ac,
+                       COALESCE(state_payload, '{}'::jsonb) AS state_payload,
+                       COALESCE(last_checkpoint, '{}'::jsonb) AS last_checkpoint
+                FROM state_task_queue WHERE id='$id') t;"
   DETAIL=$("$DB_RAW" -c "$DETAIL_QUERY" 2>&1) || {
     echo "[tqp-executor] transient PG error fetching details for $id; skipping" >&2
     continue
   }
 
-  # Parse psql output: db-raw.sh uses `psql -t -A` (tuples-only, unaligned),
-  # so the first line IS the data line (no header). Fields separated by '|'.
-  # Fields: model | task | agent | parent_ticket | ac
-  DATA_LINE=$(echo "$DETAIL" | sed -n '1p')
-  MODEL=$(echo "$DATA_LINE" | awk -F'|' '{gsub(/^[ \t]+|[ \t]+$/, "", $1); print $1}')
-  TASK=$(echo "$DATA_LINE" | awk -F'|' '{gsub(/^[ \t]+|[ \t]+$/, "", $2); print $2}')
-  AGENT=$(echo "$DATA_LINE" | awk -F'|' '{gsub(/^[ \t]+|[ \t]+$/, "", $3); print $3}')
-  PARENT_TKT=$(echo "$DATA_LINE" | awk -F'|' '{gsub(/^[ \t]+|[ \t]+$/, "", $4); print $4}')
-  AC=$(echo "$DATA_LINE" | awk -F'|' '{gsub(/^[ \t]+|[ \t]+$/, "", $5); print $5}')
+  # First non-empty line is the JSON row.
+  JSON_LINE=$(echo "$DETAIL" | awk 'NF {print; exit}')
+  if [[ -z "$JSON_LINE" ]]; then
+    echo "[tqp-executor] no detail returned for $id; skipping" >&2
+    continue
+  fi
+
+  # Parse with python3 (jq-free)
+  PARSED=$(python3 -c "
+import json,sys
+try:
+    d=json.loads(sys.stdin.read())
+    for k in ['model','task','agent','parent_ticket','ac']:
+        v=d.get(k) or ''
+        v=v.replace('\\n','\\u000a')
+        print(v)
+    print(json.dumps(d.get('state_payload') or {}))
+    print(json.dumps(d.get('last_checkpoint') or {}))
+except Exception:
+    sys.exit(1)
+" <<< "$JSON_LINE")
+  if [[ $? -ne 0 ]]; then
+    echo "[tqp-executor] failed to parse detail JSON for $id; skipping" >&2
+    continue
+  fi
+
+  # Read 7 lines: model, task, agent, parent_ticket, ac, state_payload_json, last_checkpoint_json
+  MODEL=$(echo "$PARSED" | sed -n '1p')
+  TASK=$(echo "$PARSED" | sed -n '2p')
+  AGENT=$(echo "$PARSED" | sed -n '3p')
+  PARENT_TKT=$(echo "$PARSED" | sed -n '4p')
+  AC=$(echo "$PARSED" | sed -n '5p')
+  STATE_PAYLOAD_JSON=$(echo "$PARSED" | sed -n '6p')
+  LAST_CHECKPOINT_JSON=$(echo "$PARSED" | sed -n '7p')
 
   # Defaults
   [[ -z "$MODEL" || "$MODEL" == "" ]] && MODEL="flash"
@@ -247,7 +315,7 @@ WHERE id = '$id'
     continue
   fi
 
-  # In-band exec-atom INSERT. Carry model + task + agent forward.
+  # In-band exec-atom INSERT. Carry model + task + agent + checkpoint forward.
   # Use parent_task_id = original atom id so downstream consumers can correlate.
   ESC_TASK=$(printf '%s' "$TASK" | sed "s/'/''/g")
   ESC_AGENT=$(printf '%s' "$AGENT" | sed "s/'/''/g")
@@ -255,9 +323,11 @@ WHERE id = '$id'
   ESC_PARENT_TKT=$(printf '%s' "$PARENT_TKT" | sed "s/'/''/g")
   ESC_AC=$(printf '%s' "$AC" | sed "s/'/''/g")
   ESC_ID=$(printf '%s' "$id" | sed "s/'/''/g")
+  ESC_STATE_PAYLOAD=$(printf '%s' "$STATE_PAYLOAD_JSON" | sed "s/'/''/g")
+  ESC_LAST_CHECKPOINT=$(printf '%s' "$LAST_CHECKPOINT_JSON" | sed "s/'/''/g")
 
   EXEC_ID="${id}-EXEC-$(date +%s)"
-  EXEC_PAYLOAD="{\"tkt\": \"${ESC_PARENT_TKT}\", \"task\": \"${ESC_TASK}\", \"agent\": \"${ESC_AGENT}\", \"model\": \"${ESC_MODEL}\", \"ac\": \"${ESC_AC}\", \"spawned_by\": \"tqp-executor\", \"spawned_for\": \"${ESC_ID}\"}"
+  EXEC_PAYLOAD="{\"tkt\": \"${ESC_PARENT_TKT}\", \"task\": \"${ESC_TASK}\", \"agent\": \"${ESC_AGENT}\", \"model\": \"${ESC_MODEL}\", \"ac\": \"${ESC_AC}\", \"spawned_by\": \"tqp-executor\", \"spawned_for\": \"${ESC_ID}\", \"parent_state_payload\": ${ESC_STATE_PAYLOAD}, \"last_checkpoint\": ${ESC_LAST_CHECKPOINT}}"
 
   INSERT_SQL="INSERT INTO state_task_queue
 (id, title, tier, status, priority, source, parent_task_id, atoms_jsonb, created_at, updated_at, created_at_ts, updated_at_ts)

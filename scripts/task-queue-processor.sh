@@ -38,14 +38,19 @@ if [[ -f "$LOCK_FILE" ]]; then
   rm -f "$LOCK_FILE"
 fi
 
-# Pick first queued task from PG
+# Pick first queued task from PG; if none, pick first resumable task.
 TASK_JSON=$(pg -c "SELECT row_to_json(t)::text FROM (SELECT * FROM state_task_queue WHERE status = 'queued' ORDER BY priority DESC, created_at_ts ASC LIMIT 1) t;" 2>/dev/null)
+RESUMABLE_JSON=$(pg -c "SELECT row_to_json(t)::text FROM (SELECT * FROM state_task_queue WHERE status = 'resumable' ORDER BY resume_attempts ASC, updated_at_ts ASC LIMIT 1) t;" 2>/dev/null)
+
+if [[ -z "$TASK_JSON" || "$TASK_JSON" == "null" || "$TASK_JSON" == "" ]]; then
+  TASK_JSON="$RESUMABLE_JSON"
+fi
 
 # Check for dispatched tasks that need verification
 VERIFY_JSON=$(pg -c "SELECT row_to_json(t)::text FROM (SELECT * FROM state_task_queue WHERE status = 'dispatched' ORDER BY claimedat ASC LIMIT 1) t;" 2>/dev/null)
 
 if [[ -z "$TASK_JSON" || "$TASK_JSON" == "null" || "$TASK_JSON" == "" ]]; then
-  # No queued tasks — check for dispatched tasks that need verification
+  # No queued/resumable tasks — check for dispatched tasks that need verification
   if [[ -n "$VERIFY_JSON" && "$VERIFY_JSON" != "null" && "$VERIFY_JSON" != "" ]]; then
     # ──────────────────────────────────────────
     # ATOM 2.3: Verification of dispatched tasks (PG backend)
@@ -96,7 +101,7 @@ if [[ -z "$TASK_JSON" || "$TASK_JSON" == "null" || "$TASK_JSON" == "" ]]; then
       echo "TQP: Session active for $V_TASK_ID — verification deferred."
     fi
   else
-    echo "TQP: No queued or dispatched tasks. Exiting."
+    echo "TQP: No queued, resumable, or dispatched tasks. Exiting."
     exit 0
   fi
   rm -f "$LOCK_FILE"
@@ -110,22 +115,31 @@ TASK_ID=$(echo "$TASK_JSON" | jq -r '.id')
 TASK_TITLE=$(echo "$TASK_JSON" | jq -r '.title')
 TASK_TIER=$(echo "$TASK_JSON" | jq -r '.tier')
 TASK_SOURCE=$(echo "$TASK_JSON" | jq -r '.source')
+TASK_STATUS=$(echo "$TASK_JSON" | jq -r '.status // "queued"')
 
 TASK_PARENT=$(echo "$TASK_JSON" | jq -r '.parent_task_id // empty')
 
-echo "TQP: Processing $TASK_ID — $TASK_TITLE"
+# Resumable atoms are prioritised after queued; if we picked one, preserve the
+# resumable context in previous_status and last_checkpoint for the executor.
+IS_RESUMABLE=0
+if [[ "$TASK_STATUS" == "resumable" ]]; then
+  IS_RESUMABLE=1
+  echo "TQP: Resuming $TASK_ID — $TASK_TITLE"
+else
+  echo "TQP: Processing $TASK_ID — $TASK_TITLE"
+fi
 
-# State Checking (TKT-0182): verify task exists and is still queued before claiming
+# State Checking (TKT-0182): verify task exists and is still queued/resumable before claiming
 CURRENT_STATUS=$(pg -c "SELECT status FROM state_task_queue WHERE id='$TASK_ID'" 2>/dev/null)
-if [[ "$CURRENT_STATUS" != "queued" ]]; then
-  echo "TQP: State check failed — $TASK_ID is $CURRENT_STATUS, not queued. Skipping."
+if [[ "$CURRENT_STATUS" != "queued" && "$CURRENT_STATUS" != "resumable" ]]; then
+  echo "TQP: State check failed — $TASK_ID is $CURRENT_STATUS, not queued/resumable. Skipping."
   rm -f "$LOCK_FILE"
   exit 0
 fi
 
-# Claim the task (atomic UPDATE with WHERE status='queued' prevents double-claim)
+# Claim the task (atomic UPDATE with WHERE status IN ('queued','resumable') prevents double-claim)
 NOW=$(date -Iseconds)
-CLAIMED=$(pg -c "UPDATE state_task_queue SET status='dispatched', claimedby='agent:tqp', claimedat='$NOW', claimtimeout='$(date -v+30M -Iseconds)', updated_at_ts=now() WHERE id='$TASK_ID' AND status='queued' RETURNING id;" 2>/dev/null)
+CLAIMED=$(pg -c "UPDATE state_task_queue SET status='dispatched', previous_status=status, claimedby='agent:tqp', claimedat='$NOW', claimtimeout='$(date -v+30M -Iseconds)', updated_at_ts=now() WHERE id='$TASK_ID' AND status IN ('queued','resumable') RETURNING id;" 2>/dev/null)
 
 if [[ -z "$CLAIMED" || "$CLAIMED" == "" ]]; then
   echo "TQP: Claim failed — $TASK_ID already claimed by another instance. Skipping."
@@ -133,7 +147,11 @@ if [[ -z "$CLAIMED" || "$CLAIMED" == "" ]]; then
   exit 0
 fi
 
-echo "TQP: Claimed $TASK_ID — dispatched."
+if [[ "$IS_RESUMABLE" -eq 1 ]]; then
+  echo "TQP: Resumed $TASK_ID — dispatched (previous_status preserved)."
+else
+  echo "TQP: Claimed $TASK_ID — dispatched."
+fi
 
 # TKT-0504-A3: hand off non-CREST TQP atoms to tqp-executor.
 # If the claimed atom has no parent_task_id, it's a TQP-queued atom (not a CREST

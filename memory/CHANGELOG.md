@@ -169,6 +169,19 @@ Both reference canonical docs in `references/` and load via `scripts/skill-load.
 ---
 ---
 
+## 2026-06-19 21:21 AEST — [CHG-0654] TKT-0319 Atom 4: Resume executor for TQP atoms
+**Type:** script
+**Change Type:** Normal
+**Source:** ken-prompt
+**Trigger:** Atom 3 resume detector is live. Ken approved Atom 4 at 2026-06-19 21:17 AEST.
+**What changed:** Updated scripts/task-queue-processor.sh to claim both queued and resumable state_task_queue rows, preserving previous_status and resumable context. Updated scripts/tqp-executor.sh to fetch state_payload and last_checkpoint from the parent atom, embed them in the exec-atom payload, and add an idempotent finalizer that copies the child exec-atom's terminal status (done/complete/failed/cancelled) back to the parent. Added regression test tests/regression/task-queue/test-tqp-resume-executor.sh.
+**Why:** Without a resume executor, resumable atoms detected by the watchdog would never be re-executed and would never complete. Embedding the checkpoint lets the child atom skip already-completed steps; the finalizer closes the loop so the parent reflects the actual outcome.
+**Verification:** test-tqp-resume-executor.sh: 11/11 PASS. Manual flow: resumable atom -> dispatched -> running -> exec-atom queued with checkpoint -> child done -> parent copied to done. tests/regression/subagent-dispatch/test-subagent-dispatch.sh: 11/11 PASS. tests/regression/task-watchdog/test-resume-detector.sh: 5/5 PASS.
+**Rollback:** Revert scripts/task-queue-processor.sh and scripts/tqp-executor.sh to pre-Atom-4 versions and remove tests/regression/task-queue/test-tqp-resume-executor.sh.
+**Linked:** TKT-0319, CHG-0652, CHG-0653
+---
+
+
 ## 2026-06-19 21:16 AEST — [CHG-0653] TKT-0319 Atom 3: Resume detector / watchdog
 **Type:** script
 **Change Type:** Normal
