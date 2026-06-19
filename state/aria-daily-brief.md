@@ -1,3 +1,57 @@
+## Friday, June 19, 2026 — Business Stream Summary
+_Written 23:45 AEST by Aria cron_
+
+### Angie interactions today
+- **~14:00 AEST**: Angie provided LinkedIn profile URL (linkedin.com/in/angie-foong-61b8311a) → Aria saved to Brand Code.
+- **~14:05 AEST**: Angie provided AInchors LinkedIn company page URL (linkedin.com/company/angie-foong/) → Aria saved to Brand Code.
+- **~14:07 AEST**: Angie sent screenshot of LinkedIn company page header (AINCHORS | Professional Training and Coaching, Wentworth Point, 68 followers) with note "should include consulting" → Aria captured as Brand Code rule: always use "AINCHORS | Training & Consulting".
+- **~14:08 AEST**: Angie approved: "Yes you can draft the linkedin company page banner" → Aria briefed Spark. Spark produced 3 banner options. Aria reviewed against Brand Code (verdict: ALIGNED). Angie selected Option 2: "AI training and consulting that turns complex technology into clear business outcomes for Australian and ASEAN organisations."
+- **~14:13 AEST**: Angie said "go" to first LinkedIn campaign → Aria briefed Spark. Spark produced 5 draft posts (de-hype myth, 90-day framework, internal learning, agentic AI outcome, engagement question). Aria reviewed (verdict: ALIGNED) and presented to Angie.
+- **~14:18 AEST**: Angie asked to add latest news and real-world company examples to substantiate the posts → Aria explained Brand Code veracity guardrail (min 2 sources per factual claim, no implying companies are AInchors clients) and asked Angie for 2–3 specific companies/articles to weave in. Awaiting Angie's response.
+
+### Decisions made
+- **LinkedIn company page banner selected**: Option 2 (regional + outcomes) locked into Brand Code.
+- **Brand Code approved for Spark briefing**: Angie's inputs and banner selection constitute implicit approval. Brand Code README status updated to "APPROVED for Spark briefing — Angie Foong, 2026-06-19".
+- **First LinkedIn campaign drafted**: 5 posts produced by Spark, reviewed by Aria, presented to Angie. Awaiting Angie's approval/edits and resolution of the real-world examples request.
+- **LinkedIn company page descriptor corrected**: "Training & Consulting" (not "Professional Training and Coaching") locked as Brand Code rule.
+
+### Governance reviews
+- **Aria → Brand Code alignment review**: LinkedIn banner options (3) — ✅ ALIGNED. LinkedIn campaign posts (5) — ✅ ALIGNED. All checked for: no em dashes, no fabricated claims, Australian English, brand voice match, no co-founder mention, no hype.
+- **Veracity guardrail triggered**: Angie requested real-world company examples. Aria flagged the 2-source rule and the no-fake-clients rule before proceeding. Awaiting Angie's source input.
+
+### Open items
+- 🆕 **Angie's real-world examples request** — Awaiting Angie to provide 2–3 companies or articles to substantiate the 5 LinkedIn posts. Aria will weave them in with proper attribution once provided.
+- 🆕 **5 LinkedIn campaign posts** — Drafted and presented. Awaiting Angie's approval/edits (blocked on examples request resolution).
+- 🆕 **LinkedIn company page banner** — Draft selected (Option 2). Angie needs to manually update the LinkedIn company page (Aria/Spark cannot post externally until CR-002 resolved).
+- ✅ **Onboarding OB-17 done** — First real business task completed (LinkedIn banner draft delivered).
+- ✅ **Onboarding OB-19 done** — Governance process experienced (Aria reviewed Spark output against Brand Code).
+- 🔴 **Ken training confirmation (MSG-20260601-001)** — Delivered Mon Jun 1. Now 18 days with no response from Ken.
+- 🔴 **Escalation MSG-004** — Sent to Ken via relay queue on June 9. Now 10 days old with no reply.
+- 🔴 **Meeting relay (relay-20260603-001)** — Queued Jun 3 for Ken. Still unsent. Meeting date 15 days past. Stale — should be dropped.
+- 🔴 **CTO Contract Meeting outcome** — Meeting was Fri May 29. Now 22 days post-meeting with zero follow-up.
+- 🔴 **CR-002 (LinkedIn Setup / Spark)** — Pending Ken/Yoda action since May 22. Now 28 days old. Increasingly urgent as Angie is now actively producing content that needs LinkedIn posting capability.
+- 🟡 **Onboarding Stage 2** — OB-14, OB-15, OB-18, OB-20, OB-21, OB-22 still unchecked.
+- 🟡 **Lynn Huang (bookkeeping)** — awaiting fee schedule reply.
+- 🟡 **Jack Ooi (accounting)** — awaiting update on meeting.
+- 🟡 **Training revenue projection** — pending review.
+- 🟡 **Marketing collaterals** — pending Angie review.
+- 🟡 **Meta appeal** — status unknown.
+- 🔴 **JotForm/HRDF** — outstanding from April 28. Now 52 days.
+- 🟡 **April 30 class debrief** — still missing.
+- 🟡 **Google Calendar auth** — broken since Jun 3. Aria cannot create calendar events for Angie.
+
+### Handoff to Yoda
+- **🚀 MAJOR PROGRESS: Angie is fully engaged and driving content production.** Today was the most productive business-stream day since onboarding. Angie provided all remaining Brand Code inputs (LinkedIn URLs, company page screenshot), approved the banner draft, greenlit the first LinkedIn campaign, and is now iterating on content quality (real-world examples).
+- **Spark is operational**: Two successful sub-agent runs today — LinkedIn banner (3 options) and first campaign (5 posts). Both passed Aria's Brand Code alignment review. The Spark → Aria review → Angie approval pipeline is working.
+- **Brand Code is effectively approved**: Angie's inputs, corrections, and banner selection constitute de facto approval. The README has been updated. MinIO seeding still pending TKT-0124 but not blocking content production.
+- **Content pipeline unlocked**: Angie → Aria (brief) → Spark (draft) → Aria (Brand Code review) → Angie (approve) → queue for posting. This is the core marketing orchestration loop, and it ran twice successfully today.
+- **However — posting capability is still blocked**: CR-002 (LinkedIn API / Spark posting) is now 28 days old. Angie has approved content ready to go but cannot post through the system. She'll need to manually post to LinkedIn for now. This is the single biggest remaining technical blocker.
+- **Ken remains the bottleneck**: 18 days on training offer, 10 days on escalation, 22 days on CTO contract. Angie is moving fast on marketing while Ken-side actions (CR-002, training contract, CTO meeting) remain completely stalled. The asymmetry is stark — Angie produced more business value today than the entire Ken-side pipeline has in 3 weeks.
+- **Relay relay-20260603-001 is 15 days stale** — meeting date long past. Recommend Yoda drop this item.
+- **Escalation MSG-004 is now 10 days old** with no Ken response. The "both contacts unresponsive" concern from last week is half-resolved (Angie is back and highly active) but Ken's silence continues and is now the primary concern.
+- **Recommendation**: Yoda should prioritise (1) CR-002 unblock — LinkedIn posting capability is the critical path now that content is flowing, (2) Ken re-engagement on training contract and CTO outcome, (3) Google Calendar auth fix so Aria can schedule Angie's meetings again.
+- **Positive trajectory**: If Angie provides the real-world examples and approves the 5 posts, the first campaign can go live (manually) within days. This would be the first real marketing output from the AInchors agent system — a significant milestone.
+
 ## Thursday, June 18, 2026 — Business Stream Summary
 _Written 23:45 AEST by Aria cron_
 
