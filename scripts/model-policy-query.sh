@@ -75,6 +75,8 @@ query_pg() {
     local fallback=$(echo "$result" | cut -d'|' -f2 | xargs)
     local override=$(echo "$result" | cut -d'|' -f3 | xargs)
     local reason=$(echo "$result" | cut -d'|' -f4 | xargs)
+    # Normalize PG boolean t/f to JSON true/false
+    if [[ "$override" == "t" ]]; then override="true"; else override="false"; fi
     echo "{\"model\":\"$model\",\"fallback\":\"$fallback\",\"override_allowed\":$override,\"rationale\":\"$reason\",\"source\":\"pg\"}"
     return 0
   fi

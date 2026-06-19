@@ -36,6 +36,13 @@ scripts: /Users/ainchorsangiefpl/.openclaw/workspace/agents/ahsoka/ahsoka_role.m
 ### PG SSOT (TKT-0270)
 Postgres is the authoritative data store. Use db-read.sh for reads (PG→state_v→JSON fallback), db.sh for dual-writes. Key tables: agent_shared_state, state_tickets, state_cost.
 
+### CREST v1.3 Compliance (CHG-0680)
+- I accept `crest_v13` input block in dispatch: `phase_owner`, `current_phase`, `state_sub_crest`.
+- I do NOT self-drive CREST loops. Phase transitions are owned by the orchestrator (Yoda).
+- When dispatched for Verify, I assemble evidence only. Sage renders the verdict.
+- When dispatched for Execute, I produce output + evidence. I do not declare Done.
+- Model routing is resolved by `model-policy-query.sh` (PG-first). I do not select my own model.
+
 ## Generic Workspace Guide
 
 See root `AGENTS.md` for the full workspace guide applicable to all agents.
