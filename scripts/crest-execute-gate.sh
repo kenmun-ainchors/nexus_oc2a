@@ -1,33 +1,26 @@
 #!/bin/bash
 # crest-execute-gate.sh — CREST Path A: Strict Enforcement Gate
-# TKT-0506 / CHG-0540
+# TKT-0506 / CHG-0540 / TKT-0540
 #
-# Pre-flight gate for Yoda's Execute-phase work. Refuses to allow Yoda to
-# directly perform mechanical Execute work that should be dispatched to a
-# specialist agent (Forge, Atlas, Thrawn, etc.) per CREST v1.2 §6.
+# Pre-flight gate for operator Execute/Synthesize work. Compares the intended
+# model against the effective model resolved from state/archive/model-policy.json
+# via scripts/model-policy-query.sh.
 #
-# Path A is strict: any Execute work from Yoda (model=strong-tier) on a
-# cheap-tier target (file write, cron restore, plist edit, state bootstrap,
-# etc.) is BLOCKED unless:
-#   1. The atom has dispatch_packet.used = true (i.e., already dispatched)
-#   2. The atom has intent = "diagnostic" or "self-read" (Yoda reading own state)
-#   3. The work is in T0/triage mode (no operator, no model spec)
-#   4. A Ken-approved override is present (CREST_OVERRIDE=1 env var)
+# Path A is strict: an operator may only execute a phase if:
+#   1. The phase is allowed for that operator in model-policy.json.
+#   2. The model being used matches the policy-effective model.
+#   3. The operator is not Yoda on an Execute phase (unless Ken override).
+#   4. A Ken-approved override is present (CREST_OVERRIDE=1).
+#   5. The atom is a self-read/diagnostic or triage/systemEvent.
 #
 # Usage:
 #   bash scripts/crest-execute-gate.sh
-#   # Reads stdin or env to classify
-#   CREST_PHASE=execute CREST_MODEL=minimax-m3 CREST_ATOM_DESC="backup gateway config" \
-#     bash scripts/crest-execute-gate.sh
+#   CREST_PHASE=execute CREST_OPERATOR=infra CREST_MODEL=ollama/deepseek-v4-flash:cloud \
+#     CREST_ATOM_DESC="backup gateway config" bash scripts/crest-execute-gate.sh
 #
-# Exit 0: ALLOW execution (Yoda may proceed)
-# Exit 1: BLOCK execution (Yoda must dispatch to specialist)
-# Exit 2: ERROR (malformed input)
-#
-# Integration:
-#   - Reads: state/model-policy.json (model-task matrix)
-#   - Writes: state/crest-execute-gate-log.json (audit trail)
-#   - Linked: dispatch-validate.sh, flash-dispatcher.sh, TKT-0506, CHG-0540
+# Exit 0: ALLOW
+# Exit 1: BLOCK
+# Exit 2: ERROR
 
 set -euo pipefail
 
@@ -35,39 +28,29 @@ WORKSPACE="${WORKSPACE:-/Users/ainchorsangiefpl/.openclaw/workspace}"
 SCRIPTS="$WORKSPACE/scripts"
 LOG="$WORKSPACE/state/crest-execute-gate-log.json"
 MODEL_POLICY="$WORKSPACE/state/archive/model-policy.json"
+QUERY="$SCRIPTS/model-policy-query.sh"
 
 # Default values (caller can override)
 CREST_PHASE="${CREST_PHASE:-execute}"
-CREST_MODEL="${CREST_MODEL:-ollama/minimax-m3:cloud}"
+CREST_MODEL="${CREST_MODEL:-}"
 CREST_ATOM_DESC="${CREST_ATOM_DESC:-}"
 CREST_TARGET="${CREST_TARGET:-}"
 CREST_OPERATOR="${CREST_OPERATOR:-yoda}"
 
-# Helper: cheap-tier model = flash (deepseek-v4-flash, gemma4, haiku)
-is_cheap_tier_model() {
-  local m="$1"
-  case "$m" in
-    *flash*|*gemma4*|*haiku*|*e2b*|*26b*) return 0 ;;
-    *) return 1 ;;
-  esac
+# Resolve expected model for operator+phase from policy.
+resolve_expected_model() {
+  local op="$1" ph="$2"
+  if [[ ! -x "$QUERY" ]]; then
+    echo '{"error":"model-policy-query.sh not found"}'
+    return 1
+  fi
+  bash "$QUERY" --agent "$op" --phase "$ph" 2>/dev/null
 }
 
 # Helper: is this atom a "self-read" / diagnostic / triage?
 is_self_read() {
   local desc="$1" target="$2"
-  # Yoda reading own state, heartbeat, diagnostic, or triage queue
   if echo "$desc $target" | grep -qiE "self|heartbeat|triage|diagnostic|read own|state/heartbeat|state/skill-load|monitor"; then
-    return 0
-  fi
-  return 1
-}
-
-# Helper: is this a Yoda-coordinated change in main session (CREST cycle check)?
-is_crest_coordinated() {
-  # The 2-Pass Contract: Yoda plans, dispatches, verifies. Direct execute is blocked.
-  # But Yoda CAN execute if it's part of an active CREST cycle with a sub-ticket
-  # already dispatched (the verify phase, or an interactive triage).
-  if [[ "${CREST_VERIFY_OF:-}" != "" ]]; then
     return 0
   fi
   return 1
@@ -78,7 +61,7 @@ log_decision() {
   local _decision="$1" _reason="$2"
   DECISION="$_decision" REASON="$_reason" python3 - <<'PYEOF'
 import json, os, datetime
-LOG = "/Users/ainchorsangiefpl/.openclaw/workspace/state/crest-execute-gate-log.json"
+LOG = os.environ.get("CREST_GATE_LOG", "/Users/ainchorsangiefpl/.openclaw/workspace/state/crest-execute-gate-log.json")
 d = {"history": []}
 if os.path.exists(LOG):
     try: d = json.load(open(LOG))
@@ -122,49 +105,39 @@ if is_self_read "$CREST_ATOM_DESC" "$CREST_TARGET"; then
   exit 0
 fi
 
-# CREST-coordinated work (sub-ticket already dispatched, this is verify) is exempt
-if is_crest_coordinated; then
-  log_decision "allow" "active CREST cycle (verify of dispatched sub-ticket)"
-  echo '{"status":"allow","reason":"active CREST cycle"}'
-  exit 0
+# Resolve expected model from policy
+EXPECTED_JSON=$(resolve_expected_model "$CREST_OPERATOR" "$CREST_PHASE" 2>/dev/null) || true
+EXPECTED_MODEL=$(echo "$EXPECTED_JSON" | python3 -c "import json,sys; d=json.load(sys.stdin); print(d.get('model',''))" 2>/dev/null || true)
+EXPECTED_ERROR=$(echo "$EXPECTED_JSON" | python3 -c "import json,sys; d=json.load(sys.stdin); print(d.get('error',''))" 2>/dev/null || true)
+
+# If the phase is not allowed for this operator, block (Yoda Execute, etc.)
+if [[ -n "$EXPECTED_ERROR" || -z "$EXPECTED_MODEL" ]]; then
+  log_decision "block" "phase '$CREST_PHASE' not allowed for operator '$CREST_OPERATOR' per model-policy.json"
+  cat <<JSON
+{"status":"block","reason":"phase '$CREST_PHASE' is not allowed for operator '$CREST_OPERATOR' per model-policy.json","expected":"not-allowed","actual":"$CREST_MODEL"}
+JSON
+  exit 1
 fi
 
-# Plan/Verify/Replan = strong-tier, Yoda direct is fine
-case "$CREST_PHASE" in
-  plan|verify|replan)
-    log_decision "allow" "strong-tier phase ($CREST_PHASE) - Yoda direct OK"
-    echo "{\"status\":\"allow\",\"reason\":\"strong-tier phase: $CREST_PHASE\"}"
-    exit 0
-    ;;
-esac
-
-# Execute / Synthesize = cheap-tier, must dispatch unless override
-if [[ "$CREST_PHASE" == "execute" || "$CREST_PHASE" == "synthesize" ]]; then
-  if is_cheap_tier_model "$CREST_MODEL"; then
-    # Cheap-tier model in cheap-tier phase = OK, but Yoda direct is still questionable
-    # Only allow if it's a real cheap-tier agent (gemma4-cron, etc.) - not Yoda
-    if [[ "$CREST_OPERATOR" == "yoda" ]]; then
-      log_decision "block" "Yoda (strong-tier operator) on cheap-tier phase ($CREST_PHASE) - must dispatch to specialist"
-      cat <<JSON
-{"status":"block","reason":"Yoda cannot directly execute cheap-tier work. Use flash-dispatcher.sh dispatch to a specialist.","required_action":"bash scripts/flash-dispatcher.sh dispatch --specialist forge --phase $CREST_PHASE --atom-desc \"$CREST_ATOM_DESC\" --target \"$CREST_TARGET\""}
+# Yoda (main) on Execute is always blocked — even if policy somehow allowed it
+if [[ "$CREST_OPERATOR" == "yoda" || "$CREST_OPERATOR" == "main" ]] && [[ "$CREST_PHASE" == "execute" ]]; then
+  log_decision "block" "Yoda direct Execute blocked per CHG-0545"
+  cat <<JSON
+{"status":"block","reason":"Yoda cannot directly Execute. Dispatch to a specialist or obtain Ken override (CHG-0545).","expected":"not-allowed","actual":"$CREST_MODEL"}
 JSON
-      exit 1
-    else
-      log_decision "allow" "cheap-tier operator on cheap-tier phase"
-      echo '{"status":"allow","reason":"cheap-tier operator + cheap-tier phase"}'
-      exit 0
-    fi
-  else
-    # Strong-tier model on cheap-tier phase = Yoda doing mechanical work = BLOCK
-    log_decision "block" "Yoda (model=$CREST_MODEL) on cheap-tier phase ($CREST_PHASE) - cost+CREST violation. Dispatch to specialist with flash model."
-    cat <<JSON
-{"status":"block","reason":"Yoda is using $CREST_MODEL (strong-tier) for $CREST_PHASE work. Per CREST v1.2 §6, this should dispatch to a specialist with a cheap-tier model.","required_action":"bash scripts/flash-dispatcher.sh dispatch --specialist forge --phase $CREST_PHASE --atom-desc \"$CREST_ATOM_DESC\" --target \"$CREST_TARGET\""}
-JSON
-    exit 1
-  fi
+  exit 1
 fi
 
-# Unknown phase
-log_decision "warn" "unknown phase: $CREST_PHASE"
-echo "{\"status\":\"warn\",\"reason\":\"unknown phase: $CREST_PHASE\"}"
+# Model mismatch: actual model does not match policy-effective model
+if [[ -n "$CREST_MODEL" && "$CREST_MODEL" != "$EXPECTED_MODEL" ]]; then
+  log_decision "block" "model mismatch: actual=$CREST_MODEL expected=$EXPECTED_MODEL"
+  cat <<JSON
+{"status":"block","reason":"model mismatch for $CREST_OPERATOR/$CREST_PHASE","expected":"$EXPECTED_MODEL","actual":"$CREST_MODEL"}
+JSON
+  exit 1
+fi
+
+# All checks passed
+log_decision "allow" "matches policy-effective model $EXPECTED_MODEL"
+echo "{\"status\":\"allow\",\"reason\":\"matches policy-effective model\",\"expected\":\"$EXPECTED_MODEL\",\"actual\":\"$CREST_MODEL\"}"
 exit 0

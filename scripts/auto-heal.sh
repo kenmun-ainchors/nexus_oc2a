@@ -2100,6 +2100,27 @@ PYEOF_INNER
 else
   log "CHECK 28h: SKIP (no crest-execute-gate-log.json yet)"
 fi
+
+# ---------- CHECK 28i: Model Policy Drift (TKT-0540 A9) ----------
+# Runs scripts/check-model-policy-drift.sh to detect divergence between
+# state/archive/model-policy.json, runtime agent models, and consumer tests.
+log "CHECK 28i: model-policy drift (TKT-0540)"
+CHECKS_RUN+=("model_policy_drift")
+DRIFT_SCRIPT="$WORKSPACE/scripts/check-model-policy-drift.sh"
+if [[ -x "$DRIFT_SCRIPT" ]]; then
+  DRIFT_OUT=$(bash "$DRIFT_SCRIPT" 2>/dev/null) || true
+  DRIFT_STATUS=$(echo "$DRIFT_OUT" | /opt/homebrew/bin/jq -r '.status // "error"' 2>/dev/null || true)
+  if [[ "$DRIFT_STATUS" == "drift" ]]; then
+    DRIFT_ALERTS=$(echo "$DRIFT_OUT" | /opt/homebrew/bin/jq -r '.alerts | join("; ")' 2>/dev/null || true)
+    log "CHECK 28i: DRIFT detected — $DRIFT_ALERTS"
+    NEEDS_KEN+=("TKT-0540 CHECK 28i: model-policy drift detected — $DRIFT_ALERTS. See state/model-policy-drift-alert.json.")
+  else
+    log "CHECK 28i: PASS (no drift)"
+  fi
+else
+  log "CHECK 28i: SKIP (check-model-policy-drift.sh not found)"
+fi
+
 # ---------- CHECK 29: Cloud-Cron Escalation (L-116) ----------
 # Detects cron failures on ollama/* modelled jobs and escalates via
 # sovereign-alert immediately, bypassing the 30-min heartbeat cycle.

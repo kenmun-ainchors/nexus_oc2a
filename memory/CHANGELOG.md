@@ -169,6 +169,110 @@ Both reference canonical docs in `references/` and load via `scripts/skill-load.
 ---
 ---
 
+## 2026-06-19 22:15 AEST — [CHG-0666] CHG-0666: TKT-0540 A10 — final verification and close
+**Type:** rule
+**Change Type:** Normal
+**Source:** ken-prompt
+**Trigger:** Ken approved final verification and close at 2026-06-19 22:15 AEST.
+**What changed:** Closed TKT-0540 after A10 verification: policy consistency test 21/21 PASS, consumer consistency test 10/10 PASS, check-model-policy-drift.sh status=ok, dispatch-validate live sample ok, crest-execute-gate blocks Yoda Execute as expected. crest-done-gate.sh passed. Updated ticket status to closed and synced to Notion.
+**Why:** Single source of truth for model routing is now live, tested, and monitored.
+**Verification:** TKT-0540 status=closed in PG and Notion. All regression tests pass. Drift check clean.
+**Rollback:** Reopen TKT-0540 and revert all CHG-0661 through CHG-0665 artifacts.
+**Linked:** TKT-0540, CHG-0660, CHG-0661, CHG-0662, CHG-0663, CHG-0664, CHG-0665
+---
+
+
+## 2026-06-19 22:14 AEST — [CHG-0665] CHG-0665: TKT-0540 A8/A9 — regression tests and model-policy drift check
+**Type:** script
+**Change Type:** Normal
+**Source:** ken-prompt
+**Trigger:** Ken approved A8/A9 at 2026-06-19 22:12 AEST.
+**What changed:** Created tests/regression/model-routing/test-policy-consistency.sh (21 assertions covering all tiers and phase overrides) and tests/regression/model-routing/test-consumer-consistency.sh (10 assertions covering dispatch-validate and crest-execute-gate agreement with policy). Created scripts/check-model-policy-drift.sh which validates policy JSON, compares runtime openclaw.json agent models against requiredPrimary, validates model-policy-query.sh --all, and runs the regression tests. Wired CHECK 28i into scripts/auto-heal.sh to run the drift check nightly and raise NEEDS_KEN on divergence.
+**Why:** Single source of truth is only useful if consumers are continuously verified. Regression tests catch logic regressions; the drift check catches runtime config drift.
+**Verification:** Both regression tests pass (21/21, 10/10). check-model-policy-drift.sh returns status=ok. scripts/auto-heal.sh syntax validated.
+**Rollback:** Remove tests/regression/model-routing/test-policy-consistency.sh, test-consumer-consistency.sh, scripts/check-model-policy-drift.sh, and the CHECK 28i block from scripts/auto-heal.sh.
+**Linked:** TKT-0540, CHG-0661, CHG-0662, CHG-0664
+---
+
+
+## 2026-06-19 22:12 AEST — [CHG-0664] CHG-0664: TKT-0540 A6/A7 — update dispatch-validate.sh and crest-execute-gate.sh to use model-policy-query.sh
+**Type:** script
+**Change Type:** Normal
+**Source:** ken-prompt
+**Trigger:** Ken approved A6/A7 at 2026-06-19 22:09 AEST.
+**What changed:** Updated scripts/dispatch-validate.sh: replaced legacy crestPhaseModelMap-based model validation with calls to scripts/model-policy-query.sh for each atom; preserved L-138 verifier_corpus checks; added TARGET_AGENT capture before CREST block; updated crest execution gate snippet to pass CREST_OPERATOR=main and the actual first-atom model. Updated scripts/crest-execute-gate.sh: rewrote to resolve expected model via model-policy-query.sh, compare CREST_MODEL against policy-effective model, block phases not allowed for the operator, explicitly block Yoda/main Execute, and keep override/triage/self-read exemptions. Removed model-name substring heuristics.
+**Why:** Dispatch gate and execution gate must source from the same policy as the helper to prevent drift. The previous gate used hardcoded minimax-m3 and name-pattern matching, which would misclassify after the tier changes.
+**Verification:** bash -n syntax ok for both scripts. dispatch-validate.sh passes a valid platform-arch execute dispatch with deepseek-v4-flash and verifier corpus. crest-execute-gate.sh: main Execute blocked, infra Execute allowed, infra Verify allowed, platform-arch Execute allowed.
+**Rollback:** Restore previous versions of scripts/dispatch-validate.sh and scripts/crest-execute-gate.sh from git.
+**Linked:** TKT-0540, CHG-0661, CHG-0662
+---
+
+
+## 2026-06-19 22:09 AEST — [CHG-0663] CHG-0663: TKT-0540 A4/A5 — make model-routing and crest SKILL.md reference-only
+**Type:** doc
+**Change Type:** Normal
+**Source:** ken-prompt
+**Trigger:** Ken approved A4/A5 at 2026-06-19 22:08 AEST.
+**What changed:** Rewrote agent-skills/model-routing/SKILL.md as a thin reference skill: points to state/archive/model-policy.json (SSOT) and scripts/model-policy-query.sh, lists enforcement points, and states CREST phase discipline without duplicating model names. Updated agent-skills/crest/SKILL.md to replace the concrete model matrix with a strong/cheap matrix and explicit resolution instructions; model names removed from the skill. Added reference to scripts/model-policy-query.sh in the skill load list.
+**Why:** Eliminates duplicate model-to-agent mappings so skills cannot drift from the policy. CREST skill keeps phase topology and exceptions; concrete model resolution lives in one place.
+**Verification:** Read-back confirms both skills reference policy/helper and no longer list stale concrete primaries (e.g. minimax-m3 for Atlas/Thrawn).
+**Rollback:** Restore previous versions of agent-skills/model-routing/SKILL.md and agent-skills/crest/SKILL.md from git.
+**Linked:** TKT-0540, CHG-0661, CHG-0662
+---
+
+
+## 2026-06-19 22:08 AEST — [CHG-0662] CHG-0662: TKT-0540 A3 — create model-policy-query.sh helper
+**Type:** script
+**Change Type:** Normal
+**Source:** ken-prompt
+**Trigger:** Ken approved A3 at 2026-06-19 22:07 AEST.
+**What changed:** Created scripts/model-policy-query.sh. Reads state/archive/model-policy.json (SSOT) and resolves effective model for an agent + CREST phase using tier cheapModel, per-agent crestPhaseOverrides, and per-tier defaults. Supports --agent/--phase, --agent summary, and --all effective map. Yoda main Execute returns not-allowed; business Execute/Synthesize use deepseek-v4-flash; Forge Plan/Synthesize use cheap, Verify/Replan use strong; Spark highStakesExecute override supported in policy; all other agents follow tier defaults.
+**Why:** Centralizing the policy resolution logic in one script prevents every consumer from reimplementing (and drifting from) the same rules.
+**Verification:** bash -n syntax ok. Sample queries return expected models: platform-arch Execute=deepseek-v4-flash, infra Plan=deepseek-v4-flash, infra Verify=minimax-m3, main Execute=not-allowed (exit 1), business Execute=deepseek-v4-flash. --all produces valid JSON effective map for all 14 agents.
+**Rollback:** Delete scripts/model-policy-query.sh and revert any consumer changes.
+**Linked:** TKT-0540, CHG-0661
+---
+
+
+## 2026-06-19 22:07 AEST — [CHG-0661] CHG-0661: Apply TKT-0540 confirmed model-policy tier map (model-policy.json v3.0)
+**Type:** rule
+**Change Type:** Normal
+**Source:** ken-prompt
+**Trigger:** Ken confirmed revised policy at 2026-06-19 22:06 AEST and approved execution via CREST skill discipline.
+**What changed:** Updated state/archive/model-policy.json to v3.0. New tiers: T2 Governance (security/legal/governance/qa, strong=gemma4:31b-cloud, cheap=deepseek-v4-flash), T2 Backend (architect/platform-arch/biz-process/change-mgt, strong=deepseek-v4-pro, cheap=deepseek-v4-flash), T3 Technical (infra only, strong=minimax-m3, cheap=deepseek-v4-flash), T3 Business (social/ahsoka/luthen, strong=kimi-k2.6, cheap=deepseek-v4-flash), userFacing (main/business, strong=kimi-k2.7-code, Yoda Execute=none). Added cheapModel keys per tier, crestPhaseOverrides.byTier and byAgent (Forge Plan/Synthesize=cheap, Verify/Replan=strong; Spark highStakesExecute=strong). Updated per-agent entries, legacy crestPhaseModelMap.agentPhaseAssignments, schema_version to 3.0, lastUpdated/lastApprovedBy/approvalContext. Updated state/critical-config-baseline.json agentModels to match new primaries. Backup created at state/archive/model-policy-20260619-120646.json.bak.
+**Why:** Single source of truth for model routing must be explicit and match Ken's confirmed tier decisions before consumers (skills, scripts) are updated.
+**Verification:** python3 validation: JSON valid; tier/agent mapping matches confirmed table; crestPhaseOverrides present; critical-config-baseline.json updated and hashes refreshed.
+**Rollback:** Restore backup state/archive/model-policy-20260619-120646.json.bak and revert state/critical-config-baseline.json to previous commit.
+**Linked:** TKT-0540, CHG-0660, CHG-0596, CHG-0597, CHG-0621
+---
+
+
+## 2026-06-19 22:05 AEST — [CHG-0660] CHG-0660: Confirm revised model-policy tier map for TKT-0540
+**Type:** rule
+**Change Type:** Normal
+**Source:** ken-prompt
+**Trigger:** Ken confirmed revised model policy at 2026-06-19 22:04 AEST as part of TKT-0540 grooming.
+**What changed:** Locked TKT-0540 policy decisions into the ticket metadata and synced to Notion. New tiers: T2 Governance (security/legal/governance/qa, strong=gemma4:31b-cloud, cheap=deepseek-v4-flash), T2 Backend (architect/platform-arch/biz-process/change-mgt, strong=deepseek-v4-pro, cheap=deepseek-v4-flash), T3 Technical (infra only, strong=minimax-m3, cheap=deepseek-v4-flash), T3 Business (social/ahsoka/luthen, strong=kimi-k2.6, cheap=deepseek-v4-flash), userFacing (main/business, strong=kimi-k2.7-code, Yoda no Execute). CREST phase overrides: Execute/Synthesize=cheap by default; userFacing.Execute=none; Forge Plan/Synthesize=cheap, Verify/Replan=strong; Spark highStakesExecute=strong.
+**Why:** Single source of truth for model routing requires the policy to be explicit, complete, and Ken-approved before any skill/script consumers are updated.
+**Verification:** TKT-0540 updated with confirmed policy, status=in_progress, synced to Notion.
+**Rollback:** Revert TKT-0540 metadata to pre-confirmation state and restore previous model-policy.json tier assignments.
+**Linked:** TKT-0540, CHG-0659, CHG-0596, CHG-0597, CHG-0545
+---
+
+
+## 2026-06-19 21:46 AEST — [CHG-0659] CHG-0659: Raise and groom TKT-0540 — consolidate model-routing into single SSOT
+**Type:** rule
+**Change Type:** Normal
+**Source:** ken-prompt
+**Trigger:** Ken directed at 2026-06-19 21:44 AEST to raise a TKT and do the model-routing sync properly, not align artifacts in 3 places.
+**What changed:** Raised TKT-0540 'Consolidate model-routing into a single source of truth' (tech/refactor/high/Sprint 8, effort M, assigned yoda). Groomed with 10 atoms: audit consumers (A1), policy schema refactor with crestPhaseOverrides (A2), create scripts/model-policy-query.sh helper (A3), make model-routing and crest SKILL.md reference-only wrappers (A4/A5), update dispatch-validate.sh (A6), update crest-execute-gate.sh (A7), regression tests (A8), drift check (A9), final verification (A10). Declared dependencies TKT-0506 and TKT-0323. Synced to Notion.
+**Why:** Multiple sources of truth (model-policy.json, model-routing SKILL.md, crest SKILL.md, dispatch-validate.sh) caused the earlier Thrawn dispatch confusion. A single SSOT with regression-tested consumers prevents drift and future inconsistent model assignments.
+**Verification:** TKT-0540 created, status=groomed, synced to Notion. Notion page generated.
+**Rollback:** Delete TKT-0540 from PG and Notion; revert any skill/script edits if they had been made.
+**Linked:** TKT-0540, TKT-0506, TKT-0323, CHG-0596, CHG-0597
+---
+
+
 ## 2026-06-19 21:36 AEST — [CHG-0658] Clear stale cron-health alert and park broken budget-check path
 **Type:** script
 **Change Type:** Normal

@@ -1,9 +1,9 @@
 {
-  "schema_version": "2.0",
+  "schema_version": "3.0",
   "description": "PERMANENT model policy for all AInchors agents. Warden enforces this. Changes require Ken approval + CHG entry + baseline update.",
-  "lastUpdated": "2026-06-17T14:26:27+1000",
-  "lastApprovedBy": "Ken Mun (webchat, 2026-06-15 18:48 AEST)",
-  "approvalContext": "CHG-0621: Yoda+Aria trial swap to kimi-k2.7-code. Trial until Sun 22 Jun 10:00 AEST.",
+  "lastUpdated": "2026-06-19T12:06:46+0000",
+  "lastApprovedBy": "Ken Mun (webchat, 2026-06-19 22:06 AEST)",
+  "approvalContext": "CHG-0660: TKT-0540 model-policy tier map confirmed: T2 Governance, T2 Backend, T3 Technical, T3 Business, userFacing.",
   "permanent": true,
   "interimPeriod": false,
   "globalAllowedModels": [
@@ -25,92 +25,102 @@
   ],
   "agentTiers": {
     "userFacing": {
-      "description": "Agents that interact directly with humans (Ken, Angie) via webchat or Telegram",
+      "description": "Agents that interact directly with humans (Ken, Angie) via webchat or Telegram.",
       "agentIds": [
         "main",
         "business"
       ],
       "primary": "ollama/kimi-k2.7-code:cloud",
+      "cheapModel": "ollama/deepseek-v4-flash:cloud",
       "fallbacks": [
         "ollama/deepseek-v4-pro:cloud",
         "ollama/deepseek-v4-flash:cloud",
         "ollama/kimi-k2.6:cloud"
       ],
-      "rationale": "CHG-0596 (2026-06-15 17:57 AEST): Ken directive \u2014 Yoda + Aria (user-facing) swap to deepseek-v4-pro. minimax restricted to T3 specialists. Replaces CHG-0498 trial primary. Reason: L-106 second trigger (msg 4930 confabulation of Posts 2+3 from canonical 4-week arc). Previous trial verdict (PARTIAL, 13 Jun 13:13) confirmed: minimax NOT suitable for engagement/interactive/planning work."
+      "rationale": "CHG-0621 + CHG-0660: Yoda/Aria strong tier on kimi-k2.7-code. Yoda has no Execute phase (CHG-0545); Aria Synthesize may use cheap at per-atom discretion."
     },
-    "backend": {
-      "description": "Backend governance/architecture agents (Shield, Lex, Warden, Atlas, Thrawn, Lando, Mon Mothma). NOT T3 specialists.",
+    "t2Governance": {
+      "description": "T2 governance/verdict agents: Shield, Lex, Warden, Sage.",
       "agentIds": [
         "security",
         "legal",
         "governance",
+        "qa"
+      ],
+      "primary": "ollama/gemma4:31b-cloud",
+      "cheapModel": "ollama/deepseek-v4-flash:cloud",
+      "fallbacks": [
+        "ollama/deepseek-v4-pro:cloud",
+        "ollama/kimi-k2.6:cloud"
+      ],
+      "rationale": "CHG-0660: Split governance agents into own tier. Strong = gemma4:31b-cloud; cheap available for rare Execute/Synthesize work."
+    },
+    "t2Backend": {
+      "description": "T2 design-only/backend specialists: Atlas, Thrawn, Lando, Mon Mothma.",
+      "agentIds": [
         "architect",
         "platform-arch",
         "biz-process",
         "change-mgt"
       ],
-      "primary": "ollama/gemma4:31b-cloud",
-      "fallbacks": [
-        "ollama/deepseek-v4-pro:cloud",
-        "ollama/kimi-k2.6:cloud"
-      ],
-      "rationale": "CHG-0596 + CHG-0597: qa/infra moved to t3Technical tier. Backend stays on gemma4:31b-cloud.",
-      "exceptions": {},
-      "exceptionNote": "These agents use a different primary than the tier default. Drift check should verify against individual assignment."
-    },
-    "trialMiniMaxM3": {
-      "description": "CHG-0498: TERMINATED 2026-06-15 17:57 (CHG-0596). Agents moved to t3Technical (minimax) or t3Business (kimi).",
-      "agentIds": [],
-      "primary": "ollama/minimax-m3:cloud",
-      "fallbacks": [
-        "ollama/minimax-m3:cloud",
-        "ollama/kimi-k2.6:cloud"
-      ],
-      "rationale": "CHG-0596 (2026-06-15 17:57 AEST): Trial terminated early by Ken. Replaced by permanent T3 specialist tier (see agentTiers.t3Specialists). Trial verdict (PARTIAL 2026-06-13 13:13) confirmed: minimax suitable for engineering/dominant work, NOT for user-facing engagement/planning.",
-      "status": "TERMINATED \u2014 not a trial anymore; minimax assigned to T3 specialists per CHG-0596"
-    },
-    "higherQuality": {
-      "description": "CHG-0500: Higher-quality tier for tasks needing best-in-class reasoning. Opt-in per CREST phase model map. Anthropic Sonnet/Opus when available; falls back to Ollama Cloud T2. Default tier for new cognitive work post-OC2.",
-      "agentIds": [],
-      "primary": "anthropic/claude-sonnet-4-6",
-      "fallbacks": [
-        "ollama/minimax-m3:cloud",
-        "ollama/kimi-k2.6:cloud"
-      ],
-      "rationale": "CHG-0500: CREST v1.3 phase model map allows higher-tier for Plan/Verify/Replan. Anthropic Sonnet first choice when credits available, Ollama Cloud T2 fallback. Not a special trigger \u2014 one option in the matrix. [INACTIVE: tier exists in policy as the structural model-task matrix option, but no agent is currently routed to Anthropic models. When Ken provides credits, this tier becomes active and agents are assigned per CREST v1.3 phase model map.]",
-      "optIn": true,
-      "crestPhaseAlignment": "Strong-tier: Plan / Verify / Replan",
-      "active": false,
-      "activationGate": "Anthropic API key rotation + CHG-record + Ken approval (per CHG-0500 + CREST v1.3 phase map)"
-    },
-    "t3Technical": {
-      "description": "CHG-0597 (Ken 2026-06-15 18:48 AEST): T3 technical specialist agents (Sage, Forge, Ahsoka, Luthen) on minimax-m3:cloud. Yoda-on-deepseek verifies all outputs.",
-      "agentIds": [
-        "qa",
-        "infra",
-        "ahsoka",
-        "luthen"
-      ],
-      "primary": "ollama/minimax-m3:cloud",
+      "primary": "ollama/deepseek-v4-pro:cloud",
+      "cheapModel": "ollama/deepseek-v4-flash:cloud",
       "fallbacks": [
         "ollama/gemma4:31b-cloud",
         "ollama/kimi-k2.6:cloud"
       ],
-      "rationale": "CHG-0597: Ken directive \u2014 technical stream T3 specialists use minimax. Engineering/scripting/dispatch work.",
-      "monitoredBy": "Yoda (deepseek-v4-pro) per CREST v1.3 plan/verify/replan cycle"
+      "rationale": "CHG-0660: T2 backend tier split from governance. Strong = deepseek-v4-pro. Execute/Synthesize produce documents/diagrams/analysis and use cheap model."
+    },
+    "t3Technical": {
+      "description": "T3 technical specialist: Forge only.",
+      "agentIds": [
+        "infra"
+      ],
+      "primary": "ollama/minimax-m3:cloud",
+      "cheapModel": "ollama/deepseek-v4-flash:cloud",
+      "fallbacks": [
+        "ollama/gemma4:31b-cloud",
+        "ollama/kimi-k2.6:cloud"
+      ],
+      "rationale": "CHG-0660: T3 technical stream reduced to Forge only. Strong = minimax-m3. Forge exception: Plan/Synthesize use cheap; Verify/Replan use strong."
     },
     "t3Business": {
-      "description": "CHG-0597 (Ken 2026-06-15 18:48 AEST): T3 business specialist agent (Spark) on kimi-k2.6:cloud. Content/engagement/social work.",
+      "description": "T3 business specialists: Spark, Ahsoka, Luthen.",
       "agentIds": [
-        "social"
+        "social",
+        "ahsoka",
+        "luthen"
       ],
       "primary": "ollama/kimi-k2.6:cloud",
+      "cheapModel": "ollama/deepseek-v4-flash:cloud",
       "fallbacks": [
         "ollama/gemma4:31b-cloud",
         "ollama/deepseek-v4-pro:cloud"
       ],
-      "rationale": "CHG-0597: Ken directive \u2014 business stream T3 specialist uses kimi. Content generation/engagement work where minimax was found unsuitable (L-106).",
-      "monitoredBy": "Yoda (deepseek-v4-pro) per CREST v1.3 plan/verify/replan cycle"
+      "rationale": "CHG-0660: Business stream on kimi-k2.6. Spark high-stakes Execute may override to strong. Ahsoka/Luthen moved from t3Technical."
+    },
+    "trialMiniMaxM3": {
+      "description": "CHG-0498: TERMINATED. Kept as empty archival tier.",
+      "agentIds": [],
+      "primary": "ollama/minimax-m3:cloud",
+      "cheapModel": null,
+      "fallbacks": [
+        "ollama/minimax-m3:cloud",
+        "ollama/kimi-k2.6:cloud"
+      ],
+      "rationale": "CHG-0596: Trial terminated. minimax now lives in t3Technical only."
+    },
+    "higherQuality": {
+      "description": "Anthropic higher-quality tier. Parked per CHG-0502.",
+      "agentIds": [],
+      "primary": "anthropic/claude-sonnet-4-6",
+      "cheapModel": null,
+      "fallbacks": [
+        "ollama/minimax-m3:cloud",
+        "ollama/kimi-k2.6:cloud"
+      ],
+      "rationale": "CHG-0500/CHG-0502: Tier exists structurally but Anthropic is permanently parked until 'CLAUDE ACTIVATE'.",
+      "active": false
     }
   },
   "agents": {
@@ -130,11 +140,12 @@
         "anthropic/claude-sonnet-4-6",
         "ollama/gemma4:e2b"
       ],
-      "modelChangeNote": "CHG-0621: deepseek-v4-pro \u2192 kimi-k2.7-code trial (Sun 22 Jun 10:00 AEST). Pro retained as first fallback.",
+      "modelChangeNote": "CHG-0660: Tier reassignment per TKT-0540 confirmed policy.",
       "model": "ollama/kimi-k2.7-code:cloud",
       "fallbacks": [
         "ollama/deepseek-v4-pro:cloud"
-      ]
+      ],
+      "requiredCheap": "ollama/deepseek-v4-flash:cloud"
     },
     "business": {
       "description": "Aria \ud83d\udd35 \u2014 Business Lead Agent (user-facing)",
@@ -151,155 +162,175 @@
         "anthropic/claude-haiku-4-5",
         "anthropic/claude-sonnet-4-6"
       ],
-      "modelChangeNote": "CHG-0621: deepseek-v4-pro \u2192 kimi-k2.7-code trial (Sun 22 Jun 10:00 AEST). Pro retained as first fallback.",
+      "modelChangeNote": "CHG-0660: Tier reassignment per TKT-0540 confirmed policy.",
       "model": "ollama/kimi-k2.7-code:cloud",
       "fallbacks": [
         "ollama/deepseek-v4-pro:cloud"
-      ]
+      ],
+      "requiredCheap": "ollama/deepseek-v4-flash:cloud"
     },
     "security": {
       "description": "Shield \ud83d\udee1\ufe0f \u2014 Security Governance Agent",
-      "tier": "backend",
-      "requiredPrimary": "ollama/deepseek-v4-pro:cloud",
+      "tier": "t2Governance",
+      "requiredPrimary": "ollama/gemma4:31b-cloud",
       "requiredFallbacks": [
-        "ollama/deepseek-v4-flash:cloud",
+        "ollama/deepseek-v4-pro:cloud",
         "ollama/kimi-k2.6:cloud"
       ],
       "allowedInCrons": [
         "anthropic/claude-haiku-4-5",
         "anthropic/claude-sonnet-4-6"
-      ]
+      ],
+      "modelChangeNote": "CHG-0660: Tier reassignment per TKT-0540 confirmed policy.",
+      "requiredCheap": "ollama/deepseek-v4-flash:cloud"
     },
     "legal": {
       "description": "Lex \u2696\ufe0f \u2014 Legal Governance Agent",
-      "tier": "backend",
-      "requiredPrimary": "ollama/deepseek-v4-pro:cloud",
+      "tier": "t2Governance",
+      "requiredPrimary": "ollama/gemma4:31b-cloud",
       "requiredFallbacks": [
-        "ollama/deepseek-v4-flash:cloud",
+        "ollama/deepseek-v4-pro:cloud",
         "ollama/kimi-k2.6:cloud"
       ],
       "allowedInCrons": [
         "anthropic/claude-haiku-4-5",
         "anthropic/claude-sonnet-4-6"
-      ]
+      ],
+      "modelChangeNote": "CHG-0660: Tier reassignment per TKT-0540 confirmed policy.",
+      "requiredCheap": "ollama/deepseek-v4-flash:cloud"
     },
     "qa": {
       "description": "Sage \ud83e\uddea \u2014 QA Governance Agent",
-      "tier": "t3Specialists",
-      "requiredPrimary": "ollama/minimax-m3:cloud",
+      "tier": "t2Governance",
+      "requiredPrimary": "ollama/gemma4:31b-cloud",
       "requiredFallbacks": [
-        "ollama/gemma4:31b-cloud",
+        "ollama/deepseek-v4-pro:cloud",
         "ollama/kimi-k2.6:cloud"
       ],
       "allowedInCrons": [
         "anthropic/claude-haiku-4-5",
         "anthropic/claude-sonnet-4-6"
       ],
-      "modelChangeNote": "CHG-0596: stays on minimax (T3 specialist tier per Ken directive)"
+      "modelChangeNote": "CHG-0660: Tier reassignment per TKT-0540 confirmed policy.",
+      "requiredCheap": "ollama/deepseek-v4-flash:cloud"
     },
     "governance": {
       "description": "Warden \ud83d\udd0d \u2014 Model Compliance Officer",
-      "tier": "backend",
-      "requiredPrimary": "ollama/deepseek-v4-pro:cloud",
+      "tier": "t2Governance",
+      "requiredPrimary": "ollama/gemma4:31b-cloud",
       "requiredFallbacks": [
-        "ollama/deepseek-v4-flash:cloud",
+        "ollama/deepseek-v4-pro:cloud",
         "ollama/kimi-k2.6:cloud"
       ],
       "allowedInCrons": [
         "anthropic/claude-haiku-4-5",
         "anthropic/claude-sonnet-4-6"
-      ]
+      ],
+      "modelChangeNote": "CHG-0660: Tier reassignment per TKT-0540 confirmed policy.",
+      "requiredCheap": "ollama/deepseek-v4-flash:cloud"
     },
     "infra": {
       "description": "Forge \ud83c\udfd7\ufe0f \u2014 Infra/Ops Agent",
-      "tier": "t3Specialists",
+      "tier": "t3Technical",
       "requiredPrimary": "ollama/minimax-m3:cloud",
       "requiredFallbacks": [
         "ollama/gemma4:31b-cloud",
         "ollama/kimi-k2.6:cloud"
       ],
       "_crestNote": "TKT-0383: Forge uses flash for Plan+Execute+Synthesize. Pro for Verify+Replan only. Flash-as-primary is intentional.",
-      "modelChangeNote": "CHG-0596: stays on minimax (T3 specialist tier per Ken directive)"
+      "modelChangeNote": "CHG-0660: Tier reassignment per TKT-0540 confirmed policy.",
+      "requiredCheap": "ollama/deepseek-v4-flash:cloud"
     },
     "architect": {
       "description": "Atlas \ud83c\udfdb\ufe0f \u2014 Enterprise Architect",
-      "tier": "backend",
+      "tier": "t2Backend",
       "requiredPrimary": "ollama/deepseek-v4-pro:cloud",
-      "requiredFallbacks": [
-        "ollama/deepseek-v4-flash:cloud",
-        "ollama/kimi-k2.6:cloud"
-      ]
-    },
-    "platform-arch": {
-      "description": "Thrawn \u2014 AI Platform Architect",
-      "tier": "backend",
-      "requiredPrimary": "ollama/deepseek-v4-pro:cloud",
-      "requiredFallbacks": [
-        "ollama/deepseek-v4-flash:cloud",
-        "ollama/kimi-k2.6:cloud"
-      ]
-    },
-    "biz-process": {
-      "description": "Lando \ud83d\udfe1 \u2014 Business Process Specialist",
-      "tier": "backend",
-      "requiredPrimary": "ollama/deepseek-v4-pro:cloud",
-      "requiredFallbacks": [
-        "ollama/deepseek-v4-flash:cloud",
-        "ollama/kimi-k2.6:cloud"
-      ]
-    },
-    "change-mgt": {
-      "description": "Mon Mothma \ud83c\udf1f \u2014 Digital Transformation CM Specialist",
-      "tier": "backend",
-      "requiredPrimary": "ollama/deepseek-v4-pro:cloud",
-      "requiredFallbacks": [
-        "ollama/deepseek-v4-flash:cloud",
-        "ollama/kimi-k2.6:cloud"
-      ]
-    },
-    "ahsoka": {
-      "description": "Ahsoka \ud83e\udd0d \u2014 AI Transformation Consultant",
-      "tier": "t3Specialists",
-      "requiredPrimary": "ollama/minimax-m3:cloud",
       "requiredFallbacks": [
         "ollama/gemma4:31b-cloud",
         "ollama/kimi-k2.6:cloud"
       ],
-      "modelChangeNote": "CHG-0596: stays on minimax (T3 specialist tier per Ken directive)"
+      "modelChangeNote": "CHG-0660: Tier reassignment per TKT-0540 confirmed policy.",
+      "requiredCheap": "ollama/deepseek-v4-flash:cloud"
+    },
+    "platform-arch": {
+      "description": "Thrawn \u2014 AI Platform Architect",
+      "tier": "t2Backend",
+      "requiredPrimary": "ollama/deepseek-v4-pro:cloud",
+      "requiredFallbacks": [
+        "ollama/gemma4:31b-cloud",
+        "ollama/kimi-k2.6:cloud"
+      ],
+      "modelChangeNote": "CHG-0660: Tier reassignment per TKT-0540 confirmed policy.",
+      "requiredCheap": "ollama/deepseek-v4-flash:cloud"
+    },
+    "biz-process": {
+      "description": "Lando \ud83d\udfe1 \u2014 Business Process Specialist",
+      "tier": "t2Backend",
+      "requiredPrimary": "ollama/deepseek-v4-pro:cloud",
+      "requiredFallbacks": [
+        "ollama/gemma4:31b-cloud",
+        "ollama/kimi-k2.6:cloud"
+      ],
+      "modelChangeNote": "CHG-0660: Tier reassignment per TKT-0540 confirmed policy.",
+      "requiredCheap": "ollama/deepseek-v4-flash:cloud"
+    },
+    "change-mgt": {
+      "description": "Mon Mothma \ud83c\udf1f \u2014 Digital Transformation CM Specialist",
+      "tier": "t2Backend",
+      "requiredPrimary": "ollama/deepseek-v4-pro:cloud",
+      "requiredFallbacks": [
+        "ollama/gemma4:31b-cloud",
+        "ollama/kimi-k2.6:cloud"
+      ],
+      "modelChangeNote": "CHG-0660: Tier reassignment per TKT-0540 confirmed policy.",
+      "requiredCheap": "ollama/deepseek-v4-flash:cloud"
+    },
+    "ahsoka": {
+      "description": "Ahsoka \ud83e\udd0d \u2014 AI Transformation Consultant",
+      "tier": "t3Business",
+      "requiredPrimary": "ollama/kimi-k2.6:cloud",
+      "requiredFallbacks": [
+        "ollama/gemma4:31b-cloud",
+        "ollama/deepseek-v4-pro:cloud"
+      ],
+      "modelChangeNote": "CHG-0660: Tier reassignment per TKT-0540 confirmed policy.",
+      "requiredCheap": "ollama/deepseek-v4-flash:cloud"
     },
     "luthen": {
-      "requiredPrimary": "ollama/minimax-m3:cloud",
+      "requiredPrimary": "ollama/kimi-k2.6:cloud",
       "allowed": [
         "ollama/gemma4:31b-cloud",
         "ollama/deepseek-v4-pro:cloud",
         "ollama/kimi-k2.6:cloud"
       ],
-      "tier": "t3Specialists",
+      "tier": "t3Business",
       "role": "Marketing Intelligence Agent",
       "stream": "business",
       "reportsTo": "aria",
       "requiredFallbacks": [
         "ollama/gemma4:31b-cloud",
-        "ollama/kimi-k2.6:cloud"
+        "ollama/deepseek-v4-pro:cloud"
       ],
-      "modelChangeNote": "CHG-0596: stays on minimax (T3 specialist tier per Ken directive)"
+      "modelChangeNote": "CHG-0660: Tier reassignment per TKT-0540 confirmed policy.",
+      "requiredCheap": "ollama/deepseek-v4-flash:cloud"
     },
     "social": {
-      "requiredPrimary": "ollama/minimax-m3:cloud",
+      "requiredPrimary": "ollama/kimi-k2.6:cloud",
       "allowed": [
         "ollama/kimi-k2.6:cloud",
         "ollama/gemma4:31b-cloud",
         "ollama/deepseek-v4-pro:cloud"
       ],
-      "tier": "t3Specialists",
+      "tier": "t3Business",
       "role": "Social & Content Marketing Agent",
       "stream": "business",
       "reportsTo": "aria",
       "requiredFallbacks": [
         "ollama/gemma4:31b-cloud",
-        "ollama/kimi-k2.6:cloud"
+        "ollama/deepseek-v4-pro:cloud"
       ],
-      "modelChangeNote": "CHG-0596: stays on minimax (T3 specialist tier per Ken directive)"
+      "modelChangeNote": "CHG-0660: Tier reassignment per TKT-0540 confirmed policy.",
+      "requiredCheap": "ollama/deepseek-v4-flash:cloud"
     }
   },
   "cronModelPolicy": {
@@ -328,8 +359,8 @@
     "process": "1. Ken approval in webchat/Telegram. 2. Update this file. 3. Update critical-config-baseline.json. 4. Log CHG entry. 5. Update MEMORY.md.",
     "approvalKeyword": "POLICY CHANGE APPROVED"
   },
-  "baselineTimestamp": "2026-06-17T14:23:22+1000",
-  "baselineCHG": "CHG-0621",
+  "baselineTimestamp": "2026-06-19T12:06:46+0000",
+  "baselineCHG": "CHG-0660",
   "crestPhaseModelMap": {
     "description": "CREST v1.2 \u00a75.8 \u2014 Per-agent, per-phase model assignments. Warden uses this for phase-aware compliance (TKT-0383).",
     "phaseModels": {
@@ -353,50 +384,49 @@
       }
     },
     "agentPhaseAssignments": {
-      "yoda": {
+      "main": {
         "plan": "pro",
         "execute": null,
         "verify": "pro",
         "replan": "pro",
         "synthesize": "pro"
       },
-      "atlas": {
+      "architect": {
         "plan": "pro",
         "execute": "flash",
         "verify": "pro",
         "replan": "pro",
         "synthesize": "flash"
       },
-      "thrawn": {
+      "platform-arch": {
         "plan": "pro",
         "execute": "flash",
         "verify": "pro",
         "replan": "pro",
         "synthesize": "flash"
       },
-      "forge": {
+      "infra": {
         "plan": "flash",
         "execute": "flash",
         "verify": "pro",
         "replan": "pro",
-        "synthesize": "flash",
-        "_note": "EXCEPTION: Plan uses flash, not pro. Infra/SRE planning is bounded and deterministic. Pro reserved for Verify/Replan only."
+        "synthesize": "flash"
       },
-      "spark": {
+      "social": {
         "plan": "pro",
         "execute": "flash",
         "verify": "pro",
         "replan": "pro",
         "synthesize": "flash"
       },
-      "lando": {
+      "biz-process": {
         "plan": "pro",
         "execute": "flash",
         "verify": "pro",
         "replan": "pro",
         "synthesize": "flash"
       },
-      "monMothma": {
+      "change-mgt": {
         "plan": "pro",
         "execute": "flash",
         "verify": "pro",
@@ -434,5 +464,65 @@
       ],
       "precedent": "L-084 (2026-06-12): same class, model (self) fabricated 31 CHG records in a compacted summary, claimed 'sweep complete'. Permanent rule: never claim completion from a summary. Always re-run gate after context boundary."
     }
-  ]
+  ],
+  "crestPhaseOverrides": {
+    "description": "CREST phase-aware model overrides. strong=agent's tier primary; cheap=agent's tier cheapModel; none=phase not allowed.",
+    "byTier": {
+      "userFacing": {
+        "Plan": "strong",
+        "Execute": "none",
+        "Verify": "strong",
+        "Replan": "strong",
+        "Synthesize": "strong"
+      },
+      "t2Governance": {
+        "Plan": "strong",
+        "Execute": "cheap",
+        "Verify": "strong",
+        "Replan": "strong",
+        "Synthesize": "cheap"
+      },
+      "t2Backend": {
+        "Plan": "strong",
+        "Execute": "cheap",
+        "Verify": "strong",
+        "Replan": "strong",
+        "Synthesize": "cheap"
+      },
+      "t3Technical": {
+        "Plan": "strong",
+        "Execute": "cheap",
+        "Verify": "strong",
+        "Replan": "strong",
+        "Synthesize": "cheap"
+      },
+      "t3Business": {
+        "Plan": "strong",
+        "Execute": "cheap",
+        "Verify": "strong",
+        "Replan": "strong",
+        "Synthesize": "cheap"
+      }
+    },
+    "byAgent": {
+      "infra": {
+        "Plan": "cheap",
+        "Synthesize": "cheap",
+        "Verify": "strong",
+        "Replan": "strong"
+      },
+      "social": {
+        "Execute": "cheap",
+        "highStakesExecute": "strong"
+      },
+      "main": {
+        "Execute": "none",
+        "Synthesize": "cheap"
+      },
+      "business": {
+        "Execute": "cheap",
+        "Synthesize": "cheap"
+      }
+    }
+  }
 }

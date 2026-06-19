@@ -178,14 +178,15 @@ SOURCE_AGENT=$(echo "$JSON_INPUT" | "$JQ" -r '.source_agent // empty' 2>/dev/nul
 FIRST_VERB=$(echo "$JSON_INPUT" | "$JQ" -r '.discovery_atoms[0].verb // .sub_crest_plan[0].verb // empty' 2>/dev/null)
 FIRST_TARGET=$(echo "$JSON_INPUT" | "$JQ" -r '.discovery_atoms[0].target // .sub_crest_plan[0].target // empty' 2>/dev/null)
 FIRST_DESC=$(echo "$JSON_INPUT" | "$JQ" -r '.discovery_atoms[0].desc // .sub_crest_plan[0].desc // empty' 2>/dev/null)
+FIRST_MODEL=$(echo "$JSON_INPUT" | "$JQ" -r '.sub_crest_plan[0].model // .discovery_atoms[0].model // empty' 2>/dev/null)
 
 MUTATING_VERBS="create|write|delete|edit|exec"
 
 if [[ "$SOURCE_AGENT" == "yoda" ]] && echo "$FIRST_VERB" | grep -qE "^($MUTATING_VERBS)$"; then
   if [[ -x "$CREST_GATE" ]]; then
     GATE_RESULT=$(CREST_PHASE=execute \
-      CREST_OPERATOR=yoda \
-      CREST_MODEL=ollama/minimax-m3:cloud \
+      CREST_OPERATOR=main \
+      CREST_MODEL="${FIRST_MODEL:-}" \
       CREST_ATOM_DESC="$FIRST_DESC" \
       CREST_TARGET="$FIRST_TARGET" \
       bash "$CREST_GATE" 2>/dev/null) || true
@@ -234,6 +235,9 @@ if RESULT=$(check "discovery_atoms" \
 else
   FAILURES+=("$RESULT")
 fi
+
+# Capture target_agent for CREST model policy validation
+TARGET_AGENT=$(echo "$JSON_INPUT" | "$JQ" -r '.target_agent // empty' 2>/dev/null)
 
 # ── CREST CHECKS (TKT-0385) — only when sub_crest_plan exists ─
 
@@ -377,150 +381,83 @@ if [[ "$HAS_SUB_CREST" == "yes" ]]; then
     FAILURES+=("$(fail_atom "atom-validate.sh" "not found or not executable at ${ATOM_VALIDATOR}" "")")
   fi
 
-  # ─── 3. Model Assignment Matrix Validation ─────────────────
+  # ─── 3. Model Assignment Policy Validation (TKT-0540) ─────────────────
 
-  if [[ -r "$MODEL_POLICY" ]]; then
-    TARGET_AGENT=$(echo "$JSON_INPUT" | "$JQ" -r '.target_agent' 2>/dev/null)
+  # ─── 3a. Verifier Corpus Required (Ken directive 2026-06-15, L-138) ───
+  HAS_EXECUTE_OR_VERIFY=$(echo "$JSON_INPUT" | "$JQ" -r \
+    '[.sub_crest_plan[] | select(.phase == "execute" or .phase == "verify")] | length' 2>/dev/null)
 
-    # ─── 2a. Verifier Corpus Required (Ken directive 2026-06-15, A+B) ───
-    # L-138 lesson: subagent writes its own tests against its own implementation.
-    # They always pass. The Yoda-side verifier (L-113) is the only way to catch this.
-    # RULE: any dispatch with ≥1 phase=execute or phase=verify atom MUST have
-    # a verifier_corpus field — a non-empty string or array of test file paths
-    # authored by Yoda (not the subagent). The subagent runs the verifier and
-    # reports totals; it MUST NOT modify the verifier or the corpus.
-    HAS_EXECUTE_OR_VERIFY=$(echo "$JSON_INPUT" | "$JQ" -r \
-      '[.sub_crest_plan[] | select(.phase == "execute" or .phase == "verify")] | length' 2>/dev/null)
+  if [[ "${HAS_EXECUTE_OR_VERIFY:-0}" -gt 0 ]]; then
+    VERIFIER_CORPUS=$(echo "$JSON_INPUT" | "$JQ" -r '.verifier_corpus // empty' 2>/dev/null)
+    VERIFIER_CORPUS_TYPE=$(echo "$JSON_INPUT" | "$JQ" -r '.verifier_corpus | type // "null"' 2>/dev/null)
 
-    if [[ "${HAS_EXECUTE_OR_VERIFY:-0}" -gt 0 ]]; then
-      VERIFIER_CORPUS=$(echo "$JSON_INPUT" | "$JQ" -r '.verifier_corpus // empty' 2>/dev/null)
-      VERIFIER_CORPUS_TYPE=$(echo "$JSON_INPUT" | "$JQ" -r '.verifier_corpus | type // "null"' 2>/dev/null)
-
-      if [[ -z "$VERIFIER_CORPUS" || "$VERIFIER_CORPUS" == "null" ]]; then
-        FAILURES+=("$(fail_atom "verifier_corpus" "missing — required for any execute/verify atom (L-138 anti-subagent-trap rule). Yoda must author test corpus BEFORE dispatch; subagent runs and reports only." "")")
-      elif [[ "$VERIFIER_CORPUS_TYPE" == "string" ]]; then
-        # Single file path — verify it exists
-        if [[ ! -e "$VERIFIER_CORPUS" ]]; then
-          FAILURES+=("$(fail_atom "verifier_corpus" "file not found: ${VERIFIER_CORPUS} — Yoda must create the test corpus before dispatch." "")")
-        else
+    if [[ -z "$VERIFIER_CORPUS" || "$VERIFIER_CORPUS" == "null" ]]; then
+      FAILURES+=("$(fail_atom "verifier_corpus" "missing — required for any execute/verify atom (L-138 anti-subagent-trap rule). Yoda must author test corpus BEFORE dispatch; subagent runs and reports only." "")")
+    elif [[ "$VERIFIER_CORPUS_TYPE" == "string" ]]; then
+      if [[ ! -e "$VERIFIER_CORPUS" ]]; then
+        FAILURES+=("$(fail_atom "verifier_corpus" "file not found: ${VERIFIER_CORPUS} — Yoda must create the test corpus before dispatch." "")")
+      else
+        ((PASSES++))
+        if $VERBOSE; then
+          echo "$($JQ -n --arg f "verifier_corpus" --arg p "$VERIFIER_CORPUS" '{"field":$f,"status":"ok","path":$p}')"
+        fi
+      fi
+    elif [[ "$VERIFIER_CORPUS_TYPE" == "array" ]]; then
+      CORPUS_COUNT=$(echo "$JSON_INPUT" | "$JQ" -r '.verifier_corpus | length' 2>/dev/null)
+      if [[ "${CORPUS_COUNT:-0}" -eq 0 ]]; then
+        FAILURES+=("$(fail_atom "verifier_corpus" "empty array — Yoda must populate test corpus before dispatch." "")")
+      else
+        MISSING_FILES=0
+        while IFS= read -r corpus_file; do
+          [[ -z "$corpus_file" ]] && continue
+          if [[ ! -e "$corpus_file" ]]; then
+            MISSING_FILES=$((MISSING_FILES+1))
+            FAILURES+=("$(fail_atom "verifier_corpus[${corpus_file}]" "file not found — Yoda must create the test corpus before dispatch." "")")
+          fi
+        done < <(echo "$JSON_INPUT" | "$JQ" -r '.verifier_corpus[]' 2>/dev/null)
+        if [[ $MISSING_FILES -eq 0 ]]; then
           ((PASSES++))
           if $VERBOSE; then
-            echo "$($JQ -n --arg f "verifier_corpus" --arg p "$VERIFIER_CORPUS" '{"field":$f,"status":"ok","path":$p}')"
+            echo "$($JQ -n --arg f "verifier_corpus" --argjson c "$CORPUS_COUNT" '{"field":$f,"status":"ok","count":$c}')"
           fi
         fi
-      elif [[ "$VERIFIER_CORPUS_TYPE" == "array" ]]; then
-        CORPUS_COUNT=$(echo "$JSON_INPUT" | "$JQ" -r '.verifier_corpus | length' 2>/dev/null)
-        if [[ "${CORPUS_COUNT:-0}" -eq 0 ]]; then
-          FAILURES+=("$(fail_atom "verifier_corpus" "empty array — Yoda must populate test corpus before dispatch." "")")
-        else
-          MISSING_FILES=0
-          while IFS= read -r corpus_file; do
-            [[ -z "$corpus_file" ]] && continue
-            if [[ ! -e "$corpus_file" ]]; then
-              MISSING_FILES=$((MISSING_FILES+1))
-              FAILURES+=("$(fail_atom "verifier_corpus[${corpus_file}]" "file not found — Yoda must create the test corpus before dispatch." "")")
-            fi
-          done < <(echo "$JSON_INPUT" | "$JQ" -r '.verifier_corpus[]' 2>/dev/null)
-          if [[ $MISSING_FILES -eq 0 ]]; then
-            ((PASSES++))
-            if $VERBOSE; then
-              echo "$($JQ -n --arg f "verifier_corpus" --argjson c "$CORPUS_COUNT" '{"field":$f,"status":"ok","count":$c}')"
-            fi
-          fi
-        fi
-      else
-        FAILURES+=("$(fail_atom "verifier_corpus" "invalid type (${VERIFIER_CORPUS_TYPE}) — must be string (file path) or array of file paths." "")")
       fi
+    else
+      FAILURES+=("$(fail_atom "verifier_corpus" "invalid type (${VERIFIER_CORPUS_TYPE}) — must be string (file path) or array of file paths." "")")
     fi
-    # if no execute/verify atoms, verifier_corpus is optional (plan/synthesize only)
+  fi
 
+  # ─── 3b. Model assignment per policy helper ─────────────────
+
+  if [[ -x "${SCRIPT_DIR}/model-policy-query.sh" ]]; then
     for ((i=0; i<ATOM_COUNT; i++)); do
       idx_label="atom[$i]"
       ATOM_PHASE=$(echo "$JSON_INPUT" | "$JQ" -r ".sub_crest_plan[$i].phase" 2>/dev/null)
       ATOM_MODEL=$(echo "$JSON_INPUT" | "$JQ" -r ".sub_crest_plan[$i].model" 2>/dev/null)
 
-      # Map CREST phase to expected model tier (pro or flash)
-      # CREST phases: plan→pro, execute→flash, verify→pro, replan→pro, synthesize→flash
-      case "$ATOM_PHASE" in
-        plan)       EXPECTED_TIER="pro" ;;
-        execute)    EXPECTED_TIER="flash" ;;
-        verify)     EXPECTED_TIER="pro" ;;
-        replan)     EXPECTED_TIER="pro" ;;
-        synthesize) EXPECTED_TIER="flash" ;;
-        *)
-          FAILURES+=("$(fail_atom "${idx_label}.model_phase" "unknown phase '${ATOM_PHASE}' for model validation" "$i")")
-          continue
-          ;;
-      esac
+      EXPECTED_JSON=$(bash "${SCRIPT_DIR}/model-policy-query.sh" --agent "$TARGET_AGENT" --phase "$ATOM_PHASE" 2>/dev/null) || true
+      EXPECTED_STATUS=$(echo "$EXPECTED_JSON" | "$JQ" -r '.model // .error // empty' 2>/dev/null || true)
 
-      # Get the expected model for this agent+phase from model-policy.json
-      EXPECTED_PHASE_ASSIGNMENT=$("$JQ" -r --arg agent "$TARGET_AGENT" --arg phase "$ATOM_PHASE" \
-        '.crestPhaseModelMap.agentPhaseAssignments[$agent][$phase] // empty' "$MODEL_POLICY" 2>/dev/null)
-
-      # If no agent-specific assignment, fall back to default tier
-      if [[ -z "$EXPECTED_PHASE_ASSIGNMENT" ]]; then
-        EXPECTED_PHASE_ASSIGNMENT="$EXPECTED_TIER"
-      fi
-
-      # Determine expected model full name from the tier
-      EXPECTED_PRIMARY=$("$JQ" -r --arg tier "$EXPECTED_PHASE_ASSIGNMENT" \
-        '.crestPhaseModelMap.phaseModels[$tier].primary // empty' "$MODEL_POLICY" 2>/dev/null)
-      EXPECTED_FALLBACKS=$("$JQ" -r --arg tier "$EXPECTED_PHASE_ASSIGNMENT" \
-        '.crestPhaseModelMap.phaseModels[$tier].fallback // [] | join(",")' "$MODEL_POLICY" 2>/dev/null)
-
-      # Check: does atom model match expected primary OR fallback?
-      MODEL_OK=false
-
-      if [[ "$ATOM_MODEL" == "$EXPECTED_PRIMARY" ]]; then
-        MODEL_OK=true
-      elif [[ -n "$EXPECTED_FALLBACKS" ]]; then
-        # Check fallbacks (only if non-empty)
-        IFS=',' read -ra FB_ARRAY <<< "$EXPECTED_FALLBACKS" || true
-        for fb in "${FB_ARRAY[@]:-}"; do
-          [[ -z "$fb" ]] && continue
-          fb_trimmed=$(echo "$fb" | xargs)
-          if [[ "$ATOM_MODEL" == "$fb_trimmed" ]]; then
-            MODEL_OK=true
-            break
-          fi
-        done
-      fi
-
-      # Forge exception: Plan/Synthesize phases MAY use flash
-      if [[ "$MODEL_OK" == "false" && "$TARGET_AGENT" == "forge" ]]; then
-        if [[ "$ATOM_PHASE" == "plan" || "$ATOM_PHASE" == "synthesize" ]]; then
-          FLASH_PRIMARY=$("$JQ" -r '.crestPhaseModelMap.phaseModels.flash.primary' "$MODEL_POLICY" 2>/dev/null)
-          FLASH_FALLBACKS=$("$JQ" -r '.crestPhaseModelMap.phaseModels.flash.fallback // [] | join(",")' "$MODEL_POLICY" 2>/dev/null)
-          if [[ "$ATOM_MODEL" == "$FLASH_PRIMARY" ]]; then
-            MODEL_OK=true
-          elif [[ -n "$FLASH_FALLBACKS" ]]; then
-            IFS=',' read -ra FF_ARRAY <<< "$FLASH_FALLBACKS" || true
-            for ff in "${FF_ARRAY[@]:-}"; do
-              [[ -z "$ff" ]] && continue
-              ff_trimmed=$(echo "$ff" | xargs)
-              if [[ "$ATOM_MODEL" == "$ff_trimmed" ]]; then
-                MODEL_OK=true
-                break
-              fi
-            done
-          fi
-        fi
-      fi
-
-      if [[ "$MODEL_OK" == "false" ]]; then
+      if [[ -z "$EXPECTED_STATUS" || "$EXPECTED_STATUS" == "not-allowed" ]]; then
         FAILURES+=("$(fail_atom "${idx_label}.model_assignment" \
-          "phase '${ATOM_PHASE}' expects tier '${EXPECTED_PHASE_ASSIGNMENT}' (primary: ${EXPECTED_PRIMARY}), but atom uses '${ATOM_MODEL}'" "$i")")
-      else
+          "phase '${ATOM_PHASE}' is not allowed for agent '${TARGET_AGENT}' per model-policy.json (TKT-0540)" "$i")")
+        continue
+      fi
+
+      # Check exact match against expected model
+      if [[ "$ATOM_MODEL" == "$EXPECTED_STATUS" ]]; then
         ((PASSES++))
         if $VERBOSE; then
-          "$JQ" -n --arg f "${idx_label}.model_assignment" '{"field":$f,"status":"pass"}'
+          "$JQ" -n --arg f "${idx_label}.model_assignment" --arg expected "$EXPECTED_STATUS" --arg actual "$ATOM_MODEL" \
+            '{"field":$f,"status":"pass","expected":$expected,"actual":$actual}'
         fi
+      else
+        FAILURES+=("$(fail_atom "${idx_label}.model_assignment" \
+          "phase '${ATOM_PHASE}' for agent '${TARGET_AGENT}' expects model '${EXPECTED_STATUS}', but atom uses '${ATOM_MODEL}'" "$i")")
       fi
     done
   else
-    if $VERBOSE; then
-      FAILURES+=("$(fail_atom "model-policy.json" "not readable at ${MODEL_POLICY}; skipping model assignment validation" "")")
-    fi
+    FAILURES+=("$(fail_atom "model-policy-query.sh" "not executable at ${SCRIPT_DIR}/model-policy-query.sh; cannot validate model assignments (TKT-0540)" "")")
   fi
 
   # ─── 4. Escalation Handshake Validation ────────────────────

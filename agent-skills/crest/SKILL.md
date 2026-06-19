@@ -9,7 +9,7 @@ Load this skill whenever you are:
 
 - **Starting or executing any task** that involves planning + execution work — CREST is mandatory for every such loop (Ken mandate 2026-06-13).
 - **Dispatching a sub-ticket** to a specialist (Atlas, Thrawn, Spark, Lando, Mon Mothma, Forge) — apply the Master/Sub-CREST topology.
-- **Choosing a model tier** for a specialist (Plan/Verify/Replan vs Execute/Synthesize) — consult the model matrix.
+- **Choosing a model tier** for a specialist (Plan/Verify/Replan vs Execute/Synthesize) — use `scripts/model-policy-query.sh --agent <id> --phase <phase>` against `state/archive/model-policy.json`.
 - **Handling a Verify failure** — apply the Replan decision tree (iterate(n++) OR escalate).
 - **Integrating sub-ticket deliverables across specialists** — Master Synthesize integration checklist.
 - **Deciding whether to invoke governance agents** (Shield/Lex/Sage) — Master Synthesize Done gate only, external-facing only.
@@ -28,20 +28,54 @@ CREST applies **recursively** (Model C, v1.2 LOCKED, dual PASS) at two levels:
 Plan → Execute → Verify → Replan → Synthesize → Done
 ```
 
-| # | Phase | Model tier | Cognitive work | Output |
+| # | Phase | CREST tier | Cognitive work | Output |
 |---|-------|------------|----------------|--------|
-| 1 | **Plan** | pro (strong) | Scope, DAG, atoms, model spec, trade-offs | Typed DAG + atom breakdown |
-| 2 | **Execute** | flash (cheap) | Mechanical work — write, build, dispatch | Atoms completed (RVEV per atom) |
-| 3 | **Verify** | pro (strong) | Independent validation (L-054: never trust self-report) | Binary 0/1 verdict per atom |
-| 4 | **Replan** | pro (strong) | Gap analysis; iterate(n++) OR escalate | Re-dispatch or escalate |
-| 5 | **Synthesize** | flash (cheap) | Integration (specialist: domain-internal; master: cross-specialist) | Sub-ticket / master deliverable |
+| 1 | **Plan** | strong | Scope, DAG, atoms, model spec, trade-offs | Typed DAG + atom breakdown |
+| 2 | **Execute** | cheap | Mechanical work — write, build, dispatch | Atoms completed (RVEV per atom) |
+| 3 | **Verify** | strong | Independent validation (L-054: never trust self-report) | Binary 0/1 verdict per atom |
+| 4 | **Replan** | strong | Gap analysis; iterate(n++) OR escalate | Re-dispatch or escalate |
+| 5 | **Synthesize** | cheap | Integration (specialist: domain-internal; master: cross-specialist) | Sub-ticket / master deliverable |
 | 6 | **Done** | terminal | Audit emit, close, Holocron register | Closed ticket + audit trail |
 
-**Tier rule:** Plan / Verify / Replan = strong (pro). Execute / Synthesize = cheap (flash). Exceptions documented below.
+**Tier rule:** Plan / Verify / Replan = strong. Execute / Synthesize = cheap.  
+**Concrete model resolution:** use `scripts/model-policy-query.sh --agent <agent-id> --phase <phase>`.  
+The actual model names live in `state/archive/model-policy.json` (SSOT). Do not hardcode them in plans.
 
 ---
 
-## Master CREST vs Sub-CREST Topology
+## Model Assignment Matrix
+
+| Specialist | Plan | Execute | Verify | Replan | Synthesize | Design-only? |
+|-----------|------|---------|--------|--------|-----------|-------------|
+| **Yoda** | strong | **none** | strong | strong | strong¹ | Master orchestrator |
+| **Atlas, Thrawn, Lando, Mon Mothma** | strong | cheap | strong | strong | cheap | ✅ Yes (design-only) |
+| **Spark** | strong | cheap² | strong | strong | cheap | ❌ No (creative) |
+| **Forge** | cheap³ | cheap | strong | strong | cheap³ | ❌ No (build) |
+| **Shield, Lex, Warden, Sage** | strong | cheap | strong | strong | cheap | Verdict-only governance |
+| **Ahsoka, Luthen** | strong | cheap | strong | strong | cheap | T3 business specialists |
+
+¹ Yoda Synthesize may use strong or cheap depending on integration complexity; default is strong for Master Synthesize.  
+² Spark `highStakesExecute` (e.g. Ken's LinkedIn, client-facing campaigns) may override to strong with `model_override: pro` + `override_reason`.  
+³ Forge exception (Ken 2026-06-10): Plan/Synthesize use cheap; Verify/Replan use strong. Monitor Replan rate; >30% reassess flash-for-Plan.
+
+**Concrete models:** Query `scripts/model-policy-query.sh --all`. Examples: T2 Backend Execute = `deepseek-v4-flash`; T3 Technical Verify = `minimax-m3`; userFacing Yoda Execute = not allowed.
+
+---
+
+## Model resolution source
+
+CREST phases are mapped to **strong** or **cheap**, not to specific model names. Resolution order:
+
+1. `state/archive/model-policy.json` `crestPhaseOverrides.byAgent[<agent>][<phase>]`
+2. `state/archive/model-policy.json` `crestPhaseOverrides.byTier[<tier>][<phase>]`
+3. Default: Plan/Verify/Replan = strong; Execute/Synthesize = cheap
+4. strong → `agentTiers[<tier>].primary`; cheap → `agentTiers[<tier>].cheapModel`
+
+Use `scripts/model-policy-query.sh` for runtime resolution.
+
+**L-026:** Build/scripts → Forge ONLY. Atlas = EA assessment. Thrawn = architecture design. Never route build work to Atlas or Thrawn.
+
+**Yoda Execute gate:** Any Yoda Execute requires per-instance Ken approval and a CHG record.
 
 CREST is **fractal**. The same 6-phase sandwich applies at every level of work decomposition:
 
