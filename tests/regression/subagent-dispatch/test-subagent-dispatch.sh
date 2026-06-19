@@ -47,7 +47,7 @@ else
 fi
 
 # R3 — subagent-dispatch.sh emits safe dispatch block with cwd and timeout
-TMP_TASK=$(mktemp /tmp/subagent-dispatch-test-XXXXXX.md)
+TMP_TASK=$(mktemp /tmp/subagent-dispatch-test-r3-XXXXXX)
 echo "Read $TEST_FILE and report contents." > "$TMP_TASK"
 OUTPUT=$(bash scripts/subagent-dispatch.sh platform-arch "$TMP_TASK" --read-only --timeout 60 --cwd "$WORKSPACE_ROOT" 2>&1)
 if echo "$OUTPUT" | grep -q "timeoutSeconds: 60"; then
@@ -73,6 +73,8 @@ else
   ko "R4: cross-agent workspace-mutating dispatch allowed without --read-only"
 fi
 
+rm -f "$TMP_TASK" 2>/dev/null || true
+
 # R5 — SOUL.md contains the subagent dispatch rule
 if grep -q "subagent-dispatch" SOUL.md; then
   ok "R5: SOUL.md references subagent-dispatch skill"
@@ -80,8 +82,24 @@ else
   ko "R5: SOUL.md missing subagent-dispatch reference"
 fi
 
+# R6 — helper rejects cross-agent dispatch that requires parent workspace exec
+EXEC_TASK=$(mktemp /tmp/subagent-dispatch-test-r6-XXXXXX)
+echo "Run bash /Users/ainchorsangiefpl/.openclaw/workspace/scripts/skill-load.sh crest and report output." > "$EXEC_TASK"
+if ! bash scripts/subagent-dispatch.sh platform-arch "$EXEC_TASK" --read-only --timeout 60 --cwd "$WORKSPACE_ROOT" 2>/dev/null; then
+  ok "R6: helper rejects cross-agent exec-required dispatch"
+else
+  ko "R6: helper allowed cross-agent exec-required dispatch"
+fi
+
+# R7 — helper allows parent-workspace exec only for main agent
+if bash scripts/subagent-dispatch.sh main "$EXEC_TASK" --timeout 60 --cwd "$WORKSPACE_ROOT" >/dev/null 2>&1; then
+  ok "R7: helper allows parent-workspace exec dispatch to main agent"
+else
+  ko "R7: helper blocked parent-workspace exec dispatch to main agent"
+fi
+
 # Cleanup
-rm -f "$TMP_TASK" /tmp/subagent-dispatch-test-*.md /tmp/subagent-task-*.md 2>/dev/null || true
+rm -f "$EXEC_TASK" /tmp/subagent-dispatch-test-*.md /tmp/subagent-task-*.md 2>/dev/null || true
 
 echo ""
 echo "=== Summary ==="

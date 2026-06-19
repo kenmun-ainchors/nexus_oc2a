@@ -47,6 +47,56 @@ if [[ "$TIMEOUT" -le 0 || "$TIMEOUT" -gt 3600 ]]; then
   die "timeout must be between 1 and 3600 seconds"
 fi
 
+# ── Detect parent-workspace exec commands in cross-agent dispatches ──────
+# Per-agent tool allow-lists may exclude 'exec'. Even with cwd=WORKSPACE_ROOT,
+# a cross-agent subagent cannot run parent scripts. Only the main session (or
+# an agent whose tool list explicitly includes 'exec') may be asked to execute
+# commands in the parent workspace.
+AGENT_HAS_EXEC=false
+if [[ "$AGENT_ID" == "main" ]]; then
+  AGENT_HAS_EXEC=true
+else
+  # Query OpenClaw agent config for tool allow-list. Agents with no explicit
+  # tools block inherit default capabilities (exec allowed). An explicit
+  # allow list without exec, or a deny list containing exec, blocks execution.
+  # Note: openclaw agents list --json does not include tools, so use config get.
+  AGENT_TOOL_MODE=$(openclaw config get agents.list 2>/dev/null | python3 -c "
+import json,sys
+agents=json.load(sys.stdin)
+for a in agents:
+    if a.get('id')=='$AGENT_ID':
+        tools=a.get('tools',{})
+        allow=tools.get('allow')
+        deny=tools.get('deny',[])
+        if allow is None:
+            print('default')
+        elif 'exec' in allow:
+            print('allow_exec')
+        elif 'exec' in deny:
+            print('deny_exec')
+        else:
+            print('no_exec')
+        break
+" 2>/dev/null || echo "no_exec")
+  if [[ "$AGENT_TOOL_MODE" == "default" || "$AGENT_TOOL_MODE" == "allow_exec" ]]; then
+    AGENT_HAS_EXEC=true
+  fi
+fi
+
+TASK_TEXT=$(cat "$TASK_FILE")
+EXEC_INDICATORS=("bash " "sh " "zsh " "exec " "run " "scripts/" "./" "git " "docker " "kubectl " "make " "npm " "yarn " "python " "python3 " "node " "openclaw ")
+REQUIRES_EXEC=false
+for indicator in "${EXEC_INDICATORS[@]}"; do
+  if [[ "$TASK_TEXT" == *"$indicator"* ]]; then
+    REQUIRES_EXEC=true
+    break
+  fi
+done
+
+if [[ "$REQUIRES_EXEC" == "true" && "$AGENT_HAS_EXEC" == "false" ]]; then
+  die "Cross-agent subagent $AGENT_ID cannot execute commands in the parent workspace (tool allow-list lacks 'exec'). Use agent 'main' with Ken approval, or embed the command output in the prompt."
+fi
+
 # ── Emit safe subagent prompt with tool budget and stop condition ────────
 SAFE_TASK=$(cat "$TASK_FILE")
 SAFE_TASK="$SAFE_TASK
@@ -60,7 +110,7 @@ SUBAGENT CONTROL RULES (mandatory):
 "
 
 # Write safe task to a temp file
-TMP_TASK=$(mktemp /tmp/subagent-task-XXXXXX.md)
+TMP_TASK=$(mktemp /tmp/subagent-task.XXXXXX)
 echo "$SAFE_TASK" > "$TMP_TASK"
 
 echo "=== Safe Subagent Dispatch ==="

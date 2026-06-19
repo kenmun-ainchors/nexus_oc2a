@@ -13,12 +13,14 @@ Load this skill whenever you need to:
 
 # Core Rule — Main Session Default
 
-**Workspace-mutating work that requires parent files must run in the main session with Ken approval, not in an isolated subagent.**
+**Any task that needs to execute commands or mutate state in the parent workspace must run in the main session with Ken approval, not in an isolated cross-agent subagent.**
 
-Isolated subagents are for:
+Isolated cross-agent subagents are for:
 - Read-only research or assessment
 - Tasks that do not need parent workspace files
 - Tasks where the verifier corpus can be fully embedded in the prompt
+
+`cwd` can point the subagent at the parent workspace, but it does **not** grant the subagent the `exec` tool. Cross-agent subagents whose tool allow-list excludes `exec` cannot run scripts in the parent workspace. Read-only `read` access may succeed, but any command execution fails.
 
 # Agent Name → Agent ID Reference
 
@@ -52,6 +54,7 @@ Before calling `sessions_spawn`, confirm:
 5. [ ] Subagent prompt includes explicit stop condition (e.g. "Stop after N iterations and report")
 6. [ ] Task objective, output format, and verifier are explicit in the prompt
 7. [ ] For workspace-mutating tasks: Ken has explicitly approved main-session execution OR the subagent is same-agent fork (`context:"fork"`) with attachments
+8. [ ] The task does **not** ask the subagent to execute shell commands in the parent workspace unless the subagent is `main` or has `exec` in its tool allow-list
 
 # Anti-Patterns
 
@@ -59,6 +62,8 @@ Before calling `sessions_spawn`, confirm:
 - ❌ Spawn a subagent without `timeoutSeconds`
 - ❌ Rely on `process kill` or `.stop` / `.abort` to kill a runaway subagent
 - ❌ Use cross-agent subagents for build/cleanup work
+- ❌ Ask a cross-agent subagent to run `bash scripts/...` or other exec commands in the parent workspace (its tool allow-list may not include `exec`)
+- ❌ Assume `cwd=/Users/ainchorsangiefpl/.openclaw/workspace` grants a subagent the same capabilities as the main session
 
 # Helper Script
 

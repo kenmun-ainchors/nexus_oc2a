@@ -169,6 +169,19 @@ Both reference canonical docs in `references/` and load via `scripts/skill-load.
 ---
 ---
 
+## 2026-06-19 21:04 AEST — [CHG-0651] TKT-0536 A5: Cross-agent subagents cannot execute parent workspace scripts
+**Type:** rule
+**Change Type:** Normal
+**Source:** ken-prompt
+**Trigger:** platform-arch subagent for TKT-0319 Atom 1 failed to run parent workspace scripts despite cwd=/Users/ainchorsangiefpl/.openclaw/workspace; root cause is per-agent tool allow-list excludes exec.
+**What changed:** Updated agent-skills/subagent-dispatch/SKILL.md to clarify that cwd grants read access only, not exec. Updated scripts/subagent-dispatch.sh to detect parent-workspace command execution in the task prompt and reject the dispatch unless the target agent has exec in its tool allow-list or is the main session. Added regression tests R6/R7 to tests/regression/subagent-dispatch/test-subagent-dispatch.sh. Updated SOUL.md async-background rule to state that parent-script execution must run in the main session with Ken approval.
+**Why:** The prior rule implied 'cwd is enough' for cross-agent subagent access. Live evidence showed platform-arch can read parent files but cannot use the exec tool, so it cannot run scripts/skill-load.sh or other build commands. Without this guard, Yoda or other orchestrators would repeatedly dispatch impossible tasks.
+**Verification:** tests/regression/subagent-dispatch/test-subagent-dispatch.sh: 11/11 PASS. Manual live spawn of platform-arch with cwd=main workspace confirmed read succeeds and exec fails. Helper now exits non-zero for exec-required cross-agent dispatch and exits zero for the same task dispatched to main.
+**Rollback:** Revert the 4 edited files (agent-skills/subagent-dispatch/SKILL.md, scripts/subagent-dispatch.sh, tests/regression/subagent-dispatch/test-subagent-dispatch.sh, SOUL.md) and remove R6/R7 from the test script.
+**Linked:** TKT-0536, TKT-0319, L-146, L-149
+---
+
+
 ## 2026-06-19 20:49 AEST — [CHG-0650] TKT-0319 groomed: Global Agent Auto-Resume Protocol; TKT-0324 folded in
 **Type:** config
 **Change Type:** Normal

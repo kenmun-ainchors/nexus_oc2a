@@ -2139,6 +2139,19 @@ fi
 **Linked:** L-146, L-147, TKT-0536 A4, Ken directive 2026-06-18 06:22 AEST.
 
 
+## L-149 — 2026-06-19 | `cwd` does not give a cross-agent subagent `exec` in the parent workspace
+**Lesson:** Setting `cwd=/Users/ainchorsangiefpl/.openclaw/workspace` on a cross-agent subagent allows read-only access to parent files, but it does **not** grant the subagent the `exec` tool. If the agent's own tool allow-list excludes `exec`, it cannot run `bash scripts/...` or any other shell command in the parent workspace. The prior rule — "set cwd if parent files are needed" — was incomplete and led to a failed Thrawn/platform-arch dispatch for TKT-0319 Atom 1.
+
+**Rule:**
+- Cross-agent subagents are for read-only research or tasks where the verifier corpus is fully embedded in the prompt.
+- Any task that requires executing commands or scripts in the parent workspace must run in the main session (`agentId: main`) with Ken approval, or the target agent must have `exec` explicitly allowed in its tool list.
+- Update `scripts/subagent-dispatch.sh` validates this: it scans the task prompt for command indicators and rejects the dispatch when the target agent lacks `exec`.
+
+**Evidence:** Live spawn of `platform-arch` with cwd=main workspace read `SOUL.md` successfully but reported "I can't use the tool 'exec' here because it isn't available." `tests/regression/subagent-dispatch/test-subagent-dispatch.sh` now passes 11/11 (R6/R7). CHG-0651.
+
+**Linked:** TKT-0536 A5, TKT-0319, L-146, CHG-0651.
+
+
 ## L-147 — 2026-06-18 | Do not kill the gateway to terminate a runaway subagent
 **Lesson:** Killing the OpenClaw gateway process (`kill -9 <pid>`) to stop a looping subagent is destructive and wrong. It terminates all active sessions, crons, and state, and requires a full gateway restart. The correct response to a runaway subagent is to wait for it to hit its own timeout or use the documented control channel — not to nuke the runtime.
 
