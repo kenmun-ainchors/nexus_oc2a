@@ -169,6 +169,19 @@ Both reference canonical docs in `references/` and load via `scripts/skill-load.
 ---
 ---
 
+## 2026-06-19 21:29 AEST — [CHG-0656] TKT-0319 Atom 6: End-to-end resume simulation
+**Type:** script
+**Change Type:** Normal
+**Source:** ken-prompt
+**Trigger:** Atoms 2-5 complete. Ken approved Atom 6 at 2026-06-19 21:25 AEST.
+**What changed:** Ran end-to-end simulation of TKT-0319 global auto-resume protocol. Scenario A (TQP): inserted a stale running state_task_queue row with last_checkpoint; task-watchdog.sh transitioned it to resumable; task-queue-processor.sh claimed it; tqp-executor.sh spawned an exec-atom carrying the checkpoint; simulated child completion; tqp-executor finalizer copied child status to parent (done). Scenario B (main-session): registered a running task with a dead session key in state/main-session-resume.json; main-session-resume-check.sh detected the dead session, marked it session_lost, and wrote state/main-session-resume-needs-ken.json; Yoda then performed the HITL resume via sessions_spawn (platform-arch, flash) with the checkpoint context; the subagent confirmed the checkpoint and completed the task; registry updated to done. Final verification: 5/5 PASS. All simulation artifacts cleaned from PG and state files.
+**Why:** E2E simulation is the only way to prove the resume state machine works across detection, TQP resume, and main-session HITL paths. Passing the simulation gives confidence before closing the epic.
+**Verification:** Final verification script: 5/5 PASS. TQP parent done, no leftover exec children, main-session registry task done, NEEDS_KEN cleared, recheck produces no alert.
+**Rollback:** N/A — this was a verification run. Artifacts were not committed; state files were reset.
+**Linked:** TKT-0319, CHG-0652, CHG-0653, CHG-0654, CHG-0655
+---
+
+
 ## 2026-06-19 21:24 AEST — [CHG-0655] TKT-0319 Atom 5: Main-session / subagent resume registry
 **Type:** script
 **Change Type:** Normal
