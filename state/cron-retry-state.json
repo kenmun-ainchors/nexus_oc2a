@@ -70,6 +70,16 @@
       "lastTimeoutAt": "2026-06-16T22:22:39.952552+00:00",
       "nextRetryBackoffMs": 240000,
       "deadLetter": false
+    },
+    "f71f75af": {
+      "cronId": "f71f75af",
+      "name": "Daily Workspace Backup",
+      "consecutiveTimeouts": 1,
+      "totalTimeouts": 1,
+      "retriesUsed": 1,
+      "lastTimeoutAt": "2026-06-19T02:53:54.705978+00:00",
+      "nextRetryBackoffMs": 120000,
+      "deadLetter": false
     }
   }
 }

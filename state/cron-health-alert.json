@@ -1,11 +1,11 @@
 {
-  "generatedAt": "2026-06-16T22:22:39.936395+00:00",
+  "generatedAt": "2026-06-19T02:53:54.689116+00:00",
   "failures": [
     {
-      "cronId": "85595417",
-      "fullCronId": "85595417-73d0-416d-b6ff-d5b6578762a7",
-      "name": "PG-Notion Integrity Audit (daily)",
-      "consecutiveErrors": 4,
+      "cronId": "f71f75af",
+      "fullCronId": "f71f75af-dac7-4b6a-9b6e-9f43626b19a5",
+      "name": "Daily Workspace Backup",
+      "consecutiveErrors": 3,
       "lastError": "error",
       "source": "live-cron-state"
     }

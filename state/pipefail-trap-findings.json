@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-06-19T11:19:27",
+  "generatedAt": "2026-06-19T12:53:38",
   "schemaVersion": 1,
   "scope": "scripts/*.sh (excluding .bak/.backup)",
   "pattern": "set -o pipefail + trap ERR + ungated $(...) / awk|head / tr|procsub / read|procsub",

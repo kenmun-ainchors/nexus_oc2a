@@ -169,6 +169,19 @@ Both reference canonical docs in `references/` and load via `scripts/skill-load.
 ---
 ---
 
+## 2026-06-19 12:57 AEST — [CHG-0647] TKT-0146: fix Daily Workspace Backup cron delivery error + raise timeout for full backups
+**Type:** cron
+**Change Type:** Normal
+**Source:** ken-prompt
+**Trigger:** Ken approved 2026-06-19 12:56 AEST. Auto-heal/heartbeat surfaced backup cron f71f75af with consecutiveErrors=3. Last run completed backup successfully but errored because Telegram delivery had no chatId. Timeout was also reduced to 47s by TKT-0339, which is risky for Sunday full tar.gz backup.
+**What changed:** EDIT cron f71f75af: delivery.mode changed from announce to none (backup reports are logged, no Telegram target configured). timeoutSeconds raised from 47s to 300s to accommodate Sunday full workspace tar.gz. Manual run triggered to clear error state.
+**Why:** Cronic backup failures mask a healthy backup process and desensitize failure alerting. The 47s timeout was derived from incremental runs and would likely fail the Sunday full backup.
+**Verification:** Manual cron run completed: exit code 0, incremental snapshot 1.7GB, duration 30.4s. Cron state: lastStatus=ok, consecutiveErrors=0. cron-health-check.sh no longer flags backup cron.
+**Rollback:** Revert delivery.mode to announce with a valid Telegram chatId; restore timeoutSeconds to 47s.
+**Linked:** TKT-0146, TKT-0339
+---
+
+
 ## 2026-06-19 12:23 AEST — [CHG-0646] WO-002: allowlist 40 historical seed extra rows in status-map.json
 **Type:** config
 **Change Type:** Normal
