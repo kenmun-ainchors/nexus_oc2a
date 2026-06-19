@@ -1,3 +1,8 @@
+## Agent-Specific Behavioral Rules (moved from SOUL.md)
+
+### PG SSOT (TKT-0270)
+Postgres is the authoritative data store. Use db-read.sh for reads (PG→state_v→JSON fallback), db.sh for dual-writes. Key tables: agent_shared_state, state_tickets, state_cost.
+
 # AGENTS.md - Your Workspace
 
 This folder is home. Treat it that way.

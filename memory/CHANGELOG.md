@@ -169,6 +169,19 @@ Both reference canonical docs in `references/` and load via `scripts/skill-load.
 ---
 ---
 
+## 2026-06-19 22:57 AEST — [CHG-0673] CHG-0673: Refactor all agent SOUL.md / AGENTS.md — rules out of SOUL, identity + hard limits in SOUL
+**Type:** rule
+**Change Type:** Normal
+**Source:** ken-prompt
+**Trigger:** Ken directive 2026-06-19 22:51 AEST: keep behavioral rules in AGENTS.md and SOUL.md strictly to core personality, values, and hard limits, to prevent context clutter. Apply to Yoda and all agents.
+**What changed:** Ran first-pass refactor across 17 agent SOUL.md files: moved Non-Negotiables, rules, procedures, Model3-Policy, PG SSOT notes, review processes, verdict formats, escalation, tail rules, cadences, continuity, shared context, authority/access, marketing orchestration, routing, and similar behavioral/operational sections into each agent's AGENTS.md. Created AGENTS.md for agents/ahsoka, ahsoka, and infra where missing. Added a concise agent-specific Hard Limits section back into each SOUL.md so core limits remain visible. Manually trimmed agents/ahsoka/SOUL.md by moving Core Behaviours, What I Do Not Do, and Full Role Definition to AGENTS.md. Cleaned root AGENTS.md title/structure so Yoda's behavioral rules sit above the generic workspace guide.
+**Why:** SOUL.md is the highest-priority injected context; packing it with detailed rules inflates tokens, slows reasoning, and buries identity. Moving rules to AGENTS.md keeps the agent's core self and red-lines in SOUL while preserving rules in a reference file.
+**Verification:** Post-refactor SOUL.md sizes: Yoda 3261, Aria 1995, Spark 3338, Security 1174, Lex 1099, Sage 961, Warden 1660, Atlas/Architect ~1875, Thrawn/Platform-Arch ~1829, Lando 1552, Mon Mothma 1779, Ahsoka (agents) 2139, Ahsoka (root) 1014, Forge 1103, Infra 1062. All under the 5K hard limit.
+**Rollback:** Restore previous SOUL.md and AGENTS.md versions from git.
+**Linked:** SOUL.md, AGENTS.md, CHG-0545
+---
+
+
 ## 2026-06-19 22:50 AEST — [CHG-0672] CHG-0671: Organize PG SSOT EPIC TKT-0342 across Sprints 9–11
 **Type:** rule
 **Change Type:** Normal
