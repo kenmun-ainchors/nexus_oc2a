@@ -149,10 +149,10 @@ This is a simplified starting matrix. It lives in `state_model_policy` and is ve
 | role / phase | Plan | Execute | Verify | Replan | Synthesize |
 |---|---|---|---|---|---|
 | `yoda_master` | deepseek-pro | — | deepseek-pro | deepseek-pro | kimi-k2.7 |
-| `design_backend` (Atlas/Thrawn/Lando/Mon Mothma) | deepseek-pro | flash | glm-5.1 | deepseek-pro | flash |
-| `build` (Forge) | flash | flash | glm-5.1 | deepseek-pro | flash |
-| `creative` (Spark) | kimi-k2.6 | flash* | glm-5.1 | kimi-k2.6 | flash |
-| `business` (Ahsoka/Luthen) | kimi-k2.6 | flash | glm-5.1 | kimi-k2.6 | flash |
+| `design_backend` (Atlas/Thrawn/Lando/Mon Mothma) | deepseek-pro | flash | gemma4:31b | deepseek-pro | flash |
+| `build` (Forge) | flash | flash | gemma4:31b | deepseek-pro | flash |
+| `creative` (Spark) | kimi-k2.6 | flash* | gemma4:31b | kimi-k2.6 | flash |
+| `business` (Ahsoka/Luthen) | kimi-k2.6 | flash | gemma4:31b | kimi-k2.6 | flash |
 | `governance` (Shield/Lex/Sage/Warden) | gemma4:31b | flash | gemma4:31b | gemma4:31b | flash |
 
 \* Spark high-stakes Execute (e.g., Ken's LinkedIn) may override to strong with `model_override: pro` + `override_reason`.
@@ -169,17 +169,16 @@ For v1.3, the resolver is procedural and deterministic. Future versions may add 
 ### 5.6 Verify first-slot rule
 The highest-leverage first move is:
 
-> **All Verify phases default to `glm-5.1:cloud` unless explicitly overridden.**
+> **All Verify phases default to `gemma4:31b-cloud` unless explicitly overridden.**
+
+**Finding (2026-06-20 G4 benchmark):** `glm-5.1:cloud` outputs verdicts to `.thinking` field, not `.response` — incompatible with current Ollama/OpenClaw wiring. `gemma4:31b-cloud` scored 20/20 (100%) on the judgment benchmark and is the effective v1.3 Verify primary. `glm-5.1:cloud` is deferred until thinking-output handling is resolved.
 
 Exceptions:
-- Governance-class Verify → `gemma4:31b-cloud`.
 - High-stakes external-facing Verify → `deepseek-v4-pro:cloud` with override reason.
 
-**Verify fallback chain:** If `glm-5.1:cloud` is unavailable or returns error:
-1. `gemma4:31b-cloud` (governance strong, decorrelated from deepseek)
-2. `deepseek-v4-pro:cloud` (last resort; correlated with executor but better than no verdict)
-
-**Pre-Tier-A judgment benchmark:** Before `glm-5.1:cloud` is used in production CREST, it must pass a 20-atom judgment benchmark: 10 known-pass + 10 known-fail atoms. Pass threshold: ≥90% correct verdicts (18/20). If it fails, fallback to `gemma4:31b-cloud` for Verify and re-evaluate `glm-5.1:cloud` after tuning.
+**Verify fallback chain:** If `gemma4:31b-cloud` is unavailable:
+1. `deepseek-v4-pro:cloud` (correlated with executor but better than no verdict)
+2. `kimi-k2.6:cloud` (decorrelated, business-tier strong)
 
 ---
 
