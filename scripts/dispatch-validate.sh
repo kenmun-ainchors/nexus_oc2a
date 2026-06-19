@@ -546,6 +546,68 @@ else
   if $VERBOSE; then echo "SKIP: checkout-freshness gate (no review_target in dispatch)" >&2; fi
 fi
 
+# ── CREST v1.3 CHECKS (TKT-0546 A7) ──────────────────────
+# Phase ownership, state_sub_crest, Sage verdict, external loop enforcement
+
+HAS_V13_FIELDS=$(echo "$JSON_INPUT" | "$JQ" -r 'if .crest_v13 then "yes" else "no" end' 2>/dev/null)
+
+if [[ "$HAS_V13_FIELDS" == "yes" ]]; then
+
+  # v1.3a: phase_owner must be present (external loop ownership)
+  if RESULT=$(check "crest_v13.phase_owner" \
+    'if .crest_v13.phase_owner and (.crest_v13.phase_owner | type == "string") and ((.crest_v13.phase_owner | length) > 0) then "pass" else "fail" end' \
+    "missing phase_owner — CREST v1.3 requires external loop ownership"); then
+    ((PASSES++))
+  else
+    FAILURES+=("$RESULT")
+  fi
+
+  # v1.3b: phase_owner must NOT be the same as target_agent (no self-driving)
+  PHASE_OWNER=$(echo "$JSON_INPUT" | "$JQ" -r '.crest_v13.phase_owner // empty' 2>/dev/null)
+  if [[ -n "$PHASE_OWNER" && "$PHASE_OWNER" == "$TARGET_AGENT" ]]; then
+    FAILURES+=("$(fail_atom "crest_v13.phase_owner" "phase_owner ($PHASE_OWNER) equals target_agent — agents must not self-drive CREST loops")")
+  else
+    ((PASSES++))
+  fi
+
+  # v1.3c: state_sub_crest fields present if phase is Execute or Verify
+  if RESULT=$(check "crest_v13.state_sub_crest" \
+    'if .crest_v13.state_sub_crest and (.crest_v13.state_sub_crest | type == "object") then "pass" else "fail" end' \
+    "missing state_sub_crest object — CREST v1.3 requires durable phase state"); then
+    ((PASSES++))
+  else
+    FAILURES+=("$RESULT")
+  fi
+
+  # v1.3d: if phase=Verify, verdict field must be present (Sage-as-Judge)
+  CURRENT_PHASE=$(echo "$JSON_INPUT" | "$JQ" -r '.crest_v13.current_phase // empty' 2>/dev/null)
+  if [[ "$CURRENT_PHASE" == "Verify" ]]; then
+    if RESULT=$(check "crest_v13.verdict" \
+      'if .crest_v13.verdict and (.crest_v13.verdict | type == "string") and (.crest_v13.verdict | IN("pass","fail","needs_human")) then "pass" else "fail" end' \
+      "Verify phase requires verdict field (pass/fail/needs_human) — Sage-as-Judge"); then
+      ((PASSES++))
+    else
+      FAILURES+=("$RESULT")
+    fi
+  fi
+
+  # v1.3e: model must be resolved via model-policy-query.sh v2 (PG-first)
+  if [[ -n "$TARGET_AGENT" && -n "$CURRENT_PHASE" ]]; then
+    MODEL_QUERY=$(bash "$SCRIPT_DIR/model-policy-query.sh" --agent "$TARGET_AGENT" --phase "$CURRENT_PHASE" 2>/dev/null || echo '{"source":"error"}')
+    QUERY_SOURCE=$(echo "$MODEL_QUERY" | "$JQ" -r '.source // "error"' 2>/dev/null)
+    if [[ "$QUERY_SOURCE" == "pg" ]]; then
+      ((PASSES++))
+      if $VERBOSE; then echo "PASS: model resolved via PG (v1.3)" >&2; fi
+    elif [[ "$QUERY_SOURCE" == "json" ]]; then
+      if $VERBOSE; then echo "WARN: model resolved via JSON fallback (PG unavailable)" >&2; fi
+      ((PASSES++))
+    else
+      FAILURES+=("$(fail_atom "crest_v13.model_routing" "model-policy-query.sh failed for agent=$TARGET_AGENT phase=$CURRENT_PHASE")")
+    fi
+  fi
+
+fi
+
 # ── Output ───────────────────────────────────────────────────
 TOTAL_CHECKS=$((PASSES + ${#FAILURES[@]}))
 if [[ ${#FAILURES[@]} -eq 0 ]]; then
