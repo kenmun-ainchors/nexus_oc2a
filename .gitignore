@@ -104,3 +104,13 @@ node_modules/
 npm-debug.log*
 .venv-crewai/
 scripts/_test_l138/
+
+# ── Embedded git repos (TKT-0539) ────────────────────────────────────────────
+# forge/pgvector/ is a vendored clone of upstream pgvector; tracked at the
+# submodule-or-vendor level only. Inner .git/ triggers "adding embedded git
+# repository" warnings in parent `git add -A`.
+# thrawn/ is a sibling agent workspace with its own empty .git/; the empty
+# .git/ causes `git add -A` to fail with "does not have a commit checked out".
+# Both are intentionally untracked.
+forge/pgvector/
+thrawn/

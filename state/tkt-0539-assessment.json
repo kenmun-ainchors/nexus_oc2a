@@ -1,0 +1,88 @@
+{
+  "ticket": "TKT-0539",
+  "title": "Embedded git repo cleanup in forge/pgvector and thrawn/",
+  "crest_atom": "ASSESS",
+  "assessed_at": "2026-06-19T13:24:00+10:00",
+  "assessor": "agent:infra:subagent:3e6c04f5-e75a-41ff-9e85-ed0b4813cf9a",
+  "context": "Daily Workspace Backup emits non-fatal warnings because forge/pgvector and thrawn/ are embedded git repositories. forge/pgvector triggers 'warning: adding embedded git repository'; thrawn/ triggers 'error: does not have a commit checked out / fatal: adding files failed' because its .git/ has no commits. Note: backup.sh:30 runs `git add -A` without redirecting stderr, so warnings appear on the launching terminal and are NOT captured in backup.log — a separate latent bug, out of scope per task rules.",
+
+  "directories": [
+    {
+      "path": "/Users/ainchorsangiefpl/.openclaw/workspace/forge/pgvector",
+      "purpose": "Vendored clone of upstream pgvector (https://github.com/pgvector/pgvector.git). Referenced from forge/RULES.md as the reference extension build sources for the platform's pgvector integration.",
+      "has_dot_git": true,
+      "git_state": {
+        "current_branch": "master",
+        "head_commits": 1,
+        "head_sha": "d238409becebb8172fe696ffa776badfad4b631c",
+        "has_remote_origin": true,
+        "remote_url": "https://github.com/pgvector/pgvector.git",
+        "tracked_by_parent_git": false,
+        "submodule_linked": false,
+        "gitmodules_entry": null
+      },
+      "size": { "dot_git": "2.4M", "total": "3.9M" },
+      "warning_triggered_by_parent": "warning: adding embedded git repository: forge/pgvector",
+      "source_upstream_intact": true,
+      "resolution_options": [
+        { "option": "submodule", "verdict": "REJECT — the inner .git/ is what triggers the warning; submodule does not silence it without the parent already having a gitlink, which it does not." },
+        { "option": "ignore", "verdict": "RECOMMENDED — add /forge/pgvector/ to parent .gitignore. Non-destructive, preserves upstream history, silences warning." },
+        { "option": "remove_dot_git", "verdict": "REJECTED for forge/pgvector — destroys all upstream history and the ability to ever pull from upstream again (irreversible)." }
+      ],
+      "chosen_resolution": "ignore (add to parent .gitignore)",
+      "chosen_resolution_actions": [
+        "Append '/forge/pgvector/' to /Users/ainchorsangiefpl/.openclaw/workspace/.gitignore",
+        "Verify with `git check-ignore -v forge/pgvector`"
+      ],
+      "approval_required": false,
+      "destructive": false
+    },
+    {
+      "path": "/Users/ainchorsangiefpl/.openclaw/workspace/thrawn",
+      "purpose": "Another agent's workspace (separate AGENTS.md, BOOTSTRAP.md, SOUL.md, TOOLS.md, USER.md, state/). Sibling agent scratchpad living under the parent workspace root — not part of the parent's source tree.",
+      "has_dot_git": true,
+      "git_state": {
+        "current_branch": "main",
+        "head_commits": 0,
+        "head_sha": null,
+        "has_remote_origin": false,
+        "tracked_by_parent_git": false,
+        "submodule_linked": false,
+        "gitmodules_entry": null
+      },
+      "size": { "dot_git": "80K", "total": "184K" },
+      "warning_triggered_by_parent": "error: 'thrawn/' does not have a commit checked out / fatal: adding files failed",
+      "source_upstream_intact": false,
+      "resolution_options": [
+        { "option": "submodule", "verdict": "REJECT — no upstream URL exists." },
+        { "option": "ignore", "verdict": "RECOMMENDED — add /thrawn/ to parent .gitignore. Preserves agent workspace, silences fatal error." },
+        { "option": "remove_dot_git", "verdict": "ACCEPTABLE alternative — .git/ has no commits, deletion is harmless and converts the fatal error into a regular add. IGNORE preferred for policy consistency with forge/pgvector." }
+      ],
+      "chosen_resolution": "ignore (add to parent .gitignore)",
+      "chosen_resolution_actions": [
+        "Append '/thrawn/' to /Users/ainchorsangiefpl/.openclaw/workspace/.gitignore",
+        "Verify with `git check-ignore -v thrawn`"
+      ],
+      "approval_required": false,
+      "destructive": false
+    }
+  ],
+
+  "global_decision": "IGNORE BOTH — append /forge/pgvector/ and /thrawn/ to /Users/ainchorsangiefpl/.openclaw/workspace/.gitignore. Rationale: (a) non-destructive, (b) uniform policy, (c) preserves forge/pgvector's full upstream clone history, (d) preserves thrawn/ for its resident agent, (e) silences the embedded-repo warning and the fatal 'does not have a commit checked out' error from `git add -A` in backup.sh.",
+
+  "out_of_scope": [
+    "backup.sh:30 silently swallows git add stderr — separate bug, ticket rules forbid modifying backup.sh",
+    "forge/ itself is ALSO an embedded git repo with no commits — not in TKT-0539 scope but worth flagging",
+    "Converting forge/pgvector to a true submodule — adds coupling without silencing the warning"
+  ],
+
+  "verifier_setup": {
+    "A_cmd": "git status --short | grep -E 'forge/pgvector|thrawn' | wc -l",
+    "A_expected_after": 0,
+    "B_cmd": "grep -E '(forge/pgvector|thrawn)' ~/Backups/ainchors/logs/backup.log | grep -iE 'embedded|does not have a commit|fatal: adding files failed' | wc -l",
+    "B_note": "Always 0 because backup.sh:30 does not redirect git stderr to the log; this verifier is informational. Authoritative warning capture happens live during the operator's run.",
+    "C_cmd": "ls -d ~/Backups/ainchors/workspace-incremental/workspace-* | tail -1 | xargs du -sh"
+  },
+
+  "ready_for_atom2": true
+}
