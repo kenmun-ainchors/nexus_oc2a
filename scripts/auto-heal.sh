@@ -963,9 +963,9 @@ except: pass
   # Detector fix L-134: filter to only files that have actual tilde-path usage
   # (~/something) not just any ~ character (which catches ~May, ~240, ~3-4 etc.)
   TILDE_STATE_FILES=$(grep -rlE '~(/[A-Za-z0-9._-]+|/[A-Za-z0-9._/-]+)' "$WORKSPACE/state/" --include='*.json' 2>/dev/null \
-    | grep -vE '/(auto-heal-.*\.json|task-queue\.json|sandbox-boundary-audit\.json)$' \
+    | grep -vE '/(auto-heal-.*\.json|task-queue\.json|sandbox-boundary-audit\.json|cron-list-snapshot\.json)$' \
     | xargs -I {} sh -c 'test $(stat -f%z "{}" 2>/dev/null || echo 0) -gt 200 && echo "{}"' 2>/dev/null \
-    | head -5)
+    | head -5 || true)
   if [[ -n "$TILDE_STATE_FILES" ]]; then
     tilde_files="$TILDE_STATE_FILES"
     while IFS= read -r tf; do

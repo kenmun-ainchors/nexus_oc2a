@@ -1,7 +1,7 @@
 {
   "schema": "2.0",
   "description": "CHG Trigger Rules \u2014 Yoda monitors these and raises CHG+Telegram alert when triggered.",
-  "lastUpdated": "2026-06-13T07:53:00+10:00",
+  "lastUpdated": "2026-06-19T10:56:00+10:00",
   "lastUpdatedBy": "Yoda",
   "changeNote": "TRIGGER-04 fired: v2026.6.6 detected. Ken decided DEFER + SANDBOX (CHG-0521). TKT-0501/0502 created.",
   "triggers": {
@@ -208,7 +208,7 @@
       "detection": "automated \u2014 monthly cron (bb47c6de)",
       "action": "Re-benchmark B2+B4. If latency \u226420s and quality \u22653.5 \u2192 add as Tier 2.",
       "status": "monitoring",
-      "lastChecked": "2026-06-02T09:00:00+10:00"
+      "lastChecked": "2026-06-19T10:56:00+10:00"
     },
     "TRIGGER-12": {
       "name": "Agent Allowlist Sync",
