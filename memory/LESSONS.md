@@ -1,3 +1,13 @@
+## L-160 — Nested git repos must be explicitly excluded from parent backup auto-commits
+**Date:** 2026-06-19
+**Source:** TKT-0539 — backup warnings for `forge/pgvector/` and `thrawn/` embedded repos.
+**Lesson:** A parent git repository that runs `git add -A` during an automated backup will fail or warn whenever a nested directory contains its own `.git/`. The failure is silent if stderr is not captured in the backup log. The only robust fix is to decide the nested repo's relationship to the parent (submodule, vendor, or separate worktree) and express it explicitly — usually via `.gitignore` — before the warning first appears.
+**Fix:** Appended `forge/pgvector/` and `thrawn/` to `.gitignore` (TKT-0539). No content was deleted; the embedded `.git/` histories are preserved.
+**Evidence:** CHG-0648; subagent verifier totals (git-status match=0, backup warning grep=0, snapshot 1.7G).
+**Prevention:** During any new repo clone or vendor import into the workspace, immediately decide and record whether it is a submodule, a plain copy, or an ignored standalone repo. Add the `.gitignore` line at the same time as the directory is created. Do not rely on `backup.sh` to tolerate embedded repos.
+
+---
+
 ## L-159 — Allowlist historical seed artifacts instead of forcing shadow deletion
 **Date:** 2026-06-19
 **Source:** WO-002 divergence alert follow-up (40 extra shadow rows after `in_progress` status-map fix).

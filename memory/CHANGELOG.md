@@ -169,6 +169,19 @@ Both reference canonical docs in `references/` and load via `scripts/skill-load.
 ---
 ---
 
+## 2026-06-19 13:27 AEST — [CHG-0648] TKT-0539: ignore forge/pgvector and thrawn/ embedded git repos in workspace backup
+**Type:** config
+**Change Type:** Normal
+**Source:** ken-prompt
+**Trigger:** Ken approved CREST execution to Forge 2026-06-19 13:24 AEST. TKT-0539 groomed to clean up embedded git repo warnings in Daily Workspace Backup logs.
+**What changed:** EDIT .gitignore: appended 10-line block (TKT-0539) ignoring forge/pgvector/ and thrawn/. No destructive changes; both directories remain on disk with their inner .git/ intact. Backup script auto-committed the change during normal run.
+**Why:** forge/pgvector and thrawn/ are nested git repositories. Parent `git add -A` (run by backup.sh) warned about / failed on embedded repos, producing non-fatal noise and incomplete workspace commits. Ignoring them lets the backup auto-commit proceed cleanly while preserving the embedded repos for their own lifecycle.
+**Verification:** git status --short | grep forge/pgvector|thrawn => 0 lines. grep of backup.log for embedded-repo warnings => 0. Latest incremental snapshot size 1.7G at workspace-2026-06-19-1325. Verifier corpus in subagent report.
+**Rollback:** Remove forge/pgvector/ and thrawn/ lines from .gitignore.
+**Linked:** TKT-0539, TKT-0146, CHG-0647
+---
+
+
 ## 2026-06-19 12:57 AEST — [CHG-0647] TKT-0146: fix Daily Workspace Backup cron delivery error + raise timeout for full backups
 **Type:** cron
 **Change Type:** Normal
