@@ -1,10 +1,10 @@
 {
-  "generatedAt": "2026-06-19T08:06:19.946920+00:00",
+  "generatedAt": "2026-06-19T10:45:55.794031+00:00",
   "windowDays": 7,
   "note": "Duration = end-to-end cron task time (includes LLM call + tool use). TTFT instrumentation pending gateway-level hooks.",
   "overall": {
-    "sampleCount": 11301,
-    "avgMs": 7682,
+    "sampleCount": 11337,
+    "avgMs": 7562,
     "peakMs": 298430,
     "minMs": 1
   },
@@ -19,48 +19,48 @@
       "avgTokens": 19663
     },
     "deepseek-v4-pro:cloud": {
-      "sampleCount": 76,
-      "avgMs": 35815,
+      "sampleCount": 71,
+      "avgMs": 37417,
       "minMs": 4458,
       "maxMs": 298430,
       "p50Ms": 11502,
       "p95Ms": 151140,
-      "avgTokens": 33838
+      "avgTokens": 34624
     },
     "kimi-k2.6:cloud": {
-      "sampleCount": 103,
-      "avgMs": 17113,
+      "sampleCount": 104,
+      "avgMs": 17347,
       "minMs": 6630,
       "maxMs": 118143,
-      "p50Ms": 9594,
+      "p50Ms": 9746,
       "p95Ms": 53624,
-      "avgTokens": 15470
+      "avgTokens": 15601
+    },
+    "deepseek-v4-flash:cloud": {
+      "sampleCount": 1653,
+      "avgMs": 11581,
+      "minMs": 2341,
+      "maxMs": 210986,
+      "p50Ms": 9799,
+      "p95Ms": 23345,
+      "avgTokens": 15172
     },
     "gemma4:26b": {
-      "sampleCount": 114,
-      "avgMs": 11658,
+      "sampleCount": 104,
+      "avgMs": 11229,
       "minMs": 2458,
       "maxMs": 91044,
       "p50Ms": 5865,
-      "p95Ms": 35141,
-      "avgTokens": 8630
-    },
-    "deepseek-v4-flash:cloud": {
-      "sampleCount": 1608,
-      "avgMs": 11627,
-      "minMs": 2641,
-      "maxMs": 210986,
-      "p50Ms": 9907,
-      "p95Ms": 23014,
-      "avgTokens": 15155
+      "p95Ms": 32947,
+      "avgTokens": 8186
     },
     "claude-sonnet-4-6": {
-      "sampleCount": 9395,
-      "avgMs": 6590,
+      "sampleCount": 9400,
+      "avgMs": 6443,
       "minMs": 1,
       "maxMs": 120305,
       "p50Ms": 45,
-      "p95Ms": 35806,
+      "p95Ms": 33379,
       "avgTokens": 0
     }
   }

@@ -1,24 +1,24 @@
 {
-  "checkTimestamp": "2026-06-18T20:00:00+10:00",
+  "checkTimestamp": "2026-06-19T20:00:00+10:00",
   "source": "cron-burn-alert",
   "turnsLimit": {
-    "weeklyLimit": 50940,
+    "weeklyLimit": 66597,
     "currentRequests": 16064,
-    "currentPct": 31.6,
-    "requestsRemaining": 34843,
+    "currentPct": 47.2,
+    "requestsRemaining": 35163,
     "windowStart": "2026-06-15T10:00:00+10:00",
     "windowEnd": "2026-06-22T10:00:00+10:00",
-    "daysRemaining": 3.58,
-    "burnRateRequestsPerHour": 308.2
+    "daysRemaining": 2.58,
+    "burnRateRequestsPerHour": 302.2
   },
   "thresholds": {
-    "50pct": 25470,
-    "70pct": 35658,
-    "85pct": 43299,
-    "95pct": 48393
+    "50pct": 33299,
+    "70pct": 46618,
+    "85pct": 56607,
+    "95pct": 63267
   },
   "alertTriggered": "none",
   "alertLevel": null,
-  "action": "silent — 31.6% used (16,064/50,940). Below 50% WARN threshold (25,470). No alert.",
-  "notes": "Check at 2026-06-18 20:00 AEST. Weekly window: 2026-06-15 Mon 10:00 AEST → 2026-06-22 Mon 10:00 AEST. Burn rate 308.2 req/hr. ~3.6 days remaining. No action needed."
+  "action": "silent — 47.2% used (16,064/66,597). Below 50% WARN threshold (33,299). No alert.",
+  "notes": "Check at 2026-06-19 20:00 AEST. Weekly window: 2026-06-15 Mon 10:00 AEST → 2026-06-22 Mon 10:00 AEST. Burn rate 302.2 req/hr. ~2.6 days remaining. No action needed."
 }

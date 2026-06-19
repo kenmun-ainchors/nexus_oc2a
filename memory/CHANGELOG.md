@@ -169,6 +169,19 @@ Both reference canonical docs in `references/` and load via `scripts/skill-load.
 ---
 ---
 
+## 2026-06-19 20:49 AEST — [CHG-0650] TKT-0319 groomed: Global Agent Auto-Resume Protocol; TKT-0324 folded in
+**Type:** config
+**Change Type:** Normal
+**Source:** ken-prompt
+**Trigger:** Ken approved 2026-06-19 20:48 AEST: (1) global scope including main-session and subagent recovery outside TQP, (2) fold TKT-0324 into TKT-0319, (3) start now in Sprint 8.
+**What changed:** EDIT TKT-0319: added full groom with 5 ACs, effort L, status in_progress, dependencies/linked artifacts. FOLD TKT-0324 into TKT-0319 via CHG-0456 5-gate SOP; TKT-0324 status set to folded.
+**Why:** TKT-0319 was a stub epic for 23 days. Grooming clarified scope and linked the related TKT-0324 work. Global auto-resume is a critical P1 enabler for unattended long-running agents.
+**Verification:** db-ticket.sh read TKT-0319 shows 5 ACs, status in_progress, updated grooming_history. db-ticket.sh fold reports TKT-0324 folded into TKT-0319. Notion sync completed for both.
+**Rollback:** Unfold TKT-0324; revert TKT-0319 metadata to stub state.
+**Linked:** TKT-0319, TKT-0324, L-096, CHG-0456
+---
+
+
 ## 2026-06-19 17:46 AEST — [CHG-0649] TKT-0539 follow-up: untrack forge/ workspace and redirect backup git-add stderr to log
 **Type:** config
 **Change Type:** Normal
