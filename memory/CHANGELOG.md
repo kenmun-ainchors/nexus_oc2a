@@ -169,6 +169,19 @@ Both reference canonical docs in `references/` and load via `scripts/skill-load.
 ---
 ---
 
+## 2026-06-19 22:32 AEST — [CHG-0671] CHG-0671: Move TKT-0293 and TKT-0326 from Sprint 8 to Sprint 10
+**Type:** rule
+**Change Type:** Normal
+**Source:** ken-prompt
+**Trigger:** Ken directive 2026-06-19 22:31 AEST to move the 2 remaining open Sprint 8 tickets to Sprint 10.
+**What changed:** Deferred TKT-0293 and TKT-0326 from Sprint 8/9 to Sprint 10 via db-sprint.sh defer. Sprint column and metadata.sprint_target updated to Sprint 10. Notion sync triggered. Sprint 8 now 100% complete (15/15).
+**Why:** Sprint 8 ends with 2 open items; moving them out clears Sprint 8 completion to 100% and places them in the appropriate future backlog.
+**Verification:** db-sprint.sh status --sprint 'Sprint 8': 15 total, 0 open, 100% completion. db-sprint.sh status --sprint 'Sprint 10': 3 total including TKT-0293 and TKT-0326.
+**Rollback:** db-sprint.sh defer TKT-0293 --to 'Sprint 8' --reason 'rollback' and same for TKT-0326.
+**Linked:** Sprint 8, Sprint 10, TKT-0293, TKT-0326
+---
+
+
 ## 2026-06-19 22:30 AEST — [CHG-0670] CHG-0670: WO-002 divergence restored to GREEN after TKT-9999/9998 deletion
 **Type:** config
 **Change Type:** Normal
