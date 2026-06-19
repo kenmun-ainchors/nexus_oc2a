@@ -169,6 +169,45 @@ Both reference canonical docs in `references/` and load via `scripts/skill-load.
 ---
 ---
 
+## 2026-06-19 10:59 AEST — [CHG-0642] TKT-0533: operationalize Ollama dashboard usage scraper
+**Type:** script
+**Change Type:** Normal
+**Source:** ken-prompt
+**Trigger:** Ken approved BUDS Tech fix 2026-06-19 10:55 AEST. TKT-0533 implementation existed but cost-state.json turnsLimit was stale (last updated 2026-06-17) because the scraper required a running browser and had no scheduled runner.
+**What changed:** NEW scripts/ollama-usage-scraper-run.sh: starts OpenClaw browser, waits for ready state, runs scripts/ollama-usage-scraper.py, then stops browser. Uses absolute paths only. NEW cron bb3575e0: ollama-usage-scraper-refresh (agentTurn, isolated, delivery none). Schedule: 0 8,10,12,14,16,18,20,22 * * * AEST. Runs the wrapper every 2 hours during active hours.
+**Why:** Live Ollama request counting is required for the L3 Cost Management framework. The scraper alone could not run unattended because the browser sidecar was not running. The wrapper makes the scraper self-contained and schedules it at >=2h cadence per TKT-0533 AC1.
+**Verification:** Manual run of ollama-usage-scraper-run.sh succeeded: cost-state.json updated — session=750/19231 (3.9%) | weekly=29487/65381 (45.1%) | 2026-06-19T10:57:16+10:00. Cron created; first run scheduled 2026-06-19T12:00:00+10:00.
+**Rollback:** Delete cron bb3575e0; remove wrapper script; revert to manual scraper runs.
+**Linked:** TKT-0533, CHG-0618, CHG-0619, CHG-0620
+---
+
+
+## 2026-06-19 10:59 AEST — [CHG-0641] TKT-0339: add nightly cron-timeout-baseline refresh cron
+**Type:** cron
+**Change Type:** Normal
+**Source:** ken-prompt
+**Trigger:** Ken approved BUDS Tech fix 2026-06-19 10:55 AEST. BUDS reported 13 stale cron timeout recommendations because state/cron-timeout-baseline.json was last generated on 2026-06-15.
+**What changed:** NEW cron 1379ea74: cron-timeout-baseline-refresh (agentTurn, isolated, delivery none). Schedule: 0 3 * * * AEST. Runs bash /Users/ainchorsangiefpl/.openclaw/workspace/scripts/cron-timeout-scaler.sh to regenerate state/cron-timeout-baseline.json nightly. Does not apply timeouts.
+**Why:** Baseline drifted stale after the original 13 TKT-0339 recommendations were applied. Auto-heal CHECK 22 was surfacing stale actionable counts. A nightly refresh keeps recommendations current without manual intervention.
+**Verification:** Cron created via openclaw cron tool. Next run computed as 2026-06-20T03:00:00+10:00. Manual run of cron-timeout-scaler.sh regenerated baseline showing 11 actionable (9 DECREASE + 2 REVIEW).
+**Rollback:** Delete cron 1379ea74 via openclaw cron remove.
+**Linked:** TKT-0339, CHG-0615, CHG-0616
+---
+
+
+## 2026-06-19 10:59 AEST — [CHG-0640] TKT-0336: fix tilde-path false positive + TRIGGER-11 absolute-path hygiene
+**Type:** script
+**Change Type:** Normal
+**Source:** ken-prompt
+**Trigger:** Ken approved BUDS Tech fix 2026-06-19 10:55 AEST. BUDS still reported 1 tilde-path violation after TKT-0336 was closed.
+**What changed:** EDIT scripts/auto-heal.sh CHECK 20: added cron-list-snapshot.json to state-file tilde exclusion list (transient diagnostic snapshot). EDIT cron bb47c6de (TRIGGER-11 glm-5.1 check): rewrote payload message to mandate absolute paths and explicit /Users/.../workspace paths for state writes. Set delivery.mode to none to prevent Telegram delivery error. EDIT scripts/auto-heal.sh CHECK 20 pipeline: added || true so empty scan results do not crash auto-heal under set -euo pipefail.
+**Why:** cron-list-snapshot.json is regenerated every auto-heal by CHECK 30 and embeds cron lastError strings; it is not a source of tilde-path violations. TRIGGER-11 was still writing state/chg-triggers.json via relative/tilde paths and failing delivery because no Telegram target.
+**Verification:** zsh scripts/auto-heal.sh reports CHECK 20 OK: no tilde paths detected. TRIGGER-11 manual run completed successfully and updated state/chg-triggers.json TRIGGER-11 lastChecked/status.
+**Rollback:** Remove cron-list-snapshot.json from CHECK 20 exclusion; revert TRIGGER-11 payload and delivery.mode=announce if needed.
+**Linked:** TKT-0336, CHG-0614
+---
+
+
 ## 2026-06-18 16:40 AEST — [CHG-0639] wrapper test
 **Type:** rule
 **Change Type:** Normal

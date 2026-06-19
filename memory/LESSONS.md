@@ -1,3 +1,16 @@
+## L-157 — Derived state snapshots are policy sources, not policy targets
+**Date:** 2026-06-19
+**Source:** BUDS [Tech] re-surfaced TKT-0336 (tilde-path violation) and TKT-0339 (13 stale cron timeout recommendations).
+**Lesson:** State files that are regenerated from runtime data — cron-list-snapshot.json (CHECK 30), cron-timeout-baseline.json (scaler vA6) — can embed stale error strings or computed values. If downstream policy checks (tilde-path enforcement, timeout-drift alerting) treat these as primary sources, they flag phantom regressions. A derived snapshot must be classified as either (a) a diagnostic artifact excluded from policy enforcement, or (b) a computed baseline kept fresh by its own scheduled refresh.
+**Fix:**
+- Added `cron-list-snapshot.json` to CHECK 20 state-file tilde exclusion in `scripts/auto-heal.sh`, plus `|| true` on the empty-result pipeline so a clean scan does not crash under `set -euo pipefail`.
+- Fixed the underlying TRIGGER-11 cron to use absolute paths and `delivery.mode=none`.
+- Added nightly cron `cron-timeout-baseline-refresh` to regenerate `state/cron-timeout-baseline.json` at 03:00 AEST.
+**Evidence:** Commit 151d86e4; CHG-0640 (TKT-0336), CHG-0641 (TKT-0339).
+**Prevention:** Whenever a script writes a state file that is itself consumed by an audit/check, document in the check whether the file is a source or a derived snapshot. If derived, exclude it from the same policy check and add a refresh cron. Review during CREST Verify.
+
+---
+
 ## L-156 — 2026-06-18 | State Maps and Intermediate Success States
 **Lesson:** A state-transition map that marks `'verified'` as a pre-terminal success state must also list `'verified'` as a source for terminal transitions (`complete`, `done`, `sub_crest_done`). Without that edge, typed completion mutators and auto-resume logic cannot move a fully-verified task to terminal, so it stalls in `'verified'` indefinitely. The missing edge is easy to overlook because `'verified'` is an atom-level state, but at task level it is also a valid source.
 **Rule:** Whenever a new non-terminal success state is introduced in a state machine, immediately add it as a source to all terminal transitions. Add a regression test that exercises each new edge and asserts both allowed and rejected targets.
