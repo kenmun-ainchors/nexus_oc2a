@@ -1,6 +1,6 @@
 {
-  "runAt": "2026-06-18T09:00:08Z",
-  "runAtLocal": "2026-06-18 19:00 AEST",
+  "runAt": "2026-06-19T01:19:19Z",
+  "runAtLocal": "2026-06-19 11:19 AEST",
   "duration_ms": 0,
   "checks_run": [
   "auth_profiles",
@@ -54,19 +54,15 @@
   "sandbox_gateway_auto_unload"
 ],
   "checks_count": 49,
-  "issues_found": [
-  "tilde-path:state-file:cron-list-snapshot.json",
-  "cron-timeout:13-actionable"
-],
-  "issues_count": 2,
+  "issues_found": [],
+  "issues_count": 0,
   "auto_fixed": [
-  "git-commit:workspace:95-files"
+  "git-commit:workspace:57-files"
 ],
   "auto_fixed_count": 1,
   "needs_ken": [
-  "TKT-0336: 1 tilde path violations detected in cron payloads or state files. Run with --enforce to block.",
-  "TKT-0339: 13 actionable cron timeout recommendation(s) (agentTurn only, scaler vA6 — SCALER FLAG ONLY, 13 DECREASE). Manual review before any timeout changes. Baseline: /Users/ainchorsangiefpl/.openclaw/workspace/state/cron-timeout-baseline.json"
+  "TKT-0526: 3 cron(s) with :cloud model have timeoutSeconds < 120. See /Users/ainchorsangiefpl/.openclaw/workspace/state/auto-heal-cron-timeout-audit.json. c69615bb yoda-context-brief-refresh (2pm + 8pm AEST) current=52s model=ollama/kimi-k2.6:cloud suggested=120s f71f75af Daily Workspace Backup current=47s model=ollama/minimax-m3:cloud suggested=120s e08e19ad TKT-0093 Backup Health Check current=30s model=ollama/deepseek-v4-flash:cloud suggested=120s "
 ],
-  "needs_ken_count": 2,
+  "needs_ken_count": 1,
   "exit_status": "complete_with_needs_ken"
 }
