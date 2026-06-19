@@ -7,7 +7,7 @@
 #   1. Aria atoms marked 'done' without going through sub_crest_verifying
 #   2. Aria atoms with no rvev_trace (skipped RVEV discipline)
 #   3. Aria sub-crests stuck in same phase >24h (abandoned tasks)
-#   4. Aria's pro model usage rate (alert if >50% of atoms on pro — should be flash for Execute)
+#   4. Aria's strong model usage rate (alert if >50% of atoms on strong-tier models for Execute/Synthesize — should use flash-tier per CREST v1.3 capability matrix)
 #
 # Output: JSON report written to state/aria-crest-compliance.json
 # Alert: If violations found, writes state/aria-crest-alert.json for heartbeat pickup
@@ -91,7 +91,7 @@ done <<< "$(echo "$ARIA_DATA" | tail -n +2)"
 if [ "$ATOM_TOTAL" -gt 0 ]; then
   PRO_PCT=$((PRO_TOTAL * 100 / ATOM_TOTAL))
   if [ "$PRO_PCT" -gt 50 ]; then
-    WARNINGS+=("WARNING: $PRO_PCT% of Aria's atoms use pro model (threshold: 50%). Check if Execute atoms are incorrectly on pro instead of flash.")
+    WARNINGS+=("WARNING: $PRO_PCT% of Aria atoms use strong-tier models (threshold: 50%). Check if Execute/Synthesize atoms are incorrectly on strong-tier instead of flash-tier per CREST v1.3.")
   fi
 fi
 

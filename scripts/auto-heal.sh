@@ -2103,7 +2103,7 @@ fi
 
 # ---------- CHECK 28i: Model Policy Drift (TKT-0540 A9) ----------
 # Runs scripts/check-model-policy-drift.sh to detect divergence between
-# state/archive/model-policy.json, runtime agent models, and consumer tests.
+# state/model-policy.json (CREST v1.3 PG SSOT), runtime agent models, and consumer tests.
 log "CHECK 28i: model-policy drift (TKT-0540)"
 CHECKS_RUN+=("model_policy_drift")
 DRIFT_SCRIPT="$WORKSPACE/scripts/check-model-policy-drift.sh"

@@ -1,12 +1,12 @@
 #!/bin/bash
 # scripts/check-model-policy-drift.sh — TKT-0540 A9
 # Drift check: compares live runtime agent models and consumer behavior against
-# state/archive/model-policy.json. Writes alert file on drift.
+# state/model-policy.json (nightly cache; PG state_model_policy is SSOT per CREST v1.3). Writes alert file on drift.
 
 set -euo pipefail
 
 WORKSPACE_ROOT="${WORKSPACE_ROOT:-/Users/ainchorsangiefpl/.openclaw/workspace}"
-POLICY="$WORKSPACE_ROOT/state/archive/model-policy.json"
+POLICY="$WORKSPACE_ROOT/state/model-policy.json"
 QUERY="$WORKSPACE_ROOT/scripts/model-policy-query.sh"
 ALERT="$WORKSPACE_ROOT/state/model-policy-drift-alert.json"
 JQ=/opt/homebrew/bin/jq

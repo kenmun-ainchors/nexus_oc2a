@@ -3,8 +3,8 @@
 # TKT-0506 / CHG-0540 / TKT-0540
 #
 # Pre-flight gate for operator Execute/Synthesize work. Compares the intended
-# model against the effective model resolved from state/archive/model-policy.json
-# via scripts/model-policy-query.sh.
+# model against the effective model resolved from PG state_model_policy (CREST v1.3)
+# via scripts/model-policy-query.sh (PG-first with JSON fallback).
 #
 # Path A is strict: an operator may only execute a phase if:
 #   1. The phase is allowed for that operator in model-policy.json.
@@ -27,7 +27,7 @@ set -euo pipefail
 WORKSPACE="${WORKSPACE:-/Users/ainchorsangiefpl/.openclaw/workspace}"
 SCRIPTS="$WORKSPACE/scripts"
 LOG="$WORKSPACE/state/crest-execute-gate-log.json"
-MODEL_POLICY="$WORKSPACE/state/archive/model-policy.json"
+MODEL_POLICY="$WORKSPACE/state/model-policy.json"
 QUERY="$SCRIPTS/model-policy-query.sh"
 
 # Default values (caller can override)

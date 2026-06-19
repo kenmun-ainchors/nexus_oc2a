@@ -26,7 +26,7 @@ JQ="${JQ:-/opt/homebrew/bin/jq}"
 VERBOSE=false
 SCRIPT_DIR="$(cd "$(dirname "$0")" && pwd)"
 ATOM_VALIDATOR="${SCRIPT_DIR}/atom-validate.sh"
-MODEL_POLICY="${SCRIPT_DIR}/../state/archive/model-policy.json"
+MODEL_POLICY="${SCRIPT_DIR}/../state/model-policy.json"
 
 usage() {
   cat <<'EOF'
@@ -57,7 +57,7 @@ CHECKS:
     Each atom fields     verb, target, pre_conditions (≥1), post_conditions (≥1), model, phase
     Atom validation      Each atom passes atom-validate.sh (TKT-0384)
     Model assignment     Each atom's model matches CREST phase per model-policy.json
-                         Exception: Forge Plan/Synthesize atoms MAY use flash
+                         Exception: Forge Plan/Execute/Synthesize atoms use flash-tier per CREST v1.3 build role
     Escalation (if set)  Must have reason (non-empty string), source_phase (valid CREST phase)
                          Optional: proposed_remedy (string), severity (low|medium|high|critical)
 

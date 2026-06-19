@@ -3,8 +3,8 @@
 # Handles Level 1 (Yoda→Specialist) and Level 2 (Specialist→Executor) dispatch
 # using deepseek-v4-flash:cloud with phase-aware model routing.
 #
-# Uses crestPhaseModelMap from model-policy.json to pick the right model per phase.
-# Forge exception: Plan + Synthesize = flash, Verify + Replan = pro.
+# CREST v1.3: Uses model-policy-query.sh (PG-first) for model resolution.
+# Forge exception: Plan/Execute/Synthesize = flash, Verify/Replan = gemma4:31b/deepseek-pro.
 #
 # Commands:
 #   flash-dispatcher.sh dispatch     — Dispatch a CREST atom to an executor session
@@ -541,7 +541,7 @@ cmd_verify_phase() {
   current_phase=$(read_sub_crest_phase "$sub_crest_uuid")
   info "Sub-CREST current phase: $current_phase"
 
-  # Step 3: Resolve model (Verify/Replan always use pro per CREST v1.2 except Forge Verify which also uses pro)
+  # Step 3: Resolve model (Verify/Replan use gemma4:31b-cloud/deepseek-v4-pro per CREST v1.3 capability matrix)
   local resolved_model
   resolved_model=$(resolve_model "$specialist" "$phase" "$model")
   info "Resolved model: $resolved_model"

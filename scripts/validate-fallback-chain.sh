@@ -1,7 +1,7 @@
 #!/bin/zsh
 # AInchors Fallback Chain Validator
 # Run on gateway start — validates the full fallback chain is healthy.
-# CHG-0426: Auto-derives expected chain from model-policy.json (SSOT) instead of hardcoded values.
+# CHG-0426: Auto-derives expected chain from model-policy.json (nightly cache; PG is SSOT per CREST v1.3).
 # CHG-0394: Permanent baseline is deepseek-v4-pro → gemma4:31b-cloud → kimi.
 #
 # Output: state/fallback-chain-status.json
@@ -95,7 +95,7 @@ RESULTS+=("gemma4Warm:skipped")
 
 
 # ── LINK 5: openclaw.json fallback chain for main (Yoda) agent ───────────────
-# CHG-0426: Auto-derives expected chain from model-policy.json (SSOT).
+# CHG-0426: Auto-derives expected chain from model-policy.json (nightly cache; PG is SSOT per CREST v1.3).
 # Falls back to openclaw.json defaults if model-policy.json is missing.
 # Also validates against globalAllowedModels for policy compliance.
 
@@ -190,7 +190,7 @@ print(','.join(fb))
   fi
 
   if [[ "$CHAIN_OK" == "true" ]]; then
-    log "LINK 5 (fallback chain config): OK — $EXPECTED_PRIMARY → $EXPECTED_FALLBACK_1 (from model-policy.json SSOT)"
+    log "LINK 5 (fallback chain config): OK — $EXPECTED_PRIMARY → $EXPECTED_FALLBACK_1 (from model-policy.json (nightly cache; PG SSOT per CREST v1.3))"
     RESULTS+=("fallbackChainConfig:ok")
   else
     RESULTS+=("fallbackChainConfig:broken")

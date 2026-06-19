@@ -68,7 +68,7 @@ Triggered by: TKT-0501 "CREST synthesize and close" prompt where Yoda correctly 
 
 ## CREST v1.3 — Approved 2026-06-20 09:28 AEST (CHG-0680)
 - **Status:** Approved, not yet executed. TKT-0546 (critical epic) open.
-- **Three moves:** (1) External loop ownership — Yoda owns CREST loop; agents are phase executors. (2) Sage-as-Judge — Sage renders Verify pass/fail/needs_human verdicts; specialists assemble evidence only. (3) Capability-based multi-model routing — pro/flash binary replaced by role×data_class×phase matrix; first slot Verify→glm-5.1:cloud.
+- **Three moves:** (1) External loop ownership — Yoda owns CREST loop; agents are phase executors. (2) Sage-as-Judge — Sage renders Verify pass/fail/needs_human verdicts; specialists assemble evidence only. (3) Capability-based multi-model routing — role×data_class×phase matrix replaces binary model selection; Verify primary: gemma4:31b-cloud (20/20 benchmark).
 - **Pre-Tier-A gates (G1-G5):** CHG record, baseline snapshot, down-migration DDL, judgment benchmark (glm-5.1 ≥90% on 20 atoms), dispatch-validate baseline. Must complete before any Tier A execution.
 - **Docs:** `docs/CREST-v1.3-Recursive-Model-C.md`, `docs/CREST-v1.3-Model-Policy-Schema.md`, `agents/sage/SOUL.md` + `AGENTS.md`.
 - **Oracle-reviewed:** kimi-k2.6:cloud 2026-06-20 09:15 AEST; 8 gaps fixed in v2.

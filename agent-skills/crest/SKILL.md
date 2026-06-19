@@ -1,6 +1,6 @@
 ---
 name: crest
-description: CREST — Cognitive Routing & Execution Sandwich Topology (recursive Model C, v1.2). 6-phase sandwich, Master/Sub-CREST topology, model matrix, 2-Pass Contract, escalation protocol, governance placement.
+description: CREST — Cognitive Routing & Execution Sandwich Topology (recursive Model C, v1.3). 6-phase sandwich, external loop ownership, Sage-as-Judge Verify, capability-based multi-model routing (PG SSOT), 2-Pass Contract, escalation protocol, governance placement.
 ---
 
 # CREST skill — When to Load
@@ -9,8 +9,8 @@ Load this skill whenever you are:
 
 - **Starting or executing any task** that involves planning + execution work — CREST is mandatory for every such loop (Ken mandate 2026-06-13).
 - **Dispatching a sub-ticket** to a specialist (Atlas, Thrawn, Spark, Lando, Mon Mothma, Forge) — apply the Master/Sub-CREST topology.
-- **Choosing a model tier** for a specialist (Plan/Verify/Replan vs Execute/Synthesize) — use `scripts/model-policy-query.sh --agent <id> --phase <phase>` against `state/archive/model-policy.json`.
-- **Handling a Verify failure** — apply the Replan decision tree (iterate(n++) OR escalate).
+- **Choosing a model** for a specialist phase — use `scripts/model-policy-query.sh --agent <id> --phase <phase>` (PG-first, JSON fallback).
+- **Handling a Verify failure** — Sage renders verdict; apply the Replan decision tree (iterate(n++) OR escalate).
 - **Integrating sub-ticket deliverables across specialists** — Master Synthesize integration checklist.
 - **Deciding whether to invoke governance agents** (Shield/Lex/Sage) — Master Synthesize Done gate only, external-facing only.
 - **Closing a ticket** — DoD Verification Gate (RULES.md §DoD VERIFICATION GATE).
@@ -22,56 +22,56 @@ Load this skill whenever you are:
 
 ## Quick Reference — The 6-Phase Sandwich
 
-CREST applies **recursively** (Model C, v1.2 LOCKED, dual PASS) at two levels:
+CREST applies **recursively** (Model C, v1.3 LOCKED, CHG-0680) at two levels:
 
 ```
 Plan → Execute → Verify → Replan → Synthesize → Done
 ```
 
-| # | Phase | CREST tier | Cognitive work | Output |
+| # | Phase | Model tier | Cognitive work | Output |
 |---|-------|------------|----------------|--------|
-| 1 | **Plan** | strong | Scope, DAG, atoms, model spec, trade-offs | Typed DAG + atom breakdown |
-| 2 | **Execute** | cheap | Mechanical work — write, build, dispatch | Atoms completed (RVEV per atom) |
-| 3 | **Verify** | strong | Independent validation (L-054: never trust self-report) | Binary 0/1 verdict per atom |
-| 4 | **Replan** | strong | Gap analysis; iterate(n++) OR escalate | Re-dispatch or escalate |
-| 5 | **Synthesize** | cheap | Integration (specialist: domain-internal; master: cross-specialist) | Sub-ticket / master deliverable |
+| 1 | **Plan** | role-dependent | Scope, DAG, atoms, model spec, trade-offs | Typed DAG + atom breakdown |
+| 2 | **Execute** | role-dependent | Mechanical work — write, build, dispatch | Atoms completed (RVEV per atom) |
+| 3 | **Verify** | gemma4:31b-cloud (primary) | Sage renders verdict; specialists assemble evidence | Binary pass/fail/needs_human verdict |
+| 4 | **Replan** | role-dependent | Gap analysis; iterate(n++) OR escalate | Re-dispatch or escalate |
+| 5 | **Synthesize** | role-dependent | Integration (specialist: domain-internal; master: cross-specialist) | Sub-ticket / master deliverable |
 | 6 | **Done** | terminal | Audit emit, close, Holocron register | Closed ticket + audit trail |
 
-**Tier rule:** Plan / Verify / Replan = strong. Execute / Synthesize = cheap.  
-**Concrete model resolution:** use `scripts/model-policy-query.sh --agent <agent-id> --phase <phase>`.  
-The actual model names live in `state/archive/model-policy.json` (SSOT). Do not hardcode them in plans.
+**CREST v1.3:** Capability-based multi-model routing. No binary strong/cheap. Each role×phase has a specific default_model + fallback_model in PG `crest_phase_rules`.
+**Concrete model resolution:** use `scripts/model-policy-query.sh --agent <agent-id> --phase <phase>` (PG-first, JSON fallback).
+The authoritative source is PG `state_model_policy.crest_phase_rules`. Do not hardcode models in plans.
 
 ---
 
-## Model Assignment Matrix
+## Model Assignment Matrix (CREST v1.3)
 
-| Specialist | Plan | Execute | Verify | Replan | Synthesize | Design-only? |
-|-----------|------|---------|--------|--------|-----------|-------------|
-| **Yoda** | strong | **none** | strong | strong | strong¹ | Master orchestrator |
-| **Atlas, Thrawn, Lando, Mon Mothma** | strong | cheap | strong | strong | cheap | ✅ Yes (design-only) |
-| **Spark** | strong | cheap² | strong | strong | cheap | ❌ No (creative) |
-| **Forge** | cheap³ | cheap | strong | strong | cheap³ | ❌ No (build) |
-| **Shield, Lex, Warden, Sage** | strong | cheap | strong | strong | cheap | Verdict-only governance |
-| **Ahsoka, Luthen** | strong | cheap | strong | strong | cheap | T3 business specialists |
+| Role | Plan | Execute | Verify | Replan | Synthesize |
+|------|------|---------|--------|--------|-----------|
+| **yoda_master** (Yoda) | deepseek-v4-pro | **none** | deepseek-v4-pro | deepseek-v4-pro | kimi-k2.7-code |
+| **design_backend** (Atlas/Thrawn/Lando/Mon) | deepseek-v4-pro | deepseek-v4-flash | gemma4:31b | deepseek-v4-pro | deepseek-v4-flash |
+| **creative** (Spark) | kimi-k2.6 | deepseek-v4-flash¹ | gemma4:31b | kimi-k2.6 | deepseek-v4-flash |
+| **build** (Forge) | deepseek-v4-flash² | deepseek-v4-flash | gemma4:31b | deepseek-v4-pro | deepseek-v4-flash |
+| **business** (Ahsoka/Luthen) | kimi-k2.6 | deepseek-v4-flash | gemma4:31b | kimi-k2.6 | deepseek-v4-flash |
+| **governance** (Shield/Lex/Sage/Warden) | gemma4:31b | deepseek-v4-flash | gemma4:31b | gemma4:31b | deepseek-v4-flash |
 
-¹ Yoda Synthesize may use strong or cheap depending on integration complexity; default is strong for Master Synthesize.  
-² Spark `highStakesExecute` (e.g. Ken's LinkedIn, client-facing campaigns) may override to strong with `model_override: pro` + `override_reason`.  
-³ Forge exception (Ken 2026-06-10): Plan/Synthesize use cheap; Verify/Replan use strong. Monitor Replan rate; >30% reassess flash-for-Plan.
+¹ Spark high-stakes Execute may override to kimi-k2.6 with `override_allowed: true` + `override_reason`.
+² Forge exception (Ken 2026-06-10): Plan/Execute/Synthesize use flash-tier; Verify/Replan use gemma4:31b/deepseek-v4-pro.
 
-**Concrete models:** Query `scripts/model-policy-query.sh --all`. Examples: T2 Backend Execute = `deepseek-v4-flash`; T3 Technical Verify = `minimax-m3`; userFacing Yoda Execute = not allowed.
+**Concrete models:** Query `scripts/model-policy-query.sh --all`. PG `crest_phase_rules` is SSOT.
 
 ---
 
-## Model resolution source
+## Model resolution (CREST v1.3)
 
-CREST phases are mapped to **strong** or **cheap**, not to specific model names. Resolution order:
+Models are resolved by role×phase from PG `state_model_policy.crest_phase_rules` (SSOT).
 
-1. `state/archive/model-policy.json` `crestPhaseOverrides.byAgent[<agent>][<phase>]`
-2. `state/archive/model-policy.json` `crestPhaseOverrides.byTier[<tier>][<phase>]`
-3. Default: Plan/Verify/Replan = strong; Execute/Synthesize = cheap
-4. strong → `agentTiers[<tier>].primary`; cheap → `agentTiers[<tier>].cheapModel`
+1. `scripts/model-policy-query.sh --agent <id> --phase <phase>` queries PG first.
+2. Falls back to `state/model-policy.json` `crest_v13.phase_rules` if PG unavailable.
+3. Further falls back to `agentTiers` (v1.2 compat) if v1.3 section missing.
 
-Use `scripts/model-policy-query.sh` for runtime resolution.
+**Verify phase:** Sage (qa agent) renders verdict. All other agents assemble evidence only.
+**Verify fallback chain:** gemma4:31b-cloud → deepseek-v4-pro:cloud.
+**needs_human timeout:** 4 hours; auto-escalates to Yoda.
 
 **L-026:** Build/scripts → Forge ONLY. Atlas = EA assessment. Thrawn = architecture design. Never route build work to Atlas or Thrawn.
 
@@ -88,7 +88,7 @@ Master ticket → sub-tickets → atoms
 | Level | Orchestrator | Inputs | Outputs |
 |-------|--------------|--------|---------|
 | **Master CREST** | Yoda (deepseek-pro) | Master ticket | Sub-ticket assignments, integration report, audit |
-| **Sub-CREST** | Specialist (pro/flash mix per matrix) | Sub-ticket | Atom breakdown, sub-ticket deliverable |
+| **Sub-CREST** | Specialist (role×phase matrix per CREST v1.3) | Sub-ticket | Atom breakdown, sub-ticket deliverable |
 | **RVEV** | Cheap executor | Atom | Atom result + self-trace |
 
 **Parallel execution:** Sub-CRESTs run in parallel where the master DAG allows. Race-condition guard: shared write targets must be declared in the specialist's Plan output → Yoda sequences them (no parallel writes to shared state).
@@ -114,7 +114,7 @@ Yoda's CREST activities:
 
 ---
 
-## Model Assignment Matrix (CORRECTED per source docs/CREST-v1.2-Recursive-Model-C.md §4)
+## Model Assignment Matrix (CREST v1.3 — PG state_model_policy.crest_phase_rules)
 
 | Specialist | Plan | Execute | Verify | Replan | Synthesize | Design-only? |
 |-----------|------|---------|--------|--------|-----------|-------------|
@@ -183,7 +183,7 @@ Every CREST Execute phase that produces more than one atom **MUST pass through t
 
 ## Escalation Protocol — iterate(n++) OR escalate (no third option)
 
-> Source: `docs/CREST-v1.2-Recursive-Model-C.md` §6 (LOCKED, dual PASS).
+> Source: `docs/CREST-v1.3-Recursive-Model-C.md` §6 (LOCKED, CHG-0680).
 
 ```
 Specialist Replan:
@@ -238,7 +238,7 @@ Master Synthesize is an **active integration test** across sub-ticket deliverabl
 
 **L-054 compliance:** Synthesize tests ALL atoms/sub-tickets together. Integration gaps only surface in combination.
 
-**Integration report shape** — see `references/CREST-v1.2-Recursive-Model-C.md` §7.3 for full JSON schema.
+**Integration report shape** — see `docs/CREST-v1.3-Recursive-Model-C.md` §7.3 for full JSON schema.
 
 ---
 
@@ -344,9 +344,9 @@ This is the machine-enforced CREST Done gate for ticket lifecycle.
 
 ## References
 
-Full recursive CREST topology (Model C, v1.2 LOCKED, dual PASS — Atlas ✅ + Thrawn ✅):
+Full recursive CREST topology (Model C, v1.3 LOCKED, CHG-0680):
 
-→ `references/CREST-v1.2-Recursive-Model-C.md`
+→ `docs/CREST-v1.3-Recursive-Model-C.md`
 
 Authority boundary rules (Ken's 2026-06-13 mandate + MEMORY.md enforcement rules + RULES.md DoD gate):
 

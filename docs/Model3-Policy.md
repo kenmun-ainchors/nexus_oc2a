@@ -430,7 +430,7 @@ Per CREST execution loop (TKT-0368/CHG-0478), agents use different models per ph
 | Lando | deepseek-pro | deepseek-flash | deepseek-pro | deepseek-pro | deepseek-flash |
 | Mon Mothma | deepseek-pro | deepseek-flash | deepseek-pro | deepseek-pro | deepseek-flash |
 
-**Forge exception:** Forge uses flash for Plan (not pro) — infra/SRE planning is predominantly bounded and deterministic. Pro reserved for Verify/Replan phases only.
+**Forge exception (CREST v1.3):** Forge uses `deepseek-v4-flash:cloud` for Plan/Execute/Synthesize (build role). Verify/Replan use `gemma4:31b-cloud`/`deepseek-v4-pro:cloud`. See `docs/CREST-v1.3-Recursive-Model-C.md` for the authoritative capability matrix.
 
 ### Phase-Aware Fallback Chains
 

@@ -96,7 +96,7 @@ The canonical model policy lives at `state/model-policy.json`. Warden enforces i
 | Shield (security) | Sonnet | No | Prohibited |
 | Lex (legal) | Sonnet | No (prohibited) | Prohibited |
 | Sage (QA) | Sonnet | Yes (non-sensitive QA only) | Prohibited |
-| Warden | Sonnet | deepseek-flash for crons | Prohibited |
+| Warden | Sonnet | deepseek-v4-flash:cloud for crons (CREST v1.3 governance role) | Prohibited |
 | Forge (infra) | Sonnet | Yes (CI tasks only) | Prohibited |
 
 Full details: `state/model-policy.json`.

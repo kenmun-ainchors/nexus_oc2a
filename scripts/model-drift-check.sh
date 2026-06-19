@@ -171,7 +171,9 @@ echo "🔍 Warden Model Compliance Check — $AEST_TIMESTAMP"
 echo "─────────────────────────────────────────────────────────────"
 
 # ── Agent model checks ─────────────────────────────────────────────
-# L-040 / CHG-0425 pattern: Auto-derive expected models from model-policy.json (SSOT)
+# L-040 / CHG-0425 pattern: Auto-derive expected models from model-policy.json
+# CREST v1.3: PG state_model_policy is SSOT. model-policy.json is nightly cache.
+# Agent model validation uses agentTiers (v1.2 compat) + crest_v13.phase_rules (v1.3).
 # This eliminates the stale-hardcoded-values class of false-positive.
 echo ""
 echo "[ Agent Models ]"
@@ -222,7 +224,7 @@ while IFS='|' read -r status aid actual expected; do
     FAIL)
       FAIL=$((FAIL + 1))
       echo "  FAIL  agent:$aid -> actual=$actual expected=$expected [VIOLATION]"
-      FINDINGS+=("{\"agentId\":\"$aid\",\"expected\":\"$expected\",\"actual\":\"$actual\",\"severity\":\"VIOLATION\",\"note\":\"Agent model does not match tier primary. Check model-policy.json agentTiers.\",\"detectedAt\":\"$AEST_TIMESTAMP\"}")
+      FINDINGS+=("{\"agentId\":\"$aid\",\"expected\":\"$expected\",\"actual\":\"$actual\",\"severity\":\"VIOLATION\",\"note\":\"Agent model does not match tier primary. Check model-policy.json agentTiers (v1.2 compat) and crest_v13.phase_rules (v1.3 PG SSOT).\",\"detectedAt\":\"$AEST_TIMESTAMP\"}")
       ;;
     SKIP)
       echo "  SKIP  agent:$aid -> $actual (no tier assignment)"
@@ -315,7 +317,8 @@ echo "[ Fallback Chain ]"
 FALLBACK_CHECK=$(python3 -c "
 import json
 
-# L-040 (CHG-0425): Auto-derive valid chains from model-policy.json — the SSOT.
+# L-040 (CHG-0425): Auto-derive valid chains from model-policy.json.
+# CREST v1.3: PG state_model_policy is SSOT. JSON is nightly cache.
 # This eliminates the stale-hardcoded-list class of false-positive bug.
 # If model-policy.json is missing or invalid, the check fails safe (flags violation).
 
@@ -323,7 +326,7 @@ with open('$OC_CONFIG') as f:
     cfg = json.load(f)
 fb = cfg.get('agents', {}).get('defaults', {}).get('model', {}).get('fallbacks', [])
 
-# Step 1: Load valid chains from model-policy.json (SSOT per TKT-0197)
+# Step 1: Load valid chains from model-policy.json (nightly cache; PG is SSOT per CREST v1.3)
 try:
     with open('$POLICY') as f:
         policy = json.load(f)
