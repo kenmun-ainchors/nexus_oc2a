@@ -7,6 +7,10 @@
 set -euo pipefail
 
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+
+# --- SKILL GATE: notion ---
+source "$SCRIPT_DIR/skill-gate.sh" "notion" || exit $?
+
 WORKSPACE="$(cd "$SCRIPT_DIR/.." && pwd)"
 STATE_FILE="$WORKSPACE/state/akb-sync-state.json"
 OUTPUT_DIR="$WORKSPACE/state/akb-pages"

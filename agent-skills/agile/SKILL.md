@@ -115,59 +115,44 @@ Significant = architecture decisions, vendor/tool selections, scope changes to a
 **Capacity rule:** Never fill a sprint with more than **2 non-OKR-linked items** (P3 + P4 + P5 combined).
 **Tiebreaker:** Pick the item that unblocks more downstream work.
 
+### Sprint Review (automated report)
+
+Run the canonical review report before the Friday standup or on-demand:
+
+```bash
+bash agent-skills/agile/scripts/sprint-review.sh
+# or for a specific sprint:
+bash agent-skills/agile/scripts/sprint-review.sh --sprint "Sprint 8"
+```
+
+This produces a Markdown report at `.openclaw/tmp/sprint-review-report-<Sprint-N>.md` covering:
+
+- Sprint identity and committed scope
+- Delivery status and velocity snapshot
+- Platform health, budget, and cron health
+- Open decisions and draft docs
+- Next-sprint signals
+
+See the checklist: `agent-skills/agile/references/sprint-review-checklist.md`.
+
 ### Ad-hoc Sprint Status Query (any time)
 
 Ken or Yoda may request: **"What is the current sprint status?"**
 
-On that request:
 1. Run `bash scripts/db-sprint.sh current` to fetch the active sprint.
-2. **Cross-check:** Verify the returned sprint has `status: in_progress` (or `active`) and that its dates include today. If the command returns a `completed` sprint or a stale sprint, immediately run `bash scripts/db-sprint.sh plan --sprint "Sprint N"` (with the sprint you believe is active) and report the discrepancy to Ken.
-3. Run `bash scripts/db-ticket.sh list --sprint-current` to list all items in the sprint with statuses.
-4. Summarise in a concise Telegram/webchat message:
-   - **Sprint name + dates**
-   - **Velocity snapshot:** planned / completed / in-progress / blocked / not-started
-   - **Critical blockers** (P1/P2, health, security)
-   - **Items needing Ken input** (open decisions, draft reviews, approval gates)
-   - **Next 24h focus** (top 3 priorities by order of execution)
+2. **Cross-check:** Verify the returned sprint has `status: in_progress` and dates include today. If stale, run `bash scripts/db-sprint.sh plan --sprint "Sprint N"` and report the discrepancy.
+3. Run `bash scripts/db-ticket.sh list --sprint-current`.
+4. Summarise: sprint name + dates, velocity snapshot, critical blockers, items needing Ken input, next 24h focus.
 5. Do not wait for a ceremony. This is ad-hoc status-on-demand.
 
 ### Sprint Planning Carry-Forward Rule
 
-When planning the next sprint (Sunday evening or any ad-hoc planning request):
-1. Run `bash scripts/db-ticket.sh list --sprint-current --status open,in_progress,blocked` to find all unclosed items in the current sprint.
-2. Propose to Ken: **"Carry forward N items to Sprint [N+1]?"** with the list and recommended slotting.
-   - Default assumption: carry all open/in-progress/blocked items unless Ken explicitly drops one.
-   - Exceptions: items marked `wontfix`, `duplicate`, or `parking_lot` are not carried.
-3. On Ken's confirmation:
-   - Run `bash scripts/db-sprint.sh create --week-start <date>` to create the next sprint.
-   - Run `bash scripts/db-ticket.sh bulk-update --sprint-new <sprint-id> --ids <id1,id2,...>` to move carried items.
-   - Run `bash scripts/db-sprint.sh update <new-sprint-id> --status in_progress` to mark the new sprint as active (canonical state).
-   - Run `bash scripts/db-sprint.sh update <old-sprint-id> --status closed` to close the old sprint.
-4. **Auto-mark next sprint in-progress** only after Ken confirms carry-forward. Never pre-create a sprint without approval.
+When planning the next sprint:
+1. Run `bash scripts/db-ticket.sh list --sprint-current --status open,in_progress,blocked`.
+2. Propose carry-forward to Ken. Default: carry all open/in-progress/blocked unless explicitly dropped.
+3. On confirmation, create the new sprint, move items, mark new sprint active, close old sprint.
 
-### Ken Says "Groom TKT-XXXX" — Groom Format
-
-When Ken says "groom TKT-XXXX", produce a concise groom summary in this order. This is **pre-execution shaping**, not the mechanical `db-ticket.sh groom` helper.
-
-1. **What it is** — one-sentence identity of the ticket.
-2. **Problem statement** — why it matters; the pain or risk being addressed.
-3. **Context** — relevant history, dependencies, related tickets/CHG/lessons, current state.
-4. **What we should do** — the possible approaches or options (labelled A, B, C…).
-5. **Considerations** — constraints, assumptions, trade-offs, known unknowns.
-6. **Risks** — what could go wrong with each option.
-7. **Recommendation** — which option you favour and why.
-8. **Ask for decision** — stop here. Do not begin execution, CREST planning, or tool work until Ken confirms the approach.
-
-Use evidence from PG, CHANGELOG, LESSONS, and memory. If data is missing, say so. Do not fabricate options or context. After Ken confirms the approach, then proceed to CREST Plan phase (load `crest` skill) and execution.
-
-### Backlog Grooming Requirements (every PBI needs all of these before Sprint start)
-
-- Acceptance Criteria (AC) — clear and testable
-- Owner / Assignee — named human or agent
-- Timeline / Estimate — sized
-- Risk Assessment — flagged
-- Blockers / Dependencies — declared
-- DoD Criteria — type-specific checklist applied
+For full groom/planning guidance and type-specific DoD checklists, see `agent-skills/agile/references/agile-framework-v1.md`.
 
 ---
 
@@ -175,24 +160,24 @@ Use evidence from PG, CHANGELOG, LESSONS, and memory. If data is missing, say so
 
 ### DO
 
-- ✅ **Raise a TKT before any ad-hoc work.** Ticket-first is audit + sanity.
-- ✅ **Link every PBI to an OKR ID** (or explicitly "—" for auto-heal items).
-- ✅ **Gate every epic** with Ken approval after Atlas/Thrawn review before any work starts.
-- ✅ **Enforce the 6-item sprint ceiling** (realistic for the team size).
-- ✅ **Track velocity over rolling 4 sprints** — review at every sprint close + QBR.
-- ✅ **Run daily standup auto-delivered** at 8:00 AM AEST — every day, no exceptions.
+- ✅ **Raise a TKT before any ad-hoc work.**
+- ✅ **Link every PBI to an OKR ID** (or "—" for auto-heal items).
+- ✅ **Gate every epic** with Ken approval after Atlas/Thrawn review.
+- ✅ **Enforce the 6-item sprint ceiling**.
+- ✅ **Track velocity over rolling 4 sprints**.
+- ✅ **Run daily standup auto-delivered** at 8:00 AM AEST.
 - ✅ **Capture every significant decision** in Notion Decisions DB.
-- ✅ **Apply the universal DoD gates** before marking any item Done (Gates 1, 2, 3 below).
+- ✅ **Apply the universal DoD gates** before marking any item Done.
 
 ### DON'T
 
-- ❌ **Skip the Plan / Plan phase.** No silent execution, even for one-atom tasks.
-- ❌ **Start an epic without an OKR ID.** Without OKR ID it's a parking-lot item, not an epic.
-- ❌ **Run an epic > 6 sprints** without splitting or re-scoping.
-- ❌ **Close a ticket via self-report.** DoD gates 1–3 must pass — open decisions closed, drafts accepted.
+- ❌ **Skip the Plan / Plan phase.**
+- ❌ **Start an epic without an OKR ID.**
+- ❌ **Run an epic > 6 sprints** without splitting.
+- ❌ **Close a ticket via self-report.** DoD gates 1–3 must pass.
 - ❌ **Fill a sprint with > 2 non-OKR items** (P3+P4+P5 combined).
 - ❌ **Trust specialist self-report for Done.** Verify independently (L-054).
-- ❌ **Let "DRAFT FOR REVIEW" status pass as Done.** Ken explicit confirmation required.
+- ❌ **Let "DRAFT FOR REVIEW" pass as Done.** Ken explicit confirmation required.
 
 ---
 
@@ -201,48 +186,15 @@ Use evidence from PG, CHANGELOG, LESSONS, and memory. If data is missing, say so
 Before ANY ticket, US, epic, or architecture task can be marked Done, **ALL three gates must pass**:
 
 ### Gate 1 — Open Decisions Closed
-All decisions raised during the work (unanswered, blocked, dependent, or triggered) must be resolved and confirmed by Ken. Tracked in `state/open-decisions.json`. **A ticket with open decisions is BLOCKED — not Done.**
+Tracked in `state/open-decisions.json`. A ticket with open decisions is **BLOCKED — not Done**.
 
 ### Gate 2 — No Draft Outputs
-Any document, framework, policy, or architecture artefact produced as a deliverable must be **explicitly endorsed/accepted/confirmed by Ken** before the item closes. "DRAFT FOR REVIEW" status = not Done. Ken's explicit confirmation (webchat or Telegram) = accepted. Yoda updates doc status and logs CHG.
+Any deliverable must be **explicitly endorsed/accepted/confirmed by Ken** before close. "DRAFT FOR REVIEW" = not Done.
 
 ### Gate 3 — Gates 1 and/or 2 fully cleared
-Only when all open decisions are closed AND all drafts are accepted is the item considered Done. **Partial closure is not Done.**
+Only when all open decisions are closed AND all drafts are accepted is the item Done.
 
-**Tracking:** Yoda maintains `state/open-decisions.json` (Gate 1) and `state/draft-docs.json` (Gate 2). Both checked at sprint planning (Sunday) and sprint review (Friday standup). Any item with open gates cannot be carried forward as "Done" — it is "Blocked" or "In Review".
-
-### TKT (Task / Ticket) — additional checklist
-
-- [ ] Deliverable exists and works as specified in the acceptance criteria
-- [ ] If config change → CHG logged in `memory/CHANGELOG.md` and Notion Change Log DB
-- [ ] Notion status updated to `Closed`
-- [ ] Any testing required → test outcome documented (pass/fail, method)
-- [ ] No open issues flagged in PVT (if applicable — `bash scripts/pvt.sh`)
-
-### US (User Story) — additional checklist
-
-- [ ] All acceptance criteria met (each AC has pass/fail result documented)
-- [ ] End-to-end test run (not just unit-level)
-- [ ] Ken review completed (mandatory for any client-facing or external output)
-- [ ] Notion status updated to `Done`
-- [ ] Any dependencies on other items updated (downstream items unblocked)
-
-### Epic — additional checklist
-
-- [ ] All child User Stories are closed (DoD met for each US)
-- [ ] Operational playbook written and published to Holocron (every shipped capability must have a playbook)
-- [ ] Ken sign-off given
-- [ ] Epic entry in Notion updated to `Complete` with actual completion date
-- [ ] OKR delta noted: did this epic move its KR? Record the delta.
-
-### INC (Incident) — additional checklist
-
-- [ ] Service restored to normal
-- [ ] Root cause identified (or "unknown — under investigation" if not yet resolved)
-- [ ] `scripts/incident-log.sh` updated
-- [ ] Notion Incident DB updated
-- [ ] P1/P2 incidents: PIR scheduled within 48 hours, PIR report completed within 5 days
-- [ ] Preventive action raised as TKT if recurrence is possible
+For type-specific DoD checklists (TKT / US / Epic / INC), see `agent-skills/agile/references/agile-framework-v1.md`.
 
 ---
 

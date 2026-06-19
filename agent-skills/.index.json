@@ -38,6 +38,18 @@
       "approved": true
     },
     {
+      "name": "notion",
+      "path": "agent-skills/notion",
+      "skill_file": "SKILL.md",
+      "skill_reference": "references/notion-api-patterns.md",
+      "canonical_scripts": [
+        "agent-skills/notion/scripts/notion-env-check.sh"
+      ],
+      "category": "integration",
+      "description": "AInchors Notion integration patterns — auth, DB IDs, API conventions, rate limits, and common operations for tickets, backlog, and Holocron.",
+      "approved": true
+    },
+    {
       "name": "pg-sprint-backlog",
       "path": "agent-skills/pg-sprint-backlog",
       "skill_file": "SKILL.md",

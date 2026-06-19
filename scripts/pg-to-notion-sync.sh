@@ -5,6 +5,9 @@
 
 set -euo pipefail
 
+# --- SKILL GATE: notion ---
+source "${SCRIPT_DIR:-$(dirname "$0")}/skill-gate.sh" "notion" || exit $?
+
 # --- CONFIGURATION ---
 WORKSPACE_ROOT="/Users/ainchorsangiefpl/.openclaw/workspace"
 DB_SCRIPT="$WORKSPACE_ROOT/scripts/db.sh"

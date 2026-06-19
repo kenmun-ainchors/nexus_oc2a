@@ -81,7 +81,8 @@ Nexus=platform|Holocron=AKB|Bridge=cmd-centre|Citadel=client-portal|Holonet=live
 - Missed post → push to next slot (Tue 07:30→Wed 12:00→Thu 07:30→next Tue 07:30). Never post late. If slot taken, skip entirely. All Spark crons.
 
 ## Open Items
-- Notion DB architecture: see TOOLS.md (CHG-0401 3-DB setup)
+- **Notion DB architecture:** see `agent-skills/notion/SKILL.md` and `TOOLS.md` (CHG-0401 3-DB setup)
+- **Notion skills + patterns:** canonical reference is `agent-skills/notion/SKILL.md`
 - LinkedIn ✅ connected. Instagram/Facebook/X not yet connected.
 
 ## Model Routing — Permanent Structure (LOCKED 2026-06-15, CHG-0596)

@@ -81,7 +81,7 @@ for idx, (page_id, date_val) in enumerate(DATE_MAP.items(), 1):
         data=payload,
         headers={
             "Authorization": f"Bearer {NOTION_KEY}",
-            "Notion-Version": "2025-09-03",
+            "Notion-Version": "2022-06-28",
             "Content-Type": "application/json"
         },
         method="PATCH"

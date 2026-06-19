@@ -6,6 +6,9 @@
 
 set -u
 
+# --- SKILL GATE: notion ---
+source "${SCRIPT_DIR:-$(dirname "$0")}/skill-gate.sh" "notion" || exit $?
+
 WORKSPACE_ROOT="/Users/ainchorsangiefpl/.openclaw/workspace"
 DB_SCRIPT="$WORKSPACE_ROOT/scripts/db.sh"
 NOTION_KEY_FILE="$HOME/.config/notion/api_key"

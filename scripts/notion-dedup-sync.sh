@@ -3,6 +3,9 @@
 # TKT-0392-B
 set -euo pipefail
 
+# --- SKILL GATE: notion ---
+source "${SCRIPT_DIR:-$(dirname "$0")}/skill-gate.sh" "notion" || exit $?
+
 NOTION_KEY="$(cat ~/.config/notion/api_key)"
 BACKLOG_DB="34dc1829-53ff-814b-8257-d3a3bf351d44"
 ARCHIVE_DB="364c1829-53ff-818e-a783-ebafcb6a9880"

@@ -2,6 +2,9 @@
 # Fix missing Created Date for 39 Notion AKB Backlog items
 # Rate limit: 0.4s between requests
 
+# --- SKILL GATE: notion ---
+source "${SCRIPT_DIR:-$(dirname "$0")}/skill-gate.sh" "notion" || exit $?
+
 NOTION_KEY=$(cat ~/.config/notion/api_key)
 
 # Page ID -> Date mapping

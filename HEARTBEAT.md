@@ -76,14 +76,15 @@
 
 ### Agile Ceremony Gate — NON-NEGOTIABLE (every Monday morning)
 - Load skill: `bash scripts/skill-load.sh agile`
+- Run `bash agent-skills/agile/scripts/sprint-review.sh` for the just-closed sprint if review report not yet generated.
 - Check: Friday Sprint Review + Sunday Sprint Planning completed last week?
 - If missed: flag Ken. Do not start sprint work until Ken confirms or defers.
 - State key: lastChecks.ceremoniesThisWeek
 
 ### Open Decisions + Draft Docs — DoD Gate Check (sprint planning + sprint review)
-- Load skill: `bash scripts/skill-load.sh crest`
+- Load skill: `bash scripts/skill-load.sh crest` then `bash scripts/skill-load.sh agile`
 - Read state/open-decisions.json + state/draft-docs.json
-- Surface open items at planning. Escalate if P2-gate decision within 3 sprints of P2 build.
+- Surface open items at planning and review. Escalate if P2-gate decision within 3 sprints of P2 build.
 - State key: lastChecks.doDGates
 
 ### Cron Health Check (every 30 min)

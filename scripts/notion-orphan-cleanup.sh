@@ -6,6 +6,9 @@
 
 set -euo pipefail
 
+# --- SKILL GATE: notion ---
+source "${SCRIPT_DIR:-$(dirname "$0")}/skill-gate.sh" "notion" || exit $?
+
 WORKSPACE_ROOT="/Users/ainchorsangiefpl/.openclaw/workspace"
 LOG_FILE="$WORKSPACE_ROOT/.openclaw/tmp/notion-orphan-cleanup-$(date +%Y%m%d-%H%M%S).log"
 SUMMARY_FILE="$WORKSPACE_ROOT/state/notion-orphan-cleanup-2026-06-10.json"
