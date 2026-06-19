@@ -169,6 +169,19 @@ Both reference canonical docs in `references/` and load via `scripts/skill-load.
 ---
 ---
 
+## 2026-06-19 21:36 AEST — [CHG-0658] Clear stale cron-health alert and park broken budget-check path
+**Type:** script
+**Change Type:** Normal
+**Source:** ken-prompt
+**Trigger:** Ken approved at 2026-06-19 21:35 AEST to fix two stale/broken items: cron-health-alert.json still flagging healthy backup cron, and budget-alert-state.json containing a literal shell template.
+**What changed:** 1) Updated state/cron-health-alert.json to acknowledged=true with resolution note that live cron f71f75af is healthy (consecutiveErrors=0, lastRunStatus=ok). 2) Updated scripts/budget-check.sh to short-circuit with a valid parked JSON state file and a clear note that Anthropic/USD budget is permanently parked per CHG-0502, instead of falling back to a broken template. 3) Disabled cron 3ea986bf-5dfc-4805-a13c-80427b4d29c7 'TKT-0092 Daily Budget Report'. 4) state/budget-alert-state.json now contains valid JSON with status=parked and alerts=[].
+**Why:** The backup cron alert was stale and causing false heartbeat noise. The budget-alert-state file was a literal template that could trip obs-collector and was being regenerated daily by an active cron for a parked feature. Parking the script and disabling the cron removes the noise permanently.
+**Verification:** openclaw cron get/list shows f71f75af status=ok, consecutiveErrors=0. bash scripts/budget-check.sh --report exits 0 and writes valid JSON. openclaw cron list shows TKT-0092 Daily Budget Report enabled=false. obs-collector CHECK T will no longer see a broken budget-alert-state.json.
+**Rollback:** Restore original scripts/budget-check.sh, re-enable cron 3ea986bf-5dfc-4805-a13c-80427b4d29c7, and revert state/cron-health-alert.json + state/budget-alert-state.json.
+**Linked:** TKT-0092, CHG-0502, TKT-0409
+---
+
+
 ## 2026-06-19 21:33 AEST — [CHG-0657] TKT-0409 D3: Fix state/task-queue.json ↔ PG divergence blocking watchdog
 **Type:** script
 **Change Type:** Normal

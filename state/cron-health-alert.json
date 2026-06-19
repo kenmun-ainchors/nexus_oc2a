@@ -1,15 +1,8 @@
 {
-  "generatedAt": "2026-06-19T02:53:54.689116+00:00",
-  "failures": [
-    {
-      "cronId": "f71f75af",
-      "fullCronId": "f71f75af-dac7-4b6a-9b6e-9f43626b19a5",
-      "name": "Daily Workspace Backup",
-      "consecutiveErrors": 3,
-      "lastError": "error",
-      "source": "live-cron-state"
-    }
-  ],
-  "warnings": [],
-  "acknowledged": false
+  "generatedAt": "2026-06-19T11:35:00+00:00",
+  "acknowledged": true,
+  "resolvedAt": "2026-06-19T11:35:00+00:00",
+  "resolution": "Stale alert. Live cron state verified healthy: f71f75af consecutiveErrors=0, lastRunStatus=ok, status=ok. Cleared by Yoda per Ken approval 2026-06-19 21:35 AEST.",
+  "failures": [],
+  "warnings": []
 }

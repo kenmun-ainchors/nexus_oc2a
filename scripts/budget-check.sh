@@ -29,6 +29,23 @@ while [[ $# -gt 0 ]]; do
   esac
 done
 
+# ── CHG-0502: Anthropic/USD budget permanently parked ─────────────────────
+# The USD-based budget alert path is inactive. request-budget-check.sh tracks
+# Ollama Cloud request usage. Preserve this script for reference but write a
+# valid parked state and exit cleanly so the stale broken template is never
+# written again.
+python3 -c "
+import json
+json.dump({
+    'lastChecked': '$NOW',
+    'status': 'parked',
+    'note': 'Anthropic credits and USD-based budget permanently parked per CHG-0502. Active cost tracking is request-budget-check.sh.',
+    'alerts': []
+}, open('$ALERT_STATE', 'w'), indent=2)
+"
+echo "BUDGET: parked — Anthropic/USD budget inactive per CHG-0502."
+exit 0
+
 # Verify dependencies
 if [[ ! -f "$JQ" ]]; then
   echo "ERROR: jq not found at $JQ"
