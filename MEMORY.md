@@ -60,6 +60,15 @@ Triggered by: TKT-0501 "CREST synthesize and close" prompt where Yoda correctly 
 - L-085: Long-ID stub detector — auto-heal CHECK 24, non-destructive. 7/7 tests pass.
 - Ticket/sprint: load skill `bash scripts/skill-load.sh pg-sprint-backlog`
 
+## Notion + Agile Skill Packages — Canonical 2026-06-20 (CHG-0677, CHG-0678, CHG-0679)
+- **Notion skill:** `agent-skills/notion/SKILL.md` — SSOT for auth, DB IDs, API patterns, rate limits. `agent-skills/notion/scripts/notion-env-check.sh` validates connectivity. Registered in `agent-skills/.index.json`.
+- **Agile skill:** `agent-skills/agile/scripts/sprint-review.sh` — canonical Sprint Review report generator. Checklist at `agent-skills/agile/references/sprint-review-checklist.md`.
+- **Skill-first enforcement:** 8 Notion scripts now require `notion` skill load. `db-sprint.sh` auto-generates review report on `ceremony complete review`.
+- **Cleanup pattern:** after building a skill package, always sweep MEMORY.md, HEARTBEAT.md, TOOLS.md, and agent AGENTS.md for inline tribal knowledge and redirect to the skill package.
+
+## Open Bug — openclaw CLI wrapper PATH collision (TKT-0542)
+- `bash openclaw cron get <id>` fails because `openclaw` wrapper resolves ImageMagick `import` binary instead of its intended helper. Workaround: use native `cron` tool. Not yet fixed.
+
 ## Operations Docs (locked)
 - Journal: Notion+`memory/journal-YYYY-MM-DD.md` | Blog: Notion+`canvas/documents/ainchors-YYYY-MM-DD/index.html`
 - Key docs: `docs/` → Governance_Framework_v1, Model3-Policy, ORCHESTRATOR, RUNBOOK
