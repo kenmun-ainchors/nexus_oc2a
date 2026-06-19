@@ -44,6 +44,11 @@
 - Catches: skipped Verify phases, missing RVEV traces, abandoned sub-crests, pro model overuse
   - Pro model policy: load skill `bash scripts/skill-load.sh model-routing`
 
+### Main-Session / Subagent Resume Registry (every heartbeat — TKT-0319 Atom 5)
+- Run: `bash scripts/main-session-resume-check.sh`
+- If `state/main-session-resume-needs-ken.json` exists with unacknowledged tasks → surface to Ken (task ID, description, checkpoint, agent).
+- State key: lastChecks.mainSessionResume
+
 ### Standby Mode & Outage Banner (every heartbeat)
 - If state/standby-mode.json exists → include standby banner in next response to Ken
 - If state/system-banner.json active=true → display it

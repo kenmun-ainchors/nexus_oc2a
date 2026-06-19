@@ -169,6 +169,19 @@ Both reference canonical docs in `references/` and load via `scripts/skill-load.
 ---
 ---
 
+## 2026-06-19 21:24 AEST — [CHG-0655] TKT-0319 Atom 5: Main-session / subagent resume registry
+**Type:** script
+**Change Type:** Normal
+**Source:** ken-prompt
+**Trigger:** Atoms 2-4 complete. Ken approved Atom 5 at 2026-06-19 21:22 AEST.
+**What changed:** Created scripts/main-session-resume-check.sh. It reads state/main-session-resume.json, checks whether each registered running task's session is still alive via openclaw sessions list, marks dead sessions as 'session_lost', and writes state/main-session-resume-needs-ken.json for HITL resume by Yoda. Added a regression test tests/regression/task-watchdog/test-main-session-resume.sh. Updated HEARTBEAT.md to run the check every heartbeat.
+**Why:** TKT-0319 scope is global: it must cover TQP, main-session, and subagent recovery. OpenClaw has no CLI sessions_spawn command, so a bash script cannot directly re-spawn a subagent. The registry + NEEDS_KEN pattern gives Yoda the data needed to perform the actual sessions_spawn tool call after Ken approves, satisfying the HITL gate.
+**Verification:** test-main-session-resume.sh: 6/6 PASS. Manual run with a synthetic dead session produced state/main-session-resume-needs-ken.json containing the task ID, checkpoint, and agent. Existing TQP resume executor and subagent-dispatch regression tests still pass.
+**Rollback:** Remove scripts/main-session-resume-check.sh and tests/regression/task-watchdog/test-main-session-resume.sh, revert HEARTBEAT.md change, and delete state/main-session-resume*.json files.
+**Linked:** TKT-0319, CHG-0652, CHG-0653, CHG-0654
+---
+
+
 ## 2026-06-19 21:21 AEST — [CHG-0654] TKT-0319 Atom 4: Resume executor for TQP atoms
 **Type:** script
 **Change Type:** Normal
