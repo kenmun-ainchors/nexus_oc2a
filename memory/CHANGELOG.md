@@ -169,6 +169,19 @@ Both reference canonical docs in `references/` and load via `scripts/skill-load.
 ---
 ---
 
+## 2026-06-19 17:46 AEST — [CHG-0649] TKT-0539 follow-up: untrack forge/ workspace and redirect backup git-add stderr to log
+**Type:** config
+**Change Type:** Normal
+**Source:** ken-prompt
+**Trigger:** Ken approved 2026-06-19 17:41 AEST: fix the 2 out-of-scope flags surfaced by Forge during TKT-0539 execution.
+**What changed:** EDIT .gitignore: changed forge/pgvector/ to forge/ so the entire Forge sibling workspace is ignored by the parent repo. Ran git rm --cached -r forge/ to untrack Forge files from the parent repo while leaving them on disk. EDIT scripts/backup.sh: redirected git add -A stderr to $LOG so embedded-repo warnings are captured, not just printed to the launching terminal.
+**Why:** The Forge subagent flagged (1) forge/ itself is an embedded git repo with no commits, and (2) backup.sh git add stderr was not captured in the log. Untracking forge/ removes it from the parent git index, eliminating the structural inconsistency. Redirecting stderr makes backup diagnostics complete and auditable.
+**Verification:** Ran backup.sh twice: no embedded-repo warnings in log, exit code 0, workspace git status clean except for expected state/backup-state.json updates. git check-ignore confirms forge/ and thrawn/ are ignored.
+**Rollback:** Restore forge/ files to parent index from previous commit; remove stderr redirect in backup.sh.
+**Linked:** TKT-0539, TKT-0146, CHG-0648
+---
+
+
 ## 2026-06-19 13:27 AEST — [CHG-0648] TKT-0539: ignore forge/pgvector and thrawn/ embedded git repos in workspace backup
 **Type:** config
 **Change Type:** Normal
