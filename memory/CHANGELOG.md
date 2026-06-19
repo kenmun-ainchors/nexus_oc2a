@@ -169,6 +169,19 @@ Both reference canonical docs in `references/` and load via `scripts/skill-load.
 ---
 ---
 
+## 2026-06-19 23:11 AEST — [CHG-0675] CHG-0675: Complete TKT-0541 SOUL/AGENTS hygiene gate
+**Type:** rule
+**Change Type:** Normal
+**Source:** ken-prompt
+**Trigger:** Ken directive 2026-06-19 23:09 AEST: decouple TKT-0541 from TKT-0342 and complete it now.
+**What changed:** Decoupled TKT-0541 from TKT-0342 EPIC (set epic=NULL, tags docs-hygiene/soul-agents/crest-debt). Groomed 5 acceptance criteria. Created scripts/soul-agents-hygiene-check.sh; verified PASS for all 13 active agents. Archived duplicate agent directories atlas/, thrawn/, and ahsoka/ to archive/agents/. Confirmed semantic split for Yoda/Aria/Spark/Ahsoka. Updated HEARTBEAT.md to trigger the check at Sprint Review and QBR. Closed TKT-0541 after crest-done-gate passed.
+**Why:** Prevents rule creep from re-inflating SOUL.md and keeps the agent identity/behavior split clean and enforceable.
+**Verification:** soul-agents-hygiene-check.sh: PASS 13/13 agents. crest-done-gate.sh: passed. TKT-0541: closed and synced to Notion. Duplicate dirs moved to archive/agents/.
+**Rollback:** Restore archived directories; revert HEARTBEAT.md and remove soul-agents-hygiene-check.sh; reopen TKT-0541.
+**Linked:** TKT-0541, CHG-0673, HEARTBEAT.md
+---
+
+
 ## 2026-06-19 23:07 AEST — [CHG-0674] CHG-0674: Raise TKT-0541 and lock SOUL/AGENTS hygiene review into Sprint Review + QBR
 **Type:** rule
 **Change Type:** Normal

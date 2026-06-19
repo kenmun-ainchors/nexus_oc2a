@@ -1,0 +1,129 @@
+{
+  "overall": "PASS",
+  "generatedAt": "2026-06-19T23:11:17+1000",
+  "summary": {
+    "pass": 13,
+    "warnings": 0,
+    "fail": 0,
+    "total": 13
+  },
+  "agents": [
+    {
+      "agentId": "main",
+      "dir": ".",
+      "status": "PASS",
+      "soulSize": 3261,
+      "messages": [
+        ""
+      ]
+    },
+    {
+      "agentId": "business",
+      "dir": "business",
+      "status": "PASS",
+      "soulSize": 1995,
+      "messages": [
+        ""
+      ]
+    },
+    {
+      "agentId": "architect",
+      "dir": "architect",
+      "status": "PASS",
+      "soulSize": 1872,
+      "messages": [
+        ""
+      ]
+    },
+    {
+      "agentId": "platform-arch",
+      "dir": "platform-arch",
+      "status": "PASS",
+      "soulSize": 1829,
+      "messages": [
+        ""
+      ]
+    },
+    {
+      "agentId": "infra",
+      "dir": "infra",
+      "status": "PASS",
+      "soulSize": 1062,
+      "messages": [
+        ""
+      ]
+    },
+    {
+      "agentId": "ahsoka",
+      "dir": "agents/ahsoka",
+      "status": "PASS",
+      "soulSize": 2139,
+      "messages": [
+        ""
+      ]
+    },
+    {
+      "agentId": "social",
+      "dir": "spark",
+      "status": "PASS",
+      "soulSize": 3338,
+      "messages": [
+        ""
+      ]
+    },
+    {
+      "agentId": "biz-process",
+      "dir": "biz-process",
+      "status": "PASS",
+      "soulSize": 1552,
+      "messages": [
+        ""
+      ]
+    },
+    {
+      "agentId": "change-mgt",
+      "dir": "change-mgt",
+      "status": "PASS",
+      "soulSize": 1779,
+      "messages": [
+        ""
+      ]
+    },
+    {
+      "agentId": "security",
+      "dir": "security",
+      "status": "PASS",
+      "soulSize": 1174,
+      "messages": [
+        ""
+      ]
+    },
+    {
+      "agentId": "legal",
+      "dir": "legal",
+      "status": "PASS",
+      "soulSize": 1099,
+      "messages": [
+        ""
+      ]
+    },
+    {
+      "agentId": "qa",
+      "dir": "qa",
+      "status": "PASS",
+      "soulSize": 961,
+      "messages": [
+        ""
+      ]
+    },
+    {
+      "agentId": "governance",
+      "dir": "governance",
+      "status": "PASS",
+      "soulSize": 1660,
+      "messages": [
+        ""
+      ]
+    }
+  ]
+}
