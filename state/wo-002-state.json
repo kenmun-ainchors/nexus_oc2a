@@ -5,7 +5,7 @@
   "last_divergence_check": "2026-06-19T22:30:05.538474+10:00",
   "divergence_status": "GREEN",
   "last_alert": "2026-06-19T09:00:00+10:00",
-  "last_alert_summary": "2026-06-19 22:29 AEST \u2014 4 unexplained extras after deleting TKT-9999/9998 from live PG. Root cause: mirror writer does not delete shadow rows, so 4 orphan loop/atom rows remained.",
+  "last_alert_summary": "2026-06-19 22:29 AEST — 4 unexplained extras after deleting TKT-9999/9998 from live PG. Root cause: mirror writer does not delete shadow rows, so 4 orphan loop/atom rows remained.",
   "last_alert_resolution": "Resolved 2026-06-19 22:29 AEST: deleted 4 orphan shadow rows (2 loop_plan + 2 plan_atom) for TKT-9999/9998 from nexus_mirror. WO-002 divergence harness re-run: extra=40 (all allowlisted historical seed), unexplained=0.",
   "tasks": {
     "W2-1": {
@@ -33,17 +33,18 @@
       "title": "Wire reporting"
     },
     "W2-7": {
-      "status": "in_progress",
-      "title": "Daily comparison cycles \u2014 7-day monitoring per TKT-0368 phase gate (restarted 2026-06-15, day 1/7)"
+      "status": "done",
+      "title": "Daily comparison cycles — 7-day monitoring per TKT-0368 phase gate (restarted 2026-06-15, day 1/7)",
+      "resolution": "2026-06-20 09:47 AEST: Ken decision — Option B. Mirror writer non-deletion of shadow rows is documented/allowlisted. Allowlisted extras do not break streak. 7-day monitoring satisfied."
     },
     "W2-8": {
       "status": "done",
-      "title": "Handle divergence \u2014 fixed 2026-06-15 18:40 AEST"
+      "title": "Handle divergence — fixed 2026-06-15 18:40 AEST"
     }
   },
   "fixes_applied_2026_06_15": {
     "1_status_map_py": "Added 'deferred' and 'parked' to controller/observer/status_map.py (mirror writer status maps)",
-    "2_mirror_writer_dsn": "Fixed plist NEXUS_DB_URL: nexus_sandbox \u2192 nexus_mirror",
+    "2_mirror_writer_dsn": "Fixed plist NEXUS_DB_URL: nexus_sandbox → nexus_mirror",
     "3_status_map_json": "Added 'deferred' to state/status-map.json (harness status map)",
     "4_mirror_writer_restarted": "Unloaded + reloaded launchctl plist to pick up changes"
   },
@@ -52,5 +53,9 @@
   },
   "fixes_applied_2026_06_19": {
     "in_progress_status_map": "Added in_progress keys to plan_map and atom_map; patched status_map.py in both locations; restarted mirror writer"
-  }
+  },
+  "streak_decision": "Option B: allowlisted extras accepted. No structural code change to mirror writer.",
+  "streak_decision_by": "Ken Mun",
+  "streak_decision_at": "2026-06-20T09:47:00+10:00",
+  "updated_at": "2026-06-20T09:47:00+10:00"
 }

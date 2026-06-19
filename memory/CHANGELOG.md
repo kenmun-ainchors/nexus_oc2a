@@ -169,6 +169,84 @@ Both reference canonical docs in `references/` and load via `scripts/skill-load.
 ---
 ---
 
+## 2026-06-20 09:47 AEST — [CHG-0681] WO-002 7-day monitoring closed — Option B
+**Type:** config
+**Change Type:** Normal
+**Source:** ken-prompt
+**Trigger:** Ken decision 2026-06-20 09:47 AEST
+**What changed:** WO-002 W2-7 marked done. 7-day monitoring satisfied under Option B: mirror writer non-deletion of shadow rows is documented/allowlisted. Allowlisted extras do not break divergence streak. No structural code change.
+**Why:** Unblocks TKT-0368 Phase 3 P0→P1 progression gate. Mirror writer delete propagation would be a structural change introducing risk; Option B accepts current behavior as known characteristic.
+**Verification:** Mirror writer running (PID 32261), 30s sweep cycles, 343 rows synced, zero errors. Live=Mirror counts match. divergence_status=GREEN, unexplained=0. WO-002 state updated.
+**Rollback:** N/A
+**Linked:** WO-002, TKT-0368, CHG-0645
+---
+
+
+## 2026-06-20 09:28 AEST — [CHG-0680] CREST v1.3 approved — external loop ownership, Sage-as-Judge, multi-model routing
+**Type:** doc
+**Change Type:** Normal
+**Source:** ken-prompt
+**Trigger:** Ken approved CREST v1.3 plan v2 at 2026-06-20 09:28 AEST after oracle review by kimi-k2.6:cloud
+**What changed:** Created docs/CREST-v1.3-Recursive-Model-C.md (supersedes v1.2), docs/CREST-v1.3-Model-Policy-Schema.md, agents/sage/SOUL.md and AGENTS.md (Sage-as-Judge role expansion). Drafted normalized state_model_policy schema, state_sub_crest table, execution plan with Pre-Tier-A gates (G1-G5) and Tier A-D atoms. Added glm-5.1:cloud Verify fallback chain, judgment benchmark requirement, needs_human timeout, Warden Sage monitoring scope.
+**Why:** v1.2 allows specialists to self-verify (WO-002); deepseek-pro overloaded as single strong model; loop ownership ambiguous. v1.3 introduces decorrelated judge, capability-based routing, and external loop ownership.
+**Verification:** Oracle-reviewed by kimi-k2.6:cloud; 8 gaps identified and fixed in v2. Ken approved 09:28 AEST. No execution yet — Pre-Tier-A gates G1-G5 mandatory before Tier A.
+**Rollback:** N/A
+**Linked:** TKT-0546,TKT-0382,TKT-0383,TKT-0385,TKT-0387,TKT-0388
+---
+
+
+## 2026-06-20 07:47 AEST — [CHG-0679] Clean up tribal Notion/Agile knowledge and align to skill packages
+**Type:** doc
+**Change Type:** Normal
+**Source:** ken-prompt
+**Trigger:** After building notion and agile skill packages, Ken requested cleanup of scattered tribal knowledge so agents start clean
+**What changed:** Updated MEMORY.md, HEARTBEAT.md, TOOLS.md, and agents/ahsoka/AGENTS.md to reference canonical notion and agile skill packages. Fixed Notion API version in scripts/fix-notion-created-dates.py from 2025-09-03 to canonical 2022-06-28.
+**Why:** Prevents agents from relying on scattered inline notes; centralizes discovery and usage in skill packages.
+**Verification:** Master Verify passed: all edited files within size limits, references present, API version corrected.
+**Rollback:** N/A
+**Linked:** TKT-0545,TKT-0543,TKT-0544
+---
+
+
+## 2026-06-20 07:39 AEST — [CHG-0678] Add sprint-review.sh to agile skill package
+**Type:** script
+**Change Type:** Normal
+**Source:** ken-prompt
+**Trigger:** Ken requested canonical sprint-review automation after manual Sprint 8 review
+**What changed:** Created agent-skills/agile/scripts/sprint-review.sh and references/sprint-review-checklist.md. Updated agent-skills/agile/SKILL.md with sprint-review usage reference. Added best-effort hook in scripts/db-sprint.sh ceremony complete review to auto-generate report.
+**Why:** Eliminate manual assembly of sprint review data; ensure consistent ceremony output; catch data gaps like stale sprint items.
+**Verification:** Master Verify passed: script runs, generates report for Sprint 8, syntax checks pass, db-sprint.sh ceremony hook does not break core flow.
+**Rollback:** N/A
+**Linked:** TKT-0544
+---
+
+
+## 2026-06-20 07:35 AEST — [CHG-0677] Create canonical notion skill package
+**Type:** script
+**Change Type:** Normal
+**Source:** ken-prompt
+**Trigger:** Ken identified no Notion skill package and requested full skill build under CREST
+**What changed:** Created agent-skills/notion/SKILL.md, references/notion-api-patterns.md, scripts/notion-env-check.sh. Registered notion in agent-skills/.index.json. Added skill-gate enforcement to 8 Notion-primary scripts.
+**Why:** Eliminate scattered Notion tribal knowledge; provide SSOT for auth, DB IDs, rate limits, API patterns; enable future Holocron and skill publishing work.
+**Verification:** Master Verify passed: skill loads, env-check exits 0 against live API, all 8 edited scripts pass syntax and have skill-gate, no secrets leaked.
+**Rollback:** N/A
+**Linked:** TKT-0543
+---
+
+
+## 2026-06-20 07:18 AEST — [CHG-0676] Fix db-sprint.sh defer() source sprint items cleanup and cron delivery targets
+**Type:** script
+**Change Type:** Normal
+**Source:** ken-prompt
+**Trigger:** Sprint 8 review revealed TKT-0326/T0293 still in Sprint 8 items after deferral; cron delivery targets used invalid phone number format
+**What changed:** (1) db-sprint.sh cmd_defer() now removes deferred ticket from source sprint's state_sprints.items array. (2) Cleaned TKT-0326 and TKT-0293 from Sprint 8 items. (3) Cron 85595417 delivery.to and failureAlert.to changed to 8574109706. (4) Cron f71f75af delivery.to and failureAlert.to set to 8574109706.
+**Why:** Stale items array caused db-sprint.sh current to misreport committed scope; invalid Telegram recipient format (+61403650578) blocked delivery alerts.
+**Verification:** db-sprint.sh current now shows 6 clean Sprint 8 items; status/plan consistent. Cron tool confirms updated delivery targets.
+**Rollback:** N/A
+**Linked:** TKT-0542
+---
+
+
 ## 2026-06-19 23:11 AEST — [CHG-0675] CHG-0675: Complete TKT-0541 SOUL/AGENTS hygiene gate
 **Type:** rule
 **Change Type:** Normal
