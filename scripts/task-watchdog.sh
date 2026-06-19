@@ -24,15 +24,123 @@ STALL_THRESHOLD_MINUTES="${1:-30}"
 SPAWN_THRESHOLD_MINUTES=15
 PENDING_THRESHOLD_MINUTES=15
 
+# ── TKT-0319 Atom 3: Resume detector for PG-backed running tasks ─────────
+# Transition state_task_queue rows in status='running' (or 'dispatched')
+# to 'resumable' when they have not updated recently. Runs before JSON stall
+# checks so it is not blocked by L-075 JSON↔PG divergence.
+python3 - << RESUME_PY
+import json, os, subprocess, sys
+from datetime import datetime, timezone, timedelta
+
+ws = "/Users/ainchorsangiefpl/.openclaw/workspace"
+env = os.environ.copy()
+env.update({
+    "PGHOST": "/tmp",
+    "PGPORT": "5432",
+    "PGUSER": "ainchorsangiefpl",
+    "PGDATABASE": "ainchors_nexus",
+})
+
+now = datetime.now(timezone.utc)
+STALE_MINUTES = 15
+threshold = now - timedelta(minutes=STALE_MINUTES)
+
+def pg_str(s):
+    return "'" + str(s).replace("'", "''") + "'"
+
+def pg_jsonb(obj):
+    return pg_str(json.dumps(obj, ensure_ascii=False)) + "::jsonb"
+
+select_sql = f"""
+SELECT id, status, state_payload, resume_attempts, claimtimeout, claimedat
+FROM state_task_queue
+WHERE status IN ('running', 'dispatched')
+  AND updated_at_ts < {pg_str(threshold.isoformat())}
+ORDER BY updated_at_ts ASC;
+"""
+
+try:
+    r = subprocess.run(
+        ["/opt/homebrew/bin/psql", "-t", "-A", "-F", "|", "-v", "ON_ERROR_STOP=1", "-c", select_sql],
+        capture_output=True, text=True, timeout=15, env=env
+    )
+    if r.returncode != 0:
+        print(f"RESUME_DETECTOR: PG query failed: {r.stderr}")
+        sys.exit(0)
+    lines = [ln for ln in r.stdout.splitlines() if ln.strip()]
+except Exception as e:
+    print(f"RESUME_DETECTOR: PG query failed: {e}")
+    sys.exit(0)
+
+resumable = []
+for ln in lines:
+    parts = ln.split("|", 5)
+    if len(parts) < 6:
+        continue
+    task_id, status, payload_json, attempts, claimtimeout, claimedat = parts
+    try:
+        payload = json.loads(payload_json) if payload_json else {}
+    except Exception:
+        payload = {}
+
+    reason = "claim_timeout" if status == "dispatched" else "stalled"
+    attempts = int(attempts) if attempts else 0
+    new_attempts = attempts + 1
+    payload["failure_reason"] = reason
+    payload["resumed_from_status"] = status
+    payload["resumable_detected_at"] = now.isoformat()
+
+    update_sql = f"""
+    UPDATE state_task_queue
+    SET status = 'resumable',
+        previous_status = {pg_str(status)},
+        resume_attempts = {new_attempts},
+        updated_at_ts = now(),
+        state_payload = {pg_jsonb(payload)}
+    WHERE id = {pg_str(task_id)}
+      AND status IN ('running', 'dispatched');
+    """
+    try:
+        u = subprocess.run(
+            ["/opt/homebrew/bin/psql", "-t", "-A", "-v", "ON_ERROR_STOP=1", "-c", update_sql],
+            capture_output=True, text=True, timeout=15, env=env
+        )
+        if u.returncode != 0:
+            print(f"RESUME_DETECTOR: update failed for {task_id}: {u.stderr}")
+            continue
+        if "UPDATE 1" in u.stdout:
+            resumable.append({
+                "id": task_id,
+                "previous_status": status,
+                "failure_reason": reason,
+                "resume_attempts": new_attempts,
+                "detected_at": now.isoformat()
+            })
+    except Exception as e:
+        print(f"RESUME_DETECTOR: failed to update {task_id}: {e}")
+
+if resumable:
+    resume_file = os.path.join(ws, "state", "resumable-atoms.json")
+    with open(resume_file, "w") as f:
+        json.dump({
+            "detectedAt": now.isoformat(),
+            "count": len(resumable),
+            "resumable": resumable
+        }, f, indent=2)
+    print(f"RESUME_DETECTOR: {len(resumable)} task(s) transitioned to resumable -> {resume_file}")
+else:
+    print("RESUME_DETECTOR: no stale running/dispatched tasks found")
+RESUME_PY
+
 if [[ ! -f "$STATE" ]]; then
-  echo "No task-queue.json — nothing to watch"
+  echo "No task-queue.json — skipping JSON stall checks"
   exit 0
 fi
 
 # ── Cross-check: JSON vs PG (L-075 fix, TKT-0409 D3) ───────────────────────
 # If divergence is detected, emit a clear alert and exit 1 BEFORE the
 # stall checks (because stall checks against stale JSON is the L-075 bug).
-DIVERGENCE_OUT=$(python3 - <<'PYDIVERGE'
+DIVERGENCE_OUT=$(python3 -<<'PYDIVERGE'
 import json, os, subprocess, sys
 
 ws = "/Users/ainchorsangiefpl/.openclaw/workspace"
@@ -285,3 +393,4 @@ if stuck_pending:
 
 sys.exit(2)
 PYEOF
+

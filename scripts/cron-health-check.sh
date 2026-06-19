@@ -248,6 +248,55 @@ if dead_letters:
         print("  DEAD: [{}] {} — {} timeouts total".format(dl['cronId'], dl.get('name', '?')[:50], dl['totalTimeouts']))
 RETRY_PYEOF
 
+# ── TKT-0319 Atom 3: Retryable cron failures -> resumable registry ───────
+# Crons killed by gateway restart or rate-limited by the provider are
+# transient and should be retried. Write them to a registry so a later
+# resume executor can re-run them without waiting for the next schedule.
+python3 - "$STATE_FILE" << 'RESUMABLE_PYEOF'
+import json, sys, os
+from datetime import datetime, timezone
+
+health_file = sys.argv[1]
+now = datetime.now(timezone.utc)
+
+RETRYABLE_PATTERNS = [
+    'interrupted by gateway restart',
+    'job interrupted by gateway restart',
+    'reached your weekly usage limit',  # Ollama 429 rate-limit
+    'rate_limit',
+    'All models failed',
+]
+
+resumable = []
+try:
+    with open(health_file) as f:
+        hs = json.load(f)
+    for failure in hs.get('failures', []):
+        reason = failure.get('lastError', '') or failure.get('status', '') or ''
+        if any(p in reason for p in RETRYABLE_PATTERNS):
+            resumable.append({
+                'cronId': failure.get('cronId', failure.get('fullCronId', '')),
+                'name': failure.get('name', ''),
+                'failure_reason': reason,
+                'detected_at': now.isoformat()
+            })
+except Exception as e:
+    print(f"RESUMABLE_CRONS: failed to read health state: {e}")
+
+if resumable:
+    ws = "/Users/ainchorsangiefpl/.openclaw/workspace"
+    resume_file = os.path.join(ws, "state", "resumable-crons.json")
+    with open(resume_file, "w") as f:
+        json.dump({
+            "detectedAt": now.isoformat(),
+            "count": len(resumable),
+            "resumable": resumable
+        }, f, indent=2)
+    print(f"RESUMABLE_CRONS: {len(resumable)} retryable cron failure(s) written -> {resume_file}")
+else:
+    print("RESUMABLE_CRONS: no retryable cron failures")
+RESUMABLE_PYEOF
+
 # ── Process Group Reaping (TKT-0339 AC3) ───────────────────────────────────
 # Detect running-but-stale cron sessions (> 2x computed timeout)
 REAP_LOG_FILE="$WORKSPACE/state/cron-reap-log.json"

@@ -169,6 +169,19 @@ Both reference canonical docs in `references/` and load via `scripts/skill-load.
 ---
 ---
 
+## 2026-06-19 21:16 AEST — [CHG-0653] TKT-0319 Atom 3: Resume detector / watchdog
+**Type:** script
+**Change Type:** Normal
+**Source:** ken-prompt
+**Trigger:** TKT-0319 Atom 2 schema migration complete. Ken approved Atom 3 at 2026-06-19 21:12 AEST.
+**What changed:** Extended scripts/task-watchdog.sh with a PG-based resume detector that transitions state_task_queue rows in status='running' or 'dispatched' to 'resumable' when updated_at_ts is older than 15 minutes. Sets previous_status, increments resume_attempts, and writes failure_reason to state_payload. Writes detected resumable atoms to state/resumable-atoms.json. Extended scripts/cron-health-check.sh to write retryable cron failures (gateway restart, 429 rate-limit, model failure) to state/resumable-crons.json. Added regression test tests/regression/task-watchdog/test-resume-detector.sh.
+**Why:** Resume executor cannot act until death is detected. Without a detector, interrupted atoms remain in 'running' indefinitely and never reach the resume path. Separating detection from execution keeps the state machine clean and lets the heartbeat surface failures every 30 minutes.
+**Verification:** Synthetic stale running atom inserted into state_task_queue; task-watchdog.sh transitioned it to resumable with previous_status=running, resume_attempts=1, and wrote state/resumable-atoms.json. cron-health-check.sh exits 0 with 'RESUMABLE_CRONS: no retryable cron failures' on clean state. tests/regression/task-watchdog/test-resume-detector.sh: 5/5 PASS. tests/regression/subagent-dispatch/test-subagent-dispatch.sh: 11/11 PASS (no regression).
+**Rollback:** Revert the two edited scripts to their pre-Atom-3 versions and remove tests/regression/task-watchdog/test-resume-detector.sh.
+**Linked:** TKT-0319, CHG-0652
+---
+
+
 ## 2026-06-19 21:11 AEST — [CHG-0652] TKT-0319 Atom 2: PG schema migration for global agent auto-resume
 **Type:** infra
 **Change Type:** Normal

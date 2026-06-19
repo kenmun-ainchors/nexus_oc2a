@@ -3917,18 +3917,50 @@
   {
     "id": "TKT-0536",
     "title": "Fix subagent dispatch, workspace access, and termination reliability (L-146)",
-    "status": "done",
+    "status": "in_progress",
     "priority": "critical",
     "type": "task",
     "created_at": "2026-06-18T05:48:30+10:00",
     "metadata": {
-      "close_reason": "A1-A4 all AC pass; CHG-0624 logged; TKT-0535 blocker removed",
       "chg_id": "CHG-0624",
-      "verification_summary": "tests/regression/subagent-dispatch/test-subagent-dispatch.sh: 9/9 PASS. Live subagent with cwd + timeoutSeconds=30 read parent workspace file and completed cleanly. Design: timeoutSeconds on all subagents, workspace-mutating work in main session with HITL, max-tool-call prompt guard.",
-      "lessons_added": "L-146, L-147, L-148",
       "notion_sync": {
-        "status": "pending"
-      }
+        "status": "pending",
+        "last_synced": "2026-06-19T21:20:00+10:00"
+      },
+      "close_reason": "A1-A5 all AC pass; CHG-0624 updated; CHG-0651 logged; subagent-dispatch helper now blocks cross-agent parent-workspace exec dispatch.",
+      "lessons_added": "L-146, L-147, L-148, L-149",
+      "verification_summary": "tests/regression/subagent-dispatch/test-subagent-dispatch.sh: 11/11 PASS. Live spawn of platform-arch with cwd=/Users/ainchorsangiefpl/.openclaw/workspace can read parent files but cannot use exec; helper rejects exec-required cross-agent dispatch; main session path accepted.",
+      "ac": [
+        {
+          "id": "A1",
+          "title": "Create canonical subagent-dispatch skill package",
+          "status": "done"
+        },
+        {
+          "id": "A2",
+          "title": "Create scripts/subagent-dispatch.sh helper with cwd/timeout/tool-budget guard",
+          "status": "done"
+        },
+        {
+          "id": "A3",
+          "title": "Define termination reliability rules (timeout, kill policies)",
+          "status": "done"
+        },
+        {
+          "id": "A4",
+          "title": "Regression test pass for helper + skill + SOUL rule",
+          "status": "done"
+        },
+        {
+          "id": "A5",
+          "title": "Fix cross-agent subagent access to parent workspace scripts",
+          "status": "done",
+          "problem_statement": "A platform-arch subagent spawned to assess TKT-0319 in the main workspace failed to execute parent workspace scripts. Root cause: per-agent workspace isolation (workspace-platform-arch) combined with a tool allow-list that does not include exec means that even with cwd=/Users/ainchorsangiefpl/.openclaw/workspace the subagent cannot run bash scripts in the parent workspace. Read-only file access succeeds, but script execution and state-changing work is blocked.",
+          "fix_approach": "1) Update subagent-dispatch SKILL.md and scripts/subagent-dispatch.sh to detect when a dispatched task requires parent workspace script execution and block it unless the agent has exec in its tool allow-list OR the work is run in the main session. 2) Add regression tests R6/R7 proving the failure mode and the corrected path. 3) Update SOUL.md async-background rule to state explicitly: cross-agent subagents may read parent files with cwd, but cannot execute parent scripts; any task needing parent script execution must run in the main session with Ken approval.",
+          "verification": "tests/regression/subagent-dispatch/test-subagent-dispatch.sh passes 11/11; live spawn of platform-arch with exec-required task is rejected by helper; main-session execution path accepted."
+        }
+      ],
+      "problem_statement": "Cross-agent subagents cannot reliably execute parent workspace scripts even when cwd points to the parent workspace, because their tool allow-list often excludes exec and their isolated workspace root blocks implicit relative script lookups. The prior rule implied 'cwd is enough' but it is not enough for execution."
     }
   },
   {
