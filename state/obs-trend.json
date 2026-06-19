@@ -1,16 +1,16 @@
 {
-  "generated_at": "2026-06-19T07:26:56.721640+00:00",
-  "generated_at_aest": "2026-06-19 17:26 AEST",
+  "generated_at": "2026-06-19T07:57:10.109796+00:00",
+  "generated_at_aest": "2026-06-19 17:57 AEST",
   "period_hours": 24,
   "totals": {
-    "ERROR": 240,
+    "ERROR": 234,
     "WARN": 12,
     "INFO": 14
   },
   "top_errors": [
     {
       "type": "cron_run_fail",
-      "count": 240
+      "count": 234
     }
   ],
   "top_warnings": [
@@ -23,7 +23,7 @@
     "has_prev_data": true,
     "prev_errors": 300,
     "prev_warns": 68,
-    "errors_pct_change": -20.0,
+    "errors_pct_change": -22.0,
     "warns_pct_change": -82.4
   },
   "worst_hour": {
