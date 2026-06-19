@@ -169,6 +169,19 @@ Both reference canonical docs in `references/` and load via `scripts/skill-load.
 ---
 ---
 
+## 2026-06-19 21:11 AEST — [CHG-0652] TKT-0319 Atom 2: PG schema migration for global agent auto-resume
+**Type:** infra
+**Change Type:** Normal
+**Source:** ken-prompt
+**Trigger:** TKT-0319 build atoms require durable checkpoint and resume state. Approved by Ken 2026-06-19 21:10 AEST.
+**What changed:** Added resume_attempts and last_checkpoint jsonb columns to state_task_queue. Added composite indexes (status, updated_at_ts), (claimedby, status, updated_at_ts), (parent_task_id, status) WHERE parent_task_id IS NOT NULL, and (previous_status) WHERE previous_status IS NOT NULL. Created state_resume_checkpoints table with id, task_id, checkpoint_at, payload_hash, payload, and index on (task_id, checkpoint_at desc). Stored migration SQL at infra/sandbox/migrations/tkt-0319-atom2-resume-support.sql.
+**Why:** Resume detector, executor, and idempotency logic need fast lookups of interrupted tasks and a durable place to store per-step checkpoints. Without these schema primitives, resume logic would scan the full table and store checkpoints in ad-hoc state files.
+**Verification:** psql \d state_task_queue shows new columns and 6 indexes. \d state_resume_checkpoints shows table, index, and FK. Re-running the migration exits 0 with only NOTICEs (idempotent).
+**Rollback:** Drop the new columns/indexes and the checkpoint table, or revert from a PG snapshot taken before migration.
+**Linked:** TKT-0319, CHG-0650
+---
+
+
 ## 2026-06-19 21:04 AEST — [CHG-0651] TKT-0536 A5: Cross-agent subagents cannot execute parent workspace scripts
 **Type:** rule
 **Change Type:** Normal
