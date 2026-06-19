@@ -2,11 +2,11 @@
   "wo_id": "WO-002",
   "status": "in_progress",
   "started": "2026-06-08T20:46:00+10:00",
-  "last_divergence_check": "2026-06-19T12:25:00+10:00",
+  "last_divergence_check": "2026-06-19T22:30:05.538474+10:00",
   "divergence_status": "GREEN",
   "last_alert": "2026-06-19T09:00:00+10:00",
-  "last_alert_summary": "2026-06-19 09:00 AEST \u2014 1 unexplained (TKT-0536 missing in shadow). Root cause: status map lacked in_progress (underscore).",
-  "last_alert_resolution": "Resolved 2026-06-19 12:18 AEST: added in_progress alias to status-map.json and status_map.py, restarted mirror writer. TKT-0536 now synced (mirror writer upserted=337 skipped=0). Re-run then revealed 40 extra shadow rows from historical seed artifacts not in live DB (mirror writer does not delete removed tickets). Allowlisted 40 historical seed extra rows (ALLOW-HIST-001..020) in status-map.json. Divergence harness re-run: unexplained=0.",
+  "last_alert_summary": "2026-06-19 22:29 AEST \u2014 4 unexplained extras after deleting TKT-9999/9998 from live PG. Root cause: mirror writer does not delete shadow rows, so 4 orphan loop/atom rows remained.",
+  "last_alert_resolution": "Resolved 2026-06-19 22:29 AEST: deleted 4 orphan shadow rows (2 loop_plan + 2 plan_atom) for TKT-9999/9998 from nexus_mirror. WO-002 divergence harness re-run: extra=40 (all allowlisted historical seed), unexplained=0.",
   "tasks": {
     "W2-1": {
       "status": "done",

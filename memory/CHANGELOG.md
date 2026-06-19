@@ -169,6 +169,19 @@ Both reference canonical docs in `references/` and load via `scripts/skill-load.
 ---
 ---
 
+## 2026-06-19 22:30 AEST — [CHG-0670] CHG-0670: WO-002 divergence restored to GREEN after TKT-9999/9998 deletion
+**Type:** config
+**Change Type:** Normal
+**Source:** ken-prompt
+**Trigger:** 2026-06-19 22:29 AEST Ken approval: delete 4 orphan shadow rows caused by prior TKT-9999/9998 live deletion.
+**What changed:** Deleted 2 loop_plan rows and 2 plan_atom rows from nexus_mirror for TKT-9999 and TKT-9998. Re-ran divergence-harness.sh: unexplained=0, extra=40 (all historical-seed allowlisted). Updated state/wo-002-state.json divergence_status=GREEN and last_divergence_check timestamp.
+**Why:** Mirror writer does not delete shadow rows when live tickets are removed. Removing test tickets from live PG left orphan shadow rows, which the harness counted as unexplained extras. Cleaning shadow keeps WO-002 C1 contract intact.
+**Verification:** divergence-harness.sh output: Total live 337, shadow loops/atoms 357, match 674, missing 0, extra 40, field_mismatch 0, stale 0, unexplained 0. Alert file removed.
+**Rollback:** Re-insert the 4 deleted shadow rows from backup/JSON if needed (source_tkt TKT-9999/9998).
+**Linked:** WO-002, CHG-0669
+---
+
+
 ## 2026-06-19 22:27 AEST — [CHG-0669] CHG-0669: Delete L-090 test tickets TKT-9999 and TKT-9998 from PG and state/tickets.json
 **Type:** rule
 **Change Type:** Normal
