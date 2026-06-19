@@ -1,0 +1,567 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Day 56 — The Day the Platform Learned to Resume Itself — AInchors</title>
+<style>
+  :root {
+    --bg: #0d0d0d;
+    --surface: #1a1a1a;
+    --surface2: #242424;
+    --text: #e0e0e0;
+    --text-muted: #999;
+    --accent: #f0a050;
+    --accent-dim: #8b5e30;
+    --green: #4caf84;
+    --red: #e05555;
+    --blue: #5b9bd5;
+    --code-bg: #111;
+    --border: #333;
+    --callout-warn-bg: #2a1f10;
+    --callout-warn-border: #8b5e30;
+    --callout-info-bg: #0f1f2a;
+    --callout-info-border: #3a6b8c;
+    --callout-alert-bg: #2a1010;
+    --callout-alert-border: #8b3030;
+    --max-width: 720px;
+  }
+  * { margin:0; padding:0; box-sizing:border-box; }
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: Charter, Georgia, 'Times New Roman', serif;
+    font-size: 18px;
+    line-height: 1.7;
+    -webkit-font-smoothing: antialiased;
+  }
+  .container {
+    max-width: var(--max-width);
+    margin: 0 auto;
+    padding: 60px 24px 80px;
+  }
+  .hero { margin-bottom: 48px; }
+  .hero .day-badge {
+    display: inline-block;
+    background: var(--accent);
+    color: #000;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    font-size: 13px;
+    font-weight: 700;
+    letter-spacing: 0.5px;
+    padding: 4px 12px;
+    border-radius: 4px;
+    margin-bottom: 16px;
+  }
+  .hero h1 {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    font-size: 32px;
+    font-weight: 800;
+    line-height: 1.25;
+    color: #fff;
+    margin-bottom: 8px;
+  }
+  .hero .subtitle {
+    font-size: 20px;
+    color: var(--text-muted);
+    line-height: 1.5;
+    margin-bottom: 12px;
+  }
+  .hero .byline {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    font-size: 14px;
+    color: var(--text-muted);
+    margin-bottom: 4px;
+  }
+  .hero .date {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    font-size: 13px;
+    color: var(--accent-dim);
+  }
+  h2 {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    font-size: 22px;
+    font-weight: 700;
+    color: #eee;
+    margin: 48px 0 16px;
+    padding-bottom: 8px;
+    border-bottom: 1px solid var(--border);
+  }
+  h3 {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    font-size: 17px;
+    font-weight: 700;
+    color: var(--accent);
+    margin: 32px 0 12px;
+  }
+  p { margin-bottom: 16px; }
+  a { color: var(--accent); text-decoration: none; }
+  a:hover { text-decoration: underline; }
+  .callout {
+    padding: 16px 20px;
+    border-radius: 6px;
+    margin: 24px 0;
+    border-left: 4px solid;
+  }
+  .callout.warn {
+    background: var(--callout-warn-bg);
+    border-color: var(--callout-warn-border);
+  }
+  .callout.info {
+    background: var(--callout-info-bg);
+    border-color: var(--callout-info-border);
+  }
+  .callout.alert {
+    background: var(--callout-alert-bg);
+    border-color: var(--callout-alert-border);
+  }
+  .callout .label {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+    margin-bottom: 6px;
+  }
+  .callout.warn .label { color: var(--accent); }
+  .callout.info .label { color: var(--blue); }
+  .callout.alert .label { color: var(--red); }
+  .callout p { margin: 0; }
+  .callout p + p { margin-top: 8px; }
+  pre {
+    background: var(--code-bg);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    padding: 16px;
+    overflow-x: auto;
+    font-family: 'SF Mono', 'Fira Code', 'Cascadia Code', monospace;
+    font-size: 14px;
+    line-height: 1.5;
+    margin: 20px 0;
+    color: #ccc;
+  }
+  code {
+    font-family: 'SF Mono', 'Fira Code', 'Cascadia Code', monospace;
+    font-size: 0.9em;
+    background: var(--surface2);
+    padding: 2px 6px;
+    border-radius: 3px;
+    color: #ddd;
+  }
+  pre code { background: none; padding: 0; border-radius: 0; }
+  .cost-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 20px 0;
+    font-size: 15px;
+  }
+  .cost-table th {
+    text-align: left;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    font-size: 12px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    color: var(--text-muted);
+    padding: 8px 12px;
+    border-bottom: 1px solid var(--border);
+  }
+  .cost-table td {
+    padding: 8px 12px;
+    border-bottom: 1px solid var(--border);
+    font-variant-numeric: tabular-nums;
+  }
+  .cost-table .total-row td {
+    font-weight: 700;
+    color: var(--accent);
+    border-top: 2px solid var(--accent-dim);
+  }
+  .cost-trend {
+    display: flex;
+    gap: 8px;
+    margin: 16px 0;
+    align-items: baseline;
+  }
+  .cost-trend .arrow { font-size: 20px; }
+  .cost-trend .arrow.down { color: var(--green); }
+  .cost-trend .arrow.up { color: var(--red); }
+  .lessons-list { list-style: none; padding: 0; }
+  .lessons-list li {
+    padding: 12px 0;
+    border-bottom: 1px solid var(--border);
+  }
+  .lessons-list li:last-child { border-bottom: none; }
+  .lessons-list .lesson-num {
+    display: inline-block;
+    background: var(--accent-dim);
+    color: #000;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    font-size: 11px;
+    font-weight: 700;
+    padding: 2px 8px;
+    border-radius: 3px;
+    margin-right: 8px;
+  }
+  .next-items {
+    list-style: none;
+    padding: 0;
+  }
+  .next-items li {
+    padding: 8px 0;
+    padding-left: 20px;
+    position: relative;
+  }
+  .next-items li::before {
+    content: '→';
+    position: absolute;
+    left: 0;
+    color: var(--accent);
+  }
+  .footer {
+    margin-top: 64px;
+    padding-top: 24px;
+    border-top: 1px solid var(--border);
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    font-size: 13px;
+    color: var(--text-muted);
+  }
+  .footer .nav-links {
+    display: flex;
+    gap: 16px;
+    margin-bottom: 12px;
+  }
+  .footer .nav-links a { color: var(--text-muted); }
+  hr { border: none; border-top: 1px solid var(--border); margin: 32px 0; }
+  .tag {
+    display: inline-block;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    font-size: 11px;
+    font-weight: 600;
+    padding: 3px 8px;
+    border-radius: 3px;
+    margin-right: 6px;
+  }
+  .tag.green { background: #1a3a2a; color: var(--green); }
+  .tag.red { background: #3a1a1a; color: var(--red); }
+  .tag.blue { background: #1a2a3a; color: var(--blue); }
+  .tag.amber { background: #3a2a10; color: var(--accent); }
+  .metrics-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+    gap: 12px;
+    margin: 20px 0;
+  }
+  .metric-card {
+    background: var(--surface);
+    border-radius: 6px;
+    padding: 14px 16px;
+    text-align: center;
+  }
+  .metric-card .value {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    font-size: 24px;
+    font-weight: 700;
+    color: var(--accent);
+  }
+  .metric-card .label {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    font-size: 11px;
+    color: var(--text-muted);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    margin-top: 4px;
+  }
+  @media (max-width: 600px) {
+    .container { padding: 32px 16px 48px; }
+    .hero h1 { font-size: 26px; }
+    .metrics-grid { grid-template-columns: 1fr 1fr; }
+  }
+</style>
+</head>
+<body>
+<div class="container">
+
+<!-- Hero -->
+<div class="hero">
+  <div class="day-badge">Day 56</div>
+  <h1>The Day the Platform Learned to Resume Itself</h1>
+  <div class="subtitle">A major epic closed end-to-end. Model routing locked to single source of truth. Angie broke through. And the platform's plumbing got hardened in 21 journal entries.</div>
+  <div class="byline">By Ken Mun, CTO</div>
+  <div class="date">June 19, 2026 · Friday · AEST</div>
+</div>
+
+<!-- Opening Hook -->
+<p>I came in expecting to close out a few tickets and maybe push Sprint 8 over the line. What I got was a day where the platform's most operationally significant subsystem — task resume — went from design to E2E simulation in six atoms, model routing got locked to a single source of truth after weeks of drift, and Angie produced more business value in one afternoon than the entire Ken-side pipeline had in three weeks.</p>
+
+<p>None of those were on the plan. And the day cost $0.06. For 5,852 turns across six models, the platform closed a major epic, hardened its governance layer, cleaned up 20 malformed database rows, refactored 17 agent identity files, and produced a LinkedIn banner and five campaign posts. That's not efficiency — it's the architecture doing exactly what it was built for.</p>
+
+<div class="metrics-grid">
+  <div class="metric-card">
+    <div class="value">$0.06</div>
+    <div class="label">Total Cost</div>
+  </div>
+  <div class="metric-card">
+    <div class="value">5,852</div>
+    <div class="label">Turns</div>
+  </div>
+  <div class="metric-card">
+    <div class="value">$0.05</div>
+    <div class="label">Technical Stream</div>
+  </div>
+  <div class="metric-card">
+    <div class="value">$0.007</div>
+    <div class="label">Business Stream</div>
+  </div>
+</div>
+
+<p>The cost split tells the real story: $0.0527 for 5,680 technical turns, $0.0072 for 172 business turns. Six models shared the load — MiniMax M3 led at $0.0251, Kimi at $0.0200, DeepSeek-Pro at $0.0115, Gemma4 at $0.0033, with Flash and K2.7-Code at zero. The free-tier models carried the bulk; the paid models handled exactly what they needed to and nothing more. All-time total now sits at $4,217.97 across 56 days — an average of $75.32/day, and trending sharply downward since the May model migration.</p>
+
+<!-- Act 1: TKT-0319 — The Resume Epic -->
+<h2>The Resume Epic Closes: Six Atoms, One E2E Simulation, Zero Loose Ends</h2>
+
+<p>TKT-0319 was the kind of ticket that sounds simple on paper: "database resume schema + task queue resume support." In practice, it meant building a system where any task — subagent or main-session — that dies mid-flight can be detected, checkpointed, and resumed without human intervention. Six atoms, each building on the last:</p>
+
+<pre><code>Atom 1 — Subagent parent-workspace execution regression fixed
+Atom 2 — Database resume schema migration (resume_attempts, last_checkpoint, 4 indexes)
+Atom 3 — Resume detector / watchdog (15-min stale threshold, resumable cron registry)
+Atom 4 — Task queue processor resume executor (checkpoint embedding, idempotent finalizer)
+Atom 5 — Main-session/subagent resume registry (HITL-gated for safety)
+Atom 6 — End-to-end simulation (Scenario A: auto-resume, Scenario B: HITL main-session)</code></pre>
+
+<p>Atom 1 was a pre-existing regression discovered when a subagent for TKT-0319 itself failed to run parent workspace scripts. The fix was surgical: updated the subagent dispatch documentation, the dispatch script, the platform's async-background rules, and added regression tests. The test suite went from 9/11 to 11/11 PASS.</p>
+
+<p>Atoms 2 through 5 built the resume infrastructure layer by layer — schema, detection, execution, registry. Each atom shipped with its own regression test suite, each verified against the full test battery before the next atom started. No cascading failures. No "fix Atom 5, break Atom 3."</p>
+
+<div class="callout info">
+  <div class="label">📊 TKT-0319 — Full E2E Verification</div>
+  <p>Scenario A: stale running atom → resumable → dispatched → running → execution with checkpoint → child done → parent done. Scenario B: dead main session detected → human-in-the-loop flag written → operator resume via session spawn with checkpoint context → subagent confirmed checkpoint → registry updated to done. Final verification: 5/5 PASS. All simulation artifacts cleaned.</p>
+</div>
+
+<p>Atom 6 was the payoff. Two scenarios, both passing. The auto-resume path works without a human in the loop. The main-session path is intentionally HITL-gated — a dead main session means the operator's context was lost, and the platform should never auto-spawn into that void without explicit approval. This is the right safety boundary.</p>
+
+<p>Ken approved closure at 21:30 AEST. TKT-0319 moved to closed. The platform now has a resume subsystem that would have saved hours of rework on at least three prior incidents where subagents died silently and nobody noticed until the next standup.</p>
+
+<!-- Act 2: TKT-0540 — Model Routing SSOT -->
+<h2>Model Routing Locked: One Policy, One Interface, Zero Drift</h2>
+
+<p>TKT-0540 was the governance ticket that had been drifting for weeks. The model routing policy lived in multiple places — agent documentation, dispatch scripts, governance gates, cron configs — and every change required updating five files. The result was inevitable: drift. Different subsystems routed to different models for the same work currency.</p>
+
+<p>The fix was a single source of truth: a unified model policy with tiered routing (T2 Governance, T2 Backend, T3 Technical, T3 Business, user-facing) and phase overrides. One query interface consumed by every subsystem. Agent documentation and governance skills became reference-only consumers, not policy definers.</p>
+
+<pre><code>Model Policy (v3.0)  →  Single Query Interface  →  Dispatch Validator
+                                                  →  Governance Gate
+                                                  →  Auto-Heal (Check 28i)
+                                                  →  Drift Check (27/27 PASS)</code></pre>
+
+<p>Then Ken spotted the gaps. The runtime agent models didn't match the policy. The auto-heal keyword checks weren't catching tier mismatches. The cron model check was flagging legitimate governance crons as violations. Six additional atoms closed every gap. Final state: drift check 27/27 PASS, compliance cron CLEAN, no escalation. TKT-0540 re-closed.</p>
+
+<div class="callout info">
+  <div class="label">📊 Governance Hardening — Drift-Proof by Design</div>
+  <p>One policy file. One query interface. Every consumer sources from the same helper. Drift detection runs every heartbeat. The days of "which model is this cron actually using?" are over. When the next model migration happens, it's a one-file edit plus validation — not a six-hour debugging session.</p>
+</div>
+
+<!-- Act 3: The Cleanup Sprint -->
+<h2>Housekeeping at Scale: 20 Malformed Rows, 2 Stale Alerts, 2 Test Tickets, 17 Agent Files</h2>
+
+<p>Between the epics, the platform ran a cleanup sprint that touched nearly every subsystem:</p>
+
+<p><strong>Database-Notion malformed IDs.</strong> Twenty rows with malformed identifiers in the ticket database. Investigation revealed 7 legacy sub-task duplicates sharing Notion pages with canonical tickets, 6 pre-ticketing-system legacy rows, 3 test/smoke rows, and 4 true orphans. Cleanup deleted 8 rows from the database only (shared Notion pages preserved), 12 rows deleted plus 9 Notion pages archived. Post-cleanup: zero malformed rows. Database=337, Notion active=100. Audit pass.</p>
+
+<p><strong>Stale alerts fixed.</strong> The backup cron alert had been sitting in the alert state file despite the backup cron being healthy (zero consecutive errors). Acknowledged and resolved. The budget-check script was writing broken templates — short-circuited with a valid parked state. The daily budget report cron was disabled since the paid-model budget is parked per prior change control.</p>
+
+<p><strong>Test tickets deleted.</strong> Two test tickets were causing unnecessary rounds and tokens during new ticket creation. Deleted from the database and ticket registry. The 4 orphan shadow rows in the task mirror were cleaned, restoring the divergence monitor to GREEN: 337 live, 357 shadow, match 674, missing 0, unexplained 0.</p>
+
+<p><strong>Agent identity refactor.</strong> Ken's directive: move behavioral rules out of agent identity files into agent procedure files. Seventeen agent files refactored. Identity files now focused on values and hard limits — all under 5K. Missing procedure files created for three agents, and duplicate agent directories archived. A hygiene check now runs at every Sprint Review and quarterly business review. The ticket for this work was opened and closed in the same turn.</p>
+
+<div class="callout warn">
+  <div class="label">⚠️ Process Signal — Cleanup Density</div>
+  <p>Five distinct cleanup operations in one day is not normal. It's a signal that the platform's hygiene debt had been accumulating while epics took priority. The agent hygiene gate — now wired into Sprint Review and quarterly review — is the prevention mechanism. Cleanup should be continuous, not batched.</p>
+</div>
+
+<!-- Act 4: Sprint 8 Closed, Sprint 9–11 Organized -->
+<h2>Sprint 8 Hits 100%: The Database SSOT Epic Finds Its Home</h2>
+
+<p>Sprint 8 closed at 100% — 15 of 15 tickets complete. The two remaining open tickets were deferred to Sprint 10. Then Ken made the call that organized the next three sprints: create Sprint 11, link 32 open database SSOT tickets under a single epic, tag them by wave, and lock them into Sprint 9 (11 tickets), Sprint 10 (11 tickets), and Sprint 11 (10 tickets).</p>
+
+<p>This is the kind of organizational work that doesn't ship features but prevents chaos. Thirty-two tickets, three sprints, one epic — every ticket knows its wave, its sprint, and its place in the sequence. When Sprint 9 starts, there's no "what should we work on first?" The answer is already in the database.</p>
+
+<!-- Act 5: The Angie Breakthrough -->
+<h2>Business Stream Ignites: Angie Drives, the Pipeline Responds</h2>
+
+<p>At ~14:00 AEST, Angie sent her LinkedIn profile URL. By 14:18, the platform had produced a selected banner, five campaign posts, and a Brand Code effectively approved through inputs and corrections. The content generation → brand review → client approval pipeline — designed weeks ago but never tested at this velocity — worked exactly as intended.</p>
+
+<p>The sequence:</p>
+
+<pre><code>14:00 — Angie provides LinkedIn profile URL → saved to Brand Code
+14:05 — Angie provides company page URL → saved to Brand Code
+14:07 — Angie sends screenshot, notes "should include consulting"
+       → Brand Code rule: "AINCHORS | Training & Consulting"
+14:08 — Angie approves banner drafting → 3 options produced
+       → Brand review (ALIGNED) → Angie selects Option 2
+14:13 — Angie says "go" to first LinkedIn campaign
+       → 5 draft posts produced → Brand review (ALIGNED)
+14:18 — Angie asks for real-world examples → veracity guardrail explained
+       → Awaiting Angie's source input</code></pre>
+
+<p>Option 2 — the selected banner — reads: "AI training and consulting that turns complex technology into clear business outcomes for Australian and ASEAN organisations." That's a positioning statement that took weeks to crystallize and landed in one afternoon because Angie was driving.</p>
+
+<div class="callout info">
+  <div class="label">📊 Business Stream — Most Productive Day Since Onboarding</div>
+  <p>Angie produced more business value today than the entire operator-side pipeline in 3 weeks. The content → review → approval pipeline is working. But the LinkedIn API integration — 28 days old — remains the critical blocker: content is ready but cannot be posted through the system. Manual posting required until the integration is resolved.</p>
+</div>
+
+<p>The contrast is stark. On the technical side: a major epic closed, model routing re-locked, Sprint 8 at 100%, 32 tickets organized across three sprints. On the business side: one banner, five posts, Brand Code locked. But the operator-side pipeline remains the bottleneck — 18 days on training confirmation, 10 days on escalation, 22 days on contract meeting follow-up, 52 days on compliance form processing. The platform can build. The business can produce. The human decision loop is the rate limiter.</p>
+
+<!-- What Broke -->
+<h2>What Broke</h2>
+
+<p>No incidents logged today. The incident log remains clean — zero open, zero total. But the day surfaced several pre-existing issues that had been accumulating:</p>
+
+<p><span class="tag amber">Process</span> <strong>Subagent parent-workspace execution regression.</strong> Per-agent workspace isolation plus tool restrictions meant subagents couldn't run parent workspace scripts. Fixed with updated dispatch documentation, dispatch script, platform rules, and regression tests. Now 11/11 PASS.</p>
+
+<p><span class="tag amber">Data</span> <strong>20 malformed ticket database rows.</strong> Legacy duplicates, pre-system rows, test artifacts, and true orphans. Cleaned with Notion page preservation where pages were shared. Post-cleanup: zero malformed.</p>
+
+<p><span class="tag amber">Config</span> <strong>Stale alert state files.</strong> Backup cron alert persisted despite healthy cron. Budget-check script writing broken output. Both fixed — alerts acknowledged, budget parked, broken cron disabled.</p>
+
+<p><span class="tag blue">Governance</span> <strong>Model routing drift across 5+ consumer files.</strong> Resolved by unified policy v3.0 — single policy, single query interface, drift detection every heartbeat.</p>
+
+<!-- What I Learned -->
+<h2>What I Learned</h2>
+
+<ul class="lessons-list">
+  <li>
+    <span class="lesson-num">1</span>
+    <strong>Resume infrastructure is not a feature — it's an operational requirement.</strong> The resume epic took six atoms and an E2E simulation, but the core insight is simpler: any platform that spawns subagents <em>will</em> lose them mid-flight. The question is whether you notice before the next standup. The 15-minute stale threshold, checkpoint embedding, and HITL-gated main-session recovery turn silent failures into detected, recoverable events.
+  </li>
+  <li>
+    <span class="lesson-num">2</span>
+    <strong>Single source of truth with a query interface beats documentation every time.</strong> The model routing fix replaced five consumer files that each defined their own routing with one policy and one query script. The difference isn't just correctness — it's that drift detection can now run automatically. Documentation drifts. Query interfaces don't.
+  </li>
+  <li>
+    <span class="lesson-num">3</span>
+    <strong>Hygiene debt compounds silently.</strong> Twenty malformed rows, two stale alerts, two test tickets polluting the namespace, 17 agent files with rules in the wrong place — none of these were emergencies, but together they represented weeks of accumulated drift. The agent hygiene gate wired into Sprint Review and quarterly review is the prevention. Cleanup should be continuous, not batched.
+  </li>
+  <li>
+    <span class="lesson-num">4</span>
+    <strong>The business pipeline works when the human drives it.</strong> Angie produced a banner and five campaign posts in 18 minutes because she was actively engaged, providing inputs, making decisions. The content → review → approval pipeline is proven. The bottleneck is not the platform — it's the human decision loop on the operator side (18 days training, 10 days escalation, 22 days contract).
+  </li>
+</ul>
+
+<!-- Cost -->
+<h2>The Cost of Day 56</h2>
+
+<table class="cost-table">
+  <thead>
+    <tr>
+      <th>Model</th>
+      <th>Turns</th>
+      <th>Stream</th>
+      <th>Cost (USD)</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>minimax-m3:cloud</td>
+      <td>—</td>
+      <td>technical</td>
+      <td>$0.0251</td>
+    </tr>
+    <tr>
+      <td>kimi-k2.6:cloud</td>
+      <td>—</td>
+      <td>technical</td>
+      <td>$0.0200</td>
+    </tr>
+    <tr>
+      <td>deepseek-v4-pro:cloud</td>
+      <td>—</td>
+      <td>technical</td>
+      <td>$0.0115</td>
+    </tr>
+    <tr>
+      <td>gemma4:31b-cloud</td>
+      <td>—</td>
+      <td>technical</td>
+      <td>$0.0033</td>
+    </tr>
+    <tr>
+      <td>deepseek-v4-flash:cloud</td>
+      <td>—</td>
+      <td>technical</td>
+      <td>$0.0000</td>
+    </tr>
+    <tr>
+      <td>kimi-k2.7-code:cloud</td>
+      <td>—</td>
+      <td>technical</td>
+      <td>$0.0000</td>
+    </tr>
+    <tr class="total-row">
+      <td><strong>Total</strong></td>
+      <td><strong>5,852</strong></td>
+      <td><strong>technical + business</strong></td>
+      <td><strong>$0.0599</strong></td>
+    </tr>
+  </tbody>
+</table>
+
+<div class="cost-trend">
+  <span style="color: var(--text-muted); margin-right: 8px;">Day 55:</span>
+  <span>$0.00</span>
+  <span class="arrow up" style="margin-left: 12px;">↑</span>
+  <span style="color: var(--text-muted); margin-left: 8px;">Day 56:</span>
+  <span style="color: var(--accent); font-weight: 700;">$0.06</span>
+</div>
+
+<p><strong>Cost vs value:</strong> For $0.0599, the platform closed a major epic (6 atoms + E2E simulation), locked model routing to single source of truth (16 atoms total), cleaned 20 malformed database rows, fixed 2 stale alerts, deleted 2 test tickets, restored divergence monitoring to GREEN, closed Sprint 8 at 100%, organized 32 tickets across Sprints 9–11, refactored 17 agent identity/procedure files, and produced a LinkedIn banner + 5 campaign posts. The free-tier model strategy continues to deliver days that would cost $200–300 on paid models for under six cents.</p>
+
+<p><strong>All-time total:</strong> $4,217.97 over 56 days. Average $75.32/day — trending sharply downward from the $155/day May average as the model migration to free-tier cloud models matured. Paid-model budget parked per change control — platform running primarily on free-tier models with minimal paid usage. <em>This is an internal operational cost report, not financial advice or a projection of future costs.</em></p>
+
+<!-- What's Next -->
+<h2>What's Next</h2>
+
+<ul class="next-items">
+  <li><strong>Sprint 9 begins.</strong> 11 database SSOT tickets under a single epic, wave-1 tagged. Architecture-first sequence per established sprint pattern.</li>
+  <li><strong>LinkedIn API integration.</strong> 28 days old. Critical path blocker for business stream. Content is ready, pipeline is proven, but automated posting is blocked. Manual posting until resolved.</li>
+  <li><strong>Operator re-engagement needed.</strong> 18 days on training confirmation, 10 days on escalation, 22 days on contract follow-up. The platform and business stream are producing — the human decision loop is the bottleneck.</li>
+  <li><strong>Campaign posts.</strong> 5 drafts awaiting approval/edits. Real-world examples request pending source input. Banner needs manual LinkedIn company page update.</li>
+  <li><strong>Calendar integration fix.</strong> Broken since June 3. Blocking calendar-aware scheduling.</li>
+  <li><strong>Compliance form processing.</strong> 52 days outstanding. Needs operator decision.</li>
+</ul>
+
+<!-- While You Were Away -->
+<h2>While You Were Away</h2>
+
+<p>This was a fully attended Friday — no autonomous platform activity beyond scheduled crons. Every action was initiated and directed by the operator across WebChat and Telegram. The platform ran all scheduled crons: journal incremental writer, model compliance checks, fallback chain validation, security/legal/QA daily sweeps, and the 23:55 journal close. The business stream was active from ~14:00–14:18 AEST with the client driving content production through the content generation and brand review agents.</p>
+
+<p>The daily cap remains at $150 (reverted from $450 on May 17). Paid-model budget is parked per change control — the platform is running primarily on free-tier cloud models with minimal paid-model usage.</p>
+
+<!-- Footer -->
+<div class="footer">
+  <div class="nav-links">
+    <a href="../ainchors-2026-06-18/index.html">← Day 55</a>
+    <span>·</span>
+    <span>Day 56</span>
+    <span>·</span>
+    <span style="color: var(--accent-dim);">Day 57 →</span>
+  </div>
+  <p>AInchors · ainchors.com · Daily Build Log Series</p>
+  <p style="margin-top: 4px; font-size: 12px;">Self-contained HTML. No external dependencies. Dark theme. Built from the journal.</p>
+</div>
+
+</div>
+
+<div class="governance-stamp governance-cleared" style="
+  margin: 40px auto 0;
+  padding: 12px 20px;
+  max-width: 720px;
+  border-radius: 6px;
+  font-family: monospace;
+  font-size: 12px;
+  text-align: center;
+  background: #0d2e0d; color: #4caf50; border: 1px solid #4caf50;
+  opacity: 0.85;
+">
+  ✅ Cleared for distribution — Governance triad reviewed 2026-06-20
+</div>
+</body>
+</html>
