@@ -169,6 +169,19 @@ Both reference canonical docs in `references/` and load via `scripts/skill-load.
 ---
 ---
 
+## 2026-06-19 11:19 AEST — [CHG-0643] TKT-0339: apply 9 timeout DECREASEs and raise 2 REVIEW crons to 450s
+**Type:** cron
+**Change Type:** Normal
+**Source:** ken-prompt
+**Trigger:** Ken approved 2026-06-19 11:17 AEST: apply the 9 DECREASE recommendations from TKT-0339 and raise the 2 REVIEW items (Daily Burn Alert, Weekly Asset Review) to 450s.
+**What changed:** APPLIED 9 DECREASE timeouts via scripts/cron-timeout-apply.sh --all --yes --ken-bypass: c69615bb (300->52), 85595417 (300->193), f71f75af (300->47), e08e19ad (120->30), 5d581442 (300->120), 1cb0c7ff (600->120), 573d34e4 (300->180), 070e093f (300->120), 123f8375 (300->120). EDITED 2 REVIEW crons to 450s via openclaw cron update: ca5d5e50 Daily Burn Alert (300->450), e8d960b4 Weekly Asset Review (300->450). Refreshed baseline: 0 actionable recommendations remain.
+**Why:** The original scaler recommendations were stale and over-conservative. Ken explicitly approved the 9 decreases and the 2 increases out-of-band. Applying them frees ~30 min of reserved timeout budget and aligns heavy-agent crons with computed runtimes.
+**Verification:** openclaw cron list confirms all 11 timeouts at target values. cron-timeout-scaler.sh vA6 reports 0 recommended actions. Auto-heal CHECK 22 will show PASS after next baseline refresh (already refreshed manually).
+**Rollback:** Reapply previous timeouts from ledger state/cron-timeout-applied.json or restore from gateway config snapshot.
+**Linked:** TKT-0339, CHG-0615, CHG-0616, CHG-0641
+---
+
+
 ## 2026-06-19 10:59 AEST — [CHG-0642] TKT-0533: operationalize Ollama dashboard usage scraper
 **Type:** script
 **Change Type:** Normal
