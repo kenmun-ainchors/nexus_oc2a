@@ -169,6 +169,19 @@ Both reference canonical docs in `references/` and load via `scripts/skill-load.
 ---
 ---
 
+## 2026-06-19 22:27 AEST — [CHG-0669] CHG-0669: Delete L-090 test tickets TKT-9999 and TKT-9998 from PG and state/tickets.json
+**Type:** rule
+**Change Type:** Normal
+**Source:** ken-prompt
+**Trigger:** Ken directive 2026-06-19 22:25 AEST: test tickets TKT-9999/9998 were generating unnecessary rounds/tokens during new ticket creation.
+**What changed:** Deleted TKT-9999 ('L-090 test ticket') and TKT-9998 ('L-090 regression test') from state_tickets PG table. Removed both entries from state/tickets.json (25 -> 23 tickets).
+**Why:** Test tickets with high sequence IDs were polluting ticket creation context and causing extra LLM rounds/token consumption.
+**Verification:** PG SELECT after DELETE: both TKT-9999 and TKT-9998 return 'not found'. state/tickets.json: 23 entries, no TKT-9999/9998.
+**Rollback:** INSERT ticket rows back into PG from captured JSON; re-add entries to state/tickets.json.
+**Linked:** L-090, TKT-0535
+---
+
+
 ## 2026-06-19 22:24 AEST — [CHG-0668] CHG-0668: TKT-0540 A11-A16 — align runtime config, Warden, auto-heal, crons; re-close
 **Type:** rule
 **Change Type:** Normal
