@@ -1,0 +1,210 @@
+{
+  "ticket": "TKT-0319",
+  "title": "Global Agent Auto-Resume Protocol",
+  "atom": 1,
+  "assessor": "yoda",
+  "assessed_at": "2026-06-19T20:55:00+10:00",
+  "scope": "Global — TQP queue atoms, isolated subagent sessions, and main-session long-running tasks when interrupted by timeout, crash, node disconnect, or model failure (e.g. 429 rate-limit, gateway restart).",
+  "files_inspected": [
+    {"path": "/Users/ainchorsangiefpl/.openclaw/workspace/scripts/task-queue-processor.sh", "exists": true, "purpose": "TQP queue manager: claims queued/dispatched tasks, re-queues timed-out claims, hands non-CREST atoms to tqp-executor.sh."},
+    {"path": "/Users/ainchorsangiefpl/.openclaw/workspace/scripts/tqp-executor.sh", "exists": true, "purpose": "Executor for non-CREST TQP atoms: claims dispatched rows, spawns exec-atom children via state_task_queue INSERT."},
+    {"path": "/Users/ainchorsangiefpl/.openclaw/workspace/scripts/flash-dispatcher.sh", "exists": true, "purpose": "CREST sub-ticket dispatcher: handles Level 1/2 CREST dispatches and escalations."},
+    {"path": "/Users/ainchorsangiefpl/.openclaw/workspace/scripts/task-watchdog.sh", "exists": true, "purpose": "Heartbeat watchdog: detects stalled/pending tasks, JSON↔PG divergence."},
+    {"path": "/Users/ainchorsangiefpl/.openclaw/workspace/scripts/cron-health-check.sh", "exists": true, "purpose": "Detects cron failures, consecutive errors, stale processes."},
+    {"path": "/Users/ainchorsangiefpl/.openclaw/workspace/scripts/subagent-dispatch.sh", "exists": true, "purpose": "Safe subagent dispatch helper; blocks cross-workspace mutating dispatches unless read-only or cwd override."},
+    {"path": "/Users/ainchorsangiefpl/.openclaw/workspace/state/tqp-executor-state.json", "exists": true, "purpose": "TQP executor runtime state."},
+    {"path": "/Users/ainchorsangiefpl/.openclaw/workspace/state/task-queue.json", "exists": true, "purpose": "JSON mirror of task queue (audit trail only per L-075)."}
+  ],
+  "pg_schema": {
+    "table": "state_task_queue",
+    "columns": [
+      {"name": "id", "type": "text", "nullable": false, "default": null},
+      {"name": "title", "type": "text", "nullable": true, "default": null},
+      {"name": "tier", "type": "text", "nullable": true, "default": null},
+      {"name": "status", "type": "text", "nullable": true, "default": null},
+      {"name": "priority", "type": "text", "nullable": true, "default": null},
+      {"name": "source", "type": "text", "nullable": true, "default": null},
+      {"name": "relatedchg", "type": "text", "nullable": true, "default": null},
+      {"name": "atoms", "type": "text", "nullable": true, "default": null},
+      {"name": "created_at", "type": "text", "nullable": true, "default": null},
+      {"name": "updated_at", "type": "text", "nullable": true, "default": null},
+      {"name": "claimedby", "type": "text", "nullable": true, "default": null},
+      {"name": "claimedat", "type": "text", "nullable": true, "default": null},
+      {"name": "claimtimeout", "type": "text", "nullable": true, "default": null},
+      {"name": "created_at_ts", "type": "timestamp with time zone", "nullable": true, "default": null},
+      {"name": "updated_at_ts", "type": "timestamp with time zone", "nullable": true, "default": null},
+      {"name": "atoms_jsonb", "type": "jsonb", "nullable": true, "default": null},
+      {"name": "tenant_id", "type": "text", "nullable": true, "default": "'ainchors'::text"},
+      {"name": "atom_index", "type": "integer", "nullable": true, "default": null},
+      {"name": "state_payload", "type": "jsonb", "nullable": true, "default": null},
+      {"name": "execution_context", "type": "jsonb", "nullable": true, "default": null},
+      {"name": "parent_task_id", "type": "text", "nullable": true, "default": null},
+      {"name": "persistence_type", "type": "text", "nullable": true, "default": null},
+      {"name": "iteration_count", "type": "integer", "nullable": true, "default": "0"},
+      {"name": "previous_status", "type": "text", "nullable": true, "default": null}
+    ],
+    "indexes": [
+      {"name": "state_task_queue_pkey", "def": "CREATE UNIQUE INDEX state_task_queue_pkey ON public.state_task_queue USING btree (id)"},
+      {"name": "idx_task_queue_tid", "def": "CREATE INDEX idx_task_queue_tid ON public.state_task_queue USING btree (tenant_id)"}
+    ],
+    "current_status_counts": {
+      "done": 21,
+      "complete": 6,
+      "closed": 5,
+      "cancelled": 1
+    },
+    "note": "No composite index on (status, claimedby, parent_task_id). No status enum constraint. No previous_status trigger."
+  },
+  "gaps_identified": [
+    {
+      "id": 1,
+      "file": "scripts/task-queue-processor.sh",
+      "line": "~71",
+      "issue": "Claim timeout is hard-coded 30 min (1800s). A long-running atom (e.g. full backup, model-heavy CREST atom) can legitimately exceed 30 min and be incorrectly re-queued while still running.",
+      "impact": "False-positive re-queue leading to duplicate execution or claim collisions."
+    },
+    {
+      "id": 2,
+      "file": "scripts/task-queue-processor.sh",
+      "line": "~84-92",
+      "issue": "When no active session is found for a dispatched task, the processor re-queues it blindly without capturing why the session died. There is no checkpoint/last-completed-step concept.",
+      "impact": "Resumed atoms restart from scratch instead of continuing from last known good step."
+    },
+    {
+      "id": 3,
+      "file": "scripts/task-queue-processor.sh",
+      "line": "~109-112",
+      "issue": "Non-CREST atoms are handed to tqp-executor.sh but the parent task stays status='dispatched'. If the exec-atom child fails, the parent is never marked failed/resumable.",
+      "impact": "L-096 class silence: TQP claims atoms but has no failure-to-resume feedback loop."
+    },
+    {
+      "id": 4,
+      "file": "scripts/tqp-executor.sh",
+      "line": "~115-145",
+      "issue": "Exec-atom child is created with status='queued' but the original atom transitions to status='running'. There is no mechanism to copy the child's final status back to the original atom or to resume a killed exec-atom.",
+      "impact": "Failure of the spawned session leaves the original atom stuck in 'running' or an orphan exec-atom in the queue."
+    },
+    {
+      "id": 5,
+      "file": "scripts/flash-dispatcher.sh",
+      "line": "~360-420 (escalate path)",
+      "issue": "CREST sub-ticket escalation goes to Yoda but there is no automatic retry/escalate-to-resume path for transient failures (429, gateway restart).",
+      "impact": "Rate-limited or interrupted CREST atoms wait for human intervention."
+    },
+    {
+      "id": 6,
+      "file": "scripts/cron-health-check.sh",
+      "line": "general",
+      "issue": "Detects cron failures but only writes a state file. No automatic resume/retry integration with the queue.",
+      "impact": "Cron jobs that fail due to transient model errors remain failed until next scheduled run or manual fix."
+    },
+    {
+      "id": 7,
+      "file": "scripts/subagent-dispatch.sh",
+      "line": "~58-62",
+      "issue": "Cross-workspace mutating dispatch to agents outside the parent workspace is blocked by default. Forge (infra workspace) cannot be safely dispatched to modify main workspace scripts without Ken approval.",
+      "impact": "Build atoms for TKT-0319 must either run in main session (Yoda) or require explicit per-atom Ken approval."
+    },
+    {
+      "id": 8,
+      "file": "PG schema",
+      "line": "N/A",
+      "issue": "state_task_queue lacks status and (status, claimedby, updated_at_ts) indexes. As queue grows, resume scans will slow.",
+      "impact": "Resume detector and re-queuer will degrade performance."
+    }
+  ],
+  "checkpoint_payload_schema": {
+    "$schema": "http://json-schema.org/draft-07/schema#",
+    "title": "TKT-0319 Resume Checkpoint",
+    "type": "object",
+    "required": ["version", "task_id", "checkpoint_at", "last_completed_step", "context"],
+    "properties": {
+      "version": {"type": "string", "enum": ["1.0"]},
+      "task_id": {"type": "string", "description": "Original task/atom id"},
+      "exec_id": {"type": "string", "description": "Child exec-atom id if any"},
+      "checkpoint_at": {"type": "string", "format": "date-time"},
+      "last_completed_step": {"type": "integer", "minimum": 0, "description": "Index of last fully completed step"},
+      "context": {"type": "object", "description": "Opaque JSON snapshot needed to resume (e.g. file paths, state keys, partial results)"},
+      "attempt": {"type": "integer", "minimum": 1, "description": "Resume attempt counter"},
+      "max_attempts": {"type": "integer", "minimum": 1, "default": 3},
+      "failure_reason": {"type": "string", "enum": ["timeout", "crash", "rate_limit", "gateway_restart", "model_failure", "manual_kill", "unknown"]},
+      "delivery_target": {"type": "object", "properties": {"channel": {"type": "string"}, "to": {"type": ["string", "null"]}}},
+      "model": {"type": "string"},
+      "agent": {"type": "string"}
+    }
+  },
+  "state_machine": {
+    "states": ["queued", "dispatched", "running", "paused", "resumable", "failed", "done"],
+    "transitions": [
+      {"from": "queued", "event": "claim", "to": "dispatched", "actor": "tqp"},
+      {"from": "dispatched", "event": "start", "to": "running", "actor": "executor"},
+      {"from": "running", "event": "checkpoint", "to": "running", "actor": "executor"},
+      {"from": "running", "event": "interrupted", "to": "resumable", "actor": "watchdog/death-detector"},
+      {"from": "running", "event": "pause_ken", "to": "paused", "actor": "yoda/human"},
+      {"from": "paused", "event": "resume", "to": "running", "actor": "tqp/executor"},
+      {"from": "resumable", "event": "resume", "to": "running", "actor": "tqp/executor"},
+      {"from": "resumable", "event": "max_retries", "to": "failed", "actor": "tqp"},
+      {"from": "running", "event": "complete", "to": "done", "actor": "executor"},
+      {"from": "dispatched", "event": "claim_timeout", "to": "queued", "actor": "task-queue-processor"},
+      {"from": "running", "event": "atom_error", "to": "resumable", "actor": "executor"}
+    ]
+  },
+  "recommended_implementation_atoms": [
+    {
+      "atom": 2,
+      "title": "Add resume columns/indexes and checkpoint table",
+      "owner": "Forge",
+      "brief": "Add status/claimedby/updated_at_ts composite index to state_task_queue. Add resume_attempts, last_checkpoint JSONB columns. Create state_resume_checkpoints table (id, task_id, checkpoint_at, payload_hash).",
+      "risk": "PG schema migration; low risk with idempotent CREATE INDEX IF NOT EXISTS and ADD COLUMN IF NOT EXISTS."
+    },
+    {
+      "atom": 3,
+      "title": "Build resume detector / watchdog",
+      "owner": "Forge/Thrawn",
+      "brief": "Extend task-watchdog.sh and cron-health-check.sh to mark interrupted atoms as 'resumable' with failure_reason. Detect death by: cron lastStatus=error with retryable reason, session absence for dispatched tasks, claim timeout > computed adaptive timeout, gateway restart events.",
+      "risk": "False positives if detector is too aggressive. Needs adjustable thresholds and Ken-approval for auto-retry of critical atoms."
+    },
+    {
+      "atom": 4,
+      "title": "Implement resume executor for TQP atoms",
+      "owner": "Forge",
+      "brief": "Modify tqp-executor.sh and task-queue-processor.sh to: read last checkpoint, restore context, skip completed steps, resume exec-atom child. Update original atom status from child exec-atom status.",
+      "risk": "Touches TQP hot path; must preserve idempotency gate and lock behaviour."
+    },
+    {
+      "atom": 5,
+      "title": "Add main-session/subagent resume path",
+      "owner": "Yoda/Forge",
+      "brief": "For non-TQP subagent/main-session tasks, add a lightweight resume registry (state/resume-registry.json or PG) that tracks long-running tasks. On session death, the heartbeat re-spawns using sessions_spawn with previous context.",
+      "risk": "Needs HITL gate for any destructive main-session recovery."
+    },
+    {
+      "atom": 6,
+      "title": "End-to-end simulation",
+      "owner": "Yoda/Forge",
+      "brief": "Create synthetic long-running atoms in TQP and main session, kill them mid-flight, verify auto-resume completes and output matches uninterrupted run.",
+      "risk": "Simulation must be isolated from production tickets and crons."
+    }
+  ],
+  "out_of_scope_for_tkt0319": [
+    "True distributed HA/failover across OC2 nodes (P1 infra).",
+    "Replaying/correcting already-lost in-flight LLM responses (we resume from checkpoint, not replay model tokens).",
+    "Auto-resume of intentionally paused waiting-for-Ken atoms."
+  ],
+  "risks": [
+    "Cross-workspace dispatch policy (subagent-dispatch.sh) requires explicit Ken approval for Forge to modify main workspace scripts.",
+    "Resume without idempotency could duplicate side effects. Every resume-capable atom must expose idempotency tokens.",
+    "Aggressive death detection may create resume storms during model outages or gateway restarts. Need backoff and global rate-limit."
+  ],
+  "verifier_totals": {
+    "files_inspected": 8,
+    "files_missing": 0,
+    "pg_schema_columns": 24,
+    "pg_indexes": 2,
+    "concrete_gaps": 8,
+    "implementation_atoms": 5,
+    "checkpoint_schema_required_fields": 3
+  },
+  "status": "assessment_complete",
+  "next_step": "Review with Ken, approve Atom 2 implementation, and dispatch schema/index migration to Forge (requires workspace-mutation approval)."
+}
