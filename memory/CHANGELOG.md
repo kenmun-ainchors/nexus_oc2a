@@ -169,6 +169,19 @@ Both reference canonical docs in `references/` and load via `scripts/skill-load.
 ---
 ---
 
+## 2026-06-19 12:23 AEST — [CHG-0646] WO-002: allowlist 40 historical seed extra rows in status-map.json
+**Type:** config
+**Change Type:** Normal
+**Source:** ken-prompt
+**Trigger:** Ken approved 2026-06-19 12:22 AEST: allowlist the 40 extra shadow rows (20 historical seed/test tickets x loop + atom) surfaced after fixing the in_progress status map issue.
+**What changed:** EDIT workspace-infra/state/status-map.json: added 20 extra_rows allowlist entries ALLOW-HIST-001 through ALLOW-HIST-020 covering historical seed/test artifacts with no corresponding live ticket. Each entry pairs loop_id and atom_id.
+**Why:** The mirror writer does not delete shadow rows when live tickets are removed. Old seed data from early WO-002 setup created orphan loop_plan and plan_atom rows. Allowlisting them prevents daily divergence false positives while preserving shadow history.
+**Verification:** Re-ran divergence-harness.sh 2026-06-19: Total live 337, shadow loops/atoms 357, extra 40, match 674, missing 0, unexplained 0. WO-002 divergence_status set to GREEN.
+**Rollback:** Remove ALLOW-HIST-001..020 entries from status-map.json allowlist.
+**Linked:** WO-002, CHG-0645
+---
+
+
 ## 2026-06-19 12:18 AEST — [CHG-0645] WO-002: add in_progress underscore variant to mirror status maps
 **Type:** config
 **Change Type:** Normal

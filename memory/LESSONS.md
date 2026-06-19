@@ -1,3 +1,13 @@
+## L-159 — Allowlist historical seed artifacts instead of forcing shadow deletion
+**Date:** 2026-06-19
+**Source:** WO-002 divergence alert follow-up (40 extra shadow rows after `in_progress` status-map fix).
+**Lesson:** A mirror writer that only upserts live rows will leave orphaned shadow rows whenever live tickets are deleted or renamed. Two valid resolutions exist: (a) teach the writer to delete unmatched shadow rows, or (b) allowlist the historical artifacts. Deletion is cleaner but risks data loss if the live deletion was accidental. Allowlisting preserves the shadow history for audit and is the safer short-term fix, provided each artifact is documented with source_tkt, loop_id, atom_id, and an expiration date.
+**Fix:** Added 20 `extra_rows` allowlist entries ALLOW-HIST-001..020 to `workspace-infra/state/status-map.json`. Re-ran divergence harness: unexplained=0.
+**Evidence:** CHG-0646.
+**Prevention:** When designing shadow sync, decide up-front whether the writer will hard-delete, soft-delete, or allowlist orphans. If allowlisting, generate the entries automatically from the first divergence report so the noise does not recur.
+
+---
+
 ## L-158 — Live status values can contain underscores; status maps must list every canonical variant
 **Date:** 2026-06-19
 **Source:** WO-002 divergence alert (TKT-0536 missing in shadow).
