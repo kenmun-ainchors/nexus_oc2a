@@ -2067,7 +2067,7 @@ except: d = {}
 hist = d.get("history", [])
 now = datetime.datetime.now(datetime.timezone.utc)
 violations = []
-strong_tier_keywords = ["minimax-m3", "deepseek-v4-pro", "anthropic/claude"]
+strong_tier_keywords = ["kimi-k2.7-code", "kimi-k2.6", "deepseek-v4-pro", "gemma4:31b-cloud", "minimax-m3", "anthropic/claude"]
 for entry in hist[-200:]:
     if entry.get("decision") == "block":
         continue
