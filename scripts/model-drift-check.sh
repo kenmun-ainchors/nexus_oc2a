@@ -308,6 +308,131 @@ while IFS='|' read -r status detail msg; do
   esac
 done <<< "$CREST_VALIDATION_OUTPUT" || true
 
+# ── CREST v1.3 Phase Rules Validation (transition period: runs alongside v1.2 agentTiers) ──
+# PG state_model_policy.crest_phase_rules is SSOT per CREST v1.3.
+# This block validates agent runtime models against crest_v13.phase_rules in model-policy.json
+# (nightly cache) using the agent_to_role mapping from model-policy-query.sh.
+# Most crons run in Execute/Synthesize phase → expected = flash model for most roles.
+# TKT-0546 / Atom 2 of gap-closure dispatch.
+echo ""
+echo "[ CREST v1.3 Phase Rules (transition: alongside v1.2 agentTiers) ]"
+
+CREST_V13_OUTPUT=$(python3 -c "
+import json
+
+with open('$OC_CONFIG') as f:
+    cfg = json.load(f)
+with open('$POLICY') as f:
+    policy = json.load(f)
+
+crest_v13 = policy.get('crest_v13')
+if not crest_v13 or not isinstance(crest_v13.get('phase_rules'), list):
+    print('SKIP|crest_v13|not-present-or-malformed')
+else:
+    # Agent → CREST role mapping (mirrors model-policy-query.sh agent_to_role)
+    agent_to_role = {
+        'main': 'yoda_master',
+        'business': 'business',
+        'architect': 'design_backend',
+        'platform-arch': 'design_backend',
+        'biz-process': 'design_backend',
+        'change-mgt': 'design_backend',
+        'infra': 'build',
+        'social': 'creative',
+        'ahsoka': 'business',
+        'luthen': 'business',
+        'security': 'governance',
+        'legal': 'governance',
+        'qa': 'governance',
+        'governance': 'governance',
+    }
+
+    # Build role → {phase → default_model} lookup
+    rules_by_role = {}
+    for r in crest_v13['phase_rules']:
+        rules_by_role.setdefault(r['role'], {})[r['phase']] = r['default_model']
+
+    # Determine the dominant phase for each agent by inspecting openclaw.json model
+    # If a cron-level model is set, we attribute it to the agent's default phase = Synthesize
+    # (most crons are execute/synthesize-bound per their payload.kind='agentTurn' flow).
+    # For per-agent default model check we use the agent's model.primary and
+    # map it to the role's most common cron phase (Execute/Synthesize = flash).
+    primary_phase_for_role = {
+        'yoda_master':   'Synthesize',   # Yoda orchestrates, summarizes via kimi-k2.7
+        'business':      'Synthesize',   # Aria crons are synthesize/daily-summary heavy
+        'build':         'Execute',      # Forge crons are mostly build/execute
+        'creative':      'Synthesize',
+        'design_backend':'Synthesize',
+        'governance':    'Verify',       # Shield/Lex/Sage/Warden are verify-class
+    }
+
+    agents_list = cfg.get('agents', {}).get('list', [])
+    violations = 0
+    checks = 0
+
+    for agent in agents_list:
+        aid = agent.get('id', 'unknown')
+        model = agent.get('model', {})
+        if isinstance(model, dict):
+            actual = model.get('primary', 'NOT_SET')
+        else:
+            actual = model or 'NOT_SET'
+
+        role = agent_to_role.get(aid)
+        if not role:
+            print(f'SKIP|{aid}|no-role-mapping')
+            checks += 1
+            continue
+        if role not in rules_by_role:
+            print(f'SKIP|{aid}|role-{role}-not-in-v13-rules')
+            checks += 1
+            continue
+
+        phase = primary_phase_for_role.get(role, 'Execute')
+        expected = rules_by_role[role].get(phase)
+        if not expected:
+            print(f'SKIP|{aid}|no-rule-for-phase-{phase}')
+            checks += 1
+            continue
+
+        checks += 1
+        if actual == expected:
+            print(f'PASS|{aid}|{role}|{phase}|{actual}')
+        else:
+            violations += 1
+            print(f'FAIL|{aid}|{role}|{phase}|{expected}|{actual}')
+
+    print(f'SUMMARY|{checks}|{violations}')
+" 2>/dev/null)
+
+# Disable -u for this loop: PASS/SKIP/SUMMARY lines have fewer fields than FAIL,
+# so trailing vars would be unbound under `set -u`. Re-enable after the loop.
+set +u
+while IFS='|' read -r status a b c d e; do
+  case "$status" in
+    PASS)
+      PASS=$((PASS + 1))
+      echo "  PASS  agent:$a (role=$b phase=$c) -> $d"
+      ;;
+    FAIL)
+      FAIL=$((FAIL + 1))
+      # Fields: a=aid b=role c=phase d=expected=... e=actual=...
+      expected="$d"
+      actual="$e"
+      echo "  FAIL  agent:$a (role=$b phase=$c) expected=$expected actual=$actual [CREST_V13_DRIFT]";
+      FINDINGS+=("{\"agentId\":\"$a\",\"expected\":\"$expected\",\"actual\":\"$actual\",\"severity\":\"CREST_V13_DRIFT\",\"note\":\"Agent model does not match CREST v1.3 phase_rules for role=$b phase=$c. PG state_model_policy.crest_phase_rules is SSOT. Check model-policy.json crest_v13.phase_rules.\",\"detectedAt\":\"$AEST_TIMESTAMP\"}")
+      ;;
+    SKIP)
+      echo "  SKIP  $a: $b"
+      PASS=$((PASS + 1))
+      ;;
+    SUMMARY)
+      echo "  ───  CREST v1.3 checks: $a, violations: $b"
+      ;;
+  esac
+done <<< "$CREST_V13_OUTPUT" || true
+set -u
+
 echo ""
 echo "[ Default Config ]"
 check_default "primary" "ollama/gemma4:31b-cloud" "primary"  # Auto-derived from model-policy.json backend tier
