@@ -1,0 +1,100 @@
+Thinking...
+We need to produce a migration plan with exactly the requested structure. T[1D[K
+The user says: "Produce a migration plan with:
+1. Two scripts to audit
+2. Two replacement patterns
+3. One backward-compatible shim proposal (yes/no + one sentence)
+4. One check to verify all active agents use the loader
+
+Return ONLY the structured plan text."
+
+So we need to output a plan that includes these four items, structured clea[4D[K
+clearly. The context: The new skill loader `bash scripts/skill-load.sh <nam[4D[K
+<name>` uses `infra/sandbox/seed/skills/.index.json`. Some agents still cal[3D[K
+call old script paths directly. So we need to audit old scripts, propose re[2D[K
+replacement patterns, a shim proposal (yes/no + one sentence), and a check [K
+to verify all active agents use the loader.
+
+We need to produce a migration plan text. I'll craft a concise plan with th[2D[K
+the four sections.
+
+1. Two scripts to audit: likely old scripts that agents call directly, e.g.[4D[K
+e.g., `scripts/load-skill.sh` or `scripts/skill-loader.sh` or something. Th[2D[K
+The user didn't specify the old script names, but we can invent plausible o[1D[K
+ones: maybe `scripts/load-skill.sh` and `scripts/install-skill.sh`? Or `scr[4D[K
+`scripts/skill.sh`? The new loader is `bash scripts/skill-load.sh <name>`. [K
+So old scripts might be `scripts/skill-load-old.sh` or `scripts/load-skill-[20D[K
+`scripts/load-skill-direct.sh`. I'll make up two plausible old script paths[5D[K
+paths that agents might call directly: `scripts/load-skill.sh` (old version[7D[K
+version) and `scripts/skill-loader.sh` (another old script). Or maybe `scri[5D[K
+`scripts/skill.sh` and `scripts/load-skill-legacy.sh`. I'll just use generi[6D[K
+generic names: `scripts/load-skill.sh` and `scripts/skill-loader.sh`. The a[1D[K
+audit would check for calls to these scripts in agent code.
+
+2. Two replacement patterns: replace direct calls to old scripts with `bash[5D[K
+`bash scripts/skill-load.sh <name>`. So pattern 1: replace `bash scripts/lo[10D[K
+scripts/load-skill.sh <name>` with `bash scripts/skill-load.sh <name>`. Pat[3D[K
+Pattern 2: replace `bash scripts/skill-loader.sh <name>` with `bash scripts[7D[K
+scripts/skill-load.sh <name>`. Or maybe agents call them with different arg[3D[K
+arguments, but the new loader takes just the skill name. So replacement pat[3D[K
+patterns: `bash scripts/load-skill.sh <name>` -> `bash scripts/skill-load.s[20D[K
+scripts/skill-load.sh <name>`; `bash scripts/skill-loader.sh <name>` -> `ba[3D[K
+`bash scripts/skill-load.sh <name>`. I'll phrase as "Replace direct invocat[7D[K
+invocation of `scripts/load-skill.sh <name>` with `bash scripts/skill-load.[19D[K
+scripts/skill-load.sh <name>`" and "Replace direct invocation of `scripts/s[10D[K
+`scripts/skill-loader.sh <name>` with `bash scripts/skill-load.sh <name>`".[9D[K
+<name>`".
+
+3. Backward-compatible shim proposal: yes/no + one sentence. A shim could b[1D[K
+be a wrapper script that redirects old calls to the new loader. So I'll pro[3D[K
+propose "Yes, create a symlink or wrapper script for each old path that del[3D[K
+delegates to `scripts/skill-load.sh`." That's one sentence. So "Yes, provid[6D[K
+provide a wrapper script at the old path that calls `bash scripts/skill-loa[17D[K
+scripts/skill-load.sh "$@"`." That's a shim.
+
+4. One check to verify all active agents use the loader: e.g., grep agent c[1D[K
+codebases for any direct calls to old scripts, ensuring none remain. "Run `[1D[K
+`grep -r 'scripts/load-skill.sh\|scripts/skill-loader.sh'` across all activ[5D[K
+active agent directories and confirm zero matches." Or a script that scans [K
+agent configurations. I'll phrase: "Scan all active agent definitions (e.g.[5D[K
+(e.g., `grep -rE 'scripts/(load-skill|skill-loader)\.sh' agents/`) and asse[4D[K
+assert no matches."
+
+I'll output only the structured plan text, no extra commentary. I'll format[6D[K
+format as:
+
+1. Two scripts to audit:
+   - `scripts/load-skill.sh`
+   - `scripts/skill-loader.sh`
+
+2. Two replacement patterns:
+   - Replace `bash scripts/load-skill.sh <name>` with `bash scripts/skill-l[15D[K
+scripts/skill-load.sh <name>`
+   - Replace `bash scripts/skill-loader.sh <name>` with `bash scripts/skill[13D[K
+scripts/skill-load.sh <name>`
+
+3. Backward-compatible shim proposal: Yes, create a wrapper script at each [K
+old path that forwards to `bash scripts/skill-load.sh "$@"`.
+
+4. One check to verify all active agents use the loader: Run `grep -rE 'scr[4D[K
+'scripts/(load-skill|skill-loader)\.sh' agents/` and ensure no results.
+
+That's it.
+...done thinking.
+
+1. Two scripts to audit:
+   - `scripts/load-skill.sh`
+   - `scripts/skill-loader.sh`
+
+2. Two replacement patterns:
+   - Replace `bash scripts/load-skill.sh <name>` with `bash scripts/skill-l[15D[K
+scripts/skill-load.sh <name>`
+   - Replace `bash scripts/skill-loader.sh <name>` with `bash scripts/skill[13D[K
+scripts/skill-load.sh <name>`
+
+3. Backward-compatible shim proposal: Yes, create a wrapper script at each [K
+old path that forwards to `bash scripts/skill-load.sh "$@"`.
+
+4. One check to verify all active agents use the loader: Run `grep -rE 'scr[4D[K
+'scripts/(load-skill|skill-loader)\.sh' agents/` and ensure no matches.
+

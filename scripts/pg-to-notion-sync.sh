@@ -53,7 +53,7 @@ acquire_lock() {
 map_status() {
   case "$1" in
     open) echo "Open" ;;
-    in-progress) echo "In Progress" ;;
+    in-progress|in_progress) echo "In Progress" ;;
     done|closed) echo "Done" ;;
     backlog) echo "Backlog" ;;
     blocked) echo "Blocked" ;;
@@ -298,6 +298,45 @@ do_sprint() {
   done
 }
 
+# --- STATUS MAPPING TEST ---
+do_test_status() {
+  local failures=0
+  local total=0
+  local input expected result
+
+  # Test each mapping: input:expected
+  for pair in \
+    open:Open \
+    in-progress:In\ Progress \
+    in_progress:In\ Progress \
+    done:Done \
+    closed:Done \
+    backlog:Backlog \
+    blocked:Blocked \
+    cancelled:Cancelled \
+    pending:Pending \
+    monitoring:In\ Progress \
+    folded:Done \
+    unknown:Open \
+    "":Open; do
+    ((total++))
+    input="${pair%%:*}"
+    expected="${pair#*:}"
+    result=$(map_status "$input")
+    if [[ "$result" != "$expected" ]]; then
+      echo "FAIL: map_status('$input') = '$result' (expected '$expected')"
+      ((failures++))
+    else
+      echo "PASS: map_status('$input') = '$result'"
+    fi
+  done
+
+  echo ""
+  echo "=== Status Mapping Test Results ==="
+  echo "Total: $total, Passed: $((total - failures)), Failed: $failures"
+  return $failures
+}
+
 # --- MAIN ---
 
 if [[ $# -eq 0 ]]; then
@@ -321,5 +360,6 @@ case "$1" in
   --single) sync_ticket "$2" "$DRY_RUN" ;;
   --audit) do_audit ;;
   --sprint) do_sprint "$2" ;;
+  --test-status) do_test_status ;;
   *) echo "Invalid option: $1"; exit 1 ;;
 esac

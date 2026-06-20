@@ -1,0 +1,391 @@
+{
+  "model": "glm-5.2:cloud",
+  "benchmark": "judge-verdict-20-tool-augmented",
+  "total": 20,
+  "parsed": 0,
+  "correct": 0,
+  "accuracy_pct": 0.0,
+  "parse_rate_pct": 0.0,
+  "results": [
+    {
+      "id": 1,
+      "type": "file_exact",
+      "expected": "pass",
+      "verdict": "unknown",
+      "confidence": "unknown",
+      "reason": "",
+      "parse_ok": false,
+      "correct": false,
+      "elapsed_s": 7.11,
+      "exit_code": 0,
+      "raw_file": "state/phase5-results/glm-5.2-judge-tool-augmented/atom_01_raw.txt",
+      "extracted_json": "{\"verdict\":\"pass\",\"confidence\":\"high\",\"reason\":\"File exists and contains AL\nALPHA (trailing newline is standard file content).\"}",
+      "tool_result": {
+        "exists": true,
+        "content": "ALPHA\n",
+        "error": null
+      }
+    },
+    {
+      "id": 2,
+      "type": "file_missing",
+      "expected": "fail",
+      "verdict": "unknown",
+      "confidence": "unknown",
+      "reason": "",
+      "parse_ok": false,
+      "correct": false,
+      "elapsed_s": 1.75,
+      "exit_code": 0,
+      "raw_file": "state/phase5-results/glm-5.2-judge-tool-augmented/atom_02_raw.txt",
+      "extracted_json": "{\"verdict\":\"fail\",\"confidence\":\"high\",\"reason\":\"File .openclaw/tmp/glm52-te\n.openclaw/tmp/glm52-test-2.txt does not exist, contradicting the script's c\nclaim that it was created containing exactly BETA.\"}",
+      "tool_result": {
+        "exists": false,
+        "content": null,
+        "error": "File does not exist"
+      }
+    },
+    {
+      "id": 3,
+      "type": "json_schema_pass",
+      "expected": "pass",
+      "verdict": "unknown",
+      "confidence": "unknown",
+      "reason": "",
+      "parse_ok": false,
+      "correct": false,
+      "elapsed_s": 1.66,
+      "exit_code": 0,
+      "raw_file": "state/phase5-results/glm-5.2-judge-tool-augmented/atom_03_raw.txt",
+      "extracted_json": "{\"verdict\":\"pass\",\"confidence\":\"high\",\"reason\":\"File contains valid JSON wi\nwith name='Nexus' and version='1.0'.\"}",
+      "tool_result": {
+        "exists": true,
+        "content": "{\n  \"name\": \"Nexus\",\n  \"version\": \"1.0\"\n}\n",
+        "error": null
+      }
+    },
+    {
+      "id": 4,
+      "type": "json_schema_fail",
+      "expected": "fail",
+      "verdict": "unknown",
+      "confidence": "unknown",
+      "reason": "",
+      "parse_ok": false,
+      "correct": false,
+      "elapsed_s": 2.23,
+      "exit_code": 0,
+      "raw_file": "state/phase5-results/glm-5.2-judge-tool-augmented/atom_04_raw.txt",
+      "extracted_json": "{\"verdict\":\"fail\",\"confidence\":\"high\",\"reason\":\"version is '2.0', not '1.0'\n'1.0'\"}",
+      "tool_result": {
+        "exists": true,
+        "content": "{\n  \"name\": \"Nexus\",\n  \"version\": \"2.0\"\n}\n",
+        "error": null
+      }
+    },
+    {
+      "id": 5,
+      "type": "exec_output_pass",
+      "expected": "pass",
+      "verdict": "unknown",
+      "confidence": "unknown",
+      "reason": "",
+      "parse_ok": false,
+      "correct": false,
+      "elapsed_s": 3.92,
+      "exit_code": 0,
+      "raw_file": "state/phase5-results/glm-5.2-judge-tool-augmented/atom_05_raw.txt",
+      "extracted_json": "{\"verdict\":\"pass\",\"confidence\":\"high\",\"reason\":\"File exists and contains 'G\n'GLM52PASS' followed by a trailing newline, which matches the claimed strin\nstring (trailing newline is conventional for text files and does not alter \nthe content).\"}",
+      "tool_result": {
+        "exists": true,
+        "content": "GLM52PASS\n",
+        "error": null
+      }
+    },
+    {
+      "id": 6,
+      "type": "exec_output_fail",
+      "expected": "fail",
+      "verdict": "unknown",
+      "confidence": "unknown",
+      "reason": "",
+      "parse_ok": false,
+      "correct": false,
+      "elapsed_s": 1.88,
+      "exit_code": 0,
+      "raw_file": "state/phase5-results/glm-5.2-judge-tool-augmented/atom_06_raw.txt",
+      "extracted_json": "{\"verdict\":\"fail\",\"confidence\":\"high\",\"reason\":\"File contains 'GLM52FAIL', \nnot 'GLM52PASS'.\"}",
+      "tool_result": {
+        "exists": true,
+        "content": "GLM52FAIL\n",
+        "error": null
+      }
+    },
+    {
+      "id": 7,
+      "type": "code_syntax_pass",
+      "expected": "pass",
+      "verdict": "unknown",
+      "confidence": "unknown",
+      "reason": "",
+      "parse_ok": false,
+      "correct": false,
+      "elapsed_s": 1.97,
+      "exit_code": 0,
+      "raw_file": "state/phase5-results/glm-5.2-judge-tool-augmented/atom_07_raw.txt",
+      "extracted_json": "{\"verdict\":\"pass\",\"confidence\":\"high\",\"reason\":\"File is valid Python defini\ndefining route_task(data_sensitivity, task_complexity).\"}",
+      "tool_result": {
+        "exists": true,
+        "content": "def route_task(data_sensitivity, task_complexity):\n    pass\n",
+        "error": null
+      }
+    },
+    {
+      "id": 8,
+      "type": "code_syntax_fail",
+      "expected": "fail",
+      "verdict": "unknown",
+      "confidence": "unknown",
+      "reason": "",
+      "parse_ok": false,
+      "correct": false,
+      "elapsed_s": 1.72,
+      "exit_code": 0,
+      "raw_file": "state/phase5-results/glm-5.2-judge-tool-augmented/atom_08_raw.txt",
+      "extracted_json": "{\"verdict\":\"fail\",\"confidence\":\"high\",\"reason\":\"The function definition is \nmissing a comma between parameters, making it invalid Python syntax.\"}",
+      "tool_result": {
+        "exists": true,
+        "content": "def route_task(data_sensitivity task_complexity):\n    pass\n",
+        "error": null
+      }
+    },
+    {
+      "id": 9,
+      "type": "multiline_exact",
+      "expected": "pass",
+      "verdict": "unknown",
+      "confidence": "unknown",
+      "reason": "",
+      "parse_ok": false,
+      "correct": false,
+      "elapsed_s": 3.24,
+      "exit_code": 0,
+      "raw_file": "state/phase5-results/glm-5.2-judge-tool-augmented/atom_09_raw.txt",
+      "extracted_json": "{\"verdict\":\"pass\",\"confidence\":\"high\",\"reason\":\"File contains exactly two l\nlines: 'line1' followed by 'line2' in the correct order.\"}",
+      "tool_result": {
+        "exists": true,
+        "content": "line1\nline2\n",
+        "error": null
+      }
+    },
+    {
+      "id": 10,
+      "type": "multiline_order_fail",
+      "expected": "fail",
+      "verdict": "unknown",
+      "confidence": "unknown",
+      "reason": "",
+      "parse_ok": false,
+      "correct": false,
+      "elapsed_s": 2.14,
+      "exit_code": 0,
+      "raw_file": "state/phase5-results/glm-5.2-judge-tool-augmented/atom_10_raw.txt",
+      "extracted_json": "{\"verdict\":\"fail\",\"confidence\":\"high\",\"reason\":\"File contains 'line2' follo\nfollowed by 'line1', not 'line1' followed by 'line2'.\"}",
+      "tool_result": {
+        "exists": true,
+        "content": "line2\nline1\n",
+        "error": null
+      }
+    },
+    {
+      "id": 11,
+      "type": "env_var_pass",
+      "expected": "pass",
+      "verdict": "unknown",
+      "confidence": "unknown",
+      "reason": "",
+      "parse_ok": false,
+      "correct": false,
+      "elapsed_s": 1.88,
+      "exit_code": 0,
+      "raw_file": "state/phase5-results/glm-5.2-judge-tool-augmented/atom_11_raw.txt",
+      "extracted_json": "{\"verdict\":\"pass\",\"confidence\":\"high\",\"reason\":\"File exists and contains ex\nexactly 'export STAGE=prod' (trailing newline is acceptable).\"}",
+      "tool_result": {
+        "exists": true,
+        "content": "export STAGE=prod\n",
+        "error": null
+      }
+    },
+    {
+      "id": 12,
+      "type": "env_var_fail",
+      "expected": "fail",
+      "verdict": "unknown",
+      "confidence": "unknown",
+      "reason": "",
+      "parse_ok": false,
+      "correct": false,
+      "elapsed_s": 2.3,
+      "exit_code": 0,
+      "raw_file": "state/phase5-results/glm-5.2-judge-tool-augmented/atom_12_raw.txt",
+      "extracted_json": "{\"verdict\":\"fail\",\"confidence\":\"high\",\"reason\":\"File contains 'export STAGE\nSTAGE=dev' instead of the expected 'export STAGE=prod'.\"}",
+      "tool_result": {
+        "exists": true,
+        "content": "export STAGE=dev\n",
+        "error": null
+      }
+    },
+    {
+      "id": 13,
+      "type": "file_contains_pass",
+      "expected": "pass",
+      "verdict": "unknown",
+      "confidence": "unknown",
+      "reason": "",
+      "parse_ok": false,
+      "correct": false,
+      "elapsed_s": 1.86,
+      "exit_code": 0,
+      "raw_file": "state/phase5-results/glm-5.2-judge-tool-augmented/atom_13_raw.txt",
+      "extracted_json": "{\"verdict\":\"pass\",\"confidence\":\"high\",\"reason\":\"The file contains the subst\nsubstring 'CREST'.\"}",
+      "tool_result": {
+        "exists": true,
+        "content": "This document describes the CREST framework.\n",
+        "error": null
+      }
+    },
+    {
+      "id": 14,
+      "type": "file_contains_fail",
+      "expected": "fail",
+      "verdict": "unknown",
+      "confidence": "unknown",
+      "reason": "",
+      "parse_ok": false,
+      "correct": false,
+      "elapsed_s": 2.52,
+      "exit_code": 0,
+      "raw_file": "state/phase5-results/glm-5.2-judge-tool-augmented/atom_14_raw.txt",
+      "extracted_json": "{\"verdict\":\"fail\",\"confidence\":\"high\",\"reason\":\"The file content does not c\ncontain the substring 'CREST'.\"}",
+      "tool_result": {
+        "exists": true,
+        "content": "This document describes something else.\n",
+        "error": null
+      }
+    },
+    {
+      "id": 15,
+      "type": "permission_denied_simulation",
+      "expected": "pass",
+      "verdict": "unknown",
+      "confidence": "unknown",
+      "reason": "",
+      "parse_ok": false,
+      "correct": false,
+      "elapsed_s": 2.81,
+      "exit_code": 0,
+      "raw_file": "state/phase5-results/glm-5.2-judge-tool-augmented/atom_15_raw.txt",
+      "extracted_json": "{\"verdict\":\"fail\",\"confidence\":\"high\",\"reason\":\"File content is 'SECRET\\\\n'\n'SECRET\\\\n' (with trailing newline), not exactly 'SECRET'.\"}",
+      "tool_result": {
+        "exists": true,
+        "content": "SECRET\n",
+        "error": null
+      }
+    },
+    {
+      "id": 16,
+      "type": "empty_file_fail",
+      "expected": "fail",
+      "verdict": "unknown",
+      "confidence": "unknown",
+      "reason": "",
+      "parse_ok": false,
+      "correct": false,
+      "elapsed_s": 1.62,
+      "exit_code": 0,
+      "raw_file": "state/phase5-results/glm-5.2-judge-tool-augmented/atom_16_raw.txt",
+      "extracted_json": "{\"verdict\":\"fail\",\"confidence\":\"high\",\"reason\":\"File exists but content is \nempty, not 'NONEMPTY'.\"}",
+      "tool_result": {
+        "exists": true,
+        "content": "",
+        "error": null
+      }
+    },
+    {
+      "id": 17,
+      "type": "number_exact_pass",
+      "expected": "pass",
+      "verdict": "unknown",
+      "confidence": "unknown",
+      "reason": "",
+      "parse_ok": false,
+      "correct": false,
+      "elapsed_s": 6.22,
+      "exit_code": 0,
+      "raw_file": "state/phase5-results/glm-5.2-judge-tool-augmented/atom_17_raw.txt",
+      "extracted_json": "{\"verdict\":\"pass\",\"confidence\":\"high\",\"reason\":\"File contains exactly '1878\n'18789' on its own line followed by a newline.\"}",
+      "tool_result": {
+        "exists": true,
+        "content": "18789\n",
+        "error": null
+      }
+    },
+    {
+      "id": 18,
+      "type": "number_exact_fail",
+      "expected": "fail",
+      "verdict": "unknown",
+      "confidence": "unknown",
+      "reason": "",
+      "parse_ok": false,
+      "correct": false,
+      "elapsed_s": 1.61,
+      "exit_code": 0,
+      "raw_file": "state/phase5-results/glm-5.2-judge-tool-augmented/atom_18_raw.txt",
+      "extracted_json": "{\"verdict\":\"fail\",\"confidence\":\"high\",\"reason\":\"File contains 28789, not 18\n18789.\"}",
+      "tool_result": {
+        "exists": true,
+        "content": "28789\n",
+        "error": null
+      }
+    },
+    {
+      "id": 19,
+      "type": "yaml_key_pass",
+      "expected": "pass",
+      "verdict": "unknown",
+      "confidence": "unknown",
+      "reason": "",
+      "parse_ok": false,
+      "correct": false,
+      "elapsed_s": 1.63,
+      "exit_code": 0,
+      "raw_file": "state/phase5-results/glm-5.2-judge-tool-augmented/atom_19_raw.txt",
+      "extracted_json": "{\"verdict\":\"pass\",\"confidence\":\"high\",\"reason\":\"File contains 'model: glm-5\nglm-5.2:cloud' on its own line.\"}",
+      "tool_result": {
+        "exists": true,
+        "content": "model: glm-5.2:cloud\n",
+        "error": null
+      }
+    },
+    {
+      "id": 20,
+      "type": "yaml_key_fail",
+      "expected": "fail",
+      "verdict": "unknown",
+      "confidence": "unknown",
+      "reason": "",
+      "parse_ok": false,
+      "correct": false,
+      "elapsed_s": 1.59,
+      "exit_code": 0,
+      "raw_file": "state/phase5-results/glm-5.2-judge-tool-augmented/atom_20_raw.txt",
+      "extracted_json": "{\"verdict\":\"fail\",\"confidence\":\"high\",\"reason\":\"File contains 'model: glm-5\nglm-5.1:cloud' but required 'model: glm-5.2:cloud' on its own line.\"}",
+      "tool_result": {
+        "exists": true,
+        "content": "model: glm-5.1:cloud\n",
+        "error": null
+      }
+    }
+  ]
+}

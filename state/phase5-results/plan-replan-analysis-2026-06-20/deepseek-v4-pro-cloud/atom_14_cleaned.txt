@@ -1,0 +1,7 @@
+Replacement model: claude-3-opus
+Reason: Claude-3 Opus provides robust reasoning and verification capabiliti
+capabilities suitable for replanning.
+Purge location: In the forge_verify_replan tool configuration, replace 'min
+'minimax-m3:cloud' with 'claude-3-opus'.
+Verification command: curl -X POST https://api.forge.ai/verify -d '{"model"
+'{"model": "claude-3-opus", "plan": "plan.json"}'

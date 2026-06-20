@@ -1,0 +1,89 @@
+Thinking...
+We need to analyze the given information and produce a structured response.[9D[K
+response. The user says: "Model routing policy shows deepseek-v4-pro:cloud [K
+is assigned to CREST Plan/Replan for Atlas/Thrawn/Lando/Mon Mothma, but cos[3D[K
+cost tracking shows Ollama weekly request burn at 78% by Thursday. Analyze.[8D[K
+Analyze. Return ONLY: 1. Two possible policy adjustments (not 'turn everyth[7D[K
+everything off') 2. One trade-off for each 3. Recommended immediate action [K
+(one sentence) 4. One metric to watch next week"
+
+We need to interpret the scenario. There's a model routing policy: deepseek[8D[K
+deepseek-v4-pro:cloud is assigned to CREST Plan/Replan for Atlas/Thrawn/Lan[16D[K
+Atlas/Thrawn/Lando/Mon Mothma. That seems like a specific model (deepseek-v[11D[K
+(deepseek-v4-pro:cloud) is used for certain tasks (CREST Plan/Replan) for c[1D[K
+certain entities (Atlas, Thrawn, Lando, Mon Mothma). Meanwhile, cost tracki[6D[K
+tracking shows Ollama weekly request burn at 78% by Thursday. Ollama is lik[3D[K
+likely a local or self-hosted model serving platform, maybe they have a bud[3D[K
+budget or capacity limit for Ollama requests per week, and they've already [K
+used 78% by Thursday, meaning they might exceed the limit before the week e[1D[K
+ends. So they need to adjust policy to reduce Ollama usage, perhaps by shif[4D[K
+shifting some requests to the cloud model (deepseek-v4-pro:cloud) or other [K
+measures. The policy currently assigns deepseek-v4-pro:cloud to CREST Plan/[5D[K
+Plan/Replan for those entities. But maybe they are using Ollama for other t[1D[K
+tasks, and the burn rate is high. We need to propose two possible policy ad[2D[K
+adjustments (not "turn everything off") to address the high Ollama request [K
+burn. Then for each, a trade-off. Then an immediate action recommendation ([1D[K
+(one sentence). Then one metric to watch next week.
+
+We need to infer the context: "Ollama weekly request burn at 78% by Thursda[7D[K
+Thursday" suggests they have a weekly quota or budget for Ollama requests ([1D[K
+(maybe a cost limit or capacity limit). They've consumed 78% of that by Thu[3D[K
+Thursday, leaving only 22% for Friday and the weekend. If the burn rate con[3D[K
+continues, they'll exceed the limit. So they need to reduce Ollama usage. T[1D[K
+The routing policy currently assigns deepseek-v4-pro:cloud to certain tasks[5D[K
+tasks. Perhaps they can shift some of those tasks from Ollama to deepseek-v[10D[K
+deepseek-v4-pro:cloud? But the policy already says deepseek-v4-pro:cloud is[2D[K
+is assigned to CREST Plan/Replan for those entities. That might mean those [K
+tasks are already using the cloud model, not Ollama. So the high Ollama bur[3D[K
+burn might be from other tasks not covered by that policy. So we need to ad[2D[K
+adjust policy to either: 1) Expand the use of deepseek-v4-pro:cloud to more[4D[K
+more tasks/entities to offload Ollama, or 2) Implement throttling or priori[6D[K
+prioritization on Ollama requests to stay within budget. The instruction sa[2D[K
+says "not 'turn everything off'", so we can't just disable Ollama entirely.[9D[K
+entirely. So two possible policy adjustments: a) Redirect a portion of non-[4D[K
+non-critical Ollama traffic to deepseek-v4-pro:cloud (or another cheaper mo[2D[K
+model) to reduce Ollama burn. b) Implement a rate limit or quota on Ollama [K
+requests per day for the remainder of the week, prioritizing essential task[4D[K
+tasks, and deferring non-urgent ones to next week or using a fallback model[5D[K
+model. Trade-offs: For a) shifting to cloud model might increase latency or[2D[K
+or cost per request if cloud model is more expensive, but it saves Ollama c[1D[K
+capacity. For b) rate limiting might delay some responses, impacting user e[1D[K
+experience or productivity. Immediate action: something like "Reduce Ollama[6D[K
+Ollama request volume by routing low-priority CREST queries to deepseek-v4-[12D[K
+deepseek-v4-pro:cloud for the rest of the week." Or "Implement a temporary [K
+cap on Ollama requests per entity to prevent exceeding the weekly budget." [K
+Metric to watch next week: "Monitor Ollama daily burn rate to ensure it sta[3D[K
+stays within 20% per day to avoid Thursday spike." Or "Track the ratio of c[1D[K
+cloud to local model usage to balance cost and performance."
+
+We need to return ONLY the structured analysis text. So I'll output:
+
+1. Policy adjustment A: [description] Trade-off: [trade-off]
+   Policy adjustment B: [description] Trade-off: [trade-off]
+2. Recommended immediate action: [one sentence]
+3. Metric to watch next week: [one metric]
+
+Make sure it's concise.
+...done thinking.
+
+1. Policy adjustment A: Shift a fixed percentage (e.g., 30%) of Ollama infe[4D[K
+inference requests for non-CREST workloads to the deepseek-v4-pro:cloud end[3D[K
+endpoint for the remainder of the week.  
+   Trade-off: Increases cloud compute cost and may introduce slightly highe[5D[K
+higher latency for those requests, but preserves Ollama capacity for critic[6D[K
+critical tasks.
+
+2. Policy adjustment B: Implement a per-entity daily Ollama request cap (e.[3D[K
+(e.g., 15% of remaining weekly budget per day) with a fallback to deepseek-[9D[K
+deepseek-v4-pro:cloud once the cap is hit.  
+   Trade-off: May delay or queue low-priority requests when caps are reache[6D[K
+reached, potentially slowing non-urgent workflows, but prevents budget over[4D[K
+overrun without fully disabling Ollama.
+
+3. Recommended immediate action: Reduce Ollama request volume by routing al[2D[K
+all non-essential CREST replan queries to deepseek-v4-pro:cloud until Monda[5D[K
+Monday to stay within the weekly burn limit.
+
+4. Metric to watch next week: Daily Ollama request burn rate as a percentag[9D[K
+percentage of weekly quota, monitored each morning to detect early spikes.
+

@@ -1,0 +1,33 @@
+1. Three specific diagnostic commands or file reads
+- `cat state/cron-health-alert.json` (to extract the exact failing cron job
+job IDs)
+- `crontab -l | grep "<job_id>"` (to map the obfuscated job IDs to their ac
+actual executed commands/scripts)
+- `journalctl -u cron --since "24 hours ago" | grep "<job_id>"` or `grep CR
+CRON /var/log/syslog` (to capture the stderr output and exit codes of the f
+failing job that the alert file missed)
+
+2. Two hypotheses ranked by likelihood
+- Hypothesis 1 (Most likely): The referenced cron job is failing due to a m
+missing environment context (e.g., PATH, user variables) or an unhandled ex
+exception in the script, causing a non-zero exit code. The health monitor c
+correctly detects the failure but only logs the job ID instead of capturing
+capturing the command's stderr.
+- Hypothesis 2 (Less likely): The auto-heal mechanism is racy. It deletes t
+the alert file, but the monitoring process evaluates the "last run" state (
+(which was still a failure) before the next scheduled run executes, causing
+causing it to recreate the alert file immediately.
+
+3. One fix that does not involve deleting the alert file automatically
+- Update the cron entry to explicitly source the execution environment and 
+redirect stderr to a dedicated log file so the actual error is recorded. Ex
+Example: `0 0 * * * /bin/bash -c 'source ~/.profile && /path/to/job_script.
+/path/to/job_script.sh >> /var/log/cron_job.log 2>&1'`. Then, update the he
+health check script to read this log file and include the command/error con
+context when generating `state/cron-health-alert.json`.
+
+4. One verification step after the fix
+- Wait for the next daily cron execution cycle and run `ls -la state/cron-h
+state/cron-health-alert.json` to confirm the file does not exist, and `echo
+`echo $?` on the wrapped cron command manually to confirm it exits with cod
+code 0.

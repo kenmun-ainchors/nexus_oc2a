@@ -1,0 +1,93 @@
+Thinking...
+1.  **Analyze the Request:**
+    *   **Context:** New skill loader `bash scripts/skill-load.sh <name>` u[1D[K
+uses `infra/sandbox/seed/skills/.index.json`. Some agents use old script pa[2D[K
+paths directly.
+    *   **Outputs required:**
+        1. Two scripts to audit (identifying where old paths might be calle[5D[K
+called).
+        2. Two replacement patterns (old path -> new loader call).
+        3. One backward-compatible shim proposal (yes/no + one sentence).
+        4. One check to verify all active agents use the loader.
+    *   **Constraint:** Return ONLY the structured plan text.
+
+2.  **Drafting the Content:**
+    *   *Two scripts to audit:*
+        1. `scripts/agent_init.sh` (likely sets up agents and might call ol[2D[K
+old skill scripts).
+        2. `tools/agent_runtime.sh` or similar runtime execution script (wh[3D[K
+(where agents might load skills dynamically). Let's use `scripts/agent_boot[19D[K
+`scripts/agent_bootstrap.sh` and `tools/run_agent.sh`.
+    *   *Two replacement patterns:*
+        1. `python scripts/load_skill.py --name <name>` -> `bash scripts/sk[10D[K
+scripts/skill-load.sh <name>`
+        2. `bash old_scripts/setup_skill.sh <name>` -> `bash scripts/skill-[14D[K
+scripts/skill-load.sh <name>`
+    *   *One backward-compatible shim proposal:*
+        *   Yes/No: Yes.
+        *   Sentence: Create wrapper scripts at the old paths that silently[8D[K
+silently redirect `$0 <name>` to `bash scripts/skill-load.sh <name>` to pre[3D[K
+prevent agent crashes during the rollout phase.
+    *   *One check to verify all active agents use the loader:*
+        *   Check: `grep -rl "load_skill\|setup_skill" tools/ agents/ scrip[5D[K
+scripts/ | grep -v "skill-load.sh"` to ensure no old hardcoded paths remain[6D[K
+remain, or run a CI pipeline hook that parses agent YAML/JSON definitions a[1D[K
+and asserts `skill-load.sh` is the only skill execution entry point. Let's [K
+write a grep command: `grep -RIn "load_skill.py\|setup_skill.sh" --include=[10D[K
+--include="*.sh" --include="*.py" --include="*.json" . | grep -v "scripts/s[10D[K
+"scripts/skill-load.sh"` should return empty.
+
+3.  **Formatting the Output:**
+    Must be strictly structured. I'll use a numbered/bulleted list matching[8D[K
+matching the prompt's requirements.
+
+    1. Scripts to Audit:
+       - `scripts/agent_bootstrap.sh`
+       - `tools/agent_runtime.py`
+    2. Replacement Patterns:
+       - Replace `python scripts/load_skill.py --name <name>` with `bash sc[2D[K
+scripts/skill-load.sh <name>`
+       - Replace `bash old_scripts/setup_skill.sh <name>` with `bash script[6D[K
+scripts/skill-load.sh <name>`
+    3. Backward-Compatible Shim Proposal:
+       - Yes; create a lightweight wrapper at the legacy script paths that [K
+silently forwards `<name>` to `bash scripts/skill-load.sh <name>` to preven[6D[K
+prevent runtime crashes during the migration window.
+    4. Verification Check:
+       - Execute `grep -RIn "load_skill.py\|setup_skill.sh" . --include=*.s[13D[K
+--include=*.sh --include=*.py --include=*.json | grep -v "skill-load.sh"` t[1D[K
+to ensure the command returns an empty result, confirming zero active refer[5D[K
+references to old skill scripts.
+
+4.  **Review against constraints:**
+    *   Two scripts to audit? Yes.
+    *   Two replacement patterns? Yes.
+    *   One backward-compatible shim proposal (yes/no + one sentence)? Yes.[4D[K
+Yes.
+    *   One check to verify all active agents use the loader? Yes.
+    *   Return ONLY the structured plan text? Yes. No conversational filler[6D[K
+filler.
+
+5.  **Final Polish:** Keep it clean and strictly formatted.
+...done thinking.
+
+1. Scripts to Audit:
+- `scripts/agent_bootstrap.sh`
+- `tools/agent_runtime.py`
+
+2. Replacement Patterns:
+- `python scripts/load_skill.py --name <name>` -> `bash scripts/skill-load.[19D[K
+scripts/skill-load.sh <name>`
+- `bash legacy/setup_skill.sh <name>` -> `bash scripts/skill-load.sh <name>[6D[K
+<name>`
+
+3. Backward-Compatible Shim Proposal:
+- Yes; create wrapper scripts at the legacy paths that silently forward `<n[3D[K
+`<name>` to `bash scripts/skill-load.sh <name>` to prevent runtime crashes [K
+during the migration window.
+
+4. Verification Check:
+- Run `grep -RIn "load_skill.py\|setup_skill.sh" . --include=*.sh --include[9D[K
+--include=*.py --include=*.json | grep -v "skill-load.sh"` to ensure the ou[2D[K
+output is empty, confirming all active agents strictly use the new loader.
+

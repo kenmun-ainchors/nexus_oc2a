@@ -1,0 +1,32 @@
+A.
+1. Verify PostgreSQL connectivity, schema readiness, and that all necessary
+necessary tables (including sub_crest_history) and permissions are in place
+place.
+2. Take a consistent snapshot/backup of the state/ JSON files and validate 
+their integrity before any data movement.
+3. Confirm heartbeat workers can operate through a dual-read/write shim so 
+the migration does not block ongoing heartbeat traffic.
+
+B.
+1. Create PostgreSQL tables mirroring the JSON state structure, including a
+a dedicated sub_crest_history table with appropriate indexes and audit colu
+columns.
+2. Run a parallel import job that reads all files in state/ and inserts eve
+every record into PostgreSQL while preserving full sub_crest history and or
+original ordering.
+3. Validate migrated data by comparing row counts, checksums, and sampled r
+records against the source JSON files.
+4. Deploy a fallback shim that makes heartbeat reads prefer PostgreSQL but 
+can still serve from the JSON backup if the database is unreachable.
+5. Switch heartbeat writes to PostgreSQL under dual-write or read-through m
+mode, leaving the JSON files intact for an observation period.
+6. After parity is confirmed for the full observation period, finalize the 
+cutover and archive the JSON files.
+
+C.
+DROP TABLE IF EXISTS crest_state, sub_crest_history CASCADE;
+
+D.
+If heartbeat success rate falls below the defined SLO or any data-validatio
+data-validation mismatch is detected, immediately stop writing to PostgreSQ
+PostgreSQL and revert heartbeat traffic to the JSON state files.

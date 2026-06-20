@@ -1,0 +1,32 @@
+1. Nature of change  
+   Additive. The existing 12-post / 4-movement schedule is left untouched; 
+a new standalone Friday “week in review” post is added after each movement 
+week.
+
+2. Scheduling options
+
+   Option A: Weekly Friday recap after every movement  
+   - Adds 1 extra post per week (total campaign becomes 16 posts).  
+   - Pros: consistent 4-day cadence, reinforces the week’s narrative, build
+builds momentum.  
+   - Cons: 33% more content/editorial load, higher risk of audience fatigue
+fatigue or theme overlap with Tue/Wed/Thu posts.  
+
+   Option B: Single campaign-end recap after movement 4 only  
+   - Runs once on the final Friday of the campaign.  
+   - Pros: minimal overhead, preserves the original 3-day rhythm, avoids we
+weekly duplication.  
+   - Cons: less timely recaps, weaker per-movement reinforcement, misses we
+weekly engagement opportunities.  
+
+3. Guard against double-posting  
+   Enforce an idempotency check before publishing: query for an existing “w
+“week-in-review” post with the current calendar-week key. If one is found, 
+skip the job and log/alert instead of publishing. Optionally add a short-li
+short-lived distributed lock (e.g., Redis mutex keyed to `linkedin:weekly-r
+`linkedin:weekly-review:<week-start>`) for the cron execution window.
+
+4. Recommended cron expression for Friday 07:30 AEST  
+   - Timezone-aware scheduler: `30 7 * * 5` with `TZ=Australia/Sydney`.  
+   - UTC-only scheduler: `30 21 * * 4` (Thursday 21:30 UTC = Friday 07:30 A
+AEST).

@@ -1,0 +1,14 @@
+1. The most likely root cause: The script executing the transition to Archi
+Archive (C) lacks a state guard verifying that the ticket is currently in t
+the Auto-Heal (B) database, allowing it to act on items still in Backlog (A
+(A).
+2. One state or script check to confirm: Query the script's execution logs 
+to see if it validated the ticket's current database location (or a "Auto-H
+"Auto-Heal Processed" flag) before executing the move to DB C.
+3. One fix rule to add to the skill docs: "Transitions to Archive (C) are s
+strictly limited to items currently in Auto-Heal (B); scripts must reject o
+or pause any automation attempting to move a ticket directly from Backlog (
+(A) to Archive (C)."
+4. Whether this should block the next sprint review: No, because this is an
+an isolated automation logic gap that requires a code patch rather than a h
+halt to the overarching sprint progress.

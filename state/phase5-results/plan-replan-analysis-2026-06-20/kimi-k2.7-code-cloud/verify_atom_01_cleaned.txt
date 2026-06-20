@@ -1,0 +1,46 @@
+1. Nexus HIVE lacks a dedicated discovery agent for B2B partner integration
+integrations, so partner capability gaps are tracked manually and often lag
+lag behind internal API discoveries handled by Ahsoka. This delays joint ar
+architecture decisions and creates inconsistent backlog entries in Notion b
+because external integration candidates are not fed through the same runtim
+runtime registry and mesh-governed ingestion path as internal services. Add
+Adding Luthen standardizes B2B partner discovery within the OpenClaw regist
+registry, the Tailscale mesh, and the Notion source of truth.
+
+2. 
+- agents/luthen/openclaw.manifest.yaml: registers Luthen's runtime ID, capa
+capability claims, health checks, declared dependencies on Ahsoka schemas a
+and the Notion adapter, and Tailscale node tags.
+- agents/luthen/discover.py: implements partner endpoint enumeration, OpenA
+OpenAPI/spec ingestion, metadata normalization, and integration-opportunity
+integration-opportunity scoring for B2B contexts.
+- config/tailscale/acls/luthen.hujson: grants Luthen restricted egress to a
+approved partner CIDRs and mesh routes to the Notion adapter and the OpenCl
+OpenClaw registry nodes.
+- agents/luthen/notion_adapter.py: extends the backlog state schema to writ
+write discovered B2B integration candidates into Notion with type, partner 
+domain, and proposed owner fields.
+- ci/register_luthen.sh: validates the manifest, registers Luthen with the 
+OpenClaw runtime registry, applies the Tailscale ACL fragment, and verifies
+verifies health.
+
+3. 
+- Ahsoka: reuses discovery schema, normalization rules, and ranking logic, 
+adapted for external partner analogues.
+- OpenClaw runtime registry: publishes Luthen's runtime ID, capabilities, a
+and health; resolves peer agent endpoints.
+- Tailscale mesh: provides encrypted node identity and ACL-enforced connect
+connectivity to approved partner APIs and internal adapters.
+- Notion backlog state system: receives and persists discovered B2B integra
+integration candidates as triageable backlog items.
+- HIVE controller/scheduler: assigns discovery tasks, enforces runtime quot
+quotas, and coordinates execution windows for Luthen.
+
+4. Risk: Automated discovery against external partner endpoints could viola
+violate partner contracts, trigger abuse or rate-limit penalties, or leak i
+internal intent. Mitigation: Luthen operates only against an explicit, cont
+contractually approved partner allowlist, applies per-domain rate limiting 
+and exponential backoff, and writes every discovery action to an immutable 
+audit stream before updating Notion.
+
+5. openclaw://agent/luthen/b2b-partner-discovery:v1

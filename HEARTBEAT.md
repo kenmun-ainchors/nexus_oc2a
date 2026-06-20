@@ -37,6 +37,14 @@
 - Read state/health-state.json, state/agent-status.json
 - Alert if gateway degraded or any agent in failed state
 
+### Session Model Drift Check (every heartbeat — TKT-0547 Atom 1)
+- Run: `bash scripts/check-session-model.sh --json`
+- If exit 1 (drift): immediately reset session model to primary via `session_status model=<expected>`
+- If state/session-model-drift-alert.json exists with acknowledged=false → alert Ken
+- Also check state/pending-model-reset.json — if status=pending and resetAt is past, schedule the reset cron
+- State key: lastChecks.sessionModelDrift
+- CHG ref: TKT-0547 (2026-06-20)
+
 ### Aria CREST Compliance Checkpoint (every 4h — TKT-0383 L3)
 - Run: `bash scripts/aria-crest-check.sh`
 - If state/aria-crest-alert.json exists → alert Ken with violation details

@@ -1,0 +1,11 @@
+1. The script that moves resolved tickets to Archive likely triggers on any
+any "Resolved" status change without verifying the ticket is in the Auto-He
+Auto-Heal database, causing a direct move from Backlog.
+2. Check the script's execution log for a recent entry where a ticket's sta
+status changed to "Resolved" while it was still in DB A (Backlog) and was s
+subsequently moved to DB C (Archive).
+3. Add a precondition: "Archive automation must only move tickets that are 
+currently in the Auto-Heal database (DB B)."
+4. Yes, because the gap allows tickets to bypass the required auto-heal ste
+step, potentially archiving unresolved issues and compromising process inte
+integrity.

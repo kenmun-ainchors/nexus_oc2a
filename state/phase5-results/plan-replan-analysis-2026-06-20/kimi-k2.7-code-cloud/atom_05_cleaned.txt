@@ -1,0 +1,11 @@
+1. The archive script or automation rule lacks a state-guard that enforces 
+a ticket must pass through Auto-Heal (B) before it can be moved to Archive 
+(C), so it incorrectly allowed an A→C transition.  
+2. Confirm by querying Archive (C) for tickets whose page history or previo
+previous database relation was Backlog (A) with no corresponding Auto-Heal 
+(B) record, and check the script logs for the A→C move event.  
+3. Fix rule: “Any automation that moves a ticket to Archive (C) must first 
+verify the ticket exists in or has passed through Auto-Heal (B); if not, ro
+route to B or reject the move.”  
+4. Yes — block the next sprint review until the guard is implemented and th
+the incorrectly archived ticket is corrected/reprocessed through B.

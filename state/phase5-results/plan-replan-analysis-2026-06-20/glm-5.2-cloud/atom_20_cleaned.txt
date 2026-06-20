@@ -1,0 +1,21 @@
+1. One reason this is safe or unsafe: This is safe if the displayed data is
+is strictly limited to high-level, aggregated operational states (e.g., "He
+"Healthy", "12 hours ago") rather than raw logs or architecture specifics, 
+as it aligns with standard industry practices for public SaaS status pages.
+pages.
+2. One data class that must never appear: Internal infrastructure ide
+identifiers (such as private IP addresses, internal hostnames, or raw error
+error stack traces).
+3. One hosting recommendation: Host the page in a completely decoupled envi
+environment (e.g., a static site host like S3 + CloudFront or a managed thi
+third-party provider) with no direct internal database access, ensuring the
+the status page remains available and secure even during primary platform o
+outages.
+4. One approval gate before going live: A joint security and privacy archit
+architecture review of the data transformation pipeline to certify that all
+all data elements pushed to the page are explicitly allowlisted and sanitiz
+sanitized.
+5. One ongoing monitoring control: Automated DLP (Data Loss Prevention) sca
+scanning of the page's public API/JSON payload to automatically alert and b
+block if unexpected internal IPs, PII, or secrets are detected in the outpu
+output.

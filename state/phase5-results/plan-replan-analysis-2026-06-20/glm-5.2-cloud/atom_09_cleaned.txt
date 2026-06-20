@@ -1,0 +1,24 @@
+[REPLAN: Tier 3 Agent Model Assignment Optimization]
+
+1. New Default Model Assignment by Role Category:
+- Internal Operations & Monitoring: gemma4:31b-cloud
+- Code Generation & Automated Testing: gemma4:31b-cloud
+- Strategic Planning & Complex Reasoning: deepseek-v4-pro:cloud
+
+2. Exception Rule:
+- High-Stakes External-Facing Work: Any task involving client communication
+communications, public-facing deliverables, or contract generation must byp
+bypass the default category assignment and utilize deepseek-v4-pro:cloud.
+
+3. Verification Step:
+- Execute a 72-hour shadow deployment where gemma4:31b-cloud generates plan
+plans in parallel with the active deepseek-v4-pro:cloud agents for Internal
+Internal Operations and Code Generation. Compare outputs against quality ba
+baselines before fully retiring deepseek-v4-pro:cloud for these categories.
+categories.
+
+4. Rollback Condition:
+- If the agent escalation rate, task failure rate, or QA rejection rate for
+for tasks routed to gemma4:31b-cloud exceeds 5% during the shadow test or w
+within the first week of deployment, immediately revert all Tier 3 agents b
+back to deepseek-v4-pro:cloud.

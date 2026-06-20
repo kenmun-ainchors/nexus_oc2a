@@ -1,0 +1,9 @@
+1. Exact threshold values that should trigger NEEDS_KEN: > 2000 lines or > 
+64KB.
+2. One policy change: Auto-summarization of SOUL.md and AGENTS.md is strict
+strictly prohibited unless the NEEDS_KEN environment variable is explicitly
+explicitly set to true.
+3. One script change: `auto-heal.sh` - Replace the hardcoded size condition
+condition in the CHECK 15 block with `if [ "$NEEDS_KEN" == "true" ]`.
+4. One verification command: `NEEDS_KEN=false ./auto-heal.sh CHECK 15 | gre
+grep -q "Skipping summarize: NEEDS_KEN not set"`

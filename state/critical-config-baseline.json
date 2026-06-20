@@ -33,5 +33,58 @@
     "ahsoka": "ollama/deepseek-v4-flash:cloud",
     "luthen": "ollama/deepseek-v4-flash:cloud",
     "social": "ollama/deepseek-v4-flash:cloud"
-  }
+  },
+  "model-policy": {
+    "baselineTimestamp": "2026-06-20T01:57:44+0000",
+    "baselineCHG": "CHG-0685",
+    "globalAllowedModels": [
+      "anthropic/claude-opus-4-7",
+      "anthropic/claude-sonnet-4-6",
+      "anthropic/claude-haiku-4-5",
+      "ollama/minimax-m3:cloud",
+      "ollama/gemma4:31b-cloud",
+      "ollama/deepseek-v4-pro:cloud",
+      "ollama/kimi-k2.6:cloud",
+      "ollama/deepseek-v4-flash:cloud",
+      "ollama/gemma4:e2b",
+      "ollama/gemma4:26b",
+      "ollama/kimi-k2.7-code:cloud",
+      "ollama/glm-5.2:cloud"
+    ],
+    "design_backend_phase_rules": {
+      "Plan": {
+        "default_model": "ollama/glm-5.2:cloud",
+        "fallback_model": "ollama/gemma4:31b-cloud",
+        "rationale": "CHG-0685: Design specialists Plan with GLM-5.2 (benchmark lead 91.7%)"
+      },
+      "Replan": {
+        "default_model": "ollama/kimi-k2.7-code:cloud",
+        "fallback_model": "ollama/gemma4:31b-cloud",
+        "rationale": "CHG-0685: Design Replan uses kimi-k2.7-code:cloud (Replan strength)"
+      },
+      "Execute": {
+        "default_model": "ollama/deepseek-v4-flash:cloud",
+        "fallback_model": "ollama/gemma4:31b-cloud",
+        "rationale": "Design Execute is document production"
+      },
+      "Synthesize": {
+        "default_model": "ollama/deepseek-v4-flash:cloud",
+        "fallback_model": "ollama/gemma4:31b-cloud",
+        "rationale": "Design Synthesize is mechanical integration"
+      },
+      "Verify": {
+        "default_model": "ollama/gemma4:31b-cloud",
+        "fallback_model": "ollama/deepseek-v4-pro:cloud",
+        "rationale": "Verify primary: gemma4:31b-cloud (G4 benchmark 20/20)"
+      }
+    },
+    "model_registry_entry": {
+      "canonical_name": "ollama/glm-5.2:cloud",
+      "provider": "ollama",
+      "family": "glm",
+      "status": "active"
+    }
+  },
+  "baselineTimestamp": "2026-06-20T01:57:44+0000",
+  "baselineCHG": "CHG-0685"
 }

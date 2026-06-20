@@ -1,0 +1,200 @@
+Thinking...
+We need answer user. They want Plan document exact structure: 1. 3-sentence[10D[K
+3-sentence problem statement, 2. 5 concrete deliverables, 3. dependency map[3D[K
+map listing existing agents/systems Luthen must interface with, 4. explicit[8D[K
+explicit risk and mitigation, 5. single-line recommended model for Luthen's[8D[K
+Luthen's runtime agent ID in registry format. Return ONLY structured plan t[1D[K
+text. No markdown headings beyond numbered list. No emojis.
+
+We must infer context from limited info: Nexus HIVE, agents, Ahsoka, OpenCl[6D[K
+OpenClaw runtime registry IDs, Tailscale mesh, Notion source of truth for b[1D[K
+backlog state. We need produce plan. Avoid asking clarifying. Use structure[9D[K
+structured list.
+
+Need maintain no markdown headings beyond numbered list. Means no # heading[7D[K
+headings. Use numbers. Could bold? They said No markdown headings beyond th[2D[K
+the numbered list. We can use numbered list with items. Avoid emojis. Keep [K
+concise.
+
+Need runtime agent ID in registry format. OpenClaw runtime registry IDs? No[2D[K
+Not sure exact format. We can infer maybe format like openclaw://agent/<mod[21D[K
+openclaw://agent/<model>:<id> or registry.openclaw/agents/luthen? Need choo[4D[K
+choose single-line. Since exact format unknown, likely something like "open[5D[K
+"openclaw://nexus-hive/agents/luthen@sha256:..." But recommended model line[4D[K
+line should be agent ID. They ask "recommended model for Luthen's runtime a[1D[K
+agent ID in registry format". Could be "openclaw://nexus-hive/agents/luthen[36D[K
+"openclaw://nexus-hive/agents/luthen:stable". Or "registry.openclaw/nexus-h[26D[K
+"registry.openclaw/nexus-hive/luthen:latest"? Let's choose plausible: "open[5D[K
+"openclaw://nexus-hive/agents/luthen:discovery-v1". But "model" maybe like [K
+"gpt-4" packaged? In OpenClaw runtime registry IDs, maybe format: "openclaw[9D[K
+"openclaw:agent://luthen?model=gpt-4". Let's think.
+
+User says "The platform currently uses OpenClaw runtime registry IDs". So e[1D[K
+each agent has runtime registry ID. Need single-line recommended model for [K
+Luthen's runtime agent ID in registry format. That is an ID string. Should [K
+be concise.
+
+Need dependency map listing which existing agents/systems Luthen must inter[5D[K
+interface with. Existing agents/systems: Ahsoka, Notion backlog, Tailscale [K
+mesh, OpenClaw runtime registry, maybe HIVE conductor/orchestrator. Possibl[7D[K
+Possibly external partner systems. List.
+
+Problem statement: 3 sentences. Focus: no dedicated B2B discovery agent; Ah[2D[K
+Ahsoka covers external partner integration discovery? Wait user says simila[6D[K
+similar to Ahsoka but for B2B partners. So Ahsoka maybe does consumer/partn[14D[K
+consumer/partner discovery? Need differentiate.
+
+Deliverables: files/scripts/config changes. e.g., 1) openclaw manifest luth[4D[K
+luthen.yaml, 2) Tailscale ACL policy update JSON, 3) Notion integration bac[3D[K
+backlog schema/entry, 4) discovery pipeline script luthen_discover.py, 5) H[1D[K
+HIVE orchestrator registry config patch.
+
+Risk and mitigation: e.g., risk: duplicate discovery between Ahsoka and Lut[3D[K
+Luthen causing conflict; mitigation: clear partner domain routing rules in [K
+HIVE conductor. Or risk: Tailscale access to external partner endpoints; mi[2D[K
+mitigation: network policy tags, scoped OAuth. Or risk: Notion backlog corr[4D[K
+corruption. Mitigation: idempotent writes with version tokens.
+
+Need output only structured plan text. Probably like:
+
+1. Problem statement: sentence 1. sentence 2. sentence 3.
+
+2. Deliverables:
+- openclaw/agents/luthen.yaml
+- ...
+But they said No markdown headings beyond numbered list. We can use sub-bul[7D[K
+sub-bullets? Bullets are headings? No. They are list items. Allowed? They s[1D[K
+said no markdown headings beyond numbered list. I think bullet list within [K
+item is fine. But maybe simpler use numbers/dashes. The exact structure: 1.[2D[K
+1. 3-sentence problem statement, 2. 5 concrete deliverables, 3. dependency [K
+map, etc. We can format with numbers 1-5. For deliverables list, maybe a), [K
+b). No headings.
+
+Need be careful no emojis.
+
+Let's craft.
+
+Problem statement:
+The Nexus HIVE lacks a dedicated agent for B2B partner integration discover[8D[K
+discovery, so Ahsoka's workload is misaligned with enterprise partner onboa[5D[K
+onboarding requirements and partner inventory drifts out of sync with the N[1D[K
+Notion backlog. Without Luthen, partner discovery tasks are manually routed[6D[K
+routed or handled by ad-hoc scripts, creating inconsistent runtime registry[8D[K
+registry entries and unreliable Tailscale mesh ACL decisions. Adding Luthen[6D[K
+Luthen will centralize B2B partner discovery, ensuring every partner integr[6D[K
+integration is automatically cataloged, routed, and reflected in the single[6D[K
+single source-of-truth backlog.
+
+Deliverables:
+1. agents/luthen/openclaw-manifest.yaml (runtime registry ID, capabilities,[13D[K
+capabilities, model, resource limits)
+2. agents/luthen/discovery.py (script to ingest B2B partner integration sch[3D[K
+schemas and emit registry events)
+3. config/tailscale/acls/luthen.json (ACL tags and routes for Luthen mesh t[1D[K
+traffic to partner endpoints and internal HIVE services)
+4. config/notion/backlog-integration.yaml (state mapping for Luthen-discove[14D[K
+Luthen-discovered partner items to Notion database)
+5. hive/conductor/registry-patch.yaml (registration entry connecting Luthen[6D[K
+Luthen to Ahsoka handoff rules and HIVE routing table)
+
+Dependency map:
+- Ahsoka: handoff boundary for external discovery; Ahsoka covers consumer/e[10D[K
+consumer/external public discovery, Luthen covers B2B partner discovery; sh[2D[K
+share registry event schema but operate on disjoint partner classification [K
+tags.
+- OpenClaw runtime registry: Luthen must register, publish heartbeat metada[6D[K
+metadata, resolve IDs.
+- Tailscale mesh: needs secure network identity/tags and access to partner [K
+integration endpoints and internal HIVE control plane.
+- Notion backlog: read/write partner discovery tasks, statuses, owner field[5D[K
+fields; source of truth for state.
+- HIVE conductor/orchestrator: routing, scheduling, deduplication, conflict[8D[K
+conflict resolution with Ahsoka.
+
+Risk and mitigation:
+Risk: Overlap/conflict with Ahsoka causing duplicate discovery entries or m[1D[K
+missed partner handoffs.
+Mitigation: Enforce partner-type routing rules in HIVE conductor and add a [K
+classification tag namespace (partner:b2b vs partner:public) with mutual ex[2D[K
+exclusion checks before any Notion write.
+
+5. Single-line recommended model for runtime agent ID: e.g. "openclaw://nex[15D[K
+"openclaw://nexus-hive/agents/luthen:b2b-discovery-v1". Or perhaps "opencla[8D[K
+"openclaw://agents/nexus-hive/luthen:0.1.0-b2b". Let's choose with model hi[2D[K
+hint? They ask recommended model for runtime agent ID in registry format. M[1D[K
+Maybe include model in ID string. Could be: "openclaw://nexus-hive/agents/l[31D[K
+"openclaw://nexus-hive/agents/luthen@discovery-v1;model=gpt-4o". But runtim[6D[K
+runtime registry ID should be single-line. Keep simple: "openclaw://nexus-h[19D[K
+"openclaw://nexus-hive/agents/luthen:b2b-discovery-v1".
+
+Need ensure only structured plan text, no markdown headings beyond numbered[8D[K
+numbered list. We will output exactly:
+
+1. ...
+2. ...
+   - ...
+   - ...
+3. ...
+   - ...
+4. ...
+   - ...
+5. ...
+
+Would that be considered headings? Numbered list only. The sub-bullets are [K
+not headings. Fine.
+
+No emojis.
+
+Need not include code fences.
+
+Final answer concise.
+...done thinking.
+
+1. The Nexus HIVE currently has no dedicated agent for B2B partner integrat[8D[K
+integration discovery, so partner onboarding work either falls onto Ahsoka'[7D[K
+Ahsoka's consumer-facing path or is handled by ad-hoc scripts that bypass t[1D[K
+the standard HIVE routing model. This mismatch produces stale partner inven[5D[K
+inventory, inconsistent OpenClaw runtime registry entries, and Tailscale AC[2D[K
+ACL decisions that do not reflect actual partner integration endpoints. Add[3D[K
+Adding Luthen will centralize B2B partner discovery and keep the Notion bac[3D[K
+backlog in sync with real partner integration state.
+
+2.
+   a. `agents/luthen/openclaw-manifest.yaml` — runtime registry manifest de[2D[K
+defining Luthen's ID, capabilities, resource profile, and partner-discovery[17D[K
+partner-discovery intents.
+   b. `agents/luthen/discovery.py` — script that ingests B2B partner integr[6D[K
+integration metadata and emits validated registry events for the HIVE.
+   c. `config/tailscale/acls/luthen.hcl` — ACL fragment adding Luthen's mes[3D[K
+mesh tags, routes to partner endpoints, and internal HIVE service reachabil[9D[K
+reachability.
+   d. `config/notion/backlog-luthen.yaml` — mapping between Luthen discover[8D[K
+discovery outputs and the Notion backlog database fields, statuses, and own[3D[K
+owners.
+   e. `hive/conductor/luthen-registration.yaml` — registry patch that enrol[5D[K
+enrolls Luthen, sets its scheduling policy, and defines handoff rules with [K
+Ahsoka.
+
+3. Dependency map:
+   - Ahsoka: shared external-discovery event schema, but Luthen owns B2B pa[2D[K
+partner classification while Ahsoka remains on consumer/public discovery.
+   - OpenClaw runtime registry: Luthen must register, resolve IDs, and publ[4D[K
+publish capability metadata.
+   - Tailscale mesh: provides Luthen's network identity, ACL tags, and encr[4D[K
+encrypted access to partner integration endpoints and internal HIVE control[7D[K
+control plane.
+   - Notion backlog: source of truth for partner discovery state; Luthen re[2D[K
+reads backlogs and writes discovery findings, statuses, and ownership.
+   - HIVE conductor/orchestrator: routes tasks, prevents duplication, and c[1D[K
+coordinates runtime lifecycle between Luthen and other agents.
+
+4. Risk: Luthen and Ahsoka may both attempt to discover or record the same [K
+external entity, causing duplicate backlog entries and conflicting registry[8D[K
+registry state. Mitigation: enforce a `partner-type` classification namespa[7D[K
+namespace in the conductor with mutual-exclusion rules — items tagged `part[5D[K
+`partner:b2b` are routed exclusively to Luthen, while `partner:public` rema[4D[K
+remain with Ahsoka, and any cross-boundary candidate triggers a single reco[4D[K
+reconciler before Notion writes.
+
+5. `openclaw://nexus-hive/agents/luthen:b2b-discovery-v1`
+

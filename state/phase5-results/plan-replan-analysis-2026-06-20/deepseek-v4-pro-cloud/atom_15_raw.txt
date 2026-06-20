@@ -1,0 +1,139 @@
+Thinking...
+We need to produce a structured plan for a zero-downtime promotion of OC2-A[5D[K
+OC2-A to primary in an OC2-A/B HA cluster, with NAS, KL team. Current state[5D[K
+state: OC1 single gateway on port 18789. We need to promote OC2-A to primar[6D[K
+primary. The plan must include:
+
+1. Three prerequisites before cutover
+2. Two cutover phases
+3. One health check after each phase
+4. One rollback trigger
+5. Final steady-state: which host owns port 18789
+
+Return ONLY the structured plan text.
+
+Interpretation: There's an OC1 (maybe old cluster?) single gateway on port [K
+18789. Now we have OC2-A/B HA cluster, NAS, KL team. We need a zero-downtim[12D[K
+zero-downtime plan to promote OC2-A to primary. So presumably we are migrat[6D[K
+migrating from OC1 to OC2-A as primary, with OC2-B as standby. The port 187[3D[K
+18789 is currently owned by OC1 single gateway. We need to move that port t[1D[K
+to OC2-A eventually, with zero downtime. The plan involves prerequisites, t[1D[K
+two cutover phases, health checks, rollback trigger, and final steady-state[12D[K
+steady-state where OC2-A owns port 18789.
+
+We need to craft a concise, structured plan. Let's think about typical HA c[1D[K
+cluster promotion: maybe we have a virtual IP (VIP) or port ownership. The [K
+port 18789 might be a service port that clients connect to. Currently OC1 i[1D[K
+is listening on that port. We need to switch to OC2-A without dropping conn[4D[K
+connections? Zero-downtime might mean using techniques like connection drai[4D[K
+draining, or using a load balancer, or using a floating IP that can be move[4D[K
+moved. But the prompt says "OC1 single gateway on port 18789" and "promote [K
+OC2-A to primary". Possibly OC2-A/B is a new HA pair that will take over th[2D[K
+the service. The NAS and KL team might be involved for storage and network.[8D[K
+network. So prerequisites: ensure OC2-A/B cluster is configured and synchro[7D[K
+synchronized, NAS is accessible, network/KL team has configured floating IP[2D[K
+IP or port forwarding, etc. Cutover phases: Phase 1: maybe pre-sync, enable[6D[K
+enable OC2-A as standby, redirect new connections to OC2-A while OC1 still [K
+handles existing? Phase 2: decommission OC1, finalize ownership. Health che[3D[K
+checks: verify service on OC2-A, verify no errors. Rollback trigger: if hea[3D[K
+health check fails, revert to OC1. Final steady-state: OC2-A owns port 1878[4D[K
+18789 (as primary), OC2-B standby.
+
+We need to output only the plan text, no extra commentary. So I'll produce [K
+a structured plan with headings or bullet points. I'll use clear sections.
+
+Plan:
+
+Prerequisites:
+1. OC2-A/B HA cluster fully configured, synchronized, and tested; NAS stora[5D[K
+storage accessible from both nodes with proper permissions.
+2. KL team has configured network rules/firewall to allow traffic to OC2-A [K
+on port 18789 and set up a floating IP or load balancer capability to switc[5D[K
+switch traffic seamlessly.
+3. OC1 current gateway's connection state and session data backed up/export[9D[K
+up/exported, and OC2-A pre-loaded with identical configuration, ready to as[2D[K
+assume primary role.
+
+Cutover Phases:
+Phase 1: Activate OC2-A as hot standby and start connection draining from O[1D[K
+OC1.
+- KL team redirects new client connections to OC2-A via floating IP or DNS [K
+update, while OC1 continues serving existing connections.
+- OC2-A begins accepting new sessions on port 18789, synchronizing state wi[2D[K
+with OC2-B.
+Health Check after Phase 1: Verify OC2-A is accepting new connections, no e[1D[K
+errors in logs, and existing sessions on OC1 remain stable. Monitor NAS I/O[3D[K
+I/O and cluster sync status.
+
+Phase 2: Finalize cutover by decommissioning OC1 and asserting OC2-A as sol[3D[K
+sole primary.
+- After all existing OC1 sessions naturally terminate or are forcefully dra[3D[K
+drained (within a timeout), KL team fully shifts port 18789 ownership to OC[2D[K
+OC2-A (e.g., move floating IP exclusively to OC2-A).
+- OC1 is stopped or placed in maintenance mode; OC2-A now operates as prima[5D[K
+primary with OC2-B as standby.
+Health Check after Phase 2: Confirm OC2-A handles all traffic on port 18789[5D[K
+18789, cluster status shows OC2-A as primary, OC2-B as standby, no session [K
+loss or errors. Validate end-to-end functionality.
+
+Rollback Trigger: If any health check fails (e.g., OC2-A fails to accept co[2D[K
+connections, sync errors, or performance degradation), immediately revert f[1D[K
+floating IP/port ownership back to OC1, restart OC1 if needed, and halt pro[3D[K
+promotion. Notify KL team to restore original network configuration.
+
+Final Steady-State: OC2-A owns port 18789 as the active primary gateway; OC[2D[K
+OC2-B remains synchronized standby, ready to take over if OC2-A fails. OC1 [K
+is decommissioned.
+
+That seems to cover all points. I'll format it cleanly.
+...done thinking.
+
+```
+Zero-Downtime Promotion Plan: OC2-A to Primary (Port 18789)
+
+1. Prerequisites (must be completed before cutover)
+   - OC2-A/B HA cluster fully installed, configured, and synchronized; NAS [K
+storage mounted and accessible from both nodes with correct read/write perm[4D[K
+permissions.
+   - KL team has prepared network path: firewall rules open for OC2-A on po[2D[K
+port 18789, floating IP (or load‑balancer virtual IP) configured and tested[6D[K
+tested to allow seamless traffic redirection.
+   - OC1 current gateway configuration, session state, and persistent data [K
+exported/backed up; OC2-A pre‑loaded with identical service configuration a[1D[K
+and validated in isolation.
+
+2. Cutover Phases
+   Phase 1 – Hot Standby Activation & Connection Draining
+   - KL team updates floating IP or DNS to direct *new* client connections [K
+to OC2-A, while OC1 continues serving existing established sessions.
+   - OC2-A starts listening on port 18789, accepts new sessions, and synchr[6D[K
+synchronizes state with OC2-B; OC1 remains online for active session draini[6D[K
+draining.
+   Health Check after Phase 1:
+     - Verify OC2-A is accepting new connections without errors, cluster sy[2D[K
+sync status is healthy, and existing OC1 sessions remain uninterrupted. Mon[3D[K
+Monitor NAS latency and I/O.
+
+   Phase 2 – Final Ownership Transfer & OC1 Decommissioning
+   - After all OC1 sessions have naturally ended (or after a defined drain [K
+timeout with forced termination), KL team moves the floating IP exclusively[11D[K
+exclusively to OC2-A, making it the sole owner of port 18789.
+   - OC1 is gracefully shut down or placed in maintenance mode; OC2-A now o[1D[K
+operates as primary, OC2-B as standby.
+   Health Check after Phase 2:
+     - Confirm OC2-A handles 100% of traffic on port 18789, cluster status [K
+shows OC2-A=primary / OC2-B=standby, no session loss, and end‑to‑end servic[6D[K
+service functionality is intact.
+
+3. Rollback Trigger
+   - If any health check fails (e.g., OC2-A rejects connections, cluster sp[2D[K
+split‑brain, NAS access errors, or performance degradation), immediately re[2D[K
+revert floating IP/port ownership to OC1, restart OC1 if necessary, and abo[3D[K
+abort the promotion. KL team restores original network configuration.
+
+4. Final Steady-State
+   - OC2-A owns port 18789 as the active primary gateway. OC2-B remains syn[3D[K
+synchronized standby, ready for automatic failover. OC1 is permanently deco[4D[K
+decommissioned.
+```
+

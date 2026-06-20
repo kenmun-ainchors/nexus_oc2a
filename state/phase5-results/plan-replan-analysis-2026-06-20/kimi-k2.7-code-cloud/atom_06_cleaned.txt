@@ -1,0 +1,22 @@
+1. **Expand cloud routing to the full CREST Plan/Replan pipeline for Atlas/
+Atlas/Thrawn/Lando/Mon Mothma**  
+   Route all lifecycle calls (not just final decisions) through `deepseek-v
+`deepseek-v4-pro:cloud` and cache repeated planning contexts.  
+   *Trade-off:* Lowers Ollama burn but increases cloud token cost and cloud
+cloud dependency/rate-limit risk.
+
+2. **Introduce a priority-tiered Ollama budget with cloud overflow**  
+   Cap non-CREST and lower-priority CREST Ollama calls and auto-escalate At
+Atlas/Thrawn/Lando/Mon Mothma Plan/Replan to `deepseek-v4-pro:cloud` once O
+Ollama usage passes a midweek threshold.  
+   *Trade-off:* Protects the weekly Ollama budget but may delay lower-prior
+lower-priority work and create cloud traffic spikes during peak replan wind
+windows.
+
+**Immediate action:** For the remainder of this week, route all Atlas/Thraw
+Atlas/Thrawn/Lando/Mon Mothma CREST Plan/Replan requests through `deepseek-
+`deepseek-v4-pro:cloud` and cache or defer non-essential Ollama calls to av
+avoid exceeding the weekly budget.
+
+**Metric to watch next week:** Ollama weekly request burn percentage at end
+end-of-day Thursday.

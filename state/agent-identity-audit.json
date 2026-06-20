@@ -1,6 +1,6 @@
 {
-    "auditedAt": "2026-06-19T08:10:25Z",
-    "failures": 0,
+    "auditedAt": "2026-06-19T15:00:07Z",
+    "failures": 3,
     "results": [
         {
             "agent": "business",
@@ -54,8 +54,8 @@
         },
         {
             "agent": "ahsoka",
-            "status": "ok_no_rules",
-            "issue": null
+            "status": "missing_workspace_dir",
+            "issue": "No workspace/ahsoka/ directory exists"
         },
         {
             "agent": "spark",
@@ -64,13 +64,13 @@
         },
         {
             "agent": "atlas",
-            "status": "ok_no_rules",
-            "issue": null
+            "status": "missing_workspace_dir",
+            "issue": "No workspace/atlas/ directory exists"
         },
         {
             "agent": "thrawn",
-            "status": "ok_no_rules",
-            "issue": null
+            "status": "missing_workspace_dir",
+            "issue": "No workspace/thrawn/ directory exists"
         },
         {
             "agent": "forge",

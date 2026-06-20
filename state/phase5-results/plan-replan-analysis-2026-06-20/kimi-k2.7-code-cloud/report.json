@@ -1,0 +1,350 @@
+{
+  "results": [
+    {
+      "atom_id": 1,
+      "category": "architecture",
+      "phase": "Plan",
+      "scores": {
+        "deliverables_count": 1,
+        "has_dependency_map": 1,
+        "has_risk_mitigation": 1,
+        "registry_id_format": 1,
+        "insight": 3
+      },
+      "rubric_score": 4,
+      "rubric_max": 4,
+      "insight": 3,
+      "total": 7,
+      "max_possible": 7
+    },
+    {
+      "atom_id": 2,
+      "category": "architecture",
+      "phase": "Plan",
+      "scores": {
+        "has_pre_checks": 0,
+        "has_steps": 0,
+        "has_down_migration_stub": 1,
+        "has_rollback_condition": 1,
+        "insight": 3
+      },
+      "rubric_score": 2,
+      "rubric_max": 4,
+      "insight": 3,
+      "total": 5,
+      "max_possible": 7
+    },
+    {
+      "atom_id": 3,
+      "category": "execution",
+      "phase": "Plan",
+      "scores": {
+        "diagnostic_count": 0,
+        "hypothesis_count": 1,
+        "has_non_destructive_fix": 1,
+        "has_verification": 1,
+        "insight": 3
+      },
+      "rubric_score": 3,
+      "rubric_max": 4,
+      "insight": 3,
+      "total": 6,
+      "max_possible": 7
+    },
+    {
+      "atom_id": 4,
+      "category": "execution",
+      "phase": "Plan",
+      "scores": {
+        "answers_additive_or_replacement": 1,
+        "options_count": 1,
+        "has_guard": 1,
+        "has_cron_expr": 0,
+        "insight": 2
+      },
+      "rubric_score": 3,
+      "rubric_max": 4,
+      "insight": 2,
+      "total": 5,
+      "max_possible": 7
+    },
+    {
+      "atom_id": 5,
+      "category": "analysis",
+      "phase": "Plan",
+      "scores": {
+        "has_root_cause": 0,
+        "has_confirm_check": 1,
+        "has_skill_rule_fix": 1,
+        "blocks_sprint_review_answered": 1,
+        "insight": 3
+      },
+      "rubric_score": 3,
+      "rubric_max": 4,
+      "insight": 3,
+      "total": 6,
+      "max_possible": 7
+    },
+    {
+      "atom_id": 6,
+      "category": "analysis",
+      "phase": "Plan",
+      "scores": {
+        "adjustments_count": 0,
+        "tradeoffs_count": 1,
+        "has_immediate_action": 1,
+        "has_metric": 1,
+        "insight": 3
+      },
+      "rubric_score": 3,
+      "rubric_max": 4,
+      "insight": 3,
+      "total": 6,
+      "max_possible": 7
+    },
+    {
+      "atom_id": 7,
+      "category": "replan",
+      "phase": "Replan",
+      "scores": {
+        "phases_count": 1,
+        "has_dependency": 1,
+        "has_fallback": 1,
+        "has_ken_decision_question": 1,
+        "insight": 3
+      },
+      "rubric_score": 4,
+      "rubric_max": 4,
+      "insight": 3,
+      "total": 7,
+      "max_possible": 7
+    },
+    {
+      "atom_id": 8,
+      "category": "replan",
+      "phase": "Replan",
+      "scores": {
+        "knowns_count": 0,
+        "unknowns_count": 1,
+        "has_revised_success_criteria": 1,
+        "has_routing_exclusion": 1,
+        "insight": 3
+      },
+      "rubric_score": 3,
+      "rubric_max": 4,
+      "insight": 3,
+      "total": 6,
+      "max_possible": 7
+    },
+    {
+      "atom_id": 9,
+      "category": "replan",
+      "phase": "Replan",
+      "scores": {
+        "has_rollback_condition": 1,
+        "categories_count": 1,
+        "has_exception_rule": 1,
+        "has_verification_step": 1,
+        "insight": 2
+      },
+      "rubric_score": 4,
+      "rubric_max": 4,
+      "insight": 2,
+      "total": 6,
+      "max_possible": 7
+    },
+    {
+      "atom_id": 10,
+      "category": "analysis",
+      "phase": "Plan",
+      "scores": {
+        "questions_count": 1,
+        "tier_recommended": 1,
+        "has_sovereignty_check": 1,
+        "has_owner_agent": 0,
+        "insight": 2
+      },
+      "rubric_score": 3,
+      "rubric_max": 4,
+      "insight": 2,
+      "total": 5,
+      "max_possible": 7
+    },
+    {
+      "atom_id": 11,
+      "category": "architecture",
+      "phase": "Plan",
+      "scores": {
+        "output_format": 1,
+        "metrics_count": 1,
+        "integration_points_count": 1,
+        "has_scheduling": 1,
+        "has_alert_guard": 1,
+        "insight": 2
+      },
+      "rubric_score": 5,
+      "rubric_max": 5,
+      "insight": 2,
+      "total": 7,
+      "max_possible": 8
+    },
+    {
+      "atom_id": 12,
+      "category": "execution",
+      "phase": "Plan",
+      "scores": {
+        "thresholds_specified": 1,
+        "has_policy_change": 1,
+        "has_script_change": 1,
+        "has_verification_command": 1,
+        "insight": 2
+      },
+      "rubric_score": 4,
+      "rubric_max": 4,
+      "insight": 2,
+      "total": 6,
+      "max_possible": 7
+    },
+    {
+      "atom_id": 13,
+      "category": "analysis",
+      "phase": "Plan",
+      "scores": {
+        "has_cause": 1,
+        "has_confirm_query": 1,
+        "has_canonical_id": 1,
+        "has_prevention_rule": 1,
+        "governance_answered": 1,
+        "insight": 3
+      },
+      "rubric_score": 5,
+      "rubric_max": 5,
+      "insight": 3,
+      "total": 8,
+      "max_possible": 8
+    },
+    {
+      "atom_id": 14,
+      "category": "replan",
+      "phase": "Replan",
+      "scores": {
+        "has_verification_command": 1,
+        "replacement_model": 1,
+        "has_reason": 1,
+        "has_purge_target": 1,
+        "insight": 3
+      },
+      "rubric_score": 4,
+      "rubric_max": 4,
+      "insight": 3,
+      "total": 7,
+      "max_possible": 7
+    },
+    {
+      "atom_id": 15,
+      "category": "architecture",
+      "phase": "Plan",
+      "scores": {
+        "prereq_count": 1,
+        "phase_count": 1,
+        "health_checks_count": 1,
+        "has_final_owner": 1,
+        "insight": 2
+      },
+      "rubric_score": 4,
+      "rubric_max": 4,
+      "insight": 2,
+      "total": 6,
+      "max_possible": 7
+    },
+    {
+      "atom_id": 16,
+      "category": "execution",
+      "phase": "Plan",
+      "scores": {
+        "scripts_count": 1,
+        "patterns_count": 1,
+        "shim_proposal": 1,
+        "verification_check": 1,
+        "insight": 2
+      },
+      "rubric_score": 4,
+      "rubric_max": 4,
+      "insight": 2,
+      "total": 6,
+      "max_possible": 7
+    },
+    {
+      "atom_id": 17,
+      "category": "analysis",
+      "phase": "Plan",
+      "scores": {
+        "states_count": 1,
+        "checks_count": 1,
+        "threshold_specified": 1,
+        "stall_action": 1,
+        "insight": 2
+      },
+      "rubric_score": 4,
+      "rubric_max": 4,
+      "insight": 2,
+      "total": 6,
+      "max_possible": 7
+    },
+    {
+      "atom_id": 18,
+      "category": "replan",
+      "phase": "Replan",
+      "scores": {
+        "timeline_options_count": 1,
+        "unblock_action": 1,
+        "defer_feature": 1,
+        "client_comm_recommendation": 1,
+        "insight": 3
+      },
+      "rubric_score": 4,
+      "rubric_max": 4,
+      "insight": 3,
+      "total": 7,
+      "max_possible": 7
+    },
+    {
+      "atom_id": 19,
+      "category": "analysis",
+      "phase": "Plan",
+      "scores": {
+        "incident_or_normal": 1,
+        "immediate_action": 1,
+        "automation_script": 1,
+        "policy_gap": 1,
+        "insight": 3
+      },
+      "rubric_score": 4,
+      "rubric_max": 4,
+      "insight": 3,
+      "total": 7,
+      "max_possible": 7
+    },
+    {
+      "atom_id": 20,
+      "category": "architecture",
+      "phase": "Plan",
+      "scores": {
+        "safety_assessment": 1,
+        "excluded_data_class": 1,
+        "hosting_recommendation": 1,
+        "approval_gate": 1,
+        "monitoring_control": 1,
+        "insight": 2
+      },
+      "rubric_score": 5,
+      "rubric_max": 5,
+      "insight": 2,
+      "total": 7,
+      "max_possible": 8
+    }
+  ],
+  "total_score": 126,
+  "max_possible": 143,
+  "percentage": 88.1
+}

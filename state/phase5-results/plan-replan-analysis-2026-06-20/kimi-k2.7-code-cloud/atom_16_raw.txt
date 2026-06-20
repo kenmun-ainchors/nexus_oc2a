@@ -1,0 +1,132 @@
+Thinking...
+The user wants a migration plan for a skill loader change. Need to parse re[2D[K
+requirements:
+
+- New skill loader: `bash scripts/skill-load.sh <name>` uses `infra/sandbox[14D[K
+`infra/sandbox/seed/skills/.index.json`.
+- Some agents still call old script paths directly.
+- Need:
+  1. Two scripts to audit
+  2. Two replacement patterns
+  3. One backward-compatible shim proposal (yes/no + one sentence)
+  4. One check to verify all active agents use the loader
+- Return ONLY the structured plan text.
+
+Need to provide structured plan. No extra prose. Two scripts to audit: like[4D[K
+likely old direct script paths. Since not specified actual names, we can me[2D[K
+mention common patterns, e.g., `infra/sandbox/seed/skills/load-skill.sh` an[2D[K
+and `tools/agent-runtime/install-skill.sh`? Need generic enough. User asks [K
+"Two scripts to audit". Could be the old scripts agents call directly. We d[1D[K
+don't know exact repo but can suggest audit targets like `legacy/load_skill[18D[K
+`legacy/load_skill.sh` and `bin/skill-bootstrap.sh`. Replacement patterns: [K
+replace direct `bash <oldpath> <name>` with `bash scripts/skill-load.sh <na[3D[K
+<name>` and replace direct references to `.index.json` with loader wrapper.[8D[K
+wrapper. Backward-compatible shim: yes/no + one sentence. Check: grep CI or[2D[K
+or agent manifests for old paths.
+
+Need output only structured plan text. Let's craft concise bullet sections.[9D[K
+sections.
+
+Should we include file names? We can give placeholder names. Maybe "audit a[1D[K
+any `<old-loader>.sh` and `<skill-bootstrap>.sh`". The prompt says "Two scr[3D[K
+scripts to audit". We can name them generically as examples. But maybe bett[4D[K
+better to mention paths that are likely? Since we don't know repo, use plac[4D[K
+placeholders marked `...`.
+
+Need think about migration plan format. Provide exactly:
+
+1. Scripts to audit
+   - script A
+   - script B
+2. Replacement patterns
+   - pattern 1
+   - pattern 2
+3. Backward-compatible shim proposal
+   - Yes/No: one sentence
+4. Verification check
+   - check
+
+Return only structured plan text.
+
+We must ensure no extra. Use markdown.
+
+Potential content:
+
+1. Two scripts to audit:
+   - `infra/sandbox/seed/skills/legacy/load-skill.sh` (or any old per-skill[9D[K
+per-skill loader)
+   - `tools/agent-runtime/bootstrap-skill.sh`
+
+2. Two replacement patterns:
+   - Replace direct `bash <old-loader>.sh <name>` calls with `bash scripts/[8D[K
+scripts/skill-load.sh <name>`.
+   - Replace direct reads/writes to `.index.json` with calls to the loader;[7D[K
+loader; only `scripts/skill-load.sh` may access `infra/sandbox/seed/skills/[27D[K
+`infra/sandbox/seed/skills/.index.json`.
+
+3. Backward-compatible shim proposal:
+   - Yes: keep old entrypoints as thin wrappers that exec `scripts/skill-lo[17D[K
+`scripts/skill-load.sh "$@"` and emit a deprecation warning, then remove th[2D[K
+them in the next release.
+
+4. Check to verify all active agents use the loader:
+   - Run a CI lint/grep that fails if any active agent code or manifest ref[3D[K
+references the old script paths or directly touches `.index.json` outside `[1D[K
+`scripts/skill-load.sh`.
+
+Is that enough? Need "Two replacement patterns" maybe regex examples:
+
+Pattern 1:
+- Before: `bash (infra/sandbox/seed/skills/[^/]+/load\.sh|tools/agent-runti[59D[K
+(infra/sandbox/seed/skills/[^/]+/load\.sh|tools/agent-runtime/bootstrap-ski(infra/sandbox/seed/skills/[^/]+/load\.sh|tools/agent-runtie/bootstrap-skill\.sh) (\S+)`
+- After: `bash scripts/skill-load.sh \2`
+
+Pattern 2:
+- Before: `cat infra/sandbox/seed/skills/.index.json` or `jq ... .index.jso[10D[K
+.index.json`
+- After: `bash scripts/skill-load.sh <name>` or a read-only helper `scripts[8D[K
+`scripts/skill-list.sh` if listing.
+
+But they only said loader uses `.index.json`; replacement patterns could be[2D[K
+be at call sites.
+
+Maybe mention:
+
+- `bash (old/path/load-skill.sh|old/path/bootstrap.sh) <name>` -> `bash scr[3D[K
+scripts/skill-load.sh <name>`
+- inline `curl/wget` or direct `chmod +x old-loader && ./old-loader <name>`[7D[K
+<name>` -> `bash scripts/skill-load.sh <name>`
+
+Check: Use `git grep` in agent configs and source.
+
+Need return only structured plan. Could include header.
+
+Let's make concise, use markdown. Ensure no code blocks? Could use bullets.[8D[K
+bullets. Since they said structured plan text, bullets fine.
+
+Need avoid explanation outside plan. The final should be just the structure[9D[K
+structured plan.
+...done thinking.
+
+1. Scripts to audit
+   - `infra/sandbox/seed/skills/legacy/load-skill.sh` (or any old per-skill[9D[K
+per-skill loader)
+   - `tools/agent-runtime/bootstrap-skill.sh` (or any agent-side skill boot[4D[K
+bootstrap script)
+
+2. Replacement patterns
+   - `bash <old-loader>.sh <name>` → `bash scripts/skill-load.sh <name>`
+   - direct reads/writes of `infra/sandbox/seed/skills/.index.json` → calls[5D[K
+calls to `scripts/skill-load.sh <name>` (only the loader touches the index)[6D[K
+index)
+
+3. Backward-compatible shim proposal
+   - Yes: keep the old script paths as thin wrappers that exec `scripts/ski[12D[K
+`scripts/skill-load.sh "$@"` and emit a deprecation warning, then delete th[2D[K
+them in the next release.
+
+4. Verification check
+   - Run a CI grep/lint across active agent source and manifests that fails[5D[K
+fails if any path references the old loader scripts or directly accesses `.[2D[K
+`.index.json` outside `scripts/skill-load.sh`.
+

@@ -1,0 +1,13 @@
+1. Most likely cause: The revision workflow created `CHG-0603-rev1` without
+without marking the original `CHG-0603` as superseded or closed, leaving bo
+both records active in Notion.
+2. One query to confirm: `SELECT CHG_ID, Status, Title, Related_CHG FROM ch
+changelog WHERE CHG_ID IN ('CHG-0603', 'CHG-0603-rev1');`
+3. Recommended canonical CHG ID: `CHG-0603-rev1` (close `CHG-0603` and link
+link it as superseded by the revision).
+4. One rule to add to changelog skill: When a `-revN` CHG is created, autom
+automatically set the prior revision’s status to `Superseded` and link it t
+to the new CHG before the new record can become `Active`.
+5. Governance violation: Yes — maintaining two active change records for th
+the same conceptual change breaks the single-source-of-truth rule for chang
+change control.

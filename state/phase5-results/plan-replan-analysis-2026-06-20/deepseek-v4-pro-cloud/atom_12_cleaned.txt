@@ -1,0 +1,14 @@
+1. Exact threshold values: For SOUL.md and AGENTS.md, the size threshold th
+that triggers NEEDS_KEN must be 0 bytes (i.e., any non‑empty file requires 
+NEEDS_KEN before auto‑summarize). For all other files, the existing thresho
+threshold remains unchanged.
+
+2. Policy change: Auto‑summarize of SOUL.md and AGENTS.md is strictly forbi
+forbidden without an active NEEDS_KEN gate, irrespective of file size.
+
+3. Script change: File: `auto-heal.sh` – In CHECK 15, replace the hardcoded
+hardcoded size threshold for SOUL.md and AGENTS.md with `0` so that any con
+content immediately triggers NEEDS_KEN.
+
+4. Verification command: `grep -A10 'CHECK 15' auto-heal.sh | grep -E 'thre
+'threshold.*0' && echo "Threshold set to 0 for gated files"`

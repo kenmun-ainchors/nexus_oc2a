@@ -1,0 +1,106 @@
+Thinking...
+1.  **Analyze the Request:**
+    *   **Original Plan:** All Tier 3 agents use `deepseek-v4-pro:cloud` fo[2D[K
+for Plan/Replan.
+    *   **Evidence:** Cost is too high; `gemma4:31b-cloud` is underutilized[13D[K
+underutilized.
+    *   **Requirements:**
+        1.  New default model assignment by role category (at least 3 categ[5D[K
+categories).
+        2.  One exception rule for high-stakes external-facing work.
+        3.  One verification step before rolling out.
+        4.  One rollback condition.
+    *   **Output Constraint:** Return ONLY the structured replan text.
+
+2.  **Formulate the Replan:**
+    *   *Role Categories:*
+        1. Internal Operations/Administration -> `gemma4:31b-cloud` (low st[2D[K
+stakes, cost-effective)
+        2. Data Analysis/Code Generation -> `deepseek-v4-pro:cloud` (needs [K
+high reasoning, keep it here but maybe restricted) or `gemma4:31b-cloud` if[2D[K
+if it's capable. Let's say: Tier 3 Internal Data/Code agents -> `gemma4:31b[11D[K
+`gemma4:31b-cloud`.
+        3. Strategic Planning/Core Logic -> `deepseek-v4-pro:cloud` (still [K
+needs the heavy lifting but not all Tier 3 agents).
+        Wait, the prompt says "New default model assignment by role categor[7D[K
+category". Let's define 3 categories:
+        - Internal Operations & Monitoring: `gemma4:31b-cloud`
+        - Code Generation & Testing: `gemma4:31b-cloud`
+        - Strategic Planning & Complex Reasoning: `deepseek-v4-pro:cloud`
+    *   *Exception Rule:* High-stakes external-facing work (e.g., client co[2D[K
+communication, contract generation) -> `deepseek-v4-pro:cloud` (or an even [K
+higher tier, but let's stick to `deepseek-v4-pro:cloud` as the premium exce[4D[K
+exception).
+    *   *Verification Step:* Run a shadow evaluation for 24 hours comparing[9D[K
+comparing `gemma4:31b-cloud` outputs against historical `deepseek-v4-pro:cl[19D[K
+`deepseek-v4-pro:cloud` baselines for internal tasks.
+    *   *Rollback Condition:* If the error/escalation rate for tasks assign[6D[K
+assigned to `gemma4:31b-cloud` exceeds 5%, revert all Tier 3 agents to `dee[4D[K
+`deepseek-v4-pro:cloud`.
+
+3.  **Format the Output:**
+    *   Must be structured replan text.
+    *   No conversational filler.
+
+4.  **Drafting the text:**
+
+    [REPLAN: Tier 3 Agent Model Assignment Optimization]
+
+    1. New Default Model Assignment by Role Category:
+    - Category A: Internal Operations & Monitoring -> Default Model: `gemma[6D[K
+`gemma4:31b-cloud`
+    - Category B: Code Generation & Unit Testing -> Default Model: `gemma4:[8D[K
+`gemma4:31b-cloud`
+    - Category C: Strategic Planning & Complex Reasoning -> Default Model: [K
+`deepseek-v4-pro:cloud`
+
+    2. Exception Rule:
+    - High-Stakes External-Facing Work (e.g., client deliverables, public c[1D[K
+communications, contract analysis): Must override default assignment and us[2D[K
+use `deepseek-v4-pro:cloud`.
+
+    3. Verification Step:
+    - Conduct a 48-hour shadow test where `gemma4:31b-cloud` runs in parall[6D[K
+parallel with current `deepseek-v4-pro:cloud` assignments for Categories A [K
+and B. Compare success rates and quality metrics before full cutover.
+
+    4. Rollback Condition:
+    - If the task failure rate, agent escalation rate, or quality assurance[9D[K
+assurance rejection rate for `gemma4:31b-cloud` exceeds 5% during the verif[5D[K
+verification phase or post-rollout, immediately revert all affected role ca[2D[K
+categories back to `deepseek-v4-pro:cloud`.
+
+5.  **Review against constraints:**
+    *   3 categories? Yes.
+    *   1 exception for external facing? Yes.
+    *   1 verification step? Yes.
+    *   1 rollback condition? Yes.
+    *   ONLY structured replan text? Yes. No "Here is your plan:" at the st[2D[K
+start or end.
+...done thinking.
+
+[REPLAN: Tier 3 Agent Model Assignment Optimization]
+
+1. New Default Model Assignment by Role Category:
+- Internal Operations & Monitoring: gemma4:31b-cloud
+- Code Generation & Automated Testing: gemma4:31b-cloud
+- Strategic Planning & Complex Reasoning: deepseek-v4-pro:cloud
+
+2. Exception Rule:
+- High-Stakes External-Facing Work: Any task involving client communication[13D[K
+communications, public-facing deliverables, or contract generation must byp[3D[K
+bypass the default category assignment and utilize deepseek-v4-pro:cloud.
+
+3. Verification Step:
+- Execute a 72-hour shadow deployment where gemma4:31b-cloud generates plan[4D[K
+plans in parallel with the active deepseek-v4-pro:cloud agents for Internal[8D[K
+Internal Operations and Code Generation. Compare outputs against quality ba[2D[K
+baselines before fully retiring deepseek-v4-pro:cloud for these categories.[11D[K
+categories.
+
+4. Rollback Condition:
+- If the agent escalation rate, task failure rate, or QA rejection rate for[3D[K
+for tasks routed to gemma4:31b-cloud exceeds 5% during the shadow test or w[1D[K
+within the first week of deployment, immediately revert all Tier 3 agents b[1D[K
+back to deepseek-v4-pro:cloud.
+

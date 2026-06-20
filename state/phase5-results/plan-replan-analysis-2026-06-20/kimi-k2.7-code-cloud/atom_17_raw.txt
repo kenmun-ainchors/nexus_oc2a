@@ -1,0 +1,103 @@
+Thinking...
+We need answer user. They ask: "A subagent task has been running for 4 hour[4D[K
+hours. The user does not know if it is stalled or still working. Analyze. R[1D[K
+Return ONLY: 1. Three possible states 2. One command or tool to check each [K
+3. Recommended threshold before alerting Ken 4. One action to take if it is[2D[K
+is stalled. Return ONLY the structured analysis text."
+
+We need produce only structured analysis text. We must be careful: The prob[4D[K
+problem is generic, likely IT/operations context? Need infer what "subagent[9D[K
+"subagent task" means. Could be a CI/CD pipeline sub-agent? Or database job[3D[K
+job subagent? Or maybe some system with subagents. The question likely asks[4D[K
+asks for analysis format. We must not include extra content. We need list t[1D[K
+three possible states: running normally, slow/queued/bottlenecked, stalled/[8D[K
+stalled/crashed/hung. For each state, one command/tool to check: e.g., `ps`[4D[K
+`ps`/`top` for process activity, logs tail for progress, queue/metrics stat[4D[K
+status. Need recommended threshold before alerting Ken: maybe 6 hours or if[2D[K
+if no log progress for >1 hour. One action to take if stalled: kill/restart[12D[K
+kill/restart the subagent, check logs, notify. We must return only structur[8D[K
+structured analysis text, exactly sections.
+
+Need answer concisely. Include commands/tools: `ps -ef | grep subagent` / `[1D[K
+`top` / `htop` to see CPU/activity; log tail `tail -f /var/log/subagent.log[21D[K
+/var/log/subagent.log`; heartbeat/progress dashboard/metrics endpoint e.g.,[5D[K
+e.g., `curl http://subagent:port/health` or job queue status command.
+
+Threshold: If no new log entries / heartbeat / output for >1 hour after 4 h[1D[K
+hours, or if wall-clock exceeds expected runtime by >50% (e.g., if expected[8D[K
+expected was 3h, alert after 1h buffer), or 6 hours total. The question say[3D[K
+says "running for 4 hours. The user does not know if it is stalled or still[5D[K
+still working." Recommended threshold before alerting Ken: wait until 6 hou[3D[K
+hours total elapsed or no progress for 1 hour. We can include: If no heartb[6D[K
+heartbeat/progress for 60 minutes, or runtime exceeds SLA/expected by 50%, [K
+alert Ken.
+
+Action if stalled: Capture logs/diagnostics, gracefully terminate/restart s[1D[K
+subagent, notify Ken with snapshot. Or if safe, abort and retry. We can say[3D[K
+say: "Collect latest logs and diagnostic snapshot, gracefully kill the suba[4D[K
+subagent process, then restart/resubmit the task and notify Ken with findin[6D[K
+findings." The prompt asks one action. We'll provide one.
+
+We need return only structured text. Could be bullet list. Let's craft.
+
+Potential states:
+1. Running normally (long-running but active)
+2. Slow/degraded (resource contention, backlogged/queued, waiting on depend[6D[K
+dependency)
+3. Stalled/hung (deadlock, crash, lost heartbeat, no output)
+
+Command/tool to check each:
+1. For running normally: inspect live logs/progress output (`tail -f <subag[6D[K
+<subagent.log>` or progress UI) to confirm recent activity.
+2. For slow/degraded: check resource utilization and queue depth (`top`/`ht[10D[K
+(`top`/`htop`, `iostat`, `vmstat`, or job-queue status command) and depende[7D[K
+dependency latency.
+3. For stalled/hung: check process/heartbeat status (`ps -ef | grep subagen[7D[K
+subagent` and `curl http://subagent/health`, or supervisorctl status) to se[2D[K
+see if process exists and responsive.
+
+Threshold: "Alert Ken if the task exceeds 6 hours total runtime, or if ther[4D[K
+there is no log/heartbeat progress for more than 60 minutes." That's before[6D[K
+before alerting Ken. So recommended threshold is: if expected runtime unkno[5D[K
+unknown, wait for no progress for 60 min, or total 6h. Maybe simply: "Alert[6D[K
+"Alert Ken if no progress/heartbeat is observed for 1 hour, or the task hit[3D[K
+hits 6 hours total." Good.
+
+Action if stalled: "Capture the last 1000 log lines and process stack/dump,[11D[K
+stack/dump, gracefully terminate (or kill -9 if unresponsive) the subagent,[9D[K
+subagent, then resubmit/restart the task and send Ken the diagnostic snapsh[6D[K
+snapshot with timestamps." That's one action, though multi-step.
+
+Make sure return only structured analysis text. No preamble. We'll format w[1D[K
+with headings.
+
+Need ensure we don't over-explain. Let's produce.
+...done thinking.
+
+1. Three possible states  
+   - Running normally: long-running task is active and making progress.  
+   - Slow/degraded: task is alive but blocked by resource contention, queue[5D[K
+queue backlog, or slow dependencies.  
+   - Stalled/hung: task is unresponsive, deadlocked, crashed, or has lost i[1D[K
+its heartbeat.  
+
+2. One command or tool to check each  
+   - Running normally: `tail -f /var/log/subagent.log` (or live progress UI[2D[K
+UI) to verify recent output/heartbeat.  
+   - Slow/degraded: `top` / `htop` plus queue-status command (e.g., `subage[7D[K
+`subagent-cli queue status` or `curl http://subagent/health`) to check CPU,[4D[K
+CPU, memory, backlog, and dependency latency.  
+   - Stalled/hung: `ps -ef | grep subagent` plus a heartbeat/health check ([1D[K
+(e.g., `curl http://subagent:port/health` or `supervisorctl status subagent[8D[K
+subagent`) to confirm the process exists and is responsive.  
+
+3. Recommended threshold before alerting Ken  
+   - Alert Ken if there is no log/heartbeat progress for more than 60 minut[5D[K
+minutes, or if total runtime exceeds 6 hours.  
+
+4. One action to take if it is stalled  
+   - Capture the latest logs and a diagnostic snapshot (process status, sta[3D[K
+stack/heap dump if available), terminate the subagent gracefully (or force-[6D[K
+force-kill if unresponsive), then restart/resubmit the task and send Ken th[2D[K
+the snapshot with timestamps.
+

@@ -1,0 +1,36 @@
+Thinking...
+We need answer structured analysis only. Need analyze scenario: Two CHG rec[3D[K
+records exist for same conceptual change: CHG-0603 (Ollama weekly request t[1D[K
+tracking) and CHG-0603-rev1 (formula update). Notion shows both active. Nee[3D[K
+Need cause, query, canonical CHG ID, rule, governance violation yes/no.
+
+Need infer from data. Likely cause: revision convention created a new recor[5D[K
+record rather than superseding/updating original and status wasn't closed. [K
+Query to confirm: Check Notion status and linked relationship/ID fields for[3D[K
+for both. Recommended canonical CHG ID likely CHG-0603-rev1 as latest revis[5D[K
+revision, but depends if rev1 is formula update, Ollama weekly request trac[4D[K
+tracking. The conceptual change maybe weekly tracking? Formula update is a [K
+rev. Since rev1 is newer, canonical should be CHG-0603-rev1 and CHG-0603 sh[2D[K
+should be marked superseded/closed. Rule: Enforce unique active CHG per con[3D[K
+concept; when a revision is created, close the original and link as superse[7D[K
+superseded. Governance violation yes because two active records for same ch[2D[K
+change violate single source of truth / duplicate active change control. Pr[2D[K
+Provide only structured text.
+
+Need return exactly: 1,2,3,4,5. Keep one sentence each maybe.
+...done thinking.
+
+1. Most likely cause: The revision workflow created `CHG-0603-rev1` without[7D[K
+without marking the original `CHG-0603` as superseded or closed, leaving bo[2D[K
+both records active in Notion.
+2. One query to confirm: `SELECT CHG_ID, Status, Title, Related_CHG FROM ch[2D[K
+changelog WHERE CHG_ID IN ('CHG-0603', 'CHG-0603-rev1');`
+3. Recommended canonical CHG ID: `CHG-0603-rev1` (close `CHG-0603` and link[4D[K
+link it as superseded by the revision).
+4. One rule to add to changelog skill: When a `-revN` CHG is created, autom[5D[K
+automatically set the prior revision’s status to `Superseded` and link it t[1D[K
+to the new CHG before the new record can become `Active`.
+5. Governance violation: Yes — maintaining two active change records for th[2D[K
+the same conceptual change breaks the single-source-of-truth rule for chang[5D[K
+change control.
+

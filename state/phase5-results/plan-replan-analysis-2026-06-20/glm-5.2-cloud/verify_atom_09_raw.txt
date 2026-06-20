@@ -1,0 +1,133 @@
+Thinking...
+1.  **Analyze the Request:**
+    *   **Context:** Original plan assigned deepseek-v4-pro:cloud to all Ti[2D[K
+Tier 3 agents. Issue: High cost, gemma4:31b-cloud underutilized.
+    *   **Task:** Produce a structured replan.
+    *   **Requirements:**
+        1. New default model assignment by role category (at least 3 catego[6D[K
+categories).
+        2. One exception rule for high-stakes external-facing work.
+        3. One verification step before rolling out.
+        4. One rollback condition.
+    *   **Constraint:** Return ONLY the structured replan text.
+
+2.  **Drafting the Content:**
+    *   *Role Categories & Model Assignment:*
+        *   Category 1: Routine Planning & Internal Coordination -> gemma4:[7D[K
+gemma4:31b-cloud
+        *   Category 2: Complex Code Analysis & Logic Replan -> deepseek-v4[11D[K
+deepseek-v4-pro:cloud (use sparingly to cut costs, maybe mixed or limited t[1D[K
+to specific sub-tasks, but wait, the prompt implies we need to lower cost b[1D[K
+by shifting to gemma. Let's make deepseek the exception, not the rule, or u[1D[K
+use a tiered approach).
+        *   Let's do:
+            *   Category 1: Routine Task Planning -> gemma4:31b-cloud
+            *   Category 2: Complex Strategy & Replan -> deepseek-v4-pro:cl[18D[K
+deepseek-v4-pro:cloud (maybe we don't fully remove it, just restrict it. Or[2D[K
+Or maybe use a cheaper cloud model if available? The prompt only gave two m[1D[K
+models. Let's assign deepseek to complex strategy).
+            *   Category 3: Data Synthesis & Aggregation -> gemma4:31b-clou[15D[K
+gemma4:31b-cloud
+        *   Wait, let's look at the evidence: "cost is too high and gemma4:[7D[K
+gemma4:31b-cloud is underutilized."
+        *   Let's define 3 categories:
+            1. Internal Coordination & Routing: gemma4:31b-cloud
+            2. Standard Plan/Replan Logic: gemma4:31b-cloud
+            3. Complex Architectural Replan: deepseek-v4-pro:cloud (or just[4D[K
+just make deepseek the exception and assign all standard planning to gemma?[6D[K
+gemma? No, the prompt asks for "New default model assignment by role catego[6D[K
+category (at least 3 categories)".
+            *   Role Category A: Routine Planners (Tier 3 agents doing stan[4D[K
+standard operations) -> gemma4:31b-cloud
+            *   Role Category B: Code/Syntax Reviewers -> gemma4:31b-cloud
+            *   Role Category C: Complex Strategy & Logic Synthesis -> deep[4D[K
+deepseek-v4-pro:cloud (restricted usage)
+    *   *Exception Rule:* High-stakes external-facing work (e.g., client-fa[9D[K
+client-facing proposals, critical public API generation) must use deepseek-[9D[K
+deepseek-v4-pro:cloud regardless of category to ensure maximum fidelity.
+    *   *Verification Step:* Run a 24-hour shadow evaluation comparing gemm[4D[K
+gemma4:31b-cloud outputs against historical deepseek-v4-pro:cloud baselines[9D[K
+baselines for accuracy and latency before full rollout.
+    *   *Rollback Condition:* If the task failure rate (due to bad plans) f[1D[K
+for gemma4:31b-cloud exceeds 5% during the shadow evaluation or the first w[1D[K
+week of production, immediately revert all routine planners to deepseek-v4-[12D[K
+deepseek-v4-pro:cloud.
+
+3.  **Structuring the Output:**
+    *   Must be ONLY the structured replan text. No conversational filler.
+
+    ```text
+    REPLAN: TIER 3 AGENT MODEL ASSIGNMENT
+
+    1. DEFAULT MODEL ASSIGNMENT BY ROLE CATEGORY
+       - Routine Planning & Internal Coordination: gemma4:31b-cloud
+       - Data Synthesis & Standard Replan Logic: gemma4:31b-cloud
+       - Complex Architectural Strategy & Logic Synthesis: deepseek-v4-pro:[16D[K
+deepseek-v4-pro:cloud
+
+    2. EXCEPTION RULE
+       - High-Stakes External-Facing Work: All Tier 3 agents generating cli[3D[K
+client-facing proposals, public API schemas, or direct user communications [K
+must use deepseek-v4-pro:cloud to guarantee maximum fidelity and safety.
+
+    3. VERIFICATION STEP
+       - Pre-Rollout Shadow Test: Execute a 48-hour shadow run where routin[6D[K
+routine tasks are processed by both models. Compare gemma4:31b-cloud output[6D[K
+outputs against deepseek-v4-pro:cloud baselines for task completion accurac[7D[K
+accuracy and error rates.
+
+    4. ROLLBACK CONDITION
+       - Automatic Reversion: If the task failure rate or hallucination rat[3D[K
+rate of gemma4:31b-cloud exceeds 5% during the shadow test or the first 7 d[1D[K
+days of production rollout, immediately revert all affected Tier 3 agents t[1D[K
+to deepseek-v4-pro:cloud.
+    ```
+
+4.  **Refining:**
+    Check constraints: "Return ONLY the structured replan text."
+    The draft looks solid. It addresses all constraints directly and concis[6D[K
+concisely.
+
+5.  **Final Polish:** (Self-correction during drafting) Make sure the categ[5D[K
+categories make sense in the context of "Plan/Replan" agents.
+    Categories:
+    - Routine Plan/Replan Execution -> gemma4:31b-cloud
+    - Context & Data Aggregation -> gemma4:31b-cloud
+    - Complex Logic & Architecture Planning -> deepseek-v4-pro:cloud
+    This clearly shifts the bulk of load to gemma to fix underutilization a[1D[K
+and cost, while keeping deepseek for genuinely complex stuff.
+
+    Exception: External-facing work -> deepseek.
+    Verification: Shadow test.
+    Rollback: Failure rate > 5%.
+
+    Looks good.
+...done thinking.
+
+REPLAN: TIER 3 AGENT MODEL ASSIGNMENT OPTIMIZATION
+
+1. DEFAULT MODEL ASSIGNMENT BY ROLE CATEGORY
+   - Routine Plan/Replan Execution: gemma4:31b-cloud
+   - Context & Data Aggregation: gemma4:31b-cloud
+   - Complex Logic & Architecture Planning: deepseek-v4-pro:cloud (restrict[9D[K
+(restricted to high-complexity triggers only)
+
+2. EXCEPTION RULE
+   - High-Stakes External-Facing Work: Any Tier 3 agent generating client-f[8D[K
+client-facing proposals, public API schemas, or direct user-facing communic[8D[K
+communications must bypass the default assignment and use deepseek-v4-pro:c[17D[K
+deepseek-v4-pro:cloud to guarantee maximum fidelity, compliance, and safety[6D[K
+safety.
+
+3. VERIFICATION STEP BEFORE ROLLOUT
+   - Shadow Evaluation: Execute a 48-hour shadow test where routine plannin[7D[K
+planning tasks are processed by both models simultaneously. Compare gemma4:[7D[K
+gemma4:31b-cloud outputs against deepseek-v4-pro:cloud baselines to ensure [K
+planning accuracy and logic fidelity remain within acceptable thresholds.
+
+4. ROLLBACK CONDITION
+   - Automatic Reversion: If the planning failure rate or hallucination rat[3D[K
+rate of gemma4:31b-cloud exceeds 5% during the shadow evaluation or the fir[3D[K
+first 7 days of production rollout, immediately revert all affected Tier 3 [K
+agents back to deepseek-v4-pro:cloud.
+

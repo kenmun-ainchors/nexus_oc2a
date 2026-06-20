@@ -1,0 +1,22 @@
+1. This is an incident because Yoda is running on an unauthorized primary m
+model (deepseek-v4-pro:cloud) that violates the declared policy of kimi-k2.
+kimi-k2.7-code:cloud.  
+2. Immediate action: Roll Yoda back to kimi-k2.7-code:cloud, stop or isolat
+isolate the deepseek-v4-pro:cloud instance, and page the on-call owner.  
+3. Script — `warden-drift-remediate.sh`:  
+#!/bin/bash
+SERVICE="Yoda"
+ENV="cloud"
+POLICY_MODEL=$(warden policy primary-model --service "$SERVICE" --env "$ENV
+"$ENV")
+CURRENT_MODEL=$(warden runtime current-model --service "$SERVICE" --env "$E
+"$ENV")
+if [[ "$CURRENT_MODEL" != "$POLICY_MODEL" ]]; then
+    warden runtime set-model --service "$SERVICE" --model "$POLICY_MODEL" -
+--env "$ENV" --force
+    warden incident create --service "$SERVICE" --detail "Drift from $POLIC
+$POLICY_MODEL to $CURRENT_MODEL auto-remediated"
+fi
+4. N/A — this is an incident, not normal operation; if it were normal, the 
+gap would be that the policy lacks an approved exception/fallback path for 
+deepseek-v4-pro:cloud.

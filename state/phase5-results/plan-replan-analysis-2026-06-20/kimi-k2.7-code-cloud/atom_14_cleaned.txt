@@ -1,0 +1,6 @@
+1. Replacement model: `claude-3-5-sonnet:cloud`  
+2. Reason for the choice: CHG-0596 lists `claude-3-5-sonnet:cloud` as the a
+approved successor and it matches `minimax-m3:cloud`’s reasoning tier.  
+3. Config purge location: `config/forge.yaml` → `verify.replan.model`  
+4. Verification command: `forge verify --replan --model claude-3-5-sonnet:c
+claude-3-5-sonnet:cloud --dry-run`

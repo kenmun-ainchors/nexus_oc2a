@@ -1,0 +1,36 @@
+A. Pre-migration checks
+1. Verify PostgreSQL connectivity and schema creation privileges for the ta
+target database.
+2. Validate the integrity and completeness of all current JSON files in the
+the `state/` directory, specifically checking that the `sub_crest` history 
+arrays are intact.
+3. Confirm that the heartbeat worker process supports switching its data so
+source dynamically without a hard restart.
+
+B. Step-by-step migration sequence
+1. Create the target PostgreSQL table schema with columns mapping to the JS
+JSON fields, including a dedicated JSONB column to store the full `sub_cres
+`sub_crest` history.
+2. Execute a background import script to read the JSON files from `state/` 
+and bulk insert the records into PostgreSQL, ensuring no truncation of the 
+`sub_crest` history.
+3. Enable dual-writes in the heartbeat worker so that ongoing state changes
+changes are simultaneously written to the local JSON files and the PostgreS
+PostgreSQL database.
+4. Run a continuous validation script to compare the JSON file states again
+against the PostgreSQL records to ensure complete data parity.
+5. Trigger a live configuration reload in the heartbeat worker to switch th
+the primary read source from the `state/` JSON files to PostgreSQL.
+6. Monitor the system for one full heartbeat cycle, and if successful, disa
+disable the JSON file dual-write to make PostgreSQL the single source of tr
+truth.
+7. Archive the original `state/` JSON files to a read-only backup directory
+directory.
+
+C. Down-migration DDL statement stub
+DROP TABLE IF EXISTS crest_state CASCADE;
+
+D. Rollback trigger condition
+The rollback to JSON files should be triggered if the PostgreSQL read laten
+latency causes heartbeat timeouts or if data validation reveals a loss or c
+corruption of the `sub_crest` history.

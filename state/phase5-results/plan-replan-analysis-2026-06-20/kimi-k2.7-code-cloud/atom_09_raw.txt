@@ -1,0 +1,74 @@
+Thinking...
+We need answer user. Need produce structured replan text only. User asks: O[1D[K
+Original Plan: All Tier 3 agents use deepseek-v4-pro:cloud for Plan/Replan.[12D[K
+Plan/Replan. Evidence: cost is too high and gemma4:31b-cloud is underutiliz[11D[K
+underutilized. Produce a replan with: 1. New default model assignment by ro[2D[K
+role category (at least 3 categories) 2. One exception rule for high-stakes[11D[K
+high-stakes external-facing work 3. One verification step before rolling ou[2D[K
+out 4. One rollback condition. Return ONLY the structured replan text.
+
+We must generate structured text, no extra prose. Need include role categor[7D[K
+categories and assignments. Maybe include defaults: Routine/automated tasks[5D[K
+tasks use gemma4:31b-cloud; Standard Plan/Replan use gemma4:31b-cloud for T[1D[K
+Tier 1/2? Need at least 3 categories. We can have: Tier 1-2 agents (low-com[8D[K
+(low-complexity planning) -> gemma4:31b-cloud; Tier 3 agents (standard Plan[4D[K
+Plan/Replan) -> gemma4:31b-cloud; Complex reasoning / architectural design [K
+agents -> deepseek-v4-pro:cloud; High-stakes external-facing work exception[9D[K
+exception: continue using deepseek-v4-pro:cloud. Verification step: pilot o[1D[K
+or benchmark quality/cost before rollout. Rollback condition: quality drop [K
+or cost savings insufficient etc.
+
+Need be careful not to mention disallowed. Models are arbitrary names. Fine[4D[K
+Fine.
+
+Return ONLY structured replan text. No intro. We can format like:
+
+REPLAN: ...
+
+Need exactly? The instructions say produce replan with 4 parts. So structur[8D[K
+structured text with headings.
+
+Let's craft concise. Use categories: "Internal Routine Planning / Tier 1-2 [K
+Agents", "Standard Plan/Replan / Tier 3 Agents", "Complex Strategy, Archite[7D[K
+Architecture, and Multi-Step Reasoning / Tier 3 Architects". New default mo[2D[K
+model: gemma4:31b-cloud for first two; deepseek-v4-pro:cloud for complex. E[1D[K
+Exception: high-stakes external-facing work (customer-facing, regulatory, l[1D[K
+legal, public comms) default to deepseek-v4-pro:cloud regardless of tier, w[1D[K
+with human-in-loop approval. Verification step: run 2-week A/B on 20% traff[5D[K
+traffic, compare task success rate, latency, hallucination rate, cost; appr[4D[K
+approve if quality metrics non-inferior and cost reduced >= target. Rollbac[7D[K
+Rollback condition: if external quality score drops > X% or error rate in h[1D[K
+high-stakes workflows exceeds baseline, revert affected category to deepsee[7D[K
+deepseek-v4-pro within 24h.
+
+Need return only structured replan text. Let's make it clear and not over-e[6D[K
+over-explain.
+...done thinking.
+
+**REPLAN: Tier 3 Agent Model Assignment**
+
+1. **New Default Model Assignment by Role Category**
+   - **Internal routine planning / Tier 1–2 agents** → `gemma4:31b-cloud`
+   - **Standard Plan/Replan / Tier 3 agents** → `gemma4:31b-cloud`
+   - **Complex strategy, architecture, and multi-step reasoning / senior Ti[2D[K
+Tier 3 agents** → `deepseek-v4-pro:cloud`
+
+2. **Exception Rule for High-Stakes External-Facing Work**
+   - Any plan, replan, or generated output that is **customer-facing, regul[5D[K
+regulatory, legal, safety-critical, or publicly attributable** must default[7D[K
+default to `deepseek-v4-pro:cloud` regardless of tier, and requires human-i[7D[K
+human-in-the-loop approval before release.
+
+3. **Verification Step Before Rolling Out**
+   - Run a **two-week A/B pilot on 20% of Tier 3 Plan/Replan traffic** usin[4D[K
+using `gemma4:31b-cloud`, measuring task success rate, hallucination rate, [K
+latency, user-facing error rate, and cost. Roll out widely only if quality [K
+metrics are non-inferior to the `deepseek-v4-pro:cloud` baseline and projec[6D[K
+projected cost savings are realized.
+
+4. **Rollback Condition**
+   - **If external quality score drops by more than 5 percentage points, or[2D[K
+or error/escalation rate in high-stakes workflows exceeds the prior baselin[7D[K
+baseline**, immediately revert the affected role category to `deepseek-v4-p[14D[K
+`deepseek-v4-pro:cloud` within 24 hours and re-evaluate.
+

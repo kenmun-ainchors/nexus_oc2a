@@ -1,0 +1,80 @@
+Thinking...
+1.  **Analyze the Request:**
+    *   Situation: A subagent task has been running for 4 hours. User doesn[5D[K
+doesn't know if it's stalled or working.
+    *   Output requirements: ONLY structured analysis text.
+    *   Elements to include:
+        1. Three possible states.
+        2. One command/tool to check each state.
+        3. Recommended threshold before alerting Ken (whoever Ken is, presu[5D[K
+presumably the admin/manager).
+        4. One action to take if it is stalled.
+
+2.  **Drafting the Content:**
+    *   *Possible States:*
+        1. Actively processing (CPU-bound or long network wait).
+        2. Deadlocked/Hung (waiting on a resource indefinitely).
+        3. Terminated/Zombie (process died but wrapper didn't catch it, or [K
+it's a zombie process).
+    *   *Commands/Tools to check each:*
+        1. Actively processing: `top -p <PID>` or `htop` (check CPU/Memory [K
+usage).
+        2. Deadlocked/Hung: `strace -p <PID>` or `lsof -p <PID>` (check sys[3D[K
+system calls or open files/network connections).
+        3. Terminated/Zombie: `ps -p <PID> -o stat` or `kill -0 <PID>` (che[4D[K
+(check process state/zombie status).
+    *   *Recommended threshold before alerting Ken:*
+        6 hours of total runtime, or 2 hours of zero CPU activity (whicheve[9D[K
+(whichever comes first). Let's specify: "6 hours total runtime or 2 hours o[1D[K
+of zero activity."
+    *   *Action if stalled:*
+        Terminate the process using `kill -9 <PID>` and restart the subagen[7D[K
+subagent task with verbose logging enabled.
+
+3.  **Formatting:**
+    *   Strictly ONLY the structured analysis text. No introductory or conc[4D[K
+concluding remarks.
+
+4.  **Refining the Output:**
+    1. Three possible states
+    - Actively processing (Executing long-running computations)
+    - Deadlocked or hung (Waiting indefinitely on a resource/I/O)
+    - Terminated/Zombie (Process crashed but not reaped)
+    
+    2. One command or tool to check each
+    - Actively processing: `top -p <PID>` (Check CPU usage)
+    - Deadlocked or hung: `strace -p <PID>` (Check for blocked system calls[5D[K
+calls)
+    - Terminated/Zombie: `ps -p <PID> -o pid,stat,cmd` (Check for 'Z' zombi[5D[K
+zombie state)
+    
+    3. Recommended threshold before alerting Ken
+    - 6 hours of total runtime, or 2 hours of continuous zero CPU usage, wh[2D[K
+whichever occurs first.
+    
+    4. One action to take if it is stalled
+    - Terminate the process using `kill -9 <PID>` and restart the subagent [K
+task with verbose logging enabled to capture the failure point.
+
+5.  **Final Review:** Meets all constraints. Pure text.
+...done thinking.
+
+1. Three possible states
+- Actively processing (Executing long-running computations)
+- Deadlocked or hung (Waiting indefinitely on a resource or I/O)
+- Terminated/Zombie (Process crashed but was not properly reaped)
+
+2. One command or tool to check each
+- Actively processing: `top -p <PID>` (Monitor real-time CPU/Memory usage)
+- Deadlocked or hung: `strace -p <PID>` (Inspect blocked system calls)
+- Terminated/Zombie: `ps -p <PID> -o pid,stat,cmd` (Check process state for[3D[K
+for 'Z' status)
+
+3. Recommended threshold before alerting Ken
+- 6 hours of total runtime, or 2 hours of continuous zero CPU usage, whiche[6D[K
+whichever occurs first.
+
+4. One action to take if it is stalled
+- Terminate the process using `kill -9 <PID>` and restart the subagent task[4D[K
+task with verbose logging enabled to capture the exact failure point.
+

@@ -1,0 +1,160 @@
+Thinking...
+We need answer user. Need structured plan text only. Need produce plan that[4D[K
+that includes: 1 whether additive or replacement, 2 scheduling options with[4D[K
+with trade-offs, 3 guard against double-posting, 4 recommended cron express[7D[K
+expression for Friday 07:30 AEST.
+
+Need no extra explanation beyond structured plan. Provide concise. Need und[3D[K
+understand context: LinkedIn campaign uses 3 weekly crons Tue/Wed/Thu. Ken [K
+wants Friday week-in-review post without changing existing 12-post / 4-move[6D[K
+4-movement schedule. So plan likely additive: a 13th standalone post, not r[1D[K
+replacing existing posts, no impact to 4-movement schedule. Scheduling opti[4D[K
+options maybe Option A: Friday cron immediately following existing campaign[8D[K
+campaign cadence; extra load but reinforces movement. Option B: Use an inte[4D[K
+interstitial “wrap” slot between movements or after each movement? Need not[3D[K
+not change 12-post/4-movement schedule, so add a standalone Friday post ind[3D[K
+independent. Could schedule after the Thursday post each week? But there ar[2D[K
+are only 3 crons per week. A Friday week-in-review post would add a fourth [K
+day in some weeks? The campaign has 12 posts total, 3 per week, 4 movements[9D[K
+movements. We need a Friday week-in-review post. Is it weekly? "Friday 'wee[4D[K
+'week in review' post" suggests every Friday. To not change existing 12-pos[6D[K
+12-post / 4-movement schedule, additive. It adds a 13th recurring post week[4D[K
+weekly. Two scheduling options: (A) Run Friday review post every week as a [K
+separate cron and content stream; increases cadence by 33% (4 posts/week vs[2D[K
+vs 3), higher engagement/visibility but more content creation, risk of fati[4D[K
+fatigue, more cost. (B) Run Friday review only on the final week of each mo[2D[K
+movement (i.e., after 3 weeks? Wait 4 movements across 12 posts means 1 mov[3D[K
+movement = 3 posts, spread over 1 week (3 posts Tue/Wed/Thu). So each movem[5D[K
+movement lasts a week. A week-in-review post after each movement would be e[1D[K
+every Friday weekly. That still adds a weekly Friday post. But option B cou[3D[K
+could be a "monthly/4-week in review" vs weekly? Let's think.
+
+Campaign: 12 posts, 4 movements, 3 weekly crons Tue/Wed/Thu. That implies c[1D[K
+campaign duration 4 weeks, 3 posts per week, each week = one movement. Ken [K
+wants add a Friday 'week in review' post without changing existing 12-post [K
+/ 4-movement schedule. The week-in-review presumably after each movement we[2D[K
+week. So additive: 1 additional post per week, total 16 posts. Two scheduli[8D[K
+scheduling options: 
+- Option 1: Add a recurring Friday cron after the existing Tue/Wed/Thu cade[4D[K
+cadence. Trade-off: Creates a consistent 4-day cadence, reinforces weekly n[1D[K
+narrative, but increases content/editorial load and may dilute original pos[3D[K
+posts if Friday duplicates themes. 
+- Option 2: Add a single "week in review" post at the end of the entire cam[3D[K
+campaign rather than every week. Trade-off: Less overhead, only 1 extra pos[3D[K
+post, avoids cadence disruption; but less timely and loses weekly recap imp[3D[K
+impact. But the user said "a Friday 'week in review' post" maybe wants week[4D[K
+weekly. Could still give two options: weekly after each movement vs end-of-[7D[K
+end-of-campaign. Need trade-offs.
+
+Guard against double-posting: ensure Friday post uses a unique content key/[4D[K
+key/slug and scheduling buffer; maintain a lock or idempotency key; verify [K
+no post already published in the last 24h; or use scheduling system with de[2D[K
+deduplication based on post hash. Could guard: implement a "singleton" job [K
+that checks if a review post already exists for that week/campaign week bef[3D[K
+before publishing. 
+
+Cron expression for Friday 07:30 AEST: AEST is UTC+10. Cron in many schedul[7D[K
+scheduling systems uses UTC. So Friday 07:30 AEST = Thursday 21:30 UTC. If [K
+system supports timezone, expression: `30 7 * * 5` with timezone `Australia[10D[K
+`Australia/Sydney`. In UTC cron: `30 21 * * 4`. AEST also has DST: becomes [K
+AEDT UTC+11. If use IANA timezone, cron `TZ=Australia/Sydney 30 7 * * 5`. T[1D[K
+The question says "Friday 07:30 AEST". They likely want `30 7 * * 5` in AES[3D[K
+AEST or `0 30 7 ? * FRI`? LinkedIn scheduler maybe uses cron with timezone.[9D[K
+timezone. Recommend: cron `30 7 * * 5` configured for `Australia/Sydney` (A[2D[K
+(AEST/AEDT). If scheduler only UTC, use `30 21 * * 4`.
+
+Return ONLY structured plan text. So format as maybe headings. Need avoid e[1D[K
+extra sentences.
+
+Let's craft structured plan:
+
+```
+1. Nature of change
+   Additive. The existing 12-post / 4-movement schedule remains unchanged; [K
+a new standalone Friday "week in review" post is added after each movement [K
+week.
+
+2. Scheduling options
+
+   Option A: Weekly Friday recap after each movement
+   - Cron: Friday 07:30 AEST (see #4).
+   - Adds 1 extra post per week (campaign becomes 16 posts total).
+   - Trade-offs:
+     * Pros: reinforces the week's narrative, consistent cadence, builds an[2D[K
+anticipation.
+     * Cons: 33% more content, higher editorial/promotion load, risk of aud[3D[K
+audience fatigue if recap overlaps too much with Tue/Wed/Thu content.
+
+   Option B: Campaign-end recap only (single extra post after week 4 / move[4D[K
+movement 4)
+   - Run once on the final Friday.
+   - Trade-offs:
+     * Pros: minimal overhead, preserves original 3-day cadence, no weekly [K
+duplication risk.
+     * Cons: loses weekly momentum, recaps are less timely, weaker reinforc[8D[K
+reinforcement per movement.
+
+3. Guard against double-posting
+   Enforce an idempotency check: before publishing, query the last 24 h of [K
+published posts by the "week-in-review" content key. If any post with that [K
+key/slug or a published timestamp within the current calendar week already [K
+exists, skip the job and alert rather than publish. Optionally use a distri[6D[K
+distributed lock (e.g., Redis mutex keyed to `linkedin:weekly-review:<week-[30D[K
+`linkedin:weekly-review:<week-start-date>`) for the cron execution window.
+
+4. Recommended cron expression
+   - With timezone support: `30 7 * * 5` configured for `Australia/Sydney`.[19D[K
+`Australia/Sydney`.
+   - UTC-only scheduler: `30 21 * * 4` (Friday 07:30 AES[3D[K
+AEST = Thursday 21:30 UTC).
+```
+
+Need check AEST offset: AEST (Australian Eastern Standard Time) is UTC+10. [K
+Friday 07:30 AEST is previous day 21:30 UTC, day of week Thursday in UTC. I[1D[K
+If scheduler's cron day-of-week is based on UTC, 21:30 Thursday UTC = Frida[5D[K
+Friday 07:30 AEST. Yes.
+
+However, note that in cron, day-of-week field Sunday=0 or 7; Friday=5. If u[1D[K
+using UTC-only, `30 21 * * 4` (Thursday). If using timezone, `30 7 * * 5` w[1D[K
+with TZ.
+
+Need return ONLY structured plan text. Fine.
+
+But maybe they want only plan text; no intro/outro. Ensure concise.
+
+Let's produce final.
+...done thinking.
+
+1. Nature of change  
+   Additive. The existing 12-post / 4-movement schedule is left untouched; [K
+a new standalone Friday “week in review” post is added after each movement [K
+week.
+
+2. Scheduling options
+
+   Option A: Weekly Friday recap after every movement  
+   - Adds 1 extra post per week (total campaign becomes 16 posts).  
+   - Pros: consistent 4-day cadence, reinforces the week’s narrative, build[5D[K
+builds momentum.  
+   - Cons: 33% more content/editorial load, higher risk of audience fatigue[7D[K
+fatigue or theme overlap with Tue/Wed/Thu posts.  
+
+   Option B: Single campaign-end recap after movement 4 only  
+   - Runs once on the final Friday of the campaign.  
+   - Pros: minimal overhead, preserves the original 3-day rhythm, avoids we[2D[K
+weekly duplication.  
+   - Cons: less timely recaps, weaker per-movement reinforcement, misses we[2D[K
+weekly engagement opportunities.  
+
+3. Guard against double-posting  
+   Enforce an idempotency check before publishing: query for an existing “w[2D[K
+“week-in-review” post with the current calendar-week key. If one is found, [K
+skip the job and log/alert instead of publishing. Optionally add a short-li[8D[K
+short-lived distributed lock (e.g., Redis mutex keyed to `linkedin:weekly-r[18D[K
+`linkedin:weekly-review:<week-start>`) for the cron execution window.
+
+4. Recommended cron expression for Friday 07:30 AEST  
+   - Timezone-aware scheduler: `30 7 * * 5` with `TZ=Australia/Sydney`.  
+   - UTC-only scheduler: `30 21 * * 4` (Thursday 21:30 UTC = Friday 07:30 A[1D[K
+AEST).
+

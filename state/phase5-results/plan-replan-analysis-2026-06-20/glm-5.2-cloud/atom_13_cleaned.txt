@@ -1,0 +1,14 @@
+1. Most likely cause: The changelog process created a new revision record i
+instead of updating the original record's content and marking the previous 
+version as superseded.
+2. One query to confirm: `SELECT id, status, last_modified_time FROM change
+changelog_table WHERE id IN ('CHG-0603', 'CHG-0603-rev1') ORDER BY last_mod
+last_modified_time DESC`
+3. Recommended canonical CHG ID: CHG-0603
+4. One rule to add to changelog skill: "When updating an existing conceptua
+conceptual change, the skill must modify the original CHG ID record and sup
+supersede prior versions, rather than creating a new parallel active record
+record with a revision suffix."
+5. Governance violation: Yes; maintaining two simultaneously active records
+records for the same conceptual change violates the single source of truth 
+principle in change management governance.

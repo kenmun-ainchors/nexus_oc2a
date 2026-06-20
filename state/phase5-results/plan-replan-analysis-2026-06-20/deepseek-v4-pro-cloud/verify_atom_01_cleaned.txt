@@ -1,0 +1,44 @@
+1. The Nexus HIVE platform lacks a dedicated agent for discovering B2B part
+partner integration opportunities from the Notion backlog, causing manual e
+effort and missed synergies. Adding Luthen will automate scanning of partne
+partner-related items, surface integration candidates, and coordinate with 
+existing discovery agents like Ahsoka. This closes the gap between internal
+internal and external integration discovery within the Tailscale-connected 
+agent mesh.
+
+2. Deliverables:
+   - `agents/luthen/discovery_agent.py`: Python script implementing the Lut
+Luthen agent loop that queries Notion for B2B partner integration signals, 
+evaluates feasibility, and publishes candidate proposals.
+   - `agents/luthen/config.yaml`: Configuration file specifying Notion API 
+credentials, target database IDs, Tailscale hostname, Ahsoka agent endpoint
+endpoint, and discovery scan intervals.
+   - `registry/luthen-manifest.json`: OpenClaw runtime registry manifest de
+declaring Luthen’s agent ID, capabilities, health check endpoint, and depen
+dependency links.
+   - `tests/integration/test_luthen_ahsoka_coordination.py`: Integration te
+test that verifies Luthen can share discovery candidates with Ahsoka and re
+receive feedback over the Tailscale mesh.
+   - `docs/agents/luthen.md`: Documentation update describing Luthen’s role
+role, configuration, and operational runbook within the Nexus HIVE agent ro
+roster.
+
+3. Dependency map:
+   - Ahsoka agent: shares internal discovery patterns and receives B2B cand
+candidate handoffs for joint qualification.
+   - Notion API gateway: provides read access to the backlog database that 
+serves as the system’s source of truth.
+   - Tailscale mesh control plane: enables secure, low-latency communicatio
+communication between Luthen and other agents.
+   - OpenClaw runtime registry: handles agent registration, identity verifi
+verification, and lifecycle management.
+   - HIVE event bus: transports discovery events and candidate proposals to
+to downstream orchestrators and logging.
+
+4. Risk: Luthen’s repeated Notion API queries during high-frequency discove
+discovery scans may exceed rate limits and disrupt other Notion-dependent a
+agents. Mitigation: implement token-bucket rate limiting with exponential b
+backoff, cache backlog snapshots locally with a configurable TTL, and sched
+schedule full scans during predefined low-activity windows.
+
+5. openclaw:agent:luthen:prod

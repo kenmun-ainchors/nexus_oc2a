@@ -1,0 +1,77 @@
+Thinking...
+1.  **Analyze the Request:**
+    *   Original Plan: Deploy CREST v1.3 in one day.
+    *   Execution reality: Tier A schema migration succeeded. Sage-as-Judge[13D[K
+Sage-as-Judge wiring is incomplete because `glm-5.1:cloud` cannot return cl[2D[K
+clean verdicts.
+    *   Deliverables:
+        1. Revised milestone split (at least 2 phases)
+        2. New dependency (what must be true before Sage-as-Judge goes live[4D[K
+live)
+        3. One fallback (if dependency is not met)
+        4. One decision Ken must make (stated as a question)
+    *   Constraint: Return ONLY the structured replan text.
+
+2.  **Drafting the Replan:**
+    *   *Revised Milestones:*
+        *   Phase 1: Stabilize Core & Complete Migration (Tier A schema is [K
+done, verify and lock core platform). 1-2 days.
+        *   Phase 2: Integrate & Validate Sage-as-Judge (Wiring and testing[7D[K
+testing). 3-4 days.
+    *   *New Dependency:* `glm-5.1:cloud` must be configured/prompted (or s[1D[K
+swapped) to output strict, machine-parseable JSON verdicts without formatti[8D[K
+formatting anomalies or hallucinated tags.
+    *   *Fallback:* Disable the live Sage-as-Judge evaluation loop and reve[4D[K
+revert to the baseline deterministic rule-based judge (or a local/heuristic[15D[K
+local/heuristic judge) until the LLM output is reliable.
+    *   *Decision for Ken:* Should we allocate an additional two days to en[2D[K
+engineer a robust parsing wrapper for `glm-5.1:cloud`, or should we immedia[7D[K
+immediately switch the Sage-as-Judge backend to an alternative model (e.g.,[6D[K
+(e.g., GPT-4 or local Llama) that reliably supports structured outputs?
+
+3.  **Refining the Text:**
+    Make it clear, structured, and concise. Adhere strictly to "Return ONLY[4D[K
+ONLY the structured replan text" (no conversational intro/outro).
+
+4.  **Final Polish (Internal Monologue check):**
+    *   Are there at least 2 phases? Yes (Phase 1 & 2).
+    *   Is there a new dependency? Yes (clean verdict format from glm-5.1:c[9D[K
+glm-5.1:cloud).
+    *   Is there a fallback? Yes (revert to rule-based judge).
+    *   Is there one decision for Ken as a question? Yes.
+    *   Is it ONLY the structured text? Yes.
+...done thinking.
+
+**Revised CREST v1.3 Deployment Replan**
+
+**1. Revised Milestone Split**
+*   **Phase 1: Core Stabilization (Target: 24-48 hours)**
+    *   Lock and validate the successfully completed Tier A schema migratio[8D[K
+migration.
+    *   Ensure the baseline CREST v1.3 system operates safely without the S[1D[K
+Sage-as-Judge module active.
+*   **Phase 2: Sage-as-Judge Integration & Launch (Target: 3-5 days)**
+    *   Complete the Sage-as-Judge wiring.
+    *   Conduct integration testing to ensure the judge module correctly pa[2D[K
+parses and executes on LLM verdicts.
+    *   Enable Sage-as-Judge in shadow mode before full production cutover.[8D[K
+cutover.
+
+**2. New Dependency for Sage-as-Judge Go-Live**
+*   The `glm-5.1:cloud` endpoint must consistently return strict, machine-p[9D[K
+machine-parseable verdicts (e.g., valid JSON with standardized boolean/stri[12D[K
+boolean/string fields) without formatting anomalies, markdown leakage, or h[1D[K
+hallucinated structural tags.
+
+**3. Fallback Strategy**
+*   If `glm-5.1:cloud` cannot reliably produce clean verdicts, temporarily [K
+disable the Sage-as-Judge evaluation loop and fall back to the legacy deter[5D[K
+deterministic rule-based judge to keep the v1.3 deployment operational and [K
+secure.
+
+**4. Decision Required from Ken**
+*   "Do we invest an additional two days to engineer a robust parsing/few-s[13D[K
+parsing/few-shot wrapper to force `glm-5.1:cloud` to output clean verdicts,[9D[K
+verdicts, or do we immediately swap the Sage-as-Judge backend to an alterna[7D[K
+alternative model that natively guarantees structured JSON output?"
+

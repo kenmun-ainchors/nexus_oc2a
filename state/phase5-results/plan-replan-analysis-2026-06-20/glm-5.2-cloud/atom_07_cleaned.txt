@@ -1,0 +1,32 @@
+**Revised CREST v1.3 Deployment Replan**
+
+**1. Revised Milestone Split**
+*   **Phase 1: Core Stabilization (Target: 24-48 hours)**
+    *   Lock and validate the successfully completed Tier A schema migratio
+migration.
+    *   Ensure the baseline CREST v1.3 system operates safely without the S
+Sage-as-Judge module active.
+*   **Phase 2: Sage-as-Judge Integration & Launch (Target: 3-5 days)**
+    *   Complete the Sage-as-Judge wiring.
+    *   Conduct integration testing to ensure the judge module correctly pa
+parses and executes on LLM verdicts.
+    *   Enable Sage-as-Judge in shadow mode before full production cutover.
+cutover.
+
+**2. New Dependency for Sage-as-Judge Go-Live**
+*   The `glm-5.1:cloud` endpoint must consistently return strict, machine-p
+machine-parseable verdicts (e.g., valid JSON with standardized boolean/stri
+boolean/string fields) without formatting anomalies, markdown leakage, or h
+hallucinated structural tags.
+
+**3. Fallback Strategy**
+*   If `glm-5.1:cloud` cannot reliably produce clean verdicts, temporarily 
+disable the Sage-as-Judge evaluation loop and fall back to the legacy deter
+deterministic rule-based judge to keep the v1.3 deployment operational and 
+secure.
+
+**4. Decision Required from Ken**
+*   "Do we invest an additional two days to engineer a robust parsing/few-s
+parsing/few-shot wrapper to force `glm-5.1:cloud` to output clean verdicts,
+verdicts, or do we immediately swap the Sage-as-Judge backend to an alterna
+alternative model that natively guarantees structured JSON output?"

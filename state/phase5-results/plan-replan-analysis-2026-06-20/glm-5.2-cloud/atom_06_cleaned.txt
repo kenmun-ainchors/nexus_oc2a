@@ -1,0 +1,19 @@
+1. Two possible policy adjustments:
+   - Temporarily reroute general non-CREST agent traffic from Ollama to a m
+mid-tier cloud model to reduce the local request burn rate.
+   - Downgrade the CREST Plan/Replan routing for lower-priority agents (Lan
+(Lando/Mon Mothma) from `deepseek-v4-pro:cloud` to a cheaper cloud model, r
+reallocating cloud budget to absorb Ollama overflow.
+
+2. One trade-off for each:
+   - Increased cloud API expenditure and potential latency variance for gen
+general traffic.
+   - Potential degradation in Plan/Replan reasoning quality and output accu
+accuracy for the downgraded agents.
+
+3. Recommended immediate action:
+   Temporarily enable a cloud fallback for non-CREST Ollama traffic to prev
+prevent hitting the 100% local request ceiling before the weekly reset.
+
+4. One metric to watch next week:
+   Ollama daily request volume against cloud API expenditure delta.

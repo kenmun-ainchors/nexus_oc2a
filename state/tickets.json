@@ -3998,5 +3998,154 @@
       "closed_by": "yoda",
       "closure_notes": "A11-A16 complete. model-drift-check.sh bugs fixed (correctly detects drift, no false negatives). openclaw.json runtime models aligned with policy v3.0. auto-heal CHECK 28h keywords expanded. Cron model check updated to allow legitimate gemma4 governance/QBR/ROI crons. Warden end-to-end clean: 27/27 checks pass, no violations, no escalation. Regression tests 21/21 + 10/10 pass. drift check ok. crest-done-gate passed."
     }
+  },
+  {
+    "id": "TKT-0542",
+    "title": "openclaw CLI wrapper fails: ImageMagick import collision",
+    "status": "open",
+    "priority": "high",
+    "type": "bug",
+    "created_at": "2026-06-19T21:18:46+10:00"
+  },
+  {
+    "id": "TKT-0543",
+    "title": "Create canonical notion skill package",
+    "status": "closed",
+    "priority": "high",
+    "type": "task",
+    "created_at": "2026-06-19T21:27:02+10:00",
+    "metadata": {
+      "closed_at": "2026-06-20T07:35:00+10:00",
+      "closed_by": "yoda",
+      "closure_notes": "A2-A8 complete. notion skill package created, registered, and wired into 8 primary Notion scripts. Master Verify passed."
+    }
+  },
+  {
+    "id": "TKT-0544",
+    "title": "Add sprint-review.sh to agile skill package",
+    "status": "closed",
+    "priority": "high",
+    "type": "task",
+    "created_at": "2026-06-19T21:27:03+10:00",
+    "metadata": {
+      "closed_at": "2026-06-20T07:39:00+10:00",
+      "closed_by": "yoda",
+      "closure_notes": "A2-A8 complete. sprint-review.sh and checklist created, agile SKILL.md updated and trimmed under 12K, db-sprint.sh ceremony hook added. Master Verify passed with Sprint 8 replay."
+    }
+  },
+  {
+    "id": "TKT-0545",
+    "title": "Clean up tribal Notion and Agile knowledge after new skill packages",
+    "status": "closed",
+    "priority": "medium",
+    "type": "task",
+    "created_at": "2026-06-19T21:44:44+10:00",
+    "metadata": {
+      "closed_at": "2026-06-20T07:47:00+10:00",
+      "closed_by": "yoda",
+      "closure_notes": "A2-A7 complete. MEMORY.md, HEARTBEAT.md, TOOLS.md, and agents/ahsoka/AGENTS.md updated to reference notion/agile skill packages. fix-notion-created-dates.py API version corrected to 2022-06-28. Master Verify passed."
+    }
+  },
+  {
+    "id": "TKT-0546",
+    "title": "CREST v1.3 Implementation — external loop ownership, Sage-as-Judge, multi-model routing",
+    "status": "open",
+    "priority": "critical",
+    "type": "epic",
+    "created_at": "2026-06-19T23:28:25+10:00"
+  },
+  {
+    "id": "TKT-0548",
+    "title": "Fix pg-to-notion-sync.sh status mapper for in_progress values",
+    "status": "closed",
+    "priority": "high",
+    "type": "bug",
+    "created_at": "2026-06-20T10:16:43+10:00",
+    "brief": "Fix pg-to-notion-sync.sh map_status() so PG status='in_progress' maps to Notion 'In Progress' instead of 'Open'. Also harden mapper against other underscore/hyphen aliases.",
+    "effort": "S",
+    "agent": "Forge",
+    "sprint": "Sprint 9",
+    "ac_count": 3,
+    "depends_on": [
+      "TKT-0536"
+    ],
+    "blocks": [],
+    "acceptance_criteria": [
+      "AC-1: map_status() returns Notion 'In Progress' for both 'in_progress' (underscore) and 'in-progress' (hyphen) inputs.",
+      "AC-2: Existing status mappings ('open', 'grooming', 'todo', 'done', 'closed', 'parked', 'deferred', 'monitoring', 'blocked') remain unchanged.",
+      "AC-3: Unit test or script test added to verify mapping, including the in_progress edge case."
+    ],
+    "grooming_history": [
+      {
+        "date": "2026-06-20T10:16:43+10:00",
+        "decisions": "Ticket created from 2026-06-20 PG-Notion audit remediation follow-up",
+        "ac_count": 2,
+        "ken_approved": false
+      },
+      {
+        "date": "2026-06-20T10:25:00+10:00",
+        "decisions": "Groomed by Ken request: tightened scope to map_status() fix, added 3 acceptance criteria, confirmed dependency on TKT-0536 (subagent reliability).",
+        "ac_count": 3,
+        "ken_approved": false
+      }
+    ],
+    "okr_id": "X1-KR1",
+    "stream": "Tech",
+    "epic": "TKT-0342",
+    "metadata": {
+      "brief": "Fix pg-to-notion-sync.sh map_status() so PG status='in_progress' maps to Notion 'In Progress' instead of 'Open'. Also harden mapper against other underscore/hyphen aliases.",
+      "effort": "S",
+      "agent": "Forge",
+      "sprint": "Sprint 9",
+      "ac_count": 3,
+      "depends_on": [
+        "TKT-0536"
+      ],
+      "blocks": [],
+      "okr_id": "X1-KR1",
+      "stream": "Tech",
+      "parent_epic": "TKT-0342",
+      "acceptance_criteria": [
+        "AC-1: map_status() returns Notion 'In Progress' for both 'in_progress' (underscore) and 'in-progress' (hyphen) inputs.",
+        "AC-2: Existing status mappings ('open', 'grooming', 'todo', 'done', 'closed', 'parked', 'deferred', 'monitoring', 'blocked') remain unchanged.",
+        "AC-3: Unit test or script test added to verify mapping, including the in_progress edge case."
+      ],
+      "grooming_history": [
+        {
+          "date": "2026-06-20T10:16:43+10:00",
+          "ac_count": 2,
+          "decisions": "Ticket created from 2026-06-20 PG-Notion audit remediation follow-up",
+          "ken_approved": false
+        },
+        {
+          "date": "2026-06-20T10:25:00+10:00",
+          "ac_count": 3,
+          "decisions": "Groomed by Ken request: tightened scope to map_status() fix, added 3 acceptance criteria, confirmed dependency on TKT-0536 (subagent reliability).",
+          "ken_approved": false
+        },
+        {
+          "date": "2026-06-20T00:28:01+10:00",
+          "ac_count": 3,
+          "decisions": "Re-groomed per agile skill: scope confirmed to map_status() fix only, AC count validated as 3, dependency on TKT-0536 acknowledged, no Ken approval needed for grooming itself.",
+          "ken_approved": false
+        },
+        {
+          "date": "2026-06-20T00:32:26+10:00",
+          "ac_count": 3,
+          "decisions": "Final grooming per agile framework: okr_id=X1-KR1, stream=Tech, parent_epic=TKT-0342 (PG SSOT Gap Remediation). Scope remains map_status() fix with 3 ACs. Ready for Sprint 9 execution pending Forge capacity.",
+          "ken_approved": false
+        },
+        {
+          "date": "2026-06-20T00:35:00+10:00",
+          "ac_count": 3,
+          "decisions": "CREST Execute complete via Forge subagent: map_status() fixed to handle in_progress (underscore). Added --test-status flag with 13/13 passing tests. Verified dry-run sync of TKT-0536. All 3 ACs met.",
+          "ken_approved": false
+        }
+      ],
+      "notion_sync": {
+        "status": "pending"
+      }
+    },
+    "updated_at": "2026-06-20T10:35:00+10:00"
   }
 ]

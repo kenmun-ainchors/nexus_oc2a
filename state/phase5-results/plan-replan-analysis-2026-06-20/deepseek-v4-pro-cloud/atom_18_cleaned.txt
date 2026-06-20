@@ -1,0 +1,30 @@
+REPLAN: Citadel P2 Client Portal
+
+1. Revised Timeline (2 Options)
+   - Option A (Shield completes review by mid-Sprint 2): Compress remaining
+remaining Sprint 2 work and absorb minor overflows into Sprint 3. Launch at
+at end of Sprint 3 with core portal functionality; defer non-critical polis
+polish to a fast-follow Sprint 4.
+   - Option B (Shield delay extends beyond Sprint 2): Extend the timeline b
+by one full sprint. Sprint 2 becomes “Security Review & Remediation,” Sprin
+Sprint 3 delivers the planned Sprint 2+3 scope, and Sprint 4 is launch. Tot
+Total: 4 sprints.
+
+2. Action to Unblock Shield
+   - Schedule a 2-hour triage session with Shield’s reviewer and the Citade
+Citadel engineering lead to walk through the auth scaffolding, clarify any 
+open questions, and agree on a minimal viable review scope. Provide a dedic
+dedicated on-call contact for the remainder of the review to resolve blocke
+blockers within 2 hours.
+
+3. Feature to Defer if Delay Continues
+   - Defer the “Advanced Client Self-Service Reporting” module (dashboard c
+customizations, export scheduling). Launch with static, pre-built reports o
+only.
+
+4. Client Communication Recommendation
+   - Send a proactive email this week acknowledging the delay, framing the 
+security review as a critical step to protect their data, and providing Opt
+Option A as the primary plan with a commitment to confirm the timeline with
+within 5 business days. Offer a brief 15-minute call for any client who wan
+wants further reassurance.

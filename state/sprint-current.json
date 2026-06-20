@@ -2,12 +2,49 @@
   "sprint": 8,
   "name": "Sprint 8",
   "dates": "2026-06-15 to 2026-06-21",
-  "status": "planning",
+  "status": "in_progress",
   "ceremoniesCompleted": {
-    "sprint8Review": "2026-06-11T11:59:54+10:00",
-    "sprint8Planning": "2026-06-15T07:27:08+10:00"
+    "locked_at": "2026-06-15T17:57:00+10:00",
+    "locked_by": "Ken Mun (CTO)",
+    "lock_reality": {
+      "ts": "2026-06-15T17:58:30+10:00",
+      "items_open": 7,
+      "items_locked": 8,
+      "interpretation": "8 items stay in ceremony record. TKT-0317 is closed in PG \u2014 effective working list is 7 items.",
+      "items_already_closed": [
+        "TKT-0317 (closed 2026-06-13 15:30 AEST)"
+      ]
+    },
+    "lock_decision": "8 items stays. Capacity 5/sprint cap overridden for Sprint 8 per L-140 continuous-review rule.",
+    "sprint8Review": "2026-06-19T21:11:40+10:00",
+    "sprint8Planning": {
+      "ts": "2026-06-15T17:27:08+10:00",
+      "exceptions": [
+        "TKT-0369 (promoted to S7 primary)"
+      ],
+      "lineage_ref": "state/sprint-8-plan-lineage.json",
+      "capacity_note": "8 items > 5 pre-OC2 capacity. Items 1-5 are highest priority. Yoda recommends mid-sprint re-evaluation per the continuous-review rule.",
+      "base_plan_tkts": [
+        "TKT-0324",
+        "TKT-0326",
+        "TKT-0317",
+        "TKT-0293"
+      ],
+      "deferred_to_s9": [
+        "TKT-0527",
+        "TKT-0528"
+      ],
+      "base_plan_source": "Ken working session 2026-06-10 10:44 AEST",
+      "additions_after_base": [
+        "TKT-0529 (Ken directive 17:18 AEST)",
+        "TKT-0319 (pre-existing in S8 column)",
+        "TKT-0410 (carry-over, was in S7 items by accident)",
+        "TKT-0525 (S7 carry-over, 1-day pg-to-notion fix)"
+      ],
+      "total_items_committed": 8
+    }
   },
   "auto_generated": true,
   "source": "PG state_sprints",
-  "generated_at": "2026-06-15T07:27:08+10:00"
+  "generated_at": "2026-06-19T21:11:40+10:00"
 }

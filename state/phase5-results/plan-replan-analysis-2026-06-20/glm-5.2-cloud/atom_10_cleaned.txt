@@ -1,0 +1,21 @@
+1. Two questions to answer before classifying:
+- Does the execution of this pending reset directly trigger downtime for re
+revenue-generating or customer-facing models, or can the system gracefully 
+degrade without it?
+- What is the blast radius if this file is accidentally deleted or corrupte
+corrupted, and does recovery require manual intervention versus automated r
+reconciliation?
+
+2. Recommended tier:
+- Tier 1. Justification: Pending reset states typically represent transient
+transient operational maintenance tasks rather than persistent core busines
+business state, even if their execution briefly impacts system availability
+availability.
+
+3. One data-sovereignty check:
+- Verify that any model identifiers or configuration parameters within the 
+file do not reference datasets or resources that cross restricted geopoliti
+geopolitical boundaries.
+
+4. One agent that should own updates to it:
+- Model Lifecycle Manager Agent

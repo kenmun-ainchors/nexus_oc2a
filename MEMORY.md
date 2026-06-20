@@ -108,6 +108,22 @@ Nexus=platform|Holocron=AKB|Bridge=cmd-centre|Citadel=client-portal|Holonet=live
 - **NO-FABRICATION directive** (Ken 17:57 AEST): Yoda absolute NO fabrication of data.
 - **Minimax trial TERMINATED** 2026-06-15 17:57 AEST (CHG-0596). Verdict: PARTIAL.
 
+## GLM-5.2:cloud Adoption — 2026-06-20 11:58 AEST (CHG-0685)
+- **Verify role:** NOT viable. No filesystem access via `ollama run` and emits visible chain-of-thought; same block as glm-5.1:cloud.
+- **Plan/Analysis role:** Adopted as primary for `design_backend` agents (Atlas, Thrawn, Lando, Mon Mothma). Corrected rubric-only benchmark: glm-5.2:cloud 91.7% (77/84), deepseek-v4-pro:cloud 90.5%, kimi-k2.7-code:cloud 89.3%.
+- **Replan role:** `kimi-k2.7-code:cloud` primary for `design_backend`; it led on Replan in the benchmark.
+- **Yoda/Aria primary:** Unchanged at `kimi-k2.7-code:cloud`.
+- **Deepseek-v4-pro:cloud:** Demoted to fallback-only for `design_backend` Plan/Replan. No longer justified as primary: most expensive and no longer leading.
+- **Policy files updated:** `state/model-policy.json`, `state/critical-config-baseline.json`. `ollama/glm-5.2:cloud` added to `globalAllowedModels` and CREST v1.3 model registry.
+- **Verification note:** Sage verification failed due to sandbox workspace isolation. Forge re-scored and orchestrator audited corrected math. Full transparency logged in CHG-0685.
+
+## Session Model Drift — 3 Structural Locks (LOCKED 2026-06-20, CHG-0684, TKT-0547)
+- **Problem:** Live session model overrides are invisible to model-drift-check.sh (only checks openclaw.json static config). Ken caught Yoda on deepseek-v4-pro instead of kimi-k2.7-code 10:26 AEST.
+- **Lock 1 (Heartbeat):** `scripts/check-session-model.sh` runs every heartbeat — queries live session via openclaw CLI, validates against policy. Drift → alert + auto-reset.
+- **Lock 2 (Auto-Reset):** `scripts/switch-model-temporary.sh` — wrapper for temporary pro switches. Writes pending-model-reset.json; Yoda schedules one-shot reset cron. NEVER use raw `session_status model=...` for temporary switches.
+- **Lock 3 (Warden):** `model-drift-check.sh` now includes [Live Session Model Check] section. Warden cron (15 min) catches any agent session drift.
+- **Yoda primary:** kimi-k2.7-code. **Pro only for:** CREST Plan/Replan phases. Switch via `switch-model-temporary.sh deepseek-v4-pro 30m`.
+
 ## Security & Network
 - S1–S7: see `RULES.md`. Tailscale: OC1 serve, S2 compliant. CHG triggers: load skill `bash scripts/skill-load.sh changelog`.
 

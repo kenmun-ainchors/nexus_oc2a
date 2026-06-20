@@ -1,0 +1,69 @@
+Thinking...
+1.  **Analyze the Request:**
+    *   Target: Analyze a new state file `state/pending-model-reset.json`.
+    *   Context: Unknown schema, need to classify as Tier 0 (business-criti[15D[K
+(business-critical) or Tier 1 (operational).
+    *   Output requirements: ONLY structured analysis text containing exact[5D[K
+exactly four specific elements:
+        1. Two questions to answer before classifying.
+        2. Recommended tier (Tier 0 or Tier 1) with one-sentence justificat[10D[K
+justification.
+        3. One data-sovereignty check.
+        4. One agent that should own updates to it.
+
+2.  **Element 1: Two questions to answer before classifying**
+    *   *Question 1:* Does the execution of this pending reset directly imp[3D[K
+impact customer-facing model availability or revenue-generating operations?[11D[K
+operations? (Determines business-criticality).
+    *   *Question 2:* What is the blast radius if this file is corrupted or[2D[K
+or prematurely executed, and can the system auto-recover without manual int[3D[K
+intervention? (Determines Tier 0 vs Tier 1 risk).
+
+3.  **Element 2: Recommended tier with one-sentence justification**
+    *   Recommendation: Tier 1 (operational).
+    *   Justification: Pending reset states typically track transient opera[5D[K
+operational maintenance tasks rather than persistent core business state, t[1D[K
+though their execution may briefly affect system availability.
+
+4.  **Element 3: One data-sovereignty check**
+    *   Check: Verify that the reset parameters and target model identifier[10D[K
+identifiers within the file do not reference or export data across restrict[8D[K
+restricted geopolitical boundaries.
+
+5.  **Element 4: One agent that should own updates to it**
+    *   Agent: Model Lifecycle Manager (or Model Operations Agent).
+
+6.  **Formatting the Output:**
+    *   Strict adherence to the requested structure, no introductory or con[3D[K
+concluding remarks. Just the 4 numbered items.
+
+7.  **Review against constraints:**
+    *   ONLY structured analysis text? Yes.
+    *   Two questions? Yes.
+    *   Recommended tier + one-sentence justification? Yes.
+    *   One data-sovereignty check? Yes.
+    *   One agent? Yes.
+...done thinking.
+
+1. Two questions to answer before classifying:
+- Does the execution of this pending reset directly trigger downtime for re[2D[K
+revenue-generating or customer-facing models, or can the system gracefully [K
+degrade without it?
+- What is the blast radius if this file is accidentally deleted or corrupte[8D[K
+corrupted, and does recovery require manual intervention versus automated r[1D[K
+reconciliation?
+
+2. Recommended tier:
+- Tier 1. Justification: Pending reset states typically represent transient[9D[K
+transient operational maintenance tasks rather than persistent core busines[7D[K
+business state, even if their execution briefly impacts system availability[12D[K
+availability.
+
+3. One data-sovereignty check:
+- Verify that any model identifiers or configuration parameters within the [K
+file do not reference datasets or resources that cross restricted geopoliti[9D[K
+geopolitical boundaries.
+
+4. One agent that should own updates to it:
+- Model Lifecycle Manager Agent
+

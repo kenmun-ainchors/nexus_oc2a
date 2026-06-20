@@ -1,0 +1,32 @@
+**Replan: Tier 3 Agent Model Assignment for Plan/Replan**
+
+**1. New Default Model Assignment by Role Category**
+- **Category A: Routine Internal Planning** (standard task decomposition, l
+low-complexity workflows, internal-facing) → **gemma4:31b-cloud**
+- **Category B: Complex Internal Planning** (multi-step reasoning, novel pr
+problem-solving, internal-facing) → **gemma4:31b-cloud** (with optional fal
+fallback to deepseek-v4-pro:cloud only if confidence score < 0.7, but defau
+default remains gemma4)
+- **Category C: Replanning & Adaptation** (dynamic plan adjustments, error 
+recovery, internal-facing) → **gemma4:31b-cloud**
+
+**2. Exception Rule for High-Stakes External-Facing Work**
+- Any Plan/Replan task that is **external-facing and high-stakes** (directl
+(directly impacts customer experience, brand reputation, legal compliance, 
+or financial liability) **must use deepseek-v4-pro:cloud**, overriding the 
+default category assignment.
+
+**3. Verification Step Before Rollout**
+- Run a **1-week A/B pilot** on a randomly selected 20% subset of Tier 3 ag
+agents. Pilot group uses the new assignments; control group remains on deep
+deepseek-v4-pro:cloud. Monitor:
+  - Cost per plan (target: ≥30% reduction)
+  - Plan quality score (automated metric, target: within 5% of control)
+  - Critical error rate (target: no increase >2%)
+- Proceed to full rollout only if all targets are met.
+
+**4. Rollback Condition**
+- If, after full rollout, the **7-day rolling average plan quality score dr
+drops >10%** vs. pre-rollout baseline, **or** the **critical error rate inc
+increases >5%**, immediately revert all Tier 3 agents to the original assig
+assignment (deepseek-v4-pro:cloud for all Plan/Replan).

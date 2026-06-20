@@ -1,0 +1,36 @@
+**Plan: Zero-Downtime Promotion of OC2-A to Port 18789 Primary**
+
+1. **Prerequisites before cutover**
+   - OC2-A/B HA cluster is fully built, NAS shared storage is mounted on bo
+both nodes, and the application/health endpoint is responding on both OC2-A
+OC2-A and OC2-B.
+   - Data/state from OC1 is synchronized to OC2-A (NAS replication/DB sync 
+verified) and KL team is on standby with a rollback runbook.
+   - Network cutover path is staged: DNS/VIP for port 18789 can be pointed 
+to OC2-A, OC1 can gracefully release the port, and monitoring is configured
+configured for the new endpoints.
+
+2. **Cutover phases**
+   - **Phase 1 — Hot standby validation:** Start OC2-A as the HA secondary/
+secondary/hot standby bound to port 18789, continue replicating state from 
+OC1 to NAS, and shift only health/monitoring probes to OC2-A.
+   - **Phase 2 — Promotion and drain:** Promote OC2-A to primary, switch th
+the VIP/DNS for port 18789 from OC1 to OC2-A, drain active connections from
+from OC1, and stop OC1 from listening on port 18789.
+
+3. **Health checks**
+   - **After Phase 1:** OC2-A’s `/health` endpoint returns 200 OK, replicat
+replication lag is within SLA, and OC2-B successfully fails over during a d
+dry-run test.
+   - **After Phase 2:** End-to-end client requests through port 18789 succe
+succeed against OC2-A, error rate is below the baseline, and OC2-B confirms
+confirms it sees OC2-A as the active primary.
+
+4. **Rollback trigger**
+   - If either phase’s health check fails, error rate exceeds the predefine
+predefined threshold, or OC2-A/OC2-B HA sync is lost, immediately revert th
+the VIP/DNS back to OC1 and demote OC2-A to standby.
+
+5. **Final steady-state**
+   - **OC2-A** owns port 18789 as the active primary gateway; **OC2-B** is 
+the passive standby ready for failover.

@@ -1,0 +1,77 @@
+Thinking...
+We need to produce a fix plan based on the user's request. The user says: "[1D[K
+"auto-heal.sh CHECK 15 sometimes rewrites SOUL.md/AGENTS.md even though TKT[3D[K
+TKT-0529 says auto-summarize must be gated NEEDS_KEN. The check uses a hard[4D[K
+hardcoded size threshold."
+
+We need to produce a fix plan with:
+1. Exact threshold values that should trigger NEEDS_KEN
+2. One policy change (one sentence)
+3. One script change (file path + one-line change summary)
+4. One verification command
+
+Return ONLY the structured plan text.
+
+We need to infer some details. The script is auto-heal.sh, CHECK 15. It rew[3D[K
+rewrites SOUL.md/AGENTS.md. TKT-0529 says auto-summarize must be gated NEED[4D[K
+NEEDS_KEN. The check uses a hardcoded size threshold. So we need to adjust [K
+the threshold to trigger NEEDS_KEN when the size exceeds some value, or may[3D[K
+maybe the threshold should be set to something that requires human approval[8D[K
+approval. The plan should include exact threshold values. Probably we need [K
+to set a threshold that, if the file size exceeds it, the script should not[3D[K
+not auto-summarize but instead flag NEEDS_KEN. The current threshold is too[3D[K
+too permissive, allowing auto-summarize when it shouldn't. So we need to de[2D[K
+define a threshold that triggers NEEDS_KEN. What threshold? Could be someth[6D[K
+something like: if the file size is > X bytes, then it requires NEEDS_KEN. [K
+The exact threshold values: maybe for SOUL.md and AGENTS.md, we need to spe[3D[K
+specify. The plan could say: "Set threshold to 0 bytes for SOUL.md and AGEN[4D[K
+AGENTS.md, meaning any auto-summarize attempt on these files must be gated [K
+by NEEDS_KEN." Or maybe a specific size like 10KB? The problem says "auto-h[7D[K
+"auto-heal.sh CHECK 15 sometimes rewrites SOUL.md/AGENTS.md even though TKT[3D[K
+TKT-0529 says auto-summarize must be gated NEEDS_KEN. The check uses a hard[4D[K
+hardcoded size threshold." So the fix is to change the threshold so that it[2D[K
+it never auto-summarizes those files without NEEDS_KEN. The simplest is to [K
+set the threshold to 0 for those specific files, meaning any size triggers [K
+NEEDS_KEN. Or we could set a threshold that is effectively infinite, but th[2D[K
+that would disable auto-summarize entirely. The requirement is that auto-su[7D[K
+auto-summarize must be gated NEEDS_KEN. So the threshold should be such tha[3D[K
+that auto-summarize is never performed without NEEDS_KEN. So threshold = 0 [K
+bytes (i.e., always require NEEDS_KEN). That's a clear exact threshold valu[4D[K
+value.
+
+Policy change: "Auto-summarize of SOUL.md and AGENTS.md is prohibited witho[5D[K
+without NEEDS_KEN approval, regardless of file size." Or something like tha[3D[K
+that.
+
+Script change: file path auto-heal.sh, one-line change summary: "Change CHE[3D[K
+CHECK 15 size threshold for SOUL.md/AGENTS.md from hardcoded value to 0 to [K
+always require NEEDS_KEN." Or maybe we need to modify the condition to chec[4D[K
+check if the file is SOUL.md or AGENTS.md and then set threshold to 0. The [K
+one-line change summary could be: "In auto-heal.sh, set threshold to 0 for [K
+SOUL.md and AGENTS.md in CHECK 15 to enforce NEEDS_KEN gating."
+
+Verification command: something like "grep -n 'CHECK 15' auto-heal.sh | gre[3D[K
+grep threshold" or run a test: "echo 'test' > SOUL.md; ./auto-heal.sh CHECK[5D[K
+CHECK 15; grep NEEDS_KEN SOUL.md" but we need a verification command that c[1D[K
+confirms the change. Could be: "grep -A5 'CHECK 15' auto-heal.sh | grep -E [K
+'threshold.*0' " to verify the threshold is set to 0.
+
+We need to output ONLY the structured plan text. So we'll produce a plan wi[2D[K
+with those fouritems.
+...done thinking.
+
+1. Exact threshold values: For SOUL.md and AGENTS.md, the size threshold th[2D[K
+that triggers NEEDS_KEN must be 0 bytes (i.e., any non‑empty file requires [K
+NEEDS_KEN before auto‑summarize). For all other files, the existing thresho[7D[K
+threshold remains unchanged.
+
+2. Policy change: Auto‑summarize of SOUL.md and AGENTS.md is strictly forbi[5D[K
+forbidden without an active NEEDS_KEN gate, irrespective of file size.
+
+3. Script change: File: `auto-heal.sh` – In CHECK 15, replace the hardcoded[9D[K
+hardcoded size threshold for SOUL.md and AGENTS.md with `0` so that any con[3D[K
+content immediately triggers NEEDS_KEN.
+
+4. Verification command: `grep -A10 'CHECK 15' auto-heal.sh | grep -E 'thre[5D[K
+'threshold.*0' && echo "Threshold set to 0 for gated files"`
+

@@ -1,0 +1,29 @@
+{
+  "benchmark_date": "2026-06-20",
+  "models": {
+    "glm-5.2-cloud": {
+      "total_score": 127,
+      "max_possible": 143,
+      "percentage": 88.8
+    },
+    "kimi-k2.7-code-cloud": {
+      "total_score": 126,
+      "max_possible": 143,
+      "percentage": 88.1
+    },
+    "deepseek-v4-pro-cloud": {
+      "total_score": 122,
+      "max_possible": 143,
+      "percentage": 85.3
+    }
+  },
+  "summary": {
+    "ranking": [
+      "glm-5.2-cloud",
+      "kimi-k2.7-code-cloud",
+      "deepseek-v4-pro-cloud"
+    ],
+    "best_model": "glm-5.2-cloud",
+    "spread": 3.5
+  }
+}

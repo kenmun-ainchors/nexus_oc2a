@@ -1,0 +1,156 @@
+Thinking...
+We need answer user request. They want structured plan text only. We need t[1D[K
+think through technical details. Scenario: P1 is coming: OC2-A/B HA cluster[7D[K
+cluster, NAS, KL team. Current state: OC1 single gateway on port 18789. Nee[3D[K
+Need zero-downtime plan to promote OC2-A to primary. They want plan with: 1[1D[K
+1. Three prerequisites before cutover. 2. Two cutover phases. 3. One health[6D[K
+health check after each phase. 4. One rollback trigger. 5. Final steady-sta[10D[K
+steady-state: which host owns port 18789. Return ONLY structured plan text.[5D[K
+text.
+
+Need produce concise structured plan. Domain maybe OpenCluster? OC1 single [K
+gateway, OC2-A/B HA cluster, NAS, KL team. Need zero-downtime promote OC2-A[5D[K
+OC2-A to primary on port 18789. Likely network gateway / load balancer? Cur[3D[K
+Current OC1 single gateway owns port 18789. We need cut over to OC2-A prima[5D[K
+primary, OC2-B secondary. Need prerequisites: OC2-A/B HA cluster deployed a[1D[K
+and healthy, NAS shared storage mounted and replicated, cluster VIP/failove[11D[K
+VIP/failover configured, port 18789 available, traffic routing plan, KL tea[3D[K
+team on standby, sync data, validate application, backup etc.
+
+Two phases: Phase 1 sync / shadow: Put OC2-A in read-only/active standby? M[1D[K
+Maybe start OC2-A/B gateway in secondary mode, replicate state from OC1 via[3D[K
+via NAS, redirect non-critical health probes. Phase 2 switch: flip DNS/VIP [K
+from OC1 to OC2-A (or reassign port binding), make OC2-A primary, drain OC1[3D[K
+OC1.
+
+Health checks after each phase: Phase 1: replication lag / app readiness / [K
+health endpoint on OC2-A returns 200; Phase 2: client traffic / transaction[11D[K
+transaction success / primary endpoint. Rollback trigger: if health check f[1D[K
+fails or errors exceed threshold or replication broken -> revert VIP/DNS to[2D[K
+to OC1, demote OC2-A. Final steady-state: OC2-A owns port 18789 as primary;[8D[K
+primary; OC2-B owns standby.
+
+Need decide ownership: In HA cluster with VIP, maybe the floating VIP owns [K
+port 18789 from client perspective, but the question asks "which host owns [K
+port 18789". Probably OC2-A (primary) owns port 18789, with OC2-B as standb[6D[K
+standby failover. Could mention OC2-A holds active binding, OC2-B passive.
+
+We need produce structured plan text only. Format maybe numbered/bullets. T[1D[K
+They requested exactly categories. We can present headings. Only plan text,[5D[K
+text, no extra commentary. Let's craft.
+
+Need think zero-downtime: prerequisites before cutover: 1. OC2-A/B HA clust[5D[K
+cluster installed, configured active/passive, shared NAS accessible, applic[6D[K
+application deployed, and health endpoint responding. 2. Data/state synchro[7D[K
+synchronization from OC1 to OC2-A validated (NAS replication / DB sync) and[3D[K
+and cutover window confirmed with KL team. 3. Network path prepared: DNS/VI[6D[K
+DNS/VIP/port 18789 can be moved to OC2-A; clients resolve to shared VIP; OC[2D[K
+OC1 and OC2 endpoints tested; rollback runbook ready.
+
+Cutover phases: Phase 1: Establish OC2-A as hot standby. Start OC2-A/B HA p[1D[K
+pair, bind OC2-A to port 18789 on standby/secondary, sync state from OC1 to[2D[K
+to NAS, redirect monitoring/health checks, validate readiness. Phase 2: Pro[3D[K
+Promote OC2-A and drain OC1. Switch VIP/DNS to OC2-A, promote OC2-A to prim[4D[K
+primary master, gracefully stop/withdraw OC1 from port 18789, redirect traf[4D[K
+traffic.
+
+Health check after phase 1: OC2-A health endpoint returns 200 OK and replic[6D[K
+replication lag/error metrics within SLA; OC2-B failover test OK. After pha[3D[K
+phase 2: End-to-end transaction or client request through port 18789 succee[6D[K
+succeeds on OC2-A, no errors on OC1, OC2-B sees primary heartbeat.
+
+Rollback trigger: If health check fails, error rate > threshold, data incon[5D[K
+inconsistency detected, or failover between OC2-A/B broken, immediately swi[3D[K
+switch VIP/DNS back to OC1 and demote OC2-A to standby.
+
+Final steady-state: OC2-A owns active port 18789 as primary; OC2-B is stand[5D[K
+standby; OC1 retired or passive.
+
+But question says "OC2-A/B HA cluster". Could final state be cluster owns v[1D[K
+via VIP, with OC2-A active. "which host owns port 18789" -> OC2-A.
+
+Let's ensure three prerequisites, two phases, one health check after each p[1D[K
+phase, one rollback trigger, final steady-state. Return only structured pla[3D[K
+plan text. Maybe use headings and bullet lists. No explanation beyond plan.[5D[K
+plan.
+
+Need consider P1? P1 is coming maybe product launch event. The plan should [K
+include KL team on standby and freeze changes. Good.
+
+Let's produce elegantly. Keep concise.
+
+Potential terms: HA cluster, NAS shared storage, primary/secondary. Use "VI[3D[K
+"VIP" and "DNS". Since OC1 single gateway on port 18789; zero downtime. Use[3D[K
+Use connection draining. Rollback runbook. We can mention "pre-staged switc[5D[K
+switchover script".
+
+Let's draft:
+
+1. Prerequisites before cutover
+   - ...
+   - ...
+   - ...
+
+2. Cutover phases
+   Phase 1: ...
+   Phase 2: ...
+
+3. Health checks
+   After Phase 1: ...
+   After Phase 2: ...
+
+4. Rollback trigger
+   - ...
+
+5. Final steady-state
+   - ...
+
+The user requested "1. Three prerequisites before cutover 2. Two cutover ph[2D[K
+phases 3. One health check after each phase 4. One rollback trigger 5. Fina[4D[K
+Final steady-state: which host owns port 18789". So structure accordingly.
+
+Need ensure "after each phase" included. We'll label health checks after Ph[2D[K
+Phase 1 and after Phase 2.
+
+Could include one rollback trigger, not multiple. We'll mention threshold.
+
+Let's final. Ensure no extra prose.
+...done thinking.
+
+**Plan: Zero-Downtime Promotion of OC2-A to Port 18789 Primary**
+
+1. **Prerequisites before cutover**
+   - OC2-A/B HA cluster is fully built, NAS shared storage is mounted on bo[2D[K
+both nodes, and the application/health endpoint is responding on both OC2-A[5D[K
+OC2-A and OC2-B.
+   - Data/state from OC1 is synchronized to OC2-A (NAS replication/DB sync [K
+verified) and KL team is on standby with a rollback runbook.
+   - Network cutover path is staged: DNS/VIP for port 18789 can be pointed [K
+to OC2-A, OC1 can gracefully release the port, and monitoring is configured[10D[K
+configured for the new endpoints.
+
+2. **Cutover phases**
+   - **Phase 1 — Hot standby validation:** Start OC2-A as the HA secondary/[10D[K
+secondary/hot standby bound to port 18789, continue replicating state from [K
+OC1 to NAS, and shift only health/monitoring probes to OC2-A.
+   - **Phase 2 — Promotion and drain:** Promote OC2-A to primary, switch th[2D[K
+the VIP/DNS for port 18789 from OC1 to OC2-A, drain active connections from[4D[K
+from OC1, and stop OC1 from listening on port 18789.
+
+3. **Health checks**
+   - **After Phase 1:** OC2-A’s `/health` endpoint returns 200 OK, replicat[8D[K
+replication lag is within SLA, and OC2-B successfully fails over during a d[1D[K
+dry-run test.
+   - **After Phase 2:** End-to-end client requests through port 18789 succe[5D[K
+succeed against OC2-A, error rate is below the baseline, and OC2-B confirms[8D[K
+confirms it sees OC2-A as the active primary.
+
+4. **Rollback trigger**
+   - If either phase’s health check fails, error rate exceeds the predefine[9D[K
+predefined threshold, or OC2-A/OC2-B HA sync is lost, immediately revert th[2D[K
+the VIP/DNS back to OC1 and demote OC2-A to standby.
+
+5. **Final steady-state**
+   - **OC2-A** owns port 18789 as the active primary gateway; **OC2-B** is [K
+the passive standby ready for failover.
+

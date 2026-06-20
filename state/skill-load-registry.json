@@ -1,43 +1,49 @@
 {
   "changelog": {
-    "loaded_at": "2026-06-19T12:18:41Z",
+    "loaded_at": "2026-06-20T02:10:02Z",
     "canonical_path": "agent-skills/changelog",
     "skill_file": "SKILL.md",
     "via": "skill-load.sh"
   },
   "pg-sprint-backlog": {
-    "loaded_at": "2026-06-19T13:07:09Z",
+    "loaded_at": "2026-06-20T00:15:51Z",
     "canonical_path": "agent-skills/pg-sprint-backlog",
     "skill_file": "SKILL.md",
     "via": "skill-load.sh"
   },
   "agile": {
-    "loaded_at": "2026-06-18T06:40:57Z",
+    "loaded_at": "2026-06-20T00:26:58Z",
     "canonical_path": "agent-skills/agile",
     "skill_file": "SKILL.md",
     "via": "skill-load.sh"
   },
   "subagent-dispatch": {
-    "loaded_at": "2026-06-19T11:21:04Z",
+    "loaded_at": "2026-06-20T00:33:37Z",
     "canonical_path": "agent-skills/subagent-dispatch",
     "skill_file": "SKILL.md",
     "via": "skill-load.sh"
   },
   "crest": {
-    "loaded_at": "2026-06-19T11:39:19Z",
+    "loaded_at": "2026-06-20T00:33:37Z",
     "canonical_path": "agent-skills/crest",
     "skill_file": "SKILL.md",
     "via": "skill-load.sh"
   },
   "model-routing": {
-    "loaded_at": "2026-06-19T12:18:41Z",
+    "loaded_at": "2026-06-20T01:57:13Z",
     "canonical_path": "agent-skills/model-routing",
     "skill_file": "SKILL.md",
     "via": "skill-load.sh"
   },
   "telegram": {
-    "loaded_at": "2026-06-19T00:34:27Z",
+    "loaded_at": "2026-06-20T00:09:54Z",
     "canonical_path": "agent-skills/telegram",
+    "skill_file": "SKILL.md",
+    "via": "skill-load.sh"
+  },
+  "notion": {
+    "loaded_at": "2026-06-20T02:12:18Z",
+    "canonical_path": "agent-skills/notion",
     "skill_file": "SKILL.md",
     "via": "skill-load.sh"
   }

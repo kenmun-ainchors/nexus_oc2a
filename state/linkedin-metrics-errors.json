@@ -1,13 +1,11 @@
 {
-  "generatedAt": "2026-06-19T00:00:33Z",
-  "errors": [
-    {
-      "contentId": "LI-W3-P3",
-      "postUrn": "urn:li:share:7463404594140905473",
-      "error": "404 - post not found (deprecated/closed)",
-      "at": "2026-06-17T00:01:53Z",
-      "note": "Historical — post closed per Ken directive. No new errors today."
-    }
-  ],
-  "note": "2026-06-19 snapshot: 12 posts fetched, 0 errors. All URNs returned HTTP 200."
+  "lastSnapshotAt": "2026-06-20T00:00:16Z",
+  "agent": "Spark",
+  "cronId": "5d581442-ca2e-48d0-a5a1-e1ffe2b418a0",
+  "errors": [],
+  "notes": [
+    "All 13 URNs resolved successfully.",
+    "No 401 or 404 errors in this run.",
+    "Impressions/reach remain null — Organization page MDP onboarding required."
+  ]
 }

@@ -1,0 +1,231 @@
+Thinking...
+We need answer user request. They want a structured plan text only. Need pr[2D[K
+produce plan with four components. Need think about details. The LinkedIn c[1D[K
+campaign uses 3 weekly crons (Tue/Wed/Thu). Ken wants to add a Friday 'week[5D[K
+'week in review' post without changing existing 12-post / 4-movement schedu[6D[K
+schedule. So current schedule likely 3 posts per week over 4 movements? The[3D[K
+They want add Friday without changing existing schedule. We need plan inclu[5D[K
+includes: 1 whether additive or replacement; 2 two scheduling options with [K
+trade-offs; 3 one guard against double-posting; 4 recommended cron expressi[8D[K
+expression for Friday 07:30 AEST. Return ONLY structured plan text.
+
+Need decide scheduling options. Additive means extra Friday post beyond exi[3D[K
+existing 12 posts, making total 16 posts? Wait current 12-post / 4-movement[10D[K
+4-movement schedule: maybe over 4 weeks? 3 weekly posts x 4 movements = 12 [K
+posts. Adding a Friday 'week in review' each week would add 4 posts (one pe[2D[K
+per movement?) making 16 posts. But they say without changing existing 12-p[4D[K
+12-post / 4-movement schedule. It can be additive: Friday is supplemental. [K
+Or replacement? They ask produce plan includes whether this is additive or [K
+replacement. We should state additive because Ken wants to add a Friday pos[3D[K
+post without changing existing schedule; it's a net new 13th recurring post[4D[K
+post per campaign cycle? Wait 12 posts currently; adding one Friday per wee[3D[K
+week? If campaign is 4 weeks, then 4 extra posts, total 16. But if schedule[8D[K
+schedule is "12-post / 4-movement" maybe means 12 posts arranged in 4 thema[5D[K
+thematic movements. A weekly cadence Tue/Wed/Thu. A Friday 'week in review'[7D[K
+review' could be one per week (4 per cycle), additive. Or maybe just one Fr[2D[K
+Friday post at end of each movement? The phrasing "add a Friday 'week in re[2D[K
+review' post" singular could mean each Friday. They want cron expression fo[2D[K
+for Friday 07:30 AEST, so weekly. So it's additive recurring weekly.
+
+Need two scheduling options with trade-offs.
+
+Option A: Append Friday post as standalone Week in Review, increasing total[5D[K
+total posts from 12 to 16 per campaign (or 13 if per week but schedule mayb[4D[K
+maybe weekly cycle?). Trade-off: higher visibility/recap value but more con[3D[K
+content cost, risk of audience fatigue, may dilute existing movement narrat[6D[K
+narrative.
+
+Option B: Convert one existing Thursday post into a dual-purpose Thursday/F[10D[K
+Thursday/Friday? But they want without changing existing 12-post schedule. [K
+Hmm two scheduling options could be:
+- Add Friday after each movement as a 13th post (or 4 extra posts) i.e., ad[2D[K
+additive but grouped at movement boundaries.
+- Schedule Friday post as a lightweight digest/summary that reuses existing[8D[K
+existing Thursday post content, so no new long-form content required but st[2D[K
+still a distinct post. Trade-off: lower incremental effort but possible per[3D[K
+perceived duplication.
+
+Maybe better options:
+1. Extra-slot additive: insert Friday WIR as a new, independent post in the[3D[K
+the weekly cadence.
+2. Content-repurposing additive: use Friday WIR as a "recap/redirect" post [K
+that summarizes the week's three posts with links, requiring minimal new cr[2D[K
+creative but counts as an additional post.
+
+Need include trade-offs clearly.
+
+Guard against double-posting: e.g., check that the campaign calendar does n[1D[K
+not already have a post scheduled for Friday at same time; enforce unique ([1D[K
+(day, time) constraint; use a single source of truth calendar; ensure cron [K
+jobs write to queue with idempotency keys; or a pre-publish check: skip Fri[3D[K
+Friday if another post is queued within 24h.
+
+Recommended cron expression for Friday 07:30 AEST: cron for AEST timezone. [K
+AEST is UTC+10, no DST? Cron expressions typically use server timezone. If [K
+cron supports timezone, expression: 30 7 * * 5 with TZ=Australia/Sydney. Ne[2D[K
+Need note AEST vs AEDT. Friday is 5 (if Sunday=0). So 30 7 * * 5. If using [K
+a cron service with named timezone: "0 30 7 ? * FRI *" or standard cron `30[3D[K
+`30 7 * * 5`. Could include TZ=Australia/Sydney because AEST observes DST; [K
+if strict AEST maybe `TZ=Australia/Brisbane`. The user asked AEST, so likel[5D[K
+likely `30 7 * * 5 AEST`. But cron by itself no timezone label. We can say [K
+"Recommended: `30 7 * * 5` configured in the AEST timezone (e.g., TZ=Austra[9D[K
+TZ=Australia/Sydney; note DST shift to AEDT)."
+
+Need return only structured plan text. Could format as numbered list / sect[4D[K
+sections. Avoid extra fluff. Ensure concise. Let's structure:
+
+1. Classification: Additive, not replacement.
+2. Two scheduling options with trade-offs:
+   A. Independent weekly recap (new slot).
+   B. Repurposed digest/redirect post.
+3. Guard against double-posting.
+4. Recommended cron.
+
+Need ensure not changing existing 12-post/4-movement schedule. We should cl[2D[K
+clarify total posts increase. Maybe "Total campaign posts grow from 12 to 1[1D[K
+16; the original 12 posts and 4 movements remain unchanged." Wait if a Frid[4D[K
+Friday post each week over 4 weeks, that's +4 = 16. But the prompt: "withou[7D[K
+"without changing the existing 12-post / 4-movement schedule." Could imply [K
+weekly schedule has 3 posts each week, and there are 4 movements over some [K
+period. The current total 12 posts. Adding a Friday each week for the durat[5D[K
+duration would add 4 posts. But maybe they only want one extra Friday post [K
+per movement, i.e., one at end of each movement (4 total). That is additive[8D[K
+additive from 12 to 16. We'll state that.
+
+Alternatively, if "week in review" is a one-off extra post, total becomes 1[1D[K
+13. But cron is weekly. So likely recurring. We can phrase "If the campaign[8D[K
+campaign runs one post per movement per week, this adds 4 new posts (one pe[2D[K
+per movement) for a new total of 16." But the plan should include "additive[9D[K
+"additive or replacement". We can just say additive: a new Friday slot laye[4D[K
+layered on top; existing Tue/Wed/Thu crons and 12 posts are untouched; tota[4D[K
+total posts per campaign cycle increase.
+
+Let's consider potential expectations: The user wants only structured plan [K
+text. Maybe they expect a short plan. We can use markdown headings. No extr[4D[K
+extra prose.
+
+Let's craft final:
+
+```
+1. Additive vs replacement
+   - Additive. The Friday 'week in review' is a new weekly post; existing T[1D[K
+Tue/Wed/Thu crons and the 12-post / 4-movement sequence remain unchanged. T[1D[K
+Total campaign volume increases.
+
+2. Scheduling options
+
+   Option A: New standalone Friday recap
+   - Add a 4th weekly post every Friday that summarizes or extends the week[4D[K
+week's movement.
+   - Trade-offs: + stronger weekly narrative and extra touchpoint; − requir[6D[K
+requires new original content each week and may increase audience fatigue o[1D[K
+or oversaturate the feed.
+
+   Option B: Lightweight Friday digest
+   - Keep Friday as a short "week in review" post that links back to the Tu[2D[K
+Tue/Wed/Thu content (curated recap, not a full new movement post).
+   - Trade-offs: + low creative overhead, reinforces prior posts; − lower e[1D[K
+engagement potential and can feel repetitive if it echoes Thursday's post t[1D[K
+too closely.
+
+3. Guard against double-posting
+   - Before publishing, query the content calendar/queue for any post alrea[5D[K
+already scheduled on the same Friday within a 24-hour window; abort the Fri[3D[K
+Friday cron if a conflict exists and send an alert instead of posting.
+
+4. Recommended cron expression for Friday 07:30 AEST
+   - Standard cron: `30 7 * * 5`
+   - Configure the job timezone to AEST, e.g., `TZ=Australia/Sydney` or `TZ[3D[K
+`TZ=Australia/Brisbane`.
+   - Note: `5` = Friday (Sunday = 0). If using a cron service that labels d[1D[K
+days, equivalent: `0 30 7 ? * FRI *`.
+```
+
+Should we mention DST? AEST vs AEDT. Maybe include note: If scheduler uses [K
+named timezone, use `Australia/Sydney` (AEST/AEDT) to handle DST. If strict[6D[K
+strict AEST year-round, `Australia/Brisbane`.
+
+The user asked "Return ONLY the structured plan text." So final answer shou[4D[K
+should contain only plan, no preface. Good.
+
+But need double-check that options truly don't change existing schedule. Bo[2D[K
+Both add a Friday post, existing unchanged. Good.
+
+Potential issue: "12-post / 4-movement schedule" maybe means each movement [K
+has 3 posts, one per week Tue/Wed/Thu. Adding a Friday post per week adds o[1D[K
+one per movement, making each movement 4 posts, total 16. Could mention tha[3D[K
+that. In Option A, "add a 4th weekly post every Friday" would change moveme[6D[K
+movement structure? Actually movement still has same three core posts; the [K
+Friday recap might be a meta-post outside movements. We need emphasize exis[4D[K
+existing 12 posts unchanged. The recap could be outside the 4-movement sequ[4D[K
+sequence. Option B uses digest.
+
+Let's be precise: "The new Friday post sits outside the four movements; it [K
+does not replace any of the 12 existing posts or alter their Tue/Wed/Thu sl[2D[K
+slots." Good.
+
+Maybe include "Replacement" not recommended. The first section can say addi[4D[K
+additive, not replacement. We could say "Replacement is not appropriate bec[3D[K
+because Ken wants to keep the existing schedule."
+
+Let's consider guard: "single source of truth calendar" is better than just[4D[K
+just 24h window. Let's make guard robust: "Maintain a single content calend[6D[K
+calendar and enforce a unique constraint on (publish_date, channel). The Fr[2D[K
+Friday cron checks the calendar; if a LinkedIn post already exists for that[4D[K
+that Friday, the job exits without posting and logs a warning." That's a go[2D[K
+good guard. The user asked "One guard against double-posting." So one guard[5D[K
+guard enough. We can phrase with technical idempotency: e.g., "idempotency [K
+key" but probably calendar check. Use concise.
+
+Cron: Since AEST timezone, we might also mention if scheduler is in UTC and[3D[K
+and can't set timezone, the cron would need to be 30 21 * * 4? Wait AEST = [K
+UTC+10. Friday 07:30 AEST = Thursday 21:30 UTC. If cron server is UTC, expr[4D[K
+expression to run at that UTC time is `30 21 * * 4`. But the question asks [K
+"Recommended cron expression for Friday 07:30 AEST", so expression in AEST [K
+timezone is `30 7 * * 5`. To be thorough, include both: if scheduler can se[2D[K
+set TZ, use `30 7 * * 5` with AEST; if UTC only, use `30 21 * * 4`. But the[3D[K
+they specifically asked AEST, so include timezone expression. Could add not[3D[K
+note in parentheses. But return only plan text. Maybe include:
+
+"Recommended: `30 7 * * 5` (run in AEST TZ, e.g., `TZ=Australia/Sydney`). I[1D[K
+If your scheduler only supports UTC, equivalent is `30 21 * * 4`."
+
+The user asked "recommended cron expression for Friday 07:30 AEST". Maybe j[1D[K
+just `30 7 * * 5 AEST` enough. However standard cron doesn't support timezo[6D[K
+timezone suffix. Use `30 7 * * 5` with timezone config. Good.
+
+Now final. Ensure no extra words.
+...done thinking.
+
+1. Additive or replacement
+- Additive. The Friday “week in review” post is a new weekly slot layered o[1D[K
+on top of the existing Tue/Wed/Thu crons. The 12-post / 4-movement sequence[8D[K
+sequence remains unchanged.
+
+2. Scheduling options
+
+Option A: Standalone Friday recap
+- Add a full, original Friday post that reflects on the week’s movement/the[12D[K
+movement/theme.
+- Trade-offs: Stronger weekly narrative and extra engagement opportunity; r[1D[K
+requires more content creation and may increase posting frequency fatigue.
+
+Option B: Lightweight Friday digest
+- Add a short Friday post that links back to and summarizes the three Tue/W[5D[K
+Tue/Wed/Thu posts.
+- Trade-offs: Low incremental creative effort and reinforces prior content;[8D[K
+content; can feel repetitive if it mirrors Thursday’s post too closely, and[3D[K
+and may earn lower standalone engagement.
+
+3. Guard against double-posting
+- Maintain a single content calendar with a unique constraint on (channel, [K
+publish_date). The Friday cron checks for any existing LinkedIn post schedu[6D[K
+scheduled that Friday before publishing; if one exists, the job aborts and [K
+logs a warning instead of posting.
+
+4. Recommended cron expression for Friday 07:30 AEST
+- `30 7 * * 5`
+- Configure the job timezone to AEST, e.g. `TZ=Australia/Sydney` (or `TZ=Au[6D[K
+`TZ=Australia/Brisbane` for fixed AEST without DST).
+- If the scheduler only supports UTC, the equivalent is `30 21 * * 4`.
+

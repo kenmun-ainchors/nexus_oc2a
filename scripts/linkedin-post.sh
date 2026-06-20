@@ -1,27 +1,47 @@
 #!/usr/bin/env zsh
-# linkedin-post.sh — Post text content to LinkedIn on Ken's behalf
+# linkedin-post.sh — Post text content to LinkedIn
+# Supports multi-account posting: Ken personal (default), Angie personal, AInchors company page.
 # Uses newer LinkedIn Posts API (REST) format.
 #
 # Usage:
 #   linkedin-post.sh --text "post content" [--visibility PUBLIC|CONNECTIONS] [--image-asset-urn urn:li:image:XXX] [--dry-run]
 #   linkedin-post.sh --content-file /path/to/draft.md [--image-asset-urn urn:li:image:XXX] [--dry-run]
+#   zsh scripts/linkedin-post.sh --account angie --content-file /path/to/draft.md
+#   zsh scripts/linkedin-post.sh --account business --organization-id 12345678 --content-file /path/to/draft.md
 #
 # Image workflow (TKT-0121):
-#   1. Generate image:  bash scripts/hf-generate-image.sh --prompt "..." → /path/to/image.jpg
-#   2. Upload to LI:    bash scripts/linkedin-upload-image.sh --image-file /path/to/image.jpg → urn:li:image:XXX
-#   3. Attach to post:  bash scripts/linkedin-post.sh --content-file draft.md --image-asset-urn urn:li:image:XXX
+#   1. Generate image:  zsh scripts/hf-generate-image.sh --prompt "..." → /path/to/image.jpg
+#   2. Upload to LI:    zsh scripts/linkedin-upload-image.sh --image-file /path/to/image.jpg → urn:li:image:XXX
+#   3. Attach to post:  zsh scripts/linkedin-post.sh --content-file draft.md --image-asset-urn urn:li:image:XXX
 #
 # Requirements:
 #   - Run linkedin-auth.sh first to obtain and store tokens
-#   - state/linkedin-auth.json must exist with memberId
+#   - state/linkedin-auth.json (or -angie.json, -business.json) must exist with memberId
 
 set -euo pipefail
 
 WORKSPACE="/Users/ainchorsangiefpl/.openclaw/workspace"
 # LinkedIn auth state lives in PG state_linkedin table — use db-read.sh as SSOT
 DB_READ="$WORKSPACE/scripts/db-read.sh"
-AUTH_STATE_FILE="$WORKSPACE/state/linkedin-auth.json"  # kept as file cache for compatibility
 POSTS_ENDPOINT="https://api.linkedin.com/rest/posts"
+
+# ── Account configuration ──────────────────────────────────────────────────────
+
+# Maps account name → Keychain service prefix, state file suffix, author type
+declare -A ACCOUNT_KEYCHAIN_PREFIX
+ACCOUNT_KEYCHAIN_PREFIX[ken]="ainchors-linkedin"
+ACCOUNT_KEYCHAIN_PREFIX[angie]="ainchors-linkedin-angie"
+ACCOUNT_KEYCHAIN_PREFIX[business]="ainchors-linkedin-business"
+
+declare -A ACCOUNT_STATE_SUFFIX
+ACCOUNT_STATE_SUFFIX[ken]=""
+ACCOUNT_STATE_SUFFIX[angie]="-angie"
+ACCOUNT_STATE_SUFFIX[business]="-business"
+
+declare -A ACCOUNT_LABELS
+ACCOUNT_LABELS[ken]="Ken Mun (personal)"
+ACCOUNT_LABELS[angie]="Angie (personal)"
+ACCOUNT_LABELS[business]="AInchors (company page)"
 
 # ── Defaults ──────────────────────────────────────────────────────────────────
 
@@ -30,6 +50,9 @@ CONTENT_FILE=""
 VISIBILITY="PUBLIC"
 IMAGE_ASSET_URN=""
 DRY_RUN=false
+ACCOUNT="ken"
+ORGANIZATION_ID=""
+QUEUE_CONTENT_ID=""
 
 # ── Parse args ────────────────────────────────────────────────────────────────
 
@@ -58,19 +81,58 @@ while [[ $# -gt 0 ]]; do
       shift
       ;;
     --queue-content-id)
-      # Optional: content ID to update in linkedin-queue.json with the activity URN after posting
+      # Optional: content ID to update in linkedin-campaign.json with the activity URN after posting
       QUEUE_CONTENT_ID="$2"
       shift 2
       ;;
+    --account)
+      ACCOUNT="$2"
+      shift 2
+      ;;
+    --organization-id)
+      # LinkedIn organization ID for company page posts (required for --account business)
+      ORGANIZATION_ID="$2"
+      shift 2
+      ;;
+    --help|-h)
+      echo "Usage: linkedin-post.sh [options]"
+      echo ""
+      echo "  --content-file <path>     Draft markdown file with post content (preferred)"
+      echo "  --text <text>             Post text directly (use --content-file for multi-line)"
+      echo "  --visibility <mode>       PUBLIC (default) or CONNECTIONS"
+      echo "  --image-asset-urn <urn>   Attach image by LinkedIn asset URN"
+      echo "  --dry-run                 Preview payload without posting"
+      echo "  --queue-content-id <id>   Update campaign JSON with post URN after posting"
+      echo "  --account <name>          Account to post as: ken (default), angie, business"
+      echo "  --organization-id <id>    LinkedIn org ID (required for --account business)"
+      echo "  --help, -h                Show this help"
+      exit 0
+      ;;
     *)
       echo "❌ Unknown argument: $1" >&2
-      echo "Usage: linkedin-post.sh --content-file draft.md [--image-asset-urn urn:li:image:XXX] [--visibility PUBLIC|CONNECTIONS] [--dry-run] [--queue-content-id LI-C1-W2-P3]" >&2
+      echo "Usage: linkedin-post.sh --content-file draft.md [--image-asset-urn urn:li:image:XXX] [--visibility PUBLIC|CONNECTIONS] [--dry-run] [--queue-content-id LI-C1-W2-P3] [--account ken|angie|business] [--organization-id ORG_ID]" >&2
       exit 1
       ;;
   esac
 done
 
-QUEUE_CONTENT_ID="${QUEUE_CONTENT_ID:-}"
+# ── Validate account ──────────────────────────────────────────────────────────
+
+if [[ -z "${ACCOUNT_KEYCHAIN_PREFIX[$ACCOUNT]:-}" ]]; then
+  echo "❌ Unknown account: $ACCOUNT. Valid: ken, angie, business" >&2
+  exit 1
+fi
+
+if [[ "$ACCOUNT" == "business" && -z "$ORGANIZATION_ID" ]]; then
+  echo "❌ --organization-id is required when --account is 'business'" >&2
+  echo "   Usage: linkedin-post.sh --account business --organization-id 12345678 --content-file draft.md" >&2
+  exit 1
+fi
+
+KEYCHAIN_PREFIX="${ACCOUNT_KEYCHAIN_PREFIX[$ACCOUNT]}"
+STATE_SUFFIX="${ACCOUNT_STATE_SUFFIX[$ACCOUNT]}"
+LABEL="${ACCOUNT_LABELS[$ACCOUNT]}"
+AUTH_STATE_FILE="$WORKSPACE/state/linkedin-auth${STATE_SUFFIX}.json"
 
 # ── Validate ──────────────────────────────────────────────────────────────────
 
@@ -139,7 +201,7 @@ fi
 
 if [[ ! -f "$AUTH_STATE_FILE" ]]; then
   echo "❌ Auth state not found: $AUTH_STATE_FILE" >&2
-  echo "   Run linkedin-auth.sh first." >&2
+  echo "   Run: zsh scripts/linkedin-auth.sh --account $ACCOUNT" >&2
   exit 1
 fi
 
@@ -157,7 +219,7 @@ else:
 ")
 
 if [[ -z "$MEMBER_ID" ]]; then
-  echo "❌ memberId missing from $AUTH_STATE_FILE. Re-run linkedin-auth.sh." >&2
+  echo "❌ memberId missing from $AUTH_STATE_FILE. Re-run: zsh scripts/linkedin-auth.sh --account $ACCOUNT" >&2
   exit 1
 fi
 
@@ -178,34 +240,44 @@ now = datetime.now(timezone.utc)
 print('yes' if now >= expiry else 'no')
 ")
   if [[ "$EXPIRED" == "yes" ]]; then
-    echo "❌ Token expired — re-run linkedin-auth.sh" >&2
+    echo "❌ Token expired — re-run: zsh scripts/linkedin-auth.sh --account $ACCOUNT" >&2
     exit 1
   fi
 fi
 
-# ── Retrieve access token from Keychain ───────────────────────────────────────
+# ── Retrieve access token from Keychain (per-account) ──────────────────────────
 
-ACCESS_TOKEN=$(security find-generic-password -a linkedin -s ainchors-linkedin-access-token -w 2>/dev/null) \
-  || { echo "❌ Access token not found in Keychain — re-run linkedin-auth.sh" >&2; exit 1; }
+ACCESS_TOKEN=$(security find-generic-password -a linkedin -s "${KEYCHAIN_PREFIX}-access-token" -w 2>/dev/null) \
+  || { echo "❌ Access token not found in Keychain (service: ${KEYCHAIN_PREFIX}-access-token) — re-run: zsh scripts/linkedin-auth.sh --account $ACCOUNT" >&2; exit 1; }
 
 # ── Build post payload ────────────────────────────────────────────────────────
+
+# Determine author URN based on account type
+if [[ "$ACCOUNT" == "business" ]]; then
+  # Company page post: author is the organization
+  AUTHOR_URN="urn:li:organization:$ORGANIZATION_ID"
+else
+  # Personal profile post: author is the person
+  AUTHOR_URN="urn:li:person:$MEMBER_ID"
+fi
 
 # Map visibility: CONNECTIONS → "CONNECTIONS", PUBLIC → "PUBLIC"
 # Clean up any stale payload files from previous runs (mktemp collision guard)
 rm -f /tmp/li_payload_*.json 2>/dev/null || true
 PAYLOAD_FILE=$(mktemp /tmp/li_payload_XXXXXX.json)
 
-python3 - "$POST_TEXT" "$VISIBILITY" "$MEMBER_ID" "$PAYLOAD_FILE" "$IMAGE_ASSET_URN" << 'PYEOF'
+python3 - "$POST_TEXT" "$VISIBILITY" "$AUTHOR_URN" "$PAYLOAD_FILE" "$IMAGE_ASSET_URN" "$ACCOUNT" << 'PYEOF'
 import json, sys
 
 text = sys.argv[1]
 visibility = sys.argv[2]
-member_id = sys.argv[3]
+author_urn = sys.argv[3]
 out_file = sys.argv[4]
 image_urn = sys.argv[5] if len(sys.argv) > 5 else ''
+account = sys.argv[6] if len(sys.argv) > 6 else 'ken'
 
 payload = {
-    'author': f'urn:li:person:{member_id}',
+    'author': author_urn,
     'commentary': text,
     'visibility': visibility,
     'distribution': {
@@ -240,11 +312,15 @@ if [[ "$DRY_RUN" == "true" ]]; then
   echo "  🧪 DRY RUN — payload preview (no API call made):"
   echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
   echo ""
-  echo "  Endpoint  : POST $POSTS_ENDPOINT"
-  echo "  Member ID : $MEMBER_ID"
-  echo "  Visibility: $VISIBILITY"
+  echo "  Endpoint    : POST $POSTS_ENDPOINT"
+  echo "  Account     : $ACCOUNT ($LABEL)"
+  echo "  Author URN  : $AUTHOR_URN"
+  echo "  Visibility  : $VISIBILITY"
   if [[ -n "$IMAGE_ASSET_URN" ]]; then
-    echo "  Image URN : $IMAGE_ASSET_URN"
+    echo "  Image URN   : $IMAGE_ASSET_URN"
+  fi
+  if [[ "$ACCOUNT" == "business" ]]; then
+    echo "  Org ID      : $ORGANIZATION_ID"
   fi
   echo ""
   echo "  Payload:"
@@ -258,7 +334,7 @@ fi
 
 # ── Post to LinkedIn ──────────────────────────────────────────────────────────
 
-echo "  Posting to LinkedIn..."
+echo "  Posting to LinkedIn as $LABEL..."
 
 HEADER_FILE=$(mktemp /tmp/li_headers_XXXXXX.txt)
 
@@ -279,7 +355,7 @@ RESPONSE_BODY=$(echo "$HTTP_RESPONSE" | grep -v "__HTTP_STATUS__")
 
 if [[ "$HTTP_STATUS" == "401" ]]; then
   rm -f "$HEADER_FILE"
-  echo "❌ Token expired — re-run linkedin-auth.sh" >&2
+  echo "❌ Token expired — re-run: zsh scripts/linkedin-auth.sh --account $ACCOUNT" >&2
   exit 1
 fi
 
@@ -305,7 +381,7 @@ except:
   echo ""
   echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
   echo "  ✅ Post published successfully!"
-  echo ""
+  echo "  Account     : $ACCOUNT ($LABEL)"
   echo "  HTTP Status : $HTTP_STATUS"
   if [[ -n "$POST_URN" ]]; then
     echo "  Post URN    : $POST_URN"

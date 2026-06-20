@@ -1,6 +1,15 @@
 {
-  "checkedAt": "2026-06-19T11:15:45.218931+00:00",
-  "failures": [],
+  "checkedAt": "2026-06-20T00:37:38.957321+00:00",
+  "failures": [
+    {
+      "cronId": "85595417",
+      "fullCronId": "85595417-73d0-416d-b6ff-d5b6578762a7",
+      "name": "PG-Notion Integrity Audit (daily)",
+      "consecutiveErrors": 3,
+      "lastError": "error",
+      "source": "live-cron-state"
+    }
+  ],
   "warnings": [],
-  "healthy": true
+  "healthy": false
 }

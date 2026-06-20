@@ -1,0 +1,11 @@
+1. Incident: The active model deepseek-v4-pro:cloud does not match the poli
+policy-defined primary kimi-k2.7-code:cloud, indicating an unauthorized or 
+unintended configuration drift.
+2. Immediately revert the model to kimi-k2.7-code:cloud and investigate the
+the change source.
+3. A scheduled reconciliation script that queries the current model endpoin
+endpoint, compares it against the policy, and automatically reverts any mis
+mismatch while logging and alerting.
+4. The policy lacks explicit conditions for allowed non-primary models (e.g
+(e.g., failover, canary, or A/B test windows), making any deviation trigger
+trigger an incident.

@@ -1,0 +1,24 @@
+1. Three possible states:
+   - State 1: Still working (making progress, producing output or consuming
+consuming resources)
+   - State 2: Stalled (process alive but no progress, possibly blocked on I
+I/O or deadlocked)
+   - State 3: Dead/crashed (process terminated unexpectedly)
+
+2. One command or tool to check each:
+   - State 1: `tail -n 20 /path/to/subagent.log && date` (check for recent 
+log entries or output file timestamps)
+   - State 2: `ps -p <PID> -o pid,state,etime,%cpu,%mem` (verify process ex
+exists, check CPU time since start; near-zero CPU over long period suggests
+suggests stall)
+   - State 3: `kill -0 <PID> && echo "Alive" || echo "Dead"` (test process 
+existence)
+
+3. Recommended threshold before alerting Ken: No new log lines or output fi
+file modifications for 30 consecutive minutes, combined with <1% CPU usage 
+over that window.
+
+4. One action to take if it is stalled: Attach a debugger to capture a full
+full thread stack trace (`gdb -p <PID> -batch -ex "thread apply all bt"`), 
+save the output, then terminate and restart the subagent with increased ver
+verbosity.

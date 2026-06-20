@@ -64,10 +64,10 @@
     "85595417": {
       "cronId": "85595417",
       "name": "PG-Notion Integrity Audit (daily)",
-      "consecutiveTimeouts": 3,
-      "totalTimeouts": 3,
+      "consecutiveTimeouts": 10,
+      "totalTimeouts": 10,
       "retriesUsed": 2,
-      "lastTimeoutAt": "2026-06-16T22:22:39.952552+00:00",
+      "lastTimeoutAt": "2026-06-20T00:37:38.973694+00:00",
       "nextRetryBackoffMs": 240000,
       "deadLetter": false
     },

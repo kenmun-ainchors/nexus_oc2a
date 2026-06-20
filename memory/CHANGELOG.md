@@ -169,6 +169,58 @@ Both reference canonical docs in `references/` and load via `scripts/skill-load.
 ---
 ---
 
+## 2026-06-20 12:10 AEST — [CHG-0686] CR-002 LinkedIn business stream auth and multi-account posting support
+**Type:** script
+**Change Type:** Normal
+**Source:** ken-prompt
+**Trigger:** Ken confirmed Option A (AInchors company page) + Option B (Angie personal) for CR-002 business stream posting and ran OAuth on Mac Mini
+**What changed:** scripts/linkedin-auth.sh: added --account ken|angie|business, per-account Keychain/state files, w_organization_social scope for business. scripts/linkedin-post.sh: added --account, --organization-id, business author urn:li:organization:112732790. Updated Tue/Wed/Thu publish crons to use business stream. Reformatted Week 2 drafts with --- delimiters.
+**Why:** CR-002 required AInchors/Angie business stream posting separate from Ken personal profile.
+**Verification:** zsh -n syntax OK; --dry-run for business account builds correct urn:li:organization:112732790 payload; all three Week 2 drafts pass dry-run; org ID confirmed via LinkedIn API.
+**Rollback:** Revert scripts/linkedin-auth.sh and scripts/linkedin-post.sh from git; restore cron payloads to previous versions via cron update.
+**Linked:** CR-002, TKT-0232
+---
+
+
+## 2026-06-20 11:57 AEST — [CHG-0685] Demote deepseek-v4-pro from primary Plan/Replan on backend design agents; promote glm-5.2:cloud Plan/Analysis and kimi-k2.7-code:cloud Replan
+**Type:** config
+**Change Type:** Normal
+**Source:** ken-prompt
+**Trigger:** GLM-5.2:cloud benchmark evaluation for CREST Plan/Replan/Analysis roles (TKT-0548) and Ken go-ahead 2026-06-20 11:56 AEST
+**What changed:** state/model-policy.json: add ollama/glm-5.2:cloud to globalAllowedModels and crest_v13.model_registry; update design_backend CREST phase rules so Plan primary = glm-5.2:cloud and Replan primary = kimi-k2.7-code:cloud; Execute/Synthesize/Verify unchanged; deepseek-v4-pro:cloud becomes fallback-only for Plan/Replan on design_backend; t2Backend agent fallback chains updated; Yoda/Aria primary unchanged at kimi-k2.7-code:cloud
+**Why:** Corrected benchmark scores show glm-5.2:cloud 91.7%, deepseek-v4-pro:cloud 90.5%, kimi-k2.7-code:cloud 89.3% on rubric-only Plan/Analysis corpus. deepseek-v4-pro:cloud is the most expensive cloud model and no longer justifies primary Plan/Replan assignment on Atlas/Thrawn/Lando/Mon Mothma.
+**Verification:** Forge re-scored benchmark after Sage verification failed due to sandbox workspace isolation; orchestrator audited comparison-corrected.json and forge-verify-report.json; math corrected for insight-score inflation and atom-15 missing rubric item
+**Rollback:** Restore state/model-policy.json from baseline CHG-0660 and resync state/critical-config-baseline.json
+**Linked:** TKT-0548, CHG-0660, CHG-0680, state/phase5-results/plan-replan-analysis-2026-06-20/comparison-corrected.json, state/phase5-results/plan-replan-analysis-2026-06-20/forge-verify-report.json
+---
+
+
+## 2026-06-20 10:36 AEST — [CHG-0684] Session Model Drift Structural Lock (TKT-0547)
+**Type:** script
+**Change Type:** Normal
+**Source:** ken-prompt
+**Trigger:** Ken caught Yoda running on deepseek-v4-pro instead of kimi-k2.7-code at 10:26 AEST 2026-06-20. model-drift-check.sh (35 PASS) missed it because it only validates openclaw.json static config — live session model overrides are invisible to all existing checks.
+**What changed:** 3 structural locks: (1) NEW scripts/check-session-model.sh — live session model validator, added to HEARTBEAT.md every 30min. (2) NEW scripts/switch-model-temporary.sh — temporary pro switch wrapper with auto-reset cron payload. (3) MODIFIED scripts/model-drift-check.sh — added Live Session Model Check section, filters kind=direct.
+**Why:** Session model drift is a recurring risk (Day 3 Opus drift, today's pro drift). Discipline-based resets fail. Structural locks needed: heartbeat check catches within 30min, auto-reset cron prevents at source, warden audit provides governance layer.
+**Verification:** All 3 scripts tested. check-session-model.sh: OK (kimi-k2.7-code detected correctly). model-drift-check.sh: 55 PASS 0 FAIL including new live session section. switch-model-temporary.sh: generates correct payload with timed auto-reset.
+**Rollback:** Remove HEARTBEAT.md session-model-drift entry. Revert model-drift-check.sh to pre-patch version. Remove two new scripts.
+**Linked:** TKT-0547
+---
+
+
+## 2026-06-20 10:35 AEST — [CHG-0683] CHG-0683: TKT-0548 closed — pg-to-notion-sync.sh in_progress mapper fix
+**Type:** data
+**Change Type:** Normal
+**Source:** ken-prompt
+**Trigger:** TKT-0548 CREST Execute phase completed by Forge subagent
+**What changed:** pg-to-notion-sync.sh map_status() now accepts both 'in-progress' and 'in_progress', mapping both to Notion 'In Progress'. Added --test-status CLI option with 13 status mapping tests, all passing.
+**Why:** Prevent PG tickets with status 'in_progress' from being incorrectly synced to Notion as 'Open'.
+**Verification:** bash -n syntax check pass; --test-status 13/13 pass; dry-run sync of TKT-0536 confirms correct mapping; TKT-0548 closed in PG and synced to Notion.
+**Rollback:** N/A
+**Linked:** TKT-0548, TKT-0536, TKT-0342
+---
+
+
 ## 2026-06-20 10:17 AEST — [CHG-0682] PG-Notion Integrity Audit remediation (2026-06-20)
 **Type:** data
 **Change Type:** Normal

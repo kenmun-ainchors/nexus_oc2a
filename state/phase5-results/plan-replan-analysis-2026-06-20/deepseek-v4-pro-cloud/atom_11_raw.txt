@@ -1,0 +1,79 @@
+Thinking...
+We need to produce a plan for a "business stream health" dashboard for Ken,[4D[K
+Ken, to be checked by Aria each morning. The plan must include:
+
+1. Output format (one sentence)
+2. Three metrics to show
+3. One integration point per data source (data sources: Notion DB A (Backlo[7D[K
+(Backlog), state/health-state.json, state/agent-status.json, Gmail unread c[1D[K
+count)
+4. One scheduling recommendation
+5. One guard against over-alerting
+
+Return ONLY the structured plan text. So I'll output a plan with these sect[4D[K
+sections. I'll make it concise, structured, but just text. No markdown? The[3D[K
+The instruction says "Return ONLY the structured plan text." I'll output pl[2D[K
+plain text with headings or bullet points? I'll use a clear structure, mayb[4D[K
+maybe with numbered sections. But it says "structured plan text", so I'll p[1D[K
+present it as a plan with sections. I'll avoid markdown formatting? The out[3D[K
+output format is just text, but I can use line breaks and indentation. I'll[4D[K
+I'll produce a plan.
+
+Plan:
+
+1. Output format: A daily HTML email report sent to Ken and Aria, with a su[2D[K
+summary dashboard viewable in any browser.
+
+2. Three metrics:
+   - Backlog Health: % of Notion tasks in "Backlog" older than 14 days (sta[4D[K
+(stale).
+   - System Status: Composite health score from state/health-state.json (e.[3D[K
+(e.g., "degraded" if any critical service down).
+   - Inbox Load: Unread Gmail count for Ken's priority inbox (e.g., label "[1D[K
+"business-stream").
+
+3. Integration points per data source:
+   - Notion DB A: Query via Notion API to fetch tasks with status "Backlog"[9D[K
+"Backlog" and created date, compute staleness.
+   - state/health-state.json: Read file (local or via API) to extract overa[5D[K
+overall health status (e.g., "healthy"/"degraded").
+   - state/agent-status.json: Read file to check agent operational states ([1D[K
+(e.g., "active"/"error") and include in composite health.
+   - Gmail unread count: Use Gmail API with query "label:business-stream is[2D[K
+is:unread" to get count.
+
+4. Scheduling recommendation: Run the dashboard data collection script once[4D[K
+once daily at 7:00 AM local time via cron or scheduled task, and generate t[1D[K
+the report for Aria's morning check.
+
+5. Guard against over-alerting: Implement a threshold-based alert suppressi[9D[K
+suppression; only flag metrics if they deviate beyond a set tolerance (e.g.[5D[K
+(e.g., backlog staleness >20% increase from previous day, or health state c[1D[K
+changes from healthy to degraded) and send a separate alert only on signifi[7D[K
+significant changes, not on every minor fluctuation. The dashboard itself s[1D[K
+shows current values without alerting unless thresholds are crossed.
+
+I'll structure the answer as a plan with these points.
+...done thinking.
+
+1. Output format: An HTML email dashboard sent to Aria each morning, viewab[6D[K
+viewable in any email client.
+2. Metrics: (a) Backlog staleness (% of Notion tasks in "Backlog" older tha[3D[K
+than 14 days), (b) System health composite (aggregated from health-state.js[15D[K
+health-state.json and agent-status.json), (c) Priority inbox load (unread c[1D[K
+count of Gmail messages labeled "business-stream").
+3. Integration points: Notion DB A queried via Notion API to fetch tasks wi[2D[K
+with status "Backlog" and their creation dates; state/health-state.json rea[3D[K
+read from local filesystem or a secured endpoint to extract overall health [K
+status; state/agent-status.json read similarly to check individual agent st[2D[K
+states; Gmail unread count retrieved via Gmail API using query "label:busin[12D[K
+"label:business-stream is:unread".
+4. Scheduling: A single daily script run at 6:30 AM local time (via cron or[2D[K
+or task scheduler) to collect data, generate the HTML report, and send it t[1D[K
+to Aria.
+5. Guard against over-alerting: Separate alerting logic with deviation thre[4D[K
+thresholds; only trigger a notification (e.g., email or Slack) if a metric [K
+crosses a predefined boundary (e.g., backlog staleness >20% day-over-day in[2D[K
+increase, system health changes from healthy to degraded, or unread count e[1D[K
+exceeds 50), ensuring minor fluctuations do not generate alerts.
+

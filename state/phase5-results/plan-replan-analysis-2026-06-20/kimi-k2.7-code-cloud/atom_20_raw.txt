@@ -1,0 +1,63 @@
+Thinking...
+We need answer user request. They want a security-first plan for read-only [K
+platform status page without authentication. Must include five items: one r[1D[K
+reason safe/unsafe, one data class must never appear, one hosting recommend[9D[K
+recommendation, one approval gate, one ongoing monitoring control. Return O[1D[K
+ONLY structured plan text. We need concise, no extra. Ensure security-first[14D[K
+security-first reasoning: exposing status info without auth could be safe i[1D[K
+if it's only high-level, non-sensitive, non-identifying availability status[6D[K
+status; unsafe because it can leak operational info / aid reconnaissance. T[1D[K
+They ask one reason this is safe or unsafe. Provide maybe as bullet: "Safe [K
+if the page contains only aggregated, non-sensitive health indicators and i[1D[K
+is hosted with rate limiting/DDoS protection; unsafe if it reveals infrastr[8D[K
+infrastructure details or operational timing that assist attackers." Need o[1D[K
+only one reason, maybe phrase "This is conditionally safe because..." They [K
+ask one reason this is safe or unsafe. We can give one reason.
+
+Data class: customer data, PII, credentials, internal IP/hostnames, backup [K
+contents, deployment package details. Pick one.
+
+Hosting recommendation: place in isolated DMZ or public edge with no access[6D[K
+access to internal APIs, use read-only data pipeline, static snapshot, sepa[4D[K
+separate subdomain, CDN with WAF, no auth but restrict by source IP? For cl[2D[K
+clients without auth, no auth, public. Host on separate isolated read-only [K
+service with no connectivity to privileged/internal APIs; use a static cach[4D[K
+cache/CDN/WAF; separate network segment; no internal DNS resolution. Provid[6D[K
+Provide one.
+
+Approval gate before going live: security review / legal/ risk assessment /[1D[K
+/ red-team review / CISO sign-off / data classification review. One.
+
+Ongoing monitoring control: log all requests, anomaly detection for scannin[7D[K
+scanning/recon, rate limiting alerts, WAF alerts, SIEM correlation, periodi[7D[K
+periodic content review. One.
+
+Return only structured plan text. We can format as 1-5. Keep terse but deta[4D[K
+detailed enough.
+...done thinking.
+
+1. **Safety rationale** — Conditionally safe: a read-only status page is sa[2D[K
+safe only if it publishes only high-level, aggregated availability indicato[8D[K
+indicators (e.g., “APIs healthy,” “backup completed,” “CHG-12345 deployed”)[10D[K
+deployed”) with no customer, infrastructure, or operational detail that wou[3D[K
+would aid reconnaissance.
+
+2. **Data class that must never appear** — **Customer data / PII / credenti[8D[K
+credentials** (and any backup content, user identifiers, or internal hostna[6D[K
+hostnames) must never be shown.
+
+3. **Hosting recommendation** — Host on a **dedicated, isolated public-faci[11D[K
+public-facing service or static site** (separate subdomain, CDN + WAF, read[4D[K
+read-only data pipeline) with **no network or API access to internal system[6D[K
+systems**; source data should be pushed, not pulled, from a secured interna[7D[K
+internal collector.
+
+4. **Approval gate before going live** — **CISO / security-team sign-off** [K
+after a data-classification and exposure review confirms no sensitive, inte[4D[K
+internal, or customer information can be rendered.
+
+5. **One ongoing monitoring control** — Continuously log and alert on **unu[5D[K
+**unusual request volumes, scanning patterns, and any 4xx/5xx anomalies** v[1D[K
+via SIEM/WAF, with quarterly content audits to ensure no new sensitive fiel[4D[K
+fields are exposed.
+

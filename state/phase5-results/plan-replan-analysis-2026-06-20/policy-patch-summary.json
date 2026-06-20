@@ -1,0 +1,34 @@
+{
+  "chg": "CHG-0685",
+  "files_changed": [
+    "workspace/state/model-policy.json",
+    "workspace/state/critical-config-baseline.json"
+  ],
+  "design_backend_plan": "ollama/glm-5.2:cloud",
+  "design_backend_replan": "ollama/kimi-k2.7-code:cloud",
+  "yoda_unchanged": true,
+  "aria_unchanged": true,
+  "verify_unchanged": true,
+  "json_valid": true,
+  "applied_at": "2026-06-20T01:57:44+0000",
+  "approved_by": "Ken Mun (webchat, 2026-06-20 11:56 AEST)",
+  "changes": {
+    "model-policy.json": [
+      "Added ollama/glm-5.2:cloud to globalAllowedModels (after kimi-k2.7-code:cloud)",
+      "Added ollama/glm-5.2:cloud to crest_v13.model_registry (provider: ollama, family: glm, status: active)",
+      "design_backend Plan default_model: deepseek-v4-pro:cloud → glm-5.2:cloud (rationale updated for CHG-0685, GLM-5.2 benchmark lead 91.7%)",
+      "design_backend Replan default_model: deepseek-v4-pro:cloud → kimi-k2.7-code:cloud (rationale updated for CHG-0685, kimi-k2.7 Replan strength)",
+      "design_backend Execute/Synthesize/Verify: unchanged",
+      "lastUpdated → 2026-06-20T01:57:44+0000",
+      "lastApprovedBy → Ken Mun (webchat, 2026-06-20 11:56 AEST)",
+      "approvalContext → CHG-0685: model-policy Plan/Replan update for design_backend",
+      "baselineCHG → CHG-0685",
+      "baselineTimestamp → 2026-06-20T01:57:44+0000"
+    ],
+    "critical-config-baseline.json": [
+      "Added model-policy section mirroring new state (globalAllowedModels, design_backend phase rules, glm-5.2 registry entry)",
+      "Updated baselineTimestamp → 2026-06-20T01:57:44+0000",
+      "Updated baselineCHG → CHG-0685"
+    ]
+  }
+}

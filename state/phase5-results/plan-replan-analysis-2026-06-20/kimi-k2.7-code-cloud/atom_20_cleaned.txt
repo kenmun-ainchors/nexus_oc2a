@@ -1,0 +1,24 @@
+1. **Safety rationale** — Conditionally safe: a read-only status page is sa
+safe only if it publishes only high-level, aggregated availability indicato
+indicators (e.g., “APIs healthy,” “backup completed,” “CHG-12345 deployed”)
+deployed”) with no customer, infrastructure, or operational detail that wou
+would aid reconnaissance.
+
+2. **Data class that must never appear** — **Customer data / PII / credenti
+credentials** (and any backup content, user identifiers, or internal hostna
+hostnames) must never be shown.
+
+3. **Hosting recommendation** — Host on a **dedicated, isolated public-faci
+public-facing service or static site** (separate subdomain, CDN + WAF, read
+read-only data pipeline) with **no network or API access to internal system
+systems**; source data should be pushed, not pulled, from a secured interna
+internal collector.
+
+4. **Approval gate before going live** — **CISO / security-team sign-off** 
+after a data-classification and exposure review confirms no sensitive, inte
+internal, or customer information can be rendered.
+
+5. **One ongoing monitoring control** — Continuously log and alert on **unu
+**unusual request volumes, scanning patterns, and any 4xx/5xx anomalies** v
+via SIEM/WAF, with quarterly content audits to ensure no new sensitive fiel
+fields are exposed.

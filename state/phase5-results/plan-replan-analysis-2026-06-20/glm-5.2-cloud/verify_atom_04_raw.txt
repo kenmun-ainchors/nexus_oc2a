@@ -1,0 +1,139 @@
+Thinking...
+1.  **Analyze the Request:**
+    *   Current setup: 3 weekly crons (Tue/Wed/Thu), 12-post / 4-movement s[1D[K
+schedule.
+    *   Goal: Add a Friday 'week in review' post *without* changing the exi[3D[K
+existing schedule.
+    *   Output requirements:
+        1. Whether additive or replacement.
+        2. Two scheduling options with trade-offs.
+        3. One guard against double-posting.
+        4. Recommended cron expression for Friday 07:30 AEST.
+    *   Constraint: Return ONLY the structured plan text (no conversational[14D[K
+conversational filler).
+
+2.  **Drafting Content:**
+    *   *1. Additive or Replacement:* Since Ken wants to add a post *withou[7D[K
+*without* changing the existing schedule, this must be **Additive**. A new,[4D[K
+new, separate cron job will be introduced to handle the Friday post.
+    *   *2. Scheduling Options with Trade-offs:*
+        *   Option A: Separate Cron Job. Add a 4th cron specifically for Fr[2D[K
+Friday. Trade-off: Easier to maintain independently and pause/remove later,[6D[K
+later, but requires managing an additional cron entry/cron worker.
+        *   Option B: Extend Existing Array/Logic. Modify the existing cron[4D[K
+cron logic to include Friday as a special case (e.g., if day == Friday, fet[3D[K
+fetch 'week in review' post). Trade-off: Keeps everything in a single cron [K
+execution block, but complicates the codebase logic and risks breaking the [K
+strict 12-post/4-movement schedule.
+    *   *3. Guard against double-posting:* Implement a state check or lock [K
+(e.g., Redis lock, database flag checking `last_post_date`) before executin[8D[K
+executing the post function to ensure a post hasn't already been successful[10D[K
+successfully published that day, or use a strict IDempotency Key based on t[1D[K
+the date.
+    *   *4. Recommended cron expression for Friday 07:30 AEST:*
+        *   AEST is UTC+10 (no daylight saving).
+        *   07:30 AEST = 21:30 UTC (previous day).
+        *   Cron format: `minute hour day-of-month month day-of-week`
+        *   Minute: 30
+        *   Hour: 21
+        *   Day of month: *
+        *   Month: *
+        *   Day of week: 4 (Thursday in UTC, which corresponds to Friday in[2D[K
+in AEST). Wait, standard cron day of week: 0 = Sunday, 4 = Thursday. 21:30 [K
+UTC on Thursday is 07:30 AEST on Friday. Correct.
+        *   If the system runs in AEST directly: `30 7 * * 5`.
+        *   Let's provide the UTC version just in case, or specify the time[4D[K
+timezone. I'll provide the AEST direct one, and mention UTC equivalent for [K
+clarity. Actually, the prompt just asks for the recommended cron expression[10D[K
+expression for Friday 07:30 AEST. `30 7 * * 5` (assuming server is in AEST)[5D[K
+AEST) or `30 21 * * 4` (if server is in UTC). I will provide the UTC one as[2D[K
+as standard practice or specify the timezone. Let's provide `30 21 * * 4` ([1D[K
+(UTC) or `30 7 * * 5` (AEST). Let's just give `30 21 * * 4` and note it's U[1D[K
+UTC. Better yet: `30 7 * * 5` assuming AEST server timezone.
+
+3.  **Refining the Output Structure:**
+    Must be strictly structured plan text.
+
+    ```text
+    1. Implementation Type: Additive
+    This plan is strictly additive. A new, independent schedule will be int[3D[K
+introduced for the Friday "week in review" post, leaving the existing 12-po[5D[K
+12-post / 4-movement Tue/Wed/Thu crons completely untouched.
+
+    2. Scheduling Options & Trade-offs
+    Option A: Standalone Fourth Cron Job
+    - Description: Create a new, dedicated cron entry exclusively for the F[1D[K
+Friday review post.
+    - Trade-off: (+) Decoupled from the main 12-post schedule, making it sa[2D[K
+safe from accidental changes to the existing logic and easy to disable inde[4D[K
+independently. (-) Requires configuring and monitoring an additional cron j[1D[K
+job at the infrastructure level.
+    
+    Option B: Internal Day-of-Week Logic Extension
+    - Description: Keep three cron triggers but add an internal conditional[11D[K
+conditional in the existing execution script: `if (day == Friday) { post_we[7D[K
+post_week_in_review(); }`.
+    - Trade-off: (+) Consolidates infrastructure management into existing c[1D[K
+cron entries. (-) Modifies the codebase of the existing schedule, introduci[9D[K
+introducing risk to the strict 12-post/4-movement integrity.
+
+    3. Double-Posting Guard
+    Idempotency Lock / State Check: Before executing any post execution, qu[2D[K
+query the database for the current date. If a "Friday Review" post record e[1D[K
+exists for the current date (or use a Redis distributed lock with an expira[6D[K
+expiration of 24 hours), abort the job. This ensures that manual retries, o[1D[K
+overlapping crons, or daylight saving shifts do not trigger duplicate publi[5D[K
+publications.
+
+    4. Recommended Cron Expression (Friday 07:30 AEST)
+    - If server is configured in AEST: `30 7 * * 5`
+    - If server is configured in UTC (AEST is UTC+10): `30 21 * * 4`
+    ```
+
+4.  **Review against Constraints:**
+    *   Structured plan text only? Yes.
+    *   1. Additive or replacement? Yes.
+    *   2. Two scheduling options with trade-offs? Yes.
+    *   3. One guard against double-posting? Yes.
+    *   4. Recommended cron for Friday 07:30 AEST? Yes.
+    *   No conversational filler? Yes.
+
+5.  **Final Polish:** Keep it clean, markdown formatted but purely the plan[4D[K
+plan.
+...done thinking.
+
+1. Implementation Type: Additive
+This plan is strictly additive. A new, independent schedule will be introdu[7D[K
+introduced for the Friday "week in review" post, leaving the existing 12-po[5D[K
+12-post / 4-movement Tue/Wed/Thu crons completely untouched and unmodified.[11D[K
+unmodified.
+
+2. Scheduling Options & Trade-offs
+Option A: Standalone Fourth Cron Job
+- Description: Create a new, dedicated cron entry exclusively for the Frida[5D[K
+Friday review post.
+- Trade-off: (+) Decoupled from the main 12-post schedule, making it safe f[1D[K
+from accidental changes to the existing logic and easy to disable/remove in[2D[K
+independently. (-) Requires configuring and monitoring an additional cron j[1D[K
+job at the infrastructure level.
+
+Option B: Internal Day-of-Week Logic Extension
+- Description: Keep three cron triggers but add an internal conditional wit[3D[K
+within the existing execution script: `if (day == Friday) { post_week_in_re[15D[K
+post_week_in_review(); }`.
+- Trade-off: (+) Consolidates infrastructure management into existing cron [K
+entries. (-) Modifies the codebase of the existing schedule, introducing ri[2D[K
+risk to the strict 12-post/4-movement integrity if a bug is introduced.
+
+3. Double-Posting Guard
+Date-Based Idempotency Check: Before executing the post function, query the[3D[K
+the database or cache for a successful post record matching the current dat[3D[K
+date (e.g., `WHERE post_type = 'week_in_review' AND publish_date = CURRENT_[8D[K
+CURRENT_DATE`). If a record exists, abort the job immediately. This prevent[7D[K
+prevents duplicate posts from overlapping executions, daylight saving time [K
+shifts, or manual retries.
+
+4. Recommended Cron Expression (Friday 07:30 AEST)
+- If server timezone is set to AEST: `30 7 * * 5`
+- If server timezone is set to UTC (AEST is UTC+10): `30 21 * * 4`
+

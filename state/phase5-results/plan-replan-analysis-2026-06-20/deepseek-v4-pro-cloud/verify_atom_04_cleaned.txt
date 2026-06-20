@@ -1,0 +1,35 @@
+1. Additive or Replacement  
+   The Friday “week in review” post is additive. The existing 12-post / 4-m
+4-movement schedule (Tue/Wed/Thu posts over 4 weeks) remains untouched. The
+The new Friday post runs alongside the current three weekly crons, increasi
+increasing total weekly posts to 4 without altering the original 12.
+
+2. Two Scheduling Options with Trade-offs  
+   - Option A: Separate Cron Job  
+     Add a new, independent cron entry for Friday at 07:30 AEST.  
+     Trade-offs: Simple to implement, zero risk to existing posts, easy to 
+disable/enable. However, it adds a fourth cron line to maintain and monitor
+monitor.  
+   - Option B: Consolidated Cron with Conditional Logic  
+     Modify the existing cron setup to trigger on Tue, Wed, Thu, Fri (e.g.,
+(e.g., days 2,3,4,5) and use a script that checks the current day to decide
+decide which post to publish.  
+     Trade-offs: Reduces the number of cron lines, but requires changing th
+the existing posting script, introducing risk of breaking the 12-post sched
+schedule. Testing and maintenance complexity increase. Not recommended when
+when the requirement is to leave the existing schedule unchanged.
+
+3. One Guard Against Double-Posting  
+   Implement a “posted this week” flag. Before publishing the Friday review
+review, the script checks a persistent store (database, file, or API log) f
+for a record of a Friday review post with the current week’s identifier (e.
+(e.g., ISO week number). If the flag exists, the script aborts. The flag is
+is cleared or rotated at the start of each new week (Monday 00:00 AEST). Th
+This prevents duplicate posts from accidental re-triggers or manual runs.
+
+4. Recommended Cron Expression for Friday 07:30 AEST  
+   Assuming the server’s system time is set to AEST (UTC+10):  
+   `30 7 * * 5`  
+   (Minute 30, Hour 7, any day of month, any month, Friday)  
+   If the server uses UTC, the equivalent is `30 21 * * 4` (Thursday 21:30 
+UTC). Confirm the server timezone before deployment.

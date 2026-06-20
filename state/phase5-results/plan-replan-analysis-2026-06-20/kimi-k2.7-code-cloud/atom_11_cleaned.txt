@@ -1,0 +1,31 @@
+**1. Output format**  
+A single HTML morning dashboard page, updated automatically and linked in A
+Aria’s daily stand‑up channel/bookmark.
+
+**2. Three metrics to show**  
+- **System health score** — red/yellow/green summary derived from `state/he
+`state/health-state.json`.  
+- **Agent operational status** — count of online / offline / error agents f
+from `state/agent-status.json`.  
+- **Inbound work pressure** — combined Notion backlog size/age + Gmail unre
+unread count trend.
+
+**3. One integration point per data source**  
+- **Notion DB A (Backlog):** Query the Notion API with a status filter to r
+return open items and the oldest created/last‑edited timestamp.  
+- **`state/health-state.json`:** Read from the local/shared file path (or e
+exposed HTTP endpoint) and parse the top‑level health flags/scores.  
+- **`state/agent-status.json`:** Parse the JSON array of agent records and 
+aggregate `online`, `offline`, and `last_error` counts.  
+- **Gmail unread count:** Use the Gmail API with OAuth2 to fetch `messages.
+`messages.list` filtered by `label:UNREAD` in `INBOX`, returning only the t
+total count.
+
+**4. Scheduling recommendation**  
+Generate the dashboard at **07:30 local time on weekdays**, pulling fresh d
+data no more than 15 minutes before generation.
+
+**5. Guard against over-alerting**  
+Only raise a visible alert if any metric crosses its threshold; when all me
+metrics are healthy, send the dashboard as a plain “all green” summary with
+with no notifications.

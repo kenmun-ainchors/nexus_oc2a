@@ -1,0 +1,34 @@
+1. Implementation Type: Additive
+This plan is strictly additive. A new, independent schedule will be introdu
+introduced for the Friday "week in review" post, leaving the existing 12-po
+12-post / 4-movement Tue/Wed/Thu crons completely untouched and unmodified.
+unmodified.
+
+2. Scheduling Options & Trade-offs
+Option A: Standalone Fourth Cron Job
+- Description: Create a new, dedicated cron entry exclusively for the Frida
+Friday review post.
+- Trade-off: (+) Decoupled from the main 12-post schedule, making it safe f
+from accidental changes to the existing logic and easy to disable/remove in
+independently. (-) Requires configuring and monitoring an additional cron j
+job at the infrastructure level.
+
+Option B: Internal Day-of-Week Logic Extension
+- Description: Keep three cron triggers but add an internal conditional wit
+within the existing execution script: `if (day == Friday) { post_week_in_re
+post_week_in_review(); }`.
+- Trade-off: (+) Consolidates infrastructure management into existing cron 
+entries. (-) Modifies the codebase of the existing schedule, introducing ri
+risk to the strict 12-post/4-movement integrity if a bug is introduced.
+
+3. Double-Posting Guard
+Date-Based Idempotency Check: Before executing the post function, query the
+the database or cache for a successful post record matching the current dat
+date (e.g., `WHERE post_type = 'week_in_review' AND publish_date = CURRENT_
+CURRENT_DATE`). If a record exists, abort the job immediately. This prevent
+prevents duplicate posts from overlapping executions, daylight saving time 
+shifts, or manual retries.
+
+4. Recommended Cron Expression (Friday 07:30 AEST)
+- If server timezone is set to AEST: `30 7 * * 5`
+- If server timezone is set to UTC (AEST is UTC+10): `30 21 * * 4`

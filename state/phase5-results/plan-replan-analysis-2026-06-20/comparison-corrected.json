@@ -1,0 +1,122 @@
+{
+  "benchmark_date": "2026-06-20",
+  "methodology": "Corrected scoring: rubric_score computed using ONLY boolean/count keys present in each atom's corpus rubric (excluding 'insight' and 'max_words'). Atom 15 rubric_max corrected from 4 to 5 (corpus has 5 keys: prereq_count, phase_count, health_checks_count, has_rollback_trigger, has_final_owner; all reports were missing has_rollback_trigger). Total rubric_max across 20 atoms = 84.",
+  "models": {
+    "glm-5.2-cloud": {
+      "total_score": 77,
+      "max_possible": 84,
+      "percentage": 91.7,
+      "per_atom": [
+        {"atom_id": 1, "category": "architecture", "phase": "Plan", "rubric_score": 3, "rubric_max": 4, "accuracy": 75.0},
+        {"atom_id": 2, "category": "architecture", "phase": "Plan", "rubric_score": 3, "rubric_max": 4, "accuracy": 75.0},
+        {"atom_id": 3, "category": "execution", "phase": "Plan", "rubric_score": 4, "rubric_max": 4, "accuracy": 100.0},
+        {"atom_id": 4, "category": "execution", "phase": "Plan", "rubric_score": 3, "rubric_max": 4, "accuracy": 75.0},
+        {"atom_id": 5, "category": "analysis", "phase": "Plan", "rubric_score": 4, "rubric_max": 4, "accuracy": 100.0},
+        {"atom_id": 6, "category": "analysis", "phase": "Plan", "rubric_score": 4, "rubric_max": 4, "accuracy": 100.0},
+        {"atom_id": 7, "category": "replan", "phase": "Replan", "rubric_score": 4, "rubric_max": 4, "accuracy": 100.0},
+        {"atom_id": 8, "category": "replan", "phase": "Replan", "rubric_score": 3, "rubric_max": 4, "accuracy": 75.0},
+        {"atom_id": 9, "category": "replan", "phase": "Replan", "rubric_score": 4, "rubric_max": 4, "accuracy": 100.0},
+        {"atom_id": 10, "category": "analysis", "phase": "Plan", "rubric_score": 4, "rubric_max": 4, "accuracy": 100.0},
+        {"atom_id": 11, "category": "architecture", "phase": "Plan", "rubric_score": 5, "rubric_max": 5, "accuracy": 100.0},
+        {"atom_id": 12, "category": "execution", "phase": "Plan", "rubric_score": 4, "rubric_max": 4, "accuracy": 100.0},
+        {"atom_id": 13, "category": "analysis", "phase": "Plan", "rubric_score": 5, "rubric_max": 5, "accuracy": 100.0},
+        {"atom_id": 14, "category": "replan", "phase": "Replan", "rubric_score": 3, "rubric_max": 4, "accuracy": 75.0},
+        {"atom_id": 15, "category": "architecture", "phase": "Plan", "rubric_score": 4, "rubric_max": 5, "accuracy": 80.0},
+        {"atom_id": 16, "category": "execution", "phase": "Plan", "rubric_score": 4, "rubric_max": 4, "accuracy": 100.0},
+        {"atom_id": 17, "category": "analysis", "phase": "Plan", "rubric_score": 4, "rubric_max": 4, "accuracy": 100.0},
+        {"atom_id": 18, "category": "replan", "phase": "Replan", "rubric_score": 4, "rubric_max": 4, "accuracy": 100.0},
+        {"atom_id": 19, "category": "analysis", "phase": "Plan", "rubric_score": 3, "rubric_max": 4, "accuracy": 75.0},
+        {"atom_id": 20, "category": "architecture", "phase": "Plan", "rubric_score": 5, "rubric_max": 5, "accuracy": 100.0}
+      ],
+      "phase_breakdown": {
+        "Plan": {"score": 59, "max": 64, "accuracy": 92.2},
+        "Replan": {"score": 18, "max": 20, "accuracy": 90.0}
+      },
+      "category_breakdown": {
+        "analysis": {"score": 24, "max": 25, "accuracy": 96.0},
+        "architecture": {"score": 20, "max": 23, "accuracy": 87.0},
+        "execution": {"score": 15, "max": 16, "accuracy": 93.8},
+        "replan": {"score": 18, "max": 20, "accuracy": 90.0}
+      }
+    },
+    "kimi-k2.7-code-cloud": {
+      "total_score": 75,
+      "max_possible": 84,
+      "percentage": 89.3,
+      "per_atom": [
+        {"atom_id": 1, "category": "architecture", "phase": "Plan", "rubric_score": 4, "rubric_max": 4, "accuracy": 100.0},
+        {"atom_id": 2, "category": "architecture", "phase": "Plan", "rubric_score": 2, "rubric_max": 4, "accuracy": 50.0},
+        {"atom_id": 3, "category": "execution", "phase": "Plan", "rubric_score": 3, "rubric_max": 4, "accuracy": 75.0},
+        {"atom_id": 4, "category": "execution", "phase": "Plan", "rubric_score": 3, "rubric_max": 4, "accuracy": 75.0},
+        {"atom_id": 5, "category": "analysis", "phase": "Plan", "rubric_score": 3, "rubric_max": 4, "accuracy": 75.0},
+        {"atom_id": 6, "category": "analysis", "phase": "Plan", "rubric_score": 3, "rubric_max": 4, "accuracy": 75.0},
+        {"atom_id": 7, "category": "replan", "phase": "Replan", "rubric_score": 4, "rubric_max": 4, "accuracy": 100.0},
+        {"atom_id": 8, "category": "replan", "phase": "Replan", "rubric_score": 3, "rubric_max": 4, "accuracy": 75.0},
+        {"atom_id": 9, "category": "replan", "phase": "Replan", "rubric_score": 4, "rubric_max": 4, "accuracy": 100.0},
+        {"atom_id": 10, "category": "analysis", "phase": "Plan", "rubric_score": 3, "rubric_max": 4, "accuracy": 75.0},
+        {"atom_id": 11, "category": "architecture", "phase": "Plan", "rubric_score": 5, "rubric_max": 5, "accuracy": 100.0},
+        {"atom_id": 12, "category": "execution", "phase": "Plan", "rubric_score": 4, "rubric_max": 4, "accuracy": 100.0},
+        {"atom_id": 13, "category": "analysis", "phase": "Plan", "rubric_score": 5, "rubric_max": 5, "accuracy": 100.0},
+        {"atom_id": 14, "category": "replan", "phase": "Replan", "rubric_score": 4, "rubric_max": 4, "accuracy": 100.0},
+        {"atom_id": 15, "category": "architecture", "phase": "Plan", "rubric_score": 4, "rubric_max": 5, "accuracy": 80.0},
+        {"atom_id": 16, "category": "execution", "phase": "Plan", "rubric_score": 4, "rubric_max": 4, "accuracy": 100.0},
+        {"atom_id": 17, "category": "analysis", "phase": "Plan", "rubric_score": 4, "rubric_max": 4, "accuracy": 100.0},
+        {"atom_id": 18, "category": "replan", "phase": "Replan", "rubric_score": 4, "rubric_max": 4, "accuracy": 100.0},
+        {"atom_id": 19, "category": "analysis", "phase": "Plan", "rubric_score": 4, "rubric_max": 4, "accuracy": 100.0},
+        {"atom_id": 20, "category": "architecture", "phase": "Plan", "rubric_score": 5, "rubric_max": 5, "accuracy": 100.0}
+      ],
+      "phase_breakdown": {
+        "Plan": {"score": 56, "max": 64, "accuracy": 87.5},
+        "Replan": {"score": 19, "max": 20, "accuracy": 95.0}
+      },
+      "category_breakdown": {
+        "analysis": {"score": 22, "max": 25, "accuracy": 88.0},
+        "architecture": {"score": 20, "max": 23, "accuracy": 87.0},
+        "execution": {"score": 14, "max": 16, "accuracy": 87.5},
+        "replan": {"score": 19, "max": 20, "accuracy": 95.0}
+      }
+    },
+    "deepseek-v4-pro-cloud": {
+      "total_score": 76,
+      "max_possible": 84,
+      "percentage": 90.5,
+      "per_atom": [
+        {"atom_id": 1, "category": "architecture", "phase": "Plan", "rubric_score": 3, "rubric_max": 4, "accuracy": 75.0},
+        {"atom_id": 2, "category": "architecture", "phase": "Plan", "rubric_score": 3, "rubric_max": 4, "accuracy": 75.0},
+        {"atom_id": 3, "category": "execution", "phase": "Plan", "rubric_score": 3, "rubric_max": 4, "accuracy": 75.0},
+        {"atom_id": 4, "category": "execution", "phase": "Plan", "rubric_score": 3, "rubric_max": 4, "accuracy": 75.0},
+        {"atom_id": 5, "category": "analysis", "phase": "Plan", "rubric_score": 3, "rubric_max": 4, "accuracy": 75.0},
+        {"atom_id": 6, "category": "analysis", "phase": "Plan", "rubric_score": 4, "rubric_max": 4, "accuracy": 100.0},
+        {"atom_id": 7, "category": "replan", "phase": "Replan", "rubric_score": 4, "rubric_max": 4, "accuracy": 100.0},
+        {"atom_id": 8, "category": "replan", "phase": "Replan", "rubric_score": 3, "rubric_max": 4, "accuracy": 75.0},
+        {"atom_id": 9, "category": "replan", "phase": "Replan", "rubric_score": 4, "rubric_max": 4, "accuracy": 100.0},
+        {"atom_id": 10, "category": "analysis", "phase": "Plan", "rubric_score": 4, "rubric_max": 4, "accuracy": 100.0},
+        {"atom_id": 11, "category": "architecture", "phase": "Plan", "rubric_score": 5, "rubric_max": 5, "accuracy": 100.0},
+        {"atom_id": 12, "category": "execution", "phase": "Plan", "rubric_score": 4, "rubric_max": 4, "accuracy": 100.0},
+        {"atom_id": 13, "category": "analysis", "phase": "Plan", "rubric_score": 5, "rubric_max": 5, "accuracy": 100.0},
+        {"atom_id": 14, "category": "replan", "phase": "Replan", "rubric_score": 4, "rubric_max": 4, "accuracy": 100.0},
+        {"atom_id": 15, "category": "architecture", "phase": "Plan", "rubric_score": 4, "rubric_max": 5, "accuracy": 80.0},
+        {"atom_id": 16, "category": "execution", "phase": "Plan", "rubric_score": 4, "rubric_max": 4, "accuracy": 100.0},
+        {"atom_id": 17, "category": "analysis", "phase": "Plan", "rubric_score": 3, "rubric_max": 4, "accuracy": 75.0},
+        {"atom_id": 18, "category": "replan", "phase": "Replan", "rubric_score": 4, "rubric_max": 4, "accuracy": 100.0},
+        {"atom_id": 19, "category": "analysis", "phase": "Plan", "rubric_score": 4, "rubric_max": 4, "accuracy": 100.0},
+        {"atom_id": 20, "category": "architecture", "phase": "Plan", "rubric_score": 5, "rubric_max": 5, "accuracy": 100.0}
+      ],
+      "phase_breakdown": {
+        "Plan": {"score": 57, "max": 64, "accuracy": 89.1},
+        "Replan": {"score": 19, "max": 20, "accuracy": 95.0}
+      },
+      "category_breakdown": {
+        "analysis": {"score": 23, "max": 25, "accuracy": 92.0},
+        "architecture": {"score": 20, "max": 23, "accuracy": 87.0},
+        "execution": {"score": 14, "max": 16, "accuracy": 87.5},
+        "replan": {"score": 19, "max": 20, "accuracy": 95.0}
+      }
+    }
+  },
+  "summary": {
+    "ranking": ["glm-5.2-cloud", "deepseek-v4-pro-cloud", "kimi-k2.7-code-cloud"],
+    "best_model": "glm-5.2-cloud",
+    "spread": 2.4
+  }
+}

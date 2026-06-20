@@ -1,0 +1,44 @@
+Thinking...
+We need answer user. They want ONLY structured analysis text with 4 items: [K
+two questions before classifying, recommended tier with one-sentence justif[6D[K
+justification, one data-sovereignty check, one agent owning updates. Contex[6D[K
+Context: new state file state/pending-model-reset.json appeared, schema unk[3D[K
+unknown. Need decide Tier 0 business-critical or Tier 1 operational. Need p[1D[K
+produce concise. No extra. Let's think.
+
+State file with pending-model-reset. "model reset" suggests resets of model[5D[K
+model, possibly important. Unknown schema. Tier classification likely based[5D[K
+based on: if file controls destructive/autonomous action affecting service/[8D[K
+service/customer data or model behavior, business-critical (Tier 0); if onl[3D[K
+only operational scheduling/state with no direct user impact, Tier 1. Need [K
+ask two questions before classifying: 1) Does the file trigger or gate a mo[2D[K
+model reset/autonomous destructive action? 2) Does its corruption/loss stop[4D[K
+stop serving or cause incorrect model behavior affecting users? Data-sovere[11D[K
+Data-sovereignty check: Does it contain any model/cardholder/PII/customer d[1D[K
+data or cross-border transfer implications? Owner agent: maybe "model lifec[5D[K
+lifecycle agent" or "model-serving/reset orchestrator" or "state-machine cu[2D[K
+custodian". We need one agent. Given name "pending-model-reset.json" likely[6D[K
+likely owned by the model-reset orchestrator agent. Let's return structured[10D[K
+structured exactly.
+
+Need ensure only structured analysis text, no markdown code block? They sai[3D[K
+said return ONLY structured analysis text. We can use a list. Ensure no pre[3D[K
+preamble/post.
+...done thinking.
+
+1. Does this file trigger, gate, or schedule a model reset, retraining, or [K
+deployment that would directly affect live service behavior?  
+2. Would its corruption, stale state, or loss cause service degradation, in[2D[K
+incorrect predictions, data loss, or customer-facing impact?
+
+**Recommended tier: Tier 0 (business-critical).**  
+Because a pending-model-reset state file likely gates or records a destruct[8D[K
+destructive/impactful operation on the production model, where stale or err[3D[K
+erroneous state could directly degrade service or customer outcomes.
+
+**Data-sovereignty check:** Verify whether the file includes customer data,[5D[K
+data, prompts, model outputs, or identifiers that must stay within a specif[6D[K
+specific jurisdiction.
+
+**Owning agent:** Model Lifecycle / Reset Orchestrator Agent.
+

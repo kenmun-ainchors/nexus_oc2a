@@ -1,8 +1,15 @@
 {
-  "generatedAt": "2026-06-19T11:35:00+00:00",
-  "acknowledged": true,
-  "resolvedAt": "2026-06-19T11:35:00+00:00",
-  "resolution": "Stale alert. Live cron state verified healthy: f71f75af consecutiveErrors=0, lastRunStatus=ok, status=ok. Cleared by Yoda per Ken approval 2026-06-19 21:35 AEST.",
-  "failures": [],
-  "warnings": []
+  "generatedAt": "2026-06-20T00:37:38.957321+00:00",
+  "failures": [
+    {
+      "cronId": "85595417",
+      "fullCronId": "85595417-73d0-416d-b6ff-d5b6578762a7",
+      "name": "PG-Notion Integrity Audit (daily)",
+      "consecutiveErrors": 3,
+      "lastError": "error",
+      "source": "live-cron-state"
+    }
+  ],
+  "warnings": [],
+  "acknowledged": false
 }

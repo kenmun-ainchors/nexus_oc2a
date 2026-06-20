@@ -1,0 +1,21 @@
+1. What we now know:
+- GLM-5.2 lacks filesystem access when run via `ollama run`, preventing it 
+from executing file-based operations.
+- It fails the CREST Verify judge benchmark, making it unsuitable for verif
+verification or evaluation roles.
+
+2. What we still need to test:
+- Its ability to generate coherent, logically sound, multi-step plans and d
+dynamically replan when simulated constraints are introduced.
+- Its analytical reasoning capabilities when provided with raw text or cont
+context blocks (bypassing the need for filesystem access).
+
+3. Revised success criteria for this model:
+- Successfully generates valid, executable plans and adapts them logically 
+during the replan phase without hallucinating filesystem dependencies.
+- Delivers accurate, insightful analysis based solely on provided context, 
+matching or exceeding the baseline analytical reasoning threshold.
+
+4. One place it should NOT be routed (with reason):
+- CREST Verify: The model already failed the judge benchmark and lacks the 
+filesystem access necessary to verify file states or code execution.

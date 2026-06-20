@@ -1,0 +1,93 @@
+Thinking...
+The user wants a structured replan text only. I need to produce a replan wi[2D[K
+with:
+1. Revised milestone split (at least 2 phases)
+2. New dependency: what must be true before Sage-as-Judge can go live
+3. One fallback if the dependency is not met
+4. One decision Ken must make (stated as a question)
+
+I should return only the structured replan text, no extra fluff. Let me cra[3D[K
+craft this carefully.
+
+Original plan: Deploy CREST v1.3 in one day.
+Execution reality: Tier A schema migration succeeded, but Sage-as-Judge wir[3D[K
+wiring is incomplete because glm-5.1:cloud cannot return clean verdicts.
+
+Revised plan:
+Phase 1: (Already complete or baseline) Tier A schema migration - complete,[9D[K
+complete, stabilize data pipeline, deploy monitoring.
+Phase 2: Sage-as-Judge wiring completion - requires clean verdicts from glm[3D[K
+glm-5.1:cloud. Maybe add a validation gate.
+Could have Phase 3: Full production deployment after judge is validated.
+
+New dependency: glm-5.1:cloud must return deterministic, parseable verdicts[8D[K
+verdicts (or clean verdicts) in a test harness with acceptable accuracy/lat[12D[K
+accuracy/latency. Could specify: a calibrated prompt/template and output sc[2D[K
+schema that passes a conformance test (e.g., 95% clean verdicts over repres[6D[K
+representative cases).
+
+Fallback: If dependency not met, switch to a human-in-the-loop review queue[5D[K
+queue or use an alternative model/local judge, or disable Sage-as-Judge and[3D[K
+and route verdicts to manual adjudication.
+
+Decision Ken must make: e.g., "Do we accept a 24-hour manual-review fallbac[7D[K
+fallback window, or do we delay the full v1.3 launch until glm-5.1:cloud ac[2D[K
+achieves clean verdicts?" Or "What is the minimum acceptable clean-verdict [K
+rate that justifies promoting Sage-as-Judge to production?" Or "Should we p[1D[K
+prioritize fixing the model output format over switching to a different jud[3D[K
+judge model?"
+
+Make it structured. Return only the structured replan text. I should make i[1D[K
+it concise and clear.
+
+Potential structure:
+
+REPLAN: CREST v1.3 Deployment
+
+1. Revised Milestones
+   Phase 1 - Foundation (COMPLETE): Tier A schema migration ... acceptance [K
+criteria ...
+   Phase 2 - Judge Validation Gate: ... 
+   Phase 3 - Production Release: ...
+
+2. New Dependency for Sage-as-Judge go-live
+   glm-5.1:cloud ... clean, deterministic verdicts ...
+
+3. Fallback if dependency not met
+   ...
+
+4. Decision for Ken
+   ...
+
+I think 2-3 phases is fine; at least 2. I'll do 3 to be safe.
+
+Let me make it professional.
+...done thinking.
+
+REPLAN: CREST v1.3 Deployment
+
+1. Revised Milestone Split
+   - Phase 1 — Foundation (COMPLETE): Tier A schema migration is live and v[1D[K
+validated; data pipeline is stable and monitored.
+   - Phase 2 — Judge Validation Gate: Complete Sage-as-Judge wiring only af[2D[K
+after glm-5.1:cloud reliably returns clean verdicts. Exit criteria: ≥95% pa[2D[K
+parseable verdicts with no unresolved ambiguity on a representative test se[2D[K
+set, plus latency within SLA.
+   - Phase 3 — Production Release: Deploy CREST v1.3 end-to-end with Sage-a[6D[K
+Sage-as-Judge active and automated health checks.
+
+2. New Dependency Before Sage-as-Judge Can Go Live
+   - glm-5.1:cloud must be configured to return deterministic, schema-compl[12D[K
+schema-compliant verdicts (clean verdict output) through a validated prompt[6D[K
+prompt/template and response parser.
+
+3. Fallback If Dependency Is Not Met
+   - Degrade Sage-as-Judge to an async human-review queue: route verdict ca[2D[K
+candidates to manual adjudication and ship CREST v1.3 without automated jud[3D[K
+judging until the model output is clean.
+
+4. Decision Ken Must Make
+   - Do we ship CREST v1.3 on the original date with Sage-as-Judge operatin[8D[K
+operating in human-review fallback mode, or do we delay the launch until gl[2D[K
+glm-5.1:cloud passes the clean-verdict gate?
+

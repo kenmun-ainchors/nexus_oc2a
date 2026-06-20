@@ -1,0 +1,27 @@
+New Default Model Assignment by Role Category:
+- Category 1: Internal Process Optimization → gemma4:31b-cloud
+- Category 2: Resource Allocation & Scheduling → gemma4:31b-cloud
+- Category 3: Risk Assessment & Mitigation Planning → gemma4:31b-cloud
+All Tier 3 agents in these categories default to gemma4:31b-cloud for Plan/
+Plan/Replan tasks.
+
+Exception Rule:
+For high-stakes external-facing work (e.g., client-facing strategic proposa
+proposals, regulatory filings, public communications), Tier 3 agents will c
+continue to use deepseek-v4-pro:cloud to ensure maximum accuracy and polish
+polish.
+
+Verification Step Before Rollout:
+Conduct a controlled A/B test on a representative sample of Plan/Replan tas
+tasks from each category. Compare gemma4:31b-cloud outputs against the curr
+current deepseek-v4-pro baseline using human evaluators and automated metri
+metrics (coherence, constraint satisfaction, actionability). Proceed with r
+rollout only if gemma4 achieves ≥95% of baseline quality with no critical f
+failures.
+
+Rollback Condition:
+If post-rollout monitoring reveals >10% increase in plan rejection rate, >5
+>5% incidence of critical errors (e.g., safety violations, regulatory non-c
+non-compliance), or sustained negative stakeholder feedback over a 2-week p
+period, immediately revert all Tier 3 Plan/Replan tasks to deepseek-v4-pro:
+deepseek-v4-pro:cloud and reassess.

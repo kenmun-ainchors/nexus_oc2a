@@ -1,0 +1,34 @@
+1. Output format
+The dashboard will be delivered as a dynamically generated Markdown file po
+posted to a dedicated Slack channel every morning.
+
+2. Three metrics to show
+- Backlog Aging: Count of items in Notion DB A older than 7 days or current
+currently marked as blocked.
+- System Health Index: A composite score based on the presence of critical 
+errors or degraded states logged in state/health-state.json.
+- Operational Bottlenecks: A combined metric showing the number of agents i
+in "error" or "paused" states (from state/agent-status.json) alongside the 
+unread Gmail count to highlight unaddressed operational or communication ba
+backlogs.
+
+3. One integration point per data source
+- Notion DB A (Backlog): Notion API query filtering by "Status = Backlog" a
+and sorting by "Last Modified Date".
+- state/health-state.json: Direct local filesystem read via a Node.js cron 
+script accessing the state directory.
+- state/agent-status.json: Direct local filesystem read via a Node.js cron 
+script parsing current agent operational states.
+- Gmail unread count: Google Apps Script or Gmail API integration querying 
+the unread message count for the primary inbox label.
+
+4. One scheduling recommendation
+Schedule the dashboard aggregation and delivery script to run via a cron jo
+job at 6:00 AM daily, ensuring the report is generated and sent before Aria
+Aria's 8:00 AM review.
+
+5. One guard against over-alerting
+Implement a "sustained threshold" rule where items only trigger a red/criti
+red/critical status if the condition (e.g., an agent in an error state or u
+unread Gmail count > 50) persists for more than one hour, suppressing trans
+transient spikes and state flapping.

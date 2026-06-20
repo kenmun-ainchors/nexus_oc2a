@@ -1,0 +1,47 @@
+1. The Nexus HIVE currently has no dedicated agent for B2B partner integrat
+integration discovery, so partner onboarding work either falls onto Ahsoka'
+Ahsoka's consumer-facing path or is handled by ad-hoc scripts that bypass t
+the standard HIVE routing model. This mismatch produces stale partner inven
+inventory, inconsistent OpenClaw runtime registry entries, and Tailscale AC
+ACL decisions that do not reflect actual partner integration endpoints. Add
+Adding Luthen will centralize B2B partner discovery and keep the Notion bac
+backlog in sync with real partner integration state.
+
+2.
+   a. `agents/luthen/openclaw-manifest.yaml` — runtime registry manifest de
+defining Luthen's ID, capabilities, resource profile, and partner-discovery
+partner-discovery intents.
+   b. `agents/luthen/discovery.py` — script that ingests B2B partner integr
+integration metadata and emits validated registry events for the HIVE.
+   c. `config/tailscale/acls/luthen.hcl` — ACL fragment adding Luthen's mes
+mesh tags, routes to partner endpoints, and internal HIVE service reachabil
+reachability.
+   d. `config/notion/backlog-luthen.yaml` — mapping between Luthen discover
+discovery outputs and the Notion backlog database fields, statuses, and own
+owners.
+   e. `hive/conductor/luthen-registration.yaml` — registry patch that enrol
+enrolls Luthen, sets its scheduling policy, and defines handoff rules with 
+Ahsoka.
+
+3. Dependency map:
+   - Ahsoka: shared external-discovery event schema, but Luthen owns B2B pa
+partner classification while Ahsoka remains on consumer/public discovery.
+   - OpenClaw runtime registry: Luthen must register, resolve IDs, and publ
+publish capability metadata.
+   - Tailscale mesh: provides Luthen's network identity, ACL tags, and encr
+encrypted access to partner integration endpoints and internal HIVE control
+control plane.
+   - Notion backlog: source of truth for partner discovery state; Luthen re
+reads backlogs and writes discovery findings, statuses, and ownership.
+   - HIVE conductor/orchestrator: routes tasks, prevents duplication, and c
+coordinates runtime lifecycle between Luthen and other agents.
+
+4. Risk: Luthen and Ahsoka may both attempt to discover or record the same 
+external entity, causing duplicate backlog entries and conflicting registry
+registry state. Mitigation: enforce a `partner-type` classification namespa
+namespace in the conductor with mutual-exclusion rules — items tagged `part
+`partner:b2b` are routed exclusively to Luthen, while `partner:public` rema
+remain with Ahsoka, and any cross-boundary candidate triggers a single reco
+reconciler before Notion writes.
+
+5. `openclaw://nexus-hive/agents/luthen:b2b-discovery-v1`

@@ -1,0 +1,36 @@
+1. Implementation Type: Additive
+The addition of the Friday 'week in review' post is purely additive. The ex
+existing 3 weekly crons (Tue/Wed/Thu) and the 12-post / 4-movement schedule
+schedule will remain entirely untouched and separate from the new Friday re
+requirement.
+
+2. Scheduling Options & Trade-offs
+Option A: Independent 4th Cron Job
+- Plan: Create a completely new, standalone cron job that runs only on Frid
+Fridays to trigger the 'week in review' content.
+- Trade-off: Pro: Complete isolation prevents any risk of breaking the exis
+existing 12-post/4-movement logic. Easy to toggle or maintain independently
+independently. Con: Requires managing an additional scheduled task and sepa
+separate payload logic.
+
+Option B: Expanded Schedule with Bypass Logic
+- Plan: Add Friday to the existing cron runner, but implement a conditional
+conditional check that bypasses the standard 12-post queue and triggers the
+the 'week in review' payload only when the day is Friday.
+- Trade-off: Pro: Consolidates all LinkedIn posting into a single operation
+operational runner. Con: Increases complexity of the existing script, posin
+posing a slight risk of accidental interference with the 12-post rotation i
+if the conditional logic fails.
+
+3. Guard Against Double-Posting
+- Idempotency / Daily Lock Check: Implement a strict "daily_post_lock" or "
+"last_published_date" flag in the database. Before executing any API calls,
+calls, the script must verify that no post has already been successfully pu
+published for that specific calendar date. If a flag for that date exists, 
+the cron aborts gracefully.
+
+4. Recommended Cron Expression
+- Expression: 30 7 * * 5
+- Note: This assumes the server or task scheduler is configured to run in A
+AEST (UTC+10). If the scheduler operates in UTC, the equivalent expression 
+would be 30 21 * * 4.

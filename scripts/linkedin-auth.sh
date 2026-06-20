@@ -1,22 +1,102 @@
 #!/usr/bin/env zsh
 # linkedin-auth.sh — LinkedIn OAuth 2.0 PKCE flow for AInchors
+# Supports multi-account auth: Ken personal (default), Angie personal, AInchors business.
 # Requires Ken to open the auth URL in a browser manually.
 # Stores tokens in macOS Keychain ONLY. No secrets in files.
 #
-# Usage: bash scripts/linkedin-auth.sh
+# Usage:
+#   zsh scripts/linkedin-auth.sh                          # Ken personal (default, backward compatible)
+#   zsh scripts/linkedin-auth.sh --account angie          # Angie personal
+#   zsh scripts/linkedin-auth.sh --account business      # AInchors company page
+#   zsh scripts/linkedin-auth.sh --dry-run                # Show what would happen
+#   zsh scripts/linkedin-auth.sh --help                   # Show usage
 
 set -euo pipefail
 
 WORKSPACE="/Users/ainchorsangiefpl/.openclaw/workspace"
 STATE_DIR="$WORKSPACE/state"
-AUTH_STATE_FILE="$STATE_DIR/linkedin-auth.json"
 
 REDIRECT_URI="http://localhost:8765/callback"
-SCOPES="openid profile email w_member_social r_basicprofile r_1st_connections_size r_organization_social r_organization_admin r_ads_reporting r_ads"
 AUTH_ENDPOINT="https://www.linkedin.com/oauth/v2/authorization"
 TOKEN_ENDPOINT="https://www.linkedin.com/oauth/v2/accessToken"
 USERINFO_ENDPOINT="https://api.linkedin.com/v2/userinfo"
 CALLBACK_PORT=8765
+
+# ── Account configuration ──────────────────────────────────────────────────────
+
+# Each account has: Keychain service prefix, scopes, state file suffix
+# Ken personal: default scopes (w_member_social + org read scopes for visibility)
+# Angie personal: same scopes as Ken
+# Business: needs w_organization_social for org posting
+
+declare -A ACCOUNT_SCOPES
+ACCOUNT_SCOPES[ken]="openid profile email w_member_social r_basicprofile r_1st_connections_size r_organization_social r_organization_admin r_ads_reporting r_ads"
+ACCOUNT_SCOPES[angie]="openid profile email w_member_social r_basicprofile r_1st_connections_size r_organization_social r_organization_admin r_ads_reporting r_ads"
+ACCOUNT_SCOPES[business]="openid profile email w_organization_social r_organization_social r_organization_admin r_ads_reporting r_ads"
+
+declare -A ACCOUNT_LABELS
+ACCOUNT_LABELS[ken]="Ken Mun (personal)"
+ACCOUNT_LABELS[angie]="Angie (personal)"
+ACCOUNT_LABELS[business]="AInchors (company page)"
+
+declare -A ACCOUNT_KEYCHAIN_PREFIX
+ACCOUNT_KEYCHAIN_PREFIX[ken]="ainchors-linkedin"
+ACCOUNT_KEYCHAIN_PREFIX[angie]="ainchors-linkedin-angie"
+ACCOUNT_KEYCHAIN_PREFIX[business]="ainchors-linkedin-business"
+
+declare -A ACCOUNT_STATE_SUFFIX
+ACCOUNT_STATE_SUFFIX[ken]=""
+ACCOUNT_STATE_SUFFIX[angie]="-angie"
+ACCOUNT_STATE_SUFFIX[business]="-business"
+
+# ── Defaults ──────────────────────────────────────────────────────────────────
+
+ACCOUNT="ken"
+DRY_RUN=false
+
+# ── Parse args ────────────────────────────────────────────────────────────────
+
+while [[ $# -gt 0 ]]; do
+  case "$1" in
+    --account)
+      ACCOUNT="$2"
+      shift 2
+      ;;
+    --dry-run)
+      DRY_RUN=true
+      shift
+      ;;
+    --help|-h)
+      echo "Usage: zsh scripts/linkedin-auth.sh [--account ken|angie|business] [--dry-run]"
+      echo ""
+      echo "  --account     Account to authenticate (default: ken)"
+      echo "                ken     = Ken Mun personal profile"
+      echo "                angie   = Angie personal profile"
+      echo "                business = AInchors company page"
+      echo "  --dry-run     Show what would happen without making changes"
+      echo "  --help, -h    Show this help"
+      exit 0
+      ;;
+    *)
+      echo "❌ Unknown argument: $1" >&2
+      echo "Usage: zsh scripts/linkedin-auth.sh [--account ken|angie|business] [--dry-run]" >&2
+      exit 1
+      ;;
+  esac
+done
+
+# ── Validate account ──────────────────────────────────────────────────────────
+
+if [[ -z "${ACCOUNT_SCOPES[$ACCOUNT]:-}" ]]; then
+  echo "❌ Unknown account: $ACCOUNT. Valid: ken, angie, business" >&2
+  exit 1
+fi
+
+SCOPES="${ACCOUNT_SCOPES[$ACCOUNT]}"
+LABEL="${ACCOUNT_LABELS[$ACCOUNT]}"
+KEYCHAIN_PREFIX="${ACCOUNT_KEYCHAIN_PREFIX[$ACCOUNT]}"
+STATE_SUFFIX="${ACCOUNT_STATE_SUFFIX[$ACCOUNT]}"
+AUTH_STATE_FILE="$STATE_DIR/linkedin-auth${STATE_SUFFIX}.json"
 
 # ── Helpers ───────────────────────────────────────────────────────────────────
 
@@ -35,22 +115,33 @@ random_state() {
   python3 -c "import secrets; print(secrets.token_urlsafe(32))"
 }
 
-# Generate PKCE code verifier (43-128 chars, URL-safe base64)
-pkce_verifier() {
-  python3 -c "import secrets, base64; v=secrets.token_bytes(48); print(base64.urlsafe_b64encode(v).rstrip(b'=').decode())"
-}
+# ── Dry-run mode ──────────────────────────────────────────────────────────────
 
-# Generate PKCE code challenge (S256)
-pkce_challenge() {
-  local verifier="$1"
-  python3 -c "
-import sys, hashlib, base64
-v = sys.argv[1].encode()
-digest = hashlib.sha256(v).digest()
-challenge = base64.urlsafe_b64encode(digest).rstrip(b'=').decode()
-print(challenge)
-" "$verifier"
-}
+if [[ "$DRY_RUN" == "true" ]]; then
+  echo ""
+  echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
+  echo "  🧪 DRY RUN — auth preview (no changes made):"
+  echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
+  echo ""
+  echo "  Account     : $ACCOUNT ($LABEL)"
+  echo "  Scopes      : $SCOPES"
+  echo "  State file  : $AUTH_STATE_FILE"
+  echo "  Keychain    : ${KEYCHAIN_PREFIX}-access-token"
+  echo "              : ${KEYCHAIN_PREFIX}-refresh-token"
+  echo ""
+  echo "  What would happen:"
+  echo "    1. Open LinkedIn OAuth URL in browser"
+  echo "    2. Start callback listener on port $CALLBACK_PORT"
+  echo "    3. Exchange auth code for tokens"
+  echo "    4. Store access token in Keychain (service: ${KEYCHAIN_PREFIX}-access-token)"
+  echo "    5. Store refresh token in Keychain (service: ${KEYCHAIN_PREFIX}-refresh-token)"
+  echo "    6. Fetch member info from LinkedIn"
+  echo "    7. Write state file: $AUTH_STATE_FILE"
+  echo ""
+  echo "  ✅ Dry run complete. Remove --dry-run to auth for real."
+  echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
+  exit 0
+fi
 
 # ── Retrieve credentials from Keychain ────────────────────────────────────────
 
@@ -67,8 +158,6 @@ ok "Credentials loaded from Keychain."
 # ── Build auth URL ─────────────────────────────────────────────────────────────
 
 STATE=$(random_state)
-# PKCE disabled — using standard OAuth with client_secret (web app flow)
-# CODE_VERIFIER and CODE_CHALLENGE removed
 
 SCOPE_ENCODED=$(urlencode "$SCOPES")
 REDIRECT_ENCODED=$(urlencode "$REDIRECT_URI")
@@ -86,6 +175,7 @@ echo ""
 echo "  $AUTH_URL"
 echo ""
 echo "  LinkedIn will redirect to: $REDIRECT_URI"
+echo "  Account: $ACCOUNT ($LABEL)"
 echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
 echo ""
 
@@ -198,15 +288,15 @@ fi
 
 ok "Tokens received."
 
-# ── Store tokens in Keychain ───────────────────────────────────────────────────
+# ── Store tokens in Keychain (per-account) ────────────────────────────────────
 
-log "Storing access token in Keychain..."
-security add-generic-password -a linkedin -s ainchors-linkedin-access-token -w "$ACCESS_TOKEN" -U \
+log "Storing access token in Keychain (service: ${KEYCHAIN_PREFIX}-access-token)..."
+security add-generic-password -a linkedin -s "${KEYCHAIN_PREFIX}-access-token" -w "$ACCESS_TOKEN" -U \
   || err "Failed to store access token in Keychain."
 
 if [[ -n "$REFRESH_TOKEN" && "$REFRESH_TOKEN" != "None" ]]; then
-  log "Storing refresh token in Keychain..."
-  security add-generic-password -a linkedin -s ainchors-linkedin-refresh-token -w "$REFRESH_TOKEN" -U \
+  log "Storing refresh token in Keychain (service: ${KEYCHAIN_PREFIX}-refresh-token)..."
+  security add-generic-password -a linkedin -s "${KEYCHAIN_PREFIX}-refresh-token" -w "$REFRESH_TOKEN" -U \
     || warn "Failed to store refresh token (LinkedIn may not have issued one — that's OK)."
 else
   warn "No refresh token issued by LinkedIn (standard for personal OAuth apps)."
@@ -251,10 +341,11 @@ mkdir -p "$STATE_DIR"
 python3 -c "
 import json
 data = {
+    'account': '$ACCOUNT',
     'memberId': '$MEMBER_ID',
     'displayName': '$DISPLAY_NAME',
     'authorizedAt': '$AUTHORIZED_AT',
-    'scopes': ['openid', 'profile', 'email', 'w_member_social', 'r_basicprofile', 'r_1st_connections_size', 'r_organization_social', 'r_organization_admin', 'r_ads_reporting', 'r_ads'],
+    'scopes': '${SCOPES}'.split(),
     'tokenExpiry': '$TOKEN_EXPIRY'
 }
 with open('$AUTH_STATE_FILE', 'w') as f:
@@ -270,6 +361,7 @@ echo ""
 echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
 echo "  ✅ LinkedIn OAuth complete!"
 echo ""
+echo "  Account    : $ACCOUNT ($LABEL)"
 echo "  Member ID  : $MEMBER_ID"
 echo "  Name       : $DISPLAY_NAME"
 echo "  Scopes     : $SCOPES"

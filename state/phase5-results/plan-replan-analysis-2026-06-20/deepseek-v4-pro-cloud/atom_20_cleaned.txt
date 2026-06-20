@@ -1,0 +1,16 @@
+1. **Unsafe:** Exposing gateway health metrics without authentication could
+could leak internal hostnames, IP addresses, or software versions, enabling
+enabling attackers to map infrastructure and target vulnerable components.
+2. **Data class that must never appear:** Internal network details (private
+(private IPs, hostnames, ports, or backend service URLs).
+3. **Hosting recommendation:** Serve the page from a static, read-only web 
+host on a separate subdomain, using a CDN with no direct connection to inte
+internal systems; generate the content via a sanitized, one-way export pipe
+pipeline.
+4. **Approval gate before going live:** Formal security review and written 
+sign-off by the CISO or designated security architect, including a penetrat
+penetration test of the exposed endpoint.
+5. **Ongoing monitoring control:** Automated daily content integrity scan t
+that detects and alerts on any leaked sensitive patterns (e.g., IP addresse
+addresses, credentials, internal paths) and logs all access for anomaly det
+detection.

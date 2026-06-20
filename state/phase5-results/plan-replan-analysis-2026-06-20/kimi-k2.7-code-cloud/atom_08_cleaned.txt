@@ -1,0 +1,26 @@
+REPLAN: GLM-5.2 for CREST Plan/Replan/Analysis
+
+1. What we now know
+- GLM-5.2 invoked via `ollama run` has no filesystem access, so it cannot p
+perform file-dependent operations.
+- It failed the CREST Verify judge benchmark, so it is not viable for verif
+verification/evaluation roles.
+
+2. What we still need to test
+- Quality, completeness, and format correctness of plans generated for CRES
+CREST Plan/Replan/Analysis tasks.
+- Ability to revise a plan correctly when given new constraints, failures, 
+or feedback.
+
+3. Revised success criteria for this model
+- Produces valid, structured, actionable plans on ≥80% of Plan/Replan/Analy
+Plan/Replan/Analysis test cases.
+- Revises plans accurately based on feedback without inventing non-existent
+non-existent filesystem or judge actions.
+- Runs within acceptable latency and does not attempt unsupported tool call
+calls.
+
+4. One place it should NOT be routed (with reason)
+- CREST Verify: GLM-5.2 lacks filesystem access and has already failed the 
+judge benchmark, so it cannot reliably verify outputs or perform file-based
+file-based evaluation.

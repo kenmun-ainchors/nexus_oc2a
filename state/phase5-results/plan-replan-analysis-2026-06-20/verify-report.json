@@ -1,0 +1,166 @@
+{
+  "verification_date": "2026-06-20",
+  "verify_atoms": [
+    1,
+    4,
+    9
+  ],
+  "models": {
+    "glm-5.2-cloud": {
+      "results": [
+        {
+          "atom_id": 1,
+          "status": "completed",
+          "original_score": 6,
+          "verify_score": 5,
+          "max_possible": 7,
+          "stable": false,
+          "scores": {
+            "deliverables_count": 1,
+            "has_dependency_map": 0,
+            "has_risk_mitigation": 1,
+            "registry_id_format": 0,
+            "insight": 3
+          }
+        },
+        {
+          "atom_id": 4,
+          "status": "completed",
+          "original_score": 5,
+          "verify_score": 5,
+          "max_possible": 7,
+          "stable": true,
+          "scores": {
+            "answers_additive_or_replacement": 1,
+            "options_count": 1,
+            "has_guard": 1,
+            "has_cron_expr": 0,
+            "insight": 2
+          }
+        },
+        {
+          "atom_id": 9,
+          "status": "completed",
+          "original_score": 6,
+          "verify_score": 6,
+          "max_possible": 7,
+          "stable": true,
+          "scores": {
+            "has_rollback_condition": 1,
+            "categories_count": 1,
+            "has_exception_rule": 1,
+            "has_verification_step": 1,
+            "insight": 2
+          }
+        }
+      ],
+      "stable_count": 2,
+      "total_verified": 3,
+      "stability_pct": 66.7
+    },
+    "kimi-k2.7-code-cloud": {
+      "results": [
+        {
+          "atom_id": 1,
+          "status": "completed",
+          "original_score": 7,
+          "verify_score": 6,
+          "max_possible": 7,
+          "stable": false,
+          "scores": {
+            "deliverables_count": 1,
+            "has_dependency_map": 0,
+            "has_risk_mitigation": 1,
+            "registry_id_format": 1,
+            "insight": 3
+          }
+        },
+        {
+          "atom_id": 4,
+          "status": "completed",
+          "original_score": 5,
+          "verify_score": 5,
+          "max_possible": 7,
+          "stable": true,
+          "scores": {
+            "answers_additive_or_replacement": 1,
+            "options_count": 1,
+            "has_guard": 1,
+            "has_cron_expr": 0,
+            "insight": 2
+          }
+        },
+        {
+          "atom_id": 9,
+          "status": "completed",
+          "original_score": 6,
+          "verify_score": 6,
+          "max_possible": 7,
+          "stable": true,
+          "scores": {
+            "has_rollback_condition": 1,
+            "categories_count": 1,
+            "has_exception_rule": 1,
+            "has_verification_step": 1,
+            "insight": 2
+          }
+        }
+      ],
+      "stable_count": 2,
+      "total_verified": 3,
+      "stability_pct": 66.7
+    },
+    "deepseek-v4-pro-cloud": {
+      "results": [
+        {
+          "atom_id": 1,
+          "status": "completed",
+          "original_score": 6,
+          "verify_score": 7,
+          "max_possible": 7,
+          "stable": false,
+          "scores": {
+            "deliverables_count": 1,
+            "has_dependency_map": 1,
+            "has_risk_mitigation": 1,
+            "registry_id_format": 1,
+            "insight": 3
+          }
+        },
+        {
+          "atom_id": 4,
+          "status": "completed",
+          "original_score": 5,
+          "verify_score": 5,
+          "max_possible": 7,
+          "stable": true,
+          "scores": {
+            "answers_additive_or_replacement": 1,
+            "options_count": 1,
+            "has_guard": 1,
+            "has_cron_expr": 0,
+            "insight": 2
+          }
+        },
+        {
+          "atom_id": 9,
+          "status": "completed",
+          "original_score": 5,
+          "verify_score": 5,
+          "max_possible": 7,
+          "stable": true,
+          "scores": {
+            "has_rollback_condition": 1,
+            "categories_count": 1,
+            "has_exception_rule": 1,
+            "has_verification_step": 1,
+            "insight": 1
+          }
+        }
+      ],
+      "stable_count": 2,
+      "total_verified": 3,
+      "stability_pct": 66.7
+    }
+  }
+}

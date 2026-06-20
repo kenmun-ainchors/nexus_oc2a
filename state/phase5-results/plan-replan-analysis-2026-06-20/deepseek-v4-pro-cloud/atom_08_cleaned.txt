@@ -1,0 +1,25 @@
+1. What we now know:
+   - GLM-5.2 has no filesystem access via ollama run, making it incapable o
+of executing CREST Verify tasks that require file operations.
+   - It fails the judge benchmark, indicating poor performance in verificat
+verification and judgment roles.
+
+2. What we still need to test:
+   - Its ability to generate coherent, step-by-step plans for complex, mult
+multi-stage problems (Plan).
+   - Its capacity to dynamically revise plans when given new constraints or
+or feedback, and to perform deep analysis of problem structures (Replan/Ana
+(Replan/Analysis).
+
+3. Revised success criteria for this model:
+   - Achieves ≥80% accuracy on a curated plan-generation benchmark (e.g., P
+PlanBench-style tasks).
+   - Successfully replans in ≥4 out of 5 scenario-based replanning challeng
+challenges without introducing logical inconsistencies.
+   - Produces analysis rated “useful” or higher by human evaluators in ≥90%
+≥90% of test cases.
+
+4. One place it should NOT be routed:
+   - CREST Verify tasks, because it lacks filesystem access and fails the j
+judge benchmark, rendering it unable to perform required verification steps
+steps.

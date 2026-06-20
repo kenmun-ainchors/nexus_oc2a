@@ -1,0 +1,87 @@
+Thinking...
+We need answer structured plan text only. User wants plan with items. We mu[2D[K
+must produce concise structured plan text, no extra. Include: 1 Output form[4D[K
+format (one sentence: e.g. markdown, HTML, Notion page) 2 Three metrics to [K
+show 3 One integration point per data source (four sources: Notion DB A Bac[3D[K
+Backlog, state/health-state.json, state/agent-status.json, Gmail unread cou[3D[K
+count) 4 One scheduling recommendation 5 One guard against over-alerting. R[1D[K
+Return ONLY structured plan text. Need think of exact format.
+
+The output should include one sentence for output format. Three metrics to [K
+show. One integration point per data source. Scheduling recommendation sent[4D[K
+sentence. Guard sentence. Maybe label sections.
+
+Let's craft:
+
+1. Output format: A single HTML page published via the internal dashboard, [K
+viewable in Aria's browser each morning.
+
+2. Metrics: backlog health (Backlog count/aging), system health score (heal[5D[K
+(health-state.json), agent availability status (agent-status.json), inbox l[1D[K
+load (Gmail unread count). Wait they asked three metrics to show, but four [K
+data sources. Could combine backlog health and inbox load? We need three me[2D[K
+metrics. Maybe: (a) Backlog/inbox load, (b) system health score, (c) agent [K
+operational status. But need per data source. Data sources four. Maybe metr[4D[K
+metrics are:
+- Overall health score (derived from health-state.json)
+- Active/available agent count (from agent-status.json)
+- Critical backlog + unread inbox load (combined from Notion DB A and Gmail[5D[K
+Gmail unread count)
+But then one integration point per data source is separate. Could list inte[4D[K
+integration points for each source. Good.
+
+3. Integration points:
+- Notion DB A (Backlog): API query filtered by status to fetch backlog coun[4D[K
+count and oldest task age.
+- state/health-state.json: read from local file or HTTP endpoint and parse [K
+health flags.
+- state/agent-status.json: parse agent statuses to determine online/offline[14D[K
+online/offline/recent-failure counts.
+- Gmail unread count: OAuth2 Gmail API query with label filter for unread i[1D[K
+in inbox.
+
+4. Scheduling: Generate dashboard at 07:00 local time weekdays, delivered a[1D[K
+as a scheduled email/link; refresh data within 15 minutes before send.
+
+5. Guard: Only send/flag alerts when health-state shows red, agent offline [K
+> threshold, backlog age exceeds threshold, or unread count exceeds thresho[7D[K
+threshold; otherwise send all-green summary without notifications.
+
+Need ensure "Return ONLY structured plan text". Could use headings and bull[4D[K
+bullets. Fine.
+
+Let's produce concise.
+...done thinking.
+
+**1. Output format**  
+A single HTML morning dashboard page, updated automatically and linked in A[1D[K
+Aria’s daily stand‑up channel/bookmark.
+
+**2. Three metrics to show**  
+- **System health score** — red/yellow/green summary derived from `state/he[9D[K
+`state/health-state.json`.  
+- **Agent operational status** — count of online / offline / error agents f[1D[K
+from `state/agent-status.json`.  
+- **Inbound work pressure** — combined Notion backlog size/age + Gmail unre[4D[K
+unread count trend.
+
+**3. One integration point per data source**  
+- **Notion DB A (Backlog):** Query the Notion API with a status filter to r[1D[K
+return open items and the oldest created/last‑edited timestamp.  
+- **`state/health-state.json`:** Read from the local/shared file path (or e[1D[K
+exposed HTTP endpoint) and parse the top‑level health flags/scores.  
+- **`state/agent-status.json`:** Parse the JSON array of agent records and [K
+aggregate `online`, `offline`, and `last_error` counts.  
+- **Gmail unread count:** Use the Gmail API with OAuth2 to fetch `messages.[10D[K
+`messages.list` filtered by `label:UNREAD` in `INBOX`, returning only the t[1D[K
+total count.
+
+**4. Scheduling recommendation**  
+Generate the dashboard at **07:30 local time on weekdays**, pulling fresh d[1D[K
+data no more than 15 minutes before generation.
+
+**5. Guard against over-alerting**  
+Only raise a visible alert if any metric crosses its threshold; when all me[2D[K
+metrics are healthy, send the dashboard as a plain “all green” summary with[4D[K
+with no notifications.
+

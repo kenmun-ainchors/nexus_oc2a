@@ -1,0 +1,47 @@
+## Debugging Plan
+
+### 1. Diagnostic Commands / File Reads
+
+# A. Read the current alert and extract the referenced cron job ID
+cat state/cron-health-alert.json | jq .
+
+# B. Map the job ID to the actual cron definition
+JOB_ID=$(jq -r '.job_id // .cron_job_id // empty' state/cron-health-alert.j
+state/cron-health-alert.json)
+grep -R "$JOB_ID" /etc/crontab /etc/cron.d /var/spool/cron 2>/dev/null
+
+# C. Inspect the health-check logic that creates/recreates the alert
+cat $(command -v cron-health-check || echo /opt/monitoring/bin/cron-health-
+/opt/monitoring/bin/cron-health-check)
+# And check cron logs around the last run
+journalctl -u cron -n 200 --since "24 hours ago" | grep -i "$JOB_ID\|cron-h
+"$JOB_ID\|cron-health"
+
+### 2. Hypotheses (Ranked)
+
+1. **Most likely: The underlying cron command is still failing.**  
+   Auto-heal only removes the alert file; the next scheduled cron run exits
+exits non-zero, so the health checker immediately recreates `state/cron-hea
+`state/cron-health-alert.json`.
+
+2. **Less likely: The health checker is comparing stale state or wrong job 
+ID.**  
+   The alert references a job ID but not the command, so the checker may be
+be reacting to an outdated ID, a duplicate entry, or a race between auto-he
+auto-heal and the monitor.
+
+### 3. Fix
+
+Identify and repair the failing cron command itself (e.g., fix its working 
+directory, environment variables, permissions, or script logic) so it exits
+exits with status `0`.  
+Do not modify the alert file deletion logic; let auto-heal continue to clea
+clear the file, and prevent regeneration by removing the real failure.
+
+### 4. Verification
+
+After repairing the command, either wait for the next scheduled run or invo
+invoke the command in the exact cron environment and confirm:
+- The command returns exit code `0`.
+- `state/cron-health-alert.json` is **not** recreated after the next schedu
+scheduled run.

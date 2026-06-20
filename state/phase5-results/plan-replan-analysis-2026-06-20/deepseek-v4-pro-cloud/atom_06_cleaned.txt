@@ -1,0 +1,20 @@
+1. Policy adjustment A: Shift a fixed percentage (e.g., 30%) of Ollama infe
+inference requests for non-CREST workloads to the deepseek-v4-pro:cloud end
+endpoint for the remainder of the week.  
+   Trade-off: Increases cloud compute cost and may introduce slightly highe
+higher latency for those requests, but preserves Ollama capacity for critic
+critical tasks.
+
+2. Policy adjustment B: Implement a per-entity daily Ollama request cap (e.
+(e.g., 15% of remaining weekly budget per day) with a fallback to deepseek-
+deepseek-v4-pro:cloud once the cap is hit.  
+   Trade-off: May delay or queue low-priority requests when caps are reache
+reached, potentially slowing non-urgent workflows, but prevents budget over
+overrun without fully disabling Ollama.
+
+3. Recommended immediate action: Reduce Ollama request volume by routing al
+all non-essential CREST replan queries to deepseek-v4-pro:cloud until Monda
+Monday to stay within the weekly burn limit.
+
+4. Metric to watch next week: Daily Ollama request burn rate as a percentag
+percentage of weekly quota, monitored each morning to detect early spikes.

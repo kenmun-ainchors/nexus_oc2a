@@ -1,0 +1,18 @@
+1. Three possible states
+- Actively processing (Executing long-running computations)
+- Deadlocked or hung (Waiting indefinitely on a resource or I/O)
+- Terminated/Zombie (Process crashed but was not properly reaped)
+
+2. One command or tool to check each
+- Actively processing: `top -p <PID>` (Monitor real-time CPU/Memory usage)
+- Deadlocked or hung: `strace -p <PID>` (Inspect blocked system calls)
+- Terminated/Zombie: `ps -p <PID> -o pid,stat,cmd` (Check process state for
+for 'Z' status)
+
+3. Recommended threshold before alerting Ken
+- 6 hours of total runtime, or 2 hours of continuous zero CPU usage, whiche
+whichever occurs first.
+
+4. One action to take if it is stalled
+- Terminate the process using `kill -9 <PID>` and restart the subagent task
+task with verbose logging enabled to capture the exact failure point.

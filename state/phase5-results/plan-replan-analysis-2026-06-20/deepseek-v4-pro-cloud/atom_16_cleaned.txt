@@ -1,0 +1,15 @@
+1. Two scripts to audit:
+   - `scripts/load-skill.sh`
+   - `scripts/skill-loader.sh`
+
+2. Two replacement patterns:
+   - Replace `bash scripts/load-skill.sh <name>` with `bash scripts/skill-l
+scripts/skill-load.sh <name>`
+   - Replace `bash scripts/skill-loader.sh <name>` with `bash scripts/skill
+scripts/skill-load.sh <name>`
+
+3. Backward-compatible shim proposal: Yes, create a wrapper script at each 
+old path that forwards to `bash scripts/skill-load.sh "$@"`.
+
+4. One check to verify all active agents use the loader: Run `grep -rE 'scr
+'scripts/(load-skill|skill-loader)\.sh' agents/` and ensure no matches.

@@ -234,6 +234,80 @@ while IFS='|' read -r status aid actual expected; do
 done <<< "$AGENT_MODEL_OUTPUT" || true
 
 echo ""
+echo "[ Live Session Model Check (TKT-0547 Atom 3) ]"
+
+# Check live session models against policy. This catches session-level overrides
+# that the static openclaw.json agent model check misses.
+# Uses openclaw sessions list --json to get the most recent session model per agent.
+
+LIVE_SESSION_OUTPUT=$(python3 -c "
+import json, subprocess
+
+with open('$POLICY') as f:
+    policy = json.load(f)
+
+tiers = policy.get('agentTiers', {})
+# Build agent_id -> expected primary lookup
+agent_expected = {}
+for tier_key, tier in tiers.items():
+    primary = tier.get('primary', '')
+    for aid in tier.get('agentIds', []):
+        # Check for per-agent exception
+        expected = tier.get('exceptions', {}).get(aid) or primary
+        agent_expected[aid] = expected
+
+# Query live sessions for all agents in policy
+for aid, expected in agent_expected.items():
+    result = subprocess.run(
+        ['/opt/homebrew/bin/openclaw', 'sessions', 'list', '--agent', aid, '--active', '5', '--json'],
+        capture_output=True, text=True, timeout=10
+    )
+    if result.returncode != 0:
+        print(f'SKIP|{aid}|CLI_ERROR|{expected}')
+        continue
+    
+    data = json.loads(result.stdout)
+    sessions = data if isinstance(data, list) else data.get('sessions', [])
+    if not sessions:
+        print(f'SKIP|{aid}|NO_SESSIONS|{expected}')
+        continue
+    
+    # Most recent DIRECT session (filter out cron/subagent sessions)
+    sessions.sort(key=lambda s: s.get('updatedAt', 0), reverse=True)
+    direct_sessions = [s for s in sessions if s.get('kind') == 'direct']
+    if not direct_sessions:
+        print(f'SKIP|{aid}|NO_DIRECT_SESSIONS|{expected}')
+        continue
+    actual = direct_sessions[0].get('model', 'UNKNOWN')
+    
+    # Normalize: policy stores 'ollama/kimi-k2.7-code:cloud', sessions returns 'kimi-k2.7-code:cloud'
+    expected_short = expected.replace('ollama/', '')
+    
+    if actual == expected or actual == expected_short:
+        print(f'PASS|{aid}|{actual}|{expected}')
+    else:
+        print(f'FAIL|{aid}|{actual}|{expected}')
+" 2>/dev/null)
+
+while IFS='|' read -r status aid actual expected; do
+  case "$status" in
+    PASS)
+      PASS=$((PASS + 1))
+      echo "  PASS  live-session agent:$aid -> $actual"
+      ;;
+    FAIL)
+      FAIL=$((FAIL + 1))
+      echo "  FAIL  live-session agent:$aid -> actual=$actual expected=$expected [SESSION_MODEL_DRIFT]"
+      FINDINGS+=("{\"agentId\":\"live-session.$aid\",\"expected\":\"$expected\",\"actual\":\"$actual\",\"severity\":\"SESSION_MODEL_DRIFT\",\"note\":\"Live session model does not match tier primary. Session override may be stuck from temporary switch. Check and reset via session_status.\",\"detectedAt\":\"$AEST_TIMESTAMP\"}")
+      ;;
+    SKIP)
+      echo "  SKIP  live-session agent:$aid -> $actual ($expected)"
+      PASS=$((PASS + 1))
+      ;;
+  esac
+done <<< "$LIVE_SESSION_OUTPUT" || true
+
+echo ""
 echo "[ CREST Phase-Aware Validation (TKT-0383) ]"
 
 # Check that crestPhaseModelMap exists and validates correctly

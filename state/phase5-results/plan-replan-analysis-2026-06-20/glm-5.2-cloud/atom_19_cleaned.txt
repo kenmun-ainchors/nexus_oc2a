@@ -1,0 +1,6 @@
+1. This is an incident because the active model for Yoda has drifted from t
+the policy-mandated primary model.
+2. Immediately force Yoda's endpoint to revert to `kimi-k2.7-code:cloud`.
+3. `warden_model_reconciler.py` (a script that listens for drift alerts and
+and automatically applies the primary policy model).
+4. N/A (This is an incident, not normal operation).

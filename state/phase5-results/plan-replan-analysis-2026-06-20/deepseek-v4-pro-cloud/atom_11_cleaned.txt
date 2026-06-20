@@ -1,0 +1,20 @@
+1. Output format: An HTML email dashboard sent to Aria each morning, viewab
+viewable in any email client.
+2. Metrics: (a) Backlog staleness (% of Notion tasks in "Backlog" older tha
+than 14 days), (b) System health composite (aggregated from health-state.js
+health-state.json and agent-status.json), (c) Priority inbox load (unread c
+count of Gmail messages labeled "business-stream").
+3. Integration points: Notion DB A queried via Notion API to fetch tasks wi
+with status "Backlog" and their creation dates; state/health-state.json rea
+read from local filesystem or a secured endpoint to extract overall health 
+status; state/agent-status.json read similarly to check individual agent st
+states; Gmail unread count retrieved via Gmail API using query "label:busin
+"label:business-stream is:unread".
+4. Scheduling: A single daily script run at 6:30 AM local time (via cron or
+or task scheduler) to collect data, generate the HTML report, and send it t
+to Aria.
+5. Guard against over-alerting: Separate alerting logic with deviation thre
+thresholds; only trigger a notification (e.g., email or Slack) if a metric 
+crosses a predefined boundary (e.g., backlog staleness >20% day-over-day in
+increase, system health changes from healthy to degraded, or unread count e
+exceeds 50), ensuring minor fluctuations do not generate alerts.

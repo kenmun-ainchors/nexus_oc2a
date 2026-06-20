@@ -1,0 +1,16 @@
+1. What business function does the file serve, and what is the impact of it
+its loss or corruption?  
+2. Does the file contain any sensitive data (PII, credentials, model weight
+weights) that would require strict access controls?  
+
+Recommended tier: Tier 1 – it appears to be an operational state file for t
+tracking pending model resets, where loss would cause delays but not catast
+catastrophic business failure.  
+
+Data-sovereignty check: Verify that the file does not store model weights o
+or user data that could be subject to data residency or cross-border transf
+transfer restrictions.  
+
+Agent that should own updates: Model Lifecycle Manager agent, as it orchest
+orchestrates model reset workflows and should maintain the pending-reset st
+state.

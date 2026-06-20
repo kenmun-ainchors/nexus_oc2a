@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-06-19T18:10:29",
+  "generatedAt": "2026-06-20T01:00:15",
   "schemaVersion": 1,
   "scope": "scripts/*.sh (excluding .bak/.backup)",
   "pattern": "set -o pipefail + trap ERR + ungated $(...) / awk|head / tr|procsub / read|procsub",
@@ -96,7 +96,7 @@
     },
     {
       "script": "auto-heal.sh",
-      "line": 667,
+      "line": 688,
       "severity": "medium",
       "rule": 5,
       "pattern": "dollar_paren_no_fallback",
@@ -105,29 +105,11 @@
     },
     {
       "script": "auto-heal.sh",
-      "line": 689,
+      "line": 710,
       "severity": "medium",
       "rule": 5,
       "pattern": "dollar_paren_no_fallback",
       "snippet": "NOW_EPOCH=$(date \"+%s\")",
-      "fix": "Add || true after $(...) or wrap in if/then"
-    },
-    {
-      "script": "auto-heal.sh",
-      "line": 690,
-      "severity": "medium",
-      "rule": 5,
-      "pattern": "dollar_paren_no_fallback",
-      "snippet": "ELAPSED=$(( NOW_EPOCH - LAST_FIRE_EPOCH ))",
-      "fix": "Add || true after $(...) or wrap in if/then"
-    },
-    {
-      "script": "auto-heal.sh",
-      "line": 703,
-      "severity": "medium",
-      "rule": 5,
-      "pattern": "dollar_paren_no_fallback",
-      "snippet": "CLOUD_ESCALATED=$(( CLOUD_ESCALATED + 1 ))",
       "fix": "Add || true after $(...) or wrap in if/then"
     },
     {
@@ -136,12 +118,30 @@
       "severity": "medium",
       "rule": 5,
       "pattern": "dollar_paren_no_fallback",
+      "snippet": "ELAPSED=$(( NOW_EPOCH - LAST_FIRE_EPOCH ))",
+      "fix": "Add || true after $(...) or wrap in if/then"
+    },
+    {
+      "script": "auto-heal.sh",
+      "line": 724,
+      "severity": "medium",
+      "rule": 5,
+      "pattern": "dollar_paren_no_fallback",
+      "snippet": "CLOUD_ESCALATED=$(( CLOUD_ESCALATED + 1 ))",
+      "fix": "Add || true after $(...) or wrap in if/then"
+    },
+    {
+      "script": "auto-heal.sh",
+      "line": 732,
+      "severity": "medium",
+      "rule": 5,
+      "pattern": "dollar_paren_no_fallback",
       "snippet": "LAST_FIRE_CRONS_HEALTHY=$(python3 -c \"\nimport json\n\ncron_raw = '''$CRON_LIVE_JSON'''\ncron_data = json.loads(cron_raw) if cron_raw.strip() else {'jobs': []}\n\nall_healthy = True\nfor job in cron_data.get",
       "fix": "Add || true after $(...) or wrap in if/then"
     },
     {
       "script": "auto-heal.sh",
-      "line": 756,
+      "line": 777,
       "severity": "medium",
       "rule": 5,
       "pattern": "dollar_paren_no_fallback",
@@ -150,7 +150,7 @@
     },
     {
       "script": "auto-heal.sh",
-      "line": 774,
+      "line": 795,
       "severity": "medium",
       "rule": 5,
       "pattern": "dollar_paren_no_fallback",
@@ -159,7 +159,7 @@
     },
     {
       "script": "auto-heal.sh",
-      "line": 775,
+      "line": 796,
       "severity": "medium",
       "rule": 5,
       "pattern": "dollar_paren_no_fallback",
@@ -168,7 +168,7 @@
     },
     {
       "script": "auto-heal.sh",
-      "line": 816,
+      "line": 837,
       "severity": "medium",
       "rule": 5,
       "pattern": "dollar_paren_no_fallback",
@@ -177,7 +177,7 @@
     },
     {
       "script": "auto-heal.sh",
-      "line": 882,
+      "line": 903,
       "severity": "medium",
       "rule": 5,
       "pattern": "dollar_paren_no_fallback",
@@ -186,7 +186,7 @@
     },
     {
       "script": "auto-heal.sh",
-      "line": 1020,
+      "line": 1041,
       "severity": "medium",
       "rule": 5,
       "pattern": "dollar_paren_no_fallback",
@@ -195,7 +195,7 @@
     },
     {
       "script": "auto-heal.sh",
-      "line": 1051,
+      "line": 1072,
       "severity": "medium",
       "rule": 5,
       "pattern": "dollar_paren_no_fallback",
@@ -204,7 +204,7 @@
     },
     {
       "script": "auto-heal.sh",
-      "line": 1132,
+      "line": 1153,
       "severity": "medium",
       "rule": 5,
       "pattern": "dollar_paren_no_fallback",
@@ -213,7 +213,7 @@
     },
     {
       "script": "auto-heal.sh",
-      "line": 1185,
+      "line": 1206,
       "severity": "medium",
       "rule": 5,
       "pattern": "dollar_paren_no_fallback",
@@ -222,7 +222,7 @@
     },
     {
       "script": "auto-heal.sh",
-      "line": 1194,
+      "line": 1215,
       "severity": "medium",
       "rule": 5,
       "pattern": "dollar_paren_no_fallback",

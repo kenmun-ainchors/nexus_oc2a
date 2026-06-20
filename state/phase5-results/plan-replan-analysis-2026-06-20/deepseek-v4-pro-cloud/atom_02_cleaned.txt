@@ -1,0 +1,45 @@
+A. Pre-migration checks
+1. Validate that the PostgreSQL target instance is reachable, has sufficien
+sufficient storage capacity for the full sub_crest history plus projected g
+growth, and meets latency requirements from heartbeat workers.
+2. Run a consistency scan over all existing JSON state files to ensure no c
+corruption, missing sequence numbers, or incomplete records.
+3. Confirm that heartbeat workers support a dual-write feature flag and tha
+that toggling it does not require process restarts (or that a rolling resta
+restart can be performed without pausing heartbeats).
+
+B. Step-by-step migration sequence
+1. Create the target PostgreSQL schema: a `sub_crest_history` table for imm
+immutable event history (with a primary key on sequence ID, timestamps, and
+and JSONB payload) and a `crest_current_state` table for the latest state p
+per entity, along with necessary indexes.
+2. Bulk-import all existing JSON history files into `sub_crest_history` and
+and compute initial current state into `crest_current_state` using a one-ti
+one-time script, while heartbeat workers continue writing only to JSON file
+files.
+3. Enable dual-write mode in heartbeat workers: each state mutation is writ
+written atomically to the JSON file and asynchronously to PostgreSQL (with 
+non-blocking writes, e.g., a fire-and-forget queue or timeout-limited inser
+insert). Monitor for write failures.
+4. Run a reconciliation job that compares JSON and PostgreSQL records for a
+a defined window (e.g., last 1 hour) to confirm dual-write consistency; rep
+repair any gaps.
+5. Gradually shift read traffic: configure a percentage of state-store read
+read requests to use PostgreSQL, starting with internal canary consumers, t
+then increasing to 100% while monitoring latency and correctness.
+6. Once all reads are served from PostgreSQL with no anomalies for a full h
+heartbeat cycle, disable JSON file writes in heartbeat workers and decommis
+decommission the JSON state directory (archive it for rollback).
+7. Validate end-to-end heartbeat flow using only PostgreSQL for a stabilisa
+stabilisation period (e.g., 30 minutes) before declaring migration complete
+complete.
+
+C. Down-migration DDL statement stub
+`DROP TABLE IF EXISTS sub_crest_history, crest_current_state CASCADE;`
+
+D. Rollback trigger condition
+If the 99th percentile read latency from PostgreSQL exceeds twice the basel
+baseline JSON read latency for a continuous 5-minute window, or the heartbe
+heartbeat write error rate to PostgreSQL surpasses 1%, immediately initiate
+initiate rollback by reverting reads to JSON files and disabling dual-write
+dual-write.

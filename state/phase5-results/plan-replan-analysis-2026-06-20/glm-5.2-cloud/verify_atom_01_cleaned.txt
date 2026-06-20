@@ -1,0 +1,39 @@
+1. The Nexus HIVE platform currently lacks a dedicated mechanism for autono
+autonomously discovering and cataloging B2B partner integration opportuniti
+opportunities. While existing agents like Ahsoka handle similar discovery f
+for general use cases, external partner integrations require a distinct app
+approach to securely navigate the Tailscale mesh and partner-specific APIs.
+APIs. Introducing Luthen will automate this partner-specific discovery proc
+process, syncing identified integration states directly to the Notion backl
+backlog via the OpenClaw runtime.
+
+2. 
+- `luthen_agent.py`: Core Python module containing Luthen's discovery logic
+logic and B2B API probing capabilities.
+- `tailscale_acl_luthen.json`: Tailscale configuration update granting Luth
+Luthen access to partner-facing subnet routers.
+- `notion_schema_b2b.json`: JSON schema definition for the new Notion datab
+database tables tracking B2B integration backlogs.
+- `openclaw_registry_luthen.yaml`: OpenClaw configuration file registering 
+Luthen's runtime ID, execution limits, and network policies.
+- `partner_discovery_cron.sh`: Shell script scheduling Luthen's discovery s
+sweeps every 12 hours within the Nexus HIVE infrastructure.
+
+3. 
+- OpenClaw Runtime Registry: For agent initialization, ID resolution, and e
+execution lifecycle management.
+- Tailscale Mesh: For secure network routing to external partner subnets an
+and API gateways.
+- Notion API: For reading current backlog state and writing newly discovere
+discovered B2B partner integration opportunities.
+- Ahsoka Agent: For sharing discovery patterns, heuristic models, and histo
+historical integration templates.
+
+4. 
+- Risk: Unauthorized exposure of internal Nexus HIVE infrastructure due to 
+overly permissive Tailscale ACLs assigned to Luthen.
+- Mitigation: Implement strict Tailscale ACL policies restricting Luthen's 
+network access exclusively to known partner egress nodes and isolated disco
+discovery subnets.
+
+5. luthen-b2b-discovery@openclaw.nexus-hive.v1

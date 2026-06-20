@@ -1,0 +1,12 @@
+1. Most likely cause: A user created a new CHG record with a revision suffi
+suffix (CHG-0603-rev1) instead of updating the original CHG-0603, likely du
+due to misunderstanding the revision workflow.
+2. One query to confirm: `SELECT * FROM CHG WHERE ID LIKE 'CHG-0603%' AND S
+Status = 'Active';`
+3. Recommended canonical CHG ID: CHG-0603
+4. One rule to add to changelog skill to prevent duplicates: "Never create 
+a new CHG ID for a revision; always update the existing CHG record and incr
+increment its internal revision counter within the same ID."
+5. Whether this is a governance violation: Yes, because maintaining two act
+active records for the same change violates the single-source-of-truth prin
+principle and undermines change traceability.

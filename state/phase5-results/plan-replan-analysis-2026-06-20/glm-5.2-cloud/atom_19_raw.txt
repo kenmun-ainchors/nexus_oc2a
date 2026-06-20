@@ -1,0 +1,89 @@
+Thinking...
+1.  **Analyze the Request:**
+    *   **Context:** Warden's 15-min cron flags model-drift. Yoda is on `de[3D[K
+`deepseek-v4-pro:cloud`, policy says Yoda primary is `kimi-k2.7-code:cloud`[22D[K
+`kimi-k2.7-code:cloud`.
+    *   **Output constraints:** Return ONLY structured analysis text.
+    *   **Required elements:**
+        1. Incident or normal operation (one sentence).
+        2. One immediate action.
+        3. One script that should handle this automatically.
+        4. One gap in the current policy if it is normal.
+
+2.  **Determine Incident vs. Normal Operation:**
+    *   Alert says model drift. Yoda is on `deepseek-v4-pro:cloud` but poli[4D[K
+policy says `kimi-k2.7-code:cloud`.
+    *   Model drift implies the deployed/active model does not match the po[2D[K
+policy-defined primary model.
+    *   Therefore, this is an incident (unauthorized or unintended model dr[2D[K
+drift).
+
+3.  **Determine Immediate Action:**
+    *   Need to roll back/revert Yoda to the primary model or investigate w[1D[K
+why it drifted.
+    *   Immediate action: Redirect/force Yoda back to `kimi-k2.7-code:cloud[21D[K
+`kimi-k2.7-code:cloud` or halt the current deployment.
+
+4.  **Determine Script that should handle this automatically:**
+    *   Need a reconciliation script.
+    *   Script name: `warden_model_drift_reconciler.py` or `enforce_model_p[16D[K
+`enforce_model_policy.sh`.
+    *   Function: Checks active model against policy and reverts if drifted[7D[K
+drifted.
+
+5.  **Determine Gap in policy if it is normal:**
+    *   Wait, the prompt asks for "One gap in the current policy if it is n[1D[K
+normal". If it *is* an incident, do I need to provide this? The prompt says[4D[K
+says "if it is normal". I should probably say "N/A - this is an incident" o[1D[K
+or hypothesize what the gap would be if it *were* considered normal. Let's [K
+assume the prompt requires me to address it conditionally or just state "N/[3D[K
+"N/A" since it's an incident.
+    *   Actually, let's look at the phrasing: "4. One gap in the current po[2D[K
+policy if it is normal". If I decide it's an incident, I can write "N/A (no[3D[K
+(not normal operation)".
+
+6.  **Draft the Response (Strict Formatting):**
+    1. This is an incident because the active model (deepseek-v4-pro:cloud)[23D[K
+(deepseek-v4-pro:cloud) does not match the policy-defined primary model (ki[3D[K
+(kimi-k2.7-code:cloud).
+    2. Immediately revert Yoda's model endpoint to kimi-k2.7-code:cloud to [K
+restore policy compliance.
+    3. `warden_drift_reconciler.py` - a script that listens for drift alert[5D[K
+alerts and automatically reverts the active model to the policy-mandated pr[2D[K
+primary model.
+    4. N/A (this is an incident, not normal operation).
+
+7.  **Refine for Conciseness:**
+    1. This is an incident because the active model for Yoda has drifted fr[2D[K
+from the mandated primary model defined in policy.
+    2. Immediately force a rollback of Yoda to the kimi-k2.7-code:cloud end[3D[K
+endpoint.
+    3. `enforce_model_policy.py`
+    4. N/A (This is an incident).
+
+    Wait, what if it *is* normal operation because of failover? If `kimi-k2[8D[K
+`kimi-k2.7-code:cloud` went down, it might have failed over to `deepseek-v4[12D[K
+`deepseek-v4-pro:cloud`. But the prompt says Warden *flags* an alert. If fa[2D[K
+failover was policy-compliant, Warden wouldn't flag it as an alert, or the [K
+policy would list the secondary. Let's stick to incident.
+
+    Let's refine point 4. "If it is normal" - maybe the policy lacks a defi[4D[K
+defined failover tier, which is why it flagged as drift instead of recogniz[8D[K
+recognizing a fallback. If it is considered normal (e.g., maintenance), the[3D[K
+the gap is "No defined fallback or maintenance windows in policy."
+
+    Let's write it carefully.
+    1. This is an incident because the active model does not match the poli[4D[K
+policy-mandated primary model.
+    2. Immediately revert Yoda to the `kimi-k2.7-code:cloud` endpoint.
+    3. `warden_model_policy_enforcer.py`
+    4. N/A (This is an incident, not normal operation).
+...done thinking.
+
+1. This is an incident because the active model for Yoda has drifted from t[1D[K
+the policy-mandated primary model.
+2. Immediately force Yoda's endpoint to revert to `kimi-k2.7-code:cloud`.
+3. `warden_model_reconciler.py` (a script that listens for drift alerts and[3D[K
+and automatically applies the primary policy model).
+4. N/A (This is an incident, not normal operation).
+

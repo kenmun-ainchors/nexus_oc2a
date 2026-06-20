@@ -1,0 +1,26 @@
+1. Three possible states  
+   - Running normally: long-running task is active and making progress.  
+   - Slow/degraded: task is alive but blocked by resource contention, queue
+queue backlog, or slow dependencies.  
+   - Stalled/hung: task is unresponsive, deadlocked, crashed, or has lost i
+its heartbeat.  
+
+2. One command or tool to check each  
+   - Running normally: `tail -f /var/log/subagent.log` (or live progress UI
+UI) to verify recent output/heartbeat.  
+   - Slow/degraded: `top` / `htop` plus queue-status command (e.g., `subage
+`subagent-cli queue status` or `curl http://subagent/health`) to check CPU,
+CPU, memory, backlog, and dependency latency.  
+   - Stalled/hung: `ps -ef | grep subagent` plus a heartbeat/health check (
+(e.g., `curl http://subagent:port/health` or `supervisorctl status subagent
+subagent`) to confirm the process exists and is responsive.  
+
+3. Recommended threshold before alerting Ken  
+   - Alert Ken if there is no log/heartbeat progress for more than 60 minut
+minutes, or if total runtime exceeds 6 hours.  
+
+4. One action to take if it is stalled  
+   - Capture the latest logs and a diagnostic snapshot (process status, sta
+stack/heap dump if available), terminate the subagent gracefully (or force-
+force-kill if unresponsive), then restart/resubmit the task and send Ken th
+the snapshot with timestamps.

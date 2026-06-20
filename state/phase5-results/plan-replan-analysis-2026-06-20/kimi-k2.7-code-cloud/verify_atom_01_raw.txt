@@ -1,0 +1,184 @@
+Thinking...
+We need respond with exact structure. No markdown headings beyond numbered [K
+list. Need produce Plan document. Must not include emojis. Need infer platf[5D[K
+platform details: Nexus HIVE, OpenClaw runtime registry IDs, Tailscale mesh[4D[K
+mesh, Notion source of truth. Add new agent 'Luthen' for external partner i[1D[K
+integration discovery similar to Ahsoka but B2B.
+
+Need create structured text:
+1. 3-sentence problem statement
+2. 5 concrete deliverables (files/scripts/config changes)
+3. dependency map listing existing agents/systems Luthen interfaces with
+4. One explicit risk and one mitigation
+5. single-line recommended model for runtime agent ID in registry format.
+
+Return ONLY structured plan text. No markdown headings beyond numbered list[4D[K
+list. So likely:
+1. sentence1. sentence2. sentence3.
+2. - deliverable... etc
+3. dependency map: bullet list
+4. Risk: ... Mitigation: ...
+5. openclaw://agent/luthen-b2b-discovery or something.
+
+We need invent plausible. Keep concise. Ensure no emojis.
+
+Need think about runtime agent ID registry format. OpenClaw runtime registr[7D[K
+registry IDs likely format: openclaw://agent/<name> maybe with version? Use[3D[K
+User asks single-line recommended model for Luthen's runtime agent ID in re[2D[K
+registry format. We can produce e.g. openclaw://agent/luthen/partner-discov[38D[K
+openclaw://agent/luthen/partner-discovery:v1. Or openclaw://agent/luthen-b2[26D[K
+openclaw://agent/luthen-b2b-discovery. Since similar to Ahsoka maybe Ahsoka[6D[K
+Ahsoka ID known? Not given. We'll create model.
+
+Dependency map: existing agents/systems: Ahsoka (reuses discovery pipeline/[9D[K
+pipeline/schema), OpenClaw registry (runtime registration and capability ad[2D[K
+advertisement), Tailscale mesh (secure peer reachability and gossip), Notio[5D[K
+Notion backlog API/state sync, maybe HIVE controller/scheduler, authenticat[11D[K
+authentication/secret store for partner APIs.
+
+Need deliverables:
+- agents/luthen/manifest.yaml or openclaw registry manifest registering cap[3D[K
+capabilities and dependencies.
+- agents/luthen/discover.py module implementing partner integration discove[7D[K
+discovery, scoring, and ingestion.
+- config/tailscale/luthen.acl or policy file adding Luthen's node tag and r[1D[K
+routes.
+- notion/state_adapter.py or backlog state mapping schema update for B2B pa[2D[K
+partner integrations.
+- deployment script or CI workflow to register Luthen in OpenClaw runtime r[1D[K
+registry.
+
+Need risk and mitigation: Risk: scanning external partner endpoints may vio[3D[K
+violate ToS/contract or expose credentials; network egress via Tailscale me[2D[K
+mesh to untrusted B2B endpoints could bypass DLP. Mitigation: enforce allow[5D[K
+allowlisted partner domains, use dedicated egress proxy, require signed par[3D[K
+partner consent, log to audit store, restrict via ACL. Let's pick one expli[5D[K
+explicit risk and one mitigation. E.g., Risk: automated partner discovery c[1D[K
+could trigger rate limits or legal issues with external APIs. Mitigation: i[1D[K
+implement configurable crawl rate limiting and a pre-approved partner allow[5D[K
+allowlist with audit logging.
+
+Need only one risk and one mitigation.
+
+No markdown headings beyond numbered list. But bullets? The prompt says No [K
+markdown headings beyond the numbered list. Numbered list can contain conte[5D[K
+content. We can use bullets? It says structured plan text, likely OK to use[3D[K
+use bullets under items. But no headings. We should avoid extra headings. W[1D[K
+We can use sub-bullets? It says produce in exact structure. Numbered list i[1D[K
+items. I can use plain text or bullets under each number. To be safe, use l[1D[K
+line breaks without markdown bullets? The structure expects deliverables li[2D[K
+list and dependency map. We can format as plain lines separated by semicolo[8D[K
+semicolons, or simple dashes. Markdown headings beyond numbered list disall[6D[K
+disallowed. Bullets are not headings. Should be fine.
+
+Let's craft final.
+
+Problem statement 3 sentences:
+Nexus HIVE lacks a dedicated discovery agent for B2B partner integrations, [K
+so partner capability gaps are tracked manually and often lag behind intern[6D[K
+internal API discoveries handled by Ahsoka. This delays joint architecture [K
+decisions and creates inconsistent backlog entries in Notion because extern[6D[K
+external integration candidates are not fed through the same runtime regist[6D[K
+registry and mesh-governed ingestion path as internal services. Adding Luth[4D[K
+Luthen standardizes B2B partner discovery within the OpenClaw registry, the[3D[K
+the Tailscale mesh, and the Notion source of truth.
+
+Deliverables:
+1. agents/luthen/openclaw.manifest.yaml defining runtime ID, capability cla[3D[K
+claims, dependencies on Ahsoka schemas and Notion state adapter, and Tailsc[6D[K
+Tailscale node tags.
+2. agents/luthen/discover.py implementing partner endpoint enumeration, Ope[3D[K
+OpenAPI/spec ingestion, and integration opportunity scoring.
+3. config/tailscale/acls/luthen.hujson fragment granting Luthen restricted [K
+egress to approved partner CIDRs and mesh routes to the Notion adapter and [K
+OpenClaw registry.
+4. agents/luthen/notion_adapter.py extending the backlog state schema to wr[2D[K
+write partner integration candidates into the Notion source of truth as B2B[3D[K
+B2B-type backlog items.
+5. ci/register_luthen.sh script that validates the manifest, registers Luth[4D[K
+Luthen with the OpenClaw runtime registry, and rolls out the Tailscale ACL [K
+update.
+
+Dependency map:
+- Ahsoka: reuses discovery schema, normalization rules, and ranking logic f[1D[K
+for external partner analogues.
+- OpenClaw runtime registry: publishes Luthen's runtime ID, health checks, [K
+and capability metadata; resolves peer agents.
+- Tailscale mesh: provides encrypted node identity, ACL-enforced connectivi[10D[K
+connectivity to partner APIs and internal adapters.
+- Notion backlog state: receives discovered B2B integration candidates and [K
+tracks triage/ownership via the shared adapter.
+- HIVE controller/scheduler: assigns discovery tasks and enforces runtime q[1D[K
+quotas for Luthen.
+
+Risk and mitigation:
+Risk: Automated discovery against external partner endpoints could violate [K
+partner contracts or trigger abuse/rate-limit penalties.
+Mitigation: Luthen operates against an explicit partner allowlist with sign[4D[K
+signed integration agreements, applies per-domain rate limiting and backoff[7D[K
+backoff, and writes every discovery action to an immutable audit stream bef[3D[K
+before touching Notion.
+
+Runtime agent ID:
+openclaw://agent/luthen/b2b-partner-discovery:v1
+
+Return ONLY structured plan text. No markdown headings beyond numbered list[4D[K
+list. No emojis.
+
+Need ensure no markdown headings beyond numbered list. The final can be exa[3D[K
+exactly:
+1. ...
+2. - ...
+...
+5. ...
+
+Let's not include preamble or postamble.
+...done thinking.
+
+1. Nexus HIVE lacks a dedicated discovery agent for B2B partner integration[11D[K
+integrations, so partner capability gaps are tracked manually and often lag[3D[K
+lag behind internal API discoveries handled by Ahsoka. This delays joint ar[2D[K
+architecture decisions and creates inconsistent backlog entries in Notion b[1D[K
+because external integration candidates are not fed through the same runtim[6D[K
+runtime registry and mesh-governed ingestion path as internal services. Add[3D[K
+Adding Luthen standardizes B2B partner discovery within the OpenClaw regist[6D[K
+registry, the Tailscale mesh, and the Notion source of truth.
+
+2. 
+- agents/luthen/openclaw.manifest.yaml: registers Luthen's runtime ID, capa[4D[K
+capability claims, health checks, declared dependencies on Ahsoka schemas a[1D[K
+and the Notion adapter, and Tailscale node tags.
+- agents/luthen/discover.py: implements partner endpoint enumeration, OpenA[5D[K
+OpenAPI/spec ingestion, metadata normalization, and integration-opportunity[23D[K
+integration-opportunity scoring for B2B contexts.
+- config/tailscale/acls/luthen.hujson: grants Luthen restricted egress to a[1D[K
+approved partner CIDRs and mesh routes to the Notion adapter and the OpenCl[6D[K
+OpenClaw registry nodes.
+- agents/luthen/notion_adapter.py: extends the backlog state schema to writ[4D[K
+write discovered B2B integration candidates into Notion with type, partner [K
+domain, and proposed owner fields.
+- ci/register_luthen.sh: validates the manifest, registers Luthen with the [K
+OpenClaw runtime registry, applies the Tailscale ACL fragment, and verifies[8D[K
+verifies health.
+
+3. 
+- Ahsoka: reuses discovery schema, normalization rules, and ranking logic, [K
+adapted for external partner analogues.
+- OpenClaw runtime registry: publishes Luthen's runtime ID, capabilities, a[1D[K
+and health; resolves peer agent endpoints.
+- Tailscale mesh: provides encrypted node identity and ACL-enforced connect[7D[K
+connectivity to approved partner APIs and internal adapters.
+- Notion backlog state system: receives and persists discovered B2B integra[7D[K
+integration candidates as triageable backlog items.
+- HIVE controller/scheduler: assigns discovery tasks, enforces runtime quot[4D[K
+quotas, and coordinates execution windows for Luthen.
+
+4. Risk: Automated discovery against external partner endpoints could viola[5D[K
+violate partner contracts, trigger abuse or rate-limit penalties, or leak i[1D[K
+internal intent. Mitigation: Luthen operates only against an explicit, cont[4D[K
+contractually approved partner allowlist, applies per-domain rate limiting [K
+and exponential backoff, and writes every discovery action to an immutable [K
+audit stream before updating Notion.
+
+5. openclaw://agent/luthen/b2b-partner-discovery:v1
+

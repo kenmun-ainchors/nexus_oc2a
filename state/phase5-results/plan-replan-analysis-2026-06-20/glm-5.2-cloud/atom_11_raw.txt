@@ -1,0 +1,133 @@
+Thinking...
+1.  **Analyze the Request:**
+    *   **Goal:** Create a plan for a 'business stream health' dashboard fo[2D[K
+for Ken, checked by Aria each morning.
+    *   **Data sources:** Notion DB A (Backlog), state/health-state.json, s[1D[K
+state/agent-status.json, Gmail unread count.
+    *   **Requirements:**
+        1. Output format (one sentence)
+        2. Three metrics to show
+        3. One integration point per data source
+        4. One scheduling recommendation
+        5. One guard against over-alerting
+    *   **Constraint:** Return ONLY the structured plan text. No conversati[10D[K
+conversational filler.
+
+2.  **Drafting the Content:**
+    *   *Output format:* Markdown file generated and sent via Slack, or ren[3D[K
+rendered as a static HTML page, or a Notion page. Let's go with: The dashbo[6D[K
+dashboard will be delivered as a concise Markdown file sent to Aria via Sla[3D[K
+Slack every morning. (Wait, the prompt says "one sentence: e.g. markdown, H[1D[K
+HTML, Notion page". Let's do: Output format: A dynamically generated Markdo[6D[K
+Markdown file pushed to a dedicated Slack channel for easy morning review.)[8D[K
+review.)
+    *   *Three metrics:*
+        1. Backlog velocity / aging (from Notion)
+        2. System anomaly count / error rate (from health-state.json)
+        3. Agent operational status / blocked tasks (from agent-status.json[17D[K
+agent-status.json)
+        *(Wait, Gmail unread count needs a metric too. Let's adjust)*
+        1. Backlog item age and "blocked" status count.
+        2. Overall system health score and active anomalies.
+        3. Unread priority inbox count and active agent task statuses.
+        Let's make them crisp:
+        1. Backlog Aging (number of items in Notion DB A older than 7 days)[5D[K
+days).
+        2. System Health Index (derived from error counts/states in health-[7D[K
+health-state.json).
+        3. Operational Bottlenecks (agents with 'error'/'paused' status in [K
+agent-status.json plus high Gmail unread counts indicating unaddressed comm[4D[K
+communications).
+    *   *One integration point per data source:*
+        *   Notion DB A: Notion API query filtering by "Status = Backlog" a[1D[K
+and "Last Modified Date".
+        *   state/health-state.json: Node.js script reading the file direct[6D[K
+directly from the local or cloud storage volume.
+        *   state/agent-status.json: Node.js script parsing the JSON file t[1D[K
+to extract agent states and task assignments.
+        *   Gmail unread count: Google Apps Script or Gmail API call fetchi[6D[K
+fetching the unread count for the primary inbox label.
+    *   *One scheduling recommendation:*
+        Schedule the data aggregation script to run via cron at 6:00 AM dai[3D[K
+daily, ensuring the dashboard is ready before Aria's 8:00 AM review.
+    *   *One guard against over-alerting:*
+        Only flag items in red if they exceed a defined threshold for over [K
+24 hours (e.g., unread Gmail > 50, or an agent in an 'error' state for > 1 [K
+hour), suppressing transient spikes.
+
+3.  **Refining and Formatting:**
+    *   Check constraints: "Return ONLY the structured plan text."
+
+    1. Output format:
+    The dashboard will be a dynamically generated Markdown file sent to Ari[3D[K
+Aria via Slack every morning.
+
+    2. Three metrics to show:
+    - Backlog Aging: Count of items in Notion DB A older than 7 days or mar[3D[K
+marked as blocked.
+    - System Anomaly Rate: Number of critical errors or degraded states log[3D[K
+logged in state/health-state.json.
+    - Operational Bottlenecks: Count of agents with "error" or "paused" sta[3D[K
+statuses in state/agent-status.json combined with the unread Gmail count to[2D[K
+to indicate unaddressed communication backlogs.
+
+    3. One integration point per data source:
+    - Notion DB A (Backlog): Notion API integration querying for active bac[3D[K
+backlog items and their last modified dates.
+    - state/health-state.json: Direct filesystem read via a Node.js script [K
+accessing the state directory.
+    - state/agent-status.json: Direct filesystem read via a Node.js script [K
+parsing current agent operational states.
+    - Gmail unread count: Google Apps Script or Gmail API call querying the[3D[K
+the unread count of the primary inbox.
+
+    4. One scheduling recommendation:
+    Schedule the dashboard generation script using a cron job to run at 6:0[3D[K
+6:00 AM daily, ensuring the report is delivered before Aria's morning revie[5D[K
+review.
+
+    5. One guard against over-alerting:
+    Implement a 24-hour sustained threshold rule where items only turn red [K
+if the condition (e.g., agent error or high unread count) persists beyond a[1D[K
+an hour, suppressing transient spikes and state flapping.
+
+4.  **Final Polish:**
+    Make it strictly structured and clean. Remove conversational intro/outr[10D[K
+intro/outro.
+...done thinking.
+
+1. Output format
+The dashboard will be delivered as a dynamically generated Markdown file po[2D[K
+posted to a dedicated Slack channel every morning.
+
+2. Three metrics to show
+- Backlog Aging: Count of items in Notion DB A older than 7 days or current[7D[K
+currently marked as blocked.
+- System Health Index: A composite score based on the presence of critical [K
+errors or degraded states logged in state/health-state.json.
+- Operational Bottlenecks: A combined metric showing the number of agents i[1D[K
+in "error" or "paused" states (from state/agent-status.json) alongside the [K
+unread Gmail count to highlight unaddressed operational or communication ba[2D[K
+backlogs.
+
+3. One integration point per data source
+- Notion DB A (Backlog): Notion API query filtering by "Status = Backlog" a[1D[K
+and sorting by "Last Modified Date".
+- state/health-state.json: Direct local filesystem read via a Node.js cron [K
+script accessing the state directory.
+- state/agent-status.json: Direct local filesystem read via a Node.js cron [K
+script parsing current agent operational states.
+- Gmail unread count: Google Apps Script or Gmail API integration querying [K
+the unread message count for the primary inbox label.
+
+4. One scheduling recommendation
+Schedule the dashboard aggregation and delivery script to run via a cron jo[2D[K
+job at 6:00 AM daily, ensuring the report is generated and sent before Aria[4D[K
+Aria's 8:00 AM review.
+
+5. One guard against over-alerting
+Implement a "sustained threshold" rule where items only trigger a red/criti[9D[K
+red/critical status if the condition (e.g., an agent in an error state or u[1D[K
+unread Gmail count > 50) persists for more than one hour, suppressing trans[5D[K
+transient spikes and state flapping.
+

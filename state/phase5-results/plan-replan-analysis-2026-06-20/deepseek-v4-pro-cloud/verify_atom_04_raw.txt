@@ -1,0 +1,130 @@
+Thinking...
+We need to produce a structured plan text. The user asks: "The LinkedIn cam[3D[K
+campaign uses 3 weekly crons (Tue/Wed/Thu). Ken wants to add a Friday 'week[5D[K
+'week in review' post without changing the existing 12-post / 4-movement sc[2D[K
+schedule. Produce a plan that includes: 1. Whether this is additive or repl[4D[K
+replacement 2. Two scheduling options with trade-offs 3. One guard against [K
+double-posting 4. Recommended cron expression for Friday 07:30 AEST Return [K
+ONLY the structured plan text."
+
+So we need to output a plan. The existing schedule: 3 weekly crons (Tue/Wed[8D[K
+(Tue/Wed/Thu). That implies 3 posts per week? But it says "12-post / 4-move[6D[K
+4-movement schedule". Possibly a campaign with 12 posts total, divided into[4D[K
+into 4 movements, each movement maybe 3 posts? The existing crons are Tue, [K
+Wed, Thu, so 3 posts per week. Over 4 weeks, that's 12 posts. So the campai[6D[K
+campaign runs for 4 weeks, each week has posts on Tue, Wed, Thu. Ken wants [K
+to add a Friday 'week in review' post without changing the existing 12-post[7D[K
+12-post / 4-movement schedule. So the Friday post would be an additional po[2D[K
+post, not replacing any of the existing 12. So it's additive. The total pos[3D[K
+posts would become 13? But the schedule says "without changing the existing[8D[K
+existing 12-post / 4-movement schedule." So the 12 posts remain, and we add[3D[K
+add a Friday post each week? That would make 4 additional posts, total 16? [K
+Wait: "12-post / 4-movement schedule" might mean 12 posts total, 4 movement[8D[K
+movements (each movement maybe 3 posts). The crons are Tue/Wed/Thu, so each[4D[K
+each week 3 posts, over 4 weeks = 12 posts. Adding a Friday post each week [K
+would add 4 posts, making 16 posts total. But the instruction says "without[8D[K
+"without changing the existing 12-post / 4-movement schedule." So the exist[5D[K
+existing 12 posts remain unchanged, and we add a Friday post. So it's addit[5D[K
+additive. The plan should state that.
+
+Two scheduling options with trade-offs: maybe one option is to add a separa[6D[K
+separate cron job for Friday at 07:30 AEST, independent of the existing cro[3D[K
+crons. Another option could be to modify the existing cron schedule to incl[4D[K
+include Friday but keep the Tue/Wed/Thu posts as is, maybe by adding a new [K
+cron line. Trade-offs: separate cron job is simple, isolated, no risk of in[2D[K
+interfering with existing schedule, but adds another job to manage. Alterna[7D[K
+Alternatively, could combine into a single cron expression that covers Tue,[4D[K
+Tue, Wed, Thu, Fri? But cron doesn't support "Tue,Wed,Thu,Fri" in a single [K
+field? Actually, you can specify days of week: 2,3,4,5 for Tue,Wed,Thu,Fri.[16D[K
+Tue,Wed,Thu,Fri. But the existing crons are three separate cron lines? The [K
+user says "uses 3 weekly crons (Tue/Wed/Thu)" – likely three separate cron [K
+jobs, each triggering on a specific day. So adding a Friday cron would be a[1D[K
+a fourth cron job. That's additive. Another option: replace the three crons[5D[K
+crons with a single cron that runs on Tue,Wed,Thu,Fri and then within the s[1D[K
+script, decide which post to publish based on the day. But that would chang[5D[K
+change the existing schedule's implementation, potentially requiring code c[1D[K
+changes. The user says "without changing the existing 12-post / 4-movement [K
+schedule." So we shouldn't alter the existing posts' timing or content. So [K
+the safest is to add a new cron job for Friday. The two scheduling options:[8D[K
+options: Option A: Add a new separate cron job for Friday at 07:30 AEST, le[2D[K
+leaving existing crons untouched. Option B: Modify the existing cron setup [K
+to include Friday in the same job, but use conditional logic to post the we[2D[K
+week-in-review only on Friday, while keeping Tue/Wed/Thu posts as before. T[1D[K
+Trade-offs: Option A is simple, no risk of breaking existing posts, but add[3D[K
+adds an extra cron line to maintain. Option B consolidates cron jobs, but r[1D[K
+requires modifying the existing script, which could introduce bugs and migh[4D[K
+might inadvertently affect the 12-post schedule if not carefully implemente[10D[K
+implemented. Since the requirement is to not change the existing schedule, [K
+Option A is recommended.
+
+One guard against double-posting: Since the Friday post is a "week in revie[5D[K
+review," it might summarize the week's posts. If the cron job runs, we need[4D[K
+need to ensure it doesn't post twice if the job is accidentally triggered a[1D[K
+again (e.g., manual run). A guard could be a database flag or a check if a [K
+post with the same content/title has already been published that day. For e[1D[K
+example, before posting, check if a post with the label "Week in Review" an[2D[K
+and today's date already exists. If so, skip. Or use a lock file. The plan [K
+should mention a specific guard: "Implement a check before posting: query L[1D[K
+LinkedIn API or local log for a post with the same campaign tag and date; i[1D[K
+if found, abort." Or "Use a persistent flag (e.g., database entry) that mar[3D[K
+marks the Friday review as posted for that week, resetting each Monday." Th[2D[K
+That's a guard.
+
+Recommended cron expression for Friday 07:30 AEST: AEST is Australian Easte[5D[K
+Eastern Standard Time (UTC+10). Cron typically uses server's local time. If[2D[K
+If the server is set to AEST, then 30 7 * * 5 (minute 30, hour 7, day of mo[2D[K
+month *, month *, day of week 5 (Friday)). If server is UTC, we need to con[3D[K
+convert: 07:30 AEST is 21:30 UTC the previous day (Thursday) because AEST i[1D[K
+is UTC+10, so 7:30 - 10 = 21:30 UTC on Thursday. But the user might want th[2D[K
+the cron to run at 07:30 AEST regardless of server timezone. Usually, cron [K
+expressions are in the server's local time. So we need to specify the cron [K
+expression assuming the server timezone is AEST. If not, we might need to a[1D[K
+adjust. The plan should state: "Assuming server timezone is AEST, use: 30 7[1D[K
+7 * * 5". If server is UTC, use: 30 21 * * 4 (Thursday 21:30 UTC). But the [K
+question asks "Recommended cron expression for Friday 07:30 AEST". So I'll [K
+provide the expression for AEST timezone: 30 7 * * 5. I'll note the timezon[7D[K
+timezone assumption.
+
+Now, structure the plan text. The output should be ONLY the structured plan[4D[K
+plan text. So I'll produce a clear plan with sections: 1. Additive or Repla[5D[K
+Replacement, 2. Two scheduling options with trade-offs, 3. One guard agains[6D[K
+against double-posting, 4. Recommended cron expression. I'll format it nice[4D[K
+nicely.
+...done thinking.
+
+1. Additive or Replacement  
+   The Friday “week in review” post is additive. The existing 12-post / 4-m[3D[K
+4-movement schedule (Tue/Wed/Thu posts over 4 weeks) remains untouched. The[3D[K
+The new Friday post runs alongside the current three weekly crons, increasi[8D[K
+increasing total weekly posts to 4 without altering the original 12.
+
+2. Two Scheduling Options with Trade-offs  
+   - Option A: Separate Cron Job  
+     Add a new, independent cron entry for Friday at 07:30 AEST.  
+     Trade-offs: Simple to implement, zero risk to existing posts, easy to [K
+disable/enable. However, it adds a fourth cron line to maintain and monitor[7D[K
+monitor.  
+   - Option B: Consolidated Cron with Conditional Logic  
+     Modify the existing cron setup to trigger on Tue, Wed, Thu, Fri (e.g.,[6D[K
+(e.g., days 2,3,4,5) and use a script that checks the current day to decide[6D[K
+decide which post to publish.  
+     Trade-offs: Reduces the number of cron lines, but requires changing th[2D[K
+the existing posting script, introducing risk of breaking the 12-post sched[5D[K
+schedule. Testing and maintenance complexity increase. Not recommended when[4D[K
+when the requirement is to leave the existing schedule unchanged.
+
+3. One Guard Against Double-Posting  
+   Implement a “posted this week” flag. Before publishing the Friday review[6D[K
+review, the script checks a persistent store (database, file, or API log) f[1D[K
+for a record of a Friday review post with the current week’s identifier (e.[3D[K
+(e.g., ISO week number). If the flag exists, the script aborts. The flag is[2D[K
+is cleared or rotated at the start of each new week (Monday 00:00 AEST). Th[2D[K
+This prevents duplicate posts from accidental re-triggers or manual runs.
+
+4. Recommended Cron Expression for Friday 07:30 AEST  
+   Assuming the server’s system time is set to AEST (UTC+10):  
+   `30 7 * * 5`  
+   (Minute 30, Hour 7, any day of month, any month, Friday)  
+   If the server uses UTC, the equivalent is `30 21 * * 4` (Thursday 21:30 [K
+UTC). Confirm the server timezone before deployment.
+

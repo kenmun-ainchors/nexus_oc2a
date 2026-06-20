@@ -1,0 +1,7 @@
+1. Replacement Model: claude-3-5-sonnet-20240620
+2. Reason: Claude-3.5-Sonnet provides superior multi-step logical reasoning
+reasoning and stable API availability compared to the terminated minimax en
+endpoint.
+3. Config Purge Location: `configs/forge/verify_engine.yaml`
+4. Verification Command: `forge verify --replan-only --model claude-3-5-son
+claude-3-5-sonnet-20240620`

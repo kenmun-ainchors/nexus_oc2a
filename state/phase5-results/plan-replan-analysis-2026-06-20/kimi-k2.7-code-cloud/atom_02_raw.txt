@@ -1,0 +1,134 @@
+Thinking...
+The user wants a migration plan with specific sections and constraints. I n[1D[K
+need to produce a structured plan text without markdown headings beyond sec[3D[K
+section letters A, B, C, D. Let me think through each section carefully.
+
+Key requirements:
+- Migrate CREST state store from JSON files in state/ to PostgreSQL
+- Must not lose existing sub_crest history
+- Must be reversible (down-migration DDL)
+- Must not block ongoing heartbeat work
+- Exactly sections: A (3 items), B (numbered), C (one SQL line), D (one sen[3D[K
+sentence)
+- Return ONLY structured plan text
+- No markdown headings beyond section letters
+
+Let me draft:
+
+A. Pre-migration checks (3 items)
+1. Verify PostgreSQL instance is reachable and schema has been initialized [K
+with required tables (including sub_crest history table) and permissions.
+2. Confirm the current JSON files in state/ are intact and create a snapsho[7D[K
+snapshot/backup before migration begins.
+3. Ensure heartbeat workers are configured to read from a dual-write-compat[17D[K
+dual-write-compatible layer or are in a maintenance window that allows read[4D[K
+read-only state access during cutover.
+
+B. Step-by-step migration sequence (numbered)
+1. Create a new PostgreSQL schema/table structure mirroring the JSON state [K
+structure, including a dedicated sub_crest_history table with timestamps.
+2. Implement and run a parallel ETL script that reads all JSON files from s[1D[K
+state/ and inserts them into PostgreSQL, preserving all historical sub_cres[8D[K
+sub_crest records and original ordering.
+3. Validate migrated data by comparing checksums/counts against the source [K
+JSON files and running application smoke tests.
+4. Deploy a compatibility shim that makes heartbeat reads/writes fall back [K
+to JSON if PostgreSQL is unavailable, then switch writes to PostgreSQL.
+5. Keep JSON files in read-only backup mode for a defined observation perio[5D[K
+period while heartbeat traffic runs against PostgreSQL.
+6. Once parity is confirmed, complete the cutover and document the migratio[8D[K
+migration timestamp.
+
+C. Down-migration DDL statement stub (one SQL line)
+DROP TABLE IF EXISTS sub_crest_history, crest_state CASCADE;
+
+D. Rollback trigger condition (one sentence)
+If heartbeat success rate drops below the SLO threshold or any data mismatc[7D[K
+mismatch is detected during validation, immediately revert writes to the JS[2D[K
+JSON state files and halt the migration.
+
+Wait, let me reconsider the SQL line. "DROP TABLE IF EXISTS ..." is a DDL s[1D[K
+statement. The user asks for "Down-migration DDL statement stub (one SQL li[2D[K
+line)". I should make sure it's one line. Maybe more specific table names. [K
+Let me think about what table names would be reasonable. Maybe "crest_state[12D[K
+"crest_state" and "sub_crest_history".
+
+Also for section D, "one sentence" - I need to ensure it's exactly one sent[4D[K
+sentence.
+
+Let me check formatting requirements: "Return ONLY the structured plan text[4D[K
+text. No markdown headings beyond the section letters." So I should use jus[3D[K
+just "A.", "B.", etc. as section headers, not "## A" or similar.
+
+Let me refine:
+
+A.
+1. Verify PostgreSQL connectivity, schema readiness, and that all necessary[9D[K
+necessary tables (including sub_crest_history) and permissions are in place[5D[K
+place.
+2. Take a consistent snapshot/backup of the state/ JSON files and validate [K
+their integrity before any data movement.
+3. Confirm heartbeat workers can operate in a non-blocking mode or through [K
+a dual-read shim during the cutover window.
+
+B.
+1. Create PostgreSQL tables mirroring the JSON state structure, including a[1D[K
+a sub_crest_history table with appropriate indexes and audit columns.
+2. Run a parallel import job that reads state/*.json and inserts all record[6D[K
+records into PostgreSQL while preserving sub_crest history and original ord[3D[K
+ordering.
+3. Validate migrated data by comparing row counts, checksums, and sample re[2D[K
+records against the source JSON files.
+4. Deploy a fallback shim so heartbeat reads prefer PostgreSQL but can stil[4D[K
+still use the JSON backup if the database is unreachable.
+5. Switch heartbeat writes to PostgreSQL under dual-write or read-through m[1D[K
+mode, keeping JSON files untouched for the observation period.
+6. After parity is confirmed for the observation period, finalize the cutov[5D[K
+cutover and mark JSON files as archived.
+
+C.
+DROP TABLE IF EXISTS crest_state, sub_crest_history CASCADE;
+
+D.
+If heartbeat success rate falls below the defined SLO or any data-validatio[14D[K
+data-validation mismatch is detected, immediately stop writing to PostgreSQ[9D[K
+PostgreSQL and revert heartbeat traffic to the JSON state files.
+
+This looks good. Let me make sure I only return structured plan text and no[2D[K
+no markdown headings beyond section letters. I'll use plain text with A., B[1D[K
+B., C., D. as section labels.
+...done thinking.
+
+A.
+1. Verify PostgreSQL connectivity, schema readiness, and that all necessary[9D[K
+necessary tables (including sub_crest_history) and permissions are in place[5D[K
+place.
+2. Take a consistent snapshot/backup of the state/ JSON files and validate [K
+their integrity before any data movement.
+3. Confirm heartbeat workers can operate through a dual-read/write shim so [K
+the migration does not block ongoing heartbeat traffic.
+
+B.
+1. Create PostgreSQL tables mirroring the JSON state structure, including a[1D[K
+a dedicated sub_crest_history table with appropriate indexes and audit colu[4D[K
+columns.
+2. Run a parallel import job that reads all files in state/ and inserts eve[3D[K
+every record into PostgreSQL while preserving full sub_crest history and or[2D[K
+original ordering.
+3. Validate migrated data by comparing row counts, checksums, and sampled r[1D[K
+records against the source JSON files.
+4. Deploy a fallback shim that makes heartbeat reads prefer PostgreSQL but [K
+can still serve from the JSON backup if the database is unreachable.
+5. Switch heartbeat writes to PostgreSQL under dual-write or read-through m[1D[K
+mode, leaving the JSON files intact for an observation period.
+6. After parity is confirmed for the full observation period, finalize the [K
+cutover and archive the JSON files.
+
+C.
+DROP TABLE IF EXISTS crest_state, sub_crest_history CASCADE;
+
+D.
+If heartbeat success rate falls below the defined SLO or any data-validatio[14D[K
+data-validation mismatch is detected, immediately stop writing to PostgreSQ[9D[K
+PostgreSQL and revert heartbeat traffic to the JSON state files.
+

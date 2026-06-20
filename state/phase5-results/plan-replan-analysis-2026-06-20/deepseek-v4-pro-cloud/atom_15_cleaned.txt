@@ -1,0 +1,46 @@
+Zero-Downtime Promotion Plan: OC2-A to Primary (Port 18789)
+
+1. Prerequisites (must be completed before cutover)
+   - OC2-A/B HA cluster fully installed, configured, and synchronized; NAS 
+storage mounted and accessible from both nodes with correct read/write perm
+permissions.
+   - KL team has prepared network path: firewall rules open for OC2-A on po
+port 18789, floating IP (or load‑balancer virtual IP) configured and tested
+tested to allow seamless traffic redirection.
+   - OC1 current gateway configuration, session state, and persistent data 
+exported/backed up; OC2-A pre‑loaded with identical service configuration a
+and validated in isolation.
+
+2. Cutover Phases
+   Phase 1 – Hot Standby Activation & Connection Draining
+   - KL team updates floating IP or DNS to direct *new* client connections 
+to OC2-A, while OC1 continues serving existing established sessions.
+   - OC2-A starts listening on port 18789, accepts new sessions, and synchr
+synchronizes state with OC2-B; OC1 remains online for active session draini
+draining.
+   Health Check after Phase 1:
+     - Verify OC2-A is accepting new connections without errors, cluster sy
+sync status is healthy, and existing OC1 sessions remain uninterrupted. Mon
+Monitor NAS latency and I/O.
+
+   Phase 2 – Final Ownership Transfer & OC1 Decommissioning
+   - After all OC1 sessions have naturally ended (or after a defined drain 
+timeout with forced termination), KL team moves the floating IP exclusively
+exclusively to OC2-A, making it the sole owner of port 18789.
+   - OC1 is gracefully shut down or placed in maintenance mode; OC2-A now o
+operates as primary, OC2-B as standby.
+   Health Check after Phase 2:
+     - Confirm OC2-A handles 100% of traffic on port 18789, cluster status 
+shows OC2-A=primary / OC2-B=standby, no session loss, and end‑to‑end servic
+service functionality is intact.
+
+3. Rollback Trigger
+   - If any health check fails (e.g., OC2-A rejects connections, cluster sp
+split‑brain, NAS access errors, or performance degradation), immediately re
+revert floating IP/port ownership to OC1, restart OC1 if necessary, and abo
+abort the promotion. KL team restores original network configuration.
+
+4. Final Steady-State
+   - OC2-A owns port 18789 as the active primary gateway. OC2-B remains syn
+synchronized standby, ready for automatic failover. OC1 is permanently deco
+decommissioned.

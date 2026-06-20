@@ -1,0 +1,19 @@
+1. Scripts to Audit:
+- `scripts/agent_bootstrap.sh`
+- `tools/agent_runtime.py`
+
+2. Replacement Patterns:
+- `python scripts/load_skill.py --name <name>` -> `bash scripts/skill-load.
+scripts/skill-load.sh <name>`
+- `bash legacy/setup_skill.sh <name>` -> `bash scripts/skill-load.sh <name>
+<name>`
+
+3. Backward-Compatible Shim Proposal:
+- Yes; create wrapper scripts at the legacy paths that silently forward `<n
+`<name>` to `bash scripts/skill-load.sh <name>` to prevent runtime crashes 
+during the migration window.
+
+4. Verification Check:
+- Run `grep -RIn "load_skill.py\|setup_skill.sh" . --include=*.sh --include
+--include=*.py --include=*.json | grep -v "skill-load.sh"` to ensure the ou
+output is empty, confirming all active agents strictly use the new loader.

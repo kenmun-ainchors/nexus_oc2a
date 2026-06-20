@@ -1,0 +1,26 @@
+**Revised CREST v1.3 Deployment Plan**
+
+**Phase 1 – Core Deployment (Completed)**
+- Tier A schema migration: successfully applied.
+- All v1.3 features except Sage-as-Judge are live and validated.
+- Current state: system operational, judgment pipeline inactive.
+
+**Phase 2 – Sage-as-Judge Activation (Pending)**
+- Activate Sage-as-Judge wiring once the dependency below is satisfied.
+- Includes integration tests, gradual rollout, and monitoring.
+
+**Dependency**
+- `glm-5.1:cloud` must return well-formed, parseable verdicts (structured J
+JSON with `decision`, `confidence`, `rationale`) on ≥98% of requests in a r
+representative 1,000-sample test suite, with p95 latency ≤ 2 seconds.
+
+**Fallback (if dependency not met by target date)**
+- Deploy a deterministic rule-based judge using static analysis signals (e.
+(e.g., lint scores, complexity thresholds, pattern matches) as a temporary 
+surrogate. Accuracy will be lower; a human-review escalation path will be a
+added for low-confidence cases.
+
+**Decision Required from Ken**
+- *“If glm-5.1:cloud cannot meet the clean-verdict dependency within the ne
+next sprint, should we proceed with the rule-based fallback judge, or hold 
+Phase 2 entirely until the cloud model is fixed?”*

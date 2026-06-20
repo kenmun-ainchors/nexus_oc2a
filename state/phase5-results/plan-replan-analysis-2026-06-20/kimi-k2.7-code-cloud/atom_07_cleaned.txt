@@ -1,0 +1,26 @@
+REPLAN: CREST v1.3 Deployment
+
+1. Revised Milestone Split
+   - Phase 1 — Foundation (COMPLETE): Tier A schema migration is live and v
+validated; data pipeline is stable and monitored.
+   - Phase 2 — Judge Validation Gate: Complete Sage-as-Judge wiring only af
+after glm-5.1:cloud reliably returns clean verdicts. Exit criteria: ≥95% pa
+parseable verdicts with no unresolved ambiguity on a representative test se
+set, plus latency within SLA.
+   - Phase 3 — Production Release: Deploy CREST v1.3 end-to-end with Sage-a
+Sage-as-Judge active and automated health checks.
+
+2. New Dependency Before Sage-as-Judge Can Go Live
+   - glm-5.1:cloud must be configured to return deterministic, schema-compl
+schema-compliant verdicts (clean verdict output) through a validated prompt
+prompt/template and response parser.
+
+3. Fallback If Dependency Is Not Met
+   - Degrade Sage-as-Judge to an async human-review queue: route verdict ca
+candidates to manual adjudication and ship CREST v1.3 without automated jud
+judging until the model output is clean.
+
+4. Decision Ken Must Make
+   - Do we ship CREST v1.3 on the original date with Sage-as-Judge operatin
+operating in human-review fallback mode, or do we delay the launch until gl
+glm-5.1:cloud passes the clean-verdict gate?

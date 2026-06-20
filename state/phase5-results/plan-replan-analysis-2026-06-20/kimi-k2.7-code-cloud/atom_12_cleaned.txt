@@ -1,0 +1,18 @@
+1. **Exact thresholds that trigger NEEDS_KEN**
+   - `SOUL.md`: > 8,192 bytes (8 KiB)
+   - `AGENTS.md`: > 16,384 bytes (16 KiB)
+
+2. **Policy change**
+   - CHECK 15 must never automatically summarize or rewrite `SOUL.md`/`AGEN
+`SOUL.md`/`AGENTS.md`; it may only create a `NEEDS_KEN` item and leave the 
+files untouched when a threshold is exceeded.
+
+3. **Script change**
+   - File: `auto-heal.sh`
+   - Change: In CHECK 15, replace the hard-coded size-triggered auto-summar
+auto-summarize rewrite branch with a guard that writes a `NEEDS_KEN` marker
+marker and skips any rewrite.
+
+4. **Verification command**
+   - `truncate -s 8193 SOUL.md; truncate -s 16385 AGENTS.md; ./auto-heal.sh
+./auto-heal.sh CHECK 15; [ -f NEEDS_KEN ] && echo PASS || echo FAIL`

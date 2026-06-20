@@ -1,0 +1,29 @@
+**Additive or Replacement**  
+This is an additive change. The existing 12-post, 4-movement schedule (Tue/
+(Tue/Wed/Thu) remains untouched. The Friday “week in review” post is a new,
+new, separate weekly addition, increasing the weekly cadence to 4 posts.
+
+**Two Scheduling Options with Trade-offs**  
+1. **Add Friday as a fourth cron (Tue, Wed, Thu, Fri)**  
+   - *Trade-off*: Preserves the original three-day sequence exactly; no con
+content is moved. However, total weekly posts increase, which may require m
+more content resources and could risk audience fatigue if frequency is too 
+high.  
+2. **Replace one existing cron with Friday (e.g., shift Thursday to Friday)
+Friday)**  
+   - *Trade-off*: Maintains three posts per week, keeping overall volume st
+steady. But it alters the established Tuesday–Wednesday–Thursday rhythm, po
+potentially disrupting the movement flow or audience expectation for that d
+day.
+
+**Guard Against Double-Posting**  
+Implement a pre-publish check that queries a shared state (e.g., a database
+database flag or a log of the last post timestamp) before any cron job exec
+executes. If a post has already been published for the current calendar dat
+date (in the campaign’s timezone), the job aborts. This prevents overlap wh
+whether the Friday post is additive or replaces another day.
+
+**Recommended Cron Expression for Friday 07:30 AEST**  
+`30 7 * * 5` (assuming the server’s timezone is set to AEST).  
+If the server uses UTC, use `30 21 * * 4` to account for the 10-hour offset
+offset.

@@ -1,0 +1,31 @@
+1. Additive or replacement
+- Additive. The Friday “week in review” post is a new weekly slot layered o
+on top of the existing Tue/Wed/Thu crons. The 12-post / 4-movement sequence
+sequence remains unchanged.
+
+2. Scheduling options
+
+Option A: Standalone Friday recap
+- Add a full, original Friday post that reflects on the week’s movement/the
+movement/theme.
+- Trade-offs: Stronger weekly narrative and extra engagement opportunity; r
+requires more content creation and may increase posting frequency fatigue.
+
+Option B: Lightweight Friday digest
+- Add a short Friday post that links back to and summarizes the three Tue/W
+Tue/Wed/Thu posts.
+- Trade-offs: Low incremental creative effort and reinforces prior content;
+content; can feel repetitive if it mirrors Thursday’s post too closely, and
+and may earn lower standalone engagement.
+
+3. Guard against double-posting
+- Maintain a single content calendar with a unique constraint on (channel, 
+publish_date). The Friday cron checks for any existing LinkedIn post schedu
+scheduled that Friday before publishing; if one exists, the job aborts and 
+logs a warning instead of posting.
+
+4. Recommended cron expression for Friday 07:30 AEST
+- `30 7 * * 5`
+- Configure the job timezone to AEST, e.g. `TZ=Australia/Sydney` (or `TZ=Au
+`TZ=Australia/Brisbane` for fixed AEST without DST).
+- If the scheduler only supports UTC, the equivalent is `30 21 * * 4`.

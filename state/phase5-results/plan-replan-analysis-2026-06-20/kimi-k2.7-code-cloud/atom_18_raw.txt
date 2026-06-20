@@ -1,0 +1,112 @@
+Thinking...
+We need answer user request. Need produce replan with 4 items: revised time[4D[K
+timeline (2 options), one action to unblock Shield, one feature to defer if[2D[K
+if delay continues, one client communication recommendation. Return ONLY st[2D[K
+structured replan text. Need concise, structured. No extra fluff.
+
+We need think about project: P2 client portal Citadel, 3 sprints original. [K
+Sprint1 auth scaffolding done. Sprint2 behind due to Shield security review[6D[K
+review not finished. Need replan.
+
+We should produce timeline options assuming each sprint length? Unknown. Co[2D[K
+Could use generic dates relative to current Sprint 2. Could provide date ra[2D[K
+ranges from today? We don't know date. Use "Current date" placeholder or re[2D[K
+relative (Sprint N). But ask structured replan text. We can create options [K
+like Option A: absorb delay into Sprint 2, extend 1 week, ship 2 weeks late[4D[K
+late; Option B: run security review in parallel with Sprint 3, push final r[1D[K
+release by 1 sprint (3 weeks). Need include revised milestones.
+
+Action to unblock Shield: schedule daily standdown with Shield, pre-review [K
+checklist, or assign dedicated Shield liaison; escalate to Shield's managem[7D[K
+management, provide threat model docs. Since "One action" singular. We can [K
+phrase "Escalate to Shield's security lead/PM and provide all required arti[4D[K
+artifacts (threat model, scan results, auth architecture) by EOD to enable [K
+a focused review session." That's one action, maybe includes deliverables.
+
+Feature to defer: choose something client portal feature. Could defer "SSO/[5D[K
+"SSO/SAML integration" or "advanced RBAC admin UI" or "audit log dashboard"[10D[K
+dashboard" or "branding/custom domain". The auth scaffolding is done; defer[5D[K
+defer maybe "MFA self-service enrollment" or "biometric/Passkey support". N[1D[K
+Need pick one. If delay continues, defer "advanced role-based access contro[6D[K
+control (RBAC) admin console" to post-MVP, use simpler static role mapping.[8D[K
+mapping. Or defer "client self-service permissions". Let's pick "client-man[11D[K
+"client-managed team/RBAC administration" to later.
+
+Client communication recommendation: Proactive message with revised date an[2D[K
+and scope unchanged, weekly updates, etc. One recommendation.
+
+Need return ONLY structured replan text. Could format as:
+
+REPLAN: Citadel P2 Client Portal
+
+1. Revised Timeline (2 options)
+   Option A - Compressed recovery ...
+   ...
+   Option B - Prescope by deferring feature ...
+
+Need ensure no extra text.
+
+Given limited context, use placeholder sprint length 2 weeks? They mention [K
+3 sprints. Could use "sprint = 2 weeks" assumption. State assumption. Bette[5D[K
+Better to avoid arbitrary dates; use relative.
+
+Let's craft.
+
+Option A: Extend Sprint 2 by 1 week (security review fast-track), keep Spri[4D[K
+Sprint 3 scope, launch 1 week late.
+Option B: Defer Sprint 2 non-security work to Sprint 3 and security review [K
+runs parallel; launch 2 weeks late (insert 1 buffer sprint) and defer RBAC [K
+admin to v2.
+
+Action to unblock Shield: Lock Shield lead + Citadel tech lead in daily 30-[3D[K
+30-min security review clinics with pre-supplied artifacts, escalate to Shi[3D[K
+Shield leadership if no sign-off by [date].
+
+Feature to defer: Client-managed RBAC/team admin console; replace with stat[4D[K
+static role assignments until v2.
+
+Client communication: Send client a one-page status note by EOD with new ta[2D[K
+target date, scope impact (if any), and weekly cadence; emphasize no auth c[1D[K
+compromise.
+
+Need check if they want only structured replan text. Could avoid explanatio[10D[K
+explanations. But include enough detail. Use bullet list.
+
+Let's final.
+...done thinking.
+
+**REPLAN – Citadel P2 Client Portal**
+
+1. **Revised Timeline (2 options)**  
+   _Assumption: each sprint = 2 weeks._
+
+   - **Option A – Absorb delay, ship 1 week late**
+     - Sprint 2: extend 1 extra week to complete Shield review + API integr[6D[K
+integration
+     - Sprint 3: full feature build + QA
+     - **New launch target:** 1 week after original date
+
+   - **Option B – Add buffer sprint, defer admin feature, ship 2 weeks late[4D[K
+late**
+     - Sprint 2 (current): finish only security review + core auth plumbing[8D[K
+plumbing
+     - Sprint 3: portal features + integration testing
+     - Sprint 4: hardening, UAT, and launch prep
+     - **New launch target:** 2 weeks after original date
+
+2. **One action to unblock Shield**  
+   - Schedule daily 30-minute security review clinics between the Shield le[2D[K
+lead and Citadel tech lead, with all required artifacts (threat model, auth[4D[K
+auth architecture, scan results) delivered in advance; escalate to Shield m[1D[K
+management if sign-off is not received by end of the extended Sprint 2.
+
+3. **One feature to defer if delay continues**  
+   - Defer the **client-managed RBAC / team admin console** to a v2 release[7D[K
+release; use static role mappings for the MVP.
+
+4. **One client communication recommendation**  
+   - Send a written status update by EOD stating the revised target date, t[1D[K
+the reason for the delay (security review), the minimal scope impact (only [K
+advanced admin RBAC deferred, if Option B), and a weekly progress cadence u[1D[K
+until launch.
+

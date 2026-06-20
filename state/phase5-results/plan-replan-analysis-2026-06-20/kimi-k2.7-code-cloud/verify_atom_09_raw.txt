@@ -1,0 +1,110 @@
+Thinking...
+We need answer user's request. They ask: Original Plan: All Tier 3 agents u[1D[K
+use deepseek-v4-pro:cloud for Plan/Replan. Evidence: cost too high and gemm[4D[K
+gemma4:31b-cloud underutilized.
+
+Produce replan with:
+1. New default model assignment by role category (at least 3 categories)
+2. One exception rule for high-stakes external-facing work
+3. One verification step before rolling out
+4. One rollback condition
+
+Return ONLY the structured replan text.
+
+We need think about response format. Probably a structured text. No extra e[1D[K
+explanation. Provide concise.
+
+Need ensure categories at least 3. Could be: Routine Internal Planning/Rese[13D[K
+Planning/Research -> gemma4:31b-cloud; Complex Multi-step Reasoning/Archite[17D[K
+Reasoning/Architecture -> deepseek-v4-pro:cloud maybe lighter; External-fac[12D[K
+External-facing Customer Communication/High stakes etc exception. But they [K
+ask new default model assignment by role category, and one exception rule f[1D[K
+for high-stakes external-facing work. So role categories and default models[6D[K
+models. Example:
+
+- Tier 3 Internal Planning & Research: gemma4:31b-cloud default
+- Tier 3 Complex Replanning & Architecture: deepseek-v4-pro:cloud default
+- Tier 3 Code/Tooling & Automation: gemma4:31b-cloud default
+- Tier 3 Customer-Facing / High-Stakes External-Facing Work: ??? exception [K
+rule says use deepseek-v4-pro:cloud with mandatory review. But maybe defaul[6D[K
+default categories are not external-facing? We can include as category and [K
+exception rule.
+
+Better structure:
+
+**Replan: Tier 3 Model Assignment Update**
+
+1. New default model assignments by role category:
+- Internal Research, Routine Plan/Replan, Tool/Script Generation: gemma4:31[9D[K
+gemma4:31b-cloud
+- Complex Multi-Agent Coordination, Architecture Design, Novel Strategy: de[2D[K
+deepseek-v4-pro:cloud
+- Data Synthesis / Report Drafting (internal): gemma4:31b-cloud
+
+2. Exception: High-stakes external-facing deliverables (client reports, reg[3D[K
+regulatory filings, public comms) use deepseek-v4-pro:cloud and require hum[3D[K
+human reviewer sign-off.
+
+3. Verification step: Run a 2-week A/B cost/quality pilot comparing gemma4:[7D[K
+gemma4:31b-cloud vs deepseek-v4-pro:cloud outputs across each role category[8D[K
+category, measured by error rate, task completion, and cost per task; appro[5D[K
+approve rollout if gemma4:31b-cloud non-inferior.
+
+4. Rollback condition: If quality score drops >10% or cost savings fall bel[3D[K
+below 20% after rollout, revert affected categories to deepseek-v4-pro:clou[20D[K
+deepseek-v4-pro:cloud within 24 hours.
+
+Need return only structured replan text. Avoid markdown? It says structured[10D[K
+structured replan text. Markdown bullets okay.
+
+Let's ensure it addresses evidence: cost too high and gemma4:31b-cloud unde[4D[K
+underutilized. So shifting most to gemma4:31b-cloud.
+
+Could also include categories like:
+- Standard operational/internal Plan/Replan -> gemma4:31b-cloud
+- Analytical/research-heavy tasks -> deepseek-v4-pro:cloud
+- Automated/batch low-risk work -> gemma4:31b-cloud
+
+Exception: external-facing high-stakes -> deepseek-v4-pro:cloud + human rev[3D[K
+review.
+
+Verification: pilot.
+
+Rollback: quality or cost threshold.
+
+Need only structured text.
+
+We must not add any extra sentences. Just the structured plan.
+
+Potential issue: "Role category" maybe categories of agents by role. We'll [K
+phrase.
+
+Let's produce.
+...done thinking.
+
+**Replan: Tier 3 Default Model Assignment**
+
+1. **New default model assignments by role category**
+   - **Internal Plan / Replan, routine research, and tooling tasks** → `gem[4D[K
+`gemma4:31b-cloud`
+   - **Complex multi-step reasoning, architecture design, and novel strateg[7D[K
+strategy replanning** → `deepseek-v4-pro:cloud`
+   - **Internal report drafting, data synthesis, and batch processing** → `[1D[K
+`gemma4:31b-cloud`
+
+2. **Exception rule for high-stakes external-facing work**
+   - Any client-facing, regulatory, or public communications Plan/Replan mu[2D[K
+must use `deepseek-v4-pro:cloud` and require a human reviewer sign-off befo[4D[K
+before release.
+
+3. **Verification step before rolling out**
+   - Run a 2-week A/B pilot across each category comparing `gemma4:31b-clou[16D[K
+`gemma4:31b-cloud` against `deepseek-v4-pro:cloud` on output error rate, ta[2D[K
+task completion quality, and cost per task; approve full rollout only if `g[2D[K
+`gemma4:31b-cloud` is non-inferior on quality metrics.
+
+4. **Rollback condition**
+   - If post-rollout quality score drops more than 10% or projected cost sa[2D[K
+savings fall below 20% for any category, revert that category to `deepseek-[10D[K
+`deepseek-v4-pro:cloud` within 24 hours.
+

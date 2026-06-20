@@ -1,0 +1,15 @@
+1. Does this file trigger, gate, or schedule a model reset, retraining, or 
+deployment that would directly affect live service behavior?  
+2. Would its corruption, stale state, or loss cause service degradation, in
+incorrect predictions, data loss, or customer-facing impact?
+
+**Recommended tier: Tier 0 (business-critical).**  
+Because a pending-model-reset state file likely gates or records a destruct
+destructive/impactful operation on the production model, where stale or err
+erroneous state could directly degrade service or customer outcomes.
+
+**Data-sovereignty check:** Verify whether the file includes customer data,
+data, prompts, model outputs, or identifiers that must stay within a specif
+specific jurisdiction.
+
+**Owning agent:** Model Lifecycle / Reset Orchestrator Agent.

@@ -1,0 +1,26 @@
+REPLAN: TIER 3 AGENT MODEL ASSIGNMENT OPTIMIZATION
+
+1. DEFAULT MODEL ASSIGNMENT BY ROLE CATEGORY
+   - Routine Plan/Replan Execution: gemma4:31b-cloud
+   - Context & Data Aggregation: gemma4:31b-cloud
+   - Complex Logic & Architecture Planning: deepseek-v4-pro:cloud (restrict
+(restricted to high-complexity triggers only)
+
+2. EXCEPTION RULE
+   - High-Stakes External-Facing Work: Any Tier 3 agent generating client-f
+client-facing proposals, public API schemas, or direct user-facing communic
+communications must bypass the default assignment and use deepseek-v4-pro:c
+deepseek-v4-pro:cloud to guarantee maximum fidelity, compliance, and safety
+safety.
+
+3. VERIFICATION STEP BEFORE ROLLOUT
+   - Shadow Evaluation: Execute a 48-hour shadow test where routine plannin
+planning tasks are processed by both models simultaneously. Compare gemma4:
+gemma4:31b-cloud outputs against deepseek-v4-pro:cloud baselines to ensure 
+planning accuracy and logic fidelity remain within acceptable thresholds.
+
+4. ROLLBACK CONDITION
+   - Automatic Reversion: If the planning failure rate or hallucination rat
+rate of gemma4:31b-cloud exceeds 5% during the shadow evaluation or the fir
+first 7 days of production rollout, immediately revert all affected Tier 3 
+agents back to deepseek-v4-pro:cloud.

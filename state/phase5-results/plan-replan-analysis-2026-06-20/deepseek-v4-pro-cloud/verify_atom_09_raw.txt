@@ -1,0 +1,156 @@
+Thinking...
+We need to produce a replan based on the original plan: "All Tier 3 agents [K
+use deepseek-v4-pro:cloud for Plan/Replan. Evidence: cost is too high and g[1D[K
+gemma4:31b-cloud is underutilized."
+
+We need to produce a structured replan with:
+1. New default model assignment by role category (at least 3 categories)
+2. One exception rule for high-stakes external-facing work
+3. One verification step before rolling out
+4. One rollback condition
+
+Return ONLY the structured replan text. So no extra commentary, just the re[2D[K
+replan.
+
+We need to interpret the original plan: Tier 3 agents (presumably the highe[5D[K
+highest tier, maybe complex tasks) all use deepseek-v4-pro:cloud for Plan/R[6D[K
+Plan/Replan tasks. The evidence is that cost is too high and gemma4:31b-clo[14D[K
+gemma4:31b-cloud is underutilized. So we need to reassign models to reduce [K
+cost and utilize gemma4:31b-cloud more, while still maintaining quality. We[2D[K
+We'll create role categories (at least 3) with default model assignments. F[1D[K
+For example, categories could be: Routine Planning, Complex Planning, Repla[5D[K
+Replanning/Adaptation, or maybe by agent type: Internal-facing, External-fa[11D[K
+External-facing, High-stakes. But we need at least 3 categories. The except[6D[K
+exception rule for high-stakes external-facing work: maybe use deepseek-v4-[12D[K
+deepseek-v4-pro:cloud for those despite the cost, because quality is critic[6D[K
+critical. Verification step: maybe A/B test or pilot with a subset of agent[5D[K
+agents, monitor cost and quality metrics. Rollback condition: if quality dr[2D[K
+drops below a threshold or error rate increases, revert to original assignm[7D[K
+assignment.
+
+We'll craft a structured replan. It should be clear, concise, and only the [K
+replan text. Use bullet points or numbered sections? The prompt says "Retur[6D[K
+"Return ONLY the structured replan text." So I'll output a structured text [K
+with sections: New Default Model Assignment, Exception Rule, Verification S[1D[K
+Step, Rollback Condition. I'll make it look like a plan.
+
+I'll define role categories:
+- Category A: Routine Internal Planning (low complexity, internal-facing) -[1D[K
+-> gemma4:31b-cloud
+- Category B: Complex Internal Planning (high complexity, internal-facing) [K
+-> maybe a mix? Could use deepseek-v4-pro:cloud? But we want to reduce cost[4D[K
+cost, so maybe use gemma4:31b-cloud for complex internal as well, but with [K
+a fallback? The original plan had all Tier 3 using deepseek-v4-pro:cloud. T[1D[K
+Tier 3 might be the highest tier. So we need to differentiate. I'll create [K
+three categories: 
+  1. Standard Planning (routine, internal) -> gemma4:31b-cloud
+  2. Advanced Planning (complex, internal) -> gemma4:31b-cloud with optiona[7D[K
+optional escalation to deepseek-v4-pro:cloud if confidence low? But the rep[3D[K
+replan should specify default model assignment. I'll make it: Advanced Plan[4D[K
+Planning (complex but internal) -> gemma4:31b-cloud (since it's underutiliz[11D[K
+underutilized, we can try to use it for complex too, but with verification)[13D[K
+verification). 
+  3. Replanning/Adaptive Planning (dynamic adjustments) -> gemma4:31b-cloud[16D[K
+gemma4:31b-cloud. 
+But we need an exception rule for high-stakes external-facing work. So that[4D[K
+that would be a separate rule overriding the default. So categories could b[1D[K
+be: Internal Planning, External Planning (non-high-stakes), High-Stakes Ext[3D[K
+External Planning. But the exception rule is for high-stakes external-facin[14D[K
+external-facing work, so maybe the default for external-facing work is gemm[4D[K
+gemma4:31b-cloud, but high-stakes external-facing uses deepseek-v4-pro:clou[20D[K
+deepseek-v4-pro:cloud. That would be an exception rule. So categories: 
+- Category 1: Internal-facing planning (all tiers) -> gemma4:31b-cloud
+- Category 2: External-facing planning (non-high-stakes) -> gemma4:31b-clou[15D[K
+gemma4:31b-cloud
+- Category 3: High-stakes external-facing planning -> deepseek-v4-pro:cloud[21D[K
+deepseek-v4-pro:cloud (exception rule)
+But the prompt says "New default model assignment by role category (at leas[4D[K
+least 3 categories)" and then "One exception rule for high-stakes external-[9D[K
+external-facing work". So the exception rule is separate, not necessarily a[1D[K
+a category. So I can have 3 default categories, and then an exception rule [K
+that overrides for high-stakes external-facing. So default categories could[5D[K
+could be: 
+1. Routine Task Planning (low complexity, internal) -> gemma4:31b-cloud
+2. Complex Task Planning (high complexity, internal) -> gemma4:31b-cloud (m[2D[K
+(maybe with a note that it's underutilized, we'll try)
+3. Replanning/Adaptation (dynamic changes) -> gemma4:31b-cloud
+Then exception: For any external-facing work that is high-stakes (e.g., cus[3D[K
+customer-facing critical decisions, public communications), use deepseek-v4[11D[K
+deepseek-v4-pro:cloud.
+Verification step: Run a controlled pilot on 20% of Tier 3 agents for one w[1D[K
+week, comparing cost, plan quality scores, and error rates against baseline[8D[K
+baseline.
+Rollback condition: If average plan quality score drops by >10% or critical[8D[K
+critical error rate increases by >5%, revert all agents to original deepsee[7D[K
+deepseek-v4-pro:cloud assignment.
+
+I'll structure the replan as:
+
+**Replan: Tier 3 Agent Model Assignment for Plan/Replan**
+
+**1. New Default Model Assignment by Role Category**
+- **Category A: Routine Internal Planning** (e.g., standard task decomposit[10D[K
+decomposition, low-complexity workflows) → **gemma4:31b-cloud**
+- **Category B: Complex Internal Planning** (e.g., multi-step reasoning, no[2D[K
+novel problem-solving) → **gemma4:31b-cloud** (with optional fallback to de[2D[K
+deepseek-v4-pro:cloud if confidence score < 0.7, but default is gemma4)
+- **Category C: Replanning & Adaptation** (e.g., dynamic plan adjustments, [K
+error recovery) → **gemma4:31b-cloud**
+
+**2. Exception Rule for High-Stakes External-Facing Work**
+- Any Plan/Replan task that is **external-facing and high-stakes** (defined[8D[K
+(defined as: directly impacts customer experience, brand reputation, legal [K
+compliance, or financial liability) **must use deepseek-v4-pro:cloud**, ove[3D[K
+overriding the default category assignment.
+
+**3. Verification Step Before Rollout**
+- Conduct a **1-week A/B pilot** on a randomly selected 20% subset of Tier [K
+3 agents. The pilot group uses the new model assignments; the control group[5D[K
+group remains on deepseek-v4-pro:cloud. Monitor:
+  - Cost per plan (target: ≥30% reduction)
+  - Plan quality score (automated metric, target: within 5% of control)
+  - Critical error rate (target: no increase >2%)
+- Only proceed to full rollout if all targets are met.
+
+**4. Rollback Condition**
+- If, after full rollout, the **7-day rolling average plan quality score dr[2D[K
+drops >10%** compared to the pre-rollout baseline, **or** the **critical er[2D[K
+error rate increases >5%**, immediately revert all Tier 3 agents to the ori[3D[K
+original assignment (deepseek-v4-pro:cloud for all Plan/Replan).
+
+That's it. I'll output only thattext.
+...done thinking.
+
+**Replan: Tier 3 Agent Model Assignment for Plan/Replan**
+
+**1. New Default Model Assignment by Role Category**
+- **Category A: Routine Internal Planning** (standard task decomposition, l[1D[K
+low-complexity workflows, internal-facing) → **gemma4:31b-cloud**
+- **Category B: Complex Internal Planning** (multi-step reasoning, novel pr[2D[K
+problem-solving, internal-facing) → **gemma4:31b-cloud** (with optional fal[3D[K
+fallback to deepseek-v4-pro:cloud only if confidence score < 0.7, but defau[5D[K
+default remains gemma4)
+- **Category C: Replanning & Adaptation** (dynamic plan adjustments, error [K
+recovery, internal-facing) → **gemma4:31b-cloud**
+
+**2. Exception Rule for High-Stakes External-Facing Work**
+- Any Plan/Replan task that is **external-facing and high-stakes** (directl[8D[K
+(directly impacts customer experience, brand reputation, legal compliance, [K
+or financial liability) **must use deepseek-v4-pro:cloud**, overriding the [K
+default category assignment.
+
+**3. Verification Step Before Rollout**
+- Run a **1-week A/B pilot** on a randomly selected 20% subset of Tier 3 ag[2D[K
+agents. Pilot group uses the new assignments; control group remains on deep[4D[K
+deepseek-v4-pro:cloud. Monitor:
+  - Cost per plan (target: ≥30% reduction)
+  - Plan quality score (automated metric, target: within 5% of control)
+  - Critical error rate (target: no increase >2%)
+- Proceed to full rollout only if all targets are met.
+
+**4. Rollback Condition**
+- If, after full rollout, the **7-day rolling average plan quality score dr[2D[K
+drops >10%** vs. pre-rollout baseline, **or** the **critical error rate inc[3D[K
+increases >5%**, immediately revert all Tier 3 agents to the original assig[5D[K
+assignment (deepseek-v4-pro:cloud for all Plan/Replan).
+

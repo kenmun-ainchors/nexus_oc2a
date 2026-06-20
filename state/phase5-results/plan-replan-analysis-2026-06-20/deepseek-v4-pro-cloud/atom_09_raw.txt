@@ -1,0 +1,132 @@
+Thinking...
+We need to produce a replan based on the original plan: "All Tier 3 agents [K
+use deepseek-v4-pro:cloud for Plan/Replan. Evidence: cost is too high and g[1D[K
+gemma4:31b-cloud is underutilized."
+
+We need to produce a structured replan with:
+1. New default model assignment by role category (at least 3 categories)
+2. One exception rule for high-stakes external-facing work
+3. One verification step before rolling out
+4. One rollback condition
+
+Return ONLY the structured replan text. No extra commentary.
+
+I need to think of role categories for Tier 3 agents. Tier 3 likely means h[1D[K
+high-level agents, maybe planning/replanning tasks. The original plan used [K
+deepseek-v4-pro:cloud for all Tier 3 agents. Now we want to reduce cost and[3D[K
+and utilize gemma4:31b-cloud. So we need to assign different models based o[1D[K
+on role categories. For example, we could have categories like: "Routine Pl[2D[K
+Planning", "Complex Planning", "External-Facing Planning". Or maybe "Intern[7D[K
+"Internal Operations", "Customer-Facing", "High-Stakes Decision". We need a[1D[K
+at least 3 categories. I'll propose:
+
+- Category A: Internal operational planning (low complexity, routine) -> us[2D[K
+use gemma4:31b-cloud (cheaper, underutilized)
+- Category B: Complex internal planning (high complexity, non-external) -> [K
+maybe still deepseek-v4-pro? Or a mix? The evidence says cost is too high a[1D[K
+and gemma4 is underutilized, so we want to shift more to gemma4. But we nee[3D[K
+need to keep some deepseek for high-stakes? The exception rule will cover h[1D[K
+high-stakes external-facing work. So for complex internal planning, we migh[4D[K
+might still use deepseek-v4-pro? But the goal is to reduce cost, so maybe w[1D[K
+we assign gemma4 to most categories, and only deepseek for exception. I'll [K
+define categories:
+
+1. Routine Internal Planning: gemma4:31b-cloud
+2. Complex Internal Planning: gemma4:31b-cloud (maybe with a fallback if qu[2D[K
+quality insufficient? But the replan should be simple. Could assign deepsee[7D[K
+deepseek-v4-pro:cloud only for high-stakes external-facing as exception, an[2D[K
+and all other Tier 3 agents use gemma4:31b-cloud. That would be 1 category?[9D[K
+category? Need at least 3 categories. So I'll split internal planning into [K
+subcategories: "Standard Operations Planning", "Strategic Internal Planning[8D[K
+Planning", "Cross-functional Coordination". All use gemma4:31b-cloud. Then [K
+exception: "High-stakes external-facing work" uses deepseek-v4-pro:cloud. T[1D[K
+That gives 3 categories + exception. But the requirement says "New default [K
+model assignment by role category (at least 3 categories)". So I need to li[2D[K
+list at least 3 role categories with their default model. I can have:
+
+- Category 1: Internal Process Optimization (default: gemma4:31b-cloud)
+- Category 2: Resource Allocation & Scheduling (default: gemma4:31b-cloud)
+- Category 3: Risk Assessment & Mitigation Planning (default: gemma4:31b-cl[13D[K
+gemma4:31b-cloud)
+- Exception: High-stakes external-facing work (e.g., client-facing strategi[8D[K
+strategic proposals, regulatory compliance documents) -> deepseek-v4-pro:cl[18D[K
+deepseek-v4-pro:cloud
+
+That's 3 categories all using gemma4, and one exception using deepseek. Tha[3D[K
+That satisfies the requirement. The replan should state the new default mod[3D[K
+model assignment by role category, then the exception rule, then verificati[10D[K
+verification step, then rollback condition.
+
+Verification step: Before rolling out, we need to verify that gemma4:31b-cl[13D[K
+gemma4:31b-cloud can handle the quality requirements for those categories. [K
+Could be a pilot test: run a sample of Tier 3 planning tasks through gemma4[6D[K
+gemma4 and compare outputs with deepseek-v4-pro, using human evaluation or [K
+automated metrics. Or "Conduct A/B testing on a representative set of plann[5D[K
+planning tasks across all three categories, measuring plan quality, coheren[7D[K
+coherence, and adherence to constraints, with gemma4:31b-cloud vs. deepseek[8D[K
+deepseek-v4-pro. Rollout only if gemma4 meets predefined quality thresholds[10D[K
+thresholds (e.g., <5% degradation)."
+
+Rollback condition: If after rollout, monitoring shows significant quality [K
+drop (e.g., >10% increase in plan rejection rate or critical errors), rever[5D[K
+revert all Tier 3 agents back to deepseek-v4-pro.
+
+I'll structure the replan as a clear statement.
+
+Original plan: All Tier 3 agents use deepseek-v4-pro:cloud for Plan/Replan.[12D[K
+Plan/Replan. Evidence: cost too high, gemma4:31b-cloud underutilized.
+
+Replan: 
+1. New default model assignments by role category:
+   - Category A: Internal Process Optimization → gemma4:31b-cloud
+   - Category B: Resource Allocation & Scheduling → gemma4:31b-cloud
+   - Category C: Risk Assessment & Mitigation Planning → gemma4:31b-cloud
+   (All Tier 3 agents in these categories default to gemma4:31b-cloud for P[1D[K
+Plan/Replan tasks.)
+2. Exception rule: For high-stakes external-facing work (e.g., client-facin[12D[K
+client-facing strategic proposals, regulatory filings, public communication[13D[K
+communications), Tier 3 agents will continue to use deepseek-v4-pro:cloud t[1D[K
+to ensure maximum accuracy and polish.
+3. Verification step: Prior to full rollout, run a controlled A/B test on a[1D[K
+a representative sample of Plan/Replan tasks from each category. Compare ou[2D[K
+outputs from gemma4:31b-cloud against the current deepseek-v4-pro baseline [K
+using human evaluators and automated quality metrics (coherence, constraint[10D[K
+constraint satisfaction, actionability). Proceed only if gemma4 achieves at[2D[K
+at least 95% of the baseline quality score with no critical failures.
+4. Rollback condition: If post-rollout monitoring detects a >10% increase i[1D[K
+in plan rejection rate, a >5% incidence of critical errors (e.g., safety vi[2D[K
+violations, regulatory non-compliance), or consistent negative feedback fro[3D[K
+from internal stakeholders over a 2-week period, immediately revert all Tie[3D[K
+Tier 3 Plan/Replan tasks back to deepseek-v4-pro:cloud and reassess.
+
+That's it. Return only that structured replan text.
+...done thinking.
+
+New Default Model Assignment by Role Category:
+- Category 1: Internal Process Optimization → gemma4:31b-cloud
+- Category 2: Resource Allocation & Scheduling → gemma4:31b-cloud
+- Category 3: Risk Assessment & Mitigation Planning → gemma4:31b-cloud
+All Tier 3 agents in these categories default to gemma4:31b-cloud for Plan/[5D[K
+Plan/Replan tasks.
+
+Exception Rule:
+For high-stakes external-facing work (e.g., client-facing strategic proposa[7D[K
+proposals, regulatory filings, public communications), Tier 3 agents will c[1D[K
+continue to use deepseek-v4-pro:cloud to ensure maximum accuracy and polish[6D[K
+polish.
+
+Verification Step Before Rollout:
+Conduct a controlled A/B test on a representative sample of Plan/Replan tas[3D[K
+tasks from each category. Compare gemma4:31b-cloud outputs against the curr[4D[K
+current deepseek-v4-pro baseline using human evaluators and automated metri[5D[K
+metrics (coherence, constraint satisfaction, actionability). Proceed with r[1D[K
+rollout only if gemma4 achieves ≥95% of baseline quality with no critical f[1D[K
+failures.
+
+Rollback Condition:
+If post-rollout monitoring reveals >10% increase in plan rejection rate, >5[2D[K
+>5% incidence of critical errors (e.g., safety violations, regulatory non-c[5D[K
+non-compliance), or sustained negative stakeholder feedback over a 2-week p[1D[K
+period, immediately revert all Tier 3 Plan/Replan tasks to deepseek-v4-pro:[16D[K
+deepseek-v4-pro:cloud and reassess.
+

@@ -1,0 +1,135 @@
+Thinking...
+We need to produce a structured plan text based on the user's request. The [K
+user says: "The LinkedIn campaign uses 3 weekly crons (Tue/Wed/Thu). Ken wa[2D[K
+wants to add a Friday 'week in review' post without changing the existing 1[1D[K
+12-post / 4-movement schedule. Produce a plan that includes: 1. Whether thi[3D[K
+this is additive or replacement 2. Two scheduling options with trade-offs 3[1D[K
+3. One guard against double-posting 4. Recommended cron expression for Frid[4D[K
+Friday 07:30 AEST Return ONLY the structured plan text."
+
+So I need to output a plan that addresses these four points. The existing s[1D[K
+schedule: 3 weekly crons on Tue, Wed, Thu. That implies 3 posts per week? B[1D[K
+But the user mentions "existing 12-post / 4-movement schedule". That might [K
+mean a campaign with 12 posts total, divided into 4 movements (maybe each m[1D[K
+movement has 3 posts?). The crons are Tue/Wed/Thu, so each week they post o[1D[K
+on those three days. Adding a Friday 'week in review' post without changing[8D[K
+changing the existing schedule. So we need to decide if it's additive (addi[5D[K
+(adding a 4th post per week) or replacement (replacing one of the existing [K
+posts with the Friday post). The user says "without changing the existing 1[1D[K
+12-post / 4-movement schedule." That suggests the 12-post schedule is fixed[5D[K
+fixed, so adding a Friday post would increase the total number of posts, po[2D[K
+potentially making it 13 posts? Or maybe the 12-post schedule is over 4 wee[3D[K
+weeks (3 posts per week * 4 weeks = 12 posts). Adding a Friday post each we[2D[K
+week would make it 16 posts over 4 weeks, changing the schedule. So perhaps[7D[K
+perhaps it's a replacement: replace one of the Tue/Wed/Thu posts with Frida[5D[K
+Friday, keeping total posts at 12. But the user says "without changing the [K
+existing 12-post / 4-movement schedule." That could mean the 12-post sequen[6D[K
+sequence (the content of the 12 posts) remains unchanged, but we add an ext[3D[K
+extra post on Friday, making it 13 posts? That would change the schedule. I[1D[K
+I need to interpret. "12-post / 4-movement schedule" might refer to a campa[5D[K
+campaign that has 12 posts organized into 4 movements (each movement maybe [K
+a theme). The crons are Tue/Wed/Thu, so each week they post 3 times. Over 4[1D[K
+4 weeks, that's 12 posts. Adding a Friday post would make it 4 posts per we[2D[K
+week, 16 posts total, which changes the 12-post schedule. So to keep the 12[2D[K
+12-post schedule unchanged, the Friday post must be a replacement for one o[1D[K
+of the existing posts, perhaps moving one of the Tue/Wed/Thu posts to Frida[5D[K
+Friday, or replacing one of them with the week-in-review. The user says "wi[3D[K
+"without changing the existing 12-post / 4-movement schedule." That implies[7D[K
+implies the content and sequence of the 12 posts (the 4 movements) should s[1D[K
+stay the same. So adding a Friday post would be an extra post, not part of [K
+the 12-post sequence. That would be additive, but then the schedule would h[1D[K
+have 13 posts? Or maybe the "12-post / 4-movement schedule" is the content [K
+plan, and the Friday post is a separate "week in review" that doesn't count[5D[K
+count as one of the 12 posts. So it's additive, an extra post each week. Th[2D[K
+The user might be okay with that, as long as the existing 12 posts are not [K
+altered. So I'll assume additive: we keep the Tue/Wed/Thu posts as they are[3D[K
+are, and add a Friday post. That would increase the weekly cadence to 4 pos[3D[K
+posts. The total campaign would then have 12 original posts plus 4 Friday r[1D[K
+review posts (one each week) = 16 posts. But the user might want to keep th[2D[K
+the total number of posts at 12, so they'd need to replace one. The phrase [K
+"without changing the existing 12-post / 4-movement schedule" could be inte[4D[K
+interpreted as the schedule of 12 posts (the content calendar) remains unch[4D[K
+unchanged, meaning we don't remove or reorder any of those 12 posts. Adding[6D[K
+Adding a Friday post would be an additional post, not part of that 12-post [K
+sequence. So it's additive. I'll go with additive. I'll mention that it's a[1D[K
+additive, meaning the existing Tue/Wed/Thu posts remain, and a new Friday p[1D[K
+post is added, increasing weekly posts to 4. That doesn't change the 12-pos[6D[K
+12-post/4-movement content sequence. Then I'll provide two scheduling optio[5D[K
+options with trade-offs: Option A: Add Friday as a 4th cron job, keeping Tu[2D[K
+Tue/Wed/Thu crons unchanged. Trade-off: increases posting frequency, may ca[2D[K
+cause audience fatigue, but provides timely week-in-review. Option B: Shift[5D[K
+Shift one of the existing posts (e.g., Thursday) to Friday, keeping 3 posts[5D[K
+posts per week but altering the day pattern. That would change the existing[8D[K
+existing schedule (the days), so not allowed? The user says "without changi[6D[K
+changing the existing 12-post / 4-movement schedule." If we shift Thursday [K
+to Friday, the 12-post sequence remains the same (same content order) but t[1D[K
+the days change. That might be considered changing the schedule (the timing[6D[K
+timing). So I'll present two options: 1) Additive: add Friday cron, keep Tu[2D[K
+Tue/Wed/Thu, total 4 posts/week. Trade-offs: more content, potential overla[6D[K
+overlap, but keeps original schedule intact. 2) Replacement: replace one of[2D[K
+of the existing crons (e.g., Thursday) with Friday, keeping 3 posts/week. T[1D[K
+Trade-offs: maintains posting cadence, but alters the day-of-week pattern f[1D[K
+for that movement, might disrupt the flow. The user might want to keep the [K
+12-post schedule unchanged, so replacement would change the schedule (the d[1D[K
+days). So I'll note that replacement changes the existing schedule's day pa[2D[K
+pattern, which might not be desired. But I'll present both as scheduling op[2D[K
+options with trade-offs. Then one guard against double-posting: Since we're[5D[K
+we're adding a Friday post, we need to ensure that if a Friday cron acciden[7D[K
+accidentally triggers on a day that already has a post (like if we shift Th[2D[K
+Thursday to Friday, but keep Thursday cron, that would double-post). The gu[2D[K
+guard could be a check before posting: a database flag or a check of the la[2D[K
+last post date to prevent posting if a post was already made on that same d[1D[K
+day. Or use a lock mechanism. I'll suggest a guard: implement a "posted_tod[11D[K
+"posted_today" check in the script that queries the LinkedIn API or a local[5D[K
+local log to see if a post has already been made on the current date, and s[1D[K
+skip if so. Or use a centralized scheduler that ensures only one post per d[1D[K
+day. I'll phrase it as: "Before executing any cron job, check a shared stat[4D[K
+state (e.g., a database record or a file flag) to see if a post has already[7D[K
+already been published for the current date. If yes, abort the run to preve[5D[K
+prevent double-posting." That works for both additive and replacement scena[5D[K
+scenarios. Finally, recommended cron expression for Friday 07:30 AEST. AEST[4D[K
+AEST is Australian Eastern Standard Time (UTC+10). So 07:30 AEST is 21:30 U[1D[K
+UTC the previous day? Actually, 07:30 AEST = 21:30 UTC on Thursday (since A[1D[K
+AEST is UTC+10, subtract 10 hours gives 21:30 UTC the day before). But cron[4D[K
+cron jobs typically run in server's timezone. If the server is in UTC, we n[1D[K
+need to schedule at 21:30 UTC on Thursday to hit Friday 07:30 AEST. But the[3D[K
+the user might want the cron expression for Friday 07:30 AEST assuming the [K
+server's timezone is AEST. I'll provide a cron expression: `30 7 * * 5` (mi[3D[K
+(minute 30, hour 7, any day of month, any month, day of week 5 (Friday)). T[1D[K
+That's if the server is in AEST. If the server is in UTC, we'd need `30 21 [K
+* * 4` (Thursday 21:30 UTC). I'll give the recommended expression for AEST [K
+timezone: `30 7 * * 5` (assuming server timezone is AEST). I'll note that i[1D[K
+if server is UTC, use `30 21 * * 4`. I'll include that as a note. The plan [K
+should be structured. I'll output only the plan text, no extra commentary.
+...done thinking.
+
+**Additive or Replacement**  
+This is an additive change. The existing 12-post, 4-movement schedule (Tue/[5D[K
+(Tue/Wed/Thu) remains untouched. The Friday “week in review” post is a new,[4D[K
+new, separate weekly addition, increasing the weekly cadence to 4 posts.
+
+**Two Scheduling Options with Trade-offs**  
+1. **Add Friday as a fourth cron (Tue, Wed, Thu, Fri)**  
+   - *Trade-off*: Preserves the original three-day sequence exactly; no con[3D[K
+content is moved. However, total weekly posts increase, which may require m[1D[K
+more content resources and could risk audience fatigue if frequency is too [K
+high.  
+2. **Replace one existing cron with Friday (e.g., shift Thursday to Friday)[7D[K
+Friday)**  
+   - *Trade-off*: Maintains three posts per week, keeping overall volume st[2D[K
+steady. But it alters the established Tuesday–Wednesday–Thursday rhythm, po[2D[K
+potentially disrupting the movement flow or audience expectation for that d[1D[K
+day.
+
+**Guard Against Double-Posting**  
+Implement a pre-publish check that queries a shared state (e.g., a database[8D[K
+database flag or a log of the last post timestamp) before any cron job exec[4D[K
+executes. If a post has already been published for the current calendar dat[3D[K
+date (in the campaign’s timezone), the job aborts. This prevents overlap wh[2D[K
+whether the Friday post is additive or replaces another day.
+
+**Recommended Cron Expression for Friday 07:30 AEST**  
+`30 7 * * 5` (assuming the server’s timezone is set to AEST).  
+If the server uses UTC, use `30 21 * * 4` to account for the 10-hour offset[6D[K
+offset.
+

@@ -1,0 +1,119 @@
+Thinking...
+We need answer a specific structured request. Need parse scenario. Warden's[8D[K
+Warden's 15-min cron flags a model-drift alert. Alert: Yoda is on deepseek-[9D[K
+deepseek-v4-pro:cloud but policy says Yoda primary is kimi-k2.7-code:cloud.[21D[K
+kimi-k2.7-code:cloud. We need analyze. Return ONLY: 1. incident or normal o[1D[K
+operation (one sentence) 2. one immediate action 3. one script that should [K
+handle this automatically 4. one gap in policy if it is normal. Need return[6D[K
+return ONLY structured analysis text.
+
+Need think about what Warden, cron, model-drift. The scenario: a drift aler[4D[K
+alert flags deployment/service "Yoda" running on model deepseek-v4-pro:clou[20D[K
+deepseek-v4-pro:cloud while policy says primary should be kimi-k2.7-code:cl[17D[K
+kimi-k2.7-code:cloud. This is likely an incident, because unauthorized mode[4D[K
+model version drift violates policy. Unless it's a normal operation like fa[2D[K
+fallback, blue-green, canary? But primary policy mismatch is drift. It says[4D[K
+says "model-drift alert". So incident. Immediate action: revert Yoda to pri[3D[K
+primary model, stop deepseek instance, investigate cause, notify. Script: a[1D[K
+automated remediation/rollback script that compares current with policy and[3D[K
+and re-routes/redeploys primary. Gap if normal: maybe policy lacks allowanc[8D[K
+allowance for approved fallback models or temporary migration windows. Need[4D[K
+Need ensure we return only structured text with four numbered lines. No ext[3D[K
+extra prose. Keep concise.
+
+Need include only: 1 sentence, immediate action, script, gap. Since it is a[1D[K
+an incident, item 4 still required? It says "if it is normal". Since incide[6D[K
+incident, maybe say "N/A – not normal" or leave a gap? The prompt: "Return [K
+ONLY: 1... 4. One gap in the current policy if it is normal". Since this is[2D[K
+is incident, item 4 might be N/A. But maybe they expect a gap anyway? Let's[5D[K
+Let's include "N/A (not normal operation)" or state gap as "N/A — this is a[1D[K
+an incident, so no normal-operation gap applies". However they asked one ga[2D[K
+gap if normal. Maybe returning "N/A" satisfies.
+
+Let's consider potential nuance: deepseek-v4-pro:cloud may be newer/better,[13D[K
+newer/better, but policy says primary is kimi-k2.7-code:cloud. This is a vi[2D[K
+violation of guardrails. Warden's cron flags drift. Could be an authorized [K
+A/B test but not reflected in policy. But phrase "alert" and "policy says p[1D[K
+primary" suggests drift. Normal operation would require policy exception. S[1D[K
+So incident.
+
+Need script detail. Maybe Bash/Python script using Warden API to reconcile [K
+actual routing to declared primary. Provide concrete name and command. Exam[4D[K
+Example:
+
+```bash
+#!/bin/bash
+# warden-remediate-drift.sh
+POLICY_MODEL=$(warden policy get-model --service Yoda --env cloud)
+CURRENT_MODEL=$(warden runtime get-model --service Yoda --env cloud)
+if [[ "$CURRENT_MODEL" != "$POLICY_MODEL" ]]; then
+  warden runtime set-model --service Yoda --model "$POLICY_MODEL" --env clo[3D[K
+cloud --force
+  warden alert notify --severity incident "Yoda drifted to $CURRENT_MODEL; [K
+rolled back to $POLICY_MODEL"
+fi
+```
+
+Immediate action: "Immediately roll Yoda back to kimi-k2.7-code:cloud and q[1D[K
+quarantine/terminate the deepseek-v4-pro:cloud instance, then open an incid[5D[K
+incident ticket."
+
+One sentence: "This is an incident because Yoda is running on an unauthoriz[10D[K
+unauthorized model in violation of the declared primary policy." Good.
+
+Return only structured analysis. Maybe exactly four lines:
+
+1. This is an incident because the running model (deepseek-v4-pro:cloud) do[2D[K
+does not match the policy-mandated primary model (kimi-k2.7-code:cloud).
+2. Immediate action: Roll Yoda back to kimi-k2.7-code:cloud and stop/isolat[11D[K
+stop/isolate the deepseek-v4-pro:cloud deployment, then notify the on-call.[8D[K
+on-call.
+3. Script: ...
+4. Gap: N/A (not normal operation) — or if considered normal, policy lacks [K
+exception process.
+
+Need be careful to only include structured text. Probably acceptable. Since[5D[K
+Since they ask "if it is normal", we can state no gap due to incident. But [K
+to be safe, include a conditional. But they said return ONLY structured ana[3D[K
+analysis. We can write "N/A – this is an incident, not normal operation." T[1D[K
+That is structured.
+
+Let's ensure final has no markdown code fence? They ask script, so maybe in[2D[K
+include code block. But "Return ONLY the structured analysis text." Could i[1D[K
+include code block as part of text. That's fine. But maybe plain text. I'll[4D[K
+I'll include minimal.
+
+Should I include "one script that should handle this automatically". We'll [K
+give a script path and logic. The script maybe in fenced block. Since final[5D[K
+final only structured text, but a script block is acceptable. However "Retu[5D[K
+"Return ONLY the structured analysis text" might mean no extra explanations[12D[K
+explanations. The script can be inline. We can use a compact format.
+
+Let's produce final answer exactly.
+...done thinking.
+
+1. This is an incident because Yoda is running on an unauthorized primary m[1D[K
+model (deepseek-v4-pro:cloud) that violates the declared policy of kimi-k2.[8D[K
+kimi-k2.7-code:cloud.  
+2. Immediate action: Roll Yoda back to kimi-k2.7-code:cloud, stop or isolat[6D[K
+isolate the deepseek-v4-pro:cloud instance, and page the on-call owner.  
+3. Script — `warden-drift-remediate.sh`:  
+```bash
+#!/bin/bash
+SERVICE="Yoda"
+ENV="cloud"
+POLICY_MODEL=$(warden policy primary-model --service "$SERVICE" --env "$ENV[5D[K
+"$ENV")
+CURRENT_MODEL=$(warden runtime current-model --service "$SERVICE" --env "$E[3D[K
+"$ENV")
+if [[ "$CURRENT_MODEL" != "$POLICY_MODEL" ]]; then
+    warden runtime set-model --service "$SERVICE" --model "$POLICY_MODEL" -[1D[K
+--env "$ENV" --force
+    warden incident create --service "$SERVICE" --detail "Drift from $POLIC[6D[K
+$POLICY_MODEL to $CURRENT_MODEL auto-remediated"
+fi
+```
+4. N/A — this is an incident, not normal operation; if it were normal, the [K
+gap would be that the policy lacks an approved exception/fallback path for [K
+deepseek-v4-pro:cloud.
+

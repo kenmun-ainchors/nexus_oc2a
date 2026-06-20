@@ -1,0 +1,37 @@
+1. The Nexus HIVE currently lacks a dedicated agent for discovering and tra
+tracking external B2B partner integrations, forcing manual coordination and
+and inconsistent backlog updates. Adding Luthen will automate partner API d
+discovery, normalize integration metadata, and synchronize findings with th
+the Notion backlog, mirroring Ahsoka’s internal discovery role. This ensure
+ensures partner integration opportunities are captured, prioritized, and vi
+visible across the mesh without human latency.
+
+2. Deliverables:
+- agents/luthen.yaml: Agent definition file specifying runtime parameters, 
+Tailscale identity, and OpenClaw registry metadata.
+- scripts/luthen_discovery.py: Python script that queries registered partne
+partner API endpoints, extracts integration capabilities, and formats resul
+results for Notion ingestion.
+- config/notion_luthen.json: Configuration file containing Notion API crede
+credentials, target database ID, and field mapping for partner integration 
+backlog entries.
+- tailscale/luthen.service: Tailscale service definition to register Luthen
+Luthen as a node in the mesh with appropriate ACL tags for secure inter-age
+inter-agent communication.
+- registry/luthen.reg: OpenClaw registry entry command or file to register 
+the agent ID and version, enabling runtime discovery by other agents.
+
+3. Dependency map: Luthen must interface with Ahsoka (to reuse internal dis
+discovery patterns and avoid duplication), the Notion API (to read/write ba
+backlog state), the Tailscale mesh (for encrypted communication with other 
+agents and services), the OpenClaw runtime registry (to announce its presen
+presence and discover peer agents), and external partner API gateways (to p
+perform actual integration discovery).
+
+4. Risk: Partner APIs may change schemas or authentication methods without 
+notice, causing discovery failures and stale backlog data. Mitigation: Impl
+Implement a lightweight schema validation layer in the discovery script tha
+that compares responses against expected contracts, logs mismatches, and po
+posts an alert item to the Notion backlog for manual review.
+
+5. openclaw.agent.luthen

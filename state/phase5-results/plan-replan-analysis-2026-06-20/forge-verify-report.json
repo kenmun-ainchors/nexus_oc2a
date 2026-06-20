@@ -1,0 +1,40 @@
+{
+  "verification_date": "2026-06-20",
+  "verifier": "Forge (subagent)",
+  "corpus_source": ".openclaw/tmp/plan-replan-analysis-corpus.json",
+  "original_comparison": "state/phase5-results/plan-replan-analysis-2026-06-20/comparison.json",
+  "corrected_comparison": "state/phase5-results/plan-replan-analysis-2026-06-20/comparison-corrected.json",
+  "original_math_correct": false,
+  "errors_found": [
+    {
+      "issue": "insight_included_in_totals",
+      "description": "The original report.json files included an 'insight' score (subjective quality rating, 1-3) in each atom's 'total' and 'max_possible'. The corpus rubric keys do NOT include 'insight' — only boolean/count items. This inflated max_possible from 84 to 143 (adding 59 points of insight max across 20 atoms) and inflated total scores by the sum of insight values.",
+      "impact": "Percentages were artificially compressed toward a higher denominator, making models appear closer together than they actually are on rubric accuracy alone."
+    },
+    {
+      "issue": "atom_15_rubric_max_incorrect",
+      "description": "Atom 15's corpus rubric has 5 keys (prereq_count, phase_count, health_checks_count, has_rollback_trigger, has_final_owner) but all three reports scored only 4 keys (missing has_rollback_trigger) and set rubric_max=4 instead of 5. This is a scoring gap — the 'has_rollback_trigger' criterion was never evaluated.",
+      "impact": "All three models lost 1 potential point on atom 15. Corrected rubric_max for atom 15 is 5, not 4."
+    }
+  ],
+  "original_scores": {
+    "glm-5.2-cloud": {"total": 127, "max": 143, "pct": 88.8},
+    "kimi-k2.7-code-cloud": {"total": 126, "max": 143, "pct": 88.1},
+    "deepseek-v4-pro-cloud": {"total": 122, "max": 143, "pct": 85.3}
+  },
+  "corrected_scores": {
+    "glm-5.2-cloud": {"total": 77, "max": 84, "pct": 91.7},
+    "kimi-k2.7-code-cloud": {"total": 75, "max": 84, "pct": 89.3},
+    "deepseek-v4-pro-cloud": {"total": 76, "max": 84, "pct": 90.5}
+  },
+  "what_changed": {
+    "ranking": "Original: glm-5.2 (88.8%) > kimi-k2.7 (88.1%) > deepseek-v4 (85.3%). Corrected: glm-5.2 (91.7%) > deepseek-v4 (90.5%) > kimi-k2.7 (89.3%). deepseek-v4-pro-cloud moves from 3rd to 2nd place, overtaking kimi-k2.7-code-cloud.",
+    "spread": "Original spread: 3.5 percentage points. Corrected spread: 2.4 percentage points. Models are closer on pure rubric accuracy.",
+    "best_model": "glm-5.2-cloud remains the best model in both original and corrected scoring.",
+    "deepseek_improvement": "deepseek-v4-pro-cloud's corrected percentage (90.5%) is significantly higher than its original (85.3%) because it had lower insight scores (total insight=43) compared to glm-5.2 (total insight=50) and kimi-k2.7 (total insight=51). Removing insight penalized deepseek less."
+  },
+  "corrected_recommendation": {
+    "supports_original_policy": true,
+    "explanation": "The original policy recommendation favored glm-5.2-cloud as the best model. The corrected scoring confirms glm-5.2-cloud remains the top performer (91.7% vs 90.5% and 89.3%). The ranking order changes slightly (deepseek-v4-pro-cloud moves to 2nd, kimi-k2.7-code-cloud to 3rd) but the top recommendation is unchanged. The corrected data provides a cleaner view of rubric compliance without subjective insight noise."
+  }
+}

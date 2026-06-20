@@ -1,0 +1,34 @@
+**REPLAN – Citadel P2 Client Portal**
+
+1. **Revised Timeline (2 options)**  
+   _Assumption: each sprint = 2 weeks._
+
+   - **Option A – Absorb delay, ship 1 week late**
+     - Sprint 2: extend 1 extra week to complete Shield review + API integr
+integration
+     - Sprint 3: full feature build + QA
+     - **New launch target:** 1 week after original date
+
+   - **Option B – Add buffer sprint, defer admin feature, ship 2 weeks late
+late**
+     - Sprint 2 (current): finish only security review + core auth plumbing
+plumbing
+     - Sprint 3: portal features + integration testing
+     - Sprint 4: hardening, UAT, and launch prep
+     - **New launch target:** 2 weeks after original date
+
+2. **One action to unblock Shield**  
+   - Schedule daily 30-minute security review clinics between the Shield le
+lead and Citadel tech lead, with all required artifacts (threat model, auth
+auth architecture, scan results) delivered in advance; escalate to Shield m
+management if sign-off is not received by end of the extended Sprint 2.
+
+3. **One feature to defer if delay continues**  
+   - Defer the **client-managed RBAC / team admin console** to a v2 release
+release; use static role mappings for the MVP.
+
+4. **One client communication recommendation**  
+   - Send a written status update by EOD stating the revised target date, t
+the reason for the delay (security review), the minimal scope impact (only 
+advanced admin RBAC deferred, if Option B), and a weekly progress cadence u
+until launch.

@@ -1,0 +1,31 @@
+1. Prerequisites before cutover
+- Prerequisite 1: OC2-A and OC2-B HA cluster fully deployed, configured, an
+and actively synchronized with the NAS storage.
+- Prerequisite 2: Network routing/load balancer updated to recognize the OC
+OC2-A/B VIP, with OC2-A initially placed in passive/standby mode.
+- Prerequisite 3: Baseline metrics and configuration backups of OC1 on port
+port 18789 verified and captured by the KL team.
+
+2. Cutover phases
+- Phase 1: OC2-A Activation and Synchronization
+  - Action: Bring OC2-A online in parallel and establish active data synchr
+synchronization with the NAS and KL team backend while OC1 continues servin
+serving live traffic.
+  - Health Check 1: Verify OC2-A successfully replicates from the NAS and e
+establishes clean backend communication with the KL team without generating
+generating errors.
+
+- Phase 2: Traffic Shift and OC1 Drain
+  - Action: Shift inbound traffic routing from OC1 to OC2-A. Gracefully dra
+drain existing client connections from OC1 on port 18789.
+  - Health Check 2: Verify active client connections are successfully estab
+established on OC2-A and transaction error rates remain at zero.
+
+3. Rollback trigger
+- Trigger: Sustained connection failure rate > 5% or NAS synchronization lo
+loss on OC2-A for 3 consecutive minutes immediately following the traffic s
+shift in Phase 2.
+
+4. Final steady-state
+- Host owning port 18789: OC2-A (with OC2-B remaining on hot standby for HA
+HA failover).

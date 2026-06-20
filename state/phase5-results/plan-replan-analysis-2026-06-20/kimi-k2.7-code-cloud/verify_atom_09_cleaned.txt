@@ -1,0 +1,25 @@
+**Replan: Tier 3 Default Model Assignment**
+
+1. **New default model assignments by role category**
+   - **Internal Plan / Replan, routine research, and tooling tasks** → `gem
+`gemma4:31b-cloud`
+   - **Complex multi-step reasoning, architecture design, and novel strateg
+strategy replanning** → `deepseek-v4-pro:cloud`
+   - **Internal report drafting, data synthesis, and batch processing** → `
+`gemma4:31b-cloud`
+
+2. **Exception rule for high-stakes external-facing work**
+   - Any client-facing, regulatory, or public communications Plan/Replan mu
+must use `deepseek-v4-pro:cloud` and require a human reviewer sign-off befo
+before release.
+
+3. **Verification step before rolling out**
+   - Run a 2-week A/B pilot across each category comparing `gemma4:31b-clou
+`gemma4:31b-cloud` against `deepseek-v4-pro:cloud` on output error rate, ta
+task completion quality, and cost per task; approve full rollout only if `g
+`gemma4:31b-cloud` is non-inferior on quality metrics.
+
+4. **Rollback condition**
+   - If post-rollout quality score drops more than 10% or projected cost sa
+savings fall below 20% for any category, revert that category to `deepseek-
+`deepseek-v4-pro:cloud` within 24 hours.

@@ -1,0 +1,21 @@
+1. Scripts to audit
+   - `infra/sandbox/seed/skills/legacy/load-skill.sh` (or any old per-skill
+per-skill loader)
+   - `tools/agent-runtime/bootstrap-skill.sh` (or any agent-side skill boot
+bootstrap script)
+
+2. Replacement patterns
+   - `bash <old-loader>.sh <name>` → `bash scripts/skill-load.sh <name>`
+   - direct reads/writes of `infra/sandbox/seed/skills/.index.json` → calls
+calls to `scripts/skill-load.sh <name>` (only the loader touches the index)
+index)
+
+3. Backward-compatible shim proposal
+   - Yes: keep the old script paths as thin wrappers that exec `scripts/ski
+`scripts/skill-load.sh "$@"` and emit a deprecation warning, then delete th
+them in the next release.
+
+4. Verification check
+   - Run a CI grep/lint across active agent source and manifests that fails
+fails if any path references the old loader scripts or directly accesses `.
+`.index.json` outside `scripts/skill-load.sh`.
