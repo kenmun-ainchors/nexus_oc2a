@@ -169,6 +169,19 @@ Both reference canonical docs in `references/` and load via `scripts/skill-load.
 ---
 ---
 
+## 2026-06-20 10:17 AEST — [CHG-0682] PG-Notion Integrity Audit remediation (2026-06-20)
+**Type:** data
+**Change Type:** Normal
+**Source:** ken-prompt
+**Trigger:** PG-Notion Integrity Audit 2026-06-20 01:00 AEST flagged 3 actionable items
+**What changed:** Archived 3 duplicate Notion Backlog pages (TKT-0395/0396/0403); recreated TKT-0536 Notion page after dead pointer and backfilled notionpageid; confirmed Sprint 9-11 tickets already synced; created TKT-0548 for pg-to-notion-sync.sh status mapper bug.
+**Why:** Close gaps identified by daily PG-Notion integrity audit and prevent future status-mapping defects.
+**Verification:** Post-execution audit: TKT-0395/0396/0403 each have exactly 1 active Notion page; TKT-0328/0536 pages exist and statuses match PG; no orphan notionpageid values; PG ticket count unchanged at 344. Evidence in .openclaw/tmp/pg_notion_remediation_20260620/.
+**Rollback:** N/A
+**Linked:** TKT-0548, TKT-0536, TKT-0395, TKT-0396, TKT-0403, TKT-0328
+---
+
+
 ## 2026-06-20 09:47 AEST — [CHG-0681] WO-002 7-day monitoring closed — Option B
 **Type:** config
 **Change Type:** Normal
