@@ -1,41 +1,41 @@
 {
-  "generated_at": "2026-06-20T02:02:37.984445+00:00",
-  "generated_at_aest": "2026-06-20 12:02 AEST",
+  "generated_at": "2026-06-20T14:04:16.991710+00:00",
+  "generated_at_aest": "2026-06-21 00:04 AEST",
   "period_hours": 24,
   "totals": {
-    "ERROR": 124,
-    "WARN": 12,
-    "INFO": 18
+    "ERROR": 446,
+    "WARN": 7,
+    "INFO": 16
   },
   "top_errors": [
     {
       "type": "cron_run_fail",
-      "count": 66
+      "count": 209
     },
     {
       "type": "backup_failure",
-      "count": 44
+      "count": 123
     },
     {
       "type": "warden_violation",
-      "count": 14
+      "count": 114
     }
   ],
   "top_warnings": [
     {
       "type": "auto_heal_needs_ken",
-      "count": 12
+      "count": 7
     }
   ],
   "trend": {
     "has_prev_data": true,
-    "prev_errors": 297,
-    "prev_warns": 59,
-    "errors_pct_change": -58.2,
-    "warns_pct_change": -79.7
+    "prev_errors": 155,
+    "prev_warns": 12,
+    "errors_pct_change": 187.7,
+    "warns_pct_change": -41.7
   },
   "worst_hour": {
-    "hour": "2026-06-20T01:00Z",
-    "cnt": 31
+    "hour": "2026-06-20T04:00Z",
+    "cnt": 38
   }
 }

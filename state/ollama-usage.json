@@ -1,24 +1,24 @@
 {
-  "checkTimestamp": "2026-06-19T20:00:00+10:00",
+  "checkTimestamp": "2026-06-20T20:00:00+10:00",
   "source": "cron-burn-alert",
   "turnsLimit": {
-    "weeklyLimit": 66597,
-    "currentRequests": 16064,
-    "currentPct": 47.2,
-    "requestsRemaining": 35163,
+    "weeklyLimit": 59540,
+    "currentRequests": 41797,
+    "currentPct": 70.2,
+    "requestsRemaining": 17743,
     "windowStart": "2026-06-15T10:00:00+10:00",
     "windowEnd": "2026-06-22T10:00:00+10:00",
-    "daysRemaining": 2.58,
-    "burnRateRequestsPerHour": 302.2
+    "daysRemaining": 1.58,
+    "burnRateRequestsPerHour": 326.5
   },
   "thresholds": {
-    "50pct": 33299,
-    "70pct": 46618,
-    "85pct": 56607,
-    "95pct": 63267
+    "50pct": 29770,
+    "70pct": 41678,
+    "85pct": 50609,
+    "95pct": 56563
   },
-  "alertTriggered": "none",
-  "alertLevel": null,
-  "action": "silent — 47.2% used (16,064/66,597). Below 50% WARN threshold (33,299). No alert.",
-  "notes": "Check at 2026-06-19 20:00 AEST. Weekly window: 2026-06-15 Mon 10:00 AEST → 2026-06-22 Mon 10:00 AEST. Burn rate 302.2 req/hr. ~2.6 days remaining. No action needed."
+  "alertTriggered": "70pct",
+  "alertLevel": "ALERT",
+  "action": "Telegram alert sent to Ken — 70.2% used (41,797/59,540). Burn rate 326.5 req/hr. ~1.6 days remaining in window.",
+  "notes": "Check at 2026-06-20 20:00 AEST. Weekly window: 2026-06-15 Mon 10:00 AEST → 2026-06-22 Mon 10:00 AEST. 70% threshold crossed. Alert dispatched via sovereign-alert.sh."
 }

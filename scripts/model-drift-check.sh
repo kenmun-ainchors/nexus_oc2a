@@ -248,8 +248,8 @@ for agent in agents_list:
         print(f'FAIL|{aid}|{actual}|{expected}')
 " 2>/dev/null)
 
-while IFS='|' read -r status aid actual expected; do
-  case "$status" in
+while IFS='|' read -r check_status aid actual expected; do
+  case "$check_status" in
     PASS)
       PASS=$((PASS + 1))
       echo "  PASS  agent:$aid -> $actual"
@@ -322,8 +322,8 @@ for aid, expected in agent_expected.items():
         print(f'FAIL|{aid}|{actual}|{expected}')
 " 2>/dev/null)
 
-while IFS='|' read -r status aid actual expected; do
-  case "$status" in
+while IFS='|' read -r check_status aid actual expected; do
+  case "$check_status" in
     PASS)
       PASS=$((PASS + 1))
       echo "  PASS  live-session agent:$aid -> $actual"
@@ -394,8 +394,8 @@ else:
         print('FAIL|crest-validation|errors-found')
 " 2>/dev/null)
 
-while IFS='|' read -r status detail msg; do
-  case "$status" in
+while IFS='|' read -r check_status detail msg; do
+  case "$check_status" in
     PASS)
       PASS=$((PASS + 1))
       echo "  PASS  ${detail} -> ${msg}"
@@ -515,8 +515,8 @@ else:
 # Disable -u for this loop: PASS/SKIP/SUMMARY lines have fewer fields than FAIL,
 # so trailing vars would be unbound under `set -u`. Re-enable after the loop.
 set +u
-while IFS='|' read -r status a b c d e; do
-  case "$status" in
+while IFS='|' read -r check_status a b c d e; do
+  case "$check_status" in
     PASS)
       PASS=$((PASS + 1))
       echo "  PASS  agent:$a (role=$b phase=$c) -> $d"
@@ -746,14 +746,21 @@ echo "Total: $((PASS + FAIL)) checks | PASS: $PASS | FAIL: $FAIL"
 echo "─────────────────────────────────────────────────────────────"
 
 # ── Build findings JSON array ──────────────────────────────────────────────────
+# Use Python to build JSON from FINDINGS array (avoids zsh/bash array compat issues)
 FINDINGS_JSON="["
-if [ ${#FINDINGS[@]} -gt 0 ]; then
-  for i in "${!FINDINGS[@]}"; do
-    if [ $i -gt 0 ]; then FINDINGS_JSON+=","; fi
-    FINDINGS_JSON+="${FINDINGS[$i]}"
-  done
+if [ ${#FINDINGS[@]} -gt 0 ] 2>/dev/null; then
+  FINDINGS_TMP=$(mktemp /tmp/warden-findings-XXXXXX.json)
+  printf "%s\n" "${FINDINGS[@]}" > "$FINDINGS_TMP"
+  FINDINGS_JSON=$(python3 -c "
+import json
+with open('$FINDINGS_TMP') as f:
+    findings = [json.loads(line) for line in f if line.strip()]
+print(json.dumps(findings))
+" 2>/dev/null || echo "[]")
+  rm -f "$FINDINGS_TMP"
+else
+  FINDINGS_JSON="[]"
 fi
-FINDINGS_JSON+="]"
 
 # ── Update state file ──────────────────────────────────────────────────────────
 STATUS="clean"

@@ -16,6 +16,19 @@
       "priority": "normal",
       "message": "Angie asked me to arrange a meeting with you tomorrow (Thu 4 June) at 11am Sydney time, 1 hour, Google Meet. Unfortunately my Google Calendar auth has expired so I couldn't create it directly. Could you please set it up on your end? Also, Angie says to nudge: calendar auth needs re-doing on her machine (gog auth add angie.foong@ainchors.com --services calendar).",
       "sent": false
+    },
+    {
+      "id": "relay-20260620-001",
+      "timestamp": "2026-06-20T05:24:39Z",
+      "from": "Aria",
+      "priority": "normal",
+      "message": "[CR FROM ARIA] CR-001: LinkedIn API Posting Setup\n\nRequested by: Angie Foong (CEO)\n\nDescription: Angie wants to post LinkedIn content directly from Aria/Spark to the AInchors company LinkedIn page. She has approved the first LinkedIn drop post (Anthropic ban / AI Strait of Hormuz angle) and wants API posting set up so we can publish without manual copy-paste.\n\nBusiness reason: First real marketing campaign execution. Angie wants to see AInchors posting on LinkedIn with minimal friction. Manual posting is a bottleneck.\n\nWhat is needed: LinkedIn API access (OAuth or similar) for the AInchors company page, integrated so Aria or Spark can post on behalf of the page.\n\nPost ready to go: /Users/ainchorsangiefpl/.openclaw/workspace-business/projects/brand-code/linkedin-drop-post-01.md",
+      "sent": true,
+      "deliveredAt": "2026-06-20T16:05:00+10:00",
+      "resolved": true,
+      "resolvedAt": "2026-06-20T16:05:00+10:00",
+      "resolvedBy": "CR-002",
+      "resolutionNote": "CR-001 fulfilled by CR-002 LinkedIn business stream enablement. OAuth complete for Angie personal, AInchors business; org ID 112732790 confirmed; multi-account scripts and business-stream publish crons deployed. Aria owns ongoing campaign execution."
     }
   ]
 }

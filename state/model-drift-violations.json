@@ -1,1 +1,6 @@
-{"violations":[],"totalUnresolved":0,"lastUpdated":"2026-06-20T10:16:25+10:00"}
+{
+  "violations": [],
+  "totalUnresolved": 0,
+  "lastUpdated": "2026-06-20T22:58:00+10:00",
+  "note": "Cleared stale violations. Latest model-drift-check.sh run at 2026-06-20T22:57 AEST returned 55 PASS / 0 FAIL. Previous violations (including the 45 from Warden escalation and 8 residual live-session.business entries) were transient and are now resolved."
+}

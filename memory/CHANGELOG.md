@@ -169,6 +169,19 @@ Both reference canonical docs in `references/` and load via `scripts/skill-load.
 ---
 ---
 
+## 2026-06-20 22:57 AEST — [CHG-0693] Resolve Warden CREST v1.3 model drift escalation and fix model-drift-check.sh
+**Type:** infra
+**Change Type:** Normal
+**Source:** ken-prompt
+**Trigger:** Ken asked about Warden Telegram alert: 45 unresolved CREST v1.3 model drift violations across 9 agents
+**What changed:** state/warden-escalation-pending.json marked resolved; state/model-drift-violations.json cleared; business heartbeat session model reset from gemma4:31b-cloud to kimi-k2.7-code:cloud; scripts/model-drift-check.sh made zsh-compatible (status->check_status, array builder via Python).
+**Why:** The 45 violations were stale transient live-session overrides from before CHG-0690/0691 fully propagated. The script broke under zsh, preventing reliable verification.
+**Verification:** bash scripts/model-drift-check.sh and zsh scripts/model-drift-check.sh both return 55 PASS / 0 FAIL. state/model-drift-state.json lastStatus=clean. state/warden-escalation-pending.json status=resolved.
+**Rollback:** Revert scripts/model-drift-check.sh changes and re-add status variable; restore warden-escalation-pending.json to pending-yoda-action with original 45 violations.
+**Linked:** CHG-0685, CHG-0690, CHG-0691, TKT-0547, TKT-0383
+---
+
+
 ## 2026-06-20 16:06 AEST — [CHG-0692] Resolve CR-001 via CR-002 LinkedIn API posting setup
 **Type:** config
 **Change Type:** Normal
