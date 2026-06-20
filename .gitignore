@@ -105,10 +105,11 @@ npm-debug.log*
 .venv-crewai/
 scripts/_test_l138/
 
-# ── Embedded git repos (TKT-0539) ────────────────────────────────────────────
-# forge/ and thrawn/ are separate agent workspaces / vendored clones with their
-# own .git/ directories. They are intentionally untracked in the parent workspace
-# to avoid "embedded git repository" and "no commit checked out" warnings during
-# `git add -A`.
+# ── Embedded git repos (TKT-0539, CHG-0693) ─────────────────────────────────
+# forge/, thrawn/, and archive/agents/atlas/ are separate agent workspaces /
+# vendored clones with their own .git/ directories. They are intentionally
+# untracked in the parent workspace to avoid "embedded git repository" and
+# "no commit checked out" warnings during `git add -A`.
 forge/
 thrawn/
+archive/agents/atlas/

@@ -1,3 +1,13 @@
+## L-161 — Stale derived-state files can amplify resolved issues into false error floods
+**Date:** 2026-06-21
+**Source:** Standup report: 521 ERRORs in 24h (284 `cron_run_fail`, 123 `backup_failure`, 114 `warden_violation`).
+**Lesson:** Observability collectors that read state snapshots without validating freshness will replay old failures indefinitely. `state/cron-health-state.json` still listed deleted cron `85595417`; `archive/agents/atlas/.git` had no commit, causing backup `git add` to fail every run; and `warden-escalation-pending.json` was already resolved but obs rows were not cleared. Together these three stale artifacts generated 521 ERRORs in 24h and produced a "highest error volume in system history" alarm even though production health-state was `ok` and backups were succeeding.
+**Fix:** Regenerated `state/cron-health-state.json` from live cron registry, remediated nested git repo in `archive/agents/atlas/`, and deleted stale obs.db ERROR rows (CHG-0693, dispatched to Forge 2026-06-21 09:40 AEST).
+**Evidence:** `state/health-state.json` status=ok; `state/backup-state.json` status=ok with last full backup 2026-06-21-0805; re-run of `scripts/obs-trend.sh` after cleanup showed 0 errors / 11 warns / 19 info.
+**Prevention:** Any state file consumed by an observability collector must have a freshness/validation step: (a) skip entries whose referenced object no longer exists, (b) auto-clear matching obs rows when an escalation transitions to `resolved`, and (c) treat a >50% day-over-day error spike as a possible stale-state artifact until proven otherwise.
+
+---
+
 ## L-160 — Nested git repos must be explicitly excluded from parent backup auto-commits
 **Date:** 2026-06-19
 **Source:** TKT-0539 — backup warnings for `forge/pgvector/` and `thrawn/` embedded repos.
