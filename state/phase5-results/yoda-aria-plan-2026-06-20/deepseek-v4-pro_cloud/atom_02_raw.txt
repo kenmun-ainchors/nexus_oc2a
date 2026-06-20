@@ -1,0 +1,218 @@
+Thinking...
+We need to produce a Yoda Master CREST Plan for TRIGGER-01 (OC2 Arrival Mas[3D[K
+Master Gate). The request specifies exactly:
+
+A. Execution sequence as a numbered DAG (at least 6 steps, dependencies sho[3D[K
+shown)
+B. Which sub-actions can run in parallel and which must be sequential
+C. One subagent dispatch pattern per sub-action (sessions_spawn or main ses[3D[K
+session with Ken approval)
+D. One data-sovereignty rule that applies during PG migration
+E. One trigger condition that would pause the entire sequence
+
+Return ONLY the structured plan text.
+
+We need to interpret the sub-actions: hardware setup, OpenClaw install on O[1D[K
+OC2-A/B, PostgreSQL migration OC1→OC2, Platform Separation (OC1 business st[2D[K
+standalone), and tech stream Google Workspace creation. So there are 5 sub-[4D[K
+sub-actions. We need to create a DAG with at least 6 steps, so we might bre[3D[K
+break some sub-actions into multiple steps or add steps like verification, [K
+etc. The DAG must show dependencies. We'll number steps and indicate depend[6D[K
+dependencies (e.g., Step 2 depends on Step 1). We'll also indicate which ca[2D[K
+can run in parallel. We'll assign a subagent dispatch pattern per sub-actio[9D[K
+sub-action: either "sessions_spawn" or "main session with Ken approval". We[2D[K
+We'll define a data-sovereignty rule for PG migration (like data must remai[5D[K
+remain within a certain jurisdiction, no cross-border transfer without encr[4D[K
+encryption, etc.). And a trigger condition that would pause the entire sequ[4D[K
+sequence (e.g., if OC1 business standalone fails verification, or if any st[2D[K
+step fails a critical check). We'll produce a structured plan text, likely [K
+in a Yoda-like tone? The prompt says "Yoda Master CREST Plan" but doesn't r[1D[K
+require Yoda-speak, just a plan. I'll produce a clear structured plan with [K
+sections A, B, C, D, E. I'll format as requested.
+
+Let's design the DAG:
+
+Sub-actions:
+1. Hardware setup (presumably physical setup of OC2 servers)
+2. OpenClaw install on OC2-A/B (software installation on two nodes)
+3. PostgreSQL migration OC1→OC2 (database migration)
+4. Platform Separation (OC1 business standalone) – making OC1 independent f[1D[K
+for business operations, maybe after migration.
+5. Tech stream Google Workspace creation (setting up Google Workspace for t[1D[K
+tech stream, maybe independent).
+
+Dependencies: Hardware setup must be done before OpenClaw install. OpenClaw[8D[K
+OpenClaw install might be needed before PG migration? Possibly PG migration[9D[K
+migration requires OpenClaw environment on OC2? Or maybe PG migration can s[1D[K
+start after hardware setup and OpenClaw install on at least one node? We'll[5D[K
+We'll assume OpenClaw install on OC2-A/B is prerequisite for PG migration b[1D[K
+because the database will run on OC2 with OpenClaw. Platform Separation (OC[3D[K
+(OC1 business standalone) likely occurs after PG migration, because once da[2D[K
+data is migrated, OC1 can be repurposed as standalone business platform. Go[2D[K
+Google Workspace creation might be independent of the others, but could be [K
+done in parallel with hardware setup or OpenClaw install. So we can have pa[2D[K
+parallel branches.
+
+We need at least 6 steps. Let's break down:
+
+Step 1: Hardware Setup for OC2 (physical rack, power, network) – no depende[7D[K
+dependencies.
+Step 2: OpenClaw Install on OC2-A (depends on Step 1)
+Step 3: OpenClaw Install on OC2-B (depends on Step 1) – can run in parallel[8D[K
+parallel with Step 2.
+Step 4: PostgreSQL Migration OC1→OC2 (depends on Step 2 and Step 3 both com[3D[K
+completed? Or maybe just one node? We'll say depends on both OpenClaw insta[5D[K
+installs complete, because migration might need both nodes for redundancy. [K
+So Step 4 depends on Step 2 AND Step 3.)
+Step 5: Platform Separation (OC1 business standalone) – depends on Step 4 ([1D[K
+(after migration, OC1 can be separated). Could also depend on verification [K
+of migration.
+Step 6: Tech Stream Google Workspace Creation – can be independent, maybe s[1D[K
+start after Step 1? But we can make it parallel to Steps 2-4, no dependency[10D[K
+dependency. So Step 6 can be parallel to Steps 2,3,4,5. But we need a DAG w[1D[K
+with dependencies shown. We'll list Step 6 as having no dependencies, or ma[2D[K
+maybe depends on Step 1 if network setup needed. I'll say Step 6: Google Wo[2D[K
+Workspace creation (depends on Step 1 for network connectivity). So Step 6 [K
+depends on Step 1. That gives 6 steps: 1, 2, 3, 4, 5, 6. Dependencies: 2 de[2D[K
+depends on 1; 3 depends on 1; 4 depends on 2 and 3; 5 depends on 4; 6 depen[5D[K
+depends on 1. So parallel: 2 and 3 can run in parallel; 6 can run in parall[6D[K
+parallel with 2,3,4,5 after 1. So that's good.
+
+Now B: Which sub-actions can run in parallel and which must be sequential. [K
+Sub-actions: hardware setup (must be first, sequential before others). Open[4D[K
+OpenClaw install on OC2-A/B can run in parallel with each other. PostgreSQL[10D[K
+PostgreSQL migration must be sequential after OpenClaw installs. Platform S[1D[K
+Separation sequential after migration. Google Workspace creation can run in[2D[K
+in parallel with OpenClaw install and migration and separation, but after h[1D[K
+hardware setup. So we'll state that.
+
+C: Subagent dispatch pattern per sub-action. We need to assign either "sess[5D[K
+"sessions_spawn" or "main session with Ken approval". I'll interpret: "sess[5D[K
+"sessions_spawn" means spawning a new session/subagent to handle that task [K
+autonomously, while "main session with Ken approval" means the main session[7D[K
+session (the current one) handles it but requires Ken's approval before pro[3D[K
+proceeding. We'll assign for each sub-action: Hardware setup: maybe session[7D[K
+sessions_spawn (automated physical setup? but hardware setup might need hum[3D[K
+human, but subagent could be a simulated agent? We'll assign sessions_spawn[14D[K
+sessions_spawn for hardware setup, OpenClaw install on OC2-A/B (each could [K
+be a spawned session), PostgreSQL migration (main session with Ken approval[8D[K
+approval because data migration is critical), Platform Separation (main ses[3D[K
+session with Ken approval), Google Workspace creation (sessions_spawn). So [K
+we'll list.
+
+D: One data-sovereignty rule during PG migration. Example: "All data during[6D[K
+during migration must remain within the EU/EEA jurisdiction and not travers[7D[K
+traverse any non-compliant cloud regions; encryption at rest and in transit[7D[K
+transit enforced." Or something like "Data must not be stored or processed [K
+outside the designated sovereign cloud boundary; any temporary staging must[4D[K
+must use approved encrypted volumes." I'll craft a rule.
+
+E: One trigger condition that would pause the entire sequence. For instance[8D[K
+instance: "If the PostgreSQL migration verification detects data integrity [K
+errors exceeding 0.01% or if OC1 business standalone fails to boot in isola[5D[K
+isolated mode, pause all subsequent steps and escalate." Or "If any step fa[2D[K
+fails its post-execution validation gate, the entire sequence is paused unt[3D[K
+until resolution." I'll pick a specific condition: "Trigger: Failure of the[3D[K
+the PostgreSQL migration checksum validation (data integrity mismatch) paus[4D[K
+pauses the entire sequence, preventing Platform Separation and any further [K
+changes until resolved."
+
+Now produce the structured plan text. I'll format as:
+
+YODA MASTER CREST PLAN: TRIGGER-01 (OC2 Arrival Master Gate)
+
+A. Execution Sequence (Numbered DAG with dependencies)
+1. Hardware Setup (OC2 physical infrastructure) [No dependencies]
+2. OpenClaw Install on OC2-A [Depends on 1]
+3. OpenClaw Install on OC2-B [Depends on 1]
+4. PostgreSQL Migration OC1→OC2 [Depends on 2 AND 3]
+5. Platform Separation (OC1 business standalone) [Depends on 4]
+6. Tech Stream Google Workspace Creation [Depends on 1]
+
+(Note: Step 6 can run in parallel with Steps 2,3,4,5 after Step 1 completes[9D[K
+completes.)
+
+B. Parallel vs Sequential Sub-actions
+- Hardware Setup: Sequential, must precede all.
+- OpenClaw Install on OC2-A and OC2-B: Can run in parallel with each other.[6D[K
+other.
+- PostgreSQL Migration: Sequential, must follow both OpenClaw install[7D[K
+installs.
+- Platform Separation: Sequential, must follow successful migration.
+- Google Workspace Creation: Can run in parallel with OpenClaw installs, mi[2D[K
+migration, and separation, but only after Hardware Setup.
+
+C. Subagent Dispatch Pattern per Sub-action
+- Hardware Setup: sessions_spawn
+- OpenClaw Install on OC2-A: sessions_spawn
+- OpenClaw Install on OC2-B: sessions_spawn
+- PostgreSQL Migration OC1→OC2: main session with Ken approval
+- Platform Separation (OC1 business standalone): main session with Ken appr[4D[K
+approval
+- Tech Stream Google Workspace Creation: sessions_spawn
+
+D. Data-Sovereignty Rule (PG Migration)
+"During PostgreSQL migration, all data must remain within the designated so[2D[K
+sovereign jurisdiction (EU). No data shall traverse public internet without[7D[K
+without end-to-end encryption; temporary staging tables and dump files must[4D[K
+must be stored on encrypted volumes within approved regional data centers. [K
+Cross-border data transfer is prohibited unless explicitly cleared by the D[1D[K
+Data Governance Officer."
+
+E. Trigger Condition to Pause Entire Sequence
+"If the PostgreSQL migration post-checksum validation fails (data integrity[9D[K
+integrity mismatch > 0%), the entire sequence is paused immediately. No fur[3D[K
+further steps (Platform Separation, etc.) shall proceed until the root caus[4D[K
+cause is resolved and migration re-validated with Ken's explicit approval."[10D[K
+approval."
+
+That's it. Return ONLY the structured plan text.
+...done thinking.
+
+YODA MASTER CREST PLAN: TRIGGER-01 (OC2 Arrival Master Gate)
+
+A. Execution Sequence (Numbered DAG with dependencies)
+1. Hardware Setup (OC2 physical infrastructure) [No dependencies]
+2. OpenClaw Install on OC2-A [Depends on 1]
+3. OpenClaw Install on OC2-B [Depends on 1]
+4. PostgreSQL Migration OC1→OC2 [Depends on 2 AND 3]
+5. Platform Separation (OC1 business standalone) [Depends on 4]
+6. Tech Stream Google Workspace Creation [Depends on 1]
+
+(Step 6 may run in parallel with Steps 2,3,4,5 after Step 1 completes.)
+
+B. Parallel vs Sequential Sub-actions
+- Hardware Setup: Sequential, must complete before any other sub-action.
+- OpenClaw Install on OC2-A and OC2-B: Can run in parallel with each other.[6D[K
+other.
+- PostgreSQL Migration: Sequential, must follow both OpenClaw install[7D[K
+installs.
+- Platform Separation: Sequential, must follow successful migration.
+- Google Workspace Creation: Can run in parallel with OpenClaw installs, mi[2D[K
+migration, and separation, but only after Hardware Setup.
+
+C. Subagent Dispatch Pattern per Sub-action
+- Hardware Setup: sessions_spawn
+- OpenClaw Install on OC2-A: sessions_spawn
+- OpenClaw Install on OC2-B: sessions_spawn
+- PostgreSQL Migration OC1→OC2: main session with Ken approval
+- Platform Separation (OC1 business standalone): main session with Ken appr[4D[K
+approval
+- Tech Stream Google Workspace Creation: sessions_spawn
+
+D. Data-Sovereignty Rule (PG Migration)
+All data during the PostgreSQL migration must remain within the approved so[2D[K
+sovereign jurisdiction (EU). No data shall traverse public networks without[7D[K
+without strong encryption; temporary dump files and staging tables must res[3D[K
+reside on encrypted volumes inside authorized regional data centers. Cross-[6D[K
+Cross-border transfer is prohibited unless explicitly cleared by the Data G[1D[K
+Governance Officer.
+
+E. Trigger Condition to Pause Entire Sequence
+If the PostgreSQL migration post-checksum validation detects any data integ[5D[K
+integrity mismatch (non-zero difference), the entire sequence is paused imm[3D[K
+immediately. No subsequent steps (Platform Separation, etc.) may proceed un[2D[K
+until the root cause is resolved and the migration is re-validated with Ken[3D[K
+Ken’s explicit approval.
+
+[?2026h[?25l[1G⠙ [K[?25h[?2026l[?2026h[?25l[1G⠙ [K[?25h[?2026l[?2026h[?25l[1G⠸ [K[?25h[?2026l[?2026h[?25l[1G⠼ [K[?25h[?2026l[?2026h[?25l[1G⠴ [K[?25h[?2026l[?2026h[?25l[1G⠦ [K[?25h[?2026l[?2026h[?25l[1G⠧ [K[?25h[?2026l[?25l[?2026h[?25l[1G[K[?25h[?2026l[2K[1G[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h

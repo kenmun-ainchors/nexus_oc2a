@@ -1,0 +1,225 @@
+Thinking...
+We need to produce a structured plan for Yoda to dispatch atoms for TKT-031[7D[K
+TKT-0319 (Global Agent Auto-Resume Protocol). The requirements: TQP Phase 3[1D[K
+3 + main-session/subagent resume registry. Build atoms include resume detec[5D[K
+detector/watchdog, resume executor for TQP atoms, and main-session resume r[1D[K
+registry.
+
+We need to output a plan with exactly:
+A. Which atoms go through TQP vs direct sessions_spawn
+B. For each sessions_spawn atom: required context (isolated/fork), timeout,[8D[K
+timeout, and tool-call budget
+C. One idempotency guard per atom type
+D. One checkpoint payload field that must survive a gateway restart
+E. One HITL gate for destructive recovery
+
+Return ONLY the structured plan text.
+
+We need to interpret the atoms: "resume detector/watchdog", "resume executo[7D[K
+executor for TQP atoms", and "main-session resume registry". So there are t[1D[K
+three atom types: Resume Detector/Watchdog, Resume Executor, Main-Session R[1D[K
+Resume Registry. They need to be dispatched. Some go through TQP (Task Queu[4D[K
+Queue Protocol) Phase 3, others via direct sessions_spawn. We need to decid[5D[K
+decide which.
+
+TQP Phase 3 likely involves a task queue with priority, scheduling, etc. Th[2D[K
+The resume detector/watchdog might be a continuous monitoring process, mayb[4D[K
+maybe direct sessions_spawn as a long-running session? The resume executor [K
+for TQP atoms might be triggered by TQP when a resume is needed, so it coul[4D[K
+could be a TQP atom itself. The main-session resume registry might be a ser[3D[K
+service that maintains state, maybe a direct session with isolated context?[8D[K
+context? We need to assign.
+
+Then for each sessions_spawn atom, we need to specify required context (iso[4D[K
+(isolated/fork), timeout, and tool-call budget. So for atoms that are spawn[5D[K
+spawned directly (not through TQP), we need those parameters. For TQP atoms[5D[K
+atoms, maybe they are handled by the queue and don't need those? The plan s[1D[K
+should list them.
+
+Idempotency guard per atom type: one guard for each of the three atom types[5D[K
+types. So we need to propose an idempotency mechanism (like a unique reques[6D[K
+request ID, state check before action, etc.) for each.
+
+Checkpoint payload field that must survive a gateway restart: one field tha[3D[K
+that is critical for resuming after a gateway restart. Could be something l[1D[K
+like "last_completed_step_id" or "resume_token". We need to specify one fie[3D[K
+field that must be persisted and survive restart.
+
+HITL gate for destructive recovery: Human-in-the-loop gate for a destructiv[10D[K
+destructive recovery action, like wiping state or forcing a restart. We nee[3D[K
+need to describe one HITL gate.
+
+We need to output a structured plan text only. So we'll produce a clear pla[3D[K
+plan with sections A, B, C, D, E.
+
+Let's think about the atoms:
+
+- Resume Detector/Watchdog: This likely monitors sessions, detects failures[8D[K
+failures or interruptions, and triggers resume. It might be a background se[2D[K
+service that runs continuously. Could be a direct sessions_spawn with a lon[3D[K
+long timeout, isolated context to avoid interference, and a tool-call budge[5D[K
+budget for checking status. Or it could be a TQP atom that is scheduled per[3D[K
+periodically? The requirement says "Build atoms include resume detector/wat[12D[K
+detector/watchdog, resume executor for TQP atoms, and main-session resume r[1D[K
+registry." So the detector/watchdog is a separate atom. I'd think it's a di[2D[K
+direct session because it's a persistent watchdog, not a task that complete[8D[K
+completes. So sessions_spawn.
+
+- Resume Executor for TQP atoms: This is the atom that actually performs th[2D[K
+the resume of a TQP atom. It might be invoked by the detector when a TQP at[2D[K
+atom needs resuming. It could be a TQP atom itself, because it's executing [K
+a task that might be queued. Or it could be a direct session that the detec[5D[K
+detector spawns to handle the resume. The phrase "resume executor for TQP a[1D[K
+atoms" suggests it's an executor that handles resuming TQP atoms. It might [K
+be a TQP atom because it's part of the TQP system. I'd assign it to TQP: th[2D[K
+the resume executor is a TQP Phase 3 atom that gets queued when a resume is[2D[K
+is needed. The detector/watchdog would enqueue a resume task into TQP, and [K
+the resume executor atom processes it. So that atom goes through TQP.
+
+- Main-Session Resume Registry: This is a registry that stores state about [K
+main sessions and subagents for resume purposes. It might be a service that[4D[K
+that maintains a database. It could be a direct session with isolated conte[5D[K
+context, long-running, that handles registry operations. Or it could be a T[1D[K
+TQP atom that processes registry updates? I think it's a persistent service[7D[K
+service, so direct sessions_spawn with isolated context, maybe fork? It nee[3D[K
+needs to survive restarts, so checkpoint payload field is relevant. So dire[4D[K
+direct sessions_spawn.
+
+Thus:
+A. TQP: Resume Executor for TQP atoms. Direct sessions_spawn: Resume Detect[6D[K
+Detector/Watchdog, Main-Session Resume Registry.
+
+Now B: For each sessions_spawn atom, required context, timeout, tool-call b[1D[K
+budget.
+
+- Resume Detector/Watchdog: It monitors sessions. Context: isolated (so it [K
+doesn't share state with other sessions, to avoid interference). Timeout: m[1D[K
+maybe indefinite or very long, like 24 hours or until stopped. Tool-call bu[2D[K
+budget: limited to status checks, maybe 1000 calls per hour? We need to spe[3D[K
+specify a number. Could be "unlimited" but with rate limiting. I'll propose[7D[K
+propose: context: isolated, timeout: 86400 seconds (24 hours) with auto-ren[8D[K
+auto-renew, tool-call budget: 1000 tool calls per session lifetime (or per [K
+hour). Better to give a concrete budget: 10,000 tool calls per session, wit[3D[K
+with session timeout 24h. Or "no hard timeout, but watchdog session is pers[4D[K
+persistent; tool-call budget: 5000 calls per day". I'll say: context: isola[5D[K
+isolated, timeout: 0 (no timeout, persistent until explicit stop), tool-cal[8D[K
+tool-call budget: 5000 tool calls per 24-hour window. But the plan should b[1D[K
+be precise. I'll set timeout: 86400 seconds (renewable), tool-call budget: [K
+10000 per session.
+
+- Main-Session Resume Registry: It stores and retrieves resume state. Conte[5D[K
+Context: isolated (to protect registry data), timeout: persistent (0 or ver[3D[K
+very long), tool-call budget: limited to read/write operations, maybe 10000[5D[K
+10000 per session. I'll say: context: isolated, timeout: 0 (persistent), to[2D[K
+tool-call budget: 10000 tool calls per session.
+
+Now C: Idempotency guard per atom type.
+
+- Resume Detector/Watchdog: It might repeatedly check sessions. Idempotency[11D[K
+Idempotency guard: use a unique detection event ID (e.g., session_id + inte[4D[K
+interruption_timestamp) to ensure that the same interruption is not process[7D[K
+processed multiple times. Before triggering a resume, check if a resume tas[3D[K
+task with that event ID has already been enqueued. So guard: "Event dedupli[7D[K
+deduplication key: (session_id, last_heartbeat_timestamp). Before enqueuing[9D[K
+enqueuing resume, check registry for existing active resume task with same [K
+key."
+
+- Resume Executor (TQP atom): When it executes a resume, it should be idemp[5D[K
+idempotent. Guard: "Resume token: a unique token generated per resume reque[5D[K
+request, stored in the registry. Executor checks token status (pending/in-p[13D[K
+(pending/in-progress/completed) and only proceeds if token is pending. Upon[4D[K
+Upon completion, marks token completed. If token already completed, skip."
+
+- Main-Session Resume Registry: It handles updates. Idempotency guard: "Wri[4D[K
+"Write operations use optimistic locking with version number or last-modifi[11D[K
+last-modified timestamp. Each update includes expected version; if mismatch[8D[K
+mismatch, reject and require re-read." Or "All registry mutations are condi[5D[K
+conditional on current state hash; if state changed since last read, operat[6D[K
+operation fails with conflict." I'll say: "Conditional write with state has[3D[K
+hash: each update must provide the hash of the state it read; registry reje[4D[K
+rejects if current hash differs, ensuring no lost updates."
+
+D: One checkpoint payload field that must survive a gateway restart. This f[1D[K
+field is critical for the entire auto-resume protocol to survive a gateway [K
+restart. It could be the "global resume registry state" or a "resume checkp[6D[K
+checkpoint token". I'll define: "Global Resume Checkpoint Token: a monotoni[8D[K
+monotonically increasing token (or timestamp) representing the last committ[7D[K
+committed resume state across all sessions. This token is persisted in the [K
+gateway's durable storage and used to recover the registry state after rest[4D[K
+restart. All atoms must reference this token to ensure consistency." So fie[3D[K
+field: "last_committed_resume_token" (integer or timestamp) stored in gatew[5D[K
+gateway checkpoint.
+
+E: One HITL gate for destructive recovery. Destructive recovery might be so[2D[K
+something like "force-reset all sessions" or "purge resume registry". HITL [K
+gate: "Before executing a destructive recovery action (e.g., mass session t[1D[K
+termination or registry wipe), the system must request explicit human appro[5D[K
+approval via a confirmation prompt sent to a designated operator channel (e[2D[K
+(e.g., Slack, email). The action only proceeds after receiving a signed app[3D[K
+approval token with a time-limited validity." So HITL gate: "Destructive re[2D[K
+recovery actions (e.g., registry reset, force-kill all sessions) require a [K
+human operator to provide a one-time approval code via a secure side-channe[11D[K
+side-channel, validated by the gateway before execution."
+
+Now structure the plan text. I'll output a clear plan with headings A, B, C[1D[K
+C, D, E, and bullet points or numbered lists. Ensure it's only the plan tex[3D[K
+text, no extra commentary.
+...done thinking.
+
+A. **Atom Dispatch Routing**
+- **Through TQP Phase 3:** Resume Executor for TQP atoms. This atom is queu[4D[K
+queued as a task whenever a resume is required, benefiting from TQP’s prior[5D[K
+priority, retry, and scheduling.
+- **Direct sessions_spawn:** Resume Detector/Watchdog and Main-Session Resu[4D[K
+Resume Registry. These are persistent services that run continuously, not f[1D[K
+finite tasks.
+
+B. **sessions_spawn Atom Parameters**
+- **Resume Detector/Watchdog**
+  - Required context: `isolated` (no shared state with monitored sessions)
+  - Timeout: `0` (persistent; no automatic termination; manual stop only)
+  - Tool-call budget: `10,000` tool calls per session lifetime (rate-limite[12D[K
+(rate-limited to 1000/hour)
+- **Main-Session Resume Registry**
+  - Required context: `isolated` (dedicated state store, protected from int[3D[K
+interference)
+  - Timeout: `0` (persistent; survives until explicit shutdown)
+  - Tool-call budget: `10,000` tool calls per session lifetime (read/write [K
+operations)
+
+C. **Idempotency Guards per Atom Type**
+- **Resume Detector/Watchdog:** Event deduplication key `(session_id, inter[5D[K
+interruption_timestamp)`. Before enqueuing a resume task, the watchdog chec[4D[K
+checks the Main-Session Resume Registry for an existing active resume with [K
+the same key; if found, it skips enqueue.
+- **Resume Executor (TQP atom):** Resume token. Each resume request carries[7D[K
+carries a unique token (UUID). The executor atom queries the registry for t[1D[K
+token status; it proceeds only if status is `pending`, then atomically sets[4D[K
+sets it to `in-progress`. If status is already `in-progress` or `completed`[11D[K
+`completed`, the atom exits without action.
+- **Main-Session Resume Registry:** Conditional write with state hash. Ever[4D[K
+Every mutation request must include the `state_hash` of the record as read.[5D[K
+read. The registry compares the provided hash with the current hash; if the[3D[K
+they differ, it rejects the write with a conflict error, forcing the caller[6D[K
+caller to re-read and retry.
+
+D. **Checkpoint Payload Field Surviving Gateway Restart**
+- **Field:** `global_resume_checkpoint_token` (64-bit monotonically increas[7D[K
+increasing integer, persisted in gateway durable storage). This token repre[5D[K
+represents the last committed resume state across all sessions. After a gat[3D[K
+gateway restart, the Main-Session Resume Registry uses this token to recove[6D[K
+recover its state and validate the consistency of all active resume tokens.[7D[K
+tokens.
+
+E. **HITL Gate for Destructive Recovery**
+- **Gate:** Any destructive recovery action (e.g., registry purge, mass for[3D[K
+forced session termination, global resume state reset) must obtain a human [K
+operator’s explicit approval. The gateway emits a request to a pre-configur[12D[K
+pre-configured operator channel (e.g., Slack, PagerDuty) containing a uniqu[5D[K
+unique action ID and a one-time approval code. The action is held in a `pen[4D[K
+`pending_approval` state until the operator returns the matching approval c[1D[K
+code via a secure API endpoint, with a validity window of 5 minutes. If the[3D[K
+the window expires or an invalid code is supplied, the action is aborted an[2D[K
+and logged.
+
+[?2026h[?25l[1G⠙ [K[?25h[?2026l[?2026h[?25l[1G⠹ [K[?25h[?2026l[?2026h[?25l[1G⠸ [K[?25h[?2026l[?2026h[?25l[1G⠼ [K[?25h[?2026l[?2026h[?25l[1G⠴ [K[?25h[?2026l[?2026h[?25l[1G⠦ [K[?25h[?2026l[?2026h[?25l[1G⠧ [K[?25h[?2026l[?25l[?2026h[?25l[1G[K[?25h[?2026l[2K[1G[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h

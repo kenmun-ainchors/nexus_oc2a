@@ -1,0 +1,88 @@
+Thinking...
+We need to produce an "Aria Plan" with exactly the requested sections: A, B[1D[K
+B, C, D, E. The scenario: Aria is generating a daily business brief for Ang[3D[K
+Angie. Halfway through, a higher-priority Telegram alert interrupts. Aria m[1D[K
+must pause, handle the alert, and resume the brief without losing context. [K
+We need to output a structured plan text only.
+
+We need to define:
+
+A. Minimum context snapshot to persist before switching (4 items). So we ne[2D[K
+need to list exactly 4 items that Aria should save to resume the brief late[4D[K
+later. Likely: current state of the brief (what's been written, what's left[4D[K
+left), the data sources used, the point where she left off, maybe the inten[5D[K
+intended structure/outline, and any pending analysis. But we need exactly 4[1D[K
+4 items. Could be: (1) Brief outline/sections completed and remaining, (2) [K
+Last completed sentence/paragraph, (3) Key data points already gathered, (4[2D[K
+(4) Any pending research tasks. Or something like: (1) Current draft conten[6D[K
+content, (2) List of remaining sections, (3) Data sources and extracted ins[3D[K
+insights, (4) Angie's preferences/style guide. I'll craft 4 concise items.
+
+B. Whether the alert handling runs in the same session or a subagent. The q[1D[K
+question: "Whether the alert handling runs in the same session or a subagen[7D[K
+subagent". So we need to state: "Same session" or "Subagent". I think it's [K
+better to use a subagent to handle the Telegram alert so that the main sess[4D[K
+session can preserve context and resume seamlessly. But the plan might spec[4D[K
+specify that Aria handles the alert in the same session but with a context [K
+snapshot. The prompt says "Aria must pause, handle the alert, and resume th[2D[K
+the brief without losing context." It doesn't specify subagent. I'd lean to[2D[K
+towards using a subagent to isolate the alert handling, so the main session[7D[K
+session's context isn't polluted. But the plan could also say "same session[7D[K
+session" with careful context management. I'll decide: Subagent, because it[2D[K
+it's a higher-priority interrupt, and using a subagent allows the main sess[4D[K
+session to remain focused on the brief, with the subagent handling the aler[4D[K
+alert and returning a summary. That's a common pattern. So B: Subagent.
+
+C. One rule for what Aria does NOT say in Telegram during the interrupt. So[2D[K
+So a rule about what Aria should avoid saying in the Telegram message while[5D[K
+while handling the alert. For example, "Do not mention the business brief o[1D[K
+or Angie's name in the Telegram alert response." Or "Do not disclose that A[1D[K
+Aria is currently working on another task." Something to maintain privacy/c[9D[K
+privacy/context separation. I'll craft: "Do not reference the ongoing brief[5D[K
+brief or Angie's identity in the Telegram response."
+
+D. One resume condition to return to the brief. A condition that must be me[2D[K
+met before Aria resumes the brief. For example, "Alert acknowledged and res[3D[K
+resolved, and subagent returns a completion signal." Or "Telegram alert ful[3D[K
+fully handled and no further immediate action required." I'll phrase: "The [K
+subagent confirms the alert is fully handled and no follow-up is needed."
+
+E. One verification step to ensure the brief is complete after resume. A st[2D[K
+step to check that the brief is complete. For example, "Cross-check the fin[3D[K
+final brief against the original outline to ensure all sections are covered[7D[K
+covered and no gaps." Or "Review the brief for continuity and completeness,[13D[K
+completeness, comparing with the snapshot." I'll say: "Compare the resumed [K
+brief against the context snapshot to verify all planned sections are inclu[5D[K
+included and no content was lost."
+
+Now, output exactly the structured plan text. I'll format as:
+
+A. [list of 4 items]
+B. [Subagent]
+C. [rule]
+D. [resume condition]
+E. [verification step]
+
+Make sure it's only that. No extra commentary.
+...done thinking.
+
+A. Minimum context snapshot to persist before switching:
+1. Current draft of the brief (all written text up to the interruption poin[4D[K
+point).
+2. Outline of remaining sections and key points to cover.
+3. Data sources already consulted and extracted insights.
+4. Angie’s formatting preferences and any pending follow-up items.
+
+B. Subagent.
+
+C. Do not mention the business brief, Angie, or any details of the paused t[1D[K
+task in the Telegram response.
+
+D. The subagent returns a signal that the alert is fully resolved and no fu[2D[K
+further immediate action is required.
+
+E. Cross-check the completed brief against the saved outline and snapshot t[1D[K
+to confirm all sections are present, no content was lost, and the brief mee[3D[K
+meets Angie’s specifications.
+
+[?2026h[?25l[1G⠙ [K[?25h[?2026l[?2026h[?25l[1G⠙ [K[?25h[?2026l[?2026h[?25l[1G⠸ [K[?25h[?2026l[?2026h[?25l[1G⠸ [K[?25h[?2026l[?2026h[?25l[1G⠴ [K[?25h[?2026l[?2026h[?25l[1G⠦ [K[?25h[?2026l[?2026h[?25l[1G⠦ [K[?25h[?2026l[?2026h[?25l[1G⠇ [K[?25h[?2026l[?2026h[?25l[1G⠏ [K[?25h[?2026l[?25l[?2026h[?25l[1G[K[?25h[?2026l[2K[1G[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h

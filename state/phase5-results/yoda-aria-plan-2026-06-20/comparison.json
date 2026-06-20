@@ -1,0 +1,340 @@
+{
+  "benchmark": "yoda-aria-plan",
+  "date": "2026-06-20",
+  "models": [
+    "glm-5.2_cloud",
+    "kimi-k2.7-code_cloud",
+    "deepseek-v4-pro_cloud"
+  ],
+  "summary": {
+    "glm-5.2_cloud": {
+      "rubric_score": "75/81",
+      "rubric_pct": 92.6,
+      "insight_score": "24/36",
+      "insight_pct": 66.7,
+      "adjusted_score": "99/117",
+      "adjusted_pct": 84.6,
+      "total_elapsed_s": 127.5,
+      "relative_cost": 1.5,
+      "value_score": 56.4
+    },
+    "kimi-k2.7-code_cloud": {
+      "rubric_score": "76/81",
+      "rubric_pct": 93.8,
+      "insight_score": "31/36",
+      "insight_pct": 86.1,
+      "adjusted_score": "107/117",
+      "adjusted_pct": 91.5,
+      "total_elapsed_s": 234.1,
+      "relative_cost": 1.5,
+      "value_score": 61.0
+    },
+    "deepseek-v4-pro_cloud": {
+      "rubric_score": "76/81",
+      "rubric_pct": 93.8,
+      "insight_score": "26/36",
+      "insight_pct": 72.2,
+      "adjusted_score": "102/117",
+      "adjusted_pct": 87.2,
+      "total_elapsed_s": 114.9,
+      "relative_cost": 3.0,
+      "value_score": 29.07
+    }
+  },
+  "per_atom": {
+    "glm-5.2_cloud": [
+      {
+        "id": 1,
+        "agent": "yoda",
+        "category": "orchestration",
+        "rubric": "10/10",
+        "insight": 1,
+        "adjusted": "11/13"
+      },
+      {
+        "id": 2,
+        "agent": "yoda",
+        "category": "orchestration",
+        "rubric": "7/7",
+        "insight": 3,
+        "adjusted": "10/10"
+      },
+      {
+        "id": 3,
+        "agent": "yoda",
+        "category": "subagent-dispatch",
+        "rubric": "8/8",
+        "insight": 2,
+        "adjusted": "10/11"
+      },
+      {
+        "id": 4,
+        "agent": "yoda",
+        "category": "discipline-structure",
+        "rubric": "5/6",
+        "insight": 2,
+        "adjusted": "7/9"
+      },
+      {
+        "id": 5,
+        "agent": "yoda",
+        "category": "workflow-context-resume",
+        "rubric": "6/6",
+        "insight": 2,
+        "adjusted": "8/9"
+      },
+      {
+        "id": 6,
+        "agent": "yoda",
+        "category": "discipline-structure",
+        "rubric": "6/6",
+        "insight": 2,
+        "adjusted": "8/9"
+      },
+      {
+        "id": 7,
+        "agent": "aria",
+        "category": "orchestration",
+        "rubric": "7/7",
+        "insight": 2,
+        "adjusted": "9/10"
+      },
+      {
+        "id": 8,
+        "agent": "aria",
+        "category": "subagent-dispatch",
+        "rubric": "3/6",
+        "insight": 2,
+        "adjusted": "5/9"
+      },
+      {
+        "id": 9,
+        "agent": "aria",
+        "category": "workflow-context-resume",
+        "rubric": "5/6",
+        "insight": 2,
+        "adjusted": "7/9"
+      },
+      {
+        "id": 10,
+        "agent": "aria",
+        "category": "discipline-structure",
+        "rubric": "5/6",
+        "insight": 1,
+        "adjusted": "6/9"
+      },
+      {
+        "id": 11,
+        "agent": "aria",
+        "category": "orchestration",
+        "rubric": "7/7",
+        "insight": 2,
+        "adjusted": "9/10"
+      },
+      {
+        "id": 12,
+        "agent": "aria",
+        "category": "workflow-context-resume",
+        "rubric": "6/6",
+        "insight": 3,
+        "adjusted": "9/9"
+      }
+    ],
+    "kimi-k2.7-code_cloud": [
+      {
+        "id": 1,
+        "agent": "yoda",
+        "category": "orchestration",
+        "rubric": "10/10",
+        "insight": 1,
+        "adjusted": "11/13"
+      },
+      {
+        "id": 2,
+        "agent": "yoda",
+        "category": "orchestration",
+        "rubric": "6/7",
+        "insight": 3,
+        "adjusted": "9/10"
+      },
+      {
+        "id": 3,
+        "agent": "yoda",
+        "category": "subagent-dispatch",
+        "rubric": "7/8",
+        "insight": 2,
+        "adjusted": "9/11"
+      },
+      {
+        "id": 4,
+        "agent": "yoda",
+        "category": "discipline-structure",
+        "rubric": "6/6",
+        "insight": 3,
+        "adjusted": "9/9"
+      },
+      {
+        "id": 5,
+        "agent": "yoda",
+        "category": "workflow-context-resume",
+        "rubric": "6/6",
+        "insight": 3,
+        "adjusted": "9/9"
+      },
+      {
+        "id": 6,
+        "agent": "yoda",
+        "category": "discipline-structure",
+        "rubric": "6/6",
+        "insight": 3,
+        "adjusted": "9/9"
+      },
+      {
+        "id": 7,
+        "agent": "aria",
+        "category": "orchestration",
+        "rubric": "7/7",
+        "insight": 3,
+        "adjusted": "10/10"
+      },
+      {
+        "id": 8,
+        "agent": "aria",
+        "category": "subagent-dispatch",
+        "rubric": "5/6",
+        "insight": 3,
+        "adjusted": "8/9"
+      },
+      {
+        "id": 9,
+        "agent": "aria",
+        "category": "workflow-context-resume",
+        "rubric": "6/6",
+        "insight": 3,
+        "adjusted": "9/9"
+      },
+      {
+        "id": 10,
+        "agent": "aria",
+        "category": "discipline-structure",
+        "rubric": "6/6",
+        "insight": 1,
+        "adjusted": "7/9"
+      },
+      {
+        "id": 11,
+        "agent": "aria",
+        "category": "orchestration",
+        "rubric": "5/7",
+        "insight": 3,
+        "adjusted": "8/10"
+      },
+      {
+        "id": 12,
+        "agent": "aria",
+        "category": "workflow-context-resume",
+        "rubric": "6/6",
+        "insight": 3,
+        "adjusted": "9/9"
+      }
+    ],
+    "deepseek-v4-pro_cloud": [
+      {
+        "id": 1,
+        "agent": "yoda",
+        "category": "orchestration",
+        "rubric": "10/10",
+        "insight": 2,
+        "adjusted": "12/13"
+      },
+      {
+        "id": 2,
+        "agent": "yoda",
+        "category": "orchestration",
+        "rubric": "7/7",
+        "insight": 2,
+        "adjusted": "9/10"
+      },
+      {
+        "id": 3,
+        "agent": "yoda",
+        "category": "subagent-dispatch",
+        "rubric": "7/8",
+        "insight": 3,
+        "adjusted": "10/11"
+      },
+      {
+        "id": 4,
+        "agent": "yoda",
+        "category": "discipline-structure",
+        "rubric": "5/6",
+        "insight": 2,
+        "adjusted": "7/9"
+      },
+      {
+        "id": 5,
+        "agent": "yoda",
+        "category": "workflow-context-resume",
+        "rubric": "6/6",
+        "insight": 3,
+        "adjusted": "9/9"
+      },
+      {
+        "id": 6,
+        "agent": "yoda",
+        "category": "discipline-structure",
+        "rubric": "6/6",
+        "insight": 2,
+        "adjusted": "8/9"
+      },
+      {
+        "id": 7,
+        "agent": "aria",
+        "category": "orchestration",
+        "rubric": "7/7",
+        "insight": 3,
+        "adjusted": "10/10"
+      },
+      {
+        "id": 8,
+        "agent": "aria",
+        "category": "subagent-dispatch",
+        "rubric": "4/6",
+        "insight": 1,
+        "adjusted": "5/9"
+      },
+      {
+        "id": 9,
+        "agent": "aria",
+        "category": "workflow-context-resume",
+        "rubric": "5/6",
+        "insight": 3,
+        "adjusted": "8/9"
+      },
+      {
+        "id": 10,
+        "agent": "aria",
+        "category": "discipline-structure",
+        "rubric": "6/6",
+        "insight": 1,
+        "adjusted": "7/9"
+      },
+      {
+        "id": 11,
+        "agent": "aria",
+        "category": "orchestration",
+        "rubric": "7/7",
+        "insight": 1,
+        "adjusted": "8/10"
+      },
+      {
+        "id": 12,
+        "agent": "aria",
+        "category": "workflow-context-resume",
+        "rubric": "6/6",
+        "insight": 3,
+        "adjusted": "9/9"
+      }
+    ]
+  }
+}

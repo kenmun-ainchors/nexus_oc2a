@@ -1,0 +1,115 @@
+Thinking...
+We need to produce a structured plan for a replan/resume scenario. The user[4D[K
+user asks: "A long-running Yoda orchestrator task (main session) is interru[7D[K
+interrupted by a gateway restart after 3 of 7 atoms complete. The task stat[4D[K
+state lives in memory only; TQP was not used because the task predates TQP [K
+Phase 3. Produce a replan/resume plan with exactly: A. Where the resume reg[3D[K
+registry should be written (file or table) B. Minimum context to reconstruc[10D[K
+reconstruct the task after restart (4 items) C. One detection mechanism for[3D[K
+for the dead session D. One HITL gate before auto-resume of destructive ato[3D[K
+atoms E. One verification step to confirm resumed output matches uninterrup[10D[K
+uninterrupted run. Return ONLY the structured plan text."
+
+We need to output only the plan text, structured. So I'll craft a plan with[4D[K
+with sections A, B, C, D, E exactly as requested. The context: Yoda orchest[7D[K
+orchestrator task, main session interrupted by gateway restart after 3 of 7[1D[K
+7 atoms complete. Task state in memory only, no TQP (Task Queue Persistence[11D[K
+Persistence) because predates TQP Phase 3. So we need a resume registry, mi[2D[K
+minimum context to reconstruct, detection mechanism for dead session, HITL [K
+gate before auto-resume of destructive atoms, verification step.
+
+I'll design a plan:
+
+A. Where the resume registry should be written: Since it's a Yoda orchestra[9D[K
+orchestrator, likely a file-based registry or a database table. I'll sugges[6D[K
+suggest a file (e.g., JSON or YAML) in a durable location, like a shared fi[2D[K
+filesystem or object store, because it's simple and doesn't require a datab[5D[K
+database. But could also be a table in a lightweight DB. I'll say: "A durab[5D[K
+durable file on shared storage (e.g., /var/yoda/resume_registry.json) or a [K
+dedicated table in the orchestrator's metadata store." I'll pick file for s[1D[K
+simplicity: "A JSON file on a persistent volume accessible to the gateway, [K
+e.g., /mnt/yoda_state/resume_registry.json."
+
+B. Minimum context to reconstruct the task after restart (4 items): Need to[2D[K
+to capture enough to resume. Items: 1. Task ID and definition (the original[8D[K
+original task graph/atoms list). 2. Execution state: which atoms completed [K
+(3 of 7), their outputs/artifacts, and any intermediate data references. 3.[2D[K
+3. Session metadata: gateway session ID, start time, any parameters. 4. Che[3D[K
+Checkpoint data: any in-memory variables or accumulators needed for remaini[7D[K
+remaining atoms. So I'll list: (i) Task graph definition (atom sequence, de[2D[K
+dependencies, inputs). (ii) Completion vector (bitmask or list of completed[9D[K
+completed atom indices, with output artifact URIs). (iii) Session context ([1D[K
+(session ID, user, environment variables). (iv) Accumulated state (any inte[4D[K
+intermediate results, counters, or data structures required by subsequent a[1D[K
+atoms).
+
+C. One detection mechanism for the dead session: Gateway restart implies th[2D[K
+the session died. Detection: a heartbeat or lease mechanism. Since state is[2D[K
+is in memory, the gateway could maintain a heartbeat file or a lock. On res[3D[K
+restart, the gateway can check for a stale heartbeat. I'll propose: "A hear[4D[K
+heartbeat file updated periodically by the main session; on gateway restart[7D[K
+restart, if the heartbeat timestamp is older than a threshold (e.g., 2x upd[3D[K
+update interval), the session is considered dead."
+
+D. One HITL gate before auto-resume of destructive atoms: Destructive atoms[5D[K
+atoms might be those that modify external state (e.g., delete resources, wr[2D[K
+write to production). Before auto-resuming, require human approval. So: "A [K
+manual approval step via UI/API where an operator reviews the completed ato[3D[K
+atoms and remaining destructive atoms, and explicitly authorizes resumption[10D[K
+resumption. The orchestrator pauses at a 'resume_gate' state until approval[8D[K
+approval is received."
+
+E. One verification step to confirm resumed output matches uninterrupted ru[2D[K
+run: Could compare a hash of final output or a checksum of the complete run[3D[K
+run's result with a precomputed expected value, or re-run a subset of atoms[5D[K
+atoms in a sandbox to verify consistency. Since we can't run uninterrupted [K
+run, we need to verify that the resumed run's output is consistent with the[3D[K
+the partial outputs already produced. I'll suggest: "After resumption and c[1D[K
+completion, re-execute the first 3 atoms in a dry-run/sandbox mode using th[2D[K
+the same inputs and compare their outputs (hashes) to the previously stored[6D[K
+stored completed atom outputs to ensure deterministic behavior; if mismatch[8D[K
+mismatched, flag for review."
+
+I'll structure the answer as a plan with headings A, B, C, D, E. Return ONL[3D[K
+ONLY thattext.
+...done thinking.
+
+A. **Resume registry location**: A durable JSON file on a persistent shared[6D[K
+shared volume accessible to the gateway, e.g., `/mnt/yoda_state/resume_regi[28D[K
+`/mnt/yoda_state/resume_registry.json`. This file is written atomically at [K
+each atom completion and on graceful shutdown.
+
+B. **Minimum context to reconstruct the task (4 items)**:
+1. **Task graph definition**: The full DAG of 7 atoms, including atom types[5D[K
+types, parameters, input/output artifact URIs, and dependency edges.
+2. **Completion vector**: A bitmask or ordered list indicating which atoms [K
+(1–3) have completed, along with their output artifact locations and conten[6D[K
+content hashes.
+3. **Session metadata**: Original session ID, user/owner, environment varia[5D[K
+variables, start timestamp, and gateway instance identifier.
+4. **Accumulated ephemeral state**: Any in-memory variables, counters, or i[1D[K
+intermediate data structures that subsequent atoms (4–7) require, serialise[9D[K
+serialised in a compact form (e.g., base64-encoded blob).
+
+C. **Dead session detection mechanism**: A heartbeat file (e.g., `/mnt/yoda[10D[K
+`/mnt/yoda_state/session_heartbeat`) updated by the main session every N se[2D[K
+seconds. On gateway restart, the orchestrator checks the heartbeat’s last-m[6D[K
+last-modified timestamp; if it exceeds a threshold (e.g., 2× the update int[3D[K
+interval), the session is declared dead and eligible for resume.
+
+D. **HITL gate before auto-resume of destructive atoms**: A manual approval[8D[K
+approval checkpoint. Before any atom marked `destructive` (e.g., atoms 5 an[2D[K
+and 6) is executed, the orchestrator enters a `RESUME_PENDING_HITL` state, [K
+notifies an operator via UI/API with a summary of completed atoms and the l[1D[K
+list of pending destructive actions, and waits for an explicit `approve_res[12D[K
+`approve_resume` signal. Resumption is blocked until approval is received.
+
+E. **Verification step for resumed output consistency**: After the resumed [K
+run completes, re-execute the first 3 atoms in an isolated sandbox using th[2D[K
+the identical inputs from the task graph. Compare the output artifact hashe[5D[K
+hashes of this verification run against the hashes stored in the completion[10D[K
+completion vector. If all hashes match, the resumed run is considered consi[5D[K
+consistent with an uninterrupted execution; any mismatch triggers an alert [K
+and manual inspection.
+
+[?2026h[?25l[1G⠙ [K[?25h[?2026l[?2026h[?25l[1G⠹ [K[?25h[?2026l[?2026h[?25l[1G⠸ [K[?25h[?2026l[?2026h[?25l[1G⠼ [K[?25h[?2026l[?2026h[?25l[1G⠴ [K[?25h[?2026l[?2026h[?25l[1G⠦ [K[?25h[?2026l[?2026h[?25l[1G⠦ [K[?25h[?2026l[?25l[?2026h[?25l[1G[K[?25h[?2026l[2K[1G[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h

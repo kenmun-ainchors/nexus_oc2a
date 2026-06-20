@@ -1,9 +1,9 @@
 {
   "schema_version": "3.0",
   "description": "PERMANENT model policy for all AInchors agents. Warden enforces this. Changes require Ken approval + CHG entry + baseline update.",
-  "lastUpdated": "2026-06-20T01:57:44+0000",
-  "lastApprovedBy": "Ken Mun (webchat, 2026-06-20 11:56 AEST)",
-  "approvalContext": "CHG-0685: model-policy Plan/Replan update for design_backend \u2014 glm-5.2:cloud Plan/Analysis, kimi-k2.7-code:cloud Replan, deepseek-v4-pro:cloud fallback-only",
+  "lastUpdated": "2026-06-20T06:05:12+0000",
+  "lastApprovedBy": "Ken Mun (webchat, 2026-06-20 16:04 AEST)",
+  "approvalContext": "CHG-0690: Yoda/Aria CREST Plan/Replan primary switched to kimi-k2.7-code:cloud per benchmark; deepseek-v4-pro:cloud fallback for yoda_master, kimi-k2.6:cloud fallback for business. | CHG-0691: Aria default chat model aligned to Yoda; JSON fallback tier mapping fixed.",
   "permanent": true,
   "interimPeriod": false,
   "globalAllowedModels": [
@@ -28,6 +28,7 @@
     "userFacing": {
       "description": "Agents that interact directly with humans (Ken, Angie) via webchat or Telegram.",
       "agentIds": [
+        "business",
         "main"
       ],
       "primary": "ollama/kimi-k2.7-code:cloud",
@@ -37,10 +38,7 @@
         "ollama/deepseek-v4-flash:cloud",
         "ollama/kimi-k2.6:cloud"
       ],
-      "rationale": "CHG-0621 + CHG-0660: Yoda/Aria strong tier on kimi-k2.7-code. Yoda has no Execute phase (CHG-0545); Aria Synthesize may use cheap at per-atom discretion.",
-      "exceptions": {
-        "business": "ollama/deepseek-v4-flash:cloud"
-      }
+      "rationale": "CHG-0621 + CHG-0660: Yoda/Aria strong tier on kimi-k2.7-code. Yoda has no Execute phase (CHG-0545); Aria Synthesize may use cheap at per-atom discretion."
     },
     "t2Governance": {
       "description": "T2 governance/verdict agents: Shield, Lex, Warden, Sage.",
@@ -92,8 +90,7 @@
       "agentIds": [
         "social",
         "ahsoka",
-        "luthen",
-        "business"
+        "luthen"
       ],
       "primary": "ollama/deepseek-v4-flash:cloud",
       "cheapModel": "ollama/deepseek-v4-flash:cloud",
@@ -166,7 +163,7 @@
         "anthropic/claude-haiku-4-5",
         "anthropic/claude-sonnet-4-6"
       ],
-      "modelChangeNote": "CHG-0660: Tier reassignment per TKT-0540 confirmed policy.",
+      "modelChangeNote": "CHG-0691: Aria default chat model aligned to Yoda (kimi-k2.7-code:cloud); CHG-0660 tier reassignment retained.",
       "model": "ollama/kimi-k2.7-code:cloud",
       "fallbacks": [
         "ollama/deepseek-v4-pro:cloud"
@@ -363,10 +360,10 @@
     "process": "1. Ken approval in webchat/Telegram. 2. Update this file. 3. Update critical-config-baseline.json. 4. Log CHG entry. 5. Update MEMORY.md.",
     "approvalKeyword": "POLICY CHANGE APPROVED"
   },
-  "baselineTimestamp": "2026-06-20T01:57:44+0000",
-  "baselineCHG": "CHG-0685",
+  "baselineTimestamp": "2026-06-20T06:05:12+0000",
+  "baselineCHG": "CHG-0691",
   "crestPhaseModelMap": {
-    "description": "CREST v1.2 \u00a75.8 \u2014 Per-agent, per-phase model assignments. Warden uses this for phase-aware compliance (TKT-0383).",
+    "description": "CREST v1.2 legacy overview. CREST v1.3 uses PG state_model_policy.crest_phase_rules as SSOT. Per CHG-0690, yoda_master and business Plan/Replan now use ollama/kimi-k2.7-code:cloud as primary.",
     "phaseModels": {
       "pro": {
         "label": "Plan / Verify / Replan",
@@ -531,7 +528,7 @@
   },
   "crest_v13": {
     "active_matrix": "v1.3.0",
-    "last_exported": "2026-06-20T09:39:45+10:00",
+    "last_exported": "2026-06-20T06:06:44+0000",
     "source": "pg-export",
     "phase_rules": [
       {
@@ -585,26 +582,26 @@
       {
         "role": "business",
         "phase": "Plan",
-        "default_model": "ollama/kimi-k2.6:cloud",
-        "fallback_model": "ollama/deepseek-v4-pro:cloud",
+        "default_model": "ollama/kimi-k2.7-code:cloud",
+        "fallback_model": "ollama/kimi-k2.6:cloud",
         "override_allowed": false,
-        "rationale": "Business Plan uses kimi-k2.6"
+        "rationale": "CHG-0690: Align Aria business Plan phase with user-facing primary kimi-k2.7-code:cloud. Fallback remains kimi-k2.6:cloud."
       },
       {
         "role": "business",
         "phase": "Replan",
-        "default_model": "ollama/kimi-k2.6:cloud",
-        "fallback_model": "ollama/deepseek-v4-pro:cloud",
+        "default_model": "ollama/kimi-k2.7-code:cloud",
+        "fallback_model": "ollama/kimi-k2.6:cloud",
         "override_allowed": false,
-        "rationale": "Business Replan uses kimi-k2.6"
+        "rationale": "CHG-0690: Align Aria business Replan phase with user-facing primary kimi-k2.7-code:cloud. Fallback remains kimi-k2.6:cloud."
       },
       {
         "role": "business",
         "phase": "Synthesize",
-        "default_model": "ollama/deepseek-v4-flash:cloud",
+        "default_model": "ollama/kimi-k2.7-code:cloud",
         "fallback_model": "ollama/kimi-k2.6:cloud",
         "override_allowed": false,
-        "rationale": "Business Synthesize is mechanical"
+        "rationale": "CHG-0691: Aria default chat model aligned to Yoda (kimi-k2.7-code:cloud). Business Synthesize uses user-facing primary."
       },
       {
         "role": "business",
@@ -665,18 +662,18 @@
       {
         "role": "design_backend",
         "phase": "Plan",
-        "default_model": "ollama/glm-5.2:cloud",
+        "default_model": "ollama/deepseek-v4-pro:cloud",
         "fallback_model": "ollama/gemma4:31b-cloud",
         "override_allowed": false,
-        "rationale": "CHG-0685: Design specialists Plan with GLM-5.2 (benchmark lead 91.7%)"
+        "rationale": "Design specialists Plan with strong model"
       },
       {
         "role": "design_backend",
         "phase": "Replan",
-        "default_model": "ollama/kimi-k2.7-code:cloud",
+        "default_model": "ollama/deepseek-v4-pro:cloud",
         "fallback_model": "ollama/gemma4:31b-cloud",
         "override_allowed": false,
-        "rationale": "CHG-0685: Design Replan uses kimi-k2.7-code:cloud (Replan strength)"
+        "rationale": "Design Replan is strong gap analysis"
       },
       {
         "role": "design_backend",
@@ -737,18 +734,18 @@
       {
         "role": "yoda_master",
         "phase": "Plan",
-        "default_model": "ollama/deepseek-v4-pro:cloud",
-        "fallback_model": "ollama/kimi-k2.6:cloud",
+        "default_model": "ollama/kimi-k2.7-code:cloud",
+        "fallback_model": "ollama/deepseek-v4-pro:cloud",
         "override_allowed": false,
-        "rationale": "Yoda Plan is strong orchestrator work"
+        "rationale": "CHG-0690: Yoda+Aria Plan benchmark (12 atoms) showed kimi-k2.7-code:cloud leading on quality (91.5% adjusted) vs deepseek (87.2%) and glm (84.6%). Adopted as primary for yoda_master Plan phase; deepseek demoted to fallback."
       },
       {
         "role": "yoda_master",
         "phase": "Replan",
-        "default_model": "ollama/deepseek-v4-pro:cloud",
-        "fallback_model": "ollama/kimi-k2.6:cloud",
+        "default_model": "ollama/kimi-k2.7-code:cloud",
+        "fallback_model": "ollama/deepseek-v4-pro:cloud",
         "override_allowed": false,
-        "rationale": "Yoda Replan is strong gap analysis"
+        "rationale": "CHG-0690: Yoda+Aria Plan benchmark showed kimi-k2.7-code:cloud leading. Adopted as primary for yoda_master Replan phase; deepseek demoted to fallback."
       },
       {
         "role": "yoda_master",
@@ -765,50 +762,6 @@
         "fallback_model": "ollama/kimi-k2.6:cloud",
         "override_allowed": false,
         "rationale": "Yoda self-verify for master-level integration"
-      }
-    ],
-    "model_registry": [
-      {
-        "canonical_name": "ollama/deepseek-v4-flash:cloud",
-        "provider": "ollama",
-        "family": "deepseek",
-        "status": "active"
-      },
-      {
-        "canonical_name": "ollama/deepseek-v4-pro:cloud",
-        "provider": "ollama",
-        "family": "deepseek",
-        "status": "active"
-      },
-      {
-        "canonical_name": "ollama/gemma4:31b-cloud",
-        "provider": "ollama",
-        "family": "gemma",
-        "status": "active"
-      },
-      {
-        "canonical_name": "ollama/kimi-k2.6:cloud",
-        "provider": "ollama",
-        "family": "kimi",
-        "status": "active"
-      },
-      {
-        "canonical_name": "ollama/kimi-k2.7-code:cloud",
-        "provider": "ollama",
-        "family": "kimi",
-        "status": "active"
-      },
-      {
-        "canonical_name": "ollama/minimax-m3:cloud",
-        "provider": "ollama",
-        "family": "minimax",
-        "status": "active"
-      },
-      {
-        "canonical_name": "ollama/glm-5.2:cloud",
-        "provider": "ollama",
-        "family": "glm",
-        "status": "active"
       }
     ]
   },

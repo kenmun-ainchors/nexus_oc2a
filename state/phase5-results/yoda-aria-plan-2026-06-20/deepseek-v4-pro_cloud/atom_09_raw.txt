@@ -1,0 +1,152 @@
+Thinking...
+We are asked to produce an "Aria Plan" for a scenario: TRIGGER-07 fires, Ar[2D[K
+Aria must lead onboarding while ensuring client data stays Tier 0/1 local. [K
+The onboarding workflow may be interrupted by a heartbeat-driven task switc[5D[K
+switch. We need exactly:
+
+A. 4 onboarding steps in sequence
+B. Which step must run in main session with Ken approval vs can be delegate[8D[K
+delegated to a subagent
+C. One data-sovereignty checkpoint per step
+D. One context handoff artifact Aria writes before a potential interruption[12D[K
+interruption
+E. One resume trigger after interruption
+
+Return ONLY the structured plan text.
+
+We need to craft a structured plan. The plan should be for Aria, an AI agen[4D[K
+agent, leading an onboarding process for a client (P2 Client) while ensurin[7D[K
+ensuring data stays Tier 0/1 local (meaning highly sensitive data stays on [K
+local infrastructure, not sent to cloud). The workflow may be interrupted b[1D[K
+by a heartbeat-driven task switch (like a system that periodically checks f[1D[K
+for new tasks and might preempt). So Aria needs to prepare a handoff artifa[6D[K
+artifact before potential interruption, and a resume trigger to continue af[2D[K
+after interruption.
+
+We need to produce exactly 4 onboarding steps. For each step, we need to sp[2D[K
+specify if it runs in main session with Ken approval (Ken is likely a human[5D[K
+human supervisor/manager) or can be delegated to a subagent. Also, a data-s[6D[K
+data-sovereignty checkpoint per step: verifying that data remains within Ti[2D[K
+Tier 0/1 boundaries. Then, one context handoff artifact that Aria writes be[2D[K
+before a potential interruption (maybe a single artifact that covers the st[2D[K
+state of the workflow, or one per step? The prompt says "One context handof[6D[K
+handoff artifact Aria writes before a potential interruption" – it might be[2D[K
+be a single artifact that she writes at a certain point, perhaps before the[3D[K
+the interruption-prone step, or a general artifact that she prepares in ant[3D[K
+anticipation of interruption. And "One resume trigger after interruption" –[1D[K
+– a trigger that will allow resuming the workflow.
+
+We need to output ONLY the structured plan text. So I'll design a plan with[4D[K
+with 4 steps, each with B, C, and then overall D and E. I'll format it clea[4D[K
+clearly.
+
+Let's think of a typical client onboarding: Step 1: Initial data collection[10D[K
+collection and classification. Step 2: Environment setup (local Tier 0/1). [K
+Step 3: Integration configuration. Step 4: Validation and sign-off. Ensure [K
+data sovereignty: check that data never leaves local. Main session with Ken[3D[K
+Ken approval likely for steps that involve sensitive decisions or access gr[2D[K
+granting. Subagent can handle mechanical tasks like provisioning resources,[10D[K
+resources, running scripts, etc., under strict constraints.
+
+I'll craft:
+
+Aria Plan: P2 Client Onboarding with Data Sovereignty (Tier 0/1 Local)
+
+Step 1: Data Inventory & Classification
+- Execution: Main session with Ken approval (requires human judgment on dat[3D[K
+data sensitivity)
+- Data-Sovereignty Checkpoint: Confirm all collected data samples and metad[5D[K
+metadata are stored exclusively on Tier 0/1 storage; no transmission to ext[3D[K
+external services.
+
+Step 2: Local Environment Provisioning
+- Execution: Delegated to subagent (Infrastructure-as-Code execution within[6D[K
+within Tier 0/1 boundary, pre-approved templates)
+- Data-Sovereignty Checkpoint: Validate that provisioned compute, storage, [K
+and network are tagged Tier 0/1 and isolated from external networks; audit [K
+logs remain local.
+
+Step 3: Integration & Pipeline Configuration
+- Execution: Main session with Ken approval (connection strings, access key[3D[K
+keys, and data flow definitions require human sign-off)
+- Data-Sovereignty Checkpoint: Verify all integration endpoints resolve to [K
+internal Tier 0/1 addresses; no egress rules configured; test data stays lo[2D[K
+local.
+
+Step 4: Acceptance Testing & Handover
+- Execution: Delegated to subagent (automated test suite execution, report [K
+generation) with final review in main session.
+- Data-Sovereignty Checkpoint: Ensure test outputs, logs, and final handove[7D[K
+handover package reside on Tier 0/1; confirm no data leakage during testing[7D[K
+testing.
+
+Context Handoff Artifact (written before potential heartbeat interruption):[14D[K
+interruption):
+Aria writes a "Workflow State Snapshot" to a local Tier 0/1 p[1D[K
+persistent note, containing:
+- Current step index and status (completed/pending)
+- Approved configurations and decisions from Ken
+- Subagent task IDs and their last known states
+- Data sovereignty verification results for completed steps
+- Resumption instructions: next action, required approvals, and data bounda[6D[K
+boundary constraints.
+
+Resume Trigger after interruption:
+Upon re-engagement, Aria reads the Workflow State Snapshot from local Tier [K
+0/1 storage. If snapshot exists and is valid, Aria resumes from the last in[2D[K
+incomplete step, re-validates data sovereignty for that step, and continues[9D[K
+continues without re-requesting approvals already granted (unless expired).[9D[K
+expired). If snapshot missing, Aria escalates to Ken for manual restart.
+
+That covers all requirements. I'll output only that plan text, structured.
+...done thinking.
+
+Aria Plan: P2 Client Onboarding (Tier 0/1 Local, Heartbeat-Interruptible)
+
+Step 1 – Data Inventory & Classification
+- Execution: Main session with Ken approval (human judgment required for se[2D[K
+sensitivity labeling).
+- Data-Sovereignty Checkpoint: Confirm all collected data samples, metadata[8D[K
+metadata, and classification tags reside exclusively on Tier 0/1 storage; n[1D[K
+no external API calls or telemetry.
+
+Step 2 – Local Environment Provisioning
+- Execution: Delegated to subagent (Infrastructure-as-Code execution using [K
+pre-approved, Tier 0/1-locked templates).
+- Data-Sovereignty Checkpoint: Validate provisioned compute, storage, and n[1D[K
+network are tagged Tier 0/1, fully air-gapped; audit logs written only to l[1D[K
+local log store.
+
+Step 3 – Integration & Pipeline Configuration
+- Execution: Main session with Ken approval (connection strings, access pol[3D[K
+policies, data flow graphs require human sign-off).
+- Data-Sovereignty Checkpoint: Verify all integration endpoints resolve to [K
+internal Tier 0/1 addresses; no egress rules exist; test payloads remain lo[2D[K
+local.
+
+Step 4 – Acceptance Testing & Handover
+- Execution: Delegated to subagent (automated test suite, report generation[10D[K
+generation) with final review in main session.
+- Data-Sovereignty Checkpoint: Ensure test outputs, logs, and handover pack[4D[K
+package are stored on Tier 0/1; confirm zero data leakage during test runs.[5D[K
+runs.
+
+Context Handoff Artifact (written before potential heartbeat-driven task sw[2D[K
+switch):
+Aria writes a “Workflow State Snapshot” to a persistent, local Tier 0/1 not[3D[K
+note containing:
+- Current step index and status (completed/in-progress/pending)
+- Ken’s approvals and configuration decisions captured so far
+- Subagent task IDs and last known states
+- Data-sovereignty verification results for all completed steps
+- Resumption instructions: next action, required approvals, and boundary co[2D[K
+constraints.
+
+Resume Trigger after interruption:
+On next activation, Aria checks for a valid Workflow State Snapshot in loca[4D[K
+local Tier 0/1 storage. If found, Aria resumes from the last incomplete ste[3D[K
+step, re-validates data sovereignty for that step, and proceeds without re-[3D[K
+re-requesting already-granted approvals (unless time-bound). If snapshot is[2D[K
+is missing or corrupted, Aria escalates to Ken for manual restart.
+
+[?2026h[?25l[1G⠙ [K[?25h[?2026l[?2026h[?25l[1G⠹ [K[?25h[?2026l[?2026h[?25l[1G⠸ [K[?25h[?2026l[?2026h[?25l[1G⠼ [K[?25h[?2026l[?2026h[?25l[1G⠴ [K[?25h[?2026l[?2026h[?25l[1G⠦ [K[?25h[?2026l[?2026h[?25l[1G⠧ [K[?25h[?2026l[?25l[?2026h[?25l[1G[K[?25h[?2026l[2K[1G[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h

@@ -1,0 +1,144 @@
+Thinking...
+We need to produce a "Yoda Master CREST Plan" for TKT-0190, the P2 Gate: 6 [K
+Missing Governance Policies. It touches Shield (security), Lex (legal), Sag[3D[K
+Sage (QA), Mon Mothma (change mgmt), and Aria (business). The plan must hav[3D[K
+have exactly:
+
+A. One policy area assigned to each specialist agent (5 assignments). The a[1D[K
+agents are Shield, Lex, Sage, Mon Mothma, Aria. So we need to assign one po[2D[K
+policy area to each. The problem says "6 Missing Governance Policies" but t[1D[K
+touches 5 agents. So we need to assign one policy area per agent, covering [K
+the 6 missing policies? Possibly the 6 policies are distributed among the 5[1D[K
+5 agents, maybe one agent gets two? But the instruction says "One policy ar[2D[K
+area assigned to each specialist agent (5 assignments)". So we'll assign ex[2D[K
+exactly one policy area to each of the 5 agents. The policy areas might be [K
+derived from the 6 missing governance policies. We can name them: Shield (s[2D[K
+(security policy), Lex (legal policy), Sage (QA policy), Mon Mothma (change[7D[K
+(change management policy), Aria (business policy). That's 5 policy areas. [K
+The "6 Missing Governance Policies" might be the overall context, but we as[2D[K
+assign one per agent. So we'll list: Shield: Security Policy, Lex: Legal Po[2D[K
+Policy, Sage: Quality Assurance Policy, Mon Mothma: Change Management Polic[5D[K
+Policy, Aria: Business Policy. That's 5. Maybe one policy area is "Governan[9D[K
+"Governance" itself? But we'll stick to 5 assignments.
+
+B. Which atoms need a CHG record before execution and which do not. Atoms? [K
+In CREST, atoms are the smallest units of work. We need to specify for each[4D[K
+each policy area's atom(s) whether a CHG (change record) is needed before e[1D[K
+execution. Likely, change management policy (Mon Mothma) would require CHG [K
+records for changes. Others might not. We'll specify.
+
+C. How the Sanctum Protocol applies (Shield → Lex → Sage ordering). Sanctum[7D[K
+Sanctum Protocol likely means a sequence: Shield reviews security, then Lex[3D[K
+Lex reviews legal, then Sage reviews QA. So we'll state that for any policy[6D[K
+policy atom, it must pass Shield, then Lex, then Sage in that order.
+
+D. One acceptance criterion per policy area. So for each of the 5 policy ar[2D[K
+areas, we'll give one acceptance criterion.
+
+E. One explicit statement that Yoda will NOT Execute any atom directly. Yod[3D[K
+Yoda is the master planner, not executor.
+
+We need to return ONLY the structured plan text. So we'll produce a Yoda-st[7D[K
+Yoda-style CREST plan. CREST might stand for something like Charter, Requir[6D[K
+Requirements, Execution, Sanctum, Test? But we'll just output a structured [K
+plan with sections.
+
+Let's craft:
+
+Yoda Master CREST Plan: TKT-0190 P2 Gate – 6 Missing Governance Policies
+
+A. Specialist Agent Policy Assignments (5):
+- Shield: Security Governance Policy
+- Lex: Legal & Compliance Governance Policy
+- Sage: Quality Assurance Governance Policy
+- Mon Mothma: Change Management Governance Policy
+- Aria: Business Alignment Governance Policy
+
+B. CHG Record Requirement per Atom:
+- Shield (Security Policy atoms): No CHG required before execution; securit[7D[K
+security policies are baseline.
+- Lex (Legal Policy atoms): No CHG required; legal policies are static unle[4D[K
+unless regulatory change triggers a formal amendment (which would be a sepa[4D[K
+separate CHG).
+- Sage (QA Policy atoms): No CHG required; QA standards are defined and sta[3D[K
+stable.
+- Mon Mothma (Change Management Policy atoms): CHG record REQUIRED before a[1D[K
+any execution, as this policy governs change itself.
+- Aria (Business Policy atoms): No CHG required; business policies are stra[4D[K
+strategic directives.
+
+(Alternatively, we could say all policy atoms except Mon Mothma's do not ne[2D[K
+need CHG, but Mon Mothma's atoms are the change management process itself, [K
+so they need a CHG to be executed. That makes sense.)
+
+C. Sanctum Protocol Application:
+All policy atoms must traverse the Sanctum Protocol in strict order: Shield[6D[K
+Shield (security review) → Lex (legal review) → Sage (QA review). Only afte[4D[K
+after passing all three gates can an atom proceed to execution. Mon Mothma [K
+and Aria atoms, while assigned to those agents, still require Sanctum clear[5D[K
+clearance if they impact security, legal, or quality aspects.
+
+D. Acceptance Criteria per Policy Area:
+- Shield: Policy must define access controls, data protection, and incident[8D[K
+incident response standards with zero unmitigated critical risks.
+- Lex: Policy must align with current jurisdictional regulations and includ[6D[K
+include mandatory review cycles; no non-compliant clauses permitted.
+- Sage: Policy must establish measurable quality metrics and defect thresho[7D[K
+thresholds; all test procedures must be documented and repeatable.
+- Mon Mothma: Policy must mandate a formal change request, impact analysis,[9D[K
+analysis, approval board, and rollback plan for all production changes.
+- Aria: Policy must link business objectives to IT services, with clear SLA[3D[K
+SLAs and value KPIs; stakeholder sign-off required.
+
+E. Yoda’s Execution Prohibition:
+Yoda, as Master CREST Architect, will NOT directly execute any atom. Execut[6D[K
+Execution is delegated solely to the assigned specialist agents and their r[1D[K
+respective teams. Yoda oversees, guides, and ensures the Force of governanc[9D[K
+governance flows, but does not act as executor.
+
+That should cover all. Return only the structured plantext.
+...done thinking.
+
+Yoda Master CREST Plan: TKT-0190 P2 Gate – 6 Missing Governance Policies
+
+A. Specialist Agent Policy Assignments (5)
+- Shield: Security Governance Policy
+- Lex: Legal & Compliance Governance Policy
+- Sage: Quality Assurance Governance Policy
+- Mon Mothma: Change Management Governance Policy
+- Aria: Business Alignment Governance Policy
+
+B. CHG Record Requirement per Atom
+- Shield atoms: No CHG required before execution (baseline security standar[7D[K
+standards).
+- Lex atoms: No CHG required (static legal framework; amendments follow sep[3D[K
+separate formal process).
+- Sage atoms: No CHG required (stable QA definitions).
+- Mon Mothma atoms: CHG record REQUIRED before any execution (policy govern[6D[K
+governs change itself).
+- Aria atoms: No CHG required (strategic business directives).
+
+C. Sanctum Protocol Application
+All policy atoms must pass Sanctum in fixed sequence: Shield (security revi[4D[K
+review) → Lex (legal review) → Sage (QA review). Only after tri-gate cleara[6D[K
+clearance may any atom proceed to execution, regardless of primary agent as[2D[K
+assignment.
+
+D. Acceptance Criteria per Policy Area
+- Shield: Policy defines access controls, data protection, and incident res[3D[K
+response with zero unmitigated critical risks.
+- Lex: Policy aligns with current jurisdictional regulations, includes mand[4D[K
+mandatory review cycles, and contains no non-compliant clauses.
+- Sage: Policy establishes measurable quality metrics, defect thresholds, a[1D[K
+and fully documented repeatable test procedures.
+- Mon Mothma: Policy mandates formal change request, impact analysis, appro[5D[K
+approval board, and rollback plan for all production changes.
+- Aria: Policy links business objectives to IT services with clear SLAs and[3D[K
+and value KPIs; stakeholder sign-off required.
+
+E. Yoda Execution Prohibition
+Yoda, as Master CREST Architect, will NOT directly execute any atom. Execut[6D[K
+Execution is delegated solely to assigned specialist agents and their teams[5D[K
+teams. Yoda guides the governance Force, but does not act as executor.
+
+[?2026h[?25l[1G⠙ [K[?25h[?2026l[?2026h[?25l[1G⠹ [K[?25h[?2026l[?2026h[?25l[1G⠸ [K[?25h[?2026l[?2026h[?25l[1G⠼ [K[?25h[?2026l[?2026h[?25l[1G⠴ [K[?25h[?2026l[?2026h[?25l[1G⠦ [K[?25h[?2026l[?2026h[?25l[1G⠧ [K[?25h[?2026l[?25l[?2026h[?25l[1G[K[?25h[?2026l[2K[1G[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h[?25l[?25h

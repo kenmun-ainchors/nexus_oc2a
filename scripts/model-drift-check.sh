@@ -186,14 +186,39 @@ with open('$OC_CONFIG') as f:
 with open('$POLICY') as f:
     policy = json.load(f)
 
-tiers = policy.get('agentTiers', {})
 agents_list = cfg.get('agents', {}).get('list', [])
+crest_v13 = policy.get('crest_v13', {})
+phase_rules = crest_v13.get('phase_rules', []) if isinstance(crest_v13, dict) else []
 
-# Build agent_id -> tier_key lookup from policy
-agent_tier_map = {}
-for tier_key, tier in tiers.items():
-    for aid in tier.get('agentIds', []):
-        agent_tier_map[aid] = tier_key
+agent_to_role = {
+    'main': 'yoda_master',
+    'business': 'business',
+    'architect': 'design_backend',
+    'platform-arch': 'design_backend',
+    'biz-process': 'design_backend',
+    'change-mgt': 'design_backend',
+    'infra': 'build',
+    'social': 'creative',
+    'ahsoka': 'business',
+    'luthen': 'business',
+    'security': 'governance',
+    'legal': 'governance',
+    'qa': 'governance',
+    'governance': 'governance',
+}
+
+primary_phase_for_role = {
+    'yoda_master':   'Synthesize',
+    'business':      'Synthesize',
+    'build':         'Execute',
+    'creative':      'Synthesize',
+    'design_backend':'Synthesize',
+    'governance':    'Verify',
+}
+
+rules_by_role = {}
+for r in phase_rules:
+    rules_by_role.setdefault(r['role'], {})[r['phase']] = r['default_model']
 
 for agent in agents_list:
     aid = agent.get('id', 'unknown')
@@ -203,12 +228,20 @@ for agent in agents_list:
     else:
         actual = model or 'NOT_SET'
 
-    tier_key = agent_tier_map.get(aid)
-    if not tier_key:
-        print(f'SKIP|{aid}|{actual}|no-tier-assignment')
+    role = agent_to_role.get(aid)
+    if not role:
+        print(f'SKIP|{aid}|{actual}|no-role-mapping')
         continue
-    tier = policy.get('agentTiers', {}).get(tier_key, {})
-    expected = tier.get('exceptions', {}).get(aid) or tier.get('primary', 'NOT_SET')
+    if role not in rules_by_role:
+        print(f'SKIP|{aid}|{actual}|role-{role}-not-in-v13-rules')
+        continue
+
+    phase = primary_phase_for_role.get(role, 'Execute')
+    expected = rules_by_role[role].get(phase)
+    if not expected:
+        print(f'SKIP|{aid}|{actual}|no-rule-for-phase-{phase}')
+        continue
+
     if actual == expected:
         print(f'PASS|{aid}|{actual}|{expected}')
     else:

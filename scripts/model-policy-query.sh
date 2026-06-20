@@ -93,31 +93,49 @@ query_json() {
     exit 1
   fi
 
-  # Use v1 logic: resolve tier → phase override → model
+  # v1.3 fallback: prefer crest_v13.phase_rules (PG mirror) using agent -> role mapping.
+  # Falls back to v1.2 agentTiers only when crest_v13 is unavailable.
+  local role
+  role=$(agent_to_role "$agent")
+  local phase_lower=$(echo "$phase" | tr '[:upper:]' '[:lower:]')
+  local phase_cap=$(echo "$phase" | awk '{print toupper(substr($0,1,1)) tolower(substr($0,2))}')
+
+  local model fallback rationale
+  if [[ "$role" != "unknown" ]]; then
+    model=$("$JQ" -r --arg role "$role" --arg phase "$phase_cap" '.crest_v13.phase_rules[] | select(.role == $role and .phase == $phase) | .default_model // empty' "$policy_file" 2>/dev/null || echo "")
+    fallback=$("$JQ" -r --arg role "$role" --arg phase "$phase_cap" '.crest_v13.phase_rules[] | select(.role == $role and .phase == $phase) | .fallback_model // empty' "$policy_file" 2>/dev/null || echo "")
+    rationale=$("$JQ" -r --arg role "$role" --arg phase "$phase_cap" '.crest_v13.phase_rules[] | select(.role == $role and .phase == $phase) | .rationale // empty' "$policy_file" 2>/dev/null || echo "")
+  fi
+
+  if [[ -n "$model" && "$model" != "null" ]]; then
+    echo "{\"model\":\"$model\",\"fallback\":\"$fallback\",\"override_allowed\":false,\"rationale\":\"JSON fallback (crest_v13 mirror): ${rationale:-PG mirror}\",\"source\":\"json\"}"
+    return 0
+  fi
+
+  # Legacy v1.2 fallback using agentTiers
   local tier
-  tier=$("$JQ" -r --arg agent "$agent" '.agentTiers | to_entries[] | select(.value.agentIds[] == $agent) | .key' "$policy_file" 2>/dev/null || echo "")
+  tier=$("$JQ" -r --arg agent "$agent" '.agents[$agent].tier // empty' "$policy_file" 2>/dev/null || echo "")
+  if [[ -z "$tier" || "$tier" == "null" ]]; then
+    tier=$("$JQ" -r --arg agent "$agent" '.agentTiers | to_entries[] | select(.value.agentIds[] == $agent) | .key' "$policy_file" 2>/dev/null || echo "")
+  fi
 
   if [[ -z "$tier" || "$tier" == "null" ]]; then
-    echo '{"error":"agent not found in any tier","agent":"'$agent'"}' >&2
+    echo '{"error":"agent not found in any tier","agent":"'"$agent"'"}' >&2
     exit 1
   fi
 
-  local phase_lower=$(echo "$phase" | tr '[:upper:]' '[:lower:]')
   local model_tier
-  # Plan/Verify/Replan → strong (primary); Execute/Synthesize → cheap (cheapModel)
+  # Plan/Verify/Replan -> strong (primary); Execute/Synthesize -> cheap (cheapModel)
   case "$phase_lower" in
     plan|verify|replan) model_tier="primary" ;;
     execute|synthesize) model_tier="cheapModel" ;;
     *) model_tier="primary" ;;
   esac
 
-  local model
   model=$("$JQ" -r --arg tier "$tier" --arg key "$model_tier" '.agentTiers[$tier][$key] // "unknown"' "$policy_file")
-
-  local fallback
   fallback=$("$JQ" -r --arg tier "$tier" '.agentTiers[$tier].fallbacks[0] // "unknown"' "$policy_file")
 
-  echo "{\"model\":\"$model\",\"fallback\":\"$fallback\",\"override_allowed\":false,\"rationale\":\"JSON fallback (v1.2 logic)\",\"source\":\"json\"}"
+  echo "{\"model\":\"$model\",\"fallback\":\"$fallback\",\"override_allowed\":false,\"rationale\":\"JSON fallback (v1.2 agentTiers)\",\"source\":\"json\"}"
 }
 
 # --- Main ---

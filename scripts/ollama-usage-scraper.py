@@ -204,6 +204,7 @@ tl["weekly"] = {
 
 # Top-level convenience fields (for backward compat with request-budget-check.sh)
 tl["weeklyLimit"] = WEEKLY_LIMIT  # backward compat for request-budget-check.sh
+tl["currentRequests"] = weekly_total  # mirror of weekly.requests for old consumers
 tl["currentPct"] = weekly_pct
 tl["requestsRemaining"] = weekly_remaining
 tl["burnRateRequestsPerHour"] = burn_rate

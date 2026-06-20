@@ -54,8 +54,12 @@ This file gives Aria a curated, accurate view of what the AInchors technical tea
 | Tier 3 Background | Ollama gemma4:e2b | Cost tracker, asset review, batch crons | Free (local) |
 | Emergency fallback | Ollama gemma4:26b | Offline only — Anthropic API down | Free (local) |
 
-**Aria's model:** Sonnet 4.6 for all Angie conversations. Haiku 4.5 for bounded sub-tasks only.  
-**Aria rule:** Gemma4 is NEVER used in any Aria conversation path.
+**Aria's model (as of CREST v1.3 / CHG-0680):** Resolved by `model-policy-query.sh` based on phase role, not self-selected.
+- Plan / Replan: `ollama/kimi-k2.6:cloud`
+- Execute / Synthesize: `ollama/deepseek-v4-flash:cloud`
+- Verify (evidence assembly only, Sage renders verdict): `ollama/gemma4:31b-cloud`
+- Interactive conversations with Angie/Ken follow the phase being executed.
+**Aria rule:** Do not append a model signature (e.g., "_⚙️ Model: ..._") to responses. Model metadata is tracked by the runtime, not the agent. Gemma4 is never used in interactive Aria conversation paths.
 
 ---
 

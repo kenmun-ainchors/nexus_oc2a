@@ -1,0 +1,611 @@
+{
+  "glm-5.2_cloud": [
+    {
+      "id": 1,
+      "agent": "yoda",
+      "category": "orchestration",
+      "word_count": 313,
+      "max_score": 10,
+      "scores": {
+        "problem_statement": 1,
+        "subticket_count": 1,
+        "each_has_agent_id": 1,
+        "each_has_phase": 1,
+        "each_has_output": 1,
+        "has_hitl_gate": 1,
+        "has_rollback_risk": 1,
+        "has_rollback_trigger": 1,
+        "states_model": 1,
+        "max_words": 1
+      },
+      "total": 10
+    },
+    {
+      "id": 2,
+      "agent": "yoda",
+      "category": "orchestration",
+      "word_count": 230,
+      "max_score": 7,
+      "scores": {
+        "dag_steps_count": 1,
+        "shows_dependencies": 1,
+        "parallel_vs_sequential": 1,
+        "dispatch_pattern_per_step": 1,
+        "has_sovereignty_rule": 1,
+        "has_pause_trigger": 1,
+        "max_words": 1
+      },
+      "total": 7
+    },
+    {
+      "id": 3,
+      "agent": "yoda",
+      "category": "subagent-dispatch",
+      "word_count": 189,
+      "max_score": 8,
+      "scores": {
+        "tqp_vs_spawn_classification": 1,
+        "sessions_spawn_atoms_have_context": 1,
+        "sessions_spawn_atoms_have_timeout": 1,
+        "sessions_spawn_atoms_have_budget": 1,
+        "idempotency_guard_per_type": 1,
+        "checkpoint_field": 1,
+        "has_hitl_gate": 1,
+        "max_words": 1
+      },
+      "total": 8
+    },
+    {
+      "id": 4,
+      "agent": "yoda",
+      "category": "discipline-structure",
+      "word_count": 323,
+      "max_score": 6,
+      "scores": {
+        "policy_assignments_count": 1,
+        "chg_classification": 0,
+        "sanctum_ordering": 1,
+        "ac_per_policy": 1,
+        "yoda_no_execute_statement": 1,
+        "max_words": 1
+      },
+      "total": 5
+    },
+    {
+      "id": 5,
+      "agent": "yoda",
+      "category": "workflow-context-resume",
+      "word_count": 220,
+      "max_score": 6,
+      "scores": {
+        "registry_location": 1,
+        "context_items_count": 1,
+        "detection_mechanism": 1,
+        "hitl_gate": 1,
+        "verification_step": 1,
+        "max_words": 1
+      },
+      "total": 6
+    },
+    {
+      "id": 6,
+      "agent": "yoda",
+      "category": "discipline-structure",
+      "word_count": 151,
+      "max_score": 6,
+      "scores": {
+        "two_categories": 1,
+        "script_path_and_change": 1,
+        "regression_test": 1,
+        "file_size_limit": 1,
+        "approver_statement": 1,
+        "max_words": 1
+      },
+      "total": 6
+    },
+    {
+      "id": 7,
+      "agent": "aria",
+      "category": "orchestration",
+      "word_count": 286,
+      "max_score": 7,
+      "scores": {
+        "workstreams_count": 1,
+        "each_has_specialist": 1,
+        "each_has_deliverable": 1,
+        "dual_approval_gate": 1,
+        "sanctum_item": 1,
+        "premature_comm_risk": 1,
+        "max_words": 1
+      },
+      "total": 7
+    },
+    {
+      "id": 8,
+      "agent": "aria",
+      "category": "subagent-dispatch",
+      "word_count": 124,
+      "max_score": 6,
+      "scores": {
+        "correct_next_slot": 0,
+        "agent_assignment": 1,
+        "double_post_guard": 0,
+        "cron_or_tool_action": 1,
+        "voice_rule": 0,
+        "max_words": 1
+      },
+      "total": 3
+    },
+    {
+      "id": 9,
+      "agent": "aria",
+      "category": "workflow-context-resume",
+      "word_count": 236,
+      "max_score": 6,
+      "scores": {
+        "steps_count": 0,
+        "main_vs_delegated": 1,
+        "sovereignty_checkpoint_per_step": 1,
+        "handoff_artifact": 1,
+        "resume_trigger": 1,
+        "max_words": 1
+      },
+      "total": 5
+    },
+    {
+      "id": 10,
+      "agent": "aria",
+      "category": "discipline-structure",
+      "word_count": 231,
+      "max_score": 6,
+      "scores": {
+        "role_boundaries_count": 0,
+        "has_governance_checkpoint": 1,
+        "model_assignment_per_role": 1,
+        "sanctum_routing": 1,
+        "aria_no_creative_statement": 1,
+        "max_words": 1
+      },
+      "total": 5
+    },
+    {
+      "id": 11,
+      "agent": "aria",
+      "category": "orchestration",
+      "word_count": 316,
+      "max_score": 7,
+      "scores": {
+        "tiers_count": 0,
+        "hypothesis_per_tier": 1,
+        "agent_ownership": 1,
+        "sanctum_deliverable": 1,
+        "internal_deliverable": 1,
+        "approval_gate": 1,
+        "max_words": 1
+      },
+      "total": 6
+    },
+    {
+      "id": 12,
+      "agent": "aria",
+      "category": "workflow-context-resume",
+      "word_count": 143,
+      "max_score": 6,
+      "scores": {
+        "context_snapshot_items_count": 1,
+        "same_session_or_subagent": 1,
+        "telegram_restraint_rule": 1,
+        "resume_condition": 1,
+        "verification_step": 1,
+        "max_words": 1
+      },
+      "total": 6
+    }
+  ],
+  "kimi-k2.7-code_cloud": [
+    {
+      "id": 1,
+      "agent": "yoda",
+      "category": "orchestration",
+      "word_count": 318,
+      "max_score": 10,
+      "scores": {
+        "problem_statement": 1,
+        "subticket_count": 1,
+        "each_has_agent_id": 1,
+        "each_has_phase": 1,
+        "each_has_output": 1,
+        "has_hitl_gate": 1,
+        "has_rollback_risk": 1,
+        "has_rollback_trigger": 1,
+        "states_model": 1,
+        "max_words": 1
+      },
+      "total": 10
+    },
+    {
+      "id": 2,
+      "agent": "yoda",
+      "category": "orchestration",
+      "word_count": 329,
+      "max_score": 7,
+      "scores": {
+        "dag_steps_count": 1,
+        "shows_dependencies": 0,
+        "parallel_vs_sequential": 1,
+        "dispatch_pattern_per_step": 1,
+        "has_sovereignty_rule": 1,
+        "has_pause_trigger": 1,
+        "max_words": 1
+      },
+      "total": 6
+    },
+    {
+      "id": 3,
+      "agent": "yoda",
+      "category": "subagent-dispatch",
+      "word_count": 281,
+      "max_score": 8,
+      "scores": {
+        "tqp_vs_spawn_classification": 1,
+        "sessions_spawn_atoms_have_context": 1,
+        "sessions_spawn_atoms_have_timeout": 1,
+        "sessions_spawn_atoms_have_budget": 1,
+        "idempotency_guard_per_type": 0,
+        "checkpoint_field": 1,
+        "has_hitl_gate": 1,
+        "max_words": 1
+      },
+      "total": 7
+    },
+    {
+      "id": 4,
+      "agent": "yoda",
+      "category": "discipline-structure",
+      "word_count": 429,
+      "max_score": 6,
+      "scores": {
+        "policy_assignments_count": 1,
+        "chg_classification": 1,
+        "sanctum_ordering": 1,
+        "ac_per_policy": 1,
+        "yoda_no_execute_statement": 1,
+        "max_words": 1
+      },
+      "total": 6
+    },
+    {
+      "id": 5,
+      "agent": "yoda",
+      "category": "workflow-context-resume",
+      "word_count": 257,
+      "max_score": 6,
+      "scores": {
+        "registry_location": 1,
+        "context_items_count": 1,
+        "detection_mechanism": 1,
+        "hitl_gate": 1,
+        "verification_step": 1,
+        "max_words": 1
+      },
+      "total": 6
+    },
+    {
+      "id": 6,
+      "agent": "yoda",
+      "category": "discipline-structure",
+      "word_count": 176,
+      "max_score": 6,
+      "scores": {
+        "two_categories": 1,
+        "script_path_and_change": 1,
+        "regression_test": 1,
+        "file_size_limit": 1,
+        "approver_statement": 1,
+        "max_words": 1
+      },
+      "total": 6
+    },
+    {
+      "id": 7,
+      "agent": "aria",
+      "category": "orchestration",
+      "word_count": 163,
+      "max_score": 7,
+      "scores": {
+        "workstreams_count": 1,
+        "each_has_specialist": 1,
+        "each_has_deliverable": 1,
+        "dual_approval_gate": 1,
+        "sanctum_item": 1,
+        "premature_comm_risk": 1,
+        "max_words": 1
+      },
+      "total": 7
+    },
+    {
+      "id": 8,
+      "agent": "aria",
+      "category": "subagent-dispatch",
+      "word_count": 158,
+      "max_score": 6,
+      "scores": {
+        "correct_next_slot": 0,
+        "agent_assignment": 1,
+        "double_post_guard": 1,
+        "cron_or_tool_action": 1,
+        "voice_rule": 1,
+        "max_words": 1
+      },
+      "total": 5
+    },
+    {
+      "id": 9,
+      "agent": "aria",
+      "category": "workflow-context-resume",
+      "word_count": 361,
+      "max_score": 6,
+      "scores": {
+        "steps_count": 1,
+        "main_vs_delegated": 1,
+        "sovereignty_checkpoint_per_step": 1,
+        "handoff_artifact": 1,
+        "resume_trigger": 1,
+        "max_words": 1
+      },
+      "total": 6
+    },
+    {
+      "id": 10,
+      "agent": "aria",
+      "category": "discipline-structure",
+      "word_count": 279,
+      "max_score": 6,
+      "scores": {
+        "role_boundaries_count": 1,
+        "has_governance_checkpoint": 1,
+        "model_assignment_per_role": 1,
+        "sanctum_routing": 1,
+        "aria_no_creative_statement": 1,
+        "max_words": 1
+      },
+      "total": 6
+    },
+    {
+      "id": 11,
+      "agent": "aria",
+      "category": "orchestration",
+      "word_count": 451,
+      "max_score": 7,
+      "scores": {
+        "tiers_count": 0,
+        "hypothesis_per_tier": 1,
+        "agent_ownership": 1,
+        "sanctum_deliverable": 1,
+        "internal_deliverable": 1,
+        "approval_gate": 1,
+        "max_words": 0
+      },
+      "total": 5
+    },
+    {
+      "id": 12,
+      "agent": "aria",
+      "category": "workflow-context-resume",
+      "word_count": 167,
+      "max_score": 6,
+      "scores": {
+        "context_snapshot_items_count": 1,
+        "same_session_or_subagent": 1,
+        "telegram_restraint_rule": 1,
+        "resume_condition": 1,
+        "verification_step": 1,
+        "max_words": 1
+      },
+      "total": 6
+    }
+  ],
+  "deepseek-v4-pro_cloud": [
+    {
+      "id": 1,
+      "agent": "yoda",
+      "category": "orchestration",
+      "word_count": 381,
+      "max_score": 10,
+      "scores": {
+        "problem_statement": 1,
+        "subticket_count": 1,
+        "each_has_agent_id": 1,
+        "each_has_phase": 1,
+        "each_has_output": 1,
+        "has_hitl_gate": 1,
+        "has_rollback_risk": 1,
+        "has_rollback_trigger": 1,
+        "states_model": 1,
+        "max_words": 1
+      },
+      "total": 10
+    },
+    {
+      "id": 2,
+      "agent": "yoda",
+      "category": "orchestration",
+      "word_count": 319,
+      "max_score": 7,
+      "scores": {
+        "dag_steps_count": 1,
+        "shows_dependencies": 1,
+        "parallel_vs_sequential": 1,
+        "dispatch_pattern_per_step": 1,
+        "has_sovereignty_rule": 1,
+        "has_pause_trigger": 1,
+        "max_words": 1
+      },
+      "total": 7
+    },
+    {
+      "id": 3,
+      "agent": "yoda",
+      "category": "subagent-dispatch",
+      "word_count": 448,
+      "max_score": 8,
+      "scores": {
+        "tqp_vs_spawn_classification": 1,
+        "sessions_spawn_atoms_have_context": 1,
+        "sessions_spawn_atoms_have_timeout": 1,
+        "sessions_spawn_atoms_have_budget": 1,
+        "idempotency_guard_per_type": 0,
+        "checkpoint_field": 1,
+        "has_hitl_gate": 1,
+        "max_words": 1
+      },
+      "total": 7
+    },
+    {
+      "id": 4,
+      "agent": "yoda",
+      "category": "discipline-structure",
+      "word_count": 299,
+      "max_score": 6,
+      "scores": {
+        "policy_assignments_count": 1,
+        "chg_classification": 1,
+        "sanctum_ordering": 1,
+        "ac_per_policy": 0,
+        "yoda_no_execute_statement": 1,
+        "max_words": 1
+      },
+      "total": 5
+    },
+    {
+      "id": 5,
+      "agent": "yoda",
+      "category": "workflow-context-resume",
+      "word_count": 327,
+      "max_score": 6,
+      "scores": {
+        "registry_location": 1,
+        "context_items_count": 1,
+        "detection_mechanism": 1,
+        "hitl_gate": 1,
+        "verification_step": 1,
+        "max_words": 1
+      },
+      "total": 6
+    },
+    {
+      "id": 6,
+      "agent": "yoda",
+      "category": "discipline-structure",
+      "word_count": 194,
+      "max_score": 6,
+      "scores": {
+        "two_categories": 1,
+        "script_path_and_change": 1,
+        "regression_test": 1,
+        "file_size_limit": 1,
+        "approver_statement": 1,
+        "max_words": 1
+      },
+      "total": 6
+    },
+    {
+      "id": 7,
+      "agent": "aria",
+      "category": "orchestration",
+      "word_count": 346,
+      "max_score": 7,
+      "scores": {
+        "workstreams_count": 0,
+        "each_has_specialist": 1,
+        "each_has_deliverable": 1,
+        "dual_approval_gate": 1,
+        "sanctum_item": 1,
+        "premature_comm_risk": 1,
+        "max_words": 1
+      },
+      "total": 6
+    },
+    {
+      "id": 8,
+      "agent": "aria",
+      "category": "subagent-dispatch",
+      "word_count": 115,
+      "max_score": 6,
+      "scores": {
+        "correct_next_slot": 0,
+        "agent_assignment": 1,
+        "double_post_guard": 0,
+        "cron_or_tool_action": 1,
+        "voice_rule": 1,
+        "max_words": 1
+      },
+      "total": 4
+    },
+    {
+      "id": 9,
+      "agent": "aria",
+      "category": "workflow-context-resume",
+      "word_count": 329,
+      "max_score": 6,
+      "scores": {
+        "steps_count": 0,
+        "main_vs_delegated": 1,
+        "sovereignty_checkpoint_per_step": 1,
+        "handoff_artifact": 1,
+        "resume_trigger": 1,
+        "max_words": 1
+      },
+      "total": 5
+    },
+    {
+      "id": 10,
+      "agent": "aria",
+      "category": "discipline-structure",
+      "word_count": 380,
+      "max_score": 6,
+      "scores": {
+        "role_boundaries_count": 1,
+        "has_governance_checkpoint": 1,
+        "model_assignment_per_role": 1,
+        "sanctum_routing": 1,
+        "aria_no_creative_statement": 1,
+        "max_words": 1
+      },
+      "total": 6
+    },
+    {
+      "id": 11,
+      "agent": "aria",
+      "category": "orchestration",
+      "word_count": 296,
+      "max_score": 7,
+      "scores": {
+        "tiers_count": 1,
+        "hypothesis_per_tier": 1,
+        "agent_ownership": 1,
+        "sanctum_deliverable": 1,
+        "internal_deliverable": 1,
+        "approval_gate": 1,
+        "max_words": 1
+      },
+      "total": 7
+    },
+    {
+      "id": 12,
+      "agent": "aria",
+      "category": "workflow-context-resume",
+      "word_count": 130,
+      "max_score": 6,
+      "scores": {
+        "context_snapshot_items_count": 1,
+        "same_session_or_subagent": 1,
+        "telegram_restraint_rule": 1,
+        "resume_condition": 1,
+        "verification_step": 1,
+        "max_words": 1
+      },
+      "total": 6
+    }
+  ]
+}

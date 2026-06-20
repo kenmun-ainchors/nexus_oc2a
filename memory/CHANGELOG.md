@@ -169,6 +169,84 @@ Both reference canonical docs in `references/` and load via `scripts/skill-load.
 ---
 ---
 
+## 2026-06-20 16:06 AEST — [CHG-0692] Resolve CR-001 via CR-002 LinkedIn API posting setup
+**Type:** config
+**Change Type:** Normal
+**Source:** ken-prompt
+**Trigger:** Ken noted Aria queued CR-001 for LinkedIn API posting; same work already delivered under CR-002
+**What changed:** state/relay-to-ken.json: relay-20260620-001 marked sent=true, resolved=true, resolvedBy=CR-002.
+**Why:** CR-001 (Aria relay-to-Ken label) and CR-002 (tech implementation label) were the same initiative. Avoid duplicate tracking and give Angie a single answer.
+**Verification:** Read relay-to-ken.json and confirmed CR-001 matches CR-002 scope. CR-002 already verified live: state/linkedin-auth-business.json, org ID 112732790, business-stream publish crons.
+**Rollback:** Set relay-20260620-001 resolved=false and reopen CR-001.
+**Linked:** CR-001, CR-002, CHG-0686, CHG-0687
+---
+
+
+## 2026-06-20 16:04 AEST — [CHG-0691] Align Aria default chat model to Yoda and fix model-policy JSON fallback
+**Type:** config
+**Change Type:** Normal
+**Source:** ken-prompt
+**Trigger:** Ken 2026-06-20 16:04 AEST: (1) yes, Aria default chat/model should match Yoda; (2) log small CHG to fix the fallback.
+**What changed:** 1. Updated ~/.openclaw/openclaw.json agent models for business, ahsoka, luthen to ollama/kimi-k2.7-code:cloud (matching business-role Synthesize policy). 2. Updated state_model_policy.crest_phase_rules: business Synthesize default moved from ollama/deepseek-v4-flash:cloud to ollama/kimi-k2.7-code:cloud (CHG-0691 rationale). 3. Re-exported PG crest_phase_rules into state/model-policy.json crest_v13.phase_rules mirror. 4. Updated state/model-policy.json: removed userFacing.exceptions.business; moved business from agentTiers.t3Business.agentIds to userFacing.agentIds; aligned agents.business notes. 5. Updated state/critical-config-baseline.json agentModels for business/ahsoka/luthen to ollama/kimi-k2.7-code:cloud and refreshed baseline CHG/timestamp. 6. Fixed scripts/model-policy-query.sh JSON fallback to use crest_v13.phase_rules (PG mirror) via agent→role mapping, with legacy v1.2 agentTiers fallback. 7. Fixed scripts/model-drift-check.sh Agent Models check to use crest_v13.phase_rules and role dominant-phase mapping instead of agentTiers, ensuring consistency with CREST v1.3 validation.
+**Why:** Aria should use the same user-interaction primary as Yoda (kimi-k2.7-code:cloud). The previous userFacing exception left Aria on deepseek-v4-flash, causing inconsistency with CHG-0690 Plan/Replan policy and surprising default chat behavior. The JSON fallback path had business mapped to t3Business, also returning flash for Plan in degraded mode.
+**Verification:** scripts/model-drift-check.sh → 55 PASS / 0 FAIL. scripts/model-policy-query.sh --agent business --phase Plan/Synthesize returns ollama/kimi-k2.7-code:cloud. JSON fallback tested (PG stubbed): returns ollama/kimi-k2.7-code:cloud from crest_v13 mirror. openclaw.json and baseline agentModels.business/ahsoka/luthen all read ollama/kimi-k2.7-code:cloud.
+**Rollback:** Revert openclaw.json business model to ollama/deepseek-v4-flash:cloud; restore previous agentTiers mapping and model-policy.json exceptions; restore baseline from git.
+**Linked:** CHG-0690, CHG-0660, state/model-policy.json, state/critical-config-baseline.json, agent-skills/crest/SKILL.md, scripts/model-policy-query.sh, scripts/model-drift-check.sh, ~/.openclaw/openclaw.json
+---
+
+
+## 2026-06-20 13:40 AEST — [CHG-0690] Adopt kimi-k2.7-code:cloud as primary for Yoda and Aria CREST Plan/Replan
+**Type:** config
+**Change Type:** Normal
+**Source:** ken-prompt
+**Trigger:** Ken approved benchmark recommendation (state/phase5-results/yoda-aria-plan-2026-06-20/recommendation.md)
+**What changed:** Updated state_model_policy.crest_phase_rules: yoda_master Plan/Replan primary to ollama/kimi-k2.7-code:cloud (fallback ollama/deepseek-v4-pro:cloud); business Plan/Replan primary to ollama/kimi-k2.7-code:cloud (fallback ollama/kimi-k2.6:cloud). Updated agent-skills/crest/SKILL.md model assignment table.
+**Why:** 12-atom benchmark showed kimi-k2.7-code:cloud leading on adjusted score (91.5% vs 87.2% deepseek, 84.6% glm) with fewer policy-violating fabrications and lower cost than deepseek.
+**Verification:** Benchmark artifacts: state/phase5-results/yoda-aria-plan-2026-06-20/{manifest.json,scores-final.json,comparison.json,recommendation.md}; model-policy query after change.
+**Rollback:** Restore previous yoda_master|Plan/Replan=ollama/deepseek-v4-pro:cloud and business|Plan/Replan=ollama/kimi-k2.6:cloud in state_model_policy and revert SKILL.md.
+**Linked:** CHG-0685, CHG-0684, CHG-0596, TKT-0546, TKT-0547, state/phase5-results/yoda-aria-plan-2026-06-20/recommendation.md
+---
+
+
+## 2026-06-20 12:38 AEST — [CHG-0689] Verify Aria Sonnet footer removal
+**Type:** config
+**Change Type:** Normal
+**Source:** ken-prompt
+**Trigger:** Verification ping after workspace file fix
+**What changed:** Confirmed agent:business:main responds without '_⚙️ Model: Sonnet_' footer after workspace file update.
+**Why:** Raw assistant output and inter-session delivery both now omit the signature.
+**Verification:** sessions_send to agent:business:main returned 'Model signature test: clean.' with no footer.
+**Rollback:** Re-add Sonnet tail rule to Aria workspace files.
+**Linked:** CHG-0688
+---
+
+
+## 2026-06-20 12:36 AEST — [CHG-0688] Fix Aria stale Sonnet model tail signature across business workspace
+**Type:** config
+**Change Type:** Normal
+**Source:** ken-prompt
+**Trigger:** Ken flagged Aria's Telegram response to Angie still appended '_⚙️ Model: Sonnet_', which is incorrect under CREST v1.3 / model-policy.json
+**What changed:** Updated ~/.openclaw/workspace-business/SOUL.md, ARIA_RULES.md, HEARTBEAT.md, and state/weekly-roi-summary-draft.md to remove Sonnet-specific model tail signature. New rule: Aria never appends model signatures; runtime assigns model per state/model-policy.json.
+**Why:** Aria's actual runtime model is assigned by model-policy-query.sh per phase (Plan/Replan kimi-k2.6:cloud, Execute/Synthesize deepseek-v4-flash:cloud, Verify gemma4:31b-cloud). Self-reporting as Sonnet is factually wrong and confusing.
+**Verification:** Grep confirms no '_⚙️ Model: Sonnet' remains in active business workspace files. sessions_list confirms agent:business:main session uses deepseek-v4-flash:cloud.
+**Rollback:** Restore Aria workspace files from git or backups; re-add Sonnet tail rule.
+**Linked:** CHG-0680, CHG-0037, TKT-0547
+---
+
+
+## 2026-06-20 12:30 AEST — [CHG-0687] CR-002 operational ownership transferred from Yoda to Aria/Angie business stream
+**Type:** config
+**Change Type:** Normal
+**Source:** ken-prompt
+**Trigger:** Ken directed Yoda to hand CR-002 campaign execution over to Aria to continue with Angie after technical enablement
+**What changed:** Added business stream metadata to state/linkedin-campaign.json. Sent handoff brief to Aria (agent:business:main). Aria now owns campaign approval, image generation coordination, brand separation, and Angie-specific posting decisions.
+**Why:** CR-002 is a business stream CR, not a technical PG ticket. Once auth and scripts were enabled, ongoing execution belongs to Aria/Angie.
+**Verification:** Aria confirmed receipt via sessions_send reply. Handoff file exists at .openclaw/tmp/cr002_aria_handoff.md.
+**Rollback:** Yoda resumes direct ownership of LinkedIn campaign ops; reverts any Aria-driven config changes to state/linkedin-campaign.json.
+**Linked:** CR-002, TKT-0232
+---
+
+
 ## 2026-06-20 12:10 AEST — [CHG-0686] CR-002 LinkedIn business stream auth and multi-account posting support
 **Type:** script
 **Change Type:** Normal

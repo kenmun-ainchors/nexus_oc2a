@@ -47,17 +47,17 @@ The authoritative source is PG `state_model_policy.crest_phase_rules`. Do not ha
 
 | Role | Plan | Execute | Verify | Replan | Synthesize |
 |------|------|---------|--------|--------|-----------|
-| **yoda_master** (Yoda) | deepseek-v4-pro | **none** | deepseek-v4-pro | deepseek-v4-pro | kimi-k2.7-code |
+| **yoda_master** (Yoda) | kimi-k2.7-code | **none** | deepseek-v4-pro | kimi-k2.7-code | kimi-k2.7-code |
 | **design_backend** (Atlas/Thrawn/Lando/Mon) | deepseek-v4-pro | deepseek-v4-flash | gemma4:31b | deepseek-v4-pro | deepseek-v4-flash |
 | **creative** (Spark) | kimi-k2.6 | deepseek-v4-flash¹ | gemma4:31b | kimi-k2.6 | deepseek-v4-flash |
 | **build** (Forge) | deepseek-v4-flash² | deepseek-v4-flash | gemma4:31b | deepseek-v4-pro | deepseek-v4-flash |
-| **business** (Ahsoka/Luthen) | kimi-k2.6 | deepseek-v4-flash | gemma4:31b | kimi-k2.6 | deepseek-v4-flash |
+| **business** (Ahsoka/Luthen) | kimi-k2.7-code | deepseek-v4-flash | gemma4:31b | kimi-k2.7-code | deepseek-v4-flash |
 | **governance** (Shield/Lex/Sage/Warden) | gemma4:31b | deepseek-v4-flash | gemma4:31b | gemma4:31b | deepseek-v4-flash |
 
 ¹ Spark high-stakes Execute may override to kimi-k2.6 with `override_allowed: true` + `override_reason`.
 ² Forge exception (Ken 2026-06-10): Plan/Execute/Synthesize use flash-tier; Verify/Replan use gemma4:31b/deepseek-v4-pro.
 
-**Concrete models:** Query `scripts/model-policy-query.sh --all`. PG `crest_phase_rules` is SSOT.
+**Concrete models:** Query `scripts/model-policy-query.sh --all`. PG `crest_phase_rules` is SSOT. Updated by CHG-0690: `yoda_master` and `business` Plan/Replan now default to `kimi-k2.7-code:cloud`.
 
 ---
 

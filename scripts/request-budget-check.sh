@@ -1,8 +1,12 @@
 #!/bin/zsh
 # Ollama Weekly Request Budget Check
-# Tracks request count (flat across all models) against 30k/week limit.
+# Tracks request count (flat across all models) against weekly limit.
 # SSOT: state/cost-state.json → turnsLimit object.
 # Exit codes: 0=OK, 1=warning (WARN/ALERT/CRITICAL), 2=exceeded (EMERGENCY)
+
+# Ensure UTF-8 locale so jq/zsh handle Unicode in cost-state.json.
+export LC_ALL="en_US.UTF-8"
+export LANG="en_US.UTF-8"
 
 WORKSPACE="$HOME/.openclaw/workspace"
 DB_READ="$WORKSPACE/scripts/db-read.sh"
@@ -69,15 +73,15 @@ if [[ -z "$TL" || "$TL" == "null" ]]; then
   exit 1
 fi
 
-# Extract fields
-WEEKLY_LIMIT=$(echo "$TL" | $JQ -r '.weeklyLimit')
-USED=$(echo "$TL" | $JQ -r '.currentRequests')
-PCT=$(echo "$TL" | $JQ -r '.currentPct')
-REMAINING=$(echo "$TL" | $JQ -r '.requestsRemaining')
-BURN=$(echo "$TL" | $JQ -r '.burnRateRequestsPerHour')
-PROJ_EXHAUST=$(echo "$TL" | $JQ -r '.projectedExhaustion')
-WIN_START=$(echo "$TL" | $JQ -r '.currentWindowStart')
-WIN_END=$(echo "$TL" | $JQ -r '.currentWindowEnd')
+# Extract fields (prefer new nested weekly/session structure)
+WEEKLY_LIMIT=$(echo "$TL" | $JQ -r '(.weekly.limit // .weeklyLimit) // empty')
+USED=$(echo "$TL" | $JQ -r '(.weekly.requests // .currentRequests) // empty')
+PCT=$(echo "$TL" | $JQ -r '(.weekly.pct // .currentPct) // empty')
+REMAINING=$(echo "$TL" | $JQ -r '(.weekly.remaining // .requestsRemaining) // empty')
+BURN=$(echo "$TL" | $JQ -r '(.weekly.burnRateRequestsPerHour // .burnRateRequestsPerHour) // empty')
+PROJ_EXHAUST=$(echo "$TL" | $JQ -r '(.weekly.projectedExhaustion // .projectedExhaustion) // empty')
+WIN_START=$(echo "$TL" | $JQ -r '(.weekly.windowStart // .currentWindowStart) // empty')
+WIN_END=$(echo "$TL" | $JQ -r '(.weekly.windowEnd // .currentWindowEnd) // empty')
 
 # Absolute threshold values
 WARN_REQ=$(python3 -c "print(int($WEEKLY_LIMIT * $WARN_PCT / 100))")

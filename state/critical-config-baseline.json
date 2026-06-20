@@ -1,7 +1,7 @@
 {
   "schemaVersion": 2,
-  "lastSnapshot": "2026-06-20T00:23:38Z",
-  "lastSnapshotAEST": "2026-06-20T10:23:38+1000",
+  "lastSnapshot": "2026-06-20T06:08:28Z",
+  "lastSnapshotAEST": "2026-06-20T16:08:28+1000",
   "openclawVersion": "2026.5.27",
   "configHash": "4bd7db197360f16be2ef6ad48dc95349c929506bd31e575f99e9495cb5c044d7",
   "agentCount": 14,
@@ -20,7 +20,7 @@
   "yodaToolsDeny": [],
   "agentModels": {
     "main": "ollama/kimi-k2.7-code:cloud",
-    "business": "ollama/deepseek-v4-flash:cloud",
+    "business": "ollama/kimi-k2.7-code:cloud",
     "security": "ollama/gemma4:31b-cloud",
     "legal": "ollama/gemma4:31b-cloud",
     "qa": "ollama/gemma4:31b-cloud",
@@ -30,13 +30,13 @@
     "platform-arch": "ollama/deepseek-v4-flash:cloud",
     "biz-process": "ollama/deepseek-v4-flash:cloud",
     "change-mgt": "ollama/deepseek-v4-flash:cloud",
-    "ahsoka": "ollama/deepseek-v4-flash:cloud",
-    "luthen": "ollama/deepseek-v4-flash:cloud",
+    "ahsoka": "ollama/kimi-k2.7-code:cloud",
+    "luthen": "ollama/kimi-k2.7-code:cloud",
     "social": "ollama/deepseek-v4-flash:cloud"
   },
   "model-policy": {
-    "baselineTimestamp": "2026-06-20T01:57:44+0000",
-    "baselineCHG": "CHG-0685",
+    "baselineTimestamp": "2026-06-20T06:05:22Z",
+    "baselineCHG": "CHG-0691",
     "globalAllowedModels": [
       "anthropic/claude-opus-4-7",
       "anthropic/claude-sonnet-4-6",
@@ -83,8 +83,52 @@
       "provider": "ollama",
       "family": "glm",
       "status": "active"
+    },
+    "yoda_master_phase_rules": {
+      "Plan": {
+        "default_model": "ollama/kimi-k2.7-code:cloud",
+        "fallback_model": "ollama/deepseek-v4-pro:cloud",
+        "rationale": "CHG-0691: Yoda Plan benchmark lead; deepseek fallback."
+      },
+      "Replan": {
+        "default_model": "ollama/kimi-k2.7-code:cloud",
+        "fallback_model": "ollama/deepseek-v4-pro:cloud",
+        "rationale": "CHG-0691: Yoda Replan aligned with Plan."
+      },
+      "Synthesize": {
+        "default_model": "ollama/kimi-k2.7-code:cloud",
+        "fallback_model": "ollama/deepseek-v4-pro:cloud",
+        "rationale": "Unchanged: Yoda Synthesize uses user-facing primary."
+      },
+      "Verify": {
+        "default_model": "ollama/deepseek-v4-pro:cloud",
+        "fallback_model": "ollama/kimi-k2.6:cloud",
+        "rationale": "Unchanged by CHG-0691 (Verify not benchmarked)."
+      }
+    },
+    "business_phase_rules": {
+      "Plan": {
+        "default_model": "ollama/kimi-k2.7-code:cloud",
+        "fallback_model": "ollama/kimi-k2.6:cloud",
+        "rationale": "CHG-0691: Aria business Plan aligned with user-facing primary."
+      },
+      "Replan": {
+        "default_model": "ollama/kimi-k2.7-code:cloud",
+        "fallback_model": "ollama/kimi-k2.6:cloud",
+        "rationale": "CHG-0691: Aria business Replan aligned with Plan."
+      },
+      "Synthesize": {
+        "default_model": "ollama/deepseek-v4-flash:cloud",
+        "fallback_model": "ollama/kimi-k2.6:cloud",
+        "rationale": "Unchanged: business Synthesize uses cheap tier."
+      },
+      "Verify": {
+        "default_model": "ollama/gemma4:31b-cloud",
+        "fallback_model": "ollama/deepseek-v4-pro:cloud",
+        "rationale": "Unchanged: governance Verify uses gemma4."
+      }
     }
   },
-  "baselineTimestamp": "2026-06-20T01:57:44+0000",
-  "baselineCHG": "CHG-0685"
+  "baselineTimestamp": "2026-06-20T06:08:28Z",
+  "baselineCHG": "CHG-0691"
 }
