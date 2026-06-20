@@ -3,6 +3,17 @@ _Key decisions made. Dated. Permanent record._
 
 ---
 
+## 2026-06-20
+- **CREST v1.3 approved and operational** — Ken approved at 09:28 AEST. External loop ownership, Sage-as-Judge, multi-model routing. All 4 tiers complete, verified, UAT passed.
+- **WO-002: Option B accepted** — Allowlisted extras accepted, no structural code change. 7-day monitoring satisfied.
+- **`glm-5.2:cloud` promoted to primary Plan/Analysis for backend design agents** — `deepseek-v4-pro:cloud` demoted to fallback-only (most expensive model, no longer justified).
+- **`kimi-k2.7-code:cloud` adopted as primary Plan/Replan for Yoda and Aria** — 12-atom benchmark: 91.5% adjusted score, fewer fabrications, lower cost.
+- **`gemma4:31b-cloud` = effective v1.3 Verify primary** — 20/20 benchmark (100%). `glm-5.1:cloud` deferred (thinking-output issue).
+- **Session model drift structurally locked** — 3-layer defense: heartbeat check (30min), auto-reset cron, Warden audit.
+- **LinkedIn business stream operational ownership transferred to Aria** — Yoda is tech-escalation standby only.
+- **CR-001 resolved via CR-002** — Same initiative, avoid duplicate tracking.
+- **Aria default chat model aligned to Yoda** — Both on `kimi-k2.7-code:cloud` for user-facing interactions.
+
 ## 2026-05-27
 - **TQP gate goes platform-wide** — The work-checkpointing system built for Yoda (TKT-0309 Phase 2) is the foundation for all 14 agents. 2-pass dispatch discipline applies to all agent-to-agent dispatches, not just Yoda. Ken approved merging TKT-0313 into TKT-0317.
 - **Context optimization is Sprint 6 Item #1** — Atlas audit found 92% rule duplication and 123.8KB Yoda context load. Before any other platform work, agents need context slimming. Ken locked TKT-0317 as Sprint 6 first item.

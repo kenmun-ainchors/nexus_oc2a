@@ -1,68 +1,83 @@
-# Yoda Daily Brief — 2026-06-18
+# Yoda Daily Brief — 2026-06-20
 
 ## What Yoda Built Today
 
-**Clean-up day — 4 tickets closed (TKT-0529, TKT-0525, TKT-0538, TKT-0410), 6 lessons logged, and the old-code audit remediation policy locked into CREST + Agile skills.**
+**Monumental day — CREST v1.3 fully implemented and verified end-to-end, LinkedIn business stream enabled for AInchors, model benchmark trials completed, and the Warden drift escalation resolved. 14 CHG entries, 9 git commits, 55/55 drift checks clean.**
 
-The day split into two phases: morning old-code audit remediation (TKT-0529 A7 Bundles 1-4) and afternoon close-out of 3 more tickets with PG fixes.
+The day split into three phases: morning CREST v1.3 implementation (07:18-10:36 AEST), midday LinkedIn business stream + model alignment (11:57-16:10 AEST), and evening Warden drift cleanup + Ollama budget refresh (16:15-22:57 AEST).
 
-### Morning: TKT-0529 A7 — Old-Code Audit Remediation (05:13-16:41 AEST)
+### Morning: CREST v1.3 Full Implementation (07:18-10:36 AEST)
 
-Yoda completed the final A7 bundles of the old-code audit project:
+Yoda executed the full CREST v1.3 rollout — the biggest governance upgrade since the platform was built:
 
-1. **Bundle 1 — auto-heal.sh hardening (CHG-0623):** Added `set -euo pipefail` to `scripts/auto-heal.sh`. Discovered that `pgrep` returning no matches fires the ERR trap even when the pipeline ends with `|| true`. Fixed with `|| true` on no-match-expected commands. Lesson L-150 logged.
+1. **Foundation work (CHG-0676 to CHG-0679):** Fixed `db-sprint.sh defer()` to properly remove deferred tickets from source sprint items. Created canonical Notion skill package (agent-skills/notion/) with skill-gate enforcement on 8 scripts. Created `sprint-review.sh` for automated ceremony reports. Cleaned up scattered Notion/Agile tribal knowledge across all agent files.
 
-2. **Bundle 2 — Subagent verification trap (L-151):** B2.3-B2.5 were reported as done by subagents but `git diff` showed no changes. Only B2.2 had actually run. Yoda re-dispatched with stricter task specs requiring `git diff` in the response. Lesson L-151: completion events are not evidence.
+2. **CREST v1.3 approved and executed (CHG-0680, TKT-0546):** Ken approved the v1.3 plan at 09:28 AEST after oracle review. Yoda ran all 4 tiers (Pre-Gates A, B, C, D) with full verification:
+   - **Tier A (Core Loop):** PG schema with 6 tables, 29 phase rules, 8 models. `model-policy-query.sh` v2 with PG-first + JSON fallback. `dispatch-validate.sh` with Sage verdict and self-driving rejection. `model-policy-export.sh` with nightly cron. Gateway canary restart — health OK. Synthetic E2E: 5 phases, Sage verdict PASS, Tier A Master Verify 9/9.
+   - **Tier B (Supporting Tickets):** All 4 tickets already closed. 5/5 no regression.
+   - **Tier C (Routing + Conditioning):** Forge + Ahsoka conditioned; other agents structurally enforced. 4/4 all v1.3 enforcements tested.
+   - **Tier D (Model Verification):** Pre-gate already done.
 
-3. **Bundle 3 — Subagent completion event empty (L-152):** B3.7 completion event arrived with 0 tokens out. Yoda verified independently with `git status`, `git diff`, `zsh -n`, and `--dry-run`. Changes were present. Lesson L-152: treat completion events as notifications, not proof.
+3. **Full verification sweep (WS1-WS3):** 14 files updated for legacy v1.2 tribal knowledge. 13/13 regression checks PASS. Final UAT (TKT-0547) with 6-phase sub-CREST executed — Sage-as-Judge verified PASS, external loop ownership demonstrated (Yoda→Forge→Sage→Yoda).
 
-4. **Bundle 4 — Hardcoded paths removed (CHG-0639):** Removed all remaining `/Users/ainchorsangiefpl/.openclaw/workspace` hardcoded paths from Python HEREDOCs in `ollama-quota-track.sh` and `cron-migration-advisor.sh`. Paths now passed via `sys.argv`. Final verification: 0 hardcoded paths remain, 4 regression suites pass (15/15, 7/7, 9/9, 6/6). TKT-0529 closed.
+4. **WO-002 divergence monitoring closed (CHG-0681):** Ken chose Option B — accept allowlisted extras, no structural code change. 7-day monitoring satisfied. Mirror writer healthy (343 rows, 30s cycles, zero errors).
 
-5. **Old-code audit policy locked (CHG-0631):** Ken approved A7 policy decisions at 08:11 AEST. Yoda updated `agent-skills/crest/SKILL.md` and `agent-skills/agile/SKILL.md` with the Old-Code Audit Rule and Remediation Policy sections. Deep-groomed audit report written to `tests/regression/tkt0529/audit-report-deep.md`.
+5. **PG-Notion integrity audit fix (CHG-0682):** Archived 3 duplicate Notion pages, recreated TKT-0536 page, created TKT-0548 for status mapper bug.
 
-### Afternoon: TKT-0525, TKT-0538, TKT-0410 Close-Out (16:49-17:10 AEST)
+6. **Session model drift structural lock (CHG-0684):** After Ken caught Yoda running on deepseek-v4-pro instead of kimi-k2.7-code, Yoda built 3 structural locks: `check-session-model.sh` (heartbeat every 30min), `switch-model-temporary.sh` (auto-reset cron), and live session model check in `model-drift-check.sh`.
 
-1. **TKT-0525 A4 — db-ticket.sh sync fix (L-153):** During TKT-0529 close-out, discovered `db-ticket.sh sync <TKT-ID>` ignored the ticket ID and called `pg-to-notion-sync.sh` without arguments, causing full batch sync. Ken approved folding fix into TKT-0525. Fixed: `cmd_sync()` now calls `pg-to-notion-sync.sh --single "$tkt_id"`. Committed `d7367efd`.
+### Midday: LinkedIn Business Stream + Model Alignment (11:57-16:10 AEST)
 
-2. **TKT-0538 — db-write.sh UPSERT fix (L-155):** `db-ticket.sh update` wasn't writing top-level status to PG. Root cause: `db-write.sh` used `INSERT ... ON CONFLICT DO UPDATE` for existing rows; PG evaluated `chk_title_not_empty` on the attempted insert row (title NULL), causing silent file-only fallback. Fixed: detects existing rows and emits plain `UPDATE`; `INSERT` only for new rows. Updated `agent-skills/pg-sprint-backlog/SKILL.md`. Committed `3918eb27`.
+1. **Model benchmark trials (CHG-0685, CHG-0690):** Two benchmark-driven model changes:
+   - **CHG-0685:** `glm-5.2:cloud` promoted to primary Plan/Analysis for backend design agents (Atlas, Thrawn, Lando, Mon Mothma). `deepseek-v4-pro:cloud` demoted to fallback-only — it's the most expensive model and no longer justified as primary.
+   - **CHG-0690:** `kimi-k2.7-code:cloud` adopted as primary Plan/Replan for Yoda and Aria. 12-atom benchmark showed 91.5% adjusted score vs 87.2% deepseek, with fewer fabrications and lower cost.
 
-3. **TKT-0410 — SUB_CREST_TRANSITIONS verified→terminal edge (L-156):** Added `'verified': {'complete', 'sub_crest_done', 'done'}` to `SUB_CREST_TRANSITIONS` in `scripts/lib/pg_task_queue.py`. Added `TestVerifiedToTerminalTransitions` (4 tests). Unit tests 11/11 OK. Committed `8a0a26c5`.
+2. **LinkedIn business stream enabled (CHG-0686, CHG-0687, CR-002):** Full LinkedIn API setup for AInchors company page (Org ID: 112732790). `linkedin-auth.sh` and `linkedin-post.sh` updated with `--account ken|angie|business` support. Week 2 Movement II posts drafted and governance-cleared. Operational ownership transferred to Aria — Yoda is tech-escalation standby only.
 
-4. **Sprint 8 status corrected:** `db-sprint.sh status` showed TKT-0529 as `open` despite earlier close-out. PG read confirmed `status=open`, `metadata.resolution=completed`. Re-closed via the now-fixed `db-ticket.sh update`. Sprint 8 now: 12 closed/done, 4 open, 75% completion.
+3. **Aria model alignment (CHG-0691, CHG-0688, CHG-0689):** Aria's default chat model aligned to `kimi-k2.7-code:cloud` (matching Yoda). Fixed stale Sonnet model signature in Aria's workspace files. Verified clean response.
 
-### Cross-Cutting: Lessons Learned
+4. **CR-001/CR-002 reconciliation (CHG-0692):** Confirmed CR-001 (Aria relay label) and CR-002 (tech implementation) were the same initiative. Resolved CR-001 via CR-002 to avoid duplicate tracking.
 
-- **L-149:** OpenClaw's runtime agent init hook = workspace bootstrap files, not a separate config. Don't use `systemPromptOverride` unless replacing the entire prompt. Add agent-level rules to `SOUL.md`.
-- **L-148:** Don't yield the session while waiting for a short subagent timeout. For a 30s timeout that completed in 3s, yielding caused unnecessary delay.
-- **L-147:** Don't kill the gateway to terminate a runaway subagent. Ken directive.
-- **L-146:** Session boundary / subagent workspace access blocker documented.
-- **L-154:** Use append, not overwrite, for memory files. (Yoda accidentally overwrote `memory/2026-06-18.md` with a `write` tool call. Recovered from earlier turn content.)
+### Evening: Warden Drift Cleanup + Ollama Budget (16:15-22:57 AEST)
+
+1. **Warden CREST v1.3 drift escalation resolved (CHG-0693):** Ken flagged 45 unresolved drift violations across 9 agents. Root cause: stale transient live-session overrides from before model alignment fully propagated. Fixed `model-drift-check.sh` for zsh compatibility. Final: 55 PASS / 0 FAIL. Warden escalation marked resolved.
+
+2. **Ollama budget refresh (16:15 AEST):** Live dashboard data: weekly limit = 59,443 requests. Usage: 41,016 / 59,443 = 69%. Remaining: 18,427. Burn rate: ~325 req/hr. Window resets Mon 22 Jun 10:00 AEST. Status: WARNING (>50%). Fixed `request-budget-check.sh` UTF-8 locale and extraction fields.
+
+3. **Memory flush turn (10:21 AEST):** Pre-compaction memory flush captured durable state. CREST v1.3 gap closure completed (3-atom gap, Forge→Sage→Yoda). Second drift fix: 9 unique agent drift violations fixed. Final: 41/41 PASS, 0 FAIL.
 
 ## Key Decisions Made Today
 
-- **Old-code audit remediation policy locked into CREST + Agile skills** — Ken approved at 08:11 AEST. The Old-Code Audit Rule and Remediation Policy are now SSOT in the skill packages, not in agent files.
-- **TKT-0525 A4 fix approved as side-finding** — Ken approved folding the `db-ticket.sh sync` bug fix into TKT-0525 since it was discovered during TKT-0529 close-out.
-- **`db-write.sh` UPSERT pattern fixed** — For existing rows, use plain `UPDATE`; `INSERT ... ON CONFLICT` only for new rows. After any write, verify with a PG read, not the writer's exit code.
-- **State maps must include intermediate success states as sources for terminal transitions** — `verified` was a pre-terminal success state but wasn't listed as a source for `complete`/`done`/`sub_crest_done`. Fixed and regression-tested.
-- **Subagent completion events are notifications, not proof** — Always verify with independent tool-backed evidence (`git diff`, `grep`, test output, logs) before marking complete.
+- **CREST v1.3 approved and operational** — Ken approved at 09:28 AEST. External loop ownership, Sage-as-Judge, multi-model routing. All 4 tiers complete, verified, UAT passed.
+- **WO-002: Option B accepted** — Allowlisted extras accepted, no structural code change. 7-day monitoring satisfied.
+- **`glm-5.2:cloud` promoted to primary Plan/Analysis for backend design agents** — `deepseek-v4-pro:cloud` demoted to fallback-only (most expensive model, no longer justified).
+- **`kimi-k2.7-code:cloud` adopted as primary Plan/Replan for Yoda and Aria** — 12-atom benchmark: 91.5% adjusted score, fewer fabrications, lower cost.
+- **`gemma4:31b-cloud` = effective v1.3 Verify primary** — 20/20 benchmark (100%). `glm-5.1:cloud` deferred (thinking-output issue).
+- **Session model drift now structurally locked** — 3-layer defense: heartbeat check (30min), auto-reset cron, Warden audit.
+- **LinkedIn business stream operational ownership transferred to Aria** — Yoda is tech-escalation standby only. Pending Angie's two decisions: company page only vs cross-post, image generation approval.
+- **CR-001 resolved via CR-002** — Same initiative, avoid duplicate tracking.
+- **Aria default chat model aligned to Yoda** — Both on `kimi-k2.7-code:cloud` for user-facing interactions.
 
 ## Training Content Angles from Today
 
 From today's work, these are ready for the training pipeline:
 
-- **"Your subagent said it's done. The git log says otherwise."** — The day Yoda's subagents reported 3 bundles complete but only 1 had actually run. Why completion events are not evidence, and how independent `git diff` verification caught the false progression. Real lesson in trusting AI self-reports.
-- **"The UPSERT that wasn't: when Postgres check constraints silently swallow your update"** — `INSERT ... ON CONFLICT DO UPDATE` still evaluates check constraints on the insert row before the conflict is resolved. A NULL title on an existing row caused silent file-only fallback. How detecting row existence first and using plain `UPDATE` fixed it.
-- **"The missing edge: why verified tasks stalled at 99% complete"** — A state machine that marks `verified` as a pre-terminal success state but forgets to list it as a source for terminal transitions. Tasks stalled indefinitely. One line fix, 4 regression tests.
-- **"Don't yield the session: why waiting for a 3-second subagent cost 30 seconds"** — `sessions_yield` is for when the parent has no further work. For short subagent timeouts, yielding caused unnecessary delay. When to wait vs when to keep working.
-- **"The old-code audit that found 0 hardcoded paths"** — TKT-0529 A7 Bundle 4: removing all `/Users/ainchorsangiefpl/.openclaw/workspace` hardcoded paths from Python HEREDOCs. 4 regression suites, 37 tests, 0 remaining violations. How systematic path removal works at scale.
+- **"The day we rewrote the AI governance rulebook (and it worked)"** — CREST v1.3: from self-verifying specialists to external loop ownership with Sage-as-Judge. 6 PG tables, 29 phase rules, 8 models, 4 tiers, full UAT. What it takes to build structural AI governance that actually enforces.
+- **"Your AI said it's on the right model. The Warden said otherwise. Both were right."** — 45 drift violations that were stale transient overrides, not real config drift. Why live session model overrides are invisible to static config checks, and the 3-layer structural lock that catches them.
+- **"The $200/month model that lost its job to a $40/month model"** — `deepseek-v4-pro:cloud` demoted from primary Plan/Replan after benchmark showed `glm-5.2:cloud` (91.7%) and `kimi-k2.7-code:cloud` (89.3%) outperformed it at lower cost. When expensive models aren't worth it.
+- **"LinkedIn API setup: the 2-hour tech job that turned into a business handoff"** — CR-002: from auth scripts to company page posting to Aria ownership. How technical enablement becomes operational handoff, and why the separation matters.
+- **"The benchmark that saved $150/month: model selection by data, not gut feel"** — 12-atom benchmark with rubric-only scoring. `kimi-k2.7-code:cloud` at 91.5% vs `deepseek-v4-pro:cloud` at 87.2%. How systematic model evaluation prevents expensive default choices.
+- **"Your sprint review said 100% complete. The items array said otherwise."** — `db-sprint.sh defer()` wasn't removing deferred tickets from source sprint items. Sprint 8 reported 8 items when only 6 were committed. Why ceremony automation must clean up after itself.
 
 ## What's Open / What's Next
 
+- **Sprint 9 planning due by Sun 21 Jun** — Ken needs to lock Sprint 9 scope.
+- **TKT-0542: `openclaw` CLI wrapper PATH collision** — Not yet fixed.
+- **Post-v1.3 work:** Controller build, parked agentic dev+test — wait for Ken trigger.
+- **`qwen3.5:cloud` thinking-output issue** — Needs OpenClaw/Ollama fix.
+- **LinkedIn CR-002:** Pending Angie's two decisions (company page only vs cross-post, image generation approval for Week 2 Movement II). Aria owns coordination; Yoda on tech-escalation standby.
+- **Ollama budget:** WARNING at 69% weekly usage. Window resets Mon 22 Jun 10:00 AEST. No cliff this cycle.
 - **Sprint 8: 75% complete (12/16).** 4 open tickets: TKT-0293 (regression testing), TKT-0319 (TQP Phase 3), TKT-0324 (TQP rollout test), TKT-0326 (NAS setup).
-- **Model swap trial (deepseek-v4-pro → kimi-k2.7-code):** Running since 2026-06-17. Trial ends Sun 22 Jun 10:00 AEST. Monitor Ollama dashboard for usage drop. If quality is unacceptable, 5-minute rollback.
-- **TKT-0533 (Ollama tracker):** Live in production. Next step: monitor burn alert at 70% weekly threshold.
-- **CREST v2.0 design for structural executor dispatch** remains pending.
-- **Business agent (Aria)** has no active session — will pick up new kimi-k2.7-code model on next activation.
 
 ## ✅ Auth Status
 - All delegated auth tokens valid (Ken Mun ✅, Angie Foong ✅). No alerts.

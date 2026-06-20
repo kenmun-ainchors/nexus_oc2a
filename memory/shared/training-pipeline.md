@@ -41,6 +41,12 @@ _For Aria 🔵 & the Spark content engine | Ideas from daily platform work that 
 | TC-224 | The test ticket that cost $50 in tokens: test data lifecycle management | 💡 idea | 2026-06-19 | CHG-0669 — TKT-9999/9998 deletion, production context pollution |
 | TC-225 | 100% sprint completion is a choice: deferring vs forcing work into closing sprints | 💡 idea | 2026-06-19 | CHG-0671 — Sprint 8 15/15 close, TKT-0293/0326 deferred to Sprint 10 |
 | TC-226 | Model drift is real: 3 files disagreed on what model Atlas should use | 💡 idea | 2026-06-19 | Thrawn dispatch review — SKILL.md vs model-policy vs CREST mismatch |
+| TC-227 | The day we rewrote the AI governance rulebook (and it worked) | 💡 idea | 2026-06-20 | CREST v1.3 full implementation — 6 PG tables, 29 phase rules, 8 models, 4 tiers, UAT |
+| TC-228 | Your AI said it's on the right model. The Warden said otherwise. Both were right. | 💡 idea | 2026-06-20 | CHG-0693 — 45 stale drift violations, 3-layer structural lock |
+| TC-229 | The $200/month model that lost its job to a $40/month model | 💡 idea | 2026-06-20 | CHG-0685 — deepseek-v4-pro demoted, glm-5.2:cloud promoted |
+| TC-230 | LinkedIn API setup: the 2-hour tech job that turned into a business handoff | 💡 idea | 2026-06-20 | CR-002 — technical enablement to operational handoff |
+| TC-231 | The benchmark that saved $150/month: model selection by data, not gut feel | 💡 idea | 2026-06-20 | CHG-0690 — 12-atom benchmark, kimi-k2.7-code 91.5% vs deepseek 87.2% |
+| TC-232 | Your sprint review said 100% complete. The items array said otherwise. | 💡 idea | 2026-06-20 | CHG-0676 — db-sprint.sh defer() stale items bug |
 
 _Statuses: 💡 idea → ✍️ draft → ✅ scheduled → 📤 published_
 
