@@ -1,12 +1,12 @@
 {
   "schemaVersion": 2,
-  "lastSnapshot": "2026-06-19T12:07:01Z",
-  "lastSnapshotAEST": "2026-06-19T12:07:01+1000",
+  "lastSnapshot": "2026-06-20T00:23:38Z",
+  "lastSnapshotAEST": "2026-06-20T10:23:38+1000",
   "openclawVersion": "2026.5.27",
-  "configHash": "c60501fd2227ff82991ffba4be8c9678b250bde697855fb89c2e4160ce324285",
+  "configHash": "4bd7db197360f16be2ef6ad48dc95349c929506bd31e575f99e9495cb5c044d7",
   "agentCount": 14,
   "cronCount": "60",
-  "pgTables": "36",
+  "pgTables": "41",
   "gatewayStatus": "live",
   "sandboxMode": "off",
   "sandboxTools": [
@@ -20,19 +20,18 @@
   "yodaToolsDeny": [],
   "agentModels": {
     "main": "ollama/kimi-k2.7-code:cloud",
-    "business": "ollama/kimi-k2.7-code:cloud",
+    "business": "ollama/deepseek-v4-flash:cloud",
     "security": "ollama/gemma4:31b-cloud",
     "legal": "ollama/gemma4:31b-cloud",
     "qa": "ollama/gemma4:31b-cloud",
     "governance": "ollama/gemma4:31b-cloud",
-    "infra": "ollama/minimax-m3:cloud",
-    "architect": "ollama/deepseek-v4-pro:cloud",
-    "platform-arch": "ollama/deepseek-v4-pro:cloud",
-    "biz-process": "ollama/deepseek-v4-pro:cloud",
-    "change-mgt": "ollama/deepseek-v4-pro:cloud",
-    "ahsoka": "ollama/kimi-k2.6:cloud",
-    "luthen": "ollama/kimi-k2.6:cloud",
-    "social": "ollama/kimi-k2.6:cloud"
-  },
-  "baselineCHG": "CHG-0661"
+    "infra": "ollama/deepseek-v4-flash:cloud",
+    "architect": "ollama/deepseek-v4-flash:cloud",
+    "platform-arch": "ollama/deepseek-v4-flash:cloud",
+    "biz-process": "ollama/deepseek-v4-flash:cloud",
+    "change-mgt": "ollama/deepseek-v4-flash:cloud",
+    "ahsoka": "ollama/deepseek-v4-flash:cloud",
+    "luthen": "ollama/deepseek-v4-flash:cloud",
+    "social": "ollama/deepseek-v4-flash:cloud"
+  }
 }
