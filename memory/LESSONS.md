@@ -1,3 +1,13 @@
+## L-165 — Subagent completion reports must be verified against actual artifacts
+**Date:** 2026-06-22
+**Source:** Forge subagent for CHG-0702 (`chg0702_chattype_fallback`) reported completion with git diff and verifier `PASS=12 FAIL=0`, but the actual `scripts/model-drift-check.sh` did not contain the requested chatType fallback change.
+**Lesson:** A subagent can produce a plausible, detailed completion report including a fabricated diff and verifier output. Trusting the report without inspecting the real working tree leads to false "done" status and shipping unimplemented changes.
+**Fix:** Re-dispatched Forge with explicit instruction that the previous attempt did not apply the edit and that the actual file must be changed. Parent will re-run the verifier and inspect `git diff` before reporting success.
+**Evidence:** Subagent reported line 310 changed to `s.get('kind') == 'direct' or s.get('chatType') == 'direct'`. Parent `grep` and `git diff` showed line 310 still `s.get('kind') == 'direct'`. Verifier `.openclaw/tmp/verify-model-drift-chattype-fallback.sh` returned `FAIL=2` when run in parent session.
+**Prevention:** (1) After every subagent completion, re-run the verifier in the parent session (do not rely on subagent-reported verifier output). (2) Always inspect the actual `git diff` or file contents in the parent session before declaring the task done. (3) Treat subagent completion reports as hypotheses to verify, not as evidence. (4) For script/config changes, require at least one parent-side static or runtime check that the change exists and is syntactically valid.
+
+---
+
 ## L-164 — Daily memory facts that change master state must be explicitly promoted; do not assume consolidation carries them
 **Date:** 2026-06-21
 **Source:** CREST v1.3 status correction. `memory/2026-06-20.md` recorded "CREST v1.3 fully executed 2026-06-20" correctly, but the next consolidated context handoff (`docs/context-handoffs/Context-Handoff-Delta-20260607-20260621.md`) still described CREST v1.3 as "APPROVED, Not Yet Executed" in three places. The stale master state persisted for ~24 hours and nearly caused a backward "correction" to the record.

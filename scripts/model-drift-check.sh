@@ -296,33 +296,36 @@ for aid, expected in agent_expected.items():
         capture_output=True, text=True, timeout=10
     )
     if result.returncode != 0:
-        print(f'SKIP|{aid}|CLI_ERROR|{expected}')
+        print(f'SKIP|{aid}|CLI_ERROR|{expected}||')
         continue
     
     data = json.loads(result.stdout)
     sessions = data if isinstance(data, list) else data.get('sessions', [])
     if not sessions:
-        print(f'SKIP|{aid}|NO_SESSIONS|{expected}')
+        print(f'SKIP|{aid}|NO_SESSIONS|{expected}||')
         continue
     
     # Most recent DIRECT session (filter out cron/subagent sessions)
     sessions.sort(key=lambda s: s.get('updatedAt', 0), reverse=True)
-    direct_sessions = [s for s in sessions if s.get('kind') == 'direct']
+    direct_sessions = [s for s in sessions if s.get('kind') == 'direct' or s.get('chatType') == 'direct']
     if not direct_sessions:
-        print(f'SKIP|{aid}|NO_DIRECT_SESSIONS|{expected}')
+        print(f'SKIP|{aid}|NO_DIRECT_SESSIONS|{expected}||')
         continue
-    actual = direct_sessions[0].get('model', 'UNKNOWN')
+    s = direct_sessions[0]
+    actual = s.get('model', 'UNKNOWN')
+    sessionKey = s.get('sessionKey', '')
+    sessionId = s.get('sessionId', '') or s.get('id', '')
     
     # Normalize: policy stores 'ollama/kimi-k2.7-code:cloud', sessions returns 'kimi-k2.7-code:cloud'
     expected_short = expected.replace('ollama/', '')
     
     if actual == expected or actual == expected_short:
-        print(f'PASS|{aid}|{actual}|{expected}')
+        print(f'PASS|{aid}|{actual}|{expected}|{sessionKey}|{sessionId}')
     else:
-        print(f'FAIL|{aid}|{actual}|{expected}')
+        print(f'FAIL|{aid}|{actual}|{expected}|{sessionKey}|{sessionId}')
 " 2>/dev/null)
 
-while IFS='|' read -r check_status aid actual expected; do
+while IFS='|' read -r check_status aid actual expected session_key session_id; do
   case "$check_status" in
     PASS)
       PASS=$((PASS + 1))
@@ -331,7 +334,7 @@ while IFS='|' read -r check_status aid actual expected; do
     FAIL)
       FAIL=$((FAIL + 1))
       echo "  FAIL  live-session agent:$aid -> actual=$actual expected=$expected [SESSION_MODEL_DRIFT]"
-      FINDINGS+=("{\"agentId\":\"live-session.$aid\",\"expected\":\"$expected\",\"actual\":\"$actual\",\"severity\":\"SESSION_MODEL_DRIFT\",\"note\":\"Live session model does not match tier primary. Session override may be stuck from temporary switch. Check and reset via session_status.\",\"detectedAt\":\"$AEST_TIMESTAMP\"}")
+      FINDINGS+=('{"agentId":"live-session.'"$aid"'","expected":"'"$expected"'","actual":"'"$actual"'","severity":"SESSION_MODEL_DRIFT","sessionKey":"'"$session_key"'","sessionId":"'"$session_id"'","note":"Live session model does not match tier primary. Session override may be stuck from temporary switch. Check and reset via session_status.","detectedAt":"'"$AEST_TIMESTAMP"'"}')
       ;;
     SKIP)
       echo "  SKIP  live-session agent:$aid -> $actual ($expected)"

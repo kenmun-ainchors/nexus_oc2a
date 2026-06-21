@@ -169,6 +169,32 @@ Both reference canonical docs in `references/` and load via `scripts/skill-load.
 ---
 ---
 
+## 2026-06-22 07:29 AEST — [CHG-0702] Make Warden live-session model drift check fall back to chatType
+**Type:** script
+**Change Type:** Normal
+**Source:** ken-prompt
+**Trigger:** TKT-0713: openclaw sessions list kind inconsistency for direct sessions
+**What changed:** scripts/model-drift-check.sh: live-session filter now accepts either s.get('kind') == 'direct' or s.get('chatType') == 'direct', preventing silent SKIP when the CLI derives kind as 'other'.
+**Why:** sessions.json stores kind=None and chatType='direct' for direct sessions; openclaw sessions list derives kind at runtime and earlier returned 'other'. A strict kind=='direct' filter creates false-negative drift misses.
+**Verification:** Verifier at .openclaw/tmp/verify-model-drift-chattype-fallback.sh must report PASS=12 FAIL=0 after Forge implementation.
+**Rollback:** Revert scripts/model-drift-check.sh to previous git commit.
+**Linked:** TKT-0713
+**Category:** governance\n---
+
+
+## 2026-06-22 07:20 AEST — [CHG-0701] Capture session id/key in Warden live-session model drift alerts
+**Type:** script
+**Change Type:** Normal
+**Source:** ken-prompt
+**Trigger:** TKT-0712: Troubleshoot Warden SESSION_MODEL_DRIFT for live-session.main
+**What changed:** scripts/model-drift-check.sh: live-session FAIL output now includes sessionKey and sessionId; shell parse loop reads these fields and adds them to the JSON finding in state/model-drift-violations.json.
+**Why:** Without session id/key, drift alerts cannot be traced back to a specific session instance, making root-cause impossible when sessions are short-lived or superseded.
+**Verification:** Verifier at .openclaw/tmp/verify-model-drift-session-id.sh must report PASS=7 FAIL=0 after Forge implementation.
+**Rollback:** Revert scripts/model-drift-check.sh to previous git commit; verifier will fail but core drift detection remains functional.
+**Linked:** TKT-0712
+**Category:** governance\n---
+
+
 ## 2026-06-21 20:43 AEST — [CHG-0700] Document CREST v1.3 data_class dimension deferred to v2.0
 **Type:** doc
 **Change Type:** Normal
