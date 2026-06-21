@@ -1,3 +1,32 @@
+## Sunday, June 21, 2026 — Business Stream Summary
+_Written 23:45 AEST by Aria cron_
+
+### Angie interactions today
+No Angie activity today.
+
+### Decisions made
+- **Ken directive 19:56 AEST**: Business-stream stale items from 2026-06-17 summary cleaned up. Angie/Ken contacts, LinkedIn Setup (CR-001/CR-002), and CTO Contract Meeting outcome marked CLOSED. JotForm/HRDF and Lynn Huang/Jack Ooi/Finance follow-ups moved to Aria for follow-up with Angie.
+- **Onboarding Stage 2 marked complete** (all items done). currentStage set to 3.
+- **Business-stream open-items tracker created**: workspace-business/state/business-stream-open-items.json
+
+### Governance reviews
+None triggered today.
+
+### Open items
+- **BS-001**: JotForm/HRDF compliance follow-up — queued for next Angie session
+- **BS-002**: Lynn Huang / Jack Ooi / Finance follow-ups — queued for next Angie session
+- **ROI weekly cron**: Script ready, keychain token added by Ken, cron registered but disabled pending Aria's final dry-run approval
+- **LinkedIn campaign**: Week 2 posts (LI-W2-P4/P5/P6) drafted, governance-cleared, images pending Angie approval
+- **LinkedIn personal auth**: Still broken (client secret mismatch) — needs Ken to verify LinkedIn app credentials
+- **Ken training confirmation (MSG-20260601-001)**: 20 days old, no response
+- **Google Calendar auth**: Broken since Jun 3
+
+### Handoff to Yoda
+- Business stream was quiet today (Sunday). No Angie session.
+- Ken directive cleaned up stale standup items — three items closed, two moved to Aria's tracker.
+- ROI weekly cron is one dry-run approval away from going live. Yoda registered it disabled; Aria will approve after verifying.
+- LinkedIn personal auth still needs Ken to fix the client secret in the LinkedIn developer portal.
+
 ## Saturday, June 20, 2026 — Business Stream Summary
 _Written 23:45 AEST by Aria cron_
 
