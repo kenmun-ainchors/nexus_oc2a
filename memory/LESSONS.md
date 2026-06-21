@@ -1,3 +1,13 @@
+## L-163 — Malformed silent replies (`ANNOUNCE_SKIP` concatenation) can crash-loop an agent session
+**Date:** 2026-06-21
+**Source:** Aria session `3c4d1fb8-5456-4ab2-83ed-0567b1fc58cd` stuck in perpetual `SKIPANNOUNCE`; required gateway restart to clear.
+**Lesson:** OpenClaw treats any non-empty assistant response as content to deliver. When an agent wants to stay silent, the only valid reply is a clean, single `NO_REPLY` occupying the entire message. Emitting `ANNOUNCE_SKIP` — or concatenating it hundreds of times — is not a valid silent-response token. The runtime aborts the malformed turn and retries delivery, which re-invokes the same bad model output, creating an infinite retry loop that drives gateway CPU until the session is killed.
+**Fix:** Gateway restart cleared the stuck Aria session. Aria's weekly ROI cron (`d1c03b59`) remains registered and enabled. No data loss.
+**Evidence:** Aria transcript seq 187 showed `ANNOUNCE_SKIP` repeated continuously; seq 201 last turn aborted with `This operation was aborted`; gateway PID 86218 was at 37% CPU for 34 minutes before restart.
+**Prevention:** (1) **All agents must use `NO_REPLY` and nothing else for silent responses.** (2) Do not send inter-session acknowledgments into an already looping session — each message feeds another retry. (3) If an agent's turn aborts on a malformed reply, reset/kill that session immediately rather than waiting. (4) Consider a runtime prompt guard or post-process filter that rejects any assistant message containing `ANNOUNCE_SKIP` and replaces it with `NO_REPLY`. (5) Add this rule to every agent's behavioral rules file.
+
+---
+
 ## L-162 — Yoda must not Execute script/config changes; always route to Forge
 **Date:** 2026-06-21
 **Source:** TKT-0698 implementation. Ken asked: *"was that following CREST policy? was the execution work dispatched to Forge?"*
