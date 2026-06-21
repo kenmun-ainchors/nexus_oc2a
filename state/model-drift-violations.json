@@ -1,6 +1,19 @@
 {
-  "violations": [],
+  "violations": [
+    {
+      "agentId": "live-session.main",
+      "expected": "ollama/kimi-k2.7-code:cloud",
+      "actual": "deepseek-v4-pro:cloud",
+      "severity": "SESSION_MODEL_DRIFT",
+      "note": "Live session model does not match tier primary. Session override may be stuck from temporary switch. Check and reset via session_status.",
+      "detectedAt": "2026-06-21T20:07:39+10:00",
+      "id": "DRIFT-20260621100739-live-session_main",
+      "status": "superseded",
+      "escalatedToYoda": true,
+      "supersededReason": "Auto-superseded: Warden consecutiveClean=1 (CHG-0279)"
+    }
+  ],
   "totalUnresolved": 0,
-  "lastUpdated": "2026-06-20T22:58:00+10:00",
+  "lastUpdated": "2026-06-21T20:07:39+10:00",
   "note": "Cleared stale violations. Latest model-drift-check.sh run at 2026-06-20T22:57 AEST returned 55 PASS / 0 FAIL. Previous violations (including the 45 from Warden escalation and 8 residual live-session.business entries) were transient and are now resolved."
 }

@@ -1,14 +1,14 @@
 {
-  "checkedAt": "2026-06-06T16:00:10Z",
+  "checkedAt": "2026-06-20T16:00:05Z",
   "warningLimit": 6000,
   "hardLimit": 10000,
-  "totalAgents": 30,
+  "totalAgents": 29,
   "warnings": 0,
   "hardLimitBreaches": 0,
   "agents": [
     {
       "agent": "business",
-      "size": 4830,
+      "size": 4906,
       "status": "OK",
       "path": "/Users/ainchorsangiefpl/.openclaw/workspace-business/SOUL.md"
     },
@@ -38,103 +38,91 @@
     },
     {
       "agent": "biz-process",
-      "size": 2929,
+      "size": 1552,
       "status": "OK",
       "path": "/Users/ainchorsangiefpl/.openclaw/workspace/biz-process/SOUL.md"
     },
     {
       "agent": "infra",
-      "size": 1256,
+      "size": 1062,
       "status": "OK",
       "path": "/Users/ainchorsangiefpl/.openclaw/workspace/infra/SOUL.md"
     },
     {
-      "agent": "thrawn",
-      "size": 3411,
-      "status": "OK",
-      "path": "/Users/ainchorsangiefpl/.openclaw/workspace/thrawn/SOUL.md"
-    },
-    {
       "agent": "security",
-      "size": 4061,
+      "size": 1174,
       "status": "OK",
       "path": "/Users/ainchorsangiefpl/.openclaw/workspace/security/SOUL.md"
     },
     {
       "agent": "platform-arch",
-      "size": 3411,
+      "size": 1829,
       "status": "OK",
       "path": "/Users/ainchorsangiefpl/.openclaw/workspace/platform-arch/SOUL.md"
     },
     {
-      "agent": "ahsoka",
-      "size": 912,
-      "status": "OK",
-      "path": "/Users/ainchorsangiefpl/.openclaw/workspace/ahsoka/SOUL.md"
-    },
-    {
       "agent": "change-mgt",
-      "size": 3523,
+      "size": 1779,
       "status": "OK",
       "path": "/Users/ainchorsangiefpl/.openclaw/workspace/change-mgt/SOUL.md"
     },
     {
       "agent": "business",
-      "size": 4830,
+      "size": 1995,
       "status": "OK",
       "path": "/Users/ainchorsangiefpl/.openclaw/workspace/business/SOUL.md"
     },
     {
       "agent": "ahsoka",
-      "size": 2940,
+      "size": 2139,
       "status": "OK",
       "path": "/Users/ainchorsangiefpl/.openclaw/workspace/agents/ahsoka/SOUL.md"
     },
     {
+      "agent": "sage",
+      "size": 2910,
+      "status": "OK",
+      "path": "/Users/ainchorsangiefpl/.openclaw/workspace/agents/sage/SOUL.md"
+    },
+    {
       "agent": "qa",
-      "size": 2034,
+      "size": 961,
       "status": "OK",
       "path": "/Users/ainchorsangiefpl/.openclaw/workspace/qa/SOUL.md"
     },
     {
       "agent": "architect",
-      "size": 2850,
+      "size": 1872,
       "status": "OK",
       "path": "/Users/ainchorsangiefpl/.openclaw/workspace/architect/SOUL.md"
     },
     {
       "agent": "forge",
-      "size": 1256,
+      "size": 1103,
       "status": "OK",
       "path": "/Users/ainchorsangiefpl/.openclaw/workspace/forge/SOUL.md"
     },
     {
       "agent": "governance",
-      "size": 1538,
+      "size": 1660,
       "status": "OK",
       "path": "/Users/ainchorsangiefpl/.openclaw/workspace/governance/SOUL.md"
     },
     {
       "agent": "SOUL.md",
-      "size": 4790,
+      "size": 3261,
       "status": "OK",
       "path": "/Users/ainchorsangiefpl/.openclaw/workspace/SOUL.md"
     },
     {
-      "agent": "atlas",
-      "size": 2850,
-      "status": "OK",
-      "path": "/Users/ainchorsangiefpl/.openclaw/workspace/atlas/SOUL.md"
-    },
-    {
       "agent": "legal",
-      "size": 2526,
+      "size": 1099,
       "status": "OK",
       "path": "/Users/ainchorsangiefpl/.openclaw/workspace/legal/SOUL.md"
     },
     {
       "agent": "spark",
-      "size": 4524,
+      "size": 3338,
       "status": "OK",
       "path": "/Users/ainchorsangiefpl/.openclaw/workspace/spark/SOUL.md"
     },
@@ -161,6 +149,12 @@
       "size": 5557,
       "status": "OK",
       "path": "/Users/ainchorsangiefpl/.openclaw/workspace-social/SOUL.md"
+    },
+    {
+      "agent": "/Users/ainchorsangiefpl/.openclaw",
+      "size": 1806,
+      "status": "OK",
+      "path": "/Users/ainchorsangiefpl/.openclaw/SOUL.md"
     },
     {
       "agent": "architect",

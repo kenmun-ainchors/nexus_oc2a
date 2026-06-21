@@ -27,12 +27,13 @@ mkdir -p "$(dirname "$MARKER")" "$(dirname "$LOG")" "$SESSION_BACKUP_DIR"
 # ── Step 0a: Lock — prevent concurrent execution ─────────────────────────
 # CHG-0474: If weekly cron (Sun 02:55) and nightly cron (daily 03:00) both fire,
 # the lock prevents a race. First to acquire lock wins; second exits silently.
-LOCKFILE="/tmp/openclaw-restart.lock"
-exec 200>"$LOCKFILE"
-if ! flock -n 200; then
-    echo "[$(date -Iseconds)] ABORTING: Another restart is already in progress (lock held)." | tee -a "$LOG"
+# Uses mkdir as atomic operation (macOS-compatible; flock not available on macOS).
+LOCKDIR="/tmp/openclaw-restart.lock"
+if ! mkdir "$LOCKDIR" 2>/dev/null; then
+    echo "[$(date -Iseconds)] ABORTING: Another restart is already in progress (lock held by $LOCKDIR)." | tee -a "$LOG"
     exit 0
 fi
+trap 'rm -rf "$LOCKDIR"' EXIT
 
 # ── Step 0b: Guard — only restart if gateway is alive and responsive ────
 # CHG-0474: Prevent dual-bind when LaunchAgent auto-restarts before this delayed cron.

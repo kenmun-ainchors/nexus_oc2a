@@ -490,7 +490,11 @@ for line in open('$BACKUP_LOG'):
     # L-045: Only match actual error lines, not filenames in rsync output
     # rsync errors start with 'rsync:' or 'rsync error:' — filenames are indented with tabs
     is_rsync_file = line.startswith('\t') or line.startswith('        ')
-    is_error_line = re.search(r'(^rsync:.*error|^\[.*\].*error|^error[:\s]|^fatal[:\s])', line, re.IGNORECASE)
+    # L-045: Only match actual error lines, not filenames in rsync output
+    # rsync errors start with 'rsync:' or 'rsync error:' — filenames are indented with tabs
+    # Exclude git add output like "error: '...' does not have a commit checked out" (cosmetic)
+    is_git_add_noise = re.search(r"error: '.*' does not have a commit", line, re.IGNORECASE)
+    is_error_line = re.search(r'(^rsync:.*error|^\[.*\].*error|^error[:\s]|^fatal[:\s])', line, re.IGNORECASE) and not is_git_add_noise
     if current_epoch > last_run and not is_rsync_file and is_error_line:
         print('FAIL|' + line.strip()[:120])
         sys.exit(0)

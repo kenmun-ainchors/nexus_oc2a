@@ -1,11 +1,11 @@
 {
-  "generatedAt": "2026-06-20T04:05:09.600517+00:00",
+  "generatedAt": "2026-06-20T23:29:26.055924+00:00",
   "failures": [
     {
       "cronId": "85595417",
       "fullCronId": "85595417-73d0-416d-b6ff-d5b6578762a7",
       "name": "PG-Notion Integrity Audit (daily)",
-      "consecutiveErrors": 3,
+      "consecutiveErrors": 4,
       "lastError": "error",
       "source": "live-cron-state"
     }

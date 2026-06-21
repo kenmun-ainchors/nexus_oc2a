@@ -3608,11 +3608,12 @@
     "type": "task",
     "created_at": "2026-06-13T02:17:47+10:00",
     "metadata": {
-      "close_reason": "All 5 atoms completed. A4, A5, A1, A2 done. A3 no-op (cron healthy).",
-      "closed_at": "2026-06-13T12:27:00+10:00",
-      "closed_by": "Ken Mun",
-      "close_decision": "Ken: close TKT-0505"
-    }
+      "notion_sync": {
+        "status": "pending",
+        "last_synced": null
+      }
+    },
+    "notionpageid": null
   },
   {
     "id": "TKT-0525",
@@ -3709,7 +3710,14 @@
     "status": "open",
     "priority": "medium",
     "type": "task",
-    "created_at": "2026-06-15T05:47:41+10:00"
+    "created_at": "2026-06-15T05:47:41+10:00",
+    "metadata": {
+      "sprint_target": "Sprint 9",
+      "sprint_seq": 1,
+      "sprint_effort": "S",
+      "sprint_agent": "forge",
+      "sprint_committed_at": "2026-06-21T09:40:00+10:00"
+    }
   },
   {
     "id": "TKT-0528",
@@ -3717,7 +3725,14 @@
     "status": "open",
     "priority": "low",
     "type": "task",
-    "created_at": "2026-06-15T05:47:41+10:00"
+    "created_at": "2026-06-15T05:47:41+10:00",
+    "metadata": {
+      "sprint_target": "Sprint 9",
+      "sprint_seq": 2,
+      "sprint_effort": "S",
+      "sprint_agent": "forge",
+      "sprint_committed_at": "2026-06-21T09:40:00+10:00"
+    }
   },
   {
     "id": "TKT-0529",
@@ -3792,7 +3807,14 @@
     "status": "open",
     "priority": "P1",
     "type": "audit",
-    "created_at": "2026-06-15T07:21:38+10:00"
+    "created_at": "2026-06-15T07:21:38+10:00",
+    "metadata": {
+      "sprint_target": "Sprint 9",
+      "sprint_seq": 3,
+      "sprint_effort": "M",
+      "sprint_agent": "yoda",
+      "sprint_committed_at": "2026-06-21T09:40:00+10:00"
+    }
   },
   {
     "id": "TKT-0531",
@@ -3810,24 +3832,11 @@
     "type": "bug",
     "created_at": "2026-06-17T12:37:00+10:00",
     "metadata": {
-      "brief": "INVESTIGATION COMPLETE 2026-06-17. Root cause: OpenClaw v2026.5.27 subagents are hardcoded to capabilities=none — exec primitive not available regardless of sandbox mode, alsoAllow, or toolsAllow config. Three approaches tested: (1) tools.sandbox.tools.alsoAllow [group:runtime, group:fs] — no effect, (2) agents.defaults.sandbox.mode off — no effect, (3) toolsAllow on spawn — tool names granted but no runtime capability. CHG-0608 (Yoda tools.deny) reverted as workaround. Permanent fix: CREST v2.0 or OpenClaw upstream change to allow subagent exec capability.",
-      "effort": "L",
-      "agent": "Thrawn",
-      "ac_count": 3,
-      "grooming_history": [
-        {
-          "date": "2026-06-17T12:53:00+10:00",
-          "decisions": "Investigation complete. Root cause confirmed: subagent capabilities=none is hardcoded. Upgraded to P1 — blocks CREST dispatch model. Reassigned to Thrawn for CREST v2.0 design. ACs updated: (1) Design CREST v2.0 with viable executor dispatch path, (2) Evaluate OpenClaw upstream issue for subagent exec capability, (3) Document interim discipline-based enforcement rules.",
-          "ac_count": 3,
-          "ken_approved": true
-        }
-      ],
-      "linked": [
-        "CHG-0608 (reverted)",
-        "CHG-0609 (revert record)",
-        "L-107",
-        "CREST v2.0"
-      ]
+      "sprint_target": "Sprint 9",
+      "sprint_seq": 15,
+      "sprint_effort": "M",
+      "sprint_agent": "thrawn",
+      "sprint_committed_at": "2026-06-21T09:40:00+10:00"
     }
   },
   {
@@ -4147,5 +4156,59 @@
       }
     },
     "updated_at": "2026-06-20T10:35:00+10:00"
+  },
+  {
+    "id": "TKT-0696",
+    "title": "Cleanup 127 orphan Notion pages in Backlog DB A",
+    "status": "closed",
+    "priority": "high",
+    "type": "task",
+    "created_at": "2026-06-20T23:24:45+10:00",
+    "metadata": {
+      "notion_sync": {
+        "status": "synced"
+      }
+    }
+  },
+  {
+    "id": "TKT-0698",
+    "title": "db-write.sh file fallback masks PG schema/type errors",
+    "status": "closed",
+    "priority": "high",
+    "type": "bug",
+    "created_at": "2026-06-20T23:47:11+10:00",
+    "metadata": {
+      "notion_sync": {
+        "status": "synced",
+        "last_synced": "2026-06-21T09:55:00+10:00"
+      }
+    }
+  },
+  {
+    "id": "TKT-0694",
+    "title": "Create business-roi-report.sh for Aria weekly ROI summary",
+    "status": "closed",
+    "priority": "p1",
+    "type": "task",
+    "created_at": "2026-06-21T09:39:46+10:00",
+    "metadata": {
+      "notes": "Aria approved final dry-run. Cron d1c03b59 enabled. Sunday 18:00 AEST weekly ROI summary will run via Aria bot token (telegram-aria-bot-token) to chatId 8141152780. First run 2026-06-28 18:00 AEST. Script handles empty weeks, ISO datetimes with offsets, and fails loudly on unparseable dates."
+    }
+  },
+  {
+    "id": "TKT-0710",
+    "title": "CREST v2.0 data_class taxonomy and routing enforcement",
+    "status": "Grooming",
+    "priority": "P2",
+    "type": "task",
+    "created_at": "2026-06-21T10:18:18+10:00"
+  },
+  {
+    "id": "TKT-0711",
+    "title": "Daily-to-master memory promotion gate",
+    "status": "backlog",
+    "priority": "medium",
+    "type": "improvement",
+    "created_at": "2026-06-21T10:34:18+10:00"
   }
 ]

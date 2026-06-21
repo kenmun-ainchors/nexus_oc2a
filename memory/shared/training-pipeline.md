@@ -48,6 +48,12 @@ _For Aria 🔵 & the Spark content engine | Ideas from daily platform work that 
 | TC-231 | The benchmark that saved $150/month: model selection by data, not gut feel | 💡 idea | 2026-06-20 | CHG-0690 — 12-atom benchmark, kimi-k2.7-code 91.5% vs deepseek 87.2% |
 | TC-232 | Your sprint review said 100% complete. The items array said otherwise. | 💡 idea | 2026-06-20 | CHG-0676 — db-sprint.sh defer() stale items bug |
 
+| TC-233 | The audit that only checked 100 of 472 pages: Notion's silent page_size trap | 💡 idea | 2026-06-21 | CHG-0695 — pg-to-notion-sync.sh pagination fix |
+| TC-234 | 127 orphan pages and a 4-cron timeout: the real cost of deferred data integrity | 💡 idea | 2026-06-21 | CHG-0694/0696 — PG-Notion cleanup |
+| TC-235 | Your sprint tool said 'Sprint 11' when the next sprint was Sprint 9: the ORDER BY trap | 💡 idea | 2026-06-21 | CHG-0697 — db-sprint.sh sprint detection fix |
+| TC-236 | The silent fallback that hid every PG bug: why graceful degradation can be dangerous | 💡 idea | 2026-06-21 | CHG-0698 — db-write.sh error classification |
+| TC-237 | Schema-ready, data-empty: the column that exists but doesn't work | 💡 idea | 2026-06-21 | CHG-0699/0700 — CREST v1.3 data_class deferral |
+
 _Statuses: 💡 idea → ✍️ draft → ✅ scheduled → 📤 published_
 
 ---

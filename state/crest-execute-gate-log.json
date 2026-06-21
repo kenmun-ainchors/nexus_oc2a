@@ -429,12 +429,52 @@
       "target": "test",
       "decision": "block",
       "reason": "Yoda direct Execute blocked per CHG-0545"
+    },
+    {
+      "ts": "2026-06-20T15:00:11.640856+00:00",
+      "operator": "main",
+      "phase": "execute",
+      "model": "ollama/kimi-k2.7-code:cloud",
+      "atomDesc": "test",
+      "target": "",
+      "decision": "block",
+      "reason": "Yoda direct Execute blocked per CHG-0545"
+    },
+    {
+      "ts": "2026-06-20T15:00:11.751280+00:00",
+      "operator": "infra",
+      "phase": "execute",
+      "model": "ollama/deepseek-v4-flash:cloud",
+      "atomDesc": "test",
+      "target": "",
+      "decision": "allow",
+      "reason": "matches policy-effective model ollama/deepseek-v4-flash:cloud"
+    },
+    {
+      "ts": "2026-06-20T15:00:11.859814+00:00",
+      "operator": "infra",
+      "phase": "verify",
+      "model": "ollama/minimax-m3:cloud",
+      "atomDesc": "test",
+      "target": "",
+      "decision": "block",
+      "reason": "model mismatch: actual=ollama/minimax-m3:cloud expected=ollama/gemma4:31b-cloud"
+    },
+    {
+      "ts": "2026-06-20T15:00:11.968247+00:00",
+      "operator": "platform-arch",
+      "phase": "execute",
+      "model": "ollama/deepseek-v4-flash:cloud",
+      "atomDesc": "test",
+      "target": "",
+      "decision": "allow",
+      "reason": "matches policy-effective model ollama/deepseek-v4-flash:cloud"
     }
   ],
   "lastDecision": {
-    "ts": "2026-06-19T23:42:36.635100+00:00",
-    "decision": "block",
-    "reason": "Yoda direct Execute blocked per CHG-0545"
+    "ts": "2026-06-20T15:00:11.968247+00:00",
+    "decision": "allow",
+    "reason": "matches policy-effective model ollama/deepseek-v4-flash:cloud"
   },
   "note": "Cleaned 2026-06-17 by CHG-0608. All prior entries were gate-test artifacts from 2026-06-13. Structural tool-deny (exec/write/edit) now prevents Yoda direct Execute work."
 }
