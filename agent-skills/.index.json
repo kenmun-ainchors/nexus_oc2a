@@ -1,6 +1,6 @@
 {
   "schema": "ainchors.skill-index.v1",
-  "updated_at": "2026-06-18T04:57:00+10:00",
+  "updated_at": "2026-06-21T20:34:00+10:00",
   "source_of_truth": "agent-skills/",
   "description": "Canonical registry of approved agent skill packages. Agents must discover skills via this index and load via scripts/skill-load.sh.",
   "skills": [
@@ -9,7 +9,7 @@
       "path": "agent-skills/agile",
       "skill_file": "SKILL.md",
       "category": "delivery",
-      "description": "AInchors Agile delivery framework — sprint cadence, ceremonies, work-item rules, priority, and Definition of Done.",
+      "description": "AInchors Agile delivery framework \u2014 sprint cadence, ceremonies, work-item rules, priority, and Definition of Done.",
       "approved": true
     },
     {
@@ -46,14 +46,17 @@
         "agent-skills/notion/scripts/notion-env-check.sh"
       ],
       "category": "integration",
-      "description": "AInchors Notion integration patterns — auth, DB IDs, API conventions, rate limits, and common operations for tickets, backlog, and Holocron.",
+      "description": "AInchors Notion integration patterns \u2014 auth, DB IDs, API conventions, rate limits, and common operations for tickets, backlog, and Holocron.",
       "approved": true
     },
     {
       "name": "pg-sprint-backlog",
       "path": "agent-skills/pg-sprint-backlog",
       "skill_file": "SKILL.md",
-      "canonical_scripts": ["scripts/db-ticket.sh", "scripts/db-sprint.sh"],
+      "canonical_scripts": [
+        "scripts/db-ticket.sh",
+        "scripts/db-sprint.sh"
+      ],
       "category": "delivery",
       "description": "PostgreSQL-first sprint and ticket operations.",
       "approved": true
@@ -73,6 +76,15 @@
       "canonical_script": "scripts/telegram-alert.sh",
       "category": "messaging",
       "description": "Telegram chunking and alert routing rules.",
+      "approved": true
+    },
+    {
+      "name": "memory-maintenance",
+      "path": "agent-skills/memory-maintenance",
+      "skill_file": "SKILL.md",
+      "canonical_script": "scripts/daily-master-promote-check.sh",
+      "category": "governance",
+      "description": "Ensure daily memory and journal facts that change master state are promoted to MEMORY.md and context handoff delta documents. Prevents drift between daily source-of-truth files and long-term master references.",
       "approved": true
     }
   ]

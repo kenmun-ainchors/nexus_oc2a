@@ -1,7 +1,7 @@
 :# CREST v1.3 — Normalized Model Policy Schema
 
 ## Status
-DRAFT FOR REVIEW. Supersedes the single-row JSONB design in `state_model_policy`.
+APPROVED and IMPLEMENTED for role×phase routing (CHG-0680). `data_class` dimension is schema-ready but intentionally unpopulated in v1.3; deferred to CREST v2.0 / TKT-0710. Supersedes the single-row JSONB design in `state_model_policy`.
 
 ## Rationale
 The current `state_model_policy` stores the entire policy as one JSONB blob. This makes diffs, drift detection, and per-agent/per-phase queries difficult. v1.3 splits it into normalized tables so the routing resolver can query exactly what it needs.
@@ -30,7 +30,9 @@ CREATE UNIQUE INDEX idx_policy_matrices_active_one
 
 Only one matrix version can be active per tenant. Rollback = update active flag.
 
-### 2. `crest_phase_rules` — role × phase → model
+### 2. `crest_phase_rules` — role × phase → model (v1.3)
+
+> **Note:** The table also includes `data_class_whitelist` to support future `role × data_class × phase` routing. In CREST v1.3 this column is intentionally left empty; the live matrix resolves models by `role × phase` only. Data-class taxonomy and enforcement are tracked in TKT-0710 (CREST v2.0 / target state).
 
 ```sql
 CREATE TABLE crest_phase_rules (
@@ -41,7 +43,7 @@ CREATE TABLE crest_phase_rules (
   default_model TEXT NOT NULL,             -- primary model for this role+phase
   fallback_model TEXT NOT NULL,            -- fallback if primary unavailable
   override_allowed BOOLEAN DEFAULT FALSE,  -- can caller override with reason?
-  data_class_whitelist TEXT[],             -- if non-null, only these data_classes use this rule
+  data_class_whitelist TEXT[],             -- v1.3: intentionally unpopulated; v2.0 will restrict to these data_classes
   rationale TEXT,
   created_at TIMESTAMPTZ DEFAULT NOW(),
   updated_at TIMESTAMPTZ DEFAULT NOW(),

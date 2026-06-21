@@ -37,7 +37,7 @@ Plan → Execute → Verify → Replan → Synthesize → Done
 | 5 | **Synthesize** | role-dependent | Integration (specialist: domain-internal; master: cross-specialist) | Sub-ticket / master deliverable |
 | 6 | **Done** | terminal | Audit emit, close, Holocron register | Closed ticket + audit trail |
 
-**CREST v1.3:** Capability-based multi-model routing. No binary strong/cheap. Each role×phase has a specific default_model + fallback_model in PG `crest_phase_rules`.
+**CREST v1.3:** Capability-based multi-model routing by **role × phase**. Each role×phase has a specific default_model + fallback_model in PG `crest_phase_rules`. The `data_class` dimension is schema-ready but intentionally unpopulated in v1.3; full `role × data_class × phase` routing is deferred to CREST v2.0 / TKT-0710.
 **Concrete model resolution:** use `scripts/model-policy-query.sh --agent <agent-id> --phase <phase>` (PG-first, JSON fallback).
 The authoritative source is PG `state_model_policy.crest_phase_rules`. Do not hardcode models in plans.
 

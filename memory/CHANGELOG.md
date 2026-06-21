@@ -169,6 +169,32 @@ Both reference canonical docs in `references/` and load via `scripts/skill-load.
 ---
 ---
 
+## 2026-06-21 20:43 AEST — [CHG-0700] Document CREST v1.3 data_class dimension deferred to v2.0
+**Type:** doc
+**Change Type:** Normal
+**Source:** ken-prompt
+**Trigger:** Ken confirmed Option A deferral 2026-06-21 20:17 AEST after CREST v1.3 DoD verification found data_class_whitelist column empty
+**What changed:** Clarify CREST v1.3 policy schema and skill docs: live matrix is role×phase; data_class column is schema-ready but unpopulated. Correct MEMORY.md and agents/aria/AGENTS.md language. Open tracking ticket TKT-0710 for CREST v2.0 data_class taxonomy. Build memory-maintenance skill + daily-master-promote-check.sh to close daily→master sync gap.
+**Why:** Avoid over-promising active capability; preserve accurate DoD posture; route data_class taxonomy work to TKT-0710 target state; prevent future daily→master propagation failures
+**Verification:** Read-back of updated docs + PG query confirming data_class_whitelist empty + ticket TKT-0710 created + promotion script verified against stale and fixed deltas
+**Rollback:** Revert doc edits, close tickets as duplicate/no-op, remove new skill package and script
+**Linked:** TKT-0710, TKT-0711, CHG-0680, CHG-0690, CHG-0691, L-164
+---
+
+
+## 2026-06-21 20:17 AEST — [CHG-0699] Document CREST v1.3 data_class dimension deferred to v2.0
+**Type:** doc
+**Change Type:** Normal
+**Source:** ken-prompt
+**Trigger:** Ken confirmed Option A deferral 2026-06-21 20:17 AEST after CREST v1.3 DoD verification found data_class_whitelist column empty
+**What changed:** Clarify CREST v1.3 policy schema and skill docs: live matrix is role×phase; data_class column is schema-ready but unpopulated. Correct MEMORY.md and agents/aria/AGENTS.md language. Open tracking ticket for CREST v2.0 data_class taxonomy.
+**Why:** Avoid over-promising active capability; preserve accurate DoD posture; route data_class taxonomy work to TKT-0368 target state
+**Verification:** Read-back of updated docs + PG query confirming data_class_whitelist empty + ticket created
+**Rollback:** Revert doc edits and close ticket as duplicate/no-op
+**Linked:** TKT-0368, CHG-0680, CHG-0690, CHG-0691
+---
+
+
 ## 2026-06-21 09:52 AEST — [CHG-0698] Implement TKT-0698: db-write.sh error classification
 **Type:** script
 **Change Type:** Normal

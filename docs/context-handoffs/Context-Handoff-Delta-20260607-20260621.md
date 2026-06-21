@@ -91,15 +91,15 @@ During execution of TKT-0698, Yoda produced a CREST Plan, then directly edited `
 - Fix: `db-raw.sh` now respects existing `PGHOST/PGPORT/PGUSER/PGDATABASE` env vars
 - Tests: `scripts/test-db-write.sh` extended to 7 tests; all pass
 
-### CREST v1.3 — APPROVED, Not Yet Executed (CHG-0680)
-- Approved 2026-06-20 09:28 AEST
+### CREST v1.3 — APPROVED and FULLY EXECUTED 2026-06-20 (CHG-0680)
+- Approved 2026-06-20 09:28 AEST; execution completed same day
 - Three moves:
   1. External loop ownership: Yoda owns CREST loop; agents are phase executors
   2. Sage-as-Judge: Sage renders Verify pass/fail/needs_human verdicts
-  3. Capability-based multi-model routing: role×data_class×phase matrix
-- Pre-Tier-A gates (G1-G5) must complete before any Tier A execution
-- **No execution until Ken triggers**
-- Full context in PG metadata for TKT-0546
+  3. Capability-based multi-model routing: role × phase matrix; `data_class` dimension schema-ready but deferred to CREST v2.0 / TKT-0710
+- Pre-Tier-A gates G1–G5 completed; Tiers A–D executed; verification sweep WS1/WS2/WS3 passed; synthetic UAT passed
+- **TKT-0546 and TKT-0547 closed**
+- **Process note:** Jun-20 daily memory recorded execution correctly, but the fact did not propagate into MEMORY.md or the Jun-21 consolidated context until this correction. Daily→master promotion must carry execution-state changes.
 
 ### Model Routing Updates
 - **CHG-0596 (Jun 15):** Minimax trial TERMINATED — verdict: PARTIAL
@@ -122,7 +122,7 @@ During execution of TKT-0698, Yoda produced a CREST Plan, then directly edited `
 |----------|------|--------|
 | Sprint 9 exception | Jun 21 | 16-item sprint approved; capacity/velocity skew tolerated until TKT-0342 + TKT-0368 delivered |
 | Auto-rollover Sprint 9 | Jun 21 | Unfinished Sprint 9 items automatically carry into Sprint 10 |
-| CREST v1.3 approval | Jun 20 | Approved; no execution until pre-tier gates complete + Ken triggers |
+| CREST v1.3 approval/execution | Jun 20 | Approved 09:28 AEST; fully executed same day; TKT-0546 + TKT-0547 closed |
 | Yoda/Aria Plan model | Jun 20 | `kimi-k2.7-code:cloud` primary for Plan/Replan |
 | GLM-5.2 backend design | Jun 20 | Primary for Atlas/Thrawn/Lando/Mon Mothma Plan/Analysis |
 | Minimax terminated | Jun 15 | Partial; no longer in active rotation |
@@ -147,7 +147,7 @@ During execution of TKT-0698, Yoda produced a CREST Plan, then directly edited `
 | Sprint 9 execution | Jun 22–28 | 16 items committed; priority = TKT-0342 + TKT-0368 |
 | OC2-A/B arrival | Jul 6–13 | TRIGGER-01, TRIGGER-02 |
 | OC2 commissioning | ~Jul 27 | Gemma4:26b local, HA cluster, NAS encrypted |
-| CREST v1.3 execution | After G1-G5 gates + Ken trigger | TKT-0546 |
+| CREST v1.3 execution | DONE — 2026-06-20 | TKT-0546 closed; TKT-0547 closed |
 | P2 launch (first SME client) | Target end-Aug 2026 | TRIGGER-07 |
 
 ---
@@ -158,7 +158,7 @@ During execution of TKT-0698, Yoda produced a CREST Plan, then directly edited `
 |---|----------|--------|
 | 1 | Nexus System Architecture v1.0 | ✅ APPROVED |
 | 2 | Technology Strategy & Roadmap v1.0 | ✅ APPROVED |
-| 3 | CREST v1.3 Recursive Model-C | ✅ APPROVED (not executed) |
+| 3 | CREST v1.3 Recursive Model-C | ✅ APPROVED and EXECUTED 2026-06-20 |
 | 4 | CREST v1.3 Model Policy Schema | ✅ APPROVED |
 | 5 | Model3-Policy v1.0 | 🟢 Active (kimi-k2.7 primary for Yoda/Aria) |
 | 6 | Sprint 9 Planning Exception | ✅ Locked |

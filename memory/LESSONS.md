@@ -1,3 +1,13 @@
+## L-164 — Daily memory facts that change master state must be explicitly promoted; do not assume consolidation carries them
+**Date:** 2026-06-21
+**Source:** CREST v1.3 status correction. `memory/2026-06-20.md` recorded "CREST v1.3 fully executed 2026-06-20" correctly, but the next consolidated context handoff (`docs/context-handoffs/Context-Handoff-Delta-20260607-20260621.md`) still described CREST v1.3 as "APPROVED, Not Yet Executed" in three places. The stale master state persisted for ~24 hours and nearly caused a backward "correction" to the record.
+**Lesson:** Daily memory and journal files are the source of truth for recent facts, but they do not automatically propagate into `MEMORY.md` or context handoff deltas. A verified-true execution-state change can be correctly recorded in daily memory yet remain mis-recorded in master context unless promotion is an explicit, auditable step.
+**Fix:** (1) Created `agent-skills/memory-maintenance/SKILL.md` defining `#master-update` and `#execution-state` inline tags. (2) Created `scripts/daily-master-promote-check.sh` to scan daily files, extract tagged statements, and check whether they are reflected in `MEMORY.md` and the latest context handoff delta using keyword-based matching. (3) Registered the skill in `agent-skills/.index.json`. (4) Added a promotion-gate step to the context-handoff/EOD close checklist. (5) Opened TKT-0711 to track the full rollout.
+**Evidence:** Script verification: stale delta flags CREST v1.3 as drift (`in_delta: false`, `delta_match_ratio: 0.33`); fixed delta and `MEMORY.md` show zero drift (`in_delta: true`, `delta_match_ratio: 0.87`).
+**Prevention:** (1) Tag execution-state and master-record changes in daily memory at the moment they are verified. (2) Run the promotion check before every EOD close and before publishing every context handoff delta. (3) Treat non-zero `drift` as a hard blocker for handoff publication. (4) Periodically audit `MEMORY.md` against the last 14 days of daily memory to catch untagged facts that should have been promoted.
+
+---
+
 ## L-163 — Malformed silent replies (`ANNOUNCE_SKIP` concatenation) can crash-loop an agent session
 **Date:** 2026-06-21
 **Source:** Aria session `3c4d1fb8-5456-4ab2-83ed-0567b1fc58cd` stuck in perpetual `SKIPANNOUNCE`; required gateway restart to clear.
