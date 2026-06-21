@@ -1,3 +1,11 @@
+## Monday, June 22, 2026 — Memory Update
+_Written by Yoda 🟢 in response to Ken directive_
+
+### Resolved today
+- **LinkedIn personal auth — FIXED ✅**: Ken has resolved the LinkedIn client secret mismatch. Angie's personal profile OAuth flow should now work. Aria can retry LinkedIn personal-account posting when Angie is ready.
+
+---
+
 ## Sunday, June 21, 2026 — Business Stream Summary
 _Written 23:45 AEST by Aria cron_
 
@@ -17,7 +25,7 @@ None triggered today.
 - **BS-002**: Lynn Huang / Jack Ooi / Finance follow-ups — queued for next Angie session
 - **ROI weekly cron**: Script ready, keychain token added by Ken, cron registered but disabled pending Aria's final dry-run approval
 - **LinkedIn campaign**: Week 2 posts (LI-W2-P4/P5/P6) drafted, governance-cleared, images pending Angie approval
-- **LinkedIn personal auth**: Still broken (client secret mismatch) — needs Ken to verify LinkedIn app credentials
+- ~~**LinkedIn personal auth**: Still broken (client secret mismatch) — needs Ken to verify LinkedIn app credentials~~ **RESOLVED 2026-06-22** — Ken fixed the client secret.
 - **Ken training confirmation (MSG-20260601-001)**: 20 days old, no response
 - **Google Calendar auth**: Broken since Jun 3
 
@@ -25,7 +33,7 @@ None triggered today.
 - Business stream was quiet today (Sunday). No Angie session.
 - Ken directive cleaned up stale standup items — three items closed, two moved to Aria's tracker.
 - ROI weekly cron is one dry-run approval away from going live. Yoda registered it disabled; Aria will approve after verifying.
-- LinkedIn personal auth still needs Ken to fix the client secret in the LinkedIn developer portal.
+- ~~LinkedIn personal auth still needs Ken to fix the client secret in the LinkedIn developer portal.~~ **RESOLVED 2026-06-22** — Ken fixed the client secret; Aria can retry Angie's personal-profile OAuth when ready.
 
 ## Saturday, June 20, 2026 — Business Stream Summary
 _Written 23:45 AEST by Aria cron_

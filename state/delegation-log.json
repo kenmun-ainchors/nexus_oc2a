@@ -6292,10 +6292,80 @@
       "status": "pass",
       "latencyMs": 0,
       "notes": "warden check (permanent baseline CHG-0394)"
+    },
+    {
+      "ts": "2026-06-22T01:07:11+10:00",
+      "date": "2026-06-22",
+      "tier": "T2",
+      "taskType": "warden-check",
+      "model": "ollama/gemma4:31b-cloud",
+      "status": "pass",
+      "latencyMs": 0,
+      "notes": "warden check (permanent baseline CHG-0394)"
+    },
+    {
+      "ts": "2026-06-22T02:07:12+10:00",
+      "date": "2026-06-22",
+      "tier": "T2",
+      "taskType": "warden-check",
+      "model": "ollama/gemma4:31b-cloud",
+      "status": "pass",
+      "latencyMs": 0,
+      "notes": "warden check (permanent baseline CHG-0394)"
+    },
+    {
+      "ts": "2026-06-22T03:07:12+10:00",
+      "date": "2026-06-22",
+      "tier": "T2",
+      "taskType": "warden-check",
+      "model": "ollama/gemma4:31b-cloud",
+      "status": "pass",
+      "latencyMs": 0,
+      "notes": "warden check (permanent baseline CHG-0394)"
+    },
+    {
+      "ts": "2026-06-22T04:07:12+10:00",
+      "date": "2026-06-22",
+      "tier": "T2",
+      "taskType": "warden-check",
+      "model": "ollama/gemma4:31b-cloud",
+      "status": "pass",
+      "latencyMs": 0,
+      "notes": "warden check (permanent baseline CHG-0394)"
+    },
+    {
+      "ts": "2026-06-22T05:07:12+10:00",
+      "date": "2026-06-22",
+      "tier": "T2",
+      "taskType": "warden-check",
+      "model": "ollama/gemma4:31b-cloud",
+      "status": "pass",
+      "latencyMs": 0,
+      "notes": "warden check (permanent baseline CHG-0394)"
+    },
+    {
+      "ts": "2026-06-22T06:07:12+10:00",
+      "date": "2026-06-22",
+      "tier": "T2",
+      "taskType": "warden-check",
+      "model": "ollama/gemma4:31b-cloud",
+      "status": "pass",
+      "latencyMs": 0,
+      "notes": "warden check (permanent baseline CHG-0394)"
+    },
+    {
+      "ts": "2026-06-22T07:07:12+10:00",
+      "date": "2026-06-22",
+      "tier": "T2",
+      "taskType": "warden-check",
+      "model": "ollama/gemma4:31b-cloud",
+      "status": "pass",
+      "latencyMs": 0,
+      "notes": "warden check (permanent baseline CHG-0394)"
     }
   ],
   "summary": {
-    "total": 629,
+    "total": 636,
     "byTier": {
       "T1": {
         "pass": 0,
@@ -6303,7 +6373,7 @@
         "timeout": 0
       },
       "T2": {
-        "pass": 488,
+        "pass": 495,
         "fail": 141,
         "timeout": 0
       },
@@ -6315,7 +6385,7 @@
     },
     "byTaskType": {
       "warden-check": {
-        "pass": 470,
+        "pass": 477,
         "fail": 141,
         "timeout": 0,
         "tier": "T2"
@@ -6327,6 +6397,6 @@
         "tier": "T2"
       }
     },
-    "estimatedSavingsUSD": 2.44
+    "estimatedSavingsUSD": 2.475
   }
 }

@@ -2,6 +2,11 @@
 _Updated daily by Yoda 🟢 | Aria reads this for platform context and training material development_
 _Last updated: 2026-05-03 (Day 9 — AKB catch-up run — covering Day 8 + Day 9)_
 
+## Memory Update — 2026-06-22
+- **LinkedIn personal auth — FIXED ✅**: Ken has resolved the LinkedIn client secret mismatch. Angie's personal profile OAuth flow should now work. Aria can retry LinkedIn personal-account posting when Angie is ready.
+
+---
+
 This file gives Aria a curated, accurate view of what the AInchors technical team is building — the platform, the agents, the rules, and the why. Use it both for training content development and as a live reference for what's operational.
 
 ---

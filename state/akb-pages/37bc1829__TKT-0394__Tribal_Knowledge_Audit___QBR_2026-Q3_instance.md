@@ -7,8 +7,4 @@
 - **Category:** Technical
 - **Sprint:** Sprint 9
 - **Created:** 2026-06-10T16:43:00.000+10:00
-- **Last Edited:** 2026-06-15T00:58:00.000Z
-
-## Notes
-
-Stub brief: Tribal Knowledge Audit — QBR 2026-Q3 instance. Awaiting full groom with Ken. Kept per Ken Excel decision 2026-06-12 (no specific notes provided).
+- **Last Edited:** 2026-06-20T23:40:00.000Z
