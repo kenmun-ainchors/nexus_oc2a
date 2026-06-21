@@ -231,9 +231,49 @@ if [ "$SQL" = "PG_QUERY_FAILED" ]; then
 fi
 
 # Step 3: Execute the generated SQL
-PG_RESULT=$(bash "$DB" -c "$SQL" 2>/dev/null && echo "PG_WRITE_OK" || echo "PG_WRITE_FAIL")
+# TKT-0698: Capture stderr to classify PG errors. Do NOT suppress stderr blindly.
+PG_ERR_TMP=$(mktemp -t dbwrite_pgerr.XXXXXX)
+trap 'rm -f "$PY_SQL" "$PY_FB" "$PG_ERR_TMP"' EXIT
 
-if echo "$PG_RESULT" | grep -q "PG_WRITE_OK"; then
+bash "$DB" -c "$SQL" > /dev/null 2>"$PG_ERR_TMP"
+PG_EXIT=$?
+PG_ERR=$(cat "$PG_ERR_TMP" 2>/dev/null)
+
+# TKT-0698: Error classification — only fallback on genuine PG unavailability.
+_classify_pg_error() {
+  local code="$1"; local msg="$2"
+  # Outage / connection-level patterns
+  case "$msg" in
+    *"could not connect"*|*"Connection refused"*|*"FATAL:"*|*"server closed the connection"*|*"timeout expired"*|*"pg_ctl start"*|*"No such file or directory"*)
+      echo "OUTAGE"; return ;;
+  esac
+  # psql connection failure exit codes
+  if [[ "$code" == "2" ]]; then
+    echo "OUTAGE"; return
+  fi
+  # Any SQL-level ERROR means the query was rejected by PG; caller bug, not outage.
+  if [[ "$code" != "0" ]] || [[ "$msg" == *"ERROR:"* ]]; then
+    echo "REJECTED"; return
+  fi
+  echo "OK"
+}
+
+ERR_KIND=$(_classify_pg_error "$PG_EXIT" "$PG_ERR")
+
+if [[ "$ERR_KIND" == "OUTAGE" ]]; then
+  echo '{"status":"degraded","backend":"file","id":"'"$ID"'","error":"PG unavailable","pg_error":"'"${PG_ERR//$'\n'/ }"'"}' 1>&2
+  printf '%s\n' "$DATA" >> "$WORKSPACE/state/pg-write-fallback-$TABLE.jsonl"
+  exit 0
+fi
+
+if [[ "$ERR_KIND" == "REJECTED" ]]; then
+  # Sanitize error message for JSON: collapse newlines and escape double quotes.
+  SAFE_ERR=$(printf '%s' "$PG_ERR" | tr '\n' ' ' | sed 's/\\/\\\\/g; s/"/\\"/g')
+  echo '{"status":"error","backend":"postgres","id":"'"$ID"'","pg_error":"'"$SAFE_ERR"'"}' 1>&2
+  exit 1
+fi
+
+if [[ "$PG_EXIT" == "0" ]]; then
   # TKT-0311: Post-write verification
   VERIFY=$(bash "$DB" -c "SELECT id FROM $TABLE WHERE id='$ID'" 2>/dev/null)
   if [[ "$VERIFY" == *"$ID"* ]]; then

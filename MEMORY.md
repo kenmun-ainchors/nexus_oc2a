@@ -102,6 +102,13 @@ Nexus=platform|Holocron=AKB|Bridge=cmd-centre|Citadel=client-portal|Holonet=live
 - **Notion skills + patterns:** canonical reference is `agent-skills/notion/SKILL.md`
 - LinkedIn ✅ connected. Instagram/Facebook/X not yet connected.
 
+## Sprint 9 Planning Exception — Locked 2026-06-21 09:39 AEST (Ken Mun)
+- **Sprint 9 (2026-06-22 → 2026-06-28) committed with 16 items** — explicit exception to the 6-item capacity rule.
+- **Reason:** Must deliver TKT-0342 (PG SSOT Gap Remediation) and TKT-0368 (CREST v2.0 / Nexus Foundational Architecture) before OC2 arrives (ETA 6–13 Jul 2026, commission ~27 Jul).
+- **Rule exception:** Velocity/capacity metrics will be skewed until both epics are complete. **Auto-rollover enabled** — unfinished Sprint 9 items roll into Sprint 10 automatically.
+- **Priority stack:** TKT-0342 and TKT-0368 work takes precedence over all other Sprint 9 items.
+- **Tooling note:** `db-sprint.sh current` incorrectly returned Sprint 11; actual next sprint was Sprint 9. Manually targeted Sprint 9 for all commits.
+
 ## Model Routing — Permanent Structure (LOCKED 2026-06-15, CHG-0596)
 - Load skill: `bash scripts/skill-load.sh model-routing`
 - Model policy SSOT: `state/model-policy.json`
@@ -130,6 +137,23 @@ Nexus=platform|Holocron=AKB|Bridge=cmd-centre|Citadel=client-portal|Holonet=live
 - **Policy files updated:** `state/model-policy.json`, `state/critical-config-baseline.json`. `ollama/glm-5.2:cloud` added to `globalAllowedModels` and CREST v1.3 model registry.
 - **Verification note:** Sage verification failed due to sandbox workspace isolation. Forge re-scored and orchestrator audited corrected math. Full transparency logged in CHG-0685.
 
+
+## Yoda CREST/Forge Self-Correction — 2026-06-21 09:56 AEST (Ken Mun)
+- **Violation:** Yoda directly edited `scripts/db-write.sh`, `scripts/db-raw.sh`, and `scripts/test-db-write.sh` for TKT-0698 instead of dispatching Execute to Forge.
+- **Rule locked in:** Yoda NEVER directly edits scripts/, infra/, or build/config files. Plan/Verify = Yoda; Execute = Forge via `sessions_spawn(agentId="infra")`.
+- **No exceptions for:** small fixes, urgency, or "already in context". Per-instance exception requires explicit Ken/Angie approval.
+- **Self-check:** before any `edit`/`write` on executable/config files, ask *"Is this Execute? Is this Forge's domain?"*
+
+## Master Platform Context (DNA) — 2026-06-21
+Long-term context handoffs for agent resumption and human reference. Stored in `docs/context-handoffs/` and mirrored to Google Drive `Master Platform Context/`.
+
+| Period | Local Path | Drive Link |
+|--------|------------|------------|
+| 2026-05-10 → 2026-06-07 | `docs/context-handoffs/Context-Handoff-Delta-20260510-20260607---580465c6-6c77-41b8-b521-e89edbe3c396.md` | https://drive.google.com/file/d/1HektFfW2M5Xj9XfJqOhLLfeOgJ69aeXc/view?usp=drivesdk |
+| 2026-06-07 → 2026-06-21 | `docs/context-handoffs/Context-Handoff-Delta-20260607-20260621.md` | https://drive.google.com/file/d/1cDJrRubNVkkS2qGEFEBKNHvVmY-oXP1r/view?usp=drivesdk |
+
+**Drive folder:** https://drive.google.com/drive/folders/1nQ5hUDeCfRTmGXFZkJmJ5DDLdgHemyp8
+**Consolidation rule:** Combine into a single master handoff when delta chain reaches 3+ or at next major milestone per Ken instruction.
 
 ## Archived Sections
 Older/less-frequently-used sections moved to `memory/MEMORY-archive-2026-06-20.md` on 2026-06-20 to keep MEMORY.md within the 10–12K soft limit. Searchable on demand.

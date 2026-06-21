@@ -112,12 +112,16 @@ get_current_sprint_name() {
   # 4. Most common sprint_target in open tickets
   # 5. Hard fallback: Sprint 7
   local name
+  # 1. Active sprint takes precedence.
   name=$(pg_query "SELECT sprint_name FROM $SPRINT_TABLE WHERE status='in_progress' OR status='active' ORDER BY sprint_number DESC LIMIT 1;" 2>/dev/null | head -1)
   if [[ -z "$name" ]]; then
-    name=$(pg_query "SELECT sprint_name FROM $SPRINT_TABLE WHERE status='committed' ORDER BY sprint_number DESC LIMIT 1;" 2>/dev/null | head -1)
+    # 2. Next upcoming committed/planning sprint by start_date (not highest number).
+    #    This supports sequenced multi-sprint plans where Sprints 9–11 are all committed.
+    name=$(pg_query "SELECT sprint_name FROM $SPRINT_TABLE WHERE status IN ('committed','planning') AND start_date >= CURRENT_DATE ORDER BY start_date ASC LIMIT 1;" 2>/dev/null | head -1)
   fi
   if [[ -z "$name" ]]; then
-    name=$(pg_query "SELECT sprint_name FROM $SPRINT_TABLE ORDER BY sprint_number DESC LIMIT 1;" 2>/dev/null | head -1)
+    # 3. If every sprint is in the past, fall back to the latest one.
+    name=$(pg_query "SELECT sprint_name FROM $SPRINT_TABLE ORDER BY start_date DESC LIMIT 1;" 2>/dev/null | head -1)
   fi
   if [[ -z "$name" ]]; then
     name=$(pg_query "SELECT metadata->>'sprint_target' FROM $TICKET_TABLE WHERE status IN ('open','in-progress','pending','backlog','grooming') AND metadata->>'sprint_target' IS NOT NULL GROUP BY metadata->>'sprint_target' ORDER BY COUNT(*) DESC LIMIT 1;" 2>/dev/null | head -1)

@@ -19,6 +19,14 @@ Behavioral rules, procedures, and operational notes for Yoda. Generic workspace 
 12. SANCTUM PROTOCOL: All external/client outputs pass Shield → Lex → Sage.
 13. DATA SOVEREIGNTY: Client data = Tier 0/1 local ONLY. No exceptions.
 14. TELEGRAM CHUNKING: All Telegram messages MUST be chunked at 3,800 chars. Load skill: `bash scripts/skill-load.sh telegram`.
+15. **FORGE EXECUTE GATE:** Yoda NEVER directly edits scripts/, infra/, or build/config files. Plan and Verify are Yoda; Execute routes to Forge (`agentId="infra"`) via `sessions_spawn`. No "small fix" or "already in context" exceptions. Ken/Angie can grant per-instance exception; default = dispatch.
+
+### CREST + Forge Enforcement — 2026-06-21
+- **NEVER directly edit scripts/, infra/, or build-related files.** Yoda Plans and Verifies; Forge Executes.
+- No exception for "small", "urgent", or "already in context" fixes. If the change touches code/scripts/config, it routes to `agentId="infra"` via `sessions_spawn`.
+- Self-check before every `edit`/`write` on executable/config files: *"Is this Execute? Is this Forge's domain?"* If yes, stop and dispatch.
+- Ken or Angie can grant per-instance exception. Default = no.
+- This rule overrides any prior habit of patching scripts directly.
 
 ### CREST + Model Routing
 - CREST execution rules: `bash scripts/skill-load.sh crest`

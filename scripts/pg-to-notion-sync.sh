@@ -261,18 +261,53 @@ sync_ticket() {
 
 # --- MODES ---
 
+# Paginate through a Notion database query and return total result count
+_notion_db_count() {
+  local db_id="$1"
+  local total=0
+  local next_cursor=""
+  local has_more="true"
+  while [[ "$has_more" == "true" ]]; do
+    local body
+    if [[ -n "$next_cursor" ]]; then
+      body=$(jq -n --arg c "$next_cursor" '{page_size:100, start_cursor:$c}')
+    else
+      body='{"page_size":100}'
+    fi
+    local resp=$(curl -s -X POST "$NOTION_API/databases/$db_id/query" \
+      -H "Authorization: Bearer $NOTION_KEY" -H "Notion-Version: $NOTION_VERSION" \
+      -H "Content-Type: application/json" --data "$body")
+    local page_count=$(echo "$resp" | jq '.results | length')
+    total=$((total + page_count))
+    next_cursor=$(echo "$resp" | jq -r '.next_cursor // empty')
+    has_more=$(echo "$resp" | jq -r '.has_more // false')
+  done
+  echo "$total"
+}
+
 do_audit() {
   log "Running Integrity Audit..."
   local report="{}"
   
-  # 1. Count Check
+  # 1. Count Check (paginated — TKT-0406 audit previously capped at 100 pages)
   local pg_count=$($DB_SCRIPT -c "SELECT count(*) FROM state_tickets;" | tr -d '[:space:]')
-  local n_pages=$(curl -s -X POST "$NOTION_API/databases/$DB_BACKLOG/query" \
-    -H "Authorization: Bearer $NOTION_KEY" -H "Notion-Version: $NOTION_VERSION" \
-    -H "Content-Type: application/json" -d '{"page_size": 100}' | jq '.results | length')
+  local n_pages=$(_notion_db_count "$DB_BACKLOG")
+  local mismatch=$((pg_count - n_pages))
+  [[ "$mismatch" -lt 0 ]] && mismatch=$((mismatch * -1))
+  local overall="pass"
+  local message="PG and Notion counts within tolerance"
+  if [[ "$mismatch" -gt 5 ]]; then
+    overall="fail"
+    message="Mismatch detected: PG=$pg_count, Notion=$n_pages, delta=$mismatch"
+  fi
   
-  # Minimal implementation of report
-  echo "{\"overall\":\"pass\",\"pg_count\":$pg_count,\"notion_count\":$n_pages,\"mismatch\":$((pg_count - n_pages))}"
+  jq -n \
+    --arg overall "$overall" \
+    --argjson pg_count "$pg_count" \
+    --argjson notion_count "$n_pages" \
+    --argjson mismatch "$mismatch" \
+    --arg message "$message" \
+    '{overall:$overall, pg_count:$pg_count, notion_count:$notion_count, mismatch:$mismatch, message:$message}'
 }
 
 do_batch() {

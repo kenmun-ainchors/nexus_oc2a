@@ -169,6 +169,71 @@ Both reference canonical docs in `references/` and load via `scripts/skill-load.
 ---
 ---
 
+## 2026-06-21 09:52 AEST — [CHG-0698] Implement TKT-0698: db-write.sh error classification
+**Type:** script
+**Change Type:** Normal
+**Source:** ken-prompt
+**Trigger:** Ken approved groom/execution 2026-06-21 09:50 AEST
+**What changed:** db-write.sh captures psql exit code and stderr. Adds _classify_pg_error(): REJECTED errors (schema/type/constraint/SQL) surface to caller and exit 1; OUTAGE errors (connection/unavailable) still fallback to file. SQL stdout silenced. db-raw.sh now respects existing PGHOST/PGPORT/PGUSER/PGDATABASE env overrides for outage testing.
+**Why:** Previously any PG error silently degraded to file fallback, hiding caller bugs like string-into-integer capacity mismatch
+**Verification:** scripts/test-db-write.sh passes 7/7 tests. Verified original Sprint 9 update with string capacity returns error and no fallback; correct integer update succeeds.
+**Rollback:** Revert db-write.sh to PG_RESULT= and db-raw.sh to hardcoded exports
+**Linked:** TKT-0698, CHG-0697
+---
+
+
+## 2026-06-21 09:47 AEST — [CHG-0697] Fix db-sprint.sh current sprint detection
+**Type:** script
+**Change Type:** Normal
+**Source:** ken-prompt
+**Trigger:** Sprint 9 planning: db-sprint.sh current returned Sprint 11 while actual next sprint was Sprint 9
+**What changed:** get_current_sprint_name() now picks earliest upcoming committed/planning sprint by start_date, not highest sprint_number
+**Why:** Multi-sprint plans (9-11) were committed; previous logic always picked latest number, breaking commit/status/plan subcommands
+**Verification:** db-sprint.sh current now returns Sprint 9 (2026-06-22 start)
+**Rollback:** Revert get_current_sprint_name to ORDER BY sprint_number DESC
+**Linked:** Sprint 9 planning
+---
+
+
+## 2026-06-21 09:24 AEST — [CHG-0696] Cleanup 127 orphan Notion Backlog pages
+**Type:** data
+**Change Type:** Normal
+**Source:** ken-prompt
+**Trigger:** TKT-0696: Ken approved cleanup of orphan pages detected by PG-Notion audit
+**What changed:** Identify and remove Notion DB A pages with no matching PG state_tickets row; target 127 orphan pages
+**Why:** Audit mismatch (PG=345, Notion=472) breaks integrity checks and will trigger daily cron alerts
+**Verification:** Run pg-to-notion-sync.sh --audit after deletion; expected overall=pass
+**Rollback:** Notion page deletion is destructive; pre-delete list saved to state/pg-notion-cleanup-YYYY-MM-DD.json before any removal
+**Linked:** TKT-0696, CHG-0694, CHG-0695
+---
+
+
+## 2026-06-21 08:38 AEST — [CHG-0695] pg-to-notion-sync.sh --audit pagination fix
+**Type:** script
+**Change Type:** Normal
+**Source:** ken-prompt
+**Trigger:** Sprint 8 review: audit reported mismatch 245 due to Notion page_size=100 cap; actual Notion count 472 vs PG 345
+**What changed:** do_audit() now paginates Notion DB query and reports true notion_count; mismatch threshold (>5) flips overall to fail with actionable message
+**Why:** Previous audit returned only first 100 Notion pages, producing false mismatch and never detecting real drift; cron needs trustworthy output
+**Verification:** Run --audit after patch; expected notion_count ≈472 and overall pass (mismatch 127? actually >5, should fail). Wait — mismatch 127 > 5 so overall should be fail. Hmm. Then we need to also clean duplicates.
+**Rollback:** Revert do_audit function to prior single-page query via git checkout
+**Linked:** CHG-0694, TKT-0406
+---
+
+
+## 2026-06-21 08:37 AEST — [CHG-0694] PG-Notion Integrity Audit cron timeout increase
+**Type:** cron
+**Change Type:** Normal
+**Source:** ken-prompt
+**Trigger:** Sprint 8 review surfaced 4 consecutive cron timeouts (job 85595417)
+**What changed:** timeoutSeconds increased from 193 to 600 for cron 85595417 (PG-Notion Integrity Audit daily)
+**Why:** Isolated agent session startup + tool execution overhead exceeded 193s; manual --audit runs in 1.1s so script is healthy but cron wrapper times out
+**Verification:** cron get after update shows new timeout; next scheduled run expected to complete
+**Rollback:** Revert timeoutSeconds to 193 via cron update
+**Linked:** TKT-0406, Sprint 8 review
+---
+
+
 ## 2026-06-20 22:57 AEST — [CHG-0693] Resolve Warden CREST v1.3 model drift escalation and fix model-drift-check.sh
 **Type:** infra
 **Change Type:** Normal
