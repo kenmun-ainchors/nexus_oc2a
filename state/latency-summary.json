@@ -1,22 +1,22 @@
 {
-  "generatedAt": "2026-06-21T14:01:42.985417+00:00",
+  "generatedAt": "2026-06-21T14:58:16.757538+00:00",
   "windowDays": 7,
   "note": "Duration = end-to-end cron task time (includes LLM call + tool use). TTFT instrumentation pending gateway-level hooks.",
   "overall": {
-    "sampleCount": 12151,
-    "avgMs": 7544,
+    "sampleCount": 12165,
+    "avgMs": 7571,
     "peakMs": 802044,
     "minMs": 1
   },
   "byModel": {
     "deepseek-v4-pro:cloud": {
-      "sampleCount": 35,
-      "avgMs": 79862,
+      "sampleCount": 36,
+      "avgMs": 82630,
       "minMs": 4458,
       "maxMs": 802044,
-      "p50Ms": 19913,
+      "p50Ms": 25128,
       "p95Ms": 250768,
-      "avgTokens": 51212
+      "avgTokens": 52330
     },
     "minimax-m3:cloud": {
       "sampleCount": 6,
@@ -46,17 +46,17 @@
       "avgTokens": 8746
     },
     "deepseek-v4-flash:cloud": {
-      "sampleCount": 2544,
-      "avgMs": 10648,
+      "sampleCount": 2560,
+      "avgMs": 10626,
       "minMs": 2341,
       "maxMs": 211284,
-      "p50Ms": 8438,
+      "p50Ms": 8420,
       "p95Ms": 21713,
-      "avgTokens": 15397
+      "avgTokens": 15399
     },
     "claude-sonnet-4-6": {
-      "sampleCount": 9410,
-      "avgMs": 6255,
+      "sampleCount": 9407,
+      "avgMs": 6272,
       "minMs": 1,
       "maxMs": 120297,
       "p50Ms": 45,
