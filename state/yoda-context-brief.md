@@ -1,5 +1,5 @@
 # Yoda Telegram Context Brief
-# Auto-refreshed: Sunday, June 21st, 2026 - 8:00 PM AEST
+# Auto-refreshed: Monday, June 22nd, 2026 - 2:00 PM AEST
 # Platform Day: 58 (from 2026-04-25)
 # Current Sprint: Sprint 9 (2026-06-22 to 2026-06-28) — COMMITTED
 # Model: ollama/kimi-k2.7-code:cloud
@@ -52,17 +52,17 @@
 - **Current week:** Week 2 (Movement II: The Audit) — Theme A (What AI Agents in Production Actually Look Like)
 - **Posted:** W1-P1 (Tue 16 Jun), W1-P2 (Wed 17 Jun), W1-P3 (Thu 18 Jun) — all posted
 - **Upcoming slots:** Tue 23 Jun 07:30 (W2-P4), Wed 24 Jun 12:00 (W2-P5), Thu 25 Jun 07:30 (W2-P6)
-- **Drafts ready:** W2-P4, P5, P6 drafted Sat 20 Jun by batch cron (1cb0c7ff). Images pending Ken approval.
+- **Drafts ready:** W2-P4, P5, P6 all approved by Ken (2026-06-22) with images. Ready to publish.
 - **Voice:** Ken Mun, CTO — first-person, direct, no fluff. NO AInchors/Yoda/Nexus/agent names.
 - **Missed-slot rule:** Push to next slot. If occupied, skip. Never post late.
 - **Pipeline:** Weekend batch draft (Sat 12:00) → review → publish at slot. Never draft at publish time.
 
-## Ollama Usage / Burn Alert
-- Weekly limit: 59,540 requests
-- Current: 41,797 requests (70.2% used)
-- Days remaining: ~1.6 (window ends Mon 22 Jun 10:00 AEST)
-- Burn rate: 326.5 req/hr
-- **Alert level:** ALERT — 70% threshold crossed. Alert sent to Ken 2026-06-20 20:00 AEST.
+## Ollama Usage / Burn Alert (as of 2026-06-21 20:00 AEST)
+- Weekly limit: 64,038 requests
+- Current: 49,053 requests (76.6% used)
+- Days remaining: ~0.58 (window ended Mon 22 Jun 10:00 AEST)
+- Burn rate: 322.7 req/hr
+- **Alert level:** ALERT — 70% threshold crossed 2026-06-20. 85% threshold (54,432) not yet crossed. No new alert sent at last check.
 
 ## Mandatory Rules for Telegram Sessions
 1. **Yoda/Aria CREST:** Plan/Replan primary = `kimi-k2.7-code:cloud`. Execute NEVER without Ken approval.

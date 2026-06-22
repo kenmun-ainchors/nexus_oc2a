@@ -329,10 +329,10 @@
       "type": "social",
       "createdBy": "yoda",
       "requestedBy": "ken",
-      "status": "triad-cleared",
+      "status": "triad-pending",
       "shield": "clear",
       "lex": "clear",
-      "sage": "clear",
+      "sage": "pending",
       "clearedAt": "2026-06-20T12:00:44+10:00",
       "publishedAt": null,
       "notes": "Triad cleared at 2026-06-20T12:00:44+10:00. Cleared for distribution."
@@ -406,6 +406,63 @@
       "clearedAt": "2026-06-22T08:03:54+10:00",
       "publishedAt": null,
       "notes": "Triad cleared at 2026-06-22T08:03:54+10:00. Cleared for distribution."
+    },
+    {
+      "id": "LI-W3-P7",
+      "title": "LI-W3-P7-rebuild-that-changed-how-i-work.md",
+      "type": "social",
+      "createdBy": "yoda",
+      "requestedBy": "ken",
+      "status": "triad-cleared",
+      "shield": "clear",
+      "lex": "conditional",
+      "sage": "conditional",
+      "clearedAt": "2026-06-22T08:13:26+10:00",
+      "publishedAt": null,
+      "notes": "Triad cleared at 2026-06-22T08:13:26+10:00. Cleared for distribution."
+    },
+    {
+      "id": "LI-W3-P8",
+      "title": "LI-W3-P8-context-discipline.md",
+      "type": "social",
+      "createdBy": "yoda",
+      "requestedBy": "ken",
+      "status": "triad-cleared",
+      "shield": "clear",
+      "lex": "conditional",
+      "sage": "conditional",
+      "clearedAt": "2026-06-22T08:13:35+10:00",
+      "publishedAt": null,
+      "notes": "Triad cleared at 2026-06-22T08:13:35+10:00. Cleared for distribution."
+    },
+    {
+      "id": "LI-W3-P9",
+      "title": "LI-W3-P9-governance-stack.md",
+      "type": "social",
+      "createdBy": "yoda",
+      "requestedBy": "ken",
+      "status": "triad-cleared",
+      "shield": "clear",
+      "lex": "conditional",
+      "sage": "conditional",
+      "clearedAt": "2026-06-22T08:13:41+10:00",
+      "publishedAt": null,
+      "notes": "Triad cleared at 2026-06-22T08:13:41+10:00. Cleared for distribution."
+    },
+    {
+      "id": "LI-W2-P4-final",
+      "title": "LI-W2-P4-audit-results-worse-than-thought-final.md",
+      "type": "social",
+      "createdBy": "yoda",
+      "requestedBy": "ken",
+      "status": "triad-cleared",
+      "shield": "clear",
+      "lex": "conditional",
+      "sage": "conditional",
+      "clearedAt": "2026-06-22T10:42:07+10:00",
+      "publishedAt": null,
+      "notes": "Triad cleared at 2026-06-22T10:42:07+10:00. Cleared for distribution."
     }
   ]
+}
 }

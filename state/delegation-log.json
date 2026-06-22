@@ -6362,10 +6362,100 @@
       "status": "pass",
       "latencyMs": 0,
       "notes": "warden check (permanent baseline CHG-0394)"
+    },
+    {
+      "ts": "2026-06-22T08:07:12+10:00",
+      "date": "2026-06-22",
+      "tier": "T2",
+      "taskType": "warden-check",
+      "model": "ollama/gemma4:31b-cloud",
+      "status": "pass",
+      "latencyMs": 0,
+      "notes": "warden check (permanent baseline CHG-0394)"
+    },
+    {
+      "ts": "2026-06-22T09:07:13+10:00",
+      "date": "2026-06-22",
+      "tier": "T2",
+      "taskType": "warden-check",
+      "model": "ollama/gemma4:31b-cloud",
+      "status": "pass",
+      "latencyMs": 0,
+      "notes": "warden check (permanent baseline CHG-0394)"
+    },
+    {
+      "ts": "2026-06-22T10:07:16+10:00",
+      "date": "2026-06-22",
+      "tier": "T2",
+      "taskType": "warden-check",
+      "model": "ollama/gemma4:31b-cloud",
+      "status": "pass",
+      "latencyMs": 0,
+      "notes": "warden check (permanent baseline CHG-0394)"
+    },
+    {
+      "ts": "2026-06-22T11:07:11+10:00",
+      "date": "2026-06-22",
+      "tier": "T2",
+      "taskType": "warden-check",
+      "model": "ollama/gemma4:31b-cloud",
+      "status": "pass",
+      "latencyMs": 0,
+      "notes": "warden check (permanent baseline CHG-0394)"
+    },
+    {
+      "ts": "2026-06-22T12:07:11+10:00",
+      "date": "2026-06-22",
+      "tier": "T2",
+      "taskType": "warden-check",
+      "model": "ollama/gemma4:31b-cloud",
+      "status": "pass",
+      "latencyMs": 0,
+      "notes": "warden check (permanent baseline CHG-0394)"
+    },
+    {
+      "ts": "2026-06-22T13:07:12+10:00",
+      "date": "2026-06-22",
+      "tier": "T2",
+      "taskType": "warden-check",
+      "model": "ollama/gemma4:31b-cloud",
+      "status": "pass",
+      "latencyMs": 0,
+      "notes": "warden check (permanent baseline CHG-0394)"
+    },
+    {
+      "ts": "2026-06-22T14:07:11+10:00",
+      "date": "2026-06-22",
+      "tier": "T2",
+      "taskType": "warden-check",
+      "model": "ollama/gemma4:31b-cloud",
+      "status": "pass",
+      "latencyMs": 0,
+      "notes": "warden check (permanent baseline CHG-0394)"
+    },
+    {
+      "ts": "2026-06-22T15:07:12+10:00",
+      "date": "2026-06-22",
+      "tier": "T2",
+      "taskType": "warden-check",
+      "model": "ollama/gemma4:31b-cloud",
+      "status": "pass",
+      "latencyMs": 0,
+      "notes": "warden check (permanent baseline CHG-0394)"
+    },
+    {
+      "ts": "2026-06-22T16:07:14+10:00",
+      "date": "2026-06-22",
+      "tier": "T2",
+      "taskType": "warden-check",
+      "model": "ollama/gemma4:31b-cloud",
+      "status": "pass",
+      "latencyMs": 0,
+      "notes": "warden check (permanent baseline CHG-0394)"
     }
   ],
   "summary": {
-    "total": 636,
+    "total": 645,
     "byTier": {
       "T1": {
         "pass": 0,
@@ -6373,7 +6463,7 @@
         "timeout": 0
       },
       "T2": {
-        "pass": 495,
+        "pass": 504,
         "fail": 141,
         "timeout": 0
       },
@@ -6385,7 +6475,7 @@
     },
     "byTaskType": {
       "warden-check": {
-        "pass": 477,
+        "pass": 486,
         "fail": 141,
         "timeout": 0,
         "tier": "T2"
@@ -6397,6 +6487,6 @@
         "tier": "T2"
       }
     },
-    "estimatedSavingsUSD": 2.475
+    "estimatedSavingsUSD": 2.52
   }
 }

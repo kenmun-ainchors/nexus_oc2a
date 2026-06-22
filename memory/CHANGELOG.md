@@ -169,6 +169,71 @@ Both reference canonical docs in `references/` and load via `scripts/skill-load.
 ---
 ---
 
+## 2026-06-22 16:53 AEST — [CHG-0707] TKT-0725 groomed: canonical sprint registry with 8 atoms
+**Type:** data
+**Change Type:** Normal
+**Source:** ken-prompt
+**Trigger:** Ken requested 'groom first' at 2026-06-22 16:53 AEST
+**What changed:** Groomed TKT-0725 into 8 atoms (A1-A8), clarified scope (11 variants, 263 unsprinted, FK sprint_id, map table), updated metadata.grooming_history, synced to Notion.
+**Why:** TKT-0725 is foundation for Sprint 9 CRESTv2-P1 work; must be well-defined before Forge execution.
+**Verification:** TKT-0725 metadata now contains groomed plan; Notion synced; groomed-plan artifact saved to .openclaw/tmp/TKT-0725-groomed-plan.md and .json.
+**Rollback:** Remove grooming_history entry; revert metadata; re-sync Notion.
+**Linked:** TKT-0725, TKT-0342, TKT-0330, TKT-0726, TKT-0720, TKT-0348, TKT-0354, TKT-0359, TKT-0721, .openclaw/tmp/TKT-0725-groomed-plan.md
+---
+
+
+## 2026-06-22 12:47 AEST — [CHG-0706] CRESTv2-P1 / Sprint 9-11 rebalance approved and locked by Ken
+**Type:** data
+**Change Type:** Normal
+**Source:** ken-prompt
+**Trigger:** Ken reviewed and approved at 2026-06-22 12:47 AEST
+**What changed:** State changed to locked. Sprint 9=16, Sprint 10=4, Sprint 11=7. state_sprints items JSON and ticket sprint fields are authoritative. CRESTv2-P1 tracker state/crestv2-p1-tracker.json status=locked.
+**Why:** Rebalance needed sign-off before execution dispatch.
+**Verification:** PG query: state_sprints committed with correct capacities/items; tracker JSON status=locked; all CRESTv2-P1 tickets have correct sprint fields; Notion synced.
+**Rollback:** Unlock tracker, revert state_sprints to pre-rebalance backup, restore ticket sprint fields.
+**Linked:** CHG-0705, Sprint 9, Sprint 10, Sprint 11, state/crestv2-p1-tracker.json, TKT-0342, TKT-0720-TKT-0726
+---
+
+
+## 2026-06-22 12:19 AEST — [CHG-0705] Rebalanced CRESTv2-P1 and Sprint 9/10/11 by priority, dependencies, and criticality
+**Type:** data
+**Change Type:** Normal
+**Source:** ken-prompt
+**Trigger:** Ken requested rebalance at 2026-06-22 12:16 AEST
+**What changed:** Sprint 9 capacity 23→16: kept foundation + P1/critical CRESTv2-P1 work. Sprint 10 capacity 4: follow-on + audit. Sprint 11 capacity 7: wave-2/3/deferred/hygiene. Updated state_sprints items and ticket sprint fields; updated CRESTv2-P1 tracker; synced 25 rebalanced tickets to Notion.
+**Why:** Sprint 9 overloaded at 23 items; foundation work must complete before follow-on items; dependencies require 0725+0330 before 0726/0720.
+**Verification:** PG query confirms Sprint 9=16, Sprint 10=4, Sprint 11=7 items; ticket sprint fields updated; CRESTv2-P1 tracker JSON updated; Notion sync completed.
+**Rollback:** Revert state_sprints items/capacity/notes to prior snapshot; restore ticket sprint fields; re-sync Notion.
+**Linked:** Sprint 9, Sprint 10, Sprint 11, TKT-0342, TKT-0368, TKT-0720-TKT-0726, TKT-0530, TKT-0531, TKT-0330, TKT-0343, TKT-0344, TKT-0348, TKT-0354, TKT-0357, TKT-0358, TKT-0359, TKT-0390, TKT-0394, TKT-0527, TKT-0528, TKT-0532, TKT-0280, TKT-0352, TKT-0171, TKT-0362, state/crestv2-p1-tracker.json
+---
+
+
+## 2026-06-22 10:38 AEST — [CHG-0704] Fix LinkedIn batch draft cron week calculation for Monday manual runs
+**Type:** cron
+**Change Type:** Normal
+**Source:** ken-prompt
+**Trigger:** Manual run of batch draft cron on Monday 2026-06-22 selected Week 3 (next Mon-Sun) instead of current Week 2
+**What changed:** Updated cron 1cb0c7ff-4eac-4993-be3a-40aa3d1b6f7d payload DETERMINE THE WEEK logic to use the next upcoming Tuesday 07:30 AEST slot instead of 'next Mon-Sun'
+**Why:** Cron was designed for Saturday 12:00 AEST; the 'next Mon-Sun' rule advances an extra week when triggered on Monday, causing it to skip the current week that still needs drafting/approval
+**Verification:** Will re-run cron and confirm delivered batch is Week 2 (Movement II: The Audit, 23-25 Jun 2026)
+**Rollback:** N/A
+**Linked:** none
+**Category:** process\n---
+
+
+## 2026-06-22 10:03 AEST — [CHG-0703] CRESTv2-P1 work planned and locked into Sprint 9
+**Type:** data
+**Change Type:** Normal
+**Source:** ken-prompt
+**Trigger:** Ken approved Phase 1 design module 2026-06-22 09:59 AEST
+**What changed:** Created 7 new CRESTv2-P1 tickets (TKT-0720-0726); updated epic TKT-0342 with workstream breakdown; expanded Sprint 9 capacity 16->23; established independent tracker state/crestv2-p1-tracker.json; stored design module docs/CRESTv2-P1-DM-StructuredFoundation-v1.0.md.
+**Why:** Phase 1 of CRESTv2/Nexus foundational architecture needs independent tracking from general Sprint 9 work; all work slotted and locked.
+**Verification:** PG query confirms 7 tickets created with Sprint 9 + epic TKT-0342; Sprint 9 capacity=23 items; tracker file created and JSON valid; Notion sync completed for all 8 tickets.
+**Rollback:** Delete new tickets via db-ticket.sh fold; revert Sprint 9 capacity/items; remove tracker file.
+**Linked:** TKT-0342, TKT-0368, TKT-0720, TKT-0721, TKT-0722, TKT-0723, TKT-0724, TKT-0725, TKT-0726, docs/CRESTv2-P1-DM-StructuredFoundation-v1.0.md, state/crestv2-p1-tracker.json
+---
+
+
 ## 2026-06-22 07:29 AEST — [CHG-0702] Make Warden live-session model drift check fall back to chatType
 **Type:** script
 **Change Type:** Normal
