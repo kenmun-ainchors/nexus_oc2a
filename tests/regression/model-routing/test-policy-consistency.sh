@@ -45,7 +45,7 @@ expect_not_allowed() {
 # T2 Backend design-only specialists: strong default, cheap execute/synthesize
 expect_model architect plan ollama/deepseek-v4-pro:cloud
 expect_model architect execute ollama/deepseek-v4-flash:cloud
-expect_model architect verify ollama/deepseek-v4-pro:cloud
+expect_model architect verify ollama/gemma4:31b-cloud
 expect_model architect synthesize ollama/deepseek-v4-flash:cloud
 expect_model platform-arch execute ollama/deepseek-v4-flash:cloud
 
@@ -57,20 +57,20 @@ expect_model qa verify ollama/gemma4:31b-cloud
 # T3 Technical: Forge exception
 expect_model infra plan ollama/deepseek-v4-flash:cloud
 expect_model infra execute ollama/deepseek-v4-flash:cloud
-expect_model infra verify ollama/minimax-m3:cloud
+expect_model infra verify ollama/gemma4:31b-cloud
 expect_model infra synthesize ollama/deepseek-v4-flash:cloud
 
 # T3 Business
 expect_model social plan ollama/kimi-k2.6:cloud
 expect_model social execute ollama/deepseek-v4-flash:cloud
 expect_model ahsoka execute ollama/deepseek-v4-flash:cloud
-expect_model luthen verify ollama/kimi-k2.6:cloud
+expect_model luthen verify ollama/gemma4:31b-cloud
 
 # User-facing
 expect_model main plan ollama/kimi-k2.7-code:cloud
-expect_not_allowed main execute
+expect_model main execute ollama/deepseek-v4-flash:cloud
 expect_model business execute ollama/deepseek-v4-flash:cloud
-expect_model business verify ollama/kimi-k2.7-code:cloud
+expect_model business verify ollama/gemma4:31b-cloud
 
 # JSON validity of --all
 if bash "$QUERY" --all 2>/dev/null | "$JQ" -e '.effectiveMap' >/dev/null; then

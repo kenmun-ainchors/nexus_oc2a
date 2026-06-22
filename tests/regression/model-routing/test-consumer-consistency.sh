@@ -72,7 +72,7 @@ check_gate() {
 # dispatch-validate: correct models should pass
 check_dispatch platform-arch execute ollama/deepseek-v4-flash:cloud ok
 check_dispatch infra plan ollama/deepseek-v4-flash:cloud ok
-check_dispatch infra verify ollama/minimax-m3:cloud ok
+check_dispatch infra verify ollama/gemma4:31b-cloud ok
 check_dispatch social execute ollama/deepseek-v4-flash:cloud ok
 
 # dispatch-validate: incorrect models should fail
@@ -82,7 +82,7 @@ check_dispatch infra verify ollama/deepseek-v4-flash:cloud fail
 # crest-execute-gate
 check_gate main execute ollama/kimi-k2.7-code:cloud block
 check_gate infra execute ollama/deepseek-v4-flash:cloud allow
-check_gate infra verify ollama/minimax-m3:cloud allow
+check_gate infra verify ollama/gemma4:31b-cloud allow
 check_gate platform-arch execute ollama/deepseek-v4-flash:cloud allow
 
 rm -f /tmp/test-corpus.txt

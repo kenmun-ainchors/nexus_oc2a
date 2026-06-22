@@ -158,3 +158,9 @@ Long-term context handoffs for agent resumption and human reference. Stored in `
 ## Archived Sections
 Older/less-frequently-used sections moved to `memory/MEMORY-archive-2026-06-20.md` on 2026-06-20 to keep MEMORY.md within the 10–12K soft limit. Searchable on demand.
 
+
+## CREST Groom vs Plan Process — Locked 2026-06-22 17:13 AEST (Ken directive)
+- **Groom** = analyze ticket, refine scope, surface clarifications, assumptions, risks, open questions, and confirm decisions. Output is a **groomed brief**, not an execution plan.
+- **CREST Step 1 — Plan** = takes the groomed brief and produces the execution plan: atoms, owner, schedule, rollback, evidence standards.
+- Yoda must keep these separate. Groom first. Then CREST Plan. Then dispatch.
+- Reference:  and .

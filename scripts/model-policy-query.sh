@@ -161,14 +161,35 @@ while [[ $# -gt 0 ]]; do
 done
 
 if $ALL; then
-  # Dump all active rules from PG
-  bash "$SCRIPT_DIR/db.sh" -c "
+  # Dump all active rules from PG as JSON with effectiveMap
+  raw=$(bash "$SCRIPT_DIR/db.sh" -c "
     SELECT role, phase, default_model, fallback_model
     FROM crest_phase_rules
     WHERE matrix_version = (SELECT version FROM policy_matrices WHERE active = TRUE AND tenant_id = 'ainchors')
       AND tenant_id = 'ainchors'
     ORDER BY role, phase;
-  " 2>/dev/null || echo '{"error":"pg unavailable for --all"}' >&2
+  " 2>/dev/null) || { echo '{"error":"pg unavailable for --all"}' >&2; exit 1; }
+
+  # Build JSON effectiveMap from pipe-delimited PG output
+  # Use temp file to avoid subshell scoping issues
+  tmpfile=$(mktemp)
+  echo "$raw" | grep -E '^[[:space:]]*[a-z]' > "$tmpfile"
+  count=0
+  count=$(wc -l < "$tmpfile" | xargs)
+  idx=0
+  echo -n '{"effectiveMap":['
+  while IFS='|' read -r role phase model fallback; do
+    role=$(echo "$role" | xargs)
+    phase=$(echo "$phase" | xargs)
+    model=$(echo "$model" | xargs)
+    fallback=$(echo "$fallback" | xargs)
+    if [[ -z "$role" || -z "$phase" ]]; then continue; fi
+    if [[ $idx -gt 0 ]]; then echo -n ','; fi
+    echo -n '{"role":"'"$role"'","phase":"'"$phase"'","default_model":"'"$model"'","fallback_model":"'"$fallback"'"}'
+    idx=$((idx+1))
+  done < "$tmpfile"
+  rm -f "$tmpfile"
+  echo ']}'
   exit 0
 fi
 
