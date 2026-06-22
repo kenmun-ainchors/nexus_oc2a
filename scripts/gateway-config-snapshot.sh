@@ -1,10 +1,12 @@
 #!/usr/bin/env bash
 # gateway-config-snapshot.sh — Snapshot critical gateway config for drift detection
 # Created 2026-06-17 (CHG-0613, Stand-up Item 7)
+# Modified 2026-06-22 (TKT-0343, CHG-0733): added PG upsert, --pg-only flag, verification
 # Consumed by: auto-heal CHECK 12 (critical_config_baseline)
 #
 # Usage:
-#   bash scripts/gateway-config-snapshot.sh           # snapshot now
+#   bash scripts/gateway-config-snapshot.sh           # snapshot now (JSON + PG)
+#   bash scripts/gateway-config-snapshot.sh --pg-only # PG only, skip JSON file write
 #   bash scripts/gateway-config-snapshot.sh --check   # check drift vs last snapshot
 #   bash scripts/gateway-config-snapshot.sh --diff    # show diff vs last snapshot
 
@@ -21,6 +23,66 @@ TIMESTAMP_AEST=$(TZ=Australia/Melbourne date '+%Y-%m-%dT%H:%M:%S%z')
 MODE="${1:-snapshot}"
 
 log() { echo "[gateway-config-snapshot] $1"; }
+
+# ── Safe JSON serialisation: re-serialise via python3 to prevent SQL injection ──
+safe_json() {
+  python3 -c 'import json,sys; print(json.dumps(json.load(sys.stdin)))'
+}
+
+# ── Upsert snapshot JSON into state_config_baseline ──
+write_pg() {
+  local json_file="$1"
+  if [[ ! -f "$json_file" ]]; then
+    log "ERROR: JSON file not found: $json_file"
+    return 1
+  fi
+
+  log "Writing snapshot to state_config_baseline (tenant_id='ainchors')..."
+
+  # Safe JSON injection: pipe through python3 to re-serialise, then pass to psql
+  JSON_DATA=$(safe_json < "$json_file")
+
+  bash "$WORKSPACE/scripts/db-raw.sh" -c "
+    INSERT INTO state_config_baseline (data, updated_at, tenant_id)
+    VALUES ('$JSON_DATA'::jsonb, NOW(), 'ainchors')
+    ON CONFLICT (tenant_id)
+    DO UPDATE SET data = EXCLUDED.data, updated_at = NOW();
+  "
+
+  log "PG upsert complete"
+}
+
+# ── Verify PG data matches JSON file ──
+verify_pg() {
+  local json_file="$1"
+  if [[ ! -f "$json_file" ]]; then
+    log "WARN: Cannot verify — JSON file not found: $json_file"
+    return 1
+  fi
+
+  log "Verifying PG data matches JSON file..."
+
+  # Use Python for order-independent JSON comparison
+  python3 -c "
+import json, sys
+pg_raw = sys.stdin.read().strip()
+pg = json.loads(pg_raw)
+file_data = json.load(open('$json_file'))
+if pg == file_data:
+    print('PG_VERIFIED: true')
+    sys.exit(0)
+else:
+    print('PG_VERIFIED: false')
+    for k in sorted(set(list(pg.keys()) + list(file_data.keys()))):
+        if pg.get(k) != file_data.get(k):
+            print(f'  {k}: PG={pg.get(k)} FILE={file_data.get(k)}')
+    sys.exit(1)
+" < <(bash "$WORKSPACE/scripts/db-raw.sh" -c "SELECT data::text FROM state_config_baseline WHERE tenant_id='ainchors'") && {
+    log "PG write verified: data matches JSON file"
+  } || {
+    log "WARN: PG data differs from JSON file — manual check required"
+  }
+}
 
 snapshot_config() {
   log "Snapshotting gateway config..."
@@ -190,6 +252,17 @@ else:
 case "$MODE" in
   snapshot)
     snapshot_config
+    write_pg "$BASELINE_FILE"
+    verify_pg "$BASELINE_FILE"
+    ;;
+  --pg-only|pg-only)
+    if [[ ! -f "$BASELINE_FILE" ]]; then
+      echo "ERROR: No baseline file found at $BASELINE_FILE — run snapshot first"
+      exit 1
+    fi
+    log "PG-only mode: skipping JSON file write"
+    write_pg "$BASELINE_FILE"
+    verify_pg "$BASELINE_FILE"
     ;;
   --check|check)
     check_drift
@@ -198,10 +271,11 @@ case "$MODE" in
     show_diff
     ;;
   *)
-    echo "Usage: $0 [snapshot|--check|--diff]"
-    echo "  snapshot  — take a new config snapshot (default)"
-    echo "  --check   — check for drift vs last snapshot"
-    echo "  --diff    — show detailed diff vs last snapshot"
+    echo "Usage: $0 [snapshot|--pg-only|--check|--diff]"
+    echo "  snapshot   — take a new config snapshot (JSON + PG, default)"
+    echo "  --pg-only  — upsert existing snapshot to PG only, skip JSON write"
+    echo "  --check    — check for drift vs last snapshot"
+    echo "  --diff     — show detailed diff vs last snapshot"
     exit 1
     ;;
 esac

@@ -612,6 +612,42 @@ if [[ -f "$BASELINE" ]]; then
         log "  OK Baseline age: $age_days days"
       fi
     fi
+
+    # ── PG baseline verification (TKT-0343) ──
+    PG_ROW=$(bash "$WORKSPACE/scripts/db-raw.sh" -c "SELECT data::text FROM state_config_baseline WHERE tenant_id='ainchors'" 2>/dev/null)
+    if [[ -z "$PG_ROW" ]]; then
+      ISSUES_FOUND+=("config-baseline:pg-row-missing")
+      NEEDS_KEN+=("WARN: state_config_baseline PG row missing. Run gateway-config-snapshot.sh to backfill.")
+      log "  X PG baseline row missing"
+    else
+      PG_EQ=$(python3 -c "
+import json, sys
+pg = json.loads('''$PG_ROW''')
+fl = json.load(open('$BASELINE'))
+print('yes' if json.dumps(pg, sort_keys=True) == json.dumps(fl, sort_keys=True) else 'no')
+" 2>/dev/null)
+      if [[ "$PG_EQ" == "yes" ]]; then
+        log "  OK PG baseline matches JSON file"
+      else
+        ISSUES_FOUND+=("config-baseline:pg-json-mismatch")
+        NEEDS_KEN+=("WARN: state_config_baseline PG row differs from state/critical-config-baseline.json. Run gateway-config-snapshot.sh to reconcile.")
+        log "  X PG baseline JSON mismatch"
+      fi
+
+      PG_UPDATED=$(bash "$WORKSPACE/scripts/db-raw.sh" -c "SELECT updated_at::text FROM state_config_baseline WHERE tenant_id='ainchors'" 2>/dev/null)
+      if [[ -n "$PG_UPDATED" && -n "$last_snapshot" ]]; then
+        pg_epoch=$(date -j -f "%Y-%m-%d %H:%M:%S.%N%z" "$PG_UPDATED" "+%s" 2>/dev/null || date -j -f "%Y-%m-%dT%H:%M:%S.%N%z" "$PG_UPDATED" "+%s" 2>/dev/null || echo 0)
+        snap_epoch=$(date -j -f "%Y-%m-%dT%H:%M:%SZ" "$last_snapshot" "+%s" 2>/dev/null || echo 0)
+        if (( pg_epoch > 0 && snap_epoch > 0 )); then
+          pg_age_days=$(( (snap_epoch - pg_epoch) / 86400 ))
+          if (( pg_age_days > 7 )); then
+            ISSUES_FOUND+=("config-baseline:pg-stale")
+            NEEDS_KEN+=("WARN: state_config_baseline PG row is stale (updated_at=$PG_UPDATED). Run gateway-config-snapshot.sh to refresh.")
+            log "  X PG baseline stale: $pg_age_days days behind JSON"
+          fi
+        fi
+      fi
+    fi
   fi
 
   # ── Schema v1 (legacy flat structure) ──
