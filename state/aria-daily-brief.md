@@ -14,7 +14,7 @@ None triggered today.
 - **LinkedIn campaign**: Week 2 posts (LI-W2-P4/P5/P6) drafted, governance-cleared, images pending Angie approval. Two decisions still pending from Angie: (1) company page only vs cross-post to personal, (2) image generation approval.
 - **LinkedIn About Us section**: Angie's final version ready. Aria offered to update the company page. Awaiting Angie's go-ahead.
 - **LinkedIn personal auth**: Now fixed by Ken ✅ — Aria can retry OAuth for Angie's personal profile when she's ready.
-- **ROI weekly cron**: Script updated to use Aria bot + chatId 8141152780. Keychain item `telegram-aria-bot-token` still missing — Ken needs to add it. Yoda holding cron registration until confirmed.
+- **ROI weekly cron**: ✅ LIVE. Ken added `telegram-aria-bot-token` to keychain on 2026-06-21. Cron `d1c03b59` enabled for Aria's weekly ROI summary (Sunday 18:00 AEST, first run 2026-06-28).
 - **Ken training confirmation (MSG-20260601-001)**: 21 days old, no response.
 - **Google Calendar auth**: Broken since Jun 3.
 - **JotForm/HRDF**: 54 days outstanding.
@@ -23,7 +23,7 @@ None triggered today.
 ### Handoff to Yoda
 - Quiet Monday — no Angie session today.
 - LinkedIn personal auth is now fixed by Ken ✅ — this was the main blocker from Saturday. Aria can retry OAuth when Angie re-engages.
-- ROI cron still waiting on Ken to add `telegram-aria-bot-token` to keychain. Yoda has Monday 09:00 reminder to nudge.
+- ROI weekly cron is now live; first automated run scheduled for Sunday 2026-06-28 18:00 AEST.
 - Week 2 LinkedIn campaign is ready to go once Angie gives the go-ahead on cross-post preference and image generation.
 
 ## Monday, June 22, 2026 — Memory Update

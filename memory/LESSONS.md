@@ -86,3 +86,13 @@
 **Evidence:** Mirror writer log changed from `upserted=336 skipped=1` to `upserted=337 skipped=0` after restart. CHG-0645.
 **Prevention:** Whenever a new status value is introduced in PG, add it to the mirror status map before any ticket uses it. Include both hyphen and underscore variants if either could exist. Treat unmapped statuses as hard failures in the writer so they surface immediately, not as silent skips.
 
+
+---
+
+## L-160 — Image upload script must match account used for posting (LinkedIn)
+**Date:** 2026-06-23
+**Source:** Spark publish cron 13b0aa89 — LI-W2-P4 slot SKIPPED on first AInchors company-page post with image.
+**Lesson:** `linkedin-upload-image.sh` hardcodes the keychain service `ainchors-linkedin-access-token` (ken personal, owner=urn:li:person:FhpPCanUWM). `linkedin-post.sh` supports `--account business` and posts as `urn:li:organization:{orgId}`. LinkedIn enforces strict content ownership: the image asset owner MUST match the post author. Uploading with ken's auth then posting as the org → HTTP 400 INVALID_CONTENT_OWNERSHIP. The two scripts must use the same account, otherwise every business-page post with an image fails.
+**Fix:** Needed — extend `linkedin-upload-image.sh` with `--account ken|angie|business` flag mirroring `linkedin-post.sh`. Switch keychain service prefix per account; use `urn:li:organization:{orgId}` as owner when account=business. Draft was preserved in state with the rejected URN noted so retry-after-fix is one-step.
+**Evidence:** `urn:li:image:D5610AQERjrQD6cJz4Q` (uploaded via ken, rejected by org post).
+**Prevention:** Any new account-aware feature in the LinkedIn pipeline must be added to BOTH upload and post scripts together. Add a CHG gate: "scripts taking --account flag" must be updated in lockstep. Future versions should validate account match between upload and post at runtime before calling the API.

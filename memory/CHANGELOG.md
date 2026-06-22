@@ -1,3 +1,27 @@
+## 2026-06-23 04:23 AEST — [CHG-0736] Enable Memory Wiki plugin (unsafe-local bridge mode)
+**Type:** config
+**Change Type:** Normal
+**Source:** ken-prompt
+**Trigger:** Ken asked how to enable Memory Wiki; confirmed bundled at /opt/homebrew/lib/node_modules/openclaw/dist/extensions/memory-wiki/ and ready to enable
+**What changed:** openclaw.json: add plugins.entries.memory-wiki.enabled=true with vaultMode=unsafe-local, vault path, unsafeLocal paths to workspace memory/state, autoCompile ingest, and context digest flag
+**Why:** Expose memory-wiki tools (wiki_apply, wiki_get, wiki_lint, wiki_search, wiki_status) for Imported Insights and Memory Palace features
+**Verification:** Post-restart tool availability check via wiki_status or equivalent; gateway restart success; config backup present
+**Rollback:** Restore /Users/ainchorsangiefpl/.openclaw/openclaw.json from backup and restart gateway
+**Linked:** none
+---
+
+## 2026-06-23 04:05 AEST — [CHG-0735] Aria evidence-based verification discipline + daily brief cron fix
+**Type:** rule
+**Change Type:** Normal
+**Source:** ken-prompt
+**Trigger:** Ken flagged Aria daily brief contained stale claim about ROI cron; Aria wrote without verifying against keychain/cron ground truth
+**What changed:** business/AGENTS.md adds mandatory evidence-based verification section; daily brief cron a7e7a820 payload adds pre-write verification steps that cross-check open items against keychain, cron list, and state files
+**Why:** Prevent Aria from asserting claims without evidence; ensure daily brief handoffs are fact-checked before Yoda journal consumes them
+**Verification:** Post-edit review of AGENTS.md section and cron payload; test run of daily brief verification steps; git diff evidence
+**Rollback:** N/A
+**Linked:** TKT-0694, CHG-0694, state/aria-daily-brief.md
+---
+
 ## 2026-06-22 21:12 AEST — [CHG-0734] Grant exec/process tools to Atlas (architect) and Thrawn (platform-arch) subagents
 **Type:** config
 **Change Type:** Normal

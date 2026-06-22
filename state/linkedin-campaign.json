@@ -314,7 +314,11 @@
       "approvedBy": "Ken Mun via Telegram",
       "imageFile": "social-drafts/images/LI-W2-P4.jpg",
       "imageSource": "media://inbound/4259c9d6-59dc-44f7-9eac-35d45d6e3dd9.jpg",
-      "lastUpdatedAt": "2026-06-22T10:56:56.700579+10:00"
+      "lastUpdatedAt": "2026-06-23T07:31:23.667069+10:00",
+      "imageAssetUrn": "urn:li:image:D5610AQERjrQD6cJz4Q",
+      "lastUpdatedBy": "Spark (publish cron 13b0aa89 \u2014 image upload OK, post rejected due to org/personal ownership mismatch)",
+      "note": "Image uploaded via ken's personal auth (linkedin-upload-image.sh does not support --account). Post as AInchors organization (urn:li:organization:112732790) rejected: INVALID_CONTENT_OWNERSHIP \u2014 content must be owned by author. Slot SKIPPED per cron directive. Forge ticket needed: extend linkedin-upload-image.sh with --account flag.",
+      "slotSkippedAt": "2026-06-23T07:31:23.667069+10:00"
     },
     {
       "id": "LI-W2-P5",

@@ -1,22 +1,15 @@
 {
-  "checkedAt": "2026-06-22T07:00:41Z",
+  "checkedAt": "2026-06-22T15:00:03Z",
   "offenders": [
     {
-      "cronId": "c69615bb-e8cb-4456-8b78-a9ec2ec89195",
-      "name": "yoda-context-brief-refresh (2pm + 8pm AEST)",
-      "currentTimeout": 90,
-      "model": "ollama/deepseek-v4-flash:cloud",
-      "suggestedTimeout": 120
-    },
-    {
-      "cronId": "e08e19ad-2d15-47ff-9ac0-509c05889a0e",
-      "name": "TKT-0093 Backup Health Check",
-      "currentTimeout": 30,
-      "model": "ollama/deepseek-v4-flash:cloud",
+      "cronId": "f71f75af-dac7-4b6a-9b6e-9f43626b19a5",
+      "name": "Daily Workspace Backup",
+      "currentTimeout": 60,
+      "model": "ollama/minimax-m3:cloud",
       "suggestedTimeout": 120
     }
   ],
-  "offenderCount": 2,
+  "offenderCount": 1,
   "live": true,
   "baseline": false
 }

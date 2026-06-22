@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "updatedAt": "2026-05-29T11:43:46.087Z",
+  "updatedAt": "2026-06-22T21:31:07.738Z",
   "entries": {
     "memory:memory/2026-04-26.md:94:122": {
       "key": "memory:memory/2026-04-26.md:94:122",
@@ -1638,13 +1638,13 @@
       "endLine": 178,
       "source": "memory",
       "snippet": "- Strategy-to-Backlog Pipeline (TKT-0125): Roadmap Refinement ceremony formalised - Luthen (Marketing Intelligence agent): name confirmed, P2 spec written - ticket.sh fix: status=done now maps to Notion Done (was falling to Backlog) - ticket.sh fix: Notion status variable was zsh read-only — fixed Infrastructure built today: - telegram-alert.sh: API-independent Telegram fallback (no Anthropic dependency) - hf-generate-image.sh + linkedin-upload-image.sh: LinkedIn image pipeline live - linkedin-post.sh: em dash validator + mktemp collision guard + --image-asset-urn flag - Notion: Sprint, Planned Date, Delivered Date columns added. Sprint 2 backfilled. - Google Drive: \"AInchors Yoda Working F",
-      "recallCount": 31,
+      "recallCount": 33,
       "dailyCount": 0,
       "groundedCount": 0,
-      "totalScore": 13.478426980972287,
-      "maxScore": 0.47146608531475065,
+      "totalScore": 14.390863022208212,
+      "maxScore": 0.4808190196752548,
       "firstRecalledAt": "2026-05-11T23:27:45.121Z",
-      "lastRecalledAt": "2026-05-29T01:39:24.140Z",
+      "lastRecalledAt": "2026-06-22T21:31:07.738Z",
       "queryHashes": [
         "827bc588f2a3",
         "763c944a8b88",
@@ -1675,7 +1675,9 @@
         "2314ac4444eb",
         "43c0e1e7b564",
         "1c11f815e7f8",
-        "5adfb795ecb8"
+        "5adfb795ecb8",
+        "9c3d0d370973",
+        "b0b66139bf73"
       ],
       "recallDays": [
         "2026-05-12",
@@ -1692,7 +1694,8 @@
         "2026-05-26",
         "2026-05-27",
         "2026-05-28",
-        "2026-05-29"
+        "2026-05-29",
+        "2026-06-23"
       ],
       "conceptTags": [
         "strategy-to-backlog",
@@ -2069,13 +2072,13 @@
       "endLine": 69,
       "source": "memory",
       "snippet": "- Initial confusion: thought MDP was for organic post analytics → actually organic metrics come from Advertising API product - **Re-auth required** — lengthy debugging session: - Client secret was stale (Ken may have viewed/regenerated in portal while checking MDP status) - PKCE had to be removed from linkedin-auth.sh (LinkedIn wasn't accepting the code_challenge) - redirect_uri `http://localhost:8765/callback` confirmed registered correctly - Client secret re-copied without extra chars (was 33 chars ending = suggesting encoding issue) - **Final result:** Token successfully issued - Scopes: `email openid profile r_1st_connections_size r_ads r_ads_reporting r_basicprofile r_organiza",
-      "recallCount": 8,
+      "recallCount": 9,
       "dailyCount": 0,
       "groundedCount": 0,
-      "totalScore": 4.586966967320845,
+      "totalScore": 5.020839234924719,
       "maxScore": 0.7248716174889975,
       "firstRecalledAt": "2026-05-16T23:17:17.584Z",
-      "lastRecalledAt": "2026-05-28T01:39:29.653Z",
+      "lastRecalledAt": "2026-06-22T21:31:03.127Z",
       "queryHashes": [
         "a8a843104824",
         "8381490e60ea",
@@ -2083,7 +2086,8 @@
         "ab3b8817a33c",
         "34dde07eac11",
         "43c0e1e7b564",
-        "1c11f815e7f8"
+        "1c11f815e7f8",
+        "f41cdeecc956"
       ],
       "recallDays": [
         "2026-05-17",
@@ -2092,7 +2096,8 @@
         "2026-05-21",
         "2026-05-23",
         "2026-05-26",
-        "2026-05-28"
+        "2026-05-28",
+        "2026-06-23"
       ],
       "conceptTags": [
         "re-auth",
@@ -4365,6 +4370,100 @@
         "tkt-0253",
         "config-entries",
         "agent-registry"
+      ]
+    },
+    "memory:memory/2026-06-17.md:1:20": {
+      "key": "memory:memory/2026-06-17.md:1:20",
+      "path": "memory/2026-06-17.md",
+      "startLine": 1,
+      "endLine": 20,
+      "source": "memory",
+      "snippet": "# Memory — 2026-06-17 ## Morning stand-up Thrawn items complete - API balance $0 false alarm fixed (CHECK 9 rewired to turnsLimit). CHG-0606. - Gateway env-wrapper inert fixed (NODE_OPTIONS). CHG-0607. - Yoda CREST §6 violation: structural `tools.deny` applied (CHG-0608), then reverted (CHG-0609) after proving subagent exec not configurable. Discipline-based CREST resumed. - Pipefail+trap anti-patterns fixed in auto-heal.sh. CHG-0610. - Backup 33h stale fixed (new cron). CHG-0611. - MEMORY.md trimmed 13,387 → 9,785 chars. CHG-0612. - Config baseline 8d stale fixed (gateway-config-snapshot.sh + CHECK 12). CHG-0613. - TKT-0336 tilde path violations fixed. CHG-0614. - TKT-0339 + TKT-0526 cron",
+      "recallCount": 1,
+      "dailyCount": 0,
+      "groundedCount": 0,
+      "totalScore": 0.43138145208358764,
+      "maxScore": 0.43138145208358764,
+      "firstRecalledAt": "2026-06-22T18:26:40.857Z",
+      "lastRecalledAt": "2026-06-22T18:26:40.857Z",
+      "queryHashes": [
+        "2051196433fa"
+      ],
+      "recallDays": [
+        "2026-06-23"
+      ],
+      "conceptTags": [
+        "backup",
+        "gateway",
+        "stand-up",
+        "chg-0606",
+        "env-wrapper",
+        "node-options",
+        "chg-0607",
+        "tools.deny"
+      ]
+    },
+    "memory:memory/2026-05-10.md:69:82": {
+      "key": "memory:memory/2026-05-10.md:69:82",
+      "path": "memory/2026-05-10.md",
+      "startLine": 69,
+      "endLine": 82,
+      "source": "memory",
+      "snippet": "- `scripts/hf-generate-image.sh` — HF Inference API → FLUX.1-schnell. Token: Keychain `ainchors-hf-api-token`. Default 1024×1024, 4 steps. - `scripts/linkedin-upload-image.sh` — LinkedIn Assets API 2-step upload (initializeUpload → PUT binary). Returns `urn:li:image:XXX`. - `linkedin-post.sh` updated — new `--image-asset-urn` flag, injects media block into post payload. - SPARK_RULES.md updated with image generation guidelines. - **HF endpoint correction:** HF migrated to `router.huggingface.co/hf-inference/models/black-forest-labs/FLUX.1-schnell` (not `api-inference.huggingface.co`). Fixed same session. - Ken stored HF API token in Keychain — confirmed live. - **Image comparison test:",
+      "recallCount": 2,
+      "dailyCount": 0,
+      "groundedCount": 0,
+      "totalScore": 0.9403624147176742,
+      "maxScore": 0.5056063443422317,
+      "firstRecalledAt": "2026-06-22T21:31:03.124Z",
+      "lastRecalledAt": "2026-06-22T21:31:03.127Z",
+      "queryHashes": [
+        "9c3d0d370973",
+        "f41cdeecc956"
+      ],
+      "recallDays": [
+        "2026-06-23"
+      ],
+      "conceptTags": [
+        "router",
+        "scripts/hf-generate-image.sh",
+        "flux.1-schnell",
+        "ainchors-hf-api-token",
+        "scripts/linkedin-upload-image.sh",
+        "2-step",
+        "linkedin-post.sh",
+        "image-asset-urn"
+      ]
+    },
+    "memory:memory/2026-05-10.md:53:71": {
+      "key": "memory:memory/2026-05-10.md:53:71",
+      "path": "memory/2026-05-10.md",
+      "startLine": 53,
+      "endLine": 71,
+      "source": "memory",
+      "snippet": "- health_failure: 212 — from INC-20260509-001 API outage (resolved). Historical. - Mission Control dashboard regenerated OK. Gateway: ok, Balance: $479.35. ## Mission Control Refresh — 08:38 AEST - Dashboard regenerated OK. Balance $479.35. Gateway OK. Agents idle. - **OBS spike investigated:** 3,761 \"delegation_fail\" entries in obs.db = PHANTOM DUPLICATES. - Root cause: obs-collector re-logging 34 April 28 delegation-log.json fail entries (with blank task/agent/error — latency tracking entries, not true delegation failures). - All have empty task/agent/error detail → bogus records. - Likely cause: lastRunEpoch was 0 or reset during 02:06–11:41 UTC on May 9 (9.5h window, ~114 cron ru",
+      "recallCount": 1,
+      "dailyCount": 0,
+      "groundedCount": 0,
+      "totalScore": 0.4205338656902313,
+      "maxScore": 0.4205338656902313,
+      "firstRecalledAt": "2026-06-22T21:31:07.738Z",
+      "lastRecalledAt": "2026-06-22T21:31:07.738Z",
+      "queryHashes": [
+        "b0b66139bf73"
+      ],
+      "recallDays": [
+        "2026-06-23"
+      ],
+      "conceptTags": [
+        "gateway",
+        "health-failure",
+        "inc-20260509-001",
+        "479.35",
+        "delegation-fail",
+        "obs.db",
+        "obs-collector",
+        "re-logging"
       ]
     }
   }
