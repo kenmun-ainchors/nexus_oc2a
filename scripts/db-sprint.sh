@@ -6,6 +6,9 @@
 #
 # SKILL GATE: pg-sprint-backlog skill MUST be loaded before use.
 source "${SCRIPT_DIR:-$(dirname "$0")}/skill-gate.sh" "pg-sprint-backlog" || exit $?
+
+# TKT-0720: Source entity_links helper for live-write hooks
+source "$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)/db-link.sh"
 #
 # Subcommands:
 #   current                        - Current sprint as JSON from PG
@@ -322,6 +325,8 @@ cmd_commit() {
     local commit_payload
     commit_payload=$(/opt/homebrew/bin/jq -n --arg tkt "$tkt_id" --arg sprint "$sprint_name" --arg seq "$seq" --arg effort "$effort" --arg agent "$agent" '{ticket: $tkt, sprint: $sprint, seq: ($seq | tonumber), effort: $effort, agent: $agent}' 2>/dev/null || echo '{"ticket":"'"$tkt_id"'"}')
     emit_event "$actor" "committed" "sprint" "$sprint_id" "$commit_payload"
+    # TKT-0720: Insert entity_links edge from sprint to committed ticket (best-effort)
+    insert_entity_links "sprint" "$sprint_num" "relates-to" "live-write:sprint-commit" "ticket:$tkt_id" > /dev/null 2>&1 || true
 
   # TKT-0406: Trigger Notion sync for sprint assignment
   bash "$TICKET_SCRIPT" sync "$tkt_id" > /dev/null 2>&1 &

@@ -12,6 +12,9 @@
 SCRIPT_DIR_CHG="$(cd "$(dirname "$0")" && pwd)"
 source "${SCRIPT_DIR_CHG}/skill-gate.sh" "changelog" || exit $?
 
+# TKT-0720: Source entity_links helper for live-write hooks
+source "${SCRIPT_DIR_CHG}/db-link.sh"
+
 set -e
 
 CHANGELOG="/Users/ainchorsangiefpl/.openclaw/workspace/memory/CHANGELOG.md"
@@ -175,6 +178,20 @@ EVENT_SCRIPT="${SCRIPT_DIR_CHG}/pg-write-event.sh"
 if [[ -x "$EVENT_SCRIPT" ]]; then
   CHG_PAYLOAD=$(/opt/homebrew/bin/jq -n --arg chg "$CHG_ID" --arg title "$TITLE" --arg type "$TYPE" --arg source "$SOURCE" '{change_id: $chg, title: $title, type: $type, source: $source}' 2>/dev/null || echo '{"change_id":"'"$CHG_ID"'"}')
   bash "$EVENT_SCRIPT" --actor "$SOURCE" --event-type "created" --entity-type "chg" --entity-id "$CHG_ID" --payload "$CHG_PAYLOAD" --prev-state "{}" --new-state "$CHG_PAYLOAD" > /dev/null 2>&1 || echo "WARNING: event write failed for $CHG_ID" >&2
+fi
+
+# TKT-0720: Insert entity_links for --linked value (best-effort)
+if [[ -n "$LINKED" && "$LINKED" != "none" ]]; then
+  linked_pairs=$(parse_linked_line "$LINKED" 2>/dev/null) || true
+  if [[ -n "$linked_pairs" ]]; then
+    to_pairs=()
+    while IFS= read -r pair; do
+      [[ -n "$pair" ]] && to_pairs+=("$pair")
+    done <<< "$linked_pairs"
+    if [[ ${#to_pairs[@]} -gt 0 ]]; then
+      insert_entity_links "chg" "$CHG_ID" "relates-to" "live-write:changelog-append" "${to_pairs[@]}" > /dev/null 2>&1 || true
+    fi
+  fi
 fi
 
 # ── Notion sync (best-effort — failure does NOT block CHG logging) ──────────────

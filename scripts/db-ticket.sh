@@ -9,6 +9,9 @@
 # See scripts/skill-gate.sh and infra/sandbox/seed/skills/pg-sprint-backlog/SKILL.md
 source "${SCRIPT_DIR:-$(dirname "$0")}/skill-gate.sh" "pg-sprint-backlog" || exit $?
 
+# TKT-0720: Source entity_links helper for live-write hooks
+source "$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)/db-link.sh"
+
 # ── ZSH AUTO-REEXEC (L-090) ─────────────────────────────────────────────────────────
 # This script uses bash-only constructs: `read -p`, `[[ ... ]]`, `local`,
 # `$'...'` quoting, and the bash `declare` semantics. When invoked under zsh
@@ -90,6 +93,57 @@ emit_event() {
   fi
 
   bash "$EVENT_SCRIPT" "${args[@]}" > /dev/null 2>&1 || log "WARNING: event write failed for ${entity_type}:${entity_id} (${event_type})"
+}
+
+# ──────────────────────────────────────────────
+# insert_entity_links_for_ticket — TKT-0720 live-write hook
+# ──────────────────────────────────────────────
+# Parses Linked: lines from description and links array from metadata,
+# then inserts entity_links edges. Best-effort — never blocks primary mutation.
+insert_entity_links_for_ticket() {
+  local tkt_id="$1"
+  local description="$2"
+  local metadata_json="$3"
+  local source_suffix="${4:-db-ticket}"
+
+  local to_pairs=()
+
+  # 1. Parse Linked: lines from description
+  if [[ -n "$description" ]]; then
+    while IFS= read -r line; do
+      local line_lower
+      line_lower=$(echo "$line" | tr '[:upper:]' '[:lower:]')
+      if [[ "$line_lower" == *"linked:"* ]]; then
+        local pairs
+        pairs=$(parse_linked_line "$line" 2>/dev/null) || true
+        if [[ -n "$pairs" ]]; then
+          while IFS= read -r pair; do
+            [[ -n "$pair" ]] && to_pairs+=("$pair")
+          done <<< "$pairs"
+        fi
+      fi
+    done <<< "$description"
+  fi
+
+  # 2. Parse explicit links array from metadata
+  if [[ -n "$metadata_json" && "$metadata_json" != "null" && "$metadata_json" != "{}" ]]; then
+    local links_json
+    links_json=$(echo "$metadata_json" | /opt/homebrew/bin/jq -c '.links // []' 2>/dev/null)
+    if [[ -n "$links_json" && "$links_json" != "null" && "$links_json" != "[]" ]]; then
+      local link_entries
+      link_entries=$(echo "$links_json" | /opt/homebrew/bin/jq -r '.[] | "\(.to_type // ""):\(.to_id // "")"' 2>/dev/null)
+      if [[ -n "$link_entries" ]]; then
+        while IFS= read -r entry; do
+          [[ -n "$entry" && "$entry" != ":" ]] && to_pairs+=("$entry")
+        done <<< "$link_entries"
+      fi
+    fi
+  fi
+
+  # 3. Insert edges (best-effort)
+  if [[ ${#to_pairs[@]} -gt 0 ]]; then
+    insert_entity_links "ticket" "$tkt_id" "relates-to" "live-write:${source_suffix}" "${to_pairs[@]}" > /dev/null 2>&1 || true
+  fi
 }
 
 # --- UTILITIES ---
@@ -531,6 +585,8 @@ cmd_create() {
     local event_payload
     event_payload=$(echo "$payload" | /opt/homebrew/bin/jq -c '{id, title, status, priority, type}' 2>/dev/null || echo '{"id":"'"$tkt_id"'"}')
     emit_event "$actor" "created" "ticket" "$tkt_id" "$event_payload" "{}" "$event_payload"
+    # TKT-0720: Insert entity_links for Linked: in description
+    insert_entity_links_for_ticket "$tkt_id" "$title $brief" "$metadata" "db-ticket:create"
   else
     # Check if write actually succeeded despite non-zero
     if ticket_exists "$tkt_id"; then
@@ -657,6 +713,12 @@ cmd_create_from_json() {
     local event_payload
     event_payload=$(echo "$json_payload" | /opt/homebrew/bin/jq -c '{id, title, status, priority, type}' 2>/dev/null || echo '{"id":"'"$tkt_id"'"}')
     emit_event "$actor" "created" "ticket" "$tkt_id" "$event_payload" "{}" "$event_payload"
+    # TKT-0720: Insert entity_links for Linked: in description and links in metadata
+    local cfj_desc
+    cfj_desc=$(echo "$json_payload" | /opt/homebrew/bin/jq -r '.description // ""' 2>/dev/null)
+    local cfj_meta
+    cfj_meta=$(echo "$json_payload" | /opt/homebrew/bin/jq -c '.metadata // {}' 2>/dev/null)
+    insert_entity_links_for_ticket "$tkt_id" "$cfj_desc" "$cfj_meta" "db-ticket:create-from-json"
       $JQ --argjson new "$(echo "$json_payload" | $JQ --argjson tn "$tn_val2" '{id, title, status, priority, type, created_at, ticket_number: $tn}' 2>/dev/null)" \
         '. + [$new]' "$TICKET_FILE" > "$tmp_json" 2>/dev/null && mv "$tmp_json" "$TICKET_FILE"
     fi
@@ -777,6 +839,12 @@ cmd_update() {
     local prev_state_json
     prev_state_json=$(get_ticket_json "$tkt_id" 2>/dev/null || echo "{}")
     emit_event "$actor" "updated" "ticket" "$tkt_id" "$event_payload" "$prev_state_json" "$event_payload"
+    # TKT-0720: Insert entity_links for Linked: in description and links in metadata
+    local upd_desc
+    upd_desc=$(echo "$json_payload" | /opt/homebrew/bin/jq -r '.description // ""' 2>/dev/null)
+    local upd_meta
+    upd_meta=$(echo "$json_payload" | /opt/homebrew/bin/jq -c '.metadata // {}' 2>/dev/null)
+    insert_entity_links_for_ticket "$tkt_id" "$upd_desc" "$upd_meta" "db-ticket:update"
     
     # TKT-0406: Trigger single-ticket Notion sync in background
     bash "$0" sync "$tkt_id" > /dev/null 2>&1 &
@@ -803,6 +871,12 @@ cmd_update() {
       local prev_state_json
       prev_state_json=$(get_ticket_json "$tkt_id" 2>/dev/null || echo "{}")
       emit_event "$actor" "updated" "ticket" "$tkt_id" "$event_payload" "$prev_state_json" "$event_payload"
+      # TKT-0720: Insert entity_links for Linked: in description and links in metadata
+      local upd2_desc
+      upd2_desc=$(echo "$json_payload" | /opt/homebrew/bin/jq -r '.description // ""' 2>/dev/null)
+      local upd2_meta
+      upd2_meta=$(echo "$json_payload" | /opt/homebrew/bin/jq -c '.metadata // {}' 2>/dev/null)
+      insert_entity_links_for_ticket "$tkt_id" "$upd2_desc" "$upd2_meta" "db-ticket:update"
       
       # TKT-0406: Trigger single-ticket Notion sync in background
       bash "$0" sync "$tkt_id" > /dev/null 2>&1 &
@@ -891,6 +965,10 @@ cmd_groom() {
     local groom_payload
     groom_payload=$(echo "$entry" | /opt/homebrew/bin/jq -c '{date, decisions, ac_count, ken_approved}' 2>/dev/null || echo '{}')
     emit_event "$actor" "groomed" "ticket" "$tkt_id" "$groom_payload"
+    # TKT-0720: Insert entity_links for Linked: in description (groom may update description)
+    local groom_desc
+    groom_desc=$(pg_query "SELECT description FROM $TICKET_TABLE WHERE id='$tkt_id';" 2>/dev/null | head -1 || true)
+    insert_entity_links_for_ticket "$tkt_id" "$groom_desc" "$updated_meta" "db-ticket:groom"
   
   # TKT-0406: First groom triggers initial Notion sync (deferred from create)
   bash "$0" sync "$tkt_id" > /dev/null 2>&1 &
