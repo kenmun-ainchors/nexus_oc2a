@@ -1,4 +1,28 @@
-## 2026-06-22 20:27 AEST — [CHG-0732] CHG-0720: TKT-0720 complete — entity_links edge table, markdown backfill, live-write hooks
+## 2026-06-22 21:12 AEST — [CHG-0734] Grant exec/process tools to Atlas (architect) and Thrawn (platform-arch) subagents
+**Type:** config
+**Change Type:** Normal
+**Source:** ken-prompt
+**Trigger:** TKT-0343 A1 blocked because Atlas subagent lacks exec; Ken approved fixing the capability gap
+**What changed:** Add exec and process to tools.allow for agent ids architect and platform-arch in ~/.openclaw/openclaw.json
+**Why:** Architecture review atoms require exec to inspect live PG/schema/files; current allow list only had read/write/edit/web
+**Verification:** Verified by spawning a test Atlas subagent that ran `echo` and `date` via exec
+**Rollback:** Restore prior ~/.openclaw/openclaw.json from backup or git; restart gateway if needed
+**Linked:** TKT-0343,agent:architect,agent:platform-arch,~/.openclaw/openclaw.json
+---
+
+## 2026-06-22 21:08 AEST — [CHG-0733] TKT-0343 execution: wire state_config_baseline to live PG write via gateway-config-snapshot.sh
+**Type:** config
+**Change Type:** Normal
+**Source:** ken-prompt
+**Trigger:** CREST Step 1 Plan approved by Ken
+**What changed:** Modified gateway-config-snapshot.sh to upsert config snapshot into state_config_baseline; added unique index idx_config_baseline_tenant(tenant_id); added daily cron TKT-0343-daily-config-snapshot; updated auto-heal CHECK 12 to verify PG baseline matches JSON file; added rollback script infra/rollback/TKT-0343-rollback.sql
+**Why:** Make state_config_baseline a live SSOT instead of a stale manual row
+**Verification:** A1 Atlas SIGN-OFF; A2/A3 Forge build + schema DDL verified; A4 cron created; A6 auto-heal CHECK 12 PG verification verified; A7 E2E idempotency + PG/file match + unique index + safe rollback dry-run verified; A8 commit ffed0244
+**Rollback:** Run infra/rollback/TKT-0343-rollback.sql (safe dry-run first: copy, replace COMMIT with ROLLBACK)
+**Linked:** TKT-0343,TKT-0342,scripts/gateway-config-snapshot.sh,scripts/auto-heal.sh,infra/rollback/TKT-0343-rollback.sql,state/critical-config-baseline.json
+---
+
+## 2026-06-22 20:27 AEST — [CHG-0732] CHG-0732: TKT-0720 complete — entity_links edge table, markdown backfill, live-write hooks
 **Type:** config
 **Change Type:** Normal
 **Source:** ken-prompt

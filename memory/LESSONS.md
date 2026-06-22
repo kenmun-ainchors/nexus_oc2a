@@ -1,3 +1,13 @@
+## L-166 — Rollback dry-run scripts that contain their own COMMIT must not be wrapped in another BEGIN/ROLLBACK
+**Date:** 2026-06-22
+**Source:** TKT-0343 A7 verification. I ran `{ echo 'BEGIN;'; cat infra/rollback/TKT-0343-rollback.sql; echo 'ROLLBACK;'; } | psql ...` to dry-run the rollback. The script itself contains `BEGIN; ... COMMIT;`, so the inner COMMIT committed before the outer ROLLBACK could execute. The rollback was accidentally applied live: the unique index was dropped and the PG row reverted to the stale 2026-06-07 baseline. This was caught because the next PG comparison failed.
+**Lesson:** Wrapping a SQL script that already manages its own transactions with an extra `BEGIN ... ROLLBACK` does not create a safe dry-run if the script contains an unconditional `COMMIT`. The inner COMMIT wins.
+**Fix:** Recovered by recreating the unique index and re-running `gateway-config-snapshot.sh` to re-upsert the current baseline. For future dry-runs, either (a) edit a copy of the script to replace `COMMIT;` with `ROLLBACK;` (and remove any leading `BEGIN;`) before executing, or (b) use `psql --single-transaction` with an aborting wrapper, or (c) run the script inside a transaction that throws an error at the end so nothing commits.
+**Evidence:** A7 first run showed PG row reverted to v1 shape (`pgTables:32, cronCount:59`) and index missing. Recovery commands re-created index and re-ran snapshot; second A7 run passed all checks.
+**Prevention:** (1) Never wrap an unknown SQL script in `BEGIN; ... ROLLBACK;` without first inspecting it for internal `COMMIT;`. (2) Standardize rollback scripts on a single `COMMIT;` at the end and document that dry-run requires a copy with `COMMIT;` replaced by `ROLLBACK;`. (3) Add a parent-side verifier that the unique constraint/index still exists after any rollback dry-run. (4) Treat any rollback dry-run as a mutating operation until proven otherwise.
+
+---
+
 ## L-165 — Subagent completion reports must be verified against actual artifacts
 **Date:** 2026-06-22
 **Source:** Forge subagent for CHG-0702 (`chg0702_chattype_fallback`) reported completion with git diff and verifier `PASS=12 FAIL=0`, but the actual `scripts/model-drift-check.sh` did not contain the requested chatType fallback change.

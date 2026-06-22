@@ -5,7 +5,7 @@
   "track": "A",
   "status": "locked",
   "created_at": "2026-06-22T10:02:00+10:00",
-  "updated_at": "2026-06-22T20:31:30+10:00",
+  "updated_at": "2026-06-22T21:28:00+10:00",
   "owner_orchestrator": "yoda",
   "owner_build": "forge",
   "owner_ea": "atlas",
@@ -134,13 +134,15 @@
     "Sprint 10": 4,
     "Sprint 11": 7
   },
-  "notes": "Approved and locked by Ken at 2026-06-22 12:47 AEST. Sprint 9=16 foundation items, Sprint 10=4 follow-on, Sprint 11=7 wave-2/3/deferred. PG state_sprints items and ticket sprint fields are authoritative. Notion synced. CHG-0705 recorded. TKT-0330 done 2026-06-22 18:11 AEST (CHG-0714). TKT-0726 done 2026-06-22 19:40 AEST (CHG-0718). TKT-0720 grooming in progress 2026-06-22 19:46 AEST (.openclaw/tmp/TKT-0720-groomed-brief.md). TKT-0720 CREST Step 1 plan ready 2026-06-22 19:54 AEST (.openclaw/tmp/TKT-0720-CREST-plan.md). TKT-0720 A1 Atlas SIGN-OFF 2026-06-22 19:55 AEST; A2 (DDL) ready to dispatch. TKT-0720 A2 DDL + rollback script verified 2026-06-22 19:57 AEST; A3 (backfill parser) dispatched. TKT-0720 A3 backfill complete 2026-06-22 20:08 AEST: 1528 entity_links rows; A4 (live hooks) dispatching. TKT-0720 A4 live hooks verified 2026-06-22 20:19 AEST; A5/A6 (audit + multi-hop) in progress. TKT-0720 A5/A6/A7 complete 2026-06-22 20:25 AEST; A8 (commit) dispatching. TKT-0720 CLOSED 2026-06-22 20:37 AEST; final entity_links: 1,437 entity + 95 file edges; CHG-0732; test artifacts CHG-0720..0731 + TKT-9991 cleaned.",
+  "notes": "Approved and locked by Ken at 2026-06-22 12:47 AEST. Sprint 9=16 foundation items, Sprint 10=4 follow-on, Sprint 11=7 wave-2/3/deferred. PG state_sprints items and ticket sprint fields are authoritative. Notion synced. CHG-0705 recorded. TKT-0330 done 2026-06-22 18:11 AEST (CHG-0714). TKT-0726 done 2026-06-22 19:40 AEST (CHG-0718). TKT-0720 CLOSED 2026-06-22 20:37 AEST; final entity_links: 1,437 entity + 95 file edges; CHG-0732. TKT-0343 CLOSED 2026-06-22 21:28 AEST (CHG-0733; commit ffed0244): state_config_baseline wired to gateway-config-snapshot.sh, unique index added, CHECK 12 verifies PG baseline matches JSON, daily cron at 03:00 AEST. Atlas exec/process capability fixed (CHG-0734)."
   "approved_at": "2026-06-22T12:47:00+10:00",
   "approved_by": "Ken Mun",
   "done_tickets": [
     "TKT-0725",
     "TKT-0330",
     "TKT-0726",
-    "TKT-0720"
-  ]
+    "TKT-0720",
+    "TKT-0343"
+  ],
+  "in_progress_tickets": []
 }
