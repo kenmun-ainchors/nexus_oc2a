@@ -3,6 +3,7 @@
 # TKT-0369-A: Structured subcommands replacing flag-based ticket.sh
 # Author: Forge (Infrastructure & SRE Agent)
 # Created: 2026-06-10
+# Updated: 2026-06-22 — TKT-0725 A6: use sprint_id FK joins instead of text matching
 #
 # SKILL GATE: pg-sprint-backlog skill MUST be loaded before use.
 # See scripts/skill-gate.sh and infra/sandbox/seed/skills/pg-sprint-backlog/SKILL.md
@@ -59,7 +60,7 @@ Usage: db-ticket.sh <subcommand> [args...]
 Subcommands:
   read <TKT-ID>                        — Return full ticket as JSON (id, title, status, priority, metadata)
   create                                 — Interactive guided ticket creation (no flags!)
-  create-from-json <TKT-ID> '<json>'     — Non-interactive create (L-090 fix: works under any shell)
+  create-from-json [<TKT-ID>] '<json>'     — Non-interactive create (L-090 fix: works under any shell; auto-assigns ID if omitted)
   update <TKT-ID> '<json-payload>'        — Validate and write JSON to PG
   groom <TKT-ID>                         — Append grooming entry to metadata.grooming_history[]
   fold <TKT-ID> --into <PARENT-ID>       — CHG-0456 5-gate fold: extract→migrate→close→sync
@@ -93,6 +94,16 @@ flag_reject() {
 }
 
 # --- PG QUERY HELPERS ---
+
+# Auto-assign next TKT-NNNN from sequence (TKT-0330 A3)
+next_ticket_id() {
+  local next_num
+  next_num=$(pg_query "SELECT nextval('state_tickets_number_seq');" 2>/dev/null | head -1)
+  if [[ -z "$next_num" || "$next_num" == "null" ]]; then
+    die "Failed to get next ticket number from sequence"
+  fi
+  printf "TKT-%04d" "$next_num"
+}
 
 pg_query() {
   # Run a query, return raw PSQL output
@@ -272,6 +283,14 @@ cmd_read() {
       .metadata = (.metadata | fromjson)
     else . end
   ' 2>/dev/null || echo "$ticket"
+  
+  # Also show ticket_number in a summary line
+  local tn
+  tn=$(echo "$ticket" | $JQ -r '.ticket_number // empty' 2>/dev/null)
+  if [[ -n "$tn" && "$tn" != "null" ]]; then
+    echo ""
+    echo "ticket_number: $tn"
+  fi
 }
 
 # ──────────────────────────────────────────────
@@ -288,11 +307,17 @@ cmd_create() {
   echo "=== db-ticket.sh: Interactive Ticket Creation ==="
   echo ""
   
-  # Prompt: TKT-ID
+  # Auto-assign next TKT-ID from sequence (TKT-0330 A3)
+  local auto_id
+  auto_id=$(next_ticket_id)
+  echo "Auto-assigned ID: $auto_id"
+  
+  # Prompt: TKT-ID (allow manual override)
   while true; do
-    read -r -p "Ticket ID (e.g. TKT-0400): " tkt_id
-    if [[ ! "$tkt_id" =~ ^TKT-[0-9]+[A-Za-z]?(-[A-Za-z0-9]+)?$ ]]; then
-      echo "  Invalid format. Must be TKT-NNNN or TKT-NNNN-X"
+    read -r -p "Ticket ID (Enter for $auto_id, or override e.g. TKT-0400): " tkt_id
+    tkt_id="${tkt_id:-$auto_id}"
+    if [[ ! "$tkt_id" =~ ^TKT-[0-9]{4,}$ ]]; then
+      echo "  Invalid format. Must be TKT-NNNN (4+ digits)"
       continue
     fi
     if ticket_exists "$tkt_id"; then
@@ -425,7 +450,7 @@ cmd_create() {
   # PG write with SAFE MODE (no overwrite)
   local write_result
   DBWRITE_SAFE_MODE=1 bash "$DB_WRITE" "$TICKET_TABLE" \
-    "{\"id\":\"$tkt_id\",\"title\":\"$title\",\"status\":\"open\",\"priority\":\"$priority\",\"type\":\"$ticket_type\",\"created_at\":\"$ts\",\"metadata\":$metadata}" \
+    "{\"id\":\"$tkt_id\",\"title\":\"$title\",\"status\":\"open\",\"priority\":\"$priority\",\"type\":\"$ticket_type\",\"created_at\":\"$ts\",\"ticket_number\":$(echo "$tkt_id" | sed 's/TKT-//' | sed 's/^0*//'),\"metadata\":$metadata}" \
     "$tkt_id" > /dev/null 2>&1
   local ret=$?
   
@@ -434,16 +459,24 @@ cmd_create() {
   elif [[ $ret -eq 0 ]]; then
     log "Ticket $tkt_id created successfully."
     
-    # Populate sprint column if sprint was provided
+    # Populate sprint column if sprint was provided (TKT-0725-A6: also set sprint_id FK)
     if [[ -n "$sprint" ]]; then
-      bash "$DB_SCRIPT" -c "UPDATE state_tickets SET sprint = '$(echo "$sprint" | sed "s/'/''/g")', updated_at = NOW() WHERE id = '$tkt_id';" > /dev/null 2>&1 || true
+      local sprint_id
+      sprint_id=$(bash "$DB_SCRIPT" -c "SELECT id FROM state_sprints WHERE sprint_name='$(echo "$sprint" | sed "s/'/''/g")' ORDER BY updated_at DESC LIMIT 1;" 2>/dev/null | head -1 || true)
+      if [[ -n "$sprint_id" && "$sprint_id" != "null" ]]; then
+        bash "$DB_SCRIPT" -c "UPDATE state_tickets SET sprint = '$(echo "$sprint" | sed "s/'/''/g")', sprint_id = '$sprint_id', updated_at = NOW() WHERE id = '$tkt_id';" > /dev/null 2>&1 || true
+      else
+        bash "$DB_SCRIPT" -c "UPDATE state_tickets SET sprint = '$(echo "$sprint" | sed "s/'/''/g")', updated_at = NOW() WHERE id = '$tkt_id';" > /dev/null 2>&1 || true
+      fi
     fi
     
     # Also update tickets.json for backward compat
     if [[ -f "$TICKET_FILE" ]]; then
       local tmp_json
       tmp_json=$(mktemp)
-      $JQ --argjson new "$(echo "$payload" | $JQ '{id, title, status, priority, type, created_at}' 2>/dev/null)" \
+      local tn_val
+      tn_val=$(echo "$tkt_id" | sed 's/TKT-//' | sed 's/^0*//')
+      $JQ --argjson new "$(echo "$payload" | $JQ --argjson tn "$tn_val" '{id, title, status, priority, type, created_at, ticket_number: $tn}' 2>/dev/null)" \
         '. + [$new]' "$TICKET_FILE" > "$tmp_json" 2>/dev/null && mv "$tmp_json" "$TICKET_FILE"
     fi
     
@@ -480,13 +513,19 @@ cmd_create_from_json() {
   # Reject flags after tkt_id
   flag_reject "create-from-json" "$@"
   
-  if [[ -z "$tkt_id" || -z "$json_payload" ]]; then
-    die "Usage: db-ticket.sh create-from-json <TKT-ID> '<json-payload>'"
+  if [[ -z "$json_payload" ]]; then
+    die "Usage: db-ticket.sh create-from-json [<TKT-ID>] '<json-payload>'"
   fi
   
-  # Validate TKT-ID format
-  if [[ ! "$tkt_id" =~ ^TKT-[0-9]+[A-Za-z]?(-[A-Za-z0-9]+)?$ ]]; then
-    die "Invalid TKT-ID format: $tkt_id. Must be TKT-NNNN or TKT-NNNN-X"
+  # Auto-assign ID if not provided (TKT-0330 A3)
+  if [[ -z "$tkt_id" ]]; then
+    tkt_id=$(next_ticket_id)
+    log "Auto-assigned ID: $tkt_id"
+  fi
+  
+  # Validate TKT-ID format (TKT-0330 A3: require 4+ digits)
+  if [[ ! "$tkt_id" =~ ^TKT-[0-9]{4,}$ ]]; then
+    die "Invalid TKT-ID format: $tkt_id. Must be TKT-NNNN (4+ digits)"
   fi
   
   # Validate JSON parses
@@ -531,6 +570,11 @@ cmd_create_from_json() {
     json_payload=$(echo "$json_payload" | $JQ --arg ts "$ts" '. + {created_at: $ts}')
   fi
   
+  # Inject ticket_number from ID (TKT-0330 A3)
+  local tn_val
+  tn_val=$(echo "$tkt_id" | sed 's/TKT-//' | sed 's/^0*//')
+  json_payload=$(echo "$json_payload" | $JQ --argjson tn "$tn_val" '. + {ticket_number: $tn}')
+  
   # PG write with SAFE MODE (no overwrite)
   DBWRITE_SAFE_MODE=1 bash "$DB_WRITE" "$TICKET_TABLE" "$json_payload" "$tkt_id" > /dev/null 2>&1
   local ret=$?
@@ -540,18 +584,26 @@ cmd_create_from_json() {
   elif [[ $ret -eq 0 ]]; then
     log "Ticket $tkt_id created via create-from-json (non-interactive)."
     
-    # Populate sprint column if present in metadata
+    # Populate sprint column if present in metadata (TKT-0725-A6: also set sprint_id FK)
     local sprint
     sprint=$(echo "$json_payload" | $JQ -r '.metadata.sprint // empty')
     if [[ -n "$sprint" && "$sprint" != "null" ]]; then
-      bash "$DB_SCRIPT" -c "UPDATE state_tickets SET sprint = '$(echo "$sprint" | sed "s/'/''/g")', updated_at = NOW() WHERE id = '$tkt_id';" > /dev/null 2>&1 || true
+      local sprint_id
+      sprint_id=$(bash "$DB_SCRIPT" -c "SELECT id FROM state_sprints WHERE sprint_name='$(echo "$sprint" | sed "s/'/''/g")' ORDER BY updated_at DESC LIMIT 1;" 2>/dev/null | head -1 || true)
+      if [[ -n "$sprint_id" && "$sprint_id" != "null" ]]; then
+        bash "$DB_SCRIPT" -c "UPDATE state_tickets SET sprint = '$(echo "$sprint" | sed "s/'/''/g")', sprint_id = '$sprint_id', updated_at = NOW() WHERE id = '$tkt_id';" > /dev/null 2>&1 || true
+      else
+        bash "$DB_SCRIPT" -c "UPDATE state_tickets SET sprint = '$(echo "$sprint" | sed "s/'/''/g")', updated_at = NOW() WHERE id = '$tkt_id';" > /dev/null 2>&1 || true
+      fi
     fi
     
     # Mirror to tickets.json for backward compat
     if [[ -f "$TICKET_FILE" ]]; then
       local tmp_json
       tmp_json=$(mktemp)
-      $JQ --argjson new "$(echo "$json_payload" | $JQ '{id, title, status, priority, type, created_at}' 2>/dev/null)" \
+      local tn_val2
+      tn_val2=$(echo "$tkt_id" | sed 's/TKT-//' | sed 's/^0*//')
+      $JQ --argjson new "$(echo "$json_payload" | $JQ --argjson tn "$tn_val2" '{id, title, status, priority, type, created_at, ticket_number: $tn}' 2>/dev/null)" \
         '. + [$new]' "$TICKET_FILE" > "$tmp_json" 2>/dev/null && mv "$tmp_json" "$TICKET_FILE"
     fi
     
@@ -631,14 +683,20 @@ cmd_update() {
     if [[ -n "$meta_part" ]]; then
       write_metadata "$tkt_id" "$meta_part"
       
-      # Sync sprint/sprint_seq/epic columns from metadata
-      local sprint_val sprint_seq_val epic_val
+      # Sync sprint/sprint_seq/epic columns from metadata (TKT-0725-A6: also sync sprint_id FK)
+      local sprint_val sprint_seq_val epic_val sprint_id_val
       sprint_val=$(echo "$meta_part" | $JQ -r '.sprint // empty' 2>/dev/null)
       sprint_seq_val=$(echo "$meta_part" | $JQ -r '.sprint_seq // empty' 2>/dev/null)
       epic_val=$(echo "$meta_part" | $JQ -r '.epic // empty' 2>/dev/null)
       
+      # Resolve sprint_id FK from sprint name
+      if [[ -n "$sprint_val" && "$sprint_val" != "null" ]]; then
+        sprint_id_val=$(pg_query "SELECT id FROM state_sprints WHERE sprint_name='$(echo "$sprint_val" | sed "s/'/''/g")' ORDER BY updated_at DESC LIMIT 1;" 2>/dev/null | head -1 || true)
+      fi
+      
       local col_updates=""
       [[ -n "$sprint_val" && "$sprint_val" != "null" ]] && col_updates+="sprint='$(echo "$sprint_val" | sed "s/'/''/g")', "
+      [[ -n "$sprint_id_val" && "$sprint_id_val" != "null" ]] && col_updates+="sprint_id='$sprint_id_val', "
       [[ -n "$sprint_seq_val" && "$sprint_seq_val" != "null" ]] && col_updates+="sprint_seq=$sprint_seq_val, "
       [[ -n "$epic_val" && "$epic_val" != "null" ]] && col_updates+="epic='$(echo "$epic_val" | sed "s/'/''/g")', "
       
@@ -919,6 +977,7 @@ cmd_list() {
   local filter_status=""
   local filter_blocked_by=""
   local filter_sprint=""
+  local filter_sprint_is_id="false"
   local filter_blocked="false"
   local filter_open="false"
   
@@ -933,18 +992,32 @@ cmd_list() {
         shift 2
         ;;
       --sprint)
-        filter_sprint="$2"
+        # Resolve sprint name to sprint_id FK (TKT-0725-A6)
+        local sprint_name="$2"
+        local resolved_id
+        resolved_id=$(pg_query "SELECT id FROM state_sprints WHERE sprint_name='$sprint_name' ORDER BY updated_at DESC LIMIT 1;" 2>/dev/null | head -1 || true)
+        if [[ -n "$resolved_id" && "$resolved_id" != "null" ]]; then
+          filter_sprint="$resolved_id"
+          filter_sprint_is_id="true"
+        else
+          # Fallback to text match for backward compat
+          filter_sprint="$sprint_name"
+          filter_sprint_is_id="false"
+        fi
         shift 2
         ;;
       --sprint-current)
-        # Resolve the active sprint from state_sprints and filter tickets by it
-        filter_sprint=$(pg_query "SELECT sprint_name FROM state_sprints WHERE status = 'in_progress' ORDER BY updated_at DESC LIMIT 1;" 2>/dev/null | head -1 || true)
-        if [[ -z "$filter_sprint" ]]; then
-          filter_sprint=$(pg_query "SELECT sprint_name FROM state_sprints ORDER BY end_date DESC LIMIT 1;" 2>/dev/null | head -1 || true)
+        # Resolve the active sprint from state_sprints and filter tickets by sprint_id FK
+        local resolved_id
+        resolved_id=$(pg_query "SELECT id FROM state_sprints WHERE status = 'in_progress' ORDER BY updated_at DESC LIMIT 1;" 2>/dev/null | head -1 || true)
+        if [[ -z "$resolved_id" || "$resolved_id" == "null" ]]; then
+          resolved_id=$(pg_query "SELECT id FROM state_sprints ORDER BY end_date DESC NULLS LAST LIMIT 1;" 2>/dev/null | head -1 || true)
         fi
-        if [[ -z "$filter_sprint" ]]; then
+        if [[ -z "$resolved_id" || "$resolved_id" == "null" ]]; then
           die "No active or recent sprint found in state_sprints."
         fi
+        filter_sprint="$resolved_id"
+        filter_sprint_is_id="true"
         shift
         ;;
       --open)
@@ -979,7 +1052,11 @@ cmd_list() {
   fi
   
   if [[ -n "$filter_sprint" ]]; then
-    where_clauses+=("sprint='$filter_sprint'")
+    if [[ "$filter_sprint_is_id" == "true" ]]; then
+      where_clauses+=("sprint_id='$filter_sprint'")
+    else
+      where_clauses+=("sprint='$filter_sprint'")
+    fi
   fi
   
   # Build the base query — include sprint for display
@@ -1179,7 +1256,7 @@ main() {
       cmd_create "$@"
       ;;
     create-from-json)
-      [[ -z "${1:-}" || -z "${2:-}" ]] && die "Usage: db-ticket.sh create-from-json <TKT-ID> '<json-payload>'"
+      [[ -z "${2:-}" ]] && die "Usage: db-ticket.sh create-from-json [<TKT-ID>] '<json-payload>'"
       cmd_create_from_json "$@"
       ;;
     update)
@@ -1223,7 +1300,7 @@ Usage: db-ticket.sh <subcommand> [args...]
 Subcommands:
   read <TKT-ID>                        — Return full ticket as JSON
   create                                 — Interactive guided ticket creation (no flags!)
-  update <TKT-ID> '<json-payload>'        — Validate and write JSON to PG
+  create-from-json [<TKT-ID>] '<json>'     — Non-interactive create (auto-assigns ID if omitted)
   groom <TKT-ID>                         — Append grooming entry to metadata
   fold <TKT-ID> --into <PARENT-ID>       — CHG-0456 5-gate fold SOP
   list [--status <s>] [--blocked-by <T>] [--sprint <S>] [--sprint-current] [--open] [--blocked]

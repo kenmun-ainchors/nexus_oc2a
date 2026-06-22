@@ -5,7 +5,8 @@
 #                            [--rollback "ROLLBACK"] [--linked "LINKS"]
 #
 # All changes (Ken-prompted, auto-heal, incident recovery, scheduled) MUST go through this helper.
-# It auto-increments CHG-NNNN, prepends to the log, and prints the new ID.
+# It auto-increments CHG-NNNN, inserts into state_changes (PG), prepends to the markdown log,
+# and syncs to Notion. Dual-write: PG + markdown.
 #
 # SKILL GATE: changelog skill MUST be loaded before use.
 SCRIPT_DIR_CHG="$(cd "$(dirname "$0")" && pwd)"
@@ -14,6 +15,7 @@ source "${SCRIPT_DIR_CHG}/skill-gate.sh" "changelog" || exit $?
 set -e
 
 CHANGELOG="/Users/ainchorsangiefpl/.openclaw/workspace/memory/CHANGELOG.md"
+DB_RAW="${SCRIPT_DIR_CHG}/db-raw.sh"
 
 # Defaults
 TYPE=""; SOURCE=""; TITLE=""; TRIGGER=""; CHANGED=""; WHY=""; VERIFIED=""; ROLLBACK="N/A"; LINKED=""; FRAMEWORK_DOCS=""; CATEGORY=""; CHANGE_TYPE="Normal"
@@ -82,14 +84,20 @@ case "$SOURCE" in
   *) echo "ERROR: --source must be one of: ken-prompt|auto-heal|incident-recovery|scheduled|manual" >&2; exit 4 ;;
 esac
 
-# Find next CHG ID — use MAX of all IDs (not just first) to avoid duplicates from out-of-order edits
-MAX_ID=$(grep -oE 'CHG-[0-9]{4}' "$CHANGELOG" | grep -v 'CHG-NNNN' | sed 's/CHG-//' | sort -n | tail -1)
-if [[ -z "$MAX_ID" ]]; then
-  NEXT=1
-else
-  NEXT=$((10#$MAX_ID + 1))
+# Get next CHG ID from PG sequence (TKT-0330 A4)
+CHG_NUM=$(bash "$DB_RAW" -c "SELECT nextval('state_changes_change_id_seq');" 2>/dev/null | head -1)
+if [[ -z "$CHG_NUM" || "$CHG_NUM" == "null" ]]; then
+  # Fallback: derive from markdown (should not happen if PG is healthy)
+  echo "WARNING: PG sequence unavailable, falling back to markdown grep" >&2
+  MAX_ID=$(grep -oE 'CHG-[0-9]{4}' "$CHANGELOG" | grep -v 'CHG-NNNN' | sed 's/CHG-//' | sort -n | tail -1)
+  if [[ -z "$MAX_ID" ]]; then
+    NEXT=1
+  else
+    NEXT=$((10#$MAX_ID + 1))
+  fi
+  CHG_NUM=$NEXT
 fi
-CHG_ID=$(printf "CHG-%04d" "$NEXT")
+CHG_ID=$(printf "CHG-%04d" "$CHG_NUM")
 
 TS=$(date '+%Y-%m-%d %H:%M AEST')
 
@@ -111,61 +119,108 @@ ENTRY="## ${TS} — [${CHG_ID}] ${TITLE}
 ${CATEGORY_LINE:+${CATEGORY_LINE}\n}${FRAMEWORK_LINE:+${FRAMEWORK_LINE}\n}---
 "
 
-# Insert AFTER the header block (after the second --- line) and before existing entries
-# Find the line of the schema closing ---
-INSERT_LINE=$(grep -n "^---$" "$CHANGELOG" | sed -n '2p' | cut -d: -f1)
+# Insert BEFORE the first ## heading (prepend to existing entries)
+# Preserve any preamble/comments before the first ## if present.
+# Use a temp file to avoid pipefail issues with head/tail
+INSERT_LINE=$(grep -n "^## " "$CHANGELOG" | cut -d: -f1 | head -1 || true)
 if [[ -z "$INSERT_LINE" ]]; then
-  echo "ERROR: CHANGELOG.md format unexpected — could not find insertion point" >&2
-  exit 5
+  # No ## heading found — append at end
+  cat "$CHANGELOG" > "${CHANGELOG}.tmp"
+  echo "" >> "${CHANGELOG}.tmp"
+  printf '%s\n' "$ENTRY" >> "${CHANGELOG}.tmp"
+  mv "${CHANGELOG}.tmp" "$CHANGELOG"
+elif [[ "$INSERT_LINE" -eq 1 ]]; then
+  # Insert at the very beginning (before first line)
+  printf '%s\n' "$ENTRY" > "${CHANGELOG}.tmp"
+  cat "$CHANGELOG" >> "${CHANGELOG}.tmp"
+  mv "${CHANGELOG}.tmp" "$CHANGELOG"
+else
+  # Insert immediately before the first ## line
+  head -n $((INSERT_LINE - 1)) "$CHANGELOG" > "${CHANGELOG}.tmp"
+  echo "" >> "${CHANGELOG}.tmp"
+  printf '%s\n' "$ENTRY" >> "${CHANGELOG}.tmp"
+  tail -n +$((INSERT_LINE)) "$CHANGELOG" >> "${CHANGELOG}.tmp"
+  mv "${CHANGELOG}.tmp" "$CHANGELOG"
 fi
 
-# Insert
-{
-  head -n "$INSERT_LINE" "$CHANGELOG"
-  echo ""
-  echo "$ENTRY"
-  tail -n +$((INSERT_LINE + 1)) "$CHANGELOG"
-} > "${CHANGELOG}.tmp" && mv "${CHANGELOG}.tmp" "$CHANGELOG"
-
 echo "$CHG_ID"
+
+# ── PG insert into state_changes (TKT-0330 A4) ───────────────────────────────
+# Dual-write: PG + markdown. PG is the SSOT; markdown is kept for backward compat.
+# Escape single quotes for PG
+PG_DESC=$(echo "$CHANGED" | sed "s/'/''/g")
+PG_TITLE=$(echo "$TITLE" | sed "s/'/''/g")
+PG_ACTOR=$(echo "$SOURCE" | sed "s/'/''/g")
+PG_VERIFIED=$(echo "$VERIFIED" | sed "s/'/''/g")
+PG_WHY=$(echo "$WHY" | sed "s/'/''/g")
+PG_ROLLBACK=$(echo "$ROLLBACK" | sed "s/'/''/g")
+PG_LINKED=$(echo "$LINKED" | sed "s/'/''/g")
+PG_FRAMEWORK=$(echo "$FRAMEWORK_DOCS" | sed "s/'/''/g")
+PG_CATEGORY=$(echo "$CATEGORY" | sed "s/'/''/g")
+PG_TRIGGER=$(echo "$TRIGGER" | sed "s/'/''/g")
+PG_CHANGE_TYPE=$(echo "$CHANGE_TYPE" | sed "s/'/''/g")
+
+bash "$DB_RAW" -c "INSERT INTO state_changes (change_id, title, description, actor, status, metadata, tenant_id)
+VALUES (
+  '$CHG_ID',
+  '$PG_TITLE',
+  'Trigger: $PG_TRIGGER | Changed: $PG_DESC | Why: $PG_WHY | Verified: $PG_VERIFIED | Rollback: $PG_ROLLBACK',
+  '$PG_ACTOR',
+  'applied',
+  '{\"change_type\":\"$PG_CHANGE_TYPE\",\"type\":\"$TYPE\",\"source\":\"$PG_ACTOR\",\"trigger\":\"$PG_TRIGGER\",\"verified\":\"$PG_VERIFIED\",\"rollback\":\"$PG_ROLLBACK\",\"linked\":\"$PG_LINKED\",\"framework_docs\":\"$PG_FRAMEWORK\",\"category\":\"$PG_CATEGORY\"}'::jsonb,
+  'ainchors'
+);" 2>/dev/null || echo "WARNING: PG insert failed for $CHG_ID (markdown entry still written)" >&2
 
 # ── Notion sync (best-effort — failure does NOT block CHG logging) ──────────────
 NOTION_KEY_FILE="$HOME/.config/notion/api_key"
 # CHG records go to Archive DB (DB C: Completed-Archived) — TKT-0392-D
 NOTION_DB_ID="364c1829-53ff-818e-a783-ebafcb6a9880"
-if [[ -f "$NOTION_KEY_FILE" ]] && command -v jq > /dev/null && command -v curl > /dev/null; then
-  NOTION_KEY=$(cat "$NOTION_KEY_FILE")
-  N_TODAY=$(date '+%Y-%m-%d')
-  N_TITLE="[${CHG_ID}] ${TITLE}"
-  # Build CHG details for Description (truncated to 2000 chars)
-  N_DESC="Type: ${TYPE} | Source: ${SOURCE} | Trigger: ${TRIGGER} | Changed: ${CHANGED} | Why: ${WHY} | Verified: ${VERIFIED} | Rollback: ${ROLLBACK}"
-  N_DESC="${N_DESC:0:2000}"
-  N_PAYLOAD=$(jq -n \
-    --arg db  "$NOTION_DB_ID" \
-    --arg ttl "$N_TITLE" \
-    --arg cdt "$N_TODAY" \
-    --arg dsc "$N_DESC" \
-    '{
-      parent: {database_id: $db},
-      properties: {
-        "Title":         {title:  [{text: {content: $ttl}}]},
-        "Status":        {select: {name: "Done"}},
-        "Type":          {select: {name: "CHG"}},
-        "Completed Date": {date:   {start: $cdt}},
-        "Description":   {rich_text: [{text: {content: $dsc}}]}
-      }
-    }' 2>/dev/null)
-  if [[ -n "$N_PAYLOAD" ]]; then
-    N_RESP=$(curl -s -X POST "https://api.notion.com/v1/pages" \
-      -H "Authorization: Bearer $NOTION_KEY" \
-      -H "Notion-Version: 2025-09-03" \
-      -H "Content-Type: application/json" \
-      --data "$N_PAYLOAD" 2>/dev/null)
-    N_PAGE_ID=$(echo "$N_RESP" | jq -r '.id // ""' 2>/dev/null)
-    if [[ -n "$N_PAGE_ID" && "$N_PAGE_ID" != "null" && "$N_PAGE_ID" != "" ]]; then
-      echo "[notion] ✅ $CHG_ID synced → $N_PAGE_ID" >&2
-    else
-      echo "[notion] ⚠️  sync failed for $CHG_ID (CHG still logged)" >&2
+notion_sync_chg() {
+  local retry=0
+  local max_retries=2
+  while [[ $retry -le $max_retries ]]; do
+    if [[ -f "$NOTION_KEY_FILE" ]] && command -v jq > /dev/null && command -v curl > /dev/null; then
+      NOTION_KEY=$(cat "$NOTION_KEY_FILE")
+      N_TODAY=$(date '+%Y-%m-%d')
+      N_TITLE="[${CHG_ID}] ${TITLE}"
+      # Build CHG details for Description (truncated to 2000 chars)
+      N_DESC="Type: ${TYPE} | Source: ${SOURCE} | Trigger: ${TRIGGER} | Changed: ${CHANGED} | Why: ${WHY} | Verified: ${VERIFIED} | Rollback: ${ROLLBACK}"
+      N_DESC="${N_DESC:0:2000}"
+      N_PAYLOAD=$(jq -n \
+        --arg db  "$NOTION_DB_ID" \
+        --arg ttl "$N_TITLE" \
+        --arg cdt "$N_TODAY" \
+        --arg dsc "$N_DESC" \
+        '{
+          parent: {database_id: $db},
+          properties: {
+            "Title":         {title:  [{text: {content: $ttl}}]},
+            "Status":        {select: {name: "Done"}},
+            "Type":          {select: {name: "CHG"}},
+            "Completed Date": {date:   {start: $cdt}},
+            "Description":   {rich_text: [{text: {content: $dsc}}]}
+          }
+        }' 2>/dev/null)
+      if [[ -n "$N_PAYLOAD" ]]; then
+        N_RESP=$(curl -s -X POST "https://api.notion.com/v1/pages" \
+          -H "Authorization: Bearer $NOTION_KEY" \
+          -H "Notion-Version: 2025-09-03" \
+          -H "Content-Type: application/json" \
+          --data "$N_PAYLOAD" 2>/dev/null)
+        N_PAGE_ID=$(echo "$N_RESP" | jq -r '.id // ""' 2>/dev/null)
+        if [[ -n "$N_PAGE_ID" && "$N_PAGE_ID" != "null" && "$N_PAGE_ID" != "" ]]; then
+          echo "[notion] ✅ $CHG_ID synced → $N_PAGE_ID" >&2
+          return 0
+        fi
+      fi
     fi
-  fi
-fi
+    retry=$((retry + 1))
+    if [[ $retry -le $max_retries ]]; then
+      echo "[notion] ⚠️  sync failed for $CHG_ID, retry $retry/$max_retries..." >&2
+      sleep 2
+    fi
+  done
+  echo "[notion] ⚠️  sync failed for $CHG_ID after $max_retries retries (CHG still logged)" >&2
+  return 1
+}
+notion_sync_chg

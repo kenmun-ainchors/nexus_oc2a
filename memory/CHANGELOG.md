@@ -1,3 +1,27 @@
+## 2026-06-22 18:11 AEST — [CHG-0714] TKT-0330 completion CHG
+**Type:** script
+**Change Type:** Normal
+**Source:** ken-prompt
+**Trigger:** TKT-0330 A7 pass
+**What changed:** Atomic PG numbering for tickets and CHGs; changelog_view; rollback script
+**Why:** Close TKT-0330 after verification
+**Verification:** Schema, sequence, functional create, markdown top, JSON mirror, rollback dry-run
+**Rollback:** Run infra/rollback/TKT-0330-rollback.sql
+**Linked:** TKT-0330
+---
+
+## 2026-06-22 18:04 AEST — [CHG-0713] TKT-0330 A7 verification CHG
+**Type:** script
+**Change Type:** Normal
+**Source:** ken-prompt
+**Trigger:** TKT-0330 A7
+**What changed:** Verified atomic CHG numbering end-to-end
+**Why:** TKT-0330 A7 verification
+**Verification:** state_changes row, markdown entry, sequence value
+**Rollback:** Revert script changes via git
+**Linked:** TKT-0330
+---
+
 ## 2026-06-17 22:15 AEST — [CHG-0622] Fix zsh associative-array loop syntax in ollama-request-counter.sh
 **Type:** script
 **Change Type:** Normal
@@ -167,7 +191,45 @@ Both reference canonical docs in `references/` and load via `scripts/skill-load.
 - **Rollback:** Revert RULES.md section, TOOLS.md table, auto-heal CHECK 20.
 - **Linked:** INC-20260608-001, L-050, L-051, TKT-0332, TKT-0333, CHG-0470
 ---
+
+
+## 2026-06-22 17:48 AEST — [CHG-0710] Canonical sprint registry completed
+**Type:** data
+**Change Type:** Normal
+**Source:** ken-prompt
+**Trigger:** CRESTv2-P1 Sprint 9 foundation-critical ticket
+**What changed:** state_sprints canonicalized with UUID PK; state_tickets.sprint_id FK populated; 11 sprint-name variants collapsed; 263 unsprinted tickets assigned via locked plan + sprint_history; Unassigned sentinel created; db-sprint.sh and db-ticket.sh use sprint_id FK; rollback script infra/rollback/TKT-0725-rollback.sql created
+**Why:** Achieve PG-first canonical sprint registry per CRESTv2-P1-DM §1.5
+**Verification:** A8 v17 all PASS: Unassigned=304, Sprint 9=16 locked-plan items in order, Sprint 10=4, Sprint 11=7, no dangling FK, no NULL sprint_id
+**Rollback:** N/A
+**Linked:** TKT-0725, TKT-0342, state/crestv2-p1-tracker.json
 ---
+
+## 2026-06-22 17:45 AEST — [CHG-0709] CHG-0709 TKT-0540 follow-up: update stale regression test expectations
+**Type:** script
+**Change Type:** Normal
+**Source:** ken-prompt
+**Trigger:** CHG-0708 follow-up: regression tests stale against CREST v1.3 phase rules (CHG-0690/0691)
+**What changed:** tests/regression/model-routing/test-policy-consistency.sh and test-consumer-consistency.sh expectations updated to match current PG crest_phase_rules. Affected: Verify role defaults to ollama/gemma4:31b-cloud (not deepseek-v4-pro/minimax-m3/kimi-k2.6); infra/verify no longer allows ollama/minimax-m3:cloud; main/execute remains not allowed.
+**Why:** CHG-0708 fixed the JSON output format but tests still failed because their hardcoded expectations predate CREST v1.3 model policy. Drift check cannot pass until consumers and tests align with policy.
+**Verification:** Run check-model-policy-drift.sh, test-policy-consistency.sh (expect 21/21), test-consumer-consistency.sh (expect 10/10).
+**Rollback:** Revert expectation changes in both test files and re-run tests.
+**Linked:** TKT-0540 CHG-0708 CHG-0690 CHG-0691
+---
+
+
+## 2026-06-22 17:39 AEST — [CHG-0708] TKT-0540: model-policy-query.sh --all outputs TSV; consumers expect JSON effectiveMap
+**Type:** script
+**Change Type:** Normal
+**Source:** auto-heal
+**Trigger:** TKT-0540 model-policy drift — model-policy-query.sh --all currently outputs TSV but consumers expect JSON effectiveMap
+**What changed:** Root cause: model-policy-query.sh --all was changed to output TSV (likely during CREST v1.3 A6 refactor), but consumers (check-model-policy-drift.sh, test-consumer-consistency.sh, test-policy-consistency.sh) expect JSON effectiveMap format. Affected scripts: scripts/model-policy-query.sh, scripts/check-model-policy-drift.sh, scripts/test-consumer-consistency.sh, scripts/test-policy-consistency.sh. Fix: restore JSON output for --all flag (or update consumers/tests if TSV change was intentional).
+**Why:** TKT-0540 tracks model-policy drift. The --all flag's TSV output breaks downstream consumers that parse JSON effectiveMap. This is a regression from the CREST v1.3 A6 refactor. The fix requires a dispatch-validate cycle to determine whether to restore JSON output or update consumers.
+**Verification:** Verification steps: (1) Run model-policy-query.sh --all and confirm output format. (2) Run check-model-policy-drift.sh and confirm it parses correctly. (3) Run test-consumer-consistency.sh and test-policy-consistency.sh and confirm all pass. (4) If restoring JSON, verify with jq that output is valid JSON with effectiveMap key. (5) If updating consumers, verify all tests pass with TSV format.
+**Rollback:** Revert model-policy-query.sh --all to prior output format. Restore any consumer scripts that were changed. Re-run all 4 affected scripts to confirm original behavior.
+**Linked:** TKT-0540, TKT-0546, model-policy-query.sh, check-model-policy-drift.sh, test-consumer-consistency.sh, test-policy-consistency.sh
+**Category:** model-policy\n---
+
 
 ## 2026-06-22 16:53 AEST — [CHG-0707] TKT-0725 groomed: canonical sprint registry with 8 atoms
 **Type:** data
