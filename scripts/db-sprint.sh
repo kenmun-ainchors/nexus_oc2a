@@ -1,7 +1,8 @@
 #!/bin/bash
-# db-sprint.sh - Sprint Operations PG-First (TKT-0369-B)
+# db-sprint.sh - Sprint Operations PG-First (TKT-0369-B, TKT-0725-A6)
 # Author: Forge (Infrastructure & SRE Agent)
 # Created: 2026-06-10
+# Updated: 2026-06-22 — TKT-0725 A6: use sprint_id FK joins instead of text matching
 #
 # SKILL GATE: pg-sprint-backlog skill MUST be loaded before use.
 source "${SCRIPT_DIR:-$(dirname "$0")}/skill-gate.sh" "pg-sprint-backlog" || exit $?
@@ -26,6 +27,38 @@ TICKET_TABLE="state_tickets"
 TICKET_SCRIPT="$WORKSPACE_ROOT/scripts/db-ticket.sh"
 SPRINT_TABLE="state_sprints"
 TICKET_FILE="$WORKSPACE_ROOT/state/tickets.json"
+EVENT_SCRIPT="$WORKSPACE_ROOT/scripts/pg-write-event.sh"
+
+# --- EVENT HELPER ---
+resolve_actor() {
+  local a="${NEXUS_ACTOR:-}"
+  if [[ -z "$a" ]]; then
+    a="${USER:-}"
+  fi
+  if [[ -z "$a" ]]; then
+    a="system"
+  fi
+  echo "$a"
+}
+
+emit_event() {
+  local actor event_type entity_type entity_id payload prev_state new_state
+  actor="$1"
+  event_type="$2"
+  entity_type="$3"
+  entity_id="$4"
+  payload="$5"
+  prev_state="${6:-}"
+  new_state="${7:-}"
+  local args=(--actor "$actor" --event-type "$event_type" --entity-type "$entity_type" --entity-id "$entity_id" --payload "$payload")
+  if [[ -n "$prev_state" ]]; then
+    args+=(--prev-state "$prev_state")
+  fi
+  if [[ -n "$new_state" ]]; then
+    args+=(--new-state "$new_state")
+  fi
+  bash "$EVENT_SCRIPT" "${args[@]}" > /dev/null 2>&1 || log "WARNING: event write failed for ${entity_type}:${entity_id} (${event_type})"
+}
 
 # --- UTILITIES ---
 log() { echo "[$(date '+%Y-%m-%d %H:%M:%S')] db-sprint: $1" >&2; }
@@ -112,8 +145,8 @@ get_current_sprint_name() {
   # 4. Most common sprint_target in open tickets
   # 5. Hard fallback: Sprint 7
   local name
-  # 1. Active sprint takes precedence.
-  name=$(pg_query "SELECT sprint_name FROM $SPRINT_TABLE WHERE status='in_progress' OR status='active' ORDER BY sprint_number DESC LIMIT 1;" 2>/dev/null | head -1)
+  # 1. Active sprint takes precedence (exclude Unassigned sentinel).
+  name=$(pg_query "SELECT sprint_name FROM $SPRINT_TABLE WHERE (status='in_progress' OR status='active') AND sprint_number > 0 ORDER BY sprint_number DESC LIMIT 1;" 2>/dev/null | head -1)
   if [[ -z "$name" ]]; then
     # 2. Next upcoming committed/planning sprint by start_date (not highest number).
     #    This supports sequenced multi-sprint plans where Sprints 9–11 are all committed.
@@ -121,7 +154,7 @@ get_current_sprint_name() {
   fi
   if [[ -z "$name" ]]; then
     # 3. If every sprint is in the past, fall back to the latest one.
-    name=$(pg_query "SELECT sprint_name FROM $SPRINT_TABLE ORDER BY start_date DESC LIMIT 1;" 2>/dev/null | head -1)
+    name=$(pg_query "SELECT sprint_name FROM $SPRINT_TABLE ORDER BY start_date DESC NULLS LAST LIMIT 1;" 2>/dev/null | head -1)
   fi
   if [[ -z "$name" ]]; then
     name=$(pg_query "SELECT metadata->>'sprint_target' FROM $TICKET_TABLE WHERE status IN ('open','in-progress','pending','backlog','grooming') AND metadata->>'sprint_target' IS NOT NULL GROUP BY metadata->>'sprint_target' ORDER BY COUNT(*) DESC LIMIT 1;" 2>/dev/null | head -1)
@@ -169,11 +202,11 @@ cmd_current() {
     return 0
   fi
 
-  # Get ticket counts for this sprint
+  # Get ticket counts for this sprint via sprint_id FK join (TKT-0725-A6)
   local ticket_count
-  ticket_count=$(pg_query "SELECT COUNT(*) FROM $TICKET_TABLE WHERE (sprint = '$sprint_name' OR metadata->>'sprint_target' = '$sprint_name');" 2>/dev/null | head -1)
+  ticket_count=$(pg_query "SELECT COUNT(*) FROM $TICKET_TABLE WHERE sprint_id = (SELECT id FROM $SPRINT_TABLE WHERE sprint_number=$sprint_num ORDER BY updated_at DESC LIMIT 1);" 2>/dev/null | head -1)
   local done_count
-  done_count=$(pg_query "SELECT COUNT(*) FROM $TICKET_TABLE WHERE (sprint = '$sprint_name' OR metadata->>'sprint_target' = '$sprint_name') AND status IN ('closed','done','folded');" 2>/dev/null | head -1)
+  done_count=$(pg_query "SELECT COUNT(*) FROM $TICKET_TABLE WHERE sprint_id = (SELECT id FROM $SPRINT_TABLE WHERE sprint_number=$sprint_num ORDER BY updated_at DESC LIMIT 1) AND status IN ('closed','done','folded');" 2>/dev/null | head -1)
 
   # Merge counts into sprint JSON
   echo "$sprint_json" | $JQ \
@@ -207,7 +240,18 @@ cmd_commit() {
   local sprint_name
   sprint_name=$(get_current_sprint_name)
 
-  log "Committing $tkt_id to $sprint_name (seq=$seq, effort=$effort, agent=$agent)"
+  # Resolve sprint_num immediately (TKT-0726-A6: must be before any $sprint_num usage)
+  local sprint_num
+  sprint_num=$(sprint_name_to_number "$sprint_name")
+
+  # Get sprint_id for the target sprint (TKT-0725-A6)
+  local sprint_id
+  sprint_id=$(pg_query "SELECT id FROM $SPRINT_TABLE WHERE sprint_number=$sprint_num ORDER BY updated_at DESC LIMIT 1;" 2>/dev/null | head -1)
+  if [[ -z "$sprint_id" || "$sprint_id" == "null" ]]; then
+    die "Sprint $sprint_name not found in state_sprints (no sprint_id)"
+  fi
+
+  log "Committing $tkt_id to $sprint_name (sprint_id=$sprint_id, seq=$seq, effort=$effort, agent=$agent)"
 
   # Get current metadata
   local current_meta
@@ -231,12 +275,10 @@ cmd_commit() {
 
   write_metadata "$tkt_id" "$updated_meta"
 
-  # Also populate the proper sprint columns (TKT-0391)
-  pg_query "UPDATE $TICKET_TABLE SET sprint='$sprint_name', sprint_seq=$seq, updated_at=NOW() WHERE id='$tkt_id';" > /dev/null 2>&1 || true
+  # Also populate the proper sprint columns (TKT-0391, TKT-0725-A6: use sprint_id FK)
+  pg_query "UPDATE $TICKET_TABLE SET sprint='$sprint_name', sprint_id='$sprint_id', sprint_seq=$seq, updated_at=NOW() WHERE id='$tkt_id';" > /dev/null 2>&1 || true
 
   # Also update state_sprints.items if sprint row exists
-  local sprint_num
-  sprint_num=$(sprint_name_to_number "$sprint_name")
   local items_json
   items_json=$(pg_query "SELECT items::text FROM $SPRINT_TABLE WHERE sprint_number=$sprint_num ORDER BY updated_at DESC LIMIT 1;" 2>/dev/null)
 
@@ -274,6 +316,12 @@ cmd_commit() {
   fi
 
   log "✓ $tkt_id committed to $sprint_name (seq $seq)"
+    # TKT-0726: Emit committed event for sprint (best-effort)
+    local actor
+    actor=$(resolve_actor)
+    local commit_payload
+    commit_payload=$(/opt/homebrew/bin/jq -n --arg tkt "$tkt_id" --arg sprint "$sprint_name" --arg seq "$seq" --arg effort "$effort" --arg agent "$agent" '{ticket: $tkt, sprint: $sprint, seq: ($seq | tonumber), effort: $effort, agent: $agent}' 2>/dev/null || echo '{"ticket":"'"$tkt_id"'"}')
+    emit_event "$actor" "committed" "sprint" "$sprint_id" "$commit_payload"
 
   # TKT-0406: Trigger Notion sync for sprint assignment
   bash "$TICKET_SCRIPT" sync "$tkt_id" > /dev/null 2>&1 &
@@ -307,9 +355,19 @@ cmd_status() {
 
   log "Sprint status: $sprint_name"
 
-  # Query all tickets in this sprint (column-first, JSONB fallback TKT-0391)
+  # Query all tickets in this sprint via sprint_id FK join (TKT-0725-A6)
+  local sprint_id
+  sprint_id=$(pg_query "SELECT id FROM $SPRINT_TABLE WHERE sprint_name='$sprint_name' ORDER BY updated_at DESC LIMIT 1;" 2>/dev/null | head -1)
+  if [[ -z "$sprint_id" || "$sprint_id" == "null" ]]; then
+    echo "No sprint found for $sprint_name."
+    echo ""
+    echo "=== Summary ==="
+    echo "Total: 0 | Open: 0 | In Progress: 0 | Done: 0 | Blocked: 0 | Ready: 0"
+    return 0
+  fi
+
   local tickets
-  tickets=$(pg_query "SELECT id, title, status, metadata FROM $TICKET_TABLE WHERE (sprint = '$sprint_name' OR metadata->>'sprint_target' = '$sprint_name') ORDER BY COALESCE(sprint_seq, (metadata->>'sprint_seq')::int, 999), id;" 2>/dev/null)
+  tickets=$(pg_query "SELECT id, title, status, metadata FROM $TICKET_TABLE WHERE sprint_id = '$sprint_id' ORDER BY COALESCE(sprint_seq, 999), id;" 2>/dev/null)
 
   if [[ -z "$tickets" ]]; then
     echo "No tickets found in sprint $sprint_name."
@@ -324,7 +382,7 @@ cmd_status() {
 
   # Parse results: use a subquery to allow ORDER BY in jsonb_agg
   local ticket_json
-  ticket_json=$(pg_query "SELECT jsonb_agg(t ORDER BY seq_num, id) FROM (SELECT t.*, COALESCE(t.sprint_seq, (t.metadata->>'sprint_seq')::int, 999) AS seq_num FROM $TICKET_TABLE t WHERE (t.sprint = '$sprint_name' OR t.metadata->>'sprint_target' = '$sprint_name')) t;" 2>/dev/null)
+  ticket_json=$(pg_query "SELECT jsonb_agg(t ORDER BY seq_num, id) FROM (SELECT t.*, COALESCE(t.sprint_seq, 999) AS seq_num FROM $TICKET_TABLE t WHERE t.sprint_id = '$sprint_id') t;" 2>/dev/null)
 
   if [[ -z "$ticket_json" || "$ticket_json" == "null" ]]; then
     echo "No tickets found in sprint $sprint_name (JSON query returned null)."
@@ -344,7 +402,7 @@ cmd_status() {
     .title as $title |
     .status as $status |
     .metadata as $meta |
-    ($meta.sprint_seq // "---") as $seq |
+    (.sprint_seq // "---") as $seq |
     ($meta.sprint_effort // "?") as $effort |
     ($meta.sprint_agent // "?") as $agent |
     ($meta.depends_on // []) as $deps |
@@ -462,9 +520,16 @@ cmd_plan() {
   fi
   echo ""
 
-  # Query all committed tickets (column-first, JSONB fallback TKT-0391)
+  # Query all committed tickets via sprint_id FK join (TKT-0725-A6)
+  local sprint_id
+  sprint_id=$(pg_query "SELECT id FROM $SPRINT_TABLE WHERE sprint_name='$sprint_name' ORDER BY updated_at DESC LIMIT 1;" 2>/dev/null | head -1)
+  if [[ -z "$sprint_id" || "$sprint_id" == "null" ]]; then
+    echo "No tickets committed to $sprint_name (sprint not found)."
+    return 0
+  fi
+
   local ticket_json
-  ticket_json=$(pg_query "SELECT jsonb_agg(row_to_json(t) ORDER BY COALESCE(t.sprint_seq, (t.metadata->>'sprint_seq')::int, 999), t.id) FROM $TICKET_TABLE t WHERE (t.sprint = '$sprint_name' OR t.metadata->>'sprint_target' = '$sprint_name');" 2>/dev/null)
+  ticket_json=$(pg_query "SELECT jsonb_agg(row_to_json(t) ORDER BY COALESCE(t.sprint_seq, 999), t.id) FROM $TICKET_TABLE t WHERE t.sprint_id = '$sprint_id';" 2>/dev/null)
 
   if [[ -z "$ticket_json" || "$ticket_json" == "null" || "$ticket_json" == "[null]" ]]; then
     echo "No tickets committed to $sprint_name."
@@ -479,7 +544,7 @@ cmd_plan() {
   local rows
   rows=$(echo "$ticket_json" | $JQ -r '.[] |
     [
-      (.metadata.sprint_seq // "?"),
+      (.sprint_seq // "?"),
       .id,
       (.title | .[0:46]),
       (.metadata.sprint_effort // "?"),
@@ -562,6 +627,12 @@ cmd_create() {
 
   if [[ $ret -eq 0 ]]; then
     log "✓ Sprint $sprint_name created in PG"
+    # TKT-0726: Emit created event for sprint (best-effort)
+    local actor
+    actor=$(resolve_actor)
+    local sprint_payload
+    sprint_payload=$(/opt/homebrew/bin/jq -n --arg name "$sprint_name" --arg num "$sprint_num" --arg dates "$dates" '{sprint_name: $name, sprint_number: ($num | tonumber), dates: $dates}' 2>/dev/null || echo '{"sprint_name":"'"$sprint_name"'"}')
+    emit_event "$actor" "created" "sprint" "$sprint_name" "$sprint_payload" "{}" "$sprint_payload"
     echo "{\"sprint\":\"$sprint_name\",\"number\":$sprint_num,\"status\":\"planning\",\"created\":true}"
   else
     die "Failed to create sprint $sprint_name in PG"
@@ -631,8 +702,14 @@ cmd_defer() {
 
   write_metadata "$tkt_id" "$updated_meta"
 
-  # Also update the proper sprint column (TKT-0391)
-  pg_query "UPDATE $TICKET_TABLE SET sprint='$target_sprint', sprint_seq=NULL, updated_at=NOW() WHERE id='$tkt_id';" > /dev/null 2>&1 || true
+  # Also update the proper sprint columns (TKT-0391, TKT-0725-A6: use sprint_id FK)
+  local target_sprint_id
+  target_sprint_id=$(pg_query "SELECT id FROM $SPRINT_TABLE WHERE sprint_name='$target_sprint' ORDER BY updated_at DESC LIMIT 1;" 2>/dev/null | head -1)
+  if [[ -n "$target_sprint_id" && "$target_sprint_id" != "null" ]]; then
+    pg_query "UPDATE $TICKET_TABLE SET sprint='$target_sprint', sprint_id='$target_sprint_id', sprint_seq=NULL, updated_at=NOW() WHERE id='$tkt_id';" > /dev/null 2>&1 || true
+  else
+    pg_query "UPDATE $TICKET_TABLE SET sprint='$target_sprint', sprint_seq=NULL, updated_at=NOW() WHERE id='$tkt_id';" > /dev/null 2>&1 || true
+  fi
 
   # Remove deferred ticket from source sprint's items array (fix gap TKT-0326/T0293)
   local from_sprint_num
@@ -786,8 +863,14 @@ cmd_migrate() {
       ' 2>/dev/null)
 
       write_metadata "$tkt_id" "$updated_meta"
-      # Also populate the proper sprint columns (TKT-0391)
-      pg_query "UPDATE $TICKET_TABLE SET sprint='$sprint_name', sprint_seq=$seq, updated_at=NOW() WHERE id='$tkt_id';" > /dev/null 2>&1 || true
+      # Also populate the proper sprint columns (TKT-0391, TKT-0725-A6: use sprint_id FK)
+      local sprint_id
+      sprint_id=$(pg_query "SELECT id FROM $SPRINT_TABLE WHERE sprint_number=$sprint_num ORDER BY updated_at DESC LIMIT 1;" 2>/dev/null | head -1)
+      if [[ -n "$sprint_id" && "$sprint_id" != "null" ]]; then
+        pg_query "UPDATE $TICKET_TABLE SET sprint='$sprint_name', sprint_id='$sprint_id', sprint_seq=$seq, updated_at=NOW() WHERE id='$tkt_id';" > /dev/null 2>&1 || true
+      else
+        pg_query "UPDATE $TICKET_TABLE SET sprint='$sprint_name', sprint_seq=$seq, updated_at=NOW() WHERE id='$tkt_id';" > /dev/null 2>&1 || true
+      fi
       echo "  MIGRATED: $tkt_id → $sprint_name (seq=$seq, effort=$effort, agent=$agent)"
       ((migrated++))
 
@@ -862,8 +945,14 @@ cmd_migrate() {
       ' 2>/dev/null)
 
       write_metadata "$tkt_id" "$updated_meta"
-      # Also populate the proper sprint columns (TKT-0391)
-      pg_query "UPDATE $TICKET_TABLE SET sprint='$sprint_name', sprint_seq=$seq, updated_at=NOW() WHERE id='$tkt_id';" > /dev/null 2>&1 || true
+      # Also populate the proper sprint columns (TKT-0391, TKT-0725-A6: use sprint_id FK)
+      local sprint_id
+      sprint_id=$(pg_query "SELECT id FROM $SPRINT_TABLE WHERE sprint_number=$sprint_num ORDER BY updated_at DESC LIMIT 1;" 2>/dev/null | head -1)
+      if [[ -n "$sprint_id" && "$sprint_id" != "null" ]]; then
+        pg_query "UPDATE $TICKET_TABLE SET sprint='$sprint_name', sprint_id='$sprint_id', sprint_seq=$seq, updated_at=NOW() WHERE id='$tkt_id';" > /dev/null 2>&1 || true
+      else
+        pg_query "UPDATE $TICKET_TABLE SET sprint='$sprint_name', sprint_seq=$seq, updated_at=NOW() WHERE id='$tkt_id';" > /dev/null 2>&1 || true
+      fi
       echo "  MIGRATED (assessed): $tkt_id → $sprint_name (seq=$seq)"
       ((migrated++))
 

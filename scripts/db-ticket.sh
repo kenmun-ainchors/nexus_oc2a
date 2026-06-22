@@ -46,9 +46,51 @@ DB_SCRIPT="$WORKSPACE_ROOT/scripts/db.sh"
 DB_READ="$WORKSPACE_ROOT/scripts/db-read.sh"
 DB_WRITE="$WORKSPACE_ROOT/scripts/db-write.sh"
 SYNC_SCRIPT="$WORKSPACE_ROOT/scripts/pg-to-notion-sync.sh"
+EVENT_SCRIPT="$WORKSPACE_ROOT/scripts/pg-write-event.sh"
 JQ="/opt/homebrew/bin/jq"
 TICKET_TABLE="state_tickets"
 TICKET_FILE="$WORKSPACE_ROOT/state/tickets.json"
+
+# --- EVENT HELPER ---
+# Resolve actor: NEXUS_ACTOR env > USER env > 'system'
+resolve_actor() {
+  local a="${NEXUS_ACTOR:-}"
+  if [[ -z "$a" ]]; then
+    a="${USER:-}"
+  fi
+  if [[ -z "$a" ]]; then
+    a="system"
+  fi
+  echo "$a"
+}
+
+# Best-effort event emission: log failures, never fail the primary mutation
+emit_event() {
+  local actor event_type entity_type entity_id payload prev_state new_state
+  actor="$1"
+  event_type="$2"
+  entity_type="$3"
+  entity_id="$4"
+  payload="$5"
+  prev_state="${6:-}"
+  new_state="${7:-}"
+
+  local args=(
+    --actor "$actor"
+    --event-type "$event_type"
+    --entity-type "$entity_type"
+    --entity-id "$entity_id"
+    --payload "$payload"
+  )
+  if [[ -n "$prev_state" ]]; then
+    args+=(--prev-state "$prev_state")
+  fi
+  if [[ -n "$new_state" ]]; then
+    args+=(--new-state "$new_state")
+  fi
+
+  bash "$EVENT_SCRIPT" "${args[@]}" > /dev/null 2>&1 || log "WARNING: event write failed for ${entity_type}:${entity_id} (${event_type})"
+}
 
 # --- UTILITIES ---
 log() { echo "[$(date '+%Y-%m-%d %H:%M:%S')] db-ticket: $1" >&2; }
@@ -483,6 +525,12 @@ cmd_create() {
     # TKT-0406: Defer Notion sync to first groom (no sparse pages)
     # Sync is triggered by db-ticket.sh groom or update instead
     log "Ticket created in PG. Notion sync deferred to first groom."
+    # TKT-0726: Emit created event (best-effort)
+    local actor
+    actor=$(resolve_actor)
+    local event_payload
+    event_payload=$(echo "$payload" | /opt/homebrew/bin/jq -c '{id, title, status, priority, type}' 2>/dev/null || echo '{"id":"'"$tkt_id"'"}')
+    emit_event "$actor" "created" "ticket" "$tkt_id" "$event_payload" "{}" "$event_payload"
   else
     # Check if write actually succeeded despite non-zero
     if ticket_exists "$tkt_id"; then
@@ -603,6 +651,12 @@ cmd_create_from_json() {
       tmp_json=$(mktemp)
       local tn_val2
       tn_val2=$(echo "$tkt_id" | sed 's/TKT-//' | sed 's/^0*//')
+    # TKT-0726: Emit created event (best-effort)
+    local actor
+    actor=$(resolve_actor)
+    local event_payload
+    event_payload=$(echo "$json_payload" | /opt/homebrew/bin/jq -c '{id, title, status, priority, type}' 2>/dev/null || echo '{"id":"'"$tkt_id"'"}')
+    emit_event "$actor" "created" "ticket" "$tkt_id" "$event_payload" "{}" "$event_payload"
       $JQ --argjson new "$(echo "$json_payload" | $JQ --argjson tn "$tn_val2" '{id, title, status, priority, type, created_at, ticket_number: $tn}' 2>/dev/null)" \
         '. + [$new]' "$TICKET_FILE" > "$tmp_json" 2>/dev/null && mv "$tmp_json" "$TICKET_FILE"
     fi
@@ -715,6 +769,14 @@ cmd_update() {
     fi
     
     log "Ticket $tkt_id updated."
+    # TKT-0726: Emit updated event (best-effort)
+    local actor
+    actor=$(resolve_actor)
+    local event_payload
+    event_payload=$(echo "$json_payload" | /opt/homebrew/bin/jq -c '{id, title, status, priority, type}' 2>/dev/null || echo '{"id":"'"$tkt_id"'"}')
+    local prev_state_json
+    prev_state_json=$(get_ticket_json "$tkt_id" 2>/dev/null || echo "{}")
+    emit_event "$actor" "updated" "ticket" "$tkt_id" "$event_payload" "$prev_state_json" "$event_payload"
     
     # TKT-0406: Trigger single-ticket Notion sync in background
     bash "$0" sync "$tkt_id" > /dev/null 2>&1 &
@@ -733,6 +795,14 @@ cmd_update() {
       log "WARNING: PG write degraded ($write_result). Ticket may only exist in file fallback."
     else
       log "Ticket $tkt_id updated."
+      # TKT-0726: Emit updated event (best-effort)
+      local actor
+      actor=$(resolve_actor)
+      local event_payload
+      event_payload=$(echo "$json_payload" | /opt/homebrew/bin/jq -c '{id, title, status, priority, type}' 2>/dev/null || echo '{"id":"'"$tkt_id"'"}')
+      local prev_state_json
+      prev_state_json=$(get_ticket_json "$tkt_id" 2>/dev/null || echo "{}")
+      emit_event "$actor" "updated" "ticket" "$tkt_id" "$event_payload" "$prev_state_json" "$event_payload"
       
       # TKT-0406: Trigger single-ticket Notion sync in background
       bash "$0" sync "$tkt_id" > /dev/null 2>&1 &
@@ -815,6 +885,12 @@ cmd_groom() {
   
   write_metadata "$tkt_id" "$updated_meta"
   log "Grooming entry appended to $tkt_id"
+    # TKT-0726: Emit groomed event (best-effort)
+    local actor
+    actor=$(resolve_actor)
+    local groom_payload
+    groom_payload=$(echo "$entry" | /opt/homebrew/bin/jq -c '{date, decisions, ac_count, ken_approved}' 2>/dev/null || echo '{}')
+    emit_event "$actor" "groomed" "ticket" "$tkt_id" "$groom_payload"
   
   # TKT-0406: First groom triggers initial Notion sync (deferred from create)
   bash "$0" sync "$tkt_id" > /dev/null 2>&1 &
@@ -967,6 +1043,12 @@ cmd_fold() {
   bash "$SYNC_SCRIPT" > /dev/null 2>&1 &
   
   log "✓ Fold complete: $child_id → $parent_id"
+    # TKT-0726: Emit folded event (best-effort)
+    local actor
+    actor=$(resolve_actor)
+    local fold_payload
+    fold_payload=$(/opt/homebrew/bin/jq -n --arg child "$child_id" --arg parent "$parent_id" '{child: $child, parent: $parent}' 2>/dev/null || echo '{"child":"'"$child_id"'","parent":"'"$parent_id"'"}')
+    emit_event "$actor" "folded" "ticket" "$child_id" "$fold_payload"
   echo "{\"status\":\"folded\",\"child\":\"$child_id\",\"parent\":\"$parent_id\",\"folded_at\":\"$ts\"}"
 }
 

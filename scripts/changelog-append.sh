@@ -170,6 +170,12 @@ VALUES (
   '{\"change_type\":\"$PG_CHANGE_TYPE\",\"type\":\"$TYPE\",\"source\":\"$PG_ACTOR\",\"trigger\":\"$PG_TRIGGER\",\"verified\":\"$PG_VERIFIED\",\"rollback\":\"$PG_ROLLBACK\",\"linked\":\"$PG_LINKED\",\"framework_docs\":\"$PG_FRAMEWORK\",\"category\":\"$PG_CATEGORY\"}'::jsonb,
   'ainchors'
 );" 2>/dev/null || echo "WARNING: PG insert failed for $CHG_ID (markdown entry still written)" >&2
+# TKT-0726: Emit created event for CHG (best-effort)
+EVENT_SCRIPT="${SCRIPT_DIR_CHG}/pg-write-event.sh"
+if [[ -x "$EVENT_SCRIPT" ]]; then
+  CHG_PAYLOAD=$(/opt/homebrew/bin/jq -n --arg chg "$CHG_ID" --arg title "$TITLE" --arg type "$TYPE" --arg source "$SOURCE" '{change_id: $chg, title: $title, type: $type, source: $source}' 2>/dev/null || echo '{"change_id":"'"$CHG_ID"'"}')
+  bash "$EVENT_SCRIPT" --actor "$SOURCE" --event-type "created" --entity-type "chg" --entity-id "$CHG_ID" --payload "$CHG_PAYLOAD" --prev-state "{}" --new-state "$CHG_PAYLOAD" > /dev/null 2>&1 || echo "WARNING: event write failed for $CHG_ID" >&2
+fi
 
 # ── Notion sync (best-effort — failure does NOT block CHG logging) ──────────────
 NOTION_KEY_FILE="$HOME/.config/notion/api_key"

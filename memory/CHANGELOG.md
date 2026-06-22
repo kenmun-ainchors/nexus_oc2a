@@ -1,3 +1,15 @@
+## 2026-06-22 19:40 AEST — [CHG-0718] TKT-0726 completion: agentic event write pipeline live
+**Type:** config
+**Change Type:** Normal
+**Source:** ken-prompt
+**Trigger:** TKT-0726 A7 verification passed
+**What changed:** Wired agent_events for ticket/CHG/sprint mutations; hash chain intact; rollback dry-run passed.
+**Why:** Complete Phase 1 memory backbone event pipeline so every state mutation leaves an auditable PG record.
+**Verification:** A7 evidence .openclaw/tmp/TKT-0726-A7-verification.md; 0 broken hash links; EVT-8 through EVT-16 emitted.
+**Rollback:** N/A
+**Linked:** TKT-0726,docs/CRESTv2-P1-DM-StructuredFoundation-v1.0.md,infra/rollback/TKT-0726-rollback.sql
+---
+
 ## 2026-06-22 18:11 AEST — [CHG-0714] TKT-0330 completion CHG
 **Type:** script
 **Change Type:** Normal
@@ -74,8 +86,6 @@
 **Rollback:** Restore previous payload from cron history.
 **Linked:** CHG-0607 (timeout fix for same cron)
 
-
-
 ## 2026-06-17 18:38 AEST — [CHG-0610] Clean tribal Agile/CREST knowledge from agent files
 **Type:** docs
 **Change Type:** Normal
@@ -98,7 +108,6 @@
 **Rollback:** Restore previous inline blocks from git history.
 **Linked:** TKT-0534, CHG-0609, CHG-0604–CHG-0608
 
-
 ## 2026-06-17 17:31 AEST — [CHG-0609] New skills: Agile + CREST (TKT-0534)
 **Type:** skill
 **Change Type:** Normal
@@ -119,7 +128,6 @@ Both reference canonical docs in `references/` and load via `scripts/skill-load.
 **Rollback:** Delete the two skill directories; remove references from `state/skill-load-registry.json`.
 **Linked:** TKT-0534, CHG-0580, CHG-0604–CHG-0608
 
-
 ## 2026-06-17 14:03 AEST — [CHG-0608] PG-Notion Audit + Spark Metrics Snapshot: timeout 120s→300s
 **Type:** cron
 **Change Type:** Normal
@@ -130,7 +138,6 @@ Both reference canonical docs in `references/` and load via `scripts/skill-load.
 **Verified:** Both crons updated, errors reset. Next runs: PG-Notion Audit 01:00 tonight, Spark Metrics 10:00 tomorrow.
 **Rollback:** Revert both to 120s.
 **Linked:** CHG-0605, CHG-0607 (same pattern)
-
 
 ## 2026-06-17 14:01 AEST — [CHG-0607] yoda-context-brief-refresh: timeout 30s→300s
 **Type:** cron
@@ -143,7 +150,6 @@ Both reference canonical docs in `references/` and load via `scripts/skill-load.
 **Rollback:** Revert timeout to 30.
 **Linked:** CHG-0605 (same pattern — backup health check)
 
-
 ## 2026-06-17 11:43 AEST — [CHG-0606] Quota canary (CHECK 30): force fresh cron fetch, drop 30-min cache
 **Type:** script
 **Change Type:** Normal
@@ -154,7 +160,6 @@ Both reference canonical docs in `references/` and load via `scripts/skill-load.
 **Verified:** Stale snapshot deleted. Edit confirmed. Next canary run will see live lastErrorReason values (all 3 now 'timeout', not 'rate_limit').
 **Rollback:** Restore the 30-min cache gate: if [[ ! -f "$CRON_LIST_JSON" ]] || [[ $(find "$CRON_LIST_JSON" -mmin +30 2>/dev/null) ]]; then ... fi
 **Linked:** CHG-0562 (original CHECK 30), L-118
-
 
 ## 2026-06-17 11:24 AEST — [CHG-0605] TKT-0093 Backup Health Check: timeout 30s→120s, schedule 08:05→08:10
 **Type:** cron
@@ -167,7 +172,6 @@ Both reference canonical docs in `references/` and load via `scripts/skill-load.
 **Rollback:** Revert timeout to 30, schedule to "5 8 * * *".
 **Linked:** TKT-0093
 
-
 ## 2026-06-17 08:29 AEST — [CHG-0604] COST_STATE_FRESH threshold bumped 7200s→50400s (2h→14h)
 **Type:** script
 **Change Type:** Normal
@@ -178,7 +182,6 @@ Both reference canonical docs in `references/` and load via `scripts/skill-load.
 **Verified:** Re-ran state-health-assert.sh — PASS. Cost-state.json age ~10min, well within 14h.
 **Rollback:** Revert threshold to 7200 in state-health-assert.sh line 72.
 **Linked:** TKT-REC5, CHG-0562 (original health-assert gate)
-
 
 ## 2026-06-08 13:42 AEST — [CHG-0471] Port Convention Formalization + Shadow Reserve (38789)
 - **Date:** 2026-06-08 13:42 AEST
@@ -191,7 +194,6 @@ Both reference canonical docs in `references/` and load via `scripts/skill-load.
 - **Rollback:** Revert RULES.md section, TOOLS.md table, auto-heal CHECK 20.
 - **Linked:** INC-20260608-001, L-050, L-051, TKT-0332, TKT-0333, CHG-0470
 ---
-
 
 ## 2026-06-22 17:48 AEST — [CHG-0710] Canonical sprint registry completed
 **Type:** data
@@ -217,7 +219,6 @@ Both reference canonical docs in `references/` and load via `scripts/skill-load.
 **Linked:** TKT-0540 CHG-0708 CHG-0690 CHG-0691
 ---
 
-
 ## 2026-06-22 17:39 AEST — [CHG-0708] TKT-0540: model-policy-query.sh --all outputs TSV; consumers expect JSON effectiveMap
 **Type:** script
 **Change Type:** Normal
@@ -229,7 +230,6 @@ Both reference canonical docs in `references/` and load via `scripts/skill-load.
 **Rollback:** Revert model-policy-query.sh --all to prior output format. Restore any consumer scripts that were changed. Re-run all 4 affected scripts to confirm original behavior.
 **Linked:** TKT-0540, TKT-0546, model-policy-query.sh, check-model-policy-drift.sh, test-consumer-consistency.sh, test-policy-consistency.sh
 **Category:** model-policy\n---
-
 
 ## 2026-06-22 16:53 AEST — [CHG-0707] TKT-0725 groomed: canonical sprint registry with 8 atoms
 **Type:** data
@@ -243,7 +243,6 @@ Both reference canonical docs in `references/` and load via `scripts/skill-load.
 **Linked:** TKT-0725, TKT-0342, TKT-0330, TKT-0726, TKT-0720, TKT-0348, TKT-0354, TKT-0359, TKT-0721, .openclaw/tmp/TKT-0725-groomed-plan.md
 ---
 
-
 ## 2026-06-22 12:47 AEST — [CHG-0706] CRESTv2-P1 / Sprint 9-11 rebalance approved and locked by Ken
 **Type:** data
 **Change Type:** Normal
@@ -255,7 +254,6 @@ Both reference canonical docs in `references/` and load via `scripts/skill-load.
 **Rollback:** Unlock tracker, revert state_sprints to pre-rebalance backup, restore ticket sprint fields.
 **Linked:** CHG-0705, Sprint 9, Sprint 10, Sprint 11, state/crestv2-p1-tracker.json, TKT-0342, TKT-0720-TKT-0726
 ---
-
 
 ## 2026-06-22 12:19 AEST — [CHG-0705] Rebalanced CRESTv2-P1 and Sprint 9/10/11 by priority, dependencies, and criticality
 **Type:** data
@@ -269,7 +267,6 @@ Both reference canonical docs in `references/` and load via `scripts/skill-load.
 **Linked:** Sprint 9, Sprint 10, Sprint 11, TKT-0342, TKT-0368, TKT-0720-TKT-0726, TKT-0530, TKT-0531, TKT-0330, TKT-0343, TKT-0344, TKT-0348, TKT-0354, TKT-0357, TKT-0358, TKT-0359, TKT-0390, TKT-0394, TKT-0527, TKT-0528, TKT-0532, TKT-0280, TKT-0352, TKT-0171, TKT-0362, state/crestv2-p1-tracker.json
 ---
 
-
 ## 2026-06-22 10:38 AEST — [CHG-0704] Fix LinkedIn batch draft cron week calculation for Monday manual runs
 **Type:** cron
 **Change Type:** Normal
@@ -281,7 +278,6 @@ Both reference canonical docs in `references/` and load via `scripts/skill-load.
 **Rollback:** N/A
 **Linked:** none
 **Category:** process\n---
-
 
 ## 2026-06-22 10:03 AEST — [CHG-0703] CRESTv2-P1 work planned and locked into Sprint 9
 **Type:** data
@@ -295,7 +291,6 @@ Both reference canonical docs in `references/` and load via `scripts/skill-load.
 **Linked:** TKT-0342, TKT-0368, TKT-0720, TKT-0721, TKT-0722, TKT-0723, TKT-0724, TKT-0725, TKT-0726, docs/CRESTv2-P1-DM-StructuredFoundation-v1.0.md, state/crestv2-p1-tracker.json
 ---
 
-
 ## 2026-06-22 07:29 AEST — [CHG-0702] Make Warden live-session model drift check fall back to chatType
 **Type:** script
 **Change Type:** Normal
@@ -307,7 +302,6 @@ Both reference canonical docs in `references/` and load via `scripts/skill-load.
 **Rollback:** Revert scripts/model-drift-check.sh to previous git commit.
 **Linked:** TKT-0713
 **Category:** governance\n---
-
 
 ## 2026-06-22 07:20 AEST — [CHG-0701] Capture session id/key in Warden live-session model drift alerts
 **Type:** script
@@ -321,7 +315,6 @@ Both reference canonical docs in `references/` and load via `scripts/skill-load.
 **Linked:** TKT-0712
 **Category:** governance\n---
 
-
 ## 2026-06-21 20:43 AEST — [CHG-0700] Document CREST v1.3 data_class dimension deferred to v2.0
 **Type:** doc
 **Change Type:** Normal
@@ -333,7 +326,6 @@ Both reference canonical docs in `references/` and load via `scripts/skill-load.
 **Rollback:** Revert doc edits, close tickets as duplicate/no-op, remove new skill package and script
 **Linked:** TKT-0710, TKT-0711, CHG-0680, CHG-0690, CHG-0691, L-164
 ---
-
 
 ## 2026-06-21 20:17 AEST — [CHG-0699] Document CREST v1.3 data_class dimension deferred to v2.0
 **Type:** doc
@@ -347,7 +339,6 @@ Both reference canonical docs in `references/` and load via `scripts/skill-load.
 **Linked:** TKT-0368, CHG-0680, CHG-0690, CHG-0691
 ---
 
-
 ## 2026-06-21 09:52 AEST — [CHG-0698] Implement TKT-0698: db-write.sh error classification
 **Type:** script
 **Change Type:** Normal
@@ -359,7 +350,6 @@ Both reference canonical docs in `references/` and load via `scripts/skill-load.
 **Rollback:** Revert db-write.sh to PG_RESULT= and db-raw.sh to hardcoded exports
 **Linked:** TKT-0698, CHG-0697
 ---
-
 
 ## 2026-06-21 09:47 AEST — [CHG-0697] Fix db-sprint.sh current sprint detection
 **Type:** script
@@ -373,7 +363,6 @@ Both reference canonical docs in `references/` and load via `scripts/skill-load.
 **Linked:** Sprint 9 planning
 ---
 
-
 ## 2026-06-21 09:24 AEST — [CHG-0696] Cleanup 127 orphan Notion Backlog pages
 **Type:** data
 **Change Type:** Normal
@@ -385,7 +374,6 @@ Both reference canonical docs in `references/` and load via `scripts/skill-load.
 **Rollback:** Notion page deletion is destructive; pre-delete list saved to state/pg-notion-cleanup-YYYY-MM-DD.json before any removal
 **Linked:** TKT-0696, CHG-0694, CHG-0695
 ---
-
 
 ## 2026-06-21 08:38 AEST — [CHG-0695] pg-to-notion-sync.sh --audit pagination fix
 **Type:** script
@@ -399,7 +387,6 @@ Both reference canonical docs in `references/` and load via `scripts/skill-load.
 **Linked:** CHG-0694, TKT-0406
 ---
 
-
 ## 2026-06-21 08:37 AEST — [CHG-0694] PG-Notion Integrity Audit cron timeout increase
 **Type:** cron
 **Change Type:** Normal
@@ -411,7 +398,6 @@ Both reference canonical docs in `references/` and load via `scripts/skill-load.
 **Rollback:** Revert timeoutSeconds to 193 via cron update
 **Linked:** TKT-0406, Sprint 8 review
 ---
-
 
 ## 2026-06-20 22:57 AEST — [CHG-0693] Resolve Warden CREST v1.3 model drift escalation and fix model-drift-check.sh
 **Type:** infra
@@ -425,7 +411,6 @@ Both reference canonical docs in `references/` and load via `scripts/skill-load.
 **Linked:** CHG-0685, CHG-0690, CHG-0691, TKT-0547, TKT-0383
 ---
 
-
 ## 2026-06-20 16:06 AEST — [CHG-0692] Resolve CR-001 via CR-002 LinkedIn API posting setup
 **Type:** config
 **Change Type:** Normal
@@ -437,7 +422,6 @@ Both reference canonical docs in `references/` and load via `scripts/skill-load.
 **Rollback:** Set relay-20260620-001 resolved=false and reopen CR-001.
 **Linked:** CR-001, CR-002, CHG-0686, CHG-0687
 ---
-
 
 ## 2026-06-20 16:04 AEST — [CHG-0691] Align Aria default chat model to Yoda and fix model-policy JSON fallback
 **Type:** config
@@ -451,7 +435,6 @@ Both reference canonical docs in `references/` and load via `scripts/skill-load.
 **Linked:** CHG-0690, CHG-0660, state/model-policy.json, state/critical-config-baseline.json, agent-skills/crest/SKILL.md, scripts/model-policy-query.sh, scripts/model-drift-check.sh, ~/.openclaw/openclaw.json
 ---
 
-
 ## 2026-06-20 13:40 AEST — [CHG-0690] Adopt kimi-k2.7-code:cloud as primary for Yoda and Aria CREST Plan/Replan
 **Type:** config
 **Change Type:** Normal
@@ -463,7 +446,6 @@ Both reference canonical docs in `references/` and load via `scripts/skill-load.
 **Rollback:** Restore previous yoda_master|Plan/Replan=ollama/deepseek-v4-pro:cloud and business|Plan/Replan=ollama/kimi-k2.6:cloud in state_model_policy and revert SKILL.md.
 **Linked:** CHG-0685, CHG-0684, CHG-0596, TKT-0546, TKT-0547, state/phase5-results/yoda-aria-plan-2026-06-20/recommendation.md
 ---
-
 
 ## 2026-06-20 12:38 AEST — [CHG-0689] Verify Aria Sonnet footer removal
 **Type:** config
@@ -477,7 +459,6 @@ Both reference canonical docs in `references/` and load via `scripts/skill-load.
 **Linked:** CHG-0688
 ---
 
-
 ## 2026-06-20 12:36 AEST — [CHG-0688] Fix Aria stale Sonnet model tail signature across business workspace
 **Type:** config
 **Change Type:** Normal
@@ -489,7 +470,6 @@ Both reference canonical docs in `references/` and load via `scripts/skill-load.
 **Rollback:** Restore Aria workspace files from git or backups; re-add Sonnet tail rule.
 **Linked:** CHG-0680, CHG-0037, TKT-0547
 ---
-
 
 ## 2026-06-20 12:30 AEST — [CHG-0687] CR-002 operational ownership transferred from Yoda to Aria/Angie business stream
 **Type:** config
@@ -503,7 +483,6 @@ Both reference canonical docs in `references/` and load via `scripts/skill-load.
 **Linked:** CR-002, TKT-0232
 ---
 
-
 ## 2026-06-20 12:10 AEST — [CHG-0686] CR-002 LinkedIn business stream auth and multi-account posting support
 **Type:** script
 **Change Type:** Normal
@@ -515,7 +494,6 @@ Both reference canonical docs in `references/` and load via `scripts/skill-load.
 **Rollback:** Revert scripts/linkedin-auth.sh and scripts/linkedin-post.sh from git; restore cron payloads to previous versions via cron update.
 **Linked:** CR-002, TKT-0232
 ---
-
 
 ## 2026-06-20 11:57 AEST — [CHG-0685] Demote deepseek-v4-pro from primary Plan/Replan on backend design agents; promote glm-5.2:cloud Plan/Analysis and kimi-k2.7-code:cloud Replan
 **Type:** config
@@ -529,7 +507,6 @@ Both reference canonical docs in `references/` and load via `scripts/skill-load.
 **Linked:** TKT-0548, CHG-0660, CHG-0680, state/phase5-results/plan-replan-analysis-2026-06-20/comparison-corrected.json, state/phase5-results/plan-replan-analysis-2026-06-20/forge-verify-report.json
 ---
 
-
 ## 2026-06-20 10:36 AEST — [CHG-0684] Session Model Drift Structural Lock (TKT-0547)
 **Type:** script
 **Change Type:** Normal
@@ -541,7 +518,6 @@ Both reference canonical docs in `references/` and load via `scripts/skill-load.
 **Rollback:** Remove HEARTBEAT.md session-model-drift entry. Revert model-drift-check.sh to pre-patch version. Remove two new scripts.
 **Linked:** TKT-0547
 ---
-
 
 ## 2026-06-20 10:35 AEST — [CHG-0683] CHG-0683: TKT-0548 closed — pg-to-notion-sync.sh in_progress mapper fix
 **Type:** data
@@ -555,7 +531,6 @@ Both reference canonical docs in `references/` and load via `scripts/skill-load.
 **Linked:** TKT-0548, TKT-0536, TKT-0342
 ---
 
-
 ## 2026-06-20 10:17 AEST — [CHG-0682] PG-Notion Integrity Audit remediation (2026-06-20)
 **Type:** data
 **Change Type:** Normal
@@ -567,7 +542,6 @@ Both reference canonical docs in `references/` and load via `scripts/skill-load.
 **Rollback:** N/A
 **Linked:** TKT-0548, TKT-0536, TKT-0395, TKT-0396, TKT-0403, TKT-0328
 ---
-
 
 ## 2026-06-20 09:47 AEST — [CHG-0681] WO-002 7-day monitoring closed — Option B
 **Type:** config
@@ -581,7 +555,6 @@ Both reference canonical docs in `references/` and load via `scripts/skill-load.
 **Linked:** WO-002, TKT-0368, CHG-0645
 ---
 
-
 ## 2026-06-20 09:28 AEST — [CHG-0680] CREST v1.3 approved — external loop ownership, Sage-as-Judge, multi-model routing
 **Type:** doc
 **Change Type:** Normal
@@ -593,7 +566,6 @@ Both reference canonical docs in `references/` and load via `scripts/skill-load.
 **Rollback:** N/A
 **Linked:** TKT-0546,TKT-0382,TKT-0383,TKT-0385,TKT-0387,TKT-0388
 ---
-
 
 ## 2026-06-20 07:47 AEST — [CHG-0679] Clean up tribal Notion/Agile knowledge and align to skill packages
 **Type:** doc
@@ -607,7 +579,6 @@ Both reference canonical docs in `references/` and load via `scripts/skill-load.
 **Linked:** TKT-0545,TKT-0543,TKT-0544
 ---
 
-
 ## 2026-06-20 07:39 AEST — [CHG-0678] Add sprint-review.sh to agile skill package
 **Type:** script
 **Change Type:** Normal
@@ -619,7 +590,6 @@ Both reference canonical docs in `references/` and load via `scripts/skill-load.
 **Rollback:** N/A
 **Linked:** TKT-0544
 ---
-
 
 ## 2026-06-20 07:35 AEST — [CHG-0677] Create canonical notion skill package
 **Type:** script
@@ -633,7 +603,6 @@ Both reference canonical docs in `references/` and load via `scripts/skill-load.
 **Linked:** TKT-0543
 ---
 
-
 ## 2026-06-20 07:18 AEST — [CHG-0676] Fix db-sprint.sh defer() source sprint items cleanup and cron delivery targets
 **Type:** script
 **Change Type:** Normal
@@ -645,7 +614,6 @@ Both reference canonical docs in `references/` and load via `scripts/skill-load.
 **Rollback:** N/A
 **Linked:** TKT-0542
 ---
-
 
 ## 2026-06-19 23:11 AEST — [CHG-0675] CHG-0675: Complete TKT-0541 SOUL/AGENTS hygiene gate
 **Type:** rule
@@ -659,7 +627,6 @@ Both reference canonical docs in `references/` and load via `scripts/skill-load.
 **Linked:** TKT-0541, CHG-0673, HEARTBEAT.md
 ---
 
-
 ## 2026-06-19 23:07 AEST — [CHG-0674] CHG-0674: Raise TKT-0541 and lock SOUL/AGENTS hygiene review into Sprint Review + QBR
 **Type:** rule
 **Change Type:** Normal
@@ -671,7 +638,6 @@ Both reference canonical docs in `references/` and load via `scripts/skill-load.
 **Rollback:** DELETE TKT-0541 from state_tickets; revert HEARTBEAT.md edit.
 **Linked:** TKT-0541, TKT-0342, CHG-0673, HEARTBEAT.md
 ---
-
 
 ## 2026-06-19 22:57 AEST — [CHG-0673] CHG-0673: Refactor all agent SOUL.md / AGENTS.md — rules out of SOUL, identity + hard limits in SOUL
 **Type:** rule
@@ -685,7 +651,6 @@ Both reference canonical docs in `references/` and load via `scripts/skill-load.
 **Linked:** SOUL.md, AGENTS.md, CHG-0545
 ---
 
-
 ## 2026-06-19 22:50 AEST — [CHG-0672] CHG-0671: Organize PG SSOT EPIC TKT-0342 across Sprints 9–11
 **Type:** rule
 **Change Type:** Normal
@@ -697,7 +662,6 @@ Both reference canonical docs in `references/` and load via `scripts/skill-load.
 **Rollback:** Direct SQL UPDATE state_tickets SET sprint=NULL, sprint_seq=NULL, epic=NULL, tags=NULL WHERE epic='TKT-0342' AND id != 'TKT-0342'; restore metadata from backups.
 **Linked:** TKT-0342, Sprint 9, Sprint 10, Sprint 11, CHG-0671
 ---
-
 
 ## 2026-06-19 22:32 AEST — [CHG-0671] CHG-0671: Move TKT-0293 and TKT-0326 from Sprint 8 to Sprint 10
 **Type:** rule
@@ -711,7 +675,6 @@ Both reference canonical docs in `references/` and load via `scripts/skill-load.
 **Linked:** Sprint 8, Sprint 10, TKT-0293, TKT-0326
 ---
 
-
 ## 2026-06-19 22:30 AEST — [CHG-0670] CHG-0670: WO-002 divergence restored to GREEN after TKT-9999/9998 deletion
 **Type:** config
 **Change Type:** Normal
@@ -724,7 +687,6 @@ Both reference canonical docs in `references/` and load via `scripts/skill-load.
 **Linked:** WO-002, CHG-0669
 ---
 
-
 ## 2026-06-19 22:27 AEST — [CHG-0669] CHG-0669: Delete L-090 test tickets TKT-9999 and TKT-9998 from PG and state/tickets.json
 **Type:** rule
 **Change Type:** Normal
@@ -736,7 +698,6 @@ Both reference canonical docs in `references/` and load via `scripts/skill-load.
 **Rollback:** INSERT ticket rows back into PG from captured JSON; re-add entries to state/tickets.json.
 **Linked:** L-090, TKT-0535
 ---
-
 
 ## 2026-06-19 22:24 AEST — [CHG-0668] CHG-0668: TKT-0540 A11-A16 — align runtime config, Warden, auto-heal, crons; re-close
 **Type:** rule
@@ -4247,7 +4208,6 @@ Log TRIGGER-17 as fired in state/chg-triggers.json."
 **Linked:** TKT-0540, CHG-0660-0667
 ---
 
-
 ## 2026-06-19 22:20 AEST — [CHG-0667] CHG-0667: Reopen TKT-0540 to align runtime config and governance/audit checks with new policy
 **Type:** rule
 **Change Type:** Normal
@@ -4259,7 +4219,6 @@ Log TRIGGER-17 as fired in state/chg-triggers.json."
 **Rollback:** Close TKT-0540 again and leave runtime config/checks in pre-alignment state.
 **Linked:** TKT-0540, CHG-0660-0666
 ---
-
 
 ## 2026-06-19 22:15 AEST — [CHG-0666] CHG-0666: TKT-0540 A10 — final verification and close
 **Type:** rule
@@ -4273,7 +4232,6 @@ Log TRIGGER-17 as fired in state/chg-triggers.json."
 **Linked:** TKT-0540, CHG-0660, CHG-0661, CHG-0662, CHG-0663, CHG-0664, CHG-0665
 ---
 
-
 ## 2026-06-19 22:14 AEST — [CHG-0665] CHG-0665: TKT-0540 A8/A9 — regression tests and model-policy drift check
 **Type:** script
 **Change Type:** Normal
@@ -4285,7 +4243,6 @@ Log TRIGGER-17 as fired in state/chg-triggers.json."
 **Rollback:** Remove tests/regression/model-routing/test-policy-consistency.sh, test-consumer-consistency.sh, scripts/check-model-policy-drift.sh, and the CHECK 28i block from scripts/auto-heal.sh.
 **Linked:** TKT-0540, CHG-0661, CHG-0662, CHG-0664
 ---
-
 
 ## 2026-06-19 22:12 AEST — [CHG-0664] CHG-0664: TKT-0540 A6/A7 — update dispatch-validate.sh and crest-execute-gate.sh to use model-policy-query.sh
 **Type:** script
@@ -4299,7 +4256,6 @@ Log TRIGGER-17 as fired in state/chg-triggers.json."
 **Linked:** TKT-0540, CHG-0661, CHG-0662
 ---
 
-
 ## 2026-06-19 22:09 AEST — [CHG-0663] CHG-0663: TKT-0540 A4/A5 — make model-routing and crest SKILL.md reference-only
 **Type:** doc
 **Change Type:** Normal
@@ -4311,7 +4267,6 @@ Log TRIGGER-17 as fired in state/chg-triggers.json."
 **Rollback:** Restore previous versions of agent-skills/model-routing/SKILL.md and agent-skills/crest/SKILL.md from git.
 **Linked:** TKT-0540, CHG-0661, CHG-0662
 ---
-
 
 ## 2026-06-19 22:08 AEST — [CHG-0662] CHG-0662: TKT-0540 A3 — create model-policy-query.sh helper
 **Type:** script
@@ -4325,7 +4280,6 @@ Log TRIGGER-17 as fired in state/chg-triggers.json."
 **Linked:** TKT-0540, CHG-0661
 ---
 
-
 ## 2026-06-19 22:07 AEST — [CHG-0661] CHG-0661: Apply TKT-0540 confirmed model-policy tier map (model-policy.json v3.0)
 **Type:** rule
 **Change Type:** Normal
@@ -4337,7 +4291,6 @@ Log TRIGGER-17 as fired in state/chg-triggers.json."
 **Rollback:** Restore backup state/archive/model-policy-20260619-120646.json.bak and revert state/critical-config-baseline.json to previous commit.
 **Linked:** TKT-0540, CHG-0660, CHG-0596, CHG-0597, CHG-0621
 ---
-
 
 ## 2026-06-19 22:05 AEST — [CHG-0660] CHG-0660: Confirm revised model-policy tier map for TKT-0540
 **Type:** rule
@@ -4351,7 +4304,6 @@ Log TRIGGER-17 as fired in state/chg-triggers.json."
 **Linked:** TKT-0540, CHG-0659, CHG-0596, CHG-0597, CHG-0545
 ---
 
-
 ## 2026-06-19 21:46 AEST — [CHG-0659] CHG-0659: Raise and groom TKT-0540 — consolidate model-routing into single SSOT
 **Type:** rule
 **Change Type:** Normal
@@ -4363,7 +4315,6 @@ Log TRIGGER-17 as fired in state/chg-triggers.json."
 **Rollback:** Delete TKT-0540 from PG and Notion; revert any skill/script edits if they had been made.
 **Linked:** TKT-0540, TKT-0506, TKT-0323, CHG-0596, CHG-0597
 ---
-
 
 ## 2026-06-19 21:36 AEST — [CHG-0658] Clear stale cron-health alert and park broken budget-check path
 **Type:** script
@@ -4377,7 +4328,6 @@ Log TRIGGER-17 as fired in state/chg-triggers.json."
 **Linked:** TKT-0092, CHG-0502, TKT-0409
 ---
 
-
 ## 2026-06-19 21:33 AEST — [CHG-0657] TKT-0409 D3: Fix state/task-queue.json ↔ PG divergence blocking watchdog
 **Type:** script
 **Change Type:** Normal
@@ -4389,7 +4339,6 @@ Log TRIGGER-17 as fired in state/chg-triggers.json."
 **Rollback:** Revert scripts/task-watchdog.sh divergence and stall-check blocks to pre-fix versions, restore the original state/task-queue.json from backup, and delete scripts/clean-task-queue-json-legacy.sh + state/task-queue-legacy-archive.json.
 **Linked:** TKT-0409, TKT-0319, CHG-0530
 ---
-
 
 ## 2026-06-19 21:29 AEST — [CHG-0656] TKT-0319 Atom 6: End-to-end resume simulation
 **Type:** script
@@ -4403,7 +4352,6 @@ Log TRIGGER-17 as fired in state/chg-triggers.json."
 **Linked:** TKT-0319, CHG-0652, CHG-0653, CHG-0654, CHG-0655
 ---
 
-
 ## 2026-06-19 21:24 AEST — [CHG-0655] TKT-0319 Atom 5: Main-session / subagent resume registry
 **Type:** script
 **Change Type:** Normal
@@ -4415,7 +4363,6 @@ Log TRIGGER-17 as fired in state/chg-triggers.json."
 **Rollback:** Remove scripts/main-session-resume-check.sh and tests/regression/task-watchdog/test-main-session-resume.sh, revert HEARTBEAT.md change, and delete state/main-session-resume*.json files.
 **Linked:** TKT-0319, CHG-0652, CHG-0653, CHG-0654
 ---
-
 
 ## 2026-06-19 21:21 AEST — [CHG-0654] TKT-0319 Atom 4: Resume executor for TQP atoms
 **Type:** script
@@ -4429,7 +4376,6 @@ Log TRIGGER-17 as fired in state/chg-triggers.json."
 **Linked:** TKT-0319, CHG-0652, CHG-0653
 ---
 
-
 ## 2026-06-19 21:16 AEST — [CHG-0653] TKT-0319 Atom 3: Resume detector / watchdog
 **Type:** script
 **Change Type:** Normal
@@ -4441,7 +4387,6 @@ Log TRIGGER-17 as fired in state/chg-triggers.json."
 **Rollback:** Revert the two edited scripts to their pre-Atom-3 versions and remove tests/regression/task-watchdog/test-resume-detector.sh.
 **Linked:** TKT-0319, CHG-0652
 ---
-
 
 ## 2026-06-19 21:11 AEST — [CHG-0652] TKT-0319 Atom 2: PG schema migration for global agent auto-resume
 **Type:** infra
@@ -4455,7 +4400,6 @@ Log TRIGGER-17 as fired in state/chg-triggers.json."
 **Linked:** TKT-0319, CHG-0650
 ---
 
-
 ## 2026-06-19 21:04 AEST — [CHG-0651] TKT-0536 A5: Cross-agent subagents cannot execute parent workspace scripts
 **Type:** rule
 **Change Type:** Normal
@@ -4467,7 +4411,6 @@ Log TRIGGER-17 as fired in state/chg-triggers.json."
 **Rollback:** Revert the 4 edited files (agent-skills/subagent-dispatch/SKILL.md, scripts/subagent-dispatch.sh, tests/regression/subagent-dispatch/test-subagent-dispatch.sh, SOUL.md) and remove R6/R7 from the test script.
 **Linked:** TKT-0536, TKT-0319, L-146, L-149
 ---
-
 
 ## 2026-06-19 20:49 AEST — [CHG-0650] TKT-0319 groomed: Global Agent Auto-Resume Protocol; TKT-0324 folded in
 **Type:** config
@@ -4481,7 +4424,6 @@ Log TRIGGER-17 as fired in state/chg-triggers.json."
 **Linked:** TKT-0319, TKT-0324, L-096, CHG-0456
 ---
 
-
 ## 2026-06-19 17:46 AEST — [CHG-0649] TKT-0539 follow-up: untrack forge/ workspace and redirect backup git-add stderr to log
 **Type:** config
 **Change Type:** Normal
@@ -4493,7 +4435,6 @@ Log TRIGGER-17 as fired in state/chg-triggers.json."
 **Rollback:** Restore forge/ files to parent index from previous commit; remove stderr redirect in backup.sh.
 **Linked:** TKT-0539, TKT-0146, CHG-0648
 ---
-
 
 ## 2026-06-19 13:27 AEST — [CHG-0648] TKT-0539: ignore forge/pgvector and thrawn/ embedded git repos in workspace backup
 **Type:** config
@@ -4507,7 +4448,6 @@ Log TRIGGER-17 as fired in state/chg-triggers.json."
 **Linked:** TKT-0539, TKT-0146, CHG-0647
 ---
 
-
 ## 2026-06-19 12:57 AEST — [CHG-0647] TKT-0146: fix Daily Workspace Backup cron delivery error + raise timeout for full backups
 **Type:** cron
 **Change Type:** Normal
@@ -4519,7 +4459,6 @@ Log TRIGGER-17 as fired in state/chg-triggers.json."
 **Rollback:** Revert delivery.mode to announce with a valid Telegram chatId; restore timeoutSeconds to 47s.
 **Linked:** TKT-0146, TKT-0339
 ---
-
 
 ## 2026-06-19 12:23 AEST — [CHG-0646] WO-002: allowlist 40 historical seed extra rows in status-map.json
 **Type:** config
@@ -4533,7 +4472,6 @@ Log TRIGGER-17 as fired in state/chg-triggers.json."
 **Linked:** WO-002, CHG-0645
 ---
 
-
 ## 2026-06-19 12:18 AEST — [CHG-0645] WO-002: add in_progress underscore variant to mirror status maps
 **Type:** config
 **Change Type:** Normal
@@ -4545,7 +4483,6 @@ Log TRIGGER-17 as fired in state/chg-triggers.json."
 **Rollback:** Remove in_progress keys from status-map.json and status_map.py; restart mirror writer.
 **Linked:** WO-002, TKT-0536, CHG-0614
 ---
-
 
 ## 2026-06-19 11:21 AEST — [CHG-0644] PG-Notion integrity cleanup: malformed ticket IDs
 **Type:** data
@@ -4560,7 +4497,6 @@ Log TRIGGER-17 as fired in state/chg-triggers.json."
 **State:** Completed
 ---
 
-
 ## 2026-06-19 11:19 AEST — [CHG-0643] TKT-0339: apply 9 timeout DECREASEs and raise 2 REVIEW crons to 450s
 **Type:** cron
 **Change Type:** Normal
@@ -4572,7 +4508,6 @@ Log TRIGGER-17 as fired in state/chg-triggers.json."
 **Rollback:** Reapply previous timeouts from ledger state/cron-timeout-applied.json or restore from gateway config snapshot.
 **Linked:** TKT-0339, CHG-0615, CHG-0616, CHG-0641
 ---
-
 
 ## 2026-06-19 10:59 AEST — [CHG-0642] TKT-0533: operationalize Ollama dashboard usage scraper
 **Type:** script
@@ -4586,7 +4521,6 @@ Log TRIGGER-17 as fired in state/chg-triggers.json."
 **Linked:** TKT-0533, CHG-0618, CHG-0619, CHG-0620
 ---
 
-
 ## 2026-06-19 10:59 AEST — [CHG-0641] TKT-0339: add nightly cron-timeout-baseline refresh cron
 **Type:** cron
 **Change Type:** Normal
@@ -4598,7 +4532,6 @@ Log TRIGGER-17 as fired in state/chg-triggers.json."
 **Rollback:** Delete cron 1379ea74 via openclaw cron remove.
 **Linked:** TKT-0339, CHG-0615, CHG-0616
 ---
-
 
 ## 2026-06-19 10:59 AEST — [CHG-0640] TKT-0336: fix tilde-path false positive + TRIGGER-11 absolute-path hygiene
 **Type:** script
@@ -4612,7 +4545,6 @@ Log TRIGGER-17 as fired in state/chg-triggers.json."
 **Linked:** TKT-0336, CHG-0614
 ---
 
-
 ## 2026-06-18 16:40 AEST — [CHG-0639] wrapper test
 **Type:** rule
 **Change Type:** Normal
@@ -4624,7 +4556,6 @@ Log TRIGGER-17 as fired in state/chg-triggers.json."
 **Rollback:** N/A
 **Linked:** none
 ---
-
 
 ## 2026-06-18 16:40 AEST — [CHG-0638] gate test pass
 **Type:** rule
@@ -4638,7 +4569,6 @@ Log TRIGGER-17 as fired in state/chg-triggers.json."
 **Linked:** none
 ---
 
-
 ## 2026-06-18 14:53 AEST — [CHG-0637] wrapper test
 **Type:** rule
 **Change Type:** Normal
@@ -4650,7 +4580,6 @@ Log TRIGGER-17 as fired in state/chg-triggers.json."
 **Rollback:** N/A
 **Linked:** none
 ---
-
 
 ## 2026-06-18 14:53 AEST — [CHG-0636] gate test pass
 **Type:** rule
@@ -4664,7 +4593,6 @@ Log TRIGGER-17 as fired in state/chg-triggers.json."
 **Linked:** none
 ---
 
-
 ## 2026-06-18 14:49 AEST — [CHG-0635] wrapper test
 **Type:** rule
 **Change Type:** Normal
@@ -4676,7 +4604,6 @@ Log TRIGGER-17 as fired in state/chg-triggers.json."
 **Rollback:** N/A
 **Linked:** none
 ---
-
 
 ## 2026-06-18 14:49 AEST — [CHG-0634] gate test pass
 **Type:** rule
@@ -4690,7 +4617,6 @@ Log TRIGGER-17 as fired in state/chg-triggers.json."
 **Linked:** none
 ---
 
-
 ## 2026-06-18 14:45 AEST — [CHG-0633] wrapper test
 **Type:** rule
 **Change Type:** Normal
@@ -4702,7 +4628,6 @@ Log TRIGGER-17 as fired in state/chg-triggers.json."
 **Rollback:** N/A
 **Linked:** none
 ---
-
 
 ## 2026-06-18 14:45 AEST — [CHG-0632] gate test pass
 **Type:** rule
@@ -4716,7 +4641,6 @@ Log TRIGGER-17 as fired in state/chg-triggers.json."
 **Linked:** none
 ---
 
-
 ## 2026-06-18 08:13 AEST — [CHG-0631] Old-code audit remediation policy locked into CREST and Agile skills
 **Type:** rule
 **Change Type:** Normal
@@ -4728,7 +4652,6 @@ Log TRIGGER-17 as fired in state/chg-triggers.json."
 **Rollback:** N/A
 **Linked:** TKT-0529, tests/regression/tkt0529/audit-report-deep.md, MEMORY.md §Old-Code Audit Policy
 ---
-
 
 ## 2026-06-18 07:37 AEST — [CHG-0630] wrapper test
 **Type:** rule
@@ -4742,7 +4665,6 @@ Log TRIGGER-17 as fired in state/chg-triggers.json."
 **Linked:** none
 ---
 
-
 ## 2026-06-18 07:37 AEST — [CHG-0629] gate test pass
 **Type:** rule
 **Change Type:** Normal
@@ -4754,7 +4676,6 @@ Log TRIGGER-17 as fired in state/chg-triggers.json."
 **Rollback:** N/A
 **Linked:** none
 ---
-
 
 ## 2026-06-18 07:18 AEST — [CHG-0628] wrapper test
 **Type:** rule
@@ -4768,7 +4689,6 @@ Log TRIGGER-17 as fired in state/chg-triggers.json."
 **Linked:** none
 ---
 
-
 ## 2026-06-18 07:18 AEST — [CHG-0627] gate test pass
 **Type:** rule
 **Change Type:** Normal
@@ -4780,7 +4700,6 @@ Log TRIGGER-17 as fired in state/chg-triggers.json."
 **Rollback:** N/A
 **Linked:** none
 ---
-
 
 ## 2026-06-18 06:57 AEST — [CHG-0626] wrapper test
 **Type:** rule
@@ -4794,7 +4713,6 @@ Log TRIGGER-17 as fired in state/chg-triggers.json."
 **Linked:** none
 ---
 
-
 ## 2026-06-18 06:57 AEST — [CHG-0625] gate test pass
 **Type:** rule
 **Change Type:** Normal
@@ -4806,13 +4724,6 @@ Log TRIGGER-17 as fired in state/chg-triggers.json."
 **Rollback:** N/A
 **Linked:** none
 ---
-
-
-
-
-
-
-
 
 ## 2026-06-18 06:26 AEST — [CHG-0624] Subagent dispatch governance: workspace access, timeout enforcement, and kill policies
 **Type:** rule
@@ -4826,7 +4737,6 @@ Log TRIGGER-17 as fired in state/chg-triggers.json."
 **Linked:** L-146, L-147, L-148, TKT-0536, TKT-0535
 ---
 
-
 ## 2026-06-18 04:59 AEST — [CHG-0623] TKT-0535: Canonical skills-package loader + legacy script cleanup
 **Type:** script
 **Change Type:** Normal
@@ -4838,7 +4748,6 @@ Log TRIGGER-17 as fired in state/chg-triggers.json."
 **Rollback:** Restore scripts/ticket.sh.deprecated-TKT-0535 to scripts/ticket.sh. Revert scripts/skill-load.sh and agent-skills/.index.json from git.
 **Linked:** TKT-0535, TKT-0534, L-139, CHG-0545
 ---
-
 
 ## 2026-06-17 14:22 AEST — [CHG-0621] CHG-0621: Yoda + Aria model swap — deepseek-v4-pro → kimi-k2.7-code (trial until Sun 22 Jun)
 **Type:** config
@@ -4852,7 +4761,6 @@ Log TRIGGER-17 as fired in state/chg-triggers.json."
 **Linked:** none
 ---
 
-
 ## 2026-06-17 14:13 AEST — [CHG-0620] CHG-0620: Track Ollama's actual limits — session + weekly windows (replaces 30k estimate)
 **Type:** script
 **Change Type:** Normal
@@ -4864,7 +4772,6 @@ Log TRIGGER-17 as fired in state/chg-triggers.json."
 **Rollback:** N/A
 **Linked:** none
 ---
-
 
 ## 2026-06-17 14:09 AEST — [CHG-0619] CHG-0619: Ollama dashboard scraper — real request tracking (replaces CHG-0618 log counter)
 **Type:** script
@@ -4878,7 +4785,6 @@ Log TRIGGER-17 as fired in state/chg-triggers.json."
 **Linked:** none
 ---
 
-
 ## 2026-06-17 13:56 AEST — [CHG-0618] CHG-0618: Ollama live request counter — TKT-0533 implemented
 **Type:** script
 **Change Type:** Normal
@@ -4890,7 +4796,6 @@ Log TRIGGER-17 as fired in state/chg-triggers.json."
 **Rollback:** N/A
 **Linked:** none
 ---
-
 
 ## 2026-06-17 13:41 AEST — [CHG-0617] CHG-0617: Cross-workspace cron sandbox fix — 8 agent reassignments
 **Type:** cron
@@ -4904,7 +4809,6 @@ Log TRIGGER-17 as fired in state/chg-triggers.json."
 **Linked:** none
 ---
 
-
 ## 2026-06-17 13:32 AEST — [CHG-0616] CHG-0616: TKT-0339 — Apply remaining 4 cron timeout decreases (Ken approved)
 **Type:** cron
 **Change Type:** Normal
@@ -4916,7 +4820,6 @@ Log TRIGGER-17 as fired in state/chg-triggers.json."
 **Rollback:** N/A
 **Linked:** none
 ---
-
 
 ## 2026-06-17 13:31 AEST — [CHG-0615] CHG-0615: TKT-0339 — Apply 8 safe cron timeout decreases (13→5 remaining)
 **Type:** cron
@@ -4930,7 +4833,6 @@ Log TRIGGER-17 as fired in state/chg-triggers.json."
 **Linked:** none
 ---
 
-
 ## 2026-06-17 13:29 AEST — [CHG-0614] CHG-0614: Fix TKT-0336 tilde path violations (2→0)
 **Type:** config
 **Change Type:** Normal
@@ -4942,7 +4844,6 @@ Log TRIGGER-17 as fired in state/chg-triggers.json."
 **Rollback:** N/A
 **Linked:** none
 ---
-
 
 ## 2026-06-17 13:25 AEST — [CHG-0613] CHG-0613: Create gateway-config-snapshot.sh + upgrade auto-heal CHECK 12 to schema v2 (Stand-up Item 7)
 **Type:** script
@@ -4956,7 +4857,6 @@ Log TRIGGER-17 as fired in state/chg-triggers.json."
 **Linked:** none
 ---
 
-
 ## 2026-06-17 13:21 AEST — [CHG-0612] CHG-0612: MEMORY.md trimmed 13,387→9,785 chars (Stand-up Item 6)
 **Type:** config
 **Change Type:** Normal
@@ -4968,7 +4868,6 @@ Log TRIGGER-17 as fired in state/chg-triggers.json."
 **Rollback:** N/A
 **Linked:** none
 ---
-
 
 ## 2026-06-17 13:19 AEST — [CHG-0611] CHG-0611: Create daily backup cron (Stand-up Item 5 — backup 33h stale)
 **Type:** cron
@@ -4982,7 +4881,6 @@ Log TRIGGER-17 as fired in state/chg-triggers.json."
 **Linked:** none
 ---
 
-
 ## 2026-06-17 13:16 AEST — [CHG-0609] CHG-0610: Fix 5 HIGH-severity pipefail+trap anti-patterns in auto-heal.sh (L-138)
 **Type:** script
 **Change Type:** Normal
@@ -4994,7 +4892,6 @@ Log TRIGGER-17 as fired in state/chg-triggers.json."
 **Rollback:** N/A
 **Linked:** none
 ---
-
 
 ## 2026-06-17 12:53 AEST — [CHG-0608] CHG-0608 REVERTED: Remove Yoda tools.deny [exec, write, edit]
 **Type:** config
@@ -5008,7 +4905,6 @@ Log TRIGGER-17 as fired in state/chg-triggers.json."
 **Linked:** none
 ---
 
-
 ## 2026-06-17 12:07 AEST — [CHG-0607] Fix L-102: Gateway env-wrapper inert — NODE_OPTIONS now live
 **Type:** infra
 **Change Type:** Normal
@@ -5020,7 +4916,6 @@ Log TRIGGER-17 as fired in state/chg-triggers.json."
 **Rollback:** N/A
 **Linked:** none
 ---
-
 
 ## 2026-06-17 11:28 AEST — [CHG-0606] Rewire CHECK 9 from apiBalance to turnsLimit
 **Type:** script
@@ -5034,7 +4929,6 @@ Log TRIGGER-17 as fired in state/chg-triggers.json."
 **Linked:** none
 ---
 
-
 ## 2026-06-15 19:27 AEST — [CHG-0604] CHG-0604: Request Budget Check Script — Ollama Weekly Tracking
 **Type:** config
 **Change Type:** Normal
@@ -5046,7 +4940,6 @@ Log TRIGGER-17 as fired in state/chg-triggers.json."
 **Rollback:** N/A
 **Linked:** none
 ---
-
 
 ## 2026-06-15 19:16 AEST — [CHG-0603] CHG-0603: Ollama Weekly Request Tracking Formula Confirmed
 **Type:** config
@@ -5060,7 +4953,6 @@ Log TRIGGER-17 as fired in state/chg-triggers.json."
 **Linked:** none
 ---
 
-
 ## 2026-06-15 19:02 AEST — [CHG-0602] CHG-0602: Batch Cron Downgrade — 14 Script-Wrappers to deepseek-v4-flash
 **Type:** config
 **Change Type:** Normal
@@ -5072,7 +4964,6 @@ Log TRIGGER-17 as fired in state/chg-triggers.json."
 **Rollback:** N/A
 **Linked:** none
 ---
-
 
 ## 2026-06-15 18:59 AEST — [CHG-0601] CHG-0601: Cron Model Tiering — Wrappers to deepseek-v4-flash
 **Type:** config
@@ -5086,7 +4977,6 @@ Log TRIGGER-17 as fired in state/chg-triggers.json."
 **Linked:** none
 ---
 
-
 ## 2026-06-15 18:49 AEST — [CHG-0600] CHG-0597: T3 Specialist Model Stream Split
 **Type:** config
 **Change Type:** Normal
@@ -5098,7 +4988,6 @@ Log TRIGGER-17 as fired in state/chg-triggers.json."
 **Rollback:** N/A
 **Linked:** none
 ---
-
 
 ## 2026-06-15 18:45 AEST — [CHG-0599] LinkedIn campaign pipeline rework v2.0 — draft/publish separation
 **Type:** process
@@ -5130,7 +5019,6 @@ Log TRIGGER-17 as fired in state/chg-triggers.json."
 **Category:** Operations
 ---
 
-
 ## 2026-06-15 17:59 AEST — [CHG-0597] Sprint 8 plan locked: 8 items stay, capacity override
 **Type:** rule
 **Change Type:** Standard
@@ -5143,7 +5031,6 @@ Log TRIGGER-17 as fired in state/chg-triggers.json."
 **Linked:** L-140,CHG-0596,CHG-0593,CHG-0592,TKT-0529,TKT-0319,TKT-0410,TKT-0324,TKT-0326,TKT-0317,TKT-0293,TKT-0525
 ---
 
-
 ## 2026-06-15 17:51 AEST — [CHG-0596] Sprint 8 plan reconciled to match Jun 10 capture + lineage preserved (L-140)
 **Type:** rule
 **Change Type:** Standard
@@ -5155,7 +5042,6 @@ Log TRIGGER-17 as fired in state/chg-triggers.json."
 **Rollback:** git revert <commit>; restore ceremonies JSONB to flat timestamp format
 **Linked:** L-140,CHG-0593,CHG-0592,L-138,L-139,TKT-0529,TKT-0319,TKT-0410,TKT-0324,TKT-0326,TKT-0317,TKT-0293,TKT-0525
 ---
-
 
 ## 2026-06-15 17:41 AEST — [CHG-0595] Yoda confabulated Posts 2+3 in 4-week arc summary (L-106 trigger)
 **Type:** doc
@@ -5170,7 +5056,6 @@ Log TRIGGER-17 as fired in state/chg-triggers.json."
 **Category:** Operations
 ---
 
-
 ## 2026-06-15 17:29 AEST — [CHG-0594] Lock in canonical 4-week Foundation Arc; archive deprecated arc drafts
 **Type:** data
 **Change Type:** Normal
@@ -5184,7 +5069,6 @@ Log TRIGGER-17 as fired in state/chg-triggers.json."
 **Category:** Marketing
 ---
 
-
 ## 2026-06-15 17:27 AEST — [CHG-0593] Sprint 7 review + Sprint 8 planning ceremony (recovered from Sat 2026-06-13 outage)
 **Type:** rule
 **Change Type:** Standard
@@ -5197,7 +5081,6 @@ Log TRIGGER-17 as fired in state/chg-triggers.json."
 **Linked:** TKT-0406,TKT-0529,TKT-0319,TKT-0410,TKT-0324,TKT-0525,CHG-0592,CHG-0590,L-139
 ---
 
-
 ## 2026-06-15 17:23 AEST — [CHG-0592] TKT-OLD-CODE-AUDIT split into 3 sub-TKTs (TKT-0529, TKT-0530, TKT-0531) for Sprints 8/9/10
 **Type:** rule
 **Change Type:** Standard
@@ -5209,7 +5092,6 @@ Log TRIGGER-17 as fired in state/chg-triggers.json."
 **Rollback:** Drop the 3 tickets + delete the 2 new sprints (cascade) + delete the master spec file
 **Linked:** L-138,L-137,L-139,L-122,L-113,CHG-0586,CHG-0590
 ---
-
 
 ## 2026-06-15 17:17 AEST — [CHG-0591] CHECK 29 live-state refactor + cron-health ack preservation (atoms 2+3)
 **Type:** script
@@ -5224,7 +5106,6 @@ Log TRIGGER-17 as fired in state/chg-triggers.json."
 **Category:** Operations
 ---
 
-
 ## 2026-06-15 17:15 AEST — [CHG-0590] L-139 anti-subagent-trap: verifier_corpus required for execute/verify atoms
 **Type:** rule
 **Change Type:** Standard
@@ -5236,7 +5117,6 @@ Log TRIGGER-17 as fired in state/chg-triggers.json."
 **Rollback:** git revert <commit>
 **Linked:** L-138,L-137,L-089,L-113
 ---
-
 
 ## 2026-06-15 17:07 AEST — [CHG-0589] Mark LI-W3-P3 closed in linkedin-campaign.json (deprecated old-campaign post)
 **Type:** data
@@ -5251,7 +5131,6 @@ Log TRIGGER-17 as fired in state/chg-triggers.json."
 **Category:** Marketing
 ---
 
-
 ## 2026-06-15 17:04 AEST — [CHG-0588] Spark Tue Draft cron: update stale minimax revert comment
 **Type:** cron
 **Change Type:** Normal
@@ -5264,7 +5143,6 @@ Log TRIGGER-17 as fired in state/chg-triggers.json."
 **Linked:** CHG-0587, CHG-0500, CHG-0515, CHG-0518
 **Category:** Operations
 ---
-
 
 ## 2026-06-15 17:02 AEST — [CHG-0587] Extend MiniMax M3 trial evaluation window to Sun 21 Jun 23:55 AEST
 **Type:** rule
@@ -5279,7 +5157,6 @@ Log TRIGGER-17 as fired in state/chg-triggers.json."
 **Category:** Operations
 ---
 
-
 ## 2026-06-15 16:59 AEST — [CHG-0586] L-138 anti-regression: pipefail+ERR+child-return-1 static checker
 **Type:** script
 **Change Type:** Standard
@@ -5291,7 +5168,6 @@ Log TRIGGER-17 as fired in state/chg-triggers.json."
 **Rollback:** git revert 5f59e7fa + new commit
 **Linked:** L-126,L-131,L-132,L-137
 ---
-
 
 ## 2026-06-15 15:57 AEST — [CHG-0585] TKT-0332 atoms A1-A4 verified PASS — sandbox→prod boundary hardened
 **Type:** rule
@@ -5306,7 +5182,6 @@ Log TRIGGER-17 as fired in state/chg-triggers.json."
 **Category:** Operations
 ---
 
-
 ## 2026-06-15 15:49 AEST — [CHG-0584] TKT-0332 scope locked to A only — B→TKT-0527, C→TKT-0528 split
 **Type:** rule
 **Change Type:** Normal
@@ -5319,7 +5194,6 @@ Log TRIGGER-17 as fired in state/chg-triggers.json."
 **Linked:** INC-20260608-001, L-050, L-051, CHG-0471, TKT-0333, TKT-0527, TKT-0528
 **Category:** Operations
 ---
-
 
 ## 2026-06-15 15:22 AEST — [CHG-0583] TKT-0526 atom 6: flip CHECK 36 to live (CRON_TIMEOUT_AUDIT_LIVE=true)
 **Type:** config
@@ -5334,7 +5208,6 @@ Log TRIGGER-17 as fired in state/chg-triggers.json."
 **Category:** Operations
 ---
 
-
 ## 2026-06-15 14:46 AEST — [CHG-0582] TKT-0526 atoms 1-4 complete: CHECK 36 dry-run stub, baseline clean
 **Type:** script
 **Change Type:** Normal
@@ -5347,7 +5220,6 @@ Log TRIGGER-17 as fired in state/chg-triggers.json."
 **Linked:** TKT-0526, CHG-0581, L-087, L-088
 **Category:** Operations
 ---
-
 
 ## 2026-06-15 14:24 AEST — [CHG-0581] Fix yoda-context-brief-refresh timeout (30s to 120s)
 **Type:** config
@@ -5362,7 +5234,6 @@ Log TRIGGER-17 as fired in state/chg-triggers.json."
 **Category:** Operations
 ---
 
-
 ## 2026-06-15 13:59 AEST — [CHG-0580] L-137 cooldown-gating anti-regression: check-cooldown-gate.sh + CHECK 34
 **Type:** script
 **Change Type:** Standard
@@ -5374,7 +5245,6 @@ Log TRIGGER-17 as fired in state/chg-triggers.json."
 **Rollback:** rm scripts/check-cooldown-gate.sh; git checkout scripts/auto-heal.sh scripts/check-null-safe-json.sh
 **Linked:** L-137, L-136, L-132, L-129, L-130, L-126, L-113, TKT-COOLDOWN-GATE-ANTI-REGRESSION
 ---
-
 
 ## 2026-06-15 13:39 AEST — [CHG-0579] CHECK 30 cooldown bug fix (L-136) — alerts no longer spam 10x/45min
 **Type:** script
@@ -5388,7 +5258,6 @@ Log TRIGGER-17 as fired in state/chg-triggers.json."
 **Linked:** L-136, L-118, L-099, L-115, L-126, L-130, L-113, L-129, L-132, TKT-QUOTA-CANARY-COOLDOWN
 ---
 
-
 ## 2026-06-15 13:35 AEST — [CHG-0578] TKT-0339 timeout apply complete (13/13) + Ken-bypass mechanism (L-135)
 **Type:** script
 **Change Type:** Standard
@@ -5400,7 +5269,6 @@ Log TRIGGER-17 as fired in state/chg-triggers.json."
 **Rollback:** git checkout scripts/cron-timeout-apply.sh; then revert live timeouts via /opt/homebrew/bin/openclaw cron edit <id> --timeout-seconds <orig>
 **Linked:** L-135, L-099, L-124, TKT-0339, CHG-0534 (one-shot apply design)
 ---
-
 
 ## 2026-06-15 13:31 AEST — [CHG-0577] TKT-0336 tilde paths fixed (L-134) — 2 active cron jobs, detector tightened
 **Type:** script
@@ -5414,7 +5282,6 @@ Log TRIGGER-17 as fired in state/chg-triggers.json."
 **Linked:** L-134, L-092, TKT-0336, TKT-0340-A2, TKT-0140 (follow-up: fix TRIGGER-12 tilde)
 ---
 
-
 ## 2026-06-15 13:25 AEST — [CHG-0576] Billing model: API credit → monthly turns-limit (Ken ack 13:23 AEST)
 **Type:** config
 **Change Type:** Standard
@@ -5426,7 +5293,6 @@ Log TRIGGER-17 as fired in state/chg-triggers.json."
 **Rollback:** git checkout state/cost-state.json HEARTBEAT.md
 **Linked:** TKT-0092 (daily budget report), state/cost-state.json, HEARTBEAT.md, agent-skills/model-routing/SKILL.md (TO UPDATE), CHECK 29/30/31 (TO RECONFIGURE for turns-based)
 ---
-
 
 ## 2026-06-15 13:12 AEST — [CHG-0575] File-size-guard thresholds realigned to documented policy (L-133, P2 #5)
 **Type:** config
@@ -5440,7 +5306,6 @@ Log TRIGGER-17 as fired in state/chg-triggers.json."
 **Linked:** L-133, L-121, L-131, L-132, TKT-FILE-SIZE-GUARD-THRESHOLD-ALIGN
 ---
 
-
 ## 2026-06-15 13:06 AEST — [CHG-0574] Null-safe JSON access static checker (L-132, P2 #4) — prevents L-126 bug class
 **Type:** script
 **Change Type:** Standard
@@ -5452,7 +5317,6 @@ Log TRIGGER-17 as fired in state/chg-triggers.json."
 **Rollback:** rm scripts/check-null-safe-json.sh; git checkout scripts/auto-heal.sh
 **Linked:** L-132, L-126, L-115, L-130, L-131, L-129, L-091, TKT-NULL-SAFE-JSON
 ---
-
 
 ## 2026-06-15 13:00 AEST — [CHG-0573] Auto-heal shell-agnostic refactor (L-131, P2 #3) — removed zsh-only parameter expansion
 **Type:** script
@@ -5466,7 +5330,6 @@ Log TRIGGER-17 as fired in state/chg-triggers.json."
 **Linked:** L-131, L-115, L-126, L-129, TKT-REFACTOR-AUTO-HEAL-SHELL-AGNOSTIC
 ---
 
-
 ## 2026-06-15 12:47 AEST — [CHG-0572] Per-cron migration advisor (L-130, P2 #2) — systemizes L-119 manual multi-vendor pattern
 **Type:** script
 **Change Type:** Standard
@@ -5478,7 +5341,6 @@ Log TRIGGER-17 as fired in state/chg-triggers.json."
 **Rollback:** rm scripts/cron-migration-advisor.sh; git checkout scripts/auto-heal.sh
 **Linked:** L-130, L-128, L-119, L-115, L-126, L-089, TKT-CRON-MIGRATION-ADVISOR
 ---
-
 
 ## 2026-06-15 12:42 AEST — [CHG-0571] Pre-commit bash -n hook (L-129) — prevents L-125-style syntax bugs at write time
 **Type:** script
@@ -5492,7 +5354,6 @@ Log TRIGGER-17 as fired in state/chg-triggers.json."
 **Linked:** L-129, L-125, L-091, TKT-PRE-COMMIT-HOOK-BASH-N
 ---
 
-
 ## 2026-06-15 12:31 AEST — [CHG-0570] Per-cron Ollama-quota tracking (Rec #1, L-128) — biggest remaining fix
 **Type:** script
 **Change Type:** Standard
@@ -5504,7 +5365,6 @@ Log TRIGGER-17 as fired in state/chg-triggers.json."
 **Rollback:** rm scripts/ollama-quota-track.sh; git checkout scripts/auto-heal.sh
 **Linked:** L-128, L-118, L-119, L-116, TKT-REC-1, Rec #1
 ---
-
 
 ## 2026-06-15 12:15 AEST — [CHG-0569] auto-heal.sh: final write_state at script end (L-127 followup) — report now reflects completed runs
 **Type:** script
@@ -5518,7 +5378,6 @@ Log TRIGGER-17 as fired in state/chg-triggers.json."
 **Linked:** L-127, L-126, TKT-FINAL-WS
 ---
 
-
 ## 2026-06-15 12:11 AEST — [CHG-0568] auto-heal.sh CHECK 28c crash: 2 bugs fixed (Pre-existing #2, L-126)
 **Type:** script
 **Change Type:** Standard
@@ -5530,7 +5389,6 @@ Log TRIGGER-17 as fired in state/chg-triggers.json."
 **Rollback:** git checkout scripts/auto-heal.sh
 **Linked:** L-126, L-094, TKT-PREEXIST-2, TKT-0505-A4 (state file bootstrap)
 ---
-
 
 ## 2026-06-15 11:54 AEST — [CHG-0567] aria-crest-check.sh line 21 syntax fix (Pre-existing #1, L-125) — CHECK 27 PASS
 **Type:** script
@@ -5544,7 +5402,6 @@ Log TRIGGER-17 as fired in state/chg-triggers.json."
 **Linked:** L-125, TKT-PREEXIST-1, CHECK 27
 ---
 
-
 ## 2026-06-15 11:49 AEST — [CHG-0566] TKT-0339 scaler vA6: 10 DECREASE timeouts applied (Rec #9, L-124)
 **Type:** cron
 **Change Type:** Standard
@@ -5556,7 +5413,6 @@ Log TRIGGER-17 as fired in state/chg-triggers.json."
 **Rollback:** revert each cron: openclaw cron edit <id> --timeout-seconds <original> + revert state/cron-timeout-applied.json entries
 **Linked:** L-124, L-099, TKT-0339, TKT-0503-A6, TKT-REC9
 ---
-
 
 ## 2026-06-15 11:44 AEST — [CHG-0565] TKT-0503 closed (Rec #8) — 7/7 atoms shipped, L-115 fix held
 **Type:** data
@@ -5570,7 +5426,6 @@ Log TRIGGER-17 as fired in state/chg-triggers.json."
 **Linked:** L-123, L-115, TKT-0503
 ---
 
-
 ## 2026-06-15 11:36 AEST — [CHG-0564] Honest backfill of 06-14 journal + 06-13/14 blogs (L-122, Rec #7)
 **Type:** doc
 **Change Type:** Normal
@@ -5582,7 +5437,6 @@ Log TRIGGER-17 as fired in state/chg-triggers.json."
 **Rollback:** rm memory/journal-2026-06-14.md; revert memory/journal-2026-06-13.md to prior commit; rm -rf ~/.openclaw/canvas/documents/ainchors-2026-06-13 ~/.openclaw/canvas/documents/ainchors-2026-06-14
 **Linked:** L-122, L-121, L-120, L-119, L-118, L-117, L-116, L-088+ silence-failure family, TKT-REC7
 ---
-
 
 ## 2026-06-15 11:27 AEST — [CHG-0563] AGENTS.md trim (L-121, Rec #6) — 12,252 → 7,351 chars
 **Type:** doc
@@ -5596,7 +5450,6 @@ Log TRIGGER-17 as fired in state/chg-triggers.json."
 **Linked:** L-121, TKT-0310, TKT-0341, TKT-REC6
 ---
 
-
 ## 2026-06-15 11:21 AEST — [CHG-0562] EOD health-assert gate (L-120, Rec #5) — block EOD on degraded state
 **Type:** script
 **Change Type:** Normal
@@ -5608,7 +5461,6 @@ Log TRIGGER-17 as fired in state/chg-triggers.json."
 **Rollback:** revert scripts/state-health-assert.sh; openclaw cron edit 4d926b2c/a027fd60/c5a3911d to remove gate text
 **Linked:** L-120, L-119, L-118, L-117, L-116, TKT-REC5
 ---
-
 
 ## 2026-06-15 11:09 AEST — [CHG-0561] Critical crons → kimi-k2.6:cloud (Rec #3 multi-vendor) — L-119
 **Type:** cron
@@ -5622,7 +5474,6 @@ Log TRIGGER-17 as fired in state/chg-triggers.json."
 **Linked:** TKT-0504 (TQP bridge), TKT-0503, L-119, L-118, L-117, L-116
 ---
 
-
 ## 2026-06-15 11:03 AEST — [CHG-0560] CHECK 30: Ollama Quota Canary (L-118) — 24-72h pre-cliff detection
 **Type:** script
 **Change Type:** Normal
@@ -5634,7 +5485,6 @@ Log TRIGGER-17 as fired in state/chg-triggers.json."
 **Rollback:** revert scripts/auto-heal.sh to prior commit; delete state/check30-last-fire.json and state/cron-list-snapshot.json
 **Linked:** TKT-0503, L-118, L-116, L-088/L089/L090/L091/L095/L096/L100/L105/L107/L117
 ---
-
 
 ## 2026-06-15 10:55 AEST — [CHG-0559] CHECK 29: Cloud-Cron Escalation + L-116 (L-117 co-fix)
 **Type:** script
@@ -5648,7 +5498,6 @@ Log TRIGGER-17 as fired in state/chg-triggers.json."
 **Linked:** TKT-0503, L-116, L-117, L-088/L089/L090/L091/L095/L096/L100/L105/L107
 ---
 
-
 ## 2026-06-13 15:31 AEST — [CHG-0558] Sprint 8 planning: 4 hygiene status syncs + TKT-0137 fold + Sprint 7 carry-forward to Sprint 8
 **Type:** data
 **Change Type:** Normal
@@ -5660,7 +5509,6 @@ Log TRIGGER-17 as fired in state/chg-triggers.json."
 **Rollback:** UPDATE state_tickets SET status='open' WHERE id IN ('TKT-0317', 'TKT-0405', 'TKT-0318', 'TKT-0221', 'TKT-0137') — reopens all 5. db-sprint.sh defer ... --to <prev_sprint> reverses the Sprint 8/9 commitments.
 **Linked:** TKT-0317, TKT-0405, TKT-0318, TKT-0221, TKT-0137, TKT-0410, TKT-0293, TKT-0326, TKT-0394, TKT-0319, TKT-0324, TKT-0340, TKT-0503, TKT-0504, CHG-0557, CHG-0556, CHG-0554, docs/sprints/sprint-7-retro.md, docs/sprints/sprint-8-plan.md, docs/sprints/sprint-9-plan.md
 ---
-
 
 ## 2026-06-13 15:22 AEST — [CHG-0557] Sprint 7 close: 8/8 real items complete, retro filed
 **Type:** data
@@ -5674,7 +5522,6 @@ Log TRIGGER-17 as fired in state/chg-triggers.json."
 **Linked:** TKT-0336, TKT-0337, TKT-0338, TKT-0393, TKT-0401, TKT-0403, TKT-0406, TKT-0408, TKT-0410, TKT-0137, L-084, L-113, L-114, L-115, CHG-0545, CHG-0500, docs/sprints/sprint-7-retro.md
 ---
 
-
 ## 2026-06-13 15:14 AEST — [CHG-0556] TKT-0504 closed: full TQP bridge shipped + scheduled
 **Type:** data
 **Change Type:** Normal
@@ -5686,7 +5533,6 @@ Log TRIGGER-17 as fired in state/chg-triggers.json."
 **Rollback:** UPDATE state_tickets SET status='open' WHERE id='TKT-0504' (reopens ticket). Note: tqp-executor.sh + cron dc88affb remain live; re-opening is for tracking purposes only.
 **Linked:** TKT-0504, TKT-0504-A0..A6, CHG-0547, CHG-0548, CHG-0549, CHG-0550, CHG-0551, CHG-0553, CHG-0555, TKT-0503, L-088, L-089, L-090, L-096, L-100, L-105
 ---
-
 
 ## 2026-06-13 15:11 AEST — [CHG-0555] TKT-0504 A6 + WO-002 Notion archive: register TQP cron, archive orphaned CrewAI Notion page
 **Type:** infra
@@ -5700,7 +5546,6 @@ Log TRIGGER-17 as fired in state/chg-triggers.json."
 **Linked:** TKT-0504, TKT-0504-A6, CHG-0547, CHG-0548, CHG-0549, CHG-0550, CHG-0551, CHG-0553, CHG-0552, CHG-0554, WO-002, ALLOW-MIRROR-002
 ---
 
-
 ## 2026-06-13 15:01 AEST — [CHG-0554] WO-002 cleanup: delete 6 shadow test artifacts + delete CrewAI ticket (live+shadow)
 **Type:** data
 **Change Type:** Normal
@@ -5712,7 +5557,6 @@ Log TRIGGER-17 as fired in state/chg-triggers.json."
 **Rollback:** Restore from nexus_mirror backup if available (check for state/divergence-report-2026-06-13.json pre-deletion snapshot). If no backup: re-create test artifacts via the original test scripts (forge/wo-002-test); re-create CrewAI ticket via db-ticket.sh create-from-json (will need a new TKT-NNNN).
 **Linked:** WO-002, CHG-0552 (status_map fix), TKT-0241 (related parked status), ALLOW-MIRROR-002 (shadow CrewAI allowlist — now points at deleted row, harmless to leave)
 ---
-
 
 ## 2026-06-13 14:57 AEST — [CHG-0553] TKT-0504-A5: pg-sprint-backlog SKILL.md — TQP Execution Path section
 **Type:** doc
@@ -5726,7 +5570,6 @@ Log TRIGGER-17 as fired in state/chg-triggers.json."
 **Linked:** TKT-0504, L-096, TKT-0503, CHG-0551
 ---
 
-
 ## 2026-06-13 14:57 AEST — [CHG-0552] WO-002 status-map: add 'parked' mapping for TKT-0241
 **Type:** config
 **Change Type:** Normal
@@ -5738,7 +5581,6 @@ Log TRIGGER-17 as fired in state/chg-triggers.json."
 **Rollback:** Remove 'parked' lines from plan_map and atom_map in status-map.json. Re-run harness to confirm TKT-0241 returns to field_mismatch (acceptable; it's a known item).
 **Linked:** TKT-0241, CHG-0502, WO-002, TKT-0504 (groom)
 ---
-
 
 ## 2026-06-13 14:56 AEST — [CHG-0551] TKT-0504-A4: TQP dogfood test (claim → executor → exec-atom → done)
 **Type:** script
@@ -5752,7 +5594,6 @@ Log TRIGGER-17 as fired in state/chg-triggers.json."
 **Linked:** TKT-0504, L-096, TKT-0503, CHG-0550
 ---
 
-
 ## 2026-06-13 14:54 AEST — [CHG-0550] TKT-0504-A3: TQP cron handoff to tqp-executor.sh + L-096 verification command
 **Type:** infra
 **Change Type:** Normal
@@ -5764,7 +5605,6 @@ Log TRIGGER-17 as fired in state/chg-triggers.json."
 **Rollback:** git checkout scripts/task-queue-processor.sh; revert L-096 LESSONS append
 **Linked:** TKT-0504, L-096, TKT-0503, CHG-0549
 ---
-
 
 ## 2026-06-13 14:52 AEST — [CHG-0549] TKT-0504-A2: tqp-executor.sh sessions_spawn integration
 **Type:** script
@@ -5778,7 +5618,6 @@ Log TRIGGER-17 as fired in state/chg-triggers.json."
 **Linked:** TKT-0504, L-096, TKT-0503, CHG-0548
 ---
 
-
 ## 2026-06-13 14:50 AEST — [CHG-0548] TKT-0504-A1: tqp-executor.sh skeleton
 **Type:** script
 **Change Type:** Normal
@@ -5791,7 +5630,6 @@ Log TRIGGER-17 as fired in state/chg-triggers.json."
 **Linked:** TKT-0504, L-096, TKT-0503, CHG-0547
 ---
 
-
 ## 2026-06-13 14:41 AEST — [CHG-0547] Demote CHECK 28g severity CRITICAL→WARN: TQP claimed-but-not-executing signal is live
 **Type:** rule
 **Change Type:** Normal
@@ -5803,7 +5641,6 @@ Log TRIGGER-17 as fired in state/chg-triggers.json."
 **Rollback:** Revert 3 line changes in auto-heal.sh (CRITICAL back). Revert L-096 LESSONS follow-up. No new file created.
 **Linked:** TKT-0504, L-096, TKT-0504-A0, TKT-0504-A1..A5, CHG-0545
 ---
-
 
 ## 2026-06-13 14:29 AEST — [CHG-0546] LinkedIn Teaser cron root-cause fix + 3 Spark draft cron delivery target patch
 **Type:** cron
@@ -5819,7 +5656,6 @@ Log TRIGGER-17 as fired in state/chg-triggers.json."
 **Framework docs:** docs/Operations-Runbook.md memory/LESSONS.md spark/RULES.md
 ---
 
-
 ## 2026-06-13 13:55 AEST — [CHG-0545] Lock Yoda role boundary: orchestrator-only CREST, evidence-only, no fabrication
 **Type:** rule
 **Change Type:** Normal
@@ -5831,7 +5667,6 @@ Log TRIGGER-17 as fired in state/chg-triggers.json."
 **Rollback:** Revert SOUL.md edits (restore rules 13-16 and Key References section). Revert MEMORY.md (delete 'Ken's Governance Mandate' block). Revert LESSONS.md (delete L-113 entry). Log a new CHG recording the rollback. Requires Ken approval.
 **Linked:** TKT-0501, TKT-0321 (2-Pass Contract), TKT-0322 (model-task matrix), TKT-0368 (CREST risk framework), TKT-0396 (skill-gate)
 ---
-
 
 ## 2026-06-13 13:37 AEST — [CHG-0544] TKT-0501 closed: 11 crons audited, 10 routed, 1 false positive. L-110 + L-111 + L-112
 **Type:** config
@@ -5845,7 +5680,6 @@ Log TRIGGER-17 as fired in state/chg-triggers.json."
 **Linked:** TKT-0501, CHG-0522 (the false claim), L-088, L-109, L-110, L-111, L-112, TKT-0506 (gate framework), scripts/sovereign-alert.sh, scripts/crest-execute-gate.sh, state/crest-execute-gate-log.json
 ---
 
-
 ## 2026-06-13 13:27 AEST — [CHG-0543] Fix pg-to-notion-sync.sh — JSONB Path + zsh Reserved Variable Bugs
 **Type:** script
 **Change Type:** Normal
@@ -5857,7 +5691,6 @@ Log TRIGGER-17 as fired in state/chg-triggers.json."
 **Rollback:** N/A
 **Linked:** TKT-0525
 ---
-
 
 ## 2026-06-13 13:15 AEST — [CHG-0542] MiniMax M3 trial verdict: engineering YES, engagement/planning NO — Yoda thin-orchestrator only
 **Type:** config
@@ -5871,7 +5704,6 @@ Log TRIGGER-17 as fired in state/chg-triggers.json."
 **Linked:** TKT-0506, CHG-0540, CHG-0498, L-082, L-084, L-106, L-107, L-108, L-109 (new), state/trials/minimax-m3.json, state/parks/anthropic.json, cron 3305681f, scripts/crest-execute-gate.sh
 ---
 
-
 ## 2026-06-13 12:58 AEST — [CHG-0541] TKT-0504 raised to Sprint 7 backlog: TQP wait-and-silence (L-108, A0 quick-fix)
 **Type:** doc
 **Change Type:** Normal
@@ -5883,7 +5715,6 @@ Log TRIGGER-17 as fired in state/chg-triggers.json."
 **Rollback:** N/A
 **Linked:** TKT-0504, TKT-0506, L-088, L-089, L-090, L-096, L-100, L-105, L-108
 ---
-
 
 ## 2026-06-13 12:51 AEST — [CHG-0540] TKT-0506 / CHG-0540: CREST v1.2 Path A strict enforcement — Yoda dispatching gate
 **Type:** script
@@ -5897,7 +5728,6 @@ Log TRIGGER-17 as fired in state/chg-triggers.json."
 **Linked:** TKT-0506, TKT-0322, TKT-0323, TKT-0386, L-026, L-105, L-106 (superseded), L-107, CREST v1.2 §6
 ---
 
-
 ## 2026-06-13 12:24 AEST — [CHG-0539] TKT-0505 executed: 5 structural fixes for v2026.6.6 sandbox install prep (CHG-0539)
 **Type:** script
 **Change Type:** Normal
@@ -5909,7 +5739,6 @@ Log TRIGGER-17 as fired in state/chg-triggers.json."
 **Rollback:** N/A
 **Linked:** TKT-0505, TKT-0502, L-102, L-103, L-104, L-105, CHG-0536
 ---
-
 
 ## 2026-06-13 12:19 AEST — [CHG-0538] TKT-0505 groomed: sequencing + 30-45min estimate, ready for dispatch
 **Type:** data
@@ -5923,7 +5752,6 @@ Log TRIGGER-17 as fired in state/chg-triggers.json."
 **Linked:** TKT-0505, TKT-0502, L-102, L-103, L-094
 ---
 
-
 ## 2026-06-13 12:18 AEST — [CHG-0537] TKT-0505 raised: sandbox retry prep, 5 structural fixes
 **Type:** data
 **Change Type:** Normal
@@ -5935,7 +5763,6 @@ Log TRIGGER-17 as fired in state/chg-triggers.json."
 **Rollback:** N/A
 **Linked:** TKT-0505, TKT-0502, L-102, L-103, L-094, CHG-0536
 ---
-
 
 ## 2026-06-13 12:11 AEST — [CHG-0536] TKT-0502 cancelled: v2026.6.6 raw source release, deferred to later (CHG-0536)
 **Type:** data
@@ -5949,7 +5776,6 @@ Log TRIGGER-17 as fired in state/chg-triggers.json."
 **Linked:** TKT-0502, L-104, L-103, CHG-0521
 ---
 
-
 ## 2026-06-13 11:19 AEST — [CHG-0535] TKT-0503-A7 partial: obs-collector CHECK E dedup by signature (L-100)
 **Type:** script
 **Change Type:** Normal
@@ -5961,7 +5787,6 @@ Log TRIGGER-17 as fired in state/chg-triggers.json."
 **Rollback:** N/A
 **Linked:** TKT-0503-A7, L-100, L-093
 ---
-
 
 ## 2026-06-13 11:04 AEST — [CHG-0534] TKT-0503-A6 follow-up: separate apply from auto-heal via one-shot script
 **Type:** script
@@ -5975,7 +5800,6 @@ Log TRIGGER-17 as fired in state/chg-triggers.json."
 **Linked:** TKT-0503-A6, L-099, L-098
 ---
 
-
 ## 2026-06-13 10:53 AEST — [CHG-0533] TKT-0503-A6: cron scaler filters systemEvent + 7d auto-apply for stable DECREASE
 **Type:** script
 **Change Type:** Normal
@@ -5987,7 +5811,6 @@ Log TRIGGER-17 as fired in state/chg-triggers.json."
 **Rollback:** N/A
 **Linked:** TKT-0503-A6, L-098
 ---
-
 
 ## 2026-06-13 10:35 AEST — [CHG-0532] TKT-0503 Phase 1 complete: A1-A5 executed, 5 structural fixes shipped
 **Type:** rule
@@ -6002,7 +5825,6 @@ Log TRIGGER-17 as fired in state/chg-triggers.json."
 **Category:** infra
 ---
 
-
 ## 2026-06-13 10:23 AEST — [CHG-0531] L-096: TQP has no executor for non-CREST atoms — flash-dispatcher is CREST-only
 **Type:** rule
 **Change Type:** Normal
@@ -6015,7 +5837,6 @@ Log TRIGGER-17 as fired in state/chg-triggers.json."
 **Linked:** L-096, TKT-0503, TKT-0386, scripts/task-queue-processor.sh, scripts/flash-dispatcher.sh, scripts/auto-heal.sh CHECK 28g
 **Category:** infra
 ---
-
 
 ## 2026-06-13 09:55 AEST — [CHG-0530] L-095: TQP queue write path is PG, not state/task-queue.json (CRITICAL — silent failure class)
 **Type:** rule
@@ -6030,7 +5851,6 @@ Log TRIGGER-17 as fired in state/chg-triggers.json."
 **Category:** infra
 ---
 
-
 ## 2026-06-13 09:20 AEST — [CHG-0527] TKT-0503 dispatched: 7-atom obs.db noise reduction (87% target)
 **Type:** rule
 **Change Type:** Normal
@@ -6043,7 +5863,6 @@ Log TRIGGER-17 as fired in state/chg-triggers.json."
 **Linked:** TKT-0503, L-092, L-093, L-094-NOTE, CHG-0524, CHG-0528, CHG-0529, state/task-queue.json
 **Category:** infra
 ---
-
 
 ## 2026-06-13 08:55 AEST — [CHG-0526] L-091 fix: crest-done-gate.sh pre-existing syntax error + CHECK 27
 **Type:** rule
@@ -6058,7 +5877,6 @@ Log TRIGGER-17 as fired in state/chg-triggers.json."
 **Category:** CREST
 ---
 
-
 ## 2026-06-13 08:43 AEST — [CHG-0525] L-090 sibling fix: gateway-restore.sh zsh auto-reexec + CHECK 26 expanded
 **Type:** rule
 **Change Type:** Normal
@@ -6071,7 +5889,6 @@ Log TRIGGER-17 as fired in state/chg-triggers.json."
 **Linked:** L-090, L-090a, CHG-0524, TKT-0501, scripts/gateway-restore.sh
 **Category:** PG-Sprint-Backlog
 ---
-
 
 ## 2026-06-13 08:22 AEST — [CHG-0524] L-090 fix: db-ticket.sh shell auto-reexec + create-from-json subcommand
 **Type:** rule
@@ -6086,7 +5903,6 @@ Log TRIGGER-17 as fired in state/chg-triggers.json."
 **Category:** PG-Sprint-Backlog
 ---
 
-
 ## 2026-06-13 08:12 AEST — [CHG-0523] CREST v1.2.1 — §8.4 Tool-Call Rejection Recovery (L-089 structural enforcement)
 **Type:** rule
 **Change Type:** Normal
@@ -6099,7 +5915,6 @@ Log TRIGGER-17 as fired in state/chg-triggers.json."
 **Linked:** L-089, TKT-0501, CHG-0522, CREST v1.2 (TKT-0368), scripts/crest-done-gate.sh, scripts/auto-heal.sh
 **Category:** CREST
 ---
-
 
 ## 2026-06-13 08:05 AEST — [CHG-0522] Sovereign Alert Pipeline: 7 critical crons migrated to direct Bot API (TKT-0501)
 **Type:** cron
@@ -6114,7 +5929,6 @@ Log TRIGGER-17 as fired in state/chg-triggers.json."
 **Category:** Alert-Routing
 ---
 
-
 ## 2026-06-13 07:53 AEST — [CHG-0521] TRIGGER-04: OpenClaw v2026.5.27 → v2026.6.6 — DEFER + SANDBOX
 **Type:** rule
 **Change Type:** Normal
@@ -6128,7 +5942,6 @@ Log TRIGGER-17 as fired in state/chg-triggers.json."
 **Category:** OpenClaw
 ---
 
-
 ## 2026-06-13 00:04 AEST — [CHG-0520] Day 22 memory file rebuilt + L-086 logged (memory hygiene)
 **Type:** data
 **Change Type:** Normal
@@ -6140,7 +5953,6 @@ Log TRIGGER-17 as fired in state/chg-triggers.json."
 **Rollback:** If a clean Day 22 memory is needed: read from CHANGELOG.md (CHG-0497-0519) and journal-2026-06-12.md. If user wants the full bloat restored: git log shows commit eaf74e45 had the 41K version. Current 8K version committed in this CHG.
 **Linked:** L-084 (fabrication), L-085 (file size detection), TKT-0310 (file size limits), CHG-0519 (Day 22 close), L-082 (stream cap), L-077 (memory hygiene precursor)
 ---
-
 
 ## 2026-06-12 23:58 AEST — [CHG-0519] Spark reactivation teaser post scheduled — Sat 13 Jun 09:00 AEST
 **Type:** cron
@@ -6154,7 +5966,6 @@ Log TRIGGER-17 as fired in state/chg-triggers.json."
 **Linked:** CHG-0515 (Spark reactivation Phase 1), CHG-0518 (v3 FINAL arc), TKT-0232 (LinkedIn metrics), TKT-0332 (Spark sandbox hardening), arc brief .openclaw/tmp/spark-reactivation-4week-arc.md
 ---
 
-
 ## 2026-06-12 23:24 AEST — [CHG-0518] Spark arc v3 FINAL — time-reference scrub + workflow confirmation
 **Type:** agent
 **Change Type:** Normal
@@ -6166,7 +5977,6 @@ Log TRIGGER-17 as fired in state/chg-triggers.json."
 **Rollback:** Revert to v3 (pre-time-scrub) at .openclaw/tmp/spark-reactivation-4week-arc.md.bak-pre-chg-0518 (if created).
 **Linked:** CHG-0515 (initial reactivation), CHG-0516 (v2 arc, rejected), CHG-0517 (v3 arc, time-scrub pending), TKT-0232 (LinkedIn metrics), TKT-0332 (sandbox), TKT-0368 (CREST v2.0)
 ---
-
 
 ## 2026-06-12 23:07 AEST — [CHG-0517] Spark reactivation angles v3 — 4-week foundation arc (post v2 rejection: foundation beneath the symptom)
 **Type:** agent
@@ -6180,7 +5990,6 @@ Log TRIGGER-17 as fired in state/chg-triggers.json."
 **Linked:** CHG-0515 (initial reactivation), CHG-0516 (v2 arc, also rejected), TKT-0232 (LinkedIn metrics), TKT-0332 (sandbox), TKT-0368 (CREST v2.0 umbrella), CHG-0348 (kimi swap), CHG-0479 (CREST v1.1), CHG-0486 (CREST Done Gate), L-043 (sandbox vanilla), L-068 (documented-but-not-done), L-076 (Anthropic park)
 ---
 
-
 ## 2026-06-12 22:36 AEST — [CHG-0516] Spark reactivation angles v2 — 2-week build-in-public narrative arc (post 3 rejections)
 **Type:** agent
 **Change Type:** Normal
@@ -6192,7 +6001,6 @@ Log TRIGGER-17 as fired in state/chg-triggers.json."
 **Rollback:** Revert to v1 angles in .openclaw/tmp/spark-reactivation-week-1-angles.md. (Note: v1 itself was rejected, so rollback = paused state.)
 **Linked:** CHG-0515 (initial reactivation), TKT-0232 (LinkedIn metrics), TKT-0332 (sandbox), L-082 (minimax-m3 cap), L-077 (PG-only reads)
 ---
-
 
 ## 2026-06-12 22:05 AEST — [CHG-0515] Spark LinkedIn campaign reactivation (post-17-day pause)
 **Type:** agent
@@ -6206,7 +6014,6 @@ Log TRIGGER-17 as fired in state/chg-triggers.json."
 **Linked:** TKT-0232 (LinkedIn metrics, co-groomed), TKT-0332 (sandbox hardening, in progress), CHG-0498 (minimax-m3 trial), L-082 (minimax-m3 3-min stream cap), L-077 (PG-only reads)
 ---
 
-
 ## 2026-06-12 20:48 AEST — [CHG-0514] L-085 implementation: long-ID stub detection (auto-heal CHECK 24)
 **Type:** script
 **Change Type:** Normal
@@ -6218,7 +6025,6 @@ Log TRIGGER-17 as fired in state/chg-triggers.json."
 **Rollback:** Revert scripts/auto-heal.sh (remove CHECK 24), delete scripts/long-id-stub-check.sh, delete tests/test_long_id_stub_check.sh. state/long-id-stubs.json will just be ignored.
 **Linked:** L-077, L-084, L-085, TKT-0407, CHG-0503, CHG-0506, CHG-0510
 ---
-
 
 ## 2026-06-12 20:39 AEST — [CHG-0512] TKT-0407 Final Sweep: Batch 5 (4 tickets) complete, validate gate 106/106 GREEN
 **Type:** data
@@ -6232,7 +6038,6 @@ Log TRIGGER-17 as fired in state/chg-triggers.json."
 **Linked:** TKT-0407, CHG-0508, CHG-0509, L-084, TKT-0339, TKT-0340, TKT-0341
 ---
 
-
 ## 2026-06-12 20:31 AEST — [CHG-0511] TKT-0407 Batch Execution: 88 tickets triaged, 102/106 validate gate green
 **Type:** data
 **Change Type:** Normal
@@ -6244,7 +6049,6 @@ Log TRIGGER-17 as fired in state/chg-triggers.json."
 **Rollback:** Re-open any closed ticket via db-ticket.sh update with status=open. Re-add briefs that were overwritten by checking git log of state/tickets.json.
 **Linked:** TKT-0407, CHG-0508, L-084, TKT-0339, TKT-0340, TKT-0341
 ---
-
 
 ## 2026-06-12 20:07 AEST — [CHG-0508] TKT-0407 Phase-1 close: 15 bespoke briefs persisted, Risk 4 → Yoda owner, L-084 fabrication lesson logged
 **Type:** data
@@ -6258,7 +6062,6 @@ Log TRIGGER-17 as fired in state/chg-triggers.json."
 **Linked:** none
 ---
 
-
 ## 2026-06-12 18:11 AEST — [CHG-0507] Recovery: task-2026-06-10-f9504783 stuck in 'verified' — direct PG UPDATE to 'complete'
 **Type:** script
 **Change Type:** Normal
@@ -6270,7 +6073,6 @@ Log TRIGGER-17 as fired in state/chg-triggers.json."
 **Rollback:** If the close is wrong, manual: UPDATE state_task_queue SET status='verified' WHERE id='task-2026-06-10-f9504783'. No platform-level rollback needed — no other state changed. TKT-0410 still pending for the state-machine fix.
 **Linked:** task-2026-06-10-f9504783, TKT-SMOKE-001, TKT-0409 (precedent), TKT-0410 (filed), L-084, L-067, L-026, CHG-0500
 ---
-
 
 ## 2026-06-12 12:34 AEST — [CHG-0506] TKT-0409 approved + dispatched to Forge (3 defects from L-075)
 **Type:** data
@@ -6284,7 +6086,6 @@ Log TRIGGER-17 as fired in state/chg-triggers.json."
 **Linked:** TKT-0409, TKT-0315, TKT-0381-388, TKT-0407, L-055, L-075, L-077, L-078, L-082, CHG-0482, CHG-0501, .openclaw/tmp/tkt-0409-build-spec.md
 ---
 
-
 ## 2026-06-12 10:03 AEST — [CHG-0505] QBR 2026-Q3 locked — 2026-07-01 + chain (TKT-0410, 0130, 0394, 0125) + 5 pre-reminders
 **Type:** cron
 **Change Type:** Normal
@@ -6296,7 +6097,6 @@ Log TRIGGER-17 as fired in state/chg-triggers.json."
 **Rollback:** db-ticket.sh update TKT-0410 --status closed --resolution 'QBR postponed'. Update TKT-0130/0394/0125 to status=backlog. Remove qbr section from heartbeat-state.json. Remove 5 crons. Note in CHANGELOG: this is a delay, not a cancel — TRIGGER-QBR still fires every quarter.
 **Linked:** TKT-0410, TKT-0130, TKT-0394, TKT-0125, TKT-0393, TRIGGER-QBR, state/chg-triggers.json
 ---
-
 
 ## 2026-06-12 09:52 AEST — [CHG-0504] Fix strike-3 regex: pick newest L-NNN (tail -1), not oldest (head -1)
 **Type:** script
@@ -6310,7 +6110,6 @@ Log TRIGGER-17 as fired in state/chg-triggers.json."
 **Linked:** TKT-0401, CHG-0503, L-080, L-081, L-079
 ---
 
-
 ## 2026-06-12 08:29 AEST — [CHG-0503] Fix L-077: make db-ticket.sh read PG-only, fail loud on miss
 **Type:** script
 **Change Type:** Normal
@@ -6323,7 +6122,6 @@ Log TRIGGER-17 as fired in state/chg-triggers.json."
 **Linked:** L-077, TKT-0401, TKT-0407, TKT-0408, CHG-0497, CHG-0500
 ---
 
-
 ## 2026-06-12 08:14 AEST — [CHG-0502] Tag TKT-0368 as CREST v2.0 (target state); park Anthropic work permanently
 **Type:** config
 **Change Type:** Normal
@@ -6335,7 +6133,6 @@ Log TRIGGER-17 as fired in state/chg-triggers.json."
 **Rollback:** Delete state/parks/anthropic.json. Update TKT-0368 metadata to remove crest_target_state. Remove Anthropic-parked section from MEMORY.md. Re-enable any Anthropic work.
 **Linked:** CHG-0500, TKT-0368, TKT-0241, WO-002, state/crest-transition-state.json (update phase 1 = complete, phase 2 = PENDING ticket to be created by Ken later)
 ---
-
 
 ## 2026-06-12 08:09 AEST — [CHG-0501] CREST Gate Violation + 3 Defect Audit (state-recovery R1)
 **Type:** infra
@@ -6350,7 +6147,6 @@ Log TRIGGER-17 as fired in state/chg-triggers.json."
 **Category:** governance
 ---
 
-
 ## 2026-06-12 08:03 AEST — [CHG-0500] CLAUDE RECONFIGURE — Lift Conservative Mode, reframe risk under CREST v1.3 + TKT-0368
 **Type:** config
 **Change Type:** Normal
@@ -6362,7 +6158,6 @@ Log TRIGGER-17 as fired in state/chg-triggers.json."
 **Rollback:** git revert the commit. Re-run scripts/reinstate-conservative-mode.sh (script to be added if rollback needed). The original interim-model-period.json file is preserved at state/archive/interim-model-period-20260612.bak
 **Linked:** CHG-0349, CHG-0350, CHG-0362, CHG-0367, CHG-0373, CREST v1.2, TKT-0368, TKT-0241, L-066, L-067
 ---
-
 
 ## 2026-06-12 07:52 AEST — [CHG-0499] Fix L-069 + L-070: db-sprint.sh status crash + model-drift-check string-format false positive
 **Type:** script
@@ -6376,7 +6171,6 @@ Log TRIGGER-17 as fired in state/chg-triggers.json."
 **Linked:** L-069, L-070, CHG-0497, CHG-0498, TKT-0408, TKT-0409 (proposed umbrella)
 ---
 
-
 ## 2026-06-12 07:43 AEST — [CHG-0498] Sync model-policy.json to MiniMax M3 trial state
 **Type:** rule
 **Change Type:** Normal
@@ -6388,7 +6182,6 @@ Log TRIGGER-17 as fired in state/chg-triggers.json."
 **Rollback:** Trial revert cron 3305681f restores openclaw.json to deepseek-v4-pro. For policy, on revert: cp state/model-policy.json.bak-20260612-preminimaxsync state/model-policy.json + flip interimPeriod=false. Or wait for the revert cron to handle both.
 **Linked:** TKT-0408, L-068, CHG-0425, cron 3305681f
 ---
-
 
 ## 2026-06-12 07:29 AEST — [CHG-0497] Fix db-write.sh: pipe JSON via stdin (kills shell-interpolation bug)
 **Type:** script
@@ -6402,7 +6195,6 @@ Log TRIGGER-17 as fired in state/chg-triggers.json."
 **Linked:** TKT-0408, TKT-0407, L-068
 ---
 
-
 ## 2026-06-11 13:32 AEST — [CHG-0496] CHG-0496: Batch-apply TKT-0339 cron timeoutSeconds — 27 agentTurn crons
 **Type:** cron
 **Change Type:** Normal
@@ -6414,7 +6206,6 @@ Log TRIGGER-17 as fired in state/chg-triggers.json."
 **Rollback:** N/A
 **Linked:** none
 ---
-
 
 ## 2026-06-11 12:55 AEST — [CHG-0495] CHG-0462: Remove activeHours from heartbeat to unblock overnight crons
 **Type:** config
@@ -6428,7 +6219,6 @@ Log TRIGGER-17 as fired in state/chg-triggers.json."
 **Linked:** none
 ---
 
-
 ## 2026-06-10 23:58 AEST — [CHG-0494] TKT-0395 Closed — Mirror-Writer Operationalised + WO-002 Clock Reset
 **Type:** infra
 **Change Type:** Normal
@@ -6440,7 +6230,6 @@ Log TRIGGER-17 as fired in state/chg-triggers.json."
 **Rollback:** N/A
 **Linked:** TKT-0395, TKT-0396, TKT-0403, WO-002
 ---
-
 
 ## 2026-06-10 23:19 AEST — [CHG-0493] TKT-0396 Closed — Mirror Isolated to nexus_mirror
 **Type:** infra
@@ -6454,7 +6243,6 @@ Log TRIGGER-17 as fired in state/chg-triggers.json."
 **Linked:** TKT-0396, TKT-0395, WO-002
 ---
 
-
 ## 2026-06-10 22:56 AEST — [CHG-0492] Structural Skill-Gate Enforcement — Domain Scripts Block Without Skill Load
 **Type:** script
 **Change Type:** Normal
@@ -6466,7 +6254,6 @@ Log TRIGGER-17 as fired in state/chg-triggers.json."
 **Rollback:** N/A
 **Linked:** TKT-0396, L-066, TKT-0393, TKT-0394
 ---
-
 
 ## 2026-06-10 21:32 AEST — [CHG-0491] feature/cp3-p0-observer-daemon merged to main at cce88f7
 **Type:** script
@@ -6480,7 +6267,6 @@ Log TRIGGER-17 as fired in state/chg-triggers.json."
 **Linked:** TKT-0395,TKT-0403,L-065,WO-002
 ---
 
-
 ## 2026-06-10 20:59 AEST — [CHG-0490] Checkout-Freshness Gate TKT-0403 Closed
 **Type:** script
 **Change Type:** Normal
@@ -6492,7 +6278,6 @@ Log TRIGGER-17 as fired in state/chg-triggers.json."
 **Rollback:** N/A
 **Linked:** TKT-0403,TKT-0395,WO-002,L-065
 ---
-
 
 ## 2026-06-10 16:45 AEST — [CHG-0489] TKT-0394 — Quarterly Tribal Knowledge Audit anchored to QBR cadence
 **Type:** rule
@@ -6506,7 +6291,6 @@ Log TRIGGER-17 as fired in state/chg-triggers.json."
 **Linked:** TKT-0393
 ---
 
-
 ## 2026-06-10 16:34 AEST — [CHG-0488] Skills Extraction — 3 progressive-disclosure skills (TKT-0393)
 **Type:** script
 **Change Type:** Normal
@@ -6518,7 +6302,6 @@ Log TRIGGER-17 as fired in state/chg-triggers.json."
 **Rollback:** N/A
 **Linked:** none
 ---
-
 
 ## 2026-06-10 11:39 AEST — [CHG-0487] TKT-0391 Closed — PG Sprint Column Gap
 **Type:** infra
@@ -6532,7 +6315,6 @@ Log TRIGGER-17 as fired in state/chg-triggers.json."
 **Linked:** TKT-0391,TKT-0391-A,TKT-0391-B,TKT-0391-C,TKT-0391-D,TKT-0342,TKT-0369
 ---
 
-
 ## 2026-06-10 11:23 AEST — [CHG-0486] CREST Done Gate — Structural enforcement at ticket close
 **Type:** script
 **Change Type:** Normal
@@ -6544,7 +6326,6 @@ Log TRIGGER-17 as fired in state/chg-triggers.json."
 **Rollback:** N/A
 **Linked:** TKT-0369,L-062,L-063,CHG-0485
 ---
-
 
 ## 2026-06-10 11:12 AEST — [CHG-0485] TKT-0369 Closed — PG Sprint-Backlog Interface Skill
 **Type:** infra
@@ -6558,7 +6339,6 @@ Log TRIGGER-17 as fired in state/chg-triggers.json."
 **Linked:** TKT-0369,TKT-0369-A,TKT-0369-B,TKT-0369-C,CHG-0482,CHG-0483,CHG-0484
 ---
 
-
 ## 2026-06-10 10:34 AEST — [CHG-0484] TKT-0369 Failure #5 logged + dispatch-validate.sh parent ticket gate
 **Type:** script
 **Change Type:** Normal
@@ -6570,7 +6350,6 @@ Log TRIGGER-17 as fired in state/chg-triggers.json."
 **Rollback:** N/A
 **Linked:** TKT-0369,TKT-0385,CHG-0482
 ---
-
 
 ## 2026-06-10 10:16 AEST — [CHG-0483] Aria CREST Guardrails — Layer 3 Proactive Drift Detection
 **Type:** agent
@@ -6584,7 +6363,6 @@ Log TRIGGER-17 as fired in state/chg-triggers.json."
 **Linked:** TKT-0383,TKT-0385,TKT-0386,CHG-0482
 ---
 
-
 ## 2026-06-10 08:55 AEST — [CHG-0482] CREST v1.2 Structural Foundation — 8 sub-tickets complete
 **Type:** infra
 **Change Type:** Normal
@@ -6596,7 +6374,6 @@ Log TRIGGER-17 as fired in state/chg-triggers.json."
 **Rollback:** N/A
 **Linked:** TKT-0368,TKT-0370,TKT-0381-TKT-0388
 ---
-
 
 ## 2026-06-10 04:57 AEST — [CHG-0481] CREST v1.2 LOCKED — Dual PASS from Atlas + Thrawn
 **Type:** doc
@@ -6610,7 +6387,6 @@ Log TRIGGER-17 as fired in state/chg-triggers.json."
 **Linked:** TKT-0368,TKT-0370,TKT-0321,TKT-0322,TKT-0323
 ---
 
-
 ## 2026-06-10 04:52 AEST — [CHG-0480] CREST v1.2 — All 13 Atlas+Thrawn review findings resolved
 **Type:** doc
 **Change Type:** Normal
@@ -6622,7 +6398,6 @@ Log TRIGGER-17 as fired in state/chg-triggers.json."
 **Rollback:** N/A
 **Linked:** TKT-0368,TKT-0370,TKT-0321,TKT-0322,TKT-0323
 ---
-
 
 ## 2026-06-10 04:36 AEST — [CHG-0479] CREST v1.1 — Recursive Topology (Model C) Locked
 **Type:** doc
@@ -6636,7 +6411,6 @@ Log TRIGGER-17 as fired in state/chg-triggers.json."
 **Linked:** TKT-0368,TKT-0370,TKT-0321,TKT-0322,TKT-0323
 ---
 
-
 ## 2026-06-09 21:10 AEST — [CHG-0478] CHG-0478: CREST Execution Loop locked
 **Type:** rule
 **Change Type:** Normal
@@ -6648,7 +6422,6 @@ Log TRIGGER-17 as fired in state/chg-triggers.json."
 **Rollback:** N/A
 **Linked:** TKT-0368
 ---
-
 
 ## 2026-06-09 20:26 AEST — [CHG-0477] TKT-0339: Cron Timeout Auto-Scaling — Adaptive Timeout + Retry + Reaping
 **Type:** script
@@ -6662,7 +6435,6 @@ Log TRIGGER-17 as fired in state/chg-triggers.json."
 **Linked:** TKT-0339 TKT-0337 TKT-0338 TKT-0310
 ---
 
-
 ## 2026-06-09 13:08 AEST — [CHG-0475] CHG-0475: journal-append.sh v2.0 — simplified inline journal writer
 **Type:** infra
 **Change Type:** Normal
@@ -6674,7 +6446,6 @@ Log TRIGGER-17 as fired in state/chg-triggers.json."
 **Rollback:** N/A
 **Linked:** none
 ---
-
 
 ## 2026-06-09 07:47 AEST — [CHG-0474] nightly-gateway-restart.sh: add dual-bind guard (CHG-0474)
 **Type:** infra
@@ -6688,7 +6459,6 @@ Log TRIGGER-17 as fired in state/chg-triggers.json."
 **Linked:** none
 ---
 
-
 ## 2026-06-08 22:29 AEST — [CHG-0473] CHG-0473: C1 STALE Definition Drift Corrected — Harness v2.2
 **Type:** config
 **Change Type:** Normal
@@ -6700,7 +6470,6 @@ Log TRIGGER-17 as fired in state/chg-triggers.json."
 **Rollback:** N/A
 **Linked:** none
 ---
-
 
 ## 2026-06-08 22:01 AEST — [CHG-0472] CHG-0472: Sage Primary Model Changed — gemma4:31b-cloud → deepseek-v4-pro:cloud
 **Type:** agent
@@ -6740,7 +6509,6 @@ Log TRIGGER-17 as fired in state/chg-triggers.json."
 **Linked:** TKT-0368, TKT-0317, TKT-0321, TKT-0309, TKT-0322
 ---
 
-
 ## 2026-06-07 08:01 AEST — [CHG-0464] CHG-0464: Add PG sequence-health check to auto-heal (CHECK #17, TKT-0367)
 **Type:** script
 **Change Type:** Normal
@@ -6752,7 +6520,6 @@ Log TRIGGER-17 as fired in state/chg-triggers.json."
 **Rollback:** N/A
 **Linked:** none
 ---
-
 
 ## 2026-06-07 07:58 AEST — [CHG-0463] CHG-0462: Fix auto-heal PG write failure — sequence desync
 **Type:** infra
@@ -6766,7 +6533,6 @@ Log TRIGGER-17 as fired in state/chg-triggers.json."
 **Linked:** none
 ---
 
-
 ## 2026-06-07 07:56 AEST — [CHG-0461] CHG-0462: Config baseline refresh — 7 days stale
 **Type:** config
 **Change Type:** Normal
@@ -6778,7 +6544,6 @@ Log TRIGGER-17 as fired in state/chg-triggers.json."
 **Rollback:** N/A
 **Linked:** none
 ---
-
 
 ## 2026-06-06 08:06 AEST — [CHG-0460] CHG-0457: Fix Backup Health Check Field-Name Mismatch
 **Type:** script
@@ -6792,7 +6557,6 @@ Log TRIGGER-17 as fired in state/chg-triggers.json."
 **Linked:** none
 ---
 
-
 ## 2026-06-04 12:36 AEST — [CHG-0459] Ahsoka Activated, Spark Dual-Stream, Luthen Operational, Brand Code Seeding Guide
 **Type:** agent
 **Change Type:** Normal
@@ -6804,7 +6568,6 @@ Log TRIGGER-17 as fired in state/chg-triggers.json."
 **Rollback:** N/A
 **Linked:** TKT-0308
 ---
-
 
 ## 2026-06-04 10:50 AEST — [CHG-0458] Auto-Heal: Fix JSON Report Truncation + CHECK 15 Per-File Limits + Delegated Auth Pre-flight (TKT-0336)
 **Type:** script
@@ -6818,7 +6581,6 @@ Log TRIGGER-17 as fired in state/chg-triggers.json."
 **Linked:** TKT-0336
 ---
 
-
 ## 2026-06-04 10:45 AEST — [CHG-0457] Auto-Heal JSON Report Truncation + CHECK 15 Per-File Limits
 **Type:** script
 **Change Type:** Normal
@@ -6830,7 +6592,6 @@ Log TRIGGER-17 as fired in state/chg-triggers.json."
 **Rollback:** N/A
 **Linked:** TKT-0336
 ---
-
 
 ## 2026-06-01 11:35 AEST — [CHG-0449] CHG-0449: Post-CrewAI Crash Platform Shakedown — Findings, Fixes & Regression Learnings
 **Type:** infra
@@ -6844,7 +6605,6 @@ Log TRIGGER-17 as fired in state/chg-triggers.json."
 **Linked:** TKT-0332, TKT-0333
 **Category:** Platform/Recovery
 ---
-
 
 ## 2026-05-31 13:15 AEST — [CHG-0448] TKT-0327 Option B: cron-write.sh wrapper for tilde-path bug
 **Type:** script
@@ -6979,7 +6739,6 @@ Log TRIGGER-17 as fired in state/chg-triggers.json."
 **Linked:** none
 ---
 
-
 ## 2026-05-29 22:09 AEST — [CHG-0446] CHG-0446: TRIGGER-14 + Platform Separation folded into TRIGGER-01 Master Gate
 **Type:** config
 **Change Type:** Normal
@@ -6991,7 +6750,6 @@ Log TRIGGER-17 as fired in state/chg-triggers.json."
 **Rollback:** N/A
 **Linked:** none
 ---
-
 
 ## 2026-05-29 22:03 AEST — [CHG-0445] CHG-0445: OpenClaw v2026.5.12 → v2026.5.27 Upgrade
 **Type:** infra
@@ -7005,7 +6763,6 @@ Log TRIGGER-17 as fired in state/chg-triggers.json."
 **Linked:** none
 ---
 
-
 ## 2026-05-28 11:42 AEST — [CHG-0444] Budget Cap Recalibration + Ollama Cloud Model Rates
 **Type:** config
 **Change Type:** Normal
@@ -7017,7 +6774,6 @@ Log TRIGGER-17 as fired in state/chg-triggers.json."
 **Rollback:** N/A
 **Linked:** none
 ---
-
 
 ## 2026-05-28 10:50 AEST — [CHG-0443] May 2026 Model Review Remediation
 **Type:** config
@@ -7031,7 +6787,6 @@ Log TRIGGER-17 as fired in state/chg-triggers.json."
 **Linked:** none
 ---
 
-
 ## 2026-05-27 19:53 AEST — [CHG-0442] Sprint 5: 9 open highs processed — 5 folded, 3 deferred, TKT-0305 completed
 **Type:** config
 **Change Type:** Normal
@@ -7043,7 +6798,6 @@ Log TRIGGER-17 as fired in state/chg-triggers.json."
 **Rollback:** N/A
 **Linked:** TKT-0178,TKT-0182,TKT-0188,TKT-0228,TKT-0230,TKT-0128,TKT-0137,TKT-0318,TKT-0268,TKT-0269,TKT-0305
 ---
-
 
 ## 2026-05-27 19:38 AEST — [CHG-0441] TKT-0316 folded into TKT-0317 + TKT-0310/0293 locked to Sprint 6
 **Type:** config
@@ -7057,7 +6811,6 @@ Log TRIGGER-17 as fired in state/chg-triggers.json."
 **Linked:** TKT-0316,TKT-0317,TKT-0310,TKT-0293
 ---
 
-
 ## 2026-05-27 19:31 AEST — [CHG-0440] TKT-0313 merged into TKT-0317 Phase 1 + 4 sub-tickets raised
 **Type:** config
 **Change Type:** Normal
@@ -7069,7 +6822,6 @@ Log TRIGGER-17 as fired in state/chg-triggers.json."
 **Rollback:** N/A
 **Linked:** TKT-0313,TKT-0317,TKT-0321,TKT-0322,TKT-0323,TKT-0324
 ---
-
 
 ## 2026-05-27 19:17 AEST — [CHG-0439] TKT-0320 complete: Atlas 2-Pass Assessment for TKT-0317 Epic
 **Type:** doc
@@ -7083,7 +6835,6 @@ Log TRIGGER-17 as fired in state/chg-triggers.json."
 **Linked:** TKT-0317,TKT-0320,TKT-0313
 ---
 
-
 ## 2026-05-27 19:01 AEST — [CHG-0438] TKT-0317 groomed — deferred to Atlas+Thrawn assessment (TKT-0320)
 **Type:** config
 **Change Type:** Normal
@@ -7095,7 +6846,6 @@ Log TRIGGER-17 as fired in state/chg-triggers.json."
 **Rollback:** N/A
 **Linked:** TKT-0317,TKT-0320
 ---
-
 
 ## 2026-05-27 18:55 AEST — [CHG-0437] TKT-0296: Journal Writer fixed — EOD finalizer simplified + HEARTBEAT cleaned
 **Type:** script
@@ -7109,7 +6859,6 @@ Log TRIGGER-17 as fired in state/chg-triggers.json."
 **Linked:** TKT-0296
 ---
 
-
 ## 2026-05-27 18:49 AEST — [CHG-0436] ticket.sh: add JSON payload validation to write_ticket
 **Type:** script
 **Change Type:** Normal
@@ -7121,7 +6870,6 @@ Log TRIGGER-17 as fired in state/chg-triggers.json."
 **Rollback:** N/A
 **Linked:** TKT-0309
 ---
-
 
 ## 2026-05-27 18:46 AEST — [CHG-0435] TKT-0309 closed + TKT-0318/0319 raised for Phase 2 Aria + Phase 3 Global
 **Type:** config
@@ -7135,7 +6883,6 @@ Log TRIGGER-17 as fired in state/chg-triggers.json."
 **Linked:** TKT-0309,TKT-0318,TKT-0319
 ---
 
-
 ## 2026-05-27 18:43 AEST — [CHG-0434] DoD Gate updated with TQP persist requirement
 **Type:** doc
 **Change Type:** Normal
@@ -7147,7 +6894,6 @@ Log TRIGGER-17 as fired in state/chg-triggers.json."
 **Rollback:** N/A
 **Linked:** TKT-0309
 ---
-
 
 ## 2026-05-27 18:42 AEST — [CHG-0433] TQP self-test: 3-atom gate validation passed
 **Type:** script
@@ -7161,7 +6907,6 @@ Log TRIGGER-17 as fired in state/chg-triggers.json."
 **Linked:** TKT-0309
 ---
 
-
 ## 2026-05-27 18:39 AEST — [CHG-0432] AGENTS.md TQP Execution Gate updated with concrete invocation paths
 **Type:** doc
 **Change Type:** Normal
@@ -7173,7 +6918,6 @@ Log TRIGGER-17 as fired in state/chg-triggers.json."
 **Rollback:** N/A
 **Linked:** TKT-0309
 ---
-
 
 ## 2026-05-27 18:36 AEST — [CHG-0431] tqp-yoda.sh wrapper created for TKT-0309 Phase 2
 **Type:** script
@@ -7187,7 +6931,6 @@ Log TRIGGER-17 as fired in state/chg-triggers.json."
 **Linked:** TKT-0309
 ---
 
-
 ## 2026-05-27 18:30 AEST — [CHG-0430] sc_persist_atom fixes for A1 gate pass
 **Type:** script
 **Change Type:** Normal
@@ -7199,7 +6942,6 @@ Log TRIGGER-17 as fired in state/chg-triggers.json."
 **Rollback:** N/A
 **Linked:** TKT-0309
 ---
-
 
 ## 2026-05-23 22:39 AEST — [CHG-0429] CHG-0429: Auto-Heal Fail-Safe Reporting
 **Type:** script
@@ -7213,7 +6955,6 @@ Log TRIGGER-17 as fired in state/chg-triggers.json."
 **Linked:** none
 ---
 
-
 ## 2026-05-24 07:59 AEST — [CHG-0428] CHG-0428: Decommission CI Cycle A/B Artifacts
 **Type:** infra
 **Change Type:** Normal
@@ -7225,7 +6966,6 @@ Log TRIGGER-17 as fired in state/chg-triggers.json."
 **Rollback:** N/A
 **Linked:** none
 ---
-
 
 ## 2026-05-24 07:55 AEST — [CHG-0427] CHG-0427: Blog Writer — Lock HTML/CSS Template to Prevent Style Drift
 **Type:** cron
@@ -7239,7 +6979,6 @@ Log TRIGGER-17 as fired in state/chg-triggers.json."
 **Linked:** none
 ---
 
-
 ## 2026-05-24 07:51 AEST — [CHG-0426] CHG-0413: Journal Writer — Add Telegram Coverage
 **Type:** cron
 **Change Type:** Normal
@@ -7251,7 +6990,6 @@ Log TRIGGER-17 as fired in state/chg-triggers.json."
 **Rollback:** N/A
 **Linked:** none
 ---
-
 
 ## 2026-05-21 20:21 AEST — [CHG-0423] Notion resync — 15 tickets + 5 CHGs from Day 27 session
 **Type:** config
@@ -7266,7 +7004,6 @@ Log TRIGGER-17 as fired in state/chg-triggers.json."
 **Category:** data
 ---
 
-
 ## 2026-05-21 16:01 AEST — [CHG-0422] TKT-0228 re-groomed + TKT-0237 Platform Rule Engine — defense-in-depth against agent drift
 **Type:** rule
 **Change Type:** Normal
@@ -7279,7 +7016,6 @@ Log TRIGGER-17 as fired in state/chg-triggers.json."
 **Linked:** TKT-0228, TKT-0237, TKT-0182, TKT-0196, TKT-0197, CHG-0421, CHG-0386
 **Category:** data
 ---
-
 
 ## 2026-05-21 15:13 AEST — [CHG-0421] Forge double-failure on TKT-0198 — agent execution investigation opened
 **Type:** infra
@@ -7294,7 +7030,6 @@ Log TRIGGER-17 as fired in state/chg-triggers.json."
 **Category:** data
 ---
 
-
 ## 2026-05-21 12:08 AEST — [CHG-0420] EOD Blog Format Drift Since 2026-05-18 — Restore to Approved Template
 **Type:** data
 **Change Type:** Normal
@@ -7308,7 +7043,6 @@ Log TRIGGER-17 as fired in state/chg-triggers.json."
 **Category:** data
 ---
 
-
 ## 2026-05-21 11:38 AEST — [CHG-0419] RTB: auto-heal Check #12 interim-drift exceptions + obs-collector error pattern filter
 **Type:** config
 **Change Type:** Normal
@@ -7320,7 +7054,6 @@ Log TRIGGER-17 as fired in state/chg-triggers.json."
 **Rollback:** N/A
 **Linked:** none
 ---
-
 
 ## 2026-05-21 11:32 AEST — [CHG-0418] TRIGGER-06: Critical config baseline re-based to interim-period Ollama Cloud assignments
 **Type:** config
@@ -7334,7 +7067,6 @@ Log TRIGGER-17 as fired in state/chg-triggers.json."
 **Linked:** none
 ---
 
-
 ## 2026-05-19 10:47 AEST — [CHG-0417] CHG-0417: Drive Upload Discipline — --parent flag mandatory for all agents
 **Type:** rule
 **Change Type:** Normal
@@ -7346,7 +7078,6 @@ Log TRIGGER-17 as fired in state/chg-triggers.json."
 **Rollback:** N/A
 **Linked:** none
 ---
-
 
 ## 2026-05-19 10:42 AEST — [CHG-0416] CHG-0410: LinkedIn State File Consolidation — Single SSOT
 **Type:** data
@@ -7360,7 +7091,6 @@ Log TRIGGER-17 as fired in state/chg-triggers.json."
 **Linked:** none
 ---
 
-
 ## 2026-05-18 21:39 AEST — [CHG-0404] Async Background Execution Rule — webchat must never be blocked by long-running tasks
 **Type:** rule
 **Change Type:** Normal
@@ -7372,7 +7102,6 @@ Log TRIGGER-17 as fired in state/chg-triggers.json."
 **Rollback:** N/A
 **Linked:** none
 ---
-
 
 ## 2026-05-18 21:34 AEST — [CHG-0403] Heartbeat AUTO-HEAL pipeline routed to DB B — separate from sprint backlog
 **Type:** rule
@@ -7386,7 +7115,6 @@ Log TRIGGER-17 as fired in state/chg-triggers.json."
 **Linked:** none
 ---
 
-
 ## 2026-05-18 21:20 AEST — [CHG-0402] ticket.sh close now auto-archives to DB C (Completed-Archived) on close
 **Type:** script
 **Change Type:** Normal
@@ -7398,7 +7126,6 @@ Log TRIGGER-17 as fired in state/chg-triggers.json."
 **Rollback:** N/A
 **Linked:** none
 ---
-
 
 ## 2026-05-18 16:47 AEST — [CHG-0401] Notion 3-DB architecture: A(Backlog) B(Auto-Heal) C(Archive) — DBs created, migrated, routed
 **Type:** config
@@ -7412,7 +7139,6 @@ Log TRIGGER-17 as fired in state/chg-triggers.json."
 **Linked:** none
 ---
 
-
 ## 2026-05-18 12:53 AEST — [CHG-0400] ticket.sh permanent corruption fix — echo→printf + 5-guard atomic_write
 **Type:** script
 **Change Type:** Normal
@@ -7424,7 +7150,6 @@ Log TRIGGER-17 as fired in state/chg-triggers.json."
 **Rollback:** N/A
 **Linked:** none
 ---
-
 
 ## 2026-05-18 12:01 AEST — [CHG-0399] Sprint 4 commitment restored — 9 items recovered from CHG-0369
 **Type:** data
@@ -7438,7 +7163,6 @@ Log TRIGGER-17 as fired in state/chg-triggers.json."
 **Linked:** none
 ---
 
-
 ## 2026-05-18 11:55 AEST — [CHG-0398] Telegram Message Chunking Rule — mandatory for all agents
 **Type:** rule
 **Change Type:** Normal
@@ -7450,7 +7174,6 @@ Log TRIGGER-17 as fired in state/chg-triggers.json."
 **Rollback:** N/A
 **Linked:** none
 ---
-
 
 ## 2026-05-18 11:47 AEST — [CHG-0397] Auto allowlist sync -- Tier 2 propagation (strategy-update)
 **Type:** config
@@ -7464,7 +7187,6 @@ Log TRIGGER-17 as fired in state/chg-triggers.json."
 **Linked:** none
 ---
 
-
 ## 2026-05-18 11:44 AEST — [CHG-0396] Forge cron audit — stale crons cleaned, task monitor timeout fixed, model references updated
 **Type:** config
 **Change Type:** Normal
@@ -7477,7 +7199,6 @@ Log TRIGGER-17 as fired in state/chg-triggers.json."
 **Linked:** none
 ---
 
-
 ## 2026-05-18 11:40 AEST — [CHG-0395] Warden model policy permanent baseline update — kimi interim decommissioned
 **Type:** config
 **Change Type:** Normal
@@ -7489,8 +7210,6 @@ Log TRIGGER-17 as fired in state/chg-triggers.json."
 **Rollback:** N/A
 **Linked:** none
 ---
-
-
 
 ## 2026-05-15 13:10 AEST — [CHG-0175] Calculated cost fallback for ephemeral sessions
 **Type:** feature
@@ -7544,7 +7263,6 @@ Log TRIGGER-17 as fired in state/chg-triggers.json."
 - **Verified:** Report saved to state/ci-cycle-1A-report.md, Telegram sent to Ken (msg_id=1054)
 - **Rollback:** N/A
 - **Links:** state/ci-cycle-1A-report.md
-
 
 # AInchors Change Log
 _Established: 2026-04-27 | Owner: Yoda 🟢 | Append-only, reverse-chronological_
@@ -7602,7 +7320,6 @@ This log captures **every change** Yoda makes to AInchors infrastructure, config
 **Linked:** none
 ---
 
-
 ## 2026-05-16 12:47 AEST — [CHG-0359] Auto allowlist sync -- Tier 2 propagation (strategy-update)
 **Type:** config
 **Change Type:** Normal
@@ -7614,7 +7331,6 @@ This log captures **every change** Yoda makes to AInchors infrastructure, config
 **Rollback:** N/A
 **Linked:** none
 ---
-
 
 ## 2026-05-16 10:42 AEST — [CHG-0356] CI Cycle 2A Complete — Cycle 3A Started
 **Type:** cron
@@ -7628,7 +7344,6 @@ This log captures **every change** Yoda makes to AInchors infrastructure, config
 **Linked:** none
 ---
 
-
 ## 2026-05-16 06:01 AEST — [CHG-0353] OpenClaw v2026.5.12 HIGH security patch detected by TRIGGER-04
 **Type:** doc
 **Change Type:** Standard
@@ -7640,7 +7355,6 @@ This log captures **every change** Yoda makes to AInchors infrastructure, config
 **Rollback:** N/A
 **Linked:** none
 ---
-
 
 ## 2026-05-15 19:17 AEST — [CHG-0352] Standby mode: Anthropic API unreachable (502). Agents already on kimi — no impact.
 **Type:** config
@@ -7654,7 +7368,6 @@ This log captures **every change** Yoda makes to AInchors infrastructure, config
 **Linked:** none
 ---
 
-
 ## 2026-05-15 18:29 AEST — [CHG-0351] Model Emergency Runbook v1.0 APPROVED by Ken Mun
 **Type:** rule
 **Change Type:** Normal
@@ -7666,7 +7379,6 @@ This log captures **every change** Yoda makes to AInchors infrastructure, config
 **Rollback:** N/A
 **Linked:** none
 ---
-
 
 ## 2026-05-15 18:24 AEST — [CHG-0350] Interim conservative mode: NO risky state manipulation without explicit Ken approval
 **Type:** config
@@ -7680,7 +7392,6 @@ This log captures **every change** Yoda makes to AInchors infrastructure, config
 **Linked:** none
 ---
 
-
 ## 2026-05-15 18:19 AEST — [CHG-0349] CHG-0348: INTERIM — all agents switched to kimi→gemma4→deepseek-pro. Claude API credits depleted.
 **Type:** config
 **Change Type:** Emergency
@@ -7692,7 +7403,6 @@ This log captures **every change** Yoda makes to AInchors infrastructure, config
 **Rollback:** N/A
 **Linked:** none
 ---
-
 
 ## 2026-05-15 17:20 AEST — [CHG-0348] EMERGENCY: All agents switched to kimi — Claude API credits depleted
 **Type:** config
@@ -7706,7 +7416,6 @@ This log captures **every change** Yoda makes to AInchors infrastructure, config
 **Linked:** none
 ---
 
-
 ## 2026-05-15 14:44 AEST — [CHG-0347] Telegram reverted to Sonnet (main) — kimi risk outweighs cost saving. CHG-0347
 **Type:** config
 **Change Type:** Normal
@@ -7718,7 +7427,6 @@ This log captures **every change** Yoda makes to AInchors infrastructure, config
 **Rollback:** N/A
 **Linked:** none
 ---
-
 
 ## 2026-05-15 14:30 AEST — [CHG-0346] TKT-0160 CLOSED — Channel-agnostic orchestration: Option C + context brief accepted for P1
 **Type:** rule
@@ -7732,7 +7440,6 @@ This log captures **every change** Yoda makes to AInchors infrastructure, config
 **Linked:** none
 ---
 
-
 ## 2026-05-15 14:29 AEST — [CHG-0345] tickets.json rebuilt: deduped + TKT-0178 to TKT-0199 restored after corruption
 **Type:** data
 **Change Type:** Normal
@@ -7744,7 +7451,6 @@ This log captures **every change** Yoda makes to AInchors infrastructure, config
 **Rollback:** N/A
 **Linked:** none
 ---
-
 
 ## 2026-05-15 14:11 AEST — [CHG-0344] Hybrid Option D: Telegram unified into main session (dmScope:main) — TKT-0184 CLOSED
 **Type:** config
@@ -7758,7 +7464,6 @@ This log captures **every change** Yoda makes to AInchors infrastructure, config
 **Linked:** none
 ---
 
-
 ## 2026-05-15 13:24 AEST — [CHG-0343] Yoda Telegram context brief + 30-min refresh cron
 **Type:** config
 **Change Type:** Normal
@@ -7770,7 +7475,6 @@ This log captures **every change** Yoda makes to AInchors infrastructure, config
 **Rollback:** N/A
 **Linked:** none
 ---
-
 
 ## 2026-05-15 13:03 AEST — [CHG-0342] SOUL.md: channel-state.json write rule made explicit with Python snippet — kimi Telegram gap fixed
 **Type:** config
@@ -7784,7 +7488,6 @@ This log captures **every change** Yoda makes to AInchors infrastructure, config
 **Linked:** none
 ---
 
-
 ## 2026-05-15 12:38 AEST — [CHG-0341] tickets.json deduplication — 14 colliding IDs renumbered to TKT-0186+
 **Type:** data
 **Change Type:** Normal
@@ -7796,7 +7499,6 @@ This log captures **every change** Yoda makes to AInchors infrastructure, config
 **Rollback:** Restore from tickets.json.bak-pre-dedup-* backup file in state/
 **Linked:** TKT-0183
 ---
-
 
 ## 2026-05-15 12:26 AEST — [CHG-0340] Telegram Yoda → kimi model via yoda-telegram agent (TKT-0160 model gap fix)
 **Type:** config
@@ -7810,7 +7512,6 @@ This log captures **every change** Yoda makes to AInchors infrastructure, config
 **Linked:** none
 ---
 
-
 ## 2026-05-15 12:25 AEST — [CHG-0339] TKT-0185: LinkedIn queue consolidation — single SSOT
 **Type:** data
 **Change Type:** Normal
@@ -7822,7 +7523,6 @@ This log captures **every change** Yoda makes to AInchors infrastructure, config
 **Rollback:** N/A
 **Linked:** TKT-0185, TKT-0162
 ---
-
 
 ## 2026-05-15 11:52 AEST — [CHG-0337] Skill audit v2: 6 BLOCK findings reviewed — all false positives, marked clean-5-low-fp
 **Type:** rule
@@ -7836,7 +7536,6 @@ This log captures **every change** Yoda makes to AInchors infrastructure, config
 **Linked:** none
 ---
 
-
 ## 2026-05-15 11:47 AEST — [CHG-0336] kimi pilot reverted: webchat + telegram → Sonnet. kimi = standup ONLY.
 **Type:** config
 **Change Type:** Normal
@@ -7848,7 +7547,6 @@ This log captures **every change** Yoda makes to AInchors infrastructure, config
 **Rollback:** N/A
 **Linked:** none
 ---
-
 
 ## 2026-05-15 11:37 AEST — [CHG-0335] TKT-0141/0142/0180 CLOSED — Skill security complete: policy + audit v2 + weekly cron
 **Type:** rule
@@ -7862,7 +7560,6 @@ This log captures **every change** Yoda makes to AInchors infrastructure, config
 **Linked:** none
 ---
 
-
 ## 2026-05-15 11:26 AEST — [CHG-0334] audit-skill.sh v2: Add 5 new security checks (TKT-0180)
 **Type:** script
 **Change Type:** Normal
@@ -7874,7 +7571,6 @@ This log captures **every change** Yoda makes to AInchors infrastructure, config
 **Rollback:** Revert scripts/audit-skill.sh to v1 backup; remove state/skill-url-allowlist.json
 **Linked:** TKT-0180, TKT-0141, TKT-0142, CHG-0270
 ---
-
 
 ## 2026-05-15 11:02 AEST — [CHG-0333] TKT-0181 committed: Gemma4 fine-tuning research — P3 boundary, Thrawn owner
 **Type:** rule
@@ -7888,7 +7584,6 @@ This log captures **every change** Yoda makes to AInchors infrastructure, config
 **Linked:** none
 ---
 
-
 ## 2026-05-15 10:46 AEST — [CHG-0332] ClawGuard deferred to P2 — TKT-0180 (audit-skill.sh v2) addresses TKT-0142 now
 **Type:** rule
 **Change Type:** Normal
@@ -7900,7 +7595,6 @@ This log captures **every change** Yoda makes to AInchors infrastructure, config
 **Rollback:** N/A
 **Linked:** none
 ---
-
 
 ## 2026-05-15 10:41 AEST — [CHG-0331] TKT-0180 committed: audit-skill.sh v2 enhancement — 5 new semantic checks
 **Type:** rule
@@ -7914,7 +7608,6 @@ This log captures **every change** Yoda makes to AInchors infrastructure, config
 **Linked:** none
 ---
 
-
 ## 2026-05-15 10:34 AEST — [CHG-0330] TKT-0178 deferred: routing enforcement deferred until post-Citadel. Ken approved.
 **Type:** rule
 **Change Type:** Normal
@@ -7926,7 +7619,6 @@ This log captures **every change** Yoda makes to AInchors infrastructure, config
 **Rollback:** N/A
 **Linked:** none
 ---
-
 
 ## 2026-05-15 10:23 AEST — [CHG-0329] LI-C1-W2-P1 v3 approved — AIOps Part 1/6, scheduled Tue 19 May 07:30 AEST
 **Type:** rule
@@ -7940,7 +7632,6 @@ This log captures **every change** Yoda makes to AInchors infrastructure, config
 **Linked:** none
 ---
 
-
 ## 2026-05-15 09:54 AEST — [CHG-0328] Google Drive folder rule: NEVER upload to root. Folder map established. Docs moved.
 **Type:** rule
 **Change Type:** Normal
@@ -7952,7 +7643,6 @@ This log captures **every change** Yoda makes to AInchors infrastructure, config
 **Rollback:** N/A
 **Linked:** none
 ---
-
 
 ## 2026-05-15 09:44 AEST — [CHG-0327] auto-heal.sh: journal false positive fixed — today's journal check removed at 01:00 AEST
 **Type:** script
@@ -7966,7 +7656,6 @@ This log captures **every change** Yoda makes to AInchors infrastructure, config
 **Linked:** none
 ---
 
-
 ## 2026-05-15 09:42 AEST — [CHG-0326] model-policy.json: CHG-0270 format fix + stale model updates — Warden false positives resolved
 **Type:** config
 **Change Type:** Normal
@@ -7978,7 +7667,6 @@ This log captures **every change** Yoda makes to AInchors infrastructure, config
 **Rollback:** N/A
 **Linked:** CHG-0270,CHG-0228
 ---
-
 
 ## 2026-05-15 09:39 AEST — [CHG-0325] Gateway restart: weekly → nightly 03:00 AEST. TKT-0177 raised for root cause investigation.
 **Type:** config
@@ -7992,7 +7680,6 @@ This log captures **every change** Yoda makes to AInchors infrastructure, config
 **Linked:** TKT-0177,TKT-0174,CHG-0320
 ---
 
-
 ## 2026-05-14 22:52 AEST — [CHG-0324] cost-tracker.sh: STREAM_MAP + by_stream updated — all 12 agents correctly classified
 **Type:** script
 **Change Type:** Normal
@@ -8004,7 +7691,6 @@ This log captures **every change** Yoda makes to AInchors infrastructure, config
 **Rollback:** N/A
 **Linked:** TKT-0175
 ---
-
 
 ## 2026-05-14 22:45 AEST — [CHG-0323] Work Currency routing: 4 high-frequency crons moved off main Sonnet session
 **Type:** config
@@ -8018,7 +7704,6 @@ This log captures **every change** Yoda makes to AInchors infrastructure, config
 **Linked:** TKT-0165,CHG-0268
 ---
 
-
 ## 2026-05-14 22:32 AEST — [CHG-0322] linkedin-post.sh: --queue-content-id flag added — captures activity URN in queue after posting
 **Type:** script
 **Change Type:** Normal
@@ -8030,7 +7715,6 @@ This log captures **every change** Yoda makes to AInchors infrastructure, config
 **Rollback:** N/A
 **Linked:** TKT-0039
 ---
-
 
 ## 2026-05-14 16:50 AEST — [CHG-0321] TKT-0174: Gateway hygiene — Mission Control 15min, weekly restart cron, stale task cleanup cron
 **Type:** infra
@@ -8044,7 +7728,6 @@ This log captures **every change** Yoda makes to AInchors infrastructure, config
 **Linked:** TKT-0174,CHG-0320
 ---
 
-
 ## 2026-05-14 16:42 AEST — [CHG-0320] Gateway restart — event loop saturation (28387ms delay, 98.3% utilisation)
 **Type:** infra
 **Change Type:** Emergency
@@ -8056,7 +7739,6 @@ This log captures **every change** Yoda makes to AInchors infrastructure, config
 **Rollback:** N/A
 **Linked:** none
 ---
-
 
 ## 2026-05-14 12:50 AEST — [CHG-0319] Golden Blueprint cadence rules and triggers established
 **Type:** rule
@@ -8070,7 +7752,6 @@ This log captures **every change** Yoda makes to AInchors infrastructure, config
 **Linked:** TKT-0172,TKT-0173,CHG-0318
 ---
 
-
 ## 2026-05-14 12:40 AEST — [CHG-0318] Golden blueprints approved + locked — Technology Strategy & System Architecture finalized
 **Type:** doc
 **Change Type:** Normal
@@ -8082,7 +7763,6 @@ This log captures **every change** Yoda makes to AInchors infrastructure, config
 **Rollback:** N/A
 **Linked:** TKT-0172,TKT-0173,CHG-0315,CHG-0316,CHG-0317
 ---
-
 
 ## 2026-05-14 12:22 AEST — [CHG-0317] TKT-0172: Technology Strategy & Roadmap v1.0 External (1b) produced
 **Type:** doc
@@ -8096,7 +7776,6 @@ This log captures **every change** Yoda makes to AInchors infrastructure, config
 **Linked:** TKT-0172,CHG-0316
 ---
 
-
 ## 2026-05-14 12:16 AEST — [CHG-0316] TKT-0172: Technology Strategy & Roadmap v1.0 Internal produced
 **Type:** doc
 **Change Type:** Normal
@@ -8108,7 +7787,6 @@ This log captures **every change** Yoda makes to AInchors infrastructure, config
 **Rollback:** N/A
 **Linked:** TKT-0172,TKT-0162,CHG-0308
 ---
-
 
 ## 2026-05-14 12:12 AEST — [CHG-0315] TKT-0172/0173: Technology Strategy & Roadmap (1a) + System Architecture Document produced
 **Type:** doc
@@ -8122,7 +7800,6 @@ This log captures **every change** Yoda makes to AInchors infrastructure, config
 **Linked:** TKT-0172,TKT-0173,TKT-0162,CHG-0308
 ---
 
-
 ## 2026-05-14 12:10 AEST — [CHG-0314] Nexus System Architecture Document v1.0 — TKT-0173
 **Type:** doc
 **Change Type:** Normal
@@ -8134,7 +7811,6 @@ This log captures **every change** Yoda makes to AInchors infrastructure, config
 **Rollback:** N/A
 **Linked:** TKT-0173, TKT-0046, TKT-0104, TKT-0162, CHG-0308
 ---
-
 
 ## 2026-05-14 11:40 AEST — [CHG-0313] Cost investigation: 3 quick wins applied, TKT-0165 data feed complete
 **Type:** config
@@ -8148,7 +7824,6 @@ This log captures **every change** Yoda makes to AInchors infrastructure, config
 **Linked:** TKT-0165, state/cost-investigation-2026-05-14.json
 ---
 
-
 ## 2026-05-14 11:33 AEST — [CHG-0312] Daily budget cap raised $150→$450 (temp, until Sun 17 May)
 **Type:** config
 **Change Type:** Normal
@@ -8160,7 +7835,6 @@ This log captures **every change** Yoda makes to AInchors infrastructure, config
 **Rollback:** N/A
 **Linked:** CHG-0268,TKT-0165
 ---
-
 
 ## 2026-05-14 10:55 AEST — [CHG-0311] Grooming session complete — backlog bucketed, Sprint 4 locked, sprint plan S4-S8 confirmed
 **Type:** rule
@@ -8174,7 +7848,6 @@ This log captures **every change** Yoda makes to AInchors infrastructure, config
 **Linked:** TKT-0162,CHG-0308,CHG-0309,CHG-0310
 ---
 
-
 ## 2026-05-14 10:47 AEST — [CHG-0310] Sprint 4 committed — Security close-out + Phase 1 quick wins
 **Type:** rule
 **Change Type:** Normal
@@ -8186,7 +7859,6 @@ This log captures **every change** Yoda makes to AInchors infrastructure, config
 **Rollback:** N/A
 **Linked:** TKT-0162,CHG-0308,CHG-0309
 ---
-
 
 ## 2026-05-14 10:38 AEST — [CHG-0309] TKT-0162 D4: Work Breakdown + KRI Dashboard + Phase 1 Tickets (Option B Architecture)
 **Type:** doc
@@ -8200,7 +7872,6 @@ This log captures **every change** Yoda makes to AInchors infrastructure, config
 **Linked:** TKT-0162, TKT-0104, TKT-0046, TKT-0164–TKT-0171
 ---
 
-
 ## 2026-05-14 10:28 AEST — [CHG-0308] TKT-0162 Option Paper approved — Option B phased delivery, all 5 decisions confirmed
 **Type:** doc
 **Change Type:** Normal
@@ -8212,7 +7883,6 @@ This log captures **every change** Yoda makes to AInchors infrastructure, config
 **Rollback:** N/A
 **Linked:** TKT-0162,TKT-0104,TKT-0046
 ---
-
 
 ## 2026-05-14 09:52 AEST — [CHG-0307] TKT-0162 Option Paper Amendment: Section 2.4 LLM Cost Topology + Work Currency Model
 **Type:** doc
@@ -8226,7 +7896,6 @@ This log captures **every change** Yoda makes to AInchors infrastructure, config
 **Linked:** TKT-0162, TKT-0104
 ---
 
-
 ## 2026-05-14 09:39 AEST — [CHG-0306] Config baseline updated for CHG-0270 model format + kimi safety net + CHG-0228 Haiku governance
 **Type:** config
 **Change Type:** Normal
@@ -8238,7 +7907,6 @@ This log captures **every change** Yoda makes to AInchors infrastructure, config
 **Rollback:** N/A
 **Linked:** CHG-0270,CHG-0228
 ---
-
 
 ## 2026-05-14 09:14 AEST — [CHG-0305] LinkedIn MDP approved — token refreshed, analytics scopes activated
 **Type:** config
@@ -8252,7 +7920,6 @@ This log captures **every change** Yoda makes to AInchors infrastructure, config
 **Linked:** TKT-0039
 ---
 
-
 ## 2026-05-14 08:11 AEST — [CHG-0304] TKT-0162: Nexus Architecture Direction Option Paper produced
 **Type:** doc
 **Change Type:** Normal
@@ -8264,7 +7931,6 @@ This log captures **every change** Yoda makes to AInchors infrastructure, config
 **Rollback:** N/A
 **Linked:** TKT-0162, TKT-0104, TKT-0046, CHG-0234
 ---
-
 
 ## 2026-05-13 21:38 AEST — [CHG-0303] Channel Discipline Rule — Yoda Context Unification
 **Type:** rule
@@ -8278,7 +7944,6 @@ This log captures **every change** Yoda makes to AInchors infrastructure, config
 **Linked:** TKT-0161 (Sprint 3 operational), TKT-0160 (Sprint 4 permanent fix)
 ---
 
-
 ## 2026-05-12 22:16 AEST — [CHG-0302] QW-4 to QW-8: uptime log, CIR Notion, change type rule, ITIL headers, PRB-001
 **Type:** script
 **Change Type:** Standard
@@ -8291,7 +7956,6 @@ This log captures **every change** Yoda makes to AInchors infrastructure, config
 **Linked:** QW-4 QW-5 QW-6 QW-7 QW-8
 ---
 
-
 ## 2026-05-12 21:51 AEST — [CHG-0301] AUTO-HEAL Notion tickets always created with status Done -- informational records not backlog
 **Type:** rule
 **Source:** ken-prompt
@@ -8302,7 +7966,6 @@ This log captures **every change** Yoda makes to AInchors infrastructure, config
 **Rollback:** Revert HEARTBEAT.md AUTO-HEAL section.
 **Linked:** 13 AUTO-HEAL items closed today; HEARTBEAT.md
 ---
-
 
 ## 2026-05-12 21:21 AEST — [CHG-0300] Backlog cleanup: TKT-0051/0102 closed, Holocron registry 28 Drive links added
 **Type:** doc
@@ -8315,7 +7978,6 @@ This log captures **every change** Yoda makes to AInchors infrastructure, config
 **Linked:** TKT-0051 TKT-0053 TKT-0102; Holocron Document Registry CHG-0299
 ---
 
-
 ## 2026-05-12 21:15 AEST — [CHG-0299] Holocron Document Registry DoD rule -- all agent docs must be registered
 **Type:** rule
 **Source:** ken-prompt
@@ -8326,7 +7988,6 @@ This log captures **every change** Yoda makes to AInchors infrastructure, config
 **Rollback:** Remove HOLOCRON DOCUMENT REGISTRY RULE from RULES.md and agent files.
 **Linked:** Atlas-Fabric-RAG-Assessment; Holocron Document Registry; CHG-0297
 ---
-
 
 ## 2026-05-12 21:07 AEST — [CHG-0298] Fabric RAG Assessment approved -- DEFER-CLI, Atlas A3 pattern governance, /patterns/ library created
 **Type:** doc
@@ -8339,7 +8000,6 @@ This log captures **every change** Yoda makes to AInchors infrastructure, config
 **Linked:** Atlas-Fabric-RAG-Assessment; TKT-0153; DataMemory_P1P4_Roadmap.md
 ---
 
-
 ## 2026-05-12 20:43 AEST — [CHG-0297] Routing Discipline Rule -- Yoda orchestrates only, TOM gap awareness mandatory
 **Type:** rule
 **Source:** ken-prompt
@@ -8350,7 +8010,6 @@ This log captures **every change** Yoda makes to AInchors infrastructure, config
 **Rollback:** Remove ROUTING DISCIPLINE RULE sections.
 **Linked:** L-030; TKT-0130 (QBR agent fleet review); CHG-0291
 ---
-
 
 ## 2026-05-12 20:31 AEST — [CHG-0296] TKT-0161: Drive restructure complete + Review Queue workflow rule
 **Type:** infra
@@ -8363,7 +8022,6 @@ This log captures **every change** Yoda makes to AInchors infrastructure, config
 **Linked:** TKT-0161; File-Routing-Policy-v1.0.md; CHG-0292
 ---
 
-
 ## 2026-05-12 17:48 AEST — [CHG-0295] S5 fix: removed stale Anthropic key from 6 agent auth-profiles.json files
 **Type:** infra
 **Source:** ken-prompt
@@ -8374,7 +8032,6 @@ This log captures **every change** Yoda makes to AInchors infrastructure, config
 **Rollback:** Re-add anthropic:default with Keychain key to auth-profiles if OpenClaw requires explicit entry. Key available from Keychain.
 **Linked:** TKT-0156; CHG-0151 (key rotation Day 8); S5 control
 ---
-
 
 ## 2026-05-12 17:44 AEST — [CHG-0294] TKT-0154: CI Cycle A batch reduced 4→2 tasks, timeout 600→300s
 **Type:** cron
@@ -8387,7 +8044,6 @@ This log captures **every change** Yoda makes to AInchors infrastructure, config
 **Linked:** TKT-0154; CI Cycle A; CHG-0285
 ---
 
-
 ## 2026-05-12 17:21 AEST — [CHG-0293] TKT-0137 AC1 approved — Governance Gap Analysis LIVE, 7 ODs resolved, Tier3 agents enrolled
 **Type:** doc
 **Source:** ken-prompt
@@ -8398,7 +8054,6 @@ This log captures **every change** Yoda makes to AInchors infrastructure, config
 **Rollback:** Not applicable.
 **Linked:** TKT-0137 TKT-0167 TKT-0168; Nexus-Access-Policy; Governance-Gap-Analysis
 ---
-
 
 ## 2026-05-12 17:13 AEST — [CHG-0292] Nexus-Access-Policy-v1.0.md APPROVED — Nexus Operations Mandate live
 **Type:** doc
@@ -8411,7 +8066,6 @@ This log captures **every change** Yoda makes to AInchors infrastructure, config
 **Linked:** TKT-0161 TKT-0167 TKT-0168; Nexus-Access-Policy-v1.0.md
 ---
 
-
 ## 2026-05-12 12:37 AEST — [CHG-0290] Strategy-gate rule + Decision Registry + full decision grooming session (DEC-001 to DEC-019)
 **Type:** rule
 **Source:** ken-prompt
@@ -8422,7 +8076,6 @@ This log captures **every change** Yoda makes to AInchors infrastructure, config
 **Rollback:** Remove STRATEGY-GATE RULE from RULES.md and AGENTS.md.
 **Linked:** TKT-0157 TKT-0158 TKT-0159; DEC-001 to DEC-019; CHG-0289
 ---
-
 
 ## 2026-05-12 10:55 AEST — [CHG-0289] Ticket discipline + DoD gate -- all agents must use ticket.sh, never direct JSON writes
 **Type:** rule
@@ -8435,7 +8088,6 @@ This log captures **every change** Yoda makes to AInchors infrastructure, config
 **Linked:** TKT-0144 TKT-0154 TKT-0155 TKT-0156; CHG-0287; Day 18
 ---
 
-
 ## 2026-05-12 10:47 AEST — [CHG-0288] linkedin-post.sh: strip ## section headings from extracted post body
 **Type:** script
 **Source:** ken-prompt
@@ -8446,7 +8098,6 @@ This log captures **every change** Yoda makes to AInchors infrastructure, config
 **Rollback:** Remove the startswith check from linkedin-post.sh extraction loop.
 **Linked:** LI-C1-W2-P2; CHG-0286; AIOps Part 2/6
 ---
-
 
 ## 2026-05-12 10:40 AEST — [CHG-0287] Full routing rule enforcement -- Drive uploads, generic canvas sync, 10 agent RULES.md patched
 **Type:** rule
@@ -8459,7 +8110,6 @@ This log captures **every change** Yoda makes to AInchors infrastructure, config
 **Linked:** CHG-0283 CHG-0284 CHG-0286; TKT-0027; File-Routing-Policy-v1.0.md
 ---
 
-
 ## 2026-05-12 10:28 AEST — [CHG-0286] Spark: image required on every LinkedIn post -- ChatGPT prompt + send-image-back approval flow
 **Type:** rule
 **Source:** ken-prompt
@@ -8470,7 +8120,6 @@ This log captures **every change** Yoda makes to AInchors infrastructure, config
 **Rollback:** Revert SPARK_RULES.md image sections to optional flag workflow.
 **Linked:** TKT-0121; CHG-0285; LinkedIn AIOps Part 2
 ---
-
 
 ## 2026-05-12 10:22 AEST — [CHG-0285] TKT-0155: MinIO migrated from Docker/Colima to native macOS binary + tailscale serve HTTPS
 **Type:** infra
@@ -8483,7 +8132,6 @@ This log captures **every change** Yoda makes to AInchors infrastructure, config
 **Linked:** TKT-0155; TKT-0124; CHG-0283 CHG-0284
 ---
 
-
 ## 2026-05-12 10:08 AEST — [CHG-0284] MinIO URL rule -- Tailscale FQDN only, never s3:// or IP address
 **Type:** rule
 **Source:** ken-prompt
@@ -8494,7 +8142,6 @@ This log captures **every change** Yoda makes to AInchors infrastructure, config
 **Rollback:** Remove MinIO URL rule sections from RULES.md and AGENTS.md.
 **Linked:** CHG-0283; MinIO TKT-0124; Day 18
 ---
-
 
 ## 2026-05-12 10:07 AEST — [CHG-0283] MinIO folder structure by business function + agent routing policy
 **Type:** infra
@@ -8507,7 +8154,6 @@ This log captures **every change** Yoda makes to AInchors infrastructure, config
 **Linked:** TKT-0124 MinIO; CHG-0282; Day 18
 ---
 
-
 ## 2026-05-12 08:35 AEST — [CHG-0282] Canonical RTB prompt spec applied to Kimi and Gemma4 -- fair model comparison from Day 19
 **Type:** cron
 **Source:** ken-prompt
@@ -8518,7 +8164,6 @@ This log captures **every change** Yoda makes to AInchors infrastructure, config
 **Rollback:** Restore previous Kimi/Gemma4 cron prompts from git history.
 **Linked:** TKT-0134; Day 18 standup inconsistency; CHG-0280 CHG-0281
 ---
-
 
 ## 2026-05-12 08:28 AEST — [CHG-0281] Absolute file path rule for all agents -- no tilde, no relative paths in tool calls
 **Type:** rule
@@ -8531,7 +8176,6 @@ This log captures **every change** Yoda makes to AInchors infrastructure, config
 **Linked:** CHG-0280; standup write failure Days 17+18; TKT-0154
 ---
 
-
 ## 2026-05-12 08:25 AEST — [CHG-0280] Standup cron: fix write failure caused by ~ path in isolated session
 **Type:** cron
 **Source:** ken-prompt
@@ -8542,7 +8186,6 @@ This log captures **every change** Yoda makes to AInchors infrastructure, config
 **Rollback:** Revert standup cron prompt path rule section.
 **Linked:** consecutiveErrors=2; Day 17+18 standup HTML failure
 ---
-
 
 ## 2026-05-12 08:21 AEST — [CHG-0279] Obs verbosity audit — Warden per-agent ERRORs collapsed to single summary + auto-resolve stale violations
 **Type:** script
@@ -8555,7 +8198,6 @@ This log captures **every change** Yoda makes to AInchors infrastructure, config
 **Linked:** CHG-0278; Day 18 standup; Warden consecutiveClean=50
 ---
 
-
 ## 2026-05-12 07:16 AEST — [CHG-0278] Incremental journal writer — 30-min cron, prevents session compaction data loss
 **Type:** cron
 **Source:** ken-prompt
@@ -8566,7 +8208,6 @@ This log captures **every change** Yoda makes to AInchors infrastructure, config
 **Rollback:** Remove cron 1b853131. Restore EOD cron to previous full-rebuild prompt.
 **Linked:** Day 17 journal 41 not-recovered entries; Ken feedback 2026-05-12
 ---
-
 
 ## 2026-05-11 23:18 AEST — [CHG-0277] Option B: Tiered memory split — MEMORY.md + MEMORY_TICKETS.md + MEMORY_DECISIONS.md
 **Type:** data
@@ -8579,7 +8220,6 @@ This log captures **every change** Yoda makes to AInchors infrastructure, config
 **Linked:** none
 ---
 
-
 ## 2026-05-10 20:43 AEST — [CHG-0272] Option C Decision 6B: Two-layer RULES architecture — YODA_RUNBOOK.md + YODA_RULES.md
 **Type:** rule
 **Source:** ken-prompt
@@ -8590,7 +8230,6 @@ This log captures **every change** Yoda makes to AInchors infrastructure, config
 **Rollback:** N/A
 **Linked:** TKT-0141
 ---
-
 
 ## 2026-05-10 20:42 AEST — [CHG-0271] Option C Phase 1: SOUL.md v2.1.0 adopted, ORCHESTRATOR.md added, Forge name confirmed
 **Type:** rule
@@ -8603,7 +8242,6 @@ This log captures **every change** Yoda makes to AInchors infrastructure, config
 **Linked:** TKT-0141
 ---
 
-
 ## 2026-05-10 17:37 AEST — [CHG-0270] Skill Installation Policy v1.0 + audit-skill.sh + skill registry
 **Type:** script
 **Source:** ken-prompt
@@ -8614,7 +8252,6 @@ This log captures **every change** Yoda makes to AInchors infrastructure, config
 **Rollback:** N/A
 **Linked:** TKT-0141, TKT-0142
 ---
-
 
 ## 2026-05-10 17:29 AEST — [CHG-0269] TKT-0142: SKILL.md security audit — 63 files scanned, no malicious content found
 **Type:** doc
@@ -8627,7 +8264,6 @@ This log captures **every change** Yoda makes to AInchors infrastructure, config
 **Linked:** TKT-0141, TKT-0142
 ---
 
-
 ## 2026-05-10 17:02 AEST — [CHG-0268] Raise main agent daily budget cap $80 → $150
 **Type:** config
 **Source:** ken-prompt
@@ -8638,7 +8274,6 @@ This log captures **every change** Yoda makes to AInchors infrastructure, config
 **Rollback:** N/A
 **Linked:** none
 ---
-
 
 ## 2026-05-10 16:11 AEST — [CHG-0267] TKT-0140: obs-collector dedup guard + 24h lookback cap on state reset
 **Type:** script
@@ -8651,7 +8286,6 @@ This log captures **every change** Yoda makes to AInchors infrastructure, config
 **Linked:** TKT-0140, TKT-0112
 ---
 
-
 ## 2026-05-10 13:41 AEST — [CHG-0266] TKT-0112: obs-collector phantom delegation_fail + cron_run_fail dedup
 **Type:** script
 **Source:** ken-prompt
@@ -8662,7 +8296,6 @@ This log captures **every change** Yoda makes to AInchors infrastructure, config
 **Rollback:** N/A
 **Linked:** TKT-0112
 ---
-
 
 ## 2026-05-10 13:39 AEST — [CHG-0265] TKT-0124: Hybrid storage model — Google Drive (human) + MinIO (agent)
 **Type:** doc
@@ -8675,7 +8308,6 @@ This log captures **every change** Yoda makes to AInchors infrastructure, config
 **Linked:** TKT-0124
 ---
 
-
 ## 2026-05-10 13:21 AEST — [CHG-0264] TKT-0126/0123: LinkedIn post special char validation + mktemp fix
 **Type:** script
 **Source:** ken-prompt
@@ -8686,7 +8318,6 @@ This log captures **every change** Yoda makes to AInchors infrastructure, config
 **Rollback:** N/A
 **Linked:** TKT-0126, TKT-0123
 ---
-
 
 ## 2026-05-10 13:17 AEST — [CHG-0263] TKT-0128: Aria marketing mandate + Brand Code staging (partial)
 **Type:** rule
@@ -8699,7 +8330,6 @@ This log captures **every change** Yoda makes to AInchors infrastructure, config
 **Linked:** TKT-0128, TKT-0124, TKT-0127
 ---
 
-
 ## 2026-05-10 11:39 AEST — [CHG-0262] TKT-0113: API-independent Telegram fallback alert (telegram-alert.sh)
 **Type:** script
 **Source:** ken-prompt
@@ -8710,7 +8340,6 @@ This log captures **every change** Yoda makes to AInchors infrastructure, config
 **Rollback:** N/A
 **Linked:** TKT-0113, INC-20260509-001
 ---
-
 
 ## 2026-05-10 11:32 AEST — [CHG-0261] Model3-Policy applied to all 5 T3 agent SOUL.md files (TKT-0106)
 **Type:** rule
@@ -8723,7 +8352,6 @@ This log captures **every change** Yoda makes to AInchors infrastructure, config
 **Linked:** TKT-0106, TKT-0105
 ---
 
-
 ## 2026-05-10 11:29 AEST — [CHG-0260] Model3-Policy.md v1.0 — Tier 3 agent SOPs and domain boundaries
 **Type:** doc
 **Source:** ken-prompt
@@ -8734,7 +8362,6 @@ This log captures **every change** Yoda makes to AInchors infrastructure, config
 **Rollback:** N/A
 **Linked:** TKT-0105, TKT-0106
 ---
-
 
 ## 2026-05-10 11:27 AEST — [CHG-0259] Set explicit models for T3 specialist agents in openclaw.json (CHG-0258 follow-on)
 **Type:** config
@@ -8747,7 +8374,6 @@ This log captures **every change** Yoda makes to AInchors infrastructure, config
 **Linked:** TKT-0105
 ---
 
-
 ## 2026-05-10 11:26 AEST — [CHG-0258] Warden: add T3 specialist agents to model compliance monitoring (Option A)
 **Type:** data
 **Source:** ken-prompt
@@ -8758,7 +8384,6 @@ This log captures **every change** Yoda makes to AInchors infrastructure, config
 **Rollback:** N/A
 **Linked:** TKT-0105
 ---
-
 
 ## 2026-05-10 10:54 AEST — [CHG-0257] Post-mortem: INC-20260509-001 — API degradation 26h
 **Type:** doc
@@ -8771,7 +8396,6 @@ This log captures **every change** Yoda makes to AInchors infrastructure, config
 **Linked:** INC-20260509-001, TKT-0113
 ---
 
-
 ## 2026-05-10 10:53 AEST — [CHG-0256] Warden: add failureAlert after 3 consecutive failures → Telegram Ken
 **Type:** cron
 **Source:** ken-prompt
@@ -8782,7 +8406,6 @@ This log captures **every change** Yoda makes to AInchors infrastructure, config
 **Rollback:** N/A
 **Linked:** none
 ---
-
 
 ## 2026-05-10 10:09 AEST — [CHG-0255] Fix ticket.sh Notion sync — status reserved variable in zsh
 **Type:** script
@@ -8795,7 +8418,6 @@ This log captures **every change** Yoda makes to AInchors infrastructure, config
 **Linked:** none
 ---
 
-
 ## 2026-05-10 08:24 AEST — [CHG-0254] Spark: LinkedIn image generation via HF FLUX.1-schnell (TKT-0121)
 **Type:** script
 **Source:** ken-prompt
@@ -8806,7 +8428,6 @@ This log captures **every change** Yoda makes to AInchors infrastructure, config
 **Rollback:** N/A
 **Linked:** TKT-0121
 ---
-
 
 ## 2026-05-09 21:48 AEST — [CHG-0253] obs-collector.sh delegation_fail deduplication bug fix
 **Type:** script
@@ -8819,7 +8440,6 @@ This log captures **every change** Yoda makes to AInchors infrastructure, config
 **Linked:** none
 ---
 
-
 ## 2026-05-09 21:41 AEST — [CHG-0252] Auto-ejected installer DMG KSInstallAction.aqWDvvP7G0
 **Type:** infra
 **Source:** auto-heal
@@ -8830,7 +8450,6 @@ This log captures **every change** Yoda makes to AInchors infrastructure, config
 **Rollback:** N/A
 **Linked:** none
 ---
-
 
 ## 2026-05-09 13:25 AEST — [CHG-0251] Auto allowlist sync -- Tier 2 propagation (strategy-update)
 **Type:** config
@@ -8843,7 +8462,6 @@ This log captures **every change** Yoda makes to AInchors infrastructure, config
 **Linked:** none
 ---
 
-
 ## 2026-05-09 12:17 AEST — [CHG-0249] INC-20260509-001: 26hr health degradation — zero API balance
 **Type:** infra
 **Source:** incident-recovery
@@ -8854,7 +8472,6 @@ This log captures **every change** Yoda makes to AInchors infrastructure, config
 **Rollback:** N/A
 **Linked:** none
 ---
-
 
 ## 2026-05-09 06:00 AEST — [CHG-0245] OpenClaw v2026.5.7 detected
 **Type:** config
@@ -8867,7 +8484,6 @@ This log captures **every change** Yoda makes to AInchors infrastructure, config
 **Linked:** none
 ---
 
-
 ## 2026-05-08 20:48 AEST — [CHG-0243] DoD retrospective — open decisions + draft docs backfilled from all prior work
 **Type:** rule
 **Source:** ken-prompt
@@ -8878,7 +8494,6 @@ This log captures **every change** Yoda makes to AInchors infrastructure, config
 **Rollback:** N/A
 **Linked:** none
 ---
-
 
 ## 2026-05-08 20:42 AEST — [CHG-0242] Definition of Done formalised — 3-gate DoD + open decisions tracking
 **Type:** rule
@@ -8891,7 +8506,6 @@ This log captures **every change** Yoda makes to AInchors infrastructure, config
 **Linked:** none
 ---
 
-
 ## 2026-05-08 19:54 AEST — [CHG-0241] Agile Framework: velocity targets + P2 deadline analysis locked
 **Type:** doc
 **Source:** ken-prompt
@@ -8902,7 +8516,6 @@ This log captures **every change** Yoda makes to AInchors infrastructure, config
 **Rollback:** N/A
 **Linked:** none
 ---
-
 
 ## 2026-05-08 18:40 AEST — [CHG-0240] TKT-0108: Document generation pipeline — DOCX/XLSX/PPTX/PDF
 **Type:** script
@@ -8915,7 +8528,6 @@ This log captures **every change** Yoda makes to AInchors infrastructure, config
 **Linked:** none
 ---
 
-
 ## 2026-05-08 18:37 AEST — [CHG-0239] Anthropic DPA confirmed — Claude API blocked for client data (APRA/Privacy Act)
 **Type:** rule
 **Source:** ken-prompt
@@ -8926,7 +8538,6 @@ This log captures **every change** Yoda makes to AInchors infrastructure, config
 **Rollback:** N/A
 **Linked:** none
 ---
-
 
 ## 2026-05-08 18:31 AEST — [CHG-0238] TKT-0093: 3-2-1+1 backup strategy + S7 partial completion
 **Type:** script
@@ -8949,7 +8560,6 @@ This log captures **every change** Yoda makes to AInchors infrastructure, config
 **Linked:** none
 ---
 
-
 ## 2026-05-08 18:17 AEST — [CHG-0237] TKT-0092: FinOps per-agent budget limits + workflow cost caps
 **Type:** script
 **Source:** ken-prompt
@@ -8960,7 +8570,6 @@ This log captures **every change** Yoda makes to AInchors infrastructure, config
 **Rollback:** N/A
 **Linked:** none
 ---
-
 
 ## 2026-05-08 18:04 AEST — [CHG-0236] TKT-0046 closed — P2 client model policy + P3 ROI gate confirmed
 **Type:** rule
@@ -8973,7 +8582,6 @@ This log captures **every change** Yoda makes to AInchors infrastructure, config
 **Linked:** none
 ---
 
-
 ## 2026-05-08 15:19 AEST — [CHG-0235] TKT-0104 closed — all Data+Memory decisions locked
 **Type:** doc
 **Source:** ken-prompt
@@ -8984,7 +8592,6 @@ This log captures **every change** Yoda makes to AInchors infrastructure, config
 **Rollback:** N/A
 **Linked:** none
 ---
-
 
 ## 2026-05-08 15:01 AEST — [CHG-0234] P1-P4 Phase Definitions Redefined + TKT-0104 Decisions Locked
 **Type:** doc
@@ -8998,7 +8605,6 @@ This log captures **every change** Yoda makes to AInchors infrastructure, config
 **✅ APPROVED:** Ken Mun — 2026-05-11 23:33 AEST. Draft document reviewed and accepted.
 ---
 
-
 ## 2026-05-08 14:23 AEST — [CHG-0233] Agent Governance Framework v1.0 — 5-Tier Model Approved
 **Type:** rule
 **Source:** ken-prompt
@@ -9009,7 +8615,6 @@ This log captures **every change** Yoda makes to AInchors infrastructure, config
 **Rollback:** N/A
 **Linked:** none
 ---
-
 
 ## 2026-05-08 13:41 AEST — [CHG-0232] Credit alert thresholds recalibrated + Aria pace policy locked
 **Type:** config
@@ -9022,7 +8627,6 @@ This log captures **every change** Yoda makes to AInchors infrastructure, config
 **Linked:** none
 ---
 
-
 ## 2026-05-08 12:31 AEST — [CHG-0231] incomplete_turns remediation — 4-fix bundle
 **Type:** config
 **Source:** ken-prompt
@@ -9033,7 +8637,6 @@ This log captures **every change** Yoda makes to AInchors infrastructure, config
 **Rollback:** N/A
 **Linked:** none
 ---
-
 
 ## 2026-05-08 12:26 AEST — [CHG-0230] Baseline update — Shield/Lex/Sage model Sonnet → Haiku
 **Type:** config
@@ -9046,7 +8649,6 @@ This log captures **every change** Yoda makes to AInchors infrastructure, config
 **Linked:** none
 ---
 
-
 ## 2026-05-08 11:15 AEST — [CHG-0229] RTB kimi trial: Option 2 shared snapshot
 **Type:** cron
 **Source:** ken-prompt
@@ -9057,7 +8659,6 @@ This log captures **every change** Yoda makes to AInchors infrastructure, config
 **Rollback:** N/A
 **Linked:** none
 ---
-
 
 ## 2026-05-08 08:21 AEST — [CHG-0228] TKT-0085 Strategy & Governance Integration Sprint — complete
 **Type:** doc
@@ -9070,7 +8671,6 @@ This log captures **every change** Yoda makes to AInchors infrastructure, config
 **Linked:** TKT-0085, TKT-0069, TKT-0097, TKT-0098, TKT-0099, TKT-0100, TKT-0101, TKT-0102
 ---
 
-
 ## 2026-05-08 08:00 AEST — [CHG-0227] Tailscale Serve — Remote Gateway Access
 **Type:** config
 **Source:** ken-prompt
@@ -9081,7 +8681,6 @@ This log captures **every change** Yoda makes to AInchors infrastructure, config
 **Rollback:** N/A
 **Linked:** none
 ---
-
 
 ## 2026-05-08 07:32 AEST — [CHG-0226] W1P4 marked draft-missing — no Friday post 2026-05-08
 **Type:** data
@@ -9094,7 +8693,6 @@ This log captures **every change** Yoda makes to AInchors infrastructure, config
 **Linked:** none
 ---
 
-
 ## 2026-05-07 22:51 AEST — [CHG-0224] API credit balance updated: $266.76 (2026-05-07 EOD)
 **Type:** data
 **Source:** ken-prompt
@@ -9105,7 +8703,6 @@ This log captures **every change** Yoda makes to AInchors infrastructure, config
 **Rollback:** Revert confirmedBalance to 470.93.
 **Linked:** none
 ---
-
 
 ## 2026-05-07 18:53 AEST — [CHG-0223] linkedin-post.sh: add --content-file flag to prevent shell arg truncation
 **Type:** script
@@ -9119,7 +8716,6 @@ This log captures **every change** Yoda makes to AInchors infrastructure, config
 **Category:** reliability
 ---
 
-
 ## 2026-05-07 16:40 AEST — [CHG-0222] Agile Framework v1.0 locked + Agile L2→L3 + TKT-0086/0090 closed — Sprint 1 starts
 **Type:** doc
 **Source:** ken-prompt
@@ -9130,7 +8726,6 @@ This log captures **every change** Yoda makes to AInchors infrastructure, config
 **Rollback:** Revert docs/ainchors-agile-framework-v1.md status. Revert agile maturity in frameworks-maturity.json.
 **Linked:** none
 ---
-
 
 ## 2026-05-07 14:58 AEST — [CHG-0221] TKT-0088 closed: all 8 Section 10 decisions recorded, P2 target Aug 2026, BYOK policy, Auralith gate
 **Type:** doc
@@ -9143,7 +8738,6 @@ This log captures **every change** Yoda makes to AInchors infrastructure, config
 **Linked:** none
 ---
 
-
 ## 2026-05-07 14:45 AEST — [CHG-0220] AI Charter: Auralith Technology Governance Addendum merged (Ken approved 2026-05-07)
 **Type:** doc
 **Source:** ken-prompt
@@ -9154,7 +8748,6 @@ This log captures **every change** Yoda makes to AInchors infrastructure, config
 **Rollback:** Remove addendum from AI_CHARTER_v1.0.md (last section after hr divider).
 **Linked:** none
 ---
-
 
 ## 2026-05-07 14:40 AEST — [CHG-0219] TKT-0087 AC-9 to AC-20: P2/P3 governance ACs — SLA log, Warden W1/W2, guardrail rules
 **Type:** rule
@@ -9167,7 +8760,6 @@ This log captures **every change** Yoda makes to AInchors infrastructure, config
 **Linked:** none
 ---
 
-
 ## 2026-05-07 14:36 AEST — [CHG-0218] TKT-0087 ACs 2/4/5/6/7/8: Charter, Nexus-first, agent roster, R1 fix, P2 critical path
 **Type:** rule
 **Source:** ken-prompt
@@ -9178,7 +8770,6 @@ This log captures **every change** Yoda makes to AInchors infrastructure, config
 **Rollback:** Revert AI Charter Section 1.5 + agent table. Revert ARIA_RULES.md R1 exception. Remove Nexus-first non-negotiable from RULES.md.
 **Linked:** none
 ---
-
 
 ## 2026-05-07 14:13 AEST — [CHG-0217] Canvas embed delivery rule: sub-agents report path only, Yoda embeds directly
 **Type:** rule
@@ -9191,7 +8782,6 @@ This log captures **every change** Yoda makes to AInchors infrastructure, config
 **Linked:** none
 ---
 
-
 ## 2026-05-07 13:37 AEST — [CHG-0216] RULES.md: remove stale Obsidian references from /commit procedure
 **Type:** rule
 **Source:** ken-prompt
@@ -9202,7 +8792,6 @@ This log captures **every change** Yoda makes to AInchors infrastructure, config
 **Rollback:** Revert RULES.md Obsidian reference changes.
 **Linked:** none
 ---
-
 
 ## 2026-05-07 13:10 AEST — [CHG-0215] Decision Capture Rule + /commit Pre-Flight Gate (prevent session context loss)
 **Type:** rule
@@ -9215,7 +8804,6 @@ This log captures **every change** Yoda makes to AInchors infrastructure, config
 **Linked:** none
 ---
 
-
 ## 2026-05-07 12:14 AEST — [CHG-0214] agentToAgent enabled — cross-agent sessions_send live, Aria calendar create confirmed working
 **Type:** config
 **Source:** ken-prompt
@@ -9226,7 +8814,6 @@ This log captures **every change** Yoda makes to AInchors infrastructure, config
 **Rollback:** Set tools.agentToAgent.enabled=false. Unlikely to need rollback.
 **Linked:** CHG-0213, CR-001
 ---
-
 
 ## 2026-05-07 12:03 AEST — [CHG-0213] RCA fix: Aria exec belief — CR-001 resolved, urgent override written to Aria workspace
 **Type:** config
@@ -9239,7 +8826,6 @@ This log captures **every change** Yoda makes to AInchors infrastructure, config
 **Linked:** CHG-0196, CHG-0207, CHG-0210, CHG-0212, CR-001
 ---
 
-
 ## 2026-05-07 11:16 AEST — [CHG-0212] Exec PATH fix: tools.exec.pathPrepend + non-negotiable full-path rule
 **Type:** config
 **Source:** ken-prompt
@@ -9250,7 +8836,6 @@ This log captures **every change** Yoda makes to AInchors infrastructure, config
 **Rollback:** Remove tools.exec.pathPrepend from openclaw.json. Remove rule sections from RULES.md + AGENTS.md files.
 **Linked:** CHG-0207, CHG-0210
 ---
-
 
 ## 2026-05-07 11:08 AEST — [CHG-0211] Fix Ahsoka agent config — remove unrecognized keys
 **Type:** config
@@ -9263,7 +8848,6 @@ This log captures **every change** Yoda makes to AInchors infrastructure, config
 **Linked:** none
 ---
 
-
 ## 2026-05-07 10:58 AEST — [CHG-0210] Fix: gog full binary path /opt/homebrew/bin/gog in all exec contexts
 **Type:** config
 **Source:** ken-prompt
@@ -9274,7 +8858,6 @@ This log captures **every change** Yoda makes to AInchors infrastructure, config
 **Rollback:** Revert TOOLS.md changes. Not needed — full path is strictly better.
 **Linked:** none
 ---
-
 
 ## 2026-05-07 10:53 AEST — [CHG-0209] Standup: add email delivery to kenmun@gmail.com (Phase 4)
 **Type:** cron
@@ -9287,7 +8870,6 @@ This log captures **every change** Yoda makes to AInchors infrastructure, config
 **Linked:** none
 ---
 
-
 ## 2026-05-07 10:30 AEST — [CHG-0208] Standup v2: two-layer format + Aria brief sessions_history fix + kimi RTB label
 **Type:** cron
 **Source:** ken-prompt
@@ -9298,7 +8880,6 @@ This log captures **every change** Yoda makes to AInchors infrastructure, config
 **Rollback:** Revert crons 3c279099/a7e7a820/57105907 to prior payload via cron update. Revert RULES.md /standup section.
 **Linked:** Ken feedback 2026-05-07
 ---
-
 
 ## 2026-05-07 09:41 AEST — [CHG-0207] Aria TOOLS.md: gog CLI correct flag syntax (--summary/--from/--to)
 **Type:** doc
@@ -9312,7 +8893,6 @@ This log captures **every change** Yoda makes to AInchors infrastructure, config
 **Category:** reliability
 ---
 
-
 ## 2026-05-07 06:00 AEST — [CHG-0206] TRIGGER-04: OpenClaw v2026.5.6 released (routine bugfix)
 **Type:** config
 **Source:** scheduled
@@ -9323,7 +8903,6 @@ This log captures **every change** Yoda makes to AInchors infrastructure, config
 **Rollback:** N/A
 **Linked:** none
 ---
-
 
 ## 2026-05-07 03:31 AEST — [CHG-0205] API credit auto-reload — USD500 reloaded, balance USD470.93
 **Type:** config
@@ -9336,7 +8915,6 @@ This log captures **every change** Yoda makes to AInchors infrastructure, config
 **Linked:** none
 ---
 
-
 ## 2026-05-07 03:15 AEST — [CHG-0204] Adopt ainchors-guardrails-rules-2026-05.md — Y1-Y3 YODA_RULES, R1-R3 ARIA_RULES, C1-C4 Ahsoka, G1-G2 Sanctum, W1-W2 Warden
 **Type:** rule
 **Source:** ken-prompt
@@ -9347,7 +8925,6 @@ This log captures **every change** Yoda makes to AInchors infrastructure, config
 **Rollback:** N/A
 **Linked:** none
 ---
-
 
 ## 2026-05-07 03:15 AEST — [CHG-0203] Adopt ainchors-strategy-okr-2026-05.md as current OKR source (C1, T1-T2, S1-S2, X1-X2, G1)
 **Type:** doc
@@ -9360,7 +8937,6 @@ This log captures **every change** Yoda makes to AInchors infrastructure, config
 **Linked:** none
 ---
 
-
 ## 2026-05-07 01:57 AEST — [CHG-0202] Ahsoka 🤍 — status updated KEN_TESTING → PILOT_TESTING
 **Type:** agent
 **Source:** ken-prompt
@@ -9371,7 +8947,6 @@ This log captures **every change** Yoda makes to AInchors infrastructure, config
 **Rollback:** N/A
 **Linked:** none
 ---
-
 
 ## 2026-05-07 01:07 AEST — [CHG-0201] Activate Ahsoka 🤍 — AI Transformation Consultant (Consulting Stream)
 **Type:** agent
@@ -9384,7 +8959,6 @@ This log captures **every change** Yoda makes to AInchors infrastructure, config
 **Linked:** none
 ---
 
-
 ## 2026-05-07 01:03 AEST — [CHG-0200] Auto-heal nightly sweep 2026-05-07 01:01 AEST
 **Type:** script
 **Source:** auto-heal
@@ -9395,7 +8969,6 @@ This log captures **every change** Yoda makes to AInchors infrastructure, config
 **Rollback:** N/A
 **Linked:** none
 ---
-
 
 ## 2026-05-06 21:38 AEST — [CHG-0199] EOD close 2026-05-06
 **Type:** doc
@@ -9408,7 +8981,6 @@ This log captures **every change** Yoda makes to AInchors infrastructure, config
 **Linked:** none
 ---
 
-
 ## 2026-05-06 21:34 AEST — [CHG-0198] API balance confirmed USD100.13
 **Type:** config
 **Source:** ken-prompt
@@ -9420,7 +8992,6 @@ This log captures **every change** Yoda makes to AInchors infrastructure, config
 **Linked:** none
 ---
 
-
 ## 2026-05-06 20:49 AEST — [CHG-0197] TKT-0078: Holocron comprehensive audit and update complete
 **Type:** doc
 **Source:** manual
@@ -9431,7 +9002,6 @@ This log captures **every change** Yoda makes to AInchors infrastructure, config
 **Rollback:** N/A
 **Linked:** TKT-0078
 ---
-
 
 ## 2026-05-06 15:05 AEST — [CHG-0196] Aria: exec+process restored to tool scope (S4 revision) + relay JSON write fix
 **Type:** config
@@ -9446,7 +9016,6 @@ This log captures **every change** Yoda makes to AInchors infrastructure, config
 **Framework docs:** ~/Documents/AInchors/Operations/Standards.md, ~/.openclaw/workspace/RULES.md
 ---
 
-
 ## 2026-05-06 14:54 AEST — [CHG-0195] Spark: fix tracker JSON update pattern + prune stale scheduled entries
 **Type:** script
 **Source:** ken-prompt
@@ -9458,7 +9027,6 @@ This log captures **every change** Yoda makes to AInchors infrastructure, config
 **Linked:** none
 **Category:** reliability
 ---
-
 
 ## 2026-05-06 14:50 AEST — [CHG-0194] kimi RTB trial cron + Tier 2B added to route-model.sh
 **Type:** config
@@ -9472,7 +9040,6 @@ This log captures **every change** Yoda makes to AInchors infrastructure, config
 **Category:** cost
 ---
 
-
 ## 2026-05-06 14:36 AEST — [CHG-0193] Governance triad (Shield/Lex/Sage) switched to Haiku — cost optimisation
 **Type:** config
 **Source:** ken-prompt
@@ -9484,7 +9051,6 @@ This log captures **every change** Yoda makes to AInchors infrastructure, config
 **Linked:** none
 **Category:** cost
 ---
-
 
 ## 2026-05-06 13:45 AEST — [CHG-0192] MEMORY.md compacted (pre-standup hygiene)
 **Type:** doc
@@ -9498,7 +9064,6 @@ This log captures **every change** Yoda makes to AInchors infrastructure, config
 **Category:** housekeeping
 ---
 
-
 ## 2026-05-06 13:42 AEST — [CHG-0191] backup.sh — write state/backup-state.json after each run
 **Type:** script
 **Source:** ken-prompt
@@ -9510,7 +9075,6 @@ This log captures **every change** Yoda makes to AInchors infrastructure, config
 **Linked:** none
 **Category:** reliability
 ---
-
 
 ## 2026-05-05 23:59 AEST — [CHG-0190] EOD close — Day 11 journal complete + Notion cost tracker updated
 **Type:** doc
@@ -9525,7 +9089,6 @@ This log captures **every change** Yoda makes to AInchors infrastructure, config
 **Framework docs:** ~/.openclaw/workspace/SOUL.md, ~/.openclaw/workspace/RULES.md
 ---
 
-
 ## 2026-05-05 20:56 AEST — [CHG-0189] /commit — Day 11 persistent memory commit. PVT 10/10.
 **Type:** doc
 **Source:** ken-prompt
@@ -9538,7 +9101,6 @@ This log captures **every change** Yoda makes to AInchors infrastructure, config
 **Category:** operating-process
 **Framework docs:** ~/.openclaw/workspace/SOUL.md, ~/.openclaw/workspace/RULES.md
 ---
-
 
 ## 2026-05-05 20:52 AEST — [CHG-0188] Agent ID + label updates: bpm→biz-process, dtcm→change-mgt. Names standardised.
 **Type:** config
@@ -9553,7 +9115,6 @@ This log captures **every change** Yoda makes to AInchors infrastructure, config
 **Framework docs:** ~/.openclaw/workspace/MEMORY.md, ~/Documents/AInchors/Agents/ModelStrategy.md
 ---
 
-
 ## 2026-05-05 20:07 AEST — [CHG-0187] AI governance gap analysis vs external LLM governance framework — 3 actions raised
 **Type:** doc
 **Source:** ken-prompt
@@ -9566,7 +9127,6 @@ This log captures **every change** Yoda makes to AInchors infrastructure, config
 **Category:** governance
 **Framework docs:** ~/Documents/AInchors/Agents/ModelStrategy.md, ~/.openclaw/workspace/state/model-policy.json
 ---
-
 
 ## 2026-05-05 20:00 AEST — [CHG-0186] Cost tracker reconciled from Anthropic CSV. Balance .11. Second $500 top-up.
 **Type:** data
@@ -9581,7 +9141,6 @@ This log captures **every change** Yoda makes to AInchors infrastructure, config
 **Framework docs:** ~/.openclaw/workspace/RULES.md
 ---
 
-
 ## 2026-05-05 19:47 AEST — [CHG-0185] v2026.5.4 post-update: doctor --fix run, stabcheck updated, allowInsecureAuth disabled
 **Type:** infra
 **Source:** ken-prompt
@@ -9594,7 +9153,6 @@ This log captures **every change** Yoda makes to AInchors infrastructure, config
 **Category:** infra
 ---
 
-
 ## 2026-05-05 19:40 AEST — [CHG-0184] TRIGGER-04: OpenClaw updated v2026.5.2 → v2026.5.4. PVT 10/10 PASS.
 **Type:** infra
 **Source:** ken-prompt
@@ -9606,7 +9164,6 @@ This log captures **every change** Yoda makes to AInchors infrastructure, config
 **Linked:** none
 **Category:** infra
 ---
-
 
 ## 2026-05-05 19:23 AEST — [CHG-0183] Krennic 🔵 confirmed — SRE Agent (TKT-0074). AInchors naming principle locked.
 **Type:** agent
@@ -9621,7 +9178,6 @@ This log captures **every change** Yoda makes to AInchors infrastructure, config
 **Framework docs:** ~/.openclaw/workspace/MEMORY.md, ~/Documents/AInchors/Agents/ModelStrategy.md
 ---
 
-
 ## 2026-05-05 19:17 AEST — [CHG-0182] TKT-0071: Atlas note added — availability + stability layer required in EA roadmap
 **Type:** doc
 **Source:** ken-prompt
@@ -9634,7 +9190,6 @@ This log captures **every change** Yoda makes to AInchors infrastructure, config
 **Category:** observability
 **Framework docs:** ~/.openclaw/workspace/RULES.md
 ---
-
 
 ## 2026-05-05 18:52 AEST — [CHG-0181] /stabcheck command + AIOps gap fixes: zombie task + event loop detection added
 **Type:** script
@@ -9649,7 +9204,6 @@ This log captures **every change** Yoda makes to AInchors infrastructure, config
 **Framework docs:** ~/.openclaw/workspace/RULES.md
 ---
 
-
 ## 2026-05-05 18:47 AEST — [CHG-0180] INC: Gateway instability fixed — zombie tasks cancelled, cron allowlist cleaned
 **Type:** infra
 **Source:** ken-prompt
@@ -9662,7 +9216,6 @@ This log captures **every change** Yoda makes to AInchors infrastructure, config
 **Category:** incident-process
 **Framework docs:** ~/Documents/AInchors/Operations/ResiliencyFramework.md, ~/Documents/AInchors/Operations/GatewayRecovery.md
 ---
-
 
 ## 2026-05-05 18:31 AEST — [CHG-0179] Lando confirmed. Notion Star Wars page updated with full names + roles (10 agents + 8 modules)
 **Type:** doc
@@ -9677,7 +9230,6 @@ This log captures **every change** Yoda makes to AInchors infrastructure, config
 **Framework docs:** ~/.openclaw/workspace/SOUL.md, ~/.openclaw/workspace/RULES.md
 ---
 
-
 ## 2026-05-05 18:25 AEST — [CHG-0178] Raised 4 US backlog items with locked sequencing (TKT-0069 to TKT-0072)
 **Type:** data
 **Source:** ken-prompt
@@ -9691,7 +9243,6 @@ This log captures **every change** Yoda makes to AInchors infrastructure, config
 **Framework docs:** ~/.openclaw/workspace/RULES.md
 ---
 
-
 ## 2026-05-05 17:28 AEST — [CHG-0177] TKT-0042 closed — Obsidian→Notion migration fully complete (all 5 phases)
 **Type:** doc
 **Source:** ken-prompt
@@ -9703,7 +9254,6 @@ This log captures **every change** Yoda makes to AInchors infrastructure, config
 **Linked:** none
 **Category:** housekeeping
 ---
-
 
 ## 2026-05-05 17:25 AEST — [CHG-0176] S4 — Per-agent tool scopes (least privilege) applied to all 9 agents
 **Type:** config
@@ -9718,7 +9268,6 @@ This log captures **every change** Yoda makes to AInchors infrastructure, config
 **Framework docs:** ~/Documents/AInchors/Operations/Standards.md, ~/.openclaw/workspace/RULES.md
 ---
 
-
 ## 2026-05-05 16:51 AEST — [CHG-0175] S4 implemented: per-agent tool scopes applied to all 8 agents
 **Type:** config
 **Source:** ken-prompt
@@ -9731,7 +9280,6 @@ This log captures **every change** Yoda makes to AInchors infrastructure, config
 **Category:** security
 **Framework docs:** ~/Documents/AInchors/Operations/Standards.md, ~/.openclaw/workspace/RULES.md
 ---
-
 
 ## 2026-05-05 15:13 AEST — [CHG-0174] Notion: Star Wars Naming Convention page created in Holocron
 **Type:** doc
@@ -9746,7 +9294,6 @@ This log captures **every change** Yoda makes to AInchors infrastructure, config
 **Framework docs:** ~/.openclaw/workspace/SOUL.md, ~/.openclaw/workspace/RULES.md
 ---
 
-
 ## 2026-05-05 14:49 AEST — [CHG-0173] Star Wars naming convention LOCKED — confirmed by Ken + Angie
 **Type:** rule
 **Source:** ken-prompt
@@ -9759,7 +9306,6 @@ This log captures **every change** Yoda makes to AInchors infrastructure, config
 **Category:** operating-process
 **Framework docs:** ~/.openclaw/workspace/SOUL.md, ~/.openclaw/workspace/RULES.md
 ---
-
 
 ## 2026-05-05 14:44 AEST — [CHG-0172] Notion backlog cleanup: 15 completed items marked Done
 **Type:** data
@@ -9774,7 +9320,6 @@ This log captures **every change** Yoda makes to AInchors infrastructure, config
 **Framework docs:** ~/.openclaw/workspace/RULES.md
 ---
 
-
 ## 2026-05-05 14:36 AEST — [CHG-0171] TKT-0064: MEMORY.md trimmed 20,151 → 13,680 chars
 **Type:** data
 **Source:** ken-prompt
@@ -9787,7 +9332,6 @@ This log captures **every change** Yoda makes to AInchors infrastructure, config
 **Category:** observability
 **Framework docs:** ~/.openclaw/workspace/RULES.md
 ---
-
 
 ## 2026-05-05 14:13 AEST — [CHG-0170] Spark W2 AIOps pipeline: 3 drafts governed, delivered to Ken, queue updated
 **Type:** data
@@ -9802,7 +9346,6 @@ This log captures **every change** Yoda makes to AInchors infrastructure, config
 **Framework docs:** ~/.openclaw/workspace/RULES.md
 ---
 
-
 ## 2026-05-05 14:07 AEST — [CHG-0169] Fix auto-heal.sh: exclude git-commit ops from incident logging
 **Type:** script
 **Source:** ken-prompt
@@ -9815,7 +9358,6 @@ This log captures **every change** Yoda makes to AInchors infrastructure, config
 **Category:** incident-process
 **Framework docs:** ~/Documents/AInchors/Operations/ResiliencyFramework.md, ~/Documents/AInchors/Operations/GatewayRecovery.md
 ---
-
 
 ## 2026-05-05 14:06 AEST — [CHG-0168] THORN: Closed 7 stale April incidents
 **Type:** data
@@ -9830,7 +9372,6 @@ This log captures **every change** Yoda makes to AInchors infrastructure, config
 **Framework docs:** ~/Documents/AInchors/Operations/ResiliencyFramework.md, ~/Documents/AInchors/Operations/GatewayRecovery.md
 ---
 
-
 ## 2026-05-05 14:05 AEST — [CHG-0167] TKT-0065: LinkedIn post metrics snapshot pipeline
 **Type:** script
 **Source:** ken-prompt
@@ -9844,7 +9385,6 @@ This log captures **every change** Yoda makes to AInchors infrastructure, config
 **Framework docs:** ~/.openclaw/workspace/RULES.md
 ---
 
-
 ## 2026-05-04 23:23 AEST — [CHG-0166] /handover cross-channel fix confirmed — TKT-0050 closed
 **Type:** config
 **Source:** ken-prompt
@@ -9855,7 +9395,6 @@ This log captures **every change** Yoda makes to AInchors infrastructure, config
 **Rollback:** N/A
 **Linked:** TKT-0050
 ---
-
 
 ## 2026-05-04 17:50 AEST — [CHG-0165] AI Governance Framework v1.0 approved — TKT-0052
 **Type:** config
@@ -9868,7 +9407,6 @@ This log captures **every change** Yoda makes to AInchors infrastructure, config
 **Linked:** TKT-0052 TKT-0054
 ---
 
-
 ## 2026-05-04 17:47 AEST — [CHG-0164] AI Governance Framework v1.0 decisions resolved — TKT-0052
 **Type:** config
 **Source:** ken-prompt
@@ -9879,7 +9417,6 @@ This log captures **every change** Yoda makes to AInchors infrastructure, config
 **Rollback:** N/A
 **Linked:** TKT-0052 TKT-0061 TKT-0062 TKT-0063
 ---
-
 
 ## 2026-05-04 17:29 AEST — [CHG-0163] AI Charter v1.0 approved — TKT-0054
 **Type:** config
@@ -9892,7 +9429,6 @@ This log captures **every change** Yoda makes to AInchors infrastructure, config
 **Linked:** TKT-0054 TKT-0060 TKT-0061
 ---
 
-
 ## 2026-05-04 15:20 AEST — [CHG-0162] TKT-0059: Approval gate added to W1P1/P2/P3 LinkedIn post crons
 **Type:** config
 **Source:** ken-prompt
@@ -9903,7 +9439,6 @@ This log captures **every change** Yoda makes to AInchors infrastructure, config
 **Rollback:** N/A
 **Linked:** TKT-0059
 ---
-
 
 ## 2026-05-04 15:16 AEST — [CHG-0161] LinkedIn content theme roadmap locked
 **Type:** config
@@ -9916,7 +9451,6 @@ This log captures **every change** Yoda makes to AInchors infrastructure, config
 **Linked:** TKT-0039 TKT-0056
 ---
 
-
 ## 2026-05-04 13:17 AEST — [CHG-0160] Spark extended to IG/LinkedIn/Facebook/YouTube — AU/MY/GCC — audit + 4 proposals in progress
 **Type:** agent
 **Source:** manual
@@ -9927,7 +9461,6 @@ This log captures **every change** Yoda makes to AInchors infrastructure, config
 **Rollback:** N/A
 **Linked:** none
 ---
-
 
 ## 2026-05-04 12:57 AEST — [CHG-0159] TKT-0042 final: Obsidian vault cleared — only Shared/ARCHITECTURE.md stub remains
 **Type:** infra
@@ -9940,7 +9473,6 @@ This log captures **every change** Yoda makes to AInchors infrastructure, config
 **Linked:** none
 ---
 
-
 ## 2026-05-04 12:08 AEST — [CHG-0158] TKT-0042 Phase 5 complete: Obsidian fully retired — Shared/ migrated to workspace, all agent crons updated
 **Type:** infra
 **Source:** manual
@@ -9951,7 +9483,6 @@ This log captures **every change** Yoda makes to AInchors infrastructure, config
 **Rollback:** N/A
 **Linked:** none
 ---
-
 
 ## 2026-05-04 11:34 AEST — [CHG-0157] TKT-0042 Phase 4: Obsidian references removed from scripts, crons, SOUL.md, MEMORY.md
 **Type:** doc
@@ -9964,7 +9495,6 @@ This log captures **every change** Yoda makes to AInchors infrastructure, config
 **Linked:** none
 ---
 
-
 ## 2026-05-04 11:22 AEST — [CHG-0156] TKT-0042 Phase 3: Obsidian→Notion migration complete
 **Type:** doc
 **Source:** manual
@@ -9975,7 +9505,6 @@ This log captures **every change** Yoda makes to AInchors infrastructure, config
 **Rollback:** N/A
 **Linked:** none
 ---
-
 
 ## 2026-05-04 11:05 AEST — [CHG-0155] TKT-0049 complete: Ollama Cloud provider configured, CI Cycle A reverted, all crons PASS preflight
 **Type:** infra
@@ -9988,7 +9517,6 @@ This log captures **every change** Yoda makes to AInchors infrastructure, config
 **Linked:** none
 ---
 
-
 ## 2026-05-04 10:51 AEST — [CHG-0154] CHG-0152 Followup: 3 preventive infra fixes (cron health, backup auth exclusion, cron-agent preflight)
 **Type:** script
 **Source:** incident-recovery
@@ -9999,7 +9527,6 @@ This log captures **every change** Yoda makes to AInchors infrastructure, config
 **Rollback:** N/A
 **Linked:** none
 ---
-
 
 ## 2026-05-04 10:50 AEST — [CHG-0153] Fix cron-health-check.sh control char interpolation bug
 **Type:** script
@@ -10012,7 +9539,6 @@ This log captures **every change** Yoda makes to AInchors infrastructure, config
 **Linked:** none
 ---
 
-
 ## 2026-05-04 10:41 AEST — [CHG-0152] Infra cron recovery + S5 partial remediation
 **Type:** infra
 **Source:** manual
@@ -10023,7 +9549,6 @@ This log captures **every change** Yoda makes to AInchors infrastructure, config
 **Rollback:** N/A
 **Linked:** none
 ---
-
 
 ## 2026-05-04 10:14 AEST — [CHG-0151] Fix US18 auto-discover loop + infra stale auth key + allowlist drift
 **Type:** script
@@ -10036,7 +9561,6 @@ This log captures **every change** Yoda makes to AInchors infrastructure, config
 **Linked:** none
 ---
 
-
 ## 2026-05-04 00:38 AEST — [CHG-0150] Spark LinkedIn Authority Campaign — v4 brief locked and approved
 **Type:** agent
 **Source:** ken-prompt
@@ -10047,7 +9571,6 @@ This log captures **every change** Yoda makes to AInchors infrastructure, config
 **Rollback:** N/A
 **Linked:** none
 ---
-
 
 ## 2026-05-03 22:41 AEST — [CHG-0149] TKT-0042 Phase 1+2: Notion audit complete + structure established
 **Type:** doc
@@ -10060,7 +9583,6 @@ This log captures **every change** Yoda makes to AInchors infrastructure, config
 **Linked:** none
 ---
 
-
 ## 2026-05-03 22:09 AEST — [CHG-0148] Forge activated — ITIL/ITSM/AIOps + CI full ownership
 **Type:** agent
 **Source:** ken-prompt
@@ -10071,7 +9593,6 @@ This log captures **every change** Yoda makes to AInchors infrastructure, config
 **Rollback:** N/A
 **Linked:** none
 ---
-
 
 ## 2026-05-03 22:03 AEST — [CHG-0147] openclaw.json config recovery — allowedInCrons rejected (agents.list.6)
 **Type:** config
@@ -10084,7 +9605,6 @@ This log captures **every change** Yoda makes to AInchors infrastructure, config
 **Linked:** none
 ---
 
-
 ## 2026-05-03 21:50 AEST — [CHG-0146] AKB Holocron cron fixed — Notion-only, timeout resolved, delivery fixed
 **Type:** cron
 **Source:** ken-prompt
@@ -10095,7 +9615,6 @@ This log captures **every change** Yoda makes to AInchors infrastructure, config
 **Rollback:** N/A
 **Linked:** none
 ---
-
 
 ## 2026-05-03 21:42 AEST — [CHG-0145] Notion model strategy page updated to 4-tier
 **Type:** doc
@@ -10108,7 +9627,6 @@ This log captures **every change** Yoda makes to AInchors infrastructure, config
 **Linked:** none
 ---
 
-
 ## 2026-05-03 21:36 AEST — [CHG-0144] TRIGGER-12: Agent allowlist auto-sync on CI Cycle B decision / model strategy update
 **Type:** cron
 **Source:** ken-prompt
@@ -10119,7 +9637,6 @@ This log captures **every change** Yoda makes to AInchors infrastructure, config
 **Rollback:** N/A
 **Linked:** none
 ---
-
 
 ## 2026-05-03 21:31 AEST — [CHG-0143] Agent allowlist audit — Ollama Cloud Tier 2 propagation + Lex fix + Spark added
 **Type:** config
@@ -10132,7 +9649,6 @@ This log captures **every change** Yoda makes to AInchors infrastructure, config
 **Linked:** none
 ---
 
-
 ## 2026-05-03 17:10 AEST — [CHG-0142] Fix Aria stale Anthropic key + auto-heal auto-sync across all agent auth-profiles
 **Type:** script
 **Source:** incident-recovery
@@ -10143,7 +9659,6 @@ This log captures **every change** Yoda makes to AInchors infrastructure, config
 **Rollback:** N/A
 **Linked:** none
 ---
-
 
 ## 2026-05-03 14:35 AEST — [CHG-0141] Canonical secret helper get-secret.sh + keychain liveness check (auto-heal #16)
 **Type:** script
@@ -10156,7 +9671,6 @@ This log captures **every change** Yoda makes to AInchors infrastructure, config
 **Linked:** none
 ---
 
-
 ## 2026-05-03 14:30 AEST — [CHG-0140] Fix validate-fallback-chain.sh stale keychain entry
 **Type:** script
 **Source:** incident-recovery
@@ -10167,7 +9681,6 @@ This log captures **every change** Yoda makes to AInchors infrastructure, config
 **Rollback:** N/A
 **Linked:** none
 ---
-
 
 ## 2026-05-03 12:54 AEST — [CHG-0137] LinkedIn API Integration — OAuth + Spark posting
 **Type:** script
@@ -10180,7 +9693,6 @@ This log captures **every change** Yoda makes to AInchors infrastructure, config
 **Linked:** none
 ---
 
-
 ## 2026-05-03 12:21 AEST — [CHG-0136] Notion AKB Backlog enforced as single source of truth for US/TKT/CHG
 **Type:** script
 **Source:** ken-prompt
@@ -10191,7 +9703,6 @@ This log captures **every change** Yoda makes to AInchors infrastructure, config
 **Rollback:** Revert ticket.sh and changelog-append.sh to pre-change versions from git. Notion pages remain but are non-authoritative.
 **Linked:** TKT-first-rule, EPIC-001
 ---
-
 
 ## 2026-05-03 08:42 AEST — [CHG-0135] TKT-0039: route-model.sh wired into sub-agent spawning — Tier A/B/C delegation live
 **Type:** config
@@ -10204,7 +9715,6 @@ This log captures **every change** Yoda makes to AInchors infrastructure, config
 **Linked:** none
 ---
 
-
 ## 2026-05-03 06:01 AEST — [CHG-0134] TRIGGER-04: OpenClaw v2026.4.29 security release detected
 **Type:** config
 **Source:** scheduled
@@ -10215,7 +9725,6 @@ This log captures **every change** Yoda makes to AInchors infrastructure, config
 **Rollback:** N/A
 **Linked:** none
 ---
-
 
 ## 2026-05-02 18:52 AEST — [CHG-0132] Fix model-drift-check.sh AEST_TIMESTAMP SyntaxError in Python state update
 **Type:** script
@@ -10228,7 +9737,6 @@ This log captures **every change** Yoda makes to AInchors infrastructure, config
 **Linked:** none
 ---
 
-
 ## 2026-05-02 15:50 AEST — [CHG-0131] Warden escalation WARDEN-20260502-152449 closed — obs-collector healthy
 **Type:** doc
 **Source:** manual
@@ -10239,7 +9747,6 @@ This log captures **every change** Yoda makes to AInchors infrastructure, config
 **Rollback:** N/A
 **Linked:** none
 ---
-
 
 ## 2026-05-02 13:07 AEST — [CHG-0130] Spark ✨ social agent live — TKT-0038 LinkedIn content marketing, 3x weekly
 **Type:** config
@@ -10252,7 +9759,6 @@ This log captures **every change** Yoda makes to AInchors infrastructure, config
 **Linked:** none
 ---
 
-
 ## 2026-05-02 12:20 AEST — [CHG-0129] TKT-0033: Content governance triad gate live — Lex+Shield+Sage on all public content
 **Type:** rule
 **Source:** ken-prompt
@@ -10263,7 +9769,6 @@ This log captures **every change** Yoda makes to AInchors infrastructure, config
 **Rollback:** N/A
 **Linked:** none
 ---
-
 
 ## 2026-05-02 11:47 AEST — [CHG-0128] /eod and /blog keywords locked — standalone blog type introduced
 **Type:** config
@@ -10276,7 +9781,6 @@ This log captures **every change** Yoda makes to AInchors infrastructure, config
 **Linked:** none
 ---
 
-
 ## 2026-05-02 11:26 AEST — [CHG-0127] CI Framework loop updated: Cycle A always-on, A+B concurrent from week 2
 **Type:** config
 **Source:** ken-prompt
@@ -10287,7 +9791,6 @@ This log captures **every change** Yoda makes to AInchors infrastructure, config
 **Rollback:** N/A
 **Linked:** none
 ---
-
 
 ## 2026-05-02 11:24 AEST — [CHG-0126] CI Framework: 7-day cycles, Cycle A->B->A loop, head-to-head approval gate
 **Type:** config
@@ -10300,7 +9803,6 @@ This log captures **every change** Yoda makes to AInchors infrastructure, config
 **Linked:** none
 ---
 
-
 ## 2026-05-02 11:13 AEST — [CHG-0125] CI Agent live: continuous model comparison, deepseek-v4-pro:cloud, 15-day test
 **Type:** config
 **Source:** ken-prompt
@@ -10311,7 +9813,6 @@ This log captures **every change** Yoda makes to AInchors infrastructure, config
 **Rollback:** N/A
 **Linked:** none
 ---
-
 
 ## 2026-05-02 10:42 AEST — [CHG-0124] /standup and /update slash commands added to RULES.md
 **Type:** config
@@ -10324,7 +9825,6 @@ This log captures **every change** Yoda makes to AInchors infrastructure, config
 **Linked:** none
 ---
 
-
 ## 2026-05-02 10:32 AEST — [CHG-0123] Ollama PoC: deepseek-v4-flash + deepseek-v4-pro benchmark results
 **Type:** config
 **Source:** ken-prompt
@@ -10335,7 +9835,6 @@ This log captures **every change** Yoda makes to AInchors infrastructure, config
 **Rollback:** N/A
 **Linked:** none
 ---
-
 
 ## 2026-05-02 10:31 AEST — [CHG-0122] Ollama PoC Phase 5C: gemma4 community cloud benchmark
 **Type:** config
@@ -10348,7 +9847,6 @@ This log captures **every change** Yoda makes to AInchors infrastructure, config
 **Linked:** none
 ---
 
-
 ## 2026-05-02 10:21 AEST — [CHG-0121] Model trigger updates post-PoC: TRIGGER-01-A, TRIGGER-11, TRIGGER-05 closed
 **Type:** config
 **Source:** ken-prompt
@@ -10359,7 +9857,6 @@ This log captures **every change** Yoda makes to AInchors infrastructure, config
 **Rollback:** N/A
 **Linked:** none
 ---
-
 
 ## 2026-05-02 10:12 AEST — [CHG-0120] Ollama Cloud PoC Phase 5+6: kimi-k2.6:cloud added as Tier 2 (Pro subscription)
 **Type:** config
@@ -10372,7 +9869,6 @@ This log captures **every change** Yoda makes to AInchors infrastructure, config
 **Linked:** CHG-0103 CHG-0104 CHG-0105 CHG-0106
 ---
 
-
 ## 2026-05-02 00:42 AEST — [CHG-0117] INC-20260502-001: WS 1006/1000 V8 crash — stale plugin-runtime-deps cleared
 **Type:** infra
 **Source:** incident-recovery
@@ -10383,7 +9879,6 @@ This log captures **every change** Yoda makes to AInchors infrastructure, config
 **Rollback:** N/A
 **Linked:** none
 ---
-
 
 ## 2026-05-02 00:31 AEST — [CHG-0116] P1 POLICY: Governance + ITIL non-negotiable enforcement (TKT-0032)
 **Type:** rule
@@ -10396,7 +9891,6 @@ This log captures **every change** Yoda makes to AInchors infrastructure, config
 **Linked:** none
 ---
 
-
 ## 2026-05-02 00:23 AEST — [CHG-0115] Lex review fixes applied to Day 7 blog — cleared to publish
 **Type:** doc
 **Source:** manual
@@ -10407,7 +9901,6 @@ This log captures **every change** Yoda makes to AInchors infrastructure, config
 **Rollback:** git revert 8156d65
 **Linked:** none
 ---
-
 
 ## 2026-05-02 00:19 AEST — [CHG-0114] Governance gate added to blog cron — Lex review mandatory before publish
 **Type:** rule
@@ -10420,7 +9913,6 @@ This log captures **every change** Yoda makes to AInchors infrastructure, config
 **Linked:** none
 ---
 
-
 ## 2026-05-02 00:11 AEST — [CHG-0113] Day 7 blog rewrite + BlogFormat.md style locked (Ken-approved)
 **Type:** doc
 **Source:** ken-prompt
@@ -10431,7 +9923,6 @@ This log captures **every change** Yoda makes to AInchors infrastructure, config
 **Rollback:** git revert 19955c8
 **Linked:** none
 ---
-
 
 ## 2026-05-02 00:02 AEST — [CHG-0112] Fix duplicate blog path: remove workspace/canvas stray copies
 **Type:** doc
@@ -10444,7 +9935,6 @@ This log captures **every change** Yoda makes to AInchors infrastructure, config
 **Linked:** none
 ---
 
-
 ## 2026-05-01 23:53 AEST — [CHG-0111] qwen3.5:cloud latency mitigation: think=False added to AKB cron
 **Type:** config
 **Source:** ken-prompt
@@ -10455,7 +9945,6 @@ This log captures **every change** Yoda makes to AInchors infrastructure, config
 **Rollback:** Remove think=False instruction from AKB cron prompt
 **Linked:** none
 ---
-
 
 ## 2026-05-01 23:50 AEST — [CHG-0110] Option B: AKB Daily Update switched to qwen3.5:cloud (Ollama Cloud free tier)
 **Type:** config
@@ -10468,7 +9957,6 @@ This log captures **every change** Yoda makes to AInchors infrastructure, config
 **Linked:** none
 ---
 
-
 ## 2026-05-01 21:50 AEST — [CHG-0109] Add model latency tracking — obs.db latency_log + latency-summary.json
 **Type:** script
 **Source:** ken-prompt
@@ -10479,7 +9967,6 @@ This log captures **every change** Yoda makes to AInchors infrastructure, config
 **Rollback:** N/A
 **Linked:** none
 ---
-
 
 ## 2026-05-01 20:30 AEST — [CHG-0108] auto-heal CHECK 14: MEMORY.md + all SOUL.md size guard
 **Type:** script
@@ -10492,7 +9979,6 @@ This log captures **every change** Yoda makes to AInchors infrastructure, config
 **Linked:** none
 ---
 
-
 ## 2026-05-01 20:23 AEST — [CHG-0107] Fix MEMORY.md bootstrap truncation: bootstrapMaxChars 10k→20k
 **Type:** config
 **Source:** ken-prompt
@@ -10503,7 +9989,6 @@ This log captures **every change** Yoda makes to AInchors infrastructure, config
 **Rollback:** Revert bootstrapMaxChars to 10000 in openclaw.json
 **Linked:** none
 ---
-
 
 ## 2026-05-01 19:48 AEST — [CHG-0106] Ollama Cloud PoC — Phase 4+5: Cost Analysis and Decision Gate
 **Type:** infra
@@ -10516,7 +10001,6 @@ This log captures **every change** Yoda makes to AInchors infrastructure, config
 **Linked:** none
 ---
 
-
 ## 2026-05-01 19:48 AEST — [CHG-0105] Ollama Cloud PoC — Phase 3: Benchmarks (B1-B6 on qwen3.5:cloud)
 **Type:** infra
 **Source:** manual
@@ -10527,7 +10011,6 @@ This log captures **every change** Yoda makes to AInchors infrastructure, config
 **Rollback:** N/A
 **Linked:** none
 ---
-
 
 ## 2026-05-01 19:47 AEST — [CHG-0104] Ollama Cloud PoC — Phase 2: Smoke Test
 **Type:** infra
@@ -10540,7 +10023,6 @@ This log captures **every change** Yoda makes to AInchors infrastructure, config
 **Linked:** none
 ---
 
-
 ## 2026-05-01 19:41 AEST — [CHG-0103] Ollama Cloud PoC — Phase 1: Environment Setup
 **Type:** infra
 **Source:** manual
@@ -10551,7 +10033,6 @@ This log captures **every change** Yoda makes to AInchors infrastructure, config
 **Rollback:** N/A
 **Linked:** none
 ---
-
 
 ## 2026-05-01 19:40 AEST — [CHG-0102] HEARTBEAT.md: CHG trigger monitoring section added
 **Type:** doc
@@ -10564,7 +10045,6 @@ This log captures **every change** Yoda makes to AInchors infrastructure, config
 **Linked:** none
 ---
 
-
 ## 2026-05-01 19:39 AEST — [CHG-0101] TRIGGER-04/06: OpenClaw release monitor cron added (daily 06:00 AEST)
 **Type:** cron
 **Source:** ken-prompt
@@ -10575,7 +10055,6 @@ This log captures **every change** Yoda makes to AInchors infrastructure, config
 **Rollback:** openclaw cron remove 6bd53c89
 **Linked:** none
 ---
-
 
 ## 2026-05-01 19:39 AEST — [CHG-0100] TRIGGER-08: Daily spend thresholds added to cost-tracker.sh
 **Type:** script
@@ -10588,7 +10067,6 @@ This log captures **every change** Yoda makes to AInchors infrastructure, config
 **Linked:** none
 ---
 
-
 ## 2026-05-01 19:39 AEST — [CHG-0099] S1-S7 Security Audit — May 2026
 **Type:** doc
 **Source:** ken-prompt
@@ -10599,7 +10077,6 @@ This log captures **every change** Yoda makes to AInchors infrastructure, config
 **Rollback:** N/A
 **Linked:** none
 ---
-
 
 ## 2026-05-01 19:03 AEST — [CHG-0098] Fix cost-tracker remainingEstimate never decrements after top-up
 **Type:** script
@@ -10612,7 +10089,6 @@ This log captures **every change** Yoda makes to AInchors infrastructure, config
 **Linked:** none
 ---
 
-
 ## 2026-05-01 18:57 AEST — [CHG-0097] Credit tracker balance corrected + top-up recorded
 **Type:** data
 **Source:** ken-prompt
@@ -10623,7 +10099,6 @@ This log captures **every change** Yoda makes to AInchors infrastructure, config
 **Rollback:** Restore from git
 **Linked:** none
 ---
-
 
 ## 2026-05-01 09:52 AEST — [CHG-0096] US42 done: Ollama routing confirmed + Warden migrated to gemma4:e2b
 **Type:** config
@@ -10636,7 +10111,6 @@ This log captures **every change** Yoda makes to AInchors infrastructure, config
 **Linked:** none
 ---
 
-
 ## 2026-05-01 09:52 AEST — [CHG-0095] THORN fix: obs-collector session_stuck dedup + standup message length
 **Type:** script
 **Source:** ken-prompt
@@ -10647,7 +10121,6 @@ This log captures **every change** Yoda makes to AInchors infrastructure, config
 **Rollback:** N/A
 **Linked:** none
 ---
-
 
 ## 2026-04-30 19:24 AEST — [CHG-0094] SAGE_RULES.md + LEX_RULES.md created — all 6 agents now compact SOUL.md + RULES.md pattern
 **Type:** doc
@@ -10662,7 +10135,6 @@ This log captures **every change** Yoda makes to AInchors infrastructure, config
 **Framework docs:** ~/Documents/AInchors/Agents/ModelStrategy.md, RULES.md
 ---
 
-
 ## 2026-04-30 18:56 AEST — [CHG-0093] US38: cost-tracker.sh now scans all agent session dirs with stream breakdown
 **Type:** script
 **Source:** ken-prompt
@@ -10675,7 +10147,6 @@ This log captures **every change** Yoda makes to AInchors infrastructure, config
 **Category:** cost-budget
 **Framework docs:** ~/Documents/AInchors/Agents/ModelStrategy.md
 ---
-
 
 ## 2026-04-30 18:43 AEST — [CHG-0092] Agent SOUL.md compact: Sage+Lex compacted; obs-collector +4 patterns; US22 closed; US19 elevated; cost-tracker source field fixed
 **Type:** rule
@@ -10690,7 +10161,6 @@ This log captures **every change** Yoda makes to AInchors infrastructure, config
 **Framework docs:** ~/Documents/AInchors/Agents/ModelStrategy.md, RULES.md
 ---
 
-
 ## 2026-04-30 18:34 AEST — [CHG-0091] Agent SOUL.md compact standard — non-negotiable rule for all agents
 **Type:** rule
 **Source:** ken-prompt
@@ -10703,7 +10173,6 @@ This log captures **every change** Yoda makes to AInchors infrastructure, config
 **Category:** agent-architecture
 **Framework docs:** ~/Documents/AInchors/Agents/ModelStrategy.md, RULES.md
 ---
-
 
 ## 2026-04-30 18:26 AEST — [CHG-0090] obs-collector.sh: comprehensive monitoring — 10 new checks (E-N) added
 **Type:** script
@@ -10718,7 +10187,6 @@ This log captures **every change** Yoda makes to AInchors infrastructure, config
 **Framework docs:** RULES.md
 ---
 
-
 ## 2026-04-30 18:21 AEST — [CHG-0089] obs-collector.sh: gateway.err.log monitoring added (9 error patterns)
 **Type:** script
 **Source:** ken-prompt
@@ -10731,7 +10199,6 @@ This log captures **every change** Yoda makes to AInchors infrastructure, config
 **Category:** observability
 **Framework docs:** RULES.md
 ---
-
 
 ## 2026-04-30 18:17 AEST — [CHG-0088] Aria SOUL.md compacted (17KB → 3.7KB) + 3 failed gog crons removed + fallback chain cron fixed
 **Type:** agent
@@ -10746,7 +10213,6 @@ This log captures **every change** Yoda makes to AInchors infrastructure, config
 **Framework docs:** ~/Documents/AInchors/Agents/ModelStrategy.md, RULES.md
 ---
 
-
 ## 2026-04-30 13:30 AEST — [CHG-0087] Marketing collaterals generated for Angie — 3 HTML assets
 **Type:** doc
 **Source:** ken-prompt
@@ -10759,7 +10225,6 @@ This log captures **every change** Yoda makes to AInchors infrastructure, config
 **Category:** operating-process
 **Framework docs:** SOUL.md
 ---
-
 
 ## 2026-04-30 13:19 AEST — [CHG-0086] /achievements keyword — locked and formatted in RULES.md
 **Type:** rule
@@ -10774,7 +10239,6 @@ This log captures **every change** Yoda makes to AInchors infrastructure, config
 **Framework docs:** RULES.md
 ---
 
-
 ## 2026-04-30 12:39 AEST — [CHG-0085] Gemma4:e2b removed from all cron payloads — context window 2048 incompatible with OpenClaw min 16000
 **Type:** config
 **Source:** incident-recovery
@@ -10787,7 +10251,6 @@ This log captures **every change** Yoda makes to AInchors infrastructure, config
 **Category:** model-routing
 **Framework docs:** ~/Documents/AInchors/Agents/ModelStrategy.md
 ---
-
 
 ## 2026-04-30 12:10 AEST — [CHG-0084] RTB interim delivery model — Rose Thorn Bud replaces standup Section 8
 **Type:** rule
@@ -10802,7 +10265,6 @@ This log captures **every change** Yoda makes to AInchors infrastructure, config
 **Framework docs:** RULES.md, SOUL.md, ~/Documents/AInchors/Agents/ModelStrategy.md
 ---
 
-
 ## 2026-04-30 11:30 AEST — [CHG-0083] Framework alignment DoD + registry + audit — Option A+B+C
 **Type:** rule
 **Source:** ken-prompt
@@ -10816,7 +10278,6 @@ This log captures **every change** Yoda makes to AInchors infrastructure, config
 **Framework docs:** RULES.md, state/framework-registry.json
 ---
 
-
 ## 2026-04-30 11:01 AEST — [CHG-0082] US41: Cross-agent task monitoring sub-agent (TKT-0026)
 **Type:** script
 **Source:** ken-prompt
@@ -10827,7 +10288,6 @@ This log captures **every change** Yoda makes to AInchors infrastructure, config
 **Rollback:** Delete scripts/task-*.sh, state/tasks.db, remove cron 637ecb12
 **Linked:** TKT-0026 US41
 ---
-
 
 ## 2026-04-30 10:38 AEST — [CHG-0081] US40: Platform-wide observability logging layer
 **Type:** script
@@ -10840,7 +10300,6 @@ This log captures **every change** Yoda makes to AInchors infrastructure, config
 **Linked:** TKT-0025 US40
 ---
 
-
 ## 2026-04-29 20:31 AEST — [CHG-0080] US18: Monthly SLA Report — incident persistence + sla-report.sh + cron + Notion
 **Type:** config
 **Source:** ken-prompt
@@ -10851,7 +10310,6 @@ This log captures **every change** Yoda makes to AInchors infrastructure, config
 **Rollback:** N/A
 **Linked:** US18 TKT-0024
 ---
-
 
 ## 2026-04-29 18:08 AEST — [CHG-0079] US20: Research Framework — Tiers 2-4 defined, /research routing, registry, Notion AKB
 **Type:** config
@@ -10864,7 +10322,6 @@ This log captures **every change** Yoda makes to AInchors infrastructure, config
 **Linked:** US20 TKT-0023
 ---
 
-
 ## 2026-04-29 11:31 AEST — [CHG-0078] US23: Resilient outage handling — outage-detect + recovery doc
 **Type:** config
 **Source:** ken-prompt
@@ -10875,7 +10332,6 @@ This log captures **every change** Yoda makes to AInchors infrastructure, config
 **Rollback:** N/A
 **Linked:** US23
 ---
-
 
 ## 2026-04-29 11:31 AEST — [CHG-0077] US22: Fix cost-tracker.sh alert logic
 **Type:** config
@@ -10888,7 +10344,6 @@ This log captures **every change** Yoda makes to AInchors infrastructure, config
 **Linked:** US22
 ---
 
-
 ## 2026-04-29 11:30 AEST — [CHG-0076] PIR-20260428-002 completed
 **Type:** doc
 **Source:** ken-prompt
@@ -10899,7 +10354,6 @@ This log captures **every change** Yoda makes to AInchors infrastructure, config
 **Rollback:** N/A
 **Linked:** INC-20260428-002
 ---
-
 
 ## 2026-04-29 10:47 AEST — [CHG-0075] Fix Aria fallback chain — Haiku only, no Opus/Gemma4
 **Type:** config
@@ -10912,7 +10366,6 @@ This log captures **every change** Yoda makes to AInchors infrastructure, config
 **Linked:** TKT-0022
 ---
 
-
 ## 2026-04-29 01:01 AEST — [CHG-0074] Auto-committed 1 untracked file in AInchors repo
 **Type:** data
 **Source:** auto-heal
@@ -10923,7 +10376,6 @@ This log captures **every change** Yoda makes to AInchors infrastructure, config
 **Rollback:** N/A
 **Linked:** none
 ---
-
 
 ## 2026-04-29 01:01 AEST — [CHG-0073] Auto-committed 7 untracked files in workspace repo
 **Type:** data
@@ -10936,7 +10388,6 @@ This log captures **every change** Yoda makes to AInchors infrastructure, config
 **Linked:** none
 ---
 
-
 ## 2026-04-28 21:57 AEST — [CHG-0072] Auto-Heal sweep 2026-04-28: 3 auto-fixes, 1 needs-ken
 **Type:** infra
 **Source:** auto-heal
@@ -10947,7 +10398,6 @@ This log captures **every change** Yoda makes to AInchors infrastructure, config
 **Rollback:** N/A
 **Linked:** none
 ---
-
 
 ## 2026-04-28 18:44 AEST — [CHG-0071] Credit alerts recalibrated: T1=$80, T2=$40, T3=$15. Angie routing fixed.
 **Type:** config
@@ -10960,7 +10410,6 @@ This log captures **every change** Yoda makes to AInchors infrastructure, config
 **Linked:** CHG-0032 CHG-0050 CHG-0070
 ---
 
-
 ## 2026-04-28 18:40 AEST — [CHG-0070] Cost tracker rebuilt from Anthropic CSV — cache write charges now included
 **Type:** data
 **Source:** ken-prompt
@@ -10971,7 +10420,6 @@ This log captures **every change** Yoda makes to AInchors infrastructure, config
 **Rollback:** Restore previous cost-state.json from git.
 **Linked:** TKT-0015 CHG-0050 CHG-0068
 ---
-
 
 ## 2026-04-28 18:32 AEST — [CHG-0069] Day 4 sprint CLOSED
 **Type:** rule
@@ -10984,7 +10432,6 @@ This log captures **every change** Yoda makes to AInchors infrastructure, config
 **Linked:** US23 US27 US35 CHG-0068
 ---
 
-
 ## 2026-04-28 18:31 AEST — [CHG-0068] Sprint cleanup: stale Notion items, duplicate MIGs, Opus investigation, cost tracker fix, INC severity back-populate
 **Type:** data
 **Source:** ken-prompt
@@ -10995,7 +10442,6 @@ This log captures **every change** Yoda makes to AInchors infrastructure, config
 **Rollback:** Revert cost-tracker.sh confirmed balance logic.
 **Linked:** US35 CHG-0059 CHG-0065
 ---
-
 
 ## 2026-04-28 18:27 AEST — [CHG-0067] US35 acceptance criteria locked — AC1+AC2 PASS, AC3 watch, AC4+AC5 deferred
 **Type:** rule
@@ -11008,7 +10454,6 @@ This log captures **every change** Yoda makes to AInchors infrastructure, config
 **Linked:** US35 CHG-0048 CHG-0065 CHG-0066
 ---
 
-
 ## 2026-04-28 16:56 AEST — [CHG-0065] QW batch: SLOs, uptime logging, CI Register, change types, ITIL tags, PRB-001
 **Type:** script
 **Source:** ken-prompt
@@ -11019,7 +10464,6 @@ This log captures **every change** Yoda makes to AInchors infrastructure, config
 **Rollback:** Delete SLOs.md, uptime-log.json, ci-register.json, PRB-001.json. Revert health-check.sh uptime block. Remove RULES.md change types.
 **Linked:** TKT-0003 TKT-0006 TKT-0007 TKT-0008 TKT-0009 TKT-0010
 ---
-
 
 ## 2026-04-28 16:44 AEST — [CHG-0064] Governance gate skip rule approved — Yoda/Ken internal work exempt
 **Type:** rule
@@ -11032,7 +10476,6 @@ This log captures **every change** Yoda makes to AInchors infrastructure, config
 **Linked:** CHG-0053 CHG-0054 CHG-0055
 ---
 
-
 ## 2026-04-28 16:30 AEST — [CHG-0063] Business ROI expansion: campaign tracking, marketing funnel, sales conversion
 **Type:** script
 **Source:** ken-prompt
@@ -11043,7 +10486,6 @@ This log captures **every change** Yoda makes to AInchors infrastructure, config
 **Rollback:** Delete campaigns.json, funnel-metrics.json, log-campaign.sh, campaign-debrief.sh. Revert Aria SOUL.md.
 **Linked:** TKT-0021 TKT-0020
 ---
-
 
 ## 2026-04-28 16:21 AEST — [CHG-0062] Business ROI framework — value rubric, tracker, Aria integration, weekly cron
 **Type:** script
@@ -11056,7 +10498,6 @@ This log captures **every change** Yoda makes to AInchors infrastructure, config
 **Linked:** TKT-0020
 ---
 
-
 ## 2026-04-28 14:53 AEST — [CHG-0061] /frameworks command — operational framework maturity assessment
 **Type:** rule
 **Source:** ken-prompt
@@ -11067,7 +10508,6 @@ This log captures **every change** Yoda makes to AInchors infrastructure, config
 **Rollback:** Remove RULES.md /frameworks entry. Delete frameworks-maturity.json and frameworks-report.sh.
 **Linked:** TKT-0019
 ---
-
 
 ## 2026-04-28 14:32 AEST — [CHG-0060] US27: Run Diagnostics phases 7-9 (coverage, performance, predictive)
 **Type:** script
@@ -11080,7 +10520,6 @@ This log captures **every change** Yoda makes to AInchors infrastructure, config
 **Linked:** US27
 ---
 
-
 ## 2026-04-28 14:26 AEST — [CHG-0059] ITSM batch: QW-2 severity flag, QW-3 Standards.md, ITSM-US-007 auto-heal INC, ITSM-US-006 PIR trigger
 **Type:** script
 **Source:** ken-prompt
@@ -11091,7 +10530,6 @@ This log captures **every change** Yoda makes to AInchors infrastructure, config
 **Rollback:** Revert incident-log.sh. Remove pir-trigger.sh. Revert auto-heal.sh INC block. Remove Standards.md Service Desk section.
 **Linked:** TKT-0019 QW-2 QW-3
 ---
-
 
 ## 2026-04-28 14:18 AEST — [CHG-0058] US23 execution: outage handler, updated fallback chain, standby banner
 **Type:** script
@@ -11104,7 +10542,6 @@ This log captures **every change** Yoda makes to AInchors infrastructure, config
 **Linked:** TKT-0018 US23
 ---
 
-
 ## 2026-04-28 12:44 AEST — [CHG-0056] AKB daily update cron — 3AM AEST, reads both stream journals
 **Type:** cron
 **Source:** ken-prompt
@@ -11115,7 +10552,6 @@ This log captures **every change** Yoda makes to AInchors infrastructure, config
 **Rollback:** Delete cron dce1ada4.
 **Linked:** TKT-0015
 ---
-
 
 ## 2026-04-28 12:01 AEST — [CHG-0055] Governance gate refinement: ask-first, Aria/Angie only
 **Type:** rule
@@ -11128,7 +10564,6 @@ This log captures **every change** Yoda makes to AInchors infrastructure, config
 **Linked:** TKT-0017 CHG-0053 CHG-0054
 ---
 
-
 ## 2026-04-28 11:52 AEST — [CHG-0054] Governance gate wired into Aria + /governance ad-hoc command
 **Type:** agent
 **Source:** ken-prompt
@@ -11139,7 +10574,6 @@ This log captures **every change** Yoda makes to AInchors infrastructure, config
 **Rollback:** Revert workspace-business/SOUL.md governance section. Delete governance-report.sh.
 **Linked:** TKT-0017 CHG-0053
 ---
-
 
 ## 2026-04-28 11:31 AEST — [CHG-0053] Shield Rule 1 + Lex Rule 1: security and legal assurance gates on all shared assets
 **Type:** rule
@@ -11152,7 +10586,6 @@ This log captures **every change** Yoda makes to AInchors infrastructure, config
 **Linked:** TKT-0017 CHG-0051
 ---
 
-
 ## 2026-04-28 11:22 AEST — [CHG-0052] Fix health-check.sh: declare -A, Python bool, lock glob bugs
 **Type:** script
 **Source:** ken-prompt
@@ -11163,7 +10596,6 @@ This log captures **every change** Yoda makes to AInchors infrastructure, config
 **Rollback:** Revert health-check.sh from git.
 **Linked:** TKT-0015
 ---
-
 
 ## 2026-04-28 11:13 AEST — [CHG-0051] Sage Rule 1: QA gate on all shared/communicated assets
 **Type:** rule
@@ -11176,7 +10608,6 @@ This log captures **every change** Yoda makes to AInchors infrastructure, config
 **Linked:** TKT-0016
 ---
 
-
 ## 2026-04-28 10:53 AEST — [CHG-0050] Day 4 sprint: delegation logging, config-009, burn alert, gemma4 shadow fix
 **Type:** script
 **Source:** ken-prompt
@@ -11187,7 +10618,6 @@ This log captures **every change** Yoda makes to AInchors infrastructure, config
 **Rollback:** Remove delegation-log.json, log-delegation.sh. Revert Aria modelFallbacks to None. Delete burn alert cron ca5d5e50.
 **Linked:** TKT-0015 US22 US23
 ---
-
 
 ## 2026-04-28 10:47 AEST — [CHG-0049] 3-tier routing live: route-model.sh, governance cron scaffolding, Haiku extended
 **Type:** config
@@ -11200,7 +10630,6 @@ This log captures **every change** Yoda makes to AInchors infrastructure, config
 **Linked:** TKT-0014 CHG-0048 US35
 ---
 
-
 ## 2026-04-28 10:39 AEST — [CHG-0048] 3-tier model strategy: Haiku 4.5 as Tier 2, qwen3 benchmarked
 **Type:** agent
 **Source:** ken-prompt
@@ -11211,7 +10640,6 @@ This log captures **every change** Yoda makes to AInchors infrastructure, config
 **Rollback:** Revert Warden + Health crons to Sonnet. Remove Haiku from model-policy.json and openclaw.json.
 **Linked:** TKT-0014 US35
 ---
-
 
 ## 2026-04-28 08:37 AEST — [CHG-0047] Gemma4 delegation model: gemma4:26b → gemma4:e2b
 **Type:** config
@@ -11224,7 +10652,6 @@ This log captures **every change** Yoda makes to AInchors infrastructure, config
 **Linked:** TKT-0013 CHG-0045 CHG-0046
 ---
 
-
 ## 2026-04-28 07:58 AEST — [CHG-0046] Lex (legal agent) model Opus → Sonnet
 **Type:** config
 **Source:** ken-prompt
@@ -11235,7 +10662,6 @@ This log captures **every change** Yoda makes to AInchors infrastructure, config
 **Rollback:** Set agents.list[id=legal].model back to anthropic/claude-opus-4-7. Restore exception in model-policy.json and baseline.
 **Linked:** TKT-0013 CHG-0045
 ---
-
 
 ## 2026-04-28 07:54 AEST — [CHG-0045] Warden 🔍 — model compliance and drift monitoring agent
 **Type:** agent
@@ -11248,7 +10674,6 @@ This log captures **every change** Yoda makes to AInchors infrastructure, config
 **Linked:** TKT-0013
 ---
 
-
 ## 2026-04-27 23:48 AEST — [CHG-0044] /close command defined + Day 3 sprint closed
 **Type:** rule
 **Source:** ken-prompt
@@ -11259,7 +10684,6 @@ This log captures **every change** Yoda makes to AInchors infrastructure, config
 **Rollback:** Remove /close section from RULES.md + SOUL.md.
 **Linked:** US24, US29, CHG-0039
 ---
-
 
 ## 2026-04-27 23:31 AEST — [CHG-0043] Nightly auto-heal 2026-04-27: git commit + Notion US filing
 **Type:** script
@@ -11272,7 +10696,6 @@ This log captures **every change** Yoda makes to AInchors infrastructure, config
 **Linked:** none
 ---
 
-
 ## 2026-04-27 23:02 AEST — [CHG-0042] AInchors Mission Control dashboard — generator script + HTML canvas + 5-min cron
 **Type:** script
 **Source:** ken-prompt
@@ -11283,7 +10706,6 @@ This log captures **every change** Yoda makes to AInchors infrastructure, config
 **Rollback:** Delete canvas/documents/mission-control/, remove cron d32f2b9a
 **Linked:** none
 ---
-
 
 ## 2026-04-27 22:48 AEST — [CHG-0041] Governance agents operational setup — Shield, Lex, Sage
 **Type:** agent
@@ -11296,7 +10718,6 @@ This log captures **every change** Yoda makes to AInchors infrastructure, config
 **Linked:** GovernanceFramework.md, CHANGELOG.md
 ---
 
-
 ## 2026-04-27 22:29 AEST — [CHG-0040] Gateway Recovery SOP: config snapshot, restore script, SOP doc, RULES.md update
 **Type:** doc
 **Source:** ken-prompt
@@ -11307,7 +10728,6 @@ This log captures **every change** Yoda makes to AInchors infrastructure, config
 **Rollback:** Remove gateway-restore.sh; delete GatewayRecoverySOP.md; revert RULES.md gateway section; delete backups/gateway-config/2026-04-27
 **Linked:** CHG-0036, CHG-0037, CHG-0038
 ---
-
 
 ## 2026-04-27 22:03 AEST — [CHG-0039] GitHub CLI authenticated — kenmun-ainchors
 **Type:** infra
@@ -11320,7 +10740,6 @@ This log captures **every change** Yoda makes to AInchors infrastructure, config
 **Linked:** none
 ---
 
-
 ## 2026-04-27 21:55 AEST — [CHG-0038] Telegram split into two dedicated bots — Yoda + Aria
 **Type:** config
 **Source:** ken-prompt
@@ -11331,7 +10750,6 @@ This log captures **every change** Yoda makes to AInchors infrastructure, config
 **Rollback:** Revert channels.telegram to single-bot format with original token. Remove aria account and bindings.
 **Linked:** CHG-0035, CHG-0037, US32
 ---
-
 
 ## 2026-04-27 20:55 AEST — [CHG-0037] Ken Telegram binding restored to main agent (post-reset)
 **Type:** config
@@ -11344,7 +10762,6 @@ This log captures **every change** Yoda makes to AInchors infrastructure, config
 **Linked:** CHG-0035
 ---
 
-
 ## 2026-04-27 19:50 AEST — [CHG-0036] Bonjour plugin disabled — gateway crash loop fix
 **Type:** infra
 **Source:** ken-prompt
@@ -11355,7 +10772,6 @@ This log captures **every change** Yoda makes to AInchors infrastructure, config
 **Rollback:** Set plugins.entries.bonjour.enabled=true in openclaw.json + gateway restart.
 **Linked:** none
 ---
-
 
 ## 2026-04-27 13:30 AEST — [CHG-0035] Explicit Telegram routing: Ken→Yoda binding + YODA THIS IS KEN handover keyword
 **Type:** config
@@ -11368,7 +10784,6 @@ This log captures **every change** Yoda makes to AInchors infrastructure, config
 **Linked:** TKT-0001
 ---
 
-
 ## 2026-04-27 13:17 AEST — [CHG-0034] Cost tracker balance reconciliation — corrected $68.75 → $88.20
 **Type:** script
 **Source:** ken-prompt
@@ -11379,7 +10794,6 @@ This log captures **every change** Yoda makes to AInchors infrastructure, config
 **Rollback:** Revert cost-state.json and cost-tracker.sh from git.
 **Linked:** US22, TKT-0002
 ---
-
 
 ## 2026-04-27 12:16 AEST — [CHG-0033] US22 resolved — cost tracker working, Day 3 data parsed
 **Type:** script
@@ -11392,7 +10806,6 @@ This log captures **every change** Yoda makes to AInchors infrastructure, config
 **Linked:** TKT-0002, US22
 ---
 
-
 ## 2026-04-27 12:15 AEST — [CHG-0032] 3-tier credit alert system: $50 once, $25 every 3rd response, $10 pause-and-ack
 **Type:** rule
 **Source:** ken-prompt
@@ -11403,7 +10816,6 @@ This log captures **every change** Yoda makes to AInchors infrastructure, config
 **Rollback:** Revert cost-state.json spendAlerts to previous structure. Delete cost-alert-state.json. Remove Credit Alert Rules from RULES.md.
 **Linked:** TKT-0001
 ---
-
 
 ## 2026-04-27 11:57 AEST — [CHG-0031] Angie onboarding: Stage 3 PM framework inserted (Notion, backlog, epic, sprint, ceremonies)
 **Type:** doc
@@ -11416,7 +10828,6 @@ This log captures **every change** Yoda makes to AInchors infrastructure, config
 **Linked:** TKT-0011, US29, CHG-0030
 ---
 
-
 ## 2026-04-27 11:50 AEST — [CHG-0030] Angie onboarding journey + adapted operating model created
 **Type:** doc
 **Source:** ken-prompt
@@ -11427,7 +10838,6 @@ This log captures **every change** Yoda makes to AInchors infrastructure, config
 **Rollback:** Delete AngieOperatingModel.md, AngieOnboarding.md, onboarding-checklist.json. Revert AGENTS.md.
 **Linked:** TKT-0011, US29, CHG-0023
 ---
-
 
 ## 2026-04-27 11:42 AEST — [CHG-0029] Aria TOM authority granted + Gemma4 extended to ALL business stream agents
 **Type:** rule
@@ -11440,7 +10850,6 @@ This log captures **every change** Yoda makes to AInchors infrastructure, config
 **Linked:** TKT-0012, US29, CHG-0028
 ---
 
-
 ## 2026-04-27 11:34 AEST — [CHG-0028] Aria 3 non-negotiable rules locked: Gemma4 default, tail response, CR gate for technical changes
 **Type:** rule
 **Source:** ken-prompt
@@ -11451,7 +10860,6 @@ This log captures **every change** Yoda makes to AInchors infrastructure, config
 **Rollback:** Revert openclaw.json business model to Sonnet. Remove Rule 1-3 from Aria SOUL.md. Remove Aria Operating Rules from RULES.md. Remove config-008 from baseline.
 **Linked:** TKT-0012, US29, CHG-0023, CHG-0025, CHG-0026
 ---
-
 
 ## 2026-04-27 11:25 AEST — [CHG-0027] API balance topped up to $107.06 USD
 **Type:** data
@@ -11464,7 +10872,6 @@ This log captures **every change** Yoda makes to AInchors infrastructure, config
 **Linked:** TKT-0001
 ---
 
-
 ## 2026-04-27 11:23 AEST — [CHG-0026] Governance layer: Shield 🔐, Lex ⚖️, Sage 🧪 — 3 agents operational
 **Type:** agent
 **Source:** ken-prompt
@@ -11475,7 +10882,6 @@ This log captures **every change** Yoda makes to AInchors infrastructure, config
 **Rollback:** openclaw agents remove security/legal/qa. Remove RULES.md governance section. Revert Aria SOUL.md.
 **Linked:** TKT-0012, US-TOM-governance, CHG-0024
 ---
-
 
 ## 2026-04-27 10:59 AEST — [CHG-0025] Aria granted full read access to all AInchors data (Angie = CEO authority)
 **Type:** rule
@@ -11488,7 +10894,6 @@ This log captures **every change** Yoda makes to AInchors infrastructure, config
 **Linked:** TKT-0011, US29, CHG-0023, CHG-0024
 ---
 
-
 ## 2026-04-27 10:40 AEST — [CHG-0024] Yoda→Aria oversight + shared knowledge bridge + training pipeline
 **Type:** agent
 **Source:** ken-prompt
@@ -11499,7 +10904,6 @@ This log captures **every change** Yoda makes to AInchors infrastructure, config
 **Rollback:** Remove Shared/ dir, revert SOUL/AGENTS edits, revert standup cron, remove Check 13 from auto-heal, remove sync cron.
 **Linked:** TKT-0011, US29, CHG-0023
 ---
-
 
 ## 2026-04-27 10:34 AEST — [CHG-0023] Business Lead Agent Aria created + Angie Telegram bound
 **Type:** agent
@@ -11512,7 +10916,6 @@ This log captures **every change** Yoda makes to AInchors infrastructure, config
 **Linked:** TKT-0011, US29
 ---
 
-
 ## 2026-04-27 09:49 AEST — [CHG-0022] Slash-command triggers formalised: /resume, /research, /diagnostics
 **Type:** rule
 **Source:** ken-prompt
@@ -11523,7 +10926,6 @@ This log captures **every change** Yoda makes to AInchors infrastructure, config
 **Rollback:** Revert RULES.md and SOUL.md to prior versions via git.
 **Linked:** TKT-0001
 ---
-
 
 ## 2026-04-27 09:45 AEST — [CHG-0021] Ticketing system (TKT-NNNN) + ticket-first rule
 **Type:** script
@@ -11536,7 +10938,6 @@ This log captures **every change** Yoda makes to AInchors infrastructure, config
 **Linked:** TKT-0001, EPIC-001 (pending)
 ---
 
-
 ## 2026-04-27 08:35 AEST — [CHG-0020] US18: Monthly SLA Report generator + April 2026 report
 **Type:** script
 **Source:** ken-prompt
@@ -11547,7 +10948,6 @@ This log captures **every change** Yoda makes to AInchors infrastructure, config
 **Rollback:** Delete scripts/sla-report.sh and canvas/documents/sla-2026-04/
 **Linked:** US18
 ---
-
 
 ## 2026-04-27 08:31 AEST — [CHG-0019] Add Gemma4 warmup probe (Link 4b) to fallback chain validator
 **Type:** script
@@ -11560,7 +10960,6 @@ This log captures **every change** Yoda makes to AInchors infrastructure, config
 **Linked:** US23
 ---
 
-
 ## 2026-04-27 08:22 AEST — [CHG-0018] Wire validate-fallback-chain.sh to gateway boot via LaunchAgent
 **Type:** infra
 **Source:** ken-prompt
@@ -11571,7 +10970,6 @@ This log captures **every change** Yoda makes to AInchors infrastructure, config
 **Rollback:** launchctl unload ~/Library/LaunchAgents/ai.ainchors.startup-checks.plist
 **Linked:** US23
 ---
-
 
 ## 2026-04-27 08:14 AEST — [CHG-0017] US23: AutoHeal.md — added checks #13 (Anthropic), #14 (Ollama), #15 (standby auto-clear)
 **Type:** doc
@@ -11584,7 +10982,6 @@ This log captures **every change** Yoda makes to AInchors infrastructure, config
 **Linked:** none
 ---
 
-
 ## 2026-04-27 08:14 AEST — [CHG-0016] US23: OutageRecovery.md — recovery runbook for all major failure modes
 **Type:** doc
 **Source:** ken-prompt
@@ -11595,7 +10992,6 @@ This log captures **every change** Yoda makes to AInchors infrastructure, config
 **Rollback:** N/A
 **Linked:** none
 ---
-
 
 ## 2026-04-27 08:13 AEST — [CHG-0015] US23: health-check.sh — Anthropic/Ollama API checks + standby mode (checks 13-15)
 **Type:** script
@@ -11608,7 +11004,6 @@ This log captures **every change** Yoda makes to AInchors infrastructure, config
 **Linked:** none
 ---
 
-
 ## 2026-04-27 08:13 AEST — [CHG-0014] US23: validate-fallback-chain.sh — boot-time fallback chain validation
 **Type:** script
 **Source:** ken-prompt
@@ -11619,7 +11014,6 @@ This log captures **every change** Yoda makes to AInchors infrastructure, config
 **Rollback:** N/A
 **Linked:** none
 ---
-
 
 ## 2026-04-27 08:10 AEST — [CHG-0013] US22: Fix cost-tracker.sh parser — dollar-sign f-string shell expansion bug
 **Type:** script
@@ -11632,7 +11026,6 @@ This log captures **every change** Yoda makes to AInchors infrastructure, config
 **Linked:** US22
 ---
 
-
 ## 2026-04-27 07:38 AEST — [CHG-0012] Fixed agent main model drift Opus->Sonnet + added critical-config anti-drift baseline (auto-heal Check #12)
 **Type:** config
 **Source:** ken-prompt
@@ -11643,7 +11036,6 @@ This log captures **every change** Yoda makes to AInchors infrastructure, config
 **Rollback:** Edit openclaw.json model back to Opus + remove Check #12 block from auto-heal.sh + delete critical-config-baseline.json + revert RULES.md edit.
 **Linked:** US11, US26, US28-new
 ---
-
 
 ## 2026-04-27 07:29 AEST — [CHG-0011] Created evergreen Operations/ResiliencyFramework.md (Obsidian)
 **Type:** doc
@@ -11656,7 +11048,6 @@ This log captures **every change** Yoda makes to AInchors infrastructure, config
 **Linked:** US25, US26, US27, CHG-0008, CHG-0009
 ---
 
-
 ## 2026-04-27 07:20 AEST — [CHG-0010] Fixed CHG-NNNN auto-increment to use MAX (was first-match)
 **Type:** script
 **Source:** ken-prompt
@@ -11667,7 +11058,6 @@ This log captures **every change** Yoda makes to AInchors infrastructure, config
 **Rollback:** Revert helper script change
 **Linked:** CHG-0008, CHG-0009
 ---
-
 
 ## 2026-04-27 07:19 AEST — [CHG-0008] Resiliency framework: auto-heal cron + run-diagnostics + standup integration + 3 specs
 **Type:** cron
@@ -11680,7 +11070,6 @@ This log captures **every change** Yoda makes to AInchors infrastructure, config
 **Linked:** US25, US26, US27
 ---
 
-
 ## 2026-04-27 07:15 AEST — [CHG-0009] Created auto-heal + run-diagnostics + CHANGELOG framework
 **Type:** doc
 **Source:** ken-prompt
@@ -11691,7 +11080,6 @@ This log captures **every change** Yoda makes to AInchors infrastructure, config
 **Rollback:** Remove three scripts and CHANGELOG.md
 **Linked:** US25, US26, US27 (next)
 ---
-
 
 ## 2026-04-27 06:42 AEST — [CHG-0006] Backup cron LLM-independence
 **Type:** cron
@@ -11953,7 +11341,6 @@ _Pre-existing changes (Day 1, Day 2) are captured in `memory/shared/decisions.md
 **Linked:** TKT-0144
 ---
 
-
 ## 2026-05-11 12:14 AEST — [CHG-274] TKT-0146: Backup optimisation — incremental daily, full weekly
 **Type:** infra
 **Source:** ken-prompt
@@ -11964,7 +11351,6 @@ _Pre-existing changes (Day 1, Day 2) are captured in `memory/shared/decisions.md
 **Rollback:** Revert backup.sh from git. Old workspace/ backups retained until natural pruning cycle.
 **Linked:** TKT-0146
 ---
-
 
 ## 2026-05-11 12:35 AEST — [CHG-275] TKT-0124: MinIO deployed on OC1 — S3-compatible agent object store
 **Type:** infra
