@@ -1,3 +1,27 @@
+## 2026-06-22 20:27 AEST — [CHG-0732] CHG-0720: TKT-0720 complete — entity_links edge table, markdown backfill, live-write hooks
+**Type:** config
+**Change Type:** Normal
+**Source:** ken-prompt
+**Trigger:** CREST v2.0 Phase 1 execution: TKT-0720 A8 commit verified
+**What changed:** Added entity_links table/sequence/indexes; backfilled 1,437 entity + 95 file edges (after removing 41 TKT-0720 A4 test-artifact edges); wired db-ticket.sh, changelog-append.sh, db-sprint.sh live-write hooks; committed SHA 39c73573
+**Why:** Phase 1 Linking workstream (WS-2) foundational capability; enables graph traversal and relationship surfacing across tickets, changes, sprints, lessons, WOs
+**Verification:** A7 E2E verification: schema contract, 7 indexes, ≥97.99% completeness (backfill + live-write tests), multi-hop query works, safe rollback dry-run; A4 test CHGs CHG-0720..0731 and test ticket TKT-9991 edges removed
+**Rollback:** N/A
+**Linked:** TKT-0720 TKT-0342
+---
+
+## 2026-06-22 19:55 AEST — [CHG-0719] TKT-0720 execution: entity_links edge table + backfill + live hooks
+**Type:** config
+**Change Type:** Normal
+**Source:** ken-prompt
+**Trigger:** CREST Step 1 Plan approved by Ken
+**What changed:** Create entity_links table; backfill 700+ markdown Linked: mentions; wire live-write hooks in ticket/CHG/sprint scripts
+**Why:** Replace grep-based links with queryable FK-like edges so history-of-X queries work from PG
+**Verification:** Plan approved; CHG recorded; A1 architecture review next
+**Rollback:** Run infra/rollback/TKT-0720-rollback.sql (safe dry-run first)
+**Linked:** TKT-0720,docs/CRESTv2-P1-DM-StructuredFoundation-v1.0.md,state/crestv2-p1-tracker.json
+---
+
 ## 2026-06-22 19:40 AEST — [CHG-0718] TKT-0726 completion: agentic event write pipeline live
 **Type:** config
 **Change Type:** Normal
