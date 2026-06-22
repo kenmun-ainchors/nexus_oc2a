@@ -1,17 +1,17 @@
 {
-  "checkedAt": "2026-06-21T15:00:06Z",
+  "checkedAt": "2026-06-22T07:00:41Z",
   "offenders": [
-    {
-      "cronId": "e08e19ad-2d15-47ff-9ac0-509c05889a0e",
-      "name": "TKT-0093 Backup Health Check",
-      "currentTimeout": 30,
-      "model": "ollama/deepseek-v4-flash:cloud",
-      "suggestedTimeout": 120
-    },
     {
       "cronId": "c69615bb-e8cb-4456-8b78-a9ec2ec89195",
       "name": "yoda-context-brief-refresh (2pm + 8pm AEST)",
       "currentTimeout": 90,
+      "model": "ollama/deepseek-v4-flash:cloud",
+      "suggestedTimeout": 120
+    },
+    {
+      "cronId": "e08e19ad-2d15-47ff-9ac0-509c05889a0e",
+      "name": "TKT-0093 Backup Health Check",
+      "currentTimeout": 30,
       "model": "ollama/deepseek-v4-flash:cloud",
       "suggestedTimeout": 120
     }

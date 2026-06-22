@@ -1,5 +1,5 @@
 {
-  "checkedAt": "2026-06-15T15:49:00+10:00",
+  "checkedAt": "2026-06-22T17:36:00+10:00",
   "incident": "INC-20260608-001",
   "vectors": [
     {
@@ -16,18 +16,18 @@
       "vector": "config-validation-side-effect",
       "source": "sandbox (workspace-infra)",
       "target": "prod gateway config/token via openclaw doctor --fix",
-      "current_prevention": "None. openclaw doctor --fix reads config pointed by OPENCLAW_CONFIG (sandbox openclaw.json) — it does NOT read prod config by default. BUT the sandbox plist sets HOME=/Users/ainchorsangiefpl, so doctor could discover $HOME/.openclaw/openclaw.json if it falls back to default config discovery. The 2026-06-08 incident showed doctor triggered token regeneration as side-effect.",
-      "gap_status": "gap",
-      "fix_recommendation": "1) Add 'unset OPENCLAW_GATEWAY_TOKEN' in sandbox.env so sandbox doctor cannot regenerate prod token. 2) Add OPENCLAW_SANDBOX=1 guard in any script that calls openclaw doctor."
+      "current_prevention": "sandbox.env now explicitly unsets OPENCLAW_GATEWAY_TOKEN (added 2026-06-15 per TKT-0332-A2). This prevents openclaw doctor --fix from discovering or regenerating the production gateway token. sandbox-guard.sh also blocks sandbox-context scripts from running production operations.",
+      "gap_status": "covered",
+      "fix_recommendation": "None needed — both env var unset and sandbox-guard.sh guard in place."
     },
     {
       "id": "A1.3",
       "vector": "token-regeneration",
       "source": "sandbox process via openclaw doctor --fix",
       "target": "production gateway token",
-      "current_prevention": "Sandbox plist sets OPENCLAW_CONFIG to nexus-sandbox/openclaw.json. However sandbox.env does NOT explicitly unset OPENCLAW_GATEWAY_TOKEN. If inherited from shell/launchd environment, sandbox doctor could regenerate the prod token.",
-      "gap_status": "gap",
-      "fix_recommendation": "Add 'unset OPENCLAW_GATEWAY_TOKEN' to sandbox.env. This prevents the exact side-effect chain from INC-20260608-001."
+      "current_prevention": "sandbox.env explicitly unsets OPENCLAW_GATEWAY_TOKEN. Verified present in nexus-sandbox/sandbox.env. This closes the exact side-effect chain from INC-20260608-001.",
+      "gap_status": "covered",
+      "fix_recommendation": "None needed — fix applied and verified."
     },
     {
       "id": "A1.4",
@@ -43,9 +43,9 @@
       "vector": "launchagent-plist",
       "source": "sandbox LaunchAgent plist",
       "target": "production config/env",
-      "current_prevention": "Sandbox plist properly isolated: OPENCLAW_CONFIG → nexus-sandbox/openclaw.json, OPENCLAW_SANDBOX=1, WorkingDirectory → nexus-sandbox, StandardOutPath/StandardErrorPath → sandbox-specific logs. Port 28789 (sandbox convention per CHG-0471).",
+      "current_prevention": "Sandbox plist properly isolated: OPENCLAW_CONFIG → nexus-sandbox/openclaw.json, OPENCLAW_SANDBOX=1, WorkingDirectory → nexus-sandbox, StandardOutPath/StandardErrorPath → sandbox-specific logs. Port 28789 (sandbox convention per CHG-0471). sandbox.env also unsets OPENCLAW_GATEWAY_TOKEN for belt-and-suspenders.",
       "gap_status": "covered",
-      "fix_recommendation": "Minor hardening: add 'unset OPENCLAW_GATEWAY_TOKEN' to EnvironmentVariables dict in plist (belt-and-suspenders)."
+      "fix_recommendation": "None needed — all hardening applied."
     },
     {
       "id": "A1.6",
@@ -70,15 +70,15 @@
       "vector": "openclaw-doctor-token-side-effect",
       "source": "Any openclaw doctor --fix invocation from sandbox context",
       "target": "Production gateway SIGTERM via token mismatch",
-      "current_prevention": "Sandbox plist points OPENCLAW_CONFIG to nexus-sandbox/openclaw.json. BUT the doctor command discovers gateway token via OPENCLAW_GATEWAY_TOKEN env var. If this env var leaks from user's shell (common on macOS via launchctl setenv), sandbox process could regenerate the prod token.",
-      "gap_status": "gap",
-      "fix_recommendation": "Same fix as A1.2/A1.3 — explicitly unset OPENCLAW_GATEWAY_TOKEN in sandbox.env."
+      "current_prevention": "sandbox.env explicitly unsets OPENCLAW_GATEWAY_TOKEN (verified present). sandbox-guard.sh also blocks sandbox-context scripts. Belt-and-suspenders: env var unset prevents doctor from discovering prod token; sandbox-guard.sh prevents scripts from running doctor in sandbox context.",
+      "gap_status": "covered",
+      "fix_recommendation": "None needed — both layers of protection in place."
     }
   ],
   "summary": {
     "total": 8,
-    "covered": 5,
+    "covered": 8,
     "partial": 0,
-    "gap": 3
+    "gap": 0
   }
 }

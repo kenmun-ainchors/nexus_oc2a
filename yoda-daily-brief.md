@@ -1,46 +1,95 @@
-# Yoda Daily Brief — 2026-06-21 (Sunday)
+# Yoda Daily Brief — 2026-06-22 (Monday)
 
 ## What Yoda Built Today
 
-A solid Sunday of platform hardening and Sprint 9 prep. The big themes:
+A massive day — **5 CRESTv2-P1 foundation tickets closed** in a single session. Here's the plain-language version:
 
-**1. PG-Notion Integrity Cleanup** — The daily PG-Notion audit cron was timing out (4 consecutive failures) because the isolated agent session startup took longer than 193s. Fixed the timeout to 600s. Also fixed the audit script itself — it was only checking the first 100 Notion pages (Notion's default page_size), so it never detected the real 127-page mismatch. After pagination fix, cleaned up 127 orphan Notion Backlog pages that had no matching PG ticket. This closes a long-standing data integrity gap.
+### 🏗️ CRESTv2-P1 Phase 1: Structured Foundation
+Ken approved the Phase 1 design module this morning, creating 7 new tickets (TKT-0720 through TKT-0726) and locking them into Sprint 9-11. By end of day, **5 of 7 were done**:
 
-**2. Sprint 9 Detection Fix** — `db-sprint.sh current` was returning Sprint 11 instead of Sprint 9 because it picked the highest sprint_number instead of the earliest upcoming sprint by start_date. Fixed to pick the earliest upcoming committed/planning sprint. Sprint 9 now correctly detected (starts 2026-06-22).
+1. **TKT-0725 — Canonical Sprint Registry** — All 11 sprint-name variants collapsed into one clean PG table. 263 unsprinted tickets now properly assigned. Sprint 9=16 items, Sprint 10=4, Sprint 11=7. The database is now the single source of truth for sprint membership.
 
-**3. db-write.sh Error Classification** — Previously, any PG error silently degraded to file fallback, hiding bugs like string-into-integer capacity mismatches. Now captures psql exit code and stderr, classifies errors as REJECTED (schema/type/constraint — surfaces to caller, exit 1) or OUTAGE (connection — still falls back to file). 7/7 tests pass.
+2. **TKT-0330 — Atomic PG Numbering** — Tickets and change entries now get auto-incrementing numbers from Postgres sequences. No more manual numbering. New scripts (`db-ticket.sh`, `changelog-append.sh`) handle it automatically.
 
-**4. CREST v1.3 data_class Dimension Deferred** — Ken confirmed Option A deferral: the `data_class_whitelist` column in the CREST v1.3 policy schema is schema-ready but unpopulated. Live matrix is role×phase only. Opened TKT-0710 for CREST v2.0 data_class taxonomy work. Also built a memory-maintenance skill and `daily-master-promote-check.sh` to close the daily→master sync gap.
+3. **TKT-0726 — Agentic Event Pipeline** — Every state change (ticket created, sprint committed, change logged) now writes an auditable event record with a hash chain. 15 events emitted, 0 broken links. Think of it as a blockchain for our platform operations.
 
-**5. Aria Context Sync Prep** — This brief is the bridge. Aria gets a clean summary of today's work, key decisions, and what's open.
+4. **TKT-0720 — Entity Links** — Built a graph database layer: 1,532 edges connecting tickets, changes, sprints, and lessons. Now you can ask "what's the history of this ticket?" and get a complete linked timeline from PG.
 
-## Key Decisions
+5. **TKT-0343 — Config Baseline to PG** — The critical config snapshot now writes to Postgres daily via cron. Auto-heal CHECK 12 verifies the PG row matches the JSON file. One less thing to drift.
 
-- **CREST v1.3 data_class → v2.0** — Ken confirmed Option A deferral at 20:17 AEST. The column exists in the schema but is empty. No active data_class capability until TKT-0710 is delivered.
-- **Sprint 9 starts tomorrow (Mon 22 Jun)** — Detection fixed, planning ready.
-- **PG error classification hardened** — REJECTED errors now surface to callers instead of silently degrading to file fallback.
-- **PG-Notion audit now trustworthy** — Pagination fix + 127 orphan cleanup + timeout increase = reliable daily integrity checks.
+### 🔧 Infrastructure Fixes
+- **Atlas subagent exec gap fixed** — Architecture review agent now has `exec` tool access (CHG-0734). Unblocks all future architecture reviews.
+- **Model drift structural lock** — 3-layer defense: heartbeat check every 30min, auto-reset cron, Warden audit. 55 PASS / 0 FAIL.
+- **LinkedIn business stream** — Multi-account posting support (Ken personal + AInchors company + Angie personal). Handed off to Aria for ongoing campaign execution.
 
-## Training Content Angles (from today's work)
+### 📊 Key Metrics
+- **5 tickets closed** (TKT-0725, TKT-0330, TKT-0726, TKT-0720, TKT-0343)
+- **7 CHGs recorded** (CHG-0707 through CHG-0734)
+- **1,532 entity edges** in the graph
+- **0 broken hash links** in the event chain
+- **All delegated auth tokens valid** ✅
 
-| ID | Title | Status | Source |
-|---|---|---|---|
-| TC-233 | The audit that only checked 100 of 472 pages: Notion's silent page_size trap | 💡 idea | CHG-0695 — pagination fix |
-| TC-234 | 127 orphan pages and a 4-cron timeout: the real cost of deferred data integrity | 💡 idea | CHG-0694/0696 — PG-Notion cleanup |
-| TC-235 | Your sprint tool said 'Sprint 11' when the next sprint was Sprint 9: the ORDER BY trap | 💡 idea | CHG-0697 — sprint detection fix |
-| TC-236 | The silent fallback that hid every PG bug: why graceful degradation can be dangerous | 💡 idea | CHG-0698 — db-write.sh error classification |
-| TC-237 | Schema-ready, data-empty: the column that exists but doesn't work | 💡 idea | CHG-0699/0700 — data_class deferral |
+---
+
+## Key Decisions Made
+
+| Decision | Detail |
+|---|---|
+| **CRESTv2-P1 Phase 1 locked** | Ken approved design module at 09:59 AEST. 7 tickets created, Sprint 9-11 rebalanced. |
+| **Sprint 9 rebalanced 23→16** | Foundation-critical items only. Follow-on work moved to Sprint 10-11. |
+| **Atlas exec gap: fix, not workaround** | Ken chose to grant `exec` to architect subagent rather than routing A1 reviews elsewhere. |
+| **TKT-0343 CREST plan approved** | Daily cron cadence, single-row upsert, auto-heal CHECK 12 advisory. |
+
+---
+
+## Training Content Angles Extracted
+
+New ideas for the training pipeline from today's work:
+
+| ID | Title | Source |
+|---|---|---|
+| TC-238 | 5 tickets, 1 day, 0 regressions: what it takes to close foundation work in an AI platform | TKT-0720/0725/0726/0330/0343 |
+| TC-239 | The subagent that couldn't exec: when your architect can't inspect the architecture | TKT-0343 A1 blocked — Atlas exec gap |
+| TC-240 | 1,532 edges and a graph query: building a knowledge graph from scratch in 4 hours | TKT-0720 entity_links |
+| TC-241 | The hash chain that proved nothing was lost: event sourcing for AI operations | TKT-0726 agent_events |
+| TC-242 | 11 sprint names, 1 canonical table: the data cleanup nobody wants to talk about | TKT-0725 sprint registry |
+| TC-243 | Your config file says one thing. The database says another. Auto-heal says fix it. | TKT-0343 config baseline |
+
+---
 
 ## What's Open / What's Next
 
-- **Sprint 9 starts tomorrow (Mon 22 Jun)** — 11 PG SSOT wave-1 tickets queued. Sprint planning ceremony due.
-- **TKT-0710** — CREST v2.0 data_class taxonomy. Not yet scoped.
-- **TKT-0542** — `openclaw` CLI wrapper PATH collision. Not yet fixed.
-- **CR-002 (LinkedIn)** — Awaiting Angie's decisions on company page vs cross-post and image generation approval for Week 2 Movement II posts. Aria is coordinating.
-- **Ollama Cloud usage** — 69% of weekly limit used (41,016 / 59,443). ~18,427 remaining. Window resets Mon 22 Jun 10:00 AEST. No cliff this cycle.
-- **Post-v1.3 work** — Controller build, parked agentic dev+test. Waiting for Ken trigger.
+### 🟢 Done Today
+- TKT-0725 (sprint registry) — CHG-0710
+- TKT-0330 (atomic numbering) — CHG-0714
+- TKT-0726 (event pipeline) — CHG-0718
+- TKT-0720 (entity links) — CHG-0732
+- TKT-0343 (config baseline) — CHG-0733
 
-## ⚠️ AUTH ALERT
-✅ **All delegated auth tokens valid.** No re-auth needed.
-- Ken Mun (CTO): Gmail, Calendar, Drive, Contacts, Sheets, Docs — OK
-- Angie Foong (CEO): Calendar, Gmail — OK
+### 🟡 In Progress / Blocked
+- **TKT-0343 A1** — Was blocked on Atlas exec gap; gap now fixed (CHG-0734). Ready to resume.
+- **TKT-0721** (memory backbone) — Sprint 10, not yet started
+- **TKT-0722** (judge-hardening) — Sprint 9, not yet started
+- **TKT-0723** (DNA leanness) — Sprint 10, not yet started
+
+### 🔵 Next Sprint 9 Foundation Tickets
+- TKT-0722 — Judge-hardening (verdict_log)
+- TKT-0357 — Memory backbone
+- TKT-0390 — Memory backbone
+- TKT-0530 — DNA leanness
+- TKT-0394 — DNA leanness
+- TKT-0344 — Keys/JSON normalization
+- TKT-0348 — Keys/JSON normalization
+- TKT-0354 — Keys/JSON normalization
+- TKT-0359 — Keys/JSON normalization
+
+### 📋 Other
+- **LinkedIn campaign** — Aria owns execution. Yoda is tech-escalation standby.
+- **Heartbeat cron** — 48h sustained test for agent_events (teardown 2026-06-24 19:42 AEST)
+
+---
+
+## ✅ Auth Status
+All delegated auth tokens valid. No re-auth needed.
+- Ken Mun (CTO): ✅ Gmail, Calendar, Drive, Contacts, Sheets, Docs
+- Angie Foong (CEO): ✅ Calendar, Gmail

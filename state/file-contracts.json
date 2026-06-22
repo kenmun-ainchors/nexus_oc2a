@@ -60,6 +60,15 @@
       "review_cadence": "per sprint",
       "rule": "Device-specific config ONLY. General usage in SKILL.md files."
     },
+    "yoda-daily-brief.md": {
+      "purpose": "daily-brief-scratch",
+      "owner": "yoda",
+      "audience": "Yoda main session (scratch file)",
+      "hard_limit": 10000,
+      "soft_limit": 5000,
+      "review_cadence": "daily",
+      "rule": "Daily operational brief scratch file. Regenerated each day. Not injected into sessions."
+    },
     "RULES.md": {
       "purpose": "Platform rules reference — full rule text, CHG references, rollback procedures",
       "audience": "On-demand read (NOT injected)",

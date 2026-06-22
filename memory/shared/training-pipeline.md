@@ -53,6 +53,12 @@ _For Aria 🔵 & the Spark content engine | Ideas from daily platform work that 
 | TC-235 | Your sprint tool said 'Sprint 11' when the next sprint was Sprint 9: the ORDER BY trap | 💡 idea | 2026-06-21 | CHG-0697 — db-sprint.sh sprint detection fix |
 | TC-236 | The silent fallback that hid every PG bug: why graceful degradation can be dangerous | 💡 idea | 2026-06-21 | CHG-0698 — db-write.sh error classification |
 | TC-237 | Schema-ready, data-empty: the column that exists but doesn't work | 💡 idea | 2026-06-21 | CHG-0699/0700 — CREST v1.3 data_class deferral |
+| TC-238 | 5 tickets, 1 day, 0 regressions: what it takes to close foundation work in an AI platform | 💡 idea | 2026-06-22 | TKT-0720/0725/0726/0330/0343 — 5 CRESTv2-P1 tickets closed in one session |
+| TC-239 | The subagent that couldn't exec: when your architect can't inspect the architecture | 💡 idea | 2026-06-22 | TKT-0343 A1 blocked — Atlas subagent exec gap, CHG-0734 |
+| TC-240 | 1,532 edges and a graph query: building a knowledge graph from scratch in 4 hours | 💡 idea | 2026-06-22 | TKT-0720 entity_links edge table, 1,437 entity + 95 file edges |
+| TC-241 | The hash chain that proved nothing was lost: event sourcing for AI operations | 💡 idea | 2026-06-22 | TKT-0726 agent_events pipeline, 15 events, 0 broken links |
+| TC-242 | 11 sprint names, 1 canonical table: the data cleanup nobody wants to talk about | 💡 idea | 2026-06-22 | TKT-0725 sprint registry, 11 variants collapsed, 263 tickets assigned |
+| TC-243 | Your config file says one thing. The database says another. Auto-heal says fix it. | 💡 idea | 2026-06-22 | TKT-0343 state_config_baseline to PG, CHECK 12 verification |
 
 _Statuses: 💡 idea → ✍️ draft → ✅ scheduled → 📤 published_
 

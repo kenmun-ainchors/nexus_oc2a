@@ -79,9 +79,9 @@
   "verifier_setup": {
     "A_cmd": "git status --short | grep -E 'forge/pgvector|thrawn' | wc -l",
     "A_expected_after": 0,
-    "B_cmd": "grep -E '(forge/pgvector|thrawn)' ~/Backups/ainchors/logs/backup.log | grep -iE 'embedded|does not have a commit|fatal: adding files failed' | wc -l",
+    "B_cmd": "grep -E '(forge/pgvector|thrawn)' /Users/ainchorsangiefpl/Backups/ainchors/logs/backup.log | grep -iE 'embedded|does not have a commit|fatal: adding files failed' | wc -l",
     "B_note": "Always 0 because backup.sh:30 does not redirect git stderr to the log; this verifier is informational. Authoritative warning capture happens live during the operator's run.",
-    "C_cmd": "ls -d ~/Backups/ainchors/workspace-incremental/workspace-* | tail -1 | xargs du -sh"
+    "C_cmd": "ls -d /Users/ainchorsangiefpl/Backups/ainchors/workspace-incremental/workspace-* | tail -1 | xargs du -sh"
   },
 
   "ready_for_atom2": true

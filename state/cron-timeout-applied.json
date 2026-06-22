@@ -113,21 +113,6 @@
     "kenBypassAt": "2026-06-19T01:18:19Z",
     "kenBypassReason": "Ken explicit approval for scaler vA6 backfill (CHG-0578)"
   },
-  "85595417": {
-    "firstSeen": "2026-06-15",
-    "lastSeen": "2026-06-19",
-    "daysCount": 5,
-    "recommendation": "DECREASE",
-    "currentTo": 300,
-    "computedTo": 193,
-    "appliedAt": "2026-06-19T01:18:19Z",
-    "appliedTo": 193,
-    "applyMethod": "cron-timeout-apply.sh",
-    "applyResult": "{\n  \"id\": \"85595417-73d0-416d-b6ff-d5b6578762a7\",\n  \"agentId\": \"main\",\n  \"name\": \"PG-Notion Integrity Audit (daily)\",\n  \"description\": \"TKT-0406: Daily integrity audit — 7 checks (count, duplicates, f",
-    "kenBypass": true,
-    "kenBypassAt": "2026-06-19T01:18:19Z",
-    "kenBypassReason": "Ken explicit approval for scaler vA6 backfill (CHG-0578)"
-  },
   "7a4d8381": {
     "firstSeen": "2026-06-15",
     "lastSeen": "2026-06-18",
@@ -140,11 +125,11 @@
   },
   "f71f75af": {
     "firstSeen": "2026-06-19",
-    "lastSeen": "2026-06-21",
-    "daysCount": 3,
+    "lastSeen": "2026-06-22",
+    "daysCount": 4,
     "recommendation": "DECREASE",
     "currentTo": 300,
-    "computedTo": 88,
+    "computedTo": 59,
     "appliedAt": "2026-06-19T01:18:19Z",
     "appliedTo": 47,
     "applyMethod": "cron-timeout-apply.sh",

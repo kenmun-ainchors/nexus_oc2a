@@ -1,24 +1,24 @@
 {
-  "checkTimestamp": "2026-06-21T20:00:00+10:00",
+  "checkTimestamp": "2026-06-22T20:00:00+10:00",
   "source": "cron-burn-alert",
   "turnsLimit": {
-    "weeklyLimit": 64038,
-    "currentRequests": 49053,
-    "currentPct": 76.6,
-    "requestsRemaining": 14985,
-    "windowStart": "2026-06-15T10:00:00+10:00",
-    "windowEnd": "2026-06-22T10:00:00+10:00",
-    "daysRemaining": 0.58,
-    "burnRateRequestsPerHour": 322.7
+    "weeklyLimit": 94185,
+    "currentRequests": 2543,
+    "currentPct": 2.7,
+    "requestsRemaining": 91642,
+    "windowStart": "2026-06-22T10:00:00+10:00",
+    "windowEnd": "2026-06-29T10:00:00+10:00",
+    "daysRemaining": 6.58,
+    "burnRateRequestsPerHour": 317.7
   },
   "thresholds": {
-    "50pct": 32019,
-    "70pct": 44827,
-    "85pct": 54432,
-    "95pct": 60836
+    "50pct": 47093,
+    "70pct": 65930,
+    "85pct": 80057,
+    "95pct": 89476
   },
   "alertTriggered": "none",
-  "alertLevel": "ALERT (no new threshold crossed)",
-  "action": "Silent — 76.6% used (49,053/64,038). 70% alert already sent 2026-06-20. 85% threshold (54,432) not yet crossed. Burn rate 322.7 req/hr. ~14h remaining in window.",
-  "notes": "Check at 2026-06-21 20:00 AEST. Weekly window: 2026-06-15 Mon 10:00 AEST → 2026-06-22 Mon 10:00 AEST. No new alert sent — 70% already dispatched yesterday."
+  "alertLevel": "SILENT",
+  "action": "Silent — 2.7% used (2,543/94,185). New weekly window started 2026-06-22. All thresholds well below minimum. No alert sent.",
+  "notes": "Check at 2026-06-22 20:00 AEST. Weekly window: 2026-06-22 Mon 10:00 AEST → 2026-06-29 Mon 10:00 AEST. New window, low usage. No action needed."
 }

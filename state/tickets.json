@@ -4214,7 +4214,7 @@
   {
     "id": "TKT-0720",
     "title": "TEST",
-    "status": "open",
+    "status": "done",
     "priority": "critical",
     "type": "task",
     "created_at": "2026-06-22T00:00:52+10:00"
@@ -4244,5 +4244,40 @@
     "type": "task",
     "created_at": "2026-06-22T08:11:01+10:00",
     "ticket_number": 733
+  },
+  {
+    "id": "TKT-9999",
+    "title": "Test ticket for TKT-0726 event pipeline",
+    "status": "in-progress",
+    "priority": "high",
+    "type": "task",
+    "created_at": "2026-06-22T08:34:00+10:00",
+    "ticket_number": 9999
+  },
+  {
+    "id": "TKT-0734",
+    "title": "A7 verify ticket",
+    "status": "cancelled",
+    "priority": "low",
+    "type": "task",
+    "created_at": "2026-06-22T08:36:54+10:00",
+    "ticket_number": 734,
+    "metadata": {
+      "test": true,
+      "note": "A7 verification artifact; cancelled."
+    }
+  },
+  {
+    "id": "TKT-9991",
+    "title": "Test TKT-0720 A4 create-from-json with links",
+    "status": "cancelled",
+    "priority": "medium",
+    "type": "test",
+    "created_at": "2026-06-22T10:12:11+10:00",
+    "ticket_number": 9991,
+    "description": "Test update with Linked: TKT-0720, CHG-0604, L-065",
+    "metadata": {
+      "brief": "Test artifact for TKT-0720 A4"
+    }
   }
 ]
