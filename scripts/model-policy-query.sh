@@ -15,6 +15,11 @@ set -euo pipefail
 WORKSPACE_ROOT="${WORKSPACE_ROOT:-/Users/ainchorsangiefpl/.openclaw/workspace}"
 JQ="${JQ:-/opt/homebrew/bin/jq}"
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+DECISION_SCRIPT="$SCRIPT_DIR/pg-write-decision.sh"
+emit_decision() {
+  local kind="$1" entity_id="$2" payload="$3"
+  bash "$DECISION_SCRIPT" --actor "model_policy_query" --entity-id "$entity_id" --decision-kind "$kind" --payload "$payload" >/dev/null 2>&1 || true
+}
 
 # Load pg-sprint-backlog skill before any DB queries (db.sh has a skill gate)
 if ! bash "$SCRIPT_DIR/skill-load.sh" pg-sprint-backlog >/dev/null 2>&1; then
@@ -84,6 +89,18 @@ query_pg() {
     # Normalize PG boolean t/f to JSON true/false
     if [[ "$override" == "t" ]]; then override="true"; else override="false"; fi
     echo "{\"model\":\"$model\",\"fallback\":\"$fallback\",\"override_allowed\":$override,\"rationale\":\"$reason\",\"source\":\"pg\"}"
+    # Emit routing decision event when model resolved from PG SSOT
+    local _route_id="model-${role}-${phase}"
+    # Use python to build a clean JSON payload
+    _route_payload=$("$JQ" -n \
+      --arg role "$role" \
+      --arg phase "$phase" \
+      --arg model "$model" \
+      --arg fallback "$fallback" \
+      --arg reason "$reason" \
+      '{inputs: {role: $role, phase: $phase}, outputs: {model: $model, fallback: $fallback, source: "pg"}, rationale: $reason}' \
+      2>/dev/null || echo '{"error":"payload_build_failed"}')
+    emit_decision "routing" "$_route_id" "$_route_payload"
     return 0
   fi
   return 1

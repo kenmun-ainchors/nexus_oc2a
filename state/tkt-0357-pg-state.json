@@ -1,0 +1,41 @@
+{
+  "timestamp": "2026-06-23T08:47:00+10:00",
+  "ticket": "TKT-0357",
+  "pg_inspection": {
+    "pg_write_events_table": {
+      "exists": false,
+      "note": "No pg_write_events table found in any schema"
+    },
+    "pg_write_event_function": {
+      "exists": true,
+      "schema": "public",
+      "signature": "pg_write_event(p_actor text, p_event_type text, p_entity_type text, p_entity_id text, p_payload jsonb DEFAULT '{}'::jsonb, p_prev_state jsonb DEFAULT NULL::jsonb, p_new_state jsonb DEFAULT NULL::jsonb, p_tenant_id text DEFAULT 'ainchors'::text) RETURNS TABLE(event_id_out text, hash_out text)",
+      "target_table": "agent_events",
+      "note": "Function writes to agent_events table (existing audit log infrastructure)"
+    },
+    "agent_events_table": {
+      "exists": true,
+      "columns": [
+        {"name": "id", "type": "uuid"},
+        {"name": "agent_id", "type": "text"},
+        {"name": "event_type", "type": "text"},
+        {"name": "timestamp", "type": "timestamptz"},
+        {"name": "payload", "type": "jsonb"},
+        {"name": "tenant_id", "type": "text"},
+        {"name": "event_id", "type": "text"},
+        {"name": "entity_type", "type": "text"},
+        {"name": "entity_id", "type": "text"},
+        {"name": "prev_state", "type": "jsonb"},
+        {"name": "new_state", "type": "jsonb"},
+        {"name": "hash", "type": "text"},
+        {"name": "prev_hash", "type": "text"}
+      ]
+    },
+    "existing_event_emission": {
+      "db-ticket.sh": "Uses emit_event() → pg-write-event.sh for created/updated/groomed/folded ticket events",
+      "db-sprint.sh": "Uses emit_event() → pg-write-event.sh for committed/created sprint events",
+      "db-write.sh": "NO event emission currently"
+    },
+    "chg_registration": "CHG-0749 (plan placeholder CHG-0748 auto-incremented to next available)"
+  }
+}

@@ -2258,3 +2258,21 @@ done
 
 **Linked:** CHG-0349, CHG-0350, CHG-0362, TKT-0165
 
+---
+
+## PG-FIRST WRITE GATE (NON-NEGOTIABLE — CHG-0751, 2026-06-23)
+
+**L-XXX — Learned from Postgres SSOT drift: durable knowledge state must not regress to file-primary.**
+
+Before approving or merging any script that writes durable platform state:
+
+1. **Classify the state surface.** If it answers "what happened" or "what is true" across agents/sessions, it is class-1 durable knowledge state.
+2. **Check the registry.** `state/pg-first-write-registry.json` is the authoritative list of class-1 surfaces. If the surface is not listed, it is out-of-policy until classified.
+3. **Use a PG-first writer.** Class-1 writes must go through `db-ticket.sh`, `db-sprint.sh`, `changelog-append.sh`, `pg-write-event.sh`, `pg-write-audit-event.sh`, or `db-link.sh` — or a CHG-approved equivalent.
+4. **No new class-1 JSON files without CHG.** Any new JSON cache for class-1 state must be registered and approved.
+5. **No silent file fallback.** If Postgres is unavailable, fail or defer. Do not promote a file to primary truth.
+
+**Enforcement:** A deterministic gate is specified in `.openclaw/tmp/pg-first-write-gate-spec.md` and will be built by Forge as a fast-follow.
+
+**Linked:** CHG-0751, TKT-0359, `docs/PG-First-Write-Policy-v1.0.md`
+

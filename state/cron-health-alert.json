@@ -11,5 +11,8 @@
     }
   ],
   "warnings": [],
-  "acknowledged": false
+  "acknowledged": true,
+  "acknowledgedAt": "2026-06-23T18:15:00+10:00",
+  "acknowledgedBy": "Ken Mun",
+  "acknowledgementNote": "Cron is disabled; alert is stale. No active failure."
 }

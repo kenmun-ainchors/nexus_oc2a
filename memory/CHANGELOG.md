@@ -1,3 +1,87 @@
+## 2026-06-23 22:12 AEST — [CHG-0754] Move TKT-0739 from Sprint 11 to Sprint 9
+**Type:** data
+**Change Type:** Normal
+**Source:** ken-prompt
+**Trigger:** Ken directive 2026-06-23 22:11 AEST
+**What changed:** TKT-0739 sprint assignment changed from Sprint 11 to Sprint 9 in PG state_tickets and synced to Notion
+**Why:** TKT-0739 fixes Sage/QA verifier subagent workspace isolation, which blocks independent CREST Verify phase judgment. Must be resolved this sprint to unblock CREST execution.
+**Verification:** Ticket read-back shows sprint='Sprint 9' and sprint_id FK set
+**Rollback:** N/A
+**Linked:** TKT-0739,TKT-0390,CHG-0752
+**Category:** sprint-planning\n---
+
+## 2026-06-23 21:42 AEST — [CHG-0753] TKT-0390 scope collapse to agent_events only (CRESTv2-P1 WS-1)
+**Type:** doc
+**Change Type:** Normal
+**Source:** ken-prompt
+**Trigger:** Groom decision for TKT-0390 T3 Episodic Log
+**What changed:** Collapse TKT-0390 from four-table L scope to agent_events-only M scope. Drop agent_decisions and decision_lineage as redundant with agent_events + entity_links per CRESTv2-P1-DM section-1 contract. Defer memory_access_log out of Phase 1.
+**Why:** Locked section-1 contract models history of X as agent_events + entity_links. Separate agent_decisions/decision_lineage tables fragment the model and duplicate the controller's replan_decision. memory_access_log is audit/observability, not in the Phase 2 read interface.
+**Verification:** Groom decision loaded from external media and persisted to TKT-0390 metadata. Tracker locked_execution_order restored to WS-1 -> WS-3 -> WS-2 re-validation.
+**Rollback:** Restore original four-table scope in ticket metadata; reinstate agent_decisions and decision_lineage build plans.
+**Linked:** TKT-0390
+---
+
+## 2026-06-23 21:06 AEST — [CHG-0752] CRESTv2-P1 tracker revalidation and Sprint 9/10 rebalance
+**Type:** data
+**Change Type:** Normal
+**Source:** ken-prompt
+**Trigger:** Ken directed CRESTv2-P1 work as priority across Sprint 9 and 10; defer non-CRESTv2-P1 tickets to Sprint 11
+**What changed:** Retrieved and repaired state/crestv2-p1-tracker.json; updated done_tickets (TKT-0357, TKT-0359 added); added gap_analysis section; moved TKT-0358 and TKT-0531 out of Sprint 9/10 to Sprint 11. Locked execution sequence WS-1→WS-2→WS-3→WS-5→WS-4.
+**Why:** Non-CRESTv2-P1 work was consuming Sprint 9/10 capacity; tracker needed refresh after TKT-0357/0359 closures.
+**Verification:** Tracker JSON validates; ticket sprint fields updated; gap analysis lists all CRESTv2-P1 vs non-CRESTv2-P1 tickets.
+**Rollback:** Revert ticket sprint fields; restore previous tracker version from git; remove CHG record.
+**Linked:** TKT-0342, CHG-0703, CHG-0705, CHG-0751
+---
+
+## 2026-06-23 20:37 AEST — [CHG-0751] PG-first write policy for durable knowledge state
+**Type:** doc
+**Change Type:** Normal
+**Source:** ken-prompt
+**Trigger:** Sprint 9 execution of TKT-0359 after groom decision by Ken
+**What changed:** Add docs/PG-First-Write-Policy-v1.0.md; add state/pg-first-write-registry.json for class-1 writers; add enforcement-gate spec; update docs/YODA_RUNBOOK.md with class-1 write gate step. No script migrations.
+**Why:** Platform still has file-primary writes for durable knowledge state despite Postgres SSOT proposal. Need a binding invariant to stop WS-1/WS-2 migrations from regressing.
+**Verification:** Policy doc reviewed and approved by Ken; registry validated against PG schema and class-1 writer scripts; runbook updated.
+**Rollback:** Delete policy doc, registry, gate spec, revert runbook edit.
+**Linked:** TKT-0359
+---
+
+## 2026-06-23 19:29 AEST — [CHG-0750] CHG-0749 correction: TKT-0357 Path A uses real pg_write_events table
+**Type:** script
+**Change Type:** Normal
+**Source:** manual
+**Trigger:** TKT-0357 final verification showed CHG-0749 description misrecorded the design as a view over agent_events
+**What changed:** Implemented Path A: separate pg_write_events table (15 columns) plus pg_write_audit_event() function; db-write.sh captures prev_state and emits audit events via scripts/pg-write-audit-event.sh after successful PG writes; db-ticket.sh metadata-only updates continue emitting agent_events and do not touch pg_write_events. Regression tests in tests/regression/pg-write-event/ corrected and pass.
+**Why:** Ken selected Path A during CREST Plan v2 for TKT-0357: real table, not a view, to keep agent_events semantic events untouched and give pg_write_events full audit columns (actor, command, prev_state, new_state, success, tenant_id).
+**Verification:** Migration applied and verified in Postgres; test-success-emits-event.sh 6/6 PASS; test-failure-no-event.sh 2/2 PASS; test-agent-events-unchanged.sh 3/3 PASS; TKT-0357 status set to closed.
+**Rollback:** Same rollback as CHG-0749: DROP TABLE pg_write_events; DROP FUNCTION pg_write_audit_event(...); revert db-write.sh and pg-write-audit-event.sh; git checkout.
+**Linked:** CHG-0749, TKT-0357
+---
+
+## 2026-06-23 18:47 AEST — [CHG-0749] TKT-0357: pg_write_events audit log view + db-write.sh event emission
+**Type:** script
+**Change Type:** Standard
+**Source:** manual
+**Trigger:** TKT-0357 — CREST plan execution
+**What changed:** 1) Created pg_write_events VIEW over agent_events (canonical audit log interface). 2) Wired db-write.sh to emit pg_write_event after successful PG writes. 3) Updated db-ticket.sh and db-sprint.sh to route through db-write.sh for Option C (no duplicate events). 4) Added migration p0c008_write_events_view. 5) Regression tests in tests/regression/pg-write-event/.
+**Why:** Implement TKT-0357 per CREST plan: create immutable audit log for every state write, queryable from a canonical pg_write_events interface, wired into the canonical write path without blocking writes.
+**Verification:** Migration applied. db-write.sh tested with successful and failed write scenarios. db-ticket.sh and db-sprint.sh verified to produce single semantic events via shared path. Regression tests pass.
+**Rollback:** DROP VIEW pg_write_events; revert db-write.sh, db-ticket.sh, db-sprint.sh to previous versions; git checkout.
+**Linked:** TKT-0357
+**Category:** database\n**Framework docs:** docs/schemas/metadata-jsonb-schema.json, ~/Documents/AInchors/Agents/ModelStrategy.md\n---
+
+## 2026-06-23 13:36 AEST — [CHG-0748] CHG-0747: linkedin-metrics-snapshot.sh invokes metrics script via zsh
+**Type:** script
+**Change Type:** Normal
+**Source:** incident-recovery
+**Trigger:** CHG-0743 verification revealed metrics snapshot fails: metrics script uses zsh associative arrays but snapshot calls it with bash 3.2 (macOS)
+**What changed:** Change linkedin-metrics-snapshot.sh to call linkedin-metrics.sh with zsh instead of bash; verify end-to-end snapshot works for all three accounts
+**Why:** macOS bash is 3.2 and does not support declare -A. The metrics script shebang is zsh and zsh 5.9 supports associative arrays. Snapshot must respect the script's interpreter.
+**Verification:** Run linkedin-metrics-snapshot.sh --account ken|angie|business --content-id LI-W2-P4 --post-urn urn:li:share:7475010633965568002 --interval manual; expect ken success, angie token-expired, business zero metrics
+**Rollback:** Revert scripts/linkedin-metrics-snapshot.sh to previous git SHA
+**Linked:** CHG-0743, scripts/linkedin-metrics.sh
+---
+
 ## 2026-06-23 13:30 AEST — [CHG-0747] Refresh gateway config hash baseline after approved changes
 **Type:** config
 **Change Type:** Normal

@@ -27,6 +27,7 @@ DB_WRITE="$SCRIPTS/db-write.sh"
 DB_READ="$SCRIPTS/db-read.sh"
 ATOM_VALIDATE="$SCRIPTS/atom-validate.sh"
 DB="$SCRIPTS/db-raw.sh"
+DECISION_SCRIPT="$SCRIPTS/pg-write-decision.sh"
 
 # ─── Colours ──────────────────────────────────────────────────
 RED='\033[0;31m'
@@ -34,6 +35,14 @@ GREEN='\033[0;32m'
 YELLOW='\033[1;33m'
 CYAN='\033[0;36m'
 NC='\033[0m'
+
+# ─── Decision Event Emission (TKT-0390) ────────────────
+emit_decision() {
+  local kind="$1" entity_id="$2" payload="$3"
+  bash "$DECISION_SCRIPT" --actor "flash_dispatcher" --entity-id "$entity_id" --decision-kind "$kind" --payload "$payload" >/dev/null 2>&1 || true
+}
+
+# ────────────────────────────────────────────────────────────
 
 die() { echo -e "${RED}FATAL:${NC} $*" >&2; exit 1; }
 warn() { echo -e "${YELLOW}WARN:${NC} $*" >&2; }
@@ -450,11 +459,19 @@ cmd_dispatch() {
     esac
 
     if [[ -n "$pg_phase" ]] && [[ "$current_phase" != "$pg_phase" ]]; then
+      local _prev_phase_before="$current_phase"
       update_sub_crest_phase "$sub_crest_uuid" "$pg_phase"
+      # Emit phase_transition decision event
+      emit_decision "phase_transition" "$sub_crest_uuid" \
+        '{"inputs":{"sub_crest_id":"'"$sub_crest_id"'","specialist":"'"$specialist"'","previous_phase":"'"$_prev_phase_before"'","new_phase":"'"$pg_phase"'"},"outputs":{"updated":true},"rationale":"Phase transition via dispatch"}'
     fi
+
+    # Emit dispatch decision event (after sessions_spawn decision)
+    emit_decision "dispatch" "$sub_crest_uuid" \
+      '{"inputs":{"sub_crest_id":"'"$sub_crest_id"'","specialist":"'"$specialist"'","atom_index":'"$atom_index"',"phase":"'"$phase"'","verb":"'"$verb"'","target":"'"$target"'"},"outputs":{"atom_id":"'"${persisted_atom_id:-pending}"'","model":"'"$resolved_model"'"},"rationale":"Atom dispatched to specialist '"$specialist"' for phase '"$phase"'"}'
   fi
 
-  # Step 7: Emit dispatch JSON
+  # Step 7 (now Step 9): Emit dispatch JSON
   local dispatch_json
   dispatch_json=$("$JQ" -n \
     --arg sub_crest_id "$sub_crest_id" \
@@ -599,6 +616,9 @@ cmd_verify_phase() {
   else
     update_verify_verdict "$sub_crest_uuid" "$final_verdict"
     update_sub_crest_phase "$sub_crest_uuid" "$next_phase"
+    # Emit phase_transition decision event
+    emit_decision "phase_transition" "$sub_crest_uuid" \
+      '{"inputs":{"sub_crest_id":"'"$sub_crest_id"'","specialist":"'"$specialist"'","previous_phase":"'"$current_phase"'","new_phase":"'"$next_phase"'","verdict":"'"$final_verdict"'"},"outputs":{"phase_updated":true},"rationale":"Phase transition via verify-phase verdict='"$final_verdict"'"}'
   fi
 
   # Step 8: Emit verify JSON

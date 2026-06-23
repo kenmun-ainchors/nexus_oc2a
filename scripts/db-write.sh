@@ -15,6 +15,15 @@
 SCRIPT_DIR="$(cd "$(dirname "$0")" && pwd)"
 WORKSPACE="$(cd "$SCRIPT_DIR/.." && pwd)"
 DB="$WORKSPACE/scripts/db-raw.sh"
+AUDIT_SCRIPT="$WORKSPACE/scripts/pg-write-audit-event.sh"
+
+# TKT-0357: Capture prev_state before write for audit event emission
+_capture_prev_state() {
+  local table="$1" row_id="$2"
+  if [[ -z "$row_id" ]]; then echo "null"; return; fi
+  bash "$DB" -c "SELECT to_jsonb(t) FROM ${table} t WHERE id='${row_id}' LIMIT 1" 2>/dev/null | head -1
+}
+
 TABLE="$1"; DATA="$2"; ID="${3:-}"
 
 if [[ -z "$TABLE" || -z "$DATA" ]]; then
@@ -235,6 +244,15 @@ fi
 PG_ERR_TMP=$(mktemp -t dbwrite_pgerr.XXXXXX)
 trap 'rm -f "$PY_SQL" "$PY_FB" "$PG_ERR_TMP"' EXIT
 
+# TKT-0357: Capture prev_state before write (for existing rows only)
+PREV_STATE="null"
+if [[ -n "$ID" ]]; then
+  PREV_STATE=$(_capture_prev_state "$TABLE" "$ID")
+  if [[ -z "$PREV_STATE" || "$PREV_STATE" == "null" ]]; then
+    PREV_STATE="null"
+  fi
+fi
+
 bash "$DB" -c "$SQL" > /dev/null 2>"$PG_ERR_TMP"
 PG_EXIT=$?
 PG_ERR=$(cat "$PG_ERR_TMP" 2>/dev/null)
@@ -286,6 +304,17 @@ if [[ "$PG_EXIT" == "0" ]]; then
         exit 3
       fi
     fi
+    # TKT-0357: Emit audit event for successful write
+    bash "$AUDIT_SCRIPT" \
+      --actor "${USER:-${OPENCLAW_AGENT_ID:-unknown}}" \
+      --event-type "write" \
+      --table "$TABLE" \
+      --row-id "$ID" \
+      --command "db-write.sh" \
+      --prev-state "$PREV_STATE" \
+      --new-state "$DATA" \
+      --success true \
+      --tenant-id "ainchors" > /dev/null 2>&1 || true
     echo '{"status":"ok","backend":"postgres","id":"'"$ID"'"}'
     exit 0
   else
