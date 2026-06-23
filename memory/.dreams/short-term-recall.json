@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "updatedAt": "2026-06-23T13:00:38.682Z",
+  "updatedAt": "2026-06-23T14:33:44.037Z",
   "entries": {
     "memory:memory/2026-04-26.md:94:122": {
       "key": "memory:memory/2026-04-26.md:94:122",
@@ -4563,6 +4563,37 @@
         "server-cron-i5iplaue.js",
         "auto-heal.sh",
         "state/cron-timeout-applied.json"
+      ]
+    },
+    "memory:memory/2026-06-10.md:173:182": {
+      "key": "memory:memory/2026-06-10.md:173:182",
+      "path": "memory/2026-06-10.md",
+      "startLine": 173,
+      "endLine": 182,
+      "source": "memory",
+      "snippet": "- TKT-0396 implemented (isolation → repoint → verify) - Phase 3.1 hand-delete unnecessary — isolation subsumes it - Ready for Phase 4 (reconcile), Phase 5 (propagation proof), Phase 6 (clock reset) — Ken's phases, Yoda waits ## Sprint 7 State - **Tickets closed:** TKT-0369, TKT-0391, TKT-0392, TKT-0393, TKT-0399, TKT-0400, TKT-0403 - **Tickets in progress:** TKT-0395 (Phase 4-6 pending), TKT-0396 (implementation done, close pending), TKT-0401 (not started) - **New tickets unassigned:** TKT-0390, TKT-0394, TKT-0397, TKT-0398, 5 deferred items - **CHG entries:** 0482 through 0492",
+      "recallCount": 1,
+      "dailyCount": 0,
+      "groundedCount": 0,
+      "totalScore": 0.4512619763612747,
+      "maxScore": 0.4512619763612747,
+      "firstRecalledAt": "2026-06-23T14:33:44.037Z",
+      "lastRecalledAt": "2026-06-23T14:33:44.037Z",
+      "queryHashes": [
+        "315e238e050a"
+      ],
+      "recallDays": [
+        "2026-06-24"
+      ],
+      "conceptTags": [
+        "tkt-0396",
+        "3.1",
+        "hand-delete",
+        "tkt-0369",
+        "tkt-0391",
+        "tkt-0392",
+        "tkt-0393",
+        "tkt-0399"
       ]
     }
   }
