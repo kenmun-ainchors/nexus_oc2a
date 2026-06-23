@@ -1,4 +1,36 @@
-## Monday, June 22, 2026 — Business Stream Summary
+## Tuesday, June 23, 2026 — Business Stream Summary
+_Written 23:45 AEST by Aria cron — verified 2026-06-23T13:46Z_
+
+### Angie interactions today
+No Angie messages in the business stream session today.
+
+### Decisions made
+- **ROI weekly script ✅ LIVE**: Completed final hardening cycle. Changes: (1) date parsing now handles `YYYY-MM-DD`, ISO with `+10:00`, `+1000`, and `Z` formats; (2) bot routing fixed to use `telegram-aria-bot-token` keychain entry and chatId `8141152780` (Aria bot → Angie); (3) header em dash swapped to colon (brand-clean). Verified by Yoda with synthetic entries. Cron `d1c03b59` registered and **enabled** for Sunday 18:00 AEST, first run 2026-06-28.
+- **Keychain secret resolved**: Ken added `telegram-aria-bot-token` to OC1 keychain on relay request (MSG-005 from Aria).
+- **Old ROI cron superseded**: `7a4d8381` (previous ROI cron) replaced by `d1c03b59` with correct routing.
+- **LinkedIn pivot to Ken personal**: Campaign now streams through Ken's personal profile per CHG-0739. LI-W2-P4 posted today as scheduled.
+
+### Governance reviews
+- **Aria → Brand Code alignment**: ROI report script header now uses colon instead of em dash — brand-clean. Verified by Yoda.
+- No Shield/Lex/Sage reviews triggered today.
+
+### Open items (verified)
+- **ROI weekly cron**: ✅ RESOLVED. `d1c03b59` enabled, next run 2026-06-28 18:00 AEST. Evidence: cron list shows `enabled: true`, next run at 2026-06-28. Script bot routing verified = Aria bot → chatId 8141152780.
+- **LinkedIn Week 2 campaign**: LI-W2-P4 posted today. LI-W2-P5 (Wed 24) approved with image. LI-W2-P6 (Thu 25) approved with image. Evidence: linkedin-campaign.json lastUpdated 2026-06-23, status `posted` for P4, `approved` for P5/P6.
+- **LinkedIn personal auth (Angie)**: ✅ RESOLVED. Ken fixed the client secret on 2026-06-22. Angie's personal LinkedIn OAuth token valid until 2026-08-19. linkedin-auth-angie.json shows valid scopes.
+- **LinkedIn business/company auth (Angie)**: ✅ Active. Token valid until 2026-08-19. linkedin-auth-business.json shows `w_organization_social` scope.
+- **Ken training confirmation (MSG-20260601-001)**: 22 days old, still pending in relay-to-ken.json. No response from Ken. Evidence: relay queue shows `sent: true`, `deliveredAt: 2026-06-01`.
+- **Google Calendar auth**: Still broken since Jun 3. relay-20260603-001 still shows `sent: false`.
+- **JotForm/HRDF (BS-001)**: Open. business-stream-open-items.json shows status `open`, owner `Aria`, queued for next Angie session.
+- **Lynn Huang / Jack Ooi / Finance (BS-002)**: Open. business-stream-open-items.json shows status `open`, owner `Aria`, queued for next Angie session.
+- **Visa + OpenAI LinkedIn/Instagram drafts**: Still pending Angie approval. Nudged multiple times in session history today — no response.
+
+### Handoff to Yoda
+- ROI weekly cron is fully live — no further action needed on the script or routing.
+- Kimi/Ken-side LinkedIn campaign (Ken personal profile) is running smoothly. Week 2 post P4 posted today, P5 and P6 queued for Wed/Thu.
+- No Angie business-stream activity today — the bottleneck on LinkedIn company page campaign (Angie posts) and About Us section update remains.
+- Ken training confirmation (MSG-20260601-001, now 22 days old) and Google Calendar auth (broken since Jun 3) remain unresolved Ken-side items.
+- BS-001 (JotForm/HRDF) and BS-002 (Lynn Huang/Jack Ooi) are queued for the next Angie session.## Monday, June 22, 2026 — Business Stream Summary
 _Written 23:45 AEST by Aria cron_
 
 ### Angie interactions today
