@@ -59,6 +59,12 @@ _For Aria 🔵 & the Spark content engine | Ideas from daily platform work that 
 | TC-241 | The hash chain that proved nothing was lost: event sourcing for AI operations | 💡 idea | 2026-06-22 | TKT-0726 agent_events pipeline, 15 events, 0 broken links |
 | TC-242 | 11 sprint names, 1 canonical table: the data cleanup nobody wants to talk about | 💡 idea | 2026-06-22 | TKT-0725 sprint registry, 11 variants collapsed, 263 tickets assigned |
 | TC-243 | Your config file says one thing. The database says another. Auto-heal says fix it. | 💡 idea | 2026-06-22 | TKT-0343 state_config_baseline to PG, CHECK 12 verification |
+| TC-244 | The LinkedIn regression audit that found 4 bugs in 1 hour | 💡 idea | 2026-06-23 | CHG-0743-0746 — multi-account regression audit, hardcoded accounts, wrong shell, wrong URL |
+| TC-245 | Your AI's brief said the cron ran. The cron list said otherwise. | 💡 idea | 2026-06-23 | CHG-0735 — Aria evidence-based verification, pre-write fact-checking |
+| TC-246 | The four-table design that was really just one table | 💡 idea | 2026-06-23 | CHG-0753 — TKT-0390 scope collapse, agent_decisions/decision_lineage redundant with entity_links |
+| TC-247 | The snapshot script that called bash instead of zsh — and silently failed | 💡 idea | 2026-06-23 | CHG-0748 — macOS bash 3.2 vs zsh associative arrays, shebang compliance |
+| TC-248 | When the terminated model kept getting scheduled: the cron drift that took 2 weeks to find | 💡 idea | 2026-06-23 | CHG-0742 — Spark publish cron on terminated minimax-m3, timeout scaler sweep |
+| TC-249 | The audit log that's not a view: why Path A beat Path B for pg_write_events | 💡 idea | 2026-06-23 | CHG-0749/0750 — TKT-0357, real table vs view decision, audit function with 15 columns |
 
 _Statuses: 💡 idea → ✍️ draft → ✅ scheduled → 📤 published_
 

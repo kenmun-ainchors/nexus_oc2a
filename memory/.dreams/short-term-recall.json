@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "updatedAt": "2026-06-23T02:46:38.692Z",
+  "updatedAt": "2026-06-23T13:00:38.682Z",
   "entries": {
     "memory:memory/2026-04-26.md:94:122": {
       "key": "memory:memory/2026-04-26.md:94:122",
@@ -4532,6 +4532,37 @@
         "l-138",
         "l-139",
         "anti-subagent-trap"
+      ]
+    },
+    "memory:memory/2026-06-13.md:1:35": {
+      "key": "memory:memory/2026-06-13.md:1:35",
+      "path": "memory/2026-06-13.md",
+      "startLine": 1,
+      "endLine": 35,
+      "source": "memory",
+      "snippet": "# 2026-06-13 — Yoda Daily Log ## A6 — Implemented (TKT-0503-A6) **Time:** 10:00–11:00 AEST **Model:** Yoda (claude-sonnet-4.6) **Status:** Complete, tested live, CHG-0533 logged ### What shipped - `scripts/cron-timeout-scaler.sh` vA6: reads `payload.timeoutSeconds` (not job root), filters out `systemEvent` jobs (which don't consume timeoutSeconds per server-cron-i5IplaUe.js:376) - `auto-heal.sh CHECK 22`: uses new `actionableRecommended` count, new alert message - New ledger `state/cron-timeout-applied.json` with 7-day stability gate - Live auto-apply via `openclaw cron edit --timeout-seconds N` (gated by `CHECK22_AUTO_APPLY=true`) - Idempotency verified (re-runs skip already-applied) - 3",
+      "recallCount": 1,
+      "dailyCount": 0,
+      "groundedCount": 0,
+      "totalScore": 0.5000845223665237,
+      "maxScore": 0.5000845223665237,
+      "firstRecalledAt": "2026-06-23T13:00:38.682Z",
+      "lastRecalledAt": "2026-06-23T13:00:38.682Z",
+      "queryHashes": [
+        "9b35d7f0fbed"
+      ],
+      "recallDays": [
+        "2026-06-23"
+      ],
+      "conceptTags": [
+        "tkt-0503-a6",
+        "claude-sonnet-4.6",
+        "chg-0533",
+        "scripts/cron-timeout-scaler.sh",
+        "payload.timeoutseconds",
+        "server-cron-i5iplaue.js",
+        "auto-heal.sh",
+        "state/cron-timeout-applied.json"
       ]
     }
   }
