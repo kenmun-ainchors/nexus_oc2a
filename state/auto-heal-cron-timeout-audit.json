@@ -1,15 +1,7 @@
 {
-  "checkedAt": "2026-06-22T15:00:03Z",
-  "offenders": [
-    {
-      "cronId": "f71f75af-dac7-4b6a-9b6e-9f43626b19a5",
-      "name": "Daily Workspace Backup",
-      "currentTimeout": 60,
-      "model": "ollama/minimax-m3:cloud",
-      "suggestedTimeout": 120
-    }
-  ],
-  "offenderCount": 1,
+  "checkedAt": "2026-06-23T03:29:53Z",
+  "offenders": [],
+  "offenderCount": 0,
   "live": true,
   "baseline": false
 }

@@ -1,11 +1,11 @@
 {
-  "generated_at": "2026-06-22T22:02:57.872257+00:00",
-  "generated_at_aest": "2026-06-23 08:02 AEST",
+  "generated_at": "2026-06-23T03:32:46.683767+00:00",
+  "generated_at_aest": "2026-06-23 13:32 AEST",
   "period_hours": 24,
   "totals": {
     "ERROR": 0,
     "WARN": 24,
-    "INFO": 32
+    "INFO": 8
   },
   "top_errors": [],
   "top_warnings": [
@@ -16,7 +16,7 @@
   ],
   "trend": {
     "has_prev_data": true,
-    "prev_errors": 126,
+    "prev_errors": 92,
     "prev_warns": 15,
     "errors_pct_change": -100.0,
     "warns_pct_change": 60.0

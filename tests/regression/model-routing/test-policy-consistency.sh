@@ -11,6 +11,12 @@ WORKSPACE_ROOT="${WORKSPACE_ROOT:-$(cd "$SCRIPT_DIR/../../.." && pwd)}"
 QUERY="$WORKSPACE_ROOT/scripts/model-policy-query.sh"
 JQ=/opt/homebrew/bin/jq
 
+# Load pg-sprint-backlog skill so the policy query (which calls db.sh) passes the skill gate
+if ! bash "$WORKSPACE_ROOT/scripts/skill-load.sh" pg-sprint-backlog >/dev/null 2>&1; then
+  echo "FAIL: failed to load pg-sprint-backlog skill" >&2
+  exit 1
+fi
+
 PASS=0
 FAIL=0
 fail() {

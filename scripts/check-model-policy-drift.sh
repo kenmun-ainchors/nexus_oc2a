@@ -11,6 +11,12 @@ QUERY="$WORKSPACE_ROOT/scripts/model-policy-query.sh"
 ALERT="$WORKSPACE_ROOT/state/model-policy-drift-alert.json"
 JQ=/opt/homebrew/bin/jq
 
+# Load pg-sprint-backlog skill before any DB queries (model-policy-query.sh calls db.sh, which has a skill gate)
+if ! bash "$WORKSPACE_ROOT/scripts/skill-load.sh" pg-sprint-backlog >/dev/null 2>&1; then
+  echo '{"status":"error","drift":true,"alerts":["failed to load pg-sprint-backlog skill"]}' > "$ALERT"
+  exit 1
+fi
+
 ALERTS=()
 add_alert() { ALERTS+=("$1"); }
 

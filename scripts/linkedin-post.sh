@@ -398,12 +398,40 @@ except:
   # ── Update linkedin-campaign.json with activity URN ──────────────────────
   # CHG-0362: Updated to write to linkedin-campaign.json (SSOT) instead of old linkedin-queue.json
   if [[ -n "$POST_URN" && -n "$QUEUE_CONTENT_ID" ]]; then
-    python3 - "$WORKSPACE/state/linkedin-campaign.json" "$QUEUE_CONTENT_ID" "$POST_URN" << 'PYEOF'
+    python3 - "$WORKSPACE/state/linkedin-campaign.json" "$QUEUE_CONTENT_ID" "$POST_URN" "$ACCOUNT" "$ORGANIZATION_ID" << 'PYEOF'
 import json, sys, os
+
+def build_post_url(post_urn, account, org_id):
+    """Build the correct public LinkedIn post URL based on account and URN type.
+    CHG-0746: Correct URL format for personal vs company page posts.
+    Stores legacy activity-format URL as postUrlLegacy for backward compatibility.
+    """
+    numeric_id = post_urn.split(':')[-1]
+    legacy_url = f'https://www.linkedin.com/posts/activity-{numeric_id}/'
+    
+    if account == 'business':
+        # Company page post: use company-page URL
+        if org_id:
+            # Try company-specific format; fall back to feed/update if no org slug
+            return f'https://www.linkedin.com/posts/company/{org_id}-{numeric_id}/', legacy_url
+        else:
+            return legacy_url, None
+    else:
+        # Personal profile post: use feed/update format (canonical for share URNs)
+        # For activity URNs, still use activity- format
+        if post_urn.startswith('urn:li:activity:'):
+            canonical_url = f'https://www.linkedin.com/posts/activity-{numeric_id}/'
+        else:
+            # share URN or other format -> use feed/update
+            canonical_url = f'https://www.linkedin.com/feed/update/{post_urn}/'
+        return canonical_url, legacy_url if canonical_url != legacy_url else None
+
 try:
     sys.path.insert(0, os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), 'lib'))
     from atomic_write import atomic_write_json as aw
     campaign_file, content_id, post_urn = sys.argv[1], sys.argv[2], sys.argv[3]
+    account = sys.argv[4] if len(sys.argv) > 4 else 'ken'
+    org_id = sys.argv[5] if len(sys.argv) > 5 else ''
     try:
         with open(campaign_file) as f:
             c = json.load(f)
@@ -411,11 +439,18 @@ try:
         c = {'published': [], 'drafts': {}}
     updated = False
     now = __import__('datetime').datetime.utcnow().isoformat() + 'Z'
+    
+    post_url, legacy_url = build_post_url(post_urn, account, org_id)
+    
     # Update published entries
     for item in c.get('published', []):
         if item.get('id') == content_id:
             item['postUrn'] = post_urn
-            item['postUrl'] = f'https://www.linkedin.com/posts/activity-{post_urn.split(":")[-1]}/'
+            item['postUrl'] = post_url
+            if legacy_url:
+                item['postUrlLegacy'] = legacy_url
+            elif 'postUrlLegacy' in item:
+                del item['postUrlLegacy']
             item['urnCapturedAt'] = now
             updated = True
             break
@@ -430,7 +465,7 @@ try:
     if updated:
         c['lastUpdated'] = now
         ok = aw(campaign_file, c)
-        print(f'  Campaign updated: {content_id} → postUrn={post_urn}' if ok else f'  Campaign atomic write FAILED')
+        print(f'  Campaign updated: {content_id} → postUrn={post_urn} postUrl={post_url}' if ok else f'  Campaign atomic write FAILED')
     else:
         print(f'  Campaign: contentId {content_id} not found in published or drafts')
 except Exception as e:

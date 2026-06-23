@@ -38,6 +38,14 @@
 
 ---
 
+## L-167 — LinkedIn multi-account scripts must not rely on default account routing
+**Date:** 2026-06-23
+**Source:** Spark LinkedIn regression audit after LI-W2-P4 was mistakenly posted to AInchors company page instead of Ken's personal profile.
+**Lesson:** When a script gains multi-account support but its callers (cron payloads, campaign state, manual retries) implicitly rely on a hardcoded or stale default, the wrong account can be used silently. `linkedin-upload-image.sh` was fixed for multi-account, but the publish crons still used `--account business` and `state/linkedin-campaign.json` `stream.account` was still `business`, so LI-W2-P4 went to the AInchors company page. Even after correcting the immediate cron, latent `stream.account=business` remains a wrong-account risk.
+**Fix:** (1) Created CHG-0743-0746: metrics multi-account support, publish crons read per-entry `account`, campaign `stream.account` switched to `ken`, stale theme dates refreshed, and LinkedIn public URL format corrected. (2) Dispatched Forge to apply all four. (3) Deleted the erroneous company-page post via `DELETE /v2/ugcPosts/{urn}` (HTTP 204).
+**Evidence:** Erroneous post URN `urn:li:share:7475008593658916864` returned 404 after deletion; new Ken post URN `urn:li:share:7475010633965568002` live on personal profile.
+**Prevention:** (1) Campaign SSOT must carry an explicit `account` field on every entry and a top-level `stream.account` default. (2) Every cron/script invocation must read the explicit account, never assume the last-used default. (3) Any change to account targets must update scripts, cron payloads, AND campaign state atomically — not just the failing surface. (4) Regression test dry-runs for all accounts after any multi-account script change.
+
 ## L-162 — Yoda must not Execute script/config changes; always route to Forge
 **Date:** 2026-06-21
 **Source:** TKT-0698 implementation. Ken asked: *"was that following CREST policy? was the execution work dispatched to Forge?"*

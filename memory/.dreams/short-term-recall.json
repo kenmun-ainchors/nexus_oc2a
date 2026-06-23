@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "updatedAt": "2026-06-22T21:31:07.738Z",
+  "updatedAt": "2026-06-23T02:46:38.692Z",
   "entries": {
     "memory:memory/2026-04-26.md:94:122": {
       "key": "memory:memory/2026-04-26.md:94:122",
@@ -106,20 +106,22 @@
       "endLine": 399,
       "source": "memory",
       "snippet": "- Detailed procedures → Operations/*.md docs (already there) - Future: create RULES.md for operational rules that don't need every-turn loading - Target: keep SOUL.md under 6k permanently - Ken approved approach: create RULES.md + refactor SOUL.md to pure one-liners (deferred to next session) ## Cost — Day 2 - Day 2 cost: $37.15 USD (499 turns, Sonnet primary) - Day 1 cost: $25.75 USD (416 turns) - All-time: $62.90 USD - ⚠️ API balance at $7.31 USD at end of day — Ken needs to top up before Day 3 - Cost tracker script broken (not parsing sessions correctly) → US22 ## Key New Files Created Today - scripts/pvt.sh (PVT — 9/9 checks) - scripts/pre-restart-cleanup.sh (pre-restart safety) - scri",
-      "recallCount": 2,
+      "recallCount": 3,
       "dailyCount": 0,
       "groundedCount": 0,
-      "totalScore": 0.8555515825748443,
+      "totalScore": 1.2674807995557784,
       "maxScore": 0.4631484299898147,
       "firstRecalledAt": "2026-04-26T22:00:43.034Z",
-      "lastRecalledAt": "2026-05-12T05:26:02.760Z",
+      "lastRecalledAt": "2026-06-23T02:46:38.690Z",
       "queryHashes": [
         "40c172efdae9",
-        "0fa9cd49634f"
+        "0fa9cd49634f",
+        "99f6307e1805"
       ],
       "recallDays": [
         "2026-04-27",
-        "2026-05-12"
+        "2026-05-12",
+        "2026-06-23"
       ],
       "conceptTags": [
         "rules.md",
@@ -139,13 +141,13 @@
       "endLine": 123,
       "source": "memory",
       "snippet": "- TOM = Target Operating Model (Ken's term for agent team roster, approved 2026-04-26) ## Deferred Items (with reminders) - GitHub CLI auth: reminder 28 Apr - Gmail/gog OAuth: reminder 2 May - Google Cloud OAuth setup walkthrough: reminder 2 May ## Open Risks - Backup on same disk as live data (no offsite yet — Phase 4) - Secrets in plaintext config files (fix before Phase 2 — 1Password CLI) - Social media API approvals not started (Meta + LinkedIn — can take 2-6 weeks) - Angie has no system access (resolve before Phase 3) - Data residency / privacy policy not documented (before first client) - Tailscale not set up (Phase 3 now) ## Key File Locations - Workspace: ~/.openclaw/workspace/ -",
-      "recallCount": 16,
+      "recallCount": 17,
       "dailyCount": 0,
       "groundedCount": 0,
-      "totalScore": 6.906287804245948,
+      "totalScore": 7.346551531553268,
       "maxScore": 0.46509108543395994,
       "firstRecalledAt": "2026-04-26T22:00:43.034Z",
-      "lastRecalledAt": "2026-05-26T03:38:21.120Z",
+      "lastRecalledAt": "2026-06-23T02:46:18.326Z",
       "queryHashes": [
         "40c172efdae9",
         "d7adbee3a31e",
@@ -162,7 +164,8 @@
         "96ac7cd9f964",
         "a504d31316e2",
         "73ccb9828744",
-        "5d559cf3e053"
+        "5d559cf3e053",
+        "e1dc1dfa344c"
       ],
       "recallDays": [
         "2026-04-27",
@@ -173,7 +176,8 @@
         "2026-05-19",
         "2026-05-22",
         "2026-05-24",
-        "2026-05-26"
+        "2026-05-26",
+        "2026-06-23"
       ],
       "conceptTags": [
         "backup",
@@ -2760,18 +2764,20 @@
       "endLine": 61,
       "source": "memory",
       "snippet": "### UTC Conversion Error — Post 1 Missed Slot (21:23-21:27 AEST) - P1 cron was set for `2026-05-19T21:30:00Z` instead of `2026-05-18T21:30:00Z` - AEST = UTC+10, so 07:30 AEST May 19 = May 18 21:30 UTC (subtract 10, not add) - P1 was scheduled for tomorrow instead of today — missed the Tue 07:30 slot - Posted P1 manually at 21:23 AEST - Fixed P2/P3 cron timestamps - Logged as L-043 ## Lessons Logged Today - L-041: Multi-file campaign state causes drift → one SSOT per domain - L-042: Webchat hung after rate limit → force reload browser page - L-043: AEST UTC conversion: subtract 10 hours, not add. cron `at` timestamps are UTC ## Changes Deployed (via webchat earlier) - CHG-0411 through CHG-0",
-      "recallCount": 1,
+      "recallCount": 2,
       "dailyCount": 0,
       "groundedCount": 0,
-      "totalScore": 0.5185766637325286,
+      "totalScore": 1.0036283820867538,
       "maxScore": 0.5185766637325286,
       "firstRecalledAt": "2026-05-20T05:33:37.484Z",
-      "lastRecalledAt": "2026-05-20T05:33:37.484Z",
+      "lastRecalledAt": "2026-06-23T02:46:38.692Z",
       "queryHashes": [
-        "a3b10f5bfdbe"
+        "a3b10f5bfdbe",
+        "dbf3cea3617a"
       ],
       "recallDays": [
-        "2026-05-20"
+        "2026-05-20",
+        "2026-06-23"
       ],
       "conceptTags": [
         "23-21",
@@ -4464,6 +4470,68 @@
         "obs.db",
         "obs-collector",
         "re-logging"
+      ]
+    },
+    "memory:memory/2026-06-10.md:143:162": {
+      "key": "memory:memory/2026-06-10.md:143:162",
+      "path": "memory/2026-06-10.md",
+      "startLine": 143,
+      "endLine": 162,
+      "source": "memory",
+      "snippet": "3. Restart daemon: PID 4387, cycle 9, 326 rows/sweep ✅ 4. Repoint divergence harness: `divergence-harness.py` line 46 → `nexus_mirror` ✅ 5. Verify isolation: mirror writes to `nexus_mirror` (23:05), not `nexus_sandbox` (23:01 stale) ✅ - **Two holds from Ken locked in:** - Two DSNs, not three — no MIRROR_DB_URL - WAL/basebackup + RPO/RTO deferred to OC2 epic - **Sandbox preserved:** `nexus_sandbox.nexus_controller` untouched (335 rows) for test harness. Phase 3.1 manual cleanup subsumed by isolation. - **Phase 4-6 now run against `nexus_mirror`** — clean clock target ready. ## TKT-0396 Skill-Gate Enforcement (Late Evening, ~23:12–23:30) - **Problem:** \"Load skills before use\" was d",
+      "recallCount": 1,
+      "dailyCount": 0,
+      "groundedCount": 0,
+      "totalScore": 0.46165363192558284,
+      "maxScore": 0.46165363192558284,
+      "firstRecalledAt": "2026-06-23T02:06:19.337Z",
+      "lastRecalledAt": "2026-06-23T02:06:19.337Z",
+      "queryHashes": [
+        "9972eec9a761"
+      ],
+      "recallDays": [
+        "2026-06-23"
+      ],
+      "conceptTags": [
+        "backup",
+        "rows/sweep",
+        "divergence-harness.py",
+        "nexus-mirror",
+        "nexus-sandbox",
+        "mirror-db-url",
+        "wal/basebackup",
+        "rpo/rto"
+      ]
+    },
+    "memory:memory/2026-06-15.md:72:92": {
+      "key": "memory:memory/2026-06-15.md:72:92",
+      "path": "memory/2026-06-15.md",
+      "startLine": 72,
+      "endLine": 92,
+      "source": "memory",
+      "snippet": "- Continuous-review rule (L-140): Yoda can re-order/re-prioritize the 7 open items as work progresses. Yoda can flag a blocker mid-sprint — but cannot move/drop without Ken's explicit approval. Anything not done at sprint end becomes intact spillover, reviewed+confirmed at S9 ceremony. ## Commit log (afternoon, real work) 1f07f1b5 (L-138 v4 final), cb5955d7 (L-139 anti-subagent-trap), f45fa12d (TKT-OLD-CODE-AUDIT split), d016ee14 (Sprint 8 ceremony v1 — REVERTED), 3ef42041 (Sprint 8 reconciled, CHG-0596, L-140), 99acc644 (Sprint 8 LOCKED, CHG-0597). ## Counts (full day) - 24 lessons (L-116 through L-140) — 6x prior single-day record of 4 - 33 CHGs (CHG-0559 through CHG-0597) - 23 real comm",
+      "recallCount": 1,
+      "dailyCount": 0,
+      "groundedCount": 0,
+      "totalScore": 0.48793452382087704,
+      "maxScore": 0.48793452382087704,
+      "firstRecalledAt": "2026-06-23T02:45:07.090Z",
+      "lastRecalledAt": "2026-06-23T02:45:07.090Z",
+      "queryHashes": [
+        "108de3017c09"
+      ],
+      "recallDays": [
+        "2026-06-23"
+      ],
+      "conceptTags": [
+        "continuous-review",
+        "l-140",
+        "re-order/re-prioritize",
+        "mid-sprint",
+        "move/drop",
+        "l-138",
+        "l-139",
+        "anti-subagent-trap"
       ]
     }
   }

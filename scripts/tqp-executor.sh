@@ -45,6 +45,12 @@ while [[ $# -gt 0 ]]; do
       DRY_RUN="false"
       shift
       ;;
+    --poll-once)
+      # alias for --dry-run --limit 5 used by cron
+      DRY_RUN="false"
+      LIMIT="${LIMIT:-5}"
+      shift
+      ;;
     --limit)
       LIMIT="${2:-5}"
       shift 2

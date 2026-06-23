@@ -1,8 +1,10 @@
 #!/usr/bin/env zsh
 # linkedin-metrics-snapshot.sh — Fetch metrics for a LinkedIn post and append to state/linkedin-metrics.json
 #
+# CHG-0743: Added --account argument. Passed through to linkedin-metrics.sh.
+#
 # Usage:
-#   linkedin-metrics-snapshot.sh --content-id LI-W1-P1 --post-urn urn:li:activity:... --interval 24h
+#   linkedin-metrics-snapshot.sh --content-id LI-W1-P1 --post-urn urn:li:activity:... --interval 24h [--account ken|angie|business]
 #
 # Intervals: 6h, 24h, 48h, 7d (or any label)
 # Appends a new snapshot entry to the matching post in state/linkedin-metrics.json.
@@ -19,6 +21,7 @@ METRICS_SCRIPT="$WORKSPACE/scripts/linkedin-metrics.sh"
 CONTENT_ID=""
 POST_URN=""
 INTERVAL=""
+ACCOUNT=""
 
 while [[ $# -gt 0 ]]; do
   case "$1" in
@@ -34,9 +37,13 @@ while [[ $# -gt 0 ]]; do
       INTERVAL="$2"
       shift 2
       ;;
+    --account)
+      ACCOUNT="$2"
+      shift 2
+      ;;
     *)
       echo "❌ Unknown argument: $1" >&2
-      echo "Usage: linkedin-metrics-snapshot.sh --content-id ID --post-urn URN --interval LABEL" >&2
+      echo "Usage: linkedin-metrics-snapshot.sh --content-id ID --post-urn URN --interval LABEL [--account ken|angie|business]" >&2
       exit 1
       ;;
   esac
@@ -48,12 +55,17 @@ done
 [[ -z "$POST_URN" ]]   && { echo "❌ --post-urn is required." >&2; exit 1; }
 [[ -z "$INTERVAL" ]]   && { echo "❌ --interval is required." >&2; exit 1; }
 
-echo "📊 Fetching metrics for $CONTENT_ID ($POST_URN) — interval: $INTERVAL" >&2
+echo "📊 Fetching metrics for $CONTENT_ID ($POST_URN) — interval: $INTERVAL${ACCOUNT:+ account: $ACCOUNT}" >&2
 
 # ── Fetch metrics ─────────────────────────────────────────────────────────────
 
-METRICS_JSON=$(bash "$METRICS_SCRIPT" --post-urn "$POST_URN") \
-  || { echo "❌ linkedin-metrics.sh failed." >&2; exit 1; }
+if [[ -n "$ACCOUNT" ]]; then
+  METRICS_JSON=$(bash "$METRICS_SCRIPT" --post-urn "$POST_URN" --account "$ACCOUNT") \
+    || { echo "❌ linkedin-metrics.sh failed." >&2; exit 1; }
+else
+  METRICS_JSON=$(bash "$METRICS_SCRIPT" --post-urn "$POST_URN") \
+    || { echo "❌ linkedin-metrics.sh failed." >&2; exit 1; }
+fi
 
 REACTIONS=$(echo "$METRICS_JSON"  | python3 -c "import sys,json; d=json.load(sys.stdin); print(d.get('reactions', 0))")
 COMMENTS=$(echo "$METRICS_JSON"   | python3 -c "import sys,json; d=json.load(sys.stdin); print(d.get('comments', 0))")

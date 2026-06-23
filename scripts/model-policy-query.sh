@@ -16,6 +16,12 @@ WORKSPACE_ROOT="${WORKSPACE_ROOT:-/Users/ainchorsangiefpl/.openclaw/workspace}"
 JQ="${JQ:-/opt/homebrew/bin/jq}"
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 
+# Load pg-sprint-backlog skill before any DB queries (db.sh has a skill gate)
+if ! bash "$SCRIPT_DIR/skill-load.sh" pg-sprint-backlog >/dev/null 2>&1; then
+  echo '{"error":"failed to load pg-sprint-backlog skill"}' >&2
+  exit 1
+fi
+
 # --- Agent ID → CREST role mapping ---
 agent_to_role() {
   local agent="$1"

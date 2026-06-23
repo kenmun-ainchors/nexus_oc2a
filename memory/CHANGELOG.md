@@ -1,3 +1,135 @@
+## 2026-06-23 13:30 AEST — [CHG-0747] Refresh gateway config hash baseline after approved changes
+**Type:** config
+**Change Type:** Normal
+**Source:** ken-prompt
+**Trigger:** Standup Bud item 2026-06-23: gateway config hash changed — possible unlogged config mutation.
+**What changed:** Ran scripts/gateway-config-snapshot.sh --check/--diff; baseline refreshed from bd44bca... to 0657555... Config hash drift was caused by approved operational changes today: CHG-0740 (commissioned ahsoka/atlas/thrawn workspace dirs), CHG-0741 (model-policy skill-load script fix), CHG-0742 (cron timeout/model adjustments). No unlogged mutation.
+**Why:** The nightly auto-heal/standup check flags any hash drift as possible mutation. Refreshing the baseline after a day of approved changes prevents recurring false positives.
+**Verification:** scripts/gateway-config-snapshot.sh --check returns no drift; state/critical-config-baseline.json updated; PG state_config_baseline matches.
+**Rollback:** Restore previous baseline hash from git history or PG backup.
+**Linked:** CHG-0740, CHG-0741, CHG-0742, state/critical-config-baseline.json, scripts/gateway-config-snapshot.sh
+---
+
+## 2026-06-23 13:26 AEST — [CHG-0746] CHG-0746: linkedin-post.sh correct public post URL format
+**Type:** script
+**Change Type:** Normal
+**Source:** ken-prompt
+**Trigger:** Ken reported LinkedIn post URLs generated as /posts/activity-NNNN are broken
+**What changed:** Update linkedin-post.sh to build correct public URL for personal profile and company page posts from LinkedIn API response
+**Why:** Current URL format https://www.linkedin.com/posts/activity-{id}/ is non-canonical and fails to resolve for some posts
+**Verification:** Post dry-run; open generated URL in browser; expect 200 and correct author
+**Rollback:** Revert scripts/linkedin-post.sh to previous git SHA
+**Linked:** CHG-0739, CHG-0743, state/linkedin-campaign.json
+---
+
+## 2026-06-23 13:26 AEST — [CHG-0745] CHG-0745: linkedin-campaign.json stream.account and theme date refresh
+**Type:** data
+**Change Type:** Normal
+**Source:** ken-prompt
+**Trigger:** Spark LinkedIn regression audit found stream.account still business and active theme dates stale
+**What changed:** Update state/linkedin-campaign.json: stream.account=ken; refresh activeTheme.currentWeek and nextThemeSwitch to reflect 2026-06-23 Week 2
+**Why:** stream.account=business is a latent wrong-account risk; stale week dates could misroute draft crons
+**Verification:** Read campaign JSON; confirm stream.account=ken and theme dates match LI-W2-P4 posted 2026-06-23
+**Rollback:** Restore previous state/linkedin-campaign.json from git
+**Linked:** CHG-0739, CHG-0744, state/linkedin-campaign.json
+---
+
+## 2026-06-23 13:26 AEST — [CHG-0744] CHG-0744: Publish crons read account from campaign entry
+**Type:** cron
+**Change Type:** Normal
+**Source:** ken-prompt
+**Trigger:** Spark LinkedIn regression audit found publish crons hardcoded --account ken
+**What changed:** Update Tue/Wed/Thu publish cron payloads to read account from linkedin-campaign.json entry; fallback to stream.account then ken
+**Why:** Multi-account campaign requires per-post account routing. Hardcoded ken breaks future Angie/business posts.
+**Verification:** Inspect cron payloads; dry-run publish for each account using campaign entry account field
+**Rollback:** Restore previous cron payloads from git
+**Linked:** CHG-0739, CHG-0743, state/linkedin-campaign.json
+---
+
+## 2026-06-23 13:26 AEST — [CHG-0743] CHG-0740: linkedin-metrics.sh multi-account support
+**Type:** script
+**Change Type:** Normal
+**Source:** ken-prompt
+**Trigger:** Spark LinkedIn regression audit found metrics script hardcoded to Ken
+**What changed:** Add --account ken|angie|business to linkedin-metrics.sh and linkedin-metrics-snapshot.sh; read per-account auth state and Keychain prefix
+**Why:** Metrics must work for all three LinkedIn accounts (Ken personal, Angie personal, AInchors business). Current script only reads Ken's auth state.
+**Verification:** Dry-run fetch for each account after patch; verify state/linkedin-metrics.json captures correct postUrn
+**Rollback:** Revert scripts/linkedin-metrics.sh and scripts/linkedin-metrics-snapshot.sh to previous git SHA
+**Linked:** CHG-0737, CHG-0739, state/linkedin-metrics.json
+---
+
+## 2026-06-23 12:51 AEST — [CHG-0742] Apply cron timeout baseline recommendations
+**Type:** config
+**Change Type:** Normal
+**Source:** ken-prompt
+**Trigger:** Standup Bud item 2026-06-23: review cron timeout recommendations.
+**What changed:** Set missing timeouts: Memory Dreaming Promotion 180s, TKT-0343-daily-config-snapshot 120s. Increase timeout victims: Spark LinkedIn Daily Metrics Snapshot 120→190s, Aria Weekly Business ROI Summary 300→460s, Spark LinkedIn Tue Publish Slot 180→300s and swap terminated minimax-m3 model to deepseek-v4-flash:cloud per CHG-0596.
+**Why:** Three crons are timing out because set timeout is below actual duration. Two crons have no timeout. Spark publish slot also uses terminated minimax model, which will fail next run.
+**Verification:** Re-run cron-timeout-scaler.sh and confirm no timeout victims remain; verify cron get shows updated timeoutSeconds and model for affected jobs.
+**Rollback:** Restore previous timeoutSeconds and model values from cron state backups or CHG record.
+**Linked:** TKT-0339, CHG-0596, cron-timeout-scaler.sh, state/cron-timeout-baseline.json
+---
+
+## 2026-06-23 12:48 AEST — [CHG-0741] Load pg-sprint-backlog skill in model-policy consumers
+**Type:** script
+**Change Type:** Normal
+**Source:** ken-prompt
+**Trigger:** Standup Bud item 2026-06-23: model-policy drift investigation (TKT-0540). check-model-policy-drift.sh fails when run without pg-sprint-backlog skill loaded because model-policy-query.sh calls db.sh which has a skill gate.
+**What changed:** Added bash scripts/skill-load.sh pg-sprint-backlog to the top of scripts/model-policy-query.sh and scripts/check-model-policy-drift.sh (and both regression tests) before any DB queries, so cron/heartbeat contexts pass the skill gate.
+**Why:** Without the skill load, the drift check reports false drift every time it runs unattended, masking real model drift and generating daily needs_ken noise.
+**Verification:** Run ./scripts/check-model-policy-drift.sh in a fresh shell (no pre-loaded skill) and confirm {"status":"ok"}; run both regression tests and confirm 10/10 and 21/21 PASS; verify state/model-policy-drift-alert.json shows alerts=[].
+**Rollback:** Remove the skill-load lines and revert to prior behavior.
+**Linked:** TKT-0540, CHG-0708, scripts/model-policy-query.sh, scripts/check-model-policy-drift.sh, tests/regression/model-routing/test-consumer-consistency.sh, tests/regression/model-routing/test-policy-consistency.sh
+---
+
+## 2026-06-23 12:46 AEST — [CHG-0740] Commission missing agent workspace subdirs: ahsoka, atlas, thrawn
+**Type:** agent
+**Change Type:** Normal
+**Source:** ken-prompt
+**Trigger:** Standup Bud item 2026-06-23: resolve agent-identity-audit.sh findings for vanilla/missing SOUL.md.
+**What changed:** Created workspace/ahsoka/, workspace/atlas/, and workspace/thrawn/ each containing a commissioned SOUL.md and AGENTS.md matching the canonical agent identity in agents/<name>/.
+**Why:** agent-identity-audit.sh flagged ahsoka, atlas, and thrawn as missing workspace subdirs. All other agents have commissioned workspace identities; these three must too for the SOUL/AGENTS hygiene gate and audit pass.
+**Verification:** Re-run scripts/agent-identity-audit.sh and confirm failures=0 and state/agent-identity-audit.json shows all agents ok.
+**Rollback:** Remove the three new workspace subdirs and re-run audit to restore prior (failing) state.
+**Linked:** TKT-0541, agent-identity-audit.sh, state/agent-identity-audit.json, workspace/ahsoka, workspace/atlas, workspace/thrawn
+---
+
+## 2026-06-23 12:20 AEST — [CHG-0739] Switch LinkedIn publish crons + campaign to Ken personal profile
+**Type:** config
+**Change Type:** Normal
+**Source:** ken-prompt
+**Trigger:** Ken confirmed LI-W2-P4 incorrectly posted to AInchors company page; intended target is Ken personal profile
+**What changed:** state/linkedin-campaign.json: LI-W2-P4/P5/P6 account=ken; publish crons 13b0aa89/833ee0c7/869502c9 payload: change --account business --organization-id 112732790 to --account ken; re-post LI-W2-P4 to personal profile
+**Why:** Scheduled LinkedIn posts are Ken personal content, not AInchors company-page content
+**Verification:** LI-W2-P4 re-post succeeds as urn:li:person:FhpPCanUWM; campaign file shows account=ken; crons updated
+**Rollback:** Revert campaign account to business and crons to --account business --organization-id 112732790; delete wrongly posted personal duplicate if any
+**Linked:** TKT-0121,CHG-0737
+---
+
+## 2026-06-23 12:17 AEST — [CHG-0738] WO-002 field-mismatch allowlist extension
+**Type:** config
+**Change Type:** Normal
+**Source:** ken-prompt
+**Trigger:** Ken approved approach 1 for the 2026-06-23 WO-002 divergence alert: close alert and update allowlist for 4 status field mismatches on TKT-0734 and TKT-9991.
+**What changed:** Extended status-map.json allowlist schema to support field_mismatch entries; updated divergence-harness.py to subtract allowed field mismatches from unexplained count and from divergence-alert needs_attention. Added ALLOW-FM-001 (TKT-0734) and ALLOW-FM-002 (TKT-9991).
+**Why:** Both tickets are verified/test artifacts cancelled in live PG but still showing active statuses in shadow DB; not production divergence. Allowlisting prevents daily alert noise and keeps WO-002 streak honest.
+**Verification:** Re-run divergence-harness.py for 2026-06-23 and confirm report shows unexplained=0 and alert file removed; state/wo-002-state.json divergence_status stays GREEN.
+**Rollback:** Remove allowlist entries and revert harness logic change; re-run harness to restore alert.
+**Linked:** WO-002, TKT-0734, TKT-9991, workspace-infra/scripts/divergence-harness.py, workspace-infra/state/status-map.json, workspace-infra/state/divergence-report-2026-06-23.json
+---
+
+## 2026-06-23 12:05 AEST — [CHG-0737] Fix linkedin-upload-image.sh cross-owner bug for company-page posts
+**Type:** script
+**Change Type:** Normal
+**Source:** manual
+**Trigger:** Spark publish cron 13b0aa89 posted LI-W2-P4 with image uploaded under Ken's personal auth; LinkedIn rejected with HTTP 400 INVALID_CONTENT_OWNERSHIP because post author was AInchors organization (urn:li:organization:112732790)
+**What changed:** scripts/linkedin-upload-image.sh: add --account ken|angie|business flag, per-account keychain/state selection, and set owner=urn:li:organization:{orgId} for business account. Update LinkedIn publish crons 13b0aa89/833ee0c7/869502c9 to pass --account business.
+**Why:** Company-page posts require image asset ownership to match post author; existing script hardcoded ken personal auth
+**Verification:** Dry-run upload with --account business returns correct owner; publish cron 13b0aa89 re-run succeeds for LI-W2-P4; no more INVALID_CONTENT_OWNERSHIP
+**Rollback:** Revert scripts/linkedin-upload-image.sh and remove --account from publish crons
+**Linked:** TKT-0121
+---
+
 ## 2026-06-23 04:23 AEST — [CHG-0736] Enable Memory Wiki plugin (unsafe-local bridge mode)
 **Type:** config
 **Change Type:** Normal

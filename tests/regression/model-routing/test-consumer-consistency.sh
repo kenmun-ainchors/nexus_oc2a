@@ -12,6 +12,12 @@ JQ=/opt/homebrew/bin/jq
 DISPATCH="$WORKSPACE_ROOT/scripts/dispatch-validate.sh"
 GATE="$WORKSPACE_ROOT/scripts/crest-execute-gate.sh"
 
+# Load pg-sprint-backlog skill so any downstream DB-using helpers pass the skill gate
+if ! bash "$WORKSPACE_ROOT/scripts/skill-load.sh" pg-sprint-backlog >/dev/null 2>&1; then
+  echo "FAIL: failed to load pg-sprint-backlog skill" >&2
+  exit 1
+fi
+
 PASS=0
 FAIL=0
 fail() { echo "FAIL: $1"; FAIL=$((FAIL+1)); }

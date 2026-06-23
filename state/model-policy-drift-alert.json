@@ -1,10 +1,6 @@
 {
-  "generatedAt": "2026-06-22T15:00:14Z",
-  "acknowledged": false,
+  "generatedAt": "2026-06-23T03:30:33Z",
+  "acknowledged": true,
   "source": "check-model-policy-drift.sh",
-  "alerts": [
-    "model-policy-query.sh --all produced invalid or missing effectiveMap",
-    "regression test failed: test-consumer-consistency.sh",
-    "regression test failed: test-policy-consistency.sh"
-  ]
+  "alerts": []
 }

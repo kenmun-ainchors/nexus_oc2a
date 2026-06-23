@@ -2,11 +2,11 @@
   "wo_id": "WO-002",
   "status": "in_progress",
   "started": "2026-06-08T20:46:00+10:00",
-  "last_divergence_check": "2026-06-19T22:30:05.538474+10:00",
+  "last_divergence_check": "2026-06-23T09:00:00+10:00",
   "divergence_status": "GREEN",
-  "last_alert": "2026-06-19T09:00:00+10:00",
-  "last_alert_summary": "2026-06-19 22:29 AEST — 4 unexplained extras after deleting TKT-9999/9998 from live PG. Root cause: mirror writer does not delete shadow rows, so 4 orphan loop/atom rows remained.",
-  "last_alert_resolution": "Resolved 2026-06-19 22:29 AEST: deleted 4 orphan shadow rows (2 loop_plan + 2 plan_atom) for TKT-9999/9998 from nexus_mirror. WO-002 divergence harness re-run: extra=40 (all allowlisted historical seed), unexplained=0.",
+  "last_alert": "2026-06-23T09:00:00+10:00",
+  "last_alert_summary": "2026-06-23 09:00 AEST — 4 status field mismatches on TKT-0734 (A7 verify ticket) and TKT-9991 (test TKT-0720 A4 create-from-json). Live status=cancelled; shadow loop/atom still active. Root cause: test artifacts cancelled in live PG but shadow rows not updated.",
+  "last_alert_resolution": "Resolved 2026-06-23 12:20 AEST (CHG-0738): added ALLOW-FM-001/002 to workspace-infra/state/status-map.json and extended workspace-infra/scripts/divergence-harness.py to subtract allowed field mismatches from unexplained count. Harness re-run 2026-06-23: match=714, field_mismatch=4 (all explained), unexplained=0, alert file cleared.",
   "tasks": {
     "W2-1": {
       "status": "done",
@@ -57,5 +57,5 @@
   "streak_decision": "Option B: allowlisted extras accepted. No structural code change to mirror writer.",
   "streak_decision_by": "Ken Mun",
   "streak_decision_at": "2026-06-20T09:47:00+10:00",
-  "updated_at": "2026-06-20T09:47:00+10:00"
+  "updated_at": "2026-06-23T12:20:00+10:00"
 }
