@@ -29,16 +29,6 @@
     "appliedAt": "2026-06-15T11:46:00+10:00",
     "appliedTo": 180
   },
-  "f81f0842": {
-    "firstSeen": "2026-06-15",
-    "lastSeen": "2026-06-18",
-    "daysCount": 4,
-    "recommendation": "DECREASE",
-    "currentTo": 300,
-    "computedTo": 180,
-    "appliedAt": "2026-06-15T11:46:00+10:00",
-    "appliedTo": 180
-  },
   "a3e9a226": {
     "firstSeen": "2026-06-15",
     "lastSeen": "2026-06-18",
@@ -99,12 +89,12 @@
     "kenBypassReason": "Ken explicit approval for scaler vA6 backfill (CHG-0578)"
   },
   "c69615bb": {
-    "firstSeen": "2026-06-15",
-    "lastSeen": "2026-06-19",
-    "daysCount": 5,
+    "firstSeen": "2026-06-23",
+    "lastSeen": "2026-06-23",
+    "daysCount": 1,
     "recommendation": "DECREASE",
-    "currentTo": 300,
-    "computedTo": 52,
+    "currentTo": 120,
+    "computedTo": 73,
     "appliedAt": "2026-06-19T01:18:19Z",
     "appliedTo": 52,
     "applyMethod": "cron-timeout-apply.sh",
@@ -125,11 +115,11 @@
   },
   "f71f75af": {
     "firstSeen": "2026-06-19",
-    "lastSeen": "2026-06-22",
-    "daysCount": 4,
+    "lastSeen": "2026-06-23",
+    "daysCount": 5,
     "recommendation": "DECREASE",
-    "currentTo": 300,
-    "computedTo": 59,
+    "currentTo": 120,
+    "computedTo": 43,
     "appliedAt": "2026-06-19T01:18:19Z",
     "appliedTo": 47,
     "applyMethod": "cron-timeout-apply.sh",
@@ -139,8 +129,8 @@
     "kenBypassReason": "Ken explicit approval for scaler vA6 backfill (CHG-0578)"
   },
   "e08e19ad": {
-    "firstSeen": "2026-06-19",
-    "lastSeen": "2026-06-19",
+    "firstSeen": "2026-06-23",
+    "lastSeen": "2026-06-23",
     "daysCount": 1,
     "recommendation": "DECREASE",
     "currentTo": 120,
@@ -169,12 +159,12 @@
     "kenBypassReason": "Ken explicit approval for scaler vA6 backfill (CHG-0578)"
   },
   "1cb0c7ff": {
-    "firstSeen": "2026-06-19",
-    "lastSeen": "2026-06-19",
+    "firstSeen": "2026-06-23",
+    "lastSeen": "2026-06-23",
     "daysCount": 1,
     "recommendation": "DECREASE",
     "currentTo": 600,
-    "computedTo": 120,
+    "computedTo": 239,
     "appliedAt": "2026-06-19T01:18:19Z",
     "appliedTo": 120,
     "applyMethod": "cron-timeout-apply.sh",

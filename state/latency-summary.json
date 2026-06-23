@@ -1,22 +1,22 @@
 {
-  "generatedAt": "2026-06-23T14:56:58.043519+00:00",
+  "generatedAt": "2026-06-23T22:04:02.473836+00:00",
   "windowDays": 7,
   "note": "Duration = end-to-end cron task time (includes LLM call + tool use). TTFT instrumentation pending gateway-level hooks.",
   "overall": {
-    "sampleCount": 12385,
-    "avgMs": 7064,
+    "sampleCount": 12737,
+    "avgMs": 6793,
     "peakMs": 802044,
     "minMs": 1
   },
   "byModel": {
     "deepseek-v4-pro:cloud": {
       "sampleCount": 17,
-      "avgMs": 165294,
+      "avgMs": 172101,
       "minMs": 25128,
       "maxMs": 802044,
-      "p50Ms": 104358,
+      "p50Ms": 105740,
       "p95Ms": 298430,
-      "avgTokens": 92523
+      "avgTokens": 89649
     },
     "minimax-m3:cloud": {
       "sampleCount": 7,
@@ -28,13 +28,13 @@
       "avgTokens": 20795
     },
     "kimi-k2.6:cloud": {
-      "sampleCount": 46,
-      "avgMs": 29082,
+      "sampleCount": 55,
+      "avgMs": 27050,
       "minMs": 4959,
       "maxMs": 261458,
-      "p50Ms": 10714,
+      "p50Ms": 8762,
       "p95Ms": 112205,
-      "avgTokens": 18721
+      "avgTokens": 17653
     },
     "gemma4:26b": {
       "sampleCount": 22,
@@ -46,21 +46,21 @@
       "avgTokens": 10913
     },
     "deepseek-v4-flash:cloud": {
-      "sampleCount": 2890,
-      "avgMs": 10319,
+      "sampleCount": 2888,
+      "avgMs": 10009,
       "minMs": 2341,
       "maxMs": 211284,
-      "p50Ms": 8196,
-      "p95Ms": 21233,
-      "avgTokens": 15627
+      "p50Ms": 8091,
+      "p95Ms": 20822,
+      "avgTokens": 15655
     },
     "claude-sonnet-4-6": {
-      "sampleCount": 9403,
-      "avgMs": 5620,
+      "sampleCount": 9748,
+      "avgMs": 5389,
       "minMs": 1,
       "maxMs": 120297,
-      "p50Ms": 45,
-      "p95Ms": 24871,
+      "p50Ms": 46,
+      "p95Ms": 23727,
       "avgTokens": 0
     }
   }

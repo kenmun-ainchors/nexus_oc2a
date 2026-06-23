@@ -1,0 +1,29 @@
+[main/sessions/main/05773eb1-0acd-4065-83f6-ca020c15e9ef.jsonl.deleted.2026-06-20T02-44-44.225Z#L6] Assistant: Running the TQP task queue processor as scheduled.
+[main/sessions/main/05773eb1-0acd-4065-83f6-ca020c15e9ef.jsonl.deleted.2026-06-20T02-44-44.225Z#L8] Assistant: TQP run complete — no tasks to process.
+[main/sessions/main/059c8e1b-3725-4b89-94a8-0737e560c6ee.jsonl.deleted.2026-06-20T00-48-29.139Z#L6] Assistant: The TQP reminder has fired. Let me run the task queue processor script.
+[main/sessions/main/059c8e1b-3725-4b89-94a8-0737e560c6ee.jsonl.deleted.2026-06-20T00-48-29.139Z#L8] Assistant: No tasks to process — queue is empty. Nothing to escalate or report.
+[main/sessions/main/05c18a6d-0af4-4394-ad0b-43c9256f2a07.jsonl.deleted.2026-06-20T17-04-37.776Z#L6] Assistant: Running the TQP script now.
+[main/sessions/main/05c18a6d-0af4-4394-ad0b-43c9256f2a07.jsonl.deleted.2026-06-20T17-04-37.776Z#L8] Assistant: TQP run complete — no tasks to process.
+[main/sessions/main/05cabdf6-51df-47b7-958f-28aa43ba0d81.jsonl#L6] Assistant: Running the PG-Notion batch sync.
+[main/sessions/main/05cabdf6-51df-47b7-958f-28aa43ba0d81.jsonl#L8] Assistant: Batch sync complete — all tickets are already in sync, nothing to process.
+[main/sessions/main/05db48c3-845f-4226-bf4a-c13a54bff83b.jsonl#L6] Assistant: Running the PG-Notion batch sync.
+[main/sessions/main/05db48c3-845f-4226-bf4a-c13a54bff83b.jsonl#L8] Assistant: Skill gate blocked — need to reload the notion skill first.
+[main/sessions/main/05db48c3-845f-4226-bf4a-c13a54bff83b.jsonl#L12] Assistant: Batch sync complete — all tickets are already in sync, nothing to process.
+[main/sessions/main/05ff8402-ebd6-48d6-baab-f7dd52ecd7b7.jsonl.deleted.2026-06-20T17-04-37.778Z#L6] Assistant: The TQP reminder has fired. Let me run the task queue processor script.
+[main/sessions/main/05ff8402-ebd6-48d6-baab-f7dd52ecd7b7.jsonl.deleted.2026-06-20T17-04-37.778Z#L8] Assistant: TQP ran cleanly — no tasks in the queue to process. Nothing to escalate or report.
+[main/sessions/main/06109854-a548-4a5f-921e-4ce19f015ac4.jsonl#L10] Assistant: OK
+[main/sessions/main/0616a638-2e17-4d51-bf10-64cc4c033666.jsonl.deleted.2026-06-20T14-28-33.707Z#L6] Assistant: Running the OBS collection script silently.
+[main/sessions/main/0616a638-2e17-4d51-bf10-64cc4c033666.jsonl.deleted.2026-06-20T14-28-33.707Z#L8] Assistant: Script completed — 3 new OBS events logged. No further action needed.
+[main/sessions/main/062468fb-44d0-42ca-b72c-1fffd75f3d39.jsonl.deleted.2026-06-20T08-10-41.399Z#L6] Assistant: I'll execute the warden cron script and handle any escalation.
+[main/sessions/main/062468fb-44d0-42ca-b72c-1fffd75f3d39.jsonl.deleted.2026-06-20T08-10-41.399Z#L8] Assistant: No drift detected — the warden cron returned clean (exit 0, no escalation file created). All clear.
+[main/sessions/main/0631a720-ca85-4059-9b3a-b787e35391ea.jsonl.deleted.2026-06-20T14-28-33.701Z#L6] Assistant: I'll handle this health check reminder. Let me run the scripts as instructed.
+[main/sessions/main/0631a720-ca85-4059-9b3a-b787e35391ea.jsonl.deleted.2026-06-20T14-28-33.701Z#L8] Assistant: Health check passed. Now let me read the state diagnostics to confirm.
+[main/sessions/main/0631a720-ca85-4059-9b3a-b787e35391ea.jsonl.deleted.2026-06-20T14-28-33.701Z#L10] Assistant: The state diagnostics don't show a `consecutiveFailures` or `status` field in the returned data — the records show `failed: 0` across the board. The health check itself just completed with all checks passing and status `ok`. No aler
+[main/sessions/main/06849959-b7e0-4440-ae24-6057ba1234af.jsonl.deleted.2026-06-20T08-10-41.398Z#L6] Assistant: I'll handle this health check reminder. Let me run the health check script first.
+[main/sessions/main/06849959-b7e0-4440-ae24-6057ba1234af.jsonl.deleted.2026-06-20T08-10-41.398Z#L8] Assistant: All checks passed. Now let me read the state diagnostics to confirm.
+[main/sessions/main/06849959-b7e0-4440-ae24-6057ba1234af.jsonl.deleted.2026-06-20T08-10-41.398Z#L10] Assistant: The state diagnostics don't show a `consecutiveFailures` or `status` field in the returned data — the records are historical with `failed: 0`. The health check itself just completed with all OK (exit code 0, status "ok"). No alert c
+[main/sessions/main/06f7dc76-75da-4f54-ad8f-295317882fed.jsonl.deleted.2026-06-20T05-29-30.338Z#L6] Assistant: Running the TQP script as triggered by the scheduled reminder.
+[main/sessions/main/06f7dc76-75da-4f54-ad8f-295317882fed.jsonl.deleted.2026-06-20T05-29-30.338Z#L8] Assistant: TQP run complete — no tasks to process.
+[main/sessions/main/070ea9cd-ef1b-4ac6-a8bc-58bb67837cd7.jsonl#L12] Assistant: TQP executor polled at 11:35 AEST — no atoms ready to claim. All clear.
+[main/sessions/main/0712cbae-fcbb-4149-ba2e-d68c9ce6aa05.jsonl.deleted.2026-06-20T22-18-39.038Z#L6] Assistant: Running the TZ drift monitor script.
+[main/sessions/main/0712cbae-fcbb-4149-ba2e-d68c9ce6aa05.jsonl.deleted.2026-06-20T22-18-39.038Z#L8] Assistant: Exit code 0 — no drift detected. No alert needed.
