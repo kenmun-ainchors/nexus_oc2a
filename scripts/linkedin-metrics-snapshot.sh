@@ -60,10 +60,10 @@ echo "📊 Fetching metrics for $CONTENT_ID ($POST_URN) — interval: $INTERVAL$
 # ── Fetch metrics ─────────────────────────────────────────────────────────────
 
 if [[ -n "$ACCOUNT" ]]; then
-  METRICS_JSON=$(bash "$METRICS_SCRIPT" --post-urn "$POST_URN" --account "$ACCOUNT") \
+  METRICS_JSON=$(zsh "$METRICS_SCRIPT" --post-urn "$POST_URN" --account "$ACCOUNT") \
     || { echo "❌ linkedin-metrics.sh failed." >&2; exit 1; }
 else
-  METRICS_JSON=$(bash "$METRICS_SCRIPT" --post-urn "$POST_URN") \
+  METRICS_JSON=$(zsh "$METRICS_SCRIPT" --post-urn "$POST_URN") \
     || { echo "❌ linkedin-metrics.sh failed." >&2; exit 1; }
 fi
 
