@@ -35,3 +35,24 @@
 [main/sessions/main/077f7c50-2537-41aa-ae89-c2a6de41b77d.jsonl.deleted.2026-06-19T07-57-04.535Z#L6] Assistant: Running the scheduled OBS collection script silently.
 [main/sessions/main/077f7c50-2537-41aa-ae89-c2a6de41b77d.jsonl.deleted.2026-06-19T07-57-04.535Z#L8] Assistant: Script ran successfully — no new OBS events to log.
 [main/sessions/main/077f8633-31b9-439a-9809-04265b42af7b.jsonl#L8] Assistant: OK
+[main/sessions/main/0805e1ee-b82b-4f44-acd4-fd7fb86473a6.jsonl.deleted.2026-06-19T00-49-35.008Z#L6] Assistant: Let me run the health check script first.
+[main/sessions/main/0805e1ee-b82b-4f44-acd4-fd7fb86473a6.jsonl.deleted.2026-06-19T00-49-35.008Z#L8] Assistant: Health check passed. Now read the state diagnostics to check for consecutive failures or degraded status.
+[main/sessions/main/0805e1ee-b82b-4f44-acd4-fd7fb86473a6.jsonl.deleted.2026-06-19T00-49-35.008Z#L10] Assistant: The state_diagnostics output doesn't show a `consecutiveFailures` or `status` field in a simple key-value format — it's returning historical diagnostic run records. Let me check if there's a more specific state file or a different w
+[main/sessions/main/0805e1ee-b82b-4f44-acd4-fd7fb86473a6.jsonl.deleted.2026-06-19T00-49-35.008Z#L18] Assistant: Let me check the health-state.json and the auto-heal-current.json for the current state, and also look for a `consecutiveFailures` field.
+[main/sessions/main/0805e1ee-b82b-4f44-acd4-fd7fb86473a6.jsonl.deleted.2026-06-19T00-49-35.008Z#L20] Assistant: Status is `ok`, `consecutiveFailures` is 0 — neither condition is met. Outputting exactly `OK`. OK
+[main/sessions/main/08374c62-2d6c-461c-b4c6-9c1eeb5c4a78.jsonl#L10] Assistant: No `--poll-once` flag. Let me run it with defaults.
+[main/sessions/main/08374c62-2d6c-461c-b4c6-9c1eeb5c4a78.jsonl#L12] Assistant: **TQP Executor poll (11:25 AEST):** No atoms claimed — queue is empty. All clear.
+[main/sessions/main/085ee47d-35c1-4644-85f9-ee7ea13f4355.jsonl.deleted.2026-06-19T10-37-25.524Z#L6] Assistant: Running the TQP script as scheduled.
+[main/sessions/main/085ee47d-35c1-4644-85f9-ee7ea13f4355.jsonl.deleted.2026-06-19T10-37-25.524Z#L8] Assistant: TQP run complete — no tasks in the queue. Nothing to escalate or process.
+[main/sessions/main/086aea77-a860-4b0b-af5c-ec34a5a46dd8.jsonl.deleted.2026-06-19T17-35-58.674Z#L6] Assistant: I'll handle this task monitor reminder. Let me run the task collector and check for stalled tasks.
+[main/sessions/main/086aea77-a860-4b0b-af5c-ec34a5a46dd8.jsonl.deleted.2026-06-19T17-35-58.674Z#L10] Assistant: All tasks in the queue are in terminal states (complete, done, closed, cancelled) — no stalled tasks found. Let me verify the task collector output was clean. Task monitor cycle complete: - **task-collector.sh**: Ran successfully — 
+[main/sessions/main/0881f62d-dcd3-4837-ad07-72aadb959c3f.jsonl#L12] Assistant: TQP executor polled at 10:32 UTC — no atoms ready to claim. Nothing to report.
+[main/sessions/main/08b8d583-b42b-44a6-b3bb-ca89586efa06.jsonl.deleted.2026-06-18T23-04-39.531Z#L6] Assistant: Running the OBS collection script silently.
+[main/sessions/main/08b8d583-b42b-44a6-b3bb-ca89586efa06.jsonl.deleted.2026-06-18T23-04-39.531Z#L8] Assistant: Script completed — no new OBS events logged.
+[main/sessions/main/08c9c4cf-255b-44bb-bf31-d963ec50258a.jsonl.deleted.2026-06-19T09-42-55.197Z#L6] Assistant: I'll run the warden cron script and handle the result appropriately.
+[main/sessions/main/08c9c4cf-255b-44bb-bf31-d963ec50258a.jsonl.deleted.2026-06-19T09-42-55.197Z#L8] Assistant: The warden cron script returned clean (exit 0) — no drift detected, no escalation file created. All good, no action needed.
+[main/sessions/main/08ebdfe6-a00a-4351-a36c-fb49917b7dd6.jsonl.deleted.2026-06-19T14-12-41.871Z#L6] Assistant: I'll handle this TASK_MONITOR reminder. Let me run the task collector and check for stalled tasks.
+[main/sessions/main/08ebdfe6-a00a-4351-a36c-fb49917b7dd6.jsonl.deleted.2026-06-19T14-12-41.871Z#L10] Assistant: Task collector ran cleanly (0 stalls, 0 verified, 0 failed). The state_task_queue has no stalled tasks — all entries are either `complete`, `done`, `closed`, or `cancelled`. No alert needed. **TASK_MONITOR summary:** - ✅ `task-colle
+[main/sessions/main/091706cd-b76e-4b0b-90e8-31d6afbdf363.jsonl.deleted.2026-06-19T06-07-16.782Z#L6] Assistant: Running the scheduled OBS collection script.
+[main/sessions/main/091706cd-b76e-4b0b-90e8-31d6afbdf363.jsonl.deleted.2026-06-19T06-07-16.782Z#L8] Assistant: Script ran silently. No new OBS events logged.
+[main/sessions/main/0919e25f-3a0a-45e6-9375-397e3cf2802b.jsonl#L12] Assistant: No atoms claimed this poll cycle (10:06 PM AEST). All quiet.

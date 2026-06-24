@@ -1,13 +1,13 @@
 # [TKT-0739] Provide Sage verifier with parent workspace access for independent CREST verification
 
 - **Notion ID:** `388c182953ff8100a9b4f03e0c11685a`
-- **Status:** Backlog
+- **Status:** Done
 - **Type:** Bug
 - **Priority:** High
 - **Category:** Technical
 - **Sprint:** Sprint 9
 - **Created:** 2026-06-23T12:10:00.000+10:00
-- **Last Edited:** 2026-06-23T12:12:00.000Z
+- **Last Edited:** 2026-06-24T12:53:00.000Z
 
 ## Notes
 

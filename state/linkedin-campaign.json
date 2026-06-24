@@ -4,8 +4,8 @@
   "description": "ONE file for all LinkedIn content state. Replaces linkedin-queue.json, linkedin-content-tracker.json, content-queue.json (social entries only). Blog entries remain in content-queue.json.",
   "createdAt": "2026-05-19T10:39:00+10:00",
   "createdBy": "Yoda (CHG consolidation)",
-  "lastUpdated": "2026-06-24T02:00:00Z",
-  "lastUpdatedBy": "Spark (cron 833ee0c7)",
+  "lastUpdated": "2026-06-24T21:30:00Z",
+  "lastUpdatedBy": "Spark (cron 869502c9, Thu 07:30 AEST publish)",
   "agent": "Spark",
   "api": {
     "enabled": true,
@@ -379,8 +379,14 @@
       "approvedBy": "Ken Mun via Telegram",
       "imageFile": "social-drafts/images/LI-W2-P6.jpg",
       "imageSource": "media://inbound/df337ff1-86fc-4e7e-bd34-61ef38db8065.jpg",
-      "lastUpdatedAt": "2026-06-22T11:15:49.841160+10:00",
-      "note": "Re-targeted to Ken personal profile per CHG-0739."
+      "lastUpdatedAt": "2026-06-25T07:30:00+10:00",
+      "lastUpdatedBy": "Spark (cron 869502c9)",
+      "note": "Re-targeted to Ken personal profile per CHG-0739.",
+      "imageAssetUrn": "urn:li:image:D5610AQE7VZe642wW3w",
+      "postedAt": "2026-06-25T07:30:00+10:00",
+      "postedBy": "Spark (cron 869502c9)",
+      "postUrn": "urn:li:share:7475661611584823296",
+      "postUrl": "https://www.linkedin.com/posts/activity-7475661611584823296/"
     },
     {
       "id": "LI-W3-P7",
