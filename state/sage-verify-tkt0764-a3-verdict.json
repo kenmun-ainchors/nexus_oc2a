@@ -1,0 +1,4 @@
+{
+  "verdict": "pass",
+  "summary": "The script 'scripts/sage-verify.sh' exists and is executable. Verification run tkt0764-a3 successfully generated 'state/sage-verify-tkt0764-a3.jsonl' containing a JSON object with the required fields (file, exit_code, stdout, stderr, duration_ms). The script correctly implements the Sage dispatch prompt on stdout as evidenced by its source code, and the raw results capture the expected failure of incomplete atoms (A4, A5) while confirming the script's own existence and functionality."
+}

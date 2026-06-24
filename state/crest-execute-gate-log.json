@@ -1369,10 +1369,500 @@
       "target": "scripts/foo.sh",
       "decision": "block",
       "reason": "Yoda direct Execute blocked per CHG-0545"
+    },
+    {
+      "ts": "2026-06-24T13:06:22.264743+00:00",
+      "operator": "main",
+      "phase": "execute",
+      "model": "ollama/deepseek-v4-flash:cloud",
+      "atomDesc": "",
+      "target": "scripts/foo.sh",
+      "decision": "block",
+      "reason": "Yoda direct Execute blocked per CHG-0545"
+    },
+    {
+      "ts": "2026-06-24T13:07:40.612255+00:00",
+      "operator": "main",
+      "phase": "execute",
+      "model": "ollama/deepseek-v4-flash:cloud",
+      "atomDesc": "",
+      "target": "scripts/foo.sh",
+      "decision": "block",
+      "reason": "Yoda direct Execute blocked per CHG-0545"
+    },
+    {
+      "ts": "2026-06-24T13:07:41.005367+00:00",
+      "operator": "main",
+      "phase": "execute",
+      "model": "ollama/deepseek-v4-flash:cloud",
+      "atomDesc": "",
+      "target": "scripts/foo.sh",
+      "decision": "block",
+      "reason": "Yoda direct Execute blocked per CHG-0545"
+    },
+    {
+      "ts": "2026-06-24T13:07:57.852515+00:00",
+      "operator": "main",
+      "phase": "execute",
+      "model": "ollama/deepseek-v4-flash:cloud",
+      "atomDesc": "",
+      "target": "scripts/foo.sh",
+      "decision": "block",
+      "reason": "Yoda direct Execute blocked per CHG-0545"
+    },
+    {
+      "ts": "2026-06-24T13:08:33.809793+00:00",
+      "operator": "main",
+      "phase": "execute",
+      "model": "",
+      "atomDesc": "",
+      "target": "",
+      "decision": "block",
+      "reason": "Yoda direct Execute blocked per CHG-0545"
+    },
+    {
+      "ts": "2026-06-24T13:08:52.641727+00:00",
+      "operator": "main",
+      "phase": "execute",
+      "model": "ollama/deepseek-v4-flash:cloud",
+      "atomDesc": "",
+      "target": "scripts/foo.sh",
+      "decision": "block",
+      "reason": "Yoda direct Execute blocked per CHG-0545"
+    },
+    {
+      "ts": "2026-06-24T13:08:53.036862+00:00",
+      "operator": "main",
+      "phase": "execute",
+      "model": "ollama/deepseek-v4-flash:cloud",
+      "atomDesc": "test",
+      "target": "scripts/foo.sh",
+      "decision": "block",
+      "reason": "Yoda direct Execute blocked per CHG-0545"
+    },
+    {
+      "ts": "2026-06-24T13:08:55.923941+00:00",
+      "operator": "main",
+      "phase": "execute",
+      "model": "ollama/deepseek-v4-flash:cloud",
+      "atomDesc": "",
+      "target": "scripts/foo.sh",
+      "decision": "block",
+      "reason": "Yoda direct Execute blocked per CHG-0545"
+    },
+    {
+      "ts": "2026-06-24T13:08:56.329190+00:00",
+      "operator": "main",
+      "phase": "execute",
+      "model": "ollama/deepseek-v4-flash:cloud",
+      "atomDesc": "test",
+      "target": "scripts/foo.sh",
+      "decision": "block",
+      "reason": "Yoda direct Execute blocked per CHG-0545"
+    },
+    {
+      "ts": "2026-06-24T13:09:08.556213+00:00",
+      "operator": "main",
+      "phase": "execute",
+      "model": "ollama/deepseek-v4-flash:cloud",
+      "atomDesc": "",
+      "target": "scripts/foo.sh",
+      "decision": "block",
+      "reason": "Yoda direct Execute blocked per CHG-0545"
+    },
+    {
+      "ts": "2026-06-24T13:09:08.959351+00:00",
+      "operator": "main",
+      "phase": "execute",
+      "model": "ollama/deepseek-v4-flash:cloud",
+      "atomDesc": "test",
+      "target": "scripts/foo.sh",
+      "decision": "block",
+      "reason": "Yoda direct Execute blocked per CHG-0545"
+    },
+    {
+      "ts": "2026-06-24T13:09:12.975988+00:00",
+      "operator": "main",
+      "phase": "execute",
+      "model": "ollama/deepseek-v4-flash:cloud",
+      "atomDesc": "test",
+      "target": "scripts/foo.sh",
+      "decision": "block",
+      "reason": "Yoda direct Execute blocked per CHG-0545"
+    },
+    {
+      "ts": "2026-06-24T13:09:42.687417+00:00",
+      "operator": "main",
+      "phase": "execute",
+      "model": "ollama/deepseek-v4-flash:cloud",
+      "atomDesc": "test",
+      "target": "scripts/foo.sh",
+      "decision": "block",
+      "reason": "Yoda direct Execute blocked per CHG-0545"
+    },
+    {
+      "ts": "2026-06-24T13:09:46.961968+00:00",
+      "operator": "main",
+      "phase": "execute",
+      "model": "ollama/deepseek-v4-flash:cloud",
+      "atomDesc": "test",
+      "target": "scripts/foo.sh",
+      "decision": "block",
+      "reason": "Yoda direct Execute blocked per CHG-0545"
+    },
+    {
+      "ts": "2026-06-24T13:10:01.382151+00:00",
+      "operator": "main",
+      "phase": "execute",
+      "model": "ollama/deepseek-v4-flash:cloud",
+      "atomDesc": "test",
+      "target": "scripts/foo.sh",
+      "decision": "block",
+      "reason": "Yoda direct Execute blocked per CHG-0545"
+    },
+    {
+      "ts": "2026-06-24T13:10:04.760448+00:00",
+      "operator": "main",
+      "phase": "execute",
+      "model": "ollama/deepseek-v4-flash:cloud",
+      "atomDesc": "test",
+      "target": "scripts/foo.sh",
+      "decision": "block",
+      "reason": "Yoda direct Execute blocked per CHG-0545"
+    },
+    {
+      "ts": "2026-06-24T13:10:16.031155+00:00",
+      "operator": "main",
+      "phase": "execute",
+      "model": "ollama/deepseek-v4-flash:cloud",
+      "atomDesc": "test",
+      "target": "scripts/foo.sh",
+      "decision": "block",
+      "reason": "Yoda direct Execute blocked per CHG-0545"
+    },
+    {
+      "ts": "2026-06-24T13:10:19.199941+00:00",
+      "operator": "main",
+      "phase": "execute",
+      "model": "ollama/deepseek-v4-flash:cloud",
+      "atomDesc": "test",
+      "target": "scripts/foo.sh",
+      "decision": "block",
+      "reason": "Yoda direct Execute blocked per CHG-0545"
+    },
+    {
+      "ts": "2026-06-24T13:10:22.298029+00:00",
+      "operator": "main",
+      "phase": "execute",
+      "model": "ollama/deepseek-v4-flash:cloud",
+      "atomDesc": "test",
+      "target": "scripts/foo.sh",
+      "decision": "block",
+      "reason": "Yoda direct Execute blocked per CHG-0545"
+    },
+    {
+      "ts": "2026-06-24T13:10:26.001146+00:00",
+      "operator": "main",
+      "phase": "execute",
+      "model": "ollama/deepseek-v4-flash:cloud",
+      "atomDesc": "test",
+      "target": "scripts/foo.sh",
+      "decision": "block",
+      "reason": "Yoda direct Execute blocked per CHG-0545"
+    },
+    {
+      "ts": "2026-06-24T13:10:37.933540+00:00",
+      "operator": "main",
+      "phase": "execute",
+      "model": "ollama/deepseek-v4-flash:cloud",
+      "atomDesc": "",
+      "target": "scripts/foo.sh",
+      "decision": "block",
+      "reason": "Yoda direct Execute blocked per CHG-0545"
+    },
+    {
+      "ts": "2026-06-24T13:10:38.338332+00:00",
+      "operator": "main",
+      "phase": "execute",
+      "model": "ollama/deepseek-v4-flash:cloud",
+      "atomDesc": "test",
+      "target": "scripts/foo.sh",
+      "decision": "block",
+      "reason": "Yoda direct Execute blocked per CHG-0545"
+    },
+    {
+      "ts": "2026-06-24T13:10:47.857365+00:00",
+      "operator": "main",
+      "phase": "execute",
+      "model": "ollama/deepseek-v4-flash:cloud",
+      "atomDesc": "",
+      "target": "scripts/foo.sh",
+      "decision": "block",
+      "reason": "Yoda direct Execute blocked per CHG-0545"
+    },
+    {
+      "ts": "2026-06-24T13:10:48.259477+00:00",
+      "operator": "main",
+      "phase": "execute",
+      "model": "ollama/deepseek-v4-flash:cloud",
+      "atomDesc": "test",
+      "target": "scripts/foo.sh",
+      "decision": "block",
+      "reason": "Yoda direct Execute blocked per CHG-0545"
+    },
+    {
+      "ts": "2026-06-24T13:10:55.783295+00:00",
+      "operator": "main",
+      "phase": "execute",
+      "model": "ollama/deepseek-v4-flash:cloud",
+      "atomDesc": "",
+      "target": "scripts/foo.sh",
+      "decision": "block",
+      "reason": "Yoda direct Execute blocked per CHG-0545"
+    },
+    {
+      "ts": "2026-06-24T13:10:56.186730+00:00",
+      "operator": "main",
+      "phase": "execute",
+      "model": "ollama/deepseek-v4-flash:cloud",
+      "atomDesc": "test",
+      "target": "scripts/foo.sh",
+      "decision": "block",
+      "reason": "Yoda direct Execute blocked per CHG-0545"
+    },
+    {
+      "ts": "2026-06-24T13:10:59.614970+00:00",
+      "operator": "main",
+      "phase": "execute",
+      "model": "ollama/deepseek-v4-flash:cloud",
+      "atomDesc": "test",
+      "target": "scripts/foo.sh",
+      "decision": "block",
+      "reason": "Yoda direct Execute blocked per CHG-0545"
+    },
+    {
+      "ts": "2026-06-24T13:11:07.677990+00:00",
+      "operator": "main",
+      "phase": "execute",
+      "model": "ollama/deepseek-v4-flash:cloud",
+      "atomDesc": "",
+      "target": "scripts/foo.sh",
+      "decision": "block",
+      "reason": "Yoda direct Execute blocked per CHG-0545"
+    },
+    {
+      "ts": "2026-06-24T13:11:08.087232+00:00",
+      "operator": "main",
+      "phase": "execute",
+      "model": "ollama/deepseek-v4-flash:cloud",
+      "atomDesc": "test",
+      "target": "scripts/foo.sh",
+      "decision": "block",
+      "reason": "Yoda direct Execute blocked per CHG-0545"
+    },
+    {
+      "ts": "2026-06-24T13:11:12.047704+00:00",
+      "operator": "main",
+      "phase": "execute",
+      "model": "ollama/deepseek-v4-flash:cloud",
+      "atomDesc": "test",
+      "target": "scripts/foo.sh",
+      "decision": "block",
+      "reason": "Yoda direct Execute blocked per CHG-0545"
+    },
+    {
+      "ts": "2026-06-24T13:11:35.284551+00:00",
+      "operator": "main",
+      "phase": "execute",
+      "model": "ollama/deepseek-v4-flash:cloud",
+      "atomDesc": "",
+      "target": "scripts/foo.sh",
+      "decision": "block",
+      "reason": "Yoda direct Execute blocked per CHG-0545"
+    },
+    {
+      "ts": "2026-06-24T13:11:35.689073+00:00",
+      "operator": "main",
+      "phase": "execute",
+      "model": "ollama/deepseek-v4-flash:cloud",
+      "atomDesc": "test",
+      "target": "scripts/foo.sh",
+      "decision": "block",
+      "reason": "Yoda direct Execute blocked per CHG-0545"
+    },
+    {
+      "ts": "2026-06-24T13:11:45.002187+00:00",
+      "operator": "main",
+      "phase": "execute",
+      "model": "ollama/deepseek-v4-flash:cloud",
+      "atomDesc": "test",
+      "target": "scripts/foo.sh",
+      "decision": "block",
+      "reason": "Yoda direct Execute blocked per CHG-0545"
+    },
+    {
+      "ts": "2026-06-24T13:11:57.185990+00:00",
+      "operator": "main",
+      "phase": "execute",
+      "model": "ollama/deepseek-v4-flash:cloud",
+      "atomDesc": "",
+      "target": "scripts/foo.sh",
+      "decision": "block",
+      "reason": "Yoda direct Execute blocked per CHG-0545"
+    },
+    {
+      "ts": "2026-06-24T13:11:57.590883+00:00",
+      "operator": "main",
+      "phase": "execute",
+      "model": "ollama/deepseek-v4-flash:cloud",
+      "atomDesc": "test",
+      "target": "scripts/foo.sh",
+      "decision": "block",
+      "reason": "Yoda direct Execute blocked per CHG-0545"
+    },
+    {
+      "ts": "2026-06-24T13:12:09.211209+00:00",
+      "operator": "main",
+      "phase": "execute",
+      "model": "ollama/deepseek-v4-flash:cloud",
+      "atomDesc": "",
+      "target": "scripts/foo.sh",
+      "decision": "block",
+      "reason": "Yoda direct Execute blocked per CHG-0545"
+    },
+    {
+      "ts": "2026-06-24T13:12:09.617352+00:00",
+      "operator": "main",
+      "phase": "execute",
+      "model": "ollama/deepseek-v4-flash:cloud",
+      "atomDesc": "test",
+      "target": "scripts/foo.sh",
+      "decision": "block",
+      "reason": "Yoda direct Execute blocked per CHG-0545"
+    },
+    {
+      "ts": "2026-06-24T13:14:14.641389+00:00",
+      "operator": "main",
+      "phase": "execute",
+      "model": "ollama/deepseek-v4-flash:cloud",
+      "atomDesc": "test",
+      "target": "scripts/foo.sh",
+      "decision": "block",
+      "reason": "Yoda direct Execute blocked per CHG-0545"
+    },
+    {
+      "ts": "2026-06-24T13:14:15.050379+00:00",
+      "operator": "main",
+      "phase": "execute",
+      "model": "ollama/deepseek-v4-flash:cloud",
+      "atomDesc": "test",
+      "target": "scripts/foo.sh",
+      "decision": "block",
+      "reason": "Yoda direct Execute blocked per CHG-0545"
+    },
+    {
+      "ts": "2026-06-24T13:14:53.151115+00:00",
+      "operator": "main",
+      "phase": "execute",
+      "model": "ollama/deepseek-v4-flash:cloud",
+      "atomDesc": "test",
+      "target": "scripts/foo.sh",
+      "decision": "block",
+      "reason": "Yoda direct Execute blocked per CHG-0545"
+    },
+    {
+      "ts": "2026-06-24T13:14:53.560922+00:00",
+      "operator": "main",
+      "phase": "execute",
+      "model": "ollama/deepseek-v4-flash:cloud",
+      "atomDesc": "test",
+      "target": "scripts/foo.sh",
+      "decision": "block",
+      "reason": "Yoda direct Execute blocked per CHG-0545"
+    },
+    {
+      "ts": "2026-06-24T13:15:05.360942+00:00",
+      "operator": "main",
+      "phase": "execute",
+      "model": "ollama/deepseek-v4-flash:cloud",
+      "atomDesc": "test",
+      "target": "scripts/foo.sh",
+      "decision": "block",
+      "reason": "Yoda direct Execute blocked per CHG-0545"
+    },
+    {
+      "ts": "2026-06-24T13:15:05.778929+00:00",
+      "operator": "main",
+      "phase": "execute",
+      "model": "ollama/deepseek-v4-flash:cloud",
+      "atomDesc": "test",
+      "target": "scripts/foo.sh",
+      "decision": "block",
+      "reason": "Yoda direct Execute blocked per CHG-0545"
+    },
+    {
+      "ts": "2026-06-24T13:15:27.474771+00:00",
+      "operator": "main",
+      "phase": "execute",
+      "model": "ollama/deepseek-v4-flash:cloud",
+      "atomDesc": "",
+      "target": "scripts/foo.sh",
+      "decision": "block",
+      "reason": "Yoda direct Execute blocked per CHG-0545"
+    },
+    {
+      "ts": "2026-06-24T13:15:27.870801+00:00",
+      "operator": "main",
+      "phase": "execute",
+      "model": "ollama/deepseek-v4-flash:cloud",
+      "atomDesc": "test",
+      "target": "scripts/foo.sh",
+      "decision": "block",
+      "reason": "Yoda direct Execute blocked per CHG-0545"
+    },
+    {
+      "ts": "2026-06-24T13:15:32.907097+00:00",
+      "operator": "main",
+      "phase": "execute",
+      "model": "ollama/deepseek-v4-flash:cloud",
+      "atomDesc": "",
+      "target": "scripts/foo.sh",
+      "decision": "block",
+      "reason": "Yoda direct Execute blocked per CHG-0545"
+    },
+    {
+      "ts": "2026-06-24T13:15:33.304435+00:00",
+      "operator": "main",
+      "phase": "execute",
+      "model": "ollama/deepseek-v4-flash:cloud",
+      "atomDesc": "test",
+      "target": "scripts/foo.sh",
+      "decision": "block",
+      "reason": "Yoda direct Execute blocked per CHG-0545"
+    },
+    {
+      "ts": "2026-06-24T13:16:14.027033+00:00",
+      "operator": "main",
+      "phase": "execute",
+      "model": "ollama/deepseek-v4-flash:cloud",
+      "atomDesc": "test",
+      "target": "scripts/foo.sh",
+      "decision": "block",
+      "reason": "Yoda direct Execute blocked per CHG-0545"
+    },
+    {
+      "ts": "2026-06-24T13:16:14.428260+00:00",
+      "operator": "main",
+      "phase": "execute",
+      "model": "ollama/deepseek-v4-flash:cloud",
+      "atomDesc": "test",
+      "target": "scripts/foo.sh",
+      "decision": "block",
+      "reason": "Yoda direct Execute blocked per CHG-0545"
     }
   ],
   "lastDecision": {
-    "ts": "2026-06-24T12:59:53.229337+00:00",
+    "ts": "2026-06-24T13:16:14.428260+00:00",
     "decision": "block",
     "reason": "Yoda direct Execute blocked per CHG-0545"
   },
