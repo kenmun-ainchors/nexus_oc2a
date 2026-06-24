@@ -1,3 +1,15 @@
+## 2026-06-24 22:38 AEST — [CHG-0763] Grant exec/process tools to Sage (qa) subagent for parent workspace CREST verification
+**Type:** config
+**Change Type:** Normal
+**Source:** ken-prompt
+**Trigger:** Ken directed same fix applied to Atlas/Thrawn (CHG-0734) after Sage Verify for TKT-0761 failed due to workspace-qa sandbox isolation
+**What changed:** Added exec and process to tools.allow for agent id qa in ~/.openclaw/openclaw.json
+**Why:** Sage cannot render independent CREST Verify verdicts if verifier subagent cannot execute parent workspace scripts and inspect PG state
+**Verification:** openclaw config validate passes; test qa subagent runs bash scripts/db-sprint.sh next-ticket --agent yoda and returns TKT-0721 reason=tracker-override
+**Rollback:** N/A
+**Linked:** TKT-0739,CHG-0734,TKT-0761,L-168
+---
+
 ## 2026-06-24 22:34 AEST — [CHG-0761] Merge CRESTv2-P1 tracker override into canonical db-sprint.sh next-ticket resolver
 **Type:** script
 **Change Type:** Normal
