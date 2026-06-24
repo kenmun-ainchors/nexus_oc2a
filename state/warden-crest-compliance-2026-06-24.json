@@ -1,0 +1,18 @@
+{
+  "run_date": "2026-06-24",
+  "since": "2026-06-24",
+  "violations": [
+    {
+      "ticket": "TKT-0727",
+      "reason": "missing independent Verify verdict",
+      "exception": false
+    },
+    {
+      "ticket": "TKT-0728",
+      "reason": "missing independent Verify verdict",
+      "exception": false
+    }
+  ],
+  "pass_count": 0,
+  "violation_count": 2
+}

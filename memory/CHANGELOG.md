@@ -1,3 +1,15 @@
+## 2026-06-24 23:16 AEST — [CHG-0764] CREST v1.3 execution pattern made default
+**Type:** script
+**Change Type:** Normal
+**Source:** ken-prompt
+**Trigger:** TKT-0764 approved Plan and full CREST execution
+**What changed:** agent-skills/crest/SKILL.md canonical TKT-0761 pattern; scripts/dispatch-validate.sh and scripts/atom-validate.sh extended to require verifier_corpus on execute/verify atoms with case-insensitive phase matching; scripts/sage-verify.sh parent-session corpus runner created; scripts/warden-crest-compliance.sh compliance scanner created; tests/regression/crest/tkt0764-verifier-corpus-regression.sh regression suite added (13/13 pass).
+**Why:** Make the disciplined TKT-0761 CREST v1.3 execution pattern the platform default and close the verifier-corpus enforcement gap.
+**Verification:** Parent verifier corpus ALL_CHECKS_PASS; Sage Verify final verdict pass; regression suite 13/13 PASS.
+**Rollback:** git checkout or rm for modified/new files. No schema migration.
+**Linked:** TKT-0764, TKT-0761, TKT-0739
+---
+
 ## 2026-06-24 22:38 AEST — [CHG-0763] Grant exec/process tools to Sage (qa) subagent for parent workspace CREST verification
 **Type:** config
 **Change Type:** Normal

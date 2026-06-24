@@ -177,7 +177,7 @@ fi
 # 7. verifier_corpus: required when phase is execute or verify
 # Must be a non-empty string or non-empty array
 if RESULT=$(check "verifier_corpus" \
-  'if (.phase == "execute" or .phase == "verify") then
+  'if ((.phase | ascii_downcase) == "execute" or (.phase | ascii_downcase) == "verify") then
     if .verifier_corpus then
       if (.verifier_corpus | type == "string") and ((.verifier_corpus | length) > 0) then
         "pass"

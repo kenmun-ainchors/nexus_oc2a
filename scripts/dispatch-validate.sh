@@ -311,7 +311,7 @@ if [[ "$HAS_SUB_CREST" == "yes" ]]; then
 
     # phase: must be valid CREST phase
     if RESULT=$(check "${idx_label}.phase" \
-      "if .sub_crest_plan[$i].phase and (.sub_crest_plan[$i].phase | type == \"string\") and (.sub_crest_plan[$i].phase | IN(\"plan\",\"execute\",\"verify\",\"replan\",\"synthesize\")) then \"pass\" else \"fail\" end" \
+      "if .sub_crest_plan[$i].phase and (.sub_crest_plan[$i].phase | type == \"string\") and ((.sub_crest_plan[$i].phase | ascii_downcase) | IN(\"plan\",\"execute\",\"verify\",\"replan\",\"synthesize\")) then \"pass\" else \"fail\" end" \
       "must be valid CREST phase (plan|execute|verify|replan|synthesize)"); then
       ((PASSES++))
     else
@@ -363,7 +363,9 @@ if [[ "$HAS_SUB_CREST" == "yes" ]]; then
           pre_conditions: $a.pre_conditions,
           post_conditions: $a.post_conditions,
           atom: ($a.atom // "sub-crest-plan-atom-\($i)"),
-          model: $a.model
+          model: $a.model,
+          phase: $a.phase,
+          verifier_corpus: ($a.verifier_corpus // .verifier_corpus)
         }
       ')
 
@@ -388,7 +390,7 @@ if [[ "$HAS_SUB_CREST" == "yes" ]]; then
 
   # ─── 3a. Verifier Corpus Required (Ken directive 2026-06-15, L-138) ───
   HAS_EXECUTE_OR_VERIFY=$(echo "$JSON_INPUT" | "$JQ" -r \
-    '[.sub_crest_plan[] | select(.phase == "execute" or .phase == "verify")] | length' 2>/dev/null)
+    '[.sub_crest_plan[] | select((.phase | ascii_downcase) == "execute" or (.phase | ascii_downcase) == "verify")] | length' 2>/dev/null)
 
   if [[ "${HAS_EXECUTE_OR_VERIFY:-0}" -gt 0 ]]; then
     VERIFIER_CORPUS=$(echo "$JSON_INPUT" | "$JQ" -r '.verifier_corpus // empty' 2>/dev/null)
@@ -479,7 +481,7 @@ if [[ "$HAS_SUB_CREST" == "yes" ]]; then
 
     # escalation.source_phase: required, valid CREST phase
     if RESULT=$(check "escalation.source_phase" \
-      'if .escalation.source_phase and (.escalation.source_phase | type == "string") and (.escalation.source_phase | IN("plan","execute","verify","replan","synthesize")) then "pass" else "fail" end' \
+      'if .escalation.source_phase and (.escalation.source_phase | type == "string") and ((.escalation.source_phase | ascii_downcase) | IN("plan","execute","verify","replan","synthesize")) then "pass" else "fail" end' \
       "must be valid CREST phase (plan|execute|verify|replan|synthesize)"); then
       ((PASSES++))
     else
