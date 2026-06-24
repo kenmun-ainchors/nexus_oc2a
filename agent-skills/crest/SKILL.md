@@ -351,3 +351,148 @@ Full recursive CREST topology (Model C, v1.3 LOCKED, CHG-0680):
 Authority boundary rules (Ken's 2026-06-13 mandate + MEMORY.md enforcement rules + RULES.md DoD gate):
 
 → `references/CREST-boundary-reference.md`
+
+---
+
+## Canonical TKT-0761 Pattern — CREST v1.3 External-Loop Discipline
+
+This section defines the **canonical external-loop pattern** for CREST v1.3, codified from TKT-0761. It applies when a CREST loop involves **external-facing work** (client deliverables, public communications, third-party integrations) or any work where **Sage-as-Judge Verify** is the primary verification mechanism.
+
+### 10-Step Canonical Loop
+
+```
+Plan → Execute → Yoda Spot-Check → Sage Verify → Replan (if defect) → re-Verify → Synthesize → Done Gate → Audit → Close
+```
+
+| # | Step | Owner | Description |
+|---|------|-------|-------------|
+| 1 | **Plan** | Yoda (pro) | Scope, DAG, atoms, model spec, trade-offs. Typed DAG + atom breakdown. |
+| 2 | **Execute** | Specialist (role×phase) | Mechanical work — write, build, dispatch. RVEV per atom. |
+| 3 | **Yoda Spot-Check** | Yoda (pro) | Pre-Verify sanity gate: Yoda inspects output for obvious defects before Sage spends tokens. See checklist below. |
+| 4 | **Sage Verify** | Sage (gemma4:31b-cloud) | Sage-as-Judge renders binary verdict (pass/fail/needs_human). See verdict checklist below. |
+| 5 | **Replan (if defect)** | Yoda (pro) | Gap analysis on Sage's findings. Iterate(n++) OR escalate. See trigger conditions below. |
+| 6 | **re-Verify** | Sage (gemma4:31b-cloud) | Re-run Sage Verify on the revised output. Same verdict checklist. |
+| 7 | **Synthesize** | Yoda (flash) | Integrate verified output into deliverable. Assemble evidence. See checklist below. |
+| 8 | **Done Gate** | Yoda (terminal) | Governance agents (Shield → Lex → Sage) for external-facing outputs. `scripts/crest-done-gate.sh` enforces evidence artifacts. |
+| 9 | **Audit** | Yoda (terminal) | Emit audit trail: atom results, Sage verdicts, iteration count, evidence artifacts. Register in Holocron. |
+| 10 | **Close** | Yoda (terminal) | `bash scripts/db-ticket.sh update <ID> '{"status":"closed"}'`. DoD Verification Gate enforced. |
+
+**Key discipline:** Step 3 (Yoda Spot-Check) is **mandatory** — never skip to Sage Verify without Yoda's pre-check. Sage tokens are expensive; Yoda catches obvious defects cheaply.
+
+---
+
+### Yoda Spot-Check Checklist (mandatory before Sage Verify)
+
+Yoda MUST run this checklist on every specialist output before routing to Sage:
+
+1. **Structural completeness** — Does the output have all required sections/fields? No obvious truncation or placeholders?
+2. **Format compliance** — Does the output match the expected format (JSON schema, markdown structure, file layout)?
+3. **Internal consistency** — No contradictory statements, no undefined references, no dangling cross-references?
+4. **Scope fidelity** — Does the output stay within the atom's declared scope? No scope creep or missing scope?
+5. **Obvious errors** — Typos in identifiers, broken links, malformed syntax, missing closing tags?
+6. **Pre-condition satisfaction** — Were all pre-conditions met before execution? (Check evidence, not assertion.)
+7. **Post-condition verification** — Do the post-conditions declared in the atom hold? (Quick structural check, not deep.)
+8. **Evidence presence** — Does the executor's RVEV trace include actual evidence (tool output, file diffs, DB queries)? Not just "it worked".
+9. **No secrets leak** — No hardcoded credentials, API keys, or internal paths in the output?
+10. **Replan-readiness** — If this fails Sage, is the output structured enough to diagnose the failure?
+
+**Pass threshold:** All 10 checks pass → route to Sage Verify. Any FAIL → return to Execute with specific findings. Do NOT pass known defects to Sage.
+
+---
+
+### Sage-as-Judge Verdict Checklist
+
+Sage renders a binary verdict on each atom using this checklist:
+
+1. **Correctness** — Does the output correctly implement the atom's requirements? (Primary criterion.)
+2. **Completeness** — Are all required elements present? No missing edge cases, error handling, or configuration?
+3. **Consistency** — Is the output internally consistent and consistent with related atoms/sub-tickets?
+4. **Quality** — Does the output meet the expected quality bar for its domain (code hygiene, prose clarity, data accuracy)?
+5. **Security** — Any security concerns? (Secrets, injection, access control, data exposure.)
+6. **Performance** — Any obvious performance issues? (For code: algorithmic efficiency, resource usage. For config: scaling implications.)
+7. **Maintainability** — Is the output maintainable? (For code: comments, structure, testability. For docs: clarity, updateability.)
+8. **Evidence traceability** — Can every claim in the output be traced to evidence in the RVEV trace?
+
+**Verdict values:**
+- **PASS** — All checks pass. Output is ready for Synthesize.
+- **FAIL** — One or more checks fail with specific findings. Output returns to Replan with Sage's findings attached.
+- **NEEDS_HUMAN** — Sage cannot determine pass/fail (ambiguous requirements, subjective quality call, security grey area). Escalates to Yoda with Sage's analysis. 4-hour timeout; auto-escalates to Ken if unresolved.
+
+**Sage output format:**
+```json
+{
+  "atom_id": "<id>",
+  "verdict": "PASS|FAIL|NEEDS_HUMAN",
+  "findings": [
+    {
+      "check": "<check_name>",
+      "status": "PASS|FAIL|SKIP",
+      "detail": "<specific finding>"
+    }
+  ],
+  "summary": "<one-line verdict summary>",
+  "evidence_referenced": ["<evidence artifact paths>"]
+}
+```
+
+---
+
+### Replan Trigger Conditions
+
+Replan is triggered when Sage returns **FAIL** or **NEEDS_HUMAN**. The response depends on the failure type:
+
+| Condition | Action | Escalate? |
+|-----------|--------|-----------|
+| **Atom-level defect** (incorrect implementation, missing element) | Iterate(n++): return to Execute with Sage's findings | No — atom-fixable |
+| **Scope gap** (atom requirements were insufficient) | Iterate with updated atom spec from Yoda | No — Yoda adjusts scope |
+| **Cross-atom inconsistency** (two atoms contradict) | Yoda replans the DAG; may re-sequence or merge atoms | No — Yoda-level fix |
+| **Cross-specialist dependency** (output depends on another specialist's unfinished work) | Escalate to Yoda for sequencing | Yes — escalate to Yoda |
+| **Assumption change** (Plan assumption invalidated by execution) | Escalate to Yoda for master DAG replan | Yes — escalate to Yoda |
+| **External block** (third-party API down, dependency unavailable) | Escalate to Yoda; Yoda decides wait/descope/workaround | Yes — escalate to Yoda |
+| **Sage uncertainty** (NEEDS_HUMAN verdict) | Escalate to Yoda with Sage's analysis | Yes — escalate to Yoda |
+| **Iteration limit exceeded** (n > 3 iterations on same atom) | Escalate to Yoda; Yoda may escalate to Ken | Yes — escalate to Yoda → Ken |
+
+**Rule:** Specialists iterate atom-level defects without escalation. Any non-atom-level gap escalates immediately. No silent workarounds.
+
+---
+
+### Synthesize Evidence Assembly Checklist
+
+Before Synthesize, Yoda assembles and validates all evidence artifacts:
+
+1. **Atom completion log** — Every atom in the DAG has a status (PASS/FAIL/ESCALATED) and iteration count.
+2. **Sage verdicts** — All Sage verdict JSON objects collected, one per atom per iteration.
+3. **RVEV traces** — Executor's RVEV output for each atom (tool output, file diffs, DB queries, test results).
+4. **Yoda Spot-Check results** — Yoda's pre-check findings for each atom (pass/fail per checklist item).
+5. **Replan history** — For any atom that hit Replan: the Sage findings that triggered it, the iteration count, and the fix applied.
+6. **Escalation records** — Any escalations with full handshake JSON.
+7. **Governance verdicts** — Shield/Lex/Sage verdicts from the Done Gate (if external-facing).
+8. **Integration test results** — Cross-atom consistency check: named-entity cross-reference, assumption alignment, gap detection.
+9. **Deliverable artifact** — The final integrated output (file path or content reference).
+10. **Audit trail** — Timestamps, agent IDs, model assignments, CHG references for any config changes.
+
+**Evidence validation rule:** Every evidence artifact must be inspectable — file exists with expected content, DB query returns expected rows, test output shows pass/fail. Assertion without artifact is not evidence (L-054).
+
+**Synthesize output shape:**
+```json
+{
+  "ticket_id": "<TKT-ID>",
+  "deliverable": "<path or reference>",
+  "evidence_artifacts": ["<path1>", "<path2>", "..."],
+  "atom_summary": {
+    "total": 5,
+    "passed": 4,
+    "failed": 0,
+    "escalated": 1,
+    "total_iterations": 6
+  },
+  "sage_verdicts": ["<verdict JSON objects>"],
+  "governance_verdicts": ["<Shield/Lex/Sage verdicts if applicable>"],
+  "audit_trail": {
+    "started_at": "<ISO 8601>",
+    "completed_at": "<ISO 8601>",
+    "agents_involved": ["<agent IDs>"],
+    "chg_references": ["<CHG IDs>"]
+  }
+}
+```

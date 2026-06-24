@@ -4,36 +4,6 @@
   "sloTarget": 0.995,
   "events": [
     {
-      "ts": "2026-06-21T14:13:07.065685+00:00",
-      "status": "ok",
-      "consecutiveFailures": 0,
-      "issues": []
-    },
-    {
-      "ts": "2026-06-21T14:18:06.336858+00:00",
-      "status": "ok",
-      "consecutiveFailures": 0,
-      "issues": []
-    },
-    {
-      "ts": "2026-06-21T14:23:06.600523+00:00",
-      "status": "ok",
-      "consecutiveFailures": 0,
-      "issues": []
-    },
-    {
-      "ts": "2026-06-21T14:28:07.161806+00:00",
-      "status": "ok",
-      "consecutiveFailures": 0,
-      "issues": []
-    },
-    {
-      "ts": "2026-06-21T14:33:09.568749+00:00",
-      "status": "ok",
-      "consecutiveFailures": 0,
-      "issues": []
-    },
-    {
       "ts": "2026-06-21T14:38:08.509850+00:00",
       "status": "ok",
       "consecutiveFailures": 0,
@@ -4322,14 +4292,44 @@
       "status": "ok",
       "consecutiveFailures": 0,
       "issues": []
+    },
+    {
+      "ts": "2026-06-24T12:35:31.780021+00:00",
+      "status": "ok",
+      "consecutiveFailures": 0,
+      "issues": []
+    },
+    {
+      "ts": "2026-06-24T12:40:15.004766+00:00",
+      "status": "ok",
+      "consecutiveFailures": 0,
+      "issues": []
+    },
+    {
+      "ts": "2026-06-24T12:45:11.146117+00:00",
+      "status": "ok",
+      "consecutiveFailures": 0,
+      "issues": []
+    },
+    {
+      "ts": "2026-06-24T12:52:59.378024+00:00",
+      "status": "ok",
+      "consecutiveFailures": 0,
+      "issues": []
+    },
+    {
+      "ts": "2026-06-24T12:56:15.158361+00:00",
+      "status": "ok",
+      "consecutiveFailures": 0,
+      "issues": []
     }
   ],
   "summary": {
-    "totalChecks": 7278,
-    "upChecks": 7272,
+    "totalChecks": 7283,
+    "upChecks": 7277,
     "downtimeMinutes": 30,
     "uptimePct": 99.918,
-    "lastCheck": "2026-06-24T12:29:27.030210+00:00",
+    "lastCheck": "2026-06-24T12:56:15.158361+00:00",
     "lastStatus": "ok"
   }
 }

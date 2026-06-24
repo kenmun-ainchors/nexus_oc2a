@@ -91,7 +91,10 @@ while [[ $# -gt 0 ]]; do
       shift 2
       ;;
     --stdin)
-      JSON_INPUT=""
+      # Only override if --json wasn't already provided
+      if [[ -z "$JSON_INPUT" ]]; then
+        JSON_INPUT=""
+      fi
       shift
       ;;
     --verbose)

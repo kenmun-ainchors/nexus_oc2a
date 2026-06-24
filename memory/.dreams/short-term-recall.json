@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "updatedAt": "2026-06-24T12:20:24.942Z",
+  "updatedAt": "2026-06-24T12:45:14.472Z",
   "entries": {
     "memory:memory/2026-04-26.md:94:122": {
       "key": "memory:memory/2026-04-26.md:94:122",
@@ -4429,19 +4429,22 @@
       "endLine": 20,
       "source": "memory",
       "snippet": "# Memory — 2026-06-17 ## Morning stand-up Thrawn items complete - API balance $0 false alarm fixed (CHECK 9 rewired to turnsLimit). CHG-0606. - Gateway env-wrapper inert fixed (NODE_OPTIONS). CHG-0607. - Yoda CREST §6 violation: structural `tools.deny` applied (CHG-0608), then reverted (CHG-0609) after proving subagent exec not configurable. Discipline-based CREST resumed. - Pipefail+trap anti-patterns fixed in auto-heal.sh. CHG-0610. - Backup 33h stale fixed (new cron). CHG-0611. - MEMORY.md trimmed 13,387 → 9,785 chars. CHG-0612. - Config baseline 8d stale fixed (gateway-config-snapshot.sh + CHECK 12). CHG-0613. - TKT-0336 tilde path violations fixed. CHG-0614. - TKT-0339 + TKT-0526 cron",
-      "recallCount": 1,
+      "recallCount": 3,
       "dailyCount": 0,
       "groundedCount": 0,
-      "totalScore": 0.43138145208358764,
-      "maxScore": 0.43138145208358764,
+      "totalScore": 1.3289768874645231,
+      "maxScore": 0.45024309456348416,
       "firstRecalledAt": "2026-06-22T18:26:40.857Z",
-      "lastRecalledAt": "2026-06-22T18:26:40.857Z",
+      "lastRecalledAt": "2026-06-24T12:37:37.526Z",
       "queryHashes": [
-        "2051196433fa"
+        "2051196433fa",
+        "911edb2e38e1",
+        "c2ec6526d03e"
       ],
       "recallDays": [
         "2026-06-23",
-        "2026-06-22"
+        "2026-06-22",
+        "2026-06-24"
       ],
       "conceptTags": [
         "backup",
@@ -22563,15 +22566,17 @@
       "endLine": 64,
       "source": "memory",
       "snippet": "- Prevention: Before dispatching review, read/verify target files. Never dispatch review against hypothetical code. - Linked: TKT-0395, WO-002 ## Sage (qa) Verdict — Still Pending - Sage session (qa) was spawned for QA/DoD review of mirror-writer PR but never returned a verdict. Session yielded waiting for response. Atlas returned promptly; Sage did not. - Sage was asked to validate: heartbeat tests, entrypoint graceful shutdown, transient-error path, no PG trigger/listener, and to reclassify the two deferred items (Phase 2 kill-test, Phase 5 live-mutation) as DEFERRED not complete. - Next session: check Sage session for verdict, or re-dispatch to a fresh session. # 2026-06-10 — Daily Memor",
-      "recallCount": 1,
+      "recallCount": 3,
       "dailyCount": 0,
       "groundedCount": 0,
-      "totalScore": 0.4005558967590332,
-      "maxScore": 0.4005558967590332,
+      "totalScore": 1.3863136887550354,
+      "maxScore": 0.5001028388738632,
       "firstRecalledAt": "2026-06-24T12:20:24.942Z",
-      "lastRecalledAt": "2026-06-24T12:20:24.942Z",
+      "lastRecalledAt": "2026-06-24T12:45:14.472Z",
       "queryHashes": [
-        "68c3f08e6fcd"
+        "68c3f08e6fcd",
+        "4abe8a675ed7",
+        "489449b23eaf"
       ],
       "recallDays": [
         "2026-06-24"
@@ -22585,6 +22590,131 @@
         "transient-error",
         "trigger/listener",
         "kill-test"
+      ]
+    },
+    "memory:memory/2026-06-22.md:136:151": {
+      "key": "memory:memory/2026-06-22.md:136:151",
+      "path": "memory/2026-06-22.md",
+      "startLine": 136,
+      "endLine": 151,
+      "source": "memory",
+      "snippet": "**Gap note:** `.openclaw/tmp/TKT-0343-A1-atlas-exec-gap.md` (blocked from writing during memory flush; content captured here instead) **Options:** 1. Fix Atlas subagent capability (grant `exec`) — preferred. 2. Route A1 to Forge — not ideal; Atlas is EA reviewer. 3. Yoda interim A1 with full disclosure — used for TKT-0720, but deferred here per Ken directive to fix the gap. **Parked state:** - CREST plan and groomed brief written. - CHG-0733 recorded. - TKT-0343 tracker state: in progress, blocked on A1. **Next action:** Ken/Forge decision on resolving Atlas subagent `exec` gap. Yoda will resume TKT-0343 A1 once resolved. **Note:** Memory-flush mode is active. This file is the only writa",
+      "recallCount": 2,
+      "dailyCount": 0,
+      "groundedCount": 0,
+      "totalScore": 0.9154143095016478,
+      "maxScore": 0.458644613623619,
+      "firstRecalledAt": "2026-06-24T12:37:31.957Z",
+      "lastRecalledAt": "2026-06-24T12:37:37.526Z",
+      "queryHashes": [
+        "911edb2e38e1",
+        "c2ec6526d03e"
+      ],
+      "recallDays": [
+        "2026-06-24"
+      ],
+      "conceptTags": [
+        "tkt-0720",
+        "chg-0733",
+        "tkt-0343",
+        "ken/forge",
+        "memory-flush",
+        "gap",
+        "openclaw",
+        "tmp"
+      ]
+    },
+    "memory:memory/2026-06-18.md:59:64": {
+      "key": "memory:memory/2026-06-18.md:59:64",
+      "path": "memory/2026-06-18.md",
+      "startLine": 59,
+      "endLine": 64,
+      "source": "memory",
+      "snippet": "- `db-sprint.sh status` showed TKT-0529 as `open` despite earlier close-out. - PG read confirmed `status=open`, `metadata.resolution=completed`. - Re-closed TKT-0529 via the now-fixed `bash scripts/db-ticket.sh update TKT-0529 '{\"status\":\"closed\"}'`; synced to Notion. - Sprint 8 status now correct: 11 closed/done, 5 open, 69% completion. - Journal entry appended.",
+      "recallCount": 1,
+      "dailyCount": 0,
+      "groundedCount": 0,
+      "totalScore": 0.467526575922966,
+      "maxScore": 0.467526575922966,
+      "firstRecalledAt": "2026-06-24T12:37:34.749Z",
+      "lastRecalledAt": "2026-06-24T12:37:34.749Z",
+      "queryHashes": [
+        "4abe8a675ed7"
+      ],
+      "recallDays": [
+        "2026-06-24"
+      ],
+      "conceptTags": [
+        "db-sprint.sh",
+        "tkt-0529",
+        "close-out",
+        "metadata.resolution",
+        "re-closed",
+        "now-fixed",
+        "scripts/db-ticket.sh",
+        "closed/done"
+      ]
+    },
+    "memory:memory/2026-06-20.md:47:80": {
+      "key": "memory:memory/2026-06-20.md:47:80",
+      "path": "memory/2026-06-20.md",
+      "startLine": 47,
+      "endLine": 80,
+      "source": "memory",
+      "snippet": "## CREST v1.3 Full Verification ### WS1: Legacy v1.2 Tribal Knowledge Sweep - 14 files updated: docs, scripts, skills, memory - `docs/CREST-v1.2-Recursive-Model-C.md` → archived to `docs/archive/` - 7 scripts: `state/archive/model-policy.json` → `state/model-policy.json` - pro/flash binary language → role×phase capability matrix - `agent-skills/crest/SKILL.md`: full v1.3 rewrite - `agent-skills/model-routing/SKILL.md`: PG SSOT, JSON cache - `docs/Model3-Policy.md`: Forge exception updated to v1.3 terms - `docs/AI_GOVERNANCE_FRAMEWORK_v1.0.md`: flash-for-crons → deepseek-v4-flash - MEMORY.md: v1.2 references updated - All 7 scripts syntax-checked OK ### WS2: Regression Test - 13/13 checks P",
+      "recallCount": 1,
+      "dailyCount": 0,
+      "groundedCount": 0,
+      "totalScore": 0.5010236293077469,
+      "maxScore": 0.5010236293077469,
+      "firstRecalledAt": "2026-06-24T12:45:14.472Z",
+      "lastRecalledAt": "2026-06-24T12:45:14.472Z",
+      "queryHashes": [
+        "489449b23eaf"
+      ],
+      "recallDays": [
+        "2026-06-24"
+      ],
+      "conceptTags": [
+        "v1.3",
+        "v1.2",
+        "docs/archive",
+        "state/archive/model-policy.json",
+        "state/model-policy.json",
+        "pro/flash",
+        "agent-skills/crest/skill.md",
+        "docs/model3-policy.md"
+      ]
+    },
+    "memory:memory/2026-06-20.md:1:24": {
+      "key": "memory:memory/2026-06-20.md:1:24",
+      "path": "memory/2026-06-20.md",
+      "startLine": 1,
+      "endLine": 24,
+      "source": "memory",
+      "snippet": "# 2026-06-20 — CREST v1.3 Full Implementation & Verification ## Session Summary #execution-state CREST v1.3 fully executed 2026-06-20; TKT-0546 and TKT-0547 closed; all tiers A–D and verification sweeps WS1/WS2/WS3 passed. Full CREST v1.3 implementation executed under strict CREST framework. All 4 tiers (Pre-Gates, A, B, C, D) completed. Followed by full verification sweep (WS1 legacy cleanup, WS2 regression, WS3 UAT). WO-002 divergence monitoring closed. ## CREST v1.3 Implementation (TKT-0546) ### Pre-Tier-A Gates - G1: CHG-0680 logged + Notion synced (done prior session) - G2: Baseline snapshot captured (`state/crest-v1.3-pre-baseline.*`) - G3: Down-migration DDL written (`scripts/cres",
+      "recallCount": 1,
+      "dailyCount": 0,
+      "groundedCount": 0,
+      "totalScore": 0.47818419635295867,
+      "maxScore": 0.47818419635295867,
+      "firstRecalledAt": "2026-06-24T12:45:14.472Z",
+      "lastRecalledAt": "2026-06-24T12:45:14.472Z",
+      "queryHashes": [
+        "489449b23eaf"
+      ],
+      "recallDays": [
+        "2026-06-24"
+      ],
+      "conceptTags": [
+        "v1.3",
+        "execution-state",
+        "tkt-0546",
+        "tkt-0547",
+        "ws1/ws2/ws3",
+        "pre-gates",
+        "wo-002",
+        "pre-tier-a"
       ]
     }
   }

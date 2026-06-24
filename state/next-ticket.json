@@ -1,17 +1,17 @@
 {
-  "ticket": "TKT-0530",
-  "sprint": "Sprint 9",
-  "sprint_seq": 1,
+  "ticket": "TKT-0721",
+  "sprint": "Sprint 10",
+  "sprint_seq": null,
   "status": "open",
-  "priority": "P1",
-  "effort": "M",
-  "agent": "yoda",
-  "reason": "active-sprint-ready",
+  "priority": "high",
+  "effort": "L",
+  "agent": "forge",
+  "reason": "tracker-override",
   "current_sprint": {
     "name": "Sprint 9",
     "status": "in_progress",
     "dates": "2026-06-22 to 2026-06-28",
-    "completion": "47%",
+    "completion": "52%",
     "is_active": true
   },
   "next_sprint": {

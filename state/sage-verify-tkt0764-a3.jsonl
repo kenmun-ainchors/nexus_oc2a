@@ -1,0 +1,7 @@
+{
+  "file": "/Users/ainchorsangiefpl/.openclaw/workspace/.openclaw/tmp/verifier-corpus-tkt-0764.sh",
+  "exit_code": 1,
+  "stdout": "PASS: SKILL.md has Canonical TKT-0761 Pattern section\nPASS: SKILL.md has Yoda Spot-Check checklist\nPASS: SKILL.md has Sage-as-Judge checklist\nPASS: dispatch-validate.sh rejects execute atom without verifier_corpus\nFAIL: dispatch-validate.sh rejected valid verifier_corpus\nPASS: atom-validate.sh rejects execute atom missing verifier_corpus\nPASS: scripts/sage-verify.sh exists and is executable\nPASS: sage-verify.sh references raw results capture\nFAIL: scripts/warden-crest-compliance.sh missing or not executable\nSOME_CHECKS_FAILED",
+  "stderr": "",
+  "duration_ms": 812
+}

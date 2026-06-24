@@ -42,6 +42,7 @@ CHECKS (CREST v1.2 §8.2):
   4. post_conditions Array with ≥1 non-empty entry
   5. atom            Non-null, non-whitespace
   6. model           Explicit (non-empty, not "auto", not "default")
+  7. verifier_corpus Required when phase is execute or verify (non-empty string or array)
 
 EXIT CODES:
   0  All checks passed → {"status":"ok"}
@@ -173,10 +174,34 @@ else
   FAILURES+=("$RESULT")
 fi
 
+# 7. verifier_corpus: required when phase is execute or verify
+# Must be a non-empty string or non-empty array
+if RESULT=$(check "verifier_corpus" \
+  'if (.phase == "execute" or .phase == "verify") then
+    if .verifier_corpus then
+      if (.verifier_corpus | type == "string") and ((.verifier_corpus | length) > 0) then
+        "pass"
+      elif (.verifier_corpus | type == "array") and ((.verifier_corpus | length) > 0) then
+        "pass"
+      else
+        "fail"
+      end
+    else
+      "fail"
+    end
+  else
+    "pass"
+  end' \
+  "must be non-empty string or array when phase is execute or verify"); then
+  ((PASSES++))
+else
+  FAILURES+=("$RESULT")
+fi
+
 # ── Output ───────────────────────────────────────────────────
 if [[ ${#FAILURES[@]} -eq 0 ]]; then
   if $VERBOSE; then
-    echo '{"status":"ok","checks_passed":6}'
+    echo '{"status":"ok","checks_passed":7}'
   else
     echo '{"status":"ok"}'
   fi

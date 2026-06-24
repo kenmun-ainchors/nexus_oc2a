@@ -65,6 +65,9 @@ _For Aria 🔵 & the Spark content engine | Ideas from daily platform work that 
 | TC-247 | The snapshot script that called bash instead of zsh — and silently failed | 💡 idea | 2026-06-23 | CHG-0748 — macOS bash 3.2 vs zsh associative arrays, shebang compliance |
 | TC-248 | When the terminated model kept getting scheduled: the cron drift that took 2 weeks to find | 💡 idea | 2026-06-23 | CHG-0742 — Spark publish cron on terminated minimax-m3, timeout scaler sweep |
 | TC-249 | The audit log that's not a view: why Path A beat Path B for pg_write_events | 💡 idea | 2026-06-23 | CHG-0749/0750 — TKT-0357, real table vs view decision, audit function with 15 columns |
+| TC-250 | The tracker override that wasn't: why a wrapper around the wrong answer is still the wrong answer | 💡 idea | 2026-06-24 | CHG-0758/0759/0761 — tracker override merged into canonical next-ticket resolver, wrapper deleted |
+| TC-251 | Your QA bot can't verify if it can't exec: the sandbox isolation trap | 💡 idea | 2026-06-24 | CHG-0763 — Sage (qa) subagent granted exec/process for CREST verification |
+| TC-252 | One resolver to rule them all: merging priority overrides into the canonical path | 💡 idea | 2026-06-24 | CHG-0761 — transparent tracker override inside db-sprint.sh next-ticket, 5/5 regression tests |
 
 _Statuses: 💡 idea → ✍️ draft → ✅ scheduled → 📤 published_
 
