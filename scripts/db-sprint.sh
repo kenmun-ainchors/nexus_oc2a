@@ -234,6 +234,7 @@ cmd_current() {
       ticket_count: ($ticket_count | tonumber),
       done_count: ($done_count | tonumber)
     }' 2>/dev/null
+
 }
 
 # ──────────────────────────────────────────────
@@ -1175,6 +1176,112 @@ cmd_next_ticket() {
 
   log "Resolving next ticket (agent filter: ${agent_filter:-none})"
 
+  # ── CRESTv2-P1 Tracker Override (TKT-0761) ──
+  # Check locked_execution_order before canonical resolution.
+  # When state/crestv2-p1-tracker.json has status=locked, the first eligible
+  # ticket in locked_execution_order sequence is returned with reason=tracker-override.
+  local TRACKER_FILE="$WORKSPACE_ROOT/state/crestv2-p1-tracker.json"
+  local SELECTED_TRACKER_TICKET=""
+  local TRACKER_OVERRIDE_ACTIVE="false"
+
+  # ── Agent matching helper (inlined from deprecated next-ticket-tracker-override.sh) ──
+  # For yoda: lenient — matches yoda, unassigned, null, or empty.
+  # For other agents: strict match only.
+  agent_matches_filter() {
+    local ticket_agent="$1"
+    local filter="$2"
+    if [[ -z "$filter" ]]; then
+      return 0
+    fi
+    if [[ "$filter" == "yoda" ]]; then
+      if [[ -z "$ticket_agent" || "$ticket_agent" == "null" || "$ticket_agent" == "yoda" ]]; then
+        return 0
+      fi
+      return 1
+    fi
+    if [[ "$ticket_agent" == "$filter" ]]; then
+      return 0
+    fi
+    return 1
+  }
+
+  if [[ -f "$TRACKER_FILE" ]]; then
+    local TRACKER_JSON
+    TRACKER_JSON=$(cat "$TRACKER_FILE" 2>/dev/null)
+    if echo "$TRACKER_JSON" | $JQ empty 2>/dev/null; then
+      local TRACKER_STATUS
+      TRACKER_STATUS=$(echo "$TRACKER_JSON" | $JQ -r '.status // ""' 2>/dev/null)
+      if [[ "$TRACKER_STATUS" == "locked" ]]; then
+        log "CRESTv2-P1 tracker is locked — checking locked_execution_order"
+
+        # Pre-fetch active and next sprint names (they don't change per ticket)
+        local ACTIVE_SPRINT_NAME_TR
+        ACTIVE_SPRINT_NAME_TR=$(pg_query "SELECT sprint_name FROM $SPRINT_TABLE WHERE status='in_progress' AND sprint_number > 0 ORDER BY sprint_number DESC LIMIT 1;" 2>/dev/null | head -1)
+        if [[ -z "$ACTIVE_SPRINT_NAME_TR" ]]; then
+          ACTIVE_SPRINT_NAME_TR=$(pg_query "SELECT sprint_name FROM $SPRINT_TABLE WHERE start_date <= CURRENT_DATE AND end_date >= CURRENT_DATE AND sprint_number > 0 ORDER BY sprint_number DESC LIMIT 1;" 2>/dev/null | head -1)
+        fi
+        local NEXT_SPRINT_NAME_TR
+        NEXT_SPRINT_NAME_TR=$(pg_query "SELECT sprint_name FROM $SPRINT_TABLE WHERE status='committed' AND start_date > CURRENT_DATE AND sprint_number > 0 ORDER BY start_date ASC LIMIT 1;" 2>/dev/null | head -1)
+
+        # Iterate locked_execution_order in sequence
+        local TRACKER_TICKETS
+        TRACKER_TICKETS=$(echo "$TRACKER_JSON" | $JQ -r '.locked_execution_order[].tickets[]' 2>/dev/null)
+
+        while IFS= read -r tkt_id; do
+          [[ -z "$tkt_id" ]] && continue
+          log "  Checking tracker ticket: $tkt_id"
+
+          # Query PG for ticket status, sprint, and agent
+          local ROW
+          ROW=$(pg_query "SELECT id, status, sprint, metadata->>'sprint_agent' as agent FROM $TICKET_TABLE WHERE id='$tkt_id';" 2>/dev/null | head -1)
+          if [[ -z "$ROW" ]]; then
+            log "    Ticket $tkt_id not found in PG — skipping"
+            continue
+          fi
+
+          local TKT_STATUS TKT_SPRINT TKT_AGENT
+          IFS='|' read -r _ TKT_STATUS TKT_SPRINT TKT_AGENT <<< "$ROW"
+
+          # Check status: must be open or in_progress
+          if [[ "$TKT_STATUS" != "open" && "$TKT_STATUS" != "in_progress" && "$TKT_STATUS" != "in-progress" ]]; then
+            log "    Ticket $tkt_id status is '$TKT_STATUS' — not eligible (skipping)"
+            continue
+          fi
+
+          # Check sprint: must be in active or next committed sprint
+          local IN_VALID_SPRINT=false
+          if [[ -n "$TKT_SPRINT" && "$TKT_SPRINT" != "null" ]]; then
+            if [[ "$TKT_SPRINT" == "$ACTIVE_SPRINT_NAME_TR" || "$TKT_SPRINT" == "$NEXT_SPRINT_NAME_TR" ]]; then
+              IN_VALID_SPRINT=true
+            fi
+          fi
+          if [[ "$IN_VALID_SPRINT" != "true" ]]; then
+            log "    Ticket $tkt_id sprint is '$TKT_SPRINT' — not in active/next sprint (skipping)"
+            continue
+          fi
+
+          # Check agent filter
+          if ! agent_matches_filter "$TKT_AGENT" "$agent_filter"; then
+            log "    Ticket $tkt_id agent is '$TKT_AGENT' — does not match filter '$agent_filter' (skipping)"
+            continue
+          fi
+
+          # Eligible!
+          SELECTED_TRACKER_TICKET="$tkt_id"
+          TRACKER_OVERRIDE_ACTIVE="true"
+          log "  Selected tracker ticket: $tkt_id (status=$TKT_STATUS, sprint=$TKT_SPRINT, agent=$TKT_AGENT)"
+          break
+        done <<< "$TRACKER_TICKETS"
+      else
+        log "CRESTv2-P1 tracker status is '$TRACKER_STATUS' (not locked) — skipping override"
+      fi
+    else
+      log "CRESTv2-P1 tracker file contains invalid JSON — skipping override"
+    fi
+  else
+    log "CRESTv2-P1 tracker file not found — skipping override"
+  fi
+
   # ── Step 1: Determine current active sprint ──
   local active_sprint_id=""
   local active_sprint_name=""
@@ -1255,8 +1362,22 @@ cmd_next_ticket() {
   local result_ticket=""
   local result_reason=""
 
-  # 3a. Try active sprint
-  if [[ -n "$active_sprint_id" ]]; then
+  # 3a. CRESTv2-P1 tracker override takes priority (TKT-0761)
+  if [[ "$TRACKER_OVERRIDE_ACTIVE" == "true" && -n "$SELECTED_TRACKER_TICKET" ]]; then
+    # Fetch full ticket JSON from PG for the output builder
+    local TRACKER_TKT_JSON
+    TRACKER_TKT_JSON=$(pg_query "SELECT row_to_json(t)::text FROM $TICKET_TABLE t WHERE id='$SELECTED_TRACKER_TICKET';" 2>/dev/null)
+    if [[ -n "$TRACKER_TKT_JSON" && "$TRACKER_TKT_JSON" != "null" ]]; then
+      result_ticket="$TRACKER_TKT_JSON"
+      result_reason="tracker-override"
+      log "Tracker override active: $SELECTED_TRACKER_TICKET (reason=tracker-override)"
+    else
+      log "Tracker override: could not fetch full JSON for $SELECTED_TRACKER_TICKET — falling through"
+    fi
+  fi
+
+  # 3b. Try active sprint (only if no tracker override)
+  if [[ "$TRACKER_OVERRIDE_ACTIVE" != "true" && -n "$active_sprint_id" ]]; then
     local active_result
     active_result=$(find_ticket_in_sprint "$active_sprint_id" "$active_sprint_name" "$agent_filter")
     if [[ -n "$active_result" ]]; then
@@ -1266,7 +1387,7 @@ cmd_next_ticket() {
     fi
   fi
 
-  # 3b. If no ticket in active sprint, try next committed sprint
+  # 3c. If no ticket in active sprint, try next committed sprint
   if [[ -z "$result_ticket" && -n "$next_sprint_id" ]]; then
     local next_result
     next_result=$(find_ticket_in_sprint "$next_sprint_id" "$next_sprint_name" "$agent_filter")
@@ -1279,7 +1400,7 @@ cmd_next_ticket() {
     fi
   fi
 
-  # 3c. If no ticket in any sprint, try backlog
+  # 3d. If no ticket in any sprint, try backlog
   if [[ -z "$result_ticket" ]]; then
     local order_sql
     order_sql="CASE WHEN LOWER(priority) IN ('critical','p0','urgent') THEN 0 WHEN LOWER(priority) IN ('high','p1') THEN 1 WHEN LOWER(priority) IN ('medium','p2','normal') THEN 2 WHEN LOWER(priority) IN ('low','p3') THEN 3 ELSE 99 END"
@@ -1342,7 +1463,8 @@ cmd_next_ticket() {
   fi
 
   # Build JSON output
-  $JQ -n     --arg ticket "${ticket_id:-null}"     --arg sprint "${ticket_sprint:-null}"     --arg sprint_seq "${ticket_sprint_seq:-null}"     --arg status "${ticket_status:-null}"     --arg priority "${ticket_priority:-null}"     --arg effort "${ticket_effort:-null}"     --arg agent "${ticket_agent:-null}"     --arg reason "${result_reason:-none-available}"     --arg cs_name "${active_sprint_name:-null}"     --arg cs_status "${active_sprint_status:-null}"     --arg cs_start "${active_sprint_start:-null}"     --arg cs_end "${active_sprint_end:-null}"     --arg cs_completion "${active_completion:-0%}"     --argjson cs_active ${active_sprint_is_active:-false}     --arg ns_name "${next_sprint_name:-null}"     --arg ns_status "${next_sprint_status:-null}"     --arg ns_start "${next_sprint_start:-null}"     --arg ns_end "${next_sprint_end:-null}"     --arg ns_completion "${next_completion:-0%}"     '{
+  local OUTPUT_JSON
+  OUTPUT_JSON=$($JQ -n     --arg ticket "${ticket_id:-null}"     --arg sprint "${ticket_sprint:-null}"     --arg sprint_seq "${ticket_sprint_seq:-null}"     --arg status "${ticket_status:-null}"     --arg priority "${ticket_priority:-null}"     --arg effort "${ticket_effort:-null}"     --arg agent "${ticket_agent:-null}"     --arg reason "${result_reason:-none-available}"     --arg cs_name "${active_sprint_name:-null}"     --arg cs_status "${active_sprint_status:-null}"     --arg cs_start "${active_sprint_start:-null}"     --arg cs_end "${active_sprint_end:-null}"     --arg cs_completion "${active_completion:-0%}"     --argjson cs_active ${active_sprint_is_active:-false}     --arg ns_name "${next_sprint_name:-null}"     --arg ns_status "${next_sprint_status:-null}"     --arg ns_start "${next_sprint_start:-null}"     --arg ns_end "${next_sprint_end:-null}"     --arg ns_completion "${next_completion:-0%}"     '{
       ticket: (if $ticket == "null" then null else $ticket end),
       sprint: (if $sprint == "null" then null else $sprint end),
       sprint_seq: (if $sprint_seq == "null" then null else ($sprint_seq | tonumber) end),
@@ -1364,7 +1486,9 @@ cmd_next_ticket() {
         dates: (if $ns_start == "null" or $ns_end == "null" then null else "\($ns_start) to \($ns_end)" end),
         completion: $ns_completion
       }
-    }' 2>/dev/null
+    }' 2>/dev/null)
+  echo "$OUTPUT_JSON"
+  echo "$OUTPUT_JSON" > "$WORKSPACE_ROOT/state/next-ticket.json"
 }
 
 # ──────────────────────────────────────────────

@@ -1,3 +1,15 @@
+## 2026-06-24 22:34 AEST — [CHG-0761] Merge CRESTv2-P1 tracker override into canonical db-sprint.sh next-ticket resolver
+**Type:** script
+**Change Type:** Normal
+**Source:** ken-prompt
+**Trigger:** Ken caught TKT-0761 misimplementation: tracker override was built as separate wrapper instead of transparent canonical resolver
+**What changed:** Modified scripts/db-sprint.sh cmd_next_ticket to check state/crestv2-p1-tracker.json locked_execution_order before canonical resolution; set reason=tracker-override; cache state/next-ticket.json via shared OUTPUT_JSON; deleted scripts/next-ticket-tracker-override.sh; updated agent-skills/pg-sprint-backlog/SKILL.md next-ticket guidance; added tests/regression/pg-sprint/test-next-ticket-tracker-override.sh
+**Why:** Original CHG-0759 implemented override as a separate wrapper, leaving canonical db-sprint.sh next-ticket returning wrong result (TKT-0530 instead of TKT-0721). Design intent was transparent override inside canonical interface.
+**Verification:** Parent-session verifier corpus 9/9 PASS: db-sprint.sh next-ticket --agent yoda → TKT-0721 tracker-override; --agent forge → TKT-0344 tracker-override; unfiltered → TKT-0721; tracker absent → TKT-0530 active-sprint-ready; cache parity; wrapper deleted; SKILL.md updated; regression 5/5; existing sprint tests 6/6
+**Rollback:** N/A
+**Linked:** TKT-0761,CHG-0759,TKT-0728,L-170
+---
+
 ## 2026-06-24 22:06 AEST — [CHG-0760] TKT-0728 / CHG-0759 doc update: clarify agent-filter usage for next-ticket
 **Type:** doc
 **Change Type:** Normal

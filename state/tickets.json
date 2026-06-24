@@ -4279,5 +4279,47 @@
     "metadata": {
       "brief": "Test artifact for TKT-0720 A4"
     }
+  },
+  {
+    "id": "TKT-0727",
+    "title": "Dynamic model context window resolution",
+    "status": "closed",
+    "priority": "critical",
+    "type": "task",
+    "created_at": "2026-06-24T10:41:10+10:00",
+    "ticket_number": 727,
+    "metadata": {
+      "resolution": "Dynamic model context resolution implemented and verified. Ollama API sync populates model_registry.advertised_context; PG effective_context overrides applied per Ken directive: deepseek-v4-pro=1M, deepseek-v4-flash=262k, minimax=512k. openclaw.json regenerated via apply-model-context.sh, openclaw config validate passed, model-drift-check.sh 49 PASS / 0 FAIL. CHG-0756 / CHG-0757."
+    }
+  },
+  {
+    "id": "TKT-0728",
+    "title": "Canonical next-ticket resolution for pg-sprint-backlog skill",
+    "status": "closed",
+    "priority": "critical",
+    "type": "task",
+    "created_at": "2026-06-24T11:42:24+10:00",
+    "ticket_number": 728,
+    "sprint": "Sprint 9",
+    "sprint_seq": 12,
+    "sprint_id": "ec7bc942-7aee-47e3-9c50-17b89bb38007",
+    "metadata": {
+      "resolution": "Phase 1: Implemented canonical next-ticket resolution in pg-sprint-backlog skill (db-sprint.sh current/next-ticket/activate; db-ticket.sh --sprint-current; state/next-ticket.json). Phase 2 addendum (CHG-0759): Created scripts/next-ticket-tracker-override.sh so CRESTv2-P1 tracker can temporarily override order without polluting core skill. Verified: --agent yoda returns TKT-0721 via tracker-override; core next-ticket --agent yoda still returns TKT-0530; --agent forge returns TKT-0344; state/next-ticket-override.json generated."
+    },
+    "epic": "TKT-0342"
+  },
+  {
+    "id": "TKT-0761",
+    "title": "Merge CRESTv2-P1 tracker override into canonical db-sprint.sh next-ticket resolver",
+    "status": "done",
+    "priority": "P1",
+    "type": "defect",
+    "created_at": "2026-06-24T12:20:22+10:00",
+    "ticket_number": 761,
+    "metadata": {
+      "sprint_agent": "forge",
+      "sprint_effort": "M",
+      "sprint_target": "Sprint 9"
+    }
   }
 ]

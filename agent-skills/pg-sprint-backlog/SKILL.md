@@ -365,6 +365,7 @@ bash scripts/db-sprint.sh migrate --sprint "Sprint 7" --dry-run
 Returns the single, deterministic "next ticket to work" as JSON. This is the canonical answer to "what should I pick up now?" — used by agents at session start and by heartbeat/cron for bootstrap context injection.
 
 **Resolution pipeline (priority-ordered):**
+0. **CRESTv2-P1 Tracker Override (TKT-0761):** When `state/crestv2-p1-tracker.json` has `status: locked`, the `locked_execution_order` is checked first. The first eligible ticket in sequence (open/in_progress, in active or next sprint, matching agent filter) is returned with `reason: tracker-override`. This ensures CRESTv2-P1 execution order is respected.
 1. **In-progress ticket** in the current active sprint (resume semantics)
 2. **Highest-priority ready ticket** in the current active sprint (priority DESC, sprint_seq ASC)
 3. **Highest-priority ready ticket** in the next committed sprint (if current sprint is complete)
@@ -391,6 +392,7 @@ Returns the single, deterministic "next ticket to work" as JSON. This is the can
 **Reason values:**
 | Reason | Meaning |
 |--------|---------|
+| `tracker-override` | CRESTv2-P1 tracker locked_execution_order override (TKT-0761) |
 | `in-progress-resume` | Resume an in-progress ticket in the active sprint |
 | `active-sprint-ready` | Highest-priority ready ticket in the active sprint |
 | `next-sprint-ready` | Highest-priority ready ticket in the next committed sprint |
@@ -405,7 +407,7 @@ bash scripts/db-sprint.sh next-ticket  # any agent
 
 **Consumption:**
 - Agents call this at session start to determine what to work on
-- Heartbeat/cron writes output to `state/next-ticket.json` for bootstrap context injection
+- The command writes output to `state/next-ticket.json` for bootstrap context injection (stdout and cache are always consistent)
 - `state/next-ticket.json` is a cache; PG remains SSOT
 
 **Agent filter guidance:**

@@ -1,6 +1,6 @@
 # Yoda Telegram Context Brief
-# Auto-refreshed: Monday, June 22nd, 2026 - 8:00 PM AEST
-# Platform Day: 58 (from 2026-04-25)
+# Auto-refreshed: Wednesday, June 24th, 2026 - 8:00 PM AEST
+# Platform Day: 60 (from 2026-04-25)
 # Current Sprint: Sprint 9 (2026-06-22 to 2026-06-28) — COMMITTED
 # Model: ollama/kimi-k2.7-code:cloud
 
@@ -38,8 +38,8 @@
 | ID | Title | Status | Priority | Sprint |
 |----|-------|--------|----------|--------|
 | TKT-0342 | EPIC: PG SSOT Gap Remediation | open | critical | Sprint 9 |
-| TKT-0343 | Wire state_config_baseline to live PG write | open | critical | Sprint 9 |
 | TKT-0344 | Wire state_model_policy to live PG write | open | critical | Sprint 9 |
+| TKT-0358 | Create PG table health monitor cron | open | critical | Sprint 11 |
 | TKT-0125 | Roadmap Refinement — QBR 2026-Q3 instance | open | P1 | |
 | TKT-0130 | Agent Fleet Review — QBR 2026-Q3 instance | open | P1 | |
 | TKT-0114 | AInchors-Aevlith Technologies partnership structure | pending | high | |
@@ -50,10 +50,10 @@
 
 ## LinkedIn Campaign Status
 - **Status:** ACTIVE — 4-Week Foundation Arc (restarted 2026-06-16)
-- **Current week:** Week 2 (Movement II: The Audit) — Theme A (What AI Agents in Production Actually Look Like)
-- **Posted:** W1-P1 (Tue 16 Jun), W1-P2 (Wed 17 Jun), W1-P3 (Thu 18 Jun) — all posted
-- **Upcoming slots:** Tue 23 Jun 07:30 (W2-P4), Wed 24 Jun 12:00 (W2-P5), Thu 25 Jun 07:30 (W2-P6)
-- **Drafts ready:** W2-P4, P5, P6 all approved by Ken (2026-06-22) with images. Ready to publish.
+- **Current week:** Week 2 (Movement II: The Audit) — Theme B (Building AI Operations in Public)
+- **Posted this week:** W2-P4 (Tue 23 Jun 07:30 — re-targeted to Ken personal profile per CHG-0739), W2-P5 (Wed 24 Jun 12:00 — "The 92% rule" — posted by Spark cron 833ee0c7)
+- **Upcoming:** Thu 25 Jun 07:30 (W2-P6 — "The quality gate I thought I had (and didn't)" — approved, image ready)
+- **Stream:** Ken personal profile (effective from 2026-06-23 per CHG-0739). Company page posts discontinued.
 - **Voice:** Ken Mun, CTO — first-person, direct, no fluff. NO AInchors/Yoda/Nexus/agent names.
 - **Missed-slot rule:** Push to next slot. If occupied, skip. Never post late.
 - **Pipeline:** Weekend batch draft (Sat 12:00) -> review -> publish at slot. Never draft at publish time.

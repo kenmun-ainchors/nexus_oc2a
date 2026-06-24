@@ -1,6 +1,6 @@
 {
-  "generated_at": "2026-06-23T22:03:54.927103+00:00",
-  "generated_at_aest": "2026-06-24 08:03 AEST",
+  "generated_at": "2026-06-24T12:33:54.551574+00:00",
+  "generated_at_aest": "2026-06-24 22:33 AEST",
   "period_hours": 24,
   "totals": {
     "ERROR": 0,
@@ -17,9 +17,9 @@
   "trend": {
     "has_prev_data": true,
     "prev_errors": 0,
-    "prev_warns": 24,
+    "prev_warns": 10,
     "errors_pct_change": null,
-    "warns_pct_change": -91.7
+    "warns_pct_change": -80.0
   },
   "worst_hour": null
 }

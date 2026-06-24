@@ -81,6 +81,15 @@ EOF
 
 echo "[$(date -Iseconds)] Snapshot saved to $SNAP_DIR ($(du -sh "$SNAP_DIR" 2>/dev/null | cut -f1))" | tee -a "$LOG"
 
+
+# ── Step 1b: Sync model context before restart ──────────────────────────
+# CHG-0756: Sync model context from Ollama API and apply to config
+echo "[2026-06-24T20:41:51+10:00] Syncing model context before restart..." | tee -a "$LOG"
+bash "$WORKSPACE/scripts/sync-model-context.sh" >> "$LOG" 2>&1 || true
+bash "$WORKSPACE/scripts/apply-model-context.sh" >> "$LOG" 2>&1 || true
+echo "[2026-06-24T20:41:51+10:00] Model context sync complete." | tee -a "$LOG"
+
+
 # ── Step 2: Write marker ────────────────────────────────────────────────
 cat > "$MARKER" <<EOF
 {
