@@ -73,6 +73,8 @@ Usage: db-sprint.sh <subcommand> [args...]
 
 Subcommands:
   current                              - Return current sprint as JSON from PG
+  next-ticket [--agent <name>]        - Return next ticket to work as JSON (TKT-0728)
+  activate [--dry-run]                 - Transition committed sprints whose start_date <= today to in_progress
   commit <TKT-ID> <seq> <effort> <agent> - Commit ticket to sprint (sets metadata.sprint_target)
   status [--sprint <name>]             - Sprint progress with dependency graph
   plan [--sprint <name>]               - Sprint planning view: all committed items
@@ -143,23 +145,34 @@ write_metadata() {
 get_current_sprint_name() {
   # Find current sprint using the following precedence:
   # 1. Sprint with status='in_progress' (canonical active state)
-  # 2. Sprint with status='active' or status='committed' (legacy states)
-  # 3. Most recent sprint by number
-  # 4. Most common sprint_target in open tickets
-  # 5. Hard fallback: Sprint 7
+  # 2. Sprint whose date window contains today (start_date <= today <= end_date)
+  # 3. Next upcoming committed/planning sprint by start_date
+  # 4. Most recent sprint by start_date
+  # 5. Most common sprint_target in open tickets
+  # 6. Hard fallback: Sprint 7
+  #
+  # TKT-0728: Added date-window awareness (step 2) before falling through to
+  # "next committed by start_date". This ensures a committed sprint whose date
+  # window contains today is correctly identified as the current sprint.
   local name
   # 1. Active sprint takes precedence (exclude Unassigned sentinel).
   name=$(pg_query "SELECT sprint_name FROM $SPRINT_TABLE WHERE (status='in_progress' OR status='active') AND sprint_number > 0 ORDER BY sprint_number DESC LIMIT 1;" 2>/dev/null | head -1)
   if [[ -z "$name" ]]; then
-    # 2. Next upcoming committed/planning sprint by start_date (not highest number).
-    #    This supports sequenced multi-sprint plans where Sprints 9–11 are all committed.
+    # 2. Date-window match: any sprint whose start_date <= today AND end_date >= today.
+    #    This catches committed sprints that are currently in their execution window.
+    name=$(pg_query "SELECT sprint_name FROM $SPRINT_TABLE WHERE start_date <= CURRENT_DATE AND end_date >= CURRENT_DATE AND sprint_number > 0 ORDER BY sprint_number DESC LIMIT 1;" 2>/dev/null | head -1)
+  fi
+  if [[ -z "$name" ]]; then
+    # 3. Next upcoming committed/planning sprint by start_date (not highest number).
+    #    This supports sequenced multi-sprint plans where Sprints 9-11 are all committed.
     name=$(pg_query "SELECT sprint_name FROM $SPRINT_TABLE WHERE status IN ('committed','planning') AND start_date >= CURRENT_DATE ORDER BY start_date ASC LIMIT 1;" 2>/dev/null | head -1)
   fi
   if [[ -z "$name" ]]; then
-    # 3. If every sprint is in the past, fall back to the latest one.
+    # 4. If every sprint is in the past, fall back to the latest one.
     name=$(pg_query "SELECT sprint_name FROM $SPRINT_TABLE ORDER BY start_date DESC NULLS LAST LIMIT 1;" 2>/dev/null | head -1)
   fi
   if [[ -z "$name" ]]; then
+    # 5. Most common sprint_target in open tickets.
     name=$(pg_query "SELECT metadata->>'sprint_target' FROM $TICKET_TABLE WHERE status IN ('open','in-progress','pending','backlog','grooming') AND metadata->>'sprint_target' IS NOT NULL GROUP BY metadata->>'sprint_target' ORDER BY COUNT(*) DESC LIMIT 1;" 2>/dev/null | head -1)
   fi
   # Normalize: extract just "Sprint N" from potentially longer names like "Sprint 7 - ..."
@@ -1131,6 +1144,322 @@ cmd_ceremony() {
 }
 
 # ──────────────────────────────────────────────
+# SUBCOMMAND: next-ticket [--agent <name>]
+# TKT-0728: Canonical next-ticket resolution for pg-sprint-backlog skill
+# Priority pipeline:
+#   (a) in-progress ticket in active sprint
+#   (b) open+unblocked ticket in active sprint ordered by priority DESC, sprint_seq ASC
+#   (c) same in next committed sprint
+#   (d) backlog
+# ──────────────────────────────────────────────
+cmd_next_ticket() {
+  local agent_filter=""
+
+  while [[ $# -gt 0 ]]; do
+    case "$1" in
+      --agent)
+        agent_filter="$2"
+        shift 2
+        ;;
+      --help)
+        echo "Usage: db-sprint.sh next-ticket [--agent <name>]"
+        echo "  Returns the next ticket to work as JSON."
+        echo "  --agent <name>  Filter to tickets assigned to this agent (optional)."
+        return 0
+        ;;
+      *)
+        die "Unknown flag: $1. Use --agent <name>"
+        ;;
+    esac
+  done
+
+  log "Resolving next ticket (agent filter: ${agent_filter:-none})"
+
+  # ── Step 1: Determine current active sprint ──
+  local active_sprint_id=""
+  local active_sprint_name=""
+  local active_sprint_status=""
+  local active_sprint_start=""
+  local active_sprint_end=""
+  local active_sprint_is_active="false"
+
+  # 1a. Check for in_progress sprint
+  local sprint_row
+  sprint_row=$(pg_query "SELECT id, sprint_name, status, start_date::text, end_date::text FROM $SPRINT_TABLE WHERE status='in_progress' AND sprint_number > 0 ORDER BY sprint_number DESC LIMIT 1;" 2>/dev/null)
+  if [[ -n "$sprint_row" ]]; then
+    IFS='|' read -r active_sprint_id active_sprint_name active_sprint_status active_sprint_start active_sprint_end <<< "$sprint_row"
+    active_sprint_is_active="true"
+    log "Active sprint (in_progress): $active_sprint_name"
+  else
+    # 1b. Date-window match
+    sprint_row=$(pg_query "SELECT id, sprint_name, status, start_date::text, end_date::text FROM $SPRINT_TABLE WHERE start_date <= CURRENT_DATE AND end_date >= CURRENT_DATE AND sprint_number > 0 ORDER BY sprint_number DESC LIMIT 1;" 2>/dev/null)
+    if [[ -n "$sprint_row" ]]; then
+      IFS='|' read -r active_sprint_id active_sprint_name active_sprint_status active_sprint_start active_sprint_end <<< "$sprint_row"
+      active_sprint_is_active="true"
+      log "Active sprint (date window): $active_sprint_name (status=$active_sprint_status)"
+    fi
+  fi
+
+  # ── Step 2: Determine next committed sprint ──
+  local next_sprint_id=""
+  local next_sprint_name=""
+  local next_sprint_status=""
+  local next_sprint_start=""
+  local next_sprint_end=""
+
+  local next_row
+  next_row=$(pg_query "SELECT id, sprint_name, status, start_date::text, end_date::text FROM $SPRINT_TABLE WHERE status='committed' AND start_date > CURRENT_DATE AND sprint_number > 0 ORDER BY start_date ASC LIMIT 1;" 2>/dev/null)
+  if [[ -n "$next_row" ]]; then
+    IFS='|' read -r next_sprint_id next_sprint_name next_sprint_status next_sprint_start next_sprint_end <<< "$next_row"
+    log "Next committed sprint: $next_sprint_name"
+  fi
+
+  # ── Helper: find best ticket in a sprint ──
+  # Returns JSON with ticket info or empty
+  find_ticket_in_sprint() {
+    local sprint_id="$1"
+    local sprint_name="$2"
+    local agent="${3:-}"
+
+    # (a) In-progress ticket
+    local tkt_json
+    if [[ -n "$agent" ]]; then
+      tkt_json=$(pg_query "SELECT row_to_json(t)::text FROM $TICKET_TABLE t WHERE sprint_id='$sprint_id' AND status='in_progress' AND (metadata->>'sprint_agent' = '$agent' OR metadata->>'agent' = '$agent') ORDER BY COALESCE(sprint_seq, 999) ASC LIMIT 1;" 2>/dev/null)
+    else
+      tkt_json=$(pg_query "SELECT row_to_json(t)::text FROM $TICKET_TABLE t WHERE sprint_id='$sprint_id' AND status='in_progress' ORDER BY COALESCE(sprint_seq, 999) ASC LIMIT 1;" 2>/dev/null)
+    fi
+    if [[ -n "$tkt_json" && "$tkt_json" != "null" ]]; then
+      echo "$tkt_json|in-progress-resume"
+      return 0
+    fi
+
+    # (b) Open, unblocked tickets ordered by priority DESC, sprint_seq ASC
+    # Priority order: critical > high > medium > low (mapped to numeric)
+    local order_sql
+    order_sql="CASE WHEN LOWER(priority) IN ('critical','p0','urgent') THEN 0 WHEN LOWER(priority) IN ('high','p1') THEN 1 WHEN LOWER(priority) IN ('medium','p2','normal') THEN 2 WHEN LOWER(priority) IN ('low','p3') THEN 3 ELSE 99 END"
+
+    if [[ -n "$agent" ]]; then
+      tkt_json=$(pg_query "SELECT row_to_json(t)::text FROM $TICKET_TABLE t WHERE sprint_id='$sprint_id' AND status='open' AND (metadata->>'sprint_agent' = '$agent' OR metadata->>'agent' = '$agent') AND (metadata->>'depends_on' IS NULL OR metadata->>'depends_on' = '[]'::text OR NOT EXISTS (SELECT 1 FROM jsonb_array_elements_text(COALESCE(t.metadata->'depends_on', '[]'::jsonb)) AS dep_id JOIN $TICKET_TABLE b ON b.id = dep_id WHERE b.status NOT IN ('closed','done','folded'))) ORDER BY $order_sql ASC, COALESCE(sprint_seq, 999) ASC LIMIT 1;" 2>/dev/null)
+    else
+      tkt_json=$(pg_query "SELECT row_to_json(t)::text FROM $TICKET_TABLE t WHERE sprint_id='$sprint_id' AND status='open' AND (metadata->>'depends_on' IS NULL OR metadata->>'depends_on' = '[]'::text OR NOT EXISTS (SELECT 1 FROM jsonb_array_elements_text(COALESCE(t.metadata->'depends_on', '[]'::jsonb)) AS dep_id JOIN $TICKET_TABLE b ON b.id = dep_id WHERE b.status NOT IN ('closed','done','folded'))) ORDER BY $order_sql ASC, COALESCE(sprint_seq, 999) ASC LIMIT 1;" 2>/dev/null)
+    fi
+    if [[ -n "$tkt_json" && "$tkt_json" != "null" ]]; then
+      echo "$tkt_json|active-sprint-ready"
+      return 0
+    fi
+
+    return 1
+  }
+
+  # ── Step 3: Pipeline resolution ──
+  local result_ticket=""
+  local result_reason=""
+
+  # 3a. Try active sprint
+  if [[ -n "$active_sprint_id" ]]; then
+    local active_result
+    active_result=$(find_ticket_in_sprint "$active_sprint_id" "$active_sprint_name" "$agent_filter")
+    if [[ -n "$active_result" ]]; then
+      result_ticket=$(echo "$active_result" | cut -d'|' -f1)
+      result_reason=$(echo "$active_result" | cut -d'|' -f2-)
+      log "Found ticket in active sprint: reason=$result_reason"
+    fi
+  fi
+
+  # 3b. If no ticket in active sprint, try next committed sprint
+  if [[ -z "$result_ticket" && -n "$next_sprint_id" ]]; then
+    local next_result
+    next_result=$(find_ticket_in_sprint "$next_sprint_id" "$next_sprint_name" "$agent_filter")
+    if [[ -n "$next_result" ]]; then
+      result_ticket=$(echo "$next_result" | cut -d'|' -f1)
+      result_reason=$(echo "$next_result" | cut -d'|' -f2-)
+      # Override reason to next-sprint-ready
+      result_reason="next-sprint-ready"
+      log "Found ticket in next sprint: reason=$result_reason"
+    fi
+  fi
+
+  # 3c. If no ticket in any sprint, try backlog
+  if [[ -z "$result_ticket" ]]; then
+    local order_sql
+    order_sql="CASE WHEN LOWER(priority) IN ('critical','p0','urgent') THEN 0 WHEN LOWER(priority) IN ('high','p1') THEN 1 WHEN LOWER(priority) IN ('medium','p2','normal') THEN 2 WHEN LOWER(priority) IN ('low','p3') THEN 3 ELSE 99 END"
+    local backlog_tkt
+    if [[ -n "$agent_filter" ]]; then
+      backlog_tkt=$(pg_query "SELECT row_to_json(t)::text FROM $TICKET_TABLE t WHERE (sprint IS NULL OR sprint = '' OR sprint = 'Unassigned') AND status='open' AND (metadata->>'sprint_agent' = '$agent_filter' OR metadata->>'agent' = '$agent_filter') ORDER BY $order_sql ASC, id ASC LIMIT 1;" 2>/dev/null)
+    else
+      backlog_tkt=$(pg_query "SELECT row_to_json(t)::text FROM $TICKET_TABLE t WHERE (sprint IS NULL OR sprint = '' OR sprint = 'Unassigned') AND status='open' ORDER BY $order_sql ASC, id ASC LIMIT 1;" 2>/dev/null)
+    fi
+    if [[ -n "$backlog_tkt" && "$backlog_tkt" != "null" ]]; then
+      result_ticket="$backlog_tkt"
+      result_reason="backlog"
+      log "Found ticket in backlog: reason=$result_reason"
+    fi
+  fi
+
+  # ── Step 4: Build output JSON ──
+  local ticket_id=""
+  local ticket_title=""
+  local ticket_status=""
+  local ticket_priority=""
+  local ticket_sprint=""
+  local ticket_sprint_seq=""
+  local ticket_effort=""
+  local ticket_agent=""
+
+  if [[ -n "$result_ticket" && "$result_ticket" != "null" ]]; then
+    ticket_id=$(echo "$result_ticket" | $JQ -r '.id // ""' 2>/dev/null)
+    ticket_title=$(echo "$result_ticket" | $JQ -r '.title // ""' 2>/dev/null)
+    ticket_status=$(echo "$result_ticket" | $JQ -r '.status // ""' 2>/dev/null)
+    ticket_priority=$(echo "$result_ticket" | $JQ -r '.priority // ""' 2>/dev/null)
+    ticket_sprint=$(echo "$result_ticket" | $JQ -r '.sprint // ""' 2>/dev/null)
+    ticket_sprint_seq=$(echo "$result_ticket" | $JQ -r '.sprint_seq // ""' 2>/dev/null)
+    ticket_effort=$(echo "$result_ticket" | $JQ -r '.metadata.sprint_effort // (.metadata.effort // "")' 2>/dev/null)
+    ticket_agent=$(echo "$result_ticket" | $JQ -r '.metadata.sprint_agent // (.metadata.agent // "")' 2>/dev/null)
+  fi
+
+  # Compute completion for active sprint
+  local active_completion="0%"
+  if [[ -n "$active_sprint_id" ]]; then
+    local active_total
+    active_total=$(pg_query "SELECT COUNT(*) FROM $TICKET_TABLE WHERE sprint_id='$active_sprint_id';" 2>/dev/null | head -1)
+    local active_done
+    active_done=$(pg_query "SELECT COUNT(*) FROM $TICKET_TABLE WHERE sprint_id='$active_sprint_id' AND status IN ('closed','done','folded');" 2>/dev/null | head -1)
+    if [[ "${active_total:-0}" -gt 0 ]]; then
+      active_completion="$(( active_done * 100 / active_total ))%"
+    fi
+  fi
+
+  # Compute completion for next sprint
+  local next_completion="0%"
+  if [[ -n "$next_sprint_id" ]]; then
+    local next_total
+    next_total=$(pg_query "SELECT COUNT(*) FROM $TICKET_TABLE WHERE sprint_id='$next_sprint_id';" 2>/dev/null | head -1)
+    local next_done
+    next_done=$(pg_query "SELECT COUNT(*) FROM $TICKET_TABLE WHERE sprint_id='$next_sprint_id' AND status IN ('closed','done','folded');" 2>/dev/null | head -1)
+    if [[ "${next_total:-0}" -gt 0 ]]; then
+      next_completion="$(( next_done * 100 / next_total ))%"
+    fi
+  fi
+
+  # Build JSON output
+  $JQ -n     --arg ticket "${ticket_id:-null}"     --arg sprint "${ticket_sprint:-null}"     --arg sprint_seq "${ticket_sprint_seq:-null}"     --arg status "${ticket_status:-null}"     --arg priority "${ticket_priority:-null}"     --arg effort "${ticket_effort:-null}"     --arg agent "${ticket_agent:-null}"     --arg reason "${result_reason:-none-available}"     --arg cs_name "${active_sprint_name:-null}"     --arg cs_status "${active_sprint_status:-null}"     --arg cs_start "${active_sprint_start:-null}"     --arg cs_end "${active_sprint_end:-null}"     --arg cs_completion "${active_completion:-0%}"     --argjson cs_active ${active_sprint_is_active:-false}     --arg ns_name "${next_sprint_name:-null}"     --arg ns_status "${next_sprint_status:-null}"     --arg ns_start "${next_sprint_start:-null}"     --arg ns_end "${next_sprint_end:-null}"     --arg ns_completion "${next_completion:-0%}"     '{
+      ticket: (if $ticket == "null" then null else $ticket end),
+      sprint: (if $sprint == "null" then null else $sprint end),
+      sprint_seq: (if $sprint_seq == "null" then null else ($sprint_seq | tonumber) end),
+      status: (if $status == "null" then null else $status end),
+      priority: (if $priority == "null" then null else $priority end),
+      effort: (if $effort == "null" then null else $effort end),
+      agent: (if $agent == "null" then null else $agent end),
+      reason: $reason,
+      current_sprint: {
+        name: (if $cs_name == "null" then null else $cs_name end),
+        status: (if $cs_status == "null" then null else $cs_status end),
+        dates: (if $cs_start == "null" or $cs_end == "null" then null else "\($cs_start) to \($cs_end)" end),
+        completion: $cs_completion,
+        is_active: $cs_active
+      },
+      next_sprint: {
+        name: (if $ns_name == "null" then null else $ns_name end),
+        status: (if $ns_status == "null" then null else $ns_status end),
+        dates: (if $ns_start == "null" or $ns_end == "null" then null else "\($ns_start) to \($ns_end)" end),
+        completion: $ns_completion
+      }
+    }' 2>/dev/null
+}
+
+# ──────────────────────────────────────────────
+# SUBCOMMAND: activate [--dry-run]
+# TKT-0728: Transition any committed sprint whose start_date <= today to in_progress
+# ──────────────────────────────────────────────
+cmd_activate() {
+  local dry_run="false"
+
+  while [[ $# -gt 0 ]]; do
+    case "$1" in
+      --dry-run)
+        dry_run="true"
+        shift
+        ;;
+      --help)
+        echo "Usage: db-sprint.sh activate [--dry-run]"
+        echo "  Transitions committed sprints whose start_date <= today to in_progress."
+        echo "  --dry-run  Show what would change without writing."
+        return 0
+        ;;
+      *)
+        die "Unknown flag: $1. Use --dry-run"
+        ;;
+    esac
+  done
+
+  log "Checking for sprints to activate..."
+
+  # Find committed sprints whose start_date <= today
+  local sprints_to_activate
+  sprints_to_activate=$(pg_query "SELECT sprint_number, sprint_name, start_date::text, end_date::text FROM $SPRINT_TABLE WHERE status='committed' AND start_date <= CURRENT_DATE AND sprint_number > 0 ORDER BY sprint_number ASC;" 2>/dev/null)
+
+  if [[ -z "$sprints_to_activate" ]]; then
+    echo "{"action":"activate","status":"no-sprints-to-activate","transitions":[]}"
+    return 0
+  fi
+
+  local transitions_json="[]"
+  local count=0
+
+  while IFS='|' read -r snum sname sstart send; do
+    [[ -z "$snum" ]] && continue
+    ((count++))
+
+    if [[ "$dry_run" == "true" ]]; then
+      log "DRY RUN: Would activate $sname (start=$sstart, end=$send)"
+      transitions_json=$(echo "$transitions_json" | $JQ --arg sn "$sname" --arg snum "$snum" --arg sstart "$sstart" --arg send "$send" '. + [{
+        sprint_name: $sn,
+        sprint_number: ($snum | tonumber),
+        start_date: $sstart,
+        end_date: $send,
+        from_status: "committed",
+        to_status: "in_progress",
+        action: "would-activate"
+      }]' 2>/dev/null)
+    else
+      log "Activating $sname (start=$sstart, end=$send)"
+      pg_query "UPDATE $SPRINT_TABLE SET status='in_progress', updated_at=NOW() WHERE sprint_number=$snum AND status='committed';" > /dev/null 2>&1
+      local ret=$?
+      if [[ $ret -eq 0 ]]; then
+        transitions_json=$(echo "$transitions_json" | $JQ --arg sn "$sname" --arg snum "$snum" --arg sstart "$sstart" --arg send "$send" '. + [{
+          sprint_name: $sn,
+          sprint_number: ($snum | tonumber),
+          start_date: $sstart,
+          end_date: $send,
+          from_status: "committed",
+          to_status: "in_progress",
+          action: "activated"
+        }]' 2>/dev/null)
+        # Emit event for activation
+        local actor
+        actor=$(resolve_actor)
+        local act_payload
+        act_payload=$(/opt/homebrew/bin/jq -n --arg name "$sname" --arg num "$snum" --arg start "$sstart" --arg end "$send" '{sprint_name: $name, sprint_number: ($num | tonumber), start_date: $start, end_date: $end}' 2>/dev/null || echo '{"sprint_name":"'"$sname"'"}')
+        emit_event "$actor" "activated" "sprint" "$sname" "$act_payload" "committed" "in_progress"
+      else
+        log "WARNING: Failed to activate $sname"
+      fi
+    fi
+  done <<< "$sprints_to_activate"
+
+  local mode_label="LIVE"
+  [[ "$dry_run" == "true" ]] && mode_label="DRY RUN"
+
+  echo "$transitions_json" | $JQ --arg mode "$mode_label" --arg count "$count" '{
+    action: "activate",
+    status: "complete",
+    mode: $mode,
+    transitions_count: ($count | tonumber),
+    transitions: .
+  }' 2>/dev/null
+}
+
+# ──────────────────────────────────────────────
 # MAIN DISPATCH
 # ──────────────────────────────────────────────
 
@@ -1163,6 +1492,12 @@ main() {
     migrate)
       cmd_migrate "$@"
       ;;
+    next-ticket)
+      cmd_next_ticket "$@"
+      ;;
+    activate)
+      cmd_activate "$@"
+      ;;
     ceremony)
       cmd_ceremony "$@"
       ;;
@@ -1176,6 +1511,8 @@ Usage: db-sprint.sh <subcommand> [args...]
 
 Subcommands:
   current                              - Current sprint as JSON from PG
+  next-ticket [--agent <name>]        - Return next ticket to work as JSON (TKT-0728)
+  activate [--dry-run]                 - Transition committed sprints whose start_date <= today to in_progress
   commit <TKT-ID> <seq> <effort> <agent> - Commit ticket to sprint
   status [--sprint <name>]             - Sprint progress with dependency graph
   plan [--sprint <name>]               - Sprint planning view

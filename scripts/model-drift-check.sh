@@ -543,6 +543,30 @@ while IFS='|' read -r check_status a b c d e; do
 done <<< "$CREST_V13_OUTPUT" || true
 set -u
 
+
+echo ""
+echo "[ Model Context Drift (CHG-0756) ]"
+
+# Compare openclaw.json model contextWindow/num_ctx vs PG model_registry effective_context vs Ollama API
+python3 /tmp/warden-context-drift.py 2>/dev/null | while IFS="|" read -r check_status model_name rest; do
+  case "$check_status" in
+    PASS)
+      PASS=$((PASS + 1))
+      echo "  PASS  context:$model_name -> $rest"
+      ;;
+    FAIL)
+      FAIL=$((FAIL + 1))
+      echo "  FAIL  context:$model_name -> $rest [CONTEXT_DRIFT]"
+      FINDINGS+=("{\"agentId\":\"context.$model_name\",\"severity\":\"CONTEXT_DRIFT\",\"detail\":\"$rest\",\"detectedAt\":\"$AEST_TIMESTAMP\"}")
+      ;;
+    SKIP)
+      echo "  SKIP  context:$model_name -> $rest"
+      PASS=$((PASS + 1))
+      ;;
+  esac
+done
+
+
 echo ""
 echo "[ Default Config ]"
 check_default "primary" "ollama/gemma4:31b-cloud" "primary"  # Auto-derived from model-policy.json backend tier

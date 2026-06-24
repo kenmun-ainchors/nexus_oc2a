@@ -45,6 +45,9 @@ Triggered by: TKT-0501 "CREST synthesize and close" prompt where Yoda correctly 
 
 **Rule:** No tribal knowledge — reference skills, not inline memory.
 
+## Keyword Triggers
+- `/init` — run initialization: load all registered skills, verify readiness, return green-light summary. (Registered by Ken 2026-06-24.)
+
 ## Skills Loader — Canonical Path (TKT-0535, CHG-0623)
 - `scripts/skill-load.sh` is the **only** supported way to load a platform skill.
 - It validates against `infra/sandbox/seed/skills/.index.json` and fails closed for unknown/unapproved skills.

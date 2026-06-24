@@ -1168,8 +1168,19 @@ cmd_list() {
         ;;
       --sprint-current)
         # Resolve the active sprint from state_sprints and filter tickets by sprint_id FK
+        # TKT-0728: Use same date-window-aware resolution as db-sprint.sh get_current_sprint_name()
         local resolved_id
-        resolved_id=$(pg_query "SELECT id FROM state_sprints WHERE status = 'in_progress' ORDER BY updated_at DESC LIMIT 1;" 2>/dev/null | head -1 || true)
+        # 1. Check for in_progress sprint
+        resolved_id=$(pg_query "SELECT id FROM state_sprints WHERE status = 'in_progress' AND sprint_number > 0 ORDER BY sprint_number DESC LIMIT 1;" 2>/dev/null | head -1 || true)
+        # 2. Date-window match: any sprint whose start_date <= today AND end_date >= today
+        if [[ -z "$resolved_id" || "$resolved_id" == "null" ]]; then
+          resolved_id=$(pg_query "SELECT id FROM state_sprints WHERE start_date <= CURRENT_DATE AND end_date >= CURRENT_DATE AND sprint_number > 0 ORDER BY sprint_number DESC LIMIT 1;" 2>/dev/null | head -1 || true)
+        fi
+        # 3. Next upcoming committed sprint by start_date
+        if [[ -z "$resolved_id" || "$resolved_id" == "null" ]]; then
+          resolved_id=$(pg_query "SELECT id FROM state_sprints WHERE status IN ('committed','planning') AND start_date >= CURRENT_DATE ORDER BY start_date ASC LIMIT 1;" 2>/dev/null | head -1 || true)
+        fi
+        # 4. Most recent sprint by end_date
         if [[ -z "$resolved_id" || "$resolved_id" == "null" ]]; then
           resolved_id=$(pg_query "SELECT id FROM state_sprints ORDER BY end_date DESC NULLS LAST LIMIT 1;" 2>/dev/null | head -1 || true)
         fi

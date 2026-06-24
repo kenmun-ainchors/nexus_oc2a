@@ -25,6 +25,8 @@ Load this skill **before any ticket or sprint operation**. Mandatory for all age
 | Sync to Notion | `db-ticket.sh sync <ID>` | `bash scripts/db-ticket.sh sync TKT-0369` |
 | Validate tickets | `db-ticket.sh validate` | `bash scripts/db-ticket.sh validate` |
 | Current sprint | `db-sprint.sh current` | `bash scripts/db-sprint.sh current` |
+| Next ticket | `db-sprint.sh next-ticket [--agent <name>]` | `bash scripts/db-sprint.sh next-ticket --agent yoda` |
+| Activate sprint | `db-sprint.sh activate [--dry-run]` | `bash scripts/db-sprint.sh activate` |
 | Commit to sprint | `db-sprint.sh commit <ID> <seq> <effort> <agent>` | `bash scripts/db-sprint.sh commit TKT-0400 3 M forge` |
 | Sprint status | `db-sprint.sh status` | `bash scripts/db-sprint.sh status --sprint "Sprint 7"` |
 | Sprint plan | `db-sprint.sh plan` | `bash scripts/db-sprint.sh plan --sprint "Sprint 7"` |
@@ -269,11 +271,18 @@ bash scripts/db-ticket.sh validate
 ### Subcommand Catalog
 
 #### `current`
-Returns current sprint as JSON from PG. Detection priority:
-1. Active/committed sprint in `state_sprints`
-2. Most recent sprint by `sprint_number`
-3. Most common `sprint_target` in open tickets
-4. Default: "Sprint 7"
+Returns current sprint as JSON from PG. Detection priority (TKT-0728):
+1. Sprint with `status='in_progress'` (canonical active state)
+2. Sprint whose date window contains today (`start_date <= today <= end_date`)
+3. Next upcoming committed/planning sprint by start_date
+4. Most recent sprint by start_date
+5. Most common `sprint_target` in open tickets
+6. Default: "Sprint 7"
+
+**TKT-0728 change:** Added date-window awareness (step 2) before falling through to
+"next committed by start_date". This ensures a committed sprint whose date window
+contains today (e.g., Sprint 9: 2026-06-22 to 2026-06-28 on 2026-06-24) is correctly
+identified as the current sprint.
 
 Merges ticket counts (total/done) into the response.
 
@@ -351,6 +360,76 @@ For each ticket: checks if already in PG with correct sprint, detects conflicts 
 bash scripts/db-sprint.sh migrate --sprint "Sprint 7"
 bash scripts/db-sprint.sh migrate --sprint "Sprint 7" --dry-run
 ```
+
+#### `next-ticket [--agent <name>]` (TKT-0728)
+Returns the single, deterministic "next ticket to work" as JSON. This is the canonical answer to "what should I pick up now?" — used by agents at session start and by heartbeat/cron for bootstrap context injection.
+
+**Resolution pipeline (priority-ordered):**
+1. **In-progress ticket** in the current active sprint (resume semantics)
+2. **Highest-priority ready ticket** in the current active sprint (priority DESC, sprint_seq ASC)
+3. **Highest-priority ready ticket** in the next committed sprint (if current sprint is complete)
+4. **Backlog** — highest-priority open ticket with no sprint assignment
+
+**Current sprint resolution (same as `current` subcommand):**
+1. Sprint with `status='in_progress'` (canonical active state)
+2. Sprint whose date window contains today (`start_date <= today <= end_date`)
+3. Next upcoming committed/planning sprint by start_date
+4. Most recent sprint by start_date
+
+**Output JSON fields:**
+- `ticket` — TKT-ID of the next ticket (null if none available)
+- `sprint` — Sprint name the ticket belongs to
+- `sprint_seq` — Sequence number in the sprint
+- `status` — Current ticket status
+- `priority` — Ticket priority
+- `effort` — Estimated effort
+- `agent` — Assigned agent
+- `reason` — One of: `in-progress-resume`, `active-sprint-ready`, `next-sprint-ready`, `backlog`, `none-available`
+- `current_sprint` — Object with name, status, dates, completion, is_active
+- `next_sprint` — Object with name, status, dates, completion
+
+**Reason values:**
+| Reason | Meaning |
+|--------|---------|
+| `in-progress-resume` | Resume an in-progress ticket in the active sprint |
+| `active-sprint-ready` | Highest-priority ready ticket in the active sprint |
+| `next-sprint-ready` | Highest-priority ready ticket in the next committed sprint |
+| `backlog` | Highest-priority open ticket with no sprint assignment |
+| `none-available` | No work available anywhere |
+
+```bash
+bash scripts/db-sprint.sh next-ticket --agent yoda
+bash scripts/db-sprint.sh next-ticket --agent forge
+bash scripts/db-sprint.sh next-ticket  # any agent
+```
+
+**Consumption:**
+- Agents call this at session start to determine what to work on
+- Heartbeat/cron writes output to `state/next-ticket.json` for bootstrap context injection
+- `state/next-ticket.json` is a cache; PG remains SSOT
+
+**Agent filter guidance:**
+- **Orchestrators / Yoda** should call `bash scripts/db-sprint.sh next-ticket` without `--agent` to see the highest-priority next item across all agents and decide routing.
+- **Individual agents** should call `bash scripts/db-sprint.sh next-ticket --agent <name>` to see only tickets assigned to them.
+
+#### `activate [--dry-run]` (TKT-0728)
+Transitions any committed sprint whose `start_date <= today` to `status='in_progress'`. This is the automated mechanism that prevents "Sprint X has ended" errors — sprints are automatically activated when their start date arrives.
+
+**Behavior:**
+- Only affects sprints with `status='committed'` (not `planning` or `completed`)
+- Only affects sprints whose `start_date <= CURRENT_DATE`
+- Emits an `activated` event for each transition
+- `--dry-run` shows what would change without writing
+
+```bash
+bash scripts/db-sprint.sh activate
+bash scripts/db-sprint.sh activate --dry-run
+```
+
+**Integration:**
+- Run at least once per day via heartbeat or cron
+- Run on session start to ensure the current sprint is active
+- Safe to run multiple times (idempotent — only transitions `committed` → `in_progress`)
 
 ---
 

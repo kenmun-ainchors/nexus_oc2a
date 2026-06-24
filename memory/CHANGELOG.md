@@ -1,3 +1,76 @@
+## 2026-06-24 22:06 AEST — [CHG-0760] TKT-0728 / CHG-0759 doc update: clarify agent-filter usage for next-ticket
+**Type:** doc
+**Change Type:** Normal
+**Source:** ken-prompt
+**Trigger:** Ken directed that SKILL.md must explicitly document the unfiltered next-ticket pattern for Yoda routing decisions vs --agent mode for individual agent queues
+**What changed:** Add a short note to agent-skills/pg-sprint-backlog/SKILL.md next-ticket section clarifying: (1) Yoda / orchestrators should call next-ticket without --agent to see the overall next priority item for routing; (2) individual agents call next-ticket --agent <name> for their own queue
+**Why:** Prevent forge-assigned tickets from being ignored because Yoda only queries --agent yoda; document the intended consumption pattern
+**Verification:** Will verify by reading SKILL.md next-ticket section after patch
+**Rollback:** Revert the two-line documentation addition
+**Linked:** TKT-0728 CHG-0759
+---
+
+## 2026-06-24 22:01 AEST — [CHG-0759] TKT-0728 addendum: CRESTv2-P1 tracker override wrapper for next-ticket
+**Type:** script
+**Change Type:** Normal
+**Source:** ken-prompt
+**Trigger:** Ken approved CREST plan for one-off wrapper that lets state/crestv2-p1-tracker.json temporarily override db-sprint.sh next-ticket order without polluting the core pg-sprint-backlog skill
+**What changed:** Add scripts/next-ticket-tracker-override.sh [--agent] that calls db-sprint.sh next-ticket, reads state/crestv2-p1-tracker.json locked_execution_order, and returns the first tracker-mandated open/in-progress ticket matching the agent filter; falls back to base result if tracker absent or no match; emits state/next-ticket-override.json
+**Why:** Core next-ticket returns TKT-0530 for --agent yoda because Sprint 9 is active, but CRESTv2-P1 tracker has TKT-0721 in progress and should take precedence until tracker is retired
+**Verification:** Will verify with: bash scripts/next-ticket-tracker-override.sh --agent yoda returns TKT-0721
+**Rollback:** Delete wrapper and state/next-ticket-override.json; revert to core db-sprint.sh next-ticket
+**Linked:** TKT-0728 CHG-0758 TKT-0342
+---
+
+## 2026-06-24 21:42 AEST — [CHG-0758] Canonical next-ticket resolution in pg-sprint-backlog skill
+**Type:** script
+**Change Type:** Normal
+**Source:** ken-prompt
+**Trigger:** Ken approved Atlas+Thrawn design after Yoda failed to determine next ticket correctly: defaulted to raw Sprint 9 sequence and claimed Sprint 9 had ended
+**What changed:** Add db-sprint.sh next-ticket [--agent] subcommand with deterministic priority pipeline; fix get_current_sprint_name() to use date-window awareness; add db-sprint.sh activate or heartbeat/cron hook for committed->in_progress transitions; fix db-ticket.sh list --sprint-current resolution; generate state/next-ticket.json for bootstrap injection; update pg-sprint-backlog/SKILL.md
+**Why:** System has no canonical next-ticket resolver and no date-window awareness; multiple queries disagree on current sprint, causing wrong next-ticket answers and false sprint-ended conclusions
+**Verification:** Atlas diagnosed: db-sprint.sh current returns Sprint 10, db-ticket.sh list --sprint-current returns Sprint 11, raw query returns Sprint 9; sprint 9 (2026-06-22 to 2026-06-28) contains today 2026-06-24
+**Rollback:** Restore previous db-sprint.sh/db-ticket.sh versions from git; remove next-ticket subcommand; restore state/sprint-current.json usage
+**Linked:** TKT-0728 TKT-0342 TKT-0344 CHG-0756 CHG-0757
+---
+
+## 2026-06-24 20:41 AEST — [CHG-0757] CHG-0756 correction: split dynamic context resolution into TKT-0727
+**Type:** doc
+**Change Type:** Normal
+**Source:** ken-prompt
+**Trigger:** Ken approved Option 1 to keep TKT-0344 original scope untouched and create new ticket TKT-0727 for dynamic context resolution
+**What changed:** TKT-0344 brief reverted to original PG model_policy write scope; TKT-0727 created, sprint-committed to Sprint 10 seq 11 effort M agent forge epic TKT-0342; all CHG-0756 execution scope now tracks under TKT-0727
+**Why:** Avoid conflating two distinct technical outcomes under one ticket; preserve CREST groom/plan boundary
+**Verification:** db-ticket.sh read confirms TKT-0344 original metadata restored; TKT-0727 has correct brief and Sprint 10 commitment
+**Rollback:** Re-merge scopes by updating TKT-0344 brief and folding TKT-0727 into TKT-0344
+**Linked:** CHG-0756 TKT-0344 TKT-0727 TKT-0342
+---
+
+## 2026-06-24 20:38 AEST — [CHG-0756] Dynamic model context window resolution — hybrid PG + family fallback
+**Type:** config
+**Change Type:** Normal
+**Source:** ken-prompt
+**Trigger:** Ken approved CREST continuation of the 2026-06-24 kimi-k2.7-code:cloud context-window fix to make context limits dynamic instead of hardcoded
+**What changed:** Extend TKT-0344 scope to populate model_registry.max_context from Ollama API, add effective_context override, create scripts/sync-model-context.sh, emit state/model-context-registry.json, wire openclaw.json model blocks to registry, add nightly cron + gateway-restart sync, extend model-drift check to compare openclaw.json vs PG vs Ollama API
+**Why:** Hardcoded contextWindow (131072) for kimi-k2.7-code:cloud underutilized the model's advertised 262144 context_length; manual updates are brittle and error-prone as models are added or updated
+**Verification:** Yoda diagnostics: Ollama API reports kimi-k2.7-code:cloud context_length=262144 while openclaw.json was capped at 131072; model_registry.max_context column exists but is empty for all rows
+**Rollback:** Restore openclaw.json from timestamped backup; revert DDL additions or set effective_context override; disable sync cron; restore previous model_registry values from backup
+**Linked:** TKT-0344 TKT-0342 TKT-0317 CHG-0690
+---
+
+## 2026-06-24 20:23 AEST — [CHG-0755] WO-002 divergence 2026-06-24: 2 extra shadow rows from synthetic test ticket TKT-T0357-TEST-AGENT-EVT
+**Resolution (2026-06-24 20:26 AEST):** Deleted orphan shadow rows (loop_plan id=7034d6b8-8520-4346-b1a2-fa5d95c22c06, plan_atom id=de34b14e-7d9d-46e1-bc52-11c1eb98664b) from nexus_mirror via CASCADE DELETE. Re-ran divergence harness: match=716, extra=0, field_mismatch=4 (all allowlisted), unexplained=0. Alert file cleared. wo-002-state.json updated: divergence_status=GREEN, last_alert=null, last_divergence_check=2026-06-24T09:00:00+10:00.
+**Type:** config
+**Change Type:** Normal
+**Source:** ken-prompt
+**Trigger:** 2026-06-24 09:00 AEST WO-002 divergence alert: match=716, extra=2, field_mismatch=4, unexplained=2.
+**What changed:** Identified 2 orphan shadow rows (loop_plan + plan_atom) with source_tkt=TKT-T0357-TEST-AGENT-EVT in nexus_mirror. No matching live ticket in state_tickets. Real TKT-0357 is closed. 4 field mismatches are TKT-0734/TKT-9991 status cancelled→shadow active, already allowlisted via ALLOW-FM-001/002.
+**Why:** Mirror writer does not purge shadow rows for synthetic test tickets once live ticket is absent or renamed; prior test artifact cleanup (CHG-0670) handled TKT-9999/9998 but left TKT-T0357-TEST-AGENT-EVT orphan.
+**Verification:** Read workspace-infra/state/divergence-report-2026-06-24.json; queried live PG via db-ticket.sh read TKT-T0357 and TKT-T0357-TEST-AGENT-EVT; confirmed synthetic ID not in state_tickets.
+**Rollback:** Restore from nexus_mirror backup if available; or re-add orphan rows manually.
+**Linked:** WO-002,TKT-0357,TKT-T0357-TEST-AGENT-EVT,ALLOW-FM-001,ALLOW-FM-002
+---
+
 ## 2026-06-23 22:12 AEST — [CHG-0754] Move TKT-0739 from Sprint 11 to Sprint 9
 **Type:** data
 **Change Type:** Normal

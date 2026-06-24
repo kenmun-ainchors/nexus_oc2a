@@ -1,0 +1,23 @@
+{
+  "ticket": "TKT-0530",
+  "sprint": "Sprint 9",
+  "sprint_seq": 1,
+  "status": "open",
+  "priority": "P1",
+  "effort": "M",
+  "agent": "yoda",
+  "reason": "active-sprint-ready",
+  "current_sprint": {
+    "name": "Sprint 9",
+    "status": "in_progress",
+    "dates": "2026-06-22 to 2026-06-28",
+    "completion": "44%",
+    "is_active": true
+  },
+  "next_sprint": {
+    "name": "Sprint 10",
+    "status": "committed",
+    "dates": "2026-06-29 to 2026-07-05",
+    "completion": "25%"
+  }
+}
