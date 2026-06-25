@@ -1,18 +1,15 @@
 {
-  "generatedAt": "2026-06-20T23:29:26.055924+00:00",
+  "generatedAt": "2026-06-25T10:49:46.695918+00:00",
   "failures": [
     {
-      "cronId": "85595417",
-      "fullCronId": "85595417-73d0-416d-b6ff-d5b6578762a7",
-      "name": "PG-Notion Integrity Audit (daily)",
-      "consecutiveErrors": 4,
+      "cronId": "a1ce9946",
+      "fullCronId": "a1ce9946-43c1-4100-a745-c9c6a0320c30",
+      "name": "TKT-0343-daily-config-snapshot",
+      "consecutiveErrors": 3,
       "lastError": "error",
       "source": "live-cron-state"
     }
   ],
   "warnings": [],
-  "acknowledged": true,
-  "acknowledgedAt": "2026-06-23T18:15:00+10:00",
-  "acknowledgedBy": "Ken Mun",
-  "acknowledgementNote": "Cron is disabled; alert is stale. No active failure."
+  "acknowledged": false
 }

@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "updatedAt": "2026-06-24T17:00:21.133Z",
+  "updatedAt": "2026-06-25T10:58:07.944Z",
   "entries": {
     "memory:memory/2026-04-26.md:94:122": {
       "key": "memory:memory/2026-04-26.md:94:122",
@@ -1919,22 +1919,24 @@
       "endLine": 112,
       "source": "memory",
       "snippet": "**Status:** Open **Root cause:** CHG-0139 rotated Anthropic API key in OpenClaw config but DID NOT update macOS Keychain entry `anthropic-api-key`. Gateway/main session: working ✅. All scripts using keychain (outage-detect.sh, health-check.sh) + agent heartbeats (Aria, Shield, Lex, Sage): 401 ❌. **Ken action required:** ``` security add-generic-password -U -s \"anthropic-api-key\" -a \"anthropic\" -w \"<NEW_KEY>\" ``` **Standby-mode.json + system-banner.json:** Active (cannot auto-clear until keychain fixed) **Incident file:** state/incidents/INC-20260503-001.json --- ## Afternoon Session (13:00–21:21 AEST) — Appended at /commit ### Key Decisions & Actions **Notion as single source of truth",
-      "recallCount": 3,
+      "recallCount": 4,
       "dailyCount": 0,
       "groundedCount": 0,
-      "totalScore": 1.3165802419185637,
-      "maxScore": 0.4618096143007278,
+      "totalScore": 1.7923973113298415,
+      "maxScore": 0.4758170694112777,
       "firstRecalledAt": "2026-05-13T02:49:49.249Z",
-      "lastRecalledAt": "2026-05-23T13:58:22.418Z",
+      "lastRecalledAt": "2026-06-25T10:44:12.372Z",
       "queryHashes": [
         "3011c26dc143",
         "982e7a7ca2d8",
-        "4a2d0beecff6"
+        "4a2d0beecff6",
+        "c9fd2f0883ec"
       ],
       "recallDays": [
         "2026-05-13",
         "2026-05-21",
-        "2026-05-23"
+        "2026-05-23",
+        "2026-06-25"
       ],
       "conceptTags": [
         "gateway",
@@ -2092,14 +2094,14 @@
       "startLine": 51,
       "endLine": 69,
       "source": "memory",
-      "snippet": "- Initial confusion: thought MDP was for organic post analytics → actually organic metrics come from Advertising API product - **Re-auth required** — lengthy debugging session: - Client secret was stale (Ken may have viewed/regenerated in portal while checking MDP status) - PKCE had to be removed from linkedin-auth.sh (LinkedIn wasn't accepting the code_challenge) - redirect_uri `http://localhost:8765/callback` confirmed registered correctly - Client secret re-copied without extra chars (was 33 chars ending = suggesting encoding issue) - **Final result:** Token successfully issued - Scopes: `email openid profile r_1st_connections_size r_ads r_ads_reporting r_basicprofile r_organization_admin r_organization_social w_member_social` - Valid to: 2026-07-12 - CHG-0305 logged - **AInchors company page:** Exists on LinkedIn, onboarding deferred until Ken finishes testing from personal profile - Trigger `05f9d2ef` set to auto-activate company page analytics when Ken says to onboard ### Standup Email Format Issue (Day 20) - Ken flagged Day 20 email format as incorrect - Reference: Day 19 email (\"AInchors Stand-up — Day 19 | 13 May 2026\") - Investigation revealed: Day 19 email was actually sent with Day 18 canvas content (canvas write failed that run, Phase 4 email pulled stale canvas HTML) - Day 20 uses current GitHub-style cards template (same as standup-template-locked.html from Day 18) - **Unresolved at session end** — Ken needs to describe specifically what's wrong before fix can be applied",
-      "recallCount": 9,
+      "snippet": "- Initial confusion: thought MDP was for organic post analytics → actually organic metrics come from Advertising API product - **Re-auth required** — lengthy debugging session: - Client secret was stale (Ken may have viewed/regenerated in portal while checking MDP status) - PKCE had to be removed from linkedin-auth.sh (LinkedIn wasn't accepting the code_challenge) - redirect_uri `http://localhost:8765/callback` confirmed registered correctly - Client secret re-copied without extra chars (was 33 chars ending = suggesting encoding issue) - **Final result:** Token successfully issued - Scopes: `email openid profile r_1st_connections_size r_ads r_ads_reporting r_basicprofile r_organiza",
+      "recallCount": 10,
       "dailyCount": 0,
       "groundedCount": 0,
-      "totalScore": 5.020839234924719,
+      "totalScore": 5.494237065053389,
       "maxScore": 0.7248716174889975,
       "firstRecalledAt": "2026-05-16T23:17:17.584Z",
-      "lastRecalledAt": "2026-06-22T21:31:03.127Z",
+      "lastRecalledAt": "2026-06-25T10:44:12.372Z",
       "queryHashes": [
         "a8a843104824",
         "8381490e60ea",
@@ -2108,7 +2110,8 @@
         "34dde07eac11",
         "43c0e1e7b564",
         "1c11f815e7f8",
-        "f41cdeecc956"
+        "f41cdeecc956",
+        "c9fd2f0883ec"
       ],
       "recallDays": [
         "2026-05-17",
@@ -2119,7 +2122,8 @@
         "2026-05-26",
         "2026-05-28",
         "2026-06-23",
-        "2026-06-22"
+        "2026-06-22",
+        "2026-06-25"
       ],
       "conceptTags": [
         "re-auth",
@@ -2273,19 +2277,21 @@
       "endLine": 439,
       "source": "memory",
       "snippet": "- Aria daily brief showed 0 Angie activity for 8+ days — root cause: brief cron runs ISOLATED, no visibility into Aria's Telegram sessions. Fixed: cron now uses sessions_history as ground truth - **Standup rebuilt as two-layer format:** - Layer 1: 1 Telegram flash message only (~500 chars) — health + balance + action items + RTB picks - Layer 2: Canvas HTML full brief at `/Users/ainchorsangiefpl/.openclaw/canvas/documents/standup-daily/index.html` - Layer 3 (added): Email delivery to kenmun@gmail.com (CHG-0209) — full HTML brief, failsafe if webchat not accessible - Layer 4: Webchat embed auto-drops in main session after each run - **Kimi RTB tag tightened** — unmissable `🤖 KIMI R",
-      "recallCount": 1,
+      "recallCount": 2,
       "dailyCount": 0,
       "groundedCount": 0,
-      "totalScore": 0.4231817692518234,
-      "maxScore": 0.4231817692518234,
+      "totalScore": 0.9294781744480133,
+      "maxScore": 0.5062964051961899,
       "firstRecalledAt": "2026-05-17T22:03:30.022Z",
-      "lastRecalledAt": "2026-05-17T22:03:30.022Z",
+      "lastRecalledAt": "2026-06-25T10:38:26.785Z",
       "queryHashes": [
-        "10edc0844b07"
+        "10edc0844b07",
+        "83f57e26b1c0"
       ],
       "recallDays": [
         "2026-05-18",
-        "2026-05-17"
+        "2026-05-17",
+        "2026-06-25"
       ],
       "conceptTags": [
         "sessions-history",
@@ -2819,18 +2825,20 @@
       "endLine": 139,
       "source": "memory",
       "snippet": "- Token expiry: 2026-07-02 | Credentials in Keychain only - linkedin-auth.sh, linkedin-post.sh, linkedin-metrics.sh built - TKT-0034 resolved **OpenClaw updated 2026.4.24 → 2026.5.2 (CHG-0138)** - TRIGGER-04 actioned. Pre-checks: stale plugin dir cleared, git committed - PVT 10/10. pvt.sh memory check updated for v2026.5.x **Anthropic API key rotated to AInchors account (CHG-0139)** - accounts@ainchors.com. Balance: $495.26 USD. All tiers reset. - Old personal key retired. INC-20260503-001 resolved (keychain updated). **LinkedIn Authority Campaign — Week 1 approved** - Proposal v2 approved. Company name corrected: Ainchor Solutions Pty Ltd - Ken's positioning: AI Consultant, not Founder -",
-      "recallCount": 1,
+      "recallCount": 2,
       "dailyCount": 0,
       "groundedCount": 0,
-      "totalScore": 0.5024130970239639,
+      "totalScore": 1.0035251170396804,
       "maxScore": 0.5024130970239639,
       "firstRecalledAt": "2026-05-20T05:38:58.432Z",
-      "lastRecalledAt": "2026-05-20T05:38:58.432Z",
+      "lastRecalledAt": "2026-06-25T10:44:12.372Z",
       "queryHashes": [
-        "f492221c3125"
+        "f492221c3125",
+        "c9fd2f0883ec"
       ],
       "recallDays": [
-        "2026-05-20"
+        "2026-05-20",
+        "2026-06-25"
       ],
       "conceptTags": [
         "linkedin-auth.sh",
@@ -3156,20 +3164,22 @@
       "endLine": 44,
       "source": "memory",
       "snippet": "- Warm nudge delivery changed to reply-in-session (auto-routes via Aria's bot) - State file: `state/telegram-routing-audit.json` ### TKT-0077 — Persistent Agent Configuration (Stateless Bootstrap) - **Raised:** All rules and configs agents need must be persistent and stateless — written to files, bootstrapped on load - **7 ACs locked** covering: routing policies in files, bootstrap manifest, PVT validation, auto-heal drift detection, new agent/bot/client onboarding gate, git-versioned configs, RULES.md templates - **AC8–AC11 added** after Holocron audit (systemic gap confirmed): - AC8: `state/agent-registry.json` as SSOT for all agents - AC9: Holocron daily cron reads from agent-regis",
-      "recallCount": 2,
+      "recallCount": 3,
       "dailyCount": 0,
       "groundedCount": 0,
-      "totalScore": 0.9373751133680344,
+      "totalScore": 1.3977377444505692,
       "maxScore": 0.4763376504182815,
       "firstRecalledAt": "2026-05-21T05:21:28.385Z",
-      "lastRecalledAt": "2026-05-27T09:26:17.805Z",
+      "lastRecalledAt": "2026-06-25T10:58:07.944Z",
       "queryHashes": [
         "e3ca283e7754",
-        "58eccb1e2b50"
+        "58eccb1e2b50",
+        "cfd3334d14bc"
       ],
       "recallDays": [
         "2026-05-21",
-        "2026-05-27"
+        "2026-05-27",
+        "2026-06-25"
       ],
       "conceptTags": [
         "reply-in-session",
@@ -4138,21 +4148,23 @@
       "endLine": 211,
       "source": "memory",
       "snippet": "- LI-C1-W2-P3 — Pushed to Thu 14 May 07:30 AEST. APPROVED by Ken. - LI-C1-W2-P3 image received from Ken via Telegram, uploaded to LinkedIn → `urn:li:image:D4E10AQFaOFkuxvNOzA`. Saved to workspace-social/images/linkedin/LI-C1-W2-P3/image.jpg ## Spark Rules Added (2026-05-13) 1. Never use em dash \"—\". Use hyphen \"-\" only when absolutely necessary. 2. Never reveal product or agent names — use generic references/labels only. ## Crons Re-triggered After Key Recovery All 6 failed crons manually re-triggered at ~13:04 AEST. All recovered successfully. ## Stand-Up Issues — CHG-0281 / CHG-0282 / L-029 - **Root cause:** Write tool does not expand `~` in isolated sessions. Canvas write silently f",
-      "recallCount": 2,
+      "recallCount": 3,
       "dailyCount": 0,
       "groundedCount": 0,
-      "totalScore": 0.8358087658882141,
-      "maxScore": 0.4247567594051361,
+      "totalScore": 1.3006599634885787,
+      "maxScore": 0.46485119760036464,
       "firstRecalledAt": "2026-05-27T01:52:43.759Z",
-      "lastRecalledAt": "2026-05-28T22:06:43.490Z",
+      "lastRecalledAt": "2026-06-25T10:38:33.611Z",
       "queryHashes": [
         "245f22230cbb",
-        "cd84dc36aa81"
+        "cd84dc36aa81",
+        "f90362ed788e"
       ],
       "recallDays": [
         "2026-05-27",
         "2026-05-29",
-        "2026-05-28"
+        "2026-05-28",
+        "2026-06-25"
       ],
       "conceptTags": [
         "li-c1-w2-p3",
@@ -4626,22 +4638,24 @@
       "endLine": 182,
       "source": "memory",
       "snippet": "- TKT-0396 implemented (isolation → repoint → verify) - Phase 3.1 hand-delete unnecessary — isolation subsumes it - Ready for Phase 4 (reconcile), Phase 5 (propagation proof), Phase 6 (clock reset) — Ken's phases, Yoda waits ## Sprint 7 State - **Tickets closed:** TKT-0369, TKT-0391, TKT-0392, TKT-0393, TKT-0399, TKT-0400, TKT-0403 - **Tickets in progress:** TKT-0395 (Phase 4-6 pending), TKT-0396 (implementation done, close pending), TKT-0401 (not started) - **New tickets unassigned:** TKT-0390, TKT-0394, TKT-0397, TKT-0398, 5 deferred items - **CHG entries:** 0482 through 0492",
-      "recallCount": 5,
+      "recallCount": 6,
       "dailyCount": 0,
       "groundedCount": 0,
-      "totalScore": 2.217988848686218,
-      "maxScore": 0.4643855035305023,
+      "totalScore": 2.6944870501756664,
+      "maxScore": 0.4764982014894485,
       "firstRecalledAt": "2026-06-23T14:33:44.037Z",
-      "lastRecalledAt": "2026-06-24T08:46:31.312Z",
+      "lastRecalledAt": "2026-06-25T10:58:07.944Z",
       "queryHashes": [
         "315e238e050a",
         "38ed7b22e4a0",
         "b68df6f6694a",
-        "884926e3a39f"
+        "884926e3a39f",
+        "cfd3334d14bc"
       ],
       "recallDays": [
         "2026-06-24",
-        "2026-06-23"
+        "2026-06-23",
+        "2026-06-25"
       ],
       "conceptTags": [
         "tkt-0396",
@@ -38075,6 +38089,316 @@
         "state-tickets.ticket-number",
         "state-tickets-number-seq",
         "db-ticket.sh"
+      ]
+    },
+    "memory:memory/2026-05-07.md:200:222": {
+      "key": "memory:memory/2026-05-07.md:200:222",
+      "path": "memory/2026-05-07.md",
+      "startLine": 200,
+      "endLine": 222,
+      "source": "memory",
+      "snippet": "- Governance maturity was mis-summarised — now reads verbatim from frameworks-maturity.json (actual: L2-L3, NOT L0) - Aria daily brief showed 0 Angie activity for 8+ days — root cause: brief cron runs ISOLATED, no visibility into Aria's Telegram sessions. Fixed: cron now uses sessions_history as ground truth - **Standup rebuilt as two-layer format:** - Layer 1: 1 Telegram flash message only (~500 chars) — health + balance + action items + RTB picks - Layer 2: Canvas HTML full brief at `/Users/ainchorsangiefpl/.openclaw/canvas/documents/standup-daily/index.html` - Layer 3 (added): Email delivery to kenmun@gmail.com (CHG-0209) — full HTML brief, failsafe if webchat not accessible -",
+      "recallCount": 1,
+      "dailyCount": 0,
+      "groundedCount": 0,
+      "totalScore": 0.4808510214090347,
+      "maxScore": 0.4808510214090347,
+      "firstRecalledAt": "2026-06-25T10:38:26.785Z",
+      "lastRecalledAt": "2026-06-25T10:38:26.785Z",
+      "queryHashes": [
+        "83f57e26b1c0"
+      ],
+      "recallDays": [
+        "2026-06-25"
+      ],
+      "conceptTags": [
+        "mis-summarised",
+        "frameworks-maturity.json",
+        "l2-l3",
+        "sessions-history",
+        "two-layer",
+        "users/ainchorsangiefpl",
+        "gmail.com",
+        "chg-0209"
+      ]
+    },
+    "memory:memory/2026-06-20.md:203:230": {
+      "key": "memory:memory/2026-06-20.md:203:230",
+      "path": "memory/2026-06-20.md",
+      "startLine": 203,
+      "endLine": 230,
+      "source": "memory",
+      "snippet": "- Pending Angie's LinkedIn decisions (company page vs cross-post; image generation approval for Week 2 Movement II). - CHG-0688 (footer fix) and CHG-0689 (verification ping) logged. ## 2026-06-20 16:10 AEST — Aria memory updated and Angie outreach confirmed - Aria's memory file updated with CR-001/CR-002 reconciliation and live LinkedIn API status. - Aria confirmed she sent a message to Angie via Telegram and is waiting for two decisions: 1. Company page only vs cross-post to personal profile 2. Image generation approval for Week 2 posts - Yoda remains tech-escalation standby only. ## 2026-06-20 16:11 AEST — CR-002 handoff complete; awaiting Angie response - Aria confirmed Angie's outr",
+      "recallCount": 1,
+      "dailyCount": 0,
+      "groundedCount": 0,
+      "totalScore": 0.47742789983749384,
+      "maxScore": 0.47742789983749384,
+      "firstRecalledAt": "2026-06-25T10:41:54.474Z",
+      "lastRecalledAt": "2026-06-25T10:41:54.474Z",
+      "queryHashes": [
+        "d4c09ce35631"
+      ],
+      "recallDays": [
+        "2026-06-25"
+      ],
+      "conceptTags": [
+        "cross-post",
+        "chg-0688",
+        "chg-0689",
+        "cr-001/cr-002",
+        "tech-escalation",
+        "cr-002",
+        "pending",
+        "angie's"
+      ]
+    },
+    "memory:memory/2026-05-13.md:39:67": {
+      "key": "memory:memory/2026-05-13.md:39:67",
+      "path": "memory/2026-05-13.md",
+      "startLine": 39,
+      "endLine": 67,
+      "source": "memory",
+      "snippet": "- LI-C1-W2-P1 — SKIPPED (auth failed, already out of order — P2 posted first on May 12) - LI-C1-W2-P3 — Pushed to Thu 14 May 07:30 AEST. APPROVED by Ken. - LI-C1-W2-P3 image needs to be saved to: `/Users/ainchorsangiefpl/.openclaw/workspace/workspace-social/images/linkedin/LI-C1-W2-P3/image.png` ## Spark Rules Added (2026-05-13) 1. Never use em dash \"—\". Use hyphen \"-\" only when absolutely necessary. 2. Never reveal product or agent names — use generic references/labels only. ## Crons Re-triggered After Key Recovery All 6 failed crons manually re-triggered at ~13:04 AEST. All recovered successfully. ## Stand-up - Day 20, 13 May. Stand-up ran late (~13:30 AEST) due to morning key outage",
+      "recallCount": 1,
+      "dailyCount": 0,
+      "groundedCount": 0,
+      "totalScore": 0.485252845287323,
+      "maxScore": 0.485252845287323,
+      "firstRecalledAt": "2026-06-25T10:44:12.372Z",
+      "lastRecalledAt": "2026-06-25T10:44:12.372Z",
+      "queryHashes": [
+        "c9fd2f0883ec"
+      ],
+      "recallDays": [
+        "2026-06-25"
+      ],
+      "conceptTags": [
+        "li-c1-w2-p1",
+        "li-c1-w2-p3",
+        "users/ainchorsangiefpl",
+        "references/labels",
+        "re-triggered",
+        "stand-up",
+        "skipped",
+        "auth"
+      ]
+    },
+    "memory:memory/2026-05-09.md:123:138": {
+      "key": "memory:memory/2026-05-09.md:123:138",
+      "path": "memory/2026-05-09.md",
+      "startLine": 123,
+      "endLine": 138,
+      "source": "memory",
+      "snippet": "- Fix: Add explicit guard — if `in_body` never flipped True after parsing, fail loudly: `sys.exit(\"ERROR: No --- delimiters found in content file. Cannot post.\")` - Rule: **Content files for linkedin-post.sh MUST wrap post body in `---` delimiters. Script must validate this before any API call.** **L-021: LinkedIn API delete requires scope not in current token** - Root cause: DELETE `https://api.linkedin.com/rest/posts/{urn}` requires `w_member_social` with delete permission. Current token scope only covers post creation → returns HTTP 404 (misleadingly, not 403) - Symptom: API delete returns 404 even for posts we just created - Fix: Manual delete from LinkedIn UI required until token is r",
+      "recallCount": 1,
+      "dailyCount": 0,
+      "groundedCount": 0,
+      "totalScore": 0.4717032194137573,
+      "maxScore": 0.4717032194137573,
+      "firstRecalledAt": "2026-06-25T10:44:12.372Z",
+      "lastRecalledAt": "2026-06-25T10:44:12.372Z",
+      "queryHashes": [
+        "c9fd2f0883ec"
+      ],
+      "recallDays": [
+        "2026-06-25"
+      ],
+      "conceptTags": [
+        "in-body",
+        "sys.exit",
+        "linkedin-post.sh",
+        "l-021",
+        "api.linkedin.com/rest/posts",
+        "w-member-social",
+        "fix",
+        "add"
+      ]
+    },
+    "memory:memory/2026-06-10.md:158:178": {
+      "key": "memory:memory/2026-06-10.md:158:178",
+      "path": "memory/2026-06-10.md",
+      "startLine": 158,
+      "endLine": 178,
+      "source": "memory",
+      "snippet": "- db-ticket.sh, db-sprint.sh, pg-to-notion-sync.sh, dispatch-validate.sh → pg-sprint-backlog - changelog-append.sh → changelog - telegram-alert.sh → telegram - **All 6 scripts retrofitted** with gate preamble (cross-shell compatible: `${0:A:h}` for zsh, `${BASH_SOURCE[0]%/*}` for bash). - **Tests (4/4):** No registry → BLOCKED, correct skill → PASS, wrong skill → BLOCKED with context, cross-shell compat. - **AGENTS.md updated:** Platform Rules table + Dispatch Boundaries section include skill-loading requirement. - **CHG-0492 logged.** Journal entry. ## L-066 Logged - 2026-06-10 | Discipline | Load skills before operations, don't rely on tribal memory - Yoda performed PG ticket/sprint",
+      "recallCount": 1,
+      "dailyCount": 0,
+      "groundedCount": 0,
+      "totalScore": 0.4861378371715545,
+      "maxScore": 0.4861378371715545,
+      "firstRecalledAt": "2026-06-25T10:58:07.944Z",
+      "lastRecalledAt": "2026-06-25T10:58:07.944Z",
+      "queryHashes": [
+        "cfd3334d14bc"
+      ],
+      "recallDays": [
+        "2026-06-25"
+      ],
+      "conceptTags": [
+        "db-ticket.sh",
+        "db-sprint.sh",
+        "pg-to-notion-sync.sh",
+        "dispatch-validate.sh",
+        "pg-sprint-backlog",
+        "changelog-append.sh",
+        "telegram-alert.sh",
+        "cross-shell"
+      ]
+    },
+    "memory:memory/2026-06-22.md:43:67": {
+      "key": "memory:memory/2026-06-22.md:43:67",
+      "path": "memory/2026-06-22.md",
+      "startLine": 43,
+      "endLine": 67,
+      "source": "memory",
+      "snippet": "- `db-sprint.sh current/status/plan` verified working after FK-join changes. **A7 verification status:** - `agent_events` schema: matches §1.1 contract (id, event_id, actor, event_type, timestamp, tenant_id, entity_type, entity_id, prev_state, new_state, hash, prev_hash). - Indexes present: `idx_agent_events_entity`, `idx_agent_events_actor`. - `pg_write_event` function returns `(event_id_out, hash_out)` and writes deterministically. - Ticket create/update emits events (EVT-9/10 for TKT-0734). - `changelog-append.sh` emits CHG events (EVT-11 for CHG-0717). - Sprint commit emits events (EVT-12/13). - Hash chain integrity: 0 broken links across 15 events. - Rollback dry-run on copy of `infra/",
+      "recallCount": 1,
+      "dailyCount": 0,
+      "groundedCount": 0,
+      "totalScore": 0.4718449115753173,
+      "maxScore": 0.4718449115753173,
+      "firstRecalledAt": "2026-06-25T10:58:07.944Z",
+      "lastRecalledAt": "2026-06-25T10:58:07.944Z",
+      "queryHashes": [
+        "cfd3334d14bc"
+      ],
+      "recallDays": [
+        "2026-06-25"
+      ],
+      "conceptTags": [
+        "db-sprint.sh",
+        "current/status/plan",
+        "fk-join",
+        "agent-events",
+        "1.1",
+        "event-id",
+        "event-type",
+        "tenant-id"
+      ]
+    },
+    "memory:memory/2026-06-10.md:20:38": {
+      "key": "memory:memory/2026-06-10.md:20:38",
+      "path": "memory/2026-06-10.md",
+      "startLine": 20,
+      "endLine": 38,
+      "source": "memory",
+      "snippet": "- All agents on deepseek-v4-pro primary (Claude credits depleted, CONSERVATIVE MODE) - OC1 (Mac Mini M4 24GB) — production, no local inference >~8B - OC2-A/B — ETA 6-13 Jul 2026, commission ~27 Jul - Sprint 7 effectively closed, Sprint 8 has 22 tickets planned ## Open Items for Next Session - Sprint 8 planning formalization - TKT-0370 (Flash dispatcher) — hybrid model, Plan on pro, dispatch on flash - TKT-0390 (T3 Episodic Log) — Sprint 8 seq 9 - 5 items deferred from Sprint 7 to Sprint 8 - Sprint 7 retrospective ## WO-002 Mirror-Writer Investigation (Evening Session) - WO-002 Divergence ALERT triggered: 36 unexplained divergences (594 matches, 15 missing, 20 extra, 8 field mismatches) - R",
+      "recallCount": 1,
+      "dailyCount": 0,
+      "groundedCount": 0,
+      "totalScore": 0.46542157530784606,
+      "maxScore": 0.46542157530784606,
+      "firstRecalledAt": "2026-06-25T10:58:07.944Z",
+      "lastRecalledAt": "2026-06-25T10:58:07.944Z",
+      "queryHashes": [
+        "cfd3334d14bc"
+      ],
+      "recallDays": [
+        "2026-06-25"
+      ],
+      "conceptTags": [
+        "deepseek-v4-pro",
+        "oc2-a/b",
+        "6-13",
+        "tkt-0370",
+        "tkt-0390",
+        "wo-002",
+        "mirror-writer",
+        "all"
+      ]
+    },
+    "memory:memory/2026-06-10.md:105:132": {
+      "key": "memory:memory/2026-06-10.md:105:132",
+      "path": "memory/2026-06-10.md",
+      "startLine": 105,
+      "endLine": 132,
+      "source": "memory",
+      "snippet": "- Yoda dispatched Atlas to review mirror-writer PR without verifying source files existed. Mirror-writer was scaffold-only at local SHA 13caa628 — no implementation. Wasted review cycle. - Prevention: Before dispatching review, read/verify target files. Never dispatch review against hypothetical code. - Linked: TKT-0395, TKT-0403, WO-002 ## L-066 (To Log Next Session) - 2026-06-10 | Discipline | Load skills before operations, don't rely on tribal memory - Yoda performed PG ticket/sprint operations from memory instead of loading pg-sprint-backlog skill. Ken caught it. - Prevention: Before any ticket/sprint/changelog/model-routing/telegram operation, load the corresponding skill. Progressive",
+      "recallCount": 1,
+      "dailyCount": 0,
+      "groundedCount": 0,
+      "totalScore": 0.46203204095363615,
+      "maxScore": 0.46203204095363615,
+      "firstRecalledAt": "2026-06-25T10:58:07.944Z",
+      "lastRecalledAt": "2026-06-25T10:58:07.944Z",
+      "queryHashes": [
+        "cfd3334d14bc"
+      ],
+      "recallDays": [
+        "2026-06-25"
+      ],
+      "conceptTags": [
+        "mirror-writer",
+        "scaffold-only",
+        "read/verify",
+        "tkt-0395",
+        "tkt-0403",
+        "wo-002",
+        "l-066",
+        "ticket/sprint"
+      ]
+    },
+    "memory:memory/2026-06-13.md:245:257": {
+      "key": "memory:memory/2026-06-13.md:245:257",
+      "path": "memory/2026-06-13.md",
+      "startLine": 245,
+      "endLine": 257,
+      "source": "memory",
+      "snippet": "1. **Routing skill declares a model-task matrix that doesn't match reality** (forges + deepseek-v4-flash referenced for agents that don't exist) 2. **No enforcement at the dispatch layer** — `dispatch-validate.sh` (TKT-0323) only validates dispatch packets, doesn't refuse \"Yoda is about to do cheap-tier work\" **Possible fixes (Ken to choose):** - **Path A — Register the agents:** Onboard Forge/Atlas/Thrawn as proper agents with SOUL.md, MEMORY.md, model-routing, and create sub-agent endpoints via `sessions_spawn` with `modelOverride: \"deepseek-v4-flash\"`. Then CREST routing works as written. - **Path B — Update the routing rules to reflect reality:** Until T3 agents are onboarded, Yoda exec",
+      "recallCount": 1,
+      "dailyCount": 0,
+      "groundedCount": 0,
+      "totalScore": 0.4610701113939285,
+      "maxScore": 0.4610701113939285,
+      "firstRecalledAt": "2026-06-25T10:58:07.944Z",
+      "lastRecalledAt": "2026-06-25T10:58:07.944Z",
+      "queryHashes": [
+        "cfd3334d14bc"
+      ],
+      "recallDays": [
+        "2026-06-25"
+      ],
+      "conceptTags": [
+        "model-task",
+        "deepseek-v4-flash",
+        "dispatch-validate.sh",
+        "tkt-0323",
+        "cheap-tier",
+        "forge/atlas/thrawn",
+        "soul.md",
+        "memory.md"
+      ]
+    },
+    "memory:memory/2026-05-08.md:71:92": {
+      "key": "memory:memory/2026-05-08.md:71:92",
+      "path": "memory/2026-05-08.md",
+      "startLine": 71,
+      "endLine": 92,
+      "source": "memory",
+      "snippet": "- Atlas assigned. Ready to fire pending Ken approval. ## tickets.json corruption - tickets.json was corrupted (1 byte) — fixed, reset to sequence 104 - Local ticket history (TKT-0001 to TKT-0103) lost from local file - Ken confirmed: not required. Notion AKB Backlog is SSOT. - No backfill needed. ## Standup Template Fix - All body text now light (#e6edf3) — rollback of muted grey label text - Rule: all body text light on dark background, no special muting - Label text approach was wrong — Ken corrected ## Late Session (19:00–20:08 AEST) - Sprint Review done (formal, per Agile framework) - `/sprint` command added — Burndown Review (on-demand). Distinction locked: Sprint Review = Friday sta",
+      "recallCount": 1,
+      "dailyCount": 0,
+      "groundedCount": 0,
+      "totalScore": 0.4595611900091171,
+      "maxScore": 0.4595611900091171,
+      "firstRecalledAt": "2026-06-25T10:58:07.944Z",
+      "lastRecalledAt": "2026-06-25T10:58:07.944Z",
+      "queryHashes": [
+        "cfd3334d14bc"
+      ],
+      "recallDays": [
+        "2026-06-25"
+      ],
+      "conceptTags": [
+        "tickets.json",
+        "tkt-0001",
+        "tkt-0103",
+        "on-demand",
+        "atlas",
+        "assigned",
+        "ready",
+        "fire"
       ]
     }
   }

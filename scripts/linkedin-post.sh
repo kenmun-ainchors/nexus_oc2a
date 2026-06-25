@@ -3,6 +3,12 @@
 # Supports multi-account posting: Ken personal (default), Angie personal, AInchors company page.
 # Uses newer LinkedIn Posts API (REST) format.
 #
+# CHG-0766 / TKT-0743: Token health probe with auto-refresh before posting.
+#   - Probes token via GET /v2/userinfo before building payload.
+#   - On 401/revoked/expired: attempts refresh_token exchange.
+#   - On refresh failure: emits clear re-auth command.
+#   - Logs every probe result to state/linkedin-token-health-{account}.json.
+#
 # Usage:
 #   linkedin-post.sh --text "post content" [--visibility PUBLIC|CONNECTIONS] [--image-asset-urn urn:li:image:XXX] [--dry-run]
 #   linkedin-post.sh --content-file /path/to/draft.md [--image-asset-urn urn:li:image:XXX] [--dry-run]
@@ -42,6 +48,225 @@ declare -A ACCOUNT_LABELS
 ACCOUNT_LABELS[ken]="Ken Mun (personal)"
 ACCOUNT_LABELS[angie]="Angie (personal)"
 ACCOUNT_LABELS[business]="AInchors (company page)"
+
+# ── Token health probe (CHG-0766 / TKT-0743) ─────────────────────────────────
+
+USERINFO_ENDPOINT="https://api.linkedin.com/v2/userinfo"
+TOKEN_ENDPOINT="https://www.linkedin.com/oauth/v2/accessToken"
+
+# Probe token health with a lightweight GET to /v2/userinfo
+# Returns: "ok" | "refresh_ok" | "refresh_failed" | "revoked"
+probe_token_health() {
+  local token="$1"
+  local account="$2"
+  local label="$3"
+
+  local probe_response probe_http_status probe_body
+  probe_response=$(curl -s -w "\n__HTTP_STATUS__%{http_code}" \
+    -X GET "$USERINFO_ENDPOINT" \
+    -H "Authorization: Bearer $token" \
+    -H "LinkedIn-Version: 202503" 2>/dev/null)
+  probe_http_status=$(echo "$probe_response" | grep "__HTTP_STATUS__" | sed 's/__HTTP_STATUS__//')
+  probe_body=$(echo "$probe_response" | grep -v "__HTTP_STATUS__")
+
+  if [[ "$probe_http_status" == "200" ]]; then
+    log_token_health "$account" "ok" "200" "" ""
+    echo "ok"
+    return 0
+  fi
+
+  # Extract LinkedIn error code from response body
+  local linkedin_error
+  linkedin_error=$(echo "$probe_body" | python3 -c "
+import sys, json
+try:
+    d = json.load(sys.stdin)
+    print(d.get('error', d.get('serviceErrorCode', d.get('message', ''))))
+except:
+    print('')
+" 2>/dev/null)
+
+  if [[ "$probe_http_status" == "401" ]]; then
+    # Check for revoke/expire indicators
+    if echo "$probe_body" | grep -qiE "REVOKED_ACCESS_TOKEN|EXPIRED_ACCESS_TOKEN|invalid_token"; then
+      log_token_health "$account" "revoked" "401" "$linkedin_error" ""
+      echo "revoked"
+      return 0
+    fi
+    log_token_health "$account" "revoked" "401" "$linkedin_error" ""
+    echo "revoked"
+    return 0
+  fi
+
+  # Non-401 error (network, 5xx, etc.) — treat as revoked to trigger refresh attempt
+  log_token_health "$account" "revoked" "$probe_http_status" "$linkedin_error" ""
+  echo "revoked"
+  return 0
+}
+
+# Attempt refresh_token exchange
+# Returns: "ok" on success, "failed" on failure
+refresh_access_token() {
+  local account="$1"
+  local keychain_prefix="$2"
+  local state_suffix="$3"
+  local label="$4"
+
+  local refresh_token client_id client_secret
+
+  refresh_token=$(security find-generic-password -a linkedin -s "${keychain_prefix}-refresh-token" -w 2>/dev/null) || {
+    log_token_health "$account" "refresh_failed" "" "no_refresh_token" ""
+    echo "failed"
+    return 1
+  }
+
+  client_id=$(security find-generic-password -a linkedin -s "ainchors-linkedin-client-id" -w 2>/dev/null) || {
+    log_token_health "$account" "refresh_failed" "" "no_client_id" ""
+    echo "failed"
+    return 1
+  }
+
+  client_secret=$(security find-generic-password -a linkedin -s "ainchors-linkedin-client-secret" -w 2>/dev/null) || {
+    log_token_health "$account" "refresh_failed" "" "no_client_secret" ""
+    echo "failed"
+    return 1
+  }
+
+  local token_response access_token new_refresh_token expires_in token_error
+  token_response=$(curl -s --max-time 30 -X POST "$TOKEN_ENDPOINT" \
+    -H "Content-Type: application/x-www-form-urlencoded" \
+    --data-urlencode "grant_type=refresh_token" \
+    --data-urlencode "refresh_token=$refresh_token" \
+    --data-urlencode "client_id=$client_id" \
+    --data-urlencode "client_secret=$client_secret" 2>/dev/null)
+
+  access_token=$(echo "$token_response" | python3 -c "
+import sys, json
+try:
+    d = json.load(sys.stdin)
+    print(d.get('access_token', ''))
+except:
+    print('')
+" 2>/dev/null)
+
+  new_refresh_token=$(echo "$token_response" | python3 -c "
+import sys, json
+try:
+    d = json.load(sys.stdin)
+    print(d.get('refresh_token', ''))
+except:
+    print('')
+" 2>/dev/null)
+
+  expires_in=$(echo "$token_response" | python3 -c "
+import sys, json
+try:
+    d = json.load(sys.stdin)
+    print(d.get('expires_in', 0))
+except:
+    print(0)
+" 2>/dev/null)
+
+  token_error=$(echo "$token_response" | python3 -c "
+import sys, json
+try:
+    d = json.load(sys.stdin)
+    print(d.get('error', ''))
+except:
+    print('')
+" 2>/dev/null)
+
+  if [[ -n "$token_error" && "$token_error" != "None" ]] || [[ -z "$access_token" ]]; then
+    log_token_health "$account" "refresh_failed" "" "${token_error:-empty_access_token}" ""
+    echo "failed"
+    return 1
+  fi
+
+  # Store new access token
+  security add-generic-password -a linkedin -s "${keychain_prefix}-access-token" -w "$access_token" -U 2>/dev/null || {
+    log_token_health "$account" "refresh_failed" "" "keychain_write_failed" ""
+    echo "failed"
+    return 1
+  }
+
+  # Store new refresh token if issued (rotation)
+  if [[ -n "$new_refresh_token" && "$new_refresh_token" != "None" ]]; then
+    security add-generic-password -a linkedin -s "${keychain_prefix}-refresh-token" -w "$new_refresh_token" -U 2>/dev/null || true
+  fi
+
+  # Update state file with new expiry
+  local new_expiry authorized_at
+  new_expiry=$(python3 -c "
+from datetime import datetime, timezone, timedelta
+expiry = datetime.now(timezone.utc) + timedelta(seconds=int(${expires_in:-0}))
+print(expiry.strftime('%Y-%m-%dT%H:%M:%SZ'))
+" 2>/dev/null)
+  authorized_at=$(python3 -c "
+from datetime import datetime, timezone
+print(datetime.now(timezone.utc).strftime('%Y-%m-%dT%H:%M:%SZ'))
+" 2>/dev/null)
+
+  local auth_state_file="$WORKSPACE/state/linkedin-auth${state_suffix}.json"
+  if [[ -f "$auth_state_file" && -n "$new_expiry" ]]; then
+    python3 -c "
+import json
+with open('$auth_state_file') as f:
+    d = json.load(f)
+d['authorizedAt'] = '$authorized_at'
+d['tokenExpiry'] = '$new_expiry'
+with open('$auth_state_file', 'w') as f:
+    json.dump(d, f, indent=2)
+" 2>/dev/null || true
+  fi
+
+  log_token_health "$account" "refresh_ok" "" "" ""
+  echo "ok"
+  return 0
+}
+
+# Log token health probe result to state file
+log_token_health() {
+  local account="$1"
+  local health_status="$2"
+  local http_status="$3"
+  local linkedin_error="$4"
+  local message_id_hint="$5"
+
+  local health_file="$WORKSPACE/state/linkedin-token-health-${account}.json"
+  local checked_at
+  checked_at=$(python3 -c "
+from datetime import datetime, timezone
+print(datetime.now(timezone.utc).strftime('%Y-%m-%dT%H:%M:%SZ'))
+" 2>/dev/null)
+
+  python3 -c "
+import json
+entry = {
+    'checkedAt': '$checked_at',
+    'account': '$account',
+    'status': '$health_status',
+    'httpStatus': '$http_status',
+    'linkedInErrorCode': '$linkedin_error',
+    'messageIdHint': '$message_id_hint',
+    'nextAction': ''
+}
+# Append to array in health file, or create new array
+import os
+if os.path.exists('$health_file'):
+    with open('$health_file') as f:
+        try:
+            records = json.load(f)
+            if not isinstance(records, list):
+                records = [records]
+        except:
+            records = []
+else:
+    records = []
+records.append(entry)
+with open('$health_file', 'w') as f:
+    json.dump(records, f, indent=2)
+" 2>/dev/null || true
+}
 
 # ── Defaults ──────────────────────────────────────────────────────────────────
 
@@ -250,6 +475,34 @@ fi
 ACCESS_TOKEN=$(security find-generic-password -a linkedin -s "${KEYCHAIN_PREFIX}-access-token" -w 2>/dev/null) \
   || { echo "❌ Access token not found in Keychain (service: ${KEYCHAIN_PREFIX}-access-token) — re-run: zsh scripts/linkedin-auth.sh --account $ACCOUNT" >&2; exit 1; }
 
+# ── Token health probe (CHG-0766 / TKT-0743) ─────────────────────────────────
+# Probe token before building payload. Dry-run skips this entirely.
+
+if [[ "$DRY_RUN" != "true" ]]; then
+  echo "  Probing token health for $LABEL..."
+  HEALTH_STATUS=$(probe_token_health "$ACCESS_TOKEN" "$ACCOUNT" "$LABEL")
+
+  if [[ "$HEALTH_STATUS" == "revoked" ]]; then
+    echo "  ⚠️  Token revoked or expired — attempting refresh..."
+    REFRESH_STATUS=$(refresh_access_token "$ACCOUNT" "$KEYCHAIN_PREFIX" "$STATE_SUFFIX" "$LABEL")
+
+    if [[ "$REFRESH_STATUS" == "ok" ]]; then
+      echo "  ✅ Token refreshed successfully."
+      # Reload the new access token from Keychain
+      ACCESS_TOKEN=$(security find-generic-password -a linkedin -s "${KEYCHAIN_PREFIX}-access-token" -w 2>/dev/null) \
+        || { echo "❌ Failed to reload refreshed access token from Keychain." >&2; exit 1; }
+    else
+      echo "❌ Token refresh failed for $LABEL." >&2
+      echo "   Re-run: zsh scripts/linkedin-auth.sh --account $ACCOUNT" >&2
+      exit 1
+    fi
+  elif [[ "$HEALTH_STATUS" == "ok" ]]; then
+    echo "  ✅ Token health OK."
+  else
+    echo "  ⚠️  Token probe returned: $HEALTH_STATUS — continuing anyway."
+  fi
+fi
+
 # ── Build post payload ────────────────────────────────────────────────────────
 
 # Determine author URN based on account type
@@ -263,7 +516,7 @@ fi
 
 # Map visibility: CONNECTIONS → "CONNECTIONS", PUBLIC → "PUBLIC"
 # Clean up any stale payload files from previous runs (mktemp collision guard)
-rm -f /tmp/li_payload_*.json 2>/dev/null || true
+rm -f /tmp/li_payload_*.json 2>/dev/null; true
 PAYLOAD_FILE=$(mktemp /tmp/li_payload_XXXXXX.json)
 
 python3 - "$POST_TEXT" "$VISIBILITY" "$AUTHOR_URN" "$PAYLOAD_FILE" "$IMAGE_ASSET_URN" "$ACCOUNT" << 'PYEOF'

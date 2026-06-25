@@ -68,6 +68,11 @@ _For Aria 🔵 & the Spark content engine | Ideas from daily platform work that 
 | TC-250 | The tracker override that wasn't: why a wrapper around the wrong answer is still the wrong answer | 💡 idea | 2026-06-24 | CHG-0758/0759/0761 — tracker override merged into canonical next-ticket resolver, wrapper deleted |
 | TC-251 | Your QA bot can't verify if it can't exec: the sandbox isolation trap | 💡 idea | 2026-06-24 | CHG-0763 — Sage (qa) subagent granted exec/process for CREST verification |
 | TC-252 | One resolver to rule them all: merging priority overrides into the canonical path | 💡 idea | 2026-06-24 | CHG-0761 — transparent tracker override inside db-sprint.sh next-ticket, 5/5 regression tests |
+| TC-253 | Your LinkedIn token is fine. LinkedIn disagrees. | 💡 idea | 2026-06-25 | CHG-0766 — token health probe, refresh-on-failure, date-based expiry blind spot |
+| TC-254 | The cron ran. The log said yesterday. Both were right. | 💡 idea | 2026-06-25 | CHG-0765 — standup email messageId extraction bug, state log drift |
+| TC-255 | The wrapper that wrapped the wrong answer | 💡 idea | 2026-06-25 | CHG-0761 — tracker override merged into canonical resolver, wrapper deleted |
+| TC-256 | Your QA bot can't verify if it can't exec | 💡 idea | 2026-06-25 | CHG-0763 — Sage (qa) subagent exec grant, sandbox isolation trap |
+| TC-257 | 5 tickets, 1 sprint, 0 regressions: the CRESTv2-P1 foundation | 💡 idea | 2026-06-25 | TKT-0720/0725/0726/0330/0343 — all 5 foundation tickets closed |
 
 _Statuses: 💡 idea → ✍️ draft → ✅ scheduled → 📤 published_
 

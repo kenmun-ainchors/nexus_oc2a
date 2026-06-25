@@ -4338,5 +4338,32 @@
       "delivered_date": "2026-06-24"
     },
     "delivered_date": "2026-06-24"
+  },
+  {
+    "id": "TKT-0742",
+    "title": "Fix standup-email-send.sh messageId extraction",
+    "status": "open",
+    "priority": "medium",
+    "type": "bug",
+    "created_at": "2026-06-25T10:39:56+10:00",
+    "ticket_number": 742
+  },
+  {
+    "id": "TKT-0743",
+    "title": "LinkedIn post: add token health probe and refresh-on-failure",
+    "status": "open",
+    "priority": "medium",
+    "type": "bug",
+    "created_at": "2026-06-25T10:49:23+10:00",
+    "ticket_number": 743
+  },
+  {
+    "id": "TKT-0744",
+    "title": "Fix Spark ad-hoc content pipeline drift from locked spec",
+    "status": "backlog",
+    "priority": "medium",
+    "type": "bug",
+    "created_at": "2026-06-25T11:39:33+10:00",
+    "ticket_number": 744
   }
 ]

@@ -1,3 +1,27 @@
+## 2026-06-25 20:49 AEST — [CHG-0766] LinkedIn post: add token health probe and refresh-on-failure
+**Type:** script
+**Change Type:** Normal
+**Source:** ken-prompt
+**Trigger:** Angie's personal LinkedIn token revoked by LinkedIn (REVOKED_ACCESS_TOKEN) causing post failures; manual OAuth re-auth required twice in one week
+**What changed:** Update scripts/linkedin-post.sh to probe token health via /v2/userinfo before posting; attempt refresh_token exchange on 401/REVOKED; on success update access token in Keychain and continue post. Add clear state logging distinguishing expired vs revoked vs scope lost.
+**Why:** OAuth re-auth is a manual symptom fix; token revocation/revocation by user or LinkedIn is not detected by date-based expiry checks, blocking campaign posts without warning.
+**Verification:** OAuth re-run completed 2026-06-25 20:49 AEST; dry-run post for angie account succeeded with new token. Hardening fix will be verified by Forge with mock 401 + live post.
+**Rollback:** N/A
+**Linked:** CR-003
+---
+
+## 2026-06-25 20:39 AEST — [CHG-0765] Fix standup-email-send.sh messageId extraction
+**Type:** script
+**Change Type:** Normal
+**Source:** ken-prompt
+**Trigger:** Ken reported missing standup email 2026-06-25; cron ran ok but state/standup-email-log.json still showed 2026-06-24
+**What changed:** Update scripts/standup-email-send.sh to parse gog Gmail send response messageId correctly; ensure state/standup-email-log.json is updated on every run including idempotency skip; add explicit confirmation logging.
+**Why:** Cron reports success and daily standup email appears delivered, but log state drifts so failures/duplicates cannot be detected and Ken cannot verify receipt.
+**Verification:** Manual re-run 2026-06-25 20:38 AEST sent email with messageId 19efe5c63904d461 and updated state/standup-email-log.json. Will verify fix via dry-run + manual test.
+**Rollback:** N/A
+**Linked:** TKT-0741
+---
+
 ## 2026-06-24 23:16 AEST — [CHG-0764] CREST v1.3 execution pattern made default
 **Type:** script
 **Change Type:** Normal

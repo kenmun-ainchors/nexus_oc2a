@@ -1,76 +1,65 @@
-# Yoda Daily Brief — 2026-06-17
+# Yoda Daily Brief — 2026-06-25
 
 ## What Yoda Built Today
 
-**Big day — 17 CHG entries, massive Ollama cost tracking upgrade, Yoda+Aria model swap trial started, and WooCommerce-002 cross-workspace cron sandbox fixed.**
+**A focused day — 2 CHG entries, LinkedIn token hardening, standup email fix, and the CRESTv2-P1 foundation is now fully operational.**
 
-The day split into three phases: morning stand-up Thrawn items (8 blocking infrastructure fixes), afternoon WooCommerce + Ollama work, and evening model swap with CHG integrity cleanup.
+### LinkedIn Token Health Probe (CHG-0766)
 
-### Morning: Stand-up Thrawn Items (08:29-11:43 AEST)
+Angie's personal LinkedIn token got revoked by LinkedIn twice in one week, blocking campaign posts. The old script only checked token expiry by date — it couldn't detect a revocation that happened mid-life. Yoda added a token health probe that pings LinkedIn's `/v2/userinfo` endpoint before every post. If the token is revoked, it tries a `refresh_token` exchange automatically. If that works, the new token goes into Keychain and the post continues. If not, it fails clearly instead of silently.
 
-Yoda cleared all 8 items from Ken's morning stand-up:
+**Why it matters:** OAuth re-auth was a manual fix every time. Now the system detects and recovers from revocations without human intervention.
 
-1. **API balance $0 false alarm fixed (CHG-0606):** CHECK 9 was using stale 30-min cached snapshots, causing false QUOTA-CANARY alerts on already-fixed crons. Rewired to fresh `cron list --json` every run.
+### Standup Email Fix (CHG-0765)
 
-2. **Gateway env-wrapper fixed (CHG-0607):** The yoda-context-brief-refresh cron had a 30s timeout that was way too tight for a model-call generating a 300-line context brief (last successful run took 67s). Bumped to 300s.
+Ken reported a missing standup email. The cron was running fine, but the state log wasn't updating — it still showed yesterday's date. Root cause: the Gmail send response parser was extracting the messageId wrong. Fixed the parser, added explicit confirmation logging, and the state file now updates on every run including idempotency skips.
 
-3. **Yoda CREST §6 tools.deny experiment (CHG-0608/0609):** Yoda tried using `tools.deny` on subagent exec per CREST §6. It didn't work — exec is not agent-configurable. Reverted and resumed discipline-based CREST.
+**Why it matters:** When the state log drifts, you can't tell if an email was actually sent or not. Now every run leaves a clear audit trail.
 
-4. **Pipefail+trap anti-patterns fixed (CHG-0610):** auto-heal.sh had broken pipefail and trap patterns. Fixed the shell anti-patterns directly.
+### CRESTv2-P1 Foundation — All 5 Tickets Closed
 
-5. **Backup 33h stale fixed (CHG-0611):** New cron for backup health check. Timeout 30→120s, rescheduled 08:05→08:10 to avoid standup traffic jam.
+This week's big push is complete. All 5 CRESTv2-P1 foundation tickets are closed:
+- **TKT-0725** — Canonical sprint registry (11 sprint-name variants collapsed, 263 tickets assigned)
+- **TKT-0330** — Atomic PG numbering for tickets and CHGs
+- **TKT-0726** — Agentic event write pipeline (hash chain intact, 0 broken links)
+- **TKT-0720** — Entity links edge table (1,532 edges, graph queries work)
+- **TKT-0343** — Config baseline wired to live PG (auto-heal CHECK 12 now verifies PG matches file)
 
-6. **MEMORY.md trimmed (CHG-0612):** 13,387 → 9,785 chars. Below the 15K hard limit.
+The CRESTv2-P1 tracker is locked and the execution sequence (WS-1 → WS-2 → WS-3 → WS-5 → WS-4) is complete. Next: WS-1 re-validation and Sprint 10/11 wave-2/3 work.
 
-7. **Config baseline 8 days stale fixed (CHG-0613):** New gateway-config-snapshot.sh + CHECK 12 wiring so config baseline auto-updates nightly.
+### Tracker Override Merged into Canonical Path (CHG-0761)
 
-8. **TKT-0336 tilde path violations fixed (CHG-0614):** 13 stale source file references in yoda-context-brief-refresh cron updated to current workspace paths.
+A subtle but important fix: the CRESTv2-P1 tracker override was originally built as a separate wrapper script. But `db-sprint.sh next-ticket` was still returning the wrong answer (TKT-0530 instead of TKT-0721) because the wrapper sat outside the canonical resolver. Yoda merged the tracker override directly into `db-sprint.sh next-ticket` so the priority pipeline is transparent. 5/5 regression tests pass.
 
-### Afternoon: WooCommerce-002 + Ollama Cost Tracking (13:31-14:22 AEST)
+**Why it matters:** A wrapper around the wrong answer is still the wrong answer. The fix had to live inside the canonical path.
 
-1. **WO-002 cross-workspace cron fix (CHG-0617):** The WooCommerce-002 divergence check had been silently failing because 8 crons were assigned to the wrong agent workspace. 7 main-workspace crons were incorrectly assigned to infra agent, and 1 infra-workspace cron (WO-002 itself) was on main agent. All 8 reassigned correctly. WO-002 also had a Telegram recipient fixed (non-numeric chat ID).
+### Sage (QA) Subagent Gets Exec Access (CHG-0763)
 
-2. **Ollama live request tracking — TKT-0533 (CHG-0618→CHG-0620):** This was a big one. Yoda built a gateway-log counter script that found 28 requests in the current window. Then Ken shared the Ollama Cloud dashboard screenshot — showing **15,932 actual requests**. The gateway log approach undercounted by ~570x. Yoda pivoted and built `ollama-usage-scraper.py` — a Python script that uses browser automation to scrape the ollama.com/settings dashboard for real usage data. Now tracking both session (~3,500 limit) and weekly (~51,000 limit) windows with burn rate projections. CHECK 38 rewired from log counter to dashboard scraper.
-
-### Evening: Model Swap Trial + CHG Integrity (14:22-22:15 AEST)
-
-1. **Model swap approved by Ken:** Ollama dashboard data confirmed deepseek-v4-pro is usage level 4 (extra high), while kimi-k2.7-code is level 3 (high) — one tier cheaper. Yoda+Aria swapped to kimi-k2.7-code for a trial until Sunday 22 June 10:00 AEST. 6-atom CREST plan implemented: model-policy.json, agent configs, allowlists, fallback chain, config baseline, gateway restart. Current session confirmed on `ollama/kimi-k2.7-code:cloud`.
-
-2. **Agile + CREST skill packages (CHG-0609/0610/0611):** TKT-0534 delivered — two new AgentSkills created for Agile framework and CREST governance. All tribal knowledge removed from agent files (SOUL.md, MEMORY.md, AGENTS.md, HEARTBEAT.md, RULES.md) and replaced with `skill-load.sh` pointers. 37 files committed.
-
-3. **TRIGGER-04 release monitor + PG-Notion audit + Spark metrics timeouts fixed (CHG-0608):** 3 cron timeouts bumped from 120s→300s.
-
-4. **Bash syntax fix: ollama-request-counter.sh (CHG-0622):** Pre-commit hook caught invalid zsh associative-array loop syntax. Fixed before it could crash.
+Sage couldn't verify CREST atoms because the sandbox blocked `exec` and `process` tools. Without exec, Sage can't run scripts, inspect PG state, or produce independent verdicts. Ken approved the fix — same pattern as Atlas/Thrawn (CHG-0734). Sage can now execute parent workspace scripts for CREST verification.
 
 ## Key Decisions Made Today
 
-- **TKT-0533 (Ollama usage tracking): Gateway logs are useless for request counting.** Only the authenticated Ollama dashboard has real numbers. Browser automation (ollama-usage-scraper.py) is now the SSOT.
-- **Yoda+Aria model swap: deepseek-v4-pro → kimi-k2.7-code** for a trial until Sun 22 Jun 10:00 AEST. Pro is level 4 (extra high GPU cost), kimi is level 3 (high). If quality holds, this saves significant weekly budget.
-- **WO-002 cross-workspace rule:** Assign cron to the agent whose workspace contains its scripts/data. Main crons operate in `workspace`. Infra crons operate in `workspace-infra`. No exceptions.
-- **TKT-0339 cron timeouts all resolved:** 13 recommendations applied — 8 safe batch, 4 Ken-approved, 1 deleted.
-- **30-min cache stale data was causing periodic false alerts:** Fresh fetch > cached snapshot for canary checks.
-- **CREST §6 `tools.deny` on subagent exec is structurally impossible** — exec is not agent-configurable. Reverted. Discipline-based CREST continues.
-- **Agile + CREST skill packages approved as SSOT:** All inline governance references removed from agent files. Skill-load pointers are the only way in.
-- **CHG-0606 quota false alerts fixed:** Fresh cron list every run instead of 30-min cache.
+- **LinkedIn token health probe is now mandatory before every post** — Date-based expiry checks are not enough. LinkedIn can revoke tokens at any time. The `/v2/userinfo` probe catches revocations before they cause silent failures.
+- **Tracker override must live in the canonical resolver, not a wrapper** — CHG-0759's wrapper approach was replaced by CHG-0761's transparent merge into `db-sprint.sh next-ticket`. The canonical path is the only path.
+- **Sage needs exec for CREST verification** — Sandbox isolation was blocking independent verdicts. Same pattern as Atlas/Thrawn (CHG-0734).
+- **CRESTv2-P1 foundation complete** — All 5 tickets closed. WS-1 re-validation is the next gate before wave-2/3 work.
 
 ## Training Content Angles from Today
 
 From today's work, these are ready for the training pipeline:
 
-- **"Your AI's cost tracking is lying to you"** — The day Yoda counted 28 API requests and Ken's dashboard showed 15,932. Why gateway logs don't work for usage tracking, and how browser-automated dashboard scraping fixed it. Real numbers matter.
-- **"I tried to put my AI in handcuffs. The handcuffs didn't work."** — When CREST §6 (structural `tools.deny` on subagent exec) hit the reality that exec isn't agent-configurable. Discipline-based governance > structural enforcement when the structure doesn't exist yet. Real lesson in building AI guardrails.
-- **"8 crons, wrong workspaces, 0 errors reported"** — The WO-002 cron sandbox fix story. Cross-workspace assignment bugs that silently fail for weeks. How one agent's cron failing because it couldn't reach the right scripts uncovered 7 more mis-assignments.
-- **"The 30-minute stale cache that broke my Monday"** — A 30-min cron list cache kept false-alerting on already-fixed crons. Fresh fetch every time eliminated the false alarm window entirely.
-- **"Model swap: 1 tier down, same output"** — deepseek-v4-pro → kimi-k2.7-code trial. If code-specialist model delivers same quality at lower GPU cost, that's a real lesson in matching model capability to task complexity, not just picking the biggest one.
-- **"Git commit with 37 files is not a bug — it's progress"** — b30b2999: +1,544 / −3,647 lines. The day tribal knowledge got evicted from agent files and replaced with skill-load pointers. Clean codebase, same intelligence.
+- **"Your LinkedIn token is fine. LinkedIn disagrees."** — The day we learned date-based expiry checks can't detect mid-life revocations. How a health probe before every post caught what the calendar couldn't.
+- **"The cron ran. The log said yesterday. Both were right."** — When a standup email cron ran successfully but the state file never updated. Why messageId parsing matters and how a broken parser hid the truth.
+- **"The wrapper that wrapped the wrong answer"** — When a tracker override wrapper sat outside the canonical resolver and the system kept returning the wrong ticket. Why the fix had to live inside the canonical path.
+- **"Your QA bot can't verify if it can't exec"** — Sandbox isolation that blocked Sage from running scripts. Same pattern as Atlas/Thrawn — when your verifier can't execute, it can't verify.
+- **"5 tickets, 1 sprint, 0 regressions: the CRESTv2-P1 foundation"** — What it took to build the structured foundation: sprint registry, atomic numbering, event pipeline, entity links, config baseline. All closed, all verified.
 
 ## What's Open / What's Next
 
-- **Model swap trial running:** Monitor next Ollama dashboard scrape to validate deepseek-v4-pro usage drops. If kimi-k2.7-code quality is unacceptable, 5-minute rollback to pro. Trial ends Sun 22 Jun 10:00 AEST — either lock or revert.
-- **CREST v2.0 design for structural executor dispatch** remains pending.
-- **TKT-0533 (Ollama tracker):** Live in production. Next step: monitor burn alert at 70% weekly threshold.
-- **Business agent (Aria)** has no active session — will pick up new kimi-k2.7-code model on next activation.
-- **Sometimes-asynchronous request tracking** in Ollama dashboard — some requests show `—` as percentage. Non-blocking, noted for CHG-0622 follow-up.
+- **CRESTv2-P1 WS-1 re-validation** — Next gate before wave-2/3 work in Sprint 10/11.
+- **Sprint 9 continues** — Remaining items: TKT-0390 (agent_events scope), TKT-0358/0531 (deferred to Sprint 11).
+- **LinkedIn campaign** — Week 2 posts running on Ken personal profile. Token health probe now active.
+- **Standup email** — Fixed and verified. State log now updates correctly.
 
 ## ✅ Auth Status
 - All delegated auth tokens valid (Ken Mun ✅, Angie Foong ✅). No alerts.

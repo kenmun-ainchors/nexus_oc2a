@@ -1,6 +1,6 @@
 # Yoda Telegram Context Brief
-# Auto-refreshed: Wednesday, June 24th, 2026 - 8:00 PM AEST
-# Platform Day: 60 (from 2026-04-25)
+# Auto-refreshed: Thursday, June 25th, 2026 - 8:00 PM AEST
+# Platform Day: 61 (from 2026-04-25)
 # Current Sprint: Sprint 9 (2026-06-22 to 2026-06-28) — COMMITTED
 # Model: ollama/kimi-k2.7-code:cloud
 
@@ -40,29 +40,29 @@
 | TKT-0342 | EPIC: PG SSOT Gap Remediation | open | critical | Sprint 9 |
 | TKT-0344 | Wire state_model_policy to live PG write | open | critical | Sprint 9 |
 | TKT-0358 | Create PG table health monitor cron | open | critical | Sprint 11 |
-| TKT-0125 | Roadmap Refinement — QBR 2026-Q3 instance | open | P1 | |
-| TKT-0130 | Agent Fleet Review — QBR 2026-Q3 instance | open | P1 | |
-| TKT-0114 | AInchors-Aevlith Technologies partnership structure | pending | high | |
-| TKT-0187 | Cloudflare Tunnel — MinIO + OpenClaw | pending | high | |
-| TKT-0293 | Expand Regression Testing Framework | open | high | |
-| TKT-0328 | (in progress, title lost during migration) | monitoring | high | |
+| TKT-0125 | Roadmap Refinement — QBR 2026-Q3 instance | open | P1 | Unassigned |
+| TKT-0130 | Agent Fleet Review — QBR 2026-Q3 instance | open | P1 | Unassigned |
+| TKT-0114 | AInchors-Aevlith Technologies partnership structure | pending | high | Unassigned |
+| TKT-0187 | Cloudflare Tunnel — MinIO + OpenClaw | pending | high | Unassigned |
+| TKT-0293 | Expand Regression Testing Framework | open | high | Unassigned |
+| TKT-0328 | (in progress, title lost during migration) | monitoring | high | Unassigned |
 | TKT-0329 | Thrawn Assessment — Workspace Sandbox | open | high | Sprint 8 |
 
 ## LinkedIn Campaign Status
 - **Status:** ACTIVE — 4-Week Foundation Arc (restarted 2026-06-16)
 - **Current week:** Week 2 (Movement II: The Audit) — Theme B (Building AI Operations in Public)
-- **Posted this week:** W2-P4 (Tue 23 Jun 07:30 — re-targeted to Ken personal profile per CHG-0739), W2-P5 (Wed 24 Jun 12:00 — "The 92% rule" — posted by Spark cron 833ee0c7)
-- **Upcoming:** Thu 25 Jun 07:30 (W2-P6 — "The quality gate I thought I had (and didn't)" — approved, image ready)
+- **Posted this week:** W2-P4 (Tue 23 Jun 07:30 — re-targeted to Ken personal profile per CHG-0739), W2-P5 (Wed 24 Jun 12:00 — "The 92% rule" — posted by Spark cron 833ee0c7), W2-P6 (Thu 25 Jun 07:30 — "The quality gate I thought I had (and didn't)" — posted by Spark cron 869502c9)
+- **Upcoming:** Week 3 starts Tue 30 Jun (Movement III: The Rebuild). W3-P7/P8/P9 drafts closed (prematurely drafted by buggy manual run; will be re-drafted correctly for Week 3).
 - **Stream:** Ken personal profile (effective from 2026-06-23 per CHG-0739). Company page posts discontinued.
 - **Voice:** Ken Mun, CTO — first-person, direct, no fluff. NO AInchors/Yoda/Nexus/agent names.
 - **Missed-slot rule:** Push to next slot. If occupied, skip. Never post late.
 - **Pipeline:** Weekend batch draft (Sat 12:00) -> review -> publish at slot. Never draft at publish time.
 
-## Ollama Usage / Burn Alert (as of 2026-06-22 20:00 AEST)
-- Weekly limit: 94,185 requests (new window started 2026-06-22)
-- Current: 2,543 requests (2.7% used)
-- Days remaining: 6.58 (window ends Mon 29 Jun 10:00 AEST)
-- Burn rate: 317.7 req/hr
+## Ollama Usage / Burn Alert (as of 2026-06-25 20:00 AEST)
+- Weekly limit: 150,277 requests (window started 2026-06-22)
+- Current: 25,998 requests (17.3% used)
+- Days remaining: 3.58 (window ends Mon 29 Jun 10:00 AEST)
+- Burn rate: 325.0 req/hr
 - **Alert level:** SILENT — all thresholds well below minimum. No action needed.
 
 ## Mandatory Rules for Telegram Sessions

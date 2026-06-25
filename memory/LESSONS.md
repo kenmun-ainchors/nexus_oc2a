@@ -39,3 +39,11 @@
 **Evidence:** `check-session-model.sh --json` now returns `{"status":"ok"}`; `tests/regression/episodic/test-session-model-emits-event.sh` 3/3 PASS; full test-runner 6/6 PASS; hash chain 0 orphans.
 **Prevention:** (1) Always inspect the first 30 lines of a script after instrumentation to confirm helper variables are defined before use. (2) When dispatching verification, specify `cwd` and the exact parent workspace path, or run the verifier in the main session. (3) Treat a verifier subagent's `UNABLE TO VERIFY` as a blocker, not a soft fail; pivot to parent-side verification. (4) Add a regression test that exercises the actual script entry point (not just functions) to catch startup-time variable errors.
 
+
+**2026-06-25 | Discipline | Yoda ignored explicit SKILL.md instruction for next-ticket routing**
+- **What:** Despite loading pg-sprint-backlog skill, and SKILL.md explicitly stating "Orchestrators / Yoda should call `bash scripts/db-sprint.sh next-ticket` without `--agent` to see the highest-priority next item across all agents and decide routing," Yoda called `next-ticket --agent forge` and `next-ticket --agent yoda` and treated the filtered result as canonical.
+- **Impact:** Wrong ticket returned (TKT-0344) instead of tracker-override TKT-0721.
+- **Prevention:** Yoda must always use unfiltered `next-ticket` for routing decisions. Only use `--agent <name>` when specifically checking an individual agent queue, never for overall next-ticket answers.
+- **Evidence:** `db-sprint.sh next-ticket` returns TKT-0721 tracker-override; `db-sprint.sh next-ticket --agent forge` returns TKT-0344 due to empty `metadata.sprint_agent` on TKT-0721.
+- **Source:** `agent-skills/pg-sprint-backlog/SKILL.md#L414`
+- **Linked:** TKT-0728, CHG-0760, L-170

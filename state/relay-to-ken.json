@@ -36,7 +36,11 @@
       "from": "Aria",
       "priority": "normal",
       "message": "[CR FROM ARIA] CR-003: Re-authenticate Angie personal LinkedIn account\n\nRequested by: Angie Foong (CEO)\n\nDescription: Angie approved and wants to post a Visa/OpenAI summary to her personal LinkedIn profile. The linkedin-post.sh --account angie call failed with \"Token expired \\u2014 re-run: linkedin-auth.sh --account angie\". The stored token expiry was 2026-08-19, but LinkedIn rejected it as expired/revoked.\n\nBusiness reason: First campaign cross-posting to Angie's personal profile. Company page post already succeeded (urn:li:share:7475350130762731520).\n\nWhat is needed: Re-run scripts/linkedin-auth.sh --account angie and verify the token works for a dry-run post. Then confirm to Aria so the queued personal post can go live.\n\nPost ready to go: /Users/ainchorsangiefpl/.openclaw/workspace-business/.openclaw/tmp/linkedin-angie-post.md",
-      "sent": false
+      "sent": true,
+      "deliveredAt": "2026-06-25T20:49:00+10:00",
+      "resolved": true,
+      "resolvedAt": "2026-06-25T20:49:00+10:00",
+      "resolvedBy": "Ken OAuth re-auth + CHG-0766"
     }
   ]
 }

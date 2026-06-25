@@ -80,6 +80,16 @@
       "lastTimeoutAt": "2026-06-19T02:53:54.705978+00:00",
       "nextRetryBackoffMs": 120000,
       "deadLetter": false
+    },
+    "a1ce9946": {
+      "cronId": "a1ce9946",
+      "name": "TKT-0343-daily-config-snapshot",
+      "consecutiveTimeouts": 1,
+      "totalTimeouts": 1,
+      "retriesUsed": 1,
+      "lastTimeoutAt": "2026-06-25T10:49:46.713644+00:00",
+      "nextRetryBackoffMs": 120000,
+      "deadLetter": false
     }
   }
 }

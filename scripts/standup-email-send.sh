@@ -2,6 +2,8 @@
 # standup-email-send.sh — Send the standup canvas HTML as email
 # Called by cron: AInchors Stand-up Email Delivery (shell-only systemEvent)
 # Runs ~15 min after standup generation (08:15 AEST)
+# CHG-0765 / TKT-0742: Fix messageId extraction (gog returns 'messageId', not 'id')
+#   and ensure idempotency skip updates state/standup-email-log.json
 set -euo pipefail
 
 WORKSPACE="/Users/ainchorsangiefpl/.openclaw/workspace"
@@ -33,6 +35,12 @@ if [[ -f "${STATE_FILE}" ]]; then
     EMAIL_SENT=$(python3 -c "import json; d=json.load(open('${STATE_FILE}')); print(d.get('emailSentConfirmed',''))" 2>/dev/null || echo "")
     if [[ "${EMAIL_SENT}" == "${TODAY_AEST}" ]]; then
         echo "IDEMPOTENT: Email already confirmed sent for ${TODAY_AEST}. Skipping."
+        # Still update the log so it reflects today's state
+        NOW_ISO=$(TZ=Australia/Melbourne date -Iseconds)
+        python3 -c "
+import json
+json.dump({'date':'${TODAY_AEST}','dayNumber':${DAY_N},'sentAt':'${NOW_ISO}','messageId':'already_sent','status':'already_sent','canvasSize':${CANVAS_SIZE}}, open('${LOG_FILE}','w'))
+" 2>/dev/null || true
         exit 0
     fi
 fi
@@ -53,7 +61,7 @@ SEND_EXIT=${PIPESTATUS[0]}
 NOW_ISO=$(TZ=Australia/Melbourne date -Iseconds)
 
 if [[ ${SEND_EXIT} -eq 0 ]]; then
-    MESSAGE_ID=$(python3 -c "import json; d=json.load(open('/tmp/standup-email-result.json')); print(d.get('id',''))" 2>/dev/null || echo "unknown")
+    MESSAGE_ID=$(python3 -c "import json; d=json.load(open('/tmp/standup-email-result.json')); print(d.get('messageId','') or d.get('id',''))" 2>/dev/null || echo "unknown")
     echo "SUCCESS: Email sent. Message ID: ${MESSAGE_ID}"
 
     # Update state with confirmed flag (separate from the cron's emailSentDate)
