@@ -1,1 +1,250 @@
 [main/sessions/main/0486e070-1946-4bdc-807f-06b0dd59b28f.jsonl#L10] Assistant: OK
+[main/sessions/main/00085382-771d-4d01-b338-4095cabd214e.jsonl.deleted.2026-06-24T21-59-47.016Z#L6] Assistant: I'll handle this task monitor reminder. Let me start by running the task collector script and checking the task queue.
+[main/sessions/main/00085382-771d-4d01-b338-4095cabd214e.jsonl.deleted.2026-06-24T21-59-47.016Z#L10] Assistant: Task collector ran clean (0 stalls, 0 verified, 0 failed). The task queue has no stalled tasks — all entries are either `complete`, `done`, `closed`, or `cancelled`. No alert needed. **Summary:** - ✅ `task-collector.sh` → 0 stalls, 
+[main/sessions/main/00264fab-88cf-4ac2-84e7-1d499b918cf5.jsonl#L10] Assistant: OK
+[main/sessions/main/003f7274-d8fc-47b5-8693-89af05e2268c.jsonl.deleted.2026-06-25T11-37-02.839Z#L6] Assistant: I'll handle this health check reminder. Let me run the health check script first.
+[main/sessions/main/003f7274-d8fc-47b5-8693-89af05e2268c.jsonl.deleted.2026-06-25T11-37-02.839Z#L8] Assistant: All checks passed. Now let me read the state diagnostics to verify.
+[main/sessions/main/003f7274-d8fc-47b5-8693-89af05e2268c.jsonl.deleted.2026-06-25T11-37-02.839Z#L10] Assistant: The state diagnostics don't show a `consecutiveFailures` or `status` field in the returned rows — these appear to be historical diagnostic run records, not the current health state. Let me check the health state file directly.
+[main/sessions/main/003f7274-d8fc-47b5-8693-89af05e2268c.jsonl.deleted.2026-06-25T11-37-02.839Z#L22] Assistant: The `db-read.sh state_diagnostics` returned data from Postgres. The rows don't have `consecutiveFailures` or `status` fields — they're historical diagnostic run records. The health check script itself wrote "State written: ok" and e
+[main/sessions/main/003f7274-d8fc-47b5-8693-89af05e2268c.jsonl.deleted.2026-06-25T11-37-02.839Z#L26] Assistant: The `state_diagnostics` table has `failed` and `passed` columns. The most recent row (id=4) shows `failed: 0`. All health checks just passed. No `consecutiveFailures >= 3` and no `status=degraded` condition is met. Let me also check
+[main/sessions/main/003f7274-d8fc-47b5-8693-89af05e2268c.jsonl.deleted.2026-06-25T11-37-02.839Z#L28] Assistant: Status is `ok`, `consecutiveFailures: 0`. All clear. Outputting OK. OK
+[main/sessions/main/00471adf-cae0-4b56-a736-5d171c3efa70.jsonl.deleted.2026-06-25T13-18-03.435Z#L6] Assistant: The reminder is to run the task queue processor. Let me execute it.
+[main/sessions/main/00471adf-cae0-4b56-a736-5d171c3efa70.jsonl.deleted.2026-06-25T13-18-03.435Z#L8] Assistant: Task queue processor ran — no tasks to process. All clear.
+[main/sessions/main/004ca95e-40ae-42b9-a6ae-adbd82f955fa.jsonl.deleted.2026-06-25T00-34-55.181Z#L6] Assistant: I'll handle this health check reminder. Let me run the script and check the diagnostics.
+[main/sessions/main/004ca95e-40ae-42b9-a6ae-adbd82f955fa.jsonl.deleted.2026-06-25T00-34-55.181Z#L8] Assistant: All checks passed. Now let me read the diagnostics file to confirm state.
+[main/sessions/main/004ca95e-40ae-42b9-a6ae-adbd82f955fa.jsonl.deleted.2026-06-25T00-34-55.181Z#L10] Assistant: The diagnostics show no recent consecutive failures (all `failed: 0`) and the health check just reported `STATUS: ok`. No alert needed. **OK**
+[main/sessions/main/0057ea67-e4de-4f55-be45-bedad7ea1663.jsonl.deleted.2026-06-24T18-54-23.896Z#L8] Assistant: Mission Control dashboard refreshed successfully.
+[main/sessions/main/0063d941-fe00-43e5-91ed-a74f860984d0.jsonl.deleted.2026-06-25T07-45-00.431Z#L6] Assistant: Running the task queue processor now.
+[main/sessions/main/0063d941-fe00-43e5-91ed-a74f860984d0.jsonl.deleted.2026-06-25T07-45-00.431Z#L8] Assistant: Task queue processor ran — no tasks to process. All clear.
+[main/sessions/main/00b8b6f2-8b5d-4c9c-bc2b-6439e4dcffde.jsonl.deleted.2026-06-24T19-21-00.677Z#L6] Assistant: I'll handle this TASK_MONITOR reminder. Let me start by running the task collector script and checking the state queue.
+[main/sessions/main/00b8b6f2-8b5d-4c9c-bc2b-6439e4dcffde.jsonl.deleted.2026-06-24T19-21-00.677Z#L9] Assistant: Task collector ran cleanly — 0 stalls, 0 verified, 0 failed. Now checking the state queue for stalled tasks. The queue has many entries but all are in terminal states (complete, done, closed, cancelled) — none are in a stalled/runnin
+[main/sessions/main/00b8b6f2-8b5d-4c9c-bc2b-6439e4dcffde.jsonl.deleted.2026-06-24T19-21-00.677Z#L11] Assistant: All clear. Summary: 1. **task-collector.sh** ✅ — Ran successfully: 0 stalls, 0 verified, 0 failed. 2. **state_task_queue check** ✅ — All 25+ entries are in terminal states (complete/done/closed/cancelled). No stalled tasks detected.
+[main/sessions/main/011d0875-a7ae-4918-8488-f45fbdd194f9.jsonl.deleted.2026-06-25T12-02-07.577Z#L6] Assistant: The scheduled TQP_RUN reminder has fired. Let me execute the task queue processor script.
+[main/sessions/main/011d0875-a7ae-4918-8488-f45fbdd194f9.jsonl.deleted.2026-06-25T12-02-07.577Z#L8] Assistant: Task queue processor ran — no tasks in the queue. Nothing to escalate or dispatch.
+[main/sessions/main/01552165-4038-4515-897f-8245afa98fcd.jsonl.deleted.2026-06-25T05-03-00.467Z#L6] Assistant: Running the task queue processor now.
+[main/sessions/main/01552165-4038-4515-897f-8245afa98fcd.jsonl.deleted.2026-06-25T05-03-00.467Z#L8] Assistant: Task queue is empty — nothing to process. Exiting.
+[main/sessions/main/015e163b-fb33-435e-88ae-200b3101b7b1.jsonl.deleted.2026-06-25T12-52-55.157Z#L6] Assistant: Running the TQP script now.
+[main/sessions/main/015e163b-fb33-435e-88ae-200b3101b7b1.jsonl.deleted.2026-06-25T12-52-55.157Z#L8] Assistant: TQP run complete — no tasks to process.
+[main/sessions/main/01727afa-2ecf-4d39-ace9-b24dec91c909.jsonl.deleted.2026-06-25T13-18-03.435Z#L6] Assistant: Running the task queue processor as scheduled.
+[main/sessions/main/01727afa-2ecf-4d39-ace9-b24dec91c909.jsonl.deleted.2026-06-25T13-18-03.435Z#L8] Assistant: Task queue is empty — nothing to process. Exiting cleanly.
+[main/sessions/main/01aad1d9-1c8c-4868-a727-2b3259feb3f4.jsonl.deleted.2026-06-24T20-42-00.427Z#L6] Assistant: Running the TQP script now.
+[main/sessions/main/01aad1d9-1c8c-4868-a727-2b3259feb3f4.jsonl.deleted.2026-06-24T20-42-00.427Z#L8] Assistant: TQP run complete — no tasks to process. Queue is idle.
+[main/sessions/main/01bce481-ea81-4592-a753-2e70aba09149.jsonl.deleted.2026-06-24T21-09-00.456Z#L6] Assistant: Running the task queue processor as scheduled.
+[main/sessions/main/01bce481-ea81-4592-a753-2e70aba09149.jsonl.deleted.2026-06-24T21-09-00.456Z#L8] Assistant: TQP run complete — no tasks to process.
+[main/sessions/main/01d31886-fc5f-4cbe-9e66-d742696d17b1.jsonl.deleted.2026-06-25T01-30-35.827Z#L6] Assistant: The TQP cron job has fired. Let me run the task queue processor script.
+[main/sessions/main/01d31886-fc5f-4cbe-9e66-d742696d17b1.jsonl.deleted.2026-06-25T01-30-35.827Z#L8] Assistant: No tasks to process. Queue is empty.
+[main/sessions/main/01f14786-e472-4cfd-b33c-cd57f9fe6b77.jsonl.deleted.2026-06-25T10-44-54.778Z#L6] Assistant: I'll handle this TASK_MONITOR reminder. Let me start by running the task collector script and checking the task queue.
+[main/sessions/main/01f14786-e472-4cfd-b33c-cd57f9fe6b77.jsonl.deleted.2026-06-25T10-44-54.778Z#L9] Assistant: Task collector ran cleanly: 0 stalls, 0 verified, 0 failed. Now checking the queue for stalled tasks. The queue has many entries but they're all in terminal states (complete, done, closed, cancelled) — no tasks in `queued`, `dispatch
+[main/sessions/main/020128e8-397b-4d62-8c46-533146105772.jsonl.deleted.2026-06-25T11-10-00.452Z#L6] Assistant: I'll handle this health check reminder. Let me run the health check script first.
+[main/sessions/main/020128e8-397b-4d62-8c46-533146105772.jsonl.deleted.2026-06-25T11-10-00.452Z#L8] Assistant: All checks passed. Now let me read the state diagnostics to verify.
+[main/sessions/main/020128e8-397b-4d62-8c46-533146105772.jsonl.deleted.2026-06-25T11-10-00.452Z#L10] Assistant: The state diagnostics show no consecutive failures (all `failed: 0`) and no `degraded` status. Conditions are not met for alerting. OK
+[main/sessions/main/02227db3-cd36-4011-8cdc-933ec71d333e.jsonl.deleted.2026-06-25T02-00-53.595Z#L6] Assistant: Running the scheduled obs-collector script silently.
+[main/sessions/main/02227db3-cd36-4011-8cdc-933ec71d333e.jsonl.deleted.2026-06-25T02-00-53.595Z#L8] Assistant: Script completed — no new events logged.
+[main/sessions/main/023e767a-ce46-482e-98bc-32490d149975.jsonl.deleted.2026-06-25T04-11-14.464Z#L6] Assistant: I'll handle this task monitor reminder. Let me start by running the task collector script and checking the task queue.
+[main/sessions/main/023e767a-ce46-482e-98bc-32490d149975.jsonl.deleted.2026-06-25T04-11-14.464Z#L9] Assistant: Task collector reports clean: 0 stalls, 0 verified, 0 failed. The task queue has no stalled tasks — all entries are either `complete`, `done`, `closed`, or `cancelled`. No alert needed. **Summary:** - ✅ `task-collector.sh` ran clean 
+[main/sessions/main/0249d059-b9d2-46c3-865f-4fff4ee16f60.jsonl.deleted.2026-06-25T10-44-54.783Z#L6] Assistant: I'll handle this health check reminder. Let me run the health check script first.
+[main/sessions/main/0249d059-b9d2-46c3-865f-4fff4ee16f60.jsonl.deleted.2026-06-25T10-44-54.783Z#L8] Assistant: All checks passed. Now let me read the state diagnostics to verify.
+[main/sessions/main/0249d059-b9d2-46c3-865f-4fff4ee16f60.jsonl.deleted.2026-06-25T10-44-54.783Z#L10] Assistant: The state diagnostics don't show a `consecutiveFailures` or `status` field in the expected format — but the health check just completed with all checks passing and status `ok`. No alert conditions are met. **OK**
+[main/sessions/main/024b6ec4-7b2e-47e7-992b-81983398f830.jsonl.deleted.2026-06-24T23-44-16.690Z#L6] Assistant: Running the TQP script now.
+[main/sessions/main/024b6ec4-7b2e-47e7-992b-81983398f830.jsonl.deleted.2026-06-24T23-44-16.690Z#L8] Assistant: TQP run complete — no tasks to process.
+[main/sessions/main/0281b8af-e040-4b1e-8133-67dd2ffc04fc.jsonl#L8] Assistant: OK
+[main/sessions/main/0296637f-ef4a-4db1-95b3-4bd94bf72b5c.jsonl.deleted.2026-06-25T15-49-17.054Z#L6] Assistant: Running the TQP script as scheduled.
+[main/sessions/main/0296637f-ef4a-4db1-95b3-4bd94bf72b5c.jsonl.deleted.2026-06-25T15-49-17.054Z#L8] Assistant: TQP run complete — no tasks to process.
+[main/sessions/main/02af4f34-9cb3-4125-91e9-a8ea177b5e63.jsonl.deleted.2026-06-24T19-49-15.382Z#L6] Assistant: Running the task queue processor as scheduled.
+[main/sessions/main/02af4f34-9cb3-4125-91e9-a8ea177b5e63.jsonl.deleted.2026-06-24T19-49-15.382Z#L8] Assistant: Task queue processor ran — no tasks to process. All clear.
+[main/sessions/main/02d08a79-8e6b-4cae-9bbc-4fb8cc7ba0f1.jsonl.deleted.2026-06-25T06-20-53.194Z#L6] Assistant: The reminder is to run the task queue processor. Let me execute it.
+[main/sessions/main/02d08a79-8e6b-4cae-9bbc-4fb8cc7ba0f1.jsonl.deleted.2026-06-25T06-20-53.194Z#L8] Assistant: Task queue processor ran — no tasks to process. All clear.
+[main/sessions/main/02d90ebe-98c7-4352-9a75-c045ec500b40.jsonl.deleted.2026-06-25T06-46-25.721Z#L6] Assistant: Running the task queue processor now.
+[main/sessions/main/02d90ebe-98c7-4352-9a75-c045ec500b40.jsonl.deleted.2026-06-25T06-46-25.721Z#L8] Assistant: Task queue is empty — nothing to process.
+[main/sessions/main/02d952c4-4146-49ca-bfc8-a4d25b9fdc86.jsonl.deleted.2026-06-25T09-28-48.384Z#L6] Assistant: Running the TQP script now.
+[main/sessions/main/02d952c4-4146-49ca-bfc8-a4d25b9fdc86.jsonl.deleted.2026-06-25T09-28-48.384Z#L8] Assistant: TQP run complete — no tasks in the queue. Nothing to escalate.
+[main/sessions/main/02ec46b9-0878-471d-9e79-e00e032c3730.jsonl.deleted.2026-06-25T07-19-54.775Z#L6] Assistant: The scheduled TQP_RUN reminder has fired. Let me execute the task queue processor script.
+[main/sessions/main/02ec46b9-0878-471d-9e79-e00e032c3730.jsonl.deleted.2026-06-25T07-19-54.775Z#L8] Assistant: Task queue processor ran — no tasks to process. All clear.
+[main/sessions/main/03215f21-a1b2-4c81-b337-138d3b7e6784.jsonl#L6] Assistant: Running the PG-to-Notion batch sync.
+[main/sessions/main/03215f21-a1b2-4c81-b337-138d3b7e6784.jsonl#L8] Assistant: Skill gate blocked — need to reload the notion skill first.
+[main/sessions/main/03215f21-a1b2-4c81-b337-138d3b7e6784.jsonl#L12] Assistant: The batch sync completed successfully — all tickets are already synced, nothing to do. The secondary skill gate block is from a different script path in the pipeline, but the sync itself ran fine. **Result:** ✅ All tickets synced. No errors, no DLQ entries.
+[main/sessions/main/0344bcad-7063-4c74-831d-b3258b008626.jsonl.deleted.2026-06-25T01-30-35.820Z#L6] Assistant: I'll handle this task monitor reminder. Let me run the collector script and check the task queue.
+[main/sessions/main/0344bcad-7063-4c74-831d-b3258b008626.jsonl.deleted.2026-06-25T01-30-35.820Z#L10] Assistant: Let me check the db-read script to see how to query state_task_queue properly.
+[main/sessions/main/0344bcad-7063-4c74-831d-b3258b008626.jsonl.deleted.2026-06-25T01-30-35.820Z#L14] Assistant: All tasks in the queue are in terminal states (complete/done/closed/cancelled) — none are stalled. Let me also check the sovereign-alert script exists and verify the collector output more carefully.
+[main/sessions/main/0344bcad-7063-4c74-831d-b3258b008626.jsonl.deleted.2026-06-25T01-30-35.820Z#L16] Assistant: Good — the alert script exists. Now let me check for any tasks that are actually stalled (not in a terminal state like complete/done/closed/cancelled).
+[main/sessions/main/0344bcad-7063-4c74-831d-b3258b008626.jsonl.deleted.2026-06-25T01-30-35.820Z#L18] Assistant: The SQL pass-through didn't work — let me try the direct db-raw.sh approach.
+[main/sessions/main/0344bcad-7063-4c74-831d-b3258b008626.jsonl.deleted.2026-06-25T01-30-35.820Z#L20] Assistant: No stalled tasks found. The task queue is clean — all items are in terminal states. Let me also check the task-collector output more carefully.
+[main/sessions/main/0344bcad-7063-4c74-831d-b3258b008626.jsonl.deleted.2026-06-25T01-30-35.820Z#L22] Assistant: All clear. Summary of the TASK_MONITOR run: 1. **task-collector.sh** ✅ — Ran successfully: 0 stalls, 0 verified, 0 failed 2. **state_task_queue check** ✅ — All tasks are in terminal states (complete/done/closed/cancelled). No stalle
+[main/sessions/main/034b6ebe-4034-4408-8f6f-99566cba2b1e.jsonl.deleted.2026-06-25T02-00-53.594Z#L6] Assistant: I'll handle this health check reminder. Let me run the script and check diagnostics.
+[main/sessions/main/034b6ebe-4034-4408-8f6f-99566cba2b1e.jsonl.deleted.2026-06-25T02-00-53.594Z#L8] Assistant: All checks passed. Now let me read the diagnostics to verify state.
+[main/sessions/main/034b6ebe-4034-4408-8f6f-99566cba2b1e.jsonl.deleted.2026-06-25T02-00-53.594Z#L10] Assistant: The diagnostics show no `consecutiveFailures` field and `status` is not `degraded` — all checks passed with exit code 0. No alert needed. **OK**
+[main/sessions/main/0351964c-5cd0-4604-afad-b8a678564f6a.jsonl.deleted.2026-06-25T02-00-53.597Z#L6] Assistant: Running the TQP script as scheduled.
+[main/sessions/main/0351964c-5cd0-4604-afad-b8a678564f6a.jsonl.deleted.2026-06-25T02-00-53.597Z#L8] Assistant: TQP run complete — no tasks in the queue. Nothing to escalate or relay.
+[main/sessions/main/0354ad27-de97-45bc-bdf0-8638642699f3.jsonl.deleted.2026-06-25T05-28-00.449Z#L6] Assistant: The scheduled TQP_RUN reminder has fired. Let me execute the task queue processor script.
+[main/sessions/main/0354ad27-de97-45bc-bdf0-8638642699f3.jsonl.deleted.2026-06-25T05-28-00.449Z#L8] Assistant: Task queue processor ran — no tasks to process. All clear.
+[main/sessions/main/036603f1-2610-43ee-b82a-9f10002e2d72.jsonl.deleted.2026-06-25T11-10-00.457Z#L6] Assistant: Running the task queue processor as scheduled.
+[main/sessions/main/036603f1-2610-43ee-b82a-9f10002e2d72.jsonl.deleted.2026-06-25T11-10-00.457Z#L8] Assistant: Task queue processor ran — no tasks to process. All clear.
+[main/sessions/main/037d25a8-5d43-4b7a-a0d3-a032e29a6ffd.jsonl.deleted.2026-06-25T07-19-54.780Z#L6] Assistant: Running the mission control refresh script now.
+[main/sessions/main/037d25a8-5d43-4b7a-a0d3-a032e29a6ffd.jsonl.deleted.2026-06-25T07-19-54.780Z#L8] Assistant: Mission Control dashboard refreshed successfully. No reply needed.
+[main/sessions/main/03b5b947-6d55-40fa-ba04-43389f8b4a9e.jsonl.deleted.2026-06-25T16-16-00.447Z#L6] Assistant: I'll handle this TASK_MONITOR reminder. Let me run the task collector and check for stalled tasks.
+[main/sessions/main/03b5b947-6d55-40fa-ba04-43389f8b4a9e.jsonl.deleted.2026-06-25T16-16-00.447Z#L9] Assistant: Task collector ran clean: 0 stalls, 0 verified, 0 failed. The queue has historical entries but all are in terminal states (complete/done/closed/cancelled) — no stalled tasks requiring alert. **TASK_MONITOR result:** All clear. No ale
+[main/sessions/main/04346610-7384-4f48-a19f-893c492dd47c.jsonl.deleted.2026-06-25T05-03-00.468Z#L6] Assistant: The scheduled TQP_RUN reminder has fired. Let me execute the task queue processor script.
+[main/sessions/main/04346610-7384-4f48-a19f-893c492dd47c.jsonl.deleted.2026-06-25T05-03-00.468Z#L8] Assistant: Task queue is empty — nothing to process. Exiting cleanly.
+[main/sessions/main/043c3419-1fcc-4f56-8091-0731a7d7ae3e.jsonl#L6] Assistant: Running the PG-Notion batch sync.
+[main/sessions/main/043c3419-1fcc-4f56-8091-0731a7d7ae3e.jsonl#L8] Assistant: The sync ran successfully — all tickets are already synced, nothing to do. The skill gate warning is a stale-load notice from the script's internal check, not a blocker since the actual sync completed with "All tickets synced." **Result:** ✅ Batch sync complete — 0 
+[main/sessions/main/04990507-2fb4-4819-902d-8ada4b8376f5.jsonl.deleted.2026-06-25T03-20-00.416Z#L6] Assistant: I'll handle this task monitor reminder. Let me run the collector script and check the task queue.
+[main/sessions/main/04990507-2fb4-4819-902d-8ada4b8376f5.jsonl.deleted.2026-06-25T03-20-00.416Z#L10] Assistant: Task collector ran clean (0 stalls, 0 failed). The task queue has no stalled tasks — all entries are either `complete`, `done`, `closed`, or `cancelled`. No alert needed. **Summary:** - ✅ `task-collector.sh` → 0 stalls, 0 verified, 
+[main/sessions/main/049a4576-3ed8-41d6-9702-c8231a429252.jsonl.deleted.2026-06-25T05-03-00.471Z#L6] Assistant: The TQP reminder has fired. Let me execute the task queue processor script.
+[main/sessions/main/049a4576-3ed8-41d6-9702-c8231a429252.jsonl.deleted.2026-06-25T05-03-00.471Z#L8] Assistant: TQP ran cleanly — no tasks in the queue. Nothing to escalate or process.
+[main/sessions/main/049fbabb-b91e-4006-a2c8-9adf9004d23e.jsonl.deleted.2026-06-25T05-03-00.475Z#L6] Assistant: Running the task queue processor as scheduled.
+[main/sessions/main/049fbabb-b91e-4006-a2c8-9adf9004d23e.jsonl.deleted.2026-06-25T05-03-00.475Z#L8] Assistant: Task queue processor ran — no tasks to process. All clear.
+[main/sessions/main/04b6cff8-10c4-49ad-aa74-8300fa794ece.jsonl.deleted.2026-06-24T19-21-00.675Z#L6] Assistant: Running the task queue processor script as instructed.
+[main/sessions/main/04b6cff8-10c4-49ad-aa74-8300fa794ece.jsonl.deleted.2026-06-24T19-21-00.675Z#L8] Assistant: Task queue processor ran — no tasks to process. All clear.
+[main/sessions/main/04be9372-6209-4ffd-811f-d4abac3822ca.jsonl.deleted.2026-06-25T03-45-36.620Z#L6] Assistant: Running the TQP script now.
+[main/sessions/main/04be9372-6209-4ffd-811f-d4abac3822ca.jsonl.deleted.2026-06-25T03-45-36.620Z#L8] Assistant: TQP run complete — no tasks to process.
+[main/sessions/main/04cdb140-f501-4b2b-899b-3da0da3e8e51.jsonl.deleted.2026-06-25T13-18-03.433Z#L6] Assistant: Running the task queue processor as scheduled.
+[main/sessions/main/04cdb140-f501-4b2b-899b-3da0da3e8e51.jsonl.deleted.2026-06-25T13-18-03.433Z#L8] Assistant: Task queue processor ran — no tasks to process. All clear.
+[main/sessions/main/04e97958-278f-4c63-b39f-d020339e7e06.jsonl.deleted.2026-06-24T22-24-00.441Z#L6] Assistant: Running the task queue processor as scheduled.
+[main/sessions/main/04e97958-278f-4c63-b39f-d020339e7e06.jsonl.deleted.2026-06-24T22-24-00.441Z#L8] Assistant: Task queue processor ran — no tasks to process. All clear.
+[main/sessions/main/04f7e097-cc4d-4752-b0cd-211cc27b7df0.jsonl.deleted.2026-06-25T08-11-00.436Z#L6] Assistant: Running the task queue processor as scheduled.
+[main/sessions/main/04f7e097-cc4d-4752-b0cd-211cc27b7df0.jsonl.deleted.2026-06-25T08-11-00.436Z#L8] Assistant: No tasks to process — queue is empty.
+[main/sessions/main/0503bb20-e833-4f42-bb1f-0abf8a2ced2d.jsonl.deleted.2026-06-24T23-44-16.698Z#L6] Assistant: The reminder is to run the task queue processor. Let me execute it.
+[main/sessions/main/0503bb20-e833-4f42-bb1f-0abf8a2ced2d.jsonl.deleted.2026-06-24T23-44-16.698Z#L8] Assistant: Task queue processor ran — no tasks to process. All clear.
+[main/sessions/main/053e43a9-161b-4236-a7d2-787851ec9234.jsonl.deleted.2026-06-25T10-44-54.784Z#L6] Assistant: Running the task queue processor as scheduled.
+[main/sessions/main/053e43a9-161b-4236-a7d2-787851ec9234.jsonl.deleted.2026-06-25T10-44-54.784Z#L8] Assistant: Task queue processor ran — no tasks to process. All clear.
+[main/sessions/main/055c67de-328d-4ba3-843b-5ad923a6e31f.jsonl.deleted.2026-06-25T09-54-00.422Z#L6] Assistant: Running the task queue processor as scheduled.
+[main/sessions/main/055c67de-328d-4ba3-843b-5ad923a6e31f.jsonl.deleted.2026-06-25T09-54-00.422Z#L8] Assistant: TQP run complete — no tasks to process.
+[main/sessions/main/057dd760-8fc4-45a2-8222-9038b2cdd88e.jsonl.deleted.2026-06-24T22-24-00.440Z#L6] Assistant: Running the TQP script now.
+[main/sessions/main/057dd760-8fc4-45a2-8222-9038b2cdd88e.jsonl.deleted.2026-06-24T22-24-00.440Z#L8] Assistant: TQP run complete — no tasks to process.
+[main/sessions/main/058ccedb-27d8-4d8b-87a3-023639a91629.jsonl.deleted.2026-06-24T22-24-00.437Z#L8] Assistant: No tasks to process. Queue is empty.
+[main/sessions/main/05b0905b-3108-48bc-91a8-a4c4e90a44f1.jsonl.deleted.2026-06-25T04-11-14.464Z#L6] Assistant: Running the task queue processor as scheduled.
+[main/sessions/main/05b0905b-3108-48bc-91a8-a4c4e90a44f1.jsonl.deleted.2026-06-25T04-11-14.464Z#L8] Assistant: Task queue is empty — nothing to process. Exiting cleanly.
+[main/sessions/main/05b55c1c-593c-43a1-884e-5e74d0866206.jsonl.deleted.2026-06-25T14-33-04.517Z#L6] Assistant: Running the obs-collector script silently.
+[main/sessions/main/05b55c1c-593c-43a1-884e-5e74d0866206.jsonl.deleted.2026-06-25T14-33-04.517Z#L8] Assistant: Script ran successfully — 1 new event logged. No further action needed.
+[main/sessions/main/05cf95e9-0112-499f-9aa7-70f2af06c247.jsonl.deleted.2026-06-25T15-23-48.067Z#L6] Assistant: Running the task queue processor as scheduled.
+[main/sessions/main/05cf95e9-0112-499f-9aa7-70f2af06c247.jsonl.deleted.2026-06-25T15-23-48.067Z#L8] Assistant: Task queue processor ran — no tasks to process. All clear.
+[main/sessions/main/05df6bc3-cd7e-4e1a-a81c-0a3219368617.jsonl.deleted.2026-06-25T03-20-00.416Z#L6] Assistant: The scheduled TQP_RUN reminder has fired. Let me execute the task queue processor script.
+[main/sessions/main/05df6bc3-cd7e-4e1a-a81c-0a3219368617.jsonl.deleted.2026-06-25T03-20-00.416Z#L8] Assistant: Task queue processor ran successfully — no tasks in the queue. Nothing to escalate or dispatch.
+[main/sessions/main/05ec83dd-0601-4988-8534-e34622ed0531.jsonl.deleted.2026-06-25T08-37-53.875Z#L6] Assistant: I'll run the task queue processor script now.
+[main/sessions/main/05ec83dd-0601-4988-8534-e34622ed0531.jsonl.deleted.2026-06-25T08-37-53.875Z#L8] Assistant: Task queue is empty — nothing to process. No action needed.
+[main/sessions/main/0622617e-e64f-4bce-805e-7a7e711ca5b8.jsonl.deleted.2026-06-25T14-59-00.883Z#L6] Assistant: I'll handle this task monitor reminder. Let me start by running the task collector script and checking the state.
+[main/sessions/main/0622617e-e64f-4bce-805e-7a7e711ca5b8.jsonl.deleted.2026-06-25T14-59-00.883Z#L10] Assistant: Task collector ran clean (0 stalls, 0 verified, 0 failed). The state_task_queue has entries but all are either `complete`, `done`, `closed`, or `cancelled` — no stalled tasks in a non-terminal state. No alert needed. **Task Monitor 
+[main/sessions/main/06287e5c-d58b-4c3e-ba85-6cf960f8d246.jsonl.deleted.2026-06-25T05-54-00.433Z#L6] Assistant: I'll handle this task monitor reminder. Let me start by running the task collector script and checking the task queue.
+[main/sessions/main/06287e5c-d58b-4c3e-ba85-6cf960f8d246.jsonl.deleted.2026-06-25T05-54-00.433Z#L9] Assistant: Task collector reports clean: 0 stalls, 0 verified, 0 failed. The task queue has many historical/completed entries but no stalled tasks — all items are in `done`, `closed`, `complete`, or `cancelled` status. No alert needed. **Monito
+[main/sessions/main/0631a4d2-bc45-4d9b-8ef5-fc3072dba73f.jsonl.deleted.2026-06-25T01-30-35.823Z#L6] Assistant: Running the task queue processor as scheduled.
+[main/sessions/main/0631a4d2-bc45-4d9b-8ef5-fc3072dba73f.jsonl.deleted.2026-06-25T01-30-35.823Z#L8] Assistant: Task queue processor ran — no tasks to process. All clear.
+[main/sessions/main/0638b5d2-efb1-41fd-9c19-bbcbc52b483c.jsonl.deleted.2026-06-25T09-03-47.134Z#L6] Assistant: Running the task queue processor as scheduled.
+[main/sessions/main/0638b5d2-efb1-41fd-9c19-bbcbc52b483c.jsonl.deleted.2026-06-25T09-03-47.134Z#L8] Assistant: Task queue processor ran — no tasks to process. All clear.
+[main/sessions/main/063bf1bc-5571-478f-aac3-5050cca32c72.jsonl.deleted.2026-06-24T22-49-57.250Z#L6] Assistant: Running the TQP script as instructed.
+[main/sessions/main/063bf1bc-5571-478f-aac3-5050cca32c72.jsonl.deleted.2026-06-24T22-49-57.250Z#L8] Assistant: TQP run complete — no tasks to process. Exiting cleanly.
+[main/sessions/main/066215ca-58dd-4785-90b7-8b439c528beb.jsonl.deleted.2026-06-25T01-30-35.821Z#L6] Assistant: Running the task queue processor script.
+[main/sessions/main/066215ca-58dd-4785-90b7-8b439c528beb.jsonl.deleted.2026-06-25T01-30-35.821Z#L8] Assistant: Task queue processor ran — no tasks to process. All clear.
+[main/sessions/main/0664cddc-8b47-461d-9e6e-cf6bda8a0645.jsonl.deleted.2026-06-25T08-11-00.434Z#L6] Assistant: Running the scheduled obs-collector script silently.
+[main/sessions/main/0664cddc-8b47-461d-9e6e-cf6bda8a0645.jsonl.deleted.2026-06-25T08-11-00.434Z#L8] Assistant: No new events. Done.
+[main/sessions/main/067acd0b-50d0-42fa-9255-3895addd904b.jsonl.deleted.2026-06-25T09-03-47.131Z#L6] Assistant: I'll handle this task monitor reminder. Let me run the collector script and check the task queue.
+[main/sessions/main/067acd0b-50d0-42fa-9255-3895addd904b.jsonl.deleted.2026-06-25T09-03-47.131Z#L10] Assistant: The task queue is clean — all tasks are in terminal states (done, closed, cancelled, complete). No stalled tasks detected. No alert needed. **Summary:** - **task-collector.sh**: 0 stalls, 0 verified, 0 failed ✅ - **state_task_queue*
+[main/sessions/main/0696414d-2220-4429-9457-9db5e4a14ddb.jsonl.deleted.2026-06-25T06-20-53.194Z#L6] Assistant: The reminder is to run the task queue processor. Let me execute it.
+[main/sessions/main/0696414d-2220-4429-9457-9db5e4a14ddb.jsonl.deleted.2026-06-25T06-20-53.194Z#L8] Assistant: Task queue processor ran — no tasks to process. All clear.
+[main/sessions/main/069c57c0-aca3-4eac-9a72-9aa7192136e9.jsonl.deleted.2026-06-25T07-19-54.773Z#L6] Assistant: Running the scheduled OBS collector script silently.
+[main/sessions/main/069c57c0-aca3-4eac-9a72-9aa7192136e9.jsonl.deleted.2026-06-25T07-19-54.773Z#L8] Assistant: No new OBS events. Nothing to relay.
+[main/sessions/main/06c711d1-390c-42a8-9101-953ba507bbc4.jsonl.deleted.2026-06-25T02-53-00.450Z#L6] Assistant: The reminder says to run the obs-collector script silently. Let me execute it.
+[main/sessions/main/06c711d1-390c-42a8-9101-953ba507bbc4.jsonl.deleted.2026-06-25T02-53-00.450Z#L8] Assistant: Script ran successfully — no new events logged. Nothing to relay.
+[main/sessions/main/06d13cb4-a586-4ec4-816e-99a214dad2bd.jsonl.deleted.2026-06-25T09-54-00.422Z#L6] Assistant: I see this is a cron-triggered heartbeat poll. Let me check if there's anything that needs attention.
+[main/sessions/main/06d13cb4-a586-4ec4-816e-99a214dad2bd.jsonl.deleted.2026-06-25T09-54-00.422Z#L10] Assistant: Mission Control dashboard regenerated successfully. All systems nominal: - **Gateway**: OK - **Agents**: Yoda & Aria both idle - **Tech tasks**: 10 backlog, 2 WIP, 10 done - **Biz tasks**: 1 backlog, 0 WIP, 1 done - **Governance**: 
+[main/sessions/main/07114ad2-5677-4467-8c34-23ba084a96bd.jsonl.deleted.2026-06-25T02-26-20.253Z#L6] Assistant: I'll handle this health check reminder. Let me run the health check script first.
+[main/sessions/main/07114ad2-5677-4467-8c34-23ba084a96bd.jsonl.deleted.2026-06-25T02-26-20.253Z#L8] Assistant: All checks passed. Now let me read the state diagnostics to verify.
+[main/sessions/main/07114ad2-5677-4467-8c34-23ba084a96bd.jsonl.deleted.2026-06-25T02-26-20.253Z#L10] Assistant: The state diagnostics don't show a `consecutiveFailures` or `status` field in the returned rows — the health check just wrote "ok" state. All checks passed with exit code 0, so no alert condition is triggered. **OK**
+[main/sessions/main/07161cda-0434-48d0-95f5-d1e4af33d20c.jsonl.deleted.2026-06-25T16-41-12.444Z#L6] Assistant: Running the TQP script now.
+[main/sessions/main/07161cda-0434-48d0-95f5-d1e4af33d20c.jsonl.deleted.2026-06-25T16-41-12.444Z#L8] Assistant: TQP run complete — no tasks in the queue. Nothing to escalate or process.
+[main/sessions/main/074e65d2-6369-4c59-901e-a015f06a0309.jsonl.deleted.2026-06-25T04-36-33.091Z#L6] Assistant: Running the TQP script now.
+[main/sessions/main/074e65d2-6369-4c59-901e-a015f06a0309.jsonl.deleted.2026-06-25T04-36-33.091Z#L8] Assistant: TQP run complete — no tasks in the queue to process.
+[main/sessions/main/074f8284-36d4-46b1-8c03-354ada73893f.jsonl.deleted.2026-06-24T22-24-00.436Z#L6] Assistant: Running the task queue processor as scheduled.
+[main/sessions/main/074f8284-36d4-46b1-8c03-354ada73893f.jsonl.deleted.2026-06-24T22-24-00.436Z#L8] Assistant: Task queue is empty — nothing to process. Exiting cleanly.
+[main/sessions/main/07556a14-ec4c-4a3b-94eb-8dc57e97ae56.jsonl.deleted.2026-06-25T16-16-00.450Z#L6] Assistant: Running the TQP script as instructed.
+[main/sessions/main/07556a14-ec4c-4a3b-94eb-8dc57e97ae56.jsonl.deleted.2026-06-25T16-16-00.450Z#L8] Assistant: TQP run complete — no tasks to process. All clear.
+[main/sessions/main/075f4742-4272-43b1-9034-2989770acb10.jsonl.deleted.2026-06-25T01-30-35.824Z#L6] Assistant: The reminder is to run the task queue processor. Let me execute it.
+[main/sessions/main/075f4742-4272-43b1-9034-2989770acb10.jsonl.deleted.2026-06-25T01-30-35.824Z#L8] Assistant: Task queue processor ran — no tasks to process. All clear.
+[main/sessions/main/076e6d2e-9c89-4567-9344-d701cc6025d9.jsonl.deleted.2026-06-25T16-16-00.450Z#L6] Assistant: Running the TQP script as instructed.
+[main/sessions/main/076e6d2e-9c89-4567-9344-d701cc6025d9.jsonl.deleted.2026-06-25T16-16-00.450Z#L8] Assistant: TQP run complete — no tasks to process.
+[main/sessions/main/0792a205-022c-46e1-9bfd-96121a47e975.jsonl.deleted.2026-06-24T21-34-00.413Z#L6] Assistant: Running the task queue processor as scheduled.
+[main/sessions/main/0792a205-022c-46e1-9bfd-96121a47e975.jsonl.deleted.2026-06-24T21-34-00.413Z#L8] Assistant: Task queue processor ran — no tasks to process. All clear.
+[main/sessions/main/079d7d6d-2720-48c5-91c0-1fe25e7ebd83.jsonl.deleted.2026-06-24T21-59-47.017Z#L6] Assistant: Running the TQP script now.
+[main/sessions/main/079d7d6d-2720-48c5-91c0-1fe25e7ebd83.jsonl.deleted.2026-06-24T21-59-47.017Z#L8] Assistant: No tasks to process — queue is empty. Exiting cleanly.
+[main/sessions/main/07bf4052-86d4-4b41-b3a5-1c614dcd87e8.jsonl.deleted.2026-06-24T20-14-46.559Z#L6] Assistant: The reminder is to run the task queue processor script. Let me execute it.
+[main/sessions/main/07bf4052-86d4-4b41-b3a5-1c614dcd87e8.jsonl.deleted.2026-06-24T20-14-46.559Z#L8] Assistant: Task queue processor ran — no tasks to process. All clear.
+[main/sessions/main/07e77ee6-eb5d-407a-a0df-9f08aaf22733.jsonl.deleted.2026-06-25T09-28-48.385Z#L6] Assistant: I'll handle this task monitor reminder. Let me start by running the task collector script and checking the task queue.
+[main/sessions/main/07e77ee6-eb5d-407a-a0df-9f08aaf22733.jsonl.deleted.2026-06-25T09-28-48.385Z#L9] Assistant: Task collector ran cleanly — 0 stalls, 0 verified, 0 failed. The task queue has many historical entries but all are in terminal states (done, closed, cancelled, complete). No stalled tasks requiring alert. **Monitor result: All clear
+[main/sessions/main/0803ac7c-15bf-4edd-bbdd-e457a86cc738.jsonl.deleted.2026-06-25T00-09-30.721Z#L6] Assistant: Running the TQP script now.
+[main/sessions/main/0803ac7c-15bf-4edd-bbdd-e457a86cc738.jsonl.deleted.2026-06-25T00-09-30.721Z#L8] Assistant: TQP run complete — no tasks in the queue. Nothing to escalate.
+[main/sessions/main/08149ef7-7b5b-483f-8793-5b3b33e3dfc9.jsonl.deleted.2026-06-25T11-10-00.455Z#L6] Assistant: I'll handle this task monitor reminder. Let me run the collector script and check the task queue.
+[main/sessions/main/08149ef7-7b5b-483f-8793-5b3b33e3dfc9.jsonl.deleted.2026-06-25T11-10-00.455Z#L10] Assistant: All tasks in the queue are in terminal states (done/closed/cancelled/complete). No stalled tasks detected. Let me verify the collector ran cleanly and check for any issues.
+[main/sessions/main/08149ef7-7b5b-483f-8793-5b3b33e3dfc9.jsonl.deleted.2026-06-25T11-10-00.455Z#L12] Assistant: **Task Monitor Report — Thu 25 Jun 2026 16:36 AEST** ✅ **task-collector.sh** ran successfully (0 stalls, 0 failed, 0 verified issues) ✅ **state_task_queue** checked — all 30+ tasks are in terminal states (done/closed/cancelled/compl
+[main/sessions/main/081b228f-d18f-468a-8069-11704ca53d07.jsonl.deleted.2026-06-25T00-34-55.180Z#L6] Assistant: I'll handle this health check reminder. Let me run the script and check the diagnostics.
+[main/sessions/main/081b228f-d18f-468a-8069-11704ca53d07.jsonl.deleted.2026-06-25T00-34-55.180Z#L8] Assistant: All checks passed. Now let me read the diagnostics state.
+[main/sessions/main/081b228f-d18f-468a-8069-11704ca53d07.jsonl.deleted.2026-06-25T00-34-55.180Z#L10] Assistant: The diagnostics show no `consecutiveFailures` field and `status` is not present as a column — the records have `failed: 0` across the board. No alert condition is met. **OK**
+[main/sessions/main/083eb7ac-c646-444a-b016-b7ac7511a231.jsonl.deleted.2026-06-24T21-59-47.013Z#L6] Assistant: Running the task queue processor as scheduled.
+[main/sessions/main/083eb7ac-c646-444a-b016-b7ac7511a231.jsonl.deleted.2026-06-24T21-59-47.013Z#L8] Assistant: Task queue processor ran — no tasks to process. All clear.
+[main/sessions/main/086bc47a-e207-4d94-bf81-a2a86a507d0f.jsonl.deleted.2026-06-25T02-00-53.593Z#L6] Assistant: I'll handle this health check reminder. Let me run the health check script first.
+[main/sessions/main/086bc47a-e207-4d94-bf81-a2a86a507d0f.jsonl.deleted.2026-06-25T02-00-53.593Z#L8] Assistant: All checks passed. Now let me read the state diagnostics to confirm.
+[main/sessions/main/086bc47a-e207-4d94-bf81-a2a86a507d0f.jsonl.deleted.2026-06-25T02-00-53.593Z#L10] Assistant: The state diagnostics show no consecutive failures (all `failed: 0`) and the health check just reported `STATUS: ok`. No alert needed. **OK**
+[main/sessions/main/087e66ed-54ca-466a-a892-13c8c767e980.jsonl.deleted.2026-06-24T20-42-00.426Z#L6] Assistant: I'll run the warden cron script and handle the result appropriately.
+[main/sessions/main/087e66ed-54ca-466a-a892-13c8c767e980.jsonl.deleted.2026-06-24T20-42-00.426Z#L8] Assistant: No drift detected — clean exit. Nothing to escalate.
+[main/sessions/main/08bcf0b7-12e6-4cdf-968b-17fe0ede0018.jsonl.deleted.2026-06-25T01-03-00.418Z#L6] Assistant: Running the task queue processor as scheduled.
+[main/sessions/main/08bcf0b7-12e6-4cdf-968b-17fe0ede0018.jsonl.deleted.2026-06-25T01-03-00.418Z#L8] Assistant: Task queue processor ran — no tasks to process. All clear.
+[main/sessions/main/08c13450-2105-46fc-ac4b-08a9140f6fa2.jsonl.deleted.2026-06-25T07-45-00.429Z#L6] Assistant: I'll run the obs-collector script silently as requested.
+[main/sessions/main/08c13450-2105-46fc-ac4b-08a9140f6fa2.jsonl.deleted.2026-06-25T07-45-00.429Z#L8] Assistant: No new events. Done.
+[main/sessions/main/08d7626b-6bd9-4004-8d4c-0d102d0a3aa0.jsonl.deleted.2026-06-25T01-03-00.421Z#L6] Assistant: Running the task queue processor as scheduled.
+[main/sessions/main/08d7626b-6bd9-4004-8d4c-0d102d0a3aa0.jsonl.deleted.2026-06-25T01-03-00.421Z#L8] Assistant: Task queue processor ran — no tasks to process. All clear.
+[main/sessions/main/0924b2c7-3f8b-4dd9-bd5c-c948e6bbbca8.jsonl.deleted.2026-06-25T12-52-55.153Z#L6] Assistant: Running the health check script now.
+[main/sessions/main/0924b2c7-3f8b-4dd9-bd5c-c948e6bbbca8.jsonl.deleted.2026-06-25T12-52-55.153Z#L8] Assistant: Health check passed. Now reading the state diagnostics to verify.
+[main/sessions/main/0924b2c7-3f8b-4dd9-bd5c-c948e6bbbca8.jsonl.deleted.2026-06-25T12-52-55.153Z#L10] Assistant: The state diagnostics don't show a `consecutiveFailures` or `status` field in the returned rows — the data structure appears to be historical run records rather than a live state row. Let me check if there's a more current state rec
+[main/sessions/main/0924b2c7-3f8b-4dd9-bd5c-c948e6bbbca8.jsonl.deleted.2026-06-25T12-52-55.153Z#L12] Assistant: All rows show `failed: 0` — no consecutive failures. The health check itself also reported `STATUS: ok`. Since there are no signs of `consecutiveFailures >= 3` or `status=degraded`, no alert is needed. **OK**
+[main/sessions/main/092af164-4f64-48ef-8bed-39439b294935.jsonl.deleted.2026-06-25T10-19-00.417Z#L6] Assistant: Running the task queue processor as scheduled.
+[main/sessions/main/092af164-4f64-48ef-8bed-39439b294935.jsonl.deleted.2026-06-25T10-19-00.417Z#L8] Assistant: Task queue processor ran — no tasks to process. All clear.
+[main/sessions/main/094ab07c-b01f-41cf-8d9d-4eb2bad0bd1d.jsonl.deleted.2026-06-25T11-10-00.458Z#L8] Assistant: No new events. Nothing to relay.
+[main/sessions/main/095ea9d2-65df-43a5-8afb-bc62de74a2b5.jsonl.deleted.2026-06-25T09-03-47.128Z#L6] Assistant: Running the TQP script now.
+[main/sessions/main/095ea9d2-65df-43a5-8afb-bc62de74a2b5.jsonl.deleted.2026-06-25T09-03-47.128Z#L8] Assistant: TQP run complete — no tasks to process.
+[main/sessions/main/0966a3b2-652d-49a8-b726-4a4ed4c92cb0.jsonl#L10] Assistant: OK
+[main/sessions/main/0969cd86-f3ae-4016-a902-56756e4209ae.jsonl.deleted.2026-06-25T01-03-00.418Z#L6] Assistant: Running the task queue processor as scheduled.
+[main/sessions/main/0969cd86-f3ae-4016-a902-56756e4209ae.jsonl.deleted.2026-06-25T01-03-00.418Z#L8] Assistant: Task queue processor ran — no tasks to process. All clear.
+[main/sessions/main/097b80b7-8265-404d-8ba2-89ffb74661f0.jsonl.deleted.2026-06-24T21-09-00.455Z#L6] Assistant: Running the scheduled obs-collector script silently.
+[main/sessions/main/097b80b7-8265-404d-8ba2-89ffb74661f0.jsonl.deleted.2026-06-24T21-09-00.455Z#L8] Assistant: No new events. All quiet.
+[main/sessions/main/09890af9-c2e8-43d8-8953-04263e9703fd.jsonl.deleted.2026-06-25T14-59-00.889Z#L6] Assistant: Running the task queue processor as scheduled.
+[main/sessions/main/09890af9-c2e8-43d8-8953-04263e9703fd.jsonl.deleted.2026-06-25T14-59-00.889Z#L8] Assistant: Task queue processor ran — no tasks to process. All clear.
+[main/sessions/main/09896852-7e6d-40e4-9a44-2c965f3ce745.jsonl.deleted.2026-06-25T05-03-00.469Z#L6] Assistant: The TQP_RUN reminder has fired. I'll execute the task queue processor script now.
+[main/sessions/main/09896852-7e6d-40e4-9a44-2c965f3ce745.jsonl.deleted.2026-06-25T05-03-00.469Z#L8] Assistant: Task queue processor ran — no tasks to process. All clear.
+[main/sessions/main/098c6fb9-ae2a-4a1b-8184-16c1747cc8aa.jsonl.deleted.2026-06-25T16-41-12.441Z#L6] Assistant: The reminder is to run the Task Queue Processor. Let me execute it.
+[main/sessions/main/098c6fb9-ae2a-4a1b-8184-16c1747cc8aa.jsonl.deleted.2026-06-25T16-41-12.441Z#L8] Assistant: No tasks to process. All clear.
+[main/sessions/main/099b4472-ae0c-446d-97f4-3157574d1ce4.jsonl#L8] Assistant: OK
+[main/sessions/main/09c2fa1c-8516-43df-9a47-29e8a8dabad6.jsonl.deleted.2026-06-25T06-46-25.716Z#L6] Assistant: Running the Task Queue Processor as scheduled.
+[main/sessions/main/09c2fa1c-8516-43df-9a47-29e8a8dabad6.jsonl.deleted.2026-06-25T06-46-25.716Z#L8] Assistant: TQP run complete — no tasks to process.
+[main/sessions/main/09dc427d-fc5a-4405-b8a5-b96bff4a0def.jsonl.deleted.2026-06-25T10-19-00.421Z#L6] Assistant: I'll handle this health check reminder. Let me run the script and check diagnostics.
+[main/sessions/main/09dc427d-fc5a-4405-b8a5-b96bff4a0def.jsonl.deleted.2026-06-25T10-19-00.421Z#L8] Assistant: All checks passed. Now let me read the diagnostics to verify state.
+[main/sessions/main/09dc427d-fc5a-4405-b8a5-b96bff4a0def.jsonl.deleted.2026-06-25T10-19-00.421Z#L10] Assistant: The diagnostics show no `consecutiveFailures` field and `status` is not `degraded` — all checks passed with exit code 0. No alert needed. OK
+[main/sessions/main/09dccf25-a324-440e-a3af-b683dad463d1.jsonl.deleted.2026-06-25T14-33-04.524Z#L6] Assistant: The reminder is to run the task queue processor. Let me execute it.
+[main/sessions/main/09dccf25-a324-440e-a3af-b683dad463d1.jsonl.deleted.2026-06-25T14-33-04.524Z#L8] Assistant: Task queue processor ran — no tasks to process. All clear.
+[main/sessions/main/09ef9e34-5960-4981-bf56-0a583712b8a4.jsonl.deleted.2026-06-24T20-42-00.427Z#L6] Assistant: I'll handle this health check reminder. Let me run the script and check the diagnostics.
+[main/sessions/main/09ef9e34-5960-4981-bf56-0a583712b8a4.jsonl.deleted.2026-06-24T20-42-00.427Z#L8] Assistant: All checks passed. Now let me read the state diagnostics to confirm.
+[main/sessions/main/09ef9e34-5960-4981-bf56-0a583712b8a4.jsonl.deleted.2026-06-24T20-42-00.427Z#L10] Assistant: The state_diagnostics table doesn't have a `consecutiveFailures` or `status` column in the returned data — these are historical diagnostic run records, not the live health state. The health check script itself already wrote state as
+[main/sessions/main/09f8ada7-64ab-4360-ad5f-84d7708fc12a.jsonl.deleted.2026-06-25T00-34-55.181Z#L6] Assistant: Running the task queue processor as scheduled.
+[main/sessions/main/09f8ada7-64ab-4360-ad5f-84d7708fc12a.jsonl.deleted.2026-06-25T00-34-55.181Z#L8] Assistant: Task queue processor ran — no tasks to process. Exiting cleanly.
+[main/sessions/main/0a313124-4cf8-439d-997a-58b296fd3fd4.jsonl.deleted.2026-06-25T07-19-54.775Z#L6] Assistant: I'll handle this task monitor reminder. Let me run the task collector and check for stalled tasks.
+[main/sessions/main/0a313124-4cf8-439d-997a-58b296fd3fd4.jsonl.deleted.2026-06-25T07-19-54.775Z#L10] Assistant: Task collector ran clean (0 stalls, 0 verified, 0 failed). The state_task_queue has 30+ rows but all are either `complete`, `done`, `closed`, or `cancelled` — no stalled tasks. No alert needed. **Summary:** - ✅ `task-collector.sh` →
+[main/sessions/main/0a7b835f-880f-42a9-a7ce-013b537ec4fd.jsonl.deleted.2026-06-25T11-10-00.459Z#L6] Assistant: Running the task queue processor as scheduled.
+[main/sessions/main/0a7b835f-880f-42a9-a7ce-013b537ec4fd.jsonl.deleted.2026-06-25T11-10-00.459Z#L8] Assistant: No tasks to process. Exiting cleanly.
+[main/sessions/main/0a9fcb13-d675-4956-865d-096c129bece9.jsonl.deleted.2026-06-25T15-23-48.068Z#L6] Assistant: Running the task queue processor as scheduled.
+[main/sessions/main/0a9fcb13-d675-4956-865d-096c129bece9.jsonl.deleted.2026-06-25T15-23-48.068Z#L8] Assistant: Task queue processor ran — no tasks to process. All clear.
+[main/sessions/main/0aa05be2-724e-43a7-8344-0638bd7e721d.jsonl.deleted.2026-06-25T09-28-48.385Z#L6] Assistant: Running the task queue processor as scheduled.
+[main/sessions/main/0aa05be2-724e-43a7-8344-0638bd7e721d.jsonl.deleted.2026-06-25T09-28-48.385Z#L8] Assistant: No tasks to process — queue is empty.
+[main/sessions/main/0adb16d0-39ec-40c9-81fc-4b4e110f23fd.jsonl#L6] Assistant: Running the PG-Notion batch sync.
+[main/sessions/main/0adb16d0-39ec-40c9-81fc-4b4e110f23fd.jsonl#L8] Assistant: Skill gate is stale. Reloading the notion skill first.
+[main/sessions/main/0adb16d0-39ec-40c9-81fc-4b4e110f23fd.jsonl#L12] Assistant: Batch sync complete — all tickets are already in sync. No errors, no DLQ entries.
+[main/sessions/main/0aeb2d12-8c85-452f-8892-de9054a39a54.jsonl.deleted.2026-06-24T22-24-00.440Z#L6] Assistant: Running the scheduled obs-collector script silently.
+[main/sessions/main/0aeb2d12-8c85-452f-8892-de9054a39a54.jsonl.deleted.2026-06-24T22-24-00.440Z#L8] Assistant: No new events logged. Nothing to report.
+[main/sessions/main/0aeef584-d849-449b-b135-47a4e94c2b29.jsonl.deleted.2026-06-25T02-26-20.251Z#L6] Assistant: I'll handle this task monitor reminder. Let me run the collector script and check for stalled tasks.
+[main/sessions/main/0aeef584-d849-449b-b135-47a4e94c2b29.jsonl.deleted.2026-06-25T02-26-20.251Z#L10] Assistant: All tasks are in terminal states (complete/done/closed/cancelled). No stalled tasks detected. Let me verify the collector output confirms this. The task collector reported **0 stalls, 0 verified, 0 failed**, and the PG queue shows a
+[main/sessions/main/0b033619-f1db-48c9-a231-4518c0748eff.jsonl.deleted.2026-06-25T15-23-48.065Z#L6] Assistant: Running the scheduled obs-collector script silently.
+[main/sessions/main/0b033619-f1db-48c9-a231-4518c0748eff.jsonl.deleted.2026-06-25T15-23-48.065Z#L8] Assistant: No new events. Nothing to relay.
+[main/sessions/main/0b14172d-5b01-4e7a-ab38-0549b33e5879.jsonl#L8] Assistant: OK
+[main/sessions/main/0b48dec7-aa8d-4191-ba95-19372f5cd28f.jsonl.deleted.2026-06-25T15-23-48.066Z#L6] Assistant: Running the TQP script now.
+[main/sessions/main/0b48dec7-aa8d-4191-ba95-19372f5cd28f.jsonl.deleted.2026-06-25T15-23-48.066Z#L8] Assistant: No tasks to process. Queue is empty.
+[main/sessions/main/0b6e3340-c7d1-4726-b812-7dc999252dbc.jsonl.deleted.2026-06-24T21-09-00.451Z#L6] Assistant: I'll handle this task monitor reminder. Let me run the collector script and check the task queue.
+[main/sessions/main/0b6e3340-c7d1-4726-b812-7dc999252dbc.jsonl.deleted.2026-06-24T21-09-00.451Z#L12] Assistant: Task collector ran clean (0 stalls, 0 failed). The task queue has no stalled tasks — all entries are either `complete`, `done`, `closed`, or `cancelled`. No alert needed. **Summary:** - ✅ `task-collector.sh` → 0 stalls, 0 verified, 
+[main/sessions/main/0b921ea3-c2cd-4c06-a6f8-32be4e40e71f.jsonl.deleted.2026-06-25T09-28-48.384Z#L6] Assistant: I'll handle this health check reminder. Let me run the health check script first.
+[main/sessions/main/0b921ea3-c2cd-4c06-a6f8-32be4e40e71f.jsonl.deleted.2026-06-25T09-28-48.384Z#L8] Assistant: All checks passed. Now let me read the state diagnostics to verify.
+[main/sessions/main/0b921ea3-c2cd-4c06-a6f8-32be4e40e71f.jsonl.deleted.2026-06-25T09-28-48.384Z#L10] Assistant: The state diagnostics don't show a `consecutiveFailures` or `status` field in the current schema — the health check just ran successfully with all checks passing. The health check script itself wrote state as "ok" and exited cleanly

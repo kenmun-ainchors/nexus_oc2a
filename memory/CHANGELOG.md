@@ -1,3 +1,15 @@
+## 2026-06-26 04:03 AEST — [CHG-0767] Add retention policy to nightly-gateway-restart session snapshots
+**Type:** script
+**Change Type:** Normal
+**Source:** incident-recovery
+**Trigger:** Health check degraded alert: /System/Volumes/Data at 85% due to 224 GB of unbounded sessions-pre-restart snapshots
+**What changed:** nightly-gateway-restart.sh will prune sessions-pre-restart snapshots older than retention threshold after creating new snapshot
+**Why:** Daily pre-restart snapshots have no retention; 26 snapshots accumulated over ~36 days consuming 224 GB (~62% of used disk). Need bounded retention to prevent disk exhaustion.
+**Verification:** Plan review by Yoda; execution to be performed by Forge; verification by listing remaining snapshots and disk usage after change
+**Rollback:** Restore previous nightly-gateway-restart.sh from git; manually recreate any needed old snapshots from backup if required
+**Linked:** TKT-0234 (snapshot reason), CHG-0416, CHG-0474, health-check disk alert 2026-06-26
+---
+
 ## 2026-06-25 20:49 AEST — [CHG-0766] LinkedIn post: add token health probe and refresh-on-failure
 **Type:** script
 **Change Type:** Normal

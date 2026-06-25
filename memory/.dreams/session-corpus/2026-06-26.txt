@@ -1,0 +1,6 @@
+[main/sessions/main/07735e65-1a7c-449e-ad86-7e9d292a0655.jsonl#L6] Assistant: Running the PG-Notion batch sync.
+[main/sessions/main/07735e65-1a7c-449e-ad86-7e9d292a0655.jsonl#L8] Assistant: The skill gate is stale. Let me reload it and re-run.
+[main/sessions/main/07735e65-1a7c-449e-ad86-7e9d292a0655.jsonl#L12] Assistant: Batch sync complete — all tickets are already synced. No errors, no DLQ entries. Nothing to do. NO_REPLY
+[main/sessions/main/0a2bd529-0dd9-4014-82e4-2e1fd73cb87a.jsonl#L6] Assistant: I'll run the auto-heal nightly process now.
+[main/sessions/main/0a2bd529-0dd9-4014-82e4-2e1fd73cb87a.jsonl#L14] Assistant: ## AUTO-HEAL SUMMARY **50 checks run, 2 issues found, 4 needs_ken items** ### Issues Found 1. **⚠️ File Size Guard** — Untracked files in workspace root: `DREAMS.md`, `yoda-daily-brief.md` 2. **⚠️ Cron Timeout** — 3 actionable timeout recommendations (all DECREASE)
+[main/sessions/main/0a2bd529-0dd9-4014-82e4-2e1fd73cb87a.jsonl#L14] Assistant: applying. Baseline at `state/cron-timeout-baseline.json`. | | 🟡 | **MEDIUM** | **CHECK 22 A6** — 1 stable DECREASE on agentTurn eligible (7d+ stable). Pending apply at `state/cron-timeout-apply-pending.json`. Can apply with `bash scripts/cron-timeout-apply.sh --al

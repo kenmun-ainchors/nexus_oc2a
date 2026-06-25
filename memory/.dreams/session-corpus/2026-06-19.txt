@@ -56,3 +56,23 @@
 [main/sessions/main/091706cd-b76e-4b0b-90e8-31d6afbdf363.jsonl.deleted.2026-06-19T06-07-16.782Z#L6] Assistant: Running the scheduled OBS collection script.
 [main/sessions/main/091706cd-b76e-4b0b-90e8-31d6afbdf363.jsonl.deleted.2026-06-19T06-07-16.782Z#L8] Assistant: Script ran silently. No new OBS events logged.
 [main/sessions/main/0919e25f-3a0a-45e6-9375-397e3cf2802b.jsonl#L12] Assistant: No atoms claimed this poll cycle (10:06 PM AEST). All quiet.
+[main/sessions/main/0a3fe336-f31f-4cf9-aa9a-8ef9887141ed.jsonl.deleted.2026-06-19T08-51-55.665Z#L6] Assistant: Running the OBS collection script silently.
+[main/sessions/main/0a3fe336-f31f-4cf9-aa9a-8ef9887141ed.jsonl.deleted.2026-06-19T08-51-55.665Z#L8] Assistant: No new OBS events. Nothing to relay.
+[main/sessions/main/0a50e58a-68ba-42b2-86af-de7c9f4f127e.jsonl.deleted.2026-06-19T20-14-41.219Z#L6] Assistant: Running the OBS collection script silently.
+[main/sessions/main/0a50e58a-68ba-42b2-86af-de7c9f4f127e.jsonl.deleted.2026-06-19T20-14-41.219Z#L8] Assistant: No new OBS events. Nothing to relay.
+[main/sessions/main/0a679e86-d77b-4a8a-903c-479183317c50.jsonl.deleted.2026-06-19T18-29-49.952Z#L6] Assistant: Running the TQP script as triggered by the scheduled reminder.
+[main/sessions/main/0a679e86-d77b-4a8a-903c-479183317c50.jsonl.deleted.2026-06-19T18-29-49.952Z#L8] Assistant: TQP run complete — no tasks to process.
+[main/sessions/main/0b11d25f-a358-4c4a-b610-796f8775db14.jsonl.deleted.2026-06-19T22-00-00.109Z#L6] Assistant: Running the TQP script now.
+[main/sessions/main/0b11d25f-a358-4c4a-b610-796f8775db14.jsonl.deleted.2026-06-19T22-00-00.109Z#L8] Assistant: TQP run complete — no tasks to process.
+[main/sessions/main/0b1b6239-9771-4869-bb2e-49a5fd6b66f2.jsonl.deleted.2026-06-19T11-35-32.564Z#L6] Assistant: I'll handle this TASK_MONITOR reminder. Let me start by running the task collector script.
+[main/sessions/main/0b1b6239-9771-4869-bb2e-49a5fd6b66f2.jsonl.deleted.2026-06-19T11-35-32.564Z#L8] Assistant: Task collector ran clean. Now let me check the state_task_queue for any stalled tasks.
+[main/sessions/main/0b1b6239-9771-4869-bb2e-49a5fd6b66f2.jsonl.deleted.2026-06-19T11-35-32.564Z#L10] Assistant: The queue has many historical/completed tasks but no stalled tasks. All entries are either `complete`, `done`, `closed`, or `cancelled`. No tasks are in a `running`, `dispatched`, or `queued` state that would indicate a stall. Let m
+[main/sessions/main/0b1b6239-9771-4869-bb2e-49a5fd6b66f2.jsonl.deleted.2026-06-19T11-35-32.564Z#L12] Assistant: All clear. No stalled tasks — no alert needed. **TASK_MONITOR summary:** - ✅ `task-collector.sh` ran: 0 stalls, 0 verified, 0 failed - ✅ `state_task_queue` checked: all tasks in terminal states (complete/done/closed/cancelled) — no 
+[main/sessions/main/0b1fd1ae-7f0a-45f6-bb86-2c6d02ad9a5f.jsonl.deleted.2026-06-19T01-41-05.331Z#L6] Assistant: Running the mission control refresh script now.
+[main/sessions/main/0b1fd1ae-7f0a-45f6-bb86-2c6d02ad9a5f.jsonl.deleted.2026-06-19T01-41-05.331Z#L8] Assistant: Mission control dashboard refreshed successfully. Data written and canvas updated.
+[main/sessions/main/0b6138c0-1a6d-4497-adc6-2ef0a2a6afbc.jsonl.deleted.2026-06-19T20-14-41.213Z#L6] Assistant: Running the task queue processor script now.
+[main/sessions/main/0b6138c0-1a6d-4497-adc6-2ef0a2a6afbc.jsonl.deleted.2026-06-19T20-14-41.213Z#L8] Assistant: No tasks to process — queue is empty. Nothing to relay.
+[main/sessions/main/0b657fea-10b7-49c6-9144-12760f8b9681.jsonl.deleted.2026-06-19T14-12-41.867Z#L6] Assistant: Running the TQP script now.
+[main/sessions/main/0b657fea-10b7-49c6-9144-12760f8b9681.jsonl.deleted.2026-06-19T14-12-41.867Z#L8] Assistant: Task queue is empty — nothing to process. Exiting cleanly.
+[main/sessions/main/0b6a47b9-2b6c-40a6-be11-edddc6437b55.jsonl.deleted.2026-06-19T04-18-39.638Z#L6] Assistant: The reminder is to run the Task Queue Processor script. Let me execute it.
+[main/sessions/main/0b6a47b9-2b6c-40a6-be11-edddc6437b55.jsonl.deleted.2026-06-19T04-18-39.638Z#L8] Assistant: No tasks to process. All clear.

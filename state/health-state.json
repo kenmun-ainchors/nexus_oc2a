@@ -1,18 +1,20 @@
 {
-  "status": "ok",
-  "overallStatus": "ok",
+  "status": "degraded",
+  "overallStatus": "degraded",
   "consecutiveFailures": 0,
   "alerted": false,
-  "lastCheck": "2026-06-25T14:57:11Z",
-  "lastOk": "2026-06-25T14:57:11Z",
-  "exitCode": 0,
-  "issues": [],
+  "lastCheck": "2026-06-25T21:57:17Z",
+  "lastOk": "2026-06-25T21:57:17Z",
+  "exitCode": 1,
+  "issues": [
+    "Disk usage high: /System/Volumes/Data at 85%"
+  ],
   "anthropicReachable": true,
   "ollamaReachable": true,
   "checks": {
     "gateway": "ok",
     "ollama": "ok",
-    "disk": "ok",
+    "disk": "degraded",
     "healthStateAge": "ok",
     "costStateAge": "ok",
     "staleLockFilesCleared": 0,
