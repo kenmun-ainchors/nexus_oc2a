@@ -1,16 +1,16 @@
 {
-  "generated_at": "2026-06-25T12:49:20.041312+00:00",
-  "generated_at_aest": "2026-06-25 22:49 AEST",
+  "generated_at": "2026-06-25T14:04:20.105109+00:00",
+  "generated_at_aest": "2026-06-26 00:04 AEST",
   "period_hours": 24,
   "totals": {
-    "ERROR": 24,
+    "ERROR": 40,
     "WARN": 7,
     "INFO": 10
   },
   "top_errors": [
     {
       "type": "cron_run_fail",
-      "count": 24
+      "count": 40
     }
   ],
   "top_warnings": [
@@ -27,7 +27,7 @@
     "warns_pct_change": 250.0
   },
   "worst_hour": {
-    "hour": "2026-06-25T11:00Z",
+    "hour": "2026-06-25T13:00Z",
     "cnt": 13
   }
 }
