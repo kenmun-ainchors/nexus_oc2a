@@ -1,293 +1,107 @@
 {
-  "schema": "crest-v2-p1-tracker-v1.0",
-  "doc_id": "CRESTv2-P1-DM-StructuredFoundation-v1.0",
-  "epic_id": "TKT-0342",
-  "track": "A",
-  "status": "locked",
-  "created_at": "2026-06-22T10:02:00+10:00",
-  "updated_at": "2026-06-23T22:13:00+10:00",
-  "rebalance_chg": "CHG-0752",
-  "owner_orchestrator": "yoda",
-  "owner_build": "forge",
-  "owner_ea": "atlas",
-  "workstreams": [
-    {
-      "ws_id": "WS-1",
-      "title": "Memory backbone",
-      "tickets": [
-        "TKT-0390",
-        "TKT-0357",
-        "TKT-0726",
-        "TKT-0721",
-        "TKT-0362"
-      ],
-      "status": "open",
-      "exit_gate": "T3 tables have non-zero rows; CHGs and lessons in PG; history-of-X query returns complete results",
-      "sprint_assignments": {
-        "TKT-0390": "Sprint 9",
-        "TKT-0357": "Sprint 9",
-        "TKT-0726": "Sprint 9",
-        "TKT-0721": "Sprint 10",
-        "TKT-0362": "Sprint 11"
-      }
-    },
-    {
-      "ws_id": "WS-2",
-      "title": "Linking model",
-      "tickets": [
-        "TKT-0720"
-      ],
-      "status": "open",
-      "exit_gate": "entity_links table exists; backfill completeness >90%; multi-hop query works",
-      "sprint_assignments": {
-        "TKT-0720": "Sprint 9"
-      }
-    },
-    {
-      "ws_id": "WS-3",
-      "title": "Keys, sprints, JSON normalization",
-      "tickets": [
-        "TKT-0725",
-        "TKT-0330",
-        "TKT-0343",
-        "TKT-0344",
-        "TKT-0348",
-        "TKT-0354",
-        "TKT-0359"
-      ],
-      "status": "open",
-      "exit_gate": "canonical sprint FK; 0 unsprinted tickets; JSON derived/read-only; PG SSOT proven",
-      "sprint_assignments": {
-        "TKT-0725": "Sprint 9",
-        "TKT-0330": "Sprint 9",
-        "TKT-0343": "Sprint 9",
-        "TKT-0344": "Sprint 9",
-        "TKT-0348": "Sprint 9",
-        "TKT-0354": "Sprint 9",
-        "TKT-0359": "Sprint 9"
-      }
-    },
-    {
-      "ws_id": "WS-4",
-      "title": "DNA leanness",
-      "tickets": [
-        "TKT-0723",
-        "TKT-0724",
-        "TKT-0530",
-        "TKT-0394"
-      ],
-      "status": "open",
-      "exit_gate": "rule dedupe audit; single canonical rules file; at least one deterministic gate blocks violation; JIT loader",
-      "sprint_assignments": {
-        "TKT-0723": "Sprint 10",
-        "TKT-0724": "Sprint 11",
-        "TKT-0530": "Sprint 9",
-        "TKT-0394": "Sprint 9"
-      }
-    },
-    {
-      "ws_id": "WS-5",
-      "title": "Judge-hardening",
-      "tickets": [
-        "TKT-0722"
-      ],
-      "status": "open",
-      "exit_gate": "verdict_log live, keyed, well-formed; PASS requires checks_run; judgment gates",
-      "sprint_assignments": {
-        "TKT-0722": "Sprint 9"
-      }
-    },
-    {
-      "ws_id": "WS-6",
-      "title": "Vector freeze",
-      "tickets": [
-        "TKT-0352",
-        "TKT-0171"
-      ],
-      "status": "deferred",
-      "exit_gate": "no changes to knowledge_chunks / knowledge_documents",
-      "sprint_assignments": {
-        "TKT-0352": "Sprint 10",
-        "TKT-0171": "Sprint 11"
-      }
-    }
-  ],
-  "overall_exit_gate": "History-of-X queries for real messy entities (CONTENT-0001, TKT-0546, multi-link CHG) return complete linked time-ordered results entirely from PG, sustained over a window; DNA lean; verdict_log hardened; no vector changes",
-  "reporting": {
-    "sprint": "Sprint 9",
-    "sprint_capacity": 23,
-    "crest_v2_p1_tickets": [
-      "TKT-0720",
-      "TKT-0721",
-      "TKT-0722",
-      "TKT-0723",
-      "TKT-0724",
-      "TKT-0725",
-      "TKT-0726"
+    "schema": "crest-v2-p1-tracker-v1.0",
+    "doc_id": "CRESTv2-P1-DM-StructuredFoundation-v1.0",
+    "epic_id": "TKT-0342",
+    "track": "A",
+    "status": "locked",
+    "created_at": "2026-06-22T10:02:00+10:00",
+    "updated_at": "2026-06-26T23:50:00+10:00",
+    "rebalance_chg": "CHG-0752",
+    "owner_orchestrator": "yoda",
+    "owner_build": "forge",
+    "owner_ea": "atlas",
+    "workstreams": [
+        {
+            "ws_id": "WS-1",
+            "title": "Memory backbone",
+            "tickets": ["TKT-0390", "TKT-0357", "TKT-0726", "TKT-0721", "TKT-0362"],
+            "status": "complete",
+            "completed_at": "2026-06-26T23:50:00+10:00",
+            "exit_gate": "T3 tables have non-zero rows; CHGs and lessons in PG; history-of-X query returns complete results",
+            "exit_gate_verified": {
+                "state_changes_rows": 746,
+                "state_lessons_rows": 99,
+                "history_of_chg_tkt0761": 4,
+                "history_of_lesson_l168": 3,
+                "verdict": "PASS",
+                "verified_by": "forge",
+                "verified_at": "2026-06-26T23:30:00+10:00"
+            },
+            "sprint_assignments": {
+                "TKT-0390": "Sprint 9", "TKT-0357": "Sprint 9", "TKT-0726": "Sprint 9",
+                "TKT-0721": "Sprint 10", "TKT-0362": "Sprint 9"
+            }
+        },
+        {
+            "ws_id": "WS-2",
+            "title": "Linking model",
+            "tickets": ["TKT-0720"],
+            "status": "complete",
+            "completed_at": "2026-06-26T00:00:00+10:00",
+            "exit_gate": "entity_links table exists; backfill completeness >90%; multi-hop query works",
+            "exit_gate_verified": {
+                "entity_links_total": 3387,
+                "multi_hop_L108_to_L088_to_chg": "verified (5 results)",
+                "verdict": "PASS"
+            },
+            "sprint_assignments": {"TKT-0720": "Sprint 9"}
+        },
+        {
+            "ws_id": "WS-3",
+            "title": "Keys, sprints, JSON normalization",
+            "tickets": ["TKT-0725", "TKT-0330", "TKT-0343", "TKT-0344", "TKT-0348", "TKT-0354", "TKT-0359"],
+            "status": "in_progress",
+            "exit_gate": "canonical sprint FK; 0 unsprinted tickets; JSON derived/read-only; PG SSOT proven",
+            "sprint_assignments": {
+                "TKT-0725": "Sprint 9", "TKT-0330": "Sprint 9", "TKT-0343": "Sprint 9",
+                "TKT-0344": "Sprint 9", "TKT-0348": "Sprint 9", "TKT-0354": "Sprint 9", "TKT-0359": "Sprint 9"
+            },
+            "ticket_status": {
+                "TKT-0725": "done", "TKT-0330": "done", "TKT-0343": "done", "TKT-0359": "done",
+                "TKT-0344": "open", "TKT-0348": "open", "TKT-0354": "open"
+            }
+        },
+        {
+            "ws_id": "WS-4",
+            "title": "DNA leanness",
+            "tickets": ["TKT-0723", "TKT-0724", "TKT-0530", "TKT-0394"],
+            "status": "open",
+            "exit_gate": "rule dedupe audit; single canonical rules file; at least one deterministic gate blocks violation; JIT loader",
+            "sprint_assignments": {
+                "TKT-0723": "Sprint 11", "TKT-0724": "Sprint 11",
+                "TKT-0530": "Sprint 9", "TKT-0394": "Sprint 9"
+            },
+            "ticket_status": {
+                "TKT-0723": "open", "TKT-0724": "open", "TKT-0530": "open", "TKT-0394": "open"
+            }
+        },
+        {
+            "ws_id": "WS-5",
+            "title": "Judge-hardening",
+            "tickets": ["TKT-0722"],
+            "status": "open",
+            "exit_gate": "verdict_log PG table exists; sage-qa-log.json read-only; multi-atom verdict replay works",
+            "sprint_assignments": {"TKT-0722": "Sprint 9"},
+            "ticket_status": {"TKT-0722": "open"}
+        },
+        {
+            "ws_id": "WS-6",
+            "title": "Vector freeze",
+            "tickets": ["TKT-0352", "TKT-0171"],
+            "status": "deferred",
+            "exit_gate": "TBD",
+            "sprint_assignments": {"TKT-0352": "Sprint 10", "TKT-0171": "Sprint 11"}
+        }
     ],
-    "tracking_path": "state/crestv2-p1-tracker.json",
-    "dashboard_query": "SELECT ws_id, title, status FROM jsonb_to_recordset((SELECT workstreams FROM state_crestv2_p1_tracker))"
-  },
-  "chg_id": "CHG-0703",
-  "rebalanced_at": "2026-06-22T12:16:00+10:00",
-  "sprint_capacity": {
-    "Sprint 9": 16,
-    "Sprint 10": 4,
-    "Sprint 11": 7
-  },
-  "notes": "Approved and locked by Ken at 2026-06-22 12:47 AEST. Sprint 9=16 foundation items, Sprint 10=4 follow-on, Sprint 11=7 wave-2/3/deferred. PG state_sprints items and ticket sprint fields are authoritative. Notion synced. CHG-0705 recorded. TKT-0330 done 2026-06-22 18:11 AEST (CHG-0714). TKT-0726 done 2026-06-22 19:40 AEST (CHG-0718). TKT-0720 CLOSED 2026-06-22 20:37 AEST; final entity_links: 1,437 entity + 95 file edges; CHG-0732. TKT-0343 CLOSED 2026-06-22 21:28 AEST (CHG-0733; commit ffed0244): state_config_baseline wired to gateway-config-snapshot.sh, unique index added, CHECK 12 verifies PG baseline matches JSON, daily cron at 03:00 AEST. Atlas exec/process capability fixed (CHG-0734). Sprint 9 exception added 2026-06-23: TKT-0739 (M) moved into Sprint 9 as CREST Verify-phase blocker per Ken directive (CHG-0754). Non-CREST items TKT-0358/TKT-0531 moved to Sprint 11 via CHG-0752.",
-  "ticket_status": {
-    "TKT-0171": "backlog",
-    "TKT-0330": "done",
-    "TKT-0343": "done",
-    "TKT-0344": "open",
-    "TKT-0348": "open",
-    "TKT-0352": "open",
-    "TKT-0354": "open",
-    "TKT-0357": "closed",
-    "TKT-0359": "closed",
-    "TKT-0362": "open",
-    "TKT-0390": "closed",
-    "TKT-0394": "open",
-    "TKT-0530": "open",
-    "TKT-0720": "done",
-    "TKT-0721": "open",
-    "TKT-0722": "open",
-    "TKT-0723": "open",
-    "TKT-0724": "open",
-    "TKT-0725": "done",
-    "TKT-0726": "done"
-  },
-  "gap_analysis": {
-    "last_review": "2026-06-23T22:13:00+10:00",
-    "rebalance_applied": {
-      "chg": "CHG-0752",
-      "moved_to_sprint_11": [
-        "TKT-0358",
-        "TKT-0531"
-      ],
-      "reason": "Non-CRESTv2-P1 tickets deferred from Sprint 9/10 to Sprint 11 per Ken directive."
-    },
-    "non_crestv2_p1_in_sprint_9_10": [
-      {
-        "id": "TKT-0739",
-        "title": "Provide Sage verifier with parent workspace access for independent CREST verification",
-        "current_sprint": "Sprint 9",
-        "proposed_sprint": "Sprint 9",
-        "reason": "CREST Verify-phase blocker raised during TKT-0390; Ken directed fix within Sprint 9. Not in CRESTv2-P1 tracker scope but blocks CREST execution."
-      },
-      {
-        "id": "TKT-0358",
-        "title": "Create PG table health monitor cron",
-        "current_sprint": "Sprint 11",
-        "proposed_sprint": "Sprint 11",
-        "reason": "Operational hygiene; moved from Sprint 9 to Sprint 11 by CHG-0752."
-      },
-      {
-        "id": "TKT-0531",
-        "title": "Old-Code Audit P2",
-        "current_sprint": "Sprint 11",
-        "proposed_sprint": "Sprint 11",
-        "reason": "Audit/hygiene; moved from Sprint 10 to Sprint 11 by CHG-0752."
-      }
+    "locked_execution_order": [
+        "TKT-0390", "TKT-0721", "TKT-0362", "TKT-0344", "TKT-0348"
     ],
-    "epic_not_in_tracker": {
-      "id": "TKT-0342",
-      "title": "EPIC: PG SSOT Gap Remediation",
-      "note": "Parent epic for CRESTv2-P1/SSOT work; keep open as tracking container. Not counted in tracker capacities."
-    },
-    "sprint_9_open_crestv2_p1": [
-      "TKT-0344",
-      "TKT-0348",
-      "TKT-0354",
-      "TKT-0530",
-      "TKT-0394",
-      "TKT-0722"
+    "done_tickets": [
+        "TKT-0357", "TKT-0359", "TKT-0390", "TKT-0726", "TKT-0330",
+        "TKT-0725", "TKT-0343", "TKT-0739", "TKT-0764", "TKT-0761",
+        "TKT-0720", "TKT-0721", "TKT-0362"
     ],
-    "sprint_10_open_crestv2_p1": [
-      "TKT-0721",
-      "TKT-0723",
-      "TKT-0352"
-    ],
-    "ws_status": {
-      "WS-1": "open (3 of 5 done; TKT-0721 and TKT-0362 remain)",
-      "WS-2": "done (TKT-0720 complete; 1,437 entity + 95 file edges)",
-      "WS-3": "open (3 of 7 done; TKT-0344, TKT-0348, TKT-0354 remain)",
-      "WS-4": "open (0 of 4 done; TKT-0530, TKT-0394 in Sprint 9; TKT-0723 in Sprint 10; TKT-0724 in Sprint 11)",
-      "WS-5": "open (TKT-0722 in Sprint 9)",
-      "WS-6": "deferred"
-    }
-  },
-  "locked_execution_order": [
-    {
-      "seq": 1,
-      "workstream": "WS-1",
-      "tickets": [
-        "TKT-0390",
-        "TKT-0721",
-        "TKT-0362"
-      ],
-      "checkpoint": "agent_events coverage complete; CHG and lesson records migrated into PG."
-    },
-    {
-      "seq": 2,
-      "workstream": "WS-3",
-      "tickets": [
-        "TKT-0344",
-        "TKT-0348",
-        "TKT-0354"
-      ],
-      "checkpoint": "Canonical keys and sprint normalization complete."
-    },
-    {
-      "seq": 3,
-      "workstream": "WS-2",
-      "tickets": [
-        "TKT-0720"
-      ],
-      "checkpoint": "RE-VALIDATION: re-resolve all entity_links endpoints against canonical PG entities; measure referential completeness."
-    },
-    {
-      "seq": 4,
-      "workstream": "WS-5",
-      "tickets": [
-        "TKT-0722"
-      ]
-    },
-    {
-      "seq": 5,
-      "workstream": "WS-4",
-      "tickets": [
-        "TKT-0530",
-        "TKT-0394",
-        "TKT-0723",
-        "TKT-0724"
-      ]
-    },
-    {
-      "seq": 6,
-      "workstream": "WS-6",
-      "tickets": [
-        "TKT-0352",
-        "TKT-0171"
-      ],
-      "status": "deferred"
-    }
-  ],
-  "ws2_checkpoint_note": "TKT-0720 was executed ahead of the locked sequence. Its current completeness number is parse-completeness of markdown 'Linked:' mentions, likely containing dangling edges because WS-1 records and WS-3 canonical keys were not yet in place. WS-2 must be re-validated after WS-1 and WS-3 complete. The current number does NOT count toward the Phase 1 gate.",
-  "approved_at": "2026-06-22T12:47:00+10:00",
-  "approved_by": "Ken Mun",
-  "done_tickets": [
-    "TKT-0357",
-    "TKT-0359",
-    "TKT-0725",
-    "TKT-0330",
-    "TKT-0726",
-    "TKT-0720",
-    "TKT-0343",
-    "TKT-0390"
-  ],
-  "in_progress_tickets": [
-    "TKT-0721"
-  ]
+    "in_progress_tickets": [],
+    "next_locked_tickets": ["TKT-0344", "TKT-0348"],
+    "notes": "TKT-0362 completed 2026-06-26 23:50 AEST. WS-1 exit gate verified PASS. WS-2 exit gate verified PASS. Remaining: WS-3 (3 of 7 tickets open: TKT-0344, TKT-0348, TKT-0354), WS-4 (4 tickets open), WS-5 (1 ticket open). Next locked: TKT-0344 (WS-3 sprint normalization), then TKT-0348 (WS-3)."
 }

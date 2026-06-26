@@ -1,0 +1,16 @@
+{
+  "batch_id": "MIG-TKT-0362-202606262329",
+  "phase_a_structured": 5,
+  "phase_a_freeform": 1,
+  "phase_a_legacy": 9,
+  "phase_a_total": 15,
+  "phase_a_inserted": 15,
+  "phase_b_stub_count": 84,
+  "phase_b_inserted": 84,
+  "links_created": 21,
+  "reverse_links_created": 277,
+  "total_lessons": 99,
+  "dry_run": false,
+  "status": "MIGRATED",
+  "verification": "PASS — 15/15 Phase A, 84 stubs, 0 duplicates"
+}

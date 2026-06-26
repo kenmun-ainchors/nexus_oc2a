@@ -1,3 +1,15 @@
+## 2026-06-26 23:51 AEST — [CHG-0768] TKT-0362 complete: lessons migrated to PG; WS-1 exit gate verified PASS
+**Type:** data
+**Change Type:** Normal
+**Source:** manual
+**Trigger:** TKT-0362 execution by forge completed and verified
+**What changed:** Created state_lessons PG table, migrated 15 lesson bodies (L-168-172 + legacy) and 84 stub IDs from entity_links. Updated crestv2-p1-tracker.json: WS-1 and WS-2 set to complete.
+**Why:** WS-1 exit gate fully met: T3 tables non-zero, CHGs and lessons in PG, history-of-X queries return complete results.
+**Verification:** tests/verify/tkt0362-completeness.sh PASS: 15/15 Phase A, 84 stubs, 0 dupes. Entity links verified.
+**Rollback:** infra/rollback/TKT-0362-rollback.sql
+**Linked:** TKT-0362,TKT-0342,WS-1,WS-2,CHG-0752
+**Category:** pg-ssot\n---
+
 ## 2026-06-26 04:03 AEST — [CHG-0767] Add retention policy to nightly-gateway-restart session snapshots
 **Type:** script
 **Change Type:** Normal

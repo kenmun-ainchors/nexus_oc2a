@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "updatedAt": "2026-06-26T13:00:44.241Z",
+  "updatedAt": "2026-06-26T13:04:08.228Z",
   "entries": {
     "memory:memory/2026-04-26.md:94:122": {
       "key": "memory:memory/2026-04-26.md:94:122",
@@ -4666,13 +4666,13 @@
       "endLine": 182,
       "source": "memory",
       "snippet": "- TKT-0396 implemented (isolation → repoint → verify) - Phase 3.1 hand-delete unnecessary — isolation subsumes it - Ready for Phase 4 (reconcile), Phase 5 (propagation proof), Phase 6 (clock reset) — Ken's phases, Yoda waits ## Sprint 7 State - **Tickets closed:** TKT-0369, TKT-0391, TKT-0392, TKT-0393, TKT-0399, TKT-0400, TKT-0403 - **Tickets in progress:** TKT-0395 (Phase 4-6 pending), TKT-0396 (implementation done, close pending), TKT-0401 (not started) - **New tickets unassigned:** TKT-0390, TKT-0394, TKT-0397, TKT-0398, 5 deferred items - **CHG entries:** 0482 through 0492",
-      "recallCount": 12,
+      "recallCount": 13,
       "dailyCount": 0,
       "groundedCount": 0,
-      "totalScore": 5.2816127061843865,
-      "maxScore": 0.4764982014894485,
+      "totalScore": 5.786956652998923,
+      "maxScore": 0.505343946814537,
       "firstRecalledAt": "2026-06-23T14:33:44.037Z",
-      "lastRecalledAt": "2026-06-26T04:08:21.012Z",
+      "lastRecalledAt": "2026-06-26T13:04:08.228Z",
       "queryHashes": [
         "315e238e050a",
         "38ed7b22e4a0",
@@ -4684,7 +4684,8 @@
         "4e89efe066ca",
         "54169e6541e7",
         "a20a9b9d878e",
-        "fa1bb84ca970"
+        "fa1bb84ca970",
+        "f042f104ef5a"
       ],
       "recallDays": [
         "2026-06-24",
@@ -22576,17 +22577,18 @@
       "endLine": 9,
       "source": "memory",
       "snippet": "## 2026-06-23 22:13 AEST ### TKT-0739 locked into Sprint 9 - **CHG-0754** created and synced to Notion Archive DB C (`388c1829-53ff-81fd-919e-d94de70a45a3`). - **Ticket updated:** TKT-0739 sprint changed from Sprint 11 → **Sprint 9**, `sprint_id` FK resolved, Notion synced. - **Tracker updated:** `state/crestv2-p1-tracker.json` notes and `non_crestv2_p1_in_sprint_9_10` reflect TKT-0739 as Sprint 9 exception; corrected TKT-0358/TKT-0531 current_sprint to Sprint 11. - **Rationale captured in CHG-0754:** CREST Verify-phase blocker; must be fixed this sprint to unblock independent Sage judgment.",
-      "recallCount": 3,
+      "recallCount": 4,
       "dailyCount": 0,
       "groundedCount": 0,
-      "totalScore": 1.479130044579506,
+      "totalScore": 1.9811340451240538,
       "maxScore": 0.5599401250481605,
       "firstRecalledAt": "2026-06-24T08:22:05.644Z",
-      "lastRecalledAt": "2026-06-25T17:00:12.261Z",
+      "lastRecalledAt": "2026-06-26T13:04:08.228Z",
       "queryHashes": [
         "b68df6f6694a",
         "ee4ba482809f",
-        "b0e1cdb52c30"
+        "b0e1cdb52c30",
+        "f042f104ef5a"
       ],
       "recallDays": [
         "2026-06-24",
@@ -38117,19 +38119,21 @@
       "endLine": 77,
       "source": "memory",
       "snippet": "- CREST Structural Foundation — 8 sub-tickets, ~1500 lines, 4 scripts, 2 PG tables, 23-state machine - TKT-0369 (PG Sprint-Backlog Skill) — 5 failure modes permanently closed, 3 sub-tickets delivered - TKT-0391 (PG Sprint Column Gap) — sprint/sprint_seq/epic columns added, 23 tickets backfilled - TKT-0392 (PG-Notion Integrity) — 306 gaps resolved across 5 categories, 4 new scripts - Warden drift chain — 14/14 PASS, model-policy.json resynced to actual configs - Auto-heal cron fixed (TKT-0389), backup health timeout fixed (TKT-0093), sandbox false positive fixed - Aria CREST guardrails — 3-layer enforcement (structural + Warden + proactive) - crest-done-gate.sh — structural enforcement of Mas",
-      "recallCount": 1,
+      "recallCount": 2,
       "dailyCount": 0,
       "groundedCount": 0,
-      "totalScore": 0.5160581439733505,
+      "totalScore": 1.0105976670980452,
       "maxScore": 0.5160581439733505,
       "firstRecalledAt": "2026-06-24T17:00:21.133Z",
-      "lastRecalledAt": "2026-06-24T17:00:21.133Z",
+      "lastRecalledAt": "2026-06-26T13:04:08.228Z",
       "queryHashes": [
-        "ee4ba482809f"
+        "ee4ba482809f",
+        "f042f104ef5a"
       ],
       "recallDays": [
         "2026-06-25",
-        "2026-06-24"
+        "2026-06-24",
+        "2026-06-26"
       ],
       "conceptTags": [
         "backup",
