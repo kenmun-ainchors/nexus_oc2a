@@ -1,3 +1,15 @@
+## 2026-06-27 08:45 AEST — [CHG-0769] Aria daily brief cron: enforce absolute paths in isolated sessions
+**Type:** config
+**Change Type:** Normal
+**Source:** ken-prompt
+**Trigger:** Aria daily summary cron failed writing to ~/.openclaw/workspace/state/aria-daily-brief.md despite payload using absolute path
+**What changed:** (1) cron payload a7e7a820 now defines BRIEF_PATH=/Users/ainchorsangiefpl/.openclaw/workspace/state/aria-daily-brief.md and mandates read-before-write; (2) created agents/business/AGENTS.md with Absolute-Path Rule
+**Why:** Isolated sessions do not expand ~; Aria was using ~ in write tool call causing failure
+**Verification:** cron get confirms BRIEF_PATH constant and no ~ literal; read agents/business/AGENTS.md confirms rule exists
+**Rollback:** Restore prior cron payload from backup or re-patch; remove AGENTS.md rule section if needed
+**Linked:** Cron a7e7a820-32f6-4a2b-bb27-52367ebfa7dc, agents/business/AGENTS.md, TKT-Aria-daily-brief
+---
+
 ## 2026-06-26 23:51 AEST — [CHG-0768] TKT-0362 complete: lessons migrated to PG; WS-1 exit gate verified PASS
 **Type:** data
 **Change Type:** Normal
