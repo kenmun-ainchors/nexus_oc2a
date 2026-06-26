@@ -76,3 +76,18 @@
 [main/sessions/main/0b657fea-10b7-49c6-9144-12760f8b9681.jsonl.deleted.2026-06-19T14-12-41.867Z#L8] Assistant: Task queue is empty — nothing to process. Exiting cleanly.
 [main/sessions/main/0b6a47b9-2b6c-40a6-be11-edddc6437b55.jsonl.deleted.2026-06-19T04-18-39.638Z#L6] Assistant: The reminder is to run the Task Queue Processor script. Let me execute it.
 [main/sessions/main/0b6a47b9-2b6c-40a6-be11-edddc6437b55.jsonl.deleted.2026-06-19T04-18-39.638Z#L8] Assistant: No tasks to process. All clear.
+[main/sessions/main/07edd17c-2e2d-4350-b6ad-f96e29a86650.jsonl#L12] Assistant: TQP executor polled — no atoms ready to claim. All clear.
+[main/sessions/main/07f46c94-d91e-4622-a76a-f0f964bfa6e7.jsonl.deleted.2026-06-18T23-04-39.531Z#L6] Assistant: I'll run the warden cron script and handle the result appropriately.
+[main/sessions/main/07f46c94-d91e-4622-a76a-f0f964bfa6e7.jsonl.deleted.2026-06-18T23-04-39.531Z#L8] Assistant: No drift detected — the script exited cleanly with no escalation file created. All clear.
+[main/sessions/main/07f46c94-d91e-4622-a76a-f0f964bfa6e7.jsonl.deleted.2026-06-18T23-04-39.531Z#L10] Assistant: Warden cron run complete. No drift detected, no escalation needed. System nominal.
+[main/sessions/main/07f50707-2797-4431-838c-97ccfabae183.jsonl#L10] Assistant: No `--poll-once` flag — the script runs by default as a poll-once. Let me run it with default args.
+[main/sessions/main/07f50707-2797-4431-838c-97ccfabae183.jsonl#L12] Assistant: **TQP Executor Poll — 12:10 AM AEST** ✅ No atoms ready to claim. All clear.
+[main/sessions/main/0bdb3e4a-07f0-405b-ad10-89fadbc31973.jsonl.deleted.2026-06-19T17-35-58.678Z#L6] Assistant: Running the scheduled OBS collection script silently.
+[main/sessions/main/0bdb3e4a-07f0-405b-ad10-89fadbc31973.jsonl.deleted.2026-06-19T17-35-58.678Z#L8] Assistant: Script ran cleanly — no new OBS events to log. Nothing to relay.
+[main/sessions/main/0bef65bd-57dc-47bb-8fb9-3ea0465f1ca8.jsonl.deleted.2026-06-19T21-09-41.446Z#L6] Assistant: I'll handle this health check reminder. Let me run the health check script first.
+[main/sessions/main/0bef65bd-57dc-47bb-8fb9-3ea0465f1ca8.jsonl.deleted.2026-06-19T21-09-41.446Z#L8] Assistant: All checks passed. Now let me read the state diagnostics to confirm.
+[main/sessions/main/0bef65bd-57dc-47bb-8fb9-3ea0465f1ca8.jsonl.deleted.2026-06-19T21-09-41.446Z#L10] Assistant: The state diagnostics don't show a `consecutiveFailures` or `status` field in the returned rows — the data appears to be from an older schema. However, the health check itself ran cleanly with exit code 0 and all checks passed (stat
+[main/sessions/main/0c72fd2b-d182-4864-b161-08e133aef3ae.jsonl.deleted.2026-06-19T16-49-29.975Z#L6] Assistant: Running the scheduled OBS collection script.
+[main/sessions/main/0c72fd2b-d182-4864-b161-08e133aef3ae.jsonl.deleted.2026-06-19T16-49-29.975Z#L8] Assistant: No new OBS events. Nothing to relay.
+[main/sessions/main/0c9a3272-20c0-4a81-a192-3a6f9664c2f2.jsonl.deleted.2026-06-19T20-14-41.218Z#L6] Assistant: Running the TQP script now.
+[main/sessions/main/0c9a3272-20c0-4a81-a192-3a6f9664c2f2.jsonl.deleted.2026-06-19T20-14-41.218Z#L8] Assistant: No tasks to process. All clear.

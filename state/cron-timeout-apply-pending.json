@@ -5,12 +5,12 @@
       "cronId": "f71f75af",
       "name": "Daily Workspace Backup",
       "from": 120,
-      "to": 41,
-      "days": 7
+      "to": 49,
+      "days": 8
     }
   ],
   "ledgerFile": "/Users/ainchorsangiefpl/.openclaw/workspace/state/cron-timeout-applied.json",
-  "notedAt": "2026-06-25T15:00:04Z",
+  "notedAt": "2026-06-26T15:00:13Z",
   "applyCommand": "bash scripts/cron-timeout-apply.sh --all --yes",
   "applyCommandOne": "bash scripts/cron-timeout-apply.sh --cron <8-char-id> --yes"
 }

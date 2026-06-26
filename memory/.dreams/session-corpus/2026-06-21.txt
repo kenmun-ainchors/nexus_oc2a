@@ -155,3 +155,20 @@
 [main/sessions/main/0b74fee9-1961-425d-b73c-d3343d41e45a.jsonl.deleted.2026-06-21T06-14-31.191Z#L14] Assistant: All clear. `consecutiveFailures` is 0, `status` is `ok`. No alert needed. OK
 [main/sessions/main/0b775976-a71b-43f2-a075-2e7481ea8170.jsonl.deleted.2026-06-21T04-26-01.112Z#L6] Assistant: Running the scheduled OBS collection script silently.
 [main/sessions/main/0b775976-a71b-43f2-a075-2e7481ea8170.jsonl.deleted.2026-06-21T04-26-01.112Z#L8] Assistant: No new OBS events. Nothing to relay.
+[main/sessions/main/0bd5e166-7aaf-4d0b-8d7d-331705e56fcb.jsonl.deleted.2026-06-21T05-19-38.148Z#L6] Assistant: I'm on a heartbeat poll — no user message to respond to. Everything's running normally.
+[main/sessions/main/0bd761b1-4335-471b-bd68-6834fb34212c.jsonl.deleted.2026-06-21T00-02-54.281Z#L6] Assistant: I'll handle this task monitor reminder. Let me start by running the task collector script and checking the task queue.
+[main/sessions/main/0bd761b1-4335-471b-bd68-6834fb34212c.jsonl.deleted.2026-06-21T00-02-54.281Z#L10] Assistant: Task collector ran cleanly (0 stalls, 0 verified, 0 failed). The task queue has many historical/completed entries but no stalled tasks — all entries are either `complete`, `done`, `closed`, or `cancelled`. No active stalled tasks re
+[main/sessions/main/0be95008-fdd8-43df-840e-1c9018bb1afd.jsonl.deleted.2026-06-21T16-43-39.902Z#L6] Assistant: I'll handle this TASK_MONITOR reminder. Let me run the task collector first, then check for stalled tasks.
+[main/sessions/main/0be95008-fdd8-43df-840e-1c9018bb1afd.jsonl.deleted.2026-06-21T16-43-39.902Z#L10] Assistant: The task collector ran cleanly (0 stalls, 0 verified, 0 failed). The queue has historical tasks but no stalled tasks — all entries are in terminal states (complete, done, closed, cancelled) with no active/running/dispatched items st
+[main/sessions/main/0bfb739b-ae08-4dd0-9cc6-fd910a2b9731.jsonl.deleted.2026-06-21T15-00-00.123Z#L6] Assistant: I'll run the warden cron script and handle the result appropriately.
+[main/sessions/main/0bfb739b-ae08-4dd0-9cc6-fd910a2b9731.jsonl.deleted.2026-06-21T15-00-00.123Z#L8] Assistant: No drift detected — the script exited cleanly with no escalation file created. Nothing to forward.
+[main/sessions/main/0c12783f-5001-46f2-9127-1565f2d5e395.jsonl#L6] Assistant: Running the PG-Notion batch sync.
+[main/sessions/main/0c12783f-5001-46f2-9127-1565f2d5e395.jsonl#L8] Assistant: The skill gate blocked the run — the `pg-sprint-backlog` skill load record is stale. Let me reload it and retry.
+[main/sessions/main/0c12783f-5001-46f2-9127-1565f2d5e395.jsonl#L12] Assistant: Two skills needed. Let me reload `notion` as well.
+[main/sessions/main/0c12783f-5001-46f2-9127-1565f2d5e395.jsonl#L16] Assistant: Batch sync complete — all tickets are already in sync, nothing to process. NO_REPLY
+[main/sessions/main/0c69f560-6231-454d-8f10-6085d30a408d.jsonl.deleted.2026-06-21T13-16-46.887Z#L6] Assistant: I see this is a cron-triggered reminder about running the obs-collector script. Let me handle it.
+[main/sessions/main/0c69f560-6231-454d-8f10-6085d30a408d.jsonl.deleted.2026-06-21T13-16-46.887Z#L8] Assistant: No new OBS events to process. Nothing to relay.
+[main/sessions/main/0c945847-ef9c-4be1-972b-8e0ab87793d4.jsonl#L10] Assistant: No `--poll-once` flag. Let me run it with defaults (claims up to 5 atoms).
+[main/sessions/main/0c945847-ef9c-4be1-972b-8e0ab87793d4.jsonl#L12] Assistant: TQP executor poll complete — no atoms ready to claim. All clear.
+[main/sessions/main/0ca9477b-b3be-41d0-aa82-ecfbc748c80e.jsonl.deleted.2026-06-21T13-16-46.893Z#L6] Assistant: I'll run the health check and diagnostics as instructed.
+[main/sessions/main/0ca9477b-b3be-41d0-aa82-ecfbc748c80e.jsonl.deleted.2026-06-21T13-16-46.893Z#L10] Assistant: Health check passed (all checks OK, exit code 0). The `state_diagnostics` output shows historical records with no `consecutiveFailures` field and no `status=degraded` entries — all records have `failed: 0`. No alert conditions met. 

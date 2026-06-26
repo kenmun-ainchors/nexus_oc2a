@@ -168,7 +168,11 @@ Older/less-frequently-used sections moved to `memory/MEMORY-archive-2026-06-20.m
 - Yoda must keep these separate. Groom first. Then CREST Plan. Then dispatch.
 - Reference:  and .
 
-## Promoted From Short-Term Memory (2026-06-25)
+## Promoted From Short-Term Memory (2026-06-27)
 
-<!-- openclaw-memory-promotion:memory:memory/2026-05-10.md:1:19 -->
-- ## 00:13 AEST — Obs Spike Investigation - delegation_fail: 3761 in 24h (+2450% vs prev) — ALL empty fields (task='', agent='', error=''). Regular hourly cron pattern 02–11Z. **Logging bug, not real failures.** Flag for Ken in morning. - health_failure: 212 — from INC-20260509-001 API outage (resolved). Historical. - Mission Control dashboard regenerated OK. Gateway: ok, Balance: $479.35. ## Mission Control Refresh — 08:38 AEST - Dashboard regenerated OK. Balance $479.35. Gateway OK. Agents idle. - **OBS spike investigated:** 3,761 "delegation_fail" entries in obs.db = PHANTOM DUPLICATES. - Root cause: obs-collector re-logging 34 April 28 delegation-log.json fail entries (with status=fail but no real task/agent data — likely latency tracking entries, not true delegation failures). - All have empty task/agent/error detail → bogus records. - Likely cause: lastRunEpoch was 0 or reset during 02:06–11:41 UTC on May 9 (9.5h window, ~114 cron runs × 34 = ~3876 entries). Now lastRunEpoch = May 9 22:35 → should stop repeating. - **Related to TKT-0112** (obs-collector cron run failures not captured). - No real operational crisis — no real delegation failures occurred. - Action: TKT-0112 needs priority bump. delegation-log.json entries that are latency records (not true delegation outcomes) should be excluded from delegation_fail check. ## 00:13 AEST — Obs Spike Investigation - delegation_fail: 3761 in 24h (+2450% vs prev) — ALL empty fields (task='', agent='', error=''). Regular hourly cron pattern 02–11Z. **Logging bug, not real failures.** Flag for Ken in morning. [score=0.811 recalls=7 avg=0.482 source=memory/2026-05-10.md:1-19]
+<!-- openclaw-memory-promotion:memory:memory/2026-06-22.md:11:11 -->
+- **Decision/action:** TKT-0330 (atomic PG numbering for tickets and CHGs) marked `done` after A7 verification passed. [score=0.848 recalls=0 avg=0.620 source=memory/2026-06-22.md:11-11]
+<!-- openclaw-memory-promotion:memory:memory/2026-04-25.md:1:12 -->
+- # 2026-04-25 ## Bootstrap - Identity set: Yoda 🟢 — AI business operations lead agent - User: Ken Mun (call him Ken), Melbourne GMT+10 - Primary channel: web chat - Secondary channel: Telegram (urgent/offline only) - Telegram paired and tested — working ## Config notes - Security flag: Telegram group commands have no sender allowlist — low risk (personal use only), revisit later [score=0.820 recalls=27 avg=0.423 source=memory/2026-04-25.md:1-12]
+<!-- openclaw-memory-promotion:memory:memory/2026-06-22.md:13:13 -->
+- **What was delivered:** [score=0.818 recalls=0 avg=0.620 source=memory/2026-06-22.md:13-13]

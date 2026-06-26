@@ -171,3 +171,22 @@
 [main/sessions/main/0b9b4242-19bc-4e22-9b0e-0e6a47a43feb.jsonl.deleted.2026-06-22T01-24-55.972Z#L14] Assistant: The script requires `--source` and `--message` flags. Let me read the escalation file and send properly.
 [main/sessions/main/0b9b4242-19bc-4e22-9b0e-0e6a47a43feb.jsonl.deleted.2026-06-22T01-24-55.972Z#L18] Assistant: The telegram skill record is stale. Let me reload it and retry.
 [main/sessions/main/0b9b4242-19bc-4e22-9b0e-0e6a47a43feb.jsonl.deleted.2026-06-22T01-24-55.972Z#L24] Assistant: Warden cron cycle complete. Summary: - **Script**: `warden-cron.sh` → exit 0 (CLEAN) - **Drift detected**: `warden-escalation-pending.json` present — live-session.main running `deepseek-v4-pro:cloud` instead of expected `kimi-k2.7-c
+[main/sessions/main/09ba0e11-e744-4093-a42a-3e21de5b49d6.jsonl.deleted.2026-06-22T05-45-50.703Z#L6] Assistant: Running the OBS collection script silently.
+[main/sessions/main/09ba0e11-e744-4093-a42a-3e21de5b49d6.jsonl.deleted.2026-06-22T05-45-50.703Z#L8] Assistant: OBS collection completed — 1 new event logged. No reply needed.
+[main/sessions/main/09d3cae7-24af-4087-b16d-cbc40ef4c6c6.jsonl.deleted.2026-06-22T17-18-49.565Z#L6] Assistant: The reminder says to run the mission control refresh script. Let me execute it.
+[main/sessions/main/09d3cae7-24af-4087-b16d-cbc40ef4c6c6.jsonl.deleted.2026-06-22T17-18-49.565Z#L8] Assistant: Mission Control dashboard refreshed successfully. No reply needed.
+[main/sessions/main/0bb82a16-4946-47e3-aba3-d188f1b1cadd.jsonl.deleted.2026-06-22T07-42-21.816Z#L6] Assistant: I'll handle this health check reminder. Let me run the script and check diagnostics.
+[main/sessions/main/0bb82a16-4946-47e3-aba3-d188f1b1cadd.jsonl.deleted.2026-06-22T07-42-21.816Z#L8] Assistant: Health check passed. Now reading diagnostics to confirm state.
+[main/sessions/main/0bb82a16-4946-47e3-aba3-d188f1b1cadd.jsonl.deleted.2026-06-22T07-42-21.816Z#L10] Assistant: The diagnostics don't show a `consecutiveFailures` or `status` field in the returned data — the records are from April and don't reflect current state. However, the health check script itself just wrote state as `ok` and exited clea
+[main/sessions/main/0bde6ded-4d7e-42d3-9d97-d2083f571b0a.jsonl.deleted.2026-06-22T13-56-06.625Z#L6] Assistant: I'll handle this task monitor reminder. Let me start by running the task collector script and checking the task queue.
+[main/sessions/main/0bde6ded-4d7e-42d3-9d97-d2083f571b0a.jsonl.deleted.2026-06-22T13-56-06.625Z#L10] Assistant: The task collector ran cleanly (0 stalls, 0 verified, 0 failed). The task queue has many historical/completed tasks but no stalled tasks — all entries are either `done`, `closed`, `cancelled`, or `complete`. No stalled tasks requiri
+[main/sessions/main/0bf9222d-31ed-4dc1-a47a-fe3d7d749699.jsonl.deleted.2026-06-22T12-11-27.583Z#L6] Assistant: Running the mission control refresh script now.
+[main/sessions/main/0bf9222d-31ed-4dc1-a47a-fe3d7d749699.jsonl.deleted.2026-06-22T12-11-27.583Z#L8] Assistant: Mission Control dashboard refreshed successfully. Data written to canvas. No reply needed.
+[main/sessions/main/0c448b4d-6cc8-41f2-ac53-e3c56441f28c.jsonl.deleted.2026-06-22T17-18-49.566Z#L6] Assistant: Running the TZ drift monitor script.
+[main/sessions/main/0c448b4d-6cc8-41f2-ac53-e3c56441f28c.jsonl.deleted.2026-06-22T17-18-49.566Z#L8] Assistant: Exit code 0 — no drift detected. The check was within the grace window and skipped the full drift check. All clear. No action needed.
+[main/sessions/main/0c8b0ae5-84f2-4b7c-a0dd-a38eb5381148.jsonl#L8] Assistant: Skill gate blocked — need to reload the notion skill first.
+[main/sessions/main/0c8b0ae5-84f2-4b7c-a0dd-a38eb5381148.jsonl#L12] Assistant: All clear — no tickets pending sync. Everything is up to date. NO_REPLY
+[main/sessions/main/0c8fa8d8-961e-42db-9306-aa6a773810ce.jsonl.deleted.2026-06-21T22-43-24.743Z#L6] Assistant: Running the TQP script now.
+[main/sessions/main/0c8fa8d8-961e-42db-9306-aa6a773810ce.jsonl.deleted.2026-06-21T22-43-24.743Z#L8] Assistant: No tasks to process — queue is empty. Nothing to relay.
+[main/sessions/main/0c91b67a-b217-49e2-91a5-528e9be56f6c.jsonl.deleted.2026-06-22T14-47-47.277Z#L6] Assistant: Running the TQP script now.
+[main/sessions/main/0c91b67a-b217-49e2-91a5-528e9be56f6c.jsonl.deleted.2026-06-22T14-47-47.277Z#L8] Assistant: TQP run complete — no tasks to process.
