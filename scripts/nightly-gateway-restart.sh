@@ -82,6 +82,24 @@ EOF
 echo "[$(date -Iseconds)] Snapshot saved to $SNAP_DIR ($(du -sh "$SNAP_DIR" 2>/dev/null | cut -f1))" | tee -a "$LOG"
 
 
+# ── Step 1a: Retention prune — remove snapshots older than RETENTION_DAYS ──
+# CHG-0767: Prevent unbounded disk growth. Prune only within SESSION_BACKUP_DIR.
+RETENTION_DAYS=7
+PRUNE_TARGET="$SESSION_BACKUP_DIR"
+if [[ -d "$PRUNE_TARGET" ]]; then
+    OLD_SNAPSHOTS=$(find "$PRUNE_TARGET" -maxdepth 1 -type d -name 'sessions-*' -mtime +$RETENTION_DAYS 2>/dev/null || true)
+    OLD_COUNT=$(echo "$OLD_SNAPSHOTS" | grep -c . 2>/dev/null || echo 0)
+    if [[ "$OLD_COUNT" -gt 0 ]]; then
+        FREED_BYTES=$(du -sb $OLD_SNAPSHOTS 2>/dev/null | tail -1 | awk '{print $1}' || echo 0)
+        echo "[$(date -Iseconds)] Pruning $OLD_COUNT snapshot(s) older than $RETENTION_DAYS days..." | tee -a "$LOG"
+        echo "$OLD_SNAPSHOTS" | xargs -I{} rm -rf "{}" 2>/dev/null || true
+        echo "[$(date -Iseconds)] Prune complete. Freed approximately $(echo "scale=2; $FREED_BYTES/1073741824" | bc 2>/dev/null || echo "$FREED_BYTES bytes") GB." | tee -a "$LOG"
+    else
+        echo "[$(date -Iseconds)] No stale snapshots to prune (all within $RETENTION_DAYS days)." | tee -a "$LOG"
+    fi
+fi
+
+
 # ── Step 1b: Sync model context before restart ──────────────────────────
 # CHG-0756: Sync model context from Ollama API and apply to config
 echo "[2026-06-24T20:41:51+10:00] Syncing model context before restart..." | tee -a "$LOG"
