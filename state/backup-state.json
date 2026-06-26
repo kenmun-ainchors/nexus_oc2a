@@ -1,1 +1,10 @@
-{"last_backup":"2026-06-26T08:05:32+10:00","type":"incremental","exit_code":0}
+{
+  "lastBackup": "2026-06-26T22:05:26Z",
+  "status": "ok",
+  "backupType": "incremental",
+  "location": "/Users/ainchorsangiefpl/Backups/ainchors",
+  "lastSnap": "workspace-2026-06-27-0805",
+  "nasConnected": false,
+  "cloudBackupEnabled": false,
+  "schedule": "incremental Mon-Sat (rsync --link-dest), full Sun (tar.gz)"
+}
