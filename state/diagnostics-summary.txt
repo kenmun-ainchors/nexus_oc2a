@@ -1,0 +1,5 @@
+[HEALTH_CHECK @ 2026-06-26 09:53 AEST]
+Status: degraded — Disk usage high: /System/Volumes/Data at 85%
+All services reachable (gateway, ollama, anthropic API).
+consecutiveFailures: 0 | alerted: false
+Uptime: 98.882% (7607/7693 checks)

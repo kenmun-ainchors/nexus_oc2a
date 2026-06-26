@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "updatedAt": "2026-06-25T21:20:58.912Z",
+  "updatedAt": "2026-06-26T13:00:44.241Z",
   "entries": {
     "memory:memory/2026-04-26.md:94:122": {
       "key": "memory:memory/2026-04-26.md:94:122",
@@ -1197,27 +1197,30 @@
       "endLine": 513,
       "source": "memory",
       "snippet": "- Gateway restart needed: `tools.sessions.visibility: all` not hot-reloadable — pending Ken approval - TKT-0077: Persistent agent config / stateless bootstrap — sprint item - TKT-0079/0080/0081: Holocron pages — backlog - API balance: USD$470.93 (topped up CHG-0205) - Ahsoka: PILOT_TESTING status, CHG-0201/0202 --- ## EOD Session Summary — Thu 2026-05-07 (Day 13, continued) # Appended 16:48 AEST ### Major Work Completed (afternoon session) - TKT-0086 full 4-sequence complete: coherence review → governance gaps → Atlas EA roadmap → backlog replan → Agile framework lock - TKT-0087: 20 governance ACs closed (AI Charter, Nexus-first, Ahsoka registration, R1/C4 fix, P2 gates) - TKT-0088: 8 Sec",
-      "recallCount": 6,
+      "recallCount": 8,
       "dailyCount": 0,
       "groundedCount": 0,
-      "totalScore": 2.7643199443817137,
+      "totalScore": 3.6286448210477826,
       "maxScore": 0.475094798207283,
       "firstRecalledAt": "2026-05-07T21:35:16.379Z",
-      "lastRecalledAt": "2026-05-29T11:43:46.087Z",
+      "lastRecalledAt": "2026-06-26T07:20:02.639Z",
       "queryHashes": [
         "38182aeb51a6",
         "d35120f21ffa",
         "187c48274a49",
         "70bd14b25069",
         "bc01a37ff1ba",
-        "af970ce2fd71"
+        "af970ce2fd71",
+        "91edde4c721b",
+        "dda9539abc59"
       ],
       "recallDays": [
         "2026-05-08",
         "2026-05-12",
         "2026-05-15",
         "2026-05-21",
-        "2026-05-29"
+        "2026-05-29",
+        "2026-06-26"
       ],
       "conceptTags": [
         "gateway",
@@ -1237,27 +1240,30 @@
       "endLine": 298,
       "source": "memory",
       "snippet": "- Gateway restart needed: `tools.sessions.visibility: all` not hot-reloadable — pending Ken approval - TKT-0077: Persistent agent config / stateless bootstrap — sprint item - TKT-0079/0080/0081: Holocron pages — backlog - API balance: USD$470.93 (topped up CHG-0205) - Ahsoka: PILOT_TESTING status, CHG-0201/0202 --- ## EOD Session Summary — Thu 2026-05-07 (Day 13, continued) # Appended 16:48 AEST ### Major Work Completed (afternoon session) - TKT-0086 full 4-sequence complete: coherence review → governance gaps → Atlas EA roadmap → backlog replan → Agile framework lock - TKT-0087: 20 governance ACs closed (AI Charter, Nexus-first, Ahsoka registration, R1/C4 fix, P2 gates) - TKT-0088: 8 Sec",
-      "recallCount": 6,
+      "recallCount": 8,
       "dailyCount": 0,
       "groundedCount": 0,
-      "totalScore": 2.7643199443817137,
+      "totalScore": 3.6286448210477826,
       "maxScore": 0.475094798207283,
       "firstRecalledAt": "2026-05-07T21:35:16.379Z",
-      "lastRecalledAt": "2026-05-29T11:43:46.087Z",
+      "lastRecalledAt": "2026-06-26T07:20:02.639Z",
       "queryHashes": [
         "38182aeb51a6",
         "d35120f21ffa",
         "187c48274a49",
         "70bd14b25069",
         "bc01a37ff1ba",
-        "af970ce2fd71"
+        "af970ce2fd71",
+        "91edde4c721b",
+        "dda9539abc59"
       ],
       "recallDays": [
         "2026-05-08",
         "2026-05-12",
         "2026-05-15",
         "2026-05-21",
-        "2026-05-29"
+        "2026-05-29",
+        "2026-06-26"
       ],
       "conceptTags": [
         "gateway",
@@ -1404,20 +1410,22 @@
       "endLine": 105,
       "source": "memory",
       "snippet": "- Cron: staggered 2.5 min from US40 to keep Ollama warm when routing is fixed - Cron ID (agentTurn Haiku): `637ecb12-eae2-4c16-b174-8acdaa2729cc` — **converted to systemEvent** (Option A) - HEARTBEAT.md patched to monitor task-verification-alert.json --- ## US42 — Gemma4 Overnight Cost Optimisation (Groomed, in progress) - Key insight: pure exec tasks don't need LLM at all - Option A implemented immediately: converted 3 crons (health-check, obs-collector, task-monitor) from agentTurn Haiku → systemEvent main session - Estimated saving: ~$1.50/day - US42 objective expanded: establish 3-tier LLM decision framework for ALL crons/tasks - Tier 0 (No LLM): pure script → systemEvent - Tier 1",
-      "recallCount": 2,
+      "recallCount": 3,
       "dailyCount": 0,
       "groundedCount": 0,
-      "totalScore": 0.9062139779329299,
+      "totalScore": 1.3639334410429,
       "maxScore": 0.48987075388431545,
       "firstRecalledAt": "2026-05-10T22:14:10.545Z",
-      "lastRecalledAt": "2026-05-20T11:30:31.093Z",
+      "lastRecalledAt": "2026-06-26T01:20:01.543Z",
       "queryHashes": [
         "edab79184f28",
-        "c44917349bd1"
+        "c44917349bd1",
+        "2ae3c1e26690"
       ],
       "recallDays": [
         "2026-05-11",
-        "2026-05-20"
+        "2026-05-20",
+        "2026-06-26"
       ],
       "conceptTags": [
         "2.5",
@@ -2863,14 +2871,14 @@
       "startLine": 1,
       "endLine": 19,
       "source": "memory",
-      "snippet": "## 00:13 AEST — Obs Spike Investigation - delegation_fail: 3761 in 24h (+2450% vs prev) — ALL empty fields (task='', agent='', error=''). Regular hourly cron pattern 02–11Z. **Logging bug, not real failures.** Flag for Ken in morning. - health_failure: 212 — from INC-20260509-001 API outage (resolved). Historical. - Mission Control dashboard regenerated OK. Gateway: ok, Balance: $479.35. ## Mission Control Refresh — 08:38 AEST - Dashboard regenerated OK. Balance $479.35. Gateway OK. Agents idle. - **OBS spike investigated:** 3,761 \"delegation_fail\" entries in obs.db = PHANTOM DUPLICATES. - Root cause: obs-collector re-logging 34 April 28 delegation-log.json fail entries (with status=fail but no real task/agent data — likely latency tracking entries, not true delegation failures). - All have empty task/agent/error detail → bogus records. - Likely cause: lastRunEpoch was 0 or reset during 02:06–11:41 UTC on May 9 (9.5h window, ~114 cron runs × 34 = ~3876 entries). Now lastRunEpoch = May 9 22:35 → should stop repeating. - **Related to TKT-0112** (obs-collector cron run failures not captured). - No real operational crisis — no real delegation failures occurred. - Action: TKT-0112 needs priority bump. delegation-log.json entries that are latency records (not true delegation outcomes) should be excluded from delegation_fail check. ## 00:13 AEST — Obs Spike Investigation - delegation_fail: 3761 in 24h (+2450% vs prev) — ALL empty fields (task='', agent='', error=''). Regular hourly cron pattern 02–11Z. **Logging bug, not real failures.** Flag for Ken in morning.",
-      "recallCount": 7,
+      "snippet": "## 00:13 AEST — Obs Spike Investigation - delegation_fail: 3761 in 24h (+2450% vs prev) — ALL empty fields (task='', agent='', error=''). Regular hourly cron pattern 02–11Z. **Logging bug, not real failures.** Flag for Ken in morning. - health_failure: 212 — from INC-20260509-001 API outage (resolved). Historical. - Mission Control dashboard regenerated OK. Gateway: ok, Balance: $479.35. ## Mission Control Refresh — 08:38 AEST - Dashboard regenerated OK. Balance $479.35. Gateway OK. Agents idle. - **OBS spike investigated:** 3,761 \"delegation_fail\" entries in obs.db = PHANTOM DUPLICATES. - Root cause: obs-collector re-logging 34 April 28 delegation-log.json fail entries (with status=fai",
+      "recallCount": 8,
       "dailyCount": 0,
       "groundedCount": 0,
-      "totalScore": 3.37434101998806,
+      "totalScore": 3.873226436972618,
       "maxScore": 0.5185609132051467,
       "firstRecalledAt": "2026-05-20T09:20:14.139Z",
-      "lastRecalledAt": "2026-06-24T12:10:43.711Z",
+      "lastRecalledAt": "2026-06-25T23:37:28.176Z",
       "queryHashes": [
         "eb214e688430",
         "95129a8282d5",
@@ -2878,7 +2886,8 @@
         "8e94fe9faba9",
         "440c9505b7d1",
         "c35065cbcb4c",
-        "0f202f324855"
+        "0f202f324855",
+        "3e44a54ee1a8"
       ],
       "recallDays": [
         "2026-05-20",
@@ -2886,7 +2895,8 @@
         "2026-05-23",
         "2026-05-24",
         "2026-05-29",
-        "2026-06-24"
+        "2026-06-24",
+        "2026-06-26"
       ],
       "conceptTags": [
         "gateway",
@@ -4523,18 +4533,21 @@
       "endLine": 71,
       "source": "memory",
       "snippet": "- health_failure: 212 — from INC-20260509-001 API outage (resolved). Historical. - Mission Control dashboard regenerated OK. Gateway: ok, Balance: $479.35. ## Mission Control Refresh — 08:38 AEST - Dashboard regenerated OK. Balance $479.35. Gateway OK. Agents idle. - **OBS spike investigated:** 3,761 \"delegation_fail\" entries in obs.db = PHANTOM DUPLICATES. - Root cause: obs-collector re-logging 34 April 28 delegation-log.json fail entries (with blank task/agent/error — latency tracking entries, not true delegation failures). - All have empty task/agent/error detail → bogus records. - Likely cause: lastRunEpoch was 0 or reset during 02:06–11:41 UTC on May 9 (9.5h window, ~114 cron ru",
-      "recallCount": 4,
+      "recallCount": 7,
       "dailyCount": 0,
       "groundedCount": 0,
-      "totalScore": 1.710074770450592,
-      "maxScore": 0.44008252322673796,
+      "totalScore": 3.1337141215801236,
+      "maxScore": 0.49650299847126006,
       "firstRecalledAt": "2026-06-22T21:31:07.738Z",
-      "lastRecalledAt": "2026-06-25T18:52:27.244Z",
+      "lastRecalledAt": "2026-06-26T00:09:54.011Z",
       "queryHashes": [
         "b0b66139bf73",
         "0f202f324855",
         "b5ac80fd8578",
-        "f689f6c3a90d"
+        "f689f6c3a90d",
+        "b3d3439d1595",
+        "3e44a54ee1a8",
+        "5d4b18767684"
       ],
       "recallDays": [
         "2026-06-23",
@@ -4653,13 +4666,13 @@
       "endLine": 182,
       "source": "memory",
       "snippet": "- TKT-0396 implemented (isolation → repoint → verify) - Phase 3.1 hand-delete unnecessary — isolation subsumes it - Ready for Phase 4 (reconcile), Phase 5 (propagation proof), Phase 6 (clock reset) — Ken's phases, Yoda waits ## Sprint 7 State - **Tickets closed:** TKT-0369, TKT-0391, TKT-0392, TKT-0393, TKT-0399, TKT-0400, TKT-0403 - **Tickets in progress:** TKT-0395 (Phase 4-6 pending), TKT-0396 (implementation done, close pending), TKT-0401 (not started) - **New tickets unassigned:** TKT-0390, TKT-0394, TKT-0397, TKT-0398, 5 deferred items - **CHG entries:** 0482 through 0492",
-      "recallCount": 9,
+      "recallCount": 12,
       "dailyCount": 0,
       "groundedCount": 0,
-      "totalScore": 3.98085369169712,
+      "totalScore": 5.2816127061843865,
       "maxScore": 0.4764982014894485,
       "firstRecalledAt": "2026-06-23T14:33:44.037Z",
-      "lastRecalledAt": "2026-06-25T20:10:46.988Z",
+      "lastRecalledAt": "2026-06-26T04:08:21.012Z",
       "queryHashes": [
         "315e238e050a",
         "38ed7b22e4a0",
@@ -4668,7 +4681,10 @@
         "cfd3334d14bc",
         "67841f3ec8f1",
         "fb8f5197530c",
-        "4e89efe066ca"
+        "4e89efe066ca",
+        "54169e6541e7",
+        "a20a9b9d878e",
+        "fa1bb84ca970"
       ],
       "recallDays": [
         "2026-06-24",
@@ -53262,15 +53278,16 @@
       "endLine": 43,
       "source": "memory",
       "snippet": "- TKT-0739 (Sage workspace isolation) in Sprint 9 - CRESTv2-P1 execution continues ## Late Night — TKT-0764 Closed (CHG-0764) Completed full CREST v1.3 execution to make the TKT-0761 disciplined pattern the default. - **A1**: Updated `agent-skills/crest/SKILL.md` with canonical TKT-0761 pattern, Yoda spot-check checklist, and Sage-as-Judge checklist. - **A2**: Extended `scripts/dispatch-validate.sh` to require `verifier_corpus` on execute/verify atoms and validate model assignments. - **A2b**: Extended `scripts/atom-validate.sh` with the same `verifier_corpus` enforcement. - **A3**: Created `scripts/sage-verify.sh` for parent-session corpus capture before Sage verdict. - **A4**: Created `",
-      "recallCount": 1,
+      "recallCount": 2,
       "dailyCount": 0,
       "groundedCount": 0,
-      "totalScore": 0.5355927512049674,
+      "totalScore": 0.9830263689160346,
       "maxScore": 0.5355927512049674,
       "firstRecalledAt": "2026-06-25T17:00:12.261Z",
-      "lastRecalledAt": "2026-06-25T17:00:12.261Z",
+      "lastRecalledAt": "2026-06-26T00:35:31.048Z",
       "queryHashes": [
-        "b0e1cdb52c30"
+        "b0e1cdb52c30",
+        "b450ef1c6f5f"
       ],
       "recallDays": [
         "2026-06-26"
@@ -53567,6 +53584,99 @@
         "e.g",
         "heap-threshold",
         "memory.pressure"
+      ]
+    },
+    "memory:memory/2026-05-10.md:16:33": {
+      "key": "memory:memory/2026-05-10.md:16:33",
+      "path": "memory/2026-05-10.md",
+      "startLine": 16,
+      "endLine": 33,
+      "source": "memory",
+      "snippet": "- Action: TKT-0112 needs priority bump. delegation-log.json entries that are latency records (not true delegation outcomes) should be excluded from delegation_fail check. ## 00:13 AEST — Obs Spike Investigation - delegation_fail: 3761 in 24h (+2450% vs prev) — ALL empty fields (task='', agent='', error=''). Regular hourly cron pattern 02–11Z. **Logging bug, not real failures.** Flag for Ken in morning. - health_failure: 212 — from INC-20260509-001 API outage (resolved). Historical. - Mission Control dashboard regenerated OK. Gateway: ok, Balance: $479.35. ## Mission Control Refresh — 08:38 AEST - Dashboard regenerated OK. Balance $479.35. Gateway OK. Agents idle. - **OBS spike investiga",
+      "recallCount": 1,
+      "dailyCount": 0,
+      "groundedCount": 0,
+      "totalScore": 0.4877943336963653,
+      "maxScore": 0.4877943336963653,
+      "firstRecalledAt": "2026-06-25T23:37:28.176Z",
+      "lastRecalledAt": "2026-06-25T23:37:28.176Z",
+      "queryHashes": [
+        "3e44a54ee1a8"
+      ],
+      "recallDays": [
+        "2026-06-26"
+      ],
+      "conceptTags": [
+        "gateway",
+        "tkt-0112",
+        "delegation-log.json",
+        "delegation-fail",
+        "health-failure",
+        "inc-20260509-001",
+        "479.35",
+        "action"
+      ]
+    },
+    "memory:memory/2026-04-30.md:60:88": {
+      "key": "memory:memory/2026-04-30.md:60:88",
+      "path": "memory/2026-04-30.md",
+      "startLine": 60,
+      "endLine": 88,
+      "source": "memory",
+      "snippet": "- Files: `scripts/obs-init.sh`, `obs-log.sh`, `obs-query.sh`, `obs-collector.sh` - DB: `state/obs.db` (SQLite, 7-day rolling) - Patches: `health-check.sh`, `auto-heal.sh`, `sla-report.sh` - Cron originally created as agentTurn Haiku — **converted to systemEvent** (Option A, see US42) - Cron ID (retired agentTurn): `d3b1e203-741b-444a-9852-7bb8839d2c99` ### Key finding: Ollama routing doesn't work in isolated agentTurn crons - Specified `ollama/gemma4:e2b` in cron payload → ignored, falls back to Haiku - Platform routing issue — isolated agentTurn sessions cannot route to Ollama models - Logged as US42 finding --- ## US41 — Task Monitoring Sub-Agent (DONE) - CHG-0082 | TKT-0026 - Option C",
+      "recallCount": 1,
+      "dailyCount": 0,
+      "groundedCount": 0,
+      "totalScore": 0.4405578345060348,
+      "maxScore": 0.4405578345060348,
+      "firstRecalledAt": "2026-06-26T00:09:54.011Z",
+      "lastRecalledAt": "2026-06-26T00:09:54.011Z",
+      "queryHashes": [
+        "5d4b18767684"
+      ],
+      "recallDays": [
+        "2026-06-26"
+      ],
+      "conceptTags": [
+        "scripts/obs-init.sh",
+        "obs-log.sh",
+        "obs-query.sh",
+        "obs-collector.sh",
+        "state/obs.db",
+        "7-day",
+        "health-check.sh",
+        "auto-heal.sh"
+      ]
+    },
+    "memory:memory/2026-06-21.md:36:59": {
+      "key": "memory:memory/2026-06-21.md:36:59",
+      "path": "memory/2026-06-21.md",
+      "startLine": 36,
+      "endLine": 59,
+      "source": "memory",
+      "snippet": "- Training pipeline updated with 5 new TC-NNN ideas (TC-233 through TC-237) - Delegated auth check: all valid, no re-auth needed ## Key Decisions - **CREST v1.3 data_class → v2.0** — Ken confirmed Option A deferral. No active data_class capability until TKT-0710. - **Sprint 9 starts tomorrow (Mon 22 Jun)** — Detection fixed, planning ready. - **PG error classification hardened** — REJECTED errors surface to callers instead of silent file fallback. - **PG-Notion audit now trustworthy** — Pagination + timeout + orphan cleanup = reliable daily integrity. ## Training Content Angles Added - TC-233: Notion's silent page_size trap - TC-234: 127 orphan pages + 4-cron timeout - TC-235: Sprint detec",
+      "recallCount": 1,
+      "dailyCount": 0,
+      "groundedCount": 0,
+      "totalScore": 0.7940834531159514,
+      "maxScore": 0.7940834531159514,
+      "firstRecalledAt": "2026-06-26T13:00:44.241Z",
+      "lastRecalledAt": "2026-06-26T13:00:44.241Z",
+      "queryHashes": [
+        "d132552841eb"
+      ],
+      "recallDays": [
+        "2026-06-26"
+      ],
+      "conceptTags": [
+        "tc-nnn",
+        "tc-233",
+        "tc-237",
+        "re-auth",
+        "v1.3",
+        "data-class",
+        "v2.0",
+        "tkt-0710"
       ]
     }
   }

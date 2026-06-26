@@ -1,10 +1,10 @@
 {
-  "generatedAt": "2026-06-25T22:01:44.078323+00:00",
+  "generatedAt": "2026-06-26T12:58:06.412823+00:00",
   "windowDays": 7,
   "note": "Duration = end-to-end cron task time (includes LLM call + tool use). TTFT instrumentation pending gateway-level hooks.",
   "overall": {
-    "sampleCount": 15608,
-    "avgMs": 5239,
+    "sampleCount": 16485,
+    "avgMs": 5030,
     "peakMs": 802044,
     "minMs": 1
   },
@@ -20,47 +20,47 @@
     },
     "minimax-m3:cloud": {
       "sampleCount": 10,
-      "avgMs": 53897,
-      "minMs": 26804,
+      "avgMs": 53394,
+      "minMs": 25373,
       "maxMs": 151984,
       "p50Ms": 37517,
       "p95Ms": 96702,
-      "avgTokens": 20760
-    },
-    "kimi-k2.6:cloud": {
-      "sampleCount": 67,
-      "avgMs": 25225,
-      "minMs": 4864,
-      "maxMs": 261458,
-      "p50Ms": 7435,
-      "p95Ms": 104999,
-      "avgTokens": 16452
+      "avgTokens": 20722
     },
     "gemma4:26b": {
       "sampleCount": 22,
-      "avgMs": 13801,
+      "avgMs": 16668,
       "minMs": 3919,
-      "maxMs": 64399,
-      "p50Ms": 8035,
-      "p95Ms": 19978,
-      "avgTokens": 10960
+      "maxMs": 67947,
+      "p50Ms": 8439,
+      "p95Ms": 61051,
+      "avgTokens": 10981
+    },
+    "kimi-k2.6:cloud": {
+      "sampleCount": 111,
+      "avgMs": 16431,
+      "minMs": 4128,
+      "maxMs": 261458,
+      "p50Ms": 5848,
+      "p95Ms": 50689,
+      "avgTokens": 12030
     },
     "deepseek-v4-flash:cloud": {
-      "sampleCount": 2930,
-      "avgMs": 8885,
-      "minMs": 2341,
+      "sampleCount": 2944,
+      "avgMs": 8960,
+      "minMs": 3331,
       "maxMs": 211284,
-      "p50Ms": 7535,
-      "p95Ms": 20073,
-      "avgTokens": 15784
+      "p50Ms": 7441,
+      "p95Ms": 20814,
+      "avgTokens": 15807
     },
     "claude-sonnet-4-6": {
-      "sampleCount": 12564,
-      "avgMs": 4016,
+      "sampleCount": 13383,
+      "avgMs": 3815,
       "minMs": 1,
-      "maxMs": 120290,
+      "maxMs": 120292,
       "p50Ms": 46,
-      "p95Ms": 15490,
+      "p95Ms": 14971,
       "avgTokens": 0
     }
   }

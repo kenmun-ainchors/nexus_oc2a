@@ -4222,10 +4222,17 @@
   {
     "id": "TKT-0721",
     "title": "x",
-    "status": "open",
+    "status": "done",
     "priority": "high",
     "type": "task",
-    "created_at": "2026-06-22T00:01:21+10:00"
+    "created_at": "2026-06-22T00:01:21+10:00",
+    "metadata": {
+      "resolution": "Migrated 732 markdown CHG entries (731 unique) into state_changes; 694 net new rows, 38 overlap with existing CHG-0713–CHG-0767 preserved. 1,388 entity_links emitted. Verifier PASS. Migration script: scripts/migrate-changelog-to-pg.py, verifier: tests/verify/tkt0721-completeness.sh, rollback: infra/rollback/TKT-0721-rollback.sql, report: state/TKT-0721-migration-report.json.",
+      "completed_at": "2026-06-26T22:45:00+10:00",
+      "completed_by": "forge",
+      "verified_by": "sage",
+      "actual_effort": "L"
+    }
   },
   {
     "id": "TKT-0732",

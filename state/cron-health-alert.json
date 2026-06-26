@@ -1,15 +1,8 @@
 {
-  "generatedAt": "2026-06-25T10:49:46.695918+00:00",
-  "failures": [
-    {
-      "cronId": "a1ce9946",
-      "fullCronId": "a1ce9946-43c1-4100-a745-c9c6a0320c30",
-      "name": "TKT-0343-daily-config-snapshot",
-      "consecutiveErrors": 3,
-      "lastError": "error",
-      "source": "live-cron-state"
-    }
-  ],
+  "generatedAt": "2026-06-26T00:26:00.000000+00:00",
+  "failures": [],
   "warnings": [],
-  "acknowledged": false
+  "acknowledged": true,
+  "acknowledgedAt": "2026-06-26T00:26:00.000000+00:00",
+  "acknowledgedReason": "Stale alert cleared by Yoda on Ken approval. Live cron check healthy. a1ce9946 consecutiveErrors=0 and lastRunStatus=ok. bb47c6de does not exist in live cron list."
 }

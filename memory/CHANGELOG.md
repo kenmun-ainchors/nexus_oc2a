@@ -4,9 +4,18 @@
 **Source:** incident-recovery
 **Trigger:** Health check degraded alert: /System/Volumes/Data at 85% due to 224 GB of unbounded sessions-pre-restart snapshots
 **What changed:** nightly-gateway-restart.sh will prune sessions-pre-restart snapshots older than retention threshold after creating new snapshot
+**Execution (2026-06-26 09:57 AEST, Forge/Subagent):**
+- Added Step 1a retention pruning block in nightly-gateway-restart.sh after snapshot creation
+- RETENTION_DAYS=7; uses `find -maxdepth 1 -type d -name 'sessions-*' -mtime +7` to target stale snapshots
+- Manual prune of 20 existing snapshots (2026-05-20 through 2026-06-12) keeping 5 (2026-06-21 through 2026-06-26)
+- **Before:** 25 snapshots, 224 GB, /System/Volumes/Data at 85%
+- **After:** 5 snapshots, 21 GB, /System/Volumes/Data at 38%
+- **Freed:** ~203 GB
+- **health-check.sh:** exit 0, STATUS: ok — all checks passed
+- **Git commit:** `eaac6155` feat(CHG-0767): prune sessions-pre-restart snapshots older than 7 days
 **Why:** Daily pre-restart snapshots have no retention; 26 snapshots accumulated over ~36 days consuming 224 GB (~62% of used disk). Need bounded retention to prevent disk exhaustion.
-**Verification:** Plan review by Yoda; execution to be performed by Forge; verification by listing remaining snapshots and disk usage after change
-**Rollback:** Restore previous nightly-gateway-restart.sh from git; manually recreate any needed old snapshots from backup if required
+**Verification:** health-check.sh exit 0, all checks OK; /System/Volumes/Data reduced from 85% to 38%; remaining snapshots = 5, all ≥20260621 (within 7 day window). Script changes shell-checked via bash -n.
+**Rollback:** git checkout HEAD~1 scripts/nightly-gateway-restart.sh; manually restore deleted snapshots from any external backup if needed
 **Linked:** TKT-0234 (snapshot reason), CHG-0416, CHG-0474, health-check disk alert 2026-06-26
 ---
 

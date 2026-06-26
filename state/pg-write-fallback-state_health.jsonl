@@ -1,0 +1,1 @@
+{"run_at":"2026-06-26T09:02:00+10:00","status":"degraded","issues":"Disk usage high: /System/Volumes/Data at 85%","alerted":true,"source":"HEALTH","ok_checks":["gateway","ollama","anthropic","ollamaApi","eventLoop","zombieTasks","locks","standby"],"warn_checks":["disk"],"uptime":"98.998%"}
