@@ -13412,3 +13412,14 @@ All 4 synced to Notion.
 **Rollback:** Re-open any closed ticket via `db-ticket.sh update` with `status=open`. The TKT-0339 evidence files (cron-timeout-scaler.sh, cron-timeout-report.sh, cron-timeout-baseline.json) would still exist regardless.
 
 **Linked:** TKT-0407, CHG-0508, CHG-0509, L-084, TKT-0339, TKT-0340, TKT-0341
+
+## 2026-06-27 21:33 AEST — [CHG-0781] Platform Lessons Register v1.0b — Atlas narrative refactor + title shortening (TKT-0747)
+**Type:** doc
+**Change Type:** Major
+**Source:** ken-prompt
+**Trigger:** CREST Execute — complete DoD-4 and DoD-2 final polish for TKT-0747. File was 186KB, 3,736 lines, 162 entries.
+**What changed:** (1) DoD-4: Refactored 20 CHG entries (CHG-0411, 0416, 0419, 0420, 0422, 0427, 0432, 0433, 0434, 0458, 0474, 0484, 0505, 0518, 0608, 0609, 0618, 0655, 0706, 0733) from raw CHANGELOG-style bodies into proper 7-field lesson format with full narrative (What happened/Root cause/What changed). (2) DoD-2: Shortened 16 entry titles exceeding 100 chars to ≤80 chars. (3) Zero truncated titles, zero duplicates, zero OPEN sources.
+**Why:** 20 CHG entries still had raw CHANGELOG-style bodies that lacked narrative structure, making the register harder to learn from. 16 titles exceeded the 100-char guideline, making the entry table difficult to scan.
+**Verification:** grep confirms: no truncated titles (no `\.\.\.`), no duplicate IDs, no OPEN sources remaining, all titles under 100 chars. Committed: ee26b641.
+**Rollback:** N/A
+**Linked:** CHG-0775, CHG-0777, TKT-0747
