@@ -1,3 +1,63 @@
+## 2026-06-27 20:10 AEST — [CHG-0775] Create Platform Lessons Register v1.0
+**Type:** doc
+**Change Type:** Normal
+**Source:** ken-prompt
+**Trigger:** Ken requested docs/platform-lessons-register-v1.0.md to compile every hard-won lesson, anti-pattern, incident finding, and architectural correction as source material for AInchors Agentic Architecture Reference v1.0
+**What changed:** Created docs/platform-lessons-register-v1.0.md (167 lessons/findings, 193KB) drawing from memory/LESSONS.md, memory/CHANGELOG.md, memory/journal-*.md, state/wo-002-state.json, agent RULES.md/AGENTS.md, and CRESTv2 references. Sorted by Category then date. 5 OPEN items flagged for follow-up.
+**Why:** Platform history is scattered across CHG records, journals, and state files; Atlas/Thrawn need a single honest source for architecture reference v1.0
+**Verification:** File exists at docs/platform-lessons-register-v1.0.md; 167 entries with required 7 fields; sorted by category then date; OPEN items section present
+**Rollback:** Remove docs/platform-lessons-register-v1.0.md from git and workspace
+**Linked:** docs/platform-lessons-register-v1.0.md, memory/LESSONS.md, memory/CHANGELOG.md, state/wo-002-state.json
+---
+
+## 2026-06-27 20:08 AEST — [CHG-0774] TKT-0344 derived-JSON behavioral proof + closure
+**Type:** data
+**Change Type:** Normal
+**Source:** ken-prompt
+**Trigger:** TKT-0344: Behavioral proof that PG is primary writer and JSON is derived
+**What changed:** state/model-policy.json (reverted clean), crestv2-p1-tracker.json (TKT-0344 done, next locked TKT-0348)
+**Why:** Prove PG SSOT before closing TKT-0344. Mutated build/Execute rationale, confirmed JSON auto-exported and matched PG, reverted.
+**Verification:** Part A PASS: PG mutation -> JSON export triggered. JSON is derived from PG. Pre-hash: b8f75a9eee, post-hash: 98ec1366, revert-hash: b6924583. Part B: PG done, Notion synced, tracker updated.
+**Rollback:** Revert confirmed: build/Execute rationale restored to TKT-0344 re-import. JSON matches PG.
+**Linked:** TKT-0344,TKT-0348
+---
+
+## 2026-06-27 19:14 AEST — [CHG-0773] TKT-0344 verified and marked done after Sage-as-Judge verdict
+**Type:** data
+**Change Type:** Normal
+**Source:** ken-prompt
+**Trigger:** Verify-only re-run atoms 4-6 completed; Sage verdict PASS
+**What changed:** TKT-0344 status done; state_model_policy PG write pipeline live; entity_links case normalization complete (2,101/3,405 rows); unique indexes for NULL/non-NULL data_class_whitelist in place; JSON mirror parity verified
+**Why:** WS-3 execution order required TKT-0344 complete before TKT-0348/0354/0359
+**Verification:** Sage judge verdict PASS; all 4 verifiers pass; model-policy-query.sh regression identical to baseline
+**Rollback:** Restore entity_links from entity_links_backup_tkt0344; deactivate new matrix version if any
+**Linked:** TKT-0344; CHG-0771; Sage verdict .openclaw/tmp/tkt0344-artifacts/sage-tkt0344-verdict.md
+---
+
+## 2026-06-27 18:24 AEST — [CHG-0772] CRESTv2-P1 WS3 state_model_policy PG write pipeline + case normalization
+**Type:** data
+**Change Type:** Normal
+**Source:** scheduled
+**Trigger:** CHG-0771
+**What changed:** state_model_policy write pipeline
+**Why:** CRESTv2-P1 WS3 delivery: PG-primary write path for crest_phase_rules/policy_matrices with upsert, active-matrix singleton guard, JSON export hook. Entity_links CHG/chg case canonicalization with dedup.
+**Verification:** Verifier PASS: model-policy-query-all regression diff. Entity_links: 0 uppercase CHG entries remaining. Active matrix singleton: 1 active row. JSON mirror parity confirmed.
+**Rollback:** For upserts: run scripts/model-policy-upsert.sh with --rollback flag. For case norm: restore from entity_links_backup_tkt0344 table
+**Linked:** TKT-0344,WS-3,F2
+**Category:** CRESTv2-P1\n---
+
+## 2026-06-27 18:03 AEST — [CHG-0771] TKT-0344 CREST Plan approved and dispatched to Forge
+**Type:** data
+**Change Type:** Normal
+**Source:** ken-prompt
+**Trigger:** Ken approved TKT-0344 CREST Plan after Atlas read contract v1.0 locked
+**What changed:** Groomed brief accepted; scope adds WS-3 key/case normalization + entity_links F2 propagation; read contract locked in docs/CRESTv2-P1-state_model_policy-Read-Contract-v1.0.md
+**Why:** Necessary to unblock WS-3 execution and keep Phase 2 resolver contract stable
+**Verification:** Ken approval in webchat; ticket metadata updated with groomed_brief_v2
+**Rollback:** Restore prior groomed_brief; revert tracker status if needed
+**Linked:** TKT-0344; Atlas contract CRESTv2-P1-RC-state_model_policy-v1.0; F2 F8 WS-3
+---
+
 ## 2026-06-27 14:18 AEST — [CHG-0770] Apply scaler vA6 timeout recommendations: 3 DECREASE + 1 timeout-victim INCREASE
 **Type:** cron
 **Change Type:** Normal
