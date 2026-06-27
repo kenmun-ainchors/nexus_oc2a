@@ -4,9 +4,24 @@
 
 **Sources:** `memory/LESSONS.md`, `memory/CHANGELOG.md`, `memory/journal-*.md`, `state/wo-002-state.json`, agent `RULES.md` / `AGENTS.md` files, and CREST v2.0 artifacts.
 
-**Status:** Draft v1.0a — quality pass in progress; Atlas review ticket **TKT-0747** raised for completeness against known incident history before marking Done.
+**Status:** v1.0b — TKT-0747 complete. Atlas narrative pass done, 162 entries, 0 duplicates, 0 OPEN placeholders, all titles ≤80 characters. Remaining OPEN gaps tracked in Gaps section (L-050, L-051, L-106, L-108, L-140).
 
 **Sort order:** Category, then chronologically within category.
+
+---
+
+## CREST Execution Note — v1.0b Closure (2026-06-27)
+
+This register was produced through the cleanest CREST v1.3 execution round observed to date on the platform:
+
+- **Plan** — Yoda defined the DoD and selected mechanical + narrative passes.
+- **Execute** — Forge ran the mechanical cleanup (deduplication, category alignment, 7-field normalization) using an audited Python script.
+- **Replan** — Yoda discovered a regex-greediness bug (L-175), revised the script, and had Forge re-run from a clean HEAD.
+- **Execute** — Atlas completed a focused narrative pass, refactoring 20 CHG entries into proper lesson format and shortening 16 long titles to ≤80 characters.
+- **Verify** — Yoda ran independent checks: zero duplicate headings, zero truncated titles, zero OPEN placeholders, no titles >100 characters, and spot-checked CHG-0411/CHG-0608/CHG-0706.
+- **Synthesize / Close** — TKT-0747 closed, CHG-0781 logged, register committed, and result synced to Notion.
+
+**Recognition:** This round demonstrated that CREST discipline, when executed per design with the right agent owning each atom and independent verification, produces trustworthy artifacts and reinforces momentum for completing CRESTv2.
 
 ---
 
