@@ -1,3 +1,15 @@
+## 2026-06-27 14:18 AEST — [CHG-0770] Apply scaler vA6 timeout recommendations: 3 DECREASE + 1 timeout-victim INCREASE
+**Type:** cron
+**Change Type:** Normal
+**Source:** ken-prompt
+**Trigger:** Standup items 2026-06-27: 4 cron timeout recommendations + 1 stable DECREASE eligible (7d+). Ken approved option C.
+**What changed:** DECREASE: f71f75af Daily Workspace Backup 120s→49s, e08e19ad TKT-0093 Backup Health Check 120s→30s, 1cb0c7ff Spark LinkedIn Sat batch draft 600s→239s. INCREASE timeout victim: 5d581442 Spark LinkedIn Daily Metrics Snapshot 190s→288s (last run 191.5s exceeded 190s). EXCLUDED: 4a6c25d4 task-queue-processor-runner 60s→120s — no timeout observed yet.
+**Why:** Scaler vA6 computed timeouts based on sliding average * 1.5. Timeout victim needs headroom to prevent recurring failures.
+**Verification:** Baseline generated 2026-06-26T17:00:05Z; cron-timeout-apply-pending.json confirms f71f75af stable 8 days; baseline flags 5d581442 as timeout victim.
+**Rollback:** Restore previous timeoutSeconds for each cron via openclaw cron update
+**Linked:** state/cron-timeout-baseline.json, state/cron-timeout-apply-pending.json, scripts/cron-timeout-apply.sh, TKT-0339
+---
+
 ## 2026-06-27 08:45 AEST — [CHG-0769] Aria daily brief cron: enforce absolute paths in isolated sessions
 **Type:** config
 **Change Type:** Normal
