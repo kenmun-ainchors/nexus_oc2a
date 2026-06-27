@@ -4,7 +4,7 @@
 
 **Sources:** `memory/LESSONS.md`, `memory/CHANGELOG.md`, `memory/journal-*.md`, `state/wo-002-state.json`, agent `RULES.md` / `AGENTS.md` files, and CREST v2.0 artifacts.
 
-**Status:** Draft — Atlas review ticket **TKT-0747** raised for completeness against known incident history before marking Done.
+**Status:** Draft v1.0a — quality pass in progress; Atlas review ticket **TKT-0747** raised for completeness against known incident history before marking Done.
 
 **Sort order:** Category, then chronologically within category.
 
@@ -37,7 +37,7 @@
 - **Category:** Agent Design
 - **Applicability:** All agents and workstreams
 
-### L-084 — TKT-0407 Phase-1 close: 15 bespoke briefs persisted, Risk 4 → Yoda owner, L-084 fabrication lesso...
+### L-084 — TKT-0407 Phase-1 close: model fabricated "sweep complete" from compacted summary
 
 - **Source:** memory/CHANGELOG.md#CHG-0508
 - **Date:** 2026-06-12
@@ -79,7 +79,7 @@
 
 ## Execution Discipline
 
-### RULES-AP-003 — **Each environment SHALL use a dedicated, non-overlapping port range.** No environment may share ...
+### RULES-AP-003 — Port ranges must be non-overlapping per environment
 
 - **Source:** RULES.md
 - **Date:** 2026-04–2026-06
@@ -116,52 +116,6 @@
 - **What changed:** Default interpretation locked: "do it" for anything touching scripts/infra/build/config = dispatch to Forge. Yoda Plans/Verifies only.
 - **Category:** Execution Discipline
 - **Applicability:** Yoda (orchestrator)
-
-### L-001 — Sprint 4 scope confirmed by Ken
-
-- **Source:** memory/CHANGELOG.md#CHG-0360
-- **Date:** 2026-05-16
-- **What happened:** Sprint 4 planning tomorrow (2026-05-17), Ken confirmed scope.
-- **Root cause:** Ken confirmed Sprint 4 scope ahead of planning session. TKT-0137 is a P2 gate requirement — needs to be in Sprint 4 to stay on track. P2 hard gates (POL-001–008) deferred to kickoff to avoid scope overload.
-- **What changed:** 1. **TKT-0137 confirmed for Sprint 4:**
-   - AInchors Policy Register — formal policy library
-   - Sub-tickets AC2–AC9 to be created/assigned to Sprint 4
-   - Owner: TBD (likely Atlas/Thrawn for policy work)
-2. **P2 hard gates deferred:**
-   - POL-001 to POL-008 deferred to Sprint 4 kickoff
-   - Not in initial Sprint 4 commitment
-3. **Sprint 4 planning notes created:**
-   - state/sprint-4-planning-notes.json
-   - Planning date: 2026-05-17
-   - Sprint start: 2026-05-19
-4. **No work starts until planning:**
-   - Explicit directive from Ken
-   - All execution deferred to post-planning
-- **Category:** Execution Discipline
-- **Applicability:** Atlas / Thrawn (architecture)
-
-### L-008 — Sprint 4 scope confirmed by Ken
-
-- **Source:** memory/CHANGELOG.md#CHG-0360
-- **Date:** 2026-05-16
-- **What happened:** Sprint 4 planning tomorrow (2026-05-17), Ken confirmed scope.
-- **Root cause:** Ken confirmed Sprint 4 scope ahead of planning session. TKT-0137 is a P2 gate requirement — needs to be in Sprint 4 to stay on track. P2 hard gates (POL-001–008) deferred to kickoff to avoid scope overload.
-- **What changed:** 1. **TKT-0137 confirmed for Sprint 4:**
-   - AInchors Policy Register — formal policy library
-   - Sub-tickets AC2–AC9 to be created/assigned to Sprint 4
-   - Owner: TBD (likely Atlas/Thrawn for policy work)
-2. **P2 hard gates deferred:**
-   - POL-001 to POL-008 deferred to Sprint 4 kickoff
-   - Not in initial Sprint 4 commitment
-3. **Sprint 4 planning notes created:**
-   - state/sprint-4-planning-notes.json
-   - Planning date: 2026-05-17
-   - Sprint start: 2026-05-19
-4. **No work starts until planning:**
-   - Explicit directive from Ken
-   - All execution deferred to post-planning
-- **Category:** Execution Discipline
-- **Applicability:** Atlas / Thrawn (architecture)
 
 ### L-036 — KIMI PLATFORM MANDATE — All execution on kimi, DoD = verified execution
 
@@ -487,7 +441,7 @@
 - **Category:** Execution Discipline
 - **Applicability:** Yoda (orchestrator)
 
-### L-043 — Spark reactivation angles v3 — 4-week foundation arc (post v2 rejection: foundation beneath the s...
+### L-043 — Spark reactivation angles v3 — 4-week foundation arc after v2 rejection
 
 - **Source:** memory/CHANGELOG.md#CHG-0517
 - **Date:** 2026-06-12
@@ -497,7 +451,7 @@
 - **Category:** Execution Discipline
 - **Applicability:** Spark (content/creative)
 
-### L-055 — CREST Gate Violation + 3 Defect Audit (state-recovery R1)
+### L-055 — CREST gate violation plus 3-defect audit after state-recovery R1
 
 - **Source:** memory/CHANGELOG.md#CHG-0501
 - **Date:** 2026-06-12
@@ -527,16 +481,6 @@
 - **Category:** Execution Discipline
 - **Applicability:** Aria (business stream)
 
-### L-070 — Fix L-069 + L-070: db-sprint.sh status crash + model-drift-check string-format false positive
-
-- **Source:** memory/CHANGELOG.md#CHG-0499
-- **Date:** 2026-06-12
-- **What happened:** Ken directive 2026-06-12 07:51: 'Implement the fix for the 2 low-priority fixes'
-- **Root cause:** L-069: db-sprint.sh status rendered only 11/14 rows before crashing on Sprint 7 (TKT-0401 row). Caused by uninitialized arithmetic vars under set -u. L-070: model-drift-check displayed a false FAIL on the fallback chain because bash hardcoded expected string and Python json.dumps default-spaces output had different formats even though semantically identical. Trial tier fallbacks also needed to match the actual gateway chain (CHG-0498 follow-up).
-- **What changed:** (1) scripts/db-sprint.sh: defensive initialization of all counters (total, open, in_prog, done_ct, pending) inside the while-loop body, plus dep_count guard. Fixes 'M: unbound variable' crash at line 370 under set -u. (2) scripts/model-drift-check.sh: replaced hardcoded FALLBACK_EXPECTED bash string with canonical-JSON Python round-trip, eliminates ["a", "b"] vs ["a","b"] string-format false-positive class. (3) state/model-policy.json: trialMiniMaxM3.fallbacks updated to [minimax-m3, kimi-k2.6] to match actual gateway chain (was [gemma4, kimi]).
-- **Category:** Execution Discipline
-- **Applicability:** Aria (business stream)
-
 ### L-075 — TKT-0409 approved + dispatched to Forge (3 defects from L-075)
 
 - **Source:** memory/CHANGELOG.md#CHG-0506
@@ -547,7 +491,7 @@
 - **Category:** Execution Discipline
 - **Applicability:** Yoda (orchestrator)
 
-### L-076 — Spark reactivation angles v3 — 4-week foundation arc (post v2 rejection: foundation beneath the s...
+### L-076 — Spark reactivation v3 — cost cascade forced model swap and foundation rebuild
 
 - **Source:** memory/CHANGELOG.md#CHG-0517
 - **Date:** 2026-06-12
@@ -1406,26 +1350,36 @@
 
 - **Source:** memory/LESSONS.md
 - **Date:** 2026-06-27
-- **What happened:** The `exec` tool is powerful and dangerous. Any shell command that contains recursion, backgrounding, loops, subshells, or unusual punctuation must be manually inspected before execution. A command that looks like a one-liner can be a denial-of-service attack against the host. The orchestrator must never paste or construct shell commands without reading every token.
-- **Root cause:** See what happened.
-- **What changed:** (1) Killed the fork-bomb session immediately (`process kill`). (2) Verified no persistent fork-bomb processes remain; load returned to normal (~3.4). (3) No further shell-based process inspection during this incident; used `ps aux` with static, reviewed filters instead. (4) Logging this lesson in LESSONS.md.
+- **What happened:** Yoda accidentally sent a bash fork-bomb pattern (`:(){ :|:& };:`) to `exec` while attempting to inspect process state during TKT-0344 verification. The command was not reviewed; it ran and spawned thousands of bash processes, causing load average to spike to ~690 on OC1.
+- **Root cause:** The `exec` tool is powerful and dangerous. Any shell command that contains recursion, backgrounding, loops, subshells, or unusual punctuation can become a denial-of-service attack against the host. The orchestrator must never paste or construct shell commands without reading every token.
+- **What changed:** (1) Killed the fork-bomb session immediately (`process kill`). (2) Verified no persistent fork-bomb processes remain; load returned to normal. (3) No further shell-based process inspection during this incident; used `ps aux` with static, reviewed filters instead. (4) Lesson logged in LESSONS.md.
 - **Category:** Execution Discipline
-- **Applicability:** All agents and workstreams
+- **Applicability:** Yoda (orchestrator)
 
-### L-106 — 2026-06-13 | CREST routing gap: T3 specialist agents (Forge/Atlas/Thrawn) are referenced but not ...
+### L-174 — Yoda exec self-restriction: repeated fork-bomb failures require permanent subagent-delegation model
+
+- **Source:** memory/LESSONS.md
+- **Date:** 2026-06-27
+- **What happened:** After L-173, Yoda executed the same bash fork-bomb pattern three more times in the same session while attempting to copy files, run verifications, and dispatch subagents. Each instance was killed immediately, but recurrence proved character-by-character inspection was not a sufficient guard under time pressure.
+- **Root cause:** Inline shell execution by the orchestrator is not safe in this environment. A single paste or misconstructed one-liner can deny-service the host. The L-173 prevention checklist was insufficient because the dangerous pattern kept recurring.
+- **What changed:** (1) Permanent self-restriction: Yoda will not use `exec` for shell commands during CREST execution work or any task involving DB/state mutation. (2) All shell-level inspection, mutation, and DB queries route to Forge or other subagents with explicit, reviewed task specs. (3) File tools (`read`/`write`/`edit`) remain allowed for documentation, memory, and lesson logging. (4) CHG-0780 formalizes this as a platform rule; AGENTS.md and MEMORY.md updated to lock the restriction.
+- **Category:** Execution Discipline
+- **Applicability:** Yoda (orchestrator)
+
+### L-106 — CREST routing gap: T3 specialist agents are referenced but not commissioned
 
 - **Source:** memory/2026-06-13.md
-- **Date:** unknown
+- **Date:** 2026-06-13
 - **What happened:** The CREST v1.2 + TKT-0322 model-task matrix routes Execute work to specialist agents (Forge, Atlas, Thrawn, Lando, Mon Mothma, Spark, Krennic) with `deepseek-v4-flash` as the cheap-tier model. But `agents/` only contains `aria/` and `ahsoka/` directories — Forge/Atlas/Thrawn/etc. have no SOUL.md, no agent identity, no registered endpoint. They are **paper agents** in operational reality. Yoda has been doing all Execute work directly with `minimax-m3` (the strong-tier model) for months, including mechanical atoms that should be cheap-tier (cron restores, plist edits, file bootstraps, state-file creation).
 - **Root cause:** See what happened.
 - **What changed:** OPEN
 - **Category:** Execution Discipline
 - **Applicability:** All agents (Yoda, Aria, Forge, Atlas, Thrawn, Spark, Sage, Shield, Lex, Warden)
 
-### L-107 — 2026-06-13 | Yoda was wrong about L-106: agents ARE registered; gap is dispatching discipline
+### L-107 — Yoda was wrong about L-106: agents ARE registered; gap is dispatching discipline
 
 - **Source:** memory/2026-06-13.md
-- **Date:** unknown
+- **Date:** 2026-06-13
 - **What happened:** Lesson logged; see linked sources.
 - **Root cause:** See what happened.
 - **What changed:** TKT-0506 / CHG-0540 — `scripts/crest-execute-gate.sh` runtime gate that:
@@ -1437,20 +1391,20 @@
 - **Category:** Execution Discipline
 - **Applicability:** Yoda (orchestrator)
 
-### L-108 — 2026-06-13 | TQP wait-and-silence is a silence-failure class issue, not just a queue gap
+### L-108 — TQP wait-and-silence is a silence-failure class issue, not just a queue gap
 
 - **Source:** memory/2026-06-13.md
-- **Date:** unknown
+- **Date:** 2026-06-13
 - **What happened:** Ken surfaced at 12:55 AEST that the TQP non-CREST gap (L-096) is a "wait and silence" class issue — Ken expected work to proceed, observed nothing, had no signal that the handoff between TQP claim and execution was broken. This is the same silence-failure pattern as L-088 (Telegram reroute silent), L-089 (agent stall silent), L-090 (zsh coprocess silent), L-100 (CHECK E re-log silent), L-105 (ps eww env misdetection silent).
 - **Root cause:** See what happened.
 - **What changed:** OPEN
 - **Category:** Execution Discipline
 - **Applicability:** All agents and workstreams
 
-### L-140 — Sprint Plan Build-On Rule (Ken directive, 2026-06-15 17:55 AEST)
+### L-140 — Sprint Plan Build-On Rule
 
 - **Source:** memory/2026-06-15.md
-- **Date:** unknown
+- **Date:** 2026-06-15
 - **What happened:** Lesson logged; see linked sources.
 - **Root cause:** See what happened.
 - **What changed:** OPEN
@@ -1699,7 +1653,7 @@
 - **Category:** Memory & State
 - **Applicability:** All agents and workstreams
 
-### L-085 — L-085 implementation: long-ID stub detection (auto-heal CHECK 24)
+### L-085 — Long-ID stub detection via auto-heal CHECK 24
 
 - **Source:** memory/CHANGELOG.md#CHG-0514
 - **Date:** 2026-06-12
@@ -1759,16 +1713,6 @@
 - **Category:** Memory & State
 - **Applicability:** All agents and workstreams
 
-### L-117 — CHECK 29: Cloud-Cron Escalation + L-116 (L-117 co-fix)
-
-- **Source:** memory/CHANGELOG.md#CHG-0559
-- **Date:** 2026-06-15
-- **What happened:** 2026-06-15 10:04 AEST Ollama Cloud weekly cap reset; Ken 10:33 AEST approved Recommendation #2 from outage shakedown
-- **Root cause:** Ollama outage 06-13 15:31 to 06-15 10:04 AEST (42.5h) was undetected for the first 30+ min because cron failures are only surfaced by the 30-min heartbeat. CHECK 29 escalates cloud-modelled cron cluster failures immediately. Co-discovery: CHECK 25's orphan try/except was preventing CHECK 26-29 from ever running in production, so this fix unlocks the entire CHECK 25-29 chain.
-- **What changed:** scripts/auto-heal.sh CHECK 29 (Cloud-Cron Escalation, L-116) + CHECKS_RUN entry; state/cron-models.json (58 cron->model map); CHECK 25 (L-089) orphan except/continue fix that had been silently crashing the script since 2026-06-13
-- **Category:** Memory & State
-- **Applicability:** All agents and workstreams
-
 ### L-118 — CHECK 30: Ollama Quota Canary (L-118) — 24-72h pre-cliff detection
 
 - **Source:** memory/CHANGELOG.md#CHG-0560
@@ -1776,16 +1720,6 @@
 - **What happened:** 2026-06-15 10:58 AEST Ken approved Recommendation #4 from outage shakedown; pivot from API-quota design (no public Ollama endpoint) to cron-state canary mechanism
 - **Root cause:** Ollama outage 2026-06-13 15:31 to 2026-06-15 10:04 AEST (42.5h) was undetected for 30+ min. CHECK 30 is the 24-72h pre-cliff canary: the FIRST cron to flip to rate_limit is the canary signal. Historical pattern (4 occurrences: 2026-04-26, 2026-05-22, 2026-06-02, 2026-06-13) shows rate_limit hits start 24-72h before full cluster failure. Pivoted from API-quota design because Ollama Cloud has no public quota endpoint (404 on all tested paths).
 - **What changed:** scripts/auto-heal.sh CHECK 30 (Ollama Quota Canary, L-118) + CHECKS_RUN entry. Detects first cron flip to lastErrorReason=rate_limit, escalates via sovereign-alert with shed recommendations. 12h cooldown via state/check30-last-fire.json. Pairs with CHECK 29 for complete outage prevention.
-- **Category:** Memory & State
-- **Applicability:** All agents and workstreams
-
-### L-122 — Honest backfill of 06-14 journal + 06-13/14 blogs (L-122, Rec #7)
-
-- **Source:** memory/CHANGELOG.md#CHG-0564
-- **Date:** 2026-06-15
-- **What happened:** 2026-06-15 11:30 AEST Ken approved Recommendation #7 from outage shakedown
-- **Root cause:** During the 42.5h Ollama cap outage (2026-06-13 15:31 → 2026-06-15 10:04 AEST), the platform could not run EOD finalizer. 3 files went missing: journal-2026-06-14, ainchors-2026-06-13 blog, ainchors-2026-06-14 blog. Auto-heal blog verification at 06:00 AEST 06-15 would have flagged both blog files; heartbeat completeness at 23:00 AEST would have flagged the missing journal. CRITICAL DECISION: do NOT fabricate 06-14 activity. The honest framing is post-mortem — record the silence, don't invent sessions. This preserves auditability and is the same discipline as L-113 (evidence-only) and SOUL.md #13 (no fabrication).
-- **What changed:** memory/journal-2026-06-14.md (new, 3,698 bytes, post-mortem). memory/journal-2026-06-13.md (+1,130 bytes, ## 15:35 outage-start section appended). ~/.openclaw/canvas/documents/ainchors-2026-06-13/index.html (new, 22,181 bytes, TQP bridge narrative). ~/.openclaw/canvas/documents/ainchors-2026-06-14/index.html (new, 20,149 bytes, 'The Silent Day' narrative).
 - **Category:** Memory & State
 - **Applicability:** All agents and workstreams
 
@@ -1944,7 +1878,7 @@
 - **Category:** Model Routing
 - **Applicability:** Spark (content/creative)
 
-### L-090 — L-090 fix: db-ticket.sh shell auto-reexec + create-from-json subcommand
+### L-090 — db-ticket.sh shell auto-reexec + create-from-json subcommand fix
 
 - **Source:** memory/CHANGELOG.md#CHG-0524
 - **Date:** 2026-06-13
@@ -2004,16 +1938,6 @@
 - **Category:** Model Routing
 - **Applicability:** All agents and workstreams
 
-### L-135 — TKT-0339 timeout apply complete (13/13) + Ken-bypass mechanism (L-135)
-
-- **Source:** memory/CHANGELOG.md#CHG-0578
-- **Date:** 2026-06-15
-- **What happened:** 2026-06-15 13:23 AEST Ken: 'TKT-0339 - recommendations confirmed. proceed'. 3 of 13 recommendations remained pending (dc88affb, c69615bb, 85595417) blocked by L-099 7d stability check.
-- **Root cause:** L-124 applied 10/13 in batch, 3 left at daysCount=1. L-099 safety net blocked them correctly. Ken 13:23 explicit 'proceed' is the documented bypass, but the script had no flag to express it. Without the flag, the operator either has to wait 7 days (which is wrong when Ken has approved) or apply out-of-band (which skips the audit trail). The bypass flag keeps the write path narrow and auditable while letting Ken override the safety net when warranted.
-- **What changed:** 1 file. EDIT: scripts/cron-timeout-apply.sh — added --ken-bypass flag (requires --yes + --cron/--all). Bypasses 7d stability check, records kenBypass/kenBypassAt/kenBypassReason in ledger for audit. Updated is_eligible() signature to accept ken_bypass param. Updated Python subprocess call signature (added 7th arg). Updated usage docstring. 3 live cron timeouts applied: dc88affb 240→120s, c69615bb 131→30s, 85595417 300→120s.
-- **Category:** Model Routing
-- **Applicability:** Sage (QA)
-
 ## Sequencing
 
 ### L-064 — TKT-0394 — Quarterly Tribal Knowledge Audit anchored to QBR cadence
@@ -2040,14 +1964,16 @@
 
 The following records have incomplete or OPEN "What changed" entries and need follow-up:
 
-- L-050 (Execution Discipline)
-- L-051 (Execution Discipline)
-- L-106 (Execution Discipline)
-- L-108 (Execution Discipline)
-- L-140 (Execution Discipline)
+- L-050 (Execution Discipline / Infrastructure) — Port convention formalization; root rule captured but detailed enforcement chain is thin.
+- L-051 (Execution Discipline / Infrastructure) — Shadow environment reserve (38789); needs explicit CHG reference and CHECK details.
+- L-106 (Execution Discipline) — CREST routing gap: T3 specialist agents are referenced but not commissioned; marked OPEN pending agent workspace commissioning.
+- L-108 (Execution Discipline) — TQP wait-and-silence failure class; marked OPEN pending TQP/CREST bridge redesign.
+- L-140 (Execution Discipline / Sequencing) — Sprint Plan Build-On Rule; marked OPEN pending rule formalization.
+
+**Quality-pass note:** This v1.0a update removed trivial entries (L-001, L-008), added L-174, eliminated duplicate entries (L-070, L-117, L-122, L-135), expanded several truncated titles, and fixed the L-173 incident/root-cause structure. Remaining work: category alignment for Infrastructure-heavy entries, full refactor of raw CHANGELOG headings into lesson format, and completion of OPEN items.
 
 **Completeness caveats:**
 - Early L- records (L-001–L-050) are reconstructed primarily from CHG record linkage and may lack the full narrative originally logged.
 - Some journal L- entries use file dates rather than exact incident dates.
 - CRESTv2-ADJ-001 details are inferred from CHG references; the original gate decision artifact should be attached when located.
-- Atlas review required to cross-check against incident history and fill any missing post-mortems (INC-YYYYMMDD-NNN).
+- Atlas review (TKT-0747) required to cross-check against incident history, validate categories, and fill missing post-mortems (INC-YYYYMMDD-NNN).

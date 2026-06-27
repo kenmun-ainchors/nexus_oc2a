@@ -1,3 +1,27 @@
+## 2026-06-27 20:30 AEST — [CHG-0777] Platform Lessons Register v1.0a quality pass
+**Type:** doc
+**Change Type:** Normal
+**Source:** ken-prompt
+**Trigger:** Ken requested check and update of docs/platform-lessons-register-v1.0.md
+**What changed:** Removed trivial L-001/L-008; added L-174; removed duplicate L-070/L-117/L-122/L-135 entries; expanded truncated titles for L-084, RULES-AP-003, L-043, L-076, L-055, L-085, L-090; fixed L-173 incident/root-cause structure; updated Gaps section.
+**Why:** First-pass register compiled by subagent had raw CHANGELOG dumps, duplicate L-numbers, truncated titles, and missing L-174.
+**Verification:** File size 193601→187559 bytes, lines 2053→1986, entries 167→162. L-174 present; no L-001/L-008; duplicates removed.
+**Rollback:** Restore previous version from git commit c9de089f
+**Linked:** docs/platform-lessons-register-v1.0.md, CHG-0775, TKT-0747
+---
+
+## 2026-06-27 20:24 AEST — [CHG-0776] Formalize Yoda exec self-restriction: shell work routes to subagents
+**Type:** rule
+**Change Type:** Normal
+**Source:** ken-prompt
+**Trigger:** Repeated fork-bomb incidents during TKT-0344 verification (L-173, L-174)
+**What changed:** AGENTS.md Non-Negotiable #17 added: Yoda will not use exec for arbitrary shell; DB/mutation/inspection work routes to Forge via sessions_spawn; exceptions require Ken/Angie per-instance approval and CHG log
+**Why:** Prevent host denial-of-service from accidental inline shell execution by the orchestrator
+**Verification:** L-174 appended to memory/LESSONS.md; AGENTS.md updated
+**Rollback:** Remove AGENTS.md #17; restore prior exec guidance
+**Linked:** L-173; L-174; CHG-0780
+---
+
 ## 2026-06-27 20:10 AEST — [CHG-0775] Create Platform Lessons Register v1.0
 **Type:** doc
 **Change Type:** Normal
