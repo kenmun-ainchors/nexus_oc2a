@@ -1,3 +1,43 @@
+## Saturday, June 27, 2026 — Business Stream Summary
+_Written 23:45 AEST by Aria cron — verified 2026-06-27T13:45Z_
+
+### Angie interactions today
+- **No Angie activity today.** Last Angie interaction was Wed 24 Jun (Visa/OpenAI LinkedIn post approval). Heartbeat session (agent:business:main:heartbeat) ran at 22:51 AEST — checked onboarding status (Stage 3, OB-PM-03 still unconfirmed), decided not to send weekend-night nudge. Evidence: sessions_history for `agent:business:telegram:direct:8141152780` — only inter-session heartbeat routing from Jun 27; no user messages. Session `agent:business:telegram:direct:8141152780` shows 1 inter-session message (heartbeat nudge "Hey Angie! 😊 Just checking in") with NO_REPLY from Aria. Last user message: Jun 24.
+
+### Decisions made
+- **LI-W3-P7/P8/P9 drafts — AUTO-DRAFTED ✅**: Spark batch draft cron (1cb0c7ff) ran Sat 27 Jun 12:00 AEST as scheduled. All 3 Week 3 (Movement III: The Rebuild) posts drafted:
+  - LI-W3-P7 "The rebuild that changed how I work" — Tue 30 Jun 07:30 AEST slot ✅
+  - LI-W3-P8 "What 'context discipline' actually means" — Wed 1 Jul 12:00 AEST slot ✅
+  - LI-W3-P9 "The governance stack I built because I couldn't trust the model" — Thu 2 Jul 07:30 AEST slot ✅
+  All have governance verdicts: CLEARED (Shield: clear, Lex: conditional, Sage: conditional). Images not yet ready. Evidence: linkedin-campaign.json `published` array (entries LI-W3-P7/8/9) — status `drafted`, lastUpdated `2026-06-27T12:02:09`.
+- **Standup email Day 64 — SENT ✅**: Sent at 08:15 AEST. Message ID: `19f06008a4046ca3`. Canvas size: 21,208 bytes. Evidence: state/standup-email-log.json (last entry, dayNumber: 64).
+
+### Governance reviews (Sat 27 Jun)
+- **Shield 🛡️ — CLEAR**: Daily sweep at ~22:00 AEST. No pending items. Output: `SHIELD: clear`. Evidence: cron session `ce6366e7` (seq 4).
+- **Lex ⚖️ — CLEAR**: Daily sweep at ~22:05 AEST. No pending items. Output: `LEX: clear`. Evidence: cron session `2d2d1e67` (seq 4).
+- **Sage 🧪 — CLEAR**: Daily sweep at ~22:10 AEST. No pending items. Output: `SAGE: clear`. Evidence: cron session `9a4819be` (seq 4).
+
+### Open items (verified)
+- **Ad-hoc LinkedIn post (three hard lessons)**: ⏸️ STILL LOCKED IN, PENDING PUBLISH. Ken deferred Jun 25; no decision as of Jun 27. state/adhoc-content-state.json unchanged: `locked_in_pending_publish`. Evidence: read of state/adhoc-content-state.json.
+- **TKT-0744 (Spark ad-hoc pipeline drift)**: ✅ CREATED Sprint 11 backlog. No change since Jun 25.
+- **CR-003 (Angie personal LinkedIn token)**: ✅ RESOLVED. Last health check: 2026-06-25T10:51:29Z — HTTP 200 `ok`. Evidence: state/linkedin-token-health-angie.json.
+- **Week 3 drafts**: ✅ RESOLVED (since last brief). Batch draft cron ran successfully today at 12:00 AEST. LI-W3-P7/8/9 all drafted with governance CLEARED. Images pending. Evidence: linkedin-campaign.json `published` array.
+- **Ken training confirmation (MSG-20260601-001)**: ⏸️ STILL OPEN — 27 days. relay-to-ken.json `sent: true`, `deliveredAt: 2026-06-01`. No response from Ken.
+- **Google Calendar auth (relay-20260603-001)**: ⏸️ STILL BROKEN — 25 days. relay-to-ken.json `sent: false`. No progress.
+- **Onboarding OB-PM-03**: ⏸️ STALLED. Angie invited 3 times (Jun 24, 25, 26). Heartbeat at 22:51 AEST confirmed still at Stage 3, OB-PM-03 unchecked. Heartbeat decided not to nudge on Saturday night. Evidence: heartbeat session history seq 4.
+- **Ollama usage — COMFORTABLE**: Weekly 36,230/166,959 (21.7%). Burn rate ~335 req/hr. Projected exhaustion ~13 Jul. Evidence: ollama-usage-scraper cron session `bb3575e0` (seq 6) — exit code 0.
+- **Yoda context brief**: Refreshed at 08:06 AEST. Commit: `23cbf88e chore: yoda daily context sync 2026-06-27`. Evidence: git log.
+- **BS-001 (JotForm/HRDF) and BS-002 (Lynn Huang/Finance)**: ⏸️ STALLED. No business-stream-open-items.json exists. Cannot queue until Angie re-engages.
+
+### Handoff to Yoda
+- **Angie is quiet — 4 days since last interaction** (last Wed 24 Jun). No escalation needed yet; Saturday quiet is normal.
+- **Week 3 (Movement III: The Rebuild) starts Tue 30 Jun**. LI-W3-P7 slot: Tue 07:30 AEST. All 3 posts drafted ✅. Images still needed before publish. Review window: Sat 12:00 → Tue 07:30 (~2.5 days).
+- **Ad-hoc post still pending** from Ken (deferred Jun 25) — now 2 days stale.
+- **Ken training confirmation 27 days stale; Calendar auth 25 days stale**. Both in relay-to-ken.json with no progress.
+- **Onboarding OB-PM-03 paused** until Angie initiates — 3 nudges sent, no response. Pausing to avoid spam.
+- **Yoda worked on TKT-0747 today** (Platform Lessons Register v1.0b — Atlas narrative refactor + title shortening). Commits: ee26b641, c8c800b8, c695fc57. Also logged L-175 (regex greediness lesson). Not business stream but noteworthy for cross-stream awareness.
+- **Standup Day 64 sent** — Day 65 due Mon 29 Jun 08:15 AEST.
+
 ## Friday, June 26, 2026 — Business Stream Summary
 _Written 23:45 AEST by Aria cron — verified 2026-06-26T13:45Z_
 
