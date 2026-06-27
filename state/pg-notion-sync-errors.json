@@ -1,1 +1,9 @@
-[]
+[
+  {
+    "timestamp": "2026-06-27T09:57:00Z",
+    "cron": "pg-notion-batch-sync",
+    "error": "EAGAIN (Resource temporarily unavailable) — fork limit reached, 3983+ processes, soft limit 4000",
+    "detail": "System at max user processes. Cannot spawn shell to run sync script. Manual process cleanup required before next retry.",
+    "action": "Retry scheduled for next 30-min cycle. Consider running: sudo launchctl limit maxproc 4000 6000 or kill idle processes."
+  }
+]

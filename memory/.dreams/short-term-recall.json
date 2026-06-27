@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "updatedAt": "2026-06-26T19:07:23.230Z",
+  "updatedAt": "2026-06-27T13:00:30.474Z",
   "entries": {
     "memory:memory/2026-04-26.md:94:122": {
       "key": "memory:memory/2026-04-26.md:94:122",
@@ -884,22 +884,24 @@
       "endLine": 519,
       "source": "memory",
       "snippet": "- LaunchAgent: gateway + Ollama auto-restart - OfflinePlaybook.md #### Level 2: Preventive (pre-existing) - PVT 9/9 (`scripts/pvt.sh`) - Pre-risky-op checkpoint rule - `pre-restart-cleanup.sh` #### Level 3 (NEW Day 3): Auto-Heal — nightly 23:30 AEST - Script: `scripts/auto-heal.sh` - 12 checks (11 original + Check #12 critical config baseline) - Auto-fix bucket: stale plugin-runtime-deps, stale locks, dirty git repos - Needs-Ken bucket: auth missing, cron errors, backup stale, disk full, health-state stale, low balance, incident pattern, config drift → filed as Notion US `[AUTO-HEAL]` - Output: `state/auto-heal-YYYY-MM-DD.json` - Integrated into morning standup (🔧 Auto-Heal Report section",
-      "recallCount": 3,
+      "recallCount": 4,
       "dailyCount": 0,
       "groundedCount": 0,
-      "totalScore": 1.4090030014514923,
+      "totalScore": 1.8746419340372085,
       "maxScore": 0.5125131696462631,
       "firstRecalledAt": "2026-05-03T03:04:42.738Z",
-      "lastRecalledAt": "2026-05-18T21:11:50.562Z",
+      "lastRecalledAt": "2026-06-27T10:25:34.415Z",
       "queryHashes": [
         "42783666bda8",
         "bc80007b367f",
-        "6941151a2e5f"
+        "6941151a2e5f",
+        "746b1aba9c89"
       ],
       "recallDays": [
         "2026-05-03",
         "2026-05-18",
-        "2026-05-19"
+        "2026-05-19",
+        "2026-06-27"
       ],
       "conceptTags": [
         "backup",
@@ -1082,20 +1084,21 @@
       "endLine": 259,
       "source": "memory",
       "snippet": "- OpenClaw update: already on 2026.4.24 — no action needed - Audit errors (2 lost tasks): cleared — orphaned from power trip, benign - 1Password CLI setup: in progress - US17 — Incident Log & MTTR: in progress ## TOM v2.1 - Business Research Agent 🔎 added — 13 agents total (1 lead + 3 governance + 3 technical + 6 business) - New backlog: US17 (Incident Log), US18 (Monthly SLA Report), US19 (HA Design), US20 (Research Framework) ## New Rules Added This Session - Pre-risky-op checkpoint rule: before any OpenClaw update/restart, flush all context to persistent storage first - TOM = Target Operating Model (Ken's term for agent team roster, approved 2026-04-26) ## Deferred Items (with reminde",
-      "recallCount": 6,
+      "recallCount": 7,
       "dailyCount": 0,
       "groundedCount": 0,
-      "totalScore": 2.753453415632248,
+      "totalScore": 3.228875303268433,
       "maxScore": 0.49349105954170225,
       "firstRecalledAt": "2026-05-07T21:35:12.272Z",
-      "lastRecalledAt": "2026-05-29T11:43:46.087Z",
+      "lastRecalledAt": "2026-06-27T13:00:18.491Z",
       "queryHashes": [
         "4b4fecd0a880",
         "b57f42ec66f7",
         "b0020bd7d6a9",
         "d88230f243d3",
         "86abf9bb07cb",
-        "af970ce2fd71"
+        "af970ce2fd71",
+        "0386706c4419"
       ],
       "recallDays": [
         "2026-05-08",
@@ -1103,7 +1106,8 @@
         "2026-05-22",
         "2026-05-24",
         "2026-05-25",
-        "2026-05-29"
+        "2026-05-29",
+        "2026-06-27"
       ],
       "conceptTags": [
         "2026.4.24",
@@ -1199,13 +1203,13 @@
       "endLine": 513,
       "source": "memory",
       "snippet": "- Gateway restart needed: `tools.sessions.visibility: all` not hot-reloadable — pending Ken approval - TKT-0077: Persistent agent config / stateless bootstrap — sprint item - TKT-0079/0080/0081: Holocron pages — backlog - API balance: USD$470.93 (topped up CHG-0205) - Ahsoka: PILOT_TESTING status, CHG-0201/0202 --- ## EOD Session Summary — Thu 2026-05-07 (Day 13, continued) # Appended 16:48 AEST ### Major Work Completed (afternoon session) - TKT-0086 full 4-sequence complete: coherence review → governance gaps → Atlas EA roadmap → backlog replan → Agile framework lock - TKT-0087: 20 governance ACs closed (AI Charter, Nexus-first, Ahsoka registration, R1/C4 fix, P2 gates) - TKT-0088: 8 Sec",
-      "recallCount": 8,
+      "recallCount": 10,
       "dailyCount": 0,
       "groundedCount": 0,
-      "totalScore": 3.6286448210477826,
+      "totalScore": 4.500158801674843,
       "maxScore": 0.475094798207283,
       "firstRecalledAt": "2026-05-07T21:35:16.379Z",
-      "lastRecalledAt": "2026-06-26T07:20:02.639Z",
+      "lastRecalledAt": "2026-06-27T10:25:34.635Z",
       "queryHashes": [
         "38182aeb51a6",
         "d35120f21ffa",
@@ -1214,7 +1218,9 @@
         "bc01a37ff1ba",
         "af970ce2fd71",
         "91edde4c721b",
-        "dda9539abc59"
+        "dda9539abc59",
+        "9b7bf9d95e3d",
+        "ce85dd0c3638"
       ],
       "recallDays": [
         "2026-05-08",
@@ -1222,7 +1228,8 @@
         "2026-05-15",
         "2026-05-21",
         "2026-05-29",
-        "2026-06-26"
+        "2026-06-26",
+        "2026-06-27"
       ],
       "conceptTags": [
         "gateway",
@@ -1242,13 +1249,13 @@
       "endLine": 298,
       "source": "memory",
       "snippet": "- Gateway restart needed: `tools.sessions.visibility: all` not hot-reloadable — pending Ken approval - TKT-0077: Persistent agent config / stateless bootstrap — sprint item - TKT-0079/0080/0081: Holocron pages — backlog - API balance: USD$470.93 (topped up CHG-0205) - Ahsoka: PILOT_TESTING status, CHG-0201/0202 --- ## EOD Session Summary — Thu 2026-05-07 (Day 13, continued) # Appended 16:48 AEST ### Major Work Completed (afternoon session) - TKT-0086 full 4-sequence complete: coherence review → governance gaps → Atlas EA roadmap → backlog replan → Agile framework lock - TKT-0087: 20 governance ACs closed (AI Charter, Nexus-first, Ahsoka registration, R1/C4 fix, P2 gates) - TKT-0088: 8 Sec",
-      "recallCount": 8,
+      "recallCount": 9,
       "dailyCount": 0,
       "groundedCount": 0,
-      "totalScore": 3.6286448210477826,
+      "totalScore": 4.041070982813835,
       "maxScore": 0.475094798207283,
       "firstRecalledAt": "2026-05-07T21:35:16.379Z",
-      "lastRecalledAt": "2026-06-26T07:20:02.639Z",
+      "lastRecalledAt": "2026-06-27T07:42:53.486Z",
       "queryHashes": [
         "38182aeb51a6",
         "d35120f21ffa",
@@ -1257,7 +1264,8 @@
         "bc01a37ff1ba",
         "af970ce2fd71",
         "91edde4c721b",
-        "dda9539abc59"
+        "dda9539abc59",
+        "9b7bf9d95e3d"
       ],
       "recallDays": [
         "2026-05-08",
@@ -1265,7 +1273,8 @@
         "2026-05-15",
         "2026-05-21",
         "2026-05-29",
-        "2026-06-26"
+        "2026-06-26",
+        "2026-06-27"
       ],
       "conceptTags": [
         "gateway",
@@ -1412,22 +1421,24 @@
       "endLine": 105,
       "source": "memory",
       "snippet": "- Cron: staggered 2.5 min from US40 to keep Ollama warm when routing is fixed - Cron ID (agentTurn Haiku): `637ecb12-eae2-4c16-b174-8acdaa2729cc` — **converted to systemEvent** (Option A) - HEARTBEAT.md patched to monitor task-verification-alert.json --- ## US42 — Gemma4 Overnight Cost Optimisation (Groomed, in progress) - Key insight: pure exec tasks don't need LLM at all - Option A implemented immediately: converted 3 crons (health-check, obs-collector, task-monitor) from agentTurn Haiku → systemEvent main session - Estimated saving: ~$1.50/day - US42 objective expanded: establish 3-tier LLM decision framework for ALL crons/tasks - Tier 0 (No LLM): pure script → systemEvent - Tier 1",
-      "recallCount": 3,
+      "recallCount": 4,
       "dailyCount": 0,
       "groundedCount": 0,
-      "totalScore": 1.3639334410429,
+      "totalScore": 1.8441248387098312,
       "maxScore": 0.48987075388431545,
       "firstRecalledAt": "2026-05-10T22:14:10.545Z",
-      "lastRecalledAt": "2026-06-26T01:20:01.543Z",
+      "lastRecalledAt": "2026-06-27T08:28:24.867Z",
       "queryHashes": [
         "edab79184f28",
         "c44917349bd1",
-        "2ae3c1e26690"
+        "2ae3c1e26690",
+        "b55776e77303"
       ],
       "recallDays": [
         "2026-05-11",
         "2026-05-20",
-        "2026-06-26"
+        "2026-06-26",
+        "2026-06-27"
       ],
       "conceptTags": [
         "2.5",
@@ -1667,16 +1678,15 @@
       "startLine": 154,
       "endLine": 178,
       "source": "memory",
-      "snippet": "- Strategy-to-Backlog Pipeline (TKT-0125): Roadmap Refinement ceremony formalised - Luthen (Marketing Intelligence agent): name confirmed, P2 spec written - ticket.sh fix: status=done now maps to Notion Done (was falling to Backlog) - ticket.sh fix: Notion status variable was zsh read-only — fixed Infrastructure built today: - telegram-alert.sh: API-independent Telegram fallback (no Anthropic dependency) - hf-generate-image.sh + linkedin-upload-image.sh: LinkedIn image pipeline live - linkedin-post.sh: em dash validator + mktemp collision guard + --image-asset-urn flag - Notion: Sprint, Planned Date, Delivered Date columns added. Sprint 2 backfilled. - Google Drive: \"AInchors Yoda Working Files\" folder created — interim file access until MinIO CHG range today: CHG-0254 to CHG-0266 ## KL Team Clarification — 14:44 AEST - \"KL team workshop June 2025\" in workspace-business/projects/kl-workshop-june2025/ = CLIENT training workshop (AInchors training/courses revenue stream). NOT Angie's internal KL staff. - Internal KL team (Angie's Malaysia staff) onboarding = TBD. Ken will lock date once TKT-0110/0111 plan + materials are ready. No date pressure. - Correct sequence: Ahsoka builds transformation primer → Lando builds working guides → Mon Mothma builds ADKAR plan → materials done → Ken locks KL team onboarding date. --- ## 20:31 AEST — Token Optimization Platform Principle (Ken prompt) ### Learning L-022: Token Optimization as Platform Design Principle",
-      "recallCount": 33,
+      "snippet": "- Strategy-to-Backlog Pipeline (TKT-0125): Roadmap Refinement ceremony formalised - Luthen (Marketing Intelligence agent): name confirmed, P2 spec written - ticket.sh fix: status=done now maps to Notion Done (was falling to Backlog) - ticket.sh fix: Notion status variable was zsh read-only — fixed Infrastructure built today: - telegram-alert.sh: API-independent Telegram fallback (no Anthropic dependency) - hf-generate-image.sh + linkedin-upload-image.sh: LinkedIn image pipeline live - linkedin-post.sh: em dash validator + mktemp collision guard + --image-asset-urn flag - Notion: Sprint, Planned Date, Delivered Date columns added. Sprint 2 backfilled. - Google Drive: \"AInchors Yoda Working F",
+      "recallCount": 34,
       "dailyCount": 0,
       "groundedCount": 0,
-      "totalScore": 14.390863022208212,
+      "totalScore": 14.770330882072447,
       "maxScore": 0.4808190196752548,
       "firstRecalledAt": "2026-05-11T23:27:45.121Z",
-      "lastRecalledAt": "2026-06-22T21:31:07.738Z",
+      "lastRecalledAt": "2026-06-27T10:06:57.263Z",
       "queryHashes": [
-        "827bc588f2a3",
         "763c944a8b88",
         "570a895a0310",
         "65d35902826c",
@@ -1707,10 +1717,10 @@
         "1c11f815e7f8",
         "5adfb795ecb8",
         "9c3d0d370973",
-        "b0b66139bf73"
+        "b0b66139bf73",
+        "120bd540c405"
       ],
       "recallDays": [
-        "2026-05-13",
         "2026-05-14",
         "2026-05-16",
         "2026-05-17",
@@ -1725,7 +1735,8 @@
         "2026-05-28",
         "2026-05-29",
         "2026-06-23",
-        "2026-06-22"
+        "2026-06-22",
+        "2026-06-27"
       ],
       "conceptTags": [
         "strategy-to-backlog",
@@ -1784,13 +1795,13 @@
       "endLine": 33,
       "source": "memory",
       "snippet": "# Daily Memory — 2026-05-03 (Day 9) ## Session Summary - Channel: WebChat - Active from: ~11:50 AEST --- ## Key Decisions & Actions ### Notion AKB Backlog — Single Source of Truth (CHG-0136) - Notion AKB Backlog renamed to `📋 AInchors Backlog` - Added **Type** column (US / TKT / CHG) and **Created Date** column - `scripts/ticket.sh` updated — every new/update/close auto-syncs to Notion, stores `notionPageId` in tickets.json - `scripts/changelog-append.sh` updated — every CHG entry auto-creates Notion page - RULES.md + MEMORY.md updated with policy: Notion = single source of truth - Sub-agent tested: TKT-0041 created → Notion ✅ → closed → Done ✅ → cleaned up ✅ - Historical CHG/TKT NOT mi",
-      "recallCount": 8,
+      "recallCount": 9,
       "dailyCount": 0,
       "groundedCount": 0,
-      "totalScore": 3.4974024146795273,
-      "maxScore": 0.48330595493316647,
+      "totalScore": 4.0029627799987795,
+      "maxScore": 0.505560365319252,
       "firstRecalledAt": "2026-05-11T23:49:43.978Z",
-      "lastRecalledAt": "2026-05-28T23:48:55.889Z",
+      "lastRecalledAt": "2026-06-27T13:00:18.491Z",
       "queryHashes": [
         "763c944a8b88",
         "7dbe32c813b9",
@@ -1799,7 +1810,8 @@
         "d88230f243d3",
         "2d4c07d81bbb",
         "5d559cf3e053",
-        "b2388a0cf9d3"
+        "b2388a0cf9d3",
+        "0386706c4419"
       ],
       "recallDays": [
         "2026-05-12",
@@ -1810,7 +1822,8 @@
         "2026-05-25",
         "2026-05-26",
         "2026-05-29",
-        "2026-05-28"
+        "2026-05-28",
+        "2026-06-27"
       ],
       "conceptTags": [
         "chg-0136",
@@ -1968,23 +1981,26 @@
       "endLine": 55,
       "source": "memory",
       "snippet": "- **Architecture rule formalised** — obs.db is SSOT for ALL operational errors. Any new state file with error/failure/violation data → obs CHECK required in same CHG. Non-negotiable. Enforced at CHG log time. - Docs: `docs/architecture/Observability_Architecture.md` (v1.0, 26 sources A–Z mapped, event type registry, CHECK implementation standard) - Rule added to RULES.md (same weight as CANVAS EMBED + EXEC BINARY rules) ### Aevlith Technologies — Brand Decision (CHG-0248) - **Auralith taken** — Active AU Pty Ltd ABN 43 675 437 500 + UK/US/India conflicts. Hard block. - **LOCKED: Aevlith Technologies Pty Ltd** — zero conflicts AU/UK/US/EU/India - Domain: aevlith.ai | Pronunciation: AYV-lith",
-      "recallCount": 3,
+      "recallCount": 5,
       "dailyCount": 0,
       "groundedCount": 0,
-      "totalScore": 1.2617124557495116,
+      "totalScore": 2.058631104230881,
       "maxScore": 0.4554774224758148,
       "firstRecalledAt": "2026-05-14T02:21:08.515Z",
-      "lastRecalledAt": "2026-06-25T18:04:41.881Z",
+      "lastRecalledAt": "2026-06-27T10:25:34.699Z",
       "queryHashes": [
         "e85fa5b8cebb",
         "17229b4cfa0b",
-        "d9ba2bffdafd"
+        "d9ba2bffdafd",
+        "120bd540c405",
+        "ff244fd8be94"
       ],
       "recallDays": [
         "2026-05-14",
         "2026-05-21",
         "2026-06-26",
-        "2026-06-25"
+        "2026-06-25",
+        "2026-06-27"
       ],
       "conceptTags": [
         "obs.db",
@@ -2421,18 +2437,20 @@
       "endLine": 108,
       "source": "memory",
       "snippet": "- Needs-Ken bucket: auth missing, cron errors, backup stale, disk full, health-state stale, low balance, incident pattern, config drift → filed as Notion US `[AUTO-HEAL]` - Output: `state/auto-heal-YYYY-MM-DD.json` - Integrated into morning standup (🔧 Auto-Heal Report section 1) and daily close - systemEvent payload — LLM-independent. First run tonight 23:30. #### Level 4 (NEW Day 3): Run Diagnostics — explicit `/diagnostics` only - Script: `scripts/run-diagnostics.sh` - 6 phases: inventory, provider chain ping, integration tests, auto-heal snapshot, security audit, HA readiness - Output: `state/diagnostics-STAMP.json` + `reports/diagnostics-STAMP.md` - Day 3 smoke test: 18 pass / 4 warn /",
-      "recallCount": 1,
+      "recallCount": 2,
       "dailyCount": 0,
       "groundedCount": 0,
-      "totalScore": 0.4617683291435241,
-      "maxScore": 0.4617683291435241,
+      "totalScore": 0.9712307363748549,
+      "maxScore": 0.5094624072313308,
       "firstRecalledAt": "2026-05-18T06:24:11.657Z",
-      "lastRecalledAt": "2026-05-18T06:24:11.657Z",
+      "lastRecalledAt": "2026-06-27T10:25:34.503Z",
       "queryHashes": [
-        "bc80007b367f"
+        "bc80007b367f",
+        "a202472979d2"
       ],
       "recallDays": [
-        "2026-05-18"
+        "2026-05-18",
+        "2026-06-27"
       ],
       "conceptTags": [
         "backup",
@@ -2452,18 +2470,20 @@
       "endLine": 576,
       "source": "memory",
       "snippet": "- Impact: Day 3 morning ran entirely on Opus (~3× cost of Sonnet) ### Fix - `openclaw.json` agent main model: Opus → `anthropic/claude-sonnet-4-6` (CHG-0012) - Anti-drift guard: Check #12 added to auto-heal - Rule locked in RULES.md --- ## Evergreen Obsidian Page Created - `~/Documents/AInchors/Operations/ResiliencyFramework.md` - 462 lines, ~22KB - Covers: TL;DR, design principles, 3 tiers, change log, tier interaction flow, supporting systems, OC2 path, lessons learned (Day 1–3), open risks, active US table, reference index, roadmap, blog angles - Blog angles noted: \"From reactive to proactive in 72 hours\", \"Building a one-person AI ops platform\", \"Why every incident becomes a new auto",
-      "recallCount": 1,
+      "recallCount": 2,
       "dailyCount": 0,
       "groundedCount": 0,
-      "totalScore": 0.4491199672222137,
-      "maxScore": 0.4491199672222137,
+      "totalScore": 0.9354374438524246,
+      "maxScore": 0.48631747663021085,
       "firstRecalledAt": "2026-05-18T06:24:11.657Z",
-      "lastRecalledAt": "2026-05-18T06:24:11.657Z",
+      "lastRecalledAt": "2026-06-27T10:25:34.503Z",
       "queryHashes": [
-        "bc80007b367f"
+        "bc80007b367f",
+        "a202472979d2"
       ],
       "recallDays": [
-        "2026-05-18"
+        "2026-05-18",
+        "2026-06-27"
       ],
       "conceptTags": [
         "openclaw.json",
@@ -2776,22 +2796,24 @@
       "endLine": 23,
       "source": "memory",
       "snippet": "## TRIGGER-04: OpenClaw Release Check (6:00 AM) — 2026-05-04 **Status:** New version available - **Latest:** v2026.5.3 (released 2026-05-04 07:01 UTC) - **Current installed:** v2026.5.2 - **Classification:** Regular release (stability/plugin improvements, no critical CVE) **Details:** - Plugin install hardening + externalized plugin robustness - Channel streaming reliability (Discord, WhatsApp, Slack, Teams) - Gateway performance: lazy-load plugin discovery, cron, schema, sessions - Config validation improvements - No explicit security-critical marker or CVE number **Action Taken:** - Updated TRIGGER-04 state: currentVersion → 2026.5.2, availableVersion → 2026.5.3 - lastChecked → 2026-05",
-      "recallCount": 4,
+      "recallCount": 5,
       "dailyCount": 0,
       "groundedCount": 0,
-      "totalScore": 1.923779636621475,
+      "totalScore": 2.4151288539171216,
       "maxScore": 0.5138603508472442,
       "firstRecalledAt": "2026-05-19T12:50:26.728Z",
-      "lastRecalledAt": "2026-05-24T12:50:03.839Z",
+      "lastRecalledAt": "2026-06-27T13:00:18.491Z",
       "queryHashes": [
         "b57f42ec66f7",
         "c0702f97df7d",
         "d88230f243d3",
-        "da3f402f4db7"
+        "da3f402f4db7",
+        "0386706c4419"
       ],
       "recallDays": [
         "2026-05-19",
-        "2026-05-24"
+        "2026-05-24",
+        "2026-06-27"
       ],
       "conceptTags": [
         "gateway",
@@ -4473,22 +4495,24 @@
       "endLine": 20,
       "source": "memory",
       "snippet": "# Memory — 2026-06-17 ## Morning stand-up Thrawn items complete - API balance $0 false alarm fixed (CHECK 9 rewired to turnsLimit). CHG-0606. - Gateway env-wrapper inert fixed (NODE_OPTIONS). CHG-0607. - Yoda CREST §6 violation: structural `tools.deny` applied (CHG-0608), then reverted (CHG-0609) after proving subagent exec not configurable. Discipline-based CREST resumed. - Pipefail+trap anti-patterns fixed in auto-heal.sh. CHG-0610. - Backup 33h stale fixed (new cron). CHG-0611. - MEMORY.md trimmed 13,387 → 9,785 chars. CHG-0612. - Config baseline 8d stale fixed (gateway-config-snapshot.sh + CHECK 12). CHG-0613. - TKT-0336 tilde path violations fixed. CHG-0614. - TKT-0339 + TKT-0526 cron",
-      "recallCount": 3,
+      "recallCount": 4,
       "dailyCount": 0,
       "groundedCount": 0,
-      "totalScore": 1.3289768874645231,
+      "totalScore": 1.7159887075424192,
       "maxScore": 0.45024309456348416,
       "firstRecalledAt": "2026-06-22T18:26:40.857Z",
-      "lastRecalledAt": "2026-06-24T12:37:37.526Z",
+      "lastRecalledAt": "2026-06-27T10:06:57.263Z",
       "queryHashes": [
         "2051196433fa",
         "911edb2e38e1",
-        "c2ec6526d03e"
+        "c2ec6526d03e",
+        "120bd540c405"
       ],
       "recallDays": [
         "2026-06-23",
         "2026-06-22",
-        "2026-06-24"
+        "2026-06-24",
+        "2026-06-27"
       ],
       "conceptTags": [
         "backup",
@@ -4643,18 +4667,20 @@
       "endLine": 35,
       "source": "memory",
       "snippet": "# 2026-06-13 — Yoda Daily Log ## A6 — Implemented (TKT-0503-A6) **Time:** 10:00–11:00 AEST **Model:** Yoda (claude-sonnet-4.6) **Status:** Complete, tested live, CHG-0533 logged ### What shipped - `scripts/cron-timeout-scaler.sh` vA6: reads `payload.timeoutSeconds` (not job root), filters out `systemEvent` jobs (which don't consume timeoutSeconds per server-cron-i5IplaUe.js:376) - `auto-heal.sh CHECK 22`: uses new `actionableRecommended` count, new alert message - New ledger `state/cron-timeout-applied.json` with 7-day stability gate - Live auto-apply via `openclaw cron edit --timeout-seconds N` (gated by `CHECK22_AUTO_APPLY=true`) - Idempotency verified (re-runs skip already-applied) - 3",
-      "recallCount": 1,
+      "recallCount": 2,
       "dailyCount": 0,
       "groundedCount": 0,
-      "totalScore": 0.5000845223665237,
-      "maxScore": 0.5000845223665237,
+      "totalScore": 1.0153061985969543,
+      "maxScore": 0.5152216762304306,
       "firstRecalledAt": "2026-06-23T13:00:38.682Z",
-      "lastRecalledAt": "2026-06-23T13:00:38.682Z",
+      "lastRecalledAt": "2026-06-27T13:00:18.494Z",
       "queryHashes": [
-        "9b35d7f0fbed"
+        "9b35d7f0fbed",
+        "a2fcafdeb0ae"
       ],
       "recallDays": [
-        "2026-06-23"
+        "2026-06-23",
+        "2026-06-27"
       ],
       "conceptTags": [
         "tkt-0503-a6",
@@ -4674,13 +4700,13 @@
       "endLine": 182,
       "source": "memory",
       "snippet": "- TKT-0396 implemented (isolation → repoint → verify) - Phase 3.1 hand-delete unnecessary — isolation subsumes it - Ready for Phase 4 (reconcile), Phase 5 (propagation proof), Phase 6 (clock reset) — Ken's phases, Yoda waits ## Sprint 7 State - **Tickets closed:** TKT-0369, TKT-0391, TKT-0392, TKT-0393, TKT-0399, TKT-0400, TKT-0403 - **Tickets in progress:** TKT-0395 (Phase 4-6 pending), TKT-0396 (implementation done, close pending), TKT-0401 (not started) - **New tickets unassigned:** TKT-0390, TKT-0394, TKT-0397, TKT-0398, 5 deferred items - **CHG entries:** 0482 through 0492",
-      "recallCount": 13,
+      "recallCount": 16,
       "dailyCount": 0,
       "groundedCount": 0,
-      "totalScore": 5.786956652998923,
+      "totalScore": 7.152943107485771,
       "maxScore": 0.505343946814537,
       "firstRecalledAt": "2026-06-23T14:33:44.037Z",
-      "lastRecalledAt": "2026-06-26T13:04:08.228Z",
+      "lastRecalledAt": "2026-06-27T10:26:24.359Z",
       "queryHashes": [
         "315e238e050a",
         "38ed7b22e4a0",
@@ -4693,13 +4719,17 @@
         "54169e6541e7",
         "a20a9b9d878e",
         "fa1bb84ca970",
-        "f042f104ef5a"
+        "f042f104ef5a",
+        "c2dcb78eaa94",
+        "49cf4d31dec2",
+        "04205db6e80b"
       ],
       "recallDays": [
         "2026-06-24",
         "2026-06-23",
         "2026-06-25",
-        "2026-06-26"
+        "2026-06-26",
+        "2026-06-27"
       ],
       "conceptTags": [
         "tkt-0396",
@@ -22612,19 +22642,20 @@
       "endLine": 9,
       "source": "memory",
       "snippet": "## 2026-06-23 22:13 AEST ### TKT-0739 locked into Sprint 9 - **CHG-0754** created and synced to Notion Archive DB C (`388c1829-53ff-81fd-919e-d94de70a45a3`). - **Ticket updated:** TKT-0739 sprint changed from Sprint 11 → **Sprint 9**, `sprint_id` FK resolved, Notion synced. - **Tracker updated:** `state/crestv2-p1-tracker.json` notes and `non_crestv2_p1_in_sprint_9_10` reflect TKT-0739 as Sprint 9 exception; corrected TKT-0358/TKT-0531 current_sprint to Sprint 11. - **Rationale captured in CHG-0754:** CREST Verify-phase blocker; must be fixed this sprint to unblock independent Sage judgment.",
-      "recallCount": 5,
+      "recallCount": 6,
       "dailyCount": 0,
       "groundedCount": 0,
-      "totalScore": 2.5196422606706617,
+      "totalScore": 3.0118679791688914,
       "maxScore": 0.5599401250481605,
       "firstRecalledAt": "2026-06-24T08:22:05.644Z",
-      "lastRecalledAt": "2026-06-26T17:00:11.535Z",
+      "lastRecalledAt": "2026-06-27T07:45:22.850Z",
       "queryHashes": [
         "b68df6f6694a",
         "ee4ba482809f",
         "b0e1cdb52c30",
         "f042f104ef5a",
-        "b109c47b1bba"
+        "b109c47b1bba",
+        "451ade7756ab"
       ],
       "recallDays": [
         "2026-06-24",
@@ -22650,17 +22681,18 @@
       "endLine": 41,
       "source": "memory",
       "snippet": "- Root cause: `get_current_sprint_name()` picked highest sprint_number, not earliest upcoming sprint by start_date - Fixed to ORDER BY start_date ASC for committed/planning sprints - Sprint 9 now correctly detected (2026-06-22 start) ### db-write.sh Error Classification (CHG-0698, TKT-0698) - Previously any PG error silently degraded to file fallback, hiding caller bugs - Now captures psql exit code and stderr - `_classify_pg_error()`: REJECTED errors (schema/type/constraint/SQL) → surface to caller, exit 1; OUTAGE errors (connection/unavailable) → still fallback to file - SQL stdout silenced - `db-raw.sh` now respects existing PGHOST/PGPORT/PGUSER/PGDATABASE env overrides for outage testin",
-      "recallCount": 3,
+      "recallCount": 4,
       "dailyCount": 0,
       "groundedCount": 0,
-      "totalScore": 1.518252936005592,
+      "totalScore": 1.9981342673301694,
       "maxScore": 0.5200427561998368,
       "firstRecalledAt": "2026-06-24T12:09:17.274Z",
-      "lastRecalledAt": "2026-06-26T17:00:11.535Z",
+      "lastRecalledAt": "2026-06-27T09:16:57.771Z",
       "queryHashes": [
         "f9bf801510ba",
         "099a166f6262",
-        "b109c47b1bba"
+        "b109c47b1bba",
+        "c2dcb78eaa94"
       ],
       "recallDays": [
         "2026-06-24",
@@ -38170,17 +38202,18 @@
       "endLine": 77,
       "source": "memory",
       "snippet": "- CREST Structural Foundation — 8 sub-tickets, ~1500 lines, 4 scripts, 2 PG tables, 23-state machine - TKT-0369 (PG Sprint-Backlog Skill) — 5 failure modes permanently closed, 3 sub-tickets delivered - TKT-0391 (PG Sprint Column Gap) — sprint/sprint_seq/epic columns added, 23 tickets backfilled - TKT-0392 (PG-Notion Integrity) — 306 gaps resolved across 5 categories, 4 new scripts - Warden drift chain — 14/14 PASS, model-policy.json resynced to actual configs - Auto-heal cron fixed (TKT-0389), backup health timeout fixed (TKT-0093), sandbox false positive fixed - Aria CREST guardrails — 3-layer enforcement (structural + Warden + proactive) - crest-done-gate.sh — structural enforcement of Mas",
-      "recallCount": 3,
+      "recallCount": 4,
       "dailyCount": 0,
       "groundedCount": 0,
-      "totalScore": 1.5267664194107056,
+      "totalScore": 2.0188614815473556,
       "maxScore": 0.5161687523126602,
       "firstRecalledAt": "2026-06-24T17:00:21.133Z",
-      "lastRecalledAt": "2026-06-26T17:00:11.535Z",
+      "lastRecalledAt": "2026-06-27T07:45:22.850Z",
       "queryHashes": [
         "ee4ba482809f",
         "f042f104ef5a",
-        "b109c47b1bba"
+        "b109c47b1bba",
+        "451ade7756ab"
       ],
       "recallDays": [
         "2026-06-25",
@@ -38397,18 +38430,20 @@
       "endLine": 67,
       "source": "memory",
       "snippet": "- `db-sprint.sh current/status/plan` verified working after FK-join changes. **A7 verification status:** - `agent_events` schema: matches §1.1 contract (id, event_id, actor, event_type, timestamp, tenant_id, entity_type, entity_id, prev_state, new_state, hash, prev_hash). - Indexes present: `idx_agent_events_entity`, `idx_agent_events_actor`. - `pg_write_event` function returns `(event_id_out, hash_out)` and writes deterministically. - Ticket create/update emits events (EVT-9/10 for TKT-0734). - `changelog-append.sh` emits CHG events (EVT-11 for CHG-0717). - Sprint commit emits events (EVT-12/13). - Hash chain integrity: 0 broken links across 15 events. - Rollback dry-run on copy of `infra/",
-      "recallCount": 1,
+      "recallCount": 2,
       "dailyCount": 0,
       "groundedCount": 0,
-      "totalScore": 0.4718449115753173,
-      "maxScore": 0.4718449115753173,
+      "totalScore": 0.9665454447269439,
+      "maxScore": 0.49470053315162654,
       "firstRecalledAt": "2026-06-25T10:58:07.944Z",
-      "lastRecalledAt": "2026-06-25T10:58:07.944Z",
+      "lastRecalledAt": "2026-06-27T09:16:57.771Z",
       "queryHashes": [
-        "cfd3334d14bc"
+        "cfd3334d14bc",
+        "c2dcb78eaa94"
       ],
       "recallDays": [
-        "2026-06-25"
+        "2026-06-25",
+        "2026-06-27"
       ],
       "conceptTags": [
         "db-sprint.sh",
@@ -53306,16 +53341,17 @@
       "endLine": 27,
       "source": "memory",
       "snippet": "# 2026-06-24 — Yoda Daily Log ## Summary Big day of CRESTv2-P1 execution. Major work on canonical next-ticket resolution, tracker override integration, and Sage (qa) subagent workspace isolation fix. 5 CHGs recorded (CHG-0758 through CHG-0763). ## Key Changes - **CHG-0758**: Canonical `next-ticket` resolver in `db-sprint.sh` — deterministic priority pipeline, date-window sprint awareness, `state/next-ticket.json` cache - **CHG-0759**: CRESTv2-P1 tracker override wrapper for next-ticket (later superseded by CHG-0761) - **CHG-0760**: Doc update — clarified agent-filter vs unfiltered next-ticket usage in SKILL.md - **CHG-0761**: Merged tracker override into canonical `db-sprint.sh next-ticket",
-      "recallCount": 2,
+      "recallCount": 3,
       "dailyCount": 0,
       "groundedCount": 0,
-      "totalScore": 1.6543817508489989,
+      "totalScore": 2.15608350816082,
       "maxScore": 0.8284701103972105,
       "firstRecalledAt": "2026-06-25T17:00:12.261Z",
-      "lastRecalledAt": "2026-06-26T17:00:11.535Z",
+      "lastRecalledAt": "2026-06-27T13:00:18.494Z",
       "queryHashes": [
         "b0e1cdb52c30",
-        "b109c47b1bba"
+        "b109c47b1bba",
+        "a2fcafdeb0ae"
       ],
       "recallDays": [
         "2026-06-26",
@@ -53439,21 +53475,23 @@
       "endLine": 30,
       "source": "memory",
       "snippet": "- **Fix:** `obs-collector.sh` now logs single summary ERROR per Warden run. Auto-suppressed when `consecutiveClean > 0`. Standup obs query already uses 24h window. ### CHG-0280 — Standup Cron Absolute Path Fix - **Problem:** Kimi RTB delivered fine but standup HTML write failed — used `~/.openclaw/...` in isolated session (silently fails). - **Fix:** Hardcoded absolute path `/Users/ainchorsangiefpl/.openclaw/canvas/documents/standup-daily/index.html` in cron prompt. Added `mkdir -p` safety step. ### CHG-0281 — Absolute File Path Rule (NON-NEGOTIABLE) - **Rule added to RULES.md + AGENTS.md:** Never use `~`, `./`, or `$HOME` in write/read/edit tool calls or cron prompts. Isolated sessions do",
-      "recallCount": 3,
+      "recallCount": 4,
       "dailyCount": 0,
       "groundedCount": 0,
-      "totalScore": 1.302276426553726,
+      "totalScore": 1.7886089026927947,
       "maxScore": 0.5026410520076752,
       "firstRecalledAt": "2026-06-25T18:04:41.881Z",
-      "lastRecalledAt": "2026-06-25T21:20:58.912Z",
+      "lastRecalledAt": "2026-06-27T01:58:16.750Z",
       "queryHashes": [
         "d9ba2bffdafd",
         "13101248799d",
-        "42a718c50d65"
+        "42a718c50d65",
+        "9476d825b87e"
       ],
       "recallDays": [
         "2026-06-26",
-        "2026-06-25"
+        "2026-06-25",
+        "2026-06-27"
       ],
       "conceptTags": [
         "obs-collector.sh",
@@ -53729,18 +53767,21 @@
       "endLine": 59,
       "source": "memory",
       "snippet": "- Training pipeline updated with 5 new TC-NNN ideas (TC-233 through TC-237) - Delegated auth check: all valid, no re-auth needed ## Key Decisions - **CREST v1.3 data_class → v2.0** — Ken confirmed Option A deferral. No active data_class capability until TKT-0710. - **Sprint 9 starts tomorrow (Mon 22 Jun)** — Detection fixed, planning ready. - **PG error classification hardened** — REJECTED errors surface to callers instead of silent file fallback. - **PG-Notion audit now trustworthy** — Pagination + timeout + orphan cleanup = reliable daily integrity. ## Training Content Angles Added - TC-233: Notion's silent page_size trap - TC-234: 127 orphan pages + 4-cron timeout - TC-235: Sprint detec",
-      "recallCount": 1,
+      "recallCount": 3,
       "dailyCount": 0,
       "groundedCount": 0,
-      "totalScore": 0.7940834531159514,
+      "totalScore": 1.6481248834700697,
       "maxScore": 0.7940834531159514,
       "firstRecalledAt": "2026-06-26T13:00:44.241Z",
-      "lastRecalledAt": "2026-06-26T13:00:44.241Z",
+      "lastRecalledAt": "2026-06-27T13:00:30.474Z",
       "queryHashes": [
-        "d132552841eb"
+        "d132552841eb",
+        "120bd540c405",
+        "49365b3f846b"
       ],
       "recallDays": [
-        "2026-06-26"
+        "2026-06-26",
+        "2026-06-27"
       ],
       "conceptTags": [
         "tc-nnn",
@@ -68904,6 +68945,379 @@
         "mission",
         "control",
         "refresh"
+      ]
+    },
+    "memory:memory/2026-06-27.md:1:30": {
+      "key": "memory:memory/2026-06-27.md:1:30",
+      "path": "memory/2026-06-27.md",
+      "startLine": 1,
+      "endLine": 30,
+      "source": "memory",
+      "snippet": "# 2026-06-27 ## PG-Notion Batch Sync (02:57 AEST) - Batch reconciliation ran — all tickets synced. Nothing to process. ## CRESTv2-P1 Gate Review — CRESTv2-P1-WS12-REVIEW-001 **Event:** External review of WS-1/WS-2 DoD evidence. **What happened:** - Review found 8 findings (F1–F8) — 2 critical, 2 high, 2 medium, 2 notes - All accepted as valid; none closed until verified against live PG - Acceptance was against DoD file while PG DB was down - WS-1/WS-2 status changed to \"blocked (blocked_by: WS-3)\" — dependency is machine-visible - TKT-0359 re-opened — tracker lied (had as done when Notion=Backlog) - F2 case normalization folded into TKT-0344 scope (WS-3) - F7 closure evidence: Notion stat",
+      "recallCount": 1,
+      "dailyCount": 0,
+      "groundedCount": 0,
+      "totalScore": 0.5009684920310974,
+      "maxScore": 0.5009684920310974,
+      "firstRecalledAt": "2026-06-27T07:45:22.850Z",
+      "lastRecalledAt": "2026-06-27T07:45:22.850Z",
+      "queryHashes": [
+        "451ade7756ab"
+      ],
+      "recallDays": [
+        "2026-06-27"
+      ],
+      "conceptTags": [
+        "pg-notion",
+        "crestv2-p1",
+        "crestv2-p1-ws12-review-001",
+        "ws-1/ws-2",
+        "blocked-by",
+        "ws-3",
+        "machine-visible",
+        "tkt-0359"
+      ]
+    },
+    "memory:memory/2026-06-27.md:25:35": {
+      "key": "memory:memory/2026-06-27.md:25:35",
+      "path": "memory/2026-06-27.md",
+      "startLine": 25,
+      "endLine": 35,
+      "source": "memory",
+      "snippet": "- **TKT-0348** — Wire state_sprints auto-commit + sprint FK audit - **TKT-0354** — Wire state_standups to PG-first (new table, straightforward) - **TKT-0359** — PG-First Write Policy enforcement gate (NOTA — closure evidence = Notion status + gate test) **Three decisions Ken deferred (too tired):** 1. F2 absorption: fold into TKT-0344 scope or separate ticket? 2. F8 coupling: brief Atlas now on state_model_policy read contract, or proceed with JSON-cache stopgap? 3. TKT-0359 enforcement gate shape: RULES.md rule, Warden script, or OpenClaw config validation? **Resume keyword:** `CREST WS-3 resume`",
+      "recallCount": 2,
+      "dailyCount": 0,
+      "groundedCount": 0,
+      "totalScore": 1.0223119497299193,
+      "maxScore": 0.5297756642103195,
+      "firstRecalledAt": "2026-06-27T07:45:22.850Z",
+      "lastRecalledAt": "2026-06-27T09:16:57.771Z",
+      "queryHashes": [
+        "451ade7756ab",
+        "c2dcb78eaa94"
+      ],
+      "recallDays": [
+        "2026-06-27"
+      ],
+      "conceptTags": [
+        "tkt-0348",
+        "state-sprints",
+        "auto-commit",
+        "tkt-0354",
+        "state-standups",
+        "pg-first",
+        "tkt-0359",
+        "tkt-0344"
+      ]
+    },
+    "memory:memory/2026-06-19.md:13:30": {
+      "key": "memory:memory/2026-06-19.md:13:30",
+      "path": "memory/2026-06-19.md",
+      "startLine": 13,
+      "endLine": 30,
+      "source": "memory",
+      "snippet": "3. Update `state/archive/model-policy.json`: add `deepseek-v4-flash` to backend fallbacks and add `crestPhaseOverrides` block. 4. Run `scripts/dispatch-validate.sh` validation. 5. Log CHG-0659 and commit. ## 23:14 — End-of-Day Lock-In All work from 2026-06-19 committed and checkpointed. Major closures: - TKT-0319 Global Agent Auto-Resume Protocol closed (Atoms 1–6). - TKT-0540 Model Routing SSOT re-closed after runtime config + governance/audit/cron alignment. - TKT-0541 SOUL/AGENTS hygiene completed; scripts/soul-agents-hygiene-check.sh passes 13/13; duplicate dirs archived; gate locked to Sprint Review + QBR. - Sprint 8 closed at 100% (15/15); open tickets moved to Sprint 10. - WO-0",
+      "recallCount": 1,
+      "dailyCount": 0,
+      "groundedCount": 0,
+      "totalScore": 0.4902093172073364,
+      "maxScore": 0.4902093172073364,
+      "firstRecalledAt": "2026-06-27T07:45:22.850Z",
+      "lastRecalledAt": "2026-06-27T07:45:22.850Z",
+      "queryHashes": [
+        "451ade7756ab"
+      ],
+      "recallDays": [
+        "2026-06-27"
+      ],
+      "conceptTags": [
+        "state/archive/model-policy.json",
+        "deepseek-v4-flash",
+        "scripts/dispatch-validate.sh",
+        "chg-0659",
+        "end-of-day",
+        "lock-in",
+        "tkt-0319",
+        "auto-resume"
+      ]
+    },
+    "memory:memory/2026-06-13.md:304:313": {
+      "key": "memory:memory/2026-06-13.md:304:313",
+      "path": "memory/2026-06-13.md",
+      "startLine": 304,
+      "endLine": 313,
+      "source": "memory",
+      "snippet": "**Lesson:** Ken surfaced at 12:55 AEST that the TQP non-CREST gap (L-096) is a \"wait and silence\" class issue — Ken expected work to proceed, observed nothing, had no signal that the handoff between TQP claim and execution was broken. This is the same silence-failure pattern as L-088 (Telegram reroute silent), L-089 (agent stall silent), L-090 (zsh coprocess silent), L-100 (CHECK E re-log silent), L-105 (ps eww env misdetection silent). **What this means for triage:** L-096 is **not just a \"missing executor\"** — it's a category of failure where a system claims to have done work but the operator has zero signal that the work isn't actually being done. The 23-min wait on TKT-0503 A1-A5 was th",
+      "recallCount": 1,
+      "dailyCount": 0,
+      "groundedCount": 0,
+      "totalScore": 0.39448927342891693,
+      "maxScore": 0.39448927342891693,
+      "firstRecalledAt": "2026-06-27T10:06:57.263Z",
+      "lastRecalledAt": "2026-06-27T10:06:57.263Z",
+      "queryHashes": [
+        "120bd540c405"
+      ],
+      "recallDays": [
+        "2026-06-27"
+      ],
+      "conceptTags": [
+        "non-crest",
+        "l-096",
+        "silence-failure",
+        "l-088",
+        "l-089",
+        "l-090",
+        "l-100",
+        "re-log"
+      ]
+    },
+    "memory:memory/2026-06-13.md:330:339": {
+      "key": "memory:memory/2026-06-13.md:330:339",
+      "path": "memory/2026-06-13.md",
+      "startLine": 330,
+      "endLine": 339,
+      "source": "memory",
+      "snippet": "**L-109 candidate:** \"Do not confabulate explanations for behavior changes. If you don't know why something changed, say so. State 'I don't know' instead of constructing a plausible narrative. Especially for model/agent/cost claims — always check the SSOT (model-policy.json, runtime metadata) before stating.\" **Precedent:** L-084 (2026-06-12) — same class, model (self) fabricated 31 CHG records (0477-0507) in a compacted summary, claimed \"sweep complete.\" Permanent rule from that incident: never claim completion from a summary. Always re-run gate after context boundary. **Structural fix during remaining trial:** Yoda (minimax) restricted to thin-orchestrator role — Plan + dispatch + verify",
+      "recallCount": 1,
+      "dailyCount": 0,
+      "groundedCount": 0,
+      "totalScore": 0.38304101824760434,
+      "maxScore": 0.38304101824760434,
+      "firstRecalledAt": "2026-06-27T10:06:57.263Z",
+      "lastRecalledAt": "2026-06-27T10:06:57.263Z",
+      "queryHashes": [
+        "120bd540c405"
+      ],
+      "recallDays": [
+        "2026-06-27"
+      ],
+      "conceptTags": [
+        "l-109",
+        "model/agent/cost",
+        "model-policy.json",
+        "l-084",
+        "0477-0507",
+        "re-run",
+        "thin-orchestrator",
+        "candidate"
+      ]
+    },
+    "memory:memory/2026-06-15.md:1:15": {
+      "key": "memory:memory/2026-06-15.md:1:15",
+      "path": "memory/2026-06-15.md",
+      "startLine": 1,
+      "endLine": 15,
+      "source": "memory",
+      "snippet": "# 2026-06-15 — Ollama Outage Shakedown + 22 Lessons + Defense-in-Depth Stack ## Day arc (high level) - 03:00-13:00 AEST: post-Ollama-outage shakedown. 13 original atoms (L-116 to L-128) shipped. 5 P2 followups (L-129 to L-133) shipped. Then 4 explicit Ken directives (backup, billing model, TKT-0336, TKT-0339) all complete. - 13:06 AEST: CHECK 30 spam-alert feedback from Ken → L-136 cooldown-gating bug fixed (commit 2bd01e64). - 13:25 AEST: post-mortem discussion on re-work. Honest answer: 80% old bugs, 20% same-turn catches. Driver = execution handoff context gap. - 13:40-14:05 AEST: L-137 anti-regression work. Static analyzer + CHECK 34. 4 iterations (macOS bash 3.2 mapfile, Python KeyErro",
+      "recallCount": 1,
+      "dailyCount": 0,
+      "groundedCount": 0,
+      "totalScore": 0.38038668930530545,
+      "maxScore": 0.38038668930530545,
+      "firstRecalledAt": "2026-06-27T10:06:57.263Z",
+      "lastRecalledAt": "2026-06-27T10:06:57.263Z",
+      "queryHashes": [
+        "120bd540c405"
+      ],
+      "recallDays": [
+        "2026-06-27"
+      ],
+      "conceptTags": [
+        "backup",
+        "defense-in-depth",
+        "00-13",
+        "post-ollama-outage",
+        "l-116",
+        "l-128",
+        "l-129",
+        "l-133"
+      ]
+    },
+    "memory:memory/2026-05-25.md:22:56": {
+      "key": "memory:memory/2026-05-25.md:22:56",
+      "path": "memory/2026-05-25.md",
+      "startLine": 22,
+      "endLine": 56,
+      "source": "memory",
+      "snippet": "- Validations: duplicate detection, status transition validity, atom existence, claim ownership - Fixed `task-queue.sh fail` arg-count bug (was passing CHECKPOINT_DIR as TASK_ID) - Verified: all 5 SC wrappers correctly block invalid transitions ### Atom 4: Production test - Created 3-atom task, TQP cron dispatched it, executed all atoms with SC - PG shows complete, TQP skips it on next cycle - All atoms verified in PG + JSON + checkpoint files ### Atom 5: Checkpoint bug fix - Both `task-queue-complete.py` and `task-queue-fail.py` had `try/except: pass` swallowing checkpoint write errors - Fixed with proper error handling, explicit path resolution, WARNING on failure (not silent) - Verified",
+      "recallCount": 1,
+      "dailyCount": 0,
+      "groundedCount": 0,
+      "totalScore": 0.45330295264720916,
+      "maxScore": 0.45330295264720916,
+      "firstRecalledAt": "2026-06-27T10:25:34.496Z",
+      "lastRecalledAt": "2026-06-27T10:25:34.496Z",
+      "queryHashes": [
+        "47d1c403e202"
+      ],
+      "recallDays": [
+        "2026-06-27"
+      ],
+      "conceptTags": [
+        "task-queue.sh",
+        "arg-count",
+        "checkpoint-dir",
+        "task-id",
+        "3-atom",
+        "task-queue-complete.py",
+        "task-queue-fail.py",
+        "try/except"
+      ]
+    },
+    "memory:memory/2026-06-12.md:20:44": {
+      "key": "memory:memory/2026-06-12.md:20:44",
+      "path": "memory/2026-06-12.md",
+      "startLine": 20,
+      "endLine": 44,
+      "source": "memory",
+      "snippet": "- `scripts/long-id-stub-check.sh` (~100 lines), regex `^TKT-[0-9]{4,5}:[[:space:]]+[^[:space:]]`, 7-day threshold - Non-destructive (NEVER auto-closes), surfaces via NEEDS_KEN. 7 unit tests PASS. - Auto-heal now has **24 checks**. ### TKT-0407 hygiene sweep — 100% complete - 108 tickets reviewed. Ken's Excel triage: 60 keep, 47 close. Batches 1-5 executed. - **Validate gate: 106/106 GREEN** (first time since L-077) - 194 other tickets with missing_brief remain (Sprint 8 backlog) ### WO-002 Divergence resolved - Ken's alert: 12 extras, 1 missing, 2 mismatches at 09:00 AEST - Resolved by 21:00: **698 rows live = 698 rows shadow, 0 divergent** - **Day 1 of 7 clean streak** for TKT-0368 phase",
+      "recallCount": 1,
+      "dailyCount": 0,
+      "groundedCount": 0,
+      "totalScore": 0.46042440235614773,
+      "maxScore": 0.46042440235614773,
+      "firstRecalledAt": "2026-06-27T10:25:34.764Z",
+      "lastRecalledAt": "2026-06-27T10:25:34.764Z",
+      "queryHashes": [
+        "a98cd6c38ef4"
+      ],
+      "recallDays": [
+        "2026-06-27"
+      ],
+      "conceptTags": [
+        "scripts/long-id-stub-check.sh",
+        "0-9",
+        "7-day",
+        "non-destructive",
+        "auto-closes",
+        "needs-ken",
+        "auto-heal",
+        "tkt-0407"
+      ]
+    },
+    "memory:memory/2026-06-12.md:59:86": {
+      "key": "memory:memory/2026-06-12.md:59:86",
+      "path": "memory/2026-06-12.md",
+      "startLine": 59,
+      "endLine": 86,
+      "source": "memory",
+      "snippet": "| a89d00ef | Task Queue Processor 5-min | ongoing | | **a129f70c** | **Spark teaser post** | **Sat 13 Jun 09:00 AEST (one-shot)** | | **13b0aa89** | **Spark Tue draft** | **Tue 07:30** | | **833ee0c7** | **Spark Wed draft** | **Wed 12:00** | | **869502c9** | **Spark Thu draft** | **Thu 07:30** | **Total platform crons: 45** ## Active Tiers (state/model-policy.json) - `userFacing`: primary=ollama/deepseek-v4-pro:cloud - `backend` (9 agents): primary=ollama/gemma4:31b-cloud - `trialMiniMaxM3` (7 agents including Spark): primary=ollama/minimax-m3:cloud — reverts Sun 14 Jun 23:55 - `higherQuality`: **INACTIVE**, agentIds=[] — awaits \"CLAUDE ACTIVATE\" ## Pending / Day 23 Wake Brief 1. **Sat 13",
+      "recallCount": 1,
+      "dailyCount": 0,
+      "groundedCount": 0,
+      "totalScore": 0.45614856183528896,
+      "maxScore": 0.45614856183528896,
+      "firstRecalledAt": "2026-06-27T10:25:34.764Z",
+      "lastRecalledAt": "2026-06-27T10:25:34.764Z",
+      "queryHashes": [
+        "a98cd6c38ef4"
+      ],
+      "recallDays": [
+        "2026-06-27"
+      ],
+      "conceptTags": [
+        "5-min",
+        "one-shot",
+        "state/model-policy.json",
+        "ollama/deepseek-v4-pro",
+        "ollama/gemma4",
+        "31b-cloud",
+        "ollama/minimax-m3",
+        "a89d00ef"
+      ]
+    },
+    "memory:memory/2026-05-13.md:219:246": {
+      "key": "memory:memory/2026-05-13.md:219:246",
+      "path": "memory/2026-05-13.md",
+      "startLine": 219,
+      "endLine": 246,
+      "source": "memory",
+      "snippet": "- **L-030:** After any key rotation, run propagation script immediately — it now handles both agent configs AND keychain entries in one pass. ## Lessons Registry Discipline — CHG-0283 - **Ken explicitly flagged:** Lessons not being logged proactively. Had to remind multiple times. - **Rule tightened:** Log every lesson SAME TURN as the fix. No deferral. Ever. - **Pre-work gate added to AGENTS.md:** Consult LESSONS.md before any cron/agent/script/file-path work. - **Every fix CHG must cite L-NNN** (logged / applied / n/a). - **RULES.md updated** with formal LESSONS REGISTRY RULE (4 sub-rules). ## Blog & Journal (2026-05-12) - Journal: `journal-2026-05-12.md` — 1,087 lines, 71KB — written",
+      "recallCount": 1,
+      "dailyCount": 0,
+      "groundedCount": 0,
+      "totalScore": 0.4475039631128311,
+      "maxScore": 0.4475039631128311,
+      "firstRecalledAt": "2026-06-27T10:25:34.828Z",
+      "lastRecalledAt": "2026-06-27T10:25:34.828Z",
+      "queryHashes": [
+        "81136c5804ae"
+      ],
+      "recallDays": [
+        "2026-06-27"
+      ],
+      "conceptTags": [
+        "l-030",
+        "chg-0283",
+        "pre-work",
+        "agents.md",
+        "lessons.md",
+        "cron/agent/script/file-path",
+        "l-nnn",
+        "n/a"
+      ]
+    },
+    "memory:memory/2026-06-11.md:1:17": {
+      "key": "memory:memory/2026-06-11.md:1:17",
+      "path": "memory/2026-06-11.md",
+      "startLine": 1,
+      "endLine": 17,
+      "source": "memory",
+      "snippet": "# 2026-06-11 — Daily Memory Log ## Session Summary Infrastructure integrity day. PG-Notion Sync v2.0 production-ready (TKT-0406) with 7-layer defense chain — 3 bugs fixed across 4 backfill iterations. Overnight cron quiet-hours bug fixed (CHG-0495). TimeoutSeconds applied to 27 crons (CHG-0496). 4 stale CREST §11.2 tickets closed. MiniMax M3 trial started per Ken request. CREST+skill-gate discipline formalised after 3 violations. ## Key Completions - TKT-0406 (PG-Notion Integrity v2.0) — CLOSED. 6 phases complete. 7-layer defense: skill-gate → event hooks → batch cron (30min) → audit cron (daily) → one-way contract → ceremony SSOT → auto-generated sprint-current.json - CHG-0495 (activeHour",
+      "recallCount": 1,
+      "dailyCount": 0,
+      "groundedCount": 0,
+      "totalScore": 0.47860956490039824,
+      "maxScore": 0.47860956490039824,
+      "firstRecalledAt": "2026-06-27T13:00:18.491Z",
+      "lastRecalledAt": "2026-06-27T13:00:18.491Z",
+      "queryHashes": [
+        "0386706c4419"
+      ],
+      "recallDays": [
+        "2026-06-27"
+      ],
+      "conceptTags": [
+        "pg-notion",
+        "v2.0",
+        "production-ready",
+        "tkt-0406",
+        "7-layer",
+        "quiet-hours",
+        "chg-0495",
+        "chg-0496"
+      ]
+    },
+    "memory:memory/2026-06-10.md:1:26": {
+      "key": "memory:memory/2026-06-10.md:1:26",
+      "path": "memory/2026-06-10.md",
+      "startLine": 1,
+      "endLine": 26,
+      "source": "memory",
+      "snippet": "# 2026-06-10 — Daily Memory Log ## Session Summary Massive day. CREST v1.2 locked, structural foundation built, TKT-0369/0391/0392 all closed. PG-Notion integrity achieved (306 → 0 real gaps). Warden drift chain fixed. Sprint 7 effectively closed. ## Key Completions - CREST v1.2 Recursive Model C — LOCKED with dual PASS (Atlas + Thrawn), 13 findings resolved - CREST Structural Foundation — 8 sub-tickets, ~1500 lines, 4 scripts, 2 PG tables, 23-state machine - TKT-0369 (PG Sprint-Backlog Skill) — 5 failure modes permanently closed, 3 sub-tickets delivered - TKT-0391 (PG Sprint Column Gap) — sprint/sprint_seq/epic columns added, 23 tickets backfilled - TKT-0392 (PG-Notion Integrity) — 306 ga",
+      "recallCount": 1,
+      "dailyCount": 0,
+      "groundedCount": 0,
+      "totalScore": 0.4761250078678131,
+      "maxScore": 0.4761250078678131,
+      "firstRecalledAt": "2026-06-27T13:00:18.491Z",
+      "lastRecalledAt": "2026-06-27T13:00:18.491Z",
+      "queryHashes": [
+        "0386706c4419"
+      ],
+      "recallDays": [
+        "2026-06-27"
+      ],
+      "conceptTags": [
+        "v1.2",
+        "tkt-0369/0391/0392",
+        "pg-notion",
+        "sub-tickets",
+        "23-state",
+        "tkt-0369",
+        "sprint-backlog",
+        "tkt-0391"
       ]
     }
   }

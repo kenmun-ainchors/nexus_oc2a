@@ -1,52 +1,67 @@
-# Yoda Daily Brief — 2026-06-26
+# Yoda Daily Brief — 2026-06-27
 
 ## What Yoda Built Today
 
-**Two-infrastructure kind of day — disk crisis averted, migration finished. 2 CHGs recorded (CHG-0767), plus TKT-0721 migration closed at 22:47. 3 git commits.**
+**CRESTv2-P1 execution day — WS-3 landed, TKT-0344 closed, Platform Lessons Register created. 11 CHGs recorded (CHG-0769 through CHG-0781). 2 git commits.**
 
-The day split into three phases: early-morning disk crisis (04:04-09:57 AEST), evening CRESTv2-P1 milestone (22:47 AEST), and the nightly context sync (23:00 AEST).
+Today was a **CRESTv2-P1 milestone** — WS-3 (Keys, Sprints, JSON Normalization) moved from `open` to `in_progress`, and TKT-0344, the centrepiece ticket of WS-3, is now **done** and verified.
 
-### Early Morning: Disk Alert → Root Cause → Fix (04:04-09:57 AEST)
+### Morning: Aria cron fix + timeout scaler apply (08:45–14:18 AEST)
 
-1. **85% disk alert triggered at 03:57 AEST (CHG-0767):** The health check flagged `/System/Volumes/Data` at 85% — officially degraded. Yoda investigated and found the culprit: **224 GB of session snapshots** in `/Users/ainchorsangiefpl/Backups/ainchors/sessions-pre-restart/`. These are created by `nightly-gateway-restart.sh` before every gateway restart — but the script had **no retention policy**. 26 snapshots accumulated over ~36 days, eating 62% of used disk space.
+1. **Aria daily brief cron fixed** (CHG-0769): The isolated session cron was failing because it used relative paths. Yoda hardened it with absolute paths so Aria's daily context sync runs reliably.
 
-2. **Retention policy written + executed:** Added a `RETENTION_DAYS=7` pruning step to `nightly-gateway-restart.sh`. Manually pruned 20 stale snapshots (2026-05-20 through 2026-06-12), keeping 5 recent ones. **Before:** 224 GB / 85%. **After:** 21 GB / 38%. **Freed: ~203 GB 🎉** Health check came back green immediately.
+2. **Cron timeout scaler applied** (CHG-0770): From yesterday's standup, 4 crons had timeout recommendations — 3 got timeouts *decreased* (tightening resource use) and 1 *increased* (a timeout victim). Ken approved "Option C" — apply the recommendations.
 
-3. **Telegram alert fired correctly:** Ken got an alert via `sovereign-alert.sh --source HEALTH` using the reliable TKT-0501 path (no more broken session routing).
+### Evening: CRESTv2-P1 WS-3 Execution (18:03–21:33 AEST)
 
-### Evening: TKT-0721 Migration Completed (22:47 AEST)
+3. **TKT-0344 plan approved and dispatched** (CHG-0771): Ken reviewed and approved the CREST Plan for TKT-0344 (WS-3: Wire state_model_policy to PG live write + F2 case normalization absorption + F3 denominator recheck). The plan went to Forge for execution.
 
-4. **732 CHG entries migrated from markdown to Postgres:** Yoda wrote a Python driver (`scripts/migrate-changelog-to-pg.py`) to migrate 732 markdown CHG entries from `memory/CHANGELOG.md`, `docs/CHANGELOG.md`, and `archive/CHANGELOG.md` into the PG `state_changes` table. **694 net new rows inserted**, 38 deduplicated (overlapping with existing CHG-0713–CHG-0767). 1,388 entity_links emitted. Verifier PASS.
+4. **WS-3 state_model_policy PG write pipeline built** (CHG-0772): Forge built the PG write pipeline with case normalization for F2. This was delivered to Sage for verification.
 
-   - **Notable:** The initial Forge subagent produced a flawed bash script with shell-escaping and dry-run hang issues. Yoda corrected by rewriting as a Python driver and completing execution/verification in the main session with Ken-approved parent workspace exec.
-   - **Artifacts created:** `scripts/migrate-changelog-to-pg.py`, `tests/verify/tkt0721-completeness.sh`, `infra/rollback/TKT-0721-rollback.sql`, `state/TKT-0721-migration-report.json`.
-   - **Ticket status:** done, synced to Notion.
+5. **TKT-0344 verified by Sage-as-Judge** (CHG-0773): Passed Sage's verification. Status updated to **done**.
 
-### Context Sync (23:00 AEST — this turn)
+6. **Behavioral proof: PG is the writer, JSON is derived** (CHG-0774): Yoda ran the definitive test — mutated PG directly, confirmed JSON was auto-exported with matching hash, then reverted. **Part A PASS**: PG → JSON export triggered. JSON is derived from PG, not the other way. The PG SSOT principle is now *proven*, not just asserted.
 
-5. **Yoda → Aria daily context bridge updated:** This brief written and uploaded. Training pipeline reviewed. Delegated auth checked.
+7. **Platform Lessons Register v1.0 created** (CHG-0775): Ken asked for a single compiled register of every hard-won lesson, anti-pattern, and architectural correction from the entire platform history. Yoda compiled **167 lessons/findings** (193KB) drawn from LESSONS.md, CHANGELOG.md, journals, state files, and agent rules. Sorted by category then date. **5 OPEN items flagged for follow-up.**
+
+8. **Lessons Register quality pass** (CHG-0777): Removed trivial entries, fixed truncated titles, deduplicated L-numbers. Final count: **162 entries, clean.**
+
+9. **Yoda exec self-restriction formalized** (CHG-0776): After repeated fork-bomb incidents during TKT-0344 verification (lessons L-173, L-174), Ken approved AGENTS.md Non-Negotiable #17: **Yoda will not use exec for arbitrary shell work.** Database, mutation, and inspection work routes to Forge via sessions_spawn. Exec exceptions require Ken/Angie per-instance approval + CHG log.
+
+10. **Lessons Register v1.0b — narrative polish** (CHG-0781, 21:33 AEST): Refactored 20 CHG entries from raw changelog-style bodies into proper 7-field lesson narratives. Shortened 16 titles over 100 chars. Final polished version committed.
+
+### Deferred Decisions (from WS-3 Groom, still open for Ken)
+
+Ken was too tired to make these three calls during the WS-3 groom. They remain open:
+1. **F2 absorption:** fold F2 case normalization into TKT-0344 scope or separate ticket?
+2. **F8 coupling:** brief Atlas on state_model_policy read contract, or proceed with JSON-cache stopgap?
+3. **TKT-0359 enforcement gate shape:** RULES.md rule, Warden script, or OpenClaw config validation?
 
 ## Key Decisions Made Today
 
-- **Session snapshot retention set to 7 days** — CHG-0767: Ken already approved (alert was handled via standard infra incident), `RETENTION_DAYS=7` added to `nightly-gateway-restart.sh`. Any snapshot older than 7 days gets pruned on next restart cycle. Freed ~203 GB immediately.
-- **Python over shell for complex migrations** — The Forge subagent's bash script had shell-escaping bugs and dry-run hangs. Yoda demonstrated that Python is the right tool for multi-step data transformations with rollback requirements and verifier completeness checks.
-- **CRESTv2-P1 tracker advanced:** TKT-0721 (CHG migration to PG) is now **done**. This is a major milestone — the CRESTv2-P1 workstream has closed another foundation ticket.
+- **TKT-0344 is CLOSED** — Wire state_model_policy to PG live write + F2 case normalization + F3 denominator recheck. Behavioral proof confirmed: PG writes, JSON derives. Sage-as-Judge verified.
+- **Yoda exec self-restriction (AGENTS.md #17)** — No more exec for arbitrary shell work. DB/mutation/inspection routes to Forge via sessions_spawn. Approved by Ken after L-173/L-174 fork-bomb incidents.
+- **Platform Lessons Register v1.0 created and polished** — 162 entries, 5 OPEN items, all lessons cross-referenced. Ready for Atlas to use as source material for AInchors Agentic Architecture Reference v1.0.
+- **Cron timeouts adjusted** — 3 decreased, 1 increased per standup recommendations. Ken approved option C.
+- **WS-3 status → `in_progress`** — WS-1/WS-2 remain `blocked (blocked_by: WS-3)` until WS-3 fully lands.
 
 ## Training Content Angles from Today
 
-From today's work, these are ready for the training pipeline:
+New ideas for the training pipeline:
 
-- **"My disk hit 85% at 4am. The culprit? My own backup script."** — CHG-0767: 224 GB of session snapshots with no retention policy. Every nightly restart created a snapshot but never cleaned up. How the simplest oversight — no retention — caused a disk crisis that could have taken the system offline.
-- **"The Forge wrote bash. I rewrote it in Python. Here's why."** — TKT-0721 migration: Forge's bash script had shell-escaping issues and dry-run hangs for a 732-entry migration. Python handled the data transformation, rollback SQL, verification suite, and reporting cleanly. The lesson: match tool to job complexity.
-- **"694 new rows, 38 deduplicated, 1,388 links: what a real data migration looks like"** — TKT-0721: Markdown changelog to Postgres, 3 source files consolidated into 1 relational table. Entity_links for traceability. Rollback script built before execution. The anti-fragile migration pattern.
+- **TC-261: "PG writes, JSON derives: the one test that proved our architecture"** — CHG-0774: Behavioral proof that Postgres is the single source of truth. Mutated PG, confirmed JSON auto-export matched, reverted clean. The definitive evidence test for architectural claims.
+- **TC-262: "I accidentally fork-bombed my own system. Here's what I learned."** — CHG-0776: Yoda's exec self-restriction came from real fork-bomb incidents during verification. How the orchestrator accidentally DoS'd the host, and the rule change that prevented it.
+- **TC-263: "167 lessons in one file: how we built an institutional memory from scratch"** — CHG-0775/0777/0781: Compiling every hard-won lesson from 8 weeks of platform operations into a single, structured register. The anti-knowledge-loss pattern for AI teams.
+- **TC-264: "The tracker said it was done. Sage said it wasn't."** — CHG-0773: TKT-0344 verification by Sage-as-Judge. How independent verification closed a ticket properly — with behavioral evidence, not self-reporting.
 
 ## What's Open / What's Next
 
-- **CRESTv2-P1 tracker updated:** With TKT-0721 done, remaining foundation tickets: TKT-0343 (Atlas exec gap — still blocked), TKT-0344, TKT-0348, TKT-0354, TKT-0722, TKT-0723. WS-1 through WS-5 execution sequence still locked.
-- **Atlas subagent exec gap unresolved** — TKT-0343 A1 architecture review still blocked. This blocks TKT-0344, TKT-0348, TKT-0722, TKT-0723 as well.
-- **LinkedIn publishing:** Aria owns Week 2 campaign coordination. Last posts went out Wed (LI-W2-P5) and Thu (LI-W2-P6). Week 3 planning is on Aria's radar.
-- **Ollama budget:** Not checked today — needs a fresh read. Aria's context sync may have usage data.
-- **Sprint 9:** Ongoing (2026-06-22 to 2026-06-28). 16 items, including TKT-0739 exception.
+- **WS-3 is `in_progress`** — TKT-0344 done ✅. Remaining WS-3 tickets: TKT-0348 (Wire state_sprints auto-commit + sprint FK audit), TKT-0354 (Wire state_standups to PG-first), TKT-0359 (PG-First Write Policy enforcement gate). WS-1/WS-2 are blocked until WS-3 lands.
+- **Three Ken-deferred decisions still open** (F2 absorption, F8 coupling, TKT-0359 enforcement gate shape) — resume keyword: `CREST WS-3 resume`.
+- **Atlas subagent exec gap (TKT-0343 A1)** — Still unresolved. Blocks WS-1/WS-2 exit verification.
+- **Sprint 9** — Runs 2026-06-22 to 2026-06-28. Tomorrow (Sunday) is the last day. Sprint 10 planning needs to happen.
+- **LinkedIn:** Aria owns Week 3 planning. Last posts were LI-W2-P5 (Wed) and LI-W2-P6 (Thu). No activity noted today.
+- **Ollama budget:** Not checked today.
 
 ## ✅ Auth Status
 - All delegated auth tokens valid (Ken Mun ✅, Angie Foong ✅). No alerts.

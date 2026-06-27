@@ -1,66 +1,66 @@
 {
-  "generatedAt": "2026-06-26T22:01:59.927174+00:00",
+  "generatedAt": "2026-06-27T12:55:48.386888+00:00",
   "windowDays": 7,
   "note": "Duration = end-to-end cron task time (includes LLM call + tool use). TTFT instrumentation pending gateway-level hooks.",
   "overall": {
-    "sampleCount": 17014,
-    "avgMs": 5111,
+    "sampleCount": 17915,
+    "avgMs": 4863,
     "peakMs": 802044,
     "minMs": 1
   },
   "byModel": {
     "deepseek-v4-pro:cloud": {
-      "sampleCount": 14,
-      "avgMs": 182204,
-      "minMs": 72550,
+      "sampleCount": 15,
+      "avgMs": 170436,
+      "minMs": 5684,
       "maxMs": 802044,
-      "p50Ms": 108732,
+      "p50Ms": 95547,
       "p95Ms": 244570,
-      "avgTokens": 102440
+      "avgTokens": 96352
     },
     "minimax-m3:cloud": {
       "sampleCount": 10,
-      "avgMs": 53394,
+      "avgMs": 51512,
       "minMs": 25373,
       "maxMs": 151984,
       "p50Ms": 37517,
       "p95Ms": 96702,
-      "avgTokens": 20722
+      "avgTokens": 20521
     },
     "gemma4:26b": {
       "sampleCount": 22,
-      "avgMs": 16668,
+      "avgMs": 16461,
       "minMs": 3919,
       "maxMs": 67947,
-      "p50Ms": 8439,
+      "p50Ms": 8035,
       "p95Ms": 61051,
-      "avgTokens": 10981
+      "avgTokens": 11003
     },
     "deepseek-v4-flash:cloud": {
       "sampleCount": 2943,
-      "avgMs": 9086,
-      "minMs": 3331,
+      "avgMs": 9159,
+      "minMs": 3385,
       "maxMs": 211284,
-      "p50Ms": 7390,
-      "p95Ms": 21459,
-      "avgTokens": 15809
+      "p50Ms": 7300,
+      "p95Ms": 22338,
+      "avgTokens": 15799
     },
     "kimi-k2.6:cloud": {
-      "sampleCount": 645,
-      "avgMs": 7782,
-      "minMs": 3941,
+      "sampleCount": 1525,
+      "avgMs": 6617,
+      "minMs": 3728,
       "maxMs": 261458,
-      "p50Ms": 5183,
-      "p95Ms": 14268,
-      "avgTokens": 7918
+      "p50Ms": 4821,
+      "p95Ms": 11226,
+      "avgTokens": 7481
     },
     "claude-sonnet-4-6": {
-      "sampleCount": 13380,
-      "avgMs": 3868,
+      "sampleCount": 13400,
+      "avgMs": 3481,
       "minMs": 1,
       "maxMs": 120292,
       "p50Ms": 46,
-      "p95Ms": 15405,
+      "p95Ms": 14536,
       "avgTokens": 0
     }
   }

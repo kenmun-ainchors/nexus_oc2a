@@ -528,7 +528,7 @@
   },
   "crest_v13": {
     "active_matrix": "v1.3.0",
-    "last_exported": "2026-06-27T02:30:50+10:00",
+    "last_exported": "2026-06-27T20:06:19+10:00",
     "source": "pg-export",
     "phase_rules": [
       {
@@ -537,7 +537,7 @@
         "default_model": "ollama/deepseek-v4-flash:cloud",
         "fallback_model": "ollama/gemma4:31b-cloud",
         "override_allowed": false,
-        "rationale": "Forge Execute is mechanical build work"
+        "rationale": "TKT-0344 re-import"
       },
       {
         "role": "build",
@@ -545,7 +545,7 @@
         "default_model": "ollama/deepseek-v4-flash:cloud",
         "fallback_model": "ollama/gemma4:31b-cloud",
         "override_allowed": false,
-        "rationale": "Forge Plan uses cheap (Forge exception)"
+        "rationale": "TKT-0344 re-import"
       },
       {
         "role": "build",
@@ -553,7 +553,7 @@
         "default_model": "ollama/deepseek-v4-pro:cloud",
         "fallback_model": "ollama/gemma4:31b-cloud",
         "override_allowed": false,
-        "rationale": "Forge Replan uses strong (Forge exception)"
+        "rationale": "TKT-0344 re-import"
       },
       {
         "role": "build",
@@ -561,7 +561,7 @@
         "default_model": "ollama/deepseek-v4-flash:cloud",
         "fallback_model": "ollama/gemma4:31b-cloud",
         "override_allowed": false,
-        "rationale": "Forge Synthesize uses cheap (Forge exception)"
+        "rationale": "TKT-0344 re-import"
       },
       {
         "role": "build",
@@ -569,7 +569,7 @@
         "default_model": "ollama/gemma4:31b-cloud",
         "fallback_model": "ollama/deepseek-v4-pro:cloud",
         "override_allowed": false,
-        "rationale": "Verify primary: gemma4:31b-cloud"
+        "rationale": "TKT-0344 re-import"
       },
       {
         "role": "business",
@@ -577,7 +577,7 @@
         "default_model": "ollama/deepseek-v4-flash:cloud",
         "fallback_model": "ollama/kimi-k2.6:cloud",
         "override_allowed": false,
-        "rationale": "Business Execute is mechanical"
+        "rationale": "TKT-0344 re-import"
       },
       {
         "role": "business",
@@ -585,7 +585,7 @@
         "default_model": "ollama/kimi-k2.7-code:cloud",
         "fallback_model": "ollama/kimi-k2.6:cloud",
         "override_allowed": false,
-        "rationale": "CHG-0690: Align Aria business Plan phase with user-facing primary kimi-k2.7-code:cloud. Fallback remains kimi-k2.6:cloud."
+        "rationale": "TKT-0344 re-import"
       },
       {
         "role": "business",
@@ -593,7 +593,7 @@
         "default_model": "ollama/kimi-k2.7-code:cloud",
         "fallback_model": "ollama/kimi-k2.6:cloud",
         "override_allowed": false,
-        "rationale": "CHG-0690: Align Aria business Replan phase with user-facing primary kimi-k2.7-code:cloud. Fallback remains kimi-k2.6:cloud."
+        "rationale": "TKT-0344 re-import"
       },
       {
         "role": "business",
@@ -601,7 +601,7 @@
         "default_model": "ollama/kimi-k2.7-code:cloud",
         "fallback_model": "ollama/kimi-k2.6:cloud",
         "override_allowed": false,
-        "rationale": "CHG-0691: Aria default chat model aligned to Yoda (kimi-k2.7-code:cloud). Business Synthesize uses user-facing primary."
+        "rationale": "TKT-0344 re-import"
       },
       {
         "role": "business",
@@ -609,15 +609,15 @@
         "default_model": "ollama/gemma4:31b-cloud",
         "fallback_model": "ollama/deepseek-v4-pro:cloud",
         "override_allowed": false,
-        "rationale": "Verify primary: gemma4:31b-cloud"
+        "rationale": "TKT-0344 re-import"
       },
       {
         "role": "creative",
         "phase": "Execute",
         "default_model": "ollama/deepseek-v4-flash:cloud",
         "fallback_model": "ollama/kimi-k2.6:cloud",
-        "override_allowed": true,
-        "rationale": "Spark high-stakes Execute may override to strong"
+        "override_allowed": false,
+        "rationale": "TKT-0344 re-import"
       },
       {
         "role": "creative",
@@ -625,7 +625,7 @@
         "default_model": "ollama/kimi-k2.6:cloud",
         "fallback_model": "ollama/deepseek-v4-pro:cloud",
         "override_allowed": false,
-        "rationale": "Creative Plan uses kimi-k2.6"
+        "rationale": "TKT-0344 re-import"
       },
       {
         "role": "creative",
@@ -633,7 +633,7 @@
         "default_model": "ollama/kimi-k2.6:cloud",
         "fallback_model": "ollama/deepseek-v4-pro:cloud",
         "override_allowed": false,
-        "rationale": "Creative Replan uses kimi-k2.6"
+        "rationale": "TKT-0344 re-import"
       },
       {
         "role": "creative",
@@ -641,7 +641,7 @@
         "default_model": "ollama/deepseek-v4-flash:cloud",
         "fallback_model": "ollama/kimi-k2.6:cloud",
         "override_allowed": false,
-        "rationale": "Creative Synthesize is mechanical"
+        "rationale": "TKT-0344 re-import"
       },
       {
         "role": "creative",
@@ -649,7 +649,7 @@
         "default_model": "ollama/gemma4:31b-cloud",
         "fallback_model": "ollama/deepseek-v4-pro:cloud",
         "override_allowed": false,
-        "rationale": "Verify primary: gemma4:31b-cloud"
+        "rationale": "TKT-0344 re-import"
       },
       {
         "role": "design_backend",
@@ -657,7 +657,7 @@
         "default_model": "ollama/deepseek-v4-flash:cloud",
         "fallback_model": "ollama/gemma4:31b-cloud",
         "override_allowed": false,
-        "rationale": "Design Execute is document production"
+        "rationale": "TKT-0344 re-import"
       },
       {
         "role": "design_backend",
@@ -665,7 +665,7 @@
         "default_model": "ollama/deepseek-v4-pro:cloud",
         "fallback_model": "ollama/gemma4:31b-cloud",
         "override_allowed": false,
-        "rationale": "Design specialists Plan with strong model"
+        "rationale": "TKT-0344 re-import"
       },
       {
         "role": "design_backend",
@@ -673,7 +673,7 @@
         "default_model": "ollama/deepseek-v4-pro:cloud",
         "fallback_model": "ollama/gemma4:31b-cloud",
         "override_allowed": false,
-        "rationale": "Design Replan is strong gap analysis"
+        "rationale": "TKT-0344 re-import"
       },
       {
         "role": "design_backend",
@@ -681,7 +681,7 @@
         "default_model": "ollama/deepseek-v4-flash:cloud",
         "fallback_model": "ollama/gemma4:31b-cloud",
         "override_allowed": false,
-        "rationale": "Design Synthesize is mechanical integration"
+        "rationale": "TKT-0344 re-import"
       },
       {
         "role": "design_backend",
@@ -689,7 +689,7 @@
         "default_model": "ollama/gemma4:31b-cloud",
         "fallback_model": "ollama/deepseek-v4-pro:cloud",
         "override_allowed": false,
-        "rationale": "Verify primary: gemma4:31b-cloud (G4 benchmark 20/20)"
+        "rationale": "TKT-0344 re-import"
       },
       {
         "role": "governance",
@@ -697,7 +697,7 @@
         "default_model": "ollama/deepseek-v4-flash:cloud",
         "fallback_model": "ollama/gemma4:31b-cloud",
         "override_allowed": false,
-        "rationale": "Governance Execute is mechanical"
+        "rationale": "TKT-0344 re-import"
       },
       {
         "role": "governance",
@@ -705,7 +705,7 @@
         "default_model": "ollama/gemma4:31b-cloud",
         "fallback_model": "ollama/deepseek-v4-pro:cloud",
         "override_allowed": false,
-        "rationale": "Governance Plan uses gemma4:31b"
+        "rationale": "TKT-0344 re-import"
       },
       {
         "role": "governance",
@@ -713,7 +713,7 @@
         "default_model": "ollama/gemma4:31b-cloud",
         "fallback_model": "ollama/deepseek-v4-pro:cloud",
         "override_allowed": false,
-        "rationale": "Governance Replan uses gemma4:31b"
+        "rationale": "TKT-0344 re-import"
       },
       {
         "role": "governance",
@@ -721,7 +721,7 @@
         "default_model": "ollama/deepseek-v4-flash:cloud",
         "fallback_model": "ollama/gemma4:31b-cloud",
         "override_allowed": false,
-        "rationale": "Governance Synthesize is mechanical"
+        "rationale": "TKT-0344 re-import"
       },
       {
         "role": "governance",
@@ -729,7 +729,7 @@
         "default_model": "ollama/gemma4:31b-cloud",
         "fallback_model": "ollama/deepseek-v4-pro:cloud",
         "override_allowed": false,
-        "rationale": "Governance Verify uses gemma4:31b (same as primary)"
+        "rationale": "TKT-0344 re-import"
       },
       {
         "role": "yoda_master",
@@ -737,7 +737,7 @@
         "default_model": "ollama/kimi-k2.7-code:cloud",
         "fallback_model": "ollama/deepseek-v4-pro:cloud",
         "override_allowed": false,
-        "rationale": "CHG-0690: Yoda+Aria Plan benchmark (12 atoms) showed kimi-k2.7-code:cloud leading on quality (91.5% adjusted) vs deepseek (87.2%) and glm (84.6%). Adopted as primary for yoda_master Plan phase; deepseek demoted to fallback."
+        "rationale": "TKT-0344 re-import"
       },
       {
         "role": "yoda_master",
@@ -745,7 +745,7 @@
         "default_model": "ollama/kimi-k2.7-code:cloud",
         "fallback_model": "ollama/deepseek-v4-pro:cloud",
         "override_allowed": false,
-        "rationale": "CHG-0690: Yoda+Aria Plan benchmark showed kimi-k2.7-code:cloud leading. Adopted as primary for yoda_master Replan phase; deepseek demoted to fallback."
+        "rationale": "TKT-0344 re-import"
       },
       {
         "role": "yoda_master",
@@ -753,7 +753,7 @@
         "default_model": "ollama/kimi-k2.7-code:cloud",
         "fallback_model": "ollama/deepseek-v4-pro:cloud",
         "override_allowed": false,
-        "rationale": "Yoda Synthesize uses kimi-k2.7 for integration"
+        "rationale": "TKT-0344 re-import"
       },
       {
         "role": "yoda_master",
@@ -761,7 +761,7 @@
         "default_model": "ollama/deepseek-v4-pro:cloud",
         "fallback_model": "ollama/kimi-k2.6:cloud",
         "override_allowed": false,
-        "rationale": "Yoda self-verify for master-level integration"
+        "rationale": "TKT-0344 re-import"
       }
     ],
     "model_registry": [

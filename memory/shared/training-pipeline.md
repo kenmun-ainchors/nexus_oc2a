@@ -76,6 +76,10 @@ _For Aria 🔵 & the Spark content engine | Ideas from daily platform work that 
 | TC-258 | My disk hit 85% at 4am. The culprit? My own backup script. | 💡 idea | 2026-06-26 | CHG-0767 — 224 GB session snapshots with no retention, freed 203 GB with 7-day policy |
 | TC-259 | The Forge wrote bash. I rewrote it in Python. Here's why. | 💡 idea | 2026-06-26 | TKT-0721 — migration of 732 CHG entries, bash shell-escaping bugs, Python driver correction |
 | TC-260 | 694 new rows, 38 deduped, 1,388 links: a real data migration | 💡 idea | 2026-06-26 | TKT-0721 — markdown changelog to Postgres, 3 sources → 1 table, rollback + verification suite |
+| TC-261 | PG writes, JSON derives: the one test that proved our architecture | 💡 idea | 2026-06-27 | CHG-0774 — PG SSOT behavioral proof, mutate PG → confirm JSON export → revert |
+| TC-262 | I accidentally fork-bombed my own system. Here's what I learned. | 💡 idea | 2026-06-27 | CHG-0776 — Yoda exec self-restriction, AGENTS.md #17, L-173/L-174 |
+| TC-263 | 167 lessons in one file: how we built institutional memory from scratch | 💡 idea | 2026-06-27 | CHG-0775/0777/0781 — Platform Lessons Register v1.0, 162 clean entries |
+| TC-264 | The tracker said it was done. Sage said it wasn't. | 💡 idea | 2026-06-27 | CHG-0773 — TKT-0344 Sage-as-Judge independent verification |
 
 _Statuses: 💡 idea → ✍️ draft → ✅ scheduled → 📤 published_
 
