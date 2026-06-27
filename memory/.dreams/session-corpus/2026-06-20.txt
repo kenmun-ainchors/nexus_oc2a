@@ -90,3 +90,20 @@
 [main/sessions/main/0c266c10-f27a-496d-b6d4-79b64bc11190.jsonl.deleted.2026-06-20T16-14-24.069Z#L8] Assistant: TQP run complete — no tasks to process.
 [main/sessions/main/0c4c7c1c-00b0-4366-8e24-10f43cbddb72.jsonl.deleted.2026-06-20T00-48-29.138Z#L6] Assistant: Running the TQP script as scheduled.
 [main/sessions/main/0c4c7c1c-00b0-4366-8e24-10f43cbddb72.jsonl.deleted.2026-06-20T00-48-29.138Z#L8] Assistant: No tasks to process. Queue is empty.
+[main/sessions/main/0cbc8f66-fbe2-48f7-8661-24e3d7be6b97.jsonl#L6] Assistant: Running the PG-Notion batch sync.
+[main/sessions/main/0cbc8f66-fbe2-48f7-8661-24e3d7be6b97.jsonl#L8] Assistant: Batch sync complete — all tickets are already in `synced` state. No errors, no DLQ entries.
+[main/sessions/main/0cd703ae-7e78-40dc-a5e7-e6903288d27d.jsonl.deleted.2026-06-20T18-53-59.258Z#L6] Assistant: I'll handle this task monitor reminder. Let me run the task collector and check for stalled tasks.
+[main/sessions/main/0cd703ae-7e78-40dc-a5e7-e6903288d27d.jsonl.deleted.2026-06-20T18-53-59.258Z#L10] Assistant: The task collector ran cleanly (0 stalls, 0 verified, 0 failed). The state_task_queue has entries but all are in terminal states (complete, done, closed, cancelled) — no stalled tasks requiring alerting. No action needed. **Summary:
+[main/sessions/main/0cd7f221-ddbe-4910-885e-36a332232c47.jsonl.deleted.2026-06-20T06-21-34.869Z#L6] Assistant: Running the TQP task queue processor as scheduled.
+[main/sessions/main/0cd7f221-ddbe-4910-885e-36a332232c47.jsonl.deleted.2026-06-20T06-21-34.869Z#L8] Assistant: TQP run complete — no tasks to process. All clear.
+[main/sessions/main/0d01edfd-ede8-4036-9f71-1afeae9be4c7.jsonl.deleted.2026-06-20T03-44-39.891Z#L6] Assistant: Running the scheduled obs-collector script silently.
+[main/sessions/main/0d01edfd-ede8-4036-9f71-1afeae9be4c7.jsonl.deleted.2026-06-20T03-44-39.891Z#L8] Assistant: No new events. Nothing to relay.
+[main/sessions/main/0d13c5a6-ed89-4443-a26f-dc2fca682864.jsonl.deleted.2026-06-20T16-14-24.065Z#L6] Assistant: I'll run the health check script first.
+[main/sessions/main/0d13c5a6-ed89-4443-a26f-dc2fca682864.jsonl.deleted.2026-06-20T16-14-24.065Z#L8] Assistant: Health check passed. Now read the state diagnostics to confirm.
+[main/sessions/main/0d13c5a6-ed89-4443-a26f-dc2fca682864.jsonl.deleted.2026-06-20T16-14-24.065Z#L10] Assistant: The state_diagnostics data doesn't show a `consecutiveFailures` or `status` field in the schema returned. Let me check the actual schema more carefully — the rows show `failed: 0` across the board and no `status` or `consecutiveFail
+[main/sessions/main/0d3d6c31-e749-4596-8666-c53021f8055a.jsonl.deleted.2026-06-20T03-44-39.891Z#L6] Assistant: Running the TQP script now.
+[main/sessions/main/0d3d6c31-e749-4596-8666-c53021f8055a.jsonl.deleted.2026-06-20T03-44-39.891Z#L8] Assistant: TQP run complete — no tasks to process.
+[main/sessions/main/0da03442-d86a-4da9-82d6-d552648c902a.jsonl.deleted.2026-06-20T19-48-38.893Z#L6] Assistant: I'll handle this health check silently.
+[main/sessions/main/0da03442-d86a-4da9-82d6-d552648c902a.jsonl.deleted.2026-06-20T19-48-38.893Z#L8] Assistant: Health check passed. Now reading diagnostics to verify state.
+[main/sessions/main/0da03442-d86a-4da9-82d6-d552648c902a.jsonl.deleted.2026-06-20T19-48-38.893Z#L10] Assistant: Let me check for the `consecutiveFailures` and `status` fields more specifically — the output shows historical diagnostic runs but not the current state fields. Let me look at the actual state file.
+[main/sessions/main/0da03442-d86a-4da9-82d6-d552648c902a.jsonl.deleted.2026-06-20T19-48-38.893Z#L12] Assistant: Status is `ok`, `consecutiveFailures` is 0 — no alert needed. OK

@@ -207,3 +207,15 @@
 [main/sessions/main/0c70a7a6-b972-4e83-937f-10a8ab111461.jsonl.deleted.2026-06-23T18-10-00.897Z#L6] Assistant: I'll handle this TASK_MONITOR reminder. Let me run the task collector and then check for stalled tasks.
 [main/sessions/main/0c70a7a6-b972-4e83-937f-10a8ab111461.jsonl.deleted.2026-06-23T18-10-00.897Z#L8] Assistant: Task collector ran clean — no stalls, no failures. Let me still check the db-read script as directed to be thorough.
 [main/sessions/main/0c70a7a6-b972-4e83-937f-10a8ab111461.jsonl.deleted.2026-06-23T18-10-00.897Z#L10] Assistant: All tasks in the queue are in a terminal state (complete/done/closed/cancelled). No stalled tasks need attention. **Result:** - ✅ **task-collector.sh**: Ran clean — 0 stalls, 0 failures - ✅ **state_task_queue**: All entries have ter
+[main/sessions/main/0cabbe9a-5712-4024-b5f3-0527281dbe21.jsonl.deleted.2026-06-23T04-32-45.660Z#L6] Assistant: I'll handle this scheduled task monitor reminder. Let me run the collection script first.
+[main/sessions/main/0cabbe9a-5712-4024-b5f3-0527281dbe21.jsonl.deleted.2026-06-23T04-32-45.660Z#L8] Assistant: Task collector ran successfully — no stalls, no failures. Let me also check the db-read for any stalled tasks as a cross-check.
+[main/sessions/main/0cabbe9a-5712-4024-b5f3-0527281dbe21.jsonl.deleted.2026-06-23T04-32-45.660Z#L10] Assistant: The queue is clean — all tasks are in final states (complete, closed, done, cancelled). No stalled/running/dispatched tasks that require alerting. **Task Monitor Summary:** - ✅ `task-collector.sh` ran successfully — reported 0 stall
+[main/sessions/main/0d0c5c26-4eb0-409e-ba57-50c9396ae689.jsonl.deleted.2026-06-23T07-14-46.763Z#L6] Assistant: Running the task queue processor script as scheduled
+[main/sessions/main/0d0c5c26-4eb0-409e-ba57-50c9396ae689.jsonl.deleted.2026-06-23T07-14-46.763Z#L8] Assistant: Task queue processor completed — no tasks to process. All queues clear.
+[main/sessions/main/0d0e45e3-3253-43be-a371-c9b34b588640.jsonl#L6] Assistant: Running the TQP executor poll.
+[main/sessions/main/0d125db5-603b-4793-954e-de20e6daed84.jsonl.deleted.2026-06-23T09-53-12.377Z#L6] Assistant: Running the scheduled obs-collector script silently.
+[main/sessions/main/0d125db5-603b-4793-954e-de20e6daed84.jsonl.deleted.2026-06-23T09-53-12.377Z#L8] Assistant: Done. No new Obsidian events logged.
+[main/sessions/main/0d14ca35-d1a9-4a13-bc45-0dd2cc3e782c.jsonl.deleted.2026-06-23T14-13-32.007Z#L6] Assistant: Running the task queue processor script as scheduled.
+[main/sessions/main/0d14ca35-d1a9-4a13-bc45-0dd2cc3e782c.jsonl.deleted.2026-06-23T14-13-32.007Z#L8] Assistant: Task queue processor ran — no pending tasks found. Clean exit.
+[main/sessions/main/0d5bc38c-305f-4da4-bfbe-f9200f72e377.jsonl.deleted.2026-06-23T17-44-00.460Z#L6] Assistant: Running the scheduled obs-collector script.
+[main/sessions/main/0d5bc38c-305f-4da4-bfbe-f9200f72e377.jsonl.deleted.2026-06-23T17-44-00.460Z#L8] Assistant: Script completed — no new events logged. Nothing to report.

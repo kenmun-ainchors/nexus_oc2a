@@ -1,8 +1,8 @@
 {
-  "checkedAt": "2026-06-20T16:00:05Z",
+  "checkedAt": "2026-06-27T16:00:10Z",
   "warningLimit": 6000,
   "hardLimit": 10000,
-  "totalAgents": 29,
+  "totalAgents": 34,
   "warnings": 0,
   "hardLimitBreaches": 0,
   "agents": [
@@ -49,6 +49,12 @@
       "path": "/Users/ainchorsangiefpl/.openclaw/workspace/infra/SOUL.md"
     },
     {
+      "agent": "thrawn",
+      "size": 1788,
+      "status": "OK",
+      "path": "/Users/ainchorsangiefpl/.openclaw/workspace/thrawn/SOUL.md"
+    },
+    {
       "agent": "security",
       "size": 1174,
       "status": "OK",
@@ -59,6 +65,12 @@
       "size": 1829,
       "status": "OK",
       "path": "/Users/ainchorsangiefpl/.openclaw/workspace/platform-arch/SOUL.md"
+    },
+    {
+      "agent": "ahsoka",
+      "size": 2139,
+      "status": "OK",
+      "path": "/Users/ainchorsangiefpl/.openclaw/workspace/ahsoka/SOUL.md"
     },
     {
       "agent": "change-mgt",
@@ -73,10 +85,22 @@
       "path": "/Users/ainchorsangiefpl/.openclaw/workspace/business/SOUL.md"
     },
     {
+      "agent": "thrawn",
+      "size": 1788,
+      "status": "OK",
+      "path": "/Users/ainchorsangiefpl/.openclaw/workspace/agents/thrawn/SOUL.md"
+    },
+    {
       "agent": "ahsoka",
       "size": 2139,
       "status": "OK",
       "path": "/Users/ainchorsangiefpl/.openclaw/workspace/agents/ahsoka/SOUL.md"
+    },
+    {
+      "agent": "atlas",
+      "size": 1877,
+      "status": "OK",
+      "path": "/Users/ainchorsangiefpl/.openclaw/workspace/agents/atlas/SOUL.md"
     },
     {
       "agent": "sage",
@@ -113,6 +137,12 @@
       "size": 3261,
       "status": "OK",
       "path": "/Users/ainchorsangiefpl/.openclaw/workspace/SOUL.md"
+    },
+    {
+      "agent": "atlas",
+      "size": 1877,
+      "status": "OK",
+      "path": "/Users/ainchorsangiefpl/.openclaw/workspace/atlas/SOUL.md"
     },
     {
       "agent": "legal",

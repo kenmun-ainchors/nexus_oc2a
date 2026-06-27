@@ -190,3 +190,17 @@
 [main/sessions/main/0c8fa8d8-961e-42db-9306-aa6a773810ce.jsonl.deleted.2026-06-21T22-43-24.743Z#L8] Assistant: No tasks to process — queue is empty. Nothing to relay.
 [main/sessions/main/0c91b67a-b217-49e2-91a5-528e9be56f6c.jsonl.deleted.2026-06-22T14-47-47.277Z#L6] Assistant: Running the TQP script now.
 [main/sessions/main/0c91b67a-b217-49e2-91a5-528e9be56f6c.jsonl.deleted.2026-06-22T14-47-47.277Z#L8] Assistant: TQP run complete — no tasks to process.
+[main/sessions/main/0cc4d280-ea1f-4756-a5dd-147d615bc431.jsonl.deleted.2026-06-22T09-30-46.735Z#L6] Assistant: I'll handle this health check reminder. Let me run the health check script first.
+[main/sessions/main/0cc4d280-ea1f-4756-a5dd-147d615bc431.jsonl.deleted.2026-06-22T09-30-46.735Z#L8] Assistant: All systems healthy. Gateway, Ollama, Anthropic, MinIO, disk, and event loop all OK. No stale tasks or lock files. Uptime at 99.91% (6671/6677 checks).
+[main/sessions/main/0cd8e385-a0c3-4b8f-b450-8bc9fc0a4220.jsonl.deleted.2026-06-22T16-31-03.742Z#L6] Assistant: I'll handle this health check silently.
+[main/sessions/main/0cd8e385-a0c3-4b8f-b450-8bc9fc0a4220.jsonl.deleted.2026-06-22T16-31-03.742Z#L8] Assistant: All checks passed. Now reading the state diagnostics to verify.
+[main/sessions/main/0cd8e385-a0c3-4b8f-b450-8bc9fc0a4220.jsonl.deleted.2026-06-22T16-31-03.742Z#L10] Assistant: The state diagnostics don't show a `consecutiveFailures` or `status` field in the returned data — the records show `failed: 0` across the board, and no `degraded` status. All health checks passed with exit code 0. No alert needed. O
+[main/sessions/main/0cf94f4e-93cb-40e6-905a-c5d292104c31.jsonl.deleted.2026-06-22T08-38-55.299Z#L6] Assistant: Running the TQP script now.
+[main/sessions/main/0cf94f4e-93cb-40e6-905a-c5d292104c31.jsonl.deleted.2026-06-22T08-38-55.299Z#L8] Assistant: No tasks to process.
+[main/sessions/main/0d201a4d-1d3c-4ad2-abe7-4546a348be5c.jsonl.deleted.2026-06-22T16-31-03.740Z#L6] Assistant: I'll handle this task monitor reminder. Let me start by running the task collector script and checking the task queue.
+[main/sessions/main/0d201a4d-1d3c-4ad2-abe7-4546a348be5c.jsonl.deleted.2026-06-22T16-31-03.740Z#L9] Assistant: Task collector ran cleanly (0 stalls, 0 verified, 0 failed). The task queue has entries but all are either `complete`, `done`, `closed`, or `cancelled` — no stalled tasks in a non-terminal state. Let me verify there are no tasks with
+[main/sessions/main/0d201a4d-1d3c-4ad2-abe7-4546a348be5c.jsonl.deleted.2026-06-22T16-31-03.740Z#L11] Assistant: All clear. Here's the summary: **Task Monitor — Mon 22 Jun 2026 17:51 AEST** | Check | Result | |---|---| | `task-collector.sh` | ✅ Ran clean — 0 stalls, 0 verified, 0 failed | | `state_task_queue` | ✅ No stalled tasks — all 30+ ent
+[main/sessions/main/0d96586a-c3b0-4608-a717-91da223732b4.jsonl#L6] Assistant: Running the batch sync script.
+[main/sessions/main/0d96586a-c3b0-4608-a717-91da223732b4.jsonl#L8] Assistant: All caught up — no tickets pending sync. Quiet night. NO_REPLY
+[main/sessions/main/0dac57f0-43f9-4c6a-932e-30e3557f637d.jsonl.deleted.2026-06-22T19-02-44.622Z#L6] Assistant: Running the TQP script as instructed.
+[main/sessions/main/0dac57f0-43f9-4c6a-932e-30e3557f637d.jsonl.deleted.2026-06-22T19-02-44.622Z#L8] Assistant: TQP run complete — no tasks to process. All clear.

@@ -1,3 +1,75 @@
+## 2026-06-28 08:03 AEST — [CHG-0783] OpenClaw exec pattern guard design
+**Type:** rule
+**Change Type:** Normal
+**Source:** ken-prompt
+**Trigger:** CHG-0778 dispatch directive: Fix 1 requires Atlas EA design first (allowlist vs denylist) before Forge builds
+**What changed:** Atlas EA to decide allowlist vs denylist (or hybrid) for exec strings; define covered script set and escape-hatch policy
+**Why:** Load-bearing security choice; allowlist is more durable against generative threats than regex denylist
+**Verification:** Will verify with negative test corpus (synthetic fork-bomb + novel variants blocked) and legitimate workflow positive tests after Forge build
+**Rollback:** N/A
+**Linked:** CHG-0778, CHG-0776, L-173, L-174, SEAM-2
+---
+
+## 2026-06-28 08:03 AEST — [CHG-0782] Verify-context audit for fork-bomb generation cause
+**Type:** doc
+**Change Type:** Normal
+**Source:** ken-prompt
+**Trigger:** CHG-0778 dispatch directive: sixth item added as the cure the forensic report says CHG-0776 isn't
+**What changed:** Audit TKT-0344 Verify prompts/context for why :(){ :|:& };: was plausible completion four times; revise Verify criteria if cause found
+**Why:** Fixes 1-5 contain blast radius and gate paths but do not address why the model generated the pattern; this audit is what makes them sufficient
+**Verification:** Will deliver audit report; if context condition found, revised Verify criteria with evidence
+**Rollback:** N/A
+**Linked:** CHG-0778, L-173, L-174, TKT-0344
+---
+
+## 2026-06-28 08:03 AEST — [CHG-0781] Subagent dispatch exec guardrail
+**Type:** rule
+**Change Type:** Normal
+**Source:** ken-prompt
+**Trigger:** CHG-0778 dispatch directive: recurrence happened while dispatching subagents; TKT-0348 floor requires Fix 5 live
+**What changed:** Update SUBAGENT-DISPATCH-PATTERN.md and dispatch-validate.sh to reject unreviewed shell metacharacters and require absolute known script paths
+**Why:** sessions_spawn is the live exec exposure after CHG-0776; need structural guard before subagent turns prompt into shell command
+**Verification:** Will verify negative test: adversarial dispatch string blocked; positive test: known-script dispatch passes
+**Rollback:** N/A
+**Linked:** CHG-0778, CHG-0776, L-174, docs/SUBAGENT-DISPATCH-PATTERN.md
+---
+
+## 2026-06-28 08:03 AEST — [CHG-0780] Warden fork-rate monitor report-only
+**Type:** rule
+**Change Type:** Normal
+**Source:** ken-prompt
+**Trigger:** CHG-0778 dispatch directive: TKT-0348 floor requires Fix 3 live before start
+**What changed:** Host-level monitor on process-creation rate and child-to-parent ratio per OpenClaw session; report-only mode first
+**Why:** Detect fork-bomb signature without blocking legitimate workloads until tuning is validated
+**Verification:** Will verify with 24h shadow window: synthetic signature detected, no false positives
+**Rollback:** N/A
+**Linked:** CHG-0778, CHG-0776, L-173, L-174
+---
+
+## 2026-06-28 08:03 AEST — [CHG-0779] Process cap for fork-bomb containment
+**Type:** infra
+**Change Type:** Normal
+**Source:** ken-prompt
+**Trigger:** CHG-0778 dispatch directive: TKT-0348 floor requires Fix 2 live before start
+**What changed:** Apply ulimit -u 500 (or macOS equivalent) to OpenClaw gateway and spawned shells; synthetic fork-bomb must exhaust its own allowance without climbing host process table
+**Why:** CHG-0776 is behavioral containment; a true fix needs blast-radius limitation even if a malicious shell string is generated
+**Verification:** Will verify with synthetic fork-bomb negative test showing resource temporarily unavailable and stable host process count
+**Rollback:** N/A
+**Linked:** CHG-0778, L-173, L-174, TKT-0348
+---
+
+## 2026-06-28 07:45 AEST — [CHG-0778] Fork-bomb root-cause investigation
+**Type:** rule
+**Change Type:** Normal
+**Source:** ken-prompt
+**Trigger:** L-173/L-174 fork-bomb incidents on 2026-06-27 and recognition that CHG-0776 exec self-restriction is containment only
+**What changed:** Opened CHG-0777 to identify root trigger; no workspace mutation until evidence
+**Why:** Self-restriction masks an unfixed trigger that may resurface via subagents or crons and cause worse damage
+**Verification:** Will be verified by read-only forensic log review and Warden process audit
+**Rollback:** N/A
+**Linked:** CHG-0776, L-173, L-174, memory/LESSONS.md
+---
+
 ## 2026-06-27 20:30 AEST — [CHG-0777] Platform Lessons Register v1.0a quality pass
 **Type:** doc
 **Change Type:** Normal

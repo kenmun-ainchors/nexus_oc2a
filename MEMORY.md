@@ -175,11 +175,9 @@ Older/less-frequently-used sections moved to `memory/MEMORY-archive-2026-06-20.m
 - Yoda must keep these separate. Groom first. Then CREST Plan. Then dispatch.
 - Reference:  and .
 
-## Promoted From Short-Term Memory (2026-06-27)
+## Promoted From Short-Term Memory (2026-06-28)
 
-<!-- openclaw-memory-promotion:memory:memory/2026-06-22.md:11:11 -->
-- **Decision/action:** TKT-0330 (atomic PG numbering for tickets and CHGs) marked `done` after A7 verification passed. [score=0.848 recalls=0 avg=0.620 source=memory/2026-06-22.md:11-11]
-<!-- openclaw-memory-promotion:memory:memory/2026-04-25.md:1:12 -->
-- # 2026-04-25 ## Bootstrap - Identity set: Yoda 🟢 — AI business operations lead agent - User: Ken Mun (call him Ken), Melbourne GMT+10 - Primary channel: web chat - Secondary channel: Telegram (urgent/offline only) - Telegram paired and tested — working ## Config notes - Security flag: Telegram group commands have no sender allowlist — low risk (personal use only), revisit later [score=0.820 recalls=27 avg=0.423 source=memory/2026-04-25.md:1-12]
-<!-- openclaw-memory-promotion:memory:memory/2026-06-22.md:13:13 -->
-- **What was delivered:** [score=0.818 recalls=0 avg=0.620 source=memory/2026-06-22.md:13-13]
+<!-- openclaw-memory-promotion:memory:memory/2026-05-07.md:485:513 -->
+- Gateway restart needed: `tools.sessions.visibility: all` not hot-reloadable — pending Ken approval - TKT-0077: Persistent agent config / stateless bootstrap — sprint item - TKT-0079/0080/0081: Holocron pages — backlog - API balance: USD$470.93 (topped up CHG-0205) - Ahsoka: PILOT_TESTING status, CHG-0201/0202 --- ## EOD Session Summary — Thu 2026-05-07 (Day 13, continued) # Appended 16:48 AEST ### Major Work Completed (afternoon session) - TKT-0086 full 4-sequence complete: coherence review → governance gaps → Atlas EA roadmap → backlog replan → Agile framework lock - TKT-0087: 20 governance ACs closed (AI Charter, Nexus-first, Ahsoka registration, R1/C4 fix, P2 gates) - TKT-0088: 8 Section 10 decisions — P2 Aug 2026, BYOK policy, Auralith hard gate end-May - TKT-0089: 95-item backlog replanned, 3 new TKTs raised, Sprint 1/2/3 defined - TKT-0090: AInchors Agile Delivery Framework v1.0 — APPROVED AND LOCKED - Agile maturity: L2 → L3 ### Key Milestones Today 1. First formal architecture roadmap (P1–P5) produced by Atlas 2. Governance fully aligned to strategy — 20 gaps closed 3. Auralith governance addendum added to AI Charter (approved) 4. Nexus-first mandate locked globally across all agents 5. P2 target confirmed: end August 2026 6. Backlog replanned against strategy (95 items) 7. **Agile Delivery Framework v1.0 locked — Sprint 1 starts** ### 🌊 KEY MILESTONE LEARNING — FOR EOD BLOG (Ken's words, verbatim) [score=0.833 recalls=10 avg=0.450 source=memory/2026-05-07.md:485-513]
+<!-- openclaw-memory-promotion:memory:memory/2026-06-21.md:4:4 -->
+- Sunday platform hardening day. PG-Notion integrity audit fixed (pagination + timeout + 127 orphan cleanup), Sprint 9 detection corrected, db-write.sh error classification hardened, CREST v1.3 data_class dimension deferred to v2.0. Aria context sync prepared. [score=0.830 recalls=0 avg=0.620 source=memory/2026-06-21.md:4-4]

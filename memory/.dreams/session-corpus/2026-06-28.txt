@@ -1,0 +1,16 @@
+[main/sessions/main/01a31b2b-a0d8-45b6-b265-8833537c82a9.jsonl#L6] Assistant: I'll run the task queue processor script and report the result.
+[main/sessions/main/01a31b2b-a0d8-45b6-b265-8833537c82a9.jsonl#L8] Assistant: TQP: idle Exit code: 0
+[main/sessions/main/02f5769c-e5fd-486c-9c4d-d2f66db2eaf4.jsonl#L8] Assistant: TQP: idle (exit code 0) No queued, resumable, or dispatched tasks found.
+[main/sessions/main/03f823da-8d00-424a-ba0c-45bc85656885.jsonl#L8] Assistant: Exit code: 0 Output: ``` TQP: No queued, resumable, or dispatched tasks. Exiting. ``` TQP: idle
+[main/sessions/main/05d3c660-0fac-4a19-bac5-2cce9dd1135f.jsonl#L8] Assistant: Exit code: 0 Output: ``` TQP: No queued, resumable, or dispatched tasks. Exiting. ``` TQP: idle
+[main/sessions/main/06b07bd5-873a-4451-a342-f7cc3167250a.jsonl#L8] Assistant: **Exit code:** 0 **Output:** ``` TQP: No queued, resumable, or dispatched tasks. Exiting. ``` **Status:** TQP: idle
+[main/sessions/main/070f7d83-2318-4856-ab01-f70501304c57.jsonl#L8] Assistant: Exit code: 0 Output: ``` TQP: No queued, resumable, or dispatched tasks. Exiting. ``` TQP: idle
+[main/sessions/main/07855e05-1dde-430b-bbd7-cda0dcab8304.jsonl#L8] Assistant: TQP: idle - Exit code: 0 - Output: `TQP: No queued, resumable, or dispatched tasks. Exiting.`
+[main/sessions/main/07bede02-d498-4ba8-934f-ade69efe65d0.jsonl#L8] Assistant: Exit code: 0 Output: ``` TQP: No queued, resumable, or dispatched tasks. Exiting. ``` TQP: idle
+[main/sessions/main/09279dcd-8f7e-4e5d-ad49-3fd3243c44ed.jsonl#L6] Assistant: I'll run the task queue processor script and report back.
+[main/sessions/main/09279dcd-8f7e-4e5d-ad49-3fd3243c44ed.jsonl#L8] Assistant: **TQP: idle** Exit code: `0` Output: ``` TQP: No queued, resumable, or dispatched tasks. Exiting. ```
+[main/sessions/main/093baac8-e738-45bf-b302-2b2af440ea33.jsonl#L6] Assistant: Running the TQP executor poll.
+[main/sessions/main/0b3b3932-07af-4388-b22c-3b5364d69981.jsonl#L8] Assistant: TQP daily run completed: no queued, resumable, or dispatched tasks found. No action needed.
+[main/sessions/main/0cc2f90e-1b74-4f5b-bd05-4d3c0c5b34e7.jsonl#L6] Assistant: Running the batch sync script.
+[main/sessions/main/0cc2f90e-1b74-4f5b-bd05-4d3c0c5b34e7.jsonl#L8] Assistant: The skill-gate record is stale but the script still ran and reported all tickets are already synced — nothing outstanding to process. No errors to log. NO_REPLY
+[main/sessions/main/0ce984ff-c300-46c0-be5c-22d45432aaf5.jsonl#L8] Assistant: TQP: idle Exit code: 0 Output: TQP: No queued, resumable, or dispatched tasks. Exiting.

@@ -281,3 +281,34 @@
 [main/sessions/main/0c91ff4a-43ae-4132-9e2d-201c8945928f.jsonl.deleted.2026-06-24T21-59-47.015Z#L8] Assistant: Task queue processor ran — no tasks to process. All clear.
 [main/sessions/main/0ca9107c-4f06-4582-811b-7d24d88635fd.jsonl.deleted.2026-06-25T05-54-00.434Z#L6] Assistant: Running the task queue processor as scheduled.
 [main/sessions/main/0ca9107c-4f06-4582-811b-7d24d88635fd.jsonl.deleted.2026-06-25T05-54-00.434Z#L8] Assistant: Task queue processor ran — no tasks to process. All clear.
+[main/sessions/main/0cc56ee8-ee6e-422f-9df5-774efa398bbc.jsonl#L6] Assistant: Running the PG-Notion batch sync.
+[main/sessions/main/0cc56ee8-ee6e-422f-9df5-774efa398bbc.jsonl#L8] Assistant: The skill gate blocked the run — the `pg-sprint-backlog` skill load record is stale. Let me reload it and retry.
+[main/sessions/main/0cc56ee8-ee6e-422f-9df5-774efa398bbc.jsonl#L12] Assistant: Two skill gates to satisfy. Let me load `notion` as well and retry.
+[main/sessions/main/0cc56ee8-ee6e-422f-9df5-774efa398bbc.jsonl#L16] Assistant: Batch sync complete — all tickets are already in sync, nothing to process. No errors to log. NO_REPLY
+[main/sessions/main/0ce0902b-ac14-4f0d-ba4e-2fdb497715d4.jsonl.deleted.2026-06-25T10-44-54.782Z#L6] Assistant: I'll run the warden cron script and check for any drift or escalation issues.
+[main/sessions/main/0ce0902b-ac14-4f0d-ba4e-2fdb497715d4.jsonl.deleted.2026-06-25T10-44-54.782Z#L10] Assistant: Warden cron ran clean — exit 0, no escalation file detected. All clear. No action needed.
+[main/sessions/main/0ceaef21-fb9a-4424-a181-9f889bf60ade.jsonl.deleted.2026-06-25T10-19-00.421Z#L6] Assistant: The reminder is to run the task queue processor. Let me execute it.
+[main/sessions/main/0ceaef21-fb9a-4424-a181-9f889bf60ade.jsonl.deleted.2026-06-25T10-19-00.421Z#L8] Assistant: Task queue processor ran — no tasks to process. All clear.
+[main/sessions/main/0d0d16df-daad-42cb-aec8-76f208bc7ace.jsonl.deleted.2026-06-24T21-34-00.413Z#L6] Assistant: I'll run the warden cron script and handle the result appropriately.
+[main/sessions/main/0d0d16df-daad-42cb-aec8-76f208bc7ace.jsonl.deleted.2026-06-24T21-34-00.413Z#L8] Assistant: No drift detected — clean exit. No escalation file created, so no alert needed. All clear.
+[main/sessions/main/0d158b98-17c7-4721-b669-b305a58866e5.jsonl#L10] Assistant: OK
+[main/sessions/main/0d24d0b4-0243-492a-8079-c50783acd252.jsonl.deleted.2026-06-24T23-44-16.690Z#L6] Assistant: Running the scheduled obs-collector script silently.
+[main/sessions/main/0d24d0b4-0243-492a-8079-c50783acd252.jsonl.deleted.2026-06-24T23-44-16.690Z#L8] Assistant: Script completed with no new events. Nothing to report.
+[main/sessions/main/0d3ebfa4-1ae5-4981-91bb-7ec7ec835917.jsonl.deleted.2026-06-25T09-54-00.423Z#L6] Assistant: I'll handle this health check reminder. Let me run the health check script first.
+[main/sessions/main/0d3ebfa4-1ae5-4981-91bb-7ec7ec835917.jsonl.deleted.2026-06-25T09-54-00.423Z#L8] Assistant: All checks passed. Now let me read the state diagnostics to confirm.
+[main/sessions/main/0d3ebfa4-1ae5-4981-91bb-7ec7ec835917.jsonl.deleted.2026-06-25T09-54-00.423Z#L10] Assistant: The state diagnostics show no `consecutiveFailures` field and `status` is not `degraded` — all checks passed with exit code 0. No alert needed. OK
+[main/sessions/main/0d528d02-3960-422f-a9a3-d5558ad109d4.jsonl.deleted.2026-06-25T00-34-55.179Z#L6] Assistant: I'll handle this task monitor reminder. Let me start by running the collector script and checking the database.
+[main/sessions/main/0d528d02-3960-422f-a9a3-d5558ad109d4.jsonl.deleted.2026-06-25T00-34-55.179Z#L10] Assistant: Task collector ran clean (0 stalls, 0 verified, 0 failed). The state_task_queue shows all tasks are in terminal states (done/closed/cancelled/complete) — no stalled tasks requiring alerting. No alert needed. **Summary:** - ✅ **task-
+[main/sessions/main/0d52a704-2b37-49fe-b2d8-fe9a9a6673d8.jsonl.deleted.2026-06-25T16-16-00.450Z#L6] Assistant: I'll handle this health check reminder. Let me run the health check script first.
+[main/sessions/main/0d52a704-2b37-49fe-b2d8-fe9a9a6673d8.jsonl.deleted.2026-06-25T16-16-00.450Z#L8] Assistant: All checks passed. Now let me read the diagnostics to verify state.
+[main/sessions/main/0d52a704-2b37-49fe-b2d8-fe9a9a6673d8.jsonl.deleted.2026-06-25T16-16-00.450Z#L10] Assistant: Let me check for the `consecutiveFailures` and `status` fields more specifically — the output is a JSON array but I need to look for the right fields.
+[main/sessions/main/0d52a704-2b37-49fe-b2d8-fe9a9a6673d8.jsonl.deleted.2026-06-25T16-16-00.450Z#L12] Assistant: No `consecutiveFailures` or `status` fields found in the diagnostics. The health check itself passed all checks with status `ok`. Since there's no indication of `consecutiveFailures >= 3` or `status=degraded`, no alert is needed. OK
+[main/sessions/main/0d53e527-2e86-4d4f-99bb-cbf7fdb9a269.jsonl.deleted.2026-06-25T09-03-47.127Z#L8] Assistant: No new Obsidian events to log.
+[main/sessions/main/0d5bba42-1e5c-4765-999b-8b495bbfdf59.jsonl.deleted.2026-06-25T04-36-33.095Z#L6] Assistant: Running the task queue processor now.
+[main/sessions/main/0d5bba42-1e5c-4765-999b-8b495bbfdf59.jsonl.deleted.2026-06-25T04-36-33.095Z#L8] Assistant: Task queue is empty — nothing to process.
+[main/sessions/main/0d631a07-4343-4a7f-b9d5-c0882e1a20b2.jsonl.deleted.2026-06-25T07-19-54.779Z#L6] Assistant: Running the scheduled obs-collector script silently.
+[main/sessions/main/0d631a07-4343-4a7f-b9d5-c0882e1a20b2.jsonl.deleted.2026-06-25T07-19-54.779Z#L8] Assistant: No new events. Nothing to relay.
+[main/sessions/main/0d7d9d2a-84b5-4896-82df-a95cf06afcca.jsonl.deleted.2026-06-24T23-18-00.471Z#L6] Assistant: Running the task queue processor as scheduled.
+[main/sessions/main/0d7d9d2a-84b5-4896-82df-a95cf06afcca.jsonl.deleted.2026-06-24T23-18-00.471Z#L8] Assistant: Task queue processor ran — no tasks to process. All clear.
+[main/sessions/main/0d80446b-7ae8-4f29-b41a-c65a2493e707.jsonl.deleted.2026-06-25T16-16-00.443Z#L6] Assistant: I'll handle this task monitor reminder. Let me run the task collector and check for stalled tasks.
+[main/sessions/main/0d80446b-7ae8-4f29-b41a-c65a2493e707.jsonl.deleted.2026-06-25T16-16-00.443Z#L9] Assistant: Task collector ran clean: 0 stalls, 0 verified, 0 failed. The state_task_queue has entries but all are in terminal states (done/closed/cancelled/complete) — no stalled tasks requiring alert. Everything is nominal. **Summary:** - **ta
