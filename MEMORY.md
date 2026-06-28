@@ -38,6 +38,13 @@ Four rules locked into SOUL.md Non-Negotiables (#13–16) and confirmed by Ken:
 
 Triggered by: TKT-0501 "CREST synthesize and close" prompt where Yoda correctly observed ticket was already closed but could be misread as over-claiming. CHG-0545.
 
+## Exec Guard Status — Revoked 2026-06-28 (CHG-0788)
+- **Previous rule (CHG-0776, L-173/L-174):** Yoda would not use `exec` for arbitrary shell commands; all agents required allowlist approval.
+- **Change:** Ken Mun override approval granted 2026-06-28 to revoke the exec guard due to operational outage wall.
+- **Actions:** AGENTS.md Non-Negotiable #17 removed; MEMORY.md live restriction section removed; runtime gate `~/.openclaw/exec-approvals.json` set to `ask=off` for all agents; gateway restarted.
+- **Remaining guard:** FORGE EXECUTE GATE (AGENTS.md #15) still routes scripts/infra/build/config edits to Forge. CREST orchestrator-only rule (CHG-0545) remains.
+- **Rollback:** Re-add AGENTS.md #17, re-enable `ask=on-miss`/`security=allowlist` in exec-approvals.json.
+
 ## CREST + Agile Skills
 - CREST execution topology: `bash scripts/skill-load.sh crest`
 - Agile delivery framework: `bash scripts/skill-load.sh agile`
