@@ -1,16 +1,16 @@
 {
-  "generated_at": "2026-06-28T08:00:29.700257+00:00",
-  "generated_at_aest": "2026-06-28 18:00 AEST",
+  "generated_at": "2026-06-28T09:30:44.682908+00:00",
+  "generated_at_aest": "2026-06-28 19:30 AEST",
   "period_hours": 24,
   "totals": {
-    "ERROR": 2,
+    "ERROR": 15,
     "WARN": 10,
     "INFO": 5
   },
   "top_errors": [
     {
       "type": "task_verification_failed",
-      "count": 2
+      "count": 15
     }
   ],
   "top_warnings": [
@@ -27,7 +27,7 @@
     "warns_pct_change": 42.9
   },
   "worst_hour": {
-    "hour": "2026-06-28T07:00Z",
-    "cnt": 2
+    "hour": "2026-06-28T08:00Z",
+    "cnt": 8
   }
 }

@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "updatedAt": "2026-06-28T08:02:04.903Z",
+  "updatedAt": "2026-06-28T09:29:22.403Z",
   "entries": {
     "memory:memory/2026-04-26.md:94:122": {
       "key": "memory:memory/2026-04-26.md:94:122",
@@ -4540,20 +4540,22 @@
       "endLine": 82,
       "source": "memory",
       "snippet": "- `scripts/hf-generate-image.sh` — HF Inference API → FLUX.1-schnell. Token: Keychain `ainchors-hf-api-token`. Default 1024×1024, 4 steps. - `scripts/linkedin-upload-image.sh` — LinkedIn Assets API 2-step upload (initializeUpload → PUT binary). Returns `urn:li:image:XXX`. - `linkedin-post.sh` updated — new `--image-asset-urn` flag, injects media block into post payload. - SPARK_RULES.md updated with image generation guidelines. - **HF endpoint correction:** HF migrated to `router.huggingface.co/hf-inference/models/black-forest-labs/FLUX.1-schnell` (not `api-inference.huggingface.co`). Fixed same session. - Ken stored HF API token in Keychain — confirmed live. - **Image comparison test:",
-      "recallCount": 2,
+      "recallCount": 3,
       "dailyCount": 0,
       "groundedCount": 0,
-      "totalScore": 0.9403624147176742,
+      "totalScore": 1.37916841506958,
       "maxScore": 0.5056063443422317,
       "firstRecalledAt": "2026-06-22T21:31:03.124Z",
-      "lastRecalledAt": "2026-06-22T21:31:03.127Z",
+      "lastRecalledAt": "2026-06-28T08:12:36.606Z",
       "queryHashes": [
         "9c3d0d370973",
-        "f41cdeecc956"
+        "f41cdeecc956",
+        "19c6cd2b1cee"
       ],
       "recallDays": [
         "2026-06-23",
-        "2026-06-22"
+        "2026-06-22",
+        "2026-06-28"
       ],
       "conceptTags": [
         "router",
@@ -84213,6 +84215,68 @@
         "1/2",
         "instagram/meta",
         "tkt-0027"
+      ]
+    },
+    "memory:memory/2026-06-16.md:1:9": {
+      "key": "memory:memory/2026-06-16.md:1:9",
+      "path": "memory/2026-06-16.md",
+      "startLine": 1,
+      "endLine": 9,
+      "source": "memory",
+      "snippet": "## 07:30 AEST — Spark LI-W1-P1 Published ✅ - Movement I, Post 1: \"The day my AI bill became the loudest thing in the room\" - Post URL: https://www.linkedin.com/posts/activity-7472400193121005568/ - Image URN: urn:li:image:D5610AQGhxfVg8Hcaaw - Post URN: urn:li:share:7472400193121005568 - Pipeline v2.0 publish-only cron (13b0aa89) functioning correctly - Next: Wed 17 Jun 12:00 AEST — LI-W1-P2 (Movement I, Post 2)",
+      "recallCount": 1,
+      "dailyCount": 0,
+      "groundedCount": 0,
+      "totalScore": 0.42792315781116486,
+      "maxScore": 0.42792315781116486,
+      "firstRecalledAt": "2026-06-28T08:12:36.606Z",
+      "lastRecalledAt": "2026-06-28T08:12:36.606Z",
+      "queryHashes": [
+        "19c6cd2b1cee"
+      ],
+      "recallDays": [
+        "2026-06-28"
+      ],
+      "conceptTags": [
+        "li-w1-p1",
+        "v2.0",
+        "publish-only",
+        "li-w1-p2",
+        "aest",
+        "spark",
+        "published",
+        "movement"
+      ]
+    },
+    "memory:memory/2026-05-17.md:133:162": {
+      "key": "memory:memory/2026-05-17.md:133:162",
+      "path": "memory/2026-05-17.md",
+      "startLine": 133,
+      "endLine": 162,
+      "source": "memory",
+      "snippet": "- **Investigated 15:57 AEST:** CR-001 is **already resolved** (CHG-0196 + CHG-0213, 2026-05-06/07). Aria has had exec access for 10 days. - **Root cause found:** relay-to-ken.json queue has 5 stale messages (11-19 days old) with `sent: false`. Relay cron sends all `sent: false` messages without checking `status: \"resolved\"`. - **Action:** Logged investigation results. Ken confirmed his memory was correct. ### CTO Contract Meeting (duplicate content, new run) - Same meeting notice as Rounds 1/2: Friday 8 May, 3pm Sydney, Google Meet - **Action:** Silently logged — Ken already aware from Round 1 ### REPLY_SKIP + 2× Agent-to-agent announce (empty messages) - No content — routing artifacts - *",
+      "recallCount": 1,
+      "dailyCount": 0,
+      "groundedCount": 0,
+      "totalScore": 0.48372080922126764,
+      "maxScore": 0.48372080922126764,
+      "firstRecalledAt": "2026-06-28T09:29:22.403Z",
+      "lastRecalledAt": "2026-06-28T09:29:22.403Z",
+      "queryHashes": [
+        "6690a247e49c"
+      ],
+      "recallDays": [
+        "2026-06-28"
+      ],
+      "conceptTags": [
+        "cr-001",
+        "chg-0196",
+        "chg-0213",
+        "2026-05-06/07",
+        "relay-to-ken.json",
+        "11-19",
+        "1/2",
+        "reply-skip"
       ]
     }
   }

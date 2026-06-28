@@ -4424,5 +4424,42 @@
         "wave-2"
       ]
     }
+  },
+  {
+    "id": "TKT-0769",
+    "title": "Fix yoda-context-brief-refresh cron timeout and prompt weight",
+    "status": "monitoring",
+    "priority": "medium",
+    "type": "task",
+    "created_at": "2026-06-28T08:11:46+10:00",
+    "ticket_number": 769,
+    "metadata": {
+      "brief": "yoda-context-brief-refresh cron (c69615bb) times out at 120s during model-call-started. Timeout bumped from 120s to 180s at 2026-06-28 18:12 AEST. Remaining AC: observe 2 consecutive successful runs (20:00 today + 14:00 tomorrow). If still timing out, further prompt weight reduction required.",
+      "effort": "S",
+      "agent": "forge",
+      "sprint_target": "Sprint 10",
+      "ac_count": 3,
+      "acceptance_criteria": [
+        "timeoutSeconds increased to 180 or prompt reduced so cron completes under existing timeout — DONE 2026-06-28 18:12 AEST",
+        "cron completes without timeout for 2 consecutive scheduled runs (14:00 and 20:00 AEST) — pending observation",
+        "No functionality lost: brief still includes platform status, sprint, top open tickets, LinkedIn queue, ollama burn"
+      ],
+      "grooming_history": [
+        {
+          "date": "2026-06-28T18:10:00+10:00",
+          "decisions": "Ken approved raising ticket after timeout alert at 14:02 AEST. Yoda applied timeout bump from 120s to 180s at 18:12 AEST.",
+          "ac_count": 3,
+          "ken_approved": true
+        }
+      ],
+      "references": [
+        "cron id c69615bb-e8cb-4456-8b78-a9ec2ec89195",
+        "state/yoda-context-brief.md"
+      ],
+      "notion_sync": {
+        "status": "synced",
+        "last_synced": "2026-06-28T08:11:52+10:00"
+      }
+    }
   }
 ]

@@ -12,7 +12,7 @@ source "$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)/db-link.sh"
 #
 # Subcommands:
 #   current                        - Current sprint as JSON from PG
-#   commit <TKT-ID> <seq> <effort> <agent> - Commit ticket to sprint in PG
+#   commit <TKT-ID> <seq> <effort> <agent> [--sprint <name>] - Commit ticket to sprint in PG
 #   status [--sprint Sprint7]      - Sprint progress with dependency graph
 #   plan [--sprint Sprint7]        - Sprint planning view
 #   create "<Sprint X>" "<dates>"  - Create a new sprint in PG
@@ -75,7 +75,7 @@ Subcommands:
   current                              - Return current sprint as JSON from PG
   next-ticket [--agent <name>]        - Return next ticket to work as JSON (TKT-0728)
   activate [--dry-run]                 - Transition committed sprints whose start_date <= today to in_progress
-  commit <TKT-ID> <seq> <effort> <agent> - Commit ticket to sprint (sets metadata.sprint_target)
+  commit <TKT-ID> <seq> <effort> <agent> [--sprint <name>] - Commit ticket to sprint (sets metadata.sprint_target)
   status [--sprint <name>]             - Sprint progress with dependency graph
   plan [--sprint <name>]               - Sprint planning view: all committed items
   create "<Sprint X>" "<dates>"        - Create a new sprint in PG
@@ -241,13 +241,40 @@ cmd_current() {
 # SUBCOMMAND: commit <TKT-ID> <seq> <effort> <agent>
 # ──────────────────────────────────────────────
 cmd_commit() {
-  local tkt_id="$1"
-  local seq="$2"
-  local effort="$3"
-  local agent="$4"
+  local tkt_id=""
+  local seq=""
+  local effort=""
+  local agent=""
+  local sprint_override=""
+
+  # Parse flags first, then positional args
+  while [[ $# -gt 0 ]]; do
+    case "$1" in
+      --sprint)
+        sprint_override="$2"
+        shift 2
+        ;;
+      --*)
+        die "ERROR: db-sprint.sh commit unknown flag: $1. Use --sprint <name> for target sprint."
+        ;;
+      *)
+        # Positional args consumed in order
+        if [[ -z "$tkt_id" ]]; then
+          tkt_id="$1"
+        elif [[ -z "$seq" ]]; then
+          seq="$1"
+        elif [[ -z "$effort" ]]; then
+          effort="$1"
+        elif [[ -z "$agent" ]]; then
+          agent="$1"
+        fi
+        shift
+        ;;
+    esac
+  done
 
   if [[ -z "$tkt_id" || -z "$seq" ]]; then
-    die "Usage: db-sprint.sh commit <TKT-ID> <seq> <effort> <agent>"
+    die "Usage: db-sprint.sh commit <TKT-ID> <seq> [effort] [agent] [--sprint <name>]"
   fi
 
   if ! ticket_exists "$tkt_id"; then
@@ -255,7 +282,13 @@ cmd_commit() {
   fi
 
   local sprint_name
-  sprint_name=$(get_current_sprint_name)
+  if [[ -n "$sprint_override" ]]; then
+    sprint_name="$sprint_override"
+    log "Using sprint override: $sprint_name"
+  else
+    sprint_name=$(get_current_sprint_name)
+    log "Using active sprint: $sprint_name"
+  fi
 
   # Resolve sprint_num immediately (TKT-0726-A6: must be before any $sprint_num usage)
   local sprint_num
@@ -1596,8 +1629,8 @@ main() {
       cmd_current "$@"
       ;;
     commit)
-      [[ -z "${1:-}" || -z "${2:-}" ]] && die "Usage: db-sprint.sh commit <TKT-ID> <seq> <effort> <agent>"
-      cmd_commit "$1" "$2" "${3:-?}" "${4:-?}"
+      [[ -z "${1:-}" ]] && die "Usage: db-sprint.sh commit <TKT-ID> <seq> [effort] [agent] [--sprint <name>]"
+      cmd_commit "$@"
       ;;
     status)
       cmd_status "$@"
@@ -1637,7 +1670,7 @@ Subcommands:
   current                              - Current sprint as JSON from PG
   next-ticket [--agent <name>]        - Return next ticket to work as JSON (TKT-0728)
   activate [--dry-run]                 - Transition committed sprints whose start_date <= today to in_progress
-  commit <TKT-ID> <seq> <effort> <agent> - Commit ticket to sprint
+  commit <TKT-ID> <seq> <effort> <agent> [--sprint <name>] - Commit ticket to sprint
   status [--sprint <name>]             - Sprint progress with dependency graph
   plan [--sprint <name>]               - Sprint planning view
   create "<Sprint X>" "<dates>"        - Create new sprint in PG

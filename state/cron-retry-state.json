@@ -54,10 +54,10 @@
     "53c94ce7": {
       "cronId": "53c94ce7",
       "name": "WO-002 Divergence Daily Check",
-      "consecutiveTimeouts": 7,
-      "totalTimeouts": 7,
+      "consecutiveTimeouts": 8,
+      "totalTimeouts": 8,
       "retriesUsed": 2,
-      "lastTimeoutAt": "2026-06-15T08:40:56.490444+00:00",
+      "lastTimeoutAt": "2026-06-28T08:10:43.865723+00:00",
       "nextRetryBackoffMs": 240000,
       "deadLetter": false
     },

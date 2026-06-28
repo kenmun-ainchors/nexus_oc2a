@@ -1,3 +1,39 @@
+## 2026-06-28 19:33 AEST — [CHG-0791] Forge fixed db-sprint.sh commit --sprint flag regression
+**Type:** rule
+**Change Type:** Normal
+**Source:** ken-prompt
+**Trigger:** TKT-0749 raised after Yoda observed 8 Sprint 10 commits were written to active Sprint 9. Ken approved dispatch to Forge.
+**What changed:** scripts/db-sprint.sh cmd_commit() now parses --sprint flag, resolves target sprint by name, and falls back to active sprint when omitted. Main dispatch passes full argv.
+**Why:** Sprint planning integrity depends on commits landing in the requested sprint, not the active one.
+**Verification:** TKT-0749 committed to Sprint 10 with --sprint flag and appears in Sprint 10 status. No --sprint still defaults to active sprint.
+**Rollback:** N/A
+**Linked:** TKT-0749, Sprint 10 bacf0ae6-8790-4068-8952-f5618d9e6537
+---
+
+## 2026-06-28 19:24 AEST — [CHG-0790] Sprint 10 plan approved and committed
+**Type:** rule
+**Change Type:** Normal
+**Source:** ken-prompt
+**Trigger:** Ken approved proposed top-8 Sprint 10 plan during planning ceremony 2026-06-28 19:24 AEST
+**What changed:** Sprint 10 capacity set to 8. Committed 8 items: TKT-0342, TKT-0348, TKT-0354, TKT-0722, TKT-0352, TKT-0767, TKT-0742, TKT-0743. Deferred TKT-0723, TKT-0721, TKT-0727.
+**Why:** Prioritise PG SSOT/CREST wiring before OC2 arrival; maintain operational continuity for standups and LinkedIn.
+**Verification:** db-sprint.sh commit executed for each item; sprint-current.json regenerated; CHG and journal recorded.
+**Rollback:** N/A
+**Linked:** CHG-0789, Sprint 10 2026-06-29 to 2026-07-05
+---
+
+## 2026-06-28 19:22 AEST — [CHG-0789] Sprint 9 closed + Sprint 10 committed
+**Type:** rule
+**Change Type:** Normal
+**Source:** ken-prompt
+**Trigger:** Ken approved Sprint 9 close and Sprint 10 plan with auto-rollover and capacity raise during review/planning ceremony 2026-06-28
+**What changed:** Sprint 9 marked completed via sprint9Review ceremony. 6 open carries auto-rolled into Sprint 10. Sprint 10 capacity raised from 4 to 8. sprint10Planning ceremony logged.
+**Why:** Sprint 9 was 71% complete (15/21). Remaining PG SSOT/CREST wiring must land before OC2 arrival (ETA 6-13 Jul, commissioning ~27 Jul).
+**Verification:** PG state_sprints ceremonies updated; sprint-current.json regenerated. Full Sprint 10 plan to be committed after Ken approval of item list.
+**Rollback:** N/A
+**Linked:** Sprint 9: ec7bc942-7aee-47e3-9c50-17b89bb38007; Sprint 10 planning in progress
+---
+
 ## 2026-06-28 08:03 AEST — [CHG-0783] OpenClaw exec pattern guard design
 **Type:** rule
 **Change Type:** Normal

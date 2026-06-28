@@ -1,8 +1,15 @@
 {
-  "generatedAt": "2026-06-26T00:26:00.000000+00:00",
-  "failures": [],
+  "generatedAt": "2026-06-28T08:10:43.848599+00:00",
+  "failures": [
+    {
+      "cronId": "53c94ce7",
+      "fullCronId": "53c94ce7-5a87-42b7-8a68-ff2f865b7337",
+      "name": "WO-002 Divergence Daily Check",
+      "consecutiveErrors": 3,
+      "lastError": "error",
+      "source": "live-cron-state"
+    }
+  ],
   "warnings": [],
-  "acknowledged": true,
-  "acknowledgedAt": "2026-06-26T00:26:00.000000+00:00",
-  "acknowledgedReason": "Stale alert cleared by Yoda on Ken approval. Live cron check healthy. a1ce9946 consecutiveErrors=0 and lastRunStatus=ok. bb47c6de does not exist in live cron list."
+  "acknowledged": false
 }
