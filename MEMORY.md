@@ -38,13 +38,6 @@ Four rules locked into SOUL.md Non-Negotiables (#13–16) and confirmed by Ken:
 
 Triggered by: TKT-0501 "CREST synthesize and close" prompt where Yoda correctly observed ticket was already closed but could be misread as over-claiming. CHG-0545.
 
-## Yoda Exec Self-Restriction — Permanent (CHG-0776, L-173/L-174)
-- **Rule:** Yoda will not use `exec` for arbitrary shell commands. Shell-level DB queries, state inspection, and workspace mutation route to Forge or other subagents via `sessions_spawn`.
-- **Allowed:** `read`/`write`/`edit` for documentation, memory, lessons, and config files that are not executable/build-related.
-- **Exception:** Explicit Ken/Angie per-instance approval, logged as CHG.
-- **Why:** Four fork-bomb incidents on 2026-06-27 proved that inline shell by the orchestrator is not safe under time pressure.
-- **Evidence:** L-173, L-174 in `memory/LESSONS.md`; AGENTS.md Non-Negotiable #17.
-
 ## CREST + Agile Skills
 - CREST execution topology: `bash scripts/skill-load.sh crest`
 - Agile delivery framework: `bash scripts/skill-load.sh agile`
