@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "updatedAt": "2026-06-27T22:04:44.928Z",
+  "updatedAt": "2026-06-28T08:02:04.903Z",
   "entries": {
     "memory:memory/2026-04-26.md:94:122": {
       "key": "memory:memory/2026-04-26.md:94:122",
@@ -3859,18 +3859,20 @@
       "endLine": 157,
       "source": "memory",
       "snippet": "- [ ] Confirm Ollama Pro upgrade → triggers full PoC run (Phases 1–6) ### Ready to Execute - [ ] Raise US for S4 tool scope remediation (before TRIGGER-07) - [ ] Review AKB cron result from 03:00 AEST (qwen3.5 + think=False — first live test) - [ ] Morning standup (08:00 AEST) — include PoC status + balance update ### Deferred - [ ] US19: HA Design - [ ] US39: Preventable Downtime Enforcement - [ ] Ollama Cloud PoC Phase 6 implementation (after Pro upgrade + Phase 5 PASS) --- ## Balance State - Confirmed balance: $115.00 USD (top-up 2026-05-01 19:04 AEST) - Today's spend: $57.47 - Actual remaining: ~$57.53 USD - Cost alert tiers: T1=$80 remaining / T2=$40 / T3=$15 (balance-based) - Daily",
-      "recallCount": 1,
+      "recallCount": 2,
       "dailyCount": 0,
       "groundedCount": 0,
-      "totalScore": 0.39595632553100585,
-      "maxScore": 0.39595632553100585,
+      "totalScore": 0.8254065960645676,
+      "maxScore": 0.42945027053356166,
       "firstRecalledAt": "2026-05-24T08:51:35.633Z",
-      "lastRecalledAt": "2026-05-24T08:51:35.633Z",
+      "lastRecalledAt": "2026-06-28T07:57:22.370Z",
       "queryHashes": [
-        "ff46c45ed010"
+        "ff46c45ed010",
+        "64f424ba09dd"
       ],
       "recallDays": [
-        "2026-05-24"
+        "2026-05-24",
+        "2026-06-28"
       ],
       "conceptTags": [
         "trigger-07",
@@ -84180,6 +84182,37 @@
         "tkt-0538",
         "scripts/db-ticket.sh",
         "root"
+      ]
+    },
+    "memory:memory/2026-05-17.md:113:136": {
+      "key": "memory:memory/2026-05-17.md:113:136",
+      "path": "memory/2026-05-17.md",
+      "startLine": 113,
+      "endLine": 136,
+      "source": "memory",
+      "snippet": "- **Ken Decision Required:** Approve adding `exec` to Aria's allowed tools? - **Security Note:** `exec` is powerful. If approved, should be restricted to `/opt/homebrew/bin/gog` and `/opt/homebrew/bin/sag` only (least privilege). - **Related:** CR-001, CHG-0349 (Conservative Mode active — requires explicit approval) ## Aria Relay Round 3 (run 530724d3) — 15:55-16:00 AEST ### Instagram Organic Sale (duplicate content, new run) - Same message as Rounds 1/2: \"We got another sale from Instagram today even though Instagram/Meta ads are not running. Organic Instagram is converting!\" - **Action:** Silently logged — Ken already aware from Round 1 ### Marketing Collaterals TKT-0027 (duplicate cont",
+      "recallCount": 1,
+      "dailyCount": 0,
+      "groundedCount": 0,
+      "totalScore": 0.46254110634326934,
+      "maxScore": 0.46254110634326934,
+      "firstRecalledAt": "2026-06-28T08:02:04.903Z",
+      "lastRecalledAt": "2026-06-28T08:02:04.903Z",
+      "queryHashes": [
+        "5a19f0a39cac"
+      ],
+      "recallDays": [
+        "2026-06-28"
+      ],
+      "conceptTags": [
+        "opt/homebrew/bin/gog",
+        "opt/homebrew/bin/sag",
+        "cr-001",
+        "chg-0349",
+        "55-16",
+        "1/2",
+        "instagram/meta",
+        "tkt-0027"
       ]
     }
   }
