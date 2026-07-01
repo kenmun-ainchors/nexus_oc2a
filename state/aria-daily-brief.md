@@ -1,3 +1,42 @@
+## Wednesday, July 1, 2026 — Business Stream Summary
+_Written 23:45 AEST by Aria cron — verified 2026-07-01T13:45Z_
+
+### Angie interactions today
+- **No Angie activity today.** Last Angie interaction was Wed 24 Jun (Visa/OpenAI LinkedIn post approval). Session `agent:main:telegram:direct:8141152780` shows only 1 message — Aria's welcome-back auto-response at 2026-07-01T13:23 UTC (triggered by internal routing, not Angie). No user messages from Angie. Evidence: sessions_history for `agent:main:telegram:direct:8141152780` — only assistant message (seq 1), no user input. Previous reply identified as inter-session heartbeat echo.
+
+### Decisions made
+- **Standup email Day 68 — SENT ✅**: Sent at 22:06 AEST. Message ID: `19f1d928bafee0ab`. Canvas size: 21,611 bytes. Evidence: state/standup-email-log.json (dayNumber: 68, status: ok).
+- **LI-W3-P7 "The rebuild that changed how I work" — MISSED PUBLISH ⚠️**: Scheduled Tue 30 Jun 07:30 AEST. Status remains `approved` (not `posted`). No `postedAt` or `postUrn` field. Image is `ready: true` with asset URN. Publish cron appears to have failed silently. Evidence: linkedin-campaign.json entry LI-W3-P7 — status `approved`, lastUpdated `2026-06-28T18:56:02`, no postedAt.
+- **LI-W3-P8 "What 'context discipline' actually means" — MISSED PUBLISH ⚠️**: Scheduled Wed 1 Jul 12:00 AEST (today). Status remains `approved`, not posted. Same symptom as P7. Evidence: linkedin-campaign.json entry LI-W3-P8 — status `approved`, no postedAt.
+- **LI-W3-P9 "The governance stack I built because I couldn't trust the model" — PENDING**: Scheduled Thu 2 Jul 07:30 AEST. Will miss if publish cron not fixed. Evidence: linkedin-campaign.json entry LI-W3-P9 — status `approved`, no postedAt.
+- **Yoda commit today (TKT-0348)**: `640a48f5` — TKT-0348: state_sprints PG-first enforcement, Sprint 9 close-out, ainchors.com local dev replica setup, success-story-of-angie tile sizing fix. Committed at 21:31 AEST. Evidence: git log.
+- **Yoda context brief refreshed**: `24ea63c8` chore: yoda daily context sync 2026-07-01, committed at 19:17 AEST. Evidence: git log.
+- **Day 65 blog post drafted**: `67b525b8` docs: Day 65 blog post (ainchors-2026-06-28) [Shield:CONDITIONAL Lex:CONDITIONAL Sage:CONDITIONAL]. Evidence: git log.
+
+### Governance reviews (Wed 1 Jul)
+- **Shield 🛡️ — CLEAR**: Daily sweep at ~22:30 AEST. No pending items. Evidence: cron session `cfc40ddb` lastRun=2026-07-01 12:30 UTC.
+- **Lex ⚖️ — CLEAR**: Daily sweep at ~22:35 AEST. No pending items. Evidence: cron session `4ae7274d` lastRun=2026-07-01 12:30 UTC.
+- **Sage 🧪 — CLEAR**: Daily sweep at ~22:40 AEST. No pending items. Evidence: cron session `8231f723` lastRun=2026-07-01 12:30 UTC.
+- **Daily Burn Alert — SILENT**: 16 requests used (0.1% of session limit 16,000). Weekly window: Mon 29 Jun → Mon 6 Jul. All thresholds well below minimum. Evidence: state/ollama-usage.json checkTimestamp `2026-07-01T19:08:00+10:00`.
+
+### Open items (verified)
+- **LI-W3-P7/P8 publish failure**: ⚠️ NEW ISSUE. Both P7 (Tue 30 Jun) and P8 (Wed 1 Jul) are in `approved` status with no `postedAt`. Publish cron not firing. P9 (Thu 2 Jul) will also miss if unfixed. Evidence: linkedin-campaign.json entries — no postUrn/postedAt on P7 or P8.
+- **Ad-hoc LinkedIn post (three hard lessons)**: ⏸️ STILL LOCKED IN, PENDING PUBLISH — 7 days since Ken deferred (Jun 25). state/adhoc-content-state.json unchanged. Evidence: adhoc-content-state.json status `locked_in_pending_publish`.
+- **Ken training confirmation (MSG-20260601-001)**: ⏸️ STILL OPEN — 31 days. relay-to-ken.json `sent: true`, `deliveredAt: 2026-06-01`. No response from Ken.
+- **Google Calendar auth (relay-20260603-001)**: ⏸️ STILL BROKEN — 29 days. relay-to-ken.json `sent: false`. No progress.
+- **Onboarding OB-PM-03**: ⏸️ STALLED — 8 days since last Angie interaction. 3 nudges sent (Jun 24, 25, 26), no response. Angie at Stage 3, OB-PM-03 unchecked.
+- **BS-001 (JotForm/HRDF) and BS-002 (Lynn Huang/Finance)**: ⏸️ STALLED. No business-stream-open-items.json. Cannot queue until Angie re-engages.
+- **Ollama usage — COMFORTABLE**: 16 requests this week (0.1% session limit). Burn rate 0.3 req/hr. All thresholds silent. Evidence: state/ollama-usage.json.
+
+### Handoff to Yoda
+- **🔴 CRITICAL: LinkedIn publish cron is broken.** LI-W3-P7 (Tue) and LI-W3-P8 (today) both missed their publish slots. Both are `approved` with images ready. P9 (Thu 2 Jul 07:30) will miss too. Needs investigation: likely the Spark publish cron (869502c9 for W2, 833ee0c7 for P5) isn't running or the publish pipeline is blocked. This is now 2 missed posts.
+- **Angie still silent — 8 days** since last interaction (Wed 24 Jun). No escalation needed yet but notable.
+- **Ad-hoc post still pending** — Ken deferred Jun 25, now 7 days stale.
+- **Ken training confirmation 31 days stale; Calendar auth 29 days stale** — both in relay-to-ken.json.
+- **Standup Day 68 sent** — Day 69 due Thu 2 Jul 08:15 AEST.
+- **Yoda's Day 65 blog post drafted** with governance verdict: CONDITIONAL across all three triads. Needs Yoda's review before posting.
+- **TKT-0348 progressed** — Sprint 9 close-out + state_sprints PG-first enforcement committed.
+
 ## Saturday, June 27, 2026 — Business Stream Summary
 _Written 23:45 AEST by Aria cron — verified 2026-06-27T13:45Z_
 
