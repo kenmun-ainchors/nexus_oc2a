@@ -1,27 +1,27 @@
 {
-  "lastUpdated": "2026-07-01T23:44:00+10:00",
-  "lastHeartbeat": "2026-07-01T23:44:00+10:00",
+  "lastUpdated": "2026-07-02T00:16:00+10:00",
+  "lastHeartbeat": "2026-07-02T00:16:00+10:00",
   "lastChecks": {
-    "taskWatchdog": "2026-07-01T23:44:00+10:00",
-    "cronHealth": "2026-07-01T23:44:00+10:00",
-    "budgetCheck": "2026-07-01T23:43:00+10:00",
-    "owlCompliance": "2026-07-01T23:44:00+10:00",
-    "standbyMode": "2026-07-01T23:44:00+10:00",
-    "dodValidation": "2026-07-01T23:44:00+10:00",
-    "taskVerificationAlerts": "2026-07-01T23:44:00+10:00",
-    "cronDeadLetter": "2026-07-01T23:44:00+10:00",
-    "chgTriggers": "2026-07-01T23:44:00+10:00",
-    "costState": "2026-07-01T23:10:00+10:00",
-    "delegatedAuth": "2026-07-01T23:10:00+10:00",
-    "ariaCrest": "2026-07-01T23:10:00+10:00",
-    "sessionModelDrift": "2026-07-01T23:44:00+10:00",
-    "mainSessionResume": "2026-07-01T23:44:00+10:00",
+    "taskWatchdog": "2026-07-02T00:16:00+10:00",
+    "cronHealth": "2026-07-02T00:16:00+10:00",
+    "cronDeadLetter": "2026-07-02T00:16:00+10:00",
+    "chgTriggers": "2026-07-02T00:16:00+10:00",
+    "budgetCheck": "2026-07-02T00:16:00+10:00",
+    "requestBudgetCheck": "2026-07-02T00:16:00+10:00",
+    "owlCompliance": "2026-07-02T00:16:00+10:00",
+    "standbyMode": "2026-07-02T00:16:00+10:00",
+    "dodValidation": "2026-07-02T00:16:00+10:00",
+    "taskVerificationAlerts": "2026-07-02T00:16:00+10:00",
+    "costState": "2026-07-02T00:16:00+10:00",
+    "delegatedAuth": "2026-07-02T00:16:00+10:00",
+    "ariaCrest": "2026-07-02T00:16:00+10:00",
+    "sessionModelDrift": "2026-07-02T00:16:00+10:00",
+    "mainSessionResume": "2026-07-02T00:16:00+10:00",
+    "heartbeat": "2026-07-02T00:16:00+10:00",
     "email": "2026-07-01T21:10:00+10:00",
-    "calendar": "2026-07-01T21:10:00+10:00",
-    "heartbeat": "2026-07-01T23:44:00+10:00",
-    "owlCompliance": "2026-07-01T23:44:00+10:00"
+    "calendar": "2026-07-01T21:10:00+10:00"
   },
   "notes": [
-    "2026-07-01T23:44+10:00: All per-heartbeat checks clean. Gateway OK, OWL 100%, session model drift OK, cron health OK (WO-002 stale alert from 2026-06-28 known), no alert files, main session resume clean, no stalls. Task verification alert from 2026-06-28 stale/known resolved issue (TKT-0024). TRIGGER-QBR firstDue today (2026-07-01) — QBR Agent Fleet Review + Tribal Knowledge Audit due. Journal OK (1760B). Email/Calendar next check due 01:10."
+    "2026-07-02T00:16+10:00: All per-heartbeat checks clean. Session model OK (kimi-k2.7-code:cloud). Cron health clean (WO-002 stale alert known/acknowledged pending from 2026-06-28). No stalls, no new alerts, Aria CREST compliant, delegated auth OK, request budget healthy. TRIGGER-QBR firstDue 2026-07-01 — QBR execution not found in journal. Flagged in notes; Ken to confirm whether QBR occurred or was deferred."
   ]
 }

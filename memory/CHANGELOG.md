@@ -1,3 +1,15 @@
+## 2026-07-02 00:22 AEST — [CHG-0796] OpenMontage AInchors demo: Option A fast/cheap 24s render
+**Type:** script
+**Change Type:** Normal
+**Source:** ken-prompt
+**Trigger:** Ken selected Option A 2026-07-02 00:21 AEST: fix ImageMagick syntax and cut scene timing to 24s voiceover
+**What changed:** Modify projects/OpenMontage/projects/demos/ainchors-demo.py: fix ImageMagick 7+ CONVERT path/syntax, adjust scene/clip durations to fit 24.02s voiceover, render final ainchors-demo.mp4 using existing local assets only
+**Why:** Fastest zero-cost path to a finished AInchors demo video using already-generated voiceover, music and stock clips
+**Verification:** Final ainchors-demo.mp4 exists, duration matches voiceover (~24s), plays without errors; file size and ffprobe duration reported
+**Rollback:** Restore previous ainchors-demo.py from git and remove output/ainchors-demo.mp4
+**Linked:** OpenMontage
+---
+
 ## 2026-07-01 21:47 AEST — [CHG-0795] CHG-0795: OpenClaw v2026.5.27 → v2026.6.11 Upgrade
 **Type:** infra
 **Change Type:** Normal
