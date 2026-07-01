@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "updatedAt": "2026-06-28T09:29:22.403Z",
+  "updatedAt": "2026-07-01T09:08:43.249Z",
   "entries": {
     "memory:memory/2026-04-26.md:94:122": {
       "key": "memory:memory/2026-04-26.md:94:122",
@@ -38345,21 +38345,23 @@
       "endLine": 230,
       "source": "memory",
       "snippet": "- Pending Angie's LinkedIn decisions (company page vs cross-post; image generation approval for Week 2 Movement II). - CHG-0688 (footer fix) and CHG-0689 (verification ping) logged. ## 2026-06-20 16:10 AEST — Aria memory updated and Angie outreach confirmed - Aria's memory file updated with CR-001/CR-002 reconciliation and live LinkedIn API status. - Aria confirmed she sent a message to Angie via Telegram and is waiting for two decisions: 1. Company page only vs cross-post to personal profile 2. Image generation approval for Week 2 posts - Yoda remains tech-escalation standby only. ## 2026-06-20 16:11 AEST — CR-002 handoff complete; awaiting Angie response - Aria confirmed Angie's outr",
-      "recallCount": 2,
+      "recallCount": 3,
       "dailyCount": 0,
       "groundedCount": 0,
-      "totalScore": 0.9482548266649246,
+      "totalScore": 1.4154843747615813,
       "maxScore": 0.47742789983749384,
       "firstRecalledAt": "2026-06-25T10:41:54.474Z",
-      "lastRecalledAt": "2026-06-26T17:08:03.264Z",
+      "lastRecalledAt": "2026-07-01T09:08:43.249Z",
       "queryHashes": [
         "d4c09ce35631",
-        "3ec220e6ca9a"
+        "3ec220e6ca9a",
+        "524a7c713a1e"
       ],
       "recallDays": [
         "2026-06-25",
         "2026-06-27",
-        "2026-06-26"
+        "2026-06-26",
+        "2026-07-01"
       ],
       "conceptTags": [
         "cross-post",
@@ -84277,6 +84279,68 @@
         "11-19",
         "1/2",
         "reply-skip"
+      ]
+    },
+    "memory:memory/2026-06-20.md:227:244": {
+      "key": "memory:memory/2026-06-20.md:227:244",
+      "path": "memory/2026-06-20.md",
+      "startLine": 227,
+      "endLine": 244,
+      "source": "memory",
+      "snippet": "- Ran `scripts/ollama-usage-scraper-run.sh` to refresh Ollama dashboard data. - Live dashboard-derived weekly limit = **59,443 requests** (not earlier ~30,000 estimate). - Weekly usage: **41,016 / 59,443 = 69%**; remaining **18,427**; burn rate **~325 req/hr**. - Window resets Mon 22 Jun 10:00 AEST; projected exhaustion after reset → no cliff this cycle. - Status: **WARNING** (>50% threshold). - Fixed `scripts/request-budget-check.sh`: added UTF-8 locale export and updated extraction to use nested `turnsLimit.weekly.*` fields. - Fixed `scripts/ollama-usage-scraper.py` to keep top-level `currentRequests` synced with `weekly.requests`. - Daily Burn Alert cron (`ca5d5e50`) should now pass after",
+      "recallCount": 1,
+      "dailyCount": 0,
+      "groundedCount": 0,
+      "totalScore": 0.5195613741874695,
+      "maxScore": 0.5195613741874695,
+      "firstRecalledAt": "2026-07-01T09:08:43.249Z",
+      "lastRecalledAt": "2026-07-01T09:08:43.249Z",
+      "queryHashes": [
+        "524a7c713a1e"
+      ],
+      "recallDays": [
+        "2026-07-01"
+      ],
+      "conceptTags": [
+        "dashboard-derived",
+        "req/hr",
+        "scripts/request-budget-check.sh",
+        "utf-8",
+        "turnslimit.weekly",
+        "scripts/ollama-usage-scraper.py",
+        "top-level",
+        "weekly.requests"
+      ]
+    },
+    "memory:memory/2026-06-17.md:18:28": {
+      "key": "memory:memory/2026-06-17.md:18:28",
+      "path": "memory/2026-06-17.md",
+      "startLine": 18,
+      "endLine": 28,
+      "source": "memory",
+      "snippet": "- TKT-0533: Ollama live request tracking implemented via browser scrape of ollama.com/settings. Replaced gateway-log approach which undercounted ~570x. Session ~3,500, weekly ~51,092. CHECK 38 added. CHG-0618/0619/0620. - Ollama usage-level analysis confirmed: deepseek-v4-pro = extra high (level 4), kimi-k2.7-code = high (level 3). Swap Yoda+Aria to kimi-k2.7-code trial. - CHG-0621: Model swap trial deepseek-v4-pro → kimi-k2.7-code until Sun 22 Jun 10:00 AEST. 6-atom CREST plan approved. - Atoms 1–6 implemented: model-policy.json, openclaw.json, allowlists, fallback chain, config baseline, gateway restart, verification. - Current session confirmed on ollama/kimi-k2.7-code:cloud. Business age",
+      "recallCount": 1,
+      "dailyCount": 0,
+      "groundedCount": 0,
+      "totalScore": 0.4940326690673828,
+      "maxScore": 0.4940326690673828,
+      "firstRecalledAt": "2026-07-01T09:08:43.249Z",
+      "lastRecalledAt": "2026-07-01T09:08:43.249Z",
+      "queryHashes": [
+        "524a7c713a1e"
+      ],
+      "recallDays": [
+        "2026-07-01"
+      ],
+      "conceptTags": [
+        "gateway",
+        "tkt-0533",
+        "ollama.com/settings",
+        "gateway-log",
+        "chg-0618/0619/0620",
+        "usage-level",
+        "deepseek-v4-pro",
+        "kimi-k2.7-code"
       ]
     }
   }

@@ -1,24 +1,31 @@
 {
-  "checkTimestamp": "2026-06-26T20:00:00+10:00",
+  "checkTimestamp": "2026-07-01T19:08:00+10:00",
   "source": "cron-burn-alert",
   "turnsLimit": {
-    "weeklyLimit": 164340,
-    "currentRequests": 34840,
-    "currentPct": 21.2,
-    "requestsRemaining": 129500,
-    "windowStart": "2026-06-22T10:00:00+10:00",
-    "windowEnd": "2026-06-29T10:00:00+10:00",
-    "daysRemaining": 2.58,
-    "burnRateRequestsPerHour": 335.0
+    "weeklyLimit": 0,
+    "currentRequests": 16,
+    "currentPct": 0.0,
+    "requestsRemaining": -16,
+    "windowStart": "2026-06-29T10:00:00+10:00",
+    "windowEnd": "2026-07-06T10:00:00+10:00",
+    "daysRemaining": 4.62,
+    "burnRateRequestsPerHour": 0.3,
+    "note": "weeklyLimit=0 due to scraper failing to parse dashboard weekly limit. Session data shows 16/16000 (0.1%). Using session pct as fallback."
+  },
+  "session": {
+    "requests": 16,
+    "limit": 16000,
+    "pct": 0.1,
+    "remaining": 15984
   },
   "thresholds": {
-    "50pct": 82170,
-    "70pct": 115038,
-    "85pct": 139689,
-    "95pct": 156123
+    "50pct_warn": 15000,
+    "70pct_alert": 21000,
+    "85pct_critical": 25500,
+    "95pct_emergency": 28500
   },
   "alertTriggered": "none",
   "alertLevel": "SILENT",
-  "action": "Silent — 21.2% used (34,840/164,340). All thresholds well below minimum (50% = 82,170). No alert sent.",
-  "notes": "Check at 2026-06-26 20:00 AEST. Weekly window: 2026-06-22 Mon 10:00 AEST → 2026-06-29 Mon 10:00 AEST. 2.58 days remaining. Burn rate 335.0 req/hr. No action needed."
+  "action": "Silent — 16 requests used (0.1% of session limit 16,000). All thresholds well below minimum (50% = 15,000). No alert sent.",
+  "notes": "Check at 2026-07-01 19:08 AEST. Weekly window: 2026-06-29 Mon 10:00 AEST → 2026-07-06 Mon 10:00 AEST. 4.62 days remaining. Burn rate 0.3 req/hr. No action needed. Scraper returned weeklyLimit=0 — dashboard parsing issue."
 }
