@@ -1,0 +1,1 @@
+import{V as o,X as l,a as n,aX as r,z as u,A as c,a4 as s,a0 as m,$ as d,B as p,ad as g}from"./1L1aPSXd.js";const B=o({__name:"page",setup(i){const{locale:a}=l();n({htmlAttrs:{lang:a}});const e=r()?.backgroundSettingsClass;return(t,_)=>(u(),c(g,null,[s("div",{class:m(["bg-fixed",d(e)])},null,2),s("div",null,[p(t.$slots,"default")])],64))}});export{B as default};

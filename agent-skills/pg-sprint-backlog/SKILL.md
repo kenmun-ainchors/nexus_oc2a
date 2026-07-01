@@ -729,6 +729,55 @@ This skill and the underlying scripts were created in response to **5 failures i
 
 ---
 
+## PG-First Write Contract for Sprint Operations (TKT-0348)
+
+### Core Principle
+
+**PG is the single source of truth (SSOT) for all sprint operations.** No JSON or state file is written as a primary write target. JSON files are either:
+- **Read-only sources** for migration (\`state/sprint-N.json\`, \`state/sprint-N-assessed.json\`)
+- **Derived exports** generated from PG (\`state/sprint-current.json\`)
+
+### db-sprint.sh Subcommand Contract
+
+| Subcommand | PG Primary | JSON File | Status |
+|-----------|-----------|-----------|--------|
+| \`current\` | Reads from \`state_sprints\` | \`state/sprint-N.json\` fallback (read-only) | PG-first |
+| \`commit\` | Writes to \`state_tickets.metadata\` + \`state_sprints.items\` | None | PG-first |
+| \`status\` | Reads from \`state_tickets\` via sprint_id FK join | None | PG-first |
+| \`plan\` | Reads from \`state_sprints\` + \`state_tickets\` | None | PG-first |
+| \`create\` | INSERT into \`state_sprints\` | None | PG-first |
+| \`defer\` | UPDATE \`state_tickets.metadata\` + \`state_sprints.items\` | None | PG-first |
+| \`migrate\` | Writes to \`state_tickets.metadata\` | Reads \`state/sprint-N.json\` (source) | PG-first |
+| \`next-ticket\` | Reads from \`state_sprints\` + \`state_tickets\` | Writes \`state/next-ticket.json\` (derived cache) | PG-first |
+| \`activate\` | UPDATE \`state_sprints.status\` | None | PG-first |
+| \`ceremony\` | UPDATE \`state_sprints.ceremonies\` | Auto-generates \`state/sprint-current.json\` (derived export) | PG-first |
+
+### Derived Export Contract
+
+The only JSON file written by \`db-sprint.sh\` is \`state/sprint-current.json\`, which is:
+- **Generated from PG** via \`generate_sprint_current_json()\` after every ceremony completion
+- **Read-only** — never consumed as authoritative data
+- **Stamped** with \`auto_generated: true\` and \`source: PG state_sprints\`
+- **Safe to delete** — will be regenerated on next ceremony
+
+### No JSON/State File Writes
+
+The following subcommands **MUST NOT** write to JSON/state files:
+- \`commit\` — writes only to PG (\`state_tickets.metadata\`, \`state_sprints.items\`)
+- \`defer\` — writes only to PG (\`state_tickets.metadata\`, \`state_sprints.items\`)
+- \`create\` — writes only to PG (\`state_sprints\`)
+- \`activate\` — writes only to PG (\`state_sprints.status\`)
+- \`status\` — reads only from PG
+- \`plan\` — reads only from PG
+
+### Enforcement
+
+- Any agent or script that writes sprint data to a JSON file instead of PG is in violation of this contract
+- Violations are detectable via \`scripts/sprint-fk-consistency-check.sh\` (TKT-0348 A6)
+- The FK guard compares \`state_tickets.sprint_id\` vs \`state_sprints.items\` and alerts on divergence
+
+---
+
 ## TQP Execution Path (TKT-0504)
 
 The TQP (Task Queue Processor) is the cron-driven dispatch loop for `state_task_queue` rows. It is **not** just a queue manager — it has a 2-stage hand-off chain that downstream consumers (CREST and non-CREST) plug into.

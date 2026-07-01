@@ -408,6 +408,25 @@ else
       >> "$LOG" 2>&1 || true
   fi
 
+  # ── CHECK 16: Sprint FK consistency (TKT-0348 A6) ──────────────────────────
+  # Alert-only — never auto-mutates. Reports divergence between state_tickets.sprint_id
+  # and state_sprints.items. Only checks the current active sprint.
+  FK_CHECK_SCRIPT="$HOME/.openclaw/workspace/scripts/sprint-fk-consistency-check.sh"
+  if [[ -x "$FK_CHECK_SCRIPT" ]]; then
+    FK_RESULT=$(bash "$FK_CHECK_SCRIPT" 2>/dev/null)
+    FK_EXIT=$?
+    if [[ $FK_EXIT -ne 0 ]]; then
+      FK_CONSISTENT=$(echo "$FK_RESULT" | /opt/homebrew/bin/jq -r '.consistent // "unknown"' 2>/dev/null)
+      if [[ "$FK_CONSISTENT" == "false" ]]; then
+        FK_ITEMS_NOT_PG=$(echo "$FK_RESULT" | /opt/homebrew/bin/jq -r '.in_items_not_in_pg_count // 0' 2>/dev/null)
+        FK_PG_NOT_ITEMS=$(echo "$FK_RESULT" | /opt/homebrew/bin/jq -r '.in_pg_not_in_items_count // 0' 2>/dev/null)
+        log "ALERT: Sprint FK divergence detected — items_not_in_pg=$FK_ITEMS_NOT_PG, pg_not_in_items=$FK_PG_NOT_ITEMS (alert-only, no auto-mutation)"
+        [[ "$OVERALL_STATUS" == "ok" ]] && OVERALL_STATUS="degraded"
+        ISSUES+=("Sprint FK divergence: $FK_ITEMS_NOT_PG items in sprint not in PG, $FK_PG_NOT_ITEMS tickets in PG not in sprint items")
+      fi
+    fi
+  fi
+
   # Map overall status to exit code
   EXIT_CODE=0
   if [[ "$OVERALL_STATUS" == "critical" ]]; then

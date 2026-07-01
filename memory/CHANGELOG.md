@@ -1,3 +1,39 @@
+## 2026-07-01 20:34 AEST — [CHG-0794] Local dev replica of ainchors.com approved and dispatched
+**Type:** data
+**Change Type:** Normal
+**Source:** ken-prompt
+**Trigger:** Ken approved CREST plan 2026-07-01 20:33 AEST
+**What changed:** Static mirror of ainchors.com to projects/ainchors-website-dev/; local server on port 8080; 13 pages scope
+**Why:** Local development copy needed for website changes without touching live GoHighLevel builder
+**Verification:** CREST plan approved by Ken; plan artifact at .openclaw/tmp/AINCHORS-WEBSITE-CREST-plan.md
+**Rollback:** Delete projects/ainchors-website-dev/ directory; no persistent service
+**Linked:** none
+---
+
+## 2026-07-01 20:25 AEST — [CHG-0793] TKT-0348 closed: state_sprints PG-first enforcement + Sprint 9 close-out
+**Type:** rule
+**Change Type:** Normal
+**Source:** ken-prompt
+**Trigger:** TKT-0348 CREST execution completed; all sprints FK-consistent; guard passes
+**What changed:** Sprint 9 closed; state_sprints.items reconciled for Sprints 9/10/11; 0 orphan sprint_id; PG-first sprint operation contract locked; db-sprint.sh export + sprint-fk-consistency-check.sh added; health-check CHECK 16 alert-only
+**Why:** CRESTv2-P1 WS-3 key/sprint/JSON normalization requires canonical registry before WS-1/WS-2 re-validation
+**Verification:** sprint-fk-consistency-check.sh --all exit=0; 0 orphan sprint_id; db-sprint.sh export --sprint Sprint 10 works; TKT-0348 Notion synced
+**Rollback:** Re-open TKT-0348; restore state_sprints.items from pre-reconciliation snapshot; revert db-sprint.sh and health-check.sh
+**Linked:** TKT-0348,TKT-0342,TKT-0354,TKT-0359,TKT-0530,TKT-0394
+---
+
+## 2026-07-01 19:58 AEST — [CHG-0792] TKT-0348 CREST plan approved and dispatched to Forge
+**Type:** data
+**Change Type:** Normal
+**Source:** ken-prompt
+**Trigger:** Ken approved TKT-0348 CREST plan 2026-07-01 19:58 AEST
+**What changed:** TKT-0348 CREST Step 1 plan approved; 8 atoms defined; dispatch to Forge agentId=infra
+**Why:** Sprint 9 close-out and state_sprints PG-first enforcement required before WS-1/WS-2 re-validation
+**Verification:** Plan reviewed and approved by Ken 2026-07-01 19:58 AEST; plan artifact at .openclaw/tmp/TKT-0348-CREST-plan.md
+**Rollback:** Re-open ticket; revert db-sprint.sh; restore state_sprints.items from snapshot
+**Linked:** TKT-0348,TKT-0342,TKT-0359,TKT-0530,TKT-0394
+---
+
 ## 2026-06-28 19:33 AEST — [CHG-0791] Forge fixed db-sprint.sh commit --sprint flag regression
 **Type:** rule
 **Change Type:** Normal

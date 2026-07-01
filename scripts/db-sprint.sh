@@ -82,6 +82,7 @@ Subcommands:
   defer <TKT-ID> --to <Sprint X> --reason "..." - Defer ticket to another sprint
   migrate [--sprint <name>]            - Migrate sprint JSON → PG metadata
   ceremony complete <review|planning> [--sprint <name>] - Log ceremony to PG + auto-gen sprint-current.json
+  export [--sprint <name>]             - Export read-only JSON summary of sprint (derived from PG)
   help                                 - Show this usage
 USAGE
   exit 0
@@ -1085,6 +1086,96 @@ print(json.dumps(cache, indent=2))
 }
 
 # ──────────────────────────────────────────────
+# SUBCOMMAND: export [--sprint <name>]
+# TKT-0348 A5: Export read-only JSON summary of sprint (derived from PG)
+# This is a DERIVED EXPORT — never consumed as authoritative data.
+# The output is stamped with "derived": true and "source": "PG state_sprints".
+# ──────────────────────────────────────────────
+cmd_export() {
+  local sprint_name=""
+
+  while [[ $# -gt 0 ]]; do
+    case "$1" in
+      --sprint)
+        sprint_name="$2"
+        shift 2
+        ;;
+      --help)
+        echo "Usage: db-sprint.sh export [--sprint <name>]"
+        echo "  Exports a read-only JSON summary of the sprint (derived from PG)."
+        echo "  --sprint <name>  Sprint to export (default: current sprint)."
+        return 0
+        ;;
+      *)
+        die "Unknown flag: $1. Use --sprint <name>"
+        ;;
+    esac
+  done
+
+  [[ -z "$sprint_name" ]] && sprint_name=$(get_current_sprint_name)
+
+  local sprint_num
+  sprint_num=$(sprint_name_to_number "$sprint_name")
+
+  log "Exporting sprint summary: $sprint_name (derived from PG)"
+
+  # Get sprint row from PG
+  local sprint_json
+  sprint_json=$(pg_query "SELECT row_to_json(s)::text FROM $SPRINT_TABLE s WHERE sprint_number=$sprint_num ORDER BY updated_at DESC LIMIT 1;" 2>/dev/null)
+
+  if [[ -z "$sprint_json" || "$sprint_json" == "null" ]]; then
+    die "Sprint $sprint_name not found in PG"
+  fi
+
+  # Get ticket counts for this sprint via sprint_id FK join
+  local sprint_id
+  sprint_id=$(pg_query "SELECT id FROM $SPRINT_TABLE WHERE sprint_number=$sprint_num ORDER BY updated_at DESC LIMIT 1;" 2>/dev/null | head -1)
+
+  local ticket_count=0
+  local done_count=0
+  local open_count=0
+  local in_progress_count=0
+
+  if [[ -n "$sprint_id" && "$sprint_id" != "null" ]]; then
+    ticket_count=$(pg_query "SELECT COUNT(*) FROM $TICKET_TABLE WHERE sprint_id='$sprint_id';" 2>/dev/null | head -1)
+    done_count=$(pg_query "SELECT COUNT(*) FROM $TICKET_TABLE WHERE sprint_id='$sprint_id' AND status IN ('closed','done','folded');" 2>/dev/null | head -1)
+    open_count=$(pg_query "SELECT COUNT(*) FROM $TICKET_TABLE WHERE sprint_id='$sprint_id' AND status IN ('open','backlog','grooming');" 2>/dev/null | head -1)
+    in_progress_count=$(pg_query "SELECT COUNT(*) FROM $TICKET_TABLE WHERE sprint_id='$sprint_id' AND status IN ('in-progress','in_progress');" 2>/dev/null | head -1)
+  fi
+
+  # Get committed items from state_sprints.items
+  local items_json
+  items_json=$(pg_query "SELECT items::text FROM $SPRINT_TABLE WHERE sprint_number=$sprint_num ORDER BY updated_at DESC LIMIT 1;" 2>/dev/null)
+
+  # Build derived export JSON
+  local ts
+  ts=$(date -u '+%Y-%m-%dT%H:%M:%S+10:00')
+
+  local export_json
+  export_json=$(echo "$sprint_json" | /opt/homebrew/bin/jq     --argjson ticket_count "${ticket_count:-0}"     --argjson done_count "${done_count:-0}"     --argjson open_count "${open_count:-0}"     --argjson in_progress_count "${in_progress_count:-0}"     --arg ts "$ts"     --arg sprint_name "$sprint_name"     '{
+      sprint: $sprint_name,
+      sprint_number: .sprint_number,
+      status: .status,
+      dates: "\(.start_date // "?") to \(.end_date // "?")",
+      ticket_count: $ticket_count,
+      done_count: $done_count,
+      open_count: $open_count,
+      in_progress_count: $in_progress_count,
+      completion_pct: (if $ticket_count > 0 then ($done_count * 100 / $ticket_count) else 0 end),
+      ceremonies: .ceremonies,
+      derived: true,
+      source: "PG state_sprints",
+      exported_at: $ts
+    }' 2>/dev/null)
+
+  if [[ -z "$export_json" || "$export_json" == "null" ]]; then
+    die "Failed to build export JSON"
+  fi
+
+  echo "$export_json"
+}
+
+# ──────────────────────────────────────────────
 # SUBCOMMAND: ceremony complete <review|planning> [--sprint <name>]
 # Logs ceremony completion to PG and auto-generates sprint-current.json
 # ──────────────────────────────────────────────
@@ -1658,6 +1749,9 @@ main() {
     ceremony)
       cmd_ceremony "$@"
       ;;
+    export)
+      cmd_export "$@"
+      ;;
     help|--help|-h)
       usage
       ;;
@@ -1677,6 +1771,7 @@ Subcommands:
   defer <TKT-ID> --to <Sprint X> --reason "..." - Defer ticket
   migrate [--sprint <name>]            - Migrate sprint JSON → PG
   ceremony complete <review|planning> [--sprint <name>] - Log ceremony to PG
+  export [--sprint <name>]             - Export read-only JSON summary of sprint (derived from PG)
   help                                 - Show this usage
 USAGE_ERR
       exit 1

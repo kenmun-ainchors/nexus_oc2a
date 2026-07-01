@@ -5,7 +5,7 @@
   "track": "A",
   "status": "locked",
   "created_at": "2026-06-22T10:02:00+10:00",
-  "updated_at": "2026-06-27T20:06:00+10:00",
+  "updated_at": "2026-07-01T20:25:00+10:00",
   "rebalance_chg": "CHG-0752",
   "owner_orchestrator": "yoda",
   "owner_build": "forge",
@@ -139,7 +139,7 @@
         "TKT-0330": "done",
         "TKT-0343": "done",
         "TKT-0344": "done",
-        "TKT-0348": "open",
+        "TKT-0348": "done",
         "TKT-0354": "open",
         "TKT-0359": "open — scope drift confirmed"
       },
@@ -184,8 +184,8 @@
       "sprint_assignments": {
         "TKT-0723": "Sprint 11",
         "TKT-0724": "Sprint 11",
-        "TKT-0530": "Sprint 9",
-        "TKT-0394": "Sprint 9"
+        "TKT-0530": "Sprint 10",
+        "TKT-0394": "Sprint 10"
       },
       "ticket_status": {
         "TKT-0723": "open",
@@ -203,7 +203,7 @@
       "status": "open",
       "exit_gate": "verdict_log PG table exists; sage-qa-log.json read-only; multi-atom verdict replay works",
       "sprint_assignments": {
-        "TKT-0722": "Sprint 9"
+        "TKT-0722": "Sprint 10"
       },
       "ticket_status": {
         "TKT-0722": "open"
@@ -237,6 +237,7 @@
     "TKT-0330",
     "TKT-0343",
     "TKT-0344",
+    "TKT-0348",
     "TKT-0357",
     "TKT-0390",
     "TKT-0720 (disputed — blocked_on WS-3)",
@@ -253,7 +254,7 @@
   ],
   "in_progress_tickets": [],
   "next_locked_tickets": [
-    "TKT-0348"
+    "TKT-0354"
   ],
   "gate_review_01": {
     "review_id": "CRESTv2-P1-WS12-REVIEW-001",
