@@ -1,3 +1,15 @@
+## 2026-07-01 21:47 AEST — [CHG-0795] CHG-0795: OpenClaw v2026.5.27 → v2026.6.11 Upgrade
+**Type:** infra
+**Change Type:** Normal
+**Source:** ken-prompt
+**Trigger:** Ken approved OpenClaw update preparation 2026-07-01 21:44 AEST; 16 days behind
+**What changed:** Upgrade OpenClaw from 2026.5.27 to 2026.6.11; update plugins, shell completions, restart gateway, run doctor
+**Why:** Security fixes gap and platform improvements in v2026.6.11
+**Verification:** Gateway config snapshot taken (e44a9f1d); no drift; PG verified; health-check all pass; cron health clean; no standby mode; no active resume tasks
+**Rollback:** Restore from state/critical-config-baseline.json + PG state_config_baseline; git checkout previous openclaw version; relaunch gateway LaunchAgent; run openclaw doctor --recover
+**Linked:** none
+---
+
 ## 2026-07-01 20:34 AEST — [CHG-0794] Local dev replica of ainchors.com approved and dispatched
 **Type:** data
 **Change Type:** Normal

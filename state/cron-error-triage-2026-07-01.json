@@ -1,0 +1,180 @@
+{
+  "ticket": "TKT-0750",
+  "title": "Post-2026.6.11 upgrade: 7 cron jobs in error status",
+  "createdAt": "2026-07-01T23:14:00+10:00",
+  "author": "Forge (Infra subagent)",
+  "shakedownEvent": "Post-cleanup shakedown — 2026-07-01",
+  "totalJobsChecked": 60,
+  "totalErrors": 7,
+  "totalSkipped": 15,
+  "rootCauseSummary": {
+    "gatewayRestart": {
+      "count": 5,
+      "percentage": 71,
+      "description": "Jobs interrupted by gateway restart at ~22:05 AEST 2026-07-01 (nightly restart or manual intervention)"
+    },
+    "modelTimeout": {
+      "count": 1,
+      "percentage": 14,
+      "description": "All model fallbacks failed — cloud fetch timeout + local Ollama endpoint unreachable"
+    },
+    "telegramConfig": {
+      "count": 1,
+      "percentage": 14,
+      "description": "Delivery block on cron job missing Telegram chatId in delivery config — 2 consecutive errors, first was file write failure, second was delivery config"
+    }
+  },
+  "triageTable": [
+    {
+      "jobId": "a7e7a820-32f6-4a2b-bb27-52367ebfa7dc",
+      "name": "Aria Daily Summary (business stream)",
+      "schedule": "45 23 * * * Australia/Melbourne",
+      "lastRunAt": "2026-07-01T19:09:33+10:00",
+      "lastRunStatus": "error",
+      "consecutiveErrors": 1,
+      "failurePattern": "FallbackSummaryError: All models failed (2): ollama/deepseek-v4-flash:cloud: fetch failed | other side closed (timeout) | ollama/kimi-k2.6:cloud: fetch failed | connect ECONNREFUSED 127.0.0.1:11434 (timeout)",
+      "probableRootCause": "Model timeout/unavailability — cloud model fetch failed (connection closed by remote) and local Ollama provider (127.0.0.1:11434) was not reachable. Primary model (deepseek-v4-flash:cloud) timed out; fallback (kimi-k2.6:cloud) failed due to Ollama local endpoint being down.",
+      "failureCategory": "modelTimeout",
+      "previousRunHistory": "Two prior errors (2026-06-25, 2026-06-26) were file write failures (write tool blocked by cron-write.sh requirement). One successful run on 2026-06-27 and 2026-06-24. Intermittent pattern.",
+      "recommendedFix": "1. Check cloud model connectivity (deepseek-v4-flash:cloud) — may be transient cloud API issue. 2. If local Ollama is not needed, remove it from provider config or ensure it's running. 3. Consider increasing timeoutSeconds (currently 600). 4. Verify cron-write.sh path is correct for the file write step.",
+      "severity": "high"
+    },
+    {
+      "jobId": "80c9226b-eb86-4c40-a291-8ff3a505e775",
+      "name": "AInchors Daily Backup (shell-direct, systemEvent)",
+      "schedule": "05 8 * * * Australia/Melbourne (next: 22:05 AEST)",
+      "lastRunAt": "2026-07-01T22:05:33+10:00",
+      "lastRunStatus": "error",
+      "consecutiveErrors": 2,
+      "failurePattern": "cron: job interrupted by gateway restart",
+      "probableRootCause": "Gateway restart at ~22:05 AEST interrupted the running cron job before completion. The job runs at 08:05 AEST normally, but the last run (shown as ~22:05) may be an anomaly or the next scheduled run was affected by the restart.",
+      "failureCategory": "gatewayRestart",
+      "previousRunHistory": "All prior runs (Jun 23-27) completed successfully as 'ok'. The September 2026.6.11 upgrade restart caused two consecutive errors.",
+      "recommendedFix": "1. Mark as acknowledged (not a recurring issue — single interruption). 2. Trigger a manual backup run to restore successful state. 3. Consider adding restart resilience (re-try after restart).",
+      "severity": "low"
+    },
+    {
+      "jobId": "fea4300b-c045-4939-b829-d06c325eeda8",
+      "name": "AInchors Stand-up Email Delivery",
+      "schedule": "15 8 * * * Australia/Melbourne",
+      "lastRunAt": "2026-07-01T22:05:55+10:00",
+      "lastRunStatus": "error",
+      "consecutiveErrors": 1,
+      "failurePattern": "cron: job interrupted by gateway restart",
+      "probableRootCause": "Same gateway restart at ~22:05 AEST. This job runs at 08:15 AEST normally; the ~22:05 timestamp suggests the cron may have been rescheduled or the next run collided with the restart.",
+      "failureCategory": "gatewayRestart",
+      "previousRunHistory": "All prior runs (Jun 24-28) completed successfully as 'ok'. Duration ranges 44ms to 120s.",
+      "recommendedFix": "1. Mark as acknowledged. 2. No remediation needed — next scheduled run (2026-07-02 08:15 AEST) should succeed. 3. Add restart resilience if desired.",
+      "severity": "low"
+    },
+    {
+      "jobId": "bb47c6de-4521-4cc0-bdf9-563a8c84d664",
+      "name": "glm-5.1 no-think mode check",
+      "schedule": "Monthly (next: 2026-07-02 09:00 AEST)",
+      "lastRunAt": "2026-06-19T10:56:44+10:00",
+      "lastRunStatus": "error",
+      "consecutiveErrors": 2,
+      "failurePattern": "Error: Delivering to Telegram requires target <chatId>",
+      "probableRootCause": "The cron job has delivery mode set but no Telegram chatId configured in the delivery config. The previous run (2026-06-02) also failed — first due to a file write failure (write tool blocked, used ~ instead of absolute path), then delivery failed for the same chatId reason. The job's delivery config does not have a 'to' field set.",
+      "failureCategory": "telegramConfig",
+      "previousRunHistory": "Run 2026-06-02: error (file write failure + no delivery chatId). Run 2026-06-19: same delivery config error. Two consecutive months of failures.",
+      "recommendedFix": "1. Update the cron job's delivery config to include chatId '8574109706' (Ken's Telegram). 2. Or remove delivery mode if Telegram notification is not needed. 3. Fix the file write path issue (use absolute paths, not ~). 4. Clear the error status after fix.",
+      "severity": "medium"
+    },
+    {
+      "jobId": "c5debd26-fb07-4b36-a904-86c9bc95625a",
+      "name": "AInchors Midday Cost Tracker",
+      "schedule": "0 12 * * * Australia/Melbourne",
+      "lastRunAt": "2026-07-01T22:05:55+10:00",
+      "lastRunStatus": "error",
+      "consecutiveErrors": 1,
+      "failurePattern": "cron: job interrupted by gateway restart",
+      "probableRootCause": "Same gateway restart at ~22:05 AEST. Note: this job runs at 12:00 midday; the 22:05 timestamp is unusual — may be a scheduling artifact after restart.",
+      "failureCategory": "gatewayRestart",
+      "previousRunHistory": "All prior runs (Jun 24-28) completed successfully as 'ok' with durations 17ms-14s. One past interruption on 2026-06-17 also from gateway restart.",
+      "recommendedFix": "1. Mark as acknowledged. 2. No action needed — next midday run should succeed. 3. Consider if this indicates the cron scheduler doesn't properly survive gateway restarts.",
+      "severity": "low"
+    },
+    {
+      "jobId": "7d362d91-4d61-4028-9c01-066e2b0dc876",
+      "name": "Yoda → Aria daily context sync",
+      "schedule": "0 23 * * * Australia/Melbourne",
+      "lastRunAt": "2026-07-01T23:00:00+10:00",
+      "lastRunStatus": "error",
+      "consecutiveErrors": 1,
+      "failurePattern": "cron: job interrupted by gateway restart",
+      "probableRootCause": "The restart at ~22:05 AEST caused this 23:00 job to fail. The job started at 23:00:00 and ran for 36.7s before being interrupted. Prior run at 19:19 that same day completed successfully.",
+      "failureCategory": "gatewayRestart",
+      "previousRunHistory": "All prior runs (Jun 25-27, and earlier on Jul 1) completed successfully as 'ok'. Duration normally 47ms-51s. The error is solely from the gateway restart.",
+      "recommendedFix": "1. Mark as acknowledged. 2. The next scheduled run (2026-07-02 23:00 AEST) should succeed. 3. Could add restart recovery logic for important daily jobs.",
+      "severity": "low"
+    },
+    {
+      "jobId": "6a88375e-438e-4adc-a0f8-f7927cc77b90",
+      "name": "AInchors Monthly SLA Report",
+      "schedule": "0 8 1 * * Australia/Melbourne (1st of month)",
+      "lastRunAt": "2026-07-01T22:05:55+10:00",
+      "lastRunStatus": "error",
+      "consecutiveErrors": 1,
+      "failurePattern": "cron: job interrupted by gateway restart",
+      "probableRootCause": "This job was scheduled for 2026-07-01 08:00 AEST. It may have been delayed or rescheduled and collided with the gateway restart at ~22:05 AEST. Previous run (2026-06-01) completed successfully.",
+      "failureCategory": "gatewayRestart",
+      "previousRunHistory": "Only 2 runs on record. Run 2026-05-01: ok (216s). Run 2026-06-01: ok (2ms — very fast, likely nothing to report). The July 1 run was interrupted.",
+      "recommendedFix": "1. Mark as acknowledged. 2. Trigger the July SLA report manually if not already generated. 3. Next run (2026-08-01 08:00 AEST) should succeed automatically.",
+      "severity": "medium"
+    }
+  ],
+  "jobHealthSummary": {
+    "systemEventJobs": {
+      "total": 22,
+      "ok": 22,
+      "error": 0,
+      "note": "All systemEvent cron jobs are healthy — none failed on the last attempted run"
+    },
+    "agentTurnJobs": {
+      "total": 22,
+      "ok": 20,
+      "error": 2,
+      "skipped": 0,
+      "note": "Aria Daily Summary (model timeout) and glm-5.1 check (delivery config) are the only agentTurn jobs in error"
+    },
+    "shellDirectJobs": {
+      "total": 8,
+      "ok": 3,
+      "error": 5,
+      "note": "5 shell-direct jobs show error status, ALL from the same gateway restart interruption"
+    }
+  },
+  "recommendedNextActions": [
+    {
+      "priority": 1,
+      "action": "Acknowledge gateway restart interruption for 5 cron jobs",
+      "details": "Jobs 80c9226b, fea4300b, c5debd26, 7d362d91, and 6a88375e all have 'interrupted by gateway restart' as the sole failure. Mark these as acknowledged — no code fix needed. Clear error status via `openclaw cron clear-error <jobId>` or let next successful run auto-clear.",
+      "owner": "Forge"
+    },
+    {
+      "priority": 2,
+      "action": "Fix glm-5.1 no-think mode check delivery config",
+      "details": "Job bb47c6de: update delivery config to include Telegram chatId '8574109706' or remove delivery if no notification is needed. Fix the file write path issue (use absolute paths, not ~). This job fails every month — needs permanent fix.",
+      "owner": "Forge/Yoda"
+    },
+    {
+      "priority": 3,
+      "action": "Investigate Aria Daily Summary model timeout",
+      "details": "Job a7e7a820: the 2026-07-01 failure is a model timeout on both primary and fallback. Check cloud model availability (deepseek-v4-flash:cloud). If intermittent, consider adding another fallback. The prior two failures (Jun 25-26) were file write issues (cron-write.sh path). Address both failure modes.",
+      "owner": "Yoda"
+    },
+    {
+      "priority": 4,
+      "action": "Investigate the 15 skipped cron jobs",
+      "details": "15 cron jobs are in 'skipped' status because the local Ollama endpoint (http://127.0.0.1:11434) is not reachable. Jobs using cloud models (deepseek-v4-flash:cloud, kimi-k2.6:cloud, etc.) should not be preflight-checking against local Ollama. This may be a provider config issue where cloud-model jobs incorrectly check the local provider endpoint. Several important jobs affected: AInchors Morning Stand-Up, TRIGGER-04/06, Daily Workspace Backup, Memory Hygiene, Weekly Compliance Report.",
+      "owner": "Yoda/Forge"
+    },
+    {
+      "priority": 5,
+      "action": "Trigger any missed executions",
+      "details": "Manually trigger the Daily Backup, Stand-up Email, Midday Cost, Monthly SLA (if not yet generated), and Yoda→Aria context sync if they haven't run successfully since the restart.",
+      "owner": "Forge"
+    }
+  ]
+}

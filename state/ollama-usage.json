@@ -1,31 +1,31 @@
 {
-  "checkTimestamp": "2026-07-01T19:08:00+10:00",
+  "checkTimestamp": "2026-07-01T20:00:49+10:00",
   "source": "cron-burn-alert",
   "turnsLimit": {
-    "weeklyLimit": 0,
-    "currentRequests": 16,
-    "currentPct": 0.0,
-    "requestsRemaining": -16,
-    "windowStart": "2026-06-29T10:00:00+10:00",
-    "windowEnd": "2026-07-06T10:00:00+10:00",
-    "daysRemaining": 4.62,
-    "burnRateRequestsPerHour": 0.3,
-    "note": "weeklyLimit=0 due to scraper failing to parse dashboard weekly limit. Session data shows 16/16000 (0.1%). Using session pct as fallback."
+    "weeklyLimit": 80750,
+    "currentRequests": 323,
+    "currentPct": 0.4,
+    "requestsRemaining": 80427,
+    "windowStart": "Monday 10:00 AEST",
+    "windowEnd": null,
+    "daysRemaining": null,
+    "burnRateRequestsPerHour": 5.6,
+    "note": "Scraper succeeded. Weekly: 323/80750 (0.4%). Session: 17/17000 (0.1%). All thresholds well below minimum."
   },
   "session": {
-    "requests": 16,
-    "limit": 16000,
+    "requests": 17,
+    "limit": 17000,
     "pct": 0.1,
-    "remaining": 15984
+    "remaining": 16983
   },
   "thresholds": {
-    "50pct_warn": 15000,
-    "70pct_alert": 21000,
-    "85pct_critical": 25500,
-    "95pct_emergency": 28500
+    "50pct_warn": 40375,
+    "70pct_alert": 56525,
+    "85pct_critical": 68638,
+    "95pct_emergency": 76713
   },
   "alertTriggered": "none",
   "alertLevel": "SILENT",
-  "action": "Silent — 16 requests used (0.1% of session limit 16,000). All thresholds well below minimum (50% = 15,000). No alert sent.",
-  "notes": "Check at 2026-07-01 19:08 AEST. Weekly window: 2026-06-29 Mon 10:00 AEST → 2026-07-06 Mon 10:00 AEST. 4.62 days remaining. Burn rate 0.3 req/hr. No action needed. Scraper returned weeklyLimit=0 — dashboard parsing issue."
+  "action": "Silent — 323 requests used (0.4% of weekly limit 80,750). All thresholds well below minimum (50% = 40,375). No alert sent.",
+  "notes": "Check at 2026-07-01 20:00 AEST. Weekly window: Mon 10:00 AEST. Burn rate 5.6 req/hr. No action needed."
 }

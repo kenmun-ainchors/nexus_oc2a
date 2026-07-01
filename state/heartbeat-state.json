@@ -1,30 +1,27 @@
 {
-  "lastUpdated": "2026-06-27T09:09:00Z",
-  "lastHeartbeat": "2026-06-27T09:09:00Z",
+  "lastUpdated": "2026-07-01T23:44:00+10:00",
+  "lastHeartbeat": "2026-07-01T23:44:00+10:00",
   "lastChecks": {
-    "taskWatchdog": "2026-06-27T09:09:00Z",
-    "cronHealth": 1781744940,
-    "budgetCheck": "2026-06-27T09:09:00Z",
-    "owlCompliance": "2026-06-27T09:09:00Z",
-    "standbyMode": "2026-06-27T09:09:00Z",
-    "dodValidation": "2026-06-27T09:09:00Z",
-    "taskVerificationAlerts": "2026-06-27T09:09:00Z",
-    "cronDeadLetter": "2026-06-27T09:09:00Z",
-    "chgTriggers": "2026-06-27T09:09:00Z",
-    "costState": "2026-06-27T09:09:00Z",
-    "delegatedAuth": 1781744940,
-    "ariaCrest": 1781744940,
-    "sessionModelDrift": "2026-06-27T09:09:00Z",
-    "mainSessionResume": "2026-06-27T09:09:00Z",
-    "ogm": 1781744940,
-    "taskMonitor": {
-      "checked_at": "2026-06-27T19:09:00+10:00",
-      "task_collector": "ok",
-      "stalled_tasks": 0,
-      "alert_sent": false
-    }
+    "taskWatchdog": "2026-07-01T23:44:00+10:00",
+    "cronHealth": "2026-07-01T23:44:00+10:00",
+    "budgetCheck": "2026-07-01T23:43:00+10:00",
+    "owlCompliance": "2026-07-01T23:44:00+10:00",
+    "standbyMode": "2026-07-01T23:44:00+10:00",
+    "dodValidation": "2026-07-01T23:44:00+10:00",
+    "taskVerificationAlerts": "2026-07-01T23:44:00+10:00",
+    "cronDeadLetter": "2026-07-01T23:44:00+10:00",
+    "chgTriggers": "2026-07-01T23:44:00+10:00",
+    "costState": "2026-07-01T23:10:00+10:00",
+    "delegatedAuth": "2026-07-01T23:10:00+10:00",
+    "ariaCrest": "2026-07-01T23:10:00+10:00",
+    "sessionModelDrift": "2026-07-01T23:44:00+10:00",
+    "mainSessionResume": "2026-07-01T23:44:00+10:00",
+    "email": "2026-07-01T21:10:00+10:00",
+    "calendar": "2026-07-01T21:10:00+10:00",
+    "heartbeat": "2026-07-01T23:44:00+10:00",
+    "owlCompliance": "2026-07-01T23:44:00+10:00"
   },
   "notes": [
-    "2026-06-27T09:09:00Z: All per-heartbeat checks clean. Gateway OK, OWL 100%, Aria CREST compliant, cron health OK, session model drift OK, no alert files, budget healthy (25.7% of 168,895 weekly requests used)."
+    "2026-07-01T23:44+10:00: All per-heartbeat checks clean. Gateway OK, OWL 100%, session model drift OK, cron health OK (WO-002 stale alert from 2026-06-28 known), no alert files, main session resume clean, no stalls. Task verification alert from 2026-06-28 stale/known resolved issue (TKT-0024). TRIGGER-QBR firstDue today (2026-07-01) — QBR Agent Fleet Review + Tribal Knowledge Audit due. Journal OK (1760B). Email/Calendar next check due 01:10."
   ]
 }
