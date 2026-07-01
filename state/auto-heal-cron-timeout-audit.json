@@ -1,13 +1,6 @@
 {
-  "checkedAt": "2026-06-27T15:00:05Z",
+  "checkedAt": "2026-07-01T09:09:45Z",
   "offenders": [
-    {
-      "cronId": "f71f75af-dac7-4b6a-9b6e-9f43626b19a5",
-      "name": "Daily Workspace Backup",
-      "currentTimeout": 49,
-      "model": "ollama/minimax-m3:cloud",
-      "suggestedTimeout": 120
-    },
     {
       "cronId": "e08e19ad-2d15-47ff-9ac0-509c05889a0e",
       "name": "TKT-0093 Backup Health Check",
@@ -16,7 +9,7 @@
       "suggestedTimeout": 120
     }
   ],
-  "offenderCount": 2,
+  "offenderCount": 1,
   "live": true,
   "baseline": false
 }

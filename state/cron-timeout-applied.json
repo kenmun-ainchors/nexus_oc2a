@@ -89,12 +89,12 @@
     "kenBypassReason": "Ken explicit approval for scaler vA6 backfill (CHG-0578)"
   },
   "c69615bb": {
-    "firstSeen": "2026-06-26",
-    "lastSeen": "2026-06-26",
+    "firstSeen": "2026-07-01",
+    "lastSeen": "2026-07-01",
     "daysCount": 1,
     "recommendation": "DECREASE",
     "currentTo": 120,
-    "computedTo": 75,
+    "computedTo": 44,
     "appliedAt": "2026-06-19T01:18:19Z",
     "appliedTo": 52,
     "applyMethod": "cron-timeout-apply.sh",
@@ -144,12 +144,12 @@
     "kenBypassReason": "Ken explicit approval for scaler vA6 backfill (CHG-0578)"
   },
   "5d581442": {
-    "firstSeen": "2026-06-19",
-    "lastSeen": "2026-06-19",
+    "firstSeen": "2026-07-01",
+    "lastSeen": "2026-07-01",
     "daysCount": 1,
     "recommendation": "DECREASE",
-    "currentTo": 300,
-    "computedTo": 120,
+    "currentTo": 288,
+    "computedTo": 155,
     "appliedAt": "2026-06-19T01:18:19Z",
     "appliedTo": 120,
     "applyMethod": "cron-timeout-apply.sh",

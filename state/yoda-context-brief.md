@@ -1,7 +1,7 @@
 # Yoda Telegram Context Brief
-# Auto-refreshed: Saturday, June 27th, 2026 - 2:00 PM AEST
-# Platform Day: 63 (from 2026-04-25)
-# Current Sprint: Sprint 9 (2026-06-22 to 2026-06-28) — COMMITTED (1 day remaining)
+# Auto-refreshed: Wednesday, July 1st, 2026 - 7:09 PM AEST
+# Platform Day: 67 (from 2026-04-25)
+# Current Sprint: Sprint 9 (2026-06-22 to 2026-06-28) — OVERDUE, 88% complete (15/17 done, 2 open)
 # Model: ollama/kimi-k2.7-code:cloud
 
 ## Key People
@@ -14,14 +14,16 @@
 - **OC2-A/B** (Mac Mini M4 Pro 48GB x2) — ETA 6-13 Jul 2026. Commission ~27 Jul.
 - **Gateway ports:** 18789 Prod | 28789 Sandbox | 38789 Shadow
 - **Tailscale mesh + NAS** operational. No local LLM inference >~8B Q4 on OC1.
+- **Exec guard revoked (CHG-0788, 2026-06-28):** Ken override — exec allowed for all agents. FORGE EXECUTE GATE remains (scripts/infra/build/config edits route to Forge).
 
 ## Current Sprint (Sprint 9)
-- Dates: 2026-06-22 to 2026-06-28 (1 day remaining — ends tomorrow)
-- Status: committed (planning completed 2026-06-20)
+- Dates: 2026-06-22 to 2026-06-28 (ended 3 days ago — overdue)
+- Status: 88% complete — 15/17 items done, 2 open
+- Open items: TKT-0530 (Old-Code Audit P1), TKT-0394 (Tribal Knowledge Audit)
 - Committed items: 16 (exception to 6-item capacity rule per Ken 2026-06-21)
-- Priority stack: TKT-0342 (PG SSOT Gap Remediation) and TKT-0368 (CREST v2.0 / Nexus Foundational Architecture) take precedence
+- Sprint 9 Review completed 2026-06-28
 - Auto-rollover enabled — unfinished items roll into Sprint 10
-- Sprint 10 planning trigger: Sprint 9 closes 2026-06-28
+- Sprint 10 NOT YET created — needs planning trigger
 
 ## Approved Decisions (Memory)
 - **CHG-0545 (Ken 2026-06-13):** Four rules locked — no fabrication, evidence-only, CREST mandatory, orchestrator-only execution.
@@ -35,36 +37,37 @@
 - **Ken 2026-06-21:** Yoda CREST/Forge self-correction — Yoda NEVER directly edits scripts/, infra/, or build/config files. Execute routes to Forge.
 - **Ken 2026-06-22 17:13 AEST:** CREST Groom vs Plan process locked — Groom first, then CREST Plan. Keep separate.
 - **Sprint 9 exception (Ken 2026-06-21):** 16 committed items (above 6-item cap). Auto-rollover enabled.
+- **CHG-0788 (2026-06-28):** Exec guard revoked — Ken override. All agents can exec. FORGE EXECUTE GATE remains.
 
-## Open Tickets (Top 10 by Critical/High Priority)
+## Open Tickets (Top 10 by Priority)
 | ID | Title | Status | Priority | Sprint |
 |----|-------|--------|----------|--------|
-| TKT-0342 | EPIC: PG SSOT Gap Remediation | open | critical | Sprint 9 |
-| TKT-0344 | Wire state_model_policy to live PG write | open | critical | Sprint 9 |
+| TKT-0342 | EPIC: PG SSOT Gap Remediation | open | critical | Sprint 10 |
 | TKT-0358 | Create PG table health monitor cron | open | critical | Sprint 11 |
-| TKT-0722 | Create verdict_log PG table + replace state/sage-verdicts | open | critical | Sprint 9 |
-| TKT-0546 | CREST v1.3 Implementation | open | critical | Unassigned |
 | TKT-0125 | Roadmap Refinement — QBR 2026-Q3 instance | open | P1 | Unassigned |
 | TKT-0130 | Agent Fleet Review — QBR 2026-Q3 instance | open | P1 | Unassigned |
-| TKT-0394 | Tribal Knowledge Audit — QBR 2026-Q3 instance | open | P1 | Sprint 9 |
-| TKT-0530 | Old-Code Audit P1 (Sprint 9): infrastructure layer | open | P1 | Sprint 9 |
 | TKT-0114 | AInchors–Aevlith Technologies partnership structure | pending | high | Unassigned |
+| TKT-0127 | Agentic Marketing Org Design | backlog | high | Unassigned |
+| TKT-0128 | Aria: expanded marketing orchestration | backlog | high | Unassigned |
+| TKT-0136 | AInchors Consulting Playbook | backlog | high | Sprint 8 |
+| TKT-0138 | Business Jumpstart — 3-part client pathway | backlog | high | Sprint 8 |
+| TKT-0139 | Consulting Product Portfolio | backlog | high | Unassigned |
 
 ## LinkedIn Campaign Status
-- **Status:** ACTIVE — 4-Week Foundation Arc. Current: Week 3 drafted (Movement III: The Rebuild, Theme B).
-- **Week 2 completed:** W2-P4 (Tue 23 Jun, re-targeted Ken personal per CHG-0739), W2-P5 (Wed 24 Jun - "The 92% rule"), W2-P6 (Thu 25 Jun - "The quality gate I thought I had") ✅ All 3 posted.
-- **Week 3 drafted (batch draft Sat 27 Jun):** W3-P7 (Tue 30 Jun - "The rebuild that changed how I work"), W3-P8 (Wed 1 Jul - "What context discipline actually means"), W3-P9 (Thu 2 Jul - "The governance stack I built because I couldn't trust the model"). All governance CLEARED. Images NOT yet generated.
+- **Status:** ACTIVE — 4-Week Foundation Arc. Current: Week 3 (Movement III: The Rebuild, Theme B).
+- **Week 2 completed:** W2-P4 (Tue 23 Jun), W2-P5 (Wed 24 Jun - "The 92% rule"), W2-P6 (Thu 25 Jun - "The quality gate I thought I had") ✅ All 3 posted.
+- **Week 3:** W3-P7 (Tue 30 Jun - "The rebuild that changed how I work") — POSTED ✅. W3-P8 (Wed 1 Jul - "What context discipline actually means") — DUE TODAY 12:00 AEST. W3-P9 (Thu 2 Jul - "The governance stack I built because I couldn't trust the model") — DUE TOMORROW. All 3 approved, images generated, governance CLEARED.
 - **Stream:** Ken personal profile effective 2026-06-23. Company page discontinued.
 - **Voice:** Ken Mun, CTO — first-person, direct, no fluff. NO AInchors/Yoda/Nexus/agent names.
 - **Missed-slot rule:** Push to next slot. If occupied, skip. Never post late.
 - **Pipeline:** Weekend batch draft (Sat 12:00 AEST) -> review -> image gen -> publish at slot.
 
-## Ollama Usage / Burn Alert (as of 2026-06-26 20:00 AEST)
-- Weekly limit: 164,340 requests (window: 2026-06-22 Mon 10:00 to 2026-06-29 Mon 10:00 AEST)
-- Current usage: 34,840 requests (21.2%)
-- Days remaining: ~2.58 | Burn rate: 335.0 req/hr
-- Next threshold (50%): 82,170 | (70%): 115,038 | (85%): 139,689 | (95%): 156,123
-- **Alert level:** SILENT — well below all thresholds. No action needed.
+## Ollama Usage / Burn Alert (as of 2026-07-01 19:08 AEST)
+- Session limit: 16,000 requests | Current: 16 (0.1%) | Remaining: 15,984
+- Weekly window: 2026-06-29 Mon 10:00 to 2026-07-06 Mon 10:00 AEST
+- Burn rate: 0.3 req/hr | 4.62 days remaining
+- Thresholds: 50% (15,000) | 70% (21,000) | 85% (25,500) | 95% (28,500)
+- **Alert level: SILENT** — 0.1% used. No action needed.
 
 ## Mandatory Rules for Telegram Sessions
 1. **CREST Groom vs Plan:** Groom first (analyze/refine/surface). Then CREST Plan. Keep separate.
@@ -81,5 +84,6 @@
 12. **Journal discipline:** Append after every meaningful Ken exchange.
 13. **Model routing SSOT:** state/model-policy.json. Query via scripts/model-policy-query.sh.
 14. **CREST v1.3:** EXECUTED and verified. Sage-as-Judge operational. Capability-based multi-model routing active.
+15. **Exec guard revoked (CHG-0788):** Ken override 2026-06-28. FORGE EXECUTE GATE still applies for scripts/infra/build/config edits.
 
 # END BRIEF
