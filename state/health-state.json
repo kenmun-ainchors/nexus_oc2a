@@ -1,19 +1,21 @@
 {
-  "status": "ok",
-  "overallStatus": "ok",
+  "status": "degraded",
+  "overallStatus": "degraded",
   "consecutiveFailures": 0,
   "alerted": false,
-  "lastCheck": "2026-06-28T09:40:58Z",
-  "lastOk": "2026-06-28T09:40:58Z",
-  "exitCode": 0,
-  "issues": [],
+  "lastCheck": "2026-07-01T09:16:22Z",
+  "lastOk": "2026-07-01T09:16:22Z",
+  "exitCode": 1,
+  "issues": [
+    "health-state is stale (4295 min since last update)"
+  ],
   "anthropicReachable": true,
   "ollamaReachable": true,
   "checks": {
     "gateway": "ok",
     "ollama": "ok",
     "disk": "ok",
-    "healthStateAge": "ok",
+    "healthStateAge": "stale",
     "costStateAge": "ok",
     "staleLockFilesCleared": 0,
     "anthropicApi": "ok",

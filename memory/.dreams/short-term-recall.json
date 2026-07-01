@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "updatedAt": "2026-07-01T09:08:43.249Z",
+  "updatedAt": "2026-07-01T09:16:53.011Z",
   "entries": {
     "memory:memory/2026-04-26.md:94:122": {
       "key": "memory:memory/2026-04-26.md:94:122",
@@ -4677,20 +4677,22 @@
       "endLine": 35,
       "source": "memory",
       "snippet": "# 2026-06-13 — Yoda Daily Log ## A6 — Implemented (TKT-0503-A6) **Time:** 10:00–11:00 AEST **Model:** Yoda (claude-sonnet-4.6) **Status:** Complete, tested live, CHG-0533 logged ### What shipped - `scripts/cron-timeout-scaler.sh` vA6: reads `payload.timeoutSeconds` (not job root), filters out `systemEvent` jobs (which don't consume timeoutSeconds per server-cron-i5IplaUe.js:376) - `auto-heal.sh CHECK 22`: uses new `actionableRecommended` count, new alert message - New ledger `state/cron-timeout-applied.json` with 7-day stability gate - Live auto-apply via `openclaw cron edit --timeout-seconds N` (gated by `CHECK22_AUTO_APPLY=true`) - Idempotency verified (re-runs skip already-applied) - 3",
-      "recallCount": 2,
+      "recallCount": 3,
       "dailyCount": 0,
       "groundedCount": 0,
-      "totalScore": 1.0153061985969543,
+      "totalScore": 1.5195035696029662,
       "maxScore": 0.5152216762304306,
       "firstRecalledAt": "2026-06-23T13:00:38.682Z",
-      "lastRecalledAt": "2026-06-27T13:00:18.494Z",
+      "lastRecalledAt": "2026-07-01T09:16:53.011Z",
       "queryHashes": [
         "9b35d7f0fbed",
-        "a2fcafdeb0ae"
+        "a2fcafdeb0ae",
+        "dc5f6229ec8e"
       ],
       "recallDays": [
         "2026-06-23",
-        "2026-06-27"
+        "2026-06-27",
+        "2026-07-01"
       ],
       "conceptTags": [
         "tkt-0503-a6",
@@ -53389,22 +53391,24 @@
       "endLine": 27,
       "source": "memory",
       "snippet": "# 2026-06-24 — Yoda Daily Log ## Summary Big day of CRESTv2-P1 execution. Major work on canonical next-ticket resolution, tracker override integration, and Sage (qa) subagent workspace isolation fix. 5 CHGs recorded (CHG-0758 through CHG-0763). ## Key Changes - **CHG-0758**: Canonical `next-ticket` resolver in `db-sprint.sh` — deterministic priority pipeline, date-window sprint awareness, `state/next-ticket.json` cache - **CHG-0759**: CRESTv2-P1 tracker override wrapper for next-ticket (later superseded by CHG-0761) - **CHG-0760**: Doc update — clarified agent-filter vs unfiltered next-ticket usage in SKILL.md - **CHG-0761**: Merged tracker override into canonical `db-sprint.sh next-ticket",
-      "recallCount": 3,
+      "recallCount": 4,
       "dailyCount": 0,
       "groundedCount": 0,
-      "totalScore": 2.15608350816082,
+      "totalScore": 2.6566439259321593,
       "maxScore": 0.8284701103972105,
       "firstRecalledAt": "2026-06-25T17:00:12.261Z",
-      "lastRecalledAt": "2026-06-27T13:00:18.494Z",
+      "lastRecalledAt": "2026-07-01T09:16:53.011Z",
       "queryHashes": [
         "b0e1cdb52c30",
         "b109c47b1bba",
-        "a2fcafdeb0ae"
+        "a2fcafdeb0ae",
+        "dc5f6229ec8e"
       ],
       "recallDays": [
         "2026-06-26",
         "2026-06-25",
-        "2026-06-27"
+        "2026-06-27",
+        "2026-07-01"
       ],
       "conceptTags": [
         "crestv2-p1",
