@@ -175,9 +175,19 @@ Older/less-frequently-used sections moved to `memory/MEMORY-archive-2026-06-20.m
 - Yoda must keep these separate. Groom first. Then CREST Plan. Then dispatch.
 - Reference:  and .
 
-## Promoted From Short-Term Memory (2026-06-28)
+## Promoted From Short-Term Memory (2026-07-02)
 
-<!-- openclaw-memory-promotion:memory:memory/2026-05-07.md:485:513 -->
-- Gateway restart needed: `tools.sessions.visibility: all` not hot-reloadable — pending Ken approval - TKT-0077: Persistent agent config / stateless bootstrap — sprint item - TKT-0079/0080/0081: Holocron pages — backlog - API balance: USD$470.93 (topped up CHG-0205) - Ahsoka: PILOT_TESTING status, CHG-0201/0202 --- ## EOD Session Summary — Thu 2026-05-07 (Day 13, continued) # Appended 16:48 AEST ### Major Work Completed (afternoon session) - TKT-0086 full 4-sequence complete: coherence review → governance gaps → Atlas EA roadmap → backlog replan → Agile framework lock - TKT-0087: 20 governance ACs closed (AI Charter, Nexus-first, Ahsoka registration, R1/C4 fix, P2 gates) - TKT-0088: 8 Section 10 decisions — P2 Aug 2026, BYOK policy, Auralith hard gate end-May - TKT-0089: 95-item backlog replanned, 3 new TKTs raised, Sprint 1/2/3 defined - TKT-0090: AInchors Agile Delivery Framework v1.0 — APPROVED AND LOCKED - Agile maturity: L2 → L3 ### Key Milestones Today 1. First formal architecture roadmap (P1–P5) produced by Atlas 2. Governance fully aligned to strategy — 20 gaps closed 3. Auralith governance addendum added to AI Charter (approved) 4. Nexus-first mandate locked globally across all agents 5. P2 target confirmed: end August 2026 6. Backlog replanned against strategy (95 items) 7. **Agile Delivery Framework v1.0 locked — Sprint 1 starts** ### 🌊 KEY MILESTONE LEARNING — FOR EOD BLOG (Ken's words, verbatim) [score=0.833 recalls=10 avg=0.450 source=memory/2026-05-07.md:485-513]
-<!-- openclaw-memory-promotion:memory:memory/2026-06-21.md:4:4 -->
-- Sunday platform hardening day. PG-Notion integrity audit fixed (pagination + timeout + 127 orphan cleanup), Sprint 9 detection corrected, db-write.sh error classification hardened, CREST v1.3 data_class dimension deferred to v2.0. Aria context sync prepared. [score=0.830 recalls=0 avg=0.620 source=memory/2026-06-21.md:4-4]
+<!-- openclaw-memory-promotion:memory:memory/2026-06-27.md:18:18 -->
+- CRESTv2-P1 Gate Review — CRESTv2-P1-WS12-REVIEW-001: Tracker updated at state/crestv2-p1-tracker.json [score=0.806 recalls=0 avg=0.620 source=memory/2026-06-27.md:18-18]
+<!-- openclaw-memory-promotion:memory:memory/2026-06-27.md:22:22 -->
+- WS-3 Groom — delivered to Ken in webchat session: Full brief delivered. Three open tickets + one re-opened: [score=0.806 recalls=0 avg=0.620 source=memory/2026-06-27.md:22-22]
+<!-- openclaw-memory-promotion:memory:memory/2026-06-27.md:24:27 -->
+- WS-3 Groom — delivered to Ken in webchat session: **TKT-0344** — Wire state_model_policy to PG live write + F2 case normalization absorption + F3 denominator recheck; **TKT-0348** — Wire state_sprints auto-commit + sprint FK audit; **TKT-0354** — Wire state_standups to PG-first (new table, straightforward); **TKT-0359** — PG-First Write Policy enforcement gate (NOTA — closure evidence = Notion status + gate test) [score=0.806 recalls=0 avg=0.620 source=memory/2026-06-27.md:24-27]
+<!-- openclaw-memory-promotion:memory:memory/2026-06-27.md:29:29 -->
+- WS-3 Groom — delivered to Ken in webchat session: **Three decisions Ken deferred (too tired):** [score=0.806 recalls=0 avg=0.620 source=memory/2026-06-27.md:29-29]
+<!-- openclaw-memory-promotion:memory:memory/2026-06-27.md:30:32 -->
+- WS-3 Groom — delivered to Ken in webchat session: F2 absorption: fold into TKT-0344 scope or separate ticket?; F8 coupling: brief Atlas now on state_model_policy read contract, or proceed with JSON-cache stopgap?; TKT-0359 enforcement gate shape: RULES.md rule, Warden script, or OpenClaw config validation? [score=0.806 recalls=0 avg=0.620 source=memory/2026-06-27.md:30-32]
+<!-- openclaw-memory-promotion:memory:memory/2026-06-27.md:34:34 -->
+- WS-3 Groom — delivered to Ken in webchat session: **Resume keyword:** `CREST WS-3 resume` [score=0.806 recalls=0 avg=0.620 source=memory/2026-06-27.md:34-34]
+<!-- openclaw-memory-promotion:memory:memory/2026-06-27.md:4:4 -->
+- PG-Notion Batch Sync (02:57 AEST): Batch reconciliation ran — all tickets synced. Nothing to process. [score=0.806 recalls=0 avg=0.620 source=memory/2026-06-27.md:4-4]

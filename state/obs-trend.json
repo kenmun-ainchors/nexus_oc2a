@@ -1,16 +1,16 @@
 {
-  "generated_at": "2026-07-01T11:52:03.183735+00:00",
-  "generated_at_aest": "2026-07-01 21:52 AEST",
+  "generated_at": "2026-07-01T22:01:17.189293+00:00",
+  "generated_at_aest": "2026-07-02 08:01 AEST",
   "period_hours": 24,
   "totals": {
-    "ERROR": 22,
-    "WARN": 14,
-    "INFO": 6
+    "ERROR": 24,
+    "WARN": 23,
+    "INFO": 10
   },
   "top_errors": [
     {
       "type": "task_verification_failed",
-      "count": 20
+      "count": 22
     },
     {
       "type": "fallback_chain_broken",
@@ -24,7 +24,7 @@
   "top_warnings": [
     {
       "type": "auto_heal_needs_ken",
-      "count": 14
+      "count": 23
     }
   ],
   "trend": {

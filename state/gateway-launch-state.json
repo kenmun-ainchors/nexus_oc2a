@@ -1,12 +1,12 @@
 {
-  "lastChecked": "2026-07-01T09:09:52Z",
-  "prodPID": 1611,
+  "lastChecked": "2026-07-01T15:00:14Z",
+  "prodPID": 8997,
   "prodPPID": 1,
   "prodParentName": "",
   "wrapperParentedToLaunchd": true,
   "envWrapperExpected": "NODE_OPTIONS contains --max-old-space-size=6144",
-  "envWrapperActual": "\"--max-old-space-size=6144\"",
-  "envWrapperApplied": true,
-  "launchdMatch": true,
-  "alertIfMismatch": false
+  "envWrapperActual": "",
+  "envWrapperApplied": false,
+  "launchdMatch": false,
+  "alertIfMismatch": true
 }

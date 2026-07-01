@@ -1,12 +1,11 @@
-# LI-W3-P9 — The governance stack I built because I couldn't trust the model
+# LI-W3-P9 — "The governance stack I built because I couldn't trust the model"
 
-**Slot:** Thu 2 Jul 07:30 AEST
-**Movement:** III. The Rebuild
-**Post:** 9 of 12
+## Slot
+Tue 7 Jul 07:30 AEST
+
+## Draft
 
 ---
-
-The governance stack I built because I couldn't trust the model
 
 A model that needs to be trusted to be careful is a model that will fail you. I stopped trusting. I built governance instead.
 
@@ -24,10 +23,12 @@ Governance isn't overhead. It's the only way to make AI workflow reliable at sca
 
 Don't build AI workflows that need the model to be careful. Build workflows that make the model be careful by structure.
 
+#AIinAustralia #BuildingInPublic #GovernanceStack
+
 ---
 
-📸 **Image prompt for ChatGPT (DALL-E 3):**
-> Three concentric steel rings in cross-section, like a vault door, with a single warm light source behind them casting long shadows, dark industrial background, muted steel-blue with one warm rim light, editorial product photography, security and structure mood. Square 1:1 format, no text, no logos, professional quality.
+## Image Prompt
+Three concentric steel rings in cross-section, like a vault door, with a single warm light source behind them casting long shadows, dark industrial background, muted steel-blue with one warm rim light, editorial product photography, security and structure mood. Square 1:1 format, no text, no logos, professional quality.
 
-Format: 1024x1024 square
-Reply with the image to approve. Or: REJECT / EDIT: [changes]
+## Governance
+CLEARED (Shield: clear, Lex: conditional, Sage: conditional)

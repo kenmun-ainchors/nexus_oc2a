@@ -29,16 +29,6 @@
     "appliedAt": "2026-06-15T11:46:00+10:00",
     "appliedTo": 180
   },
-  "a3e9a226": {
-    "firstSeen": "2026-06-15",
-    "lastSeen": "2026-06-18",
-    "daysCount": 4,
-    "recommendation": "DECREASE",
-    "currentTo": 300,
-    "computedTo": 180,
-    "appliedAt": "2026-06-15T11:46:00+10:00",
-    "appliedTo": 180
-  },
   "53e6447c": {
     "firstSeen": "2026-06-15",
     "lastSeen": "2026-06-18",
@@ -73,21 +63,6 @@
     "revertedForTest": "2026-06-13T10:53:00Z",
     "revertedForTest2": "2026-06-13T11:00:00Z"
   },
-  "dc88affb": {
-    "firstSeen": "2026-06-15",
-    "lastSeen": "2026-06-18",
-    "daysCount": 4,
-    "recommendation": "DECREASE",
-    "currentTo": 240,
-    "computedTo": 120,
-    "appliedAt": "2026-06-15T03:34:58Z",
-    "appliedTo": 120,
-    "applyMethod": "cron-timeout-apply.sh",
-    "applyResult": "{\n  \"id\": \"dc88affb-2e25-44de-be94-ccb208043a43\",\n  \"name\": \"TQP executor poll (every 5 min)\",\n  \"description\": \"TKT-0504 A6: poll TQP queue, claim ready atoms, dispatch to Forge via sessions_spawn\",\n",
-    "kenBypass": true,
-    "kenBypassAt": "2026-06-15T03:34:58Z",
-    "kenBypassReason": "Ken explicit approval for scaler vA6 backfill (CHG-0578)"
-  },
   "c69615bb": {
     "firstSeen": "2026-07-01",
     "lastSeen": "2026-07-01",
@@ -102,16 +77,6 @@
     "kenBypass": true,
     "kenBypassAt": "2026-06-19T01:18:19Z",
     "kenBypassReason": "Ken explicit approval for scaler vA6 backfill (CHG-0578)"
-  },
-  "7a4d8381": {
-    "firstSeen": "2026-06-15",
-    "lastSeen": "2026-06-18",
-    "daysCount": 4,
-    "recommendation": "DECREASE",
-    "currentTo": 722,
-    "computedTo": 300,
-    "appliedAt": "2026-06-15T11:46:00+10:00",
-    "appliedTo": 300
   },
   "f71f75af": {
     "firstSeen": "2026-06-19",
@@ -149,7 +114,7 @@
     "daysCount": 1,
     "recommendation": "DECREASE",
     "currentTo": 288,
-    "computedTo": 155,
+    "computedTo": 184,
     "appliedAt": "2026-06-19T01:18:19Z",
     "appliedTo": 120,
     "applyMethod": "cron-timeout-apply.sh",
@@ -217,5 +182,35 @@
     "kenBypass": true,
     "kenBypassAt": "2026-06-19T01:18:19Z",
     "kenBypassReason": "Ken explicit approval for scaler vA6 backfill (CHG-0578)"
+  },
+  "0758aaf6": {
+    "firstSeen": "2026-07-01",
+    "lastSeen": "2026-07-01",
+    "daysCount": 1,
+    "recommendation": "DECREASE",
+    "currentTo": 300,
+    "computedTo": 180,
+    "appliedAt": null,
+    "appliedTo": null
+  },
+  "a89d00ef": {
+    "firstSeen": "2026-07-01",
+    "lastSeen": "2026-07-01",
+    "daysCount": 1,
+    "recommendation": "DECREASE",
+    "currentTo": 120,
+    "computedTo": 30,
+    "appliedAt": null,
+    "appliedTo": null
+  },
+  "38d77d14": {
+    "firstSeen": "2026-07-01",
+    "lastSeen": "2026-07-01",
+    "daysCount": 1,
+    "recommendation": "DECREASE",
+    "currentTo": 452,
+    "computedTo": 300,
+    "appliedAt": null,
+    "appliedTo": null
   }
 }
