@@ -2,6 +2,7 @@
 # Runs every 30 minutes in the main session.
 # Keep this lean — state keys + conditions + actions only.
 # Procedures live in the scripts they reference, not here.
+# CHG-0799: platform/cron/infra/business-impacting alerts route to both Ken (8574109706) and Angie (8141152780)
 # Alert routing: load skill `bash scripts/skill-load.sh telegram`
 
 ## Checks

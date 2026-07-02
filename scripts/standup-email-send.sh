@@ -4,6 +4,7 @@
 # Runs ~15 min after standup generation (08:15 AEST)
 # CHG-0765 / TKT-0742: Fix messageId extraction (gog returns 'messageId', not 'id')
 #   and ensure idempotency skip updates state/standup-email-log.json
+# CHG-0799: Send to both Ken (kenmun@gmail.com) and Angie (angie.foong@ainchors.com)
 set -euo pipefail
 
 WORKSPACE="/Users/ainchorsangiefpl/.openclaw/workspace"
@@ -49,6 +50,7 @@ fi
 echo "Sending stand-up email for Day ${DAY_N} (${TODAY_AEST})..."
 ${GOG} mail send \
     --to "kenmun@gmail.com" \
+    --cc "angie.foong@ainchors.com" \
     --subject "${SUBJECT}" \
     --body "AInchors Stand-up — Day ${DAY_N}. Full HTML brief attached below." \
     --body-html-file "${CANVAS_HTML}" \
@@ -79,7 +81,7 @@ print('State updated: emailSentConfirmed = ${TODAY_AEST}')
     # Write success log
     python3 -c "
 import json
-json.dump({'date':'${TODAY_AEST}','dayNumber':${DAY_N},'sentAt':'${NOW_ISO}','messageId':'${MESSAGE_ID}','status':'ok','canvasSize':${CANVAS_SIZE}}, open('${LOG_FILE}','w'))
+json.dump({'date':'${TODAY_AEST}','dayNumber':${DAY_N},'sentAt':'${NOW_ISO}','messageId':'${MESSAGE_ID}','status':'ok','canvasSize':${CANVAS_SIZE},'recipients':['kenmun@gmail.com','angie.foong@ainchors.com']}, open('${LOG_FILE}','w'))
 " 2>/dev/null || true
 else
     echo "FAILED: Email send returned exit code ${SEND_EXIT}"

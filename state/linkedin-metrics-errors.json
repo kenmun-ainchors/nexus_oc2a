@@ -1,28 +1,23 @@
 {
   "schema": "1.0",
-  "runAt": "2026-06-27T00:00:00Z",
-  "runBy": "spark-cron-5d581442",
   "errors": [
     {
       "id": "LI-SEED-2",
       "urn": "urn:li:activity:7456521472124014592",
-      "account": "ken",
-      "error": "\ud83d\udcca Fetching metrics for LI-SEED-2 (urn:li:activity:7456521472124014592) \u2014 interval: 24h\n  Fetching metrics for: urn:li:activity:7456521472124014592 (account: ken)\n\n  \u2139\ufe0f  Note: impressions/reach require Organization page (deferred).\n      Those fields are null until org is onboarded to MDP.\n  reactions=24  comments=0  shares=0  impressions=null  fetchedAt=2026-06-27T00:01:06Z",
-      "code": 401
+      "code": 401,
+      "timestamp": "2026-07-02T00:01:34.764545Z"
     },
     {
       "id": "LI-W3-P3",
       "urn": "urn:li:share:7463404594140905473",
-      "account": "ken",
-      "error": "\ud83d\udcca Fetching metrics for LI-W3-P3 (urn:li:share:7463404594140905473) \u2014 interval: 24h\n  Fetching metrics for: urn:li:share:7463404594140905473 (account: ken)\n\u274c Post not found (404) \u2014 URN may be invalid: urn:li:share:7463404594140905473\n\u274c linkedin-metrics.sh failed.",
-      "code": 404
+      "code": 404,
+      "timestamp": "2026-07-02T00:01:34.764641Z"
     },
     {
       "id": "LI-W2-P4-visa-openai-company",
       "urn": "urn:li:share:7475350130762731520",
-      "account": "business",
-      "error": "\ud83d\udcca Fetching metrics for LI-W2-P4-visa-openai-company (urn:li:share:7475350130762731520) \u2014 interval: 24h account: business\n  Fetching metrics for: urn:li:share:7475350130762731520 (account: business)\n\u274c Token expired \u2014 re-run: zsh scripts/linkedin-auth.sh --account business\n\u274c linkedin-metrics.sh failed.",
-      "code": 1
+      "code": 1,
+      "timestamp": "2026-07-02T00:01:34.764644Z"
     }
   ]
 }

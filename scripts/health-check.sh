@@ -199,8 +199,8 @@ if [[ "$ANTHROPIC_REACHABLE" == "0" ]]; then
     # First detection — fire API-independent alert immediately (TKT-0113)
     log "ALERT: Anthropic API down — firing fallback Telegram alert (TKT-0113)"
     bash "$HOME/.openclaw/workspace/scripts/telegram-alert.sh" \
-      --message "🚨 Anthropic API UNREACHABLE\n\nTime: $(date)\nHTTP: $ANTHROPIC_HTTP\n\nStandby mode activating. Check billing at console.anthropic.com\nAuto-reload active — if balance is fine, may be a transient outage." \
-      --chat-id "8574109706" --silent >> "$LOG" 2>&1 \
+      --message "🚨 Anthropic API UNREACHABLE\n\nTime: $(date)\nHTTP: $ANTHROPIC_HTTP\n\nStandby mode activating. Check billing at console.anthropic.com\nAuto-reload active — if balance is fine, may be a transient outage.\n\nCHG-0799: Routing to Ken + Angie" \
+      --recipients "8574109706,8141152780" --silent >> "$LOG" 2>&1 \
       || log "WARNING: Telegram fallback alert failed"
   fi
   python3 - << PYEOF2
@@ -359,8 +359,9 @@ Time: $(date)
 HTTP status: $HTTP_STATUS
 
 Auto-restart attempted. Manual check needed."
+    # CHG-0799: Route gateway-down alert to both Ken (8574109706) and Angie (8141152780)
     bash "$HOME/.openclaw/workspace/scripts/telegram-alert.sh" \
-      --message "$ALERT_MSG" --chat-id "8574109706" --silent \
+      --message "$ALERT_MSG" --recipients "8574109706,8141152780" --silent \
       >> "$LOG" 2>&1 || log "WARNING: Telegram fallback alert also failed"
   fi
 

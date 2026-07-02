@@ -70,9 +70,11 @@ jobs = cron_data.get('jobs', [])
 
 # Routing policy
 # strict=True means the accountId MUST be set to this value
+# CHG-0799: platform/cron/infra/business-impacting alerts may route via Yoda to Angie
 routing_policy = {
     "8574109706": {"account": "yoda",  "strict": False},  # Ken  — yoda default ok
-    "8141152780": {"account": "aria",  "strict": True},   # Angie — aria REQUIRED
+    "8141152780": {"account": "aria",  "strict": True,    # Angie — aria REQUIRED unless tagged
+                   "except_on_tag": ["platform", "cron", "infra", "business"]},  # CHG-0799: Yoda ok if tagged
 }
 
 violations = []
@@ -107,7 +109,18 @@ for job in jobs:
     expected = policy['account']
     strict = policy['strict']
 
+    # CHG-0799: Check if this job has a tag that exempts from strict routing
+    exempt = False
     if strict and account_id != expected:
+        except_tags = policy.get("except_on_tag", [])
+        if except_tags:
+            job_tags = job.get("tags", [])
+            job_name_lower = job_name.lower()
+            for tag in except_tags:
+                if tag in str(job_tags) or tag in job_name_lower:
+                    exempt = True
+                    break
+    if strict and account_id != expected and not exempt:
         violations.append({
             'job': job_name, 'id': job_id, 'chatId': to,
             'issue': f'Must use accountId="{expected}" for chatId {to} — got "{account_id}". Wrong bot will deliver.',

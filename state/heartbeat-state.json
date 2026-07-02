@@ -1,26 +1,28 @@
 {
-  "lastUpdated": "2026-07-02T06:56:00+10:00",
-  "lastHeartbeat": "2026-07-02T07:21:00+10:00",
+  "lastUpdated": "2026-07-03T00:01+10:00",
+  "lastHeartbeat": "2026-07-03T00:01+10:00",
   "lastChecks": {
-    "taskWatchdog": "2026-07-02T07:21:00+10:00",
-    "cronHealth": "2026-07-02T07:21:00+10:00",
-    "cronDeadLetter": "2026-07-02T07:21:00+10:00",
-    "chgTriggers": "2026-07-02T07:21:00+10:00",
-    "owlCompliance": "2026-07-02T07:21:00+10:00",
-    "standbyMode": "2026-07-02T07:21:00+10:00",
-    "dodValidation": "2026-07-02T07:21:00+10:00",
-    "taskVerificationAlerts": "2026-07-02T07:21:00+10:00",
-    "sessionModelDrift": "2026-07-02T07:21:00+10:00",
-    "mainSessionResume": "2026-07-02T07:21:00+10:00",
-    "costState": "2026-07-02T06:22:18+10:00",
-    "delegatedAuth": "2026-07-02T06:22:18+10:00",
-    "ariaCrest": "2026-07-02T01:12:00+10:00",
-    "email": "2026-07-01T21:10:00+10:00",
-    "calendar": "2026-07-01T21:10:00+10:00",
-    "heartbeat": "2026-07-02T07:21:00+10:00"
+    "taskWatchdog": "2026-07-03T00:01+10:00",
+    "cronHealth": "2026-07-03T00:01+10:00",
+    "cronDeadLetter": "2026-07-03T00:01+10:00",
+    "chgTriggers": "2026-07-03T00:01+10:00",
+    "owlCompliance": "2026-07-03T00:01+10:00",
+    "standbyMode": "2026-07-03T00:01+10:00",
+    "dodValidation": "2026-07-03T00:03+10:00",
+    "taskVerificationAlerts": "2026-07-03T00:03+10:00",
+    "sessionModelDrift": "2026-07-03T00:01+10:00",
+    "mainSessionResume": "2026-07-03T00:01+10:00",
+    "costState": "2026-07-03T00:01+10:00",
+    "delegatedAuth": "2026-07-02T15:53+10:00",
+    "ariaCrest": "2026-07-02T15:53+10:00",
+    "email": "2026-07-01T21:10+10:00",
+    "calendar": "2026-07-01T21:10+10:00",
+    "requestBudgetCheck": "2026-07-03T00:01+10:00",
+    "budgetCheck": "2026-07-02T15:53+10:00",
+    "systemBanner": "2026-07-03T00:01+10:00",
+    "heartbeat": "2026-07-03T00:01+10:00"
   },
   "notes": [
-    "2026-07-02T05:17+10:00: Off-hours heartbeat (05:17 AEST). All per-heartbeat checks clean. Session model OK (kimi-k2.7-code:cloud). OWL 100% compliance. No standby/outage banners. Main-session resume clean. Request budget healthy. Task watchdog \u2014 all 8 tasks healthy. \u26a0\ufe0f Cron health: Memory Dreaming Promotion (34880aaa) \u2014 4 consecutive timeouts (~200s on 180s timeout). Previous runs were 10-37s. Regression likely model latency. Alert unacknowledged. Other cron errors (Daily Backup, Stand-up Email, Midday Cost Tracker, Yoda\u2192Aria sync, Monthly SLA) are older/known \u2014 no dead letters. System otherwise healthy.",
-    "2026-07-02T06:56+10:00: Heartbeat 06:56 AEST. All per-heartbeat checks clean. Session model OK (kimi-k2.7-code:cloud). OWL 100% compliance. No standby/outage banners. Main-session resume clean. Task watchdog \u2014 all 8 tasks healthy. \u26a0\ufe0f Memory Dreaming Promotion timeout: increased timeoutSeconds 180\u2192300, acknowledged alert. Other cron errors (Daily Backup, Stand-up Email, Midday Cost Tracker, Yoda\u2192Aria sync, Monthly SLA Report) all caused by gateway restart \u2014 transient, will retry on next schedule. No dead letters. System healthy."
+    "2026-07-03T00:01+10:00: Heartbeat 00:01 AEST. All per-heartbeat checks clean. Session model OK (kimi-k2.7-code:cloud) — no drift. OWL 100% compliance. No standby/outage banners. Main-session resume clean. 8/8 tasks healthy (no stalls). No DoD/task verification alerts. No dead letters. No CHG triggers fired. Request budget: 8.2% (6,230/75,976), 74.2 req/hr — projected healthy. ⚠️ Memory Dreaming Promotion (34880aaa): 4 consecutive errors, still unacknowledged. ⚠️ Email/calendar ~27h overdue (gog skill deferred in cron context). ⚠️ TRIGGER-QBR due 2026-07-01 — needs acknowledgement. System healthy."
   ]
 }

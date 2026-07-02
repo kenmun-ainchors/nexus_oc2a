@@ -1,15 +1,6 @@
 {
-  "checkedAt": "2026-07-01T21:21:53.982485+00:00",
-  "failures": [
-    {
-      "cronId": "34880aaa",
-      "fullCronId": "34880aaa-6389-4982-8163-bd00b30fef17",
-      "name": "Memory Dreaming Promotion",
-      "consecutiveErrors": 4,
-      "lastError": "error",
-      "source": "live-cron-state"
-    }
-  ],
+  "checkedAt": "2026-07-02T13:18:49.170246+00:00",
+  "failures": [],
   "warnings": [],
-  "healthy": false
+  "healthy": true
 }
