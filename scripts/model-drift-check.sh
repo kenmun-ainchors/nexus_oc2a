@@ -195,12 +195,12 @@ agent_to_role = {
     'business': 'business',
     'architect': 'design_backend',
     'platform-arch': 'design_backend',
-    'biz-process': 'design_backend',
-    'change-mgt': 'design_backend',
+    'biz-process': 'delivery',
+    'change-mgt': 'delivery',
     'infra': 'build',
     'social': 'creative',
-    'ahsoka': 'business',
-    'luthen': 'business',
+    'ahsoka': 'delivery',
+    'luthen': 'delivery',
     'security': 'governance',
     'legal': 'governance',
     'qa': 'governance',
@@ -212,6 +212,7 @@ primary_phase_for_role = {
     'business':      'Synthesize',
     'build':         'Execute',
     'creative':      'Synthesize',
+    'delivery':      'Synthesize',
     'design_backend':'Synthesize',
     'governance':    'Verify',
 }
@@ -445,12 +446,12 @@ else:
         'business': 'business',
         'architect': 'design_backend',
         'platform-arch': 'design_backend',
-        'biz-process': 'design_backend',
-        'change-mgt': 'design_backend',
+        'biz-process': 'delivery',
+        'change-mgt': 'delivery',
         'infra': 'build',
         'social': 'creative',
-        'ahsoka': 'business',
-        'luthen': 'business',
+        'ahsoka': 'delivery',
+        'luthen': 'delivery',
         'security': 'governance',
         'legal': 'governance',
         'qa': 'governance',
@@ -472,6 +473,7 @@ else:
         'business':      'Synthesize',   # Aria crons are synthesize/daily-summary heavy
         'build':         'Execute',      # Forge crons are mostly build/execute
         'creative':      'Synthesize',
+        'delivery':      'Synthesize',   # CHG-0805: delivery/consulting specialist role
         'design_backend':'Synthesize',
         'governance':    'Verify',       # Shield/Lex/Sage/Warden are verify-class
     }

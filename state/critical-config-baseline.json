@@ -1,9 +1,9 @@
 {
   "schemaVersion": 2,
-  "lastSnapshot": "2026-07-01T11:47:26Z",
-  "lastSnapshotAEST": "2026-07-01T21:47:26+1000",
-  "openclawVersion": "2026.5.27",
-  "configHash": "e44a9f1d8f1bdcad24588a4829116184477f67b1df595710a2c2487edbd73e0e",
+  "lastSnapshot": "2026-07-02T13:36:09Z",
+  "lastSnapshotAEST": "2026-07-02T23:36:09+1000",
+  "openclawVersion": "2026.6.11",
+  "configHash": "e79f2a908e0b44fea6b49fb84ac8bd977394ee9c05170c36918266d7f38ce14a",
   "agentCount": 14,
   "cronCount": "60",
   "pgTables": "48",
@@ -28,10 +28,10 @@
     "infra": "ollama/deepseek-v4-flash:cloud",
     "architect": "ollama/deepseek-v4-flash:cloud",
     "platform-arch": "ollama/deepseek-v4-flash:cloud",
-    "biz-process": "ollama/deepseek-v4-flash:cloud",
-    "change-mgt": "ollama/deepseek-v4-flash:cloud",
-    "ahsoka": "ollama/kimi-k2.7-code:cloud",
-    "luthen": "ollama/kimi-k2.7-code:cloud",
+    "biz-process": "ollama/deepseek-v4-pro:cloud",
+    "change-mgt": "ollama/deepseek-v4-pro:cloud",
+    "ahsoka": "ollama/deepseek-v4-pro:cloud",
+    "luthen": "ollama/deepseek-v4-pro:cloud",
     "social": "ollama/deepseek-v4-flash:cloud"
   }
 }
