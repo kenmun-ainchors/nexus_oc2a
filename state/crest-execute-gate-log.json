@@ -1,46 +1,6 @@
 {
   "history": [
     {
-      "ts": "2026-06-19T12:14:05.673709+00:00",
-      "operator": "infra",
-      "phase": "verify",
-      "model": "ollama/minimax-m3:cloud",
-      "atomDesc": "test",
-      "target": "",
-      "decision": "allow",
-      "reason": "matches policy-effective model ollama/minimax-m3:cloud"
-    },
-    {
-      "ts": "2026-06-19T12:14:05.747030+00:00",
-      "operator": "platform-arch",
-      "phase": "execute",
-      "model": "ollama/deepseek-v4-flash:cloud",
-      "atomDesc": "test",
-      "target": "",
-      "decision": "allow",
-      "reason": "matches policy-effective model ollama/deepseek-v4-flash:cloud"
-    },
-    {
-      "ts": "2026-06-19T12:15:20.805987+00:00",
-      "operator": "main",
-      "phase": "execute",
-      "model": "ollama/kimi-k2.7-code:cloud",
-      "atomDesc": "test",
-      "target": "",
-      "decision": "block",
-      "reason": "phase 'execute' not allowed for operator 'main' per model-policy.json"
-    },
-    {
-      "ts": "2026-06-19T12:15:20.884773+00:00",
-      "operator": "infra",
-      "phase": "execute",
-      "model": "ollama/deepseek-v4-flash:cloud",
-      "atomDesc": "test",
-      "target": "",
-      "decision": "allow",
-      "reason": "matches policy-effective model ollama/deepseek-v4-flash:cloud"
-    },
-    {
       "ts": "2026-06-19T12:15:20.952787+00:00",
       "operator": "infra",
       "phase": "verify",
@@ -1999,10 +1959,50 @@
       "target": "",
       "decision": "allow",
       "reason": "matches policy-effective model ollama/deepseek-v4-flash:cloud"
+    },
+    {
+      "ts": "2026-07-02T15:00:16.087652+00:00",
+      "operator": "main",
+      "phase": "execute",
+      "model": "ollama/kimi-k2.7-code:cloud",
+      "atomDesc": "test",
+      "target": "",
+      "decision": "block",
+      "reason": "Yoda direct Execute blocked per CHG-0545"
+    },
+    {
+      "ts": "2026-07-02T15:00:16.228474+00:00",
+      "operator": "infra",
+      "phase": "execute",
+      "model": "ollama/deepseek-v4-flash:cloud",
+      "atomDesc": "test",
+      "target": "",
+      "decision": "allow",
+      "reason": "matches policy-effective model ollama/deepseek-v4-flash:cloud"
+    },
+    {
+      "ts": "2026-07-02T15:00:16.366902+00:00",
+      "operator": "infra",
+      "phase": "verify",
+      "model": "ollama/gemma4:31b-cloud",
+      "atomDesc": "test",
+      "target": "",
+      "decision": "allow",
+      "reason": "matches policy-effective model ollama/gemma4:31b-cloud"
+    },
+    {
+      "ts": "2026-07-02T15:00:16.505082+00:00",
+      "operator": "platform-arch",
+      "phase": "execute",
+      "model": "ollama/deepseek-v4-flash:cloud",
+      "atomDesc": "test",
+      "target": "",
+      "decision": "allow",
+      "reason": "matches policy-effective model ollama/deepseek-v4-flash:cloud"
     }
   ],
   "lastDecision": {
-    "ts": "2026-07-01T15:00:16.705641+00:00",
+    "ts": "2026-07-02T15:00:16.505082+00:00",
     "decision": "allow",
     "reason": "matches policy-effective model ollama/deepseek-v4-flash:cloud"
   },
