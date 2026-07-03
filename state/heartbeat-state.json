@@ -1,26 +1,26 @@
 {
-  "lastUpdated": "2026-07-04T00:25+10:00",
-  "lastHeartbeat": "2026-07-04T00:25+10:00",
+  "lastUpdated": "2026-07-04T07:49+10:00",
+  "lastHeartbeat": "2026-07-04T07:49+10:00",
   "lastChecks": {
-    "taskWatchdog": "2026-07-04T00:25+10:00",
-    "cronHealth": "2026-07-04T00:25+10:00",
-    "cronDeadLetter": "2026-07-04T00:25+10:00",
-    "chgTriggers": "2026-07-04T00:25+10:00",
-    "owlCompliance": "2026-07-04T00:25+10:00",
-    "standbyMode": "2026-07-04T00:25+10:00",
-    "dodValidation": "2026-07-04T00:25+10:00",
-    "taskVerificationAlerts": "2026-07-04T00:25+10:00",
-    "sessionModelDrift": "2026-07-04T00:25+10:00",
-    "mainSessionResume": "2026-07-04T00:25+10:00",
-    "costState": "2026-07-03T23:49+10:00",
-    "requestBudgetCheck": "2026-07-03T23:49+10:00",
-    "ariaCrest": "2026-07-04T00:25+10:00",
-    "delegatedAuth": "2026-07-03T22:49+10:00",
+    "taskWatchdog": "2026-07-04T07:49+10:00",
+    "cronHealth": "2026-07-04T07:49+10:00",
+    "cronDeadLetter": "2026-07-04T07:49+10:00",
+    "chgTriggers": "2026-07-04T07:49+10:00",
+    "owlCompliance": "2026-07-04T07:49+10:00",
+    "standbyMode": "2026-07-04T07:49+10:00",
+    "dodValidation": "2026-07-04T07:49+10:00",
+    "taskVerificationAlerts": "2026-07-04T07:49+10:00",
+    "sessionModelDrift": "2026-07-04T07:49+10:00",
+    "mainSessionResume": "2026-07-04T07:49+10:00",
+    "costState": "2026-07-04T07:49+10:00",
+    "requestBudgetCheck": "2026-07-04T07:49+10:00",
+    "ariaCrest": "2026-07-04T07:49+10:00",
+    "delegatedAuth": "2026-07-04T07:49+10:00",
     "email": "2026-07-01T21:10+10:00",
     "calendar": "2026-07-01T21:10+10:00",
     "budgetCheck": "2026-07-03T20:19+10:00"
   },
   "notes": [
-    "Heartbeat 00:25 AEST — All checks clean. Gateway OK, health OK. Task watchdog: 8/8 healthy. Cron health: clean. Session model: kimi-k2.7-code:cloud OK. OWL: 100%. Aria CREST: compliant. Standby: off. No dead-letter, DoD, or drift alerts. CHG triggers: all pending/monitoring."
+    "Heartbeat 07:49 AEST — All clean. Gateway OK, health OK. OWL 100%. Aria CREST compliant. Task watchdog all 8 healthy. Standby off. No banners. No dead-letter, DoD, verification, drift, or resume issues. Session model OK (kimi-k2.7-code:cloud correct). No alert state files present. Email/calendar 58h stale but Saturday — no Ken Signal/Telegram to route to."
   ]
 }
