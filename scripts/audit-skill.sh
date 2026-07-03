@@ -35,8 +35,8 @@ python3 - "$SKILL_PATH" "$STRICT" "$JSON_OUT" "$ALLOWLIST_PATH" << 'PYEOF'
 import sys, re, json, os
 
 path         = sys.argv[1]
-strict       = sys.argv[2] == "True"
-json_out     = sys.argv[3] == "True"
+strict       = sys.argv[2].lower() == "true"
+json_out     = sys.argv[3].lower() == "true"
 allowlist_fn = sys.argv[4]
 
 content = open(path).read()
@@ -345,6 +345,36 @@ if 'SYSTEM_PATH_WRITE' not in {f['id'] for f in deduped}:
                 'line': i,
                 'content': line.strip()[:120],
                 'note': 'Skills must not write to state/, memory/, .openclaw/, /etc/, /var/ — these are system-reserved paths'
+            })
+            break
+
+# ── CHECK 12b: CANVAS_DIRECT_WRITE ───────────────────────────────────────────
+# Detect direct write tool call to Canvas/external paths.
+# These MUST go through cron-write.sh, not the native write tool.
+# Patterns: path to ~/.openclaw/canvas/, .openclaw/canvas/, "write tool to ~/.openclaw/canvas/", etc.
+
+CANVAS_WRITE_PATTERN = re.compile(
+    r'(?i)'
+    r'(?:'
+    r'"path"\s*:\s*"~/\.openclaw/canvas/|'          # JSON "path": "~/.openclaw/canvas/...
+    r'"path"\s*:\s*\.openclaw/canvas/|'              # JSON "path": ".openclaw/canvas/...
+    r'\bwrite\s+tool\s+to\s+~/\.openclaw/canvas/|'    # "write tool to ~/.openclaw/canvas/"
+    r'\bwrite\s+tool\s+to\s+\.openclaw/canvas/|'      # "write tool to .openclaw/canvas/"
+    r'\bwrite\s+tool\b[^\n]*~/\.openclaw/canvas/|'       # "write tool ... ~/.openclaw/canvas/"
+    r'\bwrite\s+tool\b[^\n]*\.openclaw/canvas/'           # "write tool ... .openclaw/canvas/"
+    r')'
+)
+
+if 'CANVAS_DIRECT_WRITE' not in {f['id'] for f in deduped}:
+    for i, line in enumerate(lines, 1):
+        if CANVAS_WRITE_PATTERN.search(line):
+            deduped.append({
+                'id': 'CANVAS_DIRECT_WRITE',
+                'severity': 'BLOCK',
+                'description': 'Direct write tool call to Canvas/external path',
+                'line': i,
+                'content': line.strip()[:120],
+                'note': 'Canvas/external paths must be written via cron-write.sh, not the native write tool.'
             })
             break
 

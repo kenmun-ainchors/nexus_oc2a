@@ -1,3 +1,27 @@
+## 2026-07-03 09:47 AEST — [CHG-0807] CHG-0806 closure: Canvas/external write controls enforced platform-wide
+**Type:** rule
+**Change Type:** Emergency
+**Source:** incident-recovery
+**Trigger:** AInchors Morning Stand-Up cron failed to write Canvas HTML because the isolated agent used the native write tool for ~/.openclaw/canvas/...; CHG-0806 was created as emergency fix and scope expanded.
+**What changed:** (1) RULES.md: added Canvas and External File Write Rule. (2) scripts/audit-skill.sh: added CHECK 12b CANVAS_DIRECT_WRITE, fixed --json/--strict casing bug, and tightened regex to exclude cron-write.sh. (3) standup cron payload 3c279099...: replaced CRITICAL section with FORBIDDEN/MANDATORY/PERMITTED/On-Failure rules. (4) weekly compliance cron 9b190d3e... and monthly model strategy cron 38d77d14...: added cron-write.sh CRITICAL banner. (5) scripts/generate-mission-control.sh: HTML output now piped through cron-write.sh instead of direct Python open().
+**Why:** Prevent recurrence of native write tool sandbox failures for Canvas/external paths; align all cron and script writes with CHG-0806 policy.
+**Verification:** Synthetic audit-skill tests: 6/6 pass — direct write tool to Canvas → BLOCK+CANVAS_DIRECT_WRITE; cron-write.sh usage → CLEAR. bash -n syntax check passed for generate-mission-control.sh. cron get confirmed updated payloads.
+**Rollback:** (1) Revert cron payloads via cron tool. (2) Revert scripts from backup workspace-2026-07-03-0805. (3) Remove RULES.md section manually.
+**Linked:** CHG-0806, TKT-0821, TKT-0547, docs/RULES.md, scripts/audit-skill.sh, scripts/cron-write.sh, scripts/generate-mission-control.sh
+---
+
+## 2026-07-03 09:31 AEST — [CHG-0806] Enforce cron-write.sh for all Canvas/external file writes
+**Type:** config
+**Change Type:** Emergency
+**Source:** ken-prompt
+**Trigger:** Standup cron Day 70 Canvas write failed; OpenClaw sandbox blocked ~/.openclaw/canvas path; stale Day 69 email sent
+**What changed:** Updated standup cron payload, audit-skill.sh CHECK 12, and RULES.md to forbid native write tool outside workspace and mandate cron-write.sh for Canvas/external paths
+**Why:** Permanent platform-wide control to prevent sandbox-blocked writes and stale Canvas/HTML deliveries
+**Verification:** Dry-run of new cron payload succeeds; audit-skill synthetic test blocks direct Canvas write; tomorrow 08:00 standup confirms live
+**Rollback:** Revert cron payload update, revert audit-skill.sh CHECK 12, remove RULES.md Canvas-write rule
+**Linked:** standup cron 3c279099, TKT standup-email-send
+---
+
 ## 2026-07-02 23:47 AEST — [CHG-0805] Add CREST v1.3 'delivery' role for ahsoka/luthen/lando/mon-mothma to align Warden with deepseek-v4-pro
 **Type:** config
 **Change Type:** Normal

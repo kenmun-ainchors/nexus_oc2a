@@ -30,8 +30,8 @@ else
 fi
 export NOTION_KEY WORKSPACE CANVAS_DIR DATA_FILE HTML_FILE CHANGELOG TASKS_DB BACKLOG_DB
 
-# ── Main generation (Python) ─────────────────────────────────────────────────
-python3 << 'PYEOF'
+# ── Main generation (Python) → stdout → cron-write.sh for HTML ────────────────
+python3 << 'PYEOF' | bash /Users/ainchorsangiefpl/.openclaw/workspace/scripts/cron-write.sh "$HTML_FILE"
 import os, json, sys, subprocess
 from datetime import datetime, timezone, timedelta
 from pathlib import Path
@@ -1310,19 +1310,18 @@ html = f"""<!DOCTYPE html>
 </body>
 </html>"""
 
-with open(HTML_FILE, "w") as f:
-    f.write(html)
+print(html, end="")
 
-print(f"[ok] index.html written ({HTML_FILE})")
-print(f"[ok] Generated at {data['generatedAtAEST']}")
-print(f"[ok] Balance: ${balance_amount:.2f} (tier {balance_tier})")
-print(f"[ok] Gateway: {gateway_status}")
-print(f"[ok] Agents: Yoda={data['agents'][0]['status']}, Aria={data['agents'][1]['status']}")
-print(f"[ok] Tech tasks — backlog:{len(tech_bl)} wip:{len(tech_wi)} done:{len(tech_dn)}")
-print(f"[ok] Biz tasks  — backlog:{len(biz_bl)} wip:{len(biz_wi)} done:{len(biz_dn)}")
-print(f"[ok] Governance — shield:{gov['shield']['totalToday']} lex:{gov['lex']['totalToday']} sage:{gov['sage']['totalToday']}")
-print(f"[ok] Activity entries: {len(recent_activity)}")
-print(f"[ok] Cron Health — total:{cron_total} healthy:{cron_healthy} degraded:{cron_degraded} failed:{cron_failed}")
+print(f"[ok] index.html generated", file=sys.stderr)
+print(f"[ok] Generated at {data['generatedAtAEST']}", file=sys.stderr)
+print(f"[ok] Balance: ${balance_amount:.2f} (tier {balance_tier})", file=sys.stderr)
+print(f"[ok] Gateway: {gateway_status}", file=sys.stderr)
+print(f"[ok] Agents: Yoda={data['agents'][0]['status']}, Aria={data['agents'][1]['status']}", file=sys.stderr)
+print(f"[ok] Tech tasks — backlog:{len(tech_bl)} wip:{len(tech_wi)} done:{len(tech_dn)}", file=sys.stderr)
+print(f"[ok] Biz tasks  — backlog:{len(biz_bl)} wip:{len(biz_wi)} done:{len(biz_dn)}", file=sys.stderr)
+print(f"[ok] Governance — shield:{gov['shield']['totalToday']} lex:{gov['lex']['totalToday']} sage:{gov['sage']['totalToday']}", file=sys.stderr)
+print(f"[ok] Activity entries: {len(recent_activity)}", file=sys.stderr)
+print(f"[ok] Cron Health — total:{cron_total} healthy:{cron_healthy} degraded:{cron_degraded} failed:{cron_failed}", file=sys.stderr)
 
 PYEOF
 

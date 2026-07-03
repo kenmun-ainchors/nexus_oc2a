@@ -5,6 +5,9 @@
 # Size: 47K+ chars (reference only, no injection limit applies).
 # TKT-0310/CHG-0454 — Platform Constraints Audit.
 
+### Canvas and External File Write Rule (CHG-0806)
+All file writes by agents, crons, and skills to paths outside `~/.openclaw/workspace/` — including but not limited to `~/.openclaw/canvas/`, `~/.openclaw/tmp/`, and `~` generally — MUST use `scripts/cron-write.sh` or another workspace-mediated mechanism. The native `write` tool is permitted only for paths under `~/.openclaw/workspace/`. This is enforced by `scripts/audit-skill.sh` CHECK 12 / `CANVAS_DIRECT_WRITE`.
+
 # PG WRITE DISCIPLINE — NON-NEGOTIABLE (TKT-0297)
 # Effective: 2026-05-25
 # Authority: Ken Mun (CTO)
