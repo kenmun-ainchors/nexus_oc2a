@@ -27,10 +27,10 @@
 **Change Type:** Normal
 **Source:** ken-prompt
 **Trigger:** Force-run of CREST v1.3 Model Policy Export cron required stale skill reload; script depends on cron session state
-**What changed:** Add explicit 'bash scripts/skill-load.sh pg-sprint-backlog' at the top of scripts/model-policy-export.sh before any PG query, so isolated agentTurn crons are self-contained. Scope limited to scripts/model-policy-export.sh; no cron payload or gateway changes.
+**What changed:** Added canonical skill-load block at the top of scripts/model-policy-export.sh: `bash scripts/skill-load.sh pg-sprint-backlog` before any database operations, with explicit error/exit if load fails. Git commit f913936d.
 **Why:** If the isolated agentTurn cron session hasn't loaded the pg-sprint-backlog skill, the export fails a PG query and relies on retry/reload logic. Self-loading removes the brittle session dependency.
-**Verification:** Manual run: bash scripts/model-policy-export.sh completes without skill-load warnings; cron force-run shows lastRunStatus=ok and state/model-policy.json updated.
-**Rollback:** Revert scripts/model-policy-export.sh to previous git version
+**Verification:** Manual run 2026-07-04 08:30 AEST: bash scripts/model-policy-export.sh loads pg-sprint-backlog skill and exports v1.3.0 to state/model-policy.json (31,496 bytes) without skill-load warnings. bash -n syntax OK.
+**Rollback:** Revert scripts/model-policy-export.sh to previous git version.
 **Linked:** CHG-0818,185e2d40-7d14-40ed-a65b-7f921e60f25f,scripts/model-policy-export.sh
 ---
 
