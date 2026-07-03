@@ -3,10 +3,10 @@
 **Change Type:** Normal
 **Source:** ken-prompt
 **Trigger:** Ken observed exec tool returning empty output or premature 'Command still running' for trivial commands (e.g. sleep 15)
-**What changed:** Open incident/CHG to investigate exec tool output anomalies in main Telegram session and related sessions.
+**What changed:** Opened incident/CHG to investigate exec tool output anomalies. Investigation reproduced the issue; under repeated sleep stress the exec tool, then other tools (read, cron, session_status, memory_search, subagents), began returning empty output. Fresh session recovered briefly for 2–3 calls, then degraded again. Gateway restart on 2026-07-04 ~08:05 AEST restored tool responses.
 **Why:** If exec tool output is silently dropped or misreported, command verification and automation become unreliable. Need root cause and fix before it affects operational commands.
-**Verification:** Initial observation logged; investigation in progress.
-**Rollback:** N/A — investigation. If root cause is session-specific, restart or recreate session.
+**Verification:** Gateway restart verified by Yoda 2026-07-04 08:09 AEST: exec, read, cron, and session_status all returned expected output; SLA cron state healthy (lastRunStatus=ok, consecutiveErrors=0).
+**Rollback:** N/A — investigation. Recovery path is gateway restart or new session if recurrence observed.
 **Linked:** CHG-0814,CHG-0815,CHG-0816,CHG-0817
 ---
 
