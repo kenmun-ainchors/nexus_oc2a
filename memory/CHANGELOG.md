@@ -1,3 +1,123 @@
+## 2026-07-03 21:14 AEST — [CHG-0817] Fix SLA Report cron shell invocation and output path
+**Type:** cron
+**Change Type:** Normal
+**Source:** ken-prompt
+**Trigger:** Ken approved CREST plan CHG-0816/0817 to fix AInchors Monthly SLA Report cron
+**What changed:** Created scripts/sla-report-cron.sh wrapper that computes previous month in AEST and invokes zsh scripts/sla-report.sh YYYY-MM. Updated cron 6a88375e-438e-4adc-a0f8-f7927cc77b90 payload from agentTurn to systemEvent running sla-report-cron.sh. Removed broken instructions referencing literal [PREV_MONTH], /tmp/sla-report.txt, and sovereign-alert.sh --file.
+**Why:** Original agentTurn payload had placeholder arguments and non-existent output paths, requiring an isolated agent to interpret and execute shell commands on Canvas/external paths. Shell wrapper eliminates agentTurn and ensures deterministic report generation in the workspace.
+**Verification:** Manual run: bash scripts/sla-report-cron.sh produces reports/sla-2026-06.md (3493 bytes) and appends to memory/shared/sla-history.md; bash -n syntax OK; cron action=get shows payload.kind=systemEvent; scripts/cron-health-check.sh returns OK.
+**Rollback:** Revert cron payload to previous agentTurn snapshot; delete scripts/sla-report-cron.sh.
+**Linked:** CHG-0806,CHG-0807,CHG-0814,CHG-0815,CHG-0816
+---
+
+## 2026-07-03 21:13 AEST — [CHG-0816] Convert Morning Stand-Up cron to shell-only wrapper using cron-write.sh
+**Type:** script
+**Change Type:** Normal
+**Source:** ken-prompt
+**Trigger:** Ken approved CREST plan CHG-0815 to harden stand-up cron after CHG-0806 Canvas write failure
+**What changed:** Created scripts/generate-standup.sh (shell+Python) that reads state files, builds 8-section stand-up HTML, and pipes through cron-write.sh to ~/.openclaw/canvas/documents/standup-daily/index.html. Updated cron 3c279099-bddb-4ef3-bfea-fc22f342abd8 payload from agentTurn to systemEvent running generate-standup.sh. Patched RULES.md Canvas write rule with hardened cron wrapper pattern.
+**Why:** Isolated agentTurn cron used native write tool for Canvas path, which is blocked by sandbox. Shell wrapper eliminates agentTurn write tools and ensures all Canvas writes route through cron-write.sh.
+**Verification:** Manual run: bash scripts/generate-standup.sh writes 7426 bytes via cron-write.sh; bash -n syntax OK; cron action=get shows payload.kind=systemEvent and lastRunStatus=ok; Canvas file updated.
+**Rollback:** Revert cron payload to previous agentTurn snapshot; delete or disable scripts/generate-standup.sh.
+**Linked:** CHG-0806,CHG-0807,CHG-0814,CHG-0815,CHG-0817
+---
+
+## 2026-07-03 21:13 AEST — [CHG-0815] Disable memory-core dreaming in openclaw.json to prevent managed cron re-enable
+**Type:** config
+**Change Type:** Normal
+**Source:** ken-prompt
+**Trigger:** Memory Dreaming Promotion cron auto-re-enabled after CHG-0814 because memory-core plugin reconciles it
+**What changed:** Set plugins.entries.memory-core.config.dreaming.enabled=false in ~/.openclaw/openclaw.json. Disabled cron 34880aaa-6389-4982-8163-bd00b30fef17 again. Patched scripts/cron-health-check.sh to skip disabled crons.
+**Why:** Without disabling the plugin-level dreaming switch, the managed cron is recreated/re-enabled by the memory-core plugin during reconciliation.
+**Verification:** openclaw.json shows memory-core.config.dreaming.enabled=false; cron action=get shows enabled=false; scripts/cron-health-check.sh returns OK.
+**Rollback:** Set plugins.entries.memory-core.config.dreaming.enabled=true and re-enable cron 34880aaa via cron action=update enabled=true.
+**Linked:** CHG-0814,CHG-0815,CHG-0816
+---
+
+## 2026-07-03 21:09 AEST — [CHG-0814] Disable memory-core dreaming / managed Memory Dreaming Promotion cron
+**Type:** cron
+**Change Type:** Normal
+**Source:** ken-prompt
+**Trigger:** Ken approved CREST plan to disable failing Memory Dreaming Promotion cron
+**What changed:** Disabled cron 34880aaa-6389-4982-8163-bd00b30fef17 (Memory Dreaming Promotion). Captured pre-change payload snapshot to state/cron-disabled-34880aaa.json. No HEARTBEAT.md or RULES.md references required patching.
+**Why:** Repeated isolated-agentTurn timeouts (consecutiveErrors=6); non-critical path; decommissioning stops alert noise and frees cron capacity.
+**Verification:** cron action=get shows enabled=false; scripts/cron-health-check.sh returns OK with no retryable failures; no dead-letter entries tied to the job.
+**Rollback:** Re-enable cron via cron action=update enabled=true using state/cron-disabled-34880aaa.json payload.
+**Linked:** CHG-0806,CHG-0807,CHG-0815,CHG-0816
+---
+
+## 2026-07-03 17:28 AEST — [CHG-0813] [CHG-0812] VERIFIED: Model policy default primary reconciled + Warden fallback-chain bug fixed
+**Type:** config
+**Change Type:** Normal
+**Source:** ken-prompt
+**Trigger:** Forge executed CHG-0812 and Yoda verified 2026-07-03 17:29 AEST.
+**What changed:** (1) Added defaultPolicy section to state/model-policy.json with primary=ollama/kimi-k2.7-code:cloud and fallbacks=[ollama/kimi-k2.6:cloud], matching live ~/.openclaw/openclaw.json agents.defaults.model. (2) Fixed scripts/model-drift-check.sh fallback-chain self-comparison bug: FALLBACK_EXPECTED now derives from model-policy.json defaultPolicy.fallbacks instead of re-encoding FALLBACK_ACTUAL. Updated check_default default primary to derive from defaultPolicy. (3) Cleared stale state/warden-escalation-pending.json (status=resolved, activeViolations=[]). (4) Regenerated state/critical-config-baseline.json snapshot (hash f0c61da..., no drift).
+**Why:** Warden 60-violation escalation was stale (pre-CHG-0805). Live check failed only on default primary mismatch and a spurious fallback-chain self-comparison. Policy now matches intentional CHG-0797 default primary (kimi-k2.7-code:cloud).
+**Verification:** bash .openclaw/tmp/chg-0812-verifier.sh → 6/6 PASS. scripts/model-drift-check.sh → Total: 55 checks | PASS: 55 | FAIL: 0. state/model-drift-violations.json contains empty violations array. state/warden-escalation-pending.json status=resolved. scripts/gateway-config-snapshot.sh --check → DRIFT: none.
+**Rollback:** Restore state/model-policy.json from git; revert scripts/model-drift-check.sh; restore state/warden-escalation-pending.json backup; restore state/critical-config-baseline.json backup.
+**Linked:** CHG-0805,CHG-0797,CHG-0811,state/model-policy.json,scripts/model-drift-check.sh,state/warden-escalation-pending.json
+**Category:** Operations\n---
+
+## 2026-07-03 17:22 AEST — [CHG-0812] [CHG-0812] Model policy: reconcile default primary to kimi-k2.7-code:cloud + fix Warden fallback-chain comparison
+**Type:** config
+**Change Type:** Normal
+**Source:** ken-prompt
+**Trigger:** Ken approved B1 2026-07-03 17:21 AEST: scope the Warden default_primary violation properly instead of minimally reverting config.
+**What changed:** (1) Update state/model-policy.json to set default primary expectation to ollama/kimi-k2.7-code:cloud matching live ~/.openclaw/openclaw.json agents.defaults.model.primary (CHG-0797 intent); update fallback chain expectation to match. (2) Fix scripts/model-drift-check.sh fallback-chain comparison so identical actual/expected lists do not self-compare into a violation. (3) Clear stale state/warden-escalation-pending.json after live check passes. (4) Regenerate state/critical-config-baseline.json configHash if affected.
+**Why:** Warden escalation of 60 violations is stale (pre-CHG-0805); live check only fails on default:primary mismatch and a spurious fallback-chain self-comparison. Policy should match the intentional gateway security default set by CHG-0797.
+**Verification:** To be verified by Yoda after Forge execution: scripts/model-drift-check.sh returns 0 violations; state/model-drift-violations.json empty; state/warden-escalation-pending.json cleared.
+**Rollback:** Restore state/model-policy.json from git; revert scripts/model-drift-check.sh; restore state/warden-escalation-pending.json from backup.
+**Linked:** CHG-0805,CHG-0797,CHG-0811,state/model-policy.json,scripts/model-drift-check.sh,state/warden-escalation-pending.json
+**Category:** Operations\n---
+
+## 2026-07-03 16:59 AEST — [CHG-0811] CHG-0810: Harden main-session systemEvent crons
+**Type:** rule
+**Change Type:** Normal
+**Source:** ken-prompt
+**Trigger:** Ken directive 2026-07-03 16:49 AEST: close CHG-0808 and open new CHG for broader systemEvent cron audit
+**What changed:** Converted 15 Class-A main-targeted systemEvent crons to isolated agentTurn with explicit exec tool instructions, model=deepseek-v4-flash:cloud, timeoutSeconds 120-300, lightContext=true, delivery and failureAlert preserved. Updated 6 Class-B restart/eod crons to explicit exec tool instructions while keeping sessionTarget=main. Created/updated state/cron-noop-detect.json. Evidence at /tmp/chg-0810-evidence/. Rollback at /tmp/chg-0810-cron-backups/.
+**Why:** Main-session systemEvent crons updated lastRunAtMs but often did not execute their payload when main was yielded or busy, causing monitoring/operational blackouts.
+**Verification:** Verifier /Users/ainchorsangiefpl/.openclaw/workspace/.openclaw/tmp/chg-0810-verifier.sh reports PASS (4 passes, 0 failures).
+**Rollback:** Restore each modified cron from /tmp/chg-0810-cron-backups/<id>.json using openclaw cron edit.
+**Linked:** CHG-0808, CHG-0809, c65ace85-c5b0-4e96-ace6-ae925812c09b
+---
+
+## 2026-07-03 16:49 AEST — [CHG-0810] CHG-0809 — Audit and harden main-session systemEvent crons
+**Type:** rule
+**Change Type:** Normal
+**Source:** ken-prompt
+**Trigger:** Ken directive 2026-07-03 16:49 AEST: close CHG-0808 and open new CHG for broader systemEvent cron audit
+**What changed:** Audit all sessionTarget=main systemEvent crons that rely on implicit exec interpretation. Convert at-risk crons to isolated agentTurn with explicit exec tool calls and appropriate timeouts. Add detection/monitoring so silent cron no-ops are surfaced.
+**Why:** Main-session systemEvent crons update lastRunAtMs but may not execute their payload when main is yielded or busy, causing monitoring/operational blackouts.
+**Verification:** To be verified by Yoda after Forge execution: all converted crons show lastDurationMs consistent with actual script execution; expected side-effects (log entries, state file updates) appear within one schedule interval.
+**Rollback:** Restore original cron JSONs from backups and re-enable any disabled monitoring.
+**Linked:** CHG-0808, c65ace85-c5b0-4e96-ace6-ae925812c09b
+---
+
+## 2026-07-03 16:49 AEST — [CHG-0809] CHG-0808 — Post-CHG-0806 platform hygiene complete
+**Type:** config
+**Change Type:** Normal
+**Source:** ken-prompt
+**Trigger:** Ken approved CHG-0808 execution 2026-07-03 14:37 AEST
+**What changed:** Re-baselined state/critical-config-baseline.json (7 entries, expectedHash matches live SHA256). Trimmed MEMORY.md 17,226→8,778 chars with archive. Registered contracts for DREAMS.md and yoda-daily-brief.md. Applied 8 cron timeout recommendations, 0 outstanding; raised 2 short :cloud cron timeouts to >=120s. Fixed health-state staleness by converting health-check cron c65ace85 from main systemEvent to isolated agentTurn with 120s timeout.
+**Why:** Combined hygiene remediation triggered by standup Needs-Ken list and tool-policy recovery.
+**Verification:** bash .openclaw/tmp/chg-0808-verifier.sh → VERDICT PASS (10/10).
+**Rollback:** Restore critical-config-baseline.json.bak, MEMORY.md.bak, file-contracts.json.bak, and original health-check cron JSON.
+**Linked:** CHG-0806
+---
+
+## 2026-07-03 14:53 AEST — [CHG-0808] CHG-0808: Post-CHG-0806 platform hygiene bundle
+**Type:** config
+**Change Type:** Normal
+**Source:** ken-prompt
+**Trigger:** Ken approved CHG-0808 draft on Telegram 2026-07-03 14:30 GMT+10; main-agent tool policy fixed first
+**What changed:** Re-baselined state/critical-config-baseline.json with 7 entries and semantic expectedHash; refreshed health-state.json; trimmed MEMORY.md from 17226 to 8778 chars with archive memory/MEMORY-archive-2026-07-03.md; registered file contracts for DREAMS.md and yoda-daily-brief.md; applied 6 DECREASE + 2 REVIEW cron timeout recommendations; bumped 2 short :cloud cron timeouts (f71f75af to 180s, e08e19ad to 120s); regenerated cron-timeout-baseline.json.
+**Why:** Combined hygiene remediation from standup Needs-Ken list and post-CHG-0806 drift. Prevents config-hash drift, memory overflow, root .md contract violations, and cron timeout victims.
+**Verification:** Yoda verifier .openclaw/tmp/chg-0808-verifier.sh: 9/9 PASS. state/critical-config-baseline.json has 7 entries + expectedHash matches canonical content hash. health-state.json age < 60 min. MEMORY.md 8778 chars. Archive exists. Both root .md files have contracts. 0 outstanding cron timeout recommendations. 0 cloud-model crons with timeoutSeconds < 120.
+**Rollback:** Restore state/critical-config-baseline.json.bak-2026-07-03-1437, MEMORY.md.bak-2026-07-03-1437, state/file-contracts.json.bak-2026-07-03-1437, and cron timeouts from /tmp/crons-2026-07-03-1437.json.
+**Linked:** CHG-0806, CHG-0801, TKT-0341, TKT-0526, TKT-0093
+**Category:** Operations\n---
+
 ## 2026-07-03 09:47 AEST — [CHG-0807] CHG-0806 closure: Canvas/external write controls enforced platform-wide
 **Type:** rule
 **Change Type:** Emergency

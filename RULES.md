@@ -8,6 +8,12 @@
 ### Canvas and External File Write Rule (CHG-0806)
 All file writes by agents, crons, and skills to paths outside `~/.openclaw/workspace/` — including but not limited to `~/.openclaw/canvas/`, `~/.openclaw/tmp/`, and `~` generally — MUST use `scripts/cron-write.sh` or another workspace-mediated mechanism. The native `write` tool is permitted only for paths under `~/.openclaw/workspace/`. This is enforced by `scripts/audit-skill.sh` CHECK 12 / `CANVAS_DIRECT_WRITE`.
 
+**Hardened cron patterns (CHG-0815):**
+- Canvas-generating crons (stand-up, mission-control, email) MUST be implemented as `systemEvent` running a shell wrapper script.
+- The wrapper script generates content in the workspace and pipes it to `scripts/cron-write.sh <target>`.
+- `agentTurn` crons MUST NOT be used for direct Canvas or external file writes.
+- Reference implementation: `scripts/generate-standup.sh` → `~/.openclaw/canvas/documents/standup-daily/index.html`.
+
 # PG WRITE DISCIPLINE — NON-NEGOTIABLE (TKT-0297)
 # Effective: 2026-05-25
 # Authority: Ken Mun (CTO)

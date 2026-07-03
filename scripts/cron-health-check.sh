@@ -57,6 +57,9 @@ try:
         last_error = job.get('state', {}).get('lastError', '')
         if any(pattern in last_error for pattern in EXPECTED_ERROR_PATTERNS):
             continue  # CHG-0458: transient gateway restart error, skip
+        # CHG-0814: skip disabled crons — they are intentionally decommissioned
+        if job.get('enabled') is False:
+            continue
         consecutive = job.get('state', {}).get('consecutiveErrors', 0)
         if consecutive >= 3:
             last_status = job.get('state', {}).get('lastStatus', '')
