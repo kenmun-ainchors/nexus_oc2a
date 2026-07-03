@@ -1,3 +1,55 @@
+## Friday, July 3, 2026 — Business Stream Summary
+_Written 23:45 AEST by Aria cron — verified 2026-07-03T13:45Z_
+
+### Angie interactions today
+- **Angie was active today — significant proposal work.** She engaged in an extended session (`agent:business:telegram:direct:8141152780`) with ~60+ messages, primarily working on the Act 680 proposal for the Malaysian Ministry of Digital.
+- **Act 680 proposal — escalated twice.** Angie asked for:
+  - **First escalation:** A more detailed sales pitch with agentic AI focus and AINCHORS credentials (Saudi Central Bank, Citibank, HSBC, China, Malaysia, Australia, Singapore experience). Aria rewrote the proposal with agentic AI governance framework, use case portfolio, and enhanced credentials.
+  - **Second escalation:** Definitions of G2C/G2B (Government-to-Citizen and Government-to-Business). Aria provided clear definitions.
+- **Research request:** Angie asked whether any government has used Agentic AI for government ID. Aria researched (via web_fetch) and found examples: Estonia (X-Road with AI/rule engine integration), UAE (digital identity + AI agents), Singapore (GovTech AI projects), EU (eIDAS 2.0, digital wallets), India (Aadhaar + AI-driven verification). Aria wove these into the proposal's competitive positioning.
+- **Final outcome:** Angie had the proposal email sent to her (angie.foong@ainchors.com) for review, with instruction she will forward to Dr. Sheila herself. Gmail message ID: `19f26df43d7a4b94`. Total quotation: **MYR 1,550,000**. Deadline: 3 July 2026 (today).
+- **Evidence:** sessions_history for `agent:business:telegram:direct:8141152780` — messages seq 125–224 span today's conversation with Angie's multiple requests and Aria's responses.
+
+### Decisions made
+- **Standup email Day 70 — SENT ✅**: Sent at 08:36 AEST. Message ID: `19f24fa094b4df67`. Canvas size: 21,797 bytes. Evidence: state/standup-email-log.json (dayNumber: 70, status: ok).
+- **Act 680 proposal — escalated and submitted for review ✅**: Enhanced with agentic AI governance framework, AINCHORS international credentials (Saudi Central Bank, Citibank, HSBC, China, Malaysia, Australia, Singapore), G2C/G2B strategy. Email sent to Angie for her final review and forwarding to MDeC. Deadline today.
+- **CHG-0814/0815/0816/0817 committed**: Ken (Yoda) committed `fa72d5ef` — disables memory-core dreaming, converts stand-up and SLA crons to shell wrappers, skips disabled crons in health check. Evidence: git log.
+- **CHG-0818 investigation — deferred**: Ken investigated exec tool output anomalies (empty/no-output for trivial commands). Findings logged in CHANGELOG. Root cause suspected: gateway-side exec handler degradation. Deferred — Ken to restart gateway when convenient. No commit. Evidence: memory/CHANGELOG.md CHG-0818 entries.
+- **CHG-0818 notes uncommitted**: CHANGELOG.md has CHG-0818 investigation notes but they're part of the uncommitted working tree. Git working tree has ~30+ modified files including state files, memory files, and scripts. Evidence: git diff HEAD --stat shows extensive changes.
+
+### Governance reviews (Fri 3 Jul)
+- **Shield 🛡️ — CLEAR**: Daily sweep at ~22:30 AEST. Session `agent:main:cron:cfc40ddb` lastRun=2026-07-03 22:30 AEST. Output: "SHIELD: clear". No pending items.
+- **Lex ⚖️ — CLEAR**: Daily sweep at ~22:35 AEST. Session `agent:main:cron:cfc40ddb` lastRun=2026-07-03 12:30 UTC (22:30 AEST). No pending items. Output: "LEX: clear".
+- **Sage 🧪 — CLEAR**: Daily sweep at ~22:40 AEST. Session `agent:main:cron:cfc40ddb` lastRun=2026-07-03 12:30 UTC (22:30 AEST). No pending items. Output: "SAGE: clear".
+- **Warden Model Compliance — CLEAR**: Session `agent:main:cron:83accf7b` (d9285940). No escalation file — all clean.
+- **Daily Burn Alert — SILENT**: Budget alert state shows status "parked" per CHG-0502. No active alerts. Evidence: state/budget-alert-state.json.
+- **Ollama usage — Weekly**: ~13,194 / 52,150 (25.3%). Session essentially idle (3 session tokens). Evidence: ollama-usage-scraper cron session `bb3575e0` last run at 22:00 AEST.
+- **LinkedIn metrics snapshot**: 17 posts scanned, 246 total reactions, 15 comments. **Error:** LI-W2-P4-VISA-BUSINESS — business account token expired. Evidence: linkedin-metrics-errors.json. LinkedIn campaign stats show `lastResult=no-changes`.
+
+### Open items (verified)
+- **Act 680 proposal — ⏸️ PENDING REVIEW**: Email sent to Angie at 17:25 AEST for review. Not yet confirmed forwarded to Ministry. Deadline today (Fri 3 Jul). Evidence: gog send message_id 19f26df43d7a4b94.
+- **LI-W3-P7 "The rebuild that changed how I work" — ⚠️ MISSED PUBLISH**: status=approved, no postedAt. Scheduled Tue 30 Jun. Still unresolved. Evidence: linkedin-campaign.json.
+- **LI-W3-P8 "What 'context discipline' actually means" — ⚠️ MISSED PUBLISH**: status=approved, no postedAt. Scheduled Wed 1 Jul. Still unresolved. Evidence: linkedin-campaign.json.
+- **LI-W4-P10 — ⏸️ APPROVED, NOT PUBLISHED**: status=approved, no postedAt. Evidence: linkedin-campaign.json.
+- **LI-W2-P4-VISA-BUSINESS — ⚠️ TOKEN EXPIRED**: Business account LinkedIn token expired. Snapshots still reporting error. Re-run: `zsh scripts/linkedin-auth.sh --account business`. Evidence: linkedin-metrics-errors.json.
+- **Ad-hoc LinkedIn post (three hard lessons) — ⏸️ STILL LOCKED/PENDING**: state/adhoc-content-state.json status `locked_in_pending_publish`, locked since Jun 25 (8 days). Evidence: read of state file.
+- **Ken training confirmation (MSG-20260601-001) — ⏸️ STILL OPEN**: 33 days stale. relay-to-ken.json `sent: true`, `deliveredAt: 2026-06-01`. No response from Ken. Evidence: relay-to-ken.json.
+- **Google Calendar auth (relay-20260603-001) — ⏸️ STILL BROKEN**: 31 days stale. relay-to-ken.json `sent: false`. No progress.
+- **Onboarding OB-PM-03 — ⏸️ STALLED**: Still unresolved. No business-stream-open-items.json exists. Angie had no onboarding-related messages today.
+- **BS-001 (JotForm/HRDF) and BS-002 (Lynn Huang/Finance) — ⏸️ STALLED**: No business-stream-open-items.json exists. Cannot queue until Angie re-engages on business stream setup.
+- **CHG-0818 exec tool investigation — ⏸️ INVESTIGATION DEFERRED**: Ken noted exec tool returning empty output for trivial commands. Root cause suspected gateway-side. Requires gateway restart. Evidence: memory/CHANGELOG.md.
+- **Git working tree dirty — ⚠️**: ~30+ modified files uncommitted (including CHG-0818 notes, memory files, state updates). Evidence: git diff HEAD --stat.
+
+### Handoff to Yoda
+- **🔴 ACT 680 PROPOSAL — Angie has the email for review.** Deadline is TODAY. If she hasn't forwarded to Dr. Sheila yet, she may reach out tonight or early tomorrow morning (MDeC may accept Mon if today's submission slips — unknown). Keep an eye on the Aria Telegram channel.
+- **🔴 LinkedIn publish cron still broken.** LI-W3-P7 (scheduled 30 Jun), LI-W3-P8 (scheduled 1 Jul), and now LI-W4-P10 (status=approved, no postedAt) are all in limbo. Publish pipeline appears to be silently failing. Also, LI-W2-P4 business token expired needs re-auth.
+- **🔴 Exec tool degradation (CHG-0818) — uncommitted.** Ken's investigation notes are in the working tree but not committed. If gateway hasn't been restarted since 22:33 AEST, the issue may still be present. CHG-0814/0815/0816/0817 are committed as `fa72d5ef`.
+- **🔴 Git working tree is dirty.** 30+ files modified, including CHG-0818 notes, memory/*, state updates, and script changes. Needs a commit. Ken mentioned this as a to-do after gateway restart.
+- **Angie is now active again** (after 9 days of silence, last spoke 24 Jun). Today was all Act 680 proposal prep. She's hands-on with documents and engaged — good sign for re-engagement on onboarding/backlog items soon.
+- **Ad-hoc LinkedIn post still pending (8 days).** Ken deferred on Jun 25; no decision since.
+- **Standup Day 70 sent OK.** Day 71 due Sat 4 Jul 08:15 AEST (weekend delivery — check schedule).
+- **Day 69 blog post drafted**: `f8aa25e5` — docs: Day 69 blog post (ainchors-2026-07-02) [Shield:CLEAR Lex:CONDITIONAL Sage:CONDITIONAL]. Needs Yoda's review + governance approval before publishing.
+
 ## Wednesday, July 1, 2026 — Business Stream Summary
 _Written 23:45 AEST by Aria cron — verified 2026-07-01T13:45Z_
 
