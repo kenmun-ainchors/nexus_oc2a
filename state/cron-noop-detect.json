@@ -1,0 +1,31 @@
+{
+  "schema": "cron-noop-detect.v1",
+  "generatedAt": "2026-07-03T16:55:00+10:00",
+  "description": "CHG-0810: Soverign-state conversion of 15 Class-A main systemEvent crons to isolated agentTurn with explicit exec tool instructions. 6 Class-B restart/eod crons remain in main but with explicit exec text. State reflects post-conversion reality.",
+  "converted_to_isolated": [
+    {"id": "d32f2b9a-6caa-4878-8de6-93a0bd1eb03e", "name": "AInchors Mission Control Refresh", "sessionTarget": "isolated", "payload": "agentTurn"},
+    {"id": "637ecb12-eae2-4c16-b174-8acdaa2729cc", "name": "AInchors Task Monitor", "sessionTarget": "isolated", "payload": "agentTurn"},
+    {"id": "d3b1e203-741b-444a-9852-7bb8839d2c99", "name": "AInchors Observability Collector", "sessionTarget": "isolated", "payload": "agentTurn"},
+    {"id": "83accf7b-c3e5-4f0a-9a0c-d67d74ffff01", "name": "Warden — Model Compliance Check", "sessionTarget": "isolated", "payload": "agentTurn"},
+    {"id": "065bd5a9-2888-41ca-bc0e-7771f2dfa565", "name": "AInchors Post-Deliverable Validation", "sessionTarget": "isolated", "payload": "agentTurn"},
+    {"id": "68bf32c0-ad24-4796-9308-4f41427f1f91", "name": "obs-collect-heartbeat", "sessionTarget": "isolated", "payload": "agentTurn"},
+    {"id": "9ce7f295-98b1-487b-97a1-60a80cb0209e", "name": "TZ Drift Monitor", "sessionTarget": "isolated", "payload": "agentTurn"},
+    {"id": "a1ce9946-43c1-4100-a745-c9c6a0320c30", "name": "TKT-0343-daily-config-snapshot", "sessionTarget": "isolated", "payload": "agentTurn"},
+    {"id": "516135b9-2c17-4cbd-ac93-2113405e3743", "name": "Daily Stale Task Cleanup", "sessionTarget": "isolated", "payload": "agentTurn"},
+    {"id": "6f7cfa99-a174-4b76-beed-d6c3b27676d7", "name": "Model Context Sync (nightly)", "sessionTarget": "isolated", "payload": "agentTurn"},
+    {"id": "dce1ada4-8012-4ab9-bd13-2da68ae0c9bb", "name": "AKB Holocron — Daily Update", "sessionTarget": "isolated", "payload": "agentTurn"},
+    {"id": "80c9226b-eb86-4c40-a291-8ff3a505e775", "name": "AInchors Daily Backup", "sessionTarget": "isolated", "payload": "agentTurn"},
+    {"id": "fea4300b-c045-4939-b829-d06c325eeda8", "name": "AInchors Stand-up Email Delivery", "sessionTarget": "isolated", "payload": "agentTurn"},
+    {"id": "c5debd26-fb07-4b36-a904-86c9bc95625a", "name": "AInchors Midday Cost Tracker", "sessionTarget": "isolated", "payload": "agentTurn"},
+    {"id": "6a88375e-438e-4adc-a0f8-f7927cc77b90", "name": "AInchors Monthly SLA Report", "sessionTarget": "isolated", "payload": "agentTurn"}
+  ],
+  "kept_main_with_exec_text": [
+    {"id": "7d362d91-4d61-4028-9c01-066e2b0dc876", "name": "Yoda → Aria daily context sync", "reason": "main session context required; text updated to require exec tool"},
+    {"id": "4d926b2c-3551-4324-aa9b-81fcaf26ca75", "name": "AInchors Daily Close — Journal", "reason": "main session EOD close; text updated to require exec tool"},
+    {"id": "c5a3911d-d06f-453f-882b-caf64dbfd699", "name": "Drive sync — journal, blog, memory, docs", "reason": "main session required; text updated to require exec tool"},
+    {"id": "20f59555-781a-4863-a8bf-c90a088317d4", "name": "Nightly Gateway Restart", "reason": "gateway restart semantics; text updated to require exec tool"},
+    {"id": "d94ad8bb-513c-4569-8720-f5ed2a73cb04", "name": "Nightly Gateway Restart Verify", "reason": "post-restart verification; text updated to require exec tool"},
+    {"id": "7ac14f60-f7aa-4a80-9368-466616b2e144", "name": "Weekly Gateway Restart", "reason": "gateway restart semantics; text updated to require exec tool"}
+  ],
+  "method": "CHG-0810: main systemEvent crons with implicit bash/zsh instructions converted to isolated agentTurn with explicit 'Use the exec tool to run' instructions. Restart/eod crons kept in main but with explicit exec tool instructions in systemEvent text."
+}

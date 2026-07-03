@@ -1,9 +1,9 @@
 {
   "schema_version": "3.0",
   "description": "PERMANENT model policy for all AInchors agents. Warden enforces this. Changes require Ken approval + CHG entry + baseline update.",
-  "lastUpdated": "2026-07-02T13:48:00+0000",
-  "lastApprovedBy": "Ken Mun (CHG-0805, 2026-07-02 23:48 AEST)",
-  "approvalContext": "CHG-0805: Add CREST v1.3 delivery role to eliminate Warden violations for ahsoka/luthen/biz-process/change-mgt (ollama/deepseek-v4-pro:cloud). Replaces temporary business_process role from CHG-0804.",
+  "lastUpdated": "2026-07-03T07:22:00+0000",
+  "lastApprovedBy": "Ken Mun (CHG-0812, 2026-07-03 17:22 AEST)",
+  "approvalContext": "CHG-0812: Add defaultPolicy section reconciling Warden default primary expectation with live openclaw.json agents.defaults.model.primary (ollama/kimi-k2.7-code:cloud). Fix fallback-chain self-comparison bug in model-drift-check.sh. Clear stale Warden escalation.",
   "permanent": true,
   "interimPeriod": false,
   "globalAllowedModels": [
@@ -375,8 +375,8 @@
     "process": "1. Ken approval in webchat/Telegram. 2. Update this file. 3. Update critical-config-baseline.json. 4. Log CHG entry. 5. Update MEMORY.md.",
     "approvalKeyword": "POLICY CHANGE APPROVED"
   },
-  "baselineTimestamp": "2026-07-02T13:31:55+0000",
-  "baselineCHG": "CHG-0804",
+  "baselineTimestamp": "2026-07-03T07:22:00+0000",
+  "baselineCHG": "CHG-0812",
   "crestPhaseModelMap": {
     "description": "CREST v1.2 legacy overview. CREST v1.3 uses PG state_model_policy.crest_phase_rules as SSOT. Per CHG-0690, yoda_master and business Plan/Replan now use ollama/kimi-k2.7-code:cloud as primary.",
     "phaseModels": {
@@ -893,5 +893,13 @@
     ]
   },
   "_note_crest_v13": "CREST v1.3 capability-based routing. PG state_model_policy is SSOT. This section is auto-generated nightly.",
-  "_note_agentTiers_v13": "agentTiers aligned to CREST v1.3: primary = Execute/Synthesize phase model (deepseek-v4-flash for most roles). PG state_model_policy.crest_phase_rules is SSOT."
+  "_note_agentTiers_v13": "agentTiers aligned to CREST v1.3: primary = Execute/Synthesize phase model (deepseek-v4-flash for most roles). PG state_model_policy.crest_phase_rules is SSOT.",
+  "defaultPolicy": {
+    "description": "Default model expectation for agents without explicit tier assignment. Matches ~/.openclaw/openclaw.json agents.defaults.model.",
+    "primary": "ollama/kimi-k2.7-code:cloud",
+    "fallbacks": [
+      "ollama/kimi-k2.6:cloud"
+    ],
+    "rationale": "CHG-0812: Reconcile to live openclaw.json default primary. Warden compares against this for default.* checks."
+  }
 }

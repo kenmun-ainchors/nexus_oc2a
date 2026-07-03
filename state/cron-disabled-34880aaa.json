@@ -1,0 +1,74 @@
+{
+  "id": "34880aaa-6389-4982-8163-bd00b30fef17",
+  "name": "Memory Dreaming Promotion",
+  "description": "[managed-by=memory-core.short-term-promotion] Promote weighted short-term recalls into MEMORY.md (limit=10, minScore=0.800, minRecallCount=3, minUniqueQueries=3, recencyHalfLifeDays=14, maxAgeDays=30).",
+  "enabled": true,
+  "createdAtMs": 1782152303114,
+  "updatedAtMs": 1783038889834,
+  "schedule": {
+    "kind": "cron",
+    "expr": "0 3 * * *"
+  },
+  "sessionTarget": "isolated",
+  "wakeMode": "now",
+  "payload": {
+    "kind": "agentTurn",
+    "message": "__openclaw_memory_core_short_term_promotion_dream__",
+    "timeoutSeconds": 1200,
+    "lightContext": true,
+    "toolsAllow": [
+      "read",
+      "edit",
+      "write",
+      "apply_patch",
+      "exec",
+      "process",
+      "cron",
+      "get_goal",
+      "create_goal",
+      "update_goal",
+      "skill_workshop",
+      "update_plan",
+      "sessions_list",
+      "sessions_history",
+      "sessions_send",
+      "sessions_spawn",
+      "sessions_yield",
+      "subagents",
+      "session_status",
+      "web_search",
+      "web_fetch",
+      "memory_search",
+      "memory_get"
+    ]
+  },
+  "delivery": {
+    "mode": "none"
+  },
+  "state": {
+    "nextRunAtMs": 1783098000000,
+    "lastRunAtMs": 1783011600045,
+    "lastRunStatus": "error",
+    "lastStatus": "error",
+    "lastDurationMs": 1038316,
+    "lastDeliveryStatus": "not-requested",
+    "lastFailureNotificationDeliveryStatus": "not-requested",
+    "consecutiveErrors": 6,
+    "consecutiveSkipped": 0,
+    "lastDiagnostics": {
+      "summary": "cron: job execution timed out (last phase: before-agent-reply)",
+      "entries": [
+        {
+          "ts": 1783012638361,
+          "source": "cron-setup",
+          "severity": "error",
+          "message": "cron: job execution timed out (last phase: before-agent-reply)"
+        }
+      ]
+    },
+    "lastDiagnosticSummary": "cron: job execution timed out (last phase: before-agent-reply)",
+    "lastErrorReason": "timeout",
+    "lastError": "cron: job execution timed out (last phase: before-agent-reply)"
+  },
+  "status": "error"
+}

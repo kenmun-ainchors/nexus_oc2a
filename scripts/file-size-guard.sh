@@ -120,6 +120,8 @@ CRITICAL_FILES=(
   "$WORKSPACE/USER.md"
   "$WORKSPACE/IDENTITY.md"
   "$WORKSPACE/TOOLS.md"
+  "$WORKSPACE/DREAMS.md"
+  "$WORKSPACE/yoda-daily-brief.md"
 )
 
 if [[ "$MODE" == "check" ]]; then
@@ -183,10 +185,13 @@ elif [[ "$MODE" == "root" ]]; then
       [[ "$f" == "$t" ]] && tracked=1 && break
     done
     [[ "$bname" == "RULES.md" ]] && tracked=2  # explicitly exempted — not injected, doesn't count toward cap
+    [[ "$bname" == "DREAMS.md" ]] && tracked=2  # exempt — non-injected dreaming scratchpad
+    [[ "$bname" == "yoda-daily-brief.md" ]] && tracked=2  # exempt — non-injected daily brief
     if [[ $tracked -eq 0 ]]; then
       [[ -n "$untracked" ]] && untracked+=", "
       untracked+="$bname"
     fi
+    [[ "$bname" == "DREAMS.md" ]] && tracked=2  # exempt — non-injected dreaming scratchpad
     # RULES.md is exempt from cap (not injected, on-demand reference)
     if [[ $tracked -ne 2 ]]; then
       total_root_md=$((total_root_md + size))

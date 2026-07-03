@@ -1,0 +1,704 @@
+{
+  "escalatedAt": "2026-07-03T07:07:13.653011+00:00",
+  "status": "pending-yoda-action",
+  "activeViolations": [
+    {
+      "agentId": "biz-process",
+      "expected": "ollama/kimi-k2.7-code:cloud",
+      "actual": "ollama/deepseek-v4-pro:cloud",
+      "severity": "VIOLATION",
+      "note": "Agent model does not match tier primary. Check model-policy.json agentTiers (v1.2 compat) and crest_v13.phase_rules (v1.3 PG SSOT).",
+      "detectedAt": "2026-07-02T23:33:28+10:00",
+      "id": "DRIFT-20260702133328-biz-process",
+      "status": "unresolved",
+      "escalatedToYoda": false
+    },
+    {
+      "agentId": "change-mgt",
+      "expected": "ollama/kimi-k2.7-code:cloud",
+      "actual": "ollama/deepseek-v4-pro:cloud",
+      "severity": "VIOLATION",
+      "note": "Agent model does not match tier primary. Check model-policy.json agentTiers (v1.2 compat) and crest_v13.phase_rules (v1.3 PG SSOT).",
+      "detectedAt": "2026-07-02T23:33:28+10:00",
+      "id": "DRIFT-20260702133328-change-mgt",
+      "status": "unresolved",
+      "escalatedToYoda": false
+    },
+    {
+      "agentId": "ahsoka",
+      "expected": "ollama/kimi-k2.7-code:cloud",
+      "actual": "ollama/deepseek-v4-pro:cloud",
+      "severity": "VIOLATION",
+      "note": "Agent model does not match tier primary. Check model-policy.json agentTiers (v1.2 compat) and crest_v13.phase_rules (v1.3 PG SSOT).",
+      "detectedAt": "2026-07-02T23:33:28+10:00",
+      "id": "DRIFT-20260702133328-ahsoka",
+      "status": "unresolved",
+      "escalatedToYoda": false
+    },
+    {
+      "agentId": "luthen",
+      "expected": "ollama/kimi-k2.7-code:cloud",
+      "actual": "ollama/deepseek-v4-pro:cloud",
+      "severity": "VIOLATION",
+      "note": "Agent model does not match tier primary. Check model-policy.json agentTiers (v1.2 compat) and crest_v13.phase_rules (v1.3 PG SSOT).",
+      "detectedAt": "2026-07-02T23:33:28+10:00",
+      "id": "DRIFT-20260702133328-luthen",
+      "status": "unresolved",
+      "escalatedToYoda": false
+    },
+    {
+      "agentId": "biz-process",
+      "expected": "ollama/kimi-k2.7-code:cloud",
+      "actual": "ollama/deepseek-v4-pro:cloud",
+      "severity": "CREST_V13_DRIFT",
+      "note": "Agent model does not match CREST v1.3 phase_rules for role=business_process phase=Execute. PG state_model_policy.crest_phase_rules is SSOT. Check model-policy.json crest_v13.phase_rules.",
+      "detectedAt": "2026-07-02T23:33:28+10:00",
+      "id": "DRIFT-20260702133328-biz-process",
+      "status": "unresolved",
+      "escalatedToYoda": false
+    },
+    {
+      "agentId": "change-mgt",
+      "expected": "ollama/kimi-k2.7-code:cloud",
+      "actual": "ollama/deepseek-v4-pro:cloud",
+      "severity": "CREST_V13_DRIFT",
+      "note": "Agent model does not match CREST v1.3 phase_rules for role=business_process phase=Execute. PG state_model_policy.crest_phase_rules is SSOT. Check model-policy.json crest_v13.phase_rules.",
+      "detectedAt": "2026-07-02T23:33:28+10:00",
+      "id": "DRIFT-20260702133328-change-mgt",
+      "status": "unresolved",
+      "escalatedToYoda": false
+    },
+    {
+      "agentId": "ahsoka",
+      "expected": "ollama/kimi-k2.7-code:cloud",
+      "actual": "ollama/deepseek-v4-pro:cloud",
+      "severity": "CREST_V13_DRIFT",
+      "note": "Agent model does not match CREST v1.3 phase_rules for role=business phase=Synthesize. PG state_model_policy.crest_phase_rules is SSOT. Check model-policy.json crest_v13.phase_rules.",
+      "detectedAt": "2026-07-02T23:33:28+10:00",
+      "id": "DRIFT-20260702133328-ahsoka",
+      "status": "unresolved",
+      "escalatedToYoda": false
+    },
+    {
+      "agentId": "luthen",
+      "expected": "ollama/kimi-k2.7-code:cloud",
+      "actual": "ollama/deepseek-v4-pro:cloud",
+      "severity": "CREST_V13_DRIFT",
+      "note": "Agent model does not match CREST v1.3 phase_rules for role=business phase=Synthesize. PG state_model_policy.crest_phase_rules is SSOT. Check model-policy.json crest_v13.phase_rules.",
+      "detectedAt": "2026-07-02T23:33:28+10:00",
+      "id": "DRIFT-20260702133328-luthen",
+      "status": "unresolved",
+      "escalatedToYoda": false
+    },
+    {
+      "agentId": "biz-process",
+      "expected": "ollama/kimi-k2.7-code:cloud",
+      "actual": "ollama/deepseek-v4-pro:cloud",
+      "severity": "VIOLATION",
+      "note": "Agent model does not match tier primary. Check model-policy.json agentTiers (v1.2 compat) and crest_v13.phase_rules (v1.3 PG SSOT).",
+      "detectedAt": "2026-07-02T23:34:03+10:00",
+      "id": "DRIFT-20260702133403-biz-process",
+      "status": "unresolved",
+      "escalatedToYoda": false
+    },
+    {
+      "agentId": "change-mgt",
+      "expected": "ollama/kimi-k2.7-code:cloud",
+      "actual": "ollama/deepseek-v4-pro:cloud",
+      "severity": "VIOLATION",
+      "note": "Agent model does not match tier primary. Check model-policy.json agentTiers (v1.2 compat) and crest_v13.phase_rules (v1.3 PG SSOT).",
+      "detectedAt": "2026-07-02T23:34:03+10:00",
+      "id": "DRIFT-20260702133403-change-mgt",
+      "status": "unresolved",
+      "escalatedToYoda": false
+    },
+    {
+      "agentId": "ahsoka",
+      "expected": "ollama/kimi-k2.7-code:cloud",
+      "actual": "ollama/deepseek-v4-pro:cloud",
+      "severity": "VIOLATION",
+      "note": "Agent model does not match tier primary. Check model-policy.json agentTiers (v1.2 compat) and crest_v13.phase_rules (v1.3 PG SSOT).",
+      "detectedAt": "2026-07-02T23:34:03+10:00",
+      "id": "DRIFT-20260702133403-ahsoka",
+      "status": "unresolved",
+      "escalatedToYoda": false
+    },
+    {
+      "agentId": "luthen",
+      "expected": "ollama/kimi-k2.7-code:cloud",
+      "actual": "ollama/deepseek-v4-pro:cloud",
+      "severity": "VIOLATION",
+      "note": "Agent model does not match tier primary. Check model-policy.json agentTiers (v1.2 compat) and crest_v13.phase_rules (v1.3 PG SSOT).",
+      "detectedAt": "2026-07-02T23:34:03+10:00",
+      "id": "DRIFT-20260702133403-luthen",
+      "status": "unresolved",
+      "escalatedToYoda": false
+    },
+    {
+      "agentId": "biz-process",
+      "expected": "ollama/kimi-k2.7-code:cloud",
+      "actual": "ollama/deepseek-v4-pro:cloud",
+      "severity": "CREST_V13_DRIFT",
+      "note": "Agent model does not match CREST v1.3 phase_rules for role=business_process phase=Execute. PG state_model_policy.crest_phase_rules is SSOT. Check model-policy.json crest_v13.phase_rules.",
+      "detectedAt": "2026-07-02T23:34:03+10:00",
+      "id": "DRIFT-20260702133403-biz-process",
+      "status": "unresolved",
+      "escalatedToYoda": false
+    },
+    {
+      "agentId": "change-mgt",
+      "expected": "ollama/kimi-k2.7-code:cloud",
+      "actual": "ollama/deepseek-v4-pro:cloud",
+      "severity": "CREST_V13_DRIFT",
+      "note": "Agent model does not match CREST v1.3 phase_rules for role=business_process phase=Execute. PG state_model_policy.crest_phase_rules is SSOT. Check model-policy.json crest_v13.phase_rules.",
+      "detectedAt": "2026-07-02T23:34:03+10:00",
+      "id": "DRIFT-20260702133403-change-mgt",
+      "status": "unresolved",
+      "escalatedToYoda": false
+    },
+    {
+      "agentId": "ahsoka",
+      "expected": "ollama/kimi-k2.7-code:cloud",
+      "actual": "ollama/deepseek-v4-pro:cloud",
+      "severity": "CREST_V13_DRIFT",
+      "note": "Agent model does not match CREST v1.3 phase_rules for role=business phase=Synthesize. PG state_model_policy.crest_phase_rules is SSOT. Check model-policy.json crest_v13.phase_rules.",
+      "detectedAt": "2026-07-02T23:34:03+10:00",
+      "id": "DRIFT-20260702133403-ahsoka",
+      "status": "unresolved",
+      "escalatedToYoda": false
+    },
+    {
+      "agentId": "luthen",
+      "expected": "ollama/kimi-k2.7-code:cloud",
+      "actual": "ollama/deepseek-v4-pro:cloud",
+      "severity": "CREST_V13_DRIFT",
+      "note": "Agent model does not match CREST v1.3 phase_rules for role=business phase=Synthesize. PG state_model_policy.crest_phase_rules is SSOT. Check model-policy.json crest_v13.phase_rules.",
+      "detectedAt": "2026-07-02T23:34:03+10:00",
+      "id": "DRIFT-20260702133403-luthen",
+      "status": "unresolved",
+      "escalatedToYoda": false
+    },
+    {
+      "agentId": "biz-process",
+      "expected": "ollama/deepseek-v4-flash:cloud",
+      "actual": "ollama/deepseek-v4-pro:cloud",
+      "severity": "VIOLATION",
+      "note": "Agent model does not match tier primary. Check model-policy.json agentTiers (v1.2 compat) and crest_v13.phase_rules (v1.3 PG SSOT).",
+      "detectedAt": "2026-07-02T23:36:01+10:00",
+      "id": "DRIFT-20260702133601-biz-process",
+      "status": "unresolved",
+      "escalatedToYoda": false
+    },
+    {
+      "agentId": "change-mgt",
+      "expected": "ollama/deepseek-v4-flash:cloud",
+      "actual": "ollama/deepseek-v4-pro:cloud",
+      "severity": "VIOLATION",
+      "note": "Agent model does not match tier primary. Check model-policy.json agentTiers (v1.2 compat) and crest_v13.phase_rules (v1.3 PG SSOT).",
+      "detectedAt": "2026-07-02T23:36:01+10:00",
+      "id": "DRIFT-20260702133601-change-mgt",
+      "status": "unresolved",
+      "escalatedToYoda": false
+    },
+    {
+      "agentId": "ahsoka",
+      "expected": "ollama/kimi-k2.7-code:cloud",
+      "actual": "ollama/deepseek-v4-pro:cloud",
+      "severity": "VIOLATION",
+      "note": "Agent model does not match tier primary. Check model-policy.json agentTiers (v1.2 compat) and crest_v13.phase_rules (v1.3 PG SSOT).",
+      "detectedAt": "2026-07-02T23:36:01+10:00",
+      "id": "DRIFT-20260702133601-ahsoka",
+      "status": "unresolved",
+      "escalatedToYoda": false
+    },
+    {
+      "agentId": "luthen",
+      "expected": "ollama/kimi-k2.7-code:cloud",
+      "actual": "ollama/deepseek-v4-pro:cloud",
+      "severity": "VIOLATION",
+      "note": "Agent model does not match tier primary. Check model-policy.json agentTiers (v1.2 compat) and crest_v13.phase_rules (v1.3 PG SSOT).",
+      "detectedAt": "2026-07-02T23:36:01+10:00",
+      "id": "DRIFT-20260702133601-luthen",
+      "status": "unresolved",
+      "escalatedToYoda": false
+    },
+    {
+      "agentId": "biz-process",
+      "expected": "ollama/deepseek-v4-flash:cloud",
+      "actual": "ollama/deepseek-v4-pro:cloud",
+      "severity": "CREST_V13_DRIFT",
+      "note": "Agent model does not match CREST v1.3 phase_rules for role=design_backend phase=Synthesize. PG state_model_policy.crest_phase_rules is SSOT. Check model-policy.json crest_v13.phase_rules.",
+      "detectedAt": "2026-07-02T23:36:01+10:00",
+      "id": "DRIFT-20260702133601-biz-process",
+      "status": "unresolved",
+      "escalatedToYoda": false
+    },
+    {
+      "agentId": "change-mgt",
+      "expected": "ollama/deepseek-v4-flash:cloud",
+      "actual": "ollama/deepseek-v4-pro:cloud",
+      "severity": "CREST_V13_DRIFT",
+      "note": "Agent model does not match CREST v1.3 phase_rules for role=design_backend phase=Synthesize. PG state_model_policy.crest_phase_rules is SSOT. Check model-policy.json crest_v13.phase_rules.",
+      "detectedAt": "2026-07-02T23:36:01+10:00",
+      "id": "DRIFT-20260702133601-change-mgt",
+      "status": "unresolved",
+      "escalatedToYoda": false
+    },
+    {
+      "agentId": "ahsoka",
+      "expected": "ollama/kimi-k2.7-code:cloud",
+      "actual": "ollama/deepseek-v4-pro:cloud",
+      "severity": "CREST_V13_DRIFT",
+      "note": "Agent model does not match CREST v1.3 phase_rules for role=business phase=Synthesize. PG state_model_policy.crest_phase_rules is SSOT. Check model-policy.json crest_v13.phase_rules.",
+      "detectedAt": "2026-07-02T23:36:01+10:00",
+      "id": "DRIFT-20260702133601-ahsoka",
+      "status": "unresolved",
+      "escalatedToYoda": false
+    },
+    {
+      "agentId": "luthen",
+      "expected": "ollama/kimi-k2.7-code:cloud",
+      "actual": "ollama/deepseek-v4-pro:cloud",
+      "severity": "CREST_V13_DRIFT",
+      "note": "Agent model does not match CREST v1.3 phase_rules for role=business phase=Synthesize. PG state_model_policy.crest_phase_rules is SSOT. Check model-policy.json crest_v13.phase_rules.",
+      "detectedAt": "2026-07-02T23:36:01+10:00",
+      "id": "DRIFT-20260702133601-luthen",
+      "status": "unresolved",
+      "escalatedToYoda": false
+    },
+    {
+      "agentId": "default.primary",
+      "expected": "ollama/gemma4:31b-cloud",
+      "actual": "ollama/kimi-k2.7-code:cloud",
+      "severity": "VIOLATION",
+      "note": "",
+      "detectedAt": "2026-07-02T23:36:01+10:00",
+      "id": "DRIFT-20260702133601-default_primary",
+      "status": "unresolved",
+      "escalatedToYoda": false
+    },
+    {
+      "agentId": "default.fallbacks",
+      "expected": [
+        "ollama/kimi-k2.6:cloud"
+      ],
+      "actual": [
+        "ollama/kimi-k2.6:cloud"
+      ],
+      "severity": "VIOLATION",
+      "note": "Fallback chain drift breaks resilient outage handling.",
+      "detectedAt": "2026-07-02T23:36:01+10:00",
+      "id": "DRIFT-20260702133601-default_fallbacks",
+      "status": "unresolved",
+      "escalatedToYoda": false
+    },
+    {
+      "agentId": "biz-process",
+      "expected": "ollama/deepseek-v4-flash:cloud",
+      "actual": "ollama/deepseek-v4-pro:cloud",
+      "severity": "VIOLATION",
+      "note": "Agent model does not match tier primary. Check model-policy.json agentTiers (v1.2 compat) and crest_v13.phase_rules (v1.3 PG SSOT).",
+      "detectedAt": "2026-07-02T23:36:18+10:00",
+      "id": "DRIFT-20260702133618-biz-process",
+      "status": "unresolved",
+      "escalatedToYoda": false
+    },
+    {
+      "agentId": "change-mgt",
+      "expected": "ollama/deepseek-v4-flash:cloud",
+      "actual": "ollama/deepseek-v4-pro:cloud",
+      "severity": "VIOLATION",
+      "note": "Agent model does not match tier primary. Check model-policy.json agentTiers (v1.2 compat) and crest_v13.phase_rules (v1.3 PG SSOT).",
+      "detectedAt": "2026-07-02T23:36:18+10:00",
+      "id": "DRIFT-20260702133618-change-mgt",
+      "status": "unresolved",
+      "escalatedToYoda": false
+    },
+    {
+      "agentId": "ahsoka",
+      "expected": "ollama/kimi-k2.7-code:cloud",
+      "actual": "ollama/deepseek-v4-pro:cloud",
+      "severity": "VIOLATION",
+      "note": "Agent model does not match tier primary. Check model-policy.json agentTiers (v1.2 compat) and crest_v13.phase_rules (v1.3 PG SSOT).",
+      "detectedAt": "2026-07-02T23:36:18+10:00",
+      "id": "DRIFT-20260702133618-ahsoka",
+      "status": "unresolved",
+      "escalatedToYoda": false
+    },
+    {
+      "agentId": "luthen",
+      "expected": "ollama/kimi-k2.7-code:cloud",
+      "actual": "ollama/deepseek-v4-pro:cloud",
+      "severity": "VIOLATION",
+      "note": "Agent model does not match tier primary. Check model-policy.json agentTiers (v1.2 compat) and crest_v13.phase_rules (v1.3 PG SSOT).",
+      "detectedAt": "2026-07-02T23:36:18+10:00",
+      "id": "DRIFT-20260702133618-luthen",
+      "status": "unresolved",
+      "escalatedToYoda": false
+    },
+    {
+      "agentId": "biz-process",
+      "expected": "ollama/deepseek-v4-flash:cloud",
+      "actual": "ollama/deepseek-v4-pro:cloud",
+      "severity": "CREST_V13_DRIFT",
+      "note": "Agent model does not match CREST v1.3 phase_rules for role=design_backend phase=Synthesize. PG state_model_policy.crest_phase_rules is SSOT. Check model-policy.json crest_v13.phase_rules.",
+      "detectedAt": "2026-07-02T23:36:18+10:00",
+      "id": "DRIFT-20260702133618-biz-process",
+      "status": "unresolved",
+      "escalatedToYoda": false
+    },
+    {
+      "agentId": "change-mgt",
+      "expected": "ollama/deepseek-v4-flash:cloud",
+      "actual": "ollama/deepseek-v4-pro:cloud",
+      "severity": "CREST_V13_DRIFT",
+      "note": "Agent model does not match CREST v1.3 phase_rules for role=design_backend phase=Synthesize. PG state_model_policy.crest_phase_rules is SSOT. Check model-policy.json crest_v13.phase_rules.",
+      "detectedAt": "2026-07-02T23:36:18+10:00",
+      "id": "DRIFT-20260702133618-change-mgt",
+      "status": "unresolved",
+      "escalatedToYoda": false
+    },
+    {
+      "agentId": "ahsoka",
+      "expected": "ollama/kimi-k2.7-code:cloud",
+      "actual": "ollama/deepseek-v4-pro:cloud",
+      "severity": "CREST_V13_DRIFT",
+      "note": "Agent model does not match CREST v1.3 phase_rules for role=business phase=Synthesize. PG state_model_policy.crest_phase_rules is SSOT. Check model-policy.json crest_v13.phase_rules.",
+      "detectedAt": "2026-07-02T23:36:18+10:00",
+      "id": "DRIFT-20260702133618-ahsoka",
+      "status": "unresolved",
+      "escalatedToYoda": false
+    },
+    {
+      "agentId": "luthen",
+      "expected": "ollama/kimi-k2.7-code:cloud",
+      "actual": "ollama/deepseek-v4-pro:cloud",
+      "severity": "CREST_V13_DRIFT",
+      "note": "Agent model does not match CREST v1.3 phase_rules for role=business phase=Synthesize. PG state_model_policy.crest_phase_rules is SSOT. Check model-policy.json crest_v13.phase_rules.",
+      "detectedAt": "2026-07-02T23:36:18+10:00",
+      "id": "DRIFT-20260702133618-luthen",
+      "status": "unresolved",
+      "escalatedToYoda": false
+    },
+    {
+      "agentId": "default.primary",
+      "expected": "ollama/gemma4:31b-cloud",
+      "actual": "ollama/kimi-k2.7-code:cloud",
+      "severity": "VIOLATION",
+      "note": "",
+      "detectedAt": "2026-07-02T23:36:18+10:00",
+      "id": "DRIFT-20260702133618-default_primary",
+      "status": "unresolved",
+      "escalatedToYoda": false
+    },
+    {
+      "agentId": "default.fallbacks",
+      "expected": [
+        "ollama/kimi-k2.6:cloud"
+      ],
+      "actual": [
+        "ollama/kimi-k2.6:cloud"
+      ],
+      "severity": "VIOLATION",
+      "note": "Fallback chain drift breaks resilient outage handling.",
+      "detectedAt": "2026-07-02T23:36:18+10:00",
+      "id": "DRIFT-20260702133618-default_fallbacks",
+      "status": "unresolved",
+      "escalatedToYoda": false
+    },
+    {
+      "agentId": "ahsoka",
+      "expected": "ollama/kimi-k2.7-code:cloud",
+      "actual": "ollama/deepseek-v4-pro:cloud",
+      "severity": "VIOLATION",
+      "note": "Agent model does not match tier primary. Check model-policy.json agentTiers (v1.2 compat) and crest_v13.phase_rules (v1.3 PG SSOT).",
+      "detectedAt": "2026-07-02T23:36:41+10:00",
+      "id": "DRIFT-20260702133641-ahsoka",
+      "status": "unresolved",
+      "escalatedToYoda": false
+    },
+    {
+      "agentId": "luthen",
+      "expected": "ollama/kimi-k2.7-code:cloud",
+      "actual": "ollama/deepseek-v4-pro:cloud",
+      "severity": "VIOLATION",
+      "note": "Agent model does not match tier primary. Check model-policy.json agentTiers (v1.2 compat) and crest_v13.phase_rules (v1.3 PG SSOT).",
+      "detectedAt": "2026-07-02T23:36:41+10:00",
+      "id": "DRIFT-20260702133641-luthen",
+      "status": "unresolved",
+      "escalatedToYoda": false
+    },
+    {
+      "agentId": "ahsoka",
+      "expected": "ollama/kimi-k2.7-code:cloud",
+      "actual": "ollama/deepseek-v4-pro:cloud",
+      "severity": "CREST_V13_DRIFT",
+      "note": "Agent model does not match CREST v1.3 phase_rules for role=business phase=Synthesize. PG state_model_policy.crest_phase_rules is SSOT. Check model-policy.json crest_v13.phase_rules.",
+      "detectedAt": "2026-07-02T23:36:41+10:00",
+      "id": "DRIFT-20260702133641-ahsoka",
+      "status": "unresolved",
+      "escalatedToYoda": false
+    },
+    {
+      "agentId": "luthen",
+      "expected": "ollama/kimi-k2.7-code:cloud",
+      "actual": "ollama/deepseek-v4-pro:cloud",
+      "severity": "CREST_V13_DRIFT",
+      "note": "Agent model does not match CREST v1.3 phase_rules for role=business phase=Synthesize. PG state_model_policy.crest_phase_rules is SSOT. Check model-policy.json crest_v13.phase_rules.",
+      "detectedAt": "2026-07-02T23:36:41+10:00",
+      "id": "DRIFT-20260702133641-luthen",
+      "status": "unresolved",
+      "escalatedToYoda": false
+    },
+    {
+      "agentId": "default.primary",
+      "expected": "ollama/gemma4:31b-cloud",
+      "actual": "ollama/kimi-k2.7-code:cloud",
+      "severity": "VIOLATION",
+      "note": "",
+      "detectedAt": "2026-07-02T23:36:41+10:00",
+      "id": "DRIFT-20260702133641-default_primary",
+      "status": "unresolved",
+      "escalatedToYoda": false
+    },
+    {
+      "agentId": "default.fallbacks",
+      "expected": [
+        "ollama/kimi-k2.6:cloud"
+      ],
+      "actual": [
+        "ollama/kimi-k2.6:cloud"
+      ],
+      "severity": "VIOLATION",
+      "note": "Fallback chain drift breaks resilient outage handling.",
+      "detectedAt": "2026-07-02T23:36:41+10:00",
+      "id": "DRIFT-20260702133641-default_fallbacks",
+      "status": "unresolved",
+      "escalatedToYoda": false
+    },
+    {
+      "agentId": "ahsoka",
+      "expected": "ollama/kimi-k2.7-code:cloud",
+      "actual": "ollama/deepseek-v4-pro:cloud",
+      "severity": "VIOLATION",
+      "note": "Agent model does not match tier primary. Check model-policy.json agentTiers (v1.2 compat) and crest_v13.phase_rules (v1.3 PG SSOT).",
+      "detectedAt": "2026-07-02T23:37:01+10:00",
+      "id": "DRIFT-20260702133701-ahsoka",
+      "status": "unresolved",
+      "escalatedToYoda": false
+    },
+    {
+      "agentId": "luthen",
+      "expected": "ollama/kimi-k2.7-code:cloud",
+      "actual": "ollama/deepseek-v4-pro:cloud",
+      "severity": "VIOLATION",
+      "note": "Agent model does not match tier primary. Check model-policy.json agentTiers (v1.2 compat) and crest_v13.phase_rules (v1.3 PG SSOT).",
+      "detectedAt": "2026-07-02T23:37:01+10:00",
+      "id": "DRIFT-20260702133701-luthen",
+      "status": "unresolved",
+      "escalatedToYoda": false
+    },
+    {
+      "agentId": "ahsoka",
+      "expected": "ollama/kimi-k2.7-code:cloud",
+      "actual": "ollama/deepseek-v4-pro:cloud",
+      "severity": "CREST_V13_DRIFT",
+      "note": "Agent model does not match CREST v1.3 phase_rules for role=business phase=Synthesize. PG state_model_policy.crest_phase_rules is SSOT. Check model-policy.json crest_v13.phase_rules.",
+      "detectedAt": "2026-07-02T23:37:01+10:00",
+      "id": "DRIFT-20260702133701-ahsoka",
+      "status": "unresolved",
+      "escalatedToYoda": false
+    },
+    {
+      "agentId": "luthen",
+      "expected": "ollama/kimi-k2.7-code:cloud",
+      "actual": "ollama/deepseek-v4-pro:cloud",
+      "severity": "CREST_V13_DRIFT",
+      "note": "Agent model does not match CREST v1.3 phase_rules for role=business phase=Synthesize. PG state_model_policy.crest_phase_rules is SSOT. Check model-policy.json crest_v13.phase_rules.",
+      "detectedAt": "2026-07-02T23:37:01+10:00",
+      "id": "DRIFT-20260702133701-luthen",
+      "status": "unresolved",
+      "escalatedToYoda": false
+    },
+    {
+      "agentId": "default.primary",
+      "expected": "ollama/gemma4:31b-cloud",
+      "actual": "ollama/kimi-k2.7-code:cloud",
+      "severity": "VIOLATION",
+      "note": "",
+      "detectedAt": "2026-07-02T23:37:01+10:00",
+      "id": "DRIFT-20260702133701-default_primary",
+      "status": "unresolved",
+      "escalatedToYoda": false
+    },
+    {
+      "agentId": "default.fallbacks",
+      "expected": [
+        "ollama/kimi-k2.6:cloud"
+      ],
+      "actual": [
+        "ollama/kimi-k2.6:cloud"
+      ],
+      "severity": "VIOLATION",
+      "note": "Fallback chain drift breaks resilient outage handling.",
+      "detectedAt": "2026-07-02T23:37:01+10:00",
+      "id": "DRIFT-20260702133701-default_fallbacks",
+      "status": "unresolved",
+      "escalatedToYoda": false
+    },
+    {
+      "agentId": "ahsoka",
+      "expected": "ollama/kimi-k2.7-code:cloud",
+      "actual": "ollama/deepseek-v4-pro:cloud",
+      "severity": "VIOLATION",
+      "note": "Agent model does not match tier primary. Check model-policy.json agentTiers (v1.2 compat) and crest_v13.phase_rules (v1.3 PG SSOT).",
+      "detectedAt": "2026-07-02T23:39:18+10:00",
+      "id": "DRIFT-20260702133918-ahsoka",
+      "status": "unresolved",
+      "escalatedToYoda": false
+    },
+    {
+      "agentId": "luthen",
+      "expected": "ollama/kimi-k2.7-code:cloud",
+      "actual": "ollama/deepseek-v4-pro:cloud",
+      "severity": "VIOLATION",
+      "note": "Agent model does not match tier primary. Check model-policy.json agentTiers (v1.2 compat) and crest_v13.phase_rules (v1.3 PG SSOT).",
+      "detectedAt": "2026-07-02T23:39:18+10:00",
+      "id": "DRIFT-20260702133918-luthen",
+      "status": "unresolved",
+      "escalatedToYoda": false
+    },
+    {
+      "agentId": "ahsoka",
+      "expected": "ollama/kimi-k2.7-code:cloud",
+      "actual": "ollama/deepseek-v4-pro:cloud",
+      "severity": "CREST_V13_DRIFT",
+      "note": "Agent model does not match CREST v1.3 phase_rules for role=business phase=Synthesize. PG state_model_policy.crest_phase_rules is SSOT. Check model-policy.json crest_v13.phase_rules.",
+      "detectedAt": "2026-07-02T23:39:18+10:00",
+      "id": "DRIFT-20260702133918-ahsoka",
+      "status": "unresolved",
+      "escalatedToYoda": false
+    },
+    {
+      "agentId": "luthen",
+      "expected": "ollama/kimi-k2.7-code:cloud",
+      "actual": "ollama/deepseek-v4-pro:cloud",
+      "severity": "CREST_V13_DRIFT",
+      "note": "Agent model does not match CREST v1.3 phase_rules for role=business phase=Synthesize. PG state_model_policy.crest_phase_rules is SSOT. Check model-policy.json crest_v13.phase_rules.",
+      "detectedAt": "2026-07-02T23:39:18+10:00",
+      "id": "DRIFT-20260702133918-luthen",
+      "status": "unresolved",
+      "escalatedToYoda": false
+    },
+    {
+      "agentId": "default.primary",
+      "expected": "ollama/gemma4:31b-cloud",
+      "actual": "ollama/kimi-k2.7-code:cloud",
+      "severity": "VIOLATION",
+      "note": "",
+      "detectedAt": "2026-07-02T23:39:18+10:00",
+      "id": "DRIFT-20260702133918-default_primary",
+      "status": "unresolved",
+      "escalatedToYoda": false
+    },
+    {
+      "agentId": "default.fallbacks",
+      "expected": [
+        "ollama/kimi-k2.6:cloud"
+      ],
+      "actual": [
+        "ollama/kimi-k2.6:cloud"
+      ],
+      "severity": "VIOLATION",
+      "note": "Fallback chain drift breaks resilient outage handling.",
+      "detectedAt": "2026-07-02T23:39:18+10:00",
+      "id": "DRIFT-20260702133918-default_fallbacks",
+      "status": "unresolved",
+      "escalatedToYoda": false
+    },
+    {
+      "agentId": "ahsoka",
+      "expected": "ollama/kimi-k2.7-code:cloud",
+      "actual": "ollama/deepseek-v4-pro:cloud",
+      "severity": "CREST_V13_DRIFT",
+      "note": "Agent model does not match CREST v1.3 phase_rules for role=business phase=Synthesize. PG state_model_policy.crest_phase_rules is SSOT. Check model-policy.json crest_v13.phase_rules.",
+      "detectedAt": "2026-07-02T23:40:00+10:00",
+      "id": "DRIFT-20260702134000-ahsoka",
+      "status": "unresolved",
+      "escalatedToYoda": false
+    },
+    {
+      "agentId": "luthen",
+      "expected": "ollama/kimi-k2.7-code:cloud",
+      "actual": "ollama/deepseek-v4-pro:cloud",
+      "severity": "CREST_V13_DRIFT",
+      "note": "Agent model does not match CREST v1.3 phase_rules for role=business phase=Synthesize. PG state_model_policy.crest_phase_rules is SSOT. Check model-policy.json crest_v13.phase_rules.",
+      "detectedAt": "2026-07-02T23:40:00+10:00",
+      "id": "DRIFT-20260702134000-luthen",
+      "status": "unresolved",
+      "escalatedToYoda": false
+    },
+    {
+      "agentId": "default.primary",
+      "expected": "ollama/gemma4:31b-cloud",
+      "actual": "ollama/kimi-k2.7-code:cloud",
+      "severity": "VIOLATION",
+      "note": "",
+      "detectedAt": "2026-07-02T23:40:00+10:00",
+      "id": "DRIFT-20260702134000-default_primary",
+      "status": "unresolved",
+      "escalatedToYoda": false
+    },
+    {
+      "agentId": "default.fallbacks",
+      "expected": [
+        "ollama/kimi-k2.6:cloud"
+      ],
+      "actual": [
+        "ollama/kimi-k2.6:cloud"
+      ],
+      "severity": "VIOLATION",
+      "note": "Fallback chain drift breaks resilient outage handling.",
+      "detectedAt": "2026-07-02T23:40:00+10:00",
+      "id": "DRIFT-20260702134000-default_fallbacks",
+      "status": "unresolved",
+      "escalatedToYoda": false
+    },
+    {
+      "agentId": "default.primary",
+      "expected": "ollama/gemma4:31b-cloud",
+      "actual": "ollama/kimi-k2.7-code:cloud",
+      "severity": "VIOLATION",
+      "note": "",
+      "detectedAt": "2026-07-03T17:07:02+10:00",
+      "id": "DRIFT-20260703070702-default_primary",
+      "status": "unresolved",
+      "escalatedToYoda": false
+    },
+    {
+      "agentId": "default.fallbacks",
+      "expected": [
+        "ollama/kimi-k2.6:cloud"
+      ],
+      "actual": [
+        "ollama/kimi-k2.6:cloud"
+      ],
+      "severity": "VIOLATION",
+      "note": "Fallback chain drift breaks resilient outage handling.",
+      "detectedAt": "2026-07-03T17:07:02+10:00",
+      "id": "DRIFT-20260703070702-default_fallbacks",
+      "status": "unresolved",
+      "escalatedToYoda": false
+    }
+  ],
+  "totalUnresolvedViolations": 60,
+  "remediation": {
+    "actionRequired": [
+      "Fix agent biz-process: expected ollama/kimi-k2.7-code:cloud got ollama/deepseek-v4-pro:cloud",
+      "Fix agent change-mgt: expected ollama/kimi-k2.7-code:cloud got ollama/deepseek-v4-pro:cloud",
+      "Fix agent ahsoka: expected ollama/kimi-k2.7-code:cloud got ollama/deepseek-v4-pro:cloud",
+      "Fix agent luthen: expected ollama/kimi-k2.7-code:cloud got ollama/deepseek-v4-pro:cloud",
+      "Fix agent biz-process: expected ollama/kimi-k2.7-code:cloud got ollama/deepseek-v4-pro:cloud"
+    ]
+  }
+}

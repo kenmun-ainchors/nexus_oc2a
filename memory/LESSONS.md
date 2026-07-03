@@ -1,4 +1,12 @@
 
+## L-177 — Subagent completion events must surface as visible updates, not silent queues
+**Date:** 2026-07-03
+**Source:** Ken had to prompt "Stalled?" after Yoda dispatched Forge for CHG-0812. Yoda used `sessions_yield` while waiting; the subagent completion event arrived as an internal runtime continuation but did not auto-send a visible status update to Ken's Telegram until Ken sent another message.
+**Lesson:** A dispatched subagent result that sits in the runtime queue is effectively invisible to the user. `sessions_yield` in a user-facing session can create the impression of a stall. The orchestrator must treat the completion event as a trigger to synthesise and push a concise result/verdict to the user, not rely on the user to poll.
+**Fix:** (1) Updated `AGENTS.md` Non-Negotiable #11 with SUBAGENT COMPLETION UPDATE RULE: when Yoda dispatches a subagent, end the turn with a brief status message; when the completion event arrives, immediately synthesise and send result/summary+verdict. (2) Added durable memory in `MEMORY.md` People section codifying the same rule. (3) Journal entry appended.
+**Evidence:** `AGENTS.md` updated 2026-07-03 17:32 AEST; `MEMORY.md` updated 2026-07-03 17:32 AEST; journal entry `SOP update: subagent completion must push visible update to Ken`.
+**Prevention:** (1) Never `sessions_yield` in a user-facing session without first telling the user what to expect and how long. (2) When completion event arrives, reply in the same visible channel with: what changed, verification result, and next action (if any). (3) If the result is failure/error, escalate in the same update with options/next steps. (4) Add this as a checklist item in the subagent-dispatch skill.
+
 ## L-176 — "Resume work" is not content approval
 **Date:** 2026-06-28
 **Source:** Ken challenged Yoda after Yoda set LinkedIn Week 3 posts (LI-W3-P7/P8/P9) to `status=approved` and `approvedBy: "Ken Mun (Telegram — requested resume and generate)"` in `state/linkedin-campaign.json`. Ken had only said "exec guard issue fixed. check and resume work" — meaning resume the blocked operational cleanup, not approve publication-ready content.

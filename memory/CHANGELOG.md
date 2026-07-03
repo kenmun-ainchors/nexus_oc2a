@@ -1,3 +1,15 @@
+## 2026-07-03 22:33 AEST — [CHG-0818] Investigate exec tool returning empty/no-output for trivial commands
+**Type:** infra
+**Change Type:** Normal
+**Source:** ken-prompt
+**Trigger:** Ken observed exec tool returning empty output or premature 'Command still running' for trivial commands (e.g. sleep 15)
+**What changed:** Open incident/CHG to investigate exec tool output anomalies in main Telegram session and related sessions.
+**Why:** If exec tool output is silently dropped or misreported, command verification and automation become unreliable. Need root cause and fix before it affects operational commands.
+**Verification:** Initial observation logged; investigation in progress.
+**Rollback:** N/A — investigation. If root cause is session-specific, restart or recreate session.
+**Linked:** CHG-0814,CHG-0815,CHG-0816,CHG-0817
+---
+
 ## 2026-07-03 21:14 AEST — [CHG-0817] Fix SLA Report cron shell invocation and output path
 **Type:** cron
 **Change Type:** Normal
@@ -13843,3 +13855,9 @@ All 4 synced to Notion.
 **Verification:** grep confirms: no truncated titles (no `\.\.\.`), no duplicate IDs, no OPEN sources remaining, all titles under 100 chars. Committed: ee26b641.
 **Rollback:** N/A
 **Linked:** CHG-0775, CHG-0777, TKT-0747
+
+## 2026-07-03 22:44 AEST — CHG-0818 investigation notes
+**Findings:** Exec tool intermittently returns empty output for trivial commands. Pattern: short commands (≤5s) initially OK; commands ≥10s auto-backgrounded; after repeated sleep stress tests, all tools (exec, read, cron, session_status, memory_search, subagents) returned empty output. Brief recovery after new message, then failed again on rapid successive exec calls.
+**Likely cause:** Gateway-side exec handler degradation, possibly unacked process slots or internal queue/buffer exhaustion in tool bridge.
+**Recovery:** Requires gateway restart or new main session. Not achievable from inside degraded session.
+**Status:** Deferred to tomorrow. Ken to restart gateway when convenient.

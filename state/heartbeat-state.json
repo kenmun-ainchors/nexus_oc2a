@@ -1,24 +1,26 @@
 {
-  "lastUpdated": "2026-07-03T13:19+10:00",
-  "lastHeartbeat": "2026-07-03T13:19:00+10:00",
+  "lastUpdated": "2026-07-03T23:49+10:00",
+  "lastHeartbeat": "2026-07-03T23:49+10:00",
   "lastChecks": {
-    "taskWatchdog": "2026-07-03T13:19+10:00",
-    "cronHealth": "2026-07-03T13:19+10:00",
-    "cronDeadLetter": "2026-07-03T13:19+10:00",
-    "chgTriggers": "2026-07-03T13:19+10:00",
-    "owlCompliance": "2026-07-03T13:19+10:00",
-    "standbyMode": "2026-07-03T13:19+10:00",
-    "dodValidation": "2026-07-03T13:19+10:00",
-    "taskVerificationAlerts": "2026-07-03T13:19+10:00",
-    "sessionModelDrift": "2026-07-03T13:19+10:00",
-    "mainSessionResume": "2026-07-03T13:19+10:00",
-    "costState": "2026-07-03T13:19+10:00",
-    "requestBudgetCheck": "2026-07-03T13:19+10:00",
-    "delegatedAuth": "2026-07-03T13:19+10:00",
-    "ariaCrest": "2026-07-03T13:19+10:00",
+    "taskWatchdog": "2026-07-03T23:49+10:00",
+    "cronHealth": "2026-07-03T23:49+10:00",
+    "cronDeadLetter": "2026-07-03T23:49+10:00",
+    "chgTriggers": "2026-07-03T23:49+10:00",
+    "owlCompliance": "2026-07-03T23:49+10:00",
+    "standbyMode": "2026-07-03T23:49+10:00",
+    "dodValidation": "2026-07-03T22:49+10:00",
+    "taskVerificationAlerts": "2026-07-03T22:49+10:00",
+    "sessionModelDrift": "2026-07-03T23:49+10:00",
+    "mainSessionResume": "2026-07-03T23:49+10:00",
+    "costState": "2026-07-03T23:49+10:00",
+    "requestBudgetCheck": "2026-07-03T23:49+10:00",
+    "ariaCrest": "2026-07-03T22:49+10:00",
+    "delegatedAuth": "2026-07-03T22:49+10:00",
     "email": "2026-07-01T21:10+10:00",
     "calendar": "2026-07-01T21:10+10:00",
-    "budgetCheck": "2026-07-03T13:19+10:00"
+    "budgetCheck": "2026-07-03T20:19+10:00"
   },
-  "notes": []
+  "notes": [
+    "Heartbeat 23:49 AEST — All checks clean. Task watchdog: 8/8 healthy. Cron health: clean. Session model: kimi-k2.7-code:cloud OK. OWL: 100%. Standby: off. No alerts. Request budget: 25.3% used (122.2 req/hr, projected 6d). CHG triggers: all pending/monitoring, no new fires. No aria/DoD/dead-letter alerts."
+  ]
 }

@@ -18,10 +18,10 @@
       "hard_limit": 12000,
       "soft_limit": 8000,
       "review_cadence": "per sprint",
-      "rule": "Rules belong in RULES.md. AGENTS.md = summary + conventions + workspace structure. Details → RULES.md."
+      "rule": "Rules belong in RULES.md. AGENTS.md = summary + conventions + workspace structure. Details \u2192 RULES.md."
     },
     "MEMORY.md": {
-      "purpose": "Long-term memory — durable user preferences, decisions, platform facts, behavior guidance",
+      "purpose": "Long-term memory \u2014 durable user preferences, decisions, platform facts, behavior guidance",
       "audience": "Yoda main session only (injected)",
       "hard_limit": 15000,
       "soft_limit": 10000,
@@ -29,7 +29,7 @@
       "rule": "Trim EOD sections to archive at 12K. Archive overflow: memory/MEMORY-archive-YYYY-MM-DD.md."
     },
     "HEARTBEAT.md": {
-      "purpose": "Periodic check checklist — state keys + conditions + actions only",
+      "purpose": "Periodic check checklist \u2014 state keys + conditions + actions only",
       "audience": "Heartbeat runs only (lightContext=true)",
       "hard_limit": 15000,
       "soft_limit": 5000,
@@ -37,7 +37,7 @@
       "rule": "NO procedural prose, alert templates, or execution logs. One line per check: name, key, condition, action. Procedures live in referenced scripts."
     },
     "USER.md": {
-      "purpose": "Human identity — name, contact, timezone, primary channel",
+      "purpose": "Human identity \u2014 name, contact, timezone, primary channel",
       "audience": "Agent session context (injected)",
       "hard_limit": 2000,
       "soft_limit": 1000,
@@ -69,8 +69,16 @@
       "review_cadence": "daily",
       "rule": "Daily operational brief scratch file. Regenerated each day. Not injected into sessions."
     },
+    "DREAMS.md": {
+      "purpose": "dreaming output scratchpad",
+      "audience": "Non-injected (unstructured dreaming output)",
+      "hard_limit": 100000,
+      "soft_limit": 50000,
+      "review_cadence": "weekly",
+      "rule": "Unstructured dreaming output from memory promotion. NOT injected into sessions."
+    },
     "RULES.md": {
-      "purpose": "Platform rules reference — full rule text, CHG references, rollback procedures",
+      "purpose": "Platform rules reference \u2014 full rule text, CHG references, rollback procedures",
       "audience": "On-demand read (NOT injected)",
       "hard_limit": "unlimited",
       "soft_limit": "none",
@@ -80,9 +88,82 @@
   },
   "workspace_root_policy": {
     "max_total_chars": 60000,
-    "allowed_files": ["SOUL.md", "AGENTS.md", "MEMORY.md", "HEARTBEAT.md", "USER.md", "IDENTITY.md", "TOOLS.md", "RULES.md"],
+    "allowed_files": [
+      "AGENTS.md",
+      "DREAMS.md",
+      "HEARTBEAT.md",
+      "IDENTITY.md",
+      "MEMORY.md",
+      "RULES.md",
+      "SOUL.md",
+      "TOOLS.md",
+      "USER.md",
+      "yoda-daily-brief.md"
+    ],
     "new_file_rule": "Any new .md file in workspace root requires: (1) purpose contract registered here, (2) Ken approval, (3) file-size-guard updated. No auto-create without contract.",
-    "subdirectory_rule": "Reference docs → docs/, Agent-specific → agents/<id>/, Completed/stale → archive/, State → state/, Scripts → scripts/"
+    "subdirectory_rule": "Reference docs \u2192 docs/, Agent-specific \u2192 agents/<id>/, Completed/stale \u2192 archive/, State \u2192 state/, Scripts \u2192 scripts/"
   },
-  "audit_check": "CHECK 21 (auto-heal)"
+  "audit_check": "CHECK 21 (auto-heal)",
+  "contracts": [
+    {
+      "file": "SOUL.md",
+      "purpose": "Agent identity, traits, non-negotiable rules, routing dispatch, cadences",
+      "injected": true,
+      "hard_limit": 10000
+    },
+    {
+      "file": "AGENTS.md",
+      "purpose": "Workspace conventions, dispatch rules, quick-reference rule table",
+      "injected": true,
+      "hard_limit": 12000
+    },
+    {
+      "file": "MEMORY.md",
+      "purpose": "Long-term memory \u2014 durable user preferences, decisions, platform facts",
+      "injected": true,
+      "hard_limit": 15000
+    },
+    {
+      "file": "HEARTBEAT.md",
+      "purpose": "Periodic check checklist \u2014 state keys + conditions + actions",
+      "injected": true,
+      "hard_limit": 15000
+    },
+    {
+      "file": "USER.md",
+      "purpose": "Human identity \u2014 name, contact, timezone, primary channel",
+      "injected": true,
+      "hard_limit": 2000
+    },
+    {
+      "file": "IDENTITY.md",
+      "purpose": "Agent name, role, vibe, emoji",
+      "injected": true,
+      "hard_limit": 2000
+    },
+    {
+      "file": "TOOLS.md",
+      "purpose": "Device-specific config, local notes, SSH hosts, Notion DB IDs",
+      "injected": true,
+      "hard_limit": 5000
+    },
+    {
+      "file": "RULES.md",
+      "purpose": "Platform rules reference \u2014 full rule text, CHG references, rollback procedures",
+      "injected": false,
+      "hard_limit": 999999
+    },
+    {
+      "file": "yoda-daily-brief.md",
+      "purpose": "daily context brief",
+      "injected": false,
+      "hard_limit": 10000
+    },
+    {
+      "file": "DREAMS.md",
+      "purpose": "dreaming output scratchpad",
+      "injected": false,
+      "hard_limit": 100000
+    }
+  ]
 }

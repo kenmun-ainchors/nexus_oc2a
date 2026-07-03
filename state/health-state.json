@@ -3,8 +3,8 @@
   "overallStatus": "ok",
   "consecutiveFailures": 0,
   "alerted": false,
-  "lastCheck": "2026-07-01T11:49:48Z",
-  "lastOk": "2026-07-01T11:49:48Z",
+  "lastCheck": "2026-07-04T00:03:53+1000",
+  "lastOk": "2026-07-04T00:03:53+1000",
   "exitCode": 0,
   "issues": [],
   "anthropicReachable": true,
@@ -18,6 +18,5 @@
     "staleLockFilesCleared": 0,
     "anthropicApi": "ok",
     "ollamaApi": "ok"
-  },
-  "timestamp": "2026-07-02T23:29:15+10:00"
+  }
 }

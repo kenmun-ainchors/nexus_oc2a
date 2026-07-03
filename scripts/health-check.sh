@@ -191,7 +191,7 @@ fi
 STANDBY_FILE="$HOME/.openclaw/workspace/state/standby-mode.json"
 if [[ "$ANTHROPIC_REACHABLE" == "0" ]]; then
   # Anthropic down — activate standby if not already active
-  SINCE_TS=$(date -u +%Y-%m-%dT%H:%M:%SZ)
+  SINCE_TS=$(TZ=Australia/Melbourne date +%Y-%m-%dT%H:%M:%S%z)
   if [[ -f "$STANDBY_FILE" ]]; then
     # Already in standby — preserve original 'since' timestamp
     SINCE_TS=$(python3 -c "import json; d=json.load(open('$STANDBY_FILE')); print(d.get('since','$SINCE_TS'))" 2>/dev/null || echo "$SINCE_TS")
@@ -380,7 +380,7 @@ state = {
   "overallStatus": "critical",
   "consecutiveFailures": $NEW_FAILURES,
   "alerted": $([[ "$ALERTED" == "true" ]] && echo 'True' || echo 'False'),
-  "lastCheck": "$(date -u +%Y-%m-%dT%H:%M:%SZ)",
+  "lastCheck": "$(TZ=Australia/Melbourne date +%Y-%m-%dT%H:%M:%S%z)",
   "issues": $(python3 -c "import json; print(json.dumps(${ISSUES[@]}))" 2>/dev/null || echo '[]'),
   "anthropicReachable": False,
   "ollamaReachable": False,
@@ -454,8 +454,8 @@ state = {
   "overallStatus": "$OVERALL_STATUS",
   "consecutiveFailures": 0,
   "alerted": False,
-  "lastCheck": "$(date -u +%Y-%m-%dT%H:%M:%SZ)",
-  "lastOk": "$(date -u +%Y-%m-%dT%H:%M:%SZ)",
+  "lastCheck": "$(TZ=Australia/Melbourne date +%Y-%m-%dT%H:%M:%S%z)",
+  "lastOk": "$(TZ=Australia/Melbourne date +%Y-%m-%dT%H:%M:%S%z)",
   "exitCode": $EXIT_CODE,
   "issues": $ISSUES_JSON,
   "anthropicReachable": $([ "$ANTHROPIC_REACHABLE" = "1" ] && echo True || echo False),

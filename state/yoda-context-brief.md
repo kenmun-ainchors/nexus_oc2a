@@ -1,77 +1,86 @@
-# Yoda Telegram Context Brief — 2026-07-03 14:00 AEST
+# Yoda Telegram Context Brief
+# Generated: 2026-07-03 20:00 AEST | Platform Day 70 (since 2026-04-25)
+
+---
 
 ## Platform Status
-- **Platform Day:** 69 (from 2026-04-25)
-- **Date:** Friday, 3 July 2026 — 14:00 AEST (UTC+10)
-- **Model Running:** DeepSeek V4 Flash (cloud)
-- **Default Model:** Kimi K2.7 Code (cloud)
-- **Gateway Uptime:** 10h 40m · System Uptime: 1d 15h
+- **Platform Day:** 70 (since 25 Apr 2026)
+- **Company:** AInchor Solutions Pty Ltd | ainchors.com
+- **HoldCo:** Aevlith Technologies Pty Ltd — technology holding, Nexus platform owner. Domain: aevlith.ai.
+- **Infrastructure:** OC1 (Mac Mini M4 24GB) — LIVE Production
+- **OC2-A/B** (Mac Mini M4 Pro 48GB x2) — ETA 6-13 Jul 2026, commission ~27 Jul 2026
 
 ## Key People
-- **Ken Mun** — CTO, main human. Telegram + webchat.
-- **Angie Foong** — CEO. Business stream lead.
-- **Aria** (business) — Dual-principal (CEO+Yoda T1)
-- **Atlas** (architect) — EA/strategy
-- **Thrawn** (platform-arch) — Platform/infra design
-- **Forge** (infra) — Build/scripts execution
-- **Spark** (social) — LinkedIn campaign
-- **Lando** (biz-process) — BPM
-- **Mon Mothma** (change-mgt) — Change records
-- **Shield/Lex/Sage** — T4 reactive governance (security/legal/QA)
-- **Warden** — Model compliance (15-min cron)
-- **Ahsoka** — Client discovery/delivery
+- **Ken Mun** — Co-founder, CTO. kenmun@ainchors.com | +61403650578
+- **Angie Foong** — Co-founder, CEO. angie.foong@ainchors.com | +61430928371
 
-## Infrastructure
-- **OC1:** Mac Mini M4 24GB — LIVE Production. No local LLM >~8B Q4.
-- **OC2-A/B:** Mac Mini M4 Pro 48GB ×2 — ETA 6–13 Jul 2026. Commission ~27 Jul.
-- **Tailscale mesh** — OC1 IP: 100.91.60.36
-- **Colima:** Docker runtime (replaces Docker Desktop)
-- **Gateway Ports:** Prod 18789 | Sandbox 28789 | Shadow 38789
-- **PG:** PostgreSQL active (db-ticket.sh + db-sprint.sh)
-- **Notion:** 3-DB architecture (Backlog, Auto-Heal, Archive)
+## Current Sprint — Sprint 10 (29 Jun - 5 Jul 2026)
+- **Status:** Committed | **Tickets:** 17 | **Done:** 3 (17.6%)
+- **Key tickets:** EPIC PG SSOT Gap Remediation (TKT-0342, critical), Agent Fleet QBR Review (TKT-0130, P1), Roadmap Refinement QBR (TKT-0125, P1), Sandbox Runbook (TKT-0191), ClawGuard (TKT-0179), Process Documentation Framework (TKT-0110).
 
-## Current Sprint — Sprint 10 (2026-06-29 to 2026-07-05)
-- **Status:** Committed | 17 tickets | 3 done (17.6%) | 13 open | 0 in-progress
-- **Key criticals:** TKT-0342 (PG SSOT Gap Remediation), TKT-0722 (verdict_log PG table)
-- **Sprint 10 high-priority items:**
-  - CRITICAL: TKT-0342 — PG SSOT Gap Remediation (epic)
-  - CRITICAL: TKT-0722 — verdict_log PG table + replace state/sage-verdicts
-  - High: TKT-0352 — Wire knowledge_documents + knowledge_chunks to PG
-  - High: TKT-0354 — Wire state_standups to PG
-  - High: TKT-0723 — DNA leanness: dedupe rules
-  - High: TKT-0749 — db-sprint.sh commit --sprint flag ignored
-  - High: TKT-0750 — Post-upgrade 7 cron jobs in error
-  - P1: TKT-0394 — Tribal Knowledge Audit — QBR 2026-Q3
-  - P1: TKT-0530 — Old-Code Audit P1 (Sprint 9)
-  - Medium: TKT-0769 — cron context-brief-refresh timeout (monitoring)
-  - Medium: TKT-0742 — Fix standup-email-send.sh messageId extraction
-  - Medium: TKT-0743 — LinkedIn token health probe
+## Top Open Tickets (by priority)
+1. **TKT-0342 (critical)** — EPIC: PG SSOT Gap Remediation — Sprint 10
+2. **TKT-0358 (critical)** — PG Table Health Monitor Cron — Sprint 11
+3. **TKT-0125 (P1)** — Roadmap Refinement QBR 2026-Q3 — Unassigned
+4. **TKT-0130 (P1)** — Agent Fleet Review QBR 2026-Q3 — Unassigned
+5. **TKT-0329 (high)** — Thrawn Assessment — Workspace Sandbox — Sprint 8
+6. **TKT-0331 (high)** — Skill-Based Encapsulation — Unassigned
+7. **TKT-0293 (high)** — Expand Regression Testing Framework — Unassigned
+8. **TKT-0345 (high)** — Wire state_linkedin to live PG writes — Unassigned
+9. **TKT-0346 (high)** — Wire state_diagnostics to automated PG write — Unassigned
+10. **TKT-0349 (high)** — Wire state_policies to automated PG write — Unassigned
+11. **TKT-0352 (high)** — Wire knowledge_documents+chunks to PG — Sprint 10
+12. **TKT-0353 (high)** — Wire state_governance to automated PG write — Unassigned
+13. **TKT-0354 (high)** — Wire state_standups to PG-first — Sprint 10
+14. **TKT-0355 (high)** — Verify Gateway-internal PG write paths — Unassigned
+15. **TKT-0356 (high)** — Audit + resolve 8 empty PG tables — Unassigned
 
-## LinkedIn Campaign — 4-Week Foundation Arc (Week 3/4)
-- **Cadence:** Tue 07:30 / Wed 12:00 / Thu 07:30 AEST
-- **Movement III. The Rebuild** — Weeks 3-4
-- **Voice:** NO AInchors/Yoda/Nexus/internals/consulting-speak. Ken personal profile.
-- **Approved posts queued:**
-  - W4-P10 "The governance stack I built because I couldn't trust the model" — Tue 7 Jul 07:30 AEST (rescheduled after L-141 delimiter fix by Aria)
-- **Thu 2 Jul slot:** Empty — W3-P9 renumbered to W4-P10, moved Tue 7 Jul
-- **Batch draft cron:** Sat 12:00 AEST (1cb0c7ff)
-- **Publish crons:** Tue 13b0aa89, Wed 833ee0c7, Thu 869502c9
-- **All 4 weeks drafted and approved through 7 Jul.** No immediate action needed.
+## Approved Decisions (from MEMORY.md)
+- **Governance Tier Model** (2026-05-08, TKT-0103): T0 Yoda / T1 Aria / T2 Warden / T3 Spark, Atlas, Thrawn, Lando, Forge, Mon Mothma, Krennic / T4 Shield, Lex, Sage
+- **CREST Mandatory** (CHG-0545, 2026-06-13): All execution work uses CREST. Yoda = Plan/Verify/Replan/Synthesize/Close only. Execute = Forge.
+- **Forge Execute Gate** (SOUL.md #16): Yoda NEVER directly edits scripts/, infra/, or build/config files. Routes to agentId="infra".
+- **LinkedIn Campaign v3.0** (CHG-0594, 2026-06-15): 4-week Foundation Arc, 12 posts. Tue/Wed/Thu slots. No AInchors/Yoda/Nexus mentions.
+- **3-DB Notion Architecture** (CHG-0401): DB A (Backlog), DB B (Auto-Heal), DB C (Archive).
+- **Subagent completion update rule** (Ken directive 2026-07-03, CHG-0812): Yoda must send visible status when dispatching subagents + summarise on completion.
+- **Port Convention** (locked 2026-06-08): Production=1xxxx, Sandbox=2xxxx, Shadow=3xxxx.
+
+## LinkedIn Campaign Status (4-Week Foundation Arc)
+- **Schedule:** Tue 07:30, Wed 12:00, Thu 07:30 AEST
+- **Week 3 (Movement III. The Rebuild):**
+  - LI-W3-P7 (Tue 30 Jun) — Approved, ready
+  - LI-W3-P8 (Wed 1 Jul) — Approved, ready
+  - LI-W3-P9 rescheduled to LI-W4-P10 (Tue 7 Jul due to missed-slot rule)
+- **Week 4:** LI-W4-P10 (Tue 7 Jul) — governance theme, approved + imaged
+- **Posting stream:** Ken Mun personal profile (since CHG-0739/CHG-0745, 23 Jun)
+- **Voice rules (non-negotiable):** No AInchors, Yoda, Nexus, agent names, platform internals, no em-dashes, no "co-founder", no finite time references, no consulting-speak.
+- **Missed slot rule:** Push to next available slot. If slot occupied, skip. Never post late.
+- **Cron IDs:** Tue=13b0aa89, Wed=833ee0c7, Thu=869502c9
 
 ## Ollama Usage / Burn Status
-- **Weekly limit:** 73,184 | Used: 5,562 (7.6%) | Remaining: 67,622
-- **Burn rate:** 69.5 req/hr | Alert: SILENT
-- **Last check:** 2026-07-02 20:00 AEST — no thresholds threatened
-- **50% warn threshold:** 36,592 — currently well under
+- **Weekly Limit:** 73,184 requests | **Used:** 5,562 (7.6%) | **Burn Rate:** 69.5 req/hr
+- **Thresholds:** 50%=36,592 / 70%=51,229 / 85%=62,206 / 95%=69,525
+- **Status:** SILENT — all thresholds clear. No action needed.
+- **Next check:** Cron at 05:00 + 17:00 AEST daily.
+
+## Agent Architecture
+- **Governance Tier Model:** T0 Yoda / T1 Aria / T2 Warden / T3 Spark/Atlas/Thrawn/Lando/Forge/Mon Mothma/Krennic / T4 Shield/Lex/Sage
+- **Yoda role:** Lead AI Ops Agent — Nexus Platform Orchestrator. Routes tasks by domain.
+- **Runtime Registry IDs:** main=yoda, business=aria, architect=atlas, platform-arch=thrawn, infra=forge, social=spark, biz-process=lando, change-mgt=mon-mothma, security=shield, legal=lex, qa=sage, governance=warden
 
 ## Mandatory Rules for Telegram Sessions
-1. **CREST mandatory** — load skill: bash scripts/skill-load.sh crest
-2. **Orchestrator only** — Yoda Plans/Verifies/Synthesizes/Closes. Forge Executes.
-3. **No fabrication** — never invent. Say "I don't know" and find out.
-4. **Evidence-only** — done = validated + artifact-backed. Vibe is not fact.
-5. **No direct script edits** — all script/infra/build/config changes route to Forge (agentId="infra").
-6. **CHG discipline** — structural changes need CHG record before execution.
-7. **Sanctum protocol** — external outputs pass Shield to Lex to Sage.
-8. **Data sovereignty** — client data stays Tier 0/1 local. No exceptions.
-9. **Telegram chunking** — all messages MUST be chunked at 3,800 chars. Load skill: bash scripts/skill-load.sh telegram.
-10. **Journal discipline** — append via journal-append.sh after every meaningful exchange.
+1. **CHG discipline** — Every structural change has a CHG record before execution.
+2. **CREST mandatory** — Every execution plan runs through CREST. Load: bash scripts/skill-load.sh crest
+3. **Forge Execute Gate** — Yoda NEVER directly edits scripts/infra/build. Route to agentId="infra".
+4. **Skill-first** — Before calling any domain script, load its skill: bash scripts/skill-load.sh <skill>.
+5. **Telegram chunking** — Messages at 3,800 char chunks. Load: bash scripts/skill-load.sh telegram.
+6. **No fabrication** — Say "I don't know" and find out.
+7. **Evidence-only** — Done = validated + artifact-backed.
+8. **Subagent update rule** — Send visible status on dispatch + summarise on completion.
+9. **Port convention** — Prod=1xxxx, Sandbox=2xxxx, Shadow=3xxxx. Never cross.
+10. **Sanctum protocol** — External/client outputs pass Shield -> Lex -> Sage.
+11. **Data sovereignty** — Client data = Tier 0/1 local only. No exceptions.
+12. **CREST Orchestrator-only** — Yoda = Plan/Verify/Replan/Synthesize/Close. Execute = Forge.
+
+---
+
+*Brief auto-generated at 2026-07-03 20:00 AEST. For full context, read MEMORY.md + state/ files + db-ticket list --open.*

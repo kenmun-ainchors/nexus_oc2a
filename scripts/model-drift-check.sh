@@ -571,7 +571,8 @@ done
 
 echo ""
 echo "[ Default Config ]"
-check_default "primary" "ollama/gemma4:31b-cloud" "primary"  # Auto-derived from model-policy.json backend tier
+EXPECTED_DEFAULT_PRIMARY=$(python3 -c "import json; p=json.load(open('$POLICY')); print(p.get('defaultPolicy',{}).get('primary', 'ollama/gemma4:31b-cloud'))" 2>/dev/null || echo "ollama/gemma4:31b-cloud")
+check_default "primary" "$EXPECTED_DEFAULT_PRIMARY" "primary"  # CHG-0812: Derived from model-policy.json defaultPolicy
 
 echo ""
 echo "[ Fallback Chain ]"
@@ -605,6 +606,10 @@ try:
             single = [tier_fb[0]]
             if single not in valid_chains:
                 valid_chains.append(single)
+    # CHG-0812: Include defaultPolicy.fallbacks for default.* checks
+    dp_fallbacks = policy.get('defaultPolicy', {}).get('fallbacks', [])
+    if dp_fallbacks and dp_fallbacks not in valid_chains:
+        valid_chains.append(dp_fallbacks)
     # If policy is empty/missing, fall back to openclaw.json's actual as valid
     if not valid_chains:
         valid_chains.append(fb)
@@ -630,7 +635,8 @@ else
   # TKT-0409 / L-070: Use canonical JSON for display (sorted, no spaces) so bash
   # and Python output match exactly. Eliminates the [\"a\", \"b\"] vs [\"a\",\"b\"]
   # string-format false-positive class of bug.
-  FALLBACK_EXPECTED=$(python3 -c "import json,sys; print(json.dumps(json.loads(sys.stdin.read()), separators=(',',':'), sort_keys=True))" <<< "$FALLBACK_ACTUAL" 2>/dev/null || echo "$FALLBACK_ACTUAL")
+  # CHG-0812: Derive expected from model-policy.json defaultPolicy, not from FALLBACK_ACTUAL (self-comparison bug)
+  FALLBACK_EXPECTED=$(python3 -c "import json; p=json.load(open('$POLICY')); print(json.dumps(p.get('defaultPolicy',{}).get('fallbacks',p.get('agentTiers',{}).get('userFacing',{}).get('fallbacks',[]))), separators=(',',':'), sort_keys=True)" 2>/dev/null || echo "$FALLBACK_ACTUAL")
   echo "  FAIL  fallback chain → actual=$FALLBACK_ACTUAL expected=$FALLBACK_EXPECTED [VIOLATION]"
   FINDINGS+=("{\"agentId\":\"default.fallbacks\",\"expected\":$FALLBACK_EXPECTED,\"actual\":$FALLBACK_ACTUAL,\"severity\":\"VIOLATION\",\"note\":\"Fallback chain drift breaks resilient outage handling.\",\"detectedAt\":\"$AEST_TIMESTAMP\"}")
 fi

@@ -1,67 +1,67 @@
 {
-  "generatedAt": "2026-07-02T15:35:09.009899+00:00",
+  "generatedAt": "2026-07-03T14:03:33.885275+00:00",
   "windowDays": 7,
   "note": "Duration = end-to-end cron task time (includes LLM call + tool use). TTFT instrumentation pending gateway-level hooks.",
   "overall": {
-    "sampleCount": 8343,
-    "avgMs": 6364,
+    "sampleCount": 5400,
+    "avgMs": 6757,
     "peakMs": 138971,
     "minMs": 1
   },
   "byModel": {
     "deepseek-v4-pro:cloud": {
-      "sampleCount": 7,
-      "avgMs": 80118,
+      "sampleCount": 6,
+      "avgMs": 78359,
       "minMs": 5684,
       "maxMs": 121014,
       "p50Ms": 86427,
       "p95Ms": 96269,
-      "avgTokens": 107312
+      "avgTokens": 86105
     },
     "minimax-m3:cloud": {
-      "sampleCount": 2,
-      "avgMs": 32313,
-      "minMs": 25373,
+      "sampleCount": 1,
+      "avgMs": 39253,
+      "minMs": 39253,
       "maxMs": 39253,
-      "p50Ms": 25373,
-      "p95Ms": 25373,
-      "avgTokens": 15424
+      "p50Ms": 39253,
+      "p95Ms": 39253,
+      "avgTokens": 15430
     },
     "gemma4:26b": {
-      "sampleCount": 11,
-      "avgMs": 29885,
+      "sampleCount": 8,
+      "avgMs": 30817,
       "minMs": 5282,
       "maxMs": 106545,
-      "p50Ms": 9017,
-      "p95Ms": 67947,
-      "avgTokens": 18140
+      "p50Ms": 9068,
+      "p95Ms": 55746,
+      "avgTokens": 20949
     },
     "deepseek-v4-flash:cloud": {
-      "sampleCount": 1180,
-      "avgMs": 10330,
+      "sampleCount": 787,
+      "avgMs": 10826,
       "minMs": 2647,
       "maxMs": 114018,
-      "p50Ms": 6649,
-      "p95Ms": 27245,
-      "avgTokens": 15943
-    },
-    "kimi-k2.6:cloud": {
-      "sampleCount": 2211,
-      "avgMs": 5901,
-      "minMs": 3728,
-      "maxMs": 138971,
-      "p50Ms": 4798,
-      "p95Ms": 10004,
-      "avgTokens": 7150
+      "p50Ms": 6739,
+      "p95Ms": 29203,
+      "avgTokens": 16078
     },
     "claude-sonnet-4-6": {
-      "sampleCount": 4932,
-      "avgMs": 5455,
+      "sampleCount": 2494,
+      "avgMs": 5942,
       "minMs": 1,
       "maxMs": 120763,
       "p50Ms": 45,
-      "p95Ms": 27510,
+      "p95Ms": 32060,
       "avgTokens": 0
+    },
+    "kimi-k2.6:cloud": {
+      "sampleCount": 2104,
+      "avgMs": 5889,
+      "minMs": 3728,
+      "maxMs": 138971,
+      "p50Ms": 4778,
+      "p95Ms": 9942,
+      "avgTokens": 7161
     }
   }
 }
