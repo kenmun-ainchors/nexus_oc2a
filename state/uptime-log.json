@@ -4,92 +4,6 @@
   "sloTarget": 0.995,
   "events": [
     {
-      "ts": "2026-06-25T23:07:44.900091+00:00",
-      "status": "degraded",
-      "consecutiveFailures": 0,
-      "issues": [
-        "Disk usage high: /System/Volumes/Data at 85%"
-      ]
-    },
-    {
-      "ts": "2026-06-25T23:12:38.229997+00:00",
-      "status": "degraded",
-      "consecutiveFailures": 0,
-      "issues": [
-        "Disk usage high: /System/Volumes/Data at 85%"
-      ]
-    },
-    {
-      "ts": "2026-06-25T23:18:00.622615+00:00",
-      "status": "degraded",
-      "consecutiveFailures": 0,
-      "issues": [
-        "Disk usage high: /System/Volumes/Data at 85%"
-      ]
-    },
-    {
-      "ts": "2026-06-25T23:23:15.296278+00:00",
-      "status": "degraded",
-      "consecutiveFailures": 0,
-      "issues": [
-        "Disk usage high: /System/Volumes/Data at 85%"
-      ]
-    },
-    {
-      "ts": "2026-06-25T23:28:05.809315+00:00",
-      "status": "degraded",
-      "consecutiveFailures": 0,
-      "issues": [
-        "Disk usage high: /System/Volumes/Data at 85%"
-      ]
-    },
-    {
-      "ts": "2026-06-25T23:33:02.958243+00:00",
-      "status": "degraded",
-      "consecutiveFailures": 0,
-      "issues": [
-        "Disk usage high: /System/Volumes/Data at 85%"
-      ]
-    },
-    {
-      "ts": "2026-06-25T23:37:52.362649+00:00",
-      "status": "degraded",
-      "consecutiveFailures": 0,
-      "issues": [
-        "Disk usage high: /System/Volumes/Data at 85%"
-      ]
-    },
-    {
-      "ts": "2026-06-25T23:52:11.238243+00:00",
-      "status": "degraded",
-      "consecutiveFailures": 0,
-      "issues": [
-        "Disk usage high: /System/Volumes/Data at 85%"
-      ]
-    },
-    {
-      "ts": "2026-06-25T23:53:03.997249+00:00",
-      "status": "degraded",
-      "consecutiveFailures": 0,
-      "issues": [
-        "Disk usage high: /System/Volumes/Data at 85%"
-      ]
-    },
-    {
-      "ts": "2026-06-25T23:57:22.031944+00:00",
-      "status": "degraded",
-      "consecutiveFailures": 0,
-      "issues": [
-        "Disk usage high: /System/Volumes/Data at 85%"
-      ]
-    },
-    {
-      "ts": "2026-06-26T00:03:27.945505+00:00",
-      "status": "ok",
-      "consecutiveFailures": 0,
-      "issues": []
-    },
-    {
       "ts": "2026-06-26T00:03:33.734818+00:00",
       "status": "ok",
       "consecutiveFailures": 0,
@@ -4344,14 +4258,80 @@
       "status": "ok",
       "consecutiveFailures": 0,
       "issues": []
+    },
+    {
+      "ts": "2026-07-03T14:08:56.570866+00:00",
+      "status": "ok",
+      "consecutiveFailures": 0,
+      "issues": []
+    },
+    {
+      "ts": "2026-07-03T14:13:54.687620+00:00",
+      "status": "ok",
+      "consecutiveFailures": 0,
+      "issues": []
+    },
+    {
+      "ts": "2026-07-03T14:18:54.829118+00:00",
+      "status": "ok",
+      "consecutiveFailures": 0,
+      "issues": []
+    },
+    {
+      "ts": "2026-07-03T14:23:54.672622+00:00",
+      "status": "ok",
+      "consecutiveFailures": 0,
+      "issues": []
+    },
+    {
+      "ts": "2026-07-03T14:29:00.441655+00:00",
+      "status": "ok",
+      "consecutiveFailures": 0,
+      "issues": []
+    },
+    {
+      "ts": "2026-07-03T14:33:54.935462+00:00",
+      "status": "ok",
+      "consecutiveFailures": 0,
+      "issues": []
+    },
+    {
+      "ts": "2026-07-03T14:38:55.549189+00:00",
+      "status": "ok",
+      "consecutiveFailures": 0,
+      "issues": []
+    },
+    {
+      "ts": "2026-07-03T14:43:55.113919+00:00",
+      "status": "ok",
+      "consecutiveFailures": 0,
+      "issues": []
+    },
+    {
+      "ts": "2026-07-03T14:48:56.538655+00:00",
+      "status": "ok",
+      "consecutiveFailures": 0,
+      "issues": []
+    },
+    {
+      "ts": "2026-07-03T14:53:55.993479+00:00",
+      "status": "ok",
+      "consecutiveFailures": 0,
+      "issues": []
+    },
+    {
+      "ts": "2026-07-03T14:58:54.839942+00:00",
+      "status": "ok",
+      "consecutiveFailures": 0,
+      "issues": []
     }
   ],
   "summary": {
-    "totalChecks": 8404,
-    "upChecks": 8316,
+    "totalChecks": 8415,
+    "upChecks": 8327,
     "downtimeMinutes": 440,
-    "uptimePct": 98.953,
-    "lastCheck": "2026-07-03T14:03:54.005877+00:00",
+    "uptimePct": 98.954,
+    "lastCheck": "2026-07-03T14:58:54.839942+00:00",
     "lastStatus": "ok"
   }
 }
