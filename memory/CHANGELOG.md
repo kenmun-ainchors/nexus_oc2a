@@ -1,3 +1,15 @@
+## 2026-07-04 09:31 AEST — [CHG-0822] CHG-0822: Convert Morning Stand-Up generation cron to isolated agentTurn with explicit exec
+**Type:** cron
+**Change Type:** Normal
+**Source:** ken-prompt
+**Trigger:** Ken observed 2026-07-04 stand-up email contained stale summary-only content; investigation found the 08:00 generation cron ran in 2ms and did not execute generate-standup.sh, sending yesterday's Canvas file
+**What changed:** Converted cron 3c279099-bddb-4ef3-bfea-fc22f342abd8 (AInchors Morning Stand-Up) from sessionTarget=main payload.kind=systemEvent to sessionTarget=isolated payload.kind=agentTurn with explicit exec instruction to run bash scripts/generate-standup.sh, model=deepseek-v4-flash:cloud, timeoutSeconds=180, lightContext=true. Backed up original cron to state/cron-backup-chg-0822.json. Preserved schedule 0 8 * * * AEST and enabled=true.
+**Why:** Main-session systemEvent crons updated lastRunAtMs but often did not execute their payload when main was yielded or busy, causing stale stand-up content to be emailed. Isolated agentTurn with explicit exec eliminates the implicit interpretation/no-op risk.
+**Verification:** Yoda verified 2026-07-04 09:34 AEST: cron action=get shows sessionTarget=isolated, payload.kind=agentTurn, model=deepseek-v4-flash:cloud, timeoutSeconds=180; lastDurationMs=6809 (actual execution, not 2ms no-op); force-run generated fresh Canvas HTML at ~/.openclaw/canvas/documents/standup-daily/index.html (7408 bytes, Jul 4 09:33); bash -n scripts/generate-standup.sh SYNTAX_OK.
+**Rollback:** Restore cron from state/cron-backup-chg-0822.json using openclaw cron edit.
+**Linked:** CHG-0816,CHG-0810,CHG-0811,3c279099-bddb-4ef3-bfea-fc22f342abd8,scripts/generate-standup.sh
+---
+
 ## 2026-07-04 08:27 AEST — [CHG-0821] CHG-0821: Add NODE_OPTIONS to gateway.env, restart gateway, and auto-heal L-102
 **Type:** infra
 **Change Type:** Normal
