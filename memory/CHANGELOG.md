@@ -1,3 +1,39 @@
+## 2026-07-04 08:27 AEST — [CHG-0821] CHG-0821: Add NODE_OPTIONS to gateway.env, restart gateway, and auto-heal L-102
+**Type:** infra
+**Change Type:** Normal
+**Source:** ken-prompt
+**Trigger:** Ken approved CREST plan bundling P1 (gateway.env fix) and P2 (auto-heal auto-fix) after CHG-0820 root-cause findings
+**What changed:** (1) Added export NODE_OPTIONS='--max-old-space-size=6144' to ~/.openclaw/service-env/ai.openclaw.gateway.env and restarted ai.openclaw.gateway via launchctl (new PID 46330). (2) Extended scripts/auto-heal.sh CHECK 25b to automatically add/update NODE_OPTIONS in gateway.env and trigger a graceful launchctl restart only when the env file is actually changed. If env is already correct, skip restart and still escalate to NEEDS_KEN for non-env mismatch causes (e.g. CLI-parented gateway).
+**Why:** CHG-0820 identified missing NODE_OPTIONS as the probable root cause of CHG-0818 exec/tool degradation (GC stalls under load). Gateway restart only masked it. Automating the fix prevents recurrence and stops repeated L-102 Needs-Ken alerts.
+**Verification:** P1 verified 2026-07-04 08:29 AEST: gateway PID 46330 has NODE_OPTIONS=--max-old-space-size=6144 in process env; scripts/health-check.sh all 18 checks passed; exec/read/cron round-trips responded normally. P2 verified: bash -n scripts/auto-heal.sh SYNTAX_OK; git diff shows guarded remediation block (63 lines added); restart only triggered when env file is mutated.
+**Rollback:** P1: remove NODE_OPTIONS line from gateway.env and restart. P2: git revert f74fc216.
+**Linked:** CHG-0818,CHG-0820,state/critical-config-baseline.json,scripts/auto-heal.sh
+---
+
+## 2026-07-04 08:15 AEST — [CHG-0820] CHG-0818 root-cause: investigate gateway exec/tool degradation
+**Type:** infra
+**Change Type:** Normal
+**Source:** ken-prompt
+**Trigger:** Ken approved Option B continuation of CHG-0818 to determine why exec/read/cron/session_status/memory_search/subagents degraded progressively and were restored only by gateway restart
+**What changed:** Dispatch root-cause investigation to Forge (infra): inspect OpenClaw gateway logs, state/health-state.json, state/cron-health-state.json, and any crash/restart telemetry for 2026-07-03 22:00 AEST to 2026-07-04 08:10 AEST. Deliver findings report with probable cause and hardening recommendations. No remediation changes without separate Ken approval.
+**Why:** Gateway restart masked a progressive tool failure. Without root cause, the outage may recur. Understanding whether it is session-leak, resource exhaustion, plugin deadlock, or model-provider stall is required before any hardening.
+**Verification:** Yoda receives Forge's read-only findings report; cross-checks against state/health-state.json, state/cron-health-state.json, and git log of any restart-trigger.
+**Rollback:** N/A — read-only investigation. Any subsequent remediation gets its own CHG.
+**Linked:** CHG-0818,185e2d40-7d14-40ed-a65b-7f921e60f25f
+---
+
+## 2026-07-04 08:11 AEST — [CHG-0819] Harden model-policy-export.sh to self-load pg-sprint-backlog skill
+**Type:** script
+**Change Type:** Normal
+**Source:** ken-prompt
+**Trigger:** Force-run of CREST v1.3 Model Policy Export cron required stale skill reload; script depends on cron session state
+**What changed:** Add explicit 'bash scripts/skill-load.sh pg-sprint-backlog' at the top of scripts/model-policy-export.sh before any PG query, so isolated agentTurn crons are self-contained. Scope limited to scripts/model-policy-export.sh; no cron payload or gateway changes.
+**Why:** If the isolated agentTurn cron session hasn't loaded the pg-sprint-backlog skill, the export fails a PG query and relies on retry/reload logic. Self-loading removes the brittle session dependency.
+**Verification:** Manual run: bash scripts/model-policy-export.sh completes without skill-load warnings; cron force-run shows lastRunStatus=ok and state/model-policy.json updated.
+**Rollback:** Revert scripts/model-policy-export.sh to previous git version
+**Linked:** CHG-0818,185e2d40-7d14-40ed-a65b-7f921e60f25f,scripts/model-policy-export.sh
+---
+
 ## 2026-07-03 22:33 AEST — [CHG-0818] Investigate exec tool returning empty/no-output for trivial commands
 **Type:** infra
 **Change Type:** Normal
