@@ -6,6 +6,14 @@
 
 set -euo pipefail
 
+# ── Canonical skill load ────────────────────────────────────────────────────
+# Load pg-sprint-backlog skill before any database operations.
+# Exits non-zero if skill-load fails (set -e ensures this).
+if ! bash "$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)/skill-load.sh" pg-sprint-backlog; then
+  echo "ERROR: Failed to load pg-sprint-backlog skill. Aborting." >&2
+  exit 10
+fi
+
 WORKSPACE_ROOT="${WORKSPACE_ROOT:-/Users/ainchorsangiefpl/.openclaw/workspace}"
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 OUTPUT_FILE="$WORKSPACE_ROOT/state/model-policy.json"
