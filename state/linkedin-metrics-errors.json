@@ -1,14 +1,12 @@
 {
   "schema": "1.0",
-  "generatedAt": "2026-07-03T00:00:00Z",
+  "date": "2026-07-04T00:00:39.184869+00:00",
   "errors": [
     {
-      "contentId": "LI-W2-P4-VISA-BUSINESS",
-      "postUrn": "urn:li:share:7475350130762731520",
-      "error": "Token expired — re-run: zsh scripts/linkedin-auth.sh --account business",
-      "code": 1,
-      "account": "business",
-      "timestamp": "2026-07-03T00:01:23Z"
+      "id": "LI-W2-P4-visa-openai-company",
+      "urn": "urn:li:share:7475350130762731520",
+      "error": "\ud83d\udcca Fetching metrics for LI-W2-P4-visa-openai-company (urn:li:share:7475350130762731520) \u2014 interval: 24h account: business\n  Fetching metrics for: urn:li:share:7475350130762731520 (account: business)\n\u274c ",
+      "code": 1
     }
   ]
 }

@@ -1,0 +1,30 @@
+{
+  "id": "3c279099-bddb-4ef3-bfea-fc22f342abd8",
+  "name": "AInchors Morning Stand-Up",
+  "enabled": true,
+  "createdAtMs": 1777156431093,
+  "updatedAtMs": 1783116000054,
+  "agentId": "main",
+  "schedule": {
+    "kind": "cron",
+    "expr": "0 8 * * *",
+    "tz": "Australia/Melbourne"
+  },
+  "sessionTarget": "main",
+  "wakeMode": "now",
+  "payload": {
+    "kind": "systemEvent",
+    "text": "MORNING_STANDUP_V3: Generate and write the daily stand-up HTML.\\n\\nRun: bash /Users/ainchorsangiefpl/.openclaw/workspace/scripts/generate-standup.sh\\n\\nThe script reads state files, builds the 8-section stand-up HTML, and pipes it through cron-write.sh to ~/.openclaw/canvas/documents/standup-daily/index.html.\\n\\nDo NOT use the write tool. No reply needed unless the script exits non-zero.\\n\\nIf idempotency blocks a re-run, set STANDUP_FORCE=1 in the environment before invoking.\\n"
+  },
+  "state": {
+    "nextRunAtMs": 1783202400000,
+    "lastRunAtMs": 1783116000052,
+    "lastRunStatus": "ok",
+    "lastStatus": "ok",
+    "lastDurationMs": 2,
+    "lastDeliveryStatus": "not-requested",
+    "consecutiveErrors": 0,
+    "consecutiveSkipped": 0,
+    "lastFailureNotificationDeliveryStatus": "not-requested"
+  }
+}

@@ -1,3 +1,15 @@
+## 2026-07-04 09:49 AEST — [CHG-0823] CHG-0823: Restore agent-generated rich content in stand-up brief
+**Type:** script
+**Change Type:** Normal
+**Source:** ken-prompt
+**Trigger:** Ken confirmed 2026-07-04 stand-up email (Day 71) lacks detail; shell-only wrapper from CHG-0816 only emits placeholder one-liners instead of yesterday's richer agent-composed sections
+**What changed:** Keep Canvas write shell-only via scripts/generate-standup.sh and scripts/cron-write.sh. Add a pre-generation composer step driven by an isolated agentTurn cron (or invoked by generate-standup.sh): read recent journal, memory/CHANGELOG.md, Aria daily brief, state/sprint-state.json, and state/open-decisions.json; compose rich Business Stream, Framework Maturity, Progress, and RTB sections; write to a deterministic temp metadata file (e.g. .openclaw/tmp/standup-composer-input.json). scripts/generate-standup.sh reads this temp file and inlines the richer content into the HTML. Fallback: if composer input is missing or empty, keep existing deterministic placeholders.
+**Why:** Shell-only wrapper solved the Canvas write sandbox problem but lost the narrative detail Ken expects in the daily stand-up. Restoring agent-generated content while keeping the final write shell-only preserves both reliability and richness.
+**Verification:** Manual run of generate-standup.sh produces HTML where section 2–7 contain multi-sentence, context-specific summaries rather than placeholders; bash -n passes; force-run of the 08:00 cron generates >7000 byte file with rich content; email at 08:15 contains detailed sections.
+**Rollback:** Remove composer invocation from generate-standup.sh and delete any new composer script; revert to current deterministic-only output.
+**Linked:** CHG-0815,CHG-0816,CHG-0822,scripts/generate-standup.sh
+---
+
 ## 2026-07-04 09:31 AEST — [CHG-0822] CHG-0822: Convert Morning Stand-Up generation cron to isolated agentTurn with explicit exec
 **Type:** cron
 **Change Type:** Normal

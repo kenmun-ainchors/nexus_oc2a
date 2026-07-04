@@ -1,25 +1,25 @@
 {
-  "checkTimestamp": "2026-07-03T20:00:00+10:00",
+  "checkTimestamp": "2026-07-04T20:00:00+10:00",
   "source": "cron-burn-alert",
   "turnsLimit": {
-    "weeklyLimit": 57955,
-    "currentRequests": 11591,
-    "currentPct": 20,
-    "requestsRemaining": 46364,
+    "weeklyLimit": 56571,
+    "currentRequests": 16236,
+    "currentPct": 28.7,
+    "requestsRemaining": 40335,
     "windowStart": "2026-06-29T10:00:00+1000",
     "windowEnd": "2026-07-06T10:00:00+1000",
-    "daysRemaining": 3,
-    "burnRateRequestsPerHour": 111.4,
-    "note": "From cost-state.json turnsLimit (Ollama dashboard data, confirmed 2026-06-16). Weekly limit updated to 57,955."
+    "daysRemaining": 2,
+    "burnRateRequestsPerHour": 126.8,
+    "note": "From cost-state.json turnsLimit (Ollama dashboard data, confirmed 2026-06-16). Weekly limit 56,571."
   },
   "thresholds": {
-    "50pct_warn": 28978,
-    "70pct_alert": 40569,
-    "85pct_critical": 49262,
-    "95pct_emergency": 55057
+    "50pct_warn": 28286,
+    "70pct_alert": 39600,
+    "85pct_critical": 48085,
+    "95pct_emergency": 53742
   },
   "alertTriggered": "none",
   "alertLevel": "SILENT",
-  "action": "Silent — 11,591 requests used (20% of weekly limit 57,955). All thresholds below minimum (50% = 28,978). No alert sent.",
-  "notes": "Check at 2026-07-03 20:00 AEST. Weekly window: Mon 10:00 AEST (Jun 29 - Jul 6). Burn rate 111.4 req/hr. 3 days remaining. No action needed."
+  "action": "Silent — 16,236 requests used (28.7% of weekly limit 56,571). Below 50% threshold (28,286). No alert sent.",
+  "notes": "Check at 2026-07-04 20:00 AEST. Weekly window: Mon 10:00 AEST (Jun 29 - Jul 6). Burn rate 126.8 req/hr. 2 days remaining. No action needed."
 }

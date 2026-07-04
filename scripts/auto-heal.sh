@@ -1863,6 +1863,7 @@ if m:
           fi
         else
           log "CHECK 25b: env file already correct — skipping gateway restart"
+          # No env change and we are inside mismatch branch for other reasons (e.g. PPID); keep _REMEDIATION_OK="no" so NEEDS_KEN fires
         fi
       else
         log "CHECK 25b: auto-remediation failed — env file $GW_ENV_FILE does not exist"

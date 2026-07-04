@@ -16,8 +16,83 @@ BACKUP_FILE="${WORKSPACE}/state/backup-state.json"
 AUTOHEAL_FILE="${WORKSPACE}/state/auto-heal-state.json"
 CHANGELOG="${WORKSPACE}/memory/CHANGELOG.md"
 DAILY_NOTE="${WORKSPACE}/state/daily-note.json"
+COMPOSER_FILE="${WORKSPACE}/.openclaw/tmp/standup-composer-input.json"
+COMPOSER_SCRIPT="${WORKSPACE}/scripts/standup-composer.sh"
+
+# ── Load composed blocks if fresh (generated today AEST) ────────────────────
+TODAY_AEST=$(TZ=Australia/Sydney date '+%Y-%m-%d')
+COMPOSER_BLOCKS=""
+COMPOSER_FRESH=false
+if [[ -f "$COMPOSER_FILE" ]]; then
+    COMPOSER_MTIME=$(stat -f "%Sm" -t "%Y-%m-%d" "$COMPOSER_FILE" 2>/dev/null || echo "")
+    if [[ "$COMPOSER_MTIME" == "$TODAY_AEST" ]]; then
+        COMPOSER_BLOCKS=$(python3 -c "
+import json, sys
+try:
+    d = json.load(open('$COMPOSER_FILE'))
+    print(json.dumps(d))
+except Exception:
+    print('{}')
+" 2>/dev/null || echo "")
+        if echo "$COMPOSER_BLOCKS" | python3 -c "
+import json, sys
+d = json.load(sys.stdin)
+assert 'businessStream' in d
+assert 'frameworkMaturity' in d
+assert 'progress' in d
+assert 'rtb' in d
+assert 'rose' in d['rtb']
+assert 'thorn' in d['rtb']
+assert 'bud' in d['rtb']
+sys.exit(0)
+" 2>/dev/null; then
+            COMPOSER_FRESH=true
+        fi
+    fi
+fi
+
+# If not fresh, run composer now
+if [[ "$COMPOSER_FRESH" != "true" ]]; then
+    if [[ -f "$COMPOSER_SCRIPT" ]]; then
+        bash "$COMPOSER_SCRIPT" 2>/dev/null || true
+        # Re-check after running
+        if [[ -f "$COMPOSER_FILE" ]]; then
+            COMPOSER_BLOCKS=$(python3 -c "
+import json, sys
+try:
+    d = json.load(open('$COMPOSER_FILE'))
+    print(json.dumps(d))
+except Exception:
+    print('{}')
+" 2>/dev/null || echo "")
+            if echo "$COMPOSER_BLOCKS" | python3 -c "
+import json, sys
+d = json.load(sys.stdin)
+assert 'businessStream' in d
+assert 'frameworkMaturity' in d
+assert 'progress' in d
+assert 'rtb' in d
+assert 'rose' in d['rtb']
+assert 'thorn' in d['rtb']
+assert 'bud' in d['rtb']
+sys.exit(0)
+" 2>/dev/null; then
+                COMPOSER_FRESH=true
+            fi
+        fi
+    fi
+fi
 
 mkdir -p "$CANVAS_DIR"
+
+# ── Export composer data for Python heredoc ─────────────────────────────────
+# Use a temp JSON file to bridge shell composer data into the Python heredoc
+COMPOSER_EXPORT_FILE="${WORKSPACE}/.openclaw/tmp/standup-composer-export.json"
+if [[ "$COMPOSER_FRESH" == "true" && -n "$COMPOSER_BLOCKS" ]]; then
+    echo "$COMPOSER_BLOCKS" > "$COMPOSER_EXPORT_FILE"
+else
+    echo '{}' > "$COMPOSER_EXPORT_FILE"
+fi
 
 python3 << 'PYEOF' | bash "${WORKSPACE}/scripts/cron-write.sh" "$HTML_FILE"
 import json, os, subprocess, sys
@@ -25,6 +100,7 @@ from datetime import datetime, timezone, timedelta
 from pathlib import Path
 
 WORKSPACE = Path(os.environ.get("WORKSPACE", "/Users/ainchorsangiefpl/.openclaw/workspace"))
+TMP_DIR = WORKSPACE / ".openclaw" / "tmp"
 
 def safe_read_json(path, default=None):
     try:
@@ -95,7 +171,7 @@ mem_status = "🟢 Under limit" if mem_size < 15000 else "🟡 Over 15KB"
 # Recent CHGs from CHANGELOG tail
 chg_lines = []
 try:
-    text = safe_read_text(CHANGELOG)
+    text = safe_read_text(str(WORKSPACE / "memory" / "CHANGELOG.md"))
     lines = [l for l in text.splitlines() if l.strip().startswith("## 20") or l.strip().startswith("**What changed:")]
     # Get last ~6 non-empty what-changed lines
     wc = [l.replace("**What changed:**", "").strip() for l in lines if "What changed:" in l]
@@ -103,17 +179,34 @@ try:
 except Exception:
     pass
 
+# ── Helpers ──────────────────────────────────────────────────────────────────
+def escape(s):
+    return str(s).replace("&", "&amp;").replace("<", "&lt;").replace(">", "&gt;")
+
 chg_html = ""
 if chg_lines:
     chg_html = "<ul>" + "".join(f"<li>{escape(c)}</li>" for c in chg_lines) + "</ul>"
 else:
     chg_html = "<p>No new changes recorded since last stand-up.</p>"
 
-# ── Helpers ──────────────────────────────────────────────────────────────────
-def escape(s):
-    return str(s).replace("&", "&amp;").replace("<", "&lt;").replace(">", "&gt;")
+# ── Load composer blocks from exported file ──────────────────────────────────
+composer = {}
+composer_export = TMP_DIR / "standup-composer-export.json"
+try:
+    if composer_export.exists():
+        with open(composer_export) as f:
+            composer = json.load(f)
+except Exception:
+    pass
 
-# ── HTML ─────────────────────────────────────────────────────────────────────
+# Extract blocks with fallbacks
+biz_stream = composer.get("businessStream", "")
+fw_maturity = composer.get("frameworkMaturity", "")
+progress_block = composer.get("progress", "")
+rtb = composer.get("rtb", {})
+rose_text = rtb.get("rose", "")
+thorn_text = rtb.get("thorn", "")
+bud_text = rtb.get("bud", "")
 header_pill = "pill-green" if gateway_ok else "pill-yellow"
 header_text = "🟢 System OK" if gateway_ok else "🟡 System Needs Attention"
 
@@ -205,7 +298,7 @@ html = f"""<!DOCTYPE html>
 
   <div class="section">
     <h2>2 · Business Stream (Angie / Aria)</h2>
-    <div class="alert-info">ℹ️ Business stream summary is populated by Aria daily brief when available. No deterministic state update today.</div>
+    <div class="alert-info" style="white-space: pre-wrap;">{escape(biz_stream) if biz_stream else 'ℹ️ Business stream summary is populated by Aria daily brief when available. No deterministic state update today.'}</div>
   </div>
 
   <div class="section">
@@ -220,12 +313,12 @@ html = f"""<!DOCTYPE html>
 
   <div class="section">
     <h2>5 · Framework Maturity</h2>
-    <div class="alert-info">ℹ️ Framework maturity snapshot available in state/frameworks-maturity.json. Review during sprint ceremonies.</div>
+    <div class="alert-info" style="white-space: pre-wrap;">{escape(fw_maturity) if fw_maturity else 'ℹ️ Framework maturity snapshot available in state/frameworks-maturity.json. Review during sprint ceremonies.'}</div>
   </div>
 
   <div class="section">
     <h2>6 · Progress (CHGs Since Last Stand-up)</h2>
-    {chg_html}
+    {escape(progress_block) if progress_block else chg_html}
   </div>
 
   <div class="section">
@@ -234,19 +327,19 @@ html = f"""<!DOCTYPE html>
       <div class="rtb-card">
         <div class="rtb-icon">🌹</div>
         <div class="rtb-stream">Rose</div>
-        <div class="rtb-text">Shell-only Canvas write path hardened across mission-control, stand-up, and email crons.</div>
+        <div class="rtb-text">{escape(rose_text) if rose_text else 'Shell-only Canvas write path hardened across mission-control, stand-up, and email crons.'}</div>
       </div>
       <div class="rtb-card">
         <div class="rtb-icon">🌵</div>
         <div class="rtb-stream">Thorn</div>
-        <div class="rtb-text">Memory Dreaming Promotion cron repeatedly timed out; decommissioned under CHG-0814.</div>
+        <div class="rtb-text">{escape(thorn_text) if thorn_text else 'Memory Dreaming Promotion cron repeatedly timed out; decommissioned under CHG-0814.'}</div>
       </div>
     </div>
     <div class="rtb-row">
       <div class="rtb-card">
         <div class="rtb-icon">🌱</div>
         <div class="rtb-stream">Bud</div>
-        <div class="rtb-text">Restore agent-generated RTB/business-stream reasoning via optional pre-08:00 composer cron if shell-only brief proves too thin.</div>
+        <div class="rtb-text">{escape(bud_text) if bud_text else 'Restore agent-generated RTB/business-stream reasoning via optional pre-08:00 composer cron if shell-only brief proves too thin.'}</div>
       </div>
     </div>
   </div>
