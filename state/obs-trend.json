@@ -1,25 +1,25 @@
 {
-  "generated_at": "2026-07-04T14:55:06.512440+00:00",
-  "generated_at_aest": "2026-07-05 00:55 AEST",
+  "generated_at": "2026-07-04T21:55:20.507272+00:00",
+  "generated_at_aest": "2026-07-05 07:55 AEST",
   "period_hours": 24,
   "totals": {
     "ERROR": 0,
-    "WARN": 9,
+    "WARN": 5,
     "INFO": 22
   },
   "top_errors": [],
   "top_warnings": [
     {
       "type": "auto_heal_needs_ken",
-      "count": 9
+      "count": 5
     }
   ],
   "trend": {
     "has_prev_data": true,
-    "prev_errors": 66,
-    "prev_warns": 34,
+    "prev_errors": 65,
+    "prev_warns": 25,
     "errors_pct_change": -100.0,
-    "warns_pct_change": -73.5
+    "warns_pct_change": -80.0
   },
   "worst_hour": null
 }

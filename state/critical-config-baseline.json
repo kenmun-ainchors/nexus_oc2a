@@ -1,7 +1,7 @@
 {
   "schemaVersion": 2,
-  "lastSnapshot": "2026-07-03T17:00:08Z",
-  "lastSnapshotAEST": "2026-07-04T03:00:08+1000",
+  "lastSnapshot": "2026-07-04T17:00:03Z",
+  "lastSnapshotAEST": "2026-07-05T03:00:03+1000",
   "openclawVersion": "2026.6.11",
   "configHash": "2e919dc3e134aecdc859fac20e24b9133da1da81297cd793f28b60ee6ea4d5ca",
   "agentCount": 14,
@@ -16,7 +16,7 @@
   "toolsProfile": "coding",
   "toolsDeny": [],
   "globalModelCount": "n/a",
-  "nodeOptions": "not-set",
+  "nodeOptions": "--max-old-space-size=6144",
   "yodaToolsDeny": [],
   "agentModels": {
     "main": "ollama/kimi-k2.7-code:cloud",

@@ -58,12 +58,12 @@
     "kenBypassReason": "Ken explicit approval for scaler vA6 backfill (CHG-0578)"
   },
   "f71f75af": {
-    "firstSeen": "2026-07-02",
-    "lastSeen": "2026-07-02",
+    "firstSeen": "2026-07-04",
+    "lastSeen": "2026-07-04",
     "daysCount": 1,
     "recommendation": "DECREASE",
-    "currentTo": 49,
-    "computedTo": 30,
+    "currentTo": 180,
+    "computedTo": 56,
     "appliedAt": "2026-06-19T01:18:19Z",
     "appliedTo": 47,
     "applyMethod": "cron-timeout-apply.sh",
@@ -73,9 +73,9 @@
     "kenBypassReason": "Ken explicit approval for scaler vA6 backfill (CHG-0578)"
   },
   "e08e19ad": {
-    "firstSeen": "2026-06-23",
-    "lastSeen": "2026-06-27",
-    "daysCount": 5,
+    "firstSeen": "2026-07-04",
+    "lastSeen": "2026-07-04",
+    "daysCount": 1,
     "recommendation": "DECREASE",
     "currentTo": 120,
     "computedTo": 30,
@@ -173,8 +173,8 @@
     "appliedTo": null
   },
   "a89d00ef": {
-    "firstSeen": "2026-07-01",
-    "lastSeen": "2026-07-01",
+    "firstSeen": "2026-07-04",
+    "lastSeen": "2026-07-04",
     "daysCount": 1,
     "recommendation": "DECREASE",
     "currentTo": 120,
@@ -189,6 +189,86 @@
     "recommendation": "DECREASE",
     "currentTo": 452,
     "computedTo": 300,
+    "appliedAt": null,
+    "appliedTo": null
+  },
+  "d3b1e203": {
+    "firstSeen": "2026-07-04",
+    "lastSeen": "2026-07-04",
+    "daysCount": 1,
+    "recommendation": "DECREASE",
+    "currentTo": 120,
+    "computedTo": 30,
+    "appliedAt": null,
+    "appliedTo": null
+  },
+  "637ecb12": {
+    "firstSeen": "2026-07-04",
+    "lastSeen": "2026-07-04",
+    "daysCount": 1,
+    "recommendation": "DECREASE",
+    "currentTo": 120,
+    "computedTo": 30,
+    "appliedAt": null,
+    "appliedTo": null
+  },
+  "d32f2b9a": {
+    "firstSeen": "2026-07-04",
+    "lastSeen": "2026-07-04",
+    "daysCount": 1,
+    "recommendation": "DECREASE",
+    "currentTo": 120,
+    "computedTo": 30,
+    "appliedAt": null,
+    "appliedTo": null
+  },
+  "516135b9": {
+    "firstSeen": "2026-07-04",
+    "lastSeen": "2026-07-04",
+    "daysCount": 1,
+    "recommendation": "DECREASE",
+    "currentTo": 120,
+    "computedTo": 30,
+    "appliedAt": null,
+    "appliedTo": null
+  },
+  "065bd5a9": {
+    "firstSeen": "2026-07-04",
+    "lastSeen": "2026-07-04",
+    "daysCount": 1,
+    "recommendation": "DECREASE",
+    "currentTo": 120,
+    "computedTo": 30,
+    "appliedAt": null,
+    "appliedTo": null
+  },
+  "9ce7f295": {
+    "firstSeen": "2026-07-04",
+    "lastSeen": "2026-07-04",
+    "daysCount": 1,
+    "recommendation": "DECREASE",
+    "currentTo": 120,
+    "computedTo": 30,
+    "appliedAt": null,
+    "appliedTo": null
+  },
+  "dce1ada4": {
+    "firstSeen": "2026-07-04",
+    "lastSeen": "2026-07-04",
+    "daysCount": 1,
+    "recommendation": "DECREASE",
+    "currentTo": 180,
+    "computedTo": 30,
+    "appliedAt": null,
+    "appliedTo": null
+  },
+  "80c9226b": {
+    "firstSeen": "2026-07-04",
+    "lastSeen": "2026-07-04",
+    "daysCount": 1,
+    "recommendation": "DECREASE",
+    "currentTo": 180,
+    "computedTo": 30,
     "appliedAt": null,
     "appliedTo": null
   }

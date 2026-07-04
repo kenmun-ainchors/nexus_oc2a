@@ -1,27 +1,33 @@
 {
-  "lastUpdated": "2026-07-05T00:25+10:00",
-  "lastHeartbeat": "2026-07-05T00:25+10:00",
+  "lastUpdated": "2026-07-05T07:49+10:00",
+  "lastHeartbeat": "2026-07-05T07:49+10:00",
   "lastChecks": {
-    "taskWatchdog": "2026-07-05T00:25+10:00",
-    "cronHealth": "2026-07-05T00:25+10:00",
-    "cronDeadLetter": "2026-07-05T00:25+10:00",
-    "chgTriggers": "2026-07-05T00:25+10:00",
-    "owlCompliance": "2026-07-05T00:25+10:00",
-    "standbyMode": "2026-07-05T00:25+10:00",
-    "dodValidation": "2026-07-05T00:25+10:00",
-    "taskVerificationAlerts": "2026-07-05T00:25+10:00",
-    "sessionModelDrift": "2026-07-05T00:25+10:00",
-    "mainSessionResume": "2026-07-05T00:25+10:00",
-    "costState": "2026-07-05T00:25+10:00",
-    "requestBudgetCheck": "2026-07-05T00:25+10:00",
-    "ariaCrest": "2026-07-05T00:25+10:00",
-    "delegatedAuth": "2026-07-04T23:30+10:00",
-    "autoHeal": "2026-07-04T23:30+10:00",
+    "taskWatchdog": "2026-07-05T07:49+10:00",
+    "cronHealth": "2026-07-05T07:49+10:00",
+    "cronDeadLetter": "2026-07-05T07:49+10:00",
+    "chgTriggers": "2026-07-05T07:49+10:00",
+    "owlCompliance": "2026-07-05T07:49+10:00",
+    "standbyMode": "2026-07-05T07:49+10:00",
+    "dodValidation": "2026-07-05T07:49+10:00",
+    "taskVerificationAlerts": "2026-07-05T07:49+10:00",
+    "sessionModelDrift": "2026-07-05T07:49+10:00",
+    "mainSessionResume": "2026-07-05T07:49+10:00",
+    "costState": "2026-07-05T07:49+10:00",
+    "requestBudgetCheck": "2026-07-05T07:49+10:00",
+    "ariaCrest": "2026-07-05T07:49+10:00",
+    "budgetCheck": "2026-07-05T07:49+10:00",
     "email": "2026-07-01T21:10+10:00",
     "calendar": "2026-07-01T21:10+10:00",
-    "budgetCheck": "2026-07-03T20:19+10:00"
+    "delegatedAuth": "2026-07-01T21:10+10:00"
   },
   "notes": [
-    "Heartbeat 00:25 AEST — Clean sweep. Gateway OK, health OK. OWL 100%. No alerts. No banners. No dead-letter, DoD, verification, drift, or resume issues. Session model OK (kimi-k2.7-code:cloud). No CREST violations. Cron health clean. No stale locks. Request budget healthy (29.1% used, 41,278 remaining). Sunday morning — email/calendar skipped per weekend pattern. CHG triggers: TRIGGER-04 fired, TRIGGER-05 phase6-implemented, TRIGGER-10 retired, all others pending/monitoring. Aria CREST compliant."
+    "Heartbeat 07:49 AEST — Clean sweep. All checks passing.",
+    "Session model drift OK (kimi-k2.7-code:cloud).",
+    "OWL 100%. No banners, no standby, no task stalls, no resume issues.",
+    "Cron health clean. No dead-letter alerts.",
+    "Aria CREST compliant. Task verification alerts acknowledged.",
+    "Request budget 29.1% (41,278 remaining), burn 128.3 req/hr.",
+    "CHG triggers: OC2 window 6-13 Jul approaching. QBR due Jul quarter.",
+    "Sunday morning — email/calendar/delegated auth skipped per weekend pattern."
   ]
 }
