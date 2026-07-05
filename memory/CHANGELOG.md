@@ -1,3 +1,16 @@
+## 2026-07-05 22:10 AEST — [CHG-0830] Fix Warden live-session model check false positive for infra/Forge
+**Type:** script
+**Change Type:** Normal
+**Source:** system-alert
+**Trigger:** Warden escalated SESSION_MODEL_DRIFT for live-session.infra: expected ollama/minimax-m3:cloud (from state/model-policy.json agentTiers.t3Technical) but actual ollama/deepseek-v4-flash:cloud (operational primary per openclaw.json and CHG-0804).
+**What changed:** scripts/model-drift-check.sh live-session check (lines ~271-345) will be updated to derive expected models consistently with the static agent model check: using CREST v1.3 phase_rules from state/model-policy.json combined with the operational primary in openclaw.json, instead of the stale agentTiers.requiredPrimary that was restored to pre-CHG-0802 minimax-m3 for governance planning only. The check will continue to flag genuine session overrides, but will not flag infra subagents running deepseek-v4-flash:cloud when that is the documented operational primary.
+**Why:** model-policy.json contains a deliberate dual-state: requiredPrimary=minimax-m3 for governance baseline, but _crestNote explicitly states openclaw.json operational primary remains deepseek-v4-flash:cloud and CREST phase_rules govern runtime assignment. The live-session checker currently ignores this exception and produces recurring false positives.
+**Verification:** After edit, run bash scripts/model-drift-check.sh and confirm state/model-drift-violations.json no longer contains live-session.infra or any infra SESSION_MODEL_DRIFT entry. Also confirm the static agent model check for infra still passes.
+**Rollback:** Restore scripts/model-drift-check.sh from git or .bak.
+**Linked:** CHG-0804, CHG-0827, state/model-policy.json, openclaw.json, state/warden-escalation-pending.json
+**Category:** script
+---
+
 ## 2026-07-05 20:22 AEST — [CHG-0830] Final integration and re-send of Day 72 rich standup email
 **Type:** script
 **Change Type:** Normal

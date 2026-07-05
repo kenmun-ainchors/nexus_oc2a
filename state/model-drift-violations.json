@@ -1,20 +1,62 @@
 {
   "violations": [
     {
-      "agentId": "live-session.infra",
-      "expected": "ollama/minimax-m3:cloud",
-      "actual": "deepseek-v4-flash:cloud",
-      "severity": "SESSION_MODEL_DRIFT",
-      "sessionKey": "",
-      "sessionId": "bf20bed2-921c-4a0e-a944-2bc44ee665de",
-      "note": "Live session model does not match tier primary. Session override may be stuck from temporary switch. Check and reset via session_status.",
-      "detectedAt": "2026-07-05T20:07:03+10:00",
-      "id": "DRIFT-20260705100703-live-session_infra",
-      "status": "unresolved",
-      "escalatedToYoda": true
+      "agentId": "default.primary",
+      "expected": "ollama/gemma4:31b-cloud",
+      "actual": "ollama/kimi-k2.7-code:cloud",
+      "severity": "VIOLATION",
+      "note": "",
+      "detectedAt": "2026-07-05T22:12:28+10:00",
+      "id": "DRIFT-20260705121228-default_primary",
+      "status": "superseded",
+      "escalatedToYoda": false,
+      "supersededReason": "Auto-superseded: Warden consecutiveClean=1 (CHG-0279)"
+    },
+    {
+      "agentId": "default.fallbacks",
+      "expected": [
+        "ollama/kimi-k2.6:cloud"
+      ],
+      "actual": [
+        "ollama/kimi-k2.6:cloud"
+      ],
+      "severity": "VIOLATION",
+      "note": "Fallback chain drift breaks resilient outage handling.",
+      "detectedAt": "2026-07-05T22:12:28+10:00",
+      "id": "DRIFT-20260705121228-default_fallbacks",
+      "status": "superseded",
+      "escalatedToYoda": false,
+      "supersededReason": "Auto-superseded: Warden consecutiveClean=1 (CHG-0279)"
+    },
+    {
+      "agentId": "default.primary",
+      "expected": "ollama/gemma4:31b-cloud",
+      "actual": "ollama/kimi-k2.7-code:cloud",
+      "severity": "VIOLATION",
+      "note": "",
+      "detectedAt": "2026-07-05T22:12:51+10:00",
+      "id": "DRIFT-20260705121251-default_primary",
+      "status": "superseded",
+      "escalatedToYoda": false,
+      "supersededReason": "Auto-superseded: Warden consecutiveClean=1 (CHG-0279)"
+    },
+    {
+      "agentId": "default.fallbacks",
+      "expected": [
+        "ollama/kimi-k2.6:cloud"
+      ],
+      "actual": [
+        "ollama/kimi-k2.6:cloud"
+      ],
+      "severity": "VIOLATION",
+      "note": "Fallback chain drift breaks resilient outage handling.",
+      "detectedAt": "2026-07-05T22:12:51+10:00",
+      "id": "DRIFT-20260705121251-default_fallbacks",
+      "status": "superseded",
+      "escalatedToYoda": false,
+      "supersededReason": "Auto-superseded: Warden consecutiveClean=1 (CHG-0279)"
     }
   ],
-  "totalUnresolved": 1,
-  "lastUpdated": "2026-07-05T20:07:03+10:00",
-  "clearedBy": "CHG-0812"
+  "totalUnresolved": 0,
+  "lastUpdated": "2026-07-05T22:12:51+10:00"
 }
