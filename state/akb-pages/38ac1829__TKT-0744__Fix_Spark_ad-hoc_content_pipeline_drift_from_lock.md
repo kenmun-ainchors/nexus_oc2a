@@ -5,6 +5,6 @@
 - **Type:** Bug
 - **Priority:** Medium
 - **Category:** Technical
-- **Sprint:** Sprint 11
+- **Sprint:** Sprint 12
 - **Created:** 2026-06-25T11:39:00.000+10:00
-- **Last Edited:** 2026-06-25T15:26:00.000Z
+- **Last Edited:** 2026-07-05T09:51:00.000Z

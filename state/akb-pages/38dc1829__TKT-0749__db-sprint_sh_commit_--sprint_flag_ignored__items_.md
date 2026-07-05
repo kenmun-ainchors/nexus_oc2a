@@ -5,9 +5,9 @@
 - **Type:** Bug
 - **Priority:** High
 - **Category:** Technical
-- **Sprint:** Sprint 10
+- **Sprint:** Sprint 12
 - **Created:** 2026-06-28T09:30:00.000+10:00
-- **Last Edited:** 2026-06-28T09:33:00.000Z
+- **Last Edited:** 2026-07-05T09:51:00.000Z
 
 ## Notes
 
