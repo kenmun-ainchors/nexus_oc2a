@@ -25,7 +25,9 @@ STATE_FILE="${WORKSPACE}/state/standup-state.json"
 HEALTH_FILE="${WORKSPACE}/state/health-state.json"
 COST_FILE="${WORKSPACE}/state/cost-state.json"
 BACKUP_FILE="${WORKSPACE}/state/backup-state.json"
-AUTOHEAL_FILE="${WORKSPACE}/state/auto-heal-state.json"
+AUTOHEAL_FILE="${WORKSPACE}/state/auto-heal-current.json"
+AUTOHEAL_FALLBACK_FILE="${WORKSPACE}/state/auto-heal-state.json"
+AUTOHEAL_DATED_FILE="${WORKSPACE}/state/auto-heal-$(TZ=Australia/Sydney date -v-1d '+%Y-%m-%d').json"
 CHANGELOG="${WORKSPACE}/memory/CHANGELOG.md"
 DAILY_NOTE="${WORKSPACE}/state/daily-note.json"
 COMPOSER_FILE="${WORKSPACE}/.openclaw/tmp/standup-composer-input.json"
@@ -188,6 +190,15 @@ cost = safe_read_json(WORKSPACE / "state" / "cost-state.json", {})
 backup = safe_read_json(WORKSPACE / "state" / "backup-state.json", {})
 autoheal = safe_read_json(WORKSPACE / "state" / "auto-heal-state.json", {})
 daily_note = safe_read_json(WORKSPACE / "state" / "daily-note.json", {})
+# New health/status cards
+budget = safe_read_json(WORKSPACE / "state" / "request-budget-alert-state.json", {})
+latency = safe_read_json(WORKSPACE / "state" / "latency-summary.json", {})
+drift = safe_read_json(WORKSPACE / "state" / "model-drift-state.json", {})
+cron_health = safe_read_json(WORKSPACE / "state" / "cron-health-state.json", {})
+crest_compliance = safe_read_json(WORKSPACE / "state" / "aria-crest-compliance.json", {})
+fw_maturity_data = safe_read_json(WORKSPACE / "state" / "frameworks-maturity.json", {})
+open_decisions = safe_read_json(WORKSPACE / "state" / "open-decisions.json", {})
+draft_docs = safe_read_json(WORKSPACE / "state" / "draft-docs.json", {})
 
 overall = health.get("overallStatus", health.get("status", "unknown"))
 gateway_ok = overall.lower() in ("ok", "good")
@@ -213,35 +224,306 @@ except Exception:
     mem_size = 0
 mem_status = "🟢 Under limit" if mem_size < 15000 else "🟡 Over 15KB"
 
-# Auto-heal NEEDS_KEN summary
-autoheal_needs_ken = autoheal.get("needsKen", autoheal.get("needs_ken", autoheal.get("items", [])))
-if isinstance(autoheal_needs_ken, list) and autoheal_needs_ken:
-    autoheal_html = f"<ul>" + "".join(
-        f"<li>{escape(str(i))}</li>" for i in autoheal_needs_ken
-    ) + "</ul>"
-elif isinstance(autoheal_needs_ken, str) and autoheal_needs_ken:
-    autoheal_html = f"<p>{escape(autoheal_needs_ken)}</p>"
+# ── New auto-heal: try auto-heal-current.json first, fall back to auto-heal-state.json, then dated ──
+autoheal_current = safe_read_json(WORKSPACE / "state" / "auto-heal-current.json", {})
+if autoheal_current and autoheal_current.get("exit_status"):
+    # Use auto-heal-current.json as canonical
+    autoheal_current_source = "state/auto-heal-current.json"
+    checks_count = autoheal_current.get("checks_count", 0)
+    issues_count = autoheal_current.get("issues_count", 0)
+    issues_found = autoheal_current.get("issues_found", [])
+    auto_fixed_count = autoheal_current.get("auto_fixed_count", 0)
+    checks_run_count = autoheal_current.get("checks_count", 0)
+    checks_passed = checks_run_count - issues_count
+    exit_status = autoheal_current.get("exit_status", "unknown")
+    autoheal_needs_ken = autoheal_current.get("needs_ken", [])
+elif autoheal and autoheal.get("needsKen") is not None:
+    autoheal_current_source = "state/auto-heal-state.json"
+    checks_count = autoheal.get("checksCount", 0)
+    issues_count = autoheal.get("issuesCount", 0)
+    issues_found = autoheal.get("issues", [])
+    auto_fixed_count = autoheal.get("autoFixedCount", 0)
+    checks_run_count = autoheal.get("checkCount", 0)
+    checks_passed = checks_run_count - issues_count
+    exit_status = autoheal.get("exitStatus", "unknown")
+    autoheal_needs_ken = autoheal.get("needsKen", autoheal.get("needs_ken", []))
 else:
-    autoheal_html = "<p>No NEEDS_KEN items — auto-heal completed clean.</p>"
+    # Try yesterday's dated file
+    yesterday_str = yesterday_dt.isoformat()
+    autoheal_current_source = f"state/auto-heal-{yesterday_str}.json"
+    autoheal_yesterday = safe_read_json(WORKSPACE / f"state/auto-heal-{yesterday_str}.json", {})
+    if autoheal_yesterday and autoheal_yesterday.get("exit_status"):
+        checks_count = autoheal_yesterday.get("checks_count", 0)
+        issues_count = autoheal_yesterday.get("issues_count", 0)
+        issues_found = autoheal_yesterday.get("issues_found", [])
+        auto_fixed_count = autoheal_yesterday.get("auto_fixed_count", 0)
+        checks_run_count = autoheal_yesterday.get("checks_count", 0)
+        checks_passed = checks_run_count - issues_count
+        exit_status = autoheal_yesterday.get("exit_status", "unknown")
+        autoheal_needs_ken = autoheal_yesterday.get("needs_ken", [])
+    else:
+        autoheal_needs_ken = autoheal.get("needsKen", autoheal.get("needs_ken", []))
+        checks_count = 0
+        issues_count = 0
+        issues_found = []
+        auto_fixed_count = 0
+        checks_run_count = 0
+        checks_passed = 0
+        exit_status = "unknown"
+
+# Build autoheal HTML
+autoheal_html_parts = []
+
+# Summary
+if checks_run_count > 0:
+    autoheal_html_parts.append(
+        f'<div class="card-grid">'
+        f'<div class="card card-{"ok" if exit_status == "complete" else "warn"}"><div class="card-label">Checks</div><div class="card-value">{checks_run_count}</div><div class="card-sub">total checks run</div></div>'
+        f'<div class="card card-{"ok" if issues_count == 0 else "warn"}"><div class="card-label">Passed / Failed</div><div class="card-value">{checks_passed} / {issues_count}</div><div class="card-sub">issues found</div></div>'
+        f'<div class="card card-info"><div class="card-label">Auto-Fixed</div><div class="card-value">{auto_fixed_count}</div><div class="card-sub">items auto-remedied</div></div>'
+        f'<div class="card card-{"ok" if exit_status == "complete_with_needs_ken" else "info"}"><div class="card-label">Exit Status</div><div class="card-value">{escape(exit_status.upper())}</div><div class="card-sub">{escape(autoheal_current_source)}</div></div>'
+        f'</div>'
+    )
+    if issues_found:
+        autoheal_html_parts.append('<div class="alert-warn"><strong>Issues Found:</strong><ul>' + "".join(f'<li>{escape(str(i))}</li>' for i in issues_found) + '</ul></div>')
+
+# NEEDS_KEN rendering
+if isinstance(autoheal_needs_ken, list) and autoheal_needs_ken:
+    # Check if items are dicts or strings
+    if isinstance(autoheal_needs_ken[0], dict):
+        autoheal_html_parts.append('<h3>NEEDS_KEN Items</h3>')
+        autoheal_html_parts.append('<table style="width:100%;border-collapse:collapse;font-size:12px;margin:6px 0;">')
+        autoheal_html_parts.append('<tr style="background:#f0f2f4;"><th style="padding:4px 8px;text-align:left;border:1px solid #d0d7de;">Check</th><th style="padding:4px 8px;text-align:left;border:1px solid #d0d7de;">Reason</th><th style="padding:4px 8px;text-align:left;border:1px solid #d0d7de;">Severity</th></tr>')
+        for item in autoheal_needs_ken:
+            if isinstance(item, dict):
+                check = escape(item.get("check", ""))
+                reason = escape(item.get("reason", ""))
+                severity = escape(item.get("severity", "medium"))
+            else:
+                # Object-like string, attempt to parse
+                parts = str(item).split(":", 2)
+                check = escape(parts[0]) if len(parts) > 0 else ""
+                reason = escape(parts[1]) if len(parts) > 1 else ""
+                severity = "warn"
+            autoheal_html_parts.append(f'<tr><td style="padding:4px 8px;border:1px solid #d0d7de;">{check}</td><td style="padding:4px 8px;border:1px solid #d0d7de;">{reason}</td><td style="padding:4px 8px;border:1px solid #d0d7de;color:#cf222e;">{severity}</td></tr>')
+        autoheal_html_parts.append('</table>')
+    else:
+        autoheal_html_parts.append('<h3>NEEDS_KEN Items</h3>')
+        autoheal_html_parts.append("<ul>" + "".join(
+            f"<li>{escape(str(i))}</li>" for i in autoheal_needs_ken
+        ) + "</ul>")
+elif isinstance(autoheal_needs_ken, list) and not autoheal_needs_ken:
+    autoheal_html_parts.append('<div class="alert-ok">✅ No NEEDS_KEN items — auto-heal clean.</div>')
+elif isinstance(autoheal_needs_ken, str) and autoheal_needs_ken:
+    autoheal_html_parts.append(f"<p>{escape(autoheal_needs_ken)}</p>")
+else:
+    autoheal_html_parts.append('<div class="alert-ok">✅ No NEEDS_KEN items — auto-heal clean.</div>')
+
+autoheal_html = "\n".join(autoheal_html_parts)
 
 # Daily note health
 note_health = daily_note.get("healthStatus", "")
 
-# Recent CHGs from CHANGELOG tail
-chg_lines = []
+# ── Recent CHGs from CHANGELOG — parse structured entries ────────────────────
+import re as _re
+chg_entries = []
 try:
     text = safe_read_text(str(WORKSPACE / "memory" / "CHANGELOG.md"))
-    lines = [l for l in text.splitlines() if l.strip().startswith("## 20") or l.strip().startswith("**What changed:")]
-    wc = [l.replace("**What changed:**", "").strip() for l in lines if "What changed:" in l]
-    chg_lines = wc[:8]
+    # Split by ## headers
+    sections = _re.split(r'^## ', text, flags=_re.MULTILINE)
+    for sec in sections[1:]:
+        lines = sec.strip().split('\n')
+        header_line = lines[0].strip()
+        body = '\n'.join(lines[1:])
+        # Date from header
+        date_match = _re.search(r'(\d{4}-\d{2}-\d{2})', header_line)
+        date = date_match.group(1) if date_match else ''
+        # CHG ID from header or body
+        chg_match = _re.search(r'\[(CHG-\d+)\]', header_line + body)
+        chg_id = chg_match.group(1) if chg_match else ''
+        # Title from **What changed:**
+        title_match = _re.search(r'\*\*What changed:\*\*\s*(.*?)(?:\n|$)', body)
+        title = title_match.group(1).strip() if title_match else ''
+        if not title and chg_match:
+            # Try from the [CHG-XXXX] text in header
+            title_from_header = _re.sub(r'^.*\[CHG-\d+\]\s*', '', header_line).strip()
+            title = title_from_header if title_from_header else ''
+        # Type
+        type_match = _re.search(r'\*\*Type:\*\*\s*(.*?)(?:\n|$)', body)
+        typ = type_match.group(1).strip() if type_match else ''
+        if date and chg_id:
+            chg_entries.append({'date': date, 'chg_id': chg_id, 'title': title[:100], 'type': typ})
+    chg_entries = chg_entries[:8]
 except Exception:
     pass
 
 chg_html = ""
-if chg_lines:
-    chg_html = "<ul>" + "".join(f"<li>{escape(c)}</li>" for c in chg_lines) + "</ul>"
+if chg_entries:
+    items = []
+    for e in chg_entries:
+        t = escape(e['title']) if e['title'] else '?'
+        tp = escape(e['type']) if e['type'] else '?'
+        d = escape(e['date'])
+        items.append(f'<li><strong>{escape(e["chg_id"])}</strong> — {t} · {tp} · {d}</li>')
+    chg_html = "<ul>" + "\n".join(items) + "</ul>"
 else:
     chg_html = "<p>No new changes recorded since last stand-up.</p>"
+
+# ── CREST compliance block ────────────────────────────────────────────────────
+creST_html_parts = []
+if crest_compliance and crest_compliance.get("status"):
+    c_status = escape(crest_compliance["status"])
+    c_time = escape(crest_compliance.get("checked_at", ""))
+    c_violations = crest_compliance.get("violations", [])
+    c_violation_count = crest_compliance.get("violation_count", len(c_violations))
+    c_pill = "pill-green" if c_status.lower() in ("compliant", "ok", "passed") else "pill-red"
+    creST_html_parts.append(f'<div><span class="pill {c_pill}">{escape(c_status)}</span> <span style="font-size:12px;color:#57606a;">Last check: {c_time}</span></div>')
+    if c_violations:
+        creST_html_parts.append('<h3>Violations</h3><ul>' + "".join(f'<li>{escape(str(v))}</li>' for v in c_violations) + '</ul>')
+    else:
+        creST_html_parts.append('<div class="alert-ok" style="margin-top:6px;">✅ No violations — CREST compliance clean.</div>')
+else:
+    creST_html_parts.append('<div class="alert-info">ℹ️ No CREST compliance data available.</div>')
+crest_html = "\n".join(creST_html_parts)
+
+# ── Framework Maturity (table) ───────────────────────────────────────────────
+fw_items = fw_maturity_data.get("frameworks", [])
+if fw_items:
+    # Sort by score descending, take top 5
+    scored = []
+    for fw in fw_items:
+        level = fw.get("maturity", "L1")
+        try:
+            score = int(level[1]) if len(level) >= 2 else 0
+        except Exception:
+            score = 0
+        scored.append((score, fw))
+    scored.sort(key=lambda x: -x[0])
+    top5 = scored[:5]
+    fw_html = '<table style="width:100%;border-collapse:collapse;font-size:12px;margin:6px 0;">'
+    fw_html += '<tr style="background:#f0f2f4;"><th style="padding:4px 8px;text-align:left;border:1px solid #d0d7de;">Framework</th><th style="padding:4px 8px;text-align:left;border:1px solid #d0d7de;">Level</th><th style="padding:4px 8px;text-align:left;border:1px solid #d0d7de;">Status</th></tr>'
+    for score, fw in top5:
+        fname = escape(fw.get("name", "?"))
+        flevel = escape(fw.get("maturity", "?"))
+        fstatus = escape(fw.get("label", "?"))
+        fw_html += f'<tr><td style="padding:4px 8px;border:1px solid #d0d7de;">{fname}</td><td style="padding:4px 8px;border:1px solid #d0d7de;">{flevel}</td><td style="padding:4px 8px;border:1px solid #d0d7de;">{fstatus}</td></tr>'
+    fw_html += '</table>'
+else:
+    fw_html = '<div class="alert-info">ℹ️ Framework maturity data not available.</div>'
+
+# ── Open Decisions ────────────────────────────────────────────────────────────
+od_items = []
+if isinstance(open_decisions, list):
+    od_items = open_decisions[:3]
+elif isinstance(open_decisions, dict):
+    od_items = open_decisions.get("decisions", open_decisions.get("items", []))[:3]
+od_html = ""
+if od_items:
+    od_html = f'<p>{len(od_items)} open decision(s):</p><ul>' + "".join(
+        f'<li>{escape(i.get("title", i) if isinstance(i, dict) else str(i))}</li>' for i in od_items
+    ) + '</ul>'
+else:
+    od_html = '<div class="alert-info">ℹ️ No open decisions.</div>'
+
+# ── Draft Docs ────────────────────────────────────────────────────────────────
+dd_items = []
+if isinstance(draft_docs, list):
+    dd_items = draft_docs[:3]
+elif isinstance(draft_docs, dict):
+    dd_items = draft_docs.get("docs", draft_docs.get("items", []))[:3]
+dd_html = ""
+if dd_items:
+    dd_html = f'<p>{len(dd_items)} draft doc(s):</p><ul>' + "".join(
+        f'<li>{escape(i.get("title", i) if isinstance(i, dict) else str(i))}</li>' for i in dd_items
+    ) + '</ul>'
+else:
+    dd_html = '<div class="alert-info">ℹ️ No draft docs.</div>'
+
+# ── Sprint items (for Section 8 prompt bullets) ──────────────────────────────
+sprint_data = safe_read_json(WORKSPACE / "state" / "sprint-current.json", {})
+sprint_tickets = safe_read_json(WORKSPACE / "state" / "sprint-items.json", {})
+sprint_items_top = []
+if isinstance(sprint_tickets, dict) and sprint_tickets.get("items"):
+    for item in sprint_tickets["items"][:3]:
+        if isinstance(item, dict) and item.get("title"):
+            sprint_items_top.append(escape(item["title"]))
+elif isinstance(sprint_tickets, list):
+    for item in sprint_tickets[:3]:
+        if isinstance(item, dict) and item.get("title"):
+            sprint_items_top.append(escape(item["title"]))
+        else:
+            sprint_items_top.append(escape(str(item)))
+
+# Build focus area suggestions for Section 8
+focus_bullets = []
+if sprint_items_top:
+    focus_bullets.append(f'<strong>Sprint 11 items:</strong> {"; ".join(sprint_items_top)}')
+if isinstance(autoheal_needs_ken, list) and autoheal_needs_ken:
+    if isinstance(autoheal_needs_ken[0], dict):
+        need_items = [autoheal_needs_ken[0].get("check", str(autoheal_needs_ken[0]))]
+    else:
+        need_items = [str(n)[:60] for n in autoheal_needs_ken[:2]]
+    focus_bullets.append(f'<strong>Auto-heal:</strong> {"; ".join(need_items)}')
+if od_items:
+    first_od = od_items[0]
+    first_od_title = first_od.get("title", str(first_od)) if isinstance(first_od, dict) else str(first_od)
+    focus_bullets.append(f'<strong>Open decision:</strong> {escape(first_od_title[:80])}')
+
+focus_html = ""
+if focus_bullets:
+    focus_html = "<ul style=\"margin-top:8px;text-align:left;\">" + "".join(
+        f"<li>{b}</li>" for b in focus_bullets
+    ) + "</ul>"
+
+# ── Source file list for footer ──────────────────────────────────────────────
+source_files = [
+    "state/standup-state.json",
+    "state/health-state.json",
+    "state/cost-state.json",
+    "state/backup-state.json",
+    "state/request-budget-alert-state.json",
+    "state/latency-summary.json",
+    "state/model-drift-state.json",
+    "state/cron-health-state.json",
+    "state/aria-crest-compliance.json",
+    "state/frameworks-maturity.json",
+    autoheal_current_source,
+    "memory/CHANGELOG.md",
+    "memory/MEMORY.md"
+]
+source_file_list = ", ".join(source_files)
+
+# ── Recent Journal Snippets ──────────────────────────────────────────────────
+journal_snippets = []
+recent_dates = [
+    (now_aest.date() - timedelta(days=i)).isoformat()
+    for i in range(1, 4)
+]
+for jdate in recent_dates:
+    jpath = WORKSPACE / "memory" / f"journal-{jdate}.md"
+    if jpath.exists():
+        try:
+            jtext = safe_read_text(str(jpath))
+            # Get first entry title (line starting with ##)
+            for line in jtext.split("\n"):
+                line = line.strip()
+                if line.startswith("## ") and len(line) > 3:
+                    snippet = line.replace("## ", "").strip()
+                    if len(snippet) > 20:
+                        journal_snippets.append({"date": jdate, "title": snippet[:100]})
+                        break
+        except Exception:
+            pass
+
+# ── Latency by Model table ───────────────────────────────────────────────────
+latency_by_model = latency.get("byModel", {})
+latency_model_rows = []
+for model_name, model_data in sorted(latency_by_model.items(), key=lambda x: -x[1].get("sampleCount", 0)):
+    samples = model_data.get("sampleCount", 0)
+    p50 = model_data.get("p50Ms", "?")
+    p95 = model_data.get("p95Ms", "?")
+    avg_s = round(model_data.get("avgMs", 0) / 1000, 1)
+    latency_model_rows.append({"name": model_name[:50], "samples": samples, "p50": p50, "p95": p95, "avg": avg_s})
 
 # ── Load composer blocks from exported file ──────────────────────────────────
 composer = {}
@@ -270,6 +552,11 @@ bud_text = rtb.get("bud", "")
 
 header_pill = "pill-green" if gateway_ok else "pill-yellow"
 header_text = "🟢 System OK" if gateway_ok else "🟡 System Needs Attention"
+
+# ── Composer model ────────────────────────────────────────────────────────────
+composer_model = composer.get("composer_model", "")
+if not composer_model:
+    composer_model = "ollama/deepseek-v4-flash:cloud"
 
 # Source list from env
 source_list = os.environ.get("STANDUP_SOURCE_LIST", "")
@@ -365,8 +652,45 @@ html = f"""<!DOCTYPE html>
         <div class="card-sub">01:00 AEST today</div>
       </div>
     </div>
+    <div class="card-grid">
+      <div class="card card-{'warn' if budget.get('currentPct', 0) > 50 else 'ok'}">
+        <div class="card-label">Ollama Budget</div>
+        <div class="card-value">{escape(str(budget.get('requestsUsed', '?')))}
+        /{escape(str(budget.get('requestsRemaining', '?')))}
+        ({escape(str(budget.get('currentPct', '?')))}%)</div>
+        <div class="card-sub">{escape(str(budget.get('requestsRemaining', '?')))} remaining · burn rate ~{escape(str(round(budget.get('requestsUsed', 0) / 24)))} req/hr</div>
+        {f'<div class="alert-warn" style="margin-top:6px;font-size:11px;">⚠️ Budget alert level: {escape(str(budget.get("alertLevel", "")))}</div>' if budget.get('currentPct', 0) > 50 else ''}
+      </div>
+      <div class="card card-info">
+        <div class="card-label">Gateway Latency</div>
+        <div class="card-value">{escape(str(latency.get('overall', {}).get('avgMs', '?')))}ms</div>
+        <div class="card-sub">peak {escape(str(latency.get('overall', {}).get('peakMs', '?')))}ms · {escape(str(latency.get('overall', {}).get('sampleCount', 0)))} samples</div>
+      </div>
+      <div class="card card-{'warn' if drift.get('lastStatus','').lower() != 'clean' else 'ok'}">
+        <div class="card-label">Model Drift</div>
+        <div class="card-value">{escape(drift.get('lastStatus', 'UNKNOWN').upper())}</div>
+        <div class="card-sub">{escape(str(drift.get('totalViolationsFound', 0)))} violations · {escape(str(drift.get('consecutiveClean', 0)))} clean</div>
+        {f'<div class="alert-warn" style="margin-top:6px;font-size:11px;">⚠️ Drift alerts: {escape(str(drift.get("totalViolationsFound", "")))}</div>' if drift.get('lastStatus','').lower() != 'clean' else ''}
+      </div>
+      <div class="card card-{'warn' if not cron_health.get('healthy', True) else 'ok'}">
+        <div class="card-label">Cron Health</div>
+        <div class="card-value">{'OK' if cron_health.get('healthy', True) else str(len(cron_health.get('failures', []))) + ' errors'}</div>
+        <div class="card-sub">{'All crons healthy' if cron_health.get('healthy', True) else str(len(cron_health.get('failures', []))) + ' failures'}</div>
+        {f'<div class="alert-warn" style="margin-top:6px;font-size:11px;">⚠️ Failures: {escape(str(cron_health.get("failures", [])))}</div>' if not cron_health.get('healthy', True) else ''}
+      </div>
+    </div>
     {f'<div class="alert-warn">ℹ️ {escape(note_health)}</div>' if note_health else ''}
-  </div>
+
+    <div style="background:#f6f8fa;border:1px solid #d0d7de;border-radius:6px;padding:10px 14px;margin:8px 0;font-size:12px;color:#57606a;">
+      <strong>Budget Trend:</strong> {escape(str(budget.get('currentPct', '?')))}% of Ollama daily quota used ({escape(str(budget.get('requestsUsed', 0)))}) of {escape(str(budget.get('requestsRemaining', 0) + budget.get('requestsUsed', 0)))} total. Burn rate ~{escape(str(round(budget.get('requestsUsed', 0) / 24)))} req/hr. Thresholds: warn {escape(str(budget.get('thresholds',{}).get('warn',{}).get('pct',50)))}% · alert {escape(str(budget.get('thresholds',{}).get('alert',{}).get('pct',70)))}% · critical {escape(str(budget.get('thresholds',{}).get('critical',{}).get('pct',85)))}%.
+      Latency sample: {escape(str(latency.get('overall',{}).get('sampleCount',0)))} tasks over {escape(str(latency.get('windowDays',7)))}d — avg {escape(str(round(latency.get('overall',{}).get('avgMs',0)/1000,1)))}s, peak {escape(str(round(latency.get('overall',{}).get('peakMs',0)/1000,1)))}s.
+    </div>
+
+    <h3 style="margin-top:4px;margin-bottom:2px;">Latency by Model</h3>
+    <table style="width:100%;border-collapse:collapse;font-size:11px;margin:4px 0;">
+      <tr style="background:#f0f2f4;"><th style="padding:3px 6px;text-align:left;border:1px solid #d0d7de;">Model</th><th style="padding:3px 6px;text-align:right;border:1px solid #d0d7de;">Samples</th><th style="padding:3px 6px;text-align:right;border:1px solid #d0d7de;">p50</th><th style="padding:3px 6px;text-align:right;border:1px solid #d0d7de;">p95</th><th style="padding:3px 6px;text-align:right;border:1px solid #d0d7de;">Avg</th></tr>
+{''.join(f'<tr><td style="padding:3px 6px;border:1px solid #d0d7de;">{escape(r["name"])}</td><td style="padding:3px 6px;text-align:right;border:1px solid #d0d7de;">{r["samples"]}</td><td style="padding:3px 6px;text-align:right;border:1px solid #d0d7de;">{r["p50"]}ms</td><td style="padding:3px 6px;text-align:right;border:1px solid #d0d7de;">{r["p95"]}ms</td><td style="padding:3px 6px;text-align:right;border:1px solid #d0d7de;">{r["avg"]}s</td></tr>' for r in latency_model_rows)}
+    </table>
 
   <div class="section">
     <h2>2 · Business Stream (Angie / Aria)</h2>
@@ -375,22 +699,51 @@ html = f"""<!DOCTYPE html>
 
   <div class="section">
     <h2>3 · Governance</h2>
-    <div class="alert-ok">✅ Governance agents (Shield, Lex, Sage, Warden) reactive-only. No escalations flagged in health state.</div>
+
+    <h3>CREST Compliance</h3>
+    {crest_html}
+
+    <h3>Framework Maturity (Top 5)</h3>
+    {fw_html}
+
+    <h3>Open Decisions</h3>
+    {od_html}
+
+    <h3>Draft Docs</h3>
+    {dd_html}
   </div>
 
   <div class="section">
     <h2>4 · Auto-Heal (Yesterday — {fmt_date(yesterday_dt)}, 01:00 AEST)</h2>
+    <div class="alert-info" style="margin-bottom:8px;font-size:12px;">
+      <strong>Schedule:</strong> Daily 01:00 AEST · {escape(str(autoheal_current.get('checks_count',0)))} checks · Source: {escape(autoheal_current_source)}
+    </div>
     <div>{autoheal_html}</div>
   </div>
 
   <div class="section">
-    <h2>5 · Framework Maturity</h2>
-    <div style="white-space: pre-wrap; font-size: 13px;">{escape(fw_maturity) if fw_maturity else 'ℹ️ Framework maturity snapshot available in state/frameworks-maturity.json. Review during sprint ceremonies.'}</div>
+    <h2>5 · Framework Maturity (Top 5)</h2>
+    {fw_html}
+    <div style="font-size:11px;color:#57606a;margin-top:6px;">Source: state/frameworks-maturity.json · Last assessed: {escape(fw_maturity_data.get("lastAssessed", "N/A"))} by {escape(fw_maturity_data.get("assessedBy", "unknown"))}</div>
   </div>
 
   <div class="section">
     <h2>6 · Progress (CHGs Since Last Stand-up)</h2>
-    <div style="white-space: pre-wrap; font-size: 13px;">{escape(progress_block) if progress_block else chg_html}</div>
+    <div style="white-space: pre-wrap; font-size: 13px;">{escape(progress_block) if progress_block else 'No progress summary from composer.'}</div>
+
+    <h3>Recent CHG Log</h3>
+    {chg_html}
+
+    <h3>Recent Journal Entries</h3>
+    <ul>
+{''.join(f'<li><strong>{escape(s["date"])}</strong> — {escape(s["title"])}</li>' for s in journal_snippets) if journal_snippets else '<li>No recent journal entries found (last 3 days).</li>'}
+    </ul>
+    <div style="font-size:11px;color:#57606a;margin-top:4px;">Source: memory/journal-*.md files from last 3 days</div>
+
+    <h3>Sprint Summary</h3>
+    <div style="background:#f6f8fa;border:1px solid #d0d7de;border-radius:6px;padding:10px 14px;font-size:12px;">
+      <strong>{escape(sprint_data.get('name', 'Sprint 11'))}</strong> — {escape(sprint_data.get('dates', 'TBD'))} · Status: {escape(sprint_data.get('status', 'unknown'))}
+    </div>
   </div>
 
   <div class="section">
@@ -419,12 +772,25 @@ html = f"""<!DOCTYPE html>
   <div class="section">
     <h2>8 · New Input Prompt</h2>
     <div class="new-input">
-      What's your focus for today, Ken?
+      <p>What's your focus for today, Ken?</p>
+      {focus_html}
+    </div>
+  </div>
+
+  <div class="section">
+    <h2>9 · State Summary</h2>
+    <div style="font-size:12px;color:#57606a;">
+      <p><strong>Stand-up:</strong> Day {day_n} · Last generated {escape(state.get('lastStandupDate', 'N/A'))} · Email sent: {escape(state.get('emailSentAt', 'N/A'))}</p>
+      <p><strong>MEMORY.md:</strong> {mem_size:,} chars · {escape(mem_status)}</p>
+      <p><strong>Frameworks assessed:</strong> {escape(str(len(fw_maturity_data.get('frameworks', []))))} frameworks · Last: {escape(fw_maturity_data.get('lastAssessed', 'N/A'))}</p>
+      <p><strong>Auto-heal checks:</strong> {escape(str(autoheal_current.get('checks_count',0)))} total · {escape(str(autoheal_current.get('issues_count',0)))} issues · {escape(str(autoheal_current.get('auto_fixed_count',0)))} auto-fixed · exit: {escape(autoheal_current.get('exit_status','unknown'))}</p>
     </div>
   </div>
 
   <div class="footer">
-    AInchors Nexus Platform · Generated at {now_aest.strftime('%H:%M AEST')} · CHG-0824 · {escape(source_footer)}
+    AInchors Nexus Platform · Generated at {now_aest.strftime('%H:%M AEST')} · Day {day_n}<br>
+    Composer model: {escape(composer_model)} · {escape(source_footer)}<br>
+    <span style="font-size:11px;opacity:0.7;">Sources: {escape(source_file_list)}</span>
   </div>
 
 </div>

@@ -5,7 +5,7 @@
 # then invokes OpenClaw model routing for LLM composition.
 # Output: .openclaw/tmp/standup-composer-input.json
 # On failure: writes degraded-composer JSON and exits non-zero.
-# Does NOT call Ollama HTTP API directly — uses openclaw agent --local.
+# Does NOT call Ollama HTTP API directly — uses openclaw agent --agent infra (gateway mode).
 
 set -euo pipefail
 
@@ -175,17 +175,21 @@ COMPOSED=""
 # Primary model: ollama/deepseek-v4-flash:cloud
 # Fallback: ollama/kimi-k2.6:cloud
 for model in "ollama/deepseek-v4-flash:cloud" "ollama/kimi-k2.6:cloud"; do
-    echo "[standup-composer] Calling model: $model" >&2
-    result=$(openclaw agent --local --model "$model" --message-file "$PROMPT_FILE" --json --timeout 120 2>/dev/null || echo '{"error":"openclaw agent failed"}')
+    echo "[standup-composer] Calling model: $model (via gateway agent infra)" >&2
+    result=$(openclaw agent --agent infra --model "$model" --message-file "$PROMPT_FILE" --json --timeout 120 2>/dev/null || echo '{"error":"openclaw agent failed"}')
 
-    # Extract text from JSON result
+    # Extract text from JSON result (gateway response shape)
     raw_text=$(echo "$result" | python3 -c "
 import json, sys
 try:
     d = json.load(sys.stdin)
     if 'error' in d:
         sys.exit(1)
-    text = d.get('text', d.get('message', d.get('response', '')))
+    # Gateway wraps the response in result.payloads[0].text
+    payloads = d.get('result', {}).get('payloads', [])
+    if not payloads:
+        sys.exit(1)
+    text = payloads[0].get('text', '')
     if not text:
         sys.exit(1)
     print(text)
@@ -282,5 +286,13 @@ JSONEOF
 fi
 
 # ── Write success output ────────────────────────────────────────────────────
+# Inject composer_status: ok into success output
+COMPOSED=$(echo "$COMPOSED" | python3 -c "
+import json, sys
+d = json.load(sys.stdin)
+d['composer_status'] = 'ok'
+print(json.dumps(d, ensure_ascii=False))
+" 2>/dev/null || echo "$COMPOSED")
+
 echo "$COMPOSED" > "$OUTPUT_FILE"
 echo "[standup-composer] composed blocks → $OUTPUT_FILE" >&2
