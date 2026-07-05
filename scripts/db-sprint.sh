@@ -82,6 +82,7 @@ Subcommands:
   defer <TKT-ID> --to <Sprint X> --reason "..." - Defer ticket to another sprint
   migrate [--sprint <name>]            - Migrate sprint JSON → PG metadata
   ceremony complete <review|planning> [--sprint <name>] - Log ceremony to PG + auto-gen sprint-current.json
+  complete "<Sprint N>" [--dry-run]    - Mark sprint completed (updates status, logs ceremony, regenerates cache)
   export [--sprint <name>]             - Export read-only JSON summary of sprint (derived from PG)
   help                                 - Show this usage
 USAGE
@@ -1708,6 +1709,99 @@ cmd_activate() {
 }
 
 # ──────────────────────────────────────────────
+# SUBCOMMAND: complete "<Sprint N>" [--dry-run]
+# Mark a sprint as completed. Only sprints with status='in_progress' can be completed.
+# Logs a completion ceremony and auto-generates sprint-current.json.
+# ──────────────────────────────────────────────
+cmd_complete() {
+  local sprint_name=""
+  local dry_run="false"
+
+  while [[ $# -gt 0 ]]; do
+    case "$1" in
+      --dry-run)
+        dry_run="true"
+        shift
+        ;;
+      --help)
+        echo "Usage: db-sprint.sh complete \"<Sprint N>\" [--dry-run]"
+        echo "  Mark an in_progress sprint as completed."
+        echo "  --dry-run  Show what would change without writing."
+        return 0
+        ;;
+      *)
+        if [[ -z "$sprint_name" ]]; then
+          sprint_name="$1"
+          shift
+        else
+          die "Unknown flag: $1. Use --dry-run"
+        fi
+        ;;
+    esac
+  done
+
+  if [[ -z "$sprint_name" ]]; then
+    die "Usage: db-sprint.sh complete \"<Sprint N>\" [--dry-run]"
+  fi
+
+  local sprint_num
+  sprint_num=$(sprint_name_to_number "$sprint_name")
+
+  local current_status
+  current_status=$(pg_query "SELECT status FROM $SPRINT_TABLE WHERE sprint_number=$sprint_num ORDER BY updated_at DESC LIMIT 1;" 2>/dev/null | head -1)
+
+  if [[ -z "$current_status" || "$current_status" == "null" ]]; then
+    die "Sprint $sprint_name not found in PG"
+  fi
+
+  if [[ "$current_status" != "in_progress" ]]; then
+    die "Sprint $sprint_name status is '$current_status'; only 'in_progress' sprints can be completed"
+  fi
+
+  local mode_label="LIVE"
+  [[ "$dry_run" == "true" ]] && mode_label="DRY RUN"
+  log "Completing $sprint_name ($mode_label)"
+
+  if [[ "$dry_run" == "true" ]]; then
+    echo "{\"sprint\":\"$sprint_name\",\"sprint_number\":$sprint_num,\"from_status\":\"$current_status\",\"to_status\":\"completed\",\"action\":\"would-complete\"}"
+    return 0
+  fi
+
+  pg_query "UPDATE $SPRINT_TABLE SET status='completed', updated_at=NOW() WHERE sprint_number=$sprint_num AND status='in_progress';" > /dev/null 2>&1
+  local ret=$?
+  if [[ $ret -ne 0 ]]; then
+    die "Failed to complete sprint $sprint_name in PG"
+  fi
+
+  # Log completion ceremony
+  local current_ceremonies
+  current_ceremonies=$(pg_query "SELECT ceremonies::text FROM $SPRINT_TABLE WHERE sprint_number=$sprint_num ORDER BY updated_at DESC LIMIT 1;" 2>/dev/null)
+  [[ -z "$current_ceremonies" || "$current_ceremonies" == "null" ]] && current_ceremonies='{}'
+
+  local ceremony_key="sprint${sprint_num}Complete"
+  local ts
+  ts=$(date -u '+%Y-%m-%dT%H:%M:%S+10:00')
+  local updated_ceremonies
+  updated_ceremonies=$(echo "$current_ceremonies" | $JQ --arg key "$ceremony_key" --arg ts "$ts" '. + {($key): $ts}' 2>/dev/null)
+  local escaped
+  escaped=$(echo "$updated_ceremonies" | sed "s/'/''/g")
+  pg_query "UPDATE $SPRINT_TABLE SET ceremonies='$escaped'::jsonb, updated_at=NOW() WHERE sprint_number=$sprint_num;" > /dev/null 2>&1 || true
+
+  # Emit event
+  local actor
+  actor=$(resolve_actor)
+  local complete_payload
+  complete_payload=$(/opt/homebrew/bin/jq -n --arg name "$sprint_name" --arg num "$sprint_num" '{sprint_name: $name, sprint_number: ($num | tonumber)}' 2>/dev/null || echo "{\"sprint_name\":\"$sprint_name\"}")
+  emit_event "$actor" "completed" "sprint" "$sprint_name" "$complete_payload" "in_progress" "completed"
+
+  # Auto-generate sprint-current.json cache
+  generate_sprint_current_json "$sprint_num"
+
+  log "✓ Sprint $sprint_name marked completed"
+  echo "{\"sprint\":\"$sprint_name\",\"sprint_number\":$sprint_num,\"from_status\":\"in_progress\",\"to_status\":\"completed\",\"ceremony\":\"$ceremony_key\",\"completed_at\":\"$ts\",\"action\":\"completed\"}"
+}
+
+# ──────────────────────────────────────────────
 # MAIN DISPATCH
 # ──────────────────────────────────────────────
 
@@ -1746,6 +1840,21 @@ main() {
     activate)
       cmd_activate "$@"
       ;;
+    complete)
+      if [[ "$#" -eq 0 || "${1:-}" == --* ]]; then
+        if [[ "${1:-}" == "--dry-run" ]]; then
+          # Handle: complete --dry-run without sprint name (use current)
+          sprint_name=$(get_current_sprint_name)
+          set -- "$sprint_name" "$@"
+        elif [[ "${1:-}" == "--help" ]]; then
+          # Pass --help through to cmd_complete
+          :
+        else
+          die "Usage: db-sprint.sh complete \"<Sprint N>\" [--dry-run]"
+        fi
+      fi
+      cmd_complete "$@"
+      ;;
     ceremony)
       cmd_ceremony "$@"
       ;;
@@ -1771,6 +1880,7 @@ Subcommands:
   defer <TKT-ID> --to <Sprint X> --reason "..." - Defer ticket
   migrate [--sprint <name>]            - Migrate sprint JSON → PG
   ceremony complete <review|planning> [--sprint <name>] - Log ceremony to PG
+  complete "<Sprint N>" [--dry-run]    - Mark sprint completed (updates status, logs ceremony, regenerates cache)
   export [--sprint <name>]             - Export read-only JSON summary of sprint (derived from PG)
   help                                 - Show this usage
 USAGE_ERR

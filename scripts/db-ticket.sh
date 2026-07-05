@@ -53,6 +53,7 @@ EVENT_SCRIPT="$WORKSPACE_ROOT/scripts/pg-write-event.sh"
 JQ="/opt/homebrew/bin/jq"
 TICKET_TABLE="state_tickets"
 TICKET_FILE="$WORKSPACE_ROOT/state/tickets.json"
+SPRINT_TABLE="state_sprints"
 
 # --- EVENT HELPER ---
 # Resolve actor: NEXUS_ACTOR env > USER env > 'system'
@@ -218,6 +219,17 @@ ticket_exists() {
   [[ -n "$result" && "$result" == *"$tkt_id"* ]]
 }
 
+# ──────────────────────────────────────────────
+# sprint_name_to_number — CHG-0829 stub
+# Minimal helper to extract numeric suffix from a sprint name like "Sprint 12"
+# ──────────────────────────────────────────────
+sprint_name_to_number() {
+  local name="$1"
+  local num
+  num=$(echo "$name" | tr -cd '0-9')
+  echo "${num:-0}"
+}
+
 get_ticket_json() {
   # Return full ticket as JSON including metadata
   # L-077 / CHG-0503: PG-only. The state/tickets.json stub (3 entries) was misleading
@@ -357,6 +369,119 @@ validate_ticket_payload() {
   fi
   
   return 0
+}
+
+# ──────────────────────────────────────────────
+# sync_sprint_from_metadata — CHG-0829
+# When metadata.sprint_target changes, keep top-level
+# state_tickets columns and state_sprints.items consistent.
+# ──────────────────────────────────────────────
+sync_sprint_from_metadata() {
+  local tkt_id="$1"
+  local new_meta old_meta old_sprint new_sprint new_seq new_effort new_agent
+
+  old_meta="${PREV_METADATA:-}"
+  new_meta=$(get_metadata "$tkt_id")
+
+  if [[ -z "$old_meta" || "$old_meta" == "null" ]]; then
+    old_meta=$(echo "$new_meta" | $JQ '{sprint_target: null}')
+  fi
+
+  new_sprint=$(echo "$new_meta" | $JQ -r '.sprint_target // ""' 2>/dev/null)
+  old_sprint=$(echo "$old_meta" | $JQ -r '.sprint_target // ""' 2>/dev/null)
+
+  # No sprint-related change — nothing to sync
+  if [[ "$new_sprint" == "$old_sprint" ]]; then
+    return 0
+  fi
+
+  new_seq=$(echo "$new_meta" | $JQ -r '.sprint_seq // ""' 2>/dev/null)
+  new_effort=$(echo "$new_meta" | $JQ -r '.sprint_effort // ""' 2>/dev/null)
+  new_agent=$(echo "$new_meta" | $JQ -r '.sprint_agent // ""' 2>/dev/null)
+
+  # Resolve new sprint_id
+  local new_sprint_id=""
+  if [[ -n "$new_sprint" ]]; then
+    local new_sprint_num
+    new_sprint_num=$(sprint_name_to_number "$new_sprint" 2>/dev/null || echo "")
+    if [[ -n "$new_sprint_num" && "$new_sprint_num" =~ ^[0-9]+$ ]]; then
+      new_sprint_id=$(pg_query "SELECT id FROM $SPRINT_TABLE WHERE sprint_number=$new_sprint_num ORDER BY updated_at DESC LIMIT 1;" 2>/dev/null | head -1)
+    fi
+  fi
+
+  # Update top-level ticket columns
+  if [[ -n "$new_sprint_id" && "$new_sprint_id" != "null" ]]; then
+    local seq_sql="NULL"
+    [[ -n "$new_seq" && "$new_seq" != "null" ]] && seq_sql="$new_seq"
+    pg_query "UPDATE $TICKET_TABLE SET sprint='$new_sprint', sprint_id='$new_sprint_id', sprint_seq=$seq_sql, updated_at=NOW() WHERE id='$tkt_id';" > /dev/null 2>&1 || true
+  elif [[ -n "$new_sprint" ]]; then
+    local seq_sql="NULL"
+    [[ -n "$new_seq" && "$new_seq" != "null" ]] && seq_sql="$new_seq"
+    pg_query "UPDATE $TICKET_TABLE SET sprint='$new_sprint', sprint_id=NULL, sprint_seq=$seq_sql, updated_at=NOW() WHERE id='$tkt_id';" > /dev/null 2>&1 || true
+  else
+    pg_query "UPDATE $TICKET_TABLE SET sprint=NULL, sprint_id=NULL, sprint_seq=NULL, updated_at=NOW() WHERE id='$tkt_id';" > /dev/null 2>&1 || true
+  fi
+
+  # Remove from old sprint's items array
+  if [[ -n "$old_sprint" ]]; then
+    local old_sprint_num
+    old_sprint_num=$(sprint_name_to_number "$old_sprint" 2>/dev/null || echo "")
+    if [[ -n "$old_sprint_num" && "$old_sprint_num" =~ ^[0-9]+$ ]]; then
+      local source_items
+      source_items=$(pg_query "SELECT items::text FROM $SPRINT_TABLE WHERE sprint_number=$old_sprint_num ORDER BY updated_at DESC LIMIT 1;" 2>/dev/null)
+      if [[ -n "$source_items" && "$source_items" != "null" ]]; then
+        local cleaned_items
+        cleaned_items=$(echo "$source_items" | $JQ --arg tkt_id "$tkt_id" 'map(select(.tkt != $tkt_id))' 2>/dev/null)
+        if [[ -n "$cleaned_items" ]]; then
+          local escaped_cleaned
+          escaped_cleaned=$(echo "$cleaned_items" | sed "s/'/''/g")
+          pg_query "UPDATE $SPRINT_TABLE SET items='$escaped_cleaned'::jsonb, updated_at=NOW() WHERE sprint_number=$old_sprint_num;" > /dev/null 2>&1 || true
+        fi
+      fi
+    fi
+  fi
+
+  # Add to new sprint's items array
+  if [[ -n "$new_sprint" && -n "$new_sprint_id" && "$new_sprint_id" != "null" ]]; then
+    local new_sprint_num
+    new_sprint_num=$(sprint_name_to_number "$new_sprint" 2>/dev/null || echo "")
+    if [[ -n "$new_sprint_num" && "$new_sprint_num" =~ ^[0-9]+$ ]]; then
+      local target_items
+      target_items=$(pg_query "SELECT items::text FROM $SPRINT_TABLE WHERE sprint_number=$new_sprint_num ORDER BY updated_at DESC LIMIT 1;" 2>/dev/null)
+      [[ -z "$target_items" || "$target_items" == "null" ]] && target_items='[]'
+
+      local item_json
+      item_json=$(/opt/homebrew/bin/jq -n \
+        --arg tkt_id "$tkt_id" \
+        --arg seq "${new_seq:-}" \
+        --arg effort "${new_effort:-}" \
+        --arg agent "${new_agent:-}" \
+        '{
+          tkt: $tkt_id,
+          seq: (if $seq != "" and $seq != "null" then ($seq | tonumber) else null end),
+          effort: (if $effort != "" and $effort != "null" then $effort else null end),
+          agent: (if $agent != "" and $agent != "null" then $agent else null end),
+          committed_at: now
+        }')
+
+      local updated_items
+      updated_items=$(echo "$target_items" | $JQ --argjson item "$item_json" '
+        . as $items |
+        ($items | map(select(.tkt == $item.tkt)) | length) as $existing |
+        if $existing > 0 then
+          $items | map(if .tkt == $item.tkt then $item else . end)
+        else
+          $items + [$item]
+        end
+      ' 2>/dev/null)
+
+      if [[ -n "$updated_items" ]]; then
+        local escaped_items
+        escaped_items=$(echo "$updated_items" | sed "s/'/''/g")
+        pg_query "UPDATE $SPRINT_TABLE SET items='$escaped_items'::jsonb, updated_at=NOW() WHERE sprint_number=$new_sprint_num;" > /dev/null 2>&1 || true
+      fi
+    fi
+  fi
 }
 
 # ──────────────────────────────────────────────
@@ -797,7 +922,15 @@ cmd_update() {
     local meta_part
     meta_part=$(echo "$json_payload" | $JQ -c '.metadata' 2>/dev/null)
     if [[ -n "$meta_part" ]]; then
+      # CHG-0829: Capture previous metadata for sprint FK sync
+      local PREV_METADATA
+      PREV_METADATA=$(get_metadata "$tkt_id")
+      export PREV_METADATA
+
       write_metadata "$tkt_id" "$meta_part"
+
+      # CHG-0829: Sync sprint FK columns and sprint items
+      sync_sprint_from_metadata "$tkt_id"
       
       # Sync sprint/sprint_seq/epic columns from metadata (TKT-0725-A6: also sync sprint_id FK)
       local sprint_val sprint_seq_val epic_val sprint_id_val

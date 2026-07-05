@@ -28,6 +28,7 @@ Load this skill **before any ticket or sprint operation**. Mandatory for all age
 | Next ticket | `db-sprint.sh next-ticket [--agent <name>]` | `bash scripts/db-sprint.sh next-ticket --agent yoda` |
 | Activate sprint | `db-sprint.sh activate [--dry-run]` | `bash scripts/db-sprint.sh activate` |
 | Commit to sprint | `db-sprint.sh commit <ID> <seq> <effort> <agent>` | `bash scripts/db-sprint.sh commit TKT-0400 3 M forge` |
+| Complete sprint | `db-sprint.sh complete "<Sprint N>"` | `bash scripts/db-sprint.sh complete "Sprint 10"` |
 | Sprint status | `db-sprint.sh status` | `bash scripts/db-sprint.sh status --sprint "Sprint 7"` |
 | Sprint plan | `db-sprint.sh plan` | `bash scripts/db-sprint.sh plan --sprint "Sprint 7"` |
 | Create sprint | `db-sprint.sh create "<name>" "<dates>"` | `bash scripts/db-sprint.sh create "Sprint 8" "2026-06-15 to 2026-06-21"` |
@@ -180,6 +181,8 @@ After TKT-0538, `db-write.sh` detects existing rows and emits a plain `UPDATE`, 
 Unknown keys are still merged into `metadata` JSONB as before.
 
 Always verify with `bash scripts/db-ticket.sh read <ID>` after an update.
+
+**Sprint metadata sync (CHG-0829):** When `metadata.sprint_target` changes, `db-ticket.sh update` automatically syncs the top-level `sprint`, `sprint_id`, and `sprint_seq` columns and updates the source/destination `state_sprints.items` arrays. Do not hand-edit these fields.
 
 #### `groom <TKT-ID>`
 Appends a grooming entry to `metadata.grooming_history[]`. Interactive prompts for:
@@ -432,6 +435,22 @@ bash scripts/db-sprint.sh activate --dry-run
 - Run at least once per day via heartbeat or cron
 - Run on session start to ensure the current sprint is active
 - Safe to run multiple times (idempotent — only transitions `committed` → `in_progress`)
+
+#### `complete "<Sprint N>" [--dry-run]` (CHG-0829)
+Marks a sprint as completed. Only sprints with `status='in_progress'` can be completed. Uses a direct PG UPDATE, logs a completion ceremony, emits an event, and auto-generates `state/sprint-current.json`.
+
+**Behavior:**
+- Fails if sprint is not found or status is not `in_progress`
+- Sets `status='completed'` and `updated_at=NOW()`
+- Logs a completion ceremony (`sprint<num>Complete` timestamp) in `state_sprints.ceremonies`
+- Emits a `completed` event via `pg-write-event.sh`
+- Regenerates `state/sprint-current.json` cache
+- `--dry-run` shows what would change without writing
+
+```bash
+bash scripts/db-sprint.sh complete "Sprint 10"
+bash scripts/db-sprint.sh complete "Sprint 10" --dry-run
+```
 
 ---
 
