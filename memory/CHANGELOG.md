@@ -1,3 +1,78 @@
+## 2026-07-05 19:40 AEST — [CHG-0829] Fix db-sprint.sh complete subcommand and db-ticket.sh sprint_id FK update
+**Type:** script
+**Change Type:** Normal
+**Source:** ken-prompt
+**Trigger:** Ken approved 2026-07-05 after Sprint 10/11 ceremony exposed two tool gaps: (1) db-sprint.sh has no subcommand to mark a sprint completed; (2) db-ticket.sh update does not sync the sprint_id foreign key when metadata.sprint_target changes
+**What changed:** (1) Add db-sprint.sh complete <sprint-name> subcommand that transitions a sprint from in_progress to completed, logs a completion ceremony entry, and auto-generates sprint-current.json. (2) Fix db-ticket.sh update so that when metadata.sprint_target, sprint_seq, sprint_effort, or sprint_agent change, the top-level state_tickets columns (sprint, sprint_id, sprint_seq) and the corresponding state_sprints.items entry are kept consistent, mirroring db-sprint.sh commit behavior. (3) Update agent-skills/agile/SKILL.md to document the new complete subcommand, the FK sync behavior, and any interim workarounds removed.
+**Why:** Without a complete subcommand, sprint closure requires raw PG UPDATE which violates the db-sprint.sh-only write path. Without FK sync, db-ticket.sh update leaves sprint_id pointing at the old sprint, causing tickets to appear in the wrong sprint status view and corrupting sprint planning.
+**Verification:** (a) bash -n scripts/db-sprint.sh and bash -n scripts/db-ticket.sh pass; (b) bash scripts/db-sprint.sh complete --help returns usage; (c) bash scripts/db-sprint.sh complete "Sprint 10" --dry-run correctly rejects already-completed sprint; (d) bash scripts/db-ticket.sh update TKT-0742 with metadata sprint_target='Sprint 11' synced top-level sprint, sprint_id, and state_sprints.items, then restored to Sprint 12; (e) scripts/db-ticket.sh validate runs. Git commit 153699a35167c1e643f324d5dbb8355b61a96535.
+**Rollback:** Git revert the change commit; restore previous versions of scripts/db-sprint.sh, scripts/db-ticket.sh, and agent-skills/agile/SKILL.md.
+**Linked:** CHG-0828,scripts/db-sprint.sh,scripts/db-ticket.sh,agent-skills/pg-sprint-backlog/SKILL.md
+**Status:** committed,verified,closed
+---
+
+## 2026-07-05 19:26 AEST — [CHG-0828] Add main-session context watchdog and self-heal for CHG-0818 recurrence
+**Type:** infra
+**Change Type:** Normal
+**Source:** ken-prompt
+**Trigger:** Ken approved 2026-07-05 after CHG-0818 recurred in webchat session; root cause identified as context overflow in agent:main:dashboard session, not gateway-wide failure
+**What changed:** (1) Add Yoda self-heal rule: detect empty exec or ENOENT-on-existing-file symptoms and run session_status model=default to rebind the session. (2) Dispatch Forge to create scripts/main-session-context-watchdog.sh; run every heartbeat; query sessions_list for agent:main:dashboard sessions; if token ratio > ~75% (e.g. >200k/262k) or messages >250, log a reset event and gracefully reset the session model to default to prevent context overflow corruption. (3) Wire watchdog into HEARTBEAT.md checks with state key lastChecks.mainSessionContext.
+**Why:** CHG-0820/0821 added NODE_OPTIONS and gateway restart but did not address per-session context overflow. The dashboard webchat session accumulated 359 messages and hit 262k context limit, corrupting exec/read tool handlers. Auto-reset before overflow prevents recurrence without gateway restart.
+**Verification:** Gateway logs confirm context overflow event at 19:23 AEST. session_status model=default recovered exec/read immediately. Other sessions remained healthy throughout.
+**Rollback:** Remove scripts/main-session-context-watchdog.sh from heartbeat and git revert; delete CHG-0828 entry from memory/CHANGELOG.md.
+**Linked:** CHG-0818,CHG-0820,CHG-0821,HEARTBEAT.md,scripts/main-session-context-watchdog.sh
+---
+
+## 2026-07-05 19:20 AEST — [CHG-0827] Fix linkedin-post.sh parser bug re-appending H1 title and blocking posts on em-dash validation
+**Type:** script
+**Change Type:** Normal
+**Source:** ken-prompt
+**Trigger:** Ken confirmed Week 3 posts were skipped due to linkedin-post.sh em-dash/parser bug (journal-2026-07-02.md) and approved fixing the script before Week 4 publish slots fire
+**What changed:** scripts/linkedin-post.sh content parser at lines ~375-396 will be modified so that single-hash lines (potential hashtag/H1 lines) are only captured inside the --- body delimiters, preventing the H1 title from being appended to the post body. The em-dash validation block remains but now only checks the actual post body, not the leaked H1.
+**Why:** Current parser collects the markdown H1 title before the front matter, appends it to POST_TEXT, then fails em-dash validation when the H1 contains an em-dash. This silently blocks scheduled posts (LI-W3-P7/P8/P9 affected). Week 4 slots are Tue 8 Jul–Thu 10 Jul.
+**Verification:** Dry-run linkedin-post.sh against social-drafts/LI-W3-P7.md and LI-W4-P10.md; both must parse without em-dash errors and H1 must not appear in POST_TEXT.
+**Rollback:** Restore scripts/linkedin-post.sh from git or the .bak file.
+**Linked:** CHG-0797, journal-2026-07-02.md, scripts/linkedin-post.sh, scripts/linkedin-post.sh.bak
+**Category:** script
+---
+
+## 2026-07-05 19:10 AEST — [CHG-0826] LinkedIn Week 4 Movement IV images generated and uploaded
+**Type:** content
+**Change Type:** Normal
+**Source:** ken-prompt
+**Trigger:** Ken requested direct image generation for the 3 Week 4 LinkedIn batch drafts (LI-W4-P10/P11/P12) after confirming Week 3 images were FLUX-generated
+**What changed:** Generated 3 images via HF FLUX.1-schnell (scripts/hf-generate-image.sh) from the prompts embedded in social-drafts/LI-W4-P10-what-i-do-differently-now.md, LI-W4-P11-discipline-beats-motivation.md, and LI-W4-P12-what-i-learned-rebuilding-foundation.md. Saved to social-drafts/images/LI-W4-P10.jpg (84KB), LI-W4-P11.jpg (84KB), LI-W4-P12.jpg (60KB). Uploaded all 3 to LinkedIn Ken personal profile via scripts/linkedin-upload-image.sh and captured asset URNs: P10 urn:li:image:D5610AQEATUk3fNi0Cg, P11 urn:li:image:D5610AQGF-0WV5w3Iuw, P12 urn:li:image:D5610AQHQNE7d--fPCw. Added LI-W4-P10/11/12 entries to state/linkedin-campaign.json queued[] with status=approved, imageReady=true, account=ken. Verified no em-dashes in the 3 draft files.
+**Why:** Week 4 publish slots are Tue 8 Jul–Thu 10 Jul. Images must be ready and uploaded before the publish crons fire, especially after the Week 3 em-dash/parser bug blocked posting.
+**Verification:** Files exist and are valid JPEG 1024x1024. LinkedIn upload returned 3 URNs. state/linkedin-campaign.json updated and valid JSON. Em-dash scan clean.
+**Rollback:** Delete the 3 image files, remove the 3 queued entries from linkedin-campaign.json, and (if needed) delete uploaded LinkedIn assets manually.
+**Linked:** CHG-0286, CHG-0594, scripts/hf-generate-image.sh, scripts/linkedin-upload-image.sh, state/linkedin-campaign.json
+**Category:** content
+---
+
+## 2026-07-05 18:53 AEST — [CHG-0825] CHG-0824 completion: Fix standup composer to pull real sources and route through OpenClaw model policy
+**Type:** script
+**Change Type:** Normal
+**Source:** ken-prompt
+**Trigger:** Ken approved CHG-0824 on 2026-07-05: standup email Day 72 delivered thin/placeholder content; composer lacked source material and bypassed OpenClaw model routing
+**What changed:** (1) Expanded context sources in standup-composer.sh to read: full aria-daily-brief.md, last 3 journal/memory/*.md files, state sprint/open-decisions/frameworks-maturity/auto-heal/daily-note/health/cost state files, and CHANGELOG parsed for CHG descriptions. (2) Replaced direct Ollama HTTP API calls with openclaw agent --local --model using canonical routing (ollama/deepseek-v4-flash:cloud primary, ollama/kimi-k2.6:cloud fallback). (3) Added fail-closed behavior: degraded composer writes composer_status=degraded with reason, clear [Composer degraded] labels on all fields, and exits non-zero (code 5). (4) Updated generate-standup.sh to validate composer freshness by content hash (md5), with STANDUP_FORCE=1 to skip freshness check. (5) Added STANDUP_DRY_RUN=1 to write to .openclaw/tmp/standup-dryrun.html instead of canvas. (6) Yellow alert-warn banner inserted at top of Section 1 when composer degraded. (7) Composer status footer line added to HTML. (8) Model routing uses only canonical aliases: deepseek-v4-flash:cloud primary, kimi-k2.6:cloud fallback (qwen3.5:cloud excluded per spec).
+**Why:** CHG-0823 documented intent to restore rich content but the composer ran with no real context and a silent fallback, so Day 72 standup was delivered with placeholder text. The fix must use verifiable sources and model-routing policy, not direct localhost API calls.
+**Verification:** Manual test: STANDUP_FORCE=1 STANDUP_DRY_RUN=1 bash scripts/generate-standup.sh produces .openclaw/tmp/standup-dryrun.html (8929 bytes >7000). Sections 2/5/6/7 contain multi-sentence detail referencing real items: Act 680 MYR 1,550,000 proposal, LinkedIn publish failures (LI-W3-P7/P8/P9/P10), Sprint 10 (3/17 done), CHG IDs (0824, 0814-0817). Yellow degraded banner present when composer fails. Composer status footer in HTML. bash -n both scripts passes. Commit c08d96c1. Composer writes .openclaw/tmp/standup-composer-input.json with all required keys (businessStream, frameworkMaturity, progress, rtb.rose/thorn/bud).
+**Rollback:** Restore standup-composer.sh and generate-standup.sh from git (c08d96c1 parent); clear .openclaw/tmp/standup-composer*.json and .openclaw/tmp/standup-prompt*.txt; revert to deterministic placeholder output.
+**Linked:** CHG-0823,CHG-0815,CHG-0816,scripts/standup-composer.sh,scripts/generate-standup.sh
+**Category:** script\n---
+
+## 2026-07-05 18:50 AEST — [CHG-0824] Fix standup composer to pull real sources and route through OpenClaw model policy
+**Type:** script
+**Change Type:** Normal
+**Source:** ken-prompt
+**Trigger:** Ken approved Option A on 2026-07-05: daily standup email still emits thin/placeholder content because standup-composer.sh lacks source material and bypasses OpenClaw model routing
+**What changed:** (1) Expand context sources in standup-composer.sh to read last 3 days of journal/memory/*.md, full aria-daily-brief.md, state/open-decisions.json, state/sprint-current.json, frameworks-maturity.json, recent CHANGELOG entries, auto-heal state, and daily-note.json. (2) Replace direct Ollama HTTP call with OpenClaw agentTurn invocation using canonical model routing (deepseek-v4-flash:cloud primary, kimi-k2.6:cloud fallback) via a transient composer cron or sessions_spawn. (3) Add structured logging and fail-closed behavior: if composer fails, generate-standup.sh emits a clear degraded-content banner instead of silently reusing stale fallback. (4) Update generate-standup.sh to validate composer freshness by content hash, not just mtime, and surface composer success/failure in the HTML.
+**Why:** CHG-0823 documented intent to restore rich content but the composer ran with no real context and a silent fallback, so Day 72 standup was delivered with placeholder text. The fix must use verifiable sources and model-routing policy, not direct localhost API calls.
+**Verification:** Manual test: run generate-standup.sh with STANDUP_FORCE=1 after fix; inspect .openclaw/tmp/standup-composer-input.json for specific references to recent CHGs/Angie interactions/sprint state; HTML sections 2/5/6/7 contain multi-sentence detail and a composer status footer. Email at 08:15 AEST tomorrow contains rich content.
+**Rollback:** Restore standup-composer.sh and generate-standup.sh from git; clear .openclaw/tmp/standup-composer*.json; revert to deterministic placeholder output.
+**Linked:** CHG-0823, CHG-0815, CHG-0816, TKT-0742
+---
+
 ## 2026-07-04 09:49 AEST — [CHG-0823] CHG-0823: Restore agent-generated rich content in stand-up brief
 **Type:** script
 **Change Type:** Normal

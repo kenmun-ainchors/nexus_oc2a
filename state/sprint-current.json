@@ -1,17 +1,12 @@
 {
-  "sprint": "Sprint 10",
-  "sprint_number": 10,
+  "sprint": 11,
+  "name": "Sprint 11",
+  "dates": "2026-07-06 to 2026-07-12",
   "status": "committed",
-  "dates": "2026-06-29 to 2026-07-05",
-  "ticket_count": 17,
-  "done_count": 3,
-  "open_count": 13,
-  "in_progress_count": 0,
-  "completion_pct": 17.647058823529413,
-  "ceremonies": {
-    "sprint10Planning": "2026-06-28T09:22:09+10:00"
+  "ceremoniesCompleted": {
+    "sprint11Planning": "2026-07-05T09:35:08+10:00"
   },
-  "derived": true,
+  "auto_generated": true,
   "source": "PG state_sprints",
-  "exported_at": "2026-07-01T10:14:02+10:00"
+  "generated_at": "2026-07-05T09:35:08+10:00"
 }

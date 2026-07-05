@@ -1,7 +1,7 @@
 {
   "registry_version": "1.0",
   "created_at": "2026-04-26T08:50:00Z",
-  "last_reviewed": "2026-06-21T07:02:19Z",
+  "last_reviewed": "2026-07-05",
   "assets": [
     {
       "id": "asset-001",
@@ -22,11 +22,11 @@
       "type": "Design Doc",
       "location": "/Users/ainchorsangiefpl/.openclaw/workspace/AGENTS.md",
       "created_date": "2026-04-25",
-      "last_updated": "2026-06-20",
+      "last_updated": "2026-07-05",
       "review_frequency": "Monthly",
       "status": "Current",
       "owner": "Yoda",
-      "notes": "Agent roster and responsibility definitions",
+      "notes": "Agent roster and responsibility definitions [Review 2026-07-05: content verified current]",
       "notion_page_id": "386c1829-53ff-815d-8d31-dd810aac4311"
     },
     {
@@ -35,11 +35,11 @@
       "type": "Memory",
       "location": "/Users/ainchorsangiefpl/.openclaw/workspace/MEMORY.md",
       "created_date": "2026-04-25",
-      "last_updated": "2026-06-21",
+      "last_updated": "2026-07-05",
       "review_frequency": "Weekly",
       "status": "Current",
       "owner": "Yoda",
-      "notes": "Primary system memory and persistent context",
+      "notes": "Primary system memory and persistent context [Review 2026-07-05: content verified current]",
       "notion_page_id": "386c1829-53ff-810e-a4f3-c4c47dd7eac7"
     },
     {
@@ -48,11 +48,11 @@
       "type": "Config",
       "location": "/Users/ainchorsangiefpl/.openclaw/workspace/HEARTBEAT.md",
       "created_date": "2026-04-26",
-      "last_updated": "2026-06-20",
+      "last_updated": "2026-07-05",
       "review_frequency": "Weekly",
       "status": "Current",
       "owner": "Infra Agent",
-      "notes": "Heartbeat config and scheduled operations manifest",
+      "notes": "Heartbeat config and scheduled operations manifest [Review 2026-07-05: content verified current]",
       "notion_page_id": "386c1829-53ff-81b3-9921-e88a542c73e7"
     },
     {
@@ -165,11 +165,11 @@
       "type": "Script",
       "location": "/Users/ainchorsangiefpl/.openclaw/workspace/scripts/health-check.sh",
       "created_date": "2026-04-26",
-      "last_updated": "2026-05-15",
+      "last_updated": "2026-07-05",
       "review_frequency": "Weekly",
-      "status": "Needs Review",
+      "status": "Current",
       "owner": "Infra Agent",
-      "notes": "System health check and monitoring script",
+      "notes": "System health check and monitoring script [Review 2026-07-05: content verified current]",
       "notion_page_id": "386c1829-53ff-81c4-8ba0-f478edd2430b"
     },
     {
@@ -412,11 +412,11 @@
       "type": "Memory",
       "location": "/Users/ainchorsangiefpl/.openclaw/workspace/memory/shared/cost-history.md",
       "created_date": "2026-04-26",
-      "last_updated": "2026-06-21",
+      "last_updated": "2026-07-05",
       "review_frequency": "Weekly",
       "status": "Current",
       "owner": "Yoda",
-      "notes": "Running API cost history and budget tracking",
+      "notes": "Running API cost history and budget tracking [Review 2026-07-05: content verified current]",
       "notion_page_id": "386c1829-53ff-811f-a410-de741d4fda89"
     },
     {

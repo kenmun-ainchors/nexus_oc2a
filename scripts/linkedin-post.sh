@@ -383,9 +383,9 @@ for line in lines:
         if s.startswith('## Hashtags') or s.startswith('## Metadata'): break
         # Skip section marker headings (## DRAFT, ## CONTENT, etc.) — not post content
         if s.startswith('## '): continue
+        if s.startswith('#') and not s.startswith('##'):
+            hashtag_line = line
         body.append(line)
-    if s.startswith('#') and not s.startswith('##'):
-        hashtag_line = line
 if not found_delimiters:
     print('ERROR: No --- delimiters found in content file. Cannot post. Wrap post body in --- delimiters.', file=sys.stderr)
     sys.exit(1)
