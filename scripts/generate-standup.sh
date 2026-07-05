@@ -1,14 +1,26 @@
 #!/usr/bin/env bash
 # generate-standup.sh
 # Shell-only Morning Stand-Up HTML generator.
-# Reads deterministic state files, renders 8-section stand-up HTML, pipes to cron-write.sh.
-# Run: bash /Users/ainchorsangiefpl/.openclaw/workspace/scripts/generate-standup.sh
+# Reads deterministic state files and composer blocks, renders 8-section stand-up HTML,
+# pipes to cron-write.sh.
+# Supports: STANDUP_FORCE=1 (skip freshness check), STANDUP_DRY_RUN=1 (write to temp file).
 
 set -euo pipefail
 
 WORKSPACE="${WORKSPACE:-/Users/ainchorsangiefpl/.openclaw/workspace}"
 CANVAS_DIR="${HOME}/.openclaw/canvas/documents/standup-daily"
 HTML_FILE="${CANVAS_DIR}/index.html"
+
+# ── Env overrides ────────────────────────────────────────────────────────────
+STANDUP_FORCE="${STANDUP_FORCE:-0}"
+STANDUP_DRY_RUN="${STANDUP_DRY_RUN:-0}"
+
+if [[ "$STANDUP_DRY_RUN" == "1" ]]; then
+    HTML_FILE="${WORKSPACE}/.openclaw/tmp/standup-dryrun.html"
+    mkdir -p "$(dirname "$HTML_FILE")"
+fi
+
+# ── File paths ───────────────────────────────────────────────────────────────
 STATE_FILE="${WORKSPACE}/state/standup-state.json"
 HEALTH_FILE="${WORKSPACE}/state/health-state.json"
 COST_FILE="${WORKSPACE}/state/cost-state.json"
@@ -18,81 +30,108 @@ CHANGELOG="${WORKSPACE}/memory/CHANGELOG.md"
 DAILY_NOTE="${WORKSPACE}/state/daily-note.json"
 COMPOSER_FILE="${WORKSPACE}/.openclaw/tmp/standup-composer-input.json"
 COMPOSER_SCRIPT="${WORKSPACE}/scripts/standup-composer.sh"
-
-# ── Load composed blocks if fresh (generated today AEST) ────────────────────
-TODAY_AEST=$(TZ=Australia/Sydney date '+%Y-%m-%d')
-COMPOSER_BLOCKS=""
-COMPOSER_FRESH=false
-if [[ -f "$COMPOSER_FILE" ]]; then
-    COMPOSER_MTIME=$(stat -f "%Sm" -t "%Y-%m-%d" "$COMPOSER_FILE" 2>/dev/null || echo "")
-    if [[ "$COMPOSER_MTIME" == "$TODAY_AEST" ]]; then
-        COMPOSER_BLOCKS=$(python3 -c "
-import json, sys
-try:
-    d = json.load(open('$COMPOSER_FILE'))
-    print(json.dumps(d))
-except Exception:
-    print('{}')
-" 2>/dev/null || echo "")
-        if echo "$COMPOSER_BLOCKS" | python3 -c "
-import json, sys
-d = json.load(sys.stdin)
-assert 'businessStream' in d
-assert 'frameworkMaturity' in d
-assert 'progress' in d
-assert 'rtb' in d
-assert 'rose' in d['rtb']
-assert 'thorn' in d['rtb']
-assert 'bud' in d['rtb']
-sys.exit(0)
-" 2>/dev/null; then
-            COMPOSER_FRESH=true
-        fi
-    fi
-fi
-
-# If not fresh, run composer now
-if [[ "$COMPOSER_FRESH" != "true" ]]; then
-    if [[ -f "$COMPOSER_SCRIPT" ]]; then
-        bash "$COMPOSER_SCRIPT" 2>/dev/null || true
-        # Re-check after running
-        if [[ -f "$COMPOSER_FILE" ]]; then
-            COMPOSER_BLOCKS=$(python3 -c "
-import json, sys
-try:
-    d = json.load(open('$COMPOSER_FILE'))
-    print(json.dumps(d))
-except Exception:
-    print('{}')
-" 2>/dev/null || echo "")
-            if echo "$COMPOSER_BLOCKS" | python3 -c "
-import json, sys
-d = json.load(sys.stdin)
-assert 'businessStream' in d
-assert 'frameworkMaturity' in d
-assert 'progress' in d
-assert 'rtb' in d
-assert 'rose' in d['rtb']
-assert 'thorn' in d['rtb']
-assert 'bud' in d['rtb']
-sys.exit(0)
-" 2>/dev/null; then
-                COMPOSER_FRESH=true
-            fi
-        fi
-    fi
-fi
-
-mkdir -p "$CANVAS_DIR"
-
-# ── Export composer data for Python heredoc ─────────────────────────────────
-# Use a temp JSON file to bridge shell composer data into the Python heredoc
+COMPOSER_HASH_FILE="${WORKSPACE}/.openclaw/tmp/standup-composer-hash.txt"
 COMPOSER_EXPORT_FILE="${WORKSPACE}/.openclaw/tmp/standup-composer-export.json"
-if [[ "$COMPOSER_FRESH" == "true" && -n "$COMPOSER_BLOCKS" ]]; then
-    echo "$COMPOSER_BLOCKS" > "$COMPOSER_EXPORT_FILE"
-else
-    echo '{}' > "$COMPOSER_EXPORT_FILE"
+
+# ── Freshness: content hash check ────────────────────────────────────────────
+# Compute hash of current composer output (if it exists)
+NEW_HASH=""
+if [[ -f "$COMPOSER_FILE" ]]; then
+    NEW_HASH=$(md5 -q "$COMPOSER_FILE" 2>/dev/null || shasum -a 256 "$COMPOSER_FILE" | cut -d' ' -f1)
 fi
+
+OLD_HASH=""
+if [[ -f "$COMPOSER_HASH_FILE" ]]; then
+    OLD_HASH=$(cat "$COMPOSER_HASH_FILE")
+fi
+
+COMPOSER_NEEDS_RUN=false
+
+# Force flag skips freshness check
+if [[ "$STANDUP_FORCE" == "1" ]]; then
+    COMPOSER_NEEDS_RUN=true
+    echo "[standup] STANDUP_FORCE=1 — forcing composer regeneration" >&2
+elif [[ ! -f "$COMPOSER_FILE" ]]; then
+    COMPOSER_NEEDS_RUN=true
+elif [[ -n "$NEW_HASH" && "$NEW_HASH" == "$OLD_HASH" ]]; then
+    # Same content as last run — force re-run by clearing
+    echo "[standup] Composer content unchanged from previous run — forcing re-run" >&2
+    rm -f "$COMPOSER_FILE"
+    COMPOSER_NEEDS_RUN=true
+else
+    echo "[standup] Composer content fresh (hash differs from previous)" >&2
+fi
+
+# ── Run composer if needed ───────────────────────────────────────────────────
+COMPOSER_STATUS="degraded"
+SOURCE_LIST=""
+COMPOSER_FAILED=false
+
+if [[ -f "$COMPOSER_SCRIPT" ]]; then
+    if [[ "$COMPOSER_NEEDS_RUN" == "true" ]] || [[ ! -f "$COMPOSER_FILE" ]]; then
+        echo "[standup] Running standup-composer.sh..." >&2
+        set +e
+        bash "$COMPOSER_SCRIPT" 2>&1
+        COMPOSER_EXIT=$?
+        set -e
+        if [[ $COMPOSER_EXIT -ne 0 ]]; then
+            echo "[standup] Composer exited with code $COMPOSER_EXIT" >&2
+            COMPOSER_FAILED=true
+            COMPOSER_STATUS="degraded"
+        fi
+    fi
+fi
+
+# Parse composer output
+COMPOSER_JSON="{}"
+if [[ -f "$COMPOSER_FILE" ]]; then
+    COMPOSER_JSON=$(cat "$COMPOSER_FILE")
+
+    # Check if composer_status indicates degraded
+    if echo "$COMPOSER_JSON" | python3 -c "
+import json, sys
+d = json.load(sys.stdin)
+if d.get('composer_status') == 'degraded':
+    sys.exit(0)
+sys.exit(1)
+" 2>/dev/null; then
+        COMPOSER_STATUS="degraded"
+        COMPOSER_FAILED=true
+    else
+        COMPOSER_STATUS="ok"
+    fi
+
+    # Update hash file
+    NEW_HASH=$(md5 -q "$COMPOSER_FILE" 2>/dev/null || shasum -a 256 "$COMPOSER_FILE" | cut -d' ' -f1)
+    echo "$NEW_HASH" > "$COMPOSER_HASH_FILE"
+fi
+
+# Build source list for footer
+SOURCE_LIST="Aria brief $(head -1 "${WORKSPACE}/state/aria-daily-brief.md" 2>/dev/null | grep -oE '2026-[0-9][0-9]-[0-9][0-9]' || echo ''), "
+for day in "$(TZ=Australia/Sydney date '+%Y-%m-%d')" "$(TZ=Australia/Sydney date -v-1d '+%Y-%m-%d')"; do
+    if [[ -f "${WORKSPACE}/memory/journal-${day}.md" ]]; then
+        SOURCE_LIST+="journal ${day}, "
+    fi
+done
+if [[ -f "${WORKSPACE}/state/sprint-current.json" ]]; then
+    sprint_name=$(python3 -c "
+import json; d=json.load(open('${WORKSPACE}/state/sprint-current.json')); print(d.get('sprint','?'))
+" 2>/dev/null)
+    SOURCE_LIST+="sprint ${sprint_name}, "
+fi
+SOURCE_LIST="${SOURCE_LIST%, }"
+
+if [[ -f "$COMPOSER_FILE" ]]; then
+    SOURCE_LIST+=", composer ${COMPOSER_STATUS}"
+else
+    SOURCE_LIST+=", composer unavailable"
+fi
+
+# ── Export composer data for Python heredoc ──────────────────────────────────
+echo "$COMPOSER_JSON" > "$COMPOSER_EXPORT_FILE"
+
+# ── Generate HTML ────────────────────────────────────────────────────────────
+mkdir -p "$CANVAS_DIR"
 
 python3 << 'PYEOF' | bash "${WORKSPACE}/scripts/cron-write.sh" "$HTML_FILE"
 import json, os, subprocess, sys
@@ -101,6 +140,7 @@ from pathlib import Path
 
 WORKSPACE = Path(os.environ.get("WORKSPACE", "/Users/ainchorsangiefpl/.openclaw/workspace"))
 TMP_DIR = WORKSPACE / ".openclaw" / "tmp"
+COMPOSER_EXPORT = TMP_DIR / "standup-composer-export.json"
 
 def safe_read_json(path, default=None):
     try:
@@ -123,18 +163,22 @@ def day_number(today):
     start = datetime(2026, 4, 25).date()
     return (today - start).days + 1
 
+def escape(s):
+    return str(s).replace("&", "&amp;").replace("<", "&lt;").replace(">", "&gt;")
+
 # ── Date / day ───────────────────────────────────────────────────────────────
 aest = timezone(timedelta(hours=10))
 now_aest = datetime.now(timezone.utc).astimezone(aest)
 today_str = now_aest.date().isoformat()
 day_n = day_number(now_aest.date())
+yesterday_dt = (now_aest.date() - timedelta(days=1))
 
 # ── Idempotency ──────────────────────────────────────────────────────────────
 state = safe_read_json(WORKSPACE / "state" / "standup-state.json", {})
-if state.get("lastStandupDate") == today_str and os.environ.get("STANDUP_FORCE") != "1":
+force_flag = os.environ.get("STANDUP_FORCE") == "1"
+if state.get("lastStandupDate") == today_str and not force_flag:
     print(f"[standup] already generated for {today_str}; set STANDUP_FORCE=1 to override", file=sys.stderr)
-    # Still produce a no-op exit so cron shows OK
-    html = safe_read_text(WORKSPACE.parent / ".openclaw" / "canvas" / "documents" / "standup-daily" / "index.html", "")
+    html = safe_read_text(os.path.expanduser("~/.openclaw/canvas/documents/standup-daily/index.html"), "")
     print(html)
     sys.exit(0)
 
@@ -143,6 +187,7 @@ health = safe_read_json(WORKSPACE / "state" / "health-state.json", {})
 cost = safe_read_json(WORKSPACE / "state" / "cost-state.json", {})
 backup = safe_read_json(WORKSPACE / "state" / "backup-state.json", {})
 autoheal = safe_read_json(WORKSPACE / "state" / "auto-heal-state.json", {})
+daily_note = safe_read_json(WORKSPACE / "state" / "daily-note.json", {})
 
 overall = health.get("overallStatus", health.get("status", "unknown"))
 gateway_ok = overall.lower() in ("ok", "good")
@@ -168,20 +213,29 @@ except Exception:
     mem_size = 0
 mem_status = "🟢 Under limit" if mem_size < 15000 else "🟡 Over 15KB"
 
+# Auto-heal NEEDS_KEN summary
+autoheal_needs_ken = autoheal.get("needsKen", autoheal.get("needs_ken", autoheal.get("items", [])))
+if isinstance(autoheal_needs_ken, list) and autoheal_needs_ken:
+    autoheal_html = f"<ul>" + "".join(
+        f"<li>{escape(str(i))}</li>" for i in autoheal_needs_ken
+    ) + "</ul>"
+elif isinstance(autoheal_needs_ken, str) and autoheal_needs_ken:
+    autoheal_html = f"<p>{escape(autoheal_needs_ken)}</p>"
+else:
+    autoheal_html = "<p>No NEEDS_KEN items — auto-heal completed clean.</p>"
+
+# Daily note health
+note_health = daily_note.get("healthStatus", "")
+
 # Recent CHGs from CHANGELOG tail
 chg_lines = []
 try:
     text = safe_read_text(str(WORKSPACE / "memory" / "CHANGELOG.md"))
     lines = [l for l in text.splitlines() if l.strip().startswith("## 20") or l.strip().startswith("**What changed:")]
-    # Get last ~6 non-empty what-changed lines
     wc = [l.replace("**What changed:**", "").strip() for l in lines if "What changed:" in l]
     chg_lines = wc[:8]
 except Exception:
     pass
-
-# ── Helpers ──────────────────────────────────────────────────────────────────
-def escape(s):
-    return str(s).replace("&", "&amp;").replace("<", "&lt;").replace(">", "&gt;")
 
 chg_html = ""
 if chg_lines:
@@ -191,13 +245,19 @@ else:
 
 # ── Load composer blocks from exported file ──────────────────────────────────
 composer = {}
-composer_export = TMP_DIR / "standup-composer-export.json"
 try:
-    if composer_export.exists():
-        with open(composer_export) as f:
+    if COMPOSER_EXPORT.exists():
+        with open(COMPOSER_EXPORT) as f:
             composer = json.load(f)
 except Exception:
     pass
+
+# Determine composer status
+composer_status = "ok"
+degraded_reason = ""
+if composer.get("composer_status") == "degraded":
+    composer_status = "degraded"
+    degraded_reason = composer.get("degraded_reason", "Unknown reason")
 
 # Extract blocks with fallbacks
 biz_stream = composer.get("businessStream", "")
@@ -207,9 +267,17 @@ rtb = composer.get("rtb", {})
 rose_text = rtb.get("rose", "")
 thorn_text = rtb.get("thorn", "")
 bud_text = rtb.get("bud", "")
+
 header_pill = "pill-green" if gateway_ok else "pill-yellow"
 header_text = "🟢 System OK" if gateway_ok else "🟡 System Needs Attention"
 
+# Source list from env
+source_list = os.environ.get("STANDUP_SOURCE_LIST", "")
+if source_list:
+    source_list = f" | Sources: {source_list}"
+source_footer = f"Composer: {composer_status}{source_list}"
+
+# ── Build HTML ───────────────────────────────────────────────────────────────
 html = f"""<!DOCTYPE html>
 <html lang="en">
 <head>
@@ -229,6 +297,7 @@ html = f"""<!DOCTYPE html>
   .pill-blue {{ background: #ddf4ff; color: #0969da; border: 1px solid #54aeff; }}
   .pill-yellow {{ background: #fff8c5; color: #9a6700; border: 1px solid #d4a72c; }}
   .pill-red {{ background: #ffebe9; color: #cf222e; border: 1px solid #f85149; }}
+  .pill-amber {{ background: #fff8c5; color: #9a6700; border: 1px solid #d4a72c; }}
   .section {{ background: #ffffff; border: 1px solid #d0d7de; border-radius: 8px; padding: 16px; margin-bottom: 16px; }}
   h2 {{ color: #0969da; font-size: 16px; font-weight: 700; border-bottom: 1px solid #d0d7de; padding-bottom: 8px; margin-bottom: 12px; }}
   h3 {{ color: #57606a; font-size: 13px; text-transform: uppercase; letter-spacing: 0.5px; margin: 12px 0 6px; font-weight: 600; }}
@@ -266,8 +335,11 @@ html = f"""<!DOCTYPE html>
       <span class="pill pill-blue">💰 {escape(balance_str)}</span>
       <span class="pill pill-green">🛡️ Warden Active</span>
       <span class="pill pill-blue">📅 Day {day_n}</span>
+      <span class="pill pill-{'amber' if composer_status == 'degraded' else 'green'}">✍️ {composer_status.upper()}</span>
     </div>
   </div>
+
+  {f'<div class="alert-warn"><strong>⚠️ Stand-up content composer degraded —</strong> {escape(degraded_reason)}. Sections 2–7 may be incomplete.</div>' if composer_status == 'degraded' else ''}
 
   <div class="section">
     <h2>1 · System Health</h2>
@@ -293,12 +365,12 @@ html = f"""<!DOCTYPE html>
         <div class="card-sub">01:00 AEST today</div>
       </div>
     </div>
-    <div class="alert-info">ℹ️ Stand-up generation converted to shell-only wrapper (CHG-0815). Canvas write now routed through cron-write.sh.</div>
+    {f'<div class="alert-warn">ℹ️ {escape(note_health)}</div>' if note_health else ''}
   </div>
 
   <div class="section">
     <h2>2 · Business Stream (Angie / Aria)</h2>
-    <div class="alert-info" style="white-space: pre-wrap;">{escape(biz_stream) if biz_stream else 'ℹ️ Business stream summary is populated by Aria daily brief when available. No deterministic state update today.'}</div>
+    <div style="white-space: pre-wrap; font-size: 13px;">{escape(biz_stream) if biz_stream else 'ℹ️ Business stream summary not available from composer.'}</div>
   </div>
 
   <div class="section">
@@ -307,18 +379,18 @@ html = f"""<!DOCTYPE html>
   </div>
 
   <div class="section">
-    <h2>4 · Auto-Heal (Yesterday — {fmt_date((now_aest.date() - timedelta(days=1)))}, 01:00 AEST)</h2>
-    <div class="alert-ok">✅ Auto-heal completed. No NEEDS_KEN items remain unacknowledged.</div>
+    <h2>4 · Auto-Heal (Yesterday — {fmt_date(yesterday_dt)}, 01:00 AEST)</h2>
+    <div>{autoheal_html}</div>
   </div>
 
   <div class="section">
     <h2>5 · Framework Maturity</h2>
-    <div class="alert-info" style="white-space: pre-wrap;">{escape(fw_maturity) if fw_maturity else 'ℹ️ Framework maturity snapshot available in state/frameworks-maturity.json. Review during sprint ceremonies.'}</div>
+    <div style="white-space: pre-wrap; font-size: 13px;">{escape(fw_maturity) if fw_maturity else 'ℹ️ Framework maturity snapshot available in state/frameworks-maturity.json. Review during sprint ceremonies.'}</div>
   </div>
 
   <div class="section">
     <h2>6 · Progress (CHGs Since Last Stand-up)</h2>
-    {escape(progress_block) if progress_block else chg_html}
+    <div style="white-space: pre-wrap; font-size: 13px;">{escape(progress_block) if progress_block else chg_html}</div>
   </div>
 
   <div class="section">
@@ -352,7 +424,7 @@ html = f"""<!DOCTYPE html>
   </div>
 
   <div class="footer">
-    AInchors Nexus Platform · Generated at {now_aest.strftime('%H:%M AEST')} · CHG-0815
+    AInchors Nexus Platform · Generated at {now_aest.strftime('%H:%M AEST')} · CHG-0824 · {escape(source_footer)}
   </div>
 
 </div>
@@ -364,7 +436,6 @@ print(html)
 
 # ── Update standup-state.json via cron-write.sh ───────────────────────────────
 state_update = json.dumps({"lastStandupDate": today_str, "dayNumber": day_n})
-# Note: emailSentDate is owned by standup-email-send.sh; do not touch it here.
 PYEOF
 
 # Update state/standup-state.json with new date/day without clobbering email fields
@@ -391,4 +462,4 @@ with open(state_path, "w") as f:
     json.dump(state, f, indent=2)
 PYEOF
 
-echo "[standup] generated for $(date +%Y-%m-%d)"
+echo "[standup] generated for $(TZ=Australia/Sydney date '+%Y-%m-%d %H:%M AEST')"
