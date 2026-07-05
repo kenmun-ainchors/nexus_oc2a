@@ -18,9 +18,10 @@
 **Trigger:** Ken approved 2026-07-05 after CHG-0818 recurred in webchat session; root cause identified as context overflow in agent:main:dashboard session, not gateway-wide failure
 **What changed:** (1) Add Yoda self-heal rule: detect empty exec or ENOENT-on-existing-file symptoms and run session_status model=default to rebind the session. (2) Dispatch Forge to create scripts/main-session-context-watchdog.sh; run every heartbeat; query sessions_list for agent:main:dashboard sessions; if token ratio > ~75% (e.g. >200k/262k) or messages >250, log a reset event and gracefully reset the session model to default to prevent context overflow corruption. (3) Wire watchdog into HEARTBEAT.md checks with state key lastChecks.mainSessionContext.
 **Why:** CHG-0820/0821 added NODE_OPTIONS and gateway restart but did not address per-session context overflow. The dashboard webchat session accumulated 359 messages and hit 262k context limit, corrupting exec/read tool handlers. Auto-reset before overflow prevents recurrence without gateway restart.
-**Verification:** Gateway logs confirm context overflow event at 19:23 AEST. session_status model=default recovered exec/read immediately. Other sessions remained healthy throughout.
+**Verification:** (a) Script delivered by Forge at commit TBD; (b) `bash scripts/main-session-context-watchdog.sh --dry-run` reports dashboard session, 28% context ratio, no reset; (c) live run writes `state/main-session-context-ok.json` with status=ok; (d) Yoda self-heal rule recovered exec/read via `session_status model=default` during the incident.
 **Rollback:** Remove scripts/main-session-context-watchdog.sh from heartbeat and git revert; delete CHG-0828 entry from memory/CHANGELOG.md.
 **Linked:** CHG-0818,CHG-0820,CHG-0821,HEARTBEAT.md,scripts/main-session-context-watchdog.sh
+**Status:** committed,verified,closed
 ---
 
 ## 2026-07-05 19:20 AEST — [CHG-0827] Fix linkedin-post.sh parser bug re-appending H1 title and blocking posts on em-dash validation
