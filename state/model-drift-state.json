@@ -1,8 +1,8 @@
 {
-  "totalChecksRun": 1003,
-  "totalViolationsFound": 453,
-  "consecutiveClean": 49,
-  "lastCheck": "2026-07-05T19:07:02+10:00",
+  "totalChecksRun": 1004,
+  "totalViolationsFound": 454,
+  "consecutiveClean": 0,
+  "lastCheck": "2026-07-05T20:07:03+10:00",
   "baselineResetAt": "2026-05-25T00:21:00+10:00",
   "approvedModels": [
     "anthropic/claude-opus-4-7",
@@ -15,10 +15,10 @@
     "ollama/gemma4:e2b",
     "ollama/gemma4:26b"
   ],
-  "lastStatus": "clean",
-  "lastPassCount": 55,
-  "lastFailCount": 0,
-  "lastViolationAt": "2026-07-03T17:17:48+10:00",
+  "lastStatus": "violation",
+  "lastPassCount": 54,
+  "lastFailCount": 1,
+  "lastViolationAt": "2026-07-05T20:07:03+10:00",
   "lastUpdated": "2026-06-12T08:05:00+10:00",
   "lastUpdatedBy": "Yoda via CLAUDE RECONFIGURE (CHG-0500)"
 }

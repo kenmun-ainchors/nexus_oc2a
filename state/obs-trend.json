@@ -1,13 +1,18 @@
 {
-  "generated_at": "2026-07-05T09:40:28.286453+00:00",
-  "generated_at_aest": "2026-07-05 19:40 AEST",
+  "generated_at": "2026-07-05T10:10:27.872151+00:00",
+  "generated_at_aest": "2026-07-05 20:10 AEST",
   "period_hours": 24,
   "totals": {
-    "ERROR": 0,
+    "ERROR": 1,
     "WARN": 5,
     "INFO": 10
   },
-  "top_errors": [],
+  "top_errors": [
+    {
+      "type": "warden_violation",
+      "count": 1
+    }
+  ],
   "top_warnings": [
     {
       "type": "auto_heal_needs_ken",
@@ -16,10 +21,13 @@
   ],
   "trend": {
     "has_prev_data": true,
-    "prev_errors": 19,
+    "prev_errors": 13,
     "prev_warns": 9,
-    "errors_pct_change": -100.0,
+    "errors_pct_change": -92.3,
     "warns_pct_change": -44.4
   },
-  "worst_hour": null
+  "worst_hour": {
+    "hour": "2026-07-05T10:00Z",
+    "cnt": 1
+  }
 }
