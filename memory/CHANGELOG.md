@@ -1,3 +1,16 @@
+## 2026-07-05 20:22 AEST — [CHG-0830] Final integration and re-send of Day 72 rich standup email
+**Type:** script
+**Change Type:** Normal
+**Source:** ken-prompt
+**Trigger:** Ken instructed 2026-07-05 19:56 AEST: "now back to fixing the standup email richness. Execute under CREST framework until it's fixed and completed"
+**What changed:** (1) Confirmed previous subagent fix to `scripts/standup-composer.sh` — non-interactive LLM composition now works via `openclaw agent --agent infra --model ollama/deepseek-v4-flash:cloud --message-file ... --json --timeout 120`. (2) Added `composer_status: "ok"` signal to the success JSON output. (3) Expanded `scripts/generate-standup.sh` HTML template from ~9,900 bytes to 21,317 bytes using real state data: Ollama budget card, gateway latency, model drift, cron health, CREST compliance, framework maturity table, open decisions, draft docs, structured auto-heal NEEDS_KEN table, recent CHG log, sprint summary, focus-area bullets, and source footer. (4) Fixed rendering bugs in latency headline and cron OK text. (5) Cleared `state/standup-state.json.emailSentConfirmed` and re-ran `scripts/standup-email-send.sh` to deliver the richer Day 72 standup at 20:22 AEST (messageId `19f31cd5dde00c19`, canvas 21,317 bytes) to kenmun@gmail.com and angie.foong@ainchors.com.
+**Why:** CHG-0824/0825 restored the composer's intent but left two gaps: the success JSON did not signal "ok", and the HTML wrapper was still thin (~9.9K). The DoD for standup richness is ~21,000 bytes (Day 68/70 level), so template expansion with real sources was required before the fix could be considered complete.
+**Verification:** (a) `bash -n scripts/standup-composer.sh` and `bash -n scripts/generate-standup.sh` pass; (b) `bash scripts/standup-composer.sh` writes `.openclaw/tmp/standup-composer-input.json` with `composer_status: "ok"` and ~3,000 bytes of real detail; (c) `STANDUP_FORCE=1 STANDUP_DRY_RUN=1 bash scripts/generate-standup.sh` produces `.openclaw/tmp/standup-dryrun.html` of 21,317 bytes with zero "Composer degraded" occurrences and real CHG IDs/state values; (d) canvas file `~/.openclaw/canvas/documents/standup-daily/index.html` updated to 21,317 bytes; (e) re-sent email logged in `state/standup-email-log.json` with messageId `19f31cd5dde00c19`, status `ok`, canvasSize 21317. Git commits c1e6b874 and ae674791.
+**Rollback:** Revert commits c1e6b874 and ae674791; clear `state/standup-state.json.emailSentConfirmed` if a re-send is unwanted.
+**Linked:** CHG-0824,CHG-0825,CHG-0823,scripts/standup-composer.sh,scripts/generate-standup.sh,scripts/standup-email-send.sh,state/standup-email-log.json
+**Status:** committed,verified,closed
+---
+
 ## 2026-07-05 19:40 AEST — [CHG-0829] Fix db-sprint.sh complete subcommand and db-ticket.sh sprint_id FK update
 **Type:** script
 **Change Type:** Normal
