@@ -53,6 +53,12 @@
 - Catches: skipped Verify phases, missing RVEV traces, abandoned sub-crests, pro model overuse
   - Pro model policy: load skill `bash scripts/skill-load.sh model-routing`
 
+### Main Session Context Watchdog (every heartbeat)
+- Run: `bash scripts/main-session-context-watchdog.sh`
+- Writes `state/main-session-context-ok.json` or `state/main-session-context-reset.json`
+- State key: `lastChecks.mainSessionContext`
+- CHG ref: CHG-0828 (2026-07-05) — prevents CHG-0818 recurrence by auto-resetting dashboard session before context overflow
+
 ### Main-Session / Subagent Resume Registry (every heartbeat — TKT-0319 Atom 5)
 - Run: `bash scripts/main-session-resume-check.sh`
 - If `state/main-session-resume-needs-ken.json` exists with unacknowledged tasks → surface to Ken (task ID, description, checkpoint, agent).
