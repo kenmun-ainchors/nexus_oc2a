@@ -1,27 +1,31 @@
 {
-  "lastPoll": "2026-07-06T23:49:30+10:00",
+  "lastPoll": "2026-07-07T00:30:40+10:00",
   "checks": {
     "cronHealth": "ok (clean)",
     "owlCompliance": "ok (100%)",
     "mainSessionResume": "ok (all sessions alive)",
     "mainSessionContext": "ok (no dashboard session)",
-    "sessionModelDrift": "ok (agent:main = kimi-k2.7-code:cloud)",
+    "sessionModelDrift": "ok (kimi-k2.7-code:cloud)",
     "taskWatchdog": "ok (8/8 healthy)",
     "agentHealth": "ok (gateway:ok, ollama:ok, disk:ok, anthropic:ok)",
-    "costState": "ok (1.6% weekly = 2,393/149,562, projected exhaustion 2026-08-06)",
-    "requestBudgetCheck": "ok (1.6%)",
-    "budgetCheck": "parked per CHG-0502",
-    "ariaCrest": "COMPLIANT (0 violations)",
+    "cronDeadLetter": "none",
     "dodValidation": "none",
     "taskVerification": "acknowledged",
-    "cronDeadLetter": "none",
     "standbyMode": "false",
     "systemBanner": "inactive",
-    "delegatedAuth": "ok (script found)",
     "chgTriggers": "TRIGGER-01 pending (OC2 ETA 6-13 Jul), TRIGGER-04 fired (v2026.6.6 defer+sandbox), all others nominal"
   },
   "needsKen": [],
   "lastChecks": {
-    "owlCompliance": "2026-07-06T23:49:14+10:00"
+    "owlCompliance": "2026-07-07T00:30:22+10:00",
+    "mainSessionContext": "2026-07-07T00:30:22+10:00",
+    "mainSessionResume": "2026-07-07T00:30:22+10:00",
+    "sessionModelDrift": "2026-07-07T00:30:22+10:00",
+    "taskWatchdog": "2026-07-07T00:30:22+10:00",
+    "agentHealth": "2026-07-07T00:30:22+10:00",
+    "cronHealth": "2026-07-07T00:30:22+10:00",
+    "cronDeadLetter": "2026-07-07T00:30:40+10:00",
+    "dodValidation": "2026-07-07T00:30:40+10:00",
+    "taskVerification": "2026-07-07T00:30:40+10:00"
   }
 }
