@@ -1,41 +1,27 @@
 {
-  "lastUpdated": "2026-07-06T07:49+10:00",
-  "lastHeartbeat": "2026-07-06T07:49+10:00",
-  "lastChecks": {
-    "taskWatchdog": "2026-07-06T07:49+10:00",
-    "cronHealth": "2026-07-06T07:49+10:00",
-    "cronDeadLetter": "2026-07-06T07:49+10:00",
-    "owlCompliance": "2026-07-06T07:49+10:00",
-    "standbyMode": "2026-07-06T07:49+10:00",
-    "dodValidation": "2026-07-06T07:49+10:00",
-    "taskVerificationAlerts": "2026-07-06T07:49+10:00",
-    "sessionModelDrift": "2026-07-06T07:49+10:00",
-    "mainSessionResume": "2026-07-06T07:49+10:00",
-    "chgTriggers": "2026-07-06T07:49+10:00",
-    "ariaCrest": "2026-07-06T07:49+10:00",
-    "budgetCheck": "2026-07-06T07:49+10:00",
-    "requestBudgetCheck": "2026-07-06T07:49+10:00",
-    "costState": "2026-07-06T07:49+10:00",
-    "mainSessionContext": "2026-07-06T07:49+10:00",
-    "email": "2026-07-05T18:49+10:00",
-    "calendar": "2026-07-05T18:49+10:00",
-    "delegatedAuth": "2026-07-05T20:49+10:00",
-    "ceremoniesThisWeek": "2026-07-06T07:19+10:00",
-    "blogVerification": "2026-07-06T06:20+10:00",
-    "heartbeat": "2026-07-06T07:49+10:00"
+  "lastPoll": "2026-07-06T23:49:30+10:00",
+  "checks": {
+    "cronHealth": "ok (clean)",
+    "owlCompliance": "ok (100%)",
+    "mainSessionResume": "ok (all sessions alive)",
+    "mainSessionContext": "ok (no dashboard session)",
+    "sessionModelDrift": "ok (agent:main = kimi-k2.7-code:cloud)",
+    "taskWatchdog": "ok (8/8 healthy)",
+    "agentHealth": "ok (gateway:ok, ollama:ok, disk:ok, anthropic:ok)",
+    "costState": "ok (1.6% weekly = 2,393/149,562, projected exhaustion 2026-08-06)",
+    "requestBudgetCheck": "ok (1.6%)",
+    "budgetCheck": "parked per CHG-0502",
+    "ariaCrest": "COMPLIANT (0 violations)",
+    "dodValidation": "none",
+    "taskVerification": "acknowledged",
+    "cronDeadLetter": "none",
+    "standbyMode": "false",
+    "systemBanner": "inactive",
+    "delegatedAuth": "ok (script found)",
+    "chgTriggers": "TRIGGER-01 pending (OC2 ETA 6-13 Jul), TRIGGER-04 fired (v2026.6.6 defer+sandbox), all others nominal"
   },
-  "lastCheck": "2026-07-06T07:49+10:00",
-  "notes": [
-    "Heartbeat 2026-07-06T07:49+10:00 - All checks green.",
-    "Main session context OK. Session model aligned (kimi-k2.7-code:cloud).",
-    "Task watchdog: 8/8 healthy, no stalls.",
-    "Cron health clean, no dead letters.",
-    "OWL 100% compliant.",
-    "Aria CREST compliant.",
-    "Request budget: 34.9% (22591/64731) — healthy. USD budget parked per CHG-0502.",
-    "Memory Dreaming cron (34880aaa) has 6 consecutive errors — acknowledged.",
-    "TRIGGER-01 pending (OC2 arrival window 6-13 Jul).",
-    "No active alerts or banners.",
-    "Email/calendar/delegatedAuth deferred (last ~10h ago)."
-  ]
+  "needsKen": [],
+  "lastChecks": {
+    "owlCompliance": "2026-07-06T23:49:14+10:00"
+  }
 }

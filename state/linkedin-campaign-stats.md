@@ -1,6 +1,6 @@
 # LinkedIn Campaign Stats — Daily Snapshot
 
-**Snapshot:** 2026-07-05 10:00 AEST (2026-07-05 00:00 UTC)  
+**Snapshot:** 2026-07-06 10:00 AEST (2026-07-06 00:00 UTC)  
 **Agent:** Spark | **Interval:** 24h
 
 ## 📊 Current Foundation Arc (posted)
@@ -46,9 +46,11 @@
 
 | Post | Error | Note |
 |------|-------|------|
-| LI-W3-P7 | 404 | Not yet published (approved, awaiting slot) |
-| LI-W3-P8 | 404 | Not yet published (approved, awaiting slot) |
-| LI-W4-P10 | 404 | Not yet published (approved, awaiting slot) |
-| LI-W2-P4-visa-openai-company | 401 | Business account token expired — re-auth required |
+| LI-W3-P7 | 404 | Not yet published (approved, slot Tue 30 Jun) |
+| LI-W3-P8 | 404 | Not yet published (approved, slot Wed 1 Jul) |
+| LI-W4-P10 | 404 | Not yet published (approved, slot Tue 8 Jul) |
+| LI-W4-P11 | — | Queued (approved, slot Wed 9 Jul) |
+| LI-W4-P12 | — | Queued (approved, slot Thu 10 Jul) |
+| LI-W2-P4-visa-openai-company | — | Resolved — 0 reactions (business post) |
 
 *Impressions/reach deferred until Organization page onboarded to MDP.*

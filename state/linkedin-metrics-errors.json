@@ -1,7 +1,7 @@
 {
   "schema": "1.0",
-  "runAt": "2026-07-05T00:00:13Z",
-  "runAtLocal": "2026-07-05T10:00:00+10:00",
+  "runAt": "2026-07-06T00:00:43Z",
+  "runAtLocal": "2026-07-06T10:00:00+10:00",
   "errors": [
     {
       "contentId": "LI-W3-P7",
@@ -27,8 +27,8 @@
     {
       "contentId": "LI-W2-P4-visa-openai-company",
       "postUrn": "urn:li:share:7475350130762731520",
-      "error": "401 Token expired",
-      "reason": "Business account token expired; re-auth required",
+      "error": "resolved",
+      "reason": "Business account token refreshed; metrics now returning 0 reactions",
       "account": "business"
     }
   ]

@@ -9,6 +9,8 @@
 **Rollback:** Restore scripts/model-drift-check.sh from git or .bak.
 **Linked:** CHG-0804, CHG-0827, state/model-policy.json, openclaw.json, state/warden-escalation-pending.json
 **Category:** script
+**Verification Evidence (2026-07-06 17:09 AEST):** Edited `scripts/model-drift-check.sh` lines 271-345. The live-session Python block now reads `openclaw.json` per-agent `model.primary` (operational primary) first, falling back to `agentTiers` exception then tier primary. Tested: `bash -n scripts/model-drift-check.sh` → clean syntax. `bash scripts/model-drift-check.sh` → 49 PASS 0 FAIL, exit 0. `state/model-drift-violations.json` → totalUnresolved: 0, 0 findings. Static agent model check for infra (`PASS agent:infra -> ollama/deepseek-v4-flash:cloud`) and CREST v1.3 check (`PASS agent:infra (role=build phase=Execute) -> ollama/deepseek-v4-flash:cloud`) both pass. Live-session infra: `SKIP live-session agent:infra -> NO_DIRECT_SESSIONS (ollama/deepseek-v4-flash:cloud)` — expected model now correctly derived from openclaw.json operational primary, no false positive.
+**Status:** committed,verified,closed
 ---
 
 ## 2026-07-05 20:22 AEST — [CHG-0830] Final integration and re-send of Day 72 rich standup email

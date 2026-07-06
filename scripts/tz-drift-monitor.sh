@@ -47,7 +47,7 @@ typeset -a DRIFTS
 JOURNAL_IN_GRACE=false
 if [[ $AEST_TOTAL_MIN -lt $JOURNAL_GRACE_MIN ]]; then
     JOURNAL_IN_GRACE=true
-    log "Journal check: in grace window (${AEST_HOUR}:${AEST_MIN} AEST < 10:00). Skipping drift check."
+    log "Journal check: in grace window (${AEST_HOUR}:${AEST_MIN} AEST < 23:00). Skipping drift check."
 fi
 
 if [[ -f "$TODAY_JOURNAL" ]]; then

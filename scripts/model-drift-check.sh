@@ -279,15 +279,33 @@ import json, subprocess
 
 with open('$POLICY') as f:
     policy = json.load(f)
+with open('$OC_CONFIG') as f:
+    cfg = json.load(f)
 
 tiers = policy.get('agentTiers', {})
 # Build agent_id -> expected primary lookup
+# Priority: 1. openclaw.json per-agent model.primary.  2. agentTiers exception.  3. tier primary.  4. defaultPolicy.primary.
+
+# Read per-agent operational models from openclaw.json
+cfg_agent_models = {}
+for a in cfg.get('agents', {}).get('list', []):
+    aid = a.get('id', '')
+    m = a.get('model', {})
+    if isinstance(m, dict):
+        cfg_agent_models[aid] = m.get('primary', '')
+    elif isinstance(m, str):
+        cfg_agent_models[aid] = m
+
 agent_expected = {}
 for tier_key, tier in tiers.items():
     primary = tier.get('primary', '')
     for aid in tier.get('agentIds', []):
-        # Check for per-agent exception
-        expected = tier.get('exceptions', {}).get(aid) or primary
+        # Use openclaw.json per-agent model if available (operational primary)
+        if aid in cfg_agent_models and cfg_agent_models[aid]:
+            expected = cfg_agent_models[aid]
+        else:
+            # Check for per-agent exception in model-policy.json
+            expected = tier.get('exceptions', {}).get(aid) or primary
         agent_expected[aid] = expected
 
 # Query live sessions for all agents in policy

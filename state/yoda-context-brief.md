@@ -1,12 +1,12 @@
 # Yoda Telegram Context Brief
-# Generated: Sun 5 Jul 2026 20:00 AEST | Platform Day 72
+# Generated: Mon 6 Jul 2026 20:00 AEST | Platform Day 72
 
 ## Platform Status
 - Day count: 72 (from 2026-04-25)
 - Sprint 11 | 2026-07-06 to 2026-07-12 | STATUS: committed (planning completed 2026-07-05)
 - OC1: Mac Mini M4 24GB — LIVE Production. HARD LIMIT: No local LLM inference >~8B Q4.
 - OC2-A/B: Mac Mini M4 Pro 48GB ×2 — INCOMING ETA 6–13 Jul 2026. Commission ~27 Jul. OC2-gated items wait for TRIGGER-03.
-- Current model: ollama/deepseek-v4-flash:cloud (this session)
+- Current model: ollama/deepseek-v4-flash:cloud
 - Ports: 18789 Production, 18791 Browser, 28789 Sandbox, 38789 Shadow (LOCKED)
 
 ## Key People
@@ -24,16 +24,16 @@
 
 ## Current Sprint (Sprint 11 — 2026-07-06 to 2026-07-12)
 - STATUS: committed | Planning: 2026-07-05 completed
-- Critical items: TKT-0342 (EPIC: PG SSOT Gap Remediation), TKT-0358 (PG table health monitor cron — critical, Sprint 12)
-- Key high-priority Sprint 11 tickets: TKT-0352 (PG wire: knowledge docs/chunks), TKT-0354 (wire state_standups PG-first), TKT-0359 (PG-first write policy enforcement)
-- Key high-priority unassigned: TKT-0114 (Aevlith partnership), TKT-0127 (Agentic Marketing Org), TKT-0128 (Aria marketing mandate), TKT-0138 (Business Jumpstart), TKT-0293 (Regression Testing Framework), TKT-0331 (Skill-Based Encapsulation)
+- Critical items: TKT-0342 (EPIC: PG SSOT Gap Remediation, Sprint 11), TKT-0358 (PG table health monitor cron, Sprint 12)
+- Key high-priority Sprint 11: TKT-0352 (PG wire: knowledge docs/chunks), TKT-0354 (wire state_standups PG-first), TKT-0359 (PG-first write policy enforcement)
+- Key high-priority unassigned: TKT-0114 (Aevlith partnership, pending), TKT-0127 (Agentic Marketing Org), TKT-0128 (Aria marketing mandate), TKT-0138 (Business Jumpstart), TKT-0293 (Regression Testing Framework), TKT-0331 (Skill-Based Encapsulation)
 
 ## Approved Decisions (from MEMORY.md)
 1. Governance Tier Model (T0–T4) — approved 2026-05-08 (TKT-0103)
 2. CREST mandatory for all execution work (CHG-0545, 2026-06-13)
 3. Forge-only rule: Build/scripts → ONLY Forge. Atlas=EA assess. Thrawn=arch design. Yoda=never execute.
 4. No fabrication / evidence-only mandate (Ken, 2026-06-13)
-5. Skills loader at scripts/skill-load.sh — canonical path, validated against index (TKT-0535, CHG-0623)
+5. Skills loader at scripts/skill-load.sh — canonical path (TKT-0535, CHG-0623)
 6. Notion 3-DB architecture (CHG-0401): Backlog, Auto-Heal, Archive
 7. LinkedIn Foundation Arc v3.0 (CHG-0594): 4-week arc, Tue/Wed/Thu slots, strict voice rules
 8. OC2 gating: MinIO+PG 2-sprint validation before OC2 (TRIGGER-13)
@@ -53,20 +53,19 @@
 10. TKT-0331 — Skill-Based Encapsulation — Ticket/Sprint/Standup/CHG — HIGH | Unassigned
 
 ## LinkedIn Campaign Status (4-Week Foundation Arc — Week 4 "The Shift")
-- Next posts: LI-W4-P10 (Tue 8 Jul), LI-W4-P11 (Wed 9 Jul), LI-W4-P12 (Thu 10 Jul) — all APPROVED + image-ready
-- Movement IV "The Shift" — closing week of the 4-week arc
-- All 3 posts queued and approved by Ken (2026-07-05 batch)
-- Published so far: W1(3), W2(3), W3(2) — Week 3 posts LI-W3-P7/P8 posted; LI-W3-P9 slotted but not yet in published list
+- Week 4 posts all queued and APPROVED: LI-W4-P10 (Tue 8 Jul 07:30), LI-W4-P11 (Wed 9 Jul 12:00), LI-W4-P12 (Thu 10 Jul 07:30)
+- All 3 approved by Ken 2026-07-05, images ready, governance CLEARED
+- Movement IV "The Shift" — closing week of the 4-week Foundation Arc
+- Published so far: W1 (3 posts), W2 (3 posts), W3 (2 posts: LI-W3-P7/P8)
 - Voice rule NON-NEGOTIABLE: No AInchors, Yoda, Nexus, agent names, platform internals, em-dashes, "co-founder", finite time refs, consulting-speak, fake clients
-- Accounts: Ken personal profile (effective from 2026-06-23 CHG-0739)
+- Account: Ken personal profile (effective from 2026-06-23 CHG-0739)
 
-## Ollama Usage / Burn Status (as at 2026-07-04 20:00 AEST)
-- Weekly limit: 56,571 requests (Mon 29 Jun — Mon 6 Jul)
-- Used: 16,236 (28.7%) | Remaining: 40,335
-- Burn rate: 126.8 req/hr | 2 days remaining in window
-- Alert level: SILENT (below 50% threshold of 28,286)
-- All thresholds green: 50% warn(28,286), 70% alert(39,600), 85% critical(48,085), 95% emergency(53,742)
-- No action needed
+## Ollama Usage / Burn Status (as at 2026-07-05 20:00 AEST)
+- Weekly limit: 66,047 (Mon 29 Jun — Mon 6 Jul)
+- Used: 20,871 (31.6%) | Remaining: 45,176
+- Burn rate: 137.3 req/hr | Window closed Mon 10:00 AEST
+- Alert level: SILENT (below 50% threshold of 33,024)
+- No action needed — new weekly window opens Mon 6 Jul 10:00 AEST
 
 ## Mandatory Rules for Telegram Sessions
 1. HUMAN AUTHORITY: Ken and Angie always have final say. Yoda recommends; they decide.
@@ -79,7 +78,7 @@
 8. SUBAGENT DISPATCH: Load bash scripts/skill-load.sh subagent-dispatch. Always end turn with visible status.
 9. FORGE EXECUTE GATE: Yoda NEVER directly edits scripts/infra/build files. Route to agentId="infra".
 10. TELEGRAM CHUNKING: All messages chunked at 3,800 chars. Load skill: bash scripts/skill-load.sh telegram.
-11. NO FABRICATION / SILENT REPLY: When nothing user-facing to say, respond with single NO_REPLAY token.
+11. SILENT REPLY: When nothing user-facing to say, respond with single NO_REPLY token.
 
 ## Nexus Naming Reference
 - Nexus=platform | Holocron=AKB | Bridge=cmd-centre | Citadel=client-portal | Holonet=live-data | Beacon=monitoring | Sanctum=governance | Datapad=reporting

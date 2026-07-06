@@ -1,8 +1,10 @@
 {
-  "timestamp": "2026-07-05T21:39:20Z",
-  "host_time": "Mon Jul  6 07:39:20 AEST 2026",
-  "target_time": "Mon Jul  6 07:39:20 AEST 2026",
-  "drifts_detected": 0,
-  "drifts": [],
-  "status": "OK"
+  "timestamp": "2026-07-06T13:40:53Z",
+  "host_time": "Mon Jul  6 23:40:53 AEST 2026",
+  "target_time": "Mon Jul  6 23:40:53 AEST 2026",
+  "drifts_detected": 1,
+  "drifts": [
+  "journal_date_mismatch: expected 2026-07-06 file missing, latest is 2026-07-05"
+],
+  "status": "DRIFT_DETECTED"
 }
