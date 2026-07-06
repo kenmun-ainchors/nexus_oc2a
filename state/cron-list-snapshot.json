@@ -5,7 +5,7 @@
       "name": "AInchors Auto-Heal (nightly)",
       "enabled": true,
       "createdAtMs": 1777238338241,
-      "updatedAtMs": 1783177230209,
+      "updatedAtMs": 1783263648371,
       "agentId": "main",
       "sessionKey": "agent:main:main",
       "schedule": {
@@ -30,25 +30,105 @@
         "mode": "none"
       },
       "state": {
-        "nextRunAtMs": 1783263600000,
-        "lastRunAtMs": 1783177200042,
+        "nextRunAtMs": 1783350000000,
+        "lastRunAtMs": 1783263619473,
         "lastRunStatus": "ok",
         "lastStatus": "ok",
-        "lastDurationMs": 30167,
+        "lastDurationMs": 28898,
         "lastDeliveryStatus": "not-requested",
         "consecutiveErrors": 0,
         "consecutiveSkipped": 0,
         "lastFailureNotificationDeliveryStatus": "not-requested",
-        "runningAtMs": 1783263619473
+        "runningAtMs": 1783350008259
       },
       "status": "running"
+    },
+    {
+      "id": "c65ace85-c5b0-4e96-ace6-ae925812c09b",
+      "name": "AInchors Gateway Health Check (silent)",
+      "enabled": true,
+      "createdAtMs": 1777194033813,
+      "updatedAtMs": 1783349983174,
+      "agentId": "main",
+      "sessionKey": "agent:main:main",
+      "schedule": {
+        "kind": "every",
+        "everyMs": 300000,
+        "anchorMs": 1777507124761
+      },
+      "sessionTarget": "isolated",
+      "wakeMode": "now",
+      "payload": {
+        "kind": "agentTurn",
+        "message": "HEALTH_CHECK: Run bash /Users/ainchorsangiefpl/.openclaw/workspace/scripts/health-check.sh silently. After run, read /Users/ainchorsangiefpl/.openclaw/workspace/scripts/db-read.sh state_diagnostics — if consecutiveFailures >= 3 OR status=degraded, alert Ken via sovereign-alert.sh --source HEALTH. Otherwise output exactly: OK",
+        "model": "ollama/deepseek-v4-flash:cloud",
+        "timeoutSeconds": 120,
+        "lightContext": true
+      },
+      "delivery": {
+        "mode": "none"
+      },
+      "failureAlert": {
+        "after": 3,
+        "channel": "last",
+        "to": "Ken",
+        "mode": "announce"
+      },
+      "state": {
+        "nextRunAtMs": 1783350259189,
+        "lastRunAtMs": 1783349959189,
+        "lastRunStatus": "ok",
+        "lastStatus": "ok",
+        "lastDurationMs": 23985,
+        "lastDeliveryStatus": "not-requested",
+        "consecutiveErrors": 0,
+        "consecutiveSkipped": 0,
+        "lastFailureNotificationDeliveryStatus": "not-requested"
+      },
+      "status": "ok"
+    },
+    {
+      "id": "637ecb12-eae2-4c16-b174-8acdaa2729cc",
+      "name": "AInchors Task Monitor (systemEvent)",
+      "enabled": true,
+      "createdAtMs": 1777510853023,
+      "updatedAtMs": 1783349968719,
+      "schedule": {
+        "kind": "every",
+        "everyMs": 300000,
+        "anchorMs": 1777510853023
+      },
+      "sessionTarget": "isolated",
+      "wakeMode": "now",
+      "payload": {
+        "kind": "agentTurn",
+        "message": "TASK_MONITOR: Use the exec tool to run: bash /Users/ainchorsangiefpl/.openclaw/workspace/scripts/task-collector.sh. Then use the exec tool to run: bash /Users/ainchorsangiefpl/.openclaw/workspace/scripts/db-read.sh state_task_queue — check for stalled tasks. If non-empty, use the exec tool to alert Ken via: bash /Users/ainchorsangiefpl/.openclaw/workspace/scripts/sovereign-alert.sh --source TASK --message \"<summary>\". TKT-0501 fix: direct Bot API, no sessions_send.",
+        "model": "ollama/deepseek-v4-flash:cloud",
+        "timeoutSeconds": 120,
+        "lightContext": true
+      },
+      "delivery": {
+        "mode": "none"
+      },
+      "state": {
+        "nextRunAtMs": 1783350259191,
+        "lastRunAtMs": 1783349959191,
+        "lastRunStatus": "ok",
+        "lastStatus": "ok",
+        "lastDurationMs": 9528,
+        "lastDeliveryStatus": "not-requested",
+        "consecutiveErrors": 0,
+        "consecutiveSkipped": 0,
+        "lastFailureNotificationDeliveryStatus": "not-requested"
+      },
+      "status": "ok"
     },
     {
       "id": "d3b1e203-741b-444a-9852-7bb8839d2c99",
       "name": "AInchors Observability Collector (systemEvent)",
       "enabled": true,
       "createdAtMs": 1777509477205,
-      "updatedAtMs": 1783263574951,
+      "updatedAtMs": 1783350006189,
       "agentId": "main",
       "sessionKey": "agent:main:main",
       "schedule": {
@@ -69,47 +149,11 @@
         "mode": "none"
       },
       "state": {
-        "nextRunAtMs": 1783263864650,
-        "lastRunAtMs": 1783263564650,
+        "nextRunAtMs": 1783350298008,
+        "lastRunAtMs": 1783349998008,
         "lastRunStatus": "ok",
         "lastStatus": "ok",
-        "lastDurationMs": 10301,
-        "lastDeliveryStatus": "not-requested",
-        "consecutiveErrors": 0,
-        "consecutiveSkipped": 0,
-        "lastFailureNotificationDeliveryStatus": "not-requested"
-      },
-      "status": "ok"
-    },
-    {
-      "id": "637ecb12-eae2-4c16-b174-8acdaa2729cc",
-      "name": "AInchors Task Monitor (systemEvent)",
-      "enabled": true,
-      "createdAtMs": 1777510853023,
-      "updatedAtMs": 1783263577952,
-      "schedule": {
-        "kind": "every",
-        "everyMs": 300000,
-        "anchorMs": 1777510853023
-      },
-      "sessionTarget": "isolated",
-      "wakeMode": "now",
-      "payload": {
-        "kind": "agentTurn",
-        "message": "TASK_MONITOR: Use the exec tool to run: bash /Users/ainchorsangiefpl/.openclaw/workspace/scripts/task-collector.sh. Then use the exec tool to run: bash /Users/ainchorsangiefpl/.openclaw/workspace/scripts/db-read.sh state_task_queue — check for stalled tasks. If non-empty, use the exec tool to alert Ken via: bash /Users/ainchorsangiefpl/.openclaw/workspace/scripts/sovereign-alert.sh --source TASK --message \"<summary>\". TKT-0501 fix: direct Bot API, no sessions_send.",
-        "model": "ollama/deepseek-v4-flash:cloud",
-        "timeoutSeconds": 120,
-        "lightContext": true
-      },
-      "delivery": {
-        "mode": "none"
-      },
-      "state": {
-        "nextRunAtMs": 1783263864652,
-        "lastRunAtMs": 1783263564652,
-        "lastRunStatus": "ok",
-        "lastStatus": "ok",
-        "lastDurationMs": 13300,
+        "lastDurationMs": 8181,
         "lastDeliveryStatus": "not-requested",
         "consecutiveErrors": 0,
         "consecutiveSkipped": 0,
@@ -122,7 +166,7 @@
       "name": "AInchors Task Queue Processor (5-min — systemEvent)",
       "enabled": true,
       "createdAtMs": 1779422036451,
-      "updatedAtMs": 1783263570933,
+      "updatedAtMs": 1783350005039,
       "agentId": "main",
       "sessionKey": "agent:main:dashboard:b691f8db-985e-4a52-8693-74887ea61b9d",
       "schedule": {
@@ -152,71 +196,15 @@
         "cooldownMs": 3600000
       },
       "state": {
-        "lastRunAtMs": 1783263564652,
+        "lastRunAtMs": 1783349998009,
         "lastRunStatus": "ok",
         "lastStatus": "ok",
-        "lastDurationMs": 6281,
+        "lastDurationMs": 7030,
         "lastDeliveryStatus": "not-requested",
         "consecutiveErrors": 0,
         "consecutiveSkipped": 0,
         "lastFailureNotificationDeliveryStatus": "not-requested",
-        "nextRunAtMs": 1783263864652
-      },
-      "status": "ok"
-    },
-    {
-      "id": "c65ace85-c5b0-4e96-ace6-ae925812c09b",
-      "name": "AInchors Gateway Health Check (silent)",
-      "enabled": true,
-      "createdAtMs": 1777194033813,
-      "updatedAtMs": 1783263617402,
-      "agentId": "main",
-      "sessionKey": "agent:main:main",
-      "schedule": {
-        "kind": "every",
-        "everyMs": 300000,
-        "anchorMs": 1777507124761
-      },
-      "sessionTarget": "isolated",
-      "wakeMode": "now",
-      "payload": {
-        "kind": "agentTurn",
-        "message": "HEALTH_CHECK: Run bash /Users/ainchorsangiefpl/.openclaw/workspace/scripts/health-check.sh silently. After run, read /Users/ainchorsangiefpl/.openclaw/workspace/scripts/db-read.sh state_diagnostics — if consecutiveFailures >= 3 OR status=degraded, alert Ken via sovereign-alert.sh --source HEALTH. Otherwise output exactly: OK",
-        "model": "ollama/deepseek-v4-flash:cloud",
-        "timeoutSeconds": 120,
-        "lightContext": true
-      },
-      "delivery": {
-        "mode": "none"
-      },
-      "failureAlert": {
-        "after": 3,
-        "channel": "last",
-        "to": "Ken",
-        "mode": "announce"
-      },
-      "state": {
-        "nextRunAtMs": 1783263884350,
-        "lastRunAtMs": 1783263584350,
-        "lastRunStatus": "ok",
-        "lastStatus": "ok",
-        "lastDurationMs": 33052,
-        "lastDeliveryStatus": "not-requested",
-        "consecutiveErrors": 0,
-        "consecutiveSkipped": 0,
-        "lastFailureNotificationDeliveryStatus": "not-requested",
-        "lastDiagnostics": {
-          "summary": "⚠️ 🛠️ `list files in ~/.openclaw/workspace/scripts/health-state* → list files in ~/.openclaw/workspace/data/health* → list files in ~/.openclaw/workspace/data/state*` failed",
-          "entries": [
-            {
-              "ts": 1783263617400,
-              "source": "tool",
-              "severity": "warn",
-              "message": "⚠️ 🛠️ `list files in ~/.openclaw/workspace/scripts/health-state* → list files in ~/.openclaw/workspace/data/health* → list files in ~/.openclaw/workspace/data/state*` failed"
-            }
-          ]
-        },
-        "lastDiagnosticSummary": "⚠️ 🛠️ `list files in ~/.openclaw/workspace/scripts/health-state* → list files in ~/.openclaw/workspace/data/health* → list files in ~/.openclaw/workspace/data/state*` failed"
+        "nextRunAtMs": 1783350298009
       },
       "status": "ok"
     },
@@ -225,7 +213,7 @@
       "name": "Warden — Model Compliance Check (systemEvent)",
       "enabled": true,
       "createdAtMs": 1777326843682,
-      "updatedAtMs": 1783260575553,
+      "updatedAtMs": 1783346977408,
       "agentId": "main",
       "sessionKey": "agent:main:main",
       "schedule": {
@@ -254,11 +242,11 @@
         "mode": "announce"
       },
       "state": {
-        "nextRunAtMs": 1783264020000,
-        "lastRunAtMs": 1783260556156,
+        "nextRunAtMs": 1783350420000,
+        "lastRunAtMs": 1783346958705,
         "lastRunStatus": "ok",
         "lastStatus": "ok",
-        "lastDurationMs": 19397,
+        "lastDurationMs": 18703,
         "lastDeliveryStatus": "not-requested",
         "consecutiveErrors": 0,
         "consecutiveSkipped": 0,
@@ -271,7 +259,7 @@
       "name": "TRIGGER-12 — Allowlist Sync Detector",
       "enabled": true,
       "createdAtMs": 1777808158353,
-      "updatedAtMs": 1783262362381,
+      "updatedAtMs": 1783348856257,
       "agentId": "main",
       "sessionKey": "agent:main:dashboard:50b6b7f3-7f5e-4cde-8a8d-f12354fc34a3",
       "schedule": {
@@ -298,11 +286,11 @@
         "to": "8574109706"
       },
       "state": {
-        "nextRunAtMs": 1783264156205,
-        "lastRunAtMs": 1783262356205,
+        "nextRunAtMs": 1783350650611,
+        "lastRunAtMs": 1783348850611,
         "lastRunStatus": "ok",
         "lastStatus": "ok",
-        "lastDurationMs": 6176,
+        "lastDurationMs": 5646,
         "lastDeliveryStatus": "not-requested",
         "consecutiveErrors": 0,
         "consecutiveSkipped": 0,
@@ -315,7 +303,7 @@
       "name": "TZ Drift Monitor (every 30 min — systemEvent)",
       "enabled": true,
       "createdAtMs": 1779586493473,
-      "updatedAtMs": 1783262362291,
+      "updatedAtMs": 1783348857169,
       "agentId": "main",
       "sessionKey": "agent:main:dashboard:b691f8db-985e-4a52-8693-74887ea61b9d",
       "schedule": {
@@ -336,11 +324,11 @@
         "mode": "none"
       },
       "state": {
-        "nextRunAtMs": 1783264156206,
-        "lastRunAtMs": 1783262356206,
+        "nextRunAtMs": 1783350650612,
+        "lastRunAtMs": 1783348850612,
         "lastRunStatus": "ok",
         "lastStatus": "ok",
-        "lastDurationMs": 6085,
+        "lastDurationMs": 6557,
         "lastDeliveryStatus": "not-requested",
         "consecutiveErrors": 0,
         "consecutiveSkipped": 0,
@@ -353,7 +341,7 @@
       "name": "AInchors Mission Control Refresh (systemEvent)",
       "enabled": true,
       "createdAtMs": 1777294946970,
-      "updatedAtMs": 1783263331754,
+      "updatedAtMs": 1783349881501,
       "schedule": {
         "kind": "every",
         "everyMs": 900000,
@@ -372,11 +360,11 @@
         "mode": "none"
       },
       "state": {
-        "nextRunAtMs": 1783264225529,
-        "lastRunAtMs": 1783263325529,
+        "nextRunAtMs": 1783350774712,
+        "lastRunAtMs": 1783349874712,
         "lastRunStatus": "ok",
         "lastStatus": "ok",
-        "lastDurationMs": 6225,
+        "lastDurationMs": 6789,
         "lastDeliveryStatus": "not-requested",
         "consecutiveErrors": 0,
         "consecutiveSkipped": 0,
@@ -390,7 +378,7 @@
       "description": "TKT-0406: Batch reconciliation — sync all tickets with notion_sync.status != 'synced' every 30 min",
       "enabled": true,
       "createdAtMs": 1781167853325,
-      "updatedAtMs": 1783263079943,
+      "updatedAtMs": 1783349474434,
       "agentId": "main",
       "schedule": {
         "kind": "every",
@@ -419,11 +407,11 @@
         "cooldownMs": 3600000
       },
       "state": {
-        "nextRunAtMs": 1783264864675,
-        "lastRunAtMs": 1783263064675,
+        "nextRunAtMs": 1783351266915,
+        "lastRunAtMs": 1783349466915,
         "lastRunStatus": "ok",
         "lastStatus": "ok",
-        "lastDurationMs": 15268,
+        "lastDurationMs": 7519,
         "lastDeliveryStatus": "not-requested",
         "lastFailureNotificationDeliveryStatus": "not-requested",
         "consecutiveErrors": 0,
@@ -432,55 +420,11 @@
       "status": "ok"
     },
     {
-      "id": "35c8cd08-10db-4356-a34f-e104472120fb",
-      "name": "Forge 🏗️ — Fallback Chain Validation (hourly)",
-      "enabled": true,
-      "createdAtMs": 1777349996149,
-      "updatedAtMs": 1783262313383,
-      "agentId": "main",
-      "sessionKey": "agent:main:main",
-      "schedule": {
-        "kind": "every",
-        "everyMs": 3600000,
-        "anchorMs": 1777349996149
-      },
-      "sessionTarget": "isolated",
-      "wakeMode": "now",
-      "payload": {
-        "kind": "agentTurn",
-        "message": "FALLBACK_CHAIN_VALIDATE: Validate the AInchors fallback chain.\n\n1. Run: zsh /Users/ainchorsangiefpl/.openclaw/workspace/scripts/validate-fallback-chain.sh\n2. Read state/fallback-chain-status.json\n3. If overall = 'ok': output exactly \"OK\" and stop. Do NOT send Telegram.\n4. If overall = 'broken': run outage-handler.sh and send Telegram alert to Ken (8574109706) via sovereign-alert.sh:\n   🚨 Fallback Chain Broken — [broken links] | Available: [model] | Action: check billing/Ollama/auth\n   Then output \"ALERTED: chain broken\".\n\nAlways output exactly one line. Never generate an empty response.",
-        "model": "ollama/deepseek-v4-flash:cloud",
-        "fallbacks": [
-          "ollama/gemma4:31b-cloud",
-          "ollama/kimi-k2.6:cloud"
-        ],
-        "timeoutSeconds": 120,
-        "lightContext": true
-      },
-      "delivery": {
-        "mode": "none",
-        "channel": "telegram",
-        "to": "8574109706"
-      },
-      "state": {
-        "nextRunAtMs": 1783265899052,
-        "lastRunAtMs": 1783262299052,
-        "lastRunStatus": "ok",
-        "lastStatus": "ok",
-        "lastDurationMs": 14331,
-        "lastDeliveryStatus": "not-requested",
-        "consecutiveErrors": 0,
-        "consecutiveSkipped": 0,
-        "lastFailureNotificationDeliveryStatus": "not-requested"
-      },
-      "status": "ok"
-    },
-    {
       "id": "065bd5a9-2888-41ca-bc0e-7771f2dfa565",
       "name": "AInchors Post-Deliverable Validation (2h — systemEvent)",
       "enabled": true,
       "createdAtMs": 1779423125418,
-      "updatedAtMs": 1783258730114,
+      "updatedAtMs": 1783345170017,
       "agentId": "main",
       "sessionKey": "agent:main:dashboard:b691f8db-985e-4a52-8693-74887ea61b9d",
       "schedule": {
@@ -507,11 +451,55 @@
         "cooldownMs": 7200000
       },
       "state": {
-        "nextRunAtMs": 1783265924296,
-        "lastRunAtMs": 1783258724296,
+        "nextRunAtMs": 1783352363439,
+        "lastRunAtMs": 1783345163439,
         "lastRunStatus": "ok",
         "lastStatus": "ok",
-        "lastDurationMs": 5818,
+        "lastDurationMs": 6578,
+        "lastDeliveryStatus": "not-requested",
+        "consecutiveErrors": 0,
+        "consecutiveSkipped": 0,
+        "lastFailureNotificationDeliveryStatus": "not-requested"
+      },
+      "status": "ok"
+    },
+    {
+      "id": "35c8cd08-10db-4356-a34f-e104472120fb",
+      "name": "Forge 🏗️ — Fallback Chain Validation (hourly)",
+      "enabled": true,
+      "createdAtMs": 1777349996149,
+      "updatedAtMs": 1783348779494,
+      "agentId": "main",
+      "sessionKey": "agent:main:main",
+      "schedule": {
+        "kind": "every",
+        "everyMs": 3600000,
+        "anchorMs": 1777349996149
+      },
+      "sessionTarget": "isolated",
+      "wakeMode": "now",
+      "payload": {
+        "kind": "agentTurn",
+        "message": "FALLBACK_CHAIN_VALIDATE: Validate the AInchors fallback chain.\n\n1. Run: zsh /Users/ainchorsangiefpl/.openclaw/workspace/scripts/validate-fallback-chain.sh\n2. Read state/fallback-chain-status.json\n3. If overall = 'ok': output exactly \"OK\" and stop. Do NOT send Telegram.\n4. If overall = 'broken': run outage-handler.sh and send Telegram alert to Ken (8574109706) via sovereign-alert.sh:\n   🚨 Fallback Chain Broken — [broken links] | Available: [model] | Action: check billing/Ollama/auth\n   Then output \"ALERTED: chain broken\".\n\nAlways output exactly one line. Never generate an empty response.",
+        "model": "ollama/deepseek-v4-flash:cloud",
+        "fallbacks": [
+          "ollama/gemma4:31b-cloud",
+          "ollama/kimi-k2.6:cloud"
+        ],
+        "timeoutSeconds": 120,
+        "lightContext": true
+      },
+      "delivery": {
+        "mode": "none",
+        "channel": "telegram",
+        "to": "8574109706"
+      },
+      "state": {
+        "nextRunAtMs": 1783352373278,
+        "lastRunAtMs": 1783348773278,
+        "lastRunStatus": "ok",
+        "lastStatus": "ok",
+        "lastDurationMs": 6216,
         "lastDeliveryStatus": "not-requested",
         "consecutiveErrors": 0,
         "consecutiveSkipped": 0,
@@ -524,7 +512,7 @@
       "name": "obs-collect-heartbeat",
       "enabled": true,
       "createdAtMs": 1781150003960,
-      "updatedAtMs": 1783263213611,
+      "updatedAtMs": 1783349614180,
       "agentId": "main",
       "sessionKey": "agent:main:cron:d3b1e203-741b-444a-9852-7bb8839d2c99:run:1781149994943:heartbeat",
       "schedule": {
@@ -545,11 +533,11 @@
         "mode": "none"
       },
       "state": {
-        "nextRunAtMs": 1783266804432,
-        "lastRunAtMs": 1783263204432,
+        "nextRunAtMs": 1783353205632,
+        "lastRunAtMs": 1783349605632,
         "lastRunStatus": "ok",
         "lastStatus": "ok",
-        "lastDurationMs": 9179,
+        "lastDurationMs": 8548,
         "lastDeliveryStatus": "not-requested",
         "lastFailureNotificationDeliveryStatus": "not-requested",
         "consecutiveErrors": 0,
@@ -562,7 +550,7 @@
       "name": "CREST v1.3 Model Policy Export (nightly)",
       "enabled": true,
       "createdAtMs": 1781912212955,
-      "updatedAtMs": 1783182606525,
+      "updatedAtMs": 1783269041616,
       "agentId": "main",
       "schedule": {
         "kind": "cron",
@@ -589,11 +577,11 @@
         "cooldownMs": 7200000
       },
       "state": {
-        "nextRunAtMs": 1783269000000,
-        "lastRunAtMs": 1783182600047,
+        "nextRunAtMs": 1783355400000,
+        "lastRunAtMs": 1783269034111,
         "lastRunStatus": "ok",
         "lastStatus": "ok",
-        "lastDurationMs": 6478,
+        "lastDurationMs": 7505,
         "lastDelivered": false,
         "lastDeliveryStatus": "not-delivered",
         "lastFailureNotificationDeliveryStatus": "not-requested",
@@ -607,7 +595,7 @@
       "name": "cron-timeout-baseline-refresh",
       "enabled": true,
       "createdAtMs": 1781830611542,
-      "updatedAtMs": 1783184408482,
+      "updatedAtMs": 1783270834651,
       "agentId": "main",
       "schedule": {
         "kind": "cron",
@@ -626,11 +614,11 @@
         "mode": "none"
       },
       "state": {
-        "nextRunAtMs": 1783270800000,
-        "lastRunAtMs": 1783184400062,
+        "nextRunAtMs": 1783357200000,
+        "lastRunAtMs": 1783270827019,
         "lastRunStatus": "ok",
         "lastStatus": "ok",
-        "lastDurationMs": 8420,
+        "lastDurationMs": 7632,
         "lastDeliveryStatus": "not-requested",
         "lastFailureNotificationDeliveryStatus": "not-requested",
         "consecutiveErrors": 0,
@@ -644,7 +632,7 @@
       "description": "Nightly Gateway Restart (03:00 AEST) — writes marker then restarts. Cron will report 'interrupted' — expected. Verification by 03:05 follow-up cron.",
       "enabled": true,
       "createdAtMs": 1778741428635,
-      "updatedAtMs": 1783184400064,
+      "updatedAtMs": 1783270827021,
       "agentId": "main",
       "schedule": {
         "kind": "cron",
@@ -658,11 +646,11 @@
         "text": "NIGHTLY_RESTART: Use the exec tool to run: bash /Users/ainchorsangiefpl/.openclaw/workspace/scripts/nightly-gateway-restart.sh. This session WILL BE INTERRUPTED by gateway restart — expected. Follow-up verification at 03:05."
       },
       "state": {
-        "nextRunAtMs": 1783270800000,
-        "lastRunAtMs": 1783184400051,
+        "nextRunAtMs": 1783357200000,
+        "lastRunAtMs": 1783270827016,
         "lastRunStatus": "ok",
         "lastStatus": "ok",
-        "lastDurationMs": 13,
+        "lastDurationMs": 5,
         "lastDeliveryStatus": "not-requested",
         "consecutiveErrors": 0,
         "consecutiveSkipped": 0,
@@ -675,7 +663,7 @@
       "name": "TKT-0343-daily-config-snapshot",
       "enabled": true,
       "createdAtMs": 1782127293365,
-      "updatedAtMs": 1783184410539,
+      "updatedAtMs": 1783270838495,
       "agentId": "main",
       "schedule": {
         "kind": "cron",
@@ -695,11 +683,11 @@
         "mode": "none"
       },
       "state": {
-        "nextRunAtMs": 1783270800000,
-        "lastRunAtMs": 1783184400063,
+        "nextRunAtMs": 1783357200000,
+        "lastRunAtMs": 1783270827019,
         "lastRunStatus": "ok",
         "lastStatus": "ok",
-        "lastDurationMs": 10476,
+        "lastDurationMs": 11476,
         "lastDeliveryStatus": "not-requested",
         "lastFailureNotificationDeliveryStatus": "not-requested",
         "consecutiveErrors": 0,
@@ -713,7 +701,7 @@
       "description": "Post-restart verification (03:05 AEST) — checks marker from 03:00 restart cron, verifies gateway is alive, sends success/failure to Ken via Telegram. Part of CHG-0411 two-cron design.",
       "enabled": true,
       "createdAtMs": 1779138794114,
-      "updatedAtMs": 1783184700052,
+      "updatedAtMs": 1783271137874,
       "agentId": "main",
       "sessionKey": "agent:main:dashboard:b691f8db-985e-4a52-8693-74887ea61b9d",
       "schedule": {
@@ -728,8 +716,8 @@
         "text": "NIGHTLY_RESTART_VERIFY: Use the exec tool to run: bash /Users/ainchorsangiefpl/.openclaw/workspace/scripts/nightly-restart-verify.sh. If output is success/failure: use the exec tool to forward to Ken via: bash /Users/ainchorsangiefpl/.openclaw/workspace/scripts/sovereign-alert.sh --source RESTART. TKT-0501 fix. If 'no restart marker found': silent."
       },
       "state": {
-        "nextRunAtMs": 1783271100000,
-        "lastRunAtMs": 1783184700049,
+        "nextRunAtMs": 1783357500000,
+        "lastRunAtMs": 1783271137871,
         "lastRunStatus": "ok",
         "lastStatus": "ok",
         "lastDurationMs": 3,
@@ -745,7 +733,7 @@
       "name": "Daily Stale Task Cleanup (systemEvent)",
       "enabled": true,
       "createdAtMs": 1778741440806,
-      "updatedAtMs": 1783185014741,
+      "updatedAtMs": 1783271428803,
       "agentId": "main",
       "schedule": {
         "kind": "cron",
@@ -765,11 +753,11 @@
         "mode": "none"
       },
       "state": {
-        "nextRunAtMs": 1783271400000,
-        "lastRunAtMs": 1783185000046,
+        "nextRunAtMs": 1783357800000,
+        "lastRunAtMs": 1783271412954,
         "lastRunStatus": "ok",
         "lastStatus": "ok",
-        "lastDurationMs": 14695,
+        "lastDurationMs": 15849,
         "lastDeliveryStatus": "not-requested",
         "consecutiveErrors": 0,
         "consecutiveSkipped": 0,
@@ -782,7 +770,7 @@
       "name": "Model Context Sync (nightly)",
       "enabled": true,
       "createdAtMs": 1782297705363,
-      "updatedAtMs": 1783185306764,
+      "updatedAtMs": 1783271731761,
       "agentId": "main",
       "schedule": {
         "kind": "cron",
@@ -802,11 +790,11 @@
         "mode": "none"
       },
       "state": {
-        "nextRunAtMs": 1783271700000,
-        "lastRunAtMs": 1783185300041,
+        "nextRunAtMs": 1783358100000,
+        "lastRunAtMs": 1783271723913,
         "lastRunStatus": "ok",
         "lastStatus": "ok",
-        "lastDurationMs": 6723,
+        "lastDurationMs": 7848,
         "lastDeliveryStatus": "not-requested",
         "lastFailureNotificationDeliveryStatus": "not-requested",
         "consecutiveErrors": 0,
@@ -819,7 +807,7 @@
       "name": "AKB Holocron — Daily Update (3AM — systemEvent)",
       "enabled": true,
       "createdAtMs": 1777344283249,
-      "updatedAtMs": 1783185617649,
+      "updatedAtMs": 1783272058388,
       "agentId": "main",
       "sessionKey": "agent:main:main",
       "schedule": {
@@ -840,11 +828,11 @@
         "mode": "none"
       },
       "state": {
-        "nextRunAtMs": 1783272000000,
-        "lastRunAtMs": 1783185600046,
+        "nextRunAtMs": 1783358400000,
+        "lastRunAtMs": 1783272024766,
         "lastRunStatus": "ok",
         "lastStatus": "ok",
-        "lastDurationMs": 17603,
+        "lastDurationMs": 33622,
         "lastDeliveryStatus": "not-requested",
         "consecutiveErrors": 0,
         "consecutiveSkipped": 0,
@@ -857,7 +845,7 @@
       "name": "TRIGGER-04/06: OpenClaw Release Monitor",
       "enabled": true,
       "createdAtMs": 1777628249317,
-      "updatedAtMs": 1783195228642,
+      "updatedAtMs": 1783281616028,
       "agentId": "main",
       "sessionKey": "agent:main:main",
       "schedule": {
@@ -882,957 +870,11 @@
         "mode": "none"
       },
       "state": {
-        "nextRunAtMs": 1783281600000,
-        "lastRunAtMs": 1783195200048,
+        "nextRunAtMs": 1783368000000,
+        "lastRunAtMs": 1783281600048,
         "lastRunStatus": "ok",
         "lastStatus": "ok",
-        "lastDurationMs": 28594,
-        "lastDeliveryStatus": "not-requested",
-        "consecutiveErrors": 0,
-        "consecutiveSkipped": 0,
-        "lastFailureNotificationDeliveryStatus": "not-requested"
-      },
-      "status": "ok"
-    },
-    {
-      "id": "0afc4d20-11d8-4d23-9fd8-ab7b9aabffe0",
-      "name": "Daily Memory Hygiene — Pre-Standup Sweep",
-      "enabled": true,
-      "createdAtMs": 1777966723322,
-      "updatedAtMs": 1783201514630,
-      "agentId": "main",
-      "sessionKey": "agent:main:telegram:direct:8574109706",
-      "schedule": {
-        "kind": "cron",
-        "expr": "45 7 * * *",
-        "tz": "Australia/Melbourne"
-      },
-      "sessionTarget": "isolated",
-      "wakeMode": "now",
-      "payload": {
-        "kind": "agentTurn",
-        "message": "MEMORY_HYGIENE: Clean up old state files and archived memory.\n\n1. Run: bash /Users/ainchorsangiefpl/.openclaw/workspace/scripts/memory-hygiene.sh\n2. Remove memory archive files older than 90 days from state/memory-archive/\n3. Remove old cost-state backups older than 30 days\n4. If cleaned > 0: output \"HYGIENE: [N] files archived, [M] removed\"\n5. If no action: output \"HYGIENE: no cleanup needed\"\n\nAlways output exactly one line.",
-        "model": "ollama/deepseek-v4-flash:cloud",
-        "fallbacks": [
-          "ollama/gemma4:31b-cloud",
-          "ollama/kimi-k2.6:cloud"
-        ],
-        "timeoutSeconds": 600,
-        "lightContext": true
-      },
-      "delivery": {
-        "mode": "none"
-      },
-      "state": {
-        "nextRunAtMs": 1783287900000,
-        "lastRunAtMs": 1783201500050,
-        "lastRunStatus": "ok",
-        "lastStatus": "ok",
-        "lastDurationMs": 14580,
-        "lastDeliveryStatus": "not-requested",
-        "consecutiveErrors": 0,
-        "consecutiveSkipped": 0,
-        "lastFailureNotificationDeliveryStatus": "not-requested"
-      },
-      "status": "ok"
-    },
-    {
-      "id": "3c279099-bddb-4ef3-bfea-fc22f342abd8",
-      "name": "AInchors Morning Stand-Up",
-      "enabled": true,
-      "createdAtMs": 1777156431093,
-      "updatedAtMs": 1783202432514,
-      "agentId": "main",
-      "schedule": {
-        "kind": "cron",
-        "expr": "0 8 * * *",
-        "tz": "Australia/Melbourne"
-      },
-      "sessionTarget": "isolated",
-      "wakeMode": "now",
-      "payload": {
-        "kind": "agentTurn",
-        "message": "Use the exec tool to run this shell command: bash /Users/ainchorsangiefpl/.openclaw/workspace/scripts/generate-standup.sh\n\nThe script reads state files and builds the 8-section stand-up HTML, piping it to the Canvas document at ~/.openclaw/canvas/documents/standup-daily/index.html. Do NOT use the write tool — the script handles file output via its own pipe. No reply needed unless the script exits non-zero. If idempotency blocks a re-run (date already generated), set STANDUP_FORCE=1 in the environment before invoking.",
-        "model": "ollama/deepseek-v4-flash:cloud",
-        "timeoutSeconds": 180,
-        "lightContext": true
-      },
-      "delivery": {
-        "mode": "none"
-      },
-      "state": {
-        "nextRunAtMs": 1783288800000,
-        "lastRunAtMs": 1783202406675,
-        "lastRunStatus": "ok",
-        "lastStatus": "ok",
-        "lastDurationMs": 25839,
-        "lastDeliveryStatus": "not-requested",
-        "consecutiveErrors": 0,
-        "consecutiveSkipped": 0,
-        "lastFailureNotificationDeliveryStatus": "not-requested"
-      },
-      "status": "ok"
-    },
-    {
-      "id": "bb3575e0-2d6b-4cf6-87c7-8e00cf856652",
-      "name": "ollama-usage-scraper-refresh",
-      "enabled": true,
-      "createdAtMs": 1781830641790,
-      "updatedAtMs": 1783252826033,
-      "agentId": "main",
-      "schedule": {
-        "kind": "cron",
-        "expr": "0 8,10,12,14,16,18,20,22 * * *",
-        "tz": "Australia/Melbourne"
-      },
-      "sessionTarget": "isolated",
-      "wakeMode": "now",
-      "payload": {
-        "kind": "agentTurn",
-        "message": "Operational run of the Ollama dashboard usage scraper (TKT-0533).\n\nRun this command with exec using absolute paths only:\n  bash /Users/ainchorsangiefpl/.openclaw/workspace/scripts/ollama-usage-scraper-run.sh\n\nIt starts the OpenClaw browser, scrapes ollama.com/settings, updates cost-state.json, then stops the browser. Do not modify the script. Report exit code and the scraper output summary line.",
-        "model": "ollama/deepseek-v4-flash:cloud",
-        "timeoutSeconds": 180
-      },
-      "delivery": {
-        "mode": "none"
-      },
-      "state": {
-        "nextRunAtMs": 1783288800000,
-        "lastRunAtMs": 1783252800049,
-        "lastRunStatus": "ok",
-        "lastStatus": "ok",
-        "lastDurationMs": 25984,
-        "lastDeliveryStatus": "not-requested",
-        "lastFailureNotificationDeliveryStatus": "not-requested",
-        "consecutiveErrors": 0,
-        "consecutiveSkipped": 0
-      },
-      "status": "ok"
-    },
-    {
-      "id": "80c9226b-eb86-4c40-a291-8ff3a505e775",
-      "name": "AInchors Daily Backup (shell-direct, systemEvent)",
-      "enabled": true,
-      "createdAtMs": 1777236186787,
-      "updatedAtMs": 1783202751576,
-      "agentId": "main",
-      "sessionKey": "agent:main:main",
-      "schedule": {
-        "kind": "cron",
-        "expr": "5 8 * * *",
-        "tz": "Australia/Melbourne"
-      },
-      "sessionTarget": "isolated",
-      "wakeMode": "now",
-      "payload": {
-        "kind": "agentTurn",
-        "message": "BACKUP_DIRECT: Use the exec tool to run: bash /Users/ainchorsangiefpl/.openclaw/workspace/scripts/backup.sh. If exit non-zero, use the exec tool to log incident via: bash /Users/ainchorsangiefpl/.openclaw/workspace/scripts/incident-log.sh. Write backup timestamp to /Users/ainchorsangiefpl/.openclaw/workspace/state/backup-state.json. No reply needed if OK.",
-        "model": "ollama/deepseek-v4-flash:cloud",
-        "timeoutSeconds": 180,
-        "lightContext": true
-      },
-      "delivery": {
-        "mode": "none"
-      },
-      "state": {
-        "lastRunAtMs": 1783202700047,
-        "lastRunStatus": "ok",
-        "lastStatus": "ok",
-        "lastDurationMs": 51529,
-        "lastDeliveryStatus": "not-requested",
-        "consecutiveErrors": 0,
-        "consecutiveSkipped": 0,
-        "lastFailureNotificationDeliveryStatus": "not-requested",
-        "nextRunAtMs": 1783289100000
-      },
-      "status": "ok"
-    },
-    {
-      "id": "f71f75af-dac7-4b6a-9b6e-9f43626b19a5",
-      "name": "Daily Workspace Backup",
-      "description": "Daily workspace backup: incremental Mon-Sat (rsync --link-dest), full tar.gz Sunday. 08:05 AEST. TKT-0146 / Stand-up Item 5 fix.",
-      "enabled": true,
-      "createdAtMs": 1781666352110,
-      "updatedAtMs": 1783202750124,
-      "agentId": "main",
-      "schedule": {
-        "kind": "cron",
-        "expr": "5 8 * * *",
-        "tz": "Australia/Melbourne"
-      },
-      "sessionTarget": "isolated",
-      "wakeMode": "now",
-      "payload": {
-        "kind": "agentTurn",
-        "message": "Run the workspace backup script: bash /Users/ainchorsangiefpl/.openclaw/workspace/scripts/backup.sh\n\nReport: exit code, backup type (incremental/full), file size, and any errors.",
-        "model": "ollama/minimax-m3:cloud",
-        "fallbacks": [
-          "ollama/gemma4:31b-cloud"
-        ],
-        "timeoutSeconds": 180
-      },
-      "delivery": {
-        "mode": "announce",
-        "channel": "telegram",
-        "to": "8574109706"
-      },
-      "failureAlert": {
-        "after": 2,
-        "channel": "telegram",
-        "to": "8574109706",
-        "cooldownMs": 3600000
-      },
-      "state": {
-        "lastRunAtMs": 1783202700048,
-        "lastRunStatus": "ok",
-        "lastStatus": "ok",
-        "lastDurationMs": 50076,
-        "lastDeliveryStatus": "delivered",
-        "lastFailureNotificationDeliveryStatus": "not-requested",
-        "consecutiveErrors": 0,
-        "consecutiveSkipped": 0,
-        "nextRunAtMs": 1783289100000,
-        "lastDelivered": true
-      },
-      "status": "ok"
-    },
-    {
-      "id": "e08e19ad-2d15-47ff-9ac0-509c05889a0e",
-      "name": "TKT-0093 Backup Health Check",
-      "enabled": true,
-      "createdAtMs": 1778229044855,
-      "updatedAtMs": 1783203014112,
-      "agentId": "main",
-      "schedule": {
-        "kind": "cron",
-        "expr": "10 8 * * *",
-        "tz": "Australia/Melbourne"
-      },
-      "sessionTarget": "isolated",
-      "wakeMode": "now",
-      "payload": {
-        "kind": "agentTurn",
-        "message": "BACKUP_HEALTH: Verify backup integrity and freshness.\n\n1. Run: bash /Users/ainchorsangiefpl/.openclaw/workspace/scripts/backup-health-check.sh\n2. If exit 0: output the script's result (healthy)\n3. If exit non-zero: send Telegram to Ken (8574109706) with the exact output\n\nAlways output exactly one line.",
-        "model": "ollama/deepseek-v4-flash:cloud",
-        "fallbacks": [
-          "ollama/gemma4:31b-cloud",
-          "ollama/kimi-k2.6:cloud"
-        ],
-        "timeoutSeconds": 120,
-        "lightContext": true
-      },
-      "delivery": {
-        "mode": "announce",
-        "channel": "telegram",
-        "to": "8574109706"
-      },
-      "state": {
-        "nextRunAtMs": 1783289400000,
-        "lastRunAtMs": 1783203000043,
-        "lastRunStatus": "ok",
-        "lastStatus": "ok",
-        "lastDurationMs": 14069,
-        "lastDeliveryStatus": "delivered",
-        "consecutiveErrors": 0,
-        "consecutiveSkipped": 0,
-        "lastFailureNotificationDeliveryStatus": "not-requested",
-        "lastDelivered": true
-      },
-      "status": "ok"
-    },
-    {
-      "id": "fea4300b-c045-4939-b829-d06c325eeda8",
-      "name": "AInchors Stand-up Email Delivery",
-      "description": "Sends the standup canvas HTML as email via gog. Runs 15 min after main standup cron. Shell-only — no model tokens.",
-      "enabled": true,
-      "createdAtMs": 1780360238052,
-      "updatedAtMs": 1783243094554,
-      "agentId": "main",
-      "sessionKey": "agent:main:telegram:direct:8574109706",
-      "schedule": {
-        "kind": "cron",
-        "expr": "15 8 * * *",
-        "tz": "Australia/Melbourne"
-      },
-      "sessionTarget": "isolated",
-      "wakeMode": "now",
-      "payload": {
-        "kind": "agentTurn",
-        "message": "STANDUP_EMAIL_DELIVERY: Use the exec tool to run: bash /Users/ainchorsangiefpl/.openclaw/workspace/scripts/standup-email-send.sh and report result.",
-        "model": "ollama/deepseek-v4-flash:cloud",
-        "timeoutSeconds": 180,
-        "lightContext": true
-      },
-      "delivery": {
-        "mode": "none"
-      },
-      "state": {
-        "nextRunAtMs": 1783289700000,
-        "lastRunAtMs": 1783243088560,
-        "lastRunStatus": "ok",
-        "lastStatus": "ok",
-        "lastDurationMs": 5994,
-        "lastDeliveryStatus": "not-requested",
-        "lastFailureNotificationDeliveryStatus": "not-requested",
-        "consecutiveErrors": 0,
-        "consecutiveSkipped": 0
-      },
-      "status": "ok"
-    },
-    {
-      "id": "0758aaf6-f7d0-478c-a5b4-7ec9ce6e9460",
-      "name": "WO-002 Divergence Daily Check",
-      "description": "Daily divergence harness run: compares live state_tickets with shadow nexus_controller.loop_plan/plan_atom. Unexplained=0 for 7 consecutive days closes P0.",
-      "enabled": true,
-      "createdAtMs": 1782634270937,
-      "updatedAtMs": 1783206035952,
-      "agentId": "main",
-      "schedule": {
-        "kind": "cron",
-        "expr": "0 9 * * *",
-        "tz": "Australia/Melbourne"
-      },
-      "sessionTarget": "isolated",
-      "wakeMode": "now",
-      "payload": {
-        "kind": "agentTurn",
-        "message": "Run the WO-002 divergence harness:\n\n/Users/ainchorsangiefpl/.openclaw/workspace-infra/scripts/divergence-harness.sh\n\nIf exit 0 and alert cleared: write the streak update to /Users/ainchorsangiefpl/.openclaw/workspace-infra/state/divergence-cron-metadata.json (increment streak). Send a brief Telegram update to Ken with the result (match/missing/extra/unexplained/streak day).\nIf alert triggered: log the divergence and report to Ken via telegram-alert.sh immediately.",
-        "model": "ollama/deepseek-v4-flash:cloud",
-        "fallbacks": [
-          "ollama/gemma4:31b-cloud",
-          "ollama/kimi-k2.6:cloud"
-        ],
-        "timeoutSeconds": 120
-      },
-      "delivery": {
-        "mode": "announce",
-        "channel": "telegram",
-        "to": "8574109706"
-      },
-      "failureAlert": {
-        "after": 3,
-        "channel": "telegram",
-        "to": "+61403650578",
-        "cooldownMs": 3600000
-      },
-      "state": {
-        "nextRunAtMs": 1783292400000,
-        "lastRunAtMs": 1783206000048,
-        "lastRunStatus": "ok",
-        "lastStatus": "ok",
-        "lastDurationMs": 35904,
-        "lastDeliveryStatus": "delivered",
-        "lastFailureNotificationDeliveryStatus": "not-requested",
-        "consecutiveErrors": 0,
-        "consecutiveSkipped": 0,
-        "lastDelivered": true
-      },
-      "status": "ok"
-    },
-    {
-      "id": "9b190d3e-c320-43f4-a05f-59a8709af451",
-      "name": "AInchors Weekly Compliance Report (Mon 09:00)",
-      "enabled": true,
-      "createdAtMs": 1779423663484,
-      "updatedAtMs": 1783035566828,
-      "agentId": "main",
-      "sessionKey": "agent:main:dashboard:b691f8db-985e-4a52-8693-74887ea61b9d",
-      "schedule": {
-        "kind": "cron",
-        "expr": "0 9 * * 1",
-        "tz": "Australia/Melbourne"
-      },
-      "sessionTarget": "isolated",
-      "wakeMode": "now",
-      "payload": {
-        "kind": "agentTurn",
-        "message": "WEEKLY_COMPLIANCE_REPORT: Run /Users/ainchorsangiefpl/.openclaw/workspace/scripts/rule-audit-report.sh. Send the generated Telegram flash to 8574109706 via announce, then announce the webchat embed for canvas/documents/rule-audit-weekly/index.html.\n\n⛔ CRITICAL — ALL FILE WRITES GO THROUGH cron-write.sh. Do NOT use the native write tool for paths outside ~/.openclaw/workspace/. ⛔",
-        "model": "ollama/deepseek-v4-flash:cloud",
-        "fallbacks": [
-          "ollama/gemma4:31b-cloud",
-          "ollama/kimi-k2.6:cloud"
-        ],
-        "timeoutSeconds": 300
-      },
-      "delivery": {
-        "mode": "announce",
-        "channel": "telegram",
-        "to": "8574109706"
-      },
-      "state": {
-        "nextRunAtMs": 1783292400000,
-        "lastRunAtMs": 1782897250539,
-        "lastRunStatus": "skipped",
-        "lastStatus": "skipped",
-        "lastDurationMs": 12,
-        "lastDeliveryStatus": "unknown",
-        "consecutiveErrors": 0,
-        "consecutiveSkipped": 1,
-        "lastFailureNotificationDeliveryStatus": "not-requested",
-        "lastError": "Agent cron job uses ollama/deepseek-v4-flash:cloud but the local provider endpoint is not reachable at http://127.0.0.1:11434. Skipping this cron run; OpenClaw will retry the provider preflight on a later scheduled run. Last error: TypeError: fetch failed",
-        "lastDiagnostics": {
-          "summary": "Agent cron job uses ollama/deepseek-v4-flash:cloud but the local provider endpoint is not reachable at http://127.0.0.1:11434. Skipping this cron run; OpenClaw will retry the provider preflight on a later scheduled run. Last error: TypeError: fetch failed",
-          "entries": [
-            {
-              "ts": 1782897250551,
-              "source": "model-preflight",
-              "severity": "warn",
-              "message": "Agent cron job uses ollama/deepseek-v4-flash:cloud but the local provider endpoint is not reachable at http://127.0.0.1:11434. Skipping this cron run; OpenClaw will retry the provider preflight on a later scheduled run. Last error: TypeError: fetch failed"
-            }
-          ]
-        },
-        "lastDiagnosticSummary": "Agent cron job uses ollama/deepseek-v4-flash:cloud but the local provider endpoint is not reachable at http://127.0.0.1:11434. Skipping this cron run; OpenClaw will retry the provider preflight on a later scheduled run. Last error: TypeError: fetch failed"
-      },
-      "status": "skipped"
-    },
-    {
-      "id": "5d581442-ca2e-48d0-a5a1-e1ffe2b418a0",
-      "name": "Spark LinkedIn Daily Metrics Snapshot",
-      "description": "Daily 10:00 AEST metrics snapshot for all published LinkedIn posts. Owned by Spark per Ken directive 2026-05-20.",
-      "enabled": true,
-      "createdAtMs": 1779276662311,
-      "updatedAtMs": 1783209662095,
-      "agentId": "spark",
-      "sessionKey": "agent:main:telegram:direct:8574109706",
-      "schedule": {
-        "kind": "cron",
-        "expr": "0 10 * * *",
-        "tz": "Australia/Melbourne"
-      },
-      "sessionTarget": "isolated",
-      "wakeMode": "now",
-      "payload": {
-        "kind": "agentTurn",
-        "message": "Daily LinkedIn metrics snapshot.\n\n1. Read state/linkedin-campaign.json — find all published posts with valid postUrn (not N/A, not \"pending-urn-check\")\n2. For each, run: bash scripts/linkedin-metrics-snapshot.sh --content-id [ID] --post-urn [URN] --interval 24h\n3. Update state/linkedin-campaign-stats.md with fresh summary table\n4. If any errors (401, 404), log to state/linkedin-metrics-errors.json\n5. Summary: reactions, comments, shares per post + totals\n\nKeep it brief — write results to state files, minimal stdout.",
-        "model": "ollama/kimi-k2.6:cloud",
-        "timeoutSeconds": 191,
-        "lightContext": true
-      },
-      "delivery": {
-        "mode": "none"
-      },
-      "state": {
-        "nextRunAtMs": 1783296000000,
-        "lastRunAtMs": 1783209600047,
-        "lastRunStatus": "ok",
-        "lastStatus": "ok",
-        "lastDurationMs": 62048,
-        "lastDeliveryStatus": "not-requested",
-        "consecutiveErrors": 0,
-        "consecutiveSkipped": 0,
-        "lastFailureNotificationDeliveryStatus": "not-requested",
-        "lastDiagnostics": {
-          "summary": "⚠️ 🛠️ `zsh scripts/linkedin-metrics-snapshot.sh --content-id LI-W4…:share:7476497246148591617 --interval 24h --account ken 2>&1` failed",
-          "entries": [
-            {
-              "ts": 1783209662094,
-              "source": "tool",
-              "severity": "warn",
-              "message": "⚠️ 🛠️ `zsh scripts/linkedin-metrics-snapshot.sh --content-id LI-W4…:share:7476497246148591617 --interval 24h --account ken 2>&1` failed"
-            }
-          ]
-        },
-        "lastDiagnosticSummary": "⚠️ 🛠️ `zsh scripts/linkedin-metrics-snapshot.sh --content-id LI-W4…:share:7476497246148591617 --interval 24h --account ken 2>&1` failed"
-      },
-      "status": "ok"
-    },
-    {
-      "id": "573d34e4-fa63-4a09-86af-f061cfe47d25",
-      "name": "Spark LinkedIn — Mon 12:00 AEST Fallback Draft (Tue post)",
-      "description": "FALLBACK DRAFT: Mon 12:00 AEST. Only runs if Sat batch missed. Drafts Tue post only.",
-      "enabled": true,
-      "createdAtMs": 1781512803639,
-      "updatedAtMs": 1782897250641,
-      "agentId": "main",
-      "schedule": {
-        "kind": "cron",
-        "expr": "0 12 * * 1",
-        "tz": "Australia/Melbourne"
-      },
-      "sessionTarget": "isolated",
-      "wakeMode": "now",
-      "payload": {
-        "kind": "agentTurn",
-        "message": "Spark ✨ — Mon 12:00 AEST FALLBACK DRAFT for Tuesday's post.\n\n## CHECK IF NEEDED\nRead /Users/ainchorsangiefpl/.openclaw/workspace/state/linkedin-campaign.json. If this week's Tuesday post already has status=approved or status=drafted, output \"FALLBACK SKIPPED: Tuesday post already drafted\" and stop.\n\n## IF NEEDED: Draft Tuesday's post only\n1. Read /Users/ainchorsangiefpl/.openclaw/workspace/.openclaw/tmp/spark-reactivation-4week-arc.md\n2. Identify the Tuesday post for current week from the arc\n3. Draft full post (250-450 words) + ChatGPT image prompt\n4. Voice rules: NO em-dashes, NO internal mentions, NO \"co-founder\", NO finite time, NO consulting-speak. First-person Ken, practitioner, Australian.\n5. Save to /Users/ainchorsangiefpl/.openclaw/workspace/social-drafts/\n6. Run governance gate\n7. Telegram Ken (8574109706) with draft + image prompt + verdict\n8. Update linkedin-campaign.json\n\nModel: ollama/minimax-m3:cloud. Timeout 300s.",
-        "model": "ollama/kimi-k2.6:cloud",
-        "timeoutSeconds": 180
-      },
-      "delivery": {
-        "mode": "announce",
-        "channel": "telegram",
-        "to": "8574109706"
-      },
-      "failureAlert": {
-        "after": 1,
-        "channel": "telegram",
-        "to": "8574109706",
-        "cooldownMs": 3600000
-      },
-      "state": {
-        "nextRunAtMs": 1783303200000,
-        "lastRunAtMs": 1782897250551,
-        "lastRunStatus": "skipped",
-        "lastStatus": "skipped",
-        "lastDurationMs": 90,
-        "lastDeliveryStatus": "unknown",
-        "lastFailureNotificationDeliveryStatus": "not-requested",
-        "consecutiveErrors": 0,
-        "consecutiveSkipped": 1,
-        "lastError": "Agent cron job uses ollama/kimi-k2.6:cloud but the local provider endpoint is not reachable at http://127.0.0.1:11434. Skipping this cron run; OpenClaw will retry the provider preflight on a later scheduled run. Last error: TypeError: fetch failed",
-        "lastDiagnostics": {
-          "summary": "Agent cron job uses ollama/kimi-k2.6:cloud but the local provider endpoint is not reachable at http://127.0.0.1:11434. Skipping this cron run; OpenClaw will retry the provider preflight on a later scheduled run. Last error: TypeError: fetch failed",
-          "entries": [
-            {
-              "ts": 1782897250641,
-              "source": "model-preflight",
-              "severity": "warn",
-              "message": "Agent cron job uses ollama/kimi-k2.6:cloud but the local provider endpoint is not reachable at http://127.0.0.1:11434. Skipping this cron run; OpenClaw will retry the provider preflight on a later scheduled run. Last error: TypeError: fetch failed"
-            }
-          ]
-        },
-        "lastDiagnosticSummary": "Agent cron job uses ollama/kimi-k2.6:cloud but the local provider endpoint is not reachable at http://127.0.0.1:11434. Skipping this cron run; OpenClaw will retry the provider preflight on a later scheduled run. Last error: TypeError: fetch failed"
-      },
-      "status": "skipped"
-    },
-    {
-      "id": "c5debd26-fb07-4b36-a904-86c9bc95625a",
-      "name": "AInchors Midday Cost Tracker",
-      "enabled": true,
-      "createdAtMs": 1777191607719,
-      "updatedAtMs": 1783216825540,
-      "agentId": "main",
-      "sessionKey": "agent:main:main",
-      "schedule": {
-        "kind": "cron",
-        "expr": "0 12 * * *",
-        "tz": "Australia/Melbourne"
-      },
-      "sessionTarget": "isolated",
-      "wakeMode": "now",
-      "payload": {
-        "kind": "agentTurn",
-        "message": "MIDDAY_COST: Use the exec tool to run: bash /Users/ainchorsangiefpl/.openclaw/workspace/scripts/cost-tracker.sh silently. After run, use the exec tool to read: bash /Users/ainchorsangiefpl/.openclaw/workspace/scripts/db-read.sh state_cost. No reply needed.",
-        "model": "ollama/deepseek-v4-flash:cloud",
-        "timeoutSeconds": 120,
-        "lightContext": true
-      },
-      "delivery": {
-        "mode": "none"
-      },
-      "state": {
-        "nextRunAtMs": 1783303200000,
-        "lastRunAtMs": 1783216800050,
-        "lastRunStatus": "ok",
-        "lastStatus": "ok",
-        "lastDurationMs": 25490,
-        "lastDeliveryStatus": "not-requested",
-        "consecutiveErrors": 0,
-        "consecutiveSkipped": 0,
-        "lastFailureNotificationDeliveryStatus": "not-requested"
-      },
-      "status": "ok"
-    },
-    {
-      "id": "c69615bb-e8cb-4456-8b78-a9ec2ec89195",
-      "name": "yoda-context-brief-refresh (2pm + 8pm AEST)",
-      "description": "Refresh yoda-context-brief.md every 30 min for Telegram session context",
-      "enabled": true,
-      "createdAtMs": 1778815437253,
-      "updatedAtMs": 1783245640707,
-      "agentId": "main",
-      "schedule": {
-        "kind": "cron",
-        "expr": "0 14,20 * * *",
-        "tz": "Australia/Melbourne"
-      },
-      "sessionTarget": "isolated",
-      "wakeMode": "now",
-      "payload": {
-        "kind": "agentTurn",
-        "message": "You are Forge — Infrastructure Agent for AInchors. Your task: regenerate the Yoda Telegram context brief.\n\n⛔ CRITICAL: ALL FILE WRITES GO THROUGH cron-write.sh ⛔\nYou do NOT use the write tool. Use only exec with cron-write.sh:\n  echo \"$BRIEF_CONTENT\" | bash /Users/ainchorsangiefpl/.openclaw/workspace/scripts/cron-write.sh /Users/ainchorsangiefpl/.openclaw/workspace/state/yoda-context-brief.md\n\nThe exec output will say \"OK: N bytes → path\" — that confirms the write succeeded.\n\n---\n\nRead these files to gather fresh data:\n- /Users/ainchorsangiefpl/.openclaw/workspace/MEMORY.md\n- /Users/ainchorsangiefpl/.openclaw/workspace/archive/MEMORY_TICKETS.md (historical ticket summary; do not create if missing)\n- /Users/ainchorsangiefpl/.openclaw/workspace/state/sprint-current.json\n- /Users/ainchorsangiefpl/.openclaw/workspace/state/linkedin-campaign.json\n- /Users/ainchorsangiefpl/.openclaw/workspace/state/ollama-usage.json (burn alert state)\n- For live open tickets, run: `bash /Users/ainchorsangiefpl/.openclaw/workspace/scripts/db-ticket.sh list --open` and include top 10 by priority.\n\nThe brief structure is already established at the target path. Regenerate it in place with fresh data. Keep it under 300 lines. Include: Platform Status (day count from 2026-04-25), Key People, Infrastructure, Current Sprint, Approved Decisions (from MEMORY.md key decisions section), Open Tickets (top 10 by priority from db-ticket.sh), LinkedIn Queue status (from linkedin-campaign.json), Recent Ollama Usage / Burn status, and Mandatory Rules for Telegram sessions.\n\nDo NOT reference state/channel-state.json or state/linkedin-queue.json — these files no longer exist. Do NOT create placeholder files. Just omit sections if sources are genuinely missing.\n\nBuild the full brief as a single string, then write it using cron-write.sh. Do not add commentary. Just build and write.",
-        "model": "ollama/deepseek-v4-flash:cloud",
-        "fallbacks": [
-          "ollama/kimi-k2.6:cloud"
-        ],
-        "timeoutSeconds": 120
-      },
-      "delivery": {
-        "mode": "announce",
-        "channel": "telegram",
-        "to": "8574109706"
-      },
-      "state": {
-        "nextRunAtMs": 1783310400000,
-        "lastRunAtMs": 1783245600046,
-        "lastRunStatus": "ok",
-        "lastStatus": "ok",
-        "lastDurationMs": 40661,
-        "lastDeliveryStatus": "delivered",
-        "consecutiveErrors": 0,
-        "consecutiveSkipped": 0,
-        "lastFailureNotificationDeliveryStatus": "not-requested",
-        "lastDelivered": true
-      },
-      "status": "ok"
-    },
-    {
-      "id": "ca5d5e50-28d9-435c-b81a-23094353baa5",
-      "name": "AInchors Daily Burn Alert",
-      "enabled": true,
-      "createdAtMs": 1777337580180,
-      "updatedAtMs": 1783245627741,
-      "agentId": "main",
-      "sessionKey": "agent:main:main",
-      "schedule": {
-        "kind": "cron",
-        "expr": "0 20 * * *",
-        "tz": "Australia/Melbourne"
-      },
-      "sessionTarget": "isolated",
-      "wakeMode": "now",
-      "payload": {
-        "kind": "agentTurn",
-        "message": "BURN_ALERT: Check weekly Ollama request usage against thresholds.\n\n1. Read /Users/ainchorsangiefpl/.openclaw/workspace/state/cost-state.json → turnsLimit\n2. Check currentPct against alert thresholds:\n   - 50% (WARN): note for next Ken interaction, no Telegram\n   - 70% (ALERT): send Telegram to Ken (8574109706) via sovereign-alert.sh:\n     '⚠️ Ollama weekly requests at 70% — [X]/30000 used. [N] days remaining in window. Burn rate: [R] req/hr. Consider throttling non-essential crons.'\n   - 85% (CRITICAL): send Telegram:\n     '🔴 Ollama weekly requests at 85% — [X]/30000 used. Reduce non-essential crons now. Flash-only for wrappers.'\n   - 95% (EMERGENCY): send Telegram:\n     '🚨 Ollama weekly requests at 95% — [X]/30000 used. EMERGENCY: pause all pro/minimax crons, flash-only mode.'\n3. If < 50%: silent. No message.\n4. Log outcome to state/ollama-usage.json\n\nDo NOT reply in chat. Silent unless threshold met. Use sovereign-alert.sh for all Telegram sends.",
-        "model": "ollama/deepseek-v4-flash:cloud",
-        "fallbacks": [
-          "ollama/gemma4:31b-cloud",
-          "ollama/kimi-k2.6:cloud"
-        ],
-        "timeoutSeconds": 450,
-        "lightContext": true
-      },
-      "delivery": {
-        "mode": "announce",
-        "channel": "telegram",
-        "to": "8574109706"
-      },
-      "state": {
-        "nextRunAtMs": 1783332000000,
-        "lastRunAtMs": 1783245600045,
-        "lastRunStatus": "ok",
-        "lastStatus": "ok",
-        "lastDurationMs": 27696,
-        "lastDeliveryStatus": "delivered",
-        "consecutiveErrors": 0,
-        "consecutiveSkipped": 0,
-        "lastFailureNotificationDeliveryStatus": "not-requested",
-        "lastDelivered": true
-      },
-      "status": "ok"
-    },
-    {
-      "id": "cfc40ddb-a876-4bb7-8bb9-b6a240cb761a",
-      "name": "Shield 🛡️ — Security Review Sweep (daily)",
-      "enabled": true,
-      "createdAtMs": 1777336965185,
-      "updatedAtMs": 1783252811379,
-      "agentId": "main",
-      "sessionKey": "agent:main:main",
-      "schedule": {
-        "kind": "cron",
-        "expr": "0 22 * * *",
-        "tz": "Australia/Melbourne"
-      },
-      "sessionTarget": "isolated",
-      "wakeMode": "now",
-      "payload": {
-        "kind": "agentTurn",
-        "message": "SHIELD_SECURITY_SWEEP: Daily security review — Shield Rule 1 enforcement.\n\n1. Read /Users/ainchorsangiefpl/.openclaw/workspace/state/shield-qa-pending.json (if exists)\n2. For each pending asset: run bash /Users/ainchorsangiefpl/.openclaw/workspace/scripts/shield-check.sh with its metadata\n3. For each item, also perform LLM-level review: read the asset content, check S1-S5 with reasoning, flag anything the script may have missed\n4. Write final verdict to shield-qa-log.json\n5. If FAIL: write to /Users/ainchorsangiefpl/.openclaw/workspace/state/shield-escalation-pending.json\n6. If all clear or no pending items: output exactly 'SHIELD: clear' and stop.\n\nAlways output exactly one line. Never generate an empty response.",
-        "model": "ollama/gemma4:31b-cloud",
-        "fallbacks": [
-          "ollama/kimi-k2.6:cloud"
-        ],
-        "timeoutSeconds": 300,
-        "lightContext": true
-      },
-      "delivery": {
-        "mode": "none"
-      },
-      "state": {
-        "nextRunAtMs": 1783339200000,
-        "lastRunAtMs": 1783252800048,
-        "lastRunStatus": "ok",
-        "lastStatus": "ok",
-        "lastDurationMs": 11331,
-        "lastDeliveryStatus": "not-requested",
-        "consecutiveErrors": 0,
-        "consecutiveSkipped": 0,
-        "lastFailureNotificationDeliveryStatus": "not-requested"
-      },
-      "status": "ok"
-    },
-    {
-      "id": "4ae7274d-71b8-4220-8f42-bec7c7ba5a1a",
-      "name": "Lex ⚖️ — Legal Review Sweep (daily)",
-      "enabled": true,
-      "createdAtMs": 1777336975312,
-      "updatedAtMs": 1783253105129,
-      "agentId": "main",
-      "sessionKey": "agent:main:main",
-      "schedule": {
-        "kind": "cron",
-        "expr": "5 22 * * *",
-        "tz": "Australia/Melbourne"
-      },
-      "sessionTarget": "isolated",
-      "wakeMode": "now",
-      "payload": {
-        "kind": "agentTurn",
-        "message": "LEX_LEGAL_SWEEP: Daily legal review — Lex Rule 1 enforcement.\n\n1. Read /Users/ainchorsangiefpl/.openclaw/workspace/state/lex-qa-pending.json (if exists)\n2. For each pending asset: run bash /Users/ainchorsangiefpl/.openclaw/workspace/scripts/lex-check.sh with its metadata\n3. For each item, also perform LLM-level legal review: read the asset content and original brief, apply L1-L5 checks with full legal reasoning, flag contractual risk, regulatory issues, liability, IP, missing disclosures. Note: Lex flags risk — not a substitute for qualified legal advice on matters >A$10,000\n4. Write final verdict to lex-qa-log.json\n5. If FAIL: write to /Users/ainchorsangiefpl/.openclaw/workspace/state/lex-escalation-pending.json\n6. If all clear or no pending items: output exactly 'LEX: clear' and stop.\n\nAlways output exactly one line. Never generate an empty response.",
-        "model": "ollama/gemma4:31b-cloud",
-        "fallbacks": [
-          "ollama/kimi-k2.6:cloud"
-        ],
-        "timeoutSeconds": 300,
-        "lightContext": true
-      },
-      "delivery": {
-        "mode": "none"
-      },
-      "state": {
-        "nextRunAtMs": 1783339500000,
-        "lastRunAtMs": 1783253100047,
-        "lastRunStatus": "ok",
-        "lastStatus": "ok",
-        "lastDurationMs": 5082,
-        "lastDeliveryStatus": "not-requested",
-        "consecutiveErrors": 0,
-        "consecutiveSkipped": 0,
-        "lastFailureNotificationDeliveryStatus": "not-requested"
-      },
-      "status": "ok"
-    },
-    {
-      "id": "8231f723-5580-435e-a8d5-8962f4843495",
-      "name": "Sage 🧪 — QA Review Sweep (daily)",
-      "enabled": true,
-      "createdAtMs": 1777336975316,
-      "updatedAtMs": 1783253403620,
-      "agentId": "main",
-      "sessionKey": "agent:main:main",
-      "schedule": {
-        "kind": "cron",
-        "expr": "10 22 * * *",
-        "tz": "Australia/Melbourne"
-      },
-      "sessionTarget": "isolated",
-      "wakeMode": "now",
-      "payload": {
-        "kind": "agentTurn",
-        "message": "SAGE_QA_SWEEP: Daily QA review — Sage Rule 1 enforcement.\n\n## Step 1 — Check pending queue\nRead /Users/ainchorsangiefpl/.openclaw/workspace/state/sage-qa-pending.json (if exists).\nFor each pending asset: read the asset file, run bash /Users/ainchorsangiefpl/.openclaw/workspace/scripts/sage-qa.sh with its metadata, write verdict to sage-qa-log.json, if FAIL write to sage-qa-failures.json, mark PASS as cleared.\n\n## Step 2 — LLM checks\nFor each item: check (1) meets the brief? (2) clear conclusion/CTA? (3) facts verifiable? Cross-check numbers against state files.\n\n## Step 3 — Escalate failures\nIf any FAIL: write to /Users/ainchorsangiefpl/.openclaw/workspace/state/sage-escalation-pending.json\n\n## Step 4 — Output\nIf no pending items or all PASS: output exactly 'SAGE: clear' and stop.\nIf escalated: output exactly 'SAGE: escalated [N] items' and stop.\n\nAlways output exactly one line. Never generate an empty response.",
-        "model": "ollama/gemma4:31b-cloud",
-        "fallbacks": [
-          "ollama/kimi-k2.6:cloud"
-        ],
-        "timeoutSeconds": 300,
-        "lightContext": true
-      },
-      "delivery": {
-        "mode": "none"
-      },
-      "state": {
-        "nextRunAtMs": 1783339800000,
-        "lastRunAtMs": 1783253400043,
-        "lastRunStatus": "ok",
-        "lastStatus": "ok",
-        "lastDurationMs": 3577,
-        "lastDeliveryStatus": "not-requested",
-        "consecutiveErrors": 0,
-        "consecutiveSkipped": 0,
-        "lastFailureNotificationDeliveryStatus": "not-requested"
-      },
-      "status": "ok"
-    },
-    {
-      "id": "7d362d91-4d61-4028-9c01-066e2b0dc876",
-      "name": "Yoda → Aria daily context sync",
-      "enabled": true,
-      "createdAtMs": 1777250446742,
-      "updatedAtMs": 1783256400052,
-      "agentId": "main",
-      "sessionKey": "agent:main:main",
-      "schedule": {
-        "kind": "cron",
-        "expr": "0 23 * * *",
-        "tz": "Australia/Melbourne"
-      },
-      "sessionTarget": "main",
-      "wakeMode": "now",
-      "payload": {
-        "kind": "systemEvent",
-        "text": "ARIA_CONTEXT_SYNC: Update the shared knowledge bridge for Aria before daily close.\n\n## 0. Pre-flight: Delegated Auth Check (TKT-0336)\nUse the exec tool to run: zsh /Users/ainchorsangiefpl/.openclaw/workspace/scripts/check-delegated-auth.sh --json\nRead /Users/ainchorsangiefpl/.openclaw/workspace/state/delegated-auth-status.json\nIf allValid=false: include a ⚠️ AUTH ALERT section in yoda-daily-brief.md listing which accounts need re-auth and the exact gog command to fix them.\n\n## 1. Read today's work\n- memory/2026-MM-DD.md and memory/CHANGELOG.md (today's CHG entries)\n\n## 2. Read shared decisions\n- memory/shared/decisions.md (today's decisions)\n\n## 3. Write/update yoda-daily-brief.md\n\n## 4. Review training-pipeline.md\n\n## 5. Git commit\nUse the exec tool to run: bash -c 'cd /Users/ainchorsangiefpl/.openclaw/workspace && git add -A && git commit -m \"chore: yoda daily context sync YYYY-MM-DD\"'\n\nKeep language accessible — Aria and Angie will read this, not just Ken."
-      },
-      "state": {
-        "nextRunAtMs": 1783342800000,
-        "lastRunAtMs": 1783256400050,
-        "lastRunStatus": "ok",
-        "lastStatus": "ok",
-        "lastDurationMs": 2,
-        "lastDeliveryStatus": "not-requested",
-        "consecutiveErrors": 0,
-        "consecutiveSkipped": 0,
-        "lastFailureNotificationDeliveryStatus": "not-requested"
-      },
-      "status": "ok"
-    },
-    {
-      "id": "a7e7a820-32f6-4a2b-bb27-52367ebfa7dc",
-      "name": "Aria Daily Summary (business stream)",
-      "enabled": true,
-      "createdAtMs": 1777293882359,
-      "updatedAtMs": 1783259191286,
-      "agentId": "business",
-      "sessionKey": "agent:main:main",
-      "schedule": {
-        "kind": "cron",
-        "expr": "45 23 * * *",
-        "tz": "Australia/Melbourne"
-      },
-      "sessionTarget": "session:agent:business:main",
-      "wakeMode": "now",
-      "payload": {
-        "kind": "agentTurn",
-        "message": "DAILY_SUMMARY: It's 23:45 AEST. Write today's business stream summary with mandatory evidence verification.\n\n## Step 0 — VERIFY every claim before writing\nFor each open item, blocked item, or status claim you will include, you MUST check a primary source in THIS run and record evidence. Acceptable sources:\n- state/ files (read them)\n- keychain / get-secret.sh for secrets\n- cron tool list/get for cron jobs\n- git log / git diff for recent changes\n- sessions_history / sessions_list for actual Angie interactions\n- PG via db-read.sh for SSOT data\n\nIf a claim from yesterday's brief is contradicted by current evidence, update it. If you cannot verify, write \"Unverified — [topic] needs recheck\".\n\n## Step 1 — Read actual Aria + Angie session history (ground truth)\nUse sessions_list to find the Aria Telegram session with Angie:\n- Look for a session with sessionKey containing 'telegram:direct:8141152780'\n- Get its sessionKey\nThen call sessions_history with that sessionKey and limit=100 to get today's messages.\nFilter to messages from today (AEST). Extract:\n- What Angie asked or requested\n- What Aria produced or responded\n- Any decisions made\n- Any governance reviews triggered\n- Anything that needs Yoda's attention\n\nIf sessions_list finds no Angie session: note it clearly.\n\n## Step 2 — Check relay queue for any Angie-originated items\nRead /Users/ainchorsangiefpl/.openclaw/workspace/state/relay-to-ken.json\nNote any items from today that were Angie-originated.\n\n## Step 3 — Verify open items from previous briefs\nCross-check each carried-forward open item against current evidence:\n- Cron/token/secrets: use get-secret.sh or keychain lookup; use cron tool list/get\n- State flags: read relevant state/*.json\n- Interactions: confirm via sessions_history timestamps\nMark resolved items with evidence; keep still-open items with evidence summary.\n\n## Step 4 — Write to aria-daily-brief.md\n⚠️ ISOLATED SESSION: Use ONLY absolute paths. NEVER use ~ in write/read/exec tool calls.\nDefine this constant at the top of your work for this step:\nBRIEF_PATH=/Users/ainchorsangiefpl/.openclaw/workspace/state/aria-daily-brief.md\n\nMANDATORY pre-step: Before writing, call `read` on $BRIEF_PATH to load existing content. This proves the absolute path works and gives you the file to prepend to.\n\nThen call `write` on the EXACT same $BRIEF_PATH.\nWrite path: $BRIEF_PATH\n\nRead the existing file first (if it exists). Prepend (add at TOP, before existing entries):\n\n## [TODAY'S DATE] — Business Stream Summary\n_Written 23:45 AEST by Aria cron — verified [timestamp]_\n\n### Angie interactions today\n- [timestamp if available] [what Angie asked/said → what Aria produced/outcome]\n(If no messages from Angie in session history today: write exactly 'No Angie activity today.')\n\n### Decisions made\n- [business decisions, content approvals, priorities set — from session history with evidence]\n\n### Governance reviews\n- [any Shield/Lex/Sage reviews triggered, verdicts with evidence]\n\n### Open items (verified)\n- [item] — status: [resolved/open] — evidence: [source + timestamp]\n\n### Handoff to Yoda\n- [anything Yoda needs to know, with evidence]\n\nKeep it brief. Bullets only. Yoda reads this at 23:55 for his journal.\n\n## Step 5 — Git commit\nbash -c 'cd /Users/ainchorsangiefpl/.openclaw/workspace && git add state/aria-daily-brief.md && git commit -m \"chore: aria daily brief [DATE]\" 2>/dev/null || true'",
-        "model": "ollama/deepseek-v4-flash:cloud",
-        "fallbacks": [
-          "ollama/kimi-k2.6:cloud"
-        ],
-        "timeoutSeconds": 600,
-        "lightContext": true
-      },
-      "delivery": {
-        "mode": "announce",
-        "channel": "telegram",
-        "to": "8574109706"
-      },
-      "state": {
-        "nextRunAtMs": 1783345500000,
-        "lastRunAtMs": 1783259100041,
-        "lastRunStatus": "ok",
-        "lastStatus": "ok",
-        "lastDurationMs": 91245,
-        "lastDeliveryStatus": "delivered",
-        "consecutiveErrors": 0,
-        "consecutiveSkipped": 0,
-        "lastFailureNotificationDeliveryStatus": "not-requested",
-        "lastDelivered": true,
-        "lastDiagnostics": {
-          "summary": "⚠️ 🛠️ `show ~/.openclaw/workspace/state/.last-cron-run → print text → show ~/.openclaw/workspace/state/model-drift-state.json -> show first 30 lines` failed",
-          "entries": [
-            {
-              "ts": 1783259189722,
-              "source": "tool",
-              "severity": "warn",
-              "message": "⚠️ 🛠️ `show ~/.openclaw/workspace/state/.last-cron-run → print text → show ~/.openclaw/workspace/state/model-drift-state.json -> show first 30 lines` failed"
-            }
-          ]
-        },
-        "lastDiagnosticSummary": "⚠️ 🛠️ `show ~/.openclaw/workspace/state/.last-cron-run → print text → show ~/.openclaw/workspace/state/model-drift-state.json -> show first 30 lines` failed"
-      },
-      "status": "ok"
-    },
-    {
-      "id": "4d926b2c-3551-4324-aa9b-81fcaf26ca75",
-      "name": "AInchors Daily Close — Journal",
-      "enabled": true,
-      "createdAtMs": 1777128240018,
-      "updatedAtMs": 1783259700049,
-      "agentId": "main",
-      "sessionKey": "agent:main:main",
-      "schedule": {
-        "kind": "cron",
-        "expr": "55 23 * * *",
-        "tz": "Australia/Melbourne"
-      },
-      "sessionTarget": "main",
-      "wakeMode": "now",
-      "payload": {
-        "kind": "systemEvent",
-        "text": "END-OF-DAY FINALIZER — Non-negotiable. Journal is ALREADY BUILT inline by journal-append.sh.\n\n## 0.a HEALTH ASSERT GATE (NEW — TKT-REC5)\nUse the exec tool to run: bash /Users/ainchorsangiefpl/.openclaw/workspace/scripts/state-health-assert.sh\nIf exit 1, the script has already written state/eod-blocked-{DATE}.json and sent a Telegram alert. STOP here — do not proceed to step 0, 1, 2, 3, or 4.\nIf exit 0, proceed normally.\n\n## 0. Journal Gap Fill (TKT-0328)\nUse the exec tool to run: bash /Users/ainchorsangiefpl/.openclaw/workspace/scripts/journal-generate.sh\nThis checks today's journal file for completeness. If undersized or missing, logs a warning.\nNon-destructive — does not modify existing entries.\n\n## 1. Session Overview Header\nJOURNAL_FILE = /Users/ainchorsangiefpl/.openclaw/workspace/memory/journal-[TODAY_DATE].md\n\nRead the journal file. Count today's entries (## HH:MM headings). Generate a Session Overview header and prepend it.\n\n## 2. Cost Report\nUse the exec tool to run: bash /Users/ainchorsangiefpl/.openclaw/workspace/scripts/cost-tracker.sh\nAppend daily cost summary to journal.\n\n## 3. Business Stream (from Aria)\nRead /Users/ainchorsangiefpl/.openclaw/workspace/state/aria-daily-brief.md\n\n## 4. Git commit\nUse the exec tool to run: bash -c 'cd /Users/ainchorsangiefpl/.openclaw/workspace && git add memory/journal-*.md && git commit -m \"docs: Day [N] journal finalized [TODAY_DATE]\"'\n\n⚠️ DO NOT: rebuild journal from sessions_history, run catch-up entry writing, reference incremental writer. Journal is already complete from inline writes."
-      },
-      "state": {
-        "nextRunAtMs": 1783346100000,
-        "lastRunAtMs": 1783259700047,
-        "lastRunStatus": "ok",
-        "lastStatus": "ok",
-        "lastDurationMs": 2,
-        "lastDeliveryStatus": "not-requested",
-        "consecutiveErrors": 0,
-        "consecutiveSkipped": 0,
-        "lastFailureNotificationDeliveryStatus": "not-requested"
-      },
-      "status": "ok"
-    },
-    {
-      "id": "a027fd60-fd23-4c50-a823-81555acfbf84",
-      "name": "AInchors Daily Close — Blog",
-      "enabled": true,
-      "createdAtMs": 1777326417077,
-      "updatedAtMs": 1783260554083,
-      "agentId": "main",
-      "sessionKey": "agent:main:main",
-      "schedule": {
-        "kind": "cron",
-        "expr": "5 0 * * *",
-        "tz": "Australia/Melbourne"
-      },
-      "sessionTarget": "isolated",
-      "wakeMode": "now",
-      "payload": {
-        "kind": "agentTurn",
-        "message": "## 0. EOD BLOCK CHECK\nIf /Users/ainchorsangiefpl/.openclaw/workspace/state/eod-blocked-$(date +%Y-%m-%d).json exists, exit 0 with status 'EOD blocked by health assert: skipping blog post.'. Do not proceed to blog generation.\n\nDAILY_BLOG: Write today's blog post. This runs after the 23:55 journal cron.\n\n⛔ CRITICAL: ALL FILE WRITES GO THROUGH cron-write.sh ⛔\nYou do NOT use the write tool. Pipe content through cron-write.sh via exec:\n  echo \"$HTML\" | bash /Users/ainchorsangiefpl/.openclaw/workspace/scripts/cron-write.sh <TARGET_PATH>\nThe exec output will say \"OK: N bytes → path\" — that confirms the write succeeded.\nPath normalization, directory creation, and atomic writing are all handled by the script.\n\n---\n\n## Your task\n1. Read /Users/ainchorsangiefpl/.openclaw/workspace/Operations/BlogFormat.md — LOCKED format + style spec. Follow exactly.\n2. Determine today's date (AEST). Yesterday's date = today minus 1 day (the blog covers the day just closed).\n3. Read /Users/ainchorsangiefpl/.openclaw/workspace/memory/journal-YYYY-MM-DD.md (yesterday's journal) — PRIMARY SOURCE.\n4. Run: bash /Users/ainchorsangiefpl/.openclaw/workspace/scripts/db-read.sh state_cost — exact spend from PG (SSOT, TKT-0305).\n5. Read /Users/ainchorsangiefpl/.openclaw/workspace/state/incident-log.json — any incidents to surface.\n\n## 🔒 LOCKED HTML/CSS TEMPLATE — NON-NEGOTIABLE (CHG-0427)\n\nYou MUST use the EXACT CSS below. Do NOT invent new color schemes, new class names, or new styling. This is the approved template as of 2026-05-17 (Ken-approved Day 23 blog). The ONLY thing you change is the CONTENT between the body tags — the CSS block is immutable.\n\nCopy the ENTIRE <style> block from the template reference file:\n  /Users/ainchorsangiefpl/.openclaw/canvas/documents/ainchors-2026-05-17/index.html\n\nThis gives you:\n- Amber accent (#f0a050), dark bg (#0d0d0d), surface (#1a1a1a)\n- .hero with .day-badge pill, h1, .subtitle, .byline, .date\n- .callout.warn / .callout.info / .callout.alert with .label\n- .metrics-grid with .metric-card (value + label) — REQUIRED 4 cards\n- .cost-table with full columns (Model, Turns, Input, Output, Cost) + .total-row\n- .cost-trend with arrow indicators\n- .lessons-list with .lesson-num badges\n- .next-items with → bullets\n- .footer with .nav-links\n- .tag.green / .tag.red / .tag.blue / .tag.amber\n- h2 with bottom border, h3 with accent color\n- @media (max-width: 600px) responsive\n- Blockquote styled with accent-dim border\n\nThe CSS file is ~240 lines. Copy it exactly. The blog content you write MUST use these CSS classes — they are part of the locked template.\n\n## Required blog structure (follow Day 23 pattern)\n\n```\n1. HERO — day-badge pill, h1 title, subtitle, By Ken Mun CTO, date line\n2. OPENING HOOK — 1-2 paragraphs, meta-observation about the day's shape\n3. METRICS GRID — 4 cards: Cost, Turns, Input Tokens, Output Tokens\n4. ACTS — 4-6 named sections with h2 headers, callout boxes\n5. WHAT BROKE (if applicable) — tagged incidents, RCA-lite\n6. WHAT I LEARNED — lessons-list with .lesson-num badges\n7. COST OF DAY N — cost-table (5 cols), cost-trend with arrows, cost vs value paragraph\n8. WHAT'S NEXT — .next-items list\n9. WHILE YOU WERE AWAY (if autonomous activity occurred)\n10. FOOTER — nav-links (prev/next), AInchors tagline\n11. GOVERNANCE STAMP — Cleared for distribution\n```\n\n## Write the blog DRAFT using cron-write.sh\nBuild the full HTML, then write the draft:\nexec: echo \"$HTML_CONTENT\" | bash /Users/ainchorsangiefpl/.openclaw/workspace/scripts/cron-write.sh /Users/ainchorsangiefpl/.openclaw/workspace/tmp/blog-draft-YYYY-MM-DD.html\n(create tmp/ dir if missing: exec mkdir -p /Users/ainchorsangiefpl/.openclaw/workspace/tmp)\n\n## Content Governance Gate — MANDATORY before publishing (TKT-0033 Full Triad)\n\nDetermine the next CONTENT-NNNN id: read state/content-queue.json, take max numeric suffix + 1, or use CONTENT-0001 if empty.\n\nRun the full triad gate:\n  bash /Users/ainchorsangiefpl/.openclaw/workspace/scripts/content-governance-review.sh \\\n    --content-id CONTENT-NNNN \\\n    --file /Users/ainchorsangiefpl/.openclaw/workspace/tmp/blog-draft-YYYY-MM-DD.html \\\n    --type blog\n\nWait for exit code:\n- Exit 0 (CLEARED): Shield + Lex + Sage all cleared — proceed to publish.\n- Exit 2 (BLOCKED): One or more agents blocked. DO NOT PUBLISH. Fix all flagged issues, re-run triad with same CONTENT-NNNN, repeat until exit 0.\n\n## Publish (only after triad gate exit 0) using cron-write.sh\nexec: echo \"$HTML_CONTENT\" | bash /Users/ainchorsangiefpl/.openclaw/workspace/scripts/cron-write.sh /Users/ainchorsangiefpl/.openclaw/canvas/documents/ainchors-YYYY-MM-DD/index.html\n\n## Git commit\ncd /Users/ainchorsangiefpl/.openclaw/workspace && git add -A && git commit -m \"docs: Day N blog post (ainchors-YYYY-MM-DD) [Shield:CLEAR Lex:CLEAR Sage:CLEAR]\"\n\nDo not write the journal. Do not run cost tracker. Blog + full triad governance gate only.",
-        "model": "ollama/deepseek-v4-pro:cloud",
-        "fallbacks": [
-          "ollama/kimi-k2.6:cloud"
-        ],
-        "timeoutSeconds": 831,
-        "lightContext": true
-      },
-      "delivery": {
-        "mode": "announce",
-        "channel": "telegram",
-        "to": "8574109706",
-        "bestEffort": true
-      },
-      "state": {
-        "lastRunAtMs": 1783260300048,
-        "lastRunStatus": "ok",
-        "lastStatus": "ok",
-        "lastDurationMs": 254035,
-        "lastDeliveryStatus": "delivered",
-        "consecutiveErrors": 0,
-        "nextRunAtMs": 1783346700000,
-        "consecutiveSkipped": 0,
-        "lastFailureNotificationDeliveryStatus": "not-requested",
-        "lastDelivered": true
-      },
-      "status": "ok"
-    },
-    {
-      "id": "c5a3911d-d06f-453f-882b-caf64dbfd699",
-      "name": "Drive sync — journal, blog, memory, docs (00:30 AEST)",
-      "enabled": true,
-      "createdAtMs": 1778391963983,
-      "updatedAtMs": 1783261800046,
-      "agentId": "main",
-      "sessionKey": "agent:main:dashboard:b691f8db-985e-4a52-8693-74887ea61b9d",
-      "schedule": {
-        "kind": "cron",
-        "expr": "30 0 * * *",
-        "tz": "Australia/Melbourne"
-      },
-      "sessionTarget": "main",
-      "wakeMode": "now",
-      "payload": {
-        "kind": "systemEvent",
-        "text": "## 0. EOD BLOCK CHECK\nIf /Users/ainchorsangiefpl/.openclaw/workspace/state/eod-blocked-$(date +%Y-%m-%d).json exists, exit 0. Do not proceed.\n\nDRIVE_SYNC: Use the exec tool to run: zsh /Users/ainchorsangiefpl/.openclaw/workspace/scripts/drive-sync.sh. If any failures: use the exec tool to invoke 'bash /Users/ainchorsangiefpl/.openclaw/workspace/scripts/sovereign-alert.sh --source DRIVE_SYNC --message DRIVE_SYNC_FAILED' to send Telegram to Ken (8574109706). No reply if all passed."
-      },
-      "state": {
-        "nextRunAtMs": 1783348200000,
-        "lastRunAtMs": 1783261800044,
-        "lastRunStatus": "ok",
-        "lastStatus": "ok",
-        "lastDurationMs": 2,
+        "lastDurationMs": 15980,
         "lastDeliveryStatus": "not-requested",
         "consecutiveErrors": 0,
         "consecutiveSkipped": 0,
@@ -1897,6 +939,380 @@
       "status": "skipped"
     },
     {
+      "id": "0afc4d20-11d8-4d23-9fd8-ab7b9aabffe0",
+      "name": "Daily Memory Hygiene — Pre-Standup Sweep",
+      "enabled": true,
+      "createdAtMs": 1777966723322,
+      "updatedAtMs": 1783287906260,
+      "agentId": "main",
+      "sessionKey": "agent:main:telegram:direct:8574109706",
+      "schedule": {
+        "kind": "cron",
+        "expr": "45 7 * * *",
+        "tz": "Australia/Melbourne"
+      },
+      "sessionTarget": "isolated",
+      "wakeMode": "now",
+      "payload": {
+        "kind": "agentTurn",
+        "message": "MEMORY_HYGIENE: Clean up old state files and archived memory.\n\n1. Run: bash /Users/ainchorsangiefpl/.openclaw/workspace/scripts/memory-hygiene.sh\n2. Remove memory archive files older than 90 days from state/memory-archive/\n3. Remove old cost-state backups older than 30 days\n4. If cleaned > 0: output \"HYGIENE: [N] files archived, [M] removed\"\n5. If no action: output \"HYGIENE: no cleanup needed\"\n\nAlways output exactly one line.",
+        "model": "ollama/deepseek-v4-flash:cloud",
+        "fallbacks": [
+          "ollama/gemma4:31b-cloud",
+          "ollama/kimi-k2.6:cloud"
+        ],
+        "timeoutSeconds": 600,
+        "lightContext": true
+      },
+      "delivery": {
+        "mode": "none"
+      },
+      "state": {
+        "nextRunAtMs": 1783374300000,
+        "lastRunAtMs": 1783287900045,
+        "lastRunStatus": "ok",
+        "lastStatus": "ok",
+        "lastDurationMs": 6215,
+        "lastDeliveryStatus": "not-requested",
+        "consecutiveErrors": 0,
+        "consecutiveSkipped": 0,
+        "lastFailureNotificationDeliveryStatus": "not-requested"
+      },
+      "status": "ok"
+    },
+    {
+      "id": "3c279099-bddb-4ef3-bfea-fc22f342abd8",
+      "name": "AInchors Morning Stand-Up",
+      "enabled": true,
+      "createdAtMs": 1777156431093,
+      "updatedAtMs": 1783288867209,
+      "agentId": "main",
+      "schedule": {
+        "kind": "cron",
+        "expr": "0 8 * * *",
+        "tz": "Australia/Melbourne"
+      },
+      "sessionTarget": "isolated",
+      "wakeMode": "now",
+      "payload": {
+        "kind": "agentTurn",
+        "message": "Use the exec tool to run this shell command: bash /Users/ainchorsangiefpl/.openclaw/workspace/scripts/generate-standup.sh\n\nThe script reads state files and builds the 8-section stand-up HTML, piping it to the Canvas document at ~/.openclaw/canvas/documents/standup-daily/index.html. Do NOT use the write tool — the script handles file output via its own pipe. No reply needed unless the script exits non-zero. If idempotency blocks a re-run (date already generated), set STANDUP_FORCE=1 in the environment before invoking.",
+        "model": "ollama/deepseek-v4-flash:cloud",
+        "timeoutSeconds": 180,
+        "lightContext": true
+      },
+      "delivery": {
+        "mode": "none"
+      },
+      "state": {
+        "nextRunAtMs": 1783375200000,
+        "lastRunAtMs": 1783288800048,
+        "lastRunStatus": "ok",
+        "lastStatus": "ok",
+        "lastDurationMs": 67161,
+        "lastDeliveryStatus": "not-requested",
+        "consecutiveErrors": 0,
+        "consecutiveSkipped": 0,
+        "lastFailureNotificationDeliveryStatus": "not-requested"
+      },
+      "status": "ok"
+    },
+    {
+      "id": "bb3575e0-2d6b-4cf6-87c7-8e00cf856652",
+      "name": "ollama-usage-scraper-refresh",
+      "enabled": true,
+      "createdAtMs": 1781830641790,
+      "updatedAtMs": 1783339231277,
+      "agentId": "main",
+      "schedule": {
+        "kind": "cron",
+        "expr": "0 8,10,12,14,16,18,20,22 * * *",
+        "tz": "Australia/Melbourne"
+      },
+      "sessionTarget": "isolated",
+      "wakeMode": "now",
+      "payload": {
+        "kind": "agentTurn",
+        "message": "Operational run of the Ollama dashboard usage scraper (TKT-0533).\n\nRun this command with exec using absolute paths only:\n  bash /Users/ainchorsangiefpl/.openclaw/workspace/scripts/ollama-usage-scraper-run.sh\n\nIt starts the OpenClaw browser, scrapes ollama.com/settings, updates cost-state.json, then stops the browser. Do not modify the script. Report exit code and the scraper output summary line.",
+        "model": "ollama/deepseek-v4-flash:cloud",
+        "timeoutSeconds": 180
+      },
+      "delivery": {
+        "mode": "none"
+      },
+      "state": {
+        "nextRunAtMs": 1783375200000,
+        "lastRunAtMs": 1783339206136,
+        "lastRunStatus": "ok",
+        "lastStatus": "ok",
+        "lastDurationMs": 25141,
+        "lastDeliveryStatus": "not-requested",
+        "lastFailureNotificationDeliveryStatus": "not-requested",
+        "consecutiveErrors": 0,
+        "consecutiveSkipped": 0
+      },
+      "status": "ok"
+    },
+    {
+      "id": "80c9226b-eb86-4c40-a291-8ff3a505e775",
+      "name": "AInchors Daily Backup (shell-direct, systemEvent)",
+      "enabled": true,
+      "createdAtMs": 1777236186787,
+      "updatedAtMs": 1783289129877,
+      "agentId": "main",
+      "sessionKey": "agent:main:main",
+      "schedule": {
+        "kind": "cron",
+        "expr": "5 8 * * *",
+        "tz": "Australia/Melbourne"
+      },
+      "sessionTarget": "isolated",
+      "wakeMode": "now",
+      "payload": {
+        "kind": "agentTurn",
+        "message": "BACKUP_DIRECT: Use the exec tool to run: bash /Users/ainchorsangiefpl/.openclaw/workspace/scripts/backup.sh. If exit non-zero, use the exec tool to log incident via: bash /Users/ainchorsangiefpl/.openclaw/workspace/scripts/incident-log.sh. Write backup timestamp to /Users/ainchorsangiefpl/.openclaw/workspace/state/backup-state.json. No reply needed if OK.",
+        "model": "ollama/deepseek-v4-flash:cloud",
+        "timeoutSeconds": 180,
+        "lightContext": true
+      },
+      "delivery": {
+        "mode": "none"
+      },
+      "state": {
+        "lastRunAtMs": 1783289100048,
+        "lastRunStatus": "ok",
+        "lastStatus": "ok",
+        "lastDurationMs": 29829,
+        "lastDeliveryStatus": "not-requested",
+        "consecutiveErrors": 0,
+        "consecutiveSkipped": 0,
+        "lastFailureNotificationDeliveryStatus": "not-requested",
+        "nextRunAtMs": 1783375500000
+      },
+      "status": "ok"
+    },
+    {
+      "id": "f71f75af-dac7-4b6a-9b6e-9f43626b19a5",
+      "name": "Daily Workspace Backup",
+      "description": "Daily workspace backup: incremental Mon-Sat (rsync --link-dest), full tar.gz Sunday. 08:05 AEST. TKT-0146 / Stand-up Item 5 fix.",
+      "enabled": true,
+      "createdAtMs": 1781666352110,
+      "updatedAtMs": 1783289125602,
+      "agentId": "main",
+      "schedule": {
+        "kind": "cron",
+        "expr": "5 8 * * *",
+        "tz": "Australia/Melbourne"
+      },
+      "sessionTarget": "isolated",
+      "wakeMode": "now",
+      "payload": {
+        "kind": "agentTurn",
+        "message": "Run the workspace backup script: bash /Users/ainchorsangiefpl/.openclaw/workspace/scripts/backup.sh\n\nReport: exit code, backup type (incremental/full), file size, and any errors.",
+        "model": "ollama/minimax-m3:cloud",
+        "fallbacks": [
+          "ollama/gemma4:31b-cloud"
+        ],
+        "timeoutSeconds": 180
+      },
+      "delivery": {
+        "mode": "announce",
+        "channel": "telegram",
+        "to": "8574109706"
+      },
+      "failureAlert": {
+        "after": 2,
+        "channel": "telegram",
+        "to": "8574109706",
+        "cooldownMs": 3600000
+      },
+      "state": {
+        "lastRunAtMs": 1783289100050,
+        "lastRunStatus": "ok",
+        "lastStatus": "ok",
+        "lastDurationMs": 25552,
+        "lastDeliveryStatus": "delivered",
+        "lastFailureNotificationDeliveryStatus": "not-requested",
+        "consecutiveErrors": 0,
+        "consecutiveSkipped": 0,
+        "nextRunAtMs": 1783375500000,
+        "lastDelivered": true
+      },
+      "status": "ok"
+    },
+    {
+      "id": "e08e19ad-2d15-47ff-9ac0-509c05889a0e",
+      "name": "TKT-0093 Backup Health Check",
+      "enabled": true,
+      "createdAtMs": 1778229044855,
+      "updatedAtMs": 1783289409680,
+      "agentId": "main",
+      "schedule": {
+        "kind": "cron",
+        "expr": "10 8 * * *",
+        "tz": "Australia/Melbourne"
+      },
+      "sessionTarget": "isolated",
+      "wakeMode": "now",
+      "payload": {
+        "kind": "agentTurn",
+        "message": "BACKUP_HEALTH: Verify backup integrity and freshness.\n\n1. Run: bash /Users/ainchorsangiefpl/.openclaw/workspace/scripts/backup-health-check.sh\n2. If exit 0: output the script's result (healthy)\n3. If exit non-zero: send Telegram to Ken (8574109706) with the exact output\n\nAlways output exactly one line.",
+        "model": "ollama/deepseek-v4-flash:cloud",
+        "fallbacks": [
+          "ollama/gemma4:31b-cloud",
+          "ollama/kimi-k2.6:cloud"
+        ],
+        "timeoutSeconds": 120,
+        "lightContext": true
+      },
+      "delivery": {
+        "mode": "announce",
+        "channel": "telegram",
+        "to": "8574109706"
+      },
+      "state": {
+        "nextRunAtMs": 1783375800000,
+        "lastRunAtMs": 1783289400047,
+        "lastRunStatus": "ok",
+        "lastStatus": "ok",
+        "lastDurationMs": 9633,
+        "lastDeliveryStatus": "delivered",
+        "consecutiveErrors": 0,
+        "consecutiveSkipped": 0,
+        "lastFailureNotificationDeliveryStatus": "not-requested",
+        "lastDelivered": true
+      },
+      "status": "ok"
+    },
+    {
+      "id": "fea4300b-c045-4939-b829-d06c325eeda8",
+      "name": "AInchors Stand-up Email Delivery",
+      "description": "Sends the standup canvas HTML as email via gog. Runs 15 min after main standup cron. Shell-only — no model tokens.",
+      "enabled": true,
+      "createdAtMs": 1780360238052,
+      "updatedAtMs": 1783289708128,
+      "agentId": "main",
+      "sessionKey": "agent:main:telegram:direct:8574109706",
+      "schedule": {
+        "kind": "cron",
+        "expr": "15 8 * * *",
+        "tz": "Australia/Melbourne"
+      },
+      "sessionTarget": "isolated",
+      "wakeMode": "now",
+      "payload": {
+        "kind": "agentTurn",
+        "message": "STANDUP_EMAIL_DELIVERY: Use the exec tool to run: bash /Users/ainchorsangiefpl/.openclaw/workspace/scripts/standup-email-send.sh and report result.",
+        "model": "ollama/deepseek-v4-flash:cloud",
+        "timeoutSeconds": 180,
+        "lightContext": true
+      },
+      "delivery": {
+        "mode": "none"
+      },
+      "state": {
+        "nextRunAtMs": 1783376100000,
+        "lastRunAtMs": 1783289700041,
+        "lastRunStatus": "ok",
+        "lastStatus": "ok",
+        "lastDurationMs": 8087,
+        "lastDeliveryStatus": "not-requested",
+        "lastFailureNotificationDeliveryStatus": "not-requested",
+        "consecutiveErrors": 0,
+        "consecutiveSkipped": 0
+      },
+      "status": "ok"
+    },
+    {
+      "id": "0758aaf6-f7d0-478c-a5b4-7ec9ce6e9460",
+      "name": "WO-002 Divergence Daily Check",
+      "description": "Daily divergence harness run: compares live state_tickets with shadow nexus_controller.loop_plan/plan_atom. Unexplained=0 for 7 consecutive days closes P0.",
+      "enabled": true,
+      "createdAtMs": 1782634270937,
+      "updatedAtMs": 1783292438341,
+      "agentId": "main",
+      "schedule": {
+        "kind": "cron",
+        "expr": "0 9 * * *",
+        "tz": "Australia/Melbourne"
+      },
+      "sessionTarget": "isolated",
+      "wakeMode": "now",
+      "payload": {
+        "kind": "agentTurn",
+        "message": "Run the WO-002 divergence harness:\n\n/Users/ainchorsangiefpl/.openclaw/workspace-infra/scripts/divergence-harness.sh\n\nIf exit 0 and alert cleared: write the streak update to /Users/ainchorsangiefpl/.openclaw/workspace-infra/state/divergence-cron-metadata.json (increment streak). Send a brief Telegram update to Ken with the result (match/missing/extra/unexplained/streak day).\nIf alert triggered: log the divergence and report to Ken via telegram-alert.sh immediately.",
+        "model": "ollama/deepseek-v4-flash:cloud",
+        "fallbacks": [
+          "ollama/gemma4:31b-cloud",
+          "ollama/kimi-k2.6:cloud"
+        ],
+        "timeoutSeconds": 120
+      },
+      "delivery": {
+        "mode": "announce",
+        "channel": "telegram",
+        "to": "8574109706"
+      },
+      "failureAlert": {
+        "after": 3,
+        "channel": "telegram",
+        "to": "+61403650578",
+        "cooldownMs": 3600000
+      },
+      "state": {
+        "nextRunAtMs": 1783378800000,
+        "lastRunAtMs": 1783292400046,
+        "lastRunStatus": "ok",
+        "lastStatus": "ok",
+        "lastDurationMs": 38295,
+        "lastDeliveryStatus": "delivered",
+        "lastFailureNotificationDeliveryStatus": "not-requested",
+        "consecutiveErrors": 0,
+        "consecutiveSkipped": 0,
+        "lastDelivered": true
+      },
+      "status": "ok"
+    },
+    {
+      "id": "5d581442-ca2e-48d0-a5a1-e1ffe2b418a0",
+      "name": "Spark LinkedIn Daily Metrics Snapshot",
+      "description": "Daily 10:00 AEST metrics snapshot for all published LinkedIn posts. Owned by Spark per Ken directive 2026-05-20.",
+      "enabled": true,
+      "createdAtMs": 1779276662311,
+      "updatedAtMs": 1783296125312,
+      "agentId": "spark",
+      "sessionKey": "agent:main:telegram:direct:8574109706",
+      "schedule": {
+        "kind": "cron",
+        "expr": "0 10 * * *",
+        "tz": "Australia/Melbourne"
+      },
+      "sessionTarget": "isolated",
+      "wakeMode": "now",
+      "payload": {
+        "kind": "agentTurn",
+        "message": "Daily LinkedIn metrics snapshot.\n\n1. Read state/linkedin-campaign.json — find all published posts with valid postUrn (not N/A, not \"pending-urn-check\")\n2. For each, run: bash scripts/linkedin-metrics-snapshot.sh --content-id [ID] --post-urn [URN] --interval 24h\n3. Update state/linkedin-campaign-stats.md with fresh summary table\n4. If any errors (401, 404), log to state/linkedin-metrics-errors.json\n5. Summary: reactions, comments, shares per post + totals\n\nKeep it brief — write results to state files, minimal stdout.",
+        "model": "ollama/kimi-k2.6:cloud",
+        "timeoutSeconds": 191,
+        "lightContext": true
+      },
+      "delivery": {
+        "mode": "none"
+      },
+      "state": {
+        "nextRunAtMs": 1783382400000,
+        "lastRunAtMs": 1783296000048,
+        "lastRunStatus": "ok",
+        "lastStatus": "ok",
+        "lastDurationMs": 125264,
+        "lastDeliveryStatus": "not-requested",
+        "consecutiveErrors": 0,
+        "consecutiveSkipped": 0,
+        "lastFailureNotificationDeliveryStatus": "not-requested"
+      },
+      "status": "ok"
+    },
+    {
       "id": "070e093f-0058-4bd4-a97f-4c6b91893d0e",
       "name": "Spark LinkedIn — Tue 12:00 AEST Fallback Draft (Wed post)",
       "description": "FALLBACK DRAFT: Tue 12:00 AEST. Only runs if Sat batch missed. Drafts Wed post only.",
@@ -1953,6 +1369,440 @@
         "lastDiagnosticSummary": "Agent cron job uses ollama/kimi-k2.6:cloud but the local provider endpoint is not reachable at http://127.0.0.1:11434. Skipping this cron run; OpenClaw will retry the provider preflight on a later scheduled run. Last error: TypeError: fetch failed"
       },
       "status": "skipped"
+    },
+    {
+      "id": "c5debd26-fb07-4b36-a904-86c9bc95625a",
+      "name": "AInchors Midday Cost Tracker",
+      "enabled": true,
+      "createdAtMs": 1777191607719,
+      "updatedAtMs": 1783303230649,
+      "agentId": "main",
+      "sessionKey": "agent:main:main",
+      "schedule": {
+        "kind": "cron",
+        "expr": "0 12 * * *",
+        "tz": "Australia/Melbourne"
+      },
+      "sessionTarget": "isolated",
+      "wakeMode": "now",
+      "payload": {
+        "kind": "agentTurn",
+        "message": "MIDDAY_COST: Use the exec tool to run: bash /Users/ainchorsangiefpl/.openclaw/workspace/scripts/cost-tracker.sh silently. After run, use the exec tool to read: bash /Users/ainchorsangiefpl/.openclaw/workspace/scripts/db-read.sh state_cost. No reply needed.",
+        "model": "ollama/deepseek-v4-flash:cloud",
+        "timeoutSeconds": 120,
+        "lightContext": true
+      },
+      "delivery": {
+        "mode": "none"
+      },
+      "state": {
+        "nextRunAtMs": 1783389600000,
+        "lastRunAtMs": 1783303204106,
+        "lastRunStatus": "ok",
+        "lastStatus": "ok",
+        "lastDurationMs": 26543,
+        "lastDeliveryStatus": "not-requested",
+        "consecutiveErrors": 0,
+        "consecutiveSkipped": 0,
+        "lastFailureNotificationDeliveryStatus": "not-requested"
+      },
+      "status": "ok"
+    },
+    {
+      "id": "c69615bb-e8cb-4456-8b78-a9ec2ec89195",
+      "name": "yoda-context-brief-refresh (2pm + 8pm AEST)",
+      "description": "Refresh yoda-context-brief.md every 30 min for Telegram session context",
+      "enabled": true,
+      "createdAtMs": 1778815437253,
+      "updatedAtMs": 1783332074279,
+      "agentId": "main",
+      "schedule": {
+        "kind": "cron",
+        "expr": "0 14,20 * * *",
+        "tz": "Australia/Melbourne"
+      },
+      "sessionTarget": "isolated",
+      "wakeMode": "now",
+      "payload": {
+        "kind": "agentTurn",
+        "message": "You are Forge — Infrastructure Agent for AInchors. Your task: regenerate the Yoda Telegram context brief.\n\n⛔ CRITICAL: ALL FILE WRITES GO THROUGH cron-write.sh ⛔\nYou do NOT use the write tool. Use only exec with cron-write.sh:\n  echo \"$BRIEF_CONTENT\" | bash /Users/ainchorsangiefpl/.openclaw/workspace/scripts/cron-write.sh /Users/ainchorsangiefpl/.openclaw/workspace/state/yoda-context-brief.md\n\nThe exec output will say \"OK: N bytes → path\" — that confirms the write succeeded.\n\n---\n\nRead these files to gather fresh data:\n- /Users/ainchorsangiefpl/.openclaw/workspace/MEMORY.md\n- /Users/ainchorsangiefpl/.openclaw/workspace/archive/MEMORY_TICKETS.md (historical ticket summary; do not create if missing)\n- /Users/ainchorsangiefpl/.openclaw/workspace/state/sprint-current.json\n- /Users/ainchorsangiefpl/.openclaw/workspace/state/linkedin-campaign.json\n- /Users/ainchorsangiefpl/.openclaw/workspace/state/ollama-usage.json (burn alert state)\n- For live open tickets, run: `bash /Users/ainchorsangiefpl/.openclaw/workspace/scripts/db-ticket.sh list --open` and include top 10 by priority.\n\nThe brief structure is already established at the target path. Regenerate it in place with fresh data. Keep it under 300 lines. Include: Platform Status (day count from 2026-04-25), Key People, Infrastructure, Current Sprint, Approved Decisions (from MEMORY.md key decisions section), Open Tickets (top 10 by priority from db-ticket.sh), LinkedIn Queue status (from linkedin-campaign.json), Recent Ollama Usage / Burn status, and Mandatory Rules for Telegram sessions.\n\nDo NOT reference state/channel-state.json or state/linkedin-queue.json — these files no longer exist. Do NOT create placeholder files. Just omit sections if sources are genuinely missing.\n\nBuild the full brief as a single string, then write it using cron-write.sh. Do not add commentary. Just build and write.",
+        "model": "ollama/deepseek-v4-flash:cloud",
+        "fallbacks": [
+          "ollama/kimi-k2.6:cloud"
+        ],
+        "timeoutSeconds": 120
+      },
+      "delivery": {
+        "mode": "announce",
+        "channel": "telegram",
+        "to": "8574109706"
+      },
+      "state": {
+        "nextRunAtMs": 1783396800000,
+        "lastRunAtMs": 1783332005646,
+        "lastRunStatus": "ok",
+        "lastStatus": "ok",
+        "lastDurationMs": 68633,
+        "lastDeliveryStatus": "delivered",
+        "consecutiveErrors": 0,
+        "consecutiveSkipped": 0,
+        "lastFailureNotificationDeliveryStatus": "not-requested",
+        "lastDelivered": true
+      },
+      "status": "ok"
+    },
+    {
+      "id": "ca5d5e50-28d9-435c-b81a-23094353baa5",
+      "name": "AInchors Daily Burn Alert",
+      "enabled": true,
+      "createdAtMs": 1777337580180,
+      "updatedAtMs": 1783332029155,
+      "agentId": "main",
+      "sessionKey": "agent:main:main",
+      "schedule": {
+        "kind": "cron",
+        "expr": "0 20 * * *",
+        "tz": "Australia/Melbourne"
+      },
+      "sessionTarget": "isolated",
+      "wakeMode": "now",
+      "payload": {
+        "kind": "agentTurn",
+        "message": "BURN_ALERT: Check weekly Ollama request usage against thresholds.\n\n1. Read /Users/ainchorsangiefpl/.openclaw/workspace/state/cost-state.json → turnsLimit\n2. Check currentPct against alert thresholds:\n   - 50% (WARN): note for next Ken interaction, no Telegram\n   - 70% (ALERT): send Telegram to Ken (8574109706) via sovereign-alert.sh:\n     '⚠️ Ollama weekly requests at 70% — [X]/30000 used. [N] days remaining in window. Burn rate: [R] req/hr. Consider throttling non-essential crons.'\n   - 85% (CRITICAL): send Telegram:\n     '🔴 Ollama weekly requests at 85% — [X]/30000 used. Reduce non-essential crons now. Flash-only for wrappers.'\n   - 95% (EMERGENCY): send Telegram:\n     '🚨 Ollama weekly requests at 95% — [X]/30000 used. EMERGENCY: pause all pro/minimax crons, flash-only mode.'\n3. If < 50%: silent. No message.\n4. Log outcome to state/ollama-usage.json\n\nDo NOT reply in chat. Silent unless threshold met. Use sovereign-alert.sh for all Telegram sends.",
+        "model": "ollama/deepseek-v4-flash:cloud",
+        "fallbacks": [
+          "ollama/gemma4:31b-cloud",
+          "ollama/kimi-k2.6:cloud"
+        ],
+        "timeoutSeconds": 450,
+        "lightContext": true
+      },
+      "delivery": {
+        "mode": "announce",
+        "channel": "telegram",
+        "to": "8574109706"
+      },
+      "state": {
+        "nextRunAtMs": 1783418400000,
+        "lastRunAtMs": 1783332005645,
+        "lastRunStatus": "ok",
+        "lastStatus": "ok",
+        "lastDurationMs": 23510,
+        "lastDeliveryStatus": "delivered",
+        "consecutiveErrors": 0,
+        "consecutiveSkipped": 0,
+        "lastFailureNotificationDeliveryStatus": "not-requested",
+        "lastDelivered": true
+      },
+      "status": "ok"
+    },
+    {
+      "id": "cfc40ddb-a876-4bb7-8bb9-b6a240cb761a",
+      "name": "Shield 🛡️ — Security Review Sweep (daily)",
+      "enabled": true,
+      "createdAtMs": 1777336965185,
+      "updatedAtMs": 1783339214918,
+      "agentId": "main",
+      "sessionKey": "agent:main:main",
+      "schedule": {
+        "kind": "cron",
+        "expr": "0 22 * * *",
+        "tz": "Australia/Melbourne"
+      },
+      "sessionTarget": "isolated",
+      "wakeMode": "now",
+      "payload": {
+        "kind": "agentTurn",
+        "message": "SHIELD_SECURITY_SWEEP: Daily security review — Shield Rule 1 enforcement.\n\n1. Read /Users/ainchorsangiefpl/.openclaw/workspace/state/shield-qa-pending.json (if exists)\n2. For each pending asset: run bash /Users/ainchorsangiefpl/.openclaw/workspace/scripts/shield-check.sh with its metadata\n3. For each item, also perform LLM-level review: read the asset content, check S1-S5 with reasoning, flag anything the script may have missed\n4. Write final verdict to shield-qa-log.json\n5. If FAIL: write to /Users/ainchorsangiefpl/.openclaw/workspace/state/shield-escalation-pending.json\n6. If all clear or no pending items: output exactly 'SHIELD: clear' and stop.\n\nAlways output exactly one line. Never generate an empty response.",
+        "model": "ollama/gemma4:31b-cloud",
+        "fallbacks": [
+          "ollama/kimi-k2.6:cloud"
+        ],
+        "timeoutSeconds": 300,
+        "lightContext": true
+      },
+      "delivery": {
+        "mode": "none"
+      },
+      "state": {
+        "nextRunAtMs": 1783425600000,
+        "lastRunAtMs": 1783339206134,
+        "lastRunStatus": "ok",
+        "lastStatus": "ok",
+        "lastDurationMs": 8784,
+        "lastDeliveryStatus": "not-requested",
+        "consecutiveErrors": 0,
+        "consecutiveSkipped": 0,
+        "lastFailureNotificationDeliveryStatus": "not-requested"
+      },
+      "status": "ok"
+    },
+    {
+      "id": "4ae7274d-71b8-4220-8f42-bec7c7ba5a1a",
+      "name": "Lex ⚖️ — Legal Review Sweep (daily)",
+      "enabled": true,
+      "createdAtMs": 1777336975312,
+      "updatedAtMs": 1783339529085,
+      "agentId": "main",
+      "sessionKey": "agent:main:main",
+      "schedule": {
+        "kind": "cron",
+        "expr": "5 22 * * *",
+        "tz": "Australia/Melbourne"
+      },
+      "sessionTarget": "isolated",
+      "wakeMode": "now",
+      "payload": {
+        "kind": "agentTurn",
+        "message": "LEX_LEGAL_SWEEP: Daily legal review — Lex Rule 1 enforcement.\n\n1. Read /Users/ainchorsangiefpl/.openclaw/workspace/state/lex-qa-pending.json (if exists)\n2. For each pending asset: run bash /Users/ainchorsangiefpl/.openclaw/workspace/scripts/lex-check.sh with its metadata\n3. For each item, also perform LLM-level legal review: read the asset content and original brief, apply L1-L5 checks with full legal reasoning, flag contractual risk, regulatory issues, liability, IP, missing disclosures. Note: Lex flags risk — not a substitute for qualified legal advice on matters >A$10,000\n4. Write final verdict to lex-qa-log.json\n5. If FAIL: write to /Users/ainchorsangiefpl/.openclaw/workspace/state/lex-escalation-pending.json\n6. If all clear or no pending items: output exactly 'LEX: clear' and stop.\n\nAlways output exactly one line. Never generate an empty response.",
+        "model": "ollama/gemma4:31b-cloud",
+        "fallbacks": [
+          "ollama/kimi-k2.6:cloud"
+        ],
+        "timeoutSeconds": 300,
+        "lightContext": true
+      },
+      "delivery": {
+        "mode": "none"
+      },
+      "state": {
+        "nextRunAtMs": 1783425900000,
+        "lastRunAtMs": 1783339507066,
+        "lastRunStatus": "ok",
+        "lastStatus": "ok",
+        "lastDurationMs": 22019,
+        "lastDeliveryStatus": "not-requested",
+        "consecutiveErrors": 0,
+        "consecutiveSkipped": 0,
+        "lastFailureNotificationDeliveryStatus": "not-requested"
+      },
+      "status": "ok"
+    },
+    {
+      "id": "8231f723-5580-435e-a8d5-8962f4843495",
+      "name": "Sage 🧪 — QA Review Sweep (daily)",
+      "enabled": true,
+      "createdAtMs": 1777336975316,
+      "updatedAtMs": 1783339831129,
+      "agentId": "main",
+      "sessionKey": "agent:main:main",
+      "schedule": {
+        "kind": "cron",
+        "expr": "10 22 * * *",
+        "tz": "Australia/Melbourne"
+      },
+      "sessionTarget": "isolated",
+      "wakeMode": "now",
+      "payload": {
+        "kind": "agentTurn",
+        "message": "SAGE_QA_SWEEP: Daily QA review — Sage Rule 1 enforcement.\n\n## Step 1 — Check pending queue\nRead /Users/ainchorsangiefpl/.openclaw/workspace/state/sage-qa-pending.json (if exists).\nFor each pending asset: read the asset file, run bash /Users/ainchorsangiefpl/.openclaw/workspace/scripts/sage-qa.sh with its metadata, write verdict to sage-qa-log.json, if FAIL write to sage-qa-failures.json, mark PASS as cleared.\n\n## Step 2 — LLM checks\nFor each item: check (1) meets the brief? (2) clear conclusion/CTA? (3) facts verifiable? Cross-check numbers against state files.\n\n## Step 3 — Escalate failures\nIf any FAIL: write to /Users/ainchorsangiefpl/.openclaw/workspace/state/sage-escalation-pending.json\n\n## Step 4 — Output\nIf no pending items or all PASS: output exactly 'SAGE: clear' and stop.\nIf escalated: output exactly 'SAGE: escalated [N] items' and stop.\n\nAlways output exactly one line. Never generate an empty response.",
+        "model": "ollama/gemma4:31b-cloud",
+        "fallbacks": [
+          "ollama/kimi-k2.6:cloud"
+        ],
+        "timeoutSeconds": 300,
+        "lightContext": true
+      },
+      "delivery": {
+        "mode": "none"
+      },
+      "state": {
+        "nextRunAtMs": 1783426200000,
+        "lastRunAtMs": 1783339807828,
+        "lastRunStatus": "ok",
+        "lastStatus": "ok",
+        "lastDurationMs": 23301,
+        "lastDeliveryStatus": "not-requested",
+        "consecutiveErrors": 0,
+        "consecutiveSkipped": 0,
+        "lastFailureNotificationDeliveryStatus": "not-requested"
+      },
+      "status": "ok"
+    },
+    {
+      "id": "7d362d91-4d61-4028-9c01-066e2b0dc876",
+      "name": "Yoda → Aria daily context sync",
+      "enabled": true,
+      "createdAtMs": 1777250446742,
+      "updatedAtMs": 1783342809006,
+      "agentId": "main",
+      "sessionKey": "agent:main:main",
+      "schedule": {
+        "kind": "cron",
+        "expr": "0 23 * * *",
+        "tz": "Australia/Melbourne"
+      },
+      "sessionTarget": "main",
+      "wakeMode": "now",
+      "payload": {
+        "kind": "systemEvent",
+        "text": "ARIA_CONTEXT_SYNC: Update the shared knowledge bridge for Aria before daily close.\n\n## 0. Pre-flight: Delegated Auth Check (TKT-0336)\nUse the exec tool to run: zsh /Users/ainchorsangiefpl/.openclaw/workspace/scripts/check-delegated-auth.sh --json\nRead /Users/ainchorsangiefpl/.openclaw/workspace/state/delegated-auth-status.json\nIf allValid=false: include a ⚠️ AUTH ALERT section in yoda-daily-brief.md listing which accounts need re-auth and the exact gog command to fix them.\n\n## 1. Read today's work\n- memory/2026-MM-DD.md and memory/CHANGELOG.md (today's CHG entries)\n\n## 2. Read shared decisions\n- memory/shared/decisions.md (today's decisions)\n\n## 3. Write/update yoda-daily-brief.md\n\n## 4. Review training-pipeline.md\n\n## 5. Git commit\nUse the exec tool to run: bash -c 'cd /Users/ainchorsangiefpl/.openclaw/workspace && git add -A && git commit -m \"chore: yoda daily context sync YYYY-MM-DD\"'\n\nKeep language accessible — Aria and Angie will read this, not just Ken."
+      },
+      "state": {
+        "nextRunAtMs": 1783429200000,
+        "lastRunAtMs": 1783342809004,
+        "lastRunStatus": "ok",
+        "lastStatus": "ok",
+        "lastDurationMs": 2,
+        "lastDeliveryStatus": "not-requested",
+        "consecutiveErrors": 0,
+        "consecutiveSkipped": 0,
+        "lastFailureNotificationDeliveryStatus": "not-requested"
+      },
+      "status": "ok"
+    },
+    {
+      "id": "a7e7a820-32f6-4a2b-bb27-52367ebfa7dc",
+      "name": "Aria Daily Summary (business stream)",
+      "enabled": true,
+      "createdAtMs": 1777293882359,
+      "updatedAtMs": 1783345560765,
+      "agentId": "business",
+      "sessionKey": "agent:main:main",
+      "schedule": {
+        "kind": "cron",
+        "expr": "45 23 * * *",
+        "tz": "Australia/Melbourne"
+      },
+      "sessionTarget": "session:agent:business:main",
+      "wakeMode": "now",
+      "payload": {
+        "kind": "agentTurn",
+        "message": "DAILY_SUMMARY: It's 23:45 AEST. Write today's business stream summary with mandatory evidence verification.\n\n## Step 0 — VERIFY every claim before writing\nFor each open item, blocked item, or status claim you will include, you MUST check a primary source in THIS run and record evidence. Acceptable sources:\n- state/ files (read them)\n- keychain / get-secret.sh for secrets\n- cron tool list/get for cron jobs\n- git log / git diff for recent changes\n- sessions_history / sessions_list for actual Angie interactions\n- PG via db-read.sh for SSOT data\n\nIf a claim from yesterday's brief is contradicted by current evidence, update it. If you cannot verify, write \"Unverified — [topic] needs recheck\".\n\n## Step 1 — Read actual Aria + Angie session history (ground truth)\nUse sessions_list to find the Aria Telegram session with Angie:\n- Look for a session with sessionKey containing 'telegram:direct:8141152780'\n- Get its sessionKey\nThen call sessions_history with that sessionKey and limit=100 to get today's messages.\nFilter to messages from today (AEST). Extract:\n- What Angie asked or requested\n- What Aria produced or responded\n- Any decisions made\n- Any governance reviews triggered\n- Anything that needs Yoda's attention\n\nIf sessions_list finds no Angie session: note it clearly.\n\n## Step 2 — Check relay queue for any Angie-originated items\nRead /Users/ainchorsangiefpl/.openclaw/workspace/state/relay-to-ken.json\nNote any items from today that were Angie-originated.\n\n## Step 3 — Verify open items from previous briefs\nCross-check each carried-forward open item against current evidence:\n- Cron/token/secrets: use get-secret.sh or keychain lookup; use cron tool list/get\n- State flags: read relevant state/*.json\n- Interactions: confirm via sessions_history timestamps\nMark resolved items with evidence; keep still-open items with evidence summary.\n\n## Step 4 — Write to aria-daily-brief.md\n⚠️ ISOLATED SESSION: Use ONLY absolute paths. NEVER use ~ in write/read/exec tool calls.\nDefine this constant at the top of your work for this step:\nBRIEF_PATH=/Users/ainchorsangiefpl/.openclaw/workspace/state/aria-daily-brief.md\n\nMANDATORY pre-step: Before writing, call `read` on $BRIEF_PATH to load existing content. This proves the absolute path works and gives you the file to prepend to.\n\nThen call `write` on the EXACT same $BRIEF_PATH.\nWrite path: $BRIEF_PATH\n\nRead the existing file first (if it exists). Prepend (add at TOP, before existing entries):\n\n## [TODAY'S DATE] — Business Stream Summary\n_Written 23:45 AEST by Aria cron — verified [timestamp]_\n\n### Angie interactions today\n- [timestamp if available] [what Angie asked/said → what Aria produced/outcome]\n(If no messages from Angie in session history today: write exactly 'No Angie activity today.')\n\n### Decisions made\n- [business decisions, content approvals, priorities set — from session history with evidence]\n\n### Governance reviews\n- [any Shield/Lex/Sage reviews triggered, verdicts with evidence]\n\n### Open items (verified)\n- [item] — status: [resolved/open] — evidence: [source + timestamp]\n\n### Handoff to Yoda\n- [anything Yoda needs to know, with evidence]\n\nKeep it brief. Bullets only. Yoda reads this at 23:55 for his journal.\n\n## Step 5 — Git commit\nbash -c 'cd /Users/ainchorsangiefpl/.openclaw/workspace && git add state/aria-daily-brief.md && git commit -m \"chore: aria daily brief [DATE]\" 2>/dev/null || true'",
+        "model": "ollama/deepseek-v4-flash:cloud",
+        "fallbacks": [
+          "ollama/kimi-k2.6:cloud"
+        ],
+        "timeoutSeconds": 600,
+        "lightContext": true
+      },
+      "delivery": {
+        "mode": "announce",
+        "channel": "telegram",
+        "to": "8574109706"
+      },
+      "state": {
+        "nextRunAtMs": 1783431900000,
+        "lastRunAtMs": 1783345508749,
+        "lastRunStatus": "ok",
+        "lastStatus": "ok",
+        "lastDurationMs": 52016,
+        "lastDeliveryStatus": "delivered",
+        "consecutiveErrors": 0,
+        "consecutiveSkipped": 0,
+        "lastFailureNotificationDeliveryStatus": "not-requested",
+        "lastDelivered": true
+      },
+      "status": "ok"
+    },
+    {
+      "id": "4d926b2c-3551-4324-aa9b-81fcaf26ca75",
+      "name": "AInchors Daily Close — Journal",
+      "enabled": true,
+      "createdAtMs": 1777128240018,
+      "updatedAtMs": 1783346108232,
+      "agentId": "main",
+      "sessionKey": "agent:main:main",
+      "schedule": {
+        "kind": "cron",
+        "expr": "55 23 * * *",
+        "tz": "Australia/Melbourne"
+      },
+      "sessionTarget": "main",
+      "wakeMode": "now",
+      "payload": {
+        "kind": "systemEvent",
+        "text": "END-OF-DAY FINALIZER — Non-negotiable. Journal is ALREADY BUILT inline by journal-append.sh.\n\n## 0.a HEALTH ASSERT GATE (NEW — TKT-REC5)\nUse the exec tool to run: bash /Users/ainchorsangiefpl/.openclaw/workspace/scripts/state-health-assert.sh\nIf exit 1, the script has already written state/eod-blocked-{DATE}.json and sent a Telegram alert. STOP here — do not proceed to step 0, 1, 2, 3, or 4.\nIf exit 0, proceed normally.\n\n## 0. Journal Gap Fill (TKT-0328)\nUse the exec tool to run: bash /Users/ainchorsangiefpl/.openclaw/workspace/scripts/journal-generate.sh\nThis checks today's journal file for completeness. If undersized or missing, logs a warning.\nNon-destructive — does not modify existing entries.\n\n## 1. Session Overview Header\nJOURNAL_FILE = /Users/ainchorsangiefpl/.openclaw/workspace/memory/journal-[TODAY_DATE].md\n\nRead the journal file. Count today's entries (## HH:MM headings). Generate a Session Overview header and prepend it.\n\n## 2. Cost Report\nUse the exec tool to run: bash /Users/ainchorsangiefpl/.openclaw/workspace/scripts/cost-tracker.sh\nAppend daily cost summary to journal.\n\n## 3. Business Stream (from Aria)\nRead /Users/ainchorsangiefpl/.openclaw/workspace/state/aria-daily-brief.md\n\n## 4. Git commit\nUse the exec tool to run: bash -c 'cd /Users/ainchorsangiefpl/.openclaw/workspace && git add memory/journal-*.md && git commit -m \"docs: Day [N] journal finalized [TODAY_DATE]\"'\n\n⚠️ DO NOT: rebuild journal from sessions_history, run catch-up entry writing, reference incremental writer. Journal is already complete from inline writes."
+      },
+      "state": {
+        "nextRunAtMs": 1783432500000,
+        "lastRunAtMs": 1783346108229,
+        "lastRunStatus": "ok",
+        "lastStatus": "ok",
+        "lastDurationMs": 3,
+        "lastDeliveryStatus": "not-requested",
+        "consecutiveErrors": 0,
+        "consecutiveSkipped": 0,
+        "lastFailureNotificationDeliveryStatus": "not-requested"
+      },
+      "status": "ok"
+    },
+    {
+      "id": "a027fd60-fd23-4c50-a823-81555acfbf84",
+      "name": "AInchors Daily Close — Blog",
+      "enabled": true,
+      "createdAtMs": 1777326417077,
+      "updatedAtMs": 1783346956629,
+      "agentId": "main",
+      "sessionKey": "agent:main:main",
+      "schedule": {
+        "kind": "cron",
+        "expr": "5 0 * * *",
+        "tz": "Australia/Melbourne"
+      },
+      "sessionTarget": "isolated",
+      "wakeMode": "now",
+      "payload": {
+        "kind": "agentTurn",
+        "message": "## 0. EOD BLOCK CHECK\nIf /Users/ainchorsangiefpl/.openclaw/workspace/state/eod-blocked-$(date +%Y-%m-%d).json exists, exit 0 with status 'EOD blocked by health assert: skipping blog post.'. Do not proceed to blog generation.\n\nDAILY_BLOG: Write today's blog post. This runs after the 23:55 journal cron.\n\n⛔ CRITICAL: ALL FILE WRITES GO THROUGH cron-write.sh ⛔\nYou do NOT use the write tool. Pipe content through cron-write.sh via exec:\n  echo \"$HTML\" | bash /Users/ainchorsangiefpl/.openclaw/workspace/scripts/cron-write.sh <TARGET_PATH>\nThe exec output will say \"OK: N bytes → path\" — that confirms the write succeeded.\nPath normalization, directory creation, and atomic writing are all handled by the script.\n\n---\n\n## Your task\n1. Read /Users/ainchorsangiefpl/.openclaw/workspace/Operations/BlogFormat.md — LOCKED format + style spec. Follow exactly.\n2. Determine today's date (AEST). Yesterday's date = today minus 1 day (the blog covers the day just closed).\n3. Read /Users/ainchorsangiefpl/.openclaw/workspace/memory/journal-YYYY-MM-DD.md (yesterday's journal) — PRIMARY SOURCE.\n4. Run: bash /Users/ainchorsangiefpl/.openclaw/workspace/scripts/db-read.sh state_cost — exact spend from PG (SSOT, TKT-0305).\n5. Read /Users/ainchorsangiefpl/.openclaw/workspace/state/incident-log.json — any incidents to surface.\n\n## 🔒 LOCKED HTML/CSS TEMPLATE — NON-NEGOTIABLE (CHG-0427)\n\nYou MUST use the EXACT CSS below. Do NOT invent new color schemes, new class names, or new styling. This is the approved template as of 2026-05-17 (Ken-approved Day 23 blog). The ONLY thing you change is the CONTENT between the body tags — the CSS block is immutable.\n\nCopy the ENTIRE <style> block from the template reference file:\n  /Users/ainchorsangiefpl/.openclaw/canvas/documents/ainchors-2026-05-17/index.html\n\nThis gives you:\n- Amber accent (#f0a050), dark bg (#0d0d0d), surface (#1a1a1a)\n- .hero with .day-badge pill, h1, .subtitle, .byline, .date\n- .callout.warn / .callout.info / .callout.alert with .label\n- .metrics-grid with .metric-card (value + label) — REQUIRED 4 cards\n- .cost-table with full columns (Model, Turns, Input, Output, Cost) + .total-row\n- .cost-trend with arrow indicators\n- .lessons-list with .lesson-num badges\n- .next-items with → bullets\n- .footer with .nav-links\n- .tag.green / .tag.red / .tag.blue / .tag.amber\n- h2 with bottom border, h3 with accent color\n- @media (max-width: 600px) responsive\n- Blockquote styled with accent-dim border\n\nThe CSS file is ~240 lines. Copy it exactly. The blog content you write MUST use these CSS classes — they are part of the locked template.\n\n## Required blog structure (follow Day 23 pattern)\n\n```\n1. HERO — day-badge pill, h1 title, subtitle, By Ken Mun CTO, date line\n2. OPENING HOOK — 1-2 paragraphs, meta-observation about the day's shape\n3. METRICS GRID — 4 cards: Cost, Turns, Input Tokens, Output Tokens\n4. ACTS — 4-6 named sections with h2 headers, callout boxes\n5. WHAT BROKE (if applicable) — tagged incidents, RCA-lite\n6. WHAT I LEARNED — lessons-list with .lesson-num badges\n7. COST OF DAY N — cost-table (5 cols), cost-trend with arrows, cost vs value paragraph\n8. WHAT'S NEXT — .next-items list\n9. WHILE YOU WERE AWAY (if autonomous activity occurred)\n10. FOOTER — nav-links (prev/next), AInchors tagline\n11. GOVERNANCE STAMP — Cleared for distribution\n```\n\n## Write the blog DRAFT using cron-write.sh\nBuild the full HTML, then write the draft:\nexec: echo \"$HTML_CONTENT\" | bash /Users/ainchorsangiefpl/.openclaw/workspace/scripts/cron-write.sh /Users/ainchorsangiefpl/.openclaw/workspace/tmp/blog-draft-YYYY-MM-DD.html\n(create tmp/ dir if missing: exec mkdir -p /Users/ainchorsangiefpl/.openclaw/workspace/tmp)\n\n## Content Governance Gate — MANDATORY before publishing (TKT-0033 Full Triad)\n\nDetermine the next CONTENT-NNNN id: read state/content-queue.json, take max numeric suffix + 1, or use CONTENT-0001 if empty.\n\nRun the full triad gate:\n  bash /Users/ainchorsangiefpl/.openclaw/workspace/scripts/content-governance-review.sh \\\n    --content-id CONTENT-NNNN \\\n    --file /Users/ainchorsangiefpl/.openclaw/workspace/tmp/blog-draft-YYYY-MM-DD.html \\\n    --type blog\n\nWait for exit code:\n- Exit 0 (CLEARED): Shield + Lex + Sage all cleared — proceed to publish.\n- Exit 2 (BLOCKED): One or more agents blocked. DO NOT PUBLISH. Fix all flagged issues, re-run triad with same CONTENT-NNNN, repeat until exit 0.\n\n## Publish (only after triad gate exit 0) using cron-write.sh\nexec: echo \"$HTML_CONTENT\" | bash /Users/ainchorsangiefpl/.openclaw/workspace/scripts/cron-write.sh /Users/ainchorsangiefpl/.openclaw/canvas/documents/ainchors-YYYY-MM-DD/index.html\n\n## Git commit\ncd /Users/ainchorsangiefpl/.openclaw/workspace && git add -A && git commit -m \"docs: Day N blog post (ainchors-YYYY-MM-DD) [Shield:CLEAR Lex:CLEAR Sage:CLEAR]\"\n\nDo not write the journal. Do not run cost tracker. Blog + full triad governance gate only.",
+        "model": "ollama/deepseek-v4-pro:cloud",
+        "fallbacks": [
+          "ollama/kimi-k2.6:cloud"
+        ],
+        "timeoutSeconds": 831,
+        "lightContext": true
+      },
+      "delivery": {
+        "mode": "announce",
+        "channel": "telegram",
+        "to": "8574109706",
+        "bestEffort": true
+      },
+      "state": {
+        "lastRunAtMs": 1783346707252,
+        "lastRunStatus": "ok",
+        "lastStatus": "ok",
+        "lastDurationMs": 249377,
+        "lastDeliveryStatus": "delivered",
+        "consecutiveErrors": 0,
+        "nextRunAtMs": 1783433100000,
+        "consecutiveSkipped": 0,
+        "lastFailureNotificationDeliveryStatus": "not-requested",
+        "lastDelivered": true
+      },
+      "status": "ok"
+    },
+    {
+      "id": "c5a3911d-d06f-453f-882b-caf64dbfd699",
+      "name": "Drive sync — journal, blog, memory, docs (00:30 AEST)",
+      "enabled": true,
+      "createdAtMs": 1778391963983,
+      "updatedAtMs": 1783348209229,
+      "agentId": "main",
+      "sessionKey": "agent:main:dashboard:b691f8db-985e-4a52-8693-74887ea61b9d",
+      "schedule": {
+        "kind": "cron",
+        "expr": "30 0 * * *",
+        "tz": "Australia/Melbourne"
+      },
+      "sessionTarget": "main",
+      "wakeMode": "now",
+      "payload": {
+        "kind": "systemEvent",
+        "text": "## 0. EOD BLOCK CHECK\nIf /Users/ainchorsangiefpl/.openclaw/workspace/state/eod-blocked-$(date +%Y-%m-%d).json exists, exit 0. Do not proceed.\n\nDRIVE_SYNC: Use the exec tool to run: zsh /Users/ainchorsangiefpl/.openclaw/workspace/scripts/drive-sync.sh. If any failures: use the exec tool to invoke 'bash /Users/ainchorsangiefpl/.openclaw/workspace/scripts/sovereign-alert.sh --source DRIVE_SYNC --message DRIVE_SYNC_FAILED' to send Telegram to Ken (8574109706). No reply if all passed."
+      },
+      "state": {
+        "nextRunAtMs": 1783434600000,
+        "lastRunAtMs": 1783348209227,
+        "lastRunStatus": "ok",
+        "lastStatus": "ok",
+        "lastDurationMs": 2,
+        "lastDeliveryStatus": "not-requested",
+        "consecutiveErrors": 0,
+        "consecutiveSkipped": 0,
+        "lastFailureNotificationDeliveryStatus": "not-requested"
+      },
+      "status": "ok"
     },
     {
       "id": "123f8375-a42e-4db2-b846-6c93ed644dd1",
@@ -2317,6 +2167,96 @@
       "status": "ok"
     },
     {
+      "id": "9b190d3e-c320-43f4-a05f-59a8709af451",
+      "name": "AInchors Weekly Compliance Report (Mon 09:00)",
+      "enabled": true,
+      "createdAtMs": 1779423663484,
+      "updatedAtMs": 1783292423311,
+      "agentId": "main",
+      "sessionKey": "agent:main:dashboard:b691f8db-985e-4a52-8693-74887ea61b9d",
+      "schedule": {
+        "kind": "cron",
+        "expr": "0 9 * * 1",
+        "tz": "Australia/Melbourne"
+      },
+      "sessionTarget": "isolated",
+      "wakeMode": "now",
+      "payload": {
+        "kind": "agentTurn",
+        "message": "WEEKLY_COMPLIANCE_REPORT: Run /Users/ainchorsangiefpl/.openclaw/workspace/scripts/rule-audit-report.sh. Send the generated Telegram flash to 8574109706 via announce, then announce the webchat embed for canvas/documents/rule-audit-weekly/index.html.\n\n⛔ CRITICAL — ALL FILE WRITES GO THROUGH cron-write.sh. Do NOT use the native write tool for paths outside ~/.openclaw/workspace/. ⛔",
+        "model": "ollama/deepseek-v4-flash:cloud",
+        "fallbacks": [
+          "ollama/gemma4:31b-cloud",
+          "ollama/kimi-k2.6:cloud"
+        ],
+        "timeoutSeconds": 300
+      },
+      "delivery": {
+        "mode": "announce",
+        "channel": "telegram",
+        "to": "8574109706"
+      },
+      "state": {
+        "nextRunAtMs": 1783897200000,
+        "lastRunAtMs": 1783292400045,
+        "lastRunStatus": "ok",
+        "lastStatus": "ok",
+        "lastDurationMs": 23266,
+        "lastDeliveryStatus": "delivered",
+        "consecutiveErrors": 0,
+        "consecutiveSkipped": 0,
+        "lastFailureNotificationDeliveryStatus": "not-requested",
+        "lastDelivered": true
+      },
+      "status": "ok"
+    },
+    {
+      "id": "573d34e4-fa63-4a09-86af-f061cfe47d25",
+      "name": "Spark LinkedIn — Mon 12:00 AEST Fallback Draft (Tue post)",
+      "description": "FALLBACK DRAFT: Mon 12:00 AEST. Only runs if Sat batch missed. Drafts Tue post only.",
+      "enabled": true,
+      "createdAtMs": 1781512803639,
+      "updatedAtMs": 1783303215274,
+      "agentId": "main",
+      "schedule": {
+        "kind": "cron",
+        "expr": "0 12 * * 1",
+        "tz": "Australia/Melbourne"
+      },
+      "sessionTarget": "isolated",
+      "wakeMode": "now",
+      "payload": {
+        "kind": "agentTurn",
+        "message": "Spark ✨ — Mon 12:00 AEST FALLBACK DRAFT for Tuesday's post.\n\n## CHECK IF NEEDED\nRead /Users/ainchorsangiefpl/.openclaw/workspace/state/linkedin-campaign.json. If this week's Tuesday post already has status=approved or status=drafted, output \"FALLBACK SKIPPED: Tuesday post already drafted\" and stop.\n\n## IF NEEDED: Draft Tuesday's post only\n1. Read /Users/ainchorsangiefpl/.openclaw/workspace/.openclaw/tmp/spark-reactivation-4week-arc.md\n2. Identify the Tuesday post for current week from the arc\n3. Draft full post (250-450 words) + ChatGPT image prompt\n4. Voice rules: NO em-dashes, NO internal mentions, NO \"co-founder\", NO finite time, NO consulting-speak. First-person Ken, practitioner, Australian.\n5. Save to /Users/ainchorsangiefpl/.openclaw/workspace/social-drafts/\n6. Run governance gate\n7. Telegram Ken (8574109706) with draft + image prompt + verdict\n8. Update linkedin-campaign.json\n\nModel: ollama/minimax-m3:cloud. Timeout 300s.",
+        "model": "ollama/kimi-k2.6:cloud",
+        "timeoutSeconds": 180
+      },
+      "delivery": {
+        "mode": "announce",
+        "channel": "telegram",
+        "to": "8574109706"
+      },
+      "failureAlert": {
+        "after": 1,
+        "channel": "telegram",
+        "to": "8574109706",
+        "cooldownMs": 3600000
+      },
+      "state": {
+        "nextRunAtMs": 1783908000000,
+        "lastRunAtMs": 1783303204107,
+        "lastRunStatus": "ok",
+        "lastStatus": "ok",
+        "lastDurationMs": 11167,
+        "lastDeliveryStatus": "delivered",
+        "lastFailureNotificationDeliveryStatus": "not-requested",
+        "consecutiveErrors": 0,
+        "consecutiveSkipped": 0,
+        "lastDelivered": true
+      },
+      "status": "ok"
+    },
+    {
       "id": "38d77d14-a535-4a62-8352-85f6c1776983",
       "name": "AInchors Monthly Model Strategy Review",
       "enabled": true,
@@ -2520,7 +2460,7 @@
       "label": "not requested",
       "detail": "not requested"
     },
-    "d3b1e203-741b-444a-9852-7bb8839d2c99": {
+    "c65ace85-c5b0-4e96-ace6-ae925812c09b": {
       "label": "not requested",
       "detail": "not requested"
     },
@@ -2528,11 +2468,11 @@
       "label": "not requested",
       "detail": "not requested"
     },
-    "a89d00ef-6d96-4aaf-8759-504c4ac72a3c": {
+    "d3b1e203-741b-444a-9852-7bb8839d2c99": {
       "label": "not requested",
       "detail": "not requested"
     },
-    "c65ace85-c5b0-4e96-ace6-ae925812c09b": {
+    "a89d00ef-6d96-4aaf-8759-504c4ac72a3c": {
       "label": "not requested",
       "detail": "not requested"
     },
@@ -2556,13 +2496,13 @@
       "label": "not requested",
       "detail": "not requested"
     },
-    "35c8cd08-10db-4356-a34f-e104472120fb": {
-      "label": "none -> telegram:8574109706",
-      "detail": "explicit"
-    },
     "065bd5a9-2888-41ca-bc0e-7771f2dfa565": {
       "label": "not requested",
       "detail": "not requested"
+    },
+    "35c8cd08-10db-4356-a34f-e104472120fb": {
+      "label": "none -> telegram:8574109706",
+      "detail": "explicit"
     },
     "68bf32c0-ad24-4796-9308-4f41427f1f91": {
       "label": "not requested",
@@ -2604,6 +2544,10 @@
       "label": "not requested",
       "detail": "not requested"
     },
+    "13b0aa89-0185-43cd-864f-8cc1767382a2": {
+      "label": "announce -> telegram:8574109706",
+      "detail": "explicit"
+    },
     "0afc4d20-11d8-4d23-9fd8-ab7b9aabffe0": {
       "label": "not requested",
       "detail": "not requested"
@@ -2636,15 +2580,11 @@
       "label": "announce -> telegram:8574109706",
       "detail": "explicit"
     },
-    "9b190d3e-c320-43f4-a05f-59a8709af451": {
-      "label": "announce -> telegram:8574109706",
-      "detail": "explicit"
-    },
     "5d581442-ca2e-48d0-a5a1-e1ffe2b418a0": {
       "label": "not requested",
       "detail": "not requested"
     },
-    "573d34e4-fa63-4a09-86af-f061cfe47d25": {
+    "070e093f-0058-4bd4-a97f-4c6b91893d0e": {
       "label": "announce -> telegram:8574109706",
       "detail": "explicit"
     },
@@ -2692,14 +2632,6 @@
       "label": "not requested",
       "detail": "not requested"
     },
-    "13b0aa89-0185-43cd-864f-8cc1767382a2": {
-      "label": "announce -> telegram:8574109706",
-      "detail": "explicit"
-    },
-    "070e093f-0058-4bd4-a97f-4c6b91893d0e": {
-      "label": "announce -> telegram:8574109706",
-      "detail": "explicit"
-    },
     "123f8375-a42e-4db2-b846-6c93ed644dd1": {
       "label": "announce -> telegram:8574109706",
       "detail": "explicit"
@@ -2731,6 +2663,14 @@
     "d1c03b59-7ed1-407a-a7c9-b95e39d6151f": {
       "label": "not requested",
       "detail": "not requested"
+    },
+    "9b190d3e-c320-43f4-a05f-59a8709af451": {
+      "label": "announce -> telegram:8574109706",
+      "detail": "explicit"
+    },
+    "573d34e4-fa63-4a09-86af-f061cfe47d25": {
+      "label": "announce -> telegram:8574109706",
+      "detail": "explicit"
     },
     "38d77d14-a535-4a62-8352-85f6c1776983": {
       "label": "announce -> telegram:8574109706",

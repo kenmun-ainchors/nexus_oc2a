@@ -4,8 +4,8 @@
   "description": "ONE file for all LinkedIn content state. Replaces linkedin-queue.json, linkedin-content-tracker.json, content-queue.json (social entries only). Blog entries remain in content-queue.json.",
   "createdAt": "2026-05-19T10:39:00+10:00",
   "createdBy": "Yoda (CHG consolidation)",
-  "lastUpdated": "2026-07-05T19:12:40.191238+10:00",
-  "lastUpdatedBy": "yoda",
+  "lastUpdated": "2026-07-06T21:31:24+10:00",
+  "lastUpdatedBy": "Spark",
   "agent": "Spark",
   "api": {
     "enabled": true,
@@ -97,27 +97,6 @@
     "rule": "External-facing only. NO mentions of AInchors, Yoda, Nexus, agent names, or platform internals."
   },
   "queued": [
-    {
-      "id": "LI-W4-P10",
-      "title": "What I do differently now",
-      "slot": "Tue 8 Jul 07:30 AEST",
-      "week": 4,
-      "movement": "IV. The Shift",
-      "postNumber": 1,
-      "status": "approved",
-      "draftTriggeredAt": "2026-07-05T19:12:40.191238+10:00",
-      "draftTriggeredBy": "Yoda direct generation (Ken request 2026-07-05)",
-      "approvedAt": "2026-07-05T19:12:40.191238+10:00",
-      "approvedBy": "Ken Mun (Telegram direct request)",
-      "draftFile": "social-drafts/LI-W4-P10-what-i-do-differently-now.md",
-      "imageFile": "social-drafts/images/LI-W4-P10.jpg",
-      "imageReady": true,
-      "imagePrompt": "Two side-by-side workspaces: on the left, a cluttered desk with multiple open notebooks and a stressed energy; on the right, the same desk transformed into a clean minimal setup with one notebook, one tool, and a plant, soft natural light, muted palette with the right side warmer and brighter, editorial split-composition photography, transformation mood. Square 1:1 format, no text, no logos, professional quality.",
-      "governanceVerdict": "CLEARED (previously batch-drafted)",
-      "imageAssetUrn": "urn:li:image:D5610AQEATUk3fNi0Cg",
-      "type": "original",
-      "account": "ken"
-    },
     {
       "id": "LI-W4-P11",
       "title": "Discipline beats motivation",
@@ -518,6 +497,33 @@
       "publishedAt": "2026-06-24T00:52:47Z",
       "approvedBy": "Angie Foong (Telegram)",
       "sourceUrl": "https://techcentral.co.za/ai-agents-are-coming-to-your-visa-card/"
+    },
+    {
+      "id": "LI-W4-P10",
+      "title": "What I do differently now",
+      "slot": "Tue 8 Jul 07:30 AEST",
+      "week": 4,
+      "movement": "IV. The Shift",
+      "postNumber": 1,
+      "status": "posted",
+      "draftTriggeredAt": "2026-07-05T19:12:40.191238+10:00",
+      "draftTriggeredBy": "Yoda direct generation (Ken request 2026-07-05)",
+      "approvedAt": "2026-07-05T19:12:40.191238+10:00",
+      "approvedBy": "Ken Mun (Telegram direct request)",
+      "draftFile": "social-drafts/LI-W4-P10-what-i-do-differently-now.md",
+      "imageFile": "social-drafts/images/LI-W4-P10.jpg",
+      "imageReady": true,
+      "imagePrompt": "Two side-by-side workspaces: on the left, a cluttered desk with multiple open notebooks and a stressed energy; on the right, the same desk transformed into a clean minimal setup with one notebook, one tool, and a plant, soft natural light, muted palette with the right side warmer and brighter, editorial split-composition photography, transformation mood. Square 1:1 format, no text, no logos, professional quality.",
+      "governanceVerdict": "CLEARED (previously batch-drafted)",
+      "imageAssetUrn": "urn:li:image:D5610AQEATUk3fNi0Cg",
+      "type": "original",
+      "account": "ken",
+      "postedBy": "Spark (cron 13b0aa89)",
+      "postUrn": "urn:li:share:7480010492241924096",
+      "postUrl": "https://www.linkedin.com/posts/activity-7480010492241924096/",
+      "postedAt": "2026-07-06T21:31:24+10:00",
+      "lastUpdatedAt": "2026-07-06T21:31:24+10:00",
+      "lastUpdatedBy": "Spark (cron 13b0aa89)"
     }
   ],
   "skipped": [

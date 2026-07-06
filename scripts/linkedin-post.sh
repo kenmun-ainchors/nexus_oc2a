@@ -516,7 +516,7 @@ fi
 
 # Map visibility: CONNECTIONS → "CONNECTIONS", PUBLIC → "PUBLIC"
 # Clean up any stale payload files from previous runs (mktemp collision guard)
-rm -f /tmp/li_payload_*.json 2>/dev/null; true
+rm -f /tmp/li_payload_*.json 2>/dev/null || true
 PAYLOAD_FILE=$(mktemp /tmp/li_payload_XXXXXX.json)
 
 python3 - "$POST_TEXT" "$VISIBILITY" "$AUTHOR_URN" "$PAYLOAD_FILE" "$IMAGE_ASSET_URN" "$ACCOUNT" << 'PYEOF'
