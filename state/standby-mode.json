@@ -1,0 +1,16 @@
+{
+  "active": true,
+  "reason": "Anthropic API unreachable \u2014 billing exhausted or auth failure",
+  "since": "2026-07-07T22:14:34+10:00",
+  "detectedAt": "2026-07-08T00:04:38+10:00",
+  "fallback": "gemma4:26b (local)",
+  "chainStatus": "ok",
+  "banner": "\u26a0\ufe0f STANDBY MODE \u2014 Anthropic API unavailable. Fallback: gemma4:26b (local). Ken alerted.",
+  "recoverySteps": [
+    "1. Check API billing at console.anthropic.com",
+    "2. Top up credit if exhausted",
+    "3. Verify auth key: zsh scripts/get-secret.sh anthropic-api-key | head -c 20",
+    "4. Run: zsh scripts/validate-fallback-chain.sh to confirm recovery",
+    "5. Delete state/standby-mode.json to clear standby banner"
+  ]
+}
