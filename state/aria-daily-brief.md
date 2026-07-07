@@ -1,3 +1,52 @@
+## Tuesday, July 7, 2026 — Business Stream Summary
+_Written 23:45 AEST by Aria cron — verified 2026-07-07T13:45Z_
+
+### Angie interactions today
+- **No Angie activity today.** Last Angie interaction was Monday 6 July at ~18:16 AEST (4 decisions pending: headline option, booking link, content sprint approval, lead magnet title). Session `agent:business:telegram:direct:8141152780` last updated 6 Jul — no user messages today. Evidence: sessions_history seq 30 is the last assistant message (18:16 AEST Jul 6), no new user messages on Jul 7.
+
+### Decisions made
+- **Standup Day 74 — SENT ✅**: Sent at 08:15 AEST. Canvas size: 19,993 bytes. Message ID: `19f397fd04e25a03`. Recipients: kenmun@gmail.com, angie.foong@ainchors.com. Evidence: state/standup-email-log.json dayNumber:74, status:ok.
+- **CHG-0829 (LinkedIn Publish Pipeline Model Fix) — CLOSED ✅**: 3 crons updated (Wed 12:00, Thu 07:30, Sat 12:00) from minimax-m3 to deepseek-v4-flash/kimi-k2.6. CHANGELOG set to committed,verified,closed. Evidence: infra subagent session 94410e1b at 2026-07-07.
+- **CHG-0828 (backup health check + journal skeleton) — CLOSED ✅**: Cron payload fixed, backup-health-check.sh UTC Z parsing fixed, journal-generate.sh skeleton creation added. CHANGELOG closed. Evidence: infra subagent session 7b2a3cb8 at 2026-07-07.
+- **LinkedIn P10 missing body root cause — DIAGNOSED ✅**: Draft file LI-W4-P10-what-i-do-differently-now.md had no opening `---` delimiter before body text. Extraction logic captured only hashtag line. Fix: add `---` delimiters around body. Evidence: infra subagent session 9c905322 at 2026-07-07.
+- **linkedin-post.sh atomic_write dep — FIXED ✅**: Removed failing `atomic_write` Python import, replaced with stdlib-only atomic write using tempfile+os.replace. Evidence: infra subagent session 82135b8b at 2026-07-07.
+- **CHG-0830 (retention cleanup script) — BUILT ✅**: Forge built retention-cleanup.sh (384 lines), Sage verified GO (conditional on pairing with cleanup script). CHG-0831 (sessions cleanup config + cron) also built. Evidence: infra subagent sessions a6ae05f5, d35b4f50; platform-arch session 06727f18; QA session a29672ae.
+- **CHG-0831 (sessions maintenance config) — CLOSED ✅**: session.maintenance config added to openclaw.json (mode: enforce, pruneAfter: 30d, maxEntries: 500, maxDiskBytes: 2gb). Run-openclaw-sessions-cleanup.sh wrapper created. 43,522 unreferenced artifacts (~404.5 MB) removed. Agents disk dropped from 2.8 GB → 2.3 GB. Evidence: infra subagent session 02725aae at 2026-07-07.
+- **Warden escalation DRIFT-20260705100703 — RESOLVED ✅**: Status updated to `resolved-false-positive` on 6 Jul 17:08 AEST. state/warden-escalation-pending.json shows 0 active violations, acknowledged by yoda, resolved by yoda. Evidence: state/warden-escalation-pending.json read 2026-07-07T23:45 AEST.
+
+### Governance reviews
+- **Shield 🛡️ — CLEAR**: Daily sweep at ~22:00 AEST. Session `bf255be6` output: "SHIELD: clear". Evidence: session list lastRun 2026-07-07.
+- **Lex ⚖️ — CLEAR**: Daily sweep at ~22:05 AEST. Session `d07d7952` output: "LEX: clear". Evidence: session list lastRun 2026-07-07.
+- **Sage 🧪 — CLEAR**: Daily sweep at ~22:10 AEST. Session `d51dd047` output: "SAGE: clear". Evidence: session list lastRun 2026-07-07.
+- **Aria CREST — COMPLIANT ✅**: 0 violations, 0 warnings. Last check 2026-07-07T22:49 AEST. Evidence: state/aria-crest-compliance.json read 2026-07-07.
+- **Heartbeat (23:30 AEST) — ALL GREEN ✅**: All 17 checks OK. Email/calendar/cost/cron/OWL/CREST all green. No standby mode, no dead-letter. Evidence: state/heartbeat-state.json lastHeartbeat 23:30 AEST, allOk:true.
+- **Health check — DEGRADED ⚠️ (Anthropic key only)**: Status=degraded, exitCode=1. Issue: "Anthropic API key missing from keychain". 0 consecutive failures. Gateway/ollama/disk all OK. Anthropic not used by business stream — no impact. Evidence: state/health-state.json lastCheck 23:44, anthropicReachable:false.
+- **Cron health — ALL CLEAN ✅**: 0 failures, 0 warnings. Evidence: state/cron-health-state.json checkedAt 2026-07-07T23:30 AEST.
+- **Daily Burn Alert — SILENT**: Ollama 4.7% weekly (6,352 / 30,000). Below all thresholds. Evidence: ollama-usage.json 20:00 AEST, 6,352 requests, 4.7%.
+- **Auto-heal (01:00 AEST) — COMPLETE WITH NEEDS KEN**: 50 checks, 3 issues (tilde-path, cron-timeout), 1 auto-fix (git-commit 18 files). Needs Ken: TKT-0336, TKT-0339, TKT-0332. Evidence: state/auto-heal-2026-07-07.json exit_status complete_with_needs_ken.
+
+### Open items (verified)
+- **Angie 4 decisions pending — ⏸️ AWAITING ANGIE (2nd day)**: Headline option, booking link, content sprint approval, lead magnet title. Session ended 18:16 AEST Mon 6 Jul awaiting reply. Evidence: sessions_history seq 29-30 (assistant last message). No new messages today.
+- **Act 680 proposal (MYR 1,550,000) — ⏸️ PENDING ANGIE FORWARD**: Last contact 3 Jul. Angie engaged Mon 6 Jul on monetisation but did not mention forwarding to Dr. Sheila. Evidence: sessions_history no mention of Act 680 in Jul 6 messages.
+- **LinkedIn publish pipeline — ⚠️ LIKELY FIXED (CHG-0829)**: 3 publish crons updated from minimax-m3 to deepseek-v4-flash. P10 missing-body issue diagnosed. **LI-W4-P11 (Wed 9 Jul) and LI-W4-P12 (Thu 10 Jul) are both approved with images ready.** Next test: Wed 9 Jul 12:00 AEST publish. Also: LI-W4-P10 posted Tue morning successfully (2 reactions as of 10:00 metrics snapshot). Evidence: linkedin-campaign.json queued entries verified, infra sessions 94410e1b and 9c905322.
+- **Ad-hoc LinkedIn post (three hard lessons) — ⏸️ STILL LOCKED (12 days)**: state/adhoc-content-state.json status `locked_in_pending_publish`. Locked since Jun 25. Evidence: state/adhoc-content-state.json read 2026-07-07.
+- **Ken training confirmation (MSG-20260601-001) — ⏸️ 36 DAYS STALE**: relay-to-ken.json `sent: true`, no response from Ken. Evidence: relay-to-ken.json read 2026-07-07.
+- **Google Calendar auth (relay-20260603-001) — ⏸️ STILL BROKEN (34 days)**: relay-to-ken.json `sent: false`. No progress. Evidence: relay-to-ken.json read 2026-07-07.
+- **Auto-heal Needs Ken (3 items) — ⚠️ PENDING (2nd day)**: TKT-0336 (tilde path), TKT-0339 (cron timeout scaler), TKT-0332 (sandbox boundary audit 323h stale). Evidence: state/auto-heal-2026-07-07.json.
+- **Day 71 blog post (ainchors-2026-07-04) — 📝 STILL UNPUBLISHED**: Draft committed Jul 4. Governance: Shield:CLEAR, Lex:CONDITIONAL, Sage:CONDITIONAL. Needs Yoda review. Evidence: carried forward from prior brief — governance status unchanged.
+- **Onboarding OB-PM-03 — ⏸️ STALLED**: No progress. BS-001 (JotForm/HRDF) and BS-002 (Lynn Huang/Finance) also stalled until Angie re-engages on business setup. Evidence: carried forward.
+- **Health degraded (Anthropic key) — ⚠️ NO IMPACT TO BUSINESS**: Degraded only because Anthropic API key missing from keychain. Business stream uses kimi/deepseek models, not affected. Gateway notified Ken via Telegram. Evidence: health-state.json anthropicReachable:false; gateway health check cron session `c65ace85` alerted Ken.
+
+### Handoff to Yoda
+- **🎯 Angie hasn't replied since Mon 18:16 AEST — 2 days without response.** The 4 decisions (headline, booking link, content sprint, lead magnet) are still pending. She may re-engage tomorrow or Thursday. Nudge threshold: ~9 Jul (7+ days from 2 Jul heartbeat nudge).
+- **✅ LinkedIn pipeline has best chance yet to work.** CHG-0829 model fix applied. P10 missing-body cause diagnosed. LI-W4-P11 publishes Wed 12:00 AEST — first real test of the fixed pipeline. Yoda should watch for success/failure.
+- **🔴 LinkedIn publish pipeline test tomorrow (Wed 9 Jul 12:00).** If LI-W4-P11 posts successfully, the pipeline is fixed. If not, publish crons may still be silently failing — needs root cause deeper than model assignment.
+- **✅ CHG-0830 and CHG-0831 both delivered today.** Retention cleanup script built, Sage verified, sessions maintenance config applied. 404.5 MB of unreferenced artifacts removed. Agents disk dropped from 2.8 GB → 2.3 GB.
+- **✅ Standup Day 74 sent successfully.** Standup email on track.
+- **⚠️ Auto-heal needs-ken runs 2nd day without Ken attention.** 3 items (tilde-path, timeout scaler, stale sandbox audit). Not time-critical but Yoda should mention to Ken.
+- **⚠️ Health state shows "degraded" but only due to missing Anthropic key.** No business impact. Gateway health cron already alerted Ken.
+- **Day 71 blog post still unpublished** — same state as last 2 days.
+
 ## Sunday, July 5, 2026 — Business Stream Summary
 _Written 23:45 AEST by Aria cron — verified 2026-07-05T13:45Z_
 
