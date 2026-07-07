@@ -1,3 +1,64 @@
+## 2026-07-07 20:34 AEST — [CHG-0830] Session, transcript, and task retention policy + cleanup (bloat remediation)
+**Type:** infra
+**Change Type:** Normal
+**Source:** ken-prompt
+**Trigger:** Ken observed 475 active sessions / 8,963 tracked tasks / 14.16 GB session files and approved CREST-driven fix
+**What changed:** Define and implement retention policy for OpenClaw sessions, transcripts, and task/queue DBs; add automated cleanup cron; executed initial manual cleanup; added retention-cleanup.sh with dry-run/apply/report modes
+**Why:** Platform bloat from unbounded session/transcript/task accumulation causes sluggishness and context overload
+**Verification:** Verified with before/after counts and disk usage
+**Verification Evidence (2026-07-07 21:52 AEST):**
+- `~/.openclaw/agents/main/sessions`: 128,309 files → 22,347 files; 8.9 GB → 1.8 GB
+- Total `~/.openclaw/agents`: 9.9 GB → 2.8 GB
+- Disk `/System/Volumes/Data`: 46% used (200 Gi) → 44% used (192 Gi)
+- `retention-cleanup.sh --report` post-cleanup: 0 trajectory candidates, 39,648 session JSONL candidates (422.6 MiB), 2 orphan task-queue entries
+- Duplicate concurrent cleanup processes killed (9 pids); one controlled `--apply` completed
+- Daily retention cleanup cron added: cron:176cd48b-0afd-4111-be37-850040c7316f (03:00 AEST)
+- Weekly retention report cron added: cron:f1fc5b97-896b-46c2-b3d4-016508b1a09d (Monday 05:00 AEST)
+**Status:** committed,verified,closed
+**Rollback:** Remove crons cron:176cd48b-0afd-4111-be37-850040c7316f and cron:f1fc5b97-896b-46c2-b3d4-016508b1a09d; restore files from nightly-gateway-restart snapshots if needed
+**Linked:** Telegram context bloat, CHG-0818, cron:176cd48b-0afd-4111-be37-850040c7316f, cron:f1fc5b97-896b-46c2-b3d4-016508b1a09d, scripts/retention-cleanup.sh, state/chg-0830-retention-architecture-brief.md
+---
+
+## 2026-07-07 09:16 AEST — [CHG-0829] LinkedIn publish crons using unavailable minimax-m3:cloud model
+**Type:** config
+**Change Type:** Normal
+**Source:** incident-recovery
+**Trigger:** Aria daily brief flagged LinkedIn publish pipeline broken; P7/P8 missed, P11/P12 at risk
+**What changed:** Wed 12:00 publish cron (833ee0c7), Thu 07:30 publish cron (869502c9), and Sat 12:00 batch draft cron (1cb0c7ff) model changed from ollama/minimax-m3:cloud to ollama/deepseek-v4-flash:cloud (publish) and ollama/kimi-k2.6:cloud (batch draft) per Spark model policy
+**Why:** minimax-m3:cloud is not registered in the local Ollama remote cache and OpenClaw preflight fails with 'local provider endpoint not reachable at 127.0.0.1:11434'. Spark model policy (state/model-policy.json) lists allowed models as kimi-k2.6:cloud, gemma4:31b-cloud, deepseek-v4-pro:cloud and cheap model deepseek-v4-flash:cloud. The Tue publish cron already uses deepseek-v4-flash:cloud and works. Aligning Wed/Thu publish crons to the same cheap model fixes the pipeline; batch draft uses Spark primary kimi-k2.6:cloud.
+**Verification:** P10 posted successfully via Tue cron using deepseek-v4-flash:cloud; ollama list confirms minimax-m3:cloud missing; cron run history shows Wed cron skipped since 25 Jun with minimax preflight failure
+**Rollback:** Restore previous cron payloads from state/cron-list-snapshot.json
+**Linked:** cron:833ee0c7-499b-4133-b4fd-1a4309e773fa, cron:869502c9-a16c-49cf-915f-0ba57bb97bc0, cron:1cb0c7ff-4eac-4993-be3a-40aa3d1b6f7d, state/model-policy.json, state/linkedin-campaign.json
+**Status:** committed,verified,closed
+**Verification Evidence (2026-07-07 09:16 AEST):**
+- Cron 833ee0c7: payload.model updated from ollama/minimax-m3:cloud to ollama/deepseek-v4-flash:cloud. Payload message text updated to reflect Model: ollama/deepseek-v4-flash:cloud. Timeout 180s preserved.
+- Cron 869502c9: payload.model updated from ollama/minimax-m3:cloud to ollama/deepseek-v4-flash:cloud. Payload message text updated similarly. Timeout 180s preserved.
+- Cron 1cb0c7ff: payload.model was already ollama/kimi-k2.6:cloud (correct). Payload message text updated from Model: ollama/minimax-m3:cloud to Model: ollama/kimi-k2.6:cloud. Timeout 239s preserved.
+- All three crons verified via `openclaw cron get`: payload.model confirmed correct, message text confirmed correct, no minimax-m3 references remain.
+- Dry-run: no actual posting performed; model policy aligns with Spark model policy (state/model-policy.json).
+
+## 2026-07-07 08:26 AEST — [CHG-0828] Backup health false positive + stale TZ-DRIFT delivery
+**Type:** config
+**Change Type:** Normal
+**Source:** incident-recovery
+**Trigger:** Telegram alert at 08:10 AEST: BACKUP stale age 495382h + stale TZ-DRIFT report from 23:10 AEST Jul 6
+**What changed:** Cron 80c9226b stops overwriting state/backup-state.json with a 4-field LLM-generated schema; backup-health-check.sh parses UTC Z timestamps as UTC, not local time; EOD journal finalizer creates a skeleton journal if inline appender left no file
+**Why:** The shell-direct backup cron explicitly wrote state/backup-state.json after scripts/backup.sh, clobbering the correct schema and causing the health checker to read unknown for lastBackup/lastSnap. The health checker used date -j -f ...Z which macOS treats as local time, inflating age by the TZ offset. The EOD finalizer assumed journal-YYYY-MM-DD.md already existed from inline appends; on low-activity days it did not, causing TZ-DRIFT to flag a missing journal.
+**Verification:** Manual restoration of state/backup-state.json + run of backup-health-check.sh → exit 0; manual backfill of memory/journal-2026-07-06.md + run of tz-drift-monitor.sh → exit 0
+**Rollback:** Restore previous cron payload from cron-list-snapshot.json; revert scripts/backup-health-check.sh and scripts/journal-generate.sh from git
+**Linked:** cron:80c9226b-eb86-4c40-a291-8ff3a505e775, cron:4d926b2c-3551-4324-aa9b-81fcaf26ca75, scripts/backup.sh, scripts/backup-health-check.sh, scripts/journal-generate.sh, scripts/journal-append.sh
+**Status:** committed,verified,closed
+**Verification Evidence (2026-07-07 08:28 AEST):**
+- Cron 80c9226b payload updated: removed "Write backup timestamp to .../state/backup-state.json" instruction. Now only runs backup.sh + incident-log.sh on failure.
+- Cron 4d926b2c payload updated: Step 0 wording reflects that journal-generate.sh creates skeleton file when missing.
+- scripts/backup-health-check.sh: UTC Z branch now uses `TZ=UTC date -j -f "%Y-%m-%dT%H:%M:%S"` to parse as UTC, not local AEST. +10:00/+11:00 and YYYY-MM-DD-HHMM branches unchanged.
+- scripts/journal-generate.sh: If journal file does not exist, creates a skeleton with header "# Journal — ${TARGET_DATE}" and note that EOD finalizer auto-created it because inline appender did not run. Then continues with existing size check.
+- `bash scripts/backup-health-check.sh` → "BACKUP: healthy (snap: workspace-2026-07-07-0805, age: 0h, size: 4.7G, files: 369149)" exit 0.
+- `zsh scripts/tz-drift-monitor.sh` → "Drifts found: 0" exit 0.
+- `bash -n scripts/backup-health-check.sh` → clean.
+- `bash -n scripts/journal-generate.sh` → clean.
+- State file state/backup-state.json intact with correct schema (lastBackup: 2026-07-06T22:05:26Z, 8 fields).
+
 ## 2026-07-05 22:10 AEST — [CHG-0830] Fix Warden live-session model check false positive for infra/Forge
 **Type:** script
 **Change Type:** Normal
