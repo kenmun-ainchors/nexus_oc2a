@@ -679,9 +679,36 @@ def build_post_url(post_urn, account, org_id):
             canonical_url = f'https://www.linkedin.com/feed/update/{post_urn}/'
         return canonical_url, legacy_url if canonical_url != legacy_url else None
 
+def write_json_atomic(path, data):
+    """Atomic JSON write using stdlib only.
+    Writes to temp file in same dir, then renames atomically.
+    """
+    import tempfile as _tf
+    target_dir = os.path.dirname(os.path.abspath(path))
+    os.makedirs(target_dir, exist_ok=True)
+    tmp = None
+    try:
+        fd, tmp = _tf.mkstemp(dir=target_dir, prefix='.campaign_atomic_', suffix='.tmp')
+        with os.fdopen(fd, 'w') as f:
+            json.dump(data, f, indent=2)
+            f.flush()
+            os.fsync(f.fileno())
+        os.replace(tmp, path)
+        dir_fd = os.open(target_dir, os.O_RDONLY | os.O_DIRECTORY)
+        try:
+            os.fsync(dir_fd)
+        finally:
+            os.close(dir_fd)
+        return True
+    except Exception:
+        if tmp is not None and os.path.exists(tmp):
+            try:
+                os.unlink(tmp)
+            except OSError:
+                pass
+        return False
+
 try:
-    sys.path.insert(0, os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), 'lib'))
-    from atomic_write import atomic_write_json as aw
     campaign_file, content_id, post_urn = sys.argv[1], sys.argv[2], sys.argv[3]
     account = sys.argv[4] if len(sys.argv) > 4 else 'ken'
     org_id = sys.argv[5] if len(sys.argv) > 5 else ''
@@ -717,7 +744,7 @@ try:
             break
     if updated:
         c['lastUpdated'] = now
-        ok = aw(campaign_file, c)
+        ok = write_json_atomic(campaign_file, c)
         print(f'  Campaign updated: {content_id} → postUrn={post_urn} postUrl={post_url}' if ok else f'  Campaign atomic write FAILED')
     else:
         print(f'  Campaign: contentId {content_id} not found in published or drafts')

@@ -34,7 +34,9 @@ if [[ "$LAST_BACKUP" == *"+10:00"* ]] || [[ "$LAST_BACKUP" == *"+11:00"* ]]; the
     CLEAN_TS=$(echo "$LAST_BACKUP" | sed 's/\([+-][0-9][0-9]\):\([0-9][0-9]\)$/\1\2/')
     BACKUP_EPOCH=$(date -j -f "%Y-%m-%dT%H:%M:%S%z" "$CLEAN_TS" +%s 2>/dev/null || echo "0")
 elif [[ "$LAST_BACKUP" == *"Z" ]]; then
-    BACKUP_EPOCH=$(date -j -f "%Y-%m-%dT%H:%M:%SZ" "${LAST_BACKUP}" +%s 2>/dev/null || echo "0")
+    # Parse as UTC — strip Z and use TZ=UTC so macOS date doesn't treat it as local AEST
+    CLEAN_TS="${LAST_BACKUP%Z}"
+    BACKUP_EPOCH=$(TZ=UTC date -j -f "%Y-%m-%dT%H:%M:%S" "$CLEAN_TS" +%s 2>/dev/null || echo "0")
 elif [[ "$LAST_BACKUP" =~ ^[0-9]{4}-[0-9]{2}-[0-9]{2}-[0-9]{4}$ ]]; then
     # Format: YYYY-MM-DD-HHMM (e.g. 2026-06-17-0805)
     PARSED=$(echo "$LAST_BACKUP" | sed 's/-\([0-9][0-9]\)\([0-9][0-9]\)$/ \1:\2/')

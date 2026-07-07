@@ -1,35 +1,24 @@
 {
-  "schema": "1.0",
-  "runAt": "2026-07-06T00:00:43Z",
-  "runAtLocal": "2026-07-06T10:00:00+10:00",
   "errors": [
     {
-      "contentId": "LI-W3-P7",
-      "postUrn": "urn:li:share:7476130633965568002",
-      "error": "404 Not Found",
-      "reason": "Post not yet published (approved but no postedAt)",
-      "account": "ken"
-    },
-    {
-      "contentId": "LI-W3-P8",
-      "postUrn": "urn:li:share:7476497246148591616",
-      "error": "404 Not Found",
-      "reason": "Post not yet published (approved but no postedAt)",
-      "account": "ken"
-    },
-    {
-      "contentId": "LI-W4-P10",
-      "postUrn": "urn:li:share:7476497246148591617",
-      "error": "404 Not Found",
-      "reason": "Post not yet published (approved but no postedAt)",
-      "account": "ken"
-    },
-    {
-      "contentId": "LI-W2-P4-visa-openai-company",
-      "postUrn": "urn:li:share:7475350130762731520",
-      "error": "resolved",
-      "reason": "Business account token refreshed; metrics now returning 0 reactions",
-      "account": "business"
+      "timestamp": "2026-07-07T00:00:44Z",
+      "run": "daily-metrics-snapshot",
+      "agent": "spark",
+      "postId": "LI-W3-P3",
+      "postUrn": "urn:li:share:7463404594140905473",
+      "error": "404",
+      "message": "Post not found (404) — URN may be invalid",
+      "note": "Deprecated post from old campaign. Closed per CHG-0515. Not applicable to Foundation Arc.",
+      "action": "skip",
+      "status": "expected"
     }
-  ]
+  ],
+  "snapshotMeta": {
+    "runAt": "2026-07-07T00:00:00Z",
+    "agent": "spark",
+    "interval": "24h",
+    "postsChecked": 19,
+    "postsOk": 18,
+    "postsErrored": 1
+  }
 }

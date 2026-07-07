@@ -2,25 +2,36 @@
   "crons": [
     {
       "name": "retention-cleanup-daily",
-      "description": "CHG-0830: Daily session/trajectory retention cleanup (03:00 AEST)",
+      "description": "CHG-0831: Daily session retention via OpenClaw canonical maintenance (03:00 AEST)",
       "schedule": "0 17 * * *",
       "timezone": "Australia/Sydney",
-      "command": "bash /Users/ainchorsangiefpl/.openclaw/workspace/scripts/retention-cleanup.sh --apply",
+      "command": "bash /Users/ainchorsangiefpl/.openclaw/workspace/scripts/run-openclaw-sessions-cleanup.sh --enforce",
       "agent": "infra",
       "model": "deepseek-v4-flash:cloud",
       "enabled": false,
-      "notes": "Enable after CHG-0830 approval. Runs daily at 03:00 AEST. UTC: 0 17 * * * = 03:00 AEST."
+      "notes": "CHG-0831: Now uses OpenClaw session.maintenance + openclaw sessions cleanup. retention-cleanup.sh is fallback only."
     },
     {
       "name": "retention-cleanup-report",
-      "description": "CHG-0830: Weekly retention cleanup audit report (Monday 05:00 AEST)",
+      "description": "CHG-0831: Weekly retention audit report via OpenClaw canonical maintenance (Monday 05:00 AEST)",
       "schedule": "0 19 * * 0",
       "timezone": "Australia/Sydney",
-      "command": "bash /Users/ainchorsangiefpl/.openclaw/workspace/scripts/retention-cleanup.sh --report",
+      "command": "bash /Users/ainchorsangiefpl/.openclaw/workspace/scripts/run-openclaw-sessions-cleanup.sh --report",
       "agent": "infra",
       "model": "deepseek-v4-flash:cloud",
       "enabled": false,
-      "notes": "Enable after CHG-0830 approval. Runs weekly Monday at 05:00 AEST. UTC: 0 19 * * 0 = 05:00 AEST Monday."
+      "notes": "CHG-0831: Weekly audit using OpenClaw session.maintenance dry-run."
+    },
+    {
+      "name": "retention-cleanup-canonical",
+      "description": "CHG-0831: Canonical session maintenance via OpenClaw session.maintenance config",
+      "schedule": "config-driven (auto)",
+      "timezone": "Australia/Sydney",
+      "command": "config: session.maintenance {mode:enforce, pruneAfter:30d, maxEntries:500, maxDiskBytes:2gb, highWaterBytes:1.6gb}",
+      "agent": "infra",
+      "model": "n/a",
+      "enabled": true,
+      "notes": "CHG-0831: Config-level session.maintenance at openclaw.json.session.maintenance. Runs automatically via Gateway. Daily cron: 176cd48b runs openclaw sessions cleanup --all-agents --enforce as enforcement pass."
     }
   ]
 }

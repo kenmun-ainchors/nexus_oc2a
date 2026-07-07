@@ -1,30 +1,24 @@
 {
-  "lastPoll": "2026-07-07T07:49:16+10:00",
-  "checks": {
-    "taskWatchdog": "ok (8 tasks healthy)",
-    "sessionModelDrift": "ok (kimi-k2.7-code:cloud, no drift)",
-    "mainSessionContext": "ok (no dashboard session)",
-    "mainSessionResume": "ok (all sessions alive)",
-    "owlCompliance": "ok (100%)",
-    "cronHealth": "ok (no dead letters, no stale procs)",
-    "ariaCrest": "COMPLIANT (0 violations)",
-    "healthState": "ok (gateway/ollama/disk/all ok)",
-    "taskVerification": "acknowledged, no new alerts",
-    "requestBudgetCheck": "ok (1.6% used, 147,169 remaining)",
-    "standbyMode": "disabled",
-    "systemBanner": "disabled"
-  },
-  "generatedAt": "2026-07-07T07:49:16+10:00",
+  "schema": "heartbeat-state-v1",
+  "lastHeartbeat": "2026-07-07T21:49:19+10:00",
   "lastChecks": {
-    "owlCompliance": "2026-07-07T07:49:14+10:00",
-    "sessionModelDrift": "2026-07-07T07:49:14+10:00",
-    "mainSessionContext": "2026-07-07T07:49:14+10:00",
-    "mainSessionResume": "2026-07-07T07:49:14+10:00",
-    "cronHealth": "2026-07-07T07:49:14+10:00",
-    "ariaCrest": "2026-07-07T07:49:16+10:00",
-    "healthState": "2026-07-07T07:49:16+10:00",
-    "taskWatchdog": "2026-07-07T07:49:14+10:00",
-    "taskVerification": "2026-07-07T07:49:16+10:00",
-    "requestBudgetCheck": "2026-07-07T07:49:16+10:00"
-  }
+    "email": "2026-07-07T19:18:00+10:00",
+    "calendar": "2026-07-07T19:18:00+10:00",
+    "delegatedAuth": "2026-07-07T09:00:00+10:00",
+    "costState": "2026-07-07T21:49:19+10:00",
+    "taskWatchdog": "2026-07-07T21:49:19+10:00",
+    "sessionModelDrift": "2026-07-07T21:49:19+10:00",
+    "ariaCrest": "2026-07-07T21:49:19+10:00",
+    "mainSessionContext": "2026-07-07T21:49:19+10:00",
+    "mainSessionResume": "2026-07-07T21:49:19+10:00",
+    "cronHealth": "2026-07-07T21:49:19+10:00",
+    "cronDeadLetter": "2026-07-07T21:49:19+10:00",
+    "owlCompliance": "2026-07-07T21:49:19+10:00",
+    "budgetCheck": "2026-07-07T21:49:19+10:00",
+    "requestBudgetCheck": "2026-07-07T21:49:19+10:00",
+    "taskVerification": "2026-07-07T21:49:19+10:00",
+    "dodValidation": "2026-07-07T21:49:19+10:00",
+    "standbyMode": "2026-07-07T21:49:19+10:00"
+  },
+  "allOk": true
 }

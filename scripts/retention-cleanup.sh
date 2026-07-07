@@ -1,7 +1,12 @@
 #!/bin/bash
 # ============================================================================
 # Retention Cleanup – Session / Trajectory Bloat Remediation
-# CHG-0830 (Optimized)
+# CHG-0830 (Optimized) — DEPRECATED PRIMARY
+# ============================================================================
+# NOTE: This script is now a FALLBACK manual tool only.
+# Canonical session retention is handled by OpenClaw session.maintenance
+# config (CHG-0831). Use scripts/run-openclaw-sessions-cleanup.sh for the
+# current approach: openclaw sessions cleanup --all-agents --enforce.
 # ============================================================================
 # Default mode: dry-run (no files deleted)
 #   --apply   : actually delete eligible files

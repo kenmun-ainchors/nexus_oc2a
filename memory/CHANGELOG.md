@@ -1,3 +1,29 @@
+## 2026-07-07 22:06 AEST — [CHG-0831] Configure OpenClaw canonical session maintenance
+**Type:** infra
+**Change Type:** Normal
+**Source:** ken-prompt
+**Trigger:** Ken approved follow-up after discovering OpenClaw has built-in session.maintenance disk budget and openclaw sessions cleanup command
+**What changed:**
+1. `openclaw.json`: Added `session.maintenance` at root level — mode=enforce, pruneAfter=30d, maxEntries=500, resetArchiveRetention=30d, maxDiskBytes=2gb, highWaterBytes=1.6gb
+2. `scripts/run-openclaw-sessions-cleanup.sh`: Created wrapper that runs dry-run then enforce, logs to state/chg-0831-cleanup.log
+3. `scripts/retention-cleanup.sh`: Header updated noting it is now a fallback manual tool; canonical retention via session.maintenance
+4. Daily cron 176cd48b: Payload updated to run the new wrapper script instead of retention-cleanup.sh --apply
+5. Weekly report cron f1fc5b97: Payload updated to run wrapper with --report flag
+6. `state/chg-0830-cron-payloads.json`: Updated with new cron commands and canonical maintenance entry
+**Why:** Custom retention-cleanup.sh bypasses OpenClaw Gateway writer queue and uses find -mtime instead of sessions.json source of truth. Official session.maintenance + `openclaw sessions cleanup` is the documented best practice and safer.
+**Verification:** Completed 2026-07-07 22:08 AEST.
+- Dry-run: All 14 agents in enforce mode; maxDiskBytes=2GB (2147483648); 43,522 unreferenced artifact files identified for cleanup; uncovered reference artifacts up to 404.5MB
+- Enforce: All 14 stores applied successfully. 1 entry pruned (architect). 43,522 unreferenced artifact files removed (~404.5MB freed)
+- Disk before: 2.8G (~/.openclaw/agents). Disk after: 2.3G (500MB reduction). /System/Volumes/Data: 44% (unchanged, 192Gi used)
+- openclaw status: Gateway running (pid 16944). 14 agents. 473 sessions. No errors. All active sessions healthy.
+- cron 176cd48b: Updated payload, timeout 600s. Next run in 19h.
+- cron f1fc5b97: Updated payload, timeout 300s. Report-only mode.
+- Wrapper script created and executable. Log file initialised at state/chg-0831-cleanup.log.
+**Rollback:** Remove session.maintenance block from openclaw.json session; revert cron 176cd48b payload; restore retention-cleanup.sh header; delete run-openclaw-sessions-cleanup.sh
+**Linked:** TKT-0753,CHG-0830,scripts/retention-cleanup.sh,scripts/run-openclaw-sessions-cleanup.sh,state/chg-0831-cleanup.log
+**Status:** committed,verified,closed
+**Category:** infrastructure\n---
+
 ## 2026-07-07 20:34 AEST — [CHG-0830] Session, transcript, and task retention policy + cleanup (bloat remediation)
 **Type:** infra
 **Change Type:** Normal

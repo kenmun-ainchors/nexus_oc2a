@@ -1,5 +1,7 @@
 ## Draft
 
+---
+
 The rebuild gave me new habits. It also gave me permission to stop doing things that weren't working.
 
 Here is what I stopped.
@@ -29,8 +31,6 @@ Asking what the spec is before I ask what the prompt is. This sounds small. It c
 The shift from prompt engineering to spec engineering is the shift from treating AI as a tool to treating it as a system.
 
 Tools break. Systems survive.
-
----
 
 #AIinAustralia #BuildingInPublic #NewHabits
 

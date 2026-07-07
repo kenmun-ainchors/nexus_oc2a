@@ -11,9 +11,16 @@ echo "=== Journal Gap Check — TKT-0328 ==="
 echo "Target date: $TARGET_DATE"
 
 if [[ ! -f "$JOURNAL_FILE" ]]; then
-    echo "⚠️  No journal file for $TARGET_DATE. If there were interactions today, the journal is missing."
-    echo "JOURNAL_MISSING"
-    exit 2
+    echo "⚠️  No journal file for $TARGET_DATE. Creating skeleton — EOD finalizer ran but inline appender did not."
+    cat > "$JOURNAL_FILE" <<EOF
+# Journal — ${TARGET_DATE}
+
+*This journal was auto-created by the EOD finalizer because the inline appender did not run. No entries were recorded inline for this date.*
+
+## Session Overview (added by EOD finalizer)
+
+EOF
+    echo "Created skeleton journal at $JOURNAL_FILE"
 fi
 
 ENTRY_COUNT=$(grep -c '^## [0-9][0-9]:[0-9][0-9]' "$JOURNAL_FILE" 2>/dev/null || echo 0)
