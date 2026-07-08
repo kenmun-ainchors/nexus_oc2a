@@ -128,14 +128,14 @@ if [[ "$SESSION_DATA" == "NO_DASHBOARD_SESSION" ]]; then
   exit 0
 fi
 
-SESSION_KEY=$(echo "$SESSION_DATA" | python3 -c "import json,sys; print(json.load(sys.stdin)['sessionKey'])")
-SESSION_ID=$(echo "$SESSION_DATA" | python3 -c "import json,sys; print(json.load(sys.stdin)['sessionId'])")
-TOTAL_TOKENS=$(echo "$SESSION_DATA" | python3 -c "import json,sys; print(json.load(sys.stdin)['totalTokens'])")
-CONTEXT_TOKENS=$(echo "$SESSION_DATA" | python3 -c "import json,sys; print(json.load(sys.stdin)['contextTokens'])")
-INPUT_TOKENS=$(echo "$SESSION_DATA" | python3 -c "import json,sys; print(json.load(sys.stdin)['inputTokens'])")
-OUTPUT_TOKENS=$(echo "$SESSION_DATA" | python3 -c "import json,sys; print(json.load(sys.stdin)['outputTokens'])")
-MODEL_NAME=$(echo "$SESSION_DATA" | python3 -c "import json,sys; print(json.load(sys.stdin)['model'])")
-SESSION_SOURCE=$(echo "$SESSION_DATA" | python3 -c "import json,sys; print(json.load(sys.stdin)['source'])")
+SESSION_KEY=$(echo "$SESSION_DATA" | python3 -c "import json,sys; d=json.load(sys.stdin); print(d.get('sessionKey') or 'unknown')")
+SESSION_ID=$(echo "$SESSION_DATA" | python3 -c "import json,sys; d=json.load(sys.stdin); print(d.get('sessionId') or 'unknown')")
+TOTAL_TOKENS=$(echo "$SESSION_DATA" | python3 -c "import json,sys; d=json.load(sys.stdin); print(d.get('totalTokens') or 0)")
+CONTEXT_TOKENS=$(echo "$SESSION_DATA" | python3 -c "import json,sys; d=json.load(sys.stdin); print(d.get('contextTokens') or 262144)")
+INPUT_TOKENS=$(echo "$SESSION_DATA" | python3 -c "import json,sys; d=json.load(sys.stdin); print(d.get('inputTokens') or 0)")
+OUTPUT_TOKENS=$(echo "$SESSION_DATA" | python3 -c "import json,sys; d=json.load(sys.stdin); print(d.get('outputTokens') or 0)")
+MODEL_NAME=$(echo "$SESSION_DATA" | python3 -c "import json,sys; d=json.load(sys.stdin); print(d.get('model') or 'unknown')")
+SESSION_SOURCE=$(echo "$SESSION_DATA" | python3 -c "import json,sys; d=json.load(sys.stdin); print(d.get('source') or 'unknown')")
 
 # ── Compute derived metrics ─────────────────────────────────────────────────
 # Estimated messages: totalTokens / avgTokensPerMsg (rounded up)

@@ -1,24 +1,26 @@
 {
+  "fetchedAt": "2026-07-08T00:00:59Z",
   "errors": [
     {
-      "timestamp": "2026-07-07T00:00:44Z",
-      "run": "daily-metrics-snapshot",
-      "agent": "spark",
-      "postId": "LI-W3-P3",
+      "contentId": "LI-W3-P3",
       "postUrn": "urn:li:share:7463404594140905473",
       "error": "404",
-      "message": "Post not found (404) — URN may be invalid",
-      "note": "Deprecated post from old campaign. Closed per CHG-0515. Not applicable to Foundation Arc.",
-      "action": "skip",
-      "status": "expected"
+      "detail": "Post not found \u2014 URN may be invalid (closed post per campaign state)",
+      "timestamp": "2026-07-08T00:00:59Z"
+    },
+    {
+      "contentId": "LI-W2-P4-visa-openai-company",
+      "postUrn": "urn:li:share:7475350130762731520",
+      "error": "401",
+      "detail": "Token expired \u2014 business account auth needs refresh",
+      "timestamp": "2026-07-08T00:00:59Z"
+    },
+    {
+      "contentId": "LI-W4-P10",
+      "postUrn": "urn:li:share:7480010492241924096",
+      "error": "404",
+      "detail": "Post not found \u2014 URN may be invalid or post deleted",
+      "timestamp": "2026-07-08T00:00:59Z"
     }
-  ],
-  "snapshotMeta": {
-    "runAt": "2026-07-07T00:00:00Z",
-    "agent": "spark",
-    "interval": "24h",
-    "postsChecked": 19,
-    "postsOk": 18,
-    "postsErrored": 1
-  }
+  ]
 }

@@ -1,9 +1,9 @@
 {
-  "generated_at": "2026-07-07T21:58:38.661157+00:00",
-  "generated_at_aest": "2026-07-08 07:58 AEST",
+  "generated_at": "2026-07-08T10:50:25.333583+00:00",
+  "generated_at_aest": "2026-07-08 20:50 AEST",
   "period_hours": 24,
   "totals": {
-    "ERROR": 187,
+    "ERROR": 242,
     "WARN": 123,
     "INFO": 7
   },
@@ -15,6 +15,10 @@
     {
       "type": "standby_active",
       "count": 91
+    },
+    {
+      "type": "cron_run_fail",
+      "count": 55
     }
   ],
   "top_warnings": [
@@ -35,7 +39,7 @@
     "warns_pct_change": 2975.0
   },
   "worst_hour": {
-    "hour": "2026-07-07T16:00Z",
-    "cnt": 22
+    "hour": "2026-07-08T03:00Z",
+    "cnt": 35
   }
 }

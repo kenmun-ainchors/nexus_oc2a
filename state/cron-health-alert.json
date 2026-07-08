@@ -1,15 +1,48 @@
 {
-  "generatedAt": "2026-07-03T11:12:15.015728+00:00",
+  "generatedAt": "2026-07-08T02:49:21.646909+00:00",
   "failures": [
     {
-      "cronId": "34880aaa",
-      "fullCronId": "34880aaa-6389-4982-8163-bd00b30fef17",
-      "name": "Memory Dreaming Promotion",
-      "consecutiveErrors": 6,
+      "cronId": "d3b1e203",
+      "fullCronId": "d3b1e203-741b-444a-9852-7bb8839d2c99",
+      "name": "AInchors Observability Collector (systemEvent)",
+      "consecutiveErrors": 5,
+      "lastError": "error",
+      "source": "live-cron-state"
+    },
+    {
+      "cronId": "d32f2b9a",
+      "fullCronId": "d32f2b9a-6caa-4878-8de6-93a0bd1eb03e",
+      "name": "AInchors Mission Control Refresh (systemEvent)",
+      "consecutiveErrors": 5,
+      "lastError": "error",
+      "source": "live-cron-state"
+    },
+    {
+      "cronId": "a89d00ef",
+      "fullCronId": "a89d00ef-6d96-4aaf-8759-504c4ac72a3c",
+      "name": "AInchors Task Queue Processor (5-min \u2014 systemEvent)",
+      "consecutiveErrors": 5,
+      "lastError": "error",
+      "source": "live-cron-state"
+    },
+    {
+      "cronId": "637ecb12",
+      "fullCronId": "637ecb12-eae2-4c16-b174-8acdaa2729cc",
+      "name": "AInchors Task Monitor (systemEvent)",
+      "consecutiveErrors": 5,
+      "lastError": "error",
+      "source": "live-cron-state"
+    },
+    {
+      "cronId": "c65ace85",
+      "fullCronId": "c65ace85-c5b0-4e96-ace6-ae925812c09b",
+      "name": "AInchors Gateway Health Check (silent)",
+      "consecutiveErrors": 5,
       "lastError": "error",
       "source": "live-cron-state"
     }
   ],
   "warnings": [],
-  "acknowledged": true
+  "acknowledged": true,
+  "note": "Auto-acknowledged by heartbeat 2026-07-08 13:36 AEST \u2014 live cron state shows all 5 crons healthy (consecutiveErrors=0). Alert file was stale from earlier check."
 }

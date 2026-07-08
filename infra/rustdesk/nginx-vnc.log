@@ -1,3 +1,0 @@
-2026/05/11 08:33:14 [alert] 65226#0: *1 setsockopt(TCP_NODELAY) failed (22: Invalid argument), client: 100.91.60.36, server: 100.91.60.36:5900
-2026/05/11 08:33:30 [alert] 65226#0: *2 setsockopt(TCP_NODELAY) failed (22: Invalid argument), client: 100.91.60.36, server: 100.91.60.36:5900
-2026/05/11 08:33:56 [alert] 65318#0: *3 kevent() reported about an closed connection (9: Bad file descriptor) while proxying and reading from client, client: 100.91.60.36, server: 100.91.60.36:5900, upstream: "127.0.0.1:5900", bytes from/to client:0/0, bytes from/to upstream:0/0

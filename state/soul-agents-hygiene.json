@@ -1,16 +1,16 @@
 {
-  "overall": "PASS",
-  "generatedAt": "2026-06-19T23:11:17+1000",
+  "overall": "WARN",
+  "generatedAt": "2026-07-08T20:59:29+1000",
   "summary": {
-    "pass": 13,
-    "warnings": 0,
+    "pass": 8,
+    "warnings": 6,
     "fail": 0,
-    "total": 13
+    "total": 14
   },
   "agents": [
     {
       "agentId": "main",
-      "dir": ".",
+      "dir": "/Users/ainchorsangiefpl/.openclaw/workspace",
       "status": "PASS",
       "soulSize": 3261,
       "messages": [
@@ -19,34 +19,53 @@
     },
     {
       "agentId": "business",
-      "dir": "business",
+      "dir": "/Users/ainchorsangiefpl/.openclaw/workspace-business",
       "status": "PASS",
-      "soulSize": 1995,
+      "soulSize": 1160,
       "messages": [
         ""
       ]
     },
     {
-      "agentId": "architect",
-      "dir": "architect",
+      "agentId": "security",
+      "dir": "/Users/ainchorsangiefpl/.openclaw/workspace-security",
+      "status": "WARN",
+      "soulSize": 4061,
+      "messages": [
+        "SOUL.md size 4061 > warn limit 4000",
+        "missing ## Hard Limits section"
+      ]
+    },
+    {
+      "agentId": "legal",
+      "dir": "/Users/ainchorsangiefpl/.openclaw/workspace-legal",
+      "status": "WARN",
+      "soulSize": 2526,
+      "messages": [
+        "missing ## Hard Limits section"
+      ]
+    },
+    {
+      "agentId": "qa",
+      "dir": "/Users/ainchorsangiefpl/.openclaw/workspace-qa",
       "status": "PASS",
-      "soulSize": 1872,
+      "soulSize": 3296,
       "messages": [
         ""
       ]
     },
     {
-      "agentId": "platform-arch",
-      "dir": "platform-arch",
-      "status": "PASS",
-      "soulSize": 1829,
+      "agentId": "governance",
+      "dir": "/Users/ainchorsangiefpl/.openclaw/workspace-governance",
+      "status": "WARN",
+      "soulSize": 1538,
       "messages": [
-        ""
+        "missing ## Hard Limits section"
       ]
     },
     {
       "agentId": "infra",
-      "dir": "infra",
+      "dir": "/Users/ainchorsangiefpl/.openclaw/workspace-infra",
       "status": "PASS",
       "soulSize": 1062,
       "messages": [
@@ -54,8 +73,44 @@
       ]
     },
     {
+      "agentId": "architect",
+      "dir": "/Users/ainchorsangiefpl/.openclaw/workspace-architect",
+      "status": "PASS",
+      "soulSize": 1877,
+      "messages": [
+        ""
+      ]
+    },
+    {
+      "agentId": "platform-arch",
+      "dir": "/Users/ainchorsangiefpl/.openclaw/workspace-platform-arch",
+      "status": "PASS",
+      "soulSize": 1788,
+      "messages": [
+        ""
+      ]
+    },
+    {
+      "agentId": "biz-process",
+      "dir": "/Users/ainchorsangiefpl/.openclaw/workspace-bpm",
+      "status": "WARN",
+      "soulSize": 2929,
+      "messages": [
+        "missing ## Hard Limits section"
+      ]
+    },
+    {
+      "agentId": "change-mgt",
+      "dir": "/Users/ainchorsangiefpl/.openclaw/workspace-dtcm",
+      "status": "WARN",
+      "soulSize": 3523,
+      "messages": [
+        "missing ## Hard Limits section"
+      ]
+    },
+    {
       "agentId": "ahsoka",
-      "dir": "agents/ahsoka",
+      "dir": "/Users/ainchorsangiefpl/.openclaw/workspace-ahsoka",
       "status": "PASS",
       "soulSize": 2139,
       "messages": [
@@ -63,64 +118,19 @@
       ]
     },
     {
+      "agentId": "luthen",
+      "dir": "/Users/ainchorsangiefpl/.openclaw/workspace-luthen",
+      "status": "WARN",
+      "soulSize": 2119,
+      "messages": [
+        "missing ## Hard Limits section"
+      ]
+    },
+    {
       "agentId": "social",
-      "dir": "spark",
+      "dir": "/Users/ainchorsangiefpl/.openclaw/workspace-social",
       "status": "PASS",
       "soulSize": 3338,
-      "messages": [
-        ""
-      ]
-    },
-    {
-      "agentId": "biz-process",
-      "dir": "biz-process",
-      "status": "PASS",
-      "soulSize": 1552,
-      "messages": [
-        ""
-      ]
-    },
-    {
-      "agentId": "change-mgt",
-      "dir": "change-mgt",
-      "status": "PASS",
-      "soulSize": 1779,
-      "messages": [
-        ""
-      ]
-    },
-    {
-      "agentId": "security",
-      "dir": "security",
-      "status": "PASS",
-      "soulSize": 1174,
-      "messages": [
-        ""
-      ]
-    },
-    {
-      "agentId": "legal",
-      "dir": "legal",
-      "status": "PASS",
-      "soulSize": 1099,
-      "messages": [
-        ""
-      ]
-    },
-    {
-      "agentId": "qa",
-      "dir": "qa",
-      "status": "PASS",
-      "soulSize": 961,
-      "messages": [
-        ""
-      ]
-    },
-    {
-      "agentId": "governance",
-      "dir": "governance",
-      "status": "PASS",
-      "soulSize": 1660,
       "messages": [
         ""
       ]

@@ -1,3 +1,39 @@
+## 2026-07-08 20:59 AEST — [CHG-0834] Fix db-ticket.sh create-from-json broken tickets.json mirror block
+**Type:** script
+**Change Type:** Normal
+**Source:** auto-heal
+**Trigger:** Repeated silent failures creating tickets via db-ticket.sh create-from-json; all attempts returned exit 1 and ticket not found in PG
+**What changed:** Repair malformed if-block in cmd_create_from_json that placed emit_event/entity_links inside the tickets.json mirror block; move event/link logic outside; add bash -n syntax check and functional test
+**Why:** Ticket creation is a core workflow; silent failure blocks CHG and task tracking
+**Verification:** Pending: bash -n scripts/db-ticket.sh passes; create-from-json test creates and reads back a ticket
+**Rollback:** git revert for scripts/db-ticket.sh
+**Linked:** CHG-0832, CHG-0833, pg-sprint-backlog
+---
+
+## 2026-07-08 20:57 AEST — [CHG-0833] SOUL.md hard-limits hygiene pass for 6 agents
+**Type:** agent
+**Change Type:** Normal
+**Source:** scheduled
+**Trigger:** Residual WARNs from CHG-0832 hygiene check: security, legal, governance, biz-process, change-mgt, luthen missing ## Hard Limits
+**What changed:** Add ## Hard Limits section to SOUL.md for 6 agents: security, legal, governance, biz-process, change-mgt, luthen
+**Why:** Close residual hygiene WARNs from CHG-0832 so all agents meet SOUL.md structure contract
+**Verification:** Pending: hygiene check shows zero WARNs for all 14 agents
+**Rollback:** git revert for the 6 SOUL.md edits
+**Linked:** CHG-0832, TKT-0342, docs/ADR-agent-instruction-ssot.md
+---
+
+## 2026-07-08 20:23 AEST — [CHG-0832] Agent Instruction SSOT Implementation — hygiene, sync, LinkedIn contract
+**Type:** infra
+**Change Type:** Normal
+**Source:** ken-prompt
+**Trigger:** Ken approved CREST plan 2026-07-08 20:23 AEST
+**What changed:** Fix soul-agents-hygiene-check.sh to read openclaw.json; add sync-agent-instructions.sh; install pre-commit hook; add LinkedIn draft-format contract + validator; reconcile stale workspace/agents/ overlay into workspace-<name>/ SSOT
+**Why:** Eliminate 3-layer instruction divergence and prevent LinkedIn parser regression
+**Verification:** Planned only; verification via fixed hygiene PASS, shadow load, validator test, 7-day drift check
+**Rollback:** git revert for scripts; restore workspace/agents/ from backup if overlay cleanup fails; remove pre-commit hook
+**Linked:** TKT-0342, ADR-001, PA_Agent-Instruction-SSOT-Platform-Design
+---
+
 ## 2026-07-07 22:06 AEST — [CHG-0831] Configure OpenClaw canonical session maintenance
 **Type:** infra
 **Change Type:** Normal
