@@ -55,7 +55,6 @@ CHECK_ollama="unknown"
 CHECK_disk="ok"
 CHECK_health_state="ok"
 CHECK_cost_state="ok"
-CHECK_anthropic="unknown"
 CHECK_ollamaApi="unknown"
 OVERALL_STATUS="ok"
 ISSUES=()
@@ -141,36 +140,6 @@ check_state_age() {
 check_state_age "$STATE_FILE" "health-state"
 check_state_age "$COST_STATE" "cost-state"
 
-# ── CHECK 13: Anthropic API reachability ────────────────────────────────────
-# Read from auth-profiles.json (source of truth for gateway key) with keychain as fallback
-ANTHROPIC_KEY=$(jq -r '.profiles["anthropic:default"].key // empty' /Users/ainchorsangiefpl/.openclaw/agents/main/agent/auth-profiles.json 2>/dev/null || security find-generic-password -s "anthropic-api-key" -a "ainchors" -w 2>/dev/null || security find-generic-password -s "anthropic-api-key" -w 2>/dev/null || echo "")
-if [[ -n "$ANTHROPIC_KEY" && ${#ANTHROPIC_KEY} -gt 20 ]]; then
-  ANTHROPIC_HTTP=$(curl -s -o /dev/null -w "%{http_code}" \
-    --connect-timeout 8 \
-    -H "x-api-key: $ANTHROPIC_KEY" \
-    -H "anthropic-version: 2023-06-01" \
-    "https://api.anthropic.com/v1/models" 2>/dev/null)
-  if [[ "$ANTHROPIC_HTTP" == "200" ]]; then
-    CHECK_anthropic="ok"
-    ANTHROPIC_REACHABLE=1
-    log "CHECK anthropic: OK (HTTP $ANTHROPIC_HTTP)"
-  else
-    CHECK_anthropic="failure"
-    ANTHROPIC_REACHABLE=0
-    [[ "$OVERALL_STATUS" == "ok" ]] && OVERALL_STATUS="degraded"
-    ISSUES+=("Anthropic API unreachable (HTTP $ANTHROPIC_HTTP) — billing or auth failure")
-    log "CHECK anthropic: FAIL (HTTP $ANTHROPIC_HTTP) — billing or auth failure"
-  fi
-else
-  CHECK_anthropic="no-key"
-  ANTHROPIC_REACHABLE=0
-  [[ "$OVERALL_STATUS" == "ok" ]] && OVERALL_STATUS="degraded"
-  ISSUES+=("Anthropic API key missing from keychain")
-  log "CHECK anthropic: FAIL (key not in keychain)"
-  # Trigger outage handler (non-blocking)
-  zsh "$HOME/.openclaw/workspace/scripts/outage-handler.sh" >> "$HOME/Backups/ainchors/logs/health.log" 2>&1 &
-fi
-
 # ── CHECK 14: Ollama API reachability ────────────────────────────────────────
 OLLAMA_HTTP=$(curl -s -o /dev/null -w "%{http_code}" \
   --connect-timeout 5 \
@@ -185,46 +154,6 @@ else
   [[ "$OVERALL_STATUS" == "ok" ]] && OVERALL_STATUS="degraded"
   ISSUES+=("Ollama API unreachable (HTTP $OLLAMA_HTTP)")
   log "CHECK ollamaApi: FAIL (HTTP $OLLAMA_HTTP)"
-fi
-
-# ── CHECK 15: Gemma4 standby mode management ─────────────────────────────────
-STANDBY_FILE="$HOME/.openclaw/workspace/state/standby-mode.json"
-if [[ "$ANTHROPIC_REACHABLE" == "0" ]]; then
-  # Anthropic down — activate standby if not already active
-  SINCE_TS=$(TZ=Australia/Melbourne date +%Y-%m-%dT%H:%M:%S%z)
-  if [[ -f "$STANDBY_FILE" ]]; then
-    # Already in standby — preserve original 'since' timestamp
-    SINCE_TS=$(python3 -c "import json; d=json.load(open('$STANDBY_FILE')); print(d.get('since','$SINCE_TS'))" 2>/dev/null || echo "$SINCE_TS")
-  else
-    # First detection — fire API-independent alert immediately (TKT-0113)
-    log "ALERT: Anthropic API down — firing fallback Telegram alert (TKT-0113)"
-    bash "$HOME/.openclaw/workspace/scripts/telegram-alert.sh" \
-      --message "🚨 Anthropic API UNREACHABLE\n\nTime: $(date)\nHTTP: $ANTHROPIC_HTTP\n\nStandby mode activating. Check billing at console.anthropic.com\nAuto-reload active — if balance is fine, may be a transient outage.\n\nCHG-0799: Routing to Ken + Angie" \
-      --recipients "8574109706,8141152780" --silent >> "$LOG" 2>&1 \
-      || log "WARNING: Telegram fallback alert failed"
-  fi
-  python3 - << PYEOF2
-import json
-state = {
-  "active": True,
-  "reason": "Anthropic API unreachable",
-  "since": "$SINCE_TS",
-  "fallback": "gemma4"
-}
-json.dump(state, open("$STANDBY_FILE", "w"), indent=2)
-print("Standby mode ACTIVATED — fallback: gemma4")
-PYEOF2
-  log "CHECK standby: ACTIVATED — Anthropic down, fallback=gemma4"
-else
-  # Anthropic OK — clear standby and outage state if they were set
-  if [[ -f "$STANDBY_FILE" ]]; then
-    rm -f "$STANDBY_FILE"
-    rm -f "$HOME/.openclaw/workspace/state/outage-alert-state.json"
-    rm -f "$HOME/.openclaw/workspace/state/system-banner.json"
-    log "CHECK standby: CLEARED — Anthropic recovered, standby mode removed, banner cleared"
-  else
-    log "CHECK standby: OK (not in standby)"
-  fi
 fi
 
 # ── CHECK 16: Event loop health (gateway log) ───────────────────────────────
@@ -315,7 +244,8 @@ fi
 # ── CHECK 5: Stale lock files — clear if >LOCK_STALE_MIN old ─────────────────
 LOCK_CLEARED=0
 LOCK_FOUND=0
-for lock_file in "$LOCK_DIR"/*.lock; do
+# Use nullglob so zsh doesn't error on no matches
+for lock_file in "$LOCK_DIR"/*.lock(N); do
   [[ -e "$lock_file" ]] || continue
   [[ -f "$lock_file" ]] || continue
   LOCK_FOUND=$((LOCK_FOUND + 1))
@@ -382,13 +312,11 @@ state = {
   "alerted": $([[ "$ALERTED" == "true" ]] && echo 'True' || echo 'False'),
   "lastCheck": "$(TZ=Australia/Melbourne date +%Y-%m-%dT%H:%M:%S%z)",
   "issues": $(python3 -c "import json; print(json.dumps(${ISSUES[@]}))" 2>/dev/null || echo '[]'),
-  "anthropicReachable": False,
   "ollamaReachable": False,
   "checks": {
     "gateway": "critical",
     "ollama": "$CHECK_ollama",
     "disk": "$CHECK_disk",
-    "anthropicApi": "unknown",
     "ollamaApi": "unknown"
   }
 }
@@ -458,7 +386,6 @@ state = {
   "lastOk": "$(TZ=Australia/Melbourne date +%Y-%m-%dT%H:%M:%S%z)",
   "exitCode": $EXIT_CODE,
   "issues": $ISSUES_JSON,
-  "anthropicReachable": $([ "$ANTHROPIC_REACHABLE" = "1" ] && echo True || echo False),
   "ollamaReachable": $([ "$OLLAMA_API_REACHABLE" = "1" ] && echo True || echo False),
   "checks": {
     "gateway": "$CHECK_gateway",
@@ -467,7 +394,6 @@ state = {
     "healthStateAge": "$CHECK_health_state",
     "costStateAge": "$CHECK_cost_state",
     "staleLockFilesCleared": $LOCK_CLEARED,
-    "anthropicApi": "$CHECK_anthropic",
     "ollamaApi": "$CHECK_ollamaApi"
   }
 }

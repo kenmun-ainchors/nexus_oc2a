@@ -9,6 +9,13 @@
 #   - On refresh failure: emits clear re-auth command.
 #   - Logs every probe result to state/linkedin-token-health-{account}.json.
 #
+# CHG-0421 / TKT-0235: Robust markdown content extraction.
+#   - Handles three draft formats:
+#     A: body wrapped in --- delimiters (legacy)
+#     B: ## Draft + body + --- + hashtags + --- + ## Image Prompt (current Spark)
+#     C: ## Draft + --- + body + --- + hashtags + --- + ## Image Prompt (older Spark)
+#   - Extracts body text and hashtags, strips section headings and --- separators.
+#
 # Usage:
 #   linkedin-post.sh --text "post content" [--visibility PUBLIC|CONNECTIONS] [--image-asset-urn urn:li:image:XXX] [--dry-run]
 #   linkedin-post.sh --content-file /path/to/draft.md [--image-asset-urn urn:li:image:XXX] [--dry-run]
@@ -27,6 +34,9 @@
 set -euo pipefail
 
 WORKSPACE="/Users/ainchorsangiefpl/.openclaw/workspace"
+# Local scratch area for temp files (macOS mktemp-safe)
+TMP_DIR="$WORKSPACE/.openclaw/tmp"
+mkdir -p "$TMP_DIR"
 # LinkedIn auth state lives in PG state_linkedin table — use db-read.sh as SSOT
 DB_READ="$WORKSPACE/scripts/db-read.sh"
 POSTS_ENDPOINT="https://api.linkedin.com/rest/posts"
@@ -370,31 +380,98 @@ if [[ -n "$CONTENT_FILE" ]]; then
 import sys
 with open(sys.argv[1]) as f:
     content = f.read()
-# Extract clean body between --- delimiters, stop at ## Hashtags/## Metadata
+
+# CHG-0421 / TKT-0235: Robust markdown content extraction.
+# Handles three draft formats:
+#   A: body wrapped in --- delimiters (legacy)
+#   B: ## Draft + body + --- + hashtags + --- + ## Image Prompt (current Spark)
+#   C: ## Draft + --- + body + --- + hashtags + --- + ## Image Prompt (older Spark)
+#
+# Strategy: find the first ## Draft heading (if present), then collect body lines
+# until we hit a --- separator that is followed by hashtags or ## Image Prompt.
+# If no ## Draft heading, fall back to legacy --- delimiter extraction.
+
 lines = content.split('\n')
-body, in_body, hashtag_line, found_delimiters = [], False, '', False
-for line in lines:
-    s = line.strip()
-    if s == '---':
-        in_body = not in_body
-        found_delimiters = True
-        continue
-    if in_body:
-        if s.startswith('## Hashtags') or s.startswith('## Metadata'): break
-        # Skip section marker headings (## DRAFT, ## CONTENT, etc.) — not post content
-        if s.startswith('## '): continue
-        if s.startswith('#') and not s.startswith('##'):
-            hashtag_line = line
-        body.append(line)
-if not found_delimiters:
-    print('ERROR: No --- delimiters found in content file. Cannot post. Wrap post body in --- delimiters.', file=sys.stderr)
+body_lines = []
+hashtag_line = ''
+
+# Check if this is a ## Draft format (Format B or C)
+draft_idx = None
+for i, line in enumerate(lines):
+    if line.strip().lower().startswith('## draft'):
+        draft_idx = i
+        break
+
+if draft_idx is not None:
+    # Format B or C: start collecting after ## Draft
+    # Skip the ## Draft line itself
+    collecting = False
+    for i in range(draft_idx + 1, len(lines)):
+        s = lines[i].strip()
+        # Skip blank lines immediately after ## Draft
+        if not collecting and not s:
+            continue
+        # If we hit a --- separator, check what follows
+        if s == '---':
+            # Peek ahead to see if next non-blank line is a hashtag or ## Image Prompt
+            peek = None
+            for j in range(i + 1, len(lines)):
+                ps = lines[j].strip()
+                if ps:
+                    peek = ps
+                    break
+            if peek and (peek.startswith('#') and not peek.startswith('## ')):
+                # This --- is the separator before hashtags — stop collecting body
+                # The hashtag line is the peek
+                hashtag_line = peek
+                break
+            if peek and peek.startswith('## Image Prompt'):
+                # This --- is the separator before ## Image Prompt — stop
+                break
+            # Otherwise this --- is a body delimiter (Format C), toggle collecting
+            collecting = not collecting
+            continue
+        # Stop at ## Image Prompt or other ## sections that aren't body
+        if s.startswith('## '):
+            # If we haven't started collecting yet, this is a heading we skip
+            # If we're collecting, headings stop the body
+            if collecting:
+                break
+            continue
+        # Collect body lines
+        collecting = True
+        body_lines.append(lines[i])
+else:
+    # Format A (legacy): body wrapped in --- delimiters
+    in_body = False
+    found_delimiters = False
+    for line in lines:
+        s = line.strip()
+        if s == '---':
+            in_body = not in_body
+            found_delimiters = True
+            continue
+        if in_body:
+            if s.startswith('## Hashtags') or s.startswith('## Metadata'):
+                break
+            if s.startswith('## '):
+                continue
+            if s.startswith('#') and not s.startswith('##'):
+                hashtag_line = line
+            body_lines.append(line)
+    if not found_delimiters:
+        print('ERROR: No --- delimiters found in content file. Cannot post. Wrap post body in --- delimiters.', file=sys.stderr)
+        sys.exit(1)
+
+if not body_lines:
+    print('ERROR: No content found in draft file.', file=sys.stderr)
     sys.exit(1)
-if not body:
-    print('ERROR: No content found between --- delimiters.', file=sys.stderr)
-    sys.exit(1)
-if hashtag_line and hashtag_line not in body:
-    body.append(hashtag_line)
-print('\n'.join(body).strip())
+
+# Append hashtag line if not already in body
+if hashtag_line and hashtag_line not in body_lines:
+    body_lines.append(hashtag_line)
+
+print('\n'.join(body_lines).strip())
 " "$CONTENT_FILE")
 elif [[ -z "$POST_TEXT" ]]; then
   echo "❌ --content-file or --text required." >&2; exit 1
@@ -516,8 +593,8 @@ fi
 
 # Map visibility: CONNECTIONS → "CONNECTIONS", PUBLIC → "PUBLIC"
 # Clean up any stale payload files from previous runs (mktemp collision guard)
-rm -f /tmp/li_payload_*.json 2>/dev/null || true
-PAYLOAD_FILE=$(mktemp /tmp/li_payload_XXXXXX.json)
+rm -f "$TMP_DIR"/li_payload.* 2>/dev/null || true
+PAYLOAD_FILE=$(mktemp "$TMP_DIR/li_payload.XXXXXX")
 
 python3 - "$POST_TEXT" "$VISIBILITY" "$AUTHOR_URN" "$PAYLOAD_FILE" "$IMAGE_ASSET_URN" "$ACCOUNT" << 'PYEOF'
 import json, sys
@@ -589,7 +666,7 @@ fi
 
 echo "  Posting to LinkedIn as $LABEL..."
 
-HEADER_FILE=$(mktemp /tmp/li_headers_XXXXXX.txt)
+HEADER_FILE=$(mktemp "$TMP_DIR/li_headers.XXXXXX")
 
 HTTP_RESPONSE=$(curl -s -D "$HEADER_FILE" -w "\n__HTTP_STATUS__%{http_code}" \
   -X POST "$POSTS_ENDPOINT" \

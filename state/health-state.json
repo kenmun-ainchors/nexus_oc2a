@@ -1,15 +1,12 @@
 {
-  "status": "degraded",
-  "overallStatus": "degraded",
+  "status": "ok",
+  "overallStatus": "ok",
   "consecutiveFailures": 0,
   "alerted": false,
-  "lastCheck": "2026-07-08T00:59:40+1000",
-  "lastOk": "2026-07-08T00:59:40+1000",
-  "exitCode": 1,
-  "issues": [
-    "Anthropic API key missing from keychain"
-  ],
-  "anthropicReachable": false,
+  "lastCheck": "2026-07-08T07:57:44+1000",
+  "lastOk": "2026-07-08T07:57:44+1000",
+  "exitCode": 0,
+  "issues": [],
   "ollamaReachable": true,
   "checks": {
     "gateway": "ok",
@@ -18,7 +15,6 @@
     "healthStateAge": "ok",
     "costStateAge": "ok",
     "staleLockFilesCleared": 0,
-    "anthropicApi": "no-key",
     "ollamaApi": "ok"
   }
 }

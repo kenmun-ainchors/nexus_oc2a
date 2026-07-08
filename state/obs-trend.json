@@ -1,41 +1,41 @@
 {
-  "generated_at": "2026-07-07T14:58:29.833146+00:00",
-  "generated_at_aest": "2026-07-08 00:58 AEST",
+  "generated_at": "2026-07-07T21:58:38.661157+00:00",
+  "generated_at_aest": "2026-07-08 07:58 AEST",
   "period_hours": 24,
   "totals": {
-    "ERROR": 54,
-    "WARN": 37,
+    "ERROR": 187,
+    "WARN": 123,
     "INFO": 7
   },
   "top_errors": [
     {
       "type": "health_failure",
-      "count": 27
+      "count": 96
     },
     {
       "type": "standby_active",
-      "count": 27
+      "count": 91
     }
   ],
   "top_warnings": [
     {
       "type": "system_banner_active",
-      "count": 33
+      "count": 116
     },
     {
       "type": "auto_heal_needs_ken",
-      "count": 4
+      "count": 7
     }
   ],
   "trend": {
     "has_prev_data": true,
     "prev_errors": 0,
-    "prev_warns": 6,
+    "prev_warns": 4,
     "errors_pct_change": null,
-    "warns_pct_change": 516.7
+    "warns_pct_change": 2975.0
   },
   "worst_hour": {
-    "hour": "2026-07-07T13:00Z",
+    "hour": "2026-07-07T16:00Z",
     "cnt": 22
   }
 }

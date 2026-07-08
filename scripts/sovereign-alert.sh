@@ -28,6 +28,7 @@ FILE=""
 while [[ $# -gt 0 ]]; do
   case "$1" in
     --source)  SOURCE="$2"; shift 2 ;;
+    --message|-m)  MESSAGE="$2"; shift 2 ;;
     --message|-m) MESSAGE="$2"; shift 2 ;;
     --file|-f)   FILE="$2"; shift 2 ;;
     *) /bin/echo "❌ Unknown arg: $1" >&2; exit 1 ;;
