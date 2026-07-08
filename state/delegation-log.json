@@ -8942,10 +8942,20 @@
       "status": "fail",
       "latencyMs": 0,
       "notes": "warden check: violations detected (exit 2)"
+    },
+    {
+      "ts": "2026-07-09T00:08:52+10:00",
+      "date": "2026-07-09",
+      "tier": "T2",
+      "taskType": "warden-check",
+      "model": "ollama/gemma4:31b-cloud",
+      "status": "fail",
+      "latencyMs": 0,
+      "notes": "warden check: violations detected (exit 2)"
     }
   ],
   "summary": {
-    "total": 894,
+    "total": 895,
     "byTier": {
       "T1": {
         "pass": 0,
@@ -8954,7 +8964,7 @@
       },
       "T2": {
         "pass": 700,
-        "fail": 194,
+        "fail": 195,
         "timeout": 0
       },
       "T3": {
@@ -8966,7 +8976,7 @@
     "byTaskType": {
       "warden-check": {
         "pass": 682,
-        "fail": 194,
+        "fail": 195,
         "timeout": 0,
         "tier": "T2"
       },
