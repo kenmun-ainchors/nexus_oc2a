@@ -1,3 +1,16 @@
+## 2026-07-08 21:13 AEST — [CHG-0836] Fix health-check.sh bash/zsh lock-file glob compatibility — CLOSED
+**Type:** script
+**Change Type:** Normal
+**Source:** scheduled
+**Trigger:** health-check.sh line 248 fails under bash: 'for lock_file in "$LOCK_DIR"/*.lock(N)' uses zsh glob qualifier (N)
+**What changed:** Replaced zsh-only (N) glob loop with a bash/zsh-compatible find -print0 + read loop that enumerates regular .lock files in $LOCK_DIR; preserves existing skip, age-computation, stale-clear, and active-lock logic.
+**Why:** health-check.sh is invoked from multiple shells; bash cannot parse zsh glob syntax, causing script to abort mid-check
+**Verification:** 2026-07-08 21:09 AEST — `bash scripts/health-check.sh --summary` exit 0, no line 248 syntax error; `zsh scripts/health-check.sh --summary` exit 0, no line 248 syntax error. Commit 3d6d01d3.
+**Status:** committed,verified,closed
+**Rollback:** git revert 3d6d01d3
+**Linked:** TKT-0971, pg-sprint-backlog
+---
+
 ## 2026-07-08 21:00 AEST — [CHG-0835] CHG-0832 closure: SSOT cleanup finalized
 **Type:** infra
 **Change Type:** Normal
@@ -22,14 +35,15 @@
 **Linked:** CHG-0832, CHG-0833, pg-sprint-backlog, TKT-0970
 ---
 
-## 2026-07-08 20:57 AEST — [CHG-0833] SOUL.md hard-limits hygiene pass for 6 agents
+## 2026-07-08 21:13 AEST — [CHG-0833] SOUL.md hard-limits hygiene pass for 6 agents — CLOSED
 **Type:** agent
 **Change Type:** Normal
 **Source:** scheduled
 **Trigger:** Residual WARNs from CHG-0832 hygiene check: security, legal, governance, biz-process, change-mgt, luthen missing ## Hard Limits
-**What changed:** Add ## Hard Limits section to SOUL.md for 6 agents: security, legal, governance, biz-process, change-mgt, luthen
+**What changed:** Add ## Hard Limits section to SOUL.md for 6 agents: security, legal, governance, biz-process, change-mgt, luthen; trimmed non-essential content for security and change-mgt to stay under 5KB hard limit and 4KB warn threshold.
 **Why:** Close residual hygiene WARNs from CHG-0832 so all agents meet SOUL.md structure contract
-**Verification:** Pending: hygiene check shows zero WARNs for all 14 agents
+**Verification:** 2026-07-08 21:13 AEST — `zsh scripts/soul-agents-hygiene-check.sh` reports PASS: all 14 agent(s) meet SOUL/AGENTS hygiene (0 FAIL, 0 WARN); `zsh scripts/sync-agent-instructions.sh --fix` reports nothing to do. Per-agent commits: security b2760c9f, legal 0c264ff2, governance 8ca7b864, biz-process 8ca7b864, change-mgt 8ca7b864, luthen 8ca7b864.
+**Status:** committed,verified,closed
 **Rollback:** git revert for the 6 SOUL.md edits
 **Linked:** CHG-0832, TKT-0342, docs/ADR-agent-instruction-ssot.md, TKT-0969
 ---
