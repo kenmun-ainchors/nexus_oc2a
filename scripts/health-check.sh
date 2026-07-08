@@ -244,8 +244,14 @@ fi
 # ── CHECK 5: Stale lock files — clear if >LOCK_STALE_MIN old ─────────────────
 LOCK_CLEARED=0
 LOCK_FOUND=0
-# Use nullglob so zsh doesn't error on no matches
-for lock_file in "$LOCK_DIR"/*.lock(N); do
+# Bash/zsh-compatible stale lock cleanup (CHG-0836 / TKT-0971)
+# Build list via find to avoid zsh-only (N) glob qualifier.
+lock_files=()
+while IFS= read -r -d '' lock_file; do
+  lock_files+=("$lock_file")
+done < <(find "$LOCK_DIR" -maxdepth 1 -name '*.lock' -type f -print0 2>/dev/null)
+
+for lock_file in "${lock_files[@]}"; do
   [[ -e "$lock_file" ]] || continue
   [[ -f "$lock_file" ]] || continue
   LOCK_FOUND=$((LOCK_FOUND + 1))
