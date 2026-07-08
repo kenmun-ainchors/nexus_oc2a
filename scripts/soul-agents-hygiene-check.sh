@@ -31,7 +31,8 @@ WARNINGS=0
 REPORT=()
 
 # Build agent list dynamically from openclaw.json.
-# Each agent: id, workspace. main is remapped to WORKSPACE_ROOT.
+# Process each agent inside the read loop to avoid re-parsing delimiter issues.
+# Each line: id <tab> workspace <tab> name via jq @tsv.
 # jq must be available.
 if [[ ! -f "$OPENCLAW_CONFIG" ]]; then
   echo "❌ openclaw.json not found: $OPENCLAW_CONFIG" >&2
@@ -42,18 +43,8 @@ if ! command -v jq >/dev/null 2>&1; then
   exit 1
 fi
 
-# Read agents as newline-delimited id|workspace|name records.
-AGENT_RECORDS=()
 while IFS=$'\t' read -r aid ws_path _name; do
-  [[ -n "$aid" ]] && AGENT_RECORDS+=("${aid}|${ws_path}")
-done < <(jq -r '.agents.list[] | [.id, .workspace, .name] | @tsv' "$OPENCLAW_CONFIG")
-
-for rec in "${AGENT_RECORDS[@]}"; do
-  aid="${rec%%|*}"
-  ws_path="${rec#*|}"
-  aid="$(echo "$rec" | awk -F'\t' '{print $1}')"
-  ws_path="$(echo "$rec" | awk -F'\t' '{print $2}')"
-  # name unused for checks, but kept for possible future logging
+  [[ -z "$aid" ]] && continue
 
   if [[ "$aid" == "main" ]]; then
     dir="$WORKSPACE_ROOT"
@@ -124,7 +115,7 @@ for rec in "${AGENT_RECORDS[@]}"; do
     --argjson messages "$(printf '%s\n' "${messages[@]}" | jq -R . | jq -s .)" \
     '{agentId: $agentId, dir: $dir, status: $status, soulSize: ($soulSize | tonumber), messages: $messages}')
   REPORT+=("$entry")
-done
+done < <(jq -r '.agents.list[] | [.id, .workspace, .name] | @tsv' "$OPENCLAW_CONFIG")
 
 overall="PASS"
 if (( FAIL > 0 )); then
