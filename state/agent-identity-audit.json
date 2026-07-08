@@ -1,11 +1,11 @@
 {
-    "auditedAt": "2026-07-07T15:00:12Z",
-    "failures": 0,
+    "auditedAt": "2026-07-08T15:00:12Z",
+    "failures": 8,
     "results": [
         {
             "agent": "business",
-            "status": "ok_no_rules",
-            "issue": null
+            "status": "missing_workspace_dir",
+            "issue": "No workspace/business/ directory exists"
         },
         {
             "agent": "security",
@@ -19,8 +19,8 @@
         },
         {
             "agent": "qa",
-            "status": "ok_no_rules",
-            "issue": null
+            "status": "missing_workspace_dir",
+            "issue": "No workspace/qa/ directory exists"
         },
         {
             "agent": "governance",
@@ -29,8 +29,8 @@
         },
         {
             "agent": "infra",
-            "status": "ok",
-            "issue": null
+            "status": "missing_workspace_dir",
+            "issue": "No workspace/infra/ directory exists"
         },
         {
             "agent": "architect",
@@ -39,8 +39,8 @@
         },
         {
             "agent": "platform-arch",
-            "status": "ok_no_rules",
-            "issue": null
+            "status": "missing_workspace_dir",
+            "issue": "No workspace/platform-arch/ directory exists"
         },
         {
             "agent": "biz-process",
@@ -54,18 +54,18 @@
         },
         {
             "agent": "ahsoka",
-            "status": "ok_no_rules",
-            "issue": null
+            "status": "missing_workspace_dir",
+            "issue": "No workspace/ahsoka/ directory exists"
         },
         {
             "agent": "spark",
-            "status": "ok",
-            "issue": null
+            "status": "missing_workspace_dir",
+            "issue": "No workspace/spark/ directory exists"
         },
         {
             "agent": "atlas",
-            "status": "ok_no_rules",
-            "issue": null
+            "status": "missing_workspace_dir",
+            "issue": "No workspace/atlas/ directory exists"
         },
         {
             "agent": "thrawn",
@@ -74,8 +74,8 @@
         },
         {
             "agent": "forge",
-            "status": "ok",
-            "issue": null
+            "status": "missing_workspace_dir",
+            "issue": "No workspace/forge/ directory exists"
         }
     ]
 }

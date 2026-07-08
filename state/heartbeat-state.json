@@ -1,28 +1,16 @@
 {
-  "lastHeartbeat": "2026-07-09T00:25:00+10:00",
+  "lastHeartbeat": "2026-07-09T07:49:00+10:00",
+  "overall": "ok",
   "lastChecks": {
-    "email": "2026-07-08T23:30:00+10:00",
-    "calendar": "2026-07-08T23:30:00+10:00",
-    "delegatedAuth": "2026-07-08T23:30:00+10:00",
-    "costState": "2026-07-09T00:25:00+10:00",
-    "taskWatchdog": "2026-07-09T00:25:00+10:00",
-    "sessionModelDrift": "2026-07-09T00:25:00+10:00",
-    "ariaCrest": "2026-07-09T00:25:00+10:00",
-    "mainSessionContext": "2026-07-09T00:25:00+10:00",
-    "mainSessionResume": "2026-07-09T00:25:00+10:00",
-    "cronHealth": "2026-07-09T00:25:00+10:00",
-    "cronDeadLetter": "2026-07-09T00:25:00+10:00",
-    "owlCompliance": "2026-07-09T00:25:00+10:00",
-    "budgetCheck": "2026-07-09T00:25:00+10:00",
-    "requestBudgetCheck": "2026-07-09T00:25:00+10:00",
-    "taskVerification": "2026-07-09T00:25:00+10:00",
-    "dodValidation": "2026-07-09T00:25:00+10:00",
-    "standbyMode": "2026-07-09T00:25:00+10:00",
-    "blogVerification": "2026-07-08T06:49:00+10:00",
-    "chgTriggers": "2026-07-09T00:25:00+10:00",
-    "agentHealth": "2026-07-09T00:25:00+10:00",
-    "mainSessionContext": "2026-07-09T00:25:00+10:00",
-    "mainSessionResume": "2026-07-09T00:25:00+10:00"
-  },
-  "status": "ok"
+    "owlCompliance": "2026-07-09T07:49:15+10:00",
+    "cronHealth": "2026-07-09T07:49:15+10:00",
+    "taskWatchdog": "2026-07-09T07:49:15+10:00",
+    "sessionModelDrift": "2026-07-09T07:49:15+10:00",
+    "mainSessionContext": "2026-07-09T07:49:15+10:00",
+    "mainSessionResume": "2026-07-09T07:49:15+10:00",
+    "budgetCheck": "2026-07-09T07:49:00+10:00",
+    "requestBudgetCheck": "2026-07-09T07:49:00+10:00",
+    "ariaCrest": "2026-07-09T07:49:00+10:00",
+    "cronDeadLetter": "2026-07-09T07:49:00+10:00"
+  }
 }
