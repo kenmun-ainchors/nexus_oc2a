@@ -34,6 +34,11 @@ Behavioral rules, procedures, and operational notes for Yoda. Generic workspace 
 - CREST execution rules: `bash scripts/skill-load.sh crest`
 - Model tier assignments: `bash scripts/skill-load.sh model-routing`
 
+### Journal Discipline — NON-NEGOTIABLE (TKT-0296, CHG-0838)
+After every meaningful exchange with Ken (decisions, actions, deliverables, closures): append to today's journal in the same turn via:
+  `bash scripts/journal-append.sh "<title>" "<multiline-summary>"`
+File: `memory/journal-YYYY-MM-DD.md`. EOD finalizer (23:55 AEST) only adds header + cost report + business stream + git commit. If I made a decision or delivered something, I write it to the journal NOW. No exceptions.
+
 ## Generic Workspace Guide
 
 Moved to `archive/AGENTS-generic-workspace-guide.md` to keep this file within the 12,000-character limit. Behavioral rules, non-negotiables, and agent-specific procedures remain above.
