@@ -4476,5 +4476,41 @@
     "type": "chg",
     "created_at": "2026-07-01T13:15:29+10:00",
     "ticket_number": 750
+  },
+  {
+    "id": "TKT-0968",
+    "title": "Agent Instruction SSOT Implementation",
+    "status": "closed",
+    "priority": "critical",
+    "type": "epic",
+    "created_at": "2026-07-08T20:23:00+10:00",
+    "ticket_number": 968
+  },
+  {
+    "id": "TKT-0834001",
+    "title": "Test ticket for CHG-0834",
+    "status": "closed",
+    "priority": "low",
+    "type": "bug",
+    "created_at": "2026-07-08T11:00:26+10:00",
+    "ticket_number": 834001
+  },
+  {
+    "id": "TKT-0969",
+    "title": "SOUL.md hard-limits hygiene pass for 6 agents",
+    "status": "open",
+    "priority": "medium",
+    "type": "task",
+    "created_at": "2026-07-08T20:57:00+10:00",
+    "ticket_number": 969
+  },
+  {
+    "id": "TKT-0970",
+    "title": "Fix db-ticket.sh create-from-json silent failure",
+    "status": "closed",
+    "priority": "critical",
+    "type": "bug",
+    "created_at": "2026-07-08T20:59:00+10:00",
+    "ticket_number": 970
   }
 ]

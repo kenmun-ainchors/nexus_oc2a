@@ -1,3 +1,15 @@
+## 2026-07-08 21:00 AEST — [CHG-0835] CHG-0832 closure: SSOT cleanup finalized
+**Type:** infra
+**Change Type:** Normal
+**Source:** ken-prompt
+**Trigger:** Ken approved Phase 3 cleanup decisions 2026-07-08 20:56 AEST
+**What changed:** Deleted stale workspace/agents/ overlay after moving .localbackup.* safety files to state/ssot-backups/; deleted stale Layer 1 root folders (ahsoka, atlas, business, infra, platform-arch, qa, spark, forge); dropped workspace-forge/ entirely; cleaned workspace-social/AGENTS.md generic bootstrap tail while preserving Spark-specific rules; restored agents/ instruction symlinks via sync-agent-instructions.sh --fix
+**Why:** Finalize SSOT implementation and eliminate instruction-file divergence
+**Verification:** soul-agents-hygiene-check.sh PASS (0 FAIL, 6 WARN acceptable); sync-agent-instructions.sh --dry-run reports nothing to do; validate-linkedin-draft.sh PASS; linkedin-post.sh --dry-run shows commentary body→hashtags; no-op pre-commit hook passed; git status clean; ls workspace root confirms no stale ahsoka/aria/atlas/business/infra/platform-arch/qa/sage/spark/forge/ remain
+**Rollback:** git revert cleanup commit; restore workspace-forge from backup if needed
+**Linked:** CHG-0832, TKT-0342, ADR-001, PA_Agent-Instruction-SSOT-Platform-Design
+---
+
 ## 2026-07-08 20:59 AEST — [CHG-0834] Fix db-ticket.sh create-from-json broken tickets.json mirror block
 **Type:** script
 **Change Type:** Normal

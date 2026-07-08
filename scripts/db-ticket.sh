@@ -832,6 +832,10 @@ cmd_create_from_json() {
       tmp_json=$(mktemp)
       local tn_val2
       tn_val2=$(echo "$tkt_id" | sed 's/TKT-//' | sed 's/^0*//')
+      $JQ --argjson new "$(echo "$json_payload" | $JQ --argjson tn "$tn_val2" '{id, title, status, priority, type, created_at, ticket_number: $tn}' 2>/dev/null)" \
+        '. + [$new]' "$TICKET_FILE" > "$tmp_json" 2>/dev/null && mv "$tmp_json" "$TICKET_FILE"
+    fi
+    
     # TKT-0726: Emit created event (best-effort)
     local actor
     actor=$(resolve_actor)
@@ -844,9 +848,6 @@ cmd_create_from_json() {
     local cfj_meta
     cfj_meta=$(echo "$json_payload" | /opt/homebrew/bin/jq -c '.metadata // {}' 2>/dev/null)
     insert_entity_links_for_ticket "$tkt_id" "$cfj_desc" "$cfj_meta" "db-ticket:create-from-json"
-      $JQ --argjson new "$(echo "$json_payload" | $JQ --argjson tn "$tn_val2" '{id, title, status, priority, type, created_at, ticket_number: $tn}' 2>/dev/null)" \
-        '. + [$new]' "$TICKET_FILE" > "$tmp_json" 2>/dev/null && mv "$tmp_json" "$TICKET_FILE"
-    fi
     
     # TKT-0406: Defer Notion sync to first groom (no sparse pages)
     log "Ticket created in PG. Notion sync deferred to first groom."
