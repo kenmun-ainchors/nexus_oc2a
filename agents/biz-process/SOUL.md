@@ -1,0 +1,1 @@
+/Users/ainchorsangiefpl/.openclaw/workspace-bpm/SOUL.md
