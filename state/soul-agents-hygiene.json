@@ -1,9 +1,9 @@
 {
-  "overall": "WARN",
-  "generatedAt": "2026-07-08T21:01:26+1000",
+  "overall": "PASS",
+  "generatedAt": "2026-07-08T21:13:45+1000",
   "summary": {
-    "pass": 8,
-    "warnings": 6,
+    "pass": 14,
+    "warnings": 0,
     "fail": 0,
     "total": 14
   },
@@ -29,20 +29,19 @@
     {
       "agentId": "security",
       "dir": "/Users/ainchorsangiefpl/.openclaw/workspace-security",
-      "status": "WARN",
-      "soulSize": 4061,
+      "status": "PASS",
+      "soulSize": 3238,
       "messages": [
-        "SOUL.md size 4061 > warn limit 4000",
-        "missing ## Hard Limits section"
+        ""
       ]
     },
     {
       "agentId": "legal",
       "dir": "/Users/ainchorsangiefpl/.openclaw/workspace-legal",
-      "status": "WARN",
-      "soulSize": 2526,
+      "status": "PASS",
+      "soulSize": 3004,
       "messages": [
-        "missing ## Hard Limits section"
+        ""
       ]
     },
     {
@@ -57,10 +56,10 @@
     {
       "agentId": "governance",
       "dir": "/Users/ainchorsangiefpl/.openclaw/workspace-governance",
-      "status": "WARN",
-      "soulSize": 1538,
+      "status": "PASS",
+      "soulSize": 1997,
       "messages": [
-        "missing ## Hard Limits section"
+        ""
       ]
     },
     {
@@ -93,19 +92,19 @@
     {
       "agentId": "biz-process",
       "dir": "/Users/ainchorsangiefpl/.openclaw/workspace-bpm",
-      "status": "WARN",
-      "soulSize": 2929,
+      "status": "PASS",
+      "soulSize": 3451,
       "messages": [
-        "missing ## Hard Limits section"
+        ""
       ]
     },
     {
       "agentId": "change-mgt",
       "dir": "/Users/ainchorsangiefpl/.openclaw/workspace-dtcm",
-      "status": "WARN",
-      "soulSize": 3523,
+      "status": "PASS",
+      "soulSize": 3147,
       "messages": [
-        "missing ## Hard Limits section"
+        ""
       ]
     },
     {
@@ -120,10 +119,10 @@
     {
       "agentId": "luthen",
       "dir": "/Users/ainchorsangiefpl/.openclaw/workspace-luthen",
-      "status": "WARN",
-      "soulSize": 2119,
+      "status": "PASS",
+      "soulSize": 2585,
       "messages": [
-        "missing ## Hard Limits section"
+        ""
       ]
     },
     {
