@@ -1,57 +1,89 @@
 #!/bin/bash
-# pre-commit-bash-n.sh — L-129, blocks commits with bash syntax errors.
-# Defense-in-depth: catches syntax errors at write time. CHECK 27 (L-091)
-# catches them in the nightly auto-heal audit.
-# Skips submodules (thrawn/, forge/, atlas/, spark/, infra/) — they have
-# their own .git directories and their own hooks.
-# Skips auto-generated files (first 5 lines contain AUTOGEN or AUTO-GENERATED).
+# pre-commit hook for ~/.openclaw/workspace
+# Defense-in-depth:
+#   1) bash syntax check on staged .sh files (L-129).
+#   2) CHG-0832 / SSOT Phase 1: keep per-agent instruction symlinks in sync.
+#
+# If either check fails, the commit is blocked.
+# If the sync has nothing to do, a non-blocking warning is printed.
 set -e
 
 WORKSPACE="$(cd "$(dirname "$0")/../.." && pwd)"
 cd "$WORKSPACE"
 
-# Get staged .sh files, exclude submodules
+# ── Check 1: bash syntax validation ───────────────────────────────────────────
 STAGED_SH=$(git diff --cached --name-only --diff-filter=ACM 2>/dev/null | \
   grep -E '\.sh$' | \
   grep -vE '^(thrawn|forge|atlas|spark|infra|gitlab)/' || true)
 
-if [[ -z "$STAGED_SH" ]]; then
-  exit 0  # no .sh files staged
-fi
+if [[ -n "$STAGED_SH" ]]; then
+  ERRORS=0
+  CHECKED=0
+  for f in $STAGED_SH; do
+    [[ ! -f "$f" ]] && continue
+    if head -5 "$f" 2>/dev/null | grep -qE 'AUTOGEN|AUTO-GENERATED'; then
+      continue
+    fi
+    CHECKED=$((CHECKED + 1))
+    BASH_N_OUT=$(bash -n "$f" 2>&1) && BASH_N_EXIT=0 || BASH_N_EXIT=$?
+    if [[ $BASH_N_EXIT -ne 0 ]]; then
+      echo "PRE-COMMIT BLOCKED: bash syntax error in $f:" >&2
+      echo "$BASH_N_OUT" >&2
+      echo "" >&2
+      ERRORS=$((ERRORS + 1))
+    fi
+  done
 
-ERRORS=0
-CHECKED=0
-for f in $STAGED_SH; do
-  # Skip if file doesn't exist (deleted in worktree)
-  [[ ! -f "$f" ]] && continue
-  
-  # Skip auto-generated files
-  if head -5 "$f" 2>/dev/null | grep -qE 'AUTOGEN|AUTO-GENERATED'; then
-    continue
-  fi
-  
-  CHECKED=$((CHECKED + 1))
-  
-  # Run bash -n, capture stderr (|| avoids set -e abort on failure)
-  BASH_N_OUT=$(bash -n "$f" 2>&1) && BASH_N_EXIT=0 || BASH_N_EXIT=$?
-  
-  if [[ $BASH_N_EXIT -ne 0 ]]; then
-    echo "PRE-COMMIT BLOCKED: bash syntax error in $f:" >&2
-    echo "$BASH_N_OUT" >&2
+  if [[ $ERRORS -gt 0 ]]; then
     echo "" >&2
-    ERRORS=$((ERRORS + 1))
+    echo "  $ERRORS file(s) failed bash -n. Fix syntax errors or add # AUTOGEN marker." >&2
+    echo "  Bypass (NOT recommended): git commit --no-verify" >&2
+    exit 1
   fi
-done
 
-if [[ $ERRORS -gt 0 ]]; then
-  echo "" >&2
-  echo "  $ERRORS file(s) failed bash -n. Fix syntax errors or add # AUTOGEN marker." >&2
-  echo "  Bypass (NOT recommended): git commit --no-verify" >&2
-  exit 1
+  if [[ $CHECKED -gt 0 ]]; then
+    echo "bash -n: $CHECKED file(s) checked, OK" >&2
+  fi
 fi
 
-if [[ $CHECKED -gt 0 ]]; then
-  echo "bash -n: $CHECKED file(s) checked, OK" >&2
+# ── Check 2: agent instruction symlink sync (CHG-0832) ─────────────────────────
+SYNC_SCRIPT="${WORKSPACE}/scripts/sync-agent-instructions.sh"
+if [[ -x "$SYNC_SCRIPT" ]]; then
+  echo "" >&2
+  echo "  🤖 pre-commit: syncing agent instruction symlinks..." >&2
+
+  set +e
+  sync_output=$(zsh "$SYNC_SCRIPT" --fix 2>&1)
+  sync_status=$?
+  set -e
+
+  if echo "$sync_output" | grep -qE '(created|updated|backed up|removed)'; then
+    had_changes=true
+  else
+    had_changes=false
+  fi
+
+  echo "$sync_output" >&2
+
+  if [[ "$sync_status" -ne 0 ]]; then
+    echo "" >&2
+    echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━" >&2
+    echo "  ❌ pre-commit: agent instruction sync failed" >&2
+    echo "     Commit blocked. Fix the sync script output above." >&2
+    echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━" >&2
+    exit 1
+  fi
+
+  if [[ "$had_changes" == "true" ]]; then
+    echo "" >&2
+    echo "  ⚠️  pre-commit: agent instruction symlinks were updated." >&2
+    echo "     Review the staged files and commit again if needed." >&2
+    echo "" >&2
+  else
+    echo "" >&2
+    echo "  ✅ pre-commit: agent instruction symlinks already in sync." >&2
+    echo "" >&2
+  fi
 fi
 
 exit 0
