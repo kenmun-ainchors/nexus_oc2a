@@ -7,7 +7,7 @@
 **Why:** Finalize SSOT implementation and eliminate instruction-file divergence
 **Verification:** soul-agents-hygiene-check.sh PASS (0 FAIL, 6 WARN acceptable); sync-agent-instructions.sh --dry-run reports nothing to do; validate-linkedin-draft.sh PASS; linkedin-post.sh --dry-run shows commentary body→hashtags; no-op pre-commit hook passed; git status clean; ls workspace root confirms no stale ahsoka/aria/atlas/business/infra/platform-arch/qa/sage/spark/forge/ remain
 **Rollback:** git revert cleanup commit; restore workspace-forge from backup if needed
-**Linked:** CHG-0832, TKT-0342, ADR-001, PA_Agent-Instruction-SSOT-Platform-Design
+**Linked:** CHG-0832, TKT-0342, ADR-001, PA_Agent-Instruction-SSOT-Platform-Design, TKT-0968
 ---
 
 ## 2026-07-08 20:59 AEST — [CHG-0834] Fix db-ticket.sh create-from-json broken tickets.json mirror block
@@ -19,7 +19,7 @@
 **Why:** Ticket creation is a core workflow; silent failure blocks CHG and task tracking
 **Verification:** Pending: bash -n scripts/db-ticket.sh passes; create-from-json test creates and reads back a ticket
 **Rollback:** git revert for scripts/db-ticket.sh
-**Linked:** CHG-0832, CHG-0833, pg-sprint-backlog
+**Linked:** CHG-0832, CHG-0833, pg-sprint-backlog, TKT-0970
 ---
 
 ## 2026-07-08 20:57 AEST — [CHG-0833] SOUL.md hard-limits hygiene pass for 6 agents
@@ -31,7 +31,7 @@
 **Why:** Close residual hygiene WARNs from CHG-0832 so all agents meet SOUL.md structure contract
 **Verification:** Pending: hygiene check shows zero WARNs for all 14 agents
 **Rollback:** git revert for the 6 SOUL.md edits
-**Linked:** CHG-0832, TKT-0342, docs/ADR-agent-instruction-ssot.md
+**Linked:** CHG-0832, TKT-0342, docs/ADR-agent-instruction-ssot.md, TKT-0969
 ---
 
 ## 2026-07-08 20:23 AEST — [CHG-0832] Agent Instruction SSOT Implementation — hygiene, sync, LinkedIn contract
