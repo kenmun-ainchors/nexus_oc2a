@@ -1,25 +1,25 @@
 {
-  "lastChecked": "2026-07-08T09:19:16Z",
+  "lastChecked": "2026-07-08T13:49:40Z",
   "status": "ok",
-  "currentPct": 25.4,
-  "requestsUsed": 13691,
-  "requestsRemaining": 40211,
+  "currentPct": 27,
+  "requestsUsed": 14859,
+  "requestsRemaining": 40174,
   "thresholds": {
     "warn": {
       "pct": 50,
-      "requests": 26951
+      "requests": 27516
     },
     "alert": {
       "pct": 70,
-      "requests": 37731
+      "requests": 38523
     },
     "critical": {
       "pct": 85,
-      "requests": 45816
+      "requests": 46778
     },
     "emergency": {
       "pct": 95,
-      "requests": 51206
+      "requests": 52281
     }
   }
 }

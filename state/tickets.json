@@ -4503,5 +4503,14 @@
     "type": "bug",
     "created_at": "2026-07-08T20:59:00+10:00",
     "ticket_number": 970
+  },
+  {
+    "id": "TKT-0971",
+    "title": "Fix health-check.sh bash/zsh lock-file glob compatibility",
+    "status": "open",
+    "priority": "low",
+    "type": "bug",
+    "created_at": "2026-07-08T11:08:34+10:00",
+    "ticket_number": 971
   }
 ]
