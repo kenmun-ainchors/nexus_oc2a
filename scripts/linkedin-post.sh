@@ -285,6 +285,7 @@ CONTENT_FILE=""
 VISIBILITY="PUBLIC"
 IMAGE_ASSET_URN=""
 DRY_RUN=false
+VALIDATE_FORMAT=false
 ACCOUNT="ken"
 ORGANIZATION_ID=""
 QUEUE_CONTENT_ID=""
@@ -315,6 +316,11 @@ while [[ $# -gt 0 ]]; do
       DRY_RUN=true
       shift
       ;;
+    --validate-format)
+      # CHG-0832: validate draft format without posting
+      VALIDATE_FORMAT=true
+      shift
+      ;;
     --queue-content-id)
       # Optional: content ID to update in linkedin-campaign.json with the activity URN after posting
       QUEUE_CONTENT_ID="$2"
@@ -337,6 +343,7 @@ while [[ $# -gt 0 ]]; do
       echo "  --visibility <mode>       PUBLIC (default) or CONNECTIONS"
       echo "  --image-asset-urn <urn>   Attach image by LinkedIn asset URN"
       echo "  --dry-run                 Preview payload without posting"
+      echo "  --validate-format         Validate draft format contract and exit without posting"
       echo "  --queue-content-id <id>   Update campaign JSON with post URN after posting"
       echo "  --account <name>          Account to post as: ken (default), angie, business"
       echo "  --organization-id <id>    LinkedIn org ID (required for --account business)"
@@ -345,7 +352,7 @@ while [[ $# -gt 0 ]]; do
       ;;
     *)
       echo "❌ Unknown argument: $1" >&2
-      echo "Usage: linkedin-post.sh --content-file draft.md [--image-asset-urn urn:li:image:XXX] [--visibility PUBLIC|CONNECTIONS] [--dry-run] [--queue-content-id LI-C1-W2-P3] [--account ken|angie|business] [--organization-id ORG_ID]" >&2
+      echo "Usage: linkedin-post.sh --content-file draft.md [--image-asset-urn urn:li:image:XXX] [--visibility PUBLIC|CONNECTIONS] [--dry-run] [--validate-format] [--queue-content-id LI-C1-W2-P3] [--account ken|angie|business] [--organization-id ORG_ID]" >&2
       exit 1
       ;;
   esac
@@ -376,6 +383,19 @@ if [[ -n "$CONTENT_FILE" ]]; then
   if [[ ! -f "$CONTENT_FILE" ]]; then
     echo "❌ --content-file not found: $CONTENT_FILE" >&2; exit 1
   fi
+
+  # CHG-0832: format validation mode runs before parsing
+  if [[ "$VALIDATE_FORMAT" == "true" ]]; then
+    VALIDATOR="${WORKSPACE}/scripts/validate-linkedin-draft.sh"
+    if [[ -x "$VALIDATOR" ]]; then
+      zsh "$VALIDATOR" "$CONTENT_FILE"
+      exit $?
+    else
+      echo "❌ Format validator not found or not executable: $VALIDATOR" >&2
+      exit 1
+    fi
+  fi
+
   POST_TEXT=$(python3 -c "
 import sys
 with open(sys.argv[1]) as f:
