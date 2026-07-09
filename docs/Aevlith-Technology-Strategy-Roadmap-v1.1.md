@@ -42,7 +42,7 @@ Postgres is live as the canonical state store (SSOT-first adopted 2026-05-23). T
 
 **Key facts at a glance:**
 - Platform: OC1 Mac Mini M4 24GB, Melbourne, production. OC2-A/B (Mac Mini M4 Pro 48GB × 2) **arrived** — commissioning ~27 July 2026.
-- Agents: **14 active** (up from 12). Luthen added. Ahsoka formalised. Krennic parked.
+- Agents: **14 active** (up from 12). Ahsoka formalised. Krennic parked. Luthen queued for P2 build (not yet registered in agent_registry).
 - Postgres: **LIVE** — SSOT-first architecture. CHG-0845 hardening complete.
 - Model tier: **Ollama Cloud** (kimi-k2.7-code, deepseek-v4-pro, deepseek-v4-flash, gemma4:31b-cloud). Anthropic Claude deprecated as primary.
 - Governance: **CREST v1.3** (CHG-0680). `model_policy.json v3.0` (CHG-0812).

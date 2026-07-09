@@ -601,7 +601,7 @@ Never use: `s3://`, IP addresses, or `local/` alias.
 | **DS-2** | Client data NEVER routes to Tier 2/3 cloud APIs (Ollama Cloud, Claude, etc.). |
 | **DS-3** | Client data is NEVER co-mingled with AInchors operational data. |
 | **DS-4** | BYOK exception: P4 clients supply own LLM API keys. Client owns their DPA compliance. |
-| **DS-5** | Anthropic DPA verification required before any client data touches Claude APIs. (Status: DPA verified — TKT-0104 D5.) |
+| **DS-5** | Anthropic DPA verification required before any client data touches Claude APIs. (Status: NOT VERIFIED — Anthropic permanently parked per CHG-0502/0855; will re-evaluate if Ken activates "CLAUDE ACTIVATE".) |
 
 ### 5.5 Target Data Architecture — Phase 1 (Sprints 4–8)
 
@@ -845,7 +845,7 @@ See Section 5.4. Summary:
 | DS-2: No client data to cloud APIs | Warden monitors. T4 controls at API dispatch. |
 | DS-3: No co-mingling | tenant_id + RLS at P2. Separate namespaces. |
 | DS-4: BYOK exception | P4 clients own their DPA compliance. |
-| DS-5: Anthropic DPA verified | DONE — TKT-0104 Decision 5. |
+| DS-5: Anthropic DPA verification | NOT VERIFIED — permanently parked per CHG-0502/0855. | Would apply only if Ken activates Claude. | — | ✅ HOLDING (no client data touches Claude) |
 
 ### 8.4 HITL Framework — 5-Tier Human-in-the-Loop
 
@@ -933,7 +933,7 @@ All locked decisions are binding. They cannot be re-opened without a new CHG rec
 | **nomic-embed-text 768-dim** | TKT-0104 D2 | Embedding dimension locked at table creation. | 2026-05-08 | ✅ HOLDING |
 | **RecursiveCharacterTextSplitter 400–600 tokens, 10–20% overlap** | TKT-0104 D3 | Standard chunking strategy. | 2026-05-08 | ✅ HOLDING |
 | **Optimistic locking P1–P2, event sourcing P3** | TKT-0104 D4 | `agent_state_history` seed of future event log. | 2026-05-08 | ✅ HOLDING |
-| **Anthropic DPA verified** | TKT-0104 D5 | Claude for non-PII AInchors-internal workloads. | 2026-05-08 | ⚠️ **NEEDS RE-EVALUATION** — Claude no longer primary model tier |
+| **Anthropic DPA verification** | TKT-0104 D5 | Would apply only if Ken activates Claude. | — | ⚠️ **NOT VERIFIED** — permanently parked per CHG-0502/0855 |
 | **Shared schema + RLS from P2 day one** | TKT-0104 D6 / CHG-0234 | Multi-tenant foundation. | 2026-05-08 | ✅ HOLDING |
 | **Postgres session tables P1, Redis P2** | TKT-0104 D8 | No Redis in P1. | 2026-05-08 | ✅ HOLDING |
 | **OpenClaw as final platform** | IT Strategy | No replatforming. | Pre-Day 1 | ✅ HOLDING |
@@ -962,7 +962,7 @@ All locked decisions are binding. They cannot be re-opened without a new CHG rec
 
 | Decision | Reason for Re-evaluation |
 |----------|-------------------------|
-| **Anthropic DPA verified (TKT-0104 D5)** | Claude is no longer the primary model tier. The platform has migrated to Ollama Cloud models. The DPA verification is still technically valid but may need updating to reflect the new model stack. |
+| **Anthropic DPA verification (TKT-0104 D5)** | NOT VERIFIED. Anthropic is permanently parked per CHG-0502/0855. The DPA question is moot while no agent routes to Claude. If Ken later activates Claude, DPA verification must be completed before any client or AInchors-internal data touches Claude APIs. |
 | **Kimi safety net (CHG-0270)** | Superseded by CHG-0812 capability-based routing. The new model policy should be the canonical reference. Recommend formal deprecation. |
 | **nomic-embed-text 768-dim (TKT-0104 D2)** | RAG pipeline not yet built. When implementation begins, re-evaluate whether nomic-embed-text remains the best embedding model, or whether a newer model has emerged. |
 | **Gemma4:26b local as T1 for client workloads** | OC2-A commissioning pending. If OC2 timeline slips, a contingency plan for T1 client inference is needed. |

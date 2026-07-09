@@ -51,7 +51,7 @@ This document maps the FSI-grade P4 target data and memory architecture progress
 
 | Phase | Status | Technology | Rationale |
 |-------|--------|------------|-----------|
-| **P1** | ✅ Full | LLM context window (Claude Sonnet/Haiku/Gemma4, DeepSeek V4, Kimi K2.7, GLM 5.2, MiniMax M3). 12 models in global allowlist per model-policy.json v3.0. | **Update:** Model roster expanded significantly. Warden enforces policy. 14 agents with CREST v1.3 capability-based routing. Token budget discipline still needed. |
+| **P1** | ✅ Full | LLM context window (Gemma4, DeepSeek V4, Kimi K2.7, GLM 5.2, MiniMax M3). 9 models in global allowlist per model-policy.json v3.0. | **Update:** Model roster expanded significantly. Warden enforces policy. 14 agents with CREST v1.3 capability-based routing. Token budget discipline still needed. |
 | **P2** | ✅ Full | Same mechanism. Session ID as isolation boundary across tenants. | Unchanged. |
 | **P3** | ✅ Full (commercial tier) | Customer's LLM (may not be Claude). Design must be model-agnostic. | Unchanged. |
 | **P4** | ✅ Full + Governance | Same plus: explicit PII-in-context controls, token budget per regulated workload, input/output classification before context injection. | Unchanged. |
@@ -147,7 +147,7 @@ This document maps the FSI-grade P4 target data and memory architecture progress
 | Aspect | P1 (v1.1 update) |
 |--------|-------------------|
 | **At-rest** | macOS FileVault (disk-level). PG runs on encrypted APFS volume. No application-level PG encryption confirmed. **Gap still open from v1.0.** |
-| **In-transit** | TLS for all API calls to Claude/Anthropic and Ollama cloud models. Internal PG connections via Unix socket (no network encryption needed — localhost). |
+| **In-transit** | TLS for all API calls to Ollama cloud models. Internal PG connections via Unix socket (no network encryption needed — localhost). |
 | **Key Management** | macOS Keychain for secrets. OpenClaw manages API keys. No formal KMS. **Gap still open.** |
 
 ### 4.2 Real-Time vs Batch
@@ -170,7 +170,7 @@ This document maps the FSI-grade P4 target data and memory architecture progress
 
 ### 4.5 Data Residency [UPDATED]
 
-**v1.1 update:** Anthropic DPA status still not formally verified. This was flagged as urgent in v1.0 (Action 2). **This remains open.** Claude API may route data outside Australia. All Ollama models (including cloud-routed) are run via Ollama providers — data residency of Ollama cloud endpoints (DeepSeek, Kimi, GLM, MiniMax, etc.) is unverified. Recommend: document a full Data Residency Register for all 12 approved models in model-policy.json v3.0.
+**v1.1 update:** Anthropic DPA status still not formally verified. This was flagged as urgent in v1.0 (Action 2). **This remains open.** Claude API may route data outside Australia. All Ollama models (including cloud-routed) are run via Ollama providers — data residency of Ollama cloud endpoints (DeepSeek, Kimi, GLM, MiniMax, etc.) is unverified. Recommend: document a full Data Residency Register for all 9 approved models in model-policy.json v3.0.
 
 ---
 
@@ -307,7 +307,7 @@ Unchanged from v1.0. No FSI engagements yet.
 | Action | Priority | Detail |
 |--------|----------|--------|
 | **6.** Verify SHA-256 hashing on audit tables | 🔴 **HIGH** | v1.0 required SHA-256 on all audit records. Confirm `state_changes`, `agent_events`, etc. have hash verification. |
-| **7.** Document Data Residency Register | 🔴 **HIGH** | For all 12 models in model-policy.json v3.0. Where does each process data? |
+| **7.** Document Data Residency Register | 🔴 **HIGH** | For all 9 models in model-policy.json v3.0. Where does each process data? |
 | **8.** Implement PII scanner (carried forward) | 🔴 **HIGH** | v1.0 Action 5. Wire into `ingest-memory-to-pg.sh`. |
 | **9.** Define formal retention policy | 🟡 MEDIUM | For `state_*` tables, `state_changes`, `changelog`, `knowledge_chunks`, `agent_events`. |
 | **10.** Enforce data classification tagging | 🟡 MEDIUM | Add classification enforcement to all PG tables and file writes. |
@@ -473,7 +473,7 @@ The v1.0 roadmap assumed Postgres was primarily for the episodic log (T3) and ve
 | Multi-tenant foundation | Placeholder (tenant_id = 'ainchors') | tenant_id on all tables (✅ P2-ready) | **Built day one** | Dedicated infra per FSI engagement |
 | PG tables | 0 (planned) | **47+** live across 8 categories | Scaled with tenant isolation | Event sourcing, TDE |
 | Agents | 6 | **14** active | 14+ per tenant | Regulated |
-| Model policy | Not formalised | **model-policy.json v3.0** with 12 models, CREST v1.3 routing | Per-tenant model config | Model risk register |
+| Model policy | Not formalised | **model-policy.json v3.0** with 9 models, CREST v1.3 routing | Per-tenant model config | Model risk register |
 | CREST | Not designed | **CREST v1.3** live, **CRESTv2-P1** in progress | CRESTv2 complete | CRESTv3 (FSI overlay) |
 | Notion AKB | ~200 pages | **598 pages** across 3 DBs | Per-tenant KB | Restricted |
 
@@ -513,7 +513,7 @@ This appendix lists every material update made in v1.1.
 3. **47+ PG tables** operational across 8 categories (vs 0-5 planned in v1.0)
 4. **14 agents** active (vs 6 in v1.0)
 5. **CREST v1.3** and **CRESTv2-P1** add data architecture layer not present in v1.0
-6. **model-policy.json v3.0** with 12 approved models (vs informal routing in v1.0)
+6. **model-policy.json v3.0** with 9 approved models (vs informal routing in v1.0)
 7. **OC2-A/B** incoming ~27 Jul 2026, port convention formalised
 8. **Notion 3-DB architecture** with 598 AKB pages synced (vs ~200 pages in v1.0)
 9. **Redis P2** is deferred — PG-first has superseded Redis-first
@@ -523,7 +523,7 @@ This appendix lists every material update made in v1.1.
 
 | Decision | v1.0 Status | v1.1 Flag | Reason |
 |----------|-------------|-----------|--------|
-| D5: Data Residency Framework | Decide now (P1) | ⚠️ **URGENT** | Still unresolved after 2 months. 12 models now in use. |
+| D5: Data Residency Framework | Decide now (P1) | ⚠️ **URGENT** | Still unresolved after 2 months. 9 models now in use. |
 | D8: Session State Store | Postgres P1, Redis P2 | 🟡 **Re-evaluate at P2 gate** | PG-first approach means Redis is no longer the default. Is Redis still needed? |
 | PII Scanner tooling | Q5 open | ⚠️ **URGENT** | 598 AKB pages ingested without PII scan. Risk increases with every new document. |
 | Audit log retention | Q6 open | 🟡 **Define now** | PG tables grow unbounded. No archival strategy. |
