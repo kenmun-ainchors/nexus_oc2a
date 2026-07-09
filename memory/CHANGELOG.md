@@ -1,3 +1,39 @@
+## 2026-07-09 12:24 AEST — [CHG-0843] CHG-0843: Remediate retention-cleanup error, review residual main-target crons, fix memory-flush path duplication
+**Type:** cron
+**Change Type:** Normal
+**Source:** ken-prompt
+**Trigger:** Post-CHG-0840 status review found: (1) retention-cleanup-daily cron (176cd48b) in error state; (2) 4 croms still target main session; (3) memory flushes are writing to both memory/ and .openclaw/workspace/memory/.
+**What changed:** (1) Diagnose and fix retention-cleanup-daily cron error; (2) Review 4 remaining main-target croms and convert to isolated where safe; (3) Investigate and fix memory-flush path duplication so all memory files land in memory/ at workspace root.
+**Why:** Prevents degradation recurrence from main-session load and ensures memory/daily-cleanup reliability.
+**Verification:** Post-fix verification: retention-cleanup cron status=ok and runs successfully; main-target cron count reduced; git status shows no nested .openclaw/workspace/memory/ entries; memory/YYYY-MM-DD.md receives new flushes.
+**Rollback:** Re-enable any converted crons if isolated target fails; restore retention-cleanup previous schedule/config if fix worsens.
+**Linked:** CHG-0840, CHG-0841, CHG-0842
+---
+
+## 2026-07-09 11:35 AEST — [CHG-0842] CHG-0841 verification: infra agent workspace boundary fixed
+**Type:** config
+**Change Type:** Normal
+**Source:** manual
+**Trigger:** CHG-0841 required verification after config change and gateway restart.
+**What changed:** Verified that Forge subagent now writes to ~/.openclaw/workspace/scripts/ instead of workspace-infra/. Sentinel file scripts/.chg0841-forge-test written by agent:infra:subagent:7a4a09d6 and appeared in git status under Untracked files. Sentinel removed after verification.
+**Why:** Evidence that CHG-0841 resolved the silent workspace boundary failure that blocked Forge structural execution.
+**Verification:** Spawned Forge subagent with task to write sentinel to scripts/ and check git status. Result: PASS. Gateway PID 66283, reachable 50ms.
+**Rollback:** N/A
+**Linked:** CHG-0840, CHG-0839
+---
+
+## 2026-07-09 11:21 AEST — [CHG-0841] CHG-0841: Fix infra agent workspace boundary (workspace-infra → workspace)
+**Type:** config
+**Change Type:** Normal
+**Source:** ken-prompt
+**Trigger:** CHG-0840 execution revealed Forge subagent writes were landing in ~/.openclaw/workspace-infra/ instead of ~/.openclaw/workspace/, causing silent success-with-no-effect and forcing main-session execution of Forge's structural work.
+**What changed:** Update ~/.openclaw/openclaw.json agent.workspace mapping for the infra agent from ~/.openclaw/workspace-infra/ to ~/.openclaw/workspace/, aligning it with the operational repository and removing the silent boundary failure.
+**Why:** The workspace-infra sandbox causes Forge structural changes to silently write to the wrong directory. This blocks normal CREST execution topology and creates a bypass risk where Yoda must run Forge's work in the main session.
+**Verification:** Post-change verification: spawn a test Forge subagent that writes a sentinel file to scripts/ and confirm it appears in ~/.openclaw/workspace/scripts/; run git status; run exec/read tool stress test.
+**Rollback:** Revert ~/.openclaw/openclaw.json infra agent workspace back to ~/.openclaw/workspace-infra/ and restart gateway.
+**Linked:** CHG-0840, CHG-0839, CHG-0818
+---
+
 ## 2026-07-09 11:05 AEST — [CHG-0840] CLOSED — Structural Mitigations for Recurring Gateway Degradation
 **Type:** infra
 **Change Type:** Normal

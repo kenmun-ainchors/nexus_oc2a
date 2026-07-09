@@ -98,8 +98,8 @@ check_warden() {
 # ─── CHECK 4: CRITICAL_CRONS_ALIVE ───
 check_critical_crons_alive() {
   log "CHECK 4: CRITICAL_CRONS_ALIVE"
-  local cids=("dc88affb-2e25-44de-be94-ccb208043a43" "e269d620-bf99-4515-b1a8-93ef8c0579b1" "637ecb12-eae2-4c16-b174-8acdaa2729cc")
-  local cnames=("TQP" "Auto-Heal" "Task-Monitor")
+  local cids=("a89d00ef-6d96-4aaf-8759-504c4ac72a3c" "e269d620-bf99-4515-b1a8-93ef8c0579b1" "637ecb12-eae2-4c16-b174-8acdaa2729cc")
+  local cnames=("Task-Queue" "Auto-Heal" "Task-Monitor")
   local failures=""
   local idx=0
   for id in "${cids[@]}"; do

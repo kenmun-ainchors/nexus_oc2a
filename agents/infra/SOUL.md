@@ -1,1 +1,1 @@
-/Users/ainchorsangiefpl/.openclaw/workspace-infra/SOUL.md
+/Users/ainchorsangiefpl/.openclaw/workspace/SOUL.md
