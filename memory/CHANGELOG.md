@@ -1,3 +1,24 @@
+## 2026-07-09 13:29 AEST — [CHG-0845] CHG-0845: Harden changelog-append.sh PG dual-write error handling
+**Trigger:** CHG-0844 creation showed 'WARNING: PG insert failed' but script continued, leaving markdown+Notion consistent while PG was missing the record. Ken directed: fix it, do not leave open bugs.
+**What changed:** Modify scripts/changelog-append.sh so the PG INSERT into state_changes is not silently swallowed via 2>/dev/null. Options: capture stderr, retry up to N times with backoff, and on final failure either exit non-zero (fail closed) or write a dead-letter state file (e.g. state/chg-pg-dead-letter.json) and still exit non-zero. Preserve markdown+Notion writes that already succeeded. Ensure idempotency: re-running with same CHG_ID should not duplicate if PG record exists.
+**Why:** Prevents inconsistent dual-write state where CHG records exist in markdown/Notion but not in PG SSOT.
+**Verification:** After fix: simulate or trigger a PG failure condition and confirm script exits non-zero or writes clear dead-letter state; verify successful runs still insert normally; verify duplicate re-run is idempotent.
+**Rollback:** N/A
+**Linked:** CHG-0844
+---
+
+## 2026-07-09 13:19 AEST — [CHG-0844] CHG-0844: Switch web_search provider from MiniMax to DuckDuckGo
+**Type:** config
+**Change Type:** Normal
+**Source:** ken-prompt
+**Trigger:** web_search currently configured with provider="minimax" but no MiniMax API key is set, causing every web_search call to fail with missing_minimax_api_key. Ken approved switching to the key-free DuckDuckGo provider and testing.
+**What changed:** Update openclaw.json tools.web.search.provider from "minimax" to "duckduckgo". Verify web_search returns results. Rollback to minimax if DuckDuckGo fails or rate-limits.
+**Why:** Restores working web search capability without requiring paid API credentials.
+**Verification:** Run web_search query after config change; confirm non-empty results and no API-key error.
+**Rollback:** N/A
+**Linked:** CHG-0839, CHG-0840
+---
+
 ## 2026-07-09 12:24 AEST — [CHG-0843] CHG-0843: Remediate retention-cleanup error, review residual main-target crons, fix memory-flush path duplication
 **Type:** cron
 **Change Type:** Normal

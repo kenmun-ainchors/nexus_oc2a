@@ -88,7 +88,11 @@ case "$SOURCE" in
 esac
 
 # Get next CHG ID from PG sequence (TKT-0330 A4)
-CHG_NUM=$(bash "$DB_RAW" -c "SELECT nextval('state_changes_change_id_seq');" 2>/dev/null | head -1)
+# set +e guard: under set -e, $() capture of a failing command can kill the
+# script before $? is reached. We disable -e around the capture, then re-enable.
+set +e
+CHG_NUM=$(bash "$DB_RAW" -c "SELECT nextval('state_changes_change_id_seq');" 2>/dev/null | head -1 || true)
+set -e
 if [[ -z "$CHG_NUM" || "$CHG_NUM" == "null" ]]; then
   # Fallback: derive from markdown (should not happen if PG is healthy)
   echo "WARNING: PG sequence unavailable, falling back to markdown grep" >&2
@@ -163,7 +167,23 @@ PG_CATEGORY=$(echo "$CATEGORY" | sed "s/'/''/g")
 PG_TRIGGER=$(echo "$TRIGGER" | sed "s/'/''/g")
 PG_CHANGE_TYPE=$(echo "$CHANGE_TYPE" | sed "s/'/''/g")
 
-bash "$DB_RAW" -c "INSERT INTO state_changes (change_id, title, description, actor, status, metadata, tenant_id)
+# ── Idempotency guard: skip INSERT if row already exists ──────────────────
+# set +e guard: under set -e, $() capture of a failing command kills the script
+# before $? is reached. We disable -e around the capture, then re-enable.
+set +e
+PG_EXISTS=$(bash "$DB_RAW" -c "SELECT 1 FROM state_changes WHERE change_id = '$CHG_ID';" 2>/dev/null | head -1 || true)
+set -e
+PG_OK=true
+if [[ "$PG_EXISTS" == "1" ]]; then
+  echo "[pg] ⚠️  $CHG_ID already exists in state_changes, skipping INSERT" >&2
+else
+  # ── PG insert with retry + backoff ───────────────────────────────────────
+  # set +e guards: under set -e, $() capture of a failing command kills the script
+  # before PG_RC=$? is reached. We disable -e around the capture, then re-enable.
+  PG_ERROR=""
+  for attempt in 1 2 3; do
+    set +e
+    PG_STDERR=$(bash "$DB_RAW" -c "INSERT INTO state_changes (change_id, title, description, actor, status, metadata, tenant_id)
 VALUES (
   '$CHG_ID',
   '$PG_TITLE',
@@ -172,7 +192,64 @@ VALUES (
   'applied',
   '{\"change_type\":\"$PG_CHANGE_TYPE\",\"type\":\"$TYPE\",\"source\":\"$PG_ACTOR\",\"trigger\":\"$PG_TRIGGER\",\"verified\":\"$PG_VERIFIED\",\"rollback\":\"$PG_ROLLBACK\",\"linked\":\"$PG_LINKED\",\"framework_docs\":\"$PG_FRAMEWORK\",\"category\":\"$PG_CATEGORY\"}'::jsonb,
   'ainchors'
-);" 2>/dev/null || echo "WARNING: PG insert failed for $CHG_ID (markdown entry still written)" >&2
+);" 2>&1)
+    PG_RC=$?
+    set -e
+    if [[ $PG_RC -eq 0 ]]; then
+      echo "[pg] ✅ $CHG_ID inserted into state_changes" >&2
+      PG_ERROR=""
+      break
+    fi
+    PG_ERROR="$PG_STDERR"
+    echo "[pg] ⚠️  attempt $attempt/3 failed for $CHG_ID (exit $PG_RC)" >&2
+    if [[ $attempt -lt 3 ]]; then
+      sleep 2
+    fi
+  done
+
+  if [[ -n "$PG_ERROR" ]]; then
+    PG_OK=false
+    echo "[pg] ❌ All 3 INSERT attempts failed for $CHG_ID" >&2
+    echo "[pg]    Last error: $PG_ERROR" >&2
+
+    # ── Write dead-letter record ────────────────────────────────────────────
+    DEAD_LETTER_FILE="$HOME/.openclaw/workspace/state/chg-pg-dead-letter.json"
+    DL_ENTRY=$(/opt/homebrew/bin/jq -n \
+      --arg changeId "$CHG_ID" \
+      --arg title "$TITLE" \
+      --arg ts "$TS" \
+      --arg error "$PG_ERROR" \
+      --argjson markdownOk true \
+      --argjson notionOk false \
+      '{
+        changeId: $changeId,
+        title: $title,
+        timestamp: $ts,
+        error: $error,
+        markdownOk: $markdownOk,
+        notionOk: $notionOk
+      }' 2>/dev/null)
+    if [[ -n "$DL_ENTRY" ]]; then
+      echo "$DL_ENTRY" > "$DEAD_LETTER_FILE"
+      echo "[dl] ⚠️  Dead-letter record written to $DEAD_LETTER_FILE" >&2
+    else
+      echo "[dl] ❌ Failed to write dead-letter record (jq unavailable?) — dumping raw" >&2
+      cat > "$DEAD_LETTER_FILE" <<DLRAW
+{
+  "changeId": "$CHG_ID",
+  "title": "$TITLE",
+  "timestamp": "$TS",
+  "error": "$PG_ERROR",
+  "markdownOk": true,
+  "notionOk": false
+}
+DLRAW
+    fi
+
+    # Fail closed — exit non-zero so callers know PG write failed
+    exit 7
+  fi
+fi
 # TKT-0726: Emit created event for CHG (best-effort)
 EVENT_SCRIPT="${SCRIPT_DIR_CHG}/pg-write-event.sh"
 if [[ -x "$EVENT_SCRIPT" ]]; then
