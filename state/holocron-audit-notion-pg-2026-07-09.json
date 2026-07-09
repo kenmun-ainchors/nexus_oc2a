@@ -1,0 +1,134 @@
+{
+  "scope": "notion-pg-state",
+  "generatedAt": "2026-07-09T18:50:00+10:00",
+  "summary": {
+    "notionDbCount": 3,
+    "notionPageCountTotal": 1697,
+    "pgChgCount": 827,
+    "archiveChgPages": 558,
+    "missingFromNotionArchive": 273,
+    "recentChgDrift": 0,
+    "pendingNotionSyncIssues": 1,
+    "p1Findings": 2,
+    "p2Findings": 2,
+    "p3Findings": 1
+  },
+  "notionDbs": [
+    {
+      "id": "34dc1829-53ff-814b-8257-d3a3bf351d44",
+      "name": "Backlog A (User Stories / Backlog)",
+      "pageCount": 381,
+      "statuses": {
+        "Open": 71,
+        "Done": 257,
+        "In Progress": 3,
+        "Backlog": 44,
+        "Cancelled": 2,
+        "Pending": 3,
+        "Closed": 1
+      },
+      "last_30d": 380,
+      "notes": "Active; 380 pages edited in last 30 days. CHG records here are sparse (2 CHG pages); most CHGs live in Archive C."
+    },
+    {
+      "id": "364c1829-53ff-81c0-9dbd-ff2c907d1a6b",
+      "name": "Auto-Heal B",
+      "pageCount": 169,
+      "statuses": {
+        "Backlog": 2,
+        "Open": 167
+      },
+      "last_30d": 0,
+      "notes": "169 open items; none edited in last 30 days. May indicate Auto-Heal DB is not receiving new 'needs_ken' items or type field is unset (all Type=Unknown)."
+    },
+    {
+      "id": "364c1829-53ff-818e-a783-ebafcb6a9880",
+      "name": "Archive C",
+      "pageCount": 1147,
+      "statuses": {
+        "Done": 346,
+        "Archived": 801
+      },
+      "last_30d": 346,
+      "notes": "Archive C holds 612 typed records; 558 are CHG pages. 346 pages edited in last 30 days."
+    }
+  ],
+  "akbSync": {
+    "dataSourceId": "34dc1829-53ff-812d-8e43-000b83eb0e7e",
+    "lastSync": "2026-07-09T08:46:37.000Z",
+    "totalSynced": 598,
+    "lastRunPages": 10,
+    "lastRunNew": 0,
+    "lastRunUpdated": 0,
+    "lastRunResult": "changes=0 updated=0 new=0",
+    "notes": "Local AKB mirror is current with Notion. state/akb-pages/ contains 598 exports."
+  },
+  "pgFindings": [
+    {
+      "id": "PG-001",
+      "priority": "P1",
+      "entityType": "chg",
+      "entityId": "CHG-*",
+      "issue": "273 CHGs exist in PG state_changes but are missing from Notion Archive C",
+      "evidence": "PG has 827 CHG rows. Notion Archive C has 558 CHG pages. Missing set includes early CHGs CHG-0001 through ~CHG-0272 plus anomaly IDs CHG-273, CHG-274, CHG-275, CHG-ARCHIVE-20260521-1.",
+      "notionPageId": null,
+      "suggestedAction": "Backfill missing CHGs to Notion Archive C in batches. Start with any CHG referenced in current docs/processes; early historical CHGs can be batched lower priority."
+    },
+    {
+      "id": "PG-002",
+      "priority": "P1",
+      "entityType": "sync",
+      "entityId": "state_notion_sync:345d6087-101d-4811-8970-a81a9d1812eb",
+      "issue": "Pending state_notion_sync audit entry from 2026-06-04 unresolved for 35 days",
+      "evidence": "SELECT * FROM state_notion_sync ORDER BY last_sync_at DESC shows row id=345d6087..., sync_type=audit, status=pending, last_sync_at='2026-06-04 10:00:00+10', issues={}.",
+      "notionPageId": null,
+      "suggestedAction": "Resolve or close the pending audit sync record. Determine expected outcome and update status to complete/cancelled with notes."
+    },
+    {
+      "id": "PG-003",
+      "priority": "P2",
+      "entityType": "agent",
+      "entityId": "agent_registry",
+      "issue": "PG agent_registry updated_at is 47 days stale for all 14 agents",
+      "evidence": "All 14 rows show updated_at='2026-05-23 19:25:32.439276+10'. Agent capabilities/model preferences may have changed since then.",
+      "notionPageId": null,
+      "suggestedAction": "Update agent_registry updated_at when agent configs change, or run a reconciliation script to refresh timestamps and validate capabilities against SOUL/AGENTS."
+    },
+    {
+      "id": "PG-004",
+      "priority": "P2",
+      "entityType": "notion-id",
+      "entityId": "07b6afaf-da51-4f0e-bb0c-6d37f3b78149",
+      "issue": "Content Calendar database ID in memory/shared/notion.md returns 404",
+      "evidence": "GET /v1/pages/07b6afaf-da51-4f0e-bb0c-6d37f3b78149 returns HTTP 404. Other page/DB IDs in notion.md resolved successfully.",
+      "notionPageId": "07b6afaf-da51-4f0e-bb0c-6d37f3b78149",
+      "suggestedAction": "Find current Content Calendar DB ID (if it still exists) or remove/update the stale reference in memory/shared/notion.md and any skills that reference it."
+    },
+    {
+      "id": "PG-005",
+      "priority": "P3",
+      "entityType": "notion-db",
+      "entityId": "Auto-Heal B",
+      "issue": "Auto-Heal B has 169 open items but zero edits in last 30 days and no Type values set",
+      "evidence": "Notion query returned 169 pages all with status=Open and Type=Unknown; last_30d=0.",
+      "notionPageId": "364c1829-53ff-81c0-9dbd-ff2c907d1a6b",
+      "suggestedAction": "Verify whether auto-heal 'needs_ken' items are being written to this DB. If not, fix the auto-heal → Notion integration or archive stale entries."
+    }
+  ],
+  "stateFindings": [
+    {
+      "id": "ST-001",
+      "priority": "P2",
+      "file": "state/framework-registry.json",
+      "issue": "File does not exist; local framework registry may be missing or managed elsewhere",
+      "evidence": "ls state/framework-registry.json returned 'not found'."
+    },
+    {
+      "id": "ST-002",
+      "priority": "P3",
+      "file": "state/akb-sync-state.json",
+      "issue": "AKB sync summary text refers to '2026-07-09 03:20 AEST' but lastSync is '2026-07-09T08:46:37.000Z'; timezone label may be confusing",
+      "evidence": "lastSync: 2026-07-09T08:46:37.000Z; lastSyncSummary: '2026-07-09 03:20 AEST: 10 pages synced...'"
+    }
+  ]
+}

@@ -1,0 +1,326 @@
+{
+  "scope": "local-docs",
+  "generatedAt": "2026-07-09T18:33:00+10:00",
+  "summary": {
+    "totalFilesScanned": 183,
+    "p1Findings": 5,
+    "p2Findings": 8,
+    "p3Findings": 6
+  },
+  "findings": [
+    {
+      "id": "LD-001",
+      "priority": "P1",
+      "file": "memory/shared/notion.md",
+      "issue": "Stale agent count: references 'All 12 agents status' but PG agent_registry shows 14 active agents",
+      "evidence": "line '| Agent Status | b84600c443b34ad8a0e3736bc373222c | All 12 agents status |'",
+      "suggestedAction": "Update to 'All 14 agents status' and ensure Notion Agent Status DB reflects all 14 registered agents",
+      "sourceOfTruth": "PG agent_registry (14 active agents: yoda, aria, forge, atlas, thrawn, lando, monmothma, spark, shield, lex, sage, warden, ahsoka, krennic)"
+    },
+    {
+      "id": "LD-002",
+      "priority": "P1",
+      "file": "memory/shared/integrations.md",
+      "issue": "Stale agent count: references '12 agents seeded' but PG agent_registry shows 14 active agents",
+      "evidence": "line '| Notion | ✅ Live | AInchors HQ — 6 databases, 12 agents seeded, all tasks loaded |'",
+      "suggestedAction": "Update to '14 agents seeded'",
+      "sourceOfTruth": "PG agent_registry (14 active agents)"
+    },
+    {
+      "id": "LD-003",
+      "priority": "P1",
+      "file": "docs/Nexus-System-Architecture-v1.0.md",
+      "issue": "Severely stale (54 days since last edit). References pre-CREST v1.3 architecture, pre-OC2 hardware state, and old 12-agent model. Architecture may be materially out of date with current Nexus platform state",
+      "evidence": "Last modified: 2026-05-14. CREST v1.3 was approved 2026-06-20. OC2 hardware was quoted 6-13 Jul 2026",
+      "suggestedAction": "Review and update to reflect CREST v1.3 architecture, 14-agent model, OC2 hardware plan, and PG SSOT architecture",
+      "sourceOfTruth": "docs/CREST-v1.3-Recursive-Model-C.md, memory/shared/decisions.md (2026-06-20 entries), PG agent_registry"
+    },
+    {
+      "id": "LD-004",
+      "priority": "P1",
+      "file": "docs/Aevlith-Technology-Strategy-Roadmap-v1.0-Internal.md",
+      "issue": "Severely stale (56 days since last edit). References pre-CREST architecture and pre-OC2 hardware state. May not reflect current P1-P4 roadmap amendments",
+      "evidence": "Last modified: 2026-05-14. CREST v1.3 and PG SSOT decisions post-date this document",
+      "suggestedAction": "Review for currency against CRESTv2-P1-DM, PG SSOT architecture, and OC2 hardware plan",
+      "sourceOfTruth": "docs/CRESTv2-P1-DM-StructuredFoundation-v1.0.md, memory/shared/decisions.md"
+    },
+    {
+      "id": "LD-005",
+      "priority": "P1",
+      "file": "docs/DataMemory_P1P4_Roadmap.md",
+      "issue": "Severely stale (56 days since last edit). No longer reflects the PG SSOT-first architecture adopted 2026-05-23",
+      "evidence": "Last modified: 2026-05-14. PG SSOT approved 2026-05-23. This document predates the PG SSOT decision",
+      "suggestedAction": "Review for relevance; may need supersession by PG SSOT-related docs or a new DataMemory roadmap incorporating PG-first write policy",
+      "sourceOfTruth": "docs/Postgres-Master-SSOT-Proposal-v1.0.md, docs/PG-First-Write-Policy-v1.0.md"
+    },
+    {
+      "id": "LD-006",
+      "priority": "P2",
+      "file": "docs/Agent_Governance_Framework_v1.md",
+      "issue": "Stale (58 days since last edit). Antedates CREST v1.3 governance model and Sage-as-Judge integration",
+      "evidence": "Last modified: 2026-05-12. CREST v1.3 governance model approved 2026-06-20",
+      "suggestedAction": "Review and update to reflect CREST v1.3 governance topology, Sage-as-Judge, and Warden model drift monitoring",
+      "sourceOfTruth": "docs/CREST-v1.3-Recursive-Model-C.md, agent-skills/crest/SKILL.md"
+    },
+    {
+      "id": "LD-007",
+      "priority": "P2",
+      "file": "memory/shared/company.md",
+      "issue": "Stale social media priority: lists Instagram as priority 1, Facebook as 2, LinkedIn as 3. Actual operational priority is LinkedIn (3x/week live) > Instagram/Facebook (pending API)",
+      "evidence": "Last modified: 2026-05-03. Integrations.md shows LinkedIn is live, Instagram/Facebook still pending TKT-0034",
+      "suggestedAction": "Update social priority to reflect LinkedIn as primary active channel, Instagram/Facebook as pending",
+      "sourceOfTruth": "memory/shared/integrations.md, agents/social/SOUL.md"
+    },
+    {
+      "id": "LD-008",
+      "priority": "P2",
+      "file": "memory/shared/projects.md",
+      "issue": "Stale: only lists P001 (AI Agent Foundation Setup) as active. Missing CRESTv2-P1, PG SSOT Gap Remediation, OC2 commissioning, and other active projects",
+      "evidence": "Last modified: 2026-04-25. Only one project listed. Multiple active EPICs (TKT-0342, CRESTv2-P1) not reflected",
+      "suggestedAction": "Review and update with current active projects (CRESTv2-P1, PG SSOT Gap Remediation, OC2 Hardware Commissioning, LinkedIn Campaign)",
+      "sourceOfTruth": "Yoda daily briefs, memory/shared/decisions.md, PG sprints table"
+    },
+    {
+      "id": "LD-009",
+      "priority": "P2",
+      "file": "memory/shared/notion.md",
+      "issue": "Notion root page IDs documented but links to 2022-06-28 API version may be outdated. Notion has released 2025-09-03 API version with schema changes",
+      "evidence": "Section 'API Notes: Use Notion-Version: 2022-06-28 for all operations (2025-09-03 has schema issues)'",
+      "suggestedAction": "Verify 2025-09-03 schema issues are still unresolved; if resolved, update to latest stable API version",
+      "sourceOfTruth": "Notion API changelog, agent-skills/notion/SKILL.md"
+    },
+    {
+      "id": "LD-010",
+      "priority": "P2",
+      "file": "agents/architect/SOUL.md",
+      "issue": "References 'Model: claude-sonnet-4.6 (Tier 3)' in Identity section, but CREST v1.3 model routing is resolved by model-policy-query.sh. Stale inline model reference creates potential drift",
+      "evidence": "Line: 'Model: claude-sonnet-4.6 (Tier 3)'. AGENTS.md says 'Model routing is resolved by model-policy-query.sh (PG-first). I do not select my own model.'",
+      "suggestedAction": "Remove inline model reference from SOUL.md Identity section, or replace with 'Model: resolved by CREST model-policy-query.sh per phase'",
+      "sourceOfTruth": "PG crest_phase_rules / agent-registry, model-policy-query.sh"
+    },
+    {
+      "id": "LD-011",
+      "priority": "P2",
+      "file": "SOUL.md (workspace root)",
+      "issue": "References 'Model: claude-sonnet-4.6 (Tier 3)' but PG agent_registry shows Yoda's model_preference as 'ollama/deepseek-v4-pro:cloud'. Inline model reference contradicts PG SSOT",
+      "evidence": "SOUL.md line: 'Model: claude-sonnet-4.6 (Tier 3)'. PG: 'agent:yoda|0|ollama/deepseek-v4-pro:cloud'",
+      "suggestedAction": "Update SOUL.md to reference model-policy-query.sh or remove inline model reference to avoid drift",
+      "sourceOfTruth": "PG agent_registry, CREST skill model assignment matrix"
+    },
+    {
+      "id": "LD-012",
+      "priority": "P2",
+      "file": "agents/architect/AGENTS.md",
+      "issue": "References 'Plan/Verify/Replan/Synthesize use deepseek-v4-flash:cloud' but CREST skill model assignment matrix shows design_backend Plan/Replan use deepseek-v4-pro (not flash). Stale model reference",
+      "evidence": "AGENTS.md line: 'Plan/Verify/Replan/Synthesize use deepseek-v4-flash:cloud'. CREST skill: 'design_backend Plan/Synthesize = deepseek-v4-pro, Execute = deepseek-v4-flash'",
+      "suggestedAction": "Align with CREST skill model assignment matrix. design_backend Plan/Replan = deepseek-v4-pro:cloud, not flash",
+      "sourceOfTruth": "agent-skills/crest/SKILL.md model assignment matrix"
+    },
+    {
+      "id": "LD-013",
+      "priority": "P2",
+      "file": "agents/architect/AGENTS.md",
+      "issue": "References 'Generic Workspace Guide: See root AGENTS.md' but root AGENTS.md references 'archive/AGENTS-generic-workspace-guide.md' which may not be loaded by subagent sessions",
+      "evidence": "AGENTS.md line: 'Generic Workspace Guide: See root AGENTS.md for the full workspace guide'. The guide was moved to archive/ to save space in AGENTS.md",
+      "suggestedAction": "Verify the archive file is accessible and referenced correctly; or inline critical workspace guide rules into each agent's AGENTS.md",
+      "sourceOfTruth": "archive/AGENTS-generic-workspace-guide.md"
+    },
+    {
+      "id": "LD-014",
+      "priority": "P3",
+      "file": "agent-skills/notion/SKILL.md",
+      "issue": "Likely no stale references — skill file was last updated 2026-06-20. However, verify that the DB IDs listed match current TOOLS.md",
+      "evidence": "Last modified: 2026-06-20. DB IDs listed match TOOLS.md values",
+      "suggestedAction": "No action required. Verify on next audit cycle",
+      "sourceOfTruth": "TOOLS.md (workspace root)"
+    },
+    {
+      "id": "LD-015",
+      "priority": "P3",
+      "file": "memory/shared/training-pipeline.md",
+      "issue": "Large file (13,028 bytes) with many TC ideas. Last modified 2026-06-27. Some TC-IDs may have been converted to posts or abandoned. No tracking mechanism for which ideas were actioned",
+      "evidence": "Last modified: 2026-06-27. 250+ TC ideas listed. No status column for 'posted' vs 'abandoned'",
+      "suggestedAction": "Consider adding status tracking for TC ideas (e.g., 'posted', 'abandoned', 'in-progress')",
+      "sourceOfTruth": "N/A — enhancement suggestion"
+    },
+    {
+      "id": "LD-016",
+      "priority": "P3",
+      "file": "memory/shared/cost-history.md",
+      "issue": "Very large file (1,564 lines, 43,972 bytes) with daily cost breakdowns. Last modified 2026-07-09. Consider archiving pre-2026-06 data to improve readability",
+      "evidence": "Last modified: 2026-07-09. 1,564 lines of daily cost data",
+      "suggestedAction": "Consider splitting into monthly files or archiving older months to keep base file manageable",
+      "sourceOfTruth": "N/A — enhancement suggestion"
+    },
+    {
+      "id": "LD-017",
+      "priority": "P3",
+      "file": "docs/CHANGELOG.md",
+      "issue": "Very large file (999,320 bytes, ~1MB). Last modified 2026-07-02. May cause performance issues when loading in agent sessions",
+      "evidence": "Last modified: 2026-07-02. 999,320 bytes",
+      "suggestedAction": "Consider archiving pre-2026-06 CHG entries to reduce file size",
+      "sourceOfTruth": "N/A — enhancement suggestion"
+    },
+    {
+      "id": "LD-018",
+      "priority": "P3",
+      "file": "docs/platform-lessons-register-v1.0.md",
+      "issue": "Very large file (192,931 bytes). Last modified 2026-06-27. May cause context window pressure when loaded",
+      "evidence": "Last modified: 2026-06-27. 192,931 bytes",
+      "suggestedAction": "Consider splitting into monthly or category-based lesson files",
+      "sourceOfTruth": "N/A — enhancement suggestion"
+    },
+    {
+      "id": "LD-019",
+      "priority": "P3",
+      "file": "MEMORY.md (workspace root)",
+      "issue": "References '12 agents' in Yoda's SOUL.md section ('12 agents, full-stack operations') but PG shows 14 agents. Also references 'docs/YODA_RULES.md + ORCHESTRATOR.md' which may be stale references",
+      "evidence": "SOUL section: 'two founders, 12 agents'. YODA_RULES.md and ORCHESTRATOR.md are in docs/",
+      "suggestedAction": "Update agent count references throughout MEMORY.md; verify YODA_RULES.md and ORCHESTRATOR.md are still current",
+      "sourceOfTruth": "PG agent_registry (14 agents)"
+    }
+  ],
+  "agentInventory": {
+    "activeAgents": [
+      { "agentId": "agent:yoda", "name": "Yoda", "tier": 0, "model": "ollama/deepseek-v4-pro:cloud", "status": "active" },
+      { "agentId": "agent:aria", "name": "Aria", "tier": 1, "model": "ollama/deepseek-v4-pro:cloud", "status": "active" },
+      { "agentId": "agent:forge", "name": "Forge", "tier": 1, "model": "ollama/deepseek-v4-pro:cloud", "status": "active" },
+      { "agentId": "agent:atlas", "name": "Atlas", "tier": 1, "model": "ollama/deepseek-v4-pro:cloud", "status": "active" },
+      { "agentId": "agent:thrawn", "name": "Thrawn", "tier": 1, "model": "ollama/deepseek-v4-pro:cloud", "status": "active" },
+      { "agentId": "agent:lando", "name": "Lando", "tier": 2, "model": "ollama/deepseek-v4-pro:cloud", "status": "active" },
+      { "agentId": "agent:monmothma", "name": "Mon Mothma", "tier": 2, "model": "ollama/deepseek-v4-pro:cloud", "status": "active" },
+      { "agentId": "agent:spark", "name": "Spark", "tier": 2, "model": "ollama/deepseek-v4-pro:cloud", "status": "active" },
+      { "agentId": "agent:ahsoka", "name": "Ahsoka", "tier": 2, "model": "ollama/deepseek-v4-pro:cloud", "status": "active" },
+      { "agentId": "agent:krennic", "name": "Krennic", "tier": 2, "model": "ollama/deepseek-v4-pro:cloud", "status": "active" },
+      { "agentId": "agent:warden", "name": "Warden", "tier": 2, "model": "ollama/kimi-k2.6:cloud", "status": "active" },
+      { "agentId": "agent:shield", "name": "Shield", "tier": 3, "model": "ollama/kimi-k2.6:cloud", "status": "active" },
+      { "agentId": "agent:lex", "name": "Lex", "tier": 3, "model": "ollama/kimi-k2.6:cloud", "status": "active" },
+      { "agentId": "agent:sage", "name": "Sage", "tier": 3, "model": "ollama/kimi-k2.6:cloud", "status": "active" }
+    ],
+    "missingSoul": [],
+    "missingAgents": [],
+    "soulOverLimit": []
+  },
+  "staleDocs": [
+    {
+      "file": "docs/Nexus-System-Architecture-v1.0.md",
+      "lastModified": "2026-05-14 12:49:46",
+      "daysSinceEdit": 56,
+      "flags": ["outdated-architecture", "pre-CREST-v1.3", "pre-PG-SSOT", "pre-OC2", "12-agent-model"]
+    },
+    {
+      "file": "docs/Aevlith-Technology-Strategy-Roadmap-v1.0-Internal.md",
+      "lastModified": "2026-05-14 12:50:03",
+      "daysSinceEdit": 56,
+      "flags": ["outdated-architecture", "pre-CREST-v1.3", "pre-PG-SSOT", "pre-OC2"]
+    },
+    {
+      "file": "docs/DataMemory_P1P4_Roadmap.md",
+      "lastModified": "2026-05-14 12:40:01",
+      "daysSinceEdit": 56,
+      "flags": ["pre-PG-SSOT", "outdated-datamemory-architecture"]
+    },
+    {
+      "file": "docs/Agent_Governance_Framework_v1.md",
+      "lastModified": "2026-05-12 22:14:20",
+      "daysSinceEdit": 58,
+      "flags": ["pre-CREST-v1.3", "outdated-governance-model"]
+    },
+    {
+      "file": "memory/shared/company.md",
+      "lastModified": "2026-05-03 19:04:51",
+      "daysSinceEdit": 67,
+      "flags": ["outdated-social-priority", "old-brand-tone"]
+    },
+    {
+      "file": "memory/shared/integrations.md",
+      "lastModified": "2026-04-26 20:11:27",
+      "daysSinceEdit": 74,
+      "flags": ["outdated-agent-count", "stale-12-agents"]
+    },
+    {
+      "file": "memory/shared/notion.md",
+      "lastModified": "2026-04-27 09:45:35",
+      "daysSinceEdit": 73,
+      "flags": ["outdated-agent-count", "old-notion-api-version", "stale-12-agents"]
+    },
+    {
+      "file": "memory/shared/projects.md",
+      "lastModified": "2026-04-25 21:53:07",
+      "daysSinceEdit": 75,
+      "flags": ["outdated-projects-list", "missing-current-epics", "single-project"]
+    },
+    {
+      "file": "memory/shared/research-framework.md",
+      "lastModified": "2026-04-29 18:08:16",
+      "daysSinceEdit": 71,
+      "flags": ["outdated-model-references", "pre-CREST-model-routing"]
+    },
+    {
+      "file": "memory/shared/decisions.md",
+      "lastModified": "2026-06-20 23:00:48",
+      "daysSinceEdit": 19,
+      "flags": ["last-decision-19-days-ago"]
+    },
+    {
+      "file": "memory/shared/training-pipeline.md",
+      "lastModified": "2026-06-27 23:01:51",
+      "daysSinceEdit": 12,
+      "flags": []
+    },
+    {
+      "file": "memory/shared/yoda-daily-brief.md",
+      "lastModified": "2026-07-01 19:17:26",
+      "daysSinceEdit": 8,
+      "flags": ["stale-8-days"]
+    },
+    {
+      "file": "memory/shared/sla-history.md",
+      "lastModified": "2026-07-03 17:36:45",
+      "daysSinceEdit": 6,
+      "flags": []
+    },
+    {
+      "file": "memory/shared/cost-history.md",
+      "lastModified": "2026-07-09 08:41:41",
+      "daysSinceEdit": 0,
+      "flags": []
+    },
+    {
+      "file": "docs/CREST-v1.3-Recursive-Model-C.md",
+      "lastModified": "2026-06-20 09:33:20",
+      "daysSinceEdit": 19,
+      "flags": []
+    },
+    {
+      "file": "docs/CREST-v1.3-Model-Policy-Schema.md",
+      "lastModified": "2026-06-21 20:18:00",
+      "daysSinceEdit": 18,
+      "flags": []
+    },
+    {
+      "file": "docs/CRESTv2-P1-DM-StructuredFoundation-v1.0.md",
+      "lastModified": "2026-06-22 08:14:00",
+      "daysSinceEdit": 17,
+      "flags": []
+    },
+    {
+      "file": "docs/AI_GOVERNANCE_FRAMEWORK_v1.0.md",
+      "lastModified": "2026-06-20 09:52:55",
+      "daysSinceEdit": 19,
+      "flags": []
+    },
+    {
+      "file": "docs/Model3-Policy.md",
+      "lastModified": "2026-06-20 09:51:00",
+      "daysSinceEdit": 19,
+      "flags": []
+    },
+    {
+      "file": "docs/PG-First-Write-Policy-v1.0.md",
+      "lastModified": "2026-06-23 20:39:00",
+      "daysSinceEdit": 16,
+      "flags": []
+    }
+  ]
+}

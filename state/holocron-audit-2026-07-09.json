@@ -1,0 +1,170 @@
+{
+  "auditId": "holocron-audit-2026-07-09",
+  "scope": "comprehensive Holocron / AKB refresh",
+  "generatedAt": "2026-07-09T18:52:00+10:00",
+  "parentChg": "CHG-0849",
+  "sourceFiles": [
+    "state/holocron-audit-local-docs-2026-07-09.json",
+    "state/holocron-audit-notion-pg-2026-07-09.json"
+  ],
+  "summary": {
+    "totalFilesScanned": 183,
+    "notionDbCount": 3,
+    "notionPageCountTotal": 1697,
+    "pgChgCount": 827,
+    "archiveChgPages": 558,
+    "missingFromNotionArchive": 273,
+    "p1Total": 7,
+    "p2Total": 10,
+    "p3Total": 7
+  },
+  "p1Findings": [
+    {
+      "id": "LD-001",
+      "sourceFile": "state/holocron-audit-local-docs-2026-07-09.json",
+      "file": "memory/shared/notion.md",
+      "issue": "Stale agent count: references 'All 12 agents status' but PG agent_registry shows 14 active agents",
+      "evidence": "Line '| Agent Status | b84600c443b34ad8a0e3736bc373222c | All 12 agents status |'",
+      "suggestedAction": "Update to 'All 14 agents status' and ensure Notion Agent Status DB reflects all 14 registered agents"
+    },
+    {
+      "id": "LD-002",
+      "sourceFile": "state/holocron-audit-local-docs-2026-07-09.json",
+      "file": "memory/shared/integrations.md",
+      "issue": "Stale agent count: references '12 agents seeded' but PG agent_registry shows 14 active agents",
+      "evidence": "Line '| Notion | ✅ Live | AInchors HQ — 6 databases, 12 agents seeded, all tasks loaded |'",
+      "suggestedAction": "Update to '14 agents seeded'"
+    },
+    {
+      "id": "LD-003",
+      "sourceFile": "state/holocron-audit-local-docs-2026-07-09.json",
+      "file": "docs/Nexus-System-Architecture-v1.0.md",
+      "issue": "Severely stale (54 days since last edit). References pre-CREST v1.3 architecture, pre-OC2 hardware state, and old 12-agent model",
+      "evidence": "Last modified: 2026-05-14. CREST v1.3 approved 2026-06-20. OC2 hardware ETA 6-13 Jul 2026.",
+      "suggestedAction": "Review and update to reflect CREST v1.3 architecture, 14-agent model, OC2 hardware plan, and PG SSOT architecture"
+    },
+    {
+      "id": "LD-004",
+      "sourceFile": "state/holocron-audit-local-docs-2026-07-09.json",
+      "file": "docs/Aevlith-Technology-Strategy-Roadmap-v1.0-Internal.md",
+      "issue": "Severely stale (56 days since last edit). References pre-CREST architecture and pre-OC2 hardware state",
+      "evidence": "Last modified: 2026-05-14. CREST v1.3 and PG SSOT decisions post-date this document.",
+      "suggestedAction": "Review for currency against CRESTv2-P1-DM, PG SSOT architecture, and OC2 hardware plan"
+    },
+    {
+      "id": "LD-005",
+      "sourceFile": "state/holocron-audit-local-docs-2026-07-09.json",
+      "file": "docs/DataMemory_P1P4_Roadmap.md",
+      "issue": "Severely stale (56 days since last edit). No longer reflects the PG SSOT-first architecture adopted 2026-05-23",
+      "evidence": "Last modified: 2026-05-14. PG SSOT approved 2026-05-23.",
+      "suggestedAction": "Review for relevance; may need supersession by PG SSOT-related docs or a new DataMemory roadmap incorporating PG-first write policy"
+    },
+    {
+      "id": "PG-001",
+      "sourceFile": "state/holocron-audit-notion-pg-2026-07-09.json",
+      "file": "Notion Archive C",
+      "issue": "273 CHGs exist in PG state_changes but are missing from Notion Archive C",
+      "evidence": "PG has 827 CHG rows. Notion Archive C has 558 CHG pages. Recent CHG-0837-0849 are present; missing are mostly early CHGs plus anomaly IDs CHG-273, CHG-274, CHG-275, CHG-ARCHIVE-20260521-1.",
+      "suggestedAction": "Backfill missing CHGs to Notion Archive C in batches. Start with any CHG referenced in current docs/processes."
+    },
+    {
+      "id": "PG-002",
+      "sourceFile": "state/holocron-audit-notion-pg-2026-07-09.json",
+      "file": "PG state_notion_sync",
+      "issue": "Pending state_notion_sync audit entry from 2026-06-04 unresolved for 35 days",
+      "evidence": "Row id=345d6087..., sync_type=audit, status=pending, last_sync_at='2026-06-04 10:00:00+10', issues={}.",
+      "suggestedAction": "Resolve or close the pending audit sync record; update status to complete/cancelled with notes."
+    }
+  ],
+  "p2Findings": [
+    {
+      "id": "LD-006",
+      "sourceFile": "state/holocron-audit-local-docs-2026-07-09.json",
+      "file": "docs/Agent_Governance_Framework_v1.md",
+      "issue": "Stale (58 days). Antedates CREST v1.3 governance model and Sage-as-Judge integration"
+    },
+    {
+      "id": "LD-007",
+      "sourceFile": "state/holocron-audit-local-docs-2026-07-09.json",
+      "file": "memory/shared/company.md",
+      "issue": "Stale social media priority: lists Instagram as priority 1, Facebook as 2, LinkedIn as 3. Operational priority is LinkedIn > Instagram/Facebook (pending)"
+    },
+    {
+      "id": "LD-008",
+      "sourceFile": "state/holocron-audit-local-docs-2026-07-09.json",
+      "file": "memory/shared/projects.md",
+      "issue": "Only lists P001 (AI Agent Foundation Setup). Missing CRESTv2-P1, PG SSOT Gap Remediation, OC2 commissioning, LinkedIn Campaign"
+    },
+    {
+      "id": "LD-010",
+      "sourceFile": "state/holocron-audit-local-docs-2026-07-09.json",
+      "file": "agents/architect/SOUL.md",
+      "issue": "References inline model 'claude-sonnet-4.6 (Tier 3)' while CREST v1.3 resolves models via model-policy-query.sh (PG-first)"
+    },
+    {
+      "id": "PG-003",
+      "sourceFile": "state/holocron-audit-notion-pg-2026-07-09.json",
+      "file": "PG agent_registry",
+      "issue": "updated_at is 47 days stale for all 14 agents; capabilities may have drifted"
+    },
+    {
+      "id": "PG-004",
+      "sourceFile": "state/holocron-audit-notion-pg-2026-07-09.json",
+      "file": "memory/shared/notion.md",
+      "issue": "Content Calendar database ID '07b6afaf-da51-4f0e-bb0c-6d37f3b78149' returns HTTP 404"
+    },
+    {
+      "id": "ST-001",
+      "sourceFile": "state/holocron-audit-notion-pg-2026-07-09.json",
+      "file": "state/framework-registry.json",
+      "issue": "File does not exist; local framework registry may be missing or managed elsewhere"
+    }
+  ],
+  "p3Findings": [
+    {
+      "id": "LD-009",
+      "sourceFile": "state/holocron-audit-local-docs-2026-07-09.json",
+      "file": "memory/shared/notion.md",
+      "issue": "API note pins Notion-Version to 2022-06-28 because 2025-09-03 had 'schema issues'; should verify if still true"
+    },
+    {
+      "id": "PG-005",
+      "sourceFile": "state/holocron-audit-notion-pg-2026-07-09.json",
+      "file": "Notion Auto-Heal B",
+      "issue": "169 open items but zero edits in last 30 days and no Type values set"
+    },
+    {
+      "id": "ST-002",
+      "sourceFile": "state/holocron-audit-notion-pg-2026-07-09.json",
+      "file": "state/akb-sync-state.json",
+      "issue": "Timezone label mismatch: lastSync UTC vs summary text AEST"
+    }
+  ],
+  "recommendedPhase2Actions": [
+    {
+      "action": "Update core reference docs (memory/shared/notion.md, integrations.md, company.md, projects.md) and fix agent count drift",
+      "owner": "Yoda",
+      "chg": "CHG-0849 (umbrella) or sub-CHG"
+    },
+    {
+      "action": "Refresh / supersede stale architecture docs (Nexus-System-Architecture, Aevlith-Roadmap, DataMemory_P1P4)",
+      "owner": "Atlas + Thrawn",
+      "chg": "CHG-0849 (umbrella) or sub-CHG"
+    },
+    {
+      "action": "Backfill 273 missing CHGs to Notion Archive C",
+      "owner": "Mon Mothma + Forge",
+      "chg": "CHG-0849 (umbrella) or sub-CHG"
+    },
+    {
+      "action": "Resolve pending state_notion_sync audit entry from 2026-06-04",
+      "owner": "Yoda",
+      "chg": "CHG-0849 (umbrella) or sub-CHG"
+    },
+    {
+      "action": "Fix Content Calendar DB 404 in memory/shared/notion.md",
+      "owner": "Yoda",
+      "chg": "CHG-0849 (umbrella) or sub-CHG"
+    }
+  ]
+}

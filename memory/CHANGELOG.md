@@ -1,3 +1,99 @@
+## 2026-07-09 22:21 AEST — [CHG-0856] Patch Holocron v1.1 docs for stale Anthropic/model-count references
+**Type:** doc
+**Change Type:** Normal
+**Source:** ken-prompt
+**Trigger:** Ken asked at 22:20 AEST 2026-07-09: 'Holocron agent fleet references?' following CHG-0855 Anthropic cleanup
+**What changed:** Patch factual inconsistencies in APPROVED v1.1 Holocron docs introduced by CHG-0855 removing Anthropic models from model-policy.json globalAllowedModels. docs/DataMemory_P1P4_Roadmap-v1.1.md: 12→9 models, remove Claude from T1 working-memory model roster, remove Claude/Anthropic from TLS callouts, update Data Residency Register scope. docs/Nexus-System-Architecture-v1.1.md: reconcile contradictory Anthropic DPA status lines to 'NOT VERIFIED — permanently parked per CHG-0502/0855'. docs/Aevlith-Technology-Strategy-Roadmap-v1.1.md: clarify Luthen status as queued P2, not active.
+**Why:** Approved v1.1 docs contain factual errors now that Anthropic models are removed from the allowed list and the platform runs entirely on Ollama Cloud.
+**Verification:** grep across v1.1 docs confirms zero '12 models'/'12 approved models' references and consistent DPA 'not verified/parked' status.
+**Rollback:** git revert the three v1.1 docs to pre-patch state.
+**Linked:** CHG-0849,CHG-0850,CHG-0853,CHG-0855
+---
+
+## 2026-07-09 22:08 AEST — [CHG-0855] Replace deprecated Anthropic model references with Ollama Cloud equivalents
+**Type:** config
+**Change Type:** Normal
+**Source:** ken-prompt
+**Trigger:** Ken requested at 22:05 AEST 2026-07-09: ensure deprecated Anthropic models replaced by correct Ollama Cloud assignment and routing across crons, config, and Holocron
+**What changed:** 1) Remove anthropic/claude-* entries from state/model-policy.json globalAllowedModels. 2) Update SOUL.md Yoda model line from claude-sonnet-4.6 to ollama/kimi-k2.7-code:cloud. 3) Update stale Anthropic references in architect/, biz-process/, change-mgt/ root AGENTS.md files to current Ollama Cloud models per policy. 4) Refresh PG agent_registry.model_preference to match openclaw.json v3.0 assignments. 5) Add supersession note to docs/AI_GOVERNANCE_FRAMEWORK_v1.0.md pointing to v1.1 Aevlith roadmap and model-policy.json.
+**Why:** Anthropic models are permanently parked (CHG-0502). Active config and Holocron still contain stale Anthropic references that could cause confusion or accidental routing.
+**Verification:** grep across crons/config/active docs shows zero anthropic/claude primary assignments; model-policy.json globalAllowedModels excludes Anthropic; agent_registry matches openclaw.json; SOUL.md and root AGENTS.md refs updated.
+**Rollback:** Restore model-policy.json from state/chg-0855-model-policy.json.rollback; git revert SOUL.md, root agent AGENTS.md files, docs/AI_GOVERNANCE_FRAMEWORK_v1.0.md; restore agent_registry model_preference from state/chg-0855-agent-registry.rollback.
+**Linked:** CHG-0502,CHG-0812,CHG-0853
+---
+
+## 2026-07-09 20:39 AEST — [CHG-0854] Phase 4 Holocron refresh: agent_registry staleness + Auto-Heal B triage
+**Type:** doc
+**Change Type:** Normal
+**Source:** ken-prompt
+**Trigger:** Ken approved 'Proceed' for Phase 4 at 20:35 AEST 2026-07-09
+**What changed:** 1) Update PG agent_registry.updated_at for all 14 active agents to current timestamp and verify roster/capabilities match current state. 2) Triage Notion Auto-Heal DB B: 169 open items with missing Type values and zero 30-day edits — assign Types, close stale/resolved items, surface actionable items.
+**Why:** Phase 1 audit identified PG agent_registry.updated_at 47 days stale and Auto-Heal B 169 untyped inactive open items.
+**Verification:** agent_registry query shows all 14 agents active with correct capabilities; Auto-Heal B query returns 169 open items categorized by source and age with Type values assigned.
+**Rollback:** Re-update agent_registry.updated_at to previous values from backup; revert Notion Auto-Heal B status/Type changes via Notion page history.
+**Linked:** CHG-0849,CHG-0850,CHG-0851,CHG-0852,CHG-0853
+---
+
+## 2026-07-09 20:34 AEST — [CHG-0853] Phase 3 Holocron refresh: promote three architecture v1.1 drafts to APPROVED
+**Type:** doc
+**Change Type:** Normal
+**Source:** ken-prompt
+**Trigger:** Ken approved three v1.1 DRAFT docs at 20:34 AEST 2026-07-09
+**What changed:** Promote docs/Nexus-System-Architecture-v1.1-DRAFT.md → docs/Nexus-System-Architecture-v1.1.md, docs/Aevlith-Technology-Strategy-Roadmap-v1.1-DRAFT.md → docs/Aevlith-Technology-Strategy-Roadmap-v1.1.md, docs/DataMemory_P1P4_Roadmap-v1.1-DRAFT.md → docs/DataMemory_P1P4_Roadmap-v1.1.md. Mark headers APPROVED v1.1 by Ken Mun 2026-07-09. Deprecate original v1.0 files via header note.
+**Why:** Phase 3 deliverables reviewed and approved by Ken; v1.0 docs were 54–56 days stale.
+**Verification:** Draft files confirmed present at expected paths with DRAFT FOR REVIEW status; diff against v1.0 shows updates to agent count, CREST, PG SSOT, OC2, recent CHGs, and memory tiers.
+**Rollback:** Restore original v1.0 files from git and remove v1.1 files.
+**Linked:** CHG-0849,CHG-0850,CHG-0851,CHG-0852
+---
+
+## 2026-07-09 19:55 AEST — [CHG-0852] Phase 3 Holocron refresh: refresh stale architecture and strategy docs
+**Type:** doc
+**Change Type:** Normal
+**Source:** ken-prompt
+**Trigger:** Ken approved 'Proceed' for Phase 3 after CHG-0851 completion
+**What changed:** Refresh or supersede three stale docs: docs/Nexus-System-Architecture-v1.0.md, docs/Aevlith-Technology-Strategy-Roadmap-v1.0-Internal.md, docs/DataMemory_P1P4_Roadmap.md. Update to reflect CREST v1.3, 14-agent model, PG SSOT-first architecture, OC2 hardware plan, current active projects.
+**Why:** Phase 1 audit found these docs 54-56 days stale and materially out of date with current platform state.
+**Verification:** Updated docs checked against PG agent_registry, state/model-policy.json, memory/shared/projects.md, CHG-0837-0851, and current openclaw.json.
+**Rollback:** git revert the three docs to previous versions.
+**Linked:** CHG-0849,CHG-0850,CHG-0851
+---
+
+## 2026-07-09 19:33 AEST — [CHG-0851] Phase 2b Holocron refresh: backfill 273 missing CHGs to Notion Archive C
+**Type:** doc
+**Change Type:** Normal
+**Source:** ken-prompt
+**Trigger:** Ken approved '2b first' after CHG-0850 Phase 2 completion
+**What changed:** Batch-create 273 CHG pages in Notion Archive DB C (364c1829-53ff-818e-a783-ebafcb6a9880) for CHG records present in PG state_changes but missing from Notion. Pages include Title, Type=CHG, Status=Done, Description, Completed Date, Priority.
+**Why:** Phase 1 audit found 827 PG CHGs vs 558 Notion Archive C CHG pages (273 gap), creating source-of-truth drift and incomplete AKB history.
+**Verification:** Post-backfill Notion query confirms 827 CHG pages in Archive C matching PG count; sample pages checked for correct title/description/status.
+**Rollback:** Delete the 273 created Notion pages or mark them Archived; restore PG state if Notion writes fail.
+**Linked:** CHG-0849,CHG-0850
+---
+
+## 2026-07-09 19:22 AEST — [CHG-0850] Phase 2 Holocron refresh: fix core reference drift and pending audit
+**Type:** doc
+**Change Type:** Normal
+**Source:** ken-prompt
+**Trigger:** Ken approved 'Agreed. Proceed' for Phase 2 Holocron updates (CHG-0849 follow-up)
+**What changed:** Update memory/shared/notion.md (14 agents, correct Content Calendar DB ID), memory/shared/integrations.md (14 agents), memory/shared/company.md (LinkedIn priority), memory/shared/projects.md (active projects); resolve pending state_notion_sync audit record.
+**Why:** Phase 1 audit found P1 drift between local reference docs and PG/Notion current state, plus a 35-day-pending sync audit record.
+**Verification:** Audit files state/holocron-audit-*-2026-07-09.json and PG agent_registry/state_notion_sync.
+**Rollback:** git revert memory/shared/*.md and restore state_notion_sync pending status if needed.
+**Linked:** CHG-0849
+---
+
+## 2026-07-09 18:33 AEST — [CHG-0849] CHG-0846: Holocron (AKB) comprehensive refresh — Phase 1 audit
+**Type:** doc
+**Change Type:** Normal
+**Source:** ken-prompt
+**Trigger:** Ken approved the Holocron refresh plan at 2026-07-09 18:32 AEST. AKB content is stale and drift exists between PG, Notion, and local docs.
+**What changed:** Initiate Phase 1 audit of all Holocron sources: Notion workspace + DBs, local docs (docs/, memory/, agent-skills), agent SOUL/AGENTS/TOOLS/USER, PG state tables, state/*.json, CHANGELOG.md. Deliver state/holocron-audit-2026-07-09.json with stale/drift findings and P1/P2/P3 priorities.
+**Why:** Ensures AKB reflects current system state; eliminates stale tribal knowledge and drift between PG, Notion, and local markdown.
+**Verification:** Phase 1 audit JSON delivered; stale findings cross-checked against PG/Notion/local sources; P1 items validated before Phase 2 updates.
+**Rollback:** N/A
+**Linked:** CHG-0840, CHG-0841, CHG-0842, CHG-0843, CHG-0844, CHG-0845
+---
+
 ## 2026-07-09 13:29 AEST — [CHG-0845] CHG-0845: Harden changelog-append.sh PG dual-write error handling
 **Trigger:** CHG-0844 creation showed 'WARNING: PG insert failed' but script continued, leaving markdown+Notion consistent while PG was missing the record. Ken directed: fix it, do not leave open bugs.
 **What changed:** Modify scripts/changelog-append.sh so the PG INSERT into state_changes is not silently swallowed via 2>/dev/null. Options: capture stderr, retry up to N times with backoff, and on final failure either exit non-zero (fail closed) or write a dead-letter state file (e.g. state/chg-pg-dead-letter.json) and still exit non-zero. Preserve markdown+Notion writes that already succeeded. Ensure idempotency: re-running with same CHG_ID should not duplicate if PG record exists.
