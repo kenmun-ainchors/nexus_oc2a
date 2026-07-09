@@ -105,6 +105,9 @@ npm-debug.log*
 .venv-crewai/
 scripts/_test_l138/
 
+# ── Nested .openclaw/workspace/ — prevent accidental writes from subagent cwd confusion (CHG-0843) ──
+.openclaw/workspace/
+
 # ── Embedded git repos (TKT-0539, CHG-0693) ─────────────────────────────────
 # forge/, thrawn/, and archive/agents/atlas/ are separate agent workspaces /
 # vendored clones with their own .git/ directories. They are intentionally
