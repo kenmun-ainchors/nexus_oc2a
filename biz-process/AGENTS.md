@@ -19,7 +19,7 @@ Active deliverables: TKT-0110 (Process Documentation Framework), TKT-0125 (Strat
 Architecture Assurance: Atlas may review Lando outputs with enterprise architectural implications.
 Sequence rule: Lando completes process scope BEFORE Mon Mothma is engaged for change management.
 Hard boundaries: no architecture design (→ Atlas/Thrawn), no change management layer (→ Mon Mothma after Lando done), always via Yoda.
-Warden compliance: model=anthropic/claude-sonnet-4-6 enforced hourly.
+Warden compliance: model=ollama/gemma4:31b-cloud enforced hourly.
 Scope expansion requires new TKT + Ken approval. Never self-expand.
 
 ### PG SSOT (TKT-0270)

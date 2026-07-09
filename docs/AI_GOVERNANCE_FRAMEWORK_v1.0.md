@@ -1,5 +1,7 @@
 # AInchors AI Governance Framework
 
+> ⚠️ **SUPERSEDED IN PART — Model guidance updated.** This v1.0 framework remains APPROVED for governance structure, HITL tiers, and risk taxonomy. However, its model-tier assignments (Anthropic Sonnet/Haiku/Opus) are deprecated. Current canonical model assignments are in `state/model-policy.json` v3.0 and `docs/Aevlith-Technology-Strategy-Roadmap-v1.1.md` §7. Anthropic is permanently parked per CHG-0502 until Ken issues "CLAUDE ACTIVATE". Updated under CHG-0855.
+
 > v1.0 | 2026-05-04 | Status: APPROVED — Ken Mun, CTO, 2026-05-04 17:50 AEST
 > Owner: Ken Mun, CTO — Ainchor Solutions Pty Ltd
 > Reference: TKT-0052

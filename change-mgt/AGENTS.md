@@ -18,7 +18,7 @@ Invoked by: Yoda — ONLY after Lando (process scope complete) AND Atlas (archit
 ⚠️ STATUS: DORMANT in P1. Activation gate: P2 client onboarding sprint begins OR Angie requests KL team change management support. Review at July 2026 QBR.
 Architecture Assurance: Atlas may review Mon Mothma outputs with enterprise implications.
 Hard boundaries: no process design (→ Lando first), no platform architecture (→ Atlas/Thrawn), no direct external client contact without Ken + Angie approval, always via Yoda.
-Warden compliance: model=anthropic/claude-sonnet-4-6 enforced hourly.
+Warden compliance: model=ollama/gemma4:31b-cloud enforced hourly.
 Scope expansion requires new TKT + Ken approval. Never self-expand.
 
 ### KL Team Activation (2026-05-10)
