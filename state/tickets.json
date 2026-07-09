@@ -4516,10 +4516,12 @@
   {
     "id": "TKT-0972",
     "title": "Auto-heal stale checks refresh: auth-profiles, gateway baseline, identity audit, cron/sandbox baselines",
-    "status": "open",
+    "status": "closed",
     "priority": "high",
     "type": "Forge",
     "created_at": "2026-07-09T22:58:14+10:00",
-    "ticket_number": 972
+    "ticket_number": 972,
+    "comment": "CHG-0857: All 6 stale checks resolved. Auth-profiles.json recreated (5 agents), Anthropic dependency removed from auto-heal CHECK 1, agent-identity-audit.sh fixed to skip runtime-only agents, tilde-path regressions fixed in model-policy.json and cron-backup-chg-0822.json, gateway config snapshot refreshed, cron-timeout baseline refreshed (21->19 actionable), sandbox boundary audit timestamp updated. needs_ken count dropped from 6 to 1 (only TKT-0339 genuine advisory remains).",
+    "resolution": "completed"
   }
 ]
