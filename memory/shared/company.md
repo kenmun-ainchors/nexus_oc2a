@@ -20,9 +20,11 @@ _Shared by all agents. Keep this current._
 - Accounts: accounts@ainchors.com
 
 ## Social Media (Priority Order)
-1. Instagram
-2. Facebook
-3. LinkedIn
+1. **LinkedIn** — ✅ Live, primary active channel (3 posts/week)
+2. **Instagram** — ⬜ Planned, pending API connection
+3. **Facebook** — ⬜ Planned, pending API connection
+
+_Updated 2026-07-09 during CHG-0850 Holocron refresh._
 
 ## Brand Tone
 _(To be defined — update when brand guidelines are set)_

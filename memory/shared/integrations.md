@@ -1,5 +1,5 @@
 # Integrations Status
-_All tool/API connections. Updated as we go._
+_All tool/API connections. Updated as we go. Last Holocron sync: 2026-07-09 (CHG-0850)_
 
 ## Status Key
 ✅ Live | 🟡 In Progress | ⬜ Planned | ❌ Blocked
@@ -15,9 +15,9 @@ _All tool/API connections. Updated as we go._
 | Gmail (accounts@ainchors.com) | ⬜ Planned | |
 | Google Calendar | ⬜ Planned | |
 | Google Drive | ⬜ Planned | |
-| Instagram | ⬜ Planned | Priority 1 social |
-| Facebook | ⬜ Planned | Priority 2 social |
-| LinkedIn | ⬜ Planned | Priority 3 social |
-| Notion | ✅ Live | AInchors HQ — 6 databases, 12 agents seeded, all tasks loaded |
+| Instagram | ⬜ Planned | Priority 2 social — pending API connection (TKT-0034) |
+| Facebook | ⬜ Planned | Priority 3 social — pending API connection |
+| LinkedIn | ✅ Live | Priority 1 social — 3x/week posting active (Spark, Aria) |
+| Notion | ✅ Live | AInchors HQ — 6 databases, 14 agents seeded, all tasks loaded |
 | Tailscale (remote dashboard) | ⬜ Planned | Phase 4 |
 | macOS Keychain (secrets) | ✅ Live | Zero-cost built-in secrets manager. 3 secrets stored: anthropic-api-key, notion-api-key, telegram-bot-token. CLI: `scripts/secrets-init.sh`. Doc: Operations/SecretsManagement.md |

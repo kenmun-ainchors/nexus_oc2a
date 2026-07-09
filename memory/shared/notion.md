@@ -1,5 +1,5 @@
 # Notion Workspace — AInchors HQ
-_Connected: 2026-04-25 | Integration: AInchors Yoda_
+_Connected: 2026-04-25 | Integration: AInchors Yoda | Last Holocron audit: 2026-07-09 (CHG-0850)_
 
 ## Root
 | Page | ID |
@@ -17,8 +17,8 @@ _Connected: 2026-04-25 | Integration: AInchors Yoda_
 | Projects | 9fe918e317c74b2ba250310578d8ab47 | All projects, both streams |
 | Tasks | 26de9c3ba4604b6eb3e2408fc8993c10 | All tasks, both streams |
 | Clients | c46b7b78d7c049a3a4d0f8f6d553531a | CRM — client profiles |
-| Agent Status | b84600c443b34ad8a0e3736bc373222c | All 12 agents status |
-| Content Calendar | 07b6afaf-da51-4f0e-bb0c-6d37f3b78149 | Social + content pipeline |
+| Agent Status | b84600c443b34ad8a0e3736bc373222c | All 14 agents status |
+| Content Calendar | ~~07b6afaf-da51-4f0e-bb0c-6d37f3b78149~~ | Removed/stale — DB not found in Notion (404). Spark content pipeline tracked in Backlog A and state_content_queue PG table. |
 | Cost Tracker | 34dc182953ff81b1a587ec39b239e465 | Daily token costs by model |
 | Meeting Notes | e8073a50c2fa4e3aa3a42119ea4c7eb0 | All meeting records |
 | Backlog — User Stories | 34dc182953ff814b8257d3a3bf351d44 | All US — backlog, sprint, done |
