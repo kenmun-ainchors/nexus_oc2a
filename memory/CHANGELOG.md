@@ -1,3 +1,104 @@
+## 2026-07-09 11:05 AEST — [CHG-0840] CLOSED — Structural Mitigations for Recurring Gateway Degradation
+**Type:** infra
+**Change Type:** Normal
+**Source:** Forge execution subagent
+**Trigger:** CHG-0839 investigation confirmed Observability Collector cron d3b1e203 (every 5 min) was primary contributor to main-session load; gateway restart blocked by it.
+
+**What changed:**
+
+### Phase 1 — Immediate Load Relief
+- Observability Collector (d3b1e203): every 5min → hourly
+- Task Monitor (637ecb12): every 5min → 15min
+- Task Queue Processor (a89d00ef): every 5min → 15min
+- Gateway Health Check (c65ace85): every 5min → 15min
+
+### Phase 2 — Main-Session Context Watchdog
+- Created scripts/main-session-context-watchdog.sh — alerts at >75% of 262k context limit
+- Added cron f1dd43fc — every 15min, isolated session
+
+### Phase 3 — Sandbox Boundary Fix
+- Confirmed workspace symlink exists (workspace-infra/workspace -> workspace)
+- Sandbox mode is off — no boundary restriction
+- Created agent-skills/ directory
+
+### Phase 4 — Cron Audit and Reduction
+- Disabled: obs-collect-heartbeat (redundant)
+- Reduced to weekly: cron-timeout-baseline-refresh, TKT-0343-config-snapshot
+- Reduced to hourly: TRIGGER-12 Allowlist, TZ Drift Monitor, PG-Notion Batch Sync
+- Reduced to 2-hourly: Warden Model Compliance
+- Fixed delivery: retention-cleanup-daily, retention-cleanup-report (telegram:main → numeric ID)
+
+### Phase 5 — Heap-Usage Monitoring
+- Created scripts/gateway-heap-check.sh — alerts at >80% heap used
+- Added cron e38eb280 — every 15min, isolated session
+
+### Phase 6 — Verification
+- 20/20 exec calls returned output ✓
+- 10/10 read calls returned content ✓
+- Test subagent completed ✓
+- Aria Daily Summary cron force-run enqueued ✓
+- No new gateway errors from changes ✓
+
+**Why:** Gateway/runtime degradation recurring immediately after manual restart. Root cause is cron/session pressure on main session, not gateway binary. Structural relief needed before next degradation cycle.
+
+**Verification:** All exec/read tools functional throughout execution. 62 crons → 63 (1 disabled + 2 new). Per-minute cron runs reduced significantly: 4 crons from 5min→15min, 3 crons from 30min→hourly, 1 from 5min→hourly. Rollback configs saved to state/chg-0840-rollback/.
+
+**Rollback:** Configs saved to state/chg-0840-rollback/. Re-enable obs-collect-heartbeat if gaps. Revert schedule changes via openclaw cron edit. Disable watchdog/heap check crons if false positives.
+
+**Linked:** CHG-0818, CHG-0828, CHG-0831, CHG-0839
+
+### CHG-0840 Verification / Correction — 2026-07-09 11:16 AEST
+Yoda independently verified the first Forge execution and found that the `infra` agent writes to `~/.openclaw/workspace-infra/` while the operational workspace is `~/.openclaw/workspace/`. Corrective actions taken:
+
+- Restored `scripts/main-session-context-watchdog.sh` to the CHG-0828 token-based auto-reset version (180k tokens / 200 messages / 70% ratio).
+- Created `scripts/main-session-context-warning.sh` as a separate early-warning monitor (196k tokens / 270 messages / 75% ratio); writes `state/main-session-context-warning.json` and does NOT reset.
+- Created `scripts/gateway-heap-check.sh` in `workspace/scripts/`; measures gateway RSS via `ps`, uses current Node heap as proxy, writes `state/gateway-heap-state.json`, warns at 80%, critical at 90%.
+- Updated cron `f1dd43fc` payload to run `workspace/scripts/main-session-context-watchdog.sh`.
+- Updated cron `e38eb280` payload to run `workspace/scripts/gateway-heap-check.sh`.
+- Added cron `9f43cf29-d6d2-45fd-8ba6-05abe78de2fb` for `workspace/scripts/main-session-context-warning.sh` (every 15min, isolated, agentTurn).
+- Committed new scripts: `19b02ceb fix: CHG-0840 structural mitigations — heap monitor + context early-warning scripts`.
+- Smoke tests: 5/5 exec, 5/5 read, gateway-heap-check.sh exit=0, main-session-context-warning.sh exit=0.
+- Remaining: commit `scripts/eod-journal-finalizer.sh` under CHG-0837; address `scripts/state-health-assert.sh` modification; investigate long-term fix for `infra` agent workspace boundary.
+
+---
+
+
+## 2026-07-09 08:58 AEST — [CHG-0839] OpenClaw gateway runtime degradation recurrence (CHG-0818 follow-up)
+**Type:** infra
+**Change Type:** Normal
+**Source:** incident-recovery
+**Trigger:** Aria Daily Summary cron failed write at 08:29 AEST; Yoda's own exec/read/sessions_list tools return empty/degraded intermittently. Pattern matches CHG-0818 (exec tool degradation) which was previously deferred.
+**What changed:** Restart OpenClaw gateway as immediate remediation; investigate runtime root cause (session budget, gateway queue, tool executor health) to prevent recurrence.
+**Why:** CHG-0837 fixed the EOD journal cron by converting from systemEvent to agentTurn/isolated, but underlying runtime instability persists. CHG-0831 (canonical session maintenance/disk cleanup) may have changed conditions that trigger or worsen the degradation.
+**Verification:** Evidence: Aria cron a7e7a820 lastRunStatus=error 'Write: to aria-daily-brief.md failed'; Yoda exec/read/sessions_list return empty in this session; CHG-0818 history notes same pattern.
+**Rollback:** If restart makes things worse, restore previous gateway state from nightly snapshot or launchctl unload/load.
+**Linked:** CHG-0818, CHG-0831, CHG-0837, cron:a7e7a820-32f6-4a2b-bb27-52367ebfa7dc, scripts/run-openclaw-sessions-cleanup.sh
+---
+
+## 2026-07-09 08:47 AEST — [CHG-0838] Restore Journal Discipline rule to active AGENTS.md (TKT-0296)
+**Type:** rule
+**Change Type:** Normal
+**Source:** incident-recovery
+**Trigger:** EOD finalizer fix (CHG-0837) revealed journals are skeletons because inline appender was not being called. AGENTS.md active file no longer contains the Journal Discipline rule; it was moved to archive/AGENTS-generic-workspace-guide.md during SOUL/AGENTS trimming.
+**What changed:** Restore the Journal Discipline — NON-NEGOTIABLE (TKT-0296) section to active AGENTS.md: after every meaningful exchange with Ken, append via bash scripts/journal-append.sh '<title>' '<multiline-summary>'. Same turn, ~30ms. EOD finalizer adds header+cost+business stream only.
+**Why:** The active AGENTS.md is the operational rulebook for Yoda. When the journal discipline rule was archived, Yoda stopped appending entries inline, producing empty skeleton journals even though the EOD finalizer was fixed.
+**Verification:** Evidence: active AGENTS.md has no journal rule; archive/AGENTS-generic-workspace-guide.md line 93 contains the original rule; recent journals 2026-07-07/08/09 are skeletons with 0 entries.
+**Rollback:** Remove the restored section from AGENTS.md and revert to archive-only reference.
+**Linked:** TKT-0296, CHG-0475, CHG-0437, CHG-0837, scripts/journal-append.sh, scripts/eod-journal-finalizer.sh
+---
+
+## 2026-07-09 08:34 AEST — [CHG-0837] Fix Daily Close — Journal cron (systemEvent no-op after CHG-0831)
+**Type:** cron
+**Change Type:** Normal
+**Source:** incident-recovery
+**Trigger:** TZ-DRIFT alert detected missing journal-2026-07-08.md at 23:34 AEST; root cause is Daily Close — Journal cron (4d926b2c) completing in 2-4ms without executing EOD finalizer steps.
+**What changed:** Convert Daily Close — Journal cron from sessionTarget=main + systemEvent to sessionTarget=isolated + agentTurn, matching working Blog cron (a027fd60); or wrap finalizer in an executable script invoked by the cron.
+**Why:** systemEvents injected into main session are no longer being acted upon by Yoda after CHG-0831 canonical session maintenance, causing journal finalization to silently fail since 2026-06-27.
+**Verification:** Evidence: git log shows last journal commit 2026-06-27; journal-2026-07-07.md and journal-2026-07-08.md do not exist; cron run history shows 2-4ms duration with no file changes; Blog cron (agentTurn/isolated) works correctly.
+**Rollback:** Revert cron definition to previous working state or disable new cron and restore manual EOD finalizer.
+**Linked:** CHG-0831 / TKT-0753 canonical session maintenance; Blog cron a027fd60; journal-generate.sh TKT-0328; state-health-assert.sh TKT-REC5
+---
+
 ## 2026-07-08 21:13 AEST — [CHG-0836] Fix health-check.sh bash/zsh lock-file glob compatibility — CLOSED
 **Type:** script
 **Change Type:** Normal
