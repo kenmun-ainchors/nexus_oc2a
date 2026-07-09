@@ -1,11 +1,11 @@
 {
-  "generated_at": "2026-07-09T13:50:18.552325+00:00",
-  "generated_at_aest": "2026-07-09 23:50 AEST",
+  "generated_at": "2026-07-09T14:51:53.128348+00:00",
+  "generated_at_aest": "2026-07-10 00:51 AEST",
   "period_hours": 24,
   "totals": {
     "ERROR": 0,
     "WARN": 8,
-    "INFO": 10
+    "INFO": 4
   },
   "top_errors": [],
   "top_warnings": [
@@ -16,10 +16,10 @@
   ],
   "trend": {
     "has_prev_data": true,
-    "prev_errors": 210,
-    "prev_warns": 104,
+    "prev_errors": 192,
+    "prev_warns": 92,
     "errors_pct_change": -100.0,
-    "warns_pct_change": -92.3
+    "warns_pct_change": -91.3
   },
   "worst_hour": null
 }
