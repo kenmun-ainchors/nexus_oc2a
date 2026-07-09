@@ -1,4 +1,42 @@
 ## Thursday, July 9, 2026 — Business Stream Summary
+_Written 23:45 AEST by Aria cron — verified 2026-07-09T13:45Z_
+
+### Angie interactions today
+- **No Angie activity today.** Last Angie interaction was Mon 6 Jul at ~18:16 AEST (4 decisions pending: headline option, booking link, content sprint approval, lead magnet title). Both sessions (`agent:business:telegram:direct:8141152780` and `agent:main:telegram:direct:8141152780`) show only routing echoes since Mon 6 Jul — no new user messages. The business session seq 8 (last assistant message timestamp 1783549335600) detected routing loop and went quiet. Main session seq 26 (1783549337286) same pattern. Evidence: sessions_history both sessions, all timestamps pre-9 Jul.
+
+### Decisions made
+- **Standup Day 76 — SENT ✅**: Sent at 08:15 AEST. Canvas size: 18,749 bytes. Message ID: `19f43cd1a467d67f`. Recipients: kenmun@gmail.com, angie.foong@ainchors.com. Evidence: state/standup-email-log.json dayNumber:76, status:ok.
+
+### Governance reviews
+- **Health check — OK ✅**: status:ok, exitCode:0, consecutiveFailures:0, lastCheck 2026-07-09T23:33 AEST. All checks pass (gateway, ollama, disk, healthStateAge, costStateAge, ollamaApi). No issues. Evidence: state/health-state.json lastCheck 23:33 AEST.
+- **Heartbeat (23:30 AEST) — ALL GREEN ✅**: 11 checks recorded. sessionModelDrift, mainSessionResume, cronHealth, mainSessionContext, owlCompliance, taskWatchdog, requestBudgetCheck, taskVerification, cronDeadLetter, ariaCrest, budgetCheck all OK. Evidence: state/heartbeat-state.json lastHeartbeat 23:30 AEST.
+- **Cron health — ALL CLEAN ✅**: healthy:true, failures:0, warnings:0, lastCheck 2026-07-09T13:30 UTC. Evidence: state/cron-health-state.json.
+- **Aria CREST — COMPLIANT ✅**: 0 violations, 0 warnings. Last check 2026-07-09T12:49 AEST. Evidence: state/aria-crest-compliance.json.
+- **Auto-heal (01:00 AEST) — COMPLETE WITH NEEDS KEN ⚠️ (unchanged)**: 50 checks, 5 issues: auth-profiles.json missing (CRITICAL — OpenClaw cannot route any model), agent-identity:vanilla-soul-detected (CRITICAL), 2 tilde-path violations, 20 actionable cron timeout recommendations, 37 crons for multi-vendor migration, sandbox boundary audit stale 371h. 1 auto-fix: git-commit 22 workspace files. Evidence: state/auto-heal-2026-07-09.json exit_status complete_with_needs_ken.
+
+### Open items (verified)
+- **Angie 4 decisions pending — ⏸️ AWAITING ANGIE (3rd day)**: Headline option, booking link, content sprint approval, lead magnet title. Session ended 18:16 AEST Mon 6 Jul. No new messages from Angie since. Evidence: sessions_history both business and main sessions — last user message timestamp 1783000562000 (Mon 6 Jul 18:18 AEST).
+- **Act 680 proposal (MYR 1,550,000) — ⏸️ PENDING ANGIE FORWARD**: Last contact 3 Jul. Angie engaged Mon 6 Jul on monetisation but did not mention forwarding to Dr. Sheila. Evidence: sessions_history no mention of Act 680 in Jul 6 messages.
+- **LinkedIn publish pipeline — ✅ FIXED AND EMPTY**: LI-W4-P11 posted Wed 8 Jul 12:00 AEST. LI-W4-P12 posted Wed 8 Jul 13:08 AEST. LI-W4-P10 posted Tue 7 Jul. All 3 Week 4 posts successful. **No Week 5 drafts exist** — no LI-W5-* files in social-drafts directory. Next slot would be Tue 14 Jul. Pipeline functional but dormant. Evidence: linkedin-campaign.json all 3 W4 posts posted; ls social-drafts no W5 files.
+- **Ad-hoc LinkedIn post (three hard lessons) — ⏸️ STILL LOCKED (14 days)**: state/adhoc-content-state.json status `locked_in_pending_publish`. Locked since Jun 25. Evidence: state/adhoc-content-state.json read 2026-07-09.
+- **Ken training confirmation (MSG-20260601-001) — ⏸️ 38 DAYS STALE**: relay-to-ken.json `sent: true`, no response from Ken. Evidence: relay-to-ken.json read 2026-07-09.
+- **Google Calendar auth (relay-20260603-001) — ⏸️ STILL BROKEN (36 days)**: relay-to-ken.json `sent: false`. No progress. Evidence: relay-to-ken.json read 2026-07-09.
+- **Auto-heal Needs Ken (6 items, escalated) — ⚠️ PENDING (2nd day)**: auth-profiles.json missing (CRITICAL), agent-identity vanilla-soul, 2 tilde-path violations, 20 cron timeout recommendations, 37 multi-vendor migration candidates, sandbox boundary audit 371h stale. Evidence: state/auto-heal-2026-07-09.json.
+- **Day 71 blog post (ainchors-2026-07-04) — 📝 STILL UNPUBLISHED**: Draft committed Jul 4. Governance: Shield:CLEAR, Lex:CONDITIONAL, Sage:CONDITIONAL. Needs Yoda review. Evidence: carried forward — governance status unchanged.
+- **Onboarding OB-PM-03 — ⏸️ STALLED**: No progress. BS-001 (JotForm/HRDF) and BS-002 (Lynn Huang/Finance) also stalled. Evidence: carried forward.
+- **LinkedIn Week 5 — ⏸️ NOT DRAFTED**: No LI-W5-* draft files exist. Pipeline works but empty. Next slot Tue 14 Jul. Evidence: social-drafts directory scan.
+
+### Handoff to Yoda
+- **🎯 Angie hasn't replied since Mon 18:16 AEST — 3 days running.** The 4 decisions (headline, booking link, content sprint, lead magnet) are still pending. Nudge threshold reached (7+ days since 2 Jul heartbeat nudge). Consider a gentle nudge tomorrow.
+- **✅ LinkedIn pipeline is FIXED but EMPTY.** All 3 Week 4 posts succeeded. Week 5 content needs drafting and scheduling. Pipeline is functional for the first time since the minimax-m3 era.
+- **✅ Health all green.** Heartbeat 23:30 all OK. CREST compliant. Cron health clean.
+- **✅ Standup Day 76 sent** — smooth delivery.
+- **🔴 Auto-heal needs-ken: 6 items, DAY 2 without Ken attention.** CRITICAL: auth-profiles.json missing (blocks OpenClaw model routing). Agent identity drift (vanilla SOUL.md). Sandbox audit 371h stale. Needs Ken urgently.
+- **⚠️ relay-to-ken.json: 2 items stale (38d / 36d)** — Ken training confirmation and Google Calendar auth. Neither acknowledged.
+- **Day 71 blog post still unpublished** — 5 days now.
+- **CHG activity today:** 8 CHGs in recent commits (CHG-0850 through CHG-0856) — Holocron docs refresh, Anthropic model refs update, agent registry triage, Notion backfill. These are infra/ops changes, not business stream.
+
+## Thursday, July 9, 2026 — Business Stream Summary
 _Written 10:44 AEST by Aria cron — verified 2026-07-09T00:44Z_
 
 ### Angie interactions today
