@@ -14,7 +14,7 @@
   "wakeMode": "now",
   "payload": {
     "kind": "systemEvent",
-    "text": "MORNING_STANDUP_V3: Generate and write the daily stand-up HTML.\\n\\nRun: bash /Users/ainchorsangiefpl/.openclaw/workspace/scripts/generate-standup.sh\\n\\nThe script reads state files, builds the 8-section stand-up HTML, and pipes it through cron-write.sh to ~/.openclaw/canvas/documents/standup-daily/index.html.\\n\\nDo NOT use the write tool. No reply needed unless the script exits non-zero.\\n\\nIf idempotency blocks a re-run, set STANDUP_FORCE=1 in the environment before invoking.\\n"
+    "text": "MORNING_STANDUP_V3: Generate and write the daily stand-up HTML.\\n\\nRun: bash /Users/ainchorsangiefpl/.openclaw/workspace/scripts/generate-standup.sh\\n\\nThe script reads state files, builds the 8-section stand-up HTML, and pipes it through cron-write.sh to $HOME/.openclaw/canvas/documents/standup-daily/index.html.\\n\\nDo NOT use the write tool. No reply needed unless the script exits non-zero.\\n\\nIf idempotency blocks a re-run, set STANDUP_FORCE=1 in the environment before invoking.\\n"
   },
   "state": {
     "nextRunAtMs": 1783202400000,

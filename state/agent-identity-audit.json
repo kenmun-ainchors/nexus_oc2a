@@ -1,11 +1,11 @@
 {
-    "auditedAt": "2026-07-09T15:00:08Z",
-    "failures": 8,
+    "auditedAt": "2026-07-09T23:01:46Z",
+    "failures": 0,
     "results": [
         {
             "agent": "business",
-            "status": "missing_workspace_dir",
-            "issue": "No workspace/business/ directory exists"
+            "status": "runtime_only_skip",
+            "issue": null
         },
         {
             "agent": "security",
@@ -19,8 +19,8 @@
         },
         {
             "agent": "qa",
-            "status": "missing_workspace_dir",
-            "issue": "No workspace/qa/ directory exists"
+            "status": "runtime_only_skip",
+            "issue": null
         },
         {
             "agent": "governance",
@@ -29,8 +29,8 @@
         },
         {
             "agent": "infra",
-            "status": "missing_workspace_dir",
-            "issue": "No workspace/infra/ directory exists"
+            "status": "runtime_only_skip",
+            "issue": null
         },
         {
             "agent": "architect",
@@ -39,8 +39,8 @@
         },
         {
             "agent": "platform-arch",
-            "status": "missing_workspace_dir",
-            "issue": "No workspace/platform-arch/ directory exists"
+            "status": "runtime_only_skip",
+            "issue": null
         },
         {
             "agent": "biz-process",
@@ -54,18 +54,18 @@
         },
         {
             "agent": "ahsoka",
-            "status": "missing_workspace_dir",
-            "issue": "No workspace/ahsoka/ directory exists"
+            "status": "runtime_only_skip",
+            "issue": null
         },
         {
             "agent": "spark",
-            "status": "missing_workspace_dir",
-            "issue": "No workspace/spark/ directory exists"
+            "status": "runtime_only_skip",
+            "issue": null
         },
         {
             "agent": "atlas",
-            "status": "missing_workspace_dir",
-            "issue": "No workspace/atlas/ directory exists"
+            "status": "runtime_only_skip",
+            "issue": null
         },
         {
             "agent": "thrawn",
@@ -74,8 +74,8 @@
         },
         {
             "agent": "forge",
-            "status": "missing_workspace_dir",
-            "issue": "No workspace/forge/ directory exists"
+            "status": "runtime_only_skip",
+            "issue": null
         }
     ]
 }

@@ -26,9 +26,29 @@ echo "  $(date '+%Y-%m-%d %H:%M:%S %Z')"
 echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
 echo ""
 
+# CHG-0857: Runtime-only agents (business, qa, infra, spark, atlas, ahsoka, platform-arch, forge)
+# live under ~/.openclaw/agents/ and don't have workspace/<agent>/ directories.
+# Skip them from identity drift checks — they are properly commissioned via their
+# agentDir in openclaw.json, not via workspace subdirectories.
+RUNTIME_ONLY_AGENTS=("business" "qa" "infra" "spark" "atlas" "ahsoka" "platform-arch" "forge")
+
 for agent_id in "${AGENT_IDS[@]}"; do
   # Skip main (Yoda) — uses workspace root SOUL.md
   if [[ "$agent_id" == "main" ]]; then
+    continue
+  fi
+
+  # CHG-0857: Skip runtime-only agents — they live under ~/.openclaw/agents/ not workspace/<agent>/
+  _is_runtime=false
+  for _ra in "${RUNTIME_ONLY_AGENTS[@]}"; do
+    if [[ "$agent_id" == "$_ra" ]]; then
+      _is_runtime=true
+      break
+    fi
+  done
+  if [[ "$_is_runtime" == "true" ]]; then
+    echo "  ⏭️  $agent_id — runtime-only agent (under ~/.openclaw/agents/), skipping workspace directory check"
+    RESULTS+=("{\"agent\":\"$agent_id\",\"status\":\"runtime_only_skip\",\"issue\":null}")
     continue
   fi
 

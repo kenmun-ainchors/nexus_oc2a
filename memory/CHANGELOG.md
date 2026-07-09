@@ -1,3 +1,15 @@
+## 2026-07-10 08:57 AEST — [CHG-0857] Refresh auto-heal CHECK 1 + auth-profiles + stale baselines
+**Type:** script
+**Change Type:** Normal
+**Source:** ken-prompt
+**Trigger:** Auto-heal needs_ken list (6 items) surfaced 2026-07-10; Ken approved recreation of auth-profiles.json for Ollama Cloud and refresh of stale checks.
+**What changed:** 1) Recreate auth-profiles.json for Ollama Cloud agent auth; remove Anthropic dependency from auto-heal CHECK 1. 2) Refresh gateway config baseline via gateway-config-snapshot.sh. 3) Update agent-identity-audit.sh to ignore runtime-only agents without workspace/ subdirs. 4) Re-run cron-timeout baseline refresh (TKT-0339). 5) Re-run sandbox boundary audit (TKT-0332). 6) Resolve TKT-0336 tilde-path state-file regressions.
+**Why:** Anthropic parked per CHG-0855; auth-profiles.json removed; auto-heal CHECK 1 still expects it. Gateway config changed under CHG-0855/0856 without baseline refresh. Closed tickets TKT-0336/0339/0332 regressed in auto-heal output.
+**Verification:** Re-run auto-heal and confirm needs_ken count drops to 0 (excluding new genuine issues). Verify Ollama Cloud model routing still works.
+**Rollback:** Restore auto-heal.sh from git; restore auth-profiles.json from backup if Ollama auth breaks.
+**Linked:** TKT-0336, TKT-0339, TKT-0332, CHG-0855, CHG-0856
+---
+
 ## 2026-07-09 22:21 AEST — [CHG-0856] Patch Holocron v1.1 docs for stale Anthropic/model-count references
 **Type:** doc
 **Change Type:** Normal

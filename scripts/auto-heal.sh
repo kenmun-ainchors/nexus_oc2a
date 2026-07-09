@@ -257,22 +257,27 @@ log "=== AUTO-HEAL START $NOW_LOCAL ==="
 log "CHECK 1: auth profiles + delegated tokens"
 CHECKS_RUN+=("auth_profiles")
 AUTH_FILE="$HOME/.openclaw/agents/main/agent/auth-profiles.json"
+# CHG-0857: Removed Anthropic dependency. Only verify Ollama auth profile exists.
 if [[ -f "$AUTH_FILE" ]]; then
-  HAS_ANTHROPIC=$(jq -r '.profiles."anthropic:default".key // empty' "$AUTH_FILE" 2>/dev/null)
   HAS_OLLAMA=$(jq -r '.profiles."ollama:default".key // empty' "$AUTH_FILE" 2>/dev/null)
-  if [[ -z "$HAS_ANTHROPIC" ]]; then
-    ISSUES_FOUND+=("auth:anthropic-missing")
-    NEEDS_KEN+=("Anthropic API key missing in auth-profiles.json — requires Ken to add via openclaw agents auth")
-    log "  ISSUE: anthropic key missing"
-  fi
   if [[ -z "$HAS_OLLAMA" ]]; then
     ISSUES_FOUND+=("auth:ollama-missing")
     NEEDS_KEN+=("Ollama key missing in auth-profiles.json — fallback chain broken")
     log "  ISSUE: ollama key missing"
   fi
 else
-  ISSUES_FOUND+=("auth:file-missing")
-  NEEDS_KEN+=("auth-profiles.json missing entirely — major issue, OpenClaw cannot route any model")
+  # CHG-0857: Check all agents (main, business, security, legal, qa) for auth-profiles.json
+  AUTH_CHECK_FAILED=false
+  for agent_dir in "$HOME/.openclaw/agents/main/agent" "$HOME/.openclaw/agents/business/agent" "$HOME/.openclaw/agents/security/agent" "$HOME/.openclaw/agents/legal/agent" "$HOME/.openclaw/agents/qa/agent"; do
+    if [[ ! -f "$agent_dir/auth-profiles.json" ]]; then
+      AUTH_CHECK_FAILED=true
+      ISSUES_FOUND+=("auth:file-missing:$(basename $(dirname $agent_dir))")
+      log "  ISSUE: $(basename $(dirname $agent_dir)) auth-profiles.json missing"
+    fi
+  done
+  if [[ "$AUTH_CHECK_FAILED" == "true" ]]; then
+    NEEDS_KEN+=("auth-profiles.json missing for one or more agents — CHG-0857 requires recreation")
+  fi
 fi
 
 # CHECK 1a: Delegated gog auth tokens (TKT-0336)

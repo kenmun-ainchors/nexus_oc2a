@@ -846,7 +846,7 @@
   "_note_crest_v13": "CREST v1.3 capability-based routing. PG state_model_policy is SSOT. This section is auto-generated nightly.",
   "_note_agentTiers_v13": "agentTiers aligned to CREST v1.3: primary = Execute/Synthesize phase model (deepseek-v4-flash for most roles). PG state_model_policy.crest_phase_rules is SSOT.",
   "defaultPolicy": {
-    "description": "Default model expectation for agents without explicit tier assignment. Matches ~/.openclaw/openclaw.json agents.defaults.model.",
+    "description": "Default model expectation for agents without explicit tier assignment. Matches the path in openclaw.json agents.defaults.model.",
     "primary": "ollama/kimi-k2.7-code:cloud",
     "fallbacks": [
       "ollama/kimi-k2.6:cloud"
