@@ -1,0 +1,1640 @@
+[
+  {
+    "change_id": "CHG-0001",
+    "title": "Day 2 journal rebuild + format lock",
+    "status": "",
+    "ts": "2026-04-27 06:20:00+10"
+  },
+  {
+    "change_id": "CHG-0002",
+    "title": "API balance state updated post top-up",
+    "status": "",
+    "ts": "2026-04-27 06:28:00+10"
+  },
+  {
+    "change_id": "CHG-0003",
+    "title": "Ollama apiKey hardening",
+    "status": "",
+    "ts": "2026-04-27 06:28:00+10"
+  },
+  {
+    "change_id": "CHG-0004",
+    "title": "US23 logged: resilient outage handling",
+    "status": "",
+    "ts": "2026-04-27 06:30:00+10"
+  },
+  {
+    "change_id": "CHG-0005",
+    "title": "Cron Telegram routing fix",
+    "status": "",
+    "ts": "2026-04-27 06:40:00+10"
+  },
+  {
+    "change_id": "CHG-0006",
+    "title": "Backup cron LLM-independence",
+    "status": "",
+    "ts": "2026-04-27 06:42:00+10"
+  },
+  {
+    "change_id": "CHG-0007",
+    "title": "Lock journal + blog format distinction",
+    "status": "",
+    "ts": "2026-04-27 06:46:00+10"
+  },
+  {
+    "change_id": "CHG-0008",
+    "title": "Resiliency framework: auto-heal cron + run-diagnostics + standup integration + 3 specs",
+    "status": "",
+    "ts": "2026-04-27 07:19:00+10"
+  },
+  {
+    "change_id": "CHG-0009",
+    "title": "Created auto-heal + run-diagnostics + CHANGELOG framework",
+    "status": "",
+    "ts": "2026-04-27 07:15:00+10"
+  },
+  {
+    "change_id": "CHG-0010",
+    "title": "Fixed CHG-NNNN auto-increment to use MAX (was first-match)",
+    "status": "",
+    "ts": "2026-04-27 07:20:00+10"
+  },
+  {
+    "change_id": "CHG-0011",
+    "title": "Created evergreen Operations/ResiliencyFramework.md (Obsidian)",
+    "status": "",
+    "ts": "2026-04-27 07:29:00+10"
+  },
+  {
+    "change_id": "CHG-0012",
+    "title": "Fixed agent main model drift Opus->Sonnet + added critical-config anti-drift baseline (auto-heal Check #12)",
+    "status": "",
+    "ts": "2026-04-27 07:38:00+10"
+  },
+  {
+    "change_id": "CHG-0013",
+    "title": "US22: Fix cost-tracker.sh parser \u2014 dollar-sign f-string shell expansion bug",
+    "status": "",
+    "ts": "2026-04-27 08:10:00+10"
+  },
+  {
+    "change_id": "CHG-0014",
+    "title": "US23: validate-fallback-chain.sh \u2014 boot-time fallback chain validation",
+    "status": "",
+    "ts": "2026-04-27 08:13:00+10"
+  },
+  {
+    "change_id": "CHG-0015",
+    "title": "US23: health-check.sh \u2014 Anthropic/Ollama API checks + standby mode (checks 13-15)",
+    "status": "",
+    "ts": "2026-04-27 08:13:00+10"
+  },
+  {
+    "change_id": "CHG-0016",
+    "title": "US23: OutageRecovery.md \u2014 recovery runbook for all major failure modes",
+    "status": "",
+    "ts": "2026-04-27 08:14:00+10"
+  },
+  {
+    "change_id": "CHG-0017",
+    "title": "US23: AutoHeal.md \u2014 added checks #13 (Anthropic), #14 (Ollama), #15 (standby auto-clear)",
+    "status": "",
+    "ts": "2026-04-27 08:14:00+10"
+  },
+  {
+    "change_id": "CHG-0018",
+    "title": "Wire validate-fallback-chain.sh to gateway boot via LaunchAgent",
+    "status": "",
+    "ts": "2026-04-27 08:22:00+10"
+  },
+  {
+    "change_id": "CHG-0019",
+    "title": "Add Gemma4 warmup probe (Link 4b) to fallback chain validator",
+    "status": "",
+    "ts": "2026-04-27 08:31:00+10"
+  },
+  {
+    "change_id": "CHG-0020",
+    "title": "US18: Monthly SLA Report generator + April 2026 report",
+    "status": "",
+    "ts": "2026-04-27 08:35:00+10"
+  },
+  {
+    "change_id": "CHG-0021",
+    "title": "Ticketing system (TKT-NNNN) + ticket-first rule",
+    "status": "",
+    "ts": "2026-04-27 09:45:00+10"
+  },
+  {
+    "change_id": "CHG-0022",
+    "title": "Slash-command triggers formalised: /resume, /research, /diagnostics",
+    "status": "",
+    "ts": "2026-04-27 09:49:00+10"
+  },
+  {
+    "change_id": "CHG-0023",
+    "title": "Business Lead Agent Aria created + Angie Telegram bound",
+    "status": "",
+    "ts": "2026-04-27 10:34:00+10"
+  },
+  {
+    "change_id": "CHG-0024",
+    "title": "Yoda\u2192Aria oversight + shared knowledge bridge + training pipeline",
+    "status": "",
+    "ts": "2026-04-27 10:40:00+10"
+  },
+  {
+    "change_id": "CHG-0025",
+    "title": "Aria granted full read access to all AInchors data (Angie = CEO authority)",
+    "status": "",
+    "ts": "2026-04-27 10:59:00+10"
+  },
+  {
+    "change_id": "CHG-0026",
+    "title": "Governance layer: Shield \ud83d\udd10, Lex \u2696\ufe0f, Sage \ud83e\uddea \u2014 3 agents operational",
+    "status": "",
+    "ts": "2026-04-27 11:23:00+10"
+  },
+  {
+    "change_id": "CHG-0027",
+    "title": "API balance topped up to $107.06 USD",
+    "status": "",
+    "ts": "2026-04-27 11:25:00+10"
+  },
+  {
+    "change_id": "CHG-0028",
+    "title": "Aria 3 non-negotiable rules locked: Gemma4 default, tail response, CR gate for technical changes",
+    "status": "",
+    "ts": "2026-04-27 11:34:00+10"
+  },
+  {
+    "change_id": "CHG-0029",
+    "title": "Aria TOM authority granted + Gemma4 extended to ALL business stream agents",
+    "status": "",
+    "ts": "2026-04-27 11:42:00+10"
+  },
+  {
+    "change_id": "CHG-0030",
+    "title": "Angie onboarding journey + adapted operating model created",
+    "status": "",
+    "ts": "2026-04-27 11:50:00+10"
+  },
+  {
+    "change_id": "CHG-0031",
+    "title": "Angie onboarding: Stage 3 PM framework inserted (Notion, backlog, epic, sprint, ceremonies)",
+    "status": "",
+    "ts": "2026-04-27 11:57:00+10"
+  },
+  {
+    "change_id": "CHG-0032",
+    "title": "3-tier credit alert system: $50 once, $25 every 3rd response, $10 pause-and-ack",
+    "status": "",
+    "ts": "2026-04-27 12:15:00+10"
+  },
+  {
+    "change_id": "CHG-0033",
+    "title": "US22 resolved \u2014 cost tracker working, Day 3 data parsed",
+    "status": "",
+    "ts": "2026-04-27 12:16:00+10"
+  },
+  {
+    "change_id": "CHG-0034",
+    "title": "Cost tracker balance reconciliation \u2014 corrected $68.75 \u2192 $88.20",
+    "status": "",
+    "ts": "2026-04-27 13:17:00+10"
+  },
+  {
+    "change_id": "CHG-0035",
+    "title": "Explicit Telegram routing: Ken\u2192Yoda binding + YODA THIS IS KEN handover keyword",
+    "status": "",
+    "ts": "2026-04-27 13:30:00+10"
+  },
+  {
+    "change_id": "CHG-0036",
+    "title": "Bonjour plugin disabled \u2014 gateway crash loop fix",
+    "status": "",
+    "ts": "2026-04-27 19:50:00+10"
+  },
+  {
+    "change_id": "CHG-0037",
+    "title": "Ken Telegram binding restored to main agent (post-reset)",
+    "status": "",
+    "ts": "2026-04-27 20:55:00+10"
+  },
+  {
+    "change_id": "CHG-0038",
+    "title": "Telegram split into two dedicated bots \u2014 Yoda + Aria",
+    "status": "",
+    "ts": "2026-04-27 21:55:00+10"
+  },
+  {
+    "change_id": "CHG-0039",
+    "title": "GitHub CLI authenticated \u2014 kenmun-ainchors",
+    "status": "",
+    "ts": "2026-04-27 22:03:00+10"
+  },
+  {
+    "change_id": "CHG-0040",
+    "title": "Gateway Recovery SOP: config snapshot, restore script, SOP doc, RULES.md update",
+    "status": "",
+    "ts": "2026-04-27 22:29:00+10"
+  },
+  {
+    "change_id": "CHG-0041",
+    "title": "Governance agents operational setup \u2014 Shield, Lex, Sage",
+    "status": "",
+    "ts": "2026-04-27 22:48:00+10"
+  },
+  {
+    "change_id": "CHG-0042",
+    "title": "AInchors Mission Control dashboard \u2014 generator script + HTML canvas + 5-min cron",
+    "status": "",
+    "ts": "2026-04-27 23:02:00+10"
+  },
+  {
+    "change_id": "CHG-0043",
+    "title": "Nightly auto-heal 2026-04-27: git commit + Notion US filing",
+    "status": "",
+    "ts": "2026-04-27 23:31:00+10"
+  },
+  {
+    "change_id": "CHG-0044",
+    "title": "/close command defined + Day 3 sprint closed",
+    "status": "",
+    "ts": "2026-04-27 23:48:00+10"
+  },
+  {
+    "change_id": "CHG-0045",
+    "title": "Warden \ud83d\udd0d \u2014 model compliance and drift monitoring agent",
+    "status": "",
+    "ts": "2026-04-28 07:54:00+10"
+  },
+  {
+    "change_id": "CHG-0046",
+    "title": "Lex (legal agent) model Opus \u2192 Sonnet",
+    "status": "",
+    "ts": "2026-04-28 07:58:00+10"
+  },
+  {
+    "change_id": "CHG-0047",
+    "title": "Gemma4 delegation model: gemma4:26b \u2192 gemma4:e2b",
+    "status": "",
+    "ts": "2026-04-28 08:37:00+10"
+  },
+  {
+    "change_id": "CHG-0048",
+    "title": "3-tier model strategy: Haiku 4.5 as Tier 2, qwen3 benchmarked",
+    "status": "",
+    "ts": "2026-04-28 10:39:00+10"
+  },
+  {
+    "change_id": "CHG-0049",
+    "title": "3-tier routing live: route-model.sh, governance cron scaffolding, Haiku extended",
+    "status": "",
+    "ts": "2026-04-28 10:47:00+10"
+  },
+  {
+    "change_id": "CHG-0050",
+    "title": "Day 4 sprint: delegation logging, config-009, burn alert, gemma4 shadow fix",
+    "status": "",
+    "ts": "2026-04-28 10:53:00+10"
+  },
+  {
+    "change_id": "CHG-0051",
+    "title": "Sage Rule 1: QA gate on all shared/communicated assets",
+    "status": "",
+    "ts": "2026-04-28 11:13:00+10"
+  },
+  {
+    "change_id": "CHG-0052",
+    "title": "Fix health-check.sh: declare -A, Python bool, lock glob bugs",
+    "status": "",
+    "ts": "2026-04-28 11:22:00+10"
+  },
+  {
+    "change_id": "CHG-0053",
+    "title": "Shield Rule 1 + Lex Rule 1: security and legal assurance gates on all shared assets",
+    "status": "",
+    "ts": "2026-04-28 11:31:00+10"
+  },
+  {
+    "change_id": "CHG-0054",
+    "title": "Governance gate wired into Aria + /governance ad-hoc command",
+    "status": "",
+    "ts": "2026-04-28 11:52:00+10"
+  },
+  {
+    "change_id": "CHG-0055",
+    "title": "Governance gate refinement: ask-first, Aria/Angie only",
+    "status": "",
+    "ts": "2026-04-28 12:01:00+10"
+  },
+  {
+    "change_id": "CHG-0056",
+    "title": "AKB daily update cron \u2014 3AM AEST, reads both stream journals",
+    "status": "",
+    "ts": "2026-04-28 12:44:00+10"
+  },
+  {
+    "change_id": "CHG-0057",
+    "title": "Aria relay path fix",
+    "status": "",
+    "ts": "2026-04-28 13:47:00+10"
+  },
+  {
+    "change_id": "CHG-0058",
+    "title": "US23 execution: outage handler, updated fallback chain, standby banner",
+    "status": "",
+    "ts": "2026-04-28 14:18:00+10"
+  },
+  {
+    "change_id": "CHG-0059",
+    "title": "ITSM batch: QW-2 severity flag, QW-3 Standards.md, ITSM-US-007 auto-heal INC, ITSM-US-006 PIR trigger",
+    "status": "",
+    "ts": "2026-04-28 14:26:00+10"
+  },
+  {
+    "change_id": "CHG-0060",
+    "title": "US27: Run Diagnostics phases 7-9 (coverage, performance, predictive)",
+    "status": "",
+    "ts": "2026-04-28 14:32:00+10"
+  },
+  {
+    "change_id": "CHG-0061",
+    "title": "/frameworks command \u2014 operational framework maturity assessment",
+    "status": "",
+    "ts": "2026-04-28 14:53:00+10"
+  },
+  {
+    "change_id": "CHG-0062",
+    "title": "Business ROI framework \u2014 value rubric, tracker, Aria integration, weekly cron",
+    "status": "",
+    "ts": "2026-04-28 16:21:00+10"
+  },
+  {
+    "change_id": "CHG-0063",
+    "title": "Business ROI expansion: campaign tracking, marketing funnel, sales conversion",
+    "status": "",
+    "ts": "2026-04-28 16:30:00+10"
+  },
+  {
+    "change_id": "CHG-0064",
+    "title": "Governance gate skip rule approved \u2014 Yoda/Ken internal work exempt",
+    "status": "",
+    "ts": "2026-04-28 16:44:00+10"
+  },
+  {
+    "change_id": "CHG-0065",
+    "title": "QW batch: SLOs, uptime logging, CI Register, change types, ITIL tags, PRB-001",
+    "status": "",
+    "ts": "2026-04-28 16:56:00+10"
+  },
+  {
+    "change_id": "CHG-0066",
+    "title": "US35: Relay poller \u2192 Haiku + fix health-check + fallback-chain bugs",
+    "status": "",
+    "ts": "2026-04-28 18:13:00+10"
+  },
+  {
+    "change_id": "CHG-0067",
+    "title": "US35 acceptance criteria locked \u2014 AC1+AC2 PASS, AC3 watch, AC4+AC5 deferred",
+    "status": "",
+    "ts": "2026-04-28 18:27:00+10"
+  },
+  {
+    "change_id": "CHG-0068",
+    "title": "Sprint cleanup: stale Notion items, duplicate MIGs, Opus investigation, cost tracker fix, INC severity back-populate",
+    "status": "",
+    "ts": "2026-04-28 18:31:00+10"
+  },
+  {
+    "change_id": "CHG-0069",
+    "title": "Day 4 sprint CLOSED",
+    "status": "",
+    "ts": "2026-04-28 18:32:00+10"
+  },
+  {
+    "change_id": "CHG-0070",
+    "title": "Cost tracker rebuilt from Anthropic CSV \u2014 cache write charges now included",
+    "status": "",
+    "ts": "2026-04-28 18:40:00+10"
+  },
+  {
+    "change_id": "CHG-0071",
+    "title": "Credit alerts recalibrated: T1=$80, T2=$40, T3=$15. Angie routing fixed.",
+    "status": "",
+    "ts": "2026-04-28 18:44:00+10"
+  },
+  {
+    "change_id": "CHG-0072",
+    "title": "Auto-Heal sweep 2026-04-28: 3 auto-fixes, 1 needs-ken",
+    "status": "",
+    "ts": "2026-04-28 21:57:00+10"
+  },
+  {
+    "change_id": "CHG-0073",
+    "title": "Auto-committed 7 untracked files in workspace repo",
+    "status": "",
+    "ts": "2026-04-29 01:01:00+10"
+  },
+  {
+    "change_id": "CHG-0074",
+    "title": "Auto-committed 1 untracked file in AInchors repo",
+    "status": "",
+    "ts": "2026-04-29 01:01:00+10"
+  },
+  {
+    "change_id": "CHG-0075",
+    "title": "Fix Aria fallback chain \u2014 Haiku only, no Opus/Gemma4",
+    "status": "",
+    "ts": "2026-04-29 10:47:00+10"
+  },
+  {
+    "change_id": "CHG-0076",
+    "title": "PIR-20260428-002 completed",
+    "status": "",
+    "ts": "2026-04-29 11:30:00+10"
+  },
+  {
+    "change_id": "CHG-0077",
+    "title": "US22: Fix cost-tracker.sh alert logic",
+    "status": "",
+    "ts": "2026-04-29 11:31:00+10"
+  },
+  {
+    "change_id": "CHG-0078",
+    "title": "US23: Resilient outage handling \u2014 outage-detect + recovery doc",
+    "status": "",
+    "ts": "2026-04-29 11:31:00+10"
+  },
+  {
+    "change_id": "CHG-0079",
+    "title": "US20: Research Framework \u2014 Tiers 2-4 defined, /research routing, registry, Notion AKB",
+    "status": "",
+    "ts": "2026-04-29 18:08:00+10"
+  },
+  {
+    "change_id": "CHG-0080",
+    "title": "US18: Monthly SLA Report \u2014 incident persistence + sla-report.sh + cron + Notion",
+    "status": "",
+    "ts": "2026-04-29 20:31:00+10"
+  },
+  {
+    "change_id": "CHG-0081",
+    "title": "US40: Platform-wide observability logging layer",
+    "status": "",
+    "ts": "2026-04-30 10:38:00+10"
+  },
+  {
+    "change_id": "CHG-0082",
+    "title": "US41: Cross-agent task monitoring sub-agent (TKT-0026)",
+    "status": "",
+    "ts": "2026-04-30 11:01:00+10"
+  },
+  {
+    "change_id": "CHG-0083",
+    "title": "Framework alignment DoD + registry + audit \u2014 Option A+B+C",
+    "status": "",
+    "ts": "2026-04-30 11:30:00+10"
+  },
+  {
+    "change_id": "CHG-0084",
+    "title": "RTB interim delivery model \u2014 Rose Thorn Bud replaces standup Section 8",
+    "status": "",
+    "ts": "2026-04-30 12:10:00+10"
+  },
+  {
+    "change_id": "CHG-0085",
+    "title": "Gemma4:e2b removed from all cron payloads \u2014 context window 2048 incompatible with OpenClaw min 16000",
+    "status": "",
+    "ts": "2026-04-30 12:39:00+10"
+  },
+  {
+    "change_id": "CHG-0086",
+    "title": "/achievements keyword \u2014 locked and formatted in RULES.md",
+    "status": "",
+    "ts": "2026-04-30 13:19:00+10"
+  },
+  {
+    "change_id": "CHG-0087",
+    "title": "Marketing collaterals generated for Angie \u2014 3 HTML assets",
+    "status": "",
+    "ts": "2026-04-30 13:30:00+10"
+  },
+  {
+    "change_id": "CHG-0088",
+    "title": "Aria SOUL.md compacted (17KB \u2192 3.7KB) + 3 failed gog crons removed + fallback chain cron fixed",
+    "status": "",
+    "ts": "2026-04-30 18:17:00+10"
+  },
+  {
+    "change_id": "CHG-0089",
+    "title": "obs-collector.sh: gateway.err.log monitoring added (9 error patterns)",
+    "status": "",
+    "ts": "2026-04-30 18:21:00+10"
+  },
+  {
+    "change_id": "CHG-0090",
+    "title": "obs-collector.sh: comprehensive monitoring \u2014 10 new checks (E-N) added",
+    "status": "",
+    "ts": "2026-04-30 18:26:00+10"
+  },
+  {
+    "change_id": "CHG-0091",
+    "title": "Agent SOUL.md compact standard \u2014 non-negotiable rule for all agents",
+    "status": "",
+    "ts": "2026-04-30 18:34:00+10"
+  },
+  {
+    "change_id": "CHG-0092",
+    "title": "Agent SOUL.md compact: Sage+Lex compacted; obs-collector +4 patterns; US22 closed; US19 elevated; cost-tracker source field fixed",
+    "status": "",
+    "ts": "2026-04-30 18:43:00+10"
+  },
+  {
+    "change_id": "CHG-0093",
+    "title": "US38: cost-tracker.sh now scans all agent session dirs with stream breakdown",
+    "status": "",
+    "ts": "2026-04-30 18:56:00+10"
+  },
+  {
+    "change_id": "CHG-0094",
+    "title": "SAGE_RULES.md + LEX_RULES.md created \u2014 all 6 agents now compact SOUL.md + RULES.md pattern",
+    "status": "",
+    "ts": "2026-04-30 19:24:00+10"
+  },
+  {
+    "change_id": "CHG-0095",
+    "title": "THORN fix: obs-collector session_stuck dedup + standup message length",
+    "status": "",
+    "ts": "2026-05-01 09:52:00+10"
+  },
+  {
+    "change_id": "CHG-0096",
+    "title": "US42 done: Ollama routing confirmed + Warden migrated to gemma4:e2b",
+    "status": "",
+    "ts": "2026-05-01 09:52:00+10"
+  },
+  {
+    "change_id": "CHG-0097",
+    "title": "Credit tracker balance corrected + top-up recorded",
+    "status": "",
+    "ts": "2026-05-01 18:57:00+10"
+  },
+  {
+    "change_id": "CHG-0098",
+    "title": "Fix cost-tracker remainingEstimate never decrements after top-up",
+    "status": "",
+    "ts": "2026-05-01 19:03:00+10"
+  },
+  {
+    "change_id": "CHG-0099",
+    "title": "S1-S7 Security Audit \u2014 May 2026",
+    "status": "",
+    "ts": "2026-05-01 19:39:00+10"
+  },
+  {
+    "change_id": "CHG-0100",
+    "title": "TRIGGER-08: Daily spend thresholds added to cost-tracker.sh",
+    "status": "",
+    "ts": "2026-05-01 19:39:00+10"
+  },
+  {
+    "change_id": "CHG-0101",
+    "title": "TRIGGER-04/06: OpenClaw release monitor cron added (daily 06:00 AEST)",
+    "status": "",
+    "ts": "2026-05-01 19:39:00+10"
+  },
+  {
+    "change_id": "CHG-0102",
+    "title": "HEARTBEAT.md: CHG trigger monitoring section added",
+    "status": "",
+    "ts": "2026-05-01 19:40:00+10"
+  },
+  {
+    "change_id": "CHG-0103",
+    "title": "Ollama Cloud PoC \u2014 Phase 1: Environment Setup",
+    "status": "",
+    "ts": "2026-05-01 19:41:00+10"
+  },
+  {
+    "change_id": "CHG-0104",
+    "title": "Ollama Cloud PoC \u2014 Phase 2: Smoke Test",
+    "status": "",
+    "ts": "2026-05-01 19:47:00+10"
+  },
+  {
+    "change_id": "CHG-0105",
+    "title": "Ollama Cloud PoC \u2014 Phase 3: Benchmarks (B1-B6 on qwen3.5:cloud)",
+    "status": "",
+    "ts": "2026-05-01 19:48:00+10"
+  },
+  {
+    "change_id": "CHG-0106",
+    "title": "Ollama Cloud PoC \u2014 Phase 4+5: Cost Analysis and Decision Gate",
+    "status": "",
+    "ts": "2026-05-01 19:48:00+10"
+  },
+  {
+    "change_id": "CHG-0107",
+    "title": "Fix MEMORY.md bootstrap truncation: bootstrapMaxChars 10k\u219220k",
+    "status": "",
+    "ts": "2026-05-01 20:23:00+10"
+  },
+  {
+    "change_id": "CHG-0108",
+    "title": "auto-heal CHECK 14: MEMORY.md + all SOUL.md size guard",
+    "status": "",
+    "ts": "2026-05-01 20:30:00+10"
+  },
+  {
+    "change_id": "CHG-0109",
+    "title": "Add model latency tracking \u2014 obs.db latency_log + latency-summary.json",
+    "status": "",
+    "ts": "2026-05-01 21:50:00+10"
+  },
+  {
+    "change_id": "CHG-0110",
+    "title": "Option B: AKB Daily Update switched to qwen3.5:cloud (Ollama Cloud free tier)",
+    "status": "",
+    "ts": "2026-05-01 23:50:00+10"
+  },
+  {
+    "change_id": "CHG-0111",
+    "title": "qwen3.5:cloud latency mitigation: think=False added to AKB cron",
+    "status": "",
+    "ts": "2026-05-01 23:53:00+10"
+  },
+  {
+    "change_id": "CHG-0112",
+    "title": "Fix duplicate blog path: remove workspace/canvas stray copies",
+    "status": "",
+    "ts": "2026-05-02 00:02:00+10"
+  },
+  {
+    "change_id": "CHG-0113",
+    "title": "Day 7 blog rewrite + BlogFormat.md style locked (Ken-approved)",
+    "status": "",
+    "ts": "2026-05-02 00:11:00+10"
+  },
+  {
+    "change_id": "CHG-0114",
+    "title": "Governance gate added to blog cron \u2014 Lex review mandatory before publish",
+    "status": "",
+    "ts": "2026-05-02 00:19:00+10"
+  },
+  {
+    "change_id": "CHG-0115",
+    "title": "Lex review fixes applied to Day 7 blog \u2014 cleared to publish",
+    "status": "",
+    "ts": "2026-05-02 00:23:00+10"
+  },
+  {
+    "change_id": "CHG-0116",
+    "title": "P1 POLICY: Governance + ITIL non-negotiable enforcement (TKT-0032)",
+    "status": "",
+    "ts": "2026-05-02 00:31:00+10"
+  },
+  {
+    "change_id": "CHG-0117",
+    "title": "INC-20260502-001: WS 1006/1000 V8 crash \u2014 stale plugin-runtime-deps cleared",
+    "status": "",
+    "ts": "2026-05-02 00:42:00+10"
+  },
+  {
+    "change_id": "CHG-0118",
+    "title": "US-A: Cron Model Right-Sizing Audit",
+    "status": "",
+    "ts": "2026-05-02 08:55:00+10"
+  },
+  {
+    "change_id": "CHG-0119",
+    "title": "US-B: Cron Fail-Fast + Dead-Letter Pattern",
+    "status": "",
+    "ts": "2026-05-02 09:00:00+10"
+  },
+  {
+    "change_id": "CHG-0120",
+    "title": "Ollama Cloud PoC Phase 5+6: kimi-k2.6:cloud added as Tier 2 (Pro subscription)",
+    "status": "",
+    "ts": "2026-05-02 10:12:00+10"
+  },
+  {
+    "change_id": "CHG-0121",
+    "title": "Model trigger updates post-PoC: TRIGGER-01-A, TRIGGER-11, TRIGGER-05 closed",
+    "status": "",
+    "ts": "2026-05-02 10:21:00+10"
+  },
+  {
+    "change_id": "CHG-0122",
+    "title": "Ollama PoC Phase 5C: gemma4 community cloud benchmark",
+    "status": "",
+    "ts": "2026-05-02 10:31:00+10"
+  },
+  {
+    "change_id": "CHG-0123",
+    "title": "Ollama PoC: deepseek-v4-flash + deepseek-v4-pro benchmark results",
+    "status": "",
+    "ts": "2026-05-02 10:32:00+10"
+  },
+  {
+    "change_id": "CHG-0124",
+    "title": "/standup and /update slash commands added to RULES.md",
+    "status": "",
+    "ts": "2026-05-02 10:42:00+10"
+  },
+  {
+    "change_id": "CHG-0125",
+    "title": "CI Agent live: continuous model comparison, deepseek-v4-pro:cloud, 15-day test",
+    "status": "",
+    "ts": "2026-05-02 11:13:00+10"
+  },
+  {
+    "change_id": "CHG-0126",
+    "title": "CI Framework: 7-day cycles, Cycle A->B->A loop, head-to-head approval gate",
+    "status": "",
+    "ts": "2026-05-02 11:24:00+10"
+  },
+  {
+    "change_id": "CHG-0127",
+    "title": "CI Framework loop updated: Cycle A always-on, A+B concurrent from week 2",
+    "status": "",
+    "ts": "2026-05-02 11:26:00+10"
+  },
+  {
+    "change_id": "CHG-0128",
+    "title": "/eod and /blog keywords locked \u2014 standalone blog type introduced",
+    "status": "",
+    "ts": "2026-05-02 11:47:00+10"
+  },
+  {
+    "change_id": "CHG-0129",
+    "title": "TKT-0033: Content governance triad gate live \u2014 Lex+Shield+Sage on all public content",
+    "status": "",
+    "ts": "2026-05-02 12:20:00+10"
+  },
+  {
+    "change_id": "CHG-0130",
+    "title": "Spark \u2728 social agent live \u2014 TKT-0038 LinkedIn content marketing, 3x weekly",
+    "status": "",
+    "ts": "2026-05-02 13:07:00+10"
+  },
+  {
+    "change_id": "CHG-0131",
+    "title": "Warden escalation WARDEN-20260502-152449 closed \u2014 obs-collector healthy",
+    "status": "",
+    "ts": "2026-05-02 15:50:00+10"
+  },
+  {
+    "change_id": "CHG-0132",
+    "title": "Fix model-drift-check.sh AEST_TIMESTAMP SyntaxError in Python state update",
+    "status": "",
+    "ts": "2026-05-02 18:52:00+10"
+  },
+  {
+    "change_id": "CHG-0133",
+    "title": "Resolve Warden escalation warden-20260503-0003; fix model-drift-check.sh violations Python quoting bug",
+    "status": "",
+    "ts": "2026-05-03 00:22:00+10"
+  },
+  {
+    "change_id": "CHG-0134",
+    "title": "TRIGGER-04: OpenClaw v2026.4.29 security release detected",
+    "status": "",
+    "ts": "2026-05-03 06:01:00+10"
+  },
+  {
+    "change_id": "CHG-0135",
+    "title": "TKT-0039: route-model.sh wired into sub-agent spawning \u2014 Tier A/B/C delegation live",
+    "status": "",
+    "ts": "2026-05-03 08:42:00+10"
+  },
+  {
+    "change_id": "CHG-0225",
+    "title": "Warden model drift auto-remediation",
+    "status": "",
+    "ts": "2026-05-08 01:19:00+10"
+  },
+  {
+    "change_id": "CHG-0228",
+    "title": "TKT-0085 Strategy & Governance Integration Sprint \u2014 complete",
+    "status": "",
+    "ts": "2026-05-08 08:21:00+10"
+  },
+  {
+    "change_id": "CHG-0244",
+    "title": "CI Cycle 1A Weekly Report Generated",
+    "status": "",
+    "ts": "2026-05-09 04:43:00+10"
+  },
+  {
+    "change_id": "CHG-0246",
+    "title": "Standup email \u2014 dark theme replaced with light (email-safe)",
+    "status": "",
+    "ts": "2026-05-09 11:52:00+10"
+  },
+  {
+    "change_id": "CHG-0248",
+    "title": "Aevlith Technologies \u2014 entity name locked, all references updated",
+    "status": "",
+    "ts": "2026-05-09 12:15:00+10"
+  },
+  {
+    "change_id": "CHG-0250",
+    "title": "CI Cycle B cancelled \u2014 new 75% pass rate gate + Cycle 2A with gemma4:31b",
+    "status": "",
+    "ts": "2026-05-09 13:04:00+10"
+  },
+  {
+    "change_id": "CHG-0276",
+    "title": "2026-05-11 22:10 AEST",
+    "status": "",
+    "ts": "2026-06-26 10:03:47.845135+10"
+  },
+  {
+    "change_id": "CHG-0338",
+    "title": "Channel Discipline v2 \u2014 Telegram VALID+PERSIST model",
+    "status": "",
+    "ts": "2026-05-15 12:17:00+10"
+  },
+  {
+    "change_id": "CHG-0355",
+    "title": "MEMORY.md trim + archive: interim T2 management until T4 semantic memory",
+    "status": "",
+    "ts": "2026-05-16 10:20:00+10"
+  },
+  {
+    "change_id": "CHG-0357",
+    "title": "Activate Cycle B: gemma4:31b-cloud for live ops-cron evaluation",
+    "status": "",
+    "ts": "2026-05-16 12:41:00+10"
+  },
+  {
+    "change_id": "CHG-0358",
+    "title": "TKT-0178 sub-tickets created and sprint-assigned",
+    "status": "",
+    "ts": "2026-05-16 12:44:00+10"
+  },
+  {
+    "change_id": "CHG-0360",
+    "title": "Sprint 4 scope confirmed by Ken",
+    "status": "",
+    "ts": "2026-05-16 12:56:00+10"
+  },
+  {
+    "change_id": "CHG-0362",
+    "title": "Warden intentional model drift documentation \u2014 interim period (kimi) declared not drift",
+    "status": "",
+    "ts": "2026-05-17 09:18:00+10"
+  },
+  {
+    "change_id": "CHG-0363",
+    "title": "Cron Interim Model Batch Update \u2014 16 crons to kimi",
+    "status": "",
+    "ts": "2026-05-17 10:00:00+10"
+  },
+  {
+    "change_id": "CHG-0364",
+    "title": "/resume bidirectional sync \u2014 explicit OTHER channel pull",
+    "status": "",
+    "ts": "2026-05-17 11:02:00+10"
+  },
+  {
+    "change_id": "CHG-0365",
+    "title": "TRIGGER-03 enhancement \u2014 gemma4:31b-coding-mtp-bf16 for OC2 T1",
+    "status": "",
+    "ts": "2026-05-17 11:16:00+10"
+  },
+  {
+    "change_id": "CHG-0366",
+    "title": "Fallback chain validator interim period fix",
+    "status": "",
+    "ts": "2026-05-17 13:51:00+10"
+  },
+  {
+    "change_id": "CHG-0367",
+    "title": "Conservative Mode shared library + RUNBOOK update",
+    "status": "",
+    "ts": "2026-05-17 13:55:00+10"
+  },
+  {
+    "change_id": "CHG-0368",
+    "title": "EOD Journal, Daily Blog, Morning Standup \u2014 templates LOCKED",
+    "status": "",
+    "ts": "2026-05-17 14:00:00+10"
+  },
+  {
+    "change_id": "CHG-0369",
+    "title": "Sprint 4 scope expanded to 8 items + Sprint 5 pre-assigned",
+    "status": "",
+    "ts": "2026-05-17 14:21:00+10"
+  },
+  {
+    "change_id": "CHG-0370",
+    "title": "Backlog updated with Sprint 4/5 assignments",
+    "status": "",
+    "ts": "2026-05-17 14:25:00+10"
+  },
+  {
+    "change_id": "CHG-0371",
+    "title": "Notion AKB Backlog full sync (Option A)",
+    "status": "",
+    "ts": "2026-05-17 14:50:00+10"
+  },
+  {
+    "change_id": "CHG-0372",
+    "title": "L-035 mitigation partially implemented",
+    "status": "",
+    "ts": "2026-05-17 15:10:00+10"
+  },
+  {
+    "change_id": "CHG-0373",
+    "title": "KIMI PLATFORM MANDATE \u2014 All execution on kimi, DoD = verified execution",
+    "status": "",
+    "ts": "2026-05-17 15:17:00+10"
+  },
+  {
+    "change_id": "CHG-0374",
+    "title": "Replacement tickets for wrongly archived Notion items",
+    "status": "",
+    "ts": "2026-05-17 15:29:00+10"
+  },
+  {
+    "change_id": "CHG-0375",
+    "title": "Comprehensive false Done audit \u2014 76 items found",
+    "status": "",
+    "ts": "2026-05-17 15:31:00+10"
+  },
+  {
+    "change_id": "CHG-0376",
+    "title": "AUTO-HEAL status rule verified and enforced",
+    "status": "",
+    "ts": "2026-05-17 15:37:00+10"
+  },
+  {
+    "change_id": "CHG-0377",
+    "title": "BACKLOG SYNC RULE \u2014 Absolutely Non-Negotiable",
+    "status": "",
+    "ts": "2026-05-17 15:44:00+10"
+  },
+  {
+    "change_id": "CHG-0378",
+    "title": "CHG records sync enforced \u2014 16 missing CHGs created",
+    "status": "",
+    "ts": "2026-05-17 15:49:00+10"
+  },
+  {
+    "change_id": "CHG-0379",
+    "title": "Created Date rule enforced \u2014 57 items missing",
+    "status": "",
+    "ts": "2026-05-17 15:53:00+10"
+  },
+  {
+    "change_id": "CHG-0380",
+    "title": "Delivered Date rule enforced",
+    "status": "",
+    "ts": "2026-05-17 15:57:00+10"
+  },
+  {
+    "change_id": "CHG-0381",
+    "title": "Lessons Registry sync enforced",
+    "status": "",
+    "ts": "2026-05-17 16:04:00+10"
+  },
+  {
+    "change_id": "CHG-0382",
+    "title": "Lessons Registry page fully updated (L-029 to L-035)",
+    "status": "",
+    "ts": "2026-05-17 16:11:00+10"
+  },
+  {
+    "change_id": "CHG-0383",
+    "title": "KIMI ATOMIC TASK RULE \u2014 Option B Enforced",
+    "status": "",
+    "ts": "2026-05-17 16:21:00+10"
+  },
+  {
+    "change_id": "CHG-0384",
+    "title": "DoD FAIL: CHG-0379-0383 not created in Backlog",
+    "status": "",
+    "ts": "2026-05-17 16:27:00+10"
+  },
+  {
+    "change_id": "CHG-0385",
+    "title": "Fixed wrong Notes on CHG-0379 to CHG-0383",
+    "status": "",
+    "ts": "2026-05-17 16:31:00+10"
+  },
+  {
+    "change_id": "CHG-0386",
+    "title": "OWL RULE \u2014 Think Before Acting",
+    "status": "",
+    "ts": "2026-05-17 16:38:00+10"
+  },
+  {
+    "change_id": "CHG-0387",
+    "title": "OWL RULE Step 4 refined \u2014 Comprehensive Planning",
+    "status": "",
+    "ts": "2026-05-17 16:40:00+10"
+  },
+  {
+    "change_id": "CHG-0388",
+    "title": "Tiered OWL \u2014 Timeout Prevention for Tier 2 & 3",
+    "status": "",
+    "ts": "2026-05-17 16:48:00+10"
+  },
+  {
+    "change_id": "CHG-0389",
+    "title": "Async Stateless Design \u2014 Resume After Timeout",
+    "status": "",
+    "ts": "2026-05-17 16:51:00+10"
+  },
+  {
+    "change_id": "CHG-0390",
+    "title": "Async Stateless Design Implementation Complete",
+    "status": "",
+    "ts": "2026-05-17 16:54:00+10"
+  },
+  {
+    "change_id": "CHG-0391",
+    "title": "All Anthropic crons switched to kimi",
+    "status": "",
+    "ts": "2026-05-17 17:49:00+10"
+  },
+  {
+    "change_id": "CHG-0393",
+    "title": "OpenClaw upgrade v2026.5.5 \u2192 v2026.5.12",
+    "status": "",
+    "ts": "2026-05-17 18:01:00+10"
+  },
+  {
+    "change_id": "CHG-0394",
+    "title": "Remove Anthropic from active config + Keychain cleanup",
+    "status": "",
+    "ts": "2026-05-17 18:26:00+10"
+  },
+  {
+    "change_id": "CHG-0401",
+    "title": "Notion 3-DB architecture: A(Backlog) B(Auto-Heal) C(Archive) \u2014 DBs created, migrated, routed",
+    "status": "",
+    "ts": "2026-05-18 16:47:00+10"
+  },
+  {
+    "change_id": "CHG-0402",
+    "title": "ticket.sh close now auto-archives to DB C (Completed-Archived) on close",
+    "status": "",
+    "ts": "2026-05-18 21:20:00+10"
+  },
+  {
+    "change_id": "CHG-0403",
+    "title": "Heartbeat AUTO-HEAL pipeline routed to DB B \u2014 separate from sprint backlog",
+    "status": "",
+    "ts": "2026-05-18 21:34:00+10"
+  },
+  {
+    "change_id": "CHG-0404",
+    "title": "Async Background Execution Rule \u2014 webchat must never be blocked by long-running tasks",
+    "status": "",
+    "ts": "2026-05-18 21:39:00+10"
+  },
+  {
+    "change_id": "CHG-0411",
+    "title": "Nightly Gateway Restart \u2014 Two-Cron Design for Reliable Verification",
+    "status": "",
+    "ts": "2026-05-19 07:15:00+10"
+  },
+  {
+    "change_id": "CHG-0412",
+    "title": "Journal Incremental Writer \u2014 Fix Date Boundary Bug",
+    "status": "",
+    "ts": "2026-05-19 07:42:00+10"
+  },
+  {
+    "change_id": "CHG-0413",
+    "title": "Blog May 18 \u2014 Fix Dead Governance Triad + Publish",
+    "status": "",
+    "ts": "2026-05-19 07:50:00+10"
+  },
+  {
+    "change_id": "CHG-0414",
+    "title": "Shell Script Anthropic Hardcoded Model Audit + Fix",
+    "status": "",
+    "ts": "2026-05-19 07:53:00+10"
+  },
+  {
+    "change_id": "CHG-0415",
+    "title": "Backup Health Check \u2014 Fix Wrong State Filename",
+    "status": "",
+    "ts": "2026-05-19 10:27:00+10"
+  },
+  {
+    "change_id": "CHG-0416",
+    "title": "Session Transcript Safety Snapshot \u2014 Pre-Restart Backup",
+    "status": "",
+    "ts": "2026-05-19 12:05:00+10"
+  },
+  {
+    "change_id": "CHG-0417",
+    "title": "CHG-0417: Drive Upload Discipline \u2014 --parent flag mandatory for all agents",
+    "status": "",
+    "ts": "2026-05-19 10:47:00+10"
+  },
+  {
+    "change_id": "CHG-0418",
+    "title": "TRIGGER-06: Critical config baseline re-based to interim-period Ollama Cloud assignments",
+    "status": "",
+    "ts": "2026-05-21 11:32:00+10"
+  },
+  {
+    "change_id": "CHG-0419",
+    "title": "RTB: auto-heal Check #12 interim-drift exceptions + obs-collector error pattern filter",
+    "status": "",
+    "ts": "2026-05-21 11:38:00+10"
+  },
+  {
+    "change_id": "CHG-0420",
+    "title": "EOD Blog Format Drift Since 2026-05-18 \u2014 Restore to Approved Template",
+    "status": "",
+    "ts": "2026-05-21 12:08:00+10"
+  },
+  {
+    "change_id": "CHG-0421",
+    "title": "Forge double-failure on TKT-0198 \u2014 agent execution investigation opened",
+    "status": "",
+    "ts": "2026-05-21 15:13:00+10"
+  },
+  {
+    "change_id": "CHG-0422",
+    "title": "TKT-0228 re-groomed + TKT-0237 Platform Rule Engine \u2014 defense-in-depth against agent drift",
+    "status": "",
+    "ts": "2026-05-21 16:01:00+10"
+  },
+  {
+    "change_id": "CHG-0423",
+    "title": "Notion resync \u2014 15 tickets + 5 CHGs from Day 27 session",
+    "status": "",
+    "ts": "2026-05-21 20:21:00+10"
+  },
+  {
+    "change_id": "CHG-0424",
+    "title": "Fix Warden False-Positive: Stale Fallback Chain Valid List",
+    "status": "",
+    "ts": "2026-05-23 08:14:00+10"
+  },
+  {
+    "change_id": "CHG-0425",
+    "title": "Warden: Auto-Derive Valid Fallback Chains from model-policy.json",
+    "status": "",
+    "ts": "2026-05-23 08:36:00+10"
+  },
+  {
+    "change_id": "CHG-0426",
+    "title": "CHG-0413: Journal Writer \u2014 Add Telegram Coverage",
+    "status": "",
+    "ts": "2026-05-24 07:51:00+10"
+  },
+  {
+    "change_id": "CHG-0427",
+    "title": "CHG-0427: Blog Writer \u2014 Lock HTML/CSS Template to Prevent Style Drift",
+    "status": "",
+    "ts": "2026-05-24 07:55:00+10"
+  },
+  {
+    "change_id": "CHG-0428",
+    "title": "CHG-0428: Decommission CI Cycle A/B Artifacts",
+    "status": "",
+    "ts": "2026-05-24 07:59:00+10"
+  },
+  {
+    "change_id": "CHG-0429",
+    "title": "CHG-0429: Auto-Heal Fail-Safe Reporting",
+    "status": "",
+    "ts": "2026-05-23 22:39:00+10"
+  },
+  {
+    "change_id": "CHG-0430",
+    "title": "sc_persist_atom fixes for A1 gate pass",
+    "status": "",
+    "ts": "2026-05-27 18:30:00+10"
+  },
+  {
+    "change_id": "CHG-0431",
+    "title": "tqp-yoda.sh wrapper created for TKT-0309 Phase 2",
+    "status": "",
+    "ts": "2026-05-27 18:36:00+10"
+  },
+  {
+    "change_id": "CHG-0432",
+    "title": "AGENTS.md TQP Execution Gate updated with concrete invocation paths",
+    "status": "",
+    "ts": "2026-05-27 18:39:00+10"
+  },
+  {
+    "change_id": "CHG-0433",
+    "title": "TQP self-test: 3-atom gate validation passed",
+    "status": "",
+    "ts": "2026-05-27 18:42:00+10"
+  },
+  {
+    "change_id": "CHG-0434",
+    "title": "DoD Gate updated with TQP persist requirement",
+    "status": "",
+    "ts": "2026-05-27 18:43:00+10"
+  },
+  {
+    "change_id": "CHG-0435",
+    "title": "TKT-0309 closed + TKT-0318/0319 raised for Phase 2 Aria + Phase 3 Global",
+    "status": "",
+    "ts": "2026-05-27 18:46:00+10"
+  },
+  {
+    "change_id": "CHG-0436",
+    "title": "ticket.sh: add JSON payload validation to write_ticket",
+    "status": "",
+    "ts": "2026-05-27 18:49:00+10"
+  },
+  {
+    "change_id": "CHG-0437",
+    "title": "TKT-0296: Journal Writer fixed \u2014 EOD finalizer simplified + HEARTBEAT cleaned",
+    "status": "",
+    "ts": "2026-05-27 18:55:00+10"
+  },
+  {
+    "change_id": "CHG-0438",
+    "title": "TKT-0317 groomed \u2014 deferred to Atlas+Thrawn assessment (TKT-0320)",
+    "status": "",
+    "ts": "2026-05-27 19:01:00+10"
+  },
+  {
+    "change_id": "CHG-0439",
+    "title": "TKT-0320 complete: Atlas 2-Pass Assessment for TKT-0317 Epic",
+    "status": "",
+    "ts": "2026-05-27 19:17:00+10"
+  },
+  {
+    "change_id": "CHG-0440",
+    "title": "TKT-0313 merged into TKT-0317 Phase 1 + 4 sub-tickets raised",
+    "status": "",
+    "ts": "2026-05-27 19:31:00+10"
+  },
+  {
+    "change_id": "CHG-0441",
+    "title": "TKT-0316 folded into TKT-0317 + TKT-0310/0293 locked to Sprint 6",
+    "status": "",
+    "ts": "2026-05-27 19:38:00+10"
+  },
+  {
+    "change_id": "CHG-0442",
+    "title": "Sprint 5: 9 open highs processed \u2014 5 folded, 3 deferred, TKT-0305 completed",
+    "status": "",
+    "ts": "2026-05-27 19:53:00+10"
+  },
+  {
+    "change_id": "CHG-0443",
+    "title": "May 2026 Model Review Remediation",
+    "status": "",
+    "ts": "2026-05-28 10:50:00+10"
+  },
+  {
+    "change_id": "CHG-0444",
+    "title": "Budget Cap Recalibration + Ollama Cloud Model Rates",
+    "status": "",
+    "ts": "2026-05-28 11:42:00+10"
+  },
+  {
+    "change_id": "CHG-0445",
+    "title": "CHG-0445: OpenClaw v2026.5.12 \u2192 v2026.5.27 Upgrade",
+    "status": "",
+    "ts": "2026-05-29 22:03:00+10"
+  },
+  {
+    "change_id": "CHG-0446",
+    "title": "TZ Drift: Journal grace window extended to 23:00 AEST",
+    "status": "",
+    "ts": "2026-05-30 10:00:00+10"
+  },
+  {
+    "change_id": "CHG-0447",
+    "title": "CHG-0447: Auto-Heal \u2014 backup threshold relaxed 26h\u219230h + Anthropic balance suppressed until TRIGGER-01",
+    "status": "",
+    "ts": "2026-05-29 22:12:00+10"
+  },
+  {
+    "change_id": "CHG-0448",
+    "title": "TKT-0327 Option B: cron-write.sh wrapper for tilde-path bug",
+    "status": "",
+    "ts": "2026-05-31 13:15:00+10"
+  },
+  {
+    "change_id": "CHG-0449",
+    "title": "CHG-0449: Post-CrewAI Crash Platform Shakedown \u2014 Findings, Fixes & Regression Learnings",
+    "status": "",
+    "ts": "2026-06-01 11:35:00+10"
+  },
+  {
+    "change_id": "CHG-0450",
+    "title": "2026-06-01 16:55 AEST",
+    "status": "",
+    "ts": "2026-06-26 10:03:47.845135+10"
+  },
+  {
+    "change_id": "CHG-0451",
+    "title": "2026-06-01 18:56 AEST",
+    "status": "",
+    "ts": "2026-06-26 10:03:47.845135+10"
+  },
+  {
+    "change_id": "CHG-0452",
+    "title": "2026-06-01 19:27 AEST",
+    "status": "",
+    "ts": "2026-06-26 10:03:47.845135+10"
+  },
+  {
+    "change_id": "CHG-0453",
+    "title": "2026-06-01 20:07 AEST",
+    "status": "",
+    "ts": "2026-06-26 10:03:47.845135+10"
+  },
+  {
+    "change_id": "CHG-0454",
+    "title": "2026-06-01 21:00 AEST",
+    "status": "",
+    "ts": "2026-06-26 10:03:47.845135+10"
+  },
+  {
+    "change_id": "CHG-0455",
+    "title": "2026-06-01 21:22 AEST",
+    "status": "",
+    "ts": "2026-06-26 10:03:47.845135+10"
+  },
+  {
+    "change_id": "CHG-0456",
+    "title": "2026-06-01 21:42 AEST",
+    "status": "",
+    "ts": "2026-06-26 10:03:47.845135+10"
+  },
+  {
+    "change_id": "CHG-0457",
+    "title": "Auto-Heal JSON Report Truncation + CHECK 15 Per-File Limits",
+    "status": "",
+    "ts": "2026-06-04 10:45:00+10"
+  },
+  {
+    "change_id": "CHG-0458",
+    "title": "Auto-Heal: Fix JSON Report Truncation + CHECK 15 Per-File Limits + Delegated Auth Pre-flight (TKT-0336)",
+    "status": "",
+    "ts": "2026-06-04 10:50:00+10"
+  },
+  {
+    "change_id": "CHG-0459",
+    "title": "Ahsoka Activated, Spark Dual-Stream, Luthen Operational, Brand Code Seeding Guide",
+    "status": "",
+    "ts": "2026-06-04 12:36:00+10"
+  },
+  {
+    "change_id": "CHG-0460",
+    "title": "CHG-0457: Fix Backup Health Check Field-Name Mismatch",
+    "status": "",
+    "ts": "2026-06-06 08:06:00+10"
+  },
+  {
+    "change_id": "CHG-0461",
+    "title": "CHG-0462: Config baseline refresh \u2014 7 days stale",
+    "status": "",
+    "ts": "2026-06-07 07:56:00+10"
+  },
+  {
+    "change_id": "CHG-0463",
+    "title": "CHG-0462: Fix auto-heal PG write failure \u2014 sequence desync",
+    "status": "",
+    "ts": "2026-06-07 07:58:00+10"
+  },
+  {
+    "change_id": "CHG-0464",
+    "title": "CHG-0464: Add PG sequence-health check to auto-heal (CHECK #17, TKT-0367)",
+    "status": "",
+    "ts": "2026-06-07 08:01:00+10"
+  },
+  {
+    "change_id": "CHG-0465",
+    "title": "Nexus Foundational Architecture Challenges Assessment v1.0 \u2014 CHG-0457",
+    "status": "",
+    "ts": "2026-06-07 20:28:00+10"
+  },
+  {
+    "change_id": "CHG-0466",
+    "title": "Nexus Controller Build Scaffolding (TKT-0333)",
+    "status": "",
+    "ts": "2026-06-08 10:00:00+10"
+  },
+  {
+    "change_id": "CHG-0470",
+    "title": "Forge Sandbox Boundary Hardening + Auto-Heal CHECK 18",
+    "status": "",
+    "ts": "2026-06-08 10:00:00+10"
+  },
+  {
+    "change_id": "CHG-0471",
+    "title": "Port Convention Formalization + Shadow Reserve (38789)",
+    "status": "",
+    "ts": "2026-06-08 13:42:00+10"
+  },
+  {
+    "change_id": "CHG-0472",
+    "title": "CHG-0472: Sage Primary Model Changed \u2014 gemma4:31b-cloud \u2192 deepseek-v4-pro:cloud",
+    "status": "",
+    "ts": "2026-06-08 22:01:00+10"
+  },
+  {
+    "change_id": "CHG-0473",
+    "title": "CHG-0473: C1 STALE Definition Drift Corrected \u2014 Harness v2.2",
+    "status": "",
+    "ts": "2026-06-08 22:29:00+10"
+  },
+  {
+    "change_id": "CHG-0474",
+    "title": "nightly-gateway-restart.sh: add dual-bind guard (CHG-0474)",
+    "status": "",
+    "ts": "2026-06-09 07:47:00+10"
+  },
+  {
+    "change_id": "CHG-0475",
+    "title": "CHG-0475: journal-append.sh v2.0 \u2014 simplified inline journal writer",
+    "status": "",
+    "ts": "2026-06-09 13:08:00+10"
+  },
+  {
+    "change_id": "CHG-0476",
+    "title": "2026-06-09",
+    "status": "Schema Hardening",
+    "ts": "Yoda (manual cleanup)"
+  },
+  {
+    "change_id": "CHG-0477",
+    "title": "TKT-0339: Cron Timeout Auto-Scaling \u2014 Adaptive Timeout + Retry + Reaping",
+    "status": "",
+    "ts": "2026-06-09 20:26:00+10"
+  },
+  {
+    "change_id": "CHG-0478",
+    "title": "CHG-0478: CREST Execution Loop locked",
+    "status": "",
+    "ts": "2026-06-09 21:10:00+10"
+  },
+  {
+    "change_id": "CHG-0479",
+    "title": "CREST v1.1 \u2014 Recursive Topology (Model C) Locked",
+    "status": "",
+    "ts": "2026-06-10 04:36:00+10"
+  },
+  {
+    "change_id": "CHG-0480",
+    "title": "CREST v1.2 \u2014 All 13 Atlas+Thrawn review findings resolved",
+    "status": "",
+    "ts": "2026-06-10 04:52:00+10"
+  },
+  {
+    "change_id": "CHG-0481",
+    "title": "CREST v1.2 LOCKED \u2014 Dual PASS from Atlas + Thrawn",
+    "status": "",
+    "ts": "2026-06-10 04:57:00+10"
+  },
+  {
+    "change_id": "CHG-0482",
+    "title": "CREST v1.2 Structural Foundation \u2014 8 sub-tickets complete",
+    "status": "",
+    "ts": "2026-06-10 08:55:00+10"
+  },
+  {
+    "change_id": "CHG-0483",
+    "title": "Aria CREST Guardrails \u2014 Layer 3 Proactive Drift Detection",
+    "status": "",
+    "ts": "2026-06-10 10:16:00+10"
+  },
+  {
+    "change_id": "CHG-0484",
+    "title": "TKT-0369 Failure #5 logged + dispatch-validate.sh parent ticket gate",
+    "status": "",
+    "ts": "2026-06-10 10:34:00+10"
+  },
+  {
+    "change_id": "CHG-0485",
+    "title": "TKT-0369 Closed \u2014 PG Sprint-Backlog Interface Skill",
+    "status": "",
+    "ts": "2026-06-10 11:12:00+10"
+  },
+  {
+    "change_id": "CHG-0486",
+    "title": "CREST Done Gate \u2014 Structural enforcement at ticket close",
+    "status": "",
+    "ts": "2026-06-10 11:23:00+10"
+  },
+  {
+    "change_id": "CHG-0487",
+    "title": "TKT-0391 Closed \u2014 PG Sprint Column Gap",
+    "status": "",
+    "ts": "2026-06-10 11:39:00+10"
+  },
+  {
+    "change_id": "CHG-0509",
+    "title": "2026-06-12 20:31 AEST \u2014 TKT-0407 batch execution: 88 tickets triaged",
+    "status": "",
+    "ts": "2026-06-26 10:03:47.845135+10"
+  },
+  {
+    "change_id": "CHG-0599",
+    "title": "LinkedIn campaign pipeline rework v2.0 \u2014 draft/publish separation",
+    "status": "",
+    "ts": "2026-06-15 18:45:00+10"
+  },
+  {
+    "change_id": "CHG-0605",
+    "title": "TKT-0093 Backup Health Check: timeout 30s\u2192120s, schedule 08:05\u219208:10",
+    "status": "",
+    "ts": "2026-06-17 11:24:00+10"
+  },
+  {
+    "change_id": "CHG-0610",
+    "title": "Clean tribal Agile/CREST knowledge from agent files",
+    "status": "",
+    "ts": "2026-06-17 18:38:00+10"
+  },
+  {
+    "change_id": "CHG-0622",
+    "title": "Fix zsh associative-array loop syntax in ollama-request-counter.sh",
+    "status": "",
+    "ts": "2026-06-17 22:15:00+10"
+  },
+  {
+    "change_id": "CHG-0720",
+    "title": "Test TKT-0720 A4 changelog-append linked hook",
+    "status": "cancelled",
+    "ts": "2026-06-22 20:12:35.751742+10"
+  },
+  {
+    "change_id": "CHG-0724",
+    "title": "Test TKT-0720 A4 changelog-append linked hook v3",
+    "status": "cancelled",
+    "ts": "2026-06-22 20:17:07.783019+10"
+  },
+  {
+    "change_id": "CHG-0725",
+    "title": "Test TKT-0720 A4 changelog-append linked hook v3",
+    "status": "cancelled",
+    "ts": "2026-06-22 20:17:10.989838+10"
+  },
+  {
+    "change_id": "CHG-0726",
+    "title": "Test TKT-0720 A4 changelog-append linked hook v3",
+    "status": "cancelled",
+    "ts": "2026-06-22 20:17:14.502265+10"
+  },
+  {
+    "change_id": "CHG-0727",
+    "title": "Test TKT-0720 A4 changelog-append linked hook v4",
+    "status": "cancelled",
+    "ts": "2026-06-22 20:17:17.380145+10"
+  },
+  {
+    "change_id": "CHG-0728",
+    "title": "Test TKT-0720 A4 changelog-append linked hook v5",
+    "status": "cancelled",
+    "ts": "2026-06-22 20:17:28.760675+10"
+  },
+  {
+    "change_id": "CHG-0729",
+    "title": "Test TKT-0720 A4 changelog-append linked hook v5",
+    "status": "cancelled",
+    "ts": "2026-06-22 20:17:32.182997+10"
+  },
+  {
+    "change_id": "CHG-0730",
+    "title": "Test TKT-0720 A4 changelog-append linked hook v5",
+    "status": "cancelled",
+    "ts": "2026-06-22 20:17:35.332213+10"
+  },
+  {
+    "change_id": "CHG-273",
+    "title": "TKT-0144 Cycle 1: Token Efficiency Audit \u2014 14 crons optimised",
+    "status": "",
+    "ts": "2026-05-11 11:46:00+10"
+  },
+  {
+    "change_id": "CHG-274",
+    "title": "TKT-0146: Backup optimisation \u2014 incremental daily, full weekly",
+    "status": "",
+    "ts": "2026-05-11 12:14:00+10"
+  },
+  {
+    "change_id": "CHG-275",
+    "title": "TKT-0124: MinIO deployed on OC1 \u2014 S3-compatible agent object store",
+    "status": "",
+    "ts": "2026-05-11 12:35:00+10"
+  },
+  {
+    "change_id": "CHG-ARCHIVE-20260521-1",
+    "title": "2026-05-21",
+    "status": "",
+    "ts": "2026-05-21 10:00:00+10"
+  }
+]

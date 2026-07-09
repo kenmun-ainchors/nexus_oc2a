@@ -1,0 +1,327 @@
+[
+  {
+    "page_id": "398c1829-53ff-81f6-9d64-d74dc177ead7",
+    "created_time": "2026-07-09T09:38:00.000Z",
+    "title": "[CHG-0014] US23: validate-fallback-chain.sh \u2014 boot-time fallback chain validation"
+  },
+  {
+    "page_id": "398c1829-53ff-8123-8625-ed003e15db8a",
+    "created_time": "2026-07-09T09:38:00.000Z",
+    "title": "[CHG-0013] US22: Fix cost-tracker.sh parser \u2014 dollar-sign f-string shell expansion bug"
+  },
+  {
+    "page_id": "398c1829-53ff-8107-ac1a-d9f54c631b97",
+    "created_time": "2026-07-09T09:38:00.000Z",
+    "title": "[CHG-0012] Fixed agent main model drift Opus->Sonnet + added critical-config anti-drift baseline (auto-heal Check #12)"
+  },
+  {
+    "page_id": "398c1829-53ff-81a7-a2f2-d39c62b885e3",
+    "created_time": "2026-07-09T09:38:00.000Z",
+    "title": "[CHG-0011] Created evergreen Operations/ResiliencyFramework.md (Obsidian)"
+  },
+  {
+    "page_id": "398c1829-53ff-818e-912d-c33d0a257461",
+    "created_time": "2026-07-09T09:38:00.000Z",
+    "title": "[CHG-0010] Fixed CHG-NNNN auto-increment to use MAX (was first-match)"
+  },
+  {
+    "page_id": "398c1829-53ff-810b-953b-ecc9d7b528ae",
+    "created_time": "2026-07-09T09:38:00.000Z",
+    "title": "[CHG-0009] Created auto-heal + run-diagnostics + CHANGELOG framework"
+  },
+  {
+    "page_id": "398c1829-53ff-81aa-9474-ef3121e33d21",
+    "created_time": "2026-07-09T09:38:00.000Z",
+    "title": "[CHG-0008] Resiliency framework: auto-heal cron + run-diagnostics + standup integration + 3 specs"
+  },
+  {
+    "page_id": "398c1829-53ff-8106-b655-d45b01e650d8",
+    "created_time": "2026-07-09T09:38:00.000Z",
+    "title": "[CHG-0007] Lock journal + blog format distinction"
+  },
+  {
+    "page_id": "398c1829-53ff-81da-ad08-c726d3500c9b",
+    "created_time": "2026-07-09T09:38:00.000Z",
+    "title": "[CHG-0006] Backup cron LLM-independence"
+  },
+  {
+    "page_id": "398c1829-53ff-8142-9536-d30133357198",
+    "created_time": "2026-07-09T09:38:00.000Z",
+    "title": "[CHG-0005] Cron Telegram routing fix"
+  },
+  {
+    "page_id": "398c1829-53ff-81e3-a40b-e8ab27ace5bb",
+    "created_time": "2026-07-09T09:38:00.000Z",
+    "title": "[CHG-0004] US23 logged: resilient outage handling"
+  },
+  {
+    "page_id": "398c1829-53ff-8191-b43e-e537287c5399",
+    "created_time": "2026-07-09T09:38:00.000Z",
+    "title": "[CHG-0003] Ollama apiKey hardening"
+  },
+  {
+    "page_id": "398c1829-53ff-8143-a03f-febd533b676c",
+    "created_time": "2026-07-09T09:38:00.000Z",
+    "title": "[CHG-0002] API balance state updated post top-up"
+  },
+  {
+    "page_id": "387c1829-53ff-8184-9fc4-f28bc1812e26",
+    "created_time": "2026-06-22T08:11:00.000Z",
+    "title": "[CHG-0714] TKT-0330 completion CHG"
+  },
+  {
+    "page_id": "37ec1829-53ff-817d-b6f5-d7e5b2c6b13a",
+    "created_time": "2026-06-13T03:58:00.000Z",
+    "title": "[CHG-0545] Lock Yoda role boundary: orchestrator-only CREST, evidence-only, no fabrication"
+  },
+  {
+    "page_id": "364c1829-53ff-813a-a399-c066bb0c3456",
+    "created_time": "2026-05-18T06:38:00.000Z",
+    "title": "[CHG-0312] Daily budget cap raised $150\u2192$450 (temp, until Sun 17 May)"
+  },
+  {
+    "page_id": "364c1829-53ff-81db-9509-dab00f50923f",
+    "created_time": "2026-05-18T06:38:00.000Z",
+    "title": "[CHG-0313] Cost investigation: 3 quick wins applied, TKT-0165 data feed complete"
+  },
+  {
+    "page_id": "364c1829-53ff-8132-8f05-f0012a06c5f4",
+    "created_time": "2026-05-18T06:37:00.000Z",
+    "title": "[CHG-0314] Nexus System Architecture Document v1.0 \u2014 TKT-0173"
+  },
+  {
+    "page_id": "364c1829-53ff-81c9-a349-caf561d3523e",
+    "created_time": "2026-05-18T06:37:00.000Z",
+    "title": "[CHG-0315] TKT-0172/0173: Technology Strategy & Roadmap (1a) + System Architecture Document produced"
+  },
+  {
+    "page_id": "364c1829-53ff-81df-be0d-e149ec529766",
+    "created_time": "2026-05-18T06:37:00.000Z",
+    "title": "[CHG-0316] TKT-0172: Technology Strategy & Roadmap v1.0 Internal produced"
+  },
+  {
+    "page_id": "364c1829-53ff-81f5-92b4-c1e0ae07d273",
+    "created_time": "2026-05-18T06:37:00.000Z",
+    "title": "[CHG-0317] TKT-0172: Technology Strategy & Roadmap v1.0 External (1b) produced"
+  },
+  {
+    "page_id": "364c1829-53ff-814c-aecd-db626113b034",
+    "created_time": "2026-05-18T06:37:00.000Z",
+    "title": "[CHG-0318] Golden blueprints approved + locked \u2014 Technology Strategy & System Architecture finalized"
+  },
+  {
+    "page_id": "364c1829-53ff-81ed-9406-f84bb7b94453",
+    "created_time": "2026-05-18T06:37:00.000Z",
+    "title": "[CHG-0319] Golden Blueprint cadence rules and triggers established"
+  },
+  {
+    "page_id": "364c1829-53ff-816c-8ae6-f840be8123f0",
+    "created_time": "2026-05-18T06:37:00.000Z",
+    "title": "[CHG-0320] Gateway restart \u2014 event loop saturation (28387ms delay, 98.3% utilisation)"
+  },
+  {
+    "page_id": "364c1829-53ff-8184-8251-fc925834856e",
+    "created_time": "2026-05-18T06:37:00.000Z",
+    "title": "[CHG-0321] TKT-0174: Gateway hygiene \u2014 Mission Control 15min, weekly restart cron, stale task cleanup cron"
+  },
+  {
+    "page_id": "364c1829-53ff-8183-8d41-d0ceade0f886",
+    "created_time": "2026-05-18T06:37:00.000Z",
+    "title": "[CHG-0322] linkedin-post.sh: --queue-content-id flag added \u2014 captures activity URN in queue after posting"
+  },
+  {
+    "page_id": "364c1829-53ff-818d-9732-e69029f451ed",
+    "created_time": "2026-05-18T06:37:00.000Z",
+    "title": "[CHG-0323] Work Currency routing: 4 high-frequency crons moved off main Sonnet session"
+  },
+  {
+    "page_id": "364c1829-53ff-8115-af27-cf53376ed93f",
+    "created_time": "2026-05-18T06:37:00.000Z",
+    "title": "[CHG-0324] cost-tracker.sh: STREAM_MAP + by_stream updated \u2014 all 12 agents correctly classified"
+  },
+  {
+    "page_id": "364c1829-53ff-814f-bdac-ca221660dd80",
+    "created_time": "2026-05-18T06:37:00.000Z",
+    "title": "[CHG-0325] Gateway restart: weekly \u2192 nightly 03:00 AEST. TKT-0177 raised for root cause investigation."
+  },
+  {
+    "page_id": "364c1829-53ff-81dc-aa42-da2ed791b5db",
+    "created_time": "2026-05-18T06:37:00.000Z",
+    "title": "[CHG-0326] model-policy.json: CHG-0270 format fix + stale model updates \u2014 Warden false positives resolved"
+  },
+  {
+    "page_id": "364c1829-53ff-8160-bf57-d39e9637326a",
+    "created_time": "2026-05-18T06:37:00.000Z",
+    "title": "[CHG-0327] auto-heal.sh: journal false positive fixed \u2014 today's journal check removed at 01:00 AEST"
+  },
+  {
+    "page_id": "364c1829-53ff-81e3-846a-d655be320c89",
+    "created_time": "2026-05-18T06:37:00.000Z",
+    "title": "[CHG-0328] Google Drive folder rule: NEVER upload to root. Folder map established. Docs moved."
+  },
+  {
+    "page_id": "364c1829-53ff-8128-ad22-d11c7dc95fad",
+    "created_time": "2026-05-18T06:37:00.000Z",
+    "title": "[CHG-0329] LI-C1-W2-P1 v3 approved \u2014 AIOps Part 1/6, scheduled Tue 19 May 07:30 AEST"
+  },
+  {
+    "page_id": "364c1829-53ff-8141-a5d1-db88f4d6ac53",
+    "created_time": "2026-05-18T06:37:00.000Z",
+    "title": "[CHG-0330] TKT-0178 deferred: routing enforcement deferred until post-Citadel. Ken approved."
+  },
+  {
+    "page_id": "364c1829-53ff-8196-89ae-ecf143fee5fa",
+    "created_time": "2026-05-18T06:37:00.000Z",
+    "title": "[CHG-0331] TKT-0180 committed: audit-skill.sh v2 enhancement \u2014 5 new semantic checks"
+  },
+  {
+    "page_id": "364c1829-53ff-81b1-a21a-ec5024401b86",
+    "created_time": "2026-05-18T06:37:00.000Z",
+    "title": "[CHG-0332] ClawGuard deferred to P2 \u2014 TKT-0180 (audit-skill.sh v2) addresses TKT-0142 now"
+  },
+  {
+    "page_id": "364c1829-53ff-81a3-bab4-de1c05e8f9fe",
+    "created_time": "2026-05-18T06:37:00.000Z",
+    "title": "[CHG-0333] TKT-0181 committed: Gemma4 fine-tuning research \u2014 P3 boundary, Thrawn owner"
+  },
+  {
+    "page_id": "364c1829-53ff-810b-9529-c9cecee9f252",
+    "created_time": "2026-05-18T06:37:00.000Z",
+    "title": "[CHG-0334] audit-skill.sh v2: Add 5 new security checks (TKT-0180)"
+  },
+  {
+    "page_id": "364c1829-53ff-810d-bf70-eb5c8e509a04",
+    "created_time": "2026-05-18T06:37:00.000Z",
+    "title": "[CHG-0335] TKT-0141/0142/0180 CLOSED \u2014 Skill security complete: policy + audit v2 + weekly cron"
+  },
+  {
+    "page_id": "364c1829-53ff-815e-a6e5-f32c45e3ed3a",
+    "created_time": "2026-05-18T06:37:00.000Z",
+    "title": "[CHG-0336] kimi pilot reverted: webchat + telegram \u2192 Sonnet. kimi = standup ONLY."
+  },
+  {
+    "page_id": "364c1829-53ff-8167-9fcd-f43ff0b6428c",
+    "created_time": "2026-05-18T06:37:00.000Z",
+    "title": "[CHG-0337] Skill audit v2: 6 BLOCK findings reviewed \u2014 all false positives, marked clean-5-low-fp"
+  },
+  {
+    "page_id": "364c1829-53ff-81bc-96f0-f588004fb89d",
+    "created_time": "2026-05-18T06:37:00.000Z",
+    "title": "[CHG-0339] TKT-0185: LinkedIn queue consolidation \u2014 single SSOT"
+  },
+  {
+    "page_id": "364c1829-53ff-810a-a27a-f7448d0d38a3",
+    "created_time": "2026-05-18T06:37:00.000Z",
+    "title": "[CHG-0340] Telegram Yoda \u2192 kimi model via yoda-telegram agent (TKT-0160 model gap fix)"
+  },
+  {
+    "page_id": "364c1829-53ff-81d8-9340-d1391ec7a0b7",
+    "created_time": "2026-05-18T06:37:00.000Z",
+    "title": "[CHG-0341] tickets.json deduplication \u2014 14 colliding IDs renumbered to TKT-0186+"
+  },
+  {
+    "page_id": "364c1829-53ff-812c-8f9f-e461ef5c585f",
+    "created_time": "2026-05-18T06:37:00.000Z",
+    "title": "[CHG-0342] SOUL.md: channel-state.json write rule made explicit with Python snippet \u2014 kimi Telegram gap fixed"
+  },
+  {
+    "page_id": "364c1829-53ff-8134-8289-fcc52593763b",
+    "created_time": "2026-05-18T06:37:00.000Z",
+    "title": "[CHG-0343] Yoda Telegram context brief + 30-min refresh cron"
+  },
+  {
+    "page_id": "364c1829-53ff-81a0-bf25-d0fefdb49be0",
+    "created_time": "2026-05-18T06:37:00.000Z",
+    "title": "[CHG-0344] Hybrid Option D: Telegram unified into main session (dmScope:main) \u2014 TKT-0184 CLOSED"
+  },
+  {
+    "page_id": "364c1829-53ff-8104-8306-c9be8e6e5c1c",
+    "created_time": "2026-05-18T06:37:00.000Z",
+    "title": "[CHG-0345] tickets.json rebuilt: deduped + TKT-0178 to TKT-0199 restored after corruption"
+  },
+  {
+    "page_id": "364c1829-53ff-81d4-8b3e-c9fa0813ad8b",
+    "created_time": "2026-05-18T06:37:00.000Z",
+    "title": "[CHG-0346] TKT-0160 CLOSED \u2014 Channel-agnostic orchestration: Option C + context brief accepted for P1"
+  },
+  {
+    "page_id": "364c1829-53ff-81a6-b37b-dd3f8f1778c7",
+    "created_time": "2026-05-18T06:37:00.000Z",
+    "title": "[CHG-0347] Telegram reverted to Sonnet (main) \u2014 kimi risk outweighs cost saving. CHG-0347"
+  },
+  {
+    "page_id": "364c1829-53ff-812b-8109-fdb6dc03bd11",
+    "created_time": "2026-05-18T06:37:00.000Z",
+    "title": "[CHG-0348] EMERGENCY: All agents switched to kimi \u2014 Claude API credits depleted"
+  },
+  {
+    "page_id": "364c1829-53ff-8138-a80a-e06ebbc90f60",
+    "created_time": "2026-05-18T06:36:00.000Z",
+    "title": "[CHG-0349] CHG-0348: INTERIM \u2014 all agents switched to kimi\u2192gemma4\u2192deepseek-pro. Claude API credits depleted."
+  },
+  {
+    "page_id": "364c1829-53ff-812a-aaae-c3b9c94b730d",
+    "created_time": "2026-05-18T06:36:00.000Z",
+    "title": "[CHG-0350] Interim conservative mode: NO risky state manipulation without explicit Ken approval"
+  },
+  {
+    "page_id": "364c1829-53ff-81b8-a926-f508ea25c99d",
+    "created_time": "2026-05-18T06:36:00.000Z",
+    "title": "[CHG-0351] Model Emergency Runbook v1.0 APPROVED by Ken Mun"
+  },
+  {
+    "page_id": "364c1829-53ff-81d8-be4d-cf87be02f773",
+    "created_time": "2026-05-18T06:36:00.000Z",
+    "title": "[CHG-0352] Standby mode: Anthropic API unreachable (502). Agents already on kimi \u2014 no impact."
+  },
+  {
+    "page_id": "364c1829-53ff-8124-a48f-fa9800d1d712",
+    "created_time": "2026-05-18T06:36:00.000Z",
+    "title": "[CHG-0353] OpenClaw v2026.5.12 HIGH security patch detected by TRIGGER-04"
+  },
+  {
+    "page_id": "364c1829-53ff-81e0-a52a-df7e94b96007",
+    "created_time": "2026-05-18T06:36:00.000Z",
+    "title": "[CHG-0356] CI Cycle 2A Complete \u2014 Cycle 3A Started"
+  },
+  {
+    "page_id": "364c1829-53ff-813d-aa62-e6536a0da159",
+    "created_time": "2026-05-18T06:36:00.000Z",
+    "title": "[CHG-0359] Auto allowlist sync -- Tier 2 propagation (strategy-update)"
+  },
+  {
+    "page_id": "364c1829-53ff-81a1-87f1-c020558f82cb",
+    "created_time": "2026-05-18T06:36:00.000Z",
+    "title": "[CHG-0361] AUTO-HEAL nightly sweep 2026-05-17"
+  },
+  {
+    "page_id": "364c1829-53ff-81a4-b453-ebfd3910f616",
+    "created_time": "2026-05-18T06:35:00.000Z",
+    "title": "[CHG-0395] Warden model policy permanent baseline update \u2014 kimi interim decommissioned"
+  },
+  {
+    "page_id": "364c1829-53ff-8176-883b-d16108ebcdce",
+    "created_time": "2026-05-18T06:34:00.000Z",
+    "title": "[CHG-0396] Forge cron audit \u2014 stale crons cleaned, task monitor timeout fixed, model references updated"
+  },
+  {
+    "page_id": "364c1829-53ff-81e7-a48b-ed0630131907",
+    "created_time": "2026-05-18T06:34:00.000Z",
+    "title": "[CHG-0397] Auto allowlist sync -- Tier 2 propagation (strategy-update)"
+  },
+  {
+    "page_id": "364c1829-53ff-8118-956b-c84dcb9c8a87",
+    "created_time": "2026-05-18T06:34:00.000Z",
+    "title": "[CHG-0398] Telegram Message Chunking Rule \u2014 mandatory for all agents"
+  },
+  {
+    "page_id": "364c1829-53ff-8167-8e23-d483d9be05a4",
+    "created_time": "2026-05-18T06:34:00.000Z",
+    "title": "[CHG-0399] Sprint 4 commitment restored \u2014 9 items recovered from CHG-0369"
+  },
+  {
+    "page_id": "364c1829-53ff-81ca-ae69-de90e3d7d279",
+    "created_time": "2026-05-18T06:34:00.000Z",
+    "title": "[CHG-0400] ticket.sh permanent corruption fix \u2014 echo\u2192printf + 5-guard atomic_write"
+  }
+]

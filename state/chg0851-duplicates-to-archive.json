@@ -1,0 +1,1622 @@
+[
+  {
+    "page_id": "398c1829-53ff-81f7-b252-faa572b927f3",
+    "created_time": "2026-07-09T09:42:00.000Z",
+    "title": "[CHG-ARCHIVE-20260521-1] 2026-05-21"
+  },
+  {
+    "page_id": "398c1829-53ff-810f-9ad4-c97485c92751",
+    "created_time": "2026-07-09T09:41:00.000Z",
+    "title": "[CHG-275] TKT-0124: MinIO deployed on OC1 \u2014 S3-compatible agent object store"
+  },
+  {
+    "page_id": "398c1829-53ff-813c-a621-d1f1873f49ed",
+    "created_time": "2026-07-09T09:41:00.000Z",
+    "title": "[CHG-274] TKT-0146: Backup optimisation \u2014 incremental daily, full weekly"
+  },
+  {
+    "page_id": "398c1829-53ff-81fe-bb10-ebc5c3485aca",
+    "created_time": "2026-07-09T09:41:00.000Z",
+    "title": "[CHG-273] TKT-0144 Cycle 1: Token Efficiency Audit \u2014 14 crons optimised"
+  },
+  {
+    "page_id": "398c1829-53ff-818e-895a-f3127814aa5f",
+    "created_time": "2026-07-09T09:41:00.000Z",
+    "title": "[CHG-0730] Test TKT-0720 A4 changelog-append linked hook v5"
+  },
+  {
+    "page_id": "398c1829-53ff-8111-85fc-c81f9ac512e7",
+    "created_time": "2026-07-09T09:41:00.000Z",
+    "title": "[CHG-0729] Test TKT-0720 A4 changelog-append linked hook v5"
+  },
+  {
+    "page_id": "398c1829-53ff-81c5-bb8e-fd170b50ad4f",
+    "created_time": "2026-07-09T09:41:00.000Z",
+    "title": "[CHG-0728] Test TKT-0720 A4 changelog-append linked hook v5"
+  },
+  {
+    "page_id": "398c1829-53ff-81d1-b81f-d02dc294cf4b",
+    "created_time": "2026-07-09T09:41:00.000Z",
+    "title": "[CHG-0727] Test TKT-0720 A4 changelog-append linked hook v4"
+  },
+  {
+    "page_id": "398c1829-53ff-816f-bdee-d85df0bf1cce",
+    "created_time": "2026-07-09T09:41:00.000Z",
+    "title": "[CHG-0726] Test TKT-0720 A4 changelog-append linked hook v3"
+  },
+  {
+    "page_id": "398c1829-53ff-8123-b85a-c7245171ec96",
+    "created_time": "2026-07-09T09:41:00.000Z",
+    "title": "[CHG-0725] Test TKT-0720 A4 changelog-append linked hook v3"
+  },
+  {
+    "page_id": "398c1829-53ff-81e0-a1ac-f44a965436d3",
+    "created_time": "2026-07-09T09:41:00.000Z",
+    "title": "[CHG-0724] Test TKT-0720 A4 changelog-append linked hook v3"
+  },
+  {
+    "page_id": "398c1829-53ff-8116-be5b-d7149d47da50",
+    "created_time": "2026-07-09T09:41:00.000Z",
+    "title": "[CHG-0720] Test TKT-0720 A4 changelog-append linked hook"
+  },
+  {
+    "page_id": "398c1829-53ff-81f6-8c90-f35c59565f28",
+    "created_time": "2026-07-09T09:41:00.000Z",
+    "title": "[CHG-0622] Fix zsh associative-array loop syntax in ollama-request-counter.sh"
+  },
+  {
+    "page_id": "398c1829-53ff-81a8-ad1c-ec2ff80ee8fe",
+    "created_time": "2026-07-09T09:41:00.000Z",
+    "title": "[CHG-0610] Clean tribal Agile/CREST knowledge from agent files"
+  },
+  {
+    "page_id": "398c1829-53ff-817e-9a2f-e98bc4ea956d",
+    "created_time": "2026-07-09T09:41:00.000Z",
+    "title": "[CHG-0605] TKT-0093 Backup Health Check: timeout 30s\u2192120s, schedule 08:05\u219208:10"
+  },
+  {
+    "page_id": "398c1829-53ff-819c-8dd7-ea767cb3b890",
+    "created_time": "2026-07-09T09:41:00.000Z",
+    "title": "[CHG-0599] LinkedIn campaign pipeline rework v2.0 \u2014 draft/publish separation"
+  },
+  {
+    "page_id": "398c1829-53ff-81f7-9ef5-e3eb767a82fc",
+    "created_time": "2026-07-09T09:41:00.000Z",
+    "title": "[CHG-0509] 2026-06-12 20:31 AEST \u2014 TKT-0407 batch execution: 88 tickets triaged"
+  },
+  {
+    "page_id": "398c1829-53ff-8120-9702-d401b20f3e49",
+    "created_time": "2026-07-09T09:41:00.000Z",
+    "title": "[CHG-0487] TKT-0391 Closed \u2014 PG Sprint Column Gap"
+  },
+  {
+    "page_id": "398c1829-53ff-815e-840f-e9e6f74b91a0",
+    "created_time": "2026-07-09T09:41:00.000Z",
+    "title": "[CHG-0486] CREST Done Gate \u2014 Structural enforcement at ticket close"
+  },
+  {
+    "page_id": "398c1829-53ff-818b-aa36-f51ec2b7ea25",
+    "created_time": "2026-07-09T09:41:00.000Z",
+    "title": "[CHG-0485] TKT-0369 Closed \u2014 PG Sprint-Backlog Interface Skill"
+  },
+  {
+    "page_id": "398c1829-53ff-81a9-80a8-d339c9f7aa07",
+    "created_time": "2026-07-09T09:41:00.000Z",
+    "title": "[CHG-0484] TKT-0369 Failure #5 logged + dispatch-validate.sh parent ticket gate"
+  },
+  {
+    "page_id": "398c1829-53ff-81f2-ab7e-deb1e91bee88",
+    "created_time": "2026-07-09T09:41:00.000Z",
+    "title": "[CHG-0483] Aria CREST Guardrails \u2014 Layer 3 Proactive Drift Detection"
+  },
+  {
+    "page_id": "398c1829-53ff-8114-94ec-dd717c89f66a",
+    "created_time": "2026-07-09T09:41:00.000Z",
+    "title": "[CHG-0482] CREST v1.2 Structural Foundation \u2014 8 sub-tickets complete"
+  },
+  {
+    "page_id": "398c1829-53ff-811a-b198-d871e79b56c3",
+    "created_time": "2026-07-09T09:41:00.000Z",
+    "title": "[CHG-0481] CREST v1.2 LOCKED \u2014 Dual PASS from Atlas + Thrawn"
+  },
+  {
+    "page_id": "398c1829-53ff-811f-83df-e9b1aaabb934",
+    "created_time": "2026-07-09T09:41:00.000Z",
+    "title": "[CHG-0480] CREST v1.2 \u2014 All 13 Atlas+Thrawn review findings resolved"
+  },
+  {
+    "page_id": "398c1829-53ff-8184-a76f-c572d36b6115",
+    "created_time": "2026-07-09T09:41:00.000Z",
+    "title": "[CHG-0479] CREST v1.1 \u2014 Recursive Topology (Model C) Locked"
+  },
+  {
+    "page_id": "398c1829-53ff-81da-a8cc-c0449b43b1bc",
+    "created_time": "2026-07-09T09:41:00.000Z",
+    "title": "[CHG-0478] CHG-0478: CREST Execution Loop locked"
+  },
+  {
+    "page_id": "398c1829-53ff-81ae-8d6d-de4d8dc9aa4d",
+    "created_time": "2026-07-09T09:41:00.000Z",
+    "title": "[CHG-0477] TKT-0339: Cron Timeout Auto-Scaling \u2014 Adaptive Timeout + Retry + Reaping"
+  },
+  {
+    "page_id": "398c1829-53ff-8113-a91a-d8ee276e9687",
+    "created_time": "2026-07-09T09:41:00.000Z",
+    "title": "[CHG-0476] 2026-06-09"
+  },
+  {
+    "page_id": "398c1829-53ff-811d-bbfb-ff8fcddb8864",
+    "created_time": "2026-07-09T09:41:00.000Z",
+    "title": "[CHG-0475] CHG-0475: journal-append.sh v2.0 \u2014 simplified inline journal writer"
+  },
+  {
+    "page_id": "398c1829-53ff-81f4-9ed4-dc56ecb6984b",
+    "created_time": "2026-07-09T09:41:00.000Z",
+    "title": "[CHG-0474] nightly-gateway-restart.sh: add dual-bind guard (CHG-0474)"
+  },
+  {
+    "page_id": "398c1829-53ff-8153-bb24-ed3cb63cd2cb",
+    "created_time": "2026-07-09T09:41:00.000Z",
+    "title": "[CHG-0473] CHG-0473: C1 STALE Definition Drift Corrected \u2014 Harness v2.2"
+  },
+  {
+    "page_id": "398c1829-53ff-81c2-9124-fa5f4b2ebee9",
+    "created_time": "2026-07-09T09:41:00.000Z",
+    "title": "[CHG-0472] CHG-0472: Sage Primary Model Changed \u2014 gemma4:31b-cloud \u2192 deepseek-v4-pro:cloud"
+  },
+  {
+    "page_id": "398c1829-53ff-8148-b188-d6bc4659298f",
+    "created_time": "2026-07-09T09:41:00.000Z",
+    "title": "[CHG-0471] Port Convention Formalization + Shadow Reserve (38789)"
+  },
+  {
+    "page_id": "398c1829-53ff-81a0-8b44-ed63dcf87187",
+    "created_time": "2026-07-09T09:41:00.000Z",
+    "title": "[CHG-0470] Forge Sandbox Boundary Hardening + Auto-Heal CHECK 18"
+  },
+  {
+    "page_id": "398c1829-53ff-81fc-a41f-f4697af8d382",
+    "created_time": "2026-07-09T09:41:00.000Z",
+    "title": "[CHG-0466] Nexus Controller Build Scaffolding (TKT-0333)"
+  },
+  {
+    "page_id": "398c1829-53ff-8158-88bd-c5b1f9d9a8aa",
+    "created_time": "2026-07-09T09:41:00.000Z",
+    "title": "[CHG-0465] Nexus Foundational Architecture Challenges Assessment v1.0 \u2014 CHG-0457"
+  },
+  {
+    "page_id": "398c1829-53ff-81f3-9012-d5be343c0f5f",
+    "created_time": "2026-07-09T09:41:00.000Z",
+    "title": "[CHG-0464] CHG-0464: Add PG sequence-health check to auto-heal (CHECK #17, TKT-0367)"
+  },
+  {
+    "page_id": "398c1829-53ff-8176-b028-d74650c02cbc",
+    "created_time": "2026-07-09T09:41:00.000Z",
+    "title": "[CHG-0463] CHG-0462: Fix auto-heal PG write failure \u2014 sequence desync"
+  },
+  {
+    "page_id": "398c1829-53ff-812d-a7aa-cd5eccc26af9",
+    "created_time": "2026-07-09T09:41:00.000Z",
+    "title": "[CHG-0461] CHG-0462: Config baseline refresh \u2014 7 days stale"
+  },
+  {
+    "page_id": "398c1829-53ff-8117-bad3-ff9b219add28",
+    "created_time": "2026-07-09T09:41:00.000Z",
+    "title": "[CHG-0460] CHG-0457: Fix Backup Health Check Field-Name Mismatch"
+  },
+  {
+    "page_id": "398c1829-53ff-81d3-9132-c8fbe784db1d",
+    "created_time": "2026-07-09T09:41:00.000Z",
+    "title": "[CHG-0459] Ahsoka Activated, Spark Dual-Stream, Luthen Operational, Brand Code Seeding Guide"
+  },
+  {
+    "page_id": "398c1829-53ff-8186-8301-d7c1b6b21aea",
+    "created_time": "2026-07-09T09:41:00.000Z",
+    "title": "[CHG-0458] Auto-Heal: Fix JSON Report Truncation + CHECK 15 Per-File Limits + Delegated Auth Pre-flight (TKT-0336)"
+  },
+  {
+    "page_id": "398c1829-53ff-81c2-a880-ff276833fbad",
+    "created_time": "2026-07-09T09:41:00.000Z",
+    "title": "[CHG-0457] Auto-Heal JSON Report Truncation + CHECK 15 Per-File Limits"
+  },
+  {
+    "page_id": "398c1829-53ff-81d8-8763-efa335e92190",
+    "created_time": "2026-07-09T09:41:00.000Z",
+    "title": "[CHG-0456] 2026-06-01 21:42 AEST"
+  },
+  {
+    "page_id": "398c1829-53ff-8188-a68a-e3ece3653a1b",
+    "created_time": "2026-07-09T09:41:00.000Z",
+    "title": "[CHG-0455] 2026-06-01 21:22 AEST"
+  },
+  {
+    "page_id": "398c1829-53ff-8194-a711-cd60ab70c116",
+    "created_time": "2026-07-09T09:41:00.000Z",
+    "title": "[CHG-0454] 2026-06-01 21:00 AEST"
+  },
+  {
+    "page_id": "398c1829-53ff-8159-abbc-cb38a8989d94",
+    "created_time": "2026-07-09T09:41:00.000Z",
+    "title": "[CHG-0453] 2026-06-01 20:07 AEST"
+  },
+  {
+    "page_id": "398c1829-53ff-81ff-8884-e8eae88976d5",
+    "created_time": "2026-07-09T09:41:00.000Z",
+    "title": "[CHG-0452] 2026-06-01 19:27 AEST"
+  },
+  {
+    "page_id": "398c1829-53ff-8199-9993-e6fc89e95440",
+    "created_time": "2026-07-09T09:41:00.000Z",
+    "title": "[CHG-0451] 2026-06-01 18:56 AEST"
+  },
+  {
+    "page_id": "398c1829-53ff-81dd-ad5f-e71d5548b062",
+    "created_time": "2026-07-09T09:41:00.000Z",
+    "title": "[CHG-0450] 2026-06-01 16:55 AEST"
+  },
+  {
+    "page_id": "398c1829-53ff-8199-aff6-c476ee024289",
+    "created_time": "2026-07-09T09:41:00.000Z",
+    "title": "[CHG-0449] CHG-0449: Post-CrewAI Crash Platform Shakedown \u2014 Findings, Fixes & Regression Learnings"
+  },
+  {
+    "page_id": "398c1829-53ff-81d1-b52d-d0bcbf237950",
+    "created_time": "2026-07-09T09:41:00.000Z",
+    "title": "[CHG-0448] TKT-0327 Option B: cron-write.sh wrapper for tilde-path bug"
+  },
+  {
+    "page_id": "398c1829-53ff-81c5-9b58-cfd194f4129b",
+    "created_time": "2026-07-09T09:41:00.000Z",
+    "title": "[CHG-0447] CHG-0447: Auto-Heal \u2014 backup threshold relaxed 26h\u219230h + Anthropic balance suppressed until TRIGGER-01"
+  },
+  {
+    "page_id": "398c1829-53ff-81a2-a34e-e8bc2b382e29",
+    "created_time": "2026-07-09T09:41:00.000Z",
+    "title": "[CHG-0446] TZ Drift: Journal grace window extended to 23:00 AEST"
+  },
+  {
+    "page_id": "398c1829-53ff-81ca-a8fd-eb55d01e7f83",
+    "created_time": "2026-07-09T09:41:00.000Z",
+    "title": "[CHG-0445] CHG-0445: OpenClaw v2026.5.12 \u2192 v2026.5.27 Upgrade"
+  },
+  {
+    "page_id": "398c1829-53ff-81cf-9503-f8bd66854af4",
+    "created_time": "2026-07-09T09:41:00.000Z",
+    "title": "[CHG-0444] Budget Cap Recalibration + Ollama Cloud Model Rates"
+  },
+  {
+    "page_id": "398c1829-53ff-8103-a586-de9f4c18db0b",
+    "created_time": "2026-07-09T09:41:00.000Z",
+    "title": "[CHG-0443] May 2026 Model Review Remediation"
+  },
+  {
+    "page_id": "398c1829-53ff-81ed-805a-cbea57fbfb30",
+    "created_time": "2026-07-09T09:41:00.000Z",
+    "title": "[CHG-0442] Sprint 5: 9 open highs processed \u2014 5 folded, 3 deferred, TKT-0305 completed"
+  },
+  {
+    "page_id": "398c1829-53ff-81bb-bca3-d11230740e18",
+    "created_time": "2026-07-09T09:41:00.000Z",
+    "title": "[CHG-0441] TKT-0316 folded into TKT-0317 + TKT-0310/0293 locked to Sprint 6"
+  },
+  {
+    "page_id": "398c1829-53ff-81d6-90f0-f40ffe71fa35",
+    "created_time": "2026-07-09T09:41:00.000Z",
+    "title": "[CHG-0440] TKT-0313 merged into TKT-0317 Phase 1 + 4 sub-tickets raised"
+  },
+  {
+    "page_id": "398c1829-53ff-81c7-ac9a-dd14ebb09480",
+    "created_time": "2026-07-09T09:41:00.000Z",
+    "title": "[CHG-0439] TKT-0320 complete: Atlas 2-Pass Assessment for TKT-0317 Epic"
+  },
+  {
+    "page_id": "398c1829-53ff-81a9-9d0e-f5801ea00ed3",
+    "created_time": "2026-07-09T09:41:00.000Z",
+    "title": "[CHG-0438] TKT-0317 groomed \u2014 deferred to Atlas+Thrawn assessment (TKT-0320)"
+  },
+  {
+    "page_id": "398c1829-53ff-8180-b58c-df6e197638e8",
+    "created_time": "2026-07-09T09:41:00.000Z",
+    "title": "[CHG-0437] TKT-0296: Journal Writer fixed \u2014 EOD finalizer simplified + HEARTBEAT cleaned"
+  },
+  {
+    "page_id": "398c1829-53ff-81b3-9951-ee8d0bd7c001",
+    "created_time": "2026-07-09T09:41:00.000Z",
+    "title": "[CHG-0436] ticket.sh: add JSON payload validation to write_ticket"
+  },
+  {
+    "page_id": "398c1829-53ff-8122-a59c-e51638df0e0b",
+    "created_time": "2026-07-09T09:41:00.000Z",
+    "title": "[CHG-0435] TKT-0309 closed + TKT-0318/0319 raised for Phase 2 Aria + Phase 3 Global"
+  },
+  {
+    "page_id": "398c1829-53ff-8150-994d-d90efc8f5a7e",
+    "created_time": "2026-07-09T09:41:00.000Z",
+    "title": "[CHG-0434] DoD Gate updated with TQP persist requirement"
+  },
+  {
+    "page_id": "398c1829-53ff-81de-8095-cfe9001b826c",
+    "created_time": "2026-07-09T09:41:00.000Z",
+    "title": "[CHG-0433] TQP self-test: 3-atom gate validation passed"
+  },
+  {
+    "page_id": "398c1829-53ff-8133-9781-f33a0d3b98ae",
+    "created_time": "2026-07-09T09:41:00.000Z",
+    "title": "[CHG-0432] AGENTS.md TQP Execution Gate updated with concrete invocation paths"
+  },
+  {
+    "page_id": "398c1829-53ff-8137-bc4f-ca7e67082ce4",
+    "created_time": "2026-07-09T09:41:00.000Z",
+    "title": "[CHG-0431] tqp-yoda.sh wrapper created for TKT-0309 Phase 2"
+  },
+  {
+    "page_id": "398c1829-53ff-8102-bef1-fa3a22cc38f8",
+    "created_time": "2026-07-09T09:41:00.000Z",
+    "title": "[CHG-0430] sc_persist_atom fixes for A1 gate pass"
+  },
+  {
+    "page_id": "398c1829-53ff-8100-a6d7-f47f5f02296b",
+    "created_time": "2026-07-09T09:41:00.000Z",
+    "title": "[CHG-0429] CHG-0429: Auto-Heal Fail-Safe Reporting"
+  },
+  {
+    "page_id": "398c1829-53ff-81a6-b5d4-cd8df14d3587",
+    "created_time": "2026-07-09T09:41:00.000Z",
+    "title": "[CHG-0428] CHG-0428: Decommission CI Cycle A/B Artifacts"
+  },
+  {
+    "page_id": "398c1829-53ff-81fe-99e1-e04a914f998b",
+    "created_time": "2026-07-09T09:41:00.000Z",
+    "title": "[CHG-0427] CHG-0427: Blog Writer \u2014 Lock HTML/CSS Template to Prevent Style Drift"
+  },
+  {
+    "page_id": "398c1829-53ff-81f6-9b47-f9100739c332",
+    "created_time": "2026-07-09T09:41:00.000Z",
+    "title": "[CHG-0426] CHG-0413: Journal Writer \u2014 Add Telegram Coverage"
+  },
+  {
+    "page_id": "398c1829-53ff-8121-b431-c7a894267920",
+    "created_time": "2026-07-09T09:40:00.000Z",
+    "title": "[CHG-0425] Warden: Auto-Derive Valid Fallback Chains from model-policy.json"
+  },
+  {
+    "page_id": "398c1829-53ff-81fa-bc2c-ed2503b7133f",
+    "created_time": "2026-07-09T09:40:00.000Z",
+    "title": "[CHG-0424] Fix Warden False-Positive: Stale Fallback Chain Valid List"
+  },
+  {
+    "page_id": "398c1829-53ff-8196-aac7-c575ec15b73f",
+    "created_time": "2026-07-09T09:40:00.000Z",
+    "title": "[CHG-0423] Notion resync \u2014 15 tickets + 5 CHGs from Day 27 session"
+  },
+  {
+    "page_id": "398c1829-53ff-818b-ada4-ed160d9bdaca",
+    "created_time": "2026-07-09T09:40:00.000Z",
+    "title": "[CHG-0422] TKT-0228 re-groomed + TKT-0237 Platform Rule Engine \u2014 defense-in-depth against agent drift"
+  },
+  {
+    "page_id": "398c1829-53ff-8173-8220-c9f2016e891d",
+    "created_time": "2026-07-09T09:40:00.000Z",
+    "title": "[CHG-0421] Forge double-failure on TKT-0198 \u2014 agent execution investigation opened"
+  },
+  {
+    "page_id": "398c1829-53ff-818f-a924-f4319dc7ae92",
+    "created_time": "2026-07-09T09:40:00.000Z",
+    "title": "[CHG-0420] EOD Blog Format Drift Since 2026-05-18 \u2014 Restore to Approved Template"
+  },
+  {
+    "page_id": "398c1829-53ff-81e3-9915-f20256c77bee",
+    "created_time": "2026-07-09T09:40:00.000Z",
+    "title": "[CHG-0419] RTB: auto-heal Check #12 interim-drift exceptions + obs-collector error pattern filter"
+  },
+  {
+    "page_id": "398c1829-53ff-816c-a4a2-fd986c6a7c5f",
+    "created_time": "2026-07-09T09:40:00.000Z",
+    "title": "[CHG-0418] TRIGGER-06: Critical config baseline re-based to interim-period Ollama Cloud assignments"
+  },
+  {
+    "page_id": "398c1829-53ff-81ce-85fa-eec86ac84fa7",
+    "created_time": "2026-07-09T09:40:00.000Z",
+    "title": "[CHG-0417] CHG-0417: Drive Upload Discipline \u2014 --parent flag mandatory for all agents"
+  },
+  {
+    "page_id": "398c1829-53ff-816b-ab2a-d96db82fd154",
+    "created_time": "2026-07-09T09:40:00.000Z",
+    "title": "[CHG-0416] Session Transcript Safety Snapshot \u2014 Pre-Restart Backup"
+  },
+  {
+    "page_id": "398c1829-53ff-817d-bd96-dec654e5c1cb",
+    "created_time": "2026-07-09T09:40:00.000Z",
+    "title": "[CHG-0415] Backup Health Check \u2014 Fix Wrong State Filename"
+  },
+  {
+    "page_id": "398c1829-53ff-81e3-95b2-f6b88606d82d",
+    "created_time": "2026-07-09T09:40:00.000Z",
+    "title": "[CHG-0414] Shell Script Anthropic Hardcoded Model Audit + Fix"
+  },
+  {
+    "page_id": "398c1829-53ff-8183-b507-e378d6f4af33",
+    "created_time": "2026-07-09T09:40:00.000Z",
+    "title": "[CHG-0413] Blog May 18 \u2014 Fix Dead Governance Triad + Publish"
+  },
+  {
+    "page_id": "398c1829-53ff-814c-aed1-e5f579c0151c",
+    "created_time": "2026-07-09T09:40:00.000Z",
+    "title": "[CHG-0412] Journal Incremental Writer \u2014 Fix Date Boundary Bug"
+  },
+  {
+    "page_id": "398c1829-53ff-817a-af54-c6ef8d469658",
+    "created_time": "2026-07-09T09:40:00.000Z",
+    "title": "[CHG-0411] Nightly Gateway Restart \u2014 Two-Cron Design for Reliable Verification"
+  },
+  {
+    "page_id": "398c1829-53ff-81c6-8274-f5d194529ed4",
+    "created_time": "2026-07-09T09:40:00.000Z",
+    "title": "[CHG-0404] Async Background Execution Rule \u2014 webchat must never be blocked by long-running tasks"
+  },
+  {
+    "page_id": "398c1829-53ff-816d-9744-e26a42cc0ca5",
+    "created_time": "2026-07-09T09:40:00.000Z",
+    "title": "[CHG-0403] Heartbeat AUTO-HEAL pipeline routed to DB B \u2014 separate from sprint backlog"
+  },
+  {
+    "page_id": "398c1829-53ff-818d-9ac3-c786a54e22b4",
+    "created_time": "2026-07-09T09:40:00.000Z",
+    "title": "[CHG-0402] ticket.sh close now auto-archives to DB C (Completed-Archived) on close"
+  },
+  {
+    "page_id": "398c1829-53ff-81c8-bb89-cbfddda761fb",
+    "created_time": "2026-07-09T09:40:00.000Z",
+    "title": "[CHG-0401] Notion 3-DB architecture: A(Backlog) B(Auto-Heal) C(Archive) \u2014 DBs created, migrated, routed"
+  },
+  {
+    "page_id": "398c1829-53ff-810a-a13b-d8e4dd4b0a54",
+    "created_time": "2026-07-09T09:40:00.000Z",
+    "title": "[CHG-0394] Remove Anthropic from active config + Keychain cleanup"
+  },
+  {
+    "page_id": "398c1829-53ff-8134-9a00-d08588cdd8a9",
+    "created_time": "2026-07-09T09:40:00.000Z",
+    "title": "[CHG-0393] OpenClaw upgrade v2026.5.5 \u2192 v2026.5.12"
+  },
+  {
+    "page_id": "398c1829-53ff-81ab-982b-cc55634cbaa1",
+    "created_time": "2026-07-09T09:40:00.000Z",
+    "title": "[CHG-0391] All Anthropic crons switched to kimi"
+  },
+  {
+    "page_id": "398c1829-53ff-8192-8099-e9ce8206bd72",
+    "created_time": "2026-07-09T09:40:00.000Z",
+    "title": "[CHG-0390] Async Stateless Design Implementation Complete"
+  },
+  {
+    "page_id": "398c1829-53ff-819c-b1b0-d80acf7bd35d",
+    "created_time": "2026-07-09T09:40:00.000Z",
+    "title": "[CHG-0389] Async Stateless Design \u2014 Resume After Timeout"
+  },
+  {
+    "page_id": "398c1829-53ff-815e-b479-e7ead210ef27",
+    "created_time": "2026-07-09T09:40:00.000Z",
+    "title": "[CHG-0388] Tiered OWL \u2014 Timeout Prevention for Tier 2 & 3"
+  },
+  {
+    "page_id": "398c1829-53ff-8121-8ab7-dbf436c0e829",
+    "created_time": "2026-07-09T09:40:00.000Z",
+    "title": "[CHG-0387] OWL RULE Step 4 refined \u2014 Comprehensive Planning"
+  },
+  {
+    "page_id": "398c1829-53ff-819f-bb53-c20804e1061e",
+    "created_time": "2026-07-09T09:40:00.000Z",
+    "title": "[CHG-0386] OWL RULE \u2014 Think Before Acting"
+  },
+  {
+    "page_id": "398c1829-53ff-81a2-881b-e4c9b4c9c7f1",
+    "created_time": "2026-07-09T09:40:00.000Z",
+    "title": "[CHG-0385] Fixed wrong Notes on CHG-0379 to CHG-0383"
+  },
+  {
+    "page_id": "398c1829-53ff-81f6-b932-de0f07c24b69",
+    "created_time": "2026-07-09T09:40:00.000Z",
+    "title": "[CHG-0384] DoD FAIL: CHG-0379-0383 not created in Backlog"
+  },
+  {
+    "page_id": "398c1829-53ff-8110-a33e-f7ddc7289992",
+    "created_time": "2026-07-09T09:40:00.000Z",
+    "title": "[CHG-0383] KIMI ATOMIC TASK RULE \u2014 Option B Enforced"
+  },
+  {
+    "page_id": "398c1829-53ff-811b-ae0c-c60cbc8e76a0",
+    "created_time": "2026-07-09T09:40:00.000Z",
+    "title": "[CHG-0382] Lessons Registry page fully updated (L-029 to L-035)"
+  },
+  {
+    "page_id": "398c1829-53ff-811b-bb5a-e353f2751e00",
+    "created_time": "2026-07-09T09:40:00.000Z",
+    "title": "[CHG-0381] Lessons Registry sync enforced"
+  },
+  {
+    "page_id": "398c1829-53ff-8198-9643-f309d51878e9",
+    "created_time": "2026-07-09T09:40:00.000Z",
+    "title": "[CHG-0380] Delivered Date rule enforced"
+  },
+  {
+    "page_id": "398c1829-53ff-8138-aeeb-e8ff3664621b",
+    "created_time": "2026-07-09T09:40:00.000Z",
+    "title": "[CHG-0379] Created Date rule enforced \u2014 57 items missing"
+  },
+  {
+    "page_id": "398c1829-53ff-81c5-91db-cd92214e4d26",
+    "created_time": "2026-07-09T09:40:00.000Z",
+    "title": "[CHG-0378] CHG records sync enforced \u2014 16 missing CHGs created"
+  },
+  {
+    "page_id": "398c1829-53ff-81fb-a783-f4f179d17640",
+    "created_time": "2026-07-09T09:40:00.000Z",
+    "title": "[CHG-0377] BACKLOG SYNC RULE \u2014 Absolutely Non-Negotiable"
+  },
+  {
+    "page_id": "398c1829-53ff-81b5-95aa-f7a74c209920",
+    "created_time": "2026-07-09T09:40:00.000Z",
+    "title": "[CHG-0376] AUTO-HEAL status rule verified and enforced"
+  },
+  {
+    "page_id": "398c1829-53ff-8181-8e71-c5faa44e6034",
+    "created_time": "2026-07-09T09:40:00.000Z",
+    "title": "[CHG-0375] Comprehensive false Done audit \u2014 76 items found"
+  },
+  {
+    "page_id": "398c1829-53ff-815b-931b-f4cd6c3271e2",
+    "created_time": "2026-07-09T09:40:00.000Z",
+    "title": "[CHG-0374] Replacement tickets for wrongly archived Notion items"
+  },
+  {
+    "page_id": "398c1829-53ff-81c7-a122-d9844e40077b",
+    "created_time": "2026-07-09T09:40:00.000Z",
+    "title": "[CHG-0373] KIMI PLATFORM MANDATE \u2014 All execution on kimi, DoD = verified execution"
+  },
+  {
+    "page_id": "398c1829-53ff-8157-a9eb-f6f9a562e4ba",
+    "created_time": "2026-07-09T09:40:00.000Z",
+    "title": "[CHG-0372] L-035 mitigation partially implemented"
+  },
+  {
+    "page_id": "398c1829-53ff-8147-a0fc-e2691f21ab32",
+    "created_time": "2026-07-09T09:40:00.000Z",
+    "title": "[CHG-0371] Notion AKB Backlog full sync (Option A)"
+  },
+  {
+    "page_id": "398c1829-53ff-8110-a8d8-c8f3fe401c68",
+    "created_time": "2026-07-09T09:40:00.000Z",
+    "title": "[CHG-0370] Backlog updated with Sprint 4/5 assignments"
+  },
+  {
+    "page_id": "398c1829-53ff-81c7-87ed-f22799103027",
+    "created_time": "2026-07-09T09:40:00.000Z",
+    "title": "[CHG-0369] Sprint 4 scope expanded to 8 items + Sprint 5 pre-assigned"
+  },
+  {
+    "page_id": "398c1829-53ff-81be-a43a-c5939f64c374",
+    "created_time": "2026-07-09T09:40:00.000Z",
+    "title": "[CHG-0368] EOD Journal, Daily Blog, Morning Standup \u2014 templates LOCKED"
+  },
+  {
+    "page_id": "398c1829-53ff-8194-9986-f2a0fdc790f7",
+    "created_time": "2026-07-09T09:40:00.000Z",
+    "title": "[CHG-0367] Conservative Mode shared library + RUNBOOK update"
+  },
+  {
+    "page_id": "398c1829-53ff-811a-bed7-e337f6480ee8",
+    "created_time": "2026-07-09T09:40:00.000Z",
+    "title": "[CHG-0366] Fallback chain validator interim period fix"
+  },
+  {
+    "page_id": "398c1829-53ff-81fc-ac53-c79338e67b1b",
+    "created_time": "2026-07-09T09:40:00.000Z",
+    "title": "[CHG-0365] TRIGGER-03 enhancement \u2014 gemma4:31b-coding-mtp-bf16 for OC2 T1"
+  },
+  {
+    "page_id": "398c1829-53ff-81d4-bb19-efbef752f5ec",
+    "created_time": "2026-07-09T09:40:00.000Z",
+    "title": "[CHG-0364] /resume bidirectional sync \u2014 explicit OTHER channel pull"
+  },
+  {
+    "page_id": "398c1829-53ff-811f-8380-d64ad5f3dfa5",
+    "created_time": "2026-07-09T09:40:00.000Z",
+    "title": "[CHG-0363] Cron Interim Model Batch Update \u2014 16 crons to kimi"
+  },
+  {
+    "page_id": "398c1829-53ff-810b-adbd-c5ed0111b9aa",
+    "created_time": "2026-07-09T09:40:00.000Z",
+    "title": "[CHG-0362] Warden intentional model drift documentation \u2014 interim period (kimi) declared not drift"
+  },
+  {
+    "page_id": "398c1829-53ff-8147-bff7-efd6c62663ca",
+    "created_time": "2026-07-09T09:40:00.000Z",
+    "title": "[CHG-0360] Sprint 4 scope confirmed by Ken"
+  },
+  {
+    "page_id": "398c1829-53ff-81f3-88bd-f1852227f67d",
+    "created_time": "2026-07-09T09:40:00.000Z",
+    "title": "[CHG-0358] TKT-0178 sub-tickets created and sprint-assigned"
+  },
+  {
+    "page_id": "398c1829-53ff-81eb-951d-fd8a4177eb4b",
+    "created_time": "2026-07-09T09:40:00.000Z",
+    "title": "[CHG-0357] Activate Cycle B: gemma4:31b-cloud for live ops-cron evaluation"
+  },
+  {
+    "page_id": "398c1829-53ff-8141-8e62-c5c029350f01",
+    "created_time": "2026-07-09T09:40:00.000Z",
+    "title": "[CHG-0355] MEMORY.md trim + archive: interim T2 management until T4 semantic memory"
+  },
+  {
+    "page_id": "398c1829-53ff-816f-b343-db952e12aa4c",
+    "created_time": "2026-07-09T09:40:00.000Z",
+    "title": "[CHG-0338] Channel Discipline v2 \u2014 Telegram VALID+PERSIST model"
+  },
+  {
+    "page_id": "398c1829-53ff-815c-905c-c6ba48e37392",
+    "created_time": "2026-07-09T09:40:00.000Z",
+    "title": "[CHG-0276] 2026-05-11 22:10 AEST"
+  },
+  {
+    "page_id": "398c1829-53ff-81db-9b17-f6dbd17a67ce",
+    "created_time": "2026-07-09T09:40:00.000Z",
+    "title": "[CHG-0250] CI Cycle B cancelled \u2014 new 75% pass rate gate + Cycle 2A with gemma4:31b"
+  },
+  {
+    "page_id": "398c1829-53ff-81b9-b9f8-f0f2a68c17b5",
+    "created_time": "2026-07-09T09:40:00.000Z",
+    "title": "[CHG-0248] Aevlith Technologies \u2014 entity name locked, all references updated"
+  },
+  {
+    "page_id": "398c1829-53ff-8175-a7f3-f497ed740498",
+    "created_time": "2026-07-09T09:40:00.000Z",
+    "title": "[CHG-0246] Standup email \u2014 dark theme replaced with light (email-safe)"
+  },
+  {
+    "page_id": "398c1829-53ff-8184-9e47-e2ac98d9f653",
+    "created_time": "2026-07-09T09:40:00.000Z",
+    "title": "[CHG-0244] CI Cycle 1A Weekly Report Generated"
+  },
+  {
+    "page_id": "398c1829-53ff-8117-b54f-eed0f16713b1",
+    "created_time": "2026-07-09T09:40:00.000Z",
+    "title": "[CHG-0228] TKT-0085 Strategy & Governance Integration Sprint \u2014 complete"
+  },
+  {
+    "page_id": "398c1829-53ff-812b-8a41-d70c06e6b725",
+    "created_time": "2026-07-09T09:40:00.000Z",
+    "title": "[CHG-0225] Warden model drift auto-remediation"
+  },
+  {
+    "page_id": "398c1829-53ff-815d-b613-d0cd425ede4b",
+    "created_time": "2026-07-09T09:40:00.000Z",
+    "title": "[CHG-0135] TKT-0039: route-model.sh wired into sub-agent spawning \u2014 Tier A/B/C delegation live"
+  },
+  {
+    "page_id": "398c1829-53ff-816d-bcf1-ee1927bc50d9",
+    "created_time": "2026-07-09T09:40:00.000Z",
+    "title": "[CHG-0134] TRIGGER-04: OpenClaw v2026.4.29 security release detected"
+  },
+  {
+    "page_id": "398c1829-53ff-81f4-9fd0-c348a9d967ee",
+    "created_time": "2026-07-09T09:40:00.000Z",
+    "title": "[CHG-0133] Resolve Warden escalation warden-20260503-0003; fix model-drift-check.sh violations Python quoting bug"
+  },
+  {
+    "page_id": "398c1829-53ff-8103-99eb-d093c67c3fe5",
+    "created_time": "2026-07-09T09:40:00.000Z",
+    "title": "[CHG-0132] Fix model-drift-check.sh AEST_TIMESTAMP SyntaxError in Python state update"
+  },
+  {
+    "page_id": "398c1829-53ff-8138-a5a4-dcdb821f999d",
+    "created_time": "2026-07-09T09:40:00.000Z",
+    "title": "[CHG-0131] Warden escalation WARDEN-20260502-152449 closed \u2014 obs-collector healthy"
+  },
+  {
+    "page_id": "398c1829-53ff-811c-8929-d3b6a48c2c5a",
+    "created_time": "2026-07-09T09:40:00.000Z",
+    "title": "[CHG-0130] Spark \u2728 social agent live \u2014 TKT-0038 LinkedIn content marketing, 3x weekly"
+  },
+  {
+    "page_id": "398c1829-53ff-8123-a0d7-d8faa610b3f9",
+    "created_time": "2026-07-09T09:40:00.000Z",
+    "title": "[CHG-0129] TKT-0033: Content governance triad gate live \u2014 Lex+Shield+Sage on all public content"
+  },
+  {
+    "page_id": "398c1829-53ff-8166-813b-c9091466f607",
+    "created_time": "2026-07-09T09:40:00.000Z",
+    "title": "[CHG-0128] /eod and /blog keywords locked \u2014 standalone blog type introduced"
+  },
+  {
+    "page_id": "398c1829-53ff-8139-95b6-dd66ec93530d",
+    "created_time": "2026-07-09T09:40:00.000Z",
+    "title": "[CHG-0127] CI Framework loop updated: Cycle A always-on, A+B concurrent from week 2"
+  },
+  {
+    "page_id": "398c1829-53ff-8169-9bcd-d27aea0bc59d",
+    "created_time": "2026-07-09T09:39:00.000Z",
+    "title": "[CHG-0126] CI Framework: 7-day cycles, Cycle A->B->A loop, head-to-head approval gate"
+  },
+  {
+    "page_id": "398c1829-53ff-818d-af0c-d1734d72e5f4",
+    "created_time": "2026-07-09T09:39:00.000Z",
+    "title": "[CHG-0125] CI Agent live: continuous model comparison, deepseek-v4-pro:cloud, 15-day test"
+  },
+  {
+    "page_id": "398c1829-53ff-819c-a729-fd91f1856bfd",
+    "created_time": "2026-07-09T09:39:00.000Z",
+    "title": "[CHG-0124] /standup and /update slash commands added to RULES.md"
+  },
+  {
+    "page_id": "398c1829-53ff-817a-a151-fc85991b4485",
+    "created_time": "2026-07-09T09:39:00.000Z",
+    "title": "[CHG-0123] Ollama PoC: deepseek-v4-flash + deepseek-v4-pro benchmark results"
+  },
+  {
+    "page_id": "398c1829-53ff-8108-8aa0-dfdb9030d49d",
+    "created_time": "2026-07-09T09:39:00.000Z",
+    "title": "[CHG-0122] Ollama PoC Phase 5C: gemma4 community cloud benchmark"
+  },
+  {
+    "page_id": "398c1829-53ff-8138-9454-c79eee55fafd",
+    "created_time": "2026-07-09T09:39:00.000Z",
+    "title": "[CHG-0121] Model trigger updates post-PoC: TRIGGER-01-A, TRIGGER-11, TRIGGER-05 closed"
+  },
+  {
+    "page_id": "398c1829-53ff-8116-89d5-c765b8649727",
+    "created_time": "2026-07-09T09:39:00.000Z",
+    "title": "[CHG-0120] Ollama Cloud PoC Phase 5+6: kimi-k2.6:cloud added as Tier 2 (Pro subscription)"
+  },
+  {
+    "page_id": "398c1829-53ff-8111-9526-f294266e188c",
+    "created_time": "2026-07-09T09:39:00.000Z",
+    "title": "[CHG-0119] US-B: Cron Fail-Fast + Dead-Letter Pattern"
+  },
+  {
+    "page_id": "398c1829-53ff-81f2-9be5-d715b4dce80f",
+    "created_time": "2026-07-09T09:39:00.000Z",
+    "title": "[CHG-0118] US-A: Cron Model Right-Sizing Audit"
+  },
+  {
+    "page_id": "398c1829-53ff-81b0-ae5a-e2885591badd",
+    "created_time": "2026-07-09T09:39:00.000Z",
+    "title": "[CHG-0117] INC-20260502-001: WS 1006/1000 V8 crash \u2014 stale plugin-runtime-deps cleared"
+  },
+  {
+    "page_id": "398c1829-53ff-81db-8d85-e72cd1c7f289",
+    "created_time": "2026-07-09T09:39:00.000Z",
+    "title": "[CHG-0116] P1 POLICY: Governance + ITIL non-negotiable enforcement (TKT-0032)"
+  },
+  {
+    "page_id": "398c1829-53ff-818d-b7aa-d0e74be0e90a",
+    "created_time": "2026-07-09T09:39:00.000Z",
+    "title": "[CHG-0115] Lex review fixes applied to Day 7 blog \u2014 cleared to publish"
+  },
+  {
+    "page_id": "398c1829-53ff-81b7-96d1-c20f31040575",
+    "created_time": "2026-07-09T09:39:00.000Z",
+    "title": "[CHG-0114] Governance gate added to blog cron \u2014 Lex review mandatory before publish"
+  },
+  {
+    "page_id": "398c1829-53ff-8187-bad2-dbe303c4424f",
+    "created_time": "2026-07-09T09:39:00.000Z",
+    "title": "[CHG-0113] Day 7 blog rewrite + BlogFormat.md style locked (Ken-approved)"
+  },
+  {
+    "page_id": "398c1829-53ff-81a8-a9fe-dab686f8e2b5",
+    "created_time": "2026-07-09T09:39:00.000Z",
+    "title": "[CHG-0112] Fix duplicate blog path: remove workspace/canvas stray copies"
+  },
+  {
+    "page_id": "398c1829-53ff-8151-aa3a-d47dd0139590",
+    "created_time": "2026-07-09T09:39:00.000Z",
+    "title": "[CHG-0111] qwen3.5:cloud latency mitigation: think=False added to AKB cron"
+  },
+  {
+    "page_id": "398c1829-53ff-818b-9088-f3bd2e1df83d",
+    "created_time": "2026-07-09T09:39:00.000Z",
+    "title": "[CHG-0110] Option B: AKB Daily Update switched to qwen3.5:cloud (Ollama Cloud free tier)"
+  },
+  {
+    "page_id": "398c1829-53ff-81ad-bd9b-dc294858352e",
+    "created_time": "2026-07-09T09:39:00.000Z",
+    "title": "[CHG-0109] Add model latency tracking \u2014 obs.db latency_log + latency-summary.json"
+  },
+  {
+    "page_id": "398c1829-53ff-81a6-af65-e0e4e61d6f5f",
+    "created_time": "2026-07-09T09:39:00.000Z",
+    "title": "[CHG-0108] auto-heal CHECK 14: MEMORY.md + all SOUL.md size guard"
+  },
+  {
+    "page_id": "398c1829-53ff-81a4-8dfe-dcea6b753e8b",
+    "created_time": "2026-07-09T09:39:00.000Z",
+    "title": "[CHG-0107] Fix MEMORY.md bootstrap truncation: bootstrapMaxChars 10k\u219220k"
+  },
+  {
+    "page_id": "398c1829-53ff-8164-acf3-ffff8c98f125",
+    "created_time": "2026-07-09T09:39:00.000Z",
+    "title": "[CHG-0106] Ollama Cloud PoC \u2014 Phase 4+5: Cost Analysis and Decision Gate"
+  },
+  {
+    "page_id": "398c1829-53ff-81e9-8f4d-f167ee9b1b50",
+    "created_time": "2026-07-09T09:39:00.000Z",
+    "title": "[CHG-0105] Ollama Cloud PoC \u2014 Phase 3: Benchmarks (B1-B6 on qwen3.5:cloud)"
+  },
+  {
+    "page_id": "398c1829-53ff-8109-b89a-cd146d30b3a5",
+    "created_time": "2026-07-09T09:39:00.000Z",
+    "title": "[CHG-0104] Ollama Cloud PoC \u2014 Phase 2: Smoke Test"
+  },
+  {
+    "page_id": "398c1829-53ff-8136-bd25-f5723c6701c2",
+    "created_time": "2026-07-09T09:39:00.000Z",
+    "title": "[CHG-0103] Ollama Cloud PoC \u2014 Phase 1: Environment Setup"
+  },
+  {
+    "page_id": "398c1829-53ff-81f6-9956-da571a399ec4",
+    "created_time": "2026-07-09T09:39:00.000Z",
+    "title": "[CHG-0102] HEARTBEAT.md: CHG trigger monitoring section added"
+  },
+  {
+    "page_id": "398c1829-53ff-8141-80fe-c8f01729c6af",
+    "created_time": "2026-07-09T09:39:00.000Z",
+    "title": "[CHG-0101] TRIGGER-04/06: OpenClaw release monitor cron added (daily 06:00 AEST)"
+  },
+  {
+    "page_id": "398c1829-53ff-81d4-a403-cb58eb493ac4",
+    "created_time": "2026-07-09T09:39:00.000Z",
+    "title": "[CHG-0100] TRIGGER-08: Daily spend thresholds added to cost-tracker.sh"
+  },
+  {
+    "page_id": "398c1829-53ff-8194-805b-fb239aa187ec",
+    "created_time": "2026-07-09T09:39:00.000Z",
+    "title": "[CHG-0099] S1-S7 Security Audit \u2014 May 2026"
+  },
+  {
+    "page_id": "398c1829-53ff-819f-a59a-e5b3b5d3e77f",
+    "created_time": "2026-07-09T09:39:00.000Z",
+    "title": "[CHG-0098] Fix cost-tracker remainingEstimate never decrements after top-up"
+  },
+  {
+    "page_id": "398c1829-53ff-8179-ab9e-f40551d14d67",
+    "created_time": "2026-07-09T09:39:00.000Z",
+    "title": "[CHG-0097] Credit tracker balance corrected + top-up recorded"
+  },
+  {
+    "page_id": "398c1829-53ff-8185-818c-dadc93e9ae99",
+    "created_time": "2026-07-09T09:39:00.000Z",
+    "title": "[CHG-0096] US42 done: Ollama routing confirmed + Warden migrated to gemma4:e2b"
+  },
+  {
+    "page_id": "398c1829-53ff-81e9-b0dd-c330298f42a4",
+    "created_time": "2026-07-09T09:39:00.000Z",
+    "title": "[CHG-0095] THORN fix: obs-collector session_stuck dedup + standup message length"
+  },
+  {
+    "page_id": "398c1829-53ff-813f-a868-e65aac4f56f0",
+    "created_time": "2026-07-09T09:39:00.000Z",
+    "title": "[CHG-0094] SAGE_RULES.md + LEX_RULES.md created \u2014 all 6 agents now compact SOUL.md + RULES.md pattern"
+  },
+  {
+    "page_id": "398c1829-53ff-81ea-bfa6-d3853e545f32",
+    "created_time": "2026-07-09T09:39:00.000Z",
+    "title": "[CHG-0093] US38: cost-tracker.sh now scans all agent session dirs with stream breakdown"
+  },
+  {
+    "page_id": "398c1829-53ff-8192-ba64-e7b402c9381f",
+    "created_time": "2026-07-09T09:39:00.000Z",
+    "title": "[CHG-0092] Agent SOUL.md compact: Sage+Lex compacted; obs-collector +4 patterns; US22 closed; US19 elevated; cost-tracker source field fixed"
+  },
+  {
+    "page_id": "398c1829-53ff-8116-b26e-ce4394c1db5f",
+    "created_time": "2026-07-09T09:39:00.000Z",
+    "title": "[CHG-0091] Agent SOUL.md compact standard \u2014 non-negotiable rule for all agents"
+  },
+  {
+    "page_id": "398c1829-53ff-8166-a1e4-c52e70174c4a",
+    "created_time": "2026-07-09T09:39:00.000Z",
+    "title": "[CHG-0090] obs-collector.sh: comprehensive monitoring \u2014 10 new checks (E-N) added"
+  },
+  {
+    "page_id": "398c1829-53ff-8166-bec7-e1a932b59cfb",
+    "created_time": "2026-07-09T09:39:00.000Z",
+    "title": "[CHG-0089] obs-collector.sh: gateway.err.log monitoring added (9 error patterns)"
+  },
+  {
+    "page_id": "398c1829-53ff-8143-9dbd-c95f82f26055",
+    "created_time": "2026-07-09T09:39:00.000Z",
+    "title": "[CHG-0088] Aria SOUL.md compacted (17KB \u2192 3.7KB) + 3 failed gog crons removed + fallback chain cron fixed"
+  },
+  {
+    "page_id": "398c1829-53ff-8163-b11f-ca9bad28d4ca",
+    "created_time": "2026-07-09T09:39:00.000Z",
+    "title": "[CHG-0087] Marketing collaterals generated for Angie \u2014 3 HTML assets"
+  },
+  {
+    "page_id": "398c1829-53ff-8164-94e3-f441d87f4218",
+    "created_time": "2026-07-09T09:39:00.000Z",
+    "title": "[CHG-0086] /achievements keyword \u2014 locked and formatted in RULES.md"
+  },
+  {
+    "page_id": "398c1829-53ff-8103-ac77-da5b884c6280",
+    "created_time": "2026-07-09T09:39:00.000Z",
+    "title": "[CHG-0085] Gemma4:e2b removed from all cron payloads \u2014 context window 2048 incompatible with OpenClaw min 16000"
+  },
+  {
+    "page_id": "398c1829-53ff-814d-a37f-fbdb66347715",
+    "created_time": "2026-07-09T09:39:00.000Z",
+    "title": "[CHG-0084] RTB interim delivery model \u2014 Rose Thorn Bud replaces standup Section 8"
+  },
+  {
+    "page_id": "398c1829-53ff-8173-bb33-e193ea0bb75b",
+    "created_time": "2026-07-09T09:39:00.000Z",
+    "title": "[CHG-0083] Framework alignment DoD + registry + audit \u2014 Option A+B+C"
+  },
+  {
+    "page_id": "398c1829-53ff-8166-aef8-e50469a17855",
+    "created_time": "2026-07-09T09:39:00.000Z",
+    "title": "[CHG-0082] US41: Cross-agent task monitoring sub-agent (TKT-0026)"
+  },
+  {
+    "page_id": "398c1829-53ff-81e7-b738-fd526474214b",
+    "created_time": "2026-07-09T09:39:00.000Z",
+    "title": "[CHG-0081] US40: Platform-wide observability logging layer"
+  },
+  {
+    "page_id": "398c1829-53ff-8152-af91-e01b1839ba24",
+    "created_time": "2026-07-09T09:39:00.000Z",
+    "title": "[CHG-0080] US18: Monthly SLA Report \u2014 incident persistence + sla-report.sh + cron + Notion"
+  },
+  {
+    "page_id": "398c1829-53ff-81a7-b026-d1761e642ea4",
+    "created_time": "2026-07-09T09:39:00.000Z",
+    "title": "[CHG-0079] US20: Research Framework \u2014 Tiers 2-4 defined, /research routing, registry, Notion AKB"
+  },
+  {
+    "page_id": "398c1829-53ff-8165-88ff-ffcc9c6f1d0a",
+    "created_time": "2026-07-09T09:39:00.000Z",
+    "title": "[CHG-0078] US23: Resilient outage handling \u2014 outage-detect + recovery doc"
+  },
+  {
+    "page_id": "398c1829-53ff-817a-a6f8-d5628892bbb6",
+    "created_time": "2026-07-09T09:39:00.000Z",
+    "title": "[CHG-0077] US22: Fix cost-tracker.sh alert logic"
+  },
+  {
+    "page_id": "398c1829-53ff-81e3-aaad-c8b130f0c9f3",
+    "created_time": "2026-07-09T09:39:00.000Z",
+    "title": "[CHG-0076] PIR-20260428-002 completed"
+  },
+  {
+    "page_id": "398c1829-53ff-8181-9965-cb9d10c86285",
+    "created_time": "2026-07-09T09:39:00.000Z",
+    "title": "[CHG-0075] Fix Aria fallback chain \u2014 Haiku only, no Opus/Gemma4"
+  },
+  {
+    "page_id": "398c1829-53ff-8171-ae3f-d1962cc027a2",
+    "created_time": "2026-07-09T09:39:00.000Z",
+    "title": "[CHG-0074] Auto-committed 1 untracked file in AInchors repo"
+  },
+  {
+    "page_id": "398c1829-53ff-8119-b157-cfe3eacc6113",
+    "created_time": "2026-07-09T09:39:00.000Z",
+    "title": "[CHG-0073] Auto-committed 7 untracked files in workspace repo"
+  },
+  {
+    "page_id": "398c1829-53ff-8141-b907-ebd3438a5b4e",
+    "created_time": "2026-07-09T09:39:00.000Z",
+    "title": "[CHG-0072] Auto-Heal sweep 2026-04-28: 3 auto-fixes, 1 needs-ken"
+  },
+  {
+    "page_id": "398c1829-53ff-8123-b833-d8c9010b88fc",
+    "created_time": "2026-07-09T09:39:00.000Z",
+    "title": "[CHG-0071] Credit alerts recalibrated: T1=$80, T2=$40, T3=$15. Angie routing fixed."
+  },
+  {
+    "page_id": "398c1829-53ff-8133-8d06-e0aa4d6165f7",
+    "created_time": "2026-07-09T09:39:00.000Z",
+    "title": "[CHG-0070] Cost tracker rebuilt from Anthropic CSV \u2014 cache write charges now included"
+  },
+  {
+    "page_id": "398c1829-53ff-81c1-b58d-f9444eb3c743",
+    "created_time": "2026-07-09T09:39:00.000Z",
+    "title": "[CHG-0069] Day 4 sprint CLOSED"
+  },
+  {
+    "page_id": "398c1829-53ff-8180-b87c-e876029ae077",
+    "created_time": "2026-07-09T09:39:00.000Z",
+    "title": "[CHG-0068] Sprint cleanup: stale Notion items, duplicate MIGs, Opus investigation, cost tracker fix, INC severity back-populate"
+  },
+  {
+    "page_id": "398c1829-53ff-810f-beba-dbe8785d2251",
+    "created_time": "2026-07-09T09:39:00.000Z",
+    "title": "[CHG-0067] US35 acceptance criteria locked \u2014 AC1+AC2 PASS, AC3 watch, AC4+AC5 deferred"
+  },
+  {
+    "page_id": "398c1829-53ff-81ac-96de-e3ffc5e273a2",
+    "created_time": "2026-07-09T09:39:00.000Z",
+    "title": "[CHG-0066] US35: Relay poller \u2192 Haiku + fix health-check + fallback-chain bugs"
+  },
+  {
+    "page_id": "398c1829-53ff-8171-b9b8-f3a6c29b1f22",
+    "created_time": "2026-07-09T09:39:00.000Z",
+    "title": "[CHG-0065] QW batch: SLOs, uptime logging, CI Register, change types, ITIL tags, PRB-001"
+  },
+  {
+    "page_id": "398c1829-53ff-8122-87c3-de662ed8b41c",
+    "created_time": "2026-07-09T09:39:00.000Z",
+    "title": "[CHG-0064] Governance gate skip rule approved \u2014 Yoda/Ken internal work exempt"
+  },
+  {
+    "page_id": "398c1829-53ff-8165-b23b-c6bbe4281653",
+    "created_time": "2026-07-09T09:39:00.000Z",
+    "title": "[CHG-0063] Business ROI expansion: campaign tracking, marketing funnel, sales conversion"
+  },
+  {
+    "page_id": "398c1829-53ff-8170-8bf2-feec2fb7ca80",
+    "created_time": "2026-07-09T09:39:00.000Z",
+    "title": "[CHG-0062] Business ROI framework \u2014 value rubric, tracker, Aria integration, weekly cron"
+  },
+  {
+    "page_id": "398c1829-53ff-8132-93e7-de9ce282408d",
+    "created_time": "2026-07-09T09:39:00.000Z",
+    "title": "[CHG-0061] /frameworks command \u2014 operational framework maturity assessment"
+  },
+  {
+    "page_id": "398c1829-53ff-81ad-98f1-e7bb18fa8a05",
+    "created_time": "2026-07-09T09:39:00.000Z",
+    "title": "[CHG-0060] US27: Run Diagnostics phases 7-9 (coverage, performance, predictive)"
+  },
+  {
+    "page_id": "398c1829-53ff-81ab-b69a-fc8831076e2b",
+    "created_time": "2026-07-09T09:39:00.000Z",
+    "title": "[CHG-0059] ITSM batch: QW-2 severity flag, QW-3 Standards.md, ITSM-US-007 auto-heal INC, ITSM-US-006 PIR trigger"
+  },
+  {
+    "page_id": "398c1829-53ff-8163-aaf0-fe45bfc42724",
+    "created_time": "2026-07-09T09:39:00.000Z",
+    "title": "[CHG-0058] US23 execution: outage handler, updated fallback chain, standby banner"
+  },
+  {
+    "page_id": "398c1829-53ff-811e-b7d2-cb0698e287ce",
+    "created_time": "2026-07-09T09:39:00.000Z",
+    "title": "[CHG-0057] Aria relay path fix"
+  },
+  {
+    "page_id": "398c1829-53ff-8135-9b99-eac1db54e4c2",
+    "created_time": "2026-07-09T09:39:00.000Z",
+    "title": "[CHG-0056] AKB daily update cron \u2014 3AM AEST, reads both stream journals"
+  },
+  {
+    "page_id": "398c1829-53ff-81d9-b0e2-f963de4d60b7",
+    "created_time": "2026-07-09T09:39:00.000Z",
+    "title": "[CHG-0055] Governance gate refinement: ask-first, Aria/Angie only"
+  },
+  {
+    "page_id": "398c1829-53ff-816b-8fd3-f8a5d32d0c33",
+    "created_time": "2026-07-09T09:39:00.000Z",
+    "title": "[CHG-0054] Governance gate wired into Aria + /governance ad-hoc command"
+  },
+  {
+    "page_id": "398c1829-53ff-8185-94bd-ea7535f35021",
+    "created_time": "2026-07-09T09:38:00.000Z",
+    "title": "[CHG-0053] Shield Rule 1 + Lex Rule 1: security and legal assurance gates on all shared assets"
+  },
+  {
+    "page_id": "398c1829-53ff-81d5-874d-ee1fcdd20984",
+    "created_time": "2026-07-09T09:38:00.000Z",
+    "title": "[CHG-0052] Fix health-check.sh: declare -A, Python bool, lock glob bugs"
+  },
+  {
+    "page_id": "398c1829-53ff-8100-ace3-e839abd8a037",
+    "created_time": "2026-07-09T09:38:00.000Z",
+    "title": "[CHG-0051] Sage Rule 1: QA gate on all shared/communicated assets"
+  },
+  {
+    "page_id": "398c1829-53ff-81b6-92dc-e95999ea4703",
+    "created_time": "2026-07-09T09:38:00.000Z",
+    "title": "[CHG-0050] Day 4 sprint: delegation logging, config-009, burn alert, gemma4 shadow fix"
+  },
+  {
+    "page_id": "398c1829-53ff-819c-a34c-dc28506cbfef",
+    "created_time": "2026-07-09T09:38:00.000Z",
+    "title": "[CHG-0049] 3-tier routing live: route-model.sh, governance cron scaffolding, Haiku extended"
+  },
+  {
+    "page_id": "398c1829-53ff-811e-ba8d-d97236f68007",
+    "created_time": "2026-07-09T09:38:00.000Z",
+    "title": "[CHG-0048] 3-tier model strategy: Haiku 4.5 as Tier 2, qwen3 benchmarked"
+  },
+  {
+    "page_id": "398c1829-53ff-8160-ac32-dfbe69287fb2",
+    "created_time": "2026-07-09T09:38:00.000Z",
+    "title": "[CHG-0047] Gemma4 delegation model: gemma4:26b \u2192 gemma4:e2b"
+  },
+  {
+    "page_id": "398c1829-53ff-819e-b0fb-f03e7335792c",
+    "created_time": "2026-07-09T09:38:00.000Z",
+    "title": "[CHG-0046] Lex (legal agent) model Opus \u2192 Sonnet"
+  },
+  {
+    "page_id": "398c1829-53ff-8139-8614-e83eaa1fc00c",
+    "created_time": "2026-07-09T09:38:00.000Z",
+    "title": "[CHG-0045] Warden \ud83d\udd0d \u2014 model compliance and drift monitoring agent"
+  },
+  {
+    "page_id": "398c1829-53ff-8146-a661-fcc62af11ef6",
+    "created_time": "2026-07-09T09:38:00.000Z",
+    "title": "[CHG-0044] /close command defined + Day 3 sprint closed"
+  },
+  {
+    "page_id": "398c1829-53ff-8195-b75b-cd322725923d",
+    "created_time": "2026-07-09T09:38:00.000Z",
+    "title": "[CHG-0043] Nightly auto-heal 2026-04-27: git commit + Notion US filing"
+  },
+  {
+    "page_id": "398c1829-53ff-8193-ab9a-ffc8184d6961",
+    "created_time": "2026-07-09T09:38:00.000Z",
+    "title": "[CHG-0042] AInchors Mission Control dashboard \u2014 generator script + HTML canvas + 5-min cron"
+  },
+  {
+    "page_id": "398c1829-53ff-8141-ac61-d582e101b1c5",
+    "created_time": "2026-07-09T09:38:00.000Z",
+    "title": "[CHG-0041] Governance agents operational setup \u2014 Shield, Lex, Sage"
+  },
+  {
+    "page_id": "398c1829-53ff-8183-ba5b-d4712868fd47",
+    "created_time": "2026-07-09T09:38:00.000Z",
+    "title": "[CHG-0040] Gateway Recovery SOP: config snapshot, restore script, SOP doc, RULES.md update"
+  },
+  {
+    "page_id": "398c1829-53ff-8109-9479-c480f98cc2ad",
+    "created_time": "2026-07-09T09:38:00.000Z",
+    "title": "[CHG-0039] GitHub CLI authenticated \u2014 kenmun-ainchors"
+  },
+  {
+    "page_id": "398c1829-53ff-8177-8b48-ce48d3eacf11",
+    "created_time": "2026-07-09T09:38:00.000Z",
+    "title": "[CHG-0038] Telegram split into two dedicated bots \u2014 Yoda + Aria"
+  },
+  {
+    "page_id": "398c1829-53ff-81e7-acd0-cb799d0eb1e1",
+    "created_time": "2026-07-09T09:38:00.000Z",
+    "title": "[CHG-0037] Ken Telegram binding restored to main agent (post-reset)"
+  },
+  {
+    "page_id": "398c1829-53ff-81c6-bc9e-d9beaaa2a08c",
+    "created_time": "2026-07-09T09:38:00.000Z",
+    "title": "[CHG-0036] Bonjour plugin disabled \u2014 gateway crash loop fix"
+  },
+  {
+    "page_id": "398c1829-53ff-814e-9714-f913aac3a22c",
+    "created_time": "2026-07-09T09:38:00.000Z",
+    "title": "[CHG-0035] Explicit Telegram routing: Ken\u2192Yoda binding + YODA THIS IS KEN handover keyword"
+  },
+  {
+    "page_id": "398c1829-53ff-8196-9450-d58a8a06cb25",
+    "created_time": "2026-07-09T09:38:00.000Z",
+    "title": "[CHG-0034] Cost tracker balance reconciliation \u2014 corrected $68.75 \u2192 $88.20"
+  },
+  {
+    "page_id": "398c1829-53ff-810b-b392-c78c15138ed1",
+    "created_time": "2026-07-09T09:38:00.000Z",
+    "title": "[CHG-0033] US22 resolved \u2014 cost tracker working, Day 3 data parsed"
+  },
+  {
+    "page_id": "398c1829-53ff-8103-8c1c-d7670e809359",
+    "created_time": "2026-07-09T09:38:00.000Z",
+    "title": "[CHG-0032] 3-tier credit alert system: $50 once, $25 every 3rd response, $10 pause-and-ack"
+  },
+  {
+    "page_id": "398c1829-53ff-81b9-a59f-e9e4d9ce3cb7",
+    "created_time": "2026-07-09T09:38:00.000Z",
+    "title": "[CHG-0031] Angie onboarding: Stage 3 PM framework inserted (Notion, backlog, epic, sprint, ceremonies)"
+  },
+  {
+    "page_id": "398c1829-53ff-81b5-a77b-c34520d1958c",
+    "created_time": "2026-07-09T09:38:00.000Z",
+    "title": "[CHG-0030] Angie onboarding journey + adapted operating model created"
+  },
+  {
+    "page_id": "398c1829-53ff-81a5-843d-d1bd72e0b49e",
+    "created_time": "2026-07-09T09:38:00.000Z",
+    "title": "[CHG-0029] Aria TOM authority granted + Gemma4 extended to ALL business stream agents"
+  },
+  {
+    "page_id": "398c1829-53ff-81c2-9bc3-eb85f9a71632",
+    "created_time": "2026-07-09T09:38:00.000Z",
+    "title": "[CHG-0028] Aria 3 non-negotiable rules locked: Gemma4 default, tail response, CR gate for technical changes"
+  },
+  {
+    "page_id": "398c1829-53ff-8185-ad59-cb1f604f7fa5",
+    "created_time": "2026-07-09T09:38:00.000Z",
+    "title": "[CHG-0027] API balance topped up to $107.06 USD"
+  },
+  {
+    "page_id": "398c1829-53ff-81f9-bfe2-c1f663b624eb",
+    "created_time": "2026-07-09T09:38:00.000Z",
+    "title": "[CHG-0026] Governance layer: Shield \ud83d\udd10, Lex \u2696\ufe0f, Sage \ud83e\uddea \u2014 3 agents operational"
+  },
+  {
+    "page_id": "398c1829-53ff-81ea-ad4e-dcc6171fd885",
+    "created_time": "2026-07-09T09:38:00.000Z",
+    "title": "[CHG-0025] Aria granted full read access to all AInchors data (Angie = CEO authority)"
+  },
+  {
+    "page_id": "398c1829-53ff-81f2-bd77-eabea9cac758",
+    "created_time": "2026-07-09T09:38:00.000Z",
+    "title": "[CHG-0024] Yoda\u2192Aria oversight + shared knowledge bridge + training pipeline"
+  },
+  {
+    "page_id": "398c1829-53ff-8152-83a4-dd576c7576d6",
+    "created_time": "2026-07-09T09:38:00.000Z",
+    "title": "[CHG-0023] Business Lead Agent Aria created + Angie Telegram bound"
+  },
+  {
+    "page_id": "398c1829-53ff-814d-97cb-d6c97e5e904c",
+    "created_time": "2026-07-09T09:38:00.000Z",
+    "title": "[CHG-0022] Slash-command triggers formalised: /resume, /research, /diagnostics"
+  },
+  {
+    "page_id": "398c1829-53ff-8104-9bf6-fd44528b2581",
+    "created_time": "2026-07-09T09:38:00.000Z",
+    "title": "[CHG-0021] Ticketing system (TKT-NNNN) + ticket-first rule"
+  },
+  {
+    "page_id": "398c1829-53ff-8126-bf04-c0d78dd3c7fe",
+    "created_time": "2026-07-09T09:38:00.000Z",
+    "title": "[CHG-0020] US18: Monthly SLA Report generator + April 2026 report"
+  },
+  {
+    "page_id": "398c1829-53ff-81ff-9313-f36dcbe969c2",
+    "created_time": "2026-07-09T09:38:00.000Z",
+    "title": "[CHG-0019] Add Gemma4 warmup probe (Link 4b) to fallback chain validator"
+  },
+  {
+    "page_id": "398c1829-53ff-817e-ab4c-d4a005c6fc4b",
+    "created_time": "2026-07-09T09:38:00.000Z",
+    "title": "[CHG-0018] Wire validate-fallback-chain.sh to gateway boot via LaunchAgent"
+  },
+  {
+    "page_id": "398c1829-53ff-81b0-9f06-e01b2e6afede",
+    "created_time": "2026-07-09T09:38:00.000Z",
+    "title": "[CHG-0017] US23: AutoHeal.md \u2014 added checks #13 (Anthropic), #14 (Ollama), #15 (standby auto-clear)"
+  },
+  {
+    "page_id": "398c1829-53ff-8128-a1b8-dc97e7fb6950",
+    "created_time": "2026-07-09T09:38:00.000Z",
+    "title": "[CHG-0016] US23: OutageRecovery.md \u2014 recovery runbook for all major failure modes"
+  },
+  {
+    "page_id": "398c1829-53ff-81e4-a77f-ed8f9ed630e4",
+    "created_time": "2026-07-09T09:38:00.000Z",
+    "title": "[CHG-0015] US23: health-check.sh \u2014 Anthropic/Ollama API checks + standby mode (checks 13-15)"
+  },
+  {
+    "page_id": "398c1829-53ff-81f6-9d64-d74dc177ead7",
+    "created_time": "2026-07-09T09:38:00.000Z",
+    "title": "[CHG-0014] US23: validate-fallback-chain.sh \u2014 boot-time fallback chain validation"
+  },
+  {
+    "page_id": "398c1829-53ff-8123-8625-ed003e15db8a",
+    "created_time": "2026-07-09T09:38:00.000Z",
+    "title": "[CHG-0013] US22: Fix cost-tracker.sh parser \u2014 dollar-sign f-string shell expansion bug"
+  },
+  {
+    "page_id": "398c1829-53ff-8107-ac1a-d9f54c631b97",
+    "created_time": "2026-07-09T09:38:00.000Z",
+    "title": "[CHG-0012] Fixed agent main model drift Opus->Sonnet + added critical-config anti-drift baseline (auto-heal Check #12)"
+  },
+  {
+    "page_id": "398c1829-53ff-81a7-a2f2-d39c62b885e3",
+    "created_time": "2026-07-09T09:38:00.000Z",
+    "title": "[CHG-0011] Created evergreen Operations/ResiliencyFramework.md (Obsidian)"
+  },
+  {
+    "page_id": "398c1829-53ff-818e-912d-c33d0a257461",
+    "created_time": "2026-07-09T09:38:00.000Z",
+    "title": "[CHG-0010] Fixed CHG-NNNN auto-increment to use MAX (was first-match)"
+  },
+  {
+    "page_id": "398c1829-53ff-810b-953b-ecc9d7b528ae",
+    "created_time": "2026-07-09T09:38:00.000Z",
+    "title": "[CHG-0009] Created auto-heal + run-diagnostics + CHANGELOG framework"
+  },
+  {
+    "page_id": "398c1829-53ff-81aa-9474-ef3121e33d21",
+    "created_time": "2026-07-09T09:38:00.000Z",
+    "title": "[CHG-0008] Resiliency framework: auto-heal cron + run-diagnostics + standup integration + 3 specs"
+  },
+  {
+    "page_id": "398c1829-53ff-8106-b655-d45b01e650d8",
+    "created_time": "2026-07-09T09:38:00.000Z",
+    "title": "[CHG-0007] Lock journal + blog format distinction"
+  },
+  {
+    "page_id": "398c1829-53ff-81da-ad08-c726d3500c9b",
+    "created_time": "2026-07-09T09:38:00.000Z",
+    "title": "[CHG-0006] Backup cron LLM-independence"
+  },
+  {
+    "page_id": "398c1829-53ff-8142-9536-d30133357198",
+    "created_time": "2026-07-09T09:38:00.000Z",
+    "title": "[CHG-0005] Cron Telegram routing fix"
+  },
+  {
+    "page_id": "398c1829-53ff-81e3-a40b-e8ab27ace5bb",
+    "created_time": "2026-07-09T09:38:00.000Z",
+    "title": "[CHG-0004] US23 logged: resilient outage handling"
+  },
+  {
+    "page_id": "398c1829-53ff-8191-b43e-e537287c5399",
+    "created_time": "2026-07-09T09:38:00.000Z",
+    "title": "[CHG-0003] Ollama apiKey hardening"
+  },
+  {
+    "page_id": "398c1829-53ff-8143-a03f-febd533b676c",
+    "created_time": "2026-07-09T09:38:00.000Z",
+    "title": "[CHG-0002] API balance state updated post top-up"
+  },
+  {
+    "page_id": "387c1829-53ff-8184-9fc4-f28bc1812e26",
+    "created_time": "2026-06-22T08:11:00.000Z",
+    "title": "[CHG-0714] TKT-0330 completion CHG"
+  },
+  {
+    "page_id": "37ec1829-53ff-817d-b6f5-d7e5b2c6b13a",
+    "created_time": "2026-06-13T03:58:00.000Z",
+    "title": "[CHG-0545] Lock Yoda role boundary: orchestrator-only CREST, evidence-only, no fabrication"
+  },
+  {
+    "page_id": "364c1829-53ff-813a-a399-c066bb0c3456",
+    "created_time": "2026-05-18T06:38:00.000Z",
+    "title": "[CHG-0312] Daily budget cap raised $150\u2192$450 (temp, until Sun 17 May)"
+  },
+  {
+    "page_id": "364c1829-53ff-81db-9509-dab00f50923f",
+    "created_time": "2026-05-18T06:38:00.000Z",
+    "title": "[CHG-0313] Cost investigation: 3 quick wins applied, TKT-0165 data feed complete"
+  },
+  {
+    "page_id": "364c1829-53ff-8132-8f05-f0012a06c5f4",
+    "created_time": "2026-05-18T06:37:00.000Z",
+    "title": "[CHG-0314] Nexus System Architecture Document v1.0 \u2014 TKT-0173"
+  },
+  {
+    "page_id": "364c1829-53ff-81c9-a349-caf561d3523e",
+    "created_time": "2026-05-18T06:37:00.000Z",
+    "title": "[CHG-0315] TKT-0172/0173: Technology Strategy & Roadmap (1a) + System Architecture Document produced"
+  },
+  {
+    "page_id": "364c1829-53ff-81df-be0d-e149ec529766",
+    "created_time": "2026-05-18T06:37:00.000Z",
+    "title": "[CHG-0316] TKT-0172: Technology Strategy & Roadmap v1.0 Internal produced"
+  },
+  {
+    "page_id": "364c1829-53ff-81f5-92b4-c1e0ae07d273",
+    "created_time": "2026-05-18T06:37:00.000Z",
+    "title": "[CHG-0317] TKT-0172: Technology Strategy & Roadmap v1.0 External (1b) produced"
+  },
+  {
+    "page_id": "364c1829-53ff-814c-aecd-db626113b034",
+    "created_time": "2026-05-18T06:37:00.000Z",
+    "title": "[CHG-0318] Golden blueprints approved + locked \u2014 Technology Strategy & System Architecture finalized"
+  },
+  {
+    "page_id": "364c1829-53ff-81ed-9406-f84bb7b94453",
+    "created_time": "2026-05-18T06:37:00.000Z",
+    "title": "[CHG-0319] Golden Blueprint cadence rules and triggers established"
+  },
+  {
+    "page_id": "364c1829-53ff-816c-8ae6-f840be8123f0",
+    "created_time": "2026-05-18T06:37:00.000Z",
+    "title": "[CHG-0320] Gateway restart \u2014 event loop saturation (28387ms delay, 98.3% utilisation)"
+  },
+  {
+    "page_id": "364c1829-53ff-8184-8251-fc925834856e",
+    "created_time": "2026-05-18T06:37:00.000Z",
+    "title": "[CHG-0321] TKT-0174: Gateway hygiene \u2014 Mission Control 15min, weekly restart cron, stale task cleanup cron"
+  },
+  {
+    "page_id": "364c1829-53ff-8183-8d41-d0ceade0f886",
+    "created_time": "2026-05-18T06:37:00.000Z",
+    "title": "[CHG-0322] linkedin-post.sh: --queue-content-id flag added \u2014 captures activity URN in queue after posting"
+  },
+  {
+    "page_id": "364c1829-53ff-818d-9732-e69029f451ed",
+    "created_time": "2026-05-18T06:37:00.000Z",
+    "title": "[CHG-0323] Work Currency routing: 4 high-frequency crons moved off main Sonnet session"
+  },
+  {
+    "page_id": "364c1829-53ff-8115-af27-cf53376ed93f",
+    "created_time": "2026-05-18T06:37:00.000Z",
+    "title": "[CHG-0324] cost-tracker.sh: STREAM_MAP + by_stream updated \u2014 all 12 agents correctly classified"
+  },
+  {
+    "page_id": "364c1829-53ff-814f-bdac-ca221660dd80",
+    "created_time": "2026-05-18T06:37:00.000Z",
+    "title": "[CHG-0325] Gateway restart: weekly \u2192 nightly 03:00 AEST. TKT-0177 raised for root cause investigation."
+  },
+  {
+    "page_id": "364c1829-53ff-81dc-aa42-da2ed791b5db",
+    "created_time": "2026-05-18T06:37:00.000Z",
+    "title": "[CHG-0326] model-policy.json: CHG-0270 format fix + stale model updates \u2014 Warden false positives resolved"
+  },
+  {
+    "page_id": "364c1829-53ff-8160-bf57-d39e9637326a",
+    "created_time": "2026-05-18T06:37:00.000Z",
+    "title": "[CHG-0327] auto-heal.sh: journal false positive fixed \u2014 today's journal check removed at 01:00 AEST"
+  },
+  {
+    "page_id": "364c1829-53ff-81e3-846a-d655be320c89",
+    "created_time": "2026-05-18T06:37:00.000Z",
+    "title": "[CHG-0328] Google Drive folder rule: NEVER upload to root. Folder map established. Docs moved."
+  },
+  {
+    "page_id": "364c1829-53ff-8128-ad22-d11c7dc95fad",
+    "created_time": "2026-05-18T06:37:00.000Z",
+    "title": "[CHG-0329] LI-C1-W2-P1 v3 approved \u2014 AIOps Part 1/6, scheduled Tue 19 May 07:30 AEST"
+  },
+  {
+    "page_id": "364c1829-53ff-8141-a5d1-db88f4d6ac53",
+    "created_time": "2026-05-18T06:37:00.000Z",
+    "title": "[CHG-0330] TKT-0178 deferred: routing enforcement deferred until post-Citadel. Ken approved."
+  },
+  {
+    "page_id": "364c1829-53ff-8196-89ae-ecf143fee5fa",
+    "created_time": "2026-05-18T06:37:00.000Z",
+    "title": "[CHG-0331] TKT-0180 committed: audit-skill.sh v2 enhancement \u2014 5 new semantic checks"
+  },
+  {
+    "page_id": "364c1829-53ff-81b1-a21a-ec5024401b86",
+    "created_time": "2026-05-18T06:37:00.000Z",
+    "title": "[CHG-0332] ClawGuard deferred to P2 \u2014 TKT-0180 (audit-skill.sh v2) addresses TKT-0142 now"
+  },
+  {
+    "page_id": "364c1829-53ff-81a3-bab4-de1c05e8f9fe",
+    "created_time": "2026-05-18T06:37:00.000Z",
+    "title": "[CHG-0333] TKT-0181 committed: Gemma4 fine-tuning research \u2014 P3 boundary, Thrawn owner"
+  },
+  {
+    "page_id": "364c1829-53ff-810b-9529-c9cecee9f252",
+    "created_time": "2026-05-18T06:37:00.000Z",
+    "title": "[CHG-0334] audit-skill.sh v2: Add 5 new security checks (TKT-0180)"
+  },
+  {
+    "page_id": "364c1829-53ff-810d-bf70-eb5c8e509a04",
+    "created_time": "2026-05-18T06:37:00.000Z",
+    "title": "[CHG-0335] TKT-0141/0142/0180 CLOSED \u2014 Skill security complete: policy + audit v2 + weekly cron"
+  },
+  {
+    "page_id": "364c1829-53ff-815e-a6e5-f32c45e3ed3a",
+    "created_time": "2026-05-18T06:37:00.000Z",
+    "title": "[CHG-0336] kimi pilot reverted: webchat + telegram \u2192 Sonnet. kimi = standup ONLY."
+  },
+  {
+    "page_id": "364c1829-53ff-8167-9fcd-f43ff0b6428c",
+    "created_time": "2026-05-18T06:37:00.000Z",
+    "title": "[CHG-0337] Skill audit v2: 6 BLOCK findings reviewed \u2014 all false positives, marked clean-5-low-fp"
+  },
+  {
+    "page_id": "364c1829-53ff-81bc-96f0-f588004fb89d",
+    "created_time": "2026-05-18T06:37:00.000Z",
+    "title": "[CHG-0339] TKT-0185: LinkedIn queue consolidation \u2014 single SSOT"
+  },
+  {
+    "page_id": "364c1829-53ff-810a-a27a-f7448d0d38a3",
+    "created_time": "2026-05-18T06:37:00.000Z",
+    "title": "[CHG-0340] Telegram Yoda \u2192 kimi model via yoda-telegram agent (TKT-0160 model gap fix)"
+  },
+  {
+    "page_id": "364c1829-53ff-81d8-9340-d1391ec7a0b7",
+    "created_time": "2026-05-18T06:37:00.000Z",
+    "title": "[CHG-0341] tickets.json deduplication \u2014 14 colliding IDs renumbered to TKT-0186+"
+  },
+  {
+    "page_id": "364c1829-53ff-812c-8f9f-e461ef5c585f",
+    "created_time": "2026-05-18T06:37:00.000Z",
+    "title": "[CHG-0342] SOUL.md: channel-state.json write rule made explicit with Python snippet \u2014 kimi Telegram gap fixed"
+  },
+  {
+    "page_id": "364c1829-53ff-8134-8289-fcc52593763b",
+    "created_time": "2026-05-18T06:37:00.000Z",
+    "title": "[CHG-0343] Yoda Telegram context brief + 30-min refresh cron"
+  },
+  {
+    "page_id": "364c1829-53ff-81a0-bf25-d0fefdb49be0",
+    "created_time": "2026-05-18T06:37:00.000Z",
+    "title": "[CHG-0344] Hybrid Option D: Telegram unified into main session (dmScope:main) \u2014 TKT-0184 CLOSED"
+  },
+  {
+    "page_id": "364c1829-53ff-8104-8306-c9be8e6e5c1c",
+    "created_time": "2026-05-18T06:37:00.000Z",
+    "title": "[CHG-0345] tickets.json rebuilt: deduped + TKT-0178 to TKT-0199 restored after corruption"
+  },
+  {
+    "page_id": "364c1829-53ff-81d4-8b3e-c9fa0813ad8b",
+    "created_time": "2026-05-18T06:37:00.000Z",
+    "title": "[CHG-0346] TKT-0160 CLOSED \u2014 Channel-agnostic orchestration: Option C + context brief accepted for P1"
+  },
+  {
+    "page_id": "364c1829-53ff-81a6-b37b-dd3f8f1778c7",
+    "created_time": "2026-05-18T06:37:00.000Z",
+    "title": "[CHG-0347] Telegram reverted to Sonnet (main) \u2014 kimi risk outweighs cost saving. CHG-0347"
+  },
+  {
+    "page_id": "364c1829-53ff-812b-8109-fdb6dc03bd11",
+    "created_time": "2026-05-18T06:37:00.000Z",
+    "title": "[CHG-0348] EMERGENCY: All agents switched to kimi \u2014 Claude API credits depleted"
+  },
+  {
+    "page_id": "364c1829-53ff-8138-a80a-e06ebbc90f60",
+    "created_time": "2026-05-18T06:36:00.000Z",
+    "title": "[CHG-0349] CHG-0348: INTERIM \u2014 all agents switched to kimi\u2192gemma4\u2192deepseek-pro. Claude API credits depleted."
+  },
+  {
+    "page_id": "364c1829-53ff-812a-aaae-c3b9c94b730d",
+    "created_time": "2026-05-18T06:36:00.000Z",
+    "title": "[CHG-0350] Interim conservative mode: NO risky state manipulation without explicit Ken approval"
+  },
+  {
+    "page_id": "364c1829-53ff-81b8-a926-f508ea25c99d",
+    "created_time": "2026-05-18T06:36:00.000Z",
+    "title": "[CHG-0351] Model Emergency Runbook v1.0 APPROVED by Ken Mun"
+  },
+  {
+    "page_id": "364c1829-53ff-81d8-be4d-cf87be02f773",
+    "created_time": "2026-05-18T06:36:00.000Z",
+    "title": "[CHG-0352] Standby mode: Anthropic API unreachable (502). Agents already on kimi \u2014 no impact."
+  },
+  {
+    "page_id": "364c1829-53ff-8124-a48f-fa9800d1d712",
+    "created_time": "2026-05-18T06:36:00.000Z",
+    "title": "[CHG-0353] OpenClaw v2026.5.12 HIGH security patch detected by TRIGGER-04"
+  },
+  {
+    "page_id": "364c1829-53ff-81e0-a52a-df7e94b96007",
+    "created_time": "2026-05-18T06:36:00.000Z",
+    "title": "[CHG-0356] CI Cycle 2A Complete \u2014 Cycle 3A Started"
+  },
+  {
+    "page_id": "364c1829-53ff-813d-aa62-e6536a0da159",
+    "created_time": "2026-05-18T06:36:00.000Z",
+    "title": "[CHG-0359] Auto allowlist sync -- Tier 2 propagation (strategy-update)"
+  },
+  {
+    "page_id": "364c1829-53ff-81a1-87f1-c020558f82cb",
+    "created_time": "2026-05-18T06:36:00.000Z",
+    "title": "[CHG-0361] AUTO-HEAL nightly sweep 2026-05-17"
+  },
+  {
+    "page_id": "364c1829-53ff-81a4-b453-ebfd3910f616",
+    "created_time": "2026-05-18T06:35:00.000Z",
+    "title": "[CHG-0395] Warden model policy permanent baseline update \u2014 kimi interim decommissioned"
+  },
+  {
+    "page_id": "364c1829-53ff-8176-883b-d16108ebcdce",
+    "created_time": "2026-05-18T06:34:00.000Z",
+    "title": "[CHG-0396] Forge cron audit \u2014 stale crons cleaned, task monitor timeout fixed, model references updated"
+  },
+  {
+    "page_id": "364c1829-53ff-81e7-a48b-ed0630131907",
+    "created_time": "2026-05-18T06:34:00.000Z",
+    "title": "[CHG-0397] Auto allowlist sync -- Tier 2 propagation (strategy-update)"
+  },
+  {
+    "page_id": "364c1829-53ff-8118-956b-c84dcb9c8a87",
+    "created_time": "2026-05-18T06:34:00.000Z",
+    "title": "[CHG-0398] Telegram Message Chunking Rule \u2014 mandatory for all agents"
+  },
+  {
+    "page_id": "364c1829-53ff-8167-8e23-d483d9be05a4",
+    "created_time": "2026-05-18T06:34:00.000Z",
+    "title": "[CHG-0399] Sprint 4 commitment restored \u2014 9 items recovered from CHG-0369"
+  },
+  {
+    "page_id": "364c1829-53ff-81ca-ae69-de90e3d7d279",
+    "created_time": "2026-05-18T06:34:00.000Z",
+    "title": "[CHG-0400] ticket.sh permanent corruption fix \u2014 echo\u2192printf + 5-guard atomic_write"
+  }
+]
