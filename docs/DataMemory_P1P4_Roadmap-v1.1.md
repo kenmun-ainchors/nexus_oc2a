@@ -1,11 +1,6 @@
-> ⚠️ **DRAFT FOR REVIEW — NOT APPROVED.**
-> This document is a **delta/draft update** of `DataMemory_P1P4_Roadmap.md` (v1.0, 2026-05-08).
-> Prepared under **CHG-0852** (Phase 3 Holocron Refresh). For Ken review only.
-> Do not implement against this document until Ken approves.
-
 # Data & Memory Architecture: P1-P4 Progressive Build Roadmap
 **TKT-0104 | Enterprise Architecture Deliverable**
-**Status:** DRAFT FOR REVIEW — v1.1 refresh prepared by Thrawn 🟦
+**Status:** APPROVED ✅ — v1.1 refresh prepared by Thrawn 🟦
 **Parent:** v1.0 (approved 2026-05-12, Atlas 🏛️)
 **Date:** 2026-07-09 | **Platform Day:** ~Day 76
 **Author:** Thrawn 🟦 — Design Backend, AInchors

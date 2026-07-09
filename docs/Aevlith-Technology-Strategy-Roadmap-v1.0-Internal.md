@@ -1,6 +1,8 @@
 # Aevlith Technologies — Technology Strategy & Roadmap
 ## Internal Reference v1.0
 
+> ⚠️ **SUPERSEDED — docs/Aevlith-Technology-Strategy-Roadmap-v1.1.md approved by Ken Mun 2026-07-09 under CHG-0853.** This v1.0 document is retained for historical reference only.
+
 **Classification: INTERNAL — AInchors / Aevlith Technologies**
 **Status: APPROVED ✅**
 **Approved by: Ken Mun (CTO) — 2026-05-14 12:39 AEST**

@@ -1,11 +1,12 @@
 # Nexus Platform — System Architecture Document
-## v1.1 | Internal Reference — DRAFT FOR REVIEW
+## v1.1 | Internal Reference — APPROVED ✅
 
 **Classification: INTERNAL — Aevlith Technologies / AInchors**
-**Status: DRAFT FOR REVIEW ⚠️ (Not approved — do not build against)**
+**Status: APPROVED ✅ by Ken Mun (CTO) — 2026-07-09**
 **Author: Atlas 🏛️ — Enterprise Architect**
+**Approved by: Ken Mun (CTO) — 2026-07-09**
 **Date: 2026-07-09 | Platform Day ~76**
-**CHG-0852 (Holocron Refresh)**
+**CHG-0853 (Promotion to APPROVED v1.1)**
 
 ---
 

@@ -1,6 +1,8 @@
 # Nexus Platform — System Architecture Document
 ## v1.0 | Internal Reference
 
+> ⚠️ **SUPERSEDED — docs/Nexus-System-Architecture-v1.1.md approved by Ken Mun 2026-07-09 under CHG-0853.** This v1.0 document is retained for historical reference only.
+
 **Classification: INTERNAL — Aevlith Technologies / AInchors**
 **Status: APPROVED ✅**
 **Approved by: Ken Mun (CTO) — 2026-05-14 12:39 AEST**
