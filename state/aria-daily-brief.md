@@ -1,3 +1,41 @@
+## Thursday, July 9, 2026 — Business Stream Summary
+_Written 10:44 AEST by Aria cron — verified 2026-07-09T00:44Z_
+
+### Angie interactions today
+- **No Angie activity today.** Last Angie interaction was Mon 6 Jul at ~18:16 AEST (4 decisions pending: headline option, booking link, content sprint approval, lead magnet title). Session `agent:business:telegram:direct:8141152780` — last user message was Mon 6 Jul 18:18 AEST, only routing echoes since. Business session `agent:business:telegram:direct:8141152780` seq 8 shows last assistant message detecting routing loop. Main session `agent:main:telegram:direct:8141152780` last Angie message was "Going to bed now and talk tomorrow" (Mon 6 Jul). Evidence: sessions_history both sessions, no new user messages on 9 Jul.
+
+### Decisions made
+- **Standup Day 76 — SENT ✅**: Sent at 08:15 AEST. Canvas size: 18,749 bytes. Message ID: `19f43cd1a467d67f`. Recipients: kenmun@gmail.com, angie.foong@ainchors.com. Evidence: state/standup-email-log.json dayNumber:76, status:ok.
+
+### Governance reviews
+- **Health check — OK ✅**: status:ok, exitCode:0, consecutiveFailures:0, lastCheck 2026-07-09T10:43 AEST. All checks pass (gateway, ollama, disk, healthStateAge, costStateAge, ollamaApi). No issues. Evidence: state/health-state.json.
+- **Heartbeat (10:19 AEST) — ALL GREEN ✅**: 17 checks all OK. OWL compliance, cron health, task watchdog, session model drift, budget check, CREST, dead-letter, delegated auth, cost state, standby mode, task verification, CHG triggers, agent health, DoD validation. No issues. Evidence: state/heartbeat-state.json lastHeartbeat 10:19 AEST, overall:ok.
+- **Cron health — ALL CLEAN ✅**: healthy:true, failures:0, lastCheck 2026-07-09T00:19 UTC. Evidence: state/cron-health-state.json.
+- **Aria CREST — COMPLIANT ✅**: 0 violations, 0 warnings. Evidence: state/aria-crest-compliance.json.
+- **Auto-heal (01:00 AEST) — COMPLETE WITH NEEDS KEN ⚠️**: 50 checks, 5 issues: auth-profiles.json missing (CRITICAL — OpenClaw cannot route any model), agent-identity:vanilla-soul-detected (CRITICAL), 2 tilde-path violations, 20 actionable cron timeout recommendations, 37 crons recommended for multi-vendor migration, sandbox boundary audit stale 371h. 1 auto-fix: git-commit 22 workspace files. Evidence: state/auto-heal-2026-07-09.json exit_status complete_with_needs_ken.
+
+### Open items (verified)
+- **Angie 4 decisions pending — ⏸️ AWAITING ANGIE (3rd day)**: Headline option, booking link, content sprint approval, lead magnet title. Session ended 18:16 AEST Mon 6 Jul. No new messages from Angie since. Evidence: sessions_history for both business and main sessions.
+- **Act 680 proposal (MYR 1,550,000) — ⏸️ PENDING ANGIE FORWARD**: Last contact 3 Jul. Angie engaged Mon 6 Jul on monetisation but did not mention forwarding to Dr. Sheila. Evidence: sessions_history no mention of Act 680 in Jul 6 messages.
+- **LinkedIn publish pipeline — ✅ FIXED!**: LI-W4-P11 "Discipline beats motivation" posted Wed 8 Jul 12:00 AEST. Post URN: `urn:li:share:7480440572898578432`. LI-W4-P12 "What I learned rebuilding the foundation" posted Wed 8 Jul 13:08 AEST. Both succeeded. Pipeline is working. No future posts queued (Week 5 not yet drafted). Evidence: linkedin-campaign.json queued[0].status=posted, published[].status=posted for LI-W4-P12.
+- **Ad-hoc LinkedIn post (three hard lessons) — ⏸️ STILL LOCKED (14 days)**: state/adhoc-content-state.json status `locked_in_pending_publish`. Locked since Jun 25. Evidence: state/adhoc-content-state.json read 2026-07-09.
+- **Ken training confirmation (MSG-20260601-001) — ⏸️ 38 DAYS STALE**: relay-to-ken.json `sent: true`, no response from Ken. Evidence: relay-to-ken.json read 2026-07-09.
+- **Google Calendar auth (relay-20260603-001) — ⏸️ STILL BROKEN (36 days)**: relay-to-ken.json `sent: false`. No progress. Evidence: relay-to-ken.json read 2026-07-09.
+- **Auto-heal Needs Ken (6 items, escalated) — ⚠️ PENDING (2nd day new items)**: auth-profiles.json missing (CRITICAL), agent-identity vanilla-soul, 2 tilde-path violations, 20 cron timeout recommendations, 37 multi-vendor migration candidates, sandbox boundary audit 371h stale. Evidence: state/auto-heal-2026-07-09.json.
+- **Day 71 blog post (ainchors-2026-07-04) — 📝 STILL UNPUBLISHED**: Draft committed Jul 4. Governance: Shield:CLEAR, Lex:CONDITIONAL, Sage:CONDITIONAL. Needs Yoda review. Evidence: carried forward from prior brief — governance status unchanged.
+- **Onboarding OB-PM-03 — ⏸️ STALLED**: No progress. BS-001 (JotForm/HRDF) and BS-002 (Lynn Huang/Finance) also stalled until Angie re-engages on business setup. Evidence: carried forward.
+- **LinkedIn Week 5 — ⏸️ NOT DRAFTED**: No LI-W5-* draft files exist. Next slot is empty (Thu 10 Jul 07:30 AEST slot was LI-W4-P12 which posted early). Pipeline needs next post drafted. Evidence: social-drafts directory no LI-W5-* files.
+
+### Handoff to Yoda
+- **🎯 Angie hasn't replied since Mon 18:16 AEST — 3 days without response.** The 4 decisions (headline, booking link, content sprint, lead magnet) are still pending. Nudge window opened yesterday (9 Jul, 7+ days from 2 Jul heartbeat nudge). This is now the nudge threshold.
+- **✅ LinkedIn pipeline is FIXED.** LI-W4-P11 and LI-W4-P12 both posted successfully. CHG-0829 model fix resolved the silent failure. This is the first reliable pipeline operation since the minimax-m3 era.
+- **✅ Health state is OK.** All checks pass. Anthropic key issue that caused "degraded" last week is resolved.
+- **✅ Standup Day 76 sent successfully.** Standup email on track.
+- **⚡ Next LinkedIn post needed — Week 5 not yet drafted.** LI-W4-P12 posted early (Wed 13:08 AEST) instead of Thu slot. The Thu slot is now empty. Next scheduled post slot would be Tue 14 Jul 07:30 AEST if Week 5 is drafted. Pipeline is functional but empty.
+- **🔴 Auto-heal needs-ken has 6 items (CRITICAL escalation)** — auth-profiles.json missing blocks OpenClaw model routing. Agent identity drift detected (vanilla SOUL.md). This is a new escalation from today's auto-heal run. Needs Ken attention urgently.
+- **⚠️ relay-to-ken.json has 2 unresolved items (38 days / 36 days stale)** — Ken training confirmation and Google Calendar auth. Both remain unacknowledged.
+- **Day 71 blog post still unpublished** — same state as last 4 days.
+
 ## Wednesday, July 8, 2026 — Business Stream Summary
 _Written 23:45 AEST by Aria cron — verified 2026-07-08T13:45Z_
 
