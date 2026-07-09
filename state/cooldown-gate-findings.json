@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-07-10T01:00:17",
+  "generatedAt": "2026-07-10T09:02:08",
   "schemaVersion": 1,
   "scope": "scripts/*.sh (excluding .bak/.backup)",
   "pattern": "SHOULD_FIRE[_NN]=false followed by ungated side-effect call within 30 lines",
