@@ -1,0 +1,929 @@
+{
+  "agents": {
+    "defaults": {
+      "bootstrapMaxChars": 20000,
+      "bootstrapTotalMaxChars": 200000,
+      "contextInjection": "continuation-skip",
+      "heartbeat": {
+        "isolatedSession": true,
+        "lightContext": true,
+        "model": "ollama/deepseek-v4-flash:cloud"
+      },
+      "memorySearch": {
+        "provider": "ollama",
+        "remote": {
+          "apiKey": "ollama-local",
+          "baseUrl": "http://localhost:11434"
+        }
+      },
+      "model": {
+        "primary": "ollama/kimi-k2.7-code:cloud",
+        "fallbacks": [
+          "ollama/kimi-k2.6:cloud"
+        ]
+      },
+      "models": {
+        "ollama/deepseek-v4-flash:cloud": {
+          "alias": "deepseek-flash"
+        },
+        "ollama/deepseek-v4-pro:cloud": {
+          "alias": "deepseek-pro"
+        },
+        "ollama/gemma4:26b": {
+          "alias": "gemma4"
+        },
+        "ollama/gemma4:e2b": {
+          "alias": "gemma4e2b"
+        },
+        "ollama/gemma4:31b-cloud": {
+          "alias": "gemma4cloud"
+        },
+        "ollama/kimi-k2.6:cloud": {
+          "alias": "kimi"
+        },
+        "ollama/minimax-m3:cloud": {
+          "alias": "minimax-m3",
+          "params": {},
+          "streaming": true
+        },
+        "ollama/kimi-k2.7-code:cloud": {
+          "alias": "kimi-k2.7"
+        }
+      },
+      "workspace": "/Users/ainchorsangiefpl/.openclaw/workspace",
+      "sandbox": {
+        "mode": "off"
+      },
+      "subagents": {
+        "archiveAfterMinutes": 10080
+      }
+    },
+    "list": [
+      {
+        "agentDir": "/Users/ainchorsangiefpl/.openclaw/agents/main/agent",
+        "id": "main",
+        "model": {
+          "primary": "ollama/kimi-k2.7-code:cloud",
+          "fallbacks": [
+            "ollama/deepseek-v4-pro:cloud",
+            "ollama/deepseek-v4-flash:cloud",
+            "ollama/kimi-k2.6:cloud"
+          ]
+        },
+        "name": "main",
+        "workspace": "/Users/ainchorsangiefpl/.openclaw/workspace",
+        "heartbeat": {
+          "target": "none",
+          "isolatedSession": true,
+          "lightContext": true,
+          "model": "ollama/deepseek-v4-flash:cloud"
+        },
+        "subagents": {
+          "allowAgents": [
+            "*"
+          ]
+        },
+        "tools": {
+          "allow": [
+            "read",
+            "write",
+            "edit",
+            "apply_patch",
+            "exec",
+            "process",
+            "web_search",
+            "web_fetch",
+            "cron",
+            "sessions_list",
+            "sessions_history",
+            "sessions_send",
+            "sessions_spawn",
+            "sessions_yield",
+            "subagents",
+            "session_status",
+            "memory_search",
+            "memory_get",
+            "create_goal",
+            "get_goal",
+            "update_goal",
+            "update_plan",
+            "skill_workshop"
+          ]
+        }
+      },
+      {
+        "agentDir": "/Users/ainchorsangiefpl/.openclaw/agents/business/agent",
+        "id": "business",
+        "model": {
+          "primary": "ollama/kimi-k2.7-code:cloud",
+          "fallbacks": [
+            "ollama/deepseek-v4-pro:cloud",
+            "ollama/deepseek-v4-flash:cloud",
+            "ollama/kimi-k2.6:cloud"
+          ]
+        },
+        "name": "business",
+        "tools": {
+          "allow": [
+            "read",
+            "write",
+            "edit",
+            "web_search",
+            "web_fetch",
+            "image",
+            "sessions_list",
+            "sessions_history",
+            "sessions_send",
+            "sessions_spawn",
+            "sessions_yield",
+            "subagents",
+            "session_status",
+            "exec",
+            "process"
+          ]
+        },
+        "workspace": "/Users/ainchorsangiefpl/.openclaw/workspace-business",
+        "heartbeat": {
+          "target": "none",
+          "isolatedSession": true,
+          "lightContext": true,
+          "model": "ollama/deepseek-v4-flash:cloud",
+          "activeHours": {
+            "start": "08:00",
+            "end": "23:00",
+            "timezone": "Australia/Melbourne"
+          }
+        }
+      },
+      {
+        "agentDir": "/Users/ainchorsangiefpl/.openclaw/agents/security/agent",
+        "id": "security",
+        "model": {
+          "primary": "ollama/gemma4:31b-cloud",
+          "fallbacks": [
+            "ollama/deepseek-v4-pro:cloud",
+            "ollama/kimi-k2.6:cloud"
+          ]
+        },
+        "name": "security",
+        "tools": {
+          "allow": [
+            "read",
+            "web_search",
+            "web_fetch"
+          ]
+        },
+        "workspace": "/Users/ainchorsangiefpl/.openclaw/workspace-security",
+        "heartbeat": {
+          "every": "0m"
+        }
+      },
+      {
+        "agentDir": "/Users/ainchorsangiefpl/.openclaw/agents/legal/agent",
+        "id": "legal",
+        "model": {
+          "primary": "ollama/gemma4:31b-cloud",
+          "fallbacks": [
+            "ollama/deepseek-v4-pro:cloud",
+            "ollama/kimi-k2.6:cloud"
+          ]
+        },
+        "name": "legal",
+        "tools": {
+          "allow": [
+            "read",
+            "web_search",
+            "web_fetch"
+          ]
+        },
+        "workspace": "/Users/ainchorsangiefpl/.openclaw/workspace-legal",
+        "heartbeat": {
+          "every": "0m"
+        }
+      },
+      {
+        "agentDir": "/Users/ainchorsangiefpl/.openclaw/agents/qa/agent",
+        "id": "qa",
+        "model": {
+          "primary": "ollama/gemma4:31b-cloud",
+          "fallbacks": [
+            "ollama/deepseek-v4-pro:cloud",
+            "ollama/kimi-k2.6:cloud"
+          ]
+        },
+        "name": "qa",
+        "tools": {
+          "allow": [
+            "read",
+            "web_search",
+            "web_fetch",
+            "memory_search",
+            "memory_get"
+          ]
+        },
+        "workspace": "/Users/ainchorsangiefpl/.openclaw/workspace-qa",
+        "heartbeat": {
+          "every": "0m"
+        }
+      },
+      {
+        "agentDir": "/Users/ainchorsangiefpl/.openclaw/agents/governance/agent",
+        "id": "governance",
+        "model": {
+          "primary": "ollama/gemma4:31b-cloud",
+          "fallbacks": [
+            "ollama/deepseek-v4-pro:cloud",
+            "ollama/kimi-k2.6:cloud"
+          ]
+        },
+        "name": "governance",
+        "tools": {
+          "allow": [
+            "read"
+          ]
+        },
+        "workspace": "/Users/ainchorsangiefpl/.openclaw/workspace-governance",
+        "heartbeat": {
+          "every": "0m"
+        }
+      },
+      {
+        "agentDir": "/Users/ainchorsangiefpl/.openclaw/agents/infra/agent",
+        "id": "infra",
+        "model": {
+          "primary": "ollama/deepseek-v4-flash:cloud",
+          "fallbacks": [
+            "ollama/gemma4:31b-cloud",
+            "ollama/kimi-k2.6:cloud"
+          ]
+        },
+        "name": "Forge",
+        "tools": {
+          "allow": [
+            "read",
+            "write",
+            "edit",
+            "exec",
+            "process",
+            "web_search",
+            "web_fetch",
+            "sessions_list",
+            "sessions_send",
+            "session_status",
+            "sessions_spawn"
+          ]
+        },
+        "workspace": "/Users/ainchorsangiefpl/.openclaw/workspace",
+        "heartbeat": {
+          "every": "0m"
+        }
+      },
+      {
+        "agentDir": "/Users/ainchorsangiefpl/.openclaw/agents/architect/agent",
+        "id": "architect",
+        "model": {
+          "primary": "ollama/deepseek-v4-flash:cloud",
+          "fallbacks": [
+            "ollama/gemma4:31b-cloud",
+            "ollama/kimi-k2.6:cloud"
+          ]
+        },
+        "name": "Atlas — Enterprise Architect",
+        "tools": {
+          "allow": [
+            "read",
+            "write",
+            "edit",
+            "exec",
+            "process",
+            "web_search",
+            "web_fetch",
+            "sessions_list",
+            "sessions_history"
+          ]
+        },
+        "workspace": "/Users/ainchorsangiefpl/.openclaw/workspace-architect"
+      },
+      {
+        "agentDir": "/Users/ainchorsangiefpl/.openclaw/agents/platform-arch/agent",
+        "id": "platform-arch",
+        "name": "Thrawn — AI Platform Architect",
+        "tools": {
+          "allow": [
+            "read",
+            "write",
+            "edit",
+            "exec",
+            "process",
+            "web_search",
+            "web_fetch",
+            "sessions_list",
+            "sessions_history"
+          ]
+        },
+        "workspace": "/Users/ainchorsangiefpl/.openclaw/workspace-platform-arch",
+        "model": {
+          "primary": "ollama/deepseek-v4-flash:cloud",
+          "fallbacks": [
+            "ollama/gemma4:31b-cloud",
+            "ollama/kimi-k2.6:cloud"
+          ]
+        }
+      },
+      {
+        "agentDir": "/Users/ainchorsangiefpl/.openclaw/workspace-bpm",
+        "id": "biz-process",
+        "name": "Lando — Business Process Specialist",
+        "tools": {
+          "allow": [
+            "read",
+            "write",
+            "edit",
+            "web_search",
+            "web_fetch",
+            "sessions_list",
+            "sessions_history",
+            "session_status"
+          ]
+        },
+        "workspace": "/Users/ainchorsangiefpl/.openclaw/workspace-bpm",
+        "model": {
+          "primary": "ollama/deepseek-v4-pro:cloud",
+          "fallbacks": [
+            "ollama/gemma4:31b-cloud",
+            "ollama/kimi-k2.6:cloud",
+            "ollama/deepseek-v4-flash:cloud"
+          ]
+        }
+      },
+      {
+        "agentDir": "/Users/ainchorsangiefpl/.openclaw/workspace-dtcm",
+        "id": "change-mgt",
+        "name": "Mon Mothma — Digital Transformation CM Specialist",
+        "tools": {
+          "allow": [
+            "read",
+            "write",
+            "edit",
+            "web_search",
+            "web_fetch",
+            "sessions_list",
+            "sessions_history",
+            "session_status"
+          ]
+        },
+        "workspace": "/Users/ainchorsangiefpl/.openclaw/workspace-dtcm",
+        "model": {
+          "primary": "ollama/deepseek-v4-pro:cloud",
+          "fallbacks": [
+            "ollama/gemma4:31b-cloud",
+            "ollama/kimi-k2.6:cloud",
+            "ollama/deepseek-v4-flash:cloud"
+          ]
+        }
+      },
+      {
+        "agentDir": "/Users/ainchorsangiefpl/.openclaw/workspace/agents/ahsoka",
+        "id": "ahsoka",
+        "model": {
+          "primary": "ollama/deepseek-v4-pro:cloud",
+          "fallbacks": [
+            "ollama/gemma4:31b-cloud",
+            "ollama/kimi-k2.6:cloud",
+            "ollama/deepseek-v4-flash:cloud"
+          ]
+        },
+        "name": "Ahsoka 🤍 — AI Transformation Consultant",
+        "tools": {
+          "allow": [
+            "read",
+            "write",
+            "edit",
+            "web_search",
+            "web_fetch",
+            "sessions_list",
+            "sessions_history",
+            "memory_search",
+            "memory_get"
+          ]
+        },
+        "workspace": "/Users/ainchorsangiefpl/.openclaw/workspace-ahsoka"
+      },
+      {
+        "agentDir": "/Users/ainchorsangiefpl/.openclaw/workspace-luthen",
+        "id": "luthen",
+        "name": "Luthen — Marketing Intelligence",
+        "workspace": "/Users/ainchorsangiefpl/.openclaw/workspace-luthen",
+        "model": {
+          "primary": "ollama/deepseek-v4-pro:cloud",
+          "fallbacks": [
+            "ollama/gemma4:31b-cloud",
+            "ollama/kimi-k2.6:cloud",
+            "ollama/deepseek-v4-flash:cloud"
+          ]
+        },
+        "tools": {
+          "allow": [
+            "read",
+            "write",
+            "edit",
+            "exec",
+            "web_search",
+            "web_fetch",
+            "sessions_list",
+            "sessions_send",
+            "session_status",
+            "sessions_spawn"
+          ]
+        }
+      },
+      {
+        "agentDir": "/Users/ainchorsangiefpl/.openclaw/agents/social/agent",
+        "id": "social",
+        "name": "Spark — Social & Content Marketing",
+        "workspace": "/Users/ainchorsangiefpl/.openclaw/workspace-social",
+        "model": {
+          "primary": "ollama/deepseek-v4-flash:cloud",
+          "fallbacks": [
+            "ollama/gemma4:31b-cloud",
+            "ollama/deepseek-v4-pro:cloud"
+          ]
+        },
+        "tools": {
+          "allow": [
+            "read",
+            "write",
+            "edit",
+            "exec",
+            "web_search",
+            "web_fetch",
+            "sessions_list",
+            "sessions_send",
+            "session_status"
+          ]
+        }
+      }
+    ]
+  },
+  "auth": {
+    "profiles": {
+      "ollama:default": {
+        "mode": "api_key",
+        "provider": "ollama"
+      }
+    }
+  },
+  "bindings": [
+    {
+      "agentId": "business",
+      "comment": "Aria bot → business agent (Angie)",
+      "match": {
+        "accountId": "aria",
+        "channel": "telegram"
+      },
+      "type": "route"
+    },
+    {
+      "agentId": "main",
+      "comment": "Yoda bot → main agent (Sonnet). kimi reverted 2026-05-15. Context gap managed via channel-state.json + context brief.",
+      "match": {
+        "accountId": "yoda",
+        "channel": "telegram"
+      },
+      "type": "route"
+    }
+  ],
+  "channels": {
+    "telegram": {
+      "accounts": {
+        "aria": {
+          "allowFrom": [
+            8141152780
+          ],
+          "botToken": "8736928432:AAF9y5JEe8BFqexv8gQ9RiAdG-C2BdLawHs",
+          "dmPolicy": "allowlist",
+          "groupAllowFrom": [
+            "8141152780"
+          ]
+        },
+        "yoda": {
+          "allowFrom": [
+            8574109706,
+            8141152780
+          ],
+          "botToken": "8606254045:AAG-X2IRaYNDq6zQ2KW10QscfbFC8jWtwlU",
+          "dmPolicy": "allowlist",
+          "groupAllowFrom": [
+            8574109706,
+            8141152780
+          ]
+        }
+      },
+      "enabled": true
+    }
+  },
+  "gateway": {
+    "auth": {
+      "allowTailscale": true,
+      "mode": "token",
+      "token": "a614165e358ed412eb753203a9d7a75c6f898865b711655b"
+    },
+    "bind": "loopback",
+    "controlUi": {
+      "allowInsecureAuth": false,
+      "allowedOrigins": [
+        "https://ainchorss-mac-mini.tail5e2567.ts.net"
+      ]
+    },
+    "mode": "local",
+    "port": 18789,
+    "tailscale": {
+      "mode": "serve",
+      "resetOnExit": false
+    }
+  },
+  "messages": {
+    "groupChat": {
+      "visibleReplies": "message_tool"
+    }
+  },
+  "meta": {
+    "lastTouchedAt": "2026-07-09T03:19:50.025Z",
+    "lastTouchedVersion": "2026.6.11"
+  },
+  "models": {
+    "mode": "merge",
+    "providers": {
+      "ollama": {
+        "api": "ollama",
+        "apiKey": "ollama-local",
+        "baseUrl": "http://127.0.0.1:11434",
+        "models": [
+          {
+            "id": "deepseek-v4-pro:cloud",
+            "name": "deepseek-v4-pro:cloud",
+            "input": [
+              "text"
+            ],
+            "contextWindow": 1048576,
+            "reasoning": false,
+            "cost": {
+              "input": 0,
+              "output": 0,
+              "cacheRead": 0,
+              "cacheWrite": 0
+            },
+            "params": {
+              "num_ctx": 1048576
+            }
+          },
+          {
+            "id": "deepseek-v4-flash:cloud",
+            "name": "deepseek-v4-flash:cloud",
+            "input": [
+              "text"
+            ],
+            "contextWindow": 262144,
+            "reasoning": false,
+            "cost": {
+              "input": 0,
+              "output": 0,
+              "cacheRead": 0,
+              "cacheWrite": 0
+            },
+            "params": {
+              "num_ctx": 262144
+            }
+          },
+          {
+            "id": "gemma4:31b-cloud",
+            "name": "gemma4:31b-cloud",
+            "input": [
+              "text",
+              "image"
+            ],
+            "contextWindow": 262144,
+            "reasoning": true,
+            "cost": {
+              "input": 0,
+              "output": 0,
+              "cacheRead": 0,
+              "cacheWrite": 0
+            },
+            "params": {
+              "num_ctx": 262144
+            }
+          },
+          {
+            "id": "kimi-k2.6:cloud",
+            "name": "kimi-k2.6:cloud",
+            "input": [
+              "text"
+            ],
+            "contextWindow": 262144,
+            "reasoning": false,
+            "cost": {
+              "input": 0,
+              "output": 0,
+              "cacheRead": 0,
+              "cacheWrite": 0
+            },
+            "params": {
+              "num_ctx": 262144
+            }
+          },
+          {
+            "id": "kimi-k2.7-code:cloud",
+            "name": "kimi-k2.7-code:cloud",
+            "input": [
+              "text"
+            ],
+            "contextWindow": 262144,
+            "reasoning": false,
+            "cost": {
+              "input": 0,
+              "output": 0,
+              "cacheRead": 0,
+              "cacheWrite": 0
+            },
+            "params": {
+              "num_ctx": 262144
+            }
+          },
+          {
+            "id": "minimax-m3:cloud",
+            "name": "minimax-m3:cloud",
+            "input": [
+              "text"
+            ],
+            "contextWindow": 524288,
+            "reasoning": false,
+            "cost": {
+              "input": 0,
+              "output": 0,
+              "cacheRead": 0,
+              "cacheWrite": 0
+            },
+            "params": {
+              "num_ctx": 524288
+            }
+          }
+        ]
+      }
+    }
+  },
+  "plugins": {
+    "entries": {
+      "anthropic": {
+        "enabled": true
+      },
+      "bonjour": {
+        "enabled": false
+      },
+      "minimax": {
+        "enabled": true
+      },
+      "memory-core": {
+        "config": {
+          "dreaming": {
+            "enabled": false
+          }
+        },
+        "enabled": true
+      },
+      "memory-wiki": {
+        "enabled": true,
+        "config": {
+          "vaultMode": "unsafe-local",
+          "vault": {
+            "path": "/Users/ainchorsangiefpl/.openclaw/wiki-vault",
+            "renderMode": "native"
+          },
+          "unsafeLocal": {
+            "allowPrivateMemoryCoreAccess": true,
+            "paths": [
+              "/Users/ainchorsangiefpl/.openclaw/workspace/memory",
+              "/Users/ainchorsangiefpl/.openclaw/workspace/state"
+            ]
+          },
+          "ingest": {
+            "autoCompile": true,
+            "maxConcurrentJobs": 2,
+            "allowUrlIngest": false
+          },
+          "search": {
+            "backend": "local",
+            "corpus": "wiki"
+          },
+          "context": {
+            "includeCompiledDigestPrompt": false
+          }
+        }
+      },
+      "ollama": {
+        "enabled": true
+      },
+      "canvas": {
+        "config": {
+          "host": {
+            "enabled": true,
+            "liveReload": false,
+            "port": 18790,
+            "root": "/Users/ainchorsangiefpl/.openclaw/canvas"
+          }
+        },
+        "enabled": true
+      }
+    }
+  },
+  "session": {
+    "dmScope": "per-channel-peer",
+    "maintenance": {
+      "mode": "enforce",
+      "pruneAfter": "30d",
+      "maxEntries": 500,
+      "resetArchiveRetention": "30d",
+      "maxDiskBytes": "2gb",
+      "highWaterBytes": "1.6gb"
+    }
+  },
+  "skills": {
+    "entries": {
+      "apple-notes": {
+        "enabled": false
+      },
+      "apple-reminders": {
+        "enabled": false
+      },
+      "bear-notes": {
+        "enabled": false
+      },
+      "blogwatcher": {
+        "enabled": false
+      },
+      "blucli": {
+        "enabled": false
+      },
+      "bluebubbles": {
+        "enabled": false
+      },
+      "camsnap": {
+        "enabled": false
+      },
+      "coding-agent": {
+        "enabled": false
+      },
+      "discord": {
+        "enabled": false
+      },
+      "eightctl": {
+        "enabled": false
+      },
+      "gemini": {
+        "enabled": false
+      },
+      "gifgrep": {
+        "enabled": false
+      },
+      "goplaces": {
+        "enabled": false
+      },
+      "himalaya": {
+        "enabled": false
+      },
+      "imsg": {
+        "enabled": false
+      },
+      "mcporter": {
+        "enabled": false
+      },
+      "model-usage": {
+        "enabled": false
+      },
+      "nano-pdf": {
+        "enabled": false
+      },
+      "openai-whisper": {
+        "enabled": false
+      },
+      "openai-whisper-api": {
+        "enabled": false
+      },
+      "openhue": {
+        "enabled": false
+      },
+      "ordercli": {
+        "enabled": false
+      },
+      "sag": {
+        "enabled": false
+      },
+      "session-logs": {
+        "enabled": false
+      },
+      "sherpa-onnx-tts": {
+        "enabled": false
+      },
+      "slack": {
+        "enabled": false
+      },
+      "songsee": {
+        "enabled": false
+      },
+      "sonoscli": {
+        "enabled": false
+      },
+      "spotify-player": {
+        "enabled": false
+      },
+      "summarize": {
+        "enabled": false
+      },
+      "things-mac": {
+        "enabled": false
+      },
+      "tmux": {
+        "enabled": false
+      },
+      "trello": {
+        "enabled": false
+      },
+      "voice-call": {
+        "enabled": false
+      },
+      "wacli": {
+        "enabled": false
+      },
+      "obsidian": {
+        "enabled": false
+      }
+    },
+    "install": {
+      "nodeManager": "npm"
+    }
+  },
+  "tools": {
+    "agentToAgent": {
+      "allow": [
+        "main",
+        "business",
+        "security",
+        "legal",
+        "qa",
+        "governance",
+        "infra",
+        "architect",
+        "platform-arch"
+      ],
+      "enabled": true
+    },
+    "exec": {
+      "pathPrepend": [
+        "/opt/homebrew/bin",
+        "/usr/local/bin"
+      ],
+      "strictInlineEval": false,
+      "cleanupMs": 3600000
+    },
+    "profile": "coding",
+    "sessions": {
+      "visibility": "all"
+    },
+    "web": {
+      "search": {
+        "enabled": true,
+        "provider": "duckduckgo"
+      }
+    },
+    "fs": {
+      "workspaceOnly": true
+    },
+    "sandbox": {
+      "tools": {
+        "alsoAllow": [
+          "group:runtime",
+          "group:fs"
+        ]
+      }
+    },
+    "byProvider": {
+      "ollama/gemma4:31b-cloud": {
+        "deny": [
+          "group:web",
+          "browser"
+        ]
+      }
+    }
+  },
+  "wizard": {
+    "lastRunAt": "2026-07-01T13:02:52.305Z",
+    "lastRunCommand": "doctor",
+    "lastRunMode": "local",
+    "lastRunVersion": "2026.6.11"
+  },
+  "diagnostics": {
+    "memoryPressureSnapshot": true,
+    "stuckSessionWarnMs": 600000,
+    "stuckSessionAbortMs": 1800000
+  }
+}

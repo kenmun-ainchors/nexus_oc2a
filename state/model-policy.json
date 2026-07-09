@@ -133,7 +133,7 @@
   },
   "agents": {
     "main": {
-      "description": "Yoda \ud83d\udfe2 \u2014 Lead Orchestrator (user-facing)",
+      "description": "Yoda 🟢 — Lead Orchestrator (user-facing)",
       "tier": "userFacing",
       "requiredPrimary": "ollama/kimi-k2.7-code:cloud",
       "requiredFallbacks": [
@@ -156,7 +156,7 @@
       "requiredCheap": "ollama/deepseek-v4-flash:cloud"
     },
     "business": {
-      "description": "Aria \ud83d\udd35 \u2014 Business Lead Agent (user-facing)",
+      "description": "Aria 🔵 — Business Lead Agent (user-facing)",
       "tier": "userFacing",
       "requiredPrimary": "ollama/kimi-k2.7-code:cloud",
       "requiredFallbacks": [
@@ -178,7 +178,7 @@
       "requiredCheap": "ollama/deepseek-v4-flash:cloud"
     },
     "security": {
-      "description": "Shield \ud83d\udee1\ufe0f \u2014 Security Governance Agent",
+      "description": "Shield 🛡️ — Security Governance Agent",
       "tier": "t2Governance",
       "requiredPrimary": "ollama/gemma4:31b-cloud",
       "requiredFallbacks": [
@@ -193,7 +193,7 @@
       "requiredCheap": "ollama/deepseek-v4-flash:cloud"
     },
     "legal": {
-      "description": "Lex \u2696\ufe0f \u2014 Legal Governance Agent",
+      "description": "Lex ⚖️ — Legal Governance Agent",
       "tier": "t2Governance",
       "requiredPrimary": "ollama/gemma4:31b-cloud",
       "requiredFallbacks": [
@@ -208,7 +208,7 @@
       "requiredCheap": "ollama/deepseek-v4-flash:cloud"
     },
     "qa": {
-      "description": "Sage \ud83e\uddea \u2014 QA Governance Agent",
+      "description": "Sage 🧪 — QA Governance Agent",
       "tier": "t2Governance",
       "requiredPrimary": "ollama/gemma4:31b-cloud",
       "requiredFallbacks": [
@@ -223,7 +223,7 @@
       "requiredCheap": "ollama/deepseek-v4-flash:cloud"
     },
     "governance": {
-      "description": "Warden \ud83d\udd0d \u2014 Model Compliance Officer",
+      "description": "Warden 🔍 — Model Compliance Officer",
       "tier": "t2Governance",
       "requiredPrimary": "ollama/gemma4:31b-cloud",
       "requiredFallbacks": [
@@ -238,7 +238,7 @@
       "requiredCheap": "ollama/deepseek-v4-flash:cloud"
     },
     "infra": {
-      "description": "Forge \ud83c\udfd7\ufe0f \u2014 Infra/Ops Agent",
+      "description": "Forge 🏗️ — Infra/Ops Agent",
       "tier": "t3Technical",
       "requiredPrimary": "ollama/minimax-m3:cloud",
       "requiredFallbacks": [
@@ -269,7 +269,7 @@
       "requiredCheap": "ollama/deepseek-v4-flash:cloud"
     },
     "architect": {
-      "description": "Atlas \ud83c\udfdb\ufe0f \u2014 Enterprise Architect",
+      "description": "Atlas 🏛️ — Enterprise Architect",
       "tier": "t2Backend",
       "requiredPrimary": "ollama/deepseek-v4-pro:cloud",
       "requiredFallbacks": [
@@ -280,7 +280,7 @@
       "requiredCheap": "ollama/deepseek-v4-flash:cloud"
     },
     "platform-arch": {
-      "description": "Thrawn \u2014 AI Platform Architect",
+      "description": "Thrawn — AI Platform Architect",
       "tier": "t2Backend",
       "requiredPrimary": "ollama/deepseek-v4-pro:cloud",
       "requiredFallbacks": [
@@ -291,7 +291,7 @@
       "requiredCheap": "ollama/deepseek-v4-flash:cloud"
     },
     "biz-process": {
-      "description": "Lando \ud83d\udfe1 \u2014 Business Process Specialist",
+      "description": "Lando 🟡 — Business Process Specialist",
       "tier": "t2Backend",
       "requiredPrimary": "ollama/deepseek-v4-pro:cloud",
       "requiredFallbacks": [
@@ -303,7 +303,7 @@
       "requiredCheap": "ollama/deepseek-v4-flash:cloud"
     },
     "change-mgt": {
-      "description": "Mon Mothma \ud83c\udf1f \u2014 Digital Transformation CM Specialist",
+      "description": "Mon Mothma 🌟 — Digital Transformation CM Specialist",
       "tier": "t2Backend",
       "requiredPrimary": "ollama/deepseek-v4-pro:cloud",
       "requiredFallbacks": [
@@ -315,7 +315,7 @@
       "requiredCheap": "ollama/deepseek-v4-flash:cloud"
     },
     "ahsoka": {
-      "description": "Ahsoka \ud83e\udd0d \u2014 AI Transformation Consultant",
+      "description": "Ahsoka 🤍 — AI Transformation Consultant",
       "tier": "t3Business",
       "requiredPrimary": "ollama/deepseek-v4-pro:cloud",
       "requiredFallbacks": [
@@ -361,7 +361,7 @@
     }
   },
   "kimiPolicy": {
-    "description": "kimi usage policy \u2014 PERMANENT, Ken-approved",
+    "description": "kimi usage policy — PERMANENT, Ken-approved",
     "permanent": true,
     "approvedBy": "Ken Mun",
     "approvedAt": "2026-05-18T09:04:00+10:00",
@@ -384,7 +384,7 @@
           "ollama/deepseek-v4-pro:cloud",
           "ollama/kimi-k2.6:cloud"
         ],
-        "fallbackRule": "Retry pro \u2192 kimi. Never degrade pro \u2192 flash."
+        "fallbackRule": "Retry pro → kimi. Never degrade pro → flash."
       },
       "flash": {
         "label": "Execute / Synthesize",
@@ -393,7 +393,7 @@
           "ollama/deepseek-v4-flash:cloud",
           "ollama/deepseek-v4-pro:cloud"
         ],
-        "fallbackRule": "Flash \u2192 pro escalation. Cheap \u2192 expensive, not cheap \u2192 cheaper."
+        "fallbackRule": "Flash → pro escalation. Cheap → expensive, not cheap → cheaper."
       }
     },
     "agentPhaseAssignments": {
@@ -448,17 +448,17 @@
       }
     }
   },
-  "_note": "CREST phase model assignments added per TKT-0383. Forge flash-for-Plan is intentional \u2014 do not flag as violation.",
+  "_note": "CREST phase model assignments added per TKT-0383. Forge flash-for-Plan is intentional — do not flag as violation.",
   "_note_previous": "This is a clean v2.0 rebuild. All interim flags, Anthropic model references, and stale policy fields removed. Anthropic models (sonnet, haiku, opus) are NOT currently approved or expected on any agent.",
   "note": "Resynced agentTiers to match actual openclaw.json agent configs. Per-agent exceptions documented. Allowed fallback chain = [deepseek-v4-pro, kimi-k2.6] or [gemma4:31b-cloud, deepseek-v4-pro, kimi-k2.6] depending on agent primary.",
   "lastUpdatedBy": "Yoda (CHG-0621)",
   "crestV13Transition": {
     "replaces": "CHG-0349 Conservative Mode (Claude-depletion-driven)",
-    "rationale": "CHG-0500: CREST v1.3 + TKT-0368 provide structural guards for risky state manipulation. Anthropic models are no longer a special trigger \u2014 they are one option in the model-task matrix alongside Ollama Cloud models. Ken issues CLAUDE RECONFIGURE keyword; Conservative Mode flag lifted.",
+    "rationale": "CHG-0500: CREST v1.3 + TKT-0368 provide structural guards for risky state manipulation. Anthropic models are no longer a special trigger — they are one option in the model-task matrix alongside Ollama Cloud models. Ken issues CLAUDE RECONFIGURE keyword; Conservative Mode flag lifted.",
     "approvedBy": "Ken Mun",
     "approvedAt": "2026-06-12T08:02:00+10:00",
     "chgRecord": "CHG-0500",
-    "riskFramework": "CREST v1.3 (target) + TKT-0368 \u2014 Plan\u2192Verify\u2192Replan gates, RVEV cycle, 2-Pass Contract, dispatch-validate.sh, model-task matrix",
+    "riskFramework": "CREST v1.3 (target) + TKT-0368 — Plan→Verify→Replan gates, RVEV cycle, 2-Pass Contract, dispatch-validate.sh, model-task matrix",
     "revertKeyword": null,
     "rollout": {
       "phase1_done": "2026-06-12: Documentation/policy sync (this CHG)",
@@ -470,7 +470,7 @@
     {
       "id": "L-109",
       "ts": "2026-06-13T13:13:00+10:00",
-      "rule": "Do not confabulate explanations for behavior changes. If you don't know why something changed, say so. State 'I don't know' instead of constructing a plausible narrative. Especially for model/agent/cost claims \u2014 always check the SSOT (model-policy.json, runtime metadata) before stating.",
+      "rule": "Do not confabulate explanations for behavior changes. If you don't know why something changed, say so. State 'I don't know' instead of constructing a plausible narrative. Especially for model/agent/cost claims — always check the SSOT (model-policy.json, runtime metadata) before stating.",
       "trigger_incidents": [
         "L-106 (2026-06-13 11:00): confabulated agent non-existence",
         "Sonnet fabrication (2026-06-13 13:11): confabulated model switch"
@@ -568,7 +568,7 @@
   },
   "crest_v13": {
     "active_matrix": "v1.3.0",
-    "last_exported": "2026-07-09T02:30:04+10:00",
+    "last_exported": "2026-07-10T02:30:05+10:00",
     "source": "pg-export",
     "phase_rules": [
       {
