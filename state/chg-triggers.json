@@ -1,9 +1,9 @@
 {
   "schema": "2.0",
   "description": "CHG Trigger Rules \u2014 Yoda monitors these and raises CHG+Telegram alert when triggered.",
-  "lastUpdated": "2026-07-02T09:00:00+10:00",
+  "lastUpdated": "2026-07-10T11:57:00+10:00",
   "lastUpdatedBy": "Yoda",
-  "changeNote": "TRIGGER-04 fired: v2026.6.6 detected. Ken decided DEFER + SANDBOX (CHG-0521). TKT-0501/0502 created.",
+  "changeNote": "CHG-0859: Added TRIGGER-01 sub-action 01-CLOUD-OUTAGE-PROBE — Ollama Cloud outage probe + local OC2 fallback, deferred from CHG-0858 outage-detect no-op.",
   "triggers": {
     "TRIGGER-01": {
       "name": "OC2 Arrival \u2014 Master Gate",
@@ -93,6 +93,24 @@
           "name": "Tech Stream Google Workspace",
           "priority": "high",
           "action": "Create new Google Workspace for tech stream (C3). Migrate Yoda/tech agent auth from kenmun@ainchors.com to new account. Aria keeps kenmun@ on OC1 business node."
+        },
+        {
+          "id": "01-CLOUD-OUTAGE-PROBE",
+          "name": "Ollama Cloud Outage Probe + Local OC2 Fallback",
+          "priority": "high",
+          "action": "Design and implement a proper Ollama Cloud outage probe (not localhost:11434). On cloud unreachable, trigger automatic fallback to local OC2 models (gemma4:26b / gemma4:31b-coding-mtp-bf16 per TRIGGER-03). Re-enable outage-detect.sh logic with cloud-aware probe. Validate against model-policy.json and run full outage/standby drill.",
+          "dependencies": [
+            "TRIGGER-02",
+            "TRIGGER-03"
+          ],
+          "linkedChgs": [
+            "CHG-0858",
+            "CHG-0859"
+          ],
+          "linkedTkts": [
+            "TKT-0973"
+          ],
+          "note": "Deferred from CHG-0858 because outage-detect.sh probed localhost:11434, which is invalid for Ollama Cloud and risks false standby. Local fallback requires OC2 HA and Gemma4 local validation (TRIGGER-03)."
         }
       ]
     },
