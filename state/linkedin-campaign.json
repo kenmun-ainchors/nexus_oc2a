@@ -4,8 +4,8 @@
   "description": "ONE file for all LinkedIn content state. Replaces linkedin-queue.json, linkedin-content-tracker.json, content-queue.json (social entries only). Blog entries remain in content-queue.json.",
   "createdAt": "2026-05-19T10:39:00+10:00",
   "createdBy": "Yoda (CHG consolidation)",
-  "lastUpdated": "2026-07-08T13:08:24.006777+10:00",
-  "lastUpdatedBy": "Yoda (manual repost after parser fix)",
+  "lastUpdated": "2026-07-10T12:14:00+10:00",
+  "lastUpdatedBy": "Yoda (Ken directive 2026-07-10: move LI-W4-P12 to Tue 15 Jul 07:30 AEST)",
   "agent": "Spark",
   "api": {
     "enabled": true,
@@ -121,6 +121,26 @@
       "postedBy": "Spark (cron 833ee0c7)",
       "postUrn": "urn:li:share:7480440572898578432",
       "postUrl": "https://www.linkedin.com/posts/activity-7480440572898578432/"
+    },
+    {
+      "id": "LI-W4-P12",
+      "title": "What I learned rebuilding the foundation",
+      "slot": "Tue 15 Jul 07:30 AEST",
+      "week": 4,
+      "movement": "IV. The Shift",
+      "postNumber": 3,
+      "status": "approved",
+      "draftTriggeredAt": "2026-07-05T19:12:00.000000+10:00",
+      "draftTriggeredBy": "Yoda direct generation (Ken request 2026-07-05)",
+      "approvedAt": "2026-07-10T12:14:00+10:00",
+      "approvedBy": "Ken Mun (Telegram directive 2026-07-10)",
+      "draftFile": "social-drafts/LI-W4-P12-what-i-learned-rebuilding-foundation.md",
+      "imageFile": "social-drafts/images/LI-W4-P12.jpg",
+      "imageReady": true,
+      "imagePrompt": "A wide landscape at dawn, the foreground a stable concrete foundation, the middle ground a partially-built structure rising out of it, the background a calm sky just starting to warm, soft natural light, muted greys and warm sunrise gold, editorial landscape photography, hopeful and grounded mood. Square 1:1 format, no text, no logos, professional quality.",
+      "governanceVerdict": "CLEARED (moved from missed Thu 10 Jul slot per Ken directive)",
+      "type": "original",
+      "account": "ken"
     }
   ],
   "published": [
