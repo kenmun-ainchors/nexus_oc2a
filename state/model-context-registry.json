@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-07-09T17:15:04.954462+00:00",
+  "generated_at": "2026-07-10T17:15:03.340885+00:00",
   "api_available": true,
   "models": [
     {
@@ -8,7 +8,7 @@
       "advertised_context": 1048576,
       "effective_context": 262144,
       "source": "ollama_api",
-      "last_synced_at": "2026-07-09T17:15:04.954462+00:00"
+      "last_synced_at": "2026-07-10T17:15:03.340885+00:00"
     },
     {
       "canonical_name": "ollama/deepseek-v4-pro:cloud",
@@ -16,7 +16,7 @@
       "advertised_context": 1048576,
       "effective_context": 1048576,
       "source": "ollama_api",
-      "last_synced_at": "2026-07-09T17:15:04.954462+00:00"
+      "last_synced_at": "2026-07-10T17:15:03.340885+00:00"
     },
     {
       "canonical_name": "ollama/gemma4:31b-cloud",
@@ -24,7 +24,7 @@
       "advertised_context": 262144,
       "effective_context": 262144,
       "source": "family_fallback",
-      "last_synced_at": "2026-07-09T17:15:04.954462+00:00"
+      "last_synced_at": "2026-07-10T17:15:03.340885+00:00"
     },
     {
       "canonical_name": "ollama/kimi-k2.6:cloud",
@@ -32,7 +32,7 @@
       "advertised_context": 262144,
       "effective_context": 262144,
       "source": "ollama_api",
-      "last_synced_at": "2026-07-09T17:15:04.954462+00:00"
+      "last_synced_at": "2026-07-10T17:15:03.340885+00:00"
     },
     {
       "canonical_name": "ollama/kimi-k2.7-code:cloud",
@@ -40,7 +40,7 @@
       "advertised_context": 262144,
       "effective_context": 262144,
       "source": "ollama_api",
-      "last_synced_at": "2026-07-09T17:15:04.954462+00:00"
+      "last_synced_at": "2026-07-10T17:15:03.340885+00:00"
     },
     {
       "canonical_name": "ollama/minimax-m3:cloud",
@@ -48,7 +48,7 @@
       "advertised_context": 131072,
       "effective_context": 524288,
       "source": "family_fallback",
-      "last_synced_at": "2026-07-09T17:15:04.954462+00:00"
+      "last_synced_at": "2026-07-10T17:15:03.340885+00:00"
     }
   ]
 }

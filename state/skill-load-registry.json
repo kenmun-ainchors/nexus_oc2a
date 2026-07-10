@@ -1,55 +1,19 @@
 {
-  "changelog": {
-    "loaded_at": "2026-07-10T01:57:33Z",
-    "canonical_path": "agent-skills/changelog",
-    "skill_file": "SKILL.md",
-    "via": "skill-load.sh"
-  },
-  "pg-sprint-backlog": {
-    "loaded_at": "2026-07-10T15:00:03Z",
-    "canonical_path": "agent-skills/pg-sprint-backlog",
-    "skill_file": "SKILL.md",
-    "via": "skill-load.sh"
-  },
   "agile": {
-    "loaded_at": "2026-07-09T23:49:45Z",
+    "loaded_at": "2026-07-10T21:38:21Z",
     "canonical_path": "agent-skills/agile",
     "skill_file": "SKILL.md",
     "via": "skill-load.sh"
   },
-  "subagent-dispatch": {
-    "loaded_at": "2026-07-09T08:33:01Z",
-    "canonical_path": "agent-skills/subagent-dispatch",
-    "skill_file": "SKILL.md",
-    "via": "skill-load.sh"
-  },
-  "crest": {
-    "loaded_at": "2026-07-10T07:35:13Z",
-    "canonical_path": "agent-skills/crest",
-    "skill_file": "SKILL.md",
-    "via": "skill-load.sh"
-  },
-  "model-routing": {
-    "loaded_at": "2026-07-08T07:42:39Z",
-    "canonical_path": "agent-skills/model-routing",
-    "skill_file": "SKILL.md",
-    "via": "skill-load.sh"
-  },
-  "telegram": {
-    "loaded_at": "2026-07-09T23:21:06Z",
-    "canonical_path": "agent-skills/telegram",
+  "pg-sprint-backlog": {
+    "loaded_at": "2026-07-10T21:50:29Z",
+    "canonical_path": "agent-skills/pg-sprint-backlog",
     "skill_file": "SKILL.md",
     "via": "skill-load.sh"
   },
   "notion": {
-    "loaded_at": "2026-07-10T14:52:49Z",
+    "loaded_at": "2026-07-10T21:40:20Z",
     "canonical_path": "agent-skills/notion",
-    "skill_file": "SKILL.md",
-    "via": "skill-load.sh"
-  },
-  "memory-maintenance": {
-    "loaded_at": "2026-07-01T09:30:19Z",
-    "canonical_path": "agent-skills/memory-maintenance",
     "skill_file": "SKILL.md",
     "via": "skill-load.sh"
   }
