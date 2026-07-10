@@ -745,10 +745,16 @@ except:
     echo "$POST_URN"
   fi
 
-  # ── Update linkedin-campaign.json with activity URN ──────────────────────
-  # CHG-0362: Updated to write to linkedin-campaign.json (SSOT) instead of old linkedin-queue.json
+  # ── Update per-account campaign file with activity URN ──────────────────
+  # CHG-0860: Per-account campaign files (linkedin-campaign-{account}.json)
+  # Resolves the correct campaign file based on account
   if [[ -n "$POST_URN" && -n "$QUEUE_CONTENT_ID" ]]; then
-    python3 - "$WORKSPACE/state/linkedin-campaign.json" "$QUEUE_CONTENT_ID" "$POST_URN" "$ACCOUNT" "$ORGANIZATION_ID" << 'PYEOF'
+    local CAMPAIGN_FILE="$WORKSPACE/state/linkedin-campaign-${ACCOUNT}.json"
+    if [[ ! -f "$CAMPAIGN_FILE" ]]; then
+      # Fallback to shared file for backward compatibility
+      CAMPAIGN_FILE="$WORKSPACE/state/linkedin-campaign.json"
+    fi
+    python3 - "$CAMPAIGN_FILE" "$QUEUE_CONTENT_ID" "$POST_URN" "$ACCOUNT" "$ORGANIZATION_ID" << 'PYEOF'
 import json, sys, os
 
 def build_post_url(post_urn, account, org_id):

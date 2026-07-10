@@ -1,0 +1,104 @@
+{
+  "schema_version": "1.0",
+  "title": "Spark LinkedIn Campaign \u2014 AInchors Company Page",
+  "description": "AInchors company page LinkedIn campaign state. Per-account separation (CHG-0860).",
+  "createdAt": "2026-07-10T12:29:00+10:00",
+  "createdBy": "Forge (CHG-0860 per-account separation)",
+  "lastUpdated": "2026-07-10T12:29:00+10:00",
+  "lastUpdatedBy": "Forge (CHG-0860)",
+  "agent": "Spark",
+  "api": {
+    "enabled": true,
+    "connectedAt": "2026-06-20T02:05:23Z"
+  },
+  "cadence": {
+    "slots": [
+      "Tue 07:30 AEST",
+      "Wed 12:00 AEST",
+      "Thu 07:30 AEST"
+    ],
+    "postsPerWeek": 3,
+    "missedSlotRule": "Push to next available slot. If slot occupied, skip. Never post late.",
+    "pipelineDesign": {
+      "version": "1.0",
+      "designedAt": "2026-07-10T12:29:00+10:00",
+      "designedBy": "Ken Mun + Yoda (CHG-0860)",
+      "principle": "Draft before slot. Publish at slot. Never draft at publish time.",
+      "primary": {
+        "description": "Weekend batch draft \u2014 all 3 posts for the week ahead drafted on Saturday, reviewed over weekend",
+        "schedule": "Sat 12:00 AEST",
+        "reviewWindow": "~2.5 days (Sat 12:00 \u2192 Tue 07:30)"
+      },
+      "fallback": {
+        "description": "Day-before single-post drafts \u2014 only run if batch missed",
+        "crons": {
+          "mon": {
+            "schedule": "Mon 12:00 AEST",
+            "covers": "Tue post",
+            "reviewWindow": "~19.5 hours"
+          },
+          "tue": {
+            "schedule": "Tue 12:00 AEST",
+            "covers": "Wed post",
+            "reviewWindow": "~24 hours"
+          },
+          "wed": {
+            "schedule": "Wed 12:00 AEST",
+            "covers": "Thu post",
+            "reviewWindow": "~19.5 hours"
+          }
+        }
+      },
+      "publish": {
+        "description": "Publish-only crons \u2014 post approved+imaged content at slot time. Never draft.",
+        "crons": {
+          "tue": {
+            "schedule": "Tue 07:30 AEST"
+          },
+          "wed": {
+            "schedule": "Wed 12:00 AEST"
+          },
+          "thu": {
+            "schedule": "Thu 07:30 AEST"
+          }
+        }
+      }
+    }
+  },
+  "activeTheme": {
+    "name": "Draft \u2014 per Aria operational rules",
+    "type": "pending",
+    "note": "Ken personal rules used as draft. Aria refining business-specific operational rules."
+  },
+  "voice": {
+    "persona": "AInchors company voice \u2014 professional, authoritative, industry-aware",
+    "rule": "External-facing only. NO mentions of Yoda, Nexus, agent names, or platform internals. Company name AInchors is allowed for company page."
+  },
+  "queued": [],
+  "published": [
+    {
+      "id": "LI-W2-P4-visa-openai-company",
+      "platform": "linkedin",
+      "account": "business",
+      "organizationId": "112732790",
+      "topic": "Visa + OpenAI agentic commerce",
+      "status": "published",
+      "postUrn": "urn:li:share:7475350130762731520",
+      "postUrl": "https://www.linkedin.com/feed/update/urn:li:share:7475350130762731520",
+      "publishedAt": "2026-06-24T00:52:47Z",
+      "approvedBy": "Angie Foong (Telegram)",
+      "sourceUrl": "https://techcentral.co.za/ai-agents-are-coming-to-your-visa-card/"
+    }
+  ],
+  "skipped": [],
+  "drafts": {},
+  "usedTopics": [],
+  "rejectionLog": [],
+  "stream": {
+    "account": "business",
+    "organizationId": "112732790",
+    "organizationName": "AInchors company page",
+    "effectiveFrom": "2026-07-10T12:29:00+10:00"
+  },
+  "account": "business"
+}

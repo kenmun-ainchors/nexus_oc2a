@@ -1,0 +1,90 @@
+{
+  "schema_version": "1.0",
+  "title": "Spark LinkedIn Campaign \u2014 Angie Foong Personal",
+  "description": "Angie Foong personal LinkedIn campaign state. Per-account separation (CHG-0860).",
+  "createdAt": "2026-07-10T12:29:00+10:00",
+  "createdBy": "Forge (CHG-0860 per-account separation)",
+  "lastUpdated": "2026-07-10T12:29:00+10:00",
+  "lastUpdatedBy": "Forge (CHG-0860)",
+  "agent": "Spark",
+  "api": {
+    "enabled": true,
+    "connectedAt": "2026-06-25T10:49:11Z"
+  },
+  "cadence": {
+    "slots": [
+      "Tue 07:30 AEST",
+      "Wed 12:00 AEST",
+      "Thu 07:30 AEST"
+    ],
+    "postsPerWeek": 3,
+    "missedSlotRule": "Push to next available slot. If slot occupied, skip. Never post late.",
+    "pipelineDesign": {
+      "version": "1.0",
+      "designedAt": "2026-07-10T12:29:00+10:00",
+      "designedBy": "Ken Mun + Yoda (CHG-0860)",
+      "principle": "Draft before slot. Publish at slot. Never draft at publish time.",
+      "primary": {
+        "description": "Weekend batch draft \u2014 all 3 posts for the week ahead drafted on Saturday, reviewed over weekend",
+        "schedule": "Sat 12:00 AEST",
+        "reviewWindow": "~2.5 days (Sat 12:00 \u2192 Tue 07:30)"
+      },
+      "fallback": {
+        "description": "Day-before single-post drafts \u2014 only run if batch missed",
+        "crons": {
+          "mon": {
+            "schedule": "Mon 12:00 AEST",
+            "covers": "Tue post",
+            "reviewWindow": "~19.5 hours"
+          },
+          "tue": {
+            "schedule": "Tue 12:00 AEST",
+            "covers": "Wed post",
+            "reviewWindow": "~24 hours"
+          },
+          "wed": {
+            "schedule": "Wed 12:00 AEST",
+            "covers": "Thu post",
+            "reviewWindow": "~19.5 hours"
+          }
+        }
+      },
+      "publish": {
+        "description": "Publish-only crons \u2014 post approved+imaged content at slot time. Never draft.",
+        "crons": {
+          "tue": {
+            "schedule": "Tue 07:30 AEST"
+          },
+          "wed": {
+            "schedule": "Wed 12:00 AEST"
+          },
+          "thu": {
+            "schedule": "Thu 07:30 AEST"
+          }
+        }
+      }
+    }
+  },
+  "activeTheme": {
+    "name": "Draft \u2014 per Aria operational rules",
+    "type": "pending",
+    "note": "Ken personal rules used as draft. Aria refining Angie-specific operational rules."
+  },
+  "voice": {
+    "persona": "Angie Foong \u2014 first-person, direct, professional, practical",
+    "rule": "External-facing only. NO mentions of AInchors, Yoda, Nexus, agent names, or platform internals."
+  },
+  "queued": [],
+  "published": [],
+  "skipped": [],
+  "drafts": {},
+  "usedTopics": [],
+  "rejectionLog": [],
+  "stream": {
+    "account": "angie",
+    "organizationId": "",
+    "organizationName": "Angie Foong personal profile",
+    "effectiveFrom": "2026-07-10T12:29:00+10:00"
+  },
+  "account": "angie"
+}
