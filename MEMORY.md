@@ -82,6 +82,7 @@ Nexus=platform|Holocron=AKB|Bridge=cmd-centre|Citadel=client-portal|Holonet=live
 ## Open Items
 - **Notion DB architecture:** see `agent-skills/notion/SKILL.md` and `TOOLS.md` (CHG-0401 3-DB setup)
 - **Notion skills + patterns:** canonical reference is `agent-skills/notion/SKILL.md`
+- **EOD Blog publishing policy:** intentionally local-only until Citadel client portal is live. Files generated nightly at `~/.openclaw/canvas/documents/ainchors-YYYY-MM-DD/index.html`; no website/social distribution. (Ken directive 2026-07-10.)
 - LinkedIn ✅ connected. Instagram/Facebook/X not yet connected.
 
 ## Master Platform Context (DNA) — 2026-06-21
