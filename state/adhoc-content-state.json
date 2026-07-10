@@ -1,13 +1,17 @@
 {
   "linkedin_post_draft": {
-    "status": "locked_in_pending_publish",
+    "status": "cancelled",
     "draft_hash_context": "three_hard_lessons_first_person_practitioner_no_meta_moment",
     "pending_decision": "publish_or_governance_triad",
     "lockedAt": "2026-06-25T11:39:33.694966+00:00",
+    "cancelledAt": "2026-07-10T15:48:00+10:00",
+    "cancelledBy": "Ken Mun (Telegram directive 2026-07-10)",
+    "cancelReason": "No longer applicable; Aria confirmed with Ken. Draft may be archived for reference but will not be published.",
     "notes": [
       "Draft approved by Ken at current angle/level.",
       "Spark drift incident logged separately as Sprint 11 backlog ticket.",
-      "Resume tomorrow with publish/governance decision."
+      "Resume tomorrow with publish/governance decision.",
+      "2026-07-10: Cancelled per Ken directive — no longer applicable."
     ]
   }
 }
