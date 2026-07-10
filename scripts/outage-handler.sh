@@ -1,7 +1,8 @@
 #!/usr/bin/env bash
-# outage-handler.sh — AInchors First-Failure Response Handler
-# Triggered by health-check.sh when Anthropic API fails.
+# outage-handler.sh — AInchors First-Failure Response Handler (CHG-0858)
+# Triggered by health-check.sh when Ollama Cloud API fails.
 # Actions: validate full chain, activate standby mode, alert Ken, log INC.
+# Anthropic-specific handling removed per CHG-0855/CHG-0858.
 # US23 / TKT-0018 / CHG-0058
 
 export PATH="$PATH:/usr/local/bin:/opt/homebrew/bin"
@@ -45,10 +46,9 @@ AVAILABLE_FALLBACK=$(python3 -c "
 import json
 d=json.load(open('$STATE/fallback-chain-status.json'))
 checks = d.get('checks',[])
-# Find first working fallback after Anthropic fails
-if 'haiku4Api:ok' in checks: print('claude-haiku-4-5')
-elif 'ollamaRunning:ok' in checks and 'gemma4e2bLoaded:ok' in checks: print('gemma4:e2b (local)')
-elif 'ollamaRunning:ok' in checks and 'gemma4Loaded:ok' in checks: print('gemma4:26b (local)')
+# Find first working fallback after primary fails
+if 'ollamaRunning:ok' in checks and 'gemma4Loaded:ok' in checks: print('gemma4:31b-cloud (Ollama)')
+elif 'ollamaRunning:ok' in checks: print('Ollama running (models unknown)')
 else: print('NONE — all fallbacks unavailable')
 " 2>/dev/null || echo "unknown")
 
@@ -63,18 +63,17 @@ python3 -c "
 import json, os
 state = {
     'active': True,
-    'reason': 'Anthropic API unreachable — billing exhausted or auth failure',
+    'reason': 'Ollama Cloud unreachable — primary API failure',
     'since': '$OUTAGE_START',
     'detectedAt': '$TIMESTAMP',
     'fallback': '$AVAILABLE_FALLBACK',
     'chainStatus': '$CHAIN_STATUS',
-    'banner': '⚠️ STANDBY MODE — Anthropic API unavailable. Fallback: $AVAILABLE_FALLBACK. Ken alerted.',
+    'banner': '⚠️ STANDBY MODE — Ollama Cloud unavailable. Fallback: $AVAILABLE_FALLBACK. Ken alerted.',
     'recoverySteps': [
-        '1. Check API billing at console.anthropic.com',
-        '2. Top up credit if exhausted',
-        '3. Verify auth key: zsh scripts/get-secret.sh anthropic-api-key | head -c 20',
-        '4. Run: zsh scripts/validate-fallback-chain.sh to confirm recovery',
-        '5. Delete state/standby-mode.json to clear standby banner'
+        '1. Check Ollama service: curl http://localhost:11434/api/tags',
+        '2. Verify network connectivity',
+        '3. Run: zsh scripts/validate-fallback-chain.sh to confirm recovery',
+        '4. Delete state/standby-mode.json to clear standby banner'
     ]
 }
 json.dump(state, open('$STANDBY_FILE','w'), indent=2)
@@ -102,9 +101,9 @@ json.dump(state, open('$OUTAGE_STATE','w'), indent=2)
   # Log as incident
   if [[ -x "$INC_SCRIPT" ]]; then
     zsh "$INC_SCRIPT" \
-      --title "Anthropic API outage — auto-detected" \
+      --title "Ollama Cloud outage — auto-detected" \
       --severity "P1" \
-      --description "Anthropic API unreachable. Health-check triggered outage handler at $AEST. Available fallback: $AVAILABLE_FALLBACK. Fallback chain status: $CHAIN_STATUS." \
+      --description "Ollama Cloud unreachable. Health-check triggered outage handler at $AEST. Available fallback: $AVAILABLE_FALLBACK. Fallback chain status: $CHAIN_STATUS." \
       >> "$LOG" 2>&1 || log "Incident log failed (non-blocking)"
   fi
 
@@ -120,7 +119,7 @@ banner_file = '$STATE/system-banner.json'
 banner = {
     'active': True,
     'type': 'warning',
-    'message': '⚠️ STANDBY MODE — Anthropic API unavailable since $AEST. Fallback: $AVAILABLE_FALLBACK. Top up billing or check auth at console.anthropic.com.',
+    'message': '⚠️ STANDBY MODE — Ollama Cloud unavailable since $AEST. Fallback: $AVAILABLE_FALLBACK. Check connectivity or restart Ollama.',
     'since': '$OUTAGE_START',
     'dismissable': False
 }
