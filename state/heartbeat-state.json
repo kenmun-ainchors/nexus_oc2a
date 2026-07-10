@@ -1,21 +1,45 @@
 {
-  "lastHeartbeat": "2026-07-10T08:49:00+10:00",
-  "lastChecks": {
-    "mainSessionContext": "2026-07-10T08:49:00+10:00",
-    "mainSessionResume": "2026-07-10T08:49:00+10:00",
-    "sessionModelDrift": "2026-07-10T08:49:00+10:00",
-    "owlCompliance": "2026-07-10T08:49:00+10:00",
-    "taskWatchdog": "2026-07-10T08:49:00+10:00",
-    "cronHealth": "2026-07-10T08:49:00+10:00",
-    "cronDeadLetter": "2026-07-10T08:49:00+10:00",
-    "standbyMode": "2026-07-10T08:49:00+10:00",
-    "ariaCrest": "2026-07-10T08:49:00+10:00",
-    "costState": "2026-07-10T08:49:00+10:00",
-    "dodValidation": "2026-07-10T08:49:00+10:00",
-    "taskVerification": "2026-07-10T08:49:00+10:00",
-    "budgetCheck": "2026-07-10T08:49:00+10:00",
-    "requestBudgetCheck": "2026-07-10T08:49:00+10:00",
-    "delegatedAuth": "2026-07-10T08:49:00+10:00"
+  "lastHeartbeat": "2026-07-10T23:49:00+10:00",
+  "checks": {
+    "owlCompliance": "ok",
+    "cronHealth": "ok",
+    "mainSessionResume": "ok",
+    "taskWatchdog": "ok",
+    "sessionModelDrift": "ok",
+    "mainSessionContext": "ok",
+    "agentStatus": "ok",
+    "healthState": "ok",
+    "dodValidation": "ok",
+    "taskVerification": "ok",
+    "cronDeadLetter": "ok",
+    "ariaCrest": "ok",
+    "pendingModelReset": "ok",
+    "standbyMode": "inactive-known",
+    "systemBanner": "inactive-known",
+    "budgetCheck": "ok",
+    "requestBudgetCheck": "ok"
   },
-  "overallStatus": "ok"
+  "standby": {
+    "active": false,
+    "clearedAt": "2026-07-09T23:47:01Z",
+    "reason": "Ollama Cloud recovered"
+  },
+  "lastChecks": {
+    "sessionModelDrift": "2026-07-10T23:49:00+10:00",
+    "owlCompliance": "2026-07-10T23:49:00+10:00",
+    "mainSessionContext": "2026-07-10T23:49:00+10:00",
+    "mainSessionResume": "2026-07-10T23:49:00+10:00",
+    "taskWatchdog": "2026-07-10T23:49:00+10:00",
+    "cronHealth": "2026-07-10T23:49:00+10:00",
+    "cronDeadLetter": "2026-07-10T23:49:00+10:00",
+    "ariaCrest": "2026-07-10T23:49:00+10:00",
+    "requestBudgetCheck": "2026-07-10T23:49:00+10:00",
+    "taskVerification": "2026-07-10T23:49:00+10:00",
+    "dodValidation": "2026-07-10T23:49:00+10:00",
+    "healthState": "2026-07-10T23:49:00+10:00",
+    "standbyMode": "2026-07-10T23:49:00+10:00",
+    "budgetCheck": "2026-07-10T23:49:00+10:00",
+    "agentHealth": "2026-07-10T23:49:00+10:00"
+  },
+  "lastUpdated": "2026-07-10T23:49:00+10:00"
 }

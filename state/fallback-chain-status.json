@@ -1,20 +1,16 @@
 {
-  "checkedAt": "2026-07-09T23:03:57Z",
-  "overall": "broken",
+  "checkedAt": "2026-07-10T13:20:48Z",
+  "overall": "ok",
   "chain": [
     "ollama/kimi-k2.7-code:cloud",
     "ollama/deepseek-v4-pro:cloud"
   ],
   "checks": [
-    "anthropicKey:broken",
-    "anthropicApi:skipped",
     "ollamaRunning:ok",
     "gemma4Loaded:ok",
     "gemma4Warm:skipped",
     "fallbackChainConfig:ok"
   ],
-  "broken": [
-    "Anthropic API key missing from keychain"
-  ],
-  "brokenCount": 1
+  "broken": [],
+  "brokenCount": 0
 }

@@ -36,6 +36,10 @@ case "$SECRET_NAME" in
     security find-generic-password -a "ainchors" -s "telegram-aria-bot-token" -w 2>/dev/null \
       || echo ""
     ;;
+  dinner-crew-bot-token)
+    security find-generic-password -a "ainchors" -s "dinner-crew-bot-token" -w 2>/dev/null \
+      || echo ""
+    ;;
   ollama-api-key)
     security find-generic-password -s "ollama-api-key" -w 2>/dev/null \
       || echo ""

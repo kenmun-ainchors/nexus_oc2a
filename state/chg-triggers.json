@@ -3,7 +3,7 @@
   "description": "CHG Trigger Rules \u2014 Yoda monitors these and raises CHG+Telegram alert when triggered.",
   "lastUpdated": "2026-07-10T11:57:00+10:00",
   "lastUpdatedBy": "Yoda",
-  "changeNote": "CHG-0859: Added TRIGGER-01 sub-action 01-CLOUD-OUTAGE-PROBE — Ollama Cloud outage probe + local OC2 fallback, deferred from CHG-0858 outage-detect no-op.",
+  "changeNote": "CHG-0859: Added TRIGGER-01 sub-action 01-CLOUD-OUTAGE-PROBE \u2014 Ollama Cloud outage probe + local OC2 fallback, deferred from CHG-0858 outage-detect no-op.",
   "triggers": {
     "TRIGGER-01": {
       "name": "OC2 Arrival \u2014 Master Gate",

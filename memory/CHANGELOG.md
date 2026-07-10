@@ -1,3 +1,39 @@
+## 2026-07-10 12:14 AEST — [CHG-0860] Separate LinkedIn campaign state per account (Ken personal, Angie personal, AInchors business)
+**Type:** config
+**Change Type:** Normal
+**Source:** ken-prompt
+**Trigger:** Ken directive 2026-07-10: Spark struggling to manage 3 LinkedIn campaigns concurrently through single state/cron pipeline; missed Thu personal post. Move LI-W4-P12 handled separately.
+**What changed:** Design and implement separate LinkedIn campaign state per account: state/linkedin-campaign-ken.json, state/linkedin-campaign-angie.json, state/linkedin-campaign-business.json (or equivalent). Update Spark publish crons and fallback draft crons to operate per-campaign. Update linkedin-post.sh and related scripts to resolve account cleanly.
+**Why:** Single linkedin-campaign.json mixes Ken personal, Angie personal, and AInchors business streams. Slots collide, drafts get dropped, and publish crons cannot tell which account a post belongs to. Week 4 already dropped both Tue and Thu personal posts.
+**Verification:** Re-run all publish crons in dry-run mode for each account; confirm no slot collisions and each post resolves to correct account/organizationId. Confirm missed-slot rule still works per campaign.
+**Rollback:** Restore single state/linkedin-campaign.json from git; revert cron payload changes.
+**Linked:** TKT-0973, TKT-0974, CHG-0858, TRIGGER-01
+---
+
+## 2026-07-10 11:57 AEST — [CHG-0859] Add OC2 Ollama Cloud outage probe sub-action to TRIGGER-01
+**Type:** config
+**Change Type:** Normal
+**Source:** ken-prompt
+**Trigger:** Ken directive 2026-07-10 11:57: after CHG-0858 outage-detect no-op, schedule proper Ollama Cloud outage probe for OC2 with fallback to local OC2 model.
+**What changed:** Add sub-action to TRIGGER-01 (OC2 Arrival) in state/chg-triggers.json: design and implement Ollama Cloud outage probe; configure fallback to local OC2 model when Cloud unreachable; re-enable outage-detect.sh logic with cloud-aware probe.
+**Why:** outage-detect.sh disabled under CHG-0858 because it probed localhost:11434, which is invalid for Ollama Cloud and risks false standby. A proper cloud probe requires OC2 infrastructure and local fallback capability.
+**Verification:** state/chg-triggers.json parses as valid JSON; TRIGGER-01 sub-actions include the new entry; no duplicate IDs.
+**Rollback:** Restore previous state/chg-triggers.json from git.
+**Linked:** CHG-0858, TKT-0973, TRIGGER-01, TRIGGER-03
+---
+
+## 2026-07-10 09:43 AEST — [CHG-0858] Remove Anthropic fallback checks from validate-fallback-chain.sh and callers
+**Type:** script
+**Change Type:** Normal
+**Source:** ken-prompt
+**Trigger:** Ken asked about stale Anthropic fallback alert after CHG-0855; validate-fallback-chain.sh still flags Anthropic key missing.
+**What changed:** Update scripts/validate-fallback-chain.sh to remove LINK 1 (Anthropic key) and LINK 2 (Anthropic API reachability); make Ollama Cloud / model-policy.json the primary validated chain. Update callers: outage-detect.sh, outage-handler.sh, run-ci-cycle-a.sh, startup-checks.sh if they rely on Anthropic links.
+**Why:** CHG-0855 parked Anthropic but missed validate-fallback-chain.sh. The script runs on gateway start and via outage/startup/CI scripts, producing false 'Fallback Chain Broken' alerts every time.
+**Verification:** Run validate-fallback-chain.sh and confirm overall: ok, anthropicKey/anthropicApi removed or skipped, no /tmp/pvt-alert.txt entry.
+**Rollback:** Restore previous validate-fallback-chain.sh from git.
+**Linked:** CHG-0855, TKT-0972
+---
+
 ## 2026-07-10 08:57 AEST — [CHG-0857] Refresh auto-heal CHECK 1 + auth-profiles + stale baselines
 **Type:** script
 **Change Type:** Normal

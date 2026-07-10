@@ -1,34 +1,29 @@
 {
-  "schema": "1.0",
-  "generatedAt": "2026-07-09T00:02:05Z",
+  "snapshotAt": "2026-07-10T00:00:46.582590+00:00",
   "errors": [
     {
-      "contentId": "LI-W3-P3",
-      "postUrn": "urn:li:share:7463404594140905473",
-      "error": "404",
-      "detail": "Post not found \u2014 deprecated/closed per campaign state",
-      "time": "2026-07-09T00:00:44Z"
+      "id": "LI-W3-P3",
+      "urn": "urn:li:share:7463404594140905473",
+      "error": "404 Not Found",
+      "stderr": "\ud83d\udcca Fetching metrics for LI-W3-P3 (urn:li:share:7463404594140905473) \u2014 interval: 24h account: ken\n  Fetching metrics for: urn:li:share:7463404594140905473 (account: ken)\n\u274c Post not found (404) \u2014 URN may be invalid: urn:li:share:7463404594140905473\n\u274c linkedin-metrics.sh failed."
     },
     {
-      "contentId": "LI-W4-P10",
-      "postUrn": "urn:li:share:7480010492241924096",
-      "error": "404",
-      "detail": "Post not found \u2014 URN may be invalid or post deleted/reposted",
-      "time": "2026-07-09T00:00:49Z"
+      "id": "LI-W2-P4-visa-openai-company",
+      "urn": "urn:li:share:7475350130762731520",
+      "error": "exit 1",
+      "stderr": "\ud83d\udcca Fetching metrics for LI-W2-P4-visa-openai-company (urn:li:share:7475350130762731520) \u2014 interval: 24h account: business\n  Fetching metrics for: urn:li:share:7475350130762731520 (account: business)\n\u274c Token expired \u2014 re-run: zsh scripts/linkedin-auth.sh --account business\n\u274c linkedin-metrics.sh failed."
     },
     {
-      "contentId": "LI-W4-P11",
-      "postUrn": "urn:li:share:7480440572898578432",
-      "error": "404",
-      "detail": "Post not found \u2014 URN may be invalid or post deleted/reposted",
-      "time": "2026-07-09T00:00:51Z"
+      "id": "LI-W4-P10",
+      "urn": "urn:li:share:7480010492241924096",
+      "error": "404 Not Found",
+      "stderr": "\ud83d\udcca Fetching metrics for LI-W4-P10 (urn:li:share:7480010492241924096) \u2014 interval: 24h account: ken\n  Fetching metrics for: urn:li:share:7480010492241924096 (account: ken)\n\u274c Post not found (404) \u2014 URN may be invalid: urn:li:share:7480010492241924096\n\u274c linkedin-metrics.sh failed."
     },
     {
-      "contentId": "LI-W2-P4-visa-openai-company",
-      "postUrn": "urn:li:share:7475350130762731520",
-      "error": "401",
-      "detail": "Token expired for business account \u2014 re-run: zsh scripts/linkedin-auth.sh --account business",
-      "time": "2026-07-09T00:00:49Z"
+      "id": "LI-W4-P11",
+      "urn": "urn:li:share:7480440572898578432",
+      "error": "404 Not Found",
+      "stderr": "\ud83d\udcca Fetching metrics for LI-W4-P11 (urn:li:share:7480440572898578432) \u2014 interval: 24h account: ken\n  Fetching metrics for: urn:li:share:7480440572898578432 (account: ken)\n\u274c Post not found (404) \u2014 URN may be invalid: urn:li:share:7480440572898578432\n\u274c linkedin-metrics.sh failed."
     }
   ]
 }

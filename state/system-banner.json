@@ -1,19 +1,8 @@
 {
-  "active": true,
-  "type": "critical",
-  "title": "\u26a0\ufe0f STANDBY MODE \u2014 Anthropic API Unavailable",
-  "message": "Anthropic API key missing from keychain. Switched to standby mode. Gemma4 (local) handling background crons only. Interactive sessions paused. Check billing console and Anthropic status page.",
-  "since": "2026-07-09T23:03:57Z",
-  "dismissable": false,
-  "links": [
-    {
-      "label": "Anthropic Status",
-      "url": "https://status.anthropic.com"
-    },
-    {
-      "label": "Billing Console",
-      "url": "https://console.anthropic.com/settings/billing"
-    }
-  ],
-  "recovery": "Run scripts/outage-detect.sh after resolving. Banner clears automatically on recovery."
+  "active": false,
+  "type": "recovery",
+  "title": "\u2705 Ollama Cloud Recovered",
+  "message": "Ollama Cloud is back online. Standby mode cleared. Normal operations resumed.",
+  "clearedAt": "2026-07-09T23:47:01Z",
+  "dismissable": true
 }

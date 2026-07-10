@@ -1,10 +1,5 @@
 {
-  "active": true,
-  "since": "2026-07-09T23:03:57Z",
-  "detectedAt": "2026-07-09T23:03:57Z",
-  "reason": "Anthropic API key missing from keychain",
-  "fallback": "ollama/gemma4:26b",
-  "fallbackScope": "background-crons-only",
-  "policy": "CHG-0075: Gemma4 standby for bg crons only. Interactive sessions paused until Anthropic restored.",
-  "anthropicHttp": "no-key"
+  "active": false,
+  "clearedAt": "2026-07-09T23:47:01Z",
+  "reason": "Ollama Cloud recovered"
 }

@@ -22,6 +22,8 @@ EXPECTED_SECRETS=(
   "ainchors-anthropic-api-key"  # Resolved via get-secret.sh as 'anthropic-api-key'
   "notion-api-key"
   "telegram-bot-token"
+  "dinner-crew-bot-token"
+  "foodie-bot-token"  # Foodie Telegram bot, matched to FOODIE_BOT_TOKEN env var
 )
 
 case "$1" in

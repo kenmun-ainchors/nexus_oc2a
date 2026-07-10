@@ -1,24 +1,24 @@
 {
-  "checkTime": "2026-07-09T20:00:00+1000",
-  "currentRequests": 18942,
-  "weeklyLimit": 62515,
-  "currentPct": 30.3,
+  "checkTime": "2026-07-10T20:00:00+1000",
+  "currentRequests": 24793,
+  "weeklyLimit": 53090,
+  "currentPct": 46.7,
   "thresholdTriggered": "none",
   "alertSent": false,
   "message": "Below 50% threshold — silent check. No alert sent.",
   "windowStart": "2026-07-06T10:00:00+1000",
   "windowEnd": "2026-07-13T10:00:00+1000",
-  "requestsRemaining": 43573,
-  "burnRateRequestsPerHour": 236.8,
-  "projectedExhaustion": "2026-07-17T10:00:48+1000",
+  "requestsRemaining": 28297,
+  "burnRateRequestsPerHour": 238.4,
+  "projectedExhaustion": "2026-07-15T16:42:05+1000",
   "modelBreakdown": {
-    "gemma4:31b": 543,
-    "kimi-k2.7-code": 1643,
-    "kimi-k2.6": 99,
-    "deepseek-v4-pro": 1155,
-    "deepseek-v4-flash": 15493,
-    "minimax-m3": 9
+    "gemma4:31b": 549,
+    "kimi-k2.7-code": 4292,
+    "kimi-k2.6": 110,
+    "deepseek-v4-pro": 1169,
+    "deepseek-v4-flash": 18662,
+    "minimax-m3": 11
   },
   "weeklyLimitSource": "turnsLimit.weeklyLimit in cost-state.json",
-  "note": "Daily burn alert cron — 2026-07-09 20:00 AEST. 30.3% of weekly limit used. No action needed."
+  "note": "Daily burn alert cron — 2026-07-10 20:00 AEST. 46.7% of weekly limit. Below 50% — no action needed."
 }

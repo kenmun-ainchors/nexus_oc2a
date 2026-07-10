@@ -4523,5 +4523,70 @@
     "ticket_number": 972,
     "comment": "CHG-0857: All 6 stale checks resolved. Auth-profiles.json recreated (5 agents), Anthropic dependency removed from auto-heal CHECK 1, agent-identity-audit.sh fixed to skip runtime-only agents, tilde-path regressions fixed in model-policy.json and cron-backup-chg-0822.json, gateway config snapshot refreshed, cron-timeout baseline refreshed (21->19 actionable), sandbox boundary audit timestamp updated. needs_ken count dropped from 6 to 1 (only TKT-0339 genuine advisory remains).",
     "resolution": "completed"
+  },
+  {
+    "id": "TKT-0973",
+    "title": "Remove Anthropic fallback checks from validate-fallback-chain.sh and callers",
+    "status": "closed",
+    "priority": "high",
+    "type": "Forge",
+    "created_at": "2026-07-09T23:43:55+10:00",
+    "ticket_number": 973,
+    "metadata": {
+      "chg": "CHG-0858",
+      "agent": "forge",
+      "brief": "CHG-0855 parked Anthropic but missed scripts/validate-fallback-chain.sh, which still runs LINK 1 (Anthropic key) and LINK 2 (Anthropic API reachability) on gateway start and via outage-detect.sh, outage-handler.sh, run-ci-cycle-a.sh, startup-checks.sh. This produces false 'Fallback Chain Broken' alerts. Remove Anthropic links, make Ollama Cloud + model-policy.json the validated primary chain, and update all callers.",
+      "sprint": "Sprint 11",
+      "depends_on": [
+        "TKT-0972"
+      ],
+      "notion_sync": {
+        "status": "synced",
+        "last_synced": "2026-07-09T23:47:20+10:00"
+      },
+      "progress_note": "CLOSED 2026-07-10 11:01 AEST — Option B approved by Ken. outage-detect.sh disabled (NO-OP exit 0) to avoid false standby from localhost:11434 probe. validate-fallback-chain.sh verified clean (no Anthropic references, overall: ok). outage-handler.sh reviewed — no Anthropic-specific recovery steps remain. Git commit 409913d1. TKT-0973 closed."
+    }
+  },
+  {
+    "id": "TKT-0974",
+    "title": "Separate LinkedIn campaign state per account (Ken/Angie/Business)",
+    "status": "in-progress",
+    "priority": "high",
+    "type": "Epic",
+    "created_at": "2026-07-10T02:15:03+10:00",
+    "ticket_number": 974,
+    "metadata": {
+      "chg": "CHG-0860",
+      "agent": "atlas",
+      "brief": "Ken identified that Spark is struggling to manage 3 LinkedIn campaigns (Ken personal, Angie personal, AInchors business) through a single linkedin-campaign.json + shared Spark crons. This caused missed posts in Week 4 (Tue and Thu personal slots). This epic covers architecture design, implementation, and operational transition to per-account campaign state and per-campaign publish/draft crons.",
+      "depends_on": [
+        "TKT-0973"
+      ],
+      "sprint": "Sprint 11",
+      "grooming_history": [
+        {
+          "date": "2026-07-10T12:28:00+10:00",
+          "ac_count": 0,
+          "decisions": "Atlas Phase 1 complete. Ken selected Option C (full separation: separate state files + per-account crons). Aria to confirm with Angie: (1) Angie personal cadence, (2) business cadence, (3) Angie voice/persona, (4) business content strategy/angle briefs, (5) missed-slot rules per account. If Aria input blocks Forge, use Ken existing rules as draft. Migration must complete before Tue 15 Jul 06:30 AEST to protect LI-W4-P12.",
+          "ken_approved": true
+        }
+      ],
+      "notion_sync": {
+        "status": "synced",
+        "last_synced": "2026-07-10T12:15:10+10:00"
+      }
+    }
+  },
+  {
+    "id": "TKT-0975",
+    "title": "CHG-0860 follow-up: remove duplicate LI-W4-P12 from Ken campaign queue",
+    "status": "closed",
+    "priority": "high",
+    "type": "Forge",
+    "created_at": "2026-07-10T02:40:15+10:00",
+    "ticket_number": 975,
+    "closed_at": "2026-07-10T12:41:30+10:00",
+    "closed_by": "Forge (TKT-0975)",
+    "closure_notes": "Duplicate LI-W4-P12 removed from ken campaign queue. Queued entry was scheduled for Tue 15 Jul 07:30 AEST but post was already published Wed 8 Jul 13:08 AEST. Published entry slot field updated to reflect actual post date. Queued array now empty (all Week 4 posts published). Commit: 2412ed71. Tue 15 Jul publish cron (13b0aa89) will find empty queue and skip cleanly."
   }
 ]

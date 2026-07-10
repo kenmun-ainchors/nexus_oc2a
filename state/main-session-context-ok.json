@@ -1,1 +1,17 @@
-{"timestamp":"2026-07-09T23:03:23Z","status":"no_session","message":"No dashboard/webchat session found"}
+{
+  "timestamp": "2026-07-10T14:03:46Z",
+  "aestTimestamp": "2026-07-11T00:03:46+1000",
+  "sessionKey": "agent:main:dashboard:e59eeb11-611d-4d6c-8384-45f2f1e689ad",
+  "sessionId": "22252b6d-5eb9-4051-b487-82363d763fc7",
+  "totalTokens": 18451,
+  "contextTokens": 262144,
+  "contextRatio": 7,
+  "estimatedMessages": 25,
+  "model": "kimi-k2.7-code:cloud",
+  "status": "ok",
+  "warningThresholds": {
+    "totalTokens": 196000,
+    "estimatedMessages": 270,
+    "contextRatio": 75
+  }
+}
