@@ -1,11 +1,11 @@
 {
   "schema": "2.0",
-  "title": "Spark LinkedIn Campaign \u2014 Ken Mun Personal",
+  "title": "Spark LinkedIn Campaign — Ken Mun Personal",
   "description": "Ken Mun personal LinkedIn campaign state. Per-account separation (CHG-0860).",
   "createdAt": "2026-05-19T10:39:00+10:00",
   "createdBy": "Yoda (CHG consolidation)",
-  "lastUpdated": "2026-07-10T12:29:00+10:00",
-  "lastUpdatedBy": "Forge (CHG-0860 per-account separation)",
+  "lastUpdated": "2026-07-10T12:41:17+10:00",
+  "lastUpdatedBy": "Forge (TKT-0975: remove duplicate queued LI-W4-P12)",
   "agent": "Spark",
   "api": {
     "enabled": true,
@@ -25,13 +25,13 @@
       "designedBy": "Ken Mun + Yoda",
       "principle": "Draft before slot. Publish at slot. Never draft at publish time.",
       "primary": {
-        "description": "Weekend batch draft \u2014 all 3 posts for the week ahead drafted on Saturday, reviewed over weekend",
+        "description": "Weekend batch draft — all 3 posts for the week ahead drafted on Saturday, reviewed over weekend",
         "cronId": "1cb0c7ff-4eac-4993-be3a-40aa3d1b6f7d",
         "schedule": "Sat 12:00 AEST",
-        "reviewWindow": "~2.5 days (Sat 12:00 \u2192 Tue 07:30)"
+        "reviewWindow": "~2.5 days (Sat 12:00 → Tue 07:30)"
       },
       "fallback": {
-        "description": "Day-before single-post drafts \u2014 only run if batch missed",
+        "description": "Day-before single-post drafts — only run if batch missed",
         "crons": {
           "mon": {
             "cronId": "573d34e4-fa63-4a09-86af-f061cfe47d25",
@@ -54,7 +54,7 @@
         }
       },
       "publish": {
-        "description": "Publish-only crons \u2014 post approved+imaged content at slot time. Never draft.",
+        "description": "Publish-only crons — post approved+imaged content at slot time. Never draft.",
         "crons": {
           "tue": {
             "cronId": "13b0aa89-0185-43cd-864f-8cc1767382a2",
@@ -81,10 +81,10 @@
       "note": "Proven resonance (LI-W3-P1 top performer, 29 reactions). Keep for content weeks when AInchors-build angle is thin."
     },
     "themeB": {
-      "name": "Building AI Operations in Public \u2014 Daily Lessons from CREST, L-084, L-085",
+      "name": "Building AI Operations in Public — Daily Lessons from CREST, L-084, L-085",
       "startedAt": "2026-06-12T22:01:13+10:00",
       "type": "standalone",
-      "note": "Authentic build-in-public angle. Anchors in Sprint 7 outcomes (CREST v1.2 enforcement, 31-missing-CHG fabrication lesson L-084, long-ID detection L-085, WO-002 12h reconciliation). Voice rule still applies: NO AInchors, NO Yoda, NO agent names, NO platform internals \u2014 translate to practitioner observations only."
+      "note": "Authentic build-in-public angle. Anchors in Sprint 7 outcomes (CREST v1.2 enforcement, 31-missing-CHG fabrication lesson L-084, long-ID detection L-085, WO-002 12h reconciliation). Voice rule still applies: NO AInchors, NO Yoda, NO agent names, NO platform internals — translate to practitioner observations only."
     },
     "rotation": "Alternate weeks: Week 1 = Theme A, Week 2 = Theme B, Week 3 = Theme A, etc. First week (Tue 16 Jun 2026) = Theme A (safer, proven voice).",
     "currentWeek": "2026-06-23 to 2026-06-29 (Week 2 post-reactivation, Theme B)",
@@ -93,31 +93,10 @@
     "note": "Two themes, alternating weeks. Resolves the wishy-washy/consulting-speak trap Ken flagged 2026-05-26 by giving each week a clear anchor."
   },
   "voice": {
-    "persona": "Ken Mun, CTO \u2014 first-person, direct, no fluff, practical wisdom",
+    "persona": "Ken Mun, CTO — first-person, direct, no fluff, practical wisdom",
     "rule": "External-facing only. NO mentions of AInchors, Yoda, Nexus, agent names, or platform internals."
   },
-  "queued": [
-    {
-      "id": "LI-W4-P12",
-      "title": "What I learned rebuilding the foundation",
-      "slot": "Tue 15 Jul 07:30 AEST",
-      "week": 4,
-      "movement": "IV. The Shift",
-      "postNumber": 3,
-      "status": "approved",
-      "draftTriggeredAt": "2026-07-05T19:12:00.000000+10:00",
-      "draftTriggeredBy": "Yoda direct generation (Ken request 2026-07-05)",
-      "approvedAt": "2026-07-10T12:14:00+10:00",
-      "approvedBy": "Ken Mun (Telegram directive 2026-07-10)",
-      "draftFile": "social-drafts/LI-W4-P12-what-i-learned-rebuilding-foundation.md",
-      "imageFile": "social-drafts/images/LI-W4-P12.jpg",
-      "imageReady": true,
-      "imagePrompt": "A wide landscape at dawn, the foreground a stable concrete foundation, the middle ground a partially-built structure rising out of it, the background a calm sky just starting to warm, soft natural light, muted greys and warm sunrise gold, editorial landscape photography, hopeful and grounded mood. Square 1:1 format, no text, no logos, professional quality.",
-      "governanceVerdict": "CLEARED (moved from missed Thu 10 Jul slot per Ken directive)",
-      "type": "original",
-      "account": "ken"
-    }
-  ],
+  "queued": [],
   "published": [
     {
       "id": "LI-W1-P3",
@@ -159,7 +138,7 @@
     },
     {
       "id": "LI-SEED-1",
-      "title": "Seeder Post 1 \u2014 The Opening Tease",
+      "title": "Seeder Post 1 — The Opening Tease",
       "postedAt": "2026-05-03T11:54:00+10:00",
       "postedBy": "Ken (manual)",
       "type": "seeder",
@@ -168,7 +147,7 @@
     },
     {
       "id": "LI-SEED-2",
-      "title": "Seeder Post 2 \u2014 The Hint",
+      "title": "Seeder Post 2 — The Hint",
       "postedAt": "2026-05-03T11:54:00+10:00",
       "postedBy": "Ken (manual)",
       "type": "seeder",
@@ -177,7 +156,7 @@
     },
     {
       "id": "LI-W1-P1",
-      "title": "W1P1 \u2014 Practitioner Intro",
+      "title": "W1P1 — Practitioner Intro",
       "postedAt": "2026-05-05T07:52:00+10:00",
       "postedBy": "Yoda (API fix + manual retry)",
       "type": "original",
@@ -187,7 +166,7 @@
     },
     {
       "id": "LI-W1-P2",
-      "title": "W1P2 \u2014 Problem Education (Paying for AI they can't use)",
+      "title": "W1P2 — Problem Education (Paying for AI they can't use)",
       "postedAt": "2026-05-06T02:04:04+10:00",
       "postedBy": "Spark (cron)",
       "type": "original",
@@ -197,7 +176,7 @@
     },
     {
       "id": "LI-W1-P3",
-      "title": "W1P3 \u2014 Consultant POV (First 24 hours of an engagement)",
+      "title": "W1P3 — Consultant POV (First 24 hours of an engagement)",
       "postedAt": "2026-05-07T07:32:00+10:00",
       "postedBy": "Spark (cron, Ken manual edit)",
       "type": "original",
@@ -216,7 +195,7 @@
     },
     {
       "id": "LI-C1-W2-P2-BROKEN",
-      "title": "AIOps P2 \u2014 The Cost of Getting It Wrong (posted out of order)",
+      "title": "AIOps P2 — The Cost of Getting It Wrong (posted out of order)",
       "postedAt": "2026-05-12T00:43:59+00:00",
       "postedBy": "Spark (API)",
       "type": "original",
@@ -227,7 +206,7 @@
     },
     {
       "id": "LI-C1-W2-P3-BROKEN",
-      "title": "AIOps P3 \u2014 Multi-Agent Trust",
+      "title": "AIOps P3 — Multi-Agent Trust",
       "postedAt": "2026-05-14T07:32:00+10:00",
       "postedBy": "Spark (cron)",
       "type": "original",
@@ -240,9 +219,9 @@
       "id": "LI-W3-P1",
       "title": "What I learned taking AI from demo to production",
       "postedAt": "2026-05-19T21:25:21.535205+10:00",
-      "postedBy": "Yoda (manual \u2014 cron UTC bug)",
+      "postedBy": "Yoda (manual — cron UTC bug)",
       "type": "original",
-      "slot": "Tue 07:30 (late \u2014 posted 21:24 AEST)",
+      "slot": "Tue 07:30 (late — posted 21:24 AEST)",
       "imageAssetUrn": "urn:li:image:D4E10AQGC0Qx5FFVyVA",
       "postUrn": "urn:li:activity:7462463345594605569",
       "postUrl": "https://www.linkedin.com/posts/activity-7462463345594605569/"
@@ -257,11 +236,11 @@
       "imageAssetUrn": "urn:li:image:D4E10AQEFkn4GudRhzw",
       "postUrn": "urn:li:share:7463404594140905473",
       "postUrl": "https://www.linkedin.com/posts/activity-7463404594140905473/",
-      "note": "URN is share format \u2014 LinkedIn may have changed API response. Duplicate post error on retry indicates successful first post.",
+      "note": "URN is share format — LinkedIn may have changed API response. Duplicate post error on retry indicates successful first post.",
       "status": "closed",
       "closedAt": "2026-06-15T17:08:00+10:00",
       "closedBy": "Ken Mun (Telegram msg 4904)",
-      "closedReason": "Deprecated post from old campaign. URN 404 (urn:li:share:7463404594140905473) \u2014 post URL not resolvable. Not applicable to new 4-week Foundation Arc starting Tue 16 Jun. Manually marked closed per Ken directive."
+      "closedReason": "Deprecated post from old campaign. URN 404 (urn:li:share:7463404594140905473) — post URL not resolvable. Not applicable to new 4-week Foundation Arc starting Tue 16 Jun. Manually marked closed per Ken directive."
     },
     {
       "id": "LI-W1-P1",
@@ -281,7 +260,7 @@
       "imagePrompt": "Abstract overhead view of a foundation blueprint drawn in pencil on a rough concrete floor, with one corner slightly lifted and cracking, soft natural light from one side, muted blue-grey tones with a single warm accent line tracing where the crack runs, editorial photography style, shallow depth of field, calm but tense mood. Square 1:1 format, no text, no logos, professional quality.",
       "governanceVerdict": "CLEARED (Shield: clear, Lex: conditional, Sage: conditional)",
       "postedAt": "2026-06-16T17:27:00+10:00",
-      "postedBy": "Yoda (repost v3 \u2014 correct body + fresh image upload)",
+      "postedBy": "Yoda (repost v3 — correct body + fresh image upload)",
       "postUrn": "urn:li:share:7472550094261637120",
       "postUrl": "https://www.linkedin.com/posts/activity-7472550094261637120/",
       "imageAssetUrn": "urn:li:image:D5610AQGy87YrIBOT-w",
@@ -307,7 +286,7 @@
       "governanceVerdict": "CLEARED (Shield: clear, Lex: clear, Sage: clear)",
       "imageAssetUrn": "urn:li:image:D5610AQHUNlcDxu1LGw",
       "postedAt": "2026-06-17T12:05:15+10:00",
-      "postedBy": "Yoda (manual \u2014 cron interrupted by gateway restart)",
+      "postedBy": "Yoda (manual — cron interrupted by gateway restart)",
       "postUrn": "urn:li:share:7472831677170409472",
       "postUrl": "https://www.linkedin.com/posts/activity-7472831677170409472"
     },
@@ -493,7 +472,7 @@
     {
       "id": "LI-W4-P12",
       "title": "What I learned rebuilding the foundation",
-      "slot": "Thu 10 Jul 07:30 AEST",
+      "slot": "Wed 8 Jul 13:08 AEST (manual repost after parser fix)",
       "week": 4,
       "movement": "IV. The Shift",
       "postNumber": 3,
@@ -513,7 +492,8 @@
       "postedAt": "2026-07-08T13:08:24.006777+10:00",
       "postedBy": "Yoda (manual repost after parser fix)",
       "postUrn": "urn:li:share:7480457588195618816",
-      "postUrl": "https://www.linkedin.com/posts/activity-7480457588195618816/"
+      "postUrl": "https://www.linkedin.com/posts/activity-7480457588195618816/",
+      "note": "Slot was originally Thu 10 Jul 07:30 AEST. Post went out early Wed 8 Jul via manual repost (parser fix). Duplicate queued entry removed per TKT-0975."
     },
     {
       "id": "LI-W4-P11",
@@ -544,13 +524,13 @@
   "skipped": [
     {
       "id": "LI-W1-P4",
-      "title": "W1P4 \u2014 Help (3 questions before buying an AI tool)",
+      "title": "W1P4 — Help (3 questions before buying an AI tool)",
       "skippedAt": "2026-05-08T07:31:00+10:00",
       "reason": "No draft content. Friday outside locked campaign schedule."
     },
     {
       "id": "LI-C1-W2-P1-BROKEN",
-      "title": "AIOps P1 \u2014 Who watches the agents?",
+      "title": "AIOps P1 — Who watches the agents?",
       "skippedAt": "2026-05-13T13:10:16+10:00",
       "reason": "Missed Tue slot due to Anthropic outage. Ken decision: skip (P2 already posted out of order). Series retired."
     }
@@ -575,13 +555,13 @@
           "imageReceivedAt": "2026-05-26T12:57:00+10:00",
           "approvedAt": "2026-05-26T12:57:00+10:00",
           "approvedBy": "Ken Mun (Telegram image approval)",
-          "slotNote": "Pushed from Tue 07:30 (missed) \u2192 Wed 12:00 per missed-slot rule",
+          "slotNote": "Pushed from Tue 07:30 (missed) → Wed 12:00 per missed-slot rule",
           "postedAt": "2026-05-26T13:10:00+10:00",
-          "postedBy": "Yoda (manual fix \u2014 Spark posted wrong content+broken formatting, deleted, reposted correctly)",
-          "note": "Broken post (old draft + literal \\n escapes) deleted via UGC API. Correct draft (social-drafts/LI-W4-P1-Confidence.md) reposted with correct image. URN capture failed \u2014 linkedin-post.sh bug (headers not captured). Script fixed in this same session.",
+          "postedBy": "Yoda (manual fix — Spark posted wrong content+broken formatting, deleted, reposted correctly)",
+          "note": "Broken post (old draft + literal \\n escapes) deleted via UGC API. Correct draft (social-drafts/LI-W4-P1-Confidence.md) reposted with correct image. URN capture failed — linkedin-post.sh bug (headers not captured). Script fixed in this same session.",
           "cancelledAt": "2026-05-26T13:32:00+10:00",
           "cancelledBy": "Ken Mun",
-          "cancelReason": "Full week cancellation \u2014 content quality reset. Contents feeling wishy-washy/no material essence. Fresh restart at Sunday sprint planning."
+          "cancelReason": "Full week cancellation — content quality reset. Contents feeling wishy-washy/no material essence. Fresh restart at Sunday sprint planning."
         }
       ],
       "approvedAt": "2026-05-19T12:10:36.726534+10:00",
@@ -592,21 +572,21 @@
   "usedTopics": [
     {
       "id": "LI-W1-P1",
-      "title": "W1P1 \u2014 Practitioner Intro",
+      "title": "W1P1 — Practitioner Intro",
       "postedAt": "2026-05-05T07:52:00+10:00",
       "topic": "AI in production",
       "angle": "practitioner"
     },
     {
       "id": "LI-W1-P2",
-      "title": "W1P2 \u2014 Problem Education (Paying for AI they can't use)",
+      "title": "W1P2 — Problem Education (Paying for AI they can't use)",
       "postedAt": "2026-05-06T02:04:04+10:00",
       "topic": "W1P2",
       "angle": "insights"
     },
     {
       "id": "LI-W1-P3",
-      "title": "W1P3 \u2014 Consultant POV (First 24 hours of an engagement)",
+      "title": "W1P3 — Consultant POV (First 24 hours of an engagement)",
       "postedAt": "2026-05-07T07:32:00+10:00",
       "topic": "W1P3",
       "angle": "consulting"
@@ -620,14 +600,14 @@
     },
     {
       "id": "LI-C1-W2-P2-BROKEN",
-      "title": "AIOps P2 \u2014 The Cost of Getting It Wrong (posted out of order)",
+      "title": "AIOps P2 — The Cost of Getting It Wrong (posted out of order)",
       "postedAt": "2026-05-12T00:43:59+00:00",
       "topic": "AI in production",
       "angle": "insights"
     },
     {
       "id": "LI-C1-W2-P3-BROKEN",
-      "title": "AIOps P3 \u2014 Multi-Agent Trust",
+      "title": "AIOps P3 — Multi-Agent Trust",
       "postedAt": "2026-05-14T07:32:00+10:00",
       "topic": "AI in production",
       "angle": "insights"
@@ -650,19 +630,19 @@
   "rejectionLog": [
     {
       "id": "LI-C1-W2-P2",
-      "title": "AIOps P2 v1 \u2014 Agent routing discipline",
+      "title": "AIOps P2 v1 — Agent routing discipline",
       "rejectedAt": "2026-05-12T09:17:00+10:00",
-      "reason": "Too internal \u2014 agent names, platform architecture"
+      "reason": "Too internal — agent names, platform architecture"
     },
     {
       "id": "LI-C1-W2-P2-v2",
-      "title": "AIOps P2 v2 \u2014 Token efficiency / cost transparency",
+      "title": "AIOps P2 v2 — Token efficiency / cost transparency",
       "rejectedAt": "2026-05-14T16:55:00+10:00",
       "reason": "Ken: killed. Do not reschedule."
     },
     {
       "id": "LI-C1-W2-P2-v4",
-      "title": "AIOps P2 v4 \u2014 Latest attempt",
+      "title": "AIOps P2 v4 — Latest attempt",
       "rejectedAt": "2026-05-19T10:25:00+10:00",
       "reason": "Ken: reject. Choose another topic. Then full campaign reset ordered."
     }
