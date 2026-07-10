@@ -7,7 +7,11 @@
       "message": "Thank you Ken for all his effort supporting AINCHORS for one month. Angie wants to ask: Are you still interested in helping her deliver training in Australia in the coming months? If yes, Angie will send over a training contract.",
       "ariaNote": "Angie asked me to relay this \u2014 she's planning training delivery in Australia over the next few months and wants to know if Ken is interested before sending a formal contract.",
       "sent": true,
-      "deliveredAt": "2026-06-01T16:49:00+10:00"
+      "deliveredAt": "2026-06-01T16:49:00+10:00",
+      "status": "closed",
+      "closedAt": "2026-07-10T15:48:00+10:00",
+      "closedBy": "Ken Mun (Telegram directive 2026-07-10)",
+      "closeReason": "Delivered 1 Jun; stale; no further Aria action unless Ken replies to Angie."
     },
     {
       "id": "relay-20260603-001",
@@ -15,7 +19,11 @@
       "from": "Aria",
       "priority": "normal",
       "message": "Angie asked me to arrange a meeting with you tomorrow (Thu 4 June) at 11am Sydney time, 1 hour, Google Meet. Unfortunately my Google Calendar auth has expired so I couldn't create it directly. Could you please set it up on your end? Also, Angie says to nudge: calendar auth needs re-doing on her machine (gog auth add angie.foong@ainchors.com --services calendar).",
-      "sent": false
+      "sent": false,
+      "status": "closed",
+      "closedAt": "2026-07-10T15:48:00+10:00",
+      "closedBy": "Ken Mun (Telegram directive 2026-07-10)",
+      "closeReason": "Meeting date passed; item never sent; calendar auth fix deferred."
     },
     {
       "id": "relay-20260620-001",
@@ -35,7 +43,7 @@
       "timestamp": "2026-06-24T00:52:43.530770Z",
       "from": "Aria",
       "priority": "normal",
-      "message": "[CR FROM ARIA] CR-003: Re-authenticate Angie personal LinkedIn account\n\nRequested by: Angie Foong (CEO)\n\nDescription: Angie approved and wants to post a Visa/OpenAI summary to her personal LinkedIn profile. The linkedin-post.sh --account angie call failed with \"Token expired \\u2014 re-run: linkedin-auth.sh --account angie\". The stored token expiry was 2026-08-19, but LinkedIn rejected it as expired/revoked.\n\nBusiness reason: First campaign cross-posting to Angie's personal profile. Company page post already succeeded (urn:li:share:7475350130762731520).\n\nWhat is needed: Re-run scripts/linkedin-auth.sh --account angie and verify the token works for a dry-run post. Then confirm to Aria so the queued personal post can go live.\n\nPost ready to go: /Users/ainchorsangiefpl/.openclaw/workspace-business/.openclaw/tmp/linkedin-angie-post.md",
+      "message": "[CR FROM ARIA] CR-003: Re-authenticate Angie personal LinkedIn account\n\nRequested by: Angie Foong (CEO)\n\nDescription: Angie approved and wants to post a Visa/OpenAI summary to her personal LinkedIn profile. The linkedin-post.sh --account angie call failed with \"Token expired \u2014 re-run: linkedin-auth.sh --account angie\". The stored token expiry was 2026-08-19, but LinkedIn rejected it as expired/revoked.\n\nBusiness reason: First campaign cross-posting to Angie's personal profile. Company page post already succeeded (urn:li:share:7475350130762731520).\n\nWhat is needed: Re-run scripts/linkedin-auth.sh --account angie and verify the token works for a dry-run post. Then confirm to Aria so the queued personal post can go live.\n\nPost ready to go: /Users/ainchorsangiefpl/.openclaw/workspace-business/.openclaw/tmp/linkedin-angie-post.md",
       "sent": true,
       "deliveredAt": "2026-06-25T20:49:00+10:00",
       "resolved": true,
