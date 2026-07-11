@@ -1,3 +1,15 @@
+## 2026-07-12 09:54 AEST — [CHG-0866] LinkedIn token auto-health + refresh safeguards verified (CHG-0865 / TKT-0743)
+**Type:** script
+**Change Type:** Normal
+**Source:** ken-prompt
+**Trigger:** Ken approved closing CHG-0865 after re-authing Angie and Business tokens
+**What changed:** Daily cron 71794d7f-2568-4fa1-8548-da2ca3cc027e active at 07:00 AEST. linkedin-token-health.sh probes all 3 accounts. linkedin-auth.sh --refresh rotates tokens. linkedin-post.sh refresh-on-failure. All auth state files include refreshTokenPresent.
+**Why:** Prevent silent LinkedIn token expiry/revocation that would break scheduled posts for Angie and Business campaigns.
+**Verification:** Live health probe: ken=ok, angie=ok, business=ok. Telegram alert dry-run shows no alerts. bash/zsh -n syntax checks pass on all 4 scripts. Git commit b764b359.
+**Rollback:** Disable cron 71794d7f-2568-4fa1-8548-da2ca3cc027e. Revert scripts to previous Git commit.
+**Linked:** CHG-0865, TKT-0743
+---
+
 ## 2026-07-12 08:55 AEST — [CHG-0865] LinkedIn token auto-health probe, refresh-on-failure, and re-auth reminder cron
 **Type:** script
 **Change Type:** Normal
