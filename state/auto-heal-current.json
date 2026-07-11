@@ -1,6 +1,6 @@
 {
-  "runAt": "2026-07-10T15:00:03Z",
-  "runAtLocal": "2026-07-11 01:00 AEST",
+  "runAt": "2026-07-11T15:00:04Z",
+  "runAtLocal": "2026-07-12 01:00 AEST",
   "duration_ms": 0,
   "checks_run": [
   "auth_profiles",
@@ -9,39 +9,14 @@
   "backup_freshness",
   "disk_space",
   "plugin_runtime_deps",
-  "stale_locks",
-  "git_health",
-  "health_state",
-  "request_budget",
-  "incident_patterns",
-  "config_drift",
-  "critical_config_baseline",
-  "agent_identity",
-  "agent_rules",
-  "file_size_guard",
-  "bootstrap_size",
-  "pg_sequence_health",
-  "orphaned_gateway",
-  "sandbox_gateway_liveness",
-  "shadow_gateway_liveness",
-  "tilde_path_enforcement",
-  "file_contract_size_guard",
-  "cron_timeout_baseline"
+  "stale_locks"
 ],
-  "checks_count": 24,
-  "issues_found": [
-  "config-baseline:hash-drift",
-  "cron-timeout:19-actionable"
-],
-  "issues_count": 2,
-  "auto_fixed": [
-  "git-commit:workspace:22-files"
-],
-  "auto_fixed_count": 1,
-  "needs_ken": [
-  "WARN: Gateway config hash changed — possible unlogged config mutation. Run gateway-config-snapshot.sh to refresh and review diff.",
-  "TKT-0339: 19 actionable cron timeout recommendation(s) (agentTurn only, scaler vA6 — SCALER FLAG ONLY, 5 INCREASE, 14 DECREASE). Manual review before any timeout changes. Baseline: /Users/ainchorsangiefpl/.openclaw/workspace/state/cron-timeout-baseline.json"
-],
-  "needs_ken_count": 2,
-  "exit_status": "crashed"
+  "checks_count": 7,
+  "issues_found": [],
+  "issues_count": 0,
+  "auto_fixed": [],
+  "auto_fixed_count": 0,
+  "needs_ken": [],
+  "needs_ken_count": 0,
+  "exit_status": "in-progress"
 }
