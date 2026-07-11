@@ -20,5 +20,60 @@
     "tokenExpiry": "2026-09-09T22:44:36Z",
     "refreshTokenPresent": true,
     "nextAction": "none"
+  },
+  {
+    "checkedAt": "2026-07-11T23:02:41Z",
+    "account": "business",
+    "status": "ok",
+    "httpStatus": "200",
+    "serviceErrorCode": "",
+    "reason": "token_valid",
+    "tokenExpiry": "2026-09-09T22:44:36Z",
+    "refreshTokenPresent": true,
+    "nextAction": "none"
+  },
+  {
+    "checkedAt": "2026-07-11T23:02:58Z",
+    "account": "business",
+    "status": "ok",
+    "httpStatus": "200",
+    "serviceErrorCode": "",
+    "reason": "token_valid",
+    "tokenExpiry": "2026-09-09T22:44:36Z",
+    "refreshTokenPresent": true,
+    "nextAction": "none"
+  },
+  {
+    "checkedAt": "2026-07-11T23:12:15Z",
+    "account": "business",
+    "status": "revoked",
+    "httpStatus": "401",
+    "serviceErrorCode": "65601",
+    "reason": "token_revoked",
+    "tokenExpiry": "2026-09-09T22:44:36Z",
+    "refreshTokenPresent": true,
+    "nextAction": "reauth_now"
+  },
+  {
+    "checkedAt": "2026-07-11T23:51:21Z",
+    "account": "business",
+    "status": "ok",
+    "httpStatus": "200",
+    "serviceErrorCode": "",
+    "reason": "token_valid",
+    "tokenExpiry": "2026-09-09T22:44:36Z",
+    "refreshTokenPresent": true,
+    "nextAction": "none"
+  },
+  {
+    "checkedAt": "2026-07-11T23:53:13Z",
+    "account": "business",
+    "status": "ok",
+    "httpStatus": "200",
+    "serviceErrorCode": "",
+    "reason": "token_valid",
+    "tokenExpiry": "2026-09-09T22:44:36Z",
+    "refreshTokenPresent": true,
+    "nextAction": "none"
   }
 ]

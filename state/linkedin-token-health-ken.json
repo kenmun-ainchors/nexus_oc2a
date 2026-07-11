@@ -70,5 +70,107 @@
     "linkedInErrorCode": "",
     "messageIdHint": "",
     "nextAction": ""
+  },
+  {
+    "checkedAt": "2026-07-11T22:57:43Z",
+    "account": "ken",
+    "status": "refresh_needed",
+    "httpStatus": "200",
+    "serviceErrorCode": "",
+    "reason": "expires_within_7_days",
+    "tokenExpiry": "2026-07-19T21:26:00Z",
+    "refreshTokenPresent": false,
+    "nextAction": "reauth_soon"
+  },
+  {
+    "test": true
+  },
+  {
+    "checkedAt": "2026-07-11T22:58:22Z",
+    "account": "ken",
+    "status": "refresh_needed",
+    "httpStatus": "200",
+    "serviceErrorCode": "",
+    "reason": "expires_within_7_days",
+    "tokenExpiry": "2026-07-19T21:26:00Z",
+    "refreshTokenPresent": false,
+    "nextAction": "reauth_soon"
+  },
+  {
+    "checkedAt": "2026-07-11T23:00:35Z",
+    "account": "ken",
+    "status": "refresh_needed",
+    "httpStatus": "200",
+    "serviceErrorCode": "",
+    "reason": "expires_within_7_days",
+    "tokenExpiry": "2026-07-19T21:26:00Z",
+    "refreshTokenPresent": true,
+    "nextAction": "reauth_soon"
+  },
+  {
+    "checkedAt": "2026-07-11T23:02:40Z",
+    "account": "ken",
+    "status": "refresh_needed",
+    "httpStatus": "200",
+    "serviceErrorCode": "",
+    "reason": "expires_within_7_days",
+    "tokenExpiry": "2026-07-19T21:26:00Z",
+    "refreshTokenPresent": true,
+    "nextAction": "reauth_soon"
+  },
+  {
+    "checkedAt": "2026-07-11T23:02:53Z",
+    "account": "ken",
+    "status": "ok",
+    "httpStatus": "200",
+    "serviceErrorCode": "",
+    "reason": "token_valid",
+    "tokenExpiry": "2026-09-09T23:02:52Z",
+    "refreshTokenPresent": true,
+    "nextAction": "none"
+  },
+  {
+    "checkedAt": "2026-07-11T23:02:56Z",
+    "account": "ken",
+    "status": "ok",
+    "httpStatus": "200",
+    "serviceErrorCode": "",
+    "reason": "token_valid",
+    "tokenExpiry": "2026-09-09T23:02:52Z",
+    "refreshTokenPresent": true,
+    "nextAction": "none"
+  },
+  {
+    "checkedAt": "2026-07-11T23:12:14Z",
+    "account": "ken",
+    "status": "ok",
+    "httpStatus": "200",
+    "serviceErrorCode": "",
+    "reason": "token_valid",
+    "tokenExpiry": "2026-09-09T23:02:52Z",
+    "refreshTokenPresent": true,
+    "nextAction": "none"
+  },
+  {
+    "checkedAt": "2026-07-11T23:51:20Z",
+    "account": "ken",
+    "status": "ok",
+    "httpStatus": "200",
+    "serviceErrorCode": "",
+    "reason": "token_valid",
+    "tokenExpiry": "2026-09-09T23:02:52Z",
+    "refreshTokenPresent": true,
+    "nextAction": "none"
+  },
+  {
+    "checkedAt": "2026-07-11T23:53:11Z",
+    "account": "ken",
+    "status": "ok",
+    "httpStatus": "200",
+    "serviceErrorCode": "",
+    "reason": "token_valid",
+    "tokenExpiry": "2026-09-09T23:02:52Z",
+    "refreshTokenPresent": true,
+    "nextAction": "none"
   }
 ]

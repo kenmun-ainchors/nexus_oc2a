@@ -1,3 +1,15 @@
+## 2026-07-12 08:55 AEST — [CHG-0865] LinkedIn token auto-health probe, refresh-on-failure, and re-auth reminder cron
+**Type:** script
+**Change Type:** Normal
+**Source:** ken-prompt
+**Trigger:** Ken directive 2026-07-12 08:52 AEST: prevent Angie and AInchors business LinkedIn token expiry by adding auto-health probe and refresh handling
+**What changed:** Add linkedin-token-health.sh probe script for ken/angie/business accounts; wire refresh_token exchange in linkedin-auth.sh or linkedin-post.sh on 401/REVOKED/EXPIRED; add daily token-health cron with expiry-window alerts to Telegram; update state/linkedin-token-health-{account}.json with status, reason, next_action, expiry; ensure all changes cover personal and organization OAuth flows
+**Why:** Date-based expiry checks miss early revocations (business token revoked 38 days before expiry). Manual re-auth is reactive and blocks campaigns. Proactive probe + refresh + reminders prevent silent token failures.
+**Verification:** DoD: probe returns 200 for all three accounts after re-auth; refresh path tested with mock 401 and live dry-run; cron registers and fires; Telegram alert sent within 7-day expiry window; state files updated with health status
+**Rollback:** Disable cron; restore linkedin-auth.sh and linkedin-post.sh from git; remove state/linkedin-token-health-*.json if needed
+**Linked:** TKT-0743, TKT-0974, CHG-0766, CHG-0860
+---
+
 ## 2026-07-11 12:58 AEST — [CHG-0864] Retarget LinkedIn draft crons to Aria/BUSINESS stream; handoff Week 5/6 drafts to Aria; remove WO-002 divergence daily check
 **Type:** cron
 **Change Type:** Normal

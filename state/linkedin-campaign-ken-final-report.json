@@ -1,0 +1,155 @@
+{
+  "schema": "linkedin-campaign-final-report-v1",
+  "generatedAt": "2026-07-12T08:31:00+10:00",
+  "account": "ken",
+  "campaign": "4-Week Foundation Arc (personal LinkedIn)",
+  "period": "16 Jun 2026 \u2013 9 Jul 2026",
+  "arc_posts_total": 12,
+  "arc_posts_posted": 6,
+  "arc_posts_approved_not_posted": 3,
+  "arc_posts_missing_from_state": 1,
+  "total_reactions": 57,
+  "total_comments": 2,
+  "total_shares": 0,
+  "top_post_by_reactions": "The 92% rule",
+  "top_post_reactions": 14,
+  "posts": [
+    {
+      "id": "LI-W1-P1",
+      "status": "posted",
+      "posted": "2026-06-16T17:27:00+10:00",
+      "reactions": 5,
+      "comments": 0,
+      "shares": 0,
+      "movement": "I. The Cracks",
+      "title": "The day my AI bill became the loudest thing in the room",
+      "slot": "Tue 16 Jun"
+    },
+    {
+      "id": "LI-W1-P2",
+      "status": "approved",
+      "posted": "2026-06-17T12:05:15+10:00",
+      "reactions": 0,
+      "comments": 0,
+      "shares": 0,
+      "movement": "I. The Cracks",
+      "title": "What happens to your AI when the model underneath you disappears",
+      "slot": "Wed 17 Jun"
+    },
+    {
+      "id": "LI-W1-P3",
+      "status": "posted",
+      "posted": "2026-06-18T07:30:00+10:00",
+      "reactions": 8,
+      "comments": 0,
+      "shares": 0,
+      "movement": "I. The Cracks",
+      "title": "The four things that quietly broke when everything was loud",
+      "slot": "Thu 18 Jun"
+    },
+    {
+      "id": "LI-W2-P4",
+      "status": "posted",
+      "posted": "2026-06-23T12:23:00+10:00",
+      "reactions": 13,
+      "comments": 0,
+      "shares": 0,
+      "movement": "II. The Audit",
+      "title": "I ran an audit. The results were worse than I thought.",
+      "slot": "Tue 23 Jun"
+    },
+    {
+      "id": "LI-W2-P5",
+      "status": "approved",
+      "posted": "2026-06-24T12:00:00+10:00",
+      "reactions": 14,
+      "comments": 1,
+      "shares": 0,
+      "movement": "II. The Audit",
+      "title": "The 92% rule",
+      "slot": "Wed 24 Jun"
+    },
+    {
+      "id": "LI-W2-P6",
+      "status": "approved",
+      "posted": "2026-06-25T07:30:00+10:00",
+      "reactions": 4,
+      "comments": 0,
+      "shares": 0,
+      "movement": "II. The Audit",
+      "title": "The quality gate I thought I had (and didn't)",
+      "slot": "Thu 25 Jun"
+    },
+    {
+      "id": "LI-W3-P7",
+      "status": "approved",
+      "posted": "\u2014",
+      "reactions": 0,
+      "comments": 0,
+      "shares": 0,
+      "movement": "III. The Rebuild",
+      "title": "The rebuild that changed how I work",
+      "slot": "Tue 30 Jun"
+    },
+    {
+      "id": "LI-W3-P8",
+      "status": "approved",
+      "posted": "\u2014",
+      "reactions": 0,
+      "comments": 0,
+      "shares": 0,
+      "movement": "III. The Rebuild",
+      "title": "What 'context discipline' actually means",
+      "slot": "Wed 1 Jul"
+    },
+    {
+      "id": "LI-W3-P9",
+      "status": "not in state",
+      "posted": "\u2014",
+      "reactions": 0,
+      "comments": 0,
+      "shares": 0,
+      "movement": "III. The Rebuild",
+      "title": "The governance stack I built because I couldn't trust the model",
+      "slot": "Thu 2 Jul"
+    },
+    {
+      "id": "LI-W4-P10",
+      "status": "posted",
+      "posted": "2026-07-06T21:31:24+10:00",
+      "reactions": 2,
+      "comments": 0,
+      "shares": 0,
+      "movement": "IV. The Shift",
+      "title": "What I do differently now",
+      "slot": "Tue 7 Jul"
+    },
+    {
+      "id": "LI-W4-P11",
+      "status": "posted",
+      "posted": "2026-07-08T12:00:00+10:00",
+      "reactions": 0,
+      "comments": 0,
+      "shares": 0,
+      "movement": "IV. The Shift",
+      "title": "Discipline beats motivation",
+      "slot": "Wed 8 Jul"
+    },
+    {
+      "id": "LI-W4-P12",
+      "status": "posted",
+      "posted": "2026-07-08T13:08:24.006777+10:00",
+      "reactions": 11,
+      "comments": 1,
+      "shares": 0,
+      "movement": "IV. The Shift",
+      "title": "What I learned rebuilding the foundation",
+      "slot": "Thu 9 Jul"
+    }
+  ],
+  "notes": [
+    "P7/P8 approved and image-ready but never posted due to linkedin-post.sh em-dash bug (journal 2026-07-02).",
+    "P9 draft and image exist but P9 is not recorded in state/linkedin-campaign-ken.json published/queued arrays.",
+    "Metrics last fetched 2026-07-11. Impressions unavailable (API scope limitation)."
+  ]
+}

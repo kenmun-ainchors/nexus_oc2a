@@ -1,0 +1,49 @@
+{
+  "schema": "cron-archive-v1",
+  "archivedAt": "2026-07-12T08:38:00+10:00",
+  "archivedBy": "Yoda",
+  "reason": "Ken personal LinkedIn 4-Week Foundation Arc closed",
+  "campaign": "linkedin-campaign-ken",
+  "crons": [
+    {
+      "id": "5d581442-ca2e-48d0-a5a1-e1ffe2b418a0",
+      "name": "Spark LinkedIn Ken \u2014 Daily Metrics Snapshot",
+      "action": "disabled"
+    },
+    {
+      "id": "1cb0c7ff-4eac-4993-be3a-40aa3d1b6f7d",
+      "name": "Spark LinkedIn Ken \u2014 Sat 12:00 AEST Batch Draft (Week Ahead)",
+      "action": "disabled"
+    },
+    {
+      "id": "573d34e4-fa63-4a09-86af-f061cfe47d25",
+      "name": "Spark LinkedIn Ken \u2014 Mon 12:00 AEST Fallback Draft (Tue post)",
+      "action": "disabled"
+    },
+    {
+      "id": "13b0aa89-0185-43cd-864f-8cc1767382a2",
+      "name": "Spark LinkedIn Ken \u2014 Tue 07:30 AEST Publish Slot",
+      "action": "disabled"
+    },
+    {
+      "id": "070e093f-0058-4bd4-a97f-4c6b91893d0e",
+      "name": "Spark LinkedIn Ken \u2014 Tue 12:00 AEST Fallback Draft (Wed post)",
+      "action": "disabled"
+    },
+    {
+      "id": "123f8375-a42e-4db2-b846-6c93ed644dd1",
+      "name": "Spark LinkedIn Ken \u2014 Wed 12:00 AEST Fallback Draft (Thu post)",
+      "action": "disabled"
+    },
+    {
+      "id": "833ee0c7-499b-4133-b4fd-1a4309e773fa",
+      "name": "Spark LinkedIn Ken \u2014 Wed 12:00 AEST Publish Slot",
+      "action": "disabled"
+    },
+    {
+      "id": "869502c9-a16c-49cf-915f-0ba57bb97bc0",
+      "name": "Spark LinkedIn Ken \u2014 Thu 07:30 AEST Publish Slot",
+      "action": "disabled"
+    }
+  ]
+}
