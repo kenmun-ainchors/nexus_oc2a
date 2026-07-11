@@ -1,12 +1,12 @@
 {
   "schemaVersion": 2,
-  "lastSnapshot": "2026-07-09T23:01:10Z",
-  "lastSnapshotAEST": "2026-07-10T09:01:10+1000",
+  "lastSnapshot": "2026-07-11T18:00:07Z",
+  "lastSnapshotAEST": "2026-07-12T04:00:07+1000",
   "openclawVersion": "2026.6.11",
-  "configHash": "be98ed6cd70e2cab61f19107933eb7f7d92a384fc7f044a3ca43e2a9170996a0",
-  "agentCount": 14,
+  "configHash": "ced4d476a974f5d07d9f9f99435d1c3c3e23144c0afcc0e57fb0a40244ae4665",
+  "agentCount": 15,
   "cronCount": "60",
-  "pgTables": "48",
+  "pgTables": "49",
   "gatewayStatus": "live",
   "sandboxMode": "off",
   "sandboxTools": [
@@ -32,6 +32,7 @@
     "change-mgt": "ollama/deepseek-v4-pro:cloud",
     "ahsoka": "ollama/deepseek-v4-pro:cloud",
     "luthen": "ollama/deepseek-v4-pro:cloud",
-    "social": "ollama/deepseek-v4-flash:cloud"
+    "social": "ollama/deepseek-v4-flash:cloud",
+    "foodie": "ollama/deepseek-v4-flash:cloud"
   }
 }
