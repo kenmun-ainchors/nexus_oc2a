@@ -67,6 +67,9 @@ state/tickets.json
 state/sprint-current.json
 state/cost-history.md.bak
 state/*.log
+state/process-count-history.json
+state/.exec-wrapper-counter
+state/.exec-wrapper-hook-active
 
 # ── Temporary & build artifacts ──────────────────────────────────────────────
 *.pyc

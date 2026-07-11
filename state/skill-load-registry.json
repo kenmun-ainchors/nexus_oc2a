@@ -6,14 +6,32 @@
     "via": "skill-load.sh"
   },
   "pg-sprint-backlog": {
-    "loaded_at": "2026-07-10T21:50:29Z",
+    "loaded_at": "2026-07-11T13:52:53Z",
     "canonical_path": "agent-skills/pg-sprint-backlog",
     "skill_file": "SKILL.md",
     "via": "skill-load.sh"
   },
   "notion": {
-    "loaded_at": "2026-07-10T21:40:20Z",
+    "loaded_at": "2026-07-11T13:52:49Z",
     "canonical_path": "agent-skills/notion",
+    "skill_file": "SKILL.md",
+    "via": "skill-load.sh"
+  },
+  "crest": {
+    "loaded_at": "2026-07-10T22:29:22Z",
+    "canonical_path": "agent-skills/crest",
+    "skill_file": "SKILL.md",
+    "via": "skill-load.sh"
+  },
+  "changelog": {
+    "loaded_at": "2026-07-11T02:58:09Z",
+    "canonical_path": "agent-skills/changelog",
+    "skill_file": "SKILL.md",
+    "via": "skill-load.sh"
+  },
+  "telegram": {
+    "loaded_at": "2026-07-11T02:04:03Z",
+    "canonical_path": "agent-skills/telegram",
     "skill_file": "SKILL.md",
     "via": "skill-load.sh"
   }

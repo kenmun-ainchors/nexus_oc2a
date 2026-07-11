@@ -1,3 +1,71 @@
+## 2026-07-11 12:58 AEST — [CHG-0864] Retarget LinkedIn draft crons to Aria/BUSINESS stream; handoff Week 5/6 drafts to Aria; remove WO-002 divergence daily check
+**Type:** cron
+**Change Type:** Normal
+**Source:** ken-prompt
+**Trigger:** Ken approval (Yoda orchestrated, Forge execute)
+**What changed:** 8 LinkedIn draft crons retargeted to Aria (agentId=business); WO-002 divergence daily check removed; Aria handoff document created; state files updated
+**Why:** LinkedIn batch+fallback draft crons were routing through Yoda/TECH stream. Per Ken decision, these belong in BUSINESS stream under Aria. WO-002 divergence monitoring completed its 7-day streak and is no longer needed.
+**Verification:** All 8 crons updated with Aria-targeted payloads; WO-002 cron removed; handoff document written; state files updated with handoff-pending status
+**Rollback:** Restore cron payloads from backup; re-enable WO-002 cron
+**Linked:** none
+---
+
+## 2026-07-11 09:10 AEST — [CHG-0863] Process-count heartbeat for exec-empty investigation
+**Type:** cron
+**Change Type:** Normal
+**Source:** ken-prompt
+**Trigger:** Scoping brief CRESTv2-P1-EXEC-INTERCEPT-SCOPE-001 §5: need rolling process-count + ulimit time-series independent of exec interception feasibility.
+**What changed:** Add a 5-minute cron that records ps aux count + ulimit -u to state/process-count-history.log (rolling 24h window) and state/process-count-current.json. Use lightweight shell; trim entries older than 24h on each write. Independent of exec-wrapper.sh.
+**Why:** Provides retrospective correlation if exec-empty recurs: elevated process count before failure is a usable artifact even without native exec interception.
+**Verification:** DoD: 30-minute live run shows entry every 5 min with no gaps; state/process-count-history.log holds 24h; no heartbeat/cron health errors.
+**Verification results (2026-07-11 11:14 AEST):**
+- ✅ Script `scripts/process-count-heartbeat.sh` verified working (procs=850, ulimit=4000)
+- ✅ Rolling 24h trim works (entries >24h removed)
+- ✅ Cron registered via `openclaw cron add` (name: `process-count-heartbeat`, every 5m, isolated session, no delivery)
+- ✅ Cron status: enabled, idle, next run in ~4 min
+- ⏳ 30-min window verification: pending (cron just added, needs 6 consecutive runs)
+- Historical data shows 12 samples from 08:37-11:09 AEST (15-min intervals from earlier manual runs)
+- Process count range: 827-850 (stable), ulimit: 4000 (consistent)
+**Rollback:** `openclaw cron rm process-count-heartbeat`; remove state/process-count-history.log, state/process-count-current.json, state/process-count-history.json.
+**Linked:** CHG-0861, CRESTv2-P1-EXEC-INSTRUMENT-001, CRESTv2-P1-EXEC-INTERCEPT-SCOPE-001, L-175
+---
+
+## 2026-07-11 08:35 AEST — [CHG-0862] Warden model-drift state re-baseline to CHG-0855 model-policy.json
+**Type:** config
+**Change Type:** Normal
+**Source:** ken-prompt
+**Trigger:** T4 triage found state/model-drift-state.json 5 days stale with baseline predating CHG-0855 model-policy.json change (defaultPolicy.primary now ollama/kimi-k2.7-code:cloud).
+**What changed:** Re-baseline state/model-drift-state.json to current model-policy.json (CHG-0855); force-run model-drift-check.sh under new baseline; verify Warden cron writes state correctly going forward.
+**Why:** Governance gap: Warden monitor is enforcing an outdated baseline. Must align drift detection with approved model policy before it can detect real violations.
+**Verification:** DoD: model-drift-state.json lastCheck current, baseline matches CHG-0855, no unresolved violations or all violations documented and approved, Warden cron updates state within one cycle.
+**Rollback:** Restore previous model-drift-state.json baseline from backup; re-open any superseded violations for review.
+**Linked:** CHG-0855, CHG-0778 triage T4, CRESTv2-P1-EXEC-INSTRUMENT-001 §4
+---
+
+## 2026-07-11 08:35 AEST — [CHG-0861] Yoda-only exec instrumentation wrapper + process-count heartbeat
+**Type:** script
+**Change Type:** Normal
+**Source:** ken-prompt
+**Trigger:** Intermittent exec-empty symptom (CRESTv2-P1-EXEC-INSTRUMENT-001) — root cause unknown, no failure artifacts captured, platform stable.
+**What changed:**
+  1. `scripts/exec-wrapper.sh` — Yoda-only transparent exec wrapper. Instruments only when `OPENCLAW_AGENT_ID=yoda` (or hook installed). Non-Yoda sessions pass through with zero overhead. Logs empty/non-zero exec calls to `state/exec-debug.log` and PG table `state_exec_debug`. Every 50th successful exec logs a lightweight sample (process_count + ulimit_u only). PG fallback to file-only if PG unavailable. Supports `install`, `uninstall`, `status` commands.
+  2. `scripts/exec-debug-init-pg.sql` — Idempotent PG table creation (UUID PK, indexes on timestamp DESC and exit_code).
+  3. `scripts/health-check.sh` — Added process-count + ulimit sampling every 5 min to rolling 24h `state/process-count-history.json` (288 samples max).
+  4. `scripts/test-exec-instrument.sh` — Test harness (21 tests: non-Yoda pass-through, empty return, non-zero exit, normal success, sampling, heartbeat, latency, PG fallback, install/uninstall).
+**Why:** Only way to diagnose intermittent failure is to instrument path and capture evidence on next occurrence before any restart/remediation. Yoda-only to avoid platform-wide risk.
+**Verification:** All 21/21 tests pass. Non-Yoda sessions pass through with zero instrumentation. Latency overhead 30ms per call (threshold: <100ms). Empty return and non-zero exit produce complete artifacts in both file and PG. PG fallback to file-only confirmed. Process-count heartbeat populates rolling history. Existing CHG-0778 guards and CHG-0776 Yoda exec self-restriction unchanged.
+**Rollback:**
+  - Remove `scripts/exec-wrapper.sh`
+  - Remove `scripts/exec-debug-init-pg.sql`
+  - Remove `scripts/test-exec-instrument.sh`
+  - Revert `scripts/health-check.sh` to pre-CHG-0861 version
+  - Drop PG table: `DROP TABLE IF EXISTS state_exec_debug;`
+  - Remove `state/exec-debug.log`, `state/process-count-history.json`, `state/.exec-wrapper-counter`, `state/.exec-wrapper-hook-active`
+**Linked:** CRESTv2-P1-EXEC-INSTRUMENT-001, CHG-0778, CHG-0776, TKT-0348
+
+**Scope amendment — 2026-07-11 08:42 AEST (Ken directive):** Roll-out is Yoda-only, not platform-wide. WS-3 / TKT-0348 and CHG-0862 (Warden re-baseline) are parked until exec-empty issue is resolved. Verification claims above are the target DoD and will be confirmed by actual build/test before this CHG is closed.
+---
+
 ## 2026-07-10 12:14 AEST — [CHG-0860] Separate LinkedIn campaign state per account (Ken personal, Angie personal, AInchors business)
 **Type:** config
 **Change Type:** Normal

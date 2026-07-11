@@ -461,5 +461,48 @@ print(f"[uptime] {status} logged — uptime {s['uptimePct']}% ({s['upChecks']}/{
 UEOF
 
 
+# ── Process-count heartbeat (CHG-0861 / CRESTv2-P1-EXEC-INSTRUMENT-001) ──
+# Record ps aux count + ulimit -u every 5 min to rolling 24h history.
+# 24h at 5-min intervals = 288 samples max.
+PROCESS_HISTORY="$HOME/.openclaw/workspace/state/process-count-history.json"
+PCOUNT=$(ps aux 2>/dev/null | wc -l | tr -d ' ')
+ULIMIT_U=$(ulimit -u 2>/dev/null || echo 0)
+NOW_ISO=$(TZ=Australia/Melbourne date '+%Y-%m-%dT%H:%M:%S%z')
+
+python3 - << PHEOF
+import json, os
+
+phfile = "$PROCESS_HISTORY"
+now = "$NOW_ISO"
+pcount = $PCOUNT
+ulimit_u = "$ULIMIT_U"
+
+if os.path.exists(phfile):
+    with open(phfile) as f:
+        data = json.load(f)
+else:
+    data = {"schema": "1.0", "samples": []}
+
+data["samples"].append({
+    "ts": now,
+    "process_count": pcount,
+    "ulimit_u": ulimit_u
+})
+
+# Rolling 24h window: keep last 288 samples (5-min intervals)
+if len(data["samples"]) > 288:
+    data["samples"] = data["samples"][-288:]
+
+# Write atomically via temp file
+os.makedirs(os.path.dirname(phfile), exist_ok=True)
+tmp = phfile + ".tmp"
+with open(tmp, "w") as f:
+    json.dump(data, f, indent=2)
+os.replace(tmp, phfile)
+
+print(f"[process-heartbeat] pcount={pcount} ulimit={ulimit_u} — {len(data['samples'])} samples in history")
+PHEOF
+
+
 log "Health check complete. Exit code: ${EXIT_CODE:-2}"
 exit ${EXIT_CODE:-2}
