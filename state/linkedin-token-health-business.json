@@ -1,0 +1,24 @@
+[
+  {
+    "checkedAt": "2026-07-11T22:58:23Z",
+    "account": "business",
+    "status": "refresh_needed",
+    "httpStatus": "200",
+    "serviceErrorCode": "",
+    "reason": "no_refresh_token",
+    "tokenExpiry": "2026-09-09T22:44:36Z",
+    "refreshTokenPresent": false,
+    "nextAction": "reauth_soon"
+  },
+  {
+    "checkedAt": "2026-07-11T23:00:36Z",
+    "account": "business",
+    "status": "ok",
+    "httpStatus": "200",
+    "serviceErrorCode": "",
+    "reason": "token_valid",
+    "tokenExpiry": "2026-09-09T22:44:36Z",
+    "refreshTokenPresent": true,
+    "nextAction": "none"
+  }
+]

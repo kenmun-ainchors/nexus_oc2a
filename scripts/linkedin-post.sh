@@ -224,6 +224,7 @@ with open('$auth_state_file') as f:
     d = json.load(f)
 d['authorizedAt'] = '$authorized_at'
 d['tokenExpiry'] = '$new_expiry'
+d['refreshTokenPresent'] = True
 with open('$auth_state_file', 'w') as f:
     json.dump(d, f, indent=2)
 " 2>/dev/null || true
@@ -250,18 +251,33 @@ print(datetime.now(timezone.utc).strftime('%Y-%m-%dT%H:%M:%SZ'))
 " 2>/dev/null)
 
   python3 -c "
-import json
+import json, os
+
+# Read auth state for tokenExpiry and refreshTokenPresent
+auth_state_file = '$WORKSPACE/state/linkedin-auth${state_suffix}.json'
+token_expiry = ''
+refresh_present = False
+if os.path.exists(auth_state_file):
+    try:
+        with open(auth_state_file) as f:
+            ad = json.load(f)
+            token_expiry = ad.get('tokenExpiry', '')
+            refresh_present = ad.get('refreshTokenPresent', False)
+    except:
+        pass
+
 entry = {
     'checkedAt': '$checked_at',
     'account': '$account',
     'status': '$health_status',
     'httpStatus': '$http_status',
-    'linkedInErrorCode': '$linkedin_error',
-    'messageIdHint': '$message_id_hint',
+    'serviceErrorCode': '$linkedin_error',
+    'reason': '$linkedin_error',
+    'tokenExpiry': token_expiry,
+    'refreshTokenPresent': bool(refresh_present),
     'nextAction': ''
 }
-# Append to array in health file, or create new array
-import os
+
 if os.path.exists('$health_file'):
     with open('$health_file') as f:
         try:

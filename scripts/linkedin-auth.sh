@@ -53,6 +53,7 @@ ACCOUNT_STATE_SUFFIX[business]="-business"
 
 ACCOUNT="ken"
 DRY_RUN=false
+REFRESH_MODE=false
 
 # ── Parse args ────────────────────────────────────────────────────────────────
 
@@ -62,24 +63,29 @@ while [[ $# -gt 0 ]]; do
       ACCOUNT="$2"
       shift 2
       ;;
+    --refresh)
+      REFRESH_MODE=true
+      shift
+      ;;
     --dry-run)
       DRY_RUN=true
       shift
       ;;
     --help|-h)
-      echo "Usage: zsh scripts/linkedin-auth.sh [--account ken|angie|business] [--dry-run]"
+      echo "Usage: zsh scripts/linkedin-auth.sh [--account ken|angie|business] [--dry-run] [--refresh]"
       echo ""
       echo "  --account     Account to authenticate (default: ken)"
       echo "                ken     = Ken Mun personal profile"
       echo "                angie   = Angie personal profile"
       echo "                business = AInchors company page"
+      echo "  --refresh     Refresh existing token using stored refresh_token (no browser needed)"
       echo "  --dry-run     Show what would happen without making changes"
       echo "  --help, -h    Show this help"
       exit 0
       ;;
     *)
       echo "❌ Unknown argument: $1" >&2
-      echo "Usage: zsh scripts/linkedin-auth.sh [--account ken|angie|business] [--dry-run]" >&2
+      echo "Usage: zsh scripts/linkedin-auth.sh [--account ken|angie|business] [--dry-run] [--refresh]" >&2
       exit 1
       ;;
   esac
@@ -129,18 +135,175 @@ if [[ "$DRY_RUN" == "true" ]]; then
   echo "  Keychain    : ${KEYCHAIN_PREFIX}-access-token"
   echo "              : ${KEYCHAIN_PREFIX}-refresh-token"
   echo ""
-  echo "  What would happen:"
-  echo "    1. Open LinkedIn OAuth URL in browser"
-  echo "    2. Start callback listener on port $CALLBACK_PORT"
-  echo "    3. Exchange auth code for tokens"
-  echo "    4. Store access token in Keychain (service: ${KEYCHAIN_PREFIX}-access-token)"
-  echo "    5. Store refresh token in Keychain (service: ${KEYCHAIN_PREFIX}-refresh-token)"
-  echo "    6. Fetch member info from LinkedIn"
-  echo "    7. Write state file: $AUTH_STATE_FILE"
-  echo ""
-  echo "  ✅ Dry run complete. Remove --dry-run to auth for real."
+  if [[ "$REFRESH_MODE" == "true" ]]; then
+    echo "  Mode        : REFRESH (token exchange, no browser needed)"
+    echo ""
+    echo "  What would happen:"
+    echo "    1. Read stored refresh_token from Keychain"
+    echo "    2. Call LinkedIn token endpoint for new access_token + refresh_token"
+    echo "    3. Update Keychain with new tokens"
+    echo "    4. Update state file with new tokenExpiry"
+    echo "    5. Verify new token via /v2/userinfo"
+    echo ""
+  else
+    echo "  What would happen:"
+    echo "    1. Open LinkedIn OAuth URL in browser"
+    echo "    2. Start callback listener on port $CALLBACK_PORT"
+    echo "    3. Exchange auth code for tokens"
+    echo "    4. Store access token in Keychain (service: ${KEYCHAIN_PREFIX}-access-token)"
+    echo "    5. Store refresh token in Keychain (service: ${KEYCHAIN_PREFIX}-refresh-token)"
+    echo "    6. Fetch member info from LinkedIn"
+    echo "    7. Write state file: $AUTH_STATE_FILE"
+    echo ""
+  fi
+  echo "  ✅ Dry run complete. Remove --dry-run to execute."
   echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
   exit 0
+fi
+
+# ── Refresh mode (Atom B — TKT-0743 / CHG-0865) ──────────────────────────────
+# Exchanges stored refresh_token for new access_token + refresh_token + expires_in.
+# Updates Keychain and state file. Falls back to full OAuth PKCE if no refresh token.
+
+if [[ "$REFRESH_MODE" == "true" ]]; then
+  echo ""
+  echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
+  echo "  🔄 REFRESH MODE — $ACCOUNT ($LABEL)"
+  echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
+  echo ""
+
+  # Retrieve refresh token from Keychain
+  local REFRESH_TOKEN_SAVED
+  REFRESH_TOKEN_SAVED=$(security find-generic-password -a linkedin -s "${KEYCHAIN_PREFIX}-refresh-token" -w 2>/dev/null) || {
+    echo "  ⚠️  No refresh token found in Keychain for $ACCOUNT."
+    echo "  → Falling back to full OAuth PKCE flow (browser required)."
+    echo ""
+    # Fall through to full auth below
+    REFRESH_MODE=false
+  }
+
+  if [[ "$REFRESH_MODE" == "true" && -n "$REFRESH_TOKEN_SAVED" ]]; then
+    # Retrieve client credentials
+    CLIENT_ID=$(security find-generic-password -a linkedin -s ainchors-linkedin-client-id -w 2>/dev/null) \
+      || err "LinkedIn client ID not found in Keychain."
+    CLIENT_SECRET=$(security find-generic-password -a linkedin -s ainchors-linkedin-client-secret -w 2>/dev/null) \
+      || err "LinkedIn client secret not found in Keychain."
+
+    log "Exchanging refresh token for new access token..."
+
+    local TOKEN_RESPONSE ACCESS_TOKEN NEW_REFRESH_TOKEN EXPIRES_IN TOKEN_ERROR
+    TOKEN_RESPONSE=$(curl -s --max-time 30 -X POST "$TOKEN_ENDPOINT" \
+      -H "Content-Type: application/x-www-form-urlencoded" \
+      --data-urlencode "grant_type=refresh_token" \
+      --data-urlencode "refresh_token=$REFRESH_TOKEN_SAVED" \
+      --data-urlencode "client_id=$CLIENT_ID" \
+      --data-urlencode "client_secret=$CLIENT_SECRET" 2>/dev/null)
+
+    ACCESS_TOKEN=$(echo "$TOKEN_RESPONSE" | python3 -c "
+import sys, json
+try:
+    d = json.load(sys.stdin)
+    print(d.get('access_token', ''))
+except:
+    print('')" 2>/dev/null)
+
+    NEW_REFRESH_TOKEN=$(echo "$TOKEN_RESPONSE" | python3 -c "
+import sys, json
+try:
+    d = json.load(sys.stdin)
+    print(d.get('refresh_token', ''))
+except:
+    print('')" 2>/dev/null)
+
+    EXPIRES_IN=$(echo "$TOKEN_RESPONSE" | python3 -c "
+import sys, json
+try:
+    d = json.load(sys.stdin)
+    print(d.get('expires_in', 0))
+except:
+    print(0)" 2>/dev/null)
+
+    TOKEN_ERROR=$(echo "$TOKEN_RESPONSE" | python3 -c "
+import sys, json
+try:
+    d = json.load(sys.stdin)
+    print(d.get('error', ''))
+except:
+    print('')" 2>/dev/null)
+
+    if [[ -n "$TOKEN_ERROR" && "$TOKEN_ERROR" != "None" ]] || [[ -z "$ACCESS_TOKEN" ]]; then
+      echo "  ❌ Refresh failed: ${TOKEN_ERROR:-empty_access_token}"
+      echo "  → Falling back to full OAuth PKCE flow (browser required)."
+      echo ""
+      REFRESH_MODE=false
+    else
+      ok "New access token received."
+
+      # Store new access token
+      security add-generic-password -a linkedin -s "${KEYCHAIN_PREFIX}-access-token" -w "$ACCESS_TOKEN" -U \
+        || err "Failed to store access token in Keychain."
+
+      # Store new refresh token if issued (rotation)
+      if [[ -n "$NEW_REFRESH_TOKEN" && "$NEW_REFRESH_TOKEN" != "None" ]]; then
+        security add-generic-password -a linkedin -s "${KEYCHAIN_PREFIX}-refresh-token" -w "$NEW_REFRESH_TOKEN" -U \
+          || warn "Failed to store new refresh token."
+        ok "Refresh token rotated."
+      fi
+
+      # Calculate new expiry
+      local NEW_EXPIRY NEW_AUTHORIZED_AT
+      NEW_EXPIRY=$(python3 -c "
+from datetime import datetime, timezone, timedelta
+expiry = datetime.now(timezone.utc) + timedelta(seconds=int(${EXPIRES_IN:-0}))
+print(expiry.strftime('%Y-%m-%dT%H:%M:%SZ'))
+" 2>/dev/null)
+      NEW_AUTHORIZED_AT=$(python3 -c "
+from datetime import datetime, timezone
+print(datetime.now(timezone.utc).strftime('%Y-%m-%dT%H:%M:%SZ'))
+" 2>/dev/null)
+
+      # Update state file with new expiry and refreshTokenPresent
+      if [[ -f "$AUTH_STATE_FILE" && -n "$NEW_EXPIRY" ]]; then
+        python3 -c "
+import json
+with open('$AUTH_STATE_FILE') as f:
+    d = json.load(f)
+d['authorizedAt'] = '$NEW_AUTHORIZED_AT'
+d['tokenExpiry'] = '$NEW_EXPIRY'
+d['refreshTokenPresent'] = True
+with open('$AUTH_STATE_FILE', 'w') as f:
+    json.dump(d, f, indent=2)
+" 2>/dev/null || true
+      fi
+
+      # Verify new token works
+      log "Verifying new token via /v2/userinfo..."
+      local VERIFY_RESPONSE
+      VERIFY_RESPONSE=$(curl -s -o /dev/null -w "%{http_code}" \
+        -X GET "$USERINFO_ENDPOINT" \
+        -H "Authorization: Bearer $ACCESS_TOKEN" \
+        -H "LinkedIn-Version: 202503" 2>/dev/null)
+
+      if [[ "$VERIFY_RESPONSE" == "200" ]]; then
+        ok "Token verified — LinkedIn API accessible."
+      else
+        warn "Token refresh completed but verification returned HTTP $VERIFY_RESPONSE."
+      fi
+
+      # ── Summary ──────────────────────────────────────────────────────────
+      echo ""
+      echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
+      echo "  ✅ Token refresh complete!"
+      echo ""
+      echo "  Account    : $ACCOUNT ($LABEL)"
+      echo "  Token valid: until $NEW_EXPIRY"
+      echo ""
+      echo "  Tokens stored securely in macOS Keychain."
+      echo "  State file: $AUTH_STATE_FILE"
+      echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
+      exit 0
+    fi
+  fi
 fi
 
 # ── Retrieve credentials from Keychain ────────────────────────────────────────
@@ -346,7 +509,8 @@ data = {
     'displayName': '$DISPLAY_NAME',
     'authorizedAt': '$AUTHORIZED_AT',
     'scopes': '${SCOPES}'.split(),
-    'tokenExpiry': '$TOKEN_EXPIRY'
+    'tokenExpiry': '$TOKEN_EXPIRY',
+    'refreshTokenPresent': $([ -n "$REFRESH_TOKEN" ] && [ "$REFRESH_TOKEN" != "None" ] && echo 'true' || echo 'false')
 }
 with open('$AUTH_STATE_FILE', 'w') as f:
     json.dump(data, f, indent=2)
