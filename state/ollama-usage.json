@@ -1,24 +1,24 @@
 {
-  "checkTime": "2026-07-11T20:00:00+1000",
-  "currentRequests": 31248,
-  "weeklyLimit": 54725,
-  "currentPct": 57.1,
+  "checkTime": "2026-07-12T20:00:00+1000",
+  "currentRequests": 35602,
+  "weeklyLimit": 54024,
+  "currentPct": 65.9,
   "thresholdTriggered": "WARN",
   "alertSent": false,
-  "message": "57.1% — WARN threshold (50%+). No Telegram sent per policy. Note for next Ken interaction.",
+  "message": "65.9% — WARN threshold (50%+). Below 70% ALERT. No Telegram sent per policy. Note for next Ken interaction.",
   "windowStart": "2026-07-06T10:00:00+1000",
   "windowEnd": "2026-07-13T10:00:00+1000",
-  "requestsRemaining": 23477,
-  "burnRateRequestsPerHour": 244.1,
-  "projectedExhaustion": "2026-07-15T18:10:59+1000",
+  "requestsRemaining": 18422,
+  "burnRateRequestsPerHour": 234.2,
+  "projectedExhaustion": "2026-07-16T00:39:56+1000",
   "modelBreakdown": {
-    "gemma4:31b": 555,
-    "kimi-k2.7-code": 5122,
-    "kimi-k2.6": 313,
-    "deepseek-v4-pro": 1187,
-    "deepseek-v4-flash": 24058,
-    "minimax-m3": 13
+    "gemma4:31b": 569,
+    "kimi-k2.7-code": 6128,
+    "kimi-k2.6": 324,
+    "deepseek-v4-pro": 1387,
+    "deepseek-v4-flash": 27178,
+    "minimax-m3": 16
   },
   "weeklyLimitSource": "turnsLimit.weeklyLimit in cost-state.json",
-  "note": "Daily burn alert cron — 2026-07-11 20:00 AEST. 57.1% of weekly limit. WARN threshold (50%+). No Telegram — note for next Ken interaction."
+  "note": "Daily burn alert cron — 2026-07-12 20:00 AEST. 65.9% of weekly limit. WARN threshold (50%+). Below 70% ALERT. No Telegram — note for next Ken interaction."
 }

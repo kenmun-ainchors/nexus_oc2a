@@ -1,0 +1,68 @@
+{
+  "timestamp": "2026-07-12T22:37:00+10:00",
+  "target": "OC2A",
+  "hostname": "AINCHORSOC2As-Mac-mini.local",
+  "ip": "192.168.1.126",
+  "tailscale_ip": "100.123.95.47",
+  "tailscale_dns": "ainchorsoc2as-mac-mini-1.tailfc3ed1.ts.net",
+  "user": "ainchorsoc2a",
+  "openclaw_version": "2026.6.11 (e085fa1)",
+  "openclaw_binary": "/Users/ainchorsoc2a/.local/bin/openclaw",
+  "node_version": "v22.19.0",
+  "postgres_version": "16.14 (Postgres.app)",
+  "postgres_data_dir": "/Users/ainchorsoc2a/postgres_data",
+  "postgres_socket": "/tmp:5432",
+  "postgres_running": true,
+  "postgres_db": "ainchors_nexus",
+  "postgres_tables": 49,
+  "gateway_status": {
+    "mode": "local",
+    "port": 18789,
+    "bind": "loopback + tailscale",
+    "reachable": true,
+    "url": "ws://127.0.0.1:18789",
+    "tailscale_url": "ws://100.123.95.47:18789",
+    "connect_latency_ms": 56,
+    "auth": "token",
+    "agent_model": "ollama/deepseek-v4-flash:cloud"
+  },
+  "gateway_service": {
+    "installed": true,
+    "loaded": true,
+    "running": true,
+    "pid": 25722
+  },
+  "node_service": {
+    "installed": true,
+    "loaded": true,
+    "running": true,
+    "pid": 23523
+  },
+  "tailscale_version": "1.98.8",
+  "tailscale_serve_status": "not_enabled",
+  "tailscale_serve_enable_url": "https://login.tailscale.com/f/serve?node=nKLaFoqWtL11CNTRL",
+  "qr_url": "ws://192.168.1.126:18789",
+  "qr_setup_code": "eyJ1cmwiOiJ3czovLzE5Mi4xNjguMS4xMjY6MTg3ODkiLCJib290c3RyYXBUb2tlbiI6IklFaV9scGtoc2lwN3l5SkRCdGNGd29uWlJBUW1EaURhS3E1WWFrTzhNbFEifQ",
+  "verification_results": {
+    "oc2a_localhost_reachable": true,
+    "oc1_tailscale_reachable": true,
+    "oc1_lan_reachable": false,
+    "auto_start_verified": true,
+    "schema_applied": true,
+    "data_imported": false,
+    "yoda_independent_verify": true
+  },
+  "blockers_for_stage2": [
+    "Tailscale serve not enabled — needs admin console approval or tailscale serve config on OC2A",
+    "QR/setup code advertises LAN IP (192.168.1.126) instead of Tailscale IP/DNS",
+    "OpenClaw/PostgreSQL binaries in non-standard paths (may need PATH setup for some tools)"
+  ],
+  "caveats": [
+    "Tailscale serve needs admin console approval",
+    "Homebrew installed to user prefix (~/homebrew)",
+    "PostgreSQL via Postgres.app (not brew)",
+    "OpenClaw installed to ~/.local/bin (not /opt/homebrew/bin)"
+  ],
+  "linked_chg": "CHG-0872",
+  "linked_plan": "CHG-0873"
+}

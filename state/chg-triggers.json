@@ -114,7 +114,7 @@
         },
         {
           "id": "01-OC2A-PRODUCTION",
-          "name": "OC2A Fresh Install — Option 4 Strong Separation",
+          "name": "OC2A Fresh Install \u2014 Option 4 Strong Separation",
           "priority": "critical",
           "action": "Execute docs/plans/OC2A-Fresh-Install-Plan-v1.0.md. OC2A becomes self-governing full production Nexus; OC1 demoted to non-privileged sandbox with no admin path to OC2A. Phases sequenced as TKT-0757 through TKT-0762. Begin after 01-PHYSICAL and 01-OPENCLAW complete.",
           "linkedChgs": [

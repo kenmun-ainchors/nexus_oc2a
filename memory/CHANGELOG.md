@@ -1,3 +1,15 @@
+## 2026-07-12 22:18 AEST — [CHG-0873] CHG-0872 plan approved: Option C fresh install + selective PG import
+**Type:** infra
+**Change Type:** Normal
+**Source:** ken-prompt
+**Trigger:** Ken approved CREST Plan for CHG-0872; Ollama cloud weekly reset in ~12h
+**What changed:** Migration model locked to Option C: fresh OpenClaw install on OC2A + selective PG import of 21 operational tables (~8K rows); runtime/session/transient tables skipped. OC1-OC2A SSH held temporarily. Staged over 2 days.
+**Why:** Preserve Option 4 strong separation; avoid carrying OC1 drift and stale sessions into production; retain essential operational continuity (tickets, sprints, changelog, model policy, knowledge base).
+**Verification:** CREST Plan reviewed and approved by Ken 2026-07-12 22:17 AEST.
+**Rollback:** Revert to OC1 as PROD gateway; do not proceed with OC2A data import or cutover.
+**Linked:** CHG-0872,TKT-0722,TRIGGER-03
+---
+
 ## 2026-07-12 18:31 AEST — [CHG-0872] OC2A commissioning and PROD migration
 **Type:** infra
 **Change Type:** Normal

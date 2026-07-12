@@ -1,5 +1,5 @@
 # Yoda Telegram Context Brief
-# Generated: Sun 12 Jul 2026 14:00 AEST | Forge (cron)
+# Generated: Sun 12 Jul 2026 20:00 AEST | Forge (cron)
 
 ## Platform Status
 - **Platform Day:** 78 (since 2026-04-25)
@@ -24,16 +24,16 @@
 - **Today is Sprint 11 end date** — Sprint Review / Retro expected
 
 ## Open Tickets — Top 10 by Priority
-1. **TKT-0342** — EPIC: PG SSOT Gap Remediation — Achieve 100% O (critical, open, Sprint 11)
-2. **TKT-0358** — Create PG table health monitor cron — detect s (critical, open, Sprint 12)
-3. **TKT-0125** — Roadmap Refinement — QBR 2026-Q3 instance (P1, open)
-4. **TKT-0130** — Agent Fleet Review — QBR 2026-Q3 instance (P1, open)
-5. **TKT-0114** — AInchors–Aevlith Technologies partnership (high, pending)
-6. **TKT-0187** — Cloudflare Tunnel — MinIO + OpenClaw (high, pending)
-7. **TKT-0293** — Expand Regression Testing Framework (high, open)
-8. **TKT-0328** — TKT-0328 — (in progress, title lost during mig) (high, monitoring)
-9. **TKT-0329** — Thrawn Assessment — Workspace Sandbo (high, open, Sprint 8)
-10. **TKT-0331** — Skill-Based Encapsulation — Ticket (high, open)
+1. **TKT-0125** — Roadmap Refinement — QBR 2026-Q3 instance (P1, open)
+2. **TKT-0130** — Agent Fleet Review — QBR 2026-Q3 instance (P1, open)
+3. **TKT-0114** — AInchors–Aevlith Technologies partnership (high, pending)
+4. **TKT-0187** — Cloudflare Tunnel — MinIO + OpenClaw (high, pending)
+5. **TKT-0293** — Expand Regression Testing Framework (high, open)
+6. **TKT-0136** — AInchors Consulting Playbook — AI T (high, backlog, Sprint 8)
+7. **TKT-0138** — Business Jumpstart — 3-part client (high, backlog, Sprint 8)
+8. **TKT-0139** — Consulting Product Portfolio — comm (high, backlog)
+9. **TKT-0169** — Typed Agent Contracts — 4 Cross-Agent (high, backlog)
+10. **TKT-0170** — PII Scanner on Document Ingestion Pip (high, backlog)
 
 ## LinkedIn Campaign Status
 - **Status:** DEPRECATED (CHG-0860, 2026-07-10) — replaced by per-account files (ken, angie, business)
@@ -65,4 +65,3 @@
 10. **Data sovereignty** — Client data = Tier 0/1 local ONLY.
 11. **Security first** — S1–S7 controls always live. Warden always watching.
 12. **Human authority** — Ken and Angie always have final say.
-

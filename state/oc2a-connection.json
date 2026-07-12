@@ -1,0 +1,59 @@
+{
+  "host": "OC2A",
+  "hostname": "AINCHORSOC2As-Mac-mini.local",
+  "user": "ainchorsoc2a",
+  "localIp": "192.168.1.126",
+  "tailscale": {
+    "installed": true,
+    "version": "1.98.8",
+    "binary": "/opt/homebrew/bin/tailscale",
+    "ipv4": "100.123.95.47",
+    "dns": "ainchorsoc2as-mac-mini-1.tailfc3ed1.ts.net",
+    "status": "online",
+    "tailnetUser": "info@",
+    "platform": "macOS"
+  },
+  "ssh": {
+    "enabled": true,
+    "keyPath": "/Users/ainchorsangiefpl/.ssh/id_ed25519",
+    "fromOc1Verified": true,
+    "fullDiskAccessRequired": true,
+    "notes": "Terminal.app granted Full Disk Access to enable Remote Login"
+  },
+  "rustdesk": {
+    "installed": true,
+    "id": "1039509556",
+    "binary": "/Applications/RustDesk.app/Contents/MacOS/RustDesk",
+    "servicePid": 782,
+    "serverPid": 3659,
+    "appPid": 1240,
+    "plistService": "/Library/LaunchDaemons/com.carriez.RustDesk_service.plist",
+    "plistServer": "/Library/LaunchAgents/com.carriez.RustDesk_server.plist",
+    "listeningPort": 21118
+  },
+  "openclaw": {
+    "installed": false,
+    "notes": "Not yet installed; required for PROD gateway migration under CHG-0872"
+  },
+  "homebrew": {
+    "installed": true,
+    "prefix": "/opt/homebrew",
+    "packages": ["tailscale"]
+  },
+  "macos": {
+    "productName": "macOS",
+    "productVersion": "26.5.2",
+    "buildVersion": "25F84",
+    "model": "Mac mini",
+    "modelIdentifier": "Mac16,11",
+    "chip": "Apple M4 Pro",
+    "memory": "48 GB"
+  },
+  "security": {
+    "fileVault": "off",
+    "autoLoginUser": "ainchorsoc2a"
+  },
+  "verifiedAt": "2026-07-12T11:58:00Z",
+  "linkedChg": "CHG-0872",
+  "notes": "Remote access baseline verified. RustDesk and Tailscale operational. OpenClaw gateway installation pending."
+}
