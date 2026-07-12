@@ -1,3 +1,50 @@
+## Sunday, July 12, 2026 — Business Stream Summary
+_Written 23:45 AEST by Aria cron — verified 2026-07-12T13:45Z_
+
+### Angie interactions today
+- **No Angie activity today.** Last Angie interaction was Friday 10 Jul at ~22:47 AEST (4-week LinkedIn calendar proposal delivered, awaiting 4 decisions: start date, posting method, comment commitment, calendar approval). No new user messages on 12 Jul. Evidence: main session `9d3c2b87` transcript shows last user messages from 11 Jul (WO-002 deletion, campaign routing question); business session `9d67715a` transcript shows only this cron trigger today.
+
+### Decisions made
+- **Standup Day 79 — SENT ✅**: Sent at 08:15 AEST. Canvas size: 18,534 bytes. Message ID: `19f533f9798a9a8a`. Recipients: kenmun@gmail.com, angie.foong@ainchors.com. Evidence: state/standup-email-log.json dayNumber:79, status:ok.
+- **Spark LinkedIn Angie — Week 6 Batch Draft (Sat 12:00 AEST) — COMPLETED ✅**: 3 posts drafted for Angie's account (AW6-P1, AW6-P2, AW6-P3) covering Tue 15 Jul, Wed 16 Jul, Thu 17 Jul slots. All triad-cleared (governance passed). Evidence: state/linkedin-campaign-angie.json shows 3 drafts (AW6-P1, AW6-P2, AW6-P3) all status=drafted, governance=triad-cleared.
+- **Angie LinkedIn Metrics Snapshot (Sun 12 Jul 00:00 AEST) — COMPLETED ✅**: Baseline snapshot taken. No published posts yet — first publish slot is Tue 15 Jul 07:30 AEST. Evidence: main session transcript shows metrics snapshot run at 00:00 AEST Jul 12.
+
+### Governance reviews
+- **Health check — OK ✅**: status:ok, exitCode:0, consecutiveFailures:0, lastCheck 2026-07-12T23:33 AEST. All checks pass (gateway, ollama, disk, healthStateAge, costStateAge, ollamaApi). Note: MinIO shows as down (http://127.0.0.1:9000/minio/health/live failed) — listed as issue but not blocking. Evidence: state/health-state.json lastCheck 23:33 AEST.
+- **Heartbeat (23:30 AEST) — ALL GREEN ✅**: 16 checks all OK. taskWatchdog, sessionModelDrift, mainSessionContext, mainSessionResume, standbyMode, dodValidation, taskVerification, chgTriggers, budgetCheck, requestBudgetCheck, cronHealth, cronDeadLetter, owlCompliance, ariaCrest, costState, agentHealth all OK. Evidence: state/heartbeat-state.json lastHeartbeat 23:30 AEST.
+- **Cron health — ALL CLEAN ✅**: healthy:true, failures:0, warnings:0, lastCheck 2026-07-12T13:30 UTC. Evidence: state/cron-health-state.json.
+- **Aria CREST — COMPLIANT ✅**: 0 violations, 0 warnings. Last check 2026-07-12T13:30 AEST. Evidence: state/aria-crest-compliance.json status:COMPLIANT, violation_count:0.
+- **Auto-heal (01:00 AEST) — CRASHED ⚠️ (2nd consecutive day)**: 24 checks run, 2 issues found (config-baseline hash drift, cron-timeout: 19 actionable recommendations). 1 auto-fix: git-commit 24 workspace files. **Crashed after cron timeout check** (trap triggered, partial report). Same pattern as Jul 11. Needs Ken: (1) Gateway config hash changed — possible unlogged config mutation, (2) TKT-0339: 19 actionable cron timeout recommendations (5 increase, 14 decrease). Evidence: state/auto-heal-2026-07-12.json exit_status:crashed, duration_ms:0; state/auto-heal-2026-07-12.log shows "CRASH DETECTED: Trap triggered" at 01:00:10 AEST.
+- **Warden escalation — NO ACTIVE VIOLATIONS ✅**: No warden-escalation-pending.json found. Evidence: file not found in state directory.
+- **Delegated auth — ALL VALID ✅**: 2 accounts (Ken Mun, Angie Foong) both token valid. 0 expired, 0 missing, 0 warnings. Evidence: state/delegated-auth-status.json allValid:true, okCount:2.
+- **Fallback chain — OK ✅**: overall:ok, 0 broken. Chain: kimi-k2.7-code:cloud → deepseek-v4-pro:cloud. Evidence: state/fallback-chain-status.json overall:ok, brokenCount:0.
+- **Request budget — WARN ⚠️ (66.8%)**: Above 50% warn threshold. 36,284 requests used, 18,033 remaining. Below 70% alert threshold. Up from 57.3% yesterday — trending up. Evidence: state/request-budget-alert-state.json status:warn, currentPct:66.8.
+- **Standby mode — INACTIVE ✅**: Cleared 2026-07-09. No active standby. Evidence: state/standby-mode.json active:false.
+- **System banner — INACTIVE ✅**: Recovery banner cleared 2026-07-09. Evidence: state/system-banner.json active:false.
+- **Process count — HEALTHY ✅**: 752 processes, ulimit_u:4000. Well within limits. Evidence: state/process-count-current.json.
+
+### Open items (verified)
+- **Angie 4 decisions pending — ⏸️ AWAITING ANGIE (2 days)**: Start date, posting method, comment time commitment, calendar approval for 4-week LinkedIn campaign. Session ended 22:47 AEST Fri 10 Jul. Fresh — not stale. Evidence: main session transcript shows no user messages from Angie on 12 Jul.
+- **Act 680 proposal (MYR 1,550,000) — ⏸️ PENDING ANGIE FORWARD**: Last contact 3 Jul. Angie re-engaged Fri 10 Jul on LinkedIn content but did not mention Act 680 or forwarding to Dr. Sheila. Evidence: main session transcript no mention of Act 680 in Jul 10-12 messages.
+- **LinkedIn Angie Week 6 drafts — ✅ DRAFTED, AWAITING PUBLISH**: 3 posts (AW6-P1, AW6-P2, AW6-P3) drafted by Spark Sat 12:00 AEST batch. All triad-cleared. First publish slot: Tue 15 Jul 07:30 AEST. Pipeline functional. Evidence: state/linkedin-campaign-angie.json drafts[AW6-P1/AW6-P2/AW6-P3] status=drafted, governance=triad-cleared.
+- **Day 71 blog post (ainchors-2026-07-04) — 📝 STILL UNPUBLISHED (8 days)**: HTML file exists at `/Users/ainchorsangiefpl/.openclaw/workspace/.openclaw/tmp/ainchors-2026-07-04.html` (27,634 bytes, last modified Jul 10 12:03). Governance status from prior brief: Shield:CLEAR, Lex:CONDITIONAL, Sage:CONDITIONAL. Needs Yoda review. Evidence: file exists on disk.
+- **Auto-heal Needs Ken — ⚠️ 2 ITEMS (2nd consecutive day)**: (1) Gateway config hash changed — possible unlogged config mutation. (2) TKT-0339: 19 actionable cron timeout recommendations (5 increase, 14 decrease). Auto-heal crashed after timeout check both days. Evidence: state/auto-heal-2026-07-12.json needs_ken_count:2, exit_status:crashed.
+- **Request budget — ⚠️ WARN (66.8%, up from 57.3%)**: Above 50% warn threshold. 36,284 requests used, 18,033 remaining. Below 70% alert threshold. Trending up — 9.5 percentage points in 1 day. Evidence: state/request-budget-alert-state.json status:warn, currentPct:66.8.
+- **Onboarding OB-PM-03 — ⏸️ STALLED**: No progress. BS-001 (JotForm/HRDF) and BS-002 (Lynn Huang/Finance) also stalled. Evidence: carried forward — no state file updates.
+- **relay-to-ken.json — ALL CLOSED ✅**: 4 items all in terminal states. MSG-20260601-001 closed by Ken 10 Jul. relay-20260603-001 closed by Ken 10 Jul. relay-20260620-001 (CR-001) resolved by CR-002. relay-20260624-005243-001 (CR-003) resolved by Ken + CHG-0766. No pending relays. Evidence: state/relay-to-ken.json all items closed/resolved.
+
+### Handoff to Yoda
+- **🎯 Angie hasn't replied since Fri 22:47 AEST — 2 days.** The 4 LinkedIn campaign decisions (start date, posting method, comment commitment, calendar approval) are pending. Fresh — not yet stale. She typically re-engages after 2-4 day gaps.
+- **✅ Spark LinkedIn Angie Week 6 batch draft completed successfully.** 3 posts drafted for Tue/Wed/Thu slots (15-17 Jul). All triad-cleared. First publish slot Tue 07:30 AEST. Angie-specific campaign pipeline is live and functional.
+- **✅ Standup Day 79 sent** — smooth delivery.
+- **✅ Health all green.** Heartbeat 23:30 all OK. CREST compliant. Cron health clean. Delegated auth valid. Fallback chain OK. No warden escalations. Standby mode inactive.
+- **⚠️ Auto-heal crashed for 2nd consecutive day** — same pattern both days (24 checks, trap triggered after cron timeout check). 2 needs-ken items unchanged: gateway config hash drift and TKT-0339 cron timeout scaler. The crash itself may be a trap issue rather than a real failure — Yoda should investigate.
+- **⚠️ Request budget at 66.8% (WARN)** — up sharply from 57.3% yesterday (+9.5pp). Above 50% threshold, approaching 70% alert. 18,033 requests remaining. At current burn rate, alert threshold may be hit within 1-2 days.
+- **⚠️ Day 71 blog post still unpublished** — 8 days now. HTML file exists. Governance conditions (Lex/Sage CONDITIONAL) unresolved. Yoda review needed.
+- **✅ relay-to-ken.json clean** — all items closed/resolved. No pending relays.
+- **✅ MinIO down noted** — listed in health-state issues but not blocking any business stream operations.
+- **📋 CHG-0864 (LinkedIn campaign handoff + cron routing fix) executed on 11 Jul** — Aria now owns Angie LinkedIn campaign. 6 drafted posts handed off from Yoda. Cron routing fixed for business stream.
+
 ## Saturday, July 11, 2026 — Business Stream Summary
 _Written 23:45 AEST by Aria cron — verified 2026-07-11T13:45Z_
 
