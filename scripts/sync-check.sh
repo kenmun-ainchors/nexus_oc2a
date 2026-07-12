@@ -50,6 +50,6 @@ ALL_OK=true
 check_table "state_tickets" "$WORKSPACE/state/tickets.json" || ALL_OK=false
 check_table "state_linkedin" "$WORKSPACE/state/archive/linkedin-queue.json" || ALL_OK=false
 check_table "state_sprints" "$WORKSPACE/state/archive/sprint-current.json" || ALL_OK=false
-check_table "state_standups" "$WORKSPACE/state/archive/standup-state.json" || ALL_OK=false
+check_table "state_standups" "$WORKSPACE/state/standup-state.json" || ALL_OK=false
 
 $ALL_OK && echo "ALL CLEAN ✅" || echo "ISSUES DETECTED ❌"

@@ -804,11 +804,23 @@ print(html)
 state_update = json.dumps({"lastStandupDate": today_str, "dayNumber": day_n})
 PYEOF
 
-# Update state/standup-state.json with new date/day without clobbering email fields
+# ── Update state/standup-state.json + PG primary write ────────────────────────
+# PG is the primary write target; JSON is derived/dual-write until TKT-0359 gate
 python3 << 'PYEOF'
-import json, os
+import json, os, subprocess, sys
 from pathlib import Path
+from datetime import datetime, timezone, timedelta
+
 WORKSPACE = Path(os.environ.get("WORKSPACE", "/Users/ainchorsangiefpl/.openclaw/workspace"))
+PSQL = ["/opt/homebrew/bin/psql", "-U", "ainchorsangiefpl", "-d", "ainchors_nexus"]
+
+aest = timezone(timedelta(hours=10))
+now_aest = datetime.now(timezone.utc).astimezone(aest)
+today_str = now_aest.date().isoformat()
+start = datetime(2026, 4, 25).date()
+day_n = (now_aest.date() - start).days + 1
+
+# ── 1. Update JSON state file (dual-write, derived) ──
 state_path = WORKSPACE / "state" / "standup-state.json"
 state = {}
 if state_path.exists():
@@ -817,15 +829,50 @@ if state_path.exists():
             state = json.load(f)
     except Exception:
         pass
-from datetime import datetime, timezone, timedelta
-aest = timezone(timedelta(hours=10))
-now_aest = datetime.now(timezone.utc).astimezone(aest)
-start = datetime(2026, 4, 25).date()
-day_n = (now_aest.date() - start).days + 1
-state["lastStandupDate"] = now_aest.date().isoformat()
+state["lastStandupDate"] = today_str
 state["dayNumber"] = day_n
 with open(state_path, "w") as f:
     json.dump(state, f, indent=2)
+
+# ── 2. PG primary write: upsert operational columns ──
+email_sent_at = "NULL"
+email_sent_confirmed = "NULL"
+if state.get("emailSentAt"):
+    email_sent_at = f"'{state['emailSentAt']}'::timestamptz"
+if state.get("emailSentConfirmed"):
+    email_sent_confirmed = f"'{state['emailSentConfirmed']}'::date"
+
+sql = f"""
+INSERT INTO state_standups (standup_date, last_standup_date, day_number, email_sent_at, email_sent_confirmed, generated_by, standup_data)
+VALUES (
+  '{today_str}'::date,
+  '{today_str}'::date,
+  {day_n},
+  {email_sent_at},
+  {email_sent_confirmed},
+  'yoda',
+  '{{"generatedAt": "{now_aest.isoformat()}", "dayNumber": {day_n}, "lastStandupDate": "{today_str}"}}'::jsonb
+)
+ON CONFLICT (standup_date) DO UPDATE SET
+  last_standup_date = EXCLUDED.last_standup_date,
+  day_number = EXCLUDED.day_number,
+  email_sent_at = COALESCE(EXCLUDED.email_sent_at, state_standups.email_sent_at),
+  email_sent_confirmed = COALESCE(EXCLUDED.email_sent_confirmed, state_standups.email_sent_confirmed),
+  generated_by = EXCLUDED.generated_by,
+  standup_data = EXCLUDED.standup_data,
+  created_at = now();
+"""
+
+try:
+    result = subprocess.run(PSQL + ["-c", sql], capture_output=True, text=True, timeout=10)
+    if result.returncode == 0:
+        print(f"[standup] PG primary write: state_standups upserted for {today_str} (day {day_n})", file=sys.stderr)
+    else:
+        print(f"[standup] PG write WARNING: {result.stderr.strip()}", file=sys.stderr)
+except Exception as e:
+    print(f"[standup] PG write ERROR: {e}", file=sys.stderr)
 PYEOF
+
+echo "[standup] generated for $(TZ=Australia/Sydney date '+%Y-%m-%d %H:%M AEST')"
 
 echo "[standup] generated for $(TZ=Australia/Sydney date '+%Y-%m-%d %H:%M AEST')"

@@ -78,6 +78,15 @@ print('State updated: emailSentConfirmed = ${TODAY_AEST}')
 " 2>/dev/null || true
     fi
 
+    # PG primary write: update email operational columns
+    PSQL="/opt/homebrew/bin/psql -U ainchorsangiefpl -d ainchors_nexus"
+    PG_SQL="UPDATE state_standups SET email_sent_at = '${NOW_ISO}'::timestamptz, email_sent_confirmed = '${TODAY_AEST}'::date WHERE standup_date = '${TODAY_AEST}'::date;"
+    if $PSQL -c "$PG_SQL" 2>/dev/null; then
+        echo "PG primary write: state_standups email fields updated for ${TODAY_AEST}"
+    else
+        echo "PG write WARNING: could not update state_standups email fields"
+    fi
+
     # Write success log
     python3 -c "
 import json
