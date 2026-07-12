@@ -150,6 +150,32 @@ insert_entity_links_for_ticket() {
 # --- UTILITIES ---
 log() { echo "[$(date '+%Y-%m-%d %H:%M:%S')] db-ticket: $1" >&2; }
 die() { echo "ERROR: $1" >&2; exit 1; }
+
+# ── PG-First Write Enforcement Gate (TKT-0976) ────────────────────────────────
+# Check that Class 1 writer (state_tickets) has a corresponding PG write
+# before JSON/derived fallback write proceeds.
+# Best-effort: logs warning on failure, never blocks the primary mutation.
+check_pg_first_write_gate() {
+  local table="$1"
+  local context="${2:-}"
+  local check_script="$WORKSPACE_ROOT/scripts/check-pg-first-write.sh"
+  if [[ ! -x "$check_script" ]]; then
+    return 0
+  fi
+  local gate_result
+  gate_result=$(bash "$check_script" --check-table "$table" 2>/dev/null || true)
+  local gate_status
+  gate_status=$(echo "$gate_result" | /opt/homebrew/bin/jq -r '.status // "unknown"' 2>/dev/null || echo "unknown")
+  if [[ "$gate_status" == "violation" ]]; then
+    log "PG-FIRST WRITE GATE: VIOLATION — $table JSON fallback write blocked (context: $context)"
+    log "Gate verdict: $gate_result"
+    log "Set PG_FIRST_BYPASS=1 or CLASS_OVERRIDE=$table to override"
+    return 1
+  fi
+  log "PG-FIRST WRITE GATE: $gate_status — $table (context: $context)"
+  return 0
+}
+
 usage() {
   cat <<'USAGE'
 Usage: db-ticket.sh <subcommand> [args...]
@@ -691,6 +717,9 @@ cmd_create() {
       fi
     fi
     
+    # PG-First Write Gate: check before JSON fallback write
+    check_pg_first_write_gate "state_tickets" "create:$tkt_id" || exit 1
+    
     # Also update tickets.json for backward compat
     if [[ -f "$TICKET_FILE" ]]; then
       local tmp_json
@@ -825,6 +854,9 @@ cmd_create_from_json() {
         bash "$DB_SCRIPT" -c "UPDATE state_tickets SET sprint = '$(echo "$sprint" | sed "s/'/''/g")', updated_at = NOW() WHERE id = '$tkt_id';" > /dev/null 2>&1 || true
       fi
     fi
+    
+    # PG-First Write Gate: check before JSON fallback write
+    check_pg_first_write_gate "state_tickets" "create-from-json:$tkt_id" || exit 1
     
     # Mirror to tickets.json for backward compat
     if [[ -f "$TICKET_FILE" ]]; then
@@ -983,6 +1015,9 @@ cmd_update() {
     # TKT-0406: Trigger single-ticket Notion sync in background
     bash "$0" sync "$tkt_id" > /dev/null 2>&1 &
     
+    # PG-First Write Gate: check before JSON fallback write
+    check_pg_first_write_gate "state_tickets" "update:has_metadata:$tkt_id" || exit 1
+    
     # Update tickets.json fallback
     if [[ -f "$TICKET_FILE" ]]; then
       local tmp_json
@@ -1014,6 +1049,9 @@ cmd_update() {
       
       # TKT-0406: Trigger single-ticket Notion sync in background
       bash "$0" sync "$tkt_id" > /dev/null 2>&1 &
+      
+      # PG-First Write Gate: check before JSON fallback write
+      check_pg_first_write_gate "state_tickets" "update:no_metadata:$tkt_id" || exit 1
       
       # Update tickets.json fallback
       if [[ -f "$TICKET_FILE" ]]; then
@@ -1242,6 +1280,9 @@ cmd_fold() {
   log "GATE 4/5: CLOSE child ticket..."
   
   pg_query "UPDATE $TICKET_TABLE SET status='folded', updated_at=NOW() WHERE id='$child_id';" > /dev/null 2>&1
+  
+  # PG-First Write Gate: check before JSON fallback write
+  check_pg_first_write_gate "state_tickets" "fold:$child_id" || exit 1
   
   # Update tickets.json fallback
   if [[ -f "$TICKET_FILE" ]]; then

@@ -1,61 +1,58 @@
-# PG-First Write Policy
+# PG-First Write Policy v1.0
 
-**Version:** 1.0 · **Effective:** 2026-06-23 · **CHG:** CHG-0751 · **Ticket:** TKT-0359
+**Document ID:** PG-FIRST-WRITE-v1.0  
+**Status:** LIVE (pending enforcement gate build by Forge as fast-follow ticket)  
+**Owner:** Yoda (policy) · **Enforcement:** Forge (gate implementation)  
+**Approved by:** Ken Mun — 2026-07-12  
+**CHG:** CHG-0793 (execution umbrella)  
 
-## Purpose
+---
 
-Postgres is the master source of truth for the Nexus platform. This policy defines which state surfaces must be written to Postgres first, and which are explicitly excepted.
+## 1. Inverted Default
 
-## Invariant
+**PostgreSQL is the primary write target for all durable operational state.**  
+JSON files, markdown files, and ad-hoc state blobs are derived caches only.  
+The rule is: write to PG first, then optionally derive JSON/md if a consumer still needs it during transition.
 
-> **Class-1 durable knowledge state is PG-first mandatory.** All other state classes are excepted by default.
+## 2. Four-Class Model
 
-A script may only treat a file, SQLite database, or markdown document as the source of truth if that state surface is registered as class-2, class-3, or class-4 in the registry. If a surface is not registered, it is out-of-policy until classified.
+| Class | Definition | Where it lives | Examples |
+|-------|-----------|----------------|----------|
+| **Class 1 — Durable operational state** | Structured, keyed, time-ordered facts that must be queryable, auditable, and linkable by entity_links | **PG-first** | state_standups operational columns, state_changes, state_lessons, state_sprints, CHG records, ticket lifecycle |
+| **Class 2 — Derived reports / exports** | Read-only snapshots generated from PG for human review or external sharing | Derived from PG | EOD journal PDF, canvas standup HTML, sprint review reports |
+| **Class 3 — Transient shared state** | Short-lived or agent-local flags that can be recomputed | `agent_shared_state`, in-memory, or JSON cache | model override hints, heartbeat flags, transient UI state |
+| **Class 4 — Source-of-truth artifacts** | Documents that are the canonical definition themselves (policies, architecture docs, runbooks) | Git-tracked markdown under `docs/` | This policy, AGENTS.md, RULES.md |
 
-## State classes
+## 3. Decision Heuristic
 
-| Class | Name | Rule | Examples |
-|-------|------|------|----------|
-| 1 | Durable knowledge state | **PG-first mandatory**; JSON/markdown/SQLite may be derived cache only | `state_tickets`, `state_sprints`, `state_changes`, `state_lessons`, `agent_events`, `entity_links`, `verdict_log` |
-| 2 | Operational telemetry | file or SQLite-primary allowed | health snapshots, outage state, auto-heal logs, diagnostics, latency, cost telemetry |
-| 3 | Versioned source / DNA | file-primary | `SOUL.md`, `AGENTS.md`, `RULES.md`, skills, `openclaw.json` |
-| 4 | Narrative | derived markdown | journals, daily memory, `CHANGELOG.md`, canvas documents |
+When adding or modifying state, ask:
 
-### What counts as class-1?
+1. Is it structured, keyed, and time-ordered? → Class 1 → **PG-first**.
+2. Is it a read-only export of Class 1? → Class 2 → derive from PG.
+3. Is it ephemeral or recomputable? → Class 3 → JSON/KV cache OK.
+4. Is it the canonical text of a policy/architecture decision? → Class 4 → Git markdown.
 
-A state surface is class-1 if it answers any of these questions across agents and sessions:
+## 4. Migration Discipline
 
-- What happened? (events, changes, verdicts)
-- What is true now? (tickets, sprints, links)
-- What must every agent agree on? (model policy, lessons)
+For existing JSON-primary state:
 
-If losing the file would change platform behavior or break cross-session continuity, it is almost certainly class-1.
+1. **Dual-write** — PG write added alongside existing JSON write.
+2. **Shadow-validate** — run parity checks until PG and JSON agree for new writes.
+3. **Cutover** — read path switched to PG with JSON as fallback.
+4. **Retire JSON** — only after policy enforcement gate is live and behavioral proof exists that JSON regenerates from PG.
 
-## Writer obligations
+No backfill unless the historical data already exists in PG or another trusted source. **You cannot backfill state that was never captured in PG.**
 
-1. **Write to Postgres first.** The PG write must complete and be acknowledged before any file cache is updated.
-2. **File caches are derived.** JSON mirrors, markdown logs, and SQLite snapshots must be rebuildable from PG.
-3. **Use canonical wrappers.** Class-1 writes must go through the approved writer scripts (`db-ticket.sh`, `db-sprint.sh`, `changelog-append.sh`, `pg-write-event.sh`, `pg-write-audit-event.sh`, `db-link.sh`) or a CHG-approved equivalent.
-4. **Do not add new class-1 JSON files without approval.** Every new class-1 state surface must be added to `state/pg-first-write-registry.json` and approved via CHG.
-5. **No silent fallbacks to file-primary.** If PG is unavailable, the operation must fail or defer; it must not silently promote a file to primary truth.
+## 5. Enforcement
 
-## Registry
+Until the automated gate is built:
 
-The authoritative registry is `state/pg-first-write-registry.json`. It lists every class-1 surface, its PG table, any JSON cache file, the canonical writer scripts, its migration status, and the linked ticket.
+- All new Class 1 writers must be registered in `state/pg-first-write-registry.json`.
+- Code reviews for scripts that touch state must confirm the four-class classification.
+- Warden will add a compliance check: any new JSON write of structured state without a corresponding PG write is flagged.
 
-## Enforcement
+## 6. Scope Limits
 
-A deterministic enforcement gate will be built by Forge as a fast-follow to this policy. Until the gate is live, every new script or state file is reviewed manually by Yoda against this policy before merge.
-
-## Exceptions
-
-Exceptions are granted per class, not per file. To add a new class-1 surface or reclassify an existing surface, open a CHG and update the registry.
-
-## Migration backlog
-
-Class-1 surfaces still file-primary are tracked in existing tickets:
-
-- `state_lessons` PG table — TKT-0362
-- `verdict_log` PG table — TKT-0722
-
-No new parallel backlog is created by this policy.
+- This policy does not require rewriting all historical scripts in one sprint.
+- It does not apply to Class 3 transient state or Class 4 canonical docs.
+- JSON files may remain as derived caches during transition, but they must be provably derived.

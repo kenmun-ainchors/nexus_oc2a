@@ -1,124 +1,69 @@
 {
-  "schema": "pg-first-write-registry/v1",
-  "version": "1.0.0",
-  "created_at": "2026-06-23T20:40:00+10:00",
-  "policy_doc": "docs/PG-First-Write-Policy-v1.0.md",
-  "policy_chg": "CHG-0751",
-  "scope": "class-1 durable knowledge state only; classes 2-4 are excepted by default",
-  "default_rule": "excepted unless explicitly class-1",
-  "class_definitions": {
-    "class_1_durable_knowledge_state": {
-      "description": "Canonical, durable facts that answer 'what happened' or 'what is true' across agents and sessions.",
-      "invariant": "PG-first MANDATORY. JSON/SQLite/markdown may exist only as derived cache.",
-      "examples": ["state_tickets", "state_sprints", "state_changes", "state_lessons", "agent_events", "entity_links", "verdict_log"]
-    },
-    "class_2_operational_telemetry": {
-      "description": "Ephemeral operational signals, diagnostics, latency, health snapshots.",
-      "invariant": "file or SQLite-primary is allowed.",
-      "examples": ["state_health_state.json", "state_outage_state.json", "state_autoheal_log", "state_diagnostics", "state_latency", "state_cost", "obs.db"]
-    },
-    "class_3_versioned_source": {
-      "description": "Agent DNA, boot configuration, skills, policy documents, source code.",
-      "invariant": "file-primary; PG may index but not own.",
-      "examples": ["SOUL.md", "AGENTS.md", "RULES.md", "skills", "openclaw.json"]
-    },
-    "class_4_narrative": {
-      "description": "Human-readable narrative, journals, memory markdowns, canvas documents.",
-      "invariant": "derived markdown; structured facts within narrative must be extracted to class-1 tables.",
-      "examples": ["memory/journal-YYYY-MM-DD.md", "memory/CHANGELOG.md", "MEMORY.md", "canvas documents"]
-    }
-  },
-  "entries": [
+  "schema": "pg-first-write-registry-v1.0",
+  "policy_version": "PG-FIRST-WRITE-v1.0",
+  "effective_date": "2026-07-12",
+  "owner_orchestrator": "yoda",
+  "owner_enforcement": "forge",
+  "class_1_writers": [
     {
-      "class": 1,
-      "logical_name": "tickets",
-      "pg_table": "state_tickets",
-      "json_cache_file": "state/tickets.json",
-      "writer_scripts": ["scripts/db-ticket.sh"],
-      "auxiliary_writers": ["scripts/notion-create-missing.sh", "scripts/notion-dedup-sync.sh"],
-      "primary_store": "pg",
-      "migration_status": "migrated",
-      "notes": "PG-first since TKT-0342/TKT-0698. state/tickets.json is a backward-compat mirror updated after PG writes; it must never be treated as primary truth.",
-      "linked_ticket": "TKT-0342"
+      "table": "state_standups",
+      "writer_script": "scripts/generate-standup.sh",
+      "operational_columns": [
+        "last_standup_date",
+        "day_number",
+        "email_sent_at",
+        "email_sent_confirmed"
+      ],
+      "pg_first_status": "live",
+      "migration_ticket": "TKT-0354",
+      "json_retired": false,
+      "json_retire_trigger": "TKT-0359 enforcement gate live"
     },
     {
-      "class": 1,
-      "logical_name": "sprints",
-      "pg_table": "state_sprints",
-      "json_cache_file": null,
-      "writer_scripts": ["scripts/db-sprint.sh"],
-      "auxiliary_writers": ["scripts/db-ticket.sh"],
-      "primary_store": "pg",
-      "migration_status": "migrated",
-      "notes": "No JSON cache. db-ticket.sh reads/updates sprint references but does not insert sprints.",
-      "linked_ticket": "TKT-0342"
+      "table": "state_sprints",
+      "writer_script": "scripts/db-sprint.sh",
+      "operational_columns": [],
+      "pg_first_status": "live",
+      "migration_ticket": "TKT-0348",
+      "json_retired": false,
+      "json_retire_trigger": "TKT-0359 enforcement gate live"
     },
     {
-      "class": 1,
-      "logical_name": "changes",
-      "pg_table": "state_changes",
-      "json_cache_file": "memory/CHANGELOG.md",
-      "writer_scripts": ["scripts/changelog-append.sh"],
-      "auxiliary_writers": [],
-      "primary_store": "pg",
-      "migration_status": "migrated",
-      "notes": "PG insert is authoritative; memory/CHANGELOG.md is the human-readable derived narrative. Notion Archive DB C is also derived.",
-      "linked_ticket": "TKT-0342"
-    },
-    {
-      "class": 1,
-      "logical_name": "agent_events",
-      "pg_table": "agent_events",
-      "json_cache_file": null,
-      "writer_scripts": ["scripts/pg-write-event.sh", "scripts/pg-write-audit-event.sh"],
-      "auxiliary_writers": ["scripts/db-write.sh", "scripts/db-link.sh", "scripts/db-ticket.sh", "scripts/db-sprint.sh", "scripts/changelog-append.sh"],
-      "primary_store": "pg",
-      "migration_status": "migrated",
-      "notes": "Two PG functions: pg_write_event (legacy) and pg_write_audit_event (TKT-0357). All callers go through the wrapper scripts. No JSON cache.",
-      "linked_ticket": "TKT-0357"
-    },
-    {
-      "class": 1,
-      "logical_name": "entity_links",
-      "pg_table": "entity_links",
-      "json_cache_file": null,
-      "writer_scripts": ["scripts/db-link.sh"],
-      "auxiliary_writers": [],
-      "primary_store": "pg",
-      "migration_status": "migrated",
-      "notes": "Source-only library. Emits one agent_events row per batch via pg-write-event.sh.",
-      "linked_ticket": "TKT-0357"
-    },
-    {
-      "class": 1,
-      "logical_name": "lessons",
-      "pg_table": "state_lessons",
-      "json_cache_file": "memory/LESSONS.md",
-      "writer_scripts": [],
-      "auxiliary_writers": ["scripts/lessons-staleness-check.sh"],
-      "primary_store": "file",
-      "migration_status": "pending_migration",
-      "notes": "Current source of truth is memory/LESSONS.md (class-4 narrative). state_lessons PG table is planned under TKT-0362. lessons-staleness-state.json is class-2 telemetry only.",
-      "linked_ticket": "TKT-0362"
-    },
-    {
-      "class": 1,
-      "logical_name": "verdict_log",
-      "pg_table": "verdict_log",
-      "json_cache_file": "state/sage-qa-log.json",
-      "writer_scripts": ["scripts/sage-qa.sh"],
-      "auxiliary_writers": [],
-      "primary_store": "file",
-      "migration_status": "pending_migration",
-      "notes": "Current source of truth is state/sage-qa-log.json. verdict_log PG table is planned under TKT-0722.",
-      "linked_ticket": "TKT-0722"
+      "table": "state_model_policy",
+      "writer_script": "scripts/model-policy-sync.sh",
+      "operational_columns": [],
+      "pg_first_status": "in_progress",
+      "migration_ticket": "TKT-0344",
+      "json_retired": false,
+      "json_retire_trigger": "TKT-0359 enforcement gate live"
     }
   ],
-  "excluded_scope_note": "Classes 2-4 are intentionally not inventoried here. If a future state surface is suspected to be class-1, it must be added to this registry and approved via CHG.",
+  "pending_class_1_migrations": [
+    {
+      "table": "state_changes",
+      "migration_ticket": "TKT-0344",
+      "pg_first_status": "in_progress"
+    },
+    {
+      "table": "state_lessons",
+      "migration_ticket": "TKT-0344",
+      "pg_first_status": "in_progress"
+    },
+    {
+      "table": "state_tickets",
+      "migration_ticket": "TKT-0342",
+      "pg_first_status": "not_started"
+    },
+    {
+      "table": "state_linkedin",
+      "migration_ticket": "TKT-0342",
+      "pg_first_status": "not_started"
+    }
+  ],
   "enforcement_gate": {
-    "status": "spec_only",
-    "spec_path": ".openclaw/tmp/pg-first-write-gate-spec.md",
-    "implementation_owner": "Forge",
-    "implementation_note": "Deterministic gate to be built as fast-follow CHG. See spec for requirements."
-  }
+    "status": "live",
+    "fast_follow_ticket": "TKT-0976",
+    "description": "Automated check that every new Class 1 write has a corresponding PG write before JSON/md derivation. Implemented via scripts/check-pg-first-write.sh. Wired into scripts/generate-standup.sh (pre-write) and scripts/db-ticket.sh (post-PG-write, pre-JSON-fallback)."
+  },
+  "notes": "Registry aligned with CRESTv2-P1 WS-3. state_standups migration completed TKT-0354. state_sprints migration completed TKT-0348. state_model_policy migration in progress under TKT-0344. Enforcement gate live as of TKT-0976 (2026-07-12)."
 }

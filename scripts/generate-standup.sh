@@ -804,6 +804,22 @@ print(html)
 state_update = json.dumps({"lastStandupDate": today_str, "dayNumber": day_n})
 PYEOF
 
+# ── PG-First Write Enforcement Gate (TKT-0976) ────────────────────────────────
+# Check that Class 1 writer (state_standups) has a corresponding PG write
+# before the JSON/derived write proceeds.
+CHECK_SCRIPT="${WORKSPACE}/scripts/check-pg-first-write.sh"
+if [[ -x "$CHECK_SCRIPT" ]]; then
+  GATE_RESULT=$(bash "$CHECK_SCRIPT" --check-table state_standups 2>/dev/null || true)
+  GATE_STATUS=$(echo "$GATE_RESULT" | python3 -c "import json,sys; d=json.loads(sys.stdin.read()); print(d.get('status','unknown'))" 2>/dev/null || echo "unknown")
+  if [[ "$GATE_STATUS" == "violation" ]]; then
+    echo "[standup] PG-FIRST WRITE GATE: VIOLATION — state_standups JSON write blocked" >&2
+    echo "[standup] Gate verdict: $GATE_RESULT" >&2
+    echo "[standup] Set PG_FIRST_BYPASS=1 or CLASS_OVERRIDE=state_standups to override" >&2
+    exit 1
+  fi
+  echo "[standup] PG-FIRST WRITE GATE: $GATE_STATUS — proceeding" >&2
+fi
+
 # ── Update state/standup-state.json + PG primary write ────────────────────────
 # PG is the primary write target; JSON is derived/dual-write until TKT-0359 gate
 python3 << 'PYEOF'
