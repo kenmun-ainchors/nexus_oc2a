@@ -1,0 +1,31 @@
+{
+  "paused_at": "2026-07-12T18:28:00+10:00",
+  "paused_by": "ken+yoda",
+  "resume_trigger": "2026-08-01",
+  "resume_assumption": "OC2-A stable",
+  "first_actions_on_resume": [
+    "TKT-0722 unpark and wire-job dispatch (verdict_log PG table, retire sage-qa-log.json, fix stubbed checks)",
+    "CRESTv2-P1 plan review and next-ticket sequencing"
+  ],
+  "paused_activities": [
+    "All active Sprint 11 execution work beyond essential operations",
+    "Agile ceremonies (standup generation, sprint review/planning) unless explicitly requested",
+    "New ticket grooming/dispatch unless urgent or operations-critical",
+    "Non-essential CRESTv2-P1 execution (planning and tracker maintenance paused)"
+  ],
+  "continuing_exempt": [
+    "HEARTBEAT checks (auto-heal, email, calendar, budget, cron health, etc.)",
+    "EOD journal/blog/drive cron",
+    "Critical alerts and outages",
+    "Security/compliance/OWL checks"
+  ],
+  "state_at_pause": {
+    "crestv2_p1_tracker": "Phase 2 closed; WS-1/WS-2/WS-3 closed; WS-4/WS-5/WS-6 queued",
+    "tkt_0722": "parked, Item 0 complete, resume brief in PG + Notion",
+    "oc2a_access": "blocked pending physical access"
+  },
+  "artifacts": [
+    ".openclaw/tmp/sprint-agile-pause-2026-07-12.md",
+    ".openclaw/tmp/resume-2026-08-01-tkt-0722-crest-plan.md"
+  ]
+}
