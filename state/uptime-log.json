@@ -4,24 +4,6 @@
   "sloTarget": 0.995,
   "events": [
     {
-      "ts": "2026-07-07T04:29:34.082112+00:00",
-      "status": "ok",
-      "consecutiveFailures": 0,
-      "issues": []
-    },
-    {
-      "ts": "2026-07-07T04:34:34.125829+00:00",
-      "status": "ok",
-      "consecutiveFailures": 0,
-      "issues": []
-    },
-    {
-      "ts": "2026-07-07T04:39:33.584252+00:00",
-      "status": "ok",
-      "consecutiveFailures": 0,
-      "issues": []
-    },
-    {
       "ts": "2026-07-07T04:44:33.654588+00:00",
       "status": "ok",
       "consecutiveFailures": 0,
@@ -4744,14 +4726,38 @@
       "issues": [
         "MinIO: down (http://127.0.0.1:9000/minio/health/live failed)"
       ]
+    },
+    {
+      "ts": "2026-07-12T14:18:20.704018+00:00",
+      "status": "ok",
+      "consecutiveFailures": 0,
+      "issues": [
+        "MinIO: down (http://127.0.0.1:9000/minio/health/live failed)"
+      ]
+    },
+    {
+      "ts": "2026-07-12T14:33:20.129989+00:00",
+      "status": "ok",
+      "consecutiveFailures": 0,
+      "issues": [
+        "MinIO: down (http://127.0.0.1:9000/minio/health/live failed)"
+      ]
+    },
+    {
+      "ts": "2026-07-12T14:48:22.580363+00:00",
+      "status": "ok",
+      "consecutiveFailures": 0,
+      "issues": [
+        "MinIO: down (http://127.0.0.1:9000/minio/health/live failed)"
+      ]
     }
   ],
   "summary": {
-    "totalChecks": 10076,
-    "upChecks": 9871,
+    "totalChecks": 10079,
+    "upChecks": 9874,
     "downtimeMinutes": 1025,
-    "uptimePct": 97.965,
-    "lastCheck": "2026-07-12T14:03:20.183012+00:00",
+    "uptimePct": 97.966,
+    "lastCheck": "2026-07-12T14:48:22.580363+00:00",
     "lastStatus": "ok"
   }
 }
