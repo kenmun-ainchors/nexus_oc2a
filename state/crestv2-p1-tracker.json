@@ -5,7 +5,7 @@
   "track": "A",
   "status": "locked",
   "created_at": "2026-06-22T10:02:00+10:00",
-  "updated_at": "2026-07-01T20:25:00+10:00",
+  "updated_at": "2026-07-12T17:58:00+10:00",
   "rebalance_chg": "CHG-0752",
   "owner_orchestrator": "yoda",
   "owner_build": "forge",
@@ -21,7 +21,7 @@
         "TKT-0721",
         "TKT-0362"
       ],
-      "status": "blocked (blocked_by: WS-3)",
+      "status": "closed",
       "completed_at": "2026-06-26T23:50:00+10:00",
       "exit_gate": "T3 tables have non-zero rows; CHGs and lessons in PG; history-of-X query returns complete results",
       "exit_gate_verified": {
@@ -36,7 +36,7 @@
       "gate_review_findings": {
         "F3": {
           "severity": "high",
-          "title": "CHG denominator gap: 1,144 known md CHGs vs 731 in parse audit — 413 unaccounted",
+          "title": "CHG denominator gap: 1,144 known md CHGs vs 731 in parse audit \u2014 413 unaccounted",
           "status": "accepted",
           "pending_verification": true,
           "resolve_by": "WS-3 key normalization (canonical endpoint after F2 fix, then re-query PG state_changes count against md ground truth)"
@@ -50,20 +50,20 @@
         },
         "F5": {
           "severity": "medium",
-          "title": "84 lesson stubs lacking body content — referential integrity only, not semantic",
+          "title": "84 lesson stubs lacking body content \u2014 referential integrity only, not semantic",
           "status": "accepted",
           "pending_verification": true,
           "resolve_by": "Return diff between state_lessons rows and source LESSONS.md body count; confirm stubs are expected (ref'd-only IDs from entity_links, never had bodies in source)"
         },
         "F6": {
           "severity": "medium",
-          "title": "No sustained window — point-in-time snapshot only",
+          "title": "No sustained window \u2014 point-in-time snapshot only",
           "status": "accepted",
           "pending_verification": true,
           "resolve_by": "Combined close after WS-3: sustained consistency run over 24h"
         }
       },
-      "gate_review_notes": "Review CRESTv2-P1-WS12-REVIEW-001 accepted 2026-06-27. Status is blocked_on WS-3, not provisional_complete — referential re-validation cannot run until WS-3 key normalization + enforcement gate land. F3/F4/F5/F6 are accepted as findings but not closed until verified against live PG — this acceptance was written against DoD file while DB was down. Re-confirm counts at source as part of WS-3.",
+      "gate_review_notes": "Review CRESTv2-P1-WS12-REVIEW-001 accepted 2026-06-27. Status is blocked_on WS-3, not provisional_complete \u2014 referential re-validation cannot run until WS-3 key normalization + enforcement gate land. F3/F4/F5/F6 are accepted as findings but not closed until verified against live PG \u2014 this acceptance was written against DoD file while DB was down. Re-confirm counts at source as part of WS-3.",
       "sprint_assignments": {
         "TKT-0390": "Sprint 9",
         "TKT-0357": "Sprint 9",
@@ -71,7 +71,10 @@
         "TKT-0721": "Sprint 10",
         "TKT-0362": "Sprint 9"
       },
-      "blocked_by": "WS-3"
+      "blocked_by": "WS-3",
+      "closed_at": "2026-07-12T17:26:46.394376+10:00",
+      "closed_by": "ken+yoda",
+      "close_notes": "Conditional close approved 2026-07-12. Action 1: L-173/174/175 migrated, lesson orphans 16\u21922. Action 2: CHG-0680/0690/0708 genuinely complete at CHG level. Phase 3 carry items: C-WS12-1, C-WS12-2, C-WS12-3."
     },
     {
       "ws_id": "WS-2",
@@ -79,13 +82,13 @@
       "tickets": [
         "TKT-0720"
       ],
-      "status": "blocked (blocked_by: WS-3)",
+      "status": "closed",
       "completed_at": "2026-06-26T00:00:00+10:00",
       "exit_gate": "entity_links table exists; backfill completeness >90%; multi-hop query works",
       "exit_gate_verified": {
         "entity_links_total": 3387,
         "multi_hop_L108_to_L088_to_chg": "verified (5 results)",
-        "verdict": "BLOCKED — case-sensitivity defect breaks referential completeness; blocked_on WS-3",
+        "verdict": "BLOCKED \u2014 case-sensitivity defect breaks referential completeness; blocked_on WS-3",
         "verified_by": "forge",
         "verified_at": "2026-06-27T00:33:00+10:00"
       },
@@ -105,11 +108,14 @@
           "resolve_by": "Fold into WS-3 key normalization (TKT-0344 scope). Canonicalize to lowercase, de-dupe case-split edges, re-index. Re-confirm counts at PG source."
         }
       },
-      "gate_review_notes": "Review CRESTv2-P1-WS12-REVIEW-001 accepted 2026-06-27. Status is blocked_on WS-3, not provisional_complete — referential re-validation cannot run until WS-3 key normalization land. F1/F2 accepted but not closed until verified against live PG. WS-2 gates close on referential evidence, not parse numbers — sequence inverted until WS-3 lands.",
+      "gate_review_notes": "Review CRESTv2-P1-WS12-REVIEW-001 accepted 2026-06-27. Status is blocked_on WS-3, not provisional_complete \u2014 referential re-validation cannot run until WS-3 key normalization land. F1/F2 accepted but not closed until verified against live PG. WS-2 gates close on referential evidence, not parse numbers \u2014 sequence inverted until WS-3 lands.",
       "sprint_assignments": {
         "TKT-0720": "Sprint 9"
       },
-      "blocked_by": "WS-3"
+      "blocked_by": "WS-3",
+      "closed_at": "2026-07-12T17:26:46.394376+10:00",
+      "closed_by": "ken+yoda",
+      "close_notes": "Conditional close approved 2026-07-12. Action 1: L-173/174/175 migrated, lesson orphans 16\u21922. Action 2: CHG-0680/0690/0708 genuinely complete at CHG level. Phase 3 carry items: C-WS12-1, C-WS12-2, C-WS12-3."
     },
     {
       "ws_id": "WS-3",
@@ -123,7 +129,7 @@
         "TKT-0354",
         "TKT-0359"
       ],
-      "status": "in_progress",
+      "status": "closed",
       "exit_gate": "canonical sprint FK; 0 unsprinted tickets; JSON derived/read-only; PG SSOT proven",
       "sprint_assignments": {
         "TKT-0725": "Sprint 9",
@@ -140,22 +146,22 @@
         "TKT-0343": "done",
         "TKT-0344": "done",
         "TKT-0348": "done",
-        "TKT-0354": "open",
-        "TKT-0359": "open — scope drift confirmed"
+        "TKT-0354": "done",
+        "TKT-0359": "done"
       },
       "gate_review_findings": {
         "F7": {
           "severity": "note",
-          "title": "TKT-0359 scope drift — title says 'PG-first write policy' but tracker had it as 'done' without enforcement gate",
+          "title": "TKT-0359 scope drift \u2014 title says 'PG-first write policy' but tracker had it as 'done' without enforcement gate",
           "status": "accepted",
           "pending_verification": true,
           "resolve_by": "Notion page must show TKT-0359 status=In Progress or Done AND PG-First Write Policy enforcement gate must exist and fire under test. Tracker self-report is inadmissible as evidence.",
-          "verify_against": "Notion (source of truth) — tracker is suspect, not witness",
+          "verify_against": "Notion (source of truth) \u2014 tracker is suspect, not witness",
           "closure_evidence": "Notion status snapshot + PG enforcement gate test output"
         },
         "F8": {
           "severity": "note",
-          "title": "TKT-0344 / SEAM-2 coupling — contract shape for state_model_policy reads needs Phase 2 coordination",
+          "title": "TKT-0344 / SEAM-2 coupling \u2014 contract shape for state_model_policy reads needs Phase 2 coordination",
           "status": "accepted",
           "pending_verification": false,
           "resolve_by": "Design contract shape before implementing TKT-0344 data provider layer. Atlas EA input may be needed."
@@ -168,7 +174,20 @@
           "resolve_by": "TKT-0344 scope extension: canonicalize entity_links from_type/chg case, de-dupe, re-index. Re-confirm F2/F3 counts at PG source."
         }
       },
-      "gate_review_notes": "Review accepted 2026-06-27. TKT-0359 re-opened (was wrongly marked done in tracker, Notion shows Backlog). F2 (case normalization) absorbed into TKT-0344 scope. F3 (CHG denominator) reconfirmed at PG source post case-fix. Execute WS-3 in order: TKT-0344 (with case norm) → TKT-0348 → TKT-0354 → TKT-0359."
+      "completed_at": "2026-07-12T17:58:00+10:00",
+      "exit_gate_verified": {
+        "canonical_sprint_fk": true,
+        "unsprinted_tickets": 0,
+        "pg_first_enforcement_gate": "live",
+        "pg_first_rejection_test": "7/7 pass",
+        "verdict": "PASS",
+        "verified_by": "forge",
+        "verified_at": "2026-07-12T17:33:00+10:00"
+      },
+      "closed_at": "2026-07-12T17:58:00+10:00",
+      "closed_by": "ken+yoda",
+      "close_notes": "Phase 2 gate closed 2026-07-12. TKT-0344 case normalization verified. TKT-0348 sprint FK live. TKT-0354 state_standups PG-first writes active. TKT-0359 policy approved and TKT-0976 enforcement gate live with rejection test passing.",
+      "gate_review_notes": "Review accepted 2026-06-27. TKT-0359 was re-opened due to tracker/Notion mismatch; now resolved and closed. F2 (case normalization) absorbed into TKT-0344 scope and verified. F3 (CHG denominator) reconfirmed at PG source post case-fix. F7 closure evidence satisfied: Notion shows TKT-0359 done + TKT-0976 enforcement gate test output 7/7 pass. WS-3 execution order completed: TKT-0344 (with case norm) \u2192 TKT-0348 \u2192 TKT-0354 \u2192 TKT-0359 \u2192 TKT-0976."
     },
     {
       "ws_id": "WS-4",
@@ -225,13 +244,18 @@
     }
   ],
   "locked_execution_order": [
-    "TKT-0390",
-    "TKT-0721",
-    "TKT-0362",
-    "TKT-0344 (w/ case norm F2)",
-    "TKT-0348",
-    "TKT-0354",
-    "TKT-0359 (re-opened)"
+    { "ws_id": "WS-1", "tickets": ["TKT-0390"] },
+    { "ws_id": "WS-2", "tickets": ["TKT-0720"] },
+    { "ws_id": "WS-3", "tickets": ["TKT-0344", "TKT-0348", "TKT-0354", "TKT-0359", "TKT-0976"] }
+  ],
+  "phase_2_status": "closed",
+  "phase_2_closed_at": "2026-07-12T18:01:00+10:00",
+  "phase_2_closed_by": "ken+yoda",
+  "phase_2_checkpoint": "WS-1/WS-2/WS-3 complete; enforcement gate live",
+  "next_locked_tickets": [
+    { "ws_id": "WS-4", "tickets": ["TKT-0723", "TKT-0724", "TKT-0530", "TKT-0394"] },
+    { "ws_id": "WS-5", "tickets": ["TKT-0722"] },
+    { "ws_id": "WS-6", "tickets": ["TKT-0352", "TKT-0171"] }
   ],
   "done_tickets": [
     "TKT-0330",
@@ -240,7 +264,7 @@
     "TKT-0348",
     "TKT-0357",
     "TKT-0390",
-    "TKT-0720 (disputed — blocked_on WS-3)",
+    "TKT-0720 (disputed \u2014 blocked_on WS-3)",
     "TKT-0725",
     "TKT-0726",
     "TKT-0739",
@@ -253,9 +277,6 @@
     "TKT-0362"
   ],
   "in_progress_tickets": [],
-  "next_locked_tickets": [
-    "TKT-0354"
-  ],
   "gate_review_01": {
     "review_id": "CRESTv2-P1-WS12-REVIEW-001",
     "reviewed_at": "2026-06-27T00:00:00+10:00",
@@ -279,7 +300,7 @@
       "F4",
       "F5"
     ],
-    "notes": "All 8 findings accepted as valid. None closed until verified against live PG. F7 resolution: verify against Notion permanently. Tracker is the suspect, not the witness — same as DoD file was suspect in WS-1/WS-2 close. Re-confirm F2/F3 counts at PG source as part of WS-3. Return F5 diff (84 stubs vs source bodies). Report F7 audit result. Everything else proceed."
+    "notes": "All 8 findings accepted as valid. None closed until verified against live PG. F7 resolution: verify against Notion permanently. Tracker is the suspect, not the witness \u2014 same as DoD file was suspect in WS-1/WS-2 close. Re-confirm F2/F3 counts at PG source as part of WS-3. Return F5 diff (84 stubs vs source bodies). Report F7 audit result. Everything else proceed."
   },
-  "notes": "CRESTv2-P1-WS12-REVIEW-001 processed 2026-06-27. WS-1/WS-2 status=blocked (blocked_by: WS-3) — dependency is machine visible. TKT-0359 re-opened — tracker lied (had as done when Notion=Backlog). F7 closure evidence: Notion state + enforcement gate test only. Tracker is inadmissible. F2 case normalization folded into TKT-0344 scope. WS-1/WS-2 will close together on referential evidence after WS-3 lands, not before. F5 diff and F7 audit results to be appended to this tracker on completion."
+  "notes": "CRESTv2-P1-WS12-REVIEW-001 processed 2026-06-27. WS-1/WS-2 status=blocked (blocked_by: WS-3) \u2014 dependency is machine visible. TKT-0359 re-opened \u2014 tracker lied (had as done when Notion=Backlog). F7 closure evidence: Notion state + enforcement gate test only. Tracker is inadmissible. F2 case normalization folded into TKT-0344 scope. WS-1/WS-2 will close together on referential evidence after WS-3 lands, not before. F5 diff and F7 audit results to be appended to this tracker on completion."
 }
