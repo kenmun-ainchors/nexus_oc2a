@@ -1,17 +1,17 @@
 {
-  "timestamp": "2026-07-11T23:51:27Z",
-  "aestTimestamp": "2026-07-12T09:51:27+1000",
+  "timestamp": "2026-07-12T08:33:15Z",
+  "aestTimestamp": "2026-07-12T18:33:15+1000",
   "gateway": {
-    "pid": "1530",
-    "uptime": "09:33:14",
-    "cpuPct": "105.6",
-    "rssKB": 1093616,
-    "rssMB": 1067
+    "pid": "29423",
+    "uptime": "01:57:25",
+    "cpuPct": "9.7",
+    "rssKB": 1231488,
+    "rssMB": 1202
   },
-  "nodeHeap": {"heapUsed":3862984,"heapTotal":6176768,"heapUsedMB":3.68,"heapTotalMB":5.89,"heapUsedPct":62.54,"rssMB":45.84,"externalMB":1.36},
+  "nodeHeap": {"heapUsed":3845160,"heapTotal":6176768,"heapUsedMB":3.67,"heapTotalMB":5.89,"heapUsedPct":62.25,"rssMB":45.8,"externalMB":1.36},
   "system": {
     "diskUsedPct": 5,
-    "dfOutput": "/dev/disk3s1s1   460Gi    12Gi   250Gi     5%    459k  2.6G    0%   /"
+    "dfOutput": "/dev/disk3s1s1   460Gi    12Gi   249Gi     5%    459k  2.6G    0%   /"
   },
   "thresholds": {
     "warningPct": 80,

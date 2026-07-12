@@ -1,3 +1,75 @@
+## 2026-07-12 18:31 AEST — [CHG-0872] OC2A commissioning and PROD migration
+**Type:** infra
+**Change Type:** Normal
+**Source:** ken-prompt
+**Trigger:** OC2A physical access now available; commission as new PROD and migrate from OC1
+**What changed:** Commission OC2-A Mac Mini M4 Pro 48GB as primary PROD gateway (port 18789). Configure SSH/Screen Sharing/Tailscale access. Install OpenClaw gateway, restore gateway config from OC1 snapshot. Validate health, sessions, crons, models. Cut over DNS/Tailscale routes to OC2-A. OC1 demoted to standby/emergency fallback. Executor: Yoda (orchestrator) + Forge (unattended build).
+**Why:** OC1 is permanently live but capacity-constrained (24GB, no local LLM >8B). OC2-A provides 48GB headroom for HA primary and future inference offload. Migration aligns with TRIGGER-03 (OC2 arrival) and PLATFORM-MIGRATION-2026 roadmap.
+**Verification:** Not yet verified. Verification pending OC2-A network access (SSH/Screen Sharing/Tailscale) and successful gateway health checks post-commission.
+**Rollback:** Revert DNS/Tailscale routes to OC1; restart OC1 gateway from latest config snapshot. OC1 remains operational as fallback.
+**Linked:** TKT-0722 (parked until OC2-A stable), TRIGGER-03, OC2-A, OC1, DELTA4
+---
+
+## 2026-07-12 16:54 AEST — [CHG-0871] TKT-0354 executed: state_standups PG primary write wired
+**Type:** data
+**Change Type:** Normal
+**Source:** ken-prompt
+**Trigger:** TKT-0354 CREST Execute phase completed
+**What changed:** state_standups extended with operational columns (last_standup_date, day_number, email_sent_at, email_sent_confirmed); generate-standup.sh and standup-email-send.sh wired for PG primary write; sync-check.sh path bug fixed; JSON confirmed as derived
+**Why:** CRESTv2-P1 WS-3: PG SSOT for standup state — gates TKT-0359 PG-first write policy
+**Verification:** .openclaw/tmp/TKT-0354-A7-verification.md; TKT-0354 status=done, synced to Notion
+**Rollback:** Re-open TKT-0354; revert generate-standup.sh and standup-email-send.sh changes; drop added columns from state_standups
+**Linked:** TKT-0354,TKT-0342,TKT-0359,CHG-0793
+---
+
+## 2026-07-12 12:42 AEST — [CHG-0870] Stage OC2A Option 4 plan document
+**Type:** config
+**Change Type:** Normal
+**Source:** ken-prompt
+**Trigger:** Ken approved OC2A Option 4 plan 2026-07-12 12:41 AEST
+**What changed:** docs/plans/OC2A-Fresh-Install-Plan-v1.0.md updated to Option 4 strong-separation model and staged in git
+**Why:** Plan document must be version-controlled before implementation begins
+**Verification:** git add docs/plans/OC2A-Fresh-Install-Plan-v1.0.md completed
+**Rollback:** N/A
+**Linked:** docs/plans/OC2A-Fresh-Install-Plan-v1.0.md
+---
+
+## 2026-07-12 12:42 AEST — [CHG-0869] Update TRIGGER-01 sub-actions for OC2A Option 4
+**Type:** config
+**Change Type:** Normal
+**Source:** ken-prompt
+**Trigger:** CHG-0868 OC2A implementation planning required trigger updates
+**What changed:** Added 01-OC2A-PRODUCTION sub-action under TRIGGER-01 linking CHG-0868 and tickets TKT-0757-TKT-0762; supersedes 01-PLATFORM-SEPARATION
+**Why:** Topology changed from OC1 business node to OC2A full production + OC1 sandbox
+**Verification:** state/chg-triggers.json updated with new sub-action
+**Rollback:** N/A
+**Linked:** state/chg-triggers.json, CHG-0868, TKT-0757, TKT-0758, TKT-0759, TKT-0760, TKT-0761, TKT-0762
+---
+
+## 2026-07-12 12:41 AEST — [CHG-0868] OC2A Fresh Install — Option 4 Strong Separation
+**Type:** infra
+**Change Type:** Normal
+**Source:** ken-prompt
+**Trigger:** Ken approved OC2A Option 4 plan 2026-07-12 12:41 AEST
+**What changed:** OC2A becomes self-governing full production Nexus; OC1 demoted to non-privileged sandbox with no admin path to OC2A; CREST implementation plan created with tickets TKT-0757 through TKT-0762
+**Why:** Strong separation prevents compromised/misconfigured OC1 sandbox from affecting production; Ken selected strongest isolation model
+**Verification:** Plan approval recorded in docs/plans/OC2A-Fresh-Install-Plan-v1.0.md; tickets created; triggers to be updated
+**Rollback:** N/A
+**Linked:** docs/plans/OC2A-Fresh-Install-Plan-v1.0.md, TKT-0757, TKT-0758, TKT-0759, TKT-0760, TKT-0761, TKT-0762
+---
+
+## 2026-07-12 11:00 AEST — [CHG-0867] OC1 reboot seamless remote access: FileVault off, auto-login on, OpenClaw node installed
+**Type:** infra
+**Change Type:** Normal
+**Source:** ken-prompt
+**Trigger:** OC1 rebooted and blocked at FileVault/login screen; manual login required for OpenClaw gateway and RustDesk to start
+**What changed:** FileVault disabled; macOS auto-login enabled for ainchorsangiefpl; OpenClaw node LaunchAgent installed and started (pid 14923); stale com.ainchors.rustdesk LaunchAgent plist moved to ~/.openclaw/tmp/stash/
+**Why:** Enable seamless remote access after hard reboot without manual intervention on OC1 (internal AInchors infra)
+**Verification:** Verified: fdesetup status = FileVault Off; defaults read com.apple.loginwindow autoLoginUser = ainchorsangiefpl; openclaw status shows Gateway service and Node service installed/loaded/running; launchctl list shows ai.openclaw.gateway, ai.openclaw.node, com.carriez.RustDesk_server loaded; ps aux shows RustDesk --server, RustDesk --cm, openclaw-node, and root RustDesk service running
+**Rollback:** Re-enable FileVault and disable auto-login via sysadminctl -autologin off; restore staled plist if needed
+**Linked:** TKT-0336 delegated auth health, TOOLS.md remote access, CHG-0545 CREST orchestrator-only mandate
+---
+
 ## 2026-07-12 09:54 AEST — [CHG-0866] LinkedIn token auto-health + refresh safeguards verified (CHG-0865 / TKT-0743)
 **Type:** script
 **Change Type:** Normal

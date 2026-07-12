@@ -111,6 +111,24 @@
             "TKT-0973"
           ],
           "note": "Deferred from CHG-0858 because outage-detect.sh probed localhost:11434, which is invalid for Ollama Cloud and risks false standby. Local fallback requires OC2 HA and Gemma4 local validation (TRIGGER-03)."
+        },
+        {
+          "id": "01-OC2A-PRODUCTION",
+          "name": "OC2A Fresh Install — Option 4 Strong Separation",
+          "priority": "critical",
+          "action": "Execute docs/plans/OC2A-Fresh-Install-Plan-v1.0.md. OC2A becomes self-governing full production Nexus; OC1 demoted to non-privileged sandbox with no admin path to OC2A. Phases sequenced as TKT-0757 through TKT-0762. Begin after 01-PHYSICAL and 01-OPENCLAW complete.",
+          "linkedChgs": [
+            "CHG-0868"
+          ],
+          "linkedTkts": [
+            "TKT-0757",
+            "TKT-0758",
+            "TKT-0759",
+            "TKT-0760",
+            "TKT-0761",
+            "TKT-0762"
+          ],
+          "note": "Replaces prior Platform Separation sub-action (01-PLATFORM-SEPARATION) which assumed OC1 business-only node. New model: OC2A full production, OC1 sandbox only, strong separation."
         }
       ]
     },

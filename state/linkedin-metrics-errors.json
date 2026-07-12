@@ -1,5 +1,13 @@
 {
-  "account": "angie",
-  "lastChecked": "2026-07-11T00:00:00Z",
-  "errors": []
+  "account": "business",
+  "lastChecked": "2026-07-12T00:02:00Z",
+  "errors": [
+    {
+      "contentId": "LI-W2-P4-visa-openai-company",
+      "postUrn": "urn:li:share:7475350130762731520",
+      "timestamp": "2026-07-12T00:02:00Z",
+      "error": "Token expired — re-run: zsh scripts/linkedin-auth.sh --account business",
+      "code": 401
+    }
+  ]
 }

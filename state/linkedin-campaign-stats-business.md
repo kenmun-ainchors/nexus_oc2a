@@ -1,6 +1,6 @@
 # LinkedIn Business Account — Daily Metrics Snapshot
 
-**Snapshot time:** 2026-07-11 10:02 AEST (Sat)
+**Snapshot time:** 2026-07-12 10:02 AEST (Sun)
 **Account:** AInchors company page (business)
 
 ## Published Posts
@@ -20,3 +20,4 @@
 - LinkedIn OAuth token for business account has expired.
 - Re-auth requires browser-based OAuth flow (port 8765 callback).
 - Run `zsh scripts/linkedin-auth.sh --account business` from a terminal to refresh.
+- Last error logged: 2026-07-12 10:02 AEST

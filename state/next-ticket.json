@@ -1,23 +1,23 @@
 {
-  "ticket": "TKT-0344",
-  "sprint": "Sprint 9",
-  "sprint_seq": 10,
+  "ticket": "TKT-0342",
+  "sprint": "Sprint 11",
+  "sprint_seq": 3,
   "status": "open",
   "priority": "critical",
-  "effort": "M",
+  "effort": "XL",
   "agent": "forge",
-  "reason": "tracker-override",
+  "reason": "active-sprint-ready",
   "current_sprint": {
-    "name": "Sprint 9",
-    "status": "in_progress",
-    "dates": "2026-06-22 to 2026-06-28",
-    "completion": "60%",
+    "name": "Sprint 11",
+    "status": "committed",
+    "dates": "2026-07-06 to 2026-07-12",
+    "completion": "38%",
     "is_active": true
   },
   "next_sprint": {
-    "name": "Sprint 10",
-    "status": "committed",
-    "dates": "2026-06-29 to 2026-07-05",
-    "completion": "25%"
+    "name": null,
+    "status": null,
+    "dates": null,
+    "completion": "0%"
   }
 }

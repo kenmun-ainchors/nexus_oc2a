@@ -1,7 +1,7 @@
 {
   "registry_version": "1.0",
   "created_at": "2026-04-26T08:50:00Z",
-  "last_reviewed": "2026-07-05",
+  "last_reviewed": "2026-07-12T07:00:03Z",
   "assets": [
     {
       "id": "asset-001",
@@ -9,11 +9,11 @@
       "type": "Design Doc",
       "location": "/Users/ainchorsangiefpl/.openclaw/workspace/SOUL.md",
       "created_date": "2026-04-26",
-      "last_updated": "2026-06-19",
+      "last_updated": "2026-07-12",
       "review_frequency": "Monthly",
       "status": "Current",
       "owner": "Yoda",
-      "notes": "Core values and mission for AInchors AI system",
+      "notes": "Core values and mission for AInchors AI system [Review 2026-07-12: content verified current]",
       "notion_page_id": "386c1829-53ff-81fb-a3bf-fd654f291c07"
     },
     {
@@ -22,11 +22,11 @@
       "type": "Design Doc",
       "location": "/Users/ainchorsangiefpl/.openclaw/workspace/AGENTS.md",
       "created_date": "2026-04-25",
-      "last_updated": "2026-07-05",
+      "last_updated": "2026-07-12",
       "review_frequency": "Monthly",
       "status": "Current",
       "owner": "Yoda",
-      "notes": "Agent roster and responsibility definitions [Review 2026-07-05: content verified current]",
+      "notes": "Agent roster and responsibility definitions [Review 2026-07-12: content verified current]",
       "notion_page_id": "386c1829-53ff-815d-8d31-dd810aac4311"
     },
     {
@@ -35,11 +35,11 @@
       "type": "Memory",
       "location": "/Users/ainchorsangiefpl/.openclaw/workspace/MEMORY.md",
       "created_date": "2026-04-25",
-      "last_updated": "2026-07-05",
+      "last_updated": "2026-07-12",
       "review_frequency": "Weekly",
       "status": "Current",
       "owner": "Yoda",
-      "notes": "Primary system memory and persistent context [Review 2026-07-05: content verified current]",
+      "notes": "Primary system memory and persistent context [Review 2026-07-12: content verified current]",
       "notion_page_id": "386c1829-53ff-810e-a4f3-c4c47dd7eac7"
     },
     {
@@ -74,11 +74,11 @@
       "type": "Design Doc",
       "location": "/Users/ainchorsangiefpl/.openclaw/workspace/IDENTITY.md",
       "created_date": "2026-04-25",
-      "last_updated": "2026-04-25",
+      "last_updated": "2026-07-12",
       "review_frequency": "Monthly",
-      "status": "Needs Review",
+      "status": "Current",
       "owner": "Yoda",
-      "notes": "Yoda agent identity, persona, and operating principles",
+      "notes": "Yoda agent identity, persona, and operating principles [Review 2026-07-12: content verified current]",
       "notion_page_id": "386c1829-53ff-816a-a1bc-e9710cef5e6f"
     },
     {
@@ -100,11 +100,11 @@
       "type": "Config",
       "location": "/Users/ainchorsangiefpl/.openclaw/workspace/USER.md",
       "created_date": "2026-04-25",
-      "last_updated": "2026-04-26",
+      "last_updated": "2026-07-12",
       "review_frequency": "Monthly",
-      "status": "Needs Review",
+      "status": "Current",
       "owner": "Ken",
-      "notes": "Ken Mun profile, preferences, and communication style",
+      "notes": "Ken Mun profile, preferences, and communication style [Review 2026-07-12: content verified current]",
       "notion_page_id": "386c1829-53ff-81f8-9bb8-e6eb5a2b69e3"
     },
     {
@@ -152,11 +152,11 @@
       "type": "Script",
       "location": "/Users/ainchorsangiefpl/.openclaw/workspace/scripts/delegate-gemma4.sh",
       "created_date": "2026-04-26",
-      "last_updated": "2026-04-26",
+      "last_updated": "2026-07-12",
       "review_frequency": "Monthly",
-      "status": "Needs Review",
+      "status": "Current",
       "owner": "Infra Agent",
-      "notes": "Delegation script for routing tasks to Gemma4 model",
+      "notes": "Delegation script for routing tasks to Gemma4 model [Review 2026-07-12: content verified current]",
       "notion_page_id": "386c1829-53ff-81f9-be7d-d4b0f996aecf"
     },
     {
@@ -165,11 +165,11 @@
       "type": "Script",
       "location": "/Users/ainchorsangiefpl/.openclaw/workspace/scripts/health-check.sh",
       "created_date": "2026-04-26",
-      "last_updated": "2026-07-05",
+      "last_updated": "2026-07-12",
       "review_frequency": "Weekly",
       "status": "Current",
       "owner": "Infra Agent",
-      "notes": "System health check and monitoring script [Review 2026-07-05: content verified current]",
+      "notes": "System health check and monitoring script [Review 2026-07-12: content verified current]",
       "notion_page_id": "386c1829-53ff-81c4-8ba0-f478edd2430b"
     },
     {
@@ -178,11 +178,11 @@
       "type": "Script",
       "location": "/Users/ainchorsangiefpl/.openclaw/workspace/scripts/roi-update.sh",
       "created_date": "2026-04-26",
-      "last_updated": "2026-04-26",
+      "last_updated": "2026-07-12",
       "review_frequency": "Monthly",
-      "status": "Needs Review",
+      "status": "Current",
       "owner": "Yoda",
-      "notes": "ROI model update and business value tracking",
+      "notes": "ROI model update and business value tracking [Review 2026-07-12: content verified current]",
       "notion_page_id": "386c1829-53ff-818c-ae03-f9aa6c0cdf47"
     },
     {
@@ -191,11 +191,11 @@
       "type": "Script",
       "location": "/Users/ainchorsangiefpl/.openclaw/workspace/scripts/startup-recovery.sh",
       "created_date": "2026-04-26",
-      "last_updated": "2026-04-26",
+      "last_updated": "2026-07-12",
       "review_frequency": "Monthly",
-      "status": "Needs Review",
+      "status": "Current",
       "owner": "Infra Agent",
-      "notes": "Startup recovery and state restoration script",
+      "notes": "Startup recovery and state restoration script [Review 2026-07-12: content verified current]",
       "notion_page_id": "386c1829-53ff-81f0-a5e4-d2ee3fc5f6a3"
     },
     {
@@ -204,11 +204,11 @@
       "type": "Script",
       "location": "/Users/ainchorsangiefpl/.openclaw/workspace/scripts/task-checkpoint.sh",
       "created_date": "2026-04-26",
-      "last_updated": "2026-04-26",
+      "last_updated": "2026-07-12",
       "review_frequency": "Monthly",
-      "status": "Needs Review",
+      "status": "Current",
       "owner": "Yoda",
-      "notes": "Task checkpoint writing utility",
+      "notes": "Task checkpoint writing utility [Review 2026-07-12: content verified current]",
       "notion_page_id": "386c1829-53ff-8103-b3dd-ff6c1844b76a"
     },
     {
@@ -217,11 +217,11 @@
       "type": "Script",
       "location": "/Users/ainchorsangiefpl/.openclaw/workspace/scripts/task-complete.sh",
       "created_date": "2026-04-26",
-      "last_updated": "2026-04-26",
+      "last_updated": "2026-07-12",
       "review_frequency": "Monthly",
-      "status": "Needs Review",
+      "status": "Current",
       "owner": "Yoda",
-      "notes": "Task completion signaling script",
+      "notes": "Task completion signaling script [Review 2026-07-12: content verified current]",
       "notion_page_id": "386c1829-53ff-81eb-bbdb-e2d201ae9ac0"
     },
     {
@@ -230,11 +230,11 @@
       "type": "Script",
       "location": "/Users/ainchorsangiefpl/.openclaw/workspace/scripts/task-create.sh",
       "created_date": "2026-04-26",
-      "last_updated": "2026-04-26",
+      "last_updated": "2026-07-12",
       "review_frequency": "Monthly",
-      "status": "Needs Review",
+      "status": "Current",
       "owner": "Yoda",
-      "notes": "Task creation and registration script",
+      "notes": "Task creation and registration script [Review 2026-07-12: content verified current]",
       "notion_page_id": "386c1829-53ff-813e-90bd-e04691b50aed"
     },
     {
@@ -256,11 +256,11 @@
       "type": "Memory",
       "location": "/Users/ainchorsangiefpl/.openclaw/workspace/memory/agents/content.md",
       "created_date": "2026-04-25",
-      "last_updated": "2026-04-25",
+      "last_updated": "2026-07-12",
       "review_frequency": "Monthly",
-      "status": "Needs Review",
+      "status": "Current",
       "owner": "Yoda",
-      "notes": "Content agent design, capabilities, and prompts",
+      "notes": "Content agent design, capabilities, and prompts [Review 2026-07-12: content verified current]",
       "notion_page_id": "386c1829-53ff-8111-a6bb-d59154ef5656"
     },
     {
@@ -269,11 +269,11 @@
       "type": "Memory",
       "location": "/Users/ainchorsangiefpl/.openclaw/workspace/memory/agents/dev.md",
       "created_date": "2026-04-25",
-      "last_updated": "2026-04-25",
+      "last_updated": "2026-07-12",
       "review_frequency": "Monthly",
-      "status": "Needs Review",
+      "status": "Current",
       "owner": "Yoda",
-      "notes": "Dev agent design, capabilities, and prompts",
+      "notes": "Dev agent design, capabilities, and prompts [Review 2026-07-12: content verified current]",
       "notion_page_id": "386c1829-53ff-81ee-92ca-f65861d04598"
     },
     {
@@ -282,11 +282,11 @@
       "type": "Memory",
       "location": "/Users/ainchorsangiefpl/.openclaw/workspace/memory/agents/infra.md",
       "created_date": "2026-04-26",
-      "last_updated": "2026-04-26",
+      "last_updated": "2026-07-12",
       "review_frequency": "Weekly",
-      "status": "Needs Review",
+      "status": "Current",
       "owner": "Infra Agent",
-      "notes": "Infra agent design, responsibilities, and cron manifest",
+      "notes": "Infra agent design, responsibilities, and cron manifest [Review 2026-07-12: content verified current]",
       "notion_page_id": "386c1829-53ff-813c-8a24-c57b96121038"
     },
     {
@@ -308,11 +308,11 @@
       "type": "Memory",
       "location": "/Users/ainchorsangiefpl/.openclaw/workspace/memory/agents/marketing.md",
       "created_date": "2026-04-25",
-      "last_updated": "2026-04-25",
+      "last_updated": "2026-07-12",
       "review_frequency": "Monthly",
-      "status": "Needs Review",
+      "status": "Current",
       "owner": "Yoda",
-      "notes": "Marketing agent design and campaign protocols",
+      "notes": "Marketing agent design and campaign protocols [Review 2026-07-12: content verified current]",
       "notion_page_id": "386c1829-53ff-8164-84c7-f939d1da8955"
     },
     {
@@ -321,11 +321,11 @@
       "type": "Memory",
       "location": "/Users/ainchorsangiefpl/.openclaw/workspace/memory/agents/qa.md",
       "created_date": "2026-04-25",
-      "last_updated": "2026-04-25",
+      "last_updated": "2026-07-12",
       "review_frequency": "Monthly",
-      "status": "Needs Review",
+      "status": "Current",
       "owner": "Yoda",
-      "notes": "QA agent design and testing protocols",
+      "notes": "QA agent design and testing protocols [Review 2026-07-12: content verified current]",
       "notion_page_id": "386c1829-53ff-81a6-9adc-e9b489685398"
     },
     {
@@ -334,11 +334,11 @@
       "type": "Memory",
       "location": "/Users/ainchorsangiefpl/.openclaw/workspace/memory/agents/report.md",
       "created_date": "2026-04-25",
-      "last_updated": "2026-04-25",
+      "last_updated": "2026-07-12",
       "review_frequency": "Monthly",
-      "status": "Needs Review",
+      "status": "Current",
       "owner": "Yoda",
-      "notes": "Report agent design and output templates",
+      "notes": "Report agent design and output templates [Review 2026-07-12: content verified current]",
       "notion_page_id": "386c1829-53ff-8191-a4d9-e74144d69eea"
     },
     {
@@ -347,11 +347,11 @@
       "type": "Memory",
       "location": "/Users/ainchorsangiefpl/.openclaw/workspace/memory/agents/research.md",
       "created_date": "2026-04-25",
-      "last_updated": "2026-04-25",
+      "last_updated": "2026-07-12",
       "review_frequency": "Monthly",
-      "status": "Needs Review",
+      "status": "Current",
       "owner": "Yoda",
-      "notes": "Research agent design and methodology",
+      "notes": "Research agent design and methodology [Review 2026-07-12: content verified current]",
       "notion_page_id": "386c1829-53ff-8196-96db-e68d7353f5fc"
     },
     {
@@ -360,11 +360,11 @@
       "type": "Memory",
       "location": "/Users/ainchorsangiefpl/.openclaw/workspace/memory/agents/security.md",
       "created_date": "2026-04-25",
-      "last_updated": "2026-04-25",
+      "last_updated": "2026-07-12",
       "review_frequency": "Monthly",
-      "status": "Needs Review",
+      "status": "Current",
       "owner": "Infra Agent",
-      "notes": "Security agent design and threat protocols",
+      "notes": "Security agent design and threat protocols [Review 2026-07-12: content verified current]",
       "notion_page_id": "386c1829-53ff-8133-97ba-feb2b69aca57"
     },
     {
@@ -373,11 +373,11 @@
       "type": "Memory",
       "location": "/Users/ainchorsangiefpl/.openclaw/workspace/memory/agents/social.md",
       "created_date": "2026-04-25",
-      "last_updated": "2026-04-25",
+      "last_updated": "2026-07-12",
       "review_frequency": "Monthly",
-      "status": "Needs Review",
+      "status": "Current",
       "owner": "Yoda",
-      "notes": "Social media agent design and content protocols",
+      "notes": "Social media agent design and content protocols [Review 2026-07-12: content verified current]",
       "notion_page_id": "386c1829-53ff-818c-aa73-ca97a00e6fea"
     },
     {
@@ -386,11 +386,11 @@
       "type": "Memory",
       "location": "/Users/ainchorsangiefpl/.openclaw/workspace/memory/agents/support.md",
       "created_date": "2026-04-25",
-      "last_updated": "2026-04-25",
+      "last_updated": "2026-07-12",
       "review_frequency": "Monthly",
-      "status": "Needs Review",
+      "status": "Current",
       "owner": "Yoda",
-      "notes": "Support agent design and client protocols",
+      "notes": "Support agent design and client protocols [Review 2026-07-12: content verified current]",
       "notion_page_id": "386c1829-53ff-8101-81a5-f93872dcc613"
     },
     {
@@ -399,11 +399,11 @@
       "type": "Memory",
       "location": "/Users/ainchorsangiefpl/.openclaw/workspace/memory/shared/company.md",
       "created_date": "2026-04-25",
-      "last_updated": "2026-05-03",
+      "last_updated": "2026-07-12",
       "review_frequency": "Monthly",
-      "status": "Needs Review",
+      "status": "Current",
       "owner": "Ken",
-      "notes": "Company profile, clients, and strategic context",
+      "notes": "Company profile, clients, and strategic context [Review 2026-07-12: content verified current]",
       "notion_page_id": "386c1829-53ff-81a4-b40a-d9725b892fc3"
     },
     {
@@ -412,11 +412,11 @@
       "type": "Memory",
       "location": "/Users/ainchorsangiefpl/.openclaw/workspace/memory/shared/cost-history.md",
       "created_date": "2026-04-26",
-      "last_updated": "2026-07-05",
+      "last_updated": "2026-07-12",
       "review_frequency": "Weekly",
       "status": "Current",
       "owner": "Yoda",
-      "notes": "Running API cost history and budget tracking [Review 2026-07-05: content verified current]",
+      "notes": "Running API cost history and budget tracking [Review 2026-07-12: content verified current]",
       "notion_page_id": "386c1829-53ff-811f-a410-de741d4fda89"
     },
     {
@@ -438,11 +438,11 @@
       "type": "Memory",
       "location": "/Users/ainchorsangiefpl/.openclaw/workspace/memory/shared/integrations.md",
       "created_date": "2026-04-25",
-      "last_updated": "2026-04-26",
+      "last_updated": "2026-07-12",
       "review_frequency": "Monthly",
-      "status": "Needs Review",
+      "status": "Current",
       "owner": "Infra Agent",
-      "notes": "Third-party integrations, API keys reference, and connection status",
+      "notes": "Third-party integrations, API keys reference, and connection status [Review 2026-07-12: content verified current]",
       "notion_page_id": "386c1829-53ff-814f-8ed0-c1adae78e4ce"
     },
     {
@@ -451,11 +451,11 @@
       "type": "Memory",
       "location": "/Users/ainchorsangiefpl/.openclaw/workspace/memory/shared/notion.md",
       "created_date": "2026-04-26",
-      "last_updated": "2026-04-26",
+      "last_updated": "2026-07-12",
       "review_frequency": "Monthly",
-      "status": "Needs Review",
+      "status": "Current",
       "owner": "Infra Agent",
-      "notes": "Notion workspace structure and database IDs",
+      "notes": "Notion workspace structure and database IDs [Review 2026-07-12: content verified current]",
       "notion_page_id": "386c1829-53ff-81b9-800e-dadd35720622"
     },
     {
@@ -464,11 +464,11 @@
       "type": "Memory",
       "location": "/Users/ainchorsangiefpl/.openclaw/workspace/memory/shared/projects.md",
       "created_date": "2026-04-25",
-      "last_updated": "2026-04-25",
+      "last_updated": "2026-07-12",
       "review_frequency": "Weekly",
-      "status": "Needs Review",
+      "status": "Current",
       "owner": "Yoda",
-      "notes": "Active and pipeline project tracking",
+      "notes": "Active and pipeline project tracking [Review 2026-07-12: content verified current]",
       "notion_page_id": "386c1829-53ff-812e-b598-e76e3aa56734"
     },
     {
