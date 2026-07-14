@@ -1,3 +1,27 @@
+## 2026-07-14 18:46 AEST — [CHG-0878] OC1 DB migration to OC2A
+**Type:** infra
+**Change Type:** Normal
+**Source:** ken-prompt
+**Trigger:** OC1 PG dump restored and renamed to live ainchors_nexus on OC2A
+**What changed:** Migrated ainchors_nexus from OC1 to OC2A via pg_dump; 48 tables, 385 tickets, 10 sprints, 853 CHGs
+**Why:** Restore historical platform state on live PROD after OC2A cutover
+**Verification:** pg_restore completed; db-ticket.sh/db-sprint.sh/db-write.sh/changelog-append.sh functional; backup saved
+**Rollback:** Restore from ~/Downloads/ainchors_nexus-oc2a-pre-oc1-replace-*.dump
+**Linked:** none
+---
+
+## 2026-07-14 18:38 AEST — [CHG-0877] OC1 Restore Test CHG
+**Type:** infra
+**Change Type:** Normal
+**Source:** ken-prompt
+**Trigger:** PG sync test
+**What changed:** Test write to state_changes
+**Why:** Verify OC1 schema compatibility
+**Verification:** Script reached PG
+**Rollback:** N/A
+**Linked:** none
+---
+
 ## 2026-07-14 15:23 AEST — [CHG-1790] Housekeeping: commit intentional git deletions and clean workspace
 **Type:** infra
 **Change Type:** Normal

@@ -21,10 +21,17 @@ AUDIT_SCRIPT="$WORKSPACE/scripts/pg-write-audit-event.sh"
 _capture_prev_state() {
   local table="$1" row_id="$2"
   if [[ -z "$row_id" ]]; then echo "null"; return; fi
-  bash "$DB" -c "SELECT to_jsonb(t) FROM ${table} t WHERE id='${row_id}' LIMIT 1" 2>/dev/null | head -1
+  bash "$DB" -c "SELECT to_jsonb(t) FROM ${table} t WHERE ${PK_COL:-id}='${row_id}' LIMIT 1" 2>/dev/null | head -1
 }
 
 TABLE="$1"; DATA="$2"; ID="${3:-}"
+
+# Determine primary key column for the target table (default id)
+PK_COL="id"
+if [[ -n "$TABLE" && -n "$ID" ]]; then
+  PK_COL=$(psql -t -A -c "SELECT a.attname FROM pg_index i JOIN pg_attribute a ON a.attrelid = i.indrelid AND a.attnum = ANY(i.indkey) WHERE i.indrelid = '${TABLE}'::regclass AND i.indisprimary AND array_length(i.indkey, 1) = 1 LIMIT 1" 2>/dev/null | head -1 | tr -d '\n')
+  [[ -z "$PK_COL" ]] && PK_COL="id"
+fi
 
 if [[ -z "$TABLE" || -z "$DATA" ]]; then
   echo '{"error":"usage: db-write.sh <table> <json> <id>"}' 1>&2
@@ -45,6 +52,8 @@ trap 'rm -f "$PY_SQL" "$PY_FB"' EXIT
 cat > "$PY_SQL" <<'PYEOF'
 import json, subprocess, os, sys, shutil
 
+pk_col = os.environ.get('PK_COL', 'id')
+
 psql_bin = os.environ.get("PSQL_BIN") or shutil.which("psql") or (subprocess.check_output(["brew", "--prefix"], text=True).strip() + "/bin/psql")
 
 try:
@@ -61,7 +70,7 @@ normalized_data = {column_aliases.get(k, k): v for k, v in data.items()}
 
 # Query valid columns + types from PG (TKT-0408: also need types for json/jsonb casting)
 env = os.environ.copy()
-env.update({"PGHOST": "/tmp", "PGPORT": "5432", "PGUSER": os.environ.get("PGUSER") or os.environ.get("USER") or "", "PGDATABASE": "ainchors_nexus"})
+env.update({"PGHOST": "/tmp", "PGPORT": "5432", "PGUSER": os.environ.get("PGUSER") or os.environ.get("USER") or "", "PGDATABASE": os.environ.get("PGDATABASE") or "ainchors_nexus"})
 try:
     result = subprocess.run(
         [psql_bin, "-t", "-A", "-F", "|", "-c",
@@ -87,7 +96,7 @@ row_exists = False
 try:
     exists_result = subprocess.run(
         [psql_bin, "-t", "-A", "-c",
-         f"SELECT 1 FROM {table} WHERE id='{task_id}' LIMIT 1"],
+         f"SELECT 1 FROM {table} WHERE {pk_col}='{task_id}' LIMIT 1"],
         capture_output=True, text=True, timeout=5, env=env
     )
     if exists_result.stdout.strip() == '1':
@@ -99,7 +108,7 @@ except Exception:
 known_fields = {}
 unknown_fields = {}
 for k, v in normalized_data.items():
-    if k == 'id': continue
+    if k == pk_col: continue
     (known_fields if k in valid_cols else unknown_fields)[k] = v
 
 if unknown_fields:
@@ -157,9 +166,9 @@ if row_exists and not safe_mode:
     if not update_cols:
         # Nothing to update — emit no-op that still touches updated_at
         if 'updated_at' in valid_cols:
-            print(f"UPDATE {table} SET updated_at=NOW() WHERE id='{task_id}'")
+            print(f"UPDATE {table} SET updated_at=NOW() WHERE {pk_col}='{task_id}'")
         else:
-            print(f"UPDATE {table} SET id='{task_id}' WHERE id='{task_id}'")
+            print(f"UPDATE {table} SET {pk_col}='{task_id}' WHERE {pk_col}='{task_id}'")
         sys.exit(0)
     sets = []
     for k in update_cols:
@@ -190,15 +199,15 @@ if row_exists and not safe_mode:
                 sets.append(f"{k}=ARRAY[" + ",".join(f"'{elem}'" for elem in elems) + f"]::{col_type}")
         else:
             sets.append(f"{k}='{str(v).replace(chr(39), chr(39)*2)}'")
-    print(f"UPDATE {table} SET {','.join(sets)} WHERE id='{task_id}'")
+    print(f"UPDATE {table} SET {','.join(sets)} WHERE {pk_col}='{task_id}'")
     sys.exit(0)
 
 # New row (or SAFE_MODE on existing row) → INSERT, optionally with conflict clause
 if not cols:
     if safe_mode:
-        print(f"INSERT INTO {table} (id) VALUES ('{task_id}') ON CONFLICT (id) DO NOTHING")
+        print(f"INSERT INTO {table} ({pk_col}) VALUES ('{task_id}') ON CONFLICT ({pk_col}) DO NOTHING")
     else:
-        print(f"INSERT INTO {table} (id) VALUES ('{task_id}')")
+        print(f"INSERT INTO {table} ({pk_col}) VALUES ('{task_id}')")
     sys.exit(0)
 
 vals = []
@@ -229,13 +238,13 @@ for k in cols:
 
 # TKT-0538: SAFE mode = DO NOTHING. Normal new-row mode = plain INSERT (no ON CONFLICT).
 if safe_mode:
-    conflict_clause = "ON CONFLICT (id) DO NOTHING"
-    print(f"INSERT INTO {table} (id, {','.join(cols)}) VALUES ('{task_id}', {','.join(vals)}) {conflict_clause}")
+    conflict_clause = f"ON CONFLICT ({pk_col}) DO NOTHING"
+    print(f"INSERT INTO {table} ({pk_col}, {','.join(cols)}) VALUES ('{task_id}', {','.join(vals)}) {conflict_clause}")
 else:
-    print(f"INSERT INTO {table} (id, {','.join(cols)}) VALUES ('{task_id}', {','.join(vals)})")
+    print(f"INSERT INTO {table} ({pk_col}, {','.join(cols)}) VALUES ('{task_id}', {','.join(vals)})")
 PYEOF
 
-export TABLE ID
+export TABLE ID PK_COL
 SQL=$(printf '%s' "$DATA" | python3 "$PY_SQL")
 PY_EXIT=$?
 
@@ -307,11 +316,11 @@ fi
 
 if [[ "$PG_EXIT" == "0" ]]; then
   # TKT-0311: Post-write verification
-  VERIFY=$(bash "$DB" -c "SELECT id FROM $TABLE WHERE id='$ID'" 2>/dev/null)
+  VERIFY=$(bash "$DB" -c "SELECT ${PK_COL:-id} FROM $TABLE WHERE ${PK_COL:-id}='$ID'" 2>/dev/null)
   if [[ "$VERIFY" == *"$ID"* ]]; then
     # TKT-0313: SAFE_MODE collision detection
     if [ "${DBWRITE_SAFE_MODE:-0}" = "1" ]; then
-      EXISTING_TITLE=$(bash "$DB" -c "SELECT title FROM $TABLE WHERE id='$ID'" 2>/dev/null | tail -1)
+      EXISTING_TITLE=$(bash "$DB" -c "SELECT title FROM $TABLE WHERE ${PK_COL:-id}='$ID'" 2>/dev/null | tail -1)
       NEW_TITLE=$(printf '%s' "$DATA" | python3 -c "import json,sys; d=json.load(sys.stdin); print(d.get('title',''))" 2>/dev/null)
       if [ -n "$NEW_TITLE" ] && [ -n "$EXISTING_TITLE" ] && [ "$EXISTING_TITLE" != "$NEW_TITLE" ]; then
         echo '{"status":"collision","backend":"postgres","id":"'"$ID"'","error":"Ticket ID already exists with different title","existing_title":"'"$EXISTING_TITLE"'","new_title":"'"$NEW_TITLE"'"}' 1>&2
