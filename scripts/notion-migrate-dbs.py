@@ -4,9 +4,9 @@ import json, time, sys, os
 
 NOTION_KEY = open(os.path.expanduser("~/.config/notion/api_key")).read().strip()
 API_VER = "2022-06-28"
-DB_A = "34dc1829-53ff-814b-8257-d3a3bf351d44"
-DB_B = "364c1829-53ff-81c0-9dbd-ff2c907d1a6b"
-DB_C = "364c1829-53ff-818e-a783-ebafcb6a9880"
+DB_A = "39d890b6-ece8-81bf-9c3a-eb784cf09c05"
+DB_B = "39d890b6-ece8-8101-8516-f515f0905ca9"
+DB_C = "39d890b6-ece8-81fd-8826-d250c3c2df13"
 
 HEADERS = {
     "Authorization": f"Bearer {NOTION_KEY}",

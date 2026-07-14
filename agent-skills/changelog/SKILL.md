@@ -38,7 +38,7 @@ Records use `[CHG-NNNN]` format, auto-incremented by the script. The file lives 
 ## Notion Sync
 
 CHG records go to **Notion Archive DB (DB C)**, NOT the Sprint Backlog. The script handles Notion sync automatically.
-- DB C (Archive): `364c1829-53ff-818e-a783-ebafcb6a9880`
+- DB C (Archive): `39d890b6-ece8-81fd-8826-d250c3c2df13`
 
 ## Validation
 
@@ -50,4 +50,4 @@ CHG records go to **Notion Archive DB (DB C)**, NOT the Sprint Backlog. The scri
 
 ## Reference
 
-Notion DBs: see `TOOLS.md` (CHG-0401 3-DB architecture). Archive DB C: `364c1829-53ff-818e-a783-ebafcb6a9880`
+Notion DBs: see `TOOLS.md` (CHG-0401 3-DB architecture). Archive DB C: `39d890b6-ece8-81fd-8826-d250c3c2df13`

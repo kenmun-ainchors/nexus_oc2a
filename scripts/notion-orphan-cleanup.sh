@@ -17,9 +17,9 @@ SUMMARY_FILE="$WORKSPACE_ROOT/state/notion-orphan-cleanup-2026-06-10.json"
 NOTION_KEY_FILE="$HOME/.config/notion/api_key"
 NOTION_KEY=$(cat "$NOTION_KEY_FILE")
 NOTION_VERSION="2022-06-28"
-BACKLOG_DB="34dc1829-53ff-814b-8257-d3a3bf351d44"   # DB A
-ARCHIVE_DB="364c1829-53ff-818e-a783-ebafcb6a9880"     # DB C (Completed-Archived)
-AUTOHEAL_DB="364c1829-53ff-81c0-9dbd-ff2c907d1a6b"   # DB B
+BACKLOG_DB="39d890b6-ece8-81bf-9c3a-eb784cf09c05"   # DB A
+ARCHIVE_DB="39d890b6-ece8-81fd-8826-d250c3c2df13"     # DB C (Completed-Archived)
+AUTOHEAL_DB="39d890b6-ece8-8101-8516-f515f0905ca9"   # DB B
 
 # Stats
 ARCHIVED_TKT=0
@@ -58,7 +58,7 @@ python3 << 'PYEOF' > "$WORKSPACE_ROOT/.openclaw/tmp/all-pages.json"
 import json, subprocess, sys, os
 
 API_KEY = os.environ.get('NOTION_KEY', open(os.path.expanduser('~/.config/notion/api_key')).read().strip())
-DB_ID = "34dc1829-53ff-814b-8257-d3a3bf351d44"
+DB_ID = "39d890b6-ece8-81bf-9c3a-eb784cf09c05"
 HEADERS = [
     "-H", f"Authorization: Bearer {API_KEY}",
     "-H", "Notion-Version: 2022-06-28",
@@ -331,7 +331,7 @@ summary = {
         "errors": $ERRORS
     },
     "changelog_append_fix": {
-        "root_cause": "changelog-append.sh writes CHG records to Backlog DB (DB A: 34dc1829-53ff-814b-8257-d3a3bf351d44) instead of Archive DB (DB C: 364c1829-53ff-818e-a783-ebafcb6a9880)",
+        "root_cause": "changelog-append.sh writes CHG records to Backlog DB (DB A: 39d890b6-ece8-81bf-9c3a-eb784cf09c05) instead of Archive DB (DB C: 39d890b6-ece8-81fd-8826-d250c3c2df13)",
         "schema_mismatch": "Archive DB has different property names (Title, Type, Status, Completed Date, Description, Original ID, Priority) vs Backlog DB (US Title, Status, Type, Created Date, Notes, Priority, Effort, Sprint)",
         "fix_applied": "changelog-append.sh updated to write future CHG records to Archive DB with compatible schema",
         "existing_chgs_actioned": "All 162 CHG records archived from Backlog DB"

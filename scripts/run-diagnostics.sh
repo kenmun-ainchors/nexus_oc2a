@@ -144,7 +144,7 @@ phase "3. Integration Tests"
 # Notion — read database
 NOTION_KEY=$(cat "$HOME/.config/notion/api_key" 2>/dev/null || security find-generic-password -s notion-api-key -w 2>/dev/null || echo "")
 if [[ -n "$NOTION_KEY" ]]; then
-  N_RESP=$(curl -sS -m 10 -X GET "https://api.notion.com/v1/databases/34dc182953ff814b8257d3a3bf351d44" \
+  N_RESP=$(curl -sS -m 10 -X GET "https://api.notion.com/v1/databases/39d890b6ece881bf9c3aeb784cf09c05" \
     -H "Authorization: Bearer $NOTION_KEY" -H "Notion-Version: 2022-06-28" 2>&1)
   if echo "$N_RESP" | jq -e '.id' > /dev/null 2>&1; then
     pass "notion api: backlog db read ok"

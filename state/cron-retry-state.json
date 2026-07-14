@@ -4,10 +4,10 @@
     "2c855a3e": {
       "cronId": "2c855a3e",
       "name": "PG-Notion Batch Sync (30-min)",
-      "consecutiveTimeouts": 3,
-      "totalTimeouts": 3,
+      "consecutiveTimeouts": 11,
+      "totalTimeouts": 11,
       "retriesUsed": 2,
-      "lastTimeoutAt": "2026-07-08T02:19:18.791417+00:00",
+      "lastTimeoutAt": "2026-07-14T08:06:35.031582+00:00",
       "nextRetryBackoffMs": 240000,
       "deadLetter": false
     },

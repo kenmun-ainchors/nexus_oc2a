@@ -14,7 +14,7 @@ source "${SCRIPT_DIR:-$(dirname "$0")}/skill-gate.sh" "notion" || exit $?
 
 WORKSPACE_ROOT="/Users/ainchorsoc2a/.openclaw/workspace"
 NOTION_KEY_FILE="$HOME/.config/notion/api_key"
-DB_BACKLOG="34dc1829-53ff-814b-8257-d3a3bf351d44"
+DB_BACKLOG="39d890b6-ece8-81bf-9c3a-eb784cf09c05"
 SUMMARY_FILE="$WORKSPACE_ROOT/state/notion-status-recon-2026-06-10.json"
 
 NOTION_API="https://api.notion.com/v1"

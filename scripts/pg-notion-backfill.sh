@@ -20,7 +20,7 @@ SNAPSHOT_DIR="$WORKSPACE_ROOT/state/pg-notion-backfill-snapshots"
 NOTION_KEY_FILE="/Users/ainchorsoc2a/.config/notion/api_key"
 NOTION_API="https://api.notion.com/v1"
 NOTION_VERSION="2022-06-28"
-DB_BACKLOG="34dc1829-53ff-814b-8257-d3a3bf351d44"
+DB_BACKLOG="39d890b6-ece8-81bf-9c3a-eb784cf09c05"
 BATCH_SIZE=50
 BATCH_PAUSE=5
 # macOS doesn't have GNU timeout by default; sync script handles its own HTTP timeouts

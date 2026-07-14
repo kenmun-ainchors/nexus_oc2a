@@ -7,8 +7,8 @@ set -euo pipefail
 source "${SCRIPT_DIR:-$(dirname "$0")}/skill-gate.sh" "notion" || exit $?
 
 NOTION_KEY="$(cat ~/.config/notion/api_key)"
-BACKLOG_DB="34dc1829-53ff-814b-8257-d3a3bf351d44"
-ARCHIVE_DB="364c1829-53ff-818e-a783-ebafcb6a9880"
+BACKLOG_DB="39d890b6-ece8-81bf-9c3a-eb784cf09c05"
+ARCHIVE_DB="39d890b6-ece8-81fd-8826-d250c3c2df13"
 WORKSPACE="/Users/ainchorsoc2a/.openclaw/workspace"
 OUTFILE="$WORKSPACE/state/notion-dedup-2026-06-10.json"
 REPORT=$(mktemp)

@@ -29,9 +29,9 @@ If you're about to invoke any script whose primary job involves Notion, load thi
 
 | DB | ID |
 |----|----|
-| Backlog (DB A) | `34dc1829-53ff-814b-8257-d3a3bf351d44` |
-| Auto-Heal (DB B) | `364c1829-53ff-81c0-9dbd-ff2c907d1a6b` |
-| Archive (DB C) | `364c1829-53ff-818e-a783-ebafcb6a9880` |
+| Backlog (DB A) | `39d890b6-ece8-81bf-9c3a-eb784cf09c05` |
+| Auto-Heal (DB B) | `39d890b6-ece8-8101-8516-f515f0905ca9` |
+| Archive (DB C) | `39d890b6-ece8-81fd-8826-d250c3c2df13` |
 
 These IDs are also recorded in `TOOLS.md`. The skill references them here for convenience, but `TOOLS.md` is the SSOT for environment-specific values.
 
@@ -69,7 +69,7 @@ curl -s "https://api.notion.com/v1/users/me" \
 ### 2. Query a database
 
 ```bash
-DB_ID="34dc1829-53ff-814b-8257-d3a3bf351d44"
+DB_ID="39d890b6-ece8-81bf-9c3a-eb784cf09c05"
 curl -s -X POST "https://api.notion.com/v1/databases/$DB_ID/query" \
   -H "Authorization: Bearer $NOTION_KEY" \
   -H "Notion-Version: 2022-06-28" \
@@ -80,7 +80,7 @@ curl -s -X POST "https://api.notion.com/v1/databases/$DB_ID/query" \
 ### 3. Create a page in a database
 
 ```bash
-DB_ID="34dc1829-53ff-814b-8257-d3a3bf351d44"
+DB_ID="39d890b6-ece8-81bf-9c3a-eb784cf09c05"
 curl -s -X POST "https://api.notion.com/v1/pages" \
   -H "Authorization: Bearer $NOTION_KEY" \
   -H "Notion-Version: 2022-06-28" \

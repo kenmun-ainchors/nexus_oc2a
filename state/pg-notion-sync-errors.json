@@ -1,14 +1,63 @@
-{
-  "timestamp": "2026-07-14T15:09:00+10:00",
-  "batch_run": true,
-  "result": "FAILED",
-  "errors": [
-    {
-      "phase": "auth",
-      "detail": "Notion API key file missing at /Users/ainchorsoc2a/.config/notion/api_key",
-      "resolution": "Re-create ~/.config/notion/api_key with valid Notion internal integration token"
-    }
-  ],
-  "tickets_processed": 0,
-  "tickets_failed": 0
-}
+[
+  {
+    "timestamp": "2026-07-14T15:09:00+10:00",
+    "batch_run": true,
+    "result": "FAILED",
+    "errors": [
+      {
+        "phase": "auth",
+        "detail": "Notion API key file missing at /Users/ainchorsoc2a/.config/notion/api_key",
+        "resolution": "Re-create ~/.config/notion/api_key with valid Notion internal integration token"
+      }
+    ],
+    "tickets_processed": 0,
+    "tickets_failed": 0
+  },
+  {
+    "timestamp": "2026-07-14T18:11:00+10:00",
+    "batch_run": true,
+    "result": "FAILED",
+    "errors": [
+      {
+        "phase": "auth",
+        "detail": "Notion API key file missing at /Users/ainchorsoc2a/.config/notion/api_key",
+        "resolution": "Re-create ~/.config/notion/api_key with valid Notion internal integration token"
+      }
+    ],
+    "tickets_skipped": 262,
+    "tickets_processed": 0,
+    "tickets_failed": 0
+  },
+  {
+    "timestamp": "2026-07-14T19:13:05+1000",
+    "batch_run": true,
+    "result": "FAILED",
+    "errors": [
+      {
+        "phase": "auth",
+        "detail": "Notion API key file missing at /Users/ainchorsoc2a/.config/notion/api_key",
+        "resolution": "Re-create ~/.config/notion/api_key with valid Notion internal integration token"
+      }
+    ],
+    "tickets_skipped": 262,
+    "tickets_processed": 0,
+    "tickets_failed": 0,
+    "error_count_this_sequence": 3
+  },
+  {
+    "timestamp": "2026-07-14T20:10:00+10:00",
+    "batch_run": true,
+    "result": "PARTIAL_FAILURE",
+    "errors": [
+      {
+        "ticket": "TKT-0999",
+        "phase": "notion_create",
+        "detail": "Notion schema mismatch — properties (US Title, Sprint, Effort, Created Date, Planned Date, Delivered Date, Sprint Date, Stream, Category, Impact, Notes, Yoda Assessment) do not exist in target DB",
+        "resolution": "Update Notion database schema to match expected properties, or update sync mapping"
+      }
+    ],
+    "tickets_processed": 0,
+    "tickets_failed": 1,
+    "tickets_skipped": 0
+  }
+]

@@ -4,182 +4,6 @@
   "sloTarget": 0.995,
   "events": [
     {
-      "ts": "2026-07-07T17:54:41.589858+00:00",
-      "status": "degraded",
-      "consecutiveFailures": 0,
-      "issues": [
-        "Anthropic API key missing from keychain"
-      ]
-    },
-    {
-      "ts": "2026-07-07T17:59:42.478735+00:00",
-      "status": "degraded",
-      "consecutiveFailures": 0,
-      "issues": [
-        "Anthropic API key missing from keychain"
-      ]
-    },
-    {
-      "ts": "2026-07-07T18:04:42.690866+00:00",
-      "status": "degraded",
-      "consecutiveFailures": 0,
-      "issues": [
-        "Anthropic API key missing from keychain"
-      ]
-    },
-    {
-      "ts": "2026-07-07T18:09:42.199027+00:00",
-      "status": "degraded",
-      "consecutiveFailures": 0,
-      "issues": [
-        "Anthropic API key missing from keychain"
-      ]
-    },
-    {
-      "ts": "2026-07-07T18:14:41.694747+00:00",
-      "status": "degraded",
-      "consecutiveFailures": 0,
-      "issues": [
-        "Anthropic API key missing from keychain"
-      ]
-    },
-    {
-      "ts": "2026-07-07T18:19:42.487344+00:00",
-      "status": "degraded",
-      "consecutiveFailures": 0,
-      "issues": [
-        "Anthropic API key missing from keychain"
-      ]
-    },
-    {
-      "ts": "2026-07-07T18:24:42.313957+00:00",
-      "status": "degraded",
-      "consecutiveFailures": 0,
-      "issues": [
-        "Anthropic API key missing from keychain"
-      ]
-    },
-    {
-      "ts": "2026-07-07T18:29:42.232156+00:00",
-      "status": "degraded",
-      "consecutiveFailures": 0,
-      "issues": [
-        "Anthropic API key missing from keychain"
-      ]
-    },
-    {
-      "ts": "2026-07-07T18:34:42.297604+00:00",
-      "status": "degraded",
-      "consecutiveFailures": 0,
-      "issues": [
-        "Anthropic API key missing from keychain"
-      ]
-    },
-    {
-      "ts": "2026-07-07T18:39:42.099185+00:00",
-      "status": "degraded",
-      "consecutiveFailures": 0,
-      "issues": [
-        "Anthropic API key missing from keychain"
-      ]
-    },
-    {
-      "ts": "2026-07-07T18:44:42.782375+00:00",
-      "status": "degraded",
-      "consecutiveFailures": 0,
-      "issues": [
-        "Anthropic API key missing from keychain"
-      ]
-    },
-    {
-      "ts": "2026-07-07T18:49:43.212202+00:00",
-      "status": "degraded",
-      "consecutiveFailures": 0,
-      "issues": [
-        "Anthropic API key missing from keychain"
-      ]
-    },
-    {
-      "ts": "2026-07-07T18:54:42.028005+00:00",
-      "status": "degraded",
-      "consecutiveFailures": 0,
-      "issues": [
-        "Anthropic API key missing from keychain"
-      ]
-    },
-    {
-      "ts": "2026-07-07T18:59:41.780467+00:00",
-      "status": "degraded",
-      "consecutiveFailures": 0,
-      "issues": [
-        "Anthropic API key missing from keychain"
-      ]
-    },
-    {
-      "ts": "2026-07-07T19:04:42.926795+00:00",
-      "status": "degraded",
-      "consecutiveFailures": 0,
-      "issues": [
-        "Anthropic API key missing from keychain"
-      ]
-    },
-    {
-      "ts": "2026-07-07T19:09:42.194836+00:00",
-      "status": "degraded",
-      "consecutiveFailures": 0,
-      "issues": [
-        "Anthropic API key missing from keychain"
-      ]
-    },
-    {
-      "ts": "2026-07-07T19:14:43.009512+00:00",
-      "status": "degraded",
-      "consecutiveFailures": 0,
-      "issues": [
-        "Anthropic API key missing from keychain"
-      ]
-    },
-    {
-      "ts": "2026-07-07T19:19:43.796784+00:00",
-      "status": "degraded",
-      "consecutiveFailures": 0,
-      "issues": [
-        "Anthropic API key missing from keychain"
-      ]
-    },
-    {
-      "ts": "2026-07-07T19:24:42.838455+00:00",
-      "status": "degraded",
-      "consecutiveFailures": 0,
-      "issues": [
-        "Anthropic API key missing from keychain"
-      ]
-    },
-    {
-      "ts": "2026-07-07T19:29:43.216814+00:00",
-      "status": "degraded",
-      "consecutiveFailures": 0,
-      "issues": [
-        "Anthropic API key missing from keychain"
-      ]
-    },
-    {
-      "ts": "2026-07-07T19:34:43.093014+00:00",
-      "status": "degraded",
-      "consecutiveFailures": 0,
-      "issues": [
-        "Anthropic API key missing from keychain"
-      ]
-    },
-    {
-      "ts": "2026-07-07T19:39:43.484892+00:00",
-      "status": "degraded",
-      "consecutiveFailures": 0,
-      "issues": [
-        "Anthropic API key missing from keychain"
-      ]
-    },
-    {
       "ts": "2026-07-07T19:44:43.240175+00:00",
       "status": "degraded",
       "consecutiveFailures": 0,
@@ -4804,14 +4628,146 @@
       "status": "ok",
       "consecutiveFailures": 0,
       "issues": []
+    },
+    {
+      "ts": "2026-07-14T05:37:55.319269+00:00",
+      "status": "ok",
+      "consecutiveFailures": 0,
+      "issues": []
+    },
+    {
+      "ts": "2026-07-14T05:52:56.670079+00:00",
+      "status": "ok",
+      "consecutiveFailures": 0,
+      "issues": []
+    },
+    {
+      "ts": "2026-07-14T06:00:35.065564+00:00",
+      "status": "ok",
+      "consecutiveFailures": 0,
+      "issues": []
+    },
+    {
+      "ts": "2026-07-14T06:08:59.311512+00:00",
+      "status": "ok",
+      "consecutiveFailures": 0,
+      "issues": []
+    },
+    {
+      "ts": "2026-07-14T06:24:07.429385+00:00",
+      "status": "ok",
+      "consecutiveFailures": 0,
+      "issues": []
+    },
+    {
+      "ts": "2026-07-14T06:38:38.812558+00:00",
+      "status": "ok",
+      "consecutiveFailures": 0,
+      "issues": []
+    },
+    {
+      "ts": "2026-07-14T06:53:43.582842+00:00",
+      "status": "ok",
+      "consecutiveFailures": 0,
+      "issues": []
+    },
+    {
+      "ts": "2026-07-14T07:08:48.625646+00:00",
+      "status": "ok",
+      "consecutiveFailures": 0,
+      "issues": []
+    },
+    {
+      "ts": "2026-07-14T07:24:10.032779+00:00",
+      "status": "ok",
+      "consecutiveFailures": 0,
+      "issues": []
+    },
+    {
+      "ts": "2026-07-14T07:38:41.523188+00:00",
+      "status": "ok",
+      "consecutiveFailures": 0,
+      "issues": []
+    },
+    {
+      "ts": "2026-07-14T07:54:02.178015+00:00",
+      "status": "ok",
+      "consecutiveFailures": 0,
+      "issues": []
+    },
+    {
+      "ts": "2026-07-14T08:09:06.695112+00:00",
+      "status": "ok",
+      "consecutiveFailures": 0,
+      "issues": []
+    },
+    {
+      "ts": "2026-07-14T08:23:39.285300+00:00",
+      "status": "ok",
+      "consecutiveFailures": 0,
+      "issues": []
+    },
+    {
+      "ts": "2026-07-14T08:39:13.573771+00:00",
+      "status": "ok",
+      "consecutiveFailures": 0,
+      "issues": []
+    },
+    {
+      "ts": "2026-07-14T08:53:38.977900+00:00",
+      "status": "ok",
+      "consecutiveFailures": 0,
+      "issues": []
+    },
+    {
+      "ts": "2026-07-14T09:09:20.455983+00:00",
+      "status": "ok",
+      "consecutiveFailures": 0,
+      "issues": []
+    },
+    {
+      "ts": "2026-07-14T09:23:39.362607+00:00",
+      "status": "ok",
+      "consecutiveFailures": 0,
+      "issues": []
+    },
+    {
+      "ts": "2026-07-14T09:38:39.176971+00:00",
+      "status": "ok",
+      "consecutiveFailures": 0,
+      "issues": []
+    },
+    {
+      "ts": "2026-07-14T09:53:39.979302+00:00",
+      "status": "ok",
+      "consecutiveFailures": 0,
+      "issues": []
+    },
+    {
+      "ts": "2026-07-14T10:08:39.081643+00:00",
+      "status": "ok",
+      "consecutiveFailures": 0,
+      "issues": []
+    },
+    {
+      "ts": "2026-07-14T10:23:39.763913+00:00",
+      "status": "ok",
+      "consecutiveFailures": 0,
+      "issues": []
+    },
+    {
+      "ts": "2026-07-14T10:38:38.747407+00:00",
+      "status": "ok",
+      "consecutiveFailures": 0,
+      "issues": []
     }
   ],
   "summary": {
-    "totalChecks": 10237,
-    "upChecks": 10032,
+    "totalChecks": 10259,
+    "upChecks": 10054,
     "downtimeMinutes": 1025,
-    "uptimePct": 97.997,
-    "lastCheck": "2026-07-14T05:22:55.792568+00:00",
+    "uptimePct": 98.002,
+    "lastCheck": "2026-07-14T10:38:38.747407+00:00",
     "lastStatus": "ok"
   }
 }

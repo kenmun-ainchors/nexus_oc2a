@@ -1,27 +1,42 @@
 {
-  "lastHeartbeat": "2026-07-14T15:19:00+10:00",
-  "lastChecks": {
-    "taskWatchdog": "2026-07-14T14:50:00+10:00",
-    "agentHealth": "2026-07-14T14:50:00+10:00",
-    "sessionModelDrift": "2026-07-14T14:50:00+10:00",
-    "mainSessionContext": "2026-07-14T14:50:00+10:00",
-    "mainSessionResume": "2026-07-14T14:50:00+10:00",
-    "standbyMode": "2026-07-14T14:50:00+10:00",
-    "dodValidation": "2026-07-14T14:50:00+10:00",
-    "taskVerification": "2026-07-14T14:50:00+10:00",
-    "chgTriggers": "2026-07-14T14:50:00+10:00",
-    "budgetCheck": "2026-07-14T14:50:00+10:00",
-    "requestBudgetCheck": "2026-07-14T14:50:00+10:00",
-    "cronHealth": "2026-07-14T14:50:00+10:00",
-    "cronDeadLetter": "2026-07-14T14:50:00+10:00",
-    "owlCompliance": "2026-07-14T15:20:11+10:00",
-    "ariaCrest": "2026-07-14T14:50:00+10:00",
-    "costState": "2026-07-14T14:50:00+10:00",
-    "delegatedAuth": "2026-07-14T14:50:00+10:00",
-    "email": "2026-07-14T14:50:00+10:00",
-    "calendar": "2026-07-14T14:50:00+10:00",
-    "ceremoniesThisWeek": "2026-07-13T10:49:00+1000",
-    "needsKenNotion": "2026-07-14T14:50:00+10:00"
+  "lastHeartbeat": "2026-07-14T20:36:35+10:00",
+  "lastHeartbeatIso": "2026-07-14T10:36:35Z",
+  "checks": {
+    "sessionModelDrift": "ok",
+    "mainSessionContext": "ok (dashboard 42%)",
+    "mainSessionResume": "ok",
+    "owlCompliance": "ok (100%)",
+    "taskWatchdog": "ok (8 tasks healthy)",
+    "cronHealth": "alert present (08:06 UTC) — PG-Notion Batch Sync hourly 5 consecutive errors, unacknowledged",
+    "cronDeadLetter": "none",
+    "agentHealth": "ok",
+    "costState": "ok (2434/59366, 4.1%)",
+    "requestBudget": "ok (2434/59366, 4.1%)",
+    "dodValidation": "alert present (06:15 today), unacknowledged — PG read failure, TKT-0501",
+    "taskVerification": "acknowledged",
+    "ariaCrest": "compliant",
+    "standbyMode": "inactive",
+    "systemBanner": "cleared",
+    "chgTriggers": "no active fires — TRIGGER-03 fired+closed, TRIGGER-04 monitoring",
+    "triggers": {
+      "TRIGGER-01": "not_applicable (arrival gate closed per CHG-1783)",
+      "TRIGGER-03": "fired (OC2A validated, CHG-1783)",
+      "TRIGGER-04": "monitoring (v2026.6.6 deferred+sandbox)"
+    },
+    "triggersOk": true
   },
-  "notes": "15:19 heartbeat all-clear. Session model OK (kimi-k2.7-code:cloud). Main session context OK (9.6K/262K tokens, 3%). Resume registry OK. Task watchdog: 8 tasks healthy (PG resume_detector error expected TKT-0501). Cron health clean. OWL 100%. Budgets: req budget healthy (2,434/59,366 — 4.1%). Standby mode inactive. No dead letters. DoD validation alert stale (PG not local — TKT-0501). CHG triggers all stable. Aria CREST compliant. Delegated auth: gog binary missing (known)."
+  "incident": {
+    "time": "2026-07-14T20:33-20:36 AEST",
+    "type": "gateway restart under resource pressure",
+    "symptoms": [
+      "spawn /bin/zsh EAGAIN",
+      "fork failed: resource temporarily unavailable"
+    ],
+    "recovery": "gateway restarted automatically; heartbeat resumed",
+    "impact": "20:20 heartbeat synthesis interrupted; no data loss"
+  },
+  "status": "all_ok_with_alerts",
+  "lastChecks": {
+    "owlCompliance": "2026-07-14T20:43:31+10:00"
+  }
 }

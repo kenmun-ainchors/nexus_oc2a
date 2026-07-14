@@ -18,7 +18,7 @@ Expected success response includes `{"object":"user","type":"person",...}`.
 ## Query a database with pagination
 
 ```bash
-DB_ID="34dc1829-53ff-814b-8257-d3a3bf351d44"
+DB_ID="39d890b6-ece8-81bf-9c3a-eb784cf09c05"
 NEXT_CURSOR=""
 ALL_RESULTS="[]"
 
@@ -48,7 +48,7 @@ echo "$ALL_RESULTS" | jq 'length'
 ## Create a page in Backlog DB
 
 ```bash
-DB_ID="34dc1829-53ff-814b-8257-d3a3bf351d44"
+DB_ID="39d890b6-ece8-81bf-9c3a-eb784cf09c05"
 
 jq -n --arg db "$DB_ID" \
       --arg title "Sample Ticket" \
@@ -159,9 +159,9 @@ Mapping used by `pg-to-notion-sync.sh`:
 
 | DB | ID |
 |----|----|
-| Backlog | `34dc1829-53ff-814b-8257-d3a3bf351d44` |
-| Auto-Heal | `364c1829-53ff-81c0-9dbd-ff2c907d1a6b` |
-| Archive | `364c1829-53ff-818e-a783-ebafcb6a9880` |
+| Backlog | `39d890b6-ece8-81bf-9c3a-eb784cf09c05` |
+| Auto-Heal | `39d890b6-ece8-8101-8516-f515f0905ca9` |
+| Archive | `39d890b6-ece8-81fd-8826-d250c3c2df13` |
 
 ## References
 

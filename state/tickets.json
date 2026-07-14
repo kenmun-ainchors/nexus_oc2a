@@ -4651,5 +4651,23 @@
     "metadata": {
       "resolution": "Fixed db-write.sh to query pg_attribute.format_type() for accurate column types including text[], and added array literal generation for list/tuple values. Verified by restoring TKT-0409 tags."
     }
+  },
+  {
+    "id": "TKT-9999",
+    "title": "Test ticket from OC2A to restored OC1 DB",
+    "status": "open",
+    "priority": "low",
+    "type": "task",
+    "created_at": "2026-07-14T08:37:39+10:00",
+    "ticket_number": 9999
+  },
+  {
+    "id": "TKT-0999",
+    "title": "Historical ainchors_nexus data migration from OC1 — COMPLETED",
+    "status": "closed",
+    "priority": "high",
+    "type": "task",
+    "created_at": "2026-07-14T08:47:13+10:00",
+    "ticket_number": 999
   }
 ]

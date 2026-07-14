@@ -1,0 +1,11 @@
+[
+  {
+    "issue_id": "notion-api-key-missing-20260714",
+    "timestamp": "2026-07-14T19:13:05+1000",
+    "component": "pg-to-notion-sync.sh",
+    "failure_count": 3,
+    "status": "resolved",
+    "summary": "Notion API key file missing at ~/.config/notion/api_key — 3 consecutive batch sync failures",
+    "resolution": "Resolved 2026-07-14T20:10 — subsequent sync authenticated successfully. Ticket TKT-0999 now blocked by Notion schema mismatch (new issue)."
+  }
+]

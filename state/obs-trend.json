@@ -1,13 +1,18 @@
 {
-  "generated_at": "2026-07-14T05:10:56.656143+00:00",
-  "generated_at_aest": "2026-07-14 15:10 AEST",
+  "generated_at": "2026-07-14T10:29:33.046618+00:00",
+  "generated_at_aest": "2026-07-14 20:29 AEST",
   "period_hours": 24,
   "totals": {
-    "ERROR": 0,
+    "ERROR": 2,
     "WARN": 1,
     "INFO": 0
   },
-  "top_errors": [],
+  "top_errors": [
+    {
+      "type": "cron_run_fail",
+      "count": 2
+    }
+  ],
   "top_warnings": [
     {
       "type": "auto_heal_needs_ken",
@@ -21,5 +26,8 @@
     "errors_pct_change": null,
     "warns_pct_change": -66.7
   },
-  "worst_hour": null
+  "worst_hour": {
+    "hour": "2026-07-14T08:00Z",
+    "cnt": 1
+  }
 }

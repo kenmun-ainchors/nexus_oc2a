@@ -275,7 +275,7 @@ fi
 # ── Notion sync (best-effort — failure does NOT block CHG logging) ──────────────
 NOTION_KEY_FILE="$HOME/.config/notion/api_key"
 # CHG records go to Archive DB (DB C: Completed-Archived) — TKT-0392-D
-NOTION_DB_ID="364c1829-53ff-818e-a783-ebafcb6a9880"
+NOTION_DB_ID="39d890b6-ece8-81fd-8826-d250c3c2df13"
 notion_sync_chg() {
   local retry=0
   local max_retries=2

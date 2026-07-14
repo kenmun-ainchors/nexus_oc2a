@@ -3,7 +3,7 @@
 import json, time, urllib.request, urllib.error
 
 API_KEY = "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"
-DB_ID   = "34dc182953ff814b8257d3a3bf351d44"
+DB_ID   = "39d890b6ece881bf9c3aeb784cf09c05"
 HEADERS = {
     "Authorization": f"Bearer {API_KEY}",
     "Notion-Version": "2022-06-28",

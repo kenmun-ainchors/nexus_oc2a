@@ -47,10 +47,8 @@ Add whatever helps you do your job. This is your cheat sheet.
 - Credentials: `~/Library/Application Support/gogcli/credentials.json`
 - OAuth client: `966422666914` (project: AInchors OC1)
 - Token stored: macOS Keychain (default client)
-- Connected: 2026-04-29
-- Binary: `/opt/homebrew/bin/gog` — **always use full path** in exec/cron (minimal PATH won't find it)
-
-## Docker / Colima
+- Connected: 2026-07-14
+- Binary: `/Users/ainchorsoc2a/homebrew/bin/gog` — **always use full path** in exec/cron (minimal PATH won't find it)
 
 - `docker` → `/opt/homebrew/bin/docker` — brew standalone CLI (Docker Desktop removed 2026-05-11)
 - `colima` → `/opt/homebrew/bin/colima` — container runtime, replaces Docker Desktop
@@ -64,7 +62,7 @@ Add whatever helps you do your job. This is your cheat sheet.
 - `brew` → `/Users/ainchorsoc2a/homebrew/bin/brew`
 - `psql` → `/Users/ainchorsoc2a/homebrew/bin/psql`
 - `minio`, `mc` → `/Users/ainchorsoc2a/homebrew/bin/minio`, `/Users/ainchorsoc2a/homebrew/bin/mc`
-- `gog` → currently absent; to be installed/re-authed under LinkedIn/gog follow-up.
+- `gog` → configured for both Ken (kenmun@ainchors.com) and Angie (angie.foong@ainchors.com). Services: gmail, calendar, drive, contacts, sheets, docs. OAuth client 966422666914 (project: AInchors OC1). Updated: 2026-07-14.
 
 ## Remote Access
 
@@ -93,6 +91,6 @@ Add whatever helps you do your job. This is your cheat sheet.
 ## Notion DB IDs (CHG-0401 3-DB architecture)
 Canonical API patterns and usage: `agent-skills/notion/SKILL.md`.
 
-- DB A (Backlog): 34dc1829-53ff-814b-8257-d3a3bf351d44
-- DB B (Auto-Heal): 364c1829-53ff-81c0-9dbd-ff2c907d1a6b
-- DB C (Archive): 364c1829-53ff-818e-a783-ebafcb6a9880
+- DB A (Backlog): 39d890b6-ece8-81bf-9c3a-eb784cf09c05
+- DB B (Auto-Heal): 39d890b6-ece8-8101-8516-f515f0905ca9
+- DB C (Archive): 39d890b6-ece8-81fd-8826-d250c3c2df13
