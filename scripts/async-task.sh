@@ -9,7 +9,7 @@
 
 set -euo pipefail
 
-WORKSPACE="/Users/ainchorsangiefpl/.openclaw/workspace"
+WORKSPACE="/Users/ainchorsoc2a/.openclaw/workspace"
 STATE_FILE="$WORKSPACE/state/async-tasks.json"
 SUBCOMMAND="${1:-help}"; shift || true
 
@@ -91,9 +91,9 @@ elif [[ "$SUBCOMMAND" == "spawn" ]]; then
 elif [[ "$SUBCOMMAND" == "status" ]]; then
   NAME="${1:-}"
   if [[ -z "$NAME" ]]; then
-    /opt/homebrew/bin/jq '.tasks' "$STATE_FILE"
+    $JQ '.tasks' "$STATE_FILE"
   else
-    /opt/homebrew/bin/jq --arg n "$NAME" '.tasks[$n] // "NOT FOUND"' "$STATE_FILE"
+    $JQ --arg n "$NAME" '.tasks[$n] // "NOT FOUND"' "$STATE_FILE"
   fi
 
 elif [[ "$SUBCOMMAND" == "complete" ]]; then

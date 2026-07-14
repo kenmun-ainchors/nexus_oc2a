@@ -4,9 +4,9 @@
   "description": "Angie Foong personal LinkedIn campaign state. Per-account separation (CHG-0860).",
   "createdAt": "2026-07-10T12:29:00+10:00",
   "createdBy": "Forge (CHG-0860 per-account separation)",
-  "lastUpdated": "2026-07-11T12:57:00+10:00",
-  "lastUpdatedBy": "Forge (CHG-0864 handoff to Aria)",
-  "handoffStatus": "pending-aria-review",
+  "lastUpdated": "2026-07-13T08:50:19+10:00",
+  "lastUpdatedBy": "Aria",
+  "handoffStatus": "aria-approved",
   "handoffNote": "3 drafted posts (AW6-P1/P2/P3) handed to Aria/BUSINESS stream. See .openclaw/tmp/aria-linkedin-handoff-2026-07-11.md",
   "agent": "Spark",
   "api": {
@@ -83,35 +83,44 @@
     "AW6-P1": {
       "id": "AW6-P1",
       "title": "What clients actually need (and it is not more tools)",
-      "slot": "Tue 15 Jul 2026 07:30 AEST",
-      "status": "drafted",
+      "slot": "Tue 14 Jul 2026 07:30 AEST",
+      "status": "approved",
       "draftFile": "social-drafts/angie/LI-AW6-P1-what-clients-actually-need.md",
       "imagePrompt": "A calm shallow shoreline at dawn, the water crystal clear and still, with a single figure standing ankle-deep looking down at their own reflection, soft golden light from the horizon, muted blues and warm golds, editorial landscape photography, clarity and grounding mood. Square 1:1 format, no text, no logos, professional quality.",
       "governance": "triad-cleared",
       "contentId": "CONTENT-ANG-W6P1",
-      "draftedAt": "2026-07-11T12:05:00+10:00"
+      "draftedAt": "2026-07-11T12:05:00+10:00",
+      "approvedBy": "Aria",
+      "approvedAt": "2026-07-13T08:50:19+10:00",
+      "imageReady": false
     },
     "AW6-P2": {
       "id": "AW6-P2",
       "title": "The slide deck trap",
-      "slot": "Wed 16 Jul 2026 12:00 AEST",
-      "status": "drafted",
+      "slot": "Wed 15 Jul 2026 12:00 AEST",
+      "status": "approved",
       "draftFile": "social-drafts/angie/LI-AW6-P2-the-slide-deck-trap.md",
       "imagePrompt": "A split overhead view of two workspaces: on the left, a designer's desk covered in printed colour swatches, font samples, and half-finished slide layouts with a stressed scattered energy; on the right, the same desk cleared down to a single printed page with a simple handwritten framework, one pen, and a fresh cup of coffee, warm natural side-light, muted palette with the right side warmer and calmer, editorial split-composition photography, focus and clarity mood. Square 1:1 format, no text, no logos, professional quality.",
       "governance": "triad-cleared",
       "contentId": "CONTENT-ANG-W6P2",
-      "draftedAt": "2026-07-11T12:05:00+10:00"
+      "draftedAt": "2026-07-11T12:05:00+10:00",
+      "approvedBy": "Aria",
+      "approvedAt": "2026-07-13T08:50:19+10:00",
+      "imageReady": false
     },
     "AW6-P3": {
       "id": "AW6-P3",
       "title": "What foundation means in training",
-      "slot": "Thu 17 Jul 2026 07:30 AEST",
-      "status": "drafted",
+      "slot": "Thu 16 Jul 2026 07:30 AEST",
+      "status": "approved",
       "draftFile": "social-drafts/angie/LI-AW6-P3-what-foundation-means-in-training.md",
       "imagePrompt": "A wide landscape at dawn, the foreground a stable concrete training room foundation with visible structural beams and rebar, the middle ground a partially-built curriculum framework rising out of it with clean lines and modular sections, the background a calm sky just starting to warm with soft golden light, muted greys and warm sunrise gold, editorial landscape photography, hopeful and grounded mood. Square 1:1 format, no text, no logos, professional quality.",
       "governance": "triad-cleared",
       "contentId": "CONTENT-ANG-W6P3",
-      "draftedAt": "2026-07-11T12:05:00+10:00"
+      "draftedAt": "2026-07-11T12:05:00+10:00",
+      "approvedBy": "Aria",
+      "approvedAt": "2026-07-13T08:50:19+10:00",
+      "imageReady": false
     }
   },
   "usedTopics": [],

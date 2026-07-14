@@ -4,9 +4,9 @@ if /opt/homebrew/bin/pg_isready -h /tmp -q 2>/dev/null; then
   echo "PG is still running — stop PG first"
   exit 2
 fi
-RESULT=$(bash /Users/ainchorsangiefpl/.openclaw/workspace/scripts/db-read.sh state_tickets 2>&1)
-if echo "$RESULT" | /opt/homebrew/bin/jq -e 'length > 0' >/dev/null 2>&1; then
-  COUNT=$(echo "$RESULT" | /opt/homebrew/bin/jq 'length')
+RESULT=$(bash /Users/ainchorsoc2a/.openclaw/workspace/scripts/db-read.sh state_tickets 2>&1)
+if echo "$RESULT" | $(command -v jq 2>/dev/null || brew --prefix 2>/dev/null)/bin/jq -e 'length > 0' >/dev/null 2>&1; then
+  COUNT=$(echo "$RESULT" | $(command -v jq 2>/dev/null || brew --prefix 2>/dev/null)/bin/jq 'length')
   echo "File fallback returned $COUNT tickets"
   exit 0
 else

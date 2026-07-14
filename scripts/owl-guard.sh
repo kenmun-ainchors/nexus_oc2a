@@ -7,7 +7,7 @@
 
 set -u
 
-WORKSPACE_ROOT="/Users/ainchorsangiefpl/.openclaw/workspace"
+WORKSPACE_ROOT="/Users/ainchorsoc2a/.openclaw/workspace"
 OWL_ACTIVE_FILE="$WORKSPACE_ROOT/state/owl-active.json"
 OWL_COMPLIANCE_FILE="$WORKSPACE_ROOT/state/owl-compliance-state.json"
 TICKET_FILE="$WORKSPACE_ROOT/state/tickets.json"

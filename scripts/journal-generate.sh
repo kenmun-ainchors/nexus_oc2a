@@ -5,7 +5,7 @@
 # If gaps found, logs a CHG warning so Yoda can backfill.
 
 TARGET_DATE=${1:-$(date +%Y-%m-%d)}
-JOURNAL_FILE="/Users/ainchorsangiefpl/.openclaw/workspace/memory/journal-${TARGET_DATE}.md"
+JOURNAL_FILE="/Users/ainchorsoc2a/.openclaw/workspace/memory/journal-${TARGET_DATE}.md"
 
 echo "=== Journal Gap Check — TKT-0328 ==="
 echo "Target date: $TARGET_DATE"

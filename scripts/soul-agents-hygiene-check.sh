@@ -10,8 +10,8 @@
 # workspace root; other agents use their configured workspace directory.
 set -euo pipefail
 
-WORKSPACE_ROOT="${WORKSPACE_ROOT:-/Users/ainchorsangiefpl/.openclaw/workspace}"
-OPENCLAW_CONFIG="${OPENCLAW_CONFIG:-/Users/ainchorsangiefpl/.openclaw/openclaw.json}"
+WORKSPACE_ROOT="${WORKSPACE_ROOT:-/Users/ainchorsoc2a/.openclaw/workspace}"
+OPENCLAW_CONFIG="${OPENCLAW_CONFIG:-/Users/ainchorsoc2a/.openclaw/openclaw.json}"
 STATE_FILE="${WORKSPACE_ROOT}/state/soul-agents-hygiene.json"
 WARN_LIMIT=4000
 HARD_LIMIT=5000

@@ -1,11 +1,11 @@
 #!/usr/bin/env bash
 # sla-report-cron.sh — Monthly SLA Report cron wrapper
 # Computes the previous month in AEST and invokes sla-report.sh.
-# Run: bash /Users/ainchorsangiefpl/.openclaw/workspace/scripts/sla-report-cron.sh
+# Run: bash /Users/ainchorsoc2a/.openclaw/workspace/scripts/sla-report-cron.sh
 
 set -euo pipefail
 
-WORKSPACE="${WORKSPACE:-/Users/ainchorsangiefpl/.openclaw/workspace}"
+WORKSPACE="${WORKSPACE:-/Users/ainchorsoc2a/.openclaw/workspace}"
 
 # Previous month in YYYY-MM (macOS/BSD date compatible)
 PREV_MONTH=$(python3 -c "from datetime import datetime, timedelta; d=datetime.now()+timedelta(hours=10)-timedelta(days=1); d=d.replace(day=1)-timedelta(days=1); print(f'{d.year:04d}-{d.month:02d}')")

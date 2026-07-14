@@ -6,7 +6,7 @@
 
 set -u
 
-WORKSPACE="/Users/ainchorsangiefpl/.openclaw/workspace"
+WORKSPACE="/Users/ainchorsoc2a/.openclaw/workspace"
 FINDINGS="$WORKSPACE/state/warden-findings.jsonl"
 AEST_TIMESTAMP=$(date +"%Y-%m-%dT%H:%M:%S+10:00")
 

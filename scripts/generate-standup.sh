@@ -7,7 +7,7 @@
 
 set -euo pipefail
 
-WORKSPACE="${WORKSPACE:-/Users/ainchorsangiefpl/.openclaw/workspace}"
+WORKSPACE="${WORKSPACE:-/Users/ainchorsoc2a/.openclaw/workspace}"
 CANVAS_DIR="${HOME}/.openclaw/canvas/documents/standup-daily"
 HTML_FILE="${CANVAS_DIR}/index.html"
 
@@ -140,7 +140,7 @@ import json, os, subprocess, sys
 from datetime import datetime, timezone, timedelta
 from pathlib import Path
 
-WORKSPACE = Path(os.environ.get("WORKSPACE", "/Users/ainchorsangiefpl/.openclaw/workspace"))
+WORKSPACE = Path(os.environ.get("WORKSPACE", "/Users/ainchorsoc2a/.openclaw/workspace"))
 TMP_DIR = WORKSPACE / ".openclaw" / "tmp"
 COMPOSER_EXPORT = TMP_DIR / "standup-composer-export.json"
 
@@ -626,7 +626,7 @@ html = f"""<!DOCTYPE html>
     </div>
   </div>
 
-  {f'<div class="alert-warn"><strong>⚠️ Stand-up content composer degraded —</strong> {escape(degraded_reason)}. Sections 2–7 may be incomplete.</div>' if composer_status == 'degraded' else ''}
+  {f'<div class="alert-warn" style="border:2px solid #cf222e;background:#ffebe9;padding:14px;margin-bottom:16px;"><strong>⚠️ STAND-UP CONTENT COMPOSER DEGRADED</strong><br><span style="font-size:13px;">{escape(degraded_reason)}</span><br><span style="font-size:12px;color:#cf222e;">Sections 2, 5, 6, 7 contain placeholder text only — do not present as authoritative. Manual update required before sending.</span></div>' if composer_status == 'degraded' else ''}
 
   <div class="section">
     <h2>1 · System Health</h2>
@@ -752,19 +752,19 @@ html = f"""<!DOCTYPE html>
       <div class="rtb-card">
         <div class="rtb-icon">🌹</div>
         <div class="rtb-stream">Rose</div>
-        <div class="rtb-text">{escape(rose_text) if rose_text else 'Shell-only Canvas write path hardened across mission-control, stand-up, and email crons.'}</div>
+        <div class="rtb-text">{escape(rose_text) if rose_text else '[Composer degraded — no live composition available. Manual update needed.]'}</div>
       </div>
       <div class="rtb-card">
         <div class="rtb-icon">🌵</div>
         <div class="rtb-stream">Thorn</div>
-        <div class="rtb-text">{escape(thorn_text) if thorn_text else 'Memory Dreaming Promotion cron repeatedly timed out; decommissioned under CHG-0814.'}</div>
+        <div class="rtb-text">{escape(thorn_text) if thorn_text else '[Composer degraded — no live composition available. Manual update needed.]'}</div>
       </div>
     </div>
     <div class="rtb-row">
       <div class="rtb-card">
         <div class="rtb-icon">🌱</div>
         <div class="rtb-stream">Bud</div>
-        <div class="rtb-text">{escape(bud_text) if bud_text else 'Restore agent-generated RTB/business-stream reasoning via optional pre-08:00 composer cron if shell-only brief proves too thin.'}</div>
+        <div class="rtb-text">{escape(bud_text) if bud_text else '[Composer degraded — no live composition available. Manual update needed.]'}</div>
       </div>
     </div>
   </div>
@@ -827,8 +827,8 @@ import json, os, subprocess, sys
 from pathlib import Path
 from datetime import datetime, timezone, timedelta
 
-WORKSPACE = Path(os.environ.get("WORKSPACE", "/Users/ainchorsangiefpl/.openclaw/workspace"))
-PSQL = ["/opt/homebrew/bin/psql", "-U", "ainchorsangiefpl", "-d", "ainchors_nexus"]
+WORKSPACE = Path(os.environ.get("WORKSPACE", "/Users/ainchorsoc2a/.openclaw/workspace"))
+PSQL = ["${PSQL_BIN:-$(brew --prefix postgresql@16 2>/dev/null)/bin/psql}", "-U", ""${PGUSER:-$(whoami)}"", "-d", "ainchors_nexus"]
 
 aest = timezone(timedelta(hours=10))
 now_aest = datetime.now(timezone.utc).astimezone(aest)

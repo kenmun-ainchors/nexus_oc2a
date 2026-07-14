@@ -31,7 +31,7 @@
 
 #### AC
 - [ ] `scripts/db.sh` created — thin psql wrapper with correct connection params
-- [ ] `db.sh` accessible from all agent spawn contexts (absolute path `/Users/ainchorsangiefpl/.openclaw/workspace/scripts/db.sh`)
+- [ ] `db.sh` accessible from all agent spawn contexts (absolute path `/Users/ainchorsoc2a/.openclaw/workspace/scripts/db.sh`)
 - [ ] Connection stress test: 14 concurrent `psql` calls via exec, all succeed
 - [ ] Read-only agent role created: `agent_readonly` with SELECT on all tables
 - [ ] Read-write agent role created: `agent_readwrite` with SELECT/INSERT/UPDATE on state tables
@@ -44,7 +44,7 @@
 # Usage: db.sh -c "SELECT ..." | db.sh -f script.sql
 export PGHOST=localhost
 export PGPORT=5432
-export PGUSER=ainchorsangiefpl
+export PGUSER=ainchorsoc2a
 export PGDATABASE=ainchors_nexus
 export PGOPTIONS="--client-min-messages=warning"
 /opt/homebrew/bin/psql -t -A "$@"

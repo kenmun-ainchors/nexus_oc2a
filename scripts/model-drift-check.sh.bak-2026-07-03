@@ -7,8 +7,8 @@
 
 set -euo pipefail
 
-WORKSPACE="/Users/ainchorsangiefpl/.openclaw/workspace"
-OC_CONFIG="/Users/ainchorsangiefpl/.openclaw/openclaw.json"
+WORKSPACE="/Users/ainchorsoc2a/.openclaw/workspace"
+OC_CONFIG="/Users/ainchorsoc2a/.openclaw/openclaw.json"
 POLICY="$WORKSPACE/state/model-policy.json"
 STATE="$WORKSPACE/state/model-drift-state.json"
 VIOLATIONS="$WORKSPACE/state/model-drift-violations.json"

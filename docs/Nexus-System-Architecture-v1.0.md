@@ -178,7 +178,7 @@ The Nexus agent governance hierarchy is a five-tier model defining authority, co
 
 ### 3.2 Agent Roster — All 12 Active Agents
 
-Agent configurations are read from `/Users/ainchorsangiefpl/.openclaw/openclaw.json`. The following table reflects actual configurations as of Day 20.
+Agent configurations are read from `/Users/ainchorsoc2a/.openclaw/openclaw.json`. The following table reflects actual configurations as of Day 20.
 
 #### T0 — Yoda 🟢 (Lead Orchestrator)
 
@@ -190,7 +190,7 @@ Agent configurations are read from `/Users/ainchorsangiefpl/.openclaw/openclaw.j
 | Primary Model | `anthropic/claude-sonnet-4-6` |
 | Fallbacks | `anthropic/claude-haiku-4-5` → `ollama/kimi-k2.6:cloud` |
 | Stream | Cross-stream (orchestration) |
-| Workspace | `/Users/ainchorsangiefpl/.openclaw/workspace` |
+| Workspace | `/Users/ainchorsoc2a/.openclaw/workspace` |
 | SOUL Location | `workspace/SOUL.md` |
 | Key Responsibilities | Platform situational awareness, task classification and routing, quality-gating, HITL gates, incident response coordination, CHG discipline, context handoff |
 | Heartbeat | `target: none`, isolated session |
@@ -205,7 +205,7 @@ Agent configurations are read from `/Users/ainchorsangiefpl/.openclaw/openclaw.j
 | Primary Model | `anthropic/claude-sonnet-4-6` |
 | Fallbacks | `anthropic/claude-haiku-4-5` → `ollama/kimi-k2.6:cloud` |
 | Stream | Business (Angie-facing) |
-| Workspace | `/Users/ainchorsangiefpl/.openclaw/workspace-business` |
+| Workspace | `/Users/ainchorsoc2a/.openclaw/workspace-business` |
 | Key Responsibilities | Business stream lead, Angie's AI ops partner, social strategy coordination, marketing oversight, Spark coordination |
 | Notes | Migrating to OC2-A at TRIGGER-10. Dual-principal: CEO + Yoda. |
 | Heartbeat | `target: none`, isolated session |
@@ -220,7 +220,7 @@ Agent configurations are read from `/Users/ainchorsangiefpl/.openclaw/openclaw.j
 | Primary Model | `anthropic/claude-haiku-4-5` |
 | Fallbacks | `ollama/kimi-k2.6:cloud` → `ollama/kimi-k2.6:cloud` |
 | Stream | Governance (cross-stream) |
-| Workspace | `/Users/ainchorsangiefpl/.openclaw/workspace-governance` |
+| Workspace | `/Users/ainchorsoc2a/.openclaw/workspace-governance` |
 | Cron ID | `83accf7b` (every 15 min) |
 | State Files | `state/model-drift-state.json`, `state/violations.json`, `state/warden-escalation-pending.json` |
 | Key Responsibilities | Checks all 9 agents every 15 min for model drift and compliance. Never acts directly — writes violations and escalates to Yoda. |
@@ -250,7 +250,7 @@ Agent configurations are read from `/Users/ainchorsangiefpl/.openclaw/openclaw.j
 | Primary Model | `anthropic/claude-sonnet-4-6` |
 | Fallbacks | `anthropic/claude-haiku-4-5` → `ollama/kimi-k2.6:cloud` |
 | Stream | Technical |
-| Workspace | `/Users/ainchorsangiefpl/.openclaw/agents/architect/agent` |
+| Workspace | `/Users/ainchorsoc2a/.openclaw/agents/architect/agent` |
 | Key Responsibilities | Enterprise architecture (TOGAF), P1–P4 architecture design, cross-platform landscape (TKT-0046), data architecture (TKT-0104), option papers, architecture decision log, integration architecture |
 | Boundary with Thrawn | Atlas sets enterprise-facing architectural constraints. Thrawn implements platform-internal architecture. Atlas does NOT build or run scripts (→ Forge). |
 
@@ -287,7 +287,7 @@ Agent configurations are read from `/Users/ainchorsangiefpl/.openclaw/openclaw.j
 | Primary Model | `anthropic/claude-haiku-4-5` |
 | Fallbacks | `ollama/kimi-k2.6:cloud` → `ollama/kimi-k2.6:cloud` |
 | Stream | Technical |
-| Workspace | `/Users/ainchorsangiefpl/.openclaw/workspace` |
+| Workspace | `/Users/ainchorsoc2a/.openclaw/workspace` |
 | Key Responsibilities | Infrastructure builds, scripts, CI/CD, SRE, health checks, backups, auto-heal, diagnostics. **All build and script work routes here.** |
 | Tools | `read`, `write`, `edit`, `exec`, `process` |
 | Note | Only agent authorised to execute build and infrastructure work. L-026 enforces this. |
@@ -312,7 +312,7 @@ Agent configurations are read from `/Users/ainchorsangiefpl/.openclaw/openclaw.j
 | Primary Model | `anthropic/claude-haiku-4-5` |
 | Fallbacks | `ollama/kimi-k2.6:cloud` → `ollama/kimi-k2.6:cloud` |
 | Stream | Governance (Sanctum Triad) |
-| Workspace | `/Users/ainchorsangiefpl/.openclaw/workspace-security` |
+| Workspace | `/Users/ainchorsoc2a/.openclaw/workspace-security` |
 | Key Responsibilities | Content security review (first gate in Sanctum). Pre-publish security scan for all external outputs. |
 | Tools | `read`, `exec`, `web_search`, `web_fetch` only |
 | RULES | `SHIELD_RULE_1.md` |
@@ -327,7 +327,7 @@ Agent configurations are read from `/Users/ainchorsangiefpl/.openclaw/openclaw.j
 | Primary Model | `anthropic/claude-haiku-4-5` |
 | Fallbacks | `ollama/kimi-k2.6:cloud` → `ollama/kimi-k2.6:cloud` |
 | Stream | Governance (Sanctum Triad) |
-| Workspace | `/Users/ainchorsangiefpl/.openclaw/workspace-legal` |
+| Workspace | `/Users/ainchorsoc2a/.openclaw/workspace-legal` |
 | Key Responsibilities | AU law, APP compliance, platform ToS review (second gate in Sanctum). Legal/compliance flag check for all external outputs. |
 | Tools | `read`, `web_search`, `web_fetch` only |
 | RULES | `LEX_RULES.md` |
@@ -341,7 +341,7 @@ Agent configurations are read from `/Users/ainchorsangiefpl/.openclaw/openclaw.j
 | Primary Model | `anthropic/claude-haiku-4-5` |
 | Fallbacks | `ollama/kimi-k2.6:cloud` → `ollama/kimi-k2.6:cloud` |
 | Stream | Governance (Sanctum Triad) |
-| Workspace | `/Users/ainchorsangiefpl/.openclaw/workspace-qa` |
+| Workspace | `/Users/ainchorsoc2a/.openclaw/workspace-qa` |
 | Key Responsibilities | Source verification, definition-of-done, quality gate (third gate in Sanctum). Final quality check before external delivery. |
 | Tools | `read`, `exec`, `process`, `web_search`, `web_fetch` |
 | RULES | `SAGE_RULES.md` |
@@ -437,7 +437,7 @@ Standing cadence: Contract schema is a DoD gate for all new agents. Reviewed at 
 │  Location: Melbourne, Australia                                      │
 │  Role: Primary production node — ALL 12 agents, ALL crons            │
 │  Storage: 460GB NVMe internal (21% used)                             │
-│  Network: Tailscale mesh (ainchorss-mac-mini.tail5e2567.ts.net)      │
+│  Network: Tailscale mesh (ainchorsoc2as-mac-mini-1.tailfc3ed1.ts.net)      │
 │  OpenClaw: Port 18789, loopback-only bind (S2 compliant)             │
 │  Status: PERMANENT. Hard limit: No local LLM inference >~8B Q4.      │
 │                                                                      │
@@ -499,7 +499,7 @@ Standing cadence: Contract schema is a DoD gate for all new agents. Reviewed at 
 | `ainchors-brand-code` | Brand assets, code |
 | `ainchors-agent-memory` | Agent memory exports |
 
-**URL pattern (MANDATORY):** `http://ainchorss-mac-mini.tail5e2567.ts.net:9000/{bucket}/{path}`
+**URL pattern (MANDATORY):** `http://ainchorsoc2as-mac-mini-1.tailfc3ed1.ts.net:9000/{bucket}/{path}`
 Never use: `s3://`, IP addresses, or `local/` alias.
 
 ### 4.5 Storage Architecture (LOCKED — 2026-05-10)
@@ -519,7 +519,7 @@ Never use: `s3://`, IP addresses, or `local/` alias.
 |-----------|--------|
 | Runtime | Colima (`/opt/homebrew/bin/colima`) |
 | Docker CLI | `/opt/homebrew/bin/docker` |
-| Socket | `unix:///Users/ainchorsangiefpl/.colima/default/docker.sock` |
+| Socket | `unix:///Users/ainchorsoc2a/.colima/default/docker.sock` |
 | Context | `colima` (active, set as default) |
 | Auto-start | `brew services start colima` (active at login) |
 | Managed services | RustDesk containers (`infra/rustdesk/`), MinIO |
@@ -772,7 +772,7 @@ The incident class becomes architecturally impossible, not a matter of disciplin
 |-----------|-------|-------------|----------------|
 | macOS Keychain | **Core** (P1) | Secret storage for all API keys, tokens. Zero hardcoded credentials policy (S5). | LIVE. Migrates to Cloud KMS at P2. |
 | Cloud KMS | **Core** (P2+) | Tenant-scoped key management. Annual rotation minimum. | P4: HSM-backed CMK for FSI. |
-| Tailscale Mesh | **Core** | Zero-trust mesh networking across HIVE. Loopback-only OpenClaw bind (S2). | LIVE. `ainchorss-mac-mini.tail5e2567.ts.net`. |
+| Tailscale Mesh | **Core** | Zero-trust mesh networking across HIVE. Loopback-only OpenClaw bind (S2). | LIVE. `ainchorsoc2as-mac-mini-1.tailfc3ed1.ts.net`. |
 | API Tokens (per-agent) | **Core** | Per-agent scoped tokens. S4 least-privilege (CHG-0176). | LIVE. |
 | SSO/SAML Stubs | **Core** (P2+) | Organisation-level auth hooks. `org_id` field, group membership stubbed. | P2: stubs. P3 commercial: full SSO. P4: mandatory. |
 | RBAC | **Core** (P2+) | Per-tenant access control matrix. Agent roles scoped to tenant context. | Design at P2. |
@@ -993,18 +993,18 @@ All locked decisions are binding. They cannot be re-opened without a new CHG rec
 
 | File / Path | Purpose |
 |-------------|---------|
-| `/Users/ainchorsangiefpl/.openclaw/openclaw.json` | Agent model configuration (source of truth for agent models) |
-| `/Users/ainchorsangiefpl/.openclaw/workspace/MEMORY.md` | Yoda's long-term memory (curated decisions, facts, IDs) |
-| `/Users/ainchorsangiefpl/.openclaw/workspace/SOUL.md` | Yoda's identity and operating principles |
-| `/Users/ainchorsangiefpl/.openclaw/workspace/docs/Yoda_RULES.md` | Strategic reference + routing rules (v2.0) |
-| `/Users/ainchorsangiefpl/.openclaw/workspace/docs/Yoda_RUNBOOK.md` | Full operational procedures + slash commands |
-| `/Users/ainchorsangiefpl/.openclaw/workspace/docs/Yoda_ORCHESTRATOR.md` | Platform architecture reference (superseded by this document) |
-| `/Users/ainchorsangiefpl/.openclaw/workspace/docs/Nexus_Enterprise_Landscape_P2P4.md` | Component map TKT-0046 (APPROVED) |
-| `/Users/ainchorsangiefpl/.openclaw/workspace/docs/DataMemory_P1P4_Roadmap.md` | 5-tier memory architecture TKT-0104 (APPROVED) |
-| `/Users/ainchorsangiefpl/.openclaw/workspace/docs/TKT-0162-Option-Paper-Nexus-Architecture-Direction.md` | Architecture direction option paper (APPROVED) |
-| `/Users/ainchorsangiefpl/.openclaw/workspace/state/architecture-kri-state.json` | KRI dashboard state (Yoda updates at sprint review) |
-| `/Users/ainchorsangiefpl/.openclaw/workspace/state/chg-triggers.json` | TRIGGER system state |
-| `/Users/ainchorsangiefpl/.openclaw/workspace/state/model-drift-state.json` | Warden compliance state |
+| `/Users/ainchorsoc2a/.openclaw/openclaw.json` | Agent model configuration (source of truth for agent models) |
+| `/Users/ainchorsoc2a/.openclaw/workspace/MEMORY.md` | Yoda's long-term memory (curated decisions, facts, IDs) |
+| `/Users/ainchorsoc2a/.openclaw/workspace/SOUL.md` | Yoda's identity and operating principles |
+| `/Users/ainchorsoc2a/.openclaw/workspace/docs/Yoda_RULES.md` | Strategic reference + routing rules (v2.0) |
+| `/Users/ainchorsoc2a/.openclaw/workspace/docs/Yoda_RUNBOOK.md` | Full operational procedures + slash commands |
+| `/Users/ainchorsoc2a/.openclaw/workspace/docs/Yoda_ORCHESTRATOR.md` | Platform architecture reference (superseded by this document) |
+| `/Users/ainchorsoc2a/.openclaw/workspace/docs/Nexus_Enterprise_Landscape_P2P4.md` | Component map TKT-0046 (APPROVED) |
+| `/Users/ainchorsoc2a/.openclaw/workspace/docs/DataMemory_P1P4_Roadmap.md` | 5-tier memory architecture TKT-0104 (APPROVED) |
+| `/Users/ainchorsoc2a/.openclaw/workspace/docs/TKT-0162-Option-Paper-Nexus-Architecture-Direction.md` | Architecture direction option paper (APPROVED) |
+| `/Users/ainchorsoc2a/.openclaw/workspace/state/architecture-kri-state.json` | KRI dashboard state (Yoda updates at sprint review) |
+| `/Users/ainchorsoc2a/.openclaw/workspace/state/chg-triggers.json` | TRIGGER system state |
+| `/Users/ainchorsoc2a/.openclaw/workspace/state/model-drift-state.json` | Warden compliance state |
 
 ---
 

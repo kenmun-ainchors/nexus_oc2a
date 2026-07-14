@@ -33,7 +33,7 @@
 
 set -euo pipefail
 
-WORKSPACE="/Users/ainchorsangiefpl/.openclaw/workspace"
+WORKSPACE="/Users/ainchorsoc2a/.openclaw/workspace"
 # Local scratch area for temp files (macOS mktemp-safe)
 TMP_DIR="$WORKSPACE/.openclaw/tmp"
 mkdir -p "$TMP_DIR"

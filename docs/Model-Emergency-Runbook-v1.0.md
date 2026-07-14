@@ -66,8 +66,8 @@ Detection (cost < $15 OR API unreachable)
 # Before any changes — snapshot
 python3 -c "
 import json, shutil, datetime
-shutil.copy('/Users/ainchorsangiefpl/.openclaw/openclaw.json',
-            '/Users/ainchorsangiefpl/.openclaw/workspace/state/openclaw-pre-emergency.json')
+shutil.copy('/Users/ainchorsoc2a/.openclaw/openclaw.json',
+            '/Users/ainchorsoc2a/.openclaw/workspace/state/openclaw-pre-emergency.json')
 print('Snapshot saved')
 "
 ```
@@ -100,7 +100,7 @@ openclaw gateway restart
 ### Step 7: Verify
 ```bash
 openclaw gateway status
-python3 -c "import json; cfg=json.load(open('/Users/ainchorsangiefpl/.openclaw/openclaw.json')); print([a['id'] + '=' + a['model']['primary'] for a in cfg['agents']['list']])"
+python3 -c "import json; cfg=json.load(open('/Users/ainchorsoc2a/.openclaw/openclaw.json')); print([a['id'] + '=' + a['model']['primary'] for a in cfg['agents']['list']])"
 ```
 
 ### Step 8: Confirm to Ken
@@ -116,16 +116,16 @@ python3 -c "import json; cfg=json.load(open('/Users/ainchorsangiefpl/.openclaw/o
 ### Step 2: Restore original config
 ```bash
 # Restore from snapshot
-cp /Users/ainchorsangiefpl/.openclaw/workspace/state/openclaw-pre-emergency.json \
-   /Users/ainchorsangiefpl/.openclaw/openclaw.json
+cp /Users/ainchorsoc2a/.openclaw/workspace/state/openclaw-pre-emergency.json \
+   /Users/ainchorsoc2a/.openclaw/openclaw.json
 
 # OR restore from claude-restore-config.json (has full original models)
 python3 -c "
 import json
-restore = json.load(open('/Users/ainchorsangiefpl/.openclaw/workspace/state/claude-restore-config.json'))
+restore = json.load(open('/Users/ainchorsoc2a/.openclaw/workspace/state/claude-restore-config.json'))
 original = restore['originalModels']
 
-with open('/Users/ainchorsangiefpl/.openclaw/openclaw.json') as f:
+with open('/Users/ainchorsoc2a/.openclaw/openclaw.json') as f:
     cfg = json.load(f)
 
 for a in cfg['agents']['list']:
@@ -134,7 +134,7 @@ for a in cfg['agents']['list']:
         a['model'] = original[aid]
         print(f'Restored {aid}')
 
-with open('/Users/ainchorsangiefpl/.openclaw/openclaw.json', 'w') as f:
+with open('/Users/ainchorsoc2a/.openclaw/openclaw.json', 'w') as f:
     json.dump(cfg, f, indent=2)
 "
 ```
@@ -260,7 +260,7 @@ CHG-0363 only updated **failed** Anthropic crons. Crons that hadn't failed yet (
 
 **Step 1: Check current whitelist**
 ```bash
-cat /Users/ainchorsangiefpl/.openclaw/workspace/state/model-policy.json | \
+cat /Users/ainchorsoc2a/.openclaw/workspace/state/model-policy.json | \
   python3 -c "import json,sys; d=json.load(sys.stdin); print(d['globalAllowedModels'])"
 ```
 
@@ -281,7 +281,7 @@ cat /Users/ainchorsangiefpl/.openclaw/workspace/state/model-policy.json | \
 
 **Step 4: Verify**
 ```bash
-cat /Users/ainchorsangiefpl/.openclaw/workspace/state/model-policy.json | \
+cat /Users/ainchorsoc2a/.openclaw/workspace/state/model-policy.json | \
   python3 -c "import json,sys; d=json.load(sys.stdin); \
   print('Anthropic in whitelist:', any('anthropic' in m for m in d['globalAllowedModels']))"
 # Should print: False

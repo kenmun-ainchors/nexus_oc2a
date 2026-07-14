@@ -5,16 +5,16 @@
 TEST_COUNT=0
 FAIL_COUNT=0
 
-WORKSPACE="/Users/ainchorsangiefpl/.openclaw/workspace"
+WORKSPACE="/Users/ainchorsoc2a/.openclaw/workspace"
 SAFE_PATH="$WORKSPACE/scripts/safe-path.sh"
 CRON_WRITE="$WORKSPACE/scripts/cron-write.sh"
 
 # Test 1: Tilde expansion
 output=$(zsh "$SAFE_PATH" '~/MEMORY.md' 2>&1)
-if [[ "$output" == "/Users/ainchorsangiefpl/MEMORY.md" ]]; then
+if [[ "$output" == "/Users/ainchorsoc2a/MEMORY.md" ]]; then
   ((TEST_COUNT++))
 else
-  echo "FAIL: tilde expansion — expected /Users/ainchorsangiefpl/MEMORY.md, got '$output'"
+  echo "FAIL: tilde expansion — expected /Users/ainchorsoc2a/MEMORY.md, got '$output'"
   ((FAIL_COUNT++))
 fi
 

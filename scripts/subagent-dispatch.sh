@@ -7,11 +7,11 @@
 #
 # Examples:
 #   bash scripts/subagent-dispatch.sh platform-arch /tmp/assessment-task.md --read-only --timeout 300
-#   bash scripts/subagent-dispatch.sh main /tmp/quick-check.md --timeout 60 --cwd /Users/ainchorsangiefpl/.openclaw/workspace
+#   bash scripts/subagent-dispatch.sh main /tmp/quick-check.md --timeout 60 --cwd /Users/ainchorsoc2a/.openclaw/workspace
 
 set -euo pipefail
 
-WORKSPACE_ROOT="${WORKSPACE_ROOT:-/Users/ainchorsangiefpl/.openclaw/workspace}"
+WORKSPACE_ROOT="${WORKSPACE_ROOT:-/Users/ainchorsoc2a/.openclaw/workspace}"
 DEFAULT_TIMEOUT=300
 DEFAULT_CWD="$WORKSPACE_ROOT"
 

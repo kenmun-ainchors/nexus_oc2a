@@ -9,7 +9,7 @@ echo "=== TKT-0303: sc_read Task Wrapper Tests ==="
 echo -n "Test 1 (sc_read_task — valid task): "
 RESULT=$(python3 -c "
 import sys
-sys.path.insert(0, '/Users/ainchorsangiefpl/.openclaw/workspace/scripts/lib')
+sys.path.insert(0, '/Users/ainchorsoc2a/.openclaw/workspace/scripts/lib')
 from pg_task_queue import sc_read_task
 ok, task, msg = sc_read_task('task-2026-05-17-2e43e59d')
 if ok and task and task['id'] == 'task-2026-05-17-2e43e59d':
@@ -24,7 +24,7 @@ echo "$RESULT"
 echo -n "Test 2 (sc_read_task — missing task): "
 RESULT=$(python3 -c "
 import sys
-sys.path.insert(0, '/Users/ainchorsangiefpl/.openclaw/workspace/scripts/lib')
+sys.path.insert(0, '/Users/ainchorsoc2a/.openclaw/workspace/scripts/lib')
 from pg_task_queue import sc_read_task
 ok, task, msg = sc_read_task('DOES-NOT-EXIST')
 if not ok and task is None:
@@ -39,7 +39,7 @@ echo "$RESULT"
 echo -n "Test 3 (sc_read_all_tasks — returns list): "
 RESULT=$(python3 -c "
 import sys
-sys.path.insert(0, '/Users/ainchorsangiefpl/.openclaw/workspace/scripts/lib')
+sys.path.insert(0, '/Users/ainchorsoc2a/.openclaw/workspace/scripts/lib')
 from pg_task_queue import sc_read_all_tasks
 ok, tasks, msg = sc_read_all_tasks()
 if ok and isinstance(tasks, list) and len(tasks) > 0:
@@ -54,7 +54,7 @@ echo "$RESULT"
 echo -n "Test 4 (sc_read_all_tasks — structural integrity): "
 RESULT=$(python3 -c "
 import sys
-sys.path.insert(0, '/Users/ainchorsangiefpl/.openclaw/workspace/scripts/lib')
+sys.path.insert(0, '/Users/ainchorsoc2a/.openclaw/workspace/scripts/lib')
 from pg_task_queue import sc_read_all_tasks
 ok, tasks, msg = sc_read_all_tasks()
 if not ok:
@@ -76,7 +76,7 @@ echo "$RESULT"
 echo -n "Test 5 (sc_read_task — return type): "
 RESULT=$(python3 -c "
 import sys
-sys.path.insert(0, '/Users/ainchorsangiefpl/.openclaw/workspace/scripts/lib')
+sys.path.insert(0, '/Users/ainchorsoc2a/.openclaw/workspace/scripts/lib')
 from pg_task_queue import sc_read_task
 result = sc_read_task('task-2026-05-17-2e43e59d')
 if len(result) == 3 and isinstance(result[0], bool) and isinstance(result[2], str):
@@ -89,8 +89,8 @@ echo "$RESULT"
 
 # Test 6: task-queue-status.py works via sc_read_task
 echo -n "Test 6 (task-queue-status.py — via sc_read): "
-RESULT=$(python3 /Users/ainchorsangiefpl/.openclaw/workspace/scripts/lib/task-queue-status.py \
-  /Users/ainchorsangiefpl/.openclaw/workspace/state/task-queue.json \
+RESULT=$(python3 /Users/ainchorsoc2a/.openclaw/workspace/scripts/lib/task-queue-status.py \
+  /Users/ainchorsoc2a/.openclaw/workspace/state/task-queue.json \
   task-2026-05-17-2e43e59d 2>&1 | head -1)
 if echo "$RESULT" | grep -q "Task (PG)"; then
     echo "PASS"
@@ -101,8 +101,8 @@ fi
 
 # Test 7: task-queue-list.py works via sc_read_all_tasks
 echo -n "Test 7 (task-queue-list.py — via sc_read): "
-RESULT=$(python3 /Users/ainchorsangiefpl/.openclaw/workspace/scripts/lib/task-queue-list.py \
-  /Users/ainchorsangiefpl/.openclaw/workspace/state/task-queue.json 2>&1 | head -1)
+RESULT=$(python3 /Users/ainchorsoc2a/.openclaw/workspace/scripts/lib/task-queue-list.py \
+  /Users/ainchorsoc2a/.openclaw/workspace/state/task-queue.json 2>&1 | head -1)
 if echo "$RESULT" | grep -q "Total tasks (PG)"; then
     echo "PASS"
 else

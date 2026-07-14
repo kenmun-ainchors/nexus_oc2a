@@ -3,7 +3,7 @@
 set -e
 python3 << 'PYEOF'
 import sys,json
-sys.path.insert(0,'/Users/ainchorsangiefpl/.openclaw/workspace/scripts/lib')
+sys.path.insert(0,'/Users/ainchorsoc2a/.openclaw/workspace/scripts/lib')
 from pg_task_queue import pg_read_all_tasks
 
 # PG task count
@@ -12,10 +12,10 @@ pg_count = len(pg_tasks) if pg_tasks else 0
 
 # If PG has tasks, JSON should exist as fallback
 import os
-json_exists = os.path.exists('/Users/ainchorsangiefpl/.openclaw/workspace/state/task-queue.json')
+json_exists = os.path.exists('/Users/ainchorsoc2a/.openclaw/workspace/state/task-queue.json')
 # Dual-write path confirmed if JSON file exists and can be parsed
 if json_exists:
-    with open('/Users/ainchorsangiefpl/.openclaw/workspace/state/task-queue.json') as f:
+    with open('/Users/ainchorsoc2a/.openclaw/workspace/state/task-queue.json') as f:
         q = json.load(f)
     sys.exit(0)  # both exist
 else:

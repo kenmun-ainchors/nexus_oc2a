@@ -9,14 +9,14 @@
 # Manual checks (placeholders — Yoda performs):
 #   Gap detection, Narrative coherence
 #
-# Depends: db-read.sh, /opt/homebrew/bin/jq
+# Depends: db-read.sh, $JQ
 
 set -euo pipefail
 
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 DB_READ="$SCRIPT_DIR/db-read.sh"
-JQ=/opt/homebrew/bin/jq
-WORKSPACE="/Users/ainchorsangiefpl/.openclaw/workspace"
+JQ=$JQ
+WORKSPACE="/Users/ainchorsoc2a/.openclaw/workspace"
 
 # ── Parsing ──────────────────────────────────────────────────────────
 COMMAND="${1:-}"

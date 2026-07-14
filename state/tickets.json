@@ -4639,5 +4639,17 @@
     "type": "task",
     "created_at": "2026-07-12T08:35:08+10:00",
     "ticket_number": 978
+  },
+  {
+    "id": "TKT-0410",
+    "title": "Fix db-write.sh PG text[] array handling",
+    "status": "closed",
+    "priority": "high",
+    "type": "bug",
+    "created_at": "2026-07-14T05:04:35+10:00",
+    "ticket_number": 410,
+    "metadata": {
+      "resolution": "Fixed db-write.sh to query pg_attribute.format_type() for accurate column types including text[], and added array literal generation for list/tuple values. Verified by restoring TKT-0409 tags."
+    }
   }
 ]

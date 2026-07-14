@@ -12,8 +12,8 @@
 
 set -euo pipefail
 
-WORKSPACE_ROOT="${WORKSPACE_ROOT:-/Users/ainchorsangiefpl/.openclaw/workspace}"
-JQ="${JQ:-/opt/homebrew/bin/jq}"
+WORKSPACE_ROOT="${WORKSPACE_ROOT:-/Users/ainchorsoc2a/.openclaw/workspace}"
+JQ="${JQ:-$JQ}"
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 DECISION_SCRIPT="$SCRIPT_DIR/pg-write-decision.sh"
 emit_decision() {

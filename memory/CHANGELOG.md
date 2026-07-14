@@ -1,960 +1,159 @@
-## 2026-07-12 22:18 AEST — [CHG-0873] CHG-0872 plan approved: Option C fresh install + selective PG import
+## 2026-07-14 15:23 AEST — [CHG-1790] Housekeeping: commit intentional git deletions and clean workspace
 **Type:** infra
 **Change Type:** Normal
 **Source:** ken-prompt
-**Trigger:** Ken approved CREST Plan for CHG-0872; Ollama cloud weekly reset in ~12h
-**What changed:** Migration model locked to Option C: fresh OpenClaw install on OC2A + selective PG import of 21 operational tables (~8K rows); runtime/session/transient tables skipped. OC1-OC2A SSH held temporarily. Staged over 2 days.
-**Why:** Preserve Option 4 strong separation; avoid carrying OC1 drift and stale sessions into production; retain essential operational continuity (tickets, sprints, changelog, model policy, knowledge base).
-**Verification:** CREST Plan reviewed and approved by Ken 2026-07-12 22:17 AEST.
-**Rollback:** Revert to OC1 as PROD gateway; do not proceed with OC2A data import or cutover.
-**Linked:** CHG-0872,TKT-0722,TRIGGER-03
+**Trigger:** Non-HITL cleanup from PG recovery assessment: Ken confirmed deleted files are intentional and should be committed; stale lock and temp helper files to be removed
+**What changed:** Commit deleted/untracked files in git working tree (.env, .clawhub/lock.json, .venv-crewai/, .openclaw/tmp/*, temp helper files); remove literal $STATE_FILE.lock; archive or rotate large old logs
+**Why:** Git working tree has 15,496 deleted/untracked entries causing noise and potential confusion; Ken confirmed intentional removal
+**Verification:** git status clean after commit; stale lock removed; temp files gone; large logs archived
+**Rollback:** git revert the cleanup commit and restore files from backup if needed
+**Linked:** CHG-1789, CHG-1785
 ---
 
-## 2026-07-12 18:31 AEST — [CHG-0872] OC2A commissioning and PROD migration
+## 2026-07-14 14:58 AEST — [CHG-1789] Fix PG-first write path scripts on OC2A
 **Type:** infra
 **Change Type:** Normal
 **Source:** ken-prompt
-**Trigger:** OC2A physical access now available; commission as new PROD and migrate from OC1
-**What changed:** Commission OC2-A Mac Mini M4 Pro 48GB as primary PROD gateway (port 18789). Configure SSH/Screen Sharing/Tailscale access. Install OpenClaw gateway, restore gateway config from OC1 snapshot. Validate health, sessions, crons, models. Cut over DNS/Tailscale routes to OC2-A. OC1 demoted to standby/emergency fallback. Executor: Yoda (orchestrator) + Forge (unattended build).
-**Why:** OC1 is permanently live but capacity-constrained (24GB, no local LLM >8B). OC2-A provides 48GB headroom for HA primary and future inference offload. Migration aligns with TRIGGER-03 (OC2 arrival) and PLATFORM-MIGRATION-2026 roadmap.
-**Verification:** Not yet verified. Verification pending OC2-A network access (SSH/Screen Sharing/Tailscale) and successful gateway health checks post-commission.
-**Rollback:** Revert DNS/Tailscale routes to OC1; restart OC1 gateway from latest config snapshot. OC1 remains operational as fallback.
-**Linked:** TKT-0722 (parked until OC2-A stable), TRIGGER-03, OC2-A, OC1, DELTA4
+**Trigger:** Backfilling TKT-0332/0333 revealed db-write.sh Python syntax errors and db-ticket.sh jq-path bug causing silent file fallback instead of PG writes
+**What changed:** Fix db-write.sh Python env interpolation and psql path resolution; verify db-ticket.sh create-from-json writes to PG; backfill TKT-0332/0333 and any file-fallback ticket writes; audit other state scripts for same jq/env interpolation bugs
+**Why:** PG is SSOT for tickets, CHGs, sprints. Silent file fallback breaks platform state consistency and causes data loss/divergence on OC2A live PROD.
+**Verification:** db-ticket.sh create-from-json TKT-XXXX returns PG row; db-ticket.sh read confirms; db-ticket.sh validate passes; no new pg-write-fallback-state_tickets.jsonl entries
+**Rollback:** Restore previous script versions from git and reprocess fallback file
+**Linked:** CHG-1785, CHG-1786, TKT-0332, TKT-0333
 ---
 
-## 2026-07-12 16:54 AEST — [CHG-0871] TKT-0354 executed: state_standups PG primary write wired
-**Type:** data
+## 2026-07-14 14:37 AEST — [CHG-1788] PG schema reconstruction on OC2A — CHG-1785
+**Type:** infra
 **Change Type:** Normal
 **Source:** ken-prompt
-**Trigger:** TKT-0354 CREST Execute phase completed
-**What changed:** state_standups extended with operational columns (last_standup_date, day_number, email_sent_at, email_sent_confirmed); generate-standup.sh and standup-email-send.sh wired for PG primary write; sync-check.sh path bug fixed; JSON confirmed as derived
-**Why:** CRESTv2-P1 WS-3: PG SSOT for standup state — gates TKT-0359 PG-first write policy
-**Verification:** .openclaw/tmp/TKT-0354-A7-verification.md; TKT-0354 status=done, synced to Notion
-**Rollback:** Re-open TKT-0354; revert generate-standup.sh and standup-email-send.sh changes; drop added columns from state_standups
-**Linked:** TKT-0354,TKT-0342,TKT-0359,CHG-0793
+**Trigger:** CHG-1784 exposed empty ainchors_nexus DB and incompatible schema; Ken approved path A to reconstruct
+**What changed:** Normalized state_tickets schema (255 tickets migrated), state_sprints, state_changes created; db-ticket.sh/db-sprint.sh/db-write.sh jq-path syntax fixed; 10 additional scripts fixed
+**Why:** Restore PG-first ticket, sprint, and CHG operations on OC2A live PROD
+**Verification:** bash -n scripts/db-ticket.sh/db-sprint.sh/db-write.sh pass; db-ticket.sh validate passes; changelog-append.sh writes to state_changes
+**Rollback:** Drop ainchors_nexus and restore from OC1 dump when available
+**Linked:** CHG-1784, CHG-1783, TKT-0332, TKT-0333
 ---
 
-## 2026-07-12 12:42 AEST — [CHG-0870] Stage OC2A Option 4 plan document
-**Type:** config
+## 2026-07-14 14:36 AEST — [CHG-1787] PG schema reconstruction verification
+**Type:** infra
 **Change Type:** Normal
 **Source:** ken-prompt
-**Trigger:** Ken approved OC2A Option 4 plan 2026-07-12 12:41 AEST
-**What changed:** docs/plans/OC2A-Fresh-Install-Plan-v1.0.md updated to Option 4 strong-separation model and staged in git
-**Why:** Plan document must be version-controlled before implementation begins
-**Verification:** git add docs/plans/OC2A-Fresh-Install-Plan-v1.0.md completed
+**Trigger:** CHG-1786
+**What changed:** Verified ainchors_nexus DB and db-ticket.sh/db-sprint.sh syntax on OC2A
+**Why:** Ensure PG-first operations are functional after schema reconstruction
+**Verification:** bash -n passes, db-ticket.sh read TKT-0331, db-ticket.sh validate
 **Rollback:** N/A
-**Linked:** docs/plans/OC2A-Fresh-Install-Plan-v1.0.md
+**Linked:** CHG-1784, CHG-1786
 ---
 
-## 2026-07-12 12:42 AEST — [CHG-0869] Update TRIGGER-01 sub-actions for OC2A Option 4
-**Type:** config
-**Change Type:** Normal
-**Source:** ken-prompt
-**Trigger:** CHG-0868 OC2A implementation planning required trigger updates
-**What changed:** Added 01-OC2A-PRODUCTION sub-action under TRIGGER-01 linking CHG-0868 and tickets TKT-0757-TKT-0762; supersedes 01-PLATFORM-SEPARATION
-**Why:** Topology changed from OC1 business node to OC2A full production + OC1 sandbox
-**Verification:** state/chg-triggers.json updated with new sub-action
-**Rollback:** N/A
-**Linked:** state/chg-triggers.json, CHG-0868, TKT-0757, TKT-0758, TKT-0759, TKT-0760, TKT-0761, TKT-0762
----
-
-## 2026-07-12 12:41 AEST — [CHG-0868] OC2A Fresh Install — Option 4 Strong Separation
+## 2026-07-14 14:33 AEST — [CHG-1786] PG schema reconstruction on OC2A — CHG-1785
 **Type:** infra
 **Change Type:** Normal
 **Source:** ken-prompt
-**Trigger:** Ken approved OC2A Option 4 plan 2026-07-12 12:41 AEST
-**What changed:** OC2A becomes self-governing full production Nexus; OC1 demoted to non-privileged sandbox with no admin path to OC2A; CREST implementation plan created with tickets TKT-0757 through TKT-0762
-**Why:** Strong separation prevents compromised/misconfigured OC1 sandbox from affecting production; Ken selected strongest isolation model
-**Verification:** Plan approval recorded in docs/plans/OC2A-Fresh-Install-Plan-v1.0.md; tickets created; triggers to be updated
-**Rollback:** N/A
-**Linked:** docs/plans/OC2A-Fresh-Install-Plan-v1.0.md, TKT-0757, TKT-0758, TKT-0759, TKT-0760, TKT-0761, TKT-0762
+**Trigger:** CHG-1784 follow-up required working ainchors_nexus schema
+**What changed:** Created normalized state_tickets, state_sprints, state_changes tables on OC2A Homebrew PG; migrated 257 tickets from state/tickets.json; fixed jq-path syntax errors in scripts via Forge subagent
+**Why:** ainchors_nexus DB was empty after cutover; PG-first ticket/sprint/CHG ops were broken on live PROD
+**Verification:** psql counts, db-ticket.sh validate, changelog-append.sh insert
+**Rollback:** Drop ainchors_nexus and restore from OC1 dump when available
+**Linked:** CHG-1784, CHG-1783, TKT-0332, TKT-0333
 ---
 
-## 2026-07-12 11:00 AEST — [CHG-0867] OC1 reboot seamless remote access: FileVault off, auto-login on, OpenClaw node installed
+## 2026-07-14 14:32 AEST — [CHG-1786] PG schema reconstruction on OC2A — CHG-1785 completion test
 **Type:** infra
 **Change Type:** Normal
 **Source:** ken-prompt
-**Trigger:** OC1 rebooted and blocked at FileVault/login screen; manual login required for OpenClaw gateway and RustDesk to start
-**What changed:** FileVault disabled; macOS auto-login enabled for ainchorsangiefpl; OpenClaw node LaunchAgent installed and started (pid 14923); stale com.ainchors.rustdesk LaunchAgent plist moved to ~/.openclaw/tmp/stash/
-**Why:** Enable seamless remote access after hard reboot without manual intervention on OC1 (internal AInchors infra)
-**Verification:** Verified: fdesetup status = FileVault Off; defaults read com.apple.loginwindow autoLoginUser = ainchorsangiefpl; openclaw status shows Gateway service and Node service installed/loaded/running; launchctl list shows ai.openclaw.gateway, ai.openclaw.node, com.carriez.RustDesk_server loaded; ps aux shows RustDesk --server, RustDesk --cm, openclaw-node, and root RustDesk service running
-**Rollback:** Re-enable FileVault and disable auto-login via sysadminctl -autologin off; restore staled plist if needed
-**Linked:** TKT-0336 delegated auth health, TOOLS.md remote access, CHG-0545 CREST orchestrator-only mandate
+**Trigger:** CHG-1784 follow-up required working ainchors_nexus schema
+**What changed:** Created normalized state_tickets, state_sprints, state_changes tables on OC2A Homebrew PG; migrated 257 tickets from state/tickets.json; fixed jq-path syntax errors in scripts via Forge subagent
+**Why:** ainchors_nexus DB was empty after cutover; PG-first ticket/sprint/CHG ops were broken on live PROD
+**Verification:** psql counts, db-ticket.sh validate, changelog-append.sh insert test
+**Rollback:** Drop ainchors_nexus and restore from OC1 dump when available
+**Linked:** CHG-1784, CHG-1783, TKT-0332, TKT-0333
 ---
 
-## 2026-07-12 09:54 AEST — [CHG-0866] LinkedIn token auto-health + refresh safeguards verified (CHG-0865 / TKT-0743)
-**Type:** script
+## 2026-07-14 14:28 AEST — [CHG-1785] Reconstruct ainchors_nexus PG schema and fix state scripts on OC2A
+**Type:** infra
 **Change Type:** Normal
 **Source:** ken-prompt
-**Trigger:** Ken approved closing CHG-0865 after re-authing Angie and Business tokens
-**What changed:** Daily cron 71794d7f-2568-4fa1-8548-da2ca3cc027e active at 07:00 AEST. linkedin-token-health.sh probes all 3 accounts. linkedin-auth.sh --refresh rotates tokens. linkedin-post.sh refresh-on-failure. All auth state files include refreshTokenPresent.
-**Why:** Prevent silent LinkedIn token expiry/revocation that would break scheduled posts for Angie and Business campaigns.
-**Verification:** Live health probe: ken=ok, angie=ok, business=ok. Telegram alert dry-run shows no alerts. bash/zsh -n syntax checks pass on all 4 scripts. Git commit b764b359.
-**Rollback:** Disable cron 71794d7f-2568-4fa1-8548-da2ca3cc027e. Revert scripts to previous Git commit.
-**Linked:** CHG-0865, TKT-0743
+**Trigger:** CHG-1784 exposed that ainchors_nexus DB was empty on OC2A; migrate-state-to-postgres.sh creates outdated schema; db-ticket.sh and db-write.sh have shell/Python bugs
+**What changed:** Define canonical state_tickets/state_sprints/state_* schema compatible with db-ticket.sh/db-sprint.sh/db-write.sh; fix db-ticket.sh jq-path syntax at line 1309 and similar; fix db-write.sh Python env/string interpolation bugs; migrate current JSON fallback data into new schema; verify db-ticket.sh validate passes
+**Why:** PG-first operations (tickets, sprints, CHG sync) are currently broken on OC2A live PROD. Need a working baseline even without historical OC1 data.
+**Verification:** Schema created, scripts pass bash -n and dry-run, db-ticket.sh validate passes, table counts match fallback files
+**Rollback:** Drop ainchors_nexus and restore from OC1 dump when available
+**Linked:** CHG-1784, CHG-1783, TKT-0332, TKT-0333
 ---
 
-## 2026-07-12 08:55 AEST — [CHG-0865] LinkedIn token auto-health probe, refresh-on-failure, and re-auth reminder cron
-**Type:** script
+## 2026-07-14 08:30 AEST — [CHG-1784] PostgreSQL auto-start/resilience on OC2A
+**Type:** infra
 **Change Type:** Normal
 **Source:** ken-prompt
-**Trigger:** Ken directive 2026-07-12 08:52 AEST: prevent Angie and AInchors business LinkedIn token expiry by adding auto-health probe and refresh handling
-**What changed:** Add linkedin-token-health.sh probe script for ken/angie/business accounts; wire refresh_token exchange in linkedin-auth.sh or linkedin-post.sh on 401/REVOKED/EXPIRED; add daily token-health cron with expiry-window alerts to Telegram; update state/linkedin-token-health-{account}.json with status, reason, next_action, expiry; ensure all changes cover personal and organization OAuth flows
-**Why:** Date-based expiry checks miss early revocations (business token revoked 38 days before expiry). Manual re-auth is reactive and blocks campaigns. Proactive probe + refresh + reminders prevent silent token failures.
-**Verification:** DoD: probe returns 200 for all three accounts after re-auth; refresh path tested with mock 401 and live dry-run; cron registers and fires; Telegram alert sent within 7-day expiry window; state files updated with health status
-**Rollback:** Disable cron; restore linkedin-auth.sh and linkedin-post.sh from git; remove state/linkedin-token-health-*.json if needed
-**Linked:** TKT-0743, TKT-0974, CHG-0766, CHG-0860
+**Trigger:** CHG-1783 Notion sync failed because postgresql@16 service was not running after reboot; Ken confirmed PG is installed but not auto-loading
+**What changed:** (1) Configure postgresql@16 to auto-start on boot via brew services. (2) Verify socket on /tmp/.s.PGSQL.5432. (3) Create recovery SOP at docs/runbooks/postgresql-oc2a-recovery.md. (4) Decommission Postgres.app from OC2A to remove conflict.
+**Why:** OC2A is live PROD HIVE lead; PG is required for Notion sync, ticket/sprint ops, and platform state. Current state was not operationally resilient to reboots, and Postgres.app was a non-resilient duplicate installation.
+**Verification:** PG accepting connections on localhost:5432; brew services shows postgresql@16 started with LaunchAgents plist; recovery SOP created; /Applications/Postgres.app removed; Homebrew PG is the only PG process.
+**Rollback:** Disable auto-start and restore previous manual-start pattern; reinstall Postgres.app from backup if needed.
+**Status:** closed 2026-07-14 14:15 AEST by Ken approval. Residual: historical ainchors_nexus data migration from OC1 deferred because OC1 Tailscale/RustDesk access was disrupted during recovery attempts; a new CHG/Ticket will be raised when OC1 is reachable.
+**Linked:** CHG-1783, TRIGGER-03, TKT-0407
 ---
 
-## 2026-07-11 12:58 AEST — [CHG-0864] Retarget LinkedIn draft crons to Aria/BUSINESS stream; handoff Week 5/6 drafts to Aria; remove WO-002 divergence daily check
-**Type:** cron
+## 2026-07-14 08:24 AEST — [CHG-1783] TRIGGER-03 close / OC2A commissioning as PROD HIVE lead
+**Type:** infra
 **Change Type:** Normal
 **Source:** ken-prompt
-**Trigger:** Ken approval (Yoda orchestrated, Forge execute)
-**What changed:** 8 LinkedIn draft crons retargeted to Aria (agentId=business); WO-002 divergence daily check removed; Aria handoff document created; state files updated
-**Why:** LinkedIn batch+fallback draft crons were routing through Yoda/TECH stream. Per Ken decision, these belong in BUSINESS stream under Aria. WO-002 divergence monitoring completed its 7-day streak and is no longer needed.
-**Verification:** All 8 crons updated with Aria-targeted payloads; WO-002 cron removed; handoff document written; state files updated with handoff-pending status
-**Rollback:** Restore cron payloads from backup; re-enable WO-002 cron
+**Trigger:** Ken confirmed OC2A is live PROD; cutover complete
+**What changed:** state/chg-triggers.json TRIGGER-03 fired; TRIGGER-01/02 marked not_applicable (single-node PROD until HA pair commissioned); MEMORY.md/TOOLS.md OC1/OC2A role descriptions corrected if stale
+**Why:** Hardware identity and Tailscale IP confirm OC2A is the live HIVE lead node; trigger tracker and docs must reflect ground truth
+**Verification:** Forge execution report + Gemma4:26b OC2A benchmark + Sage QA review
+**Rollback:** N/A
+**Linked:** CHG-0843, TRIGGER-03, TRIGGER-01, TRIGGER-02
+---
+
+## 2026-07-14 00:45 AEST — [CHG-0714] OC2A declared live production environment
+**Type:** infra
+**Change Type:** Normal
+**Source:** ken-prompt
+**Trigger:** Migration from OC1 to OC2A completed; Ken confirmed OC2A is live PROD 2026-07-14 00:44 AEST
+**What changed:** MEMORY.md/SOUL.md/TOOLS.md updated: OC2A is live PROD HIVE lead node; OC1 repurposed to standalone dev/test passive standby. Tailscale IP/hostname, Homebrew prefix, and remote access notes updated.
+**Why:** Ensure all platform memory and agent context reflect the authoritative production host, preventing stale OC1 references from causing routing or operational errors.
+**Verification:** Manual inspection of MEMORY.md, SOUL.md, TOOLS.md; journal entry written; context now points to OC2A (100.123.95.47 / ainchorsoc2as-mac-mini-1.tailfc3ed1.ts.net).
+**Rollback:** N/A
 **Linked:** none
 ---
 
-## 2026-07-11 09:10 AEST — [CHG-0863] Process-count heartbeat for exec-empty investigation
+## 2026-07-14 00:45 AEST — [CHG-0713] CHG-0712: stale path & username cleanup — execution complete
+**Type:** config
+**Change Type:** Normal
+**Source:** ken-prompt
+**Trigger:** Forge remediation run 1affde43 left scripts/db-read.sh and ~2,800 tests/ references using old host ainchorsangiefpl; Ken approved follow-up at 2026-07-14 00:25 AEST
+**What changed:** (1) scripts/db-read.sh: SCRIPT_DIR_READ → WORKSPACE_ROOT → scripts/db-raw.sh (script-relative); PGUSER default = $(whoami) with env override. (2) Systematic ainchorsangiefpl → script-relative or $HOME-based across 182 files; 342 → 2 remaining (intentional comments). (3) /opt/homebrew/bin/psql → ${PSQL_BIN:-$(brew --prefix postgresql@16 2>/dev/null)/bin/psql}; /opt/homebrew/bin/{gog,jq} → command -v with brew fallback. (4) migrate-changelog-to-pg.py, migrate-lessons-to-pg.py, lib/pg_task_queue.py: _psql_bin() helper using shutil.which + os.environ['PSQL_BIN'] + brew --prefix fallback. (5) safe-path.sh: WORKSPACE_HOME derived from _USER_HOME (dynamic). (6) tests/safe-path-regression.sh, TKT-0196-acceptance.sh: assertions use $HOME-relative.
+**Why:** Complete post-migration hygiene. Prevents silent failures in regression tests, verification suites, and any operational scripts branching into stale absolute paths.
+**Verification:** A. db-read.sh EXIT 0, 385 rows. B. tkt0721-completeness.sh EXIT 0, 763 markdown CHGs, 757 unique PG IDs, 0 missing. C. safe-path-regression.sh 6/6 PASS. D. cron-health-check.sh EXIT 0, no stale LaunchAgents. E. request-budget-check.sh EXIT 0, 4.1% budget. F. grep -R ainchorsangiefpl scripts/ tests/ | wc -l = 2 (intentional comments in tkt0721/tkt0362 verify scripts).
+**Rollback:** git checkout on edited files.
+**Linked:** Prior CHG from run 1affde43; state/chg-pending-post-migration-path-remediation.md; state/chg-pending-stale-path-cleanup.md
+---
+
+## 2026-07-14 00:27 AEST — [CHG-0712] Stale path & username cleanup (post-migration follow-up)
+**Type:** script
+**Change Type:** Normal
+**Source:** ken-prompt
+**Trigger:** CHG-DRAFT chg-pending-stale-path-cleanup.md approved by Ken 2026-07-14 00:25 AEST. Forge remediation run 1affde43 left scripts/db-read.sh and ~2,800 tests/ references still using old host ainchorsangiefpl.
+**What changed:** scripts/db-read.sh: resolve WORKSPACE_ROOT from script location; source db-raw.sh via script-relative path; default DB user to current OS user. Systematic replacement of ainchorsangiefpl → script-relative or $HOME-based resolution; ainchorsangiefpl DB user → $(whoami) with env override preserved; /opt/homebrew/bin/psql → $(command -v psql) with brew-prefix fallback; /opt/homebrew/bin/{gog,jq} → command -v with brew-prefix fallback. Tests updated to use current host username in path assertions (behavior preserved: assert that safe-path.sh returns the runner's home).
+**Why:** Complete post-migration hygiene started under prior CHG. Prevents silent failures in regression tests, verification suites, and operational scripts that branch into code paths still containing stale absolute paths.
+**Verification:** bash scripts/db-read.sh state_tickets SELECT COUNT(*) FROM state_tickets; → EXIT 0. bash tests/verify/tkt0721-completeness.sh → EXIT 0. bash tests/safe-path-regression.sh → EXIT 0. bash scripts/cron-health-check.sh → EXIT 0. bash scripts/request-budget-check.sh --report → EXIT 0. Grep sweep → only intentional skips remain (state/archive/*, migration reports).
+**Rollback:** Revert edited files via git.
+**Linked:** CHG-DRAFT state/chg-pending-stale-path-cleanup.md; state/chg-pending-post-migration-path-remediation.md
+---
+
+## 2026-07-13 23:25 AEST — [CHG-0876] PG-Notion Integrity Audit cron repair (23-day outage) + skill-gate sourcing bug
 **Type:** cron
-**Change Type:** Normal
-**Source:** ken-prompt
-**Trigger:** Scoping brief CRESTv2-P1-EXEC-INTERCEPT-SCOPE-001 §5: need rolling process-count + ulimit time-series independent of exec interception feasibility.
-**What changed:** Add a 5-minute cron that records ps aux count + ulimit -u to state/process-count-history.log (rolling 24h window) and state/process-count-current.json. Use lightweight shell; trim entries older than 24h on each write. Independent of exec-wrapper.sh.
-**Why:** Provides retrospective correlation if exec-empty recurs: elevated process count before failure is a usable artifact even without native exec interception.
-**Verification:** DoD: 30-minute live run shows entry every 5 min with no gaps; state/process-count-history.log holds 24h; no heartbeat/cron health errors.
-**Verification results (2026-07-11 11:14 AEST):**
-- ✅ Script `scripts/process-count-heartbeat.sh` verified working (procs=850, ulimit=4000)
-- ✅ Rolling 24h trim works (entries >24h removed)
-- ✅ Cron registered via `openclaw cron add` (name: `process-count-heartbeat`, every 5m, isolated session, no delivery)
-- ✅ Cron status: enabled, idle, next run in ~4 min
-- ⏳ 30-min window verification: pending (cron just added, needs 6 consecutive runs)
-- Historical data shows 12 samples from 08:37-11:09 AEST (15-min intervals from earlier manual runs)
-- Process count range: 827-850 (stable), ulimit: 4000 (consistent)
-**Rollback:** `openclaw cron rm process-count-heartbeat`; remove state/process-count-history.log, state/process-count-current.json, state/process-count-history.json.
-**Linked:** CHG-0861, CRESTv2-P1-EXEC-INSTRUMENT-001, CRESTv2-P1-EXEC-INTERCEPT-SCOPE-001, L-175
----
-
-## 2026-07-11 08:35 AEST — [CHG-0862] Warden model-drift state re-baseline to CHG-0855 model-policy.json
-**Type:** config
-**Change Type:** Normal
-**Source:** ken-prompt
-**Trigger:** T4 triage found state/model-drift-state.json 5 days stale with baseline predating CHG-0855 model-policy.json change (defaultPolicy.primary now ollama/kimi-k2.7-code:cloud).
-**What changed:** Re-baseline state/model-drift-state.json to current model-policy.json (CHG-0855); force-run model-drift-check.sh under new baseline; verify Warden cron writes state correctly going forward.
-**Why:** Governance gap: Warden monitor is enforcing an outdated baseline. Must align drift detection with approved model policy before it can detect real violations.
-**Verification:** DoD: model-drift-state.json lastCheck current, baseline matches CHG-0855, no unresolved violations or all violations documented and approved, Warden cron updates state within one cycle.
-**Rollback:** Restore previous model-drift-state.json baseline from backup; re-open any superseded violations for review.
-**Linked:** CHG-0855, CHG-0778 triage T4, CRESTv2-P1-EXEC-INSTRUMENT-001 §4
----
-
-## 2026-07-11 08:35 AEST — [CHG-0861] Yoda-only exec instrumentation wrapper + process-count heartbeat
-**Type:** script
-**Change Type:** Normal
-**Source:** ken-prompt
-**Trigger:** Intermittent exec-empty symptom (CRESTv2-P1-EXEC-INSTRUMENT-001) — root cause unknown, no failure artifacts captured, platform stable.
-**What changed:**
-  1. `scripts/exec-wrapper.sh` — Yoda-only transparent exec wrapper. Instruments only when `OPENCLAW_AGENT_ID=yoda` (or hook installed). Non-Yoda sessions pass through with zero overhead. Logs empty/non-zero exec calls to `state/exec-debug.log` and PG table `state_exec_debug`. Every 50th successful exec logs a lightweight sample (process_count + ulimit_u only). PG fallback to file-only if PG unavailable. Supports `install`, `uninstall`, `status` commands.
-  2. `scripts/exec-debug-init-pg.sql` — Idempotent PG table creation (UUID PK, indexes on timestamp DESC and exit_code).
-  3. `scripts/health-check.sh` — Added process-count + ulimit sampling every 5 min to rolling 24h `state/process-count-history.json` (288 samples max).
-  4. `scripts/test-exec-instrument.sh` — Test harness (21 tests: non-Yoda pass-through, empty return, non-zero exit, normal success, sampling, heartbeat, latency, PG fallback, install/uninstall).
-**Why:** Only way to diagnose intermittent failure is to instrument path and capture evidence on next occurrence before any restart/remediation. Yoda-only to avoid platform-wide risk.
-**Verification:** All 21/21 tests pass. Non-Yoda sessions pass through with zero instrumentation. Latency overhead 30ms per call (threshold: <100ms). Empty return and non-zero exit produce complete artifacts in both file and PG. PG fallback to file-only confirmed. Process-count heartbeat populates rolling history. Existing CHG-0778 guards and CHG-0776 Yoda exec self-restriction unchanged.
-**Rollback:**
-  - Remove `scripts/exec-wrapper.sh`
-  - Remove `scripts/exec-debug-init-pg.sql`
-  - Remove `scripts/test-exec-instrument.sh`
-  - Revert `scripts/health-check.sh` to pre-CHG-0861 version
-  - Drop PG table: `DROP TABLE IF EXISTS state_exec_debug;`
-  - Remove `state/exec-debug.log`, `state/process-count-history.json`, `state/.exec-wrapper-counter`, `state/.exec-wrapper-hook-active`
-**Linked:** CRESTv2-P1-EXEC-INSTRUMENT-001, CHG-0778, CHG-0776, TKT-0348
-
-**Scope amendment — 2026-07-11 08:42 AEST (Ken directive):** Roll-out is Yoda-only, not platform-wide. WS-3 / TKT-0348 and CHG-0862 (Warden re-baseline) are parked until exec-empty issue is resolved. Verification claims above are the target DoD and will be confirmed by actual build/test before this CHG is closed.
----
-
-## 2026-07-10 12:14 AEST — [CHG-0860] Separate LinkedIn campaign state per account (Ken personal, Angie personal, AInchors business)
-**Type:** config
-**Change Type:** Normal
-**Source:** ken-prompt
-**Trigger:** Ken directive 2026-07-10: Spark struggling to manage 3 LinkedIn campaigns concurrently through single state/cron pipeline; missed Thu personal post. Move LI-W4-P12 handled separately.
-**What changed:** Design and implement separate LinkedIn campaign state per account: state/linkedin-campaign-ken.json, state/linkedin-campaign-angie.json, state/linkedin-campaign-business.json (or equivalent). Update Spark publish crons and fallback draft crons to operate per-campaign. Update linkedin-post.sh and related scripts to resolve account cleanly.
-**Why:** Single linkedin-campaign.json mixes Ken personal, Angie personal, and AInchors business streams. Slots collide, drafts get dropped, and publish crons cannot tell which account a post belongs to. Week 4 already dropped both Tue and Thu personal posts.
-**Verification:** Re-run all publish crons in dry-run mode for each account; confirm no slot collisions and each post resolves to correct account/organizationId. Confirm missed-slot rule still works per campaign.
-**Rollback:** Restore single state/linkedin-campaign.json from git; revert cron payload changes.
-**Linked:** TKT-0973, TKT-0974, CHG-0858, TRIGGER-01
----
-
-## 2026-07-10 11:57 AEST — [CHG-0859] Add OC2 Ollama Cloud outage probe sub-action to TRIGGER-01
-**Type:** config
-**Change Type:** Normal
-**Source:** ken-prompt
-**Trigger:** Ken directive 2026-07-10 11:57: after CHG-0858 outage-detect no-op, schedule proper Ollama Cloud outage probe for OC2 with fallback to local OC2 model.
-**What changed:** Add sub-action to TRIGGER-01 (OC2 Arrival) in state/chg-triggers.json: design and implement Ollama Cloud outage probe; configure fallback to local OC2 model when Cloud unreachable; re-enable outage-detect.sh logic with cloud-aware probe.
-**Why:** outage-detect.sh disabled under CHG-0858 because it probed localhost:11434, which is invalid for Ollama Cloud and risks false standby. A proper cloud probe requires OC2 infrastructure and local fallback capability.
-**Verification:** state/chg-triggers.json parses as valid JSON; TRIGGER-01 sub-actions include the new entry; no duplicate IDs.
-**Rollback:** Restore previous state/chg-triggers.json from git.
-**Linked:** CHG-0858, TKT-0973, TRIGGER-01, TRIGGER-03
----
-
-## 2026-07-10 09:43 AEST — [CHG-0858] Remove Anthropic fallback checks from validate-fallback-chain.sh and callers
-**Type:** script
-**Change Type:** Normal
-**Source:** ken-prompt
-**Trigger:** Ken asked about stale Anthropic fallback alert after CHG-0855; validate-fallback-chain.sh still flags Anthropic key missing.
-**What changed:** Update scripts/validate-fallback-chain.sh to remove LINK 1 (Anthropic key) and LINK 2 (Anthropic API reachability); make Ollama Cloud / model-policy.json the primary validated chain. Update callers: outage-detect.sh, outage-handler.sh, run-ci-cycle-a.sh, startup-checks.sh if they rely on Anthropic links.
-**Why:** CHG-0855 parked Anthropic but missed validate-fallback-chain.sh. The script runs on gateway start and via outage/startup/CI scripts, producing false 'Fallback Chain Broken' alerts every time.
-**Verification:** Run validate-fallback-chain.sh and confirm overall: ok, anthropicKey/anthropicApi removed or skipped, no /tmp/pvt-alert.txt entry.
-**Rollback:** Restore previous validate-fallback-chain.sh from git.
-**Linked:** CHG-0855, TKT-0972
----
-
-## 2026-07-10 08:57 AEST — [CHG-0857] Refresh auto-heal CHECK 1 + auth-profiles + stale baselines
-**Type:** script
-**Change Type:** Normal
-**Source:** ken-prompt
-**Trigger:** Auto-heal needs_ken list (6 items) surfaced 2026-07-10; Ken approved recreation of auth-profiles.json for Ollama Cloud and refresh of stale checks.
-**What changed:** 1) Recreate auth-profiles.json for Ollama Cloud agent auth; remove Anthropic dependency from auto-heal CHECK 1. 2) Refresh gateway config baseline via gateway-config-snapshot.sh. 3) Update agent-identity-audit.sh to ignore runtime-only agents without workspace/ subdirs. 4) Re-run cron-timeout baseline refresh (TKT-0339). 5) Re-run sandbox boundary audit (TKT-0332). 6) Resolve TKT-0336 tilde-path state-file regressions.
-**Why:** Anthropic parked per CHG-0855; auth-profiles.json removed; auto-heal CHECK 1 still expects it. Gateway config changed under CHG-0855/0856 without baseline refresh. Closed tickets TKT-0336/0339/0332 regressed in auto-heal output.
-**Verification:** Re-run auto-heal and confirm needs_ken count drops to 0 (excluding new genuine issues). Verify Ollama Cloud model routing still works.
-**Rollback:** Restore auto-heal.sh from git; restore auth-profiles.json from backup if Ollama auth breaks.
-**Linked:** TKT-0336, TKT-0339, TKT-0332, CHG-0855, CHG-0856
----
-
-## 2026-07-09 22:21 AEST — [CHG-0856] Patch Holocron v1.1 docs for stale Anthropic/model-count references
-**Type:** doc
-**Change Type:** Normal
-**Source:** ken-prompt
-**Trigger:** Ken asked at 22:20 AEST 2026-07-09: 'Holocron agent fleet references?' following CHG-0855 Anthropic cleanup
-**What changed:** Patch factual inconsistencies in APPROVED v1.1 Holocron docs introduced by CHG-0855 removing Anthropic models from model-policy.json globalAllowedModels. docs/DataMemory_P1P4_Roadmap-v1.1.md: 12→9 models, remove Claude from T1 working-memory model roster, remove Claude/Anthropic from TLS callouts, update Data Residency Register scope. docs/Nexus-System-Architecture-v1.1.md: reconcile contradictory Anthropic DPA status lines to 'NOT VERIFIED — permanently parked per CHG-0502/0855'. docs/Aevlith-Technology-Strategy-Roadmap-v1.1.md: clarify Luthen status as queued P2, not active.
-**Why:** Approved v1.1 docs contain factual errors now that Anthropic models are removed from the allowed list and the platform runs entirely on Ollama Cloud.
-**Verification:** grep across v1.1 docs confirms zero '12 models'/'12 approved models' references and consistent DPA 'not verified/parked' status.
-**Rollback:** git revert the three v1.1 docs to pre-patch state.
-**Linked:** CHG-0849,CHG-0850,CHG-0853,CHG-0855
----
-
-## 2026-07-09 22:08 AEST — [CHG-0855] Replace deprecated Anthropic model references with Ollama Cloud equivalents
-**Type:** config
-**Change Type:** Normal
-**Source:** ken-prompt
-**Trigger:** Ken requested at 22:05 AEST 2026-07-09: ensure deprecated Anthropic models replaced by correct Ollama Cloud assignment and routing across crons, config, and Holocron
-**What changed:** 1) Remove anthropic/claude-* entries from state/model-policy.json globalAllowedModels. 2) Update SOUL.md Yoda model line from claude-sonnet-4.6 to ollama/kimi-k2.7-code:cloud. 3) Update stale Anthropic references in architect/, biz-process/, change-mgt/ root AGENTS.md files to current Ollama Cloud models per policy. 4) Refresh PG agent_registry.model_preference to match openclaw.json v3.0 assignments. 5) Add supersession note to docs/AI_GOVERNANCE_FRAMEWORK_v1.0.md pointing to v1.1 Aevlith roadmap and model-policy.json.
-**Why:** Anthropic models are permanently parked (CHG-0502). Active config and Holocron still contain stale Anthropic references that could cause confusion or accidental routing.
-**Verification:** grep across crons/config/active docs shows zero anthropic/claude primary assignments; model-policy.json globalAllowedModels excludes Anthropic; agent_registry matches openclaw.json; SOUL.md and root AGENTS.md refs updated.
-**Rollback:** Restore model-policy.json from state/chg-0855-model-policy.json.rollback; git revert SOUL.md, root agent AGENTS.md files, docs/AI_GOVERNANCE_FRAMEWORK_v1.0.md; restore agent_registry model_preference from state/chg-0855-agent-registry.rollback.
-**Linked:** CHG-0502,CHG-0812,CHG-0853
----
-
-## 2026-07-09 20:39 AEST — [CHG-0854] Phase 4 Holocron refresh: agent_registry staleness + Auto-Heal B triage
-**Type:** doc
-**Change Type:** Normal
-**Source:** ken-prompt
-**Trigger:** Ken approved 'Proceed' for Phase 4 at 20:35 AEST 2026-07-09
-**What changed:** 1) Update PG agent_registry.updated_at for all 14 active agents to current timestamp and verify roster/capabilities match current state. 2) Triage Notion Auto-Heal DB B: 169 open items with missing Type values and zero 30-day edits — assign Types, close stale/resolved items, surface actionable items.
-**Why:** Phase 1 audit identified PG agent_registry.updated_at 47 days stale and Auto-Heal B 169 untyped inactive open items.
-**Verification:** agent_registry query shows all 14 agents active with correct capabilities; Auto-Heal B query returns 169 open items categorized by source and age with Type values assigned.
-**Rollback:** Re-update agent_registry.updated_at to previous values from backup; revert Notion Auto-Heal B status/Type changes via Notion page history.
-**Linked:** CHG-0849,CHG-0850,CHG-0851,CHG-0852,CHG-0853
----
-
-## 2026-07-09 20:34 AEST — [CHG-0853] Phase 3 Holocron refresh: promote three architecture v1.1 drafts to APPROVED
-**Type:** doc
-**Change Type:** Normal
-**Source:** ken-prompt
-**Trigger:** Ken approved three v1.1 DRAFT docs at 20:34 AEST 2026-07-09
-**What changed:** Promote docs/Nexus-System-Architecture-v1.1-DRAFT.md → docs/Nexus-System-Architecture-v1.1.md, docs/Aevlith-Technology-Strategy-Roadmap-v1.1-DRAFT.md → docs/Aevlith-Technology-Strategy-Roadmap-v1.1.md, docs/DataMemory_P1P4_Roadmap-v1.1-DRAFT.md → docs/DataMemory_P1P4_Roadmap-v1.1.md. Mark headers APPROVED v1.1 by Ken Mun 2026-07-09. Deprecate original v1.0 files via header note.
-**Why:** Phase 3 deliverables reviewed and approved by Ken; v1.0 docs were 54–56 days stale.
-**Verification:** Draft files confirmed present at expected paths with DRAFT FOR REVIEW status; diff against v1.0 shows updates to agent count, CREST, PG SSOT, OC2, recent CHGs, and memory tiers.
-**Rollback:** Restore original v1.0 files from git and remove v1.1 files.
-**Linked:** CHG-0849,CHG-0850,CHG-0851,CHG-0852
----
-
-## 2026-07-09 19:55 AEST — [CHG-0852] Phase 3 Holocron refresh: refresh stale architecture and strategy docs
-**Type:** doc
-**Change Type:** Normal
-**Source:** ken-prompt
-**Trigger:** Ken approved 'Proceed' for Phase 3 after CHG-0851 completion
-**What changed:** Refresh or supersede three stale docs: docs/Nexus-System-Architecture-v1.0.md, docs/Aevlith-Technology-Strategy-Roadmap-v1.0-Internal.md, docs/DataMemory_P1P4_Roadmap.md. Update to reflect CREST v1.3, 14-agent model, PG SSOT-first architecture, OC2 hardware plan, current active projects.
-**Why:** Phase 1 audit found these docs 54-56 days stale and materially out of date with current platform state.
-**Verification:** Updated docs checked against PG agent_registry, state/model-policy.json, memory/shared/projects.md, CHG-0837-0851, and current openclaw.json.
-**Rollback:** git revert the three docs to previous versions.
-**Linked:** CHG-0849,CHG-0850,CHG-0851
----
-
-## 2026-07-09 19:33 AEST — [CHG-0851] Phase 2b Holocron refresh: backfill 273 missing CHGs to Notion Archive C
-**Type:** doc
-**Change Type:** Normal
-**Source:** ken-prompt
-**Trigger:** Ken approved '2b first' after CHG-0850 Phase 2 completion
-**What changed:** Batch-create 273 CHG pages in Notion Archive DB C (364c1829-53ff-818e-a783-ebafcb6a9880) for CHG records present in PG state_changes but missing from Notion. Pages include Title, Type=CHG, Status=Done, Description, Completed Date, Priority.
-**Why:** Phase 1 audit found 827 PG CHGs vs 558 Notion Archive C CHG pages (273 gap), creating source-of-truth drift and incomplete AKB history.
-**Verification:** Post-backfill Notion query confirms 827 CHG pages in Archive C matching PG count; sample pages checked for correct title/description/status.
-**Rollback:** Delete the 273 created Notion pages or mark them Archived; restore PG state if Notion writes fail.
-**Linked:** CHG-0849,CHG-0850
----
-
-## 2026-07-09 19:22 AEST — [CHG-0850] Phase 2 Holocron refresh: fix core reference drift and pending audit
-**Type:** doc
-**Change Type:** Normal
-**Source:** ken-prompt
-**Trigger:** Ken approved 'Agreed. Proceed' for Phase 2 Holocron updates (CHG-0849 follow-up)
-**What changed:** Update memory/shared/notion.md (14 agents, correct Content Calendar DB ID), memory/shared/integrations.md (14 agents), memory/shared/company.md (LinkedIn priority), memory/shared/projects.md (active projects); resolve pending state_notion_sync audit record.
-**Why:** Phase 1 audit found P1 drift between local reference docs and PG/Notion current state, plus a 35-day-pending sync audit record.
-**Verification:** Audit files state/holocron-audit-*-2026-07-09.json and PG agent_registry/state_notion_sync.
-**Rollback:** git revert memory/shared/*.md and restore state_notion_sync pending status if needed.
-**Linked:** CHG-0849
----
-
-## 2026-07-09 18:33 AEST — [CHG-0849] CHG-0846: Holocron (AKB) comprehensive refresh — Phase 1 audit
-**Type:** doc
-**Change Type:** Normal
-**Source:** ken-prompt
-**Trigger:** Ken approved the Holocron refresh plan at 2026-07-09 18:32 AEST. AKB content is stale and drift exists between PG, Notion, and local docs.
-**What changed:** Initiate Phase 1 audit of all Holocron sources: Notion workspace + DBs, local docs (docs/, memory/, agent-skills), agent SOUL/AGENTS/TOOLS/USER, PG state tables, state/*.json, CHANGELOG.md. Deliver state/holocron-audit-2026-07-09.json with stale/drift findings and P1/P2/P3 priorities.
-**Why:** Ensures AKB reflects current system state; eliminates stale tribal knowledge and drift between PG, Notion, and local markdown.
-**Verification:** Phase 1 audit JSON delivered; stale findings cross-checked against PG/Notion/local sources; P1 items validated before Phase 2 updates.
-**Rollback:** N/A
-**Linked:** CHG-0840, CHG-0841, CHG-0842, CHG-0843, CHG-0844, CHG-0845
----
-
-## 2026-07-09 13:29 AEST — [CHG-0845] CHG-0845: Harden changelog-append.sh PG dual-write error handling
-**Trigger:** CHG-0844 creation showed 'WARNING: PG insert failed' but script continued, leaving markdown+Notion consistent while PG was missing the record. Ken directed: fix it, do not leave open bugs.
-**What changed:** Modify scripts/changelog-append.sh so the PG INSERT into state_changes is not silently swallowed via 2>/dev/null. Options: capture stderr, retry up to N times with backoff, and on final failure either exit non-zero (fail closed) or write a dead-letter state file (e.g. state/chg-pg-dead-letter.json) and still exit non-zero. Preserve markdown+Notion writes that already succeeded. Ensure idempotency: re-running with same CHG_ID should not duplicate if PG record exists.
-**Why:** Prevents inconsistent dual-write state where CHG records exist in markdown/Notion but not in PG SSOT.
-**Verification:** After fix: simulate or trigger a PG failure condition and confirm script exits non-zero or writes clear dead-letter state; verify successful runs still insert normally; verify duplicate re-run is idempotent.
-**Rollback:** N/A
-**Linked:** CHG-0844
----
-
-## 2026-07-09 13:19 AEST — [CHG-0844] CHG-0844: Switch web_search provider from MiniMax to DuckDuckGo
-**Type:** config
-**Change Type:** Normal
-**Source:** ken-prompt
-**Trigger:** web_search currently configured with provider="minimax" but no MiniMax API key is set, causing every web_search call to fail with missing_minimax_api_key. Ken approved switching to the key-free DuckDuckGo provider and testing.
-**What changed:** Update openclaw.json tools.web.search.provider from "minimax" to "duckduckgo". Verify web_search returns results. Rollback to minimax if DuckDuckGo fails or rate-limits.
-**Why:** Restores working web search capability without requiring paid API credentials.
-**Verification:** Run web_search query after config change; confirm non-empty results and no API-key error.
-**Rollback:** N/A
-**Linked:** CHG-0839, CHG-0840
----
-
-## 2026-07-09 12:24 AEST — [CHG-0843] CHG-0843: Remediate retention-cleanup error, review residual main-target crons, fix memory-flush path duplication
-**Type:** cron
-**Change Type:** Normal
-**Source:** ken-prompt
-**Trigger:** Post-CHG-0840 status review found: (1) retention-cleanup-daily cron (176cd48b) in error state; (2) 4 croms still target main session; (3) memory flushes are writing to both memory/ and .openclaw/workspace/memory/.
-**What changed:** (1) Diagnose and fix retention-cleanup-daily cron error; (2) Review 4 remaining main-target croms and convert to isolated where safe; (3) Investigate and fix memory-flush path duplication so all memory files land in memory/ at workspace root.
-**Why:** Prevents degradation recurrence from main-session load and ensures memory/daily-cleanup reliability.
-**Verification:** Post-fix verification: retention-cleanup cron status=ok and runs successfully; main-target cron count reduced; git status shows no nested .openclaw/workspace/memory/ entries; memory/YYYY-MM-DD.md receives new flushes.
-**Rollback:** Re-enable any converted crons if isolated target fails; restore retention-cleanup previous schedule/config if fix worsens.
-**Linked:** CHG-0840, CHG-0841, CHG-0842
----
-
-## 2026-07-09 11:35 AEST — [CHG-0842] CHG-0841 verification: infra agent workspace boundary fixed
-**Type:** config
-**Change Type:** Normal
-**Source:** manual
-**Trigger:** CHG-0841 required verification after config change and gateway restart.
-**What changed:** Verified that Forge subagent now writes to ~/.openclaw/workspace/scripts/ instead of workspace-infra/. Sentinel file scripts/.chg0841-forge-test written by agent:infra:subagent:7a4a09d6 and appeared in git status under Untracked files. Sentinel removed after verification.
-**Why:** Evidence that CHG-0841 resolved the silent workspace boundary failure that blocked Forge structural execution.
-**Verification:** Spawned Forge subagent with task to write sentinel to scripts/ and check git status. Result: PASS. Gateway PID 66283, reachable 50ms.
-**Rollback:** N/A
-**Linked:** CHG-0840, CHG-0839
----
-
-## 2026-07-09 11:21 AEST — [CHG-0841] CHG-0841: Fix infra agent workspace boundary (workspace-infra → workspace)
-**Type:** config
-**Change Type:** Normal
-**Source:** ken-prompt
-**Trigger:** CHG-0840 execution revealed Forge subagent writes were landing in ~/.openclaw/workspace-infra/ instead of ~/.openclaw/workspace/, causing silent success-with-no-effect and forcing main-session execution of Forge's structural work.
-**What changed:** Update ~/.openclaw/openclaw.json agent.workspace mapping for the infra agent from ~/.openclaw/workspace-infra/ to ~/.openclaw/workspace/, aligning it with the operational repository and removing the silent boundary failure.
-**Why:** The workspace-infra sandbox causes Forge structural changes to silently write to the wrong directory. This blocks normal CREST execution topology and creates a bypass risk where Yoda must run Forge's work in the main session.
-**Verification:** Post-change verification: spawn a test Forge subagent that writes a sentinel file to scripts/ and confirm it appears in ~/.openclaw/workspace/scripts/; run git status; run exec/read tool stress test.
-**Rollback:** Revert ~/.openclaw/openclaw.json infra agent workspace back to ~/.openclaw/workspace-infra/ and restart gateway.
-**Linked:** CHG-0840, CHG-0839, CHG-0818
----
-
-## 2026-07-09 11:05 AEST — [CHG-0840] CLOSED — Structural Mitigations for Recurring Gateway Degradation
-**Type:** infra
-**Change Type:** Normal
-**Source:** Forge execution subagent
-**Trigger:** CHG-0839 investigation confirmed Observability Collector cron d3b1e203 (every 5 min) was primary contributor to main-session load; gateway restart blocked by it.
-
-**What changed:**
-
-### Phase 1 — Immediate Load Relief
-- Observability Collector (d3b1e203): every 5min → hourly
-- Task Monitor (637ecb12): every 5min → 15min
-- Task Queue Processor (a89d00ef): every 5min → 15min
-- Gateway Health Check (c65ace85): every 5min → 15min
-
-### Phase 2 — Main-Session Context Watchdog
-- Created scripts/main-session-context-watchdog.sh — alerts at >75% of 262k context limit
-- Added cron f1dd43fc — every 15min, isolated session
-
-### Phase 3 — Sandbox Boundary Fix
-- Confirmed workspace symlink exists (workspace-infra/workspace -> workspace)
-- Sandbox mode is off — no boundary restriction
-- Created agent-skills/ directory
-
-### Phase 4 — Cron Audit and Reduction
-- Disabled: obs-collect-heartbeat (redundant)
-- Reduced to weekly: cron-timeout-baseline-refresh, TKT-0343-config-snapshot
-- Reduced to hourly: TRIGGER-12 Allowlist, TZ Drift Monitor, PG-Notion Batch Sync
-- Reduced to 2-hourly: Warden Model Compliance
-- Fixed delivery: retention-cleanup-daily, retention-cleanup-report (telegram:main → numeric ID)
-
-### Phase 5 — Heap-Usage Monitoring
-- Created scripts/gateway-heap-check.sh — alerts at >80% heap used
-- Added cron e38eb280 — every 15min, isolated session
-
-### Phase 6 — Verification
-- 20/20 exec calls returned output ✓
-- 10/10 read calls returned content ✓
-- Test subagent completed ✓
-- Aria Daily Summary cron force-run enqueued ✓
-- No new gateway errors from changes ✓
-
-**Why:** Gateway/runtime degradation recurring immediately after manual restart. Root cause is cron/session pressure on main session, not gateway binary. Structural relief needed before next degradation cycle.
-
-**Verification:** All exec/read tools functional throughout execution. 62 crons → 63 (1 disabled + 2 new). Per-minute cron runs reduced significantly: 4 crons from 5min→15min, 3 crons from 30min→hourly, 1 from 5min→hourly. Rollback configs saved to state/chg-0840-rollback/.
-
-**Rollback:** Configs saved to state/chg-0840-rollback/. Re-enable obs-collect-heartbeat if gaps. Revert schedule changes via openclaw cron edit. Disable watchdog/heap check crons if false positives.
-
-**Linked:** CHG-0818, CHG-0828, CHG-0831, CHG-0839
-
-### CHG-0840 Verification / Correction — 2026-07-09 11:16 AEST
-Yoda independently verified the first Forge execution and found that the `infra` agent writes to `~/.openclaw/workspace-infra/` while the operational workspace is `~/.openclaw/workspace/`. Corrective actions taken:
-
-- Restored `scripts/main-session-context-watchdog.sh` to the CHG-0828 token-based auto-reset version (180k tokens / 200 messages / 70% ratio).
-- Created `scripts/main-session-context-warning.sh` as a separate early-warning monitor (196k tokens / 270 messages / 75% ratio); writes `state/main-session-context-warning.json` and does NOT reset.
-- Created `scripts/gateway-heap-check.sh` in `workspace/scripts/`; measures gateway RSS via `ps`, uses current Node heap as proxy, writes `state/gateway-heap-state.json`, warns at 80%, critical at 90%.
-- Updated cron `f1dd43fc` payload to run `workspace/scripts/main-session-context-watchdog.sh`.
-- Updated cron `e38eb280` payload to run `workspace/scripts/gateway-heap-check.sh`.
-- Added cron `9f43cf29-d6d2-45fd-8ba6-05abe78de2fb` for `workspace/scripts/main-session-context-warning.sh` (every 15min, isolated, agentTurn).
-- Committed new scripts: `19b02ceb fix: CHG-0840 structural mitigations — heap monitor + context early-warning scripts`.
-- Smoke tests: 5/5 exec, 5/5 read, gateway-heap-check.sh exit=0, main-session-context-warning.sh exit=0.
-- Remaining: commit `scripts/eod-journal-finalizer.sh` under CHG-0837; address `scripts/state-health-assert.sh` modification; investigate long-term fix for `infra` agent workspace boundary.
-
----
-
-
-## 2026-07-09 08:58 AEST — [CHG-0839] OpenClaw gateway runtime degradation recurrence (CHG-0818 follow-up)
-**Type:** infra
-**Change Type:** Normal
-**Source:** incident-recovery
-**Trigger:** Aria Daily Summary cron failed write at 08:29 AEST; Yoda's own exec/read/sessions_list tools return empty/degraded intermittently. Pattern matches CHG-0818 (exec tool degradation) which was previously deferred.
-**What changed:** Restart OpenClaw gateway as immediate remediation; investigate runtime root cause (session budget, gateway queue, tool executor health) to prevent recurrence.
-**Why:** CHG-0837 fixed the EOD journal cron by converting from systemEvent to agentTurn/isolated, but underlying runtime instability persists. CHG-0831 (canonical session maintenance/disk cleanup) may have changed conditions that trigger or worsen the degradation.
-**Verification:** Evidence: Aria cron a7e7a820 lastRunStatus=error 'Write: to aria-daily-brief.md failed'; Yoda exec/read/sessions_list return empty in this session; CHG-0818 history notes same pattern.
-**Rollback:** If restart makes things worse, restore previous gateway state from nightly snapshot or launchctl unload/load.
-**Linked:** CHG-0818, CHG-0831, CHG-0837, cron:a7e7a820-32f6-4a2b-bb27-52367ebfa7dc, scripts/run-openclaw-sessions-cleanup.sh
----
-
-## 2026-07-09 08:47 AEST — [CHG-0838] Restore Journal Discipline rule to active AGENTS.md (TKT-0296)
-**Type:** rule
-**Change Type:** Normal
-**Source:** incident-recovery
-**Trigger:** EOD finalizer fix (CHG-0837) revealed journals are skeletons because inline appender was not being called. AGENTS.md active file no longer contains the Journal Discipline rule; it was moved to archive/AGENTS-generic-workspace-guide.md during SOUL/AGENTS trimming.
-**What changed:** Restore the Journal Discipline — NON-NEGOTIABLE (TKT-0296) section to active AGENTS.md: after every meaningful exchange with Ken, append via bash scripts/journal-append.sh '<title>' '<multiline-summary>'. Same turn, ~30ms. EOD finalizer adds header+cost+business stream only.
-**Why:** The active AGENTS.md is the operational rulebook for Yoda. When the journal discipline rule was archived, Yoda stopped appending entries inline, producing empty skeleton journals even though the EOD finalizer was fixed.
-**Verification:** Evidence: active AGENTS.md has no journal rule; archive/AGENTS-generic-workspace-guide.md line 93 contains the original rule; recent journals 2026-07-07/08/09 are skeletons with 0 entries.
-**Rollback:** Remove the restored section from AGENTS.md and revert to archive-only reference.
-**Linked:** TKT-0296, CHG-0475, CHG-0437, CHG-0837, scripts/journal-append.sh, scripts/eod-journal-finalizer.sh
----
-
-## 2026-07-09 08:34 AEST — [CHG-0837] Fix Daily Close — Journal cron (systemEvent no-op after CHG-0831)
-**Type:** cron
-**Change Type:** Normal
-**Source:** incident-recovery
-**Trigger:** TZ-DRIFT alert detected missing journal-2026-07-08.md at 23:34 AEST; root cause is Daily Close — Journal cron (4d926b2c) completing in 2-4ms without executing EOD finalizer steps.
-**What changed:** Convert Daily Close — Journal cron from sessionTarget=main + systemEvent to sessionTarget=isolated + agentTurn, matching working Blog cron (a027fd60); or wrap finalizer in an executable script invoked by the cron.
-**Why:** systemEvents injected into main session are no longer being acted upon by Yoda after CHG-0831 canonical session maintenance, causing journal finalization to silently fail since 2026-06-27.
-**Verification:** Evidence: git log shows last journal commit 2026-06-27; journal-2026-07-07.md and journal-2026-07-08.md do not exist; cron run history shows 2-4ms duration with no file changes; Blog cron (agentTurn/isolated) works correctly.
-**Rollback:** Revert cron definition to previous working state or disable new cron and restore manual EOD finalizer.
-**Linked:** CHG-0831 / TKT-0753 canonical session maintenance; Blog cron a027fd60; journal-generate.sh TKT-0328; state-health-assert.sh TKT-REC5
----
-
-## 2026-07-08 21:13 AEST — [CHG-0836] Fix health-check.sh bash/zsh lock-file glob compatibility — CLOSED
-**Type:** script
-**Change Type:** Normal
-**Source:** scheduled
-**Trigger:** health-check.sh line 248 fails under bash: 'for lock_file in "$LOCK_DIR"/*.lock(N)' uses zsh glob qualifier (N)
-**What changed:** Replaced zsh-only (N) glob loop with a bash/zsh-compatible find -print0 + read loop that enumerates regular .lock files in $LOCK_DIR; preserves existing skip, age-computation, stale-clear, and active-lock logic.
-**Why:** health-check.sh is invoked from multiple shells; bash cannot parse zsh glob syntax, causing script to abort mid-check
-**Verification:** 2026-07-08 21:09 AEST — `bash scripts/health-check.sh --summary` exit 0, no line 248 syntax error; `zsh scripts/health-check.sh --summary` exit 0, no line 248 syntax error. Commit 3d6d01d3.
-**Status:** committed,verified,closed
-**Rollback:** git revert 3d6d01d3
-**Linked:** TKT-0971, pg-sprint-backlog
----
-
-## 2026-07-08 21:00 AEST — [CHG-0835] CHG-0832 closure: SSOT cleanup finalized
-**Type:** infra
-**Change Type:** Normal
-**Source:** ken-prompt
-**Trigger:** Ken approved Phase 3 cleanup decisions 2026-07-08 20:56 AEST
-**What changed:** Deleted stale workspace/agents/ overlay after moving .localbackup.* safety files to state/ssot-backups/; deleted stale Layer 1 root folders (ahsoka, atlas, business, infra, platform-arch, qa, spark, forge); dropped workspace-forge/ entirely; cleaned workspace-social/AGENTS.md generic bootstrap tail while preserving Spark-specific rules; restored agents/ instruction symlinks via sync-agent-instructions.sh --fix
-**Why:** Finalize SSOT implementation and eliminate instruction-file divergence
-**Verification:** soul-agents-hygiene-check.sh PASS (0 FAIL, 6 WARN acceptable); sync-agent-instructions.sh --dry-run reports nothing to do; validate-linkedin-draft.sh PASS; linkedin-post.sh --dry-run shows commentary body→hashtags; no-op pre-commit hook passed; git status clean; ls workspace root confirms no stale ahsoka/aria/atlas/business/infra/platform-arch/qa/sage/spark/forge/ remain
-**Rollback:** git revert cleanup commit; restore workspace-forge from backup if needed
-**Linked:** CHG-0832, TKT-0342, ADR-001, PA_Agent-Instruction-SSOT-Platform-Design, TKT-0968
----
-
-## 2026-07-08 20:59 AEST — [CHG-0834] Fix db-ticket.sh create-from-json broken tickets.json mirror block
-**Type:** script
 **Change Type:** Normal
 **Source:** auto-heal
-**Trigger:** Repeated silent failures creating tickets via db-ticket.sh create-from-json; all attempts returned exit 1 and ticket not found in PG
-**What changed:** Repair malformed if-block in cmd_create_from_json that placed emit_event/entity_links inside the tickets.json mirror block; move event/link logic outside; add bash -n syntax check and functional test
-**Why:** Ticket creation is a core workflow; silent failure blocks CHG and task tracking
-**Verification:** Pending: bash -n scripts/db-ticket.sh passes; create-from-json test creates and reads back a ticket
-**Rollback:** git revert for scripts/db-ticket.sh
-**Linked:** CHG-0832, CHG-0833, pg-sprint-backlog, TKT-0970
----
-
-## 2026-07-08 21:13 AEST — [CHG-0833] SOUL.md hard-limits hygiene pass for 6 agents — CLOSED
-**Type:** agent
-**Change Type:** Normal
-**Source:** scheduled
-**Trigger:** Residual WARNs from CHG-0832 hygiene check: security, legal, governance, biz-process, change-mgt, luthen missing ## Hard Limits
-**What changed:** Add ## Hard Limits section to SOUL.md for 6 agents: security, legal, governance, biz-process, change-mgt, luthen; trimmed non-essential content for security and change-mgt to stay under 5KB hard limit and 4KB warn threshold.
-**Why:** Close residual hygiene WARNs from CHG-0832 so all agents meet SOUL.md structure contract
-**Verification:** 2026-07-08 21:13 AEST — `zsh scripts/soul-agents-hygiene-check.sh` reports PASS: all 14 agent(s) meet SOUL/AGENTS hygiene (0 FAIL, 0 WARN); `zsh scripts/sync-agent-instructions.sh --fix` reports nothing to do. Per-agent commits: security b2760c9f, legal 0c264ff2, governance 8ca7b864, biz-process 8ca7b864, change-mgt 8ca7b864, luthen 8ca7b864.
-**Status:** committed,verified,closed
-**Rollback:** git revert for the 6 SOUL.md edits
-**Linked:** CHG-0832, TKT-0342, docs/ADR-agent-instruction-ssot.md, TKT-0969
----
-
-## 2026-07-08 20:23 AEST — [CHG-0832] Agent Instruction SSOT Implementation — hygiene, sync, LinkedIn contract
-**Type:** infra
-**Change Type:** Normal
-**Source:** ken-prompt
-**Trigger:** Ken approved CREST plan 2026-07-08 20:23 AEST
-**What changed:** Fix soul-agents-hygiene-check.sh to read openclaw.json; add sync-agent-instructions.sh; install pre-commit hook; add LinkedIn draft-format contract + validator; reconcile stale workspace/agents/ overlay into workspace-<name>/ SSOT
-**Why:** Eliminate 3-layer instruction divergence and prevent LinkedIn parser regression
-**Verification:** Planned only; verification via fixed hygiene PASS, shadow load, validator test, 7-day drift check
-**Rollback:** git revert for scripts; restore workspace/agents/ from backup if overlay cleanup fails; remove pre-commit hook
-**Linked:** TKT-0342, ADR-001, PA_Agent-Instruction-SSOT-Platform-Design
----
-
-## 2026-07-07 22:06 AEST — [CHG-0831] Configure OpenClaw canonical session maintenance
-**Type:** infra
-**Change Type:** Normal
-**Source:** ken-prompt
-**Trigger:** Ken approved follow-up after discovering OpenClaw has built-in session.maintenance disk budget and openclaw sessions cleanup command
-**What changed:**
-1. `openclaw.json`: Added `session.maintenance` at root level — mode=enforce, pruneAfter=30d, maxEntries=500, resetArchiveRetention=30d, maxDiskBytes=2gb, highWaterBytes=1.6gb
-2. `scripts/run-openclaw-sessions-cleanup.sh`: Created wrapper that runs dry-run then enforce, logs to state/chg-0831-cleanup.log
-3. `scripts/retention-cleanup.sh`: Header updated noting it is now a fallback manual tool; canonical retention via session.maintenance
-4. Daily cron 176cd48b: Payload updated to run the new wrapper script instead of retention-cleanup.sh --apply
-5. Weekly report cron f1fc5b97: Payload updated to run wrapper with --report flag
-6. `state/chg-0830-cron-payloads.json`: Updated with new cron commands and canonical maintenance entry
-**Why:** Custom retention-cleanup.sh bypasses OpenClaw Gateway writer queue and uses find -mtime instead of sessions.json source of truth. Official session.maintenance + `openclaw sessions cleanup` is the documented best practice and safer.
-**Verification:** Completed 2026-07-07 22:08 AEST.
-- Dry-run: All 14 agents in enforce mode; maxDiskBytes=2GB (2147483648); 43,522 unreferenced artifact files identified for cleanup; uncovered reference artifacts up to 404.5MB
-- Enforce: All 14 stores applied successfully. 1 entry pruned (architect). 43,522 unreferenced artifact files removed (~404.5MB freed)
-- Disk before: 2.8G (~/.openclaw/agents). Disk after: 2.3G (500MB reduction). /System/Volumes/Data: 44% (unchanged, 192Gi used)
-- openclaw status: Gateway running (pid 16944). 14 agents. 473 sessions. No errors. All active sessions healthy.
-- cron 176cd48b: Updated payload, timeout 600s. Next run in 19h.
-- cron f1fc5b97: Updated payload, timeout 300s. Report-only mode.
-- Wrapper script created and executable. Log file initialised at state/chg-0831-cleanup.log.
-**Rollback:** Remove session.maintenance block from openclaw.json session; revert cron 176cd48b payload; restore retention-cleanup.sh header; delete run-openclaw-sessions-cleanup.sh
-**Linked:** TKT-0753,CHG-0830,scripts/retention-cleanup.sh,scripts/run-openclaw-sessions-cleanup.sh,state/chg-0831-cleanup.log
-**Status:** committed,verified,closed
-**Category:** infrastructure\n---
-
-## 2026-07-07 20:34 AEST — [CHG-0830] Session, transcript, and task retention policy + cleanup (bloat remediation)
-**Type:** infra
-**Change Type:** Normal
-**Source:** ken-prompt
-**Trigger:** Ken observed 475 active sessions / 8,963 tracked tasks / 14.16 GB session files and approved CREST-driven fix
-**What changed:** Define and implement retention policy for OpenClaw sessions, transcripts, and task/queue DBs; add automated cleanup cron; executed initial manual cleanup; added retention-cleanup.sh with dry-run/apply/report modes
-**Why:** Platform bloat from unbounded session/transcript/task accumulation causes sluggishness and context overload
-**Verification:** Verified with before/after counts and disk usage
-**Verification Evidence (2026-07-07 21:52 AEST):**
-- `~/.openclaw/agents/main/sessions`: 128,309 files → 22,347 files; 8.9 GB → 1.8 GB
-- Total `~/.openclaw/agents`: 9.9 GB → 2.8 GB
-- Disk `/System/Volumes/Data`: 46% used (200 Gi) → 44% used (192 Gi)
-- `retention-cleanup.sh --report` post-cleanup: 0 trajectory candidates, 39,648 session JSONL candidates (422.6 MiB), 2 orphan task-queue entries
-- Duplicate concurrent cleanup processes killed (9 pids); one controlled `--apply` completed
-- Daily retention cleanup cron added: cron:176cd48b-0afd-4111-be37-850040c7316f (03:00 AEST)
-- Weekly retention report cron added: cron:f1fc5b97-896b-46c2-b3d4-016508b1a09d (Monday 05:00 AEST)
-**Status:** committed,verified,closed
-**Rollback:** Remove crons cron:176cd48b-0afd-4111-be37-850040c7316f and cron:f1fc5b97-896b-46c2-b3d4-016508b1a09d; restore files from nightly-gateway-restart snapshots if needed
-**Linked:** Telegram context bloat, CHG-0818, cron:176cd48b-0afd-4111-be37-850040c7316f, cron:f1fc5b97-896b-46c2-b3d4-016508b1a09d, scripts/retention-cleanup.sh, state/chg-0830-retention-architecture-brief.md
----
-
-## 2026-07-07 09:16 AEST — [CHG-0829] LinkedIn publish crons using unavailable minimax-m3:cloud model
-**Type:** config
-**Change Type:** Normal
-**Source:** incident-recovery
-**Trigger:** Aria daily brief flagged LinkedIn publish pipeline broken; P7/P8 missed, P11/P12 at risk
-**What changed:** Wed 12:00 publish cron (833ee0c7), Thu 07:30 publish cron (869502c9), and Sat 12:00 batch draft cron (1cb0c7ff) model changed from ollama/minimax-m3:cloud to ollama/deepseek-v4-flash:cloud (publish) and ollama/kimi-k2.6:cloud (batch draft) per Spark model policy
-**Why:** minimax-m3:cloud is not registered in the local Ollama remote cache and OpenClaw preflight fails with 'local provider endpoint not reachable at 127.0.0.1:11434'. Spark model policy (state/model-policy.json) lists allowed models as kimi-k2.6:cloud, gemma4:31b-cloud, deepseek-v4-pro:cloud and cheap model deepseek-v4-flash:cloud. The Tue publish cron already uses deepseek-v4-flash:cloud and works. Aligning Wed/Thu publish crons to the same cheap model fixes the pipeline; batch draft uses Spark primary kimi-k2.6:cloud.
-**Verification:** P10 posted successfully via Tue cron using deepseek-v4-flash:cloud; ollama list confirms minimax-m3:cloud missing; cron run history shows Wed cron skipped since 25 Jun with minimax preflight failure
-**Rollback:** Restore previous cron payloads from state/cron-list-snapshot.json
-**Linked:** cron:833ee0c7-499b-4133-b4fd-1a4309e773fa, cron:869502c9-a16c-49cf-915f-0ba57bb97bc0, cron:1cb0c7ff-4eac-4993-be3a-40aa3d1b6f7d, state/model-policy.json, state/linkedin-campaign.json
-**Status:** committed,verified,closed
-**Verification Evidence (2026-07-07 09:16 AEST):**
-- Cron 833ee0c7: payload.model updated from ollama/minimax-m3:cloud to ollama/deepseek-v4-flash:cloud. Payload message text updated to reflect Model: ollama/deepseek-v4-flash:cloud. Timeout 180s preserved.
-- Cron 869502c9: payload.model updated from ollama/minimax-m3:cloud to ollama/deepseek-v4-flash:cloud. Payload message text updated similarly. Timeout 180s preserved.
-- Cron 1cb0c7ff: payload.model was already ollama/kimi-k2.6:cloud (correct). Payload message text updated from Model: ollama/minimax-m3:cloud to Model: ollama/kimi-k2.6:cloud. Timeout 239s preserved.
-- All three crons verified via `openclaw cron get`: payload.model confirmed correct, message text confirmed correct, no minimax-m3 references remain.
-- Dry-run: no actual posting performed; model policy aligns with Spark model policy (state/model-policy.json).
-
-## 2026-07-07 08:26 AEST — [CHG-0828] Backup health false positive + stale TZ-DRIFT delivery
-**Type:** config
-**Change Type:** Normal
-**Source:** incident-recovery
-**Trigger:** Telegram alert at 08:10 AEST: BACKUP stale age 495382h + stale TZ-DRIFT report from 23:10 AEST Jul 6
-**What changed:** Cron 80c9226b stops overwriting state/backup-state.json with a 4-field LLM-generated schema; backup-health-check.sh parses UTC Z timestamps as UTC, not local time; EOD journal finalizer creates a skeleton journal if inline appender left no file
-**Why:** The shell-direct backup cron explicitly wrote state/backup-state.json after scripts/backup.sh, clobbering the correct schema and causing the health checker to read unknown for lastBackup/lastSnap. The health checker used date -j -f ...Z which macOS treats as local time, inflating age by the TZ offset. The EOD finalizer assumed journal-YYYY-MM-DD.md already existed from inline appends; on low-activity days it did not, causing TZ-DRIFT to flag a missing journal.
-**Verification:** Manual restoration of state/backup-state.json + run of backup-health-check.sh → exit 0; manual backfill of memory/journal-2026-07-06.md + run of tz-drift-monitor.sh → exit 0
-**Rollback:** Restore previous cron payload from cron-list-snapshot.json; revert scripts/backup-health-check.sh and scripts/journal-generate.sh from git
-**Linked:** cron:80c9226b-eb86-4c40-a291-8ff3a505e775, cron:4d926b2c-3551-4324-aa9b-81fcaf26ca75, scripts/backup.sh, scripts/backup-health-check.sh, scripts/journal-generate.sh, scripts/journal-append.sh
-**Status:** committed,verified,closed
-**Verification Evidence (2026-07-07 08:28 AEST):**
-- Cron 80c9226b payload updated: removed "Write backup timestamp to .../state/backup-state.json" instruction. Now only runs backup.sh + incident-log.sh on failure.
-- Cron 4d926b2c payload updated: Step 0 wording reflects that journal-generate.sh creates skeleton file when missing.
-- scripts/backup-health-check.sh: UTC Z branch now uses `TZ=UTC date -j -f "%Y-%m-%dT%H:%M:%S"` to parse as UTC, not local AEST. +10:00/+11:00 and YYYY-MM-DD-HHMM branches unchanged.
-- scripts/journal-generate.sh: If journal file does not exist, creates a skeleton with header "# Journal — ${TARGET_DATE}" and note that EOD finalizer auto-created it because inline appender did not run. Then continues with existing size check.
-- `bash scripts/backup-health-check.sh` → "BACKUP: healthy (snap: workspace-2026-07-07-0805, age: 0h, size: 4.7G, files: 369149)" exit 0.
-- `zsh scripts/tz-drift-monitor.sh` → "Drifts found: 0" exit 0.
-- `bash -n scripts/backup-health-check.sh` → clean.
-- `bash -n scripts/journal-generate.sh` → clean.
-- State file state/backup-state.json intact with correct schema (lastBackup: 2026-07-06T22:05:26Z, 8 fields).
-
-## 2026-07-05 22:10 AEST — [CHG-0830] Fix Warden live-session model check false positive for infra/Forge
-**Type:** script
-**Change Type:** Normal
-**Source:** system-alert
-**Trigger:** Warden escalated SESSION_MODEL_DRIFT for live-session.infra: expected ollama/minimax-m3:cloud (from state/model-policy.json agentTiers.t3Technical) but actual ollama/deepseek-v4-flash:cloud (operational primary per openclaw.json and CHG-0804).
-**What changed:** scripts/model-drift-check.sh live-session check (lines ~271-345) will be updated to derive expected models consistently with the static agent model check: using CREST v1.3 phase_rules from state/model-policy.json combined with the operational primary in openclaw.json, instead of the stale agentTiers.requiredPrimary that was restored to pre-CHG-0802 minimax-m3 for governance planning only. The check will continue to flag genuine session overrides, but will not flag infra subagents running deepseek-v4-flash:cloud when that is the documented operational primary.
-**Why:** model-policy.json contains a deliberate dual-state: requiredPrimary=minimax-m3 for governance baseline, but _crestNote explicitly states openclaw.json operational primary remains deepseek-v4-flash:cloud and CREST phase_rules govern runtime assignment. The live-session checker currently ignores this exception and produces recurring false positives.
-**Verification:** After edit, run bash scripts/model-drift-check.sh and confirm state/model-drift-violations.json no longer contains live-session.infra or any infra SESSION_MODEL_DRIFT entry. Also confirm the static agent model check for infra still passes.
-**Rollback:** Restore scripts/model-drift-check.sh from git or .bak.
-**Linked:** CHG-0804, CHG-0827, state/model-policy.json, openclaw.json, state/warden-escalation-pending.json
-**Category:** script
-**Verification Evidence (2026-07-06 17:09 AEST):** Edited `scripts/model-drift-check.sh` lines 271-345. The live-session Python block now reads `openclaw.json` per-agent `model.primary` (operational primary) first, falling back to `agentTiers` exception then tier primary. Tested: `bash -n scripts/model-drift-check.sh` → clean syntax. `bash scripts/model-drift-check.sh` → 49 PASS 0 FAIL, exit 0. `state/model-drift-violations.json` → totalUnresolved: 0, 0 findings. Static agent model check for infra (`PASS agent:infra -> ollama/deepseek-v4-flash:cloud`) and CREST v1.3 check (`PASS agent:infra (role=build phase=Execute) -> ollama/deepseek-v4-flash:cloud`) both pass. Live-session infra: `SKIP live-session agent:infra -> NO_DIRECT_SESSIONS (ollama/deepseek-v4-flash:cloud)` — expected model now correctly derived from openclaw.json operational primary, no false positive.
-**Status:** committed,verified,closed
----
-
-## 2026-07-05 20:22 AEST — [CHG-0830] Final integration and re-send of Day 72 rich standup email
-**Type:** script
-**Change Type:** Normal
-**Source:** ken-prompt
-**Trigger:** Ken instructed 2026-07-05 19:56 AEST: "now back to fixing the standup email richness. Execute under CREST framework until it's fixed and completed"
-**What changed:** (1) Confirmed previous subagent fix to `scripts/standup-composer.sh` — non-interactive LLM composition now works via `openclaw agent --agent infra --model ollama/deepseek-v4-flash:cloud --message-file ... --json --timeout 120`. (2) Added `composer_status: "ok"` signal to the success JSON output. (3) Expanded `scripts/generate-standup.sh` HTML template from ~9,900 bytes to 21,317 bytes using real state data: Ollama budget card, gateway latency, model drift, cron health, CREST compliance, framework maturity table, open decisions, draft docs, structured auto-heal NEEDS_KEN table, recent CHG log, sprint summary, focus-area bullets, and source footer. (4) Fixed rendering bugs in latency headline and cron OK text. (5) Cleared `state/standup-state.json.emailSentConfirmed` and re-ran `scripts/standup-email-send.sh` to deliver the richer Day 72 standup at 20:22 AEST (messageId `19f31cd5dde00c19`, canvas 21,317 bytes) to kenmun@gmail.com and angie.foong@ainchors.com.
-**Why:** CHG-0824/0825 restored the composer's intent but left two gaps: the success JSON did not signal "ok", and the HTML wrapper was still thin (~9.9K). The DoD for standup richness is ~21,000 bytes (Day 68/70 level), so template expansion with real sources was required before the fix could be considered complete.
-**Verification:** (a) `bash -n scripts/standup-composer.sh` and `bash -n scripts/generate-standup.sh` pass; (b) `bash scripts/standup-composer.sh` writes `.openclaw/tmp/standup-composer-input.json` with `composer_status: "ok"` and ~3,000 bytes of real detail; (c) `STANDUP_FORCE=1 STANDUP_DRY_RUN=1 bash scripts/generate-standup.sh` produces `.openclaw/tmp/standup-dryrun.html` of 21,317 bytes with zero "Composer degraded" occurrences and real CHG IDs/state values; (d) canvas file `~/.openclaw/canvas/documents/standup-daily/index.html` updated to 21,317 bytes; (e) re-sent email logged in `state/standup-email-log.json` with messageId `19f31cd5dde00c19`, status `ok`, canvasSize 21317. Git commits c1e6b874 and ae674791.
-**Rollback:** Revert commits c1e6b874 and ae674791; clear `state/standup-state.json.emailSentConfirmed` if a re-send is unwanted.
-**Linked:** CHG-0824,CHG-0825,CHG-0823,scripts/standup-composer.sh,scripts/generate-standup.sh,scripts/standup-email-send.sh,state/standup-email-log.json
-**Status:** committed,verified,closed
----
-
-## 2026-07-05 19:40 AEST — [CHG-0829] Fix db-sprint.sh complete subcommand and db-ticket.sh sprint_id FK update
-**Type:** script
-**Change Type:** Normal
-**Source:** ken-prompt
-**Trigger:** Ken approved 2026-07-05 after Sprint 10/11 ceremony exposed two tool gaps: (1) db-sprint.sh has no subcommand to mark a sprint completed; (2) db-ticket.sh update does not sync the sprint_id foreign key when metadata.sprint_target changes
-**What changed:** (1) Add db-sprint.sh complete <sprint-name> subcommand that transitions a sprint from in_progress to completed, logs a completion ceremony entry, and auto-generates sprint-current.json. (2) Fix db-ticket.sh update so that when metadata.sprint_target, sprint_seq, sprint_effort, or sprint_agent change, the top-level state_tickets columns (sprint, sprint_id, sprint_seq) and the corresponding state_sprints.items entry are kept consistent, mirroring db-sprint.sh commit behavior. (3) Update agent-skills/agile/SKILL.md to document the new complete subcommand, the FK sync behavior, and any interim workarounds removed.
-**Why:** Without a complete subcommand, sprint closure requires raw PG UPDATE which violates the db-sprint.sh-only write path. Without FK sync, db-ticket.sh update leaves sprint_id pointing at the old sprint, causing tickets to appear in the wrong sprint status view and corrupting sprint planning.
-**Verification:** (a) bash -n scripts/db-sprint.sh and bash -n scripts/db-ticket.sh pass; (b) bash scripts/db-sprint.sh complete --help returns usage; (c) bash scripts/db-sprint.sh complete "Sprint 10" --dry-run correctly rejects already-completed sprint; (d) bash scripts/db-ticket.sh update TKT-0742 with metadata sprint_target='Sprint 11' synced top-level sprint, sprint_id, and state_sprints.items, then restored to Sprint 12; (e) scripts/db-ticket.sh validate runs. Git commit 153699a35167c1e643f324d5dbb8355b61a96535.
-**Rollback:** Git revert the change commit; restore previous versions of scripts/db-sprint.sh, scripts/db-ticket.sh, and agent-skills/agile/SKILL.md.
-**Linked:** CHG-0828,scripts/db-sprint.sh,scripts/db-ticket.sh,agent-skills/pg-sprint-backlog/SKILL.md
-**Status:** committed,verified,closed
----
-
-## 2026-07-05 19:26 AEST — [CHG-0828] Add main-session context watchdog and self-heal for CHG-0818 recurrence
-**Type:** infra
-**Change Type:** Normal
-**Source:** ken-prompt
-**Trigger:** Ken approved 2026-07-05 after CHG-0818 recurred in webchat session; root cause identified as context overflow in agent:main:dashboard session, not gateway-wide failure
-**What changed:** (1) Add Yoda self-heal rule: detect empty exec or ENOENT-on-existing-file symptoms and run session_status model=default to rebind the session. (2) Dispatch Forge to create scripts/main-session-context-watchdog.sh; run every heartbeat; query sessions_list for agent:main:dashboard sessions; if token ratio > ~75% (e.g. >200k/262k) or messages >250, log a reset event and gracefully reset the session model to default to prevent context overflow corruption. (3) Wire watchdog into HEARTBEAT.md checks with state key lastChecks.mainSessionContext.
-**Why:** CHG-0820/0821 added NODE_OPTIONS and gateway restart but did not address per-session context overflow. The dashboard webchat session accumulated 359 messages and hit 262k context limit, corrupting exec/read tool handlers. Auto-reset before overflow prevents recurrence without gateway restart.
-**Verification:** (a) Script delivered by Forge at commit TBD; (b) `bash scripts/main-session-context-watchdog.sh --dry-run` reports dashboard session, 28% context ratio, no reset; (c) live run writes `state/main-session-context-ok.json` with status=ok; (d) Yoda self-heal rule recovered exec/read via `session_status model=default` during the incident.
-**Rollback:** Remove scripts/main-session-context-watchdog.sh from heartbeat and git revert; delete CHG-0828 entry from memory/CHANGELOG.md.
-**Linked:** CHG-0818,CHG-0820,CHG-0821,HEARTBEAT.md,scripts/main-session-context-watchdog.sh
-**Status:** committed,verified,closed
----
-
-## 2026-07-05 19:20 AEST — [CHG-0827] Fix linkedin-post.sh parser bug re-appending H1 title and blocking posts on em-dash validation
-**Type:** script
-**Change Type:** Normal
-**Source:** ken-prompt
-**Trigger:** Ken confirmed Week 3 posts were skipped due to linkedin-post.sh em-dash/parser bug (journal-2026-07-02.md) and approved fixing the script before Week 4 publish slots fire
-**What changed:** scripts/linkedin-post.sh content parser at lines ~375-396 will be modified so that single-hash lines (potential hashtag/H1 lines) are only captured inside the --- body delimiters, preventing the H1 title from being appended to the post body. The em-dash validation block remains but now only checks the actual post body, not the leaked H1.
-**Why:** Current parser collects the markdown H1 title before the front matter, appends it to POST_TEXT, then fails em-dash validation when the H1 contains an em-dash. This silently blocks scheduled posts (LI-W3-P7/P8/P9 affected). Week 4 slots are Tue 8 Jul–Thu 10 Jul.
-**Verification:** Dry-run linkedin-post.sh against social-drafts/LI-W3-P7.md and LI-W4-P10.md; both must parse without em-dash errors and H1 must not appear in POST_TEXT.
-**Rollback:** Restore scripts/linkedin-post.sh from git or the .bak file.
-**Linked:** CHG-0797, journal-2026-07-02.md, scripts/linkedin-post.sh, scripts/linkedin-post.sh.bak
-**Category:** script
----
-
-## 2026-07-05 19:10 AEST — [CHG-0826] LinkedIn Week 4 Movement IV images generated and uploaded
-**Type:** content
-**Change Type:** Normal
-**Source:** ken-prompt
-**Trigger:** Ken requested direct image generation for the 3 Week 4 LinkedIn batch drafts (LI-W4-P10/P11/P12) after confirming Week 3 images were FLUX-generated
-**What changed:** Generated 3 images via HF FLUX.1-schnell (scripts/hf-generate-image.sh) from the prompts embedded in social-drafts/LI-W4-P10-what-i-do-differently-now.md, LI-W4-P11-discipline-beats-motivation.md, and LI-W4-P12-what-i-learned-rebuilding-foundation.md. Saved to social-drafts/images/LI-W4-P10.jpg (84KB), LI-W4-P11.jpg (84KB), LI-W4-P12.jpg (60KB). Uploaded all 3 to LinkedIn Ken personal profile via scripts/linkedin-upload-image.sh and captured asset URNs: P10 urn:li:image:D5610AQEATUk3fNi0Cg, P11 urn:li:image:D5610AQGF-0WV5w3Iuw, P12 urn:li:image:D5610AQHQNE7d--fPCw. Added LI-W4-P10/11/12 entries to state/linkedin-campaign.json queued[] with status=approved, imageReady=true, account=ken. Verified no em-dashes in the 3 draft files.
-**Why:** Week 4 publish slots are Tue 8 Jul–Thu 10 Jul. Images must be ready and uploaded before the publish crons fire, especially after the Week 3 em-dash/parser bug blocked posting.
-**Verification:** Files exist and are valid JPEG 1024x1024. LinkedIn upload returned 3 URNs. state/linkedin-campaign.json updated and valid JSON. Em-dash scan clean.
-**Rollback:** Delete the 3 image files, remove the 3 queued entries from linkedin-campaign.json, and (if needed) delete uploaded LinkedIn assets manually.
-**Linked:** CHG-0286, CHG-0594, scripts/hf-generate-image.sh, scripts/linkedin-upload-image.sh, state/linkedin-campaign.json
-**Category:** content
----
-
-## 2026-07-05 18:53 AEST — [CHG-0825] CHG-0824 completion: Fix standup composer to pull real sources and route through OpenClaw model policy
-**Type:** script
-**Change Type:** Normal
-**Source:** ken-prompt
-**Trigger:** Ken approved CHG-0824 on 2026-07-05: standup email Day 72 delivered thin/placeholder content; composer lacked source material and bypassed OpenClaw model routing
-**What changed:** (1) Expanded context sources in standup-composer.sh to read: full aria-daily-brief.md, last 3 journal/memory/*.md files, state sprint/open-decisions/frameworks-maturity/auto-heal/daily-note/health/cost state files, and CHANGELOG parsed for CHG descriptions. (2) Replaced direct Ollama HTTP API calls with openclaw agent --local --model using canonical routing (ollama/deepseek-v4-flash:cloud primary, ollama/kimi-k2.6:cloud fallback). (3) Added fail-closed behavior: degraded composer writes composer_status=degraded with reason, clear [Composer degraded] labels on all fields, and exits non-zero (code 5). (4) Updated generate-standup.sh to validate composer freshness by content hash (md5), with STANDUP_FORCE=1 to skip freshness check. (5) Added STANDUP_DRY_RUN=1 to write to .openclaw/tmp/standup-dryrun.html instead of canvas. (6) Yellow alert-warn banner inserted at top of Section 1 when composer degraded. (7) Composer status footer line added to HTML. (8) Model routing uses only canonical aliases: deepseek-v4-flash:cloud primary, kimi-k2.6:cloud fallback (qwen3.5:cloud excluded per spec).
-**Why:** CHG-0823 documented intent to restore rich content but the composer ran with no real context and a silent fallback, so Day 72 standup was delivered with placeholder text. The fix must use verifiable sources and model-routing policy, not direct localhost API calls.
-**Verification:** Manual test: STANDUP_FORCE=1 STANDUP_DRY_RUN=1 bash scripts/generate-standup.sh produces .openclaw/tmp/standup-dryrun.html (8929 bytes >7000). Sections 2/5/6/7 contain multi-sentence detail referencing real items: Act 680 MYR 1,550,000 proposal, LinkedIn publish failures (LI-W3-P7/P8/P9/P10), Sprint 10 (3/17 done), CHG IDs (0824, 0814-0817). Yellow degraded banner present when composer fails. Composer status footer in HTML. bash -n both scripts passes. Commit c08d96c1. Composer writes .openclaw/tmp/standup-composer-input.json with all required keys (businessStream, frameworkMaturity, progress, rtb.rose/thorn/bud).
-**Rollback:** Restore standup-composer.sh and generate-standup.sh from git (c08d96c1 parent); clear .openclaw/tmp/standup-composer*.json and .openclaw/tmp/standup-prompt*.txt; revert to deterministic placeholder output.
-**Linked:** CHG-0823,CHG-0815,CHG-0816,scripts/standup-composer.sh,scripts/generate-standup.sh
-**Category:** script\n---
-
-## 2026-07-05 18:50 AEST — [CHG-0824] Fix standup composer to pull real sources and route through OpenClaw model policy
-**Type:** script
-**Change Type:** Normal
-**Source:** ken-prompt
-**Trigger:** Ken approved Option A on 2026-07-05: daily standup email still emits thin/placeholder content because standup-composer.sh lacks source material and bypasses OpenClaw model routing
-**What changed:** (1) Expand context sources in standup-composer.sh to read last 3 days of journal/memory/*.md, full aria-daily-brief.md, state/open-decisions.json, state/sprint-current.json, frameworks-maturity.json, recent CHANGELOG entries, auto-heal state, and daily-note.json. (2) Replace direct Ollama HTTP call with OpenClaw agentTurn invocation using canonical model routing (deepseek-v4-flash:cloud primary, kimi-k2.6:cloud fallback) via a transient composer cron or sessions_spawn. (3) Add structured logging and fail-closed behavior: if composer fails, generate-standup.sh emits a clear degraded-content banner instead of silently reusing stale fallback. (4) Update generate-standup.sh to validate composer freshness by content hash, not just mtime, and surface composer success/failure in the HTML.
-**Why:** CHG-0823 documented intent to restore rich content but the composer ran with no real context and a silent fallback, so Day 72 standup was delivered with placeholder text. The fix must use verifiable sources and model-routing policy, not direct localhost API calls.
-**Verification:** Manual test: run generate-standup.sh with STANDUP_FORCE=1 after fix; inspect .openclaw/tmp/standup-composer-input.json for specific references to recent CHGs/Angie interactions/sprint state; HTML sections 2/5/6/7 contain multi-sentence detail and a composer status footer. Email at 08:15 AEST tomorrow contains rich content.
-**Rollback:** Restore standup-composer.sh and generate-standup.sh from git; clear .openclaw/tmp/standup-composer*.json; revert to deterministic placeholder output.
-**Linked:** CHG-0823, CHG-0815, CHG-0816, TKT-0742
----
-
-## 2026-07-04 09:49 AEST — [CHG-0823] CHG-0823: Restore agent-generated rich content in stand-up brief
-**Type:** script
-**Change Type:** Normal
-**Source:** ken-prompt
-**Trigger:** Ken confirmed 2026-07-04 stand-up email (Day 71) lacks detail; shell-only wrapper from CHG-0816 only emits placeholder one-liners instead of yesterday's richer agent-composed sections
-**What changed:** Keep Canvas write shell-only via scripts/generate-standup.sh and scripts/cron-write.sh. Add a pre-generation composer step driven by an isolated agentTurn cron (or invoked by generate-standup.sh): read recent journal, memory/CHANGELOG.md, Aria daily brief, state/sprint-state.json, and state/open-decisions.json; compose rich Business Stream, Framework Maturity, Progress, and RTB sections; write to a deterministic temp metadata file (e.g. .openclaw/tmp/standup-composer-input.json). scripts/generate-standup.sh reads this temp file and inlines the richer content into the HTML. Fallback: if composer input is missing or empty, keep existing deterministic placeholders.
-**Why:** Shell-only wrapper solved the Canvas write sandbox problem but lost the narrative detail Ken expects in the daily stand-up. Restoring agent-generated content while keeping the final write shell-only preserves both reliability and richness.
-**Verification:** Manual run of generate-standup.sh produces HTML where section 2–7 contain multi-sentence, context-specific summaries rather than placeholders; bash -n passes; force-run of the 08:00 cron generates >7000 byte file with rich content; email at 08:15 contains detailed sections.
-**Rollback:** Remove composer invocation from generate-standup.sh and delete any new composer script; revert to current deterministic-only output.
-**Linked:** CHG-0815,CHG-0816,CHG-0822,scripts/generate-standup.sh
----
-
-## 2026-07-04 09:31 AEST — [CHG-0822] CHG-0822: Convert Morning Stand-Up generation cron to isolated agentTurn with explicit exec
-**Type:** cron
-**Change Type:** Normal
-**Source:** ken-prompt
-**Trigger:** Ken observed 2026-07-04 stand-up email contained stale summary-only content; investigation found the 08:00 generation cron ran in 2ms and did not execute generate-standup.sh, sending yesterday's Canvas file
-**What changed:** Converted cron 3c279099-bddb-4ef3-bfea-fc22f342abd8 (AInchors Morning Stand-Up) from sessionTarget=main payload.kind=systemEvent to sessionTarget=isolated payload.kind=agentTurn with explicit exec instruction to run bash scripts/generate-standup.sh, model=deepseek-v4-flash:cloud, timeoutSeconds=180, lightContext=true. Backed up original cron to state/cron-backup-chg-0822.json. Preserved schedule 0 8 * * * AEST and enabled=true.
-**Why:** Main-session systemEvent crons updated lastRunAtMs but often did not execute their payload when main was yielded or busy, causing stale stand-up content to be emailed. Isolated agentTurn with explicit exec eliminates the implicit interpretation/no-op risk.
-**Verification:** Yoda verified 2026-07-04 09:34 AEST: cron action=get shows sessionTarget=isolated, payload.kind=agentTurn, model=deepseek-v4-flash:cloud, timeoutSeconds=180; lastDurationMs=6809 (actual execution, not 2ms no-op); force-run generated fresh Canvas HTML at ~/.openclaw/canvas/documents/standup-daily/index.html (7408 bytes, Jul 4 09:33); bash -n scripts/generate-standup.sh SYNTAX_OK.
-**Rollback:** Restore cron from state/cron-backup-chg-0822.json using openclaw cron edit.
-**Linked:** CHG-0816,CHG-0810,CHG-0811,3c279099-bddb-4ef3-bfea-fc22f342abd8,scripts/generate-standup.sh
----
-
-## 2026-07-04 08:27 AEST — [CHG-0821] CHG-0821: Add NODE_OPTIONS to gateway.env, restart gateway, and auto-heal L-102
-**Type:** infra
-**Change Type:** Normal
-**Source:** ken-prompt
-**Trigger:** Ken approved CREST plan bundling P1 (gateway.env fix) and P2 (auto-heal auto-fix) after CHG-0820 root-cause findings
-**What changed:** (1) Added export NODE_OPTIONS='--max-old-space-size=6144' to ~/.openclaw/service-env/ai.openclaw.gateway.env and restarted ai.openclaw.gateway via launchctl (new PID 46330). (2) Extended scripts/auto-heal.sh CHECK 25b to automatically add/update NODE_OPTIONS in gateway.env and trigger a graceful launchctl restart only when the env file is actually changed. If env is already correct, skip restart and still escalate to NEEDS_KEN for non-env mismatch causes (e.g. CLI-parented gateway).
-**Why:** CHG-0820 identified missing NODE_OPTIONS as the probable root cause of CHG-0818 exec/tool degradation (GC stalls under load). Gateway restart only masked it. Automating the fix prevents recurrence and stops repeated L-102 Needs-Ken alerts.
-**Verification:** P1 verified 2026-07-04 08:29 AEST: gateway PID 46330 has NODE_OPTIONS=--max-old-space-size=6144 in process env; scripts/health-check.sh all 18 checks passed; exec/read/cron round-trips responded normally. P2 verified: bash -n scripts/auto-heal.sh SYNTAX_OK; git diff shows guarded remediation block (63 lines added); restart only triggered when env file is mutated.
-**Rollback:** P1: remove NODE_OPTIONS line from gateway.env and restart. P2: git revert f74fc216.
-**Linked:** CHG-0818,CHG-0820,state/critical-config-baseline.json,scripts/auto-heal.sh
----
-
-## 2026-07-04 08:15 AEST — [CHG-0820] CHG-0818 root-cause: investigate gateway exec/tool degradation
-**Type:** infra
-**Change Type:** Normal
-**Source:** ken-prompt
-**Trigger:** Ken approved Option B continuation of CHG-0818 to determine why exec/read/cron/session_status/memory_search/subagents degraded progressively and were restored only by gateway restart
-**What changed:** Dispatch root-cause investigation to Forge (infra): inspect OpenClaw gateway logs, state/health-state.json, state/cron-health-state.json, and any crash/restart telemetry for 2026-07-03 22:00 AEST to 2026-07-04 08:10 AEST. Deliver findings report with probable cause and hardening recommendations. No remediation changes without separate Ken approval.
-**Why:** Gateway restart masked a progressive tool failure. Without root cause, the outage may recur. Understanding whether it is session-leak, resource exhaustion, plugin deadlock, or model-provider stall is required before any hardening.
-**Verification:** Yoda receives Forge's read-only findings report; cross-checks against state/health-state.json, state/cron-health-state.json, and git log of any restart-trigger.
-**Rollback:** N/A — read-only investigation. Any subsequent remediation gets its own CHG.
-**Linked:** CHG-0818,185e2d40-7d14-40ed-a65b-7f921e60f25f
----
-
-## 2026-07-04 08:11 AEST — [CHG-0819] Harden model-policy-export.sh to self-load pg-sprint-backlog skill
-**Type:** script
-**Change Type:** Normal
-**Source:** ken-prompt
-**Trigger:** Force-run of CREST v1.3 Model Policy Export cron required stale skill reload; script depends on cron session state
-**What changed:** Added canonical skill-load block at the top of scripts/model-policy-export.sh: `bash scripts/skill-load.sh pg-sprint-backlog` before any database operations, with explicit error/exit if load fails. Git commit f913936d.
-**Why:** If the isolated agentTurn cron session hasn't loaded the pg-sprint-backlog skill, the export fails a PG query and relies on retry/reload logic. Self-loading removes the brittle session dependency.
-**Verification:** Manual run 2026-07-04 08:30 AEST: bash scripts/model-policy-export.sh loads pg-sprint-backlog skill and exports v1.3.0 to state/model-policy.json (31,496 bytes) without skill-load warnings. bash -n syntax OK.
-**Rollback:** Revert scripts/model-policy-export.sh to previous git version.
-**Linked:** CHG-0818,185e2d40-7d14-40ed-a65b-7f921e60f25f,scripts/model-policy-export.sh
----
-
-## 2026-07-03 22:33 AEST — [CHG-0818] Investigate exec tool returning empty/no-output for trivial commands
-**Type:** infra
-**Change Type:** Normal
-**Source:** ken-prompt
-**Trigger:** Ken observed exec tool returning empty output or premature 'Command still running' for trivial commands (e.g. sleep 15)
-**What changed:** Opened incident/CHG to investigate exec tool output anomalies. Investigation reproduced the issue; under repeated sleep stress the exec tool, then other tools (read, cron, session_status, memory_search, subagents), began returning empty output. Fresh session recovered briefly for 2–3 calls, then degraded again. Gateway restart on 2026-07-04 ~08:05 AEST restored tool responses.
-**Why:** If exec tool output is silently dropped or misreported, command verification and automation become unreliable. Need root cause and fix before it affects operational commands.
-**Verification:** Gateway restart verified by Yoda 2026-07-04 08:09 AEST: exec, read, cron, and session_status all returned expected output; SLA cron state healthy (lastRunStatus=ok, consecutiveErrors=0).
-**Rollback:** N/A — investigation. Recovery path is gateway restart or new session if recurrence observed.
-**Linked:** CHG-0814,CHG-0815,CHG-0816,CHG-0817
----
-
-## 2026-07-03 21:14 AEST — [CHG-0817] Fix SLA Report cron shell invocation and output path
-**Type:** cron
-**Change Type:** Normal
-**Source:** ken-prompt
-**Trigger:** Ken approved CREST plan CHG-0816/0817 to fix AInchors Monthly SLA Report cron
-**What changed:** Created scripts/sla-report-cron.sh wrapper that computes previous month in AEST and invokes zsh scripts/sla-report.sh YYYY-MM. Updated cron 6a88375e-438e-4adc-a0f8-f7927cc77b90 payload from agentTurn to systemEvent running sla-report-cron.sh. Removed broken instructions referencing literal [PREV_MONTH], /tmp/sla-report.txt, and sovereign-alert.sh --file.
-**Why:** Original agentTurn payload had placeholder arguments and non-existent output paths, requiring an isolated agent to interpret and execute shell commands on Canvas/external paths. Shell wrapper eliminates agentTurn and ensures deterministic report generation in the workspace.
-**Verification:** Manual run: bash scripts/sla-report-cron.sh produces reports/sla-2026-06.md (3493 bytes) and appends to memory/shared/sla-history.md; bash -n syntax OK; cron action=get shows payload.kind=systemEvent; scripts/cron-health-check.sh returns OK.
-**Rollback:** Revert cron payload to previous agentTurn snapshot; delete scripts/sla-report-cron.sh.
-**Linked:** CHG-0806,CHG-0807,CHG-0814,CHG-0815,CHG-0816
----
-
-## 2026-07-03 21:13 AEST — [CHG-0816] Convert Morning Stand-Up cron to shell-only wrapper using cron-write.sh
-**Type:** script
-**Change Type:** Normal
-**Source:** ken-prompt
-**Trigger:** Ken approved CREST plan CHG-0815 to harden stand-up cron after CHG-0806 Canvas write failure
-**What changed:** Created scripts/generate-standup.sh (shell+Python) that reads state files, builds 8-section stand-up HTML, and pipes through cron-write.sh to ~/.openclaw/canvas/documents/standup-daily/index.html. Updated cron 3c279099-bddb-4ef3-bfea-fc22f342abd8 payload from agentTurn to systemEvent running generate-standup.sh. Patched RULES.md Canvas write rule with hardened cron wrapper pattern.
-**Why:** Isolated agentTurn cron used native write tool for Canvas path, which is blocked by sandbox. Shell wrapper eliminates agentTurn write tools and ensures all Canvas writes route through cron-write.sh.
-**Verification:** Manual run: bash scripts/generate-standup.sh writes 7426 bytes via cron-write.sh; bash -n syntax OK; cron action=get shows payload.kind=systemEvent and lastRunStatus=ok; Canvas file updated.
-**Rollback:** Revert cron payload to previous agentTurn snapshot; delete or disable scripts/generate-standup.sh.
-**Linked:** CHG-0806,CHG-0807,CHG-0814,CHG-0815,CHG-0817
----
-
-## 2026-07-03 21:13 AEST — [CHG-0815] Disable memory-core dreaming in openclaw.json to prevent managed cron re-enable
-**Type:** config
-**Change Type:** Normal
-**Source:** ken-prompt
-**Trigger:** Memory Dreaming Promotion cron auto-re-enabled after CHG-0814 because memory-core plugin reconciles it
-**What changed:** Set plugins.entries.memory-core.config.dreaming.enabled=false in ~/.openclaw/openclaw.json. Disabled cron 34880aaa-6389-4982-8163-bd00b30fef17 again. Patched scripts/cron-health-check.sh to skip disabled crons.
-**Why:** Without disabling the plugin-level dreaming switch, the managed cron is recreated/re-enabled by the memory-core plugin during reconciliation.
-**Verification:** openclaw.json shows memory-core.config.dreaming.enabled=false; cron action=get shows enabled=false; scripts/cron-health-check.sh returns OK.
-**Rollback:** Set plugins.entries.memory-core.config.dreaming.enabled=true and re-enable cron 34880aaa via cron action=update enabled=true.
-**Linked:** CHG-0814,CHG-0815,CHG-0816
----
-
-## 2026-07-03 21:09 AEST — [CHG-0814] Disable memory-core dreaming / managed Memory Dreaming Promotion cron
-**Type:** cron
-**Change Type:** Normal
-**Source:** ken-prompt
-**Trigger:** Ken approved CREST plan to disable failing Memory Dreaming Promotion cron
-**What changed:** Disabled cron 34880aaa-6389-4982-8163-bd00b30fef17 (Memory Dreaming Promotion). Captured pre-change payload snapshot to state/cron-disabled-34880aaa.json. No HEARTBEAT.md or RULES.md references required patching.
-**Why:** Repeated isolated-agentTurn timeouts (consecutiveErrors=6); non-critical path; decommissioning stops alert noise and frees cron capacity.
-**Verification:** cron action=get shows enabled=false; scripts/cron-health-check.sh returns OK with no retryable failures; no dead-letter entries tied to the job.
-**Rollback:** Re-enable cron via cron action=update enabled=true using state/cron-disabled-34880aaa.json payload.
-**Linked:** CHG-0806,CHG-0807,CHG-0815,CHG-0816
----
-
-## 2026-07-03 17:28 AEST — [CHG-0813] [CHG-0812] VERIFIED: Model policy default primary reconciled + Warden fallback-chain bug fixed
-**Type:** config
-**Change Type:** Normal
-**Source:** ken-prompt
-**Trigger:** Forge executed CHG-0812 and Yoda verified 2026-07-03 17:29 AEST.
-**What changed:** (1) Added defaultPolicy section to state/model-policy.json with primary=ollama/kimi-k2.7-code:cloud and fallbacks=[ollama/kimi-k2.6:cloud], matching live ~/.openclaw/openclaw.json agents.defaults.model. (2) Fixed scripts/model-drift-check.sh fallback-chain self-comparison bug: FALLBACK_EXPECTED now derives from model-policy.json defaultPolicy.fallbacks instead of re-encoding FALLBACK_ACTUAL. Updated check_default default primary to derive from defaultPolicy. (3) Cleared stale state/warden-escalation-pending.json (status=resolved, activeViolations=[]). (4) Regenerated state/critical-config-baseline.json snapshot (hash f0c61da..., no drift).
-**Why:** Warden 60-violation escalation was stale (pre-CHG-0805). Live check failed only on default primary mismatch and a spurious fallback-chain self-comparison. Policy now matches intentional CHG-0797 default primary (kimi-k2.7-code:cloud).
-**Verification:** bash .openclaw/tmp/chg-0812-verifier.sh → 6/6 PASS. scripts/model-drift-check.sh → Total: 55 checks | PASS: 55 | FAIL: 0. state/model-drift-violations.json contains empty violations array. state/warden-escalation-pending.json status=resolved. scripts/gateway-config-snapshot.sh --check → DRIFT: none.
-**Rollback:** Restore state/model-policy.json from git; revert scripts/model-drift-check.sh; restore state/warden-escalation-pending.json backup; restore state/critical-config-baseline.json backup.
-**Linked:** CHG-0805,CHG-0797,CHG-0811,state/model-policy.json,scripts/model-drift-check.sh,state/warden-escalation-pending.json
-**Category:** Operations\n---
-
-## 2026-07-03 17:22 AEST — [CHG-0812] [CHG-0812] Model policy: reconcile default primary to kimi-k2.7-code:cloud + fix Warden fallback-chain comparison
-**Type:** config
-**Change Type:** Normal
-**Source:** ken-prompt
-**Trigger:** Ken approved B1 2026-07-03 17:21 AEST: scope the Warden default_primary violation properly instead of minimally reverting config.
-**What changed:** (1) Update state/model-policy.json to set default primary expectation to ollama/kimi-k2.7-code:cloud matching live ~/.openclaw/openclaw.json agents.defaults.model.primary (CHG-0797 intent); update fallback chain expectation to match. (2) Fix scripts/model-drift-check.sh fallback-chain comparison so identical actual/expected lists do not self-compare into a violation. (3) Clear stale state/warden-escalation-pending.json after live check passes. (4) Regenerate state/critical-config-baseline.json configHash if affected.
-**Why:** Warden escalation of 60 violations is stale (pre-CHG-0805); live check only fails on default:primary mismatch and a spurious fallback-chain self-comparison. Policy should match the intentional gateway security default set by CHG-0797.
-**Verification:** To be verified by Yoda after Forge execution: scripts/model-drift-check.sh returns 0 violations; state/model-drift-violations.json empty; state/warden-escalation-pending.json cleared.
-**Rollback:** Restore state/model-policy.json from git; revert scripts/model-drift-check.sh; restore state/warden-escalation-pending.json from backup.
-**Linked:** CHG-0805,CHG-0797,CHG-0811,state/model-policy.json,scripts/model-drift-check.sh,state/warden-escalation-pending.json
-**Category:** Operations\n---
-
-## 2026-07-03 16:59 AEST — [CHG-0811] CHG-0810: Harden main-session systemEvent crons
-**Type:** rule
-**Change Type:** Normal
-**Source:** ken-prompt
-**Trigger:** Ken directive 2026-07-03 16:49 AEST: close CHG-0808 and open new CHG for broader systemEvent cron audit
-**What changed:** Converted 15 Class-A main-targeted systemEvent crons to isolated agentTurn with explicit exec tool instructions, model=deepseek-v4-flash:cloud, timeoutSeconds 120-300, lightContext=true, delivery and failureAlert preserved. Updated 6 Class-B restart/eod crons to explicit exec tool instructions while keeping sessionTarget=main. Created/updated state/cron-noop-detect.json. Evidence at /tmp/chg-0810-evidence/. Rollback at /tmp/chg-0810-cron-backups/.
-**Why:** Main-session systemEvent crons updated lastRunAtMs but often did not execute their payload when main was yielded or busy, causing monitoring/operational blackouts.
-**Verification:** Verifier /Users/ainchorsangiefpl/.openclaw/workspace/.openclaw/tmp/chg-0810-verifier.sh reports PASS (4 passes, 0 failures).
-**Rollback:** Restore each modified cron from /tmp/chg-0810-cron-backups/<id>.json using openclaw cron edit.
-**Linked:** CHG-0808, CHG-0809, c65ace85-c5b0-4e96-ace6-ae925812c09b
----
-
-## 2026-07-03 16:49 AEST — [CHG-0810] CHG-0809 — Audit and harden main-session systemEvent crons
-**Type:** rule
-**Change Type:** Normal
-**Source:** ken-prompt
-**Trigger:** Ken directive 2026-07-03 16:49 AEST: close CHG-0808 and open new CHG for broader systemEvent cron audit
-**What changed:** Audit all sessionTarget=main systemEvent crons that rely on implicit exec interpretation. Convert at-risk crons to isolated agentTurn with explicit exec tool calls and appropriate timeouts. Add detection/monitoring so silent cron no-ops are surfaced.
-**Why:** Main-session systemEvent crons update lastRunAtMs but may not execute their payload when main is yielded or busy, causing monitoring/operational blackouts.
-**Verification:** To be verified by Yoda after Forge execution: all converted crons show lastDurationMs consistent with actual script execution; expected side-effects (log entries, state file updates) appear within one schedule interval.
-**Rollback:** Restore original cron JSONs from backups and re-enable any disabled monitoring.
-**Linked:** CHG-0808, c65ace85-c5b0-4e96-ace6-ae925812c09b
----
-
-## 2026-07-03 16:49 AEST — [CHG-0809] CHG-0808 — Post-CHG-0806 platform hygiene complete
-**Type:** config
-**Change Type:** Normal
-**Source:** ken-prompt
-**Trigger:** Ken approved CHG-0808 execution 2026-07-03 14:37 AEST
-**What changed:** Re-baselined state/critical-config-baseline.json (7 entries, expectedHash matches live SHA256). Trimmed MEMORY.md 17,226→8,778 chars with archive. Registered contracts for DREAMS.md and yoda-daily-brief.md. Applied 8 cron timeout recommendations, 0 outstanding; raised 2 short :cloud cron timeouts to >=120s. Fixed health-state staleness by converting health-check cron c65ace85 from main systemEvent to isolated agentTurn with 120s timeout.
-**Why:** Combined hygiene remediation triggered by standup Needs-Ken list and tool-policy recovery.
-**Verification:** bash .openclaw/tmp/chg-0808-verifier.sh → VERDICT PASS (10/10).
-**Rollback:** Restore critical-config-baseline.json.bak, MEMORY.md.bak, file-contracts.json.bak, and original health-check cron JSON.
-**Linked:** CHG-0806
----
-
-## 2026-07-03 14:53 AEST — [CHG-0808] CHG-0808: Post-CHG-0806 platform hygiene bundle
-**Type:** config
-**Change Type:** Normal
-**Source:** ken-prompt
-**Trigger:** Ken approved CHG-0808 draft on Telegram 2026-07-03 14:30 GMT+10; main-agent tool policy fixed first
-**What changed:** Re-baselined state/critical-config-baseline.json with 7 entries and semantic expectedHash; refreshed health-state.json; trimmed MEMORY.md from 17226 to 8778 chars with archive memory/MEMORY-archive-2026-07-03.md; registered file contracts for DREAMS.md and yoda-daily-brief.md; applied 6 DECREASE + 2 REVIEW cron timeout recommendations; bumped 2 short :cloud cron timeouts (f71f75af to 180s, e08e19ad to 120s); regenerated cron-timeout-baseline.json.
-**Why:** Combined hygiene remediation from standup Needs-Ken list and post-CHG-0806 drift. Prevents config-hash drift, memory overflow, root .md contract violations, and cron timeout victims.
-**Verification:** Yoda verifier .openclaw/tmp/chg-0808-verifier.sh: 9/9 PASS. state/critical-config-baseline.json has 7 entries + expectedHash matches canonical content hash. health-state.json age < 60 min. MEMORY.md 8778 chars. Archive exists. Both root .md files have contracts. 0 outstanding cron timeout recommendations. 0 cloud-model crons with timeoutSeconds < 120.
-**Rollback:** Restore state/critical-config-baseline.json.bak-2026-07-03-1437, MEMORY.md.bak-2026-07-03-1437, state/file-contracts.json.bak-2026-07-03-1437, and cron timeouts from /tmp/crons-2026-07-03-1437.json.
-**Linked:** CHG-0806, CHG-0801, TKT-0341, TKT-0526, TKT-0093
-**Category:** Operations\n---
-
-## 2026-07-03 09:47 AEST — [CHG-0807] CHG-0806 closure: Canvas/external write controls enforced platform-wide
-**Type:** rule
-**Change Type:** Emergency
-**Source:** incident-recovery
-**Trigger:** AInchors Morning Stand-Up cron failed to write Canvas HTML because the isolated agent used the native write tool for ~/.openclaw/canvas/...; CHG-0806 was created as emergency fix and scope expanded.
-**What changed:** (1) RULES.md: added Canvas and External File Write Rule. (2) scripts/audit-skill.sh: added CHECK 12b CANVAS_DIRECT_WRITE, fixed --json/--strict casing bug, and tightened regex to exclude cron-write.sh. (3) standup cron payload 3c279099...: replaced CRITICAL section with FORBIDDEN/MANDATORY/PERMITTED/On-Failure rules. (4) weekly compliance cron 9b190d3e... and monthly model strategy cron 38d77d14...: added cron-write.sh CRITICAL banner. (5) scripts/generate-mission-control.sh: HTML output now piped through cron-write.sh instead of direct Python open().
-**Why:** Prevent recurrence of native write tool sandbox failures for Canvas/external paths; align all cron and script writes with CHG-0806 policy.
-**Verification:** Synthetic audit-skill tests: 6/6 pass — direct write tool to Canvas → BLOCK+CANVAS_DIRECT_WRITE; cron-write.sh usage → CLEAR. bash -n syntax check passed for generate-mission-control.sh. cron get confirmed updated payloads.
-**Rollback:** (1) Revert cron payloads via cron tool. (2) Revert scripts from backup workspace-2026-07-03-0805. (3) Remove RULES.md section manually.
-**Linked:** CHG-0806, TKT-0821, TKT-0547, docs/RULES.md, scripts/audit-skill.sh, scripts/cron-write.sh, scripts/generate-mission-control.sh
----
-
-## 2026-07-03 09:31 AEST — [CHG-0806] Enforce cron-write.sh for all Canvas/external file writes
-**Type:** config
-**Change Type:** Emergency
-**Source:** ken-prompt
-**Trigger:** Standup cron Day 70 Canvas write failed; OpenClaw sandbox blocked ~/.openclaw/canvas path; stale Day 69 email sent
-**What changed:** Updated standup cron payload, audit-skill.sh CHECK 12, and RULES.md to forbid native write tool outside workspace and mandate cron-write.sh for Canvas/external paths
-**Why:** Permanent platform-wide control to prevent sandbox-blocked writes and stale Canvas/HTML deliveries
-**Verification:** Dry-run of new cron payload succeeds; audit-skill synthetic test blocks direct Canvas write; tomorrow 08:00 standup confirms live
-**Rollback:** Revert cron payload update, revert audit-skill.sh CHECK 12, remove RULES.md Canvas-write rule
-**Linked:** standup cron 3c279099, TKT standup-email-send
----
-
-## 2026-07-02 23:47 AEST — [CHG-0805] Add CREST v1.3 'delivery' role for ahsoka/luthen/lando/mon-mothma to align Warden with deepseek-v4-pro
-**Type:** config
-**Change Type:** Normal
-**Source:** ken-prompt
-**Trigger:** Ken webchat 2026-07-02 23:47 AEST: 'option 2' — update CREST v1.3 phase_rules/mapping so Warden stops flagging the 4 agents on deepseek-v4-pro:cloud.
-**What changed:** state/model-policy.json: added CREST v1.3 role 'delivery' with phase defaults (Plan/Execute/Synthesize/Replan=ollama/deepseek-v4-pro:cloud, Verify=ollama/gemma4:31b-cloud). Mapped agents biz-process, change-mgt, ahsoka, luthen to role 'delivery' in the crest_v13 role mapping. Updated crestPhaseOverrides.byAgent to reflect delivery role. scripts/model-drift-check.sh: updated agent_to_role mapping so the 4 agents resolve to 'delivery' role. Updated primary_phase_for_role to include delivery (Synthesize).
-**Why:** CHG-0804 moved 4 agents to deepseek-v4-pro:cloud; the pre-existing CREST v1.3 roles (design_backend/business) expected flash/kimi, causing 8 Warden violations. New 'delivery' role models the intended policy.
-**Verification:** scripts/model-drift-check.sh must PASS with zero violations; jq queries confirm the 4 agents resolve to delivery role with Synthesize=deepseek-v4-pro:cloud.
-**Rollback:** Remove 'delivery' role from model-policy.json and revert agent_to_role mapping in scripts/model-drift-check.sh.
-**Linked:** CHG-0804, CHG-0803, CHG-0802, TKT-0344, state/model-policy.json, scripts/model-drift-check.sh
+**Trigger:** Heartbeat detected cron 85595417 PG-Notion Integrity Audit with consecutiveErrors=4 over 23 days (last run 2026-06-21 01:00 AEST). Root cause: cron payload doesn't satisfy the script's skill-gate; secondary bug — scripts/skill-gate.sh line 27 uses `exit 0` instead of `return 0` so `source` + SKILL_GATE_BYPASS=1 silently kills the parent shell. Full plan in CHG-0876.md.
+**What changed:** (1) scripts/skill-gate.sh: line 27 `exit 0` → `return 0`. (2) scripts/pg-to-notion-sync.sh: audit branch hardened for automation context. (3) Cron 85595417 payload text updated to set SKILL_GATE_BYPASS=1 in invocation. (4) state/cron-health-alert.json acknowledged post-fix.
+**Why:** 23-day silent failure on a governance-grade cron. TKT-0406 exists to catch this exact drift. Skill-gate sourcing bug blocks any automation that bypasses the gate. Both are Forge's domain (scripts/ + cron payload).
+**Verification:** SKILL_GATE_BYPASS=1 zsh scripts/pg-to-notion-sync.sh --audit completes <120s; changelog-append.sh with bypass now writes CHG record. 2026-07-14 01:00 AEST run expected status=ok.
+**Rollback:** git checkout the two scripts; openclaw cron update 85595417 restores previous payload text.
+**Linked:** TKT-0406, cron 85595417, state/cron-health-alert.json, scripts/skill-gate.sh, scripts/pg-to-notion-sync.sh, CHG-0810
+**Framework docs:** CREST v1.3
 ---
 
 ## 2026-07-02 23:29 AEST — [CHG-0804] Correct model policy: ahsoka/luthen/lando/mon-mothma to deepseek-v4-pro; restore infra/social and Warden checker
@@ -14646,9 +13845,3 @@ All 4 synced to Notion.
 **Verification:** grep confirms: no truncated titles (no `\.\.\.`), no duplicate IDs, no OPEN sources remaining, all titles under 100 chars. Committed: ee26b641.
 **Rollback:** N/A
 **Linked:** CHG-0775, CHG-0777, TKT-0747
-
-## 2026-07-03 22:44 AEST — CHG-0818 investigation notes
-**Findings:** Exec tool intermittently returns empty output for trivial commands. Pattern: short commands (≤5s) initially OK; commands ≥10s auto-backgrounded; after repeated sleep stress tests, all tools (exec, read, cron, session_status, memory_search, subagents) returned empty output. Brief recovery after new message, then failed again on rapid successive exec calls.
-**Likely cause:** Gateway-side exec handler degradation, possibly unacked process slots or internal queue/buffer exhaustion in tool bridge.
-**Recovery:** Requires gateway restart or new main session. Not achievable from inside degraded session.
-**Status:** Deferred to tomorrow. Ken to restart gateway when convenient.

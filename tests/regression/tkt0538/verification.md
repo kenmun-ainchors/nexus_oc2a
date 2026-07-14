@@ -13,7 +13,7 @@
 | Check | Result |
 |---|---|
 | `zsh -n scripts/db-write.sh` | SYNTAX_OK |
-| `grep "/Users/ainchorsangiefpl/" scripts/db-write.sh` | no matches |
+| `grep "/Users/ainchorsoc2a/" scripts/db-write.sh` | no matches |
 | `bash scripts/db-write.sh state_tickets '{"status":"closed"}' TKT-0538` | `{"status":"ok","backend":"postgres","id":"TKT-0538"}` |
 | `bash scripts/db-write.sh state_tickets '{"status":"open"}' TKT-0538` | `{"status":"ok","backend":"postgres","id":"TKT-0538"}` |
 | `bash scripts/db-ticket.sh update TKT-0538 '{"status":"closed"}'` | success, PG read shows `closed` |

@@ -14,7 +14,7 @@
 
 set -euo pipefail
 
-WORKSPACE_ROOT="${WORKSPACE_ROOT:-/Users/ainchorsangiefpl/.openclaw/workspace}"
+WORKSPACE_ROOT="${WORKSPACE_ROOT:-/Users/ainchorsoc2a/.openclaw/workspace}"
 STATE_DIR="$WORKSPACE_ROOT/state"
 HEAP_STATE_FILE="$STATE_DIR/gateway-heap-state.json"
 WARNING_PCT=80

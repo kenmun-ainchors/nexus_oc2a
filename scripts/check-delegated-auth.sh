@@ -14,9 +14,13 @@
 
 set -euo pipefail
 
-WORKSPACE="/Users/ainchorsangiefpl/.openclaw/workspace"
+WORKSPACE="/Users/ainchorsoc2a/.openclaw/workspace"
 STATE_DIR="$WORKSPACE/state"
-GOG="/opt/homebrew/bin/gog"
+# Resolve gog binary (migration 2026-07-14): prefer PATH, fall back to /opt/homebrew
+GOG="$(command -v gog 2>/dev/null || true)"
+if [[ -z "$GOG" && -x "/opt/homebrew/bin/gog" ]]; then
+  GOG="/opt/homebrew/bin/gog"
+fi
 OUTPUT_JSON=false
 [[ "${1:-}" == "--json" ]] && OUTPUT_JSON=true
 
@@ -35,9 +39,15 @@ RESULTS=()
 HAS_EXPIRED=false
 
 # ---- CHECK GOG AVAILABILITY ----
-if [[ ! -x "$GOG" ]]; then
-  echo "ERROR: gog binary not found at $GOG" >&2
-  exit 2
+# Migration 2026-07-14: if gog is missing, report a clear status (not hard-fail exit 2)
+if [[ -z "$GOG" || ! -x "$GOG" ]]; then
+  if $OUTPUT_JSON; then
+    echo "{\"allValid\":false,\"accounts\":[],\"missingBinary\":\"gog\",\"note\":\"gog binary not found; re-auth/install required\"}"
+    exit 0
+  fi
+  echo "ERROR: gog binary not found (checked PATH and /opt/homebrew/bin/gog)" >&2
+  # Human-readable mode: clear status, not a hard crash
+  exit 1
 fi
 
 # ---- CHECK EACH ACCOUNT ----

@@ -5,7 +5,7 @@
 
 set -u
 
-WORKSPACE="/Users/ainchorsangiefpl/.openclaw/workspace"
+WORKSPACE="/Users/ainchorsoc2a/.openclaw/workspace"
 SNAPSHOT="${1:-}"
 
 if [[ -z "$SNAPSHOT" || ! -d "$SNAPSHOT" ]]; then

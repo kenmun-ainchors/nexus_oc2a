@@ -109,7 +109,7 @@ whoami
 id
 ```
 
-**Expected:** Running as the primary admin user (likely `ken` or `ainchorsangiefpl`). Must have `sudo` access.
+**Expected:** Running as the primary admin user (likely `ken` or `ainchorsoc2a`). Must have `sudo` access.
 
 ```bash
 # Verify sudo

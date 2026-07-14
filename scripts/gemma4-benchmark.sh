@@ -7,7 +7,7 @@ export PATH="$PATH:/usr/local/bin:/opt/homebrew/bin"
 set -euo pipefail
 
 MODEL="${1:-gemma4:e4b}"
-WORKSPACE="/Users/ainchorsangiefpl/.openclaw/workspace"
+WORKSPACE="/Users/ainchorsoc2a/.openclaw/workspace"
 RESULTS_DIR="$WORKSPACE/state/benchmark"
 TIMESTAMP=$(date +"%Y-%m-%dT%H:%M:%S+10:00")
 STAMP=$(date +"%Y%m%d-%H%M%S")

@@ -7,7 +7,7 @@ set -euo pipefail
 
 PASS=0
 FAIL=0
-WORKSPACE="/Users/ainchorsangiefpl/.openclaw/workspace"
+WORKSPACE="/Users/ainchorsoc2a/.openclaw/workspace"
 
 test_pass() { echo "  ✅ PASS: $1"; ((PASS++)); }
 test_fail() { echo "  ❌ FAIL: $1"; ((FAIL++)); }

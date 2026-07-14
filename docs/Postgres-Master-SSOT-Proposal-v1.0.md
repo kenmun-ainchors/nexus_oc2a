@@ -370,7 +370,7 @@ Views exist for: `state_v.tickets`, `state_v.cost_state`, `state_v.config_baseli
 
 **OC2 initial setup:**
 ```bash
-pg_basebackup -h oc1.local -U ainchorsangiefpl -D /opt/homebrew/var/postgresql@16/data -P -R
+pg_basebackup -h oc1.local -U ainchorsoc2a -D /opt/homebrew/var/postgresql@16/data -P -R
 brew services start postgresql@16  # starts in standby mode
 ```
 

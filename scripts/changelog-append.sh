@@ -17,7 +17,8 @@ source "${SCRIPT_DIR_CHG}/db-link.sh"
 
 set -e
 
-CHANGELOG="/Users/ainchorsangiefpl/.openclaw/workspace/memory/CHANGELOG.md"
+# Resolve workspace from script location (migration 2026-07-14: no hard-coded user home)
+CHANGELOG="$(cd "$(dirname "$0")/.." && pwd)/memory/CHANGELOG.md"
 DB_RAW="${SCRIPT_DIR_CHG}/db-raw.sh"
 
 # Defaults

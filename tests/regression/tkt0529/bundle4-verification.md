@@ -28,11 +28,11 @@
 | `zsh -n scripts/cron-migration-advisor.sh` | OK |
 | `bash scripts/ollama-quota-track.sh` | exit 0 (cooldown skip) |
 | `bash scripts/cron-migration-advisor.sh` | exit 0 (cooldown skip) |
-| `grep "/Users/ainchorsangiefpl/"` both scripts | 0 matches |
+| `grep "/Users/ainchorsoc2a/"` both scripts | 0 matches |
 | Only target files modified | ✅ |
 
 ## Remaining
-No remaining hardcoded `/Users/ainchorsangiefpl/` paths in any of the 5 TKT-0529 target scripts.
+No remaining hardcoded `/Users/ainchorsoc2a/` paths in any of the 5 TKT-0529 target scripts.
 
 ## Verdict
 Bundle 4 changes verified and ready to commit.

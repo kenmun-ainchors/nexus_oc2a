@@ -26,7 +26,7 @@
 
 set -uo pipefail
 
-WORKSPACE="/Users/ainchorsangiefpl/.openclaw/workspace"
+WORKSPACE="/Users/ainchorsoc2a/.openclaw/workspace"
 STATE_DIR="$WORKSPACE/state"
 RESULT_FILE="$STATE_DIR/telegram-routing-audit.json"
 QUIET="${1:-}"
@@ -224,7 +224,7 @@ print(json.dumps(d, indent=2))
 " > "$RESULT_FILE"
 
 # ── Check Aria ARIA_RULES.md for explicit accountId enforcement ──────────────
-ARIA_RULES="/Users/ainchorsangiefpl/.openclaw/workspace-business/ARIA_RULES.md"
+ARIA_RULES="/Users/ainchorsoc2a/.openclaw/workspace-business/ARIA_RULES.md"
 if [[ -f "$ARIA_RULES" ]]; then
   if grep -q "accountId: aria\|--account aria" "$ARIA_RULES" 2>/dev/null; then
     log "${GREEN}✅ Aria in-session rules${RESET}  ARIA_RULES.md enforces accountId:aria for proactive sends"

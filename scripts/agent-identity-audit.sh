@@ -5,8 +5,8 @@
 
 set -euo pipefail
 
-WORKSPACE="/Users/ainchorsangiefpl/.openclaw/workspace"
-AGENTS_DIR="/Users/ainchorsangiefpl/.openclaw/agents"
+WORKSPACE="/Users/ainchorsoc2a/.openclaw/workspace"
+AGENTS_DIR="/Users/ainchorsoc2a/.openclaw/agents"
 AUDIT_FILE="$WORKSPACE/state/agent-identity-audit.json"
 
 VANILLA_SIGNATURE="# SOUL.md - Who You Are"

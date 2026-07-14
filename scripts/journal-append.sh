@@ -16,7 +16,8 @@ set -euo pipefail
 
 TITLE="${1:-}"
 SUMMARY="${2:-}"
-WORKSPACE="/Users/ainchorsangiefpl/.openclaw/workspace"
+# Resolve workspace from script location (migration 2026-07-14: no hard-coded user home)
+WORKSPACE="$(cd "$(dirname "$0")/.." && pwd)"
 LOCK_DIR="$WORKSPACE/tmp/journal-append.lock"
 
 if [[ -z "$TITLE" || -z "$SUMMARY" ]]; then

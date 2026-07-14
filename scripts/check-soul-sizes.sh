@@ -5,11 +5,11 @@
 
 set -uo pipefail
 
-WORKSPACE="/Users/ainchorsangiefpl/.openclaw"
+WORKSPACE="/Users/ainchorsoc2a/.openclaw"
 WARN_LIMIT=6000
 HARD_LIMIT=10000
-ALERT_FILE="/Users/ainchorsangiefpl/.openclaw/workspace/state/soul-size-alert.json"
-STATE_FILE="/Users/ainchorsangiefpl/.openclaw/workspace/state/soul-sizes.json"
+ALERT_FILE="/Users/ainchorsoc2a/.openclaw/workspace/state/soul-size-alert.json"
+STATE_FILE="/Users/ainchorsoc2a/.openclaw/workspace/state/soul-sizes.json"
 
 # Temporary file for results
 TMP_RESULTS=$(mktemp)

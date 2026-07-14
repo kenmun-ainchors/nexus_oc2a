@@ -14,10 +14,10 @@ if ! bash "$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)/skill-load.sh" pg-sprin
   exit 10
 fi
 
-WORKSPACE_ROOT="${WORKSPACE_ROOT:-/Users/ainchorsangiefpl/.openclaw/workspace}"
+WORKSPACE_ROOT="${WORKSPACE_ROOT:-/Users/ainchorsoc2a/.openclaw/workspace}"
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 OUTPUT_FILE="$WORKSPACE_ROOT/state/model-policy.json"
-JQ="${JQ:-/opt/homebrew/bin/jq}"
+JQ="${JQ:-$JQ}"
 
 # Get active matrix version
 ACTIVE_VERSION=$(bash "$SCRIPT_DIR/db.sh" -c "

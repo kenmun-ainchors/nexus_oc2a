@@ -6,7 +6,7 @@
    - `scripts/auto-heal.sh`
    - `scripts/state-health-assert.sh`
    - `scripts/check-cooldown-gate.sh`
-3. Replaced hardcoded `/Users/ainchorsangiefpl/.openclaw/workspace` with `${WORKSPACE_ROOT:-$HOME/.openclaw/workspace}` in shell portions of all 5 scripts.
+3. Replaced hardcoded `/Users/ainchorsoc2a/.openclaw/workspace` with `${WORKSPACE_ROOT:-$HOME/.openclaw/workspace}` in shell portions of all 5 scripts.
 
 ## Syntax Checks
 | Script | Result |
@@ -18,7 +18,7 @@
 | check-cooldown-gate.sh | bash syntax OK |
 
 ## Hardcoded Path Counts
-| Script | Remaining `/Users/ainchorsangiefpl/` | Notes |
+| Script | Remaining `/Users/ainchorsoc2a/` | Notes |
 |---|---|---|
 | auto-heal.sh | 0 | fully converted |
 | state-health-assert.sh | 0 | fully converted |

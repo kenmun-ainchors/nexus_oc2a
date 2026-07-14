@@ -8,7 +8,7 @@
 
 set -euo pipefail
 
-WORKSPACE="/Users/ainchorsangiefpl/.openclaw/workspace"
+WORKSPACE="/Users/ainchorsoc2a/.openclaw/workspace"
 POLICY="$WORKSPACE/state/model-policy.json"
 CI_STATE="$WORKSPACE/state/ci-agent-state.json"
 SYNC_STATE="$WORKSPACE/state/allowlist-sync-state.json"

@@ -287,7 +287,7 @@ except Exception as e:
     print(f"RESUMABLE_CRONS: failed to read health state: {e}")
 
 if resumable:
-    ws = "/Users/ainchorsangiefpl/.openclaw/workspace"
+    ws = "/Users/ainchorsoc2a/.openclaw/workspace"
     resume_file = os.path.join(ws, "state", "resumable-crons.json")
     with open(resume_file, "w") as f:
         json.dump({

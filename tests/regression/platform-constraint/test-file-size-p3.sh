@@ -5,7 +5,7 @@
 TEST_COUNT=0
 FAIL_COUNT=0
 
-WORKSPACE="/Users/ainchorsangiefpl/.openclaw/workspace"
+WORKSPACE="/Users/ainchorsoc2a/.openclaw/workspace"
 GUARD_SH="$WORKSPACE/scripts/file-size-guard.sh"
 
 # Test 1: --all reports all critical files

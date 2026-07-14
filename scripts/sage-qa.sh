@@ -7,7 +7,7 @@
 set -euo pipefail
 export PATH="$PATH:/usr/local/bin:/opt/homebrew/bin"
 
-WORKSPACE="/Users/ainchorsangiefpl/.openclaw/workspace"
+WORKSPACE="/Users/ainchorsoc2a/.openclaw/workspace"
 QA_LOG="$WORKSPACE/state/sage-qa-log.json"
 TIMESTAMP=$(date +"%Y-%m-%dT%H:%M:%S+10:00")
 
@@ -132,7 +132,7 @@ if [ -f "$ASSET_PATH" ]; then
   fi
 
   # Check for internal paths
-  if grep -q "/Users/ainchorsangiefpl" "$ASSET_PATH" 2>/dev/null; then
+  if grep -q "/Users/ainchorsoc2a" "$ASSET_PATH" 2>/dev/null; then
     echo "  FAIL — Internal filesystem path exposed"
     COMPLIANCE_PASS=false; ISSUES+=("Internal filesystem path found in asset. Redact before sharing.")
   else
@@ -146,7 +146,7 @@ fi
 # ── Shield security check ─────────────────────────────────────────────────────
 echo ""
 echo "[ Invoking Shield 🛡️ Security Gate ]"
-bash /Users/ainchorsangiefpl/.openclaw/workspace/scripts/shield-check.sh \
+bash /Users/ainchorsoc2a/.openclaw/workspace/scripts/shield-check.sh \
   --asset-path "$ASSET_PATH" --asset-type "$ASSET_TYPE" \
   --brief "$BRIEF" --intended-for "$INTENDED_FOR" --produced-by "$PRODUCED_BY" 2>/dev/null
 SHIELD_EXIT=$?
@@ -159,7 +159,7 @@ fi
 # ── Lex legal check ───────────────────────────────────────────────────────────
 echo ""
 echo "[ Invoking Lex ⚖️ Legal Gate ]"
-bash /Users/ainchorsangiefpl/.openclaw/workspace/scripts/lex-check.sh \
+bash /Users/ainchorsoc2a/.openclaw/workspace/scripts/lex-check.sh \
   --asset-path "$ASSET_PATH" --asset-type "$ASSET_TYPE" \
   --brief "$BRIEF" --intended-for "$INTENDED_FOR" --produced-by "$PRODUCED_BY" 2>/dev/null
 LEX_EXIT=$?

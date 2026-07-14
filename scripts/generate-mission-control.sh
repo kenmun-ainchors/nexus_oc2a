@@ -31,7 +31,7 @@ fi
 export NOTION_KEY WORKSPACE CANVAS_DIR DATA_FILE HTML_FILE CHANGELOG TASKS_DB BACKLOG_DB
 
 # ── Main generation (Python) → stdout → cron-write.sh for HTML ────────────────
-python3 << 'PYEOF' | bash /Users/ainchorsangiefpl/.openclaw/workspace/scripts/cron-write.sh "$HTML_FILE"
+python3 << 'PYEOF' | bash /Users/ainchorsoc2a/.openclaw/workspace/scripts/cron-write.sh "$HTML_FILE"
 import os, json, sys, subprocess
 from datetime import datetime, timezone, timedelta
 from pathlib import Path

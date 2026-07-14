@@ -601,7 +601,7 @@ This register was produced through the cleanest CREST v1.3 execution round obser
 
 - **Date:** 2026-06-19
 
-- **What happened:** platform-arch subagent for TKT-0319 Atom 1 failed to run parent workspace scripts despite cwd=/Users/ainchorsangiefpl/.openclaw/workspace; root cause is per-agent tool allow-list excludes exec.
+- **What happened:** platform-arch subagent for TKT-0319 Atom 1 failed to run parent workspace scripts despite cwd=/Users/ainchorsoc2a/.openclaw/workspace; root cause is per-agent tool allow-list excludes exec.
 
 - **Root cause:** The prior rule implied 'cwd is enough' for cross-agent subagent access. Live evidence showed platform-arch can read parent files but cannot use the exec tool, so it cannot run scripts/skill-load.sh or other build commands. Without this guard, Yoda or other orchestrators would repeatedly dispatch impossible tasks.
 
@@ -675,7 +675,7 @@ This register was produced through the cleanest CREST v1.3 execution round obser
 
 - **Root cause:** See what happened.
 
-- **What changed:** (1) Made phase enum and verifier_corpus triggers case-insensitive in both validators (A4b). (2) Updated `dispatch-validate.sh` ATOM_JSON to include `phase` and `verifier_corpus` before calling `atom-validate.sh` (A4c). (3) Confirmed Sage final verdict succeeds when dispatched with `cwd="/Users/ainchorsangiefpl/.openclaw/workspace"` and explicit read/write paths. (4) Documented the parent-workspace `cwd` pattern in SKILL.md.
+- **What changed:** (1) Made phase enum and verifier_corpus triggers case-insensitive in both validators (A4b). (2) Updated `dispatch-validate.sh` ATOM_JSON to include `phase` and `verifier_corpus` before calling `atom-validate.sh` (A4c). (3) Confirmed Sage final verdict succeeds when dispatched with `cwd="/Users/ainchorsoc2a/.openclaw/workspace"` and explicit read/write paths. (4) Documented the parent-workspace `cwd` pattern in SKILL.md.
 
 - **Category:** Execution Discipline
 
@@ -1499,7 +1499,7 @@ This register was produced through the cleanest CREST v1.3 execution round obser
 
 - **Root cause:** v2026.6.6 ships as 8816 TypeScript source files (not pre-built dist/). Requires pnpm@11.2.2 + 5-10min build + 8GB heap peak (plugin-sdk dts generation: node --max-old-space-size=8192). Build would conflict with prod gateway's 6GB NODE_OPTIONS ceiling on OC1 (24GB total).
 
-- **What changed:** TKT-0502 status=open → deferred. Pre-flight artifacts: tarball retained at /Users/ainchorsangiefpl/.openclaw/nexus-sandbox/downloads/openclaw-2026.6.6.tar.gz (50MB, SHA-256 verified). nexus-sandbox/ openclaw-2026.6.6/ removed (was empty). When retried: use OC2 48GB, or Docker test:docker:e2e-build, or 02:00-04:00 AEST low-cron window on OC1 with global pnpm install.
+- **What changed:** TKT-0502 status=open → deferred. Pre-flight artifacts: tarball retained at /Users/ainchorsoc2a/.openclaw/nexus-sandbox/downloads/openclaw-2026.6.6.tar.gz (50MB, SHA-256 verified). nexus-sandbox/ openclaw-2026.6.6/ removed (was empty). When retried: use OC2 48GB, or Docker test:docker:e2e-build, or 02:00-04:00 AEST low-cron window on OC1 with global pnpm install.
 
 - **Category:** Infrastructure
 
@@ -1518,7 +1518,7 @@ This register was produced through the cleanest CREST v1.3 execution round obser
 
 - **Root cause:** v2026.6.6 ships as 8816 TypeScript source files (not pre-built dist/). Requires pnpm@11.2.2 + 5-10min build + 8GB heap peak (plugin-sdk dts generation: node --max-old-space-size=8192). Build would conflict with prod gateway's 6GB NODE_OPTIONS ceiling on OC1 (24GB total).
 
-- **What changed:** TKT-0502 status=open → deferred. Pre-flight artifacts: tarball retained at /Users/ainchorsangiefpl/.openclaw/nexus-sandbox/downloads/openclaw-2026.6.6.tar.gz (50MB, SHA-256 verified). nexus-sandbox/ openclaw-2026.6.6/ removed (was empty). When retried: use OC2 48GB, or Docker test:docker:e2e-build, or 02:00-04:00 AEST low-cron window on OC1 with global pnpm install.
+- **What changed:** TKT-0502 status=open → deferred. Pre-flight artifacts: tarball retained at /Users/ainchorsoc2a/.openclaw/nexus-sandbox/downloads/openclaw-2026.6.6.tar.gz (50MB, SHA-256 verified). nexus-sandbox/ openclaw-2026.6.6/ removed (was empty). When retried: use OC2 48GB, or Docker test:docker:e2e-build, or 02:00-04:00 AEST low-cron window on OC1 with global pnpm install.
 
 - **Category:** Infrastructure
 
@@ -1706,9 +1706,9 @@ This register was produced through the cleanest CREST v1.3 execution round obser
 
 - **What happened:** 2026-06-15 13:23 AEST Ken: 'TKT-0336 -fix'. Initial survey found 2 live cron jobs with active ~ paths in payload: AInchors Weekly Asset Review (e8b17c79) and AInchors Quarterly Asset Registry Review (2e235063). Detector also producing false-positives on ~approximations like ~May 19, ~240 lines.
 
-- **Root cause:** Tilde paths in isolated cron sessions don't expand to /Users/ainchorsangiefpl/, causing write/read failures. The asset-review cron had been silently failing for weeks (lastError=Write to ~/.openclaw/workspace/state/chg-triggers.json failed). Detector was producing false-positives on approximation ~ characters in prose, devaluing the warning system.
+- **Root cause:** Tilde paths in isolated cron sessions don't expand to /Users/ainchorsoc2a/, causing write/read failures. The asset-review cron had been silently failing for weeks (lastError=Write to ~/.openclaw/workspace/state/chg-triggers.json failed). Detector was producing false-positives on approximation ~ characters in prose, devaluing the warning system.
 
-- **What changed:** 2 files. EDIT: scripts/auto-heal.sh — CHECK 20 state-file scan regex tightened from '~/' to '~(/[A-Za-z0-9._-]+|/[A-Za-z0-9._/-]+)' (both file discovery AND path extraction). EDIT (LIVE, not git): 2 cron jobs rm'd and re-added via openclaw cron rm + cron add with absolute paths /Users/ainchorsangiefpl/.openclaw/workspace/... New IDs: e8d960b4-556d-49af-b182-7e009b44e554 (Weekly), e48f847a-c6be-44f4-aedf-76bba8deb7e4 (Quarterly). State file state/cron-list-snapshot.json regenerated.
+- **What changed:** 2 files. EDIT: scripts/auto-heal.sh — CHECK 20 state-file scan regex tightened from '~/' to '~(/[A-Za-z0-9._-]+|/[A-Za-z0-9._/-]+)' (both file discovery AND path extraction). EDIT (LIVE, not git): 2 cron jobs rm'd and re-added via openclaw cron rm + cron add with absolute paths /Users/ainchorsoc2a/.openclaw/workspace/... New IDs: e8d960b4-556d-49af-b182-7e009b44e554 (Weekly), e48f847a-c6be-44f4-aedf-76bba8deb7e4 (Quarterly). State file state/cron-list-snapshot.json regenerated.
 
 - **Category:** Memory & State
 
@@ -1829,7 +1829,7 @@ This register was produced through the cleanest CREST v1.3 execution round obser
 
 - **Root cause:** A policy change without runtime config alignment creates false negatives in Warden and false positives in cron checks. This completes the TKT-0540 governance surface.
 
-- **What changed:** A11: Fixed model-drift-check.sh pipeline-subshell bug that lost PASS/FAIL counts and colon delimiter collision with model names; now uses command substitution + here-string and pipe-delimited output. A12: Updated /Users/ainchorsangiefpl/.openclaw/openclaw.json agent primary models and fallbacks to match state/archive/model-policy.json v3.0 for all 14 agents. A13: Expanded auto-heal CHECK 28h strong_tier_keywords to include kimi-k2.7-code, kimi-k2.6, gemma4:31b-cloud. A14: Updated model-drift-check.sh cron model check to use {
+- **What changed:** A11: Fixed model-drift-check.sh pipeline-subshell bug that lost PASS/FAIL counts and colon delimiter collision with model names; now uses command substitution + here-string and pipe-delimited output. A12: Updated /Users/ainchorsoc2a/.openclaw/openclaw.json agent primary models and fallbacks to match state/archive/model-policy.json v3.0 for all 14 agents. A13: Expanded auto-heal CHECK 28h strong_tier_keywords to include kimi-k2.7-code, kimi-k2.6, gemma4:31b-cloud. A14: Updated model-drift-check.sh cron model check to use {
 
 - **Category:** Execution Discipline
 
@@ -1871,7 +1871,7 @@ This register was produced through the cleanest CREST v1.3 execution round obser
 
         "kind": "systemEvent",
 
-        "text": "HEALTH_CHECK: Run bash /Users/ainchorsangiefpl/.openclaw/workspace/scripts/health-check.sh silently. After run, read /Users/ainchorsangiefpl/.openclaw/workspace/scripts/db-read.sh state_diagnostics — if consecutiveFailures >= 3 OR status=degraded, alert Ken via sovereign-alert.sh --source HEALTH. TKT-0501 fix. Otherwise output exactly: OK"
+        "text": "HEALTH_CHECK: Run bash /Users/ainchorsoc2a/.openclaw/workspace/scripts/health-check.sh silently. After run, read /Users/ainchorsoc2a/.openclaw/workspace/scripts/db-read.sh state_diagnostics — if consecutiveFailures >= 3 OR status=degraded, alert Ken via sovereign-alert.sh --source HEALTH. TKT-0501 fix. Otherwise output exactly: OK"
 
       },
 
@@ -1935,7 +1935,7 @@ This register was produced through the cleanest CREST v1.3 execution round obser
 
         "kind": "agentTurn",
 
-        "message": "Run the TQP executor: `bash /Users/ainchorsangiefpl/.openclaw/workspace/scripts/tqp-executor.sh --poll-once`. Report any claimed atoms. Do not re-execute atoms already running.",
+        "message": "Run the TQP executor: `bash /Users/ainchorsoc2a/.openclaw/workspace/scripts/tqp-executor.sh --poll-once`. Report any claimed atoms. Do not re-execute atoms already running.",
 
         "model": "ollama/deepseek-v4-flash:cloud",
 
@@ -2021,7 +2021,7 @@ This register was produced through the cleanest CREST v1.3 execution round obser
 
         "kind": "systemEvent",
 
-        "text": "OBS_COLLECT: Run bash /Users/ainchorsangiefpl/.openclaw/workspace/scripts/obs-collector.sh silently. No reply needed."
+        "text": "OBS_COLLECT: Run bash /Users/ainchorsoc2a/.openclaw/workspace/scripts/obs-collector.sh silently. No reply needed."
 
       },
 
@@ -2081,7 +2081,7 @@ This register was produced through the cleanest CREST v1.3 execution round obser
 
         "kind": "systemEvent",
 
-        "text": "TASK_MONITOR: Run bash /Users/ainchorsangiefpl/.openclaw/workspace/scripts/task-collector.sh. Then check /Users/ainchorsangiefpl/.openclaw/workspace/scripts/db-read.sh state_task_queue for stalled tasks — if non-empty, alert Ken via sovereign-alert.sh --source TASK --message \"<summary>\". TKT-0501 fix: direct Bot API, no sessions_send."
+        "text": "TASK_MONITOR: Run bash /Users/ainchorsoc2a/.openclaw/workspace/scripts/task-collector.sh. Then check /Users/ainchorsoc2a/.openclaw/workspace/scripts/db-read.sh state_task_queue for stalled tasks — if non-empty, alert Ken via sovereign-alert.sh --source TASK --message \"<summary>\". TKT-0501 fix: direct Bot API, no sessions_send."
 
       },
 
@@ -2145,7 +2145,7 @@ This register was produced through the cleanest CREST v1.3 execution round obser
 
         "kind": "systemEvent",
 
-        "text": "TQP_RUN: Run bash /Users/ainchorsangiefpl/.openclaw/workspace/scripts/task-queue-processor.sh. This processes ONE task per run: picks up queued → dispatches, or verifies dispatched → marks done/re-queues/escalates. The script handles everything internally. No reply needed — script writes its own state. TKT-0501: if TQP escalation occurs, script uses sovereign-alert.sh (direct Bot API)."
+        "text": "TQP_RUN: Run bash /Users/ainchorsoc2a/.openclaw/workspace/scripts/task-queue-processor.sh. This processes ONE task per run: picks up queued → dispatches, or verifies dispatched → marks done/re-queues/escalates. The script handles everything internally. No reply needed — script writes its own state. TKT-0501: if TQP escalation occurs, script uses sovereign-alert.sh (direct Bot API)."
 
       },
 
@@ -2217,7 +2217,7 @@ This register was produced through the cleanest CREST v1.3 execution round obser
 
         "kind": "systemEvent",
 
-        "text": "MISSION_CONTROL_REFRESH: Run bash /Users/ainchorsangiefpl/.openclaw/workspace/scripts/generate-mission-control.sh to regenerate the dashboard data. No reply needed."
+        "text": "MISSION_CONTROL_REFRESH: Run bash /Users/ainchorsoc2a/.openclaw/workspace/scripts/generate-mission-control.sh to regenerate the dashboard data. No reply needed."
 
       },
 

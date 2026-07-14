@@ -5,7 +5,7 @@
 
 set -u
 
-WORKSPACE_ROOT="/Users/ainchorsangiefpl/.openclaw/workspace"
+WORKSPACE_ROOT="/Users/ainchorsoc2a/.openclaw/workspace"
 DB_READ="$WORKSPACE_ROOT/scripts/db-read.sh"
 ALERT_FILE="$WORKSPACE_ROOT/state/dod-validation-alert.json"
 CUTOFF_HOURS=24

@@ -23,9 +23,13 @@ source "$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)/db-link.sh"
 set -u
 
 # --- CONSTANTS ---
-WORKSPACE_ROOT="/Users/ainchorsangiefpl/.openclaw/workspace"
+WORKSPACE_ROOT="/Users/ainchorsoc2a/.openclaw/workspace"
 DB_SCRIPT="$WORKSPACE_ROOT/scripts/db.sh"
-JQ="/opt/homebrew/bin/jq"
+JQ_BIN=$(command -v jq 2>/dev/null || true)
+if [[ -z "$JQ_BIN" || ! -x "$JQ_BIN" ]]; then
+  JQ_BIN="$(brew --prefix 2>/dev/null)/bin/jq"
+fi
+JQ="$JQ_BIN"
 TICKET_TABLE="state_tickets"
 TICKET_SCRIPT="$WORKSPACE_ROOT/scripts/db-ticket.sh"
 SPRINT_TABLE="state_sprints"
@@ -372,7 +376,7 @@ cmd_commit() {
     local actor
     actor=$(resolve_actor)
     local commit_payload
-    commit_payload=$(/opt/homebrew/bin/jq -n --arg tkt "$tkt_id" --arg sprint "$sprint_name" --arg seq "$seq" --arg effort "$effort" --arg agent "$agent" '{ticket: $tkt, sprint: $sprint, seq: ($seq | tonumber), effort: $effort, agent: $agent}' 2>/dev/null || echo '{"ticket":"'"$tkt_id"'"}')
+    commit_payload=$($JQ -n --arg tkt "$tkt_id" --arg sprint "$sprint_name" --arg seq "$seq" --arg effort "$effort" --arg agent "$agent" '{ticket: $tkt, sprint: $sprint, seq: ($seq | tonumber), effort: $effort, agent: $agent}' 2>/dev/null || echo '{"ticket":"'"$tkt_id"'"}')
     emit_event "$actor" "committed" "sprint" "$sprint_id" "$commit_payload"
     # TKT-0720: Insert entity_links edge from sprint to committed ticket (best-effort)
     insert_entity_links "sprint" "$sprint_num" "relates-to" "live-write:sprint-commit" "ticket:$tkt_id" > /dev/null 2>&1 || true
@@ -685,7 +689,7 @@ cmd_create() {
     local actor
     actor=$(resolve_actor)
     local sprint_payload
-    sprint_payload=$(/opt/homebrew/bin/jq -n --arg name "$sprint_name" --arg num "$sprint_num" --arg dates "$dates" '{sprint_name: $name, sprint_number: ($num | tonumber), dates: $dates}' 2>/dev/null || echo '{"sprint_name":"'"$sprint_name"'"}')
+    sprint_payload=$($JQ -n --arg name "$sprint_name" --arg num "$sprint_num" --arg dates "$dates" '{sprint_name: $name, sprint_number: ($num | tonumber), dates: $dates}' 2>/dev/null || echo '{"sprint_name":"'"$sprint_name"'"}')
     emit_event "$actor" "created" "sprint" "$sprint_name" "$sprint_payload" "{}" "$sprint_payload"
     echo "{\"sprint\":\"$sprint_name\",\"number\":$sprint_num,\"status\":\"planning\",\"created\":true}"
   else
@@ -1153,7 +1157,7 @@ cmd_export() {
   ts=$(date -u '+%Y-%m-%dT%H:%M:%S+10:00')
 
   local export_json
-  export_json=$(echo "$sprint_json" | /opt/homebrew/bin/jq     --argjson ticket_count "${ticket_count:-0}"     --argjson done_count "${done_count:-0}"     --argjson open_count "${open_count:-0}"     --argjson in_progress_count "${in_progress_count:-0}"     --arg ts "$ts"     --arg sprint_name "$sprint_name"     '{
+  export_json=$(echo "$sprint_json" | $JQ     --argjson ticket_count "${ticket_count:-0}"     --argjson done_count "${done_count:-0}"     --argjson open_count "${open_count:-0}"     --argjson in_progress_count "${in_progress_count:-0}"     --arg ts "$ts"     --arg sprint_name "$sprint_name"     '{
       sprint: $sprint_name,
       sprint_number: .sprint_number,
       status: .status,
@@ -1688,7 +1692,7 @@ cmd_activate() {
         local actor
         actor=$(resolve_actor)
         local act_payload
-        act_payload=$(/opt/homebrew/bin/jq -n --arg name "$sname" --arg num "$snum" --arg start "$sstart" --arg end "$send" '{sprint_name: $name, sprint_number: ($num | tonumber), start_date: $start, end_date: $end}' 2>/dev/null || echo '{"sprint_name":"'"$sname"'"}')
+        act_payload=$($JQ -n --arg name "$sname" --arg num "$snum" --arg start "$sstart" --arg end "$send" '{sprint_name: $name, sprint_number: ($num | tonumber), start_date: $start, end_date: $end}' 2>/dev/null || echo '{"sprint_name":"'"$sname"'"}')
         emit_event "$actor" "activated" "sprint" "$sname" "$act_payload" "committed" "in_progress"
       else
         log "WARNING: Failed to activate $sname"
@@ -1791,7 +1795,7 @@ cmd_complete() {
   local actor
   actor=$(resolve_actor)
   local complete_payload
-  complete_payload=$(/opt/homebrew/bin/jq -n --arg name "$sprint_name" --arg num "$sprint_num" '{sprint_name: $name, sprint_number: ($num | tonumber)}' 2>/dev/null || echo "{\"sprint_name\":\"$sprint_name\"}")
+  complete_payload=$($JQ -n --arg name "$sprint_name" --arg num "$sprint_num" '{sprint_name: $name, sprint_number: ($num | tonumber)}' 2>/dev/null || echo "{\"sprint_name\":\"$sprint_name\"}")
   emit_event "$actor" "completed" "sprint" "$sprint_name" "$complete_payload" "in_progress" "completed"
 
   # Auto-generate sprint-current.json cache

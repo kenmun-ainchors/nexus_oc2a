@@ -1,0 +1,14 @@
+{
+  "generatedAt": "2026-07-13T08:40:00+10:00",
+  "fix": "CHG-0865 follow-up / TKT-0743 Atom C",
+  "cronId": "71794d7f-2568-4fa1-8548-da2ca3cc027e",
+  "cronName": "LinkedIn Token Health Check (daily 07:00 AEST)",
+  "rootCause": "Cron payload invoked via sh -lc 'bash ...' but macOS /bin/bash is bash 3.2 which does not support declare -A. Script is written for zsh.",
+  "changes": [
+    "Cron payload argv changed from sh -lc 'bash ... && bash ...' to zsh -lc 'zsh ... && zsh ...'",
+    "Added zsh guard at top of scripts/linkedin-token-health.sh: exits 2 if ZSH_VERSION is unset"
+  ],
+  "verified": "zsh scripts/linkedin-token-health.sh --all --dry-run exits 0 under zsh; exits 2 under bash",
+  "nextRunAt": "2026-07-14 07:00 AEST (next cron tick)",
+  "acknowledged": true
+}

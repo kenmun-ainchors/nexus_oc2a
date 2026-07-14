@@ -25,7 +25,7 @@ FAILED_CRONS=(
 )
 
 INTERIM_MODEL="ollama/kimi-k2.6:cloud"
-LOG_FILE="/Users/ainchorsangiefpl/.openclaw/workspace/state/cron-model-fix-log.json"
+LOG_FILE="/Users/ainchorsoc2a/.openclaw/workspace/state/cron-model-fix-log.json"
 
 results=()
 

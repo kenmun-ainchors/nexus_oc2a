@@ -6,7 +6,7 @@
 
 set -u
 
-WORKSPACE_ROOT="/Users/ainchorsangiefpl/.openclaw/workspace"
+WORKSPACE_ROOT="/Users/ainchorsoc2a/.openclaw/workspace"
 REPORT_FILE="$WORKSPACE_ROOT/state/rule-audit-report.json"
 VIOLATIONS_FILE="$WORKSPACE_ROOT/state/rule-violations.json"
 NOW=$(date -Iseconds)

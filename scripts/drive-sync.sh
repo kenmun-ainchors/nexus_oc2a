@@ -5,9 +5,9 @@
 
 set -uo pipefail
 
-WORKSPACE="/Users/ainchorsangiefpl/.openclaw/workspace"
-CANVAS="/Users/ainchorsangiefpl/.openclaw/canvas/documents"
-GOG="/opt/homebrew/bin/gog"
+WORKSPACE="/Users/ainchorsoc2a/.openclaw/workspace"
+CANVAS="/Users/ainchorsoc2a/.openclaw/canvas/documents"
+GOG="$(command -v gog 2>/dev/null || brew --prefix 2>/dev/null)/bin/gog"
 GOG_ACCT="kenmun@ainchors.com"
 STATE_FILE="$WORKSPACE/state/drive-sync-state.json"
 

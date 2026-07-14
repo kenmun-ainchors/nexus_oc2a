@@ -1,7 +1,7 @@
 #!/bin/zsh
 # Daily OWL compliance reset — runs at midnight AEST
 set -u
-WORKSPACE_ROOT="/Users/ainchorsangiefpl/.openclaw/workspace"
+WORKSPACE_ROOT="/Users/ainchorsoc2a/.openclaw/workspace"
 COMPLIANCE_FILE="$WORKSPACE_ROOT/state/owl-compliance-state.json"
 ARCHIVE_DIR="$WORKSPACE_ROOT/state/owl-archive"
 TODAY=$(date '+%Y-%m-%d')

@@ -6,7 +6,7 @@
 
 set -uo pipefail
 
-WORKSPACE="/Users/ainchorsangiefpl/.openclaw/workspace"
+WORKSPACE="/Users/ainchorsoc2a/.openclaw/workspace"
 cd "$WORKSPACE"
 
 # Step 1: Run compliance check (silent) against permanent baseline
@@ -33,7 +33,7 @@ python3 << 'PYEOF'
 import json, subprocess, os
 from datetime import datetime, timezone
 
-ws = "/Users/ainchorsangiefpl/.openclaw/workspace"
+ws = "/Users/ainchorsoc2a/.openclaw/workspace"
 db_sh = os.path.join(ws, "scripts", "db-raw.sh")
 state_file = os.path.join(ws, "state", "model-drift-state.json")
 
@@ -68,7 +68,7 @@ if [[ $EXIT_CODE -eq 2 ]]; then
 import json
 from datetime import datetime, timezone
 
-ws = "/Users/ainchorsangiefpl/.openclaw/workspace"
+ws = "/Users/ainchorsoc2a/.openclaw/workspace"
 
 with open(f"{ws}/state/model-drift-violations.json") as f:
     violations = json.load(f)

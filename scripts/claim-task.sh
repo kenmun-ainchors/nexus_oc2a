@@ -3,10 +3,10 @@
 # Usage: claim-task.sh [AGENT_ID]
 
 AGENT_ID="${1:-agent:manual}"
-QUEUE_FILE="/Users/ainchorsangiefpl/.openclaw/workspace/state/task-queue.json"
+QUEUE_FILE="/Users/ainchorsoc2a/.openclaw/workspace/state/task-queue.json"
 
 # First reset stale claims
-bash /Users/ainchorsangiefpl/.openclaw/workspace/scripts/task-queue.sh reset > /dev/null 2>&1
+bash /Users/ainchorsoc2a/.openclaw/workspace/scripts/task-queue.sh reset > /dev/null 2>&1
 
 # Claim next pending task
 python3 -c "

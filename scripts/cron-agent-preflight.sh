@@ -14,7 +14,7 @@ fi
 
 CRON_ID="$1"
 AGENT_ID="$2"
-OC_JSON="/Users/ainchorsangiefpl/.openclaw/openclaw.json"
+OC_JSON="/Users/ainchorsoc2a/.openclaw/openclaw.json"
 
 # Pull live cron list
 CRON_STATE=$(openclaw cron list --json 2>/dev/null || echo '{"jobs":[]}')

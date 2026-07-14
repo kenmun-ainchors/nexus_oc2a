@@ -6,9 +6,9 @@
 
 set -euo pipefail
 
-WORKSPACE="/Users/ainchorsangiefpl/.openclaw/workspace"
+WORKSPACE="/Users/ainchorsoc2a/.openclaw/workspace"
 SCRAPER="${WORKSPACE}/scripts/ollama-usage-scraper.py"
-OPENCLAW="/opt/homebrew/bin/openclaw"
+OPENCLAW="/Users/ainchorsoc2a/local/bin/openclaw"
 LOG_PREFIX="[ollama-usage-scraper-run]"
 
 log() {

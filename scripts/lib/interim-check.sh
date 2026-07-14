@@ -11,7 +11,7 @@
 #     # Decide: skip alert, annotate alert, downgrade severity
 #   fi
 
-INTERIM_FILE="${WORKSPACE:-/Users/ainchorsangiefpl/.openclaw/workspace}/state/interim-model-period.json"
+INTERIM_FILE="${WORKSPACE:-/Users/ainchorsoc2a/.openclaw/workspace}/state/interim-model-period.json"
 
 check_interim_period() {
   export INTERIM_ACTIVE=false

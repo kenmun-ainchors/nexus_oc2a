@@ -14,7 +14,7 @@ from datetime import datetime
 sys.path.insert(0, os.path.join(os.path.dirname(__file__), 'lib'))
 from atomic_write import atomic_write_json as atomic_write
 
-STATE_FILE = "/Users/ainchorsangiefpl/.openclaw/workspace/state/owl-compliance-state.json"
+STATE_FILE = "/Users/ainchorsoc2a/.openclaw/workspace/state/owl-compliance-state.json"
 
 def load_state():
     try:

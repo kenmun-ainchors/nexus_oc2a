@@ -18,8 +18,8 @@
 set -euo pipefail
 
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
-WORKSPACE_ROOT="${WORKSPACE_ROOT:-/Users/ainchorsangiefpl/.openclaw/workspace}"
-OPENCLAW_BIN="${OPENCLAW_BIN:-/opt/homebrew/bin/openclaw}"
+WORKSPACE_ROOT="${WORKSPACE_ROOT:-/Users/ainchorsoc2a/.openclaw/workspace}"
+OPENCLAW_BIN="${OPENCLAW_BIN:-/Users/ainchorsoc2a/local/bin/openclaw}"
 STATE_DIR="$WORKSPACE_ROOT/state"
 OK_FILE="$STATE_DIR/main-session-context-ok.json"
 WARNING_FILE="$STATE_DIR/main-session-context-warning.json"

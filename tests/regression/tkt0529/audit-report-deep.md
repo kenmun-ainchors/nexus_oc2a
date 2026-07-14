@@ -9,13 +9,13 @@ I re-read all 5 scripts and verified the line numbers from the subagent reports.
 - **Lines:** ~2,980 (subagent undercounted; file is larger than 1,376)
 - **set flags (line 8):** `set -u` only. Explicitly avoids `-e` so checks keep going.
 - **Hardcoded paths (7 instances):**
-  - line 10: `WORKSPACE="/Users/ainchorsangiefpl/.openclaw/workspace"`
-  - line 580: `WORKSPACE_ROOT="/Users/ainchorsangiefpl/.openclaw/workspace"`
+  - line 10: `WORKSPACE="/Users/ainchorsoc2a/.openclaw/workspace"`
+  - line 580: `WORKSPACE_ROOT="/Users/ainchorsoc2a/.openclaw/workspace"`
   - line 1299: hardcoded SOUL.md/AGENTS.md/MEMORY.md/HEARTBEAT.md list
-  - line 2505: `AUDIT_OUTFILE="/Users/ainchorsangiefpl/.openclaw/workspace/state/..."`
+  - line 2505: `AUDIT_OUTFILE="/Users/ainchorsoc2a/.openclaw/workspace/state/..."`
   - line 2631: hardcoded `cron-write.sh` path in pipe
-  - line 2668: `BOUNDARY_TESTFILE="/Users/ainchorsangiefpl/.openclaw/test-boundary-write"`
-  - line 2900: `SANDBOX_PLIST="/Users/ainchorsangiefpl/Library/LaunchAgents/..."`
+  - line 2668: `BOUNDARY_TESTFILE="/Users/ainchorsoc2a/.openclaw/test-boundary-write"`
+  - line 2900: `SANDBOX_PLIST="/Users/ainchorsoc2a/Library/LaunchAgents/..."`
 - **Destructive operations that run unattended:**
   - line 266: `rm -rf "$d"` — stale plugin runtime deps
   - line 299: `rm -f "$lock"` — stale session locks
@@ -31,7 +31,7 @@ I re-read all 5 scripts and verified the line numbers from the subagent reports.
 ### 2. `scripts/state-health-assert.sh` — MEDIUM (confirmed)
 - **Lines:** 210
 - **set flags (line 5):** `set -u` only.
-- **Hardcoded path (line 7):** `WORKSPACE="/Users/ainchorsangiefpl/.openclaw/workspace"`
+- **Hardcoded path (line 7):** `WORKSPACE="/Users/ainchorsoc2a/.openclaw/workspace"`
 - **State writes (lines 201, 210):** `cat > "$BLOCK_FILE"` and `cat > "$ASSERT_FILE"`
 - **Destructive ops:** None.
 - **Risk:** Corrupted state files if writes are interrupted; brittle on other hosts.
@@ -40,9 +40,9 @@ I re-read all 5 scripts and verified the line numbers from the subagent reports.
 - **Lines:** 156
 - **set flags:** `set -euo pipefail` present (line 9) — subagent report was correct.
 - **Hardcoded paths (lines 10, 37, 136):**
-  - line 10: `WORKSPACE="${WORKSPACE:-/Users/ainchorsangiefpl/.openclaw/workspace}"`
-  - line 37: Python `open('/Users/ainchorsangiefpl/.openclaw/workspace/state/cron-list-snapshot.json')`
-  - line 136: Python `open('/Users/ainchorsangiefpl/.openclaw/workspace/state/cron-ollama-usage.json', 'w')`
+  - line 10: `WORKSPACE="${WORKSPACE:-/Users/ainchorsoc2a/.openclaw/workspace}"`
+  - line 37: Python `open('/Users/ainchorsoc2a/.openclaw/workspace/state/cron-list-snapshot.json')`
+  - line 136: Python `open('/Users/ainchorsoc2a/.openclaw/workspace/state/cron-ollama-usage.json', 'w')`
 - **State writes:** Lines 136 (usage JSON), 149 (cooldown epoch).
 - **Destructive ops:** None.
 - **Risk:** Non-atomic writes; JSON instead of PG; missing `--dry-run`.
@@ -58,7 +58,7 @@ I re-read all 5 scripts and verified the line numbers from the subagent reports.
 ### 5. `scripts/check-cooldown-gate.sh` — LOW-MEDIUM (confirmed)
 - **Lines:** 185
 - **set flags (line 19):** `set -u` only.
-- **Hardcoded path (line 20):** `WORKSPACE="${WORKSPACE:-/Users/ainchorsangiefpl/.openclaw/workspace}"`
+- **Hardcoded path (line 20):** `WORKSPACE="${WORKSPACE:-/Users/ainchorsoc2a/.openclaw/workspace}"`
 - **State write (lines 175-176):** Python `with open(output_path, 'w')` — single JSON dump.
 - **Destructive ops:** None.
 - **Risk:** Low. Mainly path portability and wrapper error handling.

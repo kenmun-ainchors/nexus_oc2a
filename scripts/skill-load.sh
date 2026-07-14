@@ -9,7 +9,11 @@
 
 set -euo pipefail
 
-WORKSPACE_ROOT="${WORKSPACE_ROOT:-/Users/ainchorsangiefpl/.openclaw/workspace}"
+# ── Workspace root resolution ─────────────────────────────────────────────
+# Derive from the script's actual location (portable across usernames).
+# Allow env override: WORKSPACE_ROOT, SKILL_INDEX, SKILL_REGISTRY.
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+WORKSPACE_ROOT="${WORKSPACE_ROOT:-$(cd "$SCRIPT_DIR/.." && pwd)}"
 SKILL_REGISTRY="${SKILL_REGISTRY:-$WORKSPACE_ROOT/state/skill-load-registry.json}"
 SKILL_INDEX="${SKILL_INDEX:-$WORKSPACE_ROOT/agent-skills/.index.json}"
 SKILL_NAME="${1:-}"

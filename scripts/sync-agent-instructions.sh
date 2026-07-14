@@ -14,8 +14,8 @@
 # CHG-0832 / SSOT Phase 1.
 set -euo pipefail
 
-WORKSPACE_ROOT="${WORKSPACE_ROOT:-/Users/ainchorsangiefpl/.openclaw/workspace}"
-OPENCLAW_CONFIG="${OPENCLAW_CONFIG:-/Users/ainchorsangiefpl/.openclaw/openclaw.json}"
+WORKSPACE_ROOT="${WORKSPACE_ROOT:-/Users/ainchorsoc2a/.openclaw/workspace}"
+OPENCLAW_CONFIG="${OPENCLAW_CONFIG:-/Users/ainchorsoc2a/.openclaw/openclaw.json}"
 AGENTS_DIR="${WORKSPACE_ROOT}/agents"
 DRY_RUN=false
 FIX=false

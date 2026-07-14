@@ -5,8 +5,8 @@
 
 set -e
 
-WORKSPACE="/Users/ainchorsangiefpl/.openclaw/workspace"
-PSQL="/opt/homebrew/bin/psql -U ainchorsangiefpl -d ainchors_nexus"
+WORKSPACE="/Users/ainchorsoc2a/.openclaw/workspace"
+PSQL="${PSQL_BIN:-$(brew --prefix postgresql@16 2>/dev/null)/bin/psql} -U ${PGUSER:-$(whoami)} -d ainchors_nexus"
 DRY_RUN=false
 
 [[ "$1" == "--dry-run" ]] && DRY_RUN=true && echo "=== DRY RUN MODE ==="
@@ -41,8 +41,9 @@ if ! $DRY_RUN; then
     python3 << 'PYEOF'
 import json, subprocess
 
-PSQL = ['/opt/homebrew/bin/psql', '-U', 'ainchorsangiefpl', '-d', 'ainchors_nexus']
-WORKSPACE = '/Users/ainchorsangiefpl/.openclaw/workspace'
+PSQL_BIN = os.environ.get('PSQL_BIN') or shutil.which('psql') or (subprocess.check_output(['brew', '--prefix'], text=True).strip() + '/bin/psql')
+PSQL = [PSQL_BIN, '-U', os.environ.get('PGUSER') or '', '-d', 'ainchors_nexus']
+WORKSPACE = '/Users/ainchorsoc2a/.openclaw/workspace'
 
 files = {
     'state_tickets': 'state/tickets.json',

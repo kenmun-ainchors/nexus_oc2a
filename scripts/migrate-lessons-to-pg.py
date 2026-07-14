@@ -17,15 +17,32 @@ from collections import defaultdict
 from datetime import datetime
 from pathlib import Path
 
+import shutil
+def _psql_bin():
+    p = shutil.which("psql") or os.environ.get("PSQL_BIN")
+    if p:
+        return p
+    try:
+        prefix = subprocess.check_output(["brew", "--prefix"], text=True).strip()
+        candidate = os.path.join(prefix, "bin", "psql")
+        if os.path.isfile(candidate) and os.access(candidate, os.X_OK):
+            return candidate
+    except Exception:
+        pass
+    raise RuntimeError("psql not found")
+
+PSQL = _psql_bin()
+
+
 DB_NAME = "ainchors_nexus"
-DB_USER = "ainchorsangiefpl"
+DB_USER = os.environ.get("PGUSER", "")
 DB_HOST = "127.0.0.1"
-WORKSPACE = Path("/Users/ainchorsangiefpl/.openclaw/workspace")
+WORKSPACE = Path("/Users/ainchorsoc2a/.openclaw/workspace")
 LESSONS_FILE = WORKSPACE / "memory/LESSONS.md"
 
 
 def psql(sql, capture=True):
-    cmd = ["/opt/homebrew/bin/psql", "-h", DB_HOST, "-U", DB_USER, "-d", DB_NAME, "-t", "-A"]
+    cmd = [PSQL, "-h", DB_HOST, "-U", DB_USER, "-d", DB_NAME, "-t", "-A"]
     if not capture:
         cmd.extend(["-c", sql])
         return subprocess.run(cmd, capture_output=False).returncode

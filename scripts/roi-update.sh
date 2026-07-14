@@ -20,7 +20,7 @@
 
 set -euo pipefail
 
-WORKSPACE="/Users/ainchorsangiefpl/.openclaw/workspace"
+WORKSPACE="/Users/ainchorsoc2a/.openclaw/workspace"
 TRACKER="$WORKSPACE/state/roi-tracker.json"
 STATE_WRITE="$WORKSPACE/scripts/state-write.py"
 AUD_RATE=0.64   # USD to AUD conversion (update periodically)
@@ -189,7 +189,7 @@ cmd_recalc() {
   python3 << 'PYEOF'
 import json, os
 
-tracker_path = "/Users/ainchorsangiefpl/.openclaw/workspace/state/roi-tracker.json"
+tracker_path = "/Users/ainchorsoc2a/.openclaw/workspace/state/roi-tracker.json"
 with open(tracker_path) as f:
     data = json.load(f)
 
@@ -243,7 +243,7 @@ cmd_summary() {
   python3 << 'PYEOF'
 import json
 
-tracker_path = "/Users/ainchorsangiefpl/.openclaw/workspace/state/roi-tracker.json"
+tracker_path = "/Users/ainchorsoc2a/.openclaw/workspace/state/roi-tracker.json"
 with open(tracker_path) as f:
     data = json.load(f)
 
@@ -287,7 +287,7 @@ cmd_week() {
   python3 << PYEOF
 import json
 
-tracker_path = "/Users/ainchorsangiefpl/.openclaw/workspace/state/roi-tracker.json"
+tracker_path = "/Users/ainchorsoc2a/.openclaw/workspace/state/roi-tracker.json"
 with open(tracker_path) as f:
     data = json.load(f)
 
@@ -401,7 +401,7 @@ cmd_budget_check() {
 import json
 from datetime import date
 
-tracker_path = "/Users/ainchorsangiefpl/.openclaw/workspace/state/roi-tracker.json"
+tracker_path = "/Users/ainchorsoc2a/.openclaw/workspace/state/roi-tracker.json"
 with open(tracker_path) as f:
     data = json.load(f)
 

@@ -6,12 +6,12 @@
 # knowledge_chunks:     content chunks with token_count and embedding vector(768)
 
 set -e
-WORKSPACE="/Users/ainchorsangiefpl/.openclaw/workspace"
+WORKSPACE="/Users/ainchorsoc2a/.openclaw/workspace"
 MEMORY_DIR="$WORKSPACE/memory"
 DRY_RUN=false
 [[ "$1" == "--dry-run" ]] && DRY_RUN=true
 
-PSQL=( /opt/homebrew/bin/psql -t -A -q -h /tmp -p 5432 -U ainchorsangiefpl -d ainchors_nexus )
+PSQL=( ${PSQL_BIN:-$(brew --prefix postgresql@16 2>/dev/null)/bin/psql} -t -A -q -h /tmp -p 5432 -U ${PGUSER:-$(whoami)} -d ainchors_nexus )
 
 if [[ "$DRY_RUN" == "false" ]]; then
     echo "=== Clearing existing knowledge entries ==="
@@ -25,10 +25,10 @@ fi
 exec python3 << 'PYEOF'
 import os, subprocess, sys
 
-WORKSPACE = "/Users/ainchorsangiefpl/.openclaw/workspace"
+WORKSPACE = "/Users/ainchorsoc2a/.openclaw/workspace"
 MEMORY_DIR = os.path.join(WORKSPACE, "memory")
-PSQL = ["/opt/homebrew/bin/psql", "-t", "-A", "-q", "-h", "/tmp", "-p", "5432",
-        "-U", "ainchorsangiefpl", "-d", "ainchors_nexus"]
+PSQL = ["${PSQL_BIN:-$(brew --prefix postgresql@16 2>/dev/null)/bin/psql}", "-t", "-A", "-q", "-h", "/tmp", "-p", "5432",
+        "-U", ""${PGUSER:-$(whoami)}"", "-d", "ainchors_nexus"]
 DRY_RUN = len(sys.argv) > 1 and sys.argv[1] == "--dry-run"
 
 def db_query(sql):

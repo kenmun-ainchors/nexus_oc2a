@@ -10,7 +10,7 @@
 
 set -euo pipefail
 
-WORKSPACE="/Users/ainchorsangiefpl/.openclaw/workspace"
+WORKSPACE="/Users/ainchorsoc2a/.openclaw/workspace"
 SNAPSHOT_SCRIPT="$WORKSPACE/scripts/linkedin-metrics-snapshot.sh"
 
 # ── Parse args ────────────────────────────────────────────────────────────────

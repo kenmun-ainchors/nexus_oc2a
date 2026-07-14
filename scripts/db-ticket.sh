@@ -44,13 +44,17 @@ fi
 set -u
 
 # --- CONSTANTS ---
-WORKSPACE_ROOT="/Users/ainchorsangiefpl/.openclaw/workspace"
+WORKSPACE_ROOT="/Users/ainchorsoc2a/.openclaw/workspace"
 DB_SCRIPT="$WORKSPACE_ROOT/scripts/db.sh"
 DB_READ="$WORKSPACE_ROOT/scripts/db-read.sh"
 DB_WRITE="$WORKSPACE_ROOT/scripts/db-write.sh"
 SYNC_SCRIPT="$WORKSPACE_ROOT/scripts/pg-to-notion-sync.sh"
 EVENT_SCRIPT="$WORKSPACE_ROOT/scripts/pg-write-event.sh"
-JQ="/opt/homebrew/bin/jq"
+JQ_BIN=$(command -v jq 2>/dev/null || true)
+if [[ -z "$JQ_BIN" || ! -x "$JQ_BIN" ]]; then
+  JQ_BIN="$(brew --prefix 2>/dev/null)/bin/jq"
+fi
+JQ="$JQ_BIN"
 TICKET_TABLE="state_tickets"
 TICKET_FILE="$WORKSPACE_ROOT/state/tickets.json"
 SPRINT_TABLE="state_sprints"
@@ -129,10 +133,10 @@ insert_entity_links_for_ticket() {
   # 2. Parse explicit links array from metadata
   if [[ -n "$metadata_json" && "$metadata_json" != "null" && "$metadata_json" != "{}" ]]; then
     local links_json
-    links_json=$(echo "$metadata_json" | /opt/homebrew/bin/jq -c '.links // []' 2>/dev/null)
+    links_json=$(echo "$metadata_json" | $JQ -c '.links // []' 2>/dev/null)
     if [[ -n "$links_json" && "$links_json" != "null" && "$links_json" != "[]" ]]; then
       local link_entries
-      link_entries=$(echo "$links_json" | /opt/homebrew/bin/jq -r '.[] | "\(.to_type // ""):\(.to_id // "")"' 2>/dev/null)
+      link_entries=$(echo "$links_json" | $JQ -r '.[] | "\(.to_type // ""):\(.to_id // "")"' 2>/dev/null)
       if [[ -n "$link_entries" ]]; then
         while IFS= read -r entry; do
           [[ -n "$entry" && "$entry" != ":" ]] && to_pairs+=("$entry")
@@ -165,7 +169,7 @@ check_pg_first_write_gate() {
   local gate_result
   gate_result=$(bash "$check_script" --check-table "$table" 2>/dev/null || true)
   local gate_status
-  gate_status=$(echo "$gate_result" | /opt/homebrew/bin/jq -r '.status // "unknown"' 2>/dev/null || echo "unknown")
+  gate_status=$(echo "$gate_result" | $JQ -r '.status // "unknown"' 2>/dev/null || echo "unknown")
   if [[ "$gate_status" == "violation" ]]; then
     log "PG-FIRST WRITE GATE: VIOLATION — $table JSON fallback write blocked (context: $context)"
     log "Gate verdict: $gate_result"
@@ -477,7 +481,13 @@ sync_sprint_from_metadata() {
       [[ -z "$target_items" || "$target_items" == "null" ]] && target_items='[]'
 
       local item_json
-      item_json=$(/opt/homebrew/bin/jq -n \
+      local jq_bin
+      jq_bin=$(command -v jq 2>/dev/null)
+      if [[ -z "$jq_bin" ]]; then
+        jq_bin="$(brew --prefix 2>/dev/null)/bin/jq"
+      fi
+      local item_json
+      item_json=$("$jq_bin" -n \
         --arg tkt_id "$tkt_id" \
         --arg seq "${new_seq:-}" \
         --arg effort "${new_effort:-}" \
@@ -737,7 +747,7 @@ cmd_create() {
     local actor
     actor=$(resolve_actor)
     local event_payload
-    event_payload=$(echo "$payload" | /opt/homebrew/bin/jq -c '{id, title, status, priority, type}' 2>/dev/null || echo '{"id":"'"$tkt_id"'"}')
+    event_payload=$(echo "$payload" | $JQ -c '{id, title, status, priority, type}' 2>/dev/null || echo '{"id":"'"$tkt_id"'"}')
     emit_event "$actor" "created" "ticket" "$tkt_id" "$event_payload" "{}" "$event_payload"
     # TKT-0720: Insert entity_links for Linked: in description
     insert_entity_links_for_ticket "$tkt_id" "$title $brief" "$metadata" "db-ticket:create"
@@ -872,13 +882,13 @@ cmd_create_from_json() {
     local actor
     actor=$(resolve_actor)
     local event_payload
-    event_payload=$(echo "$json_payload" | /opt/homebrew/bin/jq -c '{id, title, status, priority, type}' 2>/dev/null || echo '{"id":"'"$tkt_id"'"}')
+    event_payload=$(echo "$json_payload" | $JQ -c '{id, title, status, priority, type}' 2>/dev/null || echo '{"id":"'"$tkt_id"'"}')
     emit_event "$actor" "created" "ticket" "$tkt_id" "$event_payload" "{}" "$event_payload"
     # TKT-0720: Insert entity_links for Linked: in description and links in metadata
     local cfj_desc
-    cfj_desc=$(echo "$json_payload" | /opt/homebrew/bin/jq -r '.description // ""' 2>/dev/null)
+    cfj_desc=$(echo "$json_payload" | $JQ -r '.description // ""' 2>/dev/null)
     local cfj_meta
-    cfj_meta=$(echo "$json_payload" | /opt/homebrew/bin/jq -c '.metadata // {}' 2>/dev/null)
+    cfj_meta=$(echo "$json_payload" | $JQ -c '.metadata // {}' 2>/dev/null)
     insert_entity_links_for_ticket "$tkt_id" "$cfj_desc" "$cfj_meta" "db-ticket:create-from-json"
     
     # TKT-0406: Defer Notion sync to first groom (no sparse pages)
@@ -1001,15 +1011,15 @@ cmd_update() {
     local actor
     actor=$(resolve_actor)
     local event_payload
-    event_payload=$(echo "$json_payload" | /opt/homebrew/bin/jq -c '{id, title, status, priority, type}' 2>/dev/null || echo '{"id":"'"$tkt_id"'"}')
+    event_payload=$(echo "$json_payload" | $JQ -c '{id, title, status, priority, type}' 2>/dev/null || echo '{"id":"'"$tkt_id"'"}')
     local prev_state_json
     prev_state_json=$(get_ticket_json "$tkt_id" 2>/dev/null || echo "{}")
     emit_event "$actor" "updated" "ticket" "$tkt_id" "$event_payload" "$prev_state_json" "$event_payload"
     # TKT-0720: Insert entity_links for Linked: in description and links in metadata
     local upd_desc
-    upd_desc=$(echo "$json_payload" | /opt/homebrew/bin/jq -r '.description // ""' 2>/dev/null)
+    upd_desc=$(echo "$json_payload" | $JQ -r '.description // ""' 2>/dev/null)
     local upd_meta
-    upd_meta=$(echo "$json_payload" | /opt/homebrew/bin/jq -c '.metadata // {}' 2>/dev/null)
+    upd_meta=$(echo "$json_payload" | $JQ -c '.metadata // {}' 2>/dev/null)
     insert_entity_links_for_ticket "$tkt_id" "$upd_desc" "$upd_meta" "db-ticket:update"
     
     # TKT-0406: Trigger single-ticket Notion sync in background
@@ -1036,15 +1046,15 @@ cmd_update() {
       local actor
       actor=$(resolve_actor)
       local event_payload
-      event_payload=$(echo "$json_payload" | /opt/homebrew/bin/jq -c '{id, title, status, priority, type}' 2>/dev/null || echo '{"id":"'"$tkt_id"'"}')
+      event_payload=$(echo "$json_payload" | $JQ -c '{id, title, status, priority, type}' 2>/dev/null || echo '{"id":"'"$tkt_id"'"}')
       local prev_state_json
       prev_state_json=$(get_ticket_json "$tkt_id" 2>/dev/null || echo "{}")
       emit_event "$actor" "updated" "ticket" "$tkt_id" "$event_payload" "$prev_state_json" "$event_payload"
       # TKT-0720: Insert entity_links for Linked: in description and links in metadata
       local upd2_desc
-      upd2_desc=$(echo "$json_payload" | /opt/homebrew/bin/jq -r '.description // ""' 2>/dev/null)
+      upd2_desc=$(echo "$json_payload" | $JQ -r '.description // ""' 2>/dev/null)
       local upd2_meta
-      upd2_meta=$(echo "$json_payload" | /opt/homebrew/bin/jq -c '.metadata // {}' 2>/dev/null)
+      upd2_meta=$(echo "$json_payload" | $JQ -c '.metadata // {}' 2>/dev/null)
       insert_entity_links_for_ticket "$tkt_id" "$upd2_desc" "$upd2_meta" "db-ticket:update"
       
       # TKT-0406: Trigger single-ticket Notion sync in background
@@ -1135,7 +1145,7 @@ cmd_groom() {
     local actor
     actor=$(resolve_actor)
     local groom_payload
-    groom_payload=$(echo "$entry" | /opt/homebrew/bin/jq -c '{date, decisions, ac_count, ken_approved}' 2>/dev/null || echo '{}')
+    groom_payload=$(echo "$entry" | $JQ -c '{date, decisions, ac_count, ken_approved}' 2>/dev/null || echo '{}')
     emit_event "$actor" "groomed" "ticket" "$tkt_id" "$groom_payload"
     # TKT-0720: Insert entity_links for Linked: in description (groom may update description)
     local groom_desc
@@ -1300,7 +1310,7 @@ cmd_fold() {
     local actor
     actor=$(resolve_actor)
     local fold_payload
-    fold_payload=$(/opt/homebrew/bin/jq -n --arg child "$child_id" --arg parent "$parent_id" '{child: $child, parent: $parent}' 2>/dev/null || echo '{"child":"'"$child_id"'","parent":"'"$parent_id"'"}')
+    fold_payload=$($JQ -n --arg child "$child_id" --arg parent "$parent_id" '{child: $child, parent: $parent}' 2>/dev/null || echo '{"child":"'"$child_id"'","parent":"'"$parent_id"'"}')
     emit_event "$actor" "folded" "ticket" "$child_id" "$fold_payload"
   echo "{\"status\":\"folded\",\"child\":\"$child_id\",\"parent\":\"$parent_id\",\"folded_at\":\"$ts\"}"
 }

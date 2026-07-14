@@ -13,8 +13,8 @@ from datetime import datetime, timedelta
 sys.path.insert(0, os.path.join(os.path.dirname(__file__), 'lib'))
 from atomic_write import atomic_write_json as atomic_write
 
-COMPLIANCE_FILE = "/Users/ainchorsangiefpl/.openclaw/workspace/state/owl-compliance-state.json"
-ALERT_FILE = "/Users/ainchorsangiefpl/.openclaw/workspace/state/owl-drift-alert.json"
+COMPLIANCE_FILE = "/Users/ainchorsoc2a/.openclaw/workspace/state/owl-compliance-state.json"
+ALERT_FILE = "/Users/ainchorsoc2a/.openclaw/workspace/state/owl-drift-alert.json"
 
 def load_json(path):
     try:

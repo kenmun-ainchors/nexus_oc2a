@@ -9,7 +9,7 @@ set -euo pipefail
 # --- SKILL GATE: notion ---
 source "${SCRIPT_DIR:-$(dirname "$0")}/skill-gate.sh" "notion" || exit $?
 
-WORKSPACE_ROOT="/Users/ainchorsangiefpl/.openclaw/workspace"
+WORKSPACE_ROOT="/Users/ainchorsoc2a/.openclaw/workspace"
 LOG_FILE="$WORKSPACE_ROOT/.openclaw/tmp/notion-orphan-cleanup-$(date +%Y%m%d-%H%M%S).log"
 SUMMARY_FILE="$WORKSPACE_ROOT/state/notion-orphan-cleanup-2026-06-10.json"
 
@@ -177,7 +177,7 @@ data = json.load(open(sys.argv[1]))
 orphans = data["orphans"]
 chg_pages = data["chg"]
 
-API_KEY = open("/Users/ainchorsangiefpl/.config/notion/api_key").read().strip()
+API_KEY = open("/Users/ainchorsoc2a/.config/notion/api_key").read().strip()
 HEADERS = [
     "-H", f"Authorization: Bearer {API_KEY}",
     "-H", "Notion-Version: 2022-06-28",

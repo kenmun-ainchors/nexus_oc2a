@@ -12,12 +12,12 @@
 set -euo pipefail
 
 # --- CONFIGURATION ---
-WORKSPACE_ROOT="/Users/ainchorsangiefpl/.openclaw/workspace"
+WORKSPACE_ROOT="/Users/ainchorsoc2a/.openclaw/workspace"
 SYNC_SCRIPT="$WORKSPACE_ROOT/scripts/pg-to-notion-sync.sh"
 DB_SCRIPT="$WORKSPACE_ROOT/scripts/db.sh"
 STATE_FILE="$WORKSPACE_ROOT/state/pg-notion-backfill-state.json"
 SNAPSHOT_DIR="$WORKSPACE_ROOT/state/pg-notion-backfill-snapshots"
-NOTION_KEY_FILE="/Users/ainchorsangiefpl/.config/notion/api_key"
+NOTION_KEY_FILE="/Users/ainchorsoc2a/.config/notion/api_key"
 NOTION_API="https://api.notion.com/v1"
 NOTION_VERSION="2022-06-28"
 DB_BACKLOG="34dc1829-53ff-814b-8257-d3a3bf351d44"

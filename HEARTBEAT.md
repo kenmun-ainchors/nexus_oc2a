@@ -67,7 +67,7 @@
 ### Standby Mode & Outage Banner (every heartbeat)
 - If state/standby-mode.json exists → include standby banner in next response to Ken
 - If state/system-banner.json active=true → display it
-- Auto-cleared by health-check.sh on recovery
+- Auto-cleared by `scripts/health-check.sh` on recovery
 - State key: standbyMode
 
 ### Post-Deliverable Validation (every 30 min — TKT-0237 A3)

@@ -5,9 +5,13 @@
 # Exit 1: divergence detected (alert-only, no auto-mutation)
 set -u
 
-WORKSPACE_ROOT="/Users/ainchorsangiefpl/.openclaw/workspace"
+WORKSPACE_ROOT="/Users/ainchorsoc2a/.openclaw/workspace"
 DB_SCRIPT="$WORKSPACE_ROOT/scripts/db.sh"
-JQ="/opt/homebrew/bin/jq"
+JQ_BIN=$(command -v jq 2>/dev/null || true)
+if [[ -z "$JQ_BIN" || ! -x "$JQ_BIN" ]]; then
+  JQ_BIN="$(brew --prefix 2>/dev/null)/bin/jq"
+fi
+JQ="$JQ_BIN"
 SPRINT_TABLE="state_sprints"
 TICKET_TABLE="state_tickets"
 

@@ -5,7 +5,7 @@ if /opt/homebrew/bin/pg_isready -h /tmp -q 2>/dev/null; then
   exit 2
 fi
 FILES_FAIL=0
-for f in /Users/ainchorsangiefpl/.openclaw/workspace/state/cost-state.json /Users/ainchorsangiefpl/.openclaw/workspace/state/health-state.json /Users/ainchorsangiefpl/.openclaw/workspace/state/tickets.json; do
+for f in /Users/ainchorsoc2a/.openclaw/workspace/state/cost-state.json /Users/ainchorsoc2a/.openclaw/workspace/state/health-state.json /Users/ainchorsoc2a/.openclaw/workspace/state/tickets.json; do
   [ -f "$f" ] && [ -s "$f" ] || { echo "  MISSING: $f"; FILES_FAIL=$((FILES_FAIL+1)); }
 done
 [ $FILES_FAIL -eq 0 ] && exit 0 || exit 1

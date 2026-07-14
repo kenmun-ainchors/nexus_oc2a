@@ -16,7 +16,24 @@
 set -uo pipefail
 
 # ── Paths ─────────────────────────────────────────────────────────────────────
-WORKSPACE="/Users/ainchorsangiefpl/.openclaw/workspace"
+# Derive WORKSPACE from the script's actual location (portable across usernames).
+# Script lives at <WORKSPACE>/scripts/skill-audit-cron.sh, so go up one level.
+# Allow env override: WORKSPACE.
+if [[ -z "${WORKSPACE:-}" ]]; then
+  # ${(%):-%x} gives the script path under zsh (direct invocation);
+  # $0 is the fallback for `zsh <script>` style invocation.
+  # Resolve relative paths against $PWD.
+  _script_path="${(%):-%x}"
+  [[ "$_script_path" == /* ]] || _script_path="$0"
+  [[ "$_script_path" == /* ]] || _script_path="$PWD/$0"
+  _script_dir="$(cd "$(dirname "$_script_path")" 2>/dev/null && pwd)"
+  if [[ -z "$_script_dir" || "$_script_dir" == "/" ]]; then
+    # Last-resort: assume we're invoked from <WORKSPACE>/scripts/
+    _script_dir="$PWD"
+  fi
+  WORKSPACE="$(cd "$_script_dir/.." 2>/dev/null && pwd)"
+  unset _script_path _script_dir
+fi
 AUDIT_SCRIPT="${WORKSPACE}/scripts/audit-skill.sh"
 REGISTRY="${WORKSPACE}/state/skill-registry.json"
 STATE_FILE="${WORKSPACE}/state/skill-audit-state.json"

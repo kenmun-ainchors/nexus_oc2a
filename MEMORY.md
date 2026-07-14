@@ -14,9 +14,10 @@
 - **Aevlith Technologies Pty Ltd** — Technology holding entity, owns Nexus platform. AInchors = market-facing brand. Domain: aevlith.ai (AYV-lith, confirmed). ASIC registration to proceed. P1–P3: silent. P4: surfaces as product brand.
 - Emails: kenmun@ ✅ gog | info@ | accounts@ | Gmail (Google Workspace). Tech: Ken+Yoda. Business: Angie+Aria.
 
-## Infrastructure — HIVE Architecture (confirmed May 2026)
-- **OC1** — Mac Mini M4 24GB — LIVE Production. PERMANENT. HARD LIMIT: No local LLM inference >~8B Q4.
-- **OC2-A/B** — Mac Mini M4 Pro 48GB ×2 — INCOMING ETA 6–13 Jul 2026. A=HA Primary, B=Standby. Commission ~27 Jul. OC2-gated items wait for TRIGGER-03.
+## Infrastructure — HIVE Architecture (cutover completed 2026-07-14)
+- **OC2A** — Mac Mini M4 Pro 48GB — **LIVE Production**. HIVE lead node. All gateway, agents, PostgreSQL, MinIO, and operational services run here.
+- **OC1** — Mac Mini M4 24GB — **Dev/test environment**. Standalone, passive standby. Repurposed from production 2026-07-14. Not active in PROD routing.
+- **OC2-A/B** — Mac Mini M4 Pro 48GB ×2 — INCOMING ETA 6–13 Jul 2026. A=HA Primary, B=Standby. Commission ~27 Jul. OC2-gated items wait for TRIGGER-03. Once commissioned, OC2A role will migrate to HA primary pair.
 - Supporting: Tailscale mesh, NAS. Platform: OpenClaw (final).
 
 ## Agent Architecture
@@ -92,6 +93,13 @@ Context handoffs in `docs/context-handoffs/`. Latest: 2026-06-07 → 2026-06-21.
 - SSOT: `state/model-policy.json`. Load skill: `bash scripts/skill-load.sh model-routing`.
 - Verify primary: gemma4:31b-cloud. Yoda/Aria primary: kimi-k2.7-code:cloud.
 - **NO-FABRICATION directive** (Ken 17:57 AEST).
+
+## Ollama Credit / Usage Tracking (Ken correction 2026-07-13 10:01 AEST)
+- **Actual credit is scraped from the Ollama Cloud usage page (`ollama.com/settings`).**
+- Each model has its own usage currency; request count is an internal soft indicator only.
+- **SSOT:** `scripts/ollama-usage-scraper.py` / `scripts/ollama-usage-scraper-run.sh` → updates `state/cost-state.json`.
+- `scripts/request-budget-check.sh` reads `cost-state.json` and reports status against the live scraped limit.
+- **Stale knowledge removed:** the 30,000 requests/week flat formula is no longer authoritative. Use dashboard-derived numbers.
 
 ## CREST v1.3 Reference (compact)
 - Three moves: (1) Yoda owns CREST loop; agents are phase executors. (2) Sage-as-Judge for Verify. (3) Capability-based multi-model routing (role×phase matrix). Verify primary: gemma4:31b-cloud (20/20 benchmark).

@@ -129,7 +129,7 @@ Option D is **viable and clean**. If Ken wants unified context (know what was di
 
 ## Files Reviewed
 
-- `/Users/ainchorsangiefpl/.openclaw/openclaw.json` — current config
+- `/Users/ainchorsoc2a/.openclaw/openclaw.json` — current config
 - `/opt/homebrew/lib/node_modules/openclaw/docs/channels/telegram.md`
 - `/opt/homebrew/lib/node_modules/openclaw/docs/channels/channel-routing.md`
 - `/opt/homebrew/lib/node_modules/openclaw/docs/gateway/config-agents.md`

@@ -11,7 +11,7 @@ Usage:
 
 import json, os, sys
 
-AGENTS_DIR = "/Users/ainchorsangiefpl/.openclaw/agents"
+AGENTS_DIR = "/Users/ainchorsoc2a/.openclaw/agents"
 MAIN_AUTH = f"{AGENTS_DIR}/main/agent/auth-profiles.json"
 
 # Read the anthropic key from main

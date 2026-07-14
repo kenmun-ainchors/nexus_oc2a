@@ -8,7 +8,7 @@
 set -uo pipefail
 export PATH="$PATH:/usr/local/bin:/opt/homebrew/bin"
 
-WORKSPACE="/Users/ainchorsangiefpl/.openclaw/workspace"
+WORKSPACE="/Users/ainchorsoc2a/.openclaw/workspace"
 QUEUE_FILE="$WORKSPACE/state/content-queue.json"
 SCRIPTS_DIR="$WORKSPACE/scripts"
 TIMESTAMP=$(date +"%Y-%m-%dT%H:%M:%S+10:00")
@@ -118,7 +118,7 @@ update_queue() {
 import json, sys, os
 from datetime import datetime
 
-qfile = '/Users/ainchorsangiefpl/.openclaw/workspace/state/content-queue.json'
+qfile = '/Users/ainchorsoc2a/.openclaw/workspace/state/content-queue.json'
 content_id = 'CONTENT_ID_PLACEHOLDER'
 agent = sys.argv[1]
 verdict = sys.argv[2]

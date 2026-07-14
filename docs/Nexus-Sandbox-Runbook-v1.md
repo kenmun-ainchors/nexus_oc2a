@@ -383,7 +383,7 @@ solves them, and ROI assumptions.
 
 1. **Clone/update the sandbox code:**
    ```bash
-   cd /Users/ainchorsangiefpl/.openclaw/workspace/infra/sandbox
+   cd /Users/ainchorsoc2a/.openclaw/workspace/infra/sandbox
    git pull origin main  # or manually sync if not a git repo
    ```
 

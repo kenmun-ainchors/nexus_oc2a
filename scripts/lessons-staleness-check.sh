@@ -6,7 +6,7 @@
 
 set -u
 
-WORKSPACE="/Users/ainchorsangiefpl/.openclaw/workspace"
+WORKSPACE="/Users/ainchorsoc2a/.openclaw/workspace"
 LESSONS_FILE="${LESSONS_FILE:-$WORKSPACE/memory/LESSONS.md}"
 STATE="$WORKSPACE/state/lessons-staleness-state.json"
 AEST_TIMESTAMP=$(date +"%Y-%m-%dT%H:%M:%S+10:00")

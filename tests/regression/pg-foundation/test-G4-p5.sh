@@ -6,7 +6,7 @@ if ! /opt/homebrew/bin/pg_isready -h /tmp -q 2>/dev/null; then
   exit 2
 fi
 # Run sync check — should find any drift from the PG-down period
-OUTPUT=$(bash /Users/ainchorsangiefpl/.openclaw/workspace/scripts/sync-check.sh 2>&1 || true)
+OUTPUT=$(bash /Users/ainchorsoc2a/.openclaw/workspace/scripts/sync-check.sh 2>&1 || true)
 echo "$OUTPUT" | head -5
 # sync-check.sh existing is sufficient — the actual drift depends on what happened during PG-down
-[ -f /Users/ainchorsangiefpl/.openclaw/workspace/scripts/sync-check.sh ] && exit 0 || exit 1
+[ -f /Users/ainchorsoc2a/.openclaw/workspace/scripts/sync-check.sh ] && exit 0 || exit 1

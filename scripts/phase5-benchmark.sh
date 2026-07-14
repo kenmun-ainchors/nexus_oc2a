@@ -5,7 +5,7 @@
 
 zmodload zsh/datetime 2>/dev/null || true
 
-OUT_DIR="/Users/ainchorsangiefpl/.openclaw/workspace/state/phase5-results"
+OUT_DIR="/Users/ainchorsoc2a/.openclaw/workspace/state/phase5-results"
 mkdir -p "$OUT_DIR"
 
 run_task() {

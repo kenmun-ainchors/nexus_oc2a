@@ -39,7 +39,7 @@ fi
 echo "✅ Bot token loaded from Keychain"
 
 # ── 2. Backup openclaw.json ──────────────────────────────────────────────────
-CONFIG_FILE="/Users/ainchorsangiefpl/.openclaw/openclaw.json"
+CONFIG_FILE="/Users/ainchorsoc2a/.openclaw/openclaw.json"
 BACKUP_FILE="${CONFIG_FILE}.bak.$(date +%Y%m%d-%H%M%S)-foodie"
 cp "$CONFIG_FILE" "$BACKUP_FILE"
 echo "✅ Backup: $BACKUP_FILE"
@@ -53,7 +53,7 @@ with open('$CONFIG_FILE') as f:
 
 # Add foodie agent to agents list
 data['agents']['list'].append({
-    'agentDir': '/Users/ainchorsangiefpl/.openclaw/workspace/agents/foodie',
+    'agentDir': '/Users/ainchorsoc2a/.openclaw/workspace/agents/foodie',
     'id': 'foodie',
     'model': {
         'primary': 'ollama/deepseek-v4-flash:cloud',
@@ -67,7 +67,7 @@ data['agents']['list'].append({
             'memory_search', 'memory_get'
         ]
     },
-    'workspace': '/Users/ainchorsangiefpl/.openclaw/workspace'
+    'workspace': '/Users/ainchorsoc2a/.openclaw/workspace'
 })
 
 # Add dinner-crew telegram account

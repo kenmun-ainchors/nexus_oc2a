@@ -14,7 +14,7 @@ SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 # --- SKILL GATE: notion ---
 source "$SCRIPT_DIR/skill-gate.sh" "notion" || exit $?
 
-WORKSPACE="/Users/ainchorsangiefpl/.openclaw/workspace"
+WORKSPACE="/Users/ainchorsoc2a/.openclaw/workspace"
 REGISTRY="$WORKSPACE/state/asset-registry.json"
 LOG_DIR="$HOME/Backups/ainchors/logs"
 LOG_FILE="$LOG_DIR/asset-review.log"

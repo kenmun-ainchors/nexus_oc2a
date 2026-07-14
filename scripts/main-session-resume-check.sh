@@ -14,7 +14,7 @@
 
 set -euo pipefail
 
-WORKSPACE_ROOT="${WORKSPACE_ROOT:-/Users/ainchorsangiefpl/.openclaw/workspace}"
+WORKSPACE_ROOT="${WORKSPACE_ROOT:-/Users/ainchorsoc2a/.openclaw/workspace}"
 REGISTRY="$WORKSPACE_ROOT/state/main-session-resume.json"
 NEEDS_KEN_FILE="$WORKSPACE_ROOT/state/main-session-resume-needs-ken.json"
 

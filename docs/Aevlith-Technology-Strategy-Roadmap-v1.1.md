@@ -130,7 +130,7 @@ OpenClaw is the final platform choice for P1-P4. Architectural decisions extend 
 | OC1 | Mac Mini M4 24GB, Melbourne | ✅ Production | Always-on, single node |
 | OC2-A | Mac Mini M4 Pro 48GB | **✅ ARRIVED** — commissioning in progress | HA Primary. Commission ~27 Jul 2026. |
 | OC2-B | Mac Mini M4 Pro 48GB | **✅ ARRIVED** — awaiting commissioning | HA Standby. |
-| Tailscale mesh | Zero-trust overlay | ✅ Live | `ainchorss-mac-mini.tail5e2567.ts.net` |
+| Tailscale mesh | Zero-trust overlay | ✅ Live | `ainchorsoc2as-mac-mini-1.tailfc3ed1.ts.net` |
 | MinIO | 4 buckets, local NVMe | ✅ Live | URL pattern: Tailscale FQDN:9000 |
 | Google Drive | Human docs, EA outputs | ✅ Live | `kenmun@ainchors.com` |
 | Notion / Holocron | Agent Knowledge Base (AKB) | ✅ Live | **3-DB architecture** (Notion). SSOT for tickets + CHG — now secondary to PG. |

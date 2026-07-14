@@ -13,7 +13,7 @@
 set -euo pipefail
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 
-WORKSPACE_ROOT="${WORKSPACE_ROOT:-/Users/ainchorsangiefpl/.openclaw/workspace}"
+WORKSPACE_ROOT="${WORKSPACE_ROOT:-/Users/ainchorsoc2a/.openclaw/workspace}"
 POLICY="$WORKSPACE_ROOT/state/model-policy.json"
 ALERT="$WORKSPACE_ROOT/state/session-model-drift-alert.json"
 DECISION_SCRIPT="$SCRIPT_DIR/pg-write-decision.sh"
@@ -21,7 +21,7 @@ emit_decision() {
   local kind="$1" entity_id="$2" payload="$3"
   bash "$DECISION_SCRIPT" --actor "session_model_check" --entity-id "$entity_id" --decision-kind "$kind" --payload "$payload" >/dev/null 2>&1 || true
 }
-OPENCLAW_BIN="/opt/homebrew/bin/openclaw"
+OPENCLAW_BIN="/Users/ainchorsoc2a/local/bin/openclaw"
 
 AGENT_ID="main"
 FIX_MODE=false
@@ -66,7 +66,7 @@ ACTUAL=$(python3 -c "
 import json, subprocess, sys
 
 result = subprocess.run(
-    ['$OPENCLAW_BIN', 'sessions', 'list', '--agent', '$AGENT_ID', '--active', '5', '--json'],
+    ['$OPENCLAW_BIN', 'sessions', 'list', '--agent', '$AGENT_ID', '--active', '60', '--json'],
     capture_output=True, text=True, timeout=10
 )
 if result.returncode != 0:

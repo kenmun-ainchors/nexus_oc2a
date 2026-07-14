@@ -18,7 +18,7 @@
 set -uo pipefail
 
 SCRIPT_DIR_SA="$(cd "$(dirname "$0")" && pwd)"
-LOG="/Users/ainchorsangiefpl/.openclaw/workspace/state/sovereign-alert.log"
+LOG="/Users/ainchorsoc2a/.openclaw/workspace/state/sovereign-alert.log"
 TS=$(date '+%Y-%m-%d %H:%M:%S AEST')
 
 SOURCE=""

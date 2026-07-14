@@ -26,7 +26,7 @@
 
 set -uo pipefail
 
-WORKSPACE="/Users/ainchorsangiefpl/.openclaw/workspace"
+WORKSPACE="/Users/ainchorsoc2a/.openclaw/workspace"
 STATE_DIR="$WORKSPACE/state"
 RESULT_FILE="$STATE_DIR/pvt-last-result.json"
 ALERT_FILE="/tmp/pvt-alert.txt"

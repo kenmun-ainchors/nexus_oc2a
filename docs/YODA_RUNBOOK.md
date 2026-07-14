@@ -188,7 +188,7 @@ Embeds (`[embed ...]`) ONLY render in webchat when Yoda sends them directly. The
 ```
 FULL PATH ONLY — no embed tags
 ```
-The `ref` value = the directory name under `/Users/ainchorsangiefpl/.openclaw/canvas/documents/`.
+The `ref` value = the directory name under `/Users/ainchorsoc2a/.openclaw/canvas/documents/`.
 
 Example: file at `canvas/documents/auralith-strategy-paper/index.html` → `ref="auralith-strategy-paper"`
 
@@ -592,7 +592,7 @@ Ready for your instructions 👋
 # ALWAYS run:
 python3 -c "
 import json, datetime
-f = '/Users/ainchorsangiefpl/.openclaw/workspace/state/channel-state.json'
+f = '/Users/ainchorsoc2a/.openclaw/workspace/state/channel-state.json'
 d = json.load(open(f))
 d['recentDecisions'].append({
   'decisionId': 'DEC-' + datetime.datetime.now().strftime('%Y%m%d-%H%M%S'),
@@ -612,7 +612,7 @@ open(f,'w').write(json.dumps(d, indent=2))
 ### Verification
 Run this after any closure to confirm sync:
 ```bash
-grep "TKT-NNNN" /Users/ainchorsangiefpl/.openclaw/workspace/state/channel-state.json
+grep "TKT-NNNN" /Users/ainchorsoc2a/.openclaw/workspace/state/channel-state.json
 ```
 If the ticket ID is absent from channel-state → **IMMEDIATELY** write the missing entry.
 
@@ -645,8 +645,8 @@ Trigger: end-of-session, nightly cron 23:55 Melbourne, or Ken's explicit request
    - Reference exemplars: `memory/journal-2026-04-25.md`, `memory/journal-2026-04-26.md`. Format changes require Ken approval + update to JournalFormat.md.
 
 2. **Blog post** → ⚠️ **DO NOT generate blog here. The 00:05 cron (a027fd60) handles this exclusively.**
-   - Correct path (00:05 cron only): `/Users/ainchorsangiefpl/.openclaw/canvas/documents/ainchors-YYYY-MM-DD/index.html`
-   - ❌ NEVER write blog to: `/Users/ainchorsangiefpl/.openclaw/workspace/canvas/documents/` (workspace canvas — wrong)
+   - Correct path (00:05 cron only): `/Users/ainchorsoc2a/.openclaw/canvas/documents/ainchors-YYYY-MM-DD/index.html`
+   - ❌ NEVER write blog to: `/Users/ainchorsoc2a/.openclaw/workspace/canvas/documents/` (workspace canvas — wrong)
    - The journal cron (23:55) and any EOD sub-agent spawned from main session must NOT generate the blog.
    - If Ken explicitly requests `/eod` or `/blog` — trigger the blog cron (a027fd60) or spawn isolated agent writing to the CORRECT absolute path only.
 
@@ -1810,7 +1810,7 @@ The audit script reads live cron state — any routing bug will be caught within
 
 All file references in any response, document, or message to Ken or Angie must use **full absolute paths**.
 
-✅ Correct: `/Users/ainchorsangiefpl/.openclaw/workspace/canvas/documents/ainchors-context-handoff/index.md`
+✅ Correct: `/Users/ainchorsoc2a/.openclaw/workspace/canvas/documents/ainchors-context-handoff/index.md`
 ❌ Wrong: `canvas/documents/ainchors-context-handoff/index.md`
 
 This applies to:
@@ -1820,9 +1820,9 @@ This applies to:
 - Notion pages
 - Any agent output
 
-Workspace root = `/Users/ainchorsangiefpl/.openclaw/workspace`
-Business workspace root = `/Users/ainchorsangiefpl/.openclaw/workspace-business`
-Canvas root = `/Users/ainchorsangiefpl/.openclaw/canvas`
+Workspace root = `/Users/ainchorsoc2a/.openclaw/workspace`
+Business workspace root = `/Users/ainchorsoc2a/.openclaw/workspace-business`
+Canvas root = `/Users/ainchorsoc2a/.openclaw/canvas`
 
 ## GOOGLE DRIVE RULES (non-negotiable)
 
@@ -1839,8 +1839,8 @@ Duplicate uploads = duplicate files. Drive does not deduplicate.
 
 ## STRATEGY & EXECUTION GUARDRAILS (2026-05, non-negotiable)
 
-Source: /Users/ainchorsangiefpl/.openclaw/workspace/docs/ainchors-guardrails-rules-2026-05.md
-Strategy OKR: /Users/ainchorsangiefpl/.openclaw/workspace/docs/ainchors-strategy-okr-2026-05.md
+Source: /Users/ainchorsoc2a/.openclaw/workspace/docs/ainchors-guardrails-rules-2026-05.md
+Strategy OKR: /Users/ainchorsoc2a/.openclaw/workspace/docs/ainchors-strategy-okr-2026-05.md
 
 **Global principles (all agents, all work):**
 1. Strategy-first: All significant epics/features/campaigns must map to a pillar (Training/Consulting/Technology) and at least one OKR ID from ainchors-strategy-okr-2026-05.md.

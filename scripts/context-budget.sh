@@ -13,7 +13,7 @@
 
 set -euo pipefail
 
-WORKSPACE="${WORKSPACE:-/Users/ainchorsangiefpl/.openclaw/workspace}"
+WORKSPACE="${WORKSPACE:-/Users/ainchorsoc2a/.openclaw/workspace}"
 PROFILE="$HOME/.openclaw"
 
 # Model context windows (tokens)

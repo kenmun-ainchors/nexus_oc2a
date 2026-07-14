@@ -7,7 +7,7 @@
 
 set -euo pipefail
 
-WORKSPACE="${WORKSPACE_ROOT:-/Users/ainchorsangiefpl/.openclaw/workspace}"
+WORKSPACE="${WORKSPACE_ROOT:-/Users/ainchorsoc2a/.openclaw/workspace}"
 DRY_RUN=false
 TARGET_DATE=""
 

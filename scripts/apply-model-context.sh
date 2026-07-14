@@ -11,8 +11,8 @@
 
 set -euo pipefail
 
-WORKSPACE="/Users/ainchorsangiefpl/.openclaw/workspace"
-OC_CONFIG="/Users/ainchorsangiefpl/.openclaw/openclaw.json"
+WORKSPACE="/Users/ainchorsoc2a/.openclaw/workspace"
+OC_CONFIG="/Users/ainchorsoc2a/.openclaw/openclaw.json"
 REGISTRY_FILE="$WORKSPACE/state/model-context-registry.json"
 BACKUP_DIR="$WORKSPACE/state/backups"
 TIMESTAMP=$(date +%Y%m%d-%H%M%S)
@@ -42,8 +42,8 @@ echo "Applying model context from registry..."
 python3 <<'PYEOF'
 import json, os, sys
 
-oc_config_path = "/Users/ainchorsangiefpl/.openclaw/openclaw.json"
-registry_path = "/Users/ainchorsangiefpl/.openclaw/workspace/state/model-context-registry.json"
+oc_config_path = "/Users/ainchorsoc2a/.openclaw/openclaw.json"
+registry_path = "/Users/ainchorsoc2a/.openclaw/workspace/state/model-context-registry.json"
 
 # Load registry
 with open(registry_path) as f:

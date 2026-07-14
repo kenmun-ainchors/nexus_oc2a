@@ -54,7 +54,7 @@ total=${#dates[@]}
 count=0
 success=0
 failed=0
-report="/Users/ainchorsangiefpl/.openclaw/workspace/state/notion-created-date-fix.json"
+report="/Users/ainchorsoc2a/.openclaw/workspace/state/notion-created-date-fix.json"
 
 # Initialize report
 printf '{"started":"%s","total":%d,"success":[],"failed":[]}\n' "$(date -u +%Y-%m-%dT%H:%M:%SZ)" "$total" > "$report"

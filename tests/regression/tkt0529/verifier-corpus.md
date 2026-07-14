@@ -28,7 +28,7 @@ For each script, report PASS/FAIL/NA for every item. A FAIL must include:
 - [ ] No in-place overwrite of critical state files without backup.
 
 ### 3. Hardcoded Paths / Secrets
-- [ ] No absolute user paths that break on other hosts (e.g. `/Users/ainchorsangiefpl/...` without `$HOME` fallback).
+- [ ] No absolute user paths that break on other hosts (e.g. `/Users/ainchorsoc2a/...` without `$HOME` fallback).
 - [ ] No embedded secrets, tokens, or credentials.
 - [ ] `$WORKSPACE_ROOT` and other env vars are used consistently.
 

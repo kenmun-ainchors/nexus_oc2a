@@ -4,9 +4,9 @@
 
 set -euo pipefail
 
-WORKSPACE="/Users/ainchorsangiefpl/.openclaw/workspace"
+WORKSPACE="/Users/ainchorsoc2a/.openclaw/workspace"
 BACKUP_STATE="$WORKSPACE/state/backup-state.json"
-BACKUP_DIR="/Users/ainchorsangiefpl/Backups/ainchors"
+BACKUP_DIR="/Users/ainchorsoc2a/Backups/ainchors"
 
 # Check if state file exists
 if [[ ! -f "$BACKUP_STATE" ]]; then
@@ -14,9 +14,9 @@ if [[ ! -f "$BACKUP_STATE" ]]; then
     exit 2
 fi
 
-LAST_BACKUP=$(/opt/homebrew/bin/jq -r '.last_backup // .lastBackup // "unknown"' "$BACKUP_STATE")
-LAST_SNAP=$(/opt/homebrew/bin/jq -r '.workspace_snapshot // .lastSnap // "unknown"' "$BACKUP_STATE")
-STATUS=$(/opt/homebrew/bin/jq -r '.status // "unknown"' "$BACKUP_STATE")
+LAST_BACKUP=$JQ -r '.last_backup // .lastBackup // "unknown"' "$BACKUP_STATE")
+LAST_SNAP=$JQ -r '.workspace_snapshot // .lastSnap // "unknown"' "$BACKUP_STATE")
+STATUS=$JQ -r '.status // "unknown"' "$BACKUP_STATE")
 
 # Check if backup directory actually has content
 if [[ -d "$BACKUP_DIR/workspace-incremental" ]]; then

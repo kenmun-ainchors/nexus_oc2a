@@ -228,7 +228,7 @@ exec_wrapper() {
             # Ensure PG env vars have defaults (Yoda session may not export them)
             export PGHOST="${PGHOST:-/tmp}"
             export PGPORT="${PGPORT:-5432}"
-            export PGUSER="${PGUSER:-ainchorsangiefpl}"
+            export PGUSER="${PGUSER:-"${PGUSER:-$(whoami)}"}"
             export PGDATABASE="${PGDATABASE:-ainchors_nexus}"
 
             local pg_ok=false

@@ -4,7 +4,7 @@
 
 set -euo pipefail
 
-WORKSPACE_ROOT="${WORKSPACE_ROOT:-/Users/ainchorsangiefpl/.openclaw/workspace}"
+WORKSPACE_ROOT="${WORKSPACE_ROOT:-/Users/ainchorsoc2a/.openclaw/workspace}"
 cd "$WORKSPACE_ROOT"
 
 PASS=0
@@ -84,7 +84,7 @@ fi
 
 # R6 — helper rejects cross-agent dispatch that requires parent workspace exec
 EXEC_TASK=$(mktemp /tmp/subagent-dispatch-test-r6-XXXXXX)
-echo "Run bash /Users/ainchorsangiefpl/.openclaw/workspace/scripts/skill-load.sh crest and report output." > "$EXEC_TASK"
+echo "Run bash /Users/ainchorsoc2a/.openclaw/workspace/scripts/skill-load.sh crest and report output." > "$EXEC_TASK"
 if ! bash scripts/subagent-dispatch.sh platform-arch "$EXEC_TASK" --read-only --timeout 60 --cwd "$WORKSPACE_ROOT" 2>/dev/null; then
   ok "R6: helper rejects cross-agent exec-required dispatch"
 else

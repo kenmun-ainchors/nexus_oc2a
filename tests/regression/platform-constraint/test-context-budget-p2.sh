@@ -5,7 +5,7 @@
 TEST_COUNT=0
 FAIL_COUNT=0
 
-WORKSPACE="/Users/ainchorsangiefpl/.openclaw/workspace"
+WORKSPACE="/Users/ainchorsoc2a/.openclaw/workspace"
 BUDGET_SH="$WORKSPACE/scripts/context-budget.sh"
 
 # Test 1: --check returns OK when under budget

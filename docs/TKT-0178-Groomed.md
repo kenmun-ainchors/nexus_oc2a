@@ -322,4 +322,4 @@ Do not execute social tasks directly. See AGENTS.md routing table.
 
 Reply: **APPROVED** (commit to S4, start TKT-0178-a) | **EDIT** [feedback] | **DEFER** (move to S5 or later)
 
-Full doc: `/Users/ainchorsangiefpl/.openclaw/workspace/docs/TKT-0178-Routing-Enforcement-Proposal.md`
+Full doc: `/Users/ainchorsoc2a/.openclaw/workspace/docs/TKT-0178-Routing-Enforcement-Proposal.md`

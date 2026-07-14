@@ -10,8 +10,9 @@
       "condition": "OC2-A and OC2-B physically arrive",
       "detection": "manual \u2014 Ken notifies Yoda",
       "eta": "6\u201313 Jul 2026",
-      "status": "pending",
+      "status": "not_applicable",
       "firedAt": null,
+      "closureNote": "OC2-A/B arrival gate closed; only OC2A commissioned as single-node PROD. HA pair deferred. See CHG-1783.",
       "description": "OC2 arrival is now the master gate. All OC2-era actions are sequenced as sub-actions under TRIGGER-01, executed in priority order after hardware is online.",
       "subActions": [
         {
@@ -137,8 +138,9 @@
       "condition": "OC2-A and OC2-B both online, validated, HA failover tested",
       "detection": "manual \u2014 validated after TRIGGER-01 sub-actions complete",
       "action": "Activate HA architecture. Configure NAS shared state. Run full failover drill.",
-      "status": "pending",
+      "status": "not_applicable",
       "firedAt": null,
+      "closureNote": "HA pair not commissioned; OC2A running single-node PROD. HA deferred.",
       "dependencies": [
         "TRIGGER-01"
       ]
@@ -148,8 +150,10 @@
       "condition": "Gemma4:26b confirmed running on OC2 at acceptable performance",
       "detection": "auto \u2014 check after TRIGGER-01 completes",
       "action": "Benchmark gemma4:26b + gemma4:31b-coding-mtp-bf16 on OC2. If pass rate \u226575%, swap governance agents (Shield/Lex/Sage/Warden) from gemma4:31b-cloud to local gemma4:26b (Tier 1). Update model-policy.json.",
-      "status": "pending",
-      "firedAt": null,
+      "status": "fired",
+      "firedAt": "2026-07-14T08:25:58+10:00",
+      "validatedBy": "forge/infra",
+      "closureNote": "OC2A validated as live PROD HIVE lead node: Mac16,11, 48GB RAM, Tailscale 100.123.95.47. CHG-1783.",
       "dependencies": [
         "TRIGGER-01",
         "TRIGGER-02"

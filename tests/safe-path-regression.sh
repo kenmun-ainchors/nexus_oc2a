@@ -5,7 +5,7 @@ set -euo pipefail
 
 PASS=0
 FAIL=0
-WORKSPACE="/Users/ainchorsangiefpl/.openclaw/workspace"
+WORKSPACE="/Users/ainchorsoc2a/.openclaw/workspace"
 SAFE_PATH="${WORKSPACE}/scripts/safe-path.sh"
 
 echo "=== TKT-0336 A1: safe-path.sh Regression Tests ==="
@@ -14,11 +14,11 @@ echo ""
 # Test 1: Tilde expansion (agent outputs literal ~ string, not shell-expanded)
 echo "--- Test 1: Tilde expansion (literal ~ string) ---"
 output=$(zsh "$SAFE_PATH" '~/MEMORY.md' 2>&1)
-if [[ "$output" == "/Users/ainchorsangiefpl/MEMORY.md" ]]; then
+if [[ "$output" == "/Users/ainchorsoc2a/MEMORY.md" ]]; then
   echo "  PASS: ~/MEMORY.md → $output"
   PASS=$((PASS+1))
 else
-  echo "  FAIL: expected /Users/ainchorsangiefpl/MEMORY.md, got '$output'"
+  echo "  FAIL: expected /Users/ainchorsoc2a/MEMORY.md, got '$output'"
   FAIL=$((FAIL+1))
 fi
 
@@ -36,7 +36,7 @@ fi
 # Test 3: Subdirectory tilde expansion
 echo "--- Test 3: Subdirectory tilde expansion ---"
 output=$(zsh "$SAFE_PATH" '~/.openclaw/canvas/test.html' 2>&1)
-if [[ "$output" == "/Users/ainchorsangiefpl/.openclaw/canvas/test.html" ]]; then
+if [[ "$output" == "/Users/ainchorsoc2a/.openclaw/canvas/test.html" ]]; then
   echo "  PASS: nested tilde path normalized"
   PASS=$((PASS+1))
 else

@@ -7,7 +7,7 @@
 # Exit: 0 if no findings, 1 if findings exist
 
 set -u
-WORKSPACE="${WORKSPACE:-/Users/ainchorsangiefpl/.openclaw/workspace}"
+WORKSPACE="${WORKSPACE:-/Users/ainchorsoc2a/.openclaw/workspace}"
 SCRIPTS_DIR="$WORKSPACE/scripts"
 OUTPUT="$WORKSPACE/state/null-safe-json-findings.json"
 SCRIPT_LIST="auto-heal.sh"
@@ -15,8 +15,8 @@ SCRIPT_LIST="auto-heal.sh"
 python3 <<'PYEOF'
 import json, re, os, sys
 
-scripts_dir = os.environ.get('SCRIPTS_DIR', '/Users/ainchorsangiefpl/.openclaw/workspace/scripts')
-output_path = os.environ.get('OUTPUT', '/Users/ainchorsangiefpl/.openclaw/workspace/state/null-safe-json-findings.json')
+scripts_dir = os.environ.get('SCRIPTS_DIR', '/Users/ainchorsoc2a/.openclaw/workspace/scripts')
+output_path = os.environ.get('OUTPUT', '/Users/ainchorsoc2a/.openclaw/workspace/state/null-safe-json-findings.json')
 script_list = os.environ.get('SCRIPT_LIST', 'auto-heal.sh')
 targets = [s.strip() for s in script_list.split(':') if s.strip()]
 

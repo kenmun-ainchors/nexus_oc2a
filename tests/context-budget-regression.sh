@@ -5,7 +5,7 @@ set -euo pipefail
 
 PASS=0
 FAIL=0
-WORKSPACE="/Users/ainchorsangiefpl/.openclaw/workspace"
+WORKSPACE="/Users/ainchorsoc2a/.openclaw/workspace"
 BUDGET_SH="${WORKSPACE}/scripts/context-budget.sh"
 
 echo "=== TKT-0337: context-budget.sh Regression Tests ==="

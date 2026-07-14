@@ -15,7 +15,7 @@ import copy
 import os
 import argparse
 
-WORKSPACE = "/Users/ainchorsangiefpl/.openclaw/workspace"
+WORKSPACE = "/Users/ainchorsoc2a/.openclaw/workspace"
 
 def main():
     parser = argparse.ArgumentParser()

@@ -55,17 +55,30 @@ Add whatever helps you do your job. This is your cheat sheet.
 - `docker` → `/opt/homebrew/bin/docker` — brew standalone CLI (Docker Desktop removed 2026-05-11)
 - `colima` → `/opt/homebrew/bin/colima` — container runtime, replaces Docker Desktop
 - Colima auto-starts at login: `brew services start colima` (active)
-- Colima socket: `unix:///Users/ainchorsangiefpl/.colima/default/docker.sock`
+- Colima socket: `unix:///Users/ainchorsoc2a/.colima/default/docker.sock`
 - Docker context: `colima` (active, set as default)
-- RustDesk containers managed via: `/Users/ainchorsangiefpl/.openclaw/workspace/infra/rustdesk/`
+- RustDesk containers managed via: `/Users/ainchorsoc2a/.openclaw/workspace/infra/rustdesk/`
+
+### Homebrew on OC2A
+- Homebrew prefix: `/Users/ainchorsoc2a/homebrew` (not `/opt/homebrew`).
+- `brew` → `/Users/ainchorsoc2a/homebrew/bin/brew`
+- `psql` → `/Users/ainchorsoc2a/homebrew/bin/psql`
+- `minio`, `mc` → `/Users/ainchorsoc2a/homebrew/bin/minio`, `/Users/ainchorsoc2a/homebrew/bin/mc`
+- `gog` → currently absent; to be installed/re-authed under LinkedIn/gog follow-up.
 
 ## Remote Access
 
-- **RustDesk (primary):** public relay, connect by OC1 ID (visible in app UI) — no custom server
-- **Google Remote Desktop:** works when OC1 is logged in — use RustDesk first to get past login/lock screen, then CRD for full session
-- **Workaround for lock screen:** RustDesk → unlock OC1 → CRD takes over. Accepted pattern, no further VNC work planned.
-- **Tailscale IP (OC1):** `100.91.60.36`
-- **VNC:** attempted 2026-05-11, abandoned — macOS RFB 003.889 + Tailscale utun4 TCP_NODELAY incompatibility. Not worth the complexity.
+- **RustDesk (primary):** public relay, connect by OC2A ID (visible in app UI) — no custom server. (OC1 was repurposed to dev/test 2026-07-14.)
+- **Google Remote Desktop:** works when OC2A is logged in — use RustDesk first to get past login/lock screen, then CRD for full session
+- **Workaround for lock screen:** RustDesk → unlock OC2A → CRD takes over. Accepted pattern, no further VNC work planned.
+- **Tailscale (OC2A):**
+  - IP: `100.123.95.47` — replaces OC1 Tailscale IP `100.91.60.36`
+  - Hostname: `ainchorsoc2as-mac-mini-1.tailfc3ed1.ts.net`
+  - Version: `1.98.8` (Homebrew)
+  - Daemon: `/opt/homebrew/opt/tailscale/bin/tailscaled` (running, root-owned)
+  - CLI: `/opt/homebrew/bin/tailscale` — **always use this path**; the `/Applications/Tailscale.app/Contents/MacOS/Tailscale` GUI CLI is **not installed**
+  - Status: `BackendState: Running`; mesh IP responds to ping
+- **VNC:** attempted 2026-05-11 on OC1, abandoned — macOS RFB 003.889 + Tailscale utun4 TCP_NODELAY incompatibility. Not worth the complexity.
 
 ## Port Convention (LOCKED 2026-06-08 — Ken Mun)
 | Port | Environment | Purpose |

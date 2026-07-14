@@ -5,7 +5,7 @@
 export PATH="/usr/bin:/bin:/opt/homebrew/bin:$PATH"
 set -euo pipefail
 
-WORKSPACE="${WORKSPACE:-/Users/ainchorsangiefpl/.openclaw/workspace}"
+WORKSPACE="${WORKSPACE:-/Users/ainchorsoc2a/.openclaw/workspace}"
 ROOT_MD_CAP=60000  # TKT-0341: total chars across all root .md files
 CONTRACT_REGISTRY="$WORKSPACE/state/file-contracts.json"
 

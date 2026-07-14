@@ -4,7 +4,7 @@
 # Includes: maturity, what's live, gaps, opportunities, priority focus.
 # Locked 2026-04-28.
 
-WORKSPACE="/Users/ainchorsangiefpl/.openclaw/workspace"
+WORKSPACE="/Users/ainchorsoc2a/.openclaw/workspace"
 STATE="$WORKSPACE/state/frameworks-maturity.json"
 
 python3 << PYEOF

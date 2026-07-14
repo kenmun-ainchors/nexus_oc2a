@@ -10,7 +10,7 @@
 
 set -euo pipefail
 
-WORKSPACE="/Users/ainchorsangiefpl/.openclaw/workspace"
+WORKSPACE="/Users/ainchorsoc2a/.openclaw/workspace"
 DB_RAW="$WORKSPACE/scripts/db-raw.sh"
 STATE_DIR="$WORKSPACE/state"
 LOG_FILE="$STATE_DIR/model-context-sync.log"
@@ -60,9 +60,9 @@ python3 <<'PYEOF'
 import json, subprocess, os
 from datetime import datetime, timezone
 
-DB_RAW = "/Users/ainchorsangiefpl/.openclaw/workspace/scripts/db-raw.sh"
-REGISTRY_FILE = "/Users/ainchorsangiefpl/.openclaw/workspace/state/model-context-registry.json"
-LOG_FILE = "/Users/ainchorsangiefpl/.openclaw/workspace/state/model-context-sync.log"
+DB_RAW = "/Users/ainchorsoc2a/.openclaw/workspace/scripts/db-raw.sh"
+REGISTRY_FILE = "/Users/ainchorsoc2a/.openclaw/workspace/state/model-context-registry.json"
+LOG_FILE = "/Users/ainchorsoc2a/.openclaw/workspace/state/model-context-sync.log"
 
 # Load API context
 api_context = {}

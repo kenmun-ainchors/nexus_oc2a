@@ -624,7 +624,7 @@ for section in doc.sections:
         run.font.color.rgb = GRAY
 
 # ── Save ─────────────────────────────────────────────────────────────────────
-output = '/Users/ainchorsangiefpl/.openclaw/workspace/docs/deliverables/Aevlith-Nexus-BASE1-Restore-Runbook-v1.0.docx'
+output = '/Users/ainchorsoc2a/.openclaw/workspace/docs/deliverables/Aevlith-Nexus-BASE1-Restore-Runbook-v1.0.docx'
 doc.save(output)
 print(f'DOCX saved: {output}')
 

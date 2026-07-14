@@ -6,7 +6,7 @@
 
 set -euo pipefail
 
-WORKSPACE_ROOT="${WORKSPACE_ROOT:-/Users/ainchorsangiefpl/.openclaw/workspace}"
+WORKSPACE_ROOT="${WORKSPACE_ROOT:-/Users/ainchorsoc2a/.openclaw/workspace}"
 cd "$WORKSPACE_ROOT"
 
 TEST_ID="TKT-0319-TEST-RESUME-EXEC"
@@ -19,7 +19,7 @@ ko() { echo "  ❌ $1"; FAIL=$((FAIL+1)); }
 echo "=== TKT-0319 TQP Resume Executor Verification ==="
 
 # Pre-clean
-/opt/homebrew/bin/psql -U ainchorsangiefpl -d ainchors_nexus -c "
+${PSQL_BIN:-$(brew --prefix postgresql@16 2>/dev/null)/bin/psql} -U ${PGUSER:-$(whoami)} -d ainchors_nexus -c "
 DELETE FROM state_task_queue WHERE id='${TEST_ID}' OR parent_task_id='${TEST_ID}' OR id LIKE '${EXEC_PREFIX}-%';
 " >/dev/null 2>&1 || true
 rm -f /tmp/task-queue-processor.lock
@@ -27,7 +27,7 @@ rm -rf "$WORKSPACE_ROOT/state/tqp-executor.lock.dir"
 ok "Pre-cleaned test rows and locks"
 
 # Insert a resumable atom with a checkpoint
-/opt/homebrew/bin/psql -U ainchorsangiefpl -d ainchors_nexus -c "
+${PSQL_BIN:-$(brew --prefix postgresql@16 2>/dev/null)/bin/psql} -U ${PGUSER:-$(whoami)} -d ainchors_nexus -c "
 INSERT INTO state_task_queue (id, title, tier, status, priority, source, created_at, updated_at, created_at_ts, updated_at_ts, atoms_jsonb, state_payload, last_checkpoint)
 VALUES (
   '${TEST_ID}',
@@ -55,7 +55,7 @@ zsh scripts/task-queue-processor.sh >/dev/null 2>&1 || true
 ok "task-queue-processor.sh ran"
 
 # Verify parent is dispatched/running and an exec child exists
-STATUS=$(/opt/homebrew/bin/psql -U ainchorsangiefpl -d ainchors_nexus -t -A -c "SELECT status FROM state_task_queue WHERE id='${TEST_ID}';" 2>/dev/null)
+STATUS=${PSQL_BIN:-$(brew --prefix postgresql@16 2>/dev/null)/bin/psql} -U ${PGUSER:-$(whoami)} -d ainchors_nexus -t -A -c "SELECT status FROM state_task_queue WHERE id='${TEST_ID}';" 2>/dev/null)
 if [[ "$STATUS" == "running" || "$STATUS" == "dispatched" ]]; then
   ok "Parent atom claimed ($STATUS)"
 else
@@ -66,7 +66,7 @@ fi
 bash scripts/tqp-executor.sh --limit 1 >/dev/null 2>&1 || true
 ok "tqp-executor.sh ran"
 
-EXEC_ID=$(/opt/homebrew/bin/psql -U ainchorsangiefpl -d ainchors_nexus -t -A -c "SELECT id FROM state_task_queue WHERE parent_task_id='${TEST_ID}' LIMIT 1;" 2>/dev/null)
+EXEC_ID=${PSQL_BIN:-$(brew --prefix postgresql@16 2>/dev/null)/bin/psql} -U ${PGUSER:-$(whoami)} -d ainchors_nexus -t -A -c "SELECT id FROM state_task_queue WHERE parent_task_id='${TEST_ID}' LIMIT 1;" 2>/dev/null)
 if [[ -n "$EXEC_ID" ]]; then
   ok "Exec-atom child spawned: $EXEC_ID"
 else
@@ -74,14 +74,14 @@ else
 fi
 
 # Verify checkpoint carried into exec-atom payload
-if /opt/homebrew/bin/psql -U ainchorsangiefpl -d ainchors_nexus -t -A -c "SELECT atoms_jsonb::text FROM state_task_queue WHERE id='${EXEC_ID}';" 2>/dev/null | grep -q '"last_completed_step": 2'; then
+if ${PSQL_BIN:-$(brew --prefix postgresql@16 2>/dev/null)/bin/psql} -U ${PGUSER:-$(whoami)} -d ainchors_nexus -t -A -c "SELECT atoms_jsonb::text FROM state_task_queue WHERE id='${EXEC_ID}';" 2>/dev/null | grep -q '"last_completed_step": 2'; then
   ok "Exec-atom payload carries checkpoint (last_completed_step=2)"
 else
   ko "Exec-atom payload missing checkpoint"
 fi
 
 # Simulate child completion
-/opt/homebrew/bin/psql -U ainchorsangiefpl -d ainchors_nexus -c "UPDATE state_task_queue SET status='done', updated_at_ts=now() WHERE id='${EXEC_ID}';" >/dev/null 2>&1
+${PSQL_BIN:-$(brew --prefix postgresql@16 2>/dev/null)/bin/psql} -U ${PGUSER:-$(whoami)} -d ainchors_nexus -c "UPDATE state_task_queue SET status='done', updated_at_ts=now() WHERE id='${EXEC_ID}';" >/dev/null 2>&1
 ok "Marked exec-atom child as done"
 
 # Run finalizer (tqp-executor with no new atoms)
@@ -89,7 +89,7 @@ bash scripts/tqp-executor.sh --limit 0 >/dev/null 2>&1 || true
 ok "tqp-executor finalizer ran"
 
 # Verify parent copied child status
-FINAL_STATUS=$(/opt/homebrew/bin/psql -U ainchorsangiefpl -d ainchors_nexus -t -A -c "SELECT status FROM state_task_queue WHERE id='${TEST_ID}';" 2>/dev/null)
+FINAL_STATUS=${PSQL_BIN:-$(brew --prefix postgresql@16 2>/dev/null)/bin/psql} -U ${PGUSER:-$(whoami)} -d ainchors_nexus -t -A -c "SELECT status FROM state_task_queue WHERE id='${TEST_ID}';" 2>/dev/null)
 if [[ "$FINAL_STATUS" == "done" ]]; then
   ok "Parent atom status copied from child (done)"
 else
@@ -97,7 +97,7 @@ else
 fi
 
 # Cleanup
-/opt/homebrew/bin/psql -U ainchorsangiefpl -d ainchors_nexus -c "
+${PSQL_BIN:-$(brew --prefix postgresql@16 2>/dev/null)/bin/psql} -U ${PGUSER:-$(whoami)} -d ainchors_nexus -c "
 DELETE FROM state_task_queue WHERE id='${TEST_ID}' OR parent_task_id='${TEST_ID}' OR id LIKE '${EXEC_PREFIX}-%';
 " >/dev/null 2>&1 || true
 rm -f /tmp/task-queue-processor.lock

@@ -11,10 +11,10 @@
 
 set -euo pipefail
 
-WORKSPACE_ROOT="${WORKSPACE_ROOT:-/Users/ainchorsangiefpl/.openclaw/workspace}"
+WORKSPACE_ROOT="${WORKSPACE_ROOT:-/Users/ainchorsoc2a/.openclaw/workspace}"
 JSON_FILE="$WORKSPACE_ROOT/state/task-queue.json"
 ARCHIVE_FILE="$WORKSPACE_ROOT/state/task-queue-legacy-archive.json"
-PSQL=/opt/homebrew/bin/psql
+PSQL=${PSQL_BIN:-$(brew --prefix postgresql@16 2>/dev/null)/bin/psql}
 
 if [[ ! -f "$JSON_FILE" ]]; then
   echo "No task-queue.json to clean"
@@ -22,7 +22,7 @@ if [[ ! -f "$JSON_FILE" ]]; then
 fi
 
 # Load PG ids
-PG_IDS=$("$PSQL" -U ainchorsangiefpl -d ainchors_nexus -t -A -c "SELECT id FROM state_task_queue;" 2>/dev/null | sed '/^$/d' || true)
+PG_IDS=$("$PSQL" -U ${PGUSER:-$(whoami)} -d ainchors_nexus -t -A -c "SELECT id FROM state_task_queue;" 2>/dev/null | sed '/^$/d' || true)
 
 python3 - "$JSON_FILE" "$ARCHIVE_FILE" "$PG_IDS" <<'PY'
 import json,sys,os

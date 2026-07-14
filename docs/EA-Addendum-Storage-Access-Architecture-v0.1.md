@@ -426,7 +426,7 @@ paths to loopback services. TLS via Let's Encrypt.
 ### Option C — Tailscale Serve (Shared Access)
 
 **What it does:** Tailscale Serve exposes a local service on the Tailscale hostname
-(e.g., `https://ainchorss-mac-mini.tail5e2567.ts.net:443`). Accessible to any
+(e.g., `https://ainchorsoc2as-mac-mini-1.tailfc3ed1.ts.net:443`). Accessible to any
 Tailscale user who is shared into the tailnet.
 
 | Dimension | Detail |
@@ -807,9 +807,9 @@ These principles apply across all phases:
 ## Appendix B — Cloudflare Tunnel Config Template
 
 ```yaml
-# /Users/ainchorsangiefpl/.cloudflared/config.yml
+# /Users/ainchorsoc2a/.cloudflared/config.yml
 tunnel: ainchors-oc1
-credentials-file: /Users/ainchorsangiefpl/.cloudflared/[tunnel-id].json
+credentials-file: /Users/ainchorsoc2a/.cloudflared/[tunnel-id].json
 
 ingress:
   # MinIO Console

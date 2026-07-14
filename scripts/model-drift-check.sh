@@ -7,8 +7,8 @@
 
 set -euo pipefail
 
-WORKSPACE="/Users/ainchorsangiefpl/.openclaw/workspace"
-OC_CONFIG="/Users/ainchorsangiefpl/.openclaw/openclaw.json"
+WORKSPACE="/Users/ainchorsoc2a/.openclaw/workspace"
+OC_CONFIG="/Users/ainchorsoc2a/.openclaw/openclaw.json"
 POLICY="$WORKSPACE/state/model-policy.json"
 STATE="$WORKSPACE/state/model-drift-state.json"
 VIOLATIONS="$WORKSPACE/state/model-drift-violations.json"
@@ -311,7 +311,7 @@ for tier_key, tier in tiers.items():
 # Query live sessions for all agents in policy
 for aid, expected in agent_expected.items():
     result = subprocess.run(
-        ['/opt/homebrew/bin/openclaw', 'sessions', 'list', '--agent', aid, '--active', '5', '--json'],
+        ['/Users/ainchorsoc2a/local/bin/node', '/Users/ainchorsoc2a/local/lib/node_modules/openclaw/dist/index.js', 'sessions', 'list', '--agent', aid, '--active', '5', '--json'],
         capture_output=True, text=True, timeout=10
     )
     if result.returncode != 0:

@@ -220,7 +220,7 @@ _pg(query)
 results['steps'].append(f'PG: {task_id} escalated -> {next_phase}')
 
 # Step 4: Update escalation-handshake.json
-handshake_path = '/Users/ainchorsangiefpl/.openclaw/workspace/state/escalation-handshake.json'
+handshake_path = '/Users/ainchorsoc2a/.openclaw/workspace/state/escalation-handshake.json'
 try:
     with open(handshake_path) as f:
         handshake = json.load(f)

@@ -16,7 +16,7 @@ import subprocess
 import sys
 import tempfile
 
-WS = "/Users/ainchorsangiefpl/.openclaw/workspace"
+WS = "/Users/ainchorsoc2a/.openclaw/workspace"
 JSON_PATH = os.path.join(WS, "state", "task-queue.json")
 SCRIPT = os.path.join(WS, "scripts", "task-watchdog.sh")
 

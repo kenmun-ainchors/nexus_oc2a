@@ -6,7 +6,7 @@
 
 set -u
 
-WORKSPACE_ROOT="/Users/ainchorsangiefpl/.openclaw/workspace"
+WORKSPACE_ROOT="/Users/ainchorsoc2a/.openclaw/workspace"
 TICKET_FILE="$WORKSPACE_ROOT/state/tickets.json"
 TICKET_SH="$WORKSPACE_ROOT/scripts/ticket.sh"
 ALERT_FILE="$WORKSPACE_ROOT/state/task-queue-failed.json"
@@ -19,7 +19,7 @@ die() { echo "TQP ERROR: $1" >&2; exit 1; }
 # PG helper functions (TKT-0236 Atom 1)
 # ──────────────────────────────────────────
 pg() {
-  PGHOST=/tmp PGPORT=5432 PGUSER=ainchorsangiefpl PGDATABASE=ainchors_nexus /opt/homebrew/bin/psql -t -A "$@"
+  PGHOST=/tmp PGPORT=5432 PGUSER=${PGUSER:-$(whoami)} PGDATABASE=ainchors_nexus ${PSQL_BIN:-$(brew --prefix postgresql@16 2>/dev/null)/bin/psql} -t -A "$@"
 }
 
 # ──────────────────────────────────────────

@@ -41,7 +41,7 @@ set -euo pipefail
 IFS=$'\n\t'
 
 # --- Paths ----------------------------------------------------------------
-OPENCLAW_ROOT="${OPENCLAW_ROOT:-/Users/ainchorsangiefpl/.openclaw}"
+OPENCLAW_ROOT="${OPENCLAW_ROOT:-/Users/ainchorsoc2a/.openclaw}"
 WORKSPACE_ROOT="${OPENCLAW_ROOT}/workspace"
 AGENTS_ROOT="${OPENCLAW_ROOT}/agents"
 STATE_DIR="${WORKSPACE_ROOT}/state"

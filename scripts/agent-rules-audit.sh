@@ -3,8 +3,8 @@
 # TKT-0307 AC4: Permanent prevention
 # Exit: 0 = all OK, 1 = missing agents
 
-WORKSPACE_BASE="/Users/ainchorsangiefpl/.openclaw"
-REPORT_FILE="/Users/ainchorsangiefpl/.openclaw/workspace/state/agent-rules-audit.json"
+WORKSPACE_BASE="/Users/ainchorsoc2a/.openclaw"
+REPORT_FILE="/Users/ainchorsoc2a/.openclaw/workspace/state/agent-rules-audit.json"
 TIMESTAMP=$(date -u +"%Y-%m-%dT%H:%M:%SZ")
 
 missing=0

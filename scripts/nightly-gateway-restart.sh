@@ -17,10 +17,10 @@
 
 set -euo pipefail
 
-MARKER="/Users/ainchorsangiefpl/.openclaw/workspace/state/nightly-restart-marker.json"
-LOG="/Users/ainchorsangiefpl/Backups/ainchors/logs/nightly-restart.log"
-SESSION_BACKUP_DIR="/Users/ainchorsangiefpl/Backups/ainchors/sessions-pre-restart"
-WORKSPACE="/Users/ainchorsangiefpl/.openclaw/workspace"
+MARKER="/Users/ainchorsoc2a/.openclaw/workspace/state/nightly-restart-marker.json"
+LOG="/Users/ainchorsoc2a/Backups/ainchors/logs/nightly-restart.log"
+SESSION_BACKUP_DIR="/Users/ainchorsoc2a/Backups/ainchors/sessions-pre-restart"
+WORKSPACE="/Users/ainchorsoc2a/.openclaw/workspace"
 
 mkdir -p "$(dirname "$MARKER")" "$(dirname "$LOG")" "$SESSION_BACKUP_DIR"
 
@@ -58,7 +58,7 @@ SNAP_DIR="$SESSION_BACKUP_DIR/sessions-$(date +%Y%m%d-%H%M%S)"
 mkdir -p "$SNAP_DIR"
 
 # Copy all agent session directories
-for agent_dir in /Users/ainchorsangiefpl/.openclaw/agents/*/sessions; do
+for agent_dir in /Users/ainchorsoc2a/.openclaw/agents/*/sessions; do
     if [[ -d "$agent_dir" ]]; then
         agent_name=$(basename "$(dirname "$agent_dir")")
         cp -r "$agent_dir" "$SNAP_DIR/$agent_name" 2>/dev/null || true

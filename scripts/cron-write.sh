@@ -14,7 +14,7 @@
 
 set -euo pipefail
 
-WORKSPACE="/Users/ainchorsangiefpl"
+WORKSPACE="/Users/ainchorsoc2a"
 
 normalize_path() {
   local path="$1"

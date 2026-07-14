@@ -52,7 +52,7 @@ Shield must confirm:
 ### Step 3 — SKILL.md Audit (Shield + Sage)
 Run the audit script:
 ```bash
-bash /Users/ainchorsangiefpl/.openclaw/workspace/scripts/audit-skill.sh \
+bash /Users/ainchorsoc2a/.openclaw/workspace/scripts/audit-skill.sh \
   --path /path/to/SKILL.md --strict
 ```
 
@@ -99,7 +99,7 @@ After Ken approval:
 ```bash
 # Install skill
 # Then immediately register:
-bash /Users/ainchorsangiefpl/.openclaw/workspace/scripts/skill-registry.sh \
+bash /Users/ainchorsoc2a/.openclaw/workspace/scripts/skill-registry.sh \
   --add \
   --name "[skill-name]" \
   --path "[install-path]" \

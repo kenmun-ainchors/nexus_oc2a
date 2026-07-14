@@ -3,8 +3,8 @@
 set -e
 
 echo "=== TKT-0299: Metadata JSONB Schema Validation Tests ==="
-SCHEMA="/Users/ainchorsangiefpl/.openclaw/workspace/docs/schemas/metadata-jsonb-schema.json"
-DBWRITE="/Users/ainchorsangiefpl/.openclaw/workspace/scripts/db-write.sh"
+SCHEMA="/Users/ainchorsoc2a/.openclaw/workspace/docs/schemas/metadata-jsonb-schema.json"
+DBWRITE="/Users/ainchorsoc2a/.openclaw/workspace/scripts/db-write.sh"
 
 # Test 1: Schema file exists and is valid JSON
 echo -n "Test 1 (schema file exists + valid JSON): "
@@ -70,9 +70,9 @@ echo -n "Test 6 (metadata persisted correctly): "
 python3 -c "
 import os, subprocess, json
 env = os.environ.copy()
-env.update({'PGHOST': '/tmp', 'PGPORT': '5432', 'PGUSER': 'ainchorsangiefpl', 'PGDATABASE': 'ainchors_nexus'})
+env.update({'PGHOST': '/tmp', 'PGPORT': '5432', 'PGUSER': '"${PGUSER:-$(whoami)}"', 'PGDATABASE': 'ainchors_nexus'})
 r = subprocess.run(
-    ['/opt/homebrew/bin/psql', '-t', '-A', '-c',
+    ['${PSQL_BIN:-$(brew --prefix postgresql@16 2>/dev/null)/bin/psql}', '-t', '-A', '-c',
      \"SELECT metadata FROM state_tickets WHERE id = 'TEST-299-003'\"],
     capture_output=True, text=True, env=env)
 meta = json.loads(r.stdout.strip())
@@ -88,10 +88,10 @@ else:
 python3 -c "
 import os, subprocess
 env = os.environ.copy()
-env.update({'PGHOST': '/tmp', 'PGPORT': '5432', 'PGUSER': 'ainchorsangiefpl', 'PGDATABASE': 'ainchors_nexus'})
+env.update({'PGHOST': '/tmp', 'PGPORT': '5432', 'PGUSER': '"${PGUSER:-$(whoami)}"', 'PGDATABASE': 'ainchors_nexus'})
 for tid in ['TEST-299-003', 'TEST-299-005', 'TEST-299-005', 'test-299-lat']:
-    subprocess.run(['/opt/homebrew/bin/psql', '-c', f\"DELETE FROM state_tickets WHERE id = '{tid}'\"], env=env, capture_output=True)
-    subprocess.run(['/opt/homebrew/bin/psql', '-c', f\"DELETE FROM state_latency WHERE cron_id = '{tid}'\"], env=env, capture_output=True)
+    subprocess.run(['${PSQL_BIN:-$(brew --prefix postgresql@16 2>/dev/null)/bin/psql}', '-c', f\"DELETE FROM state_tickets WHERE id = '{tid}'\"], env=env, capture_output=True)
+    subprocess.run(['${PSQL_BIN:-$(brew --prefix postgresql@16 2>/dev/null)/bin/psql}', '-c', f\"DELETE FROM state_latency WHERE cron_id = '{tid}'\"], env=env, capture_output=True)
 " 2>/dev/null
 
 echo ""

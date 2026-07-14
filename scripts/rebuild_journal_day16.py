@@ -5,7 +5,7 @@ Rebuilds journal-2026-05-10.md with Yoda's response (verbatim) field added to ea
 
 import re
 
-JOURNAL_PATH = '/Users/ainchorsangiefpl/.openclaw/workspace/memory/journal-2026-05-10.md'
+JOURNAL_PATH = '/Users/ainchorsoc2a/.openclaw/workspace/memory/journal-2026-05-10.md'
 
 with open(JOURNAL_PATH, 'r', encoding='utf-8') as f:
     content = f.read()

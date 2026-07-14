@@ -24,7 +24,7 @@
 
 set -euo pipefail
 
-WORKSPACE="${WORKSPACE:-/Users/ainchorsangiefpl/.openclaw/workspace}"
+WORKSPACE="${WORKSPACE:-/Users/ainchorsoc2a/.openclaw/workspace}"
 SCRIPTS="$WORKSPACE/scripts"
 LOG="$WORKSPACE/state/crest-execute-gate-log.json"
 MODEL_POLICY="$WORKSPACE/state/model-policy.json"
@@ -61,7 +61,7 @@ log_decision() {
   local _decision="$1" _reason="$2"
   DECISION="$_decision" REASON="$_reason" python3 - <<'PYEOF'
 import json, os, datetime
-LOG = os.environ.get("CREST_GATE_LOG", "/Users/ainchorsangiefpl/.openclaw/workspace/state/crest-execute-gate-log.json")
+LOG = os.environ.get("CREST_GATE_LOG", "/Users/ainchorsoc2a/.openclaw/workspace/state/crest-execute-gate-log.json")
 d = {"history": []}
 if os.path.exists(LOG):
     try: d = json.load(open(LOG))

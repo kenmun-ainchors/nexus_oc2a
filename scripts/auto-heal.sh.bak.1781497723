@@ -7,7 +7,7 @@
 
 set -u  # don't set -e — want to keep going across checks
 
-WORKSPACE="/Users/ainchorsangiefpl/.openclaw/workspace"
+WORKSPACE="/Users/ainchorsoc2a/.openclaw/workspace"
 STATE_DIR="$WORKSPACE/state"
 TODAY=$(TZ="Australia/Melbourne" date '+%Y-%m-%d')
 NOW=$(date -u '+%Y-%m-%dT%H:%M:%SZ')
@@ -483,7 +483,7 @@ CHECKS_RUN+=("agent_rules")
 # ---------- CHECK 15: Injected File Size Guard (TKT-0310) ----------
 log "CHECK 15: injected file size limits"
 CHECKS_RUN+=("file_size_guard")
-WORKSPACE_ROOT="/Users/ainchorsangiefpl/.openclaw/workspace"
+WORKSPACE_ROOT="/Users/ainchorsoc2a/.openclaw/workspace"
 
 # Per-file hard limits from TKT-0310 (TKT-0336 fix: were all 10000; now per-document)
 # SOUL.md: 10000 | AGENTS.md: 12000 | MEMORY.md: 15000 | HEARTBEAT.md: 15000
@@ -1202,7 +1202,7 @@ if [[ -x "$CONTEXT_BUDGET_SCRIPT" ]]; then
               done
             else
               log "  SUMMARIZE: No per-file budget data available — summarizing all injected files"
-              for f in /Users/ainchorsangiefpl/.openclaw/workspace/SOUL.md /Users/ainchorsangiefpl/.openclaw/workspace/AGENTS.md /Users/ainchorsangiefpl/.openclaw/workspace/MEMORY.md /Users/ainchorsangiefpl/.openclaw/workspace/HEARTBEAT.md; do
+              for f in /Users/ainchorsoc2a/.openclaw/workspace/SOUL.md /Users/ainchorsoc2a/.openclaw/workspace/AGENTS.md /Users/ainchorsoc2a/.openclaw/workspace/MEMORY.md /Users/ainchorsoc2a/.openclaw/workspace/HEARTBEAT.md; do
                 if [[ -f "$f" ]]; then
                   cp "$f" "${f}.pre-summary.bak"
                   cat "$f" | "$CONTEXT_SUMMARIZE" --enforce > "${f}.tmp" 2>/dev/null && mv "${f}.tmp" "$f"
@@ -2338,7 +2338,7 @@ log "CHECK 28c: sandbox gateway 24h auto-unload (L-094)"
 CHECKS_RUN+=("sandbox_gateway_auto_unload")
 
 SANDBOX_STATE="$WORKSPACE/state/sandbox-gateway-state.json"
-SANDBOX_PLIST="/Users/ainchorsangiefpl/Library/LaunchAgents/ai.openclaw.sandbox-gateway.plist"
+SANDBOX_PLIST="/Users/ainchorsoc2a/Library/LaunchAgents/ai.openclaw.sandbox-gateway.plist"
 
 # Detect: LaunchAgent loaded AND nothing on port 28789
 SANDBOX_LOADED=0

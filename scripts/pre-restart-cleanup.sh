@@ -18,7 +18,7 @@
 
 set -uo pipefail
 
-WORKSPACE="/Users/ainchorsangiefpl/.openclaw/workspace"
+WORKSPACE="/Users/ainchorsoc2a/.openclaw/workspace"
 PLUGIN_DIR="$HOME/.openclaw/plugin-runtime-deps"
 LOG_DIR="$HOME/Backups/ainchors/logs"
 LOG_FILE="$LOG_DIR/pre-restart.log"

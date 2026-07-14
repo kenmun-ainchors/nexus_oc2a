@@ -6,7 +6,7 @@
 
 set -euo pipefail
 
-WORKSPACE="/Users/ainchorsangiefpl/.openclaw/workspace"
+WORKSPACE="/Users/ainchorsoc2a/.openclaw/workspace"
 TICKETS_FILE="$WORKSPACE/state/tickets.json"
 BACKUP_DIR="$WORKSPACE/state/archive/reconcile-backups"
 LOG_FILE="$WORKSPACE/state/reconcile-log.json"
@@ -18,7 +18,7 @@ mkdir -p "$BACKUP_DIR"
 
 # --- Helper: query PG for all tickets ---
 dump_pg_tickets() {
-  /opt/homebrew/bin/psql -h localhost -p 5432 -d ainchors_nexus -t -A -F '|' <<'SQL'
+  ${PSQL_BIN:-$(brew --prefix postgresql@16 2>/dev/null)/bin/psql} -h localhost -p 5432 -d ainchors_nexus -t -A -F '|' <<'SQL'
 SELECT 
   id,
   sequence,
@@ -37,7 +37,7 @@ SQL
 }
 
 # --- Counts ---
-PG_COUNT=$(/opt/homebrew/bin/psql -h localhost -p 5432 -d ainchors_nexus -t -c "SELECT count(*) FROM state_tickets;" 2>/dev/null | tr -d '[:space:]')
+PG_COUNT=${PSQL_BIN:-$(brew --prefix postgresql@16 2>/dev/null)/bin/psql} -h localhost -p 5432 -d ainchors_nexus -t -c "SELECT count(*) FROM state_tickets;" 2>/dev/null | tr -d '[:space:]'
 PG_COUNT=${PG_COUNT:-0}
 
 if [[ -f "$TICKETS_FILE" ]]; then
@@ -90,7 +90,7 @@ if $DRY_RUN; then
   echo ""
   echo "=== PG-Only Tickets (not in JSON) ==="
   # Get PG IDs
-  PG_IDS=$(/opt/homebrew/bin/psql -h localhost -p 5432 -d ainchors_nexus -t -A -c "SELECT id FROM state_tickets ORDER BY sequence::int ASC;" 2>/dev/null)
+  PG_IDS=${PSQL_BIN:-$(brew --prefix postgresql@16 2>/dev/null)/bin/psql} -h localhost -p 5432 -d ainchors_nexus -t -A -c "SELECT id FROM state_tickets ORDER BY sequence::int ASC;" 2>/dev/null
   # Get JSON IDs
   JSON_IDS=$(python3 -c "
 import json

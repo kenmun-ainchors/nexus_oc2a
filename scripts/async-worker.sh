@@ -4,18 +4,18 @@
 # This runs in an infinite loop, claiming and executing tasks
 
 AGENT_ID="${1:-agent:background}"
-QUEUE_FILE="/Users/ainchorsangiefpl/.openclaw/workspace/state/task-queue.json"
-CHECKPOINT_DIR="/Users/ainchorsangiefpl/.openclaw/workspace/state/checkpoints"
-LOG_FILE="/Users/ainchorsangiefpl/.openclaw/workspace/state/async-worker.log"
+QUEUE_FILE="/Users/ainchorsoc2a/.openclaw/workspace/state/task-queue.json"
+CHECKPOINT_DIR="/Users/ainchorsoc2a/.openclaw/workspace/state/checkpoints"
+LOG_FILE="/Users/ainchorsoc2a/.openclaw/workspace/state/async-worker.log"
 
 echo "[$(date)] Async worker started: $AGENT_ID" >> "$LOG_FILE"
 
 while true; do
   # Reset stale claims
-  bash /Users/ainchorsangiefpl/.openclaw/workspace/scripts/task-queue.sh reset > /dev/null 2>&1
+  bash /Users/ainchorsoc2a/.openclaw/workspace/scripts/task-queue.sh reset > /dev/null 2>&1
   
   # Claim next task
-  CLAIM_RESULT=$(bash /Users/ainchorsangiefpl/.openclaw/workspace/scripts/claim-task.sh "$AGENT_ID" 2>&1)
+  CLAIM_RESULT=$(bash /Users/ainchorsoc2a/.openclaw/workspace/scripts/claim-task.sh "$AGENT_ID" 2>&1)
   
   if echo "$CLAIM_RESULT" | grep -q "NO_TASK"; then
     echo "[$(date)] No pending tasks. Sleeping 300s..." >> "$LOG_FILE"
@@ -32,7 +32,7 @@ while true; do
   
   # Process each atom
   while true; do
-    RESUME_RESULT=$(bash /Users/ainchorsangiefpl/.openclaw/workspace/scripts/resume-task.sh "$TASK_ID" "$AGENT_ID" 2>&1)
+    RESUME_RESULT=$(bash /Users/ainchorsoc2a/.openclaw/workspace/scripts/resume-task.sh "$TASK_ID" "$AGENT_ID" 2>&1)
     
     if echo "$RESUME_RESULT" | grep -q "TASK_COMPLETE"; then
       echo "[$(date)] Task complete: $TASK_ID" >> "$LOG_FILE"
@@ -46,7 +46,7 @@ while true; do
     
     # Execute the atom (this would be replaced with actual work)
     # For now, just mark as complete for demonstration
-    bash /Users/ainchorsangiefpl/.openclaw/workspace/scripts/task-queue.sh complete "$TASK_ID" "$ATOM_ID"
+    bash /Users/ainchorsoc2a/.openclaw/workspace/scripts/task-queue.sh complete "$TASK_ID" "$ATOM_ID"
     
     echo "[$(date)] Atom $ATOM_ID complete" >> "$LOG_FILE"
     

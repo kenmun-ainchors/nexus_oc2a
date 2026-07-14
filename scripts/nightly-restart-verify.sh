@@ -10,14 +10,14 @@
 
 set -euo pipefail
 
-MARKER="/Users/ainchorsangiefpl/.openclaw/workspace/state/nightly-restart-marker.json"
+MARKER="/Users/ainchorsoc2a/.openclaw/workspace/state/nightly-restart-marker.json"
 
 if [[ ! -f "$MARKER" ]]; then
     echo "OK — no restart marker found, nothing to verify."
     exit 0
 fi
 
-TRIGGERED=$(/opt/homebrew/bin/jq -r '.triggeredAt' "$MARKER" 2>/dev/null || echo "unknown")
+TRIGGERED=$JQ -r '.triggeredAt' "$MARKER" 2>/dev/null || echo "unknown")
 
 # Check gateway health
 if curl -sf -o /dev/null --max-time 5 http://localhost:18789/health 2>/dev/null; then
@@ -25,7 +25,7 @@ if curl -sf -o /dev/null --max-time 5 http://localhost:18789/health 2>/dev/null;
     UPTIME=$(ps -o etime= -p "$PID" 2>/dev/null | xargs || echo "unknown")
 
     # Success! Clear marker
-    SNAPSHOT_DIR=$(/opt/homebrew/bin/jq -r '.snapshotDir // "unknown"' "$MARKER" 2>/dev/null || echo "unknown")
+    SNAPSHOT_DIR=$JQ -r '.snapshotDir // "unknown"' "$MARKER" 2>/dev/null || echo "unknown")
     rm -f "$MARKER"
 
     cat <<EOF

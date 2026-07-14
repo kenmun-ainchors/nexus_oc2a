@@ -190,7 +190,7 @@ The Nexus agent governance hierarchy is a five-tier model defining authority, co
 
 ### 3.2 Agent Roster — All 14 Active Agents
 
-Agent configurations are read from `/Users/ainchorsangiefpl/.openclaw/openclaw.json`. The following table reflects actual configurations as of Day ~76.
+Agent configurations are read from `/Users/ainchorsoc2a/.openclaw/openclaw.json`. The following table reflects actual configurations as of Day ~76.
 
 **Important model migration note:** Since v1.0, the platform has migrated from Anthropic Claude as the primary model tier to **Ollama Cloud** models (kimi-k2.7-code, deepseek-v4-pro, deepseek-v4-flash, gemma4:31b-cloud). This is a significant architectural shift — see Section 10 for locked decisions.
 
@@ -203,7 +203,7 @@ Agent configurations are read from `/Users/ainchorsangiefpl/.openclaw/openclaw.j
 | Primary Model | `ollama/kimi-k2.7-code:cloud` |
 | Fallbacks | `ollama/deepseek-v4-pro:cloud` → `ollama/deepseek-v4-flash:cloud` → `ollama/kimi-k2.6:cloud` |
 | Stream | Cross-stream (orchestration) |
-| Workspace | `/Users/ainchorsangiefpl/.openclaw/workspace` |
+| Workspace | `/Users/ainchorsoc2a/.openclaw/workspace` |
 | SOUL Location | `workspace/SOUL.md` |
 | Key Responsibilities | Platform situational awareness, task classification and routing, quality-gating, HITL gates, incident response coordination, CHG discipline, context handoff |
 | Heartbeat | `target: none`, isolated session |
@@ -217,7 +217,7 @@ Agent configurations are read from `/Users/ainchorsangiefpl/.openclaw/openclaw.j
 | Primary Model | `ollama/kimi-k2.7-code:cloud` |
 | Fallbacks | `ollama/deepseek-v4-pro:cloud` → `ollama/deepseek-v4-flash:cloud` → `ollama/kimi-k2.6:cloud` |
 | Stream | Business (Angie-facing) |
-| Workspace | `/Users/ainchorsangiefpl/.openclaw/workspace-business` |
+| Workspace | `/Users/ainchorsoc2a/.openclaw/workspace-business` |
 | Key Responsibilities | Business stream lead, Angie's AI ops partner, social strategy coordination, marketing oversight, Spark coordination |
 | Notes | Migrating to OC2-A at TRIGGER-10. Dual-principal: CEO + Yoda. |
 | Heartbeat | `target: none`, isolated session |
@@ -232,7 +232,7 @@ Agent configurations are read from `/Users/ainchorsangiefpl/.openclaw/openclaw.j
 | Primary Model | `ollama/gemma4:31b-cloud` |
 | Fallbacks | `ollama/deepseek-v4-pro:cloud` → `ollama/kimi-k2.6:cloud` |
 | Stream | Governance (cross-stream) |
-| Workspace | `/Users/ainchorsangiefpl/.openclaw/workspace-governance` |
+| Workspace | `/Users/ainchorsoc2a/.openclaw/workspace-governance` |
 | Key Responsibilities | Checks all agents for model drift and compliance. Never acts directly — writes violations and escalates to Yoda. |
 | Tools | `read`, `write`, `exec` only |
 
@@ -257,7 +257,7 @@ Agent configurations are read from `/Users/ainchorsangiefpl/.openclaw/openclaw.j
 | Primary Model | `ollama/deepseek-v4-flash:cloud` |
 | Fallbacks | `ollama/gemma4:31b-cloud` → `ollama/kimi-k2.6:cloud` |
 | Stream | Technical |
-| Workspace | `/Users/ainchorsangiefpl/.openclaw/workspace-architect` |
+| Workspace | `/Users/ainchorsoc2a/.openclaw/workspace-architect` |
 | Key Responsibilities | Enterprise architecture (TOGAF), P1–P4 architecture design, cross-platform landscape, data architecture, option papers, architecture decision log, integration architecture |
 | CREST Role | `design_backend` — CREST v1.3 compliant (CHG-0680) |
 | Boundary with Thrawn | Atlas sets enterprise-facing architectural constraints. Thrawn implements platform-internal architecture. Atlas does NOT build or run scripts (→ Forge). |
@@ -295,7 +295,7 @@ Agent configurations are read from `/Users/ainchorsangiefpl/.openclaw/openclaw.j
 | Primary Model | `ollama/deepseek-v4-flash:cloud` |
 | Fallbacks | `ollama/gemma4:31b-cloud` → `ollama/kimi-k2.6:cloud` |
 | Stream | Technical |
-| Workspace | `/Users/ainchorsangiefpl/.openclaw/workspace` |
+| Workspace | `/Users/ainchorsoc2a/.openclaw/workspace` |
 | Key Responsibilities | Infrastructure builds, scripts, CI/CD, SRE, health checks, backups, auto-heal, diagnostics. **All build and script work routes here.** |
 | Tools | `read`, `write`, `edit`, `exec`, `process` |
 | Note | Only agent authorised to execute build and infrastructure work. L-026 enforces this. |
@@ -332,7 +332,7 @@ Agent configurations are read from `/Users/ainchorsangiefpl/.openclaw/openclaw.j
 | Primary Model | `ollama/deepseek-v4-pro:cloud` |
 | Fallbacks | `ollama/gemma4:31b-cloud` → `ollama/kimi-k2.6:cloud` → `ollama/deepseek-v4-flash:cloud` |
 | Stream | Business |
-| Workspace | `/Users/ainchorsangiefpl/.openclaw/workspace-luthen` |
+| Workspace | `/Users/ainchorsoc2a/.openclaw/workspace-luthen` |
 | Key Responsibilities | Marketing intelligence, campaign analytics, audience insights, content performance analysis, competitive intelligence |
 | Note | Added post-v1.0. Complements Spark's content creation with analytical intelligence layer. |
 
@@ -345,7 +345,7 @@ Agent configurations are read from `/Users/ainchorsangiefpl/.openclaw/openclaw.j
 | Primary Model | `ollama/gemma4:31b-cloud` |
 | Fallbacks | `ollama/deepseek-v4-pro:cloud` → `ollama/kimi-k2.6:cloud` |
 | Stream | Governance (Sanctum Triad) |
-| Workspace | `/Users/ainchorsangiefpl/.openclaw/workspace-security` |
+| Workspace | `/Users/ainchorsoc2a/.openclaw/workspace-security` |
 | Key Responsibilities | Content security review (first gate in Sanctum). Pre-publish security scan for all external outputs. |
 | Tools | `read`, `exec`, `web_search`, `web_fetch` only |
 | RULES | `SHIELD_RULE_1.md` |
@@ -359,7 +359,7 @@ Agent configurations are read from `/Users/ainchorsangiefpl/.openclaw/openclaw.j
 | Primary Model | `ollama/gemma4:31b-cloud` |
 | Fallbacks | `ollama/deepseek-v4-pro:cloud` → `ollama/kimi-k2.6:cloud` |
 | Stream | Governance (Sanctum Triad) |
-| Workspace | `/Users/ainchorsangiefpl/.openclaw/workspace-legal` |
+| Workspace | `/Users/ainchorsoc2a/.openclaw/workspace-legal` |
 | Key Responsibilities | AU law, APP compliance, platform ToS review (second gate in Sanctum). Legal/compliance flag check for all external outputs. |
 | Tools | `read`, `web_search`, `web_fetch` only |
 | RULES | `LEX_RULES.md` |
@@ -373,7 +373,7 @@ Agent configurations are read from `/Users/ainchorsangiefpl/.openclaw/openclaw.j
 | Primary Model | `ollama/gemma4:31b-cloud` |
 | Fallbacks | `ollama/deepseek-v4-pro:cloud` → `ollama/kimi-k2.6:cloud` |
 | Stream | Governance (Sanctum Triad) |
-| Workspace | `/Users/ainchorsangiefpl/.openclaw/workspace-qa` |
+| Workspace | `/Users/ainchorsoc2a/.openclaw/workspace-qa` |
 | Key Responsibilities | Source verification, definition-of-done, quality gate (third gate in Sanctum). Final quality check before external delivery. CREST v1.3 Judge role. |
 | Tools | `read`, `exec`, `process`, `web_search`, `web_fetch` |
 | RULES | `SAGE_RULES.md` |
@@ -456,7 +456,7 @@ Standing cadence: Contract schema is a DoD gate for all new agents. Reviewed at 
 │  Location: Melbourne, Australia                                      │
 │  Role: Primary production node — ALL 14 agents, ALL crons, Postgres  │
 │  Storage: 460GB NVMe internal (21% used)                             │
-│  Network: Tailscale mesh (ainchorss-mac-mini.tail5e2567.ts.net)      │
+│  Network: Tailscale mesh (ainchorsoc2as-mac-mini-1.tailfc3ed1.ts.net)      │
 │  OpenClaw: Port 18789, loopback-only bind (S2 compliant)             │
 │  Status: PERMANENT. Hard limit: No local LLM inference >~8B Q4.      │
 │  Postgres: LIVE — SSOT-first architecture adopted                    │
@@ -525,7 +525,7 @@ Standing cadence: Contract schema is a DoD gate for all new agents. Reviewed at 
 | `ainchors-brand-code` | Brand assets, code |
 | `ainchors-agent-memory` | Agent memory exports |
 
-**URL pattern (MANDATORY):** `http://ainchorss-mac-mini.tail5e2567.ts.net:9000/{bucket}/{path}`
+**URL pattern (MANDATORY):** `http://ainchorsoc2as-mac-mini-1.tailfc3ed1.ts.net:9000/{bucket}/{path}`
 Never use: `s3://`, IP addresses, or `local/` alias.
 
 ### 4.5 Storage Architecture (LOCKED — 2026-05-10)
@@ -545,7 +545,7 @@ Never use: `s3://`, IP addresses, or `local/` alias.
 |-----------|--------|
 | Runtime | Colima (`/opt/homebrew/bin/colima`) |
 | Docker CLI | `/opt/homebrew/bin/docker` |
-| Socket | `unix:///Users/ainchorsangiefpl/.colima/default/docker.sock` |
+| Socket | `unix:///Users/ainchorsoc2a/.colima/default/docker.sock` |
 | Context | `colima` (active, set as default) |
 | Auto-start | `brew services start colima` (active at login) |
 | Managed services | RustDesk containers (`infra/rustdesk/`), MinIO |
@@ -994,16 +994,16 @@ All locked decisions are binding. They cannot be re-opened without a new CHG rec
 
 | File / Path | Purpose |
 |-------------|---------|
-| `/Users/ainchorsangiefpl/.openclaw/openclaw.json` | Agent model configuration (source of truth for agent models) |
-| `/Users/ainchorsangiefpl/.openclaw/workspace/MEMORY.md` | Yoda's long-term memory (curated decisions, facts, IDs) |
-| `/Users/ainchorsangiefpl/.openclaw/workspace/SOUL.md` | Yoda's identity and operating principles |
-| `/Users/ainchorsangiefpl/.openclaw/workspace-architect/AGENTS.md` | Atlas's identity and operating principles (CREST v1.3 compliant) |
-| `/Users/ainchorsangiefpl/.openclaw/workspace-architect/docs/Nexus-System-Architecture-v1.1-DRAFT.md` | **This document** |
-| `/Users/ainchorsangiefpl/.openclaw/workspace/docs/Nexus-System-Architecture-v1.0.md` | Previous approved version (v1.0, 2026-05-14) |
-| `/Users/ainchorsangiefpl/.openclaw/workspace/docs/Aevlith-Technology-Strategy-Roadmap-v1.0-Internal.md` | Previous strategy roadmap (v1.0, 2026-05-14) |
-| `/Users/ainchorsangiefpl/.openclaw/workspace/state/architecture-kri-state.json` | KRI dashboard state (Yoda updates at sprint review) |
-| `/Users/ainchorsangiefpl/.openclaw/workspace/state/chg-triggers.json` | TRIGGER system state |
-| `/Users/ainchorsangiefpl/.openclaw/workspace/state/model-drift-state.json` | Warden compliance state |
+| `/Users/ainchorsoc2a/.openclaw/openclaw.json` | Agent model configuration (source of truth for agent models) |
+| `/Users/ainchorsoc2a/.openclaw/workspace/MEMORY.md` | Yoda's long-term memory (curated decisions, facts, IDs) |
+| `/Users/ainchorsoc2a/.openclaw/workspace/SOUL.md` | Yoda's identity and operating principles |
+| `/Users/ainchorsoc2a/.openclaw/workspace-architect/AGENTS.md` | Atlas's identity and operating principles (CREST v1.3 compliant) |
+| `/Users/ainchorsoc2a/.openclaw/workspace-architect/docs/Nexus-System-Architecture-v1.1-DRAFT.md` | **This document** |
+| `/Users/ainchorsoc2a/.openclaw/workspace/docs/Nexus-System-Architecture-v1.0.md` | Previous approved version (v1.0, 2026-05-14) |
+| `/Users/ainchorsoc2a/.openclaw/workspace/docs/Aevlith-Technology-Strategy-Roadmap-v1.0-Internal.md` | Previous strategy roadmap (v1.0, 2026-05-14) |
+| `/Users/ainchorsoc2a/.openclaw/workspace/state/architecture-kri-state.json` | KRI dashboard state (Yoda updates at sprint review) |
+| `/Users/ainchorsoc2a/.openclaw/workspace/state/chg-triggers.json` | TRIGGER system state |
+| `/Users/ainchorsoc2a/.openclaw/workspace/state/model-drift-state.json` | Warden compliance state |
 
 ---
 

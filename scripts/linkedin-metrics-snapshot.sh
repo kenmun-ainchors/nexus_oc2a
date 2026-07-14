@@ -12,7 +12,7 @@
 
 set -euo pipefail
 
-WORKSPACE="/Users/ainchorsangiefpl/.openclaw/workspace"
+WORKSPACE="/Users/ainchorsoc2a/.openclaw/workspace"
 METRICS_STATE="$WORKSPACE/state/linkedin-metrics.json"
 METRICS_SCRIPT="$WORKSPACE/scripts/linkedin-metrics.sh"
 

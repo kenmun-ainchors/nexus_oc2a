@@ -204,7 +204,7 @@ AInchors — Yoda Working Files/
 
 MinIO is the **agent layer** — machine-readable, not human-facing. All MinIO
 URLs shared with Ken or in any document must use the Tailscale FQDN:
-`https://ainchorss-mac-mini.tail5e2567.ts.net:9000/{bucket}/{path}`
+`https://ainchorsoc2as-mac-mini-1.tailfc3ed1.ts.net:9000/{bucket}/{path}`
 
 Never: `s3://`, `http://100.91.60.36:9000/`, `local/`, `localhost`.
 
@@ -406,7 +406,7 @@ from the below without a CHG entry are violations.
 2. Run PATTERN-07 (governance gate) before any external delivery
 3. Upload to Drive `Proposals/` or `EA Assessments/` (appropriate folder)
 4. Upload to MinIO `ainchors-workspace-assets/consulting/client-deliverables/`
-5. MinIO URL format: `https://ainchorss-mac-mini.tail5e2567.ts.net:9000/ainchors-workspace-assets/consulting/client-deliverables/{filename}`
+5. MinIO URL format: `https://ainchorsoc2as-mac-mini-1.tailfc3ed1.ts.net:9000/ainchors-workspace-assets/consulting/client-deliverables/{filename}`
 6. Deliver to client via approved channel (email, Telegram, Citadel at P2) — never via local path
 
 ---
@@ -427,7 +427,7 @@ from the below without a CHG entry are violations.
 > Trigger: Agent generates an image or video asset (HF/FLUX/Spark)
 1. Store in MinIO `ainchors-generated-media/` under appropriate path
 2. Generate a presigned URL (time-limited) for delivery
-3. MinIO URL: `https://ainchorss-mac-mini.tail5e2567.ts.net:9000/ainchors-generated-media/{path}`
+3. MinIO URL: `https://ainchorsoc2as-mac-mini-1.tailfc3ed1.ts.net:9000/ainchors-generated-media/{path}`
 4. No Drive copy unless Ken explicitly requests archival
 5. No local persistence beyond temporary generation path
 6. Presigned URL time limit: max 24h for internal; max 7 days for client delivery (P2)
@@ -853,14 +853,14 @@ These do not block the policy's approval — they are scoped future enhancements
 
 | Agent | Primary Workspace |
 |-------|------------------|
-| Yoda 🟢 | `/Users/ainchorsangiefpl/.openclaw/workspace/` |
-| Aria 🔵 | `/Users/ainchorsangiefpl/.openclaw/workspace-business/` |
-| Atlas 🏛️ | `/Users/ainchorsangiefpl/.openclaw/workspace-architect/` |
+| Yoda 🟢 | `/Users/ainchorsoc2a/.openclaw/workspace/` |
+| Aria 🔵 | `/Users/ainchorsoc2a/.openclaw/workspace-business/` |
+| Atlas 🏛️ | `/Users/ainchorsoc2a/.openclaw/workspace-architect/` |
 | Thrawn, Forge, Shield, Lex, Sage, Warden | Designated workspace dirs (platform-internal) |
-| Spark ✨ | `/Users/ainchorsangiefpl/.openclaw/workspace-social/` |
+| Spark ✨ | `/Users/ainchorsoc2a/.openclaw/workspace-social/` |
 | Ahsoka, Lando, Mon Mothma | Dedicated workspace dirs (business stream) |
 
-**Shared context files** (readable by all agents): `/Users/ainchorsangiefpl/.openclaw/workspace/state/` (scoped keys), `/Users/ainchorsangiefpl/.openclaw/workspace/memory/shared/`
+**Shared context files** (readable by all agents): `/Users/ainchorsoc2a/.openclaw/workspace/state/` (scoped keys), `/Users/ainchorsoc2a/.openclaw/workspace/memory/shared/`
 
 ---
 

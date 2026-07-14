@@ -202,4 +202,4 @@ Integration hooks within existing scripts:
 - **Scale:** System must handle 300+ tickets without sprint assignments without crashing or skipping.
 - **Idempotency:** All sync operations must be safe to run multiple times without creating duplicates.
 - **Persistence:** All existing `notionpageid` links must be preserved.
-- **Location:** All scripts must reside in `/Users/ainchorsangiefpl/.openclaw/workspace/scripts/`.
+- **Location:** All scripts must reside in `/Users/ainchorsoc2a/.openclaw/workspace/scripts/`.

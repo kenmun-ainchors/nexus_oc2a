@@ -5,7 +5,7 @@ export PATH="$PATH:/usr/local/bin:/opt/homebrew/bin"
 set -euo pipefail
 
 MODEL="${1:-qwen3:4b}"
-WORKSPACE="/Users/ainchorsangiefpl/.openclaw/workspace"
+WORKSPACE="/Users/ainchorsoc2a/.openclaw/workspace"
 RESULTS_DIR="$WORKSPACE/state/benchmark"
 STAMP=$(date +"%Y%m%d-%H%M%S")
 RESULT_FILE="$RESULTS_DIR/qwen3-bench-${MODEL//[:\/]/-}-$STAMP.json"

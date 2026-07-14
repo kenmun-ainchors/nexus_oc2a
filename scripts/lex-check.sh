@@ -7,7 +7,7 @@
 
 export PATH="$PATH:/usr/local/bin:/opt/homebrew/bin"
 
-WORKSPACE="/Users/ainchorsangiefpl/.openclaw/workspace"
+WORKSPACE="/Users/ainchorsoc2a/.openclaw/workspace"
 QA_LOG="$WORKSPACE/state/lex-qa-log.json"
 TIMESTAMP=$(date +"%Y-%m-%dT%H:%M:%S+10:00")
 

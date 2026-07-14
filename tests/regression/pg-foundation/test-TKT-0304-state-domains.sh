@@ -7,7 +7,7 @@ echo "=== TKT-0304: State Domain Migration Tests ==="
 
 # Test 1: state_governance table exists and is readable
 echo -n "Test 1 (state_governance — readable via db-read.sh): "
-RESULT=$(bash /Users/ainchorsangiefpl/.openclaw/workspace/scripts/db-read.sh state_governance 2>&1)
+RESULT=$(bash /Users/ainchorsoc2a/.openclaw/workspace/scripts/db-read.sh state_governance 2>&1)
 COUNT=$(echo "$RESULT" | python3 -c "import json,sys; d=json.load(sys.stdin); print(len(d))" 2>/dev/null)
 if [ -n "$COUNT" ] && [ "$COUNT" -gt 0 ]; then
     echo "PASS ($COUNT rows)"
@@ -21,8 +21,8 @@ echo -n "Test 2 (state_governance — required columns): "
 RESULT=$(python3 -c "
 import os, subprocess
 env = os.environ.copy()
-env.update({'PGHOST': '/tmp', 'PGPORT': '5432', 'PGUSER': 'ainchorsangiefpl', 'PGDATABASE': 'ainchors_nexus'})
-r = subprocess.run(['/opt/homebrew/bin/psql', '-t', '-A', '-c',
+env.update({'PGHOST': '/tmp', 'PGPORT': '5432', 'PGUSER': '"${PGUSER:-$(whoami)}"', 'PGDATABASE': 'ainchors_nexus'})
+r = subprocess.run(['${PSQL_BIN:-$(brew --prefix postgresql@16 2>/dev/null)/bin/psql}', '-t', '-A', '-c',
     \"SELECT column_name FROM information_schema.columns WHERE table_name = 'state_governance' ORDER BY ordinal_position\"],
     capture_output=True, text=True, env=env)
 cols = r.stdout.strip().split('\n')
@@ -38,7 +38,7 @@ echo "$RESULT"
 
 # Test 3: state_latency table exists and is readable
 echo -n "Test 3 (state_latency — readable via db-read.sh): "
-RESULT=$(bash /Users/ainchorsangiefpl/.openclaw/workspace/scripts/db-read.sh state_latency 2>&1)
+RESULT=$(bash /Users/ainchorsoc2a/.openclaw/workspace/scripts/db-read.sh state_latency 2>&1)
 COUNT=$(echo "$RESULT" | python3 -c "import json,sys; d=json.load(sys.stdin); print(len(d))" 2>/dev/null)
 if [ -n "$COUNT" ] && [ "$COUNT" -gt 0 ]; then
     echo "PASS ($COUNT rows)"
@@ -52,8 +52,8 @@ echo -n "Test 4 (state_latency — required columns): "
 RESULT=$(python3 -c "
 import os, subprocess
 env = os.environ.copy()
-env.update({'PGHOST': '/tmp', 'PGPORT': '5432', 'PGUSER': 'ainchorsangiefpl', 'PGDATABASE': 'ainchors_nexus'})
-r = subprocess.run(['/opt/homebrew/bin/psql', '-t', '-A', '-c',
+env.update({'PGHOST': '/tmp', 'PGPORT': '5432', 'PGUSER': '"${PGUSER:-$(whoami)}"', 'PGDATABASE': 'ainchors_nexus'})
+r = subprocess.run(['${PSQL_BIN:-$(brew --prefix postgresql@16 2>/dev/null)/bin/psql}', '-t', '-A', '-c',
     \"SELECT column_name FROM information_schema.columns WHERE table_name = 'state_latency' ORDER BY ordinal_position\"],
     capture_output=True, text=True, env=env)
 cols = r.stdout.strip().split('\n')
@@ -72,13 +72,13 @@ echo -n "Test 5 (governance PG insert — write path): "
 RESULT=$(python3 -c "
 import os, subprocess, json
 env = os.environ.copy()
-env.update({'PGHOST': '/tmp', 'PGPORT': '5432', 'PGUSER': 'ainchorsangiefpl', 'PGDATABASE': 'ainchors_nexus'})
+env.update({'PGHOST': '/tmp', 'PGPORT': '5432', 'PGUSER': '"${PGUSER:-$(whoami)}"', 'PGDATABASE': 'ainchors_nexus'})
 
 # Test insert
 test_id = f'test-tkt0304-$(date +%s)'
 details = json.dumps({'test': True, 'source': 'regression'})
 r = subprocess.run(
-    ['/opt/homebrew/bin/psql', '-c',
+    ['${PSQL_BIN:-$(brew --prefix postgresql@16 2>/dev/null)/bin/psql}', '-c',
      f\"INSERT INTO state_governance (review_type, asset_ref, verdict, timestamp, details) \" +
      f\"VALUES ('shield', 'test-asset', 'PASS', now(), '{details}')\"],
     capture_output=True, text=True, env=env)
@@ -95,9 +95,9 @@ echo -n "Test 6 (latency PG insert — write path): "
 RESULT=$(python3 -c "
 import os, subprocess
 env = os.environ.copy()
-env.update({'PGHOST': '/tmp', 'PGPORT': '5432', 'PGUSER': 'ainchorsangiefpl', 'PGDATABASE': 'ainchors_nexus'})
+env.update({'PGHOST': '/tmp', 'PGPORT': '5432', 'PGUSER': '"${PGUSER:-$(whoami)}"', 'PGDATABASE': 'ainchors_nexus'})
 r = subprocess.run(
-    ['/opt/homebrew/bin/psql', '-c',
+    ['${PSQL_BIN:-$(brew --prefix postgresql@16 2>/dev/null)/bin/psql}', '-c',
      \"INSERT INTO state_latency (cron_id, duration_ms, status, recorded_at) \" +
      \"VALUES ('test-tkt0304', 1234, 'test', now())\"],
     capture_output=True, text=True, env=env)

@@ -16,7 +16,7 @@
 
 set -euo pipefail
 
-WORKSPACE="/Users/ainchorsangiefpl/.openclaw/workspace"
+WORKSPACE="/Users/ainchorsoc2a/.openclaw/workspace"
 SOCIAL_ACTIONS_ENDPOINT="https://api.linkedin.com/v2/socialActions"
 
 # ── Account configuration ──────────────────────────────────────────────────────

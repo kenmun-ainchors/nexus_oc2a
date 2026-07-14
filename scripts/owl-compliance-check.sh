@@ -5,7 +5,7 @@
 
 set -u
 
-WORKSPACE_ROOT="/Users/ainchorsangiefpl/.openclaw/workspace"
+WORKSPACE_ROOT="/Users/ainchorsoc2a/.openclaw/workspace"
 COMPLIANCE_FILE="$WORKSPACE_ROOT/state/owl-compliance-state.json"
 DRIFT_ALERT_FILE="$WORKSPACE_ROOT/state/owl-drift-alert.json"
 HEARTBEAT_STATE="$WORKSPACE_ROOT/state/heartbeat-state.json"

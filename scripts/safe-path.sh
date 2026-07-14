@@ -28,7 +28,13 @@ if [[ -z "$TARGET_PATH" ]]; then
   exit 1
 fi
 
-WORKSPACE_HOME="/Users/ainchorsangiefpl"
+# Resolve workspace home from script location; allow env override.
+# For ~-expansion we use the actual user home (not workspace), falling back to $HOME.
+# Migration 2026-07-14: no hard-coded user home.
+_USER_HOME="${HOME:-$(eval echo ~$(id -un 2>/dev/null) 2>/dev/null || echo /tmp)}"
+# WORKSPACE_HOME is the user home used for ~ expansion. It's derived from $HOME, not from
+# the script's parent dir (which would be the workspace root, not the user home).
+WORKSPACE_HOME="${WORKSPACE_HOME:-$_USER_HOME}"
 
 # --- ENFORCE MODE: Block tilde-path writes ---
 if [[ "$ENFORCE_MODE" == "true" ]]; then

@@ -5,7 +5,7 @@
 
 set -euo pipefail
 
-WORKSPACE_ROOT="${WORKSPACE_ROOT:-/Users/ainchorsangiefpl/.openclaw/workspace}"
+WORKSPACE_ROOT="${WORKSPACE_ROOT:-/Users/ainchorsoc2a/.openclaw/workspace}"
 cd "$WORKSPACE_ROOT"
 
 TEST_ID="TKT-0319-TEST-RESUME-DETECTOR"
@@ -17,11 +17,11 @@ ko() { echo "  ❌ $1"; FAIL=$((FAIL+1)); }
 echo "=== TKT-0319 Resume Detector Verification ==="
 
 # Pre-clean
-/opt/homebrew/bin/psql -U ainchorsangiefpl -d ainchors_nexus -c "DELETE FROM state_task_queue WHERE id='${TEST_ID}';" >/dev/null 2>&1 || true
+${PSQL_BIN:-$(brew --prefix postgresql@16 2>/dev/null)/bin/psql} -U ${PGUSER:-$(whoami)} -d ainchors_nexus -c "DELETE FROM state_task_queue WHERE id='${TEST_ID}';" >/dev/null 2>&1 || true
 rm -f "$WORKSPACE_ROOT/state/resumable-atoms.json" 2>/dev/null || true
 
 # Insert synthetic stale running atom
-/opt/homebrew/bin/psql -U ainchorsangiefpl -d ainchors_nexus -c "
+${PSQL_BIN:-$(brew --prefix postgresql@16 2>/dev/null)/bin/psql} -U ${PGUSER:-$(whoami)} -d ainchors_nexus -c "
 INSERT INTO state_task_queue (id, title, tier, status, priority, source, created_at, updated_at, created_at_ts, updated_at_ts, atoms_jsonb)
 VALUES ('${TEST_ID}', 'Resume detector test atom', 'S', 'running', 'normal', 'test', now()::text, now()::text, now() - interval '30 minutes', now() - interval '30 minutes', '{}'::jsonb)
 ON CONFLICT (id) DO UPDATE SET status='running', updated_at_ts=now() - interval '30 minutes', resume_attempts=0;
@@ -37,7 +37,7 @@ bash scripts/task-watchdog.sh >/dev/null 2>&1 || true
 ok "task-watchdog.sh ran (divergence exit ignored)"
 
 # Verify PG state
-RES=$(/opt/homebrew/bin/psql -U ainchorsangiefpl -d ainchors_nexus -t -A -c "SELECT status, previous_status, resume_attempts FROM state_task_queue WHERE id='${TEST_ID}';" 2>/dev/null)
+RES=${PSQL_BIN:-$(brew --prefix postgresql@16 2>/dev/null)/bin/psql} -U ${PGUSER:-$(whoami)} -d ainchors_nexus -t -A -c "SELECT status, previous_status, resume_attempts FROM state_task_queue WHERE id='${TEST_ID}';" 2>/dev/null)
 if [[ "$RES" == "resumable|running|1" ]]; then
   ok "PG row transitioned to resumable with previous_status=running, resume_attempts=1"
 else
@@ -56,7 +56,7 @@ else
 fi
 
 # Cleanup
-/opt/homebrew/bin/psql -U ainchorsangiefpl -d ainchors_nexus -c "DELETE FROM state_task_queue WHERE id='${TEST_ID}';" >/dev/null 2>&1 || true
+${PSQL_BIN:-$(brew --prefix postgresql@16 2>/dev/null)/bin/psql} -U ${PGUSER:-$(whoami)} -d ainchors_nexus -c "DELETE FROM state_task_queue WHERE id='${TEST_ID}';" >/dev/null 2>&1 || true
 rm -f "$WORKSPACE_ROOT/state/resumable-atoms.json" 2>/dev/null || true
 ok "Cleaned up test atom and resumable-atoms.json"
 

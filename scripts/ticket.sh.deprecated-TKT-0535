@@ -4,7 +4,7 @@
 
 set -u
 
-WORKSPACE_ROOT="/Users/ainchorsangiefpl/.openclaw/workspace"
+WORKSPACE_ROOT="/Users/ainchorsoc2a/.openclaw/workspace"
 TICKET_FILE="$WORKSPACE_ROOT/state/tickets.json"
 DB_READ_SCRIPT="$WORKSPACE_ROOT/scripts/db-read.sh"
 DB_WRITE_SCRIPT="$WORKSPACE_ROOT/scripts/db-write.sh"
@@ -18,7 +18,7 @@ log() { echo "[$(date '+%Y-%m-%d %H:%M:%S')] $1"; }
 
 fetch_pg_data() {
   local query="$1"
-  local raw=$(/Users/ainchorsangiefpl/.openclaw/workspace/scripts/db.sh -c "$query")
+  local raw=$(/Users/ainchorsoc2a/.openclaw/workspace/scripts/db.sh -c "$query")
   echo "$raw" | grep "TKT-" || true
 }
 
@@ -47,7 +47,7 @@ write_ticket() {
   local payload="$2"
 
   # Validate payload is valid JSON before writing
-  if ! echo "$payload" | /opt/homebrew/bin/jq empty 2>/dev/null; then
+  if ! echo "$payload" | $(command -v jq 2>/dev/null || brew --prefix 2>/dev/null)/bin/jq empty 2>/dev/null; then
     log "ERROR: Invalid JSON payload. Use: ticket.sh update <TKT-ID> '{\"field\":\"value\"}'"
     return 1
   fi

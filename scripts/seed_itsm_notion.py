@@ -1064,6 +1064,6 @@ if __name__ == "__main__":
         print(f"{status} {r['label']}: {r.get('id','ERROR')} | {url}")
 
     # Save results JSON
-    with open("/Users/ainchorsangiefpl/.openclaw/workspace/reports/itsm-notion-seed-results.json", "w") as f:
+    with open("/Users/ainchorsoc2a/.openclaw/workspace/reports/itsm-notion-seed-results.json", "w") as f:
         json.dump(results, f, indent=2)
     print("\nResults saved to reports/itsm-notion-seed-results.json")

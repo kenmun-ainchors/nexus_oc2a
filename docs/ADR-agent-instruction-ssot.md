@@ -544,7 +544,7 @@ Create `scripts/generate-agent-instruction-files.sh` that generates the standard
 ### `soul-agents-hygiene-check.sh` — Updated Mapping
 
 ```zsh
-WORKSPACE_BASE="/Users/ainchorsangiefpl/.openclaw"
+WORKSPACE_BASE="/Users/ainchorsoc2a/.openclaw"
 
 local -a ACTIVE_AGENTS=(
   main           # Special: uses workspace root

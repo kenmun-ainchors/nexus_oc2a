@@ -1,9 +1,9 @@
 import os, sys, json, time, subprocess, re
 
 # CONFIGURATION
-LOG_FILE = "/Users/ainchorsangiefpl/.openclaw/logs/gateway.log" # Adjust if actual path differs
-WORKSPACE_ROOT = "/Users/ainchorsangiefpl/.openclaw/workspace"
-CANVAS_ROOT = "/Users/ainchorsangiefpl/.openclaw/canvas"
+LOG_FILE = "/Users/ainchorsoc2a/.openclaw/logs/gateway.log" # Adjust if actual path differs
+WORKSPACE_ROOT = "/Users/ainchorsoc2a/.openclaw/workspace"
+CANVAS_ROOT = "/Users/ainchorsoc2a/.openclaw/canvas"
 TQP_TABLE = "state_task_queue"
 
 # SMART FILTERING: Paths that do NOT trigger a violation
@@ -24,7 +24,7 @@ def check_tqp_persistence(session_id, tkt_id):
     # This is a simplified check; in production, we'd check for the specific atom index.
     query = f"SELECT count(*) FROM {TQP_TABLE} WHERE id='{tkt_id}' AND updated_at > now() - interval '1 minute';"
     try:
-        res = subprocess.check_output(["/Users/ainchorsangiefpl/.openclaw/workspace/scripts/db.sh", "-c", query], text=True)
+        res = subprocess.check_output(["/Users/ainchorsoc2a/.openclaw/workspace/scripts/db.sh", "-c", query], text=True)
         return int(res.strip()) > 0
     except:
         return False
@@ -33,7 +33,7 @@ def send_alert(session_id, details):
     # Inject as a system event via the gateway API or a specialized script
     alert_text = f"🚩 [S-Sentry] TQP VIOLATION: {details}. REQUIRED ACTION: Call sc_persist_atom immediately."
     # Using the system event trigger via the gateway
-    subprocess.run(["/Users/ainchorsangiefpl/.openclaw/workspace/scripts/telegram-alert.sh", "TQP_VIOLATION", alert_text])
+    subprocess.run(["/Users/ainchorsoc2a/.openclaw/workspace/scripts/telegram-alert.sh", "TQP_VIOLATION", alert_text])
 
 def log_violation(session_id, tkt_id, tool, path):
     log_entry = {
@@ -43,7 +43,7 @@ def log_violation(session_id, tkt_id, tool, path):
         "tool": tool,
         "path": path
     }
-    with open("/Users/ainchorsangiefpl/.openclaw/workspace/state/compliance-violations.jsonl", "a") as f:
+    with open("/Users/ainchorsoc2a/.openclaw/workspace/state/compliance-violations.jsonl", "a") as f:
         f.write(json.dumps(log_entry) + "\n")
 
 def main():

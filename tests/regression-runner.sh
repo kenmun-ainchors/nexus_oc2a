@@ -7,7 +7,7 @@
 #   tests/regression/<suite>/suite.json      — suite metadata
 #   Reports: state/regression-report-<suite>-<date>.json
 
-WORKSPACE="/Users/ainchorsangiefpl/.openclaw/workspace"
+WORKSPACE="/Users/ainchorsoc2a/.openclaw/workspace"
 TESTS_DIR="$WORKSPACE/tests/regression"
 STATE_DIR="$WORKSPACE/state"
 TIMESTAMP=$(date -u +%Y-%m-%dT%H:%M:%SZ)
@@ -32,7 +32,7 @@ SUITE_DIR="$TESTS_DIR/$SUITE"
 # Load suite metadata
 SUITE_NAME="$SUITE"
 if [ -f "$SUITE_DIR/suite.json" ]; then
-  SUITE_NAME=$(/opt/homebrew/bin/jq -r '.name // "'"$SUITE"'"' "$SUITE_DIR/suite.json")
+  SUITE_NAME=$(command -v jq 2>/dev/null || brew --prefix 2>/dev/null)/bin/jq -r '.name // "'"$SUITE"'"' "$SUITE_DIR/suite.json")
 fi
 
 # Colors
@@ -88,7 +88,7 @@ for phase in $PHASES; do
       1)
         echo -e "${RED}FAIL${NC} (${duration_ms}ms)"
         FAILED=$((FAILED + 1))
-        err=$(echo "$output" | tail -3 | /opt/homebrew/bin/jq -R -s . 2>/dev/null || echo '""')
+        err=$(echo "$output" | tail -3 | $(command -v jq 2>/dev/null || brew --prefix 2>/dev/null)/bin/jq -R -s . 2>/dev/null || echo '""')
         result_json=$(printf '{"id":"%s","result":"FAIL","duration_ms":%s,"error":%s}' "$test_id" "$duration_ms" "$err")
         $VERBOSE && echo "$output" | head -3 | sed 's/^/      │ /'
         ;;

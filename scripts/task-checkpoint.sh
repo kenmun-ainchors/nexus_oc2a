@@ -3,7 +3,7 @@
 # Usage: task-checkpoint.sh <task-id> <step-name> <status> <output-summary>
 # Status: running | done | blocked | failed
 
-WORKSPACE="/Users/ainchorsangiefpl/.openclaw/workspace"
+WORKSPACE="/Users/ainchorsoc2a/.openclaw/workspace"
 HANDOFF="$WORKSPACE/handoff"
 STATE="$WORKSPACE/state/async-tasks.json"
 

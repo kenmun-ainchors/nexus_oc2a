@@ -13,7 +13,7 @@
 # Exit: 0 = success, 1 = computation failed
 
 set -u
-WORKSPACE="/Users/ainchorsangiefpl/.openclaw/workspace"
+WORKSPACE="/Users/ainchorsoc2a/.openclaw/workspace"
 STATE_DIR="$WORKSPACE/state"
 BASELINE_FILE="$STATE_DIR/cron-timeout-baseline.json"
 CRON_WRITE="$WORKSPACE/scripts/cron-write.sh"
@@ -21,7 +21,7 @@ NOW=$(date -u '+%Y-%m-%dT%H:%M:%SZ')
 
 # ── Pull cron list from API, write to temp file ────────────────────────────
 CRON_TMP=$(mktemp /tmp/cron-timeout-scaler-XXXXXX.json)
-/opt/homebrew/bin/openclaw cron list --json > "$CRON_TMP" 2>/dev/null || echo '[]' > "$CRON_TMP"
+/Users/ainchorsoc2a/local/bin/openclaw cron list --json > "$CRON_TMP" 2>/dev/null || echo '[]' > "$CRON_TMP"
 
 # ── Compute + write baseline in a single Python process ─────────────────────
 # This avoids shell escaping problems with control characters in cron names.

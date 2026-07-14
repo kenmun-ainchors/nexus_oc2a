@@ -25,7 +25,7 @@
 set -uo pipefail
 
 SCRIPT_DIR_CTA="$(cd "$(dirname "$0")" && pwd)"
-WORKSPACE="/Users/ainchorsangiefpl/.openclaw/workspace"
+WORKSPACE="/Users/ainchorsoc2a/.openclaw/workspace"
 STATE_DIR="$WORKSPACE/state"
 BASELINE_FILE="$STATE_DIR/cron-timeout-baseline.json"
 LEDGER_FILE="$STATE_DIR/cron-timeout-applied.json"
@@ -228,7 +228,7 @@ for r in b.get('crons', []):
         new = r.get('computedTimeoutSec')
         try:
             proc = subprocess.run(
-                ['/opt/homebrew/bin/openclaw', 'cron', 'edit', full_id, '--timeout-seconds', str(new)],
+                ['/Users/ainchorsoc2a/local/bin/openclaw', 'cron', 'edit', full_id, '--timeout-seconds', str(new)],
                 capture_output=True, text=True, timeout=10
             )
             if proc.returncode == 0:

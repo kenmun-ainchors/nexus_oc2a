@@ -21,11 +21,11 @@
 
 set -euo pipefail
 
-WORKSPACE_ROOT="${WORKSPACE_ROOT:-/Users/ainchorsangiefpl/.openclaw/workspace}"
+WORKSPACE_ROOT="${WORKSPACE_ROOT:-/Users/ainchorsoc2a/.openclaw/workspace}"
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 EXPORT_SCRIPT="$SCRIPT_DIR/model-policy-export.sh"
 DB_SCRIPT="$SCRIPT_DIR/db.sh"
-JQ="${JQ:-/opt/homebrew/bin/jq}"
+JQ="${JQ:-$JQ}"
 TENANT_ID="${TENANT_ID:-ainchors}"
 
 # --- Help ---
@@ -178,7 +178,7 @@ ver = os.environ['MATRIX_VERSION']
 tenant = os.environ['TENANT_ID']
 
 env = os.environ.copy()
-env.update({"PGHOST": "/tmp", "PGPORT": "5432", "PGUSER": "ainchorsangiefpl", "PGDATABASE": "ainchors_nexus"})
+env.update({"PGHOST": "/tmp", "PGPORT": "5432", "PGUSER": ""${PGUSER:-$(whoami)}"", "PGDATABASE": "ainchors_nexus"})
 
 errors = []
 updated = 0
@@ -217,7 +217,7 @@ for rule in rules:
 
     try:
         result = subprocess.run(
-            ["/opt/homebrew/bin/psql", "-t", "-A", "-c", sql],
+            ["${PSQL_BIN:-$(brew --prefix postgresql@16 2>/dev/null)/bin/psql}", "-t", "-A", "-c", sql],
             capture_output=True, text=True, timeout=10, env=env
         )
         if result.returncode != 0:

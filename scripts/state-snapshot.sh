@@ -5,7 +5,7 @@
 
 set -euo pipefail
 
-WORKSPACE="/Users/ainchorsangiefpl/.openclaw/workspace"
+WORKSPACE="/Users/ainchorsoc2a/.openclaw/workspace"
 SNAPSHOT_DIR="$WORKSPACE/state/snapshots"
 TKT="${1:-unknown}"
 DESC="${2:-ticket-work}"

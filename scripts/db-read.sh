@@ -6,8 +6,14 @@
 # SQL pass-through: if $1 starts with SELECT, execute as raw SQL directly
 #   db-read.sh "SELECT 1 AS test"
 
-DB="/Users/ainchorsangiefpl/.openclaw/workspace/scripts/db-raw.sh"
-WORKSPACE="/Users/ainchorsangiefpl/.openclaw/workspace"
+# Resolve workspace from script location (migration 2026-07-14: no hard-coded user home).
+# Allow env override: WORKSPACE_ROOT, SCRIPT_DIR.
+SCRIPT_DIR_READ="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+WORKSPACE_ROOT="${WORKSPACE_ROOT:-$(cd "$SCRIPT_DIR_READ/.." && pwd)}"
+DB="${DB_RAW:-$SCRIPT_DIR_READ/db-raw.sh}"
+WORKSPACE="$WORKSPACE_ROOT"
+# Default DB user to current OS user; env override preserved.
+export PGUSER="${PGUSER:-$(whoami)}"
 TABLE="$1"; KEY="${2:-}"; VALUE="${3:-}"
 
 # SQL pass-through mode: raw SQL if $TABLE starts with SELECT (case-insensitive)

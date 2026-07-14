@@ -2,7 +2,7 @@
 # TZ Drift Monitor — Validates that system tasks are anchored to AEST despite GMT host clock
 # Runs every 30 min. Output: state/tz-drift-report.json
 
-WORKSPACE="/Users/ainchorsangiefpl/.openclaw/workspace"
+WORKSPACE="/Users/ainchorsoc2a/.openclaw/workspace"
 STATE_DIR="$WORKSPACE/state"
 REPORT="$STATE_DIR/tz-drift-report.json"
 LOG="$STATE_DIR/tz-drift-monitor.log"

@@ -124,7 +124,7 @@ OpenClaw is the final platform choice for P1-P4. Architectural decisions extend 
 | OC1 | Mac Mini M4 24GB, Melbourne | ✅ Production | Always-on, single node |
 | OC2-A | Mac Mini M4 Pro 48GB | ⏳ Arriving Jul 6-13 | HA Primary |
 | OC2-B | Mac Mini M4 Pro 48GB | ⏳ Arriving Jul 6-13 | HA Standby |
-| Tailscale mesh | Zero-trust overlay | ✅ Live | `ainchorss-mac-mini.tail5e2567.ts.net` |
+| Tailscale mesh | Zero-trust overlay | ✅ Live | `ainchorsoc2as-mac-mini-1.tailfc3ed1.ts.net` |
 | MinIO | 4 buckets, local NVMe | ✅ Live | URL pattern: Tailscale FQDN:9000 |
 | Google Drive | Human docs, EA outputs | ✅ Live | `kenmun@ainchors.com` |
 | Notion / Holocron | Agent Knowledge Base (AKB) | ✅ Live | 38+ pages, SSOT for tickets + CHG |
@@ -578,8 +578,8 @@ Warden reports go to Yoda 🟢 and are logged to `state/warden-compliance-state.
 | Enterprise Landscape (TKT-0046) | Notion / Holocron | Full platform landscape, all locked decisions |
 | AI Charter v1.0 | Holocron | Governance policy |
 | Agent Governance Framework v1.0 | Holocron | Agent tier model + HITL framework |
-| YODA_RULES.md | `/Users/ainchorsangiefpl/.openclaw/workspace/YODA_RULES.md` | Strategic routing rules |
-| ORCHESTRATOR.md | `/Users/ainchorsangiefpl/.openclaw/workspace/ORCHESTRATOR.md` | Full platform architecture reference |
+| YODA_RULES.md | `/Users/ainchorsoc2a/.openclaw/workspace/YODA_RULES.md` | Strategic routing rules |
+| ORCHESTRATOR.md | `/Users/ainchorsoc2a/.openclaw/workspace/ORCHESTRATOR.md` | Full platform architecture reference |
 
 ---
 

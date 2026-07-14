@@ -92,7 +92,7 @@ Shield **must** confirm all of the following before proceeding:
 
 **Shield** shall run the audit script and manually verify:
 ```bash
-bash /Users/ainchorsangiefpl/.openclaw/workspace/scripts/audit-skill.sh \
+bash /Users/ainchorsoc2a/.openclaw/workspace/scripts/audit-skill.sh \
   --path /path/to/SKILL.md --strict
 ```
 Shield **must** check for and flag: pipe-to-shell patterns, instruction override language, credential exfiltration patterns, IP-based URLs or URL shorteners, eval of dynamic content, embedded operational shell commands, and unexpected external network call patterns.
@@ -126,7 +126,7 @@ Ken **must** reply explicitly. No approval = no installation. Silence = no.
 #### Step 6 — Installation and Registry Entry
 Immediately following Ken approval:
 ```bash
-bash /Users/ainchorsangiefpl/.openclaw/workspace/scripts/skill-registry.sh \
+bash /Users/ainchorsoc2a/.openclaw/workspace/scripts/skill-registry.sh \
   --add \
   --name "[skill-name]" \
   --path "[install-path]" \

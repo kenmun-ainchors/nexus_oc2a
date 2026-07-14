@@ -8,7 +8,7 @@
 
 set -u
 
-WORKSPACE="/Users/ainchorsangiefpl/.openclaw/workspace"
+WORKSPACE="/Users/ainchorsoc2a/.openclaw/workspace"
 LOG="$WORKSPACE/state/governance-review.log"
 CONTENT=""; TYPE="general"; REQUESTER="unknown"
 

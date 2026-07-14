@@ -9,9 +9,9 @@ set -euo pipefail
 source "${SCRIPT_DIR:-$(dirname "$0")}/skill-gate.sh" "notion" || exit $?
 
 # --- CONFIGURATION ---
-WORKSPACE_ROOT="/Users/ainchorsangiefpl/.openclaw/workspace"
+WORKSPACE_ROOT="/Users/ainchorsoc2a/.openclaw/workspace"
 DB_SCRIPT="$WORKSPACE_ROOT/scripts/db.sh"
-NOTION_KEY_FILE="/Users/ainchorsangiefpl/.config/notion/api_key"
+NOTION_KEY_FILE="/Users/ainchorsoc2a/.config/notion/api_key"
 LOCK_FILE="/tmp/pg-notion-sync.lock"
 NOTION_API="https://api.notion.com/v1"
 NOTION_VERSION="2022-06-28"

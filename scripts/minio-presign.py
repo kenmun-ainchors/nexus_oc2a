@@ -3,22 +3,39 @@
 AWS v4 presigned GET URL generator — pure stdlib, zero network calls.
 Signs for the Tailscale HTTPS endpoint so URLs work from Ken's Windows machine.
 """
-import sys, hmac, hashlib, datetime, subprocess, urllib.parse, warnings
+import sys, os, hmac, hashlib, datetime, subprocess, urllib.parse, warnings
 warnings.filterwarnings("ignore")
 
-ENDPOINT = "ainchorss-mac-mini.tail5e2567.ts.net"
+# CHG-MINIO-RESTORE 2026-07-14: new OC2A Tailscale hostname replaces old OC1 endpoint.
+ENDPOINT = "ainchorsoc2as-mac-mini-1.tailfc3ed1.ts.net"
 REGION = "us-east-1"
 SERVICE = "s3"
 
+# Resolve secrets dir from script location (env override: MINIO_SECRETS_DIR).
+_SCRIPT_DIR = os.path.dirname(os.path.abspath(__file__))
+_DEFAULT_SECRETS_DIR = os.path.normpath(os.path.join(_SCRIPT_DIR, os.pardir, "infra", "minio", "secrets"))
+SECRETS_DIR = os.environ.get("MINIO_SECRETS_DIR", _DEFAULT_SECRETS_DIR)
+_KEYCHAIN_SERVICE = "ainchors-minio"
+_KEYCHAIN_ACCOUNT = "ainchors-minio"
+
 def get_creds():
-    with open("/Users/ainchorsangiefpl/.openclaw/workspace/infra/minio/secrets/minio_user.txt") as f:
+    user_path = os.path.join(SECRETS_DIR, "minio_user.txt")
+    pw_path   = os.path.join(SECRETS_DIR, "minio_password.txt")
+    with open(user_path) as f:
         user = f.read().strip()
-    r = subprocess.run(["security","find-generic-password","-s","ainchors-minio","-w"],
-                       capture_output=True, text=True)
-    if r.returncode == 0:
-        pw = r.stdout.strip()
-    else:
-        with open("/Users/ainchorsangiefpl/.openclaw/workspace/infra/minio/secrets/minio_password.txt") as f:
+    pw = ""
+    try:
+        r = subprocess.run(
+            ["security", "find-generic-password",
+             "-s", _KEYCHAIN_SERVICE, "-a", _KEYCHAIN_ACCOUNT, "-w"],
+            capture_output=True, text=True, timeout=5,
+        )
+        if r.returncode == 0:
+            pw = r.stdout.strip()
+    except (subprocess.TimeoutExpired, FileNotFoundError):
+        pw = ""
+    if not pw and os.path.exists(pw_path):
+        with open(pw_path) as f:
             pw = f.read().strip()
     return user, pw
 

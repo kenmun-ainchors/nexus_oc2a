@@ -2,7 +2,7 @@
 # task-create.sh — Create a new async TASK file and register it
 # Usage: task-create.sh <task-id> <goal> <steps-json> [agent]
 
-WORKSPACE="/Users/ainchorsangiefpl/.openclaw/workspace"
+WORKSPACE="/Users/ainchorsoc2a/.openclaw/workspace"
 HANDOFF="$WORKSPACE/handoff"
 STATE="$WORKSPACE/state/async-tasks.json"
 

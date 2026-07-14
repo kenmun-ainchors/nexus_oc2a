@@ -12,7 +12,7 @@ WORKSPACE="$HOME/.openclaw/workspace"
 DB_READ="$WORKSPACE/scripts/db-read.sh"
 COST_STATE="$WORKSPACE/state/cost-state.json"
 ALERT_STATE="$WORKSPACE/state/request-budget-alert-state.json"
-JQ="/opt/homebrew/bin/jq"
+JQ="/usr/bin/jq"
 NOW="$(date -u +%Y-%m-%dT%H:%M:%SZ)"
 TODAY="$(date +%Y-%m-%d)"
 

@@ -395,7 +395,7 @@ On startup of `pg-to-notion-sync.sh`:
 - **Persistence:** All existing `notionpageid` links preserved.
 - **Non-Blocking:** Sync failures never block PG ticket operations.
 - **Rate Limiting:** 350ms sleep between API calls. Max 2.85 req/sec sustained.
-- **Scripts:** All at `/Users/ainchorsangiefpl/.openclaw/workspace/scripts/`.
+- **Scripts:** All at `/Users/ainchorsoc2a/.openclaw/workspace/scripts/`.
 - **Sprint Column:** `sprint` column (first-class, TKT-0391) is authoritative for sync. `metadata.sprint_target` is maintained for backward compatibility but sync reads `sprint` column.
 
 ---

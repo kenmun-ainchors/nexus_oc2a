@@ -162,7 +162,7 @@ This is an extension of Atlas's existing architecture governance function, not a
 Do not install the Fabric CLI toolchain on OC1 now. P1's critical path is TKT-0104 Actions 1–5 (Postgres + audit log + pgvector + PII scanner). Adding a new CLI dependency during this build phase is unnecessary risk and distraction.
 
 Instead:
-1. Create `/Users/ainchorsangiefpl/.openclaw/workspace/patterns/` directory
+1. Create `/Users/ainchorsoc2a/.openclaw/workspace/patterns/` directory
 2. Build 3–5 seed patterns (extract_wisdom equivalent, create_markdown, quality_gate, decision_summary) as governed AInchors templates
 3. Apply manually during Month 2 knowledge base seeding
 4. Atlas maintains the pattern store under architecture governance

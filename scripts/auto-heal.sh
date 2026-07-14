@@ -937,7 +937,7 @@ else
   TILDE_FOUND=0
   TILDE_BLOCKED=0
   TILDE_DRY_RUN_BLOCKED=0
-  CRON_JOBS=$(/opt/homebrew/bin/openclaw cron list --json 2>/dev/null || echo '[]')
+  CRON_JOBS=$(/Users/ainchorsoc2a/local/bin/openclaw cron list --json 2>/dev/null || echo '[]')
 
   # Extract payload text fields and check for tilde patterns
   TILDE_PATTERNS=$(echo "$CRON_JOBS" | python3 -c "
@@ -1817,7 +1817,7 @@ PYEOF_INNER
       # --- CHG-0821 Phase 2: auto-remediation block ---
       EXPECTED_NODE_OPTIONS='--max-old-space-size=6144'
       GW_ENV_FILE="$HOME/.openclaw/service-env/ai.openclaw.gateway.env"
-      GW_PLIST="/Users/ainchorsangiefpl/Library/LaunchAgents/ai.openclaw.gateway.plist"
+      GW_PLIST="/Users/ainchorsoc2a/Library/LaunchAgents/ai.openclaw.gateway.plist"
       _REMEDIATION_OK="no"
       _ENV_CHANGED="no"
 
@@ -2213,9 +2213,9 @@ CHECKS_RUN+=("model_policy_drift")
 DRIFT_SCRIPT="$WORKSPACE/scripts/check-model-policy-drift.sh"
 if [[ -x "$DRIFT_SCRIPT" ]]; then
   DRIFT_OUT=$(bash "$DRIFT_SCRIPT" 2>/dev/null) || true
-  DRIFT_STATUS=$(echo "$DRIFT_OUT" | /opt/homebrew/bin/jq -r '.status // "error"' 2>/dev/null || true)
+  DRIFT_STATUS=$(echo "$DRIFT_OUT" | $JQ -r '.status // "error"' 2>/dev/null || true)
   if [[ "$DRIFT_STATUS" == "drift" ]]; then
-    DRIFT_ALERTS=$(echo "$DRIFT_OUT" | /opt/homebrew/bin/jq -r '.alerts | join("; ")' 2>/dev/null || true)
+    DRIFT_ALERTS=$(echo "$DRIFT_OUT" | $JQ -r '.alerts | join("; ")' 2>/dev/null || true)
     log "CHECK 28i: DRIFT detected — $DRIFT_ALERTS"
     NEEDS_KEN+=("TKT-0540 CHECK 28i: model-policy drift detected — $DRIFT_ALERTS. See state/model-policy-drift-alert.json.")
   else

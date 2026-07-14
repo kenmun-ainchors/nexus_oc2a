@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # Anchored to workspace root
-WORKSPACE="/Users/ainchorsangiefpl/.openclaw/workspace"
+WORKSPACE="/Users/ainchorsoc2a/.openclaw/workspace"
 
 # Default values
 AUTHOR="AInchors"

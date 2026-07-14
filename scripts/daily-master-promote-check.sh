@@ -39,7 +39,7 @@
 set -euo pipefail
 
 # ── Defaults ──────────────────────────────────────────────────────────────
-WORKSPACE_ROOT="${WORKSPACE_ROOT:-/Users/ainchorsangiefpl/.openclaw/workspace}"
+WORKSPACE_ROOT="${WORKSPACE_ROOT:-/Users/ainchorsoc2a/.openclaw/workspace}"
 MEMORY_DIR="$WORKSPACE_ROOT/memory"
 DEFAULT_MEMORY_FILE="$WORKSPACE_ROOT/MEMORY.md"
 DEFAULT_DELTA_DIR="$WORKSPACE_ROOT/docs/context-handoffs"

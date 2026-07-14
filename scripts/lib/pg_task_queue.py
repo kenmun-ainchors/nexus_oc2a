@@ -12,9 +12,26 @@ import json
 import subprocess
 import os
 
+import shutil
+def _psql_bin():
+    p = shutil.which("psql") or os.environ.get("PSQL_BIN")
+    if p:
+        return p
+    try:
+        prefix = subprocess.check_output(["brew", "--prefix"], text=True).strip()
+        candidate = os.path.join(prefix, "bin", "psql")
+        if os.path.isfile(candidate) and os.access(candidate, os.X_OK):
+            return candidate
+    except Exception:
+        pass
+    raise RuntimeError("psql not found")
+
+PSQL = _psql_bin()
+
+
 PG_HOST = "/tmp"
 PG_PORT = "5432"
-PG_USER = "ainchorsangiefpl"
+PG_USER = os.environ.get("PGUSER", "")
 PG_DATABASE = "ainchors_nexus"
 
 def _pg(query):
@@ -28,7 +45,7 @@ def _pg(query):
     })
     try:
         result = subprocess.run(
-            ["/opt/homebrew/bin/psql", "-t", "-A", "-c", query],
+            [PSQL, "-t", "-A", "-c", query],
             capture_output=True, text=True, timeout=10, env=env
         )
         return result.stdout.strip()

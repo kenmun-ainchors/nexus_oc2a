@@ -4,8 +4,8 @@
 
 TASK_ID="$1"
 AGENT_ID="${2:-agent:manual}"
-CHECKPOINT_DIR="/Users/ainchorsangiefpl/.openclaw/workspace/state/checkpoints"
-QUEUE_FILE="/Users/ainchorsangiefpl/.openclaw/workspace/state/task-queue.json"
+CHECKPOINT_DIR="/Users/ainchorsoc2a/.openclaw/workspace/state/checkpoints"
+QUEUE_FILE="/Users/ainchorsoc2a/.openclaw/workspace/state/task-queue.json"
 
 if [ -z "$TASK_ID" ]; then
   echo "Usage: resume-task.sh TASK_ID [AGENT_ID]"

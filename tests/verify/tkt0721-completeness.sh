@@ -5,7 +5,7 @@
 set -euo pipefail
 
 DB_NAME="ainchors_nexus"
-DB_USER="ainchorsangiefpl"
+DB_USER="${PGUSER:-$(whoami)}"
 DB_HOST="127.0.0.1"
 
 echo "Starting TKT-0721 Completeness Verification..."
@@ -45,14 +45,14 @@ TOTAL_MD_UNIQUE=$(echo "$MD_CHGS" | wc -l | tr -d ' ')
 echo "Unique CHGs with markdown headers: $TOTAL_MD_UNIQUE"
 
 # Count unique CHGs in state_changes
-PG_CHG_COUNT=$(/opt/homebrew/bin/psql -h "$DB_HOST" -U "$DB_USER" -d "$DB_NAME" -t -A -c "SELECT count(DISTINCT change_id) FROM state_changes;")
+PG_CHG_COUNT=$(${PSQL_BIN:-$(brew --prefix postgresql@16 2>/dev/null)/bin/psql} -h "$DB_HOST" -U "$DB_USER" -d "$DB_NAME" -t -A -c "SELECT count(DISTINCT change_id) FROM state_changes;")
 echo "Unique CHGs in state_changes: $PG_CHG_COUNT"
 
 # Gap analysis: any markdown-header CHG missing from PG
 GAPS=0
 MISSING=""
 for chg in $MD_CHGS; do
-    EXISTS=$(/opt/homebrew/bin/psql -h "$DB_HOST" -U "$DB_USER" -d "$DB_NAME" -t -A -c "SELECT 1 FROM state_changes WHERE change_id = '$chg';")
+    EXISTS=$(${PSQL_BIN:-$(brew --prefix postgresql@16 2>/dev/null)/bin/psql} -h "$DB_HOST" -U "$DB_USER" -d "$DB_NAME" -t -A -c "SELECT 1 FROM state_changes WHERE change_id = '$chg';")
     if [[ -z "$EXISTS" ]]; then
         echo "MISSING: $chg"
         MISSING="$MISSING $chg"
@@ -62,7 +62,7 @@ done
 
 # Verify original 52 live CHGs are still present and not corrupted.
 # Use CHG-0767 as a sample; also count that PG CHG count >= 700.
-SAMP_EXISTS=$(/opt/homebrew/bin/psql -h "$DB_HOST" -U "$DB_USER" -d "$DB_NAME" -t -A -c "SELECT 1 FROM state_changes WHERE change_id = 'CHG-0767';")
+SAMP_EXISTS=$(${PSQL_BIN:-$(brew --prefix postgresql@16 2>/dev/null)/bin/psql} -h "$DB_HOST" -U "$DB_USER" -d "$DB_NAME" -t -A -c "SELECT 1 FROM state_changes WHERE change_id = 'CHG-0767';")
 if [[ -z "$SAMP_EXISTS" ]]; then
     echo "FAIL: Baseline CHG-0767 not found in state_changes."
     exit 1

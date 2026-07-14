@@ -6,7 +6,7 @@
 
 export PATH="$PATH:/usr/local/bin:/opt/homebrew/bin"
 
-WORKSPACE="/Users/ainchorsangiefpl/.openclaw/workspace"
+WORKSPACE="/Users/ainchorsoc2a/.openclaw/workspace"
 QA_LOG="$WORKSPACE/state/shield-qa-log.json"
 TIMESTAMP=$(date +"%Y-%m-%dT%H:%M:%S+10:00")
 
@@ -82,9 +82,9 @@ echo ""
 echo "[ S2 — Internal System Exposure ]"
 S2_FAIL=false
 
-if echo "$CONTENT" | grep -qE "/Users/ainchorsangiefpl|~/.openclaw|/opt/homebrew"; then
+if echo "$CONTENT" | grep -qE "/Users/ainchorsoc2a|~/.openclaw|/opt/homebrew"; then
   S2_FAIL=true; ISSUES+=("S2: Internal filesystem path exposed")
-  echo "  FAIL — Internal path exposed (/Users/ainchorsangiefpl or ~/.openclaw)"
+  echo "  FAIL — Internal path exposed (/Users/ainchorsoc2a or ~/.openclaw)"
 fi
 if echo "$CONTENT" | grep -qE "192\.168\.[0-9]+\.[0-9]+|10\.[0-9]+\.[0-9]+\.[0-9]+"; then
   S2_FAIL=true; ISSUES+=("S2: Internal IP address detected")

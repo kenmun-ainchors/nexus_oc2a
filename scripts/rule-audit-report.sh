@@ -6,7 +6,7 @@
 
 set -u
 
-WORKSPACE_ROOT="/Users/ainchorsangiefpl/.openclaw/workspace"
+WORKSPACE_ROOT="/Users/ainchorsoc2a/.openclaw/workspace"
 AUDIT_FILE="$WORKSPACE_ROOT/state/rule-audit-report.json"
 REPORT_DIR="$WORKSPACE_ROOT/canvas/documents/rule-audit-weekly"
 REPORT_HTML="$REPORT_DIR/index.html"

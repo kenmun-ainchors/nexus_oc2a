@@ -3,7 +3,7 @@
 # Usage: task-complete.sh <task-id> <final-status> [summary]
 # Final status: completed | failed | blocked | cancelled
 
-WORKSPACE="/Users/ainchorsangiefpl/.openclaw/workspace"
+WORKSPACE="/Users/ainchorsoc2a/.openclaw/workspace"
 HANDOFF="$WORKSPACE/handoff"
 STATE="$WORKSPACE/state/async-tasks.json"
 ARCHIVE="$HANDOFF/archive"

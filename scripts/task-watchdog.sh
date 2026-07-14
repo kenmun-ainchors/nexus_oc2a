@@ -16,7 +16,7 @@
 
 set -euo pipefail
 
-WORKSPACE="/Users/ainchorsangiefpl/.openclaw/workspace"
+WORKSPACE="/Users/ainchorsoc2a/.openclaw/workspace"
 # TKT-0409 D3: was state/async-tasks.json — that file does not exist.
 # Real queue is state/task-queue.json (JSON) ↔ state_task_queue (PG table).
 STATE="$WORKSPACE/state/task-queue.json"
@@ -32,12 +32,12 @@ python3 - << RESUME_PY
 import json, os, subprocess, sys
 from datetime import datetime, timezone, timedelta
 
-ws = "/Users/ainchorsangiefpl/.openclaw/workspace"
+ws = "/Users/ainchorsoc2a/.openclaw/workspace"
 env = os.environ.copy()
 env.update({
     "PGHOST": "/tmp",
     "PGPORT": "5432",
-    "PGUSER": "ainchorsangiefpl",
+    "PGUSER": "${PGUSER:-$(whoami)}",
     "PGDATABASE": "ainchors_nexus",
 })
 
@@ -61,7 +61,7 @@ ORDER BY updated_at_ts ASC;
 
 try:
     r = subprocess.run(
-        ["/opt/homebrew/bin/psql", "-t", "-A", "-F", "|", "-v", "ON_ERROR_STOP=1", "-c", select_sql],
+        ["${PSQL_BIN:-$(brew --prefix postgresql@16 2>/dev/null)/bin/psql}", "-t", "-A", "-F", "|", "-v", "ON_ERROR_STOP=1", "-c", select_sql],
         capture_output=True, text=True, timeout=15, env=env
     )
     if r.returncode != 0:
@@ -102,7 +102,7 @@ for ln in lines:
     """
     try:
         u = subprocess.run(
-            ["/opt/homebrew/bin/psql", "-t", "-A", "-v", "ON_ERROR_STOP=1", "-c", update_sql],
+            ["${PSQL_BIN:-$(brew --prefix postgresql@16 2>/dev/null)/bin/psql}", "-t", "-A", "-v", "ON_ERROR_STOP=1", "-c", update_sql],
             capture_output=True, text=True, timeout=15, env=env
         )
         if u.returncode != 0:
@@ -143,7 +143,7 @@ fi
 DIVERGENCE_OUT=$(python3 -<<'PYDIVERGE'
 import json, os, subprocess, sys
 
-ws = "/Users/ainchorsangiefpl/.openclaw/workspace"
+ws = "/Users/ainchorsoc2a/.openclaw/workspace"
 json_path = os.path.join(ws, "state", "task-queue.json")
 
 try:
@@ -166,13 +166,13 @@ env = os.environ.copy()
 env.update({
     "PGHOST": "/tmp",
     "PGPORT": "5432",
-    "PGUSER": "ainchorsangiefpl",
+    "PGUSER": "${PGUSER:-$(whoami)}",
     "PGDATABASE": "ainchors_nexus",
 })
 
 try:
     r = subprocess.run(
-        ["/opt/homebrew/bin/psql", "-t", "-A", "-F", "|", "-c",
+        ["${PSQL_BIN:-$(brew --prefix postgresql@16 2>/dev/null)/bin/psql}", "-t", "-A", "-F", "|", "-c",
          "SELECT id, status FROM state_task_queue"],
         capture_output=True, text=True, timeout=10, env=env
     )

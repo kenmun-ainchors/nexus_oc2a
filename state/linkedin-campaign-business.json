@@ -1,12 +1,12 @@
 {
   "schema_version": "1.0",
-  "title": "Spark LinkedIn Campaign \u2014 AInchors Company Page",
+  "title": "Spark LinkedIn Campaign — AInchors Company Page",
   "description": "AInchors company page LinkedIn campaign state. Per-account separation (CHG-0860).",
   "createdAt": "2026-07-10T12:29:00+10:00",
   "createdBy": "Forge (CHG-0860 per-account separation)",
-  "lastUpdated": "2026-07-11T12:57:00+10:00",
-  "lastUpdatedBy": "Forge (CHG-0864 handoff to Aria)",
-  "handoffStatus": "pending-aria-review",
+  "lastUpdated": "2026-07-13T12:03:16+10:00",
+  "lastUpdatedBy": "Aria (fallback cron)",
+  "handoffStatus": "aria-revision-requested",
   "handoffNote": "6 drafted posts (CONTENT-BUS-001/002/003) handed to Aria/BUSINESS stream. See .openclaw/tmp/aria-linkedin-handoff-2026-07-11.md",
   "agent": "Spark",
   "api": {
@@ -27,12 +27,12 @@
       "designedBy": "Ken Mun + Yoda (CHG-0860)",
       "principle": "Draft before slot. Publish at slot. Never draft at publish time.",
       "primary": {
-        "description": "Weekend batch draft \u2014 all 3 posts for the week ahead drafted on Saturday, reviewed over weekend",
+        "description": "Weekend batch draft — all 3 posts for the week ahead drafted on Saturday, reviewed over weekend",
         "schedule": "Sat 12:00 AEST",
-        "reviewWindow": "~2.5 days (Sat 12:00 \u2192 Tue 07:30)"
+        "reviewWindow": "~2.5 days (Sat 12:00 → Tue 07:30)"
       },
       "fallback": {
-        "description": "Day-before single-post drafts \u2014 only run if batch missed",
+        "description": "Day-before single-post drafts — only run if batch missed",
         "crons": {
           "mon": {
             "schedule": "Mon 12:00 AEST",
@@ -52,7 +52,7 @@
         }
       },
       "publish": {
-        "description": "Publish-only crons \u2014 post approved+imaged content at slot time. Never draft.",
+        "description": "Publish-only crons — post approved+imaged content at slot time. Never draft.",
         "crons": {
           "tue": {
             "schedule": "Tue 07:30 AEST"
@@ -68,12 +68,12 @@
     }
   },
   "activeTheme": {
-    "name": "Movement IV: The Shift \u2014 Foundation Rebuild (Week 4)",
+    "name": "Movement IV: The Shift — Foundation Rebuild (Week 4)",
     "type": "reactivation",
     "note": "Posts 10, 11, 12 of the 12-post foundation arc. After this week, normal rotation resumes including consulting POV."
   },
   "voice": {
-    "persona": "AInchors company voice \u2014 professional, authoritative, industry-aware",
+    "persona": "AInchors company voice — professional, authoritative, industry-aware",
     "rule": "External-facing only. NO mentions of Yoda, Nexus, agent names, or platform internals. Company name AInchors is allowed for company page."
   },
   "queued": [],
@@ -105,8 +105,20 @@
       "week": "Week 5 (14-16 Jul 2026)",
       "draftFile": "social-drafts/business/2026-07-14-quiet-cost.md",
       "imagePrompt": "Refined per post content",
-      "draftedAt": "2026-07-11T12:01:56.141759+10:00",
-      "governance": "triad-cleared"
+      "draftedAt": "2026-07-13T12:03:16+10:00",
+      "governance": "triad-cleared",
+      "approvedBy": null,
+      "approvedAt": null,
+      "imageReady": false,
+      "revisionReason": "Em-dashes removed; \"a team we work with\" reframed as AInchors own operations to comply with no-fake-client rule",
+      "governanceVerdict": {
+        "shield": "clear",
+        "lex": "conditional",
+        "sage": "conditional",
+        "clearedAt": "2026-07-13T12:03:16+10:00",
+        "clearedFor": "distribution after Angie approval"
+      },
+      "draftedBy": "Aria (cron 1fccc5ab Mon 12:00 AEST fallback)"
     },
     "CONTENT-BUS-002": {
       "id": "CONTENT-BUS-002",
@@ -114,31 +126,61 @@
       "account": "business",
       "organizationId": "112732790",
       "topic": "Why most AI governance is documentation dressed up as control",
-      "status": "drafted",
+      "status": "revision-requested",
       "slot": "Wed 15 Jul 12:00 AEST",
       "week": "Week 5 (14-16 Jul 2026)",
       "draftFile": "social-drafts/business/2026-07-15-governance-dressed-up.md",
       "imagePrompt": "Refined per post content",
       "draftedAt": "2026-07-11T12:01:56.141759+10:00",
-      "governance": "triad-cleared"
+      "governance": "triad-cleared",
+      "approvedBy": null,
+      "approvedAt": null,
+      "imageReady": false,
+      "revisionReason": "Remove em-dashes per AInchors voice rules (no em-dashes)"
     },
     "CONTENT-BUS-003": {
       "id": "CONTENT-BUS-003",
       "platform": "linkedin",
       "account": "business",
       "organizationId": "112732790",
-      "topic": "Discipline beats motivation \u2014 especially in AI systems",
-      "status": "drafted",
+      "topic": "Discipline beats motivation — especially in AI systems",
+      "status": "revision-requested",
       "slot": "Thu 16 Jul 07:30 AEST",
       "week": "Week 5 (14-16 Jul 2026)",
       "draftFile": "social-drafts/business/2026-07-16-discipline-beats.md",
       "imagePrompt": "Refined per post content",
       "draftedAt": "2026-07-11T12:01:56.141759+10:00",
-      "governance": "triad-cleared"
+      "governance": "triad-cleared",
+      "approvedBy": null,
+      "approvedAt": null,
+      "imageReady": false,
+      "revisionReason": "Remove em-dashes per AInchors voice rules (no em-dashes)"
     }
   },
   "usedTopics": [],
-  "rejectionLog": [],
+  "rejectionLog": [
+    {
+      "id": "CONTENT-BUS-001",
+      "status": "revision-requested",
+      "reason": "Em-dash usage violates AInchors voice rules",
+      "reviewedBy": "Aria",
+      "reviewedAt": "2026-07-13T08:50:19+10:00"
+    },
+    {
+      "id": "CONTENT-BUS-002",
+      "status": "revision-requested",
+      "reason": "Em-dash usage violates AInchors voice rules",
+      "reviewedBy": "Aria",
+      "reviewedAt": "2026-07-13T08:50:19+10:00"
+    },
+    {
+      "id": "CONTENT-BUS-003",
+      "status": "revision-requested",
+      "reason": "Em-dash usage violates AInchors voice rules",
+      "reviewedBy": "Aria",
+      "reviewedAt": "2026-07-13T08:50:19+10:00"
+    }
+  ],
   "stream": {
     "account": "business",
     "organizationId": "112732790",

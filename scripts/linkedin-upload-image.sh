@@ -20,7 +20,7 @@
 
 set -euo pipefail
 
-WORKSPACE="/Users/ainchorsangiefpl/.openclaw/workspace"
+WORKSPACE="/Users/ainchorsoc2a/.openclaw/workspace"
 IMAGES_ENDPOINT="https://api.linkedin.com/rest/images?action=initializeUpload"
 LI_VERSION="202503"
 

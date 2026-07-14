@@ -1,8 +1,8 @@
 #!/bin/bash
 # sync-out.sh — Export Postgres to JSON files for file-based readers
 # Usage: bash scripts/sync-out.sh [--all]
-DB="/Users/ainchorsangiefpl/.openclaw/workspace/scripts/db-raw.sh"
-WORKSPACE="/Users/ainchorsangiefpl/.openclaw/workspace"
+DB="/Users/ainchorsoc2a/.openclaw/workspace/scripts/db-raw.sh"
+WORKSPACE="/Users/ainchorsoc2a/.openclaw/workspace"
 
 # Export tickets (small enough for direct SELECT)
 bash "$DB" -c "SELECT jsonb_agg(row_to_json(t)) FROM state_tickets t" > "$WORKSPACE/state/tickets-pg-export.json" 2>/dev/null && echo "✅ tickets exported"

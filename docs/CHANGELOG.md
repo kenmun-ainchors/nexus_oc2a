@@ -1,3 +1,16 @@
+## 2026-07-13 23:25 AEST — [CHG-0876] PG-Notion Integrity Audit cron repair (23-day outage) + skill-gate sourcing bug
+**Type:** cron
+**Change Type:** Normal
+**Source:** auto-heal
+**Trigger:** Heartbeat detected cron 85595417 PG-Notion Integrity Audit with consecutiveErrors=4 over 23 days (last run 2026-06-21 01:00 AEST). Root cause: cron payload doesn't satisfy the script's skill-gate; secondary bug — scripts/skill-gate.sh line 27 uses `exit 0` instead of `return 0` so `source` + SKILL_GATE_BYPASS=1 silently kills the parent shell. Full plan in CHG-0876.md.
+**What changed:** (1) scripts/skill-gate.sh: line 27 `exit 0` → `return 0`. (2) scripts/pg-to-notion-sync.sh: audit branch hardened for automation context. (3) Cron 85595417 payload text updated to set SKILL_GATE_BYPASS=1 in invocation. (4) state/cron-health-alert.json acknowledged post-fix.
+**Why:** 23-day silent failure on a governance-grade cron. TKT-0406 exists to catch this exact drift. Skill-gate sourcing bug blocks any automation that bypasses the gate. Both are Forge's domain (scripts/ + cron payload).
+**Verification:** SKILL_GATE_BYPASS=1 zsh scripts/pg-to-notion-sync.sh --audit completes <120s; changelog-append.sh with bypass now writes CHG record. 2026-07-14 01:00 AEST run expected status=ok.
+**Rollback:** git checkout the two scripts; openclaw cron update 85595417 restores previous payload text.
+**Linked:** TKT-0406, cron 85595417, state/cron-health-alert.json, scripts/skill-gate.sh, scripts/pg-to-notion-sync.sh, CHG-0810
+**Framework docs:** CREST v1.3
+---
+
 ## 2026-07-02 23:29 AEST — [CHG-0804] Correct model policy: ahsoka/luthen/lando/mon-mothma to deepseek-v4-pro; restore infra/social and Warden checker
 **Type:** config
 **Change Type:** Normal

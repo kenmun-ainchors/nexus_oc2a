@@ -12,7 +12,7 @@ set -u
 # --- SKILL GATE: notion ---
 source "${SCRIPT_DIR:-$(dirname "$0")}/skill-gate.sh" "notion" || exit $?
 
-WORKSPACE_ROOT="/Users/ainchorsangiefpl/.openclaw/workspace"
+WORKSPACE_ROOT="/Users/ainchorsoc2a/.openclaw/workspace"
 NOTION_KEY_FILE="$HOME/.config/notion/api_key"
 DB_BACKLOG="34dc1829-53ff-814b-8257-d3a3bf351d44"
 SUMMARY_FILE="$WORKSPACE_ROOT/state/notion-status-recon-2026-06-10.json"
@@ -143,7 +143,7 @@ START_TS=$(date -u '+%Y-%m-%dT%H:%M:%SZ')
 
 # 1. Query PG for all tickets with notionpageid
 log "Querying PG for tickets with Notion page IDs..."
-PG_DATA=$(/Users/ainchorsangiefpl/.openclaw/workspace/scripts/db.sh -c \
+PG_DATA=$(/Users/ainchorsoc2a/.openclaw/workspace/scripts/db.sh -c \
   "SELECT id, status, notionpageid FROM state_tickets WHERE notionpageid IS NOT NULL AND notionpageid != '' ORDER BY id;" 2>&1 | grep -v "^id|" | grep -v "^$" || true)
 
 if [[ -z "$PG_DATA" ]]; then

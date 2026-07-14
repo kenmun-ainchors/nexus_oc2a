@@ -12,7 +12,9 @@
 
 set -euo pipefail
 
-WORKSPACE="${WORKSPACE:-/Users/ainchorsangiefpl/.openclaw/workspace}"
+# Resolve workspace root from script location (migration 2026-07-14: no hard-coded user home)
+WORKSPACE_ROOT="$(cd "$(dirname "$0")/.." && pwd)"
+WORKSPACE="${WORKSPACE:-$WORKSPACE_ROOT}"
 STATE_DIR="$WORKSPACE/state"
 BASELINE_FILE="$STATE_DIR/critical-config-baseline.json"
 ENV_FILE="$HOME/.openclaw/service-env/ai.openclaw.gateway.env"

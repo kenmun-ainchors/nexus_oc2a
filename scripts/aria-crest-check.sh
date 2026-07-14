@@ -17,7 +17,7 @@ set -euo pipefail
 # macOS grep compat: use basic regex, not -P
 GREP=grep
 
-WORKSPACE="/Users/ainchorsangiefpl/.openclaw/workspace"
+WORKSPACE="/Users/ainchorsoc2a/.openclaw/workspace"
 DB_SCRIPT="/scripts/db-raw.sh"
 REPORT_FILE="$WORKSPACE/state/aria-crest-compliance.json"
 ALERT_FILE="$WORKSPACE/state/aria-crest-alert.json"

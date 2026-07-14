@@ -8,7 +8,7 @@ import json
 import sys
 from datetime import datetime, timedelta
 
-ALERT_FILE = "/Users/ainchorsangiefpl/.openclaw/workspace/state/owl-drift-alert.json"
+ALERT_FILE = "/Users/ainchorsoc2a/.openclaw/workspace/state/owl-drift-alert.json"
 
 def main():
     try:

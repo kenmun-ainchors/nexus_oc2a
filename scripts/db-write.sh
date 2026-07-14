@@ -43,7 +43,9 @@ fi
 PY_SQL=$(mktemp -t dbwrite_sql.XXXXXX.py) || { echo '{"status":"error","error":"mktemp failed"}' 1>&2; exit 1; }
 trap 'rm -f "$PY_SQL" "$PY_FB"' EXIT
 cat > "$PY_SQL" <<'PYEOF'
-import json, subprocess, os, sys
+import json, subprocess, os, sys, shutil
+
+psql_bin = os.environ.get("PSQL_BIN") or shutil.which("psql") or (subprocess.check_output(["brew", "--prefix"], text=True).strip() + "/bin/psql")
 
 try:
     data = json.loads(sys.stdin.read())
@@ -59,11 +61,11 @@ normalized_data = {column_aliases.get(k, k): v for k, v in data.items()}
 
 # Query valid columns + types from PG (TKT-0408: also need types for json/jsonb casting)
 env = os.environ.copy()
-env.update({"PGHOST": "/tmp", "PGPORT": "5432", "PGUSER": "ainchorsangiefpl", "PGDATABASE": "ainchors_nexus"})
+env.update({"PGHOST": "/tmp", "PGPORT": "5432", "PGUSER": os.environ.get("PGUSER") or os.environ.get("USER") or "", "PGDATABASE": "ainchors_nexus"})
 try:
     result = subprocess.run(
-        ["/opt/homebrew/bin/psql", "-t", "-A", "-F", "|", "-c",
-         f"SELECT column_name, data_type FROM information_schema.columns WHERE table_name='{table}' ORDER BY ordinal_position"],
+        [psql_bin, "-t", "-A", "-F", "|", "-c",
+         f"SELECT a.attname AS column_name, format_type(a.atttypid, a.atttypmod) AS data_type FROM pg_attribute a JOIN pg_class c ON a.attrelid = c.oid WHERE c.relname = '{table}' AND a.attnum > 0 AND NOT a.attisdropped ORDER BY a.attnum"],
         capture_output=True, text=True, timeout=5, env=env
     )
     col_types = {}
@@ -84,7 +86,7 @@ if not valid_cols:
 row_exists = False
 try:
     exists_result = subprocess.run(
-        ["/opt/homebrew/bin/psql", "-t", "-A", "-c",
+        [psql_bin, "-t", "-A", "-c",
          f"SELECT 1 FROM {table} WHERE id='{task_id}' LIMIT 1"],
         capture_output=True, text=True, timeout=5, env=env
     )
@@ -180,6 +182,12 @@ if row_exists and not safe_mode:
             sets.append(f"{k}={str(v).upper()}")
         elif isinstance(v, (int, float)):
             sets.append(f"{k}={v}")
+        elif col_type.endswith('[]') and isinstance(v, (list, tuple)):
+            elems = [str(elem).replace("'", "''") for elem in v]
+            if col_type == 'text[]':
+                sets.append(f"{k}=ARRAY[" + ",".join(f"'{elem}'" for elem in elems) + "]::text[]")
+            else:
+                sets.append(f"{k}=ARRAY[" + ",".join(f"'{elem}'" for elem in elems) + f"]::{col_type}")
         else:
             sets.append(f"{k}='{str(v).replace(chr(39), chr(39)*2)}'")
     print(f"UPDATE {table} SET {','.join(sets)} WHERE id='{task_id}'")
@@ -211,6 +219,12 @@ for k in cols:
         vals.append(f"'{sql_safe}'::{col_type}")
     elif isinstance(v, bool): vals.append(str(v).upper())
     elif isinstance(v, (int, float)): vals.append(str(v))
+    elif col_type.endswith('[]') and isinstance(v, (list, tuple)):
+        elems = [str(elem).replace("'", "''") for elem in v]
+        if col_type == 'text[]':
+            vals.append("ARRAY[" + ",".join(f"'{elem}'" for elem in elems) + "]::text[]")
+        else:
+            vals.append("ARRAY[" + ",".join(f"'{elem}'" for elem in elems) + f"]::{col_type}")
     else: vals.append(f"'{str(v).replace(chr(39), chr(39)*2)}'")
 
 # TKT-0538: SAFE mode = DO NOTHING. Normal new-row mode = plain INSERT (no ON CONFLICT).

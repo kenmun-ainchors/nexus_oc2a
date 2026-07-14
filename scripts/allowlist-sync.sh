@@ -18,7 +18,7 @@
 
 set -euo pipefail
 
-WORKSPACE="/Users/ainchorsangiefpl/.openclaw/workspace"
+WORKSPACE="/Users/ainchorsoc2a/.openclaw/workspace"
 POLICY="$WORKSPACE/state/model-policy.json"
 SYNC_STATE="$WORKSPACE/state/allowlist-sync-state.json"
 CORE_PY="$WORKSPACE/scripts/allowlist_sync_core.py"

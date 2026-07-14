@@ -19,9 +19,9 @@ AGENT_ID="${1:-unknown}"; shift
 CHANNELS="$@"
 CYCLE_SECS="${PG_LISTEN_CYCLE:-1}"    # pg_sleep duration — lower = faster notifications
 export PGHOST="${PGHOST:-/tmp}"
-export PGUSER="${PGUSER:-ainchorsangiefpl}"
+export PGUSER="${PGUSER:-"${PGUSER:-$(whoami)}"}"
 export PGDATABASE="${PGDATABASE:-ainchors_nexus}"
-PSQL="/opt/homebrew/bin/psql"
+PSQL="${PSQL_BIN:-$(brew --prefix postgresql@16 2>/dev/null)/bin/psql}"
 
 if [[ -z "$CHANNELS" ]]; then
   CHANNELS="ticket_changed state_changed alert_raised"

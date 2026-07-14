@@ -2,7 +2,7 @@
 # Stale task cleanup – remove temp files > 48 hours old
 # Returns count of removed items on stdout.
 
-WORKSPACE="/Users/ainchorsangiefpl/.openclaw/workspace"
+WORKSPACE="/Users/ainchorsoc2a/.openclaw/workspace"
 COUNT=0
 
 clean_dir() {

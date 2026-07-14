@@ -9,7 +9,7 @@
 #   cron-timeout-report.sh --summary  # Summary only
 
 set -u
-WORKSPACE="/Users/ainchorsangiefpl/.openclaw/workspace"
+WORKSPACE="/Users/ainchorsoc2a/.openclaw/workspace"
 STATE_DIR="$WORKSPACE/state"
 BASELINE_FILE="$STATE_DIR/cron-timeout-baseline.json"
 HEALTH_STATE="$STATE_DIR/cron-health-state.json"

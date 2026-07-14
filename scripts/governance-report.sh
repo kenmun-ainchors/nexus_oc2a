@@ -7,7 +7,7 @@
 
 export PATH="$PATH:/usr/local/bin:/opt/homebrew/bin"
 
-WORKSPACE="/Users/ainchorsangiefpl/.openclaw/workspace"
+WORKSPACE="/Users/ainchorsoc2a/.openclaw/workspace"
 RESULTS_FILE="$WORKSPACE/state/governance-results.json"
 TIMESTAMP=$(date +"%Y-%m-%dT%H:%M:%S+10:00")
 AEST=$(date +"%Y-%m-%d %H:%M AEST")
@@ -246,7 +246,7 @@ rm -f "$_GR_TMP"
 python3 << 'PGEOF'
 import os, subprocess, json
 env = os.environ.copy()
-env.update({'PGHOST': '/tmp', 'PGPORT': '5432', 'PGUSER': 'ainchorsangiefpl', 'PGDATABASE': 'ainchors_nexus'})
+env.update({'PGHOST': '/tmp', 'PGPORT': '5432', 'PGUSER': '"${PGUSER:-$(whoami)}"', 'PGDATABASE': 'ainchors_nexus'})
 results_file = os.path.expanduser('~/.openclaw/workspace/state/governance-results.json')
 if os.path.exists(results_file):
     with open(results_file) as f:
@@ -265,7 +265,7 @@ if os.path.exists(results_file):
             verdict = agent_data.get('verdict', 'PASS') if isinstance(agent_data, dict) else 'PASS'
             details_str = json.dumps(agent_data).replace("'", "''")
         subprocess.run(
-            ['/opt/homebrew/bin/psql', '-c',
+            ['${PSQL_BIN:-$(brew --prefix postgresql@16 2>/dev/null)/bin/psql}', '-c',
              f"INSERT INTO state_governance (review_type, asset_ref, asset_type, brief, intended_for, produced_by, verdict, timestamp, details) "
              f"VALUES ('{agent_label}', '{asset}', '{gr.get('assetType','')}', '{brief}', '{intended}', '{pby}', '{verdict}', '{ts}', '{details_str}')"],
             env=env, capture_output=True)

@@ -7,7 +7,7 @@ Usage: zsh scripts/owl-check.sh
 import json
 import sys
 
-STATE_FILE = "/Users/ainchorsangiefpl/.openclaw/workspace/state/owl-compliance-state.json"
+STATE_FILE = "/Users/ainchorsoc2a/.openclaw/workspace/state/owl-compliance-state.json"
 
 def main():
     try:

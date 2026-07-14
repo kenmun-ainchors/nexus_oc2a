@@ -1,36 +1,6 @@
 {
-  "updatedAt": "2026-06-09T10:26:56.786292+00:00",
+  "updatedAt": "2026-07-14T00:41:51.319706+10:00",
   "crons": {
-    "6a059e9e": {
-      "cronId": "6a059e9e",
-      "name": "TRIGGER-12 \u2014 Allowlist Sync Detector",
-      "consecutiveTimeouts": 2,
-      "totalTimeouts": 2,
-      "retriesUsed": 2,
-      "lastTimeoutAt": "2026-06-15T00:44:15.957899+00:00",
-      "nextRetryBackoffMs": 240000,
-      "deadLetter": false
-    },
-    "dc88affb": {
-      "cronId": "dc88affb",
-      "name": "TQP executor poll (every 5 min)",
-      "consecutiveTimeouts": 2,
-      "totalTimeouts": 2,
-      "retriesUsed": 2,
-      "lastTimeoutAt": "2026-06-15T00:44:15.957899+00:00",
-      "nextRetryBackoffMs": 240000,
-      "deadLetter": false
-    },
-    "35c8cd08": {
-      "cronId": "35c8cd08",
-      "name": "Forge \ud83c\udfd7\ufe0f \u2014 Fallback Chain Validation (hourly)",
-      "consecutiveTimeouts": 3,
-      "totalTimeouts": 3,
-      "retriesUsed": 2,
-      "lastTimeoutAt": "2026-07-08T02:19:18.791417+00:00",
-      "nextRetryBackoffMs": 240000,
-      "deadLetter": false
-    },
     "2c855a3e": {
       "cronId": "2c855a3e",
       "name": "PG-Notion Batch Sync (30-min)",
@@ -41,46 +11,6 @@
       "nextRetryBackoffMs": 240000,
       "deadLetter": false
     },
-    "c69615bb": {
-      "cronId": "c69615bb",
-      "name": "yoda-context-brief-refresh (2pm + 8pm AEST)",
-      "consecutiveTimeouts": 2,
-      "totalTimeouts": 2,
-      "retriesUsed": 2,
-      "lastTimeoutAt": "2026-06-15T00:44:15.957899+00:00",
-      "nextRetryBackoffMs": 240000,
-      "deadLetter": false
-    },
-    "53c94ce7": {
-      "cronId": "53c94ce7",
-      "name": "WO-002 Divergence Daily Check",
-      "consecutiveTimeouts": 8,
-      "totalTimeouts": 8,
-      "retriesUsed": 2,
-      "lastTimeoutAt": "2026-06-28T08:10:43.865723+00:00",
-      "nextRetryBackoffMs": 240000,
-      "deadLetter": false
-    },
-    "85595417": {
-      "cronId": "85595417",
-      "name": "PG-Notion Integrity Audit (daily)",
-      "consecutiveTimeouts": 15,
-      "totalTimeouts": 15,
-      "retriesUsed": 2,
-      "lastTimeoutAt": "2026-06-20T23:29:26.072430+00:00",
-      "nextRetryBackoffMs": 240000,
-      "deadLetter": false
-    },
-    "f71f75af": {
-      "cronId": "f71f75af",
-      "name": "Daily Workspace Backup",
-      "consecutiveTimeouts": 1,
-      "totalTimeouts": 1,
-      "retriesUsed": 1,
-      "lastTimeoutAt": "2026-06-19T02:53:54.705978+00:00",
-      "nextRetryBackoffMs": 120000,
-      "deadLetter": false
-    },
     "a1ce9946": {
       "cronId": "a1ce9946",
       "name": "TKT-0343-daily-config-snapshot",
@@ -89,16 +19,6 @@
       "retriesUsed": 1,
       "lastTimeoutAt": "2026-06-25T10:49:46.713644+00:00",
       "nextRetryBackoffMs": 120000,
-      "deadLetter": false
-    },
-    "34880aaa": {
-      "cronId": "34880aaa",
-      "name": "Memory Dreaming Promotion",
-      "consecutiveTimeouts": 47,
-      "totalTimeouts": 47,
-      "retriesUsed": 2,
-      "lastTimeoutAt": "2026-07-03T11:12:15.032787+00:00",
-      "nextRetryBackoffMs": 240000,
       "deadLetter": false
     },
     "d3b1e203": {

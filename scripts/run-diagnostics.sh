@@ -18,7 +18,7 @@
 
 set -u
 
-WORKSPACE="/Users/ainchorsangiefpl/.openclaw/workspace"
+WORKSPACE="/Users/ainchorsoc2a/.openclaw/workspace"
 STATE_DIR="$WORKSPACE/state"
 REPORTS_DIR="$WORKSPACE/reports"
 mkdir -p "$STATE_DIR" "$REPORTS_DIR"

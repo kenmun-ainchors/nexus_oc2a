@@ -20,7 +20,7 @@
 # Pattern: see LESSONS.md L-138.
 
 set -u
-WORKSPACE="${WORKSPACE:-/Users/ainchorsangiefpl/.openclaw/workspace}"
+WORKSPACE="${WORKSPACE:-/Users/ainchorsoc2a/.openclaw/workspace}"
 SCRIPTS_DIR="$WORKSPACE/scripts"
 OUTPUT="$WORKSPACE/state/pipefail-trap-findings.json"
 

@@ -16,7 +16,7 @@ Five high-risk live scripts were audited using the verifier corpus at `tests/reg
 ## Cross-Cutting Findings
 
 ### 1. Hardcoded Absolute Paths (all 5 scripts)
-Every script defaults to or references `/Users/ainchorsangiefpl/.openclaw/workspace`. This breaks portability across OC1/OC2 and violates the Workspace File Contract.
+Every script defaults to or references `/Users/ainchorsoc2a/.openclaw/workspace`. This breaks portability across OC1/OC2 and violates the Workspace File Contract.
 
 **Remediation:** Replace with `${WORKSPACE_ROOT}` sourced from a common config or environment. For embedded Python HEREDOCs, pass `${WORKSPACE_ROOT}` via `sys.argv` or `os.environ`.
 

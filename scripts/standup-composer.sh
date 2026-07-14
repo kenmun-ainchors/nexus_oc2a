@@ -9,7 +9,7 @@
 
 set -euo pipefail
 
-WORKSPACE="${WORKSPACE:-/Users/ainchorsangiefpl/.openclaw/workspace}"
+WORKSPACE="${WORKSPACE:-/Users/ainchorsoc2a/.openclaw/workspace}"
 TMP_DIR="${WORKSPACE}/.openclaw/tmp"
 OUTPUT_FILE="${TMP_DIR}/standup-composer-input.json"
 PROMPT_FILE="${TMP_DIR}/standup-prompt-$(date +%Y%m%d).txt"
@@ -241,7 +241,7 @@ done
 if [[ "$LLM_SUCCESS" != "true" ]]; then
     echo "[standup-composer] All models failed — writing degraded output" >&2
 
-    # Read what sources we have for labeled placeholders
+    # Read what sources we have for safe, non-fabricated placeholders
     aria_snippet=""
     if [[ -f "${WORKSPACE}/state/aria-daily-brief.md" ]]; then
         aria_date=$(head -1 "${WORKSPACE}/state/aria-daily-brief.md" 2>/dev/null | grep -oE '2026-[0-9][0-9]-[0-9][0-9]' || echo "unknown")
@@ -256,26 +256,36 @@ try:
 except:
     print('Sprint ?')
 " 2>/dev/null)
-    sprint_done=$(python3 -c "
-import json
-try:
-    d = json.load(open('${WORKSPACE}/state/sprint-current.json'))
-    print(f\"{d.get('done_count', '?')}/{d.get('ticket_count', '?')}\")
-except:
-    print('?/?')
-" 2>/dev/null)
+
+    # Build state-aware placeholders from actual files where possible.
+    # Use only generic, non-fabricated text — no specific claims about
+    # LinkedIn posts, sprint numbers, proposal amounts, or token status.
+    # These should only appear when the LLM successfully composes from live context.
+
+    # Safe sprint reference: just the name, no fabricated counts
+    sprint_ref="${sprint_num}"
+    if [[ "$sprint_ref" == "Sprint ?" || -z "$sprint_ref" ]]; then
+        sprint_ref="current sprint"
+    fi
+
+    # Safe aria reference: date only, no fabricated content
+    aria_ref=""
+    if [[ -n "$aria_snippet" ]]; then
+        aria_ref="Aria brief available ${aria_snippet}."
+    fi
 
     COMPOSED=$(cat << JSONEOF
 {
   "composer_status": "degraded",
   "degraded_reason": "LLM call failed after retry+fallback — context collected but composition unavailable",
-  "businessStream": "[Composer degraded — manual context missing] Aria brief available ${aria_snippet}. Act 680 proposal MYR 1,550,000 for Malaysian Ministry of Digital was escalated twice and delivered to Angie for review on Friday 3 July. LinkedIn publish pipeline is failing silently: LI-W3-P7/P8/P9/P10 all approved but unposted; LI-W2-P4-VISA-BUSINESS account token expired. Angie was active on Friday after 9 days of silence.",
-  "frameworkMaturity": "[Composer degraded — manual context missing] Governance sweep (Shield/Lex/Sage) reported CLEAR on last available briefing. Warden model compliance also CLEAR. Sprint ${sprint_num} active: ${sprint_done} tickets done. Sprint 10 ends 2026-07-05 — close-out and rollover decisions due today.",
-  "progress": "[Composer degraded — manual context missing] • ${sprint_num} active (${sprint_done} tickets done)\n• CHG-0824: Fix standup composer to pull real sources (this change)\n• Previous work: CHG-0814/0815/0816/0817 (dreaming disabled, cron wrappers)\n• Auto-heal completed overnight — check state/auto-heal-state.json for NEEDS_KEN items\n• Git working tree has ~30+ modified files uncommitted",
+  "degraded_fallback_safe": true,
+  "businessStream": "[Composer degraded — no live composition available. Manual update needed.] ${aria_ref}",
+  "frameworkMaturity": "[Composer degraded — no live composition available. Manual update needed.] ${sprint_ref} active.",
+  "progress": "[Composer degraded — no live composition available. Manual update needed.]\\n• ${sprint_ref} active\\n• Check state/auto-heal-state.json for NEEDS_KEN items\\n• Check memory/CHANGELOG.md for recent changes",
   "rtb": {
-    "rose": "[Composer degraded] Aria completed the Act 680 MYR 1.55M proposal with enhanced agentic AI governance framework and international credentials. Angie has the email for review.",
-    "thorn": "[Composer degraded] LinkedIn publish cron silently failing — multiple approved posts unposted; business account token expired. CHG-0818 exec tool degradation unresolved pending gateway restart.",
-    "bud": "[Composer degraded] Angie is active again after 9 days. Sprint 10 close-out today triggers rollover to Sprint 11 and opportunity to commit dirty working tree."
+    "rose": "[Composer degraded — no live composition available. Manual update needed.]",
+    "thorn": "[Composer degraded — no live composition available. Manual update needed.]",
+    "bud": "[Composer degraded — no live composition available. Manual update needed.]"
   }
 }
 JSONEOF

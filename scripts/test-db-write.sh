@@ -1,9 +1,9 @@
 #!/bin/bash
 # test-db-write.sh — Regression tests for db-write.sh TKT-0311, TKT-0698
 
-DB_WRITE="/Users/ainchorsangiefpl/.openclaw/workspace/scripts/db-write.sh"
-DB_RAW="/Users/ainchorsangiefpl/.openclaw/workspace/scripts/db-raw.sh"
-WORKSPACE="/Users/ainchorsangiefpl/.openclaw/workspace"
+DB_WRITE="/Users/ainchorsoc2a/.openclaw/workspace/scripts/db-write.sh"
+DB_RAW="/Users/ainchorsoc2a/.openclaw/workspace/scripts/db-raw.sh"
+WORKSPACE="/Users/ainchorsoc2a/.openclaw/workspace"
 
 echo "--- Starting db-write.sh Regression Tests ---"
 

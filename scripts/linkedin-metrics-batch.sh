@@ -1,7 +1,7 @@
 #!/usr/bin/env zsh
 # linkedin-metrics-batch.sh — run linkedin-metrics-snapshot.sh for all valid published/queued posts
 set -euo pipefail
-WORKSPACE="/Users/ainchorsangiefpl/.openclaw/workspace"
+WORKSPACE="/Users/ainchorsoc2a/.openclaw/workspace"
 SCRIPT="$WORKSPACE/scripts/linkedin-metrics-snapshot.sh"
 STATE="$WORKSPACE/state/linkedin-campaign.json"
 ERRORS_FILE="$WORKSPACE/state/linkedin-metrics-errors.json"

@@ -19,9 +19,9 @@
 
 set -euo pipefail
 
-WORKSPACE="/Users/ainchorsangiefpl/.openclaw/workspace"
+WORKSPACE="/Users/ainchorsoc2a/.openclaw/workspace"
 SCRIPTS="$WORKSPACE/scripts"
-JQ="${JQ:-/opt/homebrew/bin/jq}"
+JQ="${JQ:-$JQ}"
 MODEL_POLICY="$WORKSPACE/state/model-policy.json"
 DB_WRITE="$SCRIPTS/db-write.sh"
 DB_READ="$SCRIPTS/db-read.sh"
@@ -862,8 +862,8 @@ PYEOF
         escalated_at: $escalated_at
       },
       pg_escalate: $pg_result,
-      handshake_file: "/Users/ainchorsangiefpl/.openclaw/workspace/state/escalation-handshake.json",
-      alert_file: "/Users/ainchorsangiefpl/.openclaw/workspace/state/cron-dead-letter-alert.json",
+      handshake_file: "/Users/ainchorsoc2a/.openclaw/workspace/state/escalation-handshake.json",
+      alert_file: "/Users/ainchorsoc2a/.openclaw/workspace/state/cron-dead-letter-alert.json",
       dry_run: $dry_run
     }')
 

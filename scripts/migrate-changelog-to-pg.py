@@ -7,19 +7,37 @@ Pure-Python driver avoids shell escaping issues.
 import json
 import os
 import re
+import shutil
 import subprocess
 import sys
 from datetime import datetime
 from pathlib import Path
 
+
+def _psql_bin():
+    p = shutil.which("psql") or os.environ.get("PSQL_BIN")
+    if p:
+        return p
+    try:
+        prefix = subprocess.check_output(["brew", "--prefix"], text=True).strip()
+        candidate = os.path.join(prefix, "bin", "psql")
+        if os.path.isfile(candidate) and os.access(candidate, os.X_OK):
+            return candidate
+    except Exception:
+        pass
+    raise RuntimeError("psql not found in PATH, PSQL_BIN, or brew prefix")
+
+
+PSQL = _psql_bin()
+
 DB_NAME = "ainchors_nexus"
-DB_USER = "ainchorsangiefpl"
+DB_USER = os.environ.get("PGUSER") or ""
 DB_HOST = "127.0.0.1"
 
 
 def psql(sql):
     return subprocess.run(
-        ["/opt/homebrew/bin/psql", "-h", DB_HOST, "-U", DB_USER, "-d", DB_NAME, "-t", "-A", "-c", sql],
+        [PSQL, "-h", DB_HOST, "-U", DB_USER, "-d", DB_NAME, "-t", "-A", "-c", sql],
         capture_output=True, text=True, check=True,
     ).stdout
 

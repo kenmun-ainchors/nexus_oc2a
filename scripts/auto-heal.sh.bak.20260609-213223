@@ -7,7 +7,7 @@
 
 set -u  # don't set -e — want to keep going across checks
 
-WORKSPACE="/Users/ainchorsangiefpl/.openclaw/workspace"
+WORKSPACE="/Users/ainchorsoc2a/.openclaw/workspace"
 STATE_DIR="$WORKSPACE/state"
 TODAY=$(TZ="Australia/Melbourne" date '+%Y-%m-%d')
 NOW=$(date -u '+%Y-%m-%dT%H:%M:%SZ')
@@ -493,7 +493,7 @@ CHECKS_RUN+=("agent_rules")
 # ---------- CHECK 15: Injected File Size Guard (TKT-0310) ----------
 log "CHECK 15: injected file size limits"
 CHECKS_RUN+=("file_size_guard")
-WORKSPACE_ROOT="/Users/ainchorsangiefpl/.openclaw/workspace"
+WORKSPACE_ROOT="/Users/ainchorsoc2a/.openclaw/workspace"
 
 # Per-file hard limits from TKT-0310 (TKT-0336 fix: were all 10000; now per-document)
 # SOUL.md: 10000 | AGENTS.md: 12000 | MEMORY.md: 15000 | HEARTBEAT.md: 15000

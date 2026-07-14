@@ -11,7 +11,7 @@
 
 set -euo pipefail
 
-WORKSPACE="/Users/ainchorsangiefpl/.openclaw/workspace"
+WORKSPACE="/Users/ainchorsoc2a/.openclaw/workspace"
 HF_ENDPOINT="https://router.huggingface.co/hf-inference/models/black-forest-labs/FLUX.1-schnell"
 IMAGES_DIR="$WORKSPACE/state/generated-images"
 KEYCHAIN_SERVICE="ainchors-hf-api-token"
@@ -203,7 +203,7 @@ echo "  Type      : $FILE_TYPE"
 echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
 
 # AC5 (TKT-0124): Upload to MinIO generated-media bucket + return presigned URL
-MINIO_UPLOAD="/Users/ainchorsangiefpl/.openclaw/workspace/scripts/minio-upload.sh"
+MINIO_UPLOAD="/Users/ainchorsoc2a/.openclaw/workspace/scripts/minio-upload.sh"
 if [[ -x "$MINIO_UPLOAD" ]]; then
   MINIO_KEY="generated/$(basename $OUTPUT_FILE)"
   PRESIGNED_URL=$("$MINIO_UPLOAD" --file "$OUTPUT_FILE" --bucket ainchors-generated-media --key "$MINIO_KEY" --expires 72h 2>/dev/null)
