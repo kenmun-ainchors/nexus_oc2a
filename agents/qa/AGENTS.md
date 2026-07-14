@@ -1,1 +1,1 @@
-/Users/ainchorsangiefpl/.openclaw/workspace-qa/AGENTS.md
+/Users/ainchorsoc2a/.openclaw/workspace-qa/AGENTS.md

@@ -1,1 +1,1 @@
-/Users/ainchorsangiefpl/.openclaw/workspace-luthen/SOUL.md
+/Users/ainchorsoc2a/.openclaw/workspace-luthen/SOUL.md

@@ -1,1 +1,1 @@
-/Users/ainchorsangiefpl/.openclaw/workspace-ahsoka/SOUL.md
+/Users/ainchorsoc2a/.openclaw/workspace-ahsoka/SOUL.md

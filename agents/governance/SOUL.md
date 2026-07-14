@@ -1,1 +1,1 @@
-/Users/ainchorsangiefpl/.openclaw/workspace-governance/SOUL.md
+/Users/ainchorsoc2a/.openclaw/workspace-governance/SOUL.md

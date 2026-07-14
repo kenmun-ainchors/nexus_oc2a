@@ -1,1 +1,1 @@
-/Users/ainchorsangiefpl/.openclaw/workspace-qa/USER.md
+/Users/ainchorsoc2a/.openclaw/workspace-qa/USER.md
