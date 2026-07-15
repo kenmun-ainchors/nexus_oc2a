@@ -1,3 +1,15 @@
+## 2026-07-15 21:05 AEST — [CHG-0892] Restore messaging/memory/goal tools to main and foodie after 2026.7.1 tool-policy reconciliation
+**Type:** config
+**Change Type:** Normal
+**Source:** ken-prompt
+**Trigger:** openclaw doctor warnings after upgrade to 2026.7.1 showed main and foodie lacked the message tool; gateway log confirmed tools.profile=coding removed messaging tools and agents.main.tools.allow removed memory/goal/subagent/session/skill_workshop tools
+**What changed:** openclaw.json: add message + missing memory/goal/session/skill/subagent tools to main.tools.allow; add message to foodie.tools.allow; add tools.alsoAllow=[message] to both main and foodie to bypass coding-profile exclusion; disable skills.entries.imsg.enabled
+**Why:** Telegram-routed agents must be able to send replies (message), and Yoda needs memory, goal, session-status, skill_workshop, and subagents tooling to run heartbeat/context/skill workflows
+**Verification:** openclaw doctor --lint returns no tool-policy warnings for main/foodie; test Telegram reply from foodie and a message/subagent invocation from main
+**Rollback:** Restore ~/.openclaw/openclaw.json.bak.20260715T103634Z and restart gateway
+**Linked:** TKT-1002 (LinkedIn auth residual); CHG-0891 (iMessage abandoned)
+---
+
 ## 2026-07-15 19:04 AEST — [CHG-0891] Abandon native two-way iMessage PoC on OC2A
 **Type:** infra
 **Change Type:** Normal

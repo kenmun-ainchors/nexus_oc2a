@@ -1,6 +1,6 @@
 {
   "schema": "ainchors.skill-index.v1",
-  "updated_at": "2026-06-21T20:34:00+10:00",
+  "updated_at": "2026-07-15T11:07:32Z",
   "source_of_truth": "agent-skills/",
   "description": "Canonical registry of approved agent skill packages. Agents must discover skills via this index and load via scripts/skill-load.sh.",
   "skills": [
@@ -9,7 +9,7 @@
       "path": "agent-skills/agile",
       "skill_file": "SKILL.md",
       "category": "delivery",
-      "description": "AInchors Agile delivery framework \u2014 sprint cadence, ceremonies, work-item rules, priority, and Definition of Done.",
+      "description": "AInchors Agile delivery framework — sprint cadence, ceremonies, work-item rules, priority, and Definition of Done.",
       "approved": true
     },
     {
@@ -46,7 +46,7 @@
         "agent-skills/notion/scripts/notion-env-check.sh"
       ],
       "category": "integration",
-      "description": "AInchors Notion integration patterns \u2014 auth, DB IDs, API conventions, rate limits, and common operations for tickets, backlog, and Holocron.",
+      "description": "AInchors Notion integration patterns — auth, DB IDs, API conventions, rate limits, and common operations for tickets, backlog, and Holocron.",
       "approved": true
     },
     {
@@ -85,6 +85,15 @@
       "canonical_script": "scripts/daily-master-promote-check.sh",
       "category": "governance",
       "description": "Ensure daily memory and journal facts that change master state are promoted to MEMORY.md and context handoff delta documents. Prevents drift between daily source-of-truth files and long-term master references.",
+      "approved": true
+    },
+    {
+      "name": "openclaw-post-upgrade-shakedown",
+      "path": "agent-skills/openclaw-post-upgrade-shakedown",
+      "skill_file": "SKILL.md",
+      "canonical_script": "agent-skills/openclaw-post-upgrade-shakedown/scripts/shakedown.sh",
+      "category": "platform",
+      "description": "Standard OC2A post-OpenClaw-upgrade regression shakedown: gateway, agents, crons, auth, budget, network, browser sidecar.",
       "approved": true
     }
   ]
