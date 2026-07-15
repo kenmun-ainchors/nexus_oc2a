@@ -25,14 +25,26 @@ CALLBACK_PORT=8765
 # ── Account configuration ──────────────────────────────────────────────────────
 
 # Each account has: Keychain service prefix, scopes, state file suffix
-# Ken personal: default scopes (w_member_social + org read scopes for visibility)
+# Ken personal: w_member_social (Share on LinkedIn) + OpenID Connect profile scopes
 # Angie personal: same scopes as Ken
-# Business: needs w_organization_social for org posting
+# Business (AInchors): Marketing/Advertising API product (approved CHG-0887 / TKT-1001).
+#   Read-only probe set per https://learn.microsoft.com/en-us/linkedin/marketing/increasing-access
+#   (Advertising API program permissions table, 2026-06 moniker):
+#     r_ads               — read ad accounts
+#     r_ads_reporting     — read ad reporting
+#     r_basicprofile      — read basic profile (required for many ad API calls)
+#     r_organization_social   — read org social actions (no write)
+#     r_organization_admin    — read org admin / ad account membership
+#     r_1st_connections_size  — read 1st-degree connection count
+#   Plus openid profile email from OpenID Connect (needed for /v2/userinfo member identity).
+#   Explicitly NOT included (write-side scopes blocked for the probe):
+#     w_organization_social, w_member_social, rw_ads, rw_organization_admin
+#   The probe is read-only; add write scopes later only when a real write workflow is queued.
 
 declare -A ACCOUNT_SCOPES
-ACCOUNT_SCOPES[ken]="openid profile email w_member_social r_basicprofile r_1st_connections_size r_organization_social r_organization_admin r_ads_reporting r_ads"
-ACCOUNT_SCOPES[angie]="openid profile email w_member_social r_basicprofile r_1st_connections_size r_organization_social r_organization_admin r_ads_reporting r_ads"
-ACCOUNT_SCOPES[business]="openid profile email w_organization_social r_organization_social r_organization_admin r_ads_reporting r_ads"
+ACCOUNT_SCOPES[ken]="openid profile email w_member_social"
+ACCOUNT_SCOPES[angie]="openid profile email w_member_social"
+ACCOUNT_SCOPES[business]="openid profile email r_basicprofile r_ads r_ads_reporting r_organization_social r_organization_admin r_1st_connections_size"
 
 declare -A ACCOUNT_LABELS
 ACCOUNT_LABELS[ken]="Ken Mun (personal)"
@@ -103,6 +115,16 @@ LABEL="${ACCOUNT_LABELS[$ACCOUNT]}"
 KEYCHAIN_PREFIX="${ACCOUNT_KEYCHAIN_PREFIX[$ACCOUNT]}"
 STATE_SUFFIX="${ACCOUNT_STATE_SUFFIX[$ACCOUNT]}"
 AUTH_STATE_FILE="$STATE_DIR/linkedin-auth${STATE_SUFFIX}.json"
+
+# ── Business product guard (historical note — see CHG-0887) ───────────────
+# The AInchors LinkedIn developer app (client ID 86fb2cb4ga03jy) previously had
+# only OpenID Connect + Share on LinkedIn products, which blocked business
+# (company page) auth. As of 2026-07-15 the Marketing/Advertising API product
+# has been approved (CHG-0887 / TKT-1001), so the business account is now
+# re-enabled with the read-only Marketing/Advertising API scope set above.
+# If Marketing/Advertising product access is later revoked, re-apply the guard
+# here (the pre-CHG-0887 block message is preserved in
+# scripts/linkedin-auth.sh.bak.CHANGELOG-0887-20260715T081011Z).
 
 # ── Helpers ───────────────────────────────────────────────────────────────────
 
@@ -510,7 +532,7 @@ data = {
     'authorizedAt': '$AUTHORIZED_AT',
     'scopes': '${SCOPES}'.split(),
     'tokenExpiry': '$TOKEN_EXPIRY',
-    'refreshTokenPresent': $([ -n "$REFRESH_TOKEN" ] && [ "$REFRESH_TOKEN" != "None" ] && echo 'true' || echo 'false')
+    'refreshTokenPresent': $([ -n "$REFRESH_TOKEN" ] && [ "$REFRESH_TOKEN" != "None" ] && echo 'True' || echo 'False')
 }
 with open('$AUTH_STATE_FILE', 'w') as f:
     json.dump(data, f, indent=2)

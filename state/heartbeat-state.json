@@ -1,42 +1,40 @@
 {
-  "lastHeartbeat": "2026-07-14T20:36:35+10:00",
-  "lastHeartbeatIso": "2026-07-14T10:36:35Z",
+  "lastHeartbeat": "2026-07-15T08:01:00+1000",
+  "status": "all_ok",
+  "incident": null,
   "checks": {
-    "sessionModelDrift": "ok",
-    "mainSessionContext": "ok (dashboard 42%)",
-    "mainSessionResume": "ok",
+    "sessionModelDrift": "ok — kimi-k2.7-code:cloud no drift",
+    "mainSessionContext": "ok — dashboard healthy (14% / 52 messages)",
+    "mainSessionResume": "ok — all registered sessions alive",
     "owlCompliance": "ok (100%)",
-    "taskWatchdog": "ok (8 tasks healthy)",
-    "cronHealth": "alert present (08:06 UTC) — PG-Notion Batch Sync hourly 5 consecutive errors, unacknowledged",
+    "taskWatchdog": "ok — 8 tasks healthy, no stalls",
+    "cronHealth": "ok — clean, no failures",
     "cronDeadLetter": "none",
-    "agentHealth": "ok",
-    "costState": "ok (2434/59366, 4.1%)",
-    "requestBudget": "ok (2434/59366, 4.1%)",
-    "dodValidation": "alert present (06:15 today), unacknowledged — PG read failure, TKT-0501",
-    "taskVerification": "acknowledged",
-    "ariaCrest": "compliant",
+    "ariaCrest": "compliant — 0 violations",
+    "costState": "ok — 4.1% used, ~56.9K requests remaining, 202.7 req/hr burn",
+    "requestBudgetCheck": "ok — 4.1%/56.9K left",
+    "budgetCheck": "parked — Anthropic/USD budget inactive per CHG-0502",
+    "dodValidation": "acknowledged — no active alerts",
+    "taskVerification": "acknowledged — no active alerts",
     "standbyMode": "inactive",
     "systemBanner": "cleared",
-    "chgTriggers": "no active fires — TRIGGER-03 fired+closed, TRIGGER-04 monitoring",
-    "triggers": {
-      "TRIGGER-01": "not_applicable (arrival gate closed per CHG-1783)",
-      "TRIGGER-03": "fired (OC2A validated, CHG-1783)",
-      "TRIGGER-04": "monitoring (v2026.6.6 deferred+sandbox)"
-    },
-    "triggersOk": true
+    "chgTriggers": "no active firing triggers",
+    "blogVerification": "ok — ainchors-2026-07-14 blog exists (27652 bytes)",
+    "ceremoniesThisWeek": "not_due (Wednesday)",
+    "doDGates": "deferred",
+    "soulAgentsHygiene": "deferred",
+    "agentHealth": "ok — gateway healthy, no agent failures"
   },
-  "incident": {
-    "time": "2026-07-14T20:33-20:36 AEST",
-    "type": "gateway restart under resource pressure",
-    "symptoms": [
-      "spawn /bin/zsh EAGAIN",
-      "fork failed: resource temporarily unavailable"
-    ],
-    "recovery": "gateway restarted automatically; heartbeat resumed",
-    "impact": "20:20 heartbeat synthesis interrupted; no data loss"
-  },
-  "status": "all_ok_with_alerts",
   "lastChecks": {
-    "owlCompliance": "2026-07-14T20:43:31+10:00"
+    "owlCompliance": "2026-07-15T08:01:39+10:00",
+    "sessionModelDrift": "2026-07-15T08:01:39+10:00",
+    "mainSessionContext": "2026-07-15T08:01:39+10:00",
+    "mainSessionResume": "2026-07-15T08:01:39+10:00",
+    "ariaCrest": "2026-07-15T08:01:39+10:00",
+    "taskWatchdog": "2026-07-15T08:01:39+10:00",
+    "cronHealth": "2026-07-15T08:01:39+10:00",
+    "requestBudgetCheck": "2026-07-15T08:01:39+10:00",
+    "costState": "2026-07-15T08:01:39+10:00",
+    "blogVerification": "2026-07-15T08:01:39+10:00"
   }
 }

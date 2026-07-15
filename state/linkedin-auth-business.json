@@ -1,18 +1,42 @@
 {
   "account": "business",
-  "memberId": "fAea1ykPbX",
+  "memberId": "lMSGM5TOm9",
   "displayName": "Angie Foong",
-  "authorizedAt": "2026-07-11T22:44:37Z",
+  "authorizedAt": "2026-07-15T08:39:30Z",
   "scopes": [
     "openid",
     "profile",
     "email",
-    "w_organization_social",
+    "r_basicprofile",
+    "r_ads",
+    "r_ads_reporting",
     "r_organization_social",
     "r_organization_admin",
-    "r_ads_reporting",
-    "r_ads"
+    "r_1st_connections_size"
   ],
-  "tokenExpiry": "2026-09-09T22:44:36Z",
-  "refreshTokenPresent": true
+  "tokenExpiry": "2026-09-13T08:39:29Z",
+  "refreshTokenPresent": true,
+  "liveVerification": {
+    "checkedAt": "2026-07-15T08:31:00Z",
+    "result": "ok",
+    "userinfoHttpCode": 200,
+    "verifiedEmail": "angiefpl20@gmail.com",
+    "linkedinAppClientId": "86fb2cb4ga03jy",
+    "enabledProducts": [
+      "OpenID Connect",
+      "Marketing Developer Platform"
+    ],
+    "allowedScopes": [
+      "openid",
+      "profile",
+      "email",
+      "r_basicprofile",
+      "r_ads",
+      "r_ads_reporting",
+      "r_organization_social",
+      "r_organization_admin",
+      "r_1st_connections_size"
+    ],
+    "nextAction": "Token probe successful: GET /rest/adAccounts?q=search returned HTTP 200 with 2 ad accounts (DRAFT and ACTIVE) for organization urn:li:organization:112732790. Fix linkedin-auth.sh NameError bug in follow-up Forge ticket."
+  }
 }

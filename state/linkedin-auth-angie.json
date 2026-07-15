@@ -1,20 +1,32 @@
 {
   "account": "angie",
-  "memberId": "fAea1ykPbX",
+  "memberId": "lMSGM5TOm9",
   "displayName": "Angie Foong",
-  "authorizedAt": "2026-06-25T10:49:11Z",
+  "authorizedAt": "2026-07-14T11:27:00Z",
   "scopes": [
     "openid",
     "profile",
     "email",
-    "w_member_social",
-    "r_basicprofile",
-    "r_1st_connections_size",
-    "r_organization_social",
-    "r_organization_admin",
-    "r_ads_reporting",
-    "r_ads"
+    "w_member_social"
   ],
-  "tokenExpiry": "2026-08-24T10:49:10Z",
-  "refreshTokenPresent": true
+  "tokenExpiry": "2026-09-08T11:27:00Z",
+  "refreshTokenPresent": false,
+  "liveVerification": {
+    "checkedAt": "2026-07-14T11:27:00Z",
+    "result": "ok",
+    "userinfoHttpCode": 200,
+    "verifiedEmail": "angiefpl20@gmail.com",
+    "linkedinAppClientId": "86fb2cb4ga03jy",
+    "enabledProducts": [
+      "OpenID Connect",
+      "Share on LinkedIn"
+    ],
+    "allowedScopes": [
+      "openid",
+      "profile",
+      "email",
+      "w_member_social"
+    ],
+    "nextAction": "Token valid. Schedule AW6-P2/P3 image generation and posting. Decide handling of missed AW6-P1 Tue slot."
+  }
 }

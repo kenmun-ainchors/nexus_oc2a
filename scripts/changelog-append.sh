@@ -289,17 +289,23 @@ notion_sync_chg() {
       N_DESC="${N_DESC:0:2000}"
       N_PAYLOAD=$(jq -n \
         --arg db  "$NOTION_DB_ID" \
+        --arg id  "$CHG_ID" \
         --arg ttl "$N_TITLE" \
         --arg cdt "$N_TODAY" \
         --arg dsc "$N_DESC" \
+        --arg typ "CHG" \
+        --arg tid "ainchors" \
         '{
           parent: {database_id: $db},
           properties: {
-            "Title":         {title:  [{text: {content: $ttl}}]},
-            "Status":        {select: {name: "Done"}},
-            "Type":          {select: {name: "CHG"}},
-            "Completed Date": {date:   {start: $cdt}},
-            "Description":   {rich_text: [{text: {content: $dsc}}]}
+            "ID":            {title:      [{text: {content: $id}}]},
+            "Title":         {rich_text: [{text: {content: $ttl}}]},
+            "Status":        {select:     {name: "Done"}},
+            "Type":          {select:     {name: $typ}},
+            "Closed Date":   {date:       {start: $cdt}},
+            "Reason":        {rich_text: [{text: {content: $dsc}}]},
+            "Original DB":   {rich_text: [{text: {content: "PG state_changes"}}]},
+            "tenant_id":     {rich_text: [{text: {content: $tid}}]}
           }
         }' 2>/dev/null)
       if [[ -n "$N_PAYLOAD" ]]; then

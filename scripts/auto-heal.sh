@@ -2485,7 +2485,9 @@ else
 
     MSG="🚨 Ollama quota canary — ${C30_COUNT} cron(s) flipped to lastErrorReason=rate_limit. This is the 24-72h pre-cliff signal (pattern: hits Sun/Mon, recovers Tue).\n\nCurrently rate-limited (top 15 by consecutive errors):\n$(echo "$C30_RATE_LIMITED" | awk -F'\t' '{printf "  • %s (%s errs)\n", $2, $3}')\n\nRecommended shed order (if total climbs >25):\n  ${SHED_CANDIDATES}\n\nCheck: openclaw cron list --json | jq '.jobs[] | select(.state.lastErrorReason==\"rate_limit\") | {name, consecutiveErrors}'\nDaily cap: \$100 USD Ollama Cloud. Fixed subscription, weekly usage cap on account beautiful_faraday_411."
 
-    bash "${WORKSPACE}/scripts/sovereign-alert.sh" --source QUOTA-CANARY --message "$MSG" || log "CHECK 30: WARN — sovereign-alert.sh returned non-zero"
+    # CHG-0799 + CHG-0886 + TKT-0780: cron-failure business-impact alert routes
+    # to BOTH Ken + Angie via cross-agent-alert.sh (default dual recipients).
+    bash "${WORKSPACE}/scripts/cross-agent-alert.sh" --source QUOTA-CANARY --message "$MSG" || log "CHECK 30: WARN — cross-agent-alert.sh returned non-zero"
 
     python3 -c "
 import json, datetime

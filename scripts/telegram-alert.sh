@@ -45,12 +45,21 @@ if [[ -z "$MESSAGE" ]]; then
   exit 1
 fi
 
-# ── Load bot token (Keychain only — no file fallback) ─────────────────────────
+# ── Load bot token (env var primary, Keychain fallback) ──────────────────────
+# TKT-0769: TELEGRAM_BOT_TOKEN env var is now the primary source.
+# Keychain (service: telegram-bot-token) remains as fallback for existing paths.
+# CRITICAL: token MUST NEVER be logged.
 
-BOT_TOKEN=$(/usr/bin/security find-generic-password -s "$BOT_KEYCHAIN_SERVICE" -w 2>/dev/null || true)
+TOKEN_SOURCE=""
+if [[ -n "${TELEGRAM_BOT_TOKEN:-}" ]]; then
+  BOT_TOKEN="$TELEGRAM_BOT_TOKEN"
+  TOKEN_SOURCE="env"
+elif BOT_TOKEN=$(/usr/bin/security find-generic-password -s "$BOT_KEYCHAIN_SERVICE" -w 2>/dev/null || true); then
+  [[ -n "$BOT_TOKEN" ]] && TOKEN_SOURCE="keychain"
+fi
 
-if [[ -z "$BOT_TOKEN" ]]; then
-  /bin/echo "❌ Telegram bot token not found in Keychain (service: $BOT_KEYCHAIN_SERVICE)" >&2
+if [[ -z "${BOT_TOKEN:-}" ]]; then
+  /bin/echo "❌ Telegram bot token not found (env TELEGRAM_BOT_TOKEN unset, and Keychain service '$BOT_KEYCHAIN_SERVICE' missing)" >&2
   exit 1
 fi
 
@@ -89,7 +98,7 @@ for TARGET_CHAT in "${CHAT_ID_LIST[@]}"; do
     --retry-delay 3 2>/dev/null)
 
   if [[ "$HTTP_STATUS" == "200" ]]; then
-    [[ "$SILENT" != "true" ]] && /bin/echo "✅ Telegram alert sent to $TARGET_CHAT (HTTP 200)"
+    [[ "$SILENT" != "true" ]] && /bin/echo "✅ Telegram alert sent to $TARGET_CHAT (HTTP 200, source: ${TOKEN_SOURCE})"
   else
     /bin/echo "❌ Telegram alert to $TARGET_CHAT failed (HTTP $HTTP_STATUS)" >&2
     OVERALL_EXIT=1

@@ -1,12 +1,18 @@
 {
   "account": "business",
-  "lastChecked": "2026-07-11T00:02:00Z",
+  "lastChecked": "2026-07-14T11:00:32Z",
+  "liveVerification": {
+    "checkedAt": "2026-07-14T11:00:32Z",
+    "tokenState": "missing_from_keychain",
+    "userinfoHttpCode": 401,
+    "metricsScriptBlockedBy": "missing python-dateutil dependency (ModuleNotFoundError)"
+  },
   "errors": [
     {
       "contentId": "LI-W2-P4-visa-openai-company",
       "postUrn": "urn:li:share:7475350130762731520",
-      "error": "Token expired — OAuth re-auth requires browser interaction",
-      "timestamp": "2026-07-11T00:02:00Z"
+      "error": "Token expired / missing from Keychain — OAuth re-auth requires browser interaction",
+      "timestamp": "2026-07-14T11:00:32Z"
     }
   ]
 }

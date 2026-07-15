@@ -4669,5 +4669,80 @@
     "type": "task",
     "created_at": "2026-07-14T08:47:13+10:00",
     "ticket_number": 999
+  },
+  {
+    "id": "TKT-1000",
+    "title": "Enable native iMessage channel on OC2A",
+    "status": "pending",
+    "priority": "high",
+    "type": "infra",
+    "created_at": "2026-07-14T11:34:21+10:00",
+    "ticket_number": 1000,
+    "metadata": {
+      "brief": "Make iMessage a fully working two-way chat channel for Yoda by enabling OpenClaw native iMessage support via imsg. Includes install, config, gateway restart, pairing, and end-to-end test.",
+      "effort": "M",
+      "agent": "Forge",
+      "ac_count": 8,
+      "sprint_target": "Sprint 12",
+      "depends_on": [],
+      "blocks": [],
+      "grooming_history": [
+        {
+          "date": "2026-07-14T21:36:00+10:00",
+          "decisions": "Ken approved native path, Angie mobile +61430928371 in allowFrom, and disabling SIP + library validation on OC2A for imsg private API. CHG-0881 created for SIP decision. Scope expanded to include private API mode.",
+          "ac_count": 8,
+          "ken_approved": true
+        }
+      ],
+      "notion_sync": {
+        "last_synced": "2026-07-14T21:45:07+10:00",
+        "status": "pending"
+      },
+      "blocker": "SIP still enabled on OC2A and Full Disk Access/Automation permissions not granted. Requires physical Recovery-mode reboot + Library Validation plist. See CHG-0881."
+    }
+  },
+  {
+    "id": "TKT-0775",
+    "title": "Restore Telegram alerting with env-var token fallback",
+    "status": "monitoring",
+    "priority": "critical",
+    "type": "bug",
+    "created_at": "2026-07-14T12:07:30+10:00",
+    "ticket_number": 775,
+    "metadata": {
+      "agent": "forge",
+      "notion_sync": {
+        "status": "synced",
+        "last_synced": "2026-07-14T12:40:31Z"
+      }
+    }
+  },
+  {
+    "id": "TKT-0751",
+    "title": "Fix missing 2026-07-14 EOD blog file and auth-profiles.json per CHG-0857",
+    "status": "done",
+    "priority": "high",
+    "type": "build",
+    "created_at": "2026-07-14T20:38:34+10:00",
+    "ticket_number": 751,
+    "metadata": {
+      "grooming_history": [
+        {
+          "date": "2026-07-15T07:11:00+10:00",
+          "decisions": "Ken approved closure at 07:11 AEST. All AC pass: blog exists >10KB, no pipeline fix needed, 5/5 auth-profiles.json recreated, needs_ken cleared for next auto-heal run.",
+          "ac_count": 4,
+          "ken_approved": true
+        }
+      ]
+    }
+  },
+  {
+    "id": "TKT-0780",
+    "title": "Create cross-agent alert wrapper and wire dual-recipient Telegram routing",
+    "status": "open",
+    "priority": "critical",
+    "type": "infra",
+    "created_at": "2026-07-14T21:11:55+10:00",
+    "ticket_number": 780
   }
 ]

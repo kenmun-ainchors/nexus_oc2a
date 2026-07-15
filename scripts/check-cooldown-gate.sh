@@ -1,9 +1,10 @@
 #!/bin/bash
 # check-cooldown-gate.sh — Static analyzer for the L-136 bug class.
 # Detects `SHOULD_FIRE[_NN]=false` patterns where a side-effect call
-# (sovereign-alert.sh, telegram-alert.sh, openclaw cron edit/rm/add,
-# write to state/*-last-fire.json) appears in the next 30 lines WITHOUT
-# being gated by an if-block that tests the same SHOULD_FIRE variable.
+# (sovereign-alert.sh, cross-agent-alert.sh, telegram-alert.sh,
+# openclaw cron edit/rm/add, write to state/*-last-fire.json) appears in
+# the next 30 lines WITHOUT being gated by an if-block that tests the same
+# SHOULD_FIRE variable.
 #
 # The bug: a script sets SHOULD_FIRE=false to indicate "skip", but
 # the actual side-effect call is not inside an if-block that checks
@@ -53,6 +54,7 @@ GATE_VAR_RE = re.compile(r'\b(SHOULD_FIRE(?:[_A-Z0-9]*)?)\s*=\s*(true|false)\b')
 # Side-effect calls (the things we don't want fired when gate is false)
 SIDE_EFFECT_PATTERNS = [
     re.compile(r'\bsovereign-alert\.sh\b'),
+    re.compile(r'\bcross-agent-alert\.sh\b'),  # CHG-0886 / TKT-0780 dual-recipient wrapper
     re.compile(r'\btelegram-alert\.sh\b'),
     re.compile(r'\bopenclaw\s+cron\s+(edit|rm|add)\b'),
     re.compile(r'open\(\s*[\'"](\$?[A-Z_]+|\$\{?[A-Z_]+\}?)[\'"]'),  # Python file opens

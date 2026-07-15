@@ -1,3 +1,147 @@
+## 2026-07-15 18:39 AEST — [CHG-0890] Verify CHG-0889 — linkedin-auth.sh boolean fix
+**Type:** script
+**Change Type:** Normal
+**Source:** manual
+**Trigger:** Script fix applied and tested via --refresh mode
+**What changed:** Changed shell-embedded Python boolean literal from lowercase true/false to True/False in scripts/linkedin-auth.sh. Tested with business account refresh: token rotated, state/linkedin-auth-business.json updated with refreshTokenPresent=true and new tokenExpiry, no traceback.
+**Why:** Confirm the fix resolves the NameError and state file staleness without introducing regressions
+**Verification:** zsh scripts/linkedin-auth.sh --account business --refresh completed successfully; state/linkedin-auth-business.json refreshTokenPresent=true, tokenExpiry updated, liveVerification.result=ok
+**Rollback:** Revert the True/False change back to true/false
+**Linked:** CHG-0889, TKT-1002
+---
+
+## 2026-07-15 18:39 AEST — [CHG-0889] Fix linkedin-auth.sh Python boolean literal bug
+**Type:** script
+**Change Type:** Normal
+**Source:** ken-prompt
+**Trigger:** Ken approved Yoda exception to Forge execute gate to directly fix the script after token probe succeeded but state file was not auto-updated
+**What changed:** Change shell-embedded Python boolean in scripts/linkedin-auth.sh from lowercase true/false (NameError in Python) to Python True/False so refreshTokenPresent is written correctly to state/linkedin-auth-business.json
+**Why:** Token exchange succeeds and tokens are stored, but the script crashes before writing the auth state file, leaving state stale and requiring manual patches
+**Verification:** Run business self-test (or a dry-run re-auth) and confirm state/linkedin-auth-business.json is updated without traceback
+**Rollback:** Revert scripts/linkedin-auth.sh line writing refreshTokenPresent from True/False back to true/false
+**Linked:** TKT-1002, CHG-0887, CHG-0888
+---
+
+## 2026-07-15 18:32 AEST — [CHG-0888] Verify CHG-0887 — LinkedIn business token probe succeeded
+**Type:** infra
+**Change Type:** Normal
+**Source:** manual
+**Trigger:** Ken clicked Allow in browser; OAuth callback captured on OC2A; token stored in Keychain; read-only Marketing/Advertising API probe executed
+**What changed:** Confirmed business token valid. GET /rest/adAccounts?q=search returned HTTP 200 with 2 ad accounts (DRAFT id=540480051 and ACTIVE id=540540042) for organization urn:li:organization:112732790. Updated state/linkedin-auth-business.json and state/linkedin-token-health-business.json.
+**Why:** Validate that CHG-0887 scope update and re-auth produced a working Marketing/Advertising API token before closing TKT-1001
+**Verification:** state/linkedin-token-health-business.json status=valid httpStatus=200; state/linkedin-auth-business.json refreshed with new scopes/expiry/refreshToken; TKT-1001 closed
+**Rollback:** N/A — verification only
+**Linked:** CHG-0887, TKT-1001
+---
+
+## 2026-07-15 18:08 AEST — [CHG-0887] Update LinkedIn business auth for Marketing/Advertising API and test token probe
+**Type:** infra
+**Change Type:** Normal
+**Source:** ken-prompt
+**Trigger:** Ken confirmed business account + Marketing/Advertising API product approved; wants business token probe
+**What changed:** Update scripts/linkedin-auth.sh business account OAuth scopes for LinkedIn Marketing/Advertising API; re-authenticate AInchors business account; run a token probe against a Marketing/Advertising API endpoint (e.g., adAccounts or organizations)
+**Why:** Previous business auth only had openid/profile/email and was blocked by missing product. Now that Marketing/Advertising API is approved, the business account needs correct scopes and a fresh token to enable ad/campaign API operations.
+**Verification:** Business auth state shows valid token with Marketing/Advertising scopes and a successful probe HTTP 200
+**Rollback:** Remove added scopes from linkedin-auth.sh business config; revoke business token from Keychain; delete/update state/linkedin-auth-business.json
+**Linked:** TKT-1001
+---
+
+## 2026-07-15 12:51 AEST — [CHG-0886] Enable native iMessage channel on OC2A in basic mode (SIP remains enabled)
+**Type:** infra
+**Change Type:** Normal
+**Source:** ken-prompt
+**Trigger:** Ken decided against disabling SIP; proceed with iMessage native channel basic mode only; rescinds private-API scope of CHG-0881
+**What changed:** Add channels.imessage to openclaw.json in basic mode (SIP stays enabled, no private API injection); configure imsg account/pairing; run end-to-end two-way test; keep outbound AppleScript bridge (scripts/imessage-bridge.sh) as fallback for outbound notifications when Telegram fails
+**Why:** Need iMessage as a second chat channel without compromising OC2A security by disabling SIP
+**Verification:** Channel probe passes; inbound message from phone reaches Yoda; outbound reply reaches phone; AppleScript bridge fallback self-test still passes
+**Rollback:** Disable channels.imessage.enabled; restore openclaw.json from backup; stop imsg
+**Linked:** TKT-1000, CHG-0880, CHG-0881
+---
+
+## 2026-07-15 06:42 AEST — [CHG-0885] Close out TKT-0772-0775 from OC2A PROD readiness execution
+**Type:** data
+**Change Type:** Normal
+**Source:** ken-prompt
+**Trigger:** Ken asked where the Sage synthesis of final PROD cutover work is; investigation found TKT-0772/0773/0774/0775 were left open though execute reports showed completion/partial
+**What changed:** Marked TKT-0772, TKT-0773, TKT-0774 done; TKT-0775 monitoring pending Telegram bot token. State now reflects actual execution outcomes from 2026-07-14 22:10 readiness push.
+**Why:** Ensure ticket state matches reality before Sage/Judge synthesis
+**Verification:** Read-back via db-ticket.sh read confirms statuses: 0772 done, 0773 done, 0774 done, 0775 monitoring
+**Rollback:** N/A
+**Linked:** TKT-0772, TKT-0773, TKT-0774, TKT-0775, CHG-0882
+---
+
+## 2026-07-15 06:38 AEST — [CHG-0884] Raise TKT-0751 for missing 2026-07-14 blog and auth-profiles.json CHG-0857
+**Type:** script
+**Change Type:** Normal
+**Source:** ken-prompt
+**Trigger:** Ken status update 06:29 AEST approved at 06:37; heartbeat flagged missing blog and auto-heal needs_ken auth-profiles.json gap
+**What changed:** Created TKT-0751 in Sprint 12, committed to forge seq 3 effort M, scope: regenerate EOD blog ainchors-2026-07-14 and recreate agent auth-profiles.json per CHG-0857
+**Why:** Close two operational gaps surfaced by daily health checks; both items require infra/script execution by Forge
+**Verification:** Ticket created via db-ticket.sh create-from-json TKT-0751, committed via db-sprint.sh commit, read-back confirmed
+**Rollback:** N/A
+**Linked:** TKT-0751, CHG-0857
+---
+
+## 2026-07-15 06:37 AEST — [CHG-0883] Set agents.defaults.contextLimits.toolResultMaxChars to 32000
+**Type:** config
+**Change Type:** Normal
+**Source:** ken-prompt
+**Trigger:** Dashboard session context corruption caused by aggressive tool result truncation; Ken requested tuning
+**What changed:** Added agents.defaults.contextLimits.toolResultMaxChars=32000 to openclaw.json; restarted gateway to apply
+**Why:** Lower toolResultMaxChars from default ~64000 to 32000 to reduce per-tool-result context consumption and prevent dashboard session context overflow/hallucination.
+**Verification:** openclaw config get confirms 32000; gateway healthy; no truncation warnings in dashboard session
+**Rollback:** Remove agents.defaults.contextLimits.toolResultMaxChars from openclaw.json and restart gateway
+**Linked:** CHG-0882 dashboard stuck-session fix
+---
+
+## 2026-07-14 21:51 AEST — [CHG-0882] Configure stuck-session auto-abort thresholds and reset corrupted dashboard session
+**Type:** config
+**Change Type:** Normal
+**Source:** ken-prompt
+**Trigger:** Dashboard webchat session returning empty/failed tool responses due to stuck model call and context corruption
+**What changed:** Set diagnostics.stuckSessionWarnMs=60000 and diagnostics.stuckSessionAbortMs=180000 in openclaw.json; deleted corrupted dashboard session 626ab283 and its heartbeat from sessions.json; restarted gateway
+**Why:** A long-running model call in the dashboard session never completed, causing all subsequent messages to queue behind it and eventually fail with reply session initialization conflicted. Auto-abort prevents recurrence by forcibly resetting stuck sessions after 180s.
+**Verification:** Gateway restarted cleanly; stuckSession thresholds confirmed via openclaw config get; dashboard session removed; gateway healthy (95 sessions, reachable 39ms)
+**Rollback:** Remove diagnostics.stuckSessionWarnMs/stuckSessionAbortMs from openclaw.json and restart gateway
+**Linked:** CHG-0879 gateway IPv4 bind; dashboard session corruption incident 2026-07-14 21:37 AEST
+---
+
+## 2026-07-14 21:38 AEST — [CHG-0881] Disable SIP + library validation on OC2A for imsg private API
+**Type:** infra
+**Change Type:** Normal
+**Source:** ken-prompt
+**Trigger:** Ken approved private API mode for iMessage, requiring SIP and library validation disabled on OC2A
+**What changed:** SIP disabled in Recovery mode; DisableLibraryValidation=true in /Library/Preferences/com.apple.security.libraryvalidation.plist; imsg launch injects helper into Messages.app
+**Why:** Required for read receipts, typing indicators, tapbacks, threaded replies in iMessage channel
+**Verification:** csrutil status reports disabled; imsg status --json reports advanced_features true; openclaw channels status --probe reports privateApi.available true
+**Rollback:** Re-enable SIP in Recovery mode (csrutil enable); remove DisableLibraryValidation plist; iMessage falls back to basic mode
+**Linked:** TKT-1000,CHG-0880
+---
+
+## 2026-07-14 21:34 AEST — [CHG-0880] Enable native iMessage channel on OC2A
+**Type:** infra
+**Change Type:** Normal
+**Source:** ken-prompt
+**Trigger:** Ken asked to build an inbound iMessage listener so iMessage becomes a fully working chat channel
+**What changed:** Install and configure OpenClaw native iMessage channel via imsg; add channels.imessage to openclaw.json; probe and pair; end-to-end test
+**Why:** Telegram works; Ken wants iMessage as a second chat channel with two-way conversation
+**Verification:** Channel probe passes; inbound message from phone reaches Yoda; outbound reply reaches phone
+**Rollback:** Disable channels.imessage.enabled; restore openclaw.json from backup; stop imsg
+**Linked:** TKT-1000
+---
+
+## 2026-07-14 20:53 AEST — [CHG-0879] Silence dual-stack loopback warning by binding gateway to IPv4 only
+**Type:** config
+**Change Type:** Normal
+**Source:** ken-prompt
+**Trigger:** openclaw status reporting: Detected dual-stack loopback listeners (127.0.0.1 + ::1) for one gateway process
+**What changed:** Set gateway.bind from loopback to custom + gateway.customBindHost to 127.0.0.1 in ~/.openclaw/openclaw.json; gateway restart to apply
+**Why:** Loopback bind mode causes Node.js to listen on both IPv4 and IPv6 loopback, generating a noisy status warning. IPv4-only binding is sufficient because Tailscale serve forwards to 127.0.0.1 and local Control UI connects via 127.0.0.1.
+**Verification:** openclaw status shows only 127.0.0.1:18789 listening; no dual-stack warning; Control UI reachable via Tailscale and localhost
+**Rollback:** Revert gateway.bind to loopback, remove customBindHost, restart gateway
+**Linked:** AGENTS.md FORGE-EXECUTE-GATE; CREST single-atom exception
+---
+
 ## 2026-07-14 18:46 AEST — [CHG-0878] OC1 DB migration to OC2A
 **Type:** infra
 **Change Type:** Normal

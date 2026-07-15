@@ -1,4 +1,5 @@
 {
+  "account": "ken",
   "memberId": "FhpPCanUWM",
   "displayName": "Ken Mun",
   "authorizedAt": "2026-07-11T23:02:53Z",
@@ -6,16 +7,19 @@
     "openid",
     "profile",
     "email",
-    "w_member_social",
-    "r_basicprofile",
-    "r_1st_connections_size",
-    "r_organization_social",
-    "r_organization_admin",
-    "r_ads_reporting",
-    "r_ads"
+    "w_member_social"
   ],
-  "tokenExpiry": "2026-09-09T23:02:52Z",
+  "tokenExpiry": "2026-07-11T00:00:00Z",
   "memberIdFixedFrom": "urn:li:person:unknown",
   "memberIdFixedAt": "2026-06-13T04:18:59.696696+00:00",
-  "refreshTokenPresent": true
+  "refreshTokenPresent": false,
+  "liveVerification": {
+    "checkedAt": "2026-07-14T11:23:00Z",
+    "result": "failed",
+    "reason": "Access token and refresh token both missing from Keychain; /v2/userinfo returned no token.",
+    "linkedinAppClientId": "86fb2cb4ga03jy",
+    "enabledProducts": ["OpenID Connect", "Share on LinkedIn"],
+    "allowedScopes": ["openid", "profile", "email", "w_member_social"],
+    "nextAction": "Run zsh /Users/ainchorsoc2a/.openclaw/workspace/scripts/linkedin-auth.sh (browser-based OAuth re-auth). Share on LinkedIn product is active, so w_member_social should authorize."
+  }
 }

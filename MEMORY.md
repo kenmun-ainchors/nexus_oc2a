@@ -121,3 +121,23 @@ Context handoffs in `docs/context-handoffs/`. Latest: 2026-06-07 → 2026-06-21.
 - WS-3 Groom — delivered to Ken in webchat session: **Resume keyword:** `CREST WS-3 resume` [score=0.806 recalls=0 avg=0.620 source=memory/2026-06-27.md:34-34]
 <!-- openclaw-memory-promotion:memory:memory/2026-06-27.md:4:4 -->
 - PG-Notion Batch Sync (02:57 AEST): Batch reconciliation ran — all tickets synced. Nothing to process. [score=0.806 recalls=0 avg=0.620 source=memory/2026-06-27.md:4-4]
+
+## iMessage PoC — 2026-07-15
+- **Decision:** native iMessage channel in basic mode only; SIP stays enabled on OC2A.
+- **Outbound fallback:** AppleScript bridge (`scripts/imessage-bridge.sh`) retained for outbound notifications when Telegram fails.
+- **CHG/Ticket:** CHG-0886 logged; TKT-1000 updated. Current status: pending end-to-end test.
+- **Config:** `channels.imessage` in `openclaw.json` (basic/bridge mode); `allowFrom` includes `+61473669759` (Ken) and `+61430928371` (Angie); `defaultAccount` = ken.
+- **TCC:** Full Disk Access required for `/Users/ainchorsoc2a/Library/Messages/chat.db`. FDA granted to `/Users/ainchorsoc2a/local/bin/node` and `/Users/ainchorsoc2a/homebrew/bin/imsg` by Ken at 16:02 AEST.
+- **Next step:** Ken sends a real test iMessage to the OC2A-signed-in iMessage account; Yoda replies to verify two-way flow.
+
+## LinkedIn Business Token — 2026-07-15
+- **CHG/Ticket:** CHG-0887 + TKT-1001 completed; CHG-0888 verification logged.
+- **Status:** Business Marketing/Advertising API token valid.
+- **Probe:** `GET /rest/adAccounts?q=search` returned HTTP 200 with 2 ad accounts for `urn:li:organization:112732790`.
+- **Token stored:** Keychain (`ainchors-linkedin-business-access-token` / `-refresh-token`).
+- **Residual issue:** `scripts/linkedin-auth.sh` throws `NameError: name true is not defined` after token storage, leaving `state/linkedin-auth-business.json` stale. TKT-1002 opened for Forge fix.
+
+## Context Retention — 2026-07-15
+- **Ken feedback:** context rebuild on session reset/resume is noisy.
+- **Pattern change:** Yoda will lead resumes with a one-liner blocker + single ask, expanding only when asked.
+- **iMessage context handoff:** authoritative state lives in journal + TKT-1000 metadata + CHG-0886; Holocron note considered if thread becomes long-running.

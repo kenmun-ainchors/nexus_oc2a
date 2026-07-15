@@ -88,13 +88,43 @@ print(d.get('tokenExpiry', ''))
 ")
 
 if [[ -n "$TOKEN_EXPIRY" ]]; then
-  EXPIRED=$(python3 -c "
-from datetime import datetime, timezone
-from dateutil import parser as dp
+  # TKT-0771: dateutil may be missing on OC2A system Python.
+  # Vendor a minimal ISO-8601 parser fallback so the script doesn't break
+  # if system Python changes or python-dateutil is not installed.
+  # Supports the LinkedIn token formats: 'YYYY-MM-DDTHH:MM:SSZ' and
+  # 'YYYY-MM-DDTHH:MM:SS.fffZ' (with optional fractional seconds / tz offset).
+  EXPIRED=$(TOKEN_EXPIRY="$TOKEN_EXPIRY" python3 -c "
+import os, re
+from datetime import datetime, timezone, timedelta
+
+def parse_iso8601(s):
+    s = s.strip()
+    m = re.match(r'^(\d{4})-(\d{2})-(\d{2})[Tt](\d{2}):(\d{2}):(\d{2})(?:\.(\d+))?(Z|[+-]\d{2}:?\d{2})?$', s)
+    if not m:
+        raise ValueError('Unrecognised ISO-8601 timestamp: ' + repr(s))
+    y, mo, d, h, mi, se = (int(x) for x in m.groups()[:6])
+    frac = m.group(7)
+    tz = m.group(8)
+    micros = int((frac or '0').ljust(6, '0')[:6]) if frac else 0
+    if tz is None or tz == 'Z':
+        tzinfo = timezone.utc
+    else:
+        sign = 1 if tz[0] == '+' else -1
+        tzn = tz[1:].replace(':', '')
+        oh = int(tzn[0:2]); om = int(tzn[2:4]) if len(tzn) >= 4 else 0
+        tzinfo = timezone(sign * timedelta(hours=oh, minutes=om))
+    return datetime(y, mo, d, h, mi, se, micros, tzinfo=tzinfo)
+
+raw = os.environ.get('TOKEN_EXPIRY', '')
+if not raw:
+    print('no')
+    raise SystemExit(0)
 try:
-    expiry = dp.parse('$TOKEN_EXPIRY').astimezone(timezone.utc)
-except:
-    expiry = datetime.strptime('$TOKEN_EXPIRY', '%Y-%m-%dT%H:%M:%SZ').replace(tzinfo=timezone.utc)
+    expiry = parse_iso8601(raw).astimezone(timezone.utc)
+except Exception as e:
+    print('no')
+    print('warn: could not parse tokenExpiry: ' + str(e), flush=True)
+    raise SystemExit(0)
 now = datetime.now(timezone.utc)
 print('yes' if now >= expiry else 'no')
 ")

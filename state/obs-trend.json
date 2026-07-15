@@ -1,6 +1,6 @@
 {
-  "generated_at": "2026-07-14T10:29:33.046618+00:00",
-  "generated_at_aest": "2026-07-14 20:29 AEST",
+  "generated_at": "2026-07-14T21:59:40.959330+00:00",
+  "generated_at_aest": "2026-07-15 07:59 AEST",
   "period_hours": 24,
   "totals": {
     "ERROR": 2,
@@ -22,9 +22,9 @@
   "trend": {
     "has_prev_data": true,
     "prev_errors": 0,
-    "prev_warns": 3,
+    "prev_warns": 1,
     "errors_pct_change": null,
-    "warns_pct_change": -66.7
+    "warns_pct_change": 0.0
   },
   "worst_hour": {
     "hour": "2026-07-14T08:00Z",

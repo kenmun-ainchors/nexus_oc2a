@@ -1,0 +1,13 @@
+[
+  {
+    "checkedAt": "2026-07-15T08:39:00Z",
+    "account": "business",
+    "status": "valid",
+    "httpStatus": "200",
+    "serviceErrorCode": "",
+    "reason": "token_refresh_ok_after_script_fix",
+    "tokenExpiry": "2026-09-13T08:39:29Z",
+    "refreshTokenPresent": true,
+    "nextAction": "Token healthy. Script fix (CHG-0889) verified via --refresh mode."
+  }
+]

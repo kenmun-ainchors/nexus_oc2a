@@ -4,10 +4,10 @@
   "description": "Angie Foong personal LinkedIn campaign state. Per-account separation (CHG-0860).",
   "createdAt": "2026-07-10T12:29:00+10:00",
   "createdBy": "Forge (CHG-0860 per-account separation)",
-  "lastUpdated": "2026-07-13T08:50:19+10:00",
-  "lastUpdatedBy": "Aria",
-  "handoffStatus": "aria-approved",
-  "handoffNote": "3 drafted posts (AW6-P1/P2/P3) handed to Aria/BUSINESS stream. See .openclaw/tmp/aria-linkedin-handoff-2026-07-11.md",
+  "lastUpdated": "2026-07-14T21:23:00+10:00",
+  "lastUpdatedBy": "Yoda (live verification)",
+  "handoffStatus": "aria-owner-active",
+  "handoffNote": "2026-07-14 21:28 AEST: Ken/Yoda handed Angie personal LinkedIn posting to Aria/Angie. Aria to decide AW6-P1 missed-slot handling and schedule AW6-P2/P3 image generation + posting. Business account remains locked.",
   "agent": "Spark",
   "api": {
     "enabled": true,
@@ -83,7 +83,7 @@
     "AW6-P1": {
       "id": "AW6-P1",
       "title": "What clients actually need (and it is not more tools)",
-      "slot": "Tue 14 Jul 2026 07:30 AEST",
+      "slot": "Tue 14 Jul 2026 07:30 AEST (MISSED)",
       "status": "approved",
       "draftFile": "social-drafts/angie/LI-AW6-P1-what-clients-actually-need.md",
       "imagePrompt": "A calm shallow shoreline at dawn, the water crystal clear and still, with a single figure standing ankle-deep looking down at their own reflection, soft golden light from the horizon, muted blues and warm golds, editorial landscape photography, clarity and grounding mood. Square 1:1 format, no text, no logos, professional quality.",
@@ -131,5 +131,19 @@
     "organizationName": "Angie Foong personal profile",
     "effectiveFrom": "2026-07-10T12:29:00+10:00"
   },
-  "account": "angie"
+  "account": "angie",
+  "liveVerification": {
+    "checkedAt": "2026-07-14T21:28:00+10:00",
+    "result": "token_ok",
+    "missedSlot": "Tue 14 Jul 2026 07:30 AEST",
+    "owner": "Aria + Angie",
+    "pendingActions": [
+      "Aria/Angie decide AW6-P1 handling (skip / push / override)",
+      "Generate images for AW6-P2/P3",
+      "Schedule AW6-P2 Wed 12:00 AEST and AW6-P3 Thu 07:30 AEST"
+    ],
+    "blockedActions": [
+      "No business-page campaign activities until Marketing Developer Platform approved"
+    ]
+  }
 }

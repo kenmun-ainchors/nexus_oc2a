@@ -1,0 +1,9 @@
+# Allowlist — OC2A iMessage bridge
+# One entry per line. E.164 (e.g. +61412345678) preferred. iCloud emails also accepted.
+# Empty by default. First entry should be your own number for self-test.
+#
+# To add:    echo "+61412345678" >> state/imessage-bridge.allowlist
+# To remove: edit the file and delete the line.
+#
+# NO WILDCARDS. Each line is a literal address. The script greps for exact match.
++61473669759
