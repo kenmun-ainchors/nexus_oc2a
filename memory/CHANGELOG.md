@@ -1,3 +1,15 @@
+## 2026-07-15 19:04 AEST — [CHG-0891] Abandon native two-way iMessage PoC on OC2A
+**Type:** infra
+**Change Type:** Normal
+**Source:** ken-prompt
+**Trigger:** Ken decided the security risk of disabling SIP and Library Validation on OC2A is not worth full two-way native iMessage
+**What changed:** Close iMessage native two-way PoC (CHG-0880/0886). Retain outbound AppleScript bridge (scripts/imessage-bridge.sh) as fallback for outbound notifications when Telegram fails. SIP stays enabled. Telegram remains primary chat channel.
+**Why:** Disabling SIP reduces core macOS protections and exposes OC2A production node to greater compromise risk for a convenience feature
+**Verification:** TKT-1000 closed with abandon decision; CHG-0880/0886 superseded; AppleScript bridge self-test still passes
+**Rollback:** Re-enable channels.imessage and proceed with SIP disable if Ken later approves
+**Linked:** TKT-1000, CHG-0880, CHG-0881, CHG-0886
+---
+
 ## 2026-07-15 18:39 AEST — [CHG-0890] Verify CHG-0889 — linkedin-auth.sh boolean fix
 **Type:** script
 **Change Type:** Normal

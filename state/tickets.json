@@ -4673,32 +4673,50 @@
   {
     "id": "TKT-1000",
     "title": "Enable native iMessage channel on OC2A",
-    "status": "pending",
+    "status": "closed",
     "priority": "high",
     "type": "infra",
     "created_at": "2026-07-14T11:34:21+10:00",
     "ticket_number": 1000,
     "metadata": {
-      "brief": "Make iMessage a fully working two-way chat channel for Yoda by enabling OpenClaw native iMessage support via imsg. Includes install, config, gateway restart, pairing, and end-to-end test.",
-      "effort": "M",
       "agent": "Forge",
-      "ac_count": 8,
-      "sprint_target": "Sprint 12",
-      "depends_on": [],
+      "brief": "iMessage native two-way PoC abandoned. Outbound AppleScript bridge retained as fallback for outbound notifications when Telegram fails.",
       "blocks": [],
+      "effort": "M",
+      "blocker": "Abandoned per Ken 2026-07-15 19:04: disabling SIP + Library Validation on OC2A is not worth the security risk for native two-way iMessage.",
+      "ac_count": 8,
+      "depends_on": [],
+      "notion_sync": {
+        "status": "synced",
+        "last_synced": "2026-07-15T02:55:39+10:00"
+      },
+      "sprint_target": "Sprint 12",
       "grooming_history": [
         {
           "date": "2026-07-14T21:36:00+10:00",
-          "decisions": "Ken approved native path, Angie mobile +61430928371 in allowFrom, and disabling SIP + library validation on OC2A for imsg private API. CHG-0881 created for SIP decision. Scope expanded to include private API mode.",
           "ac_count": 8,
+          "decisions": "Ken approved native path, Angie mobile +61430928371 in allowFrom, and disabling SIP + library validation on OC2A for imsg private API. CHG-0881 created for SIP decision. Scope expanded to include private API mode.",
+          "ken_approved": true
+        },
+        {
+          "date": "2026-07-15T12:50:00+10:00",
+          "ac_count": 8,
+          "decisions": "Ken decided against disabling SIP (2026-07-15 12:50). Proceed with native iMessage basic mode only. CHG-0886 supersedes CHG-0881 private-API scope. Outbound AppleScript bridge retained as fallback.",
+          "ken_approved": true
+        },
+        {
+          "date": "2026-07-15T12:56:00+10:00",
+          "ac_count": 8,
+          "decisions": "Forge subagent lost active execution context after applying openclaw.json channels.imessage config and restarting gateway. Current state: config valid, channel running, imsg basic mode active (SIP enabled), but probe fails with Full Disk Access denied for Messages chat.db. Awaiting Ken to grant FDA in System Settings, then resume Forge for end-to-end test.",
+          "ken_approved": true
+        },
+        {
+          "date": "2026-07-15T19:04:00+10:00",
+          "ac_count": 8,
+          "decisions": "Ken decided to abandon the iMessage native two-way PoC. SIP stays enabled on OC2A. Telegram remains primary chat channel. Outbound AppleScript bridge remains fallback for outbound notifications. CHG-0891 logged; CHG-0880/0886 superseded.",
           "ken_approved": true
         }
-      ],
-      "notion_sync": {
-        "last_synced": "2026-07-14T21:45:07+10:00",
-        "status": "pending"
-      },
-      "blocker": "SIP still enabled on OC2A and Full Disk Access/Automation permissions not granted. Requires physical Recovery-mode reboot + Library Validation plist. See CHG-0881."
+      ]
     }
   },
   {
@@ -4744,5 +4762,89 @@
     "type": "infra",
     "created_at": "2026-07-14T21:11:55+10:00",
     "ticket_number": 780
+  },
+  {
+    "id": "TKT-1001",
+    "title": "LinkedIn business Marketing/Advertising API auth + token probe",
+    "status": "closed",
+    "priority": "high",
+    "type": "infra",
+    "created_at": "2026-07-15T08:08:27+10:00",
+    "ticket_number": 1001,
+    "metadata": {
+      "agent": "Forge",
+      "brief": "Update scripts/linkedin-auth.sh business account OAuth scopes for LinkedIn Marketing/Advertising API, re-authenticate the AInchors business account, and run a token probe against a Marketing/Advertising API endpoint.",
+      "blocks": [],
+      "effort": "M",
+      "ac_count": 4,
+      "depends_on": [],
+      "sprint_seq": 7,
+      "notion_sync": {
+        "status": "synced",
+        "last_synced": "2026-07-15T08:08:43+10:00"
+      },
+      "sprint_agent": "Forge",
+      "sprint_effort": "M",
+      "sprint_target": "Sprint 12",
+      "grooming_history": [
+        {
+          "date": "2026-07-15T18:08:00+10:00",
+          "ac_count": 4,
+          "decisions": "Ken confirmed business account + Marketing/Advertising API product approved; wants business token probe. CHG-0887 created. Scope: update business OAuth scopes, re-auth, probe.",
+          "ken_approved": true
+        },
+        {
+          "date": "2026-07-15T18:31:00+10:00",
+          "ac_count": 4,
+          "decisions": "OAuth completed with Ken browser approval. Tokens stored in Keychain. Token probe GET /rest/adAccounts?q=search returned HTTP 200 with 2 ad accounts for organization 112732790. Script bug remains: linkedin-auth.sh throws NameError after token storage, so state files were updated manually. Open follow-up Forge ticket to fix script.",
+          "ken_approved": true
+        }
+      ],
+      "sprint_committed_at": "2026-07-15T08:08:39+10:00",
+      "blocker": ""
+    }
+  },
+  {
+    "id": "TKT-1002",
+    "title": "Fix linkedin-auth.sh NameError after business token storage",
+    "status": "closed",
+    "priority": "medium",
+    "type": "bug",
+    "created_at": "2026-07-15T08:32:52+10:00",
+    "ticket_number": 1002,
+    "metadata": {
+      "agent": "Forge",
+      "brief": "scripts/linkedin-auth.sh successfully stores business access/refresh tokens in Keychain but then throws NameError: name true is not defined when updating state/linkedin-auth-business.json. This leaves the state file stale until manually patched.",
+      "blocks": [],
+      "effort": "S",
+      "ac_count": 2,
+      "depends_on": [
+        "TKT-1001"
+      ],
+      "sprint_seq": 8,
+      "notion_sync": {
+        "status": "syncing",
+        "last_synced": "2026-07-15T08:32:55+10:00"
+      },
+      "sprint_agent": "Forge",
+      "sprint_effort": "S",
+      "sprint_target": "Sprint 12",
+      "grooming_history": [
+        {
+          "date": "2026-07-15T18:32:00+10:00",
+          "ac_count": 2,
+          "decisions": "Observed during CHG-0887 verification: traceback after Keychain storage. Root cause likely Python JSON parsing with lowercase true/ false in scripts/linkedin-auth.sh. Fix and re-run business self-test.",
+          "ken_approved": true
+        },
+        {
+          "date": "2026-07-15T18:39:00+10:00",
+          "ac_count": 2,
+          "decisions": "Ken approved Yoda exception to Forge execute gate. Yoda fixed the Python boolean literal in scripts/linkedin-auth.sh (true→True, false→False). Tested via --refresh mode: token refreshed, state file updated correctly, no traceback.",
+          "ken_approved": true
+        }
+      ],
+      "sprint_committed_at": "2026-07-15T08:32:55+10:00",
+      "blocker": ""
+    }
   }
 ]
