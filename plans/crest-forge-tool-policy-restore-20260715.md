@@ -43,6 +43,7 @@ Out-of-scope:
 - Global `tools.profile: "coding"` excludes `message` and other messaging tools.
 - Per-agent `tools.allow` lists were too narrow after the upgrade's tool-policy reconciliation; tools not explicitly allowed were dropped.
 - `alsoAllow` was not used, so profile-excluded tools could not be recovered.
+- **Replan v1 → v2 (OpenClaw 2026.7.1 validator):** The original plan added `alsoAllow` alongside `allow`, but `openclaw doctor --lint --severity-min error` rejects `allow` and `alsoAllow` in the same agent-tools scope (`core/doctor/final-config-validation`). Since `message` is added directly to `allow`, `alsoAllow` is unnecessary and must be omitted. A test-profile validation confirmed the revised shape passes doctor lint.
 
 ---
 
@@ -81,19 +82,18 @@ Under `main.tools`:
     "update_goal",
     "update_plan",
     "skill_workshop"
-  ],
-  "alsoAllow": ["message"]
+  ]
 }
 ```
 
 Rationale:
 - `message` is required for Telegram replies.
 - `session_status`, `memory_get`, `memory_search`, `create_goal`, `get_goal`, `update_goal`, `update_plan`, `skill_workshop`, `subagents` are needed for Yoda's heartbeat, context, skill, and goal/plan workflows.
-- `alsoAllow: ["message"]` bypasses the `coding` profile exclusion for `message`.
+- **Replan v1 → v2 (OpenClaw 2026.7.1 validator):** The original spec added `alsoAllow: ["message"]` in addition to `allow`. `openclaw doctor --lint --severity-min error` rejects `allow` and `alsoAllow` in the same agent-tools scope (`core/doctor/final-config-validation`). `message` is already present in the `allow` list, so `alsoAllow` is redundant and must be omitted. A test-profile validation confirmed this shape passes doctor lint.
 
 ### 4.2 `foodie` agent (`agents.list[]` where `id == "foodie"`)
 
-Under `foodie.tools`, append `message` to `allow` and add `alsoAllow`:
+Under `foodie.tools`, append `message` to `allow`:
 
 ```json
 "tools": {
@@ -109,10 +109,11 @@ Under `foodie.tools`, append `message` to `allow` and add `alsoAllow`:
     "memory_search",
     "memory_get",
     "message"
-  ],
-  "alsoAllow": ["message"]
+  ]
 }
 ```
+
+**Replan v1 → v2:** `alsoAllow` is omitted for the same validator reason as `main`.
 
 ### 4.3 Disable abandoned `imsg` skill
 
@@ -131,8 +132,8 @@ Under `skills.entries.imsg`:
 | # | Atom | Verb | Target | Pre-conditions | Post-conditions | Side-effect scope | Owner |
 |---|------|------|--------|----------------|-----------------|-------------------|-------|
 | 1 | Backup existing config | read/write | `~/.openclaw/openclaw.json` | File exists; JSON valid | Backup file `openclaw.json.bak.<timestamp>` exists | file-write | Forge |
-| 2 | Patch `main.tools.allow` and add `main.tools.alsoAllow` | edit | `~/.openclaw/openclaw.json` | Atom 1 done; JSON valid | `main.tools.allow` contains restored tools; `main.tools.alsoAllow == ["message"]` | file-write | Forge |
-| 3 | Patch `foodie.tools.allow` and add `foodie.tools.alsoAllow` | edit | `~/.openclaw/openclaw.json` | Atom 2 done | `foodie.tools.allow` contains `message`; `foodie.tools.alsoAllow == ["message"]` | file-write | Forge |
+| 2 | Patch `main.tools.allow` (add missing tools; no `alsoAllow`) | edit | `~/.openclaw/openclaw.json` | Atom 1 done; JSON valid | `main.tools.allow` contains restored tools; no `alsoAllow` | file-write | Forge |
+| 3 | Patch `foodie.tools.allow` (add `message`; no `alsoAllow`) | edit | `~/.openclaw/openclaw.json` | Atom 2 done | `foodie.tools.allow` contains `message`; no `alsoAllow` | file-write | Forge |
 | 4 | Disable `skills.entries.imsg.enabled` | edit | `~/.openclaw/openclaw.json` | Atom 3 done | `skills.entries.imsg.enabled == false` | file-write | Forge |
 | 5 | Validate JSON and run `openclaw doctor --lint` | read/validate | `~/.openclaw/openclaw.json` | Atom 4 done | JSON parses; doctor emits no `main`/`foodie` tool warnings | read-only | Forge |
 | 6 | Restart gateway (HITL gate) | exec | `openclaw` CLI | Atom 5 passes; Ken approves restart | Gateway pid changes; `openclaw status` healthy | infra-change | Forge (with approval) |
@@ -187,3 +188,12 @@ Under `skills.entries.imsg`:
 - Do **not** change `tools.profile` globally.
 - Do **not** restart the gateway unless Ken explicitly approves in this session (HITL gate in Atom 6).
 - After restart, run `openclaw status`, `openclaw doctor --lint`, and report findings.
+---
+
+## 11. Replan v1 → v2 Log
+
+- **v1 execution:** Forge applied `main.tools.allow + alsoAllow`, `foodie.tools.allow + alsoAllow`, and `imsg.enabled=false`.
+- **v1 result:** `openclaw doctor --lint --severity-min error` failed with `core/doctor/final-config-validation` errors: "agent tools cannot set both allow and alsoAllow in the same scope."
+- **v1 rollback:** Live config restored to backup `/Users/ainchorsoc2a/.openclaw/openclaw.json.bak.20260715T110937Z`; doctor baseline clean.
+- **v2 revision:** Removed `alsoAllow` from both agents (redundant because `message` is already in each `allow` list); disabled `imsg` remains in scope. Test-profile validation confirmed this shape passes doctor lint.
+- **Pending:** Ken approval to apply v2 edits + restart gateway.
