@@ -80,10 +80,13 @@ done
 # ---- OUTPUT ----
 if $OUTPUT_JSON; then
   # Build JSON report
-  OK_COUNT=$(printf '%s\n' "${RESULTS[@]}" | grep -c "^OK:" || echo 0)
-  EXPIRED_COUNT=$(printf '%s\n' "${RESULTS[@]}" | grep -c "^EXPIRED:" || echo 0)
-  MISSING_COUNT=$(printf '%s\n' "${RESULTS[@]}" | grep -c "^MISSING:" || echo 0)
-  WARN_COUNT=$(printf '%s\n' "${RESULTS[@]}" | grep -c "^WARN:" || echo 0)
+  # Use $(...) command substitution to strip trailing newlines from grep -c output,
+  # otherwise the heredoc inserts them as broken multi-line numbers in the JSON.
+  # Fallback to 0 if no matches (grep -c returns "0" with exit 1, which `|| true` covers).
+  OK_COUNT=$(printf '%s\n' "${RESULTS[@]}" | { grep -c "^OK:" || true; } | tr -d '\n')
+  EXPIRED_COUNT=$(printf '%s\n' "${RESULTS[@]}" | { grep -c "^EXPIRED:" || true; } | tr -d '\n')
+  MISSING_COUNT=$(printf '%s\n' "${RESULTS[@]}" | { grep -c "^MISSING:" || true; } | tr -d '\n')
+  WARN_COUNT=$(printf '%s\n' "${RESULTS[@]}" | { grep -c "^WARN:" || true; } | tr -d '\n')
   
   cat > "$STATE_DIR/delegated-auth-status.json" <<EOJ
 {

@@ -24,7 +24,19 @@ set -euo pipefail
 SCRIPT_DIR="$(cd "$(dirname "$0")" && pwd)"
 WORKSPACE="$(cd "$SCRIPT_DIR/.." && pwd)"
 REGISTRY_FILE="${WORKSPACE}/state/pg-first-write-registry.json"
-JQ="/opt/homebrew/bin/jq"
+# Resolve jq via the same portable pattern as db.sh uses for psql (TKT-0406).
+# Hard-coding /opt/homebrew/bin/jq breaks on machines where Homebrew lives
+# elsewhere (e.g. /Users/.../homebrew) and was causing a false "Registry file
+# is not valid JSON" verdict because a missing-binary exit was indistinguishable
+# from a parse error.
+JQ="${JQ:-$(command -v jq 2>/dev/null || true)}"
+if [[ -z "$JQ" && -x "$(brew --prefix 2>/dev/null)/bin/jq" ]]; then
+  JQ="$(brew --prefix)/bin/jq"
+fi
+if [[ -z "$JQ" ]]; then
+  echo '{"status":"error","error":"jq binary not found in PATH or brew prefix","path":"'"$REGISTRY_FILE"'","violations":[],"exit_code":2}'
+  exit 2
+fi
 
 # ── Parse args ────────────────────────────────────────────────────────────────
 VERBOSE=false

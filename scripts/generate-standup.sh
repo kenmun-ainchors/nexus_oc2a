@@ -822,13 +822,43 @@ fi
 
 # ── Update state/standup-state.json + PG primary write ────────────────────────
 # PG is the primary write target; JSON is derived/dual-write until TKT-0359 gate
+#
+# Resolve psql binary + PG connection params on the BASH side using the same
+# pattern as scripts/db.sh / scripts/db-raw.sh (TKT-0406 migration). The
+# Python heredoc must NOT contain shell-expansion syntax (it is a literal
+# Python string with 'PYEOF' quoted). These env vars are exported so the
+# Python subprocess can read them via os.environ.
+PSQL_BIN="${PSQL_BIN:-$(command -v psql 2>/dev/null || true)}"
+if [[ -z "$PSQL_BIN" && -x "$(brew --prefix 2>/dev/null)/bin/psql" ]]; then
+  PSQL_BIN="$(brew --prefix)/bin/psql"
+fi
+if [[ -z "$PSQL_BIN" ]]; then
+  echo "[standup] PG write SKIPPED: psql not found in PATH or brew prefix" >&2
+  PSQL_BIN=""
+fi
+export PSQL_BIN
+export PGHOST="${PGHOST:-/tmp}"
+export PGPORT="${PGPORT:-5432}"
+export PGUSER="${PGUSER:-$(whoami)}"
+export PGDATABASE="${PGDATABASE:-ainchors_nexus}"
+export PGOPTIONS="${PGOPTIONS:---client-min-messages=warning}"
+
 python3 << 'PYEOF'
 import json, os, subprocess, sys
 from pathlib import Path
 from datetime import datetime, timezone, timedelta
 
 WORKSPACE = Path(os.environ.get("WORKSPACE", "/Users/ainchorsoc2a/.openclaw/workspace"))
-PSQL = ["${PSQL_BIN:-$(brew --prefix postgresql@16 2>/dev/null)/bin/psql}", "-U", ""${PGUSER:-$(whoami)}"", "-d", "ainchors_nexus"]
+# Read psql binary + connection params from env (resolved in bash above).
+# Falling back to None so subprocess.run([] + ...) raises a clean error if
+# psql is missing, rather than a NameError on a literal PSQL list.
+PSQL_BIN = os.environ.get("PSQL_BIN") or ""
+PG_CONN = {
+    "host": os.environ.get("PGHOST", "/tmp"),
+    "port": os.environ.get("PGPORT", "5432"),
+    "user": os.environ.get("PGUSER", ""),
+    "dbname": os.environ.get("PGDATABASE", "ainchors_nexus"),
+}
 
 aest = timezone(timedelta(hours=10))
 now_aest = datetime.now(timezone.utc).astimezone(aest)
@@ -880,11 +910,26 @@ ON CONFLICT (standup_date) DO UPDATE SET
 """
 
 try:
-    result = subprocess.run(PSQL + ["-c", sql], capture_output=True, text=True, timeout=10)
-    if result.returncode == 0:
-        print(f"[standup] PG primary write: state_standups upserted for {today_str} (day {day_n})", file=sys.stderr)
+    if not PSQL_BIN:
+        print(f"[standup] PG write SKIPPED: psql binary not available (set PSQL_BIN)", file=sys.stderr)
     else:
-        print(f"[standup] PG write WARNING: {result.stderr.strip()}", file=sys.stderr)
+        # Build argv from env (no shell, so no expansion). psycopg-style
+        # connection params via -h/-p/-U/-d; password comes from .pgpass or env.
+        pg_argv = [PSQL_BIN]
+        if PG_CONN.get("host"):
+            pg_argv += ["-h", PG_CONN["host"]]
+        if PG_CONN.get("port"):
+            pg_argv += ["-p", PG_CONN["port"]]
+        if PG_CONN.get("user"):
+            pg_argv += ["-U", PG_CONN["user"]]
+        if PG_CONN.get("dbname"):
+            pg_argv += ["-d", PG_CONN["dbname"]]
+        pg_argv += ["-c", sql]
+        result = subprocess.run(pg_argv, capture_output=True, text=True, timeout=10)
+        if result.returncode == 0:
+            print(f"[standup] PG primary write: state_standups upserted for {today_str} (day {day_n})", file=sys.stderr)
+        else:
+            print(f"[standup] PG write WARNING: {result.stderr.strip()}", file=sys.stderr)
 except Exception as e:
     print(f"[standup] PG write ERROR: {e}", file=sys.stderr)
 PYEOF
