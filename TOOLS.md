@@ -82,6 +82,7 @@ Add whatever helps you do your job. This is your cheat sheet.
   - Role: Dev/test passive standby (repurposed 2026-07-14)
   - Gateway: `https://ainchorss-mac-mini.tailfc3ed1.ts.net` (Tailscale serve → http://127.0.0.1:18789)
   - OpenClaw version: `2026.7.1` (confirmed 2026-07-15)
+  - SSH access: `ssh -i ~/.ssh/id_oc2a_oc1 ainchorsangiefpl@ainchorss-mac-mini.tailfc3ed1.ts.net` (enabled 2026-07-15; key id_oc2a_oc1 authorized)
 - **VNC:** attempted 2026-05-11 on OC1, abandoned — macOS RFB 003.889 + Tailscale utun4 TCP_NODELAY incompatibility. Not worth the complexity.
 
 ## Port Convention (LOCKED 2026-06-08 — Ken Mun)
