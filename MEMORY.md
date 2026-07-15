@@ -16,7 +16,7 @@
 
 ## Infrastructure — HIVE Architecture (cutover completed 2026-07-14)
 - **OC2A** — Mac Mini M4 Pro 48GB — **LIVE Production**. HIVE lead node. All gateway, agents, PostgreSQL, MinIO, and operational services run here.
-- **OC1** — Mac Mini M4 24GB — **Dev/test environment**. Standalone, passive standby. Repurposed from production 2026-07-14. Not active in PROD routing.
+- **OC1** — Mac Mini M4 24GB — **Dev/test environment**. Standalone, passive standby. Repurposed from production 2026-07-14. Not active in PROD routing. Tailscale: `100.75.171.40` / `ainchorss-mac-mini.tailfc3ed1.ts.net`. OpenClaw `2026.7.1`.
 - **OC2-A/B** — Mac Mini M4 Pro 48GB ×2 — INCOMING ETA 6–13 Jul 2026. A=HA Primary, B=Standby. Commission ~27 Jul. OC2-gated items wait for TRIGGER-03. Once commissioned, OC2A role will migrate to HA primary pair.
 - Supporting: Tailscale mesh, NAS. Platform: OpenClaw (final).
 

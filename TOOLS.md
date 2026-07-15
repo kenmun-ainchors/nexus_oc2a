@@ -76,6 +76,12 @@ Add whatever helps you do your job. This is your cheat sheet.
   - Daemon: `/opt/homebrew/opt/tailscale/bin/tailscaled` (running, root-owned)
   - CLI: `/opt/homebrew/bin/tailscale` — **always use this path**; the `/Applications/Tailscale.app/Contents/MacOS/Tailscale` GUI CLI is **not installed**
   - Status: `BackendState: Running`; mesh IP responds to ping
+- **Tailscale (OC1):**
+  - IP: `100.75.171.40`
+  - Hostname: `ainchorss-mac-mini.tailfc3ed1.ts.net`
+  - Role: Dev/test passive standby (repurposed 2026-07-14)
+  - Gateway: `https://ainchorss-mac-mini.tailfc3ed1.ts.net` (Tailscale serve → http://127.0.0.1:18789)
+  - OpenClaw version: `2026.7.1` (confirmed 2026-07-15)
 - **VNC:** attempted 2026-05-11 on OC1, abandoned — macOS RFB 003.889 + Tailscale utun4 TCP_NODELAY incompatibility. Not worth the complexity.
 
 ## Port Convention (LOCKED 2026-06-08 — Ken Mun)
