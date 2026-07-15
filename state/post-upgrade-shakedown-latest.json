@@ -1,0 +1,91 @@
+{
+  "timestamp": "2026-07-15T11:16:27Z",
+  "overall": "pass",
+  "openclawVersion": "2026.7.1",
+  "checks": [
+    {
+      "name": "openclaw-status",
+      "status": "pass",
+      "detail": "runtimeVersion=2026.7.1",
+      "exit_code": 0
+    },
+    {
+      "name": "gateway-status",
+      "status": "pass",
+      "detail": "pid=87732 version=2026.7.1 configAudit=ok",
+      "exit_code": 0
+    },
+    {
+      "name": "doctor-lint-errors",
+      "status": "pass",
+      "detail": "no error-level findings",
+      "exit_code": 0
+    },
+    {
+      "name": "doctor-warnings",
+      "status": "warn",
+      "detail": "count=4 (review with openclaw doctor --lint)",
+      "exit_code": 0
+    },
+    {
+      "name": "health-state",
+      "status": "pass",
+      "detail": "status=ok",
+      "exit_code": 0
+    },
+    {
+      "name": "cron-health",
+      "status": "pass",
+      "detail": "",
+      "exit_code": 0
+    },
+    {
+      "name": "delegated-auth",
+      "status": "pass",
+      "detail": "",
+      "exit_code": 0
+    },
+    {
+      "name": "request-budget",
+      "status": "pass",
+      "detail": "",
+      "exit_code": 0
+    },
+    {
+      "name": "session-model",
+      "status": "pass",
+      "detail": "",
+      "exit_code": 0
+    },
+    {
+      "name": "main-session-context",
+      "status": "pass",
+      "detail": "",
+      "exit_code": 0
+    },
+    {
+      "name": "agent-status",
+      "status": "pass",
+      "detail": "no failed agents",
+      "exit_code": 0
+    },
+    {
+      "name": "browser-sidecar",
+      "status": "warn",
+      "detail": "127.0.0.1:18791 not reachable (sidecar is started on demand by browser automation tools)",
+      "exit_code": 0
+    },
+    {
+      "name": "tailscale-ip",
+      "status": "pass",
+      "detail": "100.123.95.47 reachable",
+      "exit_code": 0
+    },
+    {
+      "name": "tailscale-oc1",
+      "status": "pass",
+      "detail": "OC1 MagicDNS reachable",
+      "exit_code": 0
+    }
+  ]
+}
