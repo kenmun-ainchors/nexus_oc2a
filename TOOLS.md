@@ -66,6 +66,29 @@ Add whatever helps you do your job. This is your cheat sheet.
 
 ## Remote Access
 
+### OC1 (dev/test standby) — LOCKED 2026-07-15
+| Item | Value |
+|---|---|
+| Tailscale IP | `100.75.171.40` |
+| MagicDNS hostname | `ainchorss-mac-mini.tailfc3ed1.ts.net` |
+| Local user | `ainchorsangiefpl` |
+| SSH key (OC2A) | `~/.ssh/id_oc2a_oc1` |
+| Public key fingerprint | `SHA256:0XfsZiUS17iepk+NRSZkUcIFsbRSMjXNq/GlBjOAZc8` |
+| Gateway URL | `https://ainchorss-mac-mini.tailfc3ed1.ts.net` |
+| OpenClaw version | `2026.7.1` |
+
+Working SSH command (non-interactive shell needs `.zshrc`/`.zshprofile` sourced):
+```
+ssh -i ~/.ssh/id_oc2a_oc1 ainchorsangiefpl@ainchorss-mac-mini.tailfc3ed1.ts.net
+```
+
+Run OpenClaw command remotely:
+```
+ssh -i ~/.ssh/id_oc2a_oc1 ainchorsangiefpl@ainchorss-mac-mini.tailfc3ed1.ts.net "source ~/.zshrc 2>/dev/null; source ~/.zprofile 2>/dev/null; openclaw status --json"
+```
+
+**Do not delete `~/.ssh/id_oc2a_oc1`.** This is the only unrestricted OC1 access key on OC2A. Backup is in macOS Time Machine / any OC2A key backup.
+
 - **RustDesk (primary):** public relay, connect by OC2A ID (visible in app UI) — no custom server. (OC1 was repurposed to dev/test 2026-07-14.)
 - **Google Remote Desktop:** works when OC2A is logged in — use RustDesk first to get past login/lock screen, then CRD for full session
 - **Workaround for lock screen:** RustDesk → unlock OC2A → CRD takes over. Accepted pattern, no further VNC work planned.
