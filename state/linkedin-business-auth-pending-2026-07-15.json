@@ -1,0 +1,60 @@
+{
+  "change": "CHG-0887",
+  "ticket": "TKT-1001",
+  "date": "2026-07-15T08:10:00Z",
+  "status": "NEEDS_HUMAN_BROWSER_APPROVAL",
+  "account": "business",
+  "displayName": "AInchors (company page)",
+  "linkedinAppClientId": "86fb2cb4ga03jy",
+  "previousState": "revoked (state/linkedin-auth-business.json tokenExpiry 2026-07-11, no refresh token, products OpenID Connect + Share on LinkedIn only, missing Marketing Developer Platform)",
+  "currentBlocker": "OAuth browser approval — script generated auth URL, callback listener closed, awaiting Ken to click Allow in browser",
+  "scopesRequested": [
+    "openid",
+    "profile",
+    "email",
+    "r_basicprofile",
+    "r_ads",
+    "r_ads_reporting",
+    "r_organization_social",
+    "r_organization_admin",
+    "r_1st_connections_size"
+  ],
+  "scopesRationale": "Read-only Marketing/Advertising API set per LinkedIn Increasing Access doc (li-lms-2026-06) Advertising API program permissions table. r_ads for ad accounts, r_ads_reporting for reporting, r_basicprofile/r_organization_social/r_organization_admin/r_1st_connections_size for member+org reads required by ad endpoints. Write scopes (rw_ads, w_organization_social, w_member_social) explicitly excluded to keep this a non-mutating probe.",
+  "authorizationUrl": "https://www.linkedin.com/oauth/v2/authorization?response_type=code&client_id=86fb2cb4ga03jy&redirect_uri=http%3A%2F%2Flocalhost%3A8765%2Fcallback&scope=openid%20profile%20email%20r_basicprofile%20r_ads%20r_ads_reporting%20r_organization_social%20r_organization_admin%20r_1st_connections_size&state=OSmdL5nvHKbp1N44sH9N7cBQUFGNGhmrYCabeTSdsE4",
+  "authorizationUrlExpiresAt": "2026-07-15T08:40:00Z (state param valid 30 min from issue; if past, re-run auth script for a fresh URL)",
+  "instructionsForKen": [
+    "1. Open the authorizationUrl above in any browser (the script also auto-attempted 'open' on macOS).",
+    "2. Log in as the AInchors business account (the one approved for Marketing/Advertising API product on app 86fb2cb4ga03jy).",
+    "3. Review the consent screen — it will list 9 scopes (3 OpenID Connect + 6 Marketing/Advertising read).",
+    "4. Click Allow.",
+    "5. Browser will redirect to http://localhost:8765/callback?code=... — local listener MUST be running for the script to capture the code. The listener is started by the script itself.",
+    "6. Yoda should re-run: zsh scripts/linkedin-auth.sh --account business  (this will start a new listener on 8765 AND attempt to open the URL again; user can reuse the URL or let the script generate a fresh one).",
+    "7. If the script is started in the same workspace session as Ken's browser, the listener will catch the redirect and the script will continue automatically."
+  ],
+  "postAuthPlan": {
+    "step1_verify_keychain": "Confirm both access and refresh tokens are stored: security find-generic-password -a linkedin -s ainchors-linkedin-business-access-token -w  ;  security find-generic-password -a linkedin -s ainchors-linkedin-business-refresh-token -w",
+    "step2_update_state": "Update state/linkedin-auth-business.json with new authorizedAt, tokenExpiry, refreshTokenPresent, and a liveVerification block recording Marketing/Advertising API products, allowedScopes, and the userinfo HTTP code.",
+    "step3_token_probe_endpoint": "GET https://api.linkedin.com/rest/adAccounts",
+    "step3_token_probe_headers": {
+      "Authorization": "Bearer <access_token from Keychain>",
+      "LinkedIn-Version": "202606",
+      "X-Restli-Protocol-Version": "2.0.0"
+    },
+    "step3_expected_outcome": "HTTP 200 with JSON body listing ad accounts the authenticated member can administer. An empty elements array is fine (account may have no ad accounts). 401 = token issue. 403 = product/scope not actually approved. 404 = endpoint path issue. 5xx = LinkedIn side.",
+    "step4_token_probe_fallback_endpoints": [
+      "GET https://api.linkedin.com/v2/adAccountsV2  (legacy v2 path)",
+      "GET https://api.linkedin.com/v2/organizations  (read orgs the member admins)"
+    ],
+    "step5_update_token_health": "Write state/linkedin-token-health-business.json with the probe result (HTTP code, sanitized body summary, error code if any).",
+    "step6_close_out": "Mark TKT-1001 done. Append CHG-0887 verification entry. Update state/linkedin-auth-business.json liveVerification block."
+  },
+  "deliverablesSoFar": {
+    "backupPath": "scripts/linkedin-auth.sh.bak.CHANGELOG-0887-20260715T081011Z",
+    "backupChecksumSha256": "7242683bf4ea20dc2ae165fabb19a963edc537e90f8828f4f290333addaab402",
+    "scopesUpdate": "ACCOUNT_SCOPES[business] set to 9-scope read-only Marketing/Advertising API set in scripts/linkedin-auth.sh",
+    "businessGuardRemoved": "Replaced the hard 'Marketing Developer Platform missing' exit-1 block with a historical note pointing to the backup. Syntax validated with zsh -n.",
+    "dryRunVerified": "zsh scripts/linkedin-auth.sh --dry-run --account business printed the correct scope list and the correct state-file path (state/linkedin-auth-business.json) and Keychain service prefixes (ainchors-linkedin-business-access-token / ainchors-linkedin-business-refresh-token).",
+    "authUrlSurface": "URL above. Yoda should DM this to Ken via Telegram (chunked per AGENTS.md 3,800-char limit).",
+    "keychainCredentialsVerified": "LinkedIn client_id (86fb2cb4ga03jy) and client_secret present in Keychain."
+  }
+}

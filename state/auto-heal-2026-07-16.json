@@ -1,0 +1,27 @@
+{
+  "runAt": "2026-07-15T15:00:08Z",
+  "runAtLocal": "2026-07-16 01:00 AEST",
+  "duration_ms": 0,
+  "checks_run": [
+  "auth_profiles",
+  "delegated_auth",
+  "cron_health",
+  "backup_freshness"
+],
+  "checks_count": 4,
+  "issues_found": [
+  "auth:file-missing:main",
+  "auth:file-missing:business",
+  "auth:file-missing:security",
+  "auth:file-missing:legal",
+  "auth:file-missing:qa"
+],
+  "issues_count": 5,
+  "auto_fixed": [],
+  "auto_fixed_count": 0,
+  "needs_ken": [
+  "auth-profiles.json missing for one or more agents — CHG-0857 requires recreation"
+],
+  "needs_ken_count": 1,
+  "exit_status": "crashed"
+}

@@ -335,7 +335,8 @@ state/skill-audit-report-${DATE_STAMP}.json
 
 TKT: TKT-0141"
 
-  zsh "${TELEGRAM_SCRIPT}" --message "${MSG}" 2>&1 || echo "⚠️  Telegram alert failed (non-fatal)"
+  # TKT-1004 (CHG-0898) + CHG-0799: route platform alert to BOTH Ken + Angie.
+  zsh "${TELEGRAM_SCRIPT}" --message "${MSG}" --recipients "8574109706,8141152780" 2>&1 || echo "⚠️  Telegram alert failed (non-fatal)"
 
 elif [[ "${FLAGGED}" -gt 0 ]]; then
   echo "⚠️  ${FLAGGED} FLAG(S) logged — no immediate alert (weekly summary only)"

@@ -1,30 +1,25 @@
 {
-  "checkedAt": "2026-07-14T20:30:30Z",
-  "checkedDate": "2026-07-15",
+  "checkedAt": "2026-07-15T22:01:32Z",
+  "checkedDate": "2026-07-16",
   "okCount": 2,
-  "expiredCount": 0
-0,
-  "missingCount": 0
-0,
-  "warnCount": 0
-0,
+  "expiredCount": 0,
+  "missingCount": 0,
+  "warnCount": 0,
   "allValid": true,
   "accounts": [
     {
       "email": "kenmun@ainchors.com",
       "label": "Ken Mun (CTO)",
-      "services": "gmail,calendar,drive,contacts,sheets,docs — token valid",
+      "services": "gmail,calendar,drive,contacts,sheets,docs \u2014 token valid",
       "status": "OK",
       "detail": ""
-    }
-,
+    },
     {
       "email": "angie.foong@ainchors.com",
       "label": "Angie Foong (CEO)",
-      "services": "calendar,gmail — token valid",
+      "services": "calendar,gmail \u2014 token valid",
       "status": "OK",
       "detail": ""
     }
-
   ]
 }

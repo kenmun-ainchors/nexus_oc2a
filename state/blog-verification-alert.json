@@ -1,0 +1,11 @@
+{
+  "schema": "blog-verification-alert-v1",
+  "generated_at": "2026-07-16T06:50:15+10:00",
+  "escalated_at": "2026-07-16T06:55:00+10:00",
+  "date_missing": "2026-07-15",
+  "expected_path": "/Users/ainchorsoc2a/.openclaw/canvas/documents/ainchors-2026-07-15/index.html",
+  "day_of_week": "Wednesday",
+  "message": "❌ EOD blog for 2026-07-15 not found. The EOD blog cron (a027fd60) may have silently failed. No prior blog alert exists — this is a new finding. Escalated to Ken via heartbeat.",
+  "acknowledged": false,
+  "escalated_to_ken": true
+}

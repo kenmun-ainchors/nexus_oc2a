@@ -33,7 +33,12 @@ def send_alert(session_id, details):
     # Inject as a system event via the gateway API or a specialized script
     alert_text = f"🚩 [S-Sentry] TQP VIOLATION: {details}. REQUIRED ACTION: Call sc_persist_atom immediately."
     # Using the system event trigger via the gateway
-    subprocess.run(["/Users/ainchorsoc2a/.openclaw/workspace/scripts/telegram-alert.sh", "TQP_VIOLATION", alert_text])
+    # TKT-1004 (CHG-0898) + CHG-0799: route to BOTH Ken + Angie.
+    subprocess.run([
+        "/Users/ainchorsoc2a/.openclaw/workspace/scripts/telegram-alert.sh",
+        "--message", alert_text,
+        "--recipients", "8574109706,8141152780",
+    ])
 
 def log_violation(session_id, tkt_id, tool, path):
     log_entry = {

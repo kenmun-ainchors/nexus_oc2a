@@ -2,9 +2,13 @@
 # telegram-alert.sh — API-independent Telegram alert via direct Bot HTTP
 # TKT-0113: Fallback alert that works even when Anthropic API is down
 # CHG-0799: Multi-recipient via --recipients flag (comma-separated chat IDs)
+# TKT-1004 (CHG-0898): platform/cron/infra/business alerts MUST use
+#   --recipients "8574109706,8141152780" (Ken + Angie). The --chat-id
+#   single-recipient path is for tests / Foodie group / one-off pings only.
 #
 # Usage:
-#   telegram-alert.sh --message "text" [--chat-id CHAT_ID] [--recipients 'id1,id2'] [--silent]
+#   telegram-alert.sh --message "text" --recipients '8574109706,8141152780' [--silent]
+#   telegram-alert.sh --message "text" --chat-id CHAT_ID [--silent]
 #
 # SKILL GATE: telegram skill MUST be loaded before use.
 SCRIPT_DIR_TG="$(cd "$(dirname "$0")" && pwd)"
@@ -21,6 +25,8 @@ source "${SCRIPT_DIR_TG}/skill-gate.sh" "telegram" || exit $?
 set -uo pipefail
 
 BOT_KEYCHAIN_SERVICE="telegram-bot-token"
+# TKT-1004 (CHG-0898): single-recipient default is Ken for backwards compat only.
+# Platform/cron/infra alerts MUST use --recipients "8574109706,8141152780".
 DEFAULT_CHAT_ID="8574109706"  # Ken Mun
 TELEGRAM_API="https://api.telegram.org"
 

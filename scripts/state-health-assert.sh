@@ -169,7 +169,8 @@ except:
 
 send_telegram_alert() {
   log "Sending Telegram alert for blocked EOD..."
-  bash "${WORKSPACE}/scripts/telegram-alert.sh" --message "TKT-REC5 EOD BLOCKED - ${DATE}
+  # TKT-1004 (CHG-0898) + CHG-0799: route to BOTH Ken + Angie.
+  bash "${WORKSPACE}/scripts/telegram-alert.sh" --recipients "8574109706,8141152780" --message "TKT-REC5 EOD BLOCKED - ${DATE}
 State-Health-Assert FAILED: ${FAILED_NAMES}
 Block file: ${BLOCK_FILE}
 EOD finalizer will skip journal, blog, and drive sync."

@@ -233,10 +233,12 @@ MINIO_HEALTH=$(curl -sf --connect-timeout 3 http://127.0.0.1:9000/minio/health/l
 if [[ "$MINIO_HEALTH" != "ok" ]]; then
   ISSUES+=("MinIO: down (http://127.0.0.1:9000/minio/health/live failed)")
   log "CHECK 18: MinIO DOWN"
-  # Alert via Telegram if gateway is healthy enough
+  # Alert via Telegram if gateway is healthy enough.
+  # TKT-1004 (CHG-0898) + CHG-0799: route to BOTH Ken + Angie.
   bash "$WORKSPACE/scripts/telegram-alert.sh" \
-    "📦 MinIO down on OC1 — native minio process not responding on :9000. Check: pgrep minio / launchctl list com.ainchors.minio" \
-    "$TELEGRAM_CHAT_ID" 2>/dev/null || true
+    --message "📦 MinIO down on OC1 — native minio process not responding on :9000. Check: pgrep minio / launchctl list com.ainchors.minio" \
+    --recipients "8574109706,8141152780" --silent \
+    2>/dev/null || true
 else
   log "CHECK 18: MinIO ok"
 fi

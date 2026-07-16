@@ -1,0 +1,12 @@
+{
+  "status": "ok",
+  "agents": {
+    "foodie": {
+      "status": "ok",
+      "model": "ollama/deepseek-v4-flash:cloud",
+      "lastSeen": "2026-07-15T12:25:00+10:00",
+      "role": "heartbeat agent"
+    }
+  },
+  "lastUpdated": "2026-07-15T12:25:00+10:00"
+}

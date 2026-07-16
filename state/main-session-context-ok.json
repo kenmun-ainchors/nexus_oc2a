@@ -1,12 +1,17 @@
 {
-  "timestamp": "2026-07-14T22:01:39Z",
-  "aestTimestamp": "2026-07-15T08:01:39+1000",
-  "sessionKey": "agent:main:dashboard:626ab283-b770-4797-a9ba-74b830eebb07",
-  "sessionId": "2de44746-40e6-4287-a995-815d521cf74e",
-  "totalTokens": 38565,
+  "timestamp": "2026-07-15T22:03:52Z",
+  "aestTimestamp": "2026-07-16T08:03:52+1000",
+  "sessionKey": "agent:main:dashboard:be3c4040-84e1-4939-8c9c-ec3bea41002a",
+  "sessionId": "0f44b427-b6bf-44fc-9015-4bf9fe28afc6",
+  "totalTokens": 87418,
   "contextTokens": 262144,
-  "contextRatio": 14,
-  "estimatedMessages": 52,
+  "contextRatio": 33,
+  "estimatedMessages": 117,
   "model": "kimi-k2.7-code:cloud",
-  "status": "ok"
+  "status": "ok",
+  "warningThresholds": {
+    "totalTokens": 196000,
+    "estimatedMessages": 270,
+    "contextRatio": 75
+  }
 }
