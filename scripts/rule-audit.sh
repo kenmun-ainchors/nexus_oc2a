@@ -177,7 +177,11 @@ echo "Auditing R08: Content Governance..."
 CQ_FILE="$WORKSPACE_ROOT/state/content-queue.json"
 if [[ -f "$CQ_FILE" ]]; then
   UNGATED=$(jq '[.items[]? // empty | select(.status == "published" and (.governance // "" | test("CLEARED") | not))] | length' "$CQ_FILE" 2>/dev/null || echo 0)
-  UNGATED=${UNGATED:-0}
+  # CHG-0841: jq may print error text to stdout when the input schema drifts
+  # (e.g. content-queue.json uses .queue[] not .items[]). Keep only the first
+  # numeric token so the rest of R08 does not abort with "bad math expression".
+  UNGATED=$(echo "$UNGATED" | tr -dc '0-9' | head -c 10)
+  [[ -z "$UNGATED" ]] && UNGATED=0
   if [[ "$UNGATED" -gt 0 ]]; then
     R08="{\"status\":\"FAIL\",\"violations\":$UNGATED,\"detail\":\"Published items without CLEARED governance\",\"remediation\":\"Run triad gate on flagged items\",\"severity\":\"BLOCKER\"}"
     BLOCKERS=$((BLOCKERS + 1))

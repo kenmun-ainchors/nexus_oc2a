@@ -267,12 +267,25 @@ if [[ -f "$AUTH_FILE" ]]; then
   fi
 else
   # CHG-0857: Check all agents (main, business, security, legal, qa) for auth-profiles.json
+  # CHG-0857 hardening: defensively guard each agent_dir with [[ -d ... ]] before testing
+  # the file inside it. Wrap $(basename $(dirname ...)) with `|| echo unknown` so a malformed
+  # agent_dir (e.g. unexpected layout) cannot propagate an error through the substitution
+  # and trip the ERR trap under `set -euo pipefail`. Goal: missing-file check always reports
+  # NEEDS_KEN, never crashes the whole auto-heal run.
   AUTH_CHECK_FAILED=false
   for agent_dir in "$HOME/.openclaw/agents/main/agent" "$HOME/.openclaw/agents/business/agent" "$HOME/.openclaw/agents/security/agent" "$HOME/.openclaw/agents/legal/agent" "$HOME/.openclaw/agents/qa/agent"; do
+    if [[ ! -d "$agent_dir" ]]; then
+      AUTH_CHECK_FAILED=true
+      agent_name=$(basename "$(dirname "$agent_dir")" 2>/dev/null || echo "unknown")
+      ISSUES_FOUND+=("auth:dir-missing:${agent_name}")
+      log "  ISSUE: ${agent_name} agent dir missing (${agent_dir})"
+      continue
+    fi
     if [[ ! -f "$agent_dir/auth-profiles.json" ]]; then
       AUTH_CHECK_FAILED=true
-      ISSUES_FOUND+=("auth:file-missing:$(basename $(dirname $agent_dir))")
-      log "  ISSUE: $(basename $(dirname $agent_dir)) auth-profiles.json missing"
+      agent_name=$(basename "$(dirname "$agent_dir")" 2>/dev/null || echo "unknown")
+      ISSUES_FOUND+=("auth:file-missing:${agent_name}")
+      log "  ISSUE: ${agent_name} auth-profiles.json missing"
     fi
   done
   if [[ "$AUTH_CHECK_FAILED" == "true" ]]; then
@@ -343,8 +356,19 @@ write_state
 # ---------- CHECK 3: Backup freshness ----------
 log "CHECK 3: backup freshness"
 CHECKS_RUN+=("backup_freshness")
-LATEST_FULL=$(ls -t "$HOME/Backups/ainchors/workspace/" 2>/dev/null | head -1)
-LATEST_INCR=$(ls -t "$HOME/Backups/ainchors/workspace-incremental/" 2>/dev/null | head -1)
+# CHG-0857 hardening: `ls -t <dir> | head -1` on a missing directory exits 1, and with
+# `set -euo pipefail` that non-zero exit propagates through the pipeline and through
+# the `$(...)` command substitution, tripping the ERR trap and aborting the run.
+# Guard with `[[ -d ... ]]` so ls only runs when the directory exists, and fall back
+# to an empty string so the rest of the check (incremental, type, age) still proceeds.
+LATEST_FULL=""
+LATEST_INCR=""
+if [[ -d "$HOME/Backups/ainchors/workspace" ]]; then
+  LATEST_FULL=$(ls -t "$HOME/Backups/ainchors/workspace/" 2>/dev/null | head -1 || true)
+fi
+if [[ -d "$HOME/Backups/ainchors/workspace-incremental" ]]; then
+  LATEST_INCR=$(ls -t "$HOME/Backups/ainchors/workspace-incremental/" 2>/dev/null | head -1 || true)
+fi
 LATEST_BACKUP=""
 BACKUP_PATH=""
 BACKUP_TYPE=""
@@ -2213,9 +2237,12 @@ CHECKS_RUN+=("model_policy_drift")
 DRIFT_SCRIPT="$WORKSPACE/scripts/check-model-policy-drift.sh"
 if [[ -x "$DRIFT_SCRIPT" ]]; then
   DRIFT_OUT=$(bash "$DRIFT_SCRIPT" 2>/dev/null) || true
-  DRIFT_STATUS=$(echo "$DRIFT_OUT" | $JQ -r '.status // "error"' 2>/dev/null || true)
+  # CHG-0857: $JQ was never defined; under set -u the unset parameter expansion
+  # would abort the whole run before the `|| true` could catch it. Use the bare
+  # `jq` binary directly (the rest of the script already calls `jq` that way).
+  DRIFT_STATUS=$(echo "$DRIFT_OUT" | jq -r '.status // "error"' 2>/dev/null || true)
   if [[ "$DRIFT_STATUS" == "drift" ]]; then
-    DRIFT_ALERTS=$(echo "$DRIFT_OUT" | $JQ -r '.alerts | join("; ")' 2>/dev/null || true)
+    DRIFT_ALERTS=$(echo "$DRIFT_OUT" | jq -r '.alerts | join("; ")' 2>/dev/null || true)
     log "CHECK 28i: DRIFT detected — $DRIFT_ALERTS"
     NEEDS_KEN+=("TKT-0540 CHECK 28i: model-policy drift detected — $DRIFT_ALERTS. See state/model-policy-drift-alert.json.")
   else

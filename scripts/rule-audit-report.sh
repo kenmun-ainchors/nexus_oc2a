@@ -1,17 +1,31 @@
 #!/bin/zsh
 # AInchors Weekly Compliance Report — TKT-0237 B2
 # Generates HTML canvas report from rule-audit-report.json history.
-# Delivers Telegram flash + webchat embed.
+# Delivers Telegram flash + webchat embed (Telegram-only per CHG-0906).
 # Runs Monday 09:00 AEST. Owner: Warden | Sprint 4.
+# CHG-0906: WEEK_END is previous Sunday (not run date). Run rule-audit.sh
+#   if state/rule-audit-report.json is missing/stale so the report never
+#   silently scores 0 from a placeholder. Email delivery removed — Ken
+#   confirmed Telegram-only channel for 8574109706 (Telegram, not email).
 
 set -u
 
 WORKSPACE_ROOT="/Users/ainchorsoc2a/.openclaw/workspace"
 AUDIT_FILE="$WORKSPACE_ROOT/state/rule-audit-report.json"
+RULE_AUDIT_SCRIPT="$WORKSPACE_ROOT/scripts/rule-audit.sh"
 REPORT_DIR="$WORKSPACE_ROOT/canvas/documents/rule-audit-weekly"
 REPORT_HTML="$REPORT_DIR/index.html"
-TODAY=$(date '+%Y-%m-%d')
-WEEK_END=$(date '+%d %b %Y')
+
+# ──────────────────────────────────────────
+# Determine reporting window (AEST)
+# ──────────────────────────────────────────
+# Cron runs Mon 09:00 AEST; WEEK_END must be the previous Sunday.
+# Use DOW (1=Mon..7=Sun ISO) and subtract that many days on macOS BSD date.
+TODAY=$(TZ=Australia/Melbourne date '+%Y-%m-%d')
+NOW_ISO=$(TZ=Australia/Melbourne date -Iseconds)
+DOW=$(TZ=Australia/Melbourne date '+%u')
+WEEK_END=$(TZ=Australia/Melbourne date -v -${DOW}d '+%d %b %Y')
+
 SCORE=0
 PASS_COUNT=0
 FAIL_COUNT=0
@@ -19,27 +33,64 @@ WARN_COUNT=0
 TOTAL_VIOLS=0
 
 # ──────────────────────────────────────────
+# ATOM 5.0: Ensure audit data exists (CHG-0841)
+# ──────────────────────────────────────────
+
+ensure_audit_data() {
+  local max_age_hours=24
+  if [[ -f "$AUDIT_FILE" ]]; then
+    local file_mtime_epoch
+    file_mtime_epoch=$(stat -f %m "$AUDIT_FILE" 2>/dev/null || stat -c %Y "$AUDIT_FILE" 2>/dev/null || echo 0)
+    local now_epoch
+    now_epoch=$(date +%s)
+    local age_hours=$(( (now_epoch - file_mtime_epoch) / 3600 ))
+    if [[ "$age_hours" -le "$max_age_hours" ]]; then
+      echo "Compliance Report: Using existing $AUDIT_FILE (age ${age_hours}h)"
+      return 0
+    fi
+    echo "Compliance Report: $AUDIT_FILE is stale (age ${age_hours}h > ${max_age_hours}h). Regenerating..."
+  else
+    echo "Compliance Report: $AUDIT_FILE missing. Running rule-audit.sh first..."
+  fi
+  if [[ -x "$RULE_AUDIT_SCRIPT" ]]; then
+    if ! zsh "$RULE_AUDIT_SCRIPT" >/tmp/rule-audit-prep.log 2>&1; then
+      echo "Compliance Report: ERROR — rule-audit.sh failed. See /tmp/rule-audit-prep.log" >&2
+      tail -20 /tmp/rule-audit-prep.log >&2
+      return 1
+    fi
+  else
+    echo "Compliance Report: ERROR — $RULE_AUDIT_SCRIPT not found or not executable" >&2
+    return 1
+  fi
+  if [[ ! -f "$AUDIT_FILE" ]]; then
+    echo "Compliance Report: ERROR — rule-audit.sh ran but $AUDIT_FILE still missing" >&2
+    return 1
+  fi
+  echo "Compliance Report: Audit data regenerated at $AUDIT_FILE"
+  return 0
+}
+
+if ! ensure_audit_data; then
+  echo "Compliance Report: ABORTING — no audit data; refusing to emit a placeholder score." >&2
+  exit 1
+fi
+
+# ──────────────────────────────────────────
 # ATOM 5.1: Generate HTML Report
 # ──────────────────────────────────────────
 
 echo "Compliance Report: Generating for week ending $WEEK_END..."
 
-# Parse current audit data
-if [[ -f "$AUDIT_FILE" ]]; then
-  PASS_COUNT=$(jq '.summary.passed // 0' "$AUDIT_FILE" 2>/dev/null || echo 0)
-  FAIL_COUNT=$(jq '.summary.failed // 0' "$AUDIT_FILE" 2>/dev/null || echo 0)
-  WARN_COUNT=$(jq '.summary.warned // 0' "$AUDIT_FILE" 2>/dev/null || echo 0)
-  TOTAL_VIOLS=$(jq '.summary.totalViolations // 0' "$AUDIT_FILE" 2>/dev/null || echo 0)
-  TOTAL_RULES=$((PASS_COUNT + FAIL_COUNT + WARN_COUNT))
-  
-  # Weighted score: BLOCKER = -10%, WARNING = -3%
-  if [[ "$TOTAL_RULES" -gt 0 ]]; then
-    SCORE=$(echo "scale=0; 100 - ($FAIL_COUNT * 10 + $WARN_COUNT * 3) / $TOTAL_RULES * 100 / 100" | bc 2>/dev/null || echo 0)
-  fi
-else
-  echo "Compliance Report: No audit data available. Generating placeholder."
-  TOTAL_RULES=10
-  SCORE=0
+# Parse current audit data (ensure_audit_data guarantees $AUDIT_FILE exists)
+PASS_COUNT=$(jq '.summary.passed // 0' "$AUDIT_FILE" 2>/dev/null || echo 0)
+FAIL_COUNT=$(jq '.summary.failed // 0' "$AUDIT_FILE" 2>/dev/null || echo 0)
+WARN_COUNT=$(jq '.summary.warned // 0' "$AUDIT_FILE" 2>/dev/null || echo 0)
+TOTAL_VIOLS=$(jq '.summary.totalViolations // 0' "$AUDIT_FILE" 2>/dev/null || echo 0)
+TOTAL_RULES=$((PASS_COUNT + FAIL_COUNT + WARN_COUNT))
+
+# Weighted score: BLOCKER = -10%, WARNING = -3%
+if [[ "$TOTAL_RULES" -gt 0 ]]; then
+  SCORE=$(echo "scale=0; 100 - ($FAIL_COUNT * 10 + $WARN_COUNT * 3) / $TOTAL_RULES * 100 / 100" | bc 2>/dev/null || echo 0)
 fi
 
 # Get rule details
@@ -219,10 +270,11 @@ echo "=== Flash length: $(echo -n "$FLASH" | wc -c) chars (max: 600) ==="
 
 # ──────────────────────────────────────────
 # ATOM 5.3: Output for cron delivery
+# Telegram-only per CHG-0906 (Ken directive 2026-07-16).
 # ──────────────────────────────────────────
 
 echo ""
-echo "Delivery instructions for cron agent:"
+echo "Delivery instructions for cron agent (Telegram-only):"
 echo "1. Send Telegram flash to 8574109706"
 echo "2. Announce webchat embed: [embed url=\"/__openclaw__/canvas/documents/rule-audit-weekly/index.html\" title=\"Weekly Compliance Report\" height=\"800\" /]"
 
