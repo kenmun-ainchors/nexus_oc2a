@@ -1,3 +1,87 @@
+## 2026-07-18 21:50 MYT — [CHG-0924] CHG-0924 R01 auto-heal cron — periodic session trajectory tilde-path sweep
+**Type:** cron
+**Change Type:** Normal
+**Source:** ken-prompt
+**Trigger:** Ken temporary authority 2026-07-18 21:25 AEST: complete the R01 fix and resolve new/open bugs. R01 remains FAIL because the OpenClaw gateway writes literal ~/.openclaw into active session metadata.
+**What changed:** Create scripts/r01-session-sweep.sh to safely replace ~/.openclaw with /Users/ainchorsoc2a/.openclaw in all .jsonl files under /Users/ainchorsoc2a/.openclaw/agents/*/sessions/, skipping locked/active files and files modified in last 60s. Add OpenClaw cron to run every 5 minutes. Run once immediately and verify rule-audit.sh R01 PASS.
+**Why:** CHG-0923 manual sweep reduced R01 from 182 to ~54, but the gateway re-poisons active session files every turn. A recurring sweep keeps R01 PASS until the runtime can be patched to emit absolute paths natively.
+**Verification:** rule-audit.sh R01 PASS after sweep; cron appears in openclaw cron list with correct schedule and model.
+**Rollback:** Disable cron via openclaw cron disable <id>; delete scripts/r01-session-sweep.sh; restore files from state/chg-0923-backups/ if needed.
+**Linked:** CHG-0917,CHG-0921,CHG-0922,CHG-0923,R01
+---
+
+## 2026-07-18 21:21 MYT — [CHG-0923] CHG-0923 R01 bulk trajectory tilde-path sweep — all remaining live-session files
+**Type:** infra
+**Change Type:** Normal
+**Source:** ken-prompt
+**Trigger:** Ken directive 2026-07-18 21:20 AEST: open follow-on CHG to clear all remaining R01 violations after CHG-0921 partial fix.
+**What changed:** Scan all live session trajectory files under ~/.openclaw/agents/*/sessions/ for tilde ~/.openclaw references. Replace with /Users/ainchorsoc2a/.openclaw. Back up each modified file. Verify rule-audit.sh R01 PASS.
+**Why:** CHG-0921 only cleared 16 refs in one file; R01 audit reports ~138-150 remaining violations across 25+ live session files. R01 will keep flapping every heartbeat until the full trajectory directory is normalized.
+**Verification:** rule-audit.sh R01 PASS after sweep; backup directory state/chg-0923-backups/ contains pre-edit copies.
+**Rollback:** Restore files from state/chg-0923-backups/ or git revert CHG-0923 commit.
+**Linked:** CHG-0917,CHG-0921,CHG-0922,R01
+---
+
+## 2026-07-18 21:15 MYT — [CHG-0922] CHG-0919 cron 176cd48b model swap to deepseek-v4-flash:cloud + rule-audit verification
+**Type:** cron
+**Change Type:** Normal
+**Source:** ken-prompt
+**Trigger:** Ken directive 2026-07-18 21:14 AEST: replace invalid deepseek-flash model in cron 176cd48b with deepseek-v4-flash:cloud, then run rule-audit.sh to confirm R01 + R09 PASS.
+**What changed:** Cron 176cd48b-0afd-4111-be37-850040c7316f payload.model updated from deepseek-flash to ollama/deepseek-v4-flash:cloud. rule-audit.sh executed; expected R01 PASS and R09 PASS.
+**Why:** deepseek-flash is not in globalAllowedModels; the cron fails model validation. R01+R09 verification closes the CHG-0917/CHG-0921 compliance bundle.
+**Verification:** openclaw cron get 176cd48b shows model=ollama/deepseek-v4-flash:cloud; rule-audit.sh reports R01 PASS and R09 PASS.
+**Rollback:** openclaw cron edit 176cd48b --model deepseek-flash; git revert CHG-0919 commit.
+**Linked:** CHG-0917,CHG-0921,R09,cron-176cd48b
+---
+
+## 2026-07-18 21:15 MYT — [CHG-0921] CHG-0918 R01 trajectory tilde-path residual fixes
+**Type:** infra
+**Change Type:** Normal
+**Source:** ken-prompt
+**Trigger:** Ken directive 2026-07-18 21:14 AEST: finish last 8 R01 violations in three agents/main/sessions JSONL files after CHG-0917.
+**What changed:** Replace remaining ~/.openclaw references with /Users/ainchorsoc2a/.openclaw in: agents/main/sessions/7f96942e-4f80-4eaa-bf3a-41202a932e02.jsonl, agents/main/sessions/7f96942e-4f80-4eaa-bf3a-41202a932e02.trajectory.jsonl, agents/main/sessions/fbf8fe50-3b75-4184-85e2-182d30bd105f.trajectory.jsonl.
+**Why:** R01 compliance requires absolute canonical paths in live-session trajectory files. CHG-0917 left 8 residual tilde-path violations.
+**Verification:** rule-audit.sh R01 PASS (to be confirmed by CHG-0919 step 3).
+**Rollback:** Restore from CHG-0917 backups or git revert CHG-0918 commit.
+**Linked:** CHG-0917,CHG-0919,R01
+---
+
+## 2026-07-18 15:13 MYT — [CHG-0920] rule-audit.sh R09 freshness gap fix
+**Type:** script
+**Change Type:** Normal
+**Source:** ken-prompt
+**Trigger:** Ken approved optional follow-up to CHG-0917: rule-audit.sh R09 currently reads stale cron-health-alert.json instead of fresh cron state
+**What changed:** Modify scripts/rule-audit.sh R09 logic to also read state/cron-health-state.json (always fresh) OR modify scripts/cron-health-check.sh to always write state/cron-health-alert.json with failures=[] on clean runs. Ensure R09 reflects actual current cron health and does not report stale consecutiveErrors after failures have cleared.
+**Why:** After CHG-0917 cleared all cron failures, rule-audit.sh would still report stale consecutiveErrors if cron-health-alert.json were not refreshed. Closing this gap prevents false-positive BLOCKERs on future clean runs.
+**Verification:** Run rule-audit.sh after clearing all cron failures; confirm R09=PASS and detail shows 'All crons healthy'. Verify R09=FAIL when a cron genuinely has >=3 consecutive errors.
+**Rollback:** Revert rule-audit.sh to previous R09 implementation or restore cron-health-check.sh previous behavior.
+**Linked:** CHG-0917, R09, TKT-0237, cron-health
+---
+
+## 2026-07-18 15:13 MYT — [CHG-0919] Cron model routing DNS resilience investigation
+**Type:** infra
+**Change Type:** Normal
+**Source:** ken-prompt
+**Trigger:** Ken approved follow-up to CHG-0917: investigate ollama/deepseek-flash model_not_found (404) on local Ollama and cloud-tagged model DNS dependency
+**What changed:** Investigate why ollama/deepseek-flash returns model_not_found (404) on local Ollama and why cloud-tagged models route to ollama.com. Evaluate local-only model fallback for crons, more resilient routing config, or proxy/DNS redundancy to prevent a single ollama.com DNS outage from disabling many crons. Document findings and implement agreed fix.
+**Why:** R09 blockers were caused by ollama.com DNS outage. Crons that use cloud-tagged models route to ollama.com, creating a single point of failure for governance and operational crons.
+**Verification:** Confirm crons can survive an ollama.com outage via local model fallback or alternative routing; verify via controlled test if safe, or via code/config review.
+**Rollback:** Revert routing config changes; re-enable cloud routing if local fallback causes issues.
+**Linked:** CHG-0917, R09, TKT-0237, model-routing
+---
+
+## 2026-07-18 15:13 MYT — [CHG-0918] Comprehensive R01 tilde-path sweep
+**Type:** data
+**Change Type:** Normal
+**Source:** ken-prompt
+**Trigger:** Ken approved follow-up to CHG-0917: remove head -30 truncation in rule-audit.sh and sweep all tilde refs workspace-wide
+**What changed:** 1. Modify scripts/rule-audit.sh to remove the 'head -30' cap in the R01 active-trajectory scan so the full 24h window of .jsonl files is checked. 2. Sweep all ~/.openclaw/agents trajectory files (main/sessions, infra/sessions, foodie/sessions, etc.) and replace leading ~/.openclaw with /Users/ainchorsoc2a/.openclaw per CHG-0281. 3. Backup files using state/chg-0917-backups/ rollback strategy before modification.
+**Why:** CHG-0917 fixed the 9 flagged files but rule-audit.sh's head -30 truncation hides an estimated 99% of tilde refs in the active-agent 24h window. Full compliance requires a complete sweep.
+**Verification:** Re-run rule-audit.sh and confirm R01=PASS with zero tilde refs across all active agent trajectories. Verify backups allow rollback.
+**Rollback:** Restore trajectory files from state/chg-0918-backups/ and revert rule-audit.sh change.
+**Linked:** CHG-0281, CHG-0917, R01
+---
+
 ## 2026-07-18 14:40 MYT — [CHG-0917] Weekly Compliance R01+R09 blocker fix
 **Type:** data
 **Change Type:** Normal
@@ -14331,3 +14415,18 @@ These 6 crons will continue to fire 2h early in MYT wall-clock. Ken should appro
 **Rollback:** `git revert 491b52f9` to undo all script changes. Cron fields: `openclaw cron edit <id> --tz Australia/Melbourne --name "<original>"`.
 
 CHG-0913 COMPLETE
+
+## 2026-07-18 22:01 MYT — [CHG-0924] R01 sweep script executed + 5-minute cron created (cron id ad213be3)
+**Type:** infra
+**Change Type:** Normal
+**Source:** subagent (CHG-0924 execute)
+**Trigger:** Implementation of the sweep described above.
+**What changed:** Created `scripts/r01-session-sweep.sh` (1.3KB, sha256 ebdf2bbdbccfddf60584ac8d15e6b47cd74495ea95ac15aac6b0eb9c42bcc737). Created OpenClaw cron `ad213be3-35d4-427c-a58f-2cfaf033a66f` ("R01 Session Trajectory Tilde Sweep (CHG-0924)") — `*/5 * * * *` @ Asia/Kuala_Lumpur, agent=main, session=isolated, model=ollama/deepseek-v4-flash:cloud, tools=[exec,read,write,edit], delivery=none. Wrote `state/r01-session-sweep-last-run.json` with first-run summary.
+**First-run summary (attempt 1, 22:00 MYT):** filesProcessed=25, tildeRefsReplaced=96, filesSkippedLocked=0, filesSkippedFresh=2, filesSkippedStructural=1, filesFailed=0. After sweep, rule-audit.sh showed R01 still FAIL with 79 violations (was 91), 12 dropped to 0, residual dominated by gateway-active files.
+**Why R01 still FAIL after 3 attempts (residual R01 violation breakdown):**
+- `d7b82941-467c-44a0-bd1f-09d703fb4210.jsonl` (51 tildes, mtime 21:47): gateway's own session file, structurally skipped. The OpenClaw gateway process (PID 76181) writes ~3-5 tildes per turn into this file; the sweep cannot safely replace it while the runtime is actively writing. lsof shows the gateway does NOT hold an open fd on the file, so the writer is a fresh per-turn open/write/close cycle — a race condition that risks losing data. Documented as structural in CHG-0923; sweep is configured to skip this file.
+- `7687cc42-6870-41d1-9c34-aaba4f8ac6ac.jsonl` (24-26 tildes, mtime changes each sweep): this is the **current subagent's own session**. Every time the subagent (me) issues a tool call, the gateway writes a turn entry to this file containing my own command lines, which include the literal `~/.openclaw` pattern. The sweep is structurally behind the writer here.
+- 3-4 fresh sub-sessions with 4 tildes each (mtime < 60s during sweep): each new sub-session created by the gateway has 4 baseline tilde references. The sweep's 60s freshness gate defers them; they will be picked up on the next 5-minute cron tick once they age.
+**Verification result:** R01 is fluctuating 79-91 violations across the three attempts (down from 91 at task start). R09 PASS, all other 8 rules PASS. The sweep IS working — it cleared 25 files × ~4 tildes in the first run — but R01 will not reach 0 until the gateway emits absolute paths natively. The cron will keep it as low as structurally possible.
+**Net R01 trajectory:** Task start 91 → attempt 1 79 → attempt 2 83 → attempt 3 88 (new fresh sub-sessions spinning up faster than sweep). The 5-minute cron will hold R01 between 75-90 violations on average; the only way to R01=0 is gateway runtime patch.
+**Linked:** CHG-0923,R01,scripts/r01-session-sweep.sh,cron ad213be3-35d4-427c-a58f-2cfaf033a66f
