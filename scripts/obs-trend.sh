@@ -22,7 +22,7 @@ import json, datetime, time
 print(json.dumps({
   'error': 'obs.db not found',
   'generated_at': datetime.datetime.utcnow().strftime('%Y-%m-%dT%H:%M:%SZ'),
-  'generated_at_aest': '',
+  'generated_at_local': '',
   'period_hours': 24,
   'totals': {'ERROR': 0, 'WARN': 0, 'INFO': 0},
   'top_errors': [],
@@ -110,12 +110,12 @@ worst_hour = dict(hour_rows[0]) if hour_rows else None
 con.close()
 
 now_utc  = datetime.now(timezone.utc)
-AEST     = timezone(timedelta(hours=8))
-now_aest = now_utc.astimezone(AEST)
+LOCAL_TZ = timezone(timedelta(hours=8))
+now_local = now_utc.astimezone(LOCAL_TZ)
 
 output = {
     "generated_at":      now_utc.isoformat(),
-    "generated_at_local": now_aest.strftime("%Y-%m-%d %H:%M MYT"),
+    "generated_at_local": now_local.strftime("%Y-%m-%d %H:%M MYT"),
     "period_hours":      24,
     "totals":            totals_24h,
     "top_errors":        [{"type": k, "count": v} for k, v in top_errors],

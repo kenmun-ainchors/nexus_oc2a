@@ -49,8 +49,8 @@ BACKLOG_DB  = os.environ["BACKLOG_DB"]
 
 NOW_UTC = datetime.now(timezone.utc)
 TODAY   = NOW_UTC.date().isoformat()
-AEST    = timezone(timedelta(hours=8))
-NOW_AEST = NOW_UTC.astimezone(AEST)
+LOCAL_TZ = timezone(timedelta(hours=8))
+NOW_LOCAL = NOW_UTC.astimezone(LOCAL_TZ)
 
 # ── Helpers ──────────────────────────────────────────────────────────────────
 
@@ -260,7 +260,7 @@ if CHANGELOG.exists():
             for line in f:
                 line = line.strip()
                 if line.startswith("## ") and "[CHG-" in line:
-                    # Format: ## 2026-04-27 22:48 AEST — [CHG-0041] Title
+                    # Format: ## 2026-04-27 22:48 MYT — [CHG-0041] Title
                     parts = line[3:].split(" — ", 1)
                     if len(parts) == 2:
                         ts_raw = parts[0].strip()
@@ -324,9 +324,9 @@ agents = [
 daily_note = safe_read_json(WORKSPACE / "state" / "daily-note.json", {})
 tip_text  = daily_note.get("tip", None)
 tip_date  = daily_note.get("date", None)
-TODAY_AEST = NOW_AEST.date().isoformat()
-# Only show tip if it's from today (AEST)
-if tip_date != TODAY_AEST:
+TODAY_LOCAL = NOW_LOCAL.date().isoformat()
+# Only show tip if it's from today (local)
+if tip_date != TODAY_LOCAL:
     tip_text = None
 
 # ── 8c. Obs Error Trend widget ───────────────────────────────────────────────
@@ -356,7 +356,7 @@ for c in crons_raw:
 
 data = {
     "generatedAt": NOW_UTC.isoformat(),
-    "generatedAtLocal": NOW_AEST.strftime("%Y-%m-%d %H:%M MYT"),
+    "generatedAtLocal": NOW_LOCAL.strftime("%Y-%m-%d %H:%M MYT"),
     "gateway": {
         "status": gateway_status,
         "lastOk": gateway_uptime,
@@ -505,7 +505,7 @@ def obs_trend_section_html(obs_trend):
     worst     = obs_trend.get("worst_hour")
     top_errs  = obs_trend.get("top_errors",   [])
     top_wrns  = obs_trend.get("top_warnings", [])
-    gen_at    = obs_trend.get("generated_at_aest", "")
+    gen_at    = obs_trend.get("generated_at_local", "")
 
     def trend_arrow(pct):
         if pct is None:
@@ -716,7 +716,7 @@ gov_html   = (
 )
 activity_rows = activity_html(recent_activity)
 
-generated_display = NOW_AEST.strftime("%H:%M MYT")
+generated_display = NOW_LOCAL.strftime("%H:%M MYT")
 gateway_display   = gateway_html(gateway_status)
 balance_display   = balance_html(balance_amount, balance_tier)
 
@@ -1313,7 +1313,7 @@ html = f"""<!DOCTYPE html>
 print(html, end="")
 
 print(f"[ok] index.html generated", file=sys.stderr)
-print(f"[ok] Generated at {data['generatedAtAEST']}", file=sys.stderr)
+print(f"[ok] Generated at {data['generatedAtLocal']}", file=sys.stderr)
 print(f"[ok] Balance: ${balance_amount:.2f} (tier {balance_tier})", file=sys.stderr)
 print(f"[ok] Gateway: {gateway_status}", file=sys.stderr)
 print(f"[ok] Agents: Yoda={data['agents'][0]['status']}, Aria={data['agents'][1]['status']}", file=sys.stderr)

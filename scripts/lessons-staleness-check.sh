@@ -9,8 +9,8 @@ set -u
 WORKSPACE="/Users/ainchorsoc2a/.openclaw/workspace"
 LESSONS_FILE="${LESSONS_FILE:-$WORKSPACE/memory/LESSONS.md}"
 STATE="$WORKSPACE/state/lessons-staleness-state.json"
-AEST_TIMESTAMP=$(date +"%Y-%m-%dT%H:%M:%S+08:00")
-# Note: variable name retained for backward compat with state schema; value is MYT (Asia/Kuala_Lumpur).
+LOCAL_TIMESTAMP=$(date +"%Y-%m-%dT%H:%M:%S+08:00")
+# CHG-0914: renamed AEST_TIMESTAMP → LOCAL_TIMESTAMP (variable is internal; JSON schema key "checkedAt" unchanged for consumer compat).
 TODAY=$(date +"%Y-%m-%d")
 
 # ── Source skill-gate for consistency with other domain scripts ──────────────
@@ -25,7 +25,7 @@ write_state() {
   local last_updated="$4"
   mkdir -p "$(dirname "$STATE")" 2>/dev/null || true
   cat > "$STATE" <<EOF
-{"checkedAt":"$AEST_TIMESTAMP","mostRecentLesson":${lesson_id:-null},"ageDays":${age},"status":"$status","lastUpdated":${last_updated:-null}}
+{"checkedAt":"$LOCAL_TIMESTAMP","mostRecentLesson":${lesson_id:-null},"ageDays":${age},"status":"$status","lastUpdated":${last_updated:-null}}
 EOF
 }
 

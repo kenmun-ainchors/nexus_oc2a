@@ -1,3 +1,17 @@
+## 2026-07-18 14:24 MYT — [CHG-0914] OC2A TZ migration follow-up: out-of-scope crons + script fix + cosmetic renames
+**Type:** infra
+**Change Type:** Normal
+**Source:** ken-prompt
+**Trigger:** Ken approval 2026-07-18 16:24 AEST for all 3 follow-up items from CHG-0913 completion report
+**What changed:** Migrate 6 remaining cron jobs from Australia/Melbourne|Sydney to Asia/Kuala_Lumpur; fix pre-existing syntax bug in scripts/backup-health-check.sh:17; rename cosmetic AEST variables/references to local/MYT in scripts flagged by CHG-0913
+**Why:** Complete the timezone migration so no cron fires on AEST wall-clock; remove misleading AEST labels and fix syntax error discovered during CHG-0913
+**Verification:** Post-change: zero crons on Australia/Melbourne or Australia/Sydney; backup-health-check.sh parses cleanly; tz-drift-monitor OK; git commit passes
+**Rollback:** Revert cron tz fields; revert script edits via git checkout; reapply CHG-0913 if needed
+**Linked:** CHG-0913
+
+**COMPLETED 2026-07-18 14:30 MYT:** All 3 follow-up items done and committed (9cdf8813). Six remaining crons migrated to Asia/Kuala_Lumpur (cron expressions preserved; names unchanged — none contained AEST). backup-health-check.sh syntax fix verified by zsh -n and bash -n, plus full script run returns expected stale-backup signal. Five scripts touched for cosmetic renames: obs-trend.sh, generate-mission-control.sh, gateway-config-snapshot.sh, lessons-staleness-check.sh, sla-report.sh. Cross-script contracts preserved: `generated_at_local` in obs-trend.sh output is consumed by generate-mission-control.sh via same key (both updated together); `lastSnapshotAEST` had no consumers; `checkedAt` JSON key in lessons-staleness-check.sh state preserved. Pre-existing bug fixed: generate-mission-control.sh line 1316 was reading `data['generatedAtAEST']` (which didn't exist) and printing 'None' — now reads `data['generatedAtLocal']` and prints the real timestamp. Verifications all green: `openclaw cron list --json | jq 'select(.schedule.tz | test("Australia/(Melbourne|Sydney)"))' | wc -l` = 0; `zsh -n scripts/backup-health-check.sh` exit=0; `bash scripts/tz-drift-monitor.sh` exit=0, NTP offset +0.056s.
+---
+
 ## 2026-07-16 14:32 AEST — [CHG-0907] TKT-1007 cleanup bundle: commit CHG-0904/0905/0906 scripts + refresh gateway config snapshot + clear auto-heal drift warnings
 **Type:** script
 **Change Type:** Normal

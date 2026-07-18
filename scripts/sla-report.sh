@@ -45,8 +45,8 @@ month_label   = datetime(year, mon, 1).strftime("%B %Y")
 # AInchors ops commenced 2026-04-25 (partial months handled here)
 OPS_START = datetime(2026, 4, 25, 0, 0, 0, tzinfo=timezone(timedelta(hours=8)))
 
-now_aest  = datetime.now(timezone(timedelta(hours=8)))
-is_current = (year == now_aest.year and mon == now_aest.month)
+now_local = datetime.now(timezone(timedelta(hours=8)))
+is_current = (year == now_local.year and mon == now_local.month)
 
 # Period boundaries
 if year < 2026 or (year == 2026 and mon < 4):
@@ -57,7 +57,7 @@ else:
     period_start = datetime(year, mon, 1, 0, 0, 0, tzinfo=timezone(timedelta(hours=8)))
 
 if is_current:
-    period_end = now_aest
+    period_end = now_local
 else:
     if mon == 12:
         period_end = datetime(year + 1, 1, 1, tzinfo=timezone(timedelta(hours=8))) - timedelta(seconds=1)
@@ -67,7 +67,7 @@ else:
 delta_minutes = int((period_end - period_start).total_seconds() / 60)
 partial_month = (period_start.day != 1)
 
-generated_at  = now_aest.strftime("%Y-%m-%d %H:%M MYT")
+generated_at  = now_local.strftime("%Y-%m-%d %H:%M MYT")
 
 # ============================================================
 # 1. INCIDENTS

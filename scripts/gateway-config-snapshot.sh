@@ -147,7 +147,7 @@ import json, sys
 snapshot = {
     'schemaVersion': 2,
     'lastSnapshot': '$TIMESTAMP',
-    'lastSnapshotAEST': '$TIMESTAMP_LOCAL',
+    'lastSnapshotLocal': '$TIMESTAMP_LOCAL',
     'openclawVersion': '$GW_VERSION',
     'configHash': '$CONFIG_HASH',
     'agentCount': $AGENT_COUNT,

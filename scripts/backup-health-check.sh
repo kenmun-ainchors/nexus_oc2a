@@ -14,9 +14,9 @@ if [[ ! -f "$BACKUP_STATE" ]]; then
     exit 2
 fi
 
-LAST_BACKUP=$JQ -r '.last_backup // .lastBackup // "unknown"' "$BACKUP_STATE")
-LAST_SNAP=$JQ -r '.workspace_snapshot // .lastSnap // "unknown"' "$BACKUP_STATE")
-STATUS=$JQ -r '.status // "unknown"' "$BACKUP_STATE")
+LAST_BACKUP=$(jq -r '.last_backup // .lastBackup // "unknown"' "$BACKUP_STATE")
+LAST_SNAP=$(jq -r '.workspace_snapshot // .lastSnap // "unknown"' "$BACKUP_STATE")
+STATUS=$(jq -r '.status // "unknown"' "$BACKUP_STATE")
 
 # Check if backup directory actually has content
 if [[ -d "$BACKUP_DIR/workspace-incremental" ]]; then
