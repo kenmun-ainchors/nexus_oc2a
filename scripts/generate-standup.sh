@@ -169,11 +169,11 @@ def escape(s):
     return str(s).replace("&", "&amp;").replace("<", "&lt;").replace(">", "&gt;")
 
 # ── Date / day ───────────────────────────────────────────────────────────────
-aest = timezone(timedelta(hours=8))
-now_aest = datetime.now(timezone.utc).astimezone(aest)
-today_str = now_aest.date().isoformat()
-day_n = day_number(now_aest.date())
-yesterday_dt = (now_aest.date() - timedelta(days=1))
+local_tz = timezone(timedelta(hours=8))
+now_local = datetime.now(timezone.utc).astimezone(local_tz)
+today_str = now_local.date().isoformat()
+day_n = day_number(now_local.date())
+yesterday_dt = (now_local.date() - timedelta(days=1))
 
 # ── Idempotency ──────────────────────────────────────────────────────────────
 state = safe_read_json(WORKSPACE / "state" / "standup-state.json", {})
@@ -496,7 +496,7 @@ source_file_list = ", ".join(source_files)
 # ── Recent Journal Snippets ──────────────────────────────────────────────────
 journal_snippets = []
 recent_dates = [
-    (now_aest.date() - timedelta(days=i)).isoformat()
+    (now_local.date() - timedelta(days=i)).isoformat()
     for i in range(1, 4)
 ]
 for jdate in recent_dates:
@@ -570,7 +570,7 @@ html = f"""<!DOCTYPE html>
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>AInchors Stand-up — Day {day_n} | {fmt_date(now_aest.date())}</title>
+<title>AInchors Stand-up — Day {day_n} | {fmt_date(now_local.date())}</title>
 <style>
   *, *::before, *::after {{ box-sizing: border-box; margin: 0; padding: 0; }}
   body {{ background: #ffffff; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif; font-size: 14px; color: #24292f; line-height: 1.5; }}
@@ -616,7 +616,7 @@ html = f"""<!DOCTYPE html>
 
   <div class="header">
     <h1>☀️ AInchors Morning Stand-Up — Day {day_n}</h1>
-    <div class="sub">{fmt_date(now_aest.date())} · 8:00 AM MYT</div>
+    <div class="sub">{fmt_date(now_local.date())} · 8:00 AM MYT</div>
     <div class="meta">
       <span class="pill {header_pill}">{header_text}</span>
       <span class="pill pill-blue">💰 {escape(balance_str)}</span>
@@ -788,7 +788,7 @@ html = f"""<!DOCTYPE html>
   </div>
 
   <div class="footer">
-    AInchors Nexus Platform · Generated at {now_aest.strftime('%H:%M MYT')} · Day {day_n}<br>
+    AInchors Nexus Platform · Generated at {now_local.strftime('%H:%M MYT')} · Day {day_n}<br>
     Composer model: {escape(composer_model)} · {escape(source_footer)}<br>
     <span style="font-size:11px;opacity:0.7;">Sources: {escape(source_file_list)}</span>
   </div>
@@ -860,11 +860,11 @@ PG_CONN = {
     "dbname": os.environ.get("PGDATABASE", "ainchors_nexus"),
 }
 
-aest = timezone(timedelta(hours=8))
-now_aest = datetime.now(timezone.utc).astimezone(aest)
-today_str = now_aest.date().isoformat()
+local_tz = timezone(timedelta(hours=8))
+now_local = datetime.now(timezone.utc).astimezone(local_tz)
+today_str = now_local.date().isoformat()
 start = datetime(2026, 4, 25).date()
-day_n = (now_aest.date() - start).days + 1
+day_n = (now_local.date() - start).days + 1
 
 # ── 1. Update JSON state file (dual-write, derived) ──
 state_path = WORKSPACE / "state" / "standup-state.json"
@@ -897,7 +897,7 @@ VALUES (
   {email_sent_at},
   {email_sent_confirmed},
   'yoda',
-  '{{"generatedAt": "{now_aest.isoformat()}", "dayNumber": {day_n}, "lastStandupDate": "{today_str}"}}'::jsonb
+  '{{"generatedAt": "{now_local.isoformat()}", "dayNumber": {day_n}, "lastStandupDate": "{today_str}"}}'::jsonb
 )
 ON CONFLICT (standup_date) DO UPDATE SET
   last_standup_date = EXCLUDED.last_standup_date,

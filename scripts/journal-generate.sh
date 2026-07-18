@@ -1,6 +1,6 @@
 #!/bin/bash
 # Journal Post-Processor (TKT-0328)
-# Runs at EOD (23:55 AEST) inside the EOD finalizer cron.
+# Runs at EOD (23:55 MYT) inside the EOD finalizer cron.
 # Checks if today's journal has entries for all webchat+telegram sessions.
 # If gaps found, logs a CHG warning so Yoda can backfill.
 

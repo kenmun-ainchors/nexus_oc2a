@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# nightly-restart-verify.sh — Post-restart verification (runs ~03:05 AEST)
+# nightly-restart-verify.sh — Post-restart verification (runs ~03:05 MYT)
 # Created 2026-05-19 (CHG-0411)
 #
 # Checks:

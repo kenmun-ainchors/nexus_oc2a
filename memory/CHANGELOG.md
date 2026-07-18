@@ -1,3 +1,39 @@
+## 2026-07-18 14:34 MYT — [CHG-0916] Cosmetic AEST-to-MYT label cleanup in scripts and runbook output
+**Type:** doc
+**Change Type:** Normal
+**Source:** ken-prompt
+**Trigger:** Ken approval 2026-07-18 14:33 of CHG-0914 follow-up items; commit e285275d approved
+**What changed:** Rename internal AEST variables/comments to MYT/local in generate-standup.sh, gen-base1-runbook.py, journal-generate.sh, nightly-gateway-restart.sh; verify sla-report.sh empty-fallback block for any remaining AEST references
+**Why:** Remove misleading AEST labels now that platform operates on Asia/Kuala_Lumpur (MYT); internal-only, no functional or schedule changes
+**Verification:** Post-change: grep for AEST/Australia/Melbourne/Sydney in target scripts returns only historical timestamps; runbook output uses MYT labels; scripts parse and run cleanly
+**Rollback:** git revert CHG-0916 commit or manually restore original variable names/comments
+**Linked:** CHG-0913, CHG-0914, commit e285275d
+
+**Completion (2026-07-18 14:36 MYT, by infra subagent):**
+- **generate-standup.sh**: Renamed `aest` → `local_tz` (2x) and `now_aest` → `now_local` (12x). Display text already used MYT. Functional math unchanged.
+- **gen-base1-runbook.py**: 6 AEST labels → MYT (1 in scripts_list + 5 in crons table). Cron IDs preserved.
+- **journal-generate.sh**: header comment 23:55 AEST → 23:55 MYT.
+- **nightly-gateway-restart.sh**: header comment 03:00 AEST → 03:00 MYT.
+- **sla-report.sh**: verified — no AEST/Australia/Melbourne/Sydney text present. No changes needed.
+- **Sweep bonus**: nightly-restart-verify.sh header "~03:05 AEST" → "~03:05 MYT" (cosmetic only).
+- **Verification**: `bash -n` syntax check OK on 4 shell scripts; `python3 ast.parse` OK on gen-base1-runbook.py. `STANDUP_FORCE=1 STANDUP_DRY_RUN=1 bash scripts/generate-standup.sh` completed; HTML footer shows "Generated at 14:36 MYT · Day 85". `grep -RIn 'AEST' ...` on all 6 files returns no cosmetic AEST.
+- **Pre-existing issue noted (NOT touched)**: nightly-restart-verify.sh lines 20 & 27 have `TRIGGERED=$JQ ...)` and `SNAPSHOT_DIR=$JQ ...)` with extra `)` — bash -n reports syntax error. Outside CHG-0916 scope. Recommend separate ticket.
+- **Pending**: Ken approval of git commit.
+
+---
+
+## 2026-07-18 14:31 MYT — [CHG-0915] Emergency disable of Foodie Telegram account
+**Type:** config
+**Change Type:** Normal
+**Source:** ken-prompt
+**Trigger:** Ken directive 2026-07-18 16:30: Foodie entering death loop again; stop immediately
+**What changed:** Set channels.telegram.accounts.Foodie.enabled = false in ~/.openclaw/openclaw.json; backed up config; validated; restarted gateway
+**Why:** Prevent further message loops from Foodie agent; CHG-0909 allowlist already reduced but account remained enabled
+**Verification:** Config validates true; healthz live; jq query returns false for Foodie.enabled; no active Foodie subagents/processes
+**Rollback:** Restore ~/.openclaw/openclaw.json.bak.<timestamp>-foodie-emergency-disable and restart gateway, OR set Foodie.enabled = true
+**Linked:** CHG-0909, INC-2026-07-16
+---
+
 ## 2026-07-18 14:24 MYT — [CHG-0914] OC2A TZ migration follow-up: out-of-scope crons + script fix + cosmetic renames
 **Type:** infra
 **Change Type:** Normal

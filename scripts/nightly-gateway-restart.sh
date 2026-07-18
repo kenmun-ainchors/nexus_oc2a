@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# nightly-gateway-restart.sh — Restart OpenClaw gateway (03:00 AEST daily)
+# nightly-gateway-restart.sh — Restart OpenClaw gateway (03:00 MYT daily)
 # Created 2026-05-18 (CHG-0400)
 # Updated 2026-05-19 (CHG-0411) — two-cron design: writes marker before restart,
 #   post-restart verification cron (03:05) checks marker + gateway and sends Telegram.
