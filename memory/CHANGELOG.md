@@ -1,3 +1,31 @@
+## 2026-07-18 14:40 MYT — [CHG-0917] Weekly Compliance R01+R09 blocker fix
+**Type:** data
+**Change Type:** Normal
+**Source:** ken-prompt
+**Trigger:** Ken queued R01 + R09 Weekly Compliance blockers from 12 Jul 2026 report
+**What changed:** R01: Fix 109 tilde-path violations across 9 active infra trajectory files under ~/.openclaw/agents/infra/sessions/ per CHG-0281, replacing ~/.openclaw with /Users/ainchorsoc2a/.openclaw. R09: Investigate 13 crons with consecutiveErrors >= 3 from state/cron-health-alert.json; clear stale DNS-outage counters for recovered crons and fix any persistently failing scripts.
+**Why:** Weekly Compliance score 98% with 2 BLOCKER rules failing. R01 violates absolute-path rule CHG-0281. R09 shows cron health degradation from ollama.com DNS outage and possibly other causes.
+**Verification:** Re-run scripts/rule-audit.sh and confirm R01=PASS and R09=PASS; verify no remaining ~/ in the 9 trajectory files; verify crons run successfully on next scheduled invocation.
+**Rollback:** For R01, restore trajectories from git/snapshot. For R09, re-run cron-health-check.sh and re-alert if failures recur.
+**Linked:** CHG-0281, R01, R09, TKT-0237, CHG-0913, CHG-0914
+
+**Completion (2026-07-18 14:48 MYT, by infra subagent — retry after runtime session lock):**
+- **R01 status on retry:** Already PASS (verified at 14:43). Previous run had fixed 102/109 violations across 7 of the 9 listed files. **Remaining: 2 files still had unfixed .jsonl copies** (not the .trajectory.jsonl copies the brief named):
+  - `87dc7c53-9139-46e8-94c3-cc4b7c72b630.jsonl` — 20 tilde refs across 13 lines
+  - `59bbd5df-324d-43e2-9fcd-7f83eea72c56.jsonl` — 17 tilde refs across 7 lines
+  - Fixed with Python str.replace (validated JSONL post-substitution). Total 37 substitutions. Backups at `/Users/ainchorsoc2a/.openclaw/agents/infra/sessions/*.bak.chg0917` and copies in `state/chg-0917-backups/`.
+- **R09 status on retry:** 4 of 13 crons had self-recovered since brief was generated at 14:20 (0afc4d20 Memory Hygiene, 3c279099 Stand-Up, 80c9226b Daily Backup, c5debd26 Midday Cost — all consecutiveErrors=0, lastRunStatus=ok at 06:33-06:34 UTC). 9 still failing.
+- **R09 root cause for remaining 9:** All 9 had `lastError=FallbackSummaryError: All models failed (N): ollama/<model>: 502 dial tcp: lookup ollama.com: no such host`. Classic case 2c MODEL FAILURE per brief (DNS-driven). All crons are `agentTurn` payloads (no script bugs).
+- **DNS probe:** ollama.com now resolves (8.8.8.8 → 34.36.133.15) and responds to ping. Outage is over.
+- **R09 fix:** Forced manual run via `openclaw cron run <id>` for all 9 failing crons. All succeeded — `consecutiveErrors=0`, `lastRunStatus=ok` confirmed. NO cron schedule/payload/model changes (per brief case 2c: do NOT alter crons for model failures).
+- **R09 audit cleanup:** cron-health-check.sh only writes the alert file when failures exist. After recovery, the alert file still held stale entries. Updated `state/cron-health-alert.json` with `failures=[]`, `acknowledged=true`, `acknowledgedAt`/`acknowledgedReason` set, and a `previousFailures` audit trail under CHG-0917. Backed up original to `state/cron-health-alert.json.bak.chg0917`. Sticky-ack is preserved by CHG-0591 logic.
+- **Verification:** `bash scripts/rule-audit.sh` → **10 PASS | 0 BLOCKER | 0 WARN | 0 total violations**. R01 and R09 both PASS. `state/rule-audit-report.json` reflects clean score. `bash scripts/cron-health-check.sh` → `OK: cron health clean | exit 0`.
+- **Out-of-scope (note for separate CHG):** rule-audit.sh R01 has a `head -30` truncation in its `find ... -mmin -1440` loop. Real tilde-ref count across the full `.openclaw/agents/**.jsonl` (24h) is in the thousands (most in `agents/main/sessions/*`, not the 9 infra files in this brief). Not in CHG-0917 scope. Recommend a follow-up CHG for a comprehensive R01 sweep + remove the `head -30` cap.
+- **Midday Cost Tracker (5 errors):** Already self-cleared before this retry (consecutiveErrors=0, lastRunStatus=ok at 06:34 UTC). No non-DNS root cause observed.
+- **Model failure pattern noted:** Crons referencing ollama/deepseek-flash see `model_not_found` (404) on the local Ollama instance, while cloud-tagged models (`ollama/<x>:cloud`) fail on DNS. Recommend a separate model/infra CHG to audit model assignments + consider local fallback for cloud-routed crons.
+
+---
+
 ## 2026-07-18 14:34 MYT — [CHG-0916] Cosmetic AEST-to-MYT label cleanup in scripts and runbook output
 **Type:** doc
 **Change Type:** Normal
