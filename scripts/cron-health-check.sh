@@ -119,43 +119,48 @@ state_path = os.path.expanduser('~/.openclaw/workspace/state/cron-health-state.j
 with open(state_path, 'w') as f:
     json.dump(result, f, indent=2)
 
+alert_path = os.path.expanduser('~/.openclaw/workspace/state/cron-health-alert.json')
+
+# Read existing alert for sticky-ack preservation (CHG-0591)
+existing = {}
+try:
+    with open(alert_path) as f:
+        existing = json.load(f)
+except:
+    pass
+
+# CHG-0591 (2026-06-15): Preserve acknowledged flag from prior alert
+# - If new alert has NO failures: keep existing ack (sticky)
+# - If new alert has failures: reset acknowledged=False (new failure invalidates prior ack)
+# - If no existing file: default acknowledged=False
+ack = False
+ack_at = None
+ack_reason = None
+if not failures:
+    # No new failures — preserve prior ack if it exists
+    ack = existing.get('acknowledged', False)
+    ack_at = existing.get('acknowledgedAt')
+    ack_reason = existing.get('acknowledgedReason')
+# else: failures exist → reset to False (default)
+
+# CHG-0920: ALWAYS write the alert file (not only on failures/warnings) so that
+# rule-audit.sh R09 can verify freshness via generatedAt. Previously, a clean run
+# would not update the file, leaving stale data that risked false-positive FAILs.
+alert = {
+    'generatedAt': now.isoformat(),
+    'failures': failures,
+    'warnings': warnings,
+    'healthy': len(failures) == 0 and len(warnings) == 0,
+    'acknowledged': ack
+}
+if ack_at:
+    alert['acknowledgedAt'] = ack_at
+if ack_reason:
+    alert['acknowledgedReason'] = ack_reason
+with open(alert_path, 'w') as f:
+    json.dump(alert, f, indent=2)
+
 if failures or warnings:
-    # Write alert for heartbeat to pick up
-    existing = {}
-    alert_path = os.path.expanduser('~/.openclaw/workspace/state/cron-health-alert.json')
-    try:
-        with open(alert_path) as f:
-            existing = json.load(f)
-    except:
-        pass
-
-    # CHG-0591 (2026-06-15): Preserve acknowledged flag from prior alert
-    # - If new alert has NO failures: keep existing ack (sticky)
-    # - If new alert has failures: reset acknowledged=False (new failure invalidates prior ack)
-    # - If no existing file: default acknowledged=False
-    ack = False
-    ack_at = None
-    ack_reason = None
-    if not failures:
-        # No new failures — preserve prior ack if it exists
-        ack = existing.get('acknowledged', False)
-        ack_at = existing.get('acknowledgedAt')
-        ack_reason = existing.get('acknowledgedReason')
-    # else: failures exist → reset to False (default)
-
-    alert = {
-        'generatedAt': now.isoformat(),
-        'failures': failures,
-        'warnings': warnings,
-        'acknowledged': ack
-    }
-    if ack_at:
-        alert['acknowledgedAt'] = ack_at
-    if ack_reason:
-        alert['acknowledgedReason'] = ack_reason
-    with open(alert_path, 'w') as f:
-        json.dump(alert, f, indent=2)
-
     print(f"ALERT: {len(failures)} cron failure(s), {len(warnings)} warning(s)")
     for item in failures:
         if item.get('source') == 'live-cron-state':
@@ -166,7 +171,7 @@ if failures or warnings:
         print(f"  ⚠️  [{item['cronId']}] {item['name']} — {item.get('detail','')}")
     sys.exit(1)
 else:
-    print(f"OK: cron health clean")
+    print(f"OK: cron health clean (alert file refreshed: generatedAt={now.isoformat()})")
     sys.exit(0)
 PYEOF
 

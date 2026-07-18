@@ -1,84 +1,9 @@
 {
-  "generatedAt": "2026-07-18T06:48:18.912236+00:00",
+  "generatedAt": "2026-07-18T13:01:32.184040+00:00",
   "failures": [],
   "warnings": [],
+  "healthy": true,
   "acknowledged": true,
   "acknowledgedAt": "2026-07-18T06:48:18.912347+00:00",
-  "acknowledgedReason": "CHG-0917: All 13 crons recovered after ollama.com DNS restored. Manual cron run verified 9 previously-failing crons now consecutiveErrors=0. Alert cleared.",
-  "previousFailures": [
-    {
-      "cronId": "176cd48b",
-      "fullCronId": "176cd48b-0afd-4111-be37-850040c7316f",
-      "name": "retention-cleanup-daily (fixed delivery)",
-      "consecutiveErrors": 4,
-      "lastError": "error",
-      "source": "live-cron-state"
-    },
-    {
-      "cronId": "cfc40ddb",
-      "fullCronId": "cfc40ddb-a876-4bb7-8bb9-b6a240cb761a",
-      "name": "Shield \ud83d\udee1\ufe0f \u2014 Security Review Sweep (daily)",
-      "consecutiveErrors": 4,
-      "lastError": "error",
-      "source": "live-cron-state"
-    },
-    {
-      "cronId": "4ae7274d",
-      "fullCronId": "4ae7274d-71b8-4220-8f42-bec7c7ba5a1a",
-      "name": "Lex \u2696\ufe0f \u2014 Legal Review Sweep (daily)",
-      "consecutiveErrors": 4,
-      "lastError": "error",
-      "source": "live-cron-state"
-    },
-    {
-      "cronId": "8231f723",
-      "fullCronId": "8231f723-5580-435e-a8d5-8962f4843495",
-      "name": "Sage \ud83e\uddea \u2014 QA Review Sweep (daily)",
-      "consecutiveErrors": 4,
-      "lastError": "error",
-      "source": "live-cron-state"
-    },
-    {
-      "cronId": "e269d620",
-      "fullCronId": "e269d620-bf99-4515-b1a8-93ef8c0579b1",
-      "name": "AInchors Auto-Heal (nightly)",
-      "consecutiveErrors": 4,
-      "lastError": "error",
-      "source": "live-cron-state"
-    },
-    {
-      "cronId": "516135b9",
-      "fullCronId": "516135b9-2c17-4cbd-ac93-2113405e3743",
-      "name": "Daily Stale Task Cleanup (systemEvent)",
-      "consecutiveErrors": 4,
-      "lastError": "error",
-      "source": "live-cron-state"
-    },
-    {
-      "cronId": "6f7cfa99",
-      "fullCronId": "6f7cfa99-a174-4b76-beed-d6c3b27676d7",
-      "name": "Model Context Sync (nightly)",
-      "consecutiveErrors": 4,
-      "lastError": "error",
-      "source": "live-cron-state"
-    },
-    {
-      "cronId": "dce1ada4",
-      "fullCronId": "dce1ada4-8012-4ab9-bd13-2da68ae0c9bb",
-      "name": "AKB Holocron \u2014 Daily Update (3AM \u2014 systemEvent)",
-      "consecutiveErrors": 4,
-      "lastError": "error",
-      "source": "live-cron-state"
-    },
-    {
-      "cronId": "6bd53c89",
-      "fullCronId": "6bd53c89-c208-45a9-b77a-47157443c1ef",
-      "name": "TRIGGER-04/06: OpenClaw Release Monitor",
-      "consecutiveErrors": 4,
-      "lastError": "error",
-      "source": "live-cron-state"
-    }
-  ],
-  "previousFailureCount": 9,
-  "clearedByChg": "CHG-0917"
+  "acknowledgedReason": "CHG-0917: All 13 crons recovered after ollama.com DNS restored. Manual cron run verified 9 previously-failing crons now consecutiveErrors=0. Alert cleared."
 }
